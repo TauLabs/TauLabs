@@ -1,0 +1,84 @@
+\hypertarget{class_qxt_signal_waiter}{\section{Qxt\-Signal\-Waiter Class Reference}
+\label{class_qxt_signal_waiter}\index{Qxt\-Signal\-Waiter@{Qxt\-Signal\-Waiter}}
+}
+
+
+The \hyperlink{class_qxt_signal_waiter}{Qxt\-Signal\-Waiter} class blocks and processes events until a signal is emitted.  
+
+
+
+
+{\ttfamily \#include $<$qxtsignalwaiter.\-h$>$}
+
+Inheritance diagram for Qxt\-Signal\-Waiter\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_qxt_signal_waiter}
+\end{center}
+\end{figure}
+\subsection*{Public Slots}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qxt_signal_waiter_aa5f700c2e9911622eb61c1f4a085c32a}{signal\-Caught} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qxt_signal_waiter_a05305b289fc5a73e289f53730d4fb187}{cancel\-Wait} ()
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+The \hyperlink{class_qxt_signal_waiter}{Qxt\-Signal\-Waiter} class blocks and processes events until a signal is emitted. 
+
+Qxt\-Core
+
+In many cases, writing code that assumes certain actions are synchronous is considerably simpler than breaking your function into multiple blocks and using signals and slots to connect them all. Using this class, Q\-Signal\-Waiter\-::wait will block until a certain signal is emitted and then return. The return value is true if the signal was caught, or false if a user-\/specified timeout elapses before catching the signal.
+
+
+\begin{DoxyCode}
+\textcolor{keywordtype}{void} MyObject::myFunction() \{
+    \hyperlink{class_qxt_signal_waiter}{QxtSignalWaiter} waiter(myOtherObject, SIGNAL(longProcessFinished()));
+    myOtherObject->longProcess();
+    \textcolor{keywordflow}{if}(waiter.wait(5000)) \{
+        doSomething(myOtherObject->information());
+    \} \textcolor{keywordflow}{else} \{
+        QMessageBox::information(0, \textcolor{stringliteral}{"MyObject"}, \textcolor{stringliteral}{"Timed out while waiting on longProcessFinished()"}, 
+      QMessageBox::Ok);
+    \}
+\}
+\end{DoxyCode}
+
+
+\{Note\-:\} \hyperlink{class_qxt_signal_waiter}{Qxt\-Signal\-Waiter} is not reentrant. In particular, only one \hyperlink{class_qxt_signal_waiter}{Qxt\-Signal\-Waiter} object per thread can be safely waiting at a time. If a second \hyperlink{class_qxt_signal_waiter}{Qxt\-Signal\-Waiter} is used while the first is waiting, the first will not return until the second has timed out or successfully caught its signal. 
+
+Definition at line 36 of file qxtsignalwaiter.\-h.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_qxt_signal_waiter_a05305b289fc5a73e289f53730d4fb187}{\index{Qxt\-Signal\-Waiter@{Qxt\-Signal\-Waiter}!cancel\-Wait@{cancel\-Wait}}
+\index{cancel\-Wait@{cancel\-Wait}!QxtSignalWaiter@{Qxt\-Signal\-Waiter}}
+\subsubsection[{cancel\-Wait}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qxt\-Signal\-Waiter\-::cancel\-Wait (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [slot]}}}\label{class_qxt_signal_waiter_a05305b289fc5a73e289f53730d4fb187}
+Signals a waiting object to stop blocking because the timeout has elapsed. Qxt\-Signal\-Waiter\-::has\-Captured\-Signal() will return false after this slot is invoked. Use this slot to allow \hyperlink{class_qxt_signal_waiter}{Qxt\-Signal\-Waiter} to be interrupted for reasons other than a timeout. 
+
+Definition at line 183 of file qxtsignalwaiter.\-cpp.
+
+\hypertarget{class_qxt_signal_waiter_aa5f700c2e9911622eb61c1f4a085c32a}{\index{Qxt\-Signal\-Waiter@{Qxt\-Signal\-Waiter}!signal\-Caught@{signal\-Caught}}
+\index{signal\-Caught@{signal\-Caught}!QxtSignalWaiter@{Qxt\-Signal\-Waiter}}
+\subsubsection[{signal\-Caught}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qxt\-Signal\-Waiter\-::signal\-Caught (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [slot]}}}\label{class_qxt_signal_waiter_aa5f700c2e9911622eb61c1f4a085c32a}
+Signals a waiting object to stop blocking because the desired signal was emitted. Qxt\-Signal\-Waiter\-::has\-Captured\-Signal() will return true after this slot is invoked. Use this slot to allow \hyperlink{class_qxt_signal_waiter}{Qxt\-Signal\-Waiter} to wait for the first of multiple signals. 
+
+Definition at line 161 of file qxtsignalwaiter.\-cpp.
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/libqxt/src/core/\hyperlink{qxtsignalwaiter_8h}{qxtsignalwaiter.\-h}\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/libqxt/src/core/\hyperlink{qxtsignalwaiter_8cpp}{qxtsignalwaiter.\-cpp}\end{DoxyCompactItemize}

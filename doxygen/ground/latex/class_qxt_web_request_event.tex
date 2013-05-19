@@ -1,0 +1,159 @@
+\hypertarget{class_qxt_web_request_event}{\section{Qxt\-Web\-Request\-Event Class Reference}
+\label{class_qxt_web_request_event}\index{Qxt\-Web\-Request\-Event@{Qxt\-Web\-Request\-Event}}
+}
+
+
+The \hyperlink{class_qxt_web_request_event}{Qxt\-Web\-Request\-Event} class describes a request from a web browser.  
+
+
+
+
+{\ttfamily \#include $<$qxtwebevent.\-h$>$}
+
+Inheritance diagram for Qxt\-Web\-Request\-Event\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_qxt_web_request_event}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_qxt_web_request_event_a88f3f502a61a0c81a413fc61d05344cc}{Qxt\-Web\-Request\-Event} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_qxt_web_event_a3fdb1d80c46e535c2c79a06269a5d307}{session\-I\-D}, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_qxt_web_request_event_a79e20dd1cbc06f8cf1abe47bf6360277}{request\-I\-D}, const Q\-Url \&\hyperlink{class_qxt_web_request_event_a7478ca98a01fddf7b22b4c0f79c9d0a8}{url})
+\item 
+\hyperlink{class_qxt_web_request_event_a72b33b2123de75c4cc4f550182634f0c}{$\sim$\-Qxt\-Web\-Request\-Event} ()
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+const \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_qxt_web_request_event_a79e20dd1cbc06f8cf1abe47bf6360277}{request\-I\-D}
+\item 
+Q\-Url \hyperlink{class_qxt_web_request_event_a7478ca98a01fddf7b22b4c0f79c9d0a8}{url}
+\item 
+const Q\-Url \hyperlink{class_qxt_web_request_event_a0a4ad2f21fe52a1559508b1df842f540}{original\-Url}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{Q\-String} \hyperlink{class_qxt_web_request_event_a7be4586ea32c7e6a968f824f4618bdd7}{content\-Type}
+\item 
+Q\-Pointer$<$ \hyperlink{class_qxt_web_content}{Qxt\-Web\-Content} $>$ \hyperlink{class_qxt_web_request_event_ac6bc9d31ef80c6e739c0859b994bc950}{content}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{Q\-String} \hyperlink{class_qxt_web_request_event_ae8871184cd34444c8bbc76fd58f46333}{method}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{Q\-String} \hyperlink{class_qxt_web_request_event_a730040f4ccb8843787bd590f1de6f047}{remote\-Address}
+\item 
+Q\-Multi\-Hash$<$ \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{Q\-String}, \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{Q\-String} $>$ \hyperlink{class_qxt_web_request_event_afa70604b2da01c5d6f00d0d6b0214599}{cookies}
+\item 
+Q\-Multi\-Hash$<$ \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{Q\-String}, \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{Q\-String} $>$ \hyperlink{class_qxt_web_request_event_aa8beef38086e9b74c1bedb238d80d0fe}{headers}
+\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Detailed Description}
+The \hyperlink{class_qxt_web_request_event}{Qxt\-Web\-Request\-Event} class describes a request from a web browser. 
+
+\hyperlink{class_qxt_web_event_a3fdb1d80c46e535c2c79a06269a5d307}{Qxt\-Web\-Event\-::session\-I\-D} Contains the I\-D of the session the event is related to.
+
+Qxt\-Web
+
+The \hyperlink{class_qxt_web_request_event}{Qxt\-Web\-Request\-Event} class contains information about a request from a web browser. 
+
+Definition at line 67 of file qxtwebevent.\-h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_qxt_web_request_event_a88f3f502a61a0c81a413fc61d05344cc}{\index{Qxt\-Web\-Request\-Event@{Qxt\-Web\-Request\-Event}!Qxt\-Web\-Request\-Event@{Qxt\-Web\-Request\-Event}}
+\index{Qxt\-Web\-Request\-Event@{Qxt\-Web\-Request\-Event}!QxtWebRequestEvent@{Qxt\-Web\-Request\-Event}}
+\subsubsection[{Qxt\-Web\-Request\-Event}]{\setlength{\rightskip}{0pt plus 5cm}Qxt\-Web\-Request\-Event\-::\-Qxt\-Web\-Request\-Event (
+\begin{DoxyParamCaption}
+\item[{{\bf int}}]{session\-I\-D, }
+\item[{{\bf int}}]{request\-I\-D, }
+\item[{const Q\-Url \&}]{url}
+\end{DoxyParamCaption}
+)}}\label{class_qxt_web_request_event_a88f3f502a61a0c81a413fc61d05344cc}
+Constructs a \hyperlink{class_qxt_web_request_event}{Qxt\-Web\-Request\-Event} for the specified {\itshape session\-I\-D}, {\itshape request\-I\-D} and {\itshape url}. 
+
+Definition at line 92 of file qxtwebevent.\-cpp.
+
+\hypertarget{class_qxt_web_request_event_a72b33b2123de75c4cc4f550182634f0c}{\index{Qxt\-Web\-Request\-Event@{Qxt\-Web\-Request\-Event}!$\sim$\-Qxt\-Web\-Request\-Event@{$\sim$\-Qxt\-Web\-Request\-Event}}
+\index{$\sim$\-Qxt\-Web\-Request\-Event@{$\sim$\-Qxt\-Web\-Request\-Event}!QxtWebRequestEvent@{Qxt\-Web\-Request\-Event}}
+\subsubsection[{$\sim$\-Qxt\-Web\-Request\-Event}]{\setlength{\rightskip}{0pt plus 5cm}Qxt\-Web\-Request\-Event\-::$\sim$\-Qxt\-Web\-Request\-Event (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_qxt_web_request_event_a72b33b2123de75c4cc4f550182634f0c}
+Destroys the event and any content that may still be associated with it. 
+
+Definition at line 98 of file qxtwebevent.\-cpp.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{class_qxt_web_request_event_ac6bc9d31ef80c6e739c0859b994bc950}{\index{Qxt\-Web\-Request\-Event@{Qxt\-Web\-Request\-Event}!content@{content}}
+\index{content@{content}!QxtWebRequestEvent@{Qxt\-Web\-Request\-Event}}
+\subsubsection[{content}]{\setlength{\rightskip}{0pt plus 5cm}Q\-Pointer$<${\bf Qxt\-Web\-Content}$>$ Qxt\-Web\-Request\-Event\-::content}}\label{class_qxt_web_request_event_ac6bc9d31ef80c6e739c0859b994bc950}
+
+
+Definition at line 78 of file qxtwebevent.\-h.
+
+\hypertarget{class_qxt_web_request_event_a7be4586ea32c7e6a968f824f4618bdd7}{\index{Qxt\-Web\-Request\-Event@{Qxt\-Web\-Request\-Event}!content\-Type@{content\-Type}}
+\index{content\-Type@{content\-Type}!QxtWebRequestEvent@{Qxt\-Web\-Request\-Event}}
+\subsubsection[{content\-Type}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Q\-String} Qxt\-Web\-Request\-Event\-::content\-Type}}\label{class_qxt_web_request_event_a7be4586ea32c7e6a968f824f4618bdd7}
+
+
+Definition at line 77 of file qxtwebevent.\-h.
+
+\hypertarget{class_qxt_web_request_event_afa70604b2da01c5d6f00d0d6b0214599}{\index{Qxt\-Web\-Request\-Event@{Qxt\-Web\-Request\-Event}!cookies@{cookies}}
+\index{cookies@{cookies}!QxtWebRequestEvent@{Qxt\-Web\-Request\-Event}}
+\subsubsection[{cookies}]{\setlength{\rightskip}{0pt plus 5cm}Q\-Multi\-Hash$<${\bf Q\-String}, {\bf Q\-String}$>$ Qxt\-Web\-Request\-Event\-::cookies}}\label{class_qxt_web_request_event_afa70604b2da01c5d6f00d0d6b0214599}
+
+
+Definition at line 82 of file qxtwebevent.\-h.
+
+\hypertarget{class_qxt_web_request_event_aa8beef38086e9b74c1bedb238d80d0fe}{\index{Qxt\-Web\-Request\-Event@{Qxt\-Web\-Request\-Event}!headers@{headers}}
+\index{headers@{headers}!QxtWebRequestEvent@{Qxt\-Web\-Request\-Event}}
+\subsubsection[{headers}]{\setlength{\rightskip}{0pt plus 5cm}Q\-Multi\-Hash$<${\bf Q\-String}, {\bf Q\-String}$>$ Qxt\-Web\-Request\-Event\-::headers}}\label{class_qxt_web_request_event_aa8beef38086e9b74c1bedb238d80d0fe}
+
+
+Definition at line 83 of file qxtwebevent.\-h.
+
+\hypertarget{class_qxt_web_request_event_ae8871184cd34444c8bbc76fd58f46333}{\index{Qxt\-Web\-Request\-Event@{Qxt\-Web\-Request\-Event}!method@{method}}
+\index{method@{method}!QxtWebRequestEvent@{Qxt\-Web\-Request\-Event}}
+\subsubsection[{method}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Q\-String} Qxt\-Web\-Request\-Event\-::method}}\label{class_qxt_web_request_event_ae8871184cd34444c8bbc76fd58f46333}
+
+
+Definition at line 79 of file qxtwebevent.\-h.
+
+\hypertarget{class_qxt_web_request_event_a0a4ad2f21fe52a1559508b1df842f540}{\index{Qxt\-Web\-Request\-Event@{Qxt\-Web\-Request\-Event}!original\-Url@{original\-Url}}
+\index{original\-Url@{original\-Url}!QxtWebRequestEvent@{Qxt\-Web\-Request\-Event}}
+\subsubsection[{original\-Url}]{\setlength{\rightskip}{0pt plus 5cm}const Q\-Url Qxt\-Web\-Request\-Event\-::original\-Url}}\label{class_qxt_web_request_event_a0a4ad2f21fe52a1559508b1df842f540}
+
+
+Definition at line 76 of file qxtwebevent.\-h.
+
+\hypertarget{class_qxt_web_request_event_a730040f4ccb8843787bd590f1de6f047}{\index{Qxt\-Web\-Request\-Event@{Qxt\-Web\-Request\-Event}!remote\-Address@{remote\-Address}}
+\index{remote\-Address@{remote\-Address}!QxtWebRequestEvent@{Qxt\-Web\-Request\-Event}}
+\subsubsection[{remote\-Address}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Q\-String} Qxt\-Web\-Request\-Event\-::remote\-Address}}\label{class_qxt_web_request_event_a730040f4ccb8843787bd590f1de6f047}
+
+
+Definition at line 80 of file qxtwebevent.\-h.
+
+\hypertarget{class_qxt_web_request_event_a79e20dd1cbc06f8cf1abe47bf6360277}{\index{Qxt\-Web\-Request\-Event@{Qxt\-Web\-Request\-Event}!request\-I\-D@{request\-I\-D}}
+\index{request\-I\-D@{request\-I\-D}!QxtWebRequestEvent@{Qxt\-Web\-Request\-Event}}
+\subsubsection[{request\-I\-D}]{\setlength{\rightskip}{0pt plus 5cm}const {\bf int} Qxt\-Web\-Request\-Event\-::request\-I\-D}}\label{class_qxt_web_request_event_a79e20dd1cbc06f8cf1abe47bf6360277}
+
+
+Definition at line 73 of file qxtwebevent.\-h.
+
+\hypertarget{class_qxt_web_request_event_a7478ca98a01fddf7b22b4c0f79c9d0a8}{\index{Qxt\-Web\-Request\-Event@{Qxt\-Web\-Request\-Event}!url@{url}}
+\index{url@{url}!QxtWebRequestEvent@{Qxt\-Web\-Request\-Event}}
+\subsubsection[{url}]{\setlength{\rightskip}{0pt plus 5cm}Q\-Url Qxt\-Web\-Request\-Event\-::url}}\label{class_qxt_web_request_event_a7478ca98a01fddf7b22b4c0f79c9d0a8}
+
+
+Definition at line 75 of file qxtwebevent.\-h.
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/libqxt/src/web/\hyperlink{qxtwebevent_8h}{qxtwebevent.\-h}\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/libqxt/src/web/\hyperlink{qxtwebevent_8cpp}{qxtwebevent.\-cpp}\end{DoxyCompactItemize}

@@ -1,0 +1,167 @@
+\hypertarget{glc__global_8h}{\section{/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/glc\-\_\-lib/glc\-\_\-global.h File Reference}
+\label{glc__global_8h}\index{/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/glc\-\_\-lib/glc\-\_\-global.\-h@{/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/glc\-\_\-lib/glc\-\_\-global.\-h}}
+}
+
+
+provide usefull utilities  
+
+
+\subsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+namespace \hyperlink{namespaceglc}{glc}
+\begin{DoxyCompactList}\small\item\em Define render mode enum in glc namespace. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef unsigned \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{glc__global_8h_abf950976fabed69026558df8e2da6c6b}{G\-L\-C\-\_\-uint}
+\begin{DoxyCompactList}\small\item\em Type used for all G\-L\-C\-\_\-lib I\-D. \end{DoxyCompactList}\item 
+typedef Q\-Vector$<$ G\-Lfloat $>$ \hyperlink{glc__global_8h_a9f3f0b00cd127b066c9931b9c257a046}{G\-Lfloat\-Vector}
+\begin{DoxyCompactList}\small\item\em Types used for Bulk Opengl Data \-: Q\-Vector of G\-Lfloat. \end{DoxyCompactList}\item 
+typedef Q\-Vector$<$ \hyperlink{glext_8h_a2f0c8cd5c21f9fcbd931c3f48bc90dfc}{G\-Luint} $>$ \hyperlink{glc__global_8h_a0552183ff79261cd4beedf2c19b9e70b}{G\-Luint\-Vector}
+\begin{DoxyCompactList}\small\item\em Types used for index Opengl Data \-: Q\-Vector of G\-Luint. \end{DoxyCompactList}\item 
+typedef \hyperlink{class_q_list}{Q\-List}$<$ \hyperlink{glext_8h_a2f0c8cd5c21f9fcbd931c3f48bc90dfc}{G\-Luint} $>$ \hyperlink{glc__global_8h_a92568854751d0cfbc27eae9c76aab7cf}{Index\-List}
+\item 
+typedef Q\-Vector$<$ G\-Lsizei $>$ \hyperlink{glc__global_8h_ad0cd3186041d4811de0ebb6ea411fd82}{Index\-Sizes}
+\item 
+typedef Q\-Vector$<$ G\-Lvoid $\ast$ $>$ \hyperlink{glc__global_8h_a3edb58ebf0cc44d83eec31a509175651}{Offset\-Vector}
+\item 
+typedef Q\-Vector$<$ \hyperlink{glext_8h_a2f0c8cd5c21f9fcbd931c3f48bc90dfc}{G\-Luint} $>$ \hyperlink{glc__global_8h_a023e9bc3950160925c44bfc2f093f25b}{Offset\-Vectori}
+\end{DoxyCompactItemize}
+\subsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{namespaceglc_a7a4a1e3955352aeb2d018746fbe626d5}{glc\-::\-Widget\-Event\-Flag} \{ \hyperlink{namespaceglc_a7a4a1e3955352aeb2d018746fbe626d5a21af3cc408c350829ea24dcb9d95a88f}{glc\-::\-Accept\-Event}, 
+\hyperlink{namespaceglc_a7a4a1e3955352aeb2d018746fbe626d5ab0a995b1546bbbdf0574c131233817f3}{glc\-::\-Ignore\-Event}, 
+\hyperlink{namespaceglc_a7a4a1e3955352aeb2d018746fbe626d5a6b625462152c58db821e09ee05688dd9}{glc\-::\-Blocked\-Event}
+ \}
+\begin{DoxyCompactList}\small\item\em 3\-D widget event flag \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+G\-L\-C\-\_\-\-L\-I\-B\-\_\-\-E\-X\-P\-O\-R\-T \hyperlink{glc__global_8h_abf950976fabed69026558df8e2da6c6b}{G\-L\-C\-\_\-uint} \hyperlink{namespaceglc_a9f47ec67b32f9bcf13bdaa14755cfcfa}{glc\-::\-G\-L\-C\-\_\-\-Gen\-I\-D} ()
+\begin{DoxyCompactList}\small\item\em Simple I\-D generation. \end{DoxyCompactList}\item 
+G\-L\-C\-\_\-\-L\-I\-B\-\_\-\-E\-X\-P\-O\-R\-T \hyperlink{glc__global_8h_abf950976fabed69026558df8e2da6c6b}{G\-L\-C\-\_\-uint} \hyperlink{namespaceglc_a977e15984be015dfe58e543d3d37196e}{glc\-::\-G\-L\-C\-\_\-\-Gen\-Geom\-I\-D} ()
+\begin{DoxyCompactList}\small\item\em Simple Geom I\-D generation. \end{DoxyCompactList}\item 
+G\-L\-C\-\_\-\-L\-I\-B\-\_\-\-E\-X\-P\-O\-R\-T \hyperlink{glc__global_8h_abf950976fabed69026558df8e2da6c6b}{G\-L\-C\-\_\-uint} \hyperlink{namespaceglc_a32b099b4e7a776e0fd9539a3a6153751}{glc\-::\-G\-L\-C\-\_\-\-Gen\-User\-I\-D} ()
+\begin{DoxyCompactList}\small\item\em Simple User I\-D generation. \end{DoxyCompactList}\item 
+G\-L\-C\-\_\-\-L\-I\-B\-\_\-\-E\-X\-P\-O\-R\-T \hyperlink{glc__global_8h_abf950976fabed69026558df8e2da6c6b}{G\-L\-C\-\_\-uint} \hyperlink{namespaceglc_a53a170bb339aeb4bf47195fecdfd22e7}{glc\-::\-G\-L\-C\-\_\-\-Gen3\-D\-Widget\-I\-D} ()
+\begin{DoxyCompactList}\small\item\em Simple 3\-D widget I\-D generation. \end{DoxyCompactList}\item 
+G\-L\-C\-\_\-\-L\-I\-B\-\_\-\-E\-X\-P\-O\-R\-T \hyperlink{glc__global_8h_abf950976fabed69026558df8e2da6c6b}{G\-L\-C\-\_\-uint} \hyperlink{namespaceglc_ab2d8053113dd1cff6846f75004e28e9f}{glc\-::\-G\-L\-C\-\_\-\-Gen\-Shader\-Group\-I\-D} ()
+\begin{DoxyCompactList}\small\item\em Simple shading group generation. \end{DoxyCompactList}\item 
+\hyperlink{glc__global_8h_abf950976fabed69026558df8e2da6c6b}{G\-L\-C\-\_\-uint} \hyperlink{namespaceglc_aa3062cc160a93d7e4dfb127d22e8a70b}{glc\-::decode\-Rgb\-Id} (const G\-Lubyte $\ast$)
+\begin{DoxyCompactList}\small\item\em Return the G\-L\-C\-\_\-uint decoded I\-D from R\-G\-B encoded I\-D. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{namespaceglc_a7dd371cbe3e97965b6fbcc5ddca01026}{glc\-::encode\-Rgb\-Id} (\hyperlink{glc__global_8h_abf950976fabed69026558df8e2da6c6b}{G\-L\-C\-\_\-uint}, G\-Lubyte $\ast$)
+\begin{DoxyCompactList}\small\item\em Return the encoded color of the id. \end{DoxyCompactList}\item 
+G\-L\-C\-\_\-\-L\-I\-B\-\_\-\-E\-X\-P\-O\-R\-T const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{Q\-String} \hyperlink{namespaceglc_ae9f19792a615adb0e03778f0fcbb8aef}{glc\-::archive\-Prefix} ()
+\begin{DoxyCompactList}\small\item\em Return G\-L\-C\-\_\-lib Archive prefix string. \end{DoxyCompactList}\item 
+G\-L\-C\-\_\-\-L\-I\-B\-\_\-\-E\-X\-P\-O\-R\-T const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{Q\-String} \hyperlink{namespaceglc_a7dba69c8657d765b412122ac233e0c8c}{glc\-::archive\-Infix} ()
+\begin{DoxyCompactList}\small\item\em Return G\-L\-C\-\_\-lib Archive infix string. \end{DoxyCompactList}\item 
+G\-L\-C\-\_\-\-L\-I\-B\-\_\-\-E\-X\-P\-O\-R\-T const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{Q\-String} \hyperlink{namespaceglc_acd6f915ef47adc3418df18bd5f02a1aa}{glc\-::file\-Prefix} ()
+\begin{DoxyCompactList}\small\item\em Return G\-L\-C\-\_\-lib File prefix string. \end{DoxyCompactList}\item 
+G\-L\-C\-\_\-\-L\-I\-B\-\_\-\-E\-X\-P\-O\-R\-T const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{Q\-String} \hyperlink{namespaceglc_a9203953d91288966d7c2f2ba6a565808}{glc\-::file\-Infix} ()
+\begin{DoxyCompactList}\small\item\em Return G\-L\-C\-\_\-lib File infix string. \end{DoxyCompactList}\item 
+G\-L\-C\-\_\-\-L\-I\-B\-\_\-\-E\-X\-P\-O\-R\-T bool \hyperlink{namespaceglc_ade6439982e2a91ba40abd6045ca8abec}{glc\-::is\-Archive\-String} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{Q\-String} \&file\-Name)
+\begin{DoxyCompactList}\small\item\em Return true if the given file name is in a archive string. \end{DoxyCompactList}\item 
+G\-L\-C\-\_\-\-L\-I\-B\-\_\-\-E\-X\-P\-O\-R\-T bool \hyperlink{namespaceglc_a919c4a4ff760467b936da1c293dc6e1f}{glc\-::is\-File\-String} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{Q\-String} \&file\-Name)
+\begin{DoxyCompactList}\small\item\em Return true if the given file name is in a File string. \end{DoxyCompactList}\item 
+G\-L\-C\-\_\-\-L\-I\-B\-\_\-\-E\-X\-P\-O\-R\-T \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{Q\-String} \hyperlink{namespaceglc_a8e3ebb75d418d278c580453a23d385d0}{glc\-::built\-Archive\-String} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{Q\-String} \&Archive, const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{Q\-String} \&entry)
+\begin{DoxyCompactList}\small\item\em Return archive string form the given archive file\-Name and file\-Name entry. \end{DoxyCompactList}\item 
+G\-L\-C\-\_\-\-L\-I\-B\-\_\-\-E\-X\-P\-O\-R\-T \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{Q\-String} \hyperlink{namespaceglc_aa637d1f375d67226961e998398eb2ff9}{glc\-::built\-File\-String} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{Q\-String} \&File, const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{Q\-String} \&entry)
+\begin{DoxyCompactList}\small\item\em Return archive string form the given archive file\-Name and file\-Name entry. \end{DoxyCompactList}\item 
+G\-L\-C\-\_\-\-L\-I\-B\-\_\-\-E\-X\-P\-O\-R\-T \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{Q\-String} \hyperlink{namespaceglc_af2426e4539e56ae48e0059e1179b2564}{glc\-::archive\-File\-Name} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{Q\-String} \&archive\-String)
+\begin{DoxyCompactList}\small\item\em Return Archive filename from the given archive string. \end{DoxyCompactList}\item 
+G\-L\-C\-\_\-\-L\-I\-B\-\_\-\-E\-X\-P\-O\-R\-T \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{Q\-String} \hyperlink{namespaceglc_a3c470e760f059750602b32a4c0c7a1eb}{glc\-::archive\-Entry\-File\-Name} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{Q\-String} \&archive\-String)
+\begin{DoxyCompactList}\small\item\em Return Archive entry filname from the given archive string. \end{DoxyCompactList}\item 
+const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{Q\-String} \hyperlink{namespaceglc_ae9c9d1f91a50ecbe6461acd72d4dcf12}{glc\-::version} (\char`\"{}2.\-2.\-0\char`\"{})
+\item 
+const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{Q\-String} \hyperlink{namespaceglc_af67c768c9d0ed98b8fecba911f26c204}{glc\-::description} (\char`\"{}G\-L\-C\-\_\-lib is \hyperlink{glext_8h_ac8729153468b5dcf13f971b21d84d4e5}{a} Open Source C++ class library that enables the quick creation of an Open\-G\-L application based on Q\-T4.\char`\"{})
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+const \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{namespaceglc_acefef2777b4762200bba27e60924ed43}{glc\-::\-G\-L\-C\-\_\-\-D\-I\-S\-C\-R\-E\-T} = 70
+\item 
+const \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{namespaceglc_a5ada6dbdc4f76b79195f64214ca91be5}{glc\-::\-G\-L\-C\-\_\-\-P\-O\-L\-Y\-D\-I\-S\-C\-R\-E\-T} = 60
+\item 
+Q\-Mutex \hyperlink{namespaceglc_aea03de24834fa317d9f59314c51ecad5}{glc\-::i\-D\-Mutex}
+\item 
+Q\-Mutex \hyperlink{namespaceglc_a9176591e1e73cf86595e70df3265faa0}{glc\-::geom\-Id\-Mutex}
+\item 
+Q\-Mutex \hyperlink{namespaceglc_a64f61b5cd4c7600d481f8c4960c9cc4f}{glc\-::user\-Id\-Mutex}
+\item 
+Q\-Mutex \hyperlink{namespaceglc_afd490963dc902de4f7bccd5e2a473f12}{glc\-::widget3d\-Id\-Mutex}
+\item 
+Q\-Mutex \hyperlink{namespaceglc_a84965f37a5e138508dcae5ab60c7b570}{glc\-::shading\-Group\-Id\-Mutex}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+provide usefull utilities 
+
+Definition in file \hyperlink{glc__global_8h_source}{glc\-\_\-global.\-h}.
+
+
+
+\subsection{Typedef Documentation}
+\hypertarget{glc__global_8h_abf950976fabed69026558df8e2da6c6b}{\index{glc\-\_\-global.\-h@{glc\-\_\-global.\-h}!G\-L\-C\-\_\-uint@{G\-L\-C\-\_\-uint}}
+\index{G\-L\-C\-\_\-uint@{G\-L\-C\-\_\-uint}!glc_global.h@{glc\-\_\-global.\-h}}
+\subsubsection[{G\-L\-C\-\_\-uint}]{\setlength{\rightskip}{0pt plus 5cm}typedef unsigned {\bf int} {\bf G\-L\-C\-\_\-uint}}}\label{glc__global_8h_abf950976fabed69026558df8e2da6c6b}
+
+
+Type used for all G\-L\-C\-\_\-lib I\-D. 
+
+
+
+Definition at line 38 of file glc\-\_\-global.\-h.
+
+\hypertarget{glc__global_8h_a9f3f0b00cd127b066c9931b9c257a046}{\index{glc\-\_\-global.\-h@{glc\-\_\-global.\-h}!G\-Lfloat\-Vector@{G\-Lfloat\-Vector}}
+\index{G\-Lfloat\-Vector@{G\-Lfloat\-Vector}!glc_global.h@{glc\-\_\-global.\-h}}
+\subsubsection[{G\-Lfloat\-Vector}]{\setlength{\rightskip}{0pt plus 5cm}typedef Q\-Vector$<$G\-Lfloat$>$ {\bf G\-Lfloat\-Vector}}}\label{glc__global_8h_a9f3f0b00cd127b066c9931b9c257a046}
+
+
+Types used for Bulk Opengl Data \-: Q\-Vector of G\-Lfloat. 
+
+
+
+Definition at line 41 of file glc\-\_\-global.\-h.
+
+\hypertarget{glc__global_8h_a0552183ff79261cd4beedf2c19b9e70b}{\index{glc\-\_\-global.\-h@{glc\-\_\-global.\-h}!G\-Luint\-Vector@{G\-Luint\-Vector}}
+\index{G\-Luint\-Vector@{G\-Luint\-Vector}!glc_global.h@{glc\-\_\-global.\-h}}
+\subsubsection[{G\-Luint\-Vector}]{\setlength{\rightskip}{0pt plus 5cm}typedef Q\-Vector$<${\bf G\-Luint}$>$ {\bf G\-Luint\-Vector}}}\label{glc__global_8h_a0552183ff79261cd4beedf2c19b9e70b}
+
+
+Types used for index Opengl Data \-: Q\-Vector of G\-Luint. 
+
+
+
+Definition at line 44 of file glc\-\_\-global.\-h.
+
+\hypertarget{glc__global_8h_a92568854751d0cfbc27eae9c76aab7cf}{\index{glc\-\_\-global.\-h@{glc\-\_\-global.\-h}!Index\-List@{Index\-List}}
+\index{Index\-List@{Index\-List}!glc_global.h@{glc\-\_\-global.\-h}}
+\subsubsection[{Index\-List}]{\setlength{\rightskip}{0pt plus 5cm}typedef {\bf Q\-List}$<${\bf G\-Luint}$>$ {\bf Index\-List}}}\label{glc__global_8h_a92568854751d0cfbc27eae9c76aab7cf}
+
+
+Definition at line 46 of file glc\-\_\-global.\-h.
+
+\hypertarget{glc__global_8h_ad0cd3186041d4811de0ebb6ea411fd82}{\index{glc\-\_\-global.\-h@{glc\-\_\-global.\-h}!Index\-Sizes@{Index\-Sizes}}
+\index{Index\-Sizes@{Index\-Sizes}!glc_global.h@{glc\-\_\-global.\-h}}
+\subsubsection[{Index\-Sizes}]{\setlength{\rightskip}{0pt plus 5cm}typedef Q\-Vector$<$G\-Lsizei$>$ {\bf Index\-Sizes}}}\label{glc__global_8h_ad0cd3186041d4811de0ebb6ea411fd82}
+
+
+Definition at line 47 of file glc\-\_\-global.\-h.
+
+\hypertarget{glc__global_8h_a3edb58ebf0cc44d83eec31a509175651}{\index{glc\-\_\-global.\-h@{glc\-\_\-global.\-h}!Offset\-Vector@{Offset\-Vector}}
+\index{Offset\-Vector@{Offset\-Vector}!glc_global.h@{glc\-\_\-global.\-h}}
+\subsubsection[{Offset\-Vector}]{\setlength{\rightskip}{0pt plus 5cm}typedef Q\-Vector$<$G\-Lvoid$\ast$$>$ {\bf Offset\-Vector}}}\label{glc__global_8h_a3edb58ebf0cc44d83eec31a509175651}
+
+
+Definition at line 48 of file glc\-\_\-global.\-h.
+
+\hypertarget{glc__global_8h_a023e9bc3950160925c44bfc2f093f25b}{\index{glc\-\_\-global.\-h@{glc\-\_\-global.\-h}!Offset\-Vectori@{Offset\-Vectori}}
+\index{Offset\-Vectori@{Offset\-Vectori}!glc_global.h@{glc\-\_\-global.\-h}}
+\subsubsection[{Offset\-Vectori}]{\setlength{\rightskip}{0pt plus 5cm}typedef Q\-Vector$<${\bf G\-Luint}$>$ {\bf Offset\-Vectori}}}\label{glc__global_8h_a023e9bc3950160925c44bfc2f093f25b}
+
+
+Definition at line 49 of file glc\-\_\-global.\-h.
+

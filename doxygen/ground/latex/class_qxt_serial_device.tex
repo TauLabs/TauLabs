@@ -1,0 +1,477 @@
+\hypertarget{class_qxt_serial_device}{\section{Qxt\-Serial\-Device Class Reference}
+\label{class_qxt_serial_device}\index{Qxt\-Serial\-Device@{Qxt\-Serial\-Device}}
+}
+
+
+{\ttfamily \#include $<$qxtserialdevice.\-h$>$}
+
+Inheritance diagram for Qxt\-Serial\-Device\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_qxt_serial_device}
+\end{center}
+\end{figure}
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{class_qxt_serial_device_ad433242c52b779e5c88e10a456070ddc}{Baud\-Rate} \{ \\*
+\hyperlink{class_qxt_serial_device_ad433242c52b779e5c88e10a456070ddca7ecd03e3bbfb660af69fc5f28e954d1a}{Baud110}, 
+\hyperlink{class_qxt_serial_device_ad433242c52b779e5c88e10a456070ddcae4f47f85916cfbf44b2923ca0ee5167f}{Baud300}, 
+\hyperlink{class_qxt_serial_device_ad433242c52b779e5c88e10a456070ddcaf014760559f5f7d3531f3ab9d70b8c0b}{Baud600}, 
+\hyperlink{class_qxt_serial_device_ad433242c52b779e5c88e10a456070ddca95de95ac511c49733744f0309c79c8e5}{Baud1200}, 
+\\*
+\hyperlink{class_qxt_serial_device_ad433242c52b779e5c88e10a456070ddcaad079382260fe825366ccbba84ca91d9}{Baud2400}, 
+\hyperlink{class_qxt_serial_device_ad433242c52b779e5c88e10a456070ddca79c0bb63ce9883f2c66b5e7b31d053e7}{Baud4800}, 
+\hyperlink{class_qxt_serial_device_ad433242c52b779e5c88e10a456070ddca97a54e1fdaa8f1c0860504c0e7cb94f2}{Baud9600}, 
+\hyperlink{class_qxt_serial_device_ad433242c52b779e5c88e10a456070ddcab8ff9a6a0036dda713e57f65681de291}{Baud19200}, 
+\\*
+\hyperlink{class_qxt_serial_device_ad433242c52b779e5c88e10a456070ddcadecb797e707fea29fe8024a07e11fb99}{Baud38400}, 
+\hyperlink{class_qxt_serial_device_ad433242c52b779e5c88e10a456070ddca5bc3e3d80c0c25e5b387c2d9eccb168a}{Baud57600}, 
+\hyperlink{class_qxt_serial_device_ad433242c52b779e5c88e10a456070ddca6d72be421bf8e0e92dab7013a9aa92e1}{Baud115200}
+ \}
+\item 
+enum \hyperlink{class_qxt_serial_device_aefe4c3cf41454d4595db50e03c4103da}{Port\-Setting} \{ \\*
+\hyperlink{class_qxt_serial_device_aefe4c3cf41454d4595db50e03c4103daa9a105e136bfb9eaa916c8e57633f5142}{Bit8} = 0, 
+\hyperlink{class_qxt_serial_device_aefe4c3cf41454d4595db50e03c4103daa2b22a28741676b544215a93788835e19}{Bit7} = 1, 
+\hyperlink{class_qxt_serial_device_aefe4c3cf41454d4595db50e03c4103daad243c02ee8dfe4594d7ed9b4e3affa13}{Bit6} = 2, 
+\hyperlink{class_qxt_serial_device_aefe4c3cf41454d4595db50e03c4103daa6635836d50d29cd420b330a565fc1eb5}{Bit5} = 3, 
+\\*
+\hyperlink{class_qxt_serial_device_aefe4c3cf41454d4595db50e03c4103daa9139a7c96c6662474820fb573549b1ab}{Bit\-Mask} = 3, 
+\hyperlink{class_qxt_serial_device_aefe4c3cf41454d4595db50e03c4103daaaf091ef2f1c50c0ea475920e116e7f21}{Flow\-Off} = 0, 
+\hyperlink{class_qxt_serial_device_aefe4c3cf41454d4595db50e03c4103daad1eaa27dedee271c91c207d1f0e3c00c}{Flow\-Rts\-Cts} = 4, 
+\hyperlink{class_qxt_serial_device_aefe4c3cf41454d4595db50e03c4103daa68696e70b96accaaf0b5f75d083ac586}{Flow\-Xon\-Xoff} = 8, 
+\\*
+\hyperlink{class_qxt_serial_device_aefe4c3cf41454d4595db50e03c4103daa52092a77d03d37f155a6a12ce4b2848a}{Flow\-Mask} = 12, 
+\hyperlink{class_qxt_serial_device_aefe4c3cf41454d4595db50e03c4103daaf28787a8342570d7c80596df733b656b}{Parity\-None} = 0, 
+\hyperlink{class_qxt_serial_device_aefe4c3cf41454d4595db50e03c4103daae7cf0a7045337c3f37eece9ac2a56eba}{Parity\-Odd} = 16, 
+\hyperlink{class_qxt_serial_device_aefe4c3cf41454d4595db50e03c4103daa751b235ef3fb9e3790c9468f3e60ce3f}{Parity\-Even} = 32, 
+\\*
+\hyperlink{class_qxt_serial_device_aefe4c3cf41454d4595db50e03c4103daafad160ff1d7d1aa78d47c1af8b28432e}{Parity\-Mark} = 48, 
+\hyperlink{class_qxt_serial_device_aefe4c3cf41454d4595db50e03c4103daa5fc0f400c6ea3cbea9a5c39e968ec3aa}{Parity\-Space} = 64, 
+\hyperlink{class_qxt_serial_device_aefe4c3cf41454d4595db50e03c4103daa90fc66da0fea01d1fc0b100ac1318bc6}{Parity\-Mask} = 112, 
+\hyperlink{class_qxt_serial_device_aefe4c3cf41454d4595db50e03c4103daa7920351ef8591c5bf283c7cd0763539f}{Stop1} = 0, 
+\\*
+\hyperlink{class_qxt_serial_device_aefe4c3cf41454d4595db50e03c4103daa6fdf6fb1e62611e38beef324b5520516}{Stop2} = 128, 
+\hyperlink{class_qxt_serial_device_aefe4c3cf41454d4595db50e03c4103daad7d4fd9d59663071f7ef22ed48c3ac92}{Stop\-Mask} = 128
+ \}
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_qxt_serial_device_a98d6988c94e947f64b6294d244c6cdd2}{Q\-\_\-\-D\-E\-C\-L\-A\-R\-E\-\_\-\-F\-L\-A\-G\-S} (\hyperlink{struct_port_settings}{Port\-Settings}, \hyperlink{class_qxt_serial_device_aefe4c3cf41454d4595db50e03c4103da}{Port\-Setting}) explicit \hyperlink{class_qxt_serial_device}{Qxt\-Serial\-Device}(const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{Q\-String} \&device
+\item 
+\hyperlink{class_qxt_serial_device_adba1a3d0b96c4d390de8010239dcc214}{Qxt\-Serial\-Device} (Q\-Object $\ast$\hyperlink{class_qxt_serial_device_a0323aeafb6ee88ae1e3d2425972de5d1}{parent}=0)
+\item 
+virtual bool \hyperlink{class_qxt_serial_device_aae6e2093f74fb2771270fb48b090cdb2}{at\-End} () const 
+\item 
+virtual qint64 \hyperlink{class_qxt_serial_device_a15ceea004a7385796075a08d0f7d76b0}{bytes\-Available} () const 
+\item 
+virtual bool \hyperlink{class_qxt_serial_device_a0dc579e3c5b8890b9becfbc983241b57}{can\-Read\-Line} () const 
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qxt_serial_device_a853d822d8c2877df6470d5da0a08195c}{close} ()
+\item 
+virtual bool \hyperlink{class_qxt_serial_device_a509bc0b97f4848619763dc778de3f4db}{is\-Sequential} () const 
+\item 
+bool \hyperlink{class_qxt_serial_device_a98bd4f4c9bc00c58547f800333207307}{open} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{Q\-String} \&device, Open\-Mode \hyperlink{glext_8h_a1e71d9c196e4683cc06c4b54d53f7ef5}{mode})
+\item 
+virtual bool \hyperlink{class_qxt_serial_device_aedb701102711e85f02efa128b30a3351}{open} (Open\-Mode \hyperlink{glext_8h_a1e71d9c196e4683cc06c4b54d53f7ef5}{mode})
+\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_qxt_serial_device_a0461530a5e229764224294237b94b6c1}{handle} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qxt_serial_device_ab3835ae3ec95dbb93290cf657275fd90}{set\-Device\-Name} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{Q\-String} \&device)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{Q\-String} \hyperlink{class_qxt_serial_device_a76a6cb9da9ee2944c61c1b149ee1301c}{device\-Name} () const 
+\item 
+bool \hyperlink{class_qxt_serial_device_af62f8fb4e0e4ed77fe6223ef6e1197bb}{set\-Baud} (\hyperlink{class_qxt_serial_device_ad433242c52b779e5c88e10a456070ddc}{Baud\-Rate} rate)
+\item 
+\hyperlink{class_qxt_serial_device_ad433242c52b779e5c88e10a456070ddc}{Baud\-Rate} \hyperlink{class_qxt_serial_device_a78a0d3825ef73a35a461f4ccbf5917ac}{baud} () const 
+\item 
+bool \hyperlink{class_qxt_serial_device_af1375c347c7a0482ff232fd770140e64}{set\-Port\-Settings} (\hyperlink{struct_port_settings}{Port\-Settings} setup)
+\item 
+\hyperlink{struct_port_settings}{Port\-Settings} \hyperlink{class_qxt_serial_device_a82470d59e4eae7ea3f0ae0f1cdedc7e5}{port\-Settings} () const 
+\item 
+\hyperlink{class_qxt_serial_device_aefe4c3cf41454d4595db50e03c4103da}{Port\-Setting} \hyperlink{class_qxt_serial_device_a6b6c4fcd7e297ccd60b4739bfe1848f5}{data\-Bits} () const 
+\item 
+\hyperlink{class_qxt_serial_device_aefe4c3cf41454d4595db50e03c4103da}{Port\-Setting} \hyperlink{class_qxt_serial_device_a32351c9f4f201951821879dc43b7d11d}{flow\-Control} () const 
+\item 
+\hyperlink{class_qxt_serial_device_aefe4c3cf41454d4595db50e03c4103da}{Port\-Setting} \hyperlink{class_qxt_serial_device_a62a0eacbba958cbad9d3a15edf103048}{parity} () const 
+\item 
+\hyperlink{class_qxt_serial_device_aefe4c3cf41454d4595db50e03c4103da}{Port\-Setting} \hyperlink{class_qxt_serial_device_aab2f7283b077ea1e8891a1cdc0d9c3ef}{stop\-Bits} () const 
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+Q\-Object $\ast$ \hyperlink{class_qxt_serial_device_a0323aeafb6ee88ae1e3d2425972de5d1}{parent} = 0)
+\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual qint64 \hyperlink{class_qxt_serial_device_a39a1fc36ef55793cd5b4696acdce144b}{read\-Data} (char $\ast$\hyperlink{glext_8h_a8850df0785e6fbcc2351af3b686b8c7a}{data}, qint64 max\-Size)
+\item 
+virtual qint64 \hyperlink{class_qxt_serial_device_adc63a40850e19fb43e8f417f071ccf99}{write\-Data} (const char $\ast$\hyperlink{glext_8h_a8850df0785e6fbcc2351af3b686b8c7a}{data}, qint64 max\-Size)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 32 of file qxtserialdevice.\-h.
+
+
+
+\subsection{Member Enumeration Documentation}
+\hypertarget{class_qxt_serial_device_ad433242c52b779e5c88e10a456070ddc}{\index{Qxt\-Serial\-Device@{Qxt\-Serial\-Device}!Baud\-Rate@{Baud\-Rate}}
+\index{Baud\-Rate@{Baud\-Rate}!QxtSerialDevice@{Qxt\-Serial\-Device}}
+\subsubsection[{Baud\-Rate}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf Qxt\-Serial\-Device\-::\-Baud\-Rate}}}\label{class_qxt_serial_device_ad433242c52b779e5c88e10a456070ddc}
+\begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{Baud110@{Baud110}!Qxt\-Serial\-Device@{Qxt\-Serial\-Device}}\index{Qxt\-Serial\-Device@{Qxt\-Serial\-Device}!Baud110@{Baud110}}\item[{\em 
+\hypertarget{class_qxt_serial_device_ad433242c52b779e5c88e10a456070ddca7ecd03e3bbfb660af69fc5f28e954d1a}{Baud110}\label{class_qxt_serial_device_ad433242c52b779e5c88e10a456070ddca7ecd03e3bbfb660af69fc5f28e954d1a}
+}]\index{Baud300@{Baud300}!Qxt\-Serial\-Device@{Qxt\-Serial\-Device}}\index{Qxt\-Serial\-Device@{Qxt\-Serial\-Device}!Baud300@{Baud300}}\item[{\em 
+\hypertarget{class_qxt_serial_device_ad433242c52b779e5c88e10a456070ddcae4f47f85916cfbf44b2923ca0ee5167f}{Baud300}\label{class_qxt_serial_device_ad433242c52b779e5c88e10a456070ddcae4f47f85916cfbf44b2923ca0ee5167f}
+}]\index{Baud600@{Baud600}!Qxt\-Serial\-Device@{Qxt\-Serial\-Device}}\index{Qxt\-Serial\-Device@{Qxt\-Serial\-Device}!Baud600@{Baud600}}\item[{\em 
+\hypertarget{class_qxt_serial_device_ad433242c52b779e5c88e10a456070ddcaf014760559f5f7d3531f3ab9d70b8c0b}{Baud600}\label{class_qxt_serial_device_ad433242c52b779e5c88e10a456070ddcaf014760559f5f7d3531f3ab9d70b8c0b}
+}]\index{Baud1200@{Baud1200}!Qxt\-Serial\-Device@{Qxt\-Serial\-Device}}\index{Qxt\-Serial\-Device@{Qxt\-Serial\-Device}!Baud1200@{Baud1200}}\item[{\em 
+\hypertarget{class_qxt_serial_device_ad433242c52b779e5c88e10a456070ddca95de95ac511c49733744f0309c79c8e5}{Baud1200}\label{class_qxt_serial_device_ad433242c52b779e5c88e10a456070ddca95de95ac511c49733744f0309c79c8e5}
+}]\index{Baud2400@{Baud2400}!Qxt\-Serial\-Device@{Qxt\-Serial\-Device}}\index{Qxt\-Serial\-Device@{Qxt\-Serial\-Device}!Baud2400@{Baud2400}}\item[{\em 
+\hypertarget{class_qxt_serial_device_ad433242c52b779e5c88e10a456070ddcaad079382260fe825366ccbba84ca91d9}{Baud2400}\label{class_qxt_serial_device_ad433242c52b779e5c88e10a456070ddcaad079382260fe825366ccbba84ca91d9}
+}]\index{Baud4800@{Baud4800}!Qxt\-Serial\-Device@{Qxt\-Serial\-Device}}\index{Qxt\-Serial\-Device@{Qxt\-Serial\-Device}!Baud4800@{Baud4800}}\item[{\em 
+\hypertarget{class_qxt_serial_device_ad433242c52b779e5c88e10a456070ddca79c0bb63ce9883f2c66b5e7b31d053e7}{Baud4800}\label{class_qxt_serial_device_ad433242c52b779e5c88e10a456070ddca79c0bb63ce9883f2c66b5e7b31d053e7}
+}]\index{Baud9600@{Baud9600}!Qxt\-Serial\-Device@{Qxt\-Serial\-Device}}\index{Qxt\-Serial\-Device@{Qxt\-Serial\-Device}!Baud9600@{Baud9600}}\item[{\em 
+\hypertarget{class_qxt_serial_device_ad433242c52b779e5c88e10a456070ddca97a54e1fdaa8f1c0860504c0e7cb94f2}{Baud9600}\label{class_qxt_serial_device_ad433242c52b779e5c88e10a456070ddca97a54e1fdaa8f1c0860504c0e7cb94f2}
+}]\index{Baud19200@{Baud19200}!Qxt\-Serial\-Device@{Qxt\-Serial\-Device}}\index{Qxt\-Serial\-Device@{Qxt\-Serial\-Device}!Baud19200@{Baud19200}}\item[{\em 
+\hypertarget{class_qxt_serial_device_ad433242c52b779e5c88e10a456070ddcab8ff9a6a0036dda713e57f65681de291}{Baud19200}\label{class_qxt_serial_device_ad433242c52b779e5c88e10a456070ddcab8ff9a6a0036dda713e57f65681de291}
+}]\index{Baud38400@{Baud38400}!Qxt\-Serial\-Device@{Qxt\-Serial\-Device}}\index{Qxt\-Serial\-Device@{Qxt\-Serial\-Device}!Baud38400@{Baud38400}}\item[{\em 
+\hypertarget{class_qxt_serial_device_ad433242c52b779e5c88e10a456070ddcadecb797e707fea29fe8024a07e11fb99}{Baud38400}\label{class_qxt_serial_device_ad433242c52b779e5c88e10a456070ddcadecb797e707fea29fe8024a07e11fb99}
+}]\index{Baud57600@{Baud57600}!Qxt\-Serial\-Device@{Qxt\-Serial\-Device}}\index{Qxt\-Serial\-Device@{Qxt\-Serial\-Device}!Baud57600@{Baud57600}}\item[{\em 
+\hypertarget{class_qxt_serial_device_ad433242c52b779e5c88e10a456070ddca5bc3e3d80c0c25e5b387c2d9eccb168a}{Baud57600}\label{class_qxt_serial_device_ad433242c52b779e5c88e10a456070ddca5bc3e3d80c0c25e5b387c2d9eccb168a}
+}]\index{Baud115200@{Baud115200}!Qxt\-Serial\-Device@{Qxt\-Serial\-Device}}\index{Qxt\-Serial\-Device@{Qxt\-Serial\-Device}!Baud115200@{Baud115200}}\item[{\em 
+\hypertarget{class_qxt_serial_device_ad433242c52b779e5c88e10a456070ddca6d72be421bf8e0e92dab7013a9aa92e1}{Baud115200}\label{class_qxt_serial_device_ad433242c52b779e5c88e10a456070ddca6d72be421bf8e0e92dab7013a9aa92e1}
+}]\end{description}
+\end{Desc}
+
+
+Definition at line 35 of file qxtserialdevice.\-h.
+
+\hypertarget{class_qxt_serial_device_aefe4c3cf41454d4595db50e03c4103da}{\index{Qxt\-Serial\-Device@{Qxt\-Serial\-Device}!Port\-Setting@{Port\-Setting}}
+\index{Port\-Setting@{Port\-Setting}!QxtSerialDevice@{Qxt\-Serial\-Device}}
+\subsubsection[{Port\-Setting}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf Qxt\-Serial\-Device\-::\-Port\-Setting}}}\label{class_qxt_serial_device_aefe4c3cf41454d4595db50e03c4103da}
+\begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{Bit8@{Bit8}!Qxt\-Serial\-Device@{Qxt\-Serial\-Device}}\index{Qxt\-Serial\-Device@{Qxt\-Serial\-Device}!Bit8@{Bit8}}\item[{\em 
+\hypertarget{class_qxt_serial_device_aefe4c3cf41454d4595db50e03c4103daa9a105e136bfb9eaa916c8e57633f5142}{Bit8}\label{class_qxt_serial_device_aefe4c3cf41454d4595db50e03c4103daa9a105e136bfb9eaa916c8e57633f5142}
+}]\index{Bit7@{Bit7}!Qxt\-Serial\-Device@{Qxt\-Serial\-Device}}\index{Qxt\-Serial\-Device@{Qxt\-Serial\-Device}!Bit7@{Bit7}}\item[{\em 
+\hypertarget{class_qxt_serial_device_aefe4c3cf41454d4595db50e03c4103daa2b22a28741676b544215a93788835e19}{Bit7}\label{class_qxt_serial_device_aefe4c3cf41454d4595db50e03c4103daa2b22a28741676b544215a93788835e19}
+}]\index{Bit6@{Bit6}!Qxt\-Serial\-Device@{Qxt\-Serial\-Device}}\index{Qxt\-Serial\-Device@{Qxt\-Serial\-Device}!Bit6@{Bit6}}\item[{\em 
+\hypertarget{class_qxt_serial_device_aefe4c3cf41454d4595db50e03c4103daad243c02ee8dfe4594d7ed9b4e3affa13}{Bit6}\label{class_qxt_serial_device_aefe4c3cf41454d4595db50e03c4103daad243c02ee8dfe4594d7ed9b4e3affa13}
+}]\index{Bit5@{Bit5}!Qxt\-Serial\-Device@{Qxt\-Serial\-Device}}\index{Qxt\-Serial\-Device@{Qxt\-Serial\-Device}!Bit5@{Bit5}}\item[{\em 
+\hypertarget{class_qxt_serial_device_aefe4c3cf41454d4595db50e03c4103daa6635836d50d29cd420b330a565fc1eb5}{Bit5}\label{class_qxt_serial_device_aefe4c3cf41454d4595db50e03c4103daa6635836d50d29cd420b330a565fc1eb5}
+}]\index{Bit\-Mask@{Bit\-Mask}!Qxt\-Serial\-Device@{Qxt\-Serial\-Device}}\index{Qxt\-Serial\-Device@{Qxt\-Serial\-Device}!Bit\-Mask@{Bit\-Mask}}\item[{\em 
+\hypertarget{class_qxt_serial_device_aefe4c3cf41454d4595db50e03c4103daa9139a7c96c6662474820fb573549b1ab}{Bit\-Mask}\label{class_qxt_serial_device_aefe4c3cf41454d4595db50e03c4103daa9139a7c96c6662474820fb573549b1ab}
+}]\index{Flow\-Off@{Flow\-Off}!Qxt\-Serial\-Device@{Qxt\-Serial\-Device}}\index{Qxt\-Serial\-Device@{Qxt\-Serial\-Device}!Flow\-Off@{Flow\-Off}}\item[{\em 
+\hypertarget{class_qxt_serial_device_aefe4c3cf41454d4595db50e03c4103daaaf091ef2f1c50c0ea475920e116e7f21}{Flow\-Off}\label{class_qxt_serial_device_aefe4c3cf41454d4595db50e03c4103daaaf091ef2f1c50c0ea475920e116e7f21}
+}]\index{Flow\-Rts\-Cts@{Flow\-Rts\-Cts}!Qxt\-Serial\-Device@{Qxt\-Serial\-Device}}\index{Qxt\-Serial\-Device@{Qxt\-Serial\-Device}!Flow\-Rts\-Cts@{Flow\-Rts\-Cts}}\item[{\em 
+\hypertarget{class_qxt_serial_device_aefe4c3cf41454d4595db50e03c4103daad1eaa27dedee271c91c207d1f0e3c00c}{Flow\-Rts\-Cts}\label{class_qxt_serial_device_aefe4c3cf41454d4595db50e03c4103daad1eaa27dedee271c91c207d1f0e3c00c}
+}]\index{Flow\-Xon\-Xoff@{Flow\-Xon\-Xoff}!Qxt\-Serial\-Device@{Qxt\-Serial\-Device}}\index{Qxt\-Serial\-Device@{Qxt\-Serial\-Device}!Flow\-Xon\-Xoff@{Flow\-Xon\-Xoff}}\item[{\em 
+\hypertarget{class_qxt_serial_device_aefe4c3cf41454d4595db50e03c4103daa68696e70b96accaaf0b5f75d083ac586}{Flow\-Xon\-Xoff}\label{class_qxt_serial_device_aefe4c3cf41454d4595db50e03c4103daa68696e70b96accaaf0b5f75d083ac586}
+}]\index{Flow\-Mask@{Flow\-Mask}!Qxt\-Serial\-Device@{Qxt\-Serial\-Device}}\index{Qxt\-Serial\-Device@{Qxt\-Serial\-Device}!Flow\-Mask@{Flow\-Mask}}\item[{\em 
+\hypertarget{class_qxt_serial_device_aefe4c3cf41454d4595db50e03c4103daa52092a77d03d37f155a6a12ce4b2848a}{Flow\-Mask}\label{class_qxt_serial_device_aefe4c3cf41454d4595db50e03c4103daa52092a77d03d37f155a6a12ce4b2848a}
+}]\index{Parity\-None@{Parity\-None}!Qxt\-Serial\-Device@{Qxt\-Serial\-Device}}\index{Qxt\-Serial\-Device@{Qxt\-Serial\-Device}!Parity\-None@{Parity\-None}}\item[{\em 
+\hypertarget{class_qxt_serial_device_aefe4c3cf41454d4595db50e03c4103daaf28787a8342570d7c80596df733b656b}{Parity\-None}\label{class_qxt_serial_device_aefe4c3cf41454d4595db50e03c4103daaf28787a8342570d7c80596df733b656b}
+}]\index{Parity\-Odd@{Parity\-Odd}!Qxt\-Serial\-Device@{Qxt\-Serial\-Device}}\index{Qxt\-Serial\-Device@{Qxt\-Serial\-Device}!Parity\-Odd@{Parity\-Odd}}\item[{\em 
+\hypertarget{class_qxt_serial_device_aefe4c3cf41454d4595db50e03c4103daae7cf0a7045337c3f37eece9ac2a56eba}{Parity\-Odd}\label{class_qxt_serial_device_aefe4c3cf41454d4595db50e03c4103daae7cf0a7045337c3f37eece9ac2a56eba}
+}]\index{Parity\-Even@{Parity\-Even}!Qxt\-Serial\-Device@{Qxt\-Serial\-Device}}\index{Qxt\-Serial\-Device@{Qxt\-Serial\-Device}!Parity\-Even@{Parity\-Even}}\item[{\em 
+\hypertarget{class_qxt_serial_device_aefe4c3cf41454d4595db50e03c4103daa751b235ef3fb9e3790c9468f3e60ce3f}{Parity\-Even}\label{class_qxt_serial_device_aefe4c3cf41454d4595db50e03c4103daa751b235ef3fb9e3790c9468f3e60ce3f}
+}]\index{Parity\-Mark@{Parity\-Mark}!Qxt\-Serial\-Device@{Qxt\-Serial\-Device}}\index{Qxt\-Serial\-Device@{Qxt\-Serial\-Device}!Parity\-Mark@{Parity\-Mark}}\item[{\em 
+\hypertarget{class_qxt_serial_device_aefe4c3cf41454d4595db50e03c4103daafad160ff1d7d1aa78d47c1af8b28432e}{Parity\-Mark}\label{class_qxt_serial_device_aefe4c3cf41454d4595db50e03c4103daafad160ff1d7d1aa78d47c1af8b28432e}
+}]\index{Parity\-Space@{Parity\-Space}!Qxt\-Serial\-Device@{Qxt\-Serial\-Device}}\index{Qxt\-Serial\-Device@{Qxt\-Serial\-Device}!Parity\-Space@{Parity\-Space}}\item[{\em 
+\hypertarget{class_qxt_serial_device_aefe4c3cf41454d4595db50e03c4103daa5fc0f400c6ea3cbea9a5c39e968ec3aa}{Parity\-Space}\label{class_qxt_serial_device_aefe4c3cf41454d4595db50e03c4103daa5fc0f400c6ea3cbea9a5c39e968ec3aa}
+}]\index{Parity\-Mask@{Parity\-Mask}!Qxt\-Serial\-Device@{Qxt\-Serial\-Device}}\index{Qxt\-Serial\-Device@{Qxt\-Serial\-Device}!Parity\-Mask@{Parity\-Mask}}\item[{\em 
+\hypertarget{class_qxt_serial_device_aefe4c3cf41454d4595db50e03c4103daa90fc66da0fea01d1fc0b100ac1318bc6}{Parity\-Mask}\label{class_qxt_serial_device_aefe4c3cf41454d4595db50e03c4103daa90fc66da0fea01d1fc0b100ac1318bc6}
+}]\index{Stop1@{Stop1}!Qxt\-Serial\-Device@{Qxt\-Serial\-Device}}\index{Qxt\-Serial\-Device@{Qxt\-Serial\-Device}!Stop1@{Stop1}}\item[{\em 
+\hypertarget{class_qxt_serial_device_aefe4c3cf41454d4595db50e03c4103daa7920351ef8591c5bf283c7cd0763539f}{Stop1}\label{class_qxt_serial_device_aefe4c3cf41454d4595db50e03c4103daa7920351ef8591c5bf283c7cd0763539f}
+}]\index{Stop2@{Stop2}!Qxt\-Serial\-Device@{Qxt\-Serial\-Device}}\index{Qxt\-Serial\-Device@{Qxt\-Serial\-Device}!Stop2@{Stop2}}\item[{\em 
+\hypertarget{class_qxt_serial_device_aefe4c3cf41454d4595db50e03c4103daa6fdf6fb1e62611e38beef324b5520516}{Stop2}\label{class_qxt_serial_device_aefe4c3cf41454d4595db50e03c4103daa6fdf6fb1e62611e38beef324b5520516}
+}]\index{Stop\-Mask@{Stop\-Mask}!Qxt\-Serial\-Device@{Qxt\-Serial\-Device}}\index{Qxt\-Serial\-Device@{Qxt\-Serial\-Device}!Stop\-Mask@{Stop\-Mask}}\item[{\em 
+\hypertarget{class_qxt_serial_device_aefe4c3cf41454d4595db50e03c4103daad7d4fd9d59663071f7ef22ed48c3ac92}{Stop\-Mask}\label{class_qxt_serial_device_aefe4c3cf41454d4595db50e03c4103daad7d4fd9d59663071f7ef22ed48c3ac92}
+}]\end{description}
+\end{Desc}
+
+
+Definition at line 39 of file qxtserialdevice.\-h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_qxt_serial_device_adba1a3d0b96c4d390de8010239dcc214}{\index{Qxt\-Serial\-Device@{Qxt\-Serial\-Device}!Qxt\-Serial\-Device@{Qxt\-Serial\-Device}}
+\index{Qxt\-Serial\-Device@{Qxt\-Serial\-Device}!QxtSerialDevice@{Qxt\-Serial\-Device}}
+\subsubsection[{Qxt\-Serial\-Device}]{\setlength{\rightskip}{0pt plus 5cm}Qxt\-Serial\-Device\-::\-Qxt\-Serial\-Device (
+\begin{DoxyParamCaption}
+\item[{Q\-Object $\ast$}]{parent = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)}}\label{class_qxt_serial_device_adba1a3d0b96c4d390de8010239dcc214}
+Creates a new \hyperlink{class_qxt_serial_device}{Qxt\-Serial\-Device} with the specified parent and sets the device name to {\itshape device}.
+
+Creates a new \hyperlink{class_qxt_serial_device}{Qxt\-Serial\-Device} with the specified parent. 
+
+Definition at line 36 of file qxtserialdevice.\-cpp.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_qxt_serial_device_aae6e2093f74fb2771270fb48b090cdb2}{\index{Qxt\-Serial\-Device@{Qxt\-Serial\-Device}!at\-End@{at\-End}}
+\index{at\-End@{at\-End}!QxtSerialDevice@{Qxt\-Serial\-Device}}
+\subsubsection[{at\-End}]{\setlength{\rightskip}{0pt plus 5cm}bool Qxt\-Serial\-Device\-::at\-End (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_qxt_serial_device_aae6e2093f74fb2771270fb48b090cdb2}
+
+
+Definition at line 53 of file qxtserialdevice.\-cpp.
+
+\hypertarget{class_qxt_serial_device_a78a0d3825ef73a35a461f4ccbf5917ac}{\index{Qxt\-Serial\-Device@{Qxt\-Serial\-Device}!baud@{baud}}
+\index{baud@{baud}!QxtSerialDevice@{Qxt\-Serial\-Device}}
+\subsubsection[{baud}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Qxt\-Serial\-Device\-::\-Baud\-Rate} Qxt\-Serial\-Device\-::baud (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_qxt_serial_device_a78a0d3825ef73a35a461f4ccbf5917ac}
+
+
+Definition at line 135 of file qxtserialdevice\-\_\-unix.\-cpp.
+
+\hypertarget{class_qxt_serial_device_a15ceea004a7385796075a08d0f7d76b0}{\index{Qxt\-Serial\-Device@{Qxt\-Serial\-Device}!bytes\-Available@{bytes\-Available}}
+\index{bytes\-Available@{bytes\-Available}!QxtSerialDevice@{Qxt\-Serial\-Device}}
+\subsubsection[{bytes\-Available}]{\setlength{\rightskip}{0pt plus 5cm}qint64 Qxt\-Serial\-Device\-::bytes\-Available (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_qxt_serial_device_a15ceea004a7385796075a08d0f7d76b0}
+
+
+Definition at line 45 of file qxtserialdevice\-\_\-unix.\-cpp.
+
+\hypertarget{class_qxt_serial_device_a0dc579e3c5b8890b9becfbc983241b57}{\index{Qxt\-Serial\-Device@{Qxt\-Serial\-Device}!can\-Read\-Line@{can\-Read\-Line}}
+\index{can\-Read\-Line@{can\-Read\-Line}!QxtSerialDevice@{Qxt\-Serial\-Device}}
+\subsubsection[{can\-Read\-Line}]{\setlength{\rightskip}{0pt plus 5cm}bool Qxt\-Serial\-Device\-::can\-Read\-Line (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_qxt_serial_device_a0dc579e3c5b8890b9becfbc983241b57}
+
+
+Definition at line 60 of file qxtserialdevice.\-cpp.
+
+\hypertarget{class_qxt_serial_device_a853d822d8c2877df6470d5da0a08195c}{\index{Qxt\-Serial\-Device@{Qxt\-Serial\-Device}!close@{close}}
+\index{close@{close}!QxtSerialDevice@{Qxt\-Serial\-Device}}
+\subsubsection[{close}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qxt\-Serial\-Device\-::close (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_qxt_serial_device_a853d822d8c2877df6470d5da0a08195c}
+
+
+Definition at line 49 of file qxtserialdevice\-\_\-unix.\-cpp.
+
+\hypertarget{class_qxt_serial_device_a6b6c4fcd7e297ccd60b4739bfe1848f5}{\index{Qxt\-Serial\-Device@{Qxt\-Serial\-Device}!data\-Bits@{data\-Bits}}
+\index{data\-Bits@{data\-Bits}!QxtSerialDevice@{Qxt\-Serial\-Device}}
+\subsubsection[{data\-Bits}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Qxt\-Serial\-Device\-::\-Port\-Setting} Qxt\-Serial\-Device\-::data\-Bits (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_qxt_serial_device_a6b6c4fcd7e297ccd60b4739bfe1848f5}
+
+
+Definition at line 112 of file qxtserialdevice.\-cpp.
+
+\hypertarget{class_qxt_serial_device_a76a6cb9da9ee2944c61c1b149ee1301c}{\index{Qxt\-Serial\-Device@{Qxt\-Serial\-Device}!device\-Name@{device\-Name}}
+\index{device\-Name@{device\-Name}!QxtSerialDevice@{Qxt\-Serial\-Device}}
+\subsubsection[{device\-Name}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Q\-String} Qxt\-Serial\-Device\-::device\-Name (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_qxt_serial_device_a76a6cb9da9ee2944c61c1b149ee1301c}
+Returns the current device name. \begin{DoxySeeAlso}{See Also}
+\hyperlink{namespacedevice}{device} 
+\end{DoxySeeAlso}
+
+
+Definition at line 86 of file qxtserialdevice.\-cpp.
+
+\hypertarget{class_qxt_serial_device_a32351c9f4f201951821879dc43b7d11d}{\index{Qxt\-Serial\-Device@{Qxt\-Serial\-Device}!flow\-Control@{flow\-Control}}
+\index{flow\-Control@{flow\-Control}!QxtSerialDevice@{Qxt\-Serial\-Device}}
+\subsubsection[{flow\-Control}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Qxt\-Serial\-Device\-::\-Port\-Setting} Qxt\-Serial\-Device\-::flow\-Control (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_qxt_serial_device_a32351c9f4f201951821879dc43b7d11d}
+
+
+Definition at line 116 of file qxtserialdevice.\-cpp.
+
+\hypertarget{class_qxt_serial_device_a0461530a5e229764224294237b94b6c1}{\index{Qxt\-Serial\-Device@{Qxt\-Serial\-Device}!handle@{handle}}
+\index{handle@{handle}!QxtSerialDevice@{Qxt\-Serial\-Device}}
+\subsubsection[{handle}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int} Qxt\-Serial\-Device\-::handle (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_qxt_serial_device_a0461530a5e229764224294237b94b6c1}
+Returns the file descriptor for the open device. If the device is not open, this function returns -\/1. 
+
+Definition at line 93 of file qxtserialdevice.\-cpp.
+
+\hypertarget{class_qxt_serial_device_a509bc0b97f4848619763dc778de3f4db}{\index{Qxt\-Serial\-Device@{Qxt\-Serial\-Device}!is\-Sequential@{is\-Sequential}}
+\index{is\-Sequential@{is\-Sequential}!QxtSerialDevice@{Qxt\-Serial\-Device}}
+\subsubsection[{is\-Sequential}]{\setlength{\rightskip}{0pt plus 5cm}bool Qxt\-Serial\-Device\-::is\-Sequential (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_qxt_serial_device_a509bc0b97f4848619763dc778de3f4db}
+
+
+Definition at line 70 of file qxtserialdevice.\-cpp.
+
+\hypertarget{class_qxt_serial_device_a98bd4f4c9bc00c58547f800333207307}{\index{Qxt\-Serial\-Device@{Qxt\-Serial\-Device}!open@{open}}
+\index{open@{open}!QxtSerialDevice@{Qxt\-Serial\-Device}}
+\subsubsection[{open}]{\setlength{\rightskip}{0pt plus 5cm}bool Qxt\-Serial\-Device\-::open (
+\begin{DoxyParamCaption}
+\item[{const {\bf Q\-String} \&}]{device, }
+\item[{Open\-Mode}]{mode}
+\end{DoxyParamCaption}
+)}}\label{class_qxt_serial_device_a98bd4f4c9bc00c58547f800333207307}
+
+
+Definition at line 98 of file qxtserialdevice.\-cpp.
+
+\hypertarget{class_qxt_serial_device_aedb701102711e85f02efa128b30a3351}{\index{Qxt\-Serial\-Device@{Qxt\-Serial\-Device}!open@{open}}
+\index{open@{open}!QxtSerialDevice@{Qxt\-Serial\-Device}}
+\subsubsection[{open}]{\setlength{\rightskip}{0pt plus 5cm}bool Qxt\-Serial\-Device\-::open (
+\begin{DoxyParamCaption}
+\item[{Open\-Mode}]{mode}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_qxt_serial_device_aedb701102711e85f02efa128b30a3351}
+
+
+Definition at line 61 of file qxtserialdevice\-\_\-unix.\-cpp.
+
+\hypertarget{class_qxt_serial_device_a62a0eacbba958cbad9d3a15edf103048}{\index{Qxt\-Serial\-Device@{Qxt\-Serial\-Device}!parity@{parity}}
+\index{parity@{parity}!QxtSerialDevice@{Qxt\-Serial\-Device}}
+\subsubsection[{parity}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Qxt\-Serial\-Device\-::\-Port\-Setting} Qxt\-Serial\-Device\-::parity (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_qxt_serial_device_a62a0eacbba958cbad9d3a15edf103048}
+
+
+Definition at line 120 of file qxtserialdevice.\-cpp.
+
+\hypertarget{class_qxt_serial_device_a82470d59e4eae7ea3f0ae0f1cdedc7e5}{\index{Qxt\-Serial\-Device@{Qxt\-Serial\-Device}!port\-Settings@{port\-Settings}}
+\index{port\-Settings@{port\-Settings}!QxtSerialDevice@{Qxt\-Serial\-Device}}
+\subsubsection[{port\-Settings}]{\setlength{\rightskip}{0pt plus 5cm}Qxt\-Serial\-Device\-::\-Port\-Settings Qxt\-Serial\-Device\-::port\-Settings (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_qxt_serial_device_a82470d59e4eae7ea3f0ae0f1cdedc7e5}
+
+
+Definition at line 108 of file qxtserialdevice.\-cpp.
+
+\hypertarget{class_qxt_serial_device_a98d6988c94e947f64b6294d244c6cdd2}{\index{Qxt\-Serial\-Device@{Qxt\-Serial\-Device}!Q\-\_\-\-D\-E\-C\-L\-A\-R\-E\-\_\-\-F\-L\-A\-G\-S@{Q\-\_\-\-D\-E\-C\-L\-A\-R\-E\-\_\-\-F\-L\-A\-G\-S}}
+\index{Q\-\_\-\-D\-E\-C\-L\-A\-R\-E\-\_\-\-F\-L\-A\-G\-S@{Q\-\_\-\-D\-E\-C\-L\-A\-R\-E\-\_\-\-F\-L\-A\-G\-S}!QxtSerialDevice@{Qxt\-Serial\-Device}}
+\subsubsection[{Q\-\_\-\-D\-E\-C\-L\-A\-R\-E\-\_\-\-F\-L\-A\-G\-S}]{\setlength{\rightskip}{0pt plus 5cm}Qxt\-Serial\-Device\-::\-Q\-\_\-\-D\-E\-C\-L\-A\-R\-E\-\_\-\-F\-L\-A\-G\-S (
+\begin{DoxyParamCaption}
+\item[{{\bf Port\-Settings}}]{, }
+\item[{{\bf Port\-Setting}}]{}
+\end{DoxyParamCaption}
+) const}}\label{class_qxt_serial_device_a98d6988c94e947f64b6294d244c6cdd2}
+\hypertarget{class_qxt_serial_device_a39a1fc36ef55793cd5b4696acdce144b}{\index{Qxt\-Serial\-Device@{Qxt\-Serial\-Device}!read\-Data@{read\-Data}}
+\index{read\-Data@{read\-Data}!QxtSerialDevice@{Qxt\-Serial\-Device}}
+\subsubsection[{read\-Data}]{\setlength{\rightskip}{0pt plus 5cm}qint64 Qxt\-Serial\-Device\-::read\-Data (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{data, }
+\item[{qint64}]{max\-Size}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}}\label{class_qxt_serial_device_a39a1fc36ef55793cd5b4696acdce144b}
+
+
+Definition at line 151 of file qxtserialdevice\-\_\-unix.\-cpp.
+
+\hypertarget{class_qxt_serial_device_af62f8fb4e0e4ed77fe6223ef6e1197bb}{\index{Qxt\-Serial\-Device@{Qxt\-Serial\-Device}!set\-Baud@{set\-Baud}}
+\index{set\-Baud@{set\-Baud}!QxtSerialDevice@{Qxt\-Serial\-Device}}
+\subsubsection[{set\-Baud}]{\setlength{\rightskip}{0pt plus 5cm}bool Qxt\-Serial\-Device\-::set\-Baud (
+\begin{DoxyParamCaption}
+\item[{{\bf Baud\-Rate}}]{rate}
+\end{DoxyParamCaption}
+)}}\label{class_qxt_serial_device_af62f8fb4e0e4ed77fe6223ef6e1197bb}
+
+
+Definition at line 118 of file qxtserialdevice\-\_\-unix.\-cpp.
+
+\hypertarget{class_qxt_serial_device_ab3835ae3ec95dbb93290cf657275fd90}{\index{Qxt\-Serial\-Device@{Qxt\-Serial\-Device}!set\-Device\-Name@{set\-Device\-Name}}
+\index{set\-Device\-Name@{set\-Device\-Name}!QxtSerialDevice@{Qxt\-Serial\-Device}}
+\subsubsection[{set\-Device\-Name}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qxt\-Serial\-Device\-::set\-Device\-Name (
+\begin{DoxyParamCaption}
+\item[{const {\bf Q\-String} \&}]{device}
+\end{DoxyParamCaption}
+)}}\label{class_qxt_serial_device_ab3835ae3ec95dbb93290cf657275fd90}
+Sets the device name to {\itshape device}. This is a device node like \char`\"{}/dev/tty\-S0\char`\"{} on U\-N\-I\-X or a device name like \char`\"{}\-C\-O\-M1\char`\"{} on Windows. \begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qxt_serial_device_a76a6cb9da9ee2944c61c1b149ee1301c}{device\-Name} 
+\end{DoxySeeAlso}
+
+
+Definition at line 78 of file qxtserialdevice.\-cpp.
+
+\hypertarget{class_qxt_serial_device_af1375c347c7a0482ff232fd770140e64}{\index{Qxt\-Serial\-Device@{Qxt\-Serial\-Device}!set\-Port\-Settings@{set\-Port\-Settings}}
+\index{set\-Port\-Settings@{set\-Port\-Settings}!QxtSerialDevice@{Qxt\-Serial\-Device}}
+\subsubsection[{set\-Port\-Settings}]{\setlength{\rightskip}{0pt plus 5cm}bool Qxt\-Serial\-Device\-::set\-Port\-Settings (
+\begin{DoxyParamCaption}
+\item[{{\bf Port\-Settings}}]{setup}
+\end{DoxyParamCaption}
+)}}\label{class_qxt_serial_device_af1375c347c7a0482ff232fd770140e64}
+
+
+Definition at line 103 of file qxtserialdevice.\-cpp.
+
+\hypertarget{class_qxt_serial_device_aab2f7283b077ea1e8891a1cdc0d9c3ef}{\index{Qxt\-Serial\-Device@{Qxt\-Serial\-Device}!stop\-Bits@{stop\-Bits}}
+\index{stop\-Bits@{stop\-Bits}!QxtSerialDevice@{Qxt\-Serial\-Device}}
+\subsubsection[{stop\-Bits}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Qxt\-Serial\-Device\-::\-Port\-Setting} Qxt\-Serial\-Device\-::stop\-Bits (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_qxt_serial_device_aab2f7283b077ea1e8891a1cdc0d9c3ef}
+
+
+Definition at line 124 of file qxtserialdevice.\-cpp.
+
+\hypertarget{class_qxt_serial_device_adc63a40850e19fb43e8f417f071ccf99}{\index{Qxt\-Serial\-Device@{Qxt\-Serial\-Device}!write\-Data@{write\-Data}}
+\index{write\-Data@{write\-Data}!QxtSerialDevice@{Qxt\-Serial\-Device}}
+\subsubsection[{write\-Data}]{\setlength{\rightskip}{0pt plus 5cm}qint64 Qxt\-Serial\-Device\-::write\-Data (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{data, }
+\item[{qint64}]{max\-Size}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}}\label{class_qxt_serial_device_adc63a40850e19fb43e8f417f071ccf99}
+
+
+Definition at line 179 of file qxtserialdevice\-\_\-unix.\-cpp.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{class_qxt_serial_device_a0323aeafb6ee88ae1e3d2425972de5d1}{\index{Qxt\-Serial\-Device@{Qxt\-Serial\-Device}!parent@{parent}}
+\index{parent@{parent}!QxtSerialDevice@{Qxt\-Serial\-Device}}
+\subsubsection[{parent}]{\setlength{\rightskip}{0pt plus 5cm}Q\-Object$\ast$ Qxt\-Serial\-Device\-::parent = 0)}}\label{class_qxt_serial_device_a0323aeafb6ee88ae1e3d2425972de5d1}
+
+
+Definition at line 61 of file qxtserialdevice.\-h.
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/libqxt/src/core/\hyperlink{qxtserialdevice_8h}{qxtserialdevice.\-h}\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/libqxt/src/core/\hyperlink{qxtserialdevice_8cpp}{qxtserialdevice.\-cpp}\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/libqxt/src/core/\hyperlink{qxtserialdevice__unix_8cpp}{qxtserialdevice\-\_\-unix.\-cpp}\end{DoxyCompactItemize}

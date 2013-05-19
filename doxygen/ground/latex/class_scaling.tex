@@ -1,0 +1,403 @@
+\hypertarget{class_scaling}{\section{Scaling$<$ Scalar, Dim $>$ Class Template Reference}
+\label{class_scaling}\index{Scaling$<$ Scalar, Dim $>$@{Scaling$<$ Scalar, Dim $>$}}
+}
+
+
+Represents a possibly non uniform scaling transformation.  
+
+
+
+
+{\ttfamily \#include $<$Forward\-Declarations.\-h$>$}
+
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+typedef \-\_\-\-Scalar \hyperlink{class_scaling_a3e27d3992328c2ebeb624ddc129659d1}{Scalar}
+\item 
+typedef \hyperlink{class_matrix}{Matrix}$<$ \hyperlink{class_scaling_a3e27d3992328c2ebeb624ddc129659d1}{Scalar}, Dim, 1 $>$ \hyperlink{class_scaling_a48ec70d6974c8d2c90ad7ca7a5c16f97}{Vector\-Type}
+\item 
+typedef \hyperlink{class_matrix}{Matrix}$<$ \hyperlink{class_scaling_a3e27d3992328c2ebeb624ddc129659d1}{Scalar}, Dim, Dim $>$ \hyperlink{class_scaling_a6c8c9048c2ccf7378efb46c075ec7333}{Linear\-Matrix\-Type}
+\item 
+typedef \hyperlink{class_translation}{Translation}$<$ \hyperlink{class_scaling_a3e27d3992328c2ebeb624ddc129659d1}{Scalar}, Dim $>$ \hyperlink{class_scaling_ad5f1911d0d47a289f53407e56465b5c5}{Translation\-Type}
+\item 
+typedef \hyperlink{class_transform}{Transform}$<$ \hyperlink{class_scaling_a3e27d3992328c2ebeb624ddc129659d1}{Scalar}, Dim $>$ \hyperlink{class_scaling_acee313a178d65c86e0de34b9b9cc4f7f}{Transform\-Type}
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_scaling_a46ef6fa50943bbdd935b4e2fbfff4957}{E\-I\-G\-E\-N\-\_\-\-M\-A\-K\-E\-\_\-\-A\-L\-I\-G\-N\-E\-D\-\_\-\-O\-P\-E\-R\-A\-T\-O\-R\-\_\-\-N\-E\-W\-\_\-\-I\-F\-\_\-\-V\-E\-C\-T\-O\-R\-I\-Z\-A\-B\-L\-E\-\_\-\-F\-I\-X\-E\-D\-\_\-\-S\-I\-Z\-E} (\-\_\-\-Scalar, \-\_\-\-Dim) enum
+\item 
+\hyperlink{class_scaling_a51666e1966019a37ed09676d5718f744}{Scaling} ()
+\item 
+\hyperlink{class_scaling_acb4a02abfdc541a735c458004e77ccba}{Scaling} (const \hyperlink{class_scaling_a3e27d3992328c2ebeb624ddc129659d1}{Scalar} \&\hyperlink{glext_8h_ad585a1393cfa368fa9dc3d8ebff640d5}{s})
+\item 
+\hyperlink{class_scaling_af25a0d885827aa684311e8a5a617fb96}{Scaling} (const \hyperlink{class_scaling_a3e27d3992328c2ebeb624ddc129659d1}{Scalar} \&sx, const \hyperlink{class_scaling_a3e27d3992328c2ebeb624ddc129659d1}{Scalar} \&sy)
+\item 
+\hyperlink{class_scaling_ae53d0c8ad9db7ccc094c8c62d1481968}{Scaling} (const \hyperlink{class_scaling_a3e27d3992328c2ebeb624ddc129659d1}{Scalar} \&sx, const \hyperlink{class_scaling_a3e27d3992328c2ebeb624ddc129659d1}{Scalar} \&sy, const \hyperlink{class_scaling_a3e27d3992328c2ebeb624ddc129659d1}{Scalar} \&sz)
+\item 
+\hyperlink{class_scaling_af64e491a1bb16d25c6ca27f6c5fed08a}{Scaling} (const \hyperlink{class_scaling_a48ec70d6974c8d2c90ad7ca7a5c16f97}{Vector\-Type} \&\hyperlink{class_scaling_a80c09c870df89bd6aeefca8061535e66}{coeffs})
+\item 
+const \hyperlink{class_scaling_a48ec70d6974c8d2c90ad7ca7a5c16f97}{Vector\-Type} \& \hyperlink{class_scaling_a80c09c870df89bd6aeefca8061535e66}{coeffs} () const 
+\item 
+\hyperlink{class_scaling_a48ec70d6974c8d2c90ad7ca7a5c16f97}{Vector\-Type} \& \hyperlink{class_scaling_a08656028a9da0498b2f0829d12438c1f}{coeffs} ()
+\item 
+\hyperlink{class_scaling}{Scaling} \hyperlink{class_scaling_a862d40d8eb09b4bd89ce5cdf5710c014}{operator$\ast$} (const \hyperlink{class_scaling}{Scaling} \&other) const 
+\item 
+\hyperlink{class_scaling_acee313a178d65c86e0de34b9b9cc4f7f}{Transform\-Type} \hyperlink{class_scaling_a4bd040c3a34fe5abd51f3b3a61e759f1}{operator$\ast$} (const \hyperlink{class_scaling_ad5f1911d0d47a289f53407e56465b5c5}{Translation\-Type} \&\hyperlink{glext_8h_a00140d6f5c548b26daf170bf16e86a6d}{t}) const 
+\item 
+\hyperlink{class_scaling_acee313a178d65c86e0de34b9b9cc4f7f}{Transform\-Type} \hyperlink{class_scaling_afc8e8fc4a6507f9e1f56331fc64c635b}{operator$\ast$} (const \hyperlink{class_scaling_acee313a178d65c86e0de34b9b9cc4f7f}{Transform\-Type} \&\hyperlink{glext_8h_a00140d6f5c548b26daf170bf16e86a6d}{t}) const 
+\item 
+\hyperlink{class_scaling_a6c8c9048c2ccf7378efb46c075ec7333}{Linear\-Matrix\-Type} \hyperlink{class_scaling_a529100fd69eb32a94964c5141e61b35f}{operator$\ast$} (const \hyperlink{class_scaling_a6c8c9048c2ccf7378efb46c075ec7333}{Linear\-Matrix\-Type} \&other) const 
+\item 
+{\footnotesize template$<$typename Derived $>$ }\\\hyperlink{class_scaling_a6c8c9048c2ccf7378efb46c075ec7333}{Linear\-Matrix\-Type} \hyperlink{class_scaling_a78496eac9d118329133eefe1fb4e04a6}{operator$\ast$} (const \hyperlink{class_rotation_base}{Rotation\-Base}$<$ Derived, Dim $>$ \&\hyperlink{glext_8h_abe08814c2f72843fde4d8df41440d5a0}{r}) const 
+\item 
+\hyperlink{class_scaling_a48ec70d6974c8d2c90ad7ca7a5c16f97}{Vector\-Type} \hyperlink{class_scaling_a007e70998f8cd48259ce2447f33d46fa}{operator$\ast$} (const \hyperlink{class_scaling_a48ec70d6974c8d2c90ad7ca7a5c16f97}{Vector\-Type} \&other) const 
+\item 
+\hyperlink{class_scaling}{Scaling} \hyperlink{class_scaling_a3c0d67af6139a4982b387e1afb6263c5}{inverse} () const 
+\item 
+\hyperlink{class_scaling}{Scaling} \& \hyperlink{class_scaling_aa091e2d80e9e0327cf02ca0a97a576ff}{operator=} (const \hyperlink{class_scaling}{Scaling} \&other)
+\item 
+{\footnotesize template$<$typename New\-Scalar\-Type $>$ }\\\hyperlink{structei__cast__return__type}{ei\-\_\-cast\-\_\-return\-\_\-type}$<$ \hyperlink{class_scaling}{Scaling}, \\*
+\hyperlink{class_scaling}{Scaling}$<$ New\-Scalar\-Type, Dim $>$\\*
+ $>$\-::\hyperlink{glext_8h_a7d05960f4f1c1b11f3177dc963a45d86}{type} \hyperlink{class_scaling_a71f4fdd6e04598724c7bd43f53928d28}{cast} () const 
+\item 
+{\footnotesize template$<$typename Other\-Scalar\-Type $>$ }\\\hyperlink{class_scaling_a12b66fc641d5fe633afcb7ac13f6f93c}{Scaling} (const \hyperlink{class_scaling}{Scaling}$<$ Other\-Scalar\-Type, Dim $>$ \&other)
+\item 
+bool \hyperlink{class_scaling_a25800b0ceb6249e570b248e5969250dd}{is\-Approx} (const \hyperlink{class_scaling}{Scaling} \&other, typename \hyperlink{struct_num_traits}{Num\-Traits}$<$ \hyperlink{class_scaling_a3e27d3992328c2ebeb624ddc129659d1}{Scalar} $>$\-::Real prec=\hyperlink{_math_functions_8h_a3dc1c65cf9dc9b5a7ee66472d0ae83e1}{precision}$<$ \hyperlink{class_scaling_a3e27d3992328c2ebeb624ddc129659d1}{Scalar} $>$()) const 
+\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_scaling_a48ec70d6974c8d2c90ad7ca7a5c16f97}{Vector\-Type} \hyperlink{class_scaling_a984c1f1fcb36c12898fa2008e5d9f686}{m\-\_\-coeffs}
+\end{DoxyCompactItemize}
+\subsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_scaling_a6c8c9048c2ccf7378efb46c075ec7333}{Linear\-Matrix\-Type} \hyperlink{class_scaling_a2334085ff389c256ae6cc9abb6c7f447}{operator$\ast$} (const \hyperlink{class_scaling_a6c8c9048c2ccf7378efb46c075ec7333}{Linear\-Matrix\-Type} \&other, const \hyperlink{class_scaling}{Scaling} \&\hyperlink{glext_8h_ad585a1393cfa368fa9dc3d8ebff640d5}{s})
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$typename Scalar, int Dim$>$class Scaling$<$ Scalar, Dim $>$}
+
+Represents a possibly non uniform scaling transformation. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \-\_\-\-Scalar} & the scalar type, i.\-e., the type of the coefficients. \\
+\hline
+{\em \-\_\-\-Dim} & the dimension of the space, can be a compile time value or Dynamic\\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+This class is not aimed to be used to store a scaling transformation, but rather to make easier the constructions and updates of \hyperlink{class_transform}{Transform} objects.
+\end{DoxyNote}
+\begin{DoxySeeAlso}{See Also}
+class \hyperlink{class_translation}{Translation}, class \hyperlink{class_transform}{Transform} 
+\end{DoxySeeAlso}
+
+
+Definition at line 120 of file Forward\-Declarations.\-h.
+
+
+
+\subsection{Member Typedef Documentation}
+\hypertarget{class_scaling_a6c8c9048c2ccf7378efb46c075ec7333}{\index{Scaling@{Scaling}!Linear\-Matrix\-Type@{Linear\-Matrix\-Type}}
+\index{Linear\-Matrix\-Type@{Linear\-Matrix\-Type}!Scaling@{Scaling}}
+\subsubsection[{Linear\-Matrix\-Type}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Scalar, int Dim$>$ typedef {\bf Matrix}$<${\bf Scalar},Dim,Dim$>$ {\bf Scaling}$<$ {\bf Scalar}, Dim $>$\-::{\bf Linear\-Matrix\-Type}}}\label{class_scaling_a6c8c9048c2ccf7378efb46c075ec7333}
+corresponding linear transformation matrix type 
+
+Definition at line 54 of file Scaling.\-h.
+
+\hypertarget{class_scaling_a3e27d3992328c2ebeb624ddc129659d1}{\index{Scaling@{Scaling}!Scalar@{Scalar}}
+\index{Scalar@{Scalar}!Scaling@{Scaling}}
+\subsubsection[{Scalar}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Scalar, int Dim$>$ typedef \-\_\-\-Scalar {\bf Scaling}$<$ {\bf Scalar}, Dim $>$\-::{\bf Scalar}}}\label{class_scaling_a3e27d3992328c2ebeb624ddc129659d1}
+the scalar type of the coefficients 
+
+Definition at line 48 of file Scaling.\-h.
+
+\hypertarget{class_scaling_acee313a178d65c86e0de34b9b9cc4f7f}{\index{Scaling@{Scaling}!Transform\-Type@{Transform\-Type}}
+\index{Transform\-Type@{Transform\-Type}!Scaling@{Scaling}}
+\subsubsection[{Transform\-Type}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Scalar, int Dim$>$ typedef {\bf Transform}$<${\bf Scalar},Dim$>$ {\bf Scaling}$<$ {\bf Scalar}, Dim $>$\-::{\bf Transform\-Type}}}\label{class_scaling_acee313a178d65c86e0de34b9b9cc4f7f}
+corresponding affine transformation type 
+
+Definition at line 58 of file Scaling.\-h.
+
+\hypertarget{class_scaling_ad5f1911d0d47a289f53407e56465b5c5}{\index{Scaling@{Scaling}!Translation\-Type@{Translation\-Type}}
+\index{Translation\-Type@{Translation\-Type}!Scaling@{Scaling}}
+\subsubsection[{Translation\-Type}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Scalar, int Dim$>$ typedef {\bf Translation}$<${\bf Scalar},Dim$>$ {\bf Scaling}$<$ {\bf Scalar}, Dim $>$\-::{\bf Translation\-Type}}}\label{class_scaling_ad5f1911d0d47a289f53407e56465b5c5}
+corresponding translation type 
+
+Definition at line 56 of file Scaling.\-h.
+
+\hypertarget{class_scaling_a48ec70d6974c8d2c90ad7ca7a5c16f97}{\index{Scaling@{Scaling}!Vector\-Type@{Vector\-Type}}
+\index{Vector\-Type@{Vector\-Type}!Scaling@{Scaling}}
+\subsubsection[{Vector\-Type}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Scalar, int Dim$>$ typedef {\bf Matrix}$<${\bf Scalar},Dim,1$>$ {\bf Scaling}$<$ {\bf Scalar}, Dim $>$\-::{\bf Vector\-Type}}}\label{class_scaling_a48ec70d6974c8d2c90ad7ca7a5c16f97}
+corresponding vector type 
+
+Definition at line 52 of file Scaling.\-h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_scaling_a51666e1966019a37ed09676d5718f744}{\index{Scaling@{Scaling}!Scaling@{Scaling}}
+\index{Scaling@{Scaling}!Scaling@{Scaling}}
+\subsubsection[{Scaling}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Scalar, int Dim$>$ {\bf Scaling}$<$ {\bf Scalar}, Dim $>$\-::{\bf Scaling} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_scaling_a51666e1966019a37ed09676d5718f744}
+Default constructor without initialization. 
+
+Definition at line 67 of file Scaling.\-h.
+
+\hypertarget{class_scaling_acb4a02abfdc541a735c458004e77ccba}{\index{Scaling@{Scaling}!Scaling@{Scaling}}
+\index{Scaling@{Scaling}!Scaling@{Scaling}}
+\subsubsection[{Scaling}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Scalar, int Dim$>$ {\bf Scaling}$<$ {\bf Scalar}, Dim $>$\-::{\bf Scaling} (
+\begin{DoxyParamCaption}
+\item[{const {\bf Scalar} \&}]{s}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [explicit]}}}\label{class_scaling_acb4a02abfdc541a735c458004e77ccba}
+Constructs and initialize a uniform scaling transformation 
+
+Definition at line 69 of file Scaling.\-h.
+
+\hypertarget{class_scaling_af25a0d885827aa684311e8a5a617fb96}{\index{Scaling@{Scaling}!Scaling@{Scaling}}
+\index{Scaling@{Scaling}!Scaling@{Scaling}}
+\subsubsection[{Scaling}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Scalar, int Dim$>$ {\bf Scaling}$<$ {\bf Scalar}, Dim $>$\-::{\bf Scaling} (
+\begin{DoxyParamCaption}
+\item[{const {\bf Scalar} \&}]{sx, }
+\item[{const {\bf Scalar} \&}]{sy}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_scaling_af25a0d885827aa684311e8a5a617fb96}
+2\-D only 
+
+Definition at line 71 of file Scaling.\-h.
+
+\hypertarget{class_scaling_ae53d0c8ad9db7ccc094c8c62d1481968}{\index{Scaling@{Scaling}!Scaling@{Scaling}}
+\index{Scaling@{Scaling}!Scaling@{Scaling}}
+\subsubsection[{Scaling}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Scalar, int Dim$>$ {\bf Scaling}$<$ {\bf Scalar}, Dim $>$\-::{\bf Scaling} (
+\begin{DoxyParamCaption}
+\item[{const {\bf Scalar} \&}]{sx, }
+\item[{const {\bf Scalar} \&}]{sy, }
+\item[{const {\bf Scalar} \&}]{sz}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_scaling_ae53d0c8ad9db7ccc094c8c62d1481968}
+3\-D only 
+
+Definition at line 78 of file Scaling.\-h.
+
+\hypertarget{class_scaling_af64e491a1bb16d25c6ca27f6c5fed08a}{\index{Scaling@{Scaling}!Scaling@{Scaling}}
+\index{Scaling@{Scaling}!Scaling@{Scaling}}
+\subsubsection[{Scaling}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Scalar, int Dim$>$ {\bf Scaling}$<$ {\bf Scalar}, Dim $>$\-::{\bf Scaling} (
+\begin{DoxyParamCaption}
+\item[{const {\bf Vector\-Type} \&}]{coeffs}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [explicit]}}}\label{class_scaling_af64e491a1bb16d25c6ca27f6c5fed08a}
+Constructs and initialize the scaling transformation from a vector of scaling coefficients 
+
+Definition at line 86 of file Scaling.\-h.
+
+\hypertarget{class_scaling_a12b66fc641d5fe633afcb7ac13f6f93c}{\index{Scaling@{Scaling}!Scaling@{Scaling}}
+\index{Scaling@{Scaling}!Scaling@{Scaling}}
+\subsubsection[{Scaling}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Scalar, int Dim$>$ template$<$typename Other\-Scalar\-Type $>$ {\bf Scaling}$<$ {\bf Scalar}, Dim $>$\-::{\bf Scaling} (
+\begin{DoxyParamCaption}
+\item[{const {\bf Scaling}$<$ Other\-Scalar\-Type, Dim $>$ \&}]{other}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [explicit]}}}\label{class_scaling_a12b66fc641d5fe633afcb7ac13f6f93c}
+Copy constructor with scalar type conversion 
+
+Definition at line 140 of file Scaling.\-h.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_scaling_a71f4fdd6e04598724c7bd43f53928d28}{\index{Scaling@{Scaling}!cast@{cast}}
+\index{cast@{cast}!Scaling@{Scaling}}
+\subsubsection[{cast}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Scalar, int Dim$>$ template$<$typename New\-Scalar\-Type $>$ {\bf ei\-\_\-cast\-\_\-return\-\_\-type}$<${\bf Scaling},{\bf Scaling}$<$New\-Scalar\-Type,Dim$>$ $>$\-::{\bf type} {\bf Scaling}$<$ {\bf Scalar}, Dim $>$\-::cast (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_scaling_a71f4fdd6e04598724c7bd43f53928d28}
+\begin{DoxyReturn}{Returns}
+{\ttfamily $\ast$this} with scalar type casted to {\itshape New\-Scalar\-Type} 
+\end{DoxyReturn}
+Note that if {\itshape New\-Scalar\-Type} is equal to the current scalar type of {\ttfamily $\ast$this} then this function smartly returns a const reference to {\ttfamily $\ast$this}. 
+
+Definition at line 135 of file Scaling.\-h.
+
+\hypertarget{class_scaling_a80c09c870df89bd6aeefca8061535e66}{\index{Scaling@{Scaling}!coeffs@{coeffs}}
+\index{coeffs@{coeffs}!Scaling@{Scaling}}
+\subsubsection[{coeffs}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Scalar, int Dim$>$ const {\bf Vector\-Type}\& {\bf Scaling}$<$ {\bf Scalar}, Dim $>$\-::coeffs (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_scaling_a80c09c870df89bd6aeefca8061535e66}
+
+
+Definition at line 88 of file Scaling.\-h.
+
+\hypertarget{class_scaling_a08656028a9da0498b2f0829d12438c1f}{\index{Scaling@{Scaling}!coeffs@{coeffs}}
+\index{coeffs@{coeffs}!Scaling@{Scaling}}
+\subsubsection[{coeffs}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Scalar, int Dim$>$ {\bf Vector\-Type}\& {\bf Scaling}$<$ {\bf Scalar}, Dim $>$\-::coeffs (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_scaling_a08656028a9da0498b2f0829d12438c1f}
+
+
+Definition at line 89 of file Scaling.\-h.
+
+\hypertarget{class_scaling_a46ef6fa50943bbdd935b4e2fbfff4957}{\index{Scaling@{Scaling}!E\-I\-G\-E\-N\-\_\-\-M\-A\-K\-E\-\_\-\-A\-L\-I\-G\-N\-E\-D\-\_\-\-O\-P\-E\-R\-A\-T\-O\-R\-\_\-\-N\-E\-W\-\_\-\-I\-F\-\_\-\-V\-E\-C\-T\-O\-R\-I\-Z\-A\-B\-L\-E\-\_\-\-F\-I\-X\-E\-D\-\_\-\-S\-I\-Z\-E@{E\-I\-G\-E\-N\-\_\-\-M\-A\-K\-E\-\_\-\-A\-L\-I\-G\-N\-E\-D\-\_\-\-O\-P\-E\-R\-A\-T\-O\-R\-\_\-\-N\-E\-W\-\_\-\-I\-F\-\_\-\-V\-E\-C\-T\-O\-R\-I\-Z\-A\-B\-L\-E\-\_\-\-F\-I\-X\-E\-D\-\_\-\-S\-I\-Z\-E}}
+\index{E\-I\-G\-E\-N\-\_\-\-M\-A\-K\-E\-\_\-\-A\-L\-I\-G\-N\-E\-D\-\_\-\-O\-P\-E\-R\-A\-T\-O\-R\-\_\-\-N\-E\-W\-\_\-\-I\-F\-\_\-\-V\-E\-C\-T\-O\-R\-I\-Z\-A\-B\-L\-E\-\_\-\-F\-I\-X\-E\-D\-\_\-\-S\-I\-Z\-E@{E\-I\-G\-E\-N\-\_\-\-M\-A\-K\-E\-\_\-\-A\-L\-I\-G\-N\-E\-D\-\_\-\-O\-P\-E\-R\-A\-T\-O\-R\-\_\-\-N\-E\-W\-\_\-\-I\-F\-\_\-\-V\-E\-C\-T\-O\-R\-I\-Z\-A\-B\-L\-E\-\_\-\-F\-I\-X\-E\-D\-\_\-\-S\-I\-Z\-E}!Scaling@{Scaling}}
+\subsubsection[{E\-I\-G\-E\-N\-\_\-\-M\-A\-K\-E\-\_\-\-A\-L\-I\-G\-N\-E\-D\-\_\-\-O\-P\-E\-R\-A\-T\-O\-R\-\_\-\-N\-E\-W\-\_\-\-I\-F\-\_\-\-V\-E\-C\-T\-O\-R\-I\-Z\-A\-B\-L\-E\-\_\-\-F\-I\-X\-E\-D\-\_\-\-S\-I\-Z\-E}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Scalar, int Dim$>$ {\bf Scaling}$<$ {\bf Scalar}, Dim $>$\-::E\-I\-G\-E\-N\-\_\-\-M\-A\-K\-E\-\_\-\-A\-L\-I\-G\-N\-E\-D\-\_\-\-O\-P\-E\-R\-A\-T\-O\-R\-\_\-\-N\-E\-W\-\_\-\-I\-F\-\_\-\-V\-E\-C\-T\-O\-R\-I\-Z\-A\-B\-L\-E\-\_\-\-F\-I\-X\-E\-D\-\_\-\-S\-I\-Z\-E (
+\begin{DoxyParamCaption}
+\item[{\-\_\-\-Scalar}]{, }
+\item[{\-\_\-\-Dim}]{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_scaling_a46ef6fa50943bbdd935b4e2fbfff4957}
+dimension of the space 
+
+Definition at line 46 of file Scaling.\-h.
+
+\hypertarget{class_scaling_a3c0d67af6139a4982b387e1afb6263c5}{\index{Scaling@{Scaling}!inverse@{inverse}}
+\index{inverse@{inverse}!Scaling@{Scaling}}
+\subsubsection[{inverse}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Scalar, int Dim$>$ {\bf Scaling} {\bf Scaling}$<$ {\bf Scalar}, Dim $>$\-::inverse (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_scaling_a3c0d67af6139a4982b387e1afb6263c5}
+\begin{DoxyReturn}{Returns}
+the inverse scaling 
+\end{DoxyReturn}
+
+
+Definition at line 120 of file Scaling.\-h.
+
+\hypertarget{class_scaling_a25800b0ceb6249e570b248e5969250dd}{\index{Scaling@{Scaling}!is\-Approx@{is\-Approx}}
+\index{is\-Approx@{is\-Approx}!Scaling@{Scaling}}
+\subsubsection[{is\-Approx}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Scalar, int Dim$>$ bool {\bf Scaling}$<$ {\bf Scalar}, Dim $>$\-::is\-Approx (
+\begin{DoxyParamCaption}
+\item[{const {\bf Scaling}$<$ {\bf Scalar}, Dim $>$ \&}]{other, }
+\item[{typename {\bf Num\-Traits}$<$ {\bf Scalar} $>$\-::Real}]{prec = {\ttfamily {\bf precision}$<${\bf Scalar}$>$()}}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_scaling_a25800b0ceb6249e570b248e5969250dd}
+\begin{DoxyReturn}{Returns}
+{\ttfamily true} if {\ttfamily $\ast$this} is approximately equal to {\itshape other}, within the precision determined by {\itshape prec}.
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_matrix_base_a85eb8c7adf519acfa5b74545a6870945}{Matrix\-Base\-::is\-Approx()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 147 of file Scaling.\-h.
+
+\hypertarget{class_scaling_a862d40d8eb09b4bd89ce5cdf5710c014}{\index{Scaling@{Scaling}!operator$\ast$@{operator$\ast$}}
+\index{operator$\ast$@{operator$\ast$}!Scaling@{Scaling}}
+\subsubsection[{operator$\ast$}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Scalar, int Dim$>$ {\bf Scaling} {\bf Scaling}$<$ {\bf Scalar}, Dim $>$\-::operator$\ast$ (
+\begin{DoxyParamCaption}
+\item[{const {\bf Scaling}$<$ {\bf Scalar}, Dim $>$ \&}]{other}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_scaling_a862d40d8eb09b4bd89ce5cdf5710c014}
+Concatenates two scaling 
+
+Definition at line 92 of file Scaling.\-h.
+
+\hypertarget{class_scaling_a4bd040c3a34fe5abd51f3b3a61e759f1}{\index{Scaling@{Scaling}!operator$\ast$@{operator$\ast$}}
+\index{operator$\ast$@{operator$\ast$}!Scaling@{Scaling}}
+\subsubsection[{operator$\ast$}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Scalar , int Dim$>$ {\bf Scaling}$<$ {\bf Scalar}, Dim $>$\-::{\bf Transform\-Type} {\bf Scaling}$<$ {\bf Scalar}, Dim $>$\-::operator$\ast$ (
+\begin{DoxyParamCaption}
+\item[{const {\bf Translation\-Type} \&}]{t}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_scaling_a4bd040c3a34fe5abd51f3b3a61e759f1}
+Concatenates a scaling and a translation 
+
+Definition at line 162 of file Scaling.\-h.
+
+\hypertarget{class_scaling_afc8e8fc4a6507f9e1f56331fc64c635b}{\index{Scaling@{Scaling}!operator$\ast$@{operator$\ast$}}
+\index{operator$\ast$@{operator$\ast$}!Scaling@{Scaling}}
+\subsubsection[{operator$\ast$}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Scalar , int Dim$>$ {\bf Scaling}$<$ {\bf Scalar}, Dim $>$\-::{\bf Transform\-Type} {\bf Scaling}$<$ {\bf Scalar}, Dim $>$\-::operator$\ast$ (
+\begin{DoxyParamCaption}
+\item[{const {\bf Transform\-Type} \&}]{t}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_scaling_afc8e8fc4a6507f9e1f56331fc64c635b}
+Concatenates a scaling and an affine transformation 
+
+Definition at line 174 of file Scaling.\-h.
+
+\hypertarget{class_scaling_a529100fd69eb32a94964c5141e61b35f}{\index{Scaling@{Scaling}!operator$\ast$@{operator$\ast$}}
+\index{operator$\ast$@{operator$\ast$}!Scaling@{Scaling}}
+\subsubsection[{operator$\ast$}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Scalar, int Dim$>$ {\bf Linear\-Matrix\-Type} {\bf Scaling}$<$ {\bf Scalar}, Dim $>$\-::operator$\ast$ (
+\begin{DoxyParamCaption}
+\item[{const {\bf Linear\-Matrix\-Type} \&}]{other}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_scaling_a529100fd69eb32a94964c5141e61b35f}
+Concatenates a scaling and a linear transformation matrix 
+
+Definition at line 103 of file Scaling.\-h.
+
+\hypertarget{class_scaling_a78496eac9d118329133eefe1fb4e04a6}{\index{Scaling@{Scaling}!operator$\ast$@{operator$\ast$}}
+\index{operator$\ast$@{operator$\ast$}!Scaling@{Scaling}}
+\subsubsection[{operator$\ast$}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Scalar, int Dim$>$ template$<$typename Derived $>$ {\bf Linear\-Matrix\-Type} {\bf Scaling}$<$ {\bf Scalar}, Dim $>$\-::operator$\ast$ (
+\begin{DoxyParamCaption}
+\item[{const {\bf Rotation\-Base}$<$ Derived, Dim $>$ \&}]{r}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_scaling_a78496eac9d118329133eefe1fb4e04a6}
+
+
+Definition at line 112 of file Scaling.\-h.
+
+\hypertarget{class_scaling_a007e70998f8cd48259ce2447f33d46fa}{\index{Scaling@{Scaling}!operator$\ast$@{operator$\ast$}}
+\index{operator$\ast$@{operator$\ast$}!Scaling@{Scaling}}
+\subsubsection[{operator$\ast$}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Scalar, int Dim$>$ {\bf Vector\-Type} {\bf Scaling}$<$ {\bf Scalar}, Dim $>$\-::operator$\ast$ (
+\begin{DoxyParamCaption}
+\item[{const {\bf Vector\-Type} \&}]{other}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_scaling_a007e70998f8cd48259ce2447f33d46fa}
+Applies scaling to vector 
+
+Definition at line 116 of file Scaling.\-h.
+
+\hypertarget{class_scaling_aa091e2d80e9e0327cf02ca0a97a576ff}{\index{Scaling@{Scaling}!operator=@{operator=}}
+\index{operator=@{operator=}!Scaling@{Scaling}}
+\subsubsection[{operator=}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Scalar, int Dim$>$ {\bf Scaling}\& {\bf Scaling}$<$ {\bf Scalar}, Dim $>$\-::operator= (
+\begin{DoxyParamCaption}
+\item[{const {\bf Scaling}$<$ {\bf Scalar}, Dim $>$ \&}]{other}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_scaling_aa091e2d80e9e0327cf02ca0a97a576ff}
+
+
+Definition at line 123 of file Scaling.\-h.
+
+
+
+\subsection{Friends And Related Function Documentation}
+\hypertarget{class_scaling_a2334085ff389c256ae6cc9abb6c7f447}{\index{Scaling@{Scaling}!operator$\ast$@{operator$\ast$}}
+\index{operator$\ast$@{operator$\ast$}!Scaling@{Scaling}}
+\subsubsection[{operator$\ast$}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Scalar, int Dim$>$ {\bf Linear\-Matrix\-Type} operator$\ast$ (
+\begin{DoxyParamCaption}
+\item[{const {\bf Linear\-Matrix\-Type} \&}]{other, }
+\item[{const {\bf Scaling}$<$ {\bf Scalar}, Dim $>$ \&}]{s}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [friend]}}}\label{class_scaling_a2334085ff389c256ae6cc9abb6c7f447}
+Concatenates a linear transformation matrix and a scaling 
+
+Definition at line 108 of file Scaling.\-h.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{class_scaling_a984c1f1fcb36c12898fa2008e5d9f686}{\index{Scaling@{Scaling}!m\-\_\-coeffs@{m\-\_\-coeffs}}
+\index{m\-\_\-coeffs@{m\-\_\-coeffs}!Scaling@{Scaling}}
+\subsubsection[{m\-\_\-coeffs}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Scalar, int Dim$>$ {\bf Vector\-Type} {\bf Scaling}$<$ {\bf Scalar}, Dim $>$\-::m\-\_\-coeffs\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_scaling_a984c1f1fcb36c12898fa2008e5d9f686}
+
+
+Definition at line 62 of file Scaling.\-h.
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/eigen/\-Eigen/src/\-Core/util/\hyperlink{_forward_declarations_8h}{Forward\-Declarations.\-h}\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/eigen/\-Eigen/src/\-Geometry/\hyperlink{_scaling_8h}{Scaling.\-h}\end{DoxyCompactItemize}

@@ -1,0 +1,91 @@
+\hypertarget{class_qxt_xml_file_logger_engine}{\section{Qxt\-Xml\-File\-Logger\-Engine Class Reference}
+\label{class_qxt_xml_file_logger_engine}\index{Qxt\-Xml\-File\-Logger\-Engine@{Qxt\-Xml\-File\-Logger\-Engine}}
+}
+
+
+The \hyperlink{class_qxt_xml_file_logger_engine}{Qxt\-Xml\-File\-Logger\-Engine} class provides an X\-M\-L file logger engine.  Qxt\-Core.  
+
+
+
+
+{\ttfamily \#include $<$qxtxmlfileloggerengine.\-h$>$}
+
+Inheritance diagram for Qxt\-Xml\-File\-Logger\-Engine\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=4.000000cm]{class_qxt_xml_file_logger_engine}
+\end{center}
+\end{figure}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qxt_xml_file_logger_engine_ada2720ff8af7ef7377e9245bd3f4f7fa}{write\-To\-File} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{Q\-String} \&\hyperlink{glext_8h_abc60a79088789bd61297bf5f9ff500d1}{level}, const Q\-Variant\-List \&messages)
+\end{DoxyCompactItemize}
+\subsection*{Static Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{Q\-String} \hyperlink{class_qxt_xml_file_logger_engine_a00c81a18fd0365ccdd0453bc24511e43}{to\-Xml\-Safe\-String} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{Q\-String} \&unformatted)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+The \hyperlink{class_qxt_xml_file_logger_engine}{Qxt\-Xml\-File\-Logger\-Engine} class provides an X\-M\-L file logger engine.  Qxt\-Core. 
+
+Example X\-M\-L log output\-: 
+\begin{DoxyCode}
+<?xml version=\textcolor{stringliteral}{"1.0"} encoding=\textcolor{stringliteral}{"UTF-8"}?>
+<log>
+    <entry type=\textcolor{stringliteral}{"Error"} \hyperlink{analyze_i_n_s_g_p_s_8m_a70c092a6aebace0b1ea406e14da78a40}{time}=\textcolor{stringliteral}{"22:38:33.159159"}>
+        <message>Unknown \hyperlink{minigzip_8c_aee763da2c1c9da197307bad1d009513d}{error}</message>
+    </entry>
+    <entry type=\textcolor{stringliteral}{"Debug"} \hyperlink{analyze_i_n_s_g_p_s_8m_a70c092a6aebace0b1ea406e14da78a40}{time}=\textcolor{stringliteral}{"22:51:43.488488"}>
+        <message>What\textcolor{stringliteral}{'s going on?</message>}
+\textcolor{stringliteral}{        <message>Hi there</message>}
+\textcolor{stringliteral}{    </entry>}
+\textcolor{stringliteral}{</log>}
+\end{DoxyCode}
+
+
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qxt_logger}{Qxt\-Logger} 
+\end{DoxySeeAlso}
+
+
+Definition at line 36 of file qxtxmlfileloggerengine.\-h.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_qxt_xml_file_logger_engine_a00c81a18fd0365ccdd0453bc24511e43}{\index{Qxt\-Xml\-File\-Logger\-Engine@{Qxt\-Xml\-File\-Logger\-Engine}!to\-Xml\-Safe\-String@{to\-Xml\-Safe\-String}}
+\index{to\-Xml\-Safe\-String@{to\-Xml\-Safe\-String}!QxtXmlFileLoggerEngine@{Qxt\-Xml\-File\-Logger\-Engine}}
+\subsubsection[{to\-Xml\-Safe\-String}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Q\-String} Qxt\-Xml\-File\-Logger\-Engine\-::to\-Xml\-Safe\-String (
+\begin{DoxyParamCaption}
+\item[{const {\bf Q\-String} \&}]{raw}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [protected]}}}\label{class_qxt_xml_file_logger_engine_a00c81a18fd0365ccdd0453bc24511e43}
+Replaces reserved characters from {\itshape raw} with corresponding entities. 
+
+Definition at line 146 of file qxtxmlfileloggerengine.\-cpp.
+
+\hypertarget{class_qxt_xml_file_logger_engine_ada2720ff8af7ef7377e9245bd3f4f7fa}{\index{Qxt\-Xml\-File\-Logger\-Engine@{Qxt\-Xml\-File\-Logger\-Engine}!write\-To\-File@{write\-To\-File}}
+\index{write\-To\-File@{write\-To\-File}!QxtXmlFileLoggerEngine@{Qxt\-Xml\-File\-Logger\-Engine}}
+\subsubsection[{write\-To\-File}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qxt\-Xml\-File\-Logger\-Engine\-::write\-To\-File (
+\begin{DoxyParamCaption}
+\item[{const {\bf Q\-String} \&}]{level, }
+\item[{const Q\-Variant\-List \&}]{messages}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}}\label{class_qxt_xml_file_logger_engine_ada2720ff8af7ef7377e9245bd3f4f7fa}
+
+
+Implements \hyperlink{class_qxt_abstract_file_logger_engine_ad6eb59b9c89a04e5f583b217b0ff3c89}{Qxt\-Abstract\-File\-Logger\-Engine}.
+
+
+
+Definition at line 116 of file qxtxmlfileloggerengine.\-cpp.
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/libqxt/src/core/logengines/\hyperlink{qxtxmlfileloggerengine_8h}{qxtxmlfileloggerengine.\-h}\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/libqxt/src/core/logengines/\hyperlink{qxtxmlfileloggerengine_8cpp}{qxtxmlfileloggerengine.\-cpp}\end{DoxyCompactItemize}

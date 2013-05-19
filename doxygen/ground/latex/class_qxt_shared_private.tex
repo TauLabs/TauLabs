@@ -1,0 +1,187 @@
+\hypertarget{class_qxt_shared_private}{\section{Qxt\-Shared\-Private$<$ P\-V\-T $>$ Class Template Reference}
+\label{class_qxt_shared_private}\index{Qxt\-Shared\-Private$<$ P\-V\-T $>$@{Qxt\-Shared\-Private$<$ P\-V\-T $>$}}
+}
+
+
+base class for shared data objects using the pimpl idom  
+
+
+
+
+{\ttfamily \#include $<$qxtsharedprivate.\-h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_qxt_shared_private_a510eacaacc3d2e03d6700ef508c68439}{Qxt\-Shared\-Private} ()
+\item 
+\hyperlink{class_qxt_shared_private_a1adeeb709bc388bfe4b0e2cef7c68d4f}{Qxt\-Shared\-Private} (const \hyperlink{class_qxt_shared_private}{Qxt\-Shared\-Private} \&other)
+\item 
+P\-V\-T \& \hyperlink{class_qxt_shared_private_af5fa87ca5f85b4c07a245f5f2f60d613}{operator=} (P\-V\-T $\ast$\hyperlink{glext_8h_a4eacae1d9e7c39f8236bb36d4ececa77}{n})
+\item 
+P\-V\-T \& \hyperlink{class_qxt_shared_private_a78fe54903459c778d1c66ea8fbac0f34}{operator()} ()
+\item 
+const P\-V\-T \& \hyperlink{class_qxt_shared_private_afeecd8a6a40e52c3590f9d7feee425bd}{operator()} () const 
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$typename P\-V\-T = Qxt\-Shared\-Private\-Destructor$>$class Qxt\-Shared\-Private$<$ P\-V\-T $>$}
+
+base class for shared data objects using the pimpl idom 
+
+Qxt\-Core combines both, the functionality of Qxt\-Pimpl and Q\-Shared\-Data \par
+ It is assumed you are familiar with Qxt\-Pimpl and Q\-Shared\-Data / Q\-Shared\-Data\-Pointer. If not, please read their documentation before this one. \par
+
+
+\subparagraph*{Major differences to Qxt\-Pimpl are\-:}
+
+
+\begin{DoxyItemize}
+\item there is no qxt\-\_\-p() since there are multiple public classes sharing the same private
+\item you have to explicitly initialise the private data in the ctor of your public class using new
+\item instead of using Q\-X\-T\-\_\-\-D\-E\-C\-L\-A\-R\-E\-\_\-\-P\-R\-I\-V\-A\-T\-E(\-My\-Class) you use Qxt\-Shared\-Private$<$my\-C\-Lass\-Private$>$ d;
+\item The private data does not have to be a \hyperlink{class_qxt_private}{Qxt\-Private} subclass
+\end{DoxyItemize}
+
+\subparagraph*{Major differences to Q\-Shared\-Data / Q\-Shared\-Data\-Pointer are\-:}
+
+
+\begin{DoxyItemize}
+\item the actual Data can be a private implementation
+\item access via d().member() instead of d-\/$>$member(); (Qxt\-Pimpl style)
+\item The private data does not have to be a Q\-Shared\-Data subclass
+\end{DoxyItemize}
+
+\subparagraph*{example}
+
+expanding the example from the Q\-Shared\-Data\-Pointer we get this\-: 
+\begin{DoxyCode}
+\textcolor{preprocessor}{#ifndef EMPLOYEE\_H}
+\textcolor{preprocessor}{}\textcolor{preprocessor}{#define EMPLOYEE\_H}
+\textcolor{preprocessor}{}
+\textcolor{preprocessor}{#include <QxtSharedPrivate>}
+\textcolor{preprocessor}{#include <QString>}
+
+\textcolor{keyword}{class }EmployeePrivate;
+
+\textcolor{keyword}{class }Employee
+\{
+\textcolor{keyword}{public}:
+    Employee();
+    Employee(\textcolor{keywordtype}{int} \textcolor{keywordtype}{id}, \textcolor{keyword}{const} \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{QString} &name);
+
+    \textcolor{keywordtype}{void} setId(\textcolor{keywordtype}{int} \textcolor{keywordtype}{id}) \{ d->id = \hyperlink{glext_8h_a58c2a664503e14ffb8f21012aabff3e9}{id}; \}
+    \textcolor{keywordtype}{void} setName(\textcolor{keyword}{const} \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{QString} &name);
+
+    \textcolor{keywordtype}{int} \hyperlink{glext_8h_a58c2a664503e14ffb8f21012aabff3e9}{id}()\textcolor{keyword}{ const }\{ \textcolor{keywordflow}{return} d->id; \}
+    \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{QString} \hyperlink{glext_8h_ad977737dfc9a274a62741b9500c49a32}{name}() \textcolor{keyword}{const};
+
+\textcolor{keyword}{private}:
+    \hyperlink{class_qxt_shared_private}{QxtSharedPrivate<EmployeePrivate>} qxt\_d;
+\};
+
+
+\textcolor{keyword}{class }EmployeePrivate
+\{
+\textcolor{keyword}{public}:
+    \textcolor{keywordtype}{int} \hyperlink{glext_8h_a58c2a664503e14ffb8f21012aabff3e9}{id};
+    \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{QString} \hyperlink{glext_8h_ad977737dfc9a274a62741b9500c49a32}{name};
+\};
+
+\textcolor{preprocessor}{#endif}
+\end{DoxyCode}
+
+
+note that contrary to Qxt\-Pimpl you need to initialise your private data once
+
+
+\begin{DoxyCode}
+Employee::Employee()
+\{
+    qxt\_d = \textcolor{keyword}{new} EmployeePrivate;
+\}
+\end{DoxyCode}
+
+
+if you ever really want to define a copy constructor for your public class, remember you must not reinitialise qxt\-\_\-d as this would defeat the whole point of shared data. instead just copy it. The underlying Q\-Shared\-Data\-Pointer will take care of the rest.
+
+
+\begin{DoxyCode}
+Employee::Employee(\textcolor{keyword}{const} Employee & other)
+\{
+    qxt\_d = other.qxt\_d;
+\}
+\end{DoxyCode}
+
+
+Also remember you must not delete the private data yourself at any time. 
+
+Definition at line 144 of file qxtsharedprivate.\-h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_qxt_shared_private_a510eacaacc3d2e03d6700ef508c68439}{\index{Qxt\-Shared\-Private@{Qxt\-Shared\-Private}!Qxt\-Shared\-Private@{Qxt\-Shared\-Private}}
+\index{Qxt\-Shared\-Private@{Qxt\-Shared\-Private}!QxtSharedPrivate@{Qxt\-Shared\-Private}}
+\subsubsection[{Qxt\-Shared\-Private}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename P\-V\-T = Qxt\-Shared\-Private\-Destructor$>$ {\bf Qxt\-Shared\-Private}$<$ P\-V\-T $>$\-::{\bf Qxt\-Shared\-Private} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_qxt_shared_private_a510eacaacc3d2e03d6700ef508c68439}
+
+
+Definition at line 148 of file qxtsharedprivate.\-h.
+
+\hypertarget{class_qxt_shared_private_a1adeeb709bc388bfe4b0e2cef7c68d4f}{\index{Qxt\-Shared\-Private@{Qxt\-Shared\-Private}!Qxt\-Shared\-Private@{Qxt\-Shared\-Private}}
+\index{Qxt\-Shared\-Private@{Qxt\-Shared\-Private}!QxtSharedPrivate@{Qxt\-Shared\-Private}}
+\subsubsection[{Qxt\-Shared\-Private}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename P\-V\-T = Qxt\-Shared\-Private\-Destructor$>$ {\bf Qxt\-Shared\-Private}$<$ P\-V\-T $>$\-::{\bf Qxt\-Shared\-Private} (
+\begin{DoxyParamCaption}
+\item[{const {\bf Qxt\-Shared\-Private}$<$ P\-V\-T $>$ \&}]{other}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_qxt_shared_private_a1adeeb709bc388bfe4b0e2cef7c68d4f}
+
+
+Definition at line 152 of file qxtsharedprivate.\-h.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_qxt_shared_private_a78fe54903459c778d1c66ea8fbac0f34}{\index{Qxt\-Shared\-Private@{Qxt\-Shared\-Private}!operator()@{operator()}}
+\index{operator()@{operator()}!QxtSharedPrivate@{Qxt\-Shared\-Private}}
+\subsubsection[{operator()}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename P\-V\-T = Qxt\-Shared\-Private\-Destructor$>$ P\-V\-T\& {\bf Qxt\-Shared\-Private}$<$ P\-V\-T $>$\-::operator() (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_qxt_shared_private_a78fe54903459c778d1c66ea8fbac0f34}
+
+
+Definition at line 167 of file qxtsharedprivate.\-h.
+
+\hypertarget{class_qxt_shared_private_afeecd8a6a40e52c3590f9d7feee425bd}{\index{Qxt\-Shared\-Private@{Qxt\-Shared\-Private}!operator()@{operator()}}
+\index{operator()@{operator()}!QxtSharedPrivate@{Qxt\-Shared\-Private}}
+\subsubsection[{operator()}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename P\-V\-T = Qxt\-Shared\-Private\-Destructor$>$ const P\-V\-T\& {\bf Qxt\-Shared\-Private}$<$ P\-V\-T $>$\-::operator() (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_qxt_shared_private_afeecd8a6a40e52c3590f9d7feee425bd}
+
+
+Definition at line 171 of file qxtsharedprivate.\-h.
+
+\hypertarget{class_qxt_shared_private_af5fa87ca5f85b4c07a245f5f2f60d613}{\index{Qxt\-Shared\-Private@{Qxt\-Shared\-Private}!operator=@{operator=}}
+\index{operator=@{operator=}!QxtSharedPrivate@{Qxt\-Shared\-Private}}
+\subsubsection[{operator=}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename P\-V\-T = Qxt\-Shared\-Private\-Destructor$>$ P\-V\-T\& {\bf Qxt\-Shared\-Private}$<$ P\-V\-T $>$\-::operator= (
+\begin{DoxyParamCaption}
+\item[{P\-V\-T $\ast$}]{n}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_qxt_shared_private_af5fa87ca5f85b4c07a245f5f2f60d613}
+
+
+Definition at line 156 of file qxtsharedprivate.\-h.
+
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/libqxt/src/core/\hyperlink{qxtsharedprivate_8h}{qxtsharedprivate.\-h}\end{DoxyCompactItemize}

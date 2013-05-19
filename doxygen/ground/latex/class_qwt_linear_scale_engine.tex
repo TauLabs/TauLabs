@@ -1,0 +1,263 @@
+\hypertarget{class_qwt_linear_scale_engine}{\section{Qwt\-Linear\-Scale\-Engine Class Reference}
+\label{class_qwt_linear_scale_engine}\index{Qwt\-Linear\-Scale\-Engine@{Qwt\-Linear\-Scale\-Engine}}
+}
+
+
+A scale engine for linear scales.  
+
+
+
+
+{\ttfamily \#include $<$qwt\-\_\-scale\-\_\-engine.\-h$>$}
+
+Inheritance diagram for Qwt\-Linear\-Scale\-Engine\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_qwt_linear_scale_engine}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_linear_scale_engine_ad0f1d825e70eb7a1deb15875a8093cff}{auto\-Scale} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} max\-Steps, \hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} \&x1, \hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} \&x2, \hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} \&step\-Size) const 
+\item 
+virtual \hyperlink{class_qwt_scale_div}{Qwt\-Scale\-Div} \hyperlink{class_qwt_linear_scale_engine_aafed94c688e67c95a6ecf18e8bb522ab}{divide\-Scale} (\hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} x1, \hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} x2, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} num\-Major\-Steps, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} num\-Minor\-Steps, \hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} step\-Size=0.\-0) const 
+\begin{DoxyCompactList}\small\item\em Calculate a scale division. \end{DoxyCompactList}\item 
+virtual \hyperlink{class_qwt_scale_transformation}{Qwt\-Scale\-Transformation} $\ast$ \hyperlink{class_qwt_linear_scale_engine_adb24f92fa0e8c0548a38cd310158b3d3}{transformation} () const 
+\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_qwt_interval}{Qwt\-Interval} \hyperlink{class_qwt_linear_scale_engine_a433918756a04fb25f29ed53f5d20bfd4}{align} (const \hyperlink{class_qwt_interval}{Qwt\-Interval} \&, \hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} step\-Size) const 
+\begin{DoxyCompactList}\small\item\em Align an interval to a step size. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_linear_scale_engine_a7d6a7687ea03a3ce9cde3478f7f21146}{build\-Ticks} (const \hyperlink{class_qwt_interval}{Qwt\-Interval} \&, \hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} step\-Size, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} max\-Min\-Steps, \hyperlink{class_q_list}{Q\-List}$<$ \hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} $>$ ticks\mbox{[}\hyperlink{class_qwt_scale_div_af21aedaa886dd5e067cf63505838736ca86796bbf72d5eb7162a924ba27ce6553}{Qwt\-Scale\-Div\-::\-N\-Tick\-Types}\mbox{]}) const 
+\begin{DoxyCompactList}\small\item\em Calculate ticks for an interval. \end{DoxyCompactList}\item 
+\hyperlink{class_q_list}{Q\-List}$<$ \hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} $>$ \hyperlink{class_qwt_linear_scale_engine_a00844c641535d54074f235d1fe3430f5}{build\-Major\-Ticks} (const \hyperlink{class_qwt_interval}{Qwt\-Interval} \&interval, \hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} step\-Size) const 
+\begin{DoxyCompactList}\small\item\em Calculate major ticks for an interval. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_linear_scale_engine_a83a6be3d47d0fef14d39138a0130fe40}{build\-Minor\-Ticks} (const \hyperlink{class_q_list}{Q\-List}$<$ \hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} $>$ \&major\-Ticks, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} max\-Min\-Mark, \hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} step, \hyperlink{class_q_list}{Q\-List}$<$ \hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} $>$ \&, \hyperlink{class_q_list}{Q\-List}$<$ \hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} $>$ \&) const 
+\begin{DoxyCompactList}\small\item\em Calculate minor/medium ticks for major ticks. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Detailed Description}
+A scale engine for linear scales. 
+
+The step size will fit into the pattern $\left\{ 1,2,5\right\} \cdot 10^{n}$, where n is an integer. 
+
+Definition at line 146 of file qwt\-\_\-scale\-\_\-engine.\-h.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_qwt_linear_scale_engine_a433918756a04fb25f29ed53f5d20bfd4}{\index{Qwt\-Linear\-Scale\-Engine@{Qwt\-Linear\-Scale\-Engine}!align@{align}}
+\index{align@{align}!QwtLinearScaleEngine@{Qwt\-Linear\-Scale\-Engine}}
+\subsubsection[{align}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Qwt\-Interval} Qwt\-Linear\-Scale\-Engine\-::align (
+\begin{DoxyParamCaption}
+\item[{const {\bf Qwt\-Interval} \&}]{interval, }
+\item[{{\bf double}}]{step\-Size}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_qwt_linear_scale_engine_a433918756a04fb25f29ed53f5d20bfd4}
+
+
+Align an interval to a step size. 
+
+The limits of an interval are aligned that both are integer multiples of the step size.
+
+
+\begin{DoxyParams}{Parameters}
+{\em interval} & Interval \\
+\hline
+{\em step\-Size} & Step size\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Aligned interval 
+\end{DoxyReturn}
+
+
+Definition at line 587 of file qwt\-\_\-scale\-\_\-engine.\-cpp.
+
+\hypertarget{class_qwt_linear_scale_engine_ad0f1d825e70eb7a1deb15875a8093cff}{\index{Qwt\-Linear\-Scale\-Engine@{Qwt\-Linear\-Scale\-Engine}!auto\-Scale@{auto\-Scale}}
+\index{auto\-Scale@{auto\-Scale}!QwtLinearScaleEngine@{Qwt\-Linear\-Scale\-Engine}}
+\subsubsection[{auto\-Scale}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Linear\-Scale\-Engine\-::auto\-Scale (
+\begin{DoxyParamCaption}
+\item[{{\bf int}}]{max\-Num\-Steps, }
+\item[{{\bf double} \&}]{x1, }
+\item[{{\bf double} \&}]{x2, }
+\item[{{\bf double} \&}]{step\-Size}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_qwt_linear_scale_engine_ad0f1d825e70eb7a1deb15875a8093cff}
+Align and divide an interval
+
+
+\begin{DoxyParams}{Parameters}
+{\em max\-Num\-Steps} & Max. number of steps \\
+\hline
+{\em x1} & First limit of the interval (In/\-Out) \\
+\hline
+{\em x2} & Second limit of the interval (In/\-Out) \\
+\hline
+{\em step\-Size} & Step size (Out)\\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_scale_engine_acf02a88f6e778edbc9e005960f35b3b7}{set\-Attribute()} 
+\end{DoxySeeAlso}
+
+
+Implements \hyperlink{class_qwt_scale_engine_aa27323d6d9d5348bd253a61b45e4785b}{Qwt\-Scale\-Engine}.
+
+
+
+Definition at line 377 of file qwt\-\_\-scale\-\_\-engine.\-cpp.
+
+\hypertarget{class_qwt_linear_scale_engine_a00844c641535d54074f235d1fe3430f5}{\index{Qwt\-Linear\-Scale\-Engine@{Qwt\-Linear\-Scale\-Engine}!build\-Major\-Ticks@{build\-Major\-Ticks}}
+\index{build\-Major\-Ticks@{build\-Major\-Ticks}!QwtLinearScaleEngine@{Qwt\-Linear\-Scale\-Engine}}
+\subsubsection[{build\-Major\-Ticks}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Q\-List}$<$ {\bf double} $>$ Qwt\-Linear\-Scale\-Engine\-::build\-Major\-Ticks (
+\begin{DoxyParamCaption}
+\item[{const {\bf Qwt\-Interval} \&}]{interval, }
+\item[{{\bf double}}]{step\-Size}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_qwt_linear_scale_engine_a00844c641535d54074f235d1fe3430f5}
+
+
+Calculate major ticks for an interval. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em interval} & Interval \\
+\hline
+{\em step\-Size} & Step size\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Calculated ticks 
+\end{DoxyReturn}
+
+
+Definition at line 503 of file qwt\-\_\-scale\-\_\-engine.\-cpp.
+
+\hypertarget{class_qwt_linear_scale_engine_a83a6be3d47d0fef14d39138a0130fe40}{\index{Qwt\-Linear\-Scale\-Engine@{Qwt\-Linear\-Scale\-Engine}!build\-Minor\-Ticks@{build\-Minor\-Ticks}}
+\index{build\-Minor\-Ticks@{build\-Minor\-Ticks}!QwtLinearScaleEngine@{Qwt\-Linear\-Scale\-Engine}}
+\subsubsection[{build\-Minor\-Ticks}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Linear\-Scale\-Engine\-::build\-Minor\-Ticks (
+\begin{DoxyParamCaption}
+\item[{const {\bf Q\-List}$<$ {\bf double} $>$ \&}]{major\-Ticks, }
+\item[{{\bf int}}]{max\-Min\-Steps, }
+\item[{{\bf double}}]{step\-Size, }
+\item[{{\bf Q\-List}$<$ {\bf double} $>$ \&}]{minor\-Ticks, }
+\item[{{\bf Q\-List}$<$ {\bf double} $>$ \&}]{medium\-Ticks}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_qwt_linear_scale_engine_a83a6be3d47d0fef14d39138a0130fe40}
+
+
+Calculate minor/medium ticks for major ticks. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em major\-Ticks} & Major ticks \\
+\hline
+{\em max\-Min\-Steps} & Maximum number of minor steps \\
+\hline
+{\em step\-Size} & Step size \\
+\hline
+{\em minor\-Ticks} & Array to be filled with the calculated minor ticks \\
+\hline
+{\em medium\-Ticks} & Array to be filled with the calculated medium ticks \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 530 of file qwt\-\_\-scale\-\_\-engine.\-cpp.
+
+\hypertarget{class_qwt_linear_scale_engine_a7d6a7687ea03a3ce9cde3478f7f21146}{\index{Qwt\-Linear\-Scale\-Engine@{Qwt\-Linear\-Scale\-Engine}!build\-Ticks@{build\-Ticks}}
+\index{build\-Ticks@{build\-Ticks}!QwtLinearScaleEngine@{Qwt\-Linear\-Scale\-Engine}}
+\subsubsection[{build\-Ticks}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Linear\-Scale\-Engine\-::build\-Ticks (
+\begin{DoxyParamCaption}
+\item[{const {\bf Qwt\-Interval} \&}]{interval, }
+\item[{{\bf double}}]{step\-Size, }
+\item[{{\bf int}}]{max\-Min\-Steps, }
+\item[{{\bf Q\-List}$<$ {\bf double} $>$}]{ticks\mbox{[}\-Qwt\-Scale\-Div\-::\-N\-Tick\-Types\mbox{]}}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_qwt_linear_scale_engine_a7d6a7687ea03a3ce9cde3478f7f21146}
+
+
+Calculate ticks for an interval. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em interval} & Interval \\
+\hline
+{\em step\-Size} & Step size \\
+\hline
+{\em max\-Min\-Steps} & Maximum number of minor steps \\
+\hline
+{\em ticks} & Arrays to be filled with the calculated ticks\\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_linear_scale_engine_a00844c641535d54074f235d1fe3430f5}{build\-Major\-Ticks()}, \hyperlink{class_qwt_linear_scale_engine_a83a6be3d47d0fef14d39138a0130fe40}{build\-Minor\-Ticks} 
+\end{DoxySeeAlso}
+
+
+Definition at line 464 of file qwt\-\_\-scale\-\_\-engine.\-cpp.
+
+\hypertarget{class_qwt_linear_scale_engine_aafed94c688e67c95a6ecf18e8bb522ab}{\index{Qwt\-Linear\-Scale\-Engine@{Qwt\-Linear\-Scale\-Engine}!divide\-Scale@{divide\-Scale}}
+\index{divide\-Scale@{divide\-Scale}!QwtLinearScaleEngine@{Qwt\-Linear\-Scale\-Engine}}
+\subsubsection[{divide\-Scale}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Qwt\-Scale\-Div} Qwt\-Linear\-Scale\-Engine\-::divide\-Scale (
+\begin{DoxyParamCaption}
+\item[{{\bf double}}]{x1, }
+\item[{{\bf double}}]{x2, }
+\item[{{\bf int}}]{max\-Maj\-Steps, }
+\item[{{\bf int}}]{max\-Min\-Steps, }
+\item[{{\bf double}}]{step\-Size = {\ttfamily 0.0}}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_qwt_linear_scale_engine_aafed94c688e67c95a6ecf18e8bb522ab}
+
+
+Calculate a scale division. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em x1} & First interval limit \\
+\hline
+{\em x2} & Second interval limit \\
+\hline
+{\em max\-Maj\-Steps} & Maximum for the number of major steps \\
+\hline
+{\em max\-Min\-Steps} & Maximum number of minor steps \\
+\hline
+{\em step\-Size} & Step size. If step\-Size == 0, the scale\-Engine calculates one.\\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See Also}
+Qwt\-Scale\-Engine\-::step\-Size(), Qwt\-Scale\-Engine\-::sub\-Divide() 
+\end{DoxySeeAlso}
+
+
+Implements \hyperlink{class_qwt_scale_engine_a833fbdad4cce6e3b6448ee2549dc09e1}{Qwt\-Scale\-Engine}.
+
+
+
+Definition at line 422 of file qwt\-\_\-scale\-\_\-engine.\-cpp.
+
+\hypertarget{class_qwt_linear_scale_engine_adb24f92fa0e8c0548a38cd310158b3d3}{\index{Qwt\-Linear\-Scale\-Engine@{Qwt\-Linear\-Scale\-Engine}!transformation@{transformation}}
+\index{transformation@{transformation}!QwtLinearScaleEngine@{Qwt\-Linear\-Scale\-Engine}}
+\subsubsection[{transformation}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Qwt\-Scale\-Transformation} $\ast$ Qwt\-Linear\-Scale\-Engine\-::transformation (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_qwt_linear_scale_engine_adb24f92fa0e8c0548a38cd310158b3d3}
+Return a transformation, for linear scales 
+
+Implements \hyperlink{class_qwt_scale_engine_a04a93d0dc39a3483957764e7749989fd}{Qwt\-Scale\-Engine}.
+
+
+
+Definition at line 362 of file qwt\-\_\-scale\-\_\-engine.\-cpp.
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/qwt/src/\hyperlink{qwt__scale__engine_8h}{qwt\-\_\-scale\-\_\-engine.\-h}\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/qwt/src/\hyperlink{qwt__scale__engine_8cpp}{qwt\-\_\-scale\-\_\-engine.\-cpp}\end{DoxyCompactItemize}

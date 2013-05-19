@@ -1,0 +1,420 @@
+\hypertarget{class_partial_redux}{\section{Partial\-Redux$<$ Expression\-Type, Direction $>$ Class Template Reference}
+\label{class_partial_redux}\index{Partial\-Redux$<$ Expression\-Type, Direction $>$@{Partial\-Redux$<$ Expression\-Type, Direction $>$}}
+}
+
+
+Pseudo expression providing partial reduction operations.  
+
+
+
+
+{\ttfamily \#include $<$Partial\-Redux.\-h$>$}
+
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{struct_partial_redux_1_1_redux_return_type}{Redux\-Return\-Type}
+\item 
+struct \hyperlink{struct_partial_redux_1_1_return_type}{Return\-Type}
+\end{DoxyCompactItemize}
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+typedef \hyperlink{structei__traits}{ei\-\_\-traits}\\*
+$<$ Expression\-Type $>$\-::\hyperlink{class_partial_redux_a5884ea45b5cd9ba86feef9193cf56fa8}{Scalar} \hyperlink{class_partial_redux_a5884ea45b5cd9ba86feef9193cf56fa8}{Scalar}
+\item 
+typedef \hyperlink{struct_num_traits}{Num\-Traits}$<$ \hyperlink{class_partial_redux_a5884ea45b5cd9ba86feef9193cf56fa8}{Scalar} $>$\-::Real \hyperlink{class_partial_redux_ab90e980b51024c769907a8646b38c713}{Real\-Scalar}
+\item 
+typedef \hyperlink{structei__meta__if}{ei\-\_\-meta\-\_\-if}\\*
+$<$ \hyperlink{structei__must__nest__by__value}{ei\-\_\-must\-\_\-nest\-\_\-by\-\_\-value}\\*
+$<$ Expression\-Type $>$\-::\hyperlink{group___i_p_conn_plugin_gabc99fe6afec1a75ccff1092e47375a40}{ret}, \\*
+Expression\-Type, const \\*
+Expression\-Type \& $>$\-::\hyperlink{group___i_p_conn_plugin_gabc99fe6afec1a75ccff1092e47375a40}{ret} \hyperlink{class_partial_redux_a0f17bbdfa61d2bd1e3d271dc82c595b8}{Expression\-Type\-Nested}
+\item 
+typedef \\*
+Expression\-Type\-::\-Plain\-Matrix\-Type \hyperlink{class_partial_redux_a37567c70c25e1c7992976f173114fedb}{Cross\-Return\-Type}
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_partial_redux_a1a1773c14a15936278d511b457dbccb9}{Partial\-Redux} (const Expression\-Type \&\hyperlink{glext_8h_a7b24a3f2f56eb1244ae69dacb4fecb6f}{matrix})
+\item 
+const Expression\-Type \& \hyperlink{class_partial_redux_a13557fe59f84c8b0da7800f797c3ae07}{\-\_\-expression} () const 
+\item 
+{\footnotesize template$<$typename Binary\-Op $>$ }\\const \hyperlink{struct_partial_redux_1_1_redux_return_type}{Redux\-Return\-Type}\\*
+$<$ Binary\-Op $>$\-::Type \hyperlink{class_partial_redux_acad1e9e1eff16fdc3fc9fb06584d73c0}{redux} (const Binary\-Op \&func=Binary\-Op()) const 
+\item 
+const \hyperlink{struct_partial_redux_1_1_return_type}{Return\-Type}\\*
+$<$ ei\-\_\-member\-\_\-min\-Coeff $>$\-::Type \hyperlink{class_partial_redux_aa8148bbea4fa0742492aeffd73f8ecb3}{min\-Coeff} () const 
+\item 
+const \hyperlink{struct_partial_redux_1_1_return_type}{Return\-Type}\\*
+$<$ ei\-\_\-member\-\_\-max\-Coeff $>$\-::Type \hyperlink{class_partial_redux_ac6a4a94dd4ed742f1590a7a8e19e1a08}{max\-Coeff} () const 
+\item 
+const \hyperlink{struct_partial_redux_1_1_return_type}{Return\-Type}\\*
+$<$ ei\-\_\-member\-\_\-squared\-Norm, \\*
+\hyperlink{class_partial_redux_ab90e980b51024c769907a8646b38c713}{Real\-Scalar} $>$\-::Type \hyperlink{class_partial_redux_acb7c5f987773f641c5388ec88bcaaa70}{squared\-Norm} () const 
+\item 
+const \hyperlink{struct_partial_redux_1_1_return_type}{Return\-Type}\\*
+$<$ ei\-\_\-member\-\_\-norm, \hyperlink{class_partial_redux_ab90e980b51024c769907a8646b38c713}{Real\-Scalar} $>$\\*
+\-::Type \hyperlink{class_partial_redux_a62501f3df4dd9e5d664707395e220c2c}{norm} () const 
+\item 
+const \hyperlink{struct_partial_redux_1_1_return_type}{Return\-Type}\\*
+$<$ ei\-\_\-member\-\_\-sum $>$\-::Type \hyperlink{class_partial_redux_a3211c6c498008a0739d37365de23a754}{sum} () const 
+\item 
+const \hyperlink{struct_partial_redux_1_1_return_type}{Return\-Type}\\*
+$<$ ei\-\_\-member\-\_\-all $>$\-::Type \hyperlink{class_partial_redux_aa14975f1b822752ba07419b7f53bff49}{all} () const 
+\item 
+const \hyperlink{struct_partial_redux_1_1_return_type}{Return\-Type}\\*
+$<$ ei\-\_\-member\-\_\-any $>$\-::Type \hyperlink{class_partial_redux_a4ca9642a3d85e1f975baa05abdfade9c}{any} () const 
+\item 
+const \hyperlink{class_partial_redux_expr}{Partial\-Redux\-Expr}\\*
+$<$ Expression\-Type, \\*
+ei\-\_\-member\-\_\-count$<$ \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} $>$\\*
+, Direction $>$ \hyperlink{class_partial_redux_a0e8c63e82eed877cdf5f5ad065980035}{count} () const 
+\item 
+{\footnotesize template$<$typename Other\-Derived $>$ }\\const \hyperlink{class_partial_redux_a37567c70c25e1c7992976f173114fedb}{Cross\-Return\-Type} \hyperlink{class_partial_redux_af97a567b6eaff0f364bbb3def667ae6c}{cross} (const \hyperlink{class_matrix_base}{Matrix\-Base}$<$ Other\-Derived $>$ \&other) const 
+\item 
+{\footnotesize template$<$typename Binary\-Op $>$ }\\const \hyperlink{class_partial_redux}{Partial\-Redux}\\*
+$<$ Expression\-Type, Direction $>$\\*
+\-::template \hyperlink{struct_partial_redux_1_1_redux_return_type}{Redux\-Return\-Type}\\*
+$<$ Binary\-Op $>$\-::Type \hyperlink{class_partial_redux_ace0d0b73ce202d1ad98369373ea292fe}{redux} (const Binary\-Op \&func) const 
+\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_partial_redux_a0f17bbdfa61d2bd1e3d271dc82c595b8}{Expression\-Type\-Nested} \hyperlink{class_partial_redux_ad389576a862ac019c3bb1c979bcb6e12}{m\-\_\-matrix}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$typename Expression\-Type, int Direction$>$class Partial\-Redux$<$ Expression\-Type, Direction $>$}
+
+Pseudo expression providing partial reduction operations. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Expression\-Type} & the type of the object on which to do partial reductions \\
+\hline
+{\em Direction} & indicates the direction of the redux (Vertical or Horizontal)\\
+\hline
+\end{DoxyParams}
+This class represents a pseudo expression with partial reduction features. It is the return type of \hyperlink{class_matrix_base_aa3b6a7cd048404185023d21eaeac21ba}{Matrix\-Base\-::colwise()} and \hyperlink{class_matrix_base_aebd5699cf5758edecbef6a16c6fed4f1}{Matrix\-Base\-::rowwise()} and most of the time this is the only way it is used.
+
+Example\-:
+\begin{DoxyCodeInclude}
+\end{DoxyCodeInclude}
+ Output\-:
+\begin{DoxyVerbInclude}
+\end{DoxyVerbInclude}
+
+
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_matrix_base_aa3b6a7cd048404185023d21eaeac21ba}{Matrix\-Base\-::colwise()}, \hyperlink{class_matrix_base_aebd5699cf5758edecbef6a16c6fed4f1}{Matrix\-Base\-::rowwise()}, class \hyperlink{class_partial_redux_expr}{Partial\-Redux\-Expr} 
+\end{DoxySeeAlso}
+
+
+Definition at line 158 of file Partial\-Redux.\-h.
+
+
+
+\subsection{Member Typedef Documentation}
+\hypertarget{class_partial_redux_a37567c70c25e1c7992976f173114fedb}{\index{Partial\-Redux@{Partial\-Redux}!Cross\-Return\-Type@{Cross\-Return\-Type}}
+\index{Cross\-Return\-Type@{Cross\-Return\-Type}!PartialRedux@{Partial\-Redux}}
+\subsubsection[{Cross\-Return\-Type}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Expression\-Type, int Direction$>$ typedef Expression\-Type\-::\-Plain\-Matrix\-Type {\bf Partial\-Redux}$<$ Expression\-Type, Direction $>$\-::{\bf Cross\-Return\-Type}}}\label{class_partial_redux_a37567c70c25e1c7992976f173114fedb}
+
+
+Definition at line 184 of file Partial\-Redux.\-h.
+
+\hypertarget{class_partial_redux_a0f17bbdfa61d2bd1e3d271dc82c595b8}{\index{Partial\-Redux@{Partial\-Redux}!Expression\-Type\-Nested@{Expression\-Type\-Nested}}
+\index{Expression\-Type\-Nested@{Expression\-Type\-Nested}!PartialRedux@{Partial\-Redux}}
+\subsubsection[{Expression\-Type\-Nested}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Expression\-Type, int Direction$>$ typedef {\bf ei\-\_\-meta\-\_\-if}$<${\bf ei\-\_\-must\-\_\-nest\-\_\-by\-\_\-value}$<$Expression\-Type$>$\-::{\bf ret}, Expression\-Type, const Expression\-Type\&$>$\-::{\bf ret} {\bf Partial\-Redux}$<$ Expression\-Type, Direction $>$\-::{\bf Expression\-Type\-Nested}}}\label{class_partial_redux_a0f17bbdfa61d2bd1e3d271dc82c595b8}
+
+
+Definition at line 165 of file Partial\-Redux.\-h.
+
+\hypertarget{class_partial_redux_ab90e980b51024c769907a8646b38c713}{\index{Partial\-Redux@{Partial\-Redux}!Real\-Scalar@{Real\-Scalar}}
+\index{Real\-Scalar@{Real\-Scalar}!PartialRedux@{Partial\-Redux}}
+\subsubsection[{Real\-Scalar}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Expression\-Type, int Direction$>$ typedef {\bf Num\-Traits}$<${\bf Scalar}$>$\-::Real {\bf Partial\-Redux}$<$ Expression\-Type, Direction $>$\-::{\bf Real\-Scalar}}}\label{class_partial_redux_ab90e980b51024c769907a8646b38c713}
+
+
+Definition at line 163 of file Partial\-Redux.\-h.
+
+\hypertarget{class_partial_redux_a5884ea45b5cd9ba86feef9193cf56fa8}{\index{Partial\-Redux@{Partial\-Redux}!Scalar@{Scalar}}
+\index{Scalar@{Scalar}!PartialRedux@{Partial\-Redux}}
+\subsubsection[{Scalar}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Expression\-Type, int Direction$>$ typedef {\bf ei\-\_\-traits}$<$Expression\-Type$>$\-::{\bf Scalar} {\bf Partial\-Redux}$<$ Expression\-Type, Direction $>$\-::{\bf Scalar}}}\label{class_partial_redux_a5884ea45b5cd9ba86feef9193cf56fa8}
+
+
+Definition at line 162 of file Partial\-Redux.\-h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_partial_redux_a1a1773c14a15936278d511b457dbccb9}{\index{Partial\-Redux@{Partial\-Redux}!Partial\-Redux@{Partial\-Redux}}
+\index{Partial\-Redux@{Partial\-Redux}!PartialRedux@{Partial\-Redux}}
+\subsubsection[{Partial\-Redux}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Expression\-Type, int Direction$>$ {\bf Partial\-Redux}$<$ Expression\-Type, Direction $>$\-::{\bf Partial\-Redux} (
+\begin{DoxyParamCaption}
+\item[{const Expression\-Type \&}]{matrix}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_partial_redux_a1a1773c14a15936278d511b457dbccb9}
+
+
+Definition at line 186 of file Partial\-Redux.\-h.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_partial_redux_a13557fe59f84c8b0da7800f797c3ae07}{\index{Partial\-Redux@{Partial\-Redux}!\-\_\-expression@{\-\_\-expression}}
+\index{\-\_\-expression@{\-\_\-expression}!PartialRedux@{Partial\-Redux}}
+\subsubsection[{\-\_\-expression}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Expression\-Type, int Direction$>$ const Expression\-Type\& {\bf Partial\-Redux}$<$ Expression\-Type, Direction $>$\-::\-\_\-expression (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_partial_redux_a13557fe59f84c8b0da7800f797c3ae07}
+
+
+Definition at line 189 of file Partial\-Redux.\-h.
+
+\hypertarget{class_partial_redux_aa14975f1b822752ba07419b7f53bff49}{\index{Partial\-Redux@{Partial\-Redux}!all@{all}}
+\index{all@{all}!PartialRedux@{Partial\-Redux}}
+\subsubsection[{all}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Expression\-Type, int Direction$>$ const {\bf Return\-Type}$<$ei\-\_\-member\-\_\-all$>$\-::Type {\bf Partial\-Redux}$<$ Expression\-Type, Direction $>$\-::all (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_partial_redux_aa14975f1b822752ba07419b7f53bff49}
+\begin{DoxyReturn}{Returns}
+a row (or column) vector expression representing whether {\bfseries all} coefficients of each respective column (or row) are {\ttfamily true}.
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_matrix_base_a2ef90a8a13862a65954e9f9f0a11efb7}{Matrix\-Base\-::all()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 249 of file Partial\-Redux.\-h.
+
+\hypertarget{class_partial_redux_a4ca9642a3d85e1f975baa05abdfade9c}{\index{Partial\-Redux@{Partial\-Redux}!any@{any}}
+\index{any@{any}!PartialRedux@{Partial\-Redux}}
+\subsubsection[{any}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Expression\-Type, int Direction$>$ const {\bf Return\-Type}$<$ei\-\_\-member\-\_\-any$>$\-::Type {\bf Partial\-Redux}$<$ Expression\-Type, Direction $>$\-::any (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_partial_redux_a4ca9642a3d85e1f975baa05abdfade9c}
+\begin{DoxyReturn}{Returns}
+a row (or column) vector expression representing whether {\bfseries at} {\bfseries least} one coefficient of each respective column (or row) is {\ttfamily true}.
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_matrix_base_a7f022e3af6bb74be583f58b686edd09f}{Matrix\-Base\-::any()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 256 of file Partial\-Redux.\-h.
+
+\hypertarget{class_partial_redux_a0e8c63e82eed877cdf5f5ad065980035}{\index{Partial\-Redux@{Partial\-Redux}!count@{count}}
+\index{count@{count}!PartialRedux@{Partial\-Redux}}
+\subsubsection[{count}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Expression\-Type, int Direction$>$ const {\bf Partial\-Redux\-Expr}$<$Expression\-Type, ei\-\_\-member\-\_\-count$<${\bf int}$>$, Direction$>$ {\bf Partial\-Redux}$<$ Expression\-Type, Direction $>$\-::{\bf count} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_partial_redux_a0e8c63e82eed877cdf5f5ad065980035}
+\begin{DoxyReturn}{Returns}
+a row (or column) vector expression representing the number of {\ttfamily true} coefficients of each respective column (or row).
+\end{DoxyReturn}
+Example\-:
+\begin{DoxyCodeInclude}
+\end{DoxyCodeInclude}
+ Output\-:
+\begin{DoxyVerbInclude}
+\end{DoxyVerbInclude}
+
+
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_matrix_base_afb09e0eb927ae276bbed8488497a24f7}{Matrix\-Base\-::count()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 266 of file Partial\-Redux.\-h.
+
+\hypertarget{class_partial_redux_af97a567b6eaff0f364bbb3def667ae6c}{\index{Partial\-Redux@{Partial\-Redux}!cross@{cross}}
+\index{cross@{cross}!PartialRedux@{Partial\-Redux}}
+\subsubsection[{cross}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Expression\-Type, int Direction$>$ template$<$typename Other\-Derived $>$ const {\bf Cross\-Return\-Type} {\bf Partial\-Redux}$<$ Expression\-Type, Direction $>$\-::cross (
+\begin{DoxyParamCaption}
+\item[{const {\bf Matrix\-Base}$<$ Other\-Derived $>$ \&}]{other}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_partial_redux_af97a567b6eaff0f364bbb3def667ae6c}
+\begin{DoxyReturn}{Returns}
+a 3x3 matrix expression of the cross product of each column or row of the referenced expression with the {\itshape other} vector.
+\end{DoxyReturn}
+
+
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_matrix_base_a9f60241d9ea4cf39386071aafd518210}{Matrix\-Base\-::cross()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 276 of file Partial\-Redux.\-h.
+
+\hypertarget{class_partial_redux_ac6a4a94dd4ed742f1590a7a8e19e1a08}{\index{Partial\-Redux@{Partial\-Redux}!max\-Coeff@{max\-Coeff}}
+\index{max\-Coeff@{max\-Coeff}!PartialRedux@{Partial\-Redux}}
+\subsubsection[{max\-Coeff}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Expression\-Type, int Direction$>$ const {\bf Return\-Type}$<$ei\-\_\-member\-\_\-max\-Coeff$>$\-::Type {\bf Partial\-Redux}$<$ Expression\-Type, Direction $>$\-::max\-Coeff (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_partial_redux_ac6a4a94dd4ed742f1590a7a8e19e1a08}
+\begin{DoxyReturn}{Returns}
+a row (or column) vector expression of the largest coefficient of each column (or row) of the referenced expression.
+\end{DoxyReturn}
+Example\-:
+\begin{DoxyCodeInclude}
+\end{DoxyCodeInclude}
+ Output\-:
+\begin{DoxyVerbInclude}
+\end{DoxyVerbInclude}
+
+
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_matrix_base_aee6ed699ae82998d7c8221abe502850a}{Matrix\-Base\-::max\-Coeff()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 212 of file Partial\-Redux.\-h.
+
+\hypertarget{class_partial_redux_aa8148bbea4fa0742492aeffd73f8ecb3}{\index{Partial\-Redux@{Partial\-Redux}!min\-Coeff@{min\-Coeff}}
+\index{min\-Coeff@{min\-Coeff}!PartialRedux@{Partial\-Redux}}
+\subsubsection[{min\-Coeff}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Expression\-Type, int Direction$>$ const {\bf Return\-Type}$<$ei\-\_\-member\-\_\-min\-Coeff$>$\-::Type {\bf Partial\-Redux}$<$ Expression\-Type, Direction $>$\-::min\-Coeff (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_partial_redux_aa8148bbea4fa0742492aeffd73f8ecb3}
+\begin{DoxyReturn}{Returns}
+a row (or column) vector expression of the smallest coefficient of each column (or row) of the referenced expression.
+\end{DoxyReturn}
+Example\-:
+\begin{DoxyCodeInclude}
+\end{DoxyCodeInclude}
+ Output\-:
+\begin{DoxyVerbInclude}
+\end{DoxyVerbInclude}
+
+
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_matrix_base_aa36d25ae8e91fdbe8967158a32cf6a6c}{Matrix\-Base\-::min\-Coeff()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 202 of file Partial\-Redux.\-h.
+
+\hypertarget{class_partial_redux_a62501f3df4dd9e5d664707395e220c2c}{\index{Partial\-Redux@{Partial\-Redux}!norm@{norm}}
+\index{norm@{norm}!PartialRedux@{Partial\-Redux}}
+\subsubsection[{norm}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Expression\-Type, int Direction$>$ const {\bf Return\-Type}$<$ei\-\_\-member\-\_\-norm,{\bf Real\-Scalar}$>$\-::Type {\bf Partial\-Redux}$<$ Expression\-Type, Direction $>$\-::norm (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_partial_redux_a62501f3df4dd9e5d664707395e220c2c}
+\begin{DoxyReturn}{Returns}
+a row (or column) vector expression of the norm of each column (or row) of the referenced expression.
+\end{DoxyReturn}
+Example\-:
+\begin{DoxyCodeInclude}
+\end{DoxyCodeInclude}
+ Output\-:
+\begin{DoxyVerbInclude}
+\end{DoxyVerbInclude}
+
+
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_matrix_base_ab227b26a58ab1cb0f23451a8c856c411}{Matrix\-Base\-::norm()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 232 of file Partial\-Redux.\-h.
+
+\hypertarget{class_partial_redux_acad1e9e1eff16fdc3fc9fb06584d73c0}{\index{Partial\-Redux@{Partial\-Redux}!redux@{redux}}
+\index{redux@{redux}!PartialRedux@{Partial\-Redux}}
+\subsubsection[{redux}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Expression\-Type, int Direction$>$ template$<$typename Binary\-Op $>$ const {\bf Redux\-Return\-Type}$<$Binary\-Op$>$\-::Type {\bf Partial\-Redux}$<$ Expression\-Type, Direction $>$\-::redux (
+\begin{DoxyParamCaption}
+\item[{const Binary\-Op \&}]{func = {\ttfamily BinaryOp()}}
+\end{DoxyParamCaption}
+) const}}\label{class_partial_redux_acad1e9e1eff16fdc3fc9fb06584d73c0}
+\hypertarget{class_partial_redux_ace0d0b73ce202d1ad98369373ea292fe}{\index{Partial\-Redux@{Partial\-Redux}!redux@{redux}}
+\index{redux@{redux}!PartialRedux@{Partial\-Redux}}
+\subsubsection[{redux}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Expression\-Type, int Direction$>$ template$<$typename Binary\-Op $>$ const {\bf Partial\-Redux}$<$Expression\-Type,Direction$>$\-::template {\bf Redux\-Return\-Type}$<$Binary\-Op$>$\-::Type {\bf Partial\-Redux}$<$ Expression\-Type, Direction $>$\-::redux (
+\begin{DoxyParamCaption}
+\item[{const Binary\-Op \&}]{func}
+\end{DoxyParamCaption}
+) const}}\label{class_partial_redux_ace0d0b73ce202d1ad98369373ea292fe}
+\begin{DoxyReturn}{Returns}
+a row or column vector expression of {\ttfamily $\ast$this} reduxed by {\itshape func} 
+\end{DoxyReturn}
+The template parameter {\itshape Binary\-Op} is the type of the functor of the custom redux operator. Note that func must be an associative operator.
+
+\begin{DoxySeeAlso}{See Also}
+class \hyperlink{class_partial_redux}{Partial\-Redux}, \hyperlink{class_matrix_base_aa3b6a7cd048404185023d21eaeac21ba}{Matrix\-Base\-::colwise()}, \hyperlink{class_matrix_base_aebd5699cf5758edecbef6a16c6fed4f1}{Matrix\-Base\-::rowwise()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 344 of file Partial\-Redux.\-h.
+
+\hypertarget{class_partial_redux_acb7c5f987773f641c5388ec88bcaaa70}{\index{Partial\-Redux@{Partial\-Redux}!squared\-Norm@{squared\-Norm}}
+\index{squared\-Norm@{squared\-Norm}!PartialRedux@{Partial\-Redux}}
+\subsubsection[{squared\-Norm}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Expression\-Type, int Direction$>$ const {\bf Return\-Type}$<$ei\-\_\-member\-\_\-squared\-Norm,{\bf Real\-Scalar}$>$\-::Type {\bf Partial\-Redux}$<$ Expression\-Type, Direction $>$\-::squared\-Norm (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_partial_redux_acb7c5f987773f641c5388ec88bcaaa70}
+\begin{DoxyReturn}{Returns}
+a row (or column) vector expression of the squared norm of each column (or row) of the referenced expression.
+\end{DoxyReturn}
+Example\-:
+\begin{DoxyCodeInclude}
+\end{DoxyCodeInclude}
+ Output\-:
+\begin{DoxyVerbInclude}
+\end{DoxyVerbInclude}
+
+
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_matrix_base_a87e14260e8d43d5578c6721c1ad6d3df}{Matrix\-Base\-::squared\-Norm()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 222 of file Partial\-Redux.\-h.
+
+\hypertarget{class_partial_redux_a3211c6c498008a0739d37365de23a754}{\index{Partial\-Redux@{Partial\-Redux}!sum@{sum}}
+\index{sum@{sum}!PartialRedux@{Partial\-Redux}}
+\subsubsection[{sum}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Expression\-Type, int Direction$>$ const {\bf Return\-Type}$<$ei\-\_\-member\-\_\-sum$>$\-::Type {\bf Partial\-Redux}$<$ Expression\-Type, Direction $>$\-::sum (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_partial_redux_a3211c6c498008a0739d37365de23a754}
+\begin{DoxyReturn}{Returns}
+a row (or column) vector expression of the sum of each column (or row) of the referenced expression.
+\end{DoxyReturn}
+Example\-:
+\begin{DoxyCodeInclude}
+\end{DoxyCodeInclude}
+ Output\-:
+\begin{DoxyVerbInclude}
+\end{DoxyVerbInclude}
+
+
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_matrix_base_a90273cb5e6d7717c56d27bdc95e21c77}{Matrix\-Base\-::sum()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 242 of file Partial\-Redux.\-h.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{class_partial_redux_ad389576a862ac019c3bb1c979bcb6e12}{\index{Partial\-Redux@{Partial\-Redux}!m\-\_\-matrix@{m\-\_\-matrix}}
+\index{m\-\_\-matrix@{m\-\_\-matrix}!PartialRedux@{Partial\-Redux}}
+\subsubsection[{m\-\_\-matrix}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Expression\-Type, int Direction$>$ {\bf Expression\-Type\-Nested} {\bf Partial\-Redux}$<$ Expression\-Type, Direction $>$\-::m\-\_\-matrix\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_partial_redux_ad389576a862ac019c3bb1c979bcb6e12}
+
+
+Definition at line 296 of file Partial\-Redux.\-h.
+
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/eigen/\-Eigen/src/\-Array/\hyperlink{_partial_redux_8h}{Partial\-Redux.\-h}\end{DoxyCompactItemize}

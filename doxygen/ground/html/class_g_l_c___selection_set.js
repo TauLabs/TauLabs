@@ -1,0 +1,25 @@
+var class_g_l_c___selection_set =
+[
+    [ "GLC_SelectionSet", "class_g_l_c___selection_set.html#aca65f0ee3a4ee400b723779ea437ab78", null ],
+    [ "~GLC_SelectionSet", "class_g_l_c___selection_set.html#a60e4579171066a76398909ce1c5f74eb", null ],
+    [ "clear", "class_g_l_c___selection_set.html#a92f9526c0d2f2f7d63e70be5da2c33a3", null ],
+    [ "contains", "class_g_l_c___selection_set.html#a52538198f5fa0e726733f376af737a4f", null ],
+    [ "contains", "class_g_l_c___selection_set.html#aeb6c2fa80596fb03c3a29811562c9521", null ],
+    [ "count", "class_g_l_c___selection_set.html#aba67276a133aea5f90f76ad5f1292c31", null ],
+    [ "hasPrimitiveSelected", "class_g_l_c___selection_set.html#abfd86ff033b3c26a7037ae12b021acce", null ],
+    [ "insert", "class_g_l_c___selection_set.html#a672ee5da50288d62adbae732ee889928", null ],
+    [ "insert", "class_g_l_c___selection_set.html#a7045726f6c776645f4c55b770ee2f9fc", null ],
+    [ "insertPrimitiveId", "class_g_l_c___selection_set.html#a4153efb3524bdf1aac2d6dcfec021926", null ],
+    [ "insertPrimitiveId", "class_g_l_c___selection_set.html#ab4b6a99ac91fcf3c29f25034469212da", null ],
+    [ "insertSetOfPrimitivesId", "class_g_l_c___selection_set.html#a697260456e6a7babbbb5bafcd3593590", null ],
+    [ "insertSetOfPrimitivesId", "class_g_l_c___selection_set.html#a25ee934e0ec7ec49eacd1f7db06fe275", null ],
+    [ "isEmpty", "class_g_l_c___selection_set.html#ad31c2a9af019f84f6a67db4fdb28428a", null ],
+    [ "occurencesList", "class_g_l_c___selection_set.html#a7606199cf5bb15ddd48f05bc9d45f089", null ],
+    [ "occurencesListWithSelectedPrimitive", "class_g_l_c___selection_set.html#a545611a441d387790845f27e5b797d8e", null ],
+    [ "remove", "class_g_l_c___selection_set.html#aa426d834e69ff0f55f3a2ae15fbeffc6", null ],
+    [ "remove", "class_g_l_c___selection_set.html#a163d7f6365d77dd2d659a70185e45fd5", null ],
+    [ "removePrimitiveId", "class_g_l_c___selection_set.html#afc66a6cc0d9b1ddcaf40ab1dc3a7aceb", null ],
+    [ "removePrimitiveId", "class_g_l_c___selection_set.html#a9be39cea14301fed8a961f21b0ec7871", null ],
+    [ "selectedPrimitivesId", "class_g_l_c___selection_set.html#acdfa5acae6d279579ffc591098ea96ac", null ],
+    [ "size", "class_g_l_c___selection_set.html#a21abb44047b7700fbd924e424b9ce5ea", null ]
+];

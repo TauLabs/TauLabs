@@ -1,0 +1,136 @@
+\hypertarget{class_g_l_c___obj_to_world}{\section{G\-L\-C\-\_\-\-Obj\-To\-World Class Reference}
+\label{class_g_l_c___obj_to_world}\index{G\-L\-C\-\_\-\-Obj\-To\-World@{G\-L\-C\-\_\-\-Obj\-To\-World}}
+}
+
+
+\hyperlink{class_g_l_c___obj_to_world}{G\-L\-C\-\_\-\-Obj\-To\-World} \-: Create an \hyperlink{class_g_l_c___world}{G\-L\-C\-\_\-\-World} from obj file.  
+
+
+
+
+{\ttfamily \#include $<$glc\-\_\-objtoworld.\-h$>$}
+
+Inheritance diagram for G\-L\-C\-\_\-\-Obj\-To\-World\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_g_l_c___obj_to_world}
+\end{center}
+\end{figure}
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{struct_g_l_c___obj_to_world_1_1_current_obj_mesh}{Current\-Obj\-Mesh}
+\item 
+struct \hyperlink{struct_g_l_c___obj_to_world_1_1_mat_offset_size}{Mat\-Offset\-Size}
+\item 
+struct \hyperlink{struct_g_l_c___obj_to_world_1_1_obj_vertice}{Obj\-Vertice}
+\end{DoxyCompactItemize}
+\subsection*{Signals}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c___obj_to_world_aa6b63fa708408fd417207d4e5268ddfd}{current\-Quantum} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int})
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{Indent}{\bf Constructor / Destructor}\par
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_g_l_c___obj_to_world_a06011130729172aece8bf112ccff8ac0}{G\-L\-C\-\_\-\-Obj\-To\-World} ()
+\item 
+virtual \hyperlink{class_g_l_c___obj_to_world_a432c9d4828ea248e8f47ff7dd1144aaa}{$\sim$\-G\-L\-C\-\_\-\-Obj\-To\-World} ()
+\end{DoxyCompactItemize}
+\end{Indent}
+\begin{Indent}{\bf Set Functions}\par
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_g_l_c___world}{G\-L\-C\-\_\-\-World} $\ast$ \hyperlink{class_g_l_c___obj_to_world_a79c557d220ebfceef18c089e46802101}{Create\-World\-From\-Obj} (Q\-File \&\hyperlink{uavobjecttemplate_8m_a97c04efa65bcf0928abf9260bc5cbf46}{file})
+\begin{DoxyCompactList}\small\item\em Create an \hyperlink{class_g_l_c___world}{G\-L\-C\-\_\-\-World} from an input O\-B\-J File. \end{DoxyCompactList}\item 
+Q\-String\-List \hyperlink{class_g_l_c___obj_to_world_ae861ed03a5caf7eefa3c7ee3af3b8055}{list\-Of\-Attached\-File\-Name} () const 
+\begin{DoxyCompactList}\small\item\em Get the list of attached files. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\end{Indent}
+
+
+\subsection{Detailed Description}
+\hyperlink{class_g_l_c___obj_to_world}{G\-L\-C\-\_\-\-Obj\-To\-World} \-: Create an \hyperlink{class_g_l_c___world}{G\-L\-C\-\_\-\-World} from obj file. 
+
+An \hyperlink{class_g_l_c___obj_to_world}{G\-L\-C\-\_\-\-Obj\-To\-World} extract the meshs from an .obj file \par
+ List of elements extracted from the O\-B\-J
+\begin{DoxyItemize}
+\item Vertex
+\item Face
+\item Texture coordinate
+\item Normal coordinate 
+\end{DoxyItemize}
+
+Definition at line 69 of file glc\-\_\-objtoworld.\-h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_g_l_c___obj_to_world_a06011130729172aece8bf112ccff8ac0}{\index{G\-L\-C\-\_\-\-Obj\-To\-World@{G\-L\-C\-\_\-\-Obj\-To\-World}!G\-L\-C\-\_\-\-Obj\-To\-World@{G\-L\-C\-\_\-\-Obj\-To\-World}}
+\index{G\-L\-C\-\_\-\-Obj\-To\-World@{G\-L\-C\-\_\-\-Obj\-To\-World}!GLC_ObjToWorld@{G\-L\-C\-\_\-\-Obj\-To\-World}}
+\subsubsection[{G\-L\-C\-\_\-\-Obj\-To\-World}]{\setlength{\rightskip}{0pt plus 5cm}G\-L\-C\-\_\-\-Obj\-To\-World\-::\-G\-L\-C\-\_\-\-Obj\-To\-World (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___obj_to_world_a06011130729172aece8bf112ccff8ac0}
+
+
+Definition at line 43 of file glc\-\_\-objtoworld.\-cpp.
+
+\hypertarget{class_g_l_c___obj_to_world_a432c9d4828ea248e8f47ff7dd1144aaa}{\index{G\-L\-C\-\_\-\-Obj\-To\-World@{G\-L\-C\-\_\-\-Obj\-To\-World}!$\sim$\-G\-L\-C\-\_\-\-Obj\-To\-World@{$\sim$\-G\-L\-C\-\_\-\-Obj\-To\-World}}
+\index{$\sim$\-G\-L\-C\-\_\-\-Obj\-To\-World@{$\sim$\-G\-L\-C\-\_\-\-Obj\-To\-World}!GLC_ObjToWorld@{G\-L\-C\-\_\-\-Obj\-To\-World}}
+\subsubsection[{$\sim$\-G\-L\-C\-\_\-\-Obj\-To\-World}]{\setlength{\rightskip}{0pt plus 5cm}G\-L\-C\-\_\-\-Obj\-To\-World\-::$\sim$\-G\-L\-C\-\_\-\-Obj\-To\-World (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_g_l_c___obj_to_world_a432c9d4828ea248e8f47ff7dd1144aaa}
+
+
+Definition at line 59 of file glc\-\_\-objtoworld.\-cpp.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_g_l_c___obj_to_world_a79c557d220ebfceef18c089e46802101}{\index{G\-L\-C\-\_\-\-Obj\-To\-World@{G\-L\-C\-\_\-\-Obj\-To\-World}!Create\-World\-From\-Obj@{Create\-World\-From\-Obj}}
+\index{Create\-World\-From\-Obj@{Create\-World\-From\-Obj}!GLC_ObjToWorld@{G\-L\-C\-\_\-\-Obj\-To\-World}}
+\subsubsection[{Create\-World\-From\-Obj}]{\setlength{\rightskip}{0pt plus 5cm}{\bf G\-L\-C\-\_\-\-World} $\ast$ G\-L\-C\-\_\-\-Obj\-To\-World\-::\-Create\-World\-From\-Obj (
+\begin{DoxyParamCaption}
+\item[{Q\-File \&}]{file}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___obj_to_world_a79c557d220ebfceef18c089e46802101}
+
+
+Create an \hyperlink{class_g_l_c___world}{G\-L\-C\-\_\-\-World} from an input O\-B\-J File. 
+
+Test if there is meshes in the world 
+
+Definition at line 69 of file glc\-\_\-objtoworld.\-cpp.
+
+\hypertarget{class_g_l_c___obj_to_world_aa6b63fa708408fd417207d4e5268ddfd}{\index{G\-L\-C\-\_\-\-Obj\-To\-World@{G\-L\-C\-\_\-\-Obj\-To\-World}!current\-Quantum@{current\-Quantum}}
+\index{current\-Quantum@{current\-Quantum}!GLC_ObjToWorld@{G\-L\-C\-\_\-\-Obj\-To\-World}}
+\subsubsection[{current\-Quantum}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-\-Obj\-To\-World\-::current\-Quantum (
+\begin{DoxyParamCaption}
+\item[{{\bf int}}]{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [signal]}}}\label{class_g_l_c___obj_to_world_aa6b63fa708408fd417207d4e5268ddfd}
+\hypertarget{class_g_l_c___obj_to_world_ae861ed03a5caf7eefa3c7ee3af3b8055}{\index{G\-L\-C\-\_\-\-Obj\-To\-World@{G\-L\-C\-\_\-\-Obj\-To\-World}!list\-Of\-Attached\-File\-Name@{list\-Of\-Attached\-File\-Name}}
+\index{list\-Of\-Attached\-File\-Name@{list\-Of\-Attached\-File\-Name}!GLC_ObjToWorld@{G\-L\-C\-\_\-\-Obj\-To\-World}}
+\subsubsection[{list\-Of\-Attached\-File\-Name}]{\setlength{\rightskip}{0pt plus 5cm}Q\-String\-List G\-L\-C\-\_\-\-Obj\-To\-World\-::list\-Of\-Attached\-File\-Name (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___obj_to_world_ae861ed03a5caf7eefa3c7ee3af3b8055}
+
+
+Get the list of attached files. 
+
+
+
+Definition at line 166 of file glc\-\_\-objtoworld.\-h.
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/glc\-\_\-lib/io/\hyperlink{glc__objtoworld_8h}{glc\-\_\-objtoworld.\-h}\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/glc\-\_\-lib/io/\hyperlink{glc__objtoworld_8cpp}{glc\-\_\-objtoworld.\-cpp}\end{DoxyCompactItemize}

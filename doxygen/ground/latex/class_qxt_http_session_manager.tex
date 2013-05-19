@@ -1,0 +1,433 @@
+\hypertarget{class_qxt_http_session_manager}{\section{Qxt\-Http\-Session\-Manager Class Reference}
+\label{class_qxt_http_session_manager}\index{Qxt\-Http\-Session\-Manager@{Qxt\-Http\-Session\-Manager}}
+}
+
+
+The \hyperlink{class_qxt_http_session_manager}{Qxt\-Http\-Session\-Manager} class provides a session manager for H\-T\-T\-P-\/based protocols.  
+
+
+
+
+{\ttfamily \#include $<$qxthttpsessionmanager.\-h$>$}
+
+Inheritance diagram for Qxt\-Http\-Session\-Manager\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{class_qxt_http_session_manager}
+\end{center}
+\end{figure}
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{class_qxt_http_session_manager_ab2d71d18915557dfea9d009f7af4f9ca}{Connector} \{ \hyperlink{class_qxt_http_session_manager_ab2d71d18915557dfea9d009f7af4f9caa267ac7f6101025fecd24680dd7906d36}{Http\-Server}, 
+\hyperlink{class_qxt_http_session_manager_ab2d71d18915557dfea9d009f7af4f9caa924c171201daa1f8020d166e82273120}{Scgi}, 
+\hyperlink{class_qxt_http_session_manager_ab2d71d18915557dfea9d009f7af4f9caa708933f0a42526dfd5d8cd6a788741bc}{Fcgi}
+ \}
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_qxt_http_session_manager_af373aadbd465f9cd67f082896cbe0434}{Qxt\-Http\-Session\-Manager} (Q\-Object $\ast$parent=0)
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qxt_http_session_manager_a47be06e6ea47d6436ec51f93face1aef}{post\-Event} (\hyperlink{class_qxt_web_event}{Qxt\-Web\-Event} $\ast$)
+\item 
+Q\-Host\-Address \hyperlink{class_qxt_http_session_manager_a4a9aef668ca865f93a205a6a9d9ea3d7}{listen\-Interface} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qxt_http_session_manager_a14cedbca64308c161836b9df5989a070}{set\-Listen\-Interface} (const Q\-Host\-Address \&iface)
+\item 
+quint16 \hyperlink{class_qxt_http_session_manager_a21e74646ca644ac633a49ff8b10f10a4}{port} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qxt_http_session_manager_a6493c537ab1f5c17d1dee38239c226ef}{set\-Port} (quint16 \hyperlink{classport}{port})
+\item 
+Q\-Byte\-Array \hyperlink{class_qxt_http_session_manager_a4e796d3c34faeb8095e735a46c21d77a}{session\-Cookie\-Name} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qxt_http_session_manager_a7151bc280725d5b8e1dc8719217cbab1}{set\-Session\-Cookie\-Name} (const Q\-Byte\-Array \&\hyperlink{glext_8h_ad977737dfc9a274a62741b9500c49a32}{name})
+\item 
+bool \hyperlink{class_qxt_http_session_manager_a7a684af0adc9612b10d92806c090d31e}{auto\-Create\-Session} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qxt_http_session_manager_aac59da27448b44f30c9956fd56fb9ad9}{set\-Auto\-Create\-Session} (bool enable)
+\item 
+\hyperlink{class_qxt_abstract_web_service}{Qxt\-Abstract\-Web\-Service} $\ast$ \hyperlink{class_qxt_http_session_manager_ab79d2b8a0c7e89fd869799e6382f6d17}{static\-Content\-Service} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qxt_http_session_manager_a2fbe3f7c2bbe85c90deca2843b5b8610}{set\-Static\-Content\-Service} (\hyperlink{class_qxt_abstract_web_service}{Qxt\-Abstract\-Web\-Service} $\ast$service)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qxt_http_session_manager_aa4365b77750d34b5edd38a0729ec028e}{set\-Connector} (\hyperlink{class_qxt_abstract_http_connector}{Qxt\-Abstract\-Http\-Connector} $\ast$\hyperlink{class_qxt_http_session_manager_a9d6ec979fb50b26120ca11e9dfdb7c2b}{connector})
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qxt_http_session_manager_a6fb6d4d9ead55218b6c76c1f7cbbcf61}{set\-Connector} (\hyperlink{class_qxt_http_session_manager_ab2d71d18915557dfea9d009f7af4f9ca}{Connector} \hyperlink{class_qxt_http_session_manager_a9d6ec979fb50b26120ca11e9dfdb7c2b}{connector})
+\item 
+\hyperlink{class_qxt_abstract_http_connector}{Qxt\-Abstract\-Http\-Connector} $\ast$ \hyperlink{class_qxt_http_session_manager_a9d6ec979fb50b26120ca11e9dfdb7c2b}{connector} () const 
+\item 
+virtual bool \hyperlink{class_qxt_http_session_manager_ab69e72d7fbabb35d88fc7969aa1c2458}{start} ()
+\end{DoxyCompactItemize}
+\subsection*{Protected Slots}
+\begin{DoxyCompactItemize}
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qxt_http_session_manager_a072d11b7d58cbf20e47b1524f2509c86}{process\-Events} ()
+\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_qxt_http_session_manager_ac7f39616d3082155f9a9467ec750a092}{new\-Session} ()
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qxt_http_session_manager_a5a21b13209f7dbc2b206191e4bd890a7}{incoming\-Request} (quint32 request\-I\-D, const Q\-Http\-Request\-Header \&\hyperlink{crypt_8h_ae4f2f0852899a81dcd9b8a02e559f0f7}{header}, \hyperlink{class_qxt_web_content}{Qxt\-Web\-Content} $\ast$device)
+\end{DoxyCompactItemize}
+\subsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{class_qxt_http_session_manager_a09c9a20cde2bc4b51280cff5807a1bc8}{Qxt\-Abstract\-Http\-Connector}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+The \hyperlink{class_qxt_http_session_manager}{Qxt\-Http\-Session\-Manager} class provides a session manager for H\-T\-T\-P-\/based protocols. 
+
+Qxt\-Web
+
+\hyperlink{class_qxt_http_session_manager}{Qxt\-Http\-Session\-Manager} is a Qxt\-Web session manager that adds session management support to the normally stateless H\-T\-T\-P model.
+
+In addition to session management, \hyperlink{class_qxt_http_session_manager}{Qxt\-Http\-Session\-Manager} also supports a static service, which can serve content that does not require session management, such as static web pages. The static service is also used to respond to H\-T\-T\-P/0.\-9 clients that do not support cookies and H\-T\-T\-P/1.\-0 and H\-T\-T\-P/1.\-1 clients that are rejecting cookies. If no static service is provided, these clients will only see an \char`\"{}\-Internal Configuration Error\char`\"{}, so it is recommended to supply a static service, even one that only returns a more useful error message.
+
+\hyperlink{class_qxt_http_session_manager}{Qxt\-Http\-Session\-Manager} attempts to be thread-\/safe in accepting connections and posting events. It is reentrant for all other functionality.
+
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qxt_abstract_web_service}{Qxt\-Abstract\-Web\-Service} 
+\end{DoxySeeAlso}
+
+
+Definition at line 37 of file qxthttpsessionmanager.\-h.
+
+
+
+\subsection{Member Enumeration Documentation}
+\hypertarget{class_qxt_http_session_manager_ab2d71d18915557dfea9d009f7af4f9ca}{\index{Qxt\-Http\-Session\-Manager@{Qxt\-Http\-Session\-Manager}!Connector@{Connector}}
+\index{Connector@{Connector}!QxtHttpSessionManager@{Qxt\-Http\-Session\-Manager}}
+\subsubsection[{Connector}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf Qxt\-Http\-Session\-Manager\-::\-Connector}}}\label{class_qxt_http_session_manager_ab2d71d18915557dfea9d009f7af4f9ca}
+\begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{Http\-Server@{Http\-Server}!Qxt\-Http\-Session\-Manager@{Qxt\-Http\-Session\-Manager}}\index{Qxt\-Http\-Session\-Manager@{Qxt\-Http\-Session\-Manager}!Http\-Server@{Http\-Server}}\item[{\em 
+\hypertarget{class_qxt_http_session_manager_ab2d71d18915557dfea9d009f7af4f9caa267ac7f6101025fecd24680dd7906d36}{Http\-Server}\label{class_qxt_http_session_manager_ab2d71d18915557dfea9d009f7af4f9caa267ac7f6101025fecd24680dd7906d36}
+}]\index{Scgi@{Scgi}!Qxt\-Http\-Session\-Manager@{Qxt\-Http\-Session\-Manager}}\index{Qxt\-Http\-Session\-Manager@{Qxt\-Http\-Session\-Manager}!Scgi@{Scgi}}\item[{\em 
+\hypertarget{class_qxt_http_session_manager_ab2d71d18915557dfea9d009f7af4f9caa924c171201daa1f8020d166e82273120}{Scgi}\label{class_qxt_http_session_manager_ab2d71d18915557dfea9d009f7af4f9caa924c171201daa1f8020d166e82273120}
+}]\index{Fcgi@{Fcgi}!Qxt\-Http\-Session\-Manager@{Qxt\-Http\-Session\-Manager}}\index{Qxt\-Http\-Session\-Manager@{Qxt\-Http\-Session\-Manager}!Fcgi@{Fcgi}}\item[{\em 
+\hypertarget{class_qxt_http_session_manager_ab2d71d18915557dfea9d009f7af4f9caa708933f0a42526dfd5d8cd6a788741bc}{Fcgi}\label{class_qxt_http_session_manager_ab2d71d18915557dfea9d009f7af4f9caa708933f0a42526dfd5d8cd6a788741bc}
+}]\end{description}
+\end{Desc}
+
+
+Definition at line 42 of file qxthttpsessionmanager.\-h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_qxt_http_session_manager_af373aadbd465f9cd67f082896cbe0434}{\index{Qxt\-Http\-Session\-Manager@{Qxt\-Http\-Session\-Manager}!Qxt\-Http\-Session\-Manager@{Qxt\-Http\-Session\-Manager}}
+\index{Qxt\-Http\-Session\-Manager@{Qxt\-Http\-Session\-Manager}!QxtHttpSessionManager@{Qxt\-Http\-Session\-Manager}}
+\subsubsection[{Qxt\-Http\-Session\-Manager}]{\setlength{\rightskip}{0pt plus 5cm}Qxt\-Http\-Session\-Manager\-::\-Qxt\-Http\-Session\-Manager (
+\begin{DoxyParamCaption}
+\item[{Q\-Object $\ast$}]{parent = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)}}\label{class_qxt_http_session_manager_af373aadbd465f9cd67f082896cbe0434}
+Constructs a new \hyperlink{class_qxt_http_session_manager}{Qxt\-Http\-Session\-Manager} with the specified {\itshape parent}. 
+
+Definition at line 107 of file qxthttpsessionmanager.\-cpp.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_qxt_http_session_manager_a7a684af0adc9612b10d92806c090d31e}{\index{Qxt\-Http\-Session\-Manager@{Qxt\-Http\-Session\-Manager}!auto\-Create\-Session@{auto\-Create\-Session}}
+\index{auto\-Create\-Session@{auto\-Create\-Session}!QxtHttpSessionManager@{Qxt\-Http\-Session\-Manager}}
+\subsubsection[{auto\-Create\-Session}]{\setlength{\rightskip}{0pt plus 5cm}bool Qxt\-Http\-Session\-Manager\-::auto\-Create\-Session (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_qxt_http_session_manager_a7a684af0adc9612b10d92806c090d31e}
+Returns {\ttfamily true} if sessions are automatically created for every connection that does not already have a session cookie associated with it; otherwise returns {\ttfamily false}. \begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qxt_http_session_manager_aac59da27448b44f30c9956fd56fb9ad9}{set\-Auto\-Create\-Session} 
+\end{DoxySeeAlso}
+
+
+Definition at line 236 of file qxthttpsessionmanager.\-cpp.
+
+\hypertarget{class_qxt_http_session_manager_a9d6ec979fb50b26120ca11e9dfdb7c2b}{\index{Qxt\-Http\-Session\-Manager@{Qxt\-Http\-Session\-Manager}!connector@{connector}}
+\index{connector@{connector}!QxtHttpSessionManager@{Qxt\-Http\-Session\-Manager}}
+\subsubsection[{connector}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Qxt\-Abstract\-Http\-Connector} $\ast$ Qxt\-Http\-Session\-Manager\-::connector (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_qxt_http_session_manager_a9d6ec979fb50b26120ca11e9dfdb7c2b}
+Returns the connector used to manage connections to web browsers. \begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qxt_http_session_manager_aa4365b77750d34b5edd38a0729ec028e}{set\-Connector} 
+\end{DoxySeeAlso}
+
+
+Definition at line 225 of file qxthttpsessionmanager.\-cpp.
+
+\hypertarget{class_qxt_http_session_manager_a5a21b13209f7dbc2b206191e4bd890a7}{\index{Qxt\-Http\-Session\-Manager@{Qxt\-Http\-Session\-Manager}!incoming\-Request@{incoming\-Request}}
+\index{incoming\-Request@{incoming\-Request}!QxtHttpSessionManager@{Qxt\-Http\-Session\-Manager}}
+\subsubsection[{incoming\-Request}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qxt\-Http\-Session\-Manager\-::incoming\-Request (
+\begin{DoxyParamCaption}
+\item[{quint32}]{request\-I\-D, }
+\item[{const Q\-Http\-Request\-Header \&}]{header, }
+\item[{{\bf Qxt\-Web\-Content} $\ast$}]{content}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}}\label{class_qxt_http_session_manager_a5a21b13209f7dbc2b206191e4bd890a7}
+Handles incoming H\-T\-T\-P requests and dispatches them to the appropriate service.
+
+The {\itshape request\-I\-D} is an opaque value generated by the connector.
+
+Subclasses may override this function to perform preprocessing on each request, but they must call the base class implementation in order to generate and dispatch the appropriate events. 
+
+Definition at line 323 of file qxthttpsessionmanager.\-cpp.
+
+\hypertarget{class_qxt_http_session_manager_a4a9aef668ca865f93a205a6a9d9ea3d7}{\index{Qxt\-Http\-Session\-Manager@{Qxt\-Http\-Session\-Manager}!listen\-Interface@{listen\-Interface}}
+\index{listen\-Interface@{listen\-Interface}!QxtHttpSessionManager@{Qxt\-Http\-Session\-Manager}}
+\subsubsection[{listen\-Interface}]{\setlength{\rightskip}{0pt plus 5cm}Q\-Host\-Address Qxt\-Http\-Session\-Manager\-::listen\-Interface (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_qxt_http_session_manager_a4a9aef668ca865f93a205a6a9d9ea3d7}
+Returns the interface on which the session manager will listen for incoming connections. \begin{DoxySeeAlso}{See Also}
+set\-Interface 
+\end{DoxySeeAlso}
+
+
+Definition at line 117 of file qxthttpsessionmanager.\-cpp.
+
+\hypertarget{class_qxt_http_session_manager_ac7f39616d3082155f9a9467ec750a092}{\index{Qxt\-Http\-Session\-Manager@{Qxt\-Http\-Session\-Manager}!new\-Session@{new\-Session}}
+\index{new\-Session@{new\-Session}!QxtHttpSessionManager@{Qxt\-Http\-Session\-Manager}}
+\subsubsection[{new\-Session}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int} Qxt\-Http\-Session\-Manager\-::new\-Session (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}}\label{class_qxt_http_session_manager_ac7f39616d3082155f9a9467ec750a092}
+Creates a new session and sends the session key to the web browser.
+
+Subclasses may override this function to perform custom session initialization, but they must call the base class implementation in order to update the internal session database and fetch a new session I\-D. 
+
+Definition at line 299 of file qxthttpsessionmanager.\-cpp.
+
+\hypertarget{class_qxt_http_session_manager_a21e74646ca644ac633a49ff8b10f10a4}{\index{Qxt\-Http\-Session\-Manager@{Qxt\-Http\-Session\-Manager}!port@{port}}
+\index{port@{port}!QxtHttpSessionManager@{Qxt\-Http\-Session\-Manager}}
+\subsubsection[{port}]{\setlength{\rightskip}{0pt plus 5cm}quint16 Qxt\-Http\-Session\-Manager\-::port (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_qxt_http_session_manager_a21e74646ca644ac633a49ff8b10f10a4}
+Returns the port on which the session manager will listen for incoming connections. \begin{DoxySeeAlso}{See Also}
+set\-Interface 
+\end{DoxySeeAlso}
+
+
+Definition at line 140 of file qxthttpsessionmanager.\-cpp.
+
+\hypertarget{class_qxt_http_session_manager_a47be06e6ea47d6436ec51f93face1aef}{\index{Qxt\-Http\-Session\-Manager@{Qxt\-Http\-Session\-Manager}!post\-Event@{post\-Event}}
+\index{post\-Event@{post\-Event}!QxtHttpSessionManager@{Qxt\-Http\-Session\-Manager}}
+\subsubsection[{post\-Event}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qxt\-Http\-Session\-Manager\-::post\-Event (
+\begin{DoxyParamCaption}
+\item[{{\bf Qxt\-Web\-Event} $\ast$}]{h}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_qxt_http_session_manager_a47be06e6ea47d6436ec51f93face1aef}
+
+
+Implements \hyperlink{class_qxt_abstract_web_session_manager_a39940ff7c93e5694b979a494b9516f3c}{Qxt\-Abstract\-Web\-Session\-Manager}.
+
+
+
+Definition at line 283 of file qxthttpsessionmanager.\-cpp.
+
+\hypertarget{class_qxt_http_session_manager_a072d11b7d58cbf20e47b1524f2509c86}{\index{Qxt\-Http\-Session\-Manager@{Qxt\-Http\-Session\-Manager}!process\-Events@{process\-Events}}
+\index{process\-Events@{process\-Events}!QxtHttpSessionManager@{Qxt\-Http\-Session\-Manager}}
+\subsubsection[{process\-Events}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qxt\-Http\-Session\-Manager\-::process\-Events (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}, {\ttfamily [slot]}}}\label{class_qxt_http_session_manager_a072d11b7d58cbf20e47b1524f2509c86}
+
+
+Definition at line 414 of file qxthttpsessionmanager.\-cpp.
+
+\hypertarget{class_qxt_http_session_manager_a4e796d3c34faeb8095e735a46c21d77a}{\index{Qxt\-Http\-Session\-Manager@{Qxt\-Http\-Session\-Manager}!session\-Cookie\-Name@{session\-Cookie\-Name}}
+\index{session\-Cookie\-Name@{session\-Cookie\-Name}!QxtHttpSessionManager@{Qxt\-Http\-Session\-Manager}}
+\subsubsection[{session\-Cookie\-Name}]{\setlength{\rightskip}{0pt plus 5cm}Q\-Byte\-Array Qxt\-Http\-Session\-Manager\-::session\-Cookie\-Name (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_qxt_http_session_manager_a4e796d3c34faeb8095e735a46c21d77a}
+Returns the name of the H\-T\-T\-P cookie used to track sessions in the web browser. \begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qxt_http_session_manager_a7151bc280725d5b8e1dc8719217cbab1}{set\-Session\-Cookie\-Name} 
+\end{DoxySeeAlso}
+
+
+Definition at line 172 of file qxthttpsessionmanager.\-cpp.
+
+\hypertarget{class_qxt_http_session_manager_aac59da27448b44f30c9956fd56fb9ad9}{\index{Qxt\-Http\-Session\-Manager@{Qxt\-Http\-Session\-Manager}!set\-Auto\-Create\-Session@{set\-Auto\-Create\-Session}}
+\index{set\-Auto\-Create\-Session@{set\-Auto\-Create\-Session}!QxtHttpSessionManager@{Qxt\-Http\-Session\-Manager}}
+\subsubsection[{set\-Auto\-Create\-Session}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qxt\-Http\-Session\-Manager\-::set\-Auto\-Create\-Session (
+\begin{DoxyParamCaption}
+\item[{bool}]{enable}
+\end{DoxyParamCaption}
+)}}\label{class_qxt_http_session_manager_aac59da27448b44f30c9956fd56fb9ad9}
+Sets {\itshape enabled} whether sessions are automatically created for every connection that does not already have a session cookie associated with it.
+
+Sessions are only created for clients that support H\-T\-T\-P cookies. H\-T\-T\-P/0.\-9 clients will never generate a session.
+
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qxt_http_session_manager_a7a684af0adc9612b10d92806c090d31e}{auto\-Create\-Session} 
+\end{DoxySeeAlso}
+
+
+Definition at line 250 of file qxthttpsessionmanager.\-cpp.
+
+\hypertarget{class_qxt_http_session_manager_aa4365b77750d34b5edd38a0729ec028e}{\index{Qxt\-Http\-Session\-Manager@{Qxt\-Http\-Session\-Manager}!set\-Connector@{set\-Connector}}
+\index{set\-Connector@{set\-Connector}!QxtHttpSessionManager@{Qxt\-Http\-Session\-Manager}}
+\subsubsection[{set\-Connector}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qxt\-Http\-Session\-Manager\-::set\-Connector (
+\begin{DoxyParamCaption}
+\item[{{\bf Qxt\-Abstract\-Http\-Connector} $\ast$}]{connector}
+\end{DoxyParamCaption}
+)}}\label{class_qxt_http_session_manager_aa4365b77750d34b5edd38a0729ec028e}
+Sets the {\itshape connector} used to manage connections to web browsers.
+
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qxt_http_session_manager_a9d6ec979fb50b26120ca11e9dfdb7c2b}{connector} 
+\end{DoxySeeAlso}
+
+
+Definition at line 194 of file qxthttpsessionmanager.\-cpp.
+
+\hypertarget{class_qxt_http_session_manager_a6fb6d4d9ead55218b6c76c1f7cbbcf61}{\index{Qxt\-Http\-Session\-Manager@{Qxt\-Http\-Session\-Manager}!set\-Connector@{set\-Connector}}
+\index{set\-Connector@{set\-Connector}!QxtHttpSessionManager@{Qxt\-Http\-Session\-Manager}}
+\subsubsection[{set\-Connector}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qxt\-Http\-Session\-Manager\-::set\-Connector (
+\begin{DoxyParamCaption}
+\item[{{\bf Connector}}]{connector}
+\end{DoxyParamCaption}
+)}}\label{class_qxt_http_session_manager_a6fb6d4d9ead55218b6c76c1f7cbbcf61}
+Sets the {\itshape connector} used to manage connections to web browsers.
+
+This overload is provided for convenience and can construct the predefined connectors provided with Qxt.
+
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qxt_http_session_manager_a9d6ec979fb50b26120ca11e9dfdb7c2b}{connector} 
+\end{DoxySeeAlso}
+
+
+Definition at line 208 of file qxthttpsessionmanager.\-cpp.
+
+\hypertarget{class_qxt_http_session_manager_a14cedbca64308c161836b9df5989a070}{\index{Qxt\-Http\-Session\-Manager@{Qxt\-Http\-Session\-Manager}!set\-Listen\-Interface@{set\-Listen\-Interface}}
+\index{set\-Listen\-Interface@{set\-Listen\-Interface}!QxtHttpSessionManager@{Qxt\-Http\-Session\-Manager}}
+\subsubsection[{set\-Listen\-Interface}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qxt\-Http\-Session\-Manager\-::set\-Listen\-Interface (
+\begin{DoxyParamCaption}
+\item[{const Q\-Host\-Address \&}]{iface}
+\end{DoxyParamCaption}
+)}}\label{class_qxt_http_session_manager_a14cedbca64308c161836b9df5989a070}
+Sets the interface {\itshape iface} on which the session manager will listen for incoming connections.
+
+The default value is Q\-Host\-Address\-::\-Any, which will cause the session manager to listen on all network interfaces.
+
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qxt_abstract_http_connector_acda112d498fcb274bd843aca5deea365}{Qxt\-Abstract\-Http\-Connector\-::listen} 
+\end{DoxySeeAlso}
+
+
+Definition at line 131 of file qxthttpsessionmanager.\-cpp.
+
+\hypertarget{class_qxt_http_session_manager_a6493c537ab1f5c17d1dee38239c226ef}{\index{Qxt\-Http\-Session\-Manager@{Qxt\-Http\-Session\-Manager}!set\-Port@{set\-Port}}
+\index{set\-Port@{set\-Port}!QxtHttpSessionManager@{Qxt\-Http\-Session\-Manager}}
+\subsubsection[{set\-Port}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qxt\-Http\-Session\-Manager\-::set\-Port (
+\begin{DoxyParamCaption}
+\item[{quint16}]{port}
+\end{DoxyParamCaption}
+)}}\label{class_qxt_http_session_manager_a6493c537ab1f5c17d1dee38239c226ef}
+Sets the {\itshape port} on which the session manager will listen for incoming connections.
+
+The default value is to listen on port 80. This is an acceptable value when using \hyperlink{class_qxt_http_server_connector}{Qxt\-Http\-Server\-Connector}, but it is not likely to be desirable for other connectors.
+
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{classport}{port} 
+\end{DoxySeeAlso}
+
+
+Definition at line 154 of file qxthttpsessionmanager.\-cpp.
+
+\hypertarget{class_qxt_http_session_manager_a7151bc280725d5b8e1dc8719217cbab1}{\index{Qxt\-Http\-Session\-Manager@{Qxt\-Http\-Session\-Manager}!set\-Session\-Cookie\-Name@{set\-Session\-Cookie\-Name}}
+\index{set\-Session\-Cookie\-Name@{set\-Session\-Cookie\-Name}!QxtHttpSessionManager@{Qxt\-Http\-Session\-Manager}}
+\subsubsection[{set\-Session\-Cookie\-Name}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qxt\-Http\-Session\-Manager\-::set\-Session\-Cookie\-Name (
+\begin{DoxyParamCaption}
+\item[{const Q\-Byte\-Array \&}]{name}
+\end{DoxyParamCaption}
+)}}\label{class_qxt_http_session_manager_a7151bc280725d5b8e1dc8719217cbab1}
+Sets the {\itshape name} of the H\-T\-T\-P cookie used to track sessions in the web browser.
+
+The default value is \char`\"{}session\-I\-D\char`\"{}.
+
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qxt_http_session_manager_a4e796d3c34faeb8095e735a46c21d77a}{session\-Cookie\-Name} 
+\end{DoxySeeAlso}
+
+
+Definition at line 184 of file qxthttpsessionmanager.\-cpp.
+
+\hypertarget{class_qxt_http_session_manager_a2fbe3f7c2bbe85c90deca2843b5b8610}{\index{Qxt\-Http\-Session\-Manager@{Qxt\-Http\-Session\-Manager}!set\-Static\-Content\-Service@{set\-Static\-Content\-Service}}
+\index{set\-Static\-Content\-Service@{set\-Static\-Content\-Service}!QxtHttpSessionManager@{Qxt\-Http\-Session\-Manager}}
+\subsubsection[{set\-Static\-Content\-Service}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qxt\-Http\-Session\-Manager\-::set\-Static\-Content\-Service (
+\begin{DoxyParamCaption}
+\item[{{\bf Qxt\-Abstract\-Web\-Service} $\ast$}]{service}
+\end{DoxyParamCaption}
+)}}\label{class_qxt_http_session_manager_a2fbe3f7c2bbe85c90deca2843b5b8610}
+Sets the {\itshape service} that is used to respond to requests from connections that are not associated with a session.
+
+If no static content service is set, connections that are not associated with a session will receive an \char`\"{}\-Internal Configuration Error\char`\"{}.
+
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qxt_http_session_manager_ab79d2b8a0c7e89fd869799e6382f6d17}{static\-Content\-Service} 
+\end{DoxySeeAlso}
+
+
+Definition at line 275 of file qxthttpsessionmanager.\-cpp.
+
+\hypertarget{class_qxt_http_session_manager_ab69e72d7fbabb35d88fc7969aa1c2458}{\index{Qxt\-Http\-Session\-Manager@{Qxt\-Http\-Session\-Manager}!start@{start}}
+\index{start@{start}!QxtHttpSessionManager@{Qxt\-Http\-Session\-Manager}}
+\subsubsection[{start}]{\setlength{\rightskip}{0pt plus 5cm}bool Qxt\-Http\-Session\-Manager\-::start (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_qxt_http_session_manager_ab69e72d7fbabb35d88fc7969aa1c2458}
+
+
+Implements \hyperlink{class_qxt_abstract_web_session_manager_a7073788d4579dea02455bab7fcd45aff}{Qxt\-Abstract\-Web\-Session\-Manager}.
+
+
+
+Definition at line 162 of file qxthttpsessionmanager.\-cpp.
+
+\hypertarget{class_qxt_http_session_manager_ab79d2b8a0c7e89fd869799e6382f6d17}{\index{Qxt\-Http\-Session\-Manager@{Qxt\-Http\-Session\-Manager}!static\-Content\-Service@{static\-Content\-Service}}
+\index{static\-Content\-Service@{static\-Content\-Service}!QxtHttpSessionManager@{Qxt\-Http\-Session\-Manager}}
+\subsubsection[{static\-Content\-Service}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Qxt\-Abstract\-Web\-Service} $\ast$ Qxt\-Http\-Session\-Manager\-::static\-Content\-Service (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_qxt_http_session_manager_ab79d2b8a0c7e89fd869799e6382f6d17}
+Returns the \hyperlink{class_qxt_abstract_web_service}{Qxt\-Abstract\-Web\-Service} that is used to respond to requests from connections that are not associated with a session.
+
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qxt_http_session_manager_a2fbe3f7c2bbe85c90deca2843b5b8610}{set\-Static\-Content\-Service} 
+\end{DoxySeeAlso}
+
+
+Definition at line 261 of file qxthttpsessionmanager.\-cpp.
+
+
+
+\subsection{Friends And Related Function Documentation}
+\hypertarget{class_qxt_http_session_manager_a09c9a20cde2bc4b51280cff5807a1bc8}{\index{Qxt\-Http\-Session\-Manager@{Qxt\-Http\-Session\-Manager}!Qxt\-Abstract\-Http\-Connector@{Qxt\-Abstract\-Http\-Connector}}
+\index{Qxt\-Abstract\-Http\-Connector@{Qxt\-Abstract\-Http\-Connector}!QxtHttpSessionManager@{Qxt\-Http\-Session\-Manager}}
+\subsubsection[{Qxt\-Abstract\-Http\-Connector}]{\setlength{\rightskip}{0pt plus 5cm}friend class {\bf Qxt\-Abstract\-Http\-Connector}\hspace{0.3cm}{\ttfamily [friend]}}}\label{class_qxt_http_session_manager_a09c9a20cde2bc4b51280cff5807a1bc8}
+
+
+Definition at line 39 of file qxthttpsessionmanager.\-h.
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/libqxt/src/web/\hyperlink{qxthttpsessionmanager_8h}{qxthttpsessionmanager.\-h}\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/libqxt/src/web/\hyperlink{qxthttpsessionmanager_8cpp}{qxthttpsessionmanager.\-cpp}\end{DoxyCompactItemize}

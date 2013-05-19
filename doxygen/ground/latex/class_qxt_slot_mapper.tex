@@ -1,0 +1,54 @@
+\hypertarget{class_qxt_slot_mapper}{\section{Qxt\-Slot\-Mapper Class Reference}
+\label{class_qxt_slot_mapper}\index{Qxt\-Slot\-Mapper@{Qxt\-Slot\-Mapper}}
+}
+
+
+The \hyperlink{class_qxt_slot_mapper}{Qxt\-Slot\-Mapper} class maps signals with a parameter to certain slots.  
+
+
+
+
+{\ttfamily \#include $<$qxtslotmapper.\-h$>$}
+
+Inheritance diagram for Qxt\-Slot\-Mapper\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_qxt_slot_mapper}
+\end{center}
+\end{figure}
+
+
+\subsection{Detailed Description}
+The \hyperlink{class_qxt_slot_mapper}{Qxt\-Slot\-Mapper} class maps signals with a parameter to certain slots. 
+
+Qxt\-Core \hyperlink{class_qxt_slot_mapper}{Qxt\-Slot\-Mapper} is the counterpart of Q\-Signal\-Mapper. Where Q\-Signal\-Mapper maps a parameterless signal into one that has a parameter based on the sender, \hyperlink{class_qxt_slot_mapper}{Qxt\-Slot\-Mapper} maps a signal with a parameter to a specified slot and receiver based on that parameter.
+
+The parameter comparison is based on Q\-Variant\-::operator==(). Thus, any built-\/in Qt type supported by Q\-Variant and Q\-Meta\-Type is supported.
+
+\begin{DoxySeeAlso}{See Also}
+Q\-Variant, Q\-Meta\-Type\-::\-Type
+\end{DoxySeeAlso}
+Example usage\-: 
+\begin{DoxyCode}
+\hyperlink{class_qxt_slot_mapper}{QxtSlotMapper} mapper;
+mapper.connect(sender, SIGNAL(signal1(\textcolor{keywordtype}{int})));
+mapper.connect(sender, SIGNAL(signal2(\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{QString})));
+
+mapper.addMapping(3, receiver1, SLOT(slot1(\textcolor{keywordtype}{int})));
+mapper.addMapping(\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{QString}(\textcolor{stringliteral}{"abc"}), receiver2, SLOT(slot2(\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{QString})));
+\end{DoxyCode}
+
+
+\begin{DoxySeeAlso}{See Also}
+Q\-Signal\-Mapper 
+\end{DoxySeeAlso}
+
+
+Definition at line 33 of file qxtslotmapper.\-h.
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/libqxt/src/core/\hyperlink{qxtslotmapper_8h}{qxtslotmapper.\-h}\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/libqxt/src/core/\hyperlink{qxtslotmapper_8cpp}{qxtslotmapper.\-cpp}\end{DoxyCompactItemize}

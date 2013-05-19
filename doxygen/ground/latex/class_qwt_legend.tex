@@ -1,0 +1,468 @@
+\hypertarget{class_qwt_legend}{\section{Qwt\-Legend Class Reference}
+\label{class_qwt_legend}\index{Qwt\-Legend@{Qwt\-Legend}}
+}
+
+
+The legend widget.  
+
+
+
+
+{\ttfamily \#include $<$qwt\-\_\-legend.\-h$>$}
+
+Inheritance diagram for Qwt\-Legend\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_qwt_legend}
+\end{center}
+\end{figure}
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{class_qwt_legend_1_1_private_data}{Private\-Data}
+\end{DoxyCompactItemize}
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{class_qwt_legend_ab216dd2dba9ebf6cb0ed2dd621a652e0}{Legend\-Item\-Mode} \{ \hyperlink{class_qwt_legend_ab216dd2dba9ebf6cb0ed2dd621a652e0a82869bcd75310e861ae9257677185186}{Read\-Only\-Item}, 
+\hyperlink{class_qwt_legend_ab216dd2dba9ebf6cb0ed2dd621a652e0a90b6ea3ca504d7548cf92cf1c2db60ac}{Clickable\-Item}, 
+\hyperlink{class_qwt_legend_ab216dd2dba9ebf6cb0ed2dd621a652e0a035a03d742b4e4f8ab13f435b8954237}{Checkable\-Item}
+ \}
+\begin{DoxyCompactList}\small\item\em Interaction mode for the legend items. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_qwt_legend_adf5a64070a546eaac36fc9afac56b7fb}{Qwt\-Legend} (Q\-Widget $\ast$parent=N\-U\-L\-L)
+\item 
+virtual \hyperlink{class_qwt_legend_a2dd3bc628652909b74e7ddb5db021ea5}{$\sim$\-Qwt\-Legend} ()
+\begin{DoxyCompactList}\small\item\em Destructor. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_legend_aedd86919e56a407bcdd2ae867a672dd1}{set\-Item\-Mode} (\hyperlink{class_qwt_legend_ab216dd2dba9ebf6cb0ed2dd621a652e0}{Legend\-Item\-Mode})
+\item 
+\hyperlink{class_qwt_legend_ab216dd2dba9ebf6cb0ed2dd621a652e0}{Legend\-Item\-Mode} \hyperlink{class_qwt_legend_a463c5542c6547c04050c912a5e500155}{item\-Mode} () const 
+\item 
+Q\-Widget $\ast$ \hyperlink{class_qwt_legend_aa52edeceb553ae703516c984f34d7ab7}{contents\-Widget} ()
+\item 
+const Q\-Widget $\ast$ \hyperlink{class_qwt_legend_acd680c0f17f4184e10a3d3136b9836f5}{contents\-Widget} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_legend_af736d6053c6e891ad4579aa83b1a705d}{insert} (const \hyperlink{class_qwt_legend_item_manager}{Qwt\-Legend\-Item\-Manager} $\ast$, Q\-Widget $\ast$)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_legend_a562535312e3d65616bc63d35a2ec5b7b}{remove} (const \hyperlink{class_qwt_legend_item_manager}{Qwt\-Legend\-Item\-Manager} $\ast$)
+\item 
+Q\-Widget $\ast$ \hyperlink{class_qwt_legend_a298233007938249f98e728256a2e6a59}{find} (const \hyperlink{class_qwt_legend_item_manager}{Qwt\-Legend\-Item\-Manager} $\ast$) const 
+\item 
+\hyperlink{class_qwt_legend_item_manager}{Qwt\-Legend\-Item\-Manager} $\ast$ \hyperlink{class_qwt_legend_abb1273941e19ac7d0a3e2f398228ed65}{find} (const Q\-Widget $\ast$) const 
+\item 
+virtual \hyperlink{class_q_list}{Q\-List}$<$ Q\-Widget $\ast$ $>$ \hyperlink{class_qwt_legend_ab0eb76b6c4f50257ba0219e57332045e}{legend\-Items} () const 
+\begin{DoxyCompactList}\small\item\em Return a list of all legend items. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_legend_a084177665b32798903176de57d962c6e}{clear} ()
+\begin{DoxyCompactList}\small\item\em Remove all items. \end{DoxyCompactList}\item 
+bool \hyperlink{class_qwt_legend_a6ff50cb1e388a7da2a59709eef83be20}{is\-Empty} () const 
+\begin{DoxyCompactList}\small\item\em Return true, if there are no legend items. \end{DoxyCompactList}\item 
+uint \hyperlink{class_qwt_legend_ac8d57d90bb41aa2d69c7411a20febdda}{item\-Count} () const 
+\begin{DoxyCompactList}\small\item\em Return the number of legend items. \end{DoxyCompactList}\item 
+virtual bool \hyperlink{class_qwt_legend_ade86e158b8254fe76d42e85f9808c827}{event\-Filter} (Q\-Object $\ast$, Q\-Event $\ast$)
+\item 
+virtual Q\-Size \hyperlink{class_qwt_legend_a2517a7d9d78ab7a3892125ecf755f33f}{size\-Hint} () const 
+\begin{DoxyCompactList}\small\item\em Return a size hint. \end{DoxyCompactList}\item 
+virtual \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_qwt_legend_a273ec258209c42f57b154ff4da61e1d0}{height\-For\-Width} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{glext_8h_ac1795f3b2fee217274b85c2750e1a889}{w}) const 
+\item 
+Q\-Scroll\-Bar $\ast$ \hyperlink{class_qwt_legend_a40dab44d47921da18a925e8fcc8d6870}{horizontal\-Scroll\-Bar} () const 
+\item 
+Q\-Scroll\-Bar $\ast$ \hyperlink{class_qwt_legend_a494758e3d7ab688c59989da52e7e97cf}{vertical\-Scroll\-Bar} () const 
+\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_legend_ac44118481db62143950a7c74bc2832ab}{layout\-Contents} ()
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+The legend widget. 
+
+The \hyperlink{class_qwt_legend}{Qwt\-Legend} widget is a tabular arrangement of legend items. Legend items might be any type of widget, but in general they will be a \hyperlink{class_qwt_legend_item}{Qwt\-Legend\-Item}.
+
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_legend_item}{Qwt\-Legend\-Item}, \hyperlink{class_qwt_legend_item_manager}{Qwt\-Legend\-Item\-Manager} \hyperlink{class_qwt_plot}{Qwt\-Plot} 
+\end{DoxySeeAlso}
+
+
+Definition at line 30 of file qwt\-\_\-legend.\-h.
+
+
+
+\subsection{Member Enumeration Documentation}
+\hypertarget{class_qwt_legend_ab216dd2dba9ebf6cb0ed2dd621a652e0}{\index{Qwt\-Legend@{Qwt\-Legend}!Legend\-Item\-Mode@{Legend\-Item\-Mode}}
+\index{Legend\-Item\-Mode@{Legend\-Item\-Mode}!QwtLegend@{Qwt\-Legend}}
+\subsubsection[{Legend\-Item\-Mode}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf Qwt\-Legend\-::\-Legend\-Item\-Mode}}}\label{class_qwt_legend_ab216dd2dba9ebf6cb0ed2dd621a652e0}
+
+
+Interaction mode for the legend items. 
+
+The default is \hyperlink{class_qwt_legend_ab216dd2dba9ebf6cb0ed2dd621a652e0a82869bcd75310e861ae9257677185186}{Qwt\-Legend\-::\-Read\-Only\-Item}.
+
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_legend_aedd86919e56a407bcdd2ae867a672dd1}{set\-Item\-Mode()}, \hyperlink{class_qwt_legend_a463c5542c6547c04050c912a5e500155}{item\-Mode()}, Qwt\-Legend\-Item\-::\-Identifier\-Mode \hyperlink{class_qwt_legend_item_a28c4837ec402725c87ecee6de558c956}{Qwt\-Legend\-Item\-::clicked()}, \hyperlink{class_qwt_legend_item_a95fe5b1ec7fcfaa86fd9ec49a3bf23aa}{Qwt\-Legend\-Item\-::checked()}, \hyperlink{class_qwt_plot_a52b75d5548fbe04539b6297de53a2222}{Qwt\-Plot\-::legend\-Clicked()}, \hyperlink{class_qwt_plot_abd9e17629dd7c142fed017ea5e347149}{Qwt\-Plot\-::legend\-Checked()} 
+\end{DoxySeeAlso}
+\begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{Read\-Only\-Item@{Read\-Only\-Item}!Qwt\-Legend@{Qwt\-Legend}}\index{Qwt\-Legend@{Qwt\-Legend}!Read\-Only\-Item@{Read\-Only\-Item}}\item[{\em 
+\hypertarget{class_qwt_legend_ab216dd2dba9ebf6cb0ed2dd621a652e0a82869bcd75310e861ae9257677185186}{Read\-Only\-Item}\label{class_qwt_legend_ab216dd2dba9ebf6cb0ed2dd621a652e0a82869bcd75310e861ae9257677185186}
+}]The legend item is not interactive, like a label. \index{Clickable\-Item@{Clickable\-Item}!Qwt\-Legend@{Qwt\-Legend}}\index{Qwt\-Legend@{Qwt\-Legend}!Clickable\-Item@{Clickable\-Item}}\item[{\em 
+\hypertarget{class_qwt_legend_ab216dd2dba9ebf6cb0ed2dd621a652e0a90b6ea3ca504d7548cf92cf1c2db60ac}{Clickable\-Item}\label{class_qwt_legend_ab216dd2dba9ebf6cb0ed2dd621a652e0a90b6ea3ca504d7548cf92cf1c2db60ac}
+}]The legend item is clickable, like a push button. \index{Checkable\-Item@{Checkable\-Item}!Qwt\-Legend@{Qwt\-Legend}}\index{Qwt\-Legend@{Qwt\-Legend}!Checkable\-Item@{Checkable\-Item}}\item[{\em 
+\hypertarget{class_qwt_legend_ab216dd2dba9ebf6cb0ed2dd621a652e0a035a03d742b4e4f8ab13f435b8954237}{Checkable\-Item}\label{class_qwt_legend_ab216dd2dba9ebf6cb0ed2dd621a652e0a035a03d742b4e4f8ab13f435b8954237}
+}]The legend item is checkable, like a checkable button. \end{description}
+\end{Desc}
+
+
+Definition at line 45 of file qwt\-\_\-legend.\-h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_qwt_legend_adf5a64070a546eaac36fc9afac56b7fb}{\index{Qwt\-Legend@{Qwt\-Legend}!Qwt\-Legend@{Qwt\-Legend}}
+\index{Qwt\-Legend@{Qwt\-Legend}!QwtLegend@{Qwt\-Legend}}
+\subsubsection[{Qwt\-Legend}]{\setlength{\rightskip}{0pt plus 5cm}Qwt\-Legend\-::\-Qwt\-Legend (
+\begin{DoxyParamCaption}
+\item[{Q\-Widget $\ast$}]{parent = {\ttfamily NULL}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [explicit]}}}\label{class_qwt_legend_adf5a64070a546eaac36fc9afac56b7fb}
+Constructor
+
+
+\begin{DoxyParams}{Parameters}
+{\em parent} & Parent widget \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 220 of file qwt\-\_\-legend.\-cpp.
+
+\hypertarget{class_qwt_legend_a2dd3bc628652909b74e7ddb5db021ea5}{\index{Qwt\-Legend@{Qwt\-Legend}!$\sim$\-Qwt\-Legend@{$\sim$\-Qwt\-Legend}}
+\index{$\sim$\-Qwt\-Legend@{$\sim$\-Qwt\-Legend}!QwtLegend@{Qwt\-Legend}}
+\subsubsection[{$\sim$\-Qwt\-Legend}]{\setlength{\rightskip}{0pt plus 5cm}Qwt\-Legend\-::$\sim$\-Qwt\-Legend (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_qwt_legend_a2dd3bc628652909b74e7ddb5db021ea5}
+
+
+Destructor. 
+
+
+
+Definition at line 244 of file qwt\-\_\-legend.\-cpp.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_qwt_legend_a084177665b32798903176de57d962c6e}{\index{Qwt\-Legend@{Qwt\-Legend}!clear@{clear}}
+\index{clear@{clear}!QwtLegend@{Qwt\-Legend}}
+\subsubsection[{clear}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Legend\-::clear (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+)}}\label{class_qwt_legend_a084177665b32798903176de57d962c6e}
+
+
+Remove all items. 
+
+
+
+Definition at line 390 of file qwt\-\_\-legend.\-cpp.
+
+\hypertarget{class_qwt_legend_aa52edeceb553ae703516c984f34d7ab7}{\index{Qwt\-Legend@{Qwt\-Legend}!contents\-Widget@{contents\-Widget}}
+\index{contents\-Widget@{contents\-Widget}!QwtLegend@{Qwt\-Legend}}
+\subsubsection[{contents\-Widget}]{\setlength{\rightskip}{0pt plus 5cm}Q\-Widget $\ast$ Qwt\-Legend\-::contents\-Widget (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_qwt_legend_aa52edeceb553ae703516c984f34d7ab7}
+The contents widget is the only child of the viewport of the internal Q\-Scroll\-Area and the parent widget of all legend items.
+
+\begin{DoxyReturn}{Returns}
+Container widget of the legend items 
+\end{DoxyReturn}
+
+
+Definition at line 267 of file qwt\-\_\-legend.\-cpp.
+
+\hypertarget{class_qwt_legend_acd680c0f17f4184e10a3d3136b9836f5}{\index{Qwt\-Legend@{Qwt\-Legend}!contents\-Widget@{contents\-Widget}}
+\index{contents\-Widget@{contents\-Widget}!QwtLegend@{Qwt\-Legend}}
+\subsubsection[{contents\-Widget}]{\setlength{\rightskip}{0pt plus 5cm}const Q\-Widget $\ast$ Qwt\-Legend\-::contents\-Widget (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_qwt_legend_acd680c0f17f4184e10a3d3136b9836f5}
+The contents widget is the only child of the viewport of the internal Q\-Scroll\-Area and the parent widget of all legend items.
+
+\begin{DoxyReturn}{Returns}
+Container widget of the legend items 
+\end{DoxyReturn}
+
+
+Definition at line 297 of file qwt\-\_\-legend.\-cpp.
+
+\hypertarget{class_qwt_legend_ade86e158b8254fe76d42e85f9808c827}{\index{Qwt\-Legend@{Qwt\-Legend}!event\-Filter@{event\-Filter}}
+\index{event\-Filter@{event\-Filter}!QwtLegend@{Qwt\-Legend}}
+\subsubsection[{event\-Filter}]{\setlength{\rightskip}{0pt plus 5cm}bool Qwt\-Legend\-::event\-Filter (
+\begin{DoxyParamCaption}
+\item[{Q\-Object $\ast$}]{object, }
+\item[{Q\-Event $\ast$}]{event}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_qwt_legend_ade86e158b8254fe76d42e85f9808c827}
+Handle Q\-Event\-::\-Child\-Removed and\-Q\-Event\-::\-Layout\-Request events for the \hyperlink{class_qwt_legend_aa52edeceb553ae703516c984f34d7ab7}{contents\-Widget()}.
+
+
+\begin{DoxyParams}{Parameters}
+{\em object} & Object to be filtered \\
+\hline
+{\em event} & Event \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 463 of file qwt\-\_\-legend.\-cpp.
+
+\hypertarget{class_qwt_legend_a298233007938249f98e728256a2e6a59}{\index{Qwt\-Legend@{Qwt\-Legend}!find@{find}}
+\index{find@{find}!QwtLegend@{Qwt\-Legend}}
+\subsubsection[{find}]{\setlength{\rightskip}{0pt plus 5cm}Q\-Widget $\ast$ Qwt\-Legend\-::find (
+\begin{DoxyParamCaption}
+\item[{const {\bf Qwt\-Legend\-Item\-Manager} $\ast$}]{plot\-Item}
+\end{DoxyParamCaption}
+) const}}\label{class_qwt_legend_a298233007938249f98e728256a2e6a59}
+Find the widget that represents a plot item
+
+
+\begin{DoxyParams}{Parameters}
+{\em plot\-Item} & Plot item \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\hyperlink{class_widget}{Widget} on the legend, or N\-U\-L\-L 
+\end{DoxyReturn}
+
+
+Definition at line 360 of file qwt\-\_\-legend.\-cpp.
+
+\hypertarget{class_qwt_legend_abb1273941e19ac7d0a3e2f398228ed65}{\index{Qwt\-Legend@{Qwt\-Legend}!find@{find}}
+\index{find@{find}!QwtLegend@{Qwt\-Legend}}
+\subsubsection[{find}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Qwt\-Legend\-Item\-Manager} $\ast$ Qwt\-Legend\-::find (
+\begin{DoxyParamCaption}
+\item[{const Q\-Widget $\ast$}]{legend\-Item}
+\end{DoxyParamCaption}
+) const}}\label{class_qwt_legend_abb1273941e19ac7d0a3e2f398228ed65}
+Find the widget that represents a plot item
+
+
+\begin{DoxyParams}{Parameters}
+{\em legend\-Item} & Legend item \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\hyperlink{class_widget}{Widget} on the legend, or N\-U\-L\-L 
+\end{DoxyReturn}
+
+
+Definition at line 371 of file qwt\-\_\-legend.\-cpp.
+
+\hypertarget{class_qwt_legend_a273ec258209c42f57b154ff4da61e1d0}{\index{Qwt\-Legend@{Qwt\-Legend}!height\-For\-Width@{height\-For\-Width}}
+\index{height\-For\-Width@{height\-For\-Width}!QwtLegend@{Qwt\-Legend}}
+\subsubsection[{height\-For\-Width}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int} Qwt\-Legend\-::height\-For\-Width (
+\begin{DoxyParamCaption}
+\item[{{\bf int}}]{width}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_qwt_legend_a273ec258209c42f57b154ff4da61e1d0}
+\begin{DoxyReturn}{Returns}
+The preferred height, for the width w. 
+\end{DoxyReturn}
+
+\begin{DoxyParams}{Parameters}
+{\em width} & Width \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 417 of file qwt\-\_\-legend.\-cpp.
+
+\hypertarget{class_qwt_legend_a40dab44d47921da18a925e8fcc8d6870}{\index{Qwt\-Legend@{Qwt\-Legend}!horizontal\-Scroll\-Bar@{horizontal\-Scroll\-Bar}}
+\index{horizontal\-Scroll\-Bar@{horizontal\-Scroll\-Bar}!QwtLegend@{Qwt\-Legend}}
+\subsubsection[{horizontal\-Scroll\-Bar}]{\setlength{\rightskip}{0pt plus 5cm}Q\-Scroll\-Bar $\ast$ Qwt\-Legend\-::horizontal\-Scroll\-Bar (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_qwt_legend_a40dab44d47921da18a925e8fcc8d6870}
+\begin{DoxyReturn}{Returns}
+Horizontal scrollbar 
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_legend_a494758e3d7ab688c59989da52e7e97cf}{vertical\-Scroll\-Bar()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 276 of file qwt\-\_\-legend.\-cpp.
+
+\hypertarget{class_qwt_legend_af736d6053c6e891ad4579aa83b1a705d}{\index{Qwt\-Legend@{Qwt\-Legend}!insert@{insert}}
+\index{insert@{insert}!QwtLegend@{Qwt\-Legend}}
+\subsubsection[{insert}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Legend\-::insert (
+\begin{DoxyParamCaption}
+\item[{const {\bf Qwt\-Legend\-Item\-Manager} $\ast$}]{plot\-Item, }
+\item[{Q\-Widget $\ast$}]{legend\-Item}
+\end{DoxyParamCaption}
+)}}\label{class_qwt_legend_af736d6053c6e891ad4579aa83b1a705d}
+Insert a new item for a plot item 
+\begin{DoxyParams}{Parameters}
+{\em plot\-Item} & Plot item \\
+\hline
+{\em legend\-Item} & New legend item \\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+The parent of item will be changed to \hyperlink{class_qwt_legend_aa52edeceb553ae703516c984f34d7ab7}{contents\-Widget()} 
+\end{DoxyNote}
+
+
+Definition at line 308 of file qwt\-\_\-legend.\-cpp.
+
+\hypertarget{class_qwt_legend_a6ff50cb1e388a7da2a59709eef83be20}{\index{Qwt\-Legend@{Qwt\-Legend}!is\-Empty@{is\-Empty}}
+\index{is\-Empty@{is\-Empty}!QwtLegend@{Qwt\-Legend}}
+\subsubsection[{is\-Empty}]{\setlength{\rightskip}{0pt plus 5cm}bool Qwt\-Legend\-::is\-Empty (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+) const}}\label{class_qwt_legend_a6ff50cb1e388a7da2a59709eef83be20}
+
+
+Return true, if there are no legend items. 
+
+
+
+Definition at line 495 of file qwt\-\_\-legend.\-cpp.
+
+\hypertarget{class_qwt_legend_ac8d57d90bb41aa2d69c7411a20febdda}{\index{Qwt\-Legend@{Qwt\-Legend}!item\-Count@{item\-Count}}
+\index{item\-Count@{item\-Count}!QwtLegend@{Qwt\-Legend}}
+\subsubsection[{item\-Count}]{\setlength{\rightskip}{0pt plus 5cm}uint Qwt\-Legend\-::item\-Count (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_qwt_legend_ac8d57d90bb41aa2d69c7411a20febdda}
+
+
+Return the number of legend items. 
+
+
+
+Definition at line 501 of file qwt\-\_\-legend.\-cpp.
+
+\hypertarget{class_qwt_legend_a463c5542c6547c04050c912a5e500155}{\index{Qwt\-Legend@{Qwt\-Legend}!item\-Mode@{item\-Mode}}
+\index{item\-Mode@{item\-Mode}!QwtLegend@{Qwt\-Legend}}
+\subsubsection[{item\-Mode}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Qwt\-Legend\-::\-Legend\-Item\-Mode} Qwt\-Legend\-::item\-Mode (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_qwt_legend_a463c5542c6547c04050c912a5e500155}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_legend_ab216dd2dba9ebf6cb0ed2dd621a652e0}{Legend\-Item\-Mode} 
+\end{DoxySeeAlso}
+
+
+Definition at line 256 of file qwt\-\_\-legend.\-cpp.
+
+\hypertarget{class_qwt_legend_ac44118481db62143950a7c74bc2832ab}{\index{Qwt\-Legend@{Qwt\-Legend}!layout\-Contents@{layout\-Contents}}
+\index{layout\-Contents@{layout\-Contents}!QwtLegend@{Qwt\-Legend}}
+\subsubsection[{layout\-Contents}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Legend\-::layout\-Contents (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}}\label{class_qwt_legend_ac44118481db62143950a7c74bc2832ab}
+Adjust contents widget and item layout to the size of the viewport(). 
+
+Definition at line 431 of file qwt\-\_\-legend.\-cpp.
+
+\hypertarget{class_qwt_legend_ab0eb76b6c4f50257ba0219e57332045e}{\index{Qwt\-Legend@{Qwt\-Legend}!legend\-Items@{legend\-Items}}
+\index{legend\-Items@{legend\-Items}!QwtLegend@{Qwt\-Legend}}
+\subsubsection[{legend\-Items}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Q\-List}$<$ Q\-Widget $\ast$ $>$ Qwt\-Legend\-::legend\-Items (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_qwt_legend_ab0eb76b6c4f50257ba0219e57332045e}
+
+
+Return a list of all legend items. 
+
+
+
+Definition at line 507 of file qwt\-\_\-legend.\-cpp.
+
+\hypertarget{class_qwt_legend_a562535312e3d65616bc63d35a2ec5b7b}{\index{Qwt\-Legend@{Qwt\-Legend}!remove@{remove}}
+\index{remove@{remove}!QwtLegend@{Qwt\-Legend}}
+\subsubsection[{remove}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Legend\-::remove (
+\begin{DoxyParamCaption}
+\item[{const {\bf Qwt\-Legend\-Item\-Manager} $\ast$}]{plot\-Item}
+\end{DoxyParamCaption}
+)}}\label{class_qwt_legend_a562535312e3d65616bc63d35a2ec5b7b}
+Find the corresponding item for a plot\-Item and remove it from the item list.
+
+
+\begin{DoxyParams}{Parameters}
+{\em plot\-Item} & Plot item \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 382 of file qwt\-\_\-legend.\-cpp.
+
+\hypertarget{class_qwt_legend_aedd86919e56a407bcdd2ae867a672dd1}{\index{Qwt\-Legend@{Qwt\-Legend}!set\-Item\-Mode@{set\-Item\-Mode}}
+\index{set\-Item\-Mode@{set\-Item\-Mode}!QwtLegend@{Qwt\-Legend}}
+\subsubsection[{set\-Item\-Mode}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Legend\-::set\-Item\-Mode (
+\begin{DoxyParamCaption}
+\item[{{\bf Legend\-Item\-Mode}}]{mode}
+\end{DoxyParamCaption}
+)}}\label{class_qwt_legend_aedd86919e56a407bcdd2ae867a672dd1}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_legend_ab216dd2dba9ebf6cb0ed2dd621a652e0}{Legend\-Item\-Mode} 
+\end{DoxySeeAlso}
+
+
+Definition at line 250 of file qwt\-\_\-legend.\-cpp.
+
+\hypertarget{class_qwt_legend_a2517a7d9d78ab7a3892125ecf755f33f}{\index{Qwt\-Legend@{Qwt\-Legend}!size\-Hint@{size\-Hint}}
+\index{size\-Hint@{size\-Hint}!QwtLegend@{Qwt\-Legend}}
+\subsubsection[{size\-Hint}]{\setlength{\rightskip}{0pt plus 5cm}Q\-Size Qwt\-Legend\-::size\-Hint (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_qwt_legend_a2517a7d9d78ab7a3892125ecf755f33f}
+
+
+Return a size hint. 
+
+
+
+Definition at line 405 of file qwt\-\_\-legend.\-cpp.
+
+\hypertarget{class_qwt_legend_a494758e3d7ab688c59989da52e7e97cf}{\index{Qwt\-Legend@{Qwt\-Legend}!vertical\-Scroll\-Bar@{vertical\-Scroll\-Bar}}
+\index{vertical\-Scroll\-Bar@{vertical\-Scroll\-Bar}!QwtLegend@{Qwt\-Legend}}
+\subsubsection[{vertical\-Scroll\-Bar}]{\setlength{\rightskip}{0pt plus 5cm}Q\-Scroll\-Bar $\ast$ Qwt\-Legend\-::vertical\-Scroll\-Bar (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_qwt_legend_a494758e3d7ab688c59989da52e7e97cf}
+\begin{DoxyReturn}{Returns}
+Vertical scrollbar 
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_legend_a40dab44d47921da18a925e8fcc8d6870}{horizontal\-Scroll\-Bar()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 285 of file qwt\-\_\-legend.\-cpp.
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/qwt/src/\hyperlink{qwt__legend_8h}{qwt\-\_\-legend.\-h}\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/qwt/src/\hyperlink{qwt__legend_8cpp}{qwt\-\_\-legend.\-cpp}\end{DoxyCompactItemize}

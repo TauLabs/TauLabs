@@ -1,0 +1,190 @@
+\hypertarget{class_minor}{\section{Minor$<$ Matrix\-Type $>$ Class Template Reference}
+\label{class_minor}\index{Minor$<$ Matrix\-Type $>$@{Minor$<$ Matrix\-Type $>$}}
+}
+
+
+Expression of a minor.  
+
+
+
+
+{\ttfamily \#include $<$Minor.\-h$>$}
+
+Inheritance diagram for Minor$<$ Matrix\-Type $>$\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_minor}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_minor_ab21a845d197458d259ca228684aaec6d}{E\-I\-G\-E\-N\-\_\-\-G\-E\-N\-E\-R\-I\-C\-\_\-\-P\-U\-B\-L\-I\-C\-\_\-\-I\-N\-T\-E\-R\-F\-A\-C\-E} (\hyperlink{class_minor}{Minor}) inline \hyperlink{class_minor}{Minor}(const Matrix\-Type \&\hyperlink{glext_8h_a7b24a3f2f56eb1244ae69dacb4fecb6f}{matrix}
+\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_minor_a40240914a399d8cb481c7d50a16aff4a}{m\-\_\-row} (\hyperlink{glext_8h_a11b277b422822f784ee248b43eee3e1e}{row})
+\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_minor_ac4b3ae2cdb4ba65370578094d7a98ba6}{m\-\_\-col} (\hyperlink{class_minor_abbdcf722ac69ca909b979719d920a0c3}{col})
+\item 
+\hyperlink{class_minor_a74fcb1449a2d2dc1b81234833ec189ed}{E\-I\-G\-E\-N\-\_\-\-I\-N\-H\-E\-R\-I\-T\-\_\-\-A\-S\-S\-I\-G\-N\-M\-E\-N\-T\-\_\-\-O\-P\-E\-R\-A\-T\-O\-R\-S} (\hyperlink{class_minor}{Minor}) inline \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_matrix_base_ae82810ba95da637cdf434b4274083723}{rows}() const 
+\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_minor_a0ac61cb2861011a476403b83d4fed359}{cols} () const 
+\item 
+\hyperlink{class_matrix_base_a625df8339dc2d816cbc0fd66e7dadaf5}{Scalar} \& \hyperlink{class_minor_a2972155fb0a7aa1dbaa773bd22171a3b}{coeff\-Ref} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{glext_8h_a11b277b422822f784ee248b43eee3e1e}{row}, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_minor_abbdcf722ac69ca909b979719d920a0c3}{col})
+\item 
+const \hyperlink{class_matrix_base_a625df8339dc2d816cbc0fd66e7dadaf5}{Scalar} \hyperlink{class_minor_ab94a445c6928f643ae09abc702bd98a2}{coeff} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{glext_8h_a11b277b422822f784ee248b43eee3e1e}{row}, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_minor_abbdcf722ac69ca909b979719d920a0c3}{col}) const 
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_minor_aed84dc350a249af6b212117b823c59df}{row}
+\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_minor_abbdcf722ac69ca909b979719d920a0c3}{col}\-: \hyperlink{class_minor_a0da370e5ee24eafe1fff3fb1703ab1bb}{m\-\_\-matrix}(\hyperlink{glext_8h_a7b24a3f2f56eb1244ae69dacb4fecb6f}{matrix})
+\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+const Matrix\-Type\-::\-Nested \hyperlink{class_minor_a0da370e5ee24eafe1fff3fb1703ab1bb}{m\-\_\-matrix}
+\item 
+const \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_minor_af1cc8170a50e957e93d3f7c1fb8cfe00}{m\-\_\-row}
+\item 
+const \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_minor_acd8dab2dc2aca39dbf33f73d91c1f59c}{m\-\_\-col}
+\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$typename Matrix\-Type$>$class Minor$<$ Matrix\-Type $>$}
+
+Expression of a minor. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Matrix\-Type} & the type of the object in which we are taking a minor\\
+\hline
+\end{DoxyParams}
+This class represents an expression of a minor. It is the return type of \hyperlink{class_matrix_base_a768e8e9fae4b01bf336274f4a07c9459}{Matrix\-Base\-::minor()} and most of the time this is the only way it is used.
+
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_matrix_base_a768e8e9fae4b01bf336274f4a07c9459}{Matrix\-Base\-::minor()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 61 of file Minor.\-h.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_minor_ab94a445c6928f643ae09abc702bd98a2}{\index{Minor@{Minor}!coeff@{coeff}}
+\index{coeff@{coeff}!Minor@{Minor}}
+\subsubsection[{coeff}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type$>$ const {\bf Scalar} {\bf Minor}$<$ Matrix\-Type $>$\-::coeff (
+\begin{DoxyParamCaption}
+\item[{{\bf int}}]{row, }
+\item[{{\bf int}}]{col}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_minor_ab94a445c6928f643ae09abc702bd98a2}
+
+
+Definition at line 86 of file Minor.\-h.
+
+\hypertarget{class_minor_a2972155fb0a7aa1dbaa773bd22171a3b}{\index{Minor@{Minor}!coeff\-Ref@{coeff\-Ref}}
+\index{coeff\-Ref@{coeff\-Ref}!Minor@{Minor}}
+\subsubsection[{coeff\-Ref}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type$>$ {\bf Scalar}\& {\bf Minor}$<$ Matrix\-Type $>$\-::coeff\-Ref (
+\begin{DoxyParamCaption}
+\item[{{\bf int}}]{row, }
+\item[{{\bf int}}]{col}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_minor_a2972155fb0a7aa1dbaa773bd22171a3b}
+
+
+Definition at line 81 of file Minor.\-h.
+
+\hypertarget{class_minor_a0ac61cb2861011a476403b83d4fed359}{\index{Minor@{Minor}!cols@{cols}}
+\index{cols@{cols}!Minor@{Minor}}
+\subsubsection[{cols}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type$>$ {\bf int} {\bf Minor}$<$ Matrix\-Type $>$\-::cols (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_minor_a0ac61cb2861011a476403b83d4fed359}
+
+
+Definition at line 79 of file Minor.\-h.
+
+\hypertarget{class_minor_ab21a845d197458d259ca228684aaec6d}{\index{Minor@{Minor}!E\-I\-G\-E\-N\-\_\-\-G\-E\-N\-E\-R\-I\-C\-\_\-\-P\-U\-B\-L\-I\-C\-\_\-\-I\-N\-T\-E\-R\-F\-A\-C\-E@{E\-I\-G\-E\-N\-\_\-\-G\-E\-N\-E\-R\-I\-C\-\_\-\-P\-U\-B\-L\-I\-C\-\_\-\-I\-N\-T\-E\-R\-F\-A\-C\-E}}
+\index{E\-I\-G\-E\-N\-\_\-\-G\-E\-N\-E\-R\-I\-C\-\_\-\-P\-U\-B\-L\-I\-C\-\_\-\-I\-N\-T\-E\-R\-F\-A\-C\-E@{E\-I\-G\-E\-N\-\_\-\-G\-E\-N\-E\-R\-I\-C\-\_\-\-P\-U\-B\-L\-I\-C\-\_\-\-I\-N\-T\-E\-R\-F\-A\-C\-E}!Minor@{Minor}}
+\subsubsection[{E\-I\-G\-E\-N\-\_\-\-G\-E\-N\-E\-R\-I\-C\-\_\-\-P\-U\-B\-L\-I\-C\-\_\-\-I\-N\-T\-E\-R\-F\-A\-C\-E}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type$>$ {\bf Minor}$<$ Matrix\-Type $>$\-::E\-I\-G\-E\-N\-\_\-\-G\-E\-N\-E\-R\-I\-C\-\_\-\-P\-U\-B\-L\-I\-C\-\_\-\-I\-N\-T\-E\-R\-F\-A\-C\-E (
+\begin{DoxyParamCaption}
+\item[{{\bf Minor}$<$ Matrix\-Type $>$}]{}
+\end{DoxyParamCaption}
+) const}}\label{class_minor_ab21a845d197458d259ca228684aaec6d}
+\hypertarget{class_minor_a74fcb1449a2d2dc1b81234833ec189ed}{\index{Minor@{Minor}!E\-I\-G\-E\-N\-\_\-\-I\-N\-H\-E\-R\-I\-T\-\_\-\-A\-S\-S\-I\-G\-N\-M\-E\-N\-T\-\_\-\-O\-P\-E\-R\-A\-T\-O\-R\-S@{E\-I\-G\-E\-N\-\_\-\-I\-N\-H\-E\-R\-I\-T\-\_\-\-A\-S\-S\-I\-G\-N\-M\-E\-N\-T\-\_\-\-O\-P\-E\-R\-A\-T\-O\-R\-S}}
+\index{E\-I\-G\-E\-N\-\_\-\-I\-N\-H\-E\-R\-I\-T\-\_\-\-A\-S\-S\-I\-G\-N\-M\-E\-N\-T\-\_\-\-O\-P\-E\-R\-A\-T\-O\-R\-S@{E\-I\-G\-E\-N\-\_\-\-I\-N\-H\-E\-R\-I\-T\-\_\-\-A\-S\-S\-I\-G\-N\-M\-E\-N\-T\-\_\-\-O\-P\-E\-R\-A\-T\-O\-R\-S}!Minor@{Minor}}
+\subsubsection[{E\-I\-G\-E\-N\-\_\-\-I\-N\-H\-E\-R\-I\-T\-\_\-\-A\-S\-S\-I\-G\-N\-M\-E\-N\-T\-\_\-\-O\-P\-E\-R\-A\-T\-O\-R\-S}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type$>$ {\bf Minor}$<$ Matrix\-Type $>$\-::E\-I\-G\-E\-N\-\_\-\-I\-N\-H\-E\-R\-I\-T\-\_\-\-A\-S\-S\-I\-G\-N\-M\-E\-N\-T\-\_\-\-O\-P\-E\-R\-A\-T\-O\-R\-S (
+\begin{DoxyParamCaption}
+\item[{{\bf Minor}$<$ Matrix\-Type $>$}]{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_minor_a74fcb1449a2d2dc1b81234833ec189ed}
+
+
+Definition at line 76 of file Minor.\-h.
+
+\hypertarget{class_minor_ac4b3ae2cdb4ba65370578094d7a98ba6}{\index{Minor@{Minor}!m\-\_\-col@{m\-\_\-col}}
+\index{m\-\_\-col@{m\-\_\-col}!Minor@{Minor}}
+\subsubsection[{m\-\_\-col}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type$>$ {\bf int} {\bf int} {\bf Minor}$<$ Matrix\-Type $>$\-::m\-\_\-col (
+\begin{DoxyParamCaption}
+\item[{{\bf col}}]{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_minor_ac4b3ae2cdb4ba65370578094d7a98ba6}
+
+
+Definition at line 70 of file Minor.\-h.
+
+\hypertarget{class_minor_a40240914a399d8cb481c7d50a16aff4a}{\index{Minor@{Minor}!m\-\_\-row@{m\-\_\-row}}
+\index{m\-\_\-row@{m\-\_\-row}!Minor@{Minor}}
+\subsubsection[{m\-\_\-row}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type$>$ {\bf int} {\bf int} {\bf Minor}$<$ Matrix\-Type $>$\-::m\-\_\-row (
+\begin{DoxyParamCaption}
+\item[{{\bf row}}]{}
+\end{DoxyParamCaption}
+)}}\label{class_minor_a40240914a399d8cb481c7d50a16aff4a}
+
+
+\subsection{Member Data Documentation}
+\hypertarget{class_minor_abbdcf722ac69ca909b979719d920a0c3}{\index{Minor@{Minor}!col@{col}}
+\index{col@{col}!Minor@{Minor}}
+\subsubsection[{col}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type$>$ {\bf int} {\bf int} {\bf Minor}$<$ Matrix\-Type $>$\-::col}}\label{class_minor_abbdcf722ac69ca909b979719d920a0c3}
+
+
+Definition at line 69 of file Minor.\-h.
+
+\hypertarget{class_minor_acd8dab2dc2aca39dbf33f73d91c1f59c}{\index{Minor@{Minor}!m\-\_\-col@{m\-\_\-col}}
+\index{m\-\_\-col@{m\-\_\-col}!Minor@{Minor}}
+\subsubsection[{m\-\_\-col}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type$>$ const {\bf int} {\bf Minor}$<$ Matrix\-Type $>$\-::m\-\_\-col\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_minor_acd8dab2dc2aca39dbf33f73d91c1f59c}
+
+
+Definition at line 93 of file Minor.\-h.
+
+\hypertarget{class_minor_a0da370e5ee24eafe1fff3fb1703ab1bb}{\index{Minor@{Minor}!m\-\_\-matrix@{m\-\_\-matrix}}
+\index{m\-\_\-matrix@{m\-\_\-matrix}!Minor@{Minor}}
+\subsubsection[{m\-\_\-matrix}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type$>$ const Matrix\-Type\-::\-Nested {\bf Minor}$<$ Matrix\-Type $>$\-::m\-\_\-matrix\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_minor_a0da370e5ee24eafe1fff3fb1703ab1bb}
+
+
+Definition at line 92 of file Minor.\-h.
+
+\hypertarget{class_minor_af1cc8170a50e957e93d3f7c1fb8cfe00}{\index{Minor@{Minor}!m\-\_\-row@{m\-\_\-row}}
+\index{m\-\_\-row@{m\-\_\-row}!Minor@{Minor}}
+\subsubsection[{m\-\_\-row}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type$>$ const {\bf int} {\bf Minor}$<$ Matrix\-Type $>$\-::m\-\_\-row\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_minor_af1cc8170a50e957e93d3f7c1fb8cfe00}
+
+
+Definition at line 93 of file Minor.\-h.
+
+\hypertarget{class_minor_aed84dc350a249af6b212117b823c59df}{\index{Minor@{Minor}!row@{row}}
+\index{row@{row}!Minor@{Minor}}
+\subsubsection[{row}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type$>$ {\bf int} {\bf Minor}$<$ Matrix\-Type $>$\-::{\bf row}}}\label{class_minor_aed84dc350a249af6b212117b823c59df}
+
+
+Definition at line 69 of file Minor.\-h.
+
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/eigen/\-Eigen/src/\-Core/\hyperlink{_minor_8h}{Minor.\-h}\end{DoxyCompactItemize}

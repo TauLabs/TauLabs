@@ -1,0 +1,702 @@
+\hypertarget{class_g_l_c___mesh_data}{\section{G\-L\-C\-\_\-\-Mesh\-Data Class Reference}
+\label{class_g_l_c___mesh_data}\index{G\-L\-C\-\_\-\-Mesh\-Data@{G\-L\-C\-\_\-\-Mesh\-Data}}
+}
+
+
+\hyperlink{class_g_l_c___mesh_data}{G\-L\-C\-\_\-\-Mesh\-Data} \-: Contains all data of the mesh.  
+
+
+
+
+{\ttfamily \#include $<$glc\-\_\-meshdata.\-h$>$}
+
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{class_g_l_c___mesh_data_aad6ad4c9ec9e7350c0e62cfcb1a95d48}{Vbo\-Type} \{ \hyperlink{class_g_l_c___mesh_data_aad6ad4c9ec9e7350c0e62cfcb1a95d48ae39ab1843150d960bc5fde771fe57e5b}{G\-L\-C\-\_\-\-Vertex} = 30, 
+\hyperlink{class_g_l_c___mesh_data_aad6ad4c9ec9e7350c0e62cfcb1a95d48a1d6b9afe07bbb4eec9e65f204177dab3}{G\-L\-C\-\_\-\-Normal}, 
+\hyperlink{class_g_l_c___mesh_data_aad6ad4c9ec9e7350c0e62cfcb1a95d48a0205d7ad502d0cdf50f4d0689ed642a4}{G\-L\-C\-\_\-\-Texel}, 
+\hyperlink{class_g_l_c___mesh_data_aad6ad4c9ec9e7350c0e62cfcb1a95d48a63ef84b91edc0dbd7d70676819e640d0}{G\-L\-C\-\_\-\-Color}
+ \}
+\begin{DoxyCompactList}\small\item\em Enum of V\-B\-O T\-Y\-P\-E. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{Indent}{\bf Constructor / Destructor}\par
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_g_l_c___mesh_data_aea55875b7bbe175482b140fb85381707}{G\-L\-C\-\_\-\-Mesh\-Data} ()
+\begin{DoxyCompactList}\small\item\em Default constructor. \end{DoxyCompactList}\item 
+\hyperlink{class_g_l_c___mesh_data_a6f03927ba0130579438b03ec1a5b6f0f}{G\-L\-C\-\_\-\-Mesh\-Data} (const \hyperlink{class_g_l_c___mesh_data}{G\-L\-C\-\_\-\-Mesh\-Data} \&)
+\begin{DoxyCompactList}\small\item\em Copy constructor. \end{DoxyCompactList}\item 
+\hyperlink{class_g_l_c___mesh_data}{G\-L\-C\-\_\-\-Mesh\-Data} \& \hyperlink{class_g_l_c___mesh_data_a4116d8fec515472d6fe700d032c423c7}{operator=} (const \hyperlink{class_g_l_c___mesh_data}{G\-L\-C\-\_\-\-Mesh\-Data} \&)
+\begin{DoxyCompactList}\small\item\em Overload \char`\"{}=\char`\"{} operator. \end{DoxyCompactList}\item 
+virtual \hyperlink{class_g_l_c___mesh_data_a126debfcff2d10b43c1145f1c0537105}{$\sim$\-G\-L\-C\-\_\-\-Mesh\-Data} ()
+\begin{DoxyCompactList}\small\item\em Destructor. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\end{Indent}
+\begin{Indent}{\bf Set Functions}\par
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c___mesh_data_a2fdea574fe53a3b832a1b7522e7e3cbf}{append\-Lod} (\hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} accuracy=0.\-0)
+\begin{DoxyCompactList}\small\item\em Add a empty Lod to the engine. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c___mesh_data_a90d03a2f011b627971fa19070c82adf4}{finish\-Lod} ()
+\begin{DoxyCompactList}\small\item\em If the there is more than 2 L\-O\-D Swap the first and last. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c___mesh_data_a9500c265511eb0996cbf236434d57ac0}{clear} ()
+\begin{DoxyCompactList}\small\item\em Clear the content of the mesh\-Data and makes it empty. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c___mesh_data_a663a125720adea4a5656faf7d7d7726c}{copy\-Vbo\-To\-Client\-Side} ()
+\begin{DoxyCompactList}\small\item\em Copy V\-B\-O to the Client Side. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c___mesh_data_aa5cf570745f184aac4e9d72dbb6ee85d}{release\-Vbo\-Client\-Side} (bool update=false)
+\begin{DoxyCompactList}\small\item\em Release client V\-B\-O. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c___mesh_data_a943d1f417e0bd532d70a9e693d187eea}{triangles\-Added} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{glext_8h_a5b5a34b88a28ab9c203c2b432f6168b6}{lod}, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} number)
+\begin{DoxyCompactList}\small\item\em Given number of triangles added to the given lod index. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c___mesh_data_aa5dc09b452837d65191c7cf7aafed66b}{set\-Vbo\-Usage} (bool \hyperlink{glext_8h_ae759ed0394ed5353d8bef2fb755305da}{usage})
+\begin{DoxyCompactList}\small\item\em Set V\-B\-O usage. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c___mesh_data_a07f0c2e132d6359df8c930d174d3bab0}{init\-Position\-Size} ()
+\begin{DoxyCompactList}\small\item\em Init the position size. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\end{Indent}
+\begin{Indent}{\bf Open\-G\-L Functions}\par
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c___mesh_data_a3b673b8f122924a63562988ab186f263}{create\-V\-B\-Os} ()
+\begin{DoxyCompactList}\small\item\em Vbo creation. \end{DoxyCompactList}\item 
+bool \hyperlink{class_g_l_c___mesh_data_a08ea5d2f2bc9a447e1f50ee25c55f2da}{use\-V\-B\-O} (bool, \hyperlink{class_g_l_c___mesh_data_aad6ad4c9ec9e7350c0e62cfcb1a95d48}{G\-L\-C\-\_\-\-Mesh\-Data\-::\-Vbo\-Type})
+\begin{DoxyCompactList}\small\item\em Ibo Usage. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c___mesh_data_a197e487ac27378f65e8c676a633cd98f}{use\-I\-B\-O} (bool use, const \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} current\-Lod=0)
+\begin{DoxyCompactList}\small\item\em Ibo Usage. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c___mesh_data_a4e197e5b4f92e7ee647f2242835e576f}{fill\-Lod\-Ibo} ()
+\begin{DoxyCompactList}\small\item\em Fill all L\-O\-D I\-B\-O. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c___mesh_data_ae3baa732c8666f82896dade2c9051336}{fill\-Vbo} (\hyperlink{class_g_l_c___mesh_data_aad6ad4c9ec9e7350c0e62cfcb1a95d48}{G\-L\-C\-\_\-\-Mesh\-Data\-::\-Vbo\-Type} vbo\-Type)
+\begin{DoxyCompactList}\small\item\em Fill the V\-B\-O of the given type. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\end{Indent}
+\subsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+G\-L\-C\-\_\-\-L\-I\-B\-\_\-\-E\-X\-P\-O\-R\-T Q\-Data\-Stream \& \hyperlink{class_g_l_c___mesh_data_a3668a972db8b0b6c3e6e9f7c885945a0}{operator$<$$<$} (Q\-Data\-Stream \&, const \hyperlink{class_g_l_c___mesh_data}{G\-L\-C\-\_\-\-Mesh\-Data} \&)
+\begin{DoxyCompactList}\small\item\em Non-\/member stream operator. \end{DoxyCompactList}\item 
+G\-L\-C\-\_\-\-L\-I\-B\-\_\-\-E\-X\-P\-O\-R\-T Q\-Data\-Stream \& \hyperlink{class_g_l_c___mesh_data_a48f04434d556f2302b439a831311bff5}{operator$>$$>$} (Q\-Data\-Stream \&, \hyperlink{class_g_l_c___mesh_data}{G\-L\-C\-\_\-\-Mesh\-Data} \&)
+\end{DoxyCompactItemize}
+\subsection*{Get Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_g_l_c___mesh_data_ae3bee82fa3ae74270bf711a1be808455}{lod\-Count} () const 
+\begin{DoxyCompactList}\small\item\em Return the number of lod. \end{DoxyCompactList}\item 
+\hyperlink{glc__global_8h_a9f3f0b00cd127b066c9931b9c257a046}{G\-Lfloat\-Vector} \hyperlink{class_g_l_c___mesh_data_ab22991a864c724d9f3da88791d3c8537}{position\-Vector} () const 
+\begin{DoxyCompactList}\small\item\em Return the Position Vector. \end{DoxyCompactList}\item 
+\hyperlink{glc__global_8h_a9f3f0b00cd127b066c9931b9c257a046}{G\-Lfloat\-Vector} \hyperlink{class_g_l_c___mesh_data_afa52d13f0cb6028755955258c4854108}{normal\-Vector} () const 
+\begin{DoxyCompactList}\small\item\em Return the normal Vector. \end{DoxyCompactList}\item 
+\hyperlink{glc__global_8h_a9f3f0b00cd127b066c9931b9c257a046}{G\-Lfloat\-Vector} \hyperlink{class_g_l_c___mesh_data_afcc9830adf4b5ca43cd360dba7ffa055}{texel\-Vector} () const 
+\begin{DoxyCompactList}\small\item\em Return the texel Vector. \end{DoxyCompactList}\item 
+\hyperlink{glc__global_8h_a9f3f0b00cd127b066c9931b9c257a046}{G\-Lfloat\-Vector} \hyperlink{class_g_l_c___mesh_data_a1a284e16034c43fbf10e79fe04c3386a}{color\-Vector} () const 
+\begin{DoxyCompactList}\small\item\em Return the color Vector. \end{DoxyCompactList}\item 
+\hyperlink{glc__global_8h_a9f3f0b00cd127b066c9931b9c257a046}{G\-Lfloat\-Vector} $\ast$ \hyperlink{class_g_l_c___mesh_data_a41abdb54743f2bea849bc2ff0540a2b9}{position\-Vector\-Handle} ()
+\begin{DoxyCompactList}\small\item\em Return the Position Vector handle. \end{DoxyCompactList}\item 
+\hyperlink{glc__global_8h_a9f3f0b00cd127b066c9931b9c257a046}{G\-Lfloat\-Vector} $\ast$ \hyperlink{class_g_l_c___mesh_data_a15ddb140e57b6a2a0b4cb192aa560dc5}{normal\-Vector\-Handle} ()
+\begin{DoxyCompactList}\small\item\em Return the Normal Vector handle. \end{DoxyCompactList}\item 
+\hyperlink{glc__global_8h_a9f3f0b00cd127b066c9931b9c257a046}{G\-Lfloat\-Vector} $\ast$ \hyperlink{class_g_l_c___mesh_data_a2b74d1592ec40a6db41d034ec8a995f2}{texel\-Vector\-Handle} ()
+\begin{DoxyCompactList}\small\item\em Return the Texel Vector handle. \end{DoxyCompactList}\item 
+\hyperlink{glc__global_8h_a9f3f0b00cd127b066c9931b9c257a046}{G\-Lfloat\-Vector} $\ast$ \hyperlink{class_g_l_c___mesh_data_a5011bbc889e521a58f62e80f69671c3a}{color\-Vector\-Handle} ()
+\begin{DoxyCompactList}\small\item\em Return the Color Vector handle. \end{DoxyCompactList}\item 
+\hyperlink{glc__global_8h_a0552183ff79261cd4beedf2c19b9e70b}{G\-Luint\-Vector} \hyperlink{class_g_l_c___mesh_data_a9f049bd666b8bb1640c5e6ab38a31fb8}{index\-Vector} (const \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{uavobjecttemplate_8m_a6f6ccfcf58b31cb6412107d9d5281426}{i}=0) const 
+\begin{DoxyCompactList}\small\item\em Return the Index Vector of the specified L\-O\-D. \end{DoxyCompactList}\item 
+\hyperlink{glc__global_8h_a0552183ff79261cd4beedf2c19b9e70b}{G\-Luint\-Vector} $\ast$ \hyperlink{class_g_l_c___mesh_data_a7c5e24f46859b8d019a20dc25c56a568}{index\-Vector\-Handle} (const \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{uavobjecttemplate_8m_a6f6ccfcf58b31cb6412107d9d5281426}{i}=0) const 
+\begin{DoxyCompactList}\small\item\em Return the Index Vector handle of the specified L\-O\-D. \end{DoxyCompactList}\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_g_l_c___mesh_data_aa78166c8840cb4144542b4d8f530ad1f}{index\-Vector\-Size} (const \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{uavobjecttemplate_8m_a6f6ccfcf58b31cb6412107d9d5281426}{i}=0) const 
+\begin{DoxyCompactList}\small\item\em Return the size of the triangles index Vector of the specified L\-O\-D. \end{DoxyCompactList}\item 
+\hyperlink{class_g_l_c___lod}{G\-L\-C\-\_\-\-Lod} $\ast$ \hyperlink{class_g_l_c___mesh_data_aaf6280c02faea3f8da213684ce67eb84}{get\-Lod} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{glext_8h_ab47dd9958bcadea08866b42bf358e95e}{index}) const 
+\begin{DoxyCompactList}\small\item\em Return the specified L\-O\-D if the L\-O\-D doesn't exists, return N\-U\-L\-L. \end{DoxyCompactList}\item 
+bool \hyperlink{class_g_l_c___mesh_data_a92dad5bdb17c1eb89de8f7b3f04bae80}{is\-Empty} () const 
+\begin{DoxyCompactList}\small\item\em Return true if the mesh data doesn't contains vertice. \end{DoxyCompactList}\item 
+unsigned \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_g_l_c___mesh_data_af8bb5c71204e3c8ee0f6161405524319}{triangles\-Count} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{glext_8h_a5b5a34b88a28ab9c203c2b432f6168b6}{lod}) const 
+\begin{DoxyCompactList}\small\item\em Return the number of triangle from the given lod index. \end{DoxyCompactList}\item 
+bool \hyperlink{class_g_l_c___mesh_data_af94284e6f1f6def4cc1ab1f984245198}{position\-Size\-Is\-Set} () const 
+\begin{DoxyCompactList}\small\item\em Return true if the position size is set. \end{DoxyCompactList}\item 
+static quint32 \hyperlink{class_g_l_c___mesh_data_a69248744981c66bb9de45a7e207ac1e2}{chunck\-I\-D} ()
+\begin{DoxyCompactList}\small\item\em Return the class Chunk I\-D. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\hyperlink{class_g_l_c___mesh_data}{G\-L\-C\-\_\-\-Mesh\-Data} \-: Contains all data of the mesh. 
+
+Definition at line 42 of file glc\-\_\-meshdata.\-h.
+
+
+
+\subsection{Member Enumeration Documentation}
+\hypertarget{class_g_l_c___mesh_data_aad6ad4c9ec9e7350c0e62cfcb1a95d48}{\index{G\-L\-C\-\_\-\-Mesh\-Data@{G\-L\-C\-\_\-\-Mesh\-Data}!Vbo\-Type@{Vbo\-Type}}
+\index{Vbo\-Type@{Vbo\-Type}!GLC_MeshData@{G\-L\-C\-\_\-\-Mesh\-Data}}
+\subsubsection[{Vbo\-Type}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf G\-L\-C\-\_\-\-Mesh\-Data\-::\-Vbo\-Type}}}\label{class_g_l_c___mesh_data_aad6ad4c9ec9e7350c0e62cfcb1a95d48}
+
+
+Enum of V\-B\-O T\-Y\-P\-E. 
+
+\begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{G\-L\-C\-\_\-\-Vertex@{G\-L\-C\-\_\-\-Vertex}!G\-L\-C\-\_\-\-Mesh\-Data@{G\-L\-C\-\_\-\-Mesh\-Data}}\index{G\-L\-C\-\_\-\-Mesh\-Data@{G\-L\-C\-\_\-\-Mesh\-Data}!G\-L\-C\-\_\-\-Vertex@{G\-L\-C\-\_\-\-Vertex}}\item[{\em 
+\hypertarget{class_g_l_c___mesh_data_aad6ad4c9ec9e7350c0e62cfcb1a95d48ae39ab1843150d960bc5fde771fe57e5b}{G\-L\-C\-\_\-\-Vertex}\label{class_g_l_c___mesh_data_aad6ad4c9ec9e7350c0e62cfcb1a95d48ae39ab1843150d960bc5fde771fe57e5b}
+}]\index{G\-L\-C\-\_\-\-Normal@{G\-L\-C\-\_\-\-Normal}!G\-L\-C\-\_\-\-Mesh\-Data@{G\-L\-C\-\_\-\-Mesh\-Data}}\index{G\-L\-C\-\_\-\-Mesh\-Data@{G\-L\-C\-\_\-\-Mesh\-Data}!G\-L\-C\-\_\-\-Normal@{G\-L\-C\-\_\-\-Normal}}\item[{\em 
+\hypertarget{class_g_l_c___mesh_data_aad6ad4c9ec9e7350c0e62cfcb1a95d48a1d6b9afe07bbb4eec9e65f204177dab3}{G\-L\-C\-\_\-\-Normal}\label{class_g_l_c___mesh_data_aad6ad4c9ec9e7350c0e62cfcb1a95d48a1d6b9afe07bbb4eec9e65f204177dab3}
+}]\index{G\-L\-C\-\_\-\-Texel@{G\-L\-C\-\_\-\-Texel}!G\-L\-C\-\_\-\-Mesh\-Data@{G\-L\-C\-\_\-\-Mesh\-Data}}\index{G\-L\-C\-\_\-\-Mesh\-Data@{G\-L\-C\-\_\-\-Mesh\-Data}!G\-L\-C\-\_\-\-Texel@{G\-L\-C\-\_\-\-Texel}}\item[{\em 
+\hypertarget{class_g_l_c___mesh_data_aad6ad4c9ec9e7350c0e62cfcb1a95d48a0205d7ad502d0cdf50f4d0689ed642a4}{G\-L\-C\-\_\-\-Texel}\label{class_g_l_c___mesh_data_aad6ad4c9ec9e7350c0e62cfcb1a95d48a0205d7ad502d0cdf50f4d0689ed642a4}
+}]\index{G\-L\-C\-\_\-\-Color@{G\-L\-C\-\_\-\-Color}!G\-L\-C\-\_\-\-Mesh\-Data@{G\-L\-C\-\_\-\-Mesh\-Data}}\index{G\-L\-C\-\_\-\-Mesh\-Data@{G\-L\-C\-\_\-\-Mesh\-Data}!G\-L\-C\-\_\-\-Color@{G\-L\-C\-\_\-\-Color}}\item[{\em 
+\hypertarget{class_g_l_c___mesh_data_aad6ad4c9ec9e7350c0e62cfcb1a95d48a63ef84b91edc0dbd7d70676819e640d0}{G\-L\-C\-\_\-\-Color}\label{class_g_l_c___mesh_data_aad6ad4c9ec9e7350c0e62cfcb1a95d48a63ef84b91edc0dbd7d70676819e640d0}
+}]\end{description}
+\end{Desc}
+
+
+Definition at line 50 of file glc\-\_\-meshdata.\-h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_g_l_c___mesh_data_aea55875b7bbe175482b140fb85381707}{\index{G\-L\-C\-\_\-\-Mesh\-Data@{G\-L\-C\-\_\-\-Mesh\-Data}!G\-L\-C\-\_\-\-Mesh\-Data@{G\-L\-C\-\_\-\-Mesh\-Data}}
+\index{G\-L\-C\-\_\-\-Mesh\-Data@{G\-L\-C\-\_\-\-Mesh\-Data}!GLC_MeshData@{G\-L\-C\-\_\-\-Mesh\-Data}}
+\subsubsection[{G\-L\-C\-\_\-\-Mesh\-Data}]{\setlength{\rightskip}{0pt plus 5cm}G\-L\-C\-\_\-\-Mesh\-Data\-::\-G\-L\-C\-\_\-\-Mesh\-Data (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___mesh_data_aea55875b7bbe175482b140fb85381707}
+
+
+Default constructor. 
+
+
+
+Definition at line 33 of file glc\-\_\-meshdata.\-cpp.
+
+\hypertarget{class_g_l_c___mesh_data_a6f03927ba0130579438b03ec1a5b6f0f}{\index{G\-L\-C\-\_\-\-Mesh\-Data@{G\-L\-C\-\_\-\-Mesh\-Data}!G\-L\-C\-\_\-\-Mesh\-Data@{G\-L\-C\-\_\-\-Mesh\-Data}}
+\index{G\-L\-C\-\_\-\-Mesh\-Data@{G\-L\-C\-\_\-\-Mesh\-Data}!GLC_MeshData@{G\-L\-C\-\_\-\-Mesh\-Data}}
+\subsubsection[{G\-L\-C\-\_\-\-Mesh\-Data}]{\setlength{\rightskip}{0pt plus 5cm}G\-L\-C\-\_\-\-Mesh\-Data\-::\-G\-L\-C\-\_\-\-Mesh\-Data (
+\begin{DoxyParamCaption}
+\item[{const {\bf G\-L\-C\-\_\-\-Mesh\-Data} \&}]{mesh\-Data}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___mesh_data_a6f03927ba0130579438b03ec1a5b6f0f}
+
+
+Copy constructor. 
+
+
+
+Definition at line 52 of file glc\-\_\-meshdata.\-cpp.
+
+\hypertarget{class_g_l_c___mesh_data_a126debfcff2d10b43c1145f1c0537105}{\index{G\-L\-C\-\_\-\-Mesh\-Data@{G\-L\-C\-\_\-\-Mesh\-Data}!$\sim$\-G\-L\-C\-\_\-\-Mesh\-Data@{$\sim$\-G\-L\-C\-\_\-\-Mesh\-Data}}
+\index{$\sim$\-G\-L\-C\-\_\-\-Mesh\-Data@{$\sim$\-G\-L\-C\-\_\-\-Mesh\-Data}!GLC_MeshData@{G\-L\-C\-\_\-\-Mesh\-Data}}
+\subsubsection[{$\sim$\-G\-L\-C\-\_\-\-Mesh\-Data}]{\setlength{\rightskip}{0pt plus 5cm}G\-L\-C\-\_\-\-Mesh\-Data\-::$\sim$\-G\-L\-C\-\_\-\-Mesh\-Data (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_g_l_c___mesh_data_a126debfcff2d10b43c1145f1c0537105}
+
+
+Destructor. 
+
+
+
+Definition at line 103 of file glc\-\_\-meshdata.\-cpp.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_g_l_c___mesh_data_a2fdea574fe53a3b832a1b7522e7e3cbf}{\index{G\-L\-C\-\_\-\-Mesh\-Data@{G\-L\-C\-\_\-\-Mesh\-Data}!append\-Lod@{append\-Lod}}
+\index{append\-Lod@{append\-Lod}!GLC_MeshData@{G\-L\-C\-\_\-\-Mesh\-Data}}
+\subsubsection[{append\-Lod}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-\-Mesh\-Data\-::append\-Lod (
+\begin{DoxyParamCaption}
+\item[{{\bf double}}]{accuracy = {\ttfamily 0.0}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___mesh_data_a2fdea574fe53a3b832a1b7522e7e3cbf}
+
+
+Add a empty Lod to the engine. 
+
+
+
+Definition at line 165 of file glc\-\_\-meshdata.\-h.
+
+\hypertarget{class_g_l_c___mesh_data_a69248744981c66bb9de45a7e207ac1e2}{\index{G\-L\-C\-\_\-\-Mesh\-Data@{G\-L\-C\-\_\-\-Mesh\-Data}!chunck\-I\-D@{chunck\-I\-D}}
+\index{chunck\-I\-D@{chunck\-I\-D}!GLC_MeshData@{G\-L\-C\-\_\-\-Mesh\-Data}}
+\subsubsection[{chunck\-I\-D}]{\setlength{\rightskip}{0pt plus 5cm}quint32 G\-L\-C\-\_\-\-Mesh\-Data\-::chunck\-I\-D (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{class_g_l_c___mesh_data_a69248744981c66bb9de45a7e207ac1e2}
+
+
+Return the class Chunk I\-D. 
+
+
+
+Definition at line 111 of file glc\-\_\-meshdata.\-cpp.
+
+\hypertarget{class_g_l_c___mesh_data_a9500c265511eb0996cbf236434d57ac0}{\index{G\-L\-C\-\_\-\-Mesh\-Data@{G\-L\-C\-\_\-\-Mesh\-Data}!clear@{clear}}
+\index{clear@{clear}!GLC_MeshData@{G\-L\-C\-\_\-\-Mesh\-Data}}
+\subsubsection[{clear}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-\-Mesh\-Data\-::clear (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___mesh_data_a9500c265511eb0996cbf236434d57ac0}
+
+
+Clear the content of the mesh\-Data and makes it empty. 
+
+
+
+Definition at line 230 of file glc\-\_\-meshdata.\-cpp.
+
+\hypertarget{class_g_l_c___mesh_data_a1a284e16034c43fbf10e79fe04c3386a}{\index{G\-L\-C\-\_\-\-Mesh\-Data@{G\-L\-C\-\_\-\-Mesh\-Data}!color\-Vector@{color\-Vector}}
+\index{color\-Vector@{color\-Vector}!GLC_MeshData@{G\-L\-C\-\_\-\-Mesh\-Data}}
+\subsubsection[{color\-Vector}]{\setlength{\rightskip}{0pt plus 5cm}{\bf G\-Lfloat\-Vector} G\-L\-C\-\_\-\-Mesh\-Data\-::color\-Vector (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_g_l_c___mesh_data_a1a284e16034c43fbf10e79fe04c3386a}
+
+
+Return the color Vector. 
+
+
+
+Definition at line 190 of file glc\-\_\-meshdata.\-cpp.
+
+\hypertarget{class_g_l_c___mesh_data_a5011bbc889e521a58f62e80f69671c3a}{\index{G\-L\-C\-\_\-\-Mesh\-Data@{G\-L\-C\-\_\-\-Mesh\-Data}!color\-Vector\-Handle@{color\-Vector\-Handle}}
+\index{color\-Vector\-Handle@{color\-Vector\-Handle}!GLC_MeshData@{G\-L\-C\-\_\-\-Mesh\-Data}}
+\subsubsection[{color\-Vector\-Handle}]{\setlength{\rightskip}{0pt plus 5cm}{\bf G\-Lfloat\-Vector}$\ast$ G\-L\-C\-\_\-\-Mesh\-Data\-::color\-Vector\-Handle (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___mesh_data_a5011bbc889e521a58f62e80f69671c3a}
+
+
+Return the Color Vector handle. 
+
+
+
+Definition at line 113 of file glc\-\_\-meshdata.\-h.
+
+\hypertarget{class_g_l_c___mesh_data_a663a125720adea4a5656faf7d7d7726c}{\index{G\-L\-C\-\_\-\-Mesh\-Data@{G\-L\-C\-\_\-\-Mesh\-Data}!copy\-Vbo\-To\-Client\-Side@{copy\-Vbo\-To\-Client\-Side}}
+\index{copy\-Vbo\-To\-Client\-Side@{copy\-Vbo\-To\-Client\-Side}!GLC_MeshData@{G\-L\-C\-\_\-\-Mesh\-Data}}
+\subsubsection[{copy\-Vbo\-To\-Client\-Side}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-\-Mesh\-Data\-::copy\-Vbo\-To\-Client\-Side (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___mesh_data_a663a125720adea4a5656faf7d7d7726c}
+
+
+Copy V\-B\-O to the Client Side. 
+
+
+
+Definition at line 271 of file glc\-\_\-meshdata.\-cpp.
+
+\hypertarget{class_g_l_c___mesh_data_a3b673b8f122924a63562988ab186f263}{\index{G\-L\-C\-\_\-\-Mesh\-Data@{G\-L\-C\-\_\-\-Mesh\-Data}!create\-V\-B\-Os@{create\-V\-B\-Os}}
+\index{create\-V\-B\-Os@{create\-V\-B\-Os}!GLC_MeshData@{G\-L\-C\-\_\-\-Mesh\-Data}}
+\subsubsection[{create\-V\-B\-Os}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-\-Mesh\-Data\-::create\-V\-B\-Os (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___mesh_data_a3b673b8f122924a63562988ab186f263}
+
+
+Vbo creation. 
+
+
+
+Definition at line 367 of file glc\-\_\-meshdata.\-cpp.
+
+\hypertarget{class_g_l_c___mesh_data_a4e197e5b4f92e7ee647f2242835e576f}{\index{G\-L\-C\-\_\-\-Mesh\-Data@{G\-L\-C\-\_\-\-Mesh\-Data}!fill\-Lod\-Ibo@{fill\-Lod\-Ibo}}
+\index{fill\-Lod\-Ibo@{fill\-Lod\-Ibo}!GLC_MeshData@{G\-L\-C\-\_\-\-Mesh\-Data}}
+\subsubsection[{fill\-Lod\-Ibo}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-\-Mesh\-Data\-::fill\-Lod\-Ibo (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___mesh_data_a4e197e5b4f92e7ee647f2242835e576f}
+
+
+Fill all L\-O\-D I\-B\-O. 
+
+
+
+Definition at line 492 of file glc\-\_\-meshdata.\-cpp.
+
+\hypertarget{class_g_l_c___mesh_data_ae3baa732c8666f82896dade2c9051336}{\index{G\-L\-C\-\_\-\-Mesh\-Data@{G\-L\-C\-\_\-\-Mesh\-Data}!fill\-Vbo@{fill\-Vbo}}
+\index{fill\-Vbo@{fill\-Vbo}!GLC_MeshData@{G\-L\-C\-\_\-\-Mesh\-Data}}
+\subsubsection[{fill\-Vbo}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-\-Mesh\-Data\-::fill\-Vbo (
+\begin{DoxyParamCaption}
+\item[{{\bf G\-L\-C\-\_\-\-Mesh\-Data\-::\-Vbo\-Type}}]{vbo\-Type}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___mesh_data_ae3baa732c8666f82896dade2c9051336}
+
+
+Fill the V\-B\-O of the given type. 
+
+
+
+Definition at line 448 of file glc\-\_\-meshdata.\-cpp.
+
+\hypertarget{class_g_l_c___mesh_data_a90d03a2f011b627971fa19070c82adf4}{\index{G\-L\-C\-\_\-\-Mesh\-Data@{G\-L\-C\-\_\-\-Mesh\-Data}!finish\-Lod@{finish\-Lod}}
+\index{finish\-Lod@{finish\-Lod}!GLC_MeshData@{G\-L\-C\-\_\-\-Mesh\-Data}}
+\subsubsection[{finish\-Lod}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-\-Mesh\-Data\-::finish\-Lod (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___mesh_data_a90d03a2f011b627971fa19070c82adf4}
+
+
+If the there is more than 2 L\-O\-D Swap the first and last. 
+
+
+
+Definition at line 217 of file glc\-\_\-meshdata.\-cpp.
+
+\hypertarget{class_g_l_c___mesh_data_aaf6280c02faea3f8da213684ce67eb84}{\index{G\-L\-C\-\_\-\-Mesh\-Data@{G\-L\-C\-\_\-\-Mesh\-Data}!get\-Lod@{get\-Lod}}
+\index{get\-Lod@{get\-Lod}!GLC_MeshData@{G\-L\-C\-\_\-\-Mesh\-Data}}
+\subsubsection[{get\-Lod}]{\setlength{\rightskip}{0pt plus 5cm}{\bf G\-L\-C\-\_\-\-Lod}$\ast$ G\-L\-C\-\_\-\-Mesh\-Data\-::get\-Lod (
+\begin{DoxyParamCaption}
+\item[{{\bf int}}]{index}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___mesh_data_aaf6280c02faea3f8da213684ce67eb84}
+
+
+Return the specified L\-O\-D if the L\-O\-D doesn't exists, return N\-U\-L\-L. 
+
+
+
+Definition at line 137 of file glc\-\_\-meshdata.\-h.
+
+\hypertarget{class_g_l_c___mesh_data_a9f049bd666b8bb1640c5e6ab38a31fb8}{\index{G\-L\-C\-\_\-\-Mesh\-Data@{G\-L\-C\-\_\-\-Mesh\-Data}!index\-Vector@{index\-Vector}}
+\index{index\-Vector@{index\-Vector}!GLC_MeshData@{G\-L\-C\-\_\-\-Mesh\-Data}}
+\subsubsection[{index\-Vector}]{\setlength{\rightskip}{0pt plus 5cm}{\bf G\-Luint\-Vector} G\-L\-C\-\_\-\-Mesh\-Data\-::index\-Vector (
+\begin{DoxyParamCaption}
+\item[{const {\bf int}}]{i = {\ttfamily 0}}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___mesh_data_a9f049bd666b8bb1640c5e6ab38a31fb8}
+
+
+Return the Index Vector of the specified L\-O\-D. 
+
+
+
+Definition at line 117 of file glc\-\_\-meshdata.\-h.
+
+\hypertarget{class_g_l_c___mesh_data_a7c5e24f46859b8d019a20dc25c56a568}{\index{G\-L\-C\-\_\-\-Mesh\-Data@{G\-L\-C\-\_\-\-Mesh\-Data}!index\-Vector\-Handle@{index\-Vector\-Handle}}
+\index{index\-Vector\-Handle@{index\-Vector\-Handle}!GLC_MeshData@{G\-L\-C\-\_\-\-Mesh\-Data}}
+\subsubsection[{index\-Vector\-Handle}]{\setlength{\rightskip}{0pt plus 5cm}{\bf G\-Luint\-Vector}$\ast$ G\-L\-C\-\_\-\-Mesh\-Data\-::index\-Vector\-Handle (
+\begin{DoxyParamCaption}
+\item[{const {\bf int}}]{i = {\ttfamily 0}}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___mesh_data_a7c5e24f46859b8d019a20dc25c56a568}
+
+
+Return the Index Vector handle of the specified L\-O\-D. 
+
+
+
+Definition at line 124 of file glc\-\_\-meshdata.\-h.
+
+\hypertarget{class_g_l_c___mesh_data_aa78166c8840cb4144542b4d8f530ad1f}{\index{G\-L\-C\-\_\-\-Mesh\-Data@{G\-L\-C\-\_\-\-Mesh\-Data}!index\-Vector\-Size@{index\-Vector\-Size}}
+\index{index\-Vector\-Size@{index\-Vector\-Size}!GLC_MeshData@{G\-L\-C\-\_\-\-Mesh\-Data}}
+\subsubsection[{index\-Vector\-Size}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int} G\-L\-C\-\_\-\-Mesh\-Data\-::index\-Vector\-Size (
+\begin{DoxyParamCaption}
+\item[{const {\bf int}}]{i = {\ttfamily 0}}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___mesh_data_aa78166c8840cb4144542b4d8f530ad1f}
+
+
+Return the size of the triangles index Vector of the specified L\-O\-D. 
+
+
+
+Definition at line 131 of file glc\-\_\-meshdata.\-h.
+
+\hypertarget{class_g_l_c___mesh_data_a07f0c2e132d6359df8c930d174d3bab0}{\index{G\-L\-C\-\_\-\-Mesh\-Data@{G\-L\-C\-\_\-\-Mesh\-Data}!init\-Position\-Size@{init\-Position\-Size}}
+\index{init\-Position\-Size@{init\-Position\-Size}!GLC_MeshData@{G\-L\-C\-\_\-\-Mesh\-Data}}
+\subsubsection[{init\-Position\-Size}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-\-Mesh\-Data\-::init\-Position\-Size (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___mesh_data_a07f0c2e132d6359df8c930d174d3bab0}
+
+
+Init the position size. 
+
+
+
+Definition at line 192 of file glc\-\_\-meshdata.\-h.
+
+\hypertarget{class_g_l_c___mesh_data_a92dad5bdb17c1eb89de8f7b3f04bae80}{\index{G\-L\-C\-\_\-\-Mesh\-Data@{G\-L\-C\-\_\-\-Mesh\-Data}!is\-Empty@{is\-Empty}}
+\index{is\-Empty@{is\-Empty}!GLC_MeshData@{G\-L\-C\-\_\-\-Mesh\-Data}}
+\subsubsection[{is\-Empty}]{\setlength{\rightskip}{0pt plus 5cm}bool G\-L\-C\-\_\-\-Mesh\-Data\-::is\-Empty (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___mesh_data_a92dad5bdb17c1eb89de8f7b3f04bae80}
+
+
+Return true if the mesh data doesn't contains vertice. 
+
+
+
+Definition at line 143 of file glc\-\_\-meshdata.\-h.
+
+\hypertarget{class_g_l_c___mesh_data_ae3bee82fa3ae74270bf711a1be808455}{\index{G\-L\-C\-\_\-\-Mesh\-Data@{G\-L\-C\-\_\-\-Mesh\-Data}!lod\-Count@{lod\-Count}}
+\index{lod\-Count@{lod\-Count}!GLC_MeshData@{G\-L\-C\-\_\-\-Mesh\-Data}}
+\subsubsection[{lod\-Count}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int} G\-L\-C\-\_\-\-Mesh\-Data\-::lod\-Count (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___mesh_data_ae3bee82fa3ae74270bf711a1be808455}
+
+
+Return the number of lod. 
+
+
+
+Definition at line 85 of file glc\-\_\-meshdata.\-h.
+
+\hypertarget{class_g_l_c___mesh_data_afa52d13f0cb6028755955258c4854108}{\index{G\-L\-C\-\_\-\-Mesh\-Data@{G\-L\-C\-\_\-\-Mesh\-Data}!normal\-Vector@{normal\-Vector}}
+\index{normal\-Vector@{normal\-Vector}!GLC_MeshData@{G\-L\-C\-\_\-\-Mesh\-Data}}
+\subsubsection[{normal\-Vector}]{\setlength{\rightskip}{0pt plus 5cm}{\bf G\-Lfloat\-Vector} G\-L\-C\-\_\-\-Mesh\-Data\-::normal\-Vector (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_g_l_c___mesh_data_afa52d13f0cb6028755955258c4854108}
+
+
+Return the normal Vector. 
+
+
+
+Definition at line 144 of file glc\-\_\-meshdata.\-cpp.
+
+\hypertarget{class_g_l_c___mesh_data_a15ddb140e57b6a2a0b4cb192aa560dc5}{\index{G\-L\-C\-\_\-\-Mesh\-Data@{G\-L\-C\-\_\-\-Mesh\-Data}!normal\-Vector\-Handle@{normal\-Vector\-Handle}}
+\index{normal\-Vector\-Handle@{normal\-Vector\-Handle}!GLC_MeshData@{G\-L\-C\-\_\-\-Mesh\-Data}}
+\subsubsection[{normal\-Vector\-Handle}]{\setlength{\rightskip}{0pt plus 5cm}{\bf G\-Lfloat\-Vector}$\ast$ G\-L\-C\-\_\-\-Mesh\-Data\-::normal\-Vector\-Handle (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___mesh_data_a15ddb140e57b6a2a0b4cb192aa560dc5}
+
+
+Return the Normal Vector handle. 
+
+
+
+Definition at line 105 of file glc\-\_\-meshdata.\-h.
+
+\hypertarget{class_g_l_c___mesh_data_a4116d8fec515472d6fe700d032c423c7}{\index{G\-L\-C\-\_\-\-Mesh\-Data@{G\-L\-C\-\_\-\-Mesh\-Data}!operator=@{operator=}}
+\index{operator=@{operator=}!GLC_MeshData@{G\-L\-C\-\_\-\-Mesh\-Data}}
+\subsubsection[{operator=}]{\setlength{\rightskip}{0pt plus 5cm}{\bf G\-L\-C\-\_\-\-Mesh\-Data} \& G\-L\-C\-\_\-\-Mesh\-Data\-::operator= (
+\begin{DoxyParamCaption}
+\item[{const {\bf G\-L\-C\-\_\-\-Mesh\-Data} \&}]{mesh\-Data}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___mesh_data_a4116d8fec515472d6fe700d032c423c7}
+
+
+Overload \char`\"{}=\char`\"{} operator. 
+
+
+
+Definition at line 76 of file glc\-\_\-meshdata.\-cpp.
+
+\hypertarget{class_g_l_c___mesh_data_af94284e6f1f6def4cc1ab1f984245198}{\index{G\-L\-C\-\_\-\-Mesh\-Data@{G\-L\-C\-\_\-\-Mesh\-Data}!position\-Size\-Is\-Set@{position\-Size\-Is\-Set}}
+\index{position\-Size\-Is\-Set@{position\-Size\-Is\-Set}!GLC_MeshData@{G\-L\-C\-\_\-\-Mesh\-Data}}
+\subsubsection[{position\-Size\-Is\-Set}]{\setlength{\rightskip}{0pt plus 5cm}bool G\-L\-C\-\_\-\-Mesh\-Data\-::position\-Size\-Is\-Set (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___mesh_data_af94284e6f1f6def4cc1ab1f984245198}
+
+
+Return true if the position size is set. 
+
+
+
+Definition at line 154 of file glc\-\_\-meshdata.\-h.
+
+\hypertarget{class_g_l_c___mesh_data_ab22991a864c724d9f3da88791d3c8537}{\index{G\-L\-C\-\_\-\-Mesh\-Data@{G\-L\-C\-\_\-\-Mesh\-Data}!position\-Vector@{position\-Vector}}
+\index{position\-Vector@{position\-Vector}!GLC_MeshData@{G\-L\-C\-\_\-\-Mesh\-Data}}
+\subsubsection[{position\-Vector}]{\setlength{\rightskip}{0pt plus 5cm}{\bf G\-Lfloat\-Vector} G\-L\-C\-\_\-\-Mesh\-Data\-::position\-Vector (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_g_l_c___mesh_data_ab22991a864c724d9f3da88791d3c8537}
+
+
+Return the Position Vector. 
+
+
+
+Definition at line 117 of file glc\-\_\-meshdata.\-cpp.
+
+\hypertarget{class_g_l_c___mesh_data_a41abdb54743f2bea849bc2ff0540a2b9}{\index{G\-L\-C\-\_\-\-Mesh\-Data@{G\-L\-C\-\_\-\-Mesh\-Data}!position\-Vector\-Handle@{position\-Vector\-Handle}}
+\index{position\-Vector\-Handle@{position\-Vector\-Handle}!GLC_MeshData@{G\-L\-C\-\_\-\-Mesh\-Data}}
+\subsubsection[{position\-Vector\-Handle}]{\setlength{\rightskip}{0pt plus 5cm}{\bf G\-Lfloat\-Vector}$\ast$ G\-L\-C\-\_\-\-Mesh\-Data\-::position\-Vector\-Handle (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___mesh_data_a41abdb54743f2bea849bc2ff0540a2b9}
+
+
+Return the Position Vector handle. 
+
+
+
+Definition at line 101 of file glc\-\_\-meshdata.\-h.
+
+\hypertarget{class_g_l_c___mesh_data_aa5cf570745f184aac4e9d72dbb6ee85d}{\index{G\-L\-C\-\_\-\-Mesh\-Data@{G\-L\-C\-\_\-\-Mesh\-Data}!release\-Vbo\-Client\-Side@{release\-Vbo\-Client\-Side}}
+\index{release\-Vbo\-Client\-Side@{release\-Vbo\-Client\-Side}!GLC_MeshData@{G\-L\-C\-\_\-\-Mesh\-Data}}
+\subsubsection[{release\-Vbo\-Client\-Side}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-\-Mesh\-Data\-::release\-Vbo\-Client\-Side (
+\begin{DoxyParamCaption}
+\item[{bool}]{update = {\ttfamily false}}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___mesh_data_aa5cf570745f184aac4e9d72dbb6ee85d}
+
+
+Release client V\-B\-O. 
+
+
+
+Definition at line 290 of file glc\-\_\-meshdata.\-cpp.
+
+\hypertarget{class_g_l_c___mesh_data_aa5dc09b452837d65191c7cf7aafed66b}{\index{G\-L\-C\-\_\-\-Mesh\-Data@{G\-L\-C\-\_\-\-Mesh\-Data}!set\-Vbo\-Usage@{set\-Vbo\-Usage}}
+\index{set\-Vbo\-Usage@{set\-Vbo\-Usage}!GLC_MeshData@{G\-L\-C\-\_\-\-Mesh\-Data}}
+\subsubsection[{set\-Vbo\-Usage}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-\-Mesh\-Data\-::set\-Vbo\-Usage (
+\begin{DoxyParamCaption}
+\item[{bool}]{usage}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___mesh_data_aa5dc09b452837d65191c7cf7aafed66b}
+
+
+Set V\-B\-O usage. 
+
+
+
+Definition at line 312 of file glc\-\_\-meshdata.\-cpp.
+
+\hypertarget{class_g_l_c___mesh_data_afcc9830adf4b5ca43cd360dba7ffa055}{\index{G\-L\-C\-\_\-\-Mesh\-Data@{G\-L\-C\-\_\-\-Mesh\-Data}!texel\-Vector@{texel\-Vector}}
+\index{texel\-Vector@{texel\-Vector}!GLC_MeshData@{G\-L\-C\-\_\-\-Mesh\-Data}}
+\subsubsection[{texel\-Vector}]{\setlength{\rightskip}{0pt plus 5cm}{\bf G\-Lfloat\-Vector} G\-L\-C\-\_\-\-Mesh\-Data\-::texel\-Vector (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_g_l_c___mesh_data_afcc9830adf4b5ca43cd360dba7ffa055}
+
+
+Return the texel Vector. 
+
+
+
+Definition at line 167 of file glc\-\_\-meshdata.\-cpp.
+
+\hypertarget{class_g_l_c___mesh_data_a2b74d1592ec40a6db41d034ec8a995f2}{\index{G\-L\-C\-\_\-\-Mesh\-Data@{G\-L\-C\-\_\-\-Mesh\-Data}!texel\-Vector\-Handle@{texel\-Vector\-Handle}}
+\index{texel\-Vector\-Handle@{texel\-Vector\-Handle}!GLC_MeshData@{G\-L\-C\-\_\-\-Mesh\-Data}}
+\subsubsection[{texel\-Vector\-Handle}]{\setlength{\rightskip}{0pt plus 5cm}{\bf G\-Lfloat\-Vector}$\ast$ G\-L\-C\-\_\-\-Mesh\-Data\-::texel\-Vector\-Handle (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___mesh_data_a2b74d1592ec40a6db41d034ec8a995f2}
+
+
+Return the Texel Vector handle. 
+
+
+
+Definition at line 109 of file glc\-\_\-meshdata.\-h.
+
+\hypertarget{class_g_l_c___mesh_data_a943d1f417e0bd532d70a9e693d187eea}{\index{G\-L\-C\-\_\-\-Mesh\-Data@{G\-L\-C\-\_\-\-Mesh\-Data}!triangles\-Added@{triangles\-Added}}
+\index{triangles\-Added@{triangles\-Added}!GLC_MeshData@{G\-L\-C\-\_\-\-Mesh\-Data}}
+\subsubsection[{triangles\-Added}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-\-Mesh\-Data\-::triangles\-Added (
+\begin{DoxyParamCaption}
+\item[{{\bf int}}]{lod, }
+\item[{{\bf int}}]{number}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___mesh_data_a943d1f417e0bd532d70a9e693d187eea}
+
+
+Given number of triangles added to the given lod index. 
+
+
+
+Definition at line 181 of file glc\-\_\-meshdata.\-h.
+
+\hypertarget{class_g_l_c___mesh_data_af8bb5c71204e3c8ee0f6161405524319}{\index{G\-L\-C\-\_\-\-Mesh\-Data@{G\-L\-C\-\_\-\-Mesh\-Data}!triangles\-Count@{triangles\-Count}}
+\index{triangles\-Count@{triangles\-Count}!GLC_MeshData@{G\-L\-C\-\_\-\-Mesh\-Data}}
+\subsubsection[{triangles\-Count}]{\setlength{\rightskip}{0pt plus 5cm}unsigned {\bf int} G\-L\-C\-\_\-\-Mesh\-Data\-::triangles\-Count (
+\begin{DoxyParamCaption}
+\item[{{\bf int}}]{lod}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___mesh_data_af8bb5c71204e3c8ee0f6161405524319}
+
+
+Return the number of triangle from the given lod index. 
+
+
+
+Definition at line 147 of file glc\-\_\-meshdata.\-h.
+
+\hypertarget{class_g_l_c___mesh_data_a197e487ac27378f65e8c676a633cd98f}{\index{G\-L\-C\-\_\-\-Mesh\-Data@{G\-L\-C\-\_\-\-Mesh\-Data}!use\-I\-B\-O@{use\-I\-B\-O}}
+\index{use\-I\-B\-O@{use\-I\-B\-O}!GLC_MeshData@{G\-L\-C\-\_\-\-Mesh\-Data}}
+\subsubsection[{use\-I\-B\-O}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-\-Mesh\-Data\-::use\-I\-B\-O (
+\begin{DoxyParamCaption}
+\item[{bool}]{use, }
+\item[{const {\bf int}}]{current\-Lod = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___mesh_data_a197e487ac27378f65e8c676a633cd98f}
+
+
+Ibo Usage. 
+
+
+
+Definition at line 209 of file glc\-\_\-meshdata.\-h.
+
+\hypertarget{class_g_l_c___mesh_data_a08ea5d2f2bc9a447e1f50ee25c55f2da}{\index{G\-L\-C\-\_\-\-Mesh\-Data@{G\-L\-C\-\_\-\-Mesh\-Data}!use\-V\-B\-O@{use\-V\-B\-O}}
+\index{use\-V\-B\-O@{use\-V\-B\-O}!GLC_MeshData@{G\-L\-C\-\_\-\-Mesh\-Data}}
+\subsubsection[{use\-V\-B\-O}]{\setlength{\rightskip}{0pt plus 5cm}bool G\-L\-C\-\_\-\-Mesh\-Data\-::use\-V\-B\-O (
+\begin{DoxyParamCaption}
+\item[{bool}]{use, }
+\item[{{\bf G\-L\-C\-\_\-\-Mesh\-Data\-::\-Vbo\-Type}}]{type}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___mesh_data_a08ea5d2f2bc9a447e1f50ee25c55f2da}
+
+
+Ibo Usage. 
+
+
+
+Definition at line 399 of file glc\-\_\-meshdata.\-cpp.
+
+
+
+\subsection{Friends And Related Function Documentation}
+\hypertarget{class_g_l_c___mesh_data_a3668a972db8b0b6c3e6e9f7c885945a0}{\index{G\-L\-C\-\_\-\-Mesh\-Data@{G\-L\-C\-\_\-\-Mesh\-Data}!operator$<$$<$@{operator$<$$<$}}
+\index{operator$<$$<$@{operator$<$$<$}!GLC_MeshData@{G\-L\-C\-\_\-\-Mesh\-Data}}
+\subsubsection[{operator$<$$<$}]{\setlength{\rightskip}{0pt plus 5cm}G\-L\-C\-\_\-\-L\-I\-B\-\_\-\-E\-X\-P\-O\-R\-T Q\-Data\-Stream\& operator$<$$<$ (
+\begin{DoxyParamCaption}
+\item[{Q\-Data\-Stream \&}]{, }
+\item[{const {\bf G\-L\-C\-\_\-\-Mesh\-Data} \&}]{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [friend]}}}\label{class_g_l_c___mesh_data_a3668a972db8b0b6c3e6e9f7c885945a0}
+
+
+Non-\/member stream operator. 
+
+
+
+Definition at line 502 of file glc\-\_\-meshdata.\-cpp.
+
+\hypertarget{class_g_l_c___mesh_data_a48f04434d556f2302b439a831311bff5}{\index{G\-L\-C\-\_\-\-Mesh\-Data@{G\-L\-C\-\_\-\-Mesh\-Data}!operator$>$$>$@{operator$>$$>$}}
+\index{operator$>$$>$@{operator$>$$>$}!GLC_MeshData@{G\-L\-C\-\_\-\-Mesh\-Data}}
+\subsubsection[{operator$>$$>$}]{\setlength{\rightskip}{0pt plus 5cm}G\-L\-C\-\_\-\-L\-I\-B\-\_\-\-E\-X\-P\-O\-R\-T Q\-Data\-Stream\& operator$>$$>$ (
+\begin{DoxyParamCaption}
+\item[{Q\-Data\-Stream \&}]{, }
+\item[{{\bf G\-L\-C\-\_\-\-Mesh\-Data} \&}]{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [friend]}}}\label{class_g_l_c___mesh_data_a48f04434d556f2302b439a831311bff5}
+
+
+Definition at line 524 of file glc\-\_\-meshdata.\-cpp.
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/glc\-\_\-lib/geometry/\hyperlink{glc__meshdata_8h}{glc\-\_\-meshdata.\-h}\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/glc\-\_\-lib/geometry/\hyperlink{glc__meshdata_8cpp}{glc\-\_\-meshdata.\-cpp}\end{DoxyCompactItemize}

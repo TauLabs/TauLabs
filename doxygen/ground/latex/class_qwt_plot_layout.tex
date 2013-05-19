@@ -1,0 +1,642 @@
+\hypertarget{class_qwt_plot_layout}{\section{Qwt\-Plot\-Layout Class Reference}
+\label{class_qwt_plot_layout}\index{Qwt\-Plot\-Layout@{Qwt\-Plot\-Layout}}
+}
+
+
+Layout engine for \hyperlink{class_qwt_plot}{Qwt\-Plot}.  
+
+
+
+
+{\ttfamily \#include $<$qwt\-\_\-plot\-\_\-layout.\-h$>$}
+
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{class_qwt_plot_layout_1_1_layout_data}{Layout\-Data}
+\item 
+class \hyperlink{class_qwt_plot_layout_1_1_private_data}{Private\-Data}
+\end{DoxyCompactItemize}
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{class_qwt_plot_layout_ad0d2d60e86a4c69ec105524041d5221d}{Option} \{ \hyperlink{class_qwt_plot_layout_ad0d2d60e86a4c69ec105524041d5221daf92cc90a2b68a8788a813807d379b95a}{Align\-Scales} = 0x01, 
+\hyperlink{class_qwt_plot_layout_ad0d2d60e86a4c69ec105524041d5221da813736a8e614f8f24db773081642b74c}{Ignore\-Scrollbars} = 0x02, 
+\hyperlink{class_qwt_plot_layout_ad0d2d60e86a4c69ec105524041d5221da9036bf7de40018a2f12d456a04949c6b}{Ignore\-Frames} = 0x04, 
+\hyperlink{class_qwt_plot_layout_ad0d2d60e86a4c69ec105524041d5221daa7237e2be1e8fc41a8b3156b57b95ed3}{Ignore\-Legend} = 0x08
+ \}
+\item 
+typedef Q\-Flags$<$ \hyperlink{class_qwt_plot_layout_ad0d2d60e86a4c69ec105524041d5221d}{Option} $>$ \hyperlink{class_qwt_plot_layout_aa43457184903f3aaa58e6e073622ef52}{Options}
+\begin{DoxyCompactList}\small\item\em Layout options. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_qwt_plot_layout_ac89596fb2a3d3a92901f124821045a47}{Qwt\-Plot\-Layout} ()
+\begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
+virtual \hyperlink{class_qwt_plot_layout_a39653485c638535bc11f50d2e5ef936d}{$\sim$\-Qwt\-Plot\-Layout} ()
+\begin{DoxyCompactList}\small\item\em Destructor. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_plot_layout_a11667dad6675a7a58cc60ab1597b1203}{set\-Canvas\-Margin} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{fancylineedit_8cpp_a0fa6e789ab8d8c920f2104ee8c183196a9c8c6ada5d0208410d9bb9a14780df36}{margin}, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} axis=-\/1)
+\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_qwt_plot_layout_aacf659495ecc45367eacf5f4b2aeca7d}{canvas\-Margin} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} axis) const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_plot_layout_a147fcf4c59b34779b5a7dc7361a3b6c3}{set\-Align\-Canvas\-To\-Scales} (bool)
+\item 
+bool \hyperlink{class_qwt_plot_layout_ab0200ba639cfd0f31b798d6aa9b6bba7}{align\-Canvas\-To\-Scales} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_plot_layout_a6508553ec1d66bede49e7767526c3d03}{set\-Spacing} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int})
+\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_qwt_plot_layout_ae93650a8f3208578f87348334b77a282}{spacing} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_plot_layout_a11c9695a68f95135841cb23212589f18}{set\-Legend\-Position} (\hyperlink{class_qwt_plot_a31aacb65b5c049dde8c34a0d8482661b}{Qwt\-Plot\-::\-Legend\-Position} pos, \hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} ratio)
+\begin{DoxyCompactList}\small\item\em Specify the position of the legend. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_plot_layout_a001f1eca91803d0eaa9548efc50879eb}{set\-Legend\-Position} (\hyperlink{class_qwt_plot_a31aacb65b5c049dde8c34a0d8482661b}{Qwt\-Plot\-::\-Legend\-Position} pos)
+\begin{DoxyCompactList}\small\item\em Specify the position of the legend. \end{DoxyCompactList}\item 
+\hyperlink{class_qwt_plot_a31aacb65b5c049dde8c34a0d8482661b}{Qwt\-Plot\-::\-Legend\-Position} \hyperlink{class_qwt_plot_layout_a6351a18b76e22d9e83d682d203599afc}{legend\-Position} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_plot_layout_aabe9f952046139667e055c661bee4dbb}{set\-Legend\-Ratio} (\hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} ratio)
+\item 
+\hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} \hyperlink{class_qwt_plot_layout_a6d5d4e568ad74010742e1fdcfc1c7672}{legend\-Ratio} () const 
+\item 
+virtual Q\-Size \hyperlink{class_qwt_plot_layout_a068a12c510998760c727a095f5b055fe}{minimum\-Size\-Hint} (const \hyperlink{class_qwt_plot}{Qwt\-Plot} $\ast$) const 
+\begin{DoxyCompactList}\small\item\em Return a minimum size hint. \end{DoxyCompactList}\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_plot_layout_af940812bf4a9d94dac534734168d4ac8}{activate} (const \hyperlink{class_qwt_plot}{Qwt\-Plot} $\ast$, const Q\-Rect\-F \&rect, \hyperlink{class_qwt_plot_layout_aa43457184903f3aaa58e6e073622ef52}{Options} options=0x00)
+\begin{DoxyCompactList}\small\item\em Recalculate the geometry of all components. \end{DoxyCompactList}\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_plot_layout_a44ce72879951571ffe4daa95be0ec242}{invalidate} ()
+\item 
+const Q\-Rect\-F \& \hyperlink{class_qwt_plot_layout_adfa052a36e48ae0ae625f9f875b739a6}{title\-Rect} () const 
+\item 
+const Q\-Rect\-F \& \hyperlink{class_qwt_plot_layout_ac8df9a500b5f9903d5658d99f83c5d5c}{legend\-Rect} () const 
+\item 
+const Q\-Rect\-F \& \hyperlink{class_qwt_plot_layout_a9d84ec8ba0482f629798d076d0a7d902}{scale\-Rect} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} axis) const 
+\item 
+const Q\-Rect\-F \& \hyperlink{class_qwt_plot_layout_ac18259224add32db416a591a03738d75}{canvas\-Rect} () const 
+\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+Q\-Rect\-F \hyperlink{class_qwt_plot_layout_ae5eebbda9691833dfb5d2aa6a193f131}{layout\-Legend} (\hyperlink{class_qwt_plot_layout_aa43457184903f3aaa58e6e073622ef52}{Options} options, const Q\-Rect\-F \&) const 
+\item 
+Q\-Rect\-F \hyperlink{class_qwt_plot_layout_a38c8c706367c67e36664bf901fd14f36}{align\-Legend} (const Q\-Rect\-F \&\hyperlink{class_qwt_plot_layout_ac18259224add32db416a591a03738d75}{canvas\-Rect}, const Q\-Rect\-F \&\hyperlink{class_qwt_plot_layout_ac8df9a500b5f9903d5658d99f83c5d5c}{legend\-Rect}) const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_plot_layout_ac50f01f0fc49f0dc4028f56f56149d88}{expand\-Line\-Breaks} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} options, const Q\-Rect\-F \&rect, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \&dim\-Title, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} dim\-Axes\mbox{[}\hyperlink{class_qwt_plot_a81df699dcf9dde0752c0726b5f31e271aea62036dfd48ee0f9450718592614892}{Qwt\-Plot\-::axis\-Cnt}\mbox{]}) const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_plot_layout_aba8d76ed436cb36052decee7732bf6e0}{align\-Scales} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} options, Q\-Rect\-F \&\hyperlink{class_qwt_plot_layout_ac18259224add32db416a591a03738d75}{canvas\-Rect}, Q\-Rect\-F \hyperlink{class_qwt_plot_layout_a9d84ec8ba0482f629798d076d0a7d902}{scale\-Rect}\mbox{[}\hyperlink{class_qwt_plot_a81df699dcf9dde0752c0726b5f31e271aea62036dfd48ee0f9450718592614892}{Qwt\-Plot\-::axis\-Cnt}\mbox{]}) const 
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Layout engine for \hyperlink{class_qwt_plot}{Qwt\-Plot}. 
+
+It is used by the \hyperlink{class_qwt_plot}{Qwt\-Plot} widget to organize its internal widgets or by Qwt\-Plot\-::print() to render its content to a Q\-Paint\-Device like a Q\-Printer, Q\-Pixmap/\-Q\-Image or Q\-Svg\-Renderer. 
+
+Definition at line 24 of file qwt\-\_\-plot\-\_\-layout.\-h.
+
+
+
+\subsection{Member Typedef Documentation}
+\hypertarget{class_qwt_plot_layout_aa43457184903f3aaa58e6e073622ef52}{\index{Qwt\-Plot\-Layout@{Qwt\-Plot\-Layout}!Options@{Options}}
+\index{Options@{Options}!QwtPlotLayout@{Qwt\-Plot\-Layout}}
+\subsubsection[{Options}]{\setlength{\rightskip}{0pt plus 5cm}typedef Q\-Flags$<${\bf Option}$>$ {\bf Qwt\-Plot\-Layout\-::\-Options}}}\label{class_qwt_plot_layout_aa43457184903f3aaa58e6e073622ef52}
+
+
+Layout options. 
+
+
+
+Definition at line 50 of file qwt\-\_\-plot\-\_\-layout.\-h.
+
+
+
+\subsection{Member Enumeration Documentation}
+\hypertarget{class_qwt_plot_layout_ad0d2d60e86a4c69ec105524041d5221d}{\index{Qwt\-Plot\-Layout@{Qwt\-Plot\-Layout}!Option@{Option}}
+\index{Option@{Option}!QwtPlotLayout@{Qwt\-Plot\-Layout}}
+\subsubsection[{Option}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf Qwt\-Plot\-Layout\-::\-Option}}}\label{class_qwt_plot_layout_ad0d2d60e86a4c69ec105524041d5221d}
+Options to configure the plot layout engine \begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_plot_layout_af940812bf4a9d94dac534734168d4ac8}{activate()}, \hyperlink{class_qwt_plot_renderer}{Qwt\-Plot\-Renderer} 
+\end{DoxySeeAlso}
+\begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{Align\-Scales@{Align\-Scales}!Qwt\-Plot\-Layout@{Qwt\-Plot\-Layout}}\index{Qwt\-Plot\-Layout@{Qwt\-Plot\-Layout}!Align\-Scales@{Align\-Scales}}\item[{\em 
+\hypertarget{class_qwt_plot_layout_ad0d2d60e86a4c69ec105524041d5221daf92cc90a2b68a8788a813807d379b95a}{Align\-Scales}\label{class_qwt_plot_layout_ad0d2d60e86a4c69ec105524041d5221daf92cc90a2b68a8788a813807d379b95a}
+}]Unused. \index{Ignore\-Scrollbars@{Ignore\-Scrollbars}!Qwt\-Plot\-Layout@{Qwt\-Plot\-Layout}}\index{Qwt\-Plot\-Layout@{Qwt\-Plot\-Layout}!Ignore\-Scrollbars@{Ignore\-Scrollbars}}\item[{\em 
+\hypertarget{class_qwt_plot_layout_ad0d2d60e86a4c69ec105524041d5221da813736a8e614f8f24db773081642b74c}{Ignore\-Scrollbars}\label{class_qwt_plot_layout_ad0d2d60e86a4c69ec105524041d5221da813736a8e614f8f24db773081642b74c}
+}]Ignore the dimension of the scrollbars. There are no scrollbars, when the plot is not rendered to widgets. \index{Ignore\-Frames@{Ignore\-Frames}!Qwt\-Plot\-Layout@{Qwt\-Plot\-Layout}}\index{Qwt\-Plot\-Layout@{Qwt\-Plot\-Layout}!Ignore\-Frames@{Ignore\-Frames}}\item[{\em 
+\hypertarget{class_qwt_plot_layout_ad0d2d60e86a4c69ec105524041d5221da9036bf7de40018a2f12d456a04949c6b}{Ignore\-Frames}\label{class_qwt_plot_layout_ad0d2d60e86a4c69ec105524041d5221da9036bf7de40018a2f12d456a04949c6b}
+}]Ignore all frames. \index{Ignore\-Legend@{Ignore\-Legend}!Qwt\-Plot\-Layout@{Qwt\-Plot\-Layout}}\index{Qwt\-Plot\-Layout@{Qwt\-Plot\-Layout}!Ignore\-Legend@{Ignore\-Legend}}\item[{\em 
+\hypertarget{class_qwt_plot_layout_ad0d2d60e86a4c69ec105524041d5221daa7237e2be1e8fc41a8b3156b57b95ed3}{Ignore\-Legend}\label{class_qwt_plot_layout_ad0d2d60e86a4c69ec105524041d5221daa7237e2be1e8fc41a8b3156b57b95ed3}
+}]Ignore the legend. \end{description}
+\end{Desc}
+
+
+Definition at line 31 of file qwt\-\_\-plot\-\_\-layout.\-h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_qwt_plot_layout_ac89596fb2a3d3a92901f124821045a47}{\index{Qwt\-Plot\-Layout@{Qwt\-Plot\-Layout}!Qwt\-Plot\-Layout@{Qwt\-Plot\-Layout}}
+\index{Qwt\-Plot\-Layout@{Qwt\-Plot\-Layout}!QwtPlotLayout@{Qwt\-Plot\-Layout}}
+\subsubsection[{Qwt\-Plot\-Layout}]{\setlength{\rightskip}{0pt plus 5cm}Qwt\-Plot\-Layout\-::\-Qwt\-Plot\-Layout (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [explicit]}}}\label{class_qwt_plot_layout_ac89596fb2a3d3a92901f124821045a47}
+
+
+Constructor. 
+
+
+
+Definition at line 179 of file qwt\-\_\-plot\-\_\-layout.\-cpp.
+
+\hypertarget{class_qwt_plot_layout_a39653485c638535bc11f50d2e5ef936d}{\index{Qwt\-Plot\-Layout@{Qwt\-Plot\-Layout}!$\sim$\-Qwt\-Plot\-Layout@{$\sim$\-Qwt\-Plot\-Layout}}
+\index{$\sim$\-Qwt\-Plot\-Layout@{$\sim$\-Qwt\-Plot\-Layout}!QwtPlotLayout@{Qwt\-Plot\-Layout}}
+\subsubsection[{$\sim$\-Qwt\-Plot\-Layout}]{\setlength{\rightskip}{0pt plus 5cm}Qwt\-Plot\-Layout\-::$\sim$\-Qwt\-Plot\-Layout (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_qwt_plot_layout_a39653485c638535bc11f50d2e5ef936d}
+
+
+Destructor. 
+
+
+
+Definition at line 190 of file qwt\-\_\-plot\-\_\-layout.\-cpp.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_qwt_plot_layout_af940812bf4a9d94dac534734168d4ac8}{\index{Qwt\-Plot\-Layout@{Qwt\-Plot\-Layout}!activate@{activate}}
+\index{activate@{activate}!QwtPlotLayout@{Qwt\-Plot\-Layout}}
+\subsubsection[{activate}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Plot\-Layout\-::activate (
+\begin{DoxyParamCaption}
+\item[{const {\bf Qwt\-Plot} $\ast$}]{plot, }
+\item[{const Q\-Rect\-F \&}]{plot\-Rect, }
+\item[{{\bf Options}}]{options = {\ttfamily 0x00}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_qwt_plot_layout_af940812bf4a9d94dac534734168d4ac8}
+
+
+Recalculate the geometry of all components. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em plot} & Plot to be layout \\
+\hline
+{\em plot\-Rect} & Rect where to place the components \\
+\hline
+{\em options} & Layout options\\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_plot_layout_a44ce72879951571ffe4daa95be0ec242}{invalidate()}, \hyperlink{class_qwt_plot_layout_adfa052a36e48ae0ae625f9f875b739a6}{title\-Rect()}, \hyperlink{class_qwt_plot_layout_ac8df9a500b5f9903d5658d99f83c5d5c}{legend\-Rect()}, \hyperlink{class_qwt_plot_layout_a9d84ec8ba0482f629798d076d0a7d902}{scale\-Rect()}, \hyperlink{class_qwt_plot_layout_ac18259224add32db416a591a03738d75}{canvas\-Rect()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 1072 of file qwt\-\_\-plot\-\_\-layout.\-cpp.
+
+\hypertarget{class_qwt_plot_layout_ab0200ba639cfd0f31b798d6aa9b6bba7}{\index{Qwt\-Plot\-Layout@{Qwt\-Plot\-Layout}!align\-Canvas\-To\-Scales@{align\-Canvas\-To\-Scales}}
+\index{align\-Canvas\-To\-Scales@{align\-Canvas\-To\-Scales}!QwtPlotLayout@{Qwt\-Plot\-Layout}}
+\subsubsection[{align\-Canvas\-To\-Scales}]{\setlength{\rightskip}{0pt plus 5cm}bool Qwt\-Plot\-Layout\-::align\-Canvas\-To\-Scales (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_qwt_plot_layout_ab0200ba639cfd0f31b798d6aa9b6bba7}
+Return the align-\/canvas-\/to-\/axis-\/scales setting. The canvas may\-:
+\begin{DoxyItemize}
+\item extend beyond the axis scale ends to maximize its size
+\item align with the axis scale ends to control its size.
+\end{DoxyItemize}
+
+\begin{DoxyReturn}{Returns}
+align-\/canvas-\/to-\/axis-\/scales setting 
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_plot_layout_a147fcf4c59b34779b5a7dc7361a3b6c3}{set\-Align\-Canvas\-To\-Scales}, \hyperlink{class_qwt_plot_layout_a11667dad6675a7a58cc60ab1597b1203}{set\-Canvas\-Margin()} 
+\end{DoxySeeAlso}
+\begin{DoxyNote}{Note}
+In this context the term 'scale' means the backbone of a scale. 
+\end{DoxyNote}
+
+
+Definition at line 260 of file qwt\-\_\-plot\-\_\-layout.\-cpp.
+
+\hypertarget{class_qwt_plot_layout_a38c8c706367c67e36664bf901fd14f36}{\index{Qwt\-Plot\-Layout@{Qwt\-Plot\-Layout}!align\-Legend@{align\-Legend}}
+\index{align\-Legend@{align\-Legend}!QwtPlotLayout@{Qwt\-Plot\-Layout}}
+\subsubsection[{align\-Legend}]{\setlength{\rightskip}{0pt plus 5cm}Q\-Rect\-F Qwt\-Plot\-Layout\-::align\-Legend (
+\begin{DoxyParamCaption}
+\item[{const Q\-Rect\-F \&}]{canvas\-Rect, }
+\item[{const Q\-Rect\-F \&}]{legend\-Rect}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_qwt_plot_layout_a38c8c706367c67e36664bf901fd14f36}
+Align the legend to the canvas 
+\begin{DoxyParams}{Parameters}
+{\em canvas\-Rect} & Geometry of the canvas \\
+\hline
+{\em legend\-Rect} & Maximum geometry for the legend \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Geometry for the aligned legend 
+\end{DoxyReturn}
+
+
+Definition at line 679 of file qwt\-\_\-plot\-\_\-layout.\-cpp.
+
+\hypertarget{class_qwt_plot_layout_aba8d76ed436cb36052decee7732bf6e0}{\index{Qwt\-Plot\-Layout@{Qwt\-Plot\-Layout}!align\-Scales@{align\-Scales}}
+\index{align\-Scales@{align\-Scales}!QwtPlotLayout@{Qwt\-Plot\-Layout}}
+\subsubsection[{align\-Scales}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Plot\-Layout\-::align\-Scales (
+\begin{DoxyParamCaption}
+\item[{{\bf int}}]{options, }
+\item[{Q\-Rect\-F \&}]{canvas\-Rect, }
+\item[{Q\-Rect\-F}]{scale\-Rect\mbox{[}\-Qwt\-Plot\-::axis\-Cnt\mbox{]}}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_qwt_plot_layout_aba8d76ed436cb36052decee7732bf6e0}
+Align the ticks of the axis to the canvas borders using the empty corners.
+
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_plot_layout_aa43457184903f3aaa58e6e073622ef52}{Options} 
+\end{DoxySeeAlso}
+
+
+Definition at line 843 of file qwt\-\_\-plot\-\_\-layout.\-cpp.
+
+\hypertarget{class_qwt_plot_layout_aacf659495ecc45367eacf5f4b2aeca7d}{\index{Qwt\-Plot\-Layout@{Qwt\-Plot\-Layout}!canvas\-Margin@{canvas\-Margin}}
+\index{canvas\-Margin@{canvas\-Margin}!QwtPlotLayout@{Qwt\-Plot\-Layout}}
+\subsubsection[{canvas\-Margin}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int} Qwt\-Plot\-Layout\-::canvas\-Margin (
+\begin{DoxyParamCaption}
+\item[{{\bf int}}]{axis}
+\end{DoxyParamCaption}
+) const}}\label{class_qwt_plot_layout_aacf659495ecc45367eacf5f4b2aeca7d}
+\begin{DoxyReturn}{Returns}
+Margin around the scale tick borders 
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_plot_layout_a11667dad6675a7a58cc60ab1597b1203}{set\-Canvas\-Margin()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 226 of file qwt\-\_\-plot\-\_\-layout.\-cpp.
+
+\hypertarget{class_qwt_plot_layout_ac18259224add32db416a591a03738d75}{\index{Qwt\-Plot\-Layout@{Qwt\-Plot\-Layout}!canvas\-Rect@{canvas\-Rect}}
+\index{canvas\-Rect@{canvas\-Rect}!QwtPlotLayout@{Qwt\-Plot\-Layout}}
+\subsubsection[{canvas\-Rect}]{\setlength{\rightskip}{0pt plus 5cm}const Q\-Rect\-F \& Qwt\-Plot\-Layout\-::canvas\-Rect (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_qwt_plot_layout_ac18259224add32db416a591a03738d75}
+\begin{DoxyReturn}{Returns}
+Geometry for the canvas 
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_plot_layout_af940812bf4a9d94dac534734168d4ac8}{activate()}, \hyperlink{class_qwt_plot_layout_a44ce72879951571ffe4daa95be0ec242}{invalidate()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 415 of file qwt\-\_\-plot\-\_\-layout.\-cpp.
+
+\hypertarget{class_qwt_plot_layout_ac50f01f0fc49f0dc4028f56f56149d88}{\index{Qwt\-Plot\-Layout@{Qwt\-Plot\-Layout}!expand\-Line\-Breaks@{expand\-Line\-Breaks}}
+\index{expand\-Line\-Breaks@{expand\-Line\-Breaks}!QwtPlotLayout@{Qwt\-Plot\-Layout}}
+\subsubsection[{expand\-Line\-Breaks}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Plot\-Layout\-::expand\-Line\-Breaks (
+\begin{DoxyParamCaption}
+\item[{{\bf int}}]{options, }
+\item[{const Q\-Rect\-F \&}]{rect, }
+\item[{{\bf int} \&}]{dim\-Title, }
+\item[{{\bf int}}]{dim\-Axis\mbox{[}\-Qwt\-Plot\-::axis\-Cnt\mbox{]}}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_qwt_plot_layout_ac50f01f0fc49f0dc4028f56f56149d88}
+Expand all line breaks in text labels, and calculate the height of their widgets in orientation of the text.
+
+
+\begin{DoxyParams}{Parameters}
+{\em options} & Options how to layout the legend \\
+\hline
+{\em rect} & Bounding rect for title, axes and canvas. \\
+\hline
+{\em dim\-Title} & Expanded height of the title widget \\
+\hline
+{\em dim\-Axis} & Expanded heights of the axis in axis orientation.\\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_plot_layout_aa43457184903f3aaa58e6e073622ef52}{Options} 
+\end{DoxySeeAlso}
+
+
+Definition at line 716 of file qwt\-\_\-plot\-\_\-layout.\-cpp.
+
+\hypertarget{class_qwt_plot_layout_a44ce72879951571ffe4daa95be0ec242}{\index{Qwt\-Plot\-Layout@{Qwt\-Plot\-Layout}!invalidate@{invalidate}}
+\index{invalidate@{invalidate}!QwtPlotLayout@{Qwt\-Plot\-Layout}}
+\subsubsection[{invalidate}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Plot\-Layout\-::invalidate (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_qwt_plot_layout_a44ce72879951571ffe4daa95be0ec242}
+Invalidate the geometry of all components. \begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_plot_layout_af940812bf4a9d94dac534734168d4ac8}{activate()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 424 of file qwt\-\_\-plot\-\_\-layout.\-cpp.
+
+\hypertarget{class_qwt_plot_layout_ae5eebbda9691833dfb5d2aa6a193f131}{\index{Qwt\-Plot\-Layout@{Qwt\-Plot\-Layout}!layout\-Legend@{layout\-Legend}}
+\index{layout\-Legend@{layout\-Legend}!QwtPlotLayout@{Qwt\-Plot\-Layout}}
+\subsubsection[{layout\-Legend}]{\setlength{\rightskip}{0pt plus 5cm}Q\-Rect\-F Qwt\-Plot\-Layout\-::layout\-Legend (
+\begin{DoxyParamCaption}
+\item[{{\bf Options}}]{options, }
+\item[{const Q\-Rect\-F \&}]{rect}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_qwt_plot_layout_ae5eebbda9691833dfb5d2aa6a193f131}
+Find the geometry for the legend 
+\begin{DoxyParams}{Parameters}
+{\em options} & Options how to layout the legend \\
+\hline
+{\em rect} & Rectangle where to place the legend \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Geometry for the legend 
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_plot_layout_aa43457184903f3aaa58e6e073622ef52}{Options} 
+\end{DoxySeeAlso}
+
+
+Definition at line 618 of file qwt\-\_\-plot\-\_\-layout.\-cpp.
+
+\hypertarget{class_qwt_plot_layout_a6351a18b76e22d9e83d682d203599afc}{\index{Qwt\-Plot\-Layout@{Qwt\-Plot\-Layout}!legend\-Position@{legend\-Position}}
+\index{legend\-Position@{legend\-Position}!QwtPlotLayout@{Qwt\-Plot\-Layout}}
+\subsubsection[{legend\-Position}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Qwt\-Plot\-::\-Legend\-Position} Qwt\-Plot\-Layout\-::legend\-Position (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_qwt_plot_layout_a6351a18b76e22d9e83d682d203599afc}
+\begin{DoxyReturn}{Returns}
+Position of the legend 
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_plot_layout_a11c9695a68f95135841cb23212589f18}{set\-Legend\-Position()}, Qwt\-Plot\-::set\-Legend\-Position(), Qwt\-Plot\-::legend\-Position() 
+\end{DoxySeeAlso}
+
+
+Definition at line 346 of file qwt\-\_\-plot\-\_\-layout.\-cpp.
+
+\hypertarget{class_qwt_plot_layout_a6d5d4e568ad74010742e1fdcfc1c7672}{\index{Qwt\-Plot\-Layout@{Qwt\-Plot\-Layout}!legend\-Ratio@{legend\-Ratio}}
+\index{legend\-Ratio@{legend\-Ratio}!QwtPlotLayout@{Qwt\-Plot\-Layout}}
+\subsubsection[{legend\-Ratio}]{\setlength{\rightskip}{0pt plus 5cm}{\bf double} Qwt\-Plot\-Layout\-::legend\-Ratio (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_qwt_plot_layout_a6d5d4e568ad74010742e1fdcfc1c7672}
+\begin{DoxyReturn}{Returns}
+The relative size of the legend in the plot. 
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_plot_layout_a11c9695a68f95135841cb23212589f18}{set\-Legend\-Position()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 369 of file qwt\-\_\-plot\-\_\-layout.\-cpp.
+
+\hypertarget{class_qwt_plot_layout_ac8df9a500b5f9903d5658d99f83c5d5c}{\index{Qwt\-Plot\-Layout@{Qwt\-Plot\-Layout}!legend\-Rect@{legend\-Rect}}
+\index{legend\-Rect@{legend\-Rect}!QwtPlotLayout@{Qwt\-Plot\-Layout}}
+\subsubsection[{legend\-Rect}]{\setlength{\rightskip}{0pt plus 5cm}const Q\-Rect\-F \& Qwt\-Plot\-Layout\-::legend\-Rect (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_qwt_plot_layout_ac8df9a500b5f9903d5658d99f83c5d5c}
+\begin{DoxyReturn}{Returns}
+Geometry for the legend 
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_plot_layout_af940812bf4a9d94dac534734168d4ac8}{activate()}, \hyperlink{class_qwt_plot_layout_a44ce72879951571ffe4daa95be0ec242}{invalidate()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 389 of file qwt\-\_\-plot\-\_\-layout.\-cpp.
+
+\hypertarget{class_qwt_plot_layout_a068a12c510998760c727a095f5b055fe}{\index{Qwt\-Plot\-Layout@{Qwt\-Plot\-Layout}!minimum\-Size\-Hint@{minimum\-Size\-Hint}}
+\index{minimum\-Size\-Hint@{minimum\-Size\-Hint}!QwtPlotLayout@{Qwt\-Plot\-Layout}}
+\subsubsection[{minimum\-Size\-Hint}]{\setlength{\rightskip}{0pt plus 5cm}Q\-Size Qwt\-Plot\-Layout\-::minimum\-Size\-Hint (
+\begin{DoxyParamCaption}
+\item[{const {\bf Qwt\-Plot} $\ast$}]{plot}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_qwt_plot_layout_a068a12c510998760c727a095f5b055fe}
+
+
+Return a minimum size hint. 
+
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_plot_a5a17d0ea2e9a977d48045e742f5b8cfd}{Qwt\-Plot\-::minimum\-Size\-Hint()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 436 of file qwt\-\_\-plot\-\_\-layout.\-cpp.
+
+\hypertarget{class_qwt_plot_layout_a9d84ec8ba0482f629798d076d0a7d902}{\index{Qwt\-Plot\-Layout@{Qwt\-Plot\-Layout}!scale\-Rect@{scale\-Rect}}
+\index{scale\-Rect@{scale\-Rect}!QwtPlotLayout@{Qwt\-Plot\-Layout}}
+\subsubsection[{scale\-Rect}]{\setlength{\rightskip}{0pt plus 5cm}const Q\-Rect\-F \& Qwt\-Plot\-Layout\-::scale\-Rect (
+\begin{DoxyParamCaption}
+\item[{{\bf int}}]{axis}
+\end{DoxyParamCaption}
+) const}}\label{class_qwt_plot_layout_a9d84ec8ba0482f629798d076d0a7d902}
+
+\begin{DoxyParams}{Parameters}
+{\em axis} & Axis index \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Geometry for the scale 
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_plot_layout_af940812bf4a9d94dac534734168d4ac8}{activate()}, \hyperlink{class_qwt_plot_layout_a44ce72879951571ffe4daa95be0ec242}{invalidate()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 400 of file qwt\-\_\-plot\-\_\-layout.\-cpp.
+
+\hypertarget{class_qwt_plot_layout_a147fcf4c59b34779b5a7dc7361a3b6c3}{\index{Qwt\-Plot\-Layout@{Qwt\-Plot\-Layout}!set\-Align\-Canvas\-To\-Scales@{set\-Align\-Canvas\-To\-Scales}}
+\index{set\-Align\-Canvas\-To\-Scales@{set\-Align\-Canvas\-To\-Scales}!QwtPlotLayout@{Qwt\-Plot\-Layout}}
+\subsubsection[{set\-Align\-Canvas\-To\-Scales}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Plot\-Layout\-::set\-Align\-Canvas\-To\-Scales (
+\begin{DoxyParamCaption}
+\item[{bool}]{align\-Canvas\-To\-Scales}
+\end{DoxyParamCaption}
+)}}\label{class_qwt_plot_layout_a147fcf4c59b34779b5a7dc7361a3b6c3}
+Change the align-\/canvas-\/to-\/axis-\/scales setting. The canvas may\-:
+\begin{DoxyItemize}
+\item extend beyond the axis scale ends to maximize its size,
+\item align with the axis scale ends to control its size.
+\end{DoxyItemize}
+
+
+\begin{DoxyParams}{Parameters}
+{\em align\-Canvas\-To\-Scales} & New align-\/canvas-\/to-\/axis-\/scales setting\\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_plot_layout_a11667dad6675a7a58cc60ab1597b1203}{set\-Canvas\-Margin()} 
+\end{DoxySeeAlso}
+\begin{DoxyNote}{Note}
+In this context the term 'scale' means the backbone of a scale. 
+\end{DoxyNote}
+\begin{DoxyWarning}{Warning}
+In case of align\-Canvas\-To\-Scales == true canvas\-Margin will have no effect 
+\end{DoxyWarning}
+
+
+Definition at line 246 of file qwt\-\_\-plot\-\_\-layout.\-cpp.
+
+\hypertarget{class_qwt_plot_layout_a11667dad6675a7a58cc60ab1597b1203}{\index{Qwt\-Plot\-Layout@{Qwt\-Plot\-Layout}!set\-Canvas\-Margin@{set\-Canvas\-Margin}}
+\index{set\-Canvas\-Margin@{set\-Canvas\-Margin}!QwtPlotLayout@{Qwt\-Plot\-Layout}}
+\subsubsection[{set\-Canvas\-Margin}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Plot\-Layout\-::set\-Canvas\-Margin (
+\begin{DoxyParamCaption}
+\item[{{\bf int}}]{margin, }
+\item[{{\bf int}}]{axis = {\ttfamily -\/1}}
+\end{DoxyParamCaption}
+)}}\label{class_qwt_plot_layout_a11667dad6675a7a58cc60ab1597b1203}
+Change a margin of the canvas. The margin is the space above/below the scale ticks. A negative margin will be set to -\/1, excluding the borders of the scales.
+
+
+\begin{DoxyParams}{Parameters}
+{\em margin} & New margin \\
+\hline
+{\em axis} & One of \hyperlink{class_qwt_plot_a81df699dcf9dde0752c0726b5f31e271}{Qwt\-Plot\-::\-Axis}. Specifies where the position of the margin. -\/1 means margin at all borders. \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_plot_layout_aacf659495ecc45367eacf5f4b2aeca7d}{canvas\-Margin()}
+\end{DoxySeeAlso}
+\begin{DoxyWarning}{Warning}
+The margin will have no effect when align\-Canvas\-To\-Scales is true 
+\end{DoxyWarning}
+
+
+Definition at line 208 of file qwt\-\_\-plot\-\_\-layout.\-cpp.
+
+\hypertarget{class_qwt_plot_layout_a11c9695a68f95135841cb23212589f18}{\index{Qwt\-Plot\-Layout@{Qwt\-Plot\-Layout}!set\-Legend\-Position@{set\-Legend\-Position}}
+\index{set\-Legend\-Position@{set\-Legend\-Position}!QwtPlotLayout@{Qwt\-Plot\-Layout}}
+\subsubsection[{set\-Legend\-Position}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Plot\-Layout\-::set\-Legend\-Position (
+\begin{DoxyParamCaption}
+\item[{{\bf Qwt\-Plot\-::\-Legend\-Position}}]{pos, }
+\item[{{\bf double}}]{ratio}
+\end{DoxyParamCaption}
+)}}\label{class_qwt_plot_layout_a11c9695a68f95135841cb23212589f18}
+
+
+Specify the position of the legend. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em pos} & The legend's position. \\
+\hline
+{\em ratio} & Ratio between legend and the bounding rect of title, canvas and axes. The legend will be shrinked if it would need more space than the given ratio. The ratio is limited to \mbox{]}0.\-0 .. 1.\-0\mbox{]}. In case of $<$= 0.\-0 it will be reset to the default ratio. The default vertical/horizontal ratio is 0.\-33/0.5.\\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See Also}
+Qwt\-Plot\-::set\-Legend\-Position() 
+\end{DoxySeeAlso}
+
+
+Definition at line 299 of file qwt\-\_\-plot\-\_\-layout.\-cpp.
+
+\hypertarget{class_qwt_plot_layout_a001f1eca91803d0eaa9548efc50879eb}{\index{Qwt\-Plot\-Layout@{Qwt\-Plot\-Layout}!set\-Legend\-Position@{set\-Legend\-Position}}
+\index{set\-Legend\-Position@{set\-Legend\-Position}!QwtPlotLayout@{Qwt\-Plot\-Layout}}
+\subsubsection[{set\-Legend\-Position}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Plot\-Layout\-::set\-Legend\-Position (
+\begin{DoxyParamCaption}
+\item[{{\bf Qwt\-Plot\-::\-Legend\-Position}}]{pos}
+\end{DoxyParamCaption}
+)}}\label{class_qwt_plot_layout_a001f1eca91803d0eaa9548efc50879eb}
+
+
+Specify the position of the legend. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em pos} & The legend's position. Valid values are {\ttfamily \hyperlink{class_qwt_plot_a31aacb65b5c049dde8c34a0d8482661ba38b51536a196582bd1f7658c0828eb18}{Qwt\-Plot\-::\-Left\-Legend}}, {\ttfamily \hyperlink{class_qwt_plot_a31aacb65b5c049dde8c34a0d8482661ba5273f8002504c24f9dae6ce09b08f03c}{Qwt\-Plot\-::\-Right\-Legend}}, {\ttfamily \hyperlink{class_qwt_plot_a31aacb65b5c049dde8c34a0d8482661ba0ee6820a1e8b56737958b738ca23ae34}{Qwt\-Plot\-::\-Top\-Legend}}, {\ttfamily \hyperlink{class_qwt_plot_a31aacb65b5c049dde8c34a0d8482661ba8b863705308d89b388732f186be15fb5}{Qwt\-Plot\-::\-Bottom\-Legend}}.\\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See Also}
+Qwt\-Plot\-::set\-Legend\-Position() 
+\end{DoxySeeAlso}
+
+
+Definition at line 336 of file qwt\-\_\-plot\-\_\-layout.\-cpp.
+
+\hypertarget{class_qwt_plot_layout_aabe9f952046139667e055c661bee4dbb}{\index{Qwt\-Plot\-Layout@{Qwt\-Plot\-Layout}!set\-Legend\-Ratio@{set\-Legend\-Ratio}}
+\index{set\-Legend\-Ratio@{set\-Legend\-Ratio}!QwtPlotLayout@{Qwt\-Plot\-Layout}}
+\subsubsection[{set\-Legend\-Ratio}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Plot\-Layout\-::set\-Legend\-Ratio (
+\begin{DoxyParamCaption}
+\item[{{\bf double}}]{ratio}
+\end{DoxyParamCaption}
+)}}\label{class_qwt_plot_layout_aabe9f952046139667e055c661bee4dbb}
+Specify the relative size of the legend in the plot 
+\begin{DoxyParams}{Parameters}
+{\em ratio} & Ratio between legend and the bounding rect of title, canvas and axes. The legend will be shrinked if it would need more space than the given ratio. The ratio is limited to \mbox{]}0.\-0 .. 1.\-0\mbox{]}. In case of $<$= 0.\-0 it will be reset to the default ratio. The default vertical/horizontal ratio is 0.\-33/0.5. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 360 of file qwt\-\_\-plot\-\_\-layout.\-cpp.
+
+\hypertarget{class_qwt_plot_layout_a6508553ec1d66bede49e7767526c3d03}{\index{Qwt\-Plot\-Layout@{Qwt\-Plot\-Layout}!set\-Spacing@{set\-Spacing}}
+\index{set\-Spacing@{set\-Spacing}!QwtPlotLayout@{Qwt\-Plot\-Layout}}
+\subsubsection[{set\-Spacing}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Plot\-Layout\-::set\-Spacing (
+\begin{DoxyParamCaption}
+\item[{{\bf int}}]{spacing}
+\end{DoxyParamCaption}
+)}}\label{class_qwt_plot_layout_a6508553ec1d66bede49e7767526c3d03}
+Change the spacing of the plot. The spacing is the distance between the plot components.
+
+
+\begin{DoxyParams}{Parameters}
+{\em spacing} & new spacing \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See Also}
+set\-Margin(), \hyperlink{class_qwt_plot_layout_ae93650a8f3208578f87348334b77a282}{spacing()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 272 of file qwt\-\_\-plot\-\_\-layout.\-cpp.
+
+\hypertarget{class_qwt_plot_layout_ae93650a8f3208578f87348334b77a282}{\index{Qwt\-Plot\-Layout@{Qwt\-Plot\-Layout}!spacing@{spacing}}
+\index{spacing@{spacing}!QwtPlotLayout@{Qwt\-Plot\-Layout}}
+\subsubsection[{spacing}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int} Qwt\-Plot\-Layout\-::spacing (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_qwt_plot_layout_ae93650a8f3208578f87348334b77a282}
+\begin{DoxyReturn}{Returns}
+spacing 
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{fancylineedit_8cpp_a0fa6e789ab8d8c920f2104ee8c183196a9c8c6ada5d0208410d9bb9a14780df36}{margin()}, \hyperlink{class_qwt_plot_layout_a6508553ec1d66bede49e7767526c3d03}{set\-Spacing()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 281 of file qwt\-\_\-plot\-\_\-layout.\-cpp.
+
+\hypertarget{class_qwt_plot_layout_adfa052a36e48ae0ae625f9f875b739a6}{\index{Qwt\-Plot\-Layout@{Qwt\-Plot\-Layout}!title\-Rect@{title\-Rect}}
+\index{title\-Rect@{title\-Rect}!QwtPlotLayout@{Qwt\-Plot\-Layout}}
+\subsubsection[{title\-Rect}]{\setlength{\rightskip}{0pt plus 5cm}const Q\-Rect\-F \& Qwt\-Plot\-Layout\-::title\-Rect (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_qwt_plot_layout_adfa052a36e48ae0ae625f9f875b739a6}
+\begin{DoxyReturn}{Returns}
+Geometry for the title 
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_plot_layout_af940812bf4a9d94dac534734168d4ac8}{activate()}, \hyperlink{class_qwt_plot_layout_a44ce72879951571ffe4daa95be0ec242}{invalidate()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 379 of file qwt\-\_\-plot\-\_\-layout.\-cpp.
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/qwt/src/\hyperlink{qwt__plot__layout_8h}{qwt\-\_\-plot\-\_\-layout.\-h}\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/qwt/src/\hyperlink{qwt__plot__layout_8cpp}{qwt\-\_\-plot\-\_\-layout.\-cpp}\end{DoxyCompactItemize}

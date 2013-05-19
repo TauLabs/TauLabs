@@ -1,0 +1,84 @@
+\hypertarget{glc__objtoworld_8h}{\section{/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/glc\-\_\-lib/io/glc\-\_\-objtoworld.h File Reference}
+\label{glc__objtoworld_8h}\index{/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/glc\-\_\-lib/io/glc\-\_\-objtoworld.\-h@{/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/glc\-\_\-lib/io/glc\-\_\-objtoworld.\-h}}
+}
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{class_g_l_c___obj_to_world}{G\-L\-C\-\_\-\-Obj\-To\-World}
+\begin{DoxyCompactList}\small\item\em \hyperlink{class_g_l_c___obj_to_world}{G\-L\-C\-\_\-\-Obj\-To\-World} \-: Create an \hyperlink{class_g_l_c___world}{G\-L\-C\-\_\-\-World} from obj file. \end{DoxyCompactList}\item 
+struct \hyperlink{struct_g_l_c___obj_to_world_1_1_obj_vertice}{G\-L\-C\-\_\-\-Obj\-To\-World\-::\-Obj\-Vertice}
+\item 
+struct \hyperlink{struct_g_l_c___obj_to_world_1_1_mat_offset_size}{G\-L\-C\-\_\-\-Obj\-To\-World\-::\-Mat\-Offset\-Size}
+\item 
+struct \hyperlink{struct_g_l_c___obj_to_world_1_1_current_obj_mesh}{G\-L\-C\-\_\-\-Obj\-To\-World\-::\-Current\-Obj\-Mesh}
+\end{DoxyCompactItemize}
+\subsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{glc__objtoworld_8h_a461eba4998b5d5dac48d6102c8c63bec}{Face\-Type} \{ \\*
+\hyperlink{glc__objtoworld_8h_a461eba4998b5d5dac48d6102c8c63becaf47507d0bcd1666ef9c1ded5f64714ad}{not\-Set}, 
+\hyperlink{glc__objtoworld_8h_a461eba4998b5d5dac48d6102c8c63beca86aa3b8ff677143b4281589b162546e9}{coordinate}, 
+\hyperlink{glc__objtoworld_8h_a461eba4998b5d5dac48d6102c8c63beca34278523a3d7d8439a933cb655d73b32}{coordinate\-And\-Texture}, 
+\hyperlink{glc__objtoworld_8h_a461eba4998b5d5dac48d6102c8c63beca3511a242a53632481bc4aa1003dc058a}{coordinate\-And\-Normal}, 
+\\*
+\hyperlink{glc__objtoworld_8h_a461eba4998b5d5dac48d6102c8c63beca02889519e043e423da867e6ab6004170}{coordinate\-And\-Texture\-And\-Normal}
+ \}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+bool \hyperlink{glc__objtoworld_8h_a80095e66cbe3a44ae17867208dbc5c5f}{operator==} (const \hyperlink{struct_g_l_c___obj_to_world_1_1_obj_vertice}{G\-L\-C\-\_\-\-Obj\-To\-World\-::\-Obj\-Vertice} \&vertice1, const \hyperlink{struct_g_l_c___obj_to_world_1_1_obj_vertice}{G\-L\-C\-\_\-\-Obj\-To\-World\-::\-Obj\-Vertice} \&vertice2)
+\item 
+uint \hyperlink{glc__objtoworld_8h_a86db39b0eac853f33ae2fa731fd9963e}{q\-Hash} (const \hyperlink{struct_g_l_c___obj_to_world_1_1_obj_vertice}{G\-L\-C\-\_\-\-Obj\-To\-World\-::\-Obj\-Vertice} \&vertice)
+\end{DoxyCompactItemize}
+
+
+\subsection{Enumeration Type Documentation}
+\hypertarget{glc__objtoworld_8h_a461eba4998b5d5dac48d6102c8c63bec}{\index{glc\-\_\-objtoworld.\-h@{glc\-\_\-objtoworld.\-h}!Face\-Type@{Face\-Type}}
+\index{Face\-Type@{Face\-Type}!glc_objtoworld.h@{glc\-\_\-objtoworld.\-h}}
+\subsubsection[{Face\-Type}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf Face\-Type}}}\label{glc__objtoworld_8h_a461eba4998b5d5dac48d6102c8c63bec}
+\begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{not\-Set@{not\-Set}!glc\-\_\-objtoworld.\-h@{glc\-\_\-objtoworld.\-h}}\index{glc\-\_\-objtoworld.\-h@{glc\-\_\-objtoworld.\-h}!not\-Set@{not\-Set}}\item[{\em 
+\hypertarget{glc__objtoworld_8h_a461eba4998b5d5dac48d6102c8c63becaf47507d0bcd1666ef9c1ded5f64714ad}{not\-Set}\label{glc__objtoworld_8h_a461eba4998b5d5dac48d6102c8c63becaf47507d0bcd1666ef9c1ded5f64714ad}
+}]\index{coordinate@{coordinate}!glc\-\_\-objtoworld.\-h@{glc\-\_\-objtoworld.\-h}}\index{glc\-\_\-objtoworld.\-h@{glc\-\_\-objtoworld.\-h}!coordinate@{coordinate}}\item[{\em 
+\hypertarget{glc__objtoworld_8h_a461eba4998b5d5dac48d6102c8c63beca86aa3b8ff677143b4281589b162546e9}{coordinate}\label{glc__objtoworld_8h_a461eba4998b5d5dac48d6102c8c63beca86aa3b8ff677143b4281589b162546e9}
+}]\index{coordinate\-And\-Texture@{coordinate\-And\-Texture}!glc\-\_\-objtoworld.\-h@{glc\-\_\-objtoworld.\-h}}\index{glc\-\_\-objtoworld.\-h@{glc\-\_\-objtoworld.\-h}!coordinate\-And\-Texture@{coordinate\-And\-Texture}}\item[{\em 
+\hypertarget{glc__objtoworld_8h_a461eba4998b5d5dac48d6102c8c63beca34278523a3d7d8439a933cb655d73b32}{coordinate\-And\-Texture}\label{glc__objtoworld_8h_a461eba4998b5d5dac48d6102c8c63beca34278523a3d7d8439a933cb655d73b32}
+}]\index{coordinate\-And\-Normal@{coordinate\-And\-Normal}!glc\-\_\-objtoworld.\-h@{glc\-\_\-objtoworld.\-h}}\index{glc\-\_\-objtoworld.\-h@{glc\-\_\-objtoworld.\-h}!coordinate\-And\-Normal@{coordinate\-And\-Normal}}\item[{\em 
+\hypertarget{glc__objtoworld_8h_a461eba4998b5d5dac48d6102c8c63beca3511a242a53632481bc4aa1003dc058a}{coordinate\-And\-Normal}\label{glc__objtoworld_8h_a461eba4998b5d5dac48d6102c8c63beca3511a242a53632481bc4aa1003dc058a}
+}]\index{coordinate\-And\-Texture\-And\-Normal@{coordinate\-And\-Texture\-And\-Normal}!glc\-\_\-objtoworld.\-h@{glc\-\_\-objtoworld.\-h}}\index{glc\-\_\-objtoworld.\-h@{glc\-\_\-objtoworld.\-h}!coordinate\-And\-Texture\-And\-Normal@{coordinate\-And\-Texture\-And\-Normal}}\item[{\em 
+\hypertarget{glc__objtoworld_8h_a461eba4998b5d5dac48d6102c8c63beca02889519e043e423da867e6ab6004170}{coordinate\-And\-Texture\-And\-Normal}\label{glc__objtoworld_8h_a461eba4998b5d5dac48d6102c8c63beca02889519e043e423da867e6ab6004170}
+}]\end{description}
+\end{Desc}
+
+
+Definition at line 44 of file glc\-\_\-objtoworld.\-h.
+
+
+
+\subsection{Function Documentation}
+\hypertarget{glc__objtoworld_8h_a80095e66cbe3a44ae17867208dbc5c5f}{\index{glc\-\_\-objtoworld.\-h@{glc\-\_\-objtoworld.\-h}!operator==@{operator==}}
+\index{operator==@{operator==}!glc_objtoworld.h@{glc\-\_\-objtoworld.\-h}}
+\subsubsection[{operator==}]{\setlength{\rightskip}{0pt plus 5cm}bool operator== (
+\begin{DoxyParamCaption}
+\item[{const {\bf G\-L\-C\-\_\-\-Obj\-To\-World\-::\-Obj\-Vertice} \&}]{vertice1, }
+\item[{const {\bf G\-L\-C\-\_\-\-Obj\-To\-World\-::\-Obj\-Vertice} \&}]{vertice2}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{glc__objtoworld_8h_a80095e66cbe3a44ae17867208dbc5c5f}
+
+
+Definition at line 262 of file glc\-\_\-objtoworld.\-h.
+
+\hypertarget{glc__objtoworld_8h_a86db39b0eac853f33ae2fa731fd9963e}{\index{glc\-\_\-objtoworld.\-h@{glc\-\_\-objtoworld.\-h}!q\-Hash@{q\-Hash}}
+\index{q\-Hash@{q\-Hash}!glc_objtoworld.h@{glc\-\_\-objtoworld.\-h}}
+\subsubsection[{q\-Hash}]{\setlength{\rightskip}{0pt plus 5cm}uint q\-Hash (
+\begin{DoxyParamCaption}
+\item[{const {\bf G\-L\-C\-\_\-\-Obj\-To\-World\-::\-Obj\-Vertice} \&}]{vertice}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{glc__objtoworld_8h_a86db39b0eac853f33ae2fa731fd9963e}
+
+
+Definition at line 265 of file glc\-\_\-objtoworld.\-h.
+

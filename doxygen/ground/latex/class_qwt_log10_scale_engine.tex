@@ -1,0 +1,288 @@
+\hypertarget{class_qwt_log10_scale_engine}{\section{Qwt\-Log10\-Scale\-Engine Class Reference}
+\label{class_qwt_log10_scale_engine}\index{Qwt\-Log10\-Scale\-Engine@{Qwt\-Log10\-Scale\-Engine}}
+}
+
+
+A scale engine for logarithmic (base 10) scales.  
+
+
+
+
+{\ttfamily \#include $<$qwt\-\_\-scale\-\_\-engine.\-h$>$}
+
+Inheritance diagram for Qwt\-Log10\-Scale\-Engine\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_qwt_log10_scale_engine}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_log10_scale_engine_abcab6bb8667f82dcdb656ad634976142}{auto\-Scale} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} max\-Steps, \hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} \&x1, \hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} \&x2, \hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} \&step\-Size) const 
+\item 
+virtual \hyperlink{class_qwt_scale_div}{Qwt\-Scale\-Div} \hyperlink{class_qwt_log10_scale_engine_ae46745d561ce2ac583bb44e94f0fc7d6}{divide\-Scale} (\hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} x1, \hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} x2, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} num\-Major\-Steps, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} num\-Minor\-Steps, \hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} step\-Size=0.\-0) const 
+\begin{DoxyCompactList}\small\item\em Calculate a scale division. \end{DoxyCompactList}\item 
+virtual \hyperlink{class_qwt_scale_transformation}{Qwt\-Scale\-Transformation} $\ast$ \hyperlink{class_qwt_log10_scale_engine_af972778615ea076c8452abea96516ce9}{transformation} () const 
+\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_qwt_interval}{Qwt\-Interval} \hyperlink{class_qwt_log10_scale_engine_a3fed7b3b4949eb5997ed162ce7dc815f}{log10} (const \hyperlink{class_qwt_interval}{Qwt\-Interval} \&) const 
+\item 
+\hyperlink{class_qwt_interval}{Qwt\-Interval} \hyperlink{class_qwt_log10_scale_engine_a67cc3099b1e4bb19c96192c94fe9df6d}{pow10} (const \hyperlink{class_qwt_interval}{Qwt\-Interval} \&) const 
+\item 
+\hyperlink{class_qwt_interval}{Qwt\-Interval} \hyperlink{class_qwt_log10_scale_engine_aab30461457bb284620bea12c68c5dc04}{align} (const \hyperlink{class_qwt_interval}{Qwt\-Interval} \&, \hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} step\-Size) const 
+\begin{DoxyCompactList}\small\item\em Align an interval to a step size. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_log10_scale_engine_af93bb73acd240eb53a45f1bc822334e8}{build\-Ticks} (const \hyperlink{class_qwt_interval}{Qwt\-Interval} \&, \hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} step\-Size, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} max\-Min\-Steps, \hyperlink{class_q_list}{Q\-List}$<$ \hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} $>$ ticks\mbox{[}\hyperlink{class_qwt_scale_div_af21aedaa886dd5e067cf63505838736ca86796bbf72d5eb7162a924ba27ce6553}{Qwt\-Scale\-Div\-::\-N\-Tick\-Types}\mbox{]}) const 
+\begin{DoxyCompactList}\small\item\em Calculate ticks for an interval. \end{DoxyCompactList}\item 
+\hyperlink{class_q_list}{Q\-List}$<$ \hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} $>$ \hyperlink{class_qwt_log10_scale_engine_a1312b8f5513d5bb20c4a7fa74eeeb9c6}{build\-Major\-Ticks} (const \hyperlink{class_qwt_interval}{Qwt\-Interval} \&interval, \hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} step\-Size) const 
+\begin{DoxyCompactList}\small\item\em Calculate major ticks for an interval. \end{DoxyCompactList}\item 
+\hyperlink{class_q_list}{Q\-List}$<$ \hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} $>$ \hyperlink{class_qwt_log10_scale_engine_af848f0d01723fe3696da0d6b453d1443}{build\-Minor\-Ticks} (const \hyperlink{class_q_list}{Q\-List}$<$ \hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} $>$ \&major\-Ticks, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} max\-Min\-Mark, \hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} step) const 
+\begin{DoxyCompactList}\small\item\em Calculate minor/medium ticks for major ticks. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Detailed Description}
+A scale engine for logarithmic (base 10) scales. 
+
+The step size is measured in {\itshape decades} and the major step size will be adjusted to fit the pattern $\left\{ 1,2,3,5\right\} \cdot 10^{n}$, where n is a natural number including zero.
+
+\begin{DoxyWarning}{Warning}
+the step size as well as the margins are measured in {\itshape decades}. 
+\end{DoxyWarning}
+
+
+Definition at line 185 of file qwt\-\_\-scale\-\_\-engine.\-h.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_qwt_log10_scale_engine_aab30461457bb284620bea12c68c5dc04}{\index{Qwt\-Log10\-Scale\-Engine@{Qwt\-Log10\-Scale\-Engine}!align@{align}}
+\index{align@{align}!QwtLog10ScaleEngine@{Qwt\-Log10\-Scale\-Engine}}
+\subsubsection[{align}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Qwt\-Interval} Qwt\-Log10\-Scale\-Engine\-::align (
+\begin{DoxyParamCaption}
+\item[{const {\bf Qwt\-Interval} \&}]{interval, }
+\item[{{\bf double}}]{step\-Size}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_qwt_log10_scale_engine_aab30461457bb284620bea12c68c5dc04}
+
+
+Align an interval to a step size. 
+
+The limits of an interval are aligned that both are integer multiples of the step size.
+
+
+\begin{DoxyParams}{Parameters}
+{\em interval} & Interval \\
+\hline
+{\em step\-Size} & Step size\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Aligned interval 
+\end{DoxyReturn}
+
+
+Definition at line 909 of file qwt\-\_\-scale\-\_\-engine.\-cpp.
+
+\hypertarget{class_qwt_log10_scale_engine_abcab6bb8667f82dcdb656ad634976142}{\index{Qwt\-Log10\-Scale\-Engine@{Qwt\-Log10\-Scale\-Engine}!auto\-Scale@{auto\-Scale}}
+\index{auto\-Scale@{auto\-Scale}!QwtLog10ScaleEngine@{Qwt\-Log10\-Scale\-Engine}}
+\subsubsection[{auto\-Scale}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Log10\-Scale\-Engine\-::auto\-Scale (
+\begin{DoxyParamCaption}
+\item[{{\bf int}}]{max\-Num\-Steps, }
+\item[{{\bf double} \&}]{x1, }
+\item[{{\bf double} \&}]{x2, }
+\item[{{\bf double} \&}]{step\-Size}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_qwt_log10_scale_engine_abcab6bb8667f82dcdb656ad634976142}
+Align and divide an interval
+
+
+\begin{DoxyParams}{Parameters}
+{\em max\-Num\-Steps} & Max. number of steps \\
+\hline
+{\em x1} & First limit of the interval (In/\-Out) \\
+\hline
+{\em x2} & Second limit of the interval (In/\-Out) \\
+\hline
+{\em step\-Size} & Step size (Out)\\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_scale_engine_acf02a88f6e778edbc9e005960f35b3b7}{Qwt\-Scale\-Engine\-::set\-Attribute()} 
+\end{DoxySeeAlso}
+
+
+Implements \hyperlink{class_qwt_scale_engine_aa27323d6d9d5348bd253a61b45e4785b}{Qwt\-Scale\-Engine}.
+
+
+
+Definition at line 619 of file qwt\-\_\-scale\-\_\-engine.\-cpp.
+
+\hypertarget{class_qwt_log10_scale_engine_a1312b8f5513d5bb20c4a7fa74eeeb9c6}{\index{Qwt\-Log10\-Scale\-Engine@{Qwt\-Log10\-Scale\-Engine}!build\-Major\-Ticks@{build\-Major\-Ticks}}
+\index{build\-Major\-Ticks@{build\-Major\-Ticks}!QwtLog10ScaleEngine@{Qwt\-Log10\-Scale\-Engine}}
+\subsubsection[{build\-Major\-Ticks}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Q\-List}$<$ {\bf double} $>$ Qwt\-Log10\-Scale\-Engine\-::build\-Major\-Ticks (
+\begin{DoxyParamCaption}
+\item[{const {\bf Qwt\-Interval} \&}]{interval, }
+\item[{{\bf double}}]{step\-Size}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_qwt_log10_scale_engine_a1312b8f5513d5bb20c4a7fa74eeeb9c6}
+
+
+Calculate major ticks for an interval. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em interval} & Interval \\
+\hline
+{\em step\-Size} & Step size\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Calculated ticks 
+\end{DoxyReturn}
+
+
+Definition at line 779 of file qwt\-\_\-scale\-\_\-engine.\-cpp.
+
+\hypertarget{class_qwt_log10_scale_engine_af848f0d01723fe3696da0d6b453d1443}{\index{Qwt\-Log10\-Scale\-Engine@{Qwt\-Log10\-Scale\-Engine}!build\-Minor\-Ticks@{build\-Minor\-Ticks}}
+\index{build\-Minor\-Ticks@{build\-Minor\-Ticks}!QwtLog10ScaleEngine@{Qwt\-Log10\-Scale\-Engine}}
+\subsubsection[{build\-Minor\-Ticks}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Q\-List}$<$ {\bf double} $>$ Qwt\-Log10\-Scale\-Engine\-::build\-Minor\-Ticks (
+\begin{DoxyParamCaption}
+\item[{const {\bf Q\-List}$<$ {\bf double} $>$ \&}]{major\-Ticks, }
+\item[{{\bf int}}]{max\-Min\-Steps, }
+\item[{{\bf double}}]{step\-Size}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_qwt_log10_scale_engine_af848f0d01723fe3696da0d6b453d1443}
+
+
+Calculate minor/medium ticks for major ticks. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em major\-Ticks} & Major ticks \\
+\hline
+{\em max\-Min\-Steps} & Maximum number of minor steps \\
+\hline
+{\em step\-Size} & Step size \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 811 of file qwt\-\_\-scale\-\_\-engine.\-cpp.
+
+\hypertarget{class_qwt_log10_scale_engine_af93bb73acd240eb53a45f1bc822334e8}{\index{Qwt\-Log10\-Scale\-Engine@{Qwt\-Log10\-Scale\-Engine}!build\-Ticks@{build\-Ticks}}
+\index{build\-Ticks@{build\-Ticks}!QwtLog10ScaleEngine@{Qwt\-Log10\-Scale\-Engine}}
+\subsubsection[{build\-Ticks}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Log10\-Scale\-Engine\-::build\-Ticks (
+\begin{DoxyParamCaption}
+\item[{const {\bf Qwt\-Interval} \&}]{interval, }
+\item[{{\bf double}}]{step\-Size, }
+\item[{{\bf int}}]{max\-Min\-Steps, }
+\item[{{\bf Q\-List}$<$ {\bf double} $>$}]{ticks\mbox{[}\-Qwt\-Scale\-Div\-::\-N\-Tick\-Types\mbox{]}}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_qwt_log10_scale_engine_af93bb73acd240eb53a45f1bc822334e8}
+
+
+Calculate ticks for an interval. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em interval} & Interval \\
+\hline
+{\em max\-Min\-Steps} & Maximum number of minor steps \\
+\hline
+{\em step\-Size} & Step size \\
+\hline
+{\em ticks} & Arrays to be filled with the calculated ticks\\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_log10_scale_engine_a1312b8f5513d5bb20c4a7fa74eeeb9c6}{build\-Major\-Ticks()}, \hyperlink{class_qwt_log10_scale_engine_af848f0d01723fe3696da0d6b453d1443}{build\-Minor\-Ticks} 
+\end{DoxySeeAlso}
+
+
+Definition at line 752 of file qwt\-\_\-scale\-\_\-engine.\-cpp.
+
+\hypertarget{class_qwt_log10_scale_engine_ae46745d561ce2ac583bb44e94f0fc7d6}{\index{Qwt\-Log10\-Scale\-Engine@{Qwt\-Log10\-Scale\-Engine}!divide\-Scale@{divide\-Scale}}
+\index{divide\-Scale@{divide\-Scale}!QwtLog10ScaleEngine@{Qwt\-Log10\-Scale\-Engine}}
+\subsubsection[{divide\-Scale}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Qwt\-Scale\-Div} Qwt\-Log10\-Scale\-Engine\-::divide\-Scale (
+\begin{DoxyParamCaption}
+\item[{{\bf double}}]{x1, }
+\item[{{\bf double}}]{x2, }
+\item[{{\bf int}}]{max\-Maj\-Steps, }
+\item[{{\bf int}}]{max\-Min\-Steps, }
+\item[{{\bf double}}]{step\-Size = {\ttfamily 0.0}}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_qwt_log10_scale_engine_ae46745d561ce2ac583bb44e94f0fc7d6}
+
+
+Calculate a scale division. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em x1} & First interval limit \\
+\hline
+{\em x2} & Second interval limit \\
+\hline
+{\em max\-Maj\-Steps} & Maximum for the number of major steps \\
+\hline
+{\em max\-Min\-Steps} & Maximum number of minor steps \\
+\hline
+{\em step\-Size} & Step size. If step\-Size == 0, the scale\-Engine calculates one.\\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See Also}
+Qwt\-Scale\-Engine\-::step\-Size(), Qwt\-Log10\-Scale\-Engine\-::sub\-Divide() 
+\end{DoxySeeAlso}
+
+
+Implements \hyperlink{class_qwt_scale_engine_a833fbdad4cce6e3b6448ee2549dc09e1}{Qwt\-Scale\-Engine}.
+
+
+
+Definition at line 691 of file qwt\-\_\-scale\-\_\-engine.\-cpp.
+
+\hypertarget{class_qwt_log10_scale_engine_a3fed7b3b4949eb5997ed162ce7dc815f}{\index{Qwt\-Log10\-Scale\-Engine@{Qwt\-Log10\-Scale\-Engine}!log10@{log10}}
+\index{log10@{log10}!QwtLog10ScaleEngine@{Qwt\-Log10\-Scale\-Engine}}
+\subsubsection[{log10}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Qwt\-Interval} Qwt\-Log10\-Scale\-Engine\-::log10 (
+\begin{DoxyParamCaption}
+\item[{const {\bf Qwt\-Interval} \&}]{interval}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_qwt_log10_scale_engine_a3fed7b3b4949eb5997ed162ce7dc815f}
+Return the interval \mbox{[}log10(interval.\-min\-Value(), log10(interval.\-max\-Value\mbox{]} 
+
+Definition at line 929 of file qwt\-\_\-scale\-\_\-engine.\-cpp.
+
+\hypertarget{class_qwt_log10_scale_engine_a67cc3099b1e4bb19c96192c94fe9df6d}{\index{Qwt\-Log10\-Scale\-Engine@{Qwt\-Log10\-Scale\-Engine}!pow10@{pow10}}
+\index{pow10@{pow10}!QwtLog10ScaleEngine@{Qwt\-Log10\-Scale\-Engine}}
+\subsubsection[{pow10}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Qwt\-Interval} Qwt\-Log10\-Scale\-Engine\-::pow10 (
+\begin{DoxyParamCaption}
+\item[{const {\bf Qwt\-Interval} \&}]{interval}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_qwt_log10_scale_engine_a67cc3099b1e4bb19c96192c94fe9df6d}
+Return the interval \mbox{[}pow10(interval.\-min\-Value(), pow10(interval.\-max\-Value\mbox{]} 
+
+Definition at line 938 of file qwt\-\_\-scale\-\_\-engine.\-cpp.
+
+\hypertarget{class_qwt_log10_scale_engine_af972778615ea076c8452abea96516ce9}{\index{Qwt\-Log10\-Scale\-Engine@{Qwt\-Log10\-Scale\-Engine}!transformation@{transformation}}
+\index{transformation@{transformation}!QwtLog10ScaleEngine@{Qwt\-Log10\-Scale\-Engine}}
+\subsubsection[{transformation}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Qwt\-Scale\-Transformation} $\ast$ Qwt\-Log10\-Scale\-Engine\-::transformation (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_qwt_log10_scale_engine_af972778615ea076c8452abea96516ce9}
+Return a transformation, for logarithmic (base 10) scales 
+
+Implements \hyperlink{class_qwt_scale_engine_a04a93d0dc39a3483957764e7749989fd}{Qwt\-Scale\-Engine}.
+
+
+
+Definition at line 604 of file qwt\-\_\-scale\-\_\-engine.\-cpp.
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/qwt/src/\hyperlink{qwt__scale__engine_8h}{qwt\-\_\-scale\-\_\-engine.\-h}\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/qwt/src/\hyperlink{qwt__scale__engine_8cpp}{qwt\-\_\-scale\-\_\-engine.\-cpp}\end{DoxyCompactItemize}

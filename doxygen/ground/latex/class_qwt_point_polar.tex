@@ -1,0 +1,346 @@
+\hypertarget{class_qwt_point_polar}{\section{Qwt\-Point\-Polar Class Reference}
+\label{class_qwt_point_polar}\index{Qwt\-Point\-Polar@{Qwt\-Point\-Polar}}
+}
+
+
+A point in polar coordinates.  
+
+
+
+
+{\ttfamily \#include $<$qwt\-\_\-point\-\_\-polar.\-h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_qwt_point_polar_a365875acf86a9f052e12784b5f2f7d44}{Qwt\-Point\-Polar} ()
+\item 
+\hyperlink{class_qwt_point_polar_af1c77f9730d441937e52ff5beee04975}{Qwt\-Point\-Polar} (\hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} \hyperlink{class_qwt_point_polar_afac65de2dca25b0b6a6c5fb917fff424}{azimuth}, \hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} \hyperlink{class_qwt_point_polar_ab629fcfb36f0f29df45b256c6bddf194}{radius})
+\item 
+\hyperlink{class_qwt_point_polar_ae5cd7e8ab0505672748f779c9668fe29}{Qwt\-Point\-Polar} (const \hyperlink{class_qwt_point_polar}{Qwt\-Point\-Polar} \&)
+\item 
+\hyperlink{class_qwt_point_polar_a269241ca9f94f641063fe896cdd77165}{Qwt\-Point\-Polar} (const Q\-Point\-F \&)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_point_polar_a8cd4f93356a8a8c07400c3ad9ff1b560}{set\-Point} (const Q\-Point\-F \&)
+\item 
+Q\-Point\-F \hyperlink{class_qwt_point_polar_ab61dd4130840876c00d79c28ea534d06}{to\-Point} () const 
+\item 
+bool \hyperlink{class_qwt_point_polar_ad1f8c93359d28322b6e3eeb9758a66f2}{is\-Valid} () const 
+\begin{DoxyCompactList}\small\item\em Returns true if \hyperlink{class_qwt_point_polar_ab629fcfb36f0f29df45b256c6bddf194}{radius()} $>$= 0.\-0. \end{DoxyCompactList}\item 
+bool \hyperlink{class_qwt_point_polar_a73d21f582ee5960011300598e17fab00}{is\-Null} () const 
+\begin{DoxyCompactList}\small\item\em Returns true if \hyperlink{class_qwt_point_polar_ab629fcfb36f0f29df45b256c6bddf194}{radius()} $>$= 0.\-0. \end{DoxyCompactList}\item 
+\hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} \hyperlink{class_qwt_point_polar_ab629fcfb36f0f29df45b256c6bddf194}{radius} () const 
+\begin{DoxyCompactList}\small\item\em Returns the radius. \end{DoxyCompactList}\item 
+\hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} \hyperlink{class_qwt_point_polar_afac65de2dca25b0b6a6c5fb917fff424}{azimuth} () const 
+\begin{DoxyCompactList}\small\item\em Returns the azimuth. \end{DoxyCompactList}\item 
+\hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} \& \hyperlink{class_qwt_point_polar_a69cf76a959e4417038b4e2684d307847}{r\-Radius} ()
+\begin{DoxyCompactList}\small\item\em Returns the radius. \end{DoxyCompactList}\item 
+\hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} \& \hyperlink{class_qwt_point_polar_ae509330927d54dbc7cf65fae42083fce}{r\-Azimuth} ()
+\begin{DoxyCompactList}\small\item\em Returns the azimuth. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_point_polar_a31ae2f4d6fad44f51ad5e7444a7f21fe}{set\-Radius} (\hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double})
+\begin{DoxyCompactList}\small\item\em Sets the radius to radius. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_point_polar_a32c6c64510fce3e087d332305b4aca9e}{set\-Azimuth} (\hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double})
+\begin{DoxyCompactList}\small\item\em Sets the atimuth to atimuth. \end{DoxyCompactList}\item 
+bool \hyperlink{class_qwt_point_polar_af59f940ff7d63de71044a8bba6d749db}{operator==} (const \hyperlink{class_qwt_point_polar}{Qwt\-Point\-Polar} \&) const 
+\item 
+bool \hyperlink{class_qwt_point_polar_af85df99741e28fbe6bdee96df42fb448}{operator!=} (const \hyperlink{class_qwt_point_polar}{Qwt\-Point\-Polar} \&) const 
+\item 
+\hyperlink{class_qwt_point_polar}{Qwt\-Point\-Polar} \hyperlink{class_qwt_point_polar_a2544921fb33e7601444223572243ed6a}{normalized} () const 
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+A point in polar coordinates. 
+
+In polar coordinates a point is determined by an angle and a distance. See \href{http://en.wikipedia.org/wiki/Polar_coordinate_system}{\tt http\-://en.\-wikipedia.\-org/wiki/\-Polar\-\_\-coordinate\-\_\-system} 
+
+Definition at line 28 of file qwt\-\_\-point\-\_\-polar.\-h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_qwt_point_polar_a365875acf86a9f052e12784b5f2f7d44}{\index{Qwt\-Point\-Polar@{Qwt\-Point\-Polar}!Qwt\-Point\-Polar@{Qwt\-Point\-Polar}}
+\index{Qwt\-Point\-Polar@{Qwt\-Point\-Polar}!QwtPointPolar@{Qwt\-Point\-Polar}}
+\subsubsection[{Qwt\-Point\-Polar}]{\setlength{\rightskip}{0pt plus 5cm}Qwt\-Point\-Polar\-::\-Qwt\-Point\-Polar (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_qwt_point_polar_a365875acf86a9f052e12784b5f2f7d44}
+Constructs a null point, with a radius and azimuth set to 0.\-0. \begin{DoxySeeAlso}{See Also}
+Q\-Point\-F\-::is\-Null 
+\end{DoxySeeAlso}
+
+
+Definition at line 65 of file qwt\-\_\-point\-\_\-polar.\-h.
+
+\hypertarget{class_qwt_point_polar_af1c77f9730d441937e52ff5beee04975}{\index{Qwt\-Point\-Polar@{Qwt\-Point\-Polar}!Qwt\-Point\-Polar@{Qwt\-Point\-Polar}}
+\index{Qwt\-Point\-Polar@{Qwt\-Point\-Polar}!QwtPointPolar@{Qwt\-Point\-Polar}}
+\subsubsection[{Qwt\-Point\-Polar}]{\setlength{\rightskip}{0pt plus 5cm}Qwt\-Point\-Polar\-::\-Qwt\-Point\-Polar (
+\begin{DoxyParamCaption}
+\item[{{\bf double}}]{azimuth, }
+\item[{{\bf double}}]{radius}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_qwt_point_polar_af1c77f9730d441937e52ff5beee04975}
+Constructs a point with coordinates specified by radius and azimuth.
+
+
+\begin{DoxyParams}{Parameters}
+{\em azimuth} & Azimuth \\
+\hline
+{\em radius} & Radius \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 77 of file qwt\-\_\-point\-\_\-polar.\-h.
+
+\hypertarget{class_qwt_point_polar_ae5cd7e8ab0505672748f779c9668fe29}{\index{Qwt\-Point\-Polar@{Qwt\-Point\-Polar}!Qwt\-Point\-Polar@{Qwt\-Point\-Polar}}
+\index{Qwt\-Point\-Polar@{Qwt\-Point\-Polar}!QwtPointPolar@{Qwt\-Point\-Polar}}
+\subsubsection[{Qwt\-Point\-Polar}]{\setlength{\rightskip}{0pt plus 5cm}Qwt\-Point\-Polar\-::\-Qwt\-Point\-Polar (
+\begin{DoxyParamCaption}
+\item[{const {\bf Qwt\-Point\-Polar} \&}]{other}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_qwt_point_polar_ae5cd7e8ab0505672748f779c9668fe29}
+Constructs a point using the values of the point specified. 
+\begin{DoxyParams}{Parameters}
+{\em other} & Other point \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 87 of file qwt\-\_\-point\-\_\-polar.\-h.
+
+\hypertarget{class_qwt_point_polar_a269241ca9f94f641063fe896cdd77165}{\index{Qwt\-Point\-Polar@{Qwt\-Point\-Polar}!Qwt\-Point\-Polar@{Qwt\-Point\-Polar}}
+\index{Qwt\-Point\-Polar@{Qwt\-Point\-Polar}!QwtPointPolar@{Qwt\-Point\-Polar}}
+\subsubsection[{Qwt\-Point\-Polar}]{\setlength{\rightskip}{0pt plus 5cm}Qwt\-Point\-Polar\-::\-Qwt\-Point\-Polar (
+\begin{DoxyParamCaption}
+\item[{const Q\-Point\-F \&}]{p}
+\end{DoxyParamCaption}
+)}}\label{class_qwt_point_polar_a269241ca9f94f641063fe896cdd77165}
+Convert and assign values from a point in Cartesian coordinates
+
+
+\begin{DoxyParams}{Parameters}
+{\em p} & Point in Cartesian coordinates \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_point_polar_a8cd4f93356a8a8c07400c3ad9ff1b560}{set\-Point()}, \hyperlink{class_qwt_point_polar_ab61dd4130840876c00d79c28ea534d06}{to\-Point()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 22 of file qwt\-\_\-point\-\_\-polar.\-cpp.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_qwt_point_polar_afac65de2dca25b0b6a6c5fb917fff424}{\index{Qwt\-Point\-Polar@{Qwt\-Point\-Polar}!azimuth@{azimuth}}
+\index{azimuth@{azimuth}!QwtPointPolar@{Qwt\-Point\-Polar}}
+\subsubsection[{azimuth}]{\setlength{\rightskip}{0pt plus 5cm}{\bf double} Qwt\-Point\-Polar\-::azimuth (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_qwt_point_polar_afac65de2dca25b0b6a6c5fb917fff424}
+
+
+Returns the azimuth. 
+
+
+
+Definition at line 112 of file qwt\-\_\-point\-\_\-polar.\-h.
+
+\hypertarget{class_qwt_point_polar_a73d21f582ee5960011300598e17fab00}{\index{Qwt\-Point\-Polar@{Qwt\-Point\-Polar}!is\-Null@{is\-Null}}
+\index{is\-Null@{is\-Null}!QwtPointPolar@{Qwt\-Point\-Polar}}
+\subsubsection[{is\-Null}]{\setlength{\rightskip}{0pt plus 5cm}bool Qwt\-Point\-Polar\-::is\-Null (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_qwt_point_polar_a73d21f582ee5960011300598e17fab00}
+
+
+Returns true if \hyperlink{class_qwt_point_polar_ab629fcfb36f0f29df45b256c6bddf194}{radius()} $>$= 0.\-0. 
+
+
+
+Definition at line 100 of file qwt\-\_\-point\-\_\-polar.\-h.
+
+\hypertarget{class_qwt_point_polar_ad1f8c93359d28322b6e3eeb9758a66f2}{\index{Qwt\-Point\-Polar@{Qwt\-Point\-Polar}!is\-Valid@{is\-Valid}}
+\index{is\-Valid@{is\-Valid}!QwtPointPolar@{Qwt\-Point\-Polar}}
+\subsubsection[{is\-Valid}]{\setlength{\rightskip}{0pt plus 5cm}bool Qwt\-Point\-Polar\-::is\-Valid (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_qwt_point_polar_ad1f8c93359d28322b6e3eeb9758a66f2}
+
+
+Returns true if \hyperlink{class_qwt_point_polar_ab629fcfb36f0f29df45b256c6bddf194}{radius()} $>$= 0.\-0. 
+
+
+
+Definition at line 94 of file qwt\-\_\-point\-\_\-polar.\-h.
+
+\hypertarget{class_qwt_point_polar_a2544921fb33e7601444223572243ed6a}{\index{Qwt\-Point\-Polar@{Qwt\-Point\-Polar}!normalized@{normalized}}
+\index{normalized@{normalized}!QwtPointPolar@{Qwt\-Point\-Polar}}
+\subsubsection[{normalized}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Qwt\-Point\-Polar} Qwt\-Point\-Polar\-::normalized (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_qwt_point_polar_a2544921fb33e7601444223572243ed6a}
+Normalize radius and azimuth
+
+When the radius is $<$ 0.\-0 it is set to 0.\-0. The azimuth is a value $>$= 0.\-0 and $<$ 2 $\ast$ M\-\_\-\-P\-I. 
+
+Definition at line 89 of file qwt\-\_\-point\-\_\-polar.\-cpp.
+
+\hypertarget{class_qwt_point_polar_af85df99741e28fbe6bdee96df42fb448}{\index{Qwt\-Point\-Polar@{Qwt\-Point\-Polar}!operator!=@{operator!=}}
+\index{operator!=@{operator!=}!QwtPointPolar@{Qwt\-Point\-Polar}}
+\subsubsection[{operator!=}]{\setlength{\rightskip}{0pt plus 5cm}bool Qwt\-Point\-Polar\-::operator!= (
+\begin{DoxyParamCaption}
+\item[{const {\bf Qwt\-Point\-Polar} \&}]{other}
+\end{DoxyParamCaption}
+) const}}\label{class_qwt_point_polar_af85df99741e28fbe6bdee96df42fb448}
+Returns true if point1 is not equal to point2; otherwise returns false.
+
+Two points are equal to each other if radius and azimuth-\/coordinates are the same. Points are not equal, when the azimuth differs, but other.\-azimuth() == \hyperlink{class_qwt_point_polar_afac65de2dca25b0b6a6c5fb917fff424}{azimuth()} \% (2 $\ast$ P\-I).
+
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_point_polar_a2544921fb33e7601444223572243ed6a}{normalized()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 78 of file qwt\-\_\-point\-\_\-polar.\-cpp.
+
+\hypertarget{class_qwt_point_polar_af59f940ff7d63de71044a8bba6d749db}{\index{Qwt\-Point\-Polar@{Qwt\-Point\-Polar}!operator==@{operator==}}
+\index{operator==@{operator==}!QwtPointPolar@{Qwt\-Point\-Polar}}
+\subsubsection[{operator==}]{\setlength{\rightskip}{0pt plus 5cm}bool Qwt\-Point\-Polar\-::operator== (
+\begin{DoxyParamCaption}
+\item[{const {\bf Qwt\-Point\-Polar} \&}]{other}
+\end{DoxyParamCaption}
+) const}}\label{class_qwt_point_polar_af59f940ff7d63de71044a8bba6d749db}
+Returns true if point1 is equal to point2; otherwise returns false.
+
+Two points are equal to each other if radius and azimuth-\/coordinates are the same. Points are not equal, when the azimuth differs, but other.\-azimuth() == \hyperlink{class_qwt_point_polar_afac65de2dca25b0b6a6c5fb917fff424}{azimuth()} \% (2 $\ast$ P\-I).
+
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_point_polar_a2544921fb33e7601444223572243ed6a}{normalized()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 64 of file qwt\-\_\-point\-\_\-polar.\-cpp.
+
+\hypertarget{class_qwt_point_polar_ab629fcfb36f0f29df45b256c6bddf194}{\index{Qwt\-Point\-Polar@{Qwt\-Point\-Polar}!radius@{radius}}
+\index{radius@{radius}!QwtPointPolar@{Qwt\-Point\-Polar}}
+\subsubsection[{radius}]{\setlength{\rightskip}{0pt plus 5cm}{\bf double} Qwt\-Point\-Polar\-::radius (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_qwt_point_polar_ab629fcfb36f0f29df45b256c6bddf194}
+
+
+Returns the radius. 
+
+
+
+Definition at line 106 of file qwt\-\_\-point\-\_\-polar.\-h.
+
+\hypertarget{class_qwt_point_polar_ae509330927d54dbc7cf65fae42083fce}{\index{Qwt\-Point\-Polar@{Qwt\-Point\-Polar}!r\-Azimuth@{r\-Azimuth}}
+\index{r\-Azimuth@{r\-Azimuth}!QwtPointPolar@{Qwt\-Point\-Polar}}
+\subsubsection[{r\-Azimuth}]{\setlength{\rightskip}{0pt plus 5cm}{\bf double} \& Qwt\-Point\-Polar\-::r\-Azimuth (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_qwt_point_polar_ae509330927d54dbc7cf65fae42083fce}
+
+
+Returns the azimuth. 
+
+
+
+Definition at line 124 of file qwt\-\_\-point\-\_\-polar.\-h.
+
+\hypertarget{class_qwt_point_polar_a69cf76a959e4417038b4e2684d307847}{\index{Qwt\-Point\-Polar@{Qwt\-Point\-Polar}!r\-Radius@{r\-Radius}}
+\index{r\-Radius@{r\-Radius}!QwtPointPolar@{Qwt\-Point\-Polar}}
+\subsubsection[{r\-Radius}]{\setlength{\rightskip}{0pt plus 5cm}{\bf double} \& Qwt\-Point\-Polar\-::r\-Radius (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_qwt_point_polar_a69cf76a959e4417038b4e2684d307847}
+
+
+Returns the radius. 
+
+
+
+Definition at line 118 of file qwt\-\_\-point\-\_\-polar.\-h.
+
+\hypertarget{class_qwt_point_polar_a32c6c64510fce3e087d332305b4aca9e}{\index{Qwt\-Point\-Polar@{Qwt\-Point\-Polar}!set\-Azimuth@{set\-Azimuth}}
+\index{set\-Azimuth@{set\-Azimuth}!QwtPointPolar@{Qwt\-Point\-Polar}}
+\subsubsection[{set\-Azimuth}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Point\-Polar\-::set\-Azimuth (
+\begin{DoxyParamCaption}
+\item[{{\bf double}}]{azimuth}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_qwt_point_polar_a32c6c64510fce3e087d332305b4aca9e}
+
+
+Sets the atimuth to atimuth. 
+
+
+
+Definition at line 136 of file qwt\-\_\-point\-\_\-polar.\-h.
+
+\hypertarget{class_qwt_point_polar_a8cd4f93356a8a8c07400c3ad9ff1b560}{\index{Qwt\-Point\-Polar@{Qwt\-Point\-Polar}!set\-Point@{set\-Point}}
+\index{set\-Point@{set\-Point}!QwtPointPolar@{Qwt\-Point\-Polar}}
+\subsubsection[{set\-Point}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Point\-Polar\-::set\-Point (
+\begin{DoxyParamCaption}
+\item[{const Q\-Point\-F \&}]{p}
+\end{DoxyParamCaption}
+)}}\label{class_qwt_point_polar_a8cd4f93356a8a8c07400c3ad9ff1b560}
+Convert and assign values from a point in Cartesian coordinates 
+\begin{DoxyParams}{Parameters}
+{\em p} & Point in Cartesian coordinates \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 32 of file qwt\-\_\-point\-\_\-polar.\-cpp.
+
+\hypertarget{class_qwt_point_polar_a31ae2f4d6fad44f51ad5e7444a7f21fe}{\index{Qwt\-Point\-Polar@{Qwt\-Point\-Polar}!set\-Radius@{set\-Radius}}
+\index{set\-Radius@{set\-Radius}!QwtPointPolar@{Qwt\-Point\-Polar}}
+\subsubsection[{set\-Radius}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Point\-Polar\-::set\-Radius (
+\begin{DoxyParamCaption}
+\item[{{\bf double}}]{radius}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_qwt_point_polar_a31ae2f4d6fad44f51ad5e7444a7f21fe}
+
+
+Sets the radius to radius. 
+
+
+
+Definition at line 130 of file qwt\-\_\-point\-\_\-polar.\-h.
+
+\hypertarget{class_qwt_point_polar_ab61dd4130840876c00d79c28ea534d06}{\index{Qwt\-Point\-Polar@{Qwt\-Point\-Polar}!to\-Point@{to\-Point}}
+\index{to\-Point@{to\-Point}!QwtPointPolar@{Qwt\-Point\-Polar}}
+\subsubsection[{to\-Point}]{\setlength{\rightskip}{0pt plus 5cm}Q\-Point\-F Qwt\-Point\-Polar\-::to\-Point (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_qwt_point_polar_ab61dd4130840876c00d79c28ea534d06}
+Convert and return values in Cartesian coordinates
+
+\begin{DoxyNote}{Note}
+Invalid or null points will be returned as Q\-Point\-F(0.\-0, 0.\-0) 
+\end{DoxyNote}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_point_polar_ad1f8c93359d28322b6e3eeb9758a66f2}{is\-Valid()}, \hyperlink{class_qwt_point_polar_a73d21f582ee5960011300598e17fab00}{is\-Null()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 44 of file qwt\-\_\-point\-\_\-polar.\-cpp.
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/qwt/src/\hyperlink{qwt__point__polar_8h}{qwt\-\_\-point\-\_\-polar.\-h}\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/qwt/src/\hyperlink{qwt__point__polar_8cpp}{qwt\-\_\-point\-\_\-polar.\-cpp}\end{DoxyCompactItemize}

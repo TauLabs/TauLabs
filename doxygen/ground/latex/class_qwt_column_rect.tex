@@ -1,0 +1,163 @@
+\hypertarget{class_qwt_column_rect}{\section{Qwt\-Column\-Rect Class Reference}
+\label{class_qwt_column_rect}\index{Qwt\-Column\-Rect@{Qwt\-Column\-Rect}}
+}
+
+
+Directed rectangle representing bounding rectangle und orientation of a column.  
+
+
+
+
+{\ttfamily \#include $<$qwt\-\_\-column\-\_\-symbol.\-h$>$}
+
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{class_qwt_column_rect_a70bb2c6f1f8dabe3bc00793740e0908b}{Direction} \{ \hyperlink{class_qwt_column_rect_a70bb2c6f1f8dabe3bc00793740e0908ba3cde7a99f22f5d897ed4b963731256a6}{Left\-To\-Right}, 
+\hyperlink{class_qwt_column_rect_a70bb2c6f1f8dabe3bc00793740e0908bac08f1153f84950e62d369cc7b7011b5e}{Right\-To\-Left}, 
+\hyperlink{class_qwt_column_rect_a70bb2c6f1f8dabe3bc00793740e0908baa5f0a56f1bd041136476d4ad40ae56f0}{Bottom\-To\-Top}, 
+\hyperlink{class_qwt_column_rect_a70bb2c6f1f8dabe3bc00793740e0908ba82a13d6063cc299b78ebe1a90a1f39da}{Top\-To\-Bottom}
+ \}
+\begin{DoxyCompactList}\small\item\em Direction of the column. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_qwt_column_rect_ad3eeebc150334ee9393d7aff4f33c873}{Qwt\-Column\-Rect} ()
+\begin{DoxyCompactList}\small\item\em Build an rectangle with invalid intervals directed Bottom\-To\-Top. \end{DoxyCompactList}\item 
+Q\-Rect\-F \hyperlink{class_qwt_column_rect_a0169ba0be3e683ce5c87aacfd172095e}{to\-Rect} () const 
+\item 
+Qt\-::\-Orientation \hyperlink{class_qwt_column_rect_a8bb5221efc769ef7f474e1f1795de4b6}{orientation} () const 
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_qwt_interval}{Qwt\-Interval} \hyperlink{class_qwt_column_rect_a16a24ece2aa70fc763d08e220608d63a}{h\-Interval}
+\begin{DoxyCompactList}\small\item\em Interval for the horizontal coordinates. \end{DoxyCompactList}\item 
+\hyperlink{class_qwt_interval}{Qwt\-Interval} \hyperlink{class_qwt_column_rect_a0dcd7826655c73da74a8f9ad87f3d62a}{v\-Interval}
+\begin{DoxyCompactList}\small\item\em Interval for the vertical coordinates. \end{DoxyCompactList}\item 
+\hyperlink{class_qwt_column_rect_a70bb2c6f1f8dabe3bc00793740e0908b}{Direction} \hyperlink{class_qwt_column_rect_aa630854df28955f2ee91c94524b079d7}{direction}
+\begin{DoxyCompactList}\small\item\em Direction. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Directed rectangle representing bounding rectangle und orientation of a column. 
+
+Definition at line 28 of file qwt\-\_\-column\-\_\-symbol.\-h.
+
+
+
+\subsection{Member Enumeration Documentation}
+\hypertarget{class_qwt_column_rect_a70bb2c6f1f8dabe3bc00793740e0908b}{\index{Qwt\-Column\-Rect@{Qwt\-Column\-Rect}!Direction@{Direction}}
+\index{Direction@{Direction}!QwtColumnRect@{Qwt\-Column\-Rect}}
+\subsubsection[{Direction}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf Qwt\-Column\-Rect\-::\-Direction}}}\label{class_qwt_column_rect_a70bb2c6f1f8dabe3bc00793740e0908b}
+
+
+Direction of the column. 
+
+\begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{Left\-To\-Right@{Left\-To\-Right}!Qwt\-Column\-Rect@{Qwt\-Column\-Rect}}\index{Qwt\-Column\-Rect@{Qwt\-Column\-Rect}!Left\-To\-Right@{Left\-To\-Right}}\item[{\em 
+\hypertarget{class_qwt_column_rect_a70bb2c6f1f8dabe3bc00793740e0908ba3cde7a99f22f5d897ed4b963731256a6}{Left\-To\-Right}\label{class_qwt_column_rect_a70bb2c6f1f8dabe3bc00793740e0908ba3cde7a99f22f5d897ed4b963731256a6}
+}]From left to right. \index{Right\-To\-Left@{Right\-To\-Left}!Qwt\-Column\-Rect@{Qwt\-Column\-Rect}}\index{Qwt\-Column\-Rect@{Qwt\-Column\-Rect}!Right\-To\-Left@{Right\-To\-Left}}\item[{\em 
+\hypertarget{class_qwt_column_rect_a70bb2c6f1f8dabe3bc00793740e0908bac08f1153f84950e62d369cc7b7011b5e}{Right\-To\-Left}\label{class_qwt_column_rect_a70bb2c6f1f8dabe3bc00793740e0908bac08f1153f84950e62d369cc7b7011b5e}
+}]From right to left. \index{Bottom\-To\-Top@{Bottom\-To\-Top}!Qwt\-Column\-Rect@{Qwt\-Column\-Rect}}\index{Qwt\-Column\-Rect@{Qwt\-Column\-Rect}!Bottom\-To\-Top@{Bottom\-To\-Top}}\item[{\em 
+\hypertarget{class_qwt_column_rect_a70bb2c6f1f8dabe3bc00793740e0908baa5f0a56f1bd041136476d4ad40ae56f0}{Bottom\-To\-Top}\label{class_qwt_column_rect_a70bb2c6f1f8dabe3bc00793740e0908baa5f0a56f1bd041136476d4ad40ae56f0}
+}]From bottom to top. \index{Top\-To\-Bottom@{Top\-To\-Bottom}!Qwt\-Column\-Rect@{Qwt\-Column\-Rect}}\index{Qwt\-Column\-Rect@{Qwt\-Column\-Rect}!Top\-To\-Bottom@{Top\-To\-Bottom}}\item[{\em 
+\hypertarget{class_qwt_column_rect_a70bb2c6f1f8dabe3bc00793740e0908ba82a13d6063cc299b78ebe1a90a1f39da}{Top\-To\-Bottom}\label{class_qwt_column_rect_a70bb2c6f1f8dabe3bc00793740e0908ba82a13d6063cc299b78ebe1a90a1f39da}
+}]From top to bottom. \end{description}
+\end{Desc}
+
+
+Definition at line 32 of file qwt\-\_\-column\-\_\-symbol.\-h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_qwt_column_rect_ad3eeebc150334ee9393d7aff4f33c873}{\index{Qwt\-Column\-Rect@{Qwt\-Column\-Rect}!Qwt\-Column\-Rect@{Qwt\-Column\-Rect}}
+\index{Qwt\-Column\-Rect@{Qwt\-Column\-Rect}!QwtColumnRect@{Qwt\-Column\-Rect}}
+\subsubsection[{Qwt\-Column\-Rect}]{\setlength{\rightskip}{0pt plus 5cm}Qwt\-Column\-Rect\-::\-Qwt\-Column\-Rect (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_qwt_column_rect_ad3eeebc150334ee9393d7aff4f33c873}
+
+
+Build an rectangle with invalid intervals directed Bottom\-To\-Top. 
+
+
+
+Definition at line 48 of file qwt\-\_\-column\-\_\-symbol.\-h.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_qwt_column_rect_a8bb5221efc769ef7f474e1f1795de4b6}{\index{Qwt\-Column\-Rect@{Qwt\-Column\-Rect}!orientation@{orientation}}
+\index{orientation@{orientation}!QwtColumnRect@{Qwt\-Column\-Rect}}
+\subsubsection[{orientation}]{\setlength{\rightskip}{0pt plus 5cm}Qt\-::\-Orientation Qwt\-Column\-Rect\-::orientation (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_qwt_column_rect_a8bb5221efc769ef7f474e1f1795de4b6}
+\begin{DoxyReturn}{Returns}
+Orientation 
+\end{DoxyReturn}
+
+
+Definition at line 74 of file qwt\-\_\-column\-\_\-symbol.\-h.
+
+\hypertarget{class_qwt_column_rect_a0169ba0be3e683ce5c87aacfd172095e}{\index{Qwt\-Column\-Rect@{Qwt\-Column\-Rect}!to\-Rect@{to\-Rect}}
+\index{to\-Rect@{to\-Rect}!QwtColumnRect@{Qwt\-Column\-Rect}}
+\subsubsection[{to\-Rect}]{\setlength{\rightskip}{0pt plus 5cm}Q\-Rect\-F Qwt\-Column\-Rect\-::to\-Rect (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_qwt_column_rect_a0169ba0be3e683ce5c87aacfd172095e}
+\begin{DoxyReturn}{Returns}
+A normalized Q\-Rect built from the intervals 
+\end{DoxyReturn}
+
+
+Definition at line 54 of file qwt\-\_\-column\-\_\-symbol.\-h.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{class_qwt_column_rect_aa630854df28955f2ee91c94524b079d7}{\index{Qwt\-Column\-Rect@{Qwt\-Column\-Rect}!direction@{direction}}
+\index{direction@{direction}!QwtColumnRect@{Qwt\-Column\-Rect}}
+\subsubsection[{direction}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Direction} Qwt\-Column\-Rect\-::direction}}\label{class_qwt_column_rect_aa630854df28955f2ee91c94524b079d7}
+
+
+Direction. 
+
+
+
+Definition at line 89 of file qwt\-\_\-column\-\_\-symbol.\-h.
+
+\hypertarget{class_qwt_column_rect_a16a24ece2aa70fc763d08e220608d63a}{\index{Qwt\-Column\-Rect@{Qwt\-Column\-Rect}!h\-Interval@{h\-Interval}}
+\index{h\-Interval@{h\-Interval}!QwtColumnRect@{Qwt\-Column\-Rect}}
+\subsubsection[{h\-Interval}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Qwt\-Interval} Qwt\-Column\-Rect\-::h\-Interval}}\label{class_qwt_column_rect_a16a24ece2aa70fc763d08e220608d63a}
+
+
+Interval for the horizontal coordinates. 
+
+
+
+Definition at line 83 of file qwt\-\_\-column\-\_\-symbol.\-h.
+
+\hypertarget{class_qwt_column_rect_a0dcd7826655c73da74a8f9ad87f3d62a}{\index{Qwt\-Column\-Rect@{Qwt\-Column\-Rect}!v\-Interval@{v\-Interval}}
+\index{v\-Interval@{v\-Interval}!QwtColumnRect@{Qwt\-Column\-Rect}}
+\subsubsection[{v\-Interval}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Qwt\-Interval} Qwt\-Column\-Rect\-::v\-Interval}}\label{class_qwt_column_rect_a0dcd7826655c73da74a8f9ad87f3d62a}
+
+
+Interval for the vertical coordinates. 
+
+
+
+Definition at line 86 of file qwt\-\_\-column\-\_\-symbol.\-h.
+
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/qwt/src/\hyperlink{qwt__column__symbol_8h}{qwt\-\_\-column\-\_\-symbol.\-h}\end{DoxyCompactItemize}

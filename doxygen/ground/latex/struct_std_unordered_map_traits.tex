@@ -1,0 +1,101 @@
+\hypertarget{struct_std_unordered_map_traits}{\section{Std\-Unordered\-Map\-Traits$<$ Scalar $>$ Struct Template Reference}
+\label{struct_std_unordered_map_traits}\index{Std\-Unordered\-Map\-Traits$<$ Scalar $>$@{Std\-Unordered\-Map\-Traits$<$ Scalar $>$}}
+}
+
+
+{\ttfamily \#include $<$Random\-Setter.\-h$>$}
+
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+enum \{ \hyperlink{struct_std_unordered_map_traits_a039b7772642c7ab3b88d540140d4b8ebabb4b3e2c4b2074f6366f8e15e166a193}{Is\-Sorted} = 0
+ \}
+\item 
+typedef \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{struct_std_unordered_map_traits_ab5becfe9c547220362d1c68a2133593f}{Key\-Type}
+\item 
+typedef std\-::unordered\-\_\-map\\*
+$<$ \hyperlink{struct_std_unordered_map_traits_ab5becfe9c547220362d1c68a2133593f}{Key\-Type}, Scalar $>$ \hyperlink{struct_std_unordered_map_traits_a343105e32275b2bdcce2260bc8b327c7}{Type}
+\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{struct_std_unordered_map_traits_a7cced5399533ef71260da107b06b9de7}{set\-Invalid\-Key} (\hyperlink{struct_std_unordered_map_traits_a343105e32275b2bdcce2260bc8b327c7}{Type} \&, const \hyperlink{struct_std_unordered_map_traits_ab5becfe9c547220362d1c68a2133593f}{Key\-Type} \&)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$typename Scalar$>$struct Std\-Unordered\-Map\-Traits$<$ Scalar $>$}
+
+Represents a std\-::unordered\-\_\-map
+
+To use it you need to both define E\-I\-G\-E\-N\-\_\-\-U\-N\-O\-R\-D\-E\-R\-E\-D\-\_\-\-M\-A\-P\-\_\-\-S\-U\-P\-P\-O\-R\-T and include the unordered\-\_\-map header file yourself making sure that unordered\-\_\-map is defined in the std namespace.
+
+For instance, with current version of gcc you can either enable C++0x standard (-\/std=c++0x) or do\-: 
+\begin{DoxyCode}
+\textcolor{preprocessor}{#include <tr1/unordered\_map>}
+\textcolor{preprocessor}{#define EIGEN\_UNORDERED\_MAP\_SUPPORT}
+\textcolor{preprocessor}{}\textcolor{keyword}{namespace }std \{
+  \textcolor{keyword}{using} std::tr1::unordered\_map;
+\}
+\end{DoxyCode}
+
+
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_random_setter}{Random\-Setter} 
+\end{DoxySeeAlso}
+
+
+Definition at line 60 of file Random\-Setter.\-h.
+
+
+
+\subsection{Member Typedef Documentation}
+\hypertarget{struct_std_unordered_map_traits_ab5becfe9c547220362d1c68a2133593f}{\index{Std\-Unordered\-Map\-Traits@{Std\-Unordered\-Map\-Traits}!Key\-Type@{Key\-Type}}
+\index{Key\-Type@{Key\-Type}!StdUnorderedMapTraits@{Std\-Unordered\-Map\-Traits}}
+\subsubsection[{Key\-Type}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Scalar $>$ typedef {\bf int} {\bf Std\-Unordered\-Map\-Traits}$<$ Scalar $>$\-::{\bf Key\-Type}}}\label{struct_std_unordered_map_traits_ab5becfe9c547220362d1c68a2133593f}
+
+
+Definition at line 62 of file Random\-Setter.\-h.
+
+\hypertarget{struct_std_unordered_map_traits_a343105e32275b2bdcce2260bc8b327c7}{\index{Std\-Unordered\-Map\-Traits@{Std\-Unordered\-Map\-Traits}!Type@{Type}}
+\index{Type@{Type}!StdUnorderedMapTraits@{Std\-Unordered\-Map\-Traits}}
+\subsubsection[{Type}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Scalar $>$ typedef std\-::unordered\-\_\-map$<${\bf Key\-Type},Scalar$>$ {\bf Std\-Unordered\-Map\-Traits}$<$ Scalar $>$\-::{\bf Type}}}\label{struct_std_unordered_map_traits_a343105e32275b2bdcce2260bc8b327c7}
+
+
+Definition at line 63 of file Random\-Setter.\-h.
+
+
+
+\subsection{Member Enumeration Documentation}
+\hypertarget{struct_std_unordered_map_traits_a039b7772642c7ab3b88d540140d4b8eb}{\subsubsection[{anonymous enum}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Scalar $>$ anonymous enum}}\label{struct_std_unordered_map_traits_a039b7772642c7ab3b88d540140d4b8eb}
+\begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{Is\-Sorted@{Is\-Sorted}!Std\-Unordered\-Map\-Traits@{Std\-Unordered\-Map\-Traits}}\index{Std\-Unordered\-Map\-Traits@{Std\-Unordered\-Map\-Traits}!Is\-Sorted@{Is\-Sorted}}\item[{\em 
+\hypertarget{struct_std_unordered_map_traits_a039b7772642c7ab3b88d540140d4b8ebabb4b3e2c4b2074f6366f8e15e166a193}{Is\-Sorted}\label{struct_std_unordered_map_traits_a039b7772642c7ab3b88d540140d4b8ebabb4b3e2c4b2074f6366f8e15e166a193}
+}]\end{description}
+\end{Desc}
+
+
+Definition at line 64 of file Random\-Setter.\-h.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{struct_std_unordered_map_traits_a7cced5399533ef71260da107b06b9de7}{\index{Std\-Unordered\-Map\-Traits@{Std\-Unordered\-Map\-Traits}!set\-Invalid\-Key@{set\-Invalid\-Key}}
+\index{set\-Invalid\-Key@{set\-Invalid\-Key}!StdUnorderedMapTraits@{Std\-Unordered\-Map\-Traits}}
+\subsubsection[{set\-Invalid\-Key}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Scalar $>$ static {\bf void} {\bf Std\-Unordered\-Map\-Traits}$<$ Scalar $>$\-::set\-Invalid\-Key (
+\begin{DoxyParamCaption}
+\item[{{\bf Type} \&}]{, }
+\item[{const {\bf Key\-Type} \&}]{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{struct_std_unordered_map_traits_a7cced5399533ef71260da107b06b9de7}
+
+
+Definition at line 68 of file Random\-Setter.\-h.
+
+
+
+The documentation for this struct was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/eigen/\-Eigen/src/\-Sparse/\hyperlink{_random_setter_8h}{Random\-Setter.\-h}\end{DoxyCompactItemize}

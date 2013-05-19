@@ -1,0 +1,185 @@
+\hypertarget{struct_slu_matrix}{\section{Slu\-Matrix Struct Reference}
+\label{struct_slu_matrix}\index{Slu\-Matrix@{Slu\-Matrix}}
+}
+
+
+{\ttfamily \#include $<$Super\-L\-U\-Support.\-h$>$}
+
+Inheritance diagram for Slu\-Matrix\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{struct_slu_matrix}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{struct_slu_matrix_a574bcb05fd8245b340eeec89ede4da60}{Slu\-Matrix} ()
+\item 
+\hyperlink{struct_slu_matrix_a447a40050ccb330167d0bc6aeb743f0a}{Slu\-Matrix} (const \hyperlink{struct_slu_matrix}{Slu\-Matrix} \&other)
+\item 
+\hyperlink{struct_slu_matrix}{Slu\-Matrix} \& \hyperlink{struct_slu_matrix_ac427bef1a8ecd1a4fbb66aaa1e4873a0}{operator=} (const \hyperlink{struct_slu_matrix}{Slu\-Matrix} \&other)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{struct_slu_matrix_ac0cef47b944dccbbb25f3cdfa45ece61}{set\-Storage\-Type} (Stype\-\_\-t \hyperlink{glext_8h_a00140d6f5c548b26daf170bf16e86a6d}{t})
+\item 
+{\footnotesize template$<$typename Scalar $>$ }\\\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{struct_slu_matrix_a030e8fbbc97bd087c93f85cb2d983349}{set\-Scalar\-Type} ()
+\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$typename Scalar , int Rows, int Cols, int Options, int M\-Rows, int M\-Cols$>$ }\\static \hyperlink{struct_slu_matrix}{Slu\-Matrix} \hyperlink{struct_slu_matrix_a08f46c1693f54aa3329d0d7a3a570839}{Map} (\hyperlink{class_matrix}{Matrix}$<$ Scalar, Rows, Cols, Options, M\-Rows, M\-Cols $>$ \&\hyperlink{uavobjecttemplate_8m_a16a51e808b16c46bbfd36da2e37cd123}{mat})
+\item 
+{\footnotesize template$<$typename Matrix\-Type $>$ }\\static \hyperlink{struct_slu_matrix}{Slu\-Matrix} \hyperlink{struct_slu_matrix_a9c7c82166aae4eaf4392eef34918ee2b}{Map} (\hyperlink{class_sparse_matrix_base}{Sparse\-Matrix\-Base}$<$ Matrix\-Type $>$ \&\hyperlink{uavobjecttemplate_8m_a16a51e808b16c46bbfd36da2e37cd123}{mat})
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\begin{tabbing}
+xx\=xx\=xx\=xx\=xx\=xx\=xx\=xx\=xx\=\kill
+struct \{\\
+\>union \{\\
+\>\>\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{struct_slu_matrix_a8c6e4763eb741f70ff9a9e8a134cdad7}{nnz}\\
+\>\>\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{struct_slu_matrix_aafad0ef506998d9eb30fa0277dd08062}{lda}\\
+\>\} \\
+\>\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} $\ast$ \hyperlink{struct_slu_matrix_a37224218289d334e09951e155eb84056}{values}\\
+\>\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} $\ast$ \hyperlink{struct_slu_matrix_a2c325b4cb036ea1d302ee015f2c0a08f}{innerInd}\\
+\>\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} $\ast$ \hyperlink{struct_slu_matrix_a167728f62bf61278d35b56e3f7daf1fb}{outerInd}\\
+\} \hyperlink{struct_slu_matrix_a91687a51dc449ea194d400e8ae469645}{storage}\\
+
+\end{tabbing}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 61 of file Super\-L\-U\-Support.\-h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{struct_slu_matrix_a574bcb05fd8245b340eeec89ede4da60}{\index{Slu\-Matrix@{Slu\-Matrix}!Slu\-Matrix@{Slu\-Matrix}}
+\index{Slu\-Matrix@{Slu\-Matrix}!SluMatrix@{Slu\-Matrix}}
+\subsubsection[{Slu\-Matrix}]{\setlength{\rightskip}{0pt plus 5cm}Slu\-Matrix\-::\-Slu\-Matrix (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{struct_slu_matrix_a574bcb05fd8245b340eeec89ede4da60}
+
+
+Definition at line 63 of file Super\-L\-U\-Support.\-h.
+
+\hypertarget{struct_slu_matrix_a447a40050ccb330167d0bc6aeb743f0a}{\index{Slu\-Matrix@{Slu\-Matrix}!Slu\-Matrix@{Slu\-Matrix}}
+\index{Slu\-Matrix@{Slu\-Matrix}!SluMatrix@{Slu\-Matrix}}
+\subsubsection[{Slu\-Matrix}]{\setlength{\rightskip}{0pt plus 5cm}Slu\-Matrix\-::\-Slu\-Matrix (
+\begin{DoxyParamCaption}
+\item[{const {\bf Slu\-Matrix} \&}]{other}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{struct_slu_matrix_a447a40050ccb330167d0bc6aeb743f0a}
+
+
+Definition at line 68 of file Super\-L\-U\-Support.\-h.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{struct_slu_matrix_a08f46c1693f54aa3329d0d7a3a570839}{\index{Slu\-Matrix@{Slu\-Matrix}!Map@{Map}}
+\index{Map@{Map}!SluMatrix@{Slu\-Matrix}}
+\subsubsection[{Map}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Scalar , int Rows, int Cols, int Options, int M\-Rows, int M\-Cols$>$ static {\bf Slu\-Matrix} Slu\-Matrix\-::\-Map (
+\begin{DoxyParamCaption}
+\item[{{\bf Matrix}$<$ Scalar, Rows, Cols, Options, M\-Rows, M\-Cols $>$ \&}]{mat}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{struct_slu_matrix_a08f46c1693f54aa3329d0d7a3a570839}
+
+
+Definition at line 121 of file Super\-L\-U\-Support.\-h.
+
+\hypertarget{struct_slu_matrix_a9c7c82166aae4eaf4392eef34918ee2b}{\index{Slu\-Matrix@{Slu\-Matrix}!Map@{Map}}
+\index{Map@{Map}!SluMatrix@{Slu\-Matrix}}
+\subsubsection[{Map}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type $>$ static {\bf Slu\-Matrix} Slu\-Matrix\-::\-Map (
+\begin{DoxyParamCaption}
+\item[{{\bf Sparse\-Matrix\-Base}$<$ Matrix\-Type $>$ \&}]{mat}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{struct_slu_matrix_a9c7c82166aae4eaf4392eef34918ee2b}
+
+
+Definition at line 139 of file Super\-L\-U\-Support.\-h.
+
+\hypertarget{struct_slu_matrix_ac427bef1a8ecd1a4fbb66aaa1e4873a0}{\index{Slu\-Matrix@{Slu\-Matrix}!operator=@{operator=}}
+\index{operator=@{operator=}!SluMatrix@{Slu\-Matrix}}
+\subsubsection[{operator=}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Slu\-Matrix}\& Slu\-Matrix\-::operator= (
+\begin{DoxyParamCaption}
+\item[{const {\bf Slu\-Matrix} \&}]{other}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{struct_slu_matrix_ac427bef1a8ecd1a4fbb66aaa1e4873a0}
+
+
+Definition at line 75 of file Super\-L\-U\-Support.\-h.
+
+\hypertarget{struct_slu_matrix_a030e8fbbc97bd087c93f85cb2d983349}{\index{Slu\-Matrix@{Slu\-Matrix}!set\-Scalar\-Type@{set\-Scalar\-Type}}
+\index{set\-Scalar\-Type@{set\-Scalar\-Type}!SluMatrix@{Slu\-Matrix}}
+\subsubsection[{set\-Scalar\-Type}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Scalar $>$ {\bf void} Slu\-Matrix\-::set\-Scalar\-Type (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{struct_slu_matrix_a030e8fbbc97bd087c93f85cb2d983349}
+
+
+Definition at line 104 of file Super\-L\-U\-Support.\-h.
+
+\hypertarget{struct_slu_matrix_ac0cef47b944dccbbb25f3cdfa45ece61}{\index{Slu\-Matrix@{Slu\-Matrix}!set\-Storage\-Type@{set\-Storage\-Type}}
+\index{set\-Storage\-Type@{set\-Storage\-Type}!SluMatrix@{Slu\-Matrix}}
+\subsubsection[{set\-Storage\-Type}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Slu\-Matrix\-::set\-Storage\-Type (
+\begin{DoxyParamCaption}
+\item[{Stype\-\_\-t}]{t}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{struct_slu_matrix_ac0cef47b944dccbbb25f3cdfa45ece61}
+
+
+Definition at line 91 of file Super\-L\-U\-Support.\-h.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{struct_slu_matrix_a2c325b4cb036ea1d302ee015f2c0a08f}{\index{Slu\-Matrix@{Slu\-Matrix}!inner\-Ind@{inner\-Ind}}
+\index{inner\-Ind@{inner\-Ind}!SluMatrix@{Slu\-Matrix}}
+\subsubsection[{inner\-Ind}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int}$\ast$ Slu\-Matrix\-::inner\-Ind}}\label{struct_slu_matrix_a2c325b4cb036ea1d302ee015f2c0a08f}
+
+
+Definition at line 87 of file Super\-L\-U\-Support.\-h.
+
+\hypertarget{struct_slu_matrix_aafad0ef506998d9eb30fa0277dd08062}{\index{Slu\-Matrix@{Slu\-Matrix}!lda@{lda}}
+\index{lda@{lda}!SluMatrix@{Slu\-Matrix}}
+\subsubsection[{lda}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int} Slu\-Matrix\-::lda}}\label{struct_slu_matrix_aafad0ef506998d9eb30fa0277dd08062}
+
+
+Definition at line 85 of file Super\-L\-U\-Support.\-h.
+
+\hypertarget{struct_slu_matrix_a8c6e4763eb741f70ff9a9e8a134cdad7}{\index{Slu\-Matrix@{Slu\-Matrix}!nnz@{nnz}}
+\index{nnz@{nnz}!SluMatrix@{Slu\-Matrix}}
+\subsubsection[{nnz}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int} Slu\-Matrix\-::nnz}}\label{struct_slu_matrix_a8c6e4763eb741f70ff9a9e8a134cdad7}
+
+
+Definition at line 85 of file Super\-L\-U\-Support.\-h.
+
+\hypertarget{struct_slu_matrix_a167728f62bf61278d35b56e3f7daf1fb}{\index{Slu\-Matrix@{Slu\-Matrix}!outer\-Ind@{outer\-Ind}}
+\index{outer\-Ind@{outer\-Ind}!SluMatrix@{Slu\-Matrix}}
+\subsubsection[{outer\-Ind}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int}$\ast$ Slu\-Matrix\-::outer\-Ind}}\label{struct_slu_matrix_a167728f62bf61278d35b56e3f7daf1fb}
+
+
+Definition at line 88 of file Super\-L\-U\-Support.\-h.
+
+\hypertarget{struct_slu_matrix_a91687a51dc449ea194d400e8ae469645}{\index{Slu\-Matrix@{Slu\-Matrix}!storage@{storage}}
+\index{storage@{storage}!SluMatrix@{Slu\-Matrix}}
+\subsubsection[{storage}]{\setlength{\rightskip}{0pt plus 5cm}struct \{ ... \}   Slu\-Matrix\-::storage}}\label{struct_slu_matrix_a91687a51dc449ea194d400e8ae469645}
+\hypertarget{struct_slu_matrix_a37224218289d334e09951e155eb84056}{\index{Slu\-Matrix@{Slu\-Matrix}!values@{values}}
+\index{values@{values}!SluMatrix@{Slu\-Matrix}}
+\subsubsection[{values}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void}$\ast$ Slu\-Matrix\-::values}}\label{struct_slu_matrix_a37224218289d334e09951e155eb84056}
+
+
+Definition at line 86 of file Super\-L\-U\-Support.\-h.
+
+
+
+The documentation for this struct was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/eigen/\-Eigen/src/\-Sparse/\hyperlink{_super_l_u_support_8h}{Super\-L\-U\-Support.\-h}\end{DoxyCompactItemize}

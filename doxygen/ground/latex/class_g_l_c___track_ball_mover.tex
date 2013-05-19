@@ -1,0 +1,183 @@
+\hypertarget{class_g_l_c___track_ball_mover}{\section{G\-L\-C\-\_\-\-Track\-Ball\-Mover Class Reference}
+\label{class_g_l_c___track_ball_mover}\index{G\-L\-C\-\_\-\-Track\-Ball\-Mover@{G\-L\-C\-\_\-\-Track\-Ball\-Mover}}
+}
+
+
+\hyperlink{class_g_l_c___track_ball_mover}{G\-L\-C\-\_\-\-Track\-Ball\-Mover} \-: Track ball interactive manipulation.  
+
+
+
+
+{\ttfamily \#include $<$glc\-\_\-trackballmover.\-h$>$}
+
+Inheritance diagram for G\-L\-C\-\_\-\-Track\-Ball\-Mover\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{class_g_l_c___track_ball_mover}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{Indent}{\bf Constructor / Destructor}\par
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_g_l_c___track_ball_mover_ab91b501d9209f2377cacc10f219ef789}{G\-L\-C\-\_\-\-Track\-Ball\-Mover} (\hyperlink{class_g_l_c___viewport}{G\-L\-C\-\_\-\-Viewport} $\ast$, const \hyperlink{class_q_list}{Q\-List}$<$ \hyperlink{class_g_l_c___rep_mover}{G\-L\-C\-\_\-\-Rep\-Mover} $\ast$ $>$ \&reps\-List=\hyperlink{class_q_list}{Q\-List}$<$ \hyperlink{class_g_l_c___rep_mover}{G\-L\-C\-\_\-\-Rep\-Mover} $\ast$ $>$())
+\begin{DoxyCompactList}\small\item\em Default constructor. \end{DoxyCompactList}\item 
+\hyperlink{class_g_l_c___track_ball_mover_a6319b9cb3c954f7e4da2af097a0870cb}{G\-L\-C\-\_\-\-Track\-Ball\-Mover} (const \hyperlink{class_g_l_c___track_ball_mover}{G\-L\-C\-\_\-\-Track\-Ball\-Mover} \&)
+\begin{DoxyCompactList}\small\item\em Copy constructor. \end{DoxyCompactList}\item 
+virtual \hyperlink{class_g_l_c___track_ball_mover_abe60a25ca44178bdb4136f116f617cdd}{$\sim$\-G\-L\-C\-\_\-\-Track\-Ball\-Mover} ()
+\begin{DoxyCompactList}\small\item\em Destructor. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\end{Indent}
+\begin{Indent}{\bf Get Functions}\par
+\begin{DoxyCompactItemize}
+\item 
+virtual \hyperlink{class_g_l_c___mover}{G\-L\-C\-\_\-\-Mover} $\ast$ \hyperlink{class_g_l_c___track_ball_mover_ae4d9805062308f16c153608c92387135}{clone} () const 
+\begin{DoxyCompactList}\small\item\em Return a clone of the mover. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\end{Indent}
+\begin{Indent}{\bf Set Functions}\par
+\begin{DoxyCompactItemize}
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c___track_ball_mover_a876a78986b67739d82d0d7d68b9d860d}{init} (const \hyperlink{class_g_l_c___user_input}{G\-L\-C\-\_\-\-User\-Input} \&user\-Input)
+\begin{DoxyCompactList}\small\item\em Initialized the mover. \end{DoxyCompactList}\item 
+virtual bool \hyperlink{class_g_l_c___track_ball_mover_a99399ee08f65bcdff03695d6b3f7a56b}{move} (const \hyperlink{class_g_l_c___user_input}{G\-L\-C\-\_\-\-User\-Input} \&user\-Input)
+\begin{DoxyCompactList}\small\item\em Move the camera. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c___track_ball_mover_aba7e75d5b0afaa08e8877651560facdb}{set\-Ratio} (\hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} ratio)
+\begin{DoxyCompactList}\small\item\em Set this mover screen ratio. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\end{Indent}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Detailed Description}
+\hyperlink{class_g_l_c___track_ball_mover}{G\-L\-C\-\_\-\-Track\-Ball\-Mover} \-: Track ball interactive manipulation. 
+
+Definition at line 35 of file glc\-\_\-trackballmover.\-h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_g_l_c___track_ball_mover_ab91b501d9209f2377cacc10f219ef789}{\index{G\-L\-C\-\_\-\-Track\-Ball\-Mover@{G\-L\-C\-\_\-\-Track\-Ball\-Mover}!G\-L\-C\-\_\-\-Track\-Ball\-Mover@{G\-L\-C\-\_\-\-Track\-Ball\-Mover}}
+\index{G\-L\-C\-\_\-\-Track\-Ball\-Mover@{G\-L\-C\-\_\-\-Track\-Ball\-Mover}!GLC_TrackBallMover@{G\-L\-C\-\_\-\-Track\-Ball\-Mover}}
+\subsubsection[{G\-L\-C\-\_\-\-Track\-Ball\-Mover}]{\setlength{\rightskip}{0pt plus 5cm}G\-L\-C\-\_\-\-Track\-Ball\-Mover\-::\-G\-L\-C\-\_\-\-Track\-Ball\-Mover (
+\begin{DoxyParamCaption}
+\item[{{\bf G\-L\-C\-\_\-\-Viewport} $\ast$}]{p\-Viewport, }
+\item[{const {\bf Q\-List}$<$ {\bf G\-L\-C\-\_\-\-Rep\-Mover} $\ast$ $>$ \&}]{reps\-List = {\ttfamily {\bf Q\-List}$<${\bf G\-L\-C\-\_\-\-Rep\-Mover}$\ast$$>$()}}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___track_ball_mover_ab91b501d9209f2377cacc10f219ef789}
+
+
+Default constructor. 
+
+
+
+Definition at line 29 of file glc\-\_\-trackballmover.\-cpp.
+
+\hypertarget{class_g_l_c___track_ball_mover_a6319b9cb3c954f7e4da2af097a0870cb}{\index{G\-L\-C\-\_\-\-Track\-Ball\-Mover@{G\-L\-C\-\_\-\-Track\-Ball\-Mover}!G\-L\-C\-\_\-\-Track\-Ball\-Mover@{G\-L\-C\-\_\-\-Track\-Ball\-Mover}}
+\index{G\-L\-C\-\_\-\-Track\-Ball\-Mover@{G\-L\-C\-\_\-\-Track\-Ball\-Mover}!GLC_TrackBallMover@{G\-L\-C\-\_\-\-Track\-Ball\-Mover}}
+\subsubsection[{G\-L\-C\-\_\-\-Track\-Ball\-Mover}]{\setlength{\rightskip}{0pt plus 5cm}G\-L\-C\-\_\-\-Track\-Ball\-Mover\-::\-G\-L\-C\-\_\-\-Track\-Ball\-Mover (
+\begin{DoxyParamCaption}
+\item[{const {\bf G\-L\-C\-\_\-\-Track\-Ball\-Mover} \&}]{mover}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___track_ball_mover_a6319b9cb3c954f7e4da2af097a0870cb}
+
+
+Copy constructor. 
+
+
+
+Definition at line 38 of file glc\-\_\-trackballmover.\-cpp.
+
+\hypertarget{class_g_l_c___track_ball_mover_abe60a25ca44178bdb4136f116f617cdd}{\index{G\-L\-C\-\_\-\-Track\-Ball\-Mover@{G\-L\-C\-\_\-\-Track\-Ball\-Mover}!$\sim$\-G\-L\-C\-\_\-\-Track\-Ball\-Mover@{$\sim$\-G\-L\-C\-\_\-\-Track\-Ball\-Mover}}
+\index{$\sim$\-G\-L\-C\-\_\-\-Track\-Ball\-Mover@{$\sim$\-G\-L\-C\-\_\-\-Track\-Ball\-Mover}!GLC_TrackBallMover@{G\-L\-C\-\_\-\-Track\-Ball\-Mover}}
+\subsubsection[{$\sim$\-G\-L\-C\-\_\-\-Track\-Ball\-Mover}]{\setlength{\rightskip}{0pt plus 5cm}G\-L\-C\-\_\-\-Track\-Ball\-Mover\-::$\sim$\-G\-L\-C\-\_\-\-Track\-Ball\-Mover (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_g_l_c___track_ball_mover_abe60a25ca44178bdb4136f116f617cdd}
+
+
+Destructor. 
+
+
+
+Definition at line 45 of file glc\-\_\-trackballmover.\-cpp.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_g_l_c___track_ball_mover_ae4d9805062308f16c153608c92387135}{\index{G\-L\-C\-\_\-\-Track\-Ball\-Mover@{G\-L\-C\-\_\-\-Track\-Ball\-Mover}!clone@{clone}}
+\index{clone@{clone}!GLC_TrackBallMover@{G\-L\-C\-\_\-\-Track\-Ball\-Mover}}
+\subsubsection[{clone}]{\setlength{\rightskip}{0pt plus 5cm}{\bf G\-L\-C\-\_\-\-Mover} $\ast$ G\-L\-C\-\_\-\-Track\-Ball\-Mover\-::clone (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_g_l_c___track_ball_mover_ae4d9805062308f16c153608c92387135}
+
+
+Return a clone of the mover. 
+
+
+
+Implements \hyperlink{class_g_l_c___mover_abcf4ca22f14bc73158e3ad6e8d60410c}{G\-L\-C\-\_\-\-Mover}.
+
+
+
+Definition at line 55 of file glc\-\_\-trackballmover.\-cpp.
+
+\hypertarget{class_g_l_c___track_ball_mover_a876a78986b67739d82d0d7d68b9d860d}{\index{G\-L\-C\-\_\-\-Track\-Ball\-Mover@{G\-L\-C\-\_\-\-Track\-Ball\-Mover}!init@{init}}
+\index{init@{init}!GLC_TrackBallMover@{G\-L\-C\-\_\-\-Track\-Ball\-Mover}}
+\subsubsection[{init}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-\-Track\-Ball\-Mover\-::init (
+\begin{DoxyParamCaption}
+\item[{const {\bf G\-L\-C\-\_\-\-User\-Input} \&}]{user\-Input}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_g_l_c___track_ball_mover_a876a78986b67739d82d0d7d68b9d860d}
+
+
+Initialized the mover. 
+
+
+
+Implements \hyperlink{class_g_l_c___mover_aa42bf47dbe0181baebb33fd4901ea516}{G\-L\-C\-\_\-\-Mover}.
+
+
+
+Definition at line 65 of file glc\-\_\-trackballmover.\-cpp.
+
+\hypertarget{class_g_l_c___track_ball_mover_a99399ee08f65bcdff03695d6b3f7a56b}{\index{G\-L\-C\-\_\-\-Track\-Ball\-Mover@{G\-L\-C\-\_\-\-Track\-Ball\-Mover}!move@{move}}
+\index{move@{move}!GLC_TrackBallMover@{G\-L\-C\-\_\-\-Track\-Ball\-Mover}}
+\subsubsection[{move}]{\setlength{\rightskip}{0pt plus 5cm}bool G\-L\-C\-\_\-\-Track\-Ball\-Mover\-::move (
+\begin{DoxyParamCaption}
+\item[{const {\bf G\-L\-C\-\_\-\-User\-Input} \&}]{user\-Input}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_g_l_c___track_ball_mover_a99399ee08f65bcdff03695d6b3f7a56b}
+
+
+Move the camera. 
+
+
+
+Implements \hyperlink{class_g_l_c___mover_a50797471a7a71612eef7d80f509f8a74}{G\-L\-C\-\_\-\-Mover}.
+
+
+
+Definition at line 81 of file glc\-\_\-trackballmover.\-cpp.
+
+\hypertarget{class_g_l_c___track_ball_mover_aba7e75d5b0afaa08e8877651560facdb}{\index{G\-L\-C\-\_\-\-Track\-Ball\-Mover@{G\-L\-C\-\_\-\-Track\-Ball\-Mover}!set\-Ratio@{set\-Ratio}}
+\index{set\-Ratio@{set\-Ratio}!GLC_TrackBallMover@{G\-L\-C\-\_\-\-Track\-Ball\-Mover}}
+\subsubsection[{set\-Ratio}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-\-Track\-Ball\-Mover\-::set\-Ratio (
+\begin{DoxyParamCaption}
+\item[{{\bf double}}]{ratio}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___track_ball_mover_aba7e75d5b0afaa08e8877651560facdb}
+
+
+Set this mover screen ratio. 
+
+
+
+Definition at line 100 of file glc\-\_\-trackballmover.\-cpp.
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/glc\-\_\-lib/viewport/\hyperlink{glc__trackballmover_8h}{glc\-\_\-trackballmover.\-h}\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/glc\-\_\-lib/viewport/\hyperlink{glc__trackballmover_8cpp}{glc\-\_\-trackballmover.\-cpp}\end{DoxyCompactItemize}

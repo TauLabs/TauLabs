@@ -1,0 +1,196 @@
+\hypertarget{class_qxt_tree_widget}{\section{Qxt\-Tree\-Widget Class Reference}
+\label{class_qxt_tree_widget}\index{Qxt\-Tree\-Widget@{Qxt\-Tree\-Widget}}
+}
+
+
+The \hyperlink{class_qxt_tree_widget}{Qxt\-Tree\-Widget} class is an extended Q\-Tree\-Widget with additional signals.  
+
+
+
+
+{\ttfamily \#include $<$qxttreewidget.\-h$>$}
+
+Inheritance diagram for Qxt\-Tree\-Widget\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_qxt_tree_widget}
+\end{center}
+\end{figure}
+\subsection*{Signals}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qxt_tree_widget_a2f80d0770ff2ad1904e26ed236d8e4ee}{item\-Editing\-Started} (Q\-Tree\-Widget\-Item $\ast$item)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qxt_tree_widget_a614beb6b5c7a272c30823eb4b3b408ca}{item\-Editing\-Finished} (Q\-Tree\-Widget\-Item $\ast$item)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qxt_tree_widget_a19b8f33f02812013b0362caca1a2be68}{item\-Check\-State\-Changed} (\hyperlink{class_qxt_tree_widget_item}{Qxt\-Tree\-Widget\-Item} $\ast$item)
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_qxt_tree_widget_a2f0aaec7459e90be757b3cbb12883c4c}{Qxt\-Tree\-Widget} (Q\-Widget $\ast$parent=0)
+\item 
+virtual \hyperlink{class_qxt_tree_widget_a04aa2645e8ac62f89d7d95e4c2fa937d}{$\sim$\-Qxt\-Tree\-Widget} ()
+\item 
+Qxt\-::\-Decoration\-Style \hyperlink{class_qxt_tree_widget_a44c56b9ad32368c07bcb8bb807603820}{decoration\-Style} () const 
+\begin{DoxyCompactList}\small\item\em the top level item decoration style \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qxt_tree_widget_acaf9cf1f17f41922a41f22987a56dde8}{set\-Decoration\-Style} (Qxt\-::\-Decoration\-Style style)
+\item 
+Qt\-::\-Text\-Elide\-Mode \hyperlink{class_qxt_tree_widget_a4f8111fa61231c8f6b50255638c98352}{elide\-Mode} () const 
+\begin{DoxyCompactList}\small\item\em the text elide mode \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qxt_tree_widget_ab0216d189b6bce5caab1ea9da5ca7060}{set\-Elide\-Mode} (Qt\-::\-Text\-Elide\-Mode \hyperlink{glext_8h_a1e71d9c196e4683cc06c4b54d53f7ef5}{mode})
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+The \hyperlink{class_qxt_tree_widget}{Qxt\-Tree\-Widget} class is an extended Q\-Tree\-Widget with additional signals. 
+
+Qxt\-Gui \hyperlink{class_qxt_tree_widget}{Qxt\-Tree\-Widget} offers an optional top level item decoration and a few most commonly requested signals.
+
+\char`\"{}\-Qxt\-Tree\-Widget with Qxt\-::\-Menulike and Qxt\-::\-Buttonlike decoration styles, respectively.\char`\"{}
+
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qxt_tree_widget_item}{Qxt\-Tree\-Widget\-Item} 
+\end{DoxySeeAlso}
+
+
+Definition at line 35 of file qxttreewidget.\-h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_qxt_tree_widget_a2f0aaec7459e90be757b3cbb12883c4c}{\index{Qxt\-Tree\-Widget@{Qxt\-Tree\-Widget}!Qxt\-Tree\-Widget@{Qxt\-Tree\-Widget}}
+\index{Qxt\-Tree\-Widget@{Qxt\-Tree\-Widget}!QxtTreeWidget@{Qxt\-Tree\-Widget}}
+\subsubsection[{Qxt\-Tree\-Widget}]{\setlength{\rightskip}{0pt plus 5cm}Qxt\-Tree\-Widget\-::\-Qxt\-Tree\-Widget (
+\begin{DoxyParamCaption}
+\item[{Q\-Widget $\ast$}]{parent = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [explicit]}}}\label{class_qxt_tree_widget_a2f0aaec7459e90be757b3cbb12883c4c}
+Constructs a new \hyperlink{class_qxt_tree_widget}{Qxt\-Tree\-Widget} with {\itshape parent}. 
+
+Definition at line 102 of file qxttreewidget.\-cpp.
+
+\hypertarget{class_qxt_tree_widget_a04aa2645e8ac62f89d7d95e4c2fa937d}{\index{Qxt\-Tree\-Widget@{Qxt\-Tree\-Widget}!$\sim$\-Qxt\-Tree\-Widget@{$\sim$\-Qxt\-Tree\-Widget}}
+\index{$\sim$\-Qxt\-Tree\-Widget@{$\sim$\-Qxt\-Tree\-Widget}!QxtTreeWidget@{Qxt\-Tree\-Widget}}
+\subsubsection[{$\sim$\-Qxt\-Tree\-Widget}]{\setlength{\rightskip}{0pt plus 5cm}Qxt\-Tree\-Widget\-::$\sim$\-Qxt\-Tree\-Widget (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_qxt_tree_widget_a04aa2645e8ac62f89d7d95e4c2fa937d}
+Destructs the tree widget. 
+
+Definition at line 118 of file qxttreewidget.\-cpp.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_qxt_tree_widget_a44c56b9ad32368c07bcb8bb807603820}{\index{Qxt\-Tree\-Widget@{Qxt\-Tree\-Widget}!decoration\-Style@{decoration\-Style}}
+\index{decoration\-Style@{decoration\-Style}!QxtTreeWidget@{Qxt\-Tree\-Widget}}
+\subsubsection[{decoration\-Style}]{\setlength{\rightskip}{0pt plus 5cm}Qxt\-::\-Decoration\-Style Qxt\-Tree\-Widget\-::decoration\-Style (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_qxt_tree_widget_a44c56b9ad32368c07bcb8bb807603820}
+
+
+the top level item decoration style 
+
+Top level items are decorated according to this property. The default value is Qxt\-::\-No\-Decoration.
+
+\{Note\-:\} Setting the property to anything else than Qxt\-::\-No\-Decoration hides the header and sets Q\-Tree\-View\-::root\-Is\-Decorated to {\ttfamily false} (to avoid multiple branch indicators).
+
+\begin{DoxySeeAlso}{See Also}
+Qxt\-::\-Decoration\-Style, Q\-Tree\-View\-::root\-Is\-Decorated 
+\end{DoxySeeAlso}
+
+
+Definition at line 134 of file qxttreewidget.\-cpp.
+
+\hypertarget{class_qxt_tree_widget_a4f8111fa61231c8f6b50255638c98352}{\index{Qxt\-Tree\-Widget@{Qxt\-Tree\-Widget}!elide\-Mode@{elide\-Mode}}
+\index{elide\-Mode@{elide\-Mode}!QxtTreeWidget@{Qxt\-Tree\-Widget}}
+\subsubsection[{elide\-Mode}]{\setlength{\rightskip}{0pt plus 5cm}Qt\-::\-Text\-Elide\-Mode Qxt\-Tree\-Widget\-::elide\-Mode (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_qxt_tree_widget_a4f8111fa61231c8f6b50255638c98352}
+
+
+the text elide mode 
+
+The text of a decorated top level item is elided according to this property. The default value is Qt\-::\-Elide\-Middle.
+
+\{Note\-:\} The property has effect only for decorated top level items.
+
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qxt_tree_widget_a44c56b9ad32368c07bcb8bb807603820}{decoration\-Style}, Qt\-::\-Text\-Elide\-Mode 
+\end{DoxySeeAlso}
+
+
+Definition at line 165 of file qxttreewidget.\-cpp.
+
+\hypertarget{class_qxt_tree_widget_a19b8f33f02812013b0362caca1a2be68}{\index{Qxt\-Tree\-Widget@{Qxt\-Tree\-Widget}!item\-Check\-State\-Changed@{item\-Check\-State\-Changed}}
+\index{item\-Check\-State\-Changed@{item\-Check\-State\-Changed}!QxtTreeWidget@{Qxt\-Tree\-Widget}}
+\subsubsection[{item\-Check\-State\-Changed}]{\setlength{\rightskip}{0pt plus 5cm}Qxt\-Tree\-Widget\-::item\-Check\-State\-Changed (
+\begin{DoxyParamCaption}
+\item[{{\bf Qxt\-Tree\-Widget\-Item} $\ast$}]{item}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [signal]}}}\label{class_qxt_tree_widget_a19b8f33f02812013b0362caca1a2be68}
+This signal is emitted whenever the check state of {\itshape item} has changed.
+
+\{Note\-:\} Use \hyperlink{class_qxt_tree_widget_item}{Qxt\-Tree\-Widget\-Item} in order to enable this feature.
+
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qxt_tree_widget_item}{Qxt\-Tree\-Widget\-Item}, Q\-Tree\-Widget\-Item\-::check\-State() 
+\end{DoxySeeAlso}
+\hypertarget{class_qxt_tree_widget_a614beb6b5c7a272c30823eb4b3b408ca}{\index{Qxt\-Tree\-Widget@{Qxt\-Tree\-Widget}!item\-Editing\-Finished@{item\-Editing\-Finished}}
+\index{item\-Editing\-Finished@{item\-Editing\-Finished}!QxtTreeWidget@{Qxt\-Tree\-Widget}}
+\subsubsection[{item\-Editing\-Finished}]{\setlength{\rightskip}{0pt plus 5cm}Qxt\-Tree\-Widget\-::item\-Editing\-Finished (
+\begin{DoxyParamCaption}
+\item[{Q\-Tree\-Widget\-Item $\ast$}]{item}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [signal]}}}\label{class_qxt_tree_widget_a614beb6b5c7a272c30823eb4b3b408ca}
+This signal is emitted after the editing of {\itshape item} has been finished.
+
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qxt_tree_widget_a2f80d0770ff2ad1904e26ed236d8e4ee}{item\-Editing\-Started()} 
+\end{DoxySeeAlso}
+\hypertarget{class_qxt_tree_widget_a2f80d0770ff2ad1904e26ed236d8e4ee}{\index{Qxt\-Tree\-Widget@{Qxt\-Tree\-Widget}!item\-Editing\-Started@{item\-Editing\-Started}}
+\index{item\-Editing\-Started@{item\-Editing\-Started}!QxtTreeWidget@{Qxt\-Tree\-Widget}}
+\subsubsection[{item\-Editing\-Started}]{\setlength{\rightskip}{0pt plus 5cm}Qxt\-Tree\-Widget\-::item\-Editing\-Started (
+\begin{DoxyParamCaption}
+\item[{Q\-Tree\-Widget\-Item $\ast$}]{item}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [signal]}}}\label{class_qxt_tree_widget_a2f80d0770ff2ad1904e26ed236d8e4ee}
+This signal is emitted after the editing of {\itshape item} has been started.
+
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qxt_tree_widget_a614beb6b5c7a272c30823eb4b3b408ca}{item\-Editing\-Finished()} 
+\end{DoxySeeAlso}
+\hypertarget{class_qxt_tree_widget_acaf9cf1f17f41922a41f22987a56dde8}{\index{Qxt\-Tree\-Widget@{Qxt\-Tree\-Widget}!set\-Decoration\-Style@{set\-Decoration\-Style}}
+\index{set\-Decoration\-Style@{set\-Decoration\-Style}!QxtTreeWidget@{Qxt\-Tree\-Widget}}
+\subsubsection[{set\-Decoration\-Style}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qxt\-Tree\-Widget\-::set\-Decoration\-Style (
+\begin{DoxyParamCaption}
+\item[{Qxt\-::\-Decoration\-Style}]{style}
+\end{DoxyParamCaption}
+)}}\label{class_qxt_tree_widget_acaf9cf1f17f41922a41f22987a56dde8}
+
+
+Definition at line 139 of file qxttreewidget.\-cpp.
+
+\hypertarget{class_qxt_tree_widget_ab0216d189b6bce5caab1ea9da5ca7060}{\index{Qxt\-Tree\-Widget@{Qxt\-Tree\-Widget}!set\-Elide\-Mode@{set\-Elide\-Mode}}
+\index{set\-Elide\-Mode@{set\-Elide\-Mode}!QxtTreeWidget@{Qxt\-Tree\-Widget}}
+\subsubsection[{set\-Elide\-Mode}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qxt\-Tree\-Widget\-::set\-Elide\-Mode (
+\begin{DoxyParamCaption}
+\item[{Qt\-::\-Text\-Elide\-Mode}]{mode}
+\end{DoxyParamCaption}
+)}}\label{class_qxt_tree_widget_ab0216d189b6bce5caab1ea9da5ca7060}
+
+
+Definition at line 170 of file qxttreewidget.\-cpp.
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/libqxt/src/gui/\hyperlink{qxttreewidget_8h}{qxttreewidget.\-h}\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/libqxt/src/gui/\hyperlink{qxttreewidget_8cpp}{qxttreewidget.\-cpp}\end{DoxyCompactItemize}

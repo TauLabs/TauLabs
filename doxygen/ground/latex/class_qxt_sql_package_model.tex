@@ -1,0 +1,167 @@
+\hypertarget{class_qxt_sql_package_model}{\section{Qxt\-Sql\-Package\-Model Class Reference}
+\label{class_qxt_sql_package_model}\index{Qxt\-Sql\-Package\-Model@{Qxt\-Sql\-Package\-Model}}
+}
+
+
+The \hyperlink{class_qxt_sql_package_model}{Qxt\-Sql\-Package\-Model} class provides a read-\/only data model for \hyperlink{class_qxt_sql_package}{Qxt\-Sql\-Package} result..  
+
+
+
+
+{\ttfamily \#include $<$qxtsqlpackagemodel.\-h$>$}
+
+Inheritance diagram for Qxt\-Sql\-Package\-Model\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_qxt_sql_package_model}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_qxt_sql_package_model_a09fd322bc71a23748af97691f03b8bbe}{Qxt\-Sql\-Package\-Model} (Q\-Object $\ast$parent=0)
+\begin{DoxyCompactList}\small\item\em \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qxt_sql_package_model_af2178db1f14cf5e5811c7d901a34045a}{set\-Query} (\hyperlink{class_qxt_sql_package}{Qxt\-Sql\-Package} \hyperlink{glext_8h_ac8729153468b5dcf13f971b21d84d4e5}{a})
+\begin{DoxyCompactList}\small\item\em set the {\itshape package} for the model. \end{DoxyCompactList}\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_qxt_sql_package_model_a21456cff3ad42ec641fe3376d5216bef}{row\-Count} (const Q\-Model\-Index \&=Q\-Model\-Index()) const 
+\begin{DoxyCompactList}\small\item\em \end{DoxyCompactList}\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_qxt_sql_package_model_ae18b3f7b42e230c4a7c372f348b43956}{column\-Count} (const Q\-Model\-Index \&=Q\-Model\-Index()) const 
+\begin{DoxyCompactList}\small\item\em \end{DoxyCompactList}\item 
+Q\-Variant \hyperlink{class_qxt_sql_package_model_ace647c36d8cc405fa5df8f017dd036f4}{data} (const Q\-Model\-Index \&\hyperlink{glext_8h_ab47dd9958bcadea08866b42bf358e95e}{index}, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} role=Qt\-::\-Display\-Role) const 
+\begin{DoxyCompactList}\small\item\em \end{DoxyCompactList}\item 
+Q\-Variant \hyperlink{class_qxt_sql_package_model_aac0952e253bf5d9af01bed298da628f4}{header\-Data} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} section, Qt\-::\-Orientation orientation, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} role=Qt\-::\-Display\-Role) const 
+\begin{DoxyCompactList}\small\item\em \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+The \hyperlink{class_qxt_sql_package_model}{Qxt\-Sql\-Package\-Model} class provides a read-\/only data model for \hyperlink{class_qxt_sql_package}{Qxt\-Sql\-Package} result.. 
+
+Qxt\-Sql
+
+example usage\-: 
+\begin{DoxyCode}
+QSqlQuery \hyperlink{glext_8h_afb30bc844faa48275d1c84294956a44b}{q};
+q.exec(\textcolor{stringliteral}{"SELECT *"});
+
+\hyperlink{class_qxt_sql_package}{QxtSqlPackage} \hyperlink{glext_8h_aa5367c14d90f462230c2611b81b41d23}{p};
+p.\hyperlink{class_qxt_sql_package_a8cb821ede737fb9c783aaf9c4af661a9}{insert}(q);
+
+\hyperlink{class_qxt_sql_package_model}{QxtSqlPackageModel} \hyperlink{glext_8h_af593500c283bf1a787a6f947f503a5c2}{m};
+m.\hyperlink{class_qxt_sql_package_model_af2178db1f14cf5e5811c7d901a34045a}{setQuery}(p);
+
+QTableView \hyperlink{glext_8h_a14cfbe2fc2234f5504618905b69d1e06}{v};
+v.setModel(&m);
+v.show();
+\end{DoxyCode}
+ 
+
+Definition at line 35 of file qxtsqlpackagemodel.\-h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_qxt_sql_package_model_a09fd322bc71a23748af97691f03b8bbe}{\index{Qxt\-Sql\-Package\-Model@{Qxt\-Sql\-Package\-Model}!Qxt\-Sql\-Package\-Model@{Qxt\-Sql\-Package\-Model}}
+\index{Qxt\-Sql\-Package\-Model@{Qxt\-Sql\-Package\-Model}!QxtSqlPackageModel@{Qxt\-Sql\-Package\-Model}}
+\subsubsection[{Qxt\-Sql\-Package\-Model}]{\setlength{\rightskip}{0pt plus 5cm}Qxt\-Sql\-Package\-Model\-::\-Qxt\-Sql\-Package\-Model (
+\begin{DoxyParamCaption}
+\item[{Q\-Object $\ast$}]{parent = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)}}\label{class_qxt_sql_package_model_a09fd322bc71a23748af97691f03b8bbe}
+
+
+
+
+Creates a \hyperlink{class_qxt_sql_package_model}{Qxt\-Sql\-Package\-Model} with {\itshape parent}. 
+
+Definition at line 66 of file qxtsqlpackagemodel.\-cpp.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_qxt_sql_package_model_ae18b3f7b42e230c4a7c372f348b43956}{\index{Qxt\-Sql\-Package\-Model@{Qxt\-Sql\-Package\-Model}!column\-Count@{column\-Count}}
+\index{column\-Count@{column\-Count}!QxtSqlPackageModel@{Qxt\-Sql\-Package\-Model}}
+\subsubsection[{column\-Count}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int} Qxt\-Sql\-Package\-Model\-::column\-Count (
+\begin{DoxyParamCaption}
+\item[{const Q\-Model\-Index \&}]{ = {\ttfamily QModelIndex()}}
+\end{DoxyParamCaption}
+) const}}\label{class_qxt_sql_package_model_ae18b3f7b42e230c4a7c372f348b43956}
+
+
+
+
+
+
+Definition at line 86 of file qxtsqlpackagemodel.\-cpp.
+
+\hypertarget{class_qxt_sql_package_model_ace647c36d8cc405fa5df8f017dd036f4}{\index{Qxt\-Sql\-Package\-Model@{Qxt\-Sql\-Package\-Model}!data@{data}}
+\index{data@{data}!QxtSqlPackageModel@{Qxt\-Sql\-Package\-Model}}
+\subsubsection[{data}]{\setlength{\rightskip}{0pt plus 5cm}Q\-Variant Qxt\-Sql\-Package\-Model\-::data (
+\begin{DoxyParamCaption}
+\item[{const Q\-Model\-Index \&}]{index, }
+\item[{{\bf int}}]{role = {\ttfamily Qt\-:\-:DisplayRole}}
+\end{DoxyParamCaption}
+) const}}\label{class_qxt_sql_package_model_ace647c36d8cc405fa5df8f017dd036f4}
+
+
+
+
+
+
+Definition at line 95 of file qxtsqlpackagemodel.\-cpp.
+
+\hypertarget{class_qxt_sql_package_model_aac0952e253bf5d9af01bed298da628f4}{\index{Qxt\-Sql\-Package\-Model@{Qxt\-Sql\-Package\-Model}!header\-Data@{header\-Data}}
+\index{header\-Data@{header\-Data}!QxtSqlPackageModel@{Qxt\-Sql\-Package\-Model}}
+\subsubsection[{header\-Data}]{\setlength{\rightskip}{0pt plus 5cm}Q\-Variant Qxt\-Sql\-Package\-Model\-::header\-Data (
+\begin{DoxyParamCaption}
+\item[{{\bf int}}]{section, }
+\item[{Qt\-::\-Orientation}]{orientation, }
+\item[{{\bf int}}]{role = {\ttfamily Qt\-:\-:DisplayRole}}
+\end{DoxyParamCaption}
+) const}}\label{class_qxt_sql_package_model_aac0952e253bf5d9af01bed298da628f4}
+
+
+
+
+
+
+Definition at line 113 of file qxtsqlpackagemodel.\-cpp.
+
+\hypertarget{class_qxt_sql_package_model_a21456cff3ad42ec641fe3376d5216bef}{\index{Qxt\-Sql\-Package\-Model@{Qxt\-Sql\-Package\-Model}!row\-Count@{row\-Count}}
+\index{row\-Count@{row\-Count}!QxtSqlPackageModel@{Qxt\-Sql\-Package\-Model}}
+\subsubsection[{row\-Count}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int} Qxt\-Sql\-Package\-Model\-::row\-Count (
+\begin{DoxyParamCaption}
+\item[{const Q\-Model\-Index \&}]{ = {\ttfamily QModelIndex()}}
+\end{DoxyParamCaption}
+) const}}\label{class_qxt_sql_package_model_a21456cff3ad42ec641fe3376d5216bef}
+
+
+
+
+
+
+Definition at line 78 of file qxtsqlpackagemodel.\-cpp.
+
+\hypertarget{class_qxt_sql_package_model_af2178db1f14cf5e5811c7d901a34045a}{\index{Qxt\-Sql\-Package\-Model@{Qxt\-Sql\-Package\-Model}!set\-Query@{set\-Query}}
+\index{set\-Query@{set\-Query}!QxtSqlPackageModel@{Qxt\-Sql\-Package\-Model}}
+\subsubsection[{set\-Query}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qxt\-Sql\-Package\-Model\-::set\-Query (
+\begin{DoxyParamCaption}
+\item[{{\bf Qxt\-Sql\-Package}}]{package}
+\end{DoxyParamCaption}
+)}}\label{class_qxt_sql_package_model_af2178db1f14cf5e5811c7d901a34045a}
+
+
+set the {\itshape package} for the model. 
+
+\begin{DoxyWarning}{Warning}
+do this before any access. 
+\end{DoxyWarning}
+
+
+Definition at line 70 of file qxtsqlpackagemodel.\-cpp.
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/libqxt/src/sql/\hyperlink{qxtsqlpackagemodel_8h}{qxtsqlpackagemodel.\-h}\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/libqxt/src/sql/\hyperlink{qxtsqlpackagemodel_8cpp}{qxtsqlpackagemodel.\-cpp}\end{DoxyCompactItemize}

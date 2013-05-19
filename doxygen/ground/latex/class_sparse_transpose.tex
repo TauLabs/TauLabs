@@ -1,0 +1,174 @@
+\hypertarget{class_sparse_transpose}{\section{Sparse\-Transpose$<$ Matrix\-Type $>$ Class Template Reference}
+\label{class_sparse_transpose}\index{Sparse\-Transpose$<$ Matrix\-Type $>$@{Sparse\-Transpose$<$ Matrix\-Type $>$}}
+}
+
+
+{\ttfamily \#include $<$Sparse\-Transpose.\-h$>$}
+
+Inheritance diagram for Sparse\-Transpose$<$ Matrix\-Type $>$\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_sparse_transpose}
+\end{center}
+\end{figure}
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{class_sparse_transpose_1_1_inner_iterator}{Inner\-Iterator}
+\item 
+class \hyperlink{class_sparse_transpose_1_1_reverse_inner_iterator}{Reverse\-Inner\-Iterator}
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_sparse_transpose_ae31c6029171442c4086486435520eb48}{E\-I\-G\-E\-N\-\_\-\-G\-E\-N\-E\-R\-I\-C\-\_\-\-P\-U\-B\-L\-I\-C\-\_\-\-I\-N\-T\-E\-R\-F\-A\-C\-E} (\hyperlink{class_sparse_transpose}{Sparse\-Transpose}) class \hyperlink{class_sparse_transpose_1_1_inner_iterator}{Inner\-Iterator}
+\item 
+\hyperlink{class_sparse_transpose_aa8b2d3ab0cbc98d42df2339e8416369a}{Sparse\-Transpose} (const Matrix\-Type \&\hyperlink{glext_8h_a7b24a3f2f56eb1244ae69dacb4fecb6f}{matrix})
+\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_sparse_transpose_a62710bc10663f5edc3f0da0b8a7599f3}{rows} () const 
+\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_sparse_transpose_a68609cb2bf6ce7e549e5926223aa04af}{cols} () const 
+\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_sparse_transpose_a0f18e6e8a96188fb0c01351809a13cb0}{non\-Zeros} () const 
+\item 
+\hyperlink{class_sparse_matrix_base_af39d70f2b7e775e9e17b666cd24128c8}{Scalar} \& \hyperlink{class_sparse_transpose_ae57c0ba5aadff44de75d19c1e22b538b}{coeff\-Ref} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{glext_8h_a11b277b422822f784ee248b43eee3e1e}{row}, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_sparse_matrix_base_a711a8f11f5f1915057922412dac2cc25}{col})
+\item 
+const \hyperlink{class_sparse_matrix_base_af39d70f2b7e775e9e17b666cd24128c8}{Scalar} \hyperlink{class_sparse_transpose_ad649c4554b246a2fd6bad1c09dd69707}{coeff} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{glext_8h_a11b277b422822f784ee248b43eee3e1e}{row}, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_sparse_matrix_base_a711a8f11f5f1915057922412dac2cc25}{col}) const 
+\item 
+const \hyperlink{class_sparse_matrix_base_af39d70f2b7e775e9e17b666cd24128c8}{Scalar} \hyperlink{class_sparse_transpose_aa618f59bd015da48953a1d28d03bead1}{coeff} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{glext_8h_ab47dd9958bcadea08866b42bf358e95e}{index}) const 
+\item 
+\hyperlink{class_sparse_matrix_base_af39d70f2b7e775e9e17b666cd24128c8}{Scalar} \& \hyperlink{class_sparse_transpose_a58dfe43dfa719fe7c0966449cbb68a7b}{coeff\-Ref} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{glext_8h_ab47dd9958bcadea08866b42bf358e95e}{index})
+\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+const Matrix\-Type\-::\-Nested \hyperlink{class_sparse_transpose_a318f3dc7a0e87c7adc154bf98c8fd4a8}{m\-\_\-matrix}
+\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$typename Matrix\-Type$>$class Sparse\-Transpose$<$ Matrix\-Type $>$}
+
+
+
+Definition at line 32 of file Sparse\-Transpose.\-h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_sparse_transpose_aa8b2d3ab0cbc98d42df2339e8416369a}{\index{Sparse\-Transpose@{Sparse\-Transpose}!Sparse\-Transpose@{Sparse\-Transpose}}
+\index{Sparse\-Transpose@{Sparse\-Transpose}!SparseTranspose@{Sparse\-Transpose}}
+\subsubsection[{Sparse\-Transpose}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type $>$ {\bf Sparse\-Transpose}$<$ Matrix\-Type $>$\-::{\bf Sparse\-Transpose} (
+\begin{DoxyParamCaption}
+\item[{const Matrix\-Type \&}]{matrix}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_sparse_transpose_aa8b2d3ab0cbc98d42df2339e8416369a}
+
+
+Definition at line 42 of file Sparse\-Transpose.\-h.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_sparse_transpose_ad649c4554b246a2fd6bad1c09dd69707}{\index{Sparse\-Transpose@{Sparse\-Transpose}!coeff@{coeff}}
+\index{coeff@{coeff}!SparseTranspose@{Sparse\-Transpose}}
+\subsubsection[{coeff}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type $>$ const {\bf Scalar} {\bf Sparse\-Transpose}$<$ Matrix\-Type $>$\-::coeff (
+\begin{DoxyParamCaption}
+\item[{{\bf int}}]{row, }
+\item[{{\bf int}}]{col}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_sparse_transpose_ad649c4554b246a2fd6bad1c09dd69707}
+
+
+Definition at line 54 of file Sparse\-Transpose.\-h.
+
+\hypertarget{class_sparse_transpose_aa618f59bd015da48953a1d28d03bead1}{\index{Sparse\-Transpose@{Sparse\-Transpose}!coeff@{coeff}}
+\index{coeff@{coeff}!SparseTranspose@{Sparse\-Transpose}}
+\subsubsection[{coeff}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type $>$ const {\bf Scalar} {\bf Sparse\-Transpose}$<$ Matrix\-Type $>$\-::coeff (
+\begin{DoxyParamCaption}
+\item[{{\bf int}}]{index}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_sparse_transpose_aa618f59bd015da48953a1d28d03bead1}
+
+
+Definition at line 57 of file Sparse\-Transpose.\-h.
+
+\hypertarget{class_sparse_transpose_ae57c0ba5aadff44de75d19c1e22b538b}{\index{Sparse\-Transpose@{Sparse\-Transpose}!coeff\-Ref@{coeff\-Ref}}
+\index{coeff\-Ref@{coeff\-Ref}!SparseTranspose@{Sparse\-Transpose}}
+\subsubsection[{coeff\-Ref}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type $>$ {\bf Scalar}\& {\bf Sparse\-Transpose}$<$ Matrix\-Type $>$\-::coeff\-Ref (
+\begin{DoxyParamCaption}
+\item[{{\bf int}}]{row, }
+\item[{{\bf int}}]{col}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_sparse_transpose_ae57c0ba5aadff44de75d19c1e22b538b}
+
+
+Definition at line 51 of file Sparse\-Transpose.\-h.
+
+\hypertarget{class_sparse_transpose_a58dfe43dfa719fe7c0966449cbb68a7b}{\index{Sparse\-Transpose@{Sparse\-Transpose}!coeff\-Ref@{coeff\-Ref}}
+\index{coeff\-Ref@{coeff\-Ref}!SparseTranspose@{Sparse\-Transpose}}
+\subsubsection[{coeff\-Ref}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type $>$ {\bf Scalar}\& {\bf Sparse\-Transpose}$<$ Matrix\-Type $>$\-::coeff\-Ref (
+\begin{DoxyParamCaption}
+\item[{{\bf int}}]{index}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_sparse_transpose_a58dfe43dfa719fe7c0966449cbb68a7b}
+
+
+Definition at line 60 of file Sparse\-Transpose.\-h.
+
+\hypertarget{class_sparse_transpose_a68609cb2bf6ce7e549e5926223aa04af}{\index{Sparse\-Transpose@{Sparse\-Transpose}!cols@{cols}}
+\index{cols@{cols}!SparseTranspose@{Sparse\-Transpose}}
+\subsubsection[{cols}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type $>$ {\bf int} {\bf Sparse\-Transpose}$<$ Matrix\-Type $>$\-::cols (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_sparse_transpose_a68609cb2bf6ce7e549e5926223aa04af}
+
+
+Definition at line 47 of file Sparse\-Transpose.\-h.
+
+\hypertarget{class_sparse_transpose_ae31c6029171442c4086486435520eb48}{\index{Sparse\-Transpose@{Sparse\-Transpose}!E\-I\-G\-E\-N\-\_\-\-G\-E\-N\-E\-R\-I\-C\-\_\-\-P\-U\-B\-L\-I\-C\-\_\-\-I\-N\-T\-E\-R\-F\-A\-C\-E@{E\-I\-G\-E\-N\-\_\-\-G\-E\-N\-E\-R\-I\-C\-\_\-\-P\-U\-B\-L\-I\-C\-\_\-\-I\-N\-T\-E\-R\-F\-A\-C\-E}}
+\index{E\-I\-G\-E\-N\-\_\-\-G\-E\-N\-E\-R\-I\-C\-\_\-\-P\-U\-B\-L\-I\-C\-\_\-\-I\-N\-T\-E\-R\-F\-A\-C\-E@{E\-I\-G\-E\-N\-\_\-\-G\-E\-N\-E\-R\-I\-C\-\_\-\-P\-U\-B\-L\-I\-C\-\_\-\-I\-N\-T\-E\-R\-F\-A\-C\-E}!SparseTranspose@{Sparse\-Transpose}}
+\subsubsection[{E\-I\-G\-E\-N\-\_\-\-G\-E\-N\-E\-R\-I\-C\-\_\-\-P\-U\-B\-L\-I\-C\-\_\-\-I\-N\-T\-E\-R\-F\-A\-C\-E}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type $>$ {\bf Sparse\-Transpose}$<$ Matrix\-Type $>$\-::E\-I\-G\-E\-N\-\_\-\-G\-E\-N\-E\-R\-I\-C\-\_\-\-P\-U\-B\-L\-I\-C\-\_\-\-I\-N\-T\-E\-R\-F\-A\-C\-E (
+\begin{DoxyParamCaption}
+\item[{{\bf Sparse\-Transpose}$<$ Matrix\-Type $>$}]{}
+\end{DoxyParamCaption}
+)}}\label{class_sparse_transpose_ae31c6029171442c4086486435520eb48}
+\hypertarget{class_sparse_transpose_a0f18e6e8a96188fb0c01351809a13cb0}{\index{Sparse\-Transpose@{Sparse\-Transpose}!non\-Zeros@{non\-Zeros}}
+\index{non\-Zeros@{non\-Zeros}!SparseTranspose@{Sparse\-Transpose}}
+\subsubsection[{non\-Zeros}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type $>$ {\bf int} {\bf Sparse\-Transpose}$<$ Matrix\-Type $>$\-::non\-Zeros (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_sparse_transpose_a0f18e6e8a96188fb0c01351809a13cb0}
+
+
+Definition at line 48 of file Sparse\-Transpose.\-h.
+
+\hypertarget{class_sparse_transpose_a62710bc10663f5edc3f0da0b8a7599f3}{\index{Sparse\-Transpose@{Sparse\-Transpose}!rows@{rows}}
+\index{rows@{rows}!SparseTranspose@{Sparse\-Transpose}}
+\subsubsection[{rows}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type $>$ {\bf int} {\bf Sparse\-Transpose}$<$ Matrix\-Type $>$\-::rows (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_sparse_transpose_a62710bc10663f5edc3f0da0b8a7599f3}
+
+
+Definition at line 46 of file Sparse\-Transpose.\-h.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{class_sparse_transpose_a318f3dc7a0e87c7adc154bf98c8fd4a8}{\index{Sparse\-Transpose@{Sparse\-Transpose}!m\-\_\-matrix@{m\-\_\-matrix}}
+\index{m\-\_\-matrix@{m\-\_\-matrix}!SparseTranspose@{Sparse\-Transpose}}
+\subsubsection[{m\-\_\-matrix}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type $>$ const Matrix\-Type\-::\-Nested {\bf Sparse\-Transpose}$<$ Matrix\-Type $>$\-::m\-\_\-matrix\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_sparse_transpose_a318f3dc7a0e87c7adc154bf98c8fd4a8}
+
+
+Definition at line 64 of file Sparse\-Transpose.\-h.
+
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/eigen/\-Eigen/src/\-Sparse/\hyperlink{_sparse_transpose_8h}{Sparse\-Transpose.\-h}\end{DoxyCompactItemize}

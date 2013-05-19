@@ -1,0 +1,61 @@
+\hypertarget{qxtmetaobject_8h}{\section{/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/libqxt/src/core/qxtmetaobject.h File Reference}
+\label{qxtmetaobject_8h}\index{/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/libqxt/src/core/qxtmetaobject.\-h@{/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/libqxt/src/core/qxtmetaobject.\-h}}
+}
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{class_qxt_generic_function_pointer}{Qxt\-Generic\-Function\-Pointer}
+\end{DoxyCompactItemize}
+\subsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+namespace \hyperlink{namespace_qxt_meta_object}{Qxt\-Meta\-Object}
+\begin{DoxyCompactList}\small\item\em The \hyperlink{namespace_qxt_meta_object}{Qxt\-Meta\-Object} namespace provides extensions to Q\-Meta\-Object. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{qxtmetaobject_8h_a0727dfb6e593aadc0870dee5dfe1acb6}{Q\-T\-\_\-\-F\-O\-R\-W\-A\-R\-D\-\_\-\-D\-E\-C\-L\-A\-R\-E\-\_\-\-C\-L\-A\-S\-S} (Q\-Byte\-Array) class \hyperlink{class_qxt_bound_argument}{Qxt\-Bound\-Argument}
+\item 
+{\footnotesize template$<$typename F\-U\-N\-C\-T\-I\-O\-N $>$ }\\\hyperlink{class_qxt_generic_function_pointer}{Qxt\-Generic\-Function\-Pointer} \hyperlink{qxtmetaobject_8h_ade9b17dfe1949307a14bf0a549e373d8}{qxt\-Func\-Ptr} (F\-U\-N\-C\-T\-I\-O\-N func\-Ptr)
+\item 
+Q\-Byte\-Array \hyperlink{namespace_qxt_meta_object_ad5dc3f9735acfbaa57c87aa5469ddc74}{Qxt\-Meta\-Object\-::method\-Name} (const char $\ast$method)
+\item 
+Q\-Byte\-Array \hyperlink{namespace_qxt_meta_object_a08b2c37846aa9d2b36d93744f8b82889}{Qxt\-Meta\-Object\-::method\-Signature} (const char $\ast$method)
+\item 
+bool \hyperlink{namespace_qxt_meta_object_a17869c73b9170eed104ac03237395aff}{Qxt\-Meta\-Object\-::is\-Signal\-Or\-Slot} (const char $\ast$method)
+\item 
+Q\-X\-T\-\_\-\-C\-O\-R\-E\-\_\-\-E\-X\-P\-O\-R\-T Qxt\-Bound\-Function $\ast$ \hyperlink{namespace_qxt_meta_object_ac09d0c585af419f4b65cd841c7f56ea3}{Qxt\-Meta\-Object\-::bind} (Q\-Object $\ast$recv, const char $\ast$invokable, Q\-X\-T\-\_\-\-P\-R\-O\-T\-O\-\_\-10\-A\-R\-G\-S(Q\-Generic\-Argument))
+\item 
+Q\-X\-T\-\_\-\-C\-O\-R\-E\-\_\-\-E\-X\-P\-O\-R\-T Qxt\-Bound\-Function $\ast$ \hyperlink{namespace_qxt_meta_object_a3416aa39930e8f576a1caa8a9a892195}{Qxt\-Meta\-Object\-::bind} (Q\-Object $\ast$recv, const char $\ast$invokable, Q\-Variant p1, Q\-X\-T\-\_\-\-P\-R\-O\-T\-O\-\_\-9\-A\-R\-G\-S(Q\-Variant))
+\item 
+bool \hyperlink{namespace_qxt_meta_object_a0672fb5917d321762dfd192f229469d5}{Qxt\-Meta\-Object\-::connect} (Q\-Object $\ast$sender, const char $\ast$\hyperlink{qxtdaemon_8h_aa2d2a7a3fc548ea76dcbc5e441b51260}{signal}, Qxt\-Bound\-Function $\ast$slot, Qt\-::\-Connection\-Type \hyperlink{glext_8h_a7d05960f4f1c1b11f3177dc963a45d86}{type})
+\item 
+Q\-X\-T\-\_\-\-C\-O\-R\-E\-\_\-\-E\-X\-P\-O\-R\-T bool \hyperlink{namespace_qxt_meta_object_a0fa9f9283ccf787fec0377e96b7e5ae8}{Qxt\-Meta\-Object\-::invoke\-Method} (Q\-Object $\ast$object, const char $\ast$member, const Q\-Variant \&arg0=Q\-Variant(), const Q\-Variant \&\hyperlink{glext_8h_a4b247ab422408c1761a36f9034c2585b}{arg1}=Q\-Variant(), const Q\-Variant \&\hyperlink{glext_8h_a5aee5a44bf92a9837fea48e41ef0df57}{arg2}=Q\-Variant(), const Q\-Variant \&\hyperlink{glext_8h_a525a52cc20e1aa70741e5c7dae172f25}{arg3}=Q\-Variant(), const Q\-Variant \&arg4=Q\-Variant(), const Q\-Variant \&arg5=Q\-Variant(), const Q\-Variant \&arg6=Q\-Variant(), const Q\-Variant \&arg7=Q\-Variant(), const Q\-Variant \&arg8=Q\-Variant(), const Q\-Variant \&arg9=Q\-Variant())
+\item 
+Q\-X\-T\-\_\-\-C\-O\-R\-E\-\_\-\-E\-X\-P\-O\-R\-T bool \hyperlink{namespace_qxt_meta_object_ae6a5f3cc98ada0aa647a1a340ca94d5f}{Qxt\-Meta\-Object\-::invoke\-Method} (Q\-Object $\ast$object, const char $\ast$member, Qt\-::\-Connection\-Type \hyperlink{glext_8h_a7d05960f4f1c1b11f3177dc963a45d86}{type}, const Q\-Variant \&arg0=Q\-Variant(), const Q\-Variant \&\hyperlink{glext_8h_a4b247ab422408c1761a36f9034c2585b}{arg1}=Q\-Variant(), const Q\-Variant \&\hyperlink{glext_8h_a5aee5a44bf92a9837fea48e41ef0df57}{arg2}=Q\-Variant(), const Q\-Variant \&\hyperlink{glext_8h_a525a52cc20e1aa70741e5c7dae172f25}{arg3}=Q\-Variant(), const Q\-Variant \&arg4=Q\-Variant(), const Q\-Variant \&arg5=Q\-Variant(), const Q\-Variant \&arg6=Q\-Variant(), const Q\-Variant \&arg7=Q\-Variant(), const Q\-Variant \&arg8=Q\-Variant(), const Q\-Variant \&arg9=Q\-Variant())
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\hypertarget{qxtmetaobject_8h_a0727dfb6e593aadc0870dee5dfe1acb6}{\index{qxtmetaobject.\-h@{qxtmetaobject.\-h}!Q\-T\-\_\-\-F\-O\-R\-W\-A\-R\-D\-\_\-\-D\-E\-C\-L\-A\-R\-E\-\_\-\-C\-L\-A\-S\-S@{Q\-T\-\_\-\-F\-O\-R\-W\-A\-R\-D\-\_\-\-D\-E\-C\-L\-A\-R\-E\-\_\-\-C\-L\-A\-S\-S}}
+\index{Q\-T\-\_\-\-F\-O\-R\-W\-A\-R\-D\-\_\-\-D\-E\-C\-L\-A\-R\-E\-\_\-\-C\-L\-A\-S\-S@{Q\-T\-\_\-\-F\-O\-R\-W\-A\-R\-D\-\_\-\-D\-E\-C\-L\-A\-R\-E\-\_\-\-C\-L\-A\-S\-S}!qxtmetaobject.h@{qxtmetaobject.\-h}}
+\subsubsection[{Q\-T\-\_\-\-F\-O\-R\-W\-A\-R\-D\-\_\-\-D\-E\-C\-L\-A\-R\-E\-\_\-\-C\-L\-A\-S\-S}]{\setlength{\rightskip}{0pt plus 5cm}Q\-T\-\_\-\-F\-O\-R\-W\-A\-R\-D\-\_\-\-D\-E\-C\-L\-A\-R\-E\-\_\-\-C\-L\-A\-S\-S (
+\begin{DoxyParamCaption}
+\item[{Q\-Byte\-Array}]{}
+\end{DoxyParamCaption}
+)}}\label{qxtmetaobject_8h_a0727dfb6e593aadc0870dee5dfe1acb6}
+
+
+Definition at line 32 of file qxtmodelserializer.\-h.
+
+\hypertarget{qxtmetaobject_8h_ade9b17dfe1949307a14bf0a549e373d8}{\index{qxtmetaobject.\-h@{qxtmetaobject.\-h}!qxt\-Func\-Ptr@{qxt\-Func\-Ptr}}
+\index{qxt\-Func\-Ptr@{qxt\-Func\-Ptr}!qxtmetaobject.h@{qxtmetaobject.\-h}}
+\subsubsection[{qxt\-Func\-Ptr}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename F\-U\-N\-C\-T\-I\-O\-N $>$ {\bf Qxt\-Generic\-Function\-Pointer} qxt\-Func\-Ptr (
+\begin{DoxyParamCaption}
+\item[{F\-U\-N\-C\-T\-I\-O\-N}]{func\-Ptr}
+\end{DoxyParamCaption}
+)}}\label{qxtmetaobject_8h_ade9b17dfe1949307a14bf0a549e373d8}
+
+
+Definition at line 66 of file qxtmetaobject.\-h.
+

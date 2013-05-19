@@ -1,0 +1,62 @@
+\hypertarget{_transform_8h}{\section{/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/eigen/\-Eigen/src/\-Geometry/\-Transform.h File Reference}
+\label{_transform_8h}\index{/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/eigen/\-Eigen/src/\-Geometry/\-Transform.\-h@{/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/eigen/\-Eigen/src/\-Geometry/\-Transform.\-h}}
+}
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structei__transform__product__impl}{ei\-\_\-transform\-\_\-product\-\_\-impl$<$ Other, Dim, H\-Dim, Other\-Rows, Other\-Cols $>$}
+\item 
+class \hyperlink{class_transform}{Transform$<$ Scalar, Dim $>$}
+\begin{DoxyCompactList}\small\item\em Represents an homogeneous transformation in a N dimensional space. \end{DoxyCompactList}\item 
+struct \hyperlink{struct_transform_1_1construct__from__matrix}{Transform$<$ Scalar, Dim $>$\-::construct\-\_\-from\-\_\-matrix$<$ Other\-Derived, Big\-Matrix $>$}
+\item 
+struct \hyperlink{struct_transform_1_1construct__from__matrix_3_01_other_derived_00_01true_01_4}{Transform$<$ Scalar, Dim $>$\-::construct\-\_\-from\-\_\-matrix$<$ Other\-Derived, true $>$}
+\item 
+struct \hyperlink{structei__transform__product__impl_3_01_other_00_01_dim_00_01_h_dim_00_01_h_dim_00_01_h_dim_01_4}{ei\-\_\-transform\-\_\-product\-\_\-impl$<$ Other, Dim, H\-Dim, H\-Dim, H\-Dim $>$}
+\item 
+struct \hyperlink{structei__transform__product__impl_3_01_other_00_01_dim_00_01_h_dim_00_01_dim_00_01_dim_01_4}{ei\-\_\-transform\-\_\-product\-\_\-impl$<$ Other, Dim, H\-Dim, Dim, Dim $>$}
+\item 
+struct \hyperlink{structei__transform__product__impl_3_01_other_00_01_dim_00_01_h_dim_00_01_h_dim_00_011_01_4}{ei\-\_\-transform\-\_\-product\-\_\-impl$<$ Other, Dim, H\-Dim, H\-Dim, 1 $>$}
+\item 
+struct \hyperlink{structei__transform__product__impl_3_01_other_00_01_dim_00_01_h_dim_00_01_dim_00_011_01_4}{ei\-\_\-transform\-\_\-product\-\_\-impl$<$ Other, Dim, H\-Dim, Dim, 1 $>$}
+\end{DoxyCompactItemize}
+\subsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef \hyperlink{class_transform}{Transform}$<$ \hyperlink{_super_l_u_support_8h_a6a1bb6ed41f44b60e7bd83b0e9945aa7}{float}, 2 $>$ \hyperlink{group___geometry___module_ga286ec38c39d5e356dbfea7d695f09a41}{Transform2f}
+\item 
+typedef \hyperlink{class_transform}{Transform}$<$ \hyperlink{_super_l_u_support_8h_a6a1bb6ed41f44b60e7bd83b0e9945aa7}{float}, 3 $>$ \hyperlink{group___geometry___module_gac2cfea9409b1ac589cc20f259b6189eb}{Transform3f}
+\item 
+typedef \hyperlink{class_transform}{Transform}$<$ \hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double}, 2 $>$ \hyperlink{group___geometry___module_ga50b7384fd223c0bbe68f07f45770e155}{Transform2d}
+\item 
+typedef \hyperlink{class_transform}{Transform}$<$ \hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double}, 3 $>$ \hyperlink{group___geometry___module_ga93f2bb4699ee3ff37ff156a9c7a12d7c}{Transform3d}
+\end{DoxyCompactItemize}
+\subsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{_transform_8h_a302a826315506a7217d4b477ea78425f}{Transform\-Traits} \{ \hyperlink{_transform_8h_a302a826315506a7217d4b477ea78425fac6ccc3814bb6d2a8bf7f75d7131c6b17}{Isometry}, 
+\hyperlink{_transform_8h_a302a826315506a7217d4b477ea78425fac0984f0c0fc7cdcea1c0bde170f9c925}{Affine}, 
+\hyperlink{_transform_8h_a302a826315506a7217d4b477ea78425fa732168807730e0e931f3c5792b99b672}{Projective}
+ \}
+\end{DoxyCompactItemize}
+
+
+\subsection{Enumeration Type Documentation}
+\hypertarget{_transform_8h_a302a826315506a7217d4b477ea78425f}{\index{Transform.\-h@{Transform.\-h}!Transform\-Traits@{Transform\-Traits}}
+\index{Transform\-Traits@{Transform\-Traits}!Transform.h@{Transform.\-h}}
+\subsubsection[{Transform\-Traits}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf Transform\-Traits}}}\label{_transform_8h_a302a826315506a7217d4b477ea78425f}
+Represents some traits of a transformation \begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{Isometry@{Isometry}!Transform.\-h@{Transform.\-h}}\index{Transform.\-h@{Transform.\-h}!Isometry@{Isometry}}\item[{\em 
+\hypertarget{_transform_8h_a302a826315506a7217d4b477ea78425fac6ccc3814bb6d2a8bf7f75d7131c6b17}{Isometry}\label{_transform_8h_a302a826315506a7217d4b477ea78425fac6ccc3814bb6d2a8bf7f75d7131c6b17}
+}]the transformation is a concatenation of translations and rotations \index{Affine@{Affine}!Transform.\-h@{Transform.\-h}}\index{Transform.\-h@{Transform.\-h}!Affine@{Affine}}\item[{\em 
+\hypertarget{_transform_8h_a302a826315506a7217d4b477ea78425fac0984f0c0fc7cdcea1c0bde170f9c925}{Affine}\label{_transform_8h_a302a826315506a7217d4b477ea78425fac0984f0c0fc7cdcea1c0bde170f9c925}
+}]the transformation is affine (linear transformation + translation) \index{Projective@{Projective}!Transform.\-h@{Transform.\-h}}\index{Transform.\-h@{Transform.\-h}!Projective@{Projective}}\item[{\em 
+\hypertarget{_transform_8h_a302a826315506a7217d4b477ea78425fa732168807730e0e931f3c5792b99b672}{Projective}\label{_transform_8h_a302a826315506a7217d4b477ea78425fa732168807730e0e931f3c5792b99b672}
+}]the transformation might not be affine \end{description}
+\end{Desc}
+
+
+Definition at line 30 of file Transform.\-h.
+

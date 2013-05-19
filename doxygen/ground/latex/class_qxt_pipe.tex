@@ -1,0 +1,245 @@
+\hypertarget{class_qxt_pipe}{\section{Qxt\-Pipe Class Reference}
+\label{class_qxt_pipe}\index{Qxt\-Pipe@{Qxt\-Pipe}}
+}
+
+
+The \hyperlink{class_qxt_pipe}{Qxt\-Pipe} class provides a pipeable Q\-I\-O\-Device.  
+
+
+
+
+{\ttfamily \#include $<$qxtpipe.\-h$>$}
+
+Inheritance diagram for Qxt\-Pipe\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{class_qxt_pipe}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_qxt_pipe_aecb1af8e53eceb7329606520ea012efc}{Qxt\-Pipe} (Q\-Object $\ast$parent=0)
+\item 
+virtual bool \hyperlink{class_qxt_pipe_a661dfeba94c4e4a53e5eda3f014de56b}{is\-Sequential} () const 
+\item 
+virtual qint64 \hyperlink{class_qxt_pipe_a6a812cb9a8b97136159367b3afa0d698}{bytes\-Available} () const 
+\item 
+bool \hyperlink{class_qxt_pipe_a0666edfec8e321db742b1db943fae486}{connect} (\hyperlink{class_qxt_pipe}{Qxt\-Pipe} $\ast$other, Q\-I\-O\-Device\-::\-Open\-Mode \hyperlink{glext_8h_a1e71d9c196e4683cc06c4b54d53f7ef5}{mode}=Q\-I\-O\-Device\-::\-Read\-Write, Qt\-::\-Connection\-Type connection\-Typ=Qt\-::\-Auto\-Connection)
+\item 
+bool \hyperlink{class_qxt_pipe_a46272022ea1afac8c01f0143256069af}{disconnect} (\hyperlink{class_qxt_pipe}{Qxt\-Pipe} $\ast$other)
+\item 
+\hyperlink{class_qxt_pipe}{Qxt\-Pipe} \& \hyperlink{class_qxt_pipe_a1c459857a3f24f5ea404d72342abd87d}{operator$|$} (\hyperlink{class_qxt_pipe}{Qxt\-Pipe} \&\hyperlink{glext_8h_af9d0cbbbeb7414e786c41899e5a856d7}{target})
+\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual qint64 \hyperlink{class_qxt_pipe_a412c30a3d710e204879651a95a15b09d}{read\-Data} (char $\ast$\hyperlink{glext_8h_a8850df0785e6fbcc2351af3b686b8c7a}{data}, qint64 max\-Size)
+\item 
+virtual qint64 \hyperlink{class_qxt_pipe_a48b0a21c464d5d9d3cacb8b90a7cf244}{write\-Data} (const char $\ast$\hyperlink{glext_8h_a8850df0785e6fbcc2351af3b686b8c7a}{data}, qint64 max\-Size)
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qxt_pipe_a66cbf5da29c3e305c93e7d982e03d1dc}{receive\-Data} (Q\-Byte\-Array \hyperlink{glext_8h_a8850df0785e6fbcc2351af3b686b8c7a}{data}, const \hyperlink{class_qxt_pipe}{Qxt\-Pipe} $\ast$sender)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qxt_pipe_acf5e5d34b045a037820ea2afa849f42b}{send\-Data} (Q\-Byte\-Array \hyperlink{glext_8h_a8850df0785e6fbcc2351af3b686b8c7a}{data}) const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qxt_pipe_acb361157ddcd0530126ff7c4ebcec7f1}{enque\-Data} (Q\-Byte\-Array \hyperlink{glext_8h_a8850df0785e6fbcc2351af3b686b8c7a}{data})
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+The \hyperlink{class_qxt_pipe}{Qxt\-Pipe} class provides a pipeable Q\-I\-O\-Device. 
+
+Qxt\-Core pipes can be connected to other pipes, to exchange data The default implementation uses a buffer. Reimplement to make your custom class able to be connected into a pipe chain.
+
+Example usage\-: 
+\begin{DoxyCode}
+\hyperlink{class_qxt_pipe}{QxtPipe} p1;
+\hyperlink{class_qxt_pipe}{QxtPipe} p2;
+\hyperlink{class_qxt_pipe}{QxtPipe} p3;
+p1|p2|p3;
+p1.write(\textcolor{stringliteral}{"hi. how are you?"});
+qDebug()<<p3.readAll();
+p3.write(\textcolor{stringliteral}{"I'm fine, thanks."});
+qDebug()<<p1.readAll();
+\end{DoxyCode}
+
+
+\subparagraph*{Subclassing}
+
+When implementing your own pipe element, like a de/encoder or something, you have to reimplement \hyperlink{class_qxt_pipe_a66cbf5da29c3e305c93e7d982e03d1dc}{receive\-Data()} and call \hyperlink{class_qxt_pipe_acf5e5d34b045a037820ea2afa849f42b}{send\-Data()} whenever you have something to send to the pipe network.
+
+If you want to the user to be able to read from the device directly via the Q\-I\-O\-Device facility you have to call enqueu\-Data() too
+
+If you don't want to the user to be able to write to the device directly via the Q\-I\-O\-Device facility (that would be fatal for a decoder, for example), then reimplement the functions \hyperlink{class_qxt_pipe_a412c30a3d710e204879651a95a15b09d}{read\-Data()} and \hyperlink{class_qxt_pipe_a48b0a21c464d5d9d3cacb8b90a7cf244}{write\-Data()} and return 0.
+
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qxt_deplex}{Qxt\-Deplex} 
+\end{DoxySeeAlso}
+
+
+Definition at line 34 of file qxtpipe.\-h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_qxt_pipe_aecb1af8e53eceb7329606520ea012efc}{\index{Qxt\-Pipe@{Qxt\-Pipe}!Qxt\-Pipe@{Qxt\-Pipe}}
+\index{Qxt\-Pipe@{Qxt\-Pipe}!QxtPipe@{Qxt\-Pipe}}
+\subsubsection[{Qxt\-Pipe}]{\setlength{\rightskip}{0pt plus 5cm}Qxt\-Pipe\-::\-Qxt\-Pipe (
+\begin{DoxyParamCaption}
+\item[{Q\-Object $\ast$}]{parent = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)}}\label{class_qxt_pipe_aecb1af8e53eceb7329606520ea012efc}
+Contructs a new \hyperlink{class_qxt_pipe}{Qxt\-Pipe} with {\itshape parent}. 
+
+Definition at line 69 of file qxtpipe.\-cpp.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_qxt_pipe_a6a812cb9a8b97136159367b3afa0d698}{\index{Qxt\-Pipe@{Qxt\-Pipe}!bytes\-Available@{bytes\-Available}}
+\index{bytes\-Available@{bytes\-Available}!QxtPipe@{Qxt\-Pipe}}
+\subsubsection[{bytes\-Available}]{\setlength{\rightskip}{0pt plus 5cm}qint64 Qxt\-Pipe\-::bytes\-Available (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_qxt_pipe_a6a812cb9a8b97136159367b3afa0d698}
+
+
+Definition at line 84 of file qxtpipe.\-cpp.
+
+\hypertarget{class_qxt_pipe_a0666edfec8e321db742b1db943fae486}{\index{Qxt\-Pipe@{Qxt\-Pipe}!connect@{connect}}
+\index{connect@{connect}!QxtPipe@{Qxt\-Pipe}}
+\subsubsection[{connect}]{\setlength{\rightskip}{0pt plus 5cm}bool Qxt\-Pipe\-::connect (
+\begin{DoxyParamCaption}
+\item[{{\bf Qxt\-Pipe} $\ast$}]{other, }
+\item[{Q\-I\-O\-Device\-::\-Open\-Mode}]{mode = {\ttfamily QIODevice\-:\-:ReadWrite}, }
+\item[{Qt\-::\-Connection\-Type}]{connection\-Type = {\ttfamily Qt\-:\-:AutoConnection}}
+\end{DoxyParamCaption}
+)}}\label{class_qxt_pipe_a0666edfec8e321db742b1db943fae486}
+Pipes the output of this instance to the {\itshape other} \hyperlink{class_qxt_pipe}{Qxt\-Pipe} using the given {\itshape mode} and {\itshape connection\-Type}. Returns {\ttfamily true} if succeeds. \hyperlink{struct_connection}{Connection} pipes with this function can be considered thread safe.
+
+Example usage\-: 
+\begin{DoxyCode}
+\hyperlink{class_qxt_pipe}{QxtPipe} p1;
+\hyperlink{class_qxt_pipe}{QxtPipe} p2;
+p1.\hyperlink{class_qxt_pipe_a0666edfec8e321db742b1db943fae486}{connect}(&p2,QIODevice::ReadOnly);
+
+\textcolor{comment}{//this data will go nowhere. p2 is connected to p1, but not p2 to p1.}
+p1.write(\textcolor{stringliteral}{"hello"});
+
+\textcolor{comment}{//while this data will end up in p1}
+p2.write(\textcolor{stringliteral}{"world"});
+
+qDebug()<<p1.readAll();
+\end{DoxyCode}
+ tell the other pipe to write into this 
+
+Definition at line 109 of file qxtpipe.\-cpp.
+
+\hypertarget{class_qxt_pipe_a46272022ea1afac8c01f0143256069af}{\index{Qxt\-Pipe@{Qxt\-Pipe}!disconnect@{disconnect}}
+\index{disconnect@{disconnect}!QxtPipe@{Qxt\-Pipe}}
+\subsubsection[{disconnect}]{\setlength{\rightskip}{0pt plus 5cm}bool Qxt\-Pipe\-::disconnect (
+\begin{DoxyParamCaption}
+\item[{{\bf Qxt\-Pipe} $\ast$}]{other}
+\end{DoxyParamCaption}
+)}}\label{class_qxt_pipe_a46272022ea1afac8c01f0143256069af}
+Cuts the connection to the {\itshape other} \hyperlink{class_qxt_pipe}{Qxt\-Pipe} and returns {\ttfamily true} if succeeds. 
+
+Definition at line 131 of file qxtpipe.\-cpp.
+
+\hypertarget{class_qxt_pipe_acb361157ddcd0530126ff7c4ebcec7f1}{\index{Qxt\-Pipe@{Qxt\-Pipe}!enque\-Data@{enque\-Data}}
+\index{enque\-Data@{enque\-Data}!QxtPipe@{Qxt\-Pipe}}
+\subsubsection[{enque\-Data}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qxt\-Pipe\-::enque\-Data (
+\begin{DoxyParamCaption}
+\item[{Q\-Byte\-Array}]{datab}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_qxt_pipe_acb361157ddcd0530126ff7c4ebcec7f1}
+Call this from your subclass to make {\itshape datab} available to the Q\-I\-O\-Device\-::read facility 
+
+Definition at line 224 of file qxtpipe.\-cpp.
+
+\hypertarget{class_qxt_pipe_a661dfeba94c4e4a53e5eda3f014de56b}{\index{Qxt\-Pipe@{Qxt\-Pipe}!is\-Sequential@{is\-Sequential}}
+\index{is\-Sequential@{is\-Sequential}!QxtPipe@{Qxt\-Pipe}}
+\subsubsection[{is\-Sequential}]{\setlength{\rightskip}{0pt plus 5cm}bool Qxt\-Pipe\-::is\-Sequential (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_qxt_pipe_a661dfeba94c4e4a53e5eda3f014de56b}
+
+
+Definition at line 78 of file qxtpipe.\-cpp.
+
+\hypertarget{class_qxt_pipe_a1c459857a3f24f5ea404d72342abd87d}{\index{Qxt\-Pipe@{Qxt\-Pipe}!operator$|$@{operator$|$}}
+\index{operator$|$@{operator$|$}!QxtPipe@{Qxt\-Pipe}}
+\subsubsection[{operator$|$}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Qxt\-Pipe} \& Qxt\-Pipe\-::operator$|$ (
+\begin{DoxyParamCaption}
+\item[{{\bf Qxt\-Pipe} \&}]{target}
+\end{DoxyParamCaption}
+)}}\label{class_qxt_pipe_a1c459857a3f24f5ea404d72342abd87d}
+Convenience function for \hyperlink{class_qxt_pipe_a0666edfec8e321db742b1db943fae486}{Qxt\-Pipe\-::connect()}. Pipes the output of this instance to the {\itshape target} \hyperlink{class_qxt_pipe}{Qxt\-Pipe} in readwrite mode with auto connection. 
+
+Definition at line 154 of file qxtpipe.\-cpp.
+
+\hypertarget{class_qxt_pipe_a412c30a3d710e204879651a95a15b09d}{\index{Qxt\-Pipe@{Qxt\-Pipe}!read\-Data@{read\-Data}}
+\index{read\-Data@{read\-Data}!QxtPipe@{Qxt\-Pipe}}
+\subsubsection[{read\-Data}]{\setlength{\rightskip}{0pt plus 5cm}qint64 Qxt\-Pipe\-::read\-Data (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{data, }
+\item[{qint64}]{max\-Size}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}}\label{class_qxt_pipe_a412c30a3d710e204879651a95a15b09d}
+
+
+Definition at line 161 of file qxtpipe.\-cpp.
+
+\hypertarget{class_qxt_pipe_a66cbf5da29c3e305c93e7d982e03d1dc}{\index{Qxt\-Pipe@{Qxt\-Pipe}!receive\-Data@{receive\-Data}}
+\index{receive\-Data@{receive\-Data}!QxtPipe@{Qxt\-Pipe}}
+\subsubsection[{receive\-Data}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qxt\-Pipe\-::receive\-Data (
+\begin{DoxyParamCaption}
+\item[{Q\-Byte\-Array}]{datab, }
+\item[{const {\bf Qxt\-Pipe} $\ast$}]{sender}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}}\label{class_qxt_pipe_a66cbf5da29c3e305c93e7d982e03d1dc}
+This function is called from any connected pipe to input {\itshape datab} from {\itshape sender} into this instance. Reimplement this function to handle data from the pipe network.
+
+The default implementation calls \hyperlink{class_qxt_pipe_acb361157ddcd0530126ff7c4ebcec7f1}{enque\-Data()} and \hyperlink{class_qxt_pipe_acf5e5d34b045a037820ea2afa849f42b}{send\-Data()}. 
+
+Reimplemented in \hyperlink{class_qxt_stdio_ac4616502aa395840818bd0e6e89582de}{Qxt\-Stdio}, and \hyperlink{class_qxt_deplex_aa339f465121eeca086dd55a60a0acf96}{Qxt\-Deplex}.
+
+
+
+Definition at line 244 of file qxtpipe.\-cpp.
+
+\hypertarget{class_qxt_pipe_acf5e5d34b045a037820ea2afa849f42b}{\index{Qxt\-Pipe@{Qxt\-Pipe}!send\-Data@{send\-Data}}
+\index{send\-Data@{send\-Data}!QxtPipe@{Qxt\-Pipe}}
+\subsubsection[{send\-Data}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qxt\-Pipe\-::send\-Data (
+\begin{DoxyParamCaption}
+\item[{Q\-Byte\-Array}]{data}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_qxt_pipe_acf5e5d34b045a037820ea2afa849f42b}
+Call this from your subclass to write {\itshape data} to the pipe network. All write connected pipes will be invoked with receive\-Data In this case this is called from receive\-Data, the sender will be excluded from the receiver list. 
+
+Definition at line 188 of file qxtpipe.\-cpp.
+
+\hypertarget{class_qxt_pipe_a48b0a21c464d5d9d3cacb8b90a7cf244}{\index{Qxt\-Pipe@{Qxt\-Pipe}!write\-Data@{write\-Data}}
+\index{write\-Data@{write\-Data}!QxtPipe@{Qxt\-Pipe}}
+\subsubsection[{write\-Data}]{\setlength{\rightskip}{0pt plus 5cm}qint64 Qxt\-Pipe\-::write\-Data (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{data, }
+\item[{qint64}]{max\-Size}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}}\label{class_qxt_pipe_a48b0a21c464d5d9d3cacb8b90a7cf244}
+
+
+Reimplemented in \hyperlink{class_qxt_stdio_a4eb0284bd569ece883b96bb53adbc3ba}{Qxt\-Stdio}, and \hyperlink{class_qxt_deplex_a9d5bdbaab0b92fca1dbc3280ee5a9f4a}{Qxt\-Deplex}.
+
+
+
+Definition at line 176 of file qxtpipe.\-cpp.
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/libqxt/src/core/\hyperlink{qxtpipe_8h}{qxtpipe.\-h}\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/libqxt/src/core/\hyperlink{qxtpipe_8cpp}{qxtpipe.\-cpp}\end{DoxyCompactItemize}

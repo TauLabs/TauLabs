@@ -1,0 +1,115 @@
+\hypertarget{class_qxt_html_template}{\section{Qxt\-Html\-Template Class Reference}
+\label{class_qxt_html_template}\index{Qxt\-Html\-Template@{Qxt\-Html\-Template}}
+}
+
+
+The \hyperlink{class_qxt_html_template}{Qxt\-Html\-Template} class provides a basic H\-T\-M\-L template engine.  
+
+
+
+
+{\ttfamily \#include $<$qxthtmltemplate.\-h$>$}
+
+Inheritance diagram for Qxt\-Html\-Template\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_qxt_html_template}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_qxt_html_template_a6b01fa4dfc80b41c443c9f5d57772503}{Qxt\-Html\-Template} ()
+\item 
+bool \hyperlink{class_qxt_html_template_a2021a270d66b4a390aa15d4bf94955ce}{open} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{Q\-String} \&\hyperlink{ioapi_8h_a7a03a664b090ce5c848ecb31cb4a2fa8}{filename})
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qxt_html_template_a4313905469efe6fb46a238da6df1a774}{load} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{Q\-String} \&\hyperlink{glext_8h_a8850df0785e6fbcc2351af3b686b8c7a}{data})
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{Q\-String} \hyperlink{class_qxt_html_template_a1deb4b005644aea13e001713335606b3}{render} () const 
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+The \hyperlink{class_qxt_html_template}{Qxt\-Html\-Template} class provides a basic H\-T\-M\-L template engine. 
+
+Qxt\-Web open a file containing html code and php style variables. use the square bracket operators to assign content for a variable
+
+
+\begin{DoxyCode}
+\hyperlink{class_qxt_html_template}{QxtHtmlTemplate} \hyperlink{glext_8h_ab47dd9958bcadea08866b42bf358e95e}{index};
+\textcolor{keywordflow}{if}(!index.\hyperlink{class_qxt_html_template_a2021a270d66b4a390aa15d4bf94955ce}{open})
+        \textcolor{keywordflow}{return} 404;
+index[\textcolor{stringliteral}{"content"}]=\textcolor{stringliteral}{"hello world"};
+echo()<<index.\hyperlink{class_qxt_html_template_a1deb4b005644aea13e001713335606b3}{render}();
+\end{DoxyCode}
+ the realatet html code would look like\-: 
+\begin{DoxyCode}
+<html>
+<head>
+        <\hyperlink{analyze_raw_8m_a7b1991c7d1f7290dad5530a293d7708e}{title}>Test Page</\hyperlink{analyze_raw_8m_a7b1991c7d1f7290dad5530a293d7708e}{title}>
+</head>
+        <?=content?>
+</html>
+\end{DoxyCode}
+
+
+funny storry\-: whe are using this class to make our documentation (eat your own dogfood, you know ;). but when we where parsing exactly this file you read right now the first time, \hyperlink{class_qxt_html_template}{Qxt\-Html\-Template} got stuck in an infinite loop. guess why. becouse of that example above \-:D So be warned\-: when you assign content to a variable that contains the variable name itself, \hyperlink{class_qxt_html_template_a1deb4b005644aea13e001713335606b3}{render()} will never return. 
+
+Definition at line 34 of file qxthtmltemplate.\-h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_qxt_html_template_a6b01fa4dfc80b41c443c9f5d57772503}{\index{Qxt\-Html\-Template@{Qxt\-Html\-Template}!Qxt\-Html\-Template@{Qxt\-Html\-Template}}
+\index{Qxt\-Html\-Template@{Qxt\-Html\-Template}!QxtHtmlTemplate@{Qxt\-Html\-Template}}
+\subsubsection[{Qxt\-Html\-Template}]{\setlength{\rightskip}{0pt plus 5cm}Qxt\-Html\-Template\-::\-Qxt\-Html\-Template (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_qxt_html_template_a6b01fa4dfc80b41c443c9f5d57772503}
+Constructs a new \hyperlink{class_qxt_html_template}{Qxt\-Html\-Template}. 
+
+Definition at line 78 of file qxthtmltemplate.\-cpp.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_qxt_html_template_a4313905469efe6fb46a238da6df1a774}{\index{Qxt\-Html\-Template@{Qxt\-Html\-Template}!load@{load}}
+\index{load@{load}!QxtHtmlTemplate@{Qxt\-Html\-Template}}
+\subsubsection[{load}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qxt\-Html\-Template\-::load (
+\begin{DoxyParamCaption}
+\item[{const {\bf Q\-String} \&}]{d}
+\end{DoxyParamCaption}
+)}}\label{class_qxt_html_template_a4313905469efe6fb46a238da6df1a774}
+Loads data {\itshape d}. 
+
+Definition at line 84 of file qxthtmltemplate.\-cpp.
+
+\hypertarget{class_qxt_html_template_a2021a270d66b4a390aa15d4bf94955ce}{\index{Qxt\-Html\-Template@{Qxt\-Html\-Template}!open@{open}}
+\index{open@{open}!QxtHtmlTemplate@{Qxt\-Html\-Template}}
+\subsubsection[{open}]{\setlength{\rightskip}{0pt plus 5cm}bool Qxt\-Html\-Template\-::open (
+\begin{DoxyParamCaption}
+\item[{const {\bf Q\-String} \&}]{filename}
+\end{DoxyParamCaption}
+)}}\label{class_qxt_html_template_a2021a270d66b4a390aa15d4bf94955ce}
+Opens {\itshape filename}. Returns {\ttfamily true} on success and {\ttfamily false} on failure. Note that it will also return false for an empty html file. 
+
+Definition at line 89 of file qxthtmltemplate.\-cpp.
+
+\hypertarget{class_qxt_html_template_a1deb4b005644aea13e001713335606b3}{\index{Qxt\-Html\-Template@{Qxt\-Html\-Template}!render@{render}}
+\index{render@{render}!QxtHtmlTemplate@{Qxt\-Html\-Template}}
+\subsubsection[{render}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Q\-String} Qxt\-Html\-Template\-::render (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_qxt_html_template_a1deb4b005644aea13e001713335606b3}
+Uses the variables you set and renders the opened file. returns an empty string on failure. Does N\-O\-T take care of not assigned variables, they will remain in the returned string try to preserve indention by parsing char by char and saving the last non-\/space character 
+
+Definition at line 103 of file qxthtmltemplate.\-cpp.
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/libqxt/src/web/\hyperlink{qxthtmltemplate_8h}{qxthtmltemplate.\-h}\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/libqxt/src/web/\hyperlink{qxthtmltemplate_8cpp}{qxthtmltemplate.\-cpp}\end{DoxyCompactItemize}

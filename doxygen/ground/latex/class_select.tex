@@ -1,0 +1,196 @@
+\hypertarget{class_select}{\section{Select$<$ Condition\-Matrix\-Type, Then\-Matrix\-Type, Else\-Matrix\-Type $>$ Class Template Reference}
+\label{class_select}\index{Select$<$ Condition\-Matrix\-Type, Then\-Matrix\-Type, Else\-Matrix\-Type $>$@{Select$<$ Condition\-Matrix\-Type, Then\-Matrix\-Type, Else\-Matrix\-Type $>$}}
+}
+
+
+Expression of a coefficient wise version of the C++ ternary operator ?\-:  
+
+
+
+
+{\ttfamily \#include $<$Select.\-h$>$}
+
+Inheritance diagram for Select$<$ Condition\-Matrix\-Type, Then\-Matrix\-Type, Else\-Matrix\-Type $>$\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=1.171548cm]{class_select}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_select_a7ae8796960a285ca0e1d1ee9669eda49}{E\-I\-G\-E\-N\-\_\-\-G\-E\-N\-E\-R\-I\-C\-\_\-\-P\-U\-B\-L\-I\-C\-\_\-\-I\-N\-T\-E\-R\-F\-A\-C\-E} (\hyperlink{class_select}{Select}) \hyperlink{class_select}{Select}(const Condition\-Matrix\-Type \&condition\-Matrix
+\item 
+const Then\-Matrix\-Type const \\*
+Else\-Matrix\-Type \hyperlink{class_select_a93d8185dc0454fbcf27269610ddb40f3}{m\-\_\-then} (\hyperlink{class_select_affc420bd5ce870ed1c16bc8f0bda2bbd}{then\-Matrix})
+\item 
+const Then\-Matrix\-Type const \\*
+Else\-Matrix\-Type \hyperlink{class_select_a72311b3d569ba63864ec6c9601cbc126}{m\-\_\-else} (\hyperlink{class_select_a6a08fd64c3ed1e604c7870c814b0efbc}{else\-Matrix})
+\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_select_a8f21cd4b8d24fe8e1180ba911bf4e877}{rows} () const 
+\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_select_a06f43dbbfc15a77072a027da04bec69f}{cols} () const 
+\item 
+const \hyperlink{class_matrix_base_a625df8339dc2d816cbc0fd66e7dadaf5}{Scalar} \hyperlink{class_select_ae551b6e9af004f6772488b5d4c2defa7}{coeff} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{uavobjecttemplate_8m_a6f6ccfcf58b31cb6412107d9d5281426}{i}, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} j) const 
+\item 
+const \hyperlink{class_matrix_base_a625df8339dc2d816cbc0fd66e7dadaf5}{Scalar} \hyperlink{class_select_a58680e65ff3a8a308a7466ae86a1b604}{coeff} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{uavobjecttemplate_8m_a6f6ccfcf58b31cb6412107d9d5281426}{i}) const 
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+const Then\-Matrix\-Type \& \hyperlink{class_select_affc420bd5ce870ed1c16bc8f0bda2bbd}{then\-Matrix}
+\item 
+const Then\-Matrix\-Type const \\*
+Else\-Matrix\-Type \& \hyperlink{class_select_a6a08fd64c3ed1e604c7870c814b0efbc}{else\-Matrix}\-: \hyperlink{class_select_ad35af17d4ed987f568e6e3446d9a2e63}{m\-\_\-condition}(condition\-Matrix)
+\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+const Condition\-Matrix\-Type\-::\-Nested \hyperlink{class_select_ad35af17d4ed987f568e6e3446d9a2e63}{m\-\_\-condition}
+\item 
+const Then\-Matrix\-Type\-::\-Nested \hyperlink{class_select_a0c247b4da3434d0a2eee0cc46b0af4e1}{m\-\_\-then}
+\item 
+const Else\-Matrix\-Type\-::\-Nested \hyperlink{class_select_abc2605bc113454aa4b96426b96566f2a}{m\-\_\-else}
+\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$typename Condition\-Matrix\-Type, typename Then\-Matrix\-Type, typename Else\-Matrix\-Type$>$class Select$<$ Condition\-Matrix\-Type, Then\-Matrix\-Type, Else\-Matrix\-Type $>$}
+
+Expression of a coefficient wise version of the C++ ternary operator ?\-: 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Condition\-Matrix\-Type} & the type of the {\itshape condition} expression which must be a boolean matrix \\
+\hline
+{\em Then\-Matrix\-Type} & the type of the {\itshape then} expression \\
+\hline
+{\em Else\-Matrix\-Type} & the type of the {\itshape else} expression\\
+\hline
+\end{DoxyParams}
+This class represents an expression of a coefficient wise version of the C++ ternary operator ?\-:. It is the return type of \hyperlink{class_matrix_base_aff35a2661a7a22955d7abfa75d71e3b7}{Matrix\-Base\-::select()} and most of the time this is the only way it is used.
+
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_matrix_base_aff35a2661a7a22955d7abfa75d71e3b7}{Matrix\-Base\-::select(const Matrix\-Base$<$\-Then\-Derived$>$\&, const Matrix\-Base$<$\-Else\-Derived$>$\&) const} 
+\end{DoxySeeAlso}
+
+
+Definition at line 64 of file Select.\-h.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_select_ae551b6e9af004f6772488b5d4c2defa7}{\index{Select@{Select}!coeff@{coeff}}
+\index{coeff@{coeff}!Select@{Select}}
+\subsubsection[{coeff}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Condition\-Matrix\-Type, typename Then\-Matrix\-Type, typename Else\-Matrix\-Type$>$ const {\bf Scalar} {\bf Select}$<$ Condition\-Matrix\-Type, Then\-Matrix\-Type, Else\-Matrix\-Type $>$\-::coeff (
+\begin{DoxyParamCaption}
+\item[{{\bf int}}]{i, }
+\item[{{\bf int}}]{j}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_select_ae551b6e9af004f6772488b5d4c2defa7}
+
+
+Definition at line 83 of file Select.\-h.
+
+\hypertarget{class_select_a58680e65ff3a8a308a7466ae86a1b604}{\index{Select@{Select}!coeff@{coeff}}
+\index{coeff@{coeff}!Select@{Select}}
+\subsubsection[{coeff}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Condition\-Matrix\-Type, typename Then\-Matrix\-Type, typename Else\-Matrix\-Type$>$ const {\bf Scalar} {\bf Select}$<$ Condition\-Matrix\-Type, Then\-Matrix\-Type, Else\-Matrix\-Type $>$\-::coeff (
+\begin{DoxyParamCaption}
+\item[{{\bf int}}]{i}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_select_a58680e65ff3a8a308a7466ae86a1b604}
+
+
+Definition at line 91 of file Select.\-h.
+
+\hypertarget{class_select_a06f43dbbfc15a77072a027da04bec69f}{\index{Select@{Select}!cols@{cols}}
+\index{cols@{cols}!Select@{Select}}
+\subsubsection[{cols}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Condition\-Matrix\-Type, typename Then\-Matrix\-Type, typename Else\-Matrix\-Type$>$ {\bf int} {\bf Select}$<$ Condition\-Matrix\-Type, Then\-Matrix\-Type, Else\-Matrix\-Type $>$\-::cols (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_select_a06f43dbbfc15a77072a027da04bec69f}
+
+
+Definition at line 81 of file Select.\-h.
+
+\hypertarget{class_select_a7ae8796960a285ca0e1d1ee9669eda49}{\index{Select@{Select}!E\-I\-G\-E\-N\-\_\-\-G\-E\-N\-E\-R\-I\-C\-\_\-\-P\-U\-B\-L\-I\-C\-\_\-\-I\-N\-T\-E\-R\-F\-A\-C\-E@{E\-I\-G\-E\-N\-\_\-\-G\-E\-N\-E\-R\-I\-C\-\_\-\-P\-U\-B\-L\-I\-C\-\_\-\-I\-N\-T\-E\-R\-F\-A\-C\-E}}
+\index{E\-I\-G\-E\-N\-\_\-\-G\-E\-N\-E\-R\-I\-C\-\_\-\-P\-U\-B\-L\-I\-C\-\_\-\-I\-N\-T\-E\-R\-F\-A\-C\-E@{E\-I\-G\-E\-N\-\_\-\-G\-E\-N\-E\-R\-I\-C\-\_\-\-P\-U\-B\-L\-I\-C\-\_\-\-I\-N\-T\-E\-R\-F\-A\-C\-E}!Select@{Select}}
+\subsubsection[{E\-I\-G\-E\-N\-\_\-\-G\-E\-N\-E\-R\-I\-C\-\_\-\-P\-U\-B\-L\-I\-C\-\_\-\-I\-N\-T\-E\-R\-F\-A\-C\-E}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Condition\-Matrix\-Type, typename Then\-Matrix\-Type, typename Else\-Matrix\-Type$>$ {\bf Select}$<$ Condition\-Matrix\-Type, Then\-Matrix\-Type, Else\-Matrix\-Type $>$\-::E\-I\-G\-E\-N\-\_\-\-G\-E\-N\-E\-R\-I\-C\-\_\-\-P\-U\-B\-L\-I\-C\-\_\-\-I\-N\-T\-E\-R\-F\-A\-C\-E (
+\begin{DoxyParamCaption}
+\item[{{\bf Select}$<$ Condition\-Matrix\-Type, Then\-Matrix\-Type, Else\-Matrix\-Type $>$}]{}
+\end{DoxyParamCaption}
+) const}}\label{class_select_a7ae8796960a285ca0e1d1ee9669eda49}
+\hypertarget{class_select_a72311b3d569ba63864ec6c9601cbc126}{\index{Select@{Select}!m\-\_\-else@{m\-\_\-else}}
+\index{m\-\_\-else@{m\-\_\-else}!Select@{Select}}
+\subsubsection[{m\-\_\-else}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Condition\-Matrix\-Type, typename Then\-Matrix\-Type, typename Else\-Matrix\-Type$>$ const Then\-Matrix\-Type const Else\-Matrix\-Type {\bf Select}$<$ Condition\-Matrix\-Type, Then\-Matrix\-Type, Else\-Matrix\-Type $>$\-::m\-\_\-else (
+\begin{DoxyParamCaption}
+\item[{{\bf else\-Matrix}}]{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_select_a72311b3d569ba63864ec6c9601cbc126}
+
+
+Definition at line 74 of file Select.\-h.
+
+\hypertarget{class_select_a93d8185dc0454fbcf27269610ddb40f3}{\index{Select@{Select}!m\-\_\-then@{m\-\_\-then}}
+\index{m\-\_\-then@{m\-\_\-then}!Select@{Select}}
+\subsubsection[{m\-\_\-then}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Condition\-Matrix\-Type, typename Then\-Matrix\-Type, typename Else\-Matrix\-Type$>$ const Then\-Matrix\-Type const Else\-Matrix\-Type {\bf Select}$<$ Condition\-Matrix\-Type, Then\-Matrix\-Type, Else\-Matrix\-Type $>$\-::m\-\_\-then (
+\begin{DoxyParamCaption}
+\item[{{\bf then\-Matrix}}]{}
+\end{DoxyParamCaption}
+)}}\label{class_select_a93d8185dc0454fbcf27269610ddb40f3}
+\hypertarget{class_select_a8f21cd4b8d24fe8e1180ba911bf4e877}{\index{Select@{Select}!rows@{rows}}
+\index{rows@{rows}!Select@{Select}}
+\subsubsection[{rows}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Condition\-Matrix\-Type, typename Then\-Matrix\-Type, typename Else\-Matrix\-Type$>$ {\bf int} {\bf Select}$<$ Condition\-Matrix\-Type, Then\-Matrix\-Type, Else\-Matrix\-Type $>$\-::rows (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_select_a8f21cd4b8d24fe8e1180ba911bf4e877}
+
+
+Definition at line 80 of file Select.\-h.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{class_select_a6a08fd64c3ed1e604c7870c814b0efbc}{\index{Select@{Select}!else\-Matrix@{else\-Matrix}}
+\index{else\-Matrix@{else\-Matrix}!Select@{Select}}
+\subsubsection[{else\-Matrix}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Condition\-Matrix\-Type, typename Then\-Matrix\-Type, typename Else\-Matrix\-Type$>$ const Then\-Matrix\-Type const Else\-Matrix\-Type\& {\bf Select}$<$ Condition\-Matrix\-Type, Then\-Matrix\-Type, Else\-Matrix\-Type $>$\-::else\-Matrix}}\label{class_select_a6a08fd64c3ed1e604c7870c814b0efbc}
+
+
+Definition at line 72 of file Select.\-h.
+
+\hypertarget{class_select_ad35af17d4ed987f568e6e3446d9a2e63}{\index{Select@{Select}!m\-\_\-condition@{m\-\_\-condition}}
+\index{m\-\_\-condition@{m\-\_\-condition}!Select@{Select}}
+\subsubsection[{m\-\_\-condition}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Condition\-Matrix\-Type, typename Then\-Matrix\-Type, typename Else\-Matrix\-Type$>$ const Condition\-Matrix\-Type\-::\-Nested {\bf Select}$<$ Condition\-Matrix\-Type, Then\-Matrix\-Type, Else\-Matrix\-Type $>$\-::m\-\_\-condition\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_select_ad35af17d4ed987f568e6e3446d9a2e63}
+
+
+Definition at line 100 of file Select.\-h.
+
+\hypertarget{class_select_abc2605bc113454aa4b96426b96566f2a}{\index{Select@{Select}!m\-\_\-else@{m\-\_\-else}}
+\index{m\-\_\-else@{m\-\_\-else}!Select@{Select}}
+\subsubsection[{m\-\_\-else}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Condition\-Matrix\-Type, typename Then\-Matrix\-Type, typename Else\-Matrix\-Type$>$ const Else\-Matrix\-Type\-::\-Nested {\bf Select}$<$ Condition\-Matrix\-Type, Then\-Matrix\-Type, Else\-Matrix\-Type $>$\-::m\-\_\-else\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_select_abc2605bc113454aa4b96426b96566f2a}
+
+
+Definition at line 102 of file Select.\-h.
+
+\hypertarget{class_select_a0c247b4da3434d0a2eee0cc46b0af4e1}{\index{Select@{Select}!m\-\_\-then@{m\-\_\-then}}
+\index{m\-\_\-then@{m\-\_\-then}!Select@{Select}}
+\subsubsection[{m\-\_\-then}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Condition\-Matrix\-Type, typename Then\-Matrix\-Type, typename Else\-Matrix\-Type$>$ const Then\-Matrix\-Type\-::\-Nested {\bf Select}$<$ Condition\-Matrix\-Type, Then\-Matrix\-Type, Else\-Matrix\-Type $>$\-::m\-\_\-then\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_select_a0c247b4da3434d0a2eee0cc46b0af4e1}
+
+
+Definition at line 101 of file Select.\-h.
+
+\hypertarget{class_select_affc420bd5ce870ed1c16bc8f0bda2bbd}{\index{Select@{Select}!then\-Matrix@{then\-Matrix}}
+\index{then\-Matrix@{then\-Matrix}!Select@{Select}}
+\subsubsection[{then\-Matrix}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Condition\-Matrix\-Type, typename Then\-Matrix\-Type, typename Else\-Matrix\-Type$>$ const Then\-Matrix\-Type\& {\bf Select}$<$ Condition\-Matrix\-Type, Then\-Matrix\-Type, Else\-Matrix\-Type $>$\-::then\-Matrix}}\label{class_select_affc420bd5ce870ed1c16bc8f0bda2bbd}
+
+
+Definition at line 72 of file Select.\-h.
+
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/eigen/\-Eigen/src/\-Array/\hyperlink{_select_8h}{Select.\-h}\end{DoxyCompactItemize}

@@ -1,0 +1,191 @@
+\hypertarget{class_swap_wrapper}{\section{Swap\-Wrapper$<$ Expression\-Type $>$ Class Template Reference}
+\label{class_swap_wrapper}\index{Swap\-Wrapper$<$ Expression\-Type $>$@{Swap\-Wrapper$<$ Expression\-Type $>$}}
+}
+
+
+{\ttfamily \#include $<$Swap.\-h$>$}
+
+Inheritance diagram for Swap\-Wrapper$<$ Expression\-Type $>$\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_swap_wrapper}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+E\-I\-G\-E\-N\-\_\-\-G\-E\-N\-E\-R\-I\-C\-\_\-\-P\-U\-B\-L\-I\-C\-\_\-\-I\-N\-T\-E\-R\-F\-A\-C\-E(\hyperlink{class_swap_wrapper}{Swap\-Wrapper}) \\*
+typedef typename \\*
+\hyperlink{structei__packet__traits}{ei\-\_\-packet\-\_\-traits}$<$ \hyperlink{class_matrix_base_a625df8339dc2d816cbc0fd66e7dadaf5}{Scalar} $>$ \hyperlink{class_swap_wrapper_af1a6464bfb8a5dc7d2a58cf2731f8911}{Swap\-Wrapper} (Expression\-Type \&xpr)
+\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_swap_wrapper_ac66b08b6ae0345288285d2335a087bcf}{rows} () const 
+\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_swap_wrapper_ac5a368f28fdafb238dc4d5c36f167e85}{cols} () const 
+\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_swap_wrapper_a706bb2a177f83460ca70065e6fa07018}{stride} () const 
+\item 
+\hyperlink{class_matrix_base_a625df8339dc2d816cbc0fd66e7dadaf5}{Scalar} \& \hyperlink{class_swap_wrapper_a92f90138570986d11826e280376044fc}{coeff\-Ref} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{glext_8h_a11b277b422822f784ee248b43eee3e1e}{row}, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_matrix_base_ae3c94b0f25b4273c7a8125169bdf60e0}{col})
+\item 
+\hyperlink{class_matrix_base_a625df8339dc2d816cbc0fd66e7dadaf5}{Scalar} \& \hyperlink{class_swap_wrapper_a14d48ff36761d24465b2a6dbb8b54376}{coeff\-Ref} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{glext_8h_ab47dd9958bcadea08866b42bf358e95e}{index})
+\item 
+{\footnotesize template$<$typename Other\-Derived $>$ }\\\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_swap_wrapper_afde76a2637f9495d81237df12290984e}{copy\-Coeff} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{glext_8h_a11b277b422822f784ee248b43eee3e1e}{row}, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_matrix_base_ae3c94b0f25b4273c7a8125169bdf60e0}{col}, const \hyperlink{class_matrix_base}{Matrix\-Base}$<$ Other\-Derived $>$ \&other)
+\item 
+{\footnotesize template$<$typename Other\-Derived $>$ }\\\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_swap_wrapper_a9943557a8efc4cf50e093db797334c9d}{copy\-Coeff} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{glext_8h_ab47dd9958bcadea08866b42bf358e95e}{index}, const \hyperlink{class_matrix_base}{Matrix\-Base}$<$ Other\-Derived $>$ \&other)
+\item 
+{\footnotesize template$<$typename Other\-Derived , int Store\-Mode, int Load\-Mode$>$ }\\\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_swap_wrapper_ab5e384990f64466a92588d778c1cd2fe}{copy\-Packet} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{glext_8h_a11b277b422822f784ee248b43eee3e1e}{row}, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_matrix_base_ae3c94b0f25b4273c7a8125169bdf60e0}{col}, const \hyperlink{class_matrix_base}{Matrix\-Base}$<$ Other\-Derived $>$ \&other)
+\item 
+{\footnotesize template$<$typename Other\-Derived , int Store\-Mode, int Load\-Mode$>$ }\\\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_swap_wrapper_aa1ca15ad74a4e64dc6e1db1a84f41183}{copy\-Packet} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{glext_8h_ab47dd9958bcadea08866b42bf358e95e}{index}, const \hyperlink{class_matrix_base}{Matrix\-Base}$<$ Other\-Derived $>$ \&other)
+\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+Expression\-Type \& \hyperlink{class_swap_wrapper_acf4d8e44d721d62c81ffc1d1d9745a3e}{m\-\_\-expression}
+\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$typename Expression\-Type$>$class Swap\-Wrapper$<$ Expression\-Type $>$}
+
+
+
+Definition at line 48 of file Swap.\-h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_swap_wrapper_af1a6464bfb8a5dc7d2a58cf2731f8911}{\index{Swap\-Wrapper@{Swap\-Wrapper}!Swap\-Wrapper@{Swap\-Wrapper}}
+\index{Swap\-Wrapper@{Swap\-Wrapper}!SwapWrapper@{Swap\-Wrapper}}
+\subsubsection[{Swap\-Wrapper}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Expression\-Type $>$ E\-I\-G\-E\-N\-\_\-\-G\-E\-N\-E\-R\-I\-C\-\_\-\-P\-U\-B\-L\-I\-C\-\_\-\-I\-N\-T\-E\-R\-F\-A\-C\-E ({\bf Swap\-Wrapper}) typedef typename {\bf ei\-\_\-packet\-\_\-traits}$<${\bf Scalar}$>$ {\bf Swap\-Wrapper}$<$ Expression\-Type $>$\-::{\bf Swap\-Wrapper} (
+\begin{DoxyParamCaption}
+\item[{Expression\-Type \&}]{xpr}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_swap_wrapper_af1a6464bfb8a5dc7d2a58cf2731f8911}
+
+
+Definition at line 56 of file Swap.\-h.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_swap_wrapper_a92f90138570986d11826e280376044fc}{\index{Swap\-Wrapper@{Swap\-Wrapper}!coeff\-Ref@{coeff\-Ref}}
+\index{coeff\-Ref@{coeff\-Ref}!SwapWrapper@{Swap\-Wrapper}}
+\subsubsection[{coeff\-Ref}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Expression\-Type $>$ {\bf Scalar}\& {\bf Swap\-Wrapper}$<$ Expression\-Type $>$\-::coeff\-Ref (
+\begin{DoxyParamCaption}
+\item[{{\bf int}}]{row, }
+\item[{{\bf int}}]{col}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_swap_wrapper_a92f90138570986d11826e280376044fc}
+
+
+Definition at line 62 of file Swap.\-h.
+
+\hypertarget{class_swap_wrapper_a14d48ff36761d24465b2a6dbb8b54376}{\index{Swap\-Wrapper@{Swap\-Wrapper}!coeff\-Ref@{coeff\-Ref}}
+\index{coeff\-Ref@{coeff\-Ref}!SwapWrapper@{Swap\-Wrapper}}
+\subsubsection[{coeff\-Ref}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Expression\-Type $>$ {\bf Scalar}\& {\bf Swap\-Wrapper}$<$ Expression\-Type $>$\-::coeff\-Ref (
+\begin{DoxyParamCaption}
+\item[{{\bf int}}]{index}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_swap_wrapper_a14d48ff36761d24465b2a6dbb8b54376}
+
+
+Definition at line 67 of file Swap.\-h.
+
+\hypertarget{class_swap_wrapper_ac5a368f28fdafb238dc4d5c36f167e85}{\index{Swap\-Wrapper@{Swap\-Wrapper}!cols@{cols}}
+\index{cols@{cols}!SwapWrapper@{Swap\-Wrapper}}
+\subsubsection[{cols}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Expression\-Type $>$ {\bf int} {\bf Swap\-Wrapper}$<$ Expression\-Type $>$\-::cols (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_swap_wrapper_ac5a368f28fdafb238dc4d5c36f167e85}
+
+
+Definition at line 59 of file Swap.\-h.
+
+\hypertarget{class_swap_wrapper_afde76a2637f9495d81237df12290984e}{\index{Swap\-Wrapper@{Swap\-Wrapper}!copy\-Coeff@{copy\-Coeff}}
+\index{copy\-Coeff@{copy\-Coeff}!SwapWrapper@{Swap\-Wrapper}}
+\subsubsection[{copy\-Coeff}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Expression\-Type $>$ template$<$typename Other\-Derived $>$ {\bf void} {\bf Swap\-Wrapper}$<$ Expression\-Type $>$\-::copy\-Coeff (
+\begin{DoxyParamCaption}
+\item[{{\bf int}}]{row, }
+\item[{{\bf int}}]{col, }
+\item[{const {\bf Matrix\-Base}$<$ Other\-Derived $>$ \&}]{other}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_swap_wrapper_afde76a2637f9495d81237df12290984e}
+
+
+Definition at line 73 of file Swap.\-h.
+
+\hypertarget{class_swap_wrapper_a9943557a8efc4cf50e093db797334c9d}{\index{Swap\-Wrapper@{Swap\-Wrapper}!copy\-Coeff@{copy\-Coeff}}
+\index{copy\-Coeff@{copy\-Coeff}!SwapWrapper@{Swap\-Wrapper}}
+\subsubsection[{copy\-Coeff}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Expression\-Type $>$ template$<$typename Other\-Derived $>$ {\bf void} {\bf Swap\-Wrapper}$<$ Expression\-Type $>$\-::copy\-Coeff (
+\begin{DoxyParamCaption}
+\item[{{\bf int}}]{index, }
+\item[{const {\bf Matrix\-Base}$<$ Other\-Derived $>$ \&}]{other}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_swap_wrapper_a9943557a8efc4cf50e093db797334c9d}
+
+
+Definition at line 84 of file Swap.\-h.
+
+\hypertarget{class_swap_wrapper_ab5e384990f64466a92588d778c1cd2fe}{\index{Swap\-Wrapper@{Swap\-Wrapper}!copy\-Packet@{copy\-Packet}}
+\index{copy\-Packet@{copy\-Packet}!SwapWrapper@{Swap\-Wrapper}}
+\subsubsection[{copy\-Packet}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Expression\-Type $>$ template$<$typename Other\-Derived , int Store\-Mode, int Load\-Mode$>$ {\bf void} {\bf Swap\-Wrapper}$<$ Expression\-Type $>$\-::copy\-Packet (
+\begin{DoxyParamCaption}
+\item[{{\bf int}}]{row, }
+\item[{{\bf int}}]{col, }
+\item[{const {\bf Matrix\-Base}$<$ Other\-Derived $>$ \&}]{other}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_swap_wrapper_ab5e384990f64466a92588d778c1cd2fe}
+
+
+Definition at line 94 of file Swap.\-h.
+
+\hypertarget{class_swap_wrapper_aa1ca15ad74a4e64dc6e1db1a84f41183}{\index{Swap\-Wrapper@{Swap\-Wrapper}!copy\-Packet@{copy\-Packet}}
+\index{copy\-Packet@{copy\-Packet}!SwapWrapper@{Swap\-Wrapper}}
+\subsubsection[{copy\-Packet}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Expression\-Type $>$ template$<$typename Other\-Derived , int Store\-Mode, int Load\-Mode$>$ {\bf void} {\bf Swap\-Wrapper}$<$ Expression\-Type $>$\-::copy\-Packet (
+\begin{DoxyParamCaption}
+\item[{{\bf int}}]{index, }
+\item[{const {\bf Matrix\-Base}$<$ Other\-Derived $>$ \&}]{other}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_swap_wrapper_aa1ca15ad74a4e64dc6e1db1a84f41183}
+
+
+Definition at line 107 of file Swap.\-h.
+
+\hypertarget{class_swap_wrapper_ac66b08b6ae0345288285d2335a087bcf}{\index{Swap\-Wrapper@{Swap\-Wrapper}!rows@{rows}}
+\index{rows@{rows}!SwapWrapper@{Swap\-Wrapper}}
+\subsubsection[{rows}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Expression\-Type $>$ {\bf int} {\bf Swap\-Wrapper}$<$ Expression\-Type $>$\-::rows (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_swap_wrapper_ac66b08b6ae0345288285d2335a087bcf}
+
+
+Definition at line 58 of file Swap.\-h.
+
+\hypertarget{class_swap_wrapper_a706bb2a177f83460ca70065e6fa07018}{\index{Swap\-Wrapper@{Swap\-Wrapper}!stride@{stride}}
+\index{stride@{stride}!SwapWrapper@{Swap\-Wrapper}}
+\subsubsection[{stride}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Expression\-Type $>$ {\bf int} {\bf Swap\-Wrapper}$<$ Expression\-Type $>$\-::{\bf stride} (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_swap_wrapper_a706bb2a177f83460ca70065e6fa07018}
+
+
+Definition at line 60 of file Swap.\-h.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{class_swap_wrapper_acf4d8e44d721d62c81ffc1d1d9745a3e}{\index{Swap\-Wrapper@{Swap\-Wrapper}!m\-\_\-expression@{m\-\_\-expression}}
+\index{m\-\_\-expression@{m\-\_\-expression}!SwapWrapper@{Swap\-Wrapper}}
+\subsubsection[{m\-\_\-expression}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Expression\-Type $>$ Expression\-Type\& {\bf Swap\-Wrapper}$<$ Expression\-Type $>$\-::m\-\_\-expression\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_swap_wrapper_acf4d8e44d721d62c81ffc1d1d9745a3e}
+
+
+Definition at line 119 of file Swap.\-h.
+
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/eigen/\-Eigen/src/\-Core/\hyperlink{_swap_8h}{Swap.\-h}\end{DoxyCompactItemize}

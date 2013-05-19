@@ -1,0 +1,81 @@
+\hypertarget{qxtjob_8h}{\section{/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/libqxt/src/core/qxtjob.h File Reference}
+\label{qxtjob_8h}\index{/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/libqxt/src/core/qxtjob.\-h@{/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/libqxt/src/core/qxtjob.\-h}}
+}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{qxtwebevent_8h_a05349ea9a1dc1a7296db2f484529f48a}{Q\-T\-\_\-\-F\-O\-R\-W\-A\-R\-D\-\_\-\-D\-E\-C\-L\-A\-R\-E\-\_\-\-C\-L\-A\-S\-S}(Q\-Thread) \\*
+class Q\-X\-T\-\_\-\-C\-O\-R\-E\-\_\-\-E\-X\-P\-O\-R\-T Qxt\-Job \hyperlink{qxtjob_8h_a4e5abf66f16adf2f69967636dbdae1ba}{$\sim$\-Qxt\-Job} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{qxtjob_8h_a0ac75fd6c317bcc88ac6a1bfa697d8b9}{exec} (Q\-Thread $\ast$onthread)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{qxtjob_8h_aa66a6b989a32d13393dbd904b885cc3a}{join} ()
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{qxtjob_8h_a18954417d3124a8095783ea13dc6d00b}{run} ()=0
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{qxtjob_8h_ab650651e4cda2869f73100c6fd2c821a}{done} ()
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{qxtjob_8h_acff4dd7558c1e415fba487cc04b4639b}{Q\-X\-T\-\_\-\-D\-E\-C\-L\-A\-R\-E\-\_\-\-P\-R\-I\-V\-A\-T\-E} (Qxt\-Job) Q\-\_\-\-S\-I\-G\-N\-A\-L\-S
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\hypertarget{qxtjob_8h_ab650651e4cda2869f73100c6fd2c821a}{\index{qxtjob.\-h@{qxtjob.\-h}!done@{done}}
+\index{done@{done}!qxtjob.h@{qxtjob.\-h}}
+\subsubsection[{done}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} done (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{qxtjob_8h_ab650651e4cda2869f73100c6fd2c821a}
+\hypertarget{qxtjob_8h_a0ac75fd6c317bcc88ac6a1bfa697d8b9}{\index{qxtjob.\-h@{qxtjob.\-h}!exec@{exec}}
+\index{exec@{exec}!qxtjob.h@{qxtjob.\-h}}
+\subsubsection[{exec}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} exec (
+\begin{DoxyParamCaption}
+\item[{Q\-Thread $\ast$}]{onthread}
+\end{DoxyParamCaption}
+)}}\label{qxtjob_8h_a0ac75fd6c317bcc88ac6a1bfa697d8b9}
+\hypertarget{qxtjob_8h_aa66a6b989a32d13393dbd904b885cc3a}{\index{qxtjob.\-h@{qxtjob.\-h}!join@{join}}
+\index{join@{join}!qxtjob.h@{qxtjob.\-h}}
+\subsubsection[{join}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qxt\-Job\-::join (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{qxtjob_8h_aa66a6b989a32d13393dbd904b885cc3a}
+block until the Job finished Note that the current thread will be blocked. If you use this, you better be damn sure you actually want a thread. Maybe you actualy want to use \hyperlink{class_qxt_signal_waiter}{Qxt\-Signal\-Waiter}. oh yeah that sucks ass, but since any kind of waitcondition will just fail due to undeterminnism, we have no chance then polling. And no, a mutex won't work either. using join for anything else then testcases sounds kindof retarded anyway.
+
+Definition at line 103 of file qxtjob.\-cpp.
+
+\hypertarget{qxtjob_8h_a18954417d3124a8095783ea13dc6d00b}{\index{qxtjob.\-h@{qxtjob.\-h}!run@{run}}
+\index{run@{run}!qxtjob.h@{qxtjob.\-h}}
+\subsubsection[{run}]{\setlength{\rightskip}{0pt plus 5cm}virtual {\bf void} run (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [pure virtual]}}}\label{qxtjob_8h_a18954417d3124a8095783ea13dc6d00b}
+\hypertarget{qxtjob_8h_a4e5abf66f16adf2f69967636dbdae1ba}{\index{qxtjob.\-h@{qxtjob.\-h}!$\sim$\-Qxt\-Job@{$\sim$\-Qxt\-Job}}
+\index{$\sim$\-Qxt\-Job@{$\sim$\-Qxt\-Job}!qxtjob.h@{qxtjob.\-h}}
+\subsubsection[{$\sim$\-Qxt\-Job}]{\setlength{\rightskip}{0pt plus 5cm}Qxt\-Job\-::$\sim$\-Qxt\-Job (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{qxtjob_8h_a4e5abf66f16adf2f69967636dbdae1ba}
+\begin{DoxyWarning}{Warning}
+The destructor joins. Means it blocks until the job is finished 
+\end{DoxyWarning}
+
+
+Definition at line 93 of file qxtjob.\-cpp.
+
+
+
+\subsection{Variable Documentation}
+\hypertarget{qxtjob_8h_acff4dd7558c1e415fba487cc04b4639b}{\index{qxtjob.\-h@{qxtjob.\-h}!Q\-X\-T\-\_\-\-D\-E\-C\-L\-A\-R\-E\-\_\-\-P\-R\-I\-V\-A\-T\-E@{Q\-X\-T\-\_\-\-D\-E\-C\-L\-A\-R\-E\-\_\-\-P\-R\-I\-V\-A\-T\-E}}
+\index{Q\-X\-T\-\_\-\-D\-E\-C\-L\-A\-R\-E\-\_\-\-P\-R\-I\-V\-A\-T\-E@{Q\-X\-T\-\_\-\-D\-E\-C\-L\-A\-R\-E\-\_\-\-P\-R\-I\-V\-A\-T\-E}!qxtjob.h@{qxtjob.\-h}}
+\subsubsection[{Q\-X\-T\-\_\-\-D\-E\-C\-L\-A\-R\-E\-\_\-\-P\-R\-I\-V\-A\-T\-E}]{\setlength{\rightskip}{0pt plus 5cm}Q\-X\-T\-\_\-\-D\-E\-C\-L\-A\-R\-E\-\_\-\-P\-R\-I\-V\-A\-T\-E(Qxt\-Job) Q\-\_\-\-S\-I\-G\-N\-A\-L\-S}}\label{qxtjob_8h_acff4dd7558c1e415fba487cc04b4639b}
+
+
+Definition at line 49 of file qxtjob.\-h.
+

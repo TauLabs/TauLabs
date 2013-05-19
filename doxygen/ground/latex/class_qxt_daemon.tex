@@ -1,0 +1,33 @@
+\hypertarget{class_qxt_daemon}{\section{Qxt\-Daemon Class Reference}
+\label{class_qxt_daemon}\index{Qxt\-Daemon@{Qxt\-Daemon}}
+}
+
+
+The \hyperlink{class_qxt_daemon}{Qxt\-Daemon} class is a Qt-\/based Implementation of a Unix daemon.  
+
+
+
+
+\subsection{Detailed Description}
+The \hyperlink{class_qxt_daemon}{Qxt\-Daemon} class is a Qt-\/based Implementation of a Unix daemon. 
+
+Qxt\-Core \hyperlink{class_qxt_daemon}{Qxt\-Daemon} will provide you with a standard U\-N\-I\-X daemon implementation. after sucessful forking it will install a message\-Handler which logs all q\-Debug/q\-Warning/etc... output to /var/log/mydaemon.log
+
+example usage\-: 
+\begin{DoxyCode}
+\textcolor{keywordtype}{int} \hyperlink{gcs_2src_2app_2main_8cpp_a3c04138a5bfe5d72780bb7e82a18e627}{main}(\textcolor{keywordtype}{int} argc, \textcolor{keywordtype}{char} ** argv)
+    \{
+    \hyperlink{class_qxt_daemon}{QxtDaemon} d(\textcolor{stringliteral}{"exampled"});
+    qDebug(\textcolor{stringliteral}{"about to fork"});
+    d.daemonize();
+    qDebug(\textcolor{stringliteral}{"forked"});
+    d.changeUser(\textcolor{stringliteral}{"nobody"});
+    QCoreApplication app(argc,argv);
+    \textcolor{keywordflow}{return} app.exec();
+    \}
+\end{DoxyCode}
+ 
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/libqxt/src/core/\hyperlink{qxtdaemon_8cpp}{qxtdaemon.\-cpp}\end{DoxyCompactItemize}

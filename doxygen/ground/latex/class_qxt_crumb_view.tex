@@ -1,0 +1,304 @@
+\hypertarget{class_qxt_crumb_view}{\section{Qxt\-Crumb\-View Class Reference}
+\label{class_qxt_crumb_view}\index{Qxt\-Crumb\-View@{Qxt\-Crumb\-View}}
+}
+
+
+{\ttfamily \#include $<$qxtcrumbview.\-h$>$}
+
+Inheritance diagram for Qxt\-Crumb\-View\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_qxt_crumb_view}
+\end{center}
+\end{figure}
+\subsection*{Public Slots}
+\begin{DoxyCompactItemize}
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qxt_crumb_view_a52675110927a0132200686af8b7ea398}{reset} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qxt_crumb_view_a314d3eee89ca13dbbcb5e43f22537718}{back} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qxt_crumb_view_a76805352dd4dfa7a80c7f1afb85e4b17}{enter\-Tree} (const Q\-Model\-Index \&\hyperlink{glext_8h_ab47dd9958bcadea08866b42bf358e95e}{index})
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_qxt_crumb_view_a5684bb127a0fdcc6f6dc45d5656c73a9}{Qxt\-Crumb\-View} (Q\-Widget $\ast$parent=0)
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qxt_crumb_view_a5e2efe1b9c050329c4c2578d8f4eeb54}{set\-Model} (Q\-Abstract\-Item\-Model $\ast$model)
+\item 
+virtual Q\-Model\-Index \hyperlink{class_qxt_crumb_view_ae65f76f173cb4068499f01e5f4843aad}{index\-At} (const Q\-Point \&point) const 
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qxt_crumb_view_a9ff0fef31c00fc928ec59826e4b49678}{scroll\-To} (const Q\-Model\-Index \&\hyperlink{glext_8h_ab47dd9958bcadea08866b42bf358e95e}{index}, Scroll\-Hint hint=Ensure\-Visible)
+\item 
+virtual Q\-Rect \hyperlink{class_qxt_crumb_view_a78a33aa164d9621c783f6b739ec769e8}{visual\-Rect} (const Q\-Model\-Index \&\hyperlink{glext_8h_ab47dd9958bcadea08866b42bf358e95e}{index}) const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qxt_crumb_view_af88bab28369bacf028c116927ecf5d64}{set\-Item\-Delegate} (Q\-Abstract\-Item\-Delegate $\ast$delegate)
+\item 
+Q\-Abstract\-Item\-Delegate $\ast$ \hyperlink{class_qxt_crumb_view_a1fbf50fcd4e1b932da55f217432fc2d4}{crumb\-Delegate} () const 
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qxt_crumb_view_a94a7df054c12b0452f8b60110e412c0e}{set\-Crumb\-Delegate} (Q\-Abstract\-Item\-Delegate $\ast$delegate)
+\item 
+Q\-Abstract\-Item\-View $\ast$ \hyperlink{class_qxt_crumb_view_a21a13712879d0a76ba9f0c1566ba1971}{item\-View} () const 
+\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_qxt_crumb_view_a140122b7e1f09ed90d8893b5aff66db2}{horizontal\-Offset} () const 
+\item 
+virtual \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_qxt_crumb_view_ae3c4f11bf7611e88d85b8115558e5dd3}{vertical\-Offset} () const 
+\item 
+virtual bool \hyperlink{class_qxt_crumb_view_a634c94b3b39561579a9cd2e04bc39f15}{is\-Index\-Hidden} (const Q\-Model\-Index \&\hyperlink{glext_8h_ab47dd9958bcadea08866b42bf358e95e}{index}) const 
+\item 
+virtual Q\-Model\-Index \hyperlink{class_qxt_crumb_view_ae37b3235a3864d16b100589fb199660c}{move\-Cursor} (Cursor\-Action action, Qt\-::\-Keyboard\-Modifiers mods)
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qxt_crumb_view_a55205b8257cf659f65737eeafaf7a525}{set\-Selection} (const Q\-Rect \&rect, Q\-Item\-Selection\-Model\-::\-Selection\-Flags flags)
+\item 
+virtual Q\-Region \hyperlink{class_qxt_crumb_view_a35a4f911b4dc2c4160d2269caf398f10}{visual\-Region\-For\-Selection} (const Q\-Item\-Selection \&selection) const 
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qxt_crumb_view_af02434e0ecb060d1f102079b99126713}{show\-Event} (Q\-Show\-Event $\ast$event)
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qxt_crumb_view_aee60fb96f5ce09cf4fed8b170b651535}{paint\-Event} (Q\-Paint\-Event $\ast$event)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 34 of file qxtcrumbview.\-h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_qxt_crumb_view_a5684bb127a0fdcc6f6dc45d5656c73a9}{\index{Qxt\-Crumb\-View@{Qxt\-Crumb\-View}!Qxt\-Crumb\-View@{Qxt\-Crumb\-View}}
+\index{Qxt\-Crumb\-View@{Qxt\-Crumb\-View}!QxtCrumbView@{Qxt\-Crumb\-View}}
+\subsubsection[{Qxt\-Crumb\-View}]{\setlength{\rightskip}{0pt plus 5cm}Qxt\-Crumb\-View\-::\-Qxt\-Crumb\-View (
+\begin{DoxyParamCaption}
+\item[{Q\-Widget $\ast$}]{parent = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)}}\label{class_qxt_crumb_view_a5684bb127a0fdcc6f6dc45d5656c73a9}
+
+
+Definition at line 167 of file qxtcrumbview.\-cpp.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_qxt_crumb_view_a314d3eee89ca13dbbcb5e43f22537718}{\index{Qxt\-Crumb\-View@{Qxt\-Crumb\-View}!back@{back}}
+\index{back@{back}!QxtCrumbView@{Qxt\-Crumb\-View}}
+\subsubsection[{back}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qxt\-Crumb\-View\-::back (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [slot]}}}\label{class_qxt_crumb_view_a314d3eee89ca13dbbcb5e43f22537718}
+
+
+Definition at line 279 of file qxtcrumbview.\-cpp.
+
+\hypertarget{class_qxt_crumb_view_a1fbf50fcd4e1b932da55f217432fc2d4}{\index{Qxt\-Crumb\-View@{Qxt\-Crumb\-View}!crumb\-Delegate@{crumb\-Delegate}}
+\index{crumb\-Delegate@{crumb\-Delegate}!QxtCrumbView@{Qxt\-Crumb\-View}}
+\subsubsection[{crumb\-Delegate}]{\setlength{\rightskip}{0pt plus 5cm}Q\-Abstract\-Item\-Delegate $\ast$ Qxt\-Crumb\-View\-::crumb\-Delegate (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_qxt_crumb_view_a1fbf50fcd4e1b932da55f217432fc2d4}
+
+
+Definition at line 317 of file qxtcrumbview.\-cpp.
+
+\hypertarget{class_qxt_crumb_view_a76805352dd4dfa7a80c7f1afb85e4b17}{\index{Qxt\-Crumb\-View@{Qxt\-Crumb\-View}!enter\-Tree@{enter\-Tree}}
+\index{enter\-Tree@{enter\-Tree}!QxtCrumbView@{Qxt\-Crumb\-View}}
+\subsubsection[{enter\-Tree}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qxt\-Crumb\-View\-::enter\-Tree (
+\begin{DoxyParamCaption}
+\item[{const Q\-Model\-Index \&}]{index}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [slot]}}}\label{class_qxt_crumb_view_a76805352dd4dfa7a80c7f1afb85e4b17}
+
+
+Definition at line 250 of file qxtcrumbview.\-cpp.
+
+\hypertarget{class_qxt_crumb_view_a140122b7e1f09ed90d8893b5aff66db2}{\index{Qxt\-Crumb\-View@{Qxt\-Crumb\-View}!horizontal\-Offset@{horizontal\-Offset}}
+\index{horizontal\-Offset@{horizontal\-Offset}!QxtCrumbView@{Qxt\-Crumb\-View}}
+\subsubsection[{horizontal\-Offset}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int} Qxt\-Crumb\-View\-::horizontal\-Offset (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}}\label{class_qxt_crumb_view_a140122b7e1f09ed90d8893b5aff66db2}
+
+
+Definition at line 208 of file qxtcrumbview.\-cpp.
+
+\hypertarget{class_qxt_crumb_view_ae65f76f173cb4068499f01e5f4843aad}{\index{Qxt\-Crumb\-View@{Qxt\-Crumb\-View}!index\-At@{index\-At}}
+\index{index\-At@{index\-At}!QxtCrumbView@{Qxt\-Crumb\-View}}
+\subsubsection[{index\-At}]{\setlength{\rightskip}{0pt plus 5cm}Q\-Model\-Index Qxt\-Crumb\-View\-::index\-At (
+\begin{DoxyParamCaption}
+\item[{const Q\-Point \&}]{point}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_qxt_crumb_view_ae65f76f173cb4068499f01e5f4843aad}
+
+
+Definition at line 216 of file qxtcrumbview.\-cpp.
+
+\hypertarget{class_qxt_crumb_view_a634c94b3b39561579a9cd2e04bc39f15}{\index{Qxt\-Crumb\-View@{Qxt\-Crumb\-View}!is\-Index\-Hidden@{is\-Index\-Hidden}}
+\index{is\-Index\-Hidden@{is\-Index\-Hidden}!QxtCrumbView@{Qxt\-Crumb\-View}}
+\subsubsection[{is\-Index\-Hidden}]{\setlength{\rightskip}{0pt plus 5cm}bool Qxt\-Crumb\-View\-::is\-Index\-Hidden (
+\begin{DoxyParamCaption}
+\item[{const Q\-Model\-Index \&}]{index}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}}\label{class_qxt_crumb_view_a634c94b3b39561579a9cd2e04bc39f15}
+
+
+Definition at line 220 of file qxtcrumbview.\-cpp.
+
+\hypertarget{class_qxt_crumb_view_a21a13712879d0a76ba9f0c1566ba1971}{\index{Qxt\-Crumb\-View@{Qxt\-Crumb\-View}!item\-View@{item\-View}}
+\index{item\-View@{item\-View}!QxtCrumbView@{Qxt\-Crumb\-View}}
+\subsubsection[{item\-View}]{\setlength{\rightskip}{0pt plus 5cm}Q\-Abstract\-Item\-View $\ast$ Qxt\-Crumb\-View\-::item\-View (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_qxt_crumb_view_a21a13712879d0a76ba9f0c1566ba1971}
+
+
+Definition at line 293 of file qxtcrumbview.\-cpp.
+
+\hypertarget{class_qxt_crumb_view_ae37b3235a3864d16b100589fb199660c}{\index{Qxt\-Crumb\-View@{Qxt\-Crumb\-View}!move\-Cursor@{move\-Cursor}}
+\index{move\-Cursor@{move\-Cursor}!QxtCrumbView@{Qxt\-Crumb\-View}}
+\subsubsection[{move\-Cursor}]{\setlength{\rightskip}{0pt plus 5cm}Q\-Model\-Index Qxt\-Crumb\-View\-::move\-Cursor (
+\begin{DoxyParamCaption}
+\item[{Cursor\-Action}]{action, }
+\item[{Qt\-::\-Keyboard\-Modifiers}]{mods}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}}\label{class_qxt_crumb_view_ae37b3235a3864d16b100589fb199660c}
+
+
+Definition at line 224 of file qxtcrumbview.\-cpp.
+
+\hypertarget{class_qxt_crumb_view_aee60fb96f5ce09cf4fed8b170b651535}{\index{Qxt\-Crumb\-View@{Qxt\-Crumb\-View}!paint\-Event@{paint\-Event}}
+\index{paint\-Event@{paint\-Event}!QxtCrumbView@{Qxt\-Crumb\-View}}
+\subsubsection[{paint\-Event}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qxt\-Crumb\-View\-::paint\-Event (
+\begin{DoxyParamCaption}
+\item[{Q\-Paint\-Event $\ast$}]{event}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}}\label{class_qxt_crumb_view_aee60fb96f5ce09cf4fed8b170b651535}
+
+
+Definition at line 307 of file qxtcrumbview.\-cpp.
+
+\hypertarget{class_qxt_crumb_view_a52675110927a0132200686af8b7ea398}{\index{Qxt\-Crumb\-View@{Qxt\-Crumb\-View}!reset@{reset}}
+\index{reset@{reset}!QxtCrumbView@{Qxt\-Crumb\-View}}
+\subsubsection[{reset}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qxt\-Crumb\-View\-::reset (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}, {\ttfamily [slot]}}}\label{class_qxt_crumb_view_a52675110927a0132200686af8b7ea398}
+
+
+Definition at line 199 of file qxtcrumbview.\-cpp.
+
+\hypertarget{class_qxt_crumb_view_a9ff0fef31c00fc928ec59826e4b49678}{\index{Qxt\-Crumb\-View@{Qxt\-Crumb\-View}!scroll\-To@{scroll\-To}}
+\index{scroll\-To@{scroll\-To}!QxtCrumbView@{Qxt\-Crumb\-View}}
+\subsubsection[{scroll\-To}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qxt\-Crumb\-View\-::scroll\-To (
+\begin{DoxyParamCaption}
+\item[{const Q\-Model\-Index \&}]{index, }
+\item[{Scroll\-Hint}]{hint = {\ttfamily EnsureVisible}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_qxt_crumb_view_a9ff0fef31c00fc928ec59826e4b49678}
+
+
+Definition at line 228 of file qxtcrumbview.\-cpp.
+
+\hypertarget{class_qxt_crumb_view_a94a7df054c12b0452f8b60110e412c0e}{\index{Qxt\-Crumb\-View@{Qxt\-Crumb\-View}!set\-Crumb\-Delegate@{set\-Crumb\-Delegate}}
+\index{set\-Crumb\-Delegate@{set\-Crumb\-Delegate}!QxtCrumbView@{Qxt\-Crumb\-View}}
+\subsubsection[{set\-Crumb\-Delegate}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qxt\-Crumb\-View\-::set\-Crumb\-Delegate (
+\begin{DoxyParamCaption}
+\item[{Q\-Abstract\-Item\-Delegate $\ast$}]{delegate}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_qxt_crumb_view_a94a7df054c12b0452f8b60110e412c0e}
+
+
+Definition at line 323 of file qxtcrumbview.\-cpp.
+
+\hypertarget{class_qxt_crumb_view_af88bab28369bacf028c116927ecf5d64}{\index{Qxt\-Crumb\-View@{Qxt\-Crumb\-View}!set\-Item\-Delegate@{set\-Item\-Delegate}}
+\index{set\-Item\-Delegate@{set\-Item\-Delegate}!QxtCrumbView@{Qxt\-Crumb\-View}}
+\subsubsection[{set\-Item\-Delegate}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qxt\-Crumb\-View\-::set\-Item\-Delegate (
+\begin{DoxyParamCaption}
+\item[{Q\-Abstract\-Item\-Delegate $\ast$}]{delegate}
+\end{DoxyParamCaption}
+)}}\label{class_qxt_crumb_view_af88bab28369bacf028c116927ecf5d64}
+
+
+Definition at line 287 of file qxtcrumbview.\-cpp.
+
+\hypertarget{class_qxt_crumb_view_a5e2efe1b9c050329c4c2578d8f4eeb54}{\index{Qxt\-Crumb\-View@{Qxt\-Crumb\-View}!set\-Model@{set\-Model}}
+\index{set\-Model@{set\-Model}!QxtCrumbView@{Qxt\-Crumb\-View}}
+\subsubsection[{set\-Model}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qxt\-Crumb\-View\-::set\-Model (
+\begin{DoxyParamCaption}
+\item[{Q\-Abstract\-Item\-Model $\ast$}]{model}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_qxt_crumb_view_a5e2efe1b9c050329c4c2578d8f4eeb54}
+
+
+Definition at line 192 of file qxtcrumbview.\-cpp.
+
+\hypertarget{class_qxt_crumb_view_a55205b8257cf659f65737eeafaf7a525}{\index{Qxt\-Crumb\-View@{Qxt\-Crumb\-View}!set\-Selection@{set\-Selection}}
+\index{set\-Selection@{set\-Selection}!QxtCrumbView@{Qxt\-Crumb\-View}}
+\subsubsection[{set\-Selection}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qxt\-Crumb\-View\-::set\-Selection (
+\begin{DoxyParamCaption}
+\item[{const Q\-Rect \&}]{rect, }
+\item[{Q\-Item\-Selection\-Model\-::\-Selection\-Flags}]{flags}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}}\label{class_qxt_crumb_view_a55205b8257cf659f65737eeafaf7a525}
+
+
+Definition at line 235 of file qxtcrumbview.\-cpp.
+
+\hypertarget{class_qxt_crumb_view_af02434e0ecb060d1f102079b99126713}{\index{Qxt\-Crumb\-View@{Qxt\-Crumb\-View}!show\-Event@{show\-Event}}
+\index{show\-Event@{show\-Event}!QxtCrumbView@{Qxt\-Crumb\-View}}
+\subsubsection[{show\-Event}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qxt\-Crumb\-View\-::show\-Event (
+\begin{DoxyParamCaption}
+\item[{Q\-Show\-Event $\ast$}]{event}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}}\label{class_qxt_crumb_view_af02434e0ecb060d1f102079b99126713}
+
+
+Definition at line 297 of file qxtcrumbview.\-cpp.
+
+\hypertarget{class_qxt_crumb_view_ae3c4f11bf7611e88d85b8115558e5dd3}{\index{Qxt\-Crumb\-View@{Qxt\-Crumb\-View}!vertical\-Offset@{vertical\-Offset}}
+\index{vertical\-Offset@{vertical\-Offset}!QxtCrumbView@{Qxt\-Crumb\-View}}
+\subsubsection[{vertical\-Offset}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int} Qxt\-Crumb\-View\-::vertical\-Offset (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}}\label{class_qxt_crumb_view_ae3c4f11bf7611e88d85b8115558e5dd3}
+
+
+Definition at line 212 of file qxtcrumbview.\-cpp.
+
+\hypertarget{class_qxt_crumb_view_a78a33aa164d9621c783f6b739ec769e8}{\index{Qxt\-Crumb\-View@{Qxt\-Crumb\-View}!visual\-Rect@{visual\-Rect}}
+\index{visual\-Rect@{visual\-Rect}!QxtCrumbView@{Qxt\-Crumb\-View}}
+\subsubsection[{visual\-Rect}]{\setlength{\rightskip}{0pt plus 5cm}Q\-Rect Qxt\-Crumb\-View\-::visual\-Rect (
+\begin{DoxyParamCaption}
+\item[{const Q\-Model\-Index \&}]{index}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_qxt_crumb_view_a78a33aa164d9621c783f6b739ec769e8}
+
+
+Definition at line 240 of file qxtcrumbview.\-cpp.
+
+\hypertarget{class_qxt_crumb_view_a35a4f911b4dc2c4160d2269caf398f10}{\index{Qxt\-Crumb\-View@{Qxt\-Crumb\-View}!visual\-Region\-For\-Selection@{visual\-Region\-For\-Selection}}
+\index{visual\-Region\-For\-Selection@{visual\-Region\-For\-Selection}!QxtCrumbView@{Qxt\-Crumb\-View}}
+\subsubsection[{visual\-Region\-For\-Selection}]{\setlength{\rightskip}{0pt plus 5cm}Q\-Region Qxt\-Crumb\-View\-::visual\-Region\-For\-Selection (
+\begin{DoxyParamCaption}
+\item[{const Q\-Item\-Selection \&}]{selection}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}}\label{class_qxt_crumb_view_a35a4f911b4dc2c4160d2269caf398f10}
+
+
+Definition at line 245 of file qxtcrumbview.\-cpp.
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/libqxt/src/gui/\hyperlink{qxtcrumbview_8h}{qxtcrumbview.\-h}\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/libqxt/src/gui/\hyperlink{qxtcrumbview_8cpp}{qxtcrumbview.\-cpp}\end{DoxyCompactItemize}

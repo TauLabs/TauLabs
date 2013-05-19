@@ -1,0 +1,147 @@
+\hypertarget{class_g_l_c___file_format_exception}{\section{G\-L\-C\-\_\-\-File\-Format\-Exception Class Reference}
+\label{class_g_l_c___file_format_exception}\index{G\-L\-C\-\_\-\-File\-Format\-Exception@{G\-L\-C\-\_\-\-File\-Format\-Exception}}
+}
+
+
+\hyperlink{class_g_l_c___file_format_exception}{G\-L\-C\-\_\-\-File\-Format\-Exception} \-: Class for all File Format E\-R\-R\-O\-R.  
+
+
+
+
+{\ttfamily \#include $<$glc\-\_\-fileformatexception.\-h$>$}
+
+Inheritance diagram for G\-L\-C\-\_\-\-File\-Format\-Exception\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{class_g_l_c___file_format_exception}
+\end{center}
+\end{figure}
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{class_g_l_c___file_format_exception_ab28c5be439dcc7226f9fa041ff87dc18}{Exception\-Type} \{ \hyperlink{class_g_l_c___file_format_exception_ab28c5be439dcc7226f9fa041ff87dc18acd0f8232d11141fc90b792349eb25a55}{File\-Not\-Found} = 1, 
+\hyperlink{class_g_l_c___file_format_exception_ab28c5be439dcc7226f9fa041ff87dc18a25b68d2ee7154688bbbd067e509e8858}{File\-Not\-Supported}, 
+\hyperlink{class_g_l_c___file_format_exception_ab28c5be439dcc7226f9fa041ff87dc18a70dc4c982fe4e20a2608a59d8c0db287}{Wrong\-File\-Format}, 
+\hyperlink{class_g_l_c___file_format_exception_ab28c5be439dcc7226f9fa041ff87dc18a53f567abeee10767689dc88864a43dd8}{No\-Mesh\-Found}
+ \}
+\begin{DoxyCompactList}\small\item\em Enum of exception Type. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_g_l_c___file_format_exception_ae60fc324c5a48be03d483875bf74e979}{G\-L\-C\-\_\-\-File\-Format\-Exception} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{Q\-String} \&, const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{Q\-String} \&, \hyperlink{class_g_l_c___file_format_exception_ab28c5be439dcc7226f9fa041ff87dc18}{Exception\-Type})
+\item 
+virtual \hyperlink{class_g_l_c___file_format_exception_a689e3ce05e0011ff57b03f1b34ecac02}{$\sim$\-G\-L\-C\-\_\-\-File\-Format\-Exception} ()  throw ()
+\end{DoxyCompactItemize}
+\begin{Indent}{\bf Get Functions}\par
+\begin{DoxyCompactItemize}
+\item 
+virtual const char $\ast$ \hyperlink{class_g_l_c___file_format_exception_acc3893e7d2818bc620a58b6ae1698b7a}{what} () const   throw ()
+\begin{DoxyCompactList}\small\item\em Return exception description. \end{DoxyCompactList}\item 
+\hyperlink{class_g_l_c___file_format_exception_ab28c5be439dcc7226f9fa041ff87dc18}{Exception\-Type} \hyperlink{class_g_l_c___file_format_exception_a41a45088e854d69ef8a105086464aa5d}{exception\-Type} () const 
+\begin{DoxyCompactList}\small\item\em Return exception type. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\end{Indent}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Detailed Description}
+\hyperlink{class_g_l_c___file_format_exception}{G\-L\-C\-\_\-\-File\-Format\-Exception} \-: Class for all File Format E\-R\-R\-O\-R. 
+
+Definition at line 36 of file glc\-\_\-fileformatexception.\-h.
+
+
+
+\subsection{Member Enumeration Documentation}
+\hypertarget{class_g_l_c___file_format_exception_ab28c5be439dcc7226f9fa041ff87dc18}{\index{G\-L\-C\-\_\-\-File\-Format\-Exception@{G\-L\-C\-\_\-\-File\-Format\-Exception}!Exception\-Type@{Exception\-Type}}
+\index{Exception\-Type@{Exception\-Type}!GLC_FileFormatException@{G\-L\-C\-\_\-\-File\-Format\-Exception}}
+\subsubsection[{Exception\-Type}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf G\-L\-C\-\_\-\-File\-Format\-Exception\-::\-Exception\-Type}}}\label{class_g_l_c___file_format_exception_ab28c5be439dcc7226f9fa041ff87dc18}
+
+
+Enum of exception Type. 
+
+\begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{File\-Not\-Found@{File\-Not\-Found}!G\-L\-C\-\_\-\-File\-Format\-Exception@{G\-L\-C\-\_\-\-File\-Format\-Exception}}\index{G\-L\-C\-\_\-\-File\-Format\-Exception@{G\-L\-C\-\_\-\-File\-Format\-Exception}!File\-Not\-Found@{File\-Not\-Found}}\item[{\em 
+\hypertarget{class_g_l_c___file_format_exception_ab28c5be439dcc7226f9fa041ff87dc18acd0f8232d11141fc90b792349eb25a55}{File\-Not\-Found}\label{class_g_l_c___file_format_exception_ab28c5be439dcc7226f9fa041ff87dc18acd0f8232d11141fc90b792349eb25a55}
+}]\index{File\-Not\-Supported@{File\-Not\-Supported}!G\-L\-C\-\_\-\-File\-Format\-Exception@{G\-L\-C\-\_\-\-File\-Format\-Exception}}\index{G\-L\-C\-\_\-\-File\-Format\-Exception@{G\-L\-C\-\_\-\-File\-Format\-Exception}!File\-Not\-Supported@{File\-Not\-Supported}}\item[{\em 
+\hypertarget{class_g_l_c___file_format_exception_ab28c5be439dcc7226f9fa041ff87dc18a25b68d2ee7154688bbbd067e509e8858}{File\-Not\-Supported}\label{class_g_l_c___file_format_exception_ab28c5be439dcc7226f9fa041ff87dc18a25b68d2ee7154688bbbd067e509e8858}
+}]\index{Wrong\-File\-Format@{Wrong\-File\-Format}!G\-L\-C\-\_\-\-File\-Format\-Exception@{G\-L\-C\-\_\-\-File\-Format\-Exception}}\index{G\-L\-C\-\_\-\-File\-Format\-Exception@{G\-L\-C\-\_\-\-File\-Format\-Exception}!Wrong\-File\-Format@{Wrong\-File\-Format}}\item[{\em 
+\hypertarget{class_g_l_c___file_format_exception_ab28c5be439dcc7226f9fa041ff87dc18a70dc4c982fe4e20a2608a59d8c0db287}{Wrong\-File\-Format}\label{class_g_l_c___file_format_exception_ab28c5be439dcc7226f9fa041ff87dc18a70dc4c982fe4e20a2608a59d8c0db287}
+}]\index{No\-Mesh\-Found@{No\-Mesh\-Found}!G\-L\-C\-\_\-\-File\-Format\-Exception@{G\-L\-C\-\_\-\-File\-Format\-Exception}}\index{G\-L\-C\-\_\-\-File\-Format\-Exception@{G\-L\-C\-\_\-\-File\-Format\-Exception}!No\-Mesh\-Found@{No\-Mesh\-Found}}\item[{\em 
+\hypertarget{class_g_l_c___file_format_exception_ab28c5be439dcc7226f9fa041ff87dc18a53f567abeee10767689dc88864a43dd8}{No\-Mesh\-Found}\label{class_g_l_c___file_format_exception_ab28c5be439dcc7226f9fa041ff87dc18a53f567abeee10767689dc88864a43dd8}
+}]\end{description}
+\end{Desc}
+
+
+Definition at line 40 of file glc\-\_\-fileformatexception.\-h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_g_l_c___file_format_exception_ae60fc324c5a48be03d483875bf74e979}{\index{G\-L\-C\-\_\-\-File\-Format\-Exception@{G\-L\-C\-\_\-\-File\-Format\-Exception}!G\-L\-C\-\_\-\-File\-Format\-Exception@{G\-L\-C\-\_\-\-File\-Format\-Exception}}
+\index{G\-L\-C\-\_\-\-File\-Format\-Exception@{G\-L\-C\-\_\-\-File\-Format\-Exception}!GLC_FileFormatException@{G\-L\-C\-\_\-\-File\-Format\-Exception}}
+\subsubsection[{G\-L\-C\-\_\-\-File\-Format\-Exception}]{\setlength{\rightskip}{0pt plus 5cm}G\-L\-C\-\_\-\-File\-Format\-Exception\-::\-G\-L\-C\-\_\-\-File\-Format\-Exception (
+\begin{DoxyParamCaption}
+\item[{const {\bf Q\-String} \&}]{message, }
+\item[{const {\bf Q\-String} \&}]{file\-Name, }
+\item[{{\bf Exception\-Type}}]{exception\-Type}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___file_format_exception_ae60fc324c5a48be03d483875bf74e979}
+
+
+Definition at line 27 of file glc\-\_\-fileformatexception.\-cpp.
+
+\hypertarget{class_g_l_c___file_format_exception_a689e3ce05e0011ff57b03f1b34ecac02}{\index{G\-L\-C\-\_\-\-File\-Format\-Exception@{G\-L\-C\-\_\-\-File\-Format\-Exception}!$\sim$\-G\-L\-C\-\_\-\-File\-Format\-Exception@{$\sim$\-G\-L\-C\-\_\-\-File\-Format\-Exception}}
+\index{$\sim$\-G\-L\-C\-\_\-\-File\-Format\-Exception@{$\sim$\-G\-L\-C\-\_\-\-File\-Format\-Exception}!GLC_FileFormatException@{G\-L\-C\-\_\-\-File\-Format\-Exception}}
+\subsubsection[{$\sim$\-G\-L\-C\-\_\-\-File\-Format\-Exception}]{\setlength{\rightskip}{0pt plus 5cm}G\-L\-C\-\_\-\-File\-Format\-Exception\-::$\sim$\-G\-L\-C\-\_\-\-File\-Format\-Exception (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)  throw ()\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_g_l_c___file_format_exception_a689e3ce05e0011ff57b03f1b34ecac02}
+
+
+Definition at line 35 of file glc\-\_\-fileformatexception.\-cpp.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_g_l_c___file_format_exception_a41a45088e854d69ef8a105086464aa5d}{\index{G\-L\-C\-\_\-\-File\-Format\-Exception@{G\-L\-C\-\_\-\-File\-Format\-Exception}!exception\-Type@{exception\-Type}}
+\index{exception\-Type@{exception\-Type}!GLC_FileFormatException@{G\-L\-C\-\_\-\-File\-Format\-Exception}}
+\subsubsection[{exception\-Type}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Exception\-Type} G\-L\-C\-\_\-\-File\-Format\-Exception\-::exception\-Type (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___file_format_exception_a41a45088e854d69ef8a105086464aa5d}
+
+
+Return exception type. 
+
+
+
+Definition at line 60 of file glc\-\_\-fileformatexception.\-h.
+
+\hypertarget{class_g_l_c___file_format_exception_acc3893e7d2818bc620a58b6ae1698b7a}{\index{G\-L\-C\-\_\-\-File\-Format\-Exception@{G\-L\-C\-\_\-\-File\-Format\-Exception}!what@{what}}
+\index{what@{what}!GLC_FileFormatException@{G\-L\-C\-\_\-\-File\-Format\-Exception}}
+\subsubsection[{what}]{\setlength{\rightskip}{0pt plus 5cm}const char $\ast$ G\-L\-C\-\_\-\-File\-Format\-Exception\-::what (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const  throw ()\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_g_l_c___file_format_exception_acc3893e7d2818bc620a58b6ae1698b7a}
+
+
+Return exception description. 
+
+
+
+Reimplemented from \hyperlink{class_g_l_c___exception_ab4340b39a9868b5e612ef9b54cdca00c}{G\-L\-C\-\_\-\-Exception}.
+
+
+
+Definition at line 44 of file glc\-\_\-fileformatexception.\-cpp.
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/glc\-\_\-lib/\hyperlink{glc__fileformatexception_8h}{glc\-\_\-fileformatexception.\-h}\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/glc\-\_\-lib/\hyperlink{glc__fileformatexception_8cpp}{glc\-\_\-fileformatexception.\-cpp}\end{DoxyCompactItemize}

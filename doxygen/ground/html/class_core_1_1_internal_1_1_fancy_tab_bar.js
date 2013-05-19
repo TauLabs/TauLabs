@@ -1,0 +1,28 @@
+var class_core_1_1_internal_1_1_fancy_tab_bar =
+[
+    [ "FancyTabBar", "group___core_plugin.html#gad575160a4e336a3039a99dc30bee15e3", null ],
+    [ "~FancyTabBar", "group___core_plugin.html#ga5b40eca6caec361b4bc7f371468927dc", null ],
+    [ "count", "group___core_plugin.html#gafef795e24cd663b07318620524a957da", null ],
+    [ "currentChanged", "group___core_plugin.html#ga15690cddfb9374c7357649e92af3e12b", null ],
+    [ "currentIndex", "group___core_plugin.html#ga4616dd0bc8b0ff81cd79c83c9a713e3e", null ],
+    [ "enterEvent", "group___core_plugin.html#gacd1e12691b9857f46777d7fdfe6d5cb2", null ],
+    [ "event", "group___core_plugin.html#ga61b546d0e4aa631e9b223a5da9358a31", null ],
+    [ "insertTab", "group___core_plugin.html#gaca91c882df5cac0ebb8cc47ed7dab0f8", null ],
+    [ "leaveEvent", "group___core_plugin.html#gabbbfe787a32c59bd8cd36a165d6a665d", null ],
+    [ "minimumSizeHint", "group___core_plugin.html#gaf8f470f82a3959c7bdc7a98340148bba", null ],
+    [ "mouseMoveEvent", "group___core_plugin.html#ga62d3b78d5a2de6843a7ccaaf82928113", null ],
+    [ "mousePressEvent", "group___core_plugin.html#ga233783eaace38242dab543caa3081f7f", null ],
+    [ "paintEvent", "group___core_plugin.html#gacffef3ad6d0b595db42d532043ba064c", null ],
+    [ "paintTab", "group___core_plugin.html#gaf99f17cc16adc2741f28115358888282", null ],
+    [ "removeTab", "group___core_plugin.html#gaf4a1b5707a90c73e3bdb7dbbaf77d86a", null ],
+    [ "setCurrentIndex", "group___core_plugin.html#gabf70f3132174e9d8c21315e2684150de", null ],
+    [ "setIconSize", "group___core_plugin.html#gafe9a2d6fdb7ecd3eb6be77cbfbcec6ce", null ],
+    [ "setTabToolTip", "group___core_plugin.html#gacdb64539fcc17c999349bfc1af98f66a", null ],
+    [ "sizeHint", "group___core_plugin.html#gac7cd7091fc9e84d116935f64f510d3b3", null ],
+    [ "tabIcon", "group___core_plugin.html#gae277615a992118760cb76176dbfa2e81", null ],
+    [ "tabRect", "group___core_plugin.html#ga73860a10ee1c7ab8ecc257d227287058", null ],
+    [ "tabText", "group___core_plugin.html#ga3dbe2e5ffcd731a16768adc3fd471191", null ],
+    [ "tabToolTip", "group___core_plugin.html#ga3f18cabada7a29855070e6a49d684997", null ],
+    [ "updateHover", "group___core_plugin.html#gaebba5e848c986c159a23e73619bb0fa8", null ],
+    [ "updateTabNameIcon", "group___core_plugin.html#ga2395ca4b2340f7f5e54d4fada4e0e929", null ]
+];

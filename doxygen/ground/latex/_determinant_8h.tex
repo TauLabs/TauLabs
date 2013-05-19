@@ -1,0 +1,72 @@
+\hypertarget{_determinant_8h}{\section{/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/eigen/\-Eigen/src/\-L\-U/\-Determinant.h File Reference}
+\label{_determinant_8h}\index{/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/eigen/\-Eigen/src/\-L\-U/\-Determinant.\-h@{/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/eigen/\-Eigen/src/\-L\-U/\-Determinant.\-h}}
+}
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structei__determinant__impl}{ei\-\_\-determinant\-\_\-impl$<$ Derived, Determinant\-Type $>$}
+\item 
+struct \hyperlink{structei__determinant__impl_3_01_derived_00_01_triangular_determinant_01_4}{ei\-\_\-determinant\-\_\-impl$<$ Derived, Triangular\-Determinant $>$}
+\item 
+struct \hyperlink{structei__determinant__impl_3_01_derived_00_011_01_4}{ei\-\_\-determinant\-\_\-impl$<$ Derived, 1 $>$}
+\item 
+struct \hyperlink{structei__determinant__impl_3_01_derived_00_012_01_4}{ei\-\_\-determinant\-\_\-impl$<$ Derived, 2 $>$}
+\item 
+struct \hyperlink{structei__determinant__impl_3_01_derived_00_013_01_4}{ei\-\_\-determinant\-\_\-impl$<$ Derived, 3 $>$}
+\item 
+struct \hyperlink{structei__determinant__impl_3_01_derived_00_014_01_4}{ei\-\_\-determinant\-\_\-impl$<$ Derived, 4 $>$}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$typename Derived $>$ }\\const Derived\-::\-Scalar \hyperlink{_determinant_8h_a5d984a8e32bf3f86eb9bb3a36f94851b}{ei\-\_\-bruteforce\-\_\-det3\-\_\-helper} (const \hyperlink{class_matrix_base}{Matrix\-Base}$<$ Derived $>$ \&\hyperlink{glext_8h_a7b24a3f2f56eb1244ae69dacb4fecb6f}{matrix}, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{glext_8h_ac8729153468b5dcf13f971b21d84d4e5}{a}, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{glext_8h_a6eba317e3cf44d6d26c04a5a8f197dcb}{b}, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{glext_8h_a1f2d7f8147412c43ba2303a56f97ee73}{c})
+\item 
+{\footnotesize template$<$typename Derived $>$ }\\const Derived\-::\-Scalar \hyperlink{_determinant_8h_a48f594274cdfb50632b71798db6f6fc2}{ei\-\_\-bruteforce\-\_\-det4\-\_\-helper} (const \hyperlink{class_matrix_base}{Matrix\-Base}$<$ Derived $>$ \&\hyperlink{glext_8h_a7b24a3f2f56eb1244ae69dacb4fecb6f}{matrix}, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} j, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} k, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{glext_8h_af593500c283bf1a787a6f947f503a5c2}{m}, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{glext_8h_a4eacae1d9e7c39f8236bb36d4ececa77}{n})
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+const \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{_determinant_8h_ac9fa3f51418a4ff5168748e682c5239e}{Triangular\-Determinant} = 0
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\hypertarget{_determinant_8h_a5d984a8e32bf3f86eb9bb3a36f94851b}{\index{Determinant.\-h@{Determinant.\-h}!ei\-\_\-bruteforce\-\_\-det3\-\_\-helper@{ei\-\_\-bruteforce\-\_\-det3\-\_\-helper}}
+\index{ei\-\_\-bruteforce\-\_\-det3\-\_\-helper@{ei\-\_\-bruteforce\-\_\-det3\-\_\-helper}!Determinant.h@{Determinant.\-h}}
+\subsubsection[{ei\-\_\-bruteforce\-\_\-det3\-\_\-helper}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Derived $>$ const Derived\-::\-Scalar ei\-\_\-bruteforce\-\_\-det3\-\_\-helper (
+\begin{DoxyParamCaption}
+\item[{const {\bf Matrix\-Base}$<$ Derived $>$ \&}]{matrix, }
+\item[{{\bf int}}]{a, }
+\item[{{\bf int}}]{b, }
+\item[{{\bf int}}]{c}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{_determinant_8h_a5d984a8e32bf3f86eb9bb3a36f94851b}
+
+
+Definition at line 30 of file Determinant.\-h.
+
+\hypertarget{_determinant_8h_a48f594274cdfb50632b71798db6f6fc2}{\index{Determinant.\-h@{Determinant.\-h}!ei\-\_\-bruteforce\-\_\-det4\-\_\-helper@{ei\-\_\-bruteforce\-\_\-det4\-\_\-helper}}
+\index{ei\-\_\-bruteforce\-\_\-det4\-\_\-helper@{ei\-\_\-bruteforce\-\_\-det4\-\_\-helper}!Determinant.h@{Determinant.\-h}}
+\subsubsection[{ei\-\_\-bruteforce\-\_\-det4\-\_\-helper}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Derived $>$ const Derived\-::\-Scalar ei\-\_\-bruteforce\-\_\-det4\-\_\-helper (
+\begin{DoxyParamCaption}
+\item[{const {\bf Matrix\-Base}$<$ Derived $>$ \&}]{matrix, }
+\item[{{\bf int}}]{j, }
+\item[{{\bf int}}]{k, }
+\item[{{\bf int}}]{m, }
+\item[{{\bf int}}]{n}
+\end{DoxyParamCaption}
+)}}\label{_determinant_8h_a48f594274cdfb50632b71798db6f6fc2}
+
+
+Definition at line 38 of file Determinant.\-h.
+
+
+
+\subsection{Variable Documentation}
+\hypertarget{_determinant_8h_ac9fa3f51418a4ff5168748e682c5239e}{\index{Determinant.\-h@{Determinant.\-h}!Triangular\-Determinant@{Triangular\-Determinant}}
+\index{Triangular\-Determinant@{Triangular\-Determinant}!Determinant.h@{Determinant.\-h}}
+\subsubsection[{Triangular\-Determinant}]{\setlength{\rightskip}{0pt plus 5cm}const {\bf int} Triangular\-Determinant = 0}}\label{_determinant_8h_ac9fa3f51418a4ff5168748e682c5239e}
+
+
+Definition at line 44 of file Determinant.\-h.
+

@@ -1,0 +1,142 @@
+\hypertarget{crypt_8h}{\section{/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/glc\-\_\-lib/3rdparty/quazip/crypt.h File Reference}
+\label{crypt_8h}\index{/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/glc\-\_\-lib/3rdparty/quazip/crypt.\-h@{/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/glc\-\_\-lib/3rdparty/quazip/crypt.\-h}}
+}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{crypt_8h_a7a91e407fbf7c0936fcd76620191e942}{if} (\hyperlink{glext_8h_a44d5bc016820a806cf08cf6653b58441}{buf\-Size}$<$ R\-A\-N\-D\-\_\-\-H\-E\-A\-D\-\_\-\-L\-E\-N) return 0
+\item 
+\hyperlink{crypt_8h_ab0ffe37cc384a70b376dce3661206aa2}{if} (++calls==1)
+\item 
+\hyperlink{crypt_8h_a4fc2f15adb592f920afd0f3ab2836a5a}{init\-\_\-keys} (passwd, \hyperlink{crypt_8h_a5022c1638931c6aeb488ff5b2637a6e3}{pkeys}, \hyperlink{crypt_8h_a50449256cbe3d6547594f473c95fa965}{pcrc\-\_\-32\-\_\-tab})
+\item 
+\hyperlink{crypt_8h_a6f9c0aaf91aa1ee6f13a43244e90af87}{for} (\hyperlink{glext_8h_a4eacae1d9e7c39f8236bb36d4ececa77}{n}=0;\hyperlink{glext_8h_a4eacae1d9e7c39f8236bb36d4ececa77}{n}$<$ R\-A\-N\-D\-\_\-\-H\-E\-A\-D\-\_\-\-L\-E\-N-\/2;\hyperlink{glext_8h_a4eacae1d9e7c39f8236bb36d4ececa77}{n}++)
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+unsigned char $\ast$ \hyperlink{crypt_8h_a1a5cf8cb61c182bbcb663d0c136579a1}{buf} = zencode(\hyperlink{crypt_8h_a5022c1638931c6aeb488ff5b2637a6e3}{pkeys}, \hyperlink{crypt_8h_a50449256cbe3d6547594f473c95fa965}{pcrc\-\_\-32\-\_\-tab}, (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int})(\hyperlink{crypt_8h_a4b2a0452ed0ef5b555b06110075351ab}{crc\-For\-Crypting} $>$$>$ 16) \& 0xff, t)
+\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{crypt_8h_a9e00b7e92141a7ca54622a6e651a65f8}{buf\-Size}
+\item 
+unsigned \hyperlink{ioapi_8h_a3c7b35ad9dab18b8310343c201f7b27e}{long} $\ast$ \hyperlink{crypt_8h_a5022c1638931c6aeb488ff5b2637a6e3}{pkeys}
+\item 
+const unsigned \hyperlink{ioapi_8h_a3c7b35ad9dab18b8310343c201f7b27e}{long} $\ast$ \hyperlink{crypt_8h_a50449256cbe3d6547594f473c95fa965}{pcrc\-\_\-32\-\_\-tab}
+\item 
+unsigned \hyperlink{ioapi_8h_a3c7b35ad9dab18b8310343c201f7b27e}{long} \hyperlink{crypt_8h_a4b2a0452ed0ef5b555b06110075351ab}{crc\-For\-Crypting}
+\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{crypt_8h_a4eacae1d9e7c39f8236bb36d4ececa77}{n}
+\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{crypt_8h_ac310d9181e916ba43604099aee272c71}{t}
+\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{crypt_8h_a4e1e0e72dd773439e333c84dd762a9c3}{c}
+\item 
+unsigned char \hyperlink{crypt_8h_ae4f2f0852899a81dcd9b8a02e559f0f7}{header} \mbox{[}R\-A\-N\-D\-\_\-\-H\-E\-A\-D\-\_\-\-L\-E\-N-\/2\mbox{]}
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\hypertarget{crypt_8h_a6f9c0aaf91aa1ee6f13a43244e90af87}{\index{crypt.\-h@{crypt.\-h}!for@{for}}
+\index{for@{for}!crypt.h@{crypt.\-h}}
+\subsubsection[{for}]{\setlength{\rightskip}{0pt plus 5cm}for (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{crypt_8h_a6f9c0aaf91aa1ee6f13a43244e90af87}
+
+
+Definition at line 117 of file crypt.\-h.
+
+\hypertarget{crypt_8h_a7a91e407fbf7c0936fcd76620191e942}{\index{crypt.\-h@{crypt.\-h}!if@{if}}
+\index{if@{if}!crypt.h@{crypt.\-h}}
+\subsubsection[{if}]{\setlength{\rightskip}{0pt plus 5cm}if (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{crypt_8h_a7a91e407fbf7c0936fcd76620191e942}
+\hypertarget{crypt_8h_ab0ffe37cc384a70b376dce3661206aa2}{\index{crypt.\-h@{crypt.\-h}!if@{if}}
+\index{if@{if}!crypt.h@{crypt.\-h}}
+\subsubsection[{if}]{\setlength{\rightskip}{0pt plus 5cm}if (
+\begin{DoxyParamCaption}
+\item[{++}]{calls = {\ttfamily =~1}}
+\end{DoxyParamCaption}
+)}}\label{crypt_8h_ab0ffe37cc384a70b376dce3661206aa2}
+
+
+Definition at line 112 of file crypt.\-h.
+
+\hypertarget{crypt_8h_a4fc2f15adb592f920afd0f3ab2836a5a}{\index{crypt.\-h@{crypt.\-h}!init\-\_\-keys@{init\-\_\-keys}}
+\index{init\-\_\-keys@{init\-\_\-keys}!crypt.h@{crypt.\-h}}
+\subsubsection[{init\-\_\-keys}]{\setlength{\rightskip}{0pt plus 5cm}init\-\_\-keys (
+\begin{DoxyParamCaption}
+\item[{passwd}]{, }
+\item[{{\bf pkeys}}]{, }
+\item[{{\bf pcrc\-\_\-32\-\_\-tab}}]{}
+\end{DoxyParamCaption}
+)}}\label{crypt_8h_a4fc2f15adb592f920afd0f3ab2836a5a}
+
+
+\subsection{Variable Documentation}
+\hypertarget{crypt_8h_a1a5cf8cb61c182bbcb663d0c136579a1}{\index{crypt.\-h@{crypt.\-h}!buf@{buf}}
+\index{buf@{buf}!crypt.h@{crypt.\-h}}
+\subsubsection[{buf}]{\setlength{\rightskip}{0pt plus 5cm}{\bf buf}\mbox{[}{\bf n}++\mbox{]} = zencode({\bf pkeys}, {\bf pcrc\-\_\-32\-\_\-tab}, ({\bf int})({\bf crc\-For\-Crypting} $>$$>$ 16) \& 0xff, t)}}\label{crypt_8h_a1a5cf8cb61c182bbcb663d0c136579a1}
+
+
+Definition at line 93 of file crypt.\-h.
+
+\hypertarget{crypt_8h_a9e00b7e92141a7ca54622a6e651a65f8}{\index{crypt.\-h@{crypt.\-h}!buf\-Size@{buf\-Size}}
+\index{buf\-Size@{buf\-Size}!crypt.h@{crypt.\-h}}
+\subsubsection[{buf\-Size}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int} {\bf buf\-Size}}}\label{crypt_8h_a9e00b7e92141a7ca54622a6e651a65f8}
+
+
+Definition at line 94 of file crypt.\-h.
+
+\hypertarget{crypt_8h_a4e1e0e72dd773439e333c84dd762a9c3}{\index{crypt.\-h@{crypt.\-h}!c@{c}}
+\index{c@{c}!crypt.h@{crypt.\-h}}
+\subsubsection[{c}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int} {\bf c}}}\label{crypt_8h_a4e1e0e72dd773439e333c84dd762a9c3}
+
+
+Definition at line 101 of file crypt.\-h.
+
+\hypertarget{crypt_8h_a4b2a0452ed0ef5b555b06110075351ab}{\index{crypt.\-h@{crypt.\-h}!crc\-For\-Crypting@{crc\-For\-Crypting}}
+\index{crc\-For\-Crypting@{crc\-For\-Crypting}!crypt.h@{crypt.\-h}}
+\subsubsection[{crc\-For\-Crypting}]{\setlength{\rightskip}{0pt plus 5cm}unsigned {\bf long} crc\-For\-Crypting}}\label{crypt_8h_a4b2a0452ed0ef5b555b06110075351ab}
+
+
+Definition at line 97 of file crypt.\-h.
+
+\hypertarget{crypt_8h_ae4f2f0852899a81dcd9b8a02e559f0f7}{\index{crypt.\-h@{crypt.\-h}!header@{header}}
+\index{header@{header}!crypt.h@{crypt.\-h}}
+\subsubsection[{header}]{\setlength{\rightskip}{0pt plus 5cm}unsigned char header\mbox{[}R\-A\-N\-D\-\_\-\-H\-E\-A\-D\-\_\-\-L\-E\-N-\/2\mbox{]}}}\label{crypt_8h_ae4f2f0852899a81dcd9b8a02e559f0f7}
+
+
+Definition at line 102 of file crypt.\-h.
+
+\hypertarget{crypt_8h_a4eacae1d9e7c39f8236bb36d4ececa77}{\index{crypt.\-h@{crypt.\-h}!n@{n}}
+\index{n@{n}!crypt.h@{crypt.\-h}}
+\subsubsection[{n}]{\setlength{\rightskip}{0pt plus 5cm}return {\bf n}}}\label{crypt_8h_a4eacae1d9e7c39f8236bb36d4ececa77}
+
+
+Definition at line 99 of file crypt.\-h.
+
+\hypertarget{crypt_8h_a50449256cbe3d6547594f473c95fa965}{\index{crypt.\-h@{crypt.\-h}!pcrc\-\_\-32\-\_\-tab@{pcrc\-\_\-32\-\_\-tab}}
+\index{pcrc\-\_\-32\-\_\-tab@{pcrc\-\_\-32\-\_\-tab}!crypt.h@{crypt.\-h}}
+\subsubsection[{pcrc\-\_\-32\-\_\-tab}]{\setlength{\rightskip}{0pt plus 5cm}const unsigned {\bf long}$\ast$ pcrc\-\_\-32\-\_\-tab}}\label{crypt_8h_a50449256cbe3d6547594f473c95fa965}
+
+
+Definition at line 96 of file crypt.\-h.
+
+\hypertarget{crypt_8h_a5022c1638931c6aeb488ff5b2637a6e3}{\index{crypt.\-h@{crypt.\-h}!pkeys@{pkeys}}
+\index{pkeys@{pkeys}!crypt.h@{crypt.\-h}}
+\subsubsection[{pkeys}]{\setlength{\rightskip}{0pt plus 5cm}unsigned {\bf long}$\ast$ pkeys}}\label{crypt_8h_a5022c1638931c6aeb488ff5b2637a6e3}
+
+
+Definition at line 95 of file crypt.\-h.
+
+\hypertarget{crypt_8h_ac310d9181e916ba43604099aee272c71}{\index{crypt.\-h@{crypt.\-h}!t@{t}}
+\index{t@{t}!crypt.h@{crypt.\-h}}
+\subsubsection[{t}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int} {\bf t}}}\label{crypt_8h_ac310d9181e916ba43604099aee272c71}
+
+
+Definition at line 100 of file crypt.\-h.
+

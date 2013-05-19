@@ -1,0 +1,340 @@
+\hypertarget{group__quat}{\section{Quaternion Mathematics}
+\label{group__quat}\index{Quaternion Mathematics@{Quaternion Mathematics}}
+}
+\subsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef \hyperlink{_super_l_u_support_8h_a6a1bb6ed41f44b60e7bd83b0e9945aa7}{float} \hyperlink{group__quat_ga9969ef1e618ba698c4b8374f14b548be}{Lib3ds\-Quat} \mbox{[}4\mbox{]}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group__quat_gaace3ddcec7ee4f36b313593a348d5fe5}{lib3ds\-\_\-quat\-\_\-zero} (\hyperlink{group__quat_ga9969ef1e618ba698c4b8374f14b548be}{Lib3ds\-Quat} \hyperlink{glext_8h_a1f2d7f8147412c43ba2303a56f97ee73}{c})
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group__quat_gaf4a5a39edc84d48312e0b8d840ae621c}{lib3ds\-\_\-quat\-\_\-identity} (\hyperlink{group__quat_ga9969ef1e618ba698c4b8374f14b548be}{Lib3ds\-Quat} \hyperlink{glext_8h_a1f2d7f8147412c43ba2303a56f97ee73}{c})
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group__quat_ga22b844f13242e0da99b6a324b069f097}{lib3ds\-\_\-quat\-\_\-copy} (\hyperlink{group__quat_ga9969ef1e618ba698c4b8374f14b548be}{Lib3ds\-Quat} dest, \hyperlink{group__quat_ga9969ef1e618ba698c4b8374f14b548be}{Lib3ds\-Quat} \hyperlink{glext_8h_a72e0fdf0f845ded60b1fada9e9195cd7}{src})
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group__quat_ga30de5dd3091a2c9d16a524e35b8841d0}{lib3ds\-\_\-quat\-\_\-axis\-\_\-angle} (\hyperlink{group__quat_ga9969ef1e618ba698c4b8374f14b548be}{Lib3ds\-Quat} \hyperlink{glext_8h_a1f2d7f8147412c43ba2303a56f97ee73}{c}, \hyperlink{group__vector_ga6ac1c3b3ef15381ebf6baf264d658dcf}{Lib3ds\-Vector} axis, \hyperlink{types_8h_ab18e70f51f9a53c9dee8d930c8e1a7bf}{Lib3ds\-Float} \hyperlink{glext_8h_a9e06c1f76a20fed54ca742cd25cb02c4}{angle})
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group__quat_ga3a553e014492c439b381ec2ab15b29fa}{lib3ds\-\_\-quat\-\_\-neg} (\hyperlink{group__quat_ga9969ef1e618ba698c4b8374f14b548be}{Lib3ds\-Quat} \hyperlink{glext_8h_a1f2d7f8147412c43ba2303a56f97ee73}{c})
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group__quat_ga830593cdad1cc71a4e035692d375a8bb}{lib3ds\-\_\-quat\-\_\-abs} (\hyperlink{group__quat_ga9969ef1e618ba698c4b8374f14b548be}{Lib3ds\-Quat} \hyperlink{glext_8h_a1f2d7f8147412c43ba2303a56f97ee73}{c})
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group__quat_ga6932026b9613f51f461e015ffb00acca}{lib3ds\-\_\-quat\-\_\-cnj} (\hyperlink{group__quat_ga9969ef1e618ba698c4b8374f14b548be}{Lib3ds\-Quat} \hyperlink{glext_8h_a1f2d7f8147412c43ba2303a56f97ee73}{c})
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group__quat_ga44b58eb1f1d86d942b58dcc73bb05cde}{lib3ds\-\_\-quat\-\_\-mul} (\hyperlink{group__quat_ga9969ef1e618ba698c4b8374f14b548be}{Lib3ds\-Quat} \hyperlink{glext_8h_a1f2d7f8147412c43ba2303a56f97ee73}{c}, \hyperlink{group__quat_ga9969ef1e618ba698c4b8374f14b548be}{Lib3ds\-Quat} \hyperlink{glext_8h_ac8729153468b5dcf13f971b21d84d4e5}{a}, \hyperlink{group__quat_ga9969ef1e618ba698c4b8374f14b548be}{Lib3ds\-Quat} \hyperlink{glext_8h_a6eba317e3cf44d6d26c04a5a8f197dcb}{b})
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group__quat_ga86729669c3823d0c91d2e8feef5af9e6}{lib3ds\-\_\-quat\-\_\-scalar} (\hyperlink{group__quat_ga9969ef1e618ba698c4b8374f14b548be}{Lib3ds\-Quat} \hyperlink{glext_8h_a1f2d7f8147412c43ba2303a56f97ee73}{c}, \hyperlink{types_8h_ab18e70f51f9a53c9dee8d930c8e1a7bf}{Lib3ds\-Float} k)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group__quat_gaedaedf6eec68ac730db57f2a1cb0ea1f}{lib3ds\-\_\-quat\-\_\-normalize} (\hyperlink{group__quat_ga9969ef1e618ba698c4b8374f14b548be}{Lib3ds\-Quat} \hyperlink{glext_8h_a1f2d7f8147412c43ba2303a56f97ee73}{c})
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group__quat_ga962c01c5db104b5ebd177c7b5a7be944}{lib3ds\-\_\-quat\-\_\-inv} (\hyperlink{group__quat_ga9969ef1e618ba698c4b8374f14b548be}{Lib3ds\-Quat} \hyperlink{glext_8h_a1f2d7f8147412c43ba2303a56f97ee73}{c})
+\item 
+\hyperlink{types_8h_ab18e70f51f9a53c9dee8d930c8e1a7bf}{Lib3ds\-Float} \hyperlink{group__quat_ga9341ac7a8e34f5de47399a7f7f7fde6d}{lib3ds\-\_\-quat\-\_\-dot} (\hyperlink{group__quat_ga9969ef1e618ba698c4b8374f14b548be}{Lib3ds\-Quat} \hyperlink{glext_8h_ac8729153468b5dcf13f971b21d84d4e5}{a}, \hyperlink{group__quat_ga9969ef1e618ba698c4b8374f14b548be}{Lib3ds\-Quat} \hyperlink{glext_8h_a6eba317e3cf44d6d26c04a5a8f197dcb}{b})
+\item 
+\hyperlink{types_8h_ab18e70f51f9a53c9dee8d930c8e1a7bf}{Lib3ds\-Float} \hyperlink{group__quat_ga02a3ff0daa8bfa7724e1b336c0308638}{lib3ds\-\_\-quat\-\_\-squared} (\hyperlink{group__quat_ga9969ef1e618ba698c4b8374f14b548be}{Lib3ds\-Quat} \hyperlink{glext_8h_a1f2d7f8147412c43ba2303a56f97ee73}{c})
+\item 
+\hyperlink{types_8h_ab18e70f51f9a53c9dee8d930c8e1a7bf}{Lib3ds\-Float} \hyperlink{group__quat_ga28884bcc292d400edd49377befa538d4}{lib3ds\-\_\-quat\-\_\-length} (\hyperlink{group__quat_ga9969ef1e618ba698c4b8374f14b548be}{Lib3ds\-Quat} \hyperlink{glext_8h_a1f2d7f8147412c43ba2303a56f97ee73}{c})
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group__quat_ga08265f31b1ea9bbcb680bceff6aa47b3}{lib3ds\-\_\-quat\-\_\-ln} (\hyperlink{group__quat_ga9969ef1e618ba698c4b8374f14b548be}{Lib3ds\-Quat} \hyperlink{glext_8h_a1f2d7f8147412c43ba2303a56f97ee73}{c})
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group__quat_ga65c327e7124d76160a9ed621e4f7cdcd}{lib3ds\-\_\-quat\-\_\-ln\-\_\-dif} (\hyperlink{group__quat_ga9969ef1e618ba698c4b8374f14b548be}{Lib3ds\-Quat} \hyperlink{glext_8h_a1f2d7f8147412c43ba2303a56f97ee73}{c}, \hyperlink{group__quat_ga9969ef1e618ba698c4b8374f14b548be}{Lib3ds\-Quat} \hyperlink{glext_8h_ac8729153468b5dcf13f971b21d84d4e5}{a}, \hyperlink{group__quat_ga9969ef1e618ba698c4b8374f14b548be}{Lib3ds\-Quat} \hyperlink{glext_8h_a6eba317e3cf44d6d26c04a5a8f197dcb}{b})
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group__quat_ga1c7060bfeeb28fcb3b9bac9a42d6805c}{lib3ds\-\_\-quat\-\_\-exp} (\hyperlink{group__quat_ga9969ef1e618ba698c4b8374f14b548be}{Lib3ds\-Quat} \hyperlink{glext_8h_a1f2d7f8147412c43ba2303a56f97ee73}{c})
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group__quat_ga265cc04cb9fbc32ccec342c18a17cb48}{lib3ds\-\_\-quat\-\_\-slerp} (\hyperlink{group__quat_ga9969ef1e618ba698c4b8374f14b548be}{Lib3ds\-Quat} \hyperlink{glext_8h_a1f2d7f8147412c43ba2303a56f97ee73}{c}, \hyperlink{group__quat_ga9969ef1e618ba698c4b8374f14b548be}{Lib3ds\-Quat} \hyperlink{glext_8h_ac8729153468b5dcf13f971b21d84d4e5}{a}, \hyperlink{group__quat_ga9969ef1e618ba698c4b8374f14b548be}{Lib3ds\-Quat} \hyperlink{glext_8h_a6eba317e3cf44d6d26c04a5a8f197dcb}{b}, \hyperlink{types_8h_ab18e70f51f9a53c9dee8d930c8e1a7bf}{Lib3ds\-Float} \hyperlink{glext_8h_a00140d6f5c548b26daf170bf16e86a6d}{t})
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group__quat_ga5c5227b54acf0cd6182ee46d05c0601d}{lib3ds\-\_\-quat\-\_\-squad} (\hyperlink{group__quat_ga9969ef1e618ba698c4b8374f14b548be}{Lib3ds\-Quat} \hyperlink{glext_8h_a1f2d7f8147412c43ba2303a56f97ee73}{c}, \hyperlink{group__quat_ga9969ef1e618ba698c4b8374f14b548be}{Lib3ds\-Quat} \hyperlink{glext_8h_ac8729153468b5dcf13f971b21d84d4e5}{a}, \hyperlink{group__quat_ga9969ef1e618ba698c4b8374f14b548be}{Lib3ds\-Quat} \hyperlink{glext_8h_aa5367c14d90f462230c2611b81b41d23}{p}, \hyperlink{group__quat_ga9969ef1e618ba698c4b8374f14b548be}{Lib3ds\-Quat} \hyperlink{glext_8h_afb30bc844faa48275d1c84294956a44b}{q}, \hyperlink{group__quat_ga9969ef1e618ba698c4b8374f14b548be}{Lib3ds\-Quat} \hyperlink{glext_8h_a6eba317e3cf44d6d26c04a5a8f197dcb}{b}, \hyperlink{types_8h_ab18e70f51f9a53c9dee8d930c8e1a7bf}{Lib3ds\-Float} \hyperlink{glext_8h_a00140d6f5c548b26daf170bf16e86a6d}{t})
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group__quat_ga1e8314c0c61255f580f0d76b921d6231}{lib3ds\-\_\-quat\-\_\-tangent} (\hyperlink{group__quat_ga9969ef1e618ba698c4b8374f14b548be}{Lib3ds\-Quat} \hyperlink{glext_8h_a1f2d7f8147412c43ba2303a56f97ee73}{c}, \hyperlink{group__quat_ga9969ef1e618ba698c4b8374f14b548be}{Lib3ds\-Quat} \hyperlink{glext_8h_aa5367c14d90f462230c2611b81b41d23}{p}, \hyperlink{group__quat_ga9969ef1e618ba698c4b8374f14b548be}{Lib3ds\-Quat} \hyperlink{glext_8h_afb30bc844faa48275d1c84294956a44b}{q}, \hyperlink{group__quat_ga9969ef1e618ba698c4b8374f14b548be}{Lib3ds\-Quat} \hyperlink{glext_8h_a4eacae1d9e7c39f8236bb36d4ececa77}{n})
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group__quat_gae7cb6ee37ff8074e61e6dec4ef9df239}{lib3ds\-\_\-quat\-\_\-dump} (\hyperlink{group__quat_ga9969ef1e618ba698c4b8374f14b548be}{Lib3ds\-Quat} \hyperlink{glext_8h_afb30bc844faa48275d1c84294956a44b}{q})
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+\subsection{Typedef Documentation}
+\hypertarget{group__quat_ga9969ef1e618ba698c4b8374f14b548be}{\index{Quaternion Mathematics@{Quaternion Mathematics}!Lib3ds\-Quat@{Lib3ds\-Quat}}
+\index{Lib3ds\-Quat@{Lib3ds\-Quat}!Quaternion Mathematics@{Quaternion Mathematics}}
+\subsubsection[{Lib3ds\-Quat}]{\setlength{\rightskip}{0pt plus 5cm}Lib3ds\-Quat}}\label{group__quat_ga9969ef1e618ba698c4b8374f14b548be}
+
+
+Definition at line 66 of file types.\-h.
+
+
+
+\subsection{Function Documentation}
+\hypertarget{group__quat_ga830593cdad1cc71a4e035692d375a8bb}{\index{Quaternion Mathematics@{Quaternion Mathematics}!lib3ds\-\_\-quat\-\_\-abs@{lib3ds\-\_\-quat\-\_\-abs}}
+\index{lib3ds\-\_\-quat\-\_\-abs@{lib3ds\-\_\-quat\-\_\-abs}!Quaternion Mathematics@{Quaternion Mathematics}}
+\subsubsection[{lib3ds\-\_\-quat\-\_\-abs}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} lib3ds\-\_\-quat\-\_\-abs (
+\begin{DoxyParamCaption}
+\item[{{\bf Lib3ds\-Quat}}]{c}
+\end{DoxyParamCaption}
+)}}\label{group__quat_ga830593cdad1cc71a4e035692d375a8bb}
+Compute the absolute value of a quaternion 
+
+Definition at line 126 of file quat.\-c.
+
+\hypertarget{group__quat_ga30de5dd3091a2c9d16a524e35b8841d0}{\index{Quaternion Mathematics@{Quaternion Mathematics}!lib3ds\-\_\-quat\-\_\-axis\-\_\-angle@{lib3ds\-\_\-quat\-\_\-axis\-\_\-angle}}
+\index{lib3ds\-\_\-quat\-\_\-axis\-\_\-angle@{lib3ds\-\_\-quat\-\_\-axis\-\_\-angle}!Quaternion Mathematics@{Quaternion Mathematics}}
+\subsubsection[{lib3ds\-\_\-quat\-\_\-axis\-\_\-angle}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} lib3ds\-\_\-quat\-\_\-axis\-\_\-angle (
+\begin{DoxyParamCaption}
+\item[{{\bf Lib3ds\-Quat}}]{c, }
+\item[{{\bf Lib3ds\-Vector}}]{axis, }
+\item[{{\bf Lib3ds\-Float}}]{angle}
+\end{DoxyParamCaption}
+)}}\label{group__quat_ga30de5dd3091a2c9d16a524e35b8841d0}
+Compute a quaternion from axis and angle.
+
+
+\begin{DoxyParams}{Parameters}
+{\em c} & Computed quaternion \\
+\hline
+{\em axis} & Rotation axis \\
+\hline
+{\em angle} & Angle of rotation, radians. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 84 of file quat.\-c.
+
+\hypertarget{group__quat_ga6932026b9613f51f461e015ffb00acca}{\index{Quaternion Mathematics@{Quaternion Mathematics}!lib3ds\-\_\-quat\-\_\-cnj@{lib3ds\-\_\-quat\-\_\-cnj}}
+\index{lib3ds\-\_\-quat\-\_\-cnj@{lib3ds\-\_\-quat\-\_\-cnj}!Quaternion Mathematics@{Quaternion Mathematics}}
+\subsubsection[{lib3ds\-\_\-quat\-\_\-cnj}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} lib3ds\-\_\-quat\-\_\-cnj (
+\begin{DoxyParamCaption}
+\item[{{\bf Lib3ds\-Quat}}]{c}
+\end{DoxyParamCaption}
+)}}\label{group__quat_ga6932026b9613f51f461e015ffb00acca}
+Compute the conjugate of a quaternion 
+
+Definition at line 141 of file quat.\-c.
+
+\hypertarget{group__quat_ga22b844f13242e0da99b6a324b069f097}{\index{Quaternion Mathematics@{Quaternion Mathematics}!lib3ds\-\_\-quat\-\_\-copy@{lib3ds\-\_\-quat\-\_\-copy}}
+\index{lib3ds\-\_\-quat\-\_\-copy@{lib3ds\-\_\-quat\-\_\-copy}!Quaternion Mathematics@{Quaternion Mathematics}}
+\subsubsection[{lib3ds\-\_\-quat\-\_\-copy}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} lib3ds\-\_\-quat\-\_\-copy (
+\begin{DoxyParamCaption}
+\item[{{\bf Lib3ds\-Quat}}]{dest, }
+\item[{{\bf Lib3ds\-Quat}}]{src}
+\end{DoxyParamCaption}
+)}}\label{group__quat_ga22b844f13242e0da99b6a324b069f097}
+Copy a quaternion. 
+
+Definition at line 65 of file quat.\-c.
+
+\hypertarget{group__quat_ga9341ac7a8e34f5de47399a7f7f7fde6d}{\index{Quaternion Mathematics@{Quaternion Mathematics}!lib3ds\-\_\-quat\-\_\-dot@{lib3ds\-\_\-quat\-\_\-dot}}
+\index{lib3ds\-\_\-quat\-\_\-dot@{lib3ds\-\_\-quat\-\_\-dot}!Quaternion Mathematics@{Quaternion Mathematics}}
+\subsubsection[{lib3ds\-\_\-quat\-\_\-dot}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Lib3ds\-Float} lib3ds\-\_\-quat\-\_\-dot (
+\begin{DoxyParamCaption}
+\item[{{\bf Lib3ds\-Quat}}]{a, }
+\item[{{\bf Lib3ds\-Quat}}]{b}
+\end{DoxyParamCaption}
+)}}\label{group__quat_ga9341ac7a8e34f5de47399a7f7f7fde6d}
+Compute the dot-\/product of a quaternion. 
+
+Definition at line 238 of file quat.\-c.
+
+\hypertarget{group__quat_gae7cb6ee37ff8074e61e6dec4ef9df239}{\index{Quaternion Mathematics@{Quaternion Mathematics}!lib3ds\-\_\-quat\-\_\-dump@{lib3ds\-\_\-quat\-\_\-dump}}
+\index{lib3ds\-\_\-quat\-\_\-dump@{lib3ds\-\_\-quat\-\_\-dump}!Quaternion Mathematics@{Quaternion Mathematics}}
+\subsubsection[{lib3ds\-\_\-quat\-\_\-dump}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} lib3ds\-\_\-quat\-\_\-dump (
+\begin{DoxyParamCaption}
+\item[{{\bf Lib3ds\-Quat}}]{q}
+\end{DoxyParamCaption}
+)}}\label{group__quat_gae7cb6ee37ff8074e61e6dec4ef9df239}
+
+
+Definition at line 414 of file quat.\-c.
+
+\hypertarget{group__quat_ga1c7060bfeeb28fcb3b9bac9a42d6805c}{\index{Quaternion Mathematics@{Quaternion Mathematics}!lib3ds\-\_\-quat\-\_\-exp@{lib3ds\-\_\-quat\-\_\-exp}}
+\index{lib3ds\-\_\-quat\-\_\-exp@{lib3ds\-\_\-quat\-\_\-exp}!Quaternion Mathematics@{Quaternion Mathematics}}
+\subsubsection[{lib3ds\-\_\-quat\-\_\-exp}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} lib3ds\-\_\-quat\-\_\-exp (
+\begin{DoxyParamCaption}
+\item[{{\bf Lib3ds\-Quat}}]{c}
+\end{DoxyParamCaption}
+)}}\label{group__quat_ga1c7060bfeeb28fcb3b9bac9a42d6805c}
+
+
+Definition at line 309 of file quat.\-c.
+
+\hypertarget{group__quat_gaf4a5a39edc84d48312e0b8d840ae621c}{\index{Quaternion Mathematics@{Quaternion Mathematics}!lib3ds\-\_\-quat\-\_\-identity@{lib3ds\-\_\-quat\-\_\-identity}}
+\index{lib3ds\-\_\-quat\-\_\-identity@{lib3ds\-\_\-quat\-\_\-identity}!Quaternion Mathematics@{Quaternion Mathematics}}
+\subsubsection[{lib3ds\-\_\-quat\-\_\-identity}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} lib3ds\-\_\-quat\-\_\-identity (
+\begin{DoxyParamCaption}
+\item[{{\bf Lib3ds\-Quat}}]{c}
+\end{DoxyParamCaption}
+)}}\label{group__quat_gaf4a5a39edc84d48312e0b8d840ae621c}
+Set a quaternion to Identity 
+
+Definition at line 53 of file quat.\-c.
+
+\hypertarget{group__quat_ga962c01c5db104b5ebd177c7b5a7be944}{\index{Quaternion Mathematics@{Quaternion Mathematics}!lib3ds\-\_\-quat\-\_\-inv@{lib3ds\-\_\-quat\-\_\-inv}}
+\index{lib3ds\-\_\-quat\-\_\-inv@{lib3ds\-\_\-quat\-\_\-inv}!Quaternion Mathematics@{Quaternion Mathematics}}
+\subsubsection[{lib3ds\-\_\-quat\-\_\-inv}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} lib3ds\-\_\-quat\-\_\-inv (
+\begin{DoxyParamCaption}
+\item[{{\bf Lib3ds\-Quat}}]{c}
+\end{DoxyParamCaption}
+)}}\label{group__quat_ga962c01c5db104b5ebd177c7b5a7be944}
+Compute the inverse of a quaternion. 
+
+Definition at line 213 of file quat.\-c.
+
+\hypertarget{group__quat_ga28884bcc292d400edd49377befa538d4}{\index{Quaternion Mathematics@{Quaternion Mathematics}!lib3ds\-\_\-quat\-\_\-length@{lib3ds\-\_\-quat\-\_\-length}}
+\index{lib3ds\-\_\-quat\-\_\-length@{lib3ds\-\_\-quat\-\_\-length}!Quaternion Mathematics@{Quaternion Mathematics}}
+\subsubsection[{lib3ds\-\_\-quat\-\_\-length}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Lib3ds\-Float} lib3ds\-\_\-quat\-\_\-length (
+\begin{DoxyParamCaption}
+\item[{{\bf Lib3ds\-Quat}}]{c}
+\end{DoxyParamCaption}
+)}}\label{group__quat_ga28884bcc292d400edd49377befa538d4}
+
+
+Definition at line 258 of file quat.\-c.
+
+\hypertarget{group__quat_ga08265f31b1ea9bbcb680bceff6aa47b3}{\index{Quaternion Mathematics@{Quaternion Mathematics}!lib3ds\-\_\-quat\-\_\-ln@{lib3ds\-\_\-quat\-\_\-ln}}
+\index{lib3ds\-\_\-quat\-\_\-ln@{lib3ds\-\_\-quat\-\_\-ln}!Quaternion Mathematics@{Quaternion Mathematics}}
+\subsubsection[{lib3ds\-\_\-quat\-\_\-ln}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} lib3ds\-\_\-quat\-\_\-ln (
+\begin{DoxyParamCaption}
+\item[{{\bf Lib3ds\-Quat}}]{c}
+\end{DoxyParamCaption}
+)}}\label{group__quat_ga08265f31b1ea9bbcb680bceff6aa47b3}
+
+
+Definition at line 268 of file quat.\-c.
+
+\hypertarget{group__quat_ga65c327e7124d76160a9ed621e4f7cdcd}{\index{Quaternion Mathematics@{Quaternion Mathematics}!lib3ds\-\_\-quat\-\_\-ln\-\_\-dif@{lib3ds\-\_\-quat\-\_\-ln\-\_\-dif}}
+\index{lib3ds\-\_\-quat\-\_\-ln\-\_\-dif@{lib3ds\-\_\-quat\-\_\-ln\-\_\-dif}!Quaternion Mathematics@{Quaternion Mathematics}}
+\subsubsection[{lib3ds\-\_\-quat\-\_\-ln\-\_\-dif}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} lib3ds\-\_\-quat\-\_\-ln\-\_\-dif (
+\begin{DoxyParamCaption}
+\item[{{\bf Lib3ds\-Quat}}]{c, }
+\item[{{\bf Lib3ds\-Quat}}]{a, }
+\item[{{\bf Lib3ds\-Quat}}]{b}
+\end{DoxyParamCaption}
+)}}\label{group__quat_ga65c327e7124d76160a9ed621e4f7cdcd}
+
+
+Definition at line 294 of file quat.\-c.
+
+\hypertarget{group__quat_ga44b58eb1f1d86d942b58dcc73bb05cde}{\index{Quaternion Mathematics@{Quaternion Mathematics}!lib3ds\-\_\-quat\-\_\-mul@{lib3ds\-\_\-quat\-\_\-mul}}
+\index{lib3ds\-\_\-quat\-\_\-mul@{lib3ds\-\_\-quat\-\_\-mul}!Quaternion Mathematics@{Quaternion Mathematics}}
+\subsubsection[{lib3ds\-\_\-quat\-\_\-mul}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} lib3ds\-\_\-quat\-\_\-mul (
+\begin{DoxyParamCaption}
+\item[{{\bf Lib3ds\-Quat}}]{c, }
+\item[{{\bf Lib3ds\-Quat}}]{a, }
+\item[{{\bf Lib3ds\-Quat}}]{b}
+\end{DoxyParamCaption}
+)}}\label{group__quat_ga44b58eb1f1d86d942b58dcc73bb05cde}
+Multiply two quaternions.
+
+
+\begin{DoxyParams}{Parameters}
+{\em c} & Result \\
+\hline
+{\em a,b} & Inputs \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 158 of file quat.\-c.
+
+\hypertarget{group__quat_ga3a553e014492c439b381ec2ab15b29fa}{\index{Quaternion Mathematics@{Quaternion Mathematics}!lib3ds\-\_\-quat\-\_\-neg@{lib3ds\-\_\-quat\-\_\-neg}}
+\index{lib3ds\-\_\-quat\-\_\-neg@{lib3ds\-\_\-quat\-\_\-neg}!Quaternion Mathematics@{Quaternion Mathematics}}
+\subsubsection[{lib3ds\-\_\-quat\-\_\-neg}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} lib3ds\-\_\-quat\-\_\-neg (
+\begin{DoxyParamCaption}
+\item[{{\bf Lib3ds\-Quat}}]{c}
+\end{DoxyParamCaption}
+)}}\label{group__quat_ga3a553e014492c439b381ec2ab15b29fa}
+Negate a quaternion 
+
+Definition at line 111 of file quat.\-c.
+
+\hypertarget{group__quat_gaedaedf6eec68ac730db57f2a1cb0ea1f}{\index{Quaternion Mathematics@{Quaternion Mathematics}!lib3ds\-\_\-quat\-\_\-normalize@{lib3ds\-\_\-quat\-\_\-normalize}}
+\index{lib3ds\-\_\-quat\-\_\-normalize@{lib3ds\-\_\-quat\-\_\-normalize}!Quaternion Mathematics@{Quaternion Mathematics}}
+\subsubsection[{lib3ds\-\_\-quat\-\_\-normalize}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} lib3ds\-\_\-quat\-\_\-normalize (
+\begin{DoxyParamCaption}
+\item[{{\bf Lib3ds\-Quat}}]{c}
+\end{DoxyParamCaption}
+)}}\label{group__quat_gaedaedf6eec68ac730db57f2a1cb0ea1f}
+Normalize a quaternion. 
+
+Definition at line 188 of file quat.\-c.
+
+\hypertarget{group__quat_ga86729669c3823d0c91d2e8feef5af9e6}{\index{Quaternion Mathematics@{Quaternion Mathematics}!lib3ds\-\_\-quat\-\_\-scalar@{lib3ds\-\_\-quat\-\_\-scalar}}
+\index{lib3ds\-\_\-quat\-\_\-scalar@{lib3ds\-\_\-quat\-\_\-scalar}!Quaternion Mathematics@{Quaternion Mathematics}}
+\subsubsection[{lib3ds\-\_\-quat\-\_\-scalar}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} lib3ds\-\_\-quat\-\_\-scalar (
+\begin{DoxyParamCaption}
+\item[{{\bf Lib3ds\-Quat}}]{c, }
+\item[{{\bf Lib3ds\-Float}}]{k}
+\end{DoxyParamCaption}
+)}}\label{group__quat_ga86729669c3823d0c91d2e8feef5af9e6}
+Multiply a quaternion by a scalar. 
+
+Definition at line 173 of file quat.\-c.
+
+\hypertarget{group__quat_ga265cc04cb9fbc32ccec342c18a17cb48}{\index{Quaternion Mathematics@{Quaternion Mathematics}!lib3ds\-\_\-quat\-\_\-slerp@{lib3ds\-\_\-quat\-\_\-slerp}}
+\index{lib3ds\-\_\-quat\-\_\-slerp@{lib3ds\-\_\-quat\-\_\-slerp}!Quaternion Mathematics@{Quaternion Mathematics}}
+\subsubsection[{lib3ds\-\_\-quat\-\_\-slerp}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} lib3ds\-\_\-quat\-\_\-slerp (
+\begin{DoxyParamCaption}
+\item[{{\bf Lib3ds\-Quat}}]{c, }
+\item[{{\bf Lib3ds\-Quat}}]{a, }
+\item[{{\bf Lib3ds\-Quat}}]{b, }
+\item[{{\bf Lib3ds\-Float}}]{t}
+\end{DoxyParamCaption}
+)}}\label{group__quat_ga265cc04cb9fbc32ccec342c18a17cb48}
+
+
+Definition at line 334 of file quat.\-c.
+
+\hypertarget{group__quat_ga5c5227b54acf0cd6182ee46d05c0601d}{\index{Quaternion Mathematics@{Quaternion Mathematics}!lib3ds\-\_\-quat\-\_\-squad@{lib3ds\-\_\-quat\-\_\-squad}}
+\index{lib3ds\-\_\-quat\-\_\-squad@{lib3ds\-\_\-quat\-\_\-squad}!Quaternion Mathematics@{Quaternion Mathematics}}
+\subsubsection[{lib3ds\-\_\-quat\-\_\-squad}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} lib3ds\-\_\-quat\-\_\-squad (
+\begin{DoxyParamCaption}
+\item[{{\bf Lib3ds\-Quat}}]{c, }
+\item[{{\bf Lib3ds\-Quat}}]{a, }
+\item[{{\bf Lib3ds\-Quat}}]{p, }
+\item[{{\bf Lib3ds\-Quat}}]{q, }
+\item[{{\bf Lib3ds\-Quat}}]{b, }
+\item[{{\bf Lib3ds\-Float}}]{t}
+\end{DoxyParamCaption}
+)}}\label{group__quat_ga5c5227b54acf0cd6182ee46d05c0601d}
+
+
+Definition at line 378 of file quat.\-c.
+
+\hypertarget{group__quat_ga02a3ff0daa8bfa7724e1b336c0308638}{\index{Quaternion Mathematics@{Quaternion Mathematics}!lib3ds\-\_\-quat\-\_\-squared@{lib3ds\-\_\-quat\-\_\-squared}}
+\index{lib3ds\-\_\-quat\-\_\-squared@{lib3ds\-\_\-quat\-\_\-squared}!Quaternion Mathematics@{Quaternion Mathematics}}
+\subsubsection[{lib3ds\-\_\-quat\-\_\-squared}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Lib3ds\-Float} lib3ds\-\_\-quat\-\_\-squared (
+\begin{DoxyParamCaption}
+\item[{{\bf Lib3ds\-Quat}}]{c}
+\end{DoxyParamCaption}
+)}}\label{group__quat_ga02a3ff0daa8bfa7724e1b336c0308638}
+
+
+Definition at line 248 of file quat.\-c.
+
+\hypertarget{group__quat_ga1e8314c0c61255f580f0d76b921d6231}{\index{Quaternion Mathematics@{Quaternion Mathematics}!lib3ds\-\_\-quat\-\_\-tangent@{lib3ds\-\_\-quat\-\_\-tangent}}
+\index{lib3ds\-\_\-quat\-\_\-tangent@{lib3ds\-\_\-quat\-\_\-tangent}!Quaternion Mathematics@{Quaternion Mathematics}}
+\subsubsection[{lib3ds\-\_\-quat\-\_\-tangent}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} lib3ds\-\_\-quat\-\_\-tangent (
+\begin{DoxyParamCaption}
+\item[{{\bf Lib3ds\-Quat}}]{c, }
+\item[{{\bf Lib3ds\-Quat}}]{p, }
+\item[{{\bf Lib3ds\-Quat}}]{q, }
+\item[{{\bf Lib3ds\-Quat}}]{n}
+\end{DoxyParamCaption}
+)}}\label{group__quat_ga1e8314c0c61255f580f0d76b921d6231}
+
+
+Definition at line 394 of file quat.\-c.
+
+\hypertarget{group__quat_gaace3ddcec7ee4f36b313593a348d5fe5}{\index{Quaternion Mathematics@{Quaternion Mathematics}!lib3ds\-\_\-quat\-\_\-zero@{lib3ds\-\_\-quat\-\_\-zero}}
+\index{lib3ds\-\_\-quat\-\_\-zero@{lib3ds\-\_\-quat\-\_\-zero}!Quaternion Mathematics@{Quaternion Mathematics}}
+\subsubsection[{lib3ds\-\_\-quat\-\_\-zero}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} lib3ds\-\_\-quat\-\_\-zero (
+\begin{DoxyParamCaption}
+\item[{{\bf Lib3ds\-Quat}}]{c}
+\end{DoxyParamCaption}
+)}}\label{group__quat_gaace3ddcec7ee4f36b313593a348d5fe5}
+Clear a quaternion. 
+
+Definition at line 42 of file quat.\-c.
+

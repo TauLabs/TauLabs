@@ -1,0 +1,122 @@
+\hypertarget{structei__traits_3_01_sparse_cwise_binary_op_3_01_binary_op_00_01_lhs_00_01_rhs_01_4_01_4}{\section{ei\-\_\-traits$<$ Sparse\-Cwise\-Binary\-Op$<$ Binary\-Op, Lhs, Rhs $>$ $>$ Struct Template Reference}
+\label{structei__traits_3_01_sparse_cwise_binary_op_3_01_binary_op_00_01_lhs_00_01_rhs_01_4_01_4}\index{ei\-\_\-traits$<$ Sparse\-Cwise\-Binary\-Op$<$ Binary\-Op, Lhs, Rhs $>$ $>$@{ei\-\_\-traits$<$ Sparse\-Cwise\-Binary\-Op$<$ Binary\-Op, Lhs, Rhs $>$ $>$}}
+}
+
+
+{\ttfamily \#include $<$Sparse\-Cwise\-Binary\-Op.\-h$>$}
+
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+enum \{ \\*
+\hyperlink{structei__traits_3_01_sparse_cwise_binary_op_3_01_binary_op_00_01_lhs_00_01_rhs_01_4_01_4_a0c9b41e572ddd81de630b8b29e5689bca6ddcef6cd042f8393a2ad311dc9c11e0}{Lhs\-Coeff\-Read\-Cost} = \-\_\-\-Lhs\-Nested\-:\-:Coeff\-Read\-Cost, 
+\hyperlink{structei__traits_3_01_sparse_cwise_binary_op_3_01_binary_op_00_01_lhs_00_01_rhs_01_4_01_4_a0c9b41e572ddd81de630b8b29e5689bca4363f0a488bcf3b6a4e85ade9a7650ae}{Rhs\-Coeff\-Read\-Cost} = \-\_\-\-Rhs\-Nested\-:\-:Coeff\-Read\-Cost, 
+\hyperlink{structei__traits_3_01_sparse_cwise_binary_op_3_01_binary_op_00_01_lhs_00_01_rhs_01_4_01_4_a0c9b41e572ddd81de630b8b29e5689bca07caff66d251416625bc58811febc48d}{Lhs\-Flags} = \-\_\-\-Lhs\-Nested\-:\-:Flags, 
+\hyperlink{structei__traits_3_01_sparse_cwise_binary_op_3_01_binary_op_00_01_lhs_00_01_rhs_01_4_01_4_a0c9b41e572ddd81de630b8b29e5689bca9b8c2e16c84f392a2525116e6e00db9b}{Rhs\-Flags} = \-\_\-\-Rhs\-Nested\-:\-:Flags, 
+\\*
+\hyperlink{structei__traits_3_01_sparse_cwise_binary_op_3_01_binary_op_00_01_lhs_00_01_rhs_01_4_01_4_a0c9b41e572ddd81de630b8b29e5689bcacb936cd85bd4fd9c15a353100636ff73}{Rows\-At\-Compile\-Time} = Lhs\-:\-:Rows\-At\-Compile\-Time, 
+\hyperlink{structei__traits_3_01_sparse_cwise_binary_op_3_01_binary_op_00_01_lhs_00_01_rhs_01_4_01_4_a0c9b41e572ddd81de630b8b29e5689bcaca1cd4e2b015ddba2abd2cf227098ee7}{Cols\-At\-Compile\-Time} = Lhs\-:\-:Cols\-At\-Compile\-Time, 
+\hyperlink{structei__traits_3_01_sparse_cwise_binary_op_3_01_binary_op_00_01_lhs_00_01_rhs_01_4_01_4_a0c9b41e572ddd81de630b8b29e5689bcad4649c69de6557be4796d94ec1f899aa}{Max\-Rows\-At\-Compile\-Time} = Lhs\-:\-:Max\-Rows\-At\-Compile\-Time, 
+\hyperlink{structei__traits_3_01_sparse_cwise_binary_op_3_01_binary_op_00_01_lhs_00_01_rhs_01_4_01_4_a0c9b41e572ddd81de630b8b29e5689bca3d0c17ec9f81868b4773a2a52a074b0d}{Max\-Cols\-At\-Compile\-Time} = Lhs\-:\-:Max\-Cols\-At\-Compile\-Time, 
+\\*
+\hyperlink{structei__traits_3_01_sparse_cwise_binary_op_3_01_binary_op_00_01_lhs_00_01_rhs_01_4_01_4_a0c9b41e572ddd81de630b8b29e5689bcaeac84a51c27b0a8234255531f709fa4d}{Flags} = (int(Lhs\-Flags) $|$ int(Rhs\-Flags)) \& Hereditary\-Bits, 
+\hyperlink{structei__traits_3_01_sparse_cwise_binary_op_3_01_binary_op_00_01_lhs_00_01_rhs_01_4_01_4_a0c9b41e572ddd81de630b8b29e5689bcabb4f2a4b14b7bc70984b86e05f8d4d41}{Coeff\-Read\-Cost} = Lhs\-Coeff\-Read\-Cost + Rhs\-Coeff\-Read\-Cost + ei\-\_\-functor\-\_\-traits$<$Binary\-Op$>$\-:\-:Cost
+ \}
+\item 
+typedef \hyperlink{structei__result__of}{ei\-\_\-result\-\_\-of}$<$ Binary\-Op(typename \\*
+Lhs\-::\-Scalar, typename \\*
+Rhs\-::\-Scalar) $>$\-::\hyperlink{glext_8h_a7d05960f4f1c1b11f3177dc963a45d86}{type} \hyperlink{structei__traits_3_01_sparse_cwise_binary_op_3_01_binary_op_00_01_lhs_00_01_rhs_01_4_01_4_a9e78a9198a44524ecaa01235ce19ecc6}{Scalar}
+\item 
+typedef Lhs\-::\-Nested \hyperlink{structei__traits_3_01_sparse_cwise_binary_op_3_01_binary_op_00_01_lhs_00_01_rhs_01_4_01_4_a70fba1f05cd4ca7e69cfbdf550c18981}{Lhs\-Nested}
+\item 
+typedef Rhs\-::\-Nested \hyperlink{structei__traits_3_01_sparse_cwise_binary_op_3_01_binary_op_00_01_lhs_00_01_rhs_01_4_01_4_ac6c5573f5517a8f2225ce9be7d46a3f2}{Rhs\-Nested}
+\item 
+typedef \hyperlink{structei__unref}{ei\-\_\-unref}$<$ \hyperlink{structei__traits_3_01_sparse_cwise_binary_op_3_01_binary_op_00_01_lhs_00_01_rhs_01_4_01_4_a70fba1f05cd4ca7e69cfbdf550c18981}{Lhs\-Nested} $>$\-::\hyperlink{glext_8h_a7d05960f4f1c1b11f3177dc963a45d86}{type} \hyperlink{structei__traits_3_01_sparse_cwise_binary_op_3_01_binary_op_00_01_lhs_00_01_rhs_01_4_01_4_a61105d75febe137987825ec7270c1ef8}{\-\_\-\-Lhs\-Nested}
+\item 
+typedef \hyperlink{structei__unref}{ei\-\_\-unref}$<$ \hyperlink{structei__traits_3_01_sparse_cwise_binary_op_3_01_binary_op_00_01_lhs_00_01_rhs_01_4_01_4_ac6c5573f5517a8f2225ce9be7d46a3f2}{Rhs\-Nested} $>$\-::\hyperlink{glext_8h_a7d05960f4f1c1b11f3177dc963a45d86}{type} \hyperlink{structei__traits_3_01_sparse_cwise_binary_op_3_01_binary_op_00_01_lhs_00_01_rhs_01_4_01_4_ace44b60e0ccf392bbc089baa54b2eb80}{\-\_\-\-Rhs\-Nested}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$typename Binary\-Op, typename Lhs, typename Rhs$>$struct ei\-\_\-traits$<$ Sparse\-Cwise\-Binary\-Op$<$ Binary\-Op, Lhs, Rhs $>$ $>$}
+
+
+
+Definition at line 46 of file Sparse\-Cwise\-Binary\-Op.\-h.
+
+
+
+\subsection{Member Typedef Documentation}
+\hypertarget{structei__traits_3_01_sparse_cwise_binary_op_3_01_binary_op_00_01_lhs_00_01_rhs_01_4_01_4_a61105d75febe137987825ec7270c1ef8}{\index{ei\-\_\-traits$<$ Sparse\-Cwise\-Binary\-Op$<$ Binary\-Op, Lhs, Rhs $>$ $>$@{ei\-\_\-traits$<$ Sparse\-Cwise\-Binary\-Op$<$ Binary\-Op, Lhs, Rhs $>$ $>$}!\-\_\-\-Lhs\-Nested@{\-\_\-\-Lhs\-Nested}}
+\index{\-\_\-\-Lhs\-Nested@{\-\_\-\-Lhs\-Nested}!ei_traits< SparseCwiseBinaryOp< BinaryOp, Lhs, Rhs > >@{ei\-\_\-traits$<$ Sparse\-Cwise\-Binary\-Op$<$ Binary\-Op, Lhs, Rhs $>$ $>$}}
+\subsubsection[{\-\_\-\-Lhs\-Nested}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Binary\-Op , typename Lhs , typename Rhs $>$ typedef {\bf ei\-\_\-unref}$<${\bf Lhs\-Nested}$>$\-::{\bf type} {\bf ei\-\_\-traits}$<$ {\bf Sparse\-Cwise\-Binary\-Op}$<$ Binary\-Op, Lhs, Rhs $>$ $>$\-::{\bf \-\_\-\-Lhs\-Nested}}}\label{structei__traits_3_01_sparse_cwise_binary_op_3_01_binary_op_00_01_lhs_00_01_rhs_01_4_01_4_a61105d75febe137987825ec7270c1ef8}
+
+
+Definition at line 56 of file Sparse\-Cwise\-Binary\-Op.\-h.
+
+\hypertarget{structei__traits_3_01_sparse_cwise_binary_op_3_01_binary_op_00_01_lhs_00_01_rhs_01_4_01_4_ace44b60e0ccf392bbc089baa54b2eb80}{\index{ei\-\_\-traits$<$ Sparse\-Cwise\-Binary\-Op$<$ Binary\-Op, Lhs, Rhs $>$ $>$@{ei\-\_\-traits$<$ Sparse\-Cwise\-Binary\-Op$<$ Binary\-Op, Lhs, Rhs $>$ $>$}!\-\_\-\-Rhs\-Nested@{\-\_\-\-Rhs\-Nested}}
+\index{\-\_\-\-Rhs\-Nested@{\-\_\-\-Rhs\-Nested}!ei_traits< SparseCwiseBinaryOp< BinaryOp, Lhs, Rhs > >@{ei\-\_\-traits$<$ Sparse\-Cwise\-Binary\-Op$<$ Binary\-Op, Lhs, Rhs $>$ $>$}}
+\subsubsection[{\-\_\-\-Rhs\-Nested}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Binary\-Op , typename Lhs , typename Rhs $>$ typedef {\bf ei\-\_\-unref}$<${\bf Rhs\-Nested}$>$\-::{\bf type} {\bf ei\-\_\-traits}$<$ {\bf Sparse\-Cwise\-Binary\-Op}$<$ Binary\-Op, Lhs, Rhs $>$ $>$\-::{\bf \-\_\-\-Rhs\-Nested}}}\label{structei__traits_3_01_sparse_cwise_binary_op_3_01_binary_op_00_01_lhs_00_01_rhs_01_4_01_4_ace44b60e0ccf392bbc089baa54b2eb80}
+
+
+Definition at line 57 of file Sparse\-Cwise\-Binary\-Op.\-h.
+
+\hypertarget{structei__traits_3_01_sparse_cwise_binary_op_3_01_binary_op_00_01_lhs_00_01_rhs_01_4_01_4_a70fba1f05cd4ca7e69cfbdf550c18981}{\index{ei\-\_\-traits$<$ Sparse\-Cwise\-Binary\-Op$<$ Binary\-Op, Lhs, Rhs $>$ $>$@{ei\-\_\-traits$<$ Sparse\-Cwise\-Binary\-Op$<$ Binary\-Op, Lhs, Rhs $>$ $>$}!Lhs\-Nested@{Lhs\-Nested}}
+\index{Lhs\-Nested@{Lhs\-Nested}!ei_traits< SparseCwiseBinaryOp< BinaryOp, Lhs, Rhs > >@{ei\-\_\-traits$<$ Sparse\-Cwise\-Binary\-Op$<$ Binary\-Op, Lhs, Rhs $>$ $>$}}
+\subsubsection[{Lhs\-Nested}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Binary\-Op , typename Lhs , typename Rhs $>$ typedef Lhs\-::\-Nested {\bf ei\-\_\-traits}$<$ {\bf Sparse\-Cwise\-Binary\-Op}$<$ Binary\-Op, Lhs, Rhs $>$ $>$\-::{\bf Lhs\-Nested}}}\label{structei__traits_3_01_sparse_cwise_binary_op_3_01_binary_op_00_01_lhs_00_01_rhs_01_4_01_4_a70fba1f05cd4ca7e69cfbdf550c18981}
+
+
+Definition at line 54 of file Sparse\-Cwise\-Binary\-Op.\-h.
+
+\hypertarget{structei__traits_3_01_sparse_cwise_binary_op_3_01_binary_op_00_01_lhs_00_01_rhs_01_4_01_4_ac6c5573f5517a8f2225ce9be7d46a3f2}{\index{ei\-\_\-traits$<$ Sparse\-Cwise\-Binary\-Op$<$ Binary\-Op, Lhs, Rhs $>$ $>$@{ei\-\_\-traits$<$ Sparse\-Cwise\-Binary\-Op$<$ Binary\-Op, Lhs, Rhs $>$ $>$}!Rhs\-Nested@{Rhs\-Nested}}
+\index{Rhs\-Nested@{Rhs\-Nested}!ei_traits< SparseCwiseBinaryOp< BinaryOp, Lhs, Rhs > >@{ei\-\_\-traits$<$ Sparse\-Cwise\-Binary\-Op$<$ Binary\-Op, Lhs, Rhs $>$ $>$}}
+\subsubsection[{Rhs\-Nested}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Binary\-Op , typename Lhs , typename Rhs $>$ typedef Rhs\-::\-Nested {\bf ei\-\_\-traits}$<$ {\bf Sparse\-Cwise\-Binary\-Op}$<$ Binary\-Op, Lhs, Rhs $>$ $>$\-::{\bf Rhs\-Nested}}}\label{structei__traits_3_01_sparse_cwise_binary_op_3_01_binary_op_00_01_lhs_00_01_rhs_01_4_01_4_ac6c5573f5517a8f2225ce9be7d46a3f2}
+
+
+Definition at line 55 of file Sparse\-Cwise\-Binary\-Op.\-h.
+
+\hypertarget{structei__traits_3_01_sparse_cwise_binary_op_3_01_binary_op_00_01_lhs_00_01_rhs_01_4_01_4_a9e78a9198a44524ecaa01235ce19ecc6}{\index{ei\-\_\-traits$<$ Sparse\-Cwise\-Binary\-Op$<$ Binary\-Op, Lhs, Rhs $>$ $>$@{ei\-\_\-traits$<$ Sparse\-Cwise\-Binary\-Op$<$ Binary\-Op, Lhs, Rhs $>$ $>$}!Scalar@{Scalar}}
+\index{Scalar@{Scalar}!ei_traits< SparseCwiseBinaryOp< BinaryOp, Lhs, Rhs > >@{ei\-\_\-traits$<$ Sparse\-Cwise\-Binary\-Op$<$ Binary\-Op, Lhs, Rhs $>$ $>$}}
+\subsubsection[{Scalar}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Binary\-Op , typename Lhs , typename Rhs $>$ typedef {\bf ei\-\_\-result\-\_\-of}$<$ Binary\-Op( typename Lhs\-::\-Scalar, typename Rhs\-::\-Scalar ) $>$\-::{\bf type} {\bf ei\-\_\-traits}$<$ {\bf Sparse\-Cwise\-Binary\-Op}$<$ Binary\-Op, Lhs, Rhs $>$ $>$\-::{\bf Scalar}}}\label{structei__traits_3_01_sparse_cwise_binary_op_3_01_binary_op_00_01_lhs_00_01_rhs_01_4_01_4_a9e78a9198a44524ecaa01235ce19ecc6}
+
+
+Definition at line 53 of file Sparse\-Cwise\-Binary\-Op.\-h.
+
+
+
+\subsection{Member Enumeration Documentation}
+\hypertarget{structei__traits_3_01_sparse_cwise_binary_op_3_01_binary_op_00_01_lhs_00_01_rhs_01_4_01_4_a0c9b41e572ddd81de630b8b29e5689bc}{\subsubsection[{anonymous enum}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Binary\-Op , typename Lhs , typename Rhs $>$ anonymous enum}}\label{structei__traits_3_01_sparse_cwise_binary_op_3_01_binary_op_00_01_lhs_00_01_rhs_01_4_01_4_a0c9b41e572ddd81de630b8b29e5689bc}
+\begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{Lhs\-Coeff\-Read\-Cost@{Lhs\-Coeff\-Read\-Cost}!ei\-\_\-traits$<$ Sparse\-Cwise\-Binary\-Op$<$ Binary\-Op, Lhs, Rhs $>$ $>$@{ei\-\_\-traits$<$ Sparse\-Cwise\-Binary\-Op$<$ Binary\-Op, Lhs, Rhs $>$ $>$}}\index{ei\-\_\-traits$<$ Sparse\-Cwise\-Binary\-Op$<$ Binary\-Op, Lhs, Rhs $>$ $>$@{ei\-\_\-traits$<$ Sparse\-Cwise\-Binary\-Op$<$ Binary\-Op, Lhs, Rhs $>$ $>$}!Lhs\-Coeff\-Read\-Cost@{Lhs\-Coeff\-Read\-Cost}}\item[{\em 
+\hypertarget{structei__traits_3_01_sparse_cwise_binary_op_3_01_binary_op_00_01_lhs_00_01_rhs_01_4_01_4_a0c9b41e572ddd81de630b8b29e5689bca6ddcef6cd042f8393a2ad311dc9c11e0}{Lhs\-Coeff\-Read\-Cost}\label{structei__traits_3_01_sparse_cwise_binary_op_3_01_binary_op_00_01_lhs_00_01_rhs_01_4_01_4_a0c9b41e572ddd81de630b8b29e5689bca6ddcef6cd042f8393a2ad311dc9c11e0}
+}]\index{Rhs\-Coeff\-Read\-Cost@{Rhs\-Coeff\-Read\-Cost}!ei\-\_\-traits$<$ Sparse\-Cwise\-Binary\-Op$<$ Binary\-Op, Lhs, Rhs $>$ $>$@{ei\-\_\-traits$<$ Sparse\-Cwise\-Binary\-Op$<$ Binary\-Op, Lhs, Rhs $>$ $>$}}\index{ei\-\_\-traits$<$ Sparse\-Cwise\-Binary\-Op$<$ Binary\-Op, Lhs, Rhs $>$ $>$@{ei\-\_\-traits$<$ Sparse\-Cwise\-Binary\-Op$<$ Binary\-Op, Lhs, Rhs $>$ $>$}!Rhs\-Coeff\-Read\-Cost@{Rhs\-Coeff\-Read\-Cost}}\item[{\em 
+\hypertarget{structei__traits_3_01_sparse_cwise_binary_op_3_01_binary_op_00_01_lhs_00_01_rhs_01_4_01_4_a0c9b41e572ddd81de630b8b29e5689bca4363f0a488bcf3b6a4e85ade9a7650ae}{Rhs\-Coeff\-Read\-Cost}\label{structei__traits_3_01_sparse_cwise_binary_op_3_01_binary_op_00_01_lhs_00_01_rhs_01_4_01_4_a0c9b41e572ddd81de630b8b29e5689bca4363f0a488bcf3b6a4e85ade9a7650ae}
+}]\index{Lhs\-Flags@{Lhs\-Flags}!ei\-\_\-traits$<$ Sparse\-Cwise\-Binary\-Op$<$ Binary\-Op, Lhs, Rhs $>$ $>$@{ei\-\_\-traits$<$ Sparse\-Cwise\-Binary\-Op$<$ Binary\-Op, Lhs, Rhs $>$ $>$}}\index{ei\-\_\-traits$<$ Sparse\-Cwise\-Binary\-Op$<$ Binary\-Op, Lhs, Rhs $>$ $>$@{ei\-\_\-traits$<$ Sparse\-Cwise\-Binary\-Op$<$ Binary\-Op, Lhs, Rhs $>$ $>$}!Lhs\-Flags@{Lhs\-Flags}}\item[{\em 
+\hypertarget{structei__traits_3_01_sparse_cwise_binary_op_3_01_binary_op_00_01_lhs_00_01_rhs_01_4_01_4_a0c9b41e572ddd81de630b8b29e5689bca07caff66d251416625bc58811febc48d}{Lhs\-Flags}\label{structei__traits_3_01_sparse_cwise_binary_op_3_01_binary_op_00_01_lhs_00_01_rhs_01_4_01_4_a0c9b41e572ddd81de630b8b29e5689bca07caff66d251416625bc58811febc48d}
+}]\index{Rhs\-Flags@{Rhs\-Flags}!ei\-\_\-traits$<$ Sparse\-Cwise\-Binary\-Op$<$ Binary\-Op, Lhs, Rhs $>$ $>$@{ei\-\_\-traits$<$ Sparse\-Cwise\-Binary\-Op$<$ Binary\-Op, Lhs, Rhs $>$ $>$}}\index{ei\-\_\-traits$<$ Sparse\-Cwise\-Binary\-Op$<$ Binary\-Op, Lhs, Rhs $>$ $>$@{ei\-\_\-traits$<$ Sparse\-Cwise\-Binary\-Op$<$ Binary\-Op, Lhs, Rhs $>$ $>$}!Rhs\-Flags@{Rhs\-Flags}}\item[{\em 
+\hypertarget{structei__traits_3_01_sparse_cwise_binary_op_3_01_binary_op_00_01_lhs_00_01_rhs_01_4_01_4_a0c9b41e572ddd81de630b8b29e5689bca9b8c2e16c84f392a2525116e6e00db9b}{Rhs\-Flags}\label{structei__traits_3_01_sparse_cwise_binary_op_3_01_binary_op_00_01_lhs_00_01_rhs_01_4_01_4_a0c9b41e572ddd81de630b8b29e5689bca9b8c2e16c84f392a2525116e6e00db9b}
+}]\index{Rows\-At\-Compile\-Time@{Rows\-At\-Compile\-Time}!ei\-\_\-traits$<$ Sparse\-Cwise\-Binary\-Op$<$ Binary\-Op, Lhs, Rhs $>$ $>$@{ei\-\_\-traits$<$ Sparse\-Cwise\-Binary\-Op$<$ Binary\-Op, Lhs, Rhs $>$ $>$}}\index{ei\-\_\-traits$<$ Sparse\-Cwise\-Binary\-Op$<$ Binary\-Op, Lhs, Rhs $>$ $>$@{ei\-\_\-traits$<$ Sparse\-Cwise\-Binary\-Op$<$ Binary\-Op, Lhs, Rhs $>$ $>$}!Rows\-At\-Compile\-Time@{Rows\-At\-Compile\-Time}}\item[{\em 
+\hypertarget{structei__traits_3_01_sparse_cwise_binary_op_3_01_binary_op_00_01_lhs_00_01_rhs_01_4_01_4_a0c9b41e572ddd81de630b8b29e5689bcacb936cd85bd4fd9c15a353100636ff73}{Rows\-At\-Compile\-Time}\label{structei__traits_3_01_sparse_cwise_binary_op_3_01_binary_op_00_01_lhs_00_01_rhs_01_4_01_4_a0c9b41e572ddd81de630b8b29e5689bcacb936cd85bd4fd9c15a353100636ff73}
+}]\index{Cols\-At\-Compile\-Time@{Cols\-At\-Compile\-Time}!ei\-\_\-traits$<$ Sparse\-Cwise\-Binary\-Op$<$ Binary\-Op, Lhs, Rhs $>$ $>$@{ei\-\_\-traits$<$ Sparse\-Cwise\-Binary\-Op$<$ Binary\-Op, Lhs, Rhs $>$ $>$}}\index{ei\-\_\-traits$<$ Sparse\-Cwise\-Binary\-Op$<$ Binary\-Op, Lhs, Rhs $>$ $>$@{ei\-\_\-traits$<$ Sparse\-Cwise\-Binary\-Op$<$ Binary\-Op, Lhs, Rhs $>$ $>$}!Cols\-At\-Compile\-Time@{Cols\-At\-Compile\-Time}}\item[{\em 
+\hypertarget{structei__traits_3_01_sparse_cwise_binary_op_3_01_binary_op_00_01_lhs_00_01_rhs_01_4_01_4_a0c9b41e572ddd81de630b8b29e5689bcaca1cd4e2b015ddba2abd2cf227098ee7}{Cols\-At\-Compile\-Time}\label{structei__traits_3_01_sparse_cwise_binary_op_3_01_binary_op_00_01_lhs_00_01_rhs_01_4_01_4_a0c9b41e572ddd81de630b8b29e5689bcaca1cd4e2b015ddba2abd2cf227098ee7}
+}]\index{Max\-Rows\-At\-Compile\-Time@{Max\-Rows\-At\-Compile\-Time}!ei\-\_\-traits$<$ Sparse\-Cwise\-Binary\-Op$<$ Binary\-Op, Lhs, Rhs $>$ $>$@{ei\-\_\-traits$<$ Sparse\-Cwise\-Binary\-Op$<$ Binary\-Op, Lhs, Rhs $>$ $>$}}\index{ei\-\_\-traits$<$ Sparse\-Cwise\-Binary\-Op$<$ Binary\-Op, Lhs, Rhs $>$ $>$@{ei\-\_\-traits$<$ Sparse\-Cwise\-Binary\-Op$<$ Binary\-Op, Lhs, Rhs $>$ $>$}!Max\-Rows\-At\-Compile\-Time@{Max\-Rows\-At\-Compile\-Time}}\item[{\em 
+\hypertarget{structei__traits_3_01_sparse_cwise_binary_op_3_01_binary_op_00_01_lhs_00_01_rhs_01_4_01_4_a0c9b41e572ddd81de630b8b29e5689bcad4649c69de6557be4796d94ec1f899aa}{Max\-Rows\-At\-Compile\-Time}\label{structei__traits_3_01_sparse_cwise_binary_op_3_01_binary_op_00_01_lhs_00_01_rhs_01_4_01_4_a0c9b41e572ddd81de630b8b29e5689bcad4649c69de6557be4796d94ec1f899aa}
+}]\index{Max\-Cols\-At\-Compile\-Time@{Max\-Cols\-At\-Compile\-Time}!ei\-\_\-traits$<$ Sparse\-Cwise\-Binary\-Op$<$ Binary\-Op, Lhs, Rhs $>$ $>$@{ei\-\_\-traits$<$ Sparse\-Cwise\-Binary\-Op$<$ Binary\-Op, Lhs, Rhs $>$ $>$}}\index{ei\-\_\-traits$<$ Sparse\-Cwise\-Binary\-Op$<$ Binary\-Op, Lhs, Rhs $>$ $>$@{ei\-\_\-traits$<$ Sparse\-Cwise\-Binary\-Op$<$ Binary\-Op, Lhs, Rhs $>$ $>$}!Max\-Cols\-At\-Compile\-Time@{Max\-Cols\-At\-Compile\-Time}}\item[{\em 
+\hypertarget{structei__traits_3_01_sparse_cwise_binary_op_3_01_binary_op_00_01_lhs_00_01_rhs_01_4_01_4_a0c9b41e572ddd81de630b8b29e5689bca3d0c17ec9f81868b4773a2a52a074b0d}{Max\-Cols\-At\-Compile\-Time}\label{structei__traits_3_01_sparse_cwise_binary_op_3_01_binary_op_00_01_lhs_00_01_rhs_01_4_01_4_a0c9b41e572ddd81de630b8b29e5689bca3d0c17ec9f81868b4773a2a52a074b0d}
+}]\index{Flags@{Flags}!ei\-\_\-traits$<$ Sparse\-Cwise\-Binary\-Op$<$ Binary\-Op, Lhs, Rhs $>$ $>$@{ei\-\_\-traits$<$ Sparse\-Cwise\-Binary\-Op$<$ Binary\-Op, Lhs, Rhs $>$ $>$}}\index{ei\-\_\-traits$<$ Sparse\-Cwise\-Binary\-Op$<$ Binary\-Op, Lhs, Rhs $>$ $>$@{ei\-\_\-traits$<$ Sparse\-Cwise\-Binary\-Op$<$ Binary\-Op, Lhs, Rhs $>$ $>$}!Flags@{Flags}}\item[{\em 
+\hypertarget{structei__traits_3_01_sparse_cwise_binary_op_3_01_binary_op_00_01_lhs_00_01_rhs_01_4_01_4_a0c9b41e572ddd81de630b8b29e5689bcaeac84a51c27b0a8234255531f709fa4d}{Flags}\label{structei__traits_3_01_sparse_cwise_binary_op_3_01_binary_op_00_01_lhs_00_01_rhs_01_4_01_4_a0c9b41e572ddd81de630b8b29e5689bcaeac84a51c27b0a8234255531f709fa4d}
+}]\index{Coeff\-Read\-Cost@{Coeff\-Read\-Cost}!ei\-\_\-traits$<$ Sparse\-Cwise\-Binary\-Op$<$ Binary\-Op, Lhs, Rhs $>$ $>$@{ei\-\_\-traits$<$ Sparse\-Cwise\-Binary\-Op$<$ Binary\-Op, Lhs, Rhs $>$ $>$}}\index{ei\-\_\-traits$<$ Sparse\-Cwise\-Binary\-Op$<$ Binary\-Op, Lhs, Rhs $>$ $>$@{ei\-\_\-traits$<$ Sparse\-Cwise\-Binary\-Op$<$ Binary\-Op, Lhs, Rhs $>$ $>$}!Coeff\-Read\-Cost@{Coeff\-Read\-Cost}}\item[{\em 
+\hypertarget{structei__traits_3_01_sparse_cwise_binary_op_3_01_binary_op_00_01_lhs_00_01_rhs_01_4_01_4_a0c9b41e572ddd81de630b8b29e5689bcabb4f2a4b14b7bc70984b86e05f8d4d41}{Coeff\-Read\-Cost}\label{structei__traits_3_01_sparse_cwise_binary_op_3_01_binary_op_00_01_lhs_00_01_rhs_01_4_01_4_a0c9b41e572ddd81de630b8b29e5689bcabb4f2a4b14b7bc70984b86e05f8d4d41}
+}]\end{description}
+\end{Desc}
+
+
+Definition at line 58 of file Sparse\-Cwise\-Binary\-Op.\-h.
+
+
+
+The documentation for this struct was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/eigen/\-Eigen/src/\-Sparse/\hyperlink{_sparse_cwise_binary_op_8h}{Sparse\-Cwise\-Binary\-Op.\-h}\end{DoxyCompactItemize}

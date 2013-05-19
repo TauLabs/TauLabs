@@ -1,0 +1,536 @@
+\hypertarget{class_qwt_plot_raster_item}{\section{Qwt\-Plot\-Raster\-Item Class Reference}
+\label{class_qwt_plot_raster_item}\index{Qwt\-Plot\-Raster\-Item@{Qwt\-Plot\-Raster\-Item}}
+}
+
+
+A class, which displays raster data.  
+
+
+
+
+{\ttfamily \#include $<$qwt\-\_\-plot\-\_\-rasteritem.\-h$>$}
+
+Inheritance diagram for Qwt\-Plot\-Raster\-Item\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=4.000000cm]{class_qwt_plot_raster_item}
+\end{center}
+\end{figure}
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{class_qwt_plot_raster_item_1_1_private_data}{Private\-Data}
+\end{DoxyCompactItemize}
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{class_qwt_plot_raster_item_a94929fc4c31c3dab75ee5adcac2d57b0}{Cache\-Policy} \{ \hyperlink{class_qwt_plot_raster_item_a94929fc4c31c3dab75ee5adcac2d57b0a758ccf247c4ae50d4ffd090ef3a6058e}{No\-Cache}, 
+\hyperlink{class_qwt_plot_raster_item_a94929fc4c31c3dab75ee5adcac2d57b0a3bfb74bebbfe1ccabe1d6654fee7c56d}{Paint\-Cache}
+ \}
+\item 
+enum \hyperlink{class_qwt_plot_raster_item_a75ac68ea258b8612e8a1893e845394ee}{Paint\-Attribute} \{ \hyperlink{class_qwt_plot_raster_item_a75ac68ea258b8612e8a1893e845394eea77b139d4d7327465408fe06ec98dbc0d}{Paint\-In\-Device\-Resolution} = 1
+ \}
+\item 
+typedef Q\-Flags$<$ \hyperlink{class_qwt_plot_raster_item_a75ac68ea258b8612e8a1893e845394ee}{Paint\-Attribute} $>$ \hyperlink{class_qwt_plot_raster_item_a6bde441d571c4943da01765dec2d4b4a}{Paint\-Attributes}
+\begin{DoxyCompactList}\small\item\em Paint attributes. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_qwt_plot_raster_item_a2149c1d6b71c607027345a9a51ef3314}{Qwt\-Plot\-Raster\-Item} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{Q\-String} \&\hyperlink{class_qwt_plot_item_a3859d011b670b5f89e45d1ccef9206f7}{title}=Q\-String\-::null)
+\begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
+\hyperlink{class_qwt_plot_raster_item_af487c6abc8e95200d4537d1373f96be5}{Qwt\-Plot\-Raster\-Item} (const \hyperlink{class_qwt_text}{Qwt\-Text} \&\hyperlink{class_qwt_plot_item_a3859d011b670b5f89e45d1ccef9206f7}{title})
+\begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
+virtual \hyperlink{class_qwt_plot_raster_item_a2715233827c346ab15504dc75d6e9714}{$\sim$\-Qwt\-Plot\-Raster\-Item} ()
+\begin{DoxyCompactList}\small\item\em Destructor. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_plot_raster_item_a70d6b94821e5eafb29b1f045d1f3a2e6}{set\-Paint\-Attribute} (\hyperlink{class_qwt_plot_raster_item_a75ac68ea258b8612e8a1893e845394ee}{Paint\-Attribute}, bool on=true)
+\item 
+bool \hyperlink{class_qwt_plot_raster_item_a17d8f350acf46d2ba7a68df977f80a52}{test\-Paint\-Attribute} (\hyperlink{class_qwt_plot_raster_item_a75ac68ea258b8612e8a1893e845394ee}{Paint\-Attribute}) const 
+\begin{DoxyCompactList}\small\item\em Return the current paint attributes. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_plot_raster_item_a14f2ab8ec0994384e6269f869c352273}{set\-Alpha} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{glext_8h_a55d98ec4b6aa35ace9b91275e7ad847b}{alpha})
+\begin{DoxyCompactList}\small\item\em Set an alpha value for the raster data. \end{DoxyCompactList}\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_qwt_plot_raster_item_a96b2faa0bc0fe086bff1abe72bcb2016}{alpha} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_plot_raster_item_a31f74199f7e333c2683b0f18289e4c7f}{set\-Cache\-Policy} (\hyperlink{class_qwt_plot_raster_item_a94929fc4c31c3dab75ee5adcac2d57b0}{Cache\-Policy})
+\item 
+\hyperlink{class_qwt_plot_raster_item_a94929fc4c31c3dab75ee5adcac2d57b0}{Cache\-Policy} \hyperlink{class_qwt_plot_raster_item_ac953db5d88084f416b4dbc3ca8a323f3}{cache\-Policy} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_plot_raster_item_a547ce4d8d031b230226cfbd509ef65b5}{invalidate\-Cache} ()
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_plot_raster_item_a2bb321c1ddc67b96a54a266ba27e6fe0}{draw} (Q\-Painter $\ast$\hyperlink{glext_8h_aa5367c14d90f462230c2611b81b41d23}{p}, const \hyperlink{class_qwt_scale_map}{Qwt\-Scale\-Map} \&x\-Map, const \hyperlink{class_qwt_scale_map}{Qwt\-Scale\-Map} \&y\-Map, const Q\-Rect\-F \&rect) const 
+\begin{DoxyCompactList}\small\item\em Draw the raster data. \end{DoxyCompactList}\item 
+virtual Q\-Rect\-F \hyperlink{class_qwt_plot_raster_item_a03a69bfe7d3d125ba4f580d1ecd5e2f4}{pixel\-Hint} (const Q\-Rect\-F \&) const 
+\begin{DoxyCompactList}\small\item\em Pixel hint. \end{DoxyCompactList}\item 
+virtual \hyperlink{class_qwt_interval}{Qwt\-Interval} \hyperlink{class_qwt_plot_raster_item_a0ffa377f71d05a0d3d077e040b08c357}{interval} (Qt\-::\-Axis) const 
+\item 
+virtual Q\-Rect\-F \hyperlink{class_qwt_plot_raster_item_ad96073173caf80301e108a6d8b0648e9}{bounding\-Rect} () const 
+\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual Q\-Image \hyperlink{class_qwt_plot_raster_item_a1738b36c0e6e4073f3ad6629e7923f74}{render\-Image} (const \hyperlink{class_qwt_scale_map}{Qwt\-Scale\-Map} \&x\-Map, const \hyperlink{class_qwt_scale_map}{Qwt\-Scale\-Map} \&y\-Map, const Q\-Rect\-F \&area, const Q\-Size \&\hyperlink{glext_8h_aec2b86da467cc9c4b739b07069de8cfb}{image\-Size}) const =0
+\begin{DoxyCompactList}\small\item\em Render an image. \end{DoxyCompactList}\item 
+virtual \hyperlink{class_qwt_scale_map}{Qwt\-Scale\-Map} \hyperlink{class_qwt_plot_raster_item_a9feb834f9e40cdff11d8cd6ad74fda10}{image\-Map} (Qt\-::\-Orientation, const \hyperlink{class_qwt_scale_map}{Qwt\-Scale\-Map} \&map, const Q\-Rect\-F \&area, const Q\-Size \&\hyperlink{glext_8h_aec2b86da467cc9c4b739b07069de8cfb}{image\-Size}, \hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} pixel\-Size) const 
+\begin{DoxyCompactList}\small\item\em Calculate a scale map for painting to an image. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+A class, which displays raster data. 
+
+Raster data is a grid of pixel values, that can be represented as a Q\-Image. It is used for many types of information like spectrograms, cartograms, geographical maps ...
+
+Often a plot has several types of raster data organized in layers. ( f.\-e a geographical map, with weather statistics ). Using \hyperlink{class_qwt_plot_raster_item_a14f2ab8ec0994384e6269f869c352273}{set\-Alpha()} raster items can be stacked easily.
+
+\hyperlink{class_qwt_plot_raster_item}{Qwt\-Plot\-Raster\-Item} is only implemented for images of the following formats\-: Q\-Image\-::\-Format\-\_\-\-Indexed8, Q\-Image\-::\-Format\-\_\-\-A\-R\-G\-B32.
+
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_plot_spectrogram}{Qwt\-Plot\-Spectrogram} 
+\end{DoxySeeAlso}
+
+
+Definition at line 37 of file qwt\-\_\-plot\-\_\-rasteritem.\-h.
+
+
+
+\subsection{Member Typedef Documentation}
+\hypertarget{class_qwt_plot_raster_item_a6bde441d571c4943da01765dec2d4b4a}{\index{Qwt\-Plot\-Raster\-Item@{Qwt\-Plot\-Raster\-Item}!Paint\-Attributes@{Paint\-Attributes}}
+\index{Paint\-Attributes@{Paint\-Attributes}!QwtPlotRasterItem@{Qwt\-Plot\-Raster\-Item}}
+\subsubsection[{Paint\-Attributes}]{\setlength{\rightskip}{0pt plus 5cm}typedef Q\-Flags$<${\bf Paint\-Attribute}$>$ {\bf Qwt\-Plot\-Raster\-Item\-::\-Paint\-Attributes}}}\label{class_qwt_plot_raster_item_a6bde441d571c4943da01765dec2d4b4a}
+
+
+Paint attributes. 
+
+
+
+Definition at line 80 of file qwt\-\_\-plot\-\_\-rasteritem.\-h.
+
+
+
+\subsection{Member Enumeration Documentation}
+\hypertarget{class_qwt_plot_raster_item_a94929fc4c31c3dab75ee5adcac2d57b0}{\index{Qwt\-Plot\-Raster\-Item@{Qwt\-Plot\-Raster\-Item}!Cache\-Policy@{Cache\-Policy}}
+\index{Cache\-Policy@{Cache\-Policy}!QwtPlotRasterItem@{Qwt\-Plot\-Raster\-Item}}
+\subsubsection[{Cache\-Policy}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf Qwt\-Plot\-Raster\-Item\-::\-Cache\-Policy}}}\label{class_qwt_plot_raster_item_a94929fc4c31c3dab75ee5adcac2d57b0}
+
+\begin{DoxyItemize}
+\item No\-Cache\par
+ \hyperlink{class_qwt_plot_raster_item_a1738b36c0e6e4073f3ad6629e7923f74}{render\-Image()} is called, whenever the item has to be repainted
+\item Paint\-Cache\par
+ \hyperlink{class_qwt_plot_raster_item_a1738b36c0e6e4073f3ad6629e7923f74}{render\-Image()} is called, whenever the image cache is not valid, or the scales, or the size of the canvas has changed. This type of cache is only useful for improving the performance of hide/show operations. All other situations are already handled by the plot canvas cache.
+\end{DoxyItemize}
+
+The default policy is No\-Cache \begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{No\-Cache@{No\-Cache}!Qwt\-Plot\-Raster\-Item@{Qwt\-Plot\-Raster\-Item}}\index{Qwt\-Plot\-Raster\-Item@{Qwt\-Plot\-Raster\-Item}!No\-Cache@{No\-Cache}}\item[{\em 
+\hypertarget{class_qwt_plot_raster_item_a94929fc4c31c3dab75ee5adcac2d57b0a758ccf247c4ae50d4ffd090ef3a6058e}{No\-Cache}\label{class_qwt_plot_raster_item_a94929fc4c31c3dab75ee5adcac2d57b0a758ccf247c4ae50d4ffd090ef3a6058e}
+}]\index{Paint\-Cache@{Paint\-Cache}!Qwt\-Plot\-Raster\-Item@{Qwt\-Plot\-Raster\-Item}}\index{Qwt\-Plot\-Raster\-Item@{Qwt\-Plot\-Raster\-Item}!Paint\-Cache@{Paint\-Cache}}\item[{\em 
+\hypertarget{class_qwt_plot_raster_item_a94929fc4c31c3dab75ee5adcac2d57b0a3bfb74bebbfe1ccabe1d6654fee7c56d}{Paint\-Cache}\label{class_qwt_plot_raster_item_a94929fc4c31c3dab75ee5adcac2d57b0a3bfb74bebbfe1ccabe1d6654fee7c56d}
+}]\end{description}
+\end{Desc}
+
+
+Definition at line 52 of file qwt\-\_\-plot\-\_\-rasteritem.\-h.
+
+\hypertarget{class_qwt_plot_raster_item_a75ac68ea258b8612e8a1893e845394ee}{\index{Qwt\-Plot\-Raster\-Item@{Qwt\-Plot\-Raster\-Item}!Paint\-Attribute@{Paint\-Attribute}}
+\index{Paint\-Attribute@{Paint\-Attribute}!QwtPlotRasterItem@{Qwt\-Plot\-Raster\-Item}}
+\subsubsection[{Paint\-Attribute}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf Qwt\-Plot\-Raster\-Item\-::\-Paint\-Attribute}}}\label{class_qwt_plot_raster_item_a75ac68ea258b8612e8a1893e845394ee}
+Attributes to modify the drawing algorithm. \begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_plot_raster_item_a70d6b94821e5eafb29b1f045d1f3a2e6}{set\-Paint\-Attribute()}, \hyperlink{class_qwt_plot_raster_item_a17d8f350acf46d2ba7a68df977f80a52}{test\-Paint\-Attribute()} 
+\end{DoxySeeAlso}
+\begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{Paint\-In\-Device\-Resolution@{Paint\-In\-Device\-Resolution}!Qwt\-Plot\-Raster\-Item@{Qwt\-Plot\-Raster\-Item}}\index{Qwt\-Plot\-Raster\-Item@{Qwt\-Plot\-Raster\-Item}!Paint\-In\-Device\-Resolution@{Paint\-In\-Device\-Resolution}}\item[{\em 
+\hypertarget{class_qwt_plot_raster_item_a75ac68ea258b8612e8a1893e845394eea77b139d4d7327465408fe06ec98dbc0d}{Paint\-In\-Device\-Resolution}\label{class_qwt_plot_raster_item_a75ac68ea258b8612e8a1893e845394eea77b139d4d7327465408fe06ec98dbc0d}
+}]When the image is rendered according to the data pixels ( \hyperlink{class_qwt_raster_data_ad1ce58351804760d1ba1e7efe97d39d6}{Qwt\-Raster\-Data\-::pixel\-Hint()} ) it can be expanded to paint device resolution before it is passed to Q\-Painter. The expansion algorithm rounds the pixel borders in the same way as the axis ticks, what is usually better than the scaling algorithm implemented in Qt. Disabling this flag might make sense, to reduce the size of a document/file. If this is possible for a document format depends on the implementation of the specific Q\-Paint\-Engine. \end{description}
+\end{Desc}
+
+
+Definition at line 62 of file qwt\-\_\-plot\-\_\-rasteritem.\-h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_qwt_plot_raster_item_a2149c1d6b71c607027345a9a51ef3314}{\index{Qwt\-Plot\-Raster\-Item@{Qwt\-Plot\-Raster\-Item}!Qwt\-Plot\-Raster\-Item@{Qwt\-Plot\-Raster\-Item}}
+\index{Qwt\-Plot\-Raster\-Item@{Qwt\-Plot\-Raster\-Item}!QwtPlotRasterItem@{Qwt\-Plot\-Raster\-Item}}
+\subsubsection[{Qwt\-Plot\-Raster\-Item}]{\setlength{\rightskip}{0pt plus 5cm}Qwt\-Plot\-Raster\-Item\-::\-Qwt\-Plot\-Raster\-Item (
+\begin{DoxyParamCaption}
+\item[{const {\bf Q\-String} \&}]{title = {\ttfamily QString\-:\-:null}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [explicit]}}}\label{class_qwt_plot_raster_item_a2149c1d6b71c607027345a9a51ef3314}
+
+
+Constructor. 
+
+
+
+Definition at line 426 of file qwt\-\_\-plot\-\_\-rasteritem.\-cpp.
+
+\hypertarget{class_qwt_plot_raster_item_af487c6abc8e95200d4537d1373f96be5}{\index{Qwt\-Plot\-Raster\-Item@{Qwt\-Plot\-Raster\-Item}!Qwt\-Plot\-Raster\-Item@{Qwt\-Plot\-Raster\-Item}}
+\index{Qwt\-Plot\-Raster\-Item@{Qwt\-Plot\-Raster\-Item}!QwtPlotRasterItem@{Qwt\-Plot\-Raster\-Item}}
+\subsubsection[{Qwt\-Plot\-Raster\-Item}]{\setlength{\rightskip}{0pt plus 5cm}Qwt\-Plot\-Raster\-Item\-::\-Qwt\-Plot\-Raster\-Item (
+\begin{DoxyParamCaption}
+\item[{const {\bf Qwt\-Text} \&}]{title}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [explicit]}}}\label{class_qwt_plot_raster_item_af487c6abc8e95200d4537d1373f96be5}
+
+
+Constructor. 
+
+
+
+Definition at line 433 of file qwt\-\_\-plot\-\_\-rasteritem.\-cpp.
+
+\hypertarget{class_qwt_plot_raster_item_a2715233827c346ab15504dc75d6e9714}{\index{Qwt\-Plot\-Raster\-Item@{Qwt\-Plot\-Raster\-Item}!$\sim$\-Qwt\-Plot\-Raster\-Item@{$\sim$\-Qwt\-Plot\-Raster\-Item}}
+\index{$\sim$\-Qwt\-Plot\-Raster\-Item@{$\sim$\-Qwt\-Plot\-Raster\-Item}!QwtPlotRasterItem@{Qwt\-Plot\-Raster\-Item}}
+\subsubsection[{$\sim$\-Qwt\-Plot\-Raster\-Item}]{\setlength{\rightskip}{0pt plus 5cm}Qwt\-Plot\-Raster\-Item\-::$\sim$\-Qwt\-Plot\-Raster\-Item (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_qwt_plot_raster_item_a2715233827c346ab15504dc75d6e9714}
+
+
+Destructor. 
+
+
+
+Definition at line 440 of file qwt\-\_\-plot\-\_\-rasteritem.\-cpp.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_qwt_plot_raster_item_a96b2faa0bc0fe086bff1abe72bcb2016}{\index{Qwt\-Plot\-Raster\-Item@{Qwt\-Plot\-Raster\-Item}!alpha@{alpha}}
+\index{alpha@{alpha}!QwtPlotRasterItem@{Qwt\-Plot\-Raster\-Item}}
+\subsubsection[{alpha}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int} Qwt\-Plot\-Raster\-Item\-::alpha (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_qwt_plot_raster_item_a96b2faa0bc0fe086bff1abe72bcb2016}
+\begin{DoxyReturn}{Returns}
+Alpha value of the raster item 
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_plot_raster_item_a14f2ab8ec0994384e6269f869c352273}{set\-Alpha()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 522 of file qwt\-\_\-plot\-\_\-rasteritem.\-cpp.
+
+\hypertarget{class_qwt_plot_raster_item_ad96073173caf80301e108a6d8b0648e9}{\index{Qwt\-Plot\-Raster\-Item@{Qwt\-Plot\-Raster\-Item}!bounding\-Rect@{bounding\-Rect}}
+\index{bounding\-Rect@{bounding\-Rect}!QwtPlotRasterItem@{Qwt\-Plot\-Raster\-Item}}
+\subsubsection[{bounding\-Rect}]{\setlength{\rightskip}{0pt plus 5cm}Q\-Rect\-F Qwt\-Plot\-Raster\-Item\-::bounding\-Rect (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_qwt_plot_raster_item_ad96073173caf80301e108a6d8b0648e9}
+\begin{DoxyReturn}{Returns}
+Bounding rect of the data 
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_plot_raster_item_a0ffa377f71d05a0d3d077e040b08c357}{Qwt\-Plot\-Raster\-Item\-::interval()} 
+\end{DoxySeeAlso}
+
+
+Reimplemented from \hyperlink{class_qwt_plot_item_aec3c408e14af30b82b52c1197310eb21}{Qwt\-Plot\-Item}.
+
+
+
+Definition at line 765 of file qwt\-\_\-plot\-\_\-rasteritem.\-cpp.
+
+\hypertarget{class_qwt_plot_raster_item_ac953db5d88084f416b4dbc3ca8a323f3}{\index{Qwt\-Plot\-Raster\-Item@{Qwt\-Plot\-Raster\-Item}!cache\-Policy@{cache\-Policy}}
+\index{cache\-Policy@{cache\-Policy}!QwtPlotRasterItem@{Qwt\-Plot\-Raster\-Item}}
+\subsubsection[{cache\-Policy}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Qwt\-Plot\-Raster\-Item\-::\-Cache\-Policy} Qwt\-Plot\-Raster\-Item\-::cache\-Policy (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_qwt_plot_raster_item_ac953db5d88084f416b4dbc3ca8a323f3}
+\begin{DoxyReturn}{Returns}
+Cache policy 
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_plot_raster_item_a94929fc4c31c3dab75ee5adcac2d57b0}{Cache\-Policy}, \hyperlink{class_qwt_plot_raster_item_a31f74199f7e333c2683b0f18289e4c7f}{set\-Cache\-Policy()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 551 of file qwt\-\_\-plot\-\_\-rasteritem.\-cpp.
+
+\hypertarget{class_qwt_plot_raster_item_a2bb321c1ddc67b96a54a266ba27e6fe0}{\index{Qwt\-Plot\-Raster\-Item@{Qwt\-Plot\-Raster\-Item}!draw@{draw}}
+\index{draw@{draw}!QwtPlotRasterItem@{Qwt\-Plot\-Raster\-Item}}
+\subsubsection[{draw}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Plot\-Raster\-Item\-::draw (
+\begin{DoxyParamCaption}
+\item[{Q\-Painter $\ast$}]{painter, }
+\item[{const {\bf Qwt\-Scale\-Map} \&}]{x\-Map, }
+\item[{const {\bf Qwt\-Scale\-Map} \&}]{y\-Map, }
+\item[{const Q\-Rect\-F \&}]{canvas\-Rect}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_qwt_plot_raster_item_a2bb321c1ddc67b96a54a266ba27e6fe0}
+
+
+Draw the raster data. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em painter} & Painter \\
+\hline
+{\em x\-Map} & X-\/\-Scale \hyperlink{class_map}{Map} \\
+\hline
+{\em y\-Map} & Y-\/\-Scale \hyperlink{class_map}{Map} \\
+\hline
+{\em canvas\-Rect} & Contents rect of the plot canvas \\
+\hline
+\end{DoxyParams}
+
+
+Implements \hyperlink{class_qwt_plot_item_a0b0d6589d5db81ce72e6b33c4fbb21f9}{Qwt\-Plot\-Item}.
+
+
+
+Reimplemented in \hyperlink{class_qwt_plot_spectrogram_a92bafff167caeef9e1e4a6e652c0c5d4}{Qwt\-Plot\-Spectrogram}.
+
+
+
+Definition at line 606 of file qwt\-\_\-plot\-\_\-rasteritem.\-cpp.
+
+\hypertarget{class_qwt_plot_raster_item_a9feb834f9e40cdff11d8cd6ad74fda10}{\index{Qwt\-Plot\-Raster\-Item@{Qwt\-Plot\-Raster\-Item}!image\-Map@{image\-Map}}
+\index{image\-Map@{image\-Map}!QwtPlotRasterItem@{Qwt\-Plot\-Raster\-Item}}
+\subsubsection[{image\-Map}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Qwt\-Scale\-Map} Qwt\-Plot\-Raster\-Item\-::image\-Map (
+\begin{DoxyParamCaption}
+\item[{Qt\-::\-Orientation}]{orientation, }
+\item[{const {\bf Qwt\-Scale\-Map} \&}]{map, }
+\item[{const Q\-Rect\-F \&}]{area, }
+\item[{const Q\-Size \&}]{image\-Size, }
+\item[{{\bf double}}]{pixel\-Size}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}}\label{class_qwt_plot_raster_item_a9feb834f9e40cdff11d8cd6ad74fda10}
+
+
+Calculate a scale map for painting to an image. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em orientation} & Orientation, Qt\-::\-Horizontal means a X axis \\
+\hline
+{\em map} & Scale map for rendering the plot item \\
+\hline
+{\em area} & Area to be painted on the image \\
+\hline
+{\em image\-Size} & Image size \\
+\hline
+{\em pixel\-Size} & Width/\-Height of a data pixel \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 860 of file qwt\-\_\-plot\-\_\-rasteritem.\-cpp.
+
+\hypertarget{class_qwt_plot_raster_item_a0ffa377f71d05a0d3d077e040b08c357}{\index{Qwt\-Plot\-Raster\-Item@{Qwt\-Plot\-Raster\-Item}!interval@{interval}}
+\index{interval@{interval}!QwtPlotRasterItem@{Qwt\-Plot\-Raster\-Item}}
+\subsubsection[{interval}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Qwt\-Interval} Qwt\-Plot\-Raster\-Item\-::interval (
+\begin{DoxyParamCaption}
+\item[{Qt\-::\-Axis}]{axis}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_qwt_plot_raster_item_a0ffa377f71d05a0d3d077e040b08c357}
+\begin{DoxyReturn}{Returns}
+Bounding interval for an axis
+\end{DoxyReturn}
+This method is intended to be reimplemented by derived classes. The default implementation returns an invalid interval.
+
+
+\begin{DoxyParams}{Parameters}
+{\em axis} & X, Y, or Z axis \\
+\hline
+\end{DoxyParams}
+
+
+Reimplemented in \hyperlink{class_qwt_plot_spectrogram_a958a45464b5946aff31b7d28b7cfb5f9}{Qwt\-Plot\-Spectrogram}.
+
+
+
+Definition at line 755 of file qwt\-\_\-plot\-\_\-rasteritem.\-cpp.
+
+\hypertarget{class_qwt_plot_raster_item_a547ce4d8d031b230226cfbd509ef65b5}{\index{Qwt\-Plot\-Raster\-Item@{Qwt\-Plot\-Raster\-Item}!invalidate\-Cache@{invalidate\-Cache}}
+\index{invalidate\-Cache@{invalidate\-Cache}!QwtPlotRasterItem@{Qwt\-Plot\-Raster\-Item}}
+\subsubsection[{invalidate\-Cache}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Plot\-Raster\-Item\-::invalidate\-Cache (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_qwt_plot_raster_item_a547ce4d8d031b230226cfbd509ef65b5}
+Invalidate the paint cache \begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_plot_raster_item_a31f74199f7e333c2683b0f18289e4c7f}{set\-Cache\-Policy()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 560 of file qwt\-\_\-plot\-\_\-rasteritem.\-cpp.
+
+\hypertarget{class_qwt_plot_raster_item_a03a69bfe7d3d125ba4f580d1ecd5e2f4}{\index{Qwt\-Plot\-Raster\-Item@{Qwt\-Plot\-Raster\-Item}!pixel\-Hint@{pixel\-Hint}}
+\index{pixel\-Hint@{pixel\-Hint}!QwtPlotRasterItem@{Qwt\-Plot\-Raster\-Item}}
+\subsubsection[{pixel\-Hint}]{\setlength{\rightskip}{0pt plus 5cm}Q\-Rect\-F Qwt\-Plot\-Raster\-Item\-::pixel\-Hint (
+\begin{DoxyParamCaption}
+\item[{const Q\-Rect\-F \&}]{area}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_qwt_plot_raster_item_a03a69bfe7d3d125ba4f580d1ecd5e2f4}
+
+
+Pixel hint. 
+
+The geometry of a pixel is used to calculated the resolution and alignment of the rendered image.
+
+Width and height of the hint need to be the horizontal and vertical distances between 2 neighboured points. The center of the hint has to be the position of any point ( it doesn't matter which one ).
+
+Limiting the resolution of the image might significantly improve the performance and heavily reduce the amount of memory when rendering a Q\-Image from the raster data.
+
+The default implementation returns an empty rectangle (Q\-Rect\-F()), meaning, that the image will be rendered in target device ( f.\-e screen ) resolution.
+
+
+\begin{DoxyParams}{Parameters}
+{\em area} & In most implementations the resolution of the data doesn't depend on the requested area.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Bounding rectangle of a pixel
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+render(), \hyperlink{class_qwt_plot_raster_item_a1738b36c0e6e4073f3ad6629e7923f74}{render\-Image()} 
+\end{DoxySeeAlso}
+
+
+Reimplemented in \hyperlink{class_qwt_plot_spectrogram_a9b06ef6a2526da8715615d07fdb31a95}{Qwt\-Plot\-Spectrogram}.
+
+
+
+Definition at line 593 of file qwt\-\_\-plot\-\_\-rasteritem.\-cpp.
+
+\hypertarget{class_qwt_plot_raster_item_a1738b36c0e6e4073f3ad6629e7923f74}{\index{Qwt\-Plot\-Raster\-Item@{Qwt\-Plot\-Raster\-Item}!render\-Image@{render\-Image}}
+\index{render\-Image@{render\-Image}!QwtPlotRasterItem@{Qwt\-Plot\-Raster\-Item}}
+\subsubsection[{render\-Image}]{\setlength{\rightskip}{0pt plus 5cm}virtual Q\-Image Qwt\-Plot\-Raster\-Item\-::render\-Image (
+\begin{DoxyParamCaption}
+\item[{const {\bf Qwt\-Scale\-Map} \&}]{x\-Map, }
+\item[{const {\bf Qwt\-Scale\-Map} \&}]{y\-Map, }
+\item[{const Q\-Rect\-F \&}]{area, }
+\item[{const Q\-Size \&}]{image\-Size}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [pure virtual]}}}\label{class_qwt_plot_raster_item_a1738b36c0e6e4073f3ad6629e7923f74}
+
+
+Render an image. 
+
+An implementation of render() might iterate over all pixels of image\-Rect. Each pixel has to be translated into the corresponding position in scale coordinates using the maps. This position can be used to look up a value in a implementation specific way and to map it into a color.
+
+
+\begin{DoxyParams}{Parameters}
+{\em x\-Map} & X-\/\-Scale \hyperlink{class_map}{Map} \\
+\hline
+{\em y\-Map} & Y-\/\-Scale \hyperlink{class_map}{Map} \\
+\hline
+{\em area} & Requested area for the image in scale coordinates \\
+\hline
+{\em image\-Size} & Requested size of the image \\
+\hline
+\end{DoxyParams}
+
+
+Implemented in \hyperlink{class_qwt_plot_spectrogram_a99fa9694347e6f06240538af88385ca6}{Qwt\-Plot\-Spectrogram}.
+
+\hypertarget{class_qwt_plot_raster_item_a14f2ab8ec0994384e6269f869c352273}{\index{Qwt\-Plot\-Raster\-Item@{Qwt\-Plot\-Raster\-Item}!set\-Alpha@{set\-Alpha}}
+\index{set\-Alpha@{set\-Alpha}!QwtPlotRasterItem@{Qwt\-Plot\-Raster\-Item}}
+\subsubsection[{set\-Alpha}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Plot\-Raster\-Item\-::set\-Alpha (
+\begin{DoxyParamCaption}
+\item[{{\bf int}}]{alpha}
+\end{DoxyParamCaption}
+)}}\label{class_qwt_plot_raster_item_a14f2ab8ec0994384e6269f869c352273}
+
+
+Set an alpha value for the raster data. 
+
+Often a plot has several types of raster data organized in layers. ( f.\-e a geographical map, with weather statistics ). Using \hyperlink{class_qwt_plot_raster_item_a14f2ab8ec0994384e6269f869c352273}{set\-Alpha()} raster items can be stacked easily.
+
+The alpha value is a value \mbox{[}0, 255\mbox{]} to control the transparency of the image. 0 represents a fully transparent color, while 255 represents a fully opaque color.
+
+
+\begin{DoxyParams}{Parameters}
+{\em alpha} & Alpha value\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyItemize}
+\item alpha $>$= 0\par
+ All alpha values of the pixels returned by \hyperlink{class_qwt_plot_raster_item_a1738b36c0e6e4073f3ad6629e7923f74}{render\-Image()} will be set to alpha, beside those with an alpha value of 0 (invalid pixels).
+\item alpha $<$ 0 The alpha values returned by \hyperlink{class_qwt_plot_raster_item_a1738b36c0e6e4073f3ad6629e7923f74}{render\-Image()} are not changed.
+\end{DoxyItemize}
+
+The default alpha value is -\/1.
+
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_plot_raster_item_a96b2faa0bc0fe086bff1abe72bcb2016}{alpha()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 502 of file qwt\-\_\-plot\-\_\-rasteritem.\-cpp.
+
+\hypertarget{class_qwt_plot_raster_item_a31f74199f7e333c2683b0f18289e4c7f}{\index{Qwt\-Plot\-Raster\-Item@{Qwt\-Plot\-Raster\-Item}!set\-Cache\-Policy@{set\-Cache\-Policy}}
+\index{set\-Cache\-Policy@{set\-Cache\-Policy}!QwtPlotRasterItem@{Qwt\-Plot\-Raster\-Item}}
+\subsubsection[{set\-Cache\-Policy}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Plot\-Raster\-Item\-::set\-Cache\-Policy (
+\begin{DoxyParamCaption}
+\item[{{\bf Qwt\-Plot\-Raster\-Item\-::\-Cache\-Policy}}]{policy}
+\end{DoxyParamCaption}
+)}}\label{class_qwt_plot_raster_item_a31f74199f7e333c2683b0f18289e4c7f}
+Change the cache policy
+
+The default policy is No\-Cache
+
+
+\begin{DoxyParams}{Parameters}
+{\em policy} & Cache policy \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_plot_raster_item_a94929fc4c31c3dab75ee5adcac2d57b0}{Cache\-Policy}, \hyperlink{class_qwt_plot_raster_item_ac953db5d88084f416b4dbc3ca8a323f3}{cache\-Policy()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 535 of file qwt\-\_\-plot\-\_\-rasteritem.\-cpp.
+
+\hypertarget{class_qwt_plot_raster_item_a70d6b94821e5eafb29b1f045d1f3a2e6}{\index{Qwt\-Plot\-Raster\-Item@{Qwt\-Plot\-Raster\-Item}!set\-Paint\-Attribute@{set\-Paint\-Attribute}}
+\index{set\-Paint\-Attribute@{set\-Paint\-Attribute}!QwtPlotRasterItem@{Qwt\-Plot\-Raster\-Item}}
+\subsubsection[{set\-Paint\-Attribute}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Plot\-Raster\-Item\-::set\-Paint\-Attribute (
+\begin{DoxyParamCaption}
+\item[{{\bf Paint\-Attribute}}]{attribute, }
+\item[{bool}]{on = {\ttfamily true}}
+\end{DoxyParamCaption}
+)}}\label{class_qwt_plot_raster_item_a70d6b94821e5eafb29b1f045d1f3a2e6}
+Specify an attribute how to draw the raster item
+
+
+\begin{DoxyParams}{Parameters}
+{\em attribute} & Paint attribute \\
+\hline
+{\em on} & On/\-Off /sa Paint\-Attribute, \hyperlink{class_qwt_plot_raster_item_a17d8f350acf46d2ba7a68df977f80a52}{test\-Paint\-Attribute()} \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 462 of file qwt\-\_\-plot\-\_\-rasteritem.\-cpp.
+
+\hypertarget{class_qwt_plot_raster_item_a17d8f350acf46d2ba7a68df977f80a52}{\index{Qwt\-Plot\-Raster\-Item@{Qwt\-Plot\-Raster\-Item}!test\-Paint\-Attribute@{test\-Paint\-Attribute}}
+\index{test\-Paint\-Attribute@{test\-Paint\-Attribute}!QwtPlotRasterItem@{Qwt\-Plot\-Raster\-Item}}
+\subsubsection[{test\-Paint\-Attribute}]{\setlength{\rightskip}{0pt plus 5cm}bool Qwt\-Plot\-Raster\-Item\-::test\-Paint\-Attribute (
+\begin{DoxyParamCaption}
+\item[{{\bf Paint\-Attribute}}]{attribute}
+\end{DoxyParamCaption}
+) const}}\label{class_qwt_plot_raster_item_a17d8f350acf46d2ba7a68df977f80a52}
+
+
+Return the current paint attributes. 
+
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_plot_raster_item_a75ac68ea258b8612e8a1893e845394ee}{Paint\-Attribute}, \hyperlink{class_qwt_plot_raster_item_a70d6b94821e5eafb29b1f045d1f3a2e6}{set\-Paint\-Attribute()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 474 of file qwt\-\_\-plot\-\_\-rasteritem.\-cpp.
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/qwt/src/\hyperlink{qwt__plot__rasteritem_8h}{qwt\-\_\-plot\-\_\-rasteritem.\-h}\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/qwt/src/\hyperlink{qwt__plot__rasteritem_8cpp}{qwt\-\_\-plot\-\_\-rasteritem.\-cpp}\end{DoxyCompactItemize}

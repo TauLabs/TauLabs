@@ -1,0 +1,336 @@
+\hypertarget{class_sparse_l_u_3_01_matrix_type_00_01_umf_pack_01_4}{\section{Sparse\-L\-U$<$ Matrix\-Type, Umf\-Pack $>$ Class Template Reference}
+\label{class_sparse_l_u_3_01_matrix_type_00_01_umf_pack_01_4}\index{Sparse\-L\-U$<$ Matrix\-Type, Umf\-Pack $>$@{Sparse\-L\-U$<$ Matrix\-Type, Umf\-Pack $>$}}
+}
+
+
+{\ttfamily \#include $<$Umf\-Pack\-Support.\-h$>$}
+
+Inheritance diagram for Sparse\-L\-U$<$ Matrix\-Type, Umf\-Pack $>$\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_sparse_l_u_3_01_matrix_type_00_01_umf_pack_01_4}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_sparse_l_u_3_01_matrix_type_00_01_umf_pack_01_4_a6f1e63c92a597843398f9841b1d7c12f}{Sparse\-L\-U} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_sparse_l_u_a615b2637e9c72a9ae9ceb297f5a200ea}{flags}=\hyperlink{_sparse_util_8h_ad4a9934b75947f1fae21deee31688bb7acda9685a1ef5c7d3165275024473d9e1}{Natural\-Ordering})
+\item 
+\hyperlink{class_sparse_l_u_3_01_matrix_type_00_01_umf_pack_01_4_a0941fa25cbcea10ef8cfceaf51c3b394}{Sparse\-L\-U} (const Matrix\-Type \&\hyperlink{glext_8h_a7b24a3f2f56eb1244ae69dacb4fecb6f}{matrix}, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_sparse_l_u_a615b2637e9c72a9ae9ceb297f5a200ea}{flags}=\hyperlink{_sparse_util_8h_ad4a9934b75947f1fae21deee31688bb7acda9685a1ef5c7d3165275024473d9e1}{Natural\-Ordering})
+\item 
+\hyperlink{class_sparse_l_u_3_01_matrix_type_00_01_umf_pack_01_4_a5bbb71f160eb5cf7fbb862f9c70b217d}{$\sim$\-Sparse\-L\-U} ()
+\item 
+const \hyperlink{class_sparse_l_u_3_01_matrix_type_00_01_umf_pack_01_4_a2900542d2fe0efa2c2d858cd9ca9953f}{L\-Matrix\-Type} \& \hyperlink{class_sparse_l_u_3_01_matrix_type_00_01_umf_pack_01_4_aefc7d75bd620bbb79e8b36e6b52269ac}{matrix\-L} () const 
+\item 
+const \hyperlink{class_sparse_l_u_3_01_matrix_type_00_01_umf_pack_01_4_a22232647515b18b74cd7c1dadc5d85df}{U\-Matrix\-Type} \& \hyperlink{class_sparse_l_u_3_01_matrix_type_00_01_umf_pack_01_4_ac4a3c35da4dc69c618a78e9daf5dcaa0}{matrix\-U} () const 
+\item 
+const \hyperlink{class_sparse_l_u_3_01_matrix_type_00_01_umf_pack_01_4_af06161423c3dde25ec3431a7e87b66e8}{Int\-Col\-Vector\-Type} \& \hyperlink{class_sparse_l_u_3_01_matrix_type_00_01_umf_pack_01_4_a5986d394f4373e7ddb9bd6a582fe796a}{permutation\-P} () const 
+\item 
+const \hyperlink{class_sparse_l_u_3_01_matrix_type_00_01_umf_pack_01_4_ad6789d8ef818adc250479ca6b0d7f340}{Int\-Row\-Vector\-Type} \& \hyperlink{class_sparse_l_u_3_01_matrix_type_00_01_umf_pack_01_4_a492a9aa5383e0707508ac444d23c27ec}{permutation\-Q} () const 
+\item 
+\hyperlink{class_sparse_l_u_3_01_matrix_type_00_01_umf_pack_01_4_a69ffb45b1807211005457e8f787ccb45}{Scalar} \hyperlink{class_sparse_l_u_3_01_matrix_type_00_01_umf_pack_01_4_a6aa99e103c5e91a27f8563c627d9327f}{determinant} () const 
+\item 
+{\footnotesize template$<$typename B\-Derived , typename X\-Derived $>$ }\\bool \hyperlink{class_sparse_l_u_3_01_matrix_type_00_01_umf_pack_01_4_a0c33d58a2dbd713e4ee3eae35f82f496}{solve} (const \hyperlink{class_matrix_base}{Matrix\-Base}$<$ B\-Derived $>$ \&\hyperlink{glext_8h_a6eba317e3cf44d6d26c04a5a8f197dcb}{b}, \hyperlink{class_matrix_base}{Matrix\-Base}$<$ X\-Derived $>$ $\ast$\hyperlink{glext_8h_a1db9d104e3c2128177f26aff7b46982f}{x}) const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_sparse_l_u_3_01_matrix_type_00_01_umf_pack_01_4_ab774f608ee1e973e37bc5c090b90deaa}{compute} (const Matrix\-Type \&\hyperlink{glext_8h_a7b24a3f2f56eb1244ae69dacb4fecb6f}{matrix})
+\end{DoxyCompactItemize}
+\subsection*{Protected Types}
+\begin{DoxyCompactItemize}
+\item 
+typedef \hyperlink{class_sparse_l_u}{Sparse\-L\-U}$<$ Matrix\-Type $>$ \hyperlink{class_sparse_l_u_3_01_matrix_type_00_01_umf_pack_01_4_afbbcbc7752cbd01b9298422e8751598a}{Base}
+\item 
+typedef \hyperlink{class_sparse_l_u_a1c13b088bd115436caa27f0f8f0c26fd}{Base\-::\-Scalar} \hyperlink{class_sparse_l_u_3_01_matrix_type_00_01_umf_pack_01_4_a69ffb45b1807211005457e8f787ccb45}{Scalar}
+\item 
+typedef \hyperlink{class_sparse_l_u_a1090bc6ec27ebb0b088f6a1bf2ad6eab}{Base\-::\-Real\-Scalar} \hyperlink{class_sparse_l_u_3_01_matrix_type_00_01_umf_pack_01_4_aba7325df91db6de407bfe82b22d97c71}{Real\-Scalar}
+\item 
+typedef \hyperlink{class_matrix}{Matrix}$<$ \hyperlink{class_sparse_l_u_3_01_matrix_type_00_01_umf_pack_01_4_a69ffb45b1807211005457e8f787ccb45}{Scalar}, \\*
+\hyperlink{_constants_8h_adc9da5be31bdce40c25a92c27999c0e3}{Dynamic}, 1 $>$ \hyperlink{class_sparse_l_u_3_01_matrix_type_00_01_umf_pack_01_4_adbf917e2dc33be7373d5f3e829d56730}{Vector}
+\item 
+typedef \hyperlink{class_matrix}{Matrix}$<$ \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int}, \\*
+1, Matrix\-Type\-::\-Cols\-At\-Compile\-Time $>$ \hyperlink{class_sparse_l_u_3_01_matrix_type_00_01_umf_pack_01_4_ad6789d8ef818adc250479ca6b0d7f340}{Int\-Row\-Vector\-Type}
+\item 
+typedef \hyperlink{class_matrix}{Matrix}$<$ \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int}, \\*
+Matrix\-Type\-::\-Rows\-At\-Compile\-Time, 1 $>$ \hyperlink{class_sparse_l_u_3_01_matrix_type_00_01_umf_pack_01_4_af06161423c3dde25ec3431a7e87b66e8}{Int\-Col\-Vector\-Type}
+\item 
+typedef \hyperlink{class_sparse_matrix}{Sparse\-Matrix}$<$ \hyperlink{class_sparse_l_u_3_01_matrix_type_00_01_umf_pack_01_4_a69ffb45b1807211005457e8f787ccb45}{Scalar}, \\*
+\hyperlink{_constants_8h_a9c6e15884c02c8075e3575670fe06894}{Lower\-Triangular}$|$\hyperlink{group__flags_ga254555b50eae5fa8a8d241f6bc08939a}{Unit\-Diag\-Bit} $>$ \hyperlink{class_sparse_l_u_3_01_matrix_type_00_01_umf_pack_01_4_a2900542d2fe0efa2c2d858cd9ca9953f}{L\-Matrix\-Type}
+\item 
+typedef \hyperlink{class_sparse_matrix}{Sparse\-Matrix}$<$ \hyperlink{class_sparse_l_u_3_01_matrix_type_00_01_umf_pack_01_4_a69ffb45b1807211005457e8f787ccb45}{Scalar}, \\*
+\hyperlink{_constants_8h_a96ca999d353b2e4ed0976aab836d047a}{Upper\-Triangular} $>$ \hyperlink{class_sparse_l_u_3_01_matrix_type_00_01_umf_pack_01_4_a22232647515b18b74cd7c1dadc5d85df}{U\-Matrix\-Type}
+\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_sparse_l_u_3_01_matrix_type_00_01_umf_pack_01_4_a3455a4f96e8508ee66411a880a4bbca2}{extract\-Data} () const 
+\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} $\ast$ \hyperlink{class_sparse_l_u_3_01_matrix_type_00_01_umf_pack_01_4_a05a6a0d11e3fdbbcec5a046e0f2f5b7a}{m\-\_\-numeric}
+\item 
+const Matrix\-Type $\ast$ \hyperlink{class_sparse_l_u_3_01_matrix_type_00_01_umf_pack_01_4_ad8b2159b6faaba6aefca769598fa587b}{m\-\_\-matrix\-Ref}
+\item 
+\hyperlink{class_sparse_l_u_3_01_matrix_type_00_01_umf_pack_01_4_a2900542d2fe0efa2c2d858cd9ca9953f}{L\-Matrix\-Type} \hyperlink{class_sparse_l_u_3_01_matrix_type_00_01_umf_pack_01_4_a83b493c5fd33f69d053da81f15ef6a0e}{m\-\_\-l}
+\item 
+\hyperlink{class_sparse_l_u_3_01_matrix_type_00_01_umf_pack_01_4_a22232647515b18b74cd7c1dadc5d85df}{U\-Matrix\-Type} \hyperlink{class_sparse_l_u_3_01_matrix_type_00_01_umf_pack_01_4_a59093788300b1912865d3b5d4e492ff6}{m\-\_\-u}
+\item 
+\hyperlink{class_sparse_l_u_3_01_matrix_type_00_01_umf_pack_01_4_af06161423c3dde25ec3431a7e87b66e8}{Int\-Col\-Vector\-Type} \hyperlink{class_sparse_l_u_3_01_matrix_type_00_01_umf_pack_01_4_a3a81ccfca33be6598519b2e3c395f613}{m\-\_\-p}
+\item 
+\hyperlink{class_sparse_l_u_3_01_matrix_type_00_01_umf_pack_01_4_ad6789d8ef818adc250479ca6b0d7f340}{Int\-Row\-Vector\-Type} \hyperlink{class_sparse_l_u_3_01_matrix_type_00_01_umf_pack_01_4_ac9a108ecc0517ad1793e082b536d67be}{m\-\_\-q}
+\item 
+bool \hyperlink{class_sparse_l_u_3_01_matrix_type_00_01_umf_pack_01_4_ac5038610497e25cdbda03a44838b7a53}{m\-\_\-extracted\-Data\-Are\-Dirty}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$typename Matrix\-Type$>$class Sparse\-L\-U$<$ Matrix\-Type, Umf\-Pack $>$}
+
+
+
+Definition at line 121 of file Umf\-Pack\-Support.\-h.
+
+
+
+\subsection{Member Typedef Documentation}
+\hypertarget{class_sparse_l_u_3_01_matrix_type_00_01_umf_pack_01_4_afbbcbc7752cbd01b9298422e8751598a}{\index{Sparse\-L\-U$<$ Matrix\-Type, Umf\-Pack $>$@{Sparse\-L\-U$<$ Matrix\-Type, Umf\-Pack $>$}!Base@{Base}}
+\index{Base@{Base}!SparseLU< MatrixType, UmfPack >@{Sparse\-L\-U$<$ Matrix\-Type, Umf\-Pack $>$}}
+\subsubsection[{Base}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type $>$ typedef {\bf Sparse\-L\-U}$<$Matrix\-Type$>$ {\bf Sparse\-L\-U}$<$ Matrix\-Type, {\bf Umf\-Pack} $>$\-::{\bf Base}\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_sparse_l_u_3_01_matrix_type_00_01_umf_pack_01_4_afbbcbc7752cbd01b9298422e8751598a}
+
+
+Definition at line 124 of file Umf\-Pack\-Support.\-h.
+
+\hypertarget{class_sparse_l_u_3_01_matrix_type_00_01_umf_pack_01_4_af06161423c3dde25ec3431a7e87b66e8}{\index{Sparse\-L\-U$<$ Matrix\-Type, Umf\-Pack $>$@{Sparse\-L\-U$<$ Matrix\-Type, Umf\-Pack $>$}!Int\-Col\-Vector\-Type@{Int\-Col\-Vector\-Type}}
+\index{Int\-Col\-Vector\-Type@{Int\-Col\-Vector\-Type}!SparseLU< MatrixType, UmfPack >@{Sparse\-L\-U$<$ Matrix\-Type, Umf\-Pack $>$}}
+\subsubsection[{Int\-Col\-Vector\-Type}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type $>$ typedef {\bf Matrix}$<${\bf int}, Matrix\-Type\-::\-Rows\-At\-Compile\-Time, 1$>$ {\bf Sparse\-L\-U}$<$ Matrix\-Type, {\bf Umf\-Pack} $>$\-::{\bf Int\-Col\-Vector\-Type}\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_sparse_l_u_3_01_matrix_type_00_01_umf_pack_01_4_af06161423c3dde25ec3431a7e87b66e8}
+
+
+Definition at line 129 of file Umf\-Pack\-Support.\-h.
+
+\hypertarget{class_sparse_l_u_3_01_matrix_type_00_01_umf_pack_01_4_ad6789d8ef818adc250479ca6b0d7f340}{\index{Sparse\-L\-U$<$ Matrix\-Type, Umf\-Pack $>$@{Sparse\-L\-U$<$ Matrix\-Type, Umf\-Pack $>$}!Int\-Row\-Vector\-Type@{Int\-Row\-Vector\-Type}}
+\index{Int\-Row\-Vector\-Type@{Int\-Row\-Vector\-Type}!SparseLU< MatrixType, UmfPack >@{Sparse\-L\-U$<$ Matrix\-Type, Umf\-Pack $>$}}
+\subsubsection[{Int\-Row\-Vector\-Type}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type $>$ typedef {\bf Matrix}$<${\bf int}, 1, Matrix\-Type\-::\-Cols\-At\-Compile\-Time$>$ {\bf Sparse\-L\-U}$<$ Matrix\-Type, {\bf Umf\-Pack} $>$\-::{\bf Int\-Row\-Vector\-Type}\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_sparse_l_u_3_01_matrix_type_00_01_umf_pack_01_4_ad6789d8ef818adc250479ca6b0d7f340}
+
+
+Definition at line 128 of file Umf\-Pack\-Support.\-h.
+
+\hypertarget{class_sparse_l_u_3_01_matrix_type_00_01_umf_pack_01_4_a2900542d2fe0efa2c2d858cd9ca9953f}{\index{Sparse\-L\-U$<$ Matrix\-Type, Umf\-Pack $>$@{Sparse\-L\-U$<$ Matrix\-Type, Umf\-Pack $>$}!L\-Matrix\-Type@{L\-Matrix\-Type}}
+\index{L\-Matrix\-Type@{L\-Matrix\-Type}!SparseLU< MatrixType, UmfPack >@{Sparse\-L\-U$<$ Matrix\-Type, Umf\-Pack $>$}}
+\subsubsection[{L\-Matrix\-Type}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type $>$ typedef {\bf Sparse\-Matrix}$<${\bf Scalar},{\bf Lower\-Triangular}$|${\bf Unit\-Diag\-Bit}$>$ {\bf Sparse\-L\-U}$<$ Matrix\-Type, {\bf Umf\-Pack} $>$\-::{\bf L\-Matrix\-Type}\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_sparse_l_u_3_01_matrix_type_00_01_umf_pack_01_4_a2900542d2fe0efa2c2d858cd9ca9953f}
+
+
+Definition at line 130 of file Umf\-Pack\-Support.\-h.
+
+\hypertarget{class_sparse_l_u_3_01_matrix_type_00_01_umf_pack_01_4_aba7325df91db6de407bfe82b22d97c71}{\index{Sparse\-L\-U$<$ Matrix\-Type, Umf\-Pack $>$@{Sparse\-L\-U$<$ Matrix\-Type, Umf\-Pack $>$}!Real\-Scalar@{Real\-Scalar}}
+\index{Real\-Scalar@{Real\-Scalar}!SparseLU< MatrixType, UmfPack >@{Sparse\-L\-U$<$ Matrix\-Type, Umf\-Pack $>$}}
+\subsubsection[{Real\-Scalar}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type $>$ typedef {\bf Base\-::\-Real\-Scalar} {\bf Sparse\-L\-U}$<$ Matrix\-Type, {\bf Umf\-Pack} $>$\-::{\bf Real\-Scalar}\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_sparse_l_u_3_01_matrix_type_00_01_umf_pack_01_4_aba7325df91db6de407bfe82b22d97c71}
+
+
+Definition at line 126 of file Umf\-Pack\-Support.\-h.
+
+\hypertarget{class_sparse_l_u_3_01_matrix_type_00_01_umf_pack_01_4_a69ffb45b1807211005457e8f787ccb45}{\index{Sparse\-L\-U$<$ Matrix\-Type, Umf\-Pack $>$@{Sparse\-L\-U$<$ Matrix\-Type, Umf\-Pack $>$}!Scalar@{Scalar}}
+\index{Scalar@{Scalar}!SparseLU< MatrixType, UmfPack >@{Sparse\-L\-U$<$ Matrix\-Type, Umf\-Pack $>$}}
+\subsubsection[{Scalar}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type $>$ typedef {\bf Base\-::\-Scalar} {\bf Sparse\-L\-U}$<$ Matrix\-Type, {\bf Umf\-Pack} $>$\-::{\bf Scalar}\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_sparse_l_u_3_01_matrix_type_00_01_umf_pack_01_4_a69ffb45b1807211005457e8f787ccb45}
+
+
+Definition at line 125 of file Umf\-Pack\-Support.\-h.
+
+\hypertarget{class_sparse_l_u_3_01_matrix_type_00_01_umf_pack_01_4_a22232647515b18b74cd7c1dadc5d85df}{\index{Sparse\-L\-U$<$ Matrix\-Type, Umf\-Pack $>$@{Sparse\-L\-U$<$ Matrix\-Type, Umf\-Pack $>$}!U\-Matrix\-Type@{U\-Matrix\-Type}}
+\index{U\-Matrix\-Type@{U\-Matrix\-Type}!SparseLU< MatrixType, UmfPack >@{Sparse\-L\-U$<$ Matrix\-Type, Umf\-Pack $>$}}
+\subsubsection[{U\-Matrix\-Type}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type $>$ typedef {\bf Sparse\-Matrix}$<${\bf Scalar},{\bf Upper\-Triangular}$>$ {\bf Sparse\-L\-U}$<$ Matrix\-Type, {\bf Umf\-Pack} $>$\-::{\bf U\-Matrix\-Type}\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_sparse_l_u_3_01_matrix_type_00_01_umf_pack_01_4_a22232647515b18b74cd7c1dadc5d85df}
+
+
+Definition at line 131 of file Umf\-Pack\-Support.\-h.
+
+\hypertarget{class_sparse_l_u_3_01_matrix_type_00_01_umf_pack_01_4_adbf917e2dc33be7373d5f3e829d56730}{\index{Sparse\-L\-U$<$ Matrix\-Type, Umf\-Pack $>$@{Sparse\-L\-U$<$ Matrix\-Type, Umf\-Pack $>$}!Vector@{Vector}}
+\index{Vector@{Vector}!SparseLU< MatrixType, UmfPack >@{Sparse\-L\-U$<$ Matrix\-Type, Umf\-Pack $>$}}
+\subsubsection[{Vector}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type $>$ typedef {\bf Matrix}$<${\bf Scalar},{\bf Dynamic},1$>$ {\bf Sparse\-L\-U}$<$ Matrix\-Type, {\bf Umf\-Pack} $>$\-::{\bf Vector}\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_sparse_l_u_3_01_matrix_type_00_01_umf_pack_01_4_adbf917e2dc33be7373d5f3e829d56730}
+
+
+Definition at line 127 of file Umf\-Pack\-Support.\-h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_sparse_l_u_3_01_matrix_type_00_01_umf_pack_01_4_a6f1e63c92a597843398f9841b1d7c12f}{\index{Sparse\-L\-U$<$ Matrix\-Type, Umf\-Pack $>$@{Sparse\-L\-U$<$ Matrix\-Type, Umf\-Pack $>$}!Sparse\-L\-U@{Sparse\-L\-U}}
+\index{Sparse\-L\-U@{Sparse\-L\-U}!SparseLU< MatrixType, UmfPack >@{Sparse\-L\-U$<$ Matrix\-Type, Umf\-Pack $>$}}
+\subsubsection[{Sparse\-L\-U}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type $>$ {\bf Sparse\-L\-U}$<$ Matrix\-Type, {\bf Umf\-Pack} $>$\-::{\bf Sparse\-L\-U} (
+\begin{DoxyParamCaption}
+\item[{{\bf int}}]{flags = {\ttfamily {\bf Natural\-Ordering}}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_sparse_l_u_3_01_matrix_type_00_01_umf_pack_01_4_a6f1e63c92a597843398f9841b1d7c12f}
+
+
+Definition at line 137 of file Umf\-Pack\-Support.\-h.
+
+\hypertarget{class_sparse_l_u_3_01_matrix_type_00_01_umf_pack_01_4_a0941fa25cbcea10ef8cfceaf51c3b394}{\index{Sparse\-L\-U$<$ Matrix\-Type, Umf\-Pack $>$@{Sparse\-L\-U$<$ Matrix\-Type, Umf\-Pack $>$}!Sparse\-L\-U@{Sparse\-L\-U}}
+\index{Sparse\-L\-U@{Sparse\-L\-U}!SparseLU< MatrixType, UmfPack >@{Sparse\-L\-U$<$ Matrix\-Type, Umf\-Pack $>$}}
+\subsubsection[{Sparse\-L\-U}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type $>$ {\bf Sparse\-L\-U}$<$ Matrix\-Type, {\bf Umf\-Pack} $>$\-::{\bf Sparse\-L\-U} (
+\begin{DoxyParamCaption}
+\item[{const Matrix\-Type \&}]{matrix, }
+\item[{{\bf int}}]{flags = {\ttfamily {\bf Natural\-Ordering}}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_sparse_l_u_3_01_matrix_type_00_01_umf_pack_01_4_a0941fa25cbcea10ef8cfceaf51c3b394}
+
+
+Definition at line 142 of file Umf\-Pack\-Support.\-h.
+
+\hypertarget{class_sparse_l_u_3_01_matrix_type_00_01_umf_pack_01_4_a5bbb71f160eb5cf7fbb862f9c70b217d}{\index{Sparse\-L\-U$<$ Matrix\-Type, Umf\-Pack $>$@{Sparse\-L\-U$<$ Matrix\-Type, Umf\-Pack $>$}!$\sim$\-Sparse\-L\-U@{$\sim$\-Sparse\-L\-U}}
+\index{$\sim$\-Sparse\-L\-U@{$\sim$\-Sparse\-L\-U}!SparseLU< MatrixType, UmfPack >@{Sparse\-L\-U$<$ Matrix\-Type, Umf\-Pack $>$}}
+\subsubsection[{$\sim$\-Sparse\-L\-U}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type $>$ {\bf Sparse\-L\-U}$<$ Matrix\-Type, {\bf Umf\-Pack} $>$\-::$\sim${\bf Sparse\-L\-U} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_sparse_l_u_3_01_matrix_type_00_01_umf_pack_01_4_a5bbb71f160eb5cf7fbb862f9c70b217d}
+
+
+Definition at line 148 of file Umf\-Pack\-Support.\-h.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_sparse_l_u_3_01_matrix_type_00_01_umf_pack_01_4_ab774f608ee1e973e37bc5c090b90deaa}{\index{Sparse\-L\-U$<$ Matrix\-Type, Umf\-Pack $>$@{Sparse\-L\-U$<$ Matrix\-Type, Umf\-Pack $>$}!compute@{compute}}
+\index{compute@{compute}!SparseLU< MatrixType, UmfPack >@{Sparse\-L\-U$<$ Matrix\-Type, Umf\-Pack $>$}}
+\subsubsection[{compute}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type $>$ {\bf void} {\bf Sparse\-L\-U}$<$ Matrix\-Type, {\bf Umf\-Pack} $>$\-::compute (
+\begin{DoxyParamCaption}
+\item[{const Matrix\-Type \&}]{matrix}
+\end{DoxyParamCaption}
+)}}\label{class_sparse_l_u_3_01_matrix_type_00_01_umf_pack_01_4_ab774f608ee1e973e37bc5c090b90deaa}
+
+
+Definition at line 201 of file Umf\-Pack\-Support.\-h.
+
+\hypertarget{class_sparse_l_u_3_01_matrix_type_00_01_umf_pack_01_4_a6aa99e103c5e91a27f8563c627d9327f}{\index{Sparse\-L\-U$<$ Matrix\-Type, Umf\-Pack $>$@{Sparse\-L\-U$<$ Matrix\-Type, Umf\-Pack $>$}!determinant@{determinant}}
+\index{determinant@{determinant}!SparseLU< MatrixType, UmfPack >@{Sparse\-L\-U$<$ Matrix\-Type, Umf\-Pack $>$}}
+\subsubsection[{determinant}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type $>$ {\bf Sparse\-L\-U}$<$ Matrix\-Type, {\bf Umf\-Pack} $>$\-::{\bf Scalar} {\bf Sparse\-L\-U}$<$ Matrix\-Type, {\bf Umf\-Pack} $>$\-::determinant (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_sparse_l_u_3_01_matrix_type_00_01_umf_pack_01_4_a6aa99e103c5e91a27f8563c627d9327f}
+
+
+Definition at line 256 of file Umf\-Pack\-Support.\-h.
+
+\hypertarget{class_sparse_l_u_3_01_matrix_type_00_01_umf_pack_01_4_a3455a4f96e8508ee66411a880a4bbca2}{\index{Sparse\-L\-U$<$ Matrix\-Type, Umf\-Pack $>$@{Sparse\-L\-U$<$ Matrix\-Type, Umf\-Pack $>$}!extract\-Data@{extract\-Data}}
+\index{extract\-Data@{extract\-Data}!SparseLU< MatrixType, UmfPack >@{Sparse\-L\-U$<$ Matrix\-Type, Umf\-Pack $>$}}
+\subsubsection[{extract\-Data}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type $>$ {\bf void} {\bf Sparse\-L\-U}$<$ Matrix\-Type, {\bf Umf\-Pack} $>$\-::extract\-Data (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_sparse_l_u_3_01_matrix_type_00_01_umf_pack_01_4_a3455a4f96e8508ee66411a880a4bbca2}
+
+
+Definition at line 228 of file Umf\-Pack\-Support.\-h.
+
+\hypertarget{class_sparse_l_u_3_01_matrix_type_00_01_umf_pack_01_4_aefc7d75bd620bbb79e8b36e6b52269ac}{\index{Sparse\-L\-U$<$ Matrix\-Type, Umf\-Pack $>$@{Sparse\-L\-U$<$ Matrix\-Type, Umf\-Pack $>$}!matrix\-L@{matrix\-L}}
+\index{matrix\-L@{matrix\-L}!SparseLU< MatrixType, UmfPack >@{Sparse\-L\-U$<$ Matrix\-Type, Umf\-Pack $>$}}
+\subsubsection[{matrix\-L}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type $>$ const {\bf L\-Matrix\-Type}\& {\bf Sparse\-L\-U}$<$ Matrix\-Type, {\bf Umf\-Pack} $>$\-::matrix\-L (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_sparse_l_u_3_01_matrix_type_00_01_umf_pack_01_4_aefc7d75bd620bbb79e8b36e6b52269ac}
+
+
+Definition at line 154 of file Umf\-Pack\-Support.\-h.
+
+\hypertarget{class_sparse_l_u_3_01_matrix_type_00_01_umf_pack_01_4_ac4a3c35da4dc69c618a78e9daf5dcaa0}{\index{Sparse\-L\-U$<$ Matrix\-Type, Umf\-Pack $>$@{Sparse\-L\-U$<$ Matrix\-Type, Umf\-Pack $>$}!matrix\-U@{matrix\-U}}
+\index{matrix\-U@{matrix\-U}!SparseLU< MatrixType, UmfPack >@{Sparse\-L\-U$<$ Matrix\-Type, Umf\-Pack $>$}}
+\subsubsection[{matrix\-U}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type $>$ const {\bf U\-Matrix\-Type}\& {\bf Sparse\-L\-U}$<$ Matrix\-Type, {\bf Umf\-Pack} $>$\-::matrix\-U (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_sparse_l_u_3_01_matrix_type_00_01_umf_pack_01_4_ac4a3c35da4dc69c618a78e9daf5dcaa0}
+
+
+Definition at line 160 of file Umf\-Pack\-Support.\-h.
+
+\hypertarget{class_sparse_l_u_3_01_matrix_type_00_01_umf_pack_01_4_a5986d394f4373e7ddb9bd6a582fe796a}{\index{Sparse\-L\-U$<$ Matrix\-Type, Umf\-Pack $>$@{Sparse\-L\-U$<$ Matrix\-Type, Umf\-Pack $>$}!permutation\-P@{permutation\-P}}
+\index{permutation\-P@{permutation\-P}!SparseLU< MatrixType, UmfPack >@{Sparse\-L\-U$<$ Matrix\-Type, Umf\-Pack $>$}}
+\subsubsection[{permutation\-P}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type $>$ const {\bf Int\-Col\-Vector\-Type}\& {\bf Sparse\-L\-U}$<$ Matrix\-Type, {\bf Umf\-Pack} $>$\-::permutation\-P (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_sparse_l_u_3_01_matrix_type_00_01_umf_pack_01_4_a5986d394f4373e7ddb9bd6a582fe796a}
+
+
+Definition at line 166 of file Umf\-Pack\-Support.\-h.
+
+\hypertarget{class_sparse_l_u_3_01_matrix_type_00_01_umf_pack_01_4_a492a9aa5383e0707508ac444d23c27ec}{\index{Sparse\-L\-U$<$ Matrix\-Type, Umf\-Pack $>$@{Sparse\-L\-U$<$ Matrix\-Type, Umf\-Pack $>$}!permutation\-Q@{permutation\-Q}}
+\index{permutation\-Q@{permutation\-Q}!SparseLU< MatrixType, UmfPack >@{Sparse\-L\-U$<$ Matrix\-Type, Umf\-Pack $>$}}
+\subsubsection[{permutation\-Q}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type $>$ const {\bf Int\-Row\-Vector\-Type}\& {\bf Sparse\-L\-U}$<$ Matrix\-Type, {\bf Umf\-Pack} $>$\-::permutation\-Q (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_sparse_l_u_3_01_matrix_type_00_01_umf_pack_01_4_a492a9aa5383e0707508ac444d23c27ec}
+
+
+Definition at line 172 of file Umf\-Pack\-Support.\-h.
+
+\hypertarget{class_sparse_l_u_3_01_matrix_type_00_01_umf_pack_01_4_a0c33d58a2dbd713e4ee3eae35f82f496}{\index{Sparse\-L\-U$<$ Matrix\-Type, Umf\-Pack $>$@{Sparse\-L\-U$<$ Matrix\-Type, Umf\-Pack $>$}!solve@{solve}}
+\index{solve@{solve}!SparseLU< MatrixType, UmfPack >@{Sparse\-L\-U$<$ Matrix\-Type, Umf\-Pack $>$}}
+\subsubsection[{solve}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type $>$ template$<$typename B\-Derived , typename X\-Derived $>$ bool {\bf Sparse\-L\-U}$<$ Matrix\-Type, {\bf Umf\-Pack} $>$\-::solve (
+\begin{DoxyParamCaption}
+\item[{const {\bf Matrix\-Base}$<$ B\-Derived $>$ \&}]{b, }
+\item[{{\bf Matrix\-Base}$<$ X\-Derived $>$ $\ast$}]{x}
+\end{DoxyParamCaption}
+) const}}\label{class_sparse_l_u_3_01_matrix_type_00_01_umf_pack_01_4_a0c33d58a2dbd713e4ee3eae35f82f496}
+
+
+Definition at line 265 of file Umf\-Pack\-Support.\-h.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{class_sparse_l_u_3_01_matrix_type_00_01_umf_pack_01_4_ac5038610497e25cdbda03a44838b7a53}{\index{Sparse\-L\-U$<$ Matrix\-Type, Umf\-Pack $>$@{Sparse\-L\-U$<$ Matrix\-Type, Umf\-Pack $>$}!m\-\_\-extracted\-Data\-Are\-Dirty@{m\-\_\-extracted\-Data\-Are\-Dirty}}
+\index{m\-\_\-extracted\-Data\-Are\-Dirty@{m\-\_\-extracted\-Data\-Are\-Dirty}!SparseLU< MatrixType, UmfPack >@{Sparse\-L\-U$<$ Matrix\-Type, Umf\-Pack $>$}}
+\subsubsection[{m\-\_\-extracted\-Data\-Are\-Dirty}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type $>$ bool {\bf Sparse\-L\-U}$<$ Matrix\-Type, {\bf Umf\-Pack} $>$\-::m\-\_\-extracted\-Data\-Are\-Dirty\hspace{0.3cm}{\ttfamily [mutable]}, {\ttfamily [protected]}}}\label{class_sparse_l_u_3_01_matrix_type_00_01_umf_pack_01_4_ac5038610497e25cdbda03a44838b7a53}
+
+
+Definition at line 197 of file Umf\-Pack\-Support.\-h.
+
+\hypertarget{class_sparse_l_u_3_01_matrix_type_00_01_umf_pack_01_4_a83b493c5fd33f69d053da81f15ef6a0e}{\index{Sparse\-L\-U$<$ Matrix\-Type, Umf\-Pack $>$@{Sparse\-L\-U$<$ Matrix\-Type, Umf\-Pack $>$}!m\-\_\-l@{m\-\_\-l}}
+\index{m\-\_\-l@{m\-\_\-l}!SparseLU< MatrixType, UmfPack >@{Sparse\-L\-U$<$ Matrix\-Type, Umf\-Pack $>$}}
+\subsubsection[{m\-\_\-l}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type $>$ {\bf L\-Matrix\-Type} {\bf Sparse\-L\-U}$<$ Matrix\-Type, {\bf Umf\-Pack} $>$\-::m\-\_\-l\hspace{0.3cm}{\ttfamily [mutable]}, {\ttfamily [protected]}}}\label{class_sparse_l_u_3_01_matrix_type_00_01_umf_pack_01_4_a83b493c5fd33f69d053da81f15ef6a0e}
+
+
+Definition at line 193 of file Umf\-Pack\-Support.\-h.
+
+\hypertarget{class_sparse_l_u_3_01_matrix_type_00_01_umf_pack_01_4_ad8b2159b6faaba6aefca769598fa587b}{\index{Sparse\-L\-U$<$ Matrix\-Type, Umf\-Pack $>$@{Sparse\-L\-U$<$ Matrix\-Type, Umf\-Pack $>$}!m\-\_\-matrix\-Ref@{m\-\_\-matrix\-Ref}}
+\index{m\-\_\-matrix\-Ref@{m\-\_\-matrix\-Ref}!SparseLU< MatrixType, UmfPack >@{Sparse\-L\-U$<$ Matrix\-Type, Umf\-Pack $>$}}
+\subsubsection[{m\-\_\-matrix\-Ref}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type $>$ const Matrix\-Type$\ast$ {\bf Sparse\-L\-U}$<$ Matrix\-Type, {\bf Umf\-Pack} $>$\-::m\-\_\-matrix\-Ref\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_sparse_l_u_3_01_matrix_type_00_01_umf_pack_01_4_ad8b2159b6faaba6aefca769598fa587b}
+
+
+Definition at line 192 of file Umf\-Pack\-Support.\-h.
+
+\hypertarget{class_sparse_l_u_3_01_matrix_type_00_01_umf_pack_01_4_a05a6a0d11e3fdbbcec5a046e0f2f5b7a}{\index{Sparse\-L\-U$<$ Matrix\-Type, Umf\-Pack $>$@{Sparse\-L\-U$<$ Matrix\-Type, Umf\-Pack $>$}!m\-\_\-numeric@{m\-\_\-numeric}}
+\index{m\-\_\-numeric@{m\-\_\-numeric}!SparseLU< MatrixType, UmfPack >@{Sparse\-L\-U$<$ Matrix\-Type, Umf\-Pack $>$}}
+\subsubsection[{m\-\_\-numeric}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type $>$ {\bf void}$\ast$ {\bf Sparse\-L\-U}$<$ Matrix\-Type, {\bf Umf\-Pack} $>$\-::m\-\_\-numeric\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_sparse_l_u_3_01_matrix_type_00_01_umf_pack_01_4_a05a6a0d11e3fdbbcec5a046e0f2f5b7a}
+
+
+Definition at line 191 of file Umf\-Pack\-Support.\-h.
+
+\hypertarget{class_sparse_l_u_3_01_matrix_type_00_01_umf_pack_01_4_a3a81ccfca33be6598519b2e3c395f613}{\index{Sparse\-L\-U$<$ Matrix\-Type, Umf\-Pack $>$@{Sparse\-L\-U$<$ Matrix\-Type, Umf\-Pack $>$}!m\-\_\-p@{m\-\_\-p}}
+\index{m\-\_\-p@{m\-\_\-p}!SparseLU< MatrixType, UmfPack >@{Sparse\-L\-U$<$ Matrix\-Type, Umf\-Pack $>$}}
+\subsubsection[{m\-\_\-p}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type $>$ {\bf Int\-Col\-Vector\-Type} {\bf Sparse\-L\-U}$<$ Matrix\-Type, {\bf Umf\-Pack} $>$\-::m\-\_\-p\hspace{0.3cm}{\ttfamily [mutable]}, {\ttfamily [protected]}}}\label{class_sparse_l_u_3_01_matrix_type_00_01_umf_pack_01_4_a3a81ccfca33be6598519b2e3c395f613}
+
+
+Definition at line 195 of file Umf\-Pack\-Support.\-h.
+
+\hypertarget{class_sparse_l_u_3_01_matrix_type_00_01_umf_pack_01_4_ac9a108ecc0517ad1793e082b536d67be}{\index{Sparse\-L\-U$<$ Matrix\-Type, Umf\-Pack $>$@{Sparse\-L\-U$<$ Matrix\-Type, Umf\-Pack $>$}!m\-\_\-q@{m\-\_\-q}}
+\index{m\-\_\-q@{m\-\_\-q}!SparseLU< MatrixType, UmfPack >@{Sparse\-L\-U$<$ Matrix\-Type, Umf\-Pack $>$}}
+\subsubsection[{m\-\_\-q}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type $>$ {\bf Int\-Row\-Vector\-Type} {\bf Sparse\-L\-U}$<$ Matrix\-Type, {\bf Umf\-Pack} $>$\-::m\-\_\-q\hspace{0.3cm}{\ttfamily [mutable]}, {\ttfamily [protected]}}}\label{class_sparse_l_u_3_01_matrix_type_00_01_umf_pack_01_4_ac9a108ecc0517ad1793e082b536d67be}
+
+
+Definition at line 196 of file Umf\-Pack\-Support.\-h.
+
+\hypertarget{class_sparse_l_u_3_01_matrix_type_00_01_umf_pack_01_4_a59093788300b1912865d3b5d4e492ff6}{\index{Sparse\-L\-U$<$ Matrix\-Type, Umf\-Pack $>$@{Sparse\-L\-U$<$ Matrix\-Type, Umf\-Pack $>$}!m\-\_\-u@{m\-\_\-u}}
+\index{m\-\_\-u@{m\-\_\-u}!SparseLU< MatrixType, UmfPack >@{Sparse\-L\-U$<$ Matrix\-Type, Umf\-Pack $>$}}
+\subsubsection[{m\-\_\-u}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type $>$ {\bf U\-Matrix\-Type} {\bf Sparse\-L\-U}$<$ Matrix\-Type, {\bf Umf\-Pack} $>$\-::m\-\_\-u\hspace{0.3cm}{\ttfamily [mutable]}, {\ttfamily [protected]}}}\label{class_sparse_l_u_3_01_matrix_type_00_01_umf_pack_01_4_a59093788300b1912865d3b5d4e492ff6}
+
+
+Definition at line 194 of file Umf\-Pack\-Support.\-h.
+
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/eigen/\-Eigen/src/\-Sparse/\hyperlink{_umf_pack_support_8h}{Umf\-Pack\-Support.\-h}\end{DoxyCompactItemize}

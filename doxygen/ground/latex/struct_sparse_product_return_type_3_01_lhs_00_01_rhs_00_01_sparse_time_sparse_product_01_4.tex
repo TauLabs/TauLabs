@@ -1,0 +1,102 @@
+\hypertarget{struct_sparse_product_return_type_3_01_lhs_00_01_rhs_00_01_sparse_time_sparse_product_01_4}{\section{Sparse\-Product\-Return\-Type$<$ Lhs, Rhs, Sparse\-Time\-Sparse\-Product $>$ Struct Template Reference}
+\label{struct_sparse_product_return_type_3_01_lhs_00_01_rhs_00_01_sparse_time_sparse_product_01_4}\index{Sparse\-Product\-Return\-Type$<$ Lhs, Rhs, Sparse\-Time\-Sparse\-Product $>$@{Sparse\-Product\-Return\-Type$<$ Lhs, Rhs, Sparse\-Time\-Sparse\-Product $>$}}
+}
+
+
+{\ttfamily \#include $<$Sparse\-Product.\-h$>$}
+
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+enum \{ \hyperlink{struct_sparse_product_return_type_3_01_lhs_00_01_rhs_00_01_sparse_time_sparse_product_01_4_a125937488499be7d1fd0fdc811d8b53ea046449c3ce050236e4c6602e5c55918b}{Lhs\-Row\-Major} = ei\-\_\-traits$<$Lhs$>$\-:\-:Flags \& Row\-Major\-Bit, 
+\hyperlink{struct_sparse_product_return_type_3_01_lhs_00_01_rhs_00_01_sparse_time_sparse_product_01_4_a125937488499be7d1fd0fdc811d8b53eaf0818a2814501606a19cd0b30f757f8a}{Rhs\-Row\-Major} = ei\-\_\-traits$<$Rhs$>$\-:\-:Flags \& Row\-Major\-Bit, 
+\hyperlink{struct_sparse_product_return_type_3_01_lhs_00_01_rhs_00_01_sparse_time_sparse_product_01_4_a125937488499be7d1fd0fdc811d8b53ea4a2f6d251efbbf832a56a1a293f821de}{Transpose\-Rhs} = (!\-Lhs\-Row\-Major) \&\& Rhs\-Row\-Major, 
+\hyperlink{struct_sparse_product_return_type_3_01_lhs_00_01_rhs_00_01_sparse_time_sparse_product_01_4_a125937488499be7d1fd0fdc811d8b53ea289efa99a23a97c2380944cbc1f3efdb}{Transpose\-Lhs} = Lhs\-Row\-Major \&\& (!\-Rhs\-Row\-Major)
+ \}
+\item 
+typedef \hyperlink{structei__traits}{ei\-\_\-traits}$<$ Lhs $>$\-::\hyperlink{struct_sparse_product_return_type_3_01_lhs_00_01_rhs_00_01_sparse_time_sparse_product_01_4_a2289d55762c6c97f479a08596a6f4f0e}{Scalar} \hyperlink{struct_sparse_product_return_type_3_01_lhs_00_01_rhs_00_01_sparse_time_sparse_product_01_4_a2289d55762c6c97f479a08596a6f4f0e}{Scalar}
+\item 
+typedef \hyperlink{structei__meta__if}{ei\-\_\-meta\-\_\-if}\\*
+$<$ \hyperlink{struct_sparse_product_return_type_3_01_lhs_00_01_rhs_00_01_sparse_time_sparse_product_01_4_a125937488499be7d1fd0fdc811d8b53ea289efa99a23a97c2380944cbc1f3efdb}{Transpose\-Lhs}, \hyperlink{class_sparse_matrix}{Sparse\-Matrix}\\*
+$<$ \hyperlink{struct_sparse_product_return_type_3_01_lhs_00_01_rhs_00_01_sparse_time_sparse_product_01_4_a2289d55762c6c97f479a08596a6f4f0e}{Scalar}, 0 $>$, const typename \\*
+\hyperlink{structei__nested}{ei\-\_\-nested}$<$ Lhs, \\*
+Rhs\-::\-Rows\-At\-Compile\-Time $>$\-::\hyperlink{glext_8h_a7d05960f4f1c1b11f3177dc963a45d86}{type} $>$\\*
+\-::\hyperlink{group___i_p_conn_plugin_gabc99fe6afec1a75ccff1092e47375a40}{ret} \hyperlink{struct_sparse_product_return_type_3_01_lhs_00_01_rhs_00_01_sparse_time_sparse_product_01_4_a9291f9481846fe6baef1c645df03180a}{Lhs\-Nested}
+\item 
+typedef \hyperlink{structei__meta__if}{ei\-\_\-meta\-\_\-if}\\*
+$<$ \hyperlink{struct_sparse_product_return_type_3_01_lhs_00_01_rhs_00_01_sparse_time_sparse_product_01_4_a125937488499be7d1fd0fdc811d8b53ea4a2f6d251efbbf832a56a1a293f821de}{Transpose\-Rhs}, \hyperlink{class_sparse_matrix}{Sparse\-Matrix}\\*
+$<$ \hyperlink{struct_sparse_product_return_type_3_01_lhs_00_01_rhs_00_01_sparse_time_sparse_product_01_4_a2289d55762c6c97f479a08596a6f4f0e}{Scalar}, 0 $>$, const typename \\*
+\hyperlink{structei__nested}{ei\-\_\-nested}$<$ Rhs, \\*
+Lhs\-::\-Rows\-At\-Compile\-Time $>$\-::\hyperlink{glext_8h_a7d05960f4f1c1b11f3177dc963a45d86}{type} $>$\\*
+\-::\hyperlink{group___i_p_conn_plugin_gabc99fe6afec1a75ccff1092e47375a40}{ret} \hyperlink{struct_sparse_product_return_type_3_01_lhs_00_01_rhs_00_01_sparse_time_sparse_product_01_4_aeb21908c46a3a9a5d0418934aede1f49}{Rhs\-Nested}
+\item 
+typedef \hyperlink{class_sparse_product}{Sparse\-Product}\\*
+$<$ \hyperlink{struct_sparse_product_return_type_3_01_lhs_00_01_rhs_00_01_sparse_time_sparse_product_01_4_a9291f9481846fe6baef1c645df03180a}{Lhs\-Nested}, \hyperlink{struct_sparse_product_return_type_3_01_lhs_00_01_rhs_00_01_sparse_time_sparse_product_01_4_aeb21908c46a3a9a5d0418934aede1f49}{Rhs\-Nested}, \\*
+\hyperlink{_constants_8h_a19539c4a85742928cd91d83569d63c06a93822fde7ec6e0d227b1d2cff44aa54c}{Sparse\-Time\-Sparse\-Product} $>$ \hyperlink{struct_sparse_product_return_type_3_01_lhs_00_01_rhs_00_01_sparse_time_sparse_product_01_4_a5ea95e31b214512f0ecc2ad2fcabe22d}{Type}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$typename Lhs, typename Rhs$>$struct Sparse\-Product\-Return\-Type$<$ Lhs, Rhs, Sparse\-Time\-Sparse\-Product $>$}
+
+
+
+Definition at line 61 of file Sparse\-Product.\-h.
+
+
+
+\subsection{Member Typedef Documentation}
+\hypertarget{struct_sparse_product_return_type_3_01_lhs_00_01_rhs_00_01_sparse_time_sparse_product_01_4_a9291f9481846fe6baef1c645df03180a}{\index{Sparse\-Product\-Return\-Type$<$ Lhs, Rhs, Sparse\-Time\-Sparse\-Product $>$@{Sparse\-Product\-Return\-Type$<$ Lhs, Rhs, Sparse\-Time\-Sparse\-Product $>$}!Lhs\-Nested@{Lhs\-Nested}}
+\index{Lhs\-Nested@{Lhs\-Nested}!SparseProductReturnType< Lhs, Rhs, SparseTimeSparseProduct >@{Sparse\-Product\-Return\-Type$<$ Lhs, Rhs, Sparse\-Time\-Sparse\-Product $>$}}
+\subsubsection[{Lhs\-Nested}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Lhs , typename Rhs $>$ typedef {\bf ei\-\_\-meta\-\_\-if}$<${\bf Transpose\-Lhs}, {\bf Sparse\-Matrix}$<${\bf Scalar},0$>$, const typename {\bf ei\-\_\-nested}$<$Lhs,Rhs\-::\-Rows\-At\-Compile\-Time$>$\-::{\bf type}$>$\-::{\bf ret} {\bf Sparse\-Product\-Return\-Type}$<$ Lhs, Rhs, {\bf Sparse\-Time\-Sparse\-Product} $>$\-::{\bf Lhs\-Nested}}}\label{struct_sparse_product_return_type_3_01_lhs_00_01_rhs_00_01_sparse_time_sparse_product_01_4_a9291f9481846fe6baef1c645df03180a}
+
+
+Definition at line 75 of file Sparse\-Product.\-h.
+
+\hypertarget{struct_sparse_product_return_type_3_01_lhs_00_01_rhs_00_01_sparse_time_sparse_product_01_4_aeb21908c46a3a9a5d0418934aede1f49}{\index{Sparse\-Product\-Return\-Type$<$ Lhs, Rhs, Sparse\-Time\-Sparse\-Product $>$@{Sparse\-Product\-Return\-Type$<$ Lhs, Rhs, Sparse\-Time\-Sparse\-Product $>$}!Rhs\-Nested@{Rhs\-Nested}}
+\index{Rhs\-Nested@{Rhs\-Nested}!SparseProductReturnType< Lhs, Rhs, SparseTimeSparseProduct >@{Sparse\-Product\-Return\-Type$<$ Lhs, Rhs, Sparse\-Time\-Sparse\-Product $>$}}
+\subsubsection[{Rhs\-Nested}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Lhs , typename Rhs $>$ typedef {\bf ei\-\_\-meta\-\_\-if}$<${\bf Transpose\-Rhs}, {\bf Sparse\-Matrix}$<${\bf Scalar},0$>$, const typename {\bf ei\-\_\-nested}$<$Rhs,Lhs\-::\-Rows\-At\-Compile\-Time$>$\-::{\bf type}$>$\-::{\bf ret} {\bf Sparse\-Product\-Return\-Type}$<$ Lhs, Rhs, {\bf Sparse\-Time\-Sparse\-Product} $>$\-::{\bf Rhs\-Nested}}}\label{struct_sparse_product_return_type_3_01_lhs_00_01_rhs_00_01_sparse_time_sparse_product_01_4_aeb21908c46a3a9a5d0418934aede1f49}
+
+
+Definition at line 79 of file Sparse\-Product.\-h.
+
+\hypertarget{struct_sparse_product_return_type_3_01_lhs_00_01_rhs_00_01_sparse_time_sparse_product_01_4_a2289d55762c6c97f479a08596a6f4f0e}{\index{Sparse\-Product\-Return\-Type$<$ Lhs, Rhs, Sparse\-Time\-Sparse\-Product $>$@{Sparse\-Product\-Return\-Type$<$ Lhs, Rhs, Sparse\-Time\-Sparse\-Product $>$}!Scalar@{Scalar}}
+\index{Scalar@{Scalar}!SparseProductReturnType< Lhs, Rhs, SparseTimeSparseProduct >@{Sparse\-Product\-Return\-Type$<$ Lhs, Rhs, Sparse\-Time\-Sparse\-Product $>$}}
+\subsubsection[{Scalar}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Lhs , typename Rhs $>$ typedef {\bf ei\-\_\-traits}$<$Lhs$>$\-::{\bf Scalar} {\bf Sparse\-Product\-Return\-Type}$<$ Lhs, Rhs, {\bf Sparse\-Time\-Sparse\-Product} $>$\-::{\bf Scalar}}}\label{struct_sparse_product_return_type_3_01_lhs_00_01_rhs_00_01_sparse_time_sparse_product_01_4_a2289d55762c6c97f479a08596a6f4f0e}
+
+
+Definition at line 63 of file Sparse\-Product.\-h.
+
+\hypertarget{struct_sparse_product_return_type_3_01_lhs_00_01_rhs_00_01_sparse_time_sparse_product_01_4_a5ea95e31b214512f0ecc2ad2fcabe22d}{\index{Sparse\-Product\-Return\-Type$<$ Lhs, Rhs, Sparse\-Time\-Sparse\-Product $>$@{Sparse\-Product\-Return\-Type$<$ Lhs, Rhs, Sparse\-Time\-Sparse\-Product $>$}!Type@{Type}}
+\index{Type@{Type}!SparseProductReturnType< Lhs, Rhs, SparseTimeSparseProduct >@{Sparse\-Product\-Return\-Type$<$ Lhs, Rhs, Sparse\-Time\-Sparse\-Product $>$}}
+\subsubsection[{Type}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Lhs , typename Rhs $>$ typedef {\bf Sparse\-Product}$<${\bf Lhs\-Nested}, {\bf Rhs\-Nested}, {\bf Sparse\-Time\-Sparse\-Product}$>$ {\bf Sparse\-Product\-Return\-Type}$<$ Lhs, Rhs, {\bf Sparse\-Time\-Sparse\-Product} $>$\-::{\bf Type}}}\label{struct_sparse_product_return_type_3_01_lhs_00_01_rhs_00_01_sparse_time_sparse_product_01_4_a5ea95e31b214512f0ecc2ad2fcabe22d}
+
+
+Definition at line 81 of file Sparse\-Product.\-h.
+
+
+
+\subsection{Member Enumeration Documentation}
+\hypertarget{struct_sparse_product_return_type_3_01_lhs_00_01_rhs_00_01_sparse_time_sparse_product_01_4_a125937488499be7d1fd0fdc811d8b53e}{\subsubsection[{anonymous enum}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Lhs , typename Rhs $>$ anonymous enum}}\label{struct_sparse_product_return_type_3_01_lhs_00_01_rhs_00_01_sparse_time_sparse_product_01_4_a125937488499be7d1fd0fdc811d8b53e}
+\begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{Lhs\-Row\-Major@{Lhs\-Row\-Major}!Sparse\-Product\-Return\-Type$<$ Lhs, Rhs, Sparse\-Time\-Sparse\-Product $>$@{Sparse\-Product\-Return\-Type$<$ Lhs, Rhs, Sparse\-Time\-Sparse\-Product $>$}}\index{Sparse\-Product\-Return\-Type$<$ Lhs, Rhs, Sparse\-Time\-Sparse\-Product $>$@{Sparse\-Product\-Return\-Type$<$ Lhs, Rhs, Sparse\-Time\-Sparse\-Product $>$}!Lhs\-Row\-Major@{Lhs\-Row\-Major}}\item[{\em 
+\hypertarget{struct_sparse_product_return_type_3_01_lhs_00_01_rhs_00_01_sparse_time_sparse_product_01_4_a125937488499be7d1fd0fdc811d8b53ea046449c3ce050236e4c6602e5c55918b}{Lhs\-Row\-Major}\label{struct_sparse_product_return_type_3_01_lhs_00_01_rhs_00_01_sparse_time_sparse_product_01_4_a125937488499be7d1fd0fdc811d8b53ea046449c3ce050236e4c6602e5c55918b}
+}]\index{Rhs\-Row\-Major@{Rhs\-Row\-Major}!Sparse\-Product\-Return\-Type$<$ Lhs, Rhs, Sparse\-Time\-Sparse\-Product $>$@{Sparse\-Product\-Return\-Type$<$ Lhs, Rhs, Sparse\-Time\-Sparse\-Product $>$}}\index{Sparse\-Product\-Return\-Type$<$ Lhs, Rhs, Sparse\-Time\-Sparse\-Product $>$@{Sparse\-Product\-Return\-Type$<$ Lhs, Rhs, Sparse\-Time\-Sparse\-Product $>$}!Rhs\-Row\-Major@{Rhs\-Row\-Major}}\item[{\em 
+\hypertarget{struct_sparse_product_return_type_3_01_lhs_00_01_rhs_00_01_sparse_time_sparse_product_01_4_a125937488499be7d1fd0fdc811d8b53eaf0818a2814501606a19cd0b30f757f8a}{Rhs\-Row\-Major}\label{struct_sparse_product_return_type_3_01_lhs_00_01_rhs_00_01_sparse_time_sparse_product_01_4_a125937488499be7d1fd0fdc811d8b53eaf0818a2814501606a19cd0b30f757f8a}
+}]\index{Transpose\-Rhs@{Transpose\-Rhs}!Sparse\-Product\-Return\-Type$<$ Lhs, Rhs, Sparse\-Time\-Sparse\-Product $>$@{Sparse\-Product\-Return\-Type$<$ Lhs, Rhs, Sparse\-Time\-Sparse\-Product $>$}}\index{Sparse\-Product\-Return\-Type$<$ Lhs, Rhs, Sparse\-Time\-Sparse\-Product $>$@{Sparse\-Product\-Return\-Type$<$ Lhs, Rhs, Sparse\-Time\-Sparse\-Product $>$}!Transpose\-Rhs@{Transpose\-Rhs}}\item[{\em 
+\hypertarget{struct_sparse_product_return_type_3_01_lhs_00_01_rhs_00_01_sparse_time_sparse_product_01_4_a125937488499be7d1fd0fdc811d8b53ea4a2f6d251efbbf832a56a1a293f821de}{Transpose\-Rhs}\label{struct_sparse_product_return_type_3_01_lhs_00_01_rhs_00_01_sparse_time_sparse_product_01_4_a125937488499be7d1fd0fdc811d8b53ea4a2f6d251efbbf832a56a1a293f821de}
+}]\index{Transpose\-Lhs@{Transpose\-Lhs}!Sparse\-Product\-Return\-Type$<$ Lhs, Rhs, Sparse\-Time\-Sparse\-Product $>$@{Sparse\-Product\-Return\-Type$<$ Lhs, Rhs, Sparse\-Time\-Sparse\-Product $>$}}\index{Sparse\-Product\-Return\-Type$<$ Lhs, Rhs, Sparse\-Time\-Sparse\-Product $>$@{Sparse\-Product\-Return\-Type$<$ Lhs, Rhs, Sparse\-Time\-Sparse\-Product $>$}!Transpose\-Lhs@{Transpose\-Lhs}}\item[{\em 
+\hypertarget{struct_sparse_product_return_type_3_01_lhs_00_01_rhs_00_01_sparse_time_sparse_product_01_4_a125937488499be7d1fd0fdc811d8b53ea289efa99a23a97c2380944cbc1f3efdb}{Transpose\-Lhs}\label{struct_sparse_product_return_type_3_01_lhs_00_01_rhs_00_01_sparse_time_sparse_product_01_4_a125937488499be7d1fd0fdc811d8b53ea289efa99a23a97c2380944cbc1f3efdb}
+}]\end{description}
+\end{Desc}
+
+
+Definition at line 64 of file Sparse\-Product.\-h.
+
+
+
+The documentation for this struct was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/eigen/\-Eigen/src/\-Sparse/\hyperlink{_sparse_product_8h}{Sparse\-Product.\-h}\end{DoxyCompactItemize}

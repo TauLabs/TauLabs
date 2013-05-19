@@ -1,0 +1,656 @@
+\hypertarget{class_qwt_plot_histogram}{\section{Qwt\-Plot\-Histogram Class Reference}
+\label{class_qwt_plot_histogram}\index{Qwt\-Plot\-Histogram@{Qwt\-Plot\-Histogram}}
+}
+
+
+\hyperlink{class_qwt_plot_histogram}{Qwt\-Plot\-Histogram} represents a series of samples, where an interval is associated with a value ( $y = f([x1,x2])$ ).  
+
+
+
+
+{\ttfamily \#include $<$qwt\-\_\-plot\-\_\-histogram.\-h$>$}
+
+Inheritance diagram for Qwt\-Plot\-Histogram\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=5.000000cm]{class_qwt_plot_histogram}
+\end{center}
+\end{figure}
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{class_qwt_plot_histogram_1_1_private_data}{Private\-Data}
+\end{DoxyCompactItemize}
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{class_qwt_plot_histogram_a3ba21c3aef994daf7b848ccf71b0dbc5}{Histogram\-Style} \{ \hyperlink{class_qwt_plot_histogram_a3ba21c3aef994daf7b848ccf71b0dbc5ab6ef3ed19f600d5d67d34eedf4cf33a9}{Outline}, 
+\hyperlink{class_qwt_plot_histogram_a3ba21c3aef994daf7b848ccf71b0dbc5a9cd056b6b9881b07c625756488487362}{Columns}, 
+\hyperlink{class_qwt_plot_histogram_a3ba21c3aef994daf7b848ccf71b0dbc5a62b3af66b59203102394dbe1711a7a58}{Lines}, 
+\hyperlink{class_qwt_plot_histogram_a3ba21c3aef994daf7b848ccf71b0dbc5a586b4f119cfbfe62de143c836227c06e}{User\-Style} = 100
+ \}
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_qwt_plot_histogram_ada0642611a7edc4ea3beac45428fd786}{Qwt\-Plot\-Histogram} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{Q\-String} \&\hyperlink{class_qwt_plot_item_a3859d011b670b5f89e45d1ccef9206f7}{title}=Q\-String\-::null)
+\item 
+\hyperlink{class_qwt_plot_histogram_a5c0973a9425655be4218298706d25f38}{Qwt\-Plot\-Histogram} (const \hyperlink{class_qwt_text}{Qwt\-Text} \&\hyperlink{class_qwt_plot_item_a3859d011b670b5f89e45d1ccef9206f7}{title})
+\item 
+virtual \hyperlink{class_qwt_plot_histogram_a64bf6dad5655ef1ef3a0a1507d2feafb}{$\sim$\-Qwt\-Plot\-Histogram} ()
+\begin{DoxyCompactList}\small\item\em Destructor. \end{DoxyCompactList}\item 
+virtual \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_qwt_plot_histogram_a7a927d6ad8544cf5d46e629a03a5a8f1}{rtti} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_plot_histogram_a230e53561dd2645ba34beaa89f4f4f61}{set\-Pen} (const Q\-Pen \&)
+\item 
+const Q\-Pen \& \hyperlink{class_qwt_plot_histogram_a51727f20a46a48afbbc7f76a8ea6ec84}{pen} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_plot_histogram_a0bf40c3f9f9074cac5deecd4525583b3}{set\-Brush} (const Q\-Brush \&)
+\item 
+const Q\-Brush \& \hyperlink{class_qwt_plot_histogram_ae72360d1812a8137a0c7ee6b6a5ebebd}{brush} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_plot_histogram_a6cc1fe6cd9f7dfc55a2bf5afd02ccce5}{set\-Samples} (const Q\-Vector$<$ \hyperlink{class_qwt_interval_sample}{Qwt\-Interval\-Sample} $>$ \&)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_plot_histogram_a372314f4e2921673f74d46773d583cf2}{set\-Baseline} (\hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} reference)
+\begin{DoxyCompactList}\small\item\em Set the value of the baseline. \end{DoxyCompactList}\item 
+\hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} \hyperlink{class_qwt_plot_histogram_a1e15762e54960e7b1de75b542e8024bd}{baseline} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_plot_histogram_a449af026888616f08b45e980d9da57fe}{set\-Style} (\hyperlink{class_qwt_plot_histogram_a3ba21c3aef994daf7b848ccf71b0dbc5}{Histogram\-Style} \hyperlink{class_qwt_plot_histogram_a00915a951baa4fb251f5614cb0dd8aa9}{style})
+\item 
+\hyperlink{class_qwt_plot_histogram_a3ba21c3aef994daf7b848ccf71b0dbc5}{Histogram\-Style} \hyperlink{class_qwt_plot_histogram_a00915a951baa4fb251f5614cb0dd8aa9}{style} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_plot_histogram_aa662f072a1758bfac9c0c86136ee27ad}{set\-Symbol} (const \hyperlink{class_qwt_column_symbol}{Qwt\-Column\-Symbol} $\ast$)
+\begin{DoxyCompactList}\small\item\em Assign a symbol. \end{DoxyCompactList}\item 
+const \hyperlink{class_qwt_column_symbol}{Qwt\-Column\-Symbol} $\ast$ \hyperlink{class_qwt_plot_histogram_a5815e991c891210789fef0295047f790}{symbol} () const 
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_plot_histogram_a588eb9f56482fe8669c4d6eaa2db09e2}{draw\-Series} (Q\-Painter $\ast$\hyperlink{glext_8h_aa5367c14d90f462230c2611b81b41d23}{p}, const \hyperlink{class_qwt_scale_map}{Qwt\-Scale\-Map} \&x\-Map, const \hyperlink{class_qwt_scale_map}{Qwt\-Scale\-Map} \&y\-Map, const Q\-Rect\-F \&canvas\-Rect, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} from, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} to) const 
+\item 
+virtual Q\-Rect\-F \hyperlink{class_qwt_plot_histogram_a683686684263a384cd609c484330bb1f}{bounding\-Rect} () const 
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_plot_histogram_a8bf6410cab08923d02e7167321b3c926}{draw\-Legend\-Identifier} (Q\-Painter $\ast$, const Q\-Rect\-F \&) const 
+\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual \hyperlink{class_qwt_column_rect}{Qwt\-Column\-Rect} \hyperlink{class_qwt_plot_histogram_abbda48a6dc315904e0adb94ee4caf569}{column\-Rect} (const \hyperlink{class_qwt_interval_sample}{Qwt\-Interval\-Sample} \&, const \hyperlink{class_qwt_scale_map}{Qwt\-Scale\-Map} \&, const \hyperlink{class_qwt_scale_map}{Qwt\-Scale\-Map} \&) const 
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_plot_histogram_a4fe5a32387898f50c95e57603f092d2b}{draw\-Column} (Q\-Painter $\ast$, const \hyperlink{class_qwt_column_rect}{Qwt\-Column\-Rect} \&, const \hyperlink{class_qwt_interval_sample}{Qwt\-Interval\-Sample} \&) const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_plot_histogram_a53ef2324fd2bc187eb76dfb76c61f426}{draw\-Columns} (Q\-Painter $\ast$, const \hyperlink{class_qwt_scale_map}{Qwt\-Scale\-Map} \&x\-Map, const \hyperlink{class_qwt_scale_map}{Qwt\-Scale\-Map} \&y\-Map, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} from, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} to) const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_plot_histogram_a9984abfbec9121b8026e9c7103ebec4b}{draw\-Outline} (Q\-Painter $\ast$, const \hyperlink{class_qwt_scale_map}{Qwt\-Scale\-Map} \&x\-Map, const \hyperlink{class_qwt_scale_map}{Qwt\-Scale\-Map} \&y\-Map, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} from, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} to) const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_plot_histogram_aa42318d0547aca1fff650a0025168890}{draw\-Lines} (Q\-Painter $\ast$, const \hyperlink{class_qwt_scale_map}{Qwt\-Scale\-Map} \&x\-Map, const \hyperlink{class_qwt_scale_map}{Qwt\-Scale\-Map} \&y\-Map, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} from, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} to) const 
+\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Detailed Description}
+\hyperlink{class_qwt_plot_histogram}{Qwt\-Plot\-Histogram} represents a series of samples, where an interval is associated with a value ( $y = f([x1,x2])$ ). 
+
+The representation depends on the \hyperlink{class_qwt_plot_histogram_a00915a951baa4fb251f5614cb0dd8aa9}{style()} and an optional \hyperlink{class_qwt_plot_histogram_a5815e991c891210789fef0295047f790}{symbol()} that is displayed for each interval.
+
+\begin{DoxyNote}{Note}
+The term \char`\"{}histogram\char`\"{} is used in a different way in the areas of digital image processing and statistics. Wikipedia introduces the terms \char`\"{}image histogram\char`\"{} and \char`\"{}color histogram\char`\"{} to avoid confusions. While \char`\"{}image histograms\char`\"{} can be displayed by a \hyperlink{class_qwt_plot_curve}{Qwt\-Plot\-Curve} there is no applicable plot item for a \char`\"{}color histogram\char`\"{} yet. 
+\end{DoxyNote}
+
+
+Definition at line 37 of file qwt\-\_\-plot\-\_\-histogram.\-h.
+
+
+
+\subsection{Member Enumeration Documentation}
+\hypertarget{class_qwt_plot_histogram_a3ba21c3aef994daf7b848ccf71b0dbc5}{\index{Qwt\-Plot\-Histogram@{Qwt\-Plot\-Histogram}!Histogram\-Style@{Histogram\-Style}}
+\index{Histogram\-Style@{Histogram\-Style}!QwtPlotHistogram@{Qwt\-Plot\-Histogram}}
+\subsubsection[{Histogram\-Style}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf Qwt\-Plot\-Histogram\-::\-Histogram\-Style}}}\label{class_qwt_plot_histogram_a3ba21c3aef994daf7b848ccf71b0dbc5}
+Histogram styles. The default style is \hyperlink{class_qwt_plot_histogram_a3ba21c3aef994daf7b848ccf71b0dbc5a9cd056b6b9881b07c625756488487362}{Qwt\-Plot\-Histogram\-::\-Columns}.
+
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_plot_histogram_a449af026888616f08b45e980d9da57fe}{set\-Style()}, \hyperlink{class_qwt_plot_histogram_a00915a951baa4fb251f5614cb0dd8aa9}{style()}, \hyperlink{class_qwt_plot_histogram_aa662f072a1758bfac9c0c86136ee27ad}{set\-Symbol()}, \hyperlink{class_qwt_plot_histogram_a5815e991c891210789fef0295047f790}{symbol()}, \hyperlink{class_qwt_plot_histogram_a372314f4e2921673f74d46773d583cf2}{set\-Baseline()} 
+\end{DoxySeeAlso}
+\begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{Outline@{Outline}!Qwt\-Plot\-Histogram@{Qwt\-Plot\-Histogram}}\index{Qwt\-Plot\-Histogram@{Qwt\-Plot\-Histogram}!Outline@{Outline}}\item[{\em 
+\hypertarget{class_qwt_plot_histogram_a3ba21c3aef994daf7b848ccf71b0dbc5ab6ef3ed19f600d5d67d34eedf4cf33a9}{Outline}\label{class_qwt_plot_histogram_a3ba21c3aef994daf7b848ccf71b0dbc5ab6ef3ed19f600d5d67d34eedf4cf33a9}
+}]Draw an outline around the area, that is build by all intervals using the \hyperlink{class_qwt_plot_histogram_a51727f20a46a48afbbc7f76a8ea6ec84}{pen()} and fill it with the \hyperlink{class_qwt_plot_histogram_ae72360d1812a8137a0c7ee6b6a5ebebd}{brush()}. The outline style requires, that the intervals are in increasing order and not overlapping. \index{Columns@{Columns}!Qwt\-Plot\-Histogram@{Qwt\-Plot\-Histogram}}\index{Qwt\-Plot\-Histogram@{Qwt\-Plot\-Histogram}!Columns@{Columns}}\item[{\em 
+\hypertarget{class_qwt_plot_histogram_a3ba21c3aef994daf7b848ccf71b0dbc5a9cd056b6b9881b07c625756488487362}{Columns}\label{class_qwt_plot_histogram_a3ba21c3aef994daf7b848ccf71b0dbc5a9cd056b6b9881b07c625756488487362}
+}]Draw a column for each interval. When a \hyperlink{class_qwt_plot_histogram_a5815e991c891210789fef0295047f790}{symbol()} has been set the symbol is used otherwise the column is displayed as plain rectangle using \hyperlink{class_qwt_plot_histogram_a51727f20a46a48afbbc7f76a8ea6ec84}{pen()} and \hyperlink{class_qwt_plot_histogram_ae72360d1812a8137a0c7ee6b6a5ebebd}{brush()}. \index{Lines@{Lines}!Qwt\-Plot\-Histogram@{Qwt\-Plot\-Histogram}}\index{Qwt\-Plot\-Histogram@{Qwt\-Plot\-Histogram}!Lines@{Lines}}\item[{\em 
+\hypertarget{class_qwt_plot_histogram_a3ba21c3aef994daf7b848ccf71b0dbc5a62b3af66b59203102394dbe1711a7a58}{Lines}\label{class_qwt_plot_histogram_a3ba21c3aef994daf7b848ccf71b0dbc5a62b3af66b59203102394dbe1711a7a58}
+}]Draw a simple line using the \hyperlink{class_qwt_plot_histogram_a51727f20a46a48afbbc7f76a8ea6ec84}{pen()} for each interval. \index{User\-Style@{User\-Style}!Qwt\-Plot\-Histogram@{Qwt\-Plot\-Histogram}}\index{Qwt\-Plot\-Histogram@{Qwt\-Plot\-Histogram}!User\-Style@{User\-Style}}\item[{\em 
+\hypertarget{class_qwt_plot_histogram_a3ba21c3aef994daf7b848ccf71b0dbc5a586b4f119cfbfe62de143c836227c06e}{User\-Style}\label{class_qwt_plot_histogram_a3ba21c3aef994daf7b848ccf71b0dbc5a586b4f119cfbfe62de143c836227c06e}
+}]Styles $>$= User\-Style are reserved for derived classes that overload \hyperlink{class_qwt_plot_histogram_a588eb9f56482fe8669c4d6eaa2db09e2}{draw\-Series()} with additional application specific ways to display a histogram. \end{description}
+\end{Desc}
+
+
+Definition at line 46 of file qwt\-\_\-plot\-\_\-histogram.\-h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_qwt_plot_histogram_ada0642611a7edc4ea3beac45428fd786}{\index{Qwt\-Plot\-Histogram@{Qwt\-Plot\-Histogram}!Qwt\-Plot\-Histogram@{Qwt\-Plot\-Histogram}}
+\index{Qwt\-Plot\-Histogram@{Qwt\-Plot\-Histogram}!QwtPlotHistogram@{Qwt\-Plot\-Histogram}}
+\subsubsection[{Qwt\-Plot\-Histogram}]{\setlength{\rightskip}{0pt plus 5cm}Qwt\-Plot\-Histogram\-::\-Qwt\-Plot\-Histogram (
+\begin{DoxyParamCaption}
+\item[{const {\bf Q\-String} \&}]{title = {\ttfamily QString\-:\-:null}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [explicit]}}}\label{class_qwt_plot_histogram_ada0642611a7edc4ea3beac45428fd786}
+Constructor 
+\begin{DoxyParams}{Parameters}
+{\em title} & Title of the histogram. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 76 of file qwt\-\_\-plot\-\_\-histogram.\-cpp.
+
+\hypertarget{class_qwt_plot_histogram_a5c0973a9425655be4218298706d25f38}{\index{Qwt\-Plot\-Histogram@{Qwt\-Plot\-Histogram}!Qwt\-Plot\-Histogram@{Qwt\-Plot\-Histogram}}
+\index{Qwt\-Plot\-Histogram@{Qwt\-Plot\-Histogram}!QwtPlotHistogram@{Qwt\-Plot\-Histogram}}
+\subsubsection[{Qwt\-Plot\-Histogram}]{\setlength{\rightskip}{0pt plus 5cm}Qwt\-Plot\-Histogram\-::\-Qwt\-Plot\-Histogram (
+\begin{DoxyParamCaption}
+\item[{const {\bf Qwt\-Text} \&}]{title}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [explicit]}}}\label{class_qwt_plot_histogram_a5c0973a9425655be4218298706d25f38}
+Constructor 
+\begin{DoxyParams}{Parameters}
+{\em title} & Title of the histogram. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 66 of file qwt\-\_\-plot\-\_\-histogram.\-cpp.
+
+\hypertarget{class_qwt_plot_histogram_a64bf6dad5655ef1ef3a0a1507d2feafb}{\index{Qwt\-Plot\-Histogram@{Qwt\-Plot\-Histogram}!$\sim$\-Qwt\-Plot\-Histogram@{$\sim$\-Qwt\-Plot\-Histogram}}
+\index{$\sim$\-Qwt\-Plot\-Histogram@{$\sim$\-Qwt\-Plot\-Histogram}!QwtPlotHistogram@{Qwt\-Plot\-Histogram}}
+\subsubsection[{$\sim$\-Qwt\-Plot\-Histogram}]{\setlength{\rightskip}{0pt plus 5cm}Qwt\-Plot\-Histogram\-::$\sim$\-Qwt\-Plot\-Histogram (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_qwt_plot_histogram_a64bf6dad5655ef1ef3a0a1507d2feafb}
+
+
+Destructor. 
+
+
+
+Definition at line 83 of file qwt\-\_\-plot\-\_\-histogram.\-cpp.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_qwt_plot_histogram_a1e15762e54960e7b1de75b542e8024bd}{\index{Qwt\-Plot\-Histogram@{Qwt\-Plot\-Histogram}!baseline@{baseline}}
+\index{baseline@{baseline}!QwtPlotHistogram@{Qwt\-Plot\-Histogram}}
+\subsubsection[{baseline}]{\setlength{\rightskip}{0pt plus 5cm}{\bf double} Qwt\-Plot\-Histogram\-::baseline (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_qwt_plot_histogram_a1e15762e54960e7b1de75b542e8024bd}
+\begin{DoxyReturn}{Returns}
+Value of the baseline 
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_plot_histogram_a372314f4e2921673f74d46773d583cf2}{set\-Baseline()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 229 of file qwt\-\_\-plot\-\_\-histogram.\-cpp.
+
+\hypertarget{class_qwt_plot_histogram_a683686684263a384cd609c484330bb1f}{\index{Qwt\-Plot\-Histogram@{Qwt\-Plot\-Histogram}!bounding\-Rect@{bounding\-Rect}}
+\index{bounding\-Rect@{bounding\-Rect}!QwtPlotHistogram@{Qwt\-Plot\-Histogram}}
+\subsubsection[{bounding\-Rect}]{\setlength{\rightskip}{0pt plus 5cm}Q\-Rect\-F Qwt\-Plot\-Histogram\-::bounding\-Rect (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_qwt_plot_histogram_a683686684263a384cd609c484330bb1f}
+\begin{DoxyReturn}{Returns}
+Bounding rectangle of all samples. For an empty series the rectangle is invalid. 
+\end{DoxyReturn}
+
+
+Reimplemented from \hyperlink{class_qwt_plot_series_item_a183e7c88364eeea8e7c53b56604e0763}{Qwt\-Plot\-Series\-Item$<$ Qwt\-Interval\-Sample $>$}.
+
+
+
+Definition at line 238 of file qwt\-\_\-plot\-\_\-histogram.\-cpp.
+
+\hypertarget{class_qwt_plot_histogram_ae72360d1812a8137a0c7ee6b6a5ebebd}{\index{Qwt\-Plot\-Histogram@{Qwt\-Plot\-Histogram}!brush@{brush}}
+\index{brush@{brush}!QwtPlotHistogram@{Qwt\-Plot\-Histogram}}
+\subsubsection[{brush}]{\setlength{\rightskip}{0pt plus 5cm}const Q\-Brush \& Qwt\-Plot\-Histogram\-::brush (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_qwt_plot_histogram_ae72360d1812a8137a0c7ee6b6a5ebebd}
+\begin{DoxyReturn}{Returns}
+Brush used in a \hyperlink{class_qwt_plot_histogram_a00915a951baa4fb251f5614cb0dd8aa9}{style()} depending way. 
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_plot_histogram_a230e53561dd2645ba34beaa89f4f4f61}{set\-Pen()}, \hyperlink{class_qwt_plot_histogram_ae72360d1812a8137a0c7ee6b6a5ebebd}{brush()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 167 of file qwt\-\_\-plot\-\_\-histogram.\-cpp.
+
+\hypertarget{class_qwt_plot_histogram_abbda48a6dc315904e0adb94ee4caf569}{\index{Qwt\-Plot\-Histogram@{Qwt\-Plot\-Histogram}!column\-Rect@{column\-Rect}}
+\index{column\-Rect@{column\-Rect}!QwtPlotHistogram@{Qwt\-Plot\-Histogram}}
+\subsubsection[{column\-Rect}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Qwt\-Column\-Rect} Qwt\-Plot\-Histogram\-::column\-Rect (
+\begin{DoxyParamCaption}
+\item[{const {\bf Qwt\-Interval\-Sample} \&}]{sample, }
+\item[{const {\bf Qwt\-Scale\-Map} \&}]{x\-Map, }
+\item[{const {\bf Qwt\-Scale\-Map} \&}]{y\-Map}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}}\label{class_qwt_plot_histogram_abbda48a6dc315904e0adb94ee4caf569}
+Calculate the area that is covered by a sample
+
+
+\begin{DoxyParams}{Parameters}
+{\em sample} & Sample \\
+\hline
+{\em x\-Map} & Maps x-\/values into pixel coordinates. \\
+\hline
+{\em y\-Map} & Maps y-\/values into pixel coordinates.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Rectangle, that is covered by a sample 
+\end{DoxyReturn}
+
+
+Definition at line 555 of file qwt\-\_\-plot\-\_\-histogram.\-cpp.
+
+\hypertarget{class_qwt_plot_histogram_a4fe5a32387898f50c95e57603f092d2b}{\index{Qwt\-Plot\-Histogram@{Qwt\-Plot\-Histogram}!draw\-Column@{draw\-Column}}
+\index{draw\-Column@{draw\-Column}!QwtPlotHistogram@{Qwt\-Plot\-Histogram}}
+\subsubsection[{draw\-Column}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Plot\-Histogram\-::draw\-Column (
+\begin{DoxyParamCaption}
+\item[{Q\-Painter $\ast$}]{painter, }
+\item[{const {\bf Qwt\-Column\-Rect} \&}]{rect, }
+\item[{const {\bf Qwt\-Interval\-Sample} \&}]{sample}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}}\label{class_qwt_plot_histogram_a4fe5a32387898f50c95e57603f092d2b}
+Draw a column for a sample in Columns \hyperlink{class_qwt_plot_histogram_a00915a951baa4fb251f5614cb0dd8aa9}{style()}.
+
+When a \hyperlink{class_qwt_plot_histogram_a5815e991c891210789fef0295047f790}{symbol()} has been set the symbol is used otherwise the column is displayed as plain rectangle using \hyperlink{class_qwt_plot_histogram_a51727f20a46a48afbbc7f76a8ea6ec84}{pen()} and \hyperlink{class_qwt_plot_histogram_ae72360d1812a8137a0c7ee6b6a5ebebd}{brush()}.
+
+
+\begin{DoxyParams}{Parameters}
+{\em painter} & Painter \\
+\hline
+{\em rect} & Rectangle where to paint the column in paint device coordinates \\
+\hline
+{\em sample} & Sample to be displayed\\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+In applications, where different intervals need to be displayed in a different way ( f.\-e different colors or even using differnt symbols) it is recommended to overload \hyperlink{class_qwt_plot_histogram_a4fe5a32387898f50c95e57603f092d2b}{draw\-Column()}. 
+\end{DoxyNote}
+
+
+Definition at line 606 of file qwt\-\_\-plot\-\_\-histogram.\-cpp.
+
+\hypertarget{class_qwt_plot_histogram_a53ef2324fd2bc187eb76dfb76c61f426}{\index{Qwt\-Plot\-Histogram@{Qwt\-Plot\-Histogram}!draw\-Columns@{draw\-Columns}}
+\index{draw\-Columns@{draw\-Columns}!QwtPlotHistogram@{Qwt\-Plot\-Histogram}}
+\subsubsection[{draw\-Columns}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Plot\-Histogram\-::draw\-Columns (
+\begin{DoxyParamCaption}
+\item[{Q\-Painter $\ast$}]{painter, }
+\item[{const {\bf Qwt\-Scale\-Map} \&}]{x\-Map, }
+\item[{const {\bf Qwt\-Scale\-Map} \&}]{y\-Map, }
+\item[{{\bf int}}]{from, }
+\item[{{\bf int}}]{to}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_qwt_plot_histogram_a53ef2324fd2bc187eb76dfb76c61f426}
+Draw a histogram in Columns \hyperlink{class_qwt_plot_histogram_a00915a951baa4fb251f5614cb0dd8aa9}{style()}
+
+
+\begin{DoxyParams}{Parameters}
+{\em painter} & Painter \\
+\hline
+{\em x\-Map} & Maps x-\/values into pixel coordinates. \\
+\hline
+{\em y\-Map} & Maps y-\/values into pixel coordinates. \\
+\hline
+{\em from} & Index of the first sample to be painted \\
+\hline
+{\em to} & Index of the last sample to be painted. If to $<$ 0 the histogram will be painted to its last point.\\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_plot_histogram_a449af026888616f08b45e980d9da57fe}{set\-Style()}, \hyperlink{class_qwt_plot_histogram_a00915a951baa4fb251f5614cb0dd8aa9}{style()}, \hyperlink{class_qwt_plot_histogram_aa662f072a1758bfac9c0c86136ee27ad}{set\-Symbol()}, \hyperlink{class_qwt_plot_histogram_a4fe5a32387898f50c95e57603f092d2b}{draw\-Column()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 421 of file qwt\-\_\-plot\-\_\-histogram.\-cpp.
+
+\hypertarget{class_qwt_plot_histogram_a8bf6410cab08923d02e7167321b3c926}{\index{Qwt\-Plot\-Histogram@{Qwt\-Plot\-Histogram}!draw\-Legend\-Identifier@{draw\-Legend\-Identifier}}
+\index{draw\-Legend\-Identifier@{draw\-Legend\-Identifier}!QwtPlotHistogram@{Qwt\-Plot\-Histogram}}
+\subsubsection[{draw\-Legend\-Identifier}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Plot\-Histogram\-::draw\-Legend\-Identifier (
+\begin{DoxyParamCaption}
+\item[{Q\-Painter $\ast$}]{painter, }
+\item[{const Q\-Rect\-F \&}]{rect}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_qwt_plot_histogram_a8bf6410cab08923d02e7167321b3c926}
+Draw a plain rectangle without pen using the \hyperlink{class_qwt_plot_histogram_ae72360d1812a8137a0c7ee6b6a5ebebd}{brush()} as identifier
+
+
+\begin{DoxyParams}{Parameters}
+{\em painter} & Painter \\
+\hline
+{\em rect} & Bounding rectangle for the identifier \\
+\hline
+\end{DoxyParams}
+
+
+Reimplemented from \hyperlink{class_qwt_legend_item_manager_a8dd765a2fd5b9a286fa398810a5c2ad8}{Qwt\-Legend\-Item\-Manager}.
+
+
+
+Definition at line 637 of file qwt\-\_\-plot\-\_\-histogram.\-cpp.
+
+\hypertarget{class_qwt_plot_histogram_aa42318d0547aca1fff650a0025168890}{\index{Qwt\-Plot\-Histogram@{Qwt\-Plot\-Histogram}!draw\-Lines@{draw\-Lines}}
+\index{draw\-Lines@{draw\-Lines}!QwtPlotHistogram@{Qwt\-Plot\-Histogram}}
+\subsubsection[{draw\-Lines}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Plot\-Histogram\-::draw\-Lines (
+\begin{DoxyParamCaption}
+\item[{Q\-Painter $\ast$}]{painter, }
+\item[{const {\bf Qwt\-Scale\-Map} \&}]{x\-Map, }
+\item[{const {\bf Qwt\-Scale\-Map} \&}]{y\-Map, }
+\item[{{\bf int}}]{from, }
+\item[{{\bf int}}]{to}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_qwt_plot_histogram_aa42318d0547aca1fff650a0025168890}
+Draw a histogram in Lines \hyperlink{class_qwt_plot_histogram_a00915a951baa4fb251f5614cb0dd8aa9}{style()}
+
+
+\begin{DoxyParams}{Parameters}
+{\em painter} & Painter \\
+\hline
+{\em x\-Map} & Maps x-\/values into pixel coordinates. \\
+\hline
+{\em y\-Map} & Maps y-\/values into pixel coordinates. \\
+\hline
+{\em from} & Index of the first sample to be painted \\
+\hline
+{\em to} & Index of the last sample to be painted. If to $<$ 0 the histogram will be painted to its last point.\\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_plot_histogram_a449af026888616f08b45e980d9da57fe}{set\-Style()}, \hyperlink{class_qwt_plot_histogram_a00915a951baa4fb251f5614cb0dd8aa9}{style()}, \hyperlink{class_qwt_plot_histogram_a230e53561dd2645ba34beaa89f4f4f61}{set\-Pen()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 451 of file qwt\-\_\-plot\-\_\-histogram.\-cpp.
+
+\hypertarget{class_qwt_plot_histogram_a9984abfbec9121b8026e9c7103ebec4b}{\index{Qwt\-Plot\-Histogram@{Qwt\-Plot\-Histogram}!draw\-Outline@{draw\-Outline}}
+\index{draw\-Outline@{draw\-Outline}!QwtPlotHistogram@{Qwt\-Plot\-Histogram}}
+\subsubsection[{draw\-Outline}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Plot\-Histogram\-::draw\-Outline (
+\begin{DoxyParamCaption}
+\item[{Q\-Painter $\ast$}]{painter, }
+\item[{const {\bf Qwt\-Scale\-Map} \&}]{x\-Map, }
+\item[{const {\bf Qwt\-Scale\-Map} \&}]{y\-Map, }
+\item[{{\bf int}}]{from, }
+\item[{{\bf int}}]{to}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_qwt_plot_histogram_a9984abfbec9121b8026e9c7103ebec4b}
+Draw a histogram in Outline \hyperlink{class_qwt_plot_histogram_a00915a951baa4fb251f5614cb0dd8aa9}{style()}
+
+
+\begin{DoxyParams}{Parameters}
+{\em painter} & Painter \\
+\hline
+{\em x\-Map} & Maps x-\/values into pixel coordinates. \\
+\hline
+{\em y\-Map} & Maps y-\/values into pixel coordinates. \\
+\hline
+{\em from} & Index of the first sample to be painted \\
+\hline
+{\em to} & Index of the last sample to be painted. If to $<$ 0 the histogram will be painted to its last point.\\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_plot_histogram_a449af026888616f08b45e980d9da57fe}{set\-Style()}, \hyperlink{class_qwt_plot_histogram_a00915a951baa4fb251f5614cb0dd8aa9}{style()} 
+\end{DoxySeeAlso}
+\begin{DoxyWarning}{Warning}
+The outline style requires, that the intervals are in increasing order and not overlapping. 
+\end{DoxyWarning}
+
+
+Definition at line 336 of file qwt\-\_\-plot\-\_\-histogram.\-cpp.
+
+\hypertarget{class_qwt_plot_histogram_a588eb9f56482fe8669c4d6eaa2db09e2}{\index{Qwt\-Plot\-Histogram@{Qwt\-Plot\-Histogram}!draw\-Series@{draw\-Series}}
+\index{draw\-Series@{draw\-Series}!QwtPlotHistogram@{Qwt\-Plot\-Histogram}}
+\subsubsection[{draw\-Series}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Plot\-Histogram\-::draw\-Series (
+\begin{DoxyParamCaption}
+\item[{Q\-Painter $\ast$}]{painter, }
+\item[{const {\bf Qwt\-Scale\-Map} \&}]{x\-Map, }
+\item[{const {\bf Qwt\-Scale\-Map} \&}]{y\-Map, }
+\item[{const Q\-Rect\-F \&}]{canvas\-Rect, }
+\item[{{\bf int}}]{from, }
+\item[{{\bf int}}]{to}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_qwt_plot_histogram_a588eb9f56482fe8669c4d6eaa2db09e2}
+Draw a subset of the histogram samples
+
+
+\begin{DoxyParams}{Parameters}
+{\em painter} & Painter \\
+\hline
+{\em x\-Map} & Maps x-\/values into pixel coordinates. \\
+\hline
+{\em y\-Map} & Maps y-\/values into pixel coordinates. \\
+\hline
+{\em canvas\-Rect} & Contents rect of the canvas \\
+\hline
+{\em from} & Index of the first sample to be painted \\
+\hline
+{\em to} & Index of the last sample to be painted. If to $<$ 0 the series will be painted to its last sample.\\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_plot_histogram_a9984abfbec9121b8026e9c7103ebec4b}{draw\-Outline()}, \hyperlink{class_qwt_plot_histogram_aa42318d0547aca1fff650a0025168890}{draw\-Lines()}, \hyperlink{class_qwt_plot_histogram_a53ef2324fd2bc187eb76dfb76c61f426}{draw\-Columns} 
+\end{DoxySeeAlso}
+
+
+Implements \hyperlink{class_qwt_plot_abstract_series_item_ad411a172087666b4852ae244ac6f5663}{Qwt\-Plot\-Abstract\-Series\-Item}.
+
+
+
+Definition at line 296 of file qwt\-\_\-plot\-\_\-histogram.\-cpp.
+
+\hypertarget{class_qwt_plot_histogram_a51727f20a46a48afbbc7f76a8ea6ec84}{\index{Qwt\-Plot\-Histogram@{Qwt\-Plot\-Histogram}!pen@{pen}}
+\index{pen@{pen}!QwtPlotHistogram@{Qwt\-Plot\-Histogram}}
+\subsubsection[{pen}]{\setlength{\rightskip}{0pt plus 5cm}const Q\-Pen \& Qwt\-Plot\-Histogram\-::pen (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_qwt_plot_histogram_a51727f20a46a48afbbc7f76a8ea6ec84}
+\begin{DoxyReturn}{Returns}
+Pen used in a \hyperlink{class_qwt_plot_histogram_a00915a951baa4fb251f5614cb0dd8aa9}{style()} depending way. 
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_plot_histogram_a230e53561dd2645ba34beaa89f4f4f61}{set\-Pen()}, \hyperlink{class_qwt_plot_histogram_ae72360d1812a8137a0c7ee6b6a5ebebd}{brush()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 143 of file qwt\-\_\-plot\-\_\-histogram.\-cpp.
+
+\hypertarget{class_qwt_plot_histogram_a7a927d6ad8544cf5d46e629a03a5a8f1}{\index{Qwt\-Plot\-Histogram@{Qwt\-Plot\-Histogram}!rtti@{rtti}}
+\index{rtti@{rtti}!QwtPlotHistogram@{Qwt\-Plot\-Histogram}}
+\subsubsection[{rtti}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int} Qwt\-Plot\-Histogram\-::rtti (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_qwt_plot_histogram_a7a927d6ad8544cf5d46e629a03a5a8f1}
+\begin{DoxyReturn}{Returns}
+\hyperlink{class_qwt_plot_item_ab149ac85e233ce9cedf2f2f2af871bf3a4538dd66ec78ffd7ce6763f9000edcee}{Qwt\-Plot\-Item\-::\-Rtti\-\_\-\-Plot\-Histogram} 
+\end{DoxyReturn}
+
+
+Reimplemented from \hyperlink{class_qwt_plot_item_af153b5a40a60ac626f1c58e69fc4ecad}{Qwt\-Plot\-Item}.
+
+
+
+Definition at line 266 of file qwt\-\_\-plot\-\_\-histogram.\-cpp.
+
+\hypertarget{class_qwt_plot_histogram_a372314f4e2921673f74d46773d583cf2}{\index{Qwt\-Plot\-Histogram@{Qwt\-Plot\-Histogram}!set\-Baseline@{set\-Baseline}}
+\index{set\-Baseline@{set\-Baseline}!QwtPlotHistogram@{Qwt\-Plot\-Histogram}}
+\subsubsection[{set\-Baseline}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Plot\-Histogram\-::set\-Baseline (
+\begin{DoxyParamCaption}
+\item[{{\bf double}}]{value}
+\end{DoxyParamCaption}
+)}}\label{class_qwt_plot_histogram_a372314f4e2921673f74d46773d583cf2}
+
+
+Set the value of the baseline. 
+
+Each column representing an \hyperlink{class_qwt_interval_sample}{Qwt\-Interval\-Sample} is defined by its interval and the interval between baseline and the value of the sample.
+
+The default value of the baseline is 0.\-0.
+
+
+\begin{DoxyParams}{Parameters}
+{\em value} & Value of the baseline \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_plot_histogram_a1e15762e54960e7b1de75b542e8024bd}{baseline()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 216 of file qwt\-\_\-plot\-\_\-histogram.\-cpp.
+
+\hypertarget{class_qwt_plot_histogram_a0bf40c3f9f9074cac5deecd4525583b3}{\index{Qwt\-Plot\-Histogram@{Qwt\-Plot\-Histogram}!set\-Brush@{set\-Brush}}
+\index{set\-Brush@{set\-Brush}!QwtPlotHistogram@{Qwt\-Plot\-Histogram}}
+\subsubsection[{set\-Brush}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Plot\-Histogram\-::set\-Brush (
+\begin{DoxyParamCaption}
+\item[{const Q\-Brush \&}]{brush}
+\end{DoxyParamCaption}
+)}}\label{class_qwt_plot_histogram_a0bf40c3f9f9074cac5deecd4525583b3}
+Assign a brush, that is used in a \hyperlink{class_qwt_plot_histogram_a00915a951baa4fb251f5614cb0dd8aa9}{style()} depending way.
+
+
+\begin{DoxyParams}{Parameters}
+{\em brush} & New brush \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_plot_histogram_a51727f20a46a48afbbc7f76a8ea6ec84}{pen()}, \hyperlink{class_qwt_plot_histogram_ae72360d1812a8137a0c7ee6b6a5ebebd}{brush()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 154 of file qwt\-\_\-plot\-\_\-histogram.\-cpp.
+
+\hypertarget{class_qwt_plot_histogram_a230e53561dd2645ba34beaa89f4f4f61}{\index{Qwt\-Plot\-Histogram@{Qwt\-Plot\-Histogram}!set\-Pen@{set\-Pen}}
+\index{set\-Pen@{set\-Pen}!QwtPlotHistogram@{Qwt\-Plot\-Histogram}}
+\subsubsection[{set\-Pen}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Plot\-Histogram\-::set\-Pen (
+\begin{DoxyParamCaption}
+\item[{const Q\-Pen \&}]{pen}
+\end{DoxyParamCaption}
+)}}\label{class_qwt_plot_histogram_a230e53561dd2645ba34beaa89f4f4f61}
+Assign a pen, that is used in a \hyperlink{class_qwt_plot_histogram_a00915a951baa4fb251f5614cb0dd8aa9}{style()} depending way.
+
+
+\begin{DoxyParams}{Parameters}
+{\em pen} & New pen \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_plot_histogram_a51727f20a46a48afbbc7f76a8ea6ec84}{pen()}, \hyperlink{class_qwt_plot_histogram_ae72360d1812a8137a0c7ee6b6a5ebebd}{brush()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 130 of file qwt\-\_\-plot\-\_\-histogram.\-cpp.
+
+\hypertarget{class_qwt_plot_histogram_a6cc1fe6cd9f7dfc55a2bf5afd02ccce5}{\index{Qwt\-Plot\-Histogram@{Qwt\-Plot\-Histogram}!set\-Samples@{set\-Samples}}
+\index{set\-Samples@{set\-Samples}!QwtPlotHistogram@{Qwt\-Plot\-Histogram}}
+\subsubsection[{set\-Samples}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Plot\-Histogram\-::set\-Samples (
+\begin{DoxyParamCaption}
+\item[{const Q\-Vector$<$ {\bf Qwt\-Interval\-Sample} $>$ \&}]{samples}
+\end{DoxyParamCaption}
+)}}\label{class_qwt_plot_histogram_a6cc1fe6cd9f7dfc55a2bf5afd02ccce5}
+Initialize data with an array of samples. 
+\begin{DoxyParams}{Parameters}
+{\em samples} & Vector of points \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 275 of file qwt\-\_\-plot\-\_\-histogram.\-cpp.
+
+\hypertarget{class_qwt_plot_histogram_a449af026888616f08b45e980d9da57fe}{\index{Qwt\-Plot\-Histogram@{Qwt\-Plot\-Histogram}!set\-Style@{set\-Style}}
+\index{set\-Style@{set\-Style}!QwtPlotHistogram@{Qwt\-Plot\-Histogram}}
+\subsubsection[{set\-Style}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Plot\-Histogram\-::set\-Style (
+\begin{DoxyParamCaption}
+\item[{{\bf Histogram\-Style}}]{style}
+\end{DoxyParamCaption}
+)}}\label{class_qwt_plot_histogram_a449af026888616f08b45e980d9da57fe}
+Set the histogram's drawing style
+
+
+\begin{DoxyParams}{Parameters}
+{\em style} & Histogram style \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_plot_histogram_a3ba21c3aef994daf7b848ccf71b0dbc5}{Histogram\-Style}, \hyperlink{class_qwt_plot_histogram_a00915a951baa4fb251f5614cb0dd8aa9}{style()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 106 of file qwt\-\_\-plot\-\_\-histogram.\-cpp.
+
+\hypertarget{class_qwt_plot_histogram_aa662f072a1758bfac9c0c86136ee27ad}{\index{Qwt\-Plot\-Histogram@{Qwt\-Plot\-Histogram}!set\-Symbol@{set\-Symbol}}
+\index{set\-Symbol@{set\-Symbol}!QwtPlotHistogram@{Qwt\-Plot\-Histogram}}
+\subsubsection[{set\-Symbol}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Plot\-Histogram\-::set\-Symbol (
+\begin{DoxyParamCaption}
+\item[{const {\bf Qwt\-Column\-Symbol} $\ast$}]{symbol}
+\end{DoxyParamCaption}
+)}}\label{class_qwt_plot_histogram_aa662f072a1758bfac9c0c86136ee27ad}
+
+
+Assign a symbol. 
+
+In Column style an optional symbol can be assigned, that is responsible for displaying the rectangle that is defined by the interval and the distance between \hyperlink{class_qwt_plot_histogram_a1e15762e54960e7b1de75b542e8024bd}{baseline()} and value. When no symbol has been defined the area is displayed as plain rectangle using \hyperlink{class_qwt_plot_histogram_a51727f20a46a48afbbc7f76a8ea6ec84}{pen()} and \hyperlink{class_qwt_plot_histogram_ae72360d1812a8137a0c7ee6b6a5ebebd}{brush()}.
+
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_plot_histogram_a00915a951baa4fb251f5614cb0dd8aa9}{style()}, \hyperlink{class_qwt_plot_histogram_a5815e991c891210789fef0295047f790}{symbol()}, \hyperlink{class_qwt_plot_histogram_a4fe5a32387898f50c95e57603f092d2b}{draw\-Column()}, \hyperlink{class_qwt_plot_histogram_a51727f20a46a48afbbc7f76a8ea6ec84}{pen()}, \hyperlink{class_qwt_plot_histogram_ae72360d1812a8137a0c7ee6b6a5ebebd}{brush()}
+\end{DoxySeeAlso}
+\begin{DoxyNote}{Note}
+In applications, where different intervals need to be displayed in a different way ( f.\-e different colors or even using differnt symbols) it is recommended to overload \hyperlink{class_qwt_plot_histogram_a4fe5a32387898f50c95e57603f092d2b}{draw\-Column()}. 
+\end{DoxyNote}
+
+
+Definition at line 186 of file qwt\-\_\-plot\-\_\-histogram.\-cpp.
+
+\hypertarget{class_qwt_plot_histogram_a00915a951baa4fb251f5614cb0dd8aa9}{\index{Qwt\-Plot\-Histogram@{Qwt\-Plot\-Histogram}!style@{style}}
+\index{style@{style}!QwtPlotHistogram@{Qwt\-Plot\-Histogram}}
+\subsubsection[{style}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Qwt\-Plot\-Histogram\-::\-Histogram\-Style} Qwt\-Plot\-Histogram\-::style (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_qwt_plot_histogram_a00915a951baa4fb251f5614cb0dd8aa9}
+Return the current style \begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_plot_histogram_a3ba21c3aef994daf7b848ccf71b0dbc5}{Histogram\-Style}, \hyperlink{class_qwt_plot_histogram_a449af026888616f08b45e980d9da57fe}{set\-Style()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 119 of file qwt\-\_\-plot\-\_\-histogram.\-cpp.
+
+\hypertarget{class_qwt_plot_histogram_a5815e991c891210789fef0295047f790}{\index{Qwt\-Plot\-Histogram@{Qwt\-Plot\-Histogram}!symbol@{symbol}}
+\index{symbol@{symbol}!QwtPlotHistogram@{Qwt\-Plot\-Histogram}}
+\subsubsection[{symbol}]{\setlength{\rightskip}{0pt plus 5cm}const {\bf Qwt\-Column\-Symbol} $\ast$ Qwt\-Plot\-Histogram\-::symbol (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_qwt_plot_histogram_a5815e991c891210789fef0295047f790}
+\begin{DoxyReturn}{Returns}
+Current symbol or N\-U\-L\-L, when no symbol has been assigned 
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_plot_histogram_aa662f072a1758bfac9c0c86136ee27ad}{set\-Symbol()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 200 of file qwt\-\_\-plot\-\_\-histogram.\-cpp.
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/qwt/src/\hyperlink{qwt__plot__histogram_8h}{qwt\-\_\-plot\-\_\-histogram.\-h}\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/qwt/src/\hyperlink{qwt__plot__histogram_8cpp}{qwt\-\_\-plot\-\_\-histogram.\-cpp}\end{DoxyCompactItemize}

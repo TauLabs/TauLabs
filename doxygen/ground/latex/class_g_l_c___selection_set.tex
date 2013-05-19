@@ -1,0 +1,420 @@
+\hypertarget{class_g_l_c___selection_set}{\section{G\-L\-C\-\_\-\-Selection\-Set Class Reference}
+\label{class_g_l_c___selection_set}\index{G\-L\-C\-\_\-\-Selection\-Set@{G\-L\-C\-\_\-\-Selection\-Set}}
+}
+
+
+\hyperlink{class_g_l_c___selection_set}{G\-L\-C\-\_\-\-Selection\-Set} \-: \hyperlink{class_g_l_c___struct_occurence}{G\-L\-C\-\_\-\-Struct\-Occurence} and primitive selection set.  
+
+
+
+
+{\ttfamily \#include $<$glc\-\_\-selectionset.\-h$>$}
+
+\subsection*{Public Member Functions}
+\begin{Indent}{\bf Constructor / Destructor}\par
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_g_l_c___selection_set_aca65f0ee3a4ee400b723779ea437ab78}{G\-L\-C\-\_\-\-Selection\-Set} (\hyperlink{class_g_l_c___world_handle}{G\-L\-C\-\_\-\-World\-Handle} $\ast$p\-World)
+\begin{DoxyCompactList}\small\item\em Construct the selection set associated to the given \hyperlink{class_g_l_c___world_handle}{G\-L\-C\-\_\-\-World\-Handle}. \end{DoxyCompactList}\item 
+virtual \hyperlink{class_g_l_c___selection_set_a60e4579171066a76398909ce1c5f74eb}{$\sim$\-G\-L\-C\-\_\-\-Selection\-Set} ()
+\end{DoxyCompactItemize}
+\end{Indent}
+\begin{Indent}{\bf Get Functions}\par
+\begin{DoxyCompactItemize}
+\item 
+bool \hyperlink{class_g_l_c___selection_set_ad31c2a9af019f84f6a67db4fdb28428a}{is\-Empty} () const 
+\begin{DoxyCompactList}\small\item\em Return true if this selection set is empty. \end{DoxyCompactList}\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_g_l_c___selection_set_a21abb44047b7700fbd924e424b9ce5ea}{size} () const 
+\begin{DoxyCompactList}\small\item\em Return the number of occurence in this selection set. \end{DoxyCompactList}\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_g_l_c___selection_set_aba67276a133aea5f90f76ad5f1292c31}{count} () const 
+\begin{DoxyCompactList}\small\item\em Return the number of occurence in this selection set. \end{DoxyCompactList}\item 
+\hyperlink{class_q_list}{Q\-List}$<$ \hyperlink{class_g_l_c___struct_occurence}{G\-L\-C\-\_\-\-Struct\-Occurence} $\ast$ $>$ \hyperlink{class_g_l_c___selection_set_a7606199cf5bb15ddd48f05bc9d45f089}{occurences\-List} () const 
+\begin{DoxyCompactList}\small\item\em Return the list of selected occurences. \end{DoxyCompactList}\item 
+\hyperlink{class_q_list}{Q\-List}$<$ \hyperlink{class_g_l_c___struct_occurence}{G\-L\-C\-\_\-\-Struct\-Occurence} $\ast$ $>$ \hyperlink{class_g_l_c___selection_set_a545611a441d387790845f27e5b797d8e}{occurences\-List\-With\-Selected\-Primitive} () const 
+\begin{DoxyCompactList}\small\item\em Return the list of occurences with selected primitive. \end{DoxyCompactList}\item 
+Q\-Set$<$ \hyperlink{glc__global_8h_abf950976fabed69026558df8e2da6c6b}{G\-L\-C\-\_\-uint} $>$ \hyperlink{class_g_l_c___selection_set_acdfa5acae6d279579ffc591098ea96ac}{selected\-Primitives\-Id} (\hyperlink{glc__global_8h_abf950976fabed69026558df8e2da6c6b}{G\-L\-C\-\_\-uint} instance\-Id) const 
+\begin{DoxyCompactList}\small\item\em Return the set of primitive id of the given G\-L\-C\-\_\-\-Struct\-Occurence/\-G\-L\-C\-\_\-3\-Dview\-Instance id. \end{DoxyCompactList}\item 
+bool \hyperlink{class_g_l_c___selection_set_abfd86ff033b3c26a7037ae12b021acce}{has\-Primitive\-Selected} (\hyperlink{glc__global_8h_abf950976fabed69026558df8e2da6c6b}{G\-L\-C\-\_\-uint} instance\-Id) const 
+\begin{DoxyCompactList}\small\item\em Return true if the given G\-L\-C\-\_\-\-Struct\-Occurence/\-G\-L\-C\-\_\-3\-Dview\-Instance id has selected primitives. \end{DoxyCompactList}\item 
+bool \hyperlink{class_g_l_c___selection_set_a52538198f5fa0e726733f376af737a4f}{contains} (const \hyperlink{class_g_l_c___struct_occurence}{G\-L\-C\-\_\-\-Struct\-Occurence} $\ast$p\-Occurence) const 
+\begin{DoxyCompactList}\small\item\em Return true if this selection set contains the given occurence. \end{DoxyCompactList}\item 
+bool \hyperlink{class_g_l_c___selection_set_aeb6c2fa80596fb03c3a29811562c9521}{contains} (\hyperlink{glc__global_8h_abf950976fabed69026558df8e2da6c6b}{G\-L\-C\-\_\-uint} occurence\-Id) const 
+\begin{DoxyCompactList}\small\item\em Return true if this selection set contains the given occurence id. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\end{Indent}
+\begin{Indent}{\bf Set Functions}\par
+\begin{DoxyCompactItemize}
+\item 
+bool \hyperlink{class_g_l_c___selection_set_a672ee5da50288d62adbae732ee889928}{insert} (\hyperlink{class_g_l_c___struct_occurence}{G\-L\-C\-\_\-\-Struct\-Occurence} $\ast$p\-Occurence)
+\begin{DoxyCompactList}\small\item\em Insert the given Occurence into the selection set and return true on success. \end{DoxyCompactList}\item 
+bool \hyperlink{class_g_l_c___selection_set_a7045726f6c776645f4c55b770ee2f9fc}{insert} (\hyperlink{glc__global_8h_abf950976fabed69026558df8e2da6c6b}{G\-L\-C\-\_\-uint} occurence\-Id)
+\begin{DoxyCompactList}\small\item\em Insert the given Occurence id into the selection set and return true on success. \end{DoxyCompactList}\item 
+bool \hyperlink{class_g_l_c___selection_set_aa426d834e69ff0f55f3a2ae15fbeffc6}{remove} (\hyperlink{class_g_l_c___struct_occurence}{G\-L\-C\-\_\-\-Struct\-Occurence} $\ast$p\-Occurence)
+\begin{DoxyCompactList}\small\item\em Remove the given occurence from the selection set and return true on success. \end{DoxyCompactList}\item 
+bool \hyperlink{class_g_l_c___selection_set_a163d7f6365d77dd2d659a70185e45fd5}{remove} (\hyperlink{glc__global_8h_abf950976fabed69026558df8e2da6c6b}{G\-L\-C\-\_\-uint} occurence\-Id)
+\begin{DoxyCompactList}\small\item\em Remove the given occurence from the selection set and return true on success. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c___selection_set_a92f9526c0d2f2f7d63e70be5da2c33a3}{clear} ()
+\begin{DoxyCompactList}\small\item\em Clear this selection set. \end{DoxyCompactList}\item 
+bool \hyperlink{class_g_l_c___selection_set_a4153efb3524bdf1aac2d6dcfec021926}{insert\-Primitive\-Id} (\hyperlink{class_g_l_c___struct_occurence}{G\-L\-C\-\_\-\-Struct\-Occurence} $\ast$p\-Occurence, \hyperlink{glc__global_8h_abf950976fabed69026558df8e2da6c6b}{G\-L\-C\-\_\-uint} primitive\-Id)
+\begin{DoxyCompactList}\small\item\em Insert the given primitive id to the given Occurence return true on success. \end{DoxyCompactList}\item 
+bool \hyperlink{class_g_l_c___selection_set_ab4b6a99ac91fcf3c29f25034469212da}{insert\-Primitive\-Id} (\hyperlink{glc__global_8h_abf950976fabed69026558df8e2da6c6b}{G\-L\-C\-\_\-uint} occurence\-Id, \hyperlink{glc__global_8h_abf950976fabed69026558df8e2da6c6b}{G\-L\-C\-\_\-uint} primitive\-Id)
+\begin{DoxyCompactList}\small\item\em Insert the given primitive id to the given Occurence id return true on success. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c___selection_set_a697260456e6a7babbbb5bafcd3593590}{insert\-Set\-Of\-Primitives\-Id} (\hyperlink{class_g_l_c___struct_occurence}{G\-L\-C\-\_\-\-Struct\-Occurence} $\ast$p\-Occurence, const Q\-Set$<$ \hyperlink{glc__global_8h_abf950976fabed69026558df8e2da6c6b}{G\-L\-C\-\_\-uint} $>$ \&set\-Of\-Primitives\-Id)
+\begin{DoxyCompactList}\small\item\em Insert the given set of primitive id to the given Occurence. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c___selection_set_a25ee934e0ec7ec49eacd1f7db06fe275}{insert\-Set\-Of\-Primitives\-Id} (\hyperlink{glc__global_8h_abf950976fabed69026558df8e2da6c6b}{G\-L\-C\-\_\-uint} occurence\-Id, const Q\-Set$<$ \hyperlink{glc__global_8h_abf950976fabed69026558df8e2da6c6b}{G\-L\-C\-\_\-uint} $>$ \&set\-Of\-Primitives\-Id)
+\begin{DoxyCompactList}\small\item\em Insert the given set of primitive id to the given Occurence id. \end{DoxyCompactList}\item 
+bool \hyperlink{class_g_l_c___selection_set_afc66a6cc0d9b1ddcaf40ab1dc3a7aceb}{remove\-Primitive\-Id} (\hyperlink{class_g_l_c___struct_occurence}{G\-L\-C\-\_\-\-Struct\-Occurence} $\ast$p\-Occurence, \hyperlink{glc__global_8h_abf950976fabed69026558df8e2da6c6b}{G\-L\-C\-\_\-uint} primitive\-Id)
+\begin{DoxyCompactList}\small\item\em Remove the given primitive id to the given Occurence return true on success. \end{DoxyCompactList}\item 
+bool \hyperlink{class_g_l_c___selection_set_a9be39cea14301fed8a961f21b0ec7871}{remove\-Primitive\-Id} (\hyperlink{glc__global_8h_abf950976fabed69026558df8e2da6c6b}{G\-L\-C\-\_\-uint} occurence\-Id, \hyperlink{glc__global_8h_abf950976fabed69026558df8e2da6c6b}{G\-L\-C\-\_\-uint} primitive\-Id)
+\begin{DoxyCompactList}\small\item\em Remove the given primitive id to the given Occurence return true on success. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\end{Indent}
+
+
+\subsection{Detailed Description}
+\hyperlink{class_g_l_c___selection_set}{G\-L\-C\-\_\-\-Selection\-Set} \-: \hyperlink{class_g_l_c___struct_occurence}{G\-L\-C\-\_\-\-Struct\-Occurence} and primitive selection set. 
+
+Definition at line 42 of file glc\-\_\-selectionset.\-h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_g_l_c___selection_set_aca65f0ee3a4ee400b723779ea437ab78}{\index{G\-L\-C\-\_\-\-Selection\-Set@{G\-L\-C\-\_\-\-Selection\-Set}!G\-L\-C\-\_\-\-Selection\-Set@{G\-L\-C\-\_\-\-Selection\-Set}}
+\index{G\-L\-C\-\_\-\-Selection\-Set@{G\-L\-C\-\_\-\-Selection\-Set}!GLC_SelectionSet@{G\-L\-C\-\_\-\-Selection\-Set}}
+\subsubsection[{G\-L\-C\-\_\-\-Selection\-Set}]{\setlength{\rightskip}{0pt plus 5cm}G\-L\-C\-\_\-\-Selection\-Set\-::\-G\-L\-C\-\_\-\-Selection\-Set (
+\begin{DoxyParamCaption}
+\item[{{\bf G\-L\-C\-\_\-\-World\-Handle} $\ast$}]{p\-World}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___selection_set_aca65f0ee3a4ee400b723779ea437ab78}
+
+
+Construct the selection set associated to the given \hyperlink{class_g_l_c___world_handle}{G\-L\-C\-\_\-\-World\-Handle}. 
+
+
+
+Definition at line 27 of file glc\-\_\-selectionset.\-cpp.
+
+\hypertarget{class_g_l_c___selection_set_a60e4579171066a76398909ce1c5f74eb}{\index{G\-L\-C\-\_\-\-Selection\-Set@{G\-L\-C\-\_\-\-Selection\-Set}!$\sim$\-G\-L\-C\-\_\-\-Selection\-Set@{$\sim$\-G\-L\-C\-\_\-\-Selection\-Set}}
+\index{$\sim$\-G\-L\-C\-\_\-\-Selection\-Set@{$\sim$\-G\-L\-C\-\_\-\-Selection\-Set}!GLC_SelectionSet@{G\-L\-C\-\_\-\-Selection\-Set}}
+\subsubsection[{$\sim$\-G\-L\-C\-\_\-\-Selection\-Set}]{\setlength{\rightskip}{0pt plus 5cm}G\-L\-C\-\_\-\-Selection\-Set\-::$\sim$\-G\-L\-C\-\_\-\-Selection\-Set (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_g_l_c___selection_set_a60e4579171066a76398909ce1c5f74eb}
+
+
+Definition at line 36 of file glc\-\_\-selectionset.\-cpp.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_g_l_c___selection_set_a92f9526c0d2f2f7d63e70be5da2c33a3}{\index{G\-L\-C\-\_\-\-Selection\-Set@{G\-L\-C\-\_\-\-Selection\-Set}!clear@{clear}}
+\index{clear@{clear}!GLC_SelectionSet@{G\-L\-C\-\_\-\-Selection\-Set}}
+\subsubsection[{clear}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-\-Selection\-Set\-::clear (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___selection_set_a92f9526c0d2f2f7d63e70be5da2c33a3}
+
+
+Clear this selection set. 
+
+
+
+Definition at line 135 of file glc\-\_\-selectionset.\-cpp.
+
+\hypertarget{class_g_l_c___selection_set_a52538198f5fa0e726733f376af737a4f}{\index{G\-L\-C\-\_\-\-Selection\-Set@{G\-L\-C\-\_\-\-Selection\-Set}!contains@{contains}}
+\index{contains@{contains}!GLC_SelectionSet@{G\-L\-C\-\_\-\-Selection\-Set}}
+\subsubsection[{contains}]{\setlength{\rightskip}{0pt plus 5cm}bool G\-L\-C\-\_\-\-Selection\-Set\-::contains (
+\begin{DoxyParamCaption}
+\item[{const {\bf G\-L\-C\-\_\-\-Struct\-Occurence} $\ast$}]{p\-Occurence}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___selection_set_a52538198f5fa0e726733f376af737a4f}
+
+
+Return true if this selection set contains the given occurence. 
+
+
+
+Definition at line 85 of file glc\-\_\-selectionset.\-h.
+
+\hypertarget{class_g_l_c___selection_set_aeb6c2fa80596fb03c3a29811562c9521}{\index{G\-L\-C\-\_\-\-Selection\-Set@{G\-L\-C\-\_\-\-Selection\-Set}!contains@{contains}}
+\index{contains@{contains}!GLC_SelectionSet@{G\-L\-C\-\_\-\-Selection\-Set}}
+\subsubsection[{contains}]{\setlength{\rightskip}{0pt plus 5cm}bool G\-L\-C\-\_\-\-Selection\-Set\-::contains (
+\begin{DoxyParamCaption}
+\item[{{\bf G\-L\-C\-\_\-uint}}]{occurence\-Id}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___selection_set_aeb6c2fa80596fb03c3a29811562c9521}
+
+
+Return true if this selection set contains the given occurence id. 
+
+
+
+Definition at line 89 of file glc\-\_\-selectionset.\-h.
+
+\hypertarget{class_g_l_c___selection_set_aba67276a133aea5f90f76ad5f1292c31}{\index{G\-L\-C\-\_\-\-Selection\-Set@{G\-L\-C\-\_\-\-Selection\-Set}!count@{count}}
+\index{count@{count}!GLC_SelectionSet@{G\-L\-C\-\_\-\-Selection\-Set}}
+\subsubsection[{count}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int} G\-L\-C\-\_\-\-Selection\-Set\-::count (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_g_l_c___selection_set_aba67276a133aea5f90f76ad5f1292c31}
+
+
+Return the number of occurence in this selection set. 
+
+
+
+Definition at line 51 of file glc\-\_\-selectionset.\-cpp.
+
+\hypertarget{class_g_l_c___selection_set_abfd86ff033b3c26a7037ae12b021acce}{\index{G\-L\-C\-\_\-\-Selection\-Set@{G\-L\-C\-\_\-\-Selection\-Set}!has\-Primitive\-Selected@{has\-Primitive\-Selected}}
+\index{has\-Primitive\-Selected@{has\-Primitive\-Selected}!GLC_SelectionSet@{G\-L\-C\-\_\-\-Selection\-Set}}
+\subsubsection[{has\-Primitive\-Selected}]{\setlength{\rightskip}{0pt plus 5cm}bool G\-L\-C\-\_\-\-Selection\-Set\-::has\-Primitive\-Selected (
+\begin{DoxyParamCaption}
+\item[{{\bf G\-L\-C\-\_\-uint}}]{instance\-Id}
+\end{DoxyParamCaption}
+) const}}\label{class_g_l_c___selection_set_abfd86ff033b3c26a7037ae12b021acce}
+
+
+Return true if the given G\-L\-C\-\_\-\-Struct\-Occurence/\-G\-L\-C\-\_\-3\-Dview\-Instance id has selected primitives. 
+
+
+
+Definition at line 93 of file glc\-\_\-selectionset.\-cpp.
+
+\hypertarget{class_g_l_c___selection_set_a672ee5da50288d62adbae732ee889928}{\index{G\-L\-C\-\_\-\-Selection\-Set@{G\-L\-C\-\_\-\-Selection\-Set}!insert@{insert}}
+\index{insert@{insert}!GLC_SelectionSet@{G\-L\-C\-\_\-\-Selection\-Set}}
+\subsubsection[{insert}]{\setlength{\rightskip}{0pt plus 5cm}bool G\-L\-C\-\_\-\-Selection\-Set\-::insert (
+\begin{DoxyParamCaption}
+\item[{{\bf G\-L\-C\-\_\-\-Struct\-Occurence} $\ast$}]{p\-Occurence}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___selection_set_a672ee5da50288d62adbae732ee889928}
+
+
+Insert the given Occurence into the selection set and return true on success. 
+
+The given occurence must belongs to this selection set's world 
+
+Definition at line 101 of file glc\-\_\-selectionset.\-cpp.
+
+\hypertarget{class_g_l_c___selection_set_a7045726f6c776645f4c55b770ee2f9fc}{\index{G\-L\-C\-\_\-\-Selection\-Set@{G\-L\-C\-\_\-\-Selection\-Set}!insert@{insert}}
+\index{insert@{insert}!GLC_SelectionSet@{G\-L\-C\-\_\-\-Selection\-Set}}
+\subsubsection[{insert}]{\setlength{\rightskip}{0pt plus 5cm}bool G\-L\-C\-\_\-\-Selection\-Set\-::insert (
+\begin{DoxyParamCaption}
+\item[{{\bf G\-L\-C\-\_\-uint}}]{occurence\-Id}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___selection_set_a7045726f6c776645f4c55b770ee2f9fc}
+
+
+Insert the given Occurence id into the selection set and return true on success. 
+
+The given occurence id must belongs to this selection set's world 
+
+Definition at line 106 of file glc\-\_\-selectionset.\-cpp.
+
+\hypertarget{class_g_l_c___selection_set_a4153efb3524bdf1aac2d6dcfec021926}{\index{G\-L\-C\-\_\-\-Selection\-Set@{G\-L\-C\-\_\-\-Selection\-Set}!insert\-Primitive\-Id@{insert\-Primitive\-Id}}
+\index{insert\-Primitive\-Id@{insert\-Primitive\-Id}!GLC_SelectionSet@{G\-L\-C\-\_\-\-Selection\-Set}}
+\subsubsection[{insert\-Primitive\-Id}]{\setlength{\rightskip}{0pt plus 5cm}bool G\-L\-C\-\_\-\-Selection\-Set\-::insert\-Primitive\-Id (
+\begin{DoxyParamCaption}
+\item[{{\bf G\-L\-C\-\_\-\-Struct\-Occurence} $\ast$}]{p\-Occurence, }
+\item[{{\bf G\-L\-C\-\_\-uint}}]{primitive\-Id}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___selection_set_a4153efb3524bdf1aac2d6dcfec021926}
+
+
+Insert the given primitive id to the given Occurence return true on success. 
+
+The given occurence must belongs to this selection set's world 
+
+Definition at line 141 of file glc\-\_\-selectionset.\-cpp.
+
+\hypertarget{class_g_l_c___selection_set_ab4b6a99ac91fcf3c29f25034469212da}{\index{G\-L\-C\-\_\-\-Selection\-Set@{G\-L\-C\-\_\-\-Selection\-Set}!insert\-Primitive\-Id@{insert\-Primitive\-Id}}
+\index{insert\-Primitive\-Id@{insert\-Primitive\-Id}!GLC_SelectionSet@{G\-L\-C\-\_\-\-Selection\-Set}}
+\subsubsection[{insert\-Primitive\-Id}]{\setlength{\rightskip}{0pt plus 5cm}bool G\-L\-C\-\_\-\-Selection\-Set\-::insert\-Primitive\-Id (
+\begin{DoxyParamCaption}
+\item[{{\bf G\-L\-C\-\_\-uint}}]{occurence\-Id, }
+\item[{{\bf G\-L\-C\-\_\-uint}}]{primitive\-Id}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___selection_set_ab4b6a99ac91fcf3c29f25034469212da}
+
+
+Insert the given primitive id to the given Occurence id return true on success. 
+
+The given occurence id must belongs to this selection set's world 
+
+Definition at line 146 of file glc\-\_\-selectionset.\-cpp.
+
+\hypertarget{class_g_l_c___selection_set_a697260456e6a7babbbb5bafcd3593590}{\index{G\-L\-C\-\_\-\-Selection\-Set@{G\-L\-C\-\_\-\-Selection\-Set}!insert\-Set\-Of\-Primitives\-Id@{insert\-Set\-Of\-Primitives\-Id}}
+\index{insert\-Set\-Of\-Primitives\-Id@{insert\-Set\-Of\-Primitives\-Id}!GLC_SelectionSet@{G\-L\-C\-\_\-\-Selection\-Set}}
+\subsubsection[{insert\-Set\-Of\-Primitives\-Id}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-\-Selection\-Set\-::insert\-Set\-Of\-Primitives\-Id (
+\begin{DoxyParamCaption}
+\item[{{\bf G\-L\-C\-\_\-\-Struct\-Occurence} $\ast$}]{p\-Occurence, }
+\item[{const Q\-Set$<$ {\bf G\-L\-C\-\_\-uint} $>$ \&}]{set\-Of\-Primitives\-Id}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___selection_set_a697260456e6a7babbbb5bafcd3593590}
+
+
+Insert the given set of primitive id to the given Occurence. 
+
+The given occurence must belongs to this selection set's world 
+
+Definition at line 171 of file glc\-\_\-selectionset.\-cpp.
+
+\hypertarget{class_g_l_c___selection_set_a25ee934e0ec7ec49eacd1f7db06fe275}{\index{G\-L\-C\-\_\-\-Selection\-Set@{G\-L\-C\-\_\-\-Selection\-Set}!insert\-Set\-Of\-Primitives\-Id@{insert\-Set\-Of\-Primitives\-Id}}
+\index{insert\-Set\-Of\-Primitives\-Id@{insert\-Set\-Of\-Primitives\-Id}!GLC_SelectionSet@{G\-L\-C\-\_\-\-Selection\-Set}}
+\subsubsection[{insert\-Set\-Of\-Primitives\-Id}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-\-Selection\-Set\-::insert\-Set\-Of\-Primitives\-Id (
+\begin{DoxyParamCaption}
+\item[{{\bf G\-L\-C\-\_\-uint}}]{occurence\-Id, }
+\item[{const Q\-Set$<$ {\bf G\-L\-C\-\_\-uint} $>$ \&}]{set\-Of\-Primitives\-Id}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___selection_set_a25ee934e0ec7ec49eacd1f7db06fe275}
+
+
+Insert the given set of primitive id to the given Occurence id. 
+
+The given occurence id must belongs to this selection set's world 
+
+Definition at line 176 of file glc\-\_\-selectionset.\-cpp.
+
+\hypertarget{class_g_l_c___selection_set_ad31c2a9af019f84f6a67db4fdb28428a}{\index{G\-L\-C\-\_\-\-Selection\-Set@{G\-L\-C\-\_\-\-Selection\-Set}!is\-Empty@{is\-Empty}}
+\index{is\-Empty@{is\-Empty}!GLC_SelectionSet@{G\-L\-C\-\_\-\-Selection\-Set}}
+\subsubsection[{is\-Empty}]{\setlength{\rightskip}{0pt plus 5cm}bool G\-L\-C\-\_\-\-Selection\-Set\-::is\-Empty (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+) const}}\label{class_g_l_c___selection_set_ad31c2a9af019f84f6a67db4fdb28428a}
+
+
+Return true if this selection set is empty. 
+
+
+
+Definition at line 45 of file glc\-\_\-selectionset.\-cpp.
+
+\hypertarget{class_g_l_c___selection_set_a7606199cf5bb15ddd48f05bc9d45f089}{\index{G\-L\-C\-\_\-\-Selection\-Set@{G\-L\-C\-\_\-\-Selection\-Set}!occurences\-List@{occurences\-List}}
+\index{occurences\-List@{occurences\-List}!GLC_SelectionSet@{G\-L\-C\-\_\-\-Selection\-Set}}
+\subsubsection[{occurences\-List}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Q\-List}$<$ {\bf G\-L\-C\-\_\-\-Struct\-Occurence} $\ast$ $>$ G\-L\-C\-\_\-\-Selection\-Set\-::occurences\-List (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_g_l_c___selection_set_a7606199cf5bb15ddd48f05bc9d45f089}
+
+
+Return the list of selected occurences. 
+
+
+
+Definition at line 56 of file glc\-\_\-selectionset.\-cpp.
+
+\hypertarget{class_g_l_c___selection_set_a545611a441d387790845f27e5b797d8e}{\index{G\-L\-C\-\_\-\-Selection\-Set@{G\-L\-C\-\_\-\-Selection\-Set}!occurences\-List\-With\-Selected\-Primitive@{occurences\-List\-With\-Selected\-Primitive}}
+\index{occurences\-List\-With\-Selected\-Primitive@{occurences\-List\-With\-Selected\-Primitive}!GLC_SelectionSet@{G\-L\-C\-\_\-\-Selection\-Set}}
+\subsubsection[{occurences\-List\-With\-Selected\-Primitive}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Q\-List}$<$ {\bf G\-L\-C\-\_\-\-Struct\-Occurence} $\ast$ $>$ G\-L\-C\-\_\-\-Selection\-Set\-::occurences\-List\-With\-Selected\-Primitive (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_g_l_c___selection_set_a545611a441d387790845f27e5b797d8e}
+
+
+Return the list of occurences with selected primitive. 
+
+
+
+Definition at line 71 of file glc\-\_\-selectionset.\-cpp.
+
+\hypertarget{class_g_l_c___selection_set_aa426d834e69ff0f55f3a2ae15fbeffc6}{\index{G\-L\-C\-\_\-\-Selection\-Set@{G\-L\-C\-\_\-\-Selection\-Set}!remove@{remove}}
+\index{remove@{remove}!GLC_SelectionSet@{G\-L\-C\-\_\-\-Selection\-Set}}
+\subsubsection[{remove}]{\setlength{\rightskip}{0pt plus 5cm}bool G\-L\-C\-\_\-\-Selection\-Set\-::remove (
+\begin{DoxyParamCaption}
+\item[{{\bf G\-L\-C\-\_\-\-Struct\-Occurence} $\ast$}]{p\-Occurence}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___selection_set_aa426d834e69ff0f55f3a2ae15fbeffc6}
+
+
+Remove the given occurence from the selection set and return true on success. 
+
+The given occurence must belongs to this selection set's world 
+
+Definition at line 118 of file glc\-\_\-selectionset.\-cpp.
+
+\hypertarget{class_g_l_c___selection_set_a163d7f6365d77dd2d659a70185e45fd5}{\index{G\-L\-C\-\_\-\-Selection\-Set@{G\-L\-C\-\_\-\-Selection\-Set}!remove@{remove}}
+\index{remove@{remove}!GLC_SelectionSet@{G\-L\-C\-\_\-\-Selection\-Set}}
+\subsubsection[{remove}]{\setlength{\rightskip}{0pt plus 5cm}bool G\-L\-C\-\_\-\-Selection\-Set\-::remove (
+\begin{DoxyParamCaption}
+\item[{{\bf G\-L\-C\-\_\-uint}}]{occurence\-Id}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___selection_set_a163d7f6365d77dd2d659a70185e45fd5}
+
+
+Remove the given occurence from the selection set and return true on success. 
+
+The given occurence id must belongs to this selection set's world 
+
+Definition at line 123 of file glc\-\_\-selectionset.\-cpp.
+
+\hypertarget{class_g_l_c___selection_set_afc66a6cc0d9b1ddcaf40ab1dc3a7aceb}{\index{G\-L\-C\-\_\-\-Selection\-Set@{G\-L\-C\-\_\-\-Selection\-Set}!remove\-Primitive\-Id@{remove\-Primitive\-Id}}
+\index{remove\-Primitive\-Id@{remove\-Primitive\-Id}!GLC_SelectionSet@{G\-L\-C\-\_\-\-Selection\-Set}}
+\subsubsection[{remove\-Primitive\-Id}]{\setlength{\rightskip}{0pt plus 5cm}bool G\-L\-C\-\_\-\-Selection\-Set\-::remove\-Primitive\-Id (
+\begin{DoxyParamCaption}
+\item[{{\bf G\-L\-C\-\_\-\-Struct\-Occurence} $\ast$}]{p\-Occurence, }
+\item[{{\bf G\-L\-C\-\_\-uint}}]{primitive\-Id}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___selection_set_afc66a6cc0d9b1ddcaf40ab1dc3a7aceb}
+
+
+Remove the given primitive id to the given Occurence return true on success. 
+
+The given occurence must belongs to this selection set's world If the set of primitive only contains the given primitive I\-D the given occurence is removed from this selection set 
+
+Definition at line 189 of file glc\-\_\-selectionset.\-cpp.
+
+\hypertarget{class_g_l_c___selection_set_a9be39cea14301fed8a961f21b0ec7871}{\index{G\-L\-C\-\_\-\-Selection\-Set@{G\-L\-C\-\_\-\-Selection\-Set}!remove\-Primitive\-Id@{remove\-Primitive\-Id}}
+\index{remove\-Primitive\-Id@{remove\-Primitive\-Id}!GLC_SelectionSet@{G\-L\-C\-\_\-\-Selection\-Set}}
+\subsubsection[{remove\-Primitive\-Id}]{\setlength{\rightskip}{0pt plus 5cm}bool G\-L\-C\-\_\-\-Selection\-Set\-::remove\-Primitive\-Id (
+\begin{DoxyParamCaption}
+\item[{{\bf G\-L\-C\-\_\-uint}}]{occurence\-Id, }
+\item[{{\bf G\-L\-C\-\_\-uint}}]{primitive\-Id}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___selection_set_a9be39cea14301fed8a961f21b0ec7871}
+
+
+Remove the given primitive id to the given Occurence return true on success. 
+
+The given occurence must belongs to this selection set's world If the set of primitive only contains the given primitive I\-D the given occurence is removed from this selection set 
+
+Definition at line 194 of file glc\-\_\-selectionset.\-cpp.
+
+\hypertarget{class_g_l_c___selection_set_acdfa5acae6d279579ffc591098ea96ac}{\index{G\-L\-C\-\_\-\-Selection\-Set@{G\-L\-C\-\_\-\-Selection\-Set}!selected\-Primitives\-Id@{selected\-Primitives\-Id}}
+\index{selected\-Primitives\-Id@{selected\-Primitives\-Id}!GLC_SelectionSet@{G\-L\-C\-\_\-\-Selection\-Set}}
+\subsubsection[{selected\-Primitives\-Id}]{\setlength{\rightskip}{0pt plus 5cm}Q\-Set$<$ {\bf G\-L\-C\-\_\-uint} $>$ G\-L\-C\-\_\-\-Selection\-Set\-::selected\-Primitives\-Id (
+\begin{DoxyParamCaption}
+\item[{{\bf G\-L\-C\-\_\-uint}}]{instance\-Id}
+\end{DoxyParamCaption}
+) const}}\label{class_g_l_c___selection_set_acdfa5acae6d279579ffc591098ea96ac}
+
+
+Return the set of primitive id of the given G\-L\-C\-\_\-\-Struct\-Occurence/\-G\-L\-C\-\_\-3\-Dview\-Instance id. 
+
+
+
+Definition at line 83 of file glc\-\_\-selectionset.\-cpp.
+
+\hypertarget{class_g_l_c___selection_set_a21abb44047b7700fbd924e424b9ce5ea}{\index{G\-L\-C\-\_\-\-Selection\-Set@{G\-L\-C\-\_\-\-Selection\-Set}!size@{size}}
+\index{size@{size}!GLC_SelectionSet@{G\-L\-C\-\_\-\-Selection\-Set}}
+\subsubsection[{size}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int} G\-L\-C\-\_\-\-Selection\-Set\-::size (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___selection_set_a21abb44047b7700fbd924e424b9ce5ea}
+
+
+Return the number of occurence in this selection set. 
+
+
+
+Definition at line 66 of file glc\-\_\-selectionset.\-h.
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/glc\-\_\-lib/scene\-Graph/\hyperlink{glc__selectionset_8h}{glc\-\_\-selectionset.\-h}\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/glc\-\_\-lib/scene\-Graph/\hyperlink{glc__selectionset_8cpp}{glc\-\_\-selectionset.\-cpp}\end{DoxyCompactItemize}

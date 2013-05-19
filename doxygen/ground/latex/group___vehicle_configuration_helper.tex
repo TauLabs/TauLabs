@@ -1,0 +1,184 @@
+\hypertarget{group___vehicle_configuration_helper}{\section{Vehicle\-Configuration\-Helper}
+\label{group___vehicle_configuration_helper}\index{Vehicle\-Configuration\-Helper@{Vehicle\-Configuration\-Helper}}
+}
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structmixer_channel_settings}{mixer\-Channel\-Settings}
+\item 
+class \hyperlink{class_vehicle_configuration_helper}{Vehicle\-Configuration\-Helper}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___vehicle_configuration_helper_gad16199c03ec2dcfd31a6930c77e6a073}{mixer\-Channel\-Settings\-::mixer\-Channel\-Settings} ()
+\item 
+\hyperlink{group___vehicle_configuration_helper_ga7dfd912206868944ab15d6bf785e2325}{mixer\-Channel\-Settings\-::mixer\-Channel\-Settings} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{glext_8h_a00140d6f5c548b26daf170bf16e86a6d}{t}, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} th1, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} th2, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{glext_8h_abe08814c2f72843fde4d8df41440d5a0}{r}, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{glext_8h_aa5367c14d90f462230c2611b81b41d23}{p}, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{glext_8h_a42315f3ed8fff752bb47fd782309fcfc}{y})
+\item 
+\hyperlink{group___vehicle_configuration_helper_ga8d0681e69a65e5d227b2255abe8bb982}{Vehicle\-Configuration\-Helper\-::\-Vehicle\-Configuration\-Helper} (\hyperlink{class_vehicle_configuration_source}{Vehicle\-Configuration\-Source} $\ast$config\-Source)
+\item 
+bool \hyperlink{group___vehicle_configuration_helper_gaa307534a6b38e5b7e67060bc8d381b09}{Vehicle\-Configuration\-Helper\-::setup\-Vehicle} (bool \hyperlink{uavobjecttemplate_8m_a79178933c5b76091ca04178d14a5ba98}{save}=true)
+\item 
+bool \hyperlink{group___vehicle_configuration_helper_ga2762da9776a1c2608786cb7b1ff6ca6c}{Vehicle\-Configuration\-Helper\-::setup\-Hardware\-Settings} (bool \hyperlink{uavobjecttemplate_8m_a79178933c5b76091ca04178d14a5ba98}{save}=true)
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{group___vehicle_configuration_helper_gae266726733ea9753d4b40ababc4ed7dd}{mixer\-Channel\-Settings\-::type}
+\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{group___vehicle_configuration_helper_ga938151d1ab96457978b7689a772b1d2f}{mixer\-Channel\-Settings\-::throttle1}
+\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{group___vehicle_configuration_helper_gaaa198e94e22ad3c7474bef8972c5e73d}{mixer\-Channel\-Settings\-::throttle2}
+\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{group___vehicle_configuration_helper_ga41061bf67fafdf170291f3a518268645}{mixer\-Channel\-Settings\-::roll}
+\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{group___vehicle_configuration_helper_gac604b2322be856866e658f6fba34c7f7}{mixer\-Channel\-Settings\-::pitch}
+\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{group___vehicle_configuration_helper_ga16a724da7162ceb2c56798d864dac807}{mixer\-Channel\-Settings\-::yaw}
+\item 
+static const qint16 \hyperlink{group___vehicle_configuration_helper_ga1ab33357e7669d7825cadb88ff666f98}{Vehicle\-Configuration\-Helper\-::\-L\-E\-G\-A\-C\-Y\-\_\-\-E\-S\-C\-\_\-\-F\-R\-E\-Q\-U\-E\-N\-C\-E} = 50
+\item 
+static const qint16 \hyperlink{group___vehicle_configuration_helper_ga5bdfa86a19f74eae8f6b44ac63d640f2}{Vehicle\-Configuration\-Helper\-::\-R\-A\-P\-I\-D\-\_\-\-E\-S\-C\-\_\-\-F\-R\-E\-Q\-U\-E\-N\-C\-E} = 400
+\end{DoxyCompactItemize}
+\subsection*{Signals}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___vehicle_configuration_helper_ga7ec52f13c4dee3a474698106c2ca3bf4}{Vehicle\-Configuration\-Helper\-::save\-Progress} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} total, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} current, \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{Q\-String} \hyperlink{sdlgamepad_8dox_ae82208d022e4246ddf1e4f481a3f81b0}{description})
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+\subsection{Function Documentation}
+\hypertarget{group___vehicle_configuration_helper_gad16199c03ec2dcfd31a6930c77e6a073}{\index{Vehicle\-Configuration\-Helper@{Vehicle\-Configuration\-Helper}!mixer\-Channel\-Settings@{mixer\-Channel\-Settings}}
+\index{mixer\-Channel\-Settings@{mixer\-Channel\-Settings}!VehicleConfigurationHelper@{Vehicle\-Configuration\-Helper}}
+\subsubsection[{mixer\-Channel\-Settings}]{\setlength{\rightskip}{0pt plus 5cm}mixer\-Channel\-Settings\-::mixer\-Channel\-Settings (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{group___vehicle_configuration_helper_gad16199c03ec2dcfd31a6930c77e6a073}
+
+
+Definition at line 47 of file vehicleconfigurationhelper.\-h.
+
+\hypertarget{group___vehicle_configuration_helper_ga7dfd912206868944ab15d6bf785e2325}{\index{Vehicle\-Configuration\-Helper@{Vehicle\-Configuration\-Helper}!mixer\-Channel\-Settings@{mixer\-Channel\-Settings}}
+\index{mixer\-Channel\-Settings@{mixer\-Channel\-Settings}!VehicleConfigurationHelper@{Vehicle\-Configuration\-Helper}}
+\subsubsection[{mixer\-Channel\-Settings}]{\setlength{\rightskip}{0pt plus 5cm}mixer\-Channel\-Settings\-::mixer\-Channel\-Settings (
+\begin{DoxyParamCaption}
+\item[{{\bf int}}]{t, }
+\item[{{\bf int}}]{th1, }
+\item[{{\bf int}}]{th2, }
+\item[{{\bf int}}]{r, }
+\item[{{\bf int}}]{p, }
+\item[{{\bf int}}]{y}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{group___vehicle_configuration_helper_ga7dfd912206868944ab15d6bf785e2325}
+
+
+Definition at line 49 of file vehicleconfigurationhelper.\-h.
+
+\hypertarget{group___vehicle_configuration_helper_ga2762da9776a1c2608786cb7b1ff6ca6c}{\index{Vehicle\-Configuration\-Helper@{Vehicle\-Configuration\-Helper}!setup\-Hardware\-Settings@{setup\-Hardware\-Settings}}
+\index{setup\-Hardware\-Settings@{setup\-Hardware\-Settings}!VehicleConfigurationHelper@{Vehicle\-Configuration\-Helper}}
+\subsubsection[{setup\-Hardware\-Settings}]{\setlength{\rightskip}{0pt plus 5cm}bool Vehicle\-Configuration\-Helper\-::setup\-Hardware\-Settings (
+\begin{DoxyParamCaption}
+\item[{bool}]{save = {\ttfamily true}}
+\end{DoxyParamCaption}
+)}}\label{group___vehicle_configuration_helper_ga2762da9776a1c2608786cb7b1ff6ca6c}
+
+
+Definition at line 76 of file vehicleconfigurationhelper.\-cpp.
+
+\hypertarget{group___vehicle_configuration_helper_gaa307534a6b38e5b7e67060bc8d381b09}{\index{Vehicle\-Configuration\-Helper@{Vehicle\-Configuration\-Helper}!setup\-Vehicle@{setup\-Vehicle}}
+\index{setup\-Vehicle@{setup\-Vehicle}!VehicleConfigurationHelper@{Vehicle\-Configuration\-Helper}}
+\subsubsection[{setup\-Vehicle}]{\setlength{\rightskip}{0pt plus 5cm}bool Vehicle\-Configuration\-Helper\-::setup\-Vehicle (
+\begin{DoxyParamCaption}
+\item[{bool}]{save = {\ttfamily true}}
+\end{DoxyParamCaption}
+)}}\label{group___vehicle_configuration_helper_gaa307534a6b38e5b7e67060bc8d381b09}
+
+
+Definition at line 52 of file vehicleconfigurationhelper.\-cpp.
+
+\hypertarget{group___vehicle_configuration_helper_ga8d0681e69a65e5d227b2255abe8bb982}{\index{Vehicle\-Configuration\-Helper@{Vehicle\-Configuration\-Helper}!Vehicle\-Configuration\-Helper@{Vehicle\-Configuration\-Helper}}
+\index{Vehicle\-Configuration\-Helper@{Vehicle\-Configuration\-Helper}!VehicleConfigurationHelper@{Vehicle\-Configuration\-Helper}}
+\subsubsection[{Vehicle\-Configuration\-Helper}]{\setlength{\rightskip}{0pt plus 5cm}Vehicle\-Configuration\-Helper\-::\-Vehicle\-Configuration\-Helper (
+\begin{DoxyParamCaption}
+\item[{{\bf Vehicle\-Configuration\-Source} $\ast$}]{config\-Source}
+\end{DoxyParamCaption}
+)}}\label{group___vehicle_configuration_helper_ga8d0681e69a65e5d227b2255abe8bb982}
+
+
+Definition at line 41 of file vehicleconfigurationhelper.\-cpp.
+
+
+
+\subsection{Variable Documentation}
+\hypertarget{group___vehicle_configuration_helper_ga1ab33357e7669d7825cadb88ff666f98}{\index{Vehicle\-Configuration\-Helper@{Vehicle\-Configuration\-Helper}!L\-E\-G\-A\-C\-Y\-\_\-\-E\-S\-C\-\_\-\-F\-R\-E\-Q\-U\-E\-N\-C\-E@{L\-E\-G\-A\-C\-Y\-\_\-\-E\-S\-C\-\_\-\-F\-R\-E\-Q\-U\-E\-N\-C\-E}}
+\index{L\-E\-G\-A\-C\-Y\-\_\-\-E\-S\-C\-\_\-\-F\-R\-E\-Q\-U\-E\-N\-C\-E@{L\-E\-G\-A\-C\-Y\-\_\-\-E\-S\-C\-\_\-\-F\-R\-E\-Q\-U\-E\-N\-C\-E}!VehicleConfigurationHelper@{Vehicle\-Configuration\-Helper}}
+\subsubsection[{L\-E\-G\-A\-C\-Y\-\_\-\-E\-S\-C\-\_\-\-F\-R\-E\-Q\-U\-E\-N\-C\-E}]{\setlength{\rightskip}{0pt plus 5cm}const qint16 Vehicle\-Configuration\-Helper\-::\-L\-E\-G\-A\-C\-Y\-\_\-\-E\-S\-C\-\_\-\-F\-R\-E\-Q\-U\-E\-N\-C\-E = 50\hspace{0.3cm}{\ttfamily [static]}}}\label{group___vehicle_configuration_helper_ga1ab33357e7669d7825cadb88ff666f98}
+
+
+Definition at line 61 of file vehicleconfigurationhelper.\-h.
+
+\hypertarget{group___vehicle_configuration_helper_gac604b2322be856866e658f6fba34c7f7}{\index{Vehicle\-Configuration\-Helper@{Vehicle\-Configuration\-Helper}!pitch@{pitch}}
+\index{pitch@{pitch}!VehicleConfigurationHelper@{Vehicle\-Configuration\-Helper}}
+\subsubsection[{pitch}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int} mixer\-Channel\-Settings\-::pitch}}\label{group___vehicle_configuration_helper_gac604b2322be856866e658f6fba34c7f7}
+
+
+Definition at line 44 of file vehicleconfigurationhelper.\-h.
+
+\hypertarget{group___vehicle_configuration_helper_ga5bdfa86a19f74eae8f6b44ac63d640f2}{\index{Vehicle\-Configuration\-Helper@{Vehicle\-Configuration\-Helper}!R\-A\-P\-I\-D\-\_\-\-E\-S\-C\-\_\-\-F\-R\-E\-Q\-U\-E\-N\-C\-E@{R\-A\-P\-I\-D\-\_\-\-E\-S\-C\-\_\-\-F\-R\-E\-Q\-U\-E\-N\-C\-E}}
+\index{R\-A\-P\-I\-D\-\_\-\-E\-S\-C\-\_\-\-F\-R\-E\-Q\-U\-E\-N\-C\-E@{R\-A\-P\-I\-D\-\_\-\-E\-S\-C\-\_\-\-F\-R\-E\-Q\-U\-E\-N\-C\-E}!VehicleConfigurationHelper@{Vehicle\-Configuration\-Helper}}
+\subsubsection[{R\-A\-P\-I\-D\-\_\-\-E\-S\-C\-\_\-\-F\-R\-E\-Q\-U\-E\-N\-C\-E}]{\setlength{\rightskip}{0pt plus 5cm}const qint16 Vehicle\-Configuration\-Helper\-::\-R\-A\-P\-I\-D\-\_\-\-E\-S\-C\-\_\-\-F\-R\-E\-Q\-U\-E\-N\-C\-E = 400\hspace{0.3cm}{\ttfamily [static]}}}\label{group___vehicle_configuration_helper_ga5bdfa86a19f74eae8f6b44ac63d640f2}
+
+
+Definition at line 62 of file vehicleconfigurationhelper.\-h.
+
+\hypertarget{group___vehicle_configuration_helper_ga41061bf67fafdf170291f3a518268645}{\index{Vehicle\-Configuration\-Helper@{Vehicle\-Configuration\-Helper}!roll@{roll}}
+\index{roll@{roll}!VehicleConfigurationHelper@{Vehicle\-Configuration\-Helper}}
+\subsubsection[{roll}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int} mixer\-Channel\-Settings\-::roll}}\label{group___vehicle_configuration_helper_ga41061bf67fafdf170291f3a518268645}
+
+
+Definition at line 43 of file vehicleconfigurationhelper.\-h.
+
+\hypertarget{group___vehicle_configuration_helper_ga938151d1ab96457978b7689a772b1d2f}{\index{Vehicle\-Configuration\-Helper@{Vehicle\-Configuration\-Helper}!throttle1@{throttle1}}
+\index{throttle1@{throttle1}!VehicleConfigurationHelper@{Vehicle\-Configuration\-Helper}}
+\subsubsection[{throttle1}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int} mixer\-Channel\-Settings\-::throttle1}}\label{group___vehicle_configuration_helper_ga938151d1ab96457978b7689a772b1d2f}
+
+
+Definition at line 41 of file vehicleconfigurationhelper.\-h.
+
+\hypertarget{group___vehicle_configuration_helper_gaaa198e94e22ad3c7474bef8972c5e73d}{\index{Vehicle\-Configuration\-Helper@{Vehicle\-Configuration\-Helper}!throttle2@{throttle2}}
+\index{throttle2@{throttle2}!VehicleConfigurationHelper@{Vehicle\-Configuration\-Helper}}
+\subsubsection[{throttle2}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int} mixer\-Channel\-Settings\-::throttle2}}\label{group___vehicle_configuration_helper_gaaa198e94e22ad3c7474bef8972c5e73d}
+
+
+Definition at line 42 of file vehicleconfigurationhelper.\-h.
+
+\hypertarget{group___vehicle_configuration_helper_gae266726733ea9753d4b40ababc4ed7dd}{\index{Vehicle\-Configuration\-Helper@{Vehicle\-Configuration\-Helper}!type@{type}}
+\index{type@{type}!VehicleConfigurationHelper@{Vehicle\-Configuration\-Helper}}
+\subsubsection[{type}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int} mixer\-Channel\-Settings\-::type}}\label{group___vehicle_configuration_helper_gae266726733ea9753d4b40ababc4ed7dd}
+
+
+Definition at line 40 of file vehicleconfigurationhelper.\-h.
+
+\hypertarget{group___vehicle_configuration_helper_ga16a724da7162ceb2c56798d864dac807}{\index{Vehicle\-Configuration\-Helper@{Vehicle\-Configuration\-Helper}!yaw@{yaw}}
+\index{yaw@{yaw}!VehicleConfigurationHelper@{Vehicle\-Configuration\-Helper}}
+\subsubsection[{yaw}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int} mixer\-Channel\-Settings\-::yaw}}\label{group___vehicle_configuration_helper_ga16a724da7162ceb2c56798d864dac807}
+
+
+Definition at line 45 of file vehicleconfigurationhelper.\-h.
+
+
+
+\subsection{Signals}
+\hypertarget{group___vehicle_configuration_helper_ga7ec52f13c4dee3a474698106c2ca3bf4}{\index{Vehicle\-Configuration\-Helper@{Vehicle\-Configuration\-Helper}!save\-Progress@{save\-Progress}}
+\index{save\-Progress@{save\-Progress}!VehicleConfigurationHelper@{Vehicle\-Configuration\-Helper}}
+\subsubsection[{save\-Progress}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Vehicle\-Configuration\-Helper\-::save\-Progress (
+\begin{DoxyParamCaption}
+\item[{{\bf int}}]{total, }
+\item[{{\bf int}}]{current, }
+\item[{{\bf Q\-String}}]{description}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [signal]}}}\label{group___vehicle_configuration_helper_ga7ec52f13c4dee3a474698106c2ca3bf4}

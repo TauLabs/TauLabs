@@ -1,0 +1,264 @@
+\hypertarget{class_flagged}{\section{Flagged$<$ Expression\-Type, Added, Removed $>$ Class Template Reference}
+\label{class_flagged}\index{Flagged$<$ Expression\-Type, Added, Removed $>$@{Flagged$<$ Expression\-Type, Added, Removed $>$}}
+}
+
+
+Expression with modified flags.  
+
+
+
+
+{\ttfamily \#include $<$Flagged.\-h$>$}
+
+Inheritance diagram for Flagged$<$ Expression\-Type, Added, Removed $>$\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_flagged}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_flagged_a2c5d1e3ddc1c46d42ef8e7b6c320fa0e}{Flagged} (const Expression\-Type \&\hyperlink{glext_8h_a7b24a3f2f56eb1244ae69dacb4fecb6f}{matrix})
+\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_flagged_a9be857854d1dc6d346f0e9a83bac59e5}{rows} () const 
+\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_flagged_a186b5d4a920103646679fc234d07a93c}{cols} () const 
+\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_flagged_af314a48db8127ebb056d2478a3d91a87}{stride} () const 
+\item 
+const \hyperlink{class_matrix_base_a625df8339dc2d816cbc0fd66e7dadaf5}{Scalar} \hyperlink{class_flagged_a6bcd75d3cb9810a8d34a24a449c6859f}{coeff} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{glext_8h_a11b277b422822f784ee248b43eee3e1e}{row}, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_matrix_base_ae3c94b0f25b4273c7a8125169bdf60e0}{col}) const 
+\item 
+\hyperlink{class_matrix_base_a625df8339dc2d816cbc0fd66e7dadaf5}{Scalar} \& \hyperlink{class_flagged_a587d8bfdf2609d12a157a3cf6a23ec77}{coeff\-Ref} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{glext_8h_a11b277b422822f784ee248b43eee3e1e}{row}, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_matrix_base_ae3c94b0f25b4273c7a8125169bdf60e0}{col})
+\item 
+const \hyperlink{class_matrix_base_a625df8339dc2d816cbc0fd66e7dadaf5}{Scalar} \hyperlink{class_flagged_a5ea50607d5a017bc78b787c5fa0a6c00}{coeff} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{glext_8h_ab47dd9958bcadea08866b42bf358e95e}{index}) const 
+\item 
+\hyperlink{class_matrix_base_a625df8339dc2d816cbc0fd66e7dadaf5}{Scalar} \& \hyperlink{class_flagged_a4f8401f91a6475804472304e03d69ae6}{coeff\-Ref} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{glext_8h_ab47dd9958bcadea08866b42bf358e95e}{index})
+\item 
+{\footnotesize template$<$int Load\-Mode$>$ }\\const \hyperlink{class_matrix_base_a58f32cd6a06433ee7a60efa03e99183a}{Packet\-Scalar} \hyperlink{class_flagged_ab7eaacba058cffb0524d51e84b7ceb8b}{packet} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{glext_8h_a11b277b422822f784ee248b43eee3e1e}{row}, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_matrix_base_ae3c94b0f25b4273c7a8125169bdf60e0}{col}) const 
+\item 
+{\footnotesize template$<$int Load\-Mode$>$ }\\\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_flagged_a2fe4f3221e7e42733149a2d17a116951}{write\-Packet} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{glext_8h_a11b277b422822f784ee248b43eee3e1e}{row}, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_matrix_base_ae3c94b0f25b4273c7a8125169bdf60e0}{col}, const \hyperlink{class_matrix_base_a58f32cd6a06433ee7a60efa03e99183a}{Packet\-Scalar} \&\hyperlink{glext_8h_a1db9d104e3c2128177f26aff7b46982f}{x})
+\item 
+{\footnotesize template$<$int Load\-Mode$>$ }\\const \hyperlink{class_matrix_base_a58f32cd6a06433ee7a60efa03e99183a}{Packet\-Scalar} \hyperlink{class_flagged_a8aef20437c03a49c45984b5c61a56ea8}{packet} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{glext_8h_ab47dd9958bcadea08866b42bf358e95e}{index}) const 
+\item 
+{\footnotesize template$<$int Load\-Mode$>$ }\\\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_flagged_a736aede4d26d75399cccc7900b029754}{write\-Packet} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{glext_8h_ab47dd9958bcadea08866b42bf358e95e}{index}, const \hyperlink{class_matrix_base_a58f32cd6a06433ee7a60efa03e99183a}{Packet\-Scalar} \&\hyperlink{glext_8h_a1db9d104e3c2128177f26aff7b46982f}{x})
+\item 
+const Expression\-Type \& \hyperlink{class_flagged_a336e6b7878e5d3d447d1c3964c37c588}{\-\_\-expression} () const 
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+E\-I\-G\-E\-N\-\_\-\-G\-E\-N\-E\-R\-I\-C\-\_\-\-P\-U\-B\-L\-I\-C\-\_\-\-I\-N\-T\-E\-R\-F\-A\-C\-E(\hyperlink{class_flagged}{Flagged}) \\*
+typedef typename \hyperlink{structei__meta__if}{ei\-\_\-meta\-\_\-if}\\*
+$<$ \hyperlink{structei__must__nest__by__value}{ei\-\_\-must\-\_\-nest\-\_\-by\-\_\-value}\\*
+$<$ Expression\-Type $>$ typedef \\*
+Expression\-Type\-::\-Inner\-Iterator \hyperlink{class_flagged_a6be6f81b660bb542e3e07f0fc9c12376}{Inner\-Iterator}
+\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+Expression\-Type\-Nested \hyperlink{class_flagged_a80cbc207a891b6328f769bfb6ee07d83}{m\-\_\-matrix}
+\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$typename Expression\-Type, unsigned int Added, unsigned int Removed$>$class Flagged$<$ Expression\-Type, Added, Removed $>$}
+
+Expression with modified flags. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Expression\-Type} & the type of the object of which we are modifying the flags \\
+\hline
+{\em Added} & the flags added to the expression \\
+\hline
+{\em Removed} & the flags removed from the expression (has priority over Added).\\
+\hline
+\end{DoxyParams}
+This class represents an expression whose flags have been modified. It is the return type of Matrix\-Base\-::flagged() and most of the time this is the only way it is used.
+
+\begin{DoxySeeAlso}{See Also}
+Matrix\-Base\-::flagged() 
+\end{DoxySeeAlso}
+
+
+Definition at line 48 of file Flagged.\-h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_flagged_a2c5d1e3ddc1c46d42ef8e7b6c320fa0e}{\index{Flagged@{Flagged}!Flagged@{Flagged}}
+\index{Flagged@{Flagged}!Flagged@{Flagged}}
+\subsubsection[{Flagged}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Expression\-Type, unsigned int Added, unsigned int Removed$>$ {\bf Flagged}$<$ Expression\-Type, Added, Removed $>$\-::{\bf Flagged} (
+\begin{DoxyParamCaption}
+\item[{const Expression\-Type \&}]{matrix}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_flagged_a2c5d1e3ddc1c46d42ef8e7b6c320fa0e}
+
+
+Definition at line 58 of file Flagged.\-h.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_flagged_a336e6b7878e5d3d447d1c3964c37c588}{\index{Flagged@{Flagged}!\-\_\-expression@{\-\_\-expression}}
+\index{\-\_\-expression@{\-\_\-expression}!Flagged@{Flagged}}
+\subsubsection[{\-\_\-expression}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Expression\-Type, unsigned int Added, unsigned int Removed$>$ const Expression\-Type\& {\bf Flagged}$<$ Expression\-Type, Added, Removed $>$\-::\-\_\-expression (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_flagged_a336e6b7878e5d3d447d1c3964c37c588}
+
+
+Definition at line 108 of file Flagged.\-h.
+
+\hypertarget{class_flagged_a6bcd75d3cb9810a8d34a24a449c6859f}{\index{Flagged@{Flagged}!coeff@{coeff}}
+\index{coeff@{coeff}!Flagged@{Flagged}}
+\subsubsection[{coeff}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Expression\-Type, unsigned int Added, unsigned int Removed$>$ const {\bf Scalar} {\bf Flagged}$<$ Expression\-Type, Added, Removed $>$\-::coeff (
+\begin{DoxyParamCaption}
+\item[{{\bf int}}]{row, }
+\item[{{\bf int}}]{col}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_flagged_a6bcd75d3cb9810a8d34a24a449c6859f}
+
+
+Definition at line 64 of file Flagged.\-h.
+
+\hypertarget{class_flagged_a5ea50607d5a017bc78b787c5fa0a6c00}{\index{Flagged@{Flagged}!coeff@{coeff}}
+\index{coeff@{coeff}!Flagged@{Flagged}}
+\subsubsection[{coeff}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Expression\-Type, unsigned int Added, unsigned int Removed$>$ const {\bf Scalar} {\bf Flagged}$<$ Expression\-Type, Added, Removed $>$\-::coeff (
+\begin{DoxyParamCaption}
+\item[{{\bf int}}]{index}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_flagged_a5ea50607d5a017bc78b787c5fa0a6c00}
+
+
+Definition at line 74 of file Flagged.\-h.
+
+\hypertarget{class_flagged_a587d8bfdf2609d12a157a3cf6a23ec77}{\index{Flagged@{Flagged}!coeff\-Ref@{coeff\-Ref}}
+\index{coeff\-Ref@{coeff\-Ref}!Flagged@{Flagged}}
+\subsubsection[{coeff\-Ref}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Expression\-Type, unsigned int Added, unsigned int Removed$>$ {\bf Scalar}\& {\bf Flagged}$<$ Expression\-Type, Added, Removed $>$\-::coeff\-Ref (
+\begin{DoxyParamCaption}
+\item[{{\bf int}}]{row, }
+\item[{{\bf int}}]{col}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_flagged_a587d8bfdf2609d12a157a3cf6a23ec77}
+
+
+Definition at line 69 of file Flagged.\-h.
+
+\hypertarget{class_flagged_a4f8401f91a6475804472304e03d69ae6}{\index{Flagged@{Flagged}!coeff\-Ref@{coeff\-Ref}}
+\index{coeff\-Ref@{coeff\-Ref}!Flagged@{Flagged}}
+\subsubsection[{coeff\-Ref}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Expression\-Type, unsigned int Added, unsigned int Removed$>$ {\bf Scalar}\& {\bf Flagged}$<$ Expression\-Type, Added, Removed $>$\-::coeff\-Ref (
+\begin{DoxyParamCaption}
+\item[{{\bf int}}]{index}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_flagged_a4f8401f91a6475804472304e03d69ae6}
+
+
+Definition at line 79 of file Flagged.\-h.
+
+\hypertarget{class_flagged_a186b5d4a920103646679fc234d07a93c}{\index{Flagged@{Flagged}!cols@{cols}}
+\index{cols@{cols}!Flagged@{Flagged}}
+\subsubsection[{cols}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Expression\-Type, unsigned int Added, unsigned int Removed$>$ {\bf int} {\bf Flagged}$<$ Expression\-Type, Added, Removed $>$\-::cols (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_flagged_a186b5d4a920103646679fc234d07a93c}
+
+
+Definition at line 61 of file Flagged.\-h.
+
+\hypertarget{class_flagged_ab7eaacba058cffb0524d51e84b7ceb8b}{\index{Flagged@{Flagged}!packet@{packet}}
+\index{packet@{packet}!Flagged@{Flagged}}
+\subsubsection[{packet}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Expression\-Type, unsigned int Added, unsigned int Removed$>$ template$<$int Load\-Mode$>$ const {\bf Packet\-Scalar} {\bf Flagged}$<$ Expression\-Type, Added, Removed $>$\-::packet (
+\begin{DoxyParamCaption}
+\item[{{\bf int}}]{row, }
+\item[{{\bf int}}]{col}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_flagged_ab7eaacba058cffb0524d51e84b7ceb8b}
+
+
+Definition at line 85 of file Flagged.\-h.
+
+\hypertarget{class_flagged_a8aef20437c03a49c45984b5c61a56ea8}{\index{Flagged@{Flagged}!packet@{packet}}
+\index{packet@{packet}!Flagged@{Flagged}}
+\subsubsection[{packet}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Expression\-Type, unsigned int Added, unsigned int Removed$>$ template$<$int Load\-Mode$>$ const {\bf Packet\-Scalar} {\bf Flagged}$<$ Expression\-Type, Added, Removed $>$\-::packet (
+\begin{DoxyParamCaption}
+\item[{{\bf int}}]{index}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_flagged_a8aef20437c03a49c45984b5c61a56ea8}
+
+
+Definition at line 97 of file Flagged.\-h.
+
+\hypertarget{class_flagged_a9be857854d1dc6d346f0e9a83bac59e5}{\index{Flagged@{Flagged}!rows@{rows}}
+\index{rows@{rows}!Flagged@{Flagged}}
+\subsubsection[{rows}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Expression\-Type, unsigned int Added, unsigned int Removed$>$ {\bf int} {\bf Flagged}$<$ Expression\-Type, Added, Removed $>$\-::rows (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_flagged_a9be857854d1dc6d346f0e9a83bac59e5}
+
+
+Definition at line 60 of file Flagged.\-h.
+
+\hypertarget{class_flagged_af314a48db8127ebb056d2478a3d91a87}{\index{Flagged@{Flagged}!stride@{stride}}
+\index{stride@{stride}!Flagged@{Flagged}}
+\subsubsection[{stride}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Expression\-Type, unsigned int Added, unsigned int Removed$>$ {\bf int} {\bf Flagged}$<$ Expression\-Type, Added, Removed $>$\-::{\bf stride} (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_flagged_af314a48db8127ebb056d2478a3d91a87}
+
+
+Definition at line 62 of file Flagged.\-h.
+
+\hypertarget{class_flagged_a2fe4f3221e7e42733149a2d17a116951}{\index{Flagged@{Flagged}!write\-Packet@{write\-Packet}}
+\index{write\-Packet@{write\-Packet}!Flagged@{Flagged}}
+\subsubsection[{write\-Packet}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Expression\-Type, unsigned int Added, unsigned int Removed$>$ template$<$int Load\-Mode$>$ {\bf void} {\bf Flagged}$<$ Expression\-Type, Added, Removed $>$\-::write\-Packet (
+\begin{DoxyParamCaption}
+\item[{{\bf int}}]{row, }
+\item[{{\bf int}}]{col, }
+\item[{const {\bf Packet\-Scalar} \&}]{x}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_flagged_a2fe4f3221e7e42733149a2d17a116951}
+
+
+Definition at line 91 of file Flagged.\-h.
+
+\hypertarget{class_flagged_a736aede4d26d75399cccc7900b029754}{\index{Flagged@{Flagged}!write\-Packet@{write\-Packet}}
+\index{write\-Packet@{write\-Packet}!Flagged@{Flagged}}
+\subsubsection[{write\-Packet}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Expression\-Type, unsigned int Added, unsigned int Removed$>$ template$<$int Load\-Mode$>$ {\bf void} {\bf Flagged}$<$ Expression\-Type, Added, Removed $>$\-::write\-Packet (
+\begin{DoxyParamCaption}
+\item[{{\bf int}}]{index, }
+\item[{const {\bf Packet\-Scalar} \&}]{x}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_flagged_a736aede4d26d75399cccc7900b029754}
+
+
+Definition at line 103 of file Flagged.\-h.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{class_flagged_a6be6f81b660bb542e3e07f0fc9c12376}{\index{Flagged@{Flagged}!Inner\-Iterator@{Inner\-Iterator}}
+\index{Inner\-Iterator@{Inner\-Iterator}!Flagged@{Flagged}}
+\subsubsection[{Inner\-Iterator}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Expression\-Type, unsigned int Added, unsigned int Removed$>$ E\-I\-G\-E\-N\-\_\-\-G\-E\-N\-E\-R\-I\-C\-\_\-\-P\-U\-B\-L\-I\-C\-\_\-\-I\-N\-T\-E\-R\-F\-A\-C\-E ({\bf Flagged}) typedef typename {\bf ei\-\_\-meta\-\_\-if}$<${\bf ei\-\_\-must\-\_\-nest\-\_\-by\-\_\-value}$<$Expression\-Type$>$ typedef Expression\-Type\-::\-Inner\-Iterator {\bf Flagged}$<$ Expression\-Type, Added, Removed $>$\-::{\bf Inner\-Iterator}}}\label{class_flagged_a6be6f81b660bb542e3e07f0fc9c12376}
+
+
+Definition at line 53 of file Flagged.\-h.
+
+\hypertarget{class_flagged_a80cbc207a891b6328f769bfb6ee07d83}{\index{Flagged@{Flagged}!m\-\_\-matrix@{m\-\_\-matrix}}
+\index{m\-\_\-matrix@{m\-\_\-matrix}!Flagged@{Flagged}}
+\subsubsection[{m\-\_\-matrix}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Expression\-Type, unsigned int Added, unsigned int Removed$>$ Expression\-Type\-Nested {\bf Flagged}$<$ Expression\-Type, Added, Removed $>$\-::m\-\_\-matrix\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_flagged_a80cbc207a891b6328f769bfb6ee07d83}
+
+
+Definition at line 111 of file Flagged.\-h.
+
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/eigen/\-Eigen/src/\-Core/\hyperlink{_flagged_8h}{Flagged.\-h}\end{DoxyCompactItemize}

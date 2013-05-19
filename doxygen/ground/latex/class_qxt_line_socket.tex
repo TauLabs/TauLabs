@@ -1,0 +1,144 @@
+\hypertarget{class_qxt_line_socket}{\section{Qxt\-Line\-Socket Class Reference}
+\label{class_qxt_line_socket}\index{Qxt\-Line\-Socket@{Qxt\-Line\-Socket}}
+}
+
+
+The \hyperlink{class_qxt_line_socket}{Qxt\-Line\-Socket} class acts on a Q\-I\-O\-Device as baseclass for line-\/based protocols.  
+
+
+
+
+{\ttfamily \#include $<$qxtlinesocket.\-h$>$}
+
+Inheritance diagram for Qxt\-Line\-Socket\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_qxt_line_socket}
+\end{center}
+\end{figure}
+\subsection*{Public Slots}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qxt_line_socket_af6042ac869a18163e8898b16845f4b91}{send\-Line} (const Q\-Byte\-Array \&line)
+\end{DoxyCompactItemize}
+\subsection*{Signals}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qxt_line_socket_a4daaa3396964f16cdd8526d3306b453f}{new\-Line\-Received} (const Q\-Byte\-Array \&line)
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_qxt_line_socket_a55a747a9b8397d29def74c44cab3044f}{Qxt\-Line\-Socket} (Q\-Object $\ast$parent=0)
+\item 
+\hyperlink{class_qxt_line_socket_a8898ab211a16c112a14fe321bbea857b}{Qxt\-Line\-Socket} (Q\-I\-O\-Device $\ast$\hyperlink{class_qxt_line_socket_a614f041caa5be6ea64b16b4a5e84f21b}{socket}, Q\-Object $\ast$parent=0)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qxt_line_socket_aab492ac02c2a862c3e07f3fbd3478052}{set\-Socket} (Q\-I\-O\-Device $\ast$\hyperlink{class_qxt_line_socket_a614f041caa5be6ea64b16b4a5e84f21b}{socket})
+\item 
+Q\-I\-O\-Device $\ast$ \hyperlink{class_qxt_line_socket_a614f041caa5be6ea64b16b4a5e84f21b}{socket} () const 
+\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qxt_line_socket_a7be369281c2a86afd72813c6c92b397c}{new\-Line} (const Q\-Byte\-Array \&line)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+The \hyperlink{class_qxt_line_socket}{Qxt\-Line\-Socket} class acts on a Q\-I\-O\-Device as baseclass for line-\/based protocols. 
+
+Qxt\-Core 
+
+Definition at line 34 of file qxtlinesocket.\-h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_qxt_line_socket_a55a747a9b8397d29def74c44cab3044f}{\index{Qxt\-Line\-Socket@{Qxt\-Line\-Socket}!Qxt\-Line\-Socket@{Qxt\-Line\-Socket}}
+\index{Qxt\-Line\-Socket@{Qxt\-Line\-Socket}!QxtLineSocket@{Qxt\-Line\-Socket}}
+\subsubsection[{Qxt\-Line\-Socket}]{\setlength{\rightskip}{0pt plus 5cm}Qxt\-Line\-Socket\-::\-Qxt\-Line\-Socket (
+\begin{DoxyParamCaption}
+\item[{Q\-Object $\ast$}]{parent = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [explicit]}}}\label{class_qxt_line_socket_a55a747a9b8397d29def74c44cab3044f}
+Constructs a new \hyperlink{class_qxt_line_socket}{Qxt\-Line\-Socket} with {\itshape parent}. 
+
+Definition at line 46 of file qxtlinesocket.\-cpp.
+
+\hypertarget{class_qxt_line_socket_a8898ab211a16c112a14fe321bbea857b}{\index{Qxt\-Line\-Socket@{Qxt\-Line\-Socket}!Qxt\-Line\-Socket@{Qxt\-Line\-Socket}}
+\index{Qxt\-Line\-Socket@{Qxt\-Line\-Socket}!QxtLineSocket@{Qxt\-Line\-Socket}}
+\subsubsection[{Qxt\-Line\-Socket}]{\setlength{\rightskip}{0pt plus 5cm}Qxt\-Line\-Socket\-::\-Qxt\-Line\-Socket (
+\begin{DoxyParamCaption}
+\item[{Q\-I\-O\-Device $\ast$}]{socket, }
+\item[{Q\-Object $\ast$}]{parent = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [explicit]}}}\label{class_qxt_line_socket_a8898ab211a16c112a14fe321bbea857b}
+Constructs a new \hyperlink{class_qxt_line_socket}{Qxt\-Line\-Socket} with {\itshape socket} and {\itshape parent}. 
+
+Definition at line 54 of file qxtlinesocket.\-cpp.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_qxt_line_socket_a7be369281c2a86afd72813c6c92b397c}{\index{Qxt\-Line\-Socket@{Qxt\-Line\-Socket}!new\-Line@{new\-Line}}
+\index{new\-Line@{new\-Line}!QxtLineSocket@{Qxt\-Line\-Socket}}
+\subsubsection[{new\-Line}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qxt\-Line\-Socket\-::new\-Line (
+\begin{DoxyParamCaption}
+\item[{const Q\-Byte\-Array \&}]{line}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}}\label{class_qxt_line_socket_a7be369281c2a86afd72813c6c92b397c}
+This virtual function is called by \hyperlink{class_qxt_line_socket}{Qxt\-Line\-Socket} whenever a {\itshape line} was received. Reimplement this function when creating a subclass of \hyperlink{class_qxt_line_socket}{Qxt\-Line\-Socket}.
+
+\begin{DoxyNote}{Note}
+The default implementation does nothing. 
+\end{DoxyNote}
+
+
+Definition at line 96 of file qxtlinesocket.\-cpp.
+
+\hypertarget{class_qxt_line_socket_a4daaa3396964f16cdd8526d3306b453f}{\index{Qxt\-Line\-Socket@{Qxt\-Line\-Socket}!new\-Line\-Received@{new\-Line\-Received}}
+\index{new\-Line\-Received@{new\-Line\-Received}!QxtLineSocket@{Qxt\-Line\-Socket}}
+\subsubsection[{new\-Line\-Received}]{\setlength{\rightskip}{0pt plus 5cm}Qxt\-Line\-Socket\-::new\-Line\-Received (
+\begin{DoxyParamCaption}
+\item[{const Q\-Byte\-Array \&}]{line}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [signal]}}}\label{class_qxt_line_socket_a4daaa3396964f16cdd8526d3306b453f}
+This signal is emitted whenever a new {\itshape line} is received. \hypertarget{class_qxt_line_socket_af6042ac869a18163e8898b16845f4b91}{\index{Qxt\-Line\-Socket@{Qxt\-Line\-Socket}!send\-Line@{send\-Line}}
+\index{send\-Line@{send\-Line}!QxtLineSocket@{Qxt\-Line\-Socket}}
+\subsubsection[{send\-Line}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qxt\-Line\-Socket\-::send\-Line (
+\begin{DoxyParamCaption}
+\item[{const Q\-Byte\-Array \&}]{line}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [slot]}}}\label{class_qxt_line_socket_af6042ac869a18163e8898b16845f4b91}
+Sends a {\itshape line}. 
+
+Definition at line 83 of file qxtlinesocket.\-cpp.
+
+\hypertarget{class_qxt_line_socket_aab492ac02c2a862c3e07f3fbd3478052}{\index{Qxt\-Line\-Socket@{Qxt\-Line\-Socket}!set\-Socket@{set\-Socket}}
+\index{set\-Socket@{set\-Socket}!QxtLineSocket@{Qxt\-Line\-Socket}}
+\subsubsection[{set\-Socket}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qxt\-Line\-Socket\-::set\-Socket (
+\begin{DoxyParamCaption}
+\item[{Q\-I\-O\-Device $\ast$}]{socket}
+\end{DoxyParamCaption}
+)}}\label{class_qxt_line_socket_aab492ac02c2a862c3e07f3fbd3478052}
+Sets the {\itshape socket}. 
+
+Definition at line 63 of file qxtlinesocket.\-cpp.
+
+\hypertarget{class_qxt_line_socket_a614f041caa5be6ea64b16b4a5e84f21b}{\index{Qxt\-Line\-Socket@{Qxt\-Line\-Socket}!socket@{socket}}
+\index{socket@{socket}!QxtLineSocket@{Qxt\-Line\-Socket}}
+\subsubsection[{socket}]{\setlength{\rightskip}{0pt plus 5cm}Q\-I\-O\-Device $\ast$ Qxt\-Line\-Socket\-::socket (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_qxt_line_socket_a614f041caa5be6ea64b16b4a5e84f21b}
+Returns the socket. 
+
+Definition at line 75 of file qxtlinesocket.\-cpp.
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/libqxt/src/core/\hyperlink{qxtlinesocket_8h}{qxtlinesocket.\-h}\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/libqxt/src/core/\hyperlink{qxtlinesocket_8cpp}{qxtlinesocket.\-cpp}\end{DoxyCompactItemize}

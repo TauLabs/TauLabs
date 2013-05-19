@@ -1,0 +1,77 @@
+\hypertarget{class_qxt_web_redirect_event}{\section{Qxt\-Web\-Redirect\-Event Class Reference}
+\label{class_qxt_web_redirect_event}\index{Qxt\-Web\-Redirect\-Event@{Qxt\-Web\-Redirect\-Event}}
+}
+
+
+The \hyperlink{class_qxt_web_redirect_event}{Qxt\-Web\-Redirect\-Event} class describes a redirect event to be sent to a web browser.  
+
+
+
+
+{\ttfamily \#include $<$qxtwebevent.\-h$>$}
+
+Inheritance diagram for Qxt\-Web\-Redirect\-Event\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{class_qxt_web_redirect_event}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_qxt_web_redirect_event_ad7d749adaa8d56bf7b6c48e7ca752809}{Qxt\-Web\-Redirect\-Event} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_qxt_web_event_a3fdb1d80c46e535c2c79a06269a5d307}{session\-I\-D}, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_qxt_web_page_event_a144c8010cc1c9d239bf5de4c72d09f7a}{request\-I\-D}, const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{Q\-String} \&\hyperlink{class_qxt_web_redirect_event_a90be909646cd7df01a88058cdb3cbb8a}{destination}, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} status\-Code=302)
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{Q\-String} \hyperlink{class_qxt_web_redirect_event_a90be909646cd7df01a88058cdb3cbb8a}{destination}
+\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Detailed Description}
+The \hyperlink{class_qxt_web_redirect_event}{Qxt\-Web\-Redirect\-Event} class describes a redirect event to be sent to a web browser. 
+
+\hyperlink{class_qxt_web_remove_cookie_event_a843824ad7369eb86af7c966dc0048657}{Qxt\-Web\-Remove\-Cookie\-Event\-::name} Contains the name of the cookie to be removed.
+
+Qxt\-Web
+
+The \hyperlink{class_qxt_web_redirect_event}{Qxt\-Web\-Redirect\-Event} class instructs the web browser to load a page found at another location.
+
+The default status code, 302, indicates that the requested page was found at a different location. Other useful status codes are 301, which indicates that the web browser should always use the new U\-R\-L in place of the old one, and (in H\-T\-T\-P/1.\-1) 307, which indicates that the web browser should reissue the same request (including P\-O\-S\-T data) to the new U\-R\-L. 
+
+Definition at line 145 of file qxtwebevent.\-h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_qxt_web_redirect_event_ad7d749adaa8d56bf7b6c48e7ca752809}{\index{Qxt\-Web\-Redirect\-Event@{Qxt\-Web\-Redirect\-Event}!Qxt\-Web\-Redirect\-Event@{Qxt\-Web\-Redirect\-Event}}
+\index{Qxt\-Web\-Redirect\-Event@{Qxt\-Web\-Redirect\-Event}!QxtWebRedirectEvent@{Qxt\-Web\-Redirect\-Event}}
+\subsubsection[{Qxt\-Web\-Redirect\-Event}]{\setlength{\rightskip}{0pt plus 5cm}Qxt\-Web\-Redirect\-Event\-::\-Qxt\-Web\-Redirect\-Event (
+\begin{DoxyParamCaption}
+\item[{{\bf int}}]{session\-I\-D, }
+\item[{{\bf int}}]{request\-I\-D, }
+\item[{const {\bf Q\-String} \&}]{destination, }
+\item[{{\bf int}}]{status\-Code = {\ttfamily 302}}
+\end{DoxyParamCaption}
+)}}\label{class_qxt_web_redirect_event_ad7d749adaa8d56bf7b6c48e7ca752809}
+Constructs a \hyperlink{class_qxt_web_redirect_event}{Qxt\-Web\-Redirect\-Event} for the specified {\itshape session\-I\-D} and {\itshape request\-I\-D} that instructs the browser to move to the specified {\itshape destination} U\-R\-L with {\itshape status\-Code}. 
+
+Definition at line 390 of file qxtwebevent.\-cpp.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{class_qxt_web_redirect_event_a90be909646cd7df01a88058cdb3cbb8a}{\index{Qxt\-Web\-Redirect\-Event@{Qxt\-Web\-Redirect\-Event}!destination@{destination}}
+\index{destination@{destination}!QxtWebRedirectEvent@{Qxt\-Web\-Redirect\-Event}}
+\subsubsection[{destination}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Q\-String} Qxt\-Web\-Redirect\-Event\-::destination}}\label{class_qxt_web_redirect_event_a90be909646cd7df01a88058cdb3cbb8a}
+
+
+Definition at line 150 of file qxtwebevent.\-h.
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/libqxt/src/web/\hyperlink{qxtwebevent_8h}{qxtwebevent.\-h}\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/libqxt/src/web/\hyperlink{qxtwebevent_8cpp}{qxtwebevent.\-cpp}\end{DoxyCompactItemize}

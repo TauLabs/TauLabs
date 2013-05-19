@@ -1,0 +1,28 @@
+var group__matrix =
+[
+    [ "Lib3dsMatrix", "group__matrix.html#ga6f58ff2ebfcf09ca5b5cda2f3dc1cb74", null ],
+    [ "_lib3ds_matrix_add", "group__matrix.html#ga5df9d4b41648e7122e68fc439328805e", null ],
+    [ "_lib3ds_matrix_sub", "group__matrix.html#gae520026c847848d415011e62a607130d", null ],
+    [ "lib3ds_matrix_abs", "group__matrix.html#gafd8ae77c7798c9b7d57d4cfc4ec6ade6", null ],
+    [ "lib3ds_matrix_adjoint", "group__matrix.html#ga27f227ccdafcde8e0ffa8fc37b9ed1b2", null ],
+    [ "lib3ds_matrix_camera", "group__matrix.html#ga931531d5ec4f1c2d1ccfdf863b2afa00", null ],
+    [ "lib3ds_matrix_copy", "group__matrix.html#ga4c58001be2bae038ac2e2a277a726072", null ],
+    [ "lib3ds_matrix_det", "group__matrix.html#ga8bcdc47802255ef8417e9085162dae96", null ],
+    [ "lib3ds_matrix_dump", "group__matrix.html#ga370d1367cd53cc7d2e8d7ef605553ccd", null ],
+    [ "lib3ds_matrix_identity", "group__matrix.html#ga798872d6e816add77862d59220ad75d3", null ],
+    [ "lib3ds_matrix_inv", "group__matrix.html#ga7923d65846bf670c8bae9a752a3aaa0f", null ],
+    [ "lib3ds_matrix_mult", "group__matrix.html#ga90c712c24b59387b97f533570e26e6ab", null ],
+    [ "lib3ds_matrix_neg", "group__matrix.html#ga618688f0287d8fd61464bf6ba547e43b", null ],
+    [ "lib3ds_matrix_rotate", "group__matrix.html#gaa6ed34b9637e4d6855517d2725ae7227", null ],
+    [ "lib3ds_matrix_rotate_axis", "group__matrix.html#ga93ba08b6a388ece515ac4144e8522923", null ],
+    [ "lib3ds_matrix_rotate_x", "group__matrix.html#gaf71dc4a5357200c6e454d7e7f933959d", null ],
+    [ "lib3ds_matrix_rotate_y", "group__matrix.html#gacf655e9fad58e4873791ee28def7a052", null ],
+    [ "lib3ds_matrix_rotate_z", "group__matrix.html#ga5c0213f71ebf78237939469af8feb6ad", null ],
+    [ "lib3ds_matrix_scalar", "group__matrix.html#gafdcda6c6bbb93c03b6fdb3da4aa36a18", null ],
+    [ "lib3ds_matrix_scale", "group__matrix.html#ga8125aafd322488080bf49340147d4ffc", null ],
+    [ "lib3ds_matrix_scale_xyz", "group__matrix.html#gae844144d25c14a59a5297a7c295dc95e", null ],
+    [ "lib3ds_matrix_translate", "group__matrix.html#gaefda71f47bf8ba98ca413555ad40fe1f", null ],
+    [ "lib3ds_matrix_translate_xyz", "group__matrix.html#gab7a4815e201cdd772a55d02bae06072a", null ],
+    [ "lib3ds_matrix_transpose", "group__matrix.html#ga157e5dd2e09bd3d40ac0bb91ed5d0256", null ],
+    [ "lib3ds_matrix_zero", "group__matrix.html#ga7211e7954db6b20861e5d442b238b0f6", null ]
+];

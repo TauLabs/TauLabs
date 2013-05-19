@@ -1,0 +1,283 @@
+\hypertarget{class_g_l_c___polylines}{\section{G\-L\-C\-\_\-\-Polylines Class Reference}
+\label{class_g_l_c___polylines}\index{G\-L\-C\-\_\-\-Polylines@{G\-L\-C\-\_\-\-Polylines}}
+}
+
+
+\hyperlink{class_g_l_c___polylines}{G\-L\-C\-\_\-\-Polylines} \-: Open\-G\-L 3\-D Polylines.  
+
+
+
+
+{\ttfamily \#include $<$glc\-\_\-polylines.\-h$>$}
+
+Inheritance diagram for G\-L\-C\-\_\-\-Polylines\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{class_g_l_c___polylines}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{Indent}{\bf Constructor / Destructor}\par
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_g_l_c___polylines_ad7e65ba2f682779f4a582749ab4e06e7}{G\-L\-C\-\_\-\-Polylines} ()
+\begin{DoxyCompactList}\small\item\em Construct an empty polylines. \end{DoxyCompactList}\item 
+\hyperlink{class_g_l_c___polylines_ab74194ffcab43058e73b0e70194e7a5e}{G\-L\-C\-\_\-\-Polylines} (const \hyperlink{class_g_l_c___polylines}{G\-L\-C\-\_\-\-Polylines} \&polyline)
+\begin{DoxyCompactList}\small\item\em Copy constructor. \end{DoxyCompactList}\item 
+virtual \hyperlink{class_g_l_c___polylines_aa87fdbe543ec299f0d0082a290371ce3}{$\sim$\-G\-L\-C\-\_\-\-Polylines} ()
+\begin{DoxyCompactList}\small\item\em Destructor. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\end{Indent}
+\begin{Indent}{\bf Get Functions}\par
+\begin{DoxyCompactItemize}
+\item 
+const \hyperlink{class_g_l_c___bounding_box}{G\-L\-C\-\_\-\-Bounding\-Box} \& \hyperlink{class_g_l_c___polylines_af87aecbf3e532dc19bb3d7a4eb0b3205}{bounding\-Box} ()
+\begin{DoxyCompactList}\small\item\em Return the polylines bounding box. \end{DoxyCompactList}\item 
+virtual \hyperlink{class_g_l_c___geometry}{G\-L\-C\-\_\-\-Geometry} $\ast$ \hyperlink{class_g_l_c___polylines_aca55be0575ce8d7e7ec656e7b357695e}{clone} () const 
+\begin{DoxyCompactList}\small\item\em Return a copy of the geometry. \end{DoxyCompactList}\item 
+bool \hyperlink{class_g_l_c___polylines_ae6b9cd96ab4b27a406b77a5aa6ddc83f}{is\-Empty} () const 
+\begin{DoxyCompactList}\small\item\em Return true if this polylines is empty. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\end{Indent}
+\begin{Indent}{\bf Set Functions}\par
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{glc__global_8h_abf950976fabed69026558df8e2da6c6b}{G\-L\-C\-\_\-uint} \hyperlink{class_g_l_c___polylines_a1c6b00c669f257dafc5d8592dba9b53e}{add\-Polyline} (const \hyperlink{glc__global_8h_a9f3f0b00cd127b066c9931b9c257a046}{G\-Lfloat\-Vector} \&\hyperlink{glext_8h_a8850df0785e6fbcc2351af3b686b8c7a}{data})
+\begin{DoxyCompactList}\small\item\em Add a Polyline to this polylines and returns its id if id are managed. \end{DoxyCompactList}\item 
+\hyperlink{glc__global_8h_abf950976fabed69026558df8e2da6c6b}{G\-L\-C\-\_\-uint} \hyperlink{class_g_l_c___polylines_a6979815538b933af322dc307967710a0}{add\-Polyline} (const \hyperlink{class_q_list}{Q\-List}$<$ \hyperlink{glc__vector3d_8h_a4e13a9bbc7ab3d34de7e98b41836772c}{G\-L\-C\-\_\-\-Point3d} $>$ \&points\-List)
+\begin{DoxyCompactList}\small\item\em Add polyline with the given list of points to this polylines and returns its id if id are managed. \end{DoxyCompactList}\item 
+\hyperlink{glc__global_8h_abf950976fabed69026558df8e2da6c6b}{G\-L\-C\-\_\-uint} \hyperlink{class_g_l_c___polylines_af61870dbd968e9542b36a558fede4f46}{add\-Polyline} (const \hyperlink{class_q_list}{Q\-List}$<$ \hyperlink{glc__vector3df_8h_a433841665e7ab0e1f29a0c68ce0d1cc7}{G\-L\-C\-\_\-\-Point3df} $>$ \&points\-List)
+\begin{DoxyCompactList}\small\item\em Add polyline with the given list of points to this polylines and returns its id if id are managed. \end{DoxyCompactList}\item 
+\hyperlink{class_g_l_c___polylines}{G\-L\-C\-\_\-\-Polylines} \& \hyperlink{class_g_l_c___polylines_a0da88739d360e9364d858433162d2691}{operator=} (const \hyperlink{class_g_l_c___polylines}{G\-L\-C\-\_\-\-Polylines} \&polyline)
+\begin{DoxyCompactList}\small\item\em Set this polylines from the given polylines and return a reference of this polylines. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c___polylines_a5a6d8344b814c9855ed5bbb7b8775b47}{clear} ()
+\begin{DoxyCompactList}\small\item\em Clear the content of this polylines Data and makes it empty. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\end{Indent}
+\subsection*{Protected Member Functions}
+\begin{Indent}{\bf Open\-G\-L Functions}\par
+\begin{DoxyCompactItemize}
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c___polylines_a65ed216e36360919358c20add60b832c}{gl\-Draw} (const \hyperlink{class_g_l_c___render_properties}{G\-L\-C\-\_\-\-Render\-Properties} \&)
+\begin{DoxyCompactList}\small\item\em Virtual interface for Open\-G\-L Geometry set up. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\end{Indent}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Detailed Description}
+\hyperlink{class_g_l_c___polylines}{G\-L\-C\-\_\-\-Polylines} \-: Open\-G\-L 3\-D Polylines. 
+
+An \hyperlink{class_g_l_c___polylines}{G\-L\-C\-\_\-\-Polylines} is a group of wire polyline All polylines of this class have the same color 
+
+Definition at line 38 of file glc\-\_\-polylines.\-h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_g_l_c___polylines_ad7e65ba2f682779f4a582749ab4e06e7}{\index{G\-L\-C\-\_\-\-Polylines@{G\-L\-C\-\_\-\-Polylines}!G\-L\-C\-\_\-\-Polylines@{G\-L\-C\-\_\-\-Polylines}}
+\index{G\-L\-C\-\_\-\-Polylines@{G\-L\-C\-\_\-\-Polylines}!GLC_Polylines@{G\-L\-C\-\_\-\-Polylines}}
+\subsubsection[{G\-L\-C\-\_\-\-Polylines}]{\setlength{\rightskip}{0pt plus 5cm}G\-L\-C\-\_\-\-Polylines\-::\-G\-L\-C\-\_\-\-Polylines (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___polylines_ad7e65ba2f682779f4a582749ab4e06e7}
+
+
+Construct an empty polylines. 
+
+
+
+Definition at line 26 of file glc\-\_\-polylines.\-cpp.
+
+\hypertarget{class_g_l_c___polylines_ab74194ffcab43058e73b0e70194e7a5e}{\index{G\-L\-C\-\_\-\-Polylines@{G\-L\-C\-\_\-\-Polylines}!G\-L\-C\-\_\-\-Polylines@{G\-L\-C\-\_\-\-Polylines}}
+\index{G\-L\-C\-\_\-\-Polylines@{G\-L\-C\-\_\-\-Polylines}!GLC_Polylines@{G\-L\-C\-\_\-\-Polylines}}
+\subsubsection[{G\-L\-C\-\_\-\-Polylines}]{\setlength{\rightskip}{0pt plus 5cm}G\-L\-C\-\_\-\-Polylines\-::\-G\-L\-C\-\_\-\-Polylines (
+\begin{DoxyParamCaption}
+\item[{const {\bf G\-L\-C\-\_\-\-Polylines} \&}]{polyline}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___polylines_ab74194ffcab43058e73b0e70194e7a5e}
+
+
+Copy constructor. 
+
+
+
+Definition at line 32 of file glc\-\_\-polylines.\-cpp.
+
+\hypertarget{class_g_l_c___polylines_aa87fdbe543ec299f0d0082a290371ce3}{\index{G\-L\-C\-\_\-\-Polylines@{G\-L\-C\-\_\-\-Polylines}!$\sim$\-G\-L\-C\-\_\-\-Polylines@{$\sim$\-G\-L\-C\-\_\-\-Polylines}}
+\index{$\sim$\-G\-L\-C\-\_\-\-Polylines@{$\sim$\-G\-L\-C\-\_\-\-Polylines}!GLC_Polylines@{G\-L\-C\-\_\-\-Polylines}}
+\subsubsection[{$\sim$\-G\-L\-C\-\_\-\-Polylines}]{\setlength{\rightskip}{0pt plus 5cm}G\-L\-C\-\_\-\-Polylines\-::$\sim$\-G\-L\-C\-\_\-\-Polylines (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_g_l_c___polylines_aa87fdbe543ec299f0d0082a290371ce3}
+
+
+Destructor. 
+
+
+
+Definition at line 38 of file glc\-\_\-polylines.\-cpp.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_g_l_c___polylines_a1c6b00c669f257dafc5d8592dba9b53e}{\index{G\-L\-C\-\_\-\-Polylines@{G\-L\-C\-\_\-\-Polylines}!add\-Polyline@{add\-Polyline}}
+\index{add\-Polyline@{add\-Polyline}!GLC_Polylines@{G\-L\-C\-\_\-\-Polylines}}
+\subsubsection[{add\-Polyline}]{\setlength{\rightskip}{0pt plus 5cm}{\bf G\-L\-C\-\_\-uint} G\-L\-C\-\_\-\-Polylines\-::add\-Polyline (
+\begin{DoxyParamCaption}
+\item[{const {\bf G\-Lfloat\-Vector} \&}]{data}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___polylines_a1c6b00c669f257dafc5d8592dba9b53e}
+
+
+Add a Polyline to this polylines and returns its id if id are managed. 
+
+
+
+Definition at line 78 of file glc\-\_\-polylines.\-h.
+
+\hypertarget{class_g_l_c___polylines_a6979815538b933af322dc307967710a0}{\index{G\-L\-C\-\_\-\-Polylines@{G\-L\-C\-\_\-\-Polylines}!add\-Polyline@{add\-Polyline}}
+\index{add\-Polyline@{add\-Polyline}!GLC_Polylines@{G\-L\-C\-\_\-\-Polylines}}
+\subsubsection[{add\-Polyline}]{\setlength{\rightskip}{0pt plus 5cm}{\bf G\-L\-C\-\_\-uint} G\-L\-C\-\_\-\-Polylines\-::add\-Polyline (
+\begin{DoxyParamCaption}
+\item[{const {\bf Q\-List}$<$ {\bf G\-L\-C\-\_\-\-Point3d} $>$ \&}]{points\-List}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___polylines_a6979815538b933af322dc307967710a0}
+
+
+Add polyline with the given list of points to this polylines and returns its id if id are managed. 
+
+
+
+Definition at line 69 of file glc\-\_\-polylines.\-cpp.
+
+\hypertarget{class_g_l_c___polylines_af61870dbd968e9542b36a558fede4f46}{\index{G\-L\-C\-\_\-\-Polylines@{G\-L\-C\-\_\-\-Polylines}!add\-Polyline@{add\-Polyline}}
+\index{add\-Polyline@{add\-Polyline}!GLC_Polylines@{G\-L\-C\-\_\-\-Polylines}}
+\subsubsection[{add\-Polyline}]{\setlength{\rightskip}{0pt plus 5cm}{\bf G\-L\-C\-\_\-uint} G\-L\-C\-\_\-\-Polylines\-::add\-Polyline (
+\begin{DoxyParamCaption}
+\item[{const {\bf Q\-List}$<$ {\bf G\-L\-C\-\_\-\-Point3df} $>$ \&}]{points\-List}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___polylines_af61870dbd968e9542b36a558fede4f46}
+
+
+Add polyline with the given list of points to this polylines and returns its id if id are managed. 
+
+
+
+Definition at line 84 of file glc\-\_\-polylines.\-cpp.
+
+\hypertarget{class_g_l_c___polylines_af87aecbf3e532dc19bb3d7a4eb0b3205}{\index{G\-L\-C\-\_\-\-Polylines@{G\-L\-C\-\_\-\-Polylines}!bounding\-Box@{bounding\-Box}}
+\index{bounding\-Box@{bounding\-Box}!GLC_Polylines@{G\-L\-C\-\_\-\-Polylines}}
+\subsubsection[{bounding\-Box}]{\setlength{\rightskip}{0pt plus 5cm}const {\bf G\-L\-C\-\_\-\-Bounding\-Box} \& G\-L\-C\-\_\-\-Polylines\-::bounding\-Box (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_g_l_c___polylines_af87aecbf3e532dc19bb3d7a4eb0b3205}
+
+
+Return the polylines bounding box. 
+
+
+
+Implements \hyperlink{class_g_l_c___geometry_a84c5dd9cfe6e42fed117f849e9963790}{G\-L\-C\-\_\-\-Geometry}.
+
+
+
+Definition at line 46 of file glc\-\_\-polylines.\-cpp.
+
+\hypertarget{class_g_l_c___polylines_a5a6d8344b814c9855ed5bbb7b8775b47}{\index{G\-L\-C\-\_\-\-Polylines@{G\-L\-C\-\_\-\-Polylines}!clear@{clear}}
+\index{clear@{clear}!GLC_Polylines@{G\-L\-C\-\_\-\-Polylines}}
+\subsubsection[{clear}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-\-Polylines\-::clear (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}}\label{class_g_l_c___polylines_a5a6d8344b814c9855ed5bbb7b8775b47}
+
+
+Clear the content of this polylines Data and makes it empty. 
+
+
+
+Reimplemented from \hyperlink{class_g_l_c___geometry_a6d5ea8d6790556a535db1530bbed31e6}{G\-L\-C\-\_\-\-Geometry}.
+
+
+
+Definition at line 91 of file glc\-\_\-polylines.\-h.
+
+\hypertarget{class_g_l_c___polylines_aca55be0575ce8d7e7ec656e7b357695e}{\index{G\-L\-C\-\_\-\-Polylines@{G\-L\-C\-\_\-\-Polylines}!clone@{clone}}
+\index{clone@{clone}!GLC_Polylines@{G\-L\-C\-\_\-\-Polylines}}
+\subsubsection[{clone}]{\setlength{\rightskip}{0pt plus 5cm}{\bf G\-L\-C\-\_\-\-Geometry} $\ast$ G\-L\-C\-\_\-\-Polylines\-::clone (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_g_l_c___polylines_aca55be0575ce8d7e7ec656e7b357695e}
+
+
+Return a copy of the geometry. 
+
+
+
+Implements \hyperlink{class_g_l_c___geometry_adb1db203e8a151666595c93d7a72bce6}{G\-L\-C\-\_\-\-Geometry}.
+
+
+
+Reimplemented in \hyperlink{class_g_l_c___line_a0e034bdd855f170a6ba5e27b3192eab2}{G\-L\-C\-\_\-\-Line}.
+
+
+
+Definition at line 59 of file glc\-\_\-polylines.\-cpp.
+
+\hypertarget{class_g_l_c___polylines_a65ed216e36360919358c20add60b832c}{\index{G\-L\-C\-\_\-\-Polylines@{G\-L\-C\-\_\-\-Polylines}!gl\-Draw@{gl\-Draw}}
+\index{gl\-Draw@{gl\-Draw}!GLC_Polylines@{G\-L\-C\-\_\-\-Polylines}}
+\subsubsection[{gl\-Draw}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-\-Polylines\-::gl\-Draw (
+\begin{DoxyParamCaption}
+\item[{const {\bf G\-L\-C\-\_\-\-Render\-Properties} \&}]{render\-Properties}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}}\label{class_g_l_c___polylines_a65ed216e36360919358c20add60b832c}
+
+
+Virtual interface for Open\-G\-L Geometry set up. 
+
+This Virtual function is implemented here.\par
+ Throw \hyperlink{class_g_l_c___open_gl_exception}{G\-L\-C\-\_\-\-Open\-Gl\-Exception} 
+
+Implements \hyperlink{class_g_l_c___geometry_a77780d296ce0bd4e392d219a43782eda}{G\-L\-C\-\_\-\-Geometry}.
+
+
+
+Definition at line 111 of file glc\-\_\-polylines.\-cpp.
+
+\hypertarget{class_g_l_c___polylines_ae6b9cd96ab4b27a406b77a5aa6ddc83f}{\index{G\-L\-C\-\_\-\-Polylines@{G\-L\-C\-\_\-\-Polylines}!is\-Empty@{is\-Empty}}
+\index{is\-Empty@{is\-Empty}!GLC_Polylines@{G\-L\-C\-\_\-\-Polylines}}
+\subsubsection[{is\-Empty}]{\setlength{\rightskip}{0pt plus 5cm}bool G\-L\-C\-\_\-\-Polylines\-::is\-Empty (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___polylines_ae6b9cd96ab4b27a406b77a5aa6ddc83f}
+
+
+Return true if this polylines is empty. 
+
+
+
+Definition at line 67 of file glc\-\_\-polylines.\-h.
+
+\hypertarget{class_g_l_c___polylines_a0da88739d360e9364d858433162d2691}{\index{G\-L\-C\-\_\-\-Polylines@{G\-L\-C\-\_\-\-Polylines}!operator=@{operator=}}
+\index{operator=@{operator=}!GLC_Polylines@{G\-L\-C\-\_\-\-Polylines}}
+\subsubsection[{operator=}]{\setlength{\rightskip}{0pt plus 5cm}{\bf G\-L\-C\-\_\-\-Polylines} \& G\-L\-C\-\_\-\-Polylines\-::operator= (
+\begin{DoxyParamCaption}
+\item[{const {\bf G\-L\-C\-\_\-\-Polylines} \&}]{polyline}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___polylines_a0da88739d360e9364d858433162d2691}
+
+
+Set this polylines from the given polylines and return a reference of this polylines. 
+
+
+
+Definition at line 99 of file glc\-\_\-polylines.\-cpp.
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/glc\-\_\-lib/geometry/\hyperlink{glc__polylines_8h}{glc\-\_\-polylines.\-h}\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/glc\-\_\-lib/geometry/\hyperlink{glc__polylines_8cpp}{glc\-\_\-polylines.\-cpp}\end{DoxyCompactItemize}

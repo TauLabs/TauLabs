@@ -1,0 +1,328 @@
+\hypertarget{class_qwt_raster_data}{\section{Qwt\-Raster\-Data Class Reference}
+\label{class_qwt_raster_data}\index{Qwt\-Raster\-Data@{Qwt\-Raster\-Data}}
+}
+
+
+\hyperlink{class_qwt_raster_data}{Qwt\-Raster\-Data} defines an interface to any type of raster data.  
+
+
+
+
+{\ttfamily \#include $<$qwt\-\_\-raster\-\_\-data.\-h$>$}
+
+Inheritance diagram for Qwt\-Raster\-Data\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_qwt_raster_data}
+\end{center}
+\end{figure}
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{class_qwt_raster_data_1_1_contour_plane}{Contour\-Plane}
+\end{DoxyCompactItemize}
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{class_qwt_raster_data_ac0053b66315fde6f0a9a69c40d7c5dcc}{Conrec\-Flag} \{ \hyperlink{class_qwt_raster_data_ac0053b66315fde6f0a9a69c40d7c5dccafd2f6337e825201a247408f033713c92}{Ignore\-All\-Vertices\-On\-Level} = 0x01, 
+\hyperlink{class_qwt_raster_data_ac0053b66315fde6f0a9a69c40d7c5dcca18e8d1de171dd43cc957c279eb03d32c}{Ignore\-Out\-Of\-Range} = 0x02
+ \}
+\begin{DoxyCompactList}\small\item\em Flags to modify the contour algorithm. \end{DoxyCompactList}\item 
+typedef Q\-Map$<$ \hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double}, Q\-Polygon\-F $>$ \hyperlink{class_qwt_raster_data_adc6679160a229992f0870a2b784985f3}{Contour\-Lines}
+\begin{DoxyCompactList}\small\item\em Contour lines. \end{DoxyCompactList}\item 
+typedef Q\-Flags$<$ \hyperlink{class_qwt_raster_data_ac0053b66315fde6f0a9a69c40d7c5dcc}{Conrec\-Flag} $>$ \hyperlink{class_qwt_raster_data_a8101f4a0c71813d49fcdc73a457c4874}{Conrec\-Flags}
+\begin{DoxyCompactList}\small\item\em Flags to modify the contour algorithm. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_qwt_raster_data_a0fc20e05a794c0dc85f6ae5719566588}{Qwt\-Raster\-Data} ()
+\begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
+virtual \hyperlink{class_qwt_raster_data_a95b24c7cad42c5f7947e64e990def3e8}{$\sim$\-Qwt\-Raster\-Data} ()
+\begin{DoxyCompactList}\small\item\em Destructor. \end{DoxyCompactList}\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_raster_data_a14abf60573989e2a2c97e21a98aee558}{set\-Interval} (Qt\-::\-Axis, const \hyperlink{class_qwt_interval}{Qwt\-Interval} \&)
+\item 
+const \hyperlink{class_qwt_interval}{Qwt\-Interval} \& \hyperlink{class_qwt_raster_data_a8423d051697f975150b3b555bfcac8b9}{interval} (Qt\-::\-Axis) const 
+\item 
+virtual Q\-Rect\-F \hyperlink{class_qwt_raster_data_ad1ce58351804760d1ba1e7efe97d39d6}{pixel\-Hint} (const Q\-Rect\-F \&) const 
+\begin{DoxyCompactList}\small\item\em Pixel hint. \end{DoxyCompactList}\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_raster_data_a64f5bf40b6138cc66719a56555c03589}{init\-Raster} (const Q\-Rect\-F \&, const Q\-Size \&raster)
+\begin{DoxyCompactList}\small\item\em Initialize a raster. \end{DoxyCompactList}\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_raster_data_a369a5f525814bf569e01f88fbd8ddb5b}{discard\-Raster} ()
+\begin{DoxyCompactList}\small\item\em Discard a raster. \end{DoxyCompactList}\item 
+virtual \hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} \hyperlink{class_qwt_raster_data_a6396fc013fcec893b1e8cea4cf03691e}{value} (\hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} \hyperlink{glext_8h_a1db9d104e3c2128177f26aff7b46982f}{x}, \hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} \hyperlink{glext_8h_a42315f3ed8fff752bb47fd782309fcfc}{y}) const =0
+\item 
+virtual \hyperlink{class_qwt_raster_data_adc6679160a229992f0870a2b784985f3}{Contour\-Lines} \hyperlink{class_qwt_raster_data_a1fa90434ddeeeeaacb80657e49af8fe1}{contour\-Lines} (const Q\-Rect\-F \&rect, const Q\-Size \&raster, const \hyperlink{class_q_list}{Q\-List}$<$ \hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} $>$ \&levels, \hyperlink{class_qwt_raster_data_a8101f4a0c71813d49fcdc73a457c4874}{Conrec\-Flags}) const 
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\hyperlink{class_qwt_raster_data}{Qwt\-Raster\-Data} defines an interface to any type of raster data. 
+
+\hyperlink{class_qwt_raster_data}{Qwt\-Raster\-Data} is an abstract interface, that is used by \hyperlink{class_qwt_plot_raster_item}{Qwt\-Plot\-Raster\-Item} to find the values at the pixels of its raster.
+
+Often a raster item is used to display values from a matrix. Then the derived raster data class needs to implement some sort of resampling, that maps the raster of the matrix into the requested raster of the raster item ( depending on resolution and scales of the canvas ). 
+
+Definition at line 32 of file qwt\-\_\-raster\-\_\-data.\-h.
+
+
+
+\subsection{Member Typedef Documentation}
+\hypertarget{class_qwt_raster_data_a8101f4a0c71813d49fcdc73a457c4874}{\index{Qwt\-Raster\-Data@{Qwt\-Raster\-Data}!Conrec\-Flags@{Conrec\-Flags}}
+\index{Conrec\-Flags@{Conrec\-Flags}!QwtRasterData@{Qwt\-Raster\-Data}}
+\subsubsection[{Conrec\-Flags}]{\setlength{\rightskip}{0pt plus 5cm}typedef Q\-Flags$<${\bf Conrec\-Flag}$>$ {\bf Qwt\-Raster\-Data\-::\-Conrec\-Flags}}}\label{class_qwt_raster_data_a8101f4a0c71813d49fcdc73a457c4874}
+
+
+Flags to modify the contour algorithm. 
+
+
+
+Definition at line 49 of file qwt\-\_\-raster\-\_\-data.\-h.
+
+\hypertarget{class_qwt_raster_data_adc6679160a229992f0870a2b784985f3}{\index{Qwt\-Raster\-Data@{Qwt\-Raster\-Data}!Contour\-Lines@{Contour\-Lines}}
+\index{Contour\-Lines@{Contour\-Lines}!QwtRasterData@{Qwt\-Raster\-Data}}
+\subsubsection[{Contour\-Lines}]{\setlength{\rightskip}{0pt plus 5cm}typedef Q\-Map$<${\bf double}, Q\-Polygon\-F$>$ {\bf Qwt\-Raster\-Data\-::\-Contour\-Lines}}}\label{class_qwt_raster_data_adc6679160a229992f0870a2b784985f3}
+
+
+Contour lines. 
+
+
+
+Definition at line 36 of file qwt\-\_\-raster\-\_\-data.\-h.
+
+
+
+\subsection{Member Enumeration Documentation}
+\hypertarget{class_qwt_raster_data_ac0053b66315fde6f0a9a69c40d7c5dcc}{\index{Qwt\-Raster\-Data@{Qwt\-Raster\-Data}!Conrec\-Flag@{Conrec\-Flag}}
+\index{Conrec\-Flag@{Conrec\-Flag}!QwtRasterData@{Qwt\-Raster\-Data}}
+\subsubsection[{Conrec\-Flag}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf Qwt\-Raster\-Data\-::\-Conrec\-Flag}}}\label{class_qwt_raster_data_ac0053b66315fde6f0a9a69c40d7c5dcc}
+
+
+Flags to modify the contour algorithm. 
+
+\begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{Ignore\-All\-Vertices\-On\-Level@{Ignore\-All\-Vertices\-On\-Level}!Qwt\-Raster\-Data@{Qwt\-Raster\-Data}}\index{Qwt\-Raster\-Data@{Qwt\-Raster\-Data}!Ignore\-All\-Vertices\-On\-Level@{Ignore\-All\-Vertices\-On\-Level}}\item[{\em 
+\hypertarget{class_qwt_raster_data_ac0053b66315fde6f0a9a69c40d7c5dccafd2f6337e825201a247408f033713c92}{Ignore\-All\-Vertices\-On\-Level}\label{class_qwt_raster_data_ac0053b66315fde6f0a9a69c40d7c5dccafd2f6337e825201a247408f033713c92}
+}]Ignore all verices on the same level. \index{Ignore\-Out\-Of\-Range@{Ignore\-Out\-Of\-Range}!Qwt\-Raster\-Data@{Qwt\-Raster\-Data}}\index{Qwt\-Raster\-Data@{Qwt\-Raster\-Data}!Ignore\-Out\-Of\-Range@{Ignore\-Out\-Of\-Range}}\item[{\em 
+\hypertarget{class_qwt_raster_data_ac0053b66315fde6f0a9a69c40d7c5dcca18e8d1de171dd43cc957c279eb03d32c}{Ignore\-Out\-Of\-Range}\label{class_qwt_raster_data_ac0053b66315fde6f0a9a69c40d7c5dcca18e8d1de171dd43cc957c279eb03d32c}
+}]Ignore all values, that are out of range. \end{description}
+\end{Desc}
+
+
+Definition at line 39 of file qwt\-\_\-raster\-\_\-data.\-h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_qwt_raster_data_a0fc20e05a794c0dc85f6ae5719566588}{\index{Qwt\-Raster\-Data@{Qwt\-Raster\-Data}!Qwt\-Raster\-Data@{Qwt\-Raster\-Data}}
+\index{Qwt\-Raster\-Data@{Qwt\-Raster\-Data}!QwtRasterData@{Qwt\-Raster\-Data}}
+\subsubsection[{Qwt\-Raster\-Data}]{\setlength{\rightskip}{0pt plus 5cm}Qwt\-Raster\-Data\-::\-Qwt\-Raster\-Data (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_qwt_raster_data_a0fc20e05a794c0dc85f6ae5719566588}
+
+
+Constructor. 
+
+
+
+Definition at line 158 of file qwt\-\_\-raster\-\_\-data.\-cpp.
+
+\hypertarget{class_qwt_raster_data_a95b24c7cad42c5f7947e64e990def3e8}{\index{Qwt\-Raster\-Data@{Qwt\-Raster\-Data}!$\sim$\-Qwt\-Raster\-Data@{$\sim$\-Qwt\-Raster\-Data}}
+\index{$\sim$\-Qwt\-Raster\-Data@{$\sim$\-Qwt\-Raster\-Data}!QwtRasterData@{Qwt\-Raster\-Data}}
+\subsubsection[{$\sim$\-Qwt\-Raster\-Data}]{\setlength{\rightskip}{0pt plus 5cm}Qwt\-Raster\-Data\-::$\sim$\-Qwt\-Raster\-Data (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_qwt_raster_data_a95b24c7cad42c5f7947e64e990def3e8}
+
+
+Destructor. 
+
+
+
+Definition at line 163 of file qwt\-\_\-raster\-\_\-data.\-cpp.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_qwt_raster_data_a1fa90434ddeeeeaacb80657e49af8fe1}{\index{Qwt\-Raster\-Data@{Qwt\-Raster\-Data}!contour\-Lines@{contour\-Lines}}
+\index{contour\-Lines@{contour\-Lines}!QwtRasterData@{Qwt\-Raster\-Data}}
+\subsubsection[{contour\-Lines}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Qwt\-Raster\-Data\-::\-Contour\-Lines} Qwt\-Raster\-Data\-::contour\-Lines (
+\begin{DoxyParamCaption}
+\item[{const Q\-Rect\-F \&}]{rect, }
+\item[{const Q\-Size \&}]{raster, }
+\item[{const {\bf Q\-List}$<$ {\bf double} $>$ \&}]{levels, }
+\item[{{\bf Conrec\-Flags}}]{flags}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_qwt_raster_data_a1fa90434ddeeeeaacb80657e49af8fe1}
+Calculate contour lines
+
+An adaption of C\-O\-N\-R\-E\-C, a simple contouring algorithm. \href{http://local.wasp.uwa.edu.au/~pbourke/papers/conrec/}{\tt http\-://local.\-wasp.\-uwa.\-edu.\-au/$\sim$pbourke/papers/conrec/} 
+
+Definition at line 253 of file qwt\-\_\-raster\-\_\-data.\-cpp.
+
+\hypertarget{class_qwt_raster_data_a369a5f525814bf569e01f88fbd8ddb5b}{\index{Qwt\-Raster\-Data@{Qwt\-Raster\-Data}!discard\-Raster@{discard\-Raster}}
+\index{discard\-Raster@{discard\-Raster}!QwtRasterData@{Qwt\-Raster\-Data}}
+\subsubsection[{discard\-Raster}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Raster\-Data\-::discard\-Raster (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_qwt_raster_data_a369a5f525814bf569e01f88fbd8ddb5b}
+
+
+Discard a raster. 
+
+After the composition of an image \hyperlink{class_qwt_plot_spectrogram}{Qwt\-Plot\-Spectrogram} calls \hyperlink{class_qwt_raster_data_a369a5f525814bf569e01f88fbd8ddb5b}{discard\-Raster()}.
+
+The default implementation does nothing, but if data has been loaded in \hyperlink{class_qwt_raster_data_a64f5bf40b6138cc66719a56555c03589}{init\-Raster()}, it could deleted now.
+
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_raster_data_a64f5bf40b6138cc66719a56555c03589}{init\-Raster()}, \hyperlink{class_qwt_raster_data_a6396fc013fcec893b1e8cea4cf03691e}{value()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 211 of file qwt\-\_\-raster\-\_\-data.\-cpp.
+
+\hypertarget{class_qwt_raster_data_a64f5bf40b6138cc66719a56555c03589}{\index{Qwt\-Raster\-Data@{Qwt\-Raster\-Data}!init\-Raster@{init\-Raster}}
+\index{init\-Raster@{init\-Raster}!QwtRasterData@{Qwt\-Raster\-Data}}
+\subsubsection[{init\-Raster}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Raster\-Data\-::init\-Raster (
+\begin{DoxyParamCaption}
+\item[{const Q\-Rect\-F \&}]{area, }
+\item[{const Q\-Size \&}]{raster}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_qwt_raster_data_a64f5bf40b6138cc66719a56555c03589}
+
+
+Initialize a raster. 
+
+Before the composition of an image \hyperlink{class_qwt_plot_spectrogram}{Qwt\-Plot\-Spectrogram} calls init\-Raster, announcing the area and its resolution that will be requested.
+
+The default implementation does nothing, but for data sets that are stored in files, it might be good idea to reimplement init\-Raster, where the data is resampled and loaded into memory.
+
+
+\begin{DoxyParams}{Parameters}
+{\em area} & Area of the raster \\
+\hline
+{\em raster} & Number of horizontal and vertical pixels\\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_raster_data_a64f5bf40b6138cc66719a56555c03589}{init\-Raster()}, \hyperlink{class_qwt_raster_data_a6396fc013fcec893b1e8cea4cf03691e}{value()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 195 of file qwt\-\_\-raster\-\_\-data.\-cpp.
+
+\hypertarget{class_qwt_raster_data_a8423d051697f975150b3b555bfcac8b9}{\index{Qwt\-Raster\-Data@{Qwt\-Raster\-Data}!interval@{interval}}
+\index{interval@{interval}!QwtRasterData@{Qwt\-Raster\-Data}}
+\subsubsection[{interval}]{\setlength{\rightskip}{0pt plus 5cm}const {\bf Qwt\-Interval} \& Qwt\-Raster\-Data\-::interval (
+\begin{DoxyParamCaption}
+\item[{Qt\-::\-Axis}]{axis}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_qwt_raster_data_a8423d051697f975150b3b555bfcac8b9}
+\begin{DoxyReturn}{Returns}
+Bounding interval for a axis 
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_raster_data_a14abf60573989e2a2c97e21a98aee558}{set\-Interval} 
+\end{DoxySeeAlso}
+
+
+Definition at line 88 of file qwt\-\_\-raster\-\_\-data.\-h.
+
+\hypertarget{class_qwt_raster_data_ad1ce58351804760d1ba1e7efe97d39d6}{\index{Qwt\-Raster\-Data@{Qwt\-Raster\-Data}!pixel\-Hint@{pixel\-Hint}}
+\index{pixel\-Hint@{pixel\-Hint}!QwtRasterData@{Qwt\-Raster\-Data}}
+\subsubsection[{pixel\-Hint}]{\setlength{\rightskip}{0pt plus 5cm}Q\-Rect\-F Qwt\-Raster\-Data\-::pixel\-Hint (
+\begin{DoxyParamCaption}
+\item[{const Q\-Rect\-F \&}]{area}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_qwt_raster_data_ad1ce58351804760d1ba1e7efe97d39d6}
+
+
+Pixel hint. 
+
+\hyperlink{class_qwt_raster_data_ad1ce58351804760d1ba1e7efe97d39d6}{pixel\-Hint()} returns the geometry of a pixel, that can be used to calculate the resolution and alignment of the plot item, that is representing the data.
+
+Width and height of the hint need to be the horizontal and vertical distances between 2 neighboured points. The center of the hint has to be the position of any point ( it doesn't matter which one ).
+
+An empty hint indicates, that there are values for any detail level.
+
+Limiting the resolution of the image might significantly improve the performance and heavily reduce the amount of memory when rendering a Q\-Image from the raster data.
+
+The default implementation returns an empty rectangle recommending to render in target device ( f.\-e. screen ) resolution.
+
+
+\begin{DoxyParams}{Parameters}
+{\em area} & In most implementations the resolution of the data doesn't depend on the requested area.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Bounding rectangle of a pixel 
+\end{DoxyReturn}
+
+
+Reimplemented in \hyperlink{class_qwt_matrix_raster_data_a7a9034de8037af500e4f737f54591358}{Qwt\-Matrix\-Raster\-Data}.
+
+
+
+Definition at line 241 of file qwt\-\_\-raster\-\_\-data.\-cpp.
+
+\hypertarget{class_qwt_raster_data_a14abf60573989e2a2c97e21a98aee558}{\index{Qwt\-Raster\-Data@{Qwt\-Raster\-Data}!set\-Interval@{set\-Interval}}
+\index{set\-Interval@{set\-Interval}!QwtRasterData@{Qwt\-Raster\-Data}}
+\subsubsection[{set\-Interval}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Raster\-Data\-::set\-Interval (
+\begin{DoxyParamCaption}
+\item[{Qt\-::\-Axis}]{axis, }
+\item[{const {\bf Qwt\-Interval} \&}]{interval}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_qwt_raster_data_a14abf60573989e2a2c97e21a98aee558}
+Set the bounding interval for the x, y or z coordinates.
+
+
+\begin{DoxyParams}{Parameters}
+{\em axis} & Axis \\
+\hline
+{\em interval} & Bounding interval\\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_raster_data_a8423d051697f975150b3b555bfcac8b9}{interval()} 
+\end{DoxySeeAlso}
+
+
+Reimplemented in \hyperlink{class_qwt_matrix_raster_data_a69db38d8f920edb9dc3f0953ca16db8f}{Qwt\-Matrix\-Raster\-Data}.
+
+
+
+Definition at line 175 of file qwt\-\_\-raster\-\_\-data.\-cpp.
+
+\hypertarget{class_qwt_raster_data_a6396fc013fcec893b1e8cea4cf03691e}{\index{Qwt\-Raster\-Data@{Qwt\-Raster\-Data}!value@{value}}
+\index{value@{value}!QwtRasterData@{Qwt\-Raster\-Data}}
+\subsubsection[{value}]{\setlength{\rightskip}{0pt plus 5cm}virtual {\bf double} Qwt\-Raster\-Data\-::value (
+\begin{DoxyParamCaption}
+\item[{{\bf double}}]{x, }
+\item[{{\bf double}}]{y}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [pure virtual]}}}\label{class_qwt_raster_data_a6396fc013fcec893b1e8cea4cf03691e}
+\begin{DoxyReturn}{Returns}
+the value at a raster position 
+\end{DoxyReturn}
+
+\begin{DoxyParams}{Parameters}
+{\em x} & X value in plot coordinates \\
+\hline
+{\em y} & Y value in plot coordinates \\
+\hline
+\end{DoxyParams}
+
+
+Implemented in \hyperlink{class_qwt_matrix_raster_data_a49952670063166bccdbfb9cdbd7b56e8}{Qwt\-Matrix\-Raster\-Data}.
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/qwt/src/\hyperlink{qwt__raster__data_8h}{qwt\-\_\-raster\-\_\-data.\-h}\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/qwt/src/\hyperlink{qwt__raster__data_8cpp}{qwt\-\_\-raster\-\_\-data.\-cpp}\end{DoxyCompactItemize}

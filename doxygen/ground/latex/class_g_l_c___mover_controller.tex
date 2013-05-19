@@ -1,0 +1,372 @@
+\hypertarget{class_g_l_c___mover_controller}{\section{G\-L\-C\-\_\-\-Mover\-Controller Class Reference}
+\label{class_g_l_c___mover_controller}\index{G\-L\-C\-\_\-\-Mover\-Controller@{G\-L\-C\-\_\-\-Mover\-Controller}}
+}
+
+
+\hyperlink{class_g_l_c___mover_controller}{G\-L\-C\-\_\-\-Mover\-Controller} \-: Control activation of interactive manipulation mover.  
+
+
+
+
+{\ttfamily \#include $<$glc\-\_\-movercontroller.\-h$>$}
+
+Inheritance diagram for G\-L\-C\-\_\-\-Mover\-Controller\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_g_l_c___mover_controller}
+\end{center}
+\end{figure}
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{class_g_l_c___mover_controller_a574d11af2d0143e7e72f584fabab381f}{Mover\-Type} \{ \\*
+\hyperlink{class_g_l_c___mover_controller_a574d11af2d0143e7e72f584fabab381fa4b4316aabc6d52b29900deffddda5756}{Pan} = 1, 
+\hyperlink{class_g_l_c___mover_controller_a574d11af2d0143e7e72f584fabab381fa7adae7a29d88fa042e72219fd210992d}{Zoom} = 2, 
+\hyperlink{class_g_l_c___mover_controller_a574d11af2d0143e7e72f584fabab381fa0a6ba5a5c315d3359b2c419ae8c76d0d}{Track\-Ball} = 3, 
+\hyperlink{class_g_l_c___mover_controller_a574d11af2d0143e7e72f584fabab381fa749ead8121ec8a39a0b3a00a55d2203b}{Target} = 4, 
+\\*
+\hyperlink{class_g_l_c___mover_controller_a574d11af2d0143e7e72f584fabab381fab949c13084daf119ffefd042d3307090}{Turn\-Table} = 5, 
+\hyperlink{class_g_l_c___mover_controller_a574d11af2d0143e7e72f584fabab381fafb068ac4e9151a68d9f210a979faaece}{Fly} = 6, 
+\hyperlink{class_g_l_c___mover_controller_a574d11af2d0143e7e72f584fabab381fa2e9233cf45fb6c6eca04a607b338e270}{T\-S\-R} = 7
+ \}
+\begin{DoxyCompactList}\small\item\em Standard mover Id. \end{DoxyCompactList}\item 
+typedef Q\-Hash$<$ const \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int}, \\*
+\hyperlink{class_g_l_c___mover}{G\-L\-C\-\_\-\-Mover} $\ast$ $>$ \hyperlink{class_g_l_c___mover_controller_ab7dea356f0b6ba626dac8278012f8f40}{Mover\-Hash}
+\begin{DoxyCompactList}\small\item\em The mover hash table. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Signals}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c___mover_controller_aedc8ecdf90553b90d512b0543f91bf91}{repaint\-Needed} ()
+\begin{DoxyCompactList}\small\item\em Signal emitted if the view as to be repaint. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_g_l_c___mover_controller_adb38a115c1ce9e5e0534313d92c497d9}{G\-L\-C\-\_\-\-Mover\-Controller} ()
+\begin{DoxyCompactList}\small\item\em Default Constructor. \end{DoxyCompactList}\item 
+\hyperlink{class_g_l_c___mover_controller_abd0d7163cf0f5ce7f85b2f7bd74139b1}{G\-L\-C\-\_\-\-Mover\-Controller} (const \hyperlink{class_g_l_c___mover_controller}{G\-L\-C\-\_\-\-Mover\-Controller} \&)
+\begin{DoxyCompactList}\small\item\em Copy Constructor. \end{DoxyCompactList}\item 
+virtual \hyperlink{class_g_l_c___mover_controller_aa99ba114551e90c7f03027d50831f49d}{$\sim$\-G\-L\-C\-\_\-\-Mover\-Controller} ()
+\begin{DoxyCompactList}\small\item\em Destructor. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{Indent}{\bf Get Functions}\par
+\begin{DoxyCompactItemize}
+\item 
+bool \hyperlink{class_g_l_c___mover_controller_a0931866b4d2e466d130a5c293bb9e67a}{has\-Active\-Mover} () const 
+\begin{DoxyCompactList}\small\item\em Return true if there is an active mover. \end{DoxyCompactList}\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_g_l_c___mover_controller_af5f2c1274ada31e911e8b359379bf27f}{active\-Mover\-Id} () const 
+\begin{DoxyCompactList}\small\item\em Return the active mover id. \end{DoxyCompactList}\item 
+\hyperlink{class_g_l_c___mover}{G\-L\-C\-\_\-\-Mover} $\ast$ \hyperlink{class_g_l_c___mover_controller_a41ed23a92f321302bd55ae95b2cac113}{active\-Mover} () const 
+\begin{DoxyCompactList}\small\item\em Return a handle on the current mover. \end{DoxyCompactList}\item 
+\hyperlink{class_g_l_c___mover}{G\-L\-C\-\_\-\-Mover} $\ast$ \hyperlink{class_g_l_c___mover_controller_abe6321902667316d5d26740450350acc}{get\-Mover} (const \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{glext_8h_a58c2a664503e14ffb8f21012aabff3e9}{id}) const 
+\begin{DoxyCompactList}\small\item\em Return the mover of the given id. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\end{Indent}
+\begin{Indent}{\bf Set Functions}\par
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_g_l_c___mover_controller}{G\-L\-C\-\_\-\-Mover\-Controller} \& \hyperlink{class_g_l_c___mover_controller_ae9d90dc77f8b77af5fbacda94581a870}{operator=} (const \hyperlink{class_g_l_c___mover_controller}{G\-L\-C\-\_\-\-Mover\-Controller} \&)
+\begin{DoxyCompactList}\small\item\em Assign another mover controller. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c___mover_controller_ab241961299649b1d7c6f24a2e6d1d517}{add\-Mover} (\hyperlink{class_g_l_c___mover}{G\-L\-C\-\_\-\-Mover} $\ast$, const \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int})
+\begin{DoxyCompactList}\small\item\em Add a mover to the controller. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c___mover_controller_a78bd0b471b4b2c7ab632bf8c5fc20997}{remove\-Mover} (const \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int})
+\begin{DoxyCompactList}\small\item\em Remove mover from the controller. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c___mover_controller_a6306d26b7f96d0d03dbb75ce0d6b9345}{set\-Active\-Mover} (const \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{glext_8h_a58c2a664503e14ffb8f21012aabff3e9}{id}, const \hyperlink{class_g_l_c___user_input}{G\-L\-C\-\_\-\-User\-Input} \&user\-Input)
+\begin{DoxyCompactList}\small\item\em Set the specified mover as active. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c___mover_controller_aeea410704b83d1ea434bf021f1f1f1e7}{set\-No\-Mover} ()
+\begin{DoxyCompactList}\small\item\em Set no mover as active. \end{DoxyCompactList}\item 
+bool \hyperlink{class_g_l_c___mover_controller_a9e0902a621568c728871a69fbeb7fcde}{move} (const \hyperlink{class_g_l_c___user_input}{G\-L\-C\-\_\-\-User\-Input} \&user\-Input)
+\begin{DoxyCompactList}\small\item\em Move with the active mover. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\end{Indent}
+\begin{Indent}{\bf Open\-G\-L Functions}\par
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c___mover_controller_abb2a9b3fc1fc545a2e34bfc6bbceaa36}{draw\-Active\-Mover\-Rep} ()
+\begin{DoxyCompactList}\small\item\em Mover representations list display. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\end{Indent}
+
+
+\subsection{Detailed Description}
+\hyperlink{class_g_l_c___mover_controller}{G\-L\-C\-\_\-\-Mover\-Controller} \-: Control activation of interactive manipulation mover. 
+
+Definition at line 42 of file glc\-\_\-movercontroller.\-h.
+
+
+
+\subsection{Member Typedef Documentation}
+\hypertarget{class_g_l_c___mover_controller_ab7dea356f0b6ba626dac8278012f8f40}{\index{G\-L\-C\-\_\-\-Mover\-Controller@{G\-L\-C\-\_\-\-Mover\-Controller}!Mover\-Hash@{Mover\-Hash}}
+\index{Mover\-Hash@{Mover\-Hash}!GLC_MoverController@{G\-L\-C\-\_\-\-Mover\-Controller}}
+\subsubsection[{Mover\-Hash}]{\setlength{\rightskip}{0pt plus 5cm}typedef Q\-Hash$<$const {\bf int}, {\bf G\-L\-C\-\_\-\-Mover}$\ast$$>$ {\bf G\-L\-C\-\_\-\-Mover\-Controller\-::\-Mover\-Hash}}}\label{class_g_l_c___mover_controller_ab7dea356f0b6ba626dac8278012f8f40}
+
+
+The mover hash table. 
+
+
+
+Definition at line 47 of file glc\-\_\-movercontroller.\-h.
+
+
+
+\subsection{Member Enumeration Documentation}
+\hypertarget{class_g_l_c___mover_controller_a574d11af2d0143e7e72f584fabab381f}{\index{G\-L\-C\-\_\-\-Mover\-Controller@{G\-L\-C\-\_\-\-Mover\-Controller}!Mover\-Type@{Mover\-Type}}
+\index{Mover\-Type@{Mover\-Type}!GLC_MoverController@{G\-L\-C\-\_\-\-Mover\-Controller}}
+\subsubsection[{Mover\-Type}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf G\-L\-C\-\_\-\-Mover\-Controller\-::\-Mover\-Type}}}\label{class_g_l_c___mover_controller_a574d11af2d0143e7e72f584fabab381f}
+
+
+Standard mover Id. 
+
+\begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{Pan@{Pan}!G\-L\-C\-\_\-\-Mover\-Controller@{G\-L\-C\-\_\-\-Mover\-Controller}}\index{G\-L\-C\-\_\-\-Mover\-Controller@{G\-L\-C\-\_\-\-Mover\-Controller}!Pan@{Pan}}\item[{\em 
+\hypertarget{class_g_l_c___mover_controller_a574d11af2d0143e7e72f584fabab381fa4b4316aabc6d52b29900deffddda5756}{Pan}\label{class_g_l_c___mover_controller_a574d11af2d0143e7e72f584fabab381fa4b4316aabc6d52b29900deffddda5756}
+}]\index{Zoom@{Zoom}!G\-L\-C\-\_\-\-Mover\-Controller@{G\-L\-C\-\_\-\-Mover\-Controller}}\index{G\-L\-C\-\_\-\-Mover\-Controller@{G\-L\-C\-\_\-\-Mover\-Controller}!Zoom@{Zoom}}\item[{\em 
+\hypertarget{class_g_l_c___mover_controller_a574d11af2d0143e7e72f584fabab381fa7adae7a29d88fa042e72219fd210992d}{Zoom}\label{class_g_l_c___mover_controller_a574d11af2d0143e7e72f584fabab381fa7adae7a29d88fa042e72219fd210992d}
+}]\index{Track\-Ball@{Track\-Ball}!G\-L\-C\-\_\-\-Mover\-Controller@{G\-L\-C\-\_\-\-Mover\-Controller}}\index{G\-L\-C\-\_\-\-Mover\-Controller@{G\-L\-C\-\_\-\-Mover\-Controller}!Track\-Ball@{Track\-Ball}}\item[{\em 
+\hypertarget{class_g_l_c___mover_controller_a574d11af2d0143e7e72f584fabab381fa0a6ba5a5c315d3359b2c419ae8c76d0d}{Track\-Ball}\label{class_g_l_c___mover_controller_a574d11af2d0143e7e72f584fabab381fa0a6ba5a5c315d3359b2c419ae8c76d0d}
+}]\index{Target@{Target}!G\-L\-C\-\_\-\-Mover\-Controller@{G\-L\-C\-\_\-\-Mover\-Controller}}\index{G\-L\-C\-\_\-\-Mover\-Controller@{G\-L\-C\-\_\-\-Mover\-Controller}!Target@{Target}}\item[{\em 
+\hypertarget{class_g_l_c___mover_controller_a574d11af2d0143e7e72f584fabab381fa749ead8121ec8a39a0b3a00a55d2203b}{Target}\label{class_g_l_c___mover_controller_a574d11af2d0143e7e72f584fabab381fa749ead8121ec8a39a0b3a00a55d2203b}
+}]\index{Turn\-Table@{Turn\-Table}!G\-L\-C\-\_\-\-Mover\-Controller@{G\-L\-C\-\_\-\-Mover\-Controller}}\index{G\-L\-C\-\_\-\-Mover\-Controller@{G\-L\-C\-\_\-\-Mover\-Controller}!Turn\-Table@{Turn\-Table}}\item[{\em 
+\hypertarget{class_g_l_c___mover_controller_a574d11af2d0143e7e72f584fabab381fab949c13084daf119ffefd042d3307090}{Turn\-Table}\label{class_g_l_c___mover_controller_a574d11af2d0143e7e72f584fabab381fab949c13084daf119ffefd042d3307090}
+}]\index{Fly@{Fly}!G\-L\-C\-\_\-\-Mover\-Controller@{G\-L\-C\-\_\-\-Mover\-Controller}}\index{G\-L\-C\-\_\-\-Mover\-Controller@{G\-L\-C\-\_\-\-Mover\-Controller}!Fly@{Fly}}\item[{\em 
+\hypertarget{class_g_l_c___mover_controller_a574d11af2d0143e7e72f584fabab381fafb068ac4e9151a68d9f210a979faaece}{Fly}\label{class_g_l_c___mover_controller_a574d11af2d0143e7e72f584fabab381fafb068ac4e9151a68d9f210a979faaece}
+}]\index{T\-S\-R@{T\-S\-R}!G\-L\-C\-\_\-\-Mover\-Controller@{G\-L\-C\-\_\-\-Mover\-Controller}}\index{G\-L\-C\-\_\-\-Mover\-Controller@{G\-L\-C\-\_\-\-Mover\-Controller}!T\-S\-R@{T\-S\-R}}\item[{\em 
+\hypertarget{class_g_l_c___mover_controller_a574d11af2d0143e7e72f584fabab381fa2e9233cf45fb6c6eca04a607b338e270}{T\-S\-R}\label{class_g_l_c___mover_controller_a574d11af2d0143e7e72f584fabab381fa2e9233cf45fb6c6eca04a607b338e270}
+}]\end{description}
+\end{Desc}
+
+
+Definition at line 50 of file glc\-\_\-movercontroller.\-h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_g_l_c___mover_controller_adb38a115c1ce9e5e0534313d92c497d9}{\index{G\-L\-C\-\_\-\-Mover\-Controller@{G\-L\-C\-\_\-\-Mover\-Controller}!G\-L\-C\-\_\-\-Mover\-Controller@{G\-L\-C\-\_\-\-Mover\-Controller}}
+\index{G\-L\-C\-\_\-\-Mover\-Controller@{G\-L\-C\-\_\-\-Mover\-Controller}!GLC_MoverController@{G\-L\-C\-\_\-\-Mover\-Controller}}
+\subsubsection[{G\-L\-C\-\_\-\-Mover\-Controller}]{\setlength{\rightskip}{0pt plus 5cm}G\-L\-C\-\_\-\-Mover\-Controller\-::\-G\-L\-C\-\_\-\-Mover\-Controller (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___mover_controller_adb38a115c1ce9e5e0534313d92c497d9}
+
+
+Default Constructor. 
+
+
+
+Definition at line 28 of file glc\-\_\-movercontroller.\-cpp.
+
+\hypertarget{class_g_l_c___mover_controller_abd0d7163cf0f5ce7f85b2f7bd74139b1}{\index{G\-L\-C\-\_\-\-Mover\-Controller@{G\-L\-C\-\_\-\-Mover\-Controller}!G\-L\-C\-\_\-\-Mover\-Controller@{G\-L\-C\-\_\-\-Mover\-Controller}}
+\index{G\-L\-C\-\_\-\-Mover\-Controller@{G\-L\-C\-\_\-\-Mover\-Controller}!GLC_MoverController@{G\-L\-C\-\_\-\-Mover\-Controller}}
+\subsubsection[{G\-L\-C\-\_\-\-Mover\-Controller}]{\setlength{\rightskip}{0pt plus 5cm}G\-L\-C\-\_\-\-Mover\-Controller\-::\-G\-L\-C\-\_\-\-Mover\-Controller (
+\begin{DoxyParamCaption}
+\item[{const {\bf G\-L\-C\-\_\-\-Mover\-Controller} \&}]{controller}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___mover_controller_abd0d7163cf0f5ce7f85b2f7bd74139b1}
+
+
+Copy Constructor. 
+
+
+
+Definition at line 38 of file glc\-\_\-movercontroller.\-cpp.
+
+\hypertarget{class_g_l_c___mover_controller_aa99ba114551e90c7f03027d50831f49d}{\index{G\-L\-C\-\_\-\-Mover\-Controller@{G\-L\-C\-\_\-\-Mover\-Controller}!$\sim$\-G\-L\-C\-\_\-\-Mover\-Controller@{$\sim$\-G\-L\-C\-\_\-\-Mover\-Controller}}
+\index{$\sim$\-G\-L\-C\-\_\-\-Mover\-Controller@{$\sim$\-G\-L\-C\-\_\-\-Mover\-Controller}!GLC_MoverController@{G\-L\-C\-\_\-\-Mover\-Controller}}
+\subsubsection[{$\sim$\-G\-L\-C\-\_\-\-Mover\-Controller}]{\setlength{\rightskip}{0pt plus 5cm}G\-L\-C\-\_\-\-Mover\-Controller\-::$\sim$\-G\-L\-C\-\_\-\-Mover\-Controller (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_g_l_c___mover_controller_aa99ba114551e90c7f03027d50831f49d}
+
+
+Destructor. 
+
+
+
+Definition at line 52 of file glc\-\_\-movercontroller.\-cpp.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_g_l_c___mover_controller_a41ed23a92f321302bd55ae95b2cac113}{\index{G\-L\-C\-\_\-\-Mover\-Controller@{G\-L\-C\-\_\-\-Mover\-Controller}!active\-Mover@{active\-Mover}}
+\index{active\-Mover@{active\-Mover}!GLC_MoverController@{G\-L\-C\-\_\-\-Mover\-Controller}}
+\subsubsection[{active\-Mover}]{\setlength{\rightskip}{0pt plus 5cm}{\bf G\-L\-C\-\_\-\-Mover}$\ast$ G\-L\-C\-\_\-\-Mover\-Controller\-::active\-Mover (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___mover_controller_a41ed23a92f321302bd55ae95b2cac113}
+
+
+Return a handle on the current mover. 
+
+
+
+Definition at line 86 of file glc\-\_\-movercontroller.\-h.
+
+\hypertarget{class_g_l_c___mover_controller_af5f2c1274ada31e911e8b359379bf27f}{\index{G\-L\-C\-\_\-\-Mover\-Controller@{G\-L\-C\-\_\-\-Mover\-Controller}!active\-Mover\-Id@{active\-Mover\-Id}}
+\index{active\-Mover\-Id@{active\-Mover\-Id}!GLC_MoverController@{G\-L\-C\-\_\-\-Mover\-Controller}}
+\subsubsection[{active\-Mover\-Id}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int} G\-L\-C\-\_\-\-Mover\-Controller\-::active\-Mover\-Id (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___mover_controller_af5f2c1274ada31e911e8b359379bf27f}
+
+
+Return the active mover id. 
+
+
+
+Definition at line 82 of file glc\-\_\-movercontroller.\-h.
+
+\hypertarget{class_g_l_c___mover_controller_ab241961299649b1d7c6f24a2e6d1d517}{\index{G\-L\-C\-\_\-\-Mover\-Controller@{G\-L\-C\-\_\-\-Mover\-Controller}!add\-Mover@{add\-Mover}}
+\index{add\-Mover@{add\-Mover}!GLC_MoverController@{G\-L\-C\-\_\-\-Mover\-Controller}}
+\subsubsection[{add\-Mover}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-\-Mover\-Controller\-::add\-Mover (
+\begin{DoxyParamCaption}
+\item[{{\bf G\-L\-C\-\_\-\-Mover} $\ast$}]{p\-Mover, }
+\item[{const {\bf int}}]{id}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___mover_controller_ab241961299649b1d7c6f24a2e6d1d517}
+
+
+Add a mover to the controller. 
+
+
+
+Definition at line 97 of file glc\-\_\-movercontroller.\-cpp.
+
+\hypertarget{class_g_l_c___mover_controller_abb2a9b3fc1fc545a2e34bfc6bbceaa36}{\index{G\-L\-C\-\_\-\-Mover\-Controller@{G\-L\-C\-\_\-\-Mover\-Controller}!draw\-Active\-Mover\-Rep@{draw\-Active\-Mover\-Rep}}
+\index{draw\-Active\-Mover\-Rep@{draw\-Active\-Mover\-Rep}!GLC_MoverController@{G\-L\-C\-\_\-\-Mover\-Controller}}
+\subsubsection[{draw\-Active\-Mover\-Rep}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-\-Mover\-Controller\-::draw\-Active\-Mover\-Rep (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___mover_controller_abb2a9b3fc1fc545a2e34bfc6bbceaa36}
+
+
+Mover representations list display. 
+
+
+
+Definition at line 130 of file glc\-\_\-movercontroller.\-h.
+
+\hypertarget{class_g_l_c___mover_controller_abe6321902667316d5d26740450350acc}{\index{G\-L\-C\-\_\-\-Mover\-Controller@{G\-L\-C\-\_\-\-Mover\-Controller}!get\-Mover@{get\-Mover}}
+\index{get\-Mover@{get\-Mover}!GLC_MoverController@{G\-L\-C\-\_\-\-Mover\-Controller}}
+\subsubsection[{get\-Mover}]{\setlength{\rightskip}{0pt plus 5cm}{\bf G\-L\-C\-\_\-\-Mover}$\ast$ G\-L\-C\-\_\-\-Mover\-Controller\-::get\-Mover (
+\begin{DoxyParamCaption}
+\item[{const {\bf int}}]{id}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___mover_controller_abe6321902667316d5d26740450350acc}
+
+
+Return the mover of the given id. 
+
+
+
+Definition at line 90 of file glc\-\_\-movercontroller.\-h.
+
+\hypertarget{class_g_l_c___mover_controller_a0931866b4d2e466d130a5c293bb9e67a}{\index{G\-L\-C\-\_\-\-Mover\-Controller@{G\-L\-C\-\_\-\-Mover\-Controller}!has\-Active\-Mover@{has\-Active\-Mover}}
+\index{has\-Active\-Mover@{has\-Active\-Mover}!GLC_MoverController@{G\-L\-C\-\_\-\-Mover\-Controller}}
+\subsubsection[{has\-Active\-Mover}]{\setlength{\rightskip}{0pt plus 5cm}bool G\-L\-C\-\_\-\-Mover\-Controller\-::has\-Active\-Mover (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___mover_controller_a0931866b4d2e466d130a5c293bb9e67a}
+
+
+Return true if there is an active mover. 
+
+
+
+Definition at line 78 of file glc\-\_\-movercontroller.\-h.
+
+\hypertarget{class_g_l_c___mover_controller_a9e0902a621568c728871a69fbeb7fcde}{\index{G\-L\-C\-\_\-\-Mover\-Controller@{G\-L\-C\-\_\-\-Mover\-Controller}!move@{move}}
+\index{move@{move}!GLC_MoverController@{G\-L\-C\-\_\-\-Mover\-Controller}}
+\subsubsection[{move}]{\setlength{\rightskip}{0pt plus 5cm}bool G\-L\-C\-\_\-\-Mover\-Controller\-::move (
+\begin{DoxyParamCaption}
+\item[{const {\bf G\-L\-C\-\_\-\-User\-Input} \&}]{user\-Input}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___mover_controller_a9e0902a621568c728871a69fbeb7fcde}
+
+
+Move with the active mover. 
+
+
+
+Definition at line 116 of file glc\-\_\-movercontroller.\-h.
+
+\hypertarget{class_g_l_c___mover_controller_ae9d90dc77f8b77af5fbacda94581a870}{\index{G\-L\-C\-\_\-\-Mover\-Controller@{G\-L\-C\-\_\-\-Mover\-Controller}!operator=@{operator=}}
+\index{operator=@{operator=}!GLC_MoverController@{G\-L\-C\-\_\-\-Mover\-Controller}}
+\subsubsection[{operator=}]{\setlength{\rightskip}{0pt plus 5cm}{\bf G\-L\-C\-\_\-\-Mover\-Controller} \& G\-L\-C\-\_\-\-Mover\-Controller\-::operator= (
+\begin{DoxyParamCaption}
+\item[{const {\bf G\-L\-C\-\_\-\-Mover\-Controller} \&}]{controller}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___mover_controller_ae9d90dc77f8b77af5fbacda94581a870}
+
+
+Assign another mover controller. 
+
+
+
+Definition at line 68 of file glc\-\_\-movercontroller.\-cpp.
+
+\hypertarget{class_g_l_c___mover_controller_a78bd0b471b4b2c7ab632bf8c5fc20997}{\index{G\-L\-C\-\_\-\-Mover\-Controller@{G\-L\-C\-\_\-\-Mover\-Controller}!remove\-Mover@{remove\-Mover}}
+\index{remove\-Mover@{remove\-Mover}!GLC_MoverController@{G\-L\-C\-\_\-\-Mover\-Controller}}
+\subsubsection[{remove\-Mover}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-\-Mover\-Controller\-::remove\-Mover (
+\begin{DoxyParamCaption}
+\item[{const {\bf int}}]{id}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___mover_controller_a78bd0b471b4b2c7ab632bf8c5fc20997}
+
+
+Remove mover from the controller. 
+
+
+
+Definition at line 104 of file glc\-\_\-movercontroller.\-cpp.
+
+\hypertarget{class_g_l_c___mover_controller_aedc8ecdf90553b90d512b0543f91bf91}{\index{G\-L\-C\-\_\-\-Mover\-Controller@{G\-L\-C\-\_\-\-Mover\-Controller}!repaint\-Needed@{repaint\-Needed}}
+\index{repaint\-Needed@{repaint\-Needed}!GLC_MoverController@{G\-L\-C\-\_\-\-Mover\-Controller}}
+\subsubsection[{repaint\-Needed}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-\-Mover\-Controller\-::repaint\-Needed (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [signal]}}}\label{class_g_l_c___mover_controller_aedc8ecdf90553b90d512b0543f91bf91}
+
+
+Signal emitted if the view as to be repaint. 
+
+\hypertarget{class_g_l_c___mover_controller_a6306d26b7f96d0d03dbb75ce0d6b9345}{\index{G\-L\-C\-\_\-\-Mover\-Controller@{G\-L\-C\-\_\-\-Mover\-Controller}!set\-Active\-Mover@{set\-Active\-Mover}}
+\index{set\-Active\-Mover@{set\-Active\-Mover}!GLC_MoverController@{G\-L\-C\-\_\-\-Mover\-Controller}}
+\subsubsection[{set\-Active\-Mover}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-\-Mover\-Controller\-::set\-Active\-Mover (
+\begin{DoxyParamCaption}
+\item[{const {\bf int}}]{id, }
+\item[{const {\bf G\-L\-C\-\_\-\-User\-Input} \&}]{user\-Input}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___mover_controller_a6306d26b7f96d0d03dbb75ce0d6b9345}
+
+
+Set the specified mover as active. 
+
+
+
+Definition at line 114 of file glc\-\_\-movercontroller.\-cpp.
+
+\hypertarget{class_g_l_c___mover_controller_aeea410704b83d1ea434bf021f1f1f1e7}{\index{G\-L\-C\-\_\-\-Mover\-Controller@{G\-L\-C\-\_\-\-Mover\-Controller}!set\-No\-Mover@{set\-No\-Mover}}
+\index{set\-No\-Mover@{set\-No\-Mover}!GLC_MoverController@{G\-L\-C\-\_\-\-Mover\-Controller}}
+\subsubsection[{set\-No\-Mover}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-\-Mover\-Controller\-::set\-No\-Mover (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___mover_controller_aeea410704b83d1ea434bf021f1f1f1e7}
+
+
+Set no mover as active. 
+
+
+
+Definition at line 122 of file glc\-\_\-movercontroller.\-cpp.
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/glc\-\_\-lib/viewport/\hyperlink{glc__movercontroller_8h}{glc\-\_\-movercontroller.\-h}\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/glc\-\_\-lib/viewport/\hyperlink{glc__movercontroller_8cpp}{glc\-\_\-movercontroller.\-cpp}\end{DoxyCompactItemize}

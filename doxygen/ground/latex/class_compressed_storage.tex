@@ -1,0 +1,427 @@
+\hypertarget{class_compressed_storage}{\section{Compressed\-Storage$<$ Scalar $>$ Class Template Reference}
+\label{class_compressed_storage}\index{Compressed\-Storage$<$ Scalar $>$@{Compressed\-Storage$<$ Scalar $>$}}
+}
+
+
+{\ttfamily \#include $<$Compressed\-Storage.\-h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_compressed_storage_a2dfbc9a431459ee7c7b1e17825218a0e}{Compressed\-Storage} ()
+\item 
+\hyperlink{class_compressed_storage_a63b4e49efe24b16591ac8eea5cea2d70}{Compressed\-Storage} (std\-::size\-\_\-t \hyperlink{glext_8h_a014d89bd76f74ef3a29c8f04b473eb76}{size})
+\item 
+\hyperlink{class_compressed_storage_a48222f2794c9eb76adfe004ff0b88a44}{Compressed\-Storage} (const \hyperlink{class_compressed_storage}{Compressed\-Storage} \&other)
+\item 
+\hyperlink{class_compressed_storage}{Compressed\-Storage} \& \hyperlink{class_compressed_storage_aebaf9b562453d5c22285e7dea93f5c28}{operator=} (const \hyperlink{class_compressed_storage}{Compressed\-Storage} \&other)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_compressed_storage_ac7d9571b019fc5acf691fd387ef14bc1}{swap} (\hyperlink{class_compressed_storage}{Compressed\-Storage} \&other)
+\item 
+\hyperlink{class_compressed_storage_a4cbc51bde4858175aaf3400e7fecdfd5}{$\sim$\-Compressed\-Storage} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_compressed_storage_ae4a03abc632830893c1a989e6e54bc68}{reserve} (std\-::size\-\_\-t \hyperlink{glext_8h_a014d89bd76f74ef3a29c8f04b473eb76}{size})
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_compressed_storage_a729d14a9e44264199c104095cc47b2f6}{squeeze} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_compressed_storage_ae110ac5eee434be9852b7459d22ae0f8}{resize} (std\-::size\-\_\-t \hyperlink{glext_8h_a014d89bd76f74ef3a29c8f04b473eb76}{size}, \hyperlink{_super_l_u_support_8h_a6a1bb6ed41f44b60e7bd83b0e9945aa7}{float} reserve\-Size\-Factor=0)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_compressed_storage_a358593c8de25e9565a55049747252e0b}{append} (const Scalar \&\hyperlink{glext_8h_a14cfbe2fc2234f5504618905b69d1e06}{v}, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{uavobjecttemplate_8m_a6f6ccfcf58b31cb6412107d9d5281426}{i})
+\item 
+std\-::size\-\_\-t \hyperlink{class_compressed_storage_a1cedc77fa42d89ae3caa4d92b4b258c5}{size} () const 
+\item 
+std\-::size\-\_\-t \hyperlink{class_compressed_storage_a64f0e965a66d4cb0fbb246b4d1569f59}{allocated\-Size} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_compressed_storage_a4b35d697f23fdb1e0776f2c4f7a3f295}{clear} ()
+\item 
+Scalar \& \hyperlink{class_compressed_storage_a4abe46174f900f83559885878b9299c6}{value} (std\-::size\-\_\-t \hyperlink{uavobjecttemplate_8m_a6f6ccfcf58b31cb6412107d9d5281426}{i})
+\item 
+const Scalar \& \hyperlink{class_compressed_storage_acc4eb476a096816be4ad40e7662ec8f4}{value} (std\-::size\-\_\-t \hyperlink{uavobjecttemplate_8m_a6f6ccfcf58b31cb6412107d9d5281426}{i}) const 
+\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \& \hyperlink{class_compressed_storage_aa7fc52b534330a0153b2c7e01071f487}{index} (std\-::size\-\_\-t \hyperlink{uavobjecttemplate_8m_a6f6ccfcf58b31cb6412107d9d5281426}{i})
+\item 
+const \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \& \hyperlink{class_compressed_storage_ae76c7a1457d67b9f3bd21e0d6508fc66}{index} (std\-::size\-\_\-t \hyperlink{uavobjecttemplate_8m_a6f6ccfcf58b31cb6412107d9d5281426}{i}) const 
+\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_compressed_storage_abfd4eec7238c8065b90c68e5013ee549}{search\-Lower\-Index} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} key) const 
+\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_compressed_storage_a8eecf6a328b7fcd4a3f2f25c547f989a}{search\-Lower\-Index} (std\-::size\-\_\-t \hyperlink{glext_8h_a13be19455586e95d5a42ed8f054afad2}{start}, std\-::size\-\_\-t \hyperlink{glext_8h_a432111147038972f06e049e18a837002}{end}, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} key) const 
+\item 
+Scalar \hyperlink{class_compressed_storage_a383e779f4731ac6ef27f3ca6e353d844}{at} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} key, Scalar default\-Value=Scalar(0)) const 
+\item 
+Scalar \hyperlink{class_compressed_storage_afab45cacf2a38ed90640df3f2970dc55}{at\-In\-Range} (std\-::size\-\_\-t \hyperlink{glext_8h_a13be19455586e95d5a42ed8f054afad2}{start}, std\-::size\-\_\-t \hyperlink{glext_8h_a432111147038972f06e049e18a837002}{end}, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} key, Scalar default\-Value=Scalar(0)) const 
+\item 
+Scalar \& \hyperlink{class_compressed_storage_a74c7a46d07a619a7085bda090388b183}{at\-With\-Insertion} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} key, Scalar default\-Value=Scalar(0))
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_compressed_storage_a28794f65eb8b613129fe86c91b7c2311}{prune} (Scalar reference, Real\-Scalar epsilon=\hyperlink{_math_functions_8h_a3dc1c65cf9dc9b5a7ee66472d0ae83e1}{precision}$<$ Real\-Scalar $>$())
+\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static \hyperlink{class_compressed_storage}{Compressed\-Storage} \hyperlink{class_compressed_storage_a51cd1cdb5559f814ec5f637e0112104b}{Map} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} $\ast$\hyperlink{glext_8h_adbd1b09d60fa0a569e6873aa161d44c7}{indices}, Scalar $\ast$\hyperlink{glext_8h_a300a8ed5fb9490aa35713406ec0412df}{values}, std\-::size\-\_\-t \hyperlink{glext_8h_a014d89bd76f74ef3a29c8f04b473eb76}{size})
+\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_compressed_storage_acf1918ff4c926b467568fa9fc85334bb}{reallocate} (std\-::size\-\_\-t \hyperlink{glext_8h_a014d89bd76f74ef3a29c8f04b473eb76}{size})
+\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+Scalar $\ast$ \hyperlink{class_compressed_storage_a3458138788eb4353bdb7e29d143e8d93}{m\-\_\-values}
+\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} $\ast$ \hyperlink{class_compressed_storage_a12c476ce498110609a741aee3947e8ef}{m\-\_\-indices}
+\item 
+std\-::size\-\_\-t \hyperlink{class_compressed_storage_a6167d2edee319254f3d3fb2835df1c79}{m\-\_\-size}
+\item 
+std\-::size\-\_\-t \hyperlink{class_compressed_storage_a148d67a091ea24d4f974c27fd14bb6ea}{m\-\_\-allocated\-Size}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$typename Scalar$>$class Compressed\-Storage$<$ Scalar $>$}
+
+Stores a sparse set of values as a list of values and a list of indices. 
+
+Definition at line 32 of file Compressed\-Storage.\-h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_compressed_storage_a2dfbc9a431459ee7c7b1e17825218a0e}{\index{Compressed\-Storage@{Compressed\-Storage}!Compressed\-Storage@{Compressed\-Storage}}
+\index{Compressed\-Storage@{Compressed\-Storage}!CompressedStorage@{Compressed\-Storage}}
+\subsubsection[{Compressed\-Storage}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Scalar$>$ {\bf Compressed\-Storage}$<$ Scalar $>$\-::{\bf Compressed\-Storage} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_compressed_storage_a2dfbc9a431459ee7c7b1e17825218a0e}
+
+
+Definition at line 36 of file Compressed\-Storage.\-h.
+
+\hypertarget{class_compressed_storage_a63b4e49efe24b16591ac8eea5cea2d70}{\index{Compressed\-Storage@{Compressed\-Storage}!Compressed\-Storage@{Compressed\-Storage}}
+\index{Compressed\-Storage@{Compressed\-Storage}!CompressedStorage@{Compressed\-Storage}}
+\subsubsection[{Compressed\-Storage}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Scalar$>$ {\bf Compressed\-Storage}$<$ Scalar $>$\-::{\bf Compressed\-Storage} (
+\begin{DoxyParamCaption}
+\item[{std\-::size\-\_\-t}]{size}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_compressed_storage_a63b4e49efe24b16591ac8eea5cea2d70}
+
+
+Definition at line 40 of file Compressed\-Storage.\-h.
+
+\hypertarget{class_compressed_storage_a48222f2794c9eb76adfe004ff0b88a44}{\index{Compressed\-Storage@{Compressed\-Storage}!Compressed\-Storage@{Compressed\-Storage}}
+\index{Compressed\-Storage@{Compressed\-Storage}!CompressedStorage@{Compressed\-Storage}}
+\subsubsection[{Compressed\-Storage}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Scalar$>$ {\bf Compressed\-Storage}$<$ Scalar $>$\-::{\bf Compressed\-Storage} (
+\begin{DoxyParamCaption}
+\item[{const {\bf Compressed\-Storage}$<$ Scalar $>$ \&}]{other}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_compressed_storage_a48222f2794c9eb76adfe004ff0b88a44}
+
+
+Definition at line 46 of file Compressed\-Storage.\-h.
+
+\hypertarget{class_compressed_storage_a4cbc51bde4858175aaf3400e7fecdfd5}{\index{Compressed\-Storage@{Compressed\-Storage}!$\sim$\-Compressed\-Storage@{$\sim$\-Compressed\-Storage}}
+\index{$\sim$\-Compressed\-Storage@{$\sim$\-Compressed\-Storage}!CompressedStorage@{Compressed\-Storage}}
+\subsubsection[{$\sim$\-Compressed\-Storage}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Scalar$>$ {\bf Compressed\-Storage}$<$ Scalar $>$\-::$\sim${\bf Compressed\-Storage} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_compressed_storage_a4cbc51bde4858175aaf3400e7fecdfd5}
+
+
+Definition at line 68 of file Compressed\-Storage.\-h.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_compressed_storage_a64f0e965a66d4cb0fbb246b4d1569f59}{\index{Compressed\-Storage@{Compressed\-Storage}!allocated\-Size@{allocated\-Size}}
+\index{allocated\-Size@{allocated\-Size}!CompressedStorage@{Compressed\-Storage}}
+\subsubsection[{allocated\-Size}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Scalar$>$ std\-::size\-\_\-t {\bf Compressed\-Storage}$<$ Scalar $>$\-::allocated\-Size (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_compressed_storage_a64f0e965a66d4cb0fbb246b4d1569f59}
+
+
+Definition at line 103 of file Compressed\-Storage.\-h.
+
+\hypertarget{class_compressed_storage_a358593c8de25e9565a55049747252e0b}{\index{Compressed\-Storage@{Compressed\-Storage}!append@{append}}
+\index{append@{append}!CompressedStorage@{Compressed\-Storage}}
+\subsubsection[{append}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Scalar$>$ {\bf void} {\bf Compressed\-Storage}$<$ Scalar $>$\-::append (
+\begin{DoxyParamCaption}
+\item[{const Scalar \&}]{v, }
+\item[{{\bf int}}]{i}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_compressed_storage_a358593c8de25e9565a55049747252e0b}
+
+
+Definition at line 94 of file Compressed\-Storage.\-h.
+
+\hypertarget{class_compressed_storage_a383e779f4731ac6ef27f3ca6e353d844}{\index{Compressed\-Storage@{Compressed\-Storage}!at@{at}}
+\index{at@{at}!CompressedStorage@{Compressed\-Storage}}
+\subsubsection[{at}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Scalar$>$ Scalar {\bf Compressed\-Storage}$<$ Scalar $>$\-::at (
+\begin{DoxyParamCaption}
+\item[{{\bf int}}]{key, }
+\item[{Scalar}]{default\-Value = {\ttfamily Scalar(0)}}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_compressed_storage_a383e779f4731ac6ef27f3ca6e353d844}
+\begin{DoxyReturn}{Returns}
+the stored value at index {\itshape key} If the value does not exist, then the value {\itshape default\-Value} is returned without any insertion. 
+\end{DoxyReturn}
+
+
+Definition at line 143 of file Compressed\-Storage.\-h.
+
+\hypertarget{class_compressed_storage_afab45cacf2a38ed90640df3f2970dc55}{\index{Compressed\-Storage@{Compressed\-Storage}!at\-In\-Range@{at\-In\-Range}}
+\index{at\-In\-Range@{at\-In\-Range}!CompressedStorage@{Compressed\-Storage}}
+\subsubsection[{at\-In\-Range}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Scalar$>$ Scalar {\bf Compressed\-Storage}$<$ Scalar $>$\-::at\-In\-Range (
+\begin{DoxyParamCaption}
+\item[{std\-::size\-\_\-t}]{start, }
+\item[{std\-::size\-\_\-t}]{end, }
+\item[{{\bf int}}]{key, }
+\item[{Scalar}]{default\-Value = {\ttfamily Scalar(0)}}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_compressed_storage_afab45cacf2a38ed90640df3f2970dc55}
+Like \hyperlink{class_compressed_storage_a383e779f4731ac6ef27f3ca6e353d844}{at()}, but the search is performed in the range \mbox{[}start,end) 
+
+Definition at line 156 of file Compressed\-Storage.\-h.
+
+\hypertarget{class_compressed_storage_a74c7a46d07a619a7085bda090388b183}{\index{Compressed\-Storage@{Compressed\-Storage}!at\-With\-Insertion@{at\-With\-Insertion}}
+\index{at\-With\-Insertion@{at\-With\-Insertion}!CompressedStorage@{Compressed\-Storage}}
+\subsubsection[{at\-With\-Insertion}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Scalar$>$ Scalar\& {\bf Compressed\-Storage}$<$ Scalar $>$\-::at\-With\-Insertion (
+\begin{DoxyParamCaption}
+\item[{{\bf int}}]{key, }
+\item[{Scalar}]{default\-Value = {\ttfamily Scalar(0)}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_compressed_storage_a74c7a46d07a619a7085bda090388b183}
+\begin{DoxyReturn}{Returns}
+a reference to the value at index {\itshape key} If the value does not exist, then the value {\itshape default\-Value} is inserted such that the keys are sorted. 
+\end{DoxyReturn}
+
+
+Definition at line 171 of file Compressed\-Storage.\-h.
+
+\hypertarget{class_compressed_storage_a4b35d697f23fdb1e0776f2c4f7a3f295}{\index{Compressed\-Storage@{Compressed\-Storage}!clear@{clear}}
+\index{clear@{clear}!CompressedStorage@{Compressed\-Storage}}
+\subsubsection[{clear}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Scalar$>$ {\bf void} {\bf Compressed\-Storage}$<$ Scalar $>$\-::clear (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_compressed_storage_a4b35d697f23fdb1e0776f2c4f7a3f295}
+
+
+Definition at line 104 of file Compressed\-Storage.\-h.
+
+\hypertarget{class_compressed_storage_aa7fc52b534330a0153b2c7e01071f487}{\index{Compressed\-Storage@{Compressed\-Storage}!index@{index}}
+\index{index@{index}!CompressedStorage@{Compressed\-Storage}}
+\subsubsection[{index}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Scalar$>$ {\bf int}\& {\bf Compressed\-Storage}$<$ Scalar $>$\-::{\bf index} (
+\begin{DoxyParamCaption}
+\item[{std\-::size\-\_\-t}]{i}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_compressed_storage_aa7fc52b534330a0153b2c7e01071f487}
+
+
+Definition at line 109 of file Compressed\-Storage.\-h.
+
+\hypertarget{class_compressed_storage_ae76c7a1457d67b9f3bd21e0d6508fc66}{\index{Compressed\-Storage@{Compressed\-Storage}!index@{index}}
+\index{index@{index}!CompressedStorage@{Compressed\-Storage}}
+\subsubsection[{index}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Scalar$>$ const {\bf int}\& {\bf Compressed\-Storage}$<$ Scalar $>$\-::{\bf index} (
+\begin{DoxyParamCaption}
+\item[{std\-::size\-\_\-t}]{i}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_compressed_storage_ae76c7a1457d67b9f3bd21e0d6508fc66}
+
+
+Definition at line 110 of file Compressed\-Storage.\-h.
+
+\hypertarget{class_compressed_storage_a51cd1cdb5559f814ec5f637e0112104b}{\index{Compressed\-Storage@{Compressed\-Storage}!Map@{Map}}
+\index{Map@{Map}!CompressedStorage@{Compressed\-Storage}}
+\subsubsection[{Map}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Scalar$>$ static {\bf Compressed\-Storage} {\bf Compressed\-Storage}$<$ Scalar $>$\-::{\bf Map} (
+\begin{DoxyParamCaption}
+\item[{{\bf int} $\ast$}]{indices, }
+\item[{Scalar $\ast$}]{values, }
+\item[{std\-::size\-\_\-t}]{size}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{class_compressed_storage_a51cd1cdb5559f814ec5f637e0112104b}
+
+
+Definition at line 112 of file Compressed\-Storage.\-h.
+
+\hypertarget{class_compressed_storage_aebaf9b562453d5c22285e7dea93f5c28}{\index{Compressed\-Storage@{Compressed\-Storage}!operator=@{operator=}}
+\index{operator=@{operator=}!CompressedStorage@{Compressed\-Storage}}
+\subsubsection[{operator=}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Scalar$>$ {\bf Compressed\-Storage}\& {\bf Compressed\-Storage}$<$ Scalar $>$\-::operator= (
+\begin{DoxyParamCaption}
+\item[{const {\bf Compressed\-Storage}$<$ Scalar $>$ \&}]{other}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_compressed_storage_aebaf9b562453d5c22285e7dea93f5c28}
+
+
+Definition at line 52 of file Compressed\-Storage.\-h.
+
+\hypertarget{class_compressed_storage_a28794f65eb8b613129fe86c91b7c2311}{\index{Compressed\-Storage@{Compressed\-Storage}!prune@{prune}}
+\index{prune@{prune}!CompressedStorage@{Compressed\-Storage}}
+\subsubsection[{prune}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Scalar$>$ {\bf void} {\bf Compressed\-Storage}$<$ Scalar $>$\-::prune (
+\begin{DoxyParamCaption}
+\item[{Scalar}]{reference, }
+\item[{Real\-Scalar}]{epsilon = {\ttfamily {\bf precision}$<$RealScalar$>$()}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_compressed_storage_a28794f65eb8b613129fe86c91b7c2311}
+
+
+Definition at line 188 of file Compressed\-Storage.\-h.
+
+\hypertarget{class_compressed_storage_acf1918ff4c926b467568fa9fc85334bb}{\index{Compressed\-Storage@{Compressed\-Storage}!reallocate@{reallocate}}
+\index{reallocate@{reallocate}!CompressedStorage@{Compressed\-Storage}}
+\subsubsection[{reallocate}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Scalar$>$ {\bf void} {\bf Compressed\-Storage}$<$ Scalar $>$\-::reallocate (
+\begin{DoxyParamCaption}
+\item[{std\-::size\-\_\-t}]{size}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [protected]}}}\label{class_compressed_storage_acf1918ff4c926b467568fa9fc85334bb}
+
+
+Definition at line 206 of file Compressed\-Storage.\-h.
+
+\hypertarget{class_compressed_storage_ae4a03abc632830893c1a989e6e54bc68}{\index{Compressed\-Storage@{Compressed\-Storage}!reserve@{reserve}}
+\index{reserve@{reserve}!CompressedStorage@{Compressed\-Storage}}
+\subsubsection[{reserve}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Scalar$>$ {\bf void} {\bf Compressed\-Storage}$<$ Scalar $>$\-::reserve (
+\begin{DoxyParamCaption}
+\item[{std\-::size\-\_\-t}]{size}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_compressed_storage_ae4a03abc632830893c1a989e6e54bc68}
+
+
+Definition at line 74 of file Compressed\-Storage.\-h.
+
+\hypertarget{class_compressed_storage_ae110ac5eee434be9852b7459d22ae0f8}{\index{Compressed\-Storage@{Compressed\-Storage}!resize@{resize}}
+\index{resize@{resize}!CompressedStorage@{Compressed\-Storage}}
+\subsubsection[{resize}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Scalar$>$ {\bf void} {\bf Compressed\-Storage}$<$ Scalar $>$\-::resize (
+\begin{DoxyParamCaption}
+\item[{std\-::size\-\_\-t}]{size, }
+\item[{{\bf float}}]{reserve\-Size\-Factor = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_compressed_storage_ae110ac5eee434be9852b7459d22ae0f8}
+
+
+Definition at line 87 of file Compressed\-Storage.\-h.
+
+\hypertarget{class_compressed_storage_abfd4eec7238c8065b90c68e5013ee549}{\index{Compressed\-Storage@{Compressed\-Storage}!search\-Lower\-Index@{search\-Lower\-Index}}
+\index{search\-Lower\-Index@{search\-Lower\-Index}!CompressedStorage@{Compressed\-Storage}}
+\subsubsection[{search\-Lower\-Index}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Scalar$>$ {\bf int} {\bf Compressed\-Storage}$<$ Scalar $>$\-::search\-Lower\-Index (
+\begin{DoxyParamCaption}
+\item[{{\bf int}}]{key}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_compressed_storage_abfd4eec7238c8065b90c68e5013ee549}
+\begin{DoxyReturn}{Returns}
+the largest {\ttfamily k} such that for all {\ttfamily j} in \mbox{[}0,k) index\mbox{[}{\ttfamily j}\mbox{]}$<${\itshape key} 
+\end{DoxyReturn}
+
+
+Definition at line 122 of file Compressed\-Storage.\-h.
+
+\hypertarget{class_compressed_storage_a8eecf6a328b7fcd4a3f2f25c547f989a}{\index{Compressed\-Storage@{Compressed\-Storage}!search\-Lower\-Index@{search\-Lower\-Index}}
+\index{search\-Lower\-Index@{search\-Lower\-Index}!CompressedStorage@{Compressed\-Storage}}
+\subsubsection[{search\-Lower\-Index}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Scalar$>$ {\bf int} {\bf Compressed\-Storage}$<$ Scalar $>$\-::search\-Lower\-Index (
+\begin{DoxyParamCaption}
+\item[{std\-::size\-\_\-t}]{start, }
+\item[{std\-::size\-\_\-t}]{end, }
+\item[{{\bf int}}]{key}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_compressed_storage_a8eecf6a328b7fcd4a3f2f25c547f989a}
+\begin{DoxyReturn}{Returns}
+the largest {\ttfamily k} in \mbox{[}start,end) such that for all {\ttfamily j} in \mbox{[}start,k) index\mbox{[}{\ttfamily j}\mbox{]}$<${\itshape key} 
+\end{DoxyReturn}
+
+
+Definition at line 128 of file Compressed\-Storage.\-h.
+
+\hypertarget{class_compressed_storage_a1cedc77fa42d89ae3caa4d92b4b258c5}{\index{Compressed\-Storage@{Compressed\-Storage}!size@{size}}
+\index{size@{size}!CompressedStorage@{Compressed\-Storage}}
+\subsubsection[{size}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Scalar$>$ std\-::size\-\_\-t {\bf Compressed\-Storage}$<$ Scalar $>$\-::{\bf size} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_compressed_storage_a1cedc77fa42d89ae3caa4d92b4b258c5}
+
+
+Definition at line 102 of file Compressed\-Storage.\-h.
+
+\hypertarget{class_compressed_storage_a729d14a9e44264199c104095cc47b2f6}{\index{Compressed\-Storage@{Compressed\-Storage}!squeeze@{squeeze}}
+\index{squeeze@{squeeze}!CompressedStorage@{Compressed\-Storage}}
+\subsubsection[{squeeze}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Scalar$>$ {\bf void} {\bf Compressed\-Storage}$<$ Scalar $>$\-::squeeze (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_compressed_storage_a729d14a9e44264199c104095cc47b2f6}
+
+
+Definition at line 81 of file Compressed\-Storage.\-h.
+
+\hypertarget{class_compressed_storage_ac7d9571b019fc5acf691fd387ef14bc1}{\index{Compressed\-Storage@{Compressed\-Storage}!swap@{swap}}
+\index{swap@{swap}!CompressedStorage@{Compressed\-Storage}}
+\subsubsection[{swap}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Scalar$>$ {\bf void} {\bf Compressed\-Storage}$<$ Scalar $>$\-::swap (
+\begin{DoxyParamCaption}
+\item[{{\bf Compressed\-Storage}$<$ Scalar $>$ \&}]{other}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_compressed_storage_ac7d9571b019fc5acf691fd387ef14bc1}
+
+
+Definition at line 60 of file Compressed\-Storage.\-h.
+
+\hypertarget{class_compressed_storage_a4abe46174f900f83559885878b9299c6}{\index{Compressed\-Storage@{Compressed\-Storage}!value@{value}}
+\index{value@{value}!CompressedStorage@{Compressed\-Storage}}
+\subsubsection[{value}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Scalar$>$ Scalar\& {\bf Compressed\-Storage}$<$ Scalar $>$\-::{\bf value} (
+\begin{DoxyParamCaption}
+\item[{std\-::size\-\_\-t}]{i}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_compressed_storage_a4abe46174f900f83559885878b9299c6}
+
+
+Definition at line 106 of file Compressed\-Storage.\-h.
+
+\hypertarget{class_compressed_storage_acc4eb476a096816be4ad40e7662ec8f4}{\index{Compressed\-Storage@{Compressed\-Storage}!value@{value}}
+\index{value@{value}!CompressedStorage@{Compressed\-Storage}}
+\subsubsection[{value}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Scalar$>$ const Scalar\& {\bf Compressed\-Storage}$<$ Scalar $>$\-::{\bf value} (
+\begin{DoxyParamCaption}
+\item[{std\-::size\-\_\-t}]{i}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_compressed_storage_acc4eb476a096816be4ad40e7662ec8f4}
+
+
+Definition at line 107 of file Compressed\-Storage.\-h.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{class_compressed_storage_a148d67a091ea24d4f974c27fd14bb6ea}{\index{Compressed\-Storage@{Compressed\-Storage}!m\-\_\-allocated\-Size@{m\-\_\-allocated\-Size}}
+\index{m\-\_\-allocated\-Size@{m\-\_\-allocated\-Size}!CompressedStorage@{Compressed\-Storage}}
+\subsubsection[{m\-\_\-allocated\-Size}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Scalar$>$ std\-::size\-\_\-t {\bf Compressed\-Storage}$<$ Scalar $>$\-::m\-\_\-allocated\-Size\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_compressed_storage_a148d67a091ea24d4f974c27fd14bb6ea}
+
+
+Definition at line 226 of file Compressed\-Storage.\-h.
+
+\hypertarget{class_compressed_storage_a12c476ce498110609a741aee3947e8ef}{\index{Compressed\-Storage@{Compressed\-Storage}!m\-\_\-indices@{m\-\_\-indices}}
+\index{m\-\_\-indices@{m\-\_\-indices}!CompressedStorage@{Compressed\-Storage}}
+\subsubsection[{m\-\_\-indices}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Scalar$>$ {\bf int}$\ast$ {\bf Compressed\-Storage}$<$ Scalar $>$\-::m\-\_\-indices\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_compressed_storage_a12c476ce498110609a741aee3947e8ef}
+
+
+Definition at line 224 of file Compressed\-Storage.\-h.
+
+\hypertarget{class_compressed_storage_a6167d2edee319254f3d3fb2835df1c79}{\index{Compressed\-Storage@{Compressed\-Storage}!m\-\_\-size@{m\-\_\-size}}
+\index{m\-\_\-size@{m\-\_\-size}!CompressedStorage@{Compressed\-Storage}}
+\subsubsection[{m\-\_\-size}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Scalar$>$ std\-::size\-\_\-t {\bf Compressed\-Storage}$<$ Scalar $>$\-::m\-\_\-size\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_compressed_storage_a6167d2edee319254f3d3fb2835df1c79}
+
+
+Definition at line 225 of file Compressed\-Storage.\-h.
+
+\hypertarget{class_compressed_storage_a3458138788eb4353bdb7e29d143e8d93}{\index{Compressed\-Storage@{Compressed\-Storage}!m\-\_\-values@{m\-\_\-values}}
+\index{m\-\_\-values@{m\-\_\-values}!CompressedStorage@{Compressed\-Storage}}
+\subsubsection[{m\-\_\-values}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Scalar$>$ Scalar$\ast$ {\bf Compressed\-Storage}$<$ Scalar $>$\-::m\-\_\-values\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_compressed_storage_a3458138788eb4353bdb7e29d143e8d93}
+
+
+Definition at line 223 of file Compressed\-Storage.\-h.
+
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/eigen/\-Eigen/src/\-Sparse/\hyperlink{_compressed_storage_8h}{Compressed\-Storage.\-h}\end{DoxyCompactItemize}

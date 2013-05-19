@@ -1,0 +1,209 @@
+\hypertarget{class_sparse_cwise}{\section{Sparse\-Cwise$<$ Expression\-Type $>$ Class Template Reference}
+\label{class_sparse_cwise}\index{Sparse\-Cwise$<$ Expression\-Type $>$@{Sparse\-Cwise$<$ Expression\-Type $>$}}
+}
+
+
+{\ttfamily \#include $<$Sparse\-Cwise.\-h$>$}
+
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+typedef \hyperlink{structei__traits}{ei\-\_\-traits}\\*
+$<$ Expression\-Type $>$\-::\hyperlink{class_sparse_cwise_ad74c0517fbc31c6ef82186ae79723bea}{Scalar} \hyperlink{class_sparse_cwise_ad74c0517fbc31c6ef82186ae79723bea}{Scalar}
+\item 
+typedef \hyperlink{structei__meta__if}{ei\-\_\-meta\-\_\-if}\\*
+$<$ \hyperlink{structei__must__nest__by__value}{ei\-\_\-must\-\_\-nest\-\_\-by\-\_\-value}\\*
+$<$ Expression\-Type $>$\-::\hyperlink{group___i_p_conn_plugin_gabc99fe6afec1a75ccff1092e47375a40}{ret}, \\*
+Expression\-Type, const \\*
+Expression\-Type \& $>$\-::\hyperlink{group___i_p_conn_plugin_gabc99fe6afec1a75ccff1092e47375a40}{ret} \hyperlink{class_sparse_cwise_ae603d2da5a5b74a3adb93a21b4aa8c1e}{Expression\-Type\-Nested}
+\item 
+typedef \hyperlink{class_cwise_unary_op}{Cwise\-Unary\-Op}\\*
+$<$ \hyperlink{structei__scalar__add__op}{ei\-\_\-scalar\-\_\-add\-\_\-op}$<$ \hyperlink{class_sparse_cwise_ad74c0517fbc31c6ef82186ae79723bea}{Scalar} $>$\\*
+, Expression\-Type $>$ \hyperlink{class_sparse_cwise_a68e22bb26ee4171f2f7d2d762bd52215}{Scalar\-Add\-Return\-Type}
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_sparse_cwise_a2e4073b02197195a180ca72ef1d0fecd}{Sparse\-Cwise} (const Expression\-Type \&\hyperlink{glext_8h_a7b24a3f2f56eb1244ae69dacb4fecb6f}{matrix})
+\item 
+const Expression\-Type \& \hyperlink{class_sparse_cwise_a571eb5287e3e7b22a2aac5108fb3657b}{\-\_\-expression} () const 
+\item 
+{\footnotesize template$<$typename Other\-Derived $>$ }\\const \\*
+E\-I\-G\-E\-N\-\_\-\-S\-P\-A\-R\-S\-E\-\_\-\-C\-W\-I\-S\-E\-\_\-\-P\-R\-O\-D\-U\-C\-T\-\_\-\-R\-E\-T\-U\-R\-N\-\_\-\-T\-Y\-P\-E \hyperlink{class_sparse_cwise_a412ca9b22980fc542045d46764e8675d}{operator$\ast$} (const \hyperlink{class_sparse_matrix_base}{Sparse\-Matrix\-Base}$<$ Other\-Derived $>$ \&other) const 
+\item 
+{\footnotesize template$<$typename Other\-Derived $>$ }\\const \\*
+E\-I\-G\-E\-N\-\_\-\-S\-P\-A\-R\-S\-E\-\_\-\-C\-W\-I\-S\-E\-\_\-\-P\-R\-O\-D\-U\-C\-T\-\_\-\-R\-E\-T\-U\-R\-N\-\_\-\-T\-Y\-P\-E \hyperlink{class_sparse_cwise_addb803d16fb1a5e139b161c04a9f5e2b}{operator$\ast$} (const \hyperlink{class_matrix_base}{Matrix\-Base}$<$ Other\-Derived $>$ \&other) const 
+\item 
+{\footnotesize template$<$typename Other\-Derived $>$ }\\const \hyperlink{class_sparse_cwise_a8fc1281781a4b3df9244cbbb6dc139ff}{E\-I\-G\-E\-N\-\_\-\-S\-P\-A\-R\-S\-E\-\_\-\-C\-W\-I\-S\-E\-\_\-\-B\-I\-N\-O\-P\-\_\-\-R\-E\-T\-U\-R\-N\-\_\-\-T\-Y\-P\-E} (\hyperlink{structei__scalar__min__op}{ei\-\_\-scalar\-\_\-min\-\_\-op}) min(const \hyperlink{class_sparse_matrix_base}{Sparse\-Matrix\-Base}$<$ Other\-Derived $>$ \&other) const 
+\item 
+{\footnotesize template$<$typename Other\-Derived $>$ }\\const \hyperlink{class_sparse_cwise_aa17f70cf4dfc0f451972453f5736a6ee}{E\-I\-G\-E\-N\-\_\-\-S\-P\-A\-R\-S\-E\-\_\-\-C\-W\-I\-S\-E\-\_\-\-B\-I\-N\-O\-P\-\_\-\-R\-E\-T\-U\-R\-N\-\_\-\-T\-Y\-P\-E} (\hyperlink{structei__scalar__max__op}{ei\-\_\-scalar\-\_\-max\-\_\-op}) max(const \hyperlink{class_sparse_matrix_base}{Sparse\-Matrix\-Base}$<$ Other\-Derived $>$ \&other) const 
+\item 
+const \hyperlink{class_sparse_cwise_ad633ff35a7b05f6c110fba689e43ec7c}{E\-I\-G\-E\-N\-\_\-\-S\-P\-A\-R\-S\-E\-\_\-\-C\-W\-I\-S\-E\-\_\-\-U\-N\-O\-P\-\_\-\-R\-E\-T\-U\-R\-N\-\_\-\-T\-Y\-P\-E} (\hyperlink{structei__scalar__abs__op}{ei\-\_\-scalar\-\_\-abs\-\_\-op}) abs() const 
+\item 
+const \hyperlink{class_sparse_cwise_ac9c3b15c511d38f153e711b4d80376e7}{E\-I\-G\-E\-N\-\_\-\-S\-P\-A\-R\-S\-E\-\_\-\-C\-W\-I\-S\-E\-\_\-\-U\-N\-O\-P\-\_\-\-R\-E\-T\-U\-R\-N\-\_\-\-T\-Y\-P\-E} (\hyperlink{structei__scalar__abs2__op}{ei\-\_\-scalar\-\_\-abs2\-\_\-op}) abs2() const 
+\item 
+{\footnotesize template$<$typename Other\-Derived $>$ }\\Expression\-Type \& \hyperlink{class_sparse_cwise_a1f5c5c75c1d368900a2297bddcf63e85}{operator$\ast$=} (const \hyperlink{class_sparse_matrix_base}{Sparse\-Matrix\-Base}$<$ Other\-Derived $>$ \&other)
+\item 
+{\footnotesize template$<$typename Other\-Derived $>$ }\\E\-I\-G\-E\-N\-\_\-\-S\-T\-R\-O\-N\-G\-\_\-\-I\-N\-L\-I\-N\-E const \\*
+E\-I\-G\-E\-N\-\_\-\-S\-P\-A\-R\-S\-E\-\_\-\-C\-W\-I\-S\-E\-\_\-\-P\-R\-O\-D\-U\-C\-T\-\_\-\-R\-E\-T\-U\-R\-N\-\_\-\-T\-Y\-P\-E \hyperlink{class_sparse_cwise_a2b9abba91ceccbbce4efb32ea8c76af6}{operator$\ast$} (const \hyperlink{class_sparse_matrix_base}{Sparse\-Matrix\-Base}$<$ Other\-Derived $>$ \&other) const 
+\item 
+{\footnotesize template$<$typename Other\-Derived $>$ }\\E\-I\-G\-E\-N\-\_\-\-S\-T\-R\-O\-N\-G\-\_\-\-I\-N\-L\-I\-N\-E const \\*
+E\-I\-G\-E\-N\-\_\-\-S\-P\-A\-R\-S\-E\-\_\-\-C\-W\-I\-S\-E\-\_\-\-P\-R\-O\-D\-U\-C\-T\-\_\-\-R\-E\-T\-U\-R\-N\-\_\-\-T\-Y\-P\-E \hyperlink{class_sparse_cwise_ac4b4f5b0c0bf877dfe30036805bfba1b}{operator$\ast$} (const \hyperlink{class_matrix_base}{Matrix\-Base}$<$ Other\-Derived $>$ \&other) const 
+\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_sparse_cwise_ae603d2da5a5b74a3adb93a21b4aa8c1e}{Expression\-Type\-Nested} \hyperlink{class_sparse_cwise_a64c10cb80091ee64fe3a4392c7bc6d25}{m\-\_\-matrix}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$typename Expression\-Type$>$class Sparse\-Cwise$<$ Expression\-Type $>$}
+
+
+
+Definition at line 57 of file Sparse\-Cwise.\-h.
+
+
+
+\subsection{Member Typedef Documentation}
+\hypertarget{class_sparse_cwise_ae603d2da5a5b74a3adb93a21b4aa8c1e}{\index{Sparse\-Cwise@{Sparse\-Cwise}!Expression\-Type\-Nested@{Expression\-Type\-Nested}}
+\index{Expression\-Type\-Nested@{Expression\-Type\-Nested}!SparseCwise@{Sparse\-Cwise}}
+\subsubsection[{Expression\-Type\-Nested}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Expression\-Type$>$ typedef {\bf ei\-\_\-meta\-\_\-if}$<${\bf ei\-\_\-must\-\_\-nest\-\_\-by\-\_\-value}$<$Expression\-Type$>$\-::{\bf ret}, Expression\-Type, const Expression\-Type\&$>$\-::{\bf ret} {\bf Sparse\-Cwise}$<$ Expression\-Type $>$\-::{\bf Expression\-Type\-Nested}}}\label{class_sparse_cwise_ae603d2da5a5b74a3adb93a21b4aa8c1e}
+
+
+Definition at line 63 of file Sparse\-Cwise.\-h.
+
+\hypertarget{class_sparse_cwise_ad74c0517fbc31c6ef82186ae79723bea}{\index{Sparse\-Cwise@{Sparse\-Cwise}!Scalar@{Scalar}}
+\index{Scalar@{Scalar}!SparseCwise@{Sparse\-Cwise}}
+\subsubsection[{Scalar}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Expression\-Type$>$ typedef {\bf ei\-\_\-traits}$<$Expression\-Type$>$\-::{\bf Scalar} {\bf Sparse\-Cwise}$<$ Expression\-Type $>$\-::{\bf Scalar}}}\label{class_sparse_cwise_ad74c0517fbc31c6ef82186ae79723bea}
+
+
+Definition at line 61 of file Sparse\-Cwise.\-h.
+
+\hypertarget{class_sparse_cwise_a68e22bb26ee4171f2f7d2d762bd52215}{\index{Sparse\-Cwise@{Sparse\-Cwise}!Scalar\-Add\-Return\-Type@{Scalar\-Add\-Return\-Type}}
+\index{Scalar\-Add\-Return\-Type@{Scalar\-Add\-Return\-Type}!SparseCwise@{Sparse\-Cwise}}
+\subsubsection[{Scalar\-Add\-Return\-Type}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Expression\-Type$>$ typedef {\bf Cwise\-Unary\-Op}$<${\bf ei\-\_\-scalar\-\_\-add\-\_\-op}$<${\bf Scalar}$>$, Expression\-Type$>$ {\bf Sparse\-Cwise}$<$ Expression\-Type $>$\-::{\bf Scalar\-Add\-Return\-Type}}}\label{class_sparse_cwise_a68e22bb26ee4171f2f7d2d762bd52215}
+
+
+Definition at line 64 of file Sparse\-Cwise.\-h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_sparse_cwise_a2e4073b02197195a180ca72ef1d0fecd}{\index{Sparse\-Cwise@{Sparse\-Cwise}!Sparse\-Cwise@{Sparse\-Cwise}}
+\index{Sparse\-Cwise@{Sparse\-Cwise}!SparseCwise@{Sparse\-Cwise}}
+\subsubsection[{Sparse\-Cwise}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Expression\-Type$>$ {\bf Sparse\-Cwise}$<$ Expression\-Type $>$\-::{\bf Sparse\-Cwise} (
+\begin{DoxyParamCaption}
+\item[{const Expression\-Type \&}]{matrix}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_sparse_cwise_a2e4073b02197195a180ca72ef1d0fecd}
+
+
+Definition at line 66 of file Sparse\-Cwise.\-h.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_sparse_cwise_a571eb5287e3e7b22a2aac5108fb3657b}{\index{Sparse\-Cwise@{Sparse\-Cwise}!\-\_\-expression@{\-\_\-expression}}
+\index{\-\_\-expression@{\-\_\-expression}!SparseCwise@{Sparse\-Cwise}}
+\subsubsection[{\-\_\-expression}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Expression\-Type$>$ const Expression\-Type\& {\bf Sparse\-Cwise}$<$ Expression\-Type $>$\-::\-\_\-expression (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_sparse_cwise_a571eb5287e3e7b22a2aac5108fb3657b}
+
+
+Definition at line 69 of file Sparse\-Cwise.\-h.
+
+\hypertarget{class_sparse_cwise_a8fc1281781a4b3df9244cbbb6dc139ff}{\index{Sparse\-Cwise@{Sparse\-Cwise}!E\-I\-G\-E\-N\-\_\-\-S\-P\-A\-R\-S\-E\-\_\-\-C\-W\-I\-S\-E\-\_\-\-B\-I\-N\-O\-P\-\_\-\-R\-E\-T\-U\-R\-N\-\_\-\-T\-Y\-P\-E@{E\-I\-G\-E\-N\-\_\-\-S\-P\-A\-R\-S\-E\-\_\-\-C\-W\-I\-S\-E\-\_\-\-B\-I\-N\-O\-P\-\_\-\-R\-E\-T\-U\-R\-N\-\_\-\-T\-Y\-P\-E}}
+\index{E\-I\-G\-E\-N\-\_\-\-S\-P\-A\-R\-S\-E\-\_\-\-C\-W\-I\-S\-E\-\_\-\-B\-I\-N\-O\-P\-\_\-\-R\-E\-T\-U\-R\-N\-\_\-\-T\-Y\-P\-E@{E\-I\-G\-E\-N\-\_\-\-S\-P\-A\-R\-S\-E\-\_\-\-C\-W\-I\-S\-E\-\_\-\-B\-I\-N\-O\-P\-\_\-\-R\-E\-T\-U\-R\-N\-\_\-\-T\-Y\-P\-E}!SparseCwise@{Sparse\-Cwise}}
+\subsubsection[{E\-I\-G\-E\-N\-\_\-\-S\-P\-A\-R\-S\-E\-\_\-\-C\-W\-I\-S\-E\-\_\-\-B\-I\-N\-O\-P\-\_\-\-R\-E\-T\-U\-R\-N\-\_\-\-T\-Y\-P\-E}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Expression\-Type$>$ template$<$typename Other\-Derived $>$ const {\bf Sparse\-Cwise}$<$ Expression\-Type $>$\-::E\-I\-G\-E\-N\-\_\-\-S\-P\-A\-R\-S\-E\-\_\-\-C\-W\-I\-S\-E\-\_\-\-B\-I\-N\-O\-P\-\_\-\-R\-E\-T\-U\-R\-N\-\_\-\-T\-Y\-P\-E (
+\begin{DoxyParamCaption}
+\item[{{\bf ei\-\_\-scalar\-\_\-min\-\_\-op}}]{}
+\end{DoxyParamCaption}
+) const}}\label{class_sparse_cwise_a8fc1281781a4b3df9244cbbb6dc139ff}
+\hypertarget{class_sparse_cwise_aa17f70cf4dfc0f451972453f5736a6ee}{\index{Sparse\-Cwise@{Sparse\-Cwise}!E\-I\-G\-E\-N\-\_\-\-S\-P\-A\-R\-S\-E\-\_\-\-C\-W\-I\-S\-E\-\_\-\-B\-I\-N\-O\-P\-\_\-\-R\-E\-T\-U\-R\-N\-\_\-\-T\-Y\-P\-E@{E\-I\-G\-E\-N\-\_\-\-S\-P\-A\-R\-S\-E\-\_\-\-C\-W\-I\-S\-E\-\_\-\-B\-I\-N\-O\-P\-\_\-\-R\-E\-T\-U\-R\-N\-\_\-\-T\-Y\-P\-E}}
+\index{E\-I\-G\-E\-N\-\_\-\-S\-P\-A\-R\-S\-E\-\_\-\-C\-W\-I\-S\-E\-\_\-\-B\-I\-N\-O\-P\-\_\-\-R\-E\-T\-U\-R\-N\-\_\-\-T\-Y\-P\-E@{E\-I\-G\-E\-N\-\_\-\-S\-P\-A\-R\-S\-E\-\_\-\-C\-W\-I\-S\-E\-\_\-\-B\-I\-N\-O\-P\-\_\-\-R\-E\-T\-U\-R\-N\-\_\-\-T\-Y\-P\-E}!SparseCwise@{Sparse\-Cwise}}
+\subsubsection[{E\-I\-G\-E\-N\-\_\-\-S\-P\-A\-R\-S\-E\-\_\-\-C\-W\-I\-S\-E\-\_\-\-B\-I\-N\-O\-P\-\_\-\-R\-E\-T\-U\-R\-N\-\_\-\-T\-Y\-P\-E}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Expression\-Type$>$ template$<$typename Other\-Derived $>$ const {\bf Sparse\-Cwise}$<$ Expression\-Type $>$\-::E\-I\-G\-E\-N\-\_\-\-S\-P\-A\-R\-S\-E\-\_\-\-C\-W\-I\-S\-E\-\_\-\-B\-I\-N\-O\-P\-\_\-\-R\-E\-T\-U\-R\-N\-\_\-\-T\-Y\-P\-E (
+\begin{DoxyParamCaption}
+\item[{{\bf ei\-\_\-scalar\-\_\-max\-\_\-op}}]{}
+\end{DoxyParamCaption}
+) const}}\label{class_sparse_cwise_aa17f70cf4dfc0f451972453f5736a6ee}
+\hypertarget{class_sparse_cwise_ad633ff35a7b05f6c110fba689e43ec7c}{\index{Sparse\-Cwise@{Sparse\-Cwise}!E\-I\-G\-E\-N\-\_\-\-S\-P\-A\-R\-S\-E\-\_\-\-C\-W\-I\-S\-E\-\_\-\-U\-N\-O\-P\-\_\-\-R\-E\-T\-U\-R\-N\-\_\-\-T\-Y\-P\-E@{E\-I\-G\-E\-N\-\_\-\-S\-P\-A\-R\-S\-E\-\_\-\-C\-W\-I\-S\-E\-\_\-\-U\-N\-O\-P\-\_\-\-R\-E\-T\-U\-R\-N\-\_\-\-T\-Y\-P\-E}}
+\index{E\-I\-G\-E\-N\-\_\-\-S\-P\-A\-R\-S\-E\-\_\-\-C\-W\-I\-S\-E\-\_\-\-U\-N\-O\-P\-\_\-\-R\-E\-T\-U\-R\-N\-\_\-\-T\-Y\-P\-E@{E\-I\-G\-E\-N\-\_\-\-S\-P\-A\-R\-S\-E\-\_\-\-C\-W\-I\-S\-E\-\_\-\-U\-N\-O\-P\-\_\-\-R\-E\-T\-U\-R\-N\-\_\-\-T\-Y\-P\-E}!SparseCwise@{Sparse\-Cwise}}
+\subsubsection[{E\-I\-G\-E\-N\-\_\-\-S\-P\-A\-R\-S\-E\-\_\-\-C\-W\-I\-S\-E\-\_\-\-U\-N\-O\-P\-\_\-\-R\-E\-T\-U\-R\-N\-\_\-\-T\-Y\-P\-E}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Expression\-Type$>$ const {\bf Sparse\-Cwise}$<$ Expression\-Type $>$\-::E\-I\-G\-E\-N\-\_\-\-S\-P\-A\-R\-S\-E\-\_\-\-C\-W\-I\-S\-E\-\_\-\-U\-N\-O\-P\-\_\-\-R\-E\-T\-U\-R\-N\-\_\-\-T\-Y\-P\-E (
+\begin{DoxyParamCaption}
+\item[{{\bf ei\-\_\-scalar\-\_\-abs\-\_\-op}}]{}
+\end{DoxyParamCaption}
+) const}}\label{class_sparse_cwise_ad633ff35a7b05f6c110fba689e43ec7c}
+\hypertarget{class_sparse_cwise_ac9c3b15c511d38f153e711b4d80376e7}{\index{Sparse\-Cwise@{Sparse\-Cwise}!E\-I\-G\-E\-N\-\_\-\-S\-P\-A\-R\-S\-E\-\_\-\-C\-W\-I\-S\-E\-\_\-\-U\-N\-O\-P\-\_\-\-R\-E\-T\-U\-R\-N\-\_\-\-T\-Y\-P\-E@{E\-I\-G\-E\-N\-\_\-\-S\-P\-A\-R\-S\-E\-\_\-\-C\-W\-I\-S\-E\-\_\-\-U\-N\-O\-P\-\_\-\-R\-E\-T\-U\-R\-N\-\_\-\-T\-Y\-P\-E}}
+\index{E\-I\-G\-E\-N\-\_\-\-S\-P\-A\-R\-S\-E\-\_\-\-C\-W\-I\-S\-E\-\_\-\-U\-N\-O\-P\-\_\-\-R\-E\-T\-U\-R\-N\-\_\-\-T\-Y\-P\-E@{E\-I\-G\-E\-N\-\_\-\-S\-P\-A\-R\-S\-E\-\_\-\-C\-W\-I\-S\-E\-\_\-\-U\-N\-O\-P\-\_\-\-R\-E\-T\-U\-R\-N\-\_\-\-T\-Y\-P\-E}!SparseCwise@{Sparse\-Cwise}}
+\subsubsection[{E\-I\-G\-E\-N\-\_\-\-S\-P\-A\-R\-S\-E\-\_\-\-C\-W\-I\-S\-E\-\_\-\-U\-N\-O\-P\-\_\-\-R\-E\-T\-U\-R\-N\-\_\-\-T\-Y\-P\-E}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Expression\-Type$>$ const {\bf Sparse\-Cwise}$<$ Expression\-Type $>$\-::E\-I\-G\-E\-N\-\_\-\-S\-P\-A\-R\-S\-E\-\_\-\-C\-W\-I\-S\-E\-\_\-\-U\-N\-O\-P\-\_\-\-R\-E\-T\-U\-R\-N\-\_\-\-T\-Y\-P\-E (
+\begin{DoxyParamCaption}
+\item[{{\bf ei\-\_\-scalar\-\_\-abs2\-\_\-op}}]{}
+\end{DoxyParamCaption}
+) const}}\label{class_sparse_cwise_ac9c3b15c511d38f153e711b4d80376e7}
+\hypertarget{class_sparse_cwise_a412ca9b22980fc542045d46764e8675d}{\index{Sparse\-Cwise@{Sparse\-Cwise}!operator$\ast$@{operator$\ast$}}
+\index{operator$\ast$@{operator$\ast$}!SparseCwise@{Sparse\-Cwise}}
+\subsubsection[{operator$\ast$}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Expression\-Type$>$ template$<$typename Other\-Derived $>$ const E\-I\-G\-E\-N\-\_\-\-S\-P\-A\-R\-S\-E\-\_\-\-C\-W\-I\-S\-E\-\_\-\-P\-R\-O\-D\-U\-C\-T\-\_\-\-R\-E\-T\-U\-R\-N\-\_\-\-T\-Y\-P\-E {\bf Sparse\-Cwise}$<$ Expression\-Type $>$\-::operator$\ast$ (
+\begin{DoxyParamCaption}
+\item[{const {\bf Sparse\-Matrix\-Base}$<$ Other\-Derived $>$ \&}]{other}
+\end{DoxyParamCaption}
+) const}}\label{class_sparse_cwise_a412ca9b22980fc542045d46764e8675d}
+\hypertarget{class_sparse_cwise_addb803d16fb1a5e139b161c04a9f5e2b}{\index{Sparse\-Cwise@{Sparse\-Cwise}!operator$\ast$@{operator$\ast$}}
+\index{operator$\ast$@{operator$\ast$}!SparseCwise@{Sparse\-Cwise}}
+\subsubsection[{operator$\ast$}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Expression\-Type$>$ template$<$typename Other\-Derived $>$ const E\-I\-G\-E\-N\-\_\-\-S\-P\-A\-R\-S\-E\-\_\-\-C\-W\-I\-S\-E\-\_\-\-P\-R\-O\-D\-U\-C\-T\-\_\-\-R\-E\-T\-U\-R\-N\-\_\-\-T\-Y\-P\-E {\bf Sparse\-Cwise}$<$ Expression\-Type $>$\-::operator$\ast$ (
+\begin{DoxyParamCaption}
+\item[{const {\bf Matrix\-Base}$<$ Other\-Derived $>$ \&}]{other}
+\end{DoxyParamCaption}
+) const}}\label{class_sparse_cwise_addb803d16fb1a5e139b161c04a9f5e2b}
+\hypertarget{class_sparse_cwise_a2b9abba91ceccbbce4efb32ea8c76af6}{\index{Sparse\-Cwise@{Sparse\-Cwise}!operator$\ast$@{operator$\ast$}}
+\index{operator$\ast$@{operator$\ast$}!SparseCwise@{Sparse\-Cwise}}
+\subsubsection[{operator$\ast$}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Expression\-Type$>$ template$<$typename Other\-Derived $>$ E\-I\-G\-E\-N\-\_\-\-S\-T\-R\-O\-N\-G\-\_\-\-I\-N\-L\-I\-N\-E const E\-I\-G\-E\-N\-\_\-\-S\-P\-A\-R\-S\-E\-\_\-\-C\-W\-I\-S\-E\-\_\-\-P\-R\-O\-D\-U\-C\-T\-\_\-\-R\-E\-T\-U\-R\-N\-\_\-\-T\-Y\-P\-E {\bf Sparse\-Cwise}$<$ Expression\-Type $>$\-::operator$\ast$ (
+\begin{DoxyParamCaption}
+\item[{const {\bf Sparse\-Matrix\-Base}$<$ Other\-Derived $>$ \&}]{other}
+\end{DoxyParamCaption}
+) const}}\label{class_sparse_cwise_a2b9abba91ceccbbce4efb32ea8c76af6}
+
+
+Definition at line 386 of file Sparse\-Cwise\-Binary\-Op.\-h.
+
+\hypertarget{class_sparse_cwise_ac4b4f5b0c0bf877dfe30036805bfba1b}{\index{Sparse\-Cwise@{Sparse\-Cwise}!operator$\ast$@{operator$\ast$}}
+\index{operator$\ast$@{operator$\ast$}!SparseCwise@{Sparse\-Cwise}}
+\subsubsection[{operator$\ast$}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Expression\-Type$>$ template$<$typename Other\-Derived $>$ E\-I\-G\-E\-N\-\_\-\-S\-T\-R\-O\-N\-G\-\_\-\-I\-N\-L\-I\-N\-E const E\-I\-G\-E\-N\-\_\-\-S\-P\-A\-R\-S\-E\-\_\-\-C\-W\-I\-S\-E\-\_\-\-P\-R\-O\-D\-U\-C\-T\-\_\-\-R\-E\-T\-U\-R\-N\-\_\-\-T\-Y\-P\-E {\bf Sparse\-Cwise}$<$ Expression\-Type $>$\-::operator$\ast$ (
+\begin{DoxyParamCaption}
+\item[{const {\bf Matrix\-Base}$<$ Other\-Derived $>$ \&}]{other}
+\end{DoxyParamCaption}
+) const}}\label{class_sparse_cwise_ac4b4f5b0c0bf877dfe30036805bfba1b}
+
+
+Definition at line 394 of file Sparse\-Cwise\-Binary\-Op.\-h.
+
+\hypertarget{class_sparse_cwise_a1f5c5c75c1d368900a2297bddcf63e85}{\index{Sparse\-Cwise@{Sparse\-Cwise}!operator$\ast$=@{operator$\ast$=}}
+\index{operator$\ast$=@{operator$\ast$=}!SparseCwise@{Sparse\-Cwise}}
+\subsubsection[{operator$\ast$=}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Expression\-Type $>$ template$<$typename Other\-Derived $>$ Expression\-Type \& {\bf Sparse\-Cwise}$<$ Expression\-Type $>$\-::operator$\ast$= (
+\begin{DoxyParamCaption}
+\item[{const {\bf Sparse\-Matrix\-Base}$<$ Other\-Derived $>$ \&}]{other}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_sparse_cwise_a1f5c5c75c1d368900a2297bddcf63e85}
+
+
+Definition at line 417 of file Sparse\-Cwise\-Binary\-Op.\-h.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{class_sparse_cwise_a64c10cb80091ee64fe3a4392c7bc6d25}{\index{Sparse\-Cwise@{Sparse\-Cwise}!m\-\_\-matrix@{m\-\_\-matrix}}
+\index{m\-\_\-matrix@{m\-\_\-matrix}!SparseCwise@{Sparse\-Cwise}}
+\subsubsection[{m\-\_\-matrix}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Expression\-Type$>$ {\bf Expression\-Type\-Nested} {\bf Sparse\-Cwise}$<$ Expression\-Type $>$\-::m\-\_\-matrix\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_sparse_cwise_a64c10cb80091ee64fe3a4392c7bc6d25}
+
+
+Definition at line 158 of file Sparse\-Cwise.\-h.
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/eigen/\-Eigen/src/\-Sparse/\hyperlink{_sparse_cwise_8h}{Sparse\-Cwise.\-h}\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/eigen/\-Eigen/src/\-Sparse/\hyperlink{_sparse_cwise_binary_op_8h}{Sparse\-Cwise\-Binary\-Op.\-h}\end{DoxyCompactItemize}

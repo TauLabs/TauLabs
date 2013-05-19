@@ -1,0 +1,503 @@
+\hypertarget{class_dynamic_sparse_matrix}{\section{Dynamic\-Sparse\-Matrix$<$ \-\_\-\-Scalar, \-\_\-\-Flags $>$ Class Template Reference}
+\label{class_dynamic_sparse_matrix}\index{Dynamic\-Sparse\-Matrix$<$ \-\_\-\-Scalar, \-\_\-\-Flags $>$@{Dynamic\-Sparse\-Matrix$<$ \-\_\-\-Scalar, \-\_\-\-Flags $>$}}
+}
+
+
+A sparse matrix class designed for matrix assembly purpose.  
+
+
+
+
+{\ttfamily \#include $<$Dynamic\-Sparse\-Matrix.\-h$>$}
+
+Inheritance diagram for Dynamic\-Sparse\-Matrix$<$ \-\_\-\-Scalar, \-\_\-\-Flags $>$\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_dynamic_sparse_matrix}
+\end{center}
+\end{figure}
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{class_dynamic_sparse_matrix_1_1_inner_iterator}{Inner\-Iterator}
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_dynamic_sparse_matrix_a825b78d0a22117193c9a556a597a9726}{E\-I\-G\-E\-N\-\_\-\-S\-P\-A\-R\-S\-E\-\_\-\-G\-E\-N\-E\-R\-I\-C\-\_\-\-P\-U\-B\-L\-I\-C\-\_\-\-I\-N\-T\-E\-R\-F\-A\-C\-E} (\hyperlink{class_dynamic_sparse_matrix}{Dynamic\-Sparse\-Matrix}) typedef \hyperlink{class_mapped_sparse_matrix}{Mapped\-Sparse\-Matrix}$<$ \hyperlink{class_sparse_matrix_base_af39d70f2b7e775e9e17b666cd24128c8}{Scalar}
+\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_dynamic_sparse_matrix_abe44ef949173f825ff346e096bb074a4}{rows} () const 
+\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_dynamic_sparse_matrix_a227b1cc3a3e46b5483a9d8881300c3a1}{cols} () const 
+\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_dynamic_sparse_matrix_adc3a7854d255576150092c7078c99355}{inner\-Size} () const 
+\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_dynamic_sparse_matrix_acd54a8b1b1a26df65a17a459a09f9958}{outer\-Size} () const 
+\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_dynamic_sparse_matrix_af4365829fe97f1963003c508413e7133}{inner\-Non\-Zeros} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} j) const 
+\item 
+std\-::vector$<$ \hyperlink{class_compressed_storage}{Compressed\-Storage}\\*
+$<$ \hyperlink{class_sparse_matrix_base_af39d70f2b7e775e9e17b666cd24128c8}{Scalar} $>$ $>$ \& \hyperlink{class_dynamic_sparse_matrix_a881ecf23d26eddc582d88b58d634310c}{\-\_\-data} ()
+\item 
+const std\-::vector\\*
+$<$ \hyperlink{class_compressed_storage}{Compressed\-Storage}$<$ \hyperlink{class_sparse_matrix_base_af39d70f2b7e775e9e17b666cd24128c8}{Scalar} $>$ $>$ \& \hyperlink{class_dynamic_sparse_matrix_a04291269ee749554724e7ca0987da09a}{\-\_\-data} () const 
+\item 
+\hyperlink{class_sparse_matrix_base_af39d70f2b7e775e9e17b666cd24128c8}{Scalar} \hyperlink{class_dynamic_sparse_matrix_a4a579bbd419173b1dad770ba778b53c6}{coeff} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{glext_8h_a11b277b422822f784ee248b43eee3e1e}{row}, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_sparse_matrix_base_a711a8f11f5f1915057922412dac2cc25}{col}) const 
+\item 
+\hyperlink{class_sparse_matrix_base_af39d70f2b7e775e9e17b666cd24128c8}{Scalar} \& \hyperlink{class_dynamic_sparse_matrix_ab2520b9db34bb0a0108717576d425b59}{coeff\-Ref} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{glext_8h_a11b277b422822f784ee248b43eee3e1e}{row}, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_sparse_matrix_base_a711a8f11f5f1915057922412dac2cc25}{col})
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_dynamic_sparse_matrix_a0838e2a7cf6c8b20d19b765e275a2cb6}{set\-Zero} ()
+\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_dynamic_sparse_matrix_a56c128669668492b0a1d080314b12971}{non\-Zeros} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_dynamic_sparse_matrix_a21e0006a0e0b7fcbd71792df414f8f41}{start\-Fill} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} reserve\-Size=1000)
+\item 
+\hyperlink{class_sparse_matrix_base_af39d70f2b7e775e9e17b666cd24128c8}{Scalar} \& \hyperlink{class_dynamic_sparse_matrix_a554d78615ccdbb77dd6b79eba1a9bc0f}{fill} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{glext_8h_a11b277b422822f784ee248b43eee3e1e}{row}, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_sparse_matrix_base_a711a8f11f5f1915057922412dac2cc25}{col})
+\item 
+\hyperlink{class_sparse_matrix_base_af39d70f2b7e775e9e17b666cd24128c8}{Scalar} \& \hyperlink{class_dynamic_sparse_matrix_a389f0c6b4830d8bc65aaa39d324ab0d9}{fillrand} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{glext_8h_a11b277b422822f784ee248b43eee3e1e}{row}, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_sparse_matrix_base_a711a8f11f5f1915057922412dac2cc25}{col})
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_dynamic_sparse_matrix_aeec00696812d28ae6b9a204ed00d1ad2}{end\-Fill} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_dynamic_sparse_matrix_a64dd4475ae71ef8d4f5fbe4d5239fb02}{prune} (\hyperlink{class_sparse_matrix_base_af39d70f2b7e775e9e17b666cd24128c8}{Scalar} reference, \hyperlink{class_sparse_matrix_base_a615d56082efd03b5f31015cc4900e72f}{Real\-Scalar} epsilon=\hyperlink{_math_functions_8h_a3dc1c65cf9dc9b5a7ee66472d0ae83e1}{precision}$<$ \hyperlink{class_sparse_matrix_base_a615d56082efd03b5f31015cc4900e72f}{Real\-Scalar} $>$())
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_dynamic_sparse_matrix_af6c52ce9553e5a568c8f9de0ed80d392}{resize} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_dynamic_sparse_matrix_abe44ef949173f825ff346e096bb074a4}{rows}, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_dynamic_sparse_matrix_a227b1cc3a3e46b5483a9d8881300c3a1}{cols})
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_dynamic_sparse_matrix_a79d2728e4eeeda5cc62c8c58a71b1434}{resize\-And\-Keep\-Data} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_dynamic_sparse_matrix_abe44ef949173f825ff346e096bb074a4}{rows}, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_dynamic_sparse_matrix_a227b1cc3a3e46b5483a9d8881300c3a1}{cols})
+\item 
+\hyperlink{class_dynamic_sparse_matrix_a943fafa8bda9f970eed02bc9c849c473}{Dynamic\-Sparse\-Matrix} ()
+\item 
+\hyperlink{class_dynamic_sparse_matrix_a890f3a2e7d7b3aa4bdfda5c32be3b63c}{Dynamic\-Sparse\-Matrix} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_dynamic_sparse_matrix_abe44ef949173f825ff346e096bb074a4}{rows}, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_dynamic_sparse_matrix_a227b1cc3a3e46b5483a9d8881300c3a1}{cols})
+\item 
+{\footnotesize template$<$typename Other\-Derived $>$ }\\\hyperlink{class_dynamic_sparse_matrix_ae42748dc572facd328c8475d951a2af2}{Dynamic\-Sparse\-Matrix} (const \hyperlink{class_sparse_matrix_base}{Sparse\-Matrix\-Base}$<$ Other\-Derived $>$ \&other)
+\item 
+\hyperlink{class_dynamic_sparse_matrix_a4f5b6a48565dd7f17d2c5b412f4e0307}{Dynamic\-Sparse\-Matrix} (const \hyperlink{class_dynamic_sparse_matrix}{Dynamic\-Sparse\-Matrix} \&other)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_dynamic_sparse_matrix_a91e44a8bb1e4586ebd549c297c2dfb06}{swap} (\hyperlink{class_dynamic_sparse_matrix}{Dynamic\-Sparse\-Matrix} \&other)
+\item 
+\hyperlink{class_dynamic_sparse_matrix}{Dynamic\-Sparse\-Matrix} \& \hyperlink{class_dynamic_sparse_matrix_a883a384db19cb797d3bb83665297b75e}{operator=} (const \hyperlink{class_dynamic_sparse_matrix}{Dynamic\-Sparse\-Matrix} \&other)
+\item 
+{\footnotesize template$<$typename Other\-Derived $>$ }\\\hyperlink{class_dynamic_sparse_matrix}{Dynamic\-Sparse\-Matrix} \& \hyperlink{class_dynamic_sparse_matrix_a1feedfed719a0c75ab39ae18afe82e68}{operator=} (const \hyperlink{class_sparse_matrix_base}{Sparse\-Matrix\-Base}$<$ Other\-Derived $>$ \&other)
+\item 
+\hyperlink{class_dynamic_sparse_matrix_ada45fc90c548b548977e7be90b3a1b0d}{$\sim$\-Dynamic\-Sparse\-Matrix} ()
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_sparse_matrix_base_af601f771c204b3ca254a52085525004cadb11b5d4625dc81c28848af1ec6dac18}{Flags} \hyperlink{class_dynamic_sparse_matrix_a3d8ab26ff318f25e40796717685f7a62}{Map}
+\end{DoxyCompactItemize}
+\subsection*{Protected Types}
+\begin{DoxyCompactItemize}
+\item 
+enum \{ \hyperlink{class_dynamic_sparse_matrix_a47215f6c238780cd57e81e75ab6d4263af7eb92e91c48fdf4583d99c7c3bbd3db}{Is\-Row\-Major} = Base\-:\-:Is\-Row\-Major
+ \}
+\item 
+typedef \hyperlink{class_dynamic_sparse_matrix}{Dynamic\-Sparse\-Matrix}\\*
+$<$ \hyperlink{class_sparse_matrix_base_af39d70f2b7e775e9e17b666cd24128c8}{Scalar},(\hyperlink{class_sparse_matrix_base_af601f771c204b3ca254a52085525004cadb11b5d4625dc81c28848af1ec6dac18}{Flags} \&$\sim$\hyperlink{group__flags_ga7bd49e7b260e869e10fb9dc4fd081a85}{Row\-Major\-Bit})$|$(\hyperlink{class_dynamic_sparse_matrix_a47215f6c238780cd57e81e75ab6d4263af7eb92e91c48fdf4583d99c7c3bbd3db}{Is\-Row\-Major}?Row\-Major\-Bit\-:0)$>$ \hyperlink{class_dynamic_sparse_matrix_a17501e94beed85eb9cad33fa5520d398}{Transposed\-Sparse\-Matrix}
+\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_dynamic_sparse_matrix_a647dcdae35dc9c1ff0d0cc0ae1194373}{m\-\_\-inner\-Size}
+\item 
+std\-::vector$<$ \hyperlink{class_compressed_storage}{Compressed\-Storage}\\*
+$<$ \hyperlink{class_sparse_matrix_base_af39d70f2b7e775e9e17b666cd24128c8}{Scalar} $>$ $>$ \hyperlink{class_dynamic_sparse_matrix_a9655a5f37dc37d24df30b047b346529f}{m\-\_\-data}
+\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$typename \-\_\-\-Scalar, int \-\_\-\-Flags$>$class Dynamic\-Sparse\-Matrix$<$ \-\_\-\-Scalar, \-\_\-\-Flags $>$}
+
+A sparse matrix class designed for matrix assembly purpose. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \-\_\-\-Scalar} & the scalar type, i.\-e. the type of the coefficients\\
+\hline
+\end{DoxyParams}
+Unlike \hyperlink{class_sparse_matrix}{Sparse\-Matrix}, this class provides a much higher degree of flexibility. In particular, it allows random read/write accesses in log(rho$\ast$outer\-\_\-size) where {\ttfamily rho} is the probability that a coefficient is nonzero and outer\-\_\-size is the number of columns if the matrix is column-\/major and the number of rows otherwise.
+
+Internally, the data are stored as a std\-::vector of compressed vector. The performances of random writes might decrease as the number of nonzeros per inner-\/vector increase. In practice, we observed very good performance till about 100 nonzeros/vector, and the performance remains relatively good till 500 nonzeros/vectors.
+
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_sparse_matrix}{Sparse\-Matrix} 
+\end{DoxySeeAlso}
+
+
+Definition at line 61 of file Dynamic\-Sparse\-Matrix.\-h.
+
+
+
+\subsection{Member Typedef Documentation}
+\hypertarget{class_dynamic_sparse_matrix_a17501e94beed85eb9cad33fa5520d398}{\index{Dynamic\-Sparse\-Matrix@{Dynamic\-Sparse\-Matrix}!Transposed\-Sparse\-Matrix@{Transposed\-Sparse\-Matrix}}
+\index{Transposed\-Sparse\-Matrix@{Transposed\-Sparse\-Matrix}!DynamicSparseMatrix@{Dynamic\-Sparse\-Matrix}}
+\subsubsection[{Transposed\-Sparse\-Matrix}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar, int \-\_\-\-Flags$>$ typedef {\bf Dynamic\-Sparse\-Matrix}$<${\bf Scalar},({\bf Flags}\&$\sim${\bf Row\-Major\-Bit})$|$({\bf Is\-Row\-Major}?Row\-Major\-Bit\-:0)$>$ {\bf Dynamic\-Sparse\-Matrix}$<$ \-\_\-\-Scalar, \-\_\-\-Flags $>$\-::{\bf Transposed\-Sparse\-Matrix}\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_dynamic_sparse_matrix_a17501e94beed85eb9cad33fa5520d398}
+
+
+Definition at line 74 of file Dynamic\-Sparse\-Matrix.\-h.
+
+
+
+\subsection{Member Enumeration Documentation}
+\hypertarget{class_dynamic_sparse_matrix_a47215f6c238780cd57e81e75ab6d4263}{\subsubsection[{anonymous enum}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar, int \-\_\-\-Flags$>$ anonymous enum\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_dynamic_sparse_matrix_a47215f6c238780cd57e81e75ab6d4263}
+\begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{Is\-Row\-Major@{Is\-Row\-Major}!Dynamic\-Sparse\-Matrix@{Dynamic\-Sparse\-Matrix}}\index{Dynamic\-Sparse\-Matrix@{Dynamic\-Sparse\-Matrix}!Is\-Row\-Major@{Is\-Row\-Major}}\item[{\em 
+\hypertarget{class_dynamic_sparse_matrix_a47215f6c238780cd57e81e75ab6d4263af7eb92e91c48fdf4583d99c7c3bbd3db}{Is\-Row\-Major}\label{class_dynamic_sparse_matrix_a47215f6c238780cd57e81e75ab6d4263af7eb92e91c48fdf4583d99c7c3bbd3db}
+}]\end{description}
+\end{Desc}
+
+
+Definition at line 73 of file Dynamic\-Sparse\-Matrix.\-h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_dynamic_sparse_matrix_a943fafa8bda9f970eed02bc9c849c473}{\index{Dynamic\-Sparse\-Matrix@{Dynamic\-Sparse\-Matrix}!Dynamic\-Sparse\-Matrix@{Dynamic\-Sparse\-Matrix}}
+\index{Dynamic\-Sparse\-Matrix@{Dynamic\-Sparse\-Matrix}!DynamicSparseMatrix@{Dynamic\-Sparse\-Matrix}}
+\subsubsection[{Dynamic\-Sparse\-Matrix}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar, int \-\_\-\-Flags$>$ {\bf Dynamic\-Sparse\-Matrix}$<$ \-\_\-\-Scalar, \-\_\-\-Flags $>$\-::{\bf Dynamic\-Sparse\-Matrix} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_dynamic_sparse_matrix_a943fafa8bda9f970eed02bc9c849c473}
+
+
+Definition at line 223 of file Dynamic\-Sparse\-Matrix.\-h.
+
+\hypertarget{class_dynamic_sparse_matrix_a890f3a2e7d7b3aa4bdfda5c32be3b63c}{\index{Dynamic\-Sparse\-Matrix@{Dynamic\-Sparse\-Matrix}!Dynamic\-Sparse\-Matrix@{Dynamic\-Sparse\-Matrix}}
+\index{Dynamic\-Sparse\-Matrix@{Dynamic\-Sparse\-Matrix}!DynamicSparseMatrix@{Dynamic\-Sparse\-Matrix}}
+\subsubsection[{Dynamic\-Sparse\-Matrix}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar, int \-\_\-\-Flags$>$ {\bf Dynamic\-Sparse\-Matrix}$<$ \-\_\-\-Scalar, \-\_\-\-Flags $>$\-::{\bf Dynamic\-Sparse\-Matrix} (
+\begin{DoxyParamCaption}
+\item[{{\bf int}}]{rows, }
+\item[{{\bf int}}]{cols}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_dynamic_sparse_matrix_a890f3a2e7d7b3aa4bdfda5c32be3b63c}
+
+
+Definition at line 229 of file Dynamic\-Sparse\-Matrix.\-h.
+
+\hypertarget{class_dynamic_sparse_matrix_ae42748dc572facd328c8475d951a2af2}{\index{Dynamic\-Sparse\-Matrix@{Dynamic\-Sparse\-Matrix}!Dynamic\-Sparse\-Matrix@{Dynamic\-Sparse\-Matrix}}
+\index{Dynamic\-Sparse\-Matrix@{Dynamic\-Sparse\-Matrix}!DynamicSparseMatrix@{Dynamic\-Sparse\-Matrix}}
+\subsubsection[{Dynamic\-Sparse\-Matrix}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar, int \-\_\-\-Flags$>$ template$<$typename Other\-Derived $>$ {\bf Dynamic\-Sparse\-Matrix}$<$ \-\_\-\-Scalar, \-\_\-\-Flags $>$\-::{\bf Dynamic\-Sparse\-Matrix} (
+\begin{DoxyParamCaption}
+\item[{const {\bf Sparse\-Matrix\-Base}$<$ Other\-Derived $>$ \&}]{other}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_dynamic_sparse_matrix_ae42748dc572facd328c8475d951a2af2}
+
+
+Definition at line 236 of file Dynamic\-Sparse\-Matrix.\-h.
+
+\hypertarget{class_dynamic_sparse_matrix_a4f5b6a48565dd7f17d2c5b412f4e0307}{\index{Dynamic\-Sparse\-Matrix@{Dynamic\-Sparse\-Matrix}!Dynamic\-Sparse\-Matrix@{Dynamic\-Sparse\-Matrix}}
+\index{Dynamic\-Sparse\-Matrix@{Dynamic\-Sparse\-Matrix}!DynamicSparseMatrix@{Dynamic\-Sparse\-Matrix}}
+\subsubsection[{Dynamic\-Sparse\-Matrix}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar, int \-\_\-\-Flags$>$ {\bf Dynamic\-Sparse\-Matrix}$<$ \-\_\-\-Scalar, \-\_\-\-Flags $>$\-::{\bf Dynamic\-Sparse\-Matrix} (
+\begin{DoxyParamCaption}
+\item[{const {\bf Dynamic\-Sparse\-Matrix}$<$ \-\_\-\-Scalar, \-\_\-\-Flags $>$ \&}]{other}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_dynamic_sparse_matrix_a4f5b6a48565dd7f17d2c5b412f4e0307}
+
+
+Definition at line 242 of file Dynamic\-Sparse\-Matrix.\-h.
+
+\hypertarget{class_dynamic_sparse_matrix_ada45fc90c548b548977e7be90b3a1b0d}{\index{Dynamic\-Sparse\-Matrix@{Dynamic\-Sparse\-Matrix}!$\sim$\-Dynamic\-Sparse\-Matrix@{$\sim$\-Dynamic\-Sparse\-Matrix}}
+\index{$\sim$\-Dynamic\-Sparse\-Matrix@{$\sim$\-Dynamic\-Sparse\-Matrix}!DynamicSparseMatrix@{Dynamic\-Sparse\-Matrix}}
+\subsubsection[{$\sim$\-Dynamic\-Sparse\-Matrix}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar, int \-\_\-\-Flags$>$ {\bf Dynamic\-Sparse\-Matrix}$<$ \-\_\-\-Scalar, \-\_\-\-Flags $>$\-::$\sim${\bf Dynamic\-Sparse\-Matrix} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_dynamic_sparse_matrix_ada45fc90c548b548977e7be90b3a1b0d}
+Destructor 
+
+Definition at line 277 of file Dynamic\-Sparse\-Matrix.\-h.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_dynamic_sparse_matrix_a881ecf23d26eddc582d88b58d634310c}{\index{Dynamic\-Sparse\-Matrix@{Dynamic\-Sparse\-Matrix}!\-\_\-data@{\-\_\-data}}
+\index{\-\_\-data@{\-\_\-data}!DynamicSparseMatrix@{Dynamic\-Sparse\-Matrix}}
+\subsubsection[{\-\_\-data}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar, int \-\_\-\-Flags$>$ std\-::vector$<${\bf Compressed\-Storage}$<${\bf Scalar}$>$ $>$\& {\bf Dynamic\-Sparse\-Matrix}$<$ \-\_\-\-Scalar, \-\_\-\-Flags $>$\-::\-\_\-data (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_dynamic_sparse_matrix_a881ecf23d26eddc582d88b58d634310c}
+
+
+Definition at line 87 of file Dynamic\-Sparse\-Matrix.\-h.
+
+\hypertarget{class_dynamic_sparse_matrix_a04291269ee749554724e7ca0987da09a}{\index{Dynamic\-Sparse\-Matrix@{Dynamic\-Sparse\-Matrix}!\-\_\-data@{\-\_\-data}}
+\index{\-\_\-data@{\-\_\-data}!DynamicSparseMatrix@{Dynamic\-Sparse\-Matrix}}
+\subsubsection[{\-\_\-data}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar, int \-\_\-\-Flags$>$ const std\-::vector$<${\bf Compressed\-Storage}$<${\bf Scalar}$>$ $>$\& {\bf Dynamic\-Sparse\-Matrix}$<$ \-\_\-\-Scalar, \-\_\-\-Flags $>$\-::\-\_\-data (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_dynamic_sparse_matrix_a04291269ee749554724e7ca0987da09a}
+
+
+Definition at line 88 of file Dynamic\-Sparse\-Matrix.\-h.
+
+\hypertarget{class_dynamic_sparse_matrix_a4a579bbd419173b1dad770ba778b53c6}{\index{Dynamic\-Sparse\-Matrix@{Dynamic\-Sparse\-Matrix}!coeff@{coeff}}
+\index{coeff@{coeff}!DynamicSparseMatrix@{Dynamic\-Sparse\-Matrix}}
+\subsubsection[{coeff}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar, int \-\_\-\-Flags$>$ {\bf Scalar} {\bf Dynamic\-Sparse\-Matrix}$<$ \-\_\-\-Scalar, \-\_\-\-Flags $>$\-::coeff (
+\begin{DoxyParamCaption}
+\item[{{\bf int}}]{row, }
+\item[{{\bf int}}]{col}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_dynamic_sparse_matrix_a4a579bbd419173b1dad770ba778b53c6}
+\begin{DoxyReturn}{Returns}
+the coefficient value at given position {\itshape row}, {\itshape col} This operation involes a log(rho$\ast$outer\-\_\-size) binary search. 
+\end{DoxyReturn}
+
+
+Definition at line 93 of file Dynamic\-Sparse\-Matrix.\-h.
+
+\hypertarget{class_dynamic_sparse_matrix_ab2520b9db34bb0a0108717576d425b59}{\index{Dynamic\-Sparse\-Matrix@{Dynamic\-Sparse\-Matrix}!coeff\-Ref@{coeff\-Ref}}
+\index{coeff\-Ref@{coeff\-Ref}!DynamicSparseMatrix@{Dynamic\-Sparse\-Matrix}}
+\subsubsection[{coeff\-Ref}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar, int \-\_\-\-Flags$>$ {\bf Scalar}\& {\bf Dynamic\-Sparse\-Matrix}$<$ \-\_\-\-Scalar, \-\_\-\-Flags $>$\-::coeff\-Ref (
+\begin{DoxyParamCaption}
+\item[{{\bf int}}]{row, }
+\item[{{\bf int}}]{col}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_dynamic_sparse_matrix_ab2520b9db34bb0a0108717576d425b59}
+\begin{DoxyReturn}{Returns}
+a reference to the coefficient value at given position {\itshape row}, {\itshape col} This operation involes a log(rho$\ast$outer\-\_\-size) binary search. If the coefficient does not exist yet, then a sorted insertion into a sequential buffer is performed. 
+\end{DoxyReturn}
+
+
+Definition at line 104 of file Dynamic\-Sparse\-Matrix.\-h.
+
+\hypertarget{class_dynamic_sparse_matrix_a227b1cc3a3e46b5483a9d8881300c3a1}{\index{Dynamic\-Sparse\-Matrix@{Dynamic\-Sparse\-Matrix}!cols@{cols}}
+\index{cols@{cols}!DynamicSparseMatrix@{Dynamic\-Sparse\-Matrix}}
+\subsubsection[{cols}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar, int \-\_\-\-Flags$>$ {\bf int} {\bf Dynamic\-Sparse\-Matrix}$<$ \-\_\-\-Scalar, \-\_\-\-Flags $>$\-::cols (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_dynamic_sparse_matrix_a227b1cc3a3e46b5483a9d8881300c3a1}
+
+
+Definition at line 82 of file Dynamic\-Sparse\-Matrix.\-h.
+
+\hypertarget{class_dynamic_sparse_matrix_a825b78d0a22117193c9a556a597a9726}{\index{Dynamic\-Sparse\-Matrix@{Dynamic\-Sparse\-Matrix}!E\-I\-G\-E\-N\-\_\-\-S\-P\-A\-R\-S\-E\-\_\-\-G\-E\-N\-E\-R\-I\-C\-\_\-\-P\-U\-B\-L\-I\-C\-\_\-\-I\-N\-T\-E\-R\-F\-A\-C\-E@{E\-I\-G\-E\-N\-\_\-\-S\-P\-A\-R\-S\-E\-\_\-\-G\-E\-N\-E\-R\-I\-C\-\_\-\-P\-U\-B\-L\-I\-C\-\_\-\-I\-N\-T\-E\-R\-F\-A\-C\-E}}
+\index{E\-I\-G\-E\-N\-\_\-\-S\-P\-A\-R\-S\-E\-\_\-\-G\-E\-N\-E\-R\-I\-C\-\_\-\-P\-U\-B\-L\-I\-C\-\_\-\-I\-N\-T\-E\-R\-F\-A\-C\-E@{E\-I\-G\-E\-N\-\_\-\-S\-P\-A\-R\-S\-E\-\_\-\-G\-E\-N\-E\-R\-I\-C\-\_\-\-P\-U\-B\-L\-I\-C\-\_\-\-I\-N\-T\-E\-R\-F\-A\-C\-E}!DynamicSparseMatrix@{Dynamic\-Sparse\-Matrix}}
+\subsubsection[{E\-I\-G\-E\-N\-\_\-\-S\-P\-A\-R\-S\-E\-\_\-\-G\-E\-N\-E\-R\-I\-C\-\_\-\-P\-U\-B\-L\-I\-C\-\_\-\-I\-N\-T\-E\-R\-F\-A\-C\-E}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar, int \-\_\-\-Flags$>$ {\bf Dynamic\-Sparse\-Matrix}$<$ \-\_\-\-Scalar, \-\_\-\-Flags $>$\-::E\-I\-G\-E\-N\-\_\-\-S\-P\-A\-R\-S\-E\-\_\-\-G\-E\-N\-E\-R\-I\-C\-\_\-\-P\-U\-B\-L\-I\-C\-\_\-\-I\-N\-T\-E\-R\-F\-A\-C\-E (
+\begin{DoxyParamCaption}
+\item[{{\bf Dynamic\-Sparse\-Matrix}$<$ \-\_\-\-Scalar, \-\_\-\-Flags $>$}]{}
+\end{DoxyParamCaption}
+)}}\label{class_dynamic_sparse_matrix_a825b78d0a22117193c9a556a597a9726}
+\hypertarget{class_dynamic_sparse_matrix_aeec00696812d28ae6b9a204ed00d1ad2}{\index{Dynamic\-Sparse\-Matrix@{Dynamic\-Sparse\-Matrix}!end\-Fill@{end\-Fill}}
+\index{end\-Fill@{end\-Fill}!DynamicSparseMatrix@{Dynamic\-Sparse\-Matrix}}
+\subsubsection[{end\-Fill}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar, int \-\_\-\-Flags$>$ {\bf void} {\bf Dynamic\-Sparse\-Matrix}$<$ \-\_\-\-Scalar, \-\_\-\-Flags $>$\-::end\-Fill (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_dynamic_sparse_matrix_aeec00696812d28ae6b9a204ed00d1ad2}
+Does nothing. Provided for compatibility with \hyperlink{class_sparse_matrix}{Sparse\-Matrix}. 
+
+Definition at line 185 of file Dynamic\-Sparse\-Matrix.\-h.
+
+\hypertarget{class_dynamic_sparse_matrix_a554d78615ccdbb77dd6b79eba1a9bc0f}{\index{Dynamic\-Sparse\-Matrix@{Dynamic\-Sparse\-Matrix}!fill@{fill}}
+\index{fill@{fill}!DynamicSparseMatrix@{Dynamic\-Sparse\-Matrix}}
+\subsubsection[{fill}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar, int \-\_\-\-Flags$>$ {\bf Scalar}\& {\bf Dynamic\-Sparse\-Matrix}$<$ \-\_\-\-Scalar, \-\_\-\-Flags $>$\-::fill (
+\begin{DoxyParamCaption}
+\item[{{\bf int}}]{row, }
+\item[{{\bf int}}]{col}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_dynamic_sparse_matrix_a554d78615ccdbb77dd6b79eba1a9bc0f}
+inserts a nonzero coefficient at given coordinates {\itshape row}, {\itshape col} and returns its reference assuming that\-: 1 -\/ the coefficient does not exist yet 2 -\/ this the coefficient with greater inner coordinate for the given outer coordinate. In other words, assuming {\ttfamily $\ast$this} is column-\/major, then there must not exists any nonzero coefficient of coordinates {\ttfamily i} {\ttfamily x} {\itshape col} such that {\ttfamily i} $>$= {\itshape row}. Otherwise the matrix is invalid.
+
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_dynamic_sparse_matrix_a389f0c6b4830d8bc65aaa39d324ab0d9}{fillrand()}, \hyperlink{class_dynamic_sparse_matrix_ab2520b9db34bb0a0108717576d425b59}{coeff\-Ref()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 150 of file Dynamic\-Sparse\-Matrix.\-h.
+
+\hypertarget{class_dynamic_sparse_matrix_a389f0c6b4830d8bc65aaa39d324ab0d9}{\index{Dynamic\-Sparse\-Matrix@{Dynamic\-Sparse\-Matrix}!fillrand@{fillrand}}
+\index{fillrand@{fillrand}!DynamicSparseMatrix@{Dynamic\-Sparse\-Matrix}}
+\subsubsection[{fillrand}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar, int \-\_\-\-Flags$>$ {\bf Scalar}\& {\bf Dynamic\-Sparse\-Matrix}$<$ \-\_\-\-Scalar, \-\_\-\-Flags $>$\-::fillrand (
+\begin{DoxyParamCaption}
+\item[{{\bf int}}]{row, }
+\item[{{\bf int}}]{col}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_dynamic_sparse_matrix_a389f0c6b4830d8bc65aaa39d324ab0d9}
+Like \hyperlink{class_dynamic_sparse_matrix_a554d78615ccdbb77dd6b79eba1a9bc0f}{fill()} but with random inner coordinates. Compared to the generic \hyperlink{class_dynamic_sparse_matrix_ab2520b9db34bb0a0108717576d425b59}{coeff\-Ref()}, the unique limitation is that we assume the coefficient does not exist yet. 
+
+Definition at line 164 of file Dynamic\-Sparse\-Matrix.\-h.
+
+\hypertarget{class_dynamic_sparse_matrix_af4365829fe97f1963003c508413e7133}{\index{Dynamic\-Sparse\-Matrix@{Dynamic\-Sparse\-Matrix}!inner\-Non\-Zeros@{inner\-Non\-Zeros}}
+\index{inner\-Non\-Zeros@{inner\-Non\-Zeros}!DynamicSparseMatrix@{Dynamic\-Sparse\-Matrix}}
+\subsubsection[{inner\-Non\-Zeros}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar, int \-\_\-\-Flags$>$ {\bf int} {\bf Dynamic\-Sparse\-Matrix}$<$ \-\_\-\-Scalar, \-\_\-\-Flags $>$\-::inner\-Non\-Zeros (
+\begin{DoxyParamCaption}
+\item[{{\bf int}}]{j}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_dynamic_sparse_matrix_af4365829fe97f1963003c508413e7133}
+
+
+Definition at line 85 of file Dynamic\-Sparse\-Matrix.\-h.
+
+\hypertarget{class_dynamic_sparse_matrix_adc3a7854d255576150092c7078c99355}{\index{Dynamic\-Sparse\-Matrix@{Dynamic\-Sparse\-Matrix}!inner\-Size@{inner\-Size}}
+\index{inner\-Size@{inner\-Size}!DynamicSparseMatrix@{Dynamic\-Sparse\-Matrix}}
+\subsubsection[{inner\-Size}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar, int \-\_\-\-Flags$>$ {\bf int} {\bf Dynamic\-Sparse\-Matrix}$<$ \-\_\-\-Scalar, \-\_\-\-Flags $>$\-::inner\-Size (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_dynamic_sparse_matrix_adc3a7854d255576150092c7078c99355}
+
+
+Definition at line 83 of file Dynamic\-Sparse\-Matrix.\-h.
+
+\hypertarget{class_dynamic_sparse_matrix_a56c128669668492b0a1d080314b12971}{\index{Dynamic\-Sparse\-Matrix@{Dynamic\-Sparse\-Matrix}!non\-Zeros@{non\-Zeros}}
+\index{non\-Zeros@{non\-Zeros}!DynamicSparseMatrix@{Dynamic\-Sparse\-Matrix}}
+\subsubsection[{non\-Zeros}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar, int \-\_\-\-Flags$>$ {\bf int} {\bf Dynamic\-Sparse\-Matrix}$<$ \-\_\-\-Scalar, \-\_\-\-Flags $>$\-::non\-Zeros (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_dynamic_sparse_matrix_a56c128669668492b0a1d080314b12971}
+\begin{DoxyReturn}{Returns}
+the number of non zero coefficients 
+\end{DoxyReturn}
+
+
+Definition at line 120 of file Dynamic\-Sparse\-Matrix.\-h.
+
+\hypertarget{class_dynamic_sparse_matrix_a883a384db19cb797d3bb83665297b75e}{\index{Dynamic\-Sparse\-Matrix@{Dynamic\-Sparse\-Matrix}!operator=@{operator=}}
+\index{operator=@{operator=}!DynamicSparseMatrix@{Dynamic\-Sparse\-Matrix}}
+\subsubsection[{operator=}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar, int \-\_\-\-Flags$>$ {\bf Dynamic\-Sparse\-Matrix}\& {\bf Dynamic\-Sparse\-Matrix}$<$ \-\_\-\-Scalar, \-\_\-\-Flags $>$\-::operator= (
+\begin{DoxyParamCaption}
+\item[{const {\bf Dynamic\-Sparse\-Matrix}$<$ \-\_\-\-Scalar, \-\_\-\-Flags $>$ \&}]{other}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_dynamic_sparse_matrix_a883a384db19cb797d3bb83665297b75e}
+
+
+Definition at line 256 of file Dynamic\-Sparse\-Matrix.\-h.
+
+\hypertarget{class_dynamic_sparse_matrix_a1feedfed719a0c75ab39ae18afe82e68}{\index{Dynamic\-Sparse\-Matrix@{Dynamic\-Sparse\-Matrix}!operator=@{operator=}}
+\index{operator=@{operator=}!DynamicSparseMatrix@{Dynamic\-Sparse\-Matrix}}
+\subsubsection[{operator=}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar, int \-\_\-\-Flags$>$ template$<$typename Other\-Derived $>$ {\bf Dynamic\-Sparse\-Matrix}\& {\bf Dynamic\-Sparse\-Matrix}$<$ \-\_\-\-Scalar, \-\_\-\-Flags $>$\-::operator= (
+\begin{DoxyParamCaption}
+\item[{const {\bf Sparse\-Matrix\-Base}$<$ Other\-Derived $>$ \&}]{other}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_dynamic_sparse_matrix_a1feedfed719a0c75ab39ae18afe82e68}
+
+
+Definition at line 271 of file Dynamic\-Sparse\-Matrix.\-h.
+
+\hypertarget{class_dynamic_sparse_matrix_acd54a8b1b1a26df65a17a459a09f9958}{\index{Dynamic\-Sparse\-Matrix@{Dynamic\-Sparse\-Matrix}!outer\-Size@{outer\-Size}}
+\index{outer\-Size@{outer\-Size}!DynamicSparseMatrix@{Dynamic\-Sparse\-Matrix}}
+\subsubsection[{outer\-Size}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar, int \-\_\-\-Flags$>$ {\bf int} {\bf Dynamic\-Sparse\-Matrix}$<$ \-\_\-\-Scalar, \-\_\-\-Flags $>$\-::outer\-Size (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_dynamic_sparse_matrix_acd54a8b1b1a26df65a17a459a09f9958}
+
+
+Definition at line 84 of file Dynamic\-Sparse\-Matrix.\-h.
+
+\hypertarget{class_dynamic_sparse_matrix_a64dd4475ae71ef8d4f5fbe4d5239fb02}{\index{Dynamic\-Sparse\-Matrix@{Dynamic\-Sparse\-Matrix}!prune@{prune}}
+\index{prune@{prune}!DynamicSparseMatrix@{Dynamic\-Sparse\-Matrix}}
+\subsubsection[{prune}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar, int \-\_\-\-Flags$>$ {\bf void} {\bf Dynamic\-Sparse\-Matrix}$<$ \-\_\-\-Scalar, \-\_\-\-Flags $>$\-::prune (
+\begin{DoxyParamCaption}
+\item[{{\bf Scalar}}]{reference, }
+\item[{{\bf Real\-Scalar}}]{epsilon = {\ttfamily {\bf precision}$<${\bf Real\-Scalar}$>$()}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_dynamic_sparse_matrix_a64dd4475ae71ef8d4f5fbe4d5239fb02}
+
+
+Definition at line 187 of file Dynamic\-Sparse\-Matrix.\-h.
+
+\hypertarget{class_dynamic_sparse_matrix_af6c52ce9553e5a568c8f9de0ed80d392}{\index{Dynamic\-Sparse\-Matrix@{Dynamic\-Sparse\-Matrix}!resize@{resize}}
+\index{resize@{resize}!DynamicSparseMatrix@{Dynamic\-Sparse\-Matrix}}
+\subsubsection[{resize}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar, int \-\_\-\-Flags$>$ {\bf void} {\bf Dynamic\-Sparse\-Matrix}$<$ \-\_\-\-Scalar, \-\_\-\-Flags $>$\-::resize (
+\begin{DoxyParamCaption}
+\item[{{\bf int}}]{rows, }
+\item[{{\bf int}}]{cols}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_dynamic_sparse_matrix_af6c52ce9553e5a568c8f9de0ed80d392}
+Resize the matrix without preserving the data (the matrix is set to zero) 
+
+Definition at line 195 of file Dynamic\-Sparse\-Matrix.\-h.
+
+\hypertarget{class_dynamic_sparse_matrix_a79d2728e4eeeda5cc62c8c58a71b1434}{\index{Dynamic\-Sparse\-Matrix@{Dynamic\-Sparse\-Matrix}!resize\-And\-Keep\-Data@{resize\-And\-Keep\-Data}}
+\index{resize\-And\-Keep\-Data@{resize\-And\-Keep\-Data}!DynamicSparseMatrix@{Dynamic\-Sparse\-Matrix}}
+\subsubsection[{resize\-And\-Keep\-Data}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar, int \-\_\-\-Flags$>$ {\bf void} {\bf Dynamic\-Sparse\-Matrix}$<$ \-\_\-\-Scalar, \-\_\-\-Flags $>$\-::resize\-And\-Keep\-Data (
+\begin{DoxyParamCaption}
+\item[{{\bf int}}]{rows, }
+\item[{{\bf int}}]{cols}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_dynamic_sparse_matrix_a79d2728e4eeeda5cc62c8c58a71b1434}
+
+
+Definition at line 206 of file Dynamic\-Sparse\-Matrix.\-h.
+
+\hypertarget{class_dynamic_sparse_matrix_abe44ef949173f825ff346e096bb074a4}{\index{Dynamic\-Sparse\-Matrix@{Dynamic\-Sparse\-Matrix}!rows@{rows}}
+\index{rows@{rows}!DynamicSparseMatrix@{Dynamic\-Sparse\-Matrix}}
+\subsubsection[{rows}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar, int \-\_\-\-Flags$>$ {\bf int} {\bf Dynamic\-Sparse\-Matrix}$<$ \-\_\-\-Scalar, \-\_\-\-Flags $>$\-::rows (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_dynamic_sparse_matrix_abe44ef949173f825ff346e096bb074a4}
+
+
+Definition at line 81 of file Dynamic\-Sparse\-Matrix.\-h.
+
+\hypertarget{class_dynamic_sparse_matrix_a0838e2a7cf6c8b20d19b765e275a2cb6}{\index{Dynamic\-Sparse\-Matrix@{Dynamic\-Sparse\-Matrix}!set\-Zero@{set\-Zero}}
+\index{set\-Zero@{set\-Zero}!DynamicSparseMatrix@{Dynamic\-Sparse\-Matrix}}
+\subsubsection[{set\-Zero}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar, int \-\_\-\-Flags$>$ {\bf void} {\bf Dynamic\-Sparse\-Matrix}$<$ \-\_\-\-Scalar, \-\_\-\-Flags $>$\-::set\-Zero (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_dynamic_sparse_matrix_a0838e2a7cf6c8b20d19b765e275a2cb6}
+
+
+Definition at line 113 of file Dynamic\-Sparse\-Matrix.\-h.
+
+\hypertarget{class_dynamic_sparse_matrix_a21e0006a0e0b7fcbd71792df414f8f41}{\index{Dynamic\-Sparse\-Matrix@{Dynamic\-Sparse\-Matrix}!start\-Fill@{start\-Fill}}
+\index{start\-Fill@{start\-Fill}!DynamicSparseMatrix@{Dynamic\-Sparse\-Matrix}}
+\subsubsection[{start\-Fill}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar, int \-\_\-\-Flags$>$ {\bf void} {\bf Dynamic\-Sparse\-Matrix}$<$ \-\_\-\-Scalar, \-\_\-\-Flags $>$\-::start\-Fill (
+\begin{DoxyParamCaption}
+\item[{{\bf int}}]{reserve\-Size = {\ttfamily 1000}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_dynamic_sparse_matrix_a21e0006a0e0b7fcbd71792df414f8f41}
+Set the matrix to zero and reserve the memory for {\itshape reserve\-Size} nonzero coefficients. 
+
+Definition at line 129 of file Dynamic\-Sparse\-Matrix.\-h.
+
+\hypertarget{class_dynamic_sparse_matrix_a91e44a8bb1e4586ebd549c297c2dfb06}{\index{Dynamic\-Sparse\-Matrix@{Dynamic\-Sparse\-Matrix}!swap@{swap}}
+\index{swap@{swap}!DynamicSparseMatrix@{Dynamic\-Sparse\-Matrix}}
+\subsubsection[{swap}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar, int \-\_\-\-Flags$>$ {\bf void} {\bf Dynamic\-Sparse\-Matrix}$<$ \-\_\-\-Scalar, \-\_\-\-Flags $>$\-::swap (
+\begin{DoxyParamCaption}
+\item[{{\bf Dynamic\-Sparse\-Matrix}$<$ \-\_\-\-Scalar, \-\_\-\-Flags $>$ \&}]{other}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_dynamic_sparse_matrix_a91e44a8bb1e4586ebd549c297c2dfb06}
+
+
+Definition at line 248 of file Dynamic\-Sparse\-Matrix.\-h.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{class_dynamic_sparse_matrix_a9655a5f37dc37d24df30b047b346529f}{\index{Dynamic\-Sparse\-Matrix@{Dynamic\-Sparse\-Matrix}!m\-\_\-data@{m\-\_\-data}}
+\index{m\-\_\-data@{m\-\_\-data}!DynamicSparseMatrix@{Dynamic\-Sparse\-Matrix}}
+\subsubsection[{m\-\_\-data}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar, int \-\_\-\-Flags$>$ std\-::vector$<${\bf Compressed\-Storage}$<${\bf Scalar}$>$ $>$ {\bf Dynamic\-Sparse\-Matrix}$<$ \-\_\-\-Scalar, \-\_\-\-Flags $>$\-::m\-\_\-data\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_dynamic_sparse_matrix_a9655a5f37dc37d24df30b047b346529f}
+
+
+Definition at line 77 of file Dynamic\-Sparse\-Matrix.\-h.
+
+\hypertarget{class_dynamic_sparse_matrix_a647dcdae35dc9c1ff0d0cc0ae1194373}{\index{Dynamic\-Sparse\-Matrix@{Dynamic\-Sparse\-Matrix}!m\-\_\-inner\-Size@{m\-\_\-inner\-Size}}
+\index{m\-\_\-inner\-Size@{m\-\_\-inner\-Size}!DynamicSparseMatrix@{Dynamic\-Sparse\-Matrix}}
+\subsubsection[{m\-\_\-inner\-Size}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar, int \-\_\-\-Flags$>$ {\bf int} {\bf Dynamic\-Sparse\-Matrix}$<$ \-\_\-\-Scalar, \-\_\-\-Flags $>$\-::m\-\_\-inner\-Size\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_dynamic_sparse_matrix_a647dcdae35dc9c1ff0d0cc0ae1194373}
+
+
+Definition at line 76 of file Dynamic\-Sparse\-Matrix.\-h.
+
+\hypertarget{class_dynamic_sparse_matrix_a3d8ab26ff318f25e40796717685f7a62}{\index{Dynamic\-Sparse\-Matrix@{Dynamic\-Sparse\-Matrix}!Map@{Map}}
+\index{Map@{Map}!DynamicSparseMatrix@{Dynamic\-Sparse\-Matrix}}
+\subsubsection[{Map}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar, int \-\_\-\-Flags$>$ {\bf Flags} {\bf Dynamic\-Sparse\-Matrix}$<$ \-\_\-\-Scalar, \-\_\-\-Flags $>$\-::{\bf Map}}}\label{class_dynamic_sparse_matrix_a3d8ab26ff318f25e40796717685f7a62}
+
+
+Definition at line 69 of file Dynamic\-Sparse\-Matrix.\-h.
+
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/eigen/\-Eigen/src/\-Sparse/\hyperlink{_dynamic_sparse_matrix_8h}{Dynamic\-Sparse\-Matrix.\-h}\end{DoxyCompactItemize}

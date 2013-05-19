@@ -1,0 +1,352 @@
+\hypertarget{class_tridiagonalization}{\section{Tridiagonalization$<$ \-\_\-\-Matrix\-Type $>$ Class Template Reference}
+\label{class_tridiagonalization}\index{Tridiagonalization$<$ \-\_\-\-Matrix\-Type $>$@{Tridiagonalization$<$ \-\_\-\-Matrix\-Type $>$}}
+}
+
+
+Trigiagonal decomposition of a selfadjoint matrix.  
+
+
+
+
+{\ttfamily \#include $<$Tridiagonalization.\-h$>$}
+
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+enum \{ \hyperlink{class_tridiagonalization_a3689c5ded00bea1abc23f299a3a2190aa8c5d8707a645db9f17800f52ce809604}{Size} = Matrix\-Type\-:\-:Rows\-At\-Compile\-Time, 
+\hyperlink{class_tridiagonalization_a3689c5ded00bea1abc23f299a3a2190aa73700bfd4b6c78591ad89b0ccbad3ea3}{Size\-Minus\-One}, 
+\hyperlink{class_tridiagonalization_a3689c5ded00bea1abc23f299a3a2190aadc99f553fbae002450fc1099d959b66d}{Packet\-Size} = ei\-\_\-packet\-\_\-traits$<$Scalar$>$\-:\-:size
+ \}
+\item 
+typedef \-\_\-\-Matrix\-Type \hyperlink{class_tridiagonalization_a527ab9a2b51075a625d5a7f1ef44b3c6}{Matrix\-Type}
+\item 
+typedef Matrix\-Type\-::\-Scalar \hyperlink{class_tridiagonalization_af2675cb1bbb7f8887cfd61322141a699}{Scalar}
+\item 
+typedef \hyperlink{struct_num_traits}{Num\-Traits}$<$ \hyperlink{class_tridiagonalization_af2675cb1bbb7f8887cfd61322141a699}{Scalar} $>$\-::Real \hyperlink{class_tridiagonalization_a8c7be80d039862e1f930e22332ba1064}{Real\-Scalar}
+\item 
+typedef \hyperlink{structei__packet__traits}{ei\-\_\-packet\-\_\-traits}\\*
+$<$ \hyperlink{class_tridiagonalization_af2675cb1bbb7f8887cfd61322141a699}{Scalar} $>$\-::\hyperlink{glext_8h_a7d05960f4f1c1b11f3177dc963a45d86}{type} \hyperlink{class_tridiagonalization_a243d272d7194d42e8f1bdfa4df292568}{Packet}
+\item 
+typedef \hyperlink{class_matrix}{Matrix}$<$ \hyperlink{class_tridiagonalization_af2675cb1bbb7f8887cfd61322141a699}{Scalar}, \\*
+\hyperlink{class_tridiagonalization_a3689c5ded00bea1abc23f299a3a2190aa73700bfd4b6c78591ad89b0ccbad3ea3}{Size\-Minus\-One}, 1 $>$ \hyperlink{class_tridiagonalization_aae368c68d55fd86aa74b45fe1124864d}{Coeff\-Vector\-Type}
+\item 
+typedef \hyperlink{class_matrix}{Matrix}$<$ \hyperlink{class_tridiagonalization_a8c7be80d039862e1f930e22332ba1064}{Real\-Scalar}, \\*
+\hyperlink{class_tridiagonalization_a3689c5ded00bea1abc23f299a3a2190aa8c5d8707a645db9f17800f52ce809604}{Size}, 1 $>$ \hyperlink{class_tridiagonalization_a5ea34cf11c675c0a45c309aa7cb662b0}{Diagonal\-Type}
+\item 
+typedef \hyperlink{class_matrix}{Matrix}$<$ \hyperlink{class_tridiagonalization_a8c7be80d039862e1f930e22332ba1064}{Real\-Scalar}, \\*
+\hyperlink{class_tridiagonalization_a3689c5ded00bea1abc23f299a3a2190aa73700bfd4b6c78591ad89b0ccbad3ea3}{Size\-Minus\-One}, 1 $>$ \hyperlink{class_tridiagonalization_aa2c70f74fdd0ebda80b4dec2248f3732}{Sub\-Diagonal\-Type}
+\item 
+typedef \hyperlink{class_nest_by_value}{Nest\-By\-Value}\\*
+$<$ \hyperlink{class_diagonal_coeffs}{Diagonal\-Coeffs}$<$ \hyperlink{class_tridiagonalization_a527ab9a2b51075a625d5a7f1ef44b3c6}{Matrix\-Type} $>$\\*
+ $>$\-::Real\-Return\-Type \hyperlink{class_tridiagonalization_a4641fd1d32be493cb55fe788e331c9c6}{Diagonal\-Return\-Type}
+\item 
+typedef \hyperlink{class_nest_by_value}{Nest\-By\-Value}\\*
+$<$ \hyperlink{class_diagonal_coeffs}{Diagonal\-Coeffs}$<$ \hyperlink{class_nest_by_value}{Nest\-By\-Value}\\*
+$<$ \hyperlink{class_block}{Block}$<$ \hyperlink{class_tridiagonalization_a527ab9a2b51075a625d5a7f1ef44b3c6}{Matrix\-Type}, \\*
+\hyperlink{class_tridiagonalization_a3689c5ded00bea1abc23f299a3a2190aa73700bfd4b6c78591ad89b0ccbad3ea3}{Size\-Minus\-One}, \hyperlink{class_tridiagonalization_a3689c5ded00bea1abc23f299a3a2190aa73700bfd4b6c78591ad89b0ccbad3ea3}{Size\-Minus\-One} $>$\\*
+ $>$ $>$ $>$\-::Real\-Return\-Type \hyperlink{class_tridiagonalization_a33e6be2d3c2de1a7cebc05f5b90dc50a}{Sub\-Diagonal\-Return\-Type}
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_tridiagonalization_af6625afc4855bc84188358f1031cf7c4}{Tridiagonalization} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{glext_8h_a014d89bd76f74ef3a29c8f04b473eb76}{size}=\hyperlink{class_tridiagonalization_a3689c5ded00bea1abc23f299a3a2190aa8c5d8707a645db9f17800f52ce809604}{Size}==\hyperlink{_constants_8h_adc9da5be31bdce40c25a92c27999c0e3}{Dynamic}?2\-:\hyperlink{class_tridiagonalization_a3689c5ded00bea1abc23f299a3a2190aa8c5d8707a645db9f17800f52ce809604}{Size})
+\item 
+\hyperlink{class_tridiagonalization_a32e143d17f178b81d157eb31d160877a}{Tridiagonalization} (const \hyperlink{class_tridiagonalization_a527ab9a2b51075a625d5a7f1ef44b3c6}{Matrix\-Type} \&\hyperlink{glext_8h_a7b24a3f2f56eb1244ae69dacb4fecb6f}{matrix})
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_tridiagonalization_ad86cfcdc9152304a63d929ae81358b98}{compute} (const \hyperlink{class_tridiagonalization_a527ab9a2b51075a625d5a7f1ef44b3c6}{Matrix\-Type} \&\hyperlink{glext_8h_a7b24a3f2f56eb1244ae69dacb4fecb6f}{matrix})
+\item 
+\hyperlink{class_tridiagonalization_aae368c68d55fd86aa74b45fe1124864d}{Coeff\-Vector\-Type} \hyperlink{class_tridiagonalization_a1ef5dc380f26ea228f55c4b77caa2186}{householder\-Coefficients} (\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void}) const 
+\item 
+const \hyperlink{class_tridiagonalization_a527ab9a2b51075a625d5a7f1ef44b3c6}{Matrix\-Type} \& \hyperlink{class_tridiagonalization_ad823f2c67e16e26e28f1735101405e0d}{packed\-Matrix} (\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void}) const 
+\item 
+\hyperlink{class_tridiagonalization_a527ab9a2b51075a625d5a7f1ef44b3c6}{Matrix\-Type} \hyperlink{class_tridiagonalization_a734dd1491c57f8741a0b7d7b0456556e}{matrix\-Q} (\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void}) const 
+\item 
+\hyperlink{class_tridiagonalization_a527ab9a2b51075a625d5a7f1ef44b3c6}{Matrix\-Type} \hyperlink{class_tridiagonalization_ab48d716d1c42ae0b1bf34be711c72b19}{matrix\-T} (\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void}) const 
+\item 
+const \hyperlink{class_tridiagonalization_a4641fd1d32be493cb55fe788e331c9c6}{Diagonal\-Return\-Type} \hyperlink{class_tridiagonalization_aa23d77ff7f208e370b9a65cea783e7ad}{diagonal} (\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void}) const 
+\item 
+const \hyperlink{class_tridiagonalization_a33e6be2d3c2de1a7cebc05f5b90dc50a}{Sub\-Diagonal\-Return\-Type} \hyperlink{class_tridiagonalization_ab3b2263fb133bbfa58edde6ebd3ba92a}{sub\-Diagonal} (\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void}) const 
+\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_tridiagonalization_a5a85ea619add22c090f8625b2fdda4cf}{decompose\-In\-Place} (\hyperlink{class_tridiagonalization_a527ab9a2b51075a625d5a7f1ef44b3c6}{Matrix\-Type} \&\hyperlink{uavobjecttemplate_8m_a16a51e808b16c46bbfd36da2e37cd123}{mat}, \hyperlink{class_tridiagonalization_a5ea34cf11c675c0a45c309aa7cb662b0}{Diagonal\-Type} \&diag, \hyperlink{class_tridiagonalization_aa2c70f74fdd0ebda80b4dec2248f3732}{Sub\-Diagonal\-Type} \&subdiag, bool extract\-Q=true)
+\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_tridiagonalization_a527ab9a2b51075a625d5a7f1ef44b3c6}{Matrix\-Type} \hyperlink{class_tridiagonalization_a168483e5aed1af322c527c5f8627b4f8}{m\-\_\-matrix}
+\item 
+\hyperlink{class_tridiagonalization_aae368c68d55fd86aa74b45fe1124864d}{Coeff\-Vector\-Type} \hyperlink{class_tridiagonalization_a905f25c9997f645433bd34cc91f91344}{m\-\_\-h\-Coeffs}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$typename \-\_\-\-Matrix\-Type$>$class Tridiagonalization$<$ \-\_\-\-Matrix\-Type $>$}
+
+Trigiagonal decomposition of a selfadjoint matrix. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Matrix\-Type} & the type of the matrix of which we are performing the tridiagonalization\\
+\hline
+\end{DoxyParams}
+This class performs a tridiagonal decomposition of a selfadjoint matrix $ A $ such that\-: $ A = Q T Q^* $ where $ Q $ is unitary and $ T $ a real symmetric tridiagonal matrix.
+
+\begin{DoxySeeAlso}{See Also}
+Matrix\-Base\-::tridiagonalize() 
+\end{DoxySeeAlso}
+
+
+Definition at line 42 of file Tridiagonalization.\-h.
+
+
+
+\subsection{Member Typedef Documentation}
+\hypertarget{class_tridiagonalization_aae368c68d55fd86aa74b45fe1124864d}{\index{Tridiagonalization@{Tridiagonalization}!Coeff\-Vector\-Type@{Coeff\-Vector\-Type}}
+\index{Coeff\-Vector\-Type@{Coeff\-Vector\-Type}!Tridiagonalization@{Tridiagonalization}}
+\subsubsection[{Coeff\-Vector\-Type}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Matrix\-Type $>$ typedef {\bf Matrix}$<${\bf Scalar}, {\bf Size\-Minus\-One}, 1$>$ {\bf Tridiagonalization}$<$ \-\_\-\-Matrix\-Type $>$\-::{\bf Coeff\-Vector\-Type}}}\label{class_tridiagonalization_aae368c68d55fd86aa74b45fe1124864d}
+
+
+Definition at line 59 of file Tridiagonalization.\-h.
+
+\hypertarget{class_tridiagonalization_a4641fd1d32be493cb55fe788e331c9c6}{\index{Tridiagonalization@{Tridiagonalization}!Diagonal\-Return\-Type@{Diagonal\-Return\-Type}}
+\index{Diagonal\-Return\-Type@{Diagonal\-Return\-Type}!Tridiagonalization@{Tridiagonalization}}
+\subsubsection[{Diagonal\-Return\-Type}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Matrix\-Type $>$ typedef {\bf Nest\-By\-Value}$<${\bf Diagonal\-Coeffs}$<${\bf Matrix\-Type}$>$ $>$\-::Real\-Return\-Type {\bf Tridiagonalization}$<$ \-\_\-\-Matrix\-Type $>$\-::{\bf Diagonal\-Return\-Type}}}\label{class_tridiagonalization_a4641fd1d32be493cb55fe788e331c9c6}
+
+
+Definition at line 63 of file Tridiagonalization.\-h.
+
+\hypertarget{class_tridiagonalization_a5ea34cf11c675c0a45c309aa7cb662b0}{\index{Tridiagonalization@{Tridiagonalization}!Diagonal\-Type@{Diagonal\-Type}}
+\index{Diagonal\-Type@{Diagonal\-Type}!Tridiagonalization@{Tridiagonalization}}
+\subsubsection[{Diagonal\-Type}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Matrix\-Type $>$ typedef {\bf Matrix}$<${\bf Real\-Scalar}, {\bf Size}, 1$>$ {\bf Tridiagonalization}$<$ \-\_\-\-Matrix\-Type $>$\-::{\bf Diagonal\-Type}}}\label{class_tridiagonalization_a5ea34cf11c675c0a45c309aa7cb662b0}
+
+
+Definition at line 60 of file Tridiagonalization.\-h.
+
+\hypertarget{class_tridiagonalization_a527ab9a2b51075a625d5a7f1ef44b3c6}{\index{Tridiagonalization@{Tridiagonalization}!Matrix\-Type@{Matrix\-Type}}
+\index{Matrix\-Type@{Matrix\-Type}!Tridiagonalization@{Tridiagonalization}}
+\subsubsection[{Matrix\-Type}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Matrix\-Type $>$ typedef \-\_\-\-Matrix\-Type {\bf Tridiagonalization}$<$ \-\_\-\-Matrix\-Type $>$\-::{\bf Matrix\-Type}}}\label{class_tridiagonalization_a527ab9a2b51075a625d5a7f1ef44b3c6}
+
+
+Definition at line 46 of file Tridiagonalization.\-h.
+
+\hypertarget{class_tridiagonalization_a243d272d7194d42e8f1bdfa4df292568}{\index{Tridiagonalization@{Tridiagonalization}!Packet@{Packet}}
+\index{Packet@{Packet}!Tridiagonalization@{Tridiagonalization}}
+\subsubsection[{Packet}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Matrix\-Type $>$ typedef {\bf ei\-\_\-packet\-\_\-traits}$<${\bf Scalar}$>$\-::{\bf type} {\bf Tridiagonalization}$<$ \-\_\-\-Matrix\-Type $>$\-::{\bf Packet}}}\label{class_tridiagonalization_a243d272d7194d42e8f1bdfa4df292568}
+
+
+Definition at line 49 of file Tridiagonalization.\-h.
+
+\hypertarget{class_tridiagonalization_a8c7be80d039862e1f930e22332ba1064}{\index{Tridiagonalization@{Tridiagonalization}!Real\-Scalar@{Real\-Scalar}}
+\index{Real\-Scalar@{Real\-Scalar}!Tridiagonalization@{Tridiagonalization}}
+\subsubsection[{Real\-Scalar}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Matrix\-Type $>$ typedef {\bf Num\-Traits}$<${\bf Scalar}$>$\-::Real {\bf Tridiagonalization}$<$ \-\_\-\-Matrix\-Type $>$\-::{\bf Real\-Scalar}}}\label{class_tridiagonalization_a8c7be80d039862e1f930e22332ba1064}
+
+
+Definition at line 48 of file Tridiagonalization.\-h.
+
+\hypertarget{class_tridiagonalization_af2675cb1bbb7f8887cfd61322141a699}{\index{Tridiagonalization@{Tridiagonalization}!Scalar@{Scalar}}
+\index{Scalar@{Scalar}!Tridiagonalization@{Tridiagonalization}}
+\subsubsection[{Scalar}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Matrix\-Type $>$ typedef Matrix\-Type\-::\-Scalar {\bf Tridiagonalization}$<$ \-\_\-\-Matrix\-Type $>$\-::{\bf Scalar}}}\label{class_tridiagonalization_af2675cb1bbb7f8887cfd61322141a699}
+
+
+Definition at line 47 of file Tridiagonalization.\-h.
+
+\hypertarget{class_tridiagonalization_a33e6be2d3c2de1a7cebc05f5b90dc50a}{\index{Tridiagonalization@{Tridiagonalization}!Sub\-Diagonal\-Return\-Type@{Sub\-Diagonal\-Return\-Type}}
+\index{Sub\-Diagonal\-Return\-Type@{Sub\-Diagonal\-Return\-Type}!Tridiagonalization@{Tridiagonalization}}
+\subsubsection[{Sub\-Diagonal\-Return\-Type}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Matrix\-Type $>$ typedef {\bf Nest\-By\-Value}$<${\bf Diagonal\-Coeffs}$<$ {\bf Nest\-By\-Value}$<${\bf Block}$<${\bf Matrix\-Type},{\bf Size\-Minus\-One},{\bf Size\-Minus\-One}$>$ $>$ $>$ $>$\-::Real\-Return\-Type {\bf Tridiagonalization}$<$ \-\_\-\-Matrix\-Type $>$\-::{\bf Sub\-Diagonal\-Return\-Type}}}\label{class_tridiagonalization_a33e6be2d3c2de1a7cebc05f5b90dc50a}
+
+
+Definition at line 66 of file Tridiagonalization.\-h.
+
+\hypertarget{class_tridiagonalization_aa2c70f74fdd0ebda80b4dec2248f3732}{\index{Tridiagonalization@{Tridiagonalization}!Sub\-Diagonal\-Type@{Sub\-Diagonal\-Type}}
+\index{Sub\-Diagonal\-Type@{Sub\-Diagonal\-Type}!Tridiagonalization@{Tridiagonalization}}
+\subsubsection[{Sub\-Diagonal\-Type}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Matrix\-Type $>$ typedef {\bf Matrix}$<${\bf Real\-Scalar}, {\bf Size\-Minus\-One}, 1$>$ {\bf Tridiagonalization}$<$ \-\_\-\-Matrix\-Type $>$\-::{\bf Sub\-Diagonal\-Type}}}\label{class_tridiagonalization_aa2c70f74fdd0ebda80b4dec2248f3732}
+
+
+Definition at line 61 of file Tridiagonalization.\-h.
+
+
+
+\subsection{Member Enumeration Documentation}
+\hypertarget{class_tridiagonalization_a3689c5ded00bea1abc23f299a3a2190a}{\subsubsection[{anonymous enum}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Matrix\-Type $>$ anonymous enum}}\label{class_tridiagonalization_a3689c5ded00bea1abc23f299a3a2190a}
+\begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{Size@{Size}!Tridiagonalization@{Tridiagonalization}}\index{Tridiagonalization@{Tridiagonalization}!Size@{Size}}\item[{\em 
+\hypertarget{class_tridiagonalization_a3689c5ded00bea1abc23f299a3a2190aa8c5d8707a645db9f17800f52ce809604}{Size}\label{class_tridiagonalization_a3689c5ded00bea1abc23f299a3a2190aa8c5d8707a645db9f17800f52ce809604}
+}]\index{Size\-Minus\-One@{Size\-Minus\-One}!Tridiagonalization@{Tridiagonalization}}\index{Tridiagonalization@{Tridiagonalization}!Size\-Minus\-One@{Size\-Minus\-One}}\item[{\em 
+\hypertarget{class_tridiagonalization_a3689c5ded00bea1abc23f299a3a2190aa73700bfd4b6c78591ad89b0ccbad3ea3}{Size\-Minus\-One}\label{class_tridiagonalization_a3689c5ded00bea1abc23f299a3a2190aa73700bfd4b6c78591ad89b0ccbad3ea3}
+}]\index{Packet\-Size@{Packet\-Size}!Tridiagonalization@{Tridiagonalization}}\index{Tridiagonalization@{Tridiagonalization}!Packet\-Size@{Packet\-Size}}\item[{\em 
+\hypertarget{class_tridiagonalization_a3689c5ded00bea1abc23f299a3a2190aadc99f553fbae002450fc1099d959b66d}{Packet\-Size}\label{class_tridiagonalization_a3689c5ded00bea1abc23f299a3a2190aadc99f553fbae002450fc1099d959b66d}
+}]\end{description}
+\end{Desc}
+
+
+Definition at line 51 of file Tridiagonalization.\-h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_tridiagonalization_af6625afc4855bc84188358f1031cf7c4}{\index{Tridiagonalization@{Tridiagonalization}!Tridiagonalization@{Tridiagonalization}}
+\index{Tridiagonalization@{Tridiagonalization}!Tridiagonalization@{Tridiagonalization}}
+\subsubsection[{Tridiagonalization}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Matrix\-Type $>$ {\bf Tridiagonalization}$<$ \-\_\-\-Matrix\-Type $>$\-::{\bf Tridiagonalization} (
+\begin{DoxyParamCaption}
+\item[{{\bf int}}]{size = {\ttfamily {\bf Size}=={\bf Dynamic}~?~2~\-:~{\bf Size}}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_tridiagonalization_af6625afc4855bc84188358f1031cf7c4}
+This constructor initializes a \hyperlink{class_tridiagonalization}{Tridiagonalization} object for further use with \hyperlink{class_tridiagonalization_ad86cfcdc9152304a63d929ae81358b98}{Tridiagonalization\-::compute()} 
+
+Definition at line 71 of file Tridiagonalization.\-h.
+
+\hypertarget{class_tridiagonalization_a32e143d17f178b81d157eb31d160877a}{\index{Tridiagonalization@{Tridiagonalization}!Tridiagonalization@{Tridiagonalization}}
+\index{Tridiagonalization@{Tridiagonalization}!Tridiagonalization@{Tridiagonalization}}
+\subsubsection[{Tridiagonalization}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Matrix\-Type $>$ {\bf Tridiagonalization}$<$ \-\_\-\-Matrix\-Type $>$\-::{\bf Tridiagonalization} (
+\begin{DoxyParamCaption}
+\item[{const {\bf Matrix\-Type} \&}]{matrix}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_tridiagonalization_a32e143d17f178b81d157eb31d160877a}
+
+
+Definition at line 75 of file Tridiagonalization.\-h.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_tridiagonalization_ad86cfcdc9152304a63d929ae81358b98}{\index{Tridiagonalization@{Tridiagonalization}!compute@{compute}}
+\index{compute@{compute}!Tridiagonalization@{Tridiagonalization}}
+\subsubsection[{compute}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Matrix\-Type $>$ {\bf void} {\bf Tridiagonalization}$<$ \-\_\-\-Matrix\-Type $>$\-::compute (
+\begin{DoxyParamCaption}
+\item[{const {\bf Matrix\-Type} \&}]{matrix}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_tridiagonalization_ad86cfcdc9152304a63d929ae81358b98}
+Computes or re-\/compute the tridiagonalization for the matrix {\itshape matrix}.
+
+This method allows to re-\/use the allocated data. 
+
+Definition at line 86 of file Tridiagonalization.\-h.
+
+\hypertarget{class_tridiagonalization_a5a85ea619add22c090f8625b2fdda4cf}{\index{Tridiagonalization@{Tridiagonalization}!decompose\-In\-Place@{decompose\-In\-Place}}
+\index{decompose\-In\-Place@{decompose\-In\-Place}!Tridiagonalization@{Tridiagonalization}}
+\subsubsection[{decompose\-In\-Place}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type $>$ {\bf void} {\bf Tridiagonalization}$<$ {\bf Matrix\-Type} $>$\-::decompose\-In\-Place (
+\begin{DoxyParamCaption}
+\item[{{\bf Matrix\-Type} \&}]{mat, }
+\item[{{\bf Diagonal\-Type} \&}]{diag, }
+\item[{{\bf Sub\-Diagonal\-Type} \&}]{subdiag, }
+\item[{bool}]{extract\-Q = {\ttfamily true}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{class_tridiagonalization_a5a85ea619add22c090f8625b2fdda4cf}
+Performs a full decomposition in place 
+
+Definition at line 367 of file Tridiagonalization.\-h.
+
+\hypertarget{class_tridiagonalization_aa23d77ff7f208e370b9a65cea783e7ad}{\index{Tridiagonalization@{Tridiagonalization}!diagonal@{diagonal}}
+\index{diagonal@{diagonal}!Tridiagonalization@{Tridiagonalization}}
+\subsubsection[{diagonal}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type $>$ const {\bf Tridiagonalization}$<$ {\bf Matrix\-Type} $>$\-::{\bf Diagonal\-Return\-Type} {\bf Tridiagonalization}$<$ {\bf Matrix\-Type} $>$\-::diagonal (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+) const}}\label{class_tridiagonalization_aa23d77ff7f208e370b9a65cea783e7ad}
+\begin{DoxyReturn}{Returns}
+an expression of the diagonal vector 
+\end{DoxyReturn}
+
+
+Definition at line 139 of file Tridiagonalization.\-h.
+
+\hypertarget{class_tridiagonalization_a1ef5dc380f26ea228f55c4b77caa2186}{\index{Tridiagonalization@{Tridiagonalization}!householder\-Coefficients@{householder\-Coefficients}}
+\index{householder\-Coefficients@{householder\-Coefficients}!Tridiagonalization@{Tridiagonalization}}
+\subsubsection[{householder\-Coefficients}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Matrix\-Type $>$ {\bf Coeff\-Vector\-Type} {\bf Tridiagonalization}$<$ \-\_\-\-Matrix\-Type $>$\-::householder\-Coefficients (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_tridiagonalization_a1ef5dc380f26ea228f55c4b77caa2186}
+\begin{DoxyReturn}{Returns}
+the householder coefficients allowing to reconstruct the matrix Q from the packed data.
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_tridiagonalization_ad823f2c67e16e26e28f1735101405e0d}{packed\-Matrix()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 98 of file Tridiagonalization.\-h.
+
+\hypertarget{class_tridiagonalization_a734dd1491c57f8741a0b7d7b0456556e}{\index{Tridiagonalization@{Tridiagonalization}!matrix\-Q@{matrix\-Q}}
+\index{matrix\-Q@{matrix\-Q}!Tridiagonalization@{Tridiagonalization}}
+\subsubsection[{matrix\-Q}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type $>$ {\bf Tridiagonalization}$<$ {\bf Matrix\-Type} $>$\-::{\bf Matrix\-Type} {\bf Tridiagonalization}$<$ {\bf Matrix\-Type} $>$\-::matrix\-Q (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+) const}}\label{class_tridiagonalization_a734dd1491c57f8741a0b7d7b0456556e}
+reconstructs and returns the matrix Q 
+
+Definition at line 347 of file Tridiagonalization.\-h.
+
+\hypertarget{class_tridiagonalization_ab48d716d1c42ae0b1bf34be711c72b19}{\index{Tridiagonalization@{Tridiagonalization}!matrix\-T@{matrix\-T}}
+\index{matrix\-T@{matrix\-T}!Tridiagonalization@{Tridiagonalization}}
+\subsubsection[{matrix\-T}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type $>$ {\bf Tridiagonalization}$<$ {\bf Matrix\-Type} $>$\-::{\bf Matrix\-Type} {\bf Tridiagonalization}$<$ {\bf Matrix\-Type} $>$\-::matrix\-T (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+) const}}\label{class_tridiagonalization_ab48d716d1c42ae0b1bf34be711c72b19}
+constructs and returns the tridiagonal matrix T. Note that the matrix T is equivalent to the diagonal and sub-\/diagonal of the packed matrix. Therefore, it might be often sufficient to directly use the packed matrix, or the vector expressions returned by \hyperlink{class_tridiagonalization_aa23d77ff7f208e370b9a65cea783e7ad}{diagonal()} and \hyperlink{class_tridiagonalization_ab3b2263fb133bbfa58edde6ebd3ba92a}{sub\-Diagonal()} instead of creating a new matrix. 
+
+Definition at line 161 of file Tridiagonalization.\-h.
+
+\hypertarget{class_tridiagonalization_ad823f2c67e16e26e28f1735101405e0d}{\index{Tridiagonalization@{Tridiagonalization}!packed\-Matrix@{packed\-Matrix}}
+\index{packed\-Matrix@{packed\-Matrix}!Tridiagonalization@{Tridiagonalization}}
+\subsubsection[{packed\-Matrix}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Matrix\-Type $>$ const {\bf Matrix\-Type}\& {\bf Tridiagonalization}$<$ \-\_\-\-Matrix\-Type $>$\-::packed\-Matrix (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_tridiagonalization_ad823f2c67e16e26e28f1735101405e0d}
+\begin{DoxyReturn}{Returns}
+the internal result of the decomposition.
+\end{DoxyReturn}
+The returned matrix contains the following information\-:
+\begin{DoxyItemize}
+\item the strict upper part is equal to the input matrix A
+\item the diagonal and lower sub-\/diagonal represent the tridiagonal symmetric matrix (real).
+\item the rest of the lower part contains the Householder vectors that, combined with Householder coefficients returned by \hyperlink{class_tridiagonalization_a1ef5dc380f26ea228f55c4b77caa2186}{householder\-Coefficients()}, allows to reconstruct the matrix Q as follow\-: Q = H\-\_\-\{N-\/1\} ... H\-\_\-1 H\-\_\-0 where the matrices H are the Householder transformations\-: H\-\_\-i = (I -\/ h\-\_\-i $\ast$ v\-\_\-i $\ast$ v\-\_\-i') where h\-\_\-i == \hyperlink{class_tridiagonalization_a1ef5dc380f26ea228f55c4b77caa2186}{householder\-Coefficients()}\mbox{[}i\mbox{]} and v\-\_\-i is a Householder vector\-: v\-\_\-i = \mbox{[} 0, ..., 0, 1, M(i+2,i), ..., M(N-\/1,i) \mbox{]}
+\end{DoxyItemize}
+
+See L\-A\-P\-A\-C\-K for further details on this packed storage. 
+
+Definition at line 116 of file Tridiagonalization.\-h.
+
+\hypertarget{class_tridiagonalization_ab3b2263fb133bbfa58edde6ebd3ba92a}{\index{Tridiagonalization@{Tridiagonalization}!sub\-Diagonal@{sub\-Diagonal}}
+\index{sub\-Diagonal@{sub\-Diagonal}!Tridiagonalization@{Tridiagonalization}}
+\subsubsection[{sub\-Diagonal}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type $>$ const {\bf Tridiagonalization}$<$ {\bf Matrix\-Type} $>$\-::{\bf Sub\-Diagonal\-Return\-Type} {\bf Tridiagonalization}$<$ {\bf Matrix\-Type} $>$\-::sub\-Diagonal (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+) const}}\label{class_tridiagonalization_ab3b2263fb133bbfa58edde6ebd3ba92a}
+\begin{DoxyReturn}{Returns}
+an expression of the sub-\/diagonal vector 
+\end{DoxyReturn}
+
+
+Definition at line 147 of file Tridiagonalization.\-h.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{class_tridiagonalization_a905f25c9997f645433bd34cc91f91344}{\index{Tridiagonalization@{Tridiagonalization}!m\-\_\-h\-Coeffs@{m\-\_\-h\-Coeffs}}
+\index{m\-\_\-h\-Coeffs@{m\-\_\-h\-Coeffs}!Tridiagonalization@{Tridiagonalization}}
+\subsubsection[{m\-\_\-h\-Coeffs}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Matrix\-Type $>$ {\bf Coeff\-Vector\-Type} {\bf Tridiagonalization}$<$ \-\_\-\-Matrix\-Type $>$\-::m\-\_\-h\-Coeffs\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_tridiagonalization_a905f25c9997f645433bd34cc91f91344}
+
+
+Definition at line 133 of file Tridiagonalization.\-h.
+
+\hypertarget{class_tridiagonalization_a168483e5aed1af322c527c5f8627b4f8}{\index{Tridiagonalization@{Tridiagonalization}!m\-\_\-matrix@{m\-\_\-matrix}}
+\index{m\-\_\-matrix@{m\-\_\-matrix}!Tridiagonalization@{Tridiagonalization}}
+\subsubsection[{m\-\_\-matrix}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Matrix\-Type $>$ {\bf Matrix\-Type} {\bf Tridiagonalization}$<$ \-\_\-\-Matrix\-Type $>$\-::m\-\_\-matrix\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_tridiagonalization_a168483e5aed1af322c527c5f8627b4f8}
+
+
+Definition at line 132 of file Tridiagonalization.\-h.
+
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/eigen/\-Eigen/src/\-Q\-R/\hyperlink{_tridiagonalization_8h}{Tridiagonalization.\-h}\end{DoxyCompactItemize}

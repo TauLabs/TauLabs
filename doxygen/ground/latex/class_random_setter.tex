@@ -1,0 +1,189 @@
+\hypertarget{class_random_setter}{\section{Random\-Setter$<$ Sparse\-Matrix\-Type, Map\-Traits, Outer\-Packet\-Bits $>$ Class Template Reference}
+\label{class_random_setter}\index{Random\-Setter$<$ Sparse\-Matrix\-Type, Map\-Traits, Outer\-Packet\-Bits $>$@{Random\-Setter$<$ Sparse\-Matrix\-Type, Map\-Traits, Outer\-Packet\-Bits $>$}}
+}
+
+
+The \hyperlink{class_random_setter}{Random\-Setter} is a wrapper object allowing to set/update a sparse matrix with random access.  
+
+
+
+
+{\ttfamily \#include $<$Random\-Setter.\-h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_random_setter_aa2d1d21660876a427be187798adf9a70}{Random\-Setter} (Sparse\-Matrix\-Type \&\hyperlink{glext_8h_af9d0cbbbeb7414e786c41899e5a856d7}{target})
+\item 
+\hyperlink{class_random_setter_aba28f5b1e47a0abe673af98606d5a0ba}{$\sim$\-Random\-Setter} ()
+\item 
+Scalar \& \hyperlink{class_random_setter_a7dcdef8b92e05e465cdbcf248ad58122}{operator()} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{glext_8h_a11b277b422822f784ee248b43eee3e1e}{row}, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} col)
+\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_random_setter_a7bdcf2cd511fb51539656c205cf4af7b}{non\-Zeros} () const 
+\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+Hash\-Map\-Type $\ast$ \hyperlink{class_random_setter_a887d530ce0b1137e1fa2938e387a0174}{m\-\_\-hashmaps}
+\item 
+Sparse\-Matrix\-Type $\ast$ \hyperlink{class_random_setter_afa6596e02bd8d3d1b84096a73a3b14a7}{mp\-\_\-target}
+\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_random_setter_a0b8234ec69d32ecfd49199e27e8b3646}{m\-\_\-outer\-Packets}
+\item 
+unsigned char \hyperlink{class_random_setter_a3f86ea0a3ce0e7237cee807e2d1b6809}{m\-\_\-key\-Bits\-Offset}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$typename Sparse\-Matrix\-Type, template$<$ typename T $>$ class Map\-Traits = \#if defined \-\_\-\-D\-E\-N\-S\-E\-\_\-\-H\-A\-S\-H\-\_\-\-M\-A\-P\-\_\-\-H\-\_\- Google\-Dense\-Hash\-Map\-Traits \#elif defined \-\_\-\-H\-A\-S\-H\-\_\-\-M\-A\-P Gnu\-Hash\-Map\-Traits \#else Std\-Map\-Traits \#endif, int Outer\-Packet\-Bits = 6$>$class Random\-Setter$<$ Sparse\-Matrix\-Type, Map\-Traits, Outer\-Packet\-Bits $>$}
+
+The \hyperlink{class_random_setter}{Random\-Setter} is a wrapper object allowing to set/update a sparse matrix with random access. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Sparse\-Matrix\-Type} & the type of the sparse matrix we are updating \\
+\hline
+{\em Map\-Traits} & a traits class representing the map implementation used for the temporary sparse storage. Its default value depends on the system. \\
+\hline
+{\em Outer\-Packet\-Bits} & defines the number of rows (or columns) manage by a single map object as a power of two exponent.\\
+\hline
+\end{DoxyParams}
+This class temporarily represents a sparse matrix object using a generic map implementation allowing for efficient random access. The conversion from the compressed representation to a hash\-\_\-map object is performed in the \hyperlink{class_random_setter}{Random\-Setter} constructor, while the sparse matrix is updated back at destruction time. This strategy suggest the use of nested blocks as in this example\-:
+
+
+\begin{DoxyCode}
+\hyperlink{class_sparse_matrix}{SparseMatrix<double>} \hyperlink{glext_8h_af593500c283bf1a787a6f947f503a5c2}{m}(rows,cols);
+\{
+  \hyperlink{class_random_setter}{RandomSetter<SparseMatrix<double>} > \hyperlink{glext_8h_ac1795f3b2fee217274b85c2750e1a889}{w}(m);
+  \textcolor{comment}{// don't use m but w instead with read/write random access to the coefficients:}
+  \textcolor{keywordflow}{for}(;;)
+    \hyperlink{glext_8h_ac1795f3b2fee217274b85c2750e1a889}{w}(rand(),rand()) = rand;
+\}
+\textcolor{comment}{// when w is deleted, the data are copied back to m}
+\textcolor{comment}{// and m is ready to use.}
+\end{DoxyCode}
+
+
+Since hash\-\_\-map objects are not fully sorted, representing a full matrix as a single hash\-\_\-map would involve a big and costly sort to update the compressed matrix back. To overcome this issue, a \hyperlink{class_random_setter}{Random\-Setter} use multiple hash\-\_\-map, each representing 2$^\wedge$\-Outer\-Packet\-Bits columns or rows according to the storage order. To reach optimal performance, this value should be adjusted according to the average number of nonzeros per rows/columns.
+
+The possible values for the template parameter Map\-Traits are\-:
+\begin{DoxyItemize}
+\item {\bfseries \hyperlink{struct_std_map_traits}{Std\-Map\-Traits}\-:} corresponds to std\-::map. (does not perform very well)
+\item {\bfseries Gnu\-Hash\-Map\-Traits\-:} corresponds to \-\_\-\-\_\-gnu\-\_\-cxx\-::hash\-\_\-map (available only with G\-C\-C)
+\item {\bfseries \hyperlink{struct_google_dense_hash_map_traits}{Google\-Dense\-Hash\-Map\-Traits}\-:} corresponds to google\-::dense\-\_\-hash\-\_\-map (best efficiency, reasonable memory consumption)
+\item {\bfseries \hyperlink{struct_google_sparse_hash_map_traits}{Google\-Sparse\-Hash\-Map\-Traits}\-:} corresponds to google\-::sparse\-\_\-hash\-\_\-map (best memory consumption, relatively good performance)
+\end{DoxyItemize}
+
+The default map implementation depends on the availability, and the preferred order is\-: \hyperlink{struct_google_sparse_hash_map_traits}{Google\-Sparse\-Hash\-Map\-Traits}, Gnu\-Hash\-Map\-Traits, and finally \hyperlink{struct_std_map_traits}{Std\-Map\-Traits}.
+
+For performance and memory consumption reasons it is highly recommended to use one of the Google's hash\-\_\-map implementation. To enable the support for them, you have two options\-:
+\begin{DoxyItemize}
+\item \#include $<$google/dense\-\_\-hash\-\_\-map$>$ yourself {\bfseries before} Eigen/\-Sparse header
+\item define E\-I\-G\-E\-N\-\_\-\-G\-O\-O\-G\-L\-E\-H\-A\-S\-H\-\_\-\-S\-U\-P\-P\-O\-R\-T In the later case the inclusion of $<$google/dense\-\_\-hash\-\_\-map$>$ is made for you.
+\end{DoxyItemize}
+
+\begin{DoxySeeAlso}{See Also}
+\href{http://code.google.com/p/google-sparsehash/}{\tt http\-://code.\-google.\-com/p/google-\/sparsehash/} 
+\end{DoxySeeAlso}
+
+
+Definition at line 167 of file Random\-Setter.\-h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_random_setter_aa2d1d21660876a427be187798adf9a70}{\index{Random\-Setter@{Random\-Setter}!Random\-Setter@{Random\-Setter}}
+\index{Random\-Setter@{Random\-Setter}!RandomSetter@{Random\-Setter}}
+\subsubsection[{Random\-Setter}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Sparse\-Matrix\-Type, template$<$ typename T $>$ class Map\-Traits = \#if defined \-\_\-\-D\-E\-N\-S\-E\-\_\-\-H\-A\-S\-H\-\_\-\-M\-A\-P\-\_\-\-H\-\_\- Google\-Dense\-Hash\-Map\-Traits \#elif defined \-\_\-\-H\-A\-S\-H\-\_\-\-M\-A\-P Gnu\-Hash\-Map\-Traits \#else Std\-Map\-Traits \#endif, int Outer\-Packet\-Bits = 6$>$ {\bf Random\-Setter}$<$ Sparse\-Matrix\-Type, Map\-Traits, Outer\-Packet\-Bits $>$\-::{\bf Random\-Setter} (
+\begin{DoxyParamCaption}
+\item[{Sparse\-Matrix\-Type \&}]{target}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_random_setter_aa2d1d21660876a427be187798adf9a70}
+Constructs a random setter object from the sparse matrix {\itshape target} 
+
+Note that the initial value of {\itshape target} are imported. If you want to re-\/set a sparse matrix from scratch, then you must set it to zero first using the set\-Zero() function. 
+
+Definition at line 194 of file Random\-Setter.\-h.
+
+\hypertarget{class_random_setter_aba28f5b1e47a0abe673af98606d5a0ba}{\index{Random\-Setter@{Random\-Setter}!$\sim$\-Random\-Setter@{$\sim$\-Random\-Setter}}
+\index{$\sim$\-Random\-Setter@{$\sim$\-Random\-Setter}!RandomSetter@{Random\-Setter}}
+\subsubsection[{$\sim$\-Random\-Setter}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Sparse\-Matrix\-Type, template$<$ typename T $>$ class Map\-Traits = \#if defined \-\_\-\-D\-E\-N\-S\-E\-\_\-\-H\-A\-S\-H\-\_\-\-M\-A\-P\-\_\-\-H\-\_\- Google\-Dense\-Hash\-Map\-Traits \#elif defined \-\_\-\-H\-A\-S\-H\-\_\-\-M\-A\-P Gnu\-Hash\-Map\-Traits \#else Std\-Map\-Traits \#endif, int Outer\-Packet\-Bits = 6$>$ {\bf Random\-Setter}$<$ Sparse\-Matrix\-Type, Map\-Traits, Outer\-Packet\-Bits $>$\-::$\sim${\bf Random\-Setter} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_random_setter_aba28f5b1e47a0abe673af98606d5a0ba}
+Destructor updating back the sparse matrix target 
+
+Definition at line 222 of file Random\-Setter.\-h.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_random_setter_a7bdcf2cd511fb51539656c205cf4af7b}{\index{Random\-Setter@{Random\-Setter}!non\-Zeros@{non\-Zeros}}
+\index{non\-Zeros@{non\-Zeros}!RandomSetter@{Random\-Setter}}
+\subsubsection[{non\-Zeros}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Sparse\-Matrix\-Type, template$<$ typename T $>$ class Map\-Traits = \#if defined \-\_\-\-D\-E\-N\-S\-E\-\_\-\-H\-A\-S\-H\-\_\-\-M\-A\-P\-\_\-\-H\-\_\- Google\-Dense\-Hash\-Map\-Traits \#elif defined \-\_\-\-H\-A\-S\-H\-\_\-\-M\-A\-P Gnu\-Hash\-Map\-Traits \#else Std\-Map\-Traits \#endif, int Outer\-Packet\-Bits = 6$>$ {\bf int} {\bf Random\-Setter}$<$ Sparse\-Matrix\-Type, Map\-Traits, Outer\-Packet\-Bits $>$\-::non\-Zeros (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_random_setter_a7bdcf2cd511fb51539656c205cf4af7b}
+\begin{DoxyReturn}{Returns}
+the number of non zero coefficients
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+According to the underlying map/hash\-\_\-map implementation, this function might be quite expensive. 
+\end{DoxyNote}
+
+
+Definition at line 313 of file Random\-Setter.\-h.
+
+\hypertarget{class_random_setter_a7dcdef8b92e05e465cdbcf248ad58122}{\index{Random\-Setter@{Random\-Setter}!operator()@{operator()}}
+\index{operator()@{operator()}!RandomSetter@{Random\-Setter}}
+\subsubsection[{operator()}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Sparse\-Matrix\-Type, template$<$ typename T $>$ class Map\-Traits = \#if defined \-\_\-\-D\-E\-N\-S\-E\-\_\-\-H\-A\-S\-H\-\_\-\-M\-A\-P\-\_\-\-H\-\_\- Google\-Dense\-Hash\-Map\-Traits \#elif defined \-\_\-\-H\-A\-S\-H\-\_\-\-M\-A\-P Gnu\-Hash\-Map\-Traits \#else Std\-Map\-Traits \#endif, int Outer\-Packet\-Bits = 6$>$ Scalar\& {\bf Random\-Setter}$<$ Sparse\-Matrix\-Type, Map\-Traits, Outer\-Packet\-Bits $>$\-::operator() (
+\begin{DoxyParamCaption}
+\item[{{\bf int}}]{row, }
+\item[{{\bf int}}]{col}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_random_setter_a7dcdef8b92e05e465cdbcf248ad58122}
+\begin{DoxyReturn}{Returns}
+a reference to the coefficient at given coordinates {\itshape row}, {\itshape col} 
+\end{DoxyReturn}
+
+
+Definition at line 296 of file Random\-Setter.\-h.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{class_random_setter_a887d530ce0b1137e1fa2938e387a0174}{\index{Random\-Setter@{Random\-Setter}!m\-\_\-hashmaps@{m\-\_\-hashmaps}}
+\index{m\-\_\-hashmaps@{m\-\_\-hashmaps}!RandomSetter@{Random\-Setter}}
+\subsubsection[{m\-\_\-hashmaps}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Sparse\-Matrix\-Type, template$<$ typename T $>$ class Map\-Traits = \#if defined \-\_\-\-D\-E\-N\-S\-E\-\_\-\-H\-A\-S\-H\-\_\-\-M\-A\-P\-\_\-\-H\-\_\- Google\-Dense\-Hash\-Map\-Traits \#elif defined \-\_\-\-H\-A\-S\-H\-\_\-\-M\-A\-P Gnu\-Hash\-Map\-Traits \#else Std\-Map\-Traits \#endif, int Outer\-Packet\-Bits = 6$>$ Hash\-Map\-Type$\ast$ {\bf Random\-Setter}$<$ Sparse\-Matrix\-Type, Map\-Traits, Outer\-Packet\-Bits $>$\-::m\-\_\-hashmaps\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_random_setter_a887d530ce0b1137e1fa2938e387a0174}
+
+
+Definition at line 324 of file Random\-Setter.\-h.
+
+\hypertarget{class_random_setter_a3f86ea0a3ce0e7237cee807e2d1b6809}{\index{Random\-Setter@{Random\-Setter}!m\-\_\-key\-Bits\-Offset@{m\-\_\-key\-Bits\-Offset}}
+\index{m\-\_\-key\-Bits\-Offset@{m\-\_\-key\-Bits\-Offset}!RandomSetter@{Random\-Setter}}
+\subsubsection[{m\-\_\-key\-Bits\-Offset}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Sparse\-Matrix\-Type, template$<$ typename T $>$ class Map\-Traits = \#if defined \-\_\-\-D\-E\-N\-S\-E\-\_\-\-H\-A\-S\-H\-\_\-\-M\-A\-P\-\_\-\-H\-\_\- Google\-Dense\-Hash\-Map\-Traits \#elif defined \-\_\-\-H\-A\-S\-H\-\_\-\-M\-A\-P Gnu\-Hash\-Map\-Traits \#else Std\-Map\-Traits \#endif, int Outer\-Packet\-Bits = 6$>$ unsigned char {\bf Random\-Setter}$<$ Sparse\-Matrix\-Type, Map\-Traits, Outer\-Packet\-Bits $>$\-::m\-\_\-key\-Bits\-Offset\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_random_setter_a3f86ea0a3ce0e7237cee807e2d1b6809}
+
+
+Definition at line 327 of file Random\-Setter.\-h.
+
+\hypertarget{class_random_setter_a0b8234ec69d32ecfd49199e27e8b3646}{\index{Random\-Setter@{Random\-Setter}!m\-\_\-outer\-Packets@{m\-\_\-outer\-Packets}}
+\index{m\-\_\-outer\-Packets@{m\-\_\-outer\-Packets}!RandomSetter@{Random\-Setter}}
+\subsubsection[{m\-\_\-outer\-Packets}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Sparse\-Matrix\-Type, template$<$ typename T $>$ class Map\-Traits = \#if defined \-\_\-\-D\-E\-N\-S\-E\-\_\-\-H\-A\-S\-H\-\_\-\-M\-A\-P\-\_\-\-H\-\_\- Google\-Dense\-Hash\-Map\-Traits \#elif defined \-\_\-\-H\-A\-S\-H\-\_\-\-M\-A\-P Gnu\-Hash\-Map\-Traits \#else Std\-Map\-Traits \#endif, int Outer\-Packet\-Bits = 6$>$ {\bf int} {\bf Random\-Setter}$<$ Sparse\-Matrix\-Type, Map\-Traits, Outer\-Packet\-Bits $>$\-::m\-\_\-outer\-Packets\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_random_setter_a0b8234ec69d32ecfd49199e27e8b3646}
+
+
+Definition at line 326 of file Random\-Setter.\-h.
+
+\hypertarget{class_random_setter_afa6596e02bd8d3d1b84096a73a3b14a7}{\index{Random\-Setter@{Random\-Setter}!mp\-\_\-target@{mp\-\_\-target}}
+\index{mp\-\_\-target@{mp\-\_\-target}!RandomSetter@{Random\-Setter}}
+\subsubsection[{mp\-\_\-target}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Sparse\-Matrix\-Type, template$<$ typename T $>$ class Map\-Traits = \#if defined \-\_\-\-D\-E\-N\-S\-E\-\_\-\-H\-A\-S\-H\-\_\-\-M\-A\-P\-\_\-\-H\-\_\- Google\-Dense\-Hash\-Map\-Traits \#elif defined \-\_\-\-H\-A\-S\-H\-\_\-\-M\-A\-P Gnu\-Hash\-Map\-Traits \#else Std\-Map\-Traits \#endif, int Outer\-Packet\-Bits = 6$>$ Sparse\-Matrix\-Type$\ast$ {\bf Random\-Setter}$<$ Sparse\-Matrix\-Type, Map\-Traits, Outer\-Packet\-Bits $>$\-::mp\-\_\-target\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_random_setter_afa6596e02bd8d3d1b84096a73a3b14a7}
+
+
+Definition at line 325 of file Random\-Setter.\-h.
+
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/eigen/\-Eigen/src/\-Sparse/\hyperlink{_random_setter_8h}{Random\-Setter.\-h}\end{DoxyCompactItemize}

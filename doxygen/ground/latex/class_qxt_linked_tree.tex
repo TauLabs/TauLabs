@@ -1,0 +1,165 @@
+\hypertarget{class_qxt_linked_tree}{\section{Qxt\-Linked\-Tree$<$ T $>$ Class Template Reference}
+\label{class_qxt_linked_tree}\index{Qxt\-Linked\-Tree$<$ T $>$@{Qxt\-Linked\-Tree$<$ T $>$}}
+}
+
+
+The \hyperlink{class_qxt_linked_tree}{Qxt\-Linked\-Tree} class is a fast container for tree structured data.  
+
+
+
+
+{\ttfamily \#include $<$qxtlinkedtree.\-h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_qxt_linked_tree_ad158f409027096b14e072f8904db4ba6}{Qxt\-Linked\-Tree} ()
+\item 
+\hyperlink{class_qxt_linked_tree_a9fbff531f2a9a859ac3f6075efbf977f}{Qxt\-Linked\-Tree} (T \hyperlink{glext_8h_a00140d6f5c548b26daf170bf16e86a6d}{t})
+\item 
+\hyperlink{class_qxt_linked_tree_abeb7af48424a243f2d27783220311767}{$\sim$\-Qxt\-Linked\-Tree} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qxt_linked_tree_a80bafd467908ef1ed3f41d15d299d9a2}{clear} ()
+\item 
+\hyperlink{class_qxt_linked_tree_iterator}{Qxt\-Linked\-Tree\-Iterator}$<$ T $>$ \hyperlink{class_qxt_linked_tree_a9cbfc5713ced469ec42864255675d020}{root} ()
+\item 
+\hyperlink{class_qxt_linked_tree_iterator}{Qxt\-Linked\-Tree\-Iterator} \hyperlink{class_qxt_linked_tree_aa5d51a97689ba9a15d5cad16e9c57f43}{insert} (iterator before, const T \&\hyperlink{glext_8h_aa0e2e9cea7f208d28acda0480144beb0}{value})
+\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static \hyperlink{class_qxt_linked_tree_iterator}{Qxt\-Linked\-Tree\-Iterator}$<$ T $>$ \hyperlink{class_qxt_linked_tree_a3b66fda568121c7aaa08481f25aad206}{from\-Void} (\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} $\ast$)
+\item 
+static \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} $\ast$ \hyperlink{class_qxt_linked_tree_a52912acd545c24d7971a57cef4a2285b}{to\-Void} (\hyperlink{class_qxt_linked_tree_iterator}{Qxt\-Linked\-Tree\-Iterator}$<$ T $>$)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$class T$>$class Qxt\-Linked\-Tree$<$ T $>$}
+
+The \hyperlink{class_qxt_linked_tree}{Qxt\-Linked\-Tree} class is a fast container for tree structured data. 
+
+Qxt\-Core this template class can be used to store data easily in a tree structure. Internally it uses the doublelinked list scheme, but adds client/parent links.
+
+There are no random access functions, you have to use Qxt\-Linked\-Tree\-::iterator to access the data. This is very fast and efficient.
+
+
+\begin{DoxyCode}
+\hyperlink{class_qxt_linked_tree}{QxtLinkedTree<int>} tree(1);
+
+\hyperlink{class_qxt_linked_tree_iterator}{QxtLinkedTreeIterator<int>} it= tree.root();
+it.\hyperlink{class_qxt_linked_tree_iterator_a22a373e968f0d2d8d6c9632a8760ddea}{append}(34);
+qDebug()<<it<<it.\hyperlink{class_qxt_linked_tree_iterator_affa0700ff1b86d2db1edf8fa74514022}{child}(); \textcolor{comment}{//returns "1 34"}
+\end{DoxyCode}
+
+
+In order to be able to store an iterator into other data structures (eg. for Q\-Abstract\-Item\-Model or Q\-Abstract\-Xml\-Node\-Model) functions are provided to create and store a linked item from and into a void pointer.
+
+
+\begin{DoxyCode}
+\textcolor{keywordtype}{void} * root= tree.toVoid(tree.root());
+\hyperlink{class_qxt_linked_tree_iterator}{QxtLinkedTreeIterator<int>} it= tree.fromVoid(root);
+\end{DoxyCode}
+
+
+T\-O\-D\-O\-: \{implicitshared\} 
+
+Definition at line 32 of file qxtlinkedtree.\-h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_qxt_linked_tree_ad158f409027096b14e072f8904db4ba6}{\index{Qxt\-Linked\-Tree@{Qxt\-Linked\-Tree}!Qxt\-Linked\-Tree@{Qxt\-Linked\-Tree}}
+\index{Qxt\-Linked\-Tree@{Qxt\-Linked\-Tree}!QxtLinkedTree@{Qxt\-Linked\-Tree}}
+\subsubsection[{Qxt\-Linked\-Tree}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class T $>$ {\bf Qxt\-Linked\-Tree}$<$ T $>$\-::{\bf Qxt\-Linked\-Tree} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_qxt_linked_tree_ad158f409027096b14e072f8904db4ba6}
+constructs a \hyperlink{class_qxt_linked_tree}{Qxt\-Linked\-Tree} with a default constructed root node. 
+
+Definition at line 433 of file qxtlinkedtree.\-h.
+
+\hypertarget{class_qxt_linked_tree_a9fbff531f2a9a859ac3f6075efbf977f}{\index{Qxt\-Linked\-Tree@{Qxt\-Linked\-Tree}!Qxt\-Linked\-Tree@{Qxt\-Linked\-Tree}}
+\index{Qxt\-Linked\-Tree@{Qxt\-Linked\-Tree}!QxtLinkedTree@{Qxt\-Linked\-Tree}}
+\subsubsection[{Qxt\-Linked\-Tree}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class T $>$ {\bf Qxt\-Linked\-Tree}$<$ T $>$\-::{\bf Qxt\-Linked\-Tree} (
+\begin{DoxyParamCaption}
+\item[{T}]{t}
+\end{DoxyParamCaption}
+)}}\label{class_qxt_linked_tree_a9fbff531f2a9a859ac3f6075efbf977f}
+constructs a \hyperlink{class_qxt_linked_tree}{Qxt\-Linked\-Tree}. sets the rootnode to {\itshape t} 
+
+Definition at line 427 of file qxtlinkedtree.\-h.
+
+\hypertarget{class_qxt_linked_tree_abeb7af48424a243f2d27783220311767}{\index{Qxt\-Linked\-Tree@{Qxt\-Linked\-Tree}!$\sim$\-Qxt\-Linked\-Tree@{$\sim$\-Qxt\-Linked\-Tree}}
+\index{$\sim$\-Qxt\-Linked\-Tree@{$\sim$\-Qxt\-Linked\-Tree}!QxtLinkedTree@{Qxt\-Linked\-Tree}}
+\subsubsection[{$\sim$\-Qxt\-Linked\-Tree}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class T $>$ {\bf Qxt\-Linked\-Tree}$<$ T $>$\-::$\sim${\bf Qxt\-Linked\-Tree} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_qxt_linked_tree_abeb7af48424a243f2d27783220311767}
+the destructor deletes all items, when they are no longer referenced by any other instance. 
+
+Definition at line 439 of file qxtlinkedtree.\-h.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_qxt_linked_tree_a80bafd467908ef1ed3f41d15d299d9a2}{\index{Qxt\-Linked\-Tree@{Qxt\-Linked\-Tree}!clear@{clear}}
+\index{clear@{clear}!QxtLinkedTree@{Qxt\-Linked\-Tree}}
+\subsubsection[{clear}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class T $>$ {\bf void} {\bf Qxt\-Linked\-Tree}$<$ T $>$\-::clear (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+)}}\label{class_qxt_linked_tree_a80bafd467908ef1ed3f41d15d299d9a2}
+deletes all nodes recursively. this might take forever depending on the size of your tree. 
+
+Definition at line 444 of file qxtlinkedtree.\-h.
+
+\hypertarget{class_qxt_linked_tree_a3b66fda568121c7aaa08481f25aad206}{\index{Qxt\-Linked\-Tree@{Qxt\-Linked\-Tree}!from\-Void@{from\-Void}}
+\index{from\-Void@{from\-Void}!QxtLinkedTree@{Qxt\-Linked\-Tree}}
+\subsubsection[{from\-Void}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class T $>$ {\bf Qxt\-Linked\-Tree\-Iterator}$<$ T $>$ {\bf Qxt\-Linked\-Tree}$<$ T $>$\-::from\-Void (
+\begin{DoxyParamCaption}
+\item[{{\bf void} $\ast$}]{d}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{class_qxt_linked_tree_a3b66fda568121c7aaa08481f25aad206}
+returns an iterator pre positioned on the item specified with to\-Void. passing anything that has not being created by \hyperlink{class_qxt_linked_tree_a52912acd545c24d7971a57cef4a2285b}{to\-Void()} will crash. also note that passing invalidated nodes will crash too. Be extremly carefull. It is easy to currupt your data with this! 
+
+Definition at line 450 of file qxtlinkedtree.\-h.
+
+\hypertarget{class_qxt_linked_tree_aa5d51a97689ba9a15d5cad16e9c57f43}{\index{Qxt\-Linked\-Tree@{Qxt\-Linked\-Tree}!insert@{insert}}
+\index{insert@{insert}!QxtLinkedTree@{Qxt\-Linked\-Tree}}
+\subsubsection[{insert}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ {\bf Qxt\-Linked\-Tree\-Iterator} {\bf Qxt\-Linked\-Tree}$<$ T $>$\-::insert (
+\begin{DoxyParamCaption}
+\item[{iterator}]{before, }
+\item[{const T \&}]{value}
+\end{DoxyParamCaption}
+)}}\label{class_qxt_linked_tree_aa5d51a97689ba9a15d5cad16e9c57f43}
+\hypertarget{class_qxt_linked_tree_a9cbfc5713ced469ec42864255675d020}{\index{Qxt\-Linked\-Tree@{Qxt\-Linked\-Tree}!root@{root}}
+\index{root@{root}!QxtLinkedTree@{Qxt\-Linked\-Tree}}
+\subsubsection[{root}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class T $>$ {\bf Qxt\-Linked\-Tree\-Iterator}$<$ T $>$ {\bf Qxt\-Linked\-Tree}$<$ T $>$\-::root (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_qxt_linked_tree_a9cbfc5713ced469ec42864255675d020}
+returns an iterator on the root node 
+
+Definition at line 462 of file qxtlinkedtree.\-h.
+
+\hypertarget{class_qxt_linked_tree_a52912acd545c24d7971a57cef4a2285b}{\index{Qxt\-Linked\-Tree@{Qxt\-Linked\-Tree}!to\-Void@{to\-Void}}
+\index{to\-Void@{to\-Void}!QxtLinkedTree@{Qxt\-Linked\-Tree}}
+\subsubsection[{to\-Void}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class T $>$ {\bf void} $\ast$ {\bf Qxt\-Linked\-Tree}$<$ T $>$\-::to\-Void (
+\begin{DoxyParamCaption}
+\item[{{\bf Qxt\-Linked\-Tree\-Iterator}$<$ T $>$}]{n}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{class_qxt_linked_tree_a52912acd545c24d7971a57cef4a2285b}
+get an unique void pointer to be able to stuff an iterator into other structures. You must not do anything else but pass this to \hyperlink{class_qxt_linked_tree_a3b66fda568121c7aaa08481f25aad206}{from\-Void()}. the pointer is invalid when the actual data has been removed and passing it to from\-Void will crash. You have been warned. 
+
+Definition at line 456 of file qxtlinkedtree.\-h.
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/libqxt/src/core/\hyperlink{qxtlinkedtree_8h}{qxtlinkedtree.\-h}\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/libqxt/src/core/\hyperlink{qxtlinkedtree_8cpp}{qxtlinkedtree.\-cpp}\end{DoxyCompactItemize}

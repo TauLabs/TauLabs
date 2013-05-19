@@ -1,0 +1,315 @@
+\hypertarget{class_qxt_mail_attachment}{\section{Qxt\-Mail\-Attachment Class Reference}
+\label{class_qxt_mail_attachment}\index{Qxt\-Mail\-Attachment@{Qxt\-Mail\-Attachment}}
+}
+
+
+The \hyperlink{class_qxt_mail_attachment}{Qxt\-Mail\-Attachment} class represents an attachement to a \hyperlink{class_qxt_mail_message}{Qxt\-Mail\-Message}.  
+
+
+
+
+{\ttfamily \#include $<$qxtmailattachment.\-h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_qxt_mail_attachment_a57fe8964d1858588d0a29f92b3d8db18}{Qxt\-Mail\-Attachment} ()
+\item 
+\hyperlink{class_qxt_mail_attachment_a2debcb1aa2891705bdfe0d49519b45c6}{Qxt\-Mail\-Attachment} (const \hyperlink{class_qxt_mail_attachment}{Qxt\-Mail\-Attachment} \&other)
+\item 
+\hyperlink{class_qxt_mail_attachment_a4b949899fa7ee16440ef40bc3560d8dc}{Qxt\-Mail\-Attachment} (const Q\-Byte\-Array \&\hyperlink{class_qxt_mail_attachment_a5be7967f47e110eabb937bd3642979cf}{content}, const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{Q\-String} \&\hyperlink{class_qxt_mail_attachment_ad94b991e86cd752c240556d5ccba3134}{content\-Type}=\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{Q\-String}(\char`\"{}application/octet-\/\hyperlink{ioapi_8h_a4ed0a20697a8c37f8af699a8ec6d76a8}{stream}\char`\"{}))
+\item 
+\hyperlink{class_qxt_mail_attachment_a0b71743e1af5641282bc8505cebc9d8e}{Qxt\-Mail\-Attachment} (Q\-I\-O\-Device $\ast$\hyperlink{class_qxt_mail_attachment_a5be7967f47e110eabb937bd3642979cf}{content}, const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{Q\-String} \&\hyperlink{class_qxt_mail_attachment_ad94b991e86cd752c240556d5ccba3134}{content\-Type}=\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{Q\-String}(\char`\"{}application/octet-\/\hyperlink{ioapi_8h_a4ed0a20697a8c37f8af699a8ec6d76a8}{stream}\char`\"{}))
+\item 
+\hyperlink{class_qxt_mail_attachment}{Qxt\-Mail\-Attachment} \& \hyperlink{class_qxt_mail_attachment_ae8434b636abbf1d5d80aa889a5a02965}{operator=} (const \hyperlink{class_qxt_mail_attachment}{Qxt\-Mail\-Attachment} \&other)
+\item 
+\hyperlink{class_qxt_mail_attachment_ad548deb713a55b42834ad80c71cef938}{$\sim$\-Qxt\-Mail\-Attachment} ()
+\item 
+Q\-I\-O\-Device $\ast$ \hyperlink{class_qxt_mail_attachment_a5be7967f47e110eabb937bd3642979cf}{content} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qxt_mail_attachment_a79c8ff7e5d8ed0f23162cbbf62bcb55b}{set\-Content} (const Q\-Byte\-Array \&\hyperlink{class_qxt_mail_attachment_a5be7967f47e110eabb937bd3642979cf}{content})
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qxt_mail_attachment_ab98d62bd701d11ec5b1379716223d0cb}{set\-Content} (Q\-I\-O\-Device $\ast$\hyperlink{class_qxt_mail_attachment_a5be7967f47e110eabb937bd3642979cf}{content})
+\item 
+bool \hyperlink{class_qxt_mail_attachment_a201c5e2d7cd6d0f64fe8decb8e8d3e18}{delete\-Content} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qxt_mail_attachment_a644c609632052bfeef9dca1ab00577a0}{set\-Delete\-Content} (bool enable)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{Q\-String} \hyperlink{class_qxt_mail_attachment_ad94b991e86cd752c240556d5ccba3134}{content\-Type} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qxt_mail_attachment_af1673052af6f54ac15ba470a3aef26f4}{set\-Content\-Type} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{Q\-String} \&\hyperlink{class_qxt_mail_attachment_ad94b991e86cd752c240556d5ccba3134}{content\-Type})
+\item 
+Q\-Hash$<$ \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{Q\-String}, \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{Q\-String} $>$ \hyperlink{class_qxt_mail_attachment_ac5f883cf600a80fea77b351c8138d816}{extra\-Headers} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{Q\-String} \hyperlink{class_qxt_mail_attachment_a8613e16c7f0666b15c1aad112b621650}{extra\-Header} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{Q\-String} \&) const 
+\item 
+bool \hyperlink{class_qxt_mail_attachment_a12f23f0690556f2dca9a899d4131e14e}{has\-Extra\-Header} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{Q\-String} \&) const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qxt_mail_attachment_ae4bbcafba0309254bd8d95011eb2e4c0}{set\-Extra\-Header} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{Q\-String} \&key, const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{Q\-String} \&\hyperlink{glext_8h_aa0e2e9cea7f208d28acda0480144beb0}{value})
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qxt_mail_attachment_a63981ca67f12ce470c9b7d3527bb9fe6}{set\-Extra\-Headers} (const Q\-Hash$<$ \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{Q\-String}, \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{Q\-String} $>$ \&)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qxt_mail_attachment_a2360c4e12b59613a9b861ae320c72fc8}{remove\-Extra\-Header} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{Q\-String} \&key)
+\item 
+Q\-Byte\-Array \hyperlink{class_qxt_mail_attachment_a453ac6894fe6bb0f7f2e446edd663675}{mime\-Data} ()
+\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static \hyperlink{class_qxt_mail_attachment}{Qxt\-Mail\-Attachment} \hyperlink{class_qxt_mail_attachment_a636726073869a3be809365f1caabfbdf}{from\-File} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{Q\-String} \&\hyperlink{ioapi_8h_a7a03a664b090ce5c848ecb31cb4a2fa8}{filename})
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+The \hyperlink{class_qxt_mail_attachment}{Qxt\-Mail\-Attachment} class represents an attachement to a \hyperlink{class_qxt_mail_message}{Qxt\-Mail\-Message}. 
+
+Qxt\-Network 
+
+Definition at line 37 of file qxtmailattachment.\-h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_qxt_mail_attachment_a57fe8964d1858588d0a29f92b3d8db18}{\index{Qxt\-Mail\-Attachment@{Qxt\-Mail\-Attachment}!Qxt\-Mail\-Attachment@{Qxt\-Mail\-Attachment}}
+\index{Qxt\-Mail\-Attachment@{Qxt\-Mail\-Attachment}!QxtMailAttachment@{Qxt\-Mail\-Attachment}}
+\subsubsection[{Qxt\-Mail\-Attachment}]{\setlength{\rightskip}{0pt plus 5cm}Qxt\-Mail\-Attachment\-::\-Qxt\-Mail\-Attachment (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_qxt_mail_attachment_a57fe8964d1858588d0a29f92b3d8db18}
+
+
+Definition at line 66 of file qxtmailattachment.\-cpp.
+
+\hypertarget{class_qxt_mail_attachment_a2debcb1aa2891705bdfe0d49519b45c6}{\index{Qxt\-Mail\-Attachment@{Qxt\-Mail\-Attachment}!Qxt\-Mail\-Attachment@{Qxt\-Mail\-Attachment}}
+\index{Qxt\-Mail\-Attachment@{Qxt\-Mail\-Attachment}!QxtMailAttachment@{Qxt\-Mail\-Attachment}}
+\subsubsection[{Qxt\-Mail\-Attachment}]{\setlength{\rightskip}{0pt plus 5cm}Qxt\-Mail\-Attachment\-::\-Qxt\-Mail\-Attachment (
+\begin{DoxyParamCaption}
+\item[{const {\bf Qxt\-Mail\-Attachment} \&}]{other}
+\end{DoxyParamCaption}
+)}}\label{class_qxt_mail_attachment_a2debcb1aa2891705bdfe0d49519b45c6}
+
+
+Definition at line 71 of file qxtmailattachment.\-cpp.
+
+\hypertarget{class_qxt_mail_attachment_a4b949899fa7ee16440ef40bc3560d8dc}{\index{Qxt\-Mail\-Attachment@{Qxt\-Mail\-Attachment}!Qxt\-Mail\-Attachment@{Qxt\-Mail\-Attachment}}
+\index{Qxt\-Mail\-Attachment@{Qxt\-Mail\-Attachment}!QxtMailAttachment@{Qxt\-Mail\-Attachment}}
+\subsubsection[{Qxt\-Mail\-Attachment}]{\setlength{\rightskip}{0pt plus 5cm}Qxt\-Mail\-Attachment\-::\-Qxt\-Mail\-Attachment (
+\begin{DoxyParamCaption}
+\item[{const Q\-Byte\-Array \&}]{content, }
+\item[{const {\bf Q\-String} \&}]{content\-Type = {\ttfamily {\bf Q\-String}(\char`\"{}application/octet-\/{\bf stream}\char`\"{})}}
+\end{DoxyParamCaption}
+)}}\label{class_qxt_mail_attachment_a4b949899fa7ee16440ef40bc3560d8dc}
+
+
+Definition at line 76 of file qxtmailattachment.\-cpp.
+
+\hypertarget{class_qxt_mail_attachment_a0b71743e1af5641282bc8505cebc9d8e}{\index{Qxt\-Mail\-Attachment@{Qxt\-Mail\-Attachment}!Qxt\-Mail\-Attachment@{Qxt\-Mail\-Attachment}}
+\index{Qxt\-Mail\-Attachment@{Qxt\-Mail\-Attachment}!QxtMailAttachment@{Qxt\-Mail\-Attachment}}
+\subsubsection[{Qxt\-Mail\-Attachment}]{\setlength{\rightskip}{0pt plus 5cm}Qxt\-Mail\-Attachment\-::\-Qxt\-Mail\-Attachment (
+\begin{DoxyParamCaption}
+\item[{Q\-I\-O\-Device $\ast$}]{content, }
+\item[{const {\bf Q\-String} \&}]{content\-Type = {\ttfamily {\bf Q\-String}(\char`\"{}application/octet-\/{\bf stream}\char`\"{})}}
+\end{DoxyParamCaption}
+)}}\label{class_qxt_mail_attachment_a0b71743e1af5641282bc8505cebc9d8e}
+
+
+Definition at line 83 of file qxtmailattachment.\-cpp.
+
+\hypertarget{class_qxt_mail_attachment_ad548deb713a55b42834ad80c71cef938}{\index{Qxt\-Mail\-Attachment@{Qxt\-Mail\-Attachment}!$\sim$\-Qxt\-Mail\-Attachment@{$\sim$\-Qxt\-Mail\-Attachment}}
+\index{$\sim$\-Qxt\-Mail\-Attachment@{$\sim$\-Qxt\-Mail\-Attachment}!QxtMailAttachment@{Qxt\-Mail\-Attachment}}
+\subsubsection[{$\sim$\-Qxt\-Mail\-Attachment}]{\setlength{\rightskip}{0pt plus 5cm}Qxt\-Mail\-Attachment\-::$\sim$\-Qxt\-Mail\-Attachment (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_qxt_mail_attachment_ad548deb713a55b42834ad80c71cef938}
+
+
+Definition at line 96 of file qxtmailattachment.\-cpp.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_qxt_mail_attachment_a5be7967f47e110eabb937bd3642979cf}{\index{Qxt\-Mail\-Attachment@{Qxt\-Mail\-Attachment}!content@{content}}
+\index{content@{content}!QxtMailAttachment@{Qxt\-Mail\-Attachment}}
+\subsubsection[{content}]{\setlength{\rightskip}{0pt plus 5cm}Q\-I\-O\-Device $\ast$ Qxt\-Mail\-Attachment\-::content (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_qxt_mail_attachment_a5be7967f47e110eabb937bd3642979cf}
+
+
+Definition at line 101 of file qxtmailattachment.\-cpp.
+
+\hypertarget{class_qxt_mail_attachment_ad94b991e86cd752c240556d5ccba3134}{\index{Qxt\-Mail\-Attachment@{Qxt\-Mail\-Attachment}!content\-Type@{content\-Type}}
+\index{content\-Type@{content\-Type}!QxtMailAttachment@{Qxt\-Mail\-Attachment}}
+\subsubsection[{content\-Type}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Q\-String} Qxt\-Mail\-Attachment\-::content\-Type (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_qxt_mail_attachment_ad94b991e86cd752c240556d5ccba3134}
+
+
+Definition at line 131 of file qxtmailattachment.\-cpp.
+
+\hypertarget{class_qxt_mail_attachment_a201c5e2d7cd6d0f64fe8decb8e8d3e18}{\index{Qxt\-Mail\-Attachment@{Qxt\-Mail\-Attachment}!delete\-Content@{delete\-Content}}
+\index{delete\-Content@{delete\-Content}!QxtMailAttachment@{Qxt\-Mail\-Attachment}}
+\subsubsection[{delete\-Content}]{\setlength{\rightskip}{0pt plus 5cm}bool Qxt\-Mail\-Attachment\-::delete\-Content (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_qxt_mail_attachment_a201c5e2d7cd6d0f64fe8decb8e8d3e18}
+
+
+Definition at line 121 of file qxtmailattachment.\-cpp.
+
+\hypertarget{class_qxt_mail_attachment_a8613e16c7f0666b15c1aad112b621650}{\index{Qxt\-Mail\-Attachment@{Qxt\-Mail\-Attachment}!extra\-Header@{extra\-Header}}
+\index{extra\-Header@{extra\-Header}!QxtMailAttachment@{Qxt\-Mail\-Attachment}}
+\subsubsection[{extra\-Header}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Q\-String} Qxt\-Mail\-Attachment\-::extra\-Header (
+\begin{DoxyParamCaption}
+\item[{const {\bf Q\-String} \&}]{key}
+\end{DoxyParamCaption}
+) const}}\label{class_qxt_mail_attachment_a8613e16c7f0666b15c1aad112b621650}
+
+
+Definition at line 146 of file qxtmailattachment.\-cpp.
+
+\hypertarget{class_qxt_mail_attachment_ac5f883cf600a80fea77b351c8138d816}{\index{Qxt\-Mail\-Attachment@{Qxt\-Mail\-Attachment}!extra\-Headers@{extra\-Headers}}
+\index{extra\-Headers@{extra\-Headers}!QxtMailAttachment@{Qxt\-Mail\-Attachment}}
+\subsubsection[{extra\-Headers}]{\setlength{\rightskip}{0pt plus 5cm}Q\-Hash$<$ {\bf Q\-String}, {\bf Q\-String} $>$ Qxt\-Mail\-Attachment\-::extra\-Headers (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_qxt_mail_attachment_ac5f883cf600a80fea77b351c8138d816}
+
+
+Definition at line 141 of file qxtmailattachment.\-cpp.
+
+\hypertarget{class_qxt_mail_attachment_a636726073869a3be809365f1caabfbdf}{\index{Qxt\-Mail\-Attachment@{Qxt\-Mail\-Attachment}!from\-File@{from\-File}}
+\index{from\-File@{from\-File}!QxtMailAttachment@{Qxt\-Mail\-Attachment}}
+\subsubsection[{from\-File}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Qxt\-Mail\-Attachment} Qxt\-Mail\-Attachment\-::from\-File (
+\begin{DoxyParamCaption}
+\item[{const {\bf Q\-String} \&}]{filename}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{class_qxt_mail_attachment_a636726073869a3be809365f1caabfbdf}
+
+
+Definition at line 206 of file qxtmailattachment.\-cpp.
+
+\hypertarget{class_qxt_mail_attachment_a12f23f0690556f2dca9a899d4131e14e}{\index{Qxt\-Mail\-Attachment@{Qxt\-Mail\-Attachment}!has\-Extra\-Header@{has\-Extra\-Header}}
+\index{has\-Extra\-Header@{has\-Extra\-Header}!QxtMailAttachment@{Qxt\-Mail\-Attachment}}
+\subsubsection[{has\-Extra\-Header}]{\setlength{\rightskip}{0pt plus 5cm}bool Qxt\-Mail\-Attachment\-::has\-Extra\-Header (
+\begin{DoxyParamCaption}
+\item[{const {\bf Q\-String} \&}]{key}
+\end{DoxyParamCaption}
+) const}}\label{class_qxt_mail_attachment_a12f23f0690556f2dca9a899d4131e14e}
+
+
+Definition at line 151 of file qxtmailattachment.\-cpp.
+
+\hypertarget{class_qxt_mail_attachment_a453ac6894fe6bb0f7f2e446edd663675}{\index{Qxt\-Mail\-Attachment@{Qxt\-Mail\-Attachment}!mime\-Data@{mime\-Data}}
+\index{mime\-Data@{mime\-Data}!QxtMailAttachment@{Qxt\-Mail\-Attachment}}
+\subsubsection[{mime\-Data}]{\setlength{\rightskip}{0pt plus 5cm}Q\-Byte\-Array Qxt\-Mail\-Attachment\-::mime\-Data (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_qxt_mail_attachment_a453ac6894fe6bb0f7f2e446edd663675}
+
+
+Definition at line 176 of file qxtmailattachment.\-cpp.
+
+\hypertarget{class_qxt_mail_attachment_ae8434b636abbf1d5d80aa889a5a02965}{\index{Qxt\-Mail\-Attachment@{Qxt\-Mail\-Attachment}!operator=@{operator=}}
+\index{operator=@{operator=}!QxtMailAttachment@{Qxt\-Mail\-Attachment}}
+\subsubsection[{operator=}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Qxt\-Mail\-Attachment} \& Qxt\-Mail\-Attachment\-::operator= (
+\begin{DoxyParamCaption}
+\item[{const {\bf Qxt\-Mail\-Attachment} \&}]{other}
+\end{DoxyParamCaption}
+)}}\label{class_qxt_mail_attachment_ae8434b636abbf1d5d80aa889a5a02965}
+
+
+Definition at line 90 of file qxtmailattachment.\-cpp.
+
+\hypertarget{class_qxt_mail_attachment_a2360c4e12b59613a9b861ae320c72fc8}{\index{Qxt\-Mail\-Attachment@{Qxt\-Mail\-Attachment}!remove\-Extra\-Header@{remove\-Extra\-Header}}
+\index{remove\-Extra\-Header@{remove\-Extra\-Header}!QxtMailAttachment@{Qxt\-Mail\-Attachment}}
+\subsubsection[{remove\-Extra\-Header}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qxt\-Mail\-Attachment\-::remove\-Extra\-Header (
+\begin{DoxyParamCaption}
+\item[{const {\bf Q\-String} \&}]{key}
+\end{DoxyParamCaption}
+)}}\label{class_qxt_mail_attachment_a2360c4e12b59613a9b861ae320c72fc8}
+
+
+Definition at line 171 of file qxtmailattachment.\-cpp.
+
+\hypertarget{class_qxt_mail_attachment_a79c8ff7e5d8ed0f23162cbbf62bcb55b}{\index{Qxt\-Mail\-Attachment@{Qxt\-Mail\-Attachment}!set\-Content@{set\-Content}}
+\index{set\-Content@{set\-Content}!QxtMailAttachment@{Qxt\-Mail\-Attachment}}
+\subsubsection[{set\-Content}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qxt\-Mail\-Attachment\-::set\-Content (
+\begin{DoxyParamCaption}
+\item[{const Q\-Byte\-Array \&}]{content}
+\end{DoxyParamCaption}
+)}}\label{class_qxt_mail_attachment_a79c8ff7e5d8ed0f23162cbbf62bcb55b}
+
+
+Definition at line 106 of file qxtmailattachment.\-cpp.
+
+\hypertarget{class_qxt_mail_attachment_ab98d62bd701d11ec5b1379716223d0cb}{\index{Qxt\-Mail\-Attachment@{Qxt\-Mail\-Attachment}!set\-Content@{set\-Content}}
+\index{set\-Content@{set\-Content}!QxtMailAttachment@{Qxt\-Mail\-Attachment}}
+\subsubsection[{set\-Content}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qxt\-Mail\-Attachment\-::set\-Content (
+\begin{DoxyParamCaption}
+\item[{Q\-I\-O\-Device $\ast$}]{content}
+\end{DoxyParamCaption}
+)}}\label{class_qxt_mail_attachment_ab98d62bd701d11ec5b1379716223d0cb}
+
+
+Definition at line 114 of file qxtmailattachment.\-cpp.
+
+\hypertarget{class_qxt_mail_attachment_af1673052af6f54ac15ba470a3aef26f4}{\index{Qxt\-Mail\-Attachment@{Qxt\-Mail\-Attachment}!set\-Content\-Type@{set\-Content\-Type}}
+\index{set\-Content\-Type@{set\-Content\-Type}!QxtMailAttachment@{Qxt\-Mail\-Attachment}}
+\subsubsection[{set\-Content\-Type}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qxt\-Mail\-Attachment\-::set\-Content\-Type (
+\begin{DoxyParamCaption}
+\item[{const {\bf Q\-String} \&}]{content\-Type}
+\end{DoxyParamCaption}
+)}}\label{class_qxt_mail_attachment_af1673052af6f54ac15ba470a3aef26f4}
+
+
+Definition at line 136 of file qxtmailattachment.\-cpp.
+
+\hypertarget{class_qxt_mail_attachment_a644c609632052bfeef9dca1ab00577a0}{\index{Qxt\-Mail\-Attachment@{Qxt\-Mail\-Attachment}!set\-Delete\-Content@{set\-Delete\-Content}}
+\index{set\-Delete\-Content@{set\-Delete\-Content}!QxtMailAttachment@{Qxt\-Mail\-Attachment}}
+\subsubsection[{set\-Delete\-Content}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qxt\-Mail\-Attachment\-::set\-Delete\-Content (
+\begin{DoxyParamCaption}
+\item[{bool}]{enable}
+\end{DoxyParamCaption}
+)}}\label{class_qxt_mail_attachment_a644c609632052bfeef9dca1ab00577a0}
+
+
+Definition at line 126 of file qxtmailattachment.\-cpp.
+
+\hypertarget{class_qxt_mail_attachment_ae4bbcafba0309254bd8d95011eb2e4c0}{\index{Qxt\-Mail\-Attachment@{Qxt\-Mail\-Attachment}!set\-Extra\-Header@{set\-Extra\-Header}}
+\index{set\-Extra\-Header@{set\-Extra\-Header}!QxtMailAttachment@{Qxt\-Mail\-Attachment}}
+\subsubsection[{set\-Extra\-Header}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qxt\-Mail\-Attachment\-::set\-Extra\-Header (
+\begin{DoxyParamCaption}
+\item[{const {\bf Q\-String} \&}]{key, }
+\item[{const {\bf Q\-String} \&}]{value}
+\end{DoxyParamCaption}
+)}}\label{class_qxt_mail_attachment_ae4bbcafba0309254bd8d95011eb2e4c0}
+
+
+Definition at line 156 of file qxtmailattachment.\-cpp.
+
+\hypertarget{class_qxt_mail_attachment_a63981ca67f12ce470c9b7d3527bb9fe6}{\index{Qxt\-Mail\-Attachment@{Qxt\-Mail\-Attachment}!set\-Extra\-Headers@{set\-Extra\-Headers}}
+\index{set\-Extra\-Headers@{set\-Extra\-Headers}!QxtMailAttachment@{Qxt\-Mail\-Attachment}}
+\subsubsection[{set\-Extra\-Headers}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qxt\-Mail\-Attachment\-::set\-Extra\-Headers (
+\begin{DoxyParamCaption}
+\item[{const Q\-Hash$<$ {\bf Q\-String}, {\bf Q\-String} $>$ \&}]{a}
+\end{DoxyParamCaption}
+)}}\label{class_qxt_mail_attachment_a63981ca67f12ce470c9b7d3527bb9fe6}
+
+
+Definition at line 161 of file qxtmailattachment.\-cpp.
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/libqxt/src/network/\hyperlink{qxtmailattachment_8h}{qxtmailattachment.\-h}\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/libqxt/src/network/\hyperlink{qxtmailattachment_8cpp}{qxtmailattachment.\-cpp}\end{DoxyCompactItemize}

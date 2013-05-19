@@ -1,0 +1,133 @@
+\hypertarget{class_qxt_tab_widget}{\section{Qxt\-Tab\-Widget Class Reference}
+\label{class_qxt_tab_widget}\index{Qxt\-Tab\-Widget@{Qxt\-Tab\-Widget}}
+}
+
+
+The \hyperlink{class_qxt_tab_widget}{Qxt\-Tab\-Widget} class is an extended Q\-Tab\-Widget.  
+
+
+
+
+{\ttfamily \#include $<$qxttabwidget.\-h$>$}
+
+Inheritance diagram for Qxt\-Tab\-Widget\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_qxt_tab_widget}
+\end{center}
+\end{figure}
+\subsection*{Signals}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qxt_tab_widget_ad522fb334c56aa2e865508e042c74137}{tab\-Context\-Menu\-Requested} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{glext_8h_ab47dd9958bcadea08866b42bf358e95e}{index}, const Q\-Point \&global\-Pos)
+\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qxt_tab_widget_acce406eb24064b4a78aec1df1efe1840}{tab\-Inserted} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{glext_8h_ab47dd9958bcadea08866b42bf358e95e}{index})
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qxt_tab_widget_a3f97a2b3706507ec0f0857619b6668d8}{tab\-Removed} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{glext_8h_ab47dd9958bcadea08866b42bf358e95e}{index})
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qxt_tab_widget_ad366c42f6bb793fe9e01531603aa45fb}{context\-Menu\-Event} (Q\-Context\-Menu\-Event $\ast$event)
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qxt_tab_widget_addd8f604888b15c79a54c1b9b049c35c}{tab\-Context\-Menu\-Event} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{glext_8h_ab47dd9958bcadea08866b42bf358e95e}{index}, Q\-Context\-Menu\-Event $\ast$event)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+The \hyperlink{class_qxt_tab_widget}{Qxt\-Tab\-Widget} class is an extended Q\-Tab\-Widget. 
+
+Qxt\-Gui \hyperlink{class_qxt_tab_widget}{Qxt\-Tab\-Widget} provides some convenience for handling tab specific context menus and animations.
+
+Example usage\-: 
+\begin{DoxyCode}
+\hyperlink{class_qxt_tab_widget}{QxtTabWidget}* tabWidget = \textcolor{keyword}{new} \hyperlink{class_qxt_tab_widget}{QxtTabWidget}();
+tabWidget->addTab(tab0, \textcolor{stringliteral}{"1"});
+tabWidget->addTab(tab1, \textcolor{stringliteral}{"2"});
+
+\hyperlink{class_q_list}{QList<QAction*>} actions0;
+actions0 << \textcolor{keyword}{new} QAction(\textcolor{stringliteral}{"Quisque"}, tab0) << \textcolor{keyword}{new} QAction(\textcolor{stringliteral}{"Aenean"}, tab0);
+\hyperlink{class_q_list}{QList<QAction*>} actions1;
+actions1 << \textcolor{keyword}{new} QAction(\textcolor{stringliteral}{"Phasellus"}, tab1) << \textcolor{keyword}{new} QAction(\textcolor{stringliteral}{"Maecenas"}, tab1);
+
+tabWidget->setTabContextMenuPolicy(Qt::ActionsContextMenu);
+tabWidget->addTabActions(0, actions0);
+tabWidget->addTabActions(1, actions1);
+\end{DoxyCode}
+
+
+\char`\"{}\-Qxt\-Tab\-Widget in Windows\-X\-P style.\char`\"{} 
+
+Definition at line 34 of file qxttabwidget.\-h.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_qxt_tab_widget_ad366c42f6bb793fe9e01531603aa45fb}{\index{Qxt\-Tab\-Widget@{Qxt\-Tab\-Widget}!context\-Menu\-Event@{context\-Menu\-Event}}
+\index{context\-Menu\-Event@{context\-Menu\-Event}!QxtTabWidget@{Qxt\-Tab\-Widget}}
+\subsubsection[{context\-Menu\-Event}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qxt\-Tab\-Widget\-::context\-Menu\-Event (
+\begin{DoxyParamCaption}
+\item[{Q\-Context\-Menu\-Event $\ast$}]{event}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}}\label{class_qxt_tab_widget_ad366c42f6bb793fe9e01531603aa45fb}
+
+
+Definition at line 436 of file qxttabwidget.\-cpp.
+
+\hypertarget{class_qxt_tab_widget_addd8f604888b15c79a54c1b9b049c35c}{\index{Qxt\-Tab\-Widget@{Qxt\-Tab\-Widget}!tab\-Context\-Menu\-Event@{tab\-Context\-Menu\-Event}}
+\index{tab\-Context\-Menu\-Event@{tab\-Context\-Menu\-Event}!QxtTabWidget@{Qxt\-Tab\-Widget}}
+\subsubsection[{tab\-Context\-Menu\-Event}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qxt\-Tab\-Widget\-::tab\-Context\-Menu\-Event (
+\begin{DoxyParamCaption}
+\item[{{\bf int}}]{index, }
+\item[{Q\-Context\-Menu\-Event $\ast$}]{event}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}}\label{class_qxt_tab_widget_addd8f604888b15c79a54c1b9b049c35c}
+This event handler, for event {\itshape event}, can be reimplemented in a subclass to receive context menu events for the tab at {\itshape index}.
+
+The handler is called when  tab\-Context\-Menu\-Policy is Qt\-::\-Default\-Context\-Menu.
+
+The default implementation ignores the context menu event.
+
+\begin{DoxySeeAlso}{See Also}
+tab\-Context\-Menu\-Policy, \hyperlink{class_qxt_tab_widget_ad522fb334c56aa2e865508e042c74137}{tab\-Context\-Menu\-Requested()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 488 of file qxttabwidget.\-cpp.
+
+\hypertarget{class_qxt_tab_widget_ad522fb334c56aa2e865508e042c74137}{\index{Qxt\-Tab\-Widget@{Qxt\-Tab\-Widget}!tab\-Context\-Menu\-Requested@{tab\-Context\-Menu\-Requested}}
+\index{tab\-Context\-Menu\-Requested@{tab\-Context\-Menu\-Requested}!QxtTabWidget@{Qxt\-Tab\-Widget}}
+\subsubsection[{tab\-Context\-Menu\-Requested}]{\setlength{\rightskip}{0pt plus 5cm}Qxt\-Tab\-Widget\-::tab\-Context\-Menu\-Requested (
+\begin{DoxyParamCaption}
+\item[{{\bf int}}]{index, }
+\item[{const Q\-Point \&}]{global\-Pos}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [signal]}}}\label{class_qxt_tab_widget_ad522fb334c56aa2e865508e042c74137}
+This signal is emitted whenever the context menu is requested over tab at {\itshape index} at {\itshape global\-Pos}. \hypertarget{class_qxt_tab_widget_acce406eb24064b4a78aec1df1efe1840}{\index{Qxt\-Tab\-Widget@{Qxt\-Tab\-Widget}!tab\-Inserted@{tab\-Inserted}}
+\index{tab\-Inserted@{tab\-Inserted}!QxtTabWidget@{Qxt\-Tab\-Widget}}
+\subsubsection[{tab\-Inserted}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qxt\-Tab\-Widget\-::tab\-Inserted (
+\begin{DoxyParamCaption}
+\item[{{\bf int}}]{index}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}}\label{class_qxt_tab_widget_acce406eb24064b4a78aec1df1efe1840}
+
+
+Definition at line 410 of file qxttabwidget.\-cpp.
+
+\hypertarget{class_qxt_tab_widget_a3f97a2b3706507ec0f0857619b6668d8}{\index{Qxt\-Tab\-Widget@{Qxt\-Tab\-Widget}!tab\-Removed@{tab\-Removed}}
+\index{tab\-Removed@{tab\-Removed}!QxtTabWidget@{Qxt\-Tab\-Widget}}
+\subsubsection[{tab\-Removed}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qxt\-Tab\-Widget\-::tab\-Removed (
+\begin{DoxyParamCaption}
+\item[{{\bf int}}]{index}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}}\label{class_qxt_tab_widget_a3f97a2b3706507ec0f0857619b6668d8}
+
+
+Definition at line 423 of file qxttabwidget.\-cpp.
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/libqxt/src/gui/\hyperlink{qxttabwidget_8h}{qxttabwidget.\-h}\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/libqxt/src/gui/\hyperlink{qxttabwidget_8cpp}{qxttabwidget.\-cpp}\end{DoxyCompactItemize}

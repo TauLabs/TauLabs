@@ -1,0 +1,228 @@
+\hypertarget{class_nest_by_value}{\section{Nest\-By\-Value$<$ Expression\-Type $>$ Class Template Reference}
+\label{class_nest_by_value}\index{Nest\-By\-Value$<$ Expression\-Type $>$@{Nest\-By\-Value$<$ Expression\-Type $>$}}
+}
+
+
+Expression which must be nested by value.  
+
+
+
+
+{\ttfamily \#include $<$Nest\-By\-Value.\-h$>$}
+
+Inheritance diagram for Nest\-By\-Value$<$ Expression\-Type $>$\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_nest_by_value}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_nest_by_value_a54c508cb9e78783f9676d0d5f1fe69af}{E\-I\-G\-E\-N\-\_\-\-G\-E\-N\-E\-R\-I\-C\-\_\-\-P\-U\-B\-L\-I\-C\-\_\-\-I\-N\-T\-E\-R\-F\-A\-C\-E} (\hyperlink{class_nest_by_value}{Nest\-By\-Value}) inline \hyperlink{class_nest_by_value}{Nest\-By\-Value}(const Expression\-Type \&\hyperlink{glext_8h_a7b24a3f2f56eb1244ae69dacb4fecb6f}{matrix})
+\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_nest_by_value_a02fa7f14417d274b121ed021e3ed98be}{rows} () const 
+\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_nest_by_value_a472ca1a4b4e25ad32ea1717d1168783b}{cols} () const 
+\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_nest_by_value_ac829cf60b2466efe30211df1ceab1172}{stride} () const 
+\item 
+const \hyperlink{class_matrix_base_a625df8339dc2d816cbc0fd66e7dadaf5}{Scalar} \hyperlink{class_nest_by_value_a3c647aba02fbc587b992120328cf6c2e}{coeff} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{glext_8h_a11b277b422822f784ee248b43eee3e1e}{row}, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_matrix_base_ae3c94b0f25b4273c7a8125169bdf60e0}{col}) const 
+\item 
+\hyperlink{class_matrix_base_a625df8339dc2d816cbc0fd66e7dadaf5}{Scalar} \& \hyperlink{class_nest_by_value_a1132f0a2e12ca386fbd106577c9e66db}{coeff\-Ref} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{glext_8h_a11b277b422822f784ee248b43eee3e1e}{row}, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_matrix_base_ae3c94b0f25b4273c7a8125169bdf60e0}{col})
+\item 
+const \hyperlink{class_matrix_base_a625df8339dc2d816cbc0fd66e7dadaf5}{Scalar} \hyperlink{class_nest_by_value_a464980ba04e72c08625d0769556f5336}{coeff} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{glext_8h_ab47dd9958bcadea08866b42bf358e95e}{index}) const 
+\item 
+\hyperlink{class_matrix_base_a625df8339dc2d816cbc0fd66e7dadaf5}{Scalar} \& \hyperlink{class_nest_by_value_a38fc06a728f8fd9b15f32d665f1baea4}{coeff\-Ref} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{glext_8h_ab47dd9958bcadea08866b42bf358e95e}{index})
+\item 
+{\footnotesize template$<$int Load\-Mode$>$ }\\const \hyperlink{class_matrix_base_a58f32cd6a06433ee7a60efa03e99183a}{Packet\-Scalar} \hyperlink{class_nest_by_value_a06159ce2f967e7de4cc2b77013c3bb94}{packet} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{glext_8h_a11b277b422822f784ee248b43eee3e1e}{row}, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_matrix_base_ae3c94b0f25b4273c7a8125169bdf60e0}{col}) const 
+\item 
+{\footnotesize template$<$int Load\-Mode$>$ }\\\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_nest_by_value_ac3d009c54f9382b2e95ca0af41cf8760}{write\-Packet} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{glext_8h_a11b277b422822f784ee248b43eee3e1e}{row}, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_matrix_base_ae3c94b0f25b4273c7a8125169bdf60e0}{col}, const \hyperlink{class_matrix_base_a58f32cd6a06433ee7a60efa03e99183a}{Packet\-Scalar} \&\hyperlink{glext_8h_a1db9d104e3c2128177f26aff7b46982f}{x})
+\item 
+{\footnotesize template$<$int Load\-Mode$>$ }\\const \hyperlink{class_matrix_base_a58f32cd6a06433ee7a60efa03e99183a}{Packet\-Scalar} \hyperlink{class_nest_by_value_a014bb11ae5965148fe9a72fac9110309}{packet} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{glext_8h_ab47dd9958bcadea08866b42bf358e95e}{index}) const 
+\item 
+{\footnotesize template$<$int Load\-Mode$>$ }\\\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_nest_by_value_ac8ddfc0d49b4eea967407a359f3c0d3e}{write\-Packet} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{glext_8h_ab47dd9958bcadea08866b42bf358e95e}{index}, const \hyperlink{class_matrix_base_a58f32cd6a06433ee7a60efa03e99183a}{Packet\-Scalar} \&\hyperlink{glext_8h_a1db9d104e3c2128177f26aff7b46982f}{x})
+\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+const Expression\-Type \hyperlink{class_nest_by_value_abededd28edf27665ef9e83b26d602a88}{m\-\_\-expression}
+\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$typename Expression\-Type$>$class Nest\-By\-Value$<$ Expression\-Type $>$}
+
+Expression which must be nested by value. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Expression\-Type} & the type of the object of which we are requiring nesting-\/by-\/value\\
+\hline
+\end{DoxyParams}
+This class is the return type of \hyperlink{class_matrix_base_ae0c303f9b5159f22a338d605eef2ea40}{Matrix\-Base\-::nest\-By\-Value()} and most of the time this is the only way it is used.
+
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_matrix_base_ae0c303f9b5159f22a338d605eef2ea40}{Matrix\-Base\-::nest\-By\-Value()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 44 of file Nest\-By\-Value.\-h.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_nest_by_value_a3c647aba02fbc587b992120328cf6c2e}{\index{Nest\-By\-Value@{Nest\-By\-Value}!coeff@{coeff}}
+\index{coeff@{coeff}!NestByValue@{Nest\-By\-Value}}
+\subsubsection[{coeff}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Expression\-Type$>$ const {\bf Scalar} {\bf Nest\-By\-Value}$<$ Expression\-Type $>$\-::coeff (
+\begin{DoxyParamCaption}
+\item[{{\bf int}}]{row, }
+\item[{{\bf int}}]{col}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_nest_by_value_a3c647aba02fbc587b992120328cf6c2e}
+
+
+Definition at line 57 of file Nest\-By\-Value.\-h.
+
+\hypertarget{class_nest_by_value_a464980ba04e72c08625d0769556f5336}{\index{Nest\-By\-Value@{Nest\-By\-Value}!coeff@{coeff}}
+\index{coeff@{coeff}!NestByValue@{Nest\-By\-Value}}
+\subsubsection[{coeff}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Expression\-Type$>$ const {\bf Scalar} {\bf Nest\-By\-Value}$<$ Expression\-Type $>$\-::coeff (
+\begin{DoxyParamCaption}
+\item[{{\bf int}}]{index}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_nest_by_value_a464980ba04e72c08625d0769556f5336}
+
+
+Definition at line 67 of file Nest\-By\-Value.\-h.
+
+\hypertarget{class_nest_by_value_a1132f0a2e12ca386fbd106577c9e66db}{\index{Nest\-By\-Value@{Nest\-By\-Value}!coeff\-Ref@{coeff\-Ref}}
+\index{coeff\-Ref@{coeff\-Ref}!NestByValue@{Nest\-By\-Value}}
+\subsubsection[{coeff\-Ref}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Expression\-Type$>$ {\bf Scalar}\& {\bf Nest\-By\-Value}$<$ Expression\-Type $>$\-::coeff\-Ref (
+\begin{DoxyParamCaption}
+\item[{{\bf int}}]{row, }
+\item[{{\bf int}}]{col}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_nest_by_value_a1132f0a2e12ca386fbd106577c9e66db}
+
+
+Definition at line 62 of file Nest\-By\-Value.\-h.
+
+\hypertarget{class_nest_by_value_a38fc06a728f8fd9b15f32d665f1baea4}{\index{Nest\-By\-Value@{Nest\-By\-Value}!coeff\-Ref@{coeff\-Ref}}
+\index{coeff\-Ref@{coeff\-Ref}!NestByValue@{Nest\-By\-Value}}
+\subsubsection[{coeff\-Ref}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Expression\-Type$>$ {\bf Scalar}\& {\bf Nest\-By\-Value}$<$ Expression\-Type $>$\-::coeff\-Ref (
+\begin{DoxyParamCaption}
+\item[{{\bf int}}]{index}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_nest_by_value_a38fc06a728f8fd9b15f32d665f1baea4}
+
+
+Definition at line 72 of file Nest\-By\-Value.\-h.
+
+\hypertarget{class_nest_by_value_a472ca1a4b4e25ad32ea1717d1168783b}{\index{Nest\-By\-Value@{Nest\-By\-Value}!cols@{cols}}
+\index{cols@{cols}!NestByValue@{Nest\-By\-Value}}
+\subsubsection[{cols}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Expression\-Type$>$ {\bf int} {\bf Nest\-By\-Value}$<$ Expression\-Type $>$\-::cols (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_nest_by_value_a472ca1a4b4e25ad32ea1717d1168783b}
+
+
+Definition at line 54 of file Nest\-By\-Value.\-h.
+
+\hypertarget{class_nest_by_value_a54c508cb9e78783f9676d0d5f1fe69af}{\index{Nest\-By\-Value@{Nest\-By\-Value}!E\-I\-G\-E\-N\-\_\-\-G\-E\-N\-E\-R\-I\-C\-\_\-\-P\-U\-B\-L\-I\-C\-\_\-\-I\-N\-T\-E\-R\-F\-A\-C\-E@{E\-I\-G\-E\-N\-\_\-\-G\-E\-N\-E\-R\-I\-C\-\_\-\-P\-U\-B\-L\-I\-C\-\_\-\-I\-N\-T\-E\-R\-F\-A\-C\-E}}
+\index{E\-I\-G\-E\-N\-\_\-\-G\-E\-N\-E\-R\-I\-C\-\_\-\-P\-U\-B\-L\-I\-C\-\_\-\-I\-N\-T\-E\-R\-F\-A\-C\-E@{E\-I\-G\-E\-N\-\_\-\-G\-E\-N\-E\-R\-I\-C\-\_\-\-P\-U\-B\-L\-I\-C\-\_\-\-I\-N\-T\-E\-R\-F\-A\-C\-E}!NestByValue@{Nest\-By\-Value}}
+\subsubsection[{E\-I\-G\-E\-N\-\_\-\-G\-E\-N\-E\-R\-I\-C\-\_\-\-P\-U\-B\-L\-I\-C\-\_\-\-I\-N\-T\-E\-R\-F\-A\-C\-E}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Expression\-Type$>$ {\bf Nest\-By\-Value}$<$ Expression\-Type $>$\-::E\-I\-G\-E\-N\-\_\-\-G\-E\-N\-E\-R\-I\-C\-\_\-\-P\-U\-B\-L\-I\-C\-\_\-\-I\-N\-T\-E\-R\-F\-A\-C\-E (
+\begin{DoxyParamCaption}
+\item[{{\bf Nest\-By\-Value}$<$ Expression\-Type $>$}]{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_nest_by_value_a54c508cb9e78783f9676d0d5f1fe69af}
+
+
+Definition at line 49 of file Nest\-By\-Value.\-h.
+
+\hypertarget{class_nest_by_value_a06159ce2f967e7de4cc2b77013c3bb94}{\index{Nest\-By\-Value@{Nest\-By\-Value}!packet@{packet}}
+\index{packet@{packet}!NestByValue@{Nest\-By\-Value}}
+\subsubsection[{packet}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Expression\-Type$>$ template$<$int Load\-Mode$>$ const {\bf Packet\-Scalar} {\bf Nest\-By\-Value}$<$ Expression\-Type $>$\-::packet (
+\begin{DoxyParamCaption}
+\item[{{\bf int}}]{row, }
+\item[{{\bf int}}]{col}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_nest_by_value_a06159ce2f967e7de4cc2b77013c3bb94}
+
+
+Definition at line 78 of file Nest\-By\-Value.\-h.
+
+\hypertarget{class_nest_by_value_a014bb11ae5965148fe9a72fac9110309}{\index{Nest\-By\-Value@{Nest\-By\-Value}!packet@{packet}}
+\index{packet@{packet}!NestByValue@{Nest\-By\-Value}}
+\subsubsection[{packet}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Expression\-Type$>$ template$<$int Load\-Mode$>$ const {\bf Packet\-Scalar} {\bf Nest\-By\-Value}$<$ Expression\-Type $>$\-::packet (
+\begin{DoxyParamCaption}
+\item[{{\bf int}}]{index}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_nest_by_value_a014bb11ae5965148fe9a72fac9110309}
+
+
+Definition at line 90 of file Nest\-By\-Value.\-h.
+
+\hypertarget{class_nest_by_value_a02fa7f14417d274b121ed021e3ed98be}{\index{Nest\-By\-Value@{Nest\-By\-Value}!rows@{rows}}
+\index{rows@{rows}!NestByValue@{Nest\-By\-Value}}
+\subsubsection[{rows}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Expression\-Type$>$ {\bf int} {\bf Nest\-By\-Value}$<$ Expression\-Type $>$\-::rows (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_nest_by_value_a02fa7f14417d274b121ed021e3ed98be}
+
+
+Definition at line 53 of file Nest\-By\-Value.\-h.
+
+\hypertarget{class_nest_by_value_ac829cf60b2466efe30211df1ceab1172}{\index{Nest\-By\-Value@{Nest\-By\-Value}!stride@{stride}}
+\index{stride@{stride}!NestByValue@{Nest\-By\-Value}}
+\subsubsection[{stride}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Expression\-Type$>$ {\bf int} {\bf Nest\-By\-Value}$<$ Expression\-Type $>$\-::{\bf stride} (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_nest_by_value_ac829cf60b2466efe30211df1ceab1172}
+
+
+Definition at line 55 of file Nest\-By\-Value.\-h.
+
+\hypertarget{class_nest_by_value_ac3d009c54f9382b2e95ca0af41cf8760}{\index{Nest\-By\-Value@{Nest\-By\-Value}!write\-Packet@{write\-Packet}}
+\index{write\-Packet@{write\-Packet}!NestByValue@{Nest\-By\-Value}}
+\subsubsection[{write\-Packet}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Expression\-Type$>$ template$<$int Load\-Mode$>$ {\bf void} {\bf Nest\-By\-Value}$<$ Expression\-Type $>$\-::write\-Packet (
+\begin{DoxyParamCaption}
+\item[{{\bf int}}]{row, }
+\item[{{\bf int}}]{col, }
+\item[{const {\bf Packet\-Scalar} \&}]{x}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_nest_by_value_ac3d009c54f9382b2e95ca0af41cf8760}
+
+
+Definition at line 84 of file Nest\-By\-Value.\-h.
+
+\hypertarget{class_nest_by_value_ac8ddfc0d49b4eea967407a359f3c0d3e}{\index{Nest\-By\-Value@{Nest\-By\-Value}!write\-Packet@{write\-Packet}}
+\index{write\-Packet@{write\-Packet}!NestByValue@{Nest\-By\-Value}}
+\subsubsection[{write\-Packet}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Expression\-Type$>$ template$<$int Load\-Mode$>$ {\bf void} {\bf Nest\-By\-Value}$<$ Expression\-Type $>$\-::write\-Packet (
+\begin{DoxyParamCaption}
+\item[{{\bf int}}]{index, }
+\item[{const {\bf Packet\-Scalar} \&}]{x}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_nest_by_value_ac8ddfc0d49b4eea967407a359f3c0d3e}
+
+
+Definition at line 96 of file Nest\-By\-Value.\-h.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{class_nest_by_value_abededd28edf27665ef9e83b26d602a88}{\index{Nest\-By\-Value@{Nest\-By\-Value}!m\-\_\-expression@{m\-\_\-expression}}
+\index{m\-\_\-expression@{m\-\_\-expression}!NestByValue@{Nest\-By\-Value}}
+\subsubsection[{m\-\_\-expression}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Expression\-Type$>$ const Expression\-Type {\bf Nest\-By\-Value}$<$ Expression\-Type $>$\-::m\-\_\-expression\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_nest_by_value_abededd28edf27665ef9e83b26d602a88}
+
+
+Definition at line 102 of file Nest\-By\-Value.\-h.
+
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/eigen/\-Eigen/src/\-Core/\hyperlink{_nest_by_value_8h}{Nest\-By\-Value.\-h}\end{DoxyCompactItemize}

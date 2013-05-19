@@ -1,0 +1,903 @@
+\hypertarget{class_g_l_c__3_d_view_collection}{\section{G\-L\-C\-\_\-3\-D\-View\-Collection Class Reference}
+\label{class_g_l_c__3_d_view_collection}\index{G\-L\-C\-\_\-3\-D\-View\-Collection@{G\-L\-C\-\_\-3\-D\-View\-Collection}}
+}
+
+
+\hyperlink{class_g_l_c__3_d_view_collection}{G\-L\-C\-\_\-3\-D\-View\-Collection} \-: \hyperlink{class_g_l_c__3_d_view_instance}{G\-L\-C\-\_\-3\-D\-View\-Instance} flat collection.  
+
+
+
+
+{\ttfamily \#include $<$glc\-\_\-3dviewcollection.\-h$>$}
+
+\subsection*{Public Member Functions}
+\begin{Indent}{\bf Constructor / Destructor}\par
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_g_l_c__3_d_view_collection_a5631dc8833dcedd55bd87d931c999ed6}{G\-L\-C\-\_\-3\-D\-View\-Collection} ()
+\begin{DoxyCompactList}\small\item\em Default constructor. \end{DoxyCompactList}\item 
+virtual \hyperlink{class_g_l_c__3_d_view_collection_a702d19952af06b0710174d836ae2f006}{$\sim$\-G\-L\-C\-\_\-3\-D\-View\-Collection} ()
+\begin{DoxyCompactList}\small\item\em Destructor. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\end{Indent}
+\begin{Indent}{\bf Get Functions}\par
+\begin{DoxyCompactItemize}
+\item 
+bool \hyperlink{class_g_l_c__3_d_view_collection_a45864e5c616a230f79569a5fa3aa0efc}{is\-Empty} () const 
+\begin{DoxyCompactList}\small\item\em Return true if the collection is empty. \end{DoxyCompactList}\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_g_l_c__3_d_view_collection_af979f883e77e0fce1eb3e3a1827a1e01}{size} (\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void}) const 
+\begin{DoxyCompactList}\small\item\em Return the number of Node in the collection. \end{DoxyCompactList}\item 
+\hyperlink{class_q_list}{Q\-List}$<$ \hyperlink{class_g_l_c__3_d_view_instance}{G\-L\-C\-\_\-3\-D\-View\-Instance} $\ast$ $>$ \hyperlink{class_g_l_c__3_d_view_collection_a5d86a2bc8b9be4ab976ca81d391c4f4a}{instances\-Handle} ()
+\begin{DoxyCompactList}\small\item\em Return all \hyperlink{class_g_l_c__3_d_view_instance}{G\-L\-C\-\_\-3\-D\-View\-Instance} from collection. \end{DoxyCompactList}\item 
+\hyperlink{class_q_list}{Q\-List}$<$ \hyperlink{class_g_l_c__3_d_view_instance}{G\-L\-C\-\_\-3\-D\-View\-Instance} $\ast$ $>$ \hyperlink{class_g_l_c__3_d_view_collection_a90c2d595eeb3f8336ee03f20779727ed}{visible\-Instances\-Handle} ()
+\begin{DoxyCompactList}\small\item\em Return all visible \hyperlink{class_g_l_c__3_d_view_instance}{G\-L\-C\-\_\-3\-D\-View\-Instance} from the collection. \end{DoxyCompactList}\item 
+\hyperlink{class_q_list}{Q\-List}$<$ \hyperlink{class_g_l_c__3_d_view_instance}{G\-L\-C\-\_\-3\-D\-View\-Instance} $\ast$ $>$ \hyperlink{class_g_l_c__3_d_view_collection_a98519c6d07611b12e3b082a48f64d142}{viewable\-Instances\-Handle} ()
+\begin{DoxyCompactList}\small\item\em Return all viewable \hyperlink{class_g_l_c__3_d_view_instance}{G\-L\-C\-\_\-3\-D\-View\-Instance} from the collection. \end{DoxyCompactList}\item 
+\hyperlink{class_g_l_c__3_d_view_instance}{G\-L\-C\-\_\-3\-D\-View\-Instance} $\ast$ \hyperlink{class_g_l_c__3_d_view_collection_ab65769287fbc984d9ecb0156f6c871e5}{instance\-Handle} (\hyperlink{glc__global_8h_abf950976fabed69026558df8e2da6c6b}{G\-L\-C\-\_\-uint} Key)
+\begin{DoxyCompactList}\small\item\em Return a \hyperlink{class_g_l_c__3_d_view_instance}{G\-L\-C\-\_\-3\-D\-View\-Instance} from collection. \end{DoxyCompactList}\item 
+\hyperlink{class_g_l_c___bounding_box}{G\-L\-C\-\_\-\-Bounding\-Box} \hyperlink{class_g_l_c__3_d_view_collection_a737dc3e84ebc68bb36a80276eb66d684}{bounding\-Box} (bool all\-Object=false)
+\begin{DoxyCompactList}\small\item\em Return the entire collection Bounding Box. \end{DoxyCompactList}\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_g_l_c__3_d_view_collection_a7a7eace06cece221fa23d781ed1a2068}{selection\-Size} (\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void}) const 
+\begin{DoxyCompactList}\small\item\em Return the number of Node in the selection Hash. \end{DoxyCompactList}\item 
+\hyperlink{glc__3dviewcollection_8h_a10d00d5caeab00b812ce3dceba3866bb}{Pointer\-View\-Instance\-Hash} $\ast$ \hyperlink{class_g_l_c__3_d_view_collection_aa82a9906065b4ffc9cd960fe2a21af1d}{selection} ()
+\begin{DoxyCompactList}\small\item\em Get the Hash table of Selected Nodes. \end{DoxyCompactList}\item 
+bool \hyperlink{class_g_l_c__3_d_view_collection_a49b36b3e28deb90ab78c247eb3cc332f}{contains} (\hyperlink{glc__global_8h_abf950976fabed69026558df8e2da6c6b}{G\-L\-C\-\_\-uint} key) const 
+\begin{DoxyCompactList}\small\item\em Return true if the Instance Id is in the collection. \end{DoxyCompactList}\item 
+bool \hyperlink{class_g_l_c__3_d_view_collection_a60e47e005dae9bf8274f23be4a3d73d0}{is\-Selected} (\hyperlink{glc__global_8h_abf950976fabed69026558df8e2da6c6b}{G\-L\-C\-\_\-uint} key) const 
+\begin{DoxyCompactList}\small\item\em Return true if the element is selected. \end{DoxyCompactList}\item 
+bool \hyperlink{class_g_l_c__3_d_view_collection_a3df36a48ff84e2f508737638381482fb}{show\-State} () const 
+\begin{DoxyCompactList}\small\item\em Return the showing state. \end{DoxyCompactList}\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_g_l_c__3_d_view_collection_a703f47dc07ff1c0915e2ec758bc2eb1a}{drawable\-Objects\-Size} () const 
+\begin{DoxyCompactList}\small\item\em Return the number of drawable objects. \end{DoxyCompactList}\item 
+\hyperlink{glc__global_8h_abf950976fabed69026558df8e2da6c6b}{G\-L\-C\-\_\-uint} \hyperlink{class_g_l_c__3_d_view_collection_a9df8959d16ea35b1b4f6a5c20da462bb}{shading\-Group} (\hyperlink{glc__global_8h_abf950976fabed69026558df8e2da6c6b}{G\-L\-C\-\_\-uint} key) const 
+\begin{DoxyCompactList}\small\item\em Return the element shading group. \end{DoxyCompactList}\item 
+bool \hyperlink{class_g_l_c__3_d_view_collection_a674fa9e130e620be50e5c1321f462b1b}{is\-In\-A\-Shading\-Group} (\hyperlink{glc__global_8h_abf950976fabed69026558df8e2da6c6b}{G\-L\-C\-\_\-uint} key) const 
+\begin{DoxyCompactList}\small\item\em Return true if the element is in a shading group. \end{DoxyCompactList}\item 
+\hyperlink{class_q_list}{Q\-List}$<$ \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{Q\-String} $>$ \hyperlink{class_g_l_c__3_d_view_collection_a7991699f36c4cca8dca90c9a838889c1}{instance\-Names\-From\-Shading\-Group} (\hyperlink{glext_8h_a2f0c8cd5c21f9fcbd931c3f48bc90dfc}{G\-Luint}) const 
+\begin{DoxyCompactList}\small\item\em Return instances name from the specified shading group. \end{DoxyCompactList}\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_g_l_c__3_d_view_collection_a30399b53ac353698d8e6a7055cc5ef28}{number\-Of\-Used\-Shading\-Group} () const 
+\begin{DoxyCompactList}\small\item\em Return the number of used shading group. \end{DoxyCompactList}\item 
+bool \hyperlink{class_g_l_c__3_d_view_collection_adc51ca601e8d53ba1575a8e367266aed}{space\-Partitioning\-Is\-Used} () const 
+\begin{DoxyCompactList}\small\item\em Return true if the space partitioning is used. \end{DoxyCompactList}\item 
+\hyperlink{class_g_l_c___space_partitioning}{G\-L\-C\-\_\-\-Space\-Partitioning} $\ast$ \hyperlink{class_g_l_c__3_d_view_collection_a27f3c8f7ccd479101bf0139f706e9200}{space\-Partitioning\-Handle} ()
+\begin{DoxyCompactList}\small\item\em Return an handle to the space partitioning. \end{DoxyCompactList}\item 
+bool \hyperlink{class_g_l_c__3_d_view_collection_af6f519eada07aa90caf0f3835ba69e1b}{is\-Viewable} () const 
+\begin{DoxyCompactList}\small\item\em Return true if the collection is viewable. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\end{Indent}
+\begin{Indent}{\bf Set Functions}\par
+\begin{DoxyCompactItemize}
+\item 
+bool \hyperlink{class_g_l_c__3_d_view_collection_ac38acb7b53f7243d3c148ccd8d318185}{bind\-Shader} (\hyperlink{glc__global_8h_abf950976fabed69026558df8e2da6c6b}{G\-L\-C\-\_\-uint} shader\-Id)
+\begin{DoxyCompactList}\small\item\em Bind the specified shader to the collection. \end{DoxyCompactList}\item 
+bool \hyperlink{class_g_l_c__3_d_view_collection_a2aab5c63e463c2857491597ca2d352f3}{un\-Bind\-Shader} (\hyperlink{glc__global_8h_abf950976fabed69026558df8e2da6c6b}{G\-L\-C\-\_\-uint} shader\-Id)
+\begin{DoxyCompactList}\small\item\em Unbind the specified shader from the collection. \end{DoxyCompactList}\item 
+bool \hyperlink{class_g_l_c__3_d_view_collection_a32036b17e6468450ead14705fb9bdde6}{un\-Bind\-All\-Shader} ()
+\begin{DoxyCompactList}\small\item\em Unbind All shader. \end{DoxyCompactList}\item 
+bool \hyperlink{class_g_l_c__3_d_view_collection_a2769e3f427ffda8383c829d7e748793f}{add} (const \hyperlink{class_g_l_c__3_d_view_instance}{G\-L\-C\-\_\-3\-D\-View\-Instance} \&, \hyperlink{glc__global_8h_abf950976fabed69026558df8e2da6c6b}{G\-L\-C\-\_\-uint} shader\-I\-D=0)
+\begin{DoxyCompactList}\small\item\em Add a \hyperlink{class_g_l_c__3_d_view_instance}{G\-L\-C\-\_\-3\-D\-View\-Instance} in the collection. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c__3_d_view_collection_ae7a6daec0b96237d84000ab172f8244f}{change\-Shading\-Group} (\hyperlink{glc__global_8h_abf950976fabed69026558df8e2da6c6b}{G\-L\-C\-\_\-uint} instance\-Id, \hyperlink{glc__global_8h_abf950976fabed69026558df8e2da6c6b}{G\-L\-C\-\_\-uint} shader\-Id)
+\begin{DoxyCompactList}\small\item\em Change instance shading group. \end{DoxyCompactList}\item 
+bool \hyperlink{class_g_l_c__3_d_view_collection_a0d599f103d2072bf2e5ee9810a22242a}{remove} (\hyperlink{glc__global_8h_abf950976fabed69026558df8e2da6c6b}{G\-L\-C\-\_\-uint} instance\-Id)
+\begin{DoxyCompactList}\small\item\em Remove a \hyperlink{class_g_l_c___geometry}{G\-L\-C\-\_\-\-Geometry} from the collection and delete it. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c__3_d_view_collection_a44078ff3fce1e1fd54d520dd2681aa09}{clear} (\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void})
+\begin{DoxyCompactList}\small\item\em Remove and delete all \hyperlink{class_g_l_c___geometry}{G\-L\-C\-\_\-\-Geometry} from the collection. \end{DoxyCompactList}\item 
+bool \hyperlink{class_g_l_c__3_d_view_collection_a6517ced4b82bb3c851e35a2bf0637cd0}{select} (\hyperlink{glc__global_8h_abf950976fabed69026558df8e2da6c6b}{G\-L\-C\-\_\-uint} instance\-Id, bool primitive=false)
+\begin{DoxyCompactList}\small\item\em \hyperlink{class_select}{Select} a Instance. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c__3_d_view_collection_ab421aa5e688b358a9770c68d83579322}{select\-All} (bool all\-Show\-State=false)
+\begin{DoxyCompactList}\small\item\em \hyperlink{class_select}{Select} all instances in current show state or in all show state. \end{DoxyCompactList}\item 
+bool \hyperlink{class_g_l_c__3_d_view_collection_a38afb06c2d281c3acf077b87d5424a10}{unselect} (\hyperlink{glc__global_8h_abf950976fabed69026558df8e2da6c6b}{G\-L\-C\-\_\-uint} instance\-Id)
+\begin{DoxyCompactList}\small\item\em unselect a Instance \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c__3_d_view_collection_adb2ba70a67c8c3f4dccc8ecd392040f4}{unselect\-All} ()
+\begin{DoxyCompactList}\small\item\em unselect all Instance \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c__3_d_view_collection_ad04850e0a4d3e6e96621413a39c32333}{set\-Polygon\-Mode\-For\-All} (\hyperlink{glext_8h_a508b2dec21679e2e346cad3e0d1969bf}{G\-Lenum} \hyperlink{glext_8h_a676ca580c460c0154eb58200433d2a9e}{face}, \hyperlink{glext_8h_a508b2dec21679e2e346cad3e0d1969bf}{G\-Lenum} \hyperlink{glext_8h_a1e71d9c196e4683cc06c4b54d53f7ef5}{mode})
+\begin{DoxyCompactList}\small\item\em Set the polygon mode for all Instance. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c__3_d_view_collection_a516e46fb65eb88765571d2ca239c4033}{set\-Visibility} (const \hyperlink{glc__global_8h_abf950976fabed69026558df8e2da6c6b}{G\-L\-C\-\_\-uint} instance\-Id, const bool visible)
+\begin{DoxyCompactList}\small\item\em Set Instance visibility. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c__3_d_view_collection_afc62038ac3a8c07a586b9c97c786d985}{show\-All} ()
+\begin{DoxyCompactList}\small\item\em Show all instances of the collection. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c__3_d_view_collection_af421123bee1a3220b4d2452c5e4dfc3a}{hide\-All} ()
+\begin{DoxyCompactList}\small\item\em Hide all instances of collection. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c__3_d_view_collection_a035f37fe2c66e8d1089e19f2615e6b7e}{swap\-Show\-State} ()
+\begin{DoxyCompactList}\small\item\em Set the Show or no\-Show state. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c__3_d_view_collection_a470395e7eb5d3d6b123c210119289c3e}{set\-Lod\-Usage} (const bool \hyperlink{glext_8h_ae759ed0394ed5353d8bef2fb755305da}{usage}, \hyperlink{class_g_l_c___viewport}{G\-L\-C\-\_\-\-Viewport} $\ast$p\-View)
+\begin{DoxyCompactList}\small\item\em Set the L\-O\-D usage. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c__3_d_view_collection_a9b61e3ece5af514c8c65de792b7cd7c4}{bind\-Space\-Partitioning} (\hyperlink{class_g_l_c___space_partitioning}{G\-L\-C\-\_\-\-Space\-Partitioning} $\ast$)
+\begin{DoxyCompactList}\small\item\em Bind the space partitioning. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c__3_d_view_collection_a367543e09bfba544d1afa94e15f59cf8}{unbind\-Space\-Partitioning} ()
+\begin{DoxyCompactList}\small\item\em Unbind the space partitioning. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c__3_d_view_collection_ae09298a67fd3cfe060f47468d6db6dae}{set\-Space\-Partitionning\-Usage} (bool use)
+\begin{DoxyCompactList}\small\item\em Use the space partitioning. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c__3_d_view_collection_ada30eead051fe81ec9aaef5496467345}{update\-Instance\-Viewable\-State} (\hyperlink{class_g_l_c___matrix4x4}{G\-L\-C\-\_\-\-Matrix4x4} $\ast$p\-Matrix=N\-U\-L\-L)
+\begin{DoxyCompactList}\small\item\em Update the instance viewable state. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c__3_d_view_collection_a20efeb420a876656dd1d178006e0e581}{update\-Instance\-Viewable\-State} (const \hyperlink{class_g_l_c___frustum}{G\-L\-C\-\_\-\-Frustum} \&)
+\begin{DoxyCompactList}\small\item\em Update the instance viewable state with the specified frustum. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c__3_d_view_collection_ae80787c653c8d87baf16eab0bd6a583d}{set\-Attached\-Viewport} (\hyperlink{class_g_l_c___viewport}{G\-L\-C\-\_\-\-Viewport} $\ast$p\-Viewport)
+\begin{DoxyCompactList}\small\item\em Set the attached viewport of this collection. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c__3_d_view_collection_abee535e6f28b78acd08823febdd66fb7}{set\-Viewable} (bool viewable)
+\begin{DoxyCompactList}\small\item\em Set the collection viewable state. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c__3_d_view_collection_aba23ec5228337f17fd7cfc32481d072b}{set\-Vbo\-Usage} (bool \hyperlink{glext_8h_ae759ed0394ed5353d8bef2fb755305da}{usage})
+\begin{DoxyCompactList}\small\item\em Set V\-B\-O usage. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\end{Indent}
+\subsection*{Open\-G\-L Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c__3_d_view_collection_a1143b3497b21f7c43f5f75c76c49d512}{render} (\hyperlink{glext_8h_a2f0c8cd5c21f9fcbd931c3f48bc90dfc}{G\-Luint}, \hyperlink{namespaceglc_a51a421b53283d5996142222b9baca26c}{glc\-::\-Render\-Flag})
+\begin{DoxyCompactList}\small\item\em Display the specified collection group. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c__3_d_view_collection_a86e0c0fbc89de1c0bce1820b71385d49}{render\-Shader\-Group} (\hyperlink{namespaceglc_a51a421b53283d5996142222b9baca26c}{glc\-::\-Render\-Flag})
+\begin{DoxyCompactList}\small\item\em Display all shader group. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\hyperlink{class_g_l_c__3_d_view_collection}{G\-L\-C\-\_\-3\-D\-View\-Collection} \-: \hyperlink{class_g_l_c__3_d_view_instance}{G\-L\-C\-\_\-3\-D\-View\-Instance} flat collection. 
+
+An \hyperlink{class_g_l_c__3_d_view_collection}{G\-L\-C\-\_\-3\-D\-View\-Collection} contains \-:
+\begin{DoxyItemize}
+\item A hash table containing \hyperlink{class_g_l_c__3_d_view_instance}{G\-L\-C\-\_\-3\-D\-View\-Instance} Class
+\item A hash table use to associate shader with \hyperlink{class_g_l_c__3_d_view_instance}{G\-L\-C\-\_\-3\-D\-View\-Instance} 
+\end{DoxyItemize}
+
+Definition at line 63 of file glc\-\_\-3dviewcollection.\-h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_g_l_c__3_d_view_collection_a5631dc8833dcedd55bd87d931c999ed6}{\index{G\-L\-C\-\_\-3\-D\-View\-Collection@{G\-L\-C\-\_\-3\-D\-View\-Collection}!G\-L\-C\-\_\-3\-D\-View\-Collection@{G\-L\-C\-\_\-3\-D\-View\-Collection}}
+\index{G\-L\-C\-\_\-3\-D\-View\-Collection@{G\-L\-C\-\_\-3\-D\-View\-Collection}!GLC_3DViewCollection@{G\-L\-C\-\_\-3\-D\-View\-Collection}}
+\subsubsection[{G\-L\-C\-\_\-3\-D\-View\-Collection}]{\setlength{\rightskip}{0pt plus 5cm}G\-L\-C\-\_\-3\-D\-View\-Collection\-::\-G\-L\-C\-\_\-3\-D\-View\-Collection (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c__3_d_view_collection_a5631dc8833dcedd55bd87d931c999ed6}
+
+
+Default constructor. 
+
+
+
+Definition at line 41 of file glc\-\_\-3dviewcollection.\-cpp.
+
+\hypertarget{class_g_l_c__3_d_view_collection_a702d19952af06b0710174d836ae2f006}{\index{G\-L\-C\-\_\-3\-D\-View\-Collection@{G\-L\-C\-\_\-3\-D\-View\-Collection}!$\sim$\-G\-L\-C\-\_\-3\-D\-View\-Collection@{$\sim$\-G\-L\-C\-\_\-3\-D\-View\-Collection}}
+\index{$\sim$\-G\-L\-C\-\_\-3\-D\-View\-Collection@{$\sim$\-G\-L\-C\-\_\-3\-D\-View\-Collection}!GLC_3DViewCollection@{G\-L\-C\-\_\-3\-D\-View\-Collection}}
+\subsubsection[{$\sim$\-G\-L\-C\-\_\-3\-D\-View\-Collection}]{\setlength{\rightskip}{0pt plus 5cm}G\-L\-C\-\_\-3\-D\-View\-Collection\-::$\sim$\-G\-L\-C\-\_\-3\-D\-View\-Collection (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_g_l_c__3_d_view_collection_a702d19952af06b0710174d836ae2f006}
+
+
+Destructor. 
+
+Delete all Node in the Hash Table and clear the Hash Table 
+
+Definition at line 56 of file glc\-\_\-3dviewcollection.\-cpp.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_g_l_c__3_d_view_collection_a2769e3f427ffda8383c829d7e748793f}{\index{G\-L\-C\-\_\-3\-D\-View\-Collection@{G\-L\-C\-\_\-3\-D\-View\-Collection}!add@{add}}
+\index{add@{add}!GLC_3DViewCollection@{G\-L\-C\-\_\-3\-D\-View\-Collection}}
+\subsubsection[{add}]{\setlength{\rightskip}{0pt plus 5cm}bool G\-L\-C\-\_\-3\-D\-View\-Collection\-::add (
+\begin{DoxyParamCaption}
+\item[{const {\bf G\-L\-C\-\_\-3\-D\-View\-Instance} \&}]{node, }
+\item[{{\bf G\-L\-C\-\_\-uint}}]{shader\-I\-D = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c__3_d_view_collection_a2769e3f427ffda8383c829d7e748793f}
+
+
+Add a \hyperlink{class_g_l_c__3_d_view_instance}{G\-L\-C\-\_\-3\-D\-View\-Instance} in the collection. 
+
+return true if success false otherwise If shading group is specified, add instance in desire shading group 
+
+Definition at line 130 of file glc\-\_\-3dviewcollection.\-cpp.
+
+\hypertarget{class_g_l_c__3_d_view_collection_ac38acb7b53f7243d3c148ccd8d318185}{\index{G\-L\-C\-\_\-3\-D\-View\-Collection@{G\-L\-C\-\_\-3\-D\-View\-Collection}!bind\-Shader@{bind\-Shader}}
+\index{bind\-Shader@{bind\-Shader}!GLC_3DViewCollection@{G\-L\-C\-\_\-3\-D\-View\-Collection}}
+\subsubsection[{bind\-Shader}]{\setlength{\rightskip}{0pt plus 5cm}bool G\-L\-C\-\_\-3\-D\-View\-Collection\-::bind\-Shader (
+\begin{DoxyParamCaption}
+\item[{{\bf G\-L\-C\-\_\-uint}}]{shader\-Id}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c__3_d_view_collection_ac38acb7b53f7243d3c148ccd8d318185}
+
+
+Bind the specified shader to the collection. 
+
+
+
+Definition at line 65 of file glc\-\_\-3dviewcollection.\-cpp.
+
+\hypertarget{class_g_l_c__3_d_view_collection_a9b61e3ece5af514c8c65de792b7cd7c4}{\index{G\-L\-C\-\_\-3\-D\-View\-Collection@{G\-L\-C\-\_\-3\-D\-View\-Collection}!bind\-Space\-Partitioning@{bind\-Space\-Partitioning}}
+\index{bind\-Space\-Partitioning@{bind\-Space\-Partitioning}!GLC_3DViewCollection@{G\-L\-C\-\_\-3\-D\-View\-Collection}}
+\subsubsection[{bind\-Space\-Partitioning}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-3\-D\-View\-Collection\-::bind\-Space\-Partitioning (
+\begin{DoxyParamCaption}
+\item[{{\bf G\-L\-C\-\_\-\-Space\-Partitioning} $\ast$}]{p\-Space\-Partitioning}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c__3_d_view_collection_a9b61e3ece5af514c8c65de792b7cd7c4}
+
+
+Bind the space partitioning. 
+
+
+
+Definition at line 446 of file glc\-\_\-3dviewcollection.\-cpp.
+
+\hypertarget{class_g_l_c__3_d_view_collection_a737dc3e84ebc68bb36a80276eb66d684}{\index{G\-L\-C\-\_\-3\-D\-View\-Collection@{G\-L\-C\-\_\-3\-D\-View\-Collection}!bounding\-Box@{bounding\-Box}}
+\index{bounding\-Box@{bounding\-Box}!GLC_3DViewCollection@{G\-L\-C\-\_\-3\-D\-View\-Collection}}
+\subsubsection[{bounding\-Box}]{\setlength{\rightskip}{0pt plus 5cm}{\bf G\-L\-C\-\_\-\-Bounding\-Box} G\-L\-C\-\_\-3\-D\-View\-Collection\-::bounding\-Box (
+\begin{DoxyParamCaption}
+\item[{bool}]{all\-Object = {\ttfamily false}}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c__3_d_view_collection_a737dc3e84ebc68bb36a80276eb66d684}
+
+
+Return the entire collection Bounding Box. 
+
+If all object is set to true, visible and non visible object are used 
+
+Definition at line 551 of file glc\-\_\-3dviewcollection.\-cpp.
+
+\hypertarget{class_g_l_c__3_d_view_collection_ae7a6daec0b96237d84000ab172f8244f}{\index{G\-L\-C\-\_\-3\-D\-View\-Collection@{G\-L\-C\-\_\-3\-D\-View\-Collection}!change\-Shading\-Group@{change\-Shading\-Group}}
+\index{change\-Shading\-Group@{change\-Shading\-Group}!GLC_3DViewCollection@{G\-L\-C\-\_\-3\-D\-View\-Collection}}
+\subsubsection[{change\-Shading\-Group}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-3\-D\-View\-Collection\-::change\-Shading\-Group (
+\begin{DoxyParamCaption}
+\item[{{\bf G\-L\-C\-\_\-uint}}]{instance\-Id, }
+\item[{{\bf G\-L\-C\-\_\-uint}}]{shader\-Id}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c__3_d_view_collection_ae7a6daec0b96237d84000ab172f8244f}
+
+
+Change instance shading group. 
+
+
+
+Definition at line 176 of file glc\-\_\-3dviewcollection.\-cpp.
+
+\hypertarget{class_g_l_c__3_d_view_collection_a44078ff3fce1e1fd54d520dd2681aa09}{\index{G\-L\-C\-\_\-3\-D\-View\-Collection@{G\-L\-C\-\_\-3\-D\-View\-Collection}!clear@{clear}}
+\index{clear@{clear}!GLC_3DViewCollection@{G\-L\-C\-\_\-3\-D\-View\-Collection}}
+\subsubsection[{clear}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-3\-D\-View\-Collection\-::clear (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c__3_d_view_collection_a44078ff3fce1e1fd54d520dd2681aa09}
+
+
+Remove and delete all \hyperlink{class_g_l_c___geometry}{G\-L\-C\-\_\-\-Geometry} from the collection. 
+
+
+
+Definition at line 259 of file glc\-\_\-3dviewcollection.\-cpp.
+
+\hypertarget{class_g_l_c__3_d_view_collection_a49b36b3e28deb90ab78c247eb3cc332f}{\index{G\-L\-C\-\_\-3\-D\-View\-Collection@{G\-L\-C\-\_\-3\-D\-View\-Collection}!contains@{contains}}
+\index{contains@{contains}!GLC_3DViewCollection@{G\-L\-C\-\_\-3\-D\-View\-Collection}}
+\subsubsection[{contains}]{\setlength{\rightskip}{0pt plus 5cm}bool G\-L\-C\-\_\-3\-D\-View\-Collection\-::contains (
+\begin{DoxyParamCaption}
+\item[{{\bf G\-L\-C\-\_\-uint}}]{key}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c__3_d_view_collection_a49b36b3e28deb90ab78c247eb3cc332f}
+
+
+Return true if the Instance Id is in the collection. 
+
+
+
+Definition at line 120 of file glc\-\_\-3dviewcollection.\-h.
+
+\hypertarget{class_g_l_c__3_d_view_collection_a703f47dc07ff1c0915e2ec758bc2eb1a}{\index{G\-L\-C\-\_\-3\-D\-View\-Collection@{G\-L\-C\-\_\-3\-D\-View\-Collection}!drawable\-Objects\-Size@{drawable\-Objects\-Size}}
+\index{drawable\-Objects\-Size@{drawable\-Objects\-Size}!GLC_3DViewCollection@{G\-L\-C\-\_\-3\-D\-View\-Collection}}
+\subsubsection[{drawable\-Objects\-Size}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int} G\-L\-C\-\_\-3\-D\-View\-Collection\-::drawable\-Objects\-Size (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_g_l_c__3_d_view_collection_a703f47dc07ff1c0915e2ec758bc2eb1a}
+
+
+Return the number of drawable objects. 
+
+
+
+Definition at line 571 of file glc\-\_\-3dviewcollection.\-cpp.
+
+\hypertarget{class_g_l_c__3_d_view_collection_af421123bee1a3220b4d2452c5e4dfc3a}{\index{G\-L\-C\-\_\-3\-D\-View\-Collection@{G\-L\-C\-\_\-3\-D\-View\-Collection}!hide\-All@{hide\-All}}
+\index{hide\-All@{hide\-All}!GLC_3DViewCollection@{G\-L\-C\-\_\-3\-D\-View\-Collection}}
+\subsubsection[{hide\-All}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-3\-D\-View\-Collection\-::hide\-All (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c__3_d_view_collection_af421123bee1a3220b4d2452c5e4dfc3a}
+
+
+Hide all instances of collection. 
+
+
+
+Definition at line 433 of file glc\-\_\-3dviewcollection.\-cpp.
+
+\hypertarget{class_g_l_c__3_d_view_collection_ab65769287fbc984d9ecb0156f6c871e5}{\index{G\-L\-C\-\_\-3\-D\-View\-Collection@{G\-L\-C\-\_\-3\-D\-View\-Collection}!instance\-Handle@{instance\-Handle}}
+\index{instance\-Handle@{instance\-Handle}!GLC_3DViewCollection@{G\-L\-C\-\_\-3\-D\-View\-Collection}}
+\subsubsection[{instance\-Handle}]{\setlength{\rightskip}{0pt plus 5cm}{\bf G\-L\-C\-\_\-3\-D\-View\-Instance} $\ast$ G\-L\-C\-\_\-3\-D\-View\-Collection\-::instance\-Handle (
+\begin{DoxyParamCaption}
+\item[{{\bf G\-L\-C\-\_\-uint}}]{Key}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c__3_d_view_collection_ab65769287fbc984d9ecb0156f6c871e5}
+
+
+Return a \hyperlink{class_g_l_c__3_d_view_instance}{G\-L\-C\-\_\-3\-D\-View\-Instance} from collection. 
+
+If the element is not found in collection a empty node is return 
+
+Definition at line 545 of file glc\-\_\-3dviewcollection.\-cpp.
+
+\hypertarget{class_g_l_c__3_d_view_collection_a7991699f36c4cca8dca90c9a838889c1}{\index{G\-L\-C\-\_\-3\-D\-View\-Collection@{G\-L\-C\-\_\-3\-D\-View\-Collection}!instance\-Names\-From\-Shading\-Group@{instance\-Names\-From\-Shading\-Group}}
+\index{instance\-Names\-From\-Shading\-Group@{instance\-Names\-From\-Shading\-Group}!GLC_3DViewCollection@{G\-L\-C\-\_\-3\-D\-View\-Collection}}
+\subsubsection[{instance\-Names\-From\-Shading\-Group}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Q\-List}$<$ {\bf Q\-String} $>$ G\-L\-C\-\_\-3\-D\-View\-Collection\-::instance\-Names\-From\-Shading\-Group (
+\begin{DoxyParamCaption}
+\item[{{\bf G\-Luint}}]{shader\-Id}
+\end{DoxyParamCaption}
+) const}}\label{class_g_l_c__3_d_view_collection_a7991699f36c4cca8dca90c9a838889c1}
+
+
+Return instances name from the specified shading group. 
+
+
+
+Definition at line 590 of file glc\-\_\-3dviewcollection.\-cpp.
+
+\hypertarget{class_g_l_c__3_d_view_collection_a5d86a2bc8b9be4ab976ca81d391c4f4a}{\index{G\-L\-C\-\_\-3\-D\-View\-Collection@{G\-L\-C\-\_\-3\-D\-View\-Collection}!instances\-Handle@{instances\-Handle}}
+\index{instances\-Handle@{instances\-Handle}!GLC_3DViewCollection@{G\-L\-C\-\_\-3\-D\-View\-Collection}}
+\subsubsection[{instances\-Handle}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Q\-List}$<$ {\bf G\-L\-C\-\_\-3\-D\-View\-Instance} $\ast$ $>$ G\-L\-C\-\_\-3\-D\-View\-Collection\-::instances\-Handle (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c__3_d_view_collection_a5d86a2bc8b9be4ab976ca81d391c4f4a}
+
+
+Return all \hyperlink{class_g_l_c__3_d_view_instance}{G\-L\-C\-\_\-3\-D\-View\-Instance} from collection. 
+
+
+
+Definition at line 496 of file glc\-\_\-3dviewcollection.\-cpp.
+
+\hypertarget{class_g_l_c__3_d_view_collection_a45864e5c616a230f79569a5fa3aa0efc}{\index{G\-L\-C\-\_\-3\-D\-View\-Collection@{G\-L\-C\-\_\-3\-D\-View\-Collection}!is\-Empty@{is\-Empty}}
+\index{is\-Empty@{is\-Empty}!GLC_3DViewCollection@{G\-L\-C\-\_\-3\-D\-View\-Collection}}
+\subsubsection[{is\-Empty}]{\setlength{\rightskip}{0pt plus 5cm}bool G\-L\-C\-\_\-3\-D\-View\-Collection\-::is\-Empty (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c__3_d_view_collection_a45864e5c616a230f79569a5fa3aa0efc}
+
+
+Return true if the collection is empty. 
+
+
+
+Definition at line 87 of file glc\-\_\-3dviewcollection.\-h.
+
+\hypertarget{class_g_l_c__3_d_view_collection_a674fa9e130e620be50e5c1321f462b1b}{\index{G\-L\-C\-\_\-3\-D\-View\-Collection@{G\-L\-C\-\_\-3\-D\-View\-Collection}!is\-In\-A\-Shading\-Group@{is\-In\-A\-Shading\-Group}}
+\index{is\-In\-A\-Shading\-Group@{is\-In\-A\-Shading\-Group}!GLC_3DViewCollection@{G\-L\-C\-\_\-3\-D\-View\-Collection}}
+\subsubsection[{is\-In\-A\-Shading\-Group}]{\setlength{\rightskip}{0pt plus 5cm}bool G\-L\-C\-\_\-3\-D\-View\-Collection\-::is\-In\-A\-Shading\-Group (
+\begin{DoxyParamCaption}
+\item[{{\bf G\-L\-C\-\_\-uint}}]{key}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c__3_d_view_collection_a674fa9e130e620be50e5c1321f462b1b}
+
+
+Return true if the element is in a shading group. 
+
+
+
+Definition at line 139 of file glc\-\_\-3dviewcollection.\-h.
+
+\hypertarget{class_g_l_c__3_d_view_collection_a60e47e005dae9bf8274f23be4a3d73d0}{\index{G\-L\-C\-\_\-3\-D\-View\-Collection@{G\-L\-C\-\_\-3\-D\-View\-Collection}!is\-Selected@{is\-Selected}}
+\index{is\-Selected@{is\-Selected}!GLC_3DViewCollection@{G\-L\-C\-\_\-3\-D\-View\-Collection}}
+\subsubsection[{is\-Selected}]{\setlength{\rightskip}{0pt plus 5cm}bool G\-L\-C\-\_\-3\-D\-View\-Collection\-::is\-Selected (
+\begin{DoxyParamCaption}
+\item[{{\bf G\-L\-C\-\_\-uint}}]{key}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c__3_d_view_collection_a60e47e005dae9bf8274f23be4a3d73d0}
+
+
+Return true if the element is selected. 
+
+
+
+Definition at line 124 of file glc\-\_\-3dviewcollection.\-h.
+
+\hypertarget{class_g_l_c__3_d_view_collection_af6f519eada07aa90caf0f3835ba69e1b}{\index{G\-L\-C\-\_\-3\-D\-View\-Collection@{G\-L\-C\-\_\-3\-D\-View\-Collection}!is\-Viewable@{is\-Viewable}}
+\index{is\-Viewable@{is\-Viewable}!GLC_3DViewCollection@{G\-L\-C\-\_\-3\-D\-View\-Collection}}
+\subsubsection[{is\-Viewable}]{\setlength{\rightskip}{0pt plus 5cm}bool G\-L\-C\-\_\-3\-D\-View\-Collection\-::is\-Viewable (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c__3_d_view_collection_af6f519eada07aa90caf0f3835ba69e1b}
+
+
+Return true if the collection is viewable. 
+
+
+
+Definition at line 157 of file glc\-\_\-3dviewcollection.\-h.
+
+\hypertarget{class_g_l_c__3_d_view_collection_a30399b53ac353698d8e6a7055cc5ef28}{\index{G\-L\-C\-\_\-3\-D\-View\-Collection@{G\-L\-C\-\_\-3\-D\-View\-Collection}!number\-Of\-Used\-Shading\-Group@{number\-Of\-Used\-Shading\-Group}}
+\index{number\-Of\-Used\-Shading\-Group@{number\-Of\-Used\-Shading\-Group}!GLC_3DViewCollection@{G\-L\-C\-\_\-3\-D\-View\-Collection}}
+\subsubsection[{number\-Of\-Used\-Shading\-Group}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int} G\-L\-C\-\_\-3\-D\-View\-Collection\-::number\-Of\-Used\-Shading\-Group (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_g_l_c__3_d_view_collection_a30399b53ac353698d8e6a7055cc5ef28}
+
+
+Return the number of used shading group. 
+
+
+
+Definition at line 605 of file glc\-\_\-3dviewcollection.\-cpp.
+
+\hypertarget{class_g_l_c__3_d_view_collection_a0d599f103d2072bf2e5ee9810a22242a}{\index{G\-L\-C\-\_\-3\-D\-View\-Collection@{G\-L\-C\-\_\-3\-D\-View\-Collection}!remove@{remove}}
+\index{remove@{remove}!GLC_3DViewCollection@{G\-L\-C\-\_\-3\-D\-View\-Collection}}
+\subsubsection[{remove}]{\setlength{\rightskip}{0pt plus 5cm}bool G\-L\-C\-\_\-3\-D\-View\-Collection\-::remove (
+\begin{DoxyParamCaption}
+\item[{{\bf G\-L\-C\-\_\-uint}}]{instance\-Id}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c__3_d_view_collection_a0d599f103d2072bf2e5ee9810a22242a}
+
+
+Remove a \hyperlink{class_g_l_c___geometry}{G\-L\-C\-\_\-\-Geometry} from the collection and delete it. 
+
+
+\begin{DoxyItemize}
+\item Find the \hyperlink{class_g_l_c___geometry}{G\-L\-C\-\_\-\-Geometry} in the collection
+\begin{DoxyItemize}
+\item Delete the \hyperlink{class_g_l_c___geometry}{G\-L\-C\-\_\-\-Geometry}
+\item Remove the Geometry container from collection
+\item Delete the associated Open\-G\-L Display list
+\item Remove the Display list container from collection
+\item Invalidate the collection return true if success false otherwise 
+\end{DoxyItemize}
+\end{DoxyItemize}
+
+Definition at line 231 of file glc\-\_\-3dviewcollection.\-cpp.
+
+\hypertarget{class_g_l_c__3_d_view_collection_a1143b3497b21f7c43f5f75c76c49d512}{\index{G\-L\-C\-\_\-3\-D\-View\-Collection@{G\-L\-C\-\_\-3\-D\-View\-Collection}!render@{render}}
+\index{render@{render}!GLC_3DViewCollection@{G\-L\-C\-\_\-3\-D\-View\-Collection}}
+\subsubsection[{render}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-3\-D\-View\-Collection\-::render (
+\begin{DoxyParamCaption}
+\item[{{\bf G\-Luint}}]{group\-Id, }
+\item[{{\bf glc\-::\-Render\-Flag}}]{render\-Flag}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c__3_d_view_collection_a1143b3497b21f7c43f5f75c76c49d512}
+
+
+Display the specified collection group. 
+
+The main group is 0 The selection group is 1 User group are identified by user id 
+
+Definition at line 614 of file glc\-\_\-3dviewcollection.\-cpp.
+
+\hypertarget{class_g_l_c__3_d_view_collection_a86e0c0fbc89de1c0bce1820b71385d49}{\index{G\-L\-C\-\_\-3\-D\-View\-Collection@{G\-L\-C\-\_\-3\-D\-View\-Collection}!render\-Shader\-Group@{render\-Shader\-Group}}
+\index{render\-Shader\-Group@{render\-Shader\-Group}!GLC_3DViewCollection@{G\-L\-C\-\_\-3\-D\-View\-Collection}}
+\subsubsection[{render\-Shader\-Group}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-3\-D\-View\-Collection\-::render\-Shader\-Group (
+\begin{DoxyParamCaption}
+\item[{{\bf glc\-::\-Render\-Flag}}]{render\-Flag}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c__3_d_view_collection_a86e0c0fbc89de1c0bce1820b71385d49}
+
+
+Display all shader group. 
+
+
+
+Definition at line 641 of file glc\-\_\-3dviewcollection.\-cpp.
+
+\hypertarget{class_g_l_c__3_d_view_collection_a6517ced4b82bb3c851e35a2bf0637cd0}{\index{G\-L\-C\-\_\-3\-D\-View\-Collection@{G\-L\-C\-\_\-3\-D\-View\-Collection}!select@{select}}
+\index{select@{select}!GLC_3DViewCollection@{G\-L\-C\-\_\-3\-D\-View\-Collection}}
+\subsubsection[{select}]{\setlength{\rightskip}{0pt plus 5cm}bool G\-L\-C\-\_\-3\-D\-View\-Collection\-::select (
+\begin{DoxyParamCaption}
+\item[{{\bf G\-L\-C\-\_\-uint}}]{instance\-Id, }
+\item[{bool}]{primitive = {\ttfamily false}}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c__3_d_view_collection_a6517ced4b82bb3c851e35a2bf0637cd0}
+
+
+\hyperlink{class_select}{Select} a Instance. 
+
+
+
+Definition at line 284 of file glc\-\_\-3dviewcollection.\-cpp.
+
+\hypertarget{class_g_l_c__3_d_view_collection_ab421aa5e688b358a9770c68d83579322}{\index{G\-L\-C\-\_\-3\-D\-View\-Collection@{G\-L\-C\-\_\-3\-D\-View\-Collection}!select\-All@{select\-All}}
+\index{select\-All@{select\-All}!GLC_3DViewCollection@{G\-L\-C\-\_\-3\-D\-View\-Collection}}
+\subsubsection[{select\-All}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-3\-D\-View\-Collection\-::select\-All (
+\begin{DoxyParamCaption}
+\item[{bool}]{all\-Show\-State = {\ttfamily false}}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c__3_d_view_collection_ab421aa5e688b358a9770c68d83579322}
+
+
+\hyperlink{class_select}{Select} all instances in current show state or in all show state. 
+
+
+
+Definition at line 319 of file glc\-\_\-3dviewcollection.\-cpp.
+
+\hypertarget{class_g_l_c__3_d_view_collection_aa82a9906065b4ffc9cd960fe2a21af1d}{\index{G\-L\-C\-\_\-3\-D\-View\-Collection@{G\-L\-C\-\_\-3\-D\-View\-Collection}!selection@{selection}}
+\index{selection@{selection}!GLC_3DViewCollection@{G\-L\-C\-\_\-3\-D\-View\-Collection}}
+\subsubsection[{selection}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Pointer\-View\-Instance\-Hash}$\ast$ G\-L\-C\-\_\-3\-D\-View\-Collection\-::selection (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c__3_d_view_collection_aa82a9906065b4ffc9cd960fe2a21af1d}
+
+
+Get the Hash table of Selected Nodes. 
+
+
+
+Definition at line 116 of file glc\-\_\-3dviewcollection.\-h.
+
+\hypertarget{class_g_l_c__3_d_view_collection_a7a7eace06cece221fa23d781ed1a2068}{\index{G\-L\-C\-\_\-3\-D\-View\-Collection@{G\-L\-C\-\_\-3\-D\-View\-Collection}!selection\-Size@{selection\-Size}}
+\index{selection\-Size@{selection\-Size}!GLC_3DViewCollection@{G\-L\-C\-\_\-3\-D\-View\-Collection}}
+\subsubsection[{selection\-Size}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int} G\-L\-C\-\_\-3\-D\-View\-Collection\-::selection\-Size (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c__3_d_view_collection_a7a7eace06cece221fa23d781ed1a2068}
+
+
+Return the number of Node in the selection Hash. 
+
+
+
+Definition at line 112 of file glc\-\_\-3dviewcollection.\-h.
+
+\hypertarget{class_g_l_c__3_d_view_collection_ae80787c653c8d87baf16eab0bd6a583d}{\index{G\-L\-C\-\_\-3\-D\-View\-Collection@{G\-L\-C\-\_\-3\-D\-View\-Collection}!set\-Attached\-Viewport@{set\-Attached\-Viewport}}
+\index{set\-Attached\-Viewport@{set\-Attached\-Viewport}!GLC_3DViewCollection@{G\-L\-C\-\_\-3\-D\-View\-Collection}}
+\subsubsection[{set\-Attached\-Viewport}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-3\-D\-View\-Collection\-::set\-Attached\-Viewport (
+\begin{DoxyParamCaption}
+\item[{{\bf G\-L\-C\-\_\-\-Viewport} $\ast$}]{p\-Viewport}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c__3_d_view_collection_ae80787c653c8d87baf16eab0bd6a583d}
+
+
+Set the attached viewport of this collection. 
+
+
+
+Definition at line 257 of file glc\-\_\-3dviewcollection.\-h.
+
+\hypertarget{class_g_l_c__3_d_view_collection_a470395e7eb5d3d6b123c210119289c3e}{\index{G\-L\-C\-\_\-3\-D\-View\-Collection@{G\-L\-C\-\_\-3\-D\-View\-Collection}!set\-Lod\-Usage@{set\-Lod\-Usage}}
+\index{set\-Lod\-Usage@{set\-Lod\-Usage}!GLC_3DViewCollection@{G\-L\-C\-\_\-3\-D\-View\-Collection}}
+\subsubsection[{set\-Lod\-Usage}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-3\-D\-View\-Collection\-::set\-Lod\-Usage (
+\begin{DoxyParamCaption}
+\item[{const bool}]{usage, }
+\item[{{\bf G\-L\-C\-\_\-\-Viewport} $\ast$}]{p\-View}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c__3_d_view_collection_a470395e7eb5d3d6b123c210119289c3e}
+
+
+Set the L\-O\-D usage. 
+
+
+
+Definition at line 232 of file glc\-\_\-3dviewcollection.\-h.
+
+\hypertarget{class_g_l_c__3_d_view_collection_ad04850e0a4d3e6e96621413a39c32333}{\index{G\-L\-C\-\_\-3\-D\-View\-Collection@{G\-L\-C\-\_\-3\-D\-View\-Collection}!set\-Polygon\-Mode\-For\-All@{set\-Polygon\-Mode\-For\-All}}
+\index{set\-Polygon\-Mode\-For\-All@{set\-Polygon\-Mode\-For\-All}!GLC_3DViewCollection@{G\-L\-C\-\_\-3\-D\-View\-Collection}}
+\subsubsection[{set\-Polygon\-Mode\-For\-All}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-3\-D\-View\-Collection\-::set\-Polygon\-Mode\-For\-All (
+\begin{DoxyParamCaption}
+\item[{{\bf G\-Lenum}}]{face, }
+\item[{{\bf G\-Lenum}}]{mode}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c__3_d_view_collection_ad04850e0a4d3e6e96621413a39c32333}
+
+
+Set the polygon mode for all Instance. 
+
+
+
+Definition at line 399 of file glc\-\_\-3dviewcollection.\-cpp.
+
+\hypertarget{class_g_l_c__3_d_view_collection_ae09298a67fd3cfe060f47468d6db6dae}{\index{G\-L\-C\-\_\-3\-D\-View\-Collection@{G\-L\-C\-\_\-3\-D\-View\-Collection}!set\-Space\-Partitionning\-Usage@{set\-Space\-Partitionning\-Usage}}
+\index{set\-Space\-Partitionning\-Usage@{set\-Space\-Partitionning\-Usage}!GLC_3DViewCollection@{G\-L\-C\-\_\-3\-D\-View\-Collection}}
+\subsubsection[{set\-Space\-Partitionning\-Usage}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-3\-D\-View\-Collection\-::set\-Space\-Partitionning\-Usage (
+\begin{DoxyParamCaption}
+\item[{bool}]{use}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c__3_d_view_collection_ae09298a67fd3cfe060f47468d6db6dae}
+
+
+Use the space partitioning. 
+
+
+
+Definition at line 245 of file glc\-\_\-3dviewcollection.\-h.
+
+\hypertarget{class_g_l_c__3_d_view_collection_aba23ec5228337f17fd7cfc32481d072b}{\index{G\-L\-C\-\_\-3\-D\-View\-Collection@{G\-L\-C\-\_\-3\-D\-View\-Collection}!set\-Vbo\-Usage@{set\-Vbo\-Usage}}
+\index{set\-Vbo\-Usage@{set\-Vbo\-Usage}!GLC_3DViewCollection@{G\-L\-C\-\_\-3\-D\-View\-Collection}}
+\subsubsection[{set\-Vbo\-Usage}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-3\-D\-View\-Collection\-::set\-Vbo\-Usage (
+\begin{DoxyParamCaption}
+\item[{bool}]{usage}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c__3_d_view_collection_aba23ec5228337f17fd7cfc32481d072b}
+
+
+Set V\-B\-O usage. 
+
+
+
+Definition at line 485 of file glc\-\_\-3dviewcollection.\-cpp.
+
+\hypertarget{class_g_l_c__3_d_view_collection_abee535e6f28b78acd08823febdd66fb7}{\index{G\-L\-C\-\_\-3\-D\-View\-Collection@{G\-L\-C\-\_\-3\-D\-View\-Collection}!set\-Viewable@{set\-Viewable}}
+\index{set\-Viewable@{set\-Viewable}!GLC_3DViewCollection@{G\-L\-C\-\_\-3\-D\-View\-Collection}}
+\subsubsection[{set\-Viewable}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-3\-D\-View\-Collection\-::set\-Viewable (
+\begin{DoxyParamCaption}
+\item[{bool}]{viewable}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c__3_d_view_collection_abee535e6f28b78acd08823febdd66fb7}
+
+
+Set the collection viewable state. 
+
+
+
+Definition at line 261 of file glc\-\_\-3dviewcollection.\-h.
+
+\hypertarget{class_g_l_c__3_d_view_collection_a516e46fb65eb88765571d2ca239c4033}{\index{G\-L\-C\-\_\-3\-D\-View\-Collection@{G\-L\-C\-\_\-3\-D\-View\-Collection}!set\-Visibility@{set\-Visibility}}
+\index{set\-Visibility@{set\-Visibility}!GLC_3DViewCollection@{G\-L\-C\-\_\-3\-D\-View\-Collection}}
+\subsubsection[{set\-Visibility}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-3\-D\-View\-Collection\-::set\-Visibility (
+\begin{DoxyParamCaption}
+\item[{const {\bf G\-L\-C\-\_\-uint}}]{instance\-Id, }
+\item[{const bool}]{visible}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c__3_d_view_collection_a516e46fb65eb88765571d2ca239c4033}
+
+
+Set Instance visibility. 
+
+
+
+Definition at line 412 of file glc\-\_\-3dviewcollection.\-cpp.
+
+\hypertarget{class_g_l_c__3_d_view_collection_a9df8959d16ea35b1b4f6a5c20da462bb}{\index{G\-L\-C\-\_\-3\-D\-View\-Collection@{G\-L\-C\-\_\-3\-D\-View\-Collection}!shading\-Group@{shading\-Group}}
+\index{shading\-Group@{shading\-Group}!GLC_3DViewCollection@{G\-L\-C\-\_\-3\-D\-View\-Collection}}
+\subsubsection[{shading\-Group}]{\setlength{\rightskip}{0pt plus 5cm}{\bf G\-L\-C\-\_\-uint} G\-L\-C\-\_\-3\-D\-View\-Collection\-::shading\-Group (
+\begin{DoxyParamCaption}
+\item[{{\bf G\-L\-C\-\_\-uint}}]{key}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c__3_d_view_collection_a9df8959d16ea35b1b4f6a5c20da462bb}
+
+
+Return the element shading group. 
+
+
+
+Definition at line 135 of file glc\-\_\-3dviewcollection.\-h.
+
+\hypertarget{class_g_l_c__3_d_view_collection_afc62038ac3a8c07a586b9c97c786d985}{\index{G\-L\-C\-\_\-3\-D\-View\-Collection@{G\-L\-C\-\_\-3\-D\-View\-Collection}!show\-All@{show\-All}}
+\index{show\-All@{show\-All}!GLC_3DViewCollection@{G\-L\-C\-\_\-3\-D\-View\-Collection}}
+\subsubsection[{show\-All}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-3\-D\-View\-Collection\-::show\-All (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c__3_d_view_collection_afc62038ac3a8c07a586b9c97c786d985}
+
+
+Show all instances of the collection. 
+
+
+
+Definition at line 421 of file glc\-\_\-3dviewcollection.\-cpp.
+
+\hypertarget{class_g_l_c__3_d_view_collection_a3df36a48ff84e2f508737638381482fb}{\index{G\-L\-C\-\_\-3\-D\-View\-Collection@{G\-L\-C\-\_\-3\-D\-View\-Collection}!show\-State@{show\-State}}
+\index{show\-State@{show\-State}!GLC_3DViewCollection@{G\-L\-C\-\_\-3\-D\-View\-Collection}}
+\subsubsection[{show\-State}]{\setlength{\rightskip}{0pt plus 5cm}bool G\-L\-C\-\_\-3\-D\-View\-Collection\-::show\-State (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c__3_d_view_collection_a3df36a48ff84e2f508737638381482fb}
+
+
+Return the showing state. 
+
+
+
+Definition at line 128 of file glc\-\_\-3dviewcollection.\-h.
+
+\hypertarget{class_g_l_c__3_d_view_collection_af979f883e77e0fce1eb3e3a1827a1e01}{\index{G\-L\-C\-\_\-3\-D\-View\-Collection@{G\-L\-C\-\_\-3\-D\-View\-Collection}!size@{size}}
+\index{size@{size}!GLC_3DViewCollection@{G\-L\-C\-\_\-3\-D\-View\-Collection}}
+\subsubsection[{size}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int} G\-L\-C\-\_\-3\-D\-View\-Collection\-::size (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c__3_d_view_collection_af979f883e77e0fce1eb3e3a1827a1e01}
+
+
+Return the number of Node in the collection. 
+
+
+
+Definition at line 91 of file glc\-\_\-3dviewcollection.\-h.
+
+\hypertarget{class_g_l_c__3_d_view_collection_a27f3c8f7ccd479101bf0139f706e9200}{\index{G\-L\-C\-\_\-3\-D\-View\-Collection@{G\-L\-C\-\_\-3\-D\-View\-Collection}!space\-Partitioning\-Handle@{space\-Partitioning\-Handle}}
+\index{space\-Partitioning\-Handle@{space\-Partitioning\-Handle}!GLC_3DViewCollection@{G\-L\-C\-\_\-3\-D\-View\-Collection}}
+\subsubsection[{space\-Partitioning\-Handle}]{\setlength{\rightskip}{0pt plus 5cm}{\bf G\-L\-C\-\_\-\-Space\-Partitioning}$\ast$ G\-L\-C\-\_\-3\-D\-View\-Collection\-::space\-Partitioning\-Handle (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c__3_d_view_collection_a27f3c8f7ccd479101bf0139f706e9200}
+
+
+Return an handle to the space partitioning. 
+
+
+
+Definition at line 153 of file glc\-\_\-3dviewcollection.\-h.
+
+\hypertarget{class_g_l_c__3_d_view_collection_adc51ca601e8d53ba1575a8e367266aed}{\index{G\-L\-C\-\_\-3\-D\-View\-Collection@{G\-L\-C\-\_\-3\-D\-View\-Collection}!space\-Partitioning\-Is\-Used@{space\-Partitioning\-Is\-Used}}
+\index{space\-Partitioning\-Is\-Used@{space\-Partitioning\-Is\-Used}!GLC_3DViewCollection@{G\-L\-C\-\_\-3\-D\-View\-Collection}}
+\subsubsection[{space\-Partitioning\-Is\-Used}]{\setlength{\rightskip}{0pt plus 5cm}bool G\-L\-C\-\_\-3\-D\-View\-Collection\-::space\-Partitioning\-Is\-Used (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c__3_d_view_collection_adc51ca601e8d53ba1575a8e367266aed}
+
+
+Return true if the space partitioning is used. 
+
+
+
+Definition at line 149 of file glc\-\_\-3dviewcollection.\-h.
+
+\hypertarget{class_g_l_c__3_d_view_collection_a035f37fe2c66e8d1089e19f2615e6b7e}{\index{G\-L\-C\-\_\-3\-D\-View\-Collection@{G\-L\-C\-\_\-3\-D\-View\-Collection}!swap\-Show\-State@{swap\-Show\-State}}
+\index{swap\-Show\-State@{swap\-Show\-State}!GLC_3DViewCollection@{G\-L\-C\-\_\-3\-D\-View\-Collection}}
+\subsubsection[{swap\-Show\-State}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-3\-D\-View\-Collection\-::swap\-Show\-State (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c__3_d_view_collection_a035f37fe2c66e8d1089e19f2615e6b7e}
+
+
+Set the Show or no\-Show state. 
+
+
+
+Definition at line 228 of file glc\-\_\-3dviewcollection.\-h.
+
+\hypertarget{class_g_l_c__3_d_view_collection_a32036b17e6468450ead14705fb9bdde6}{\index{G\-L\-C\-\_\-3\-D\-View\-Collection@{G\-L\-C\-\_\-3\-D\-View\-Collection}!un\-Bind\-All\-Shader@{un\-Bind\-All\-Shader}}
+\index{un\-Bind\-All\-Shader@{un\-Bind\-All\-Shader}!GLC_3DViewCollection@{G\-L\-C\-\_\-3\-D\-View\-Collection}}
+\subsubsection[{un\-Bind\-All\-Shader}]{\setlength{\rightskip}{0pt plus 5cm}bool G\-L\-C\-\_\-3\-D\-View\-Collection\-::un\-Bind\-All\-Shader (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c__3_d_view_collection_a32036b17e6468450ead14705fb9bdde6}
+
+
+Unbind All shader. 
+
+
+
+Definition at line 112 of file glc\-\_\-3dviewcollection.\-cpp.
+
+\hypertarget{class_g_l_c__3_d_view_collection_a2aab5c63e463c2857491597ca2d352f3}{\index{G\-L\-C\-\_\-3\-D\-View\-Collection@{G\-L\-C\-\_\-3\-D\-View\-Collection}!un\-Bind\-Shader@{un\-Bind\-Shader}}
+\index{un\-Bind\-Shader@{un\-Bind\-Shader}!GLC_3DViewCollection@{G\-L\-C\-\_\-3\-D\-View\-Collection}}
+\subsubsection[{un\-Bind\-Shader}]{\setlength{\rightskip}{0pt plus 5cm}bool G\-L\-C\-\_\-3\-D\-View\-Collection\-::un\-Bind\-Shader (
+\begin{DoxyParamCaption}
+\item[{{\bf G\-L\-C\-\_\-uint}}]{shader\-Id}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c__3_d_view_collection_a2aab5c63e463c2857491597ca2d352f3}
+
+
+Unbind the specified shader from the collection. 
+
+
+
+Definition at line 79 of file glc\-\_\-3dviewcollection.\-cpp.
+
+\hypertarget{class_g_l_c__3_d_view_collection_a367543e09bfba544d1afa94e15f59cf8}{\index{G\-L\-C\-\_\-3\-D\-View\-Collection@{G\-L\-C\-\_\-3\-D\-View\-Collection}!unbind\-Space\-Partitioning@{unbind\-Space\-Partitioning}}
+\index{unbind\-Space\-Partitioning@{unbind\-Space\-Partitioning}!GLC_3DViewCollection@{G\-L\-C\-\_\-3\-D\-View\-Collection}}
+\subsubsection[{unbind\-Space\-Partitioning}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-3\-D\-View\-Collection\-::unbind\-Space\-Partitioning (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c__3_d_view_collection_a367543e09bfba544d1afa94e15f59cf8}
+
+
+Unbind the space partitioning. 
+
+
+
+Definition at line 455 of file glc\-\_\-3dviewcollection.\-cpp.
+
+\hypertarget{class_g_l_c__3_d_view_collection_a38afb06c2d281c3acf077b87d5424a10}{\index{G\-L\-C\-\_\-3\-D\-View\-Collection@{G\-L\-C\-\_\-3\-D\-View\-Collection}!unselect@{unselect}}
+\index{unselect@{unselect}!GLC_3DViewCollection@{G\-L\-C\-\_\-3\-D\-View\-Collection}}
+\subsubsection[{unselect}]{\setlength{\rightskip}{0pt plus 5cm}bool G\-L\-C\-\_\-3\-D\-View\-Collection\-::unselect (
+\begin{DoxyParamCaption}
+\item[{{\bf G\-L\-C\-\_\-uint}}]{instance\-Id}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c__3_d_view_collection_a38afb06c2d281c3acf077b87d5424a10}
+
+
+unselect a Instance 
+
+
+
+Definition at line 342 of file glc\-\_\-3dviewcollection.\-cpp.
+
+\hypertarget{class_g_l_c__3_d_view_collection_adb2ba70a67c8c3f4dccc8ecd392040f4}{\index{G\-L\-C\-\_\-3\-D\-View\-Collection@{G\-L\-C\-\_\-3\-D\-View\-Collection}!unselect\-All@{unselect\-All}}
+\index{unselect\-All@{unselect\-All}!GLC_3DViewCollection@{G\-L\-C\-\_\-3\-D\-View\-Collection}}
+\subsubsection[{unselect\-All}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-3\-D\-View\-Collection\-::unselect\-All (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c__3_d_view_collection_adb2ba70a67c8c3f4dccc8ecd392040f4}
+
+
+unselect all Instance 
+
+
+
+Definition at line 376 of file glc\-\_\-3dviewcollection.\-cpp.
+
+\hypertarget{class_g_l_c__3_d_view_collection_ada30eead051fe81ec9aaef5496467345}{\index{G\-L\-C\-\_\-3\-D\-View\-Collection@{G\-L\-C\-\_\-3\-D\-View\-Collection}!update\-Instance\-Viewable\-State@{update\-Instance\-Viewable\-State}}
+\index{update\-Instance\-Viewable\-State@{update\-Instance\-Viewable\-State}!GLC_3DViewCollection@{G\-L\-C\-\_\-3\-D\-View\-Collection}}
+\subsubsection[{update\-Instance\-Viewable\-State}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-3\-D\-View\-Collection\-::update\-Instance\-Viewable\-State (
+\begin{DoxyParamCaption}
+\item[{{\bf G\-L\-C\-\_\-\-Matrix4x4} $\ast$}]{p\-Matrix = {\ttfamily NULL}}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c__3_d_view_collection_ada30eead051fe81ec9aaef5496467345}
+
+
+Update the instance viewable state. 
+
+Update the frustrum culling from the viewport If the specified matrix pointer is not null 
+
+Definition at line 471 of file glc\-\_\-3dviewcollection.\-cpp.
+
+\hypertarget{class_g_l_c__3_d_view_collection_a20efeb420a876656dd1d178006e0e581}{\index{G\-L\-C\-\_\-3\-D\-View\-Collection@{G\-L\-C\-\_\-3\-D\-View\-Collection}!update\-Instance\-Viewable\-State@{update\-Instance\-Viewable\-State}}
+\index{update\-Instance\-Viewable\-State@{update\-Instance\-Viewable\-State}!GLC_3DViewCollection@{G\-L\-C\-\_\-3\-D\-View\-Collection}}
+\subsubsection[{update\-Instance\-Viewable\-State}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-3\-D\-View\-Collection\-::update\-Instance\-Viewable\-State (
+\begin{DoxyParamCaption}
+\item[{const {\bf G\-L\-C\-\_\-\-Frustum} \&}]{frustum}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c__3_d_view_collection_a20efeb420a876656dd1d178006e0e581}
+
+
+Update the instance viewable state with the specified frustum. 
+
+
+
+Definition at line 480 of file glc\-\_\-3dviewcollection.\-cpp.
+
+\hypertarget{class_g_l_c__3_d_view_collection_a98519c6d07611b12e3b082a48f64d142}{\index{G\-L\-C\-\_\-3\-D\-View\-Collection@{G\-L\-C\-\_\-3\-D\-View\-Collection}!viewable\-Instances\-Handle@{viewable\-Instances\-Handle}}
+\index{viewable\-Instances\-Handle@{viewable\-Instances\-Handle}!GLC_3DViewCollection@{G\-L\-C\-\_\-3\-D\-View\-Collection}}
+\subsubsection[{viewable\-Instances\-Handle}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Q\-List}$<$ {\bf G\-L\-C\-\_\-3\-D\-View\-Instance} $\ast$ $>$ G\-L\-C\-\_\-3\-D\-View\-Collection\-::viewable\-Instances\-Handle (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c__3_d_view_collection_a98519c6d07611b12e3b082a48f64d142}
+
+
+Return all viewable \hyperlink{class_g_l_c__3_d_view_instance}{G\-L\-C\-\_\-3\-D\-View\-Instance} from the collection. 
+
+
+
+Definition at line 528 of file glc\-\_\-3dviewcollection.\-cpp.
+
+\hypertarget{class_g_l_c__3_d_view_collection_a90c2d595eeb3f8336ee03f20779727ed}{\index{G\-L\-C\-\_\-3\-D\-View\-Collection@{G\-L\-C\-\_\-3\-D\-View\-Collection}!visible\-Instances\-Handle@{visible\-Instances\-Handle}}
+\index{visible\-Instances\-Handle@{visible\-Instances\-Handle}!GLC_3DViewCollection@{G\-L\-C\-\_\-3\-D\-View\-Collection}}
+\subsubsection[{visible\-Instances\-Handle}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Q\-List}$<$ {\bf G\-L\-C\-\_\-3\-D\-View\-Instance} $\ast$ $>$ G\-L\-C\-\_\-3\-D\-View\-Collection\-::visible\-Instances\-Handle (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c__3_d_view_collection_a90c2d595eeb3f8336ee03f20779727ed}
+
+
+Return all visible \hyperlink{class_g_l_c__3_d_view_instance}{G\-L\-C\-\_\-3\-D\-View\-Instance} from the collection. 
+
+
+
+Definition at line 510 of file glc\-\_\-3dviewcollection.\-cpp.
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/glc\-\_\-lib/scene\-Graph/\hyperlink{glc__3dviewcollection_8h}{glc\-\_\-3dviewcollection.\-h}\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/glc\-\_\-lib/scene\-Graph/\hyperlink{glc__3dviewcollection_8cpp}{glc\-\_\-3dviewcollection.\-cpp}\end{DoxyCompactItemize}

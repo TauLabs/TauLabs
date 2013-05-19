@@ -1,0 +1,307 @@
+\hypertarget{class_qwt_slider}{\section{Qwt\-Slider Class Reference}
+\label{class_qwt_slider}\index{Qwt\-Slider@{Qwt\-Slider}}
+}
+
+
+The Slider \hyperlink{class_widget}{Widget}.  
+
+
+
+
+{\ttfamily \#include $<$qwt\-\_\-slider.\-h$>$}
+
+Inheritance diagram for Qwt\-Slider\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{class_qwt_slider}
+\end{center}
+\end{figure}
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{class_qwt_slider_1_1_private_data}{Private\-Data}
+\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual \hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} \hyperlink{class_qwt_slider_a9dce1bf10fdcd92feae56dd77a455358}{get\-Value} (const Q\-Point \&\hyperlink{glext_8h_aa5367c14d90f462230c2611b81b41d23}{p})
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_slider_aea81bd1a595840a9eb0eb46254366110}{get\-Scroll\-Mode} (const Q\-Point \&\hyperlink{glext_8h_aa5367c14d90f462230c2611b81b41d23}{p}, \hyperlink{class_qwt_abstract_slider_ae4c0c4844ac6a35356f3c529a8eae154}{Qwt\-Abstract\-Slider\-::\-Scroll\-Mode} \&, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \&direction) const 
+\begin{DoxyCompactList}\small\item\em Determine scrolling mode and direction. \end{DoxyCompactList}\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_slider_a5e45e9ca42fdf659d89011bddd8ff779}{draw\-Slider} (Q\-Painter $\ast$, const Q\-Rect \&) const 
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_slider_a924e3fc8a885f72837379fdc29da2d20}{draw\-Handle} (Q\-Painter $\ast$, const Q\-Rect \&, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} pos) const 
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_slider_a1f65d6ce5f8ed94e0a632edcd68a51f9}{resize\-Event} (Q\-Resize\-Event $\ast$)
+\begin{DoxyCompactList}\small\item\em Qt resize event. \end{DoxyCompactList}\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_slider_a128624c8babc95f5a631dfe3112d2d2b}{paint\-Event} (Q\-Paint\-Event $\ast$)
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_slider_a89e8ecbeb21511a88016e31aa5c12a58}{change\-Event} (Q\-Event $\ast$)
+\begin{DoxyCompactList}\small\item\em Qt change event handler. \end{DoxyCompactList}\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_slider_a62380259b0831ad98a1b0ad011f32bea}{value\-Change} ()
+\begin{DoxyCompactList}\small\item\em Notify change of value. \end{DoxyCompactList}\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_slider_ae8eff3a30ef4086cac42d244cef81ac0}{range\-Change} ()
+\begin{DoxyCompactList}\small\item\em Notify change of range. \end{DoxyCompactList}\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_slider_a31ae4c53eb17d77ee0fd846ff6eea7e3}{scale\-Change} ()
+\begin{DoxyCompactList}\small\item\em Notify changed scale. \end{DoxyCompactList}\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_qwt_slider_a133b9b2052523878cd75e4084a47de53}{transform} (\hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} \hyperlink{glext_8h_a14cfbe2fc2234f5504618905b69d1e06}{v}) const 
+\item 
+\hyperlink{class_qwt_scale_draw}{Qwt\-Scale\-Draw} $\ast$ \hyperlink{class_qwt_slider_ac9d9cf23f22f06a02c9a60fb91adb0c0}{scale\-Draw} ()
+\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Detailed Description}
+The Slider \hyperlink{class_widget}{Widget}. 
+
+\hyperlink{class_qwt_slider}{Qwt\-Slider} is a slider widget which operates on an interval of type double. \hyperlink{class_qwt_slider}{Qwt\-Slider} supports different layouts as well as a scale.
+
+
+
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_abstract_slider}{Qwt\-Abstract\-Slider} and \hyperlink{class_qwt_abstract_scale}{Qwt\-Abstract\-Scale} \hyperlink{crypt_8h_a6f9c0aaf91aa1ee6f13a43244e90af87}{for} the descriptions of the inherited members. 
+\end{DoxySeeAlso}
+
+
+Definition at line 32 of file qwt\-\_\-slider.\-h.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_qwt_slider_a89e8ecbeb21511a88016e31aa5c12a58}{\index{Qwt\-Slider@{Qwt\-Slider}!change\-Event@{change\-Event}}
+\index{change\-Event@{change\-Event}!QwtSlider@{Qwt\-Slider}}
+\subsubsection[{change\-Event}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Slider\-::change\-Event (
+\begin{DoxyParamCaption}
+\item[{Q\-Event $\ast$}]{event}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}}\label{class_qwt_slider_a89e8ecbeb21511a88016e31aa5c12a58}
+
+
+Qt change event handler. 
+
+
+
+Definition at line 581 of file qwt\-\_\-slider.\-cpp.
+
+\hypertarget{class_qwt_slider_a924e3fc8a885f72837379fdc29da2d20}{\index{Qwt\-Slider@{Qwt\-Slider}!draw\-Handle@{draw\-Handle}}
+\index{draw\-Handle@{draw\-Handle}!QwtSlider@{Qwt\-Slider}}
+\subsubsection[{draw\-Handle}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Slider\-::draw\-Handle (
+\begin{DoxyParamCaption}
+\item[{Q\-Painter $\ast$}]{painter, }
+\item[{const Q\-Rect \&}]{slider\-Rect, }
+\item[{{\bf int}}]{pos}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}}\label{class_qwt_slider_a924e3fc8a885f72837379fdc29da2d20}
+Draw the thumb at a position
+
+
+\begin{DoxyParams}{Parameters}
+{\em painter} & Painter \\
+\hline
+{\em slider\-Rect} & Bounding rectangle of the slider \\
+\hline
+{\em pos} & Position of the slider thumb \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 454 of file qwt\-\_\-slider.\-cpp.
+
+\hypertarget{class_qwt_slider_a5e45e9ca42fdf659d89011bddd8ff779}{\index{Qwt\-Slider@{Qwt\-Slider}!draw\-Slider@{draw\-Slider}}
+\index{draw\-Slider@{draw\-Slider}!QwtSlider@{Qwt\-Slider}}
+\subsubsection[{draw\-Slider}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Slider\-::draw\-Slider (
+\begin{DoxyParamCaption}
+\item[{Q\-Painter $\ast$}]{painter, }
+\item[{const Q\-Rect \&}]{slider\-Rect}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}}\label{class_qwt_slider_a5e45e9ca42fdf659d89011bddd8ff779}
+Draw the slider into the specified rectangle.
+
+
+\begin{DoxyParams}{Parameters}
+{\em painter} & Painter \\
+\hline
+{\em slider\-Rect} & Bounding rectangle of the slider \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 397 of file qwt\-\_\-slider.\-cpp.
+
+\hypertarget{class_qwt_slider_aea81bd1a595840a9eb0eb46254366110}{\index{Qwt\-Slider@{Qwt\-Slider}!get\-Scroll\-Mode@{get\-Scroll\-Mode}}
+\index{get\-Scroll\-Mode@{get\-Scroll\-Mode}!QwtSlider@{Qwt\-Slider}}
+\subsubsection[{get\-Scroll\-Mode}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Slider\-::get\-Scroll\-Mode (
+\begin{DoxyParamCaption}
+\item[{const Q\-Point \&}]{p, }
+\item[{{\bf Qwt\-Abstract\-Slider\-::\-Scroll\-Mode} \&}]{scroll\-Mode, }
+\item[{{\bf int} \&}]{direction}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}}\label{class_qwt_slider_aea81bd1a595840a9eb0eb46254366110}
+
+
+Determine scrolling mode and direction. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em p} & point \\
+\hline
+{\em scroll\-Mode} & Scrolling mode \\
+\hline
+{\em direction} & Direction \\
+\hline
+\end{DoxyParams}
+
+
+Implements \hyperlink{class_qwt_abstract_slider_a4124aa3b1e462d57ea2693214e66da0b}{Qwt\-Abstract\-Slider}.
+
+
+
+Definition at line 521 of file qwt\-\_\-slider.\-cpp.
+
+\hypertarget{class_qwt_slider_a9dce1bf10fdcd92feae56dd77a455358}{\index{Qwt\-Slider@{Qwt\-Slider}!get\-Value@{get\-Value}}
+\index{get\-Value@{get\-Value}!QwtSlider@{Qwt\-Slider}}
+\subsubsection[{get\-Value}]{\setlength{\rightskip}{0pt plus 5cm}{\bf double} Qwt\-Slider\-::get\-Value (
+\begin{DoxyParamCaption}
+\item[{const Q\-Point \&}]{pos}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}}\label{class_qwt_slider_a9dce1bf10fdcd92feae56dd77a455358}
+Determine the value corresponding to a specified mouse location. 
+\begin{DoxyParams}{Parameters}
+{\em pos} & Mouse position \\
+\hline
+\end{DoxyParams}
+
+
+Implements \hyperlink{class_qwt_abstract_slider_a6e26a993536813c2d9846a28f3c27aa7}{Qwt\-Abstract\-Slider}.
+
+
+
+Definition at line 509 of file qwt\-\_\-slider.\-cpp.
+
+\hypertarget{class_qwt_slider_a128624c8babc95f5a631dfe3112d2d2b}{\index{Qwt\-Slider@{Qwt\-Slider}!paint\-Event@{paint\-Event}}
+\index{paint\-Event@{paint\-Event}!QwtSlider@{Qwt\-Slider}}
+\subsubsection[{paint\-Event}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Slider\-::paint\-Event (
+\begin{DoxyParamCaption}
+\item[{Q\-Paint\-Event $\ast$}]{event}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}}\label{class_qwt_slider_a128624c8babc95f5a631dfe3112d2d2b}
+Qt paint event 
+\begin{DoxyParams}{Parameters}
+{\em event} & Paint event \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 553 of file qwt\-\_\-slider.\-cpp.
+
+\hypertarget{class_qwt_slider_ae8eff3a30ef4086cac42d244cef81ac0}{\index{Qwt\-Slider@{Qwt\-Slider}!range\-Change@{range\-Change}}
+\index{range\-Change@{range\-Change}!QwtSlider@{Qwt\-Slider}}
+\subsubsection[{range\-Change}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Slider\-::range\-Change (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}}\label{class_qwt_slider_ae8eff3a30ef4086cac42d244cef81ac0}
+
+
+Notify change of range. 
+
+
+
+Reimplemented from \hyperlink{class_qwt_double_range_a3583134a1ac32706aa4742088bb9d4dc}{Qwt\-Double\-Range}.
+
+
+
+Definition at line 713 of file qwt\-\_\-slider.\-cpp.
+
+\hypertarget{class_qwt_slider_a1f65d6ce5f8ed94e0a632edcd68a51f9}{\index{Qwt\-Slider@{Qwt\-Slider}!resize\-Event@{resize\-Event}}
+\index{resize\-Event@{resize\-Event}!QwtSlider@{Qwt\-Slider}}
+\subsubsection[{resize\-Event}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Slider\-::resize\-Event (
+\begin{DoxyParamCaption}
+\item[{Q\-Resize\-Event $\ast$}]{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}}\label{class_qwt_slider_a1f65d6ce5f8ed94e0a632edcd68a51f9}
+
+
+Qt resize event. 
+
+
+
+Definition at line 575 of file qwt\-\_\-slider.\-cpp.
+
+\hypertarget{class_qwt_slider_a31ae4c53eb17d77ee0fd846ff6eea7e3}{\index{Qwt\-Slider@{Qwt\-Slider}!scale\-Change@{scale\-Change}}
+\index{scale\-Change@{scale\-Change}!QwtSlider@{Qwt\-Slider}}
+\subsubsection[{scale\-Change}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Slider\-::scale\-Change (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}}\label{class_qwt_slider_a31ae4c53eb17d77ee0fd846ff6eea7e3}
+
+
+Notify changed scale. 
+
+
+
+Reimplemented from \hyperlink{class_qwt_abstract_scale_a0dbb7bdc557c0a7b163643e41970ed6a}{Qwt\-Abstract\-Scale}.
+
+
+
+Definition at line 386 of file qwt\-\_\-slider.\-cpp.
+
+\hypertarget{class_qwt_slider_ac9d9cf23f22f06a02c9a60fb91adb0c0}{\index{Qwt\-Slider@{Qwt\-Slider}!scale\-Draw@{scale\-Draw}}
+\index{scale\-Draw@{scale\-Draw}!QwtSlider@{Qwt\-Slider}}
+\subsubsection[{scale\-Draw}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Qwt\-Scale\-Draw} $\ast$ Qwt\-Slider\-::scale\-Draw (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_qwt_slider_ac9d9cf23f22f06a02c9a60fb91adb0c0}
+\begin{DoxyReturn}{Returns}
+the scale draw of the slider 
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+set\-Scale\-Draw() 
+\end{DoxySeeAlso}
+
+
+Definition at line 380 of file qwt\-\_\-slider.\-cpp.
+
+\hypertarget{class_qwt_slider_a133b9b2052523878cd75e4084a47de53}{\index{Qwt\-Slider@{Qwt\-Slider}!transform@{transform}}
+\index{transform@{transform}!QwtSlider@{Qwt\-Slider}}
+\subsubsection[{transform}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int} Qwt\-Slider\-::transform (
+\begin{DoxyParamCaption}
+\item[{{\bf double}}]{value}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_qwt_slider_a133b9b2052523878cd75e4084a47de53}
+\hyperlink{class_map}{Map} and round a value into widget coordinates 
+\begin{DoxyParams}{Parameters}
+{\em value} & Value \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 500 of file qwt\-\_\-slider.\-cpp.
+
+\hypertarget{class_qwt_slider_a62380259b0831ad98a1b0ad011f32bea}{\index{Qwt\-Slider@{Qwt\-Slider}!value\-Change@{value\-Change}}
+\index{value\-Change@{value\-Change}!QwtSlider@{Qwt\-Slider}}
+\subsubsection[{value\-Change}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Slider\-::value\-Change (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}}\label{class_qwt_slider_a62380259b0831ad98a1b0ad011f32bea}
+
+
+Notify change of value. 
+
+
+
+Reimplemented from \hyperlink{class_qwt_abstract_slider_a2f04dc51e4402b51fef3250bcc99dc7f}{Qwt\-Abstract\-Slider}.
+
+
+
+Definition at line 705 of file qwt\-\_\-slider.\-cpp.
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/qwt/src/\hyperlink{qwt__slider_8h}{qwt\-\_\-slider.\-h}\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/qwt/src/\hyperlink{qwt__slider_8cpp}{qwt\-\_\-slider.\-cpp}\end{DoxyCompactItemize}

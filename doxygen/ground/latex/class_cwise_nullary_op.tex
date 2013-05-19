@@ -1,0 +1,105 @@
+\hypertarget{class_cwise_nullary_op}{\section{Cwise\-Nullary\-Op$<$ Nullary\-Op, Matrix\-Type $>$ Class Template Reference}
+\label{class_cwise_nullary_op}\index{Cwise\-Nullary\-Op$<$ Nullary\-Op, Matrix\-Type $>$@{Cwise\-Nullary\-Op$<$ Nullary\-Op, Matrix\-Type $>$}}
+}
+
+
+Generic expression of a matrix where all coefficients are defined by a functor.  
+
+
+
+
+{\ttfamily \#include $<$Cwise\-Nullary\-Op.\-h$>$}
+
+Inheritance diagram for Cwise\-Nullary\-Op$<$ Nullary\-Op, Matrix\-Type $>$\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=1.586402cm]{class_cwise_nullary_op}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_cwise_nullary_op_af5dd683f3065aad953b83ec4e62a7618}{E\-I\-G\-E\-N\-\_\-\-G\-E\-N\-E\-R\-I\-C\-\_\-\-P\-U\-B\-L\-I\-C\-\_\-\-I\-N\-T\-E\-R\-F\-A\-C\-E} (\hyperlink{class_cwise_nullary_op}{Cwise\-Nullary\-Op}) \hyperlink{class_cwise_nullary_op}{Cwise\-Nullary\-Op}(\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_matrix_base_ae82810ba95da637cdf434b4274083723}{rows}
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_cwise_nullary_op_a6d3f028969f23734d328858dd1324f3a}{cols}
+\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} const Nullary\-Op \& \hyperlink{class_cwise_nullary_op_af99933dc8ffb9fbac51842675e789f2a}{func}
+\item 
+const ei\-\_\-int\-\_\-if\-\_\-dynamic\\*
+$<$ \hyperlink{class_matrix_base_aaa53a8ec1bc1ba52b1e50631dac15d6da359babfd1277ae780433d99b383e00e8}{Cols\-At\-Compile\-Time} $>$ \hyperlink{class_cwise_nullary_op_a92d550c66800b83ee79adb67eb598726}{m\-\_\-cols}
+\item 
+const Nullary\-Op \hyperlink{class_cwise_nullary_op_a059f642569a46d7b0a6dd2f98c4e4e3d}{m\-\_\-functor}
+\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$typename Nullary\-Op, typename Matrix\-Type$>$class Cwise\-Nullary\-Op$<$ Nullary\-Op, Matrix\-Type $>$}
+
+Generic expression of a matrix where all coefficients are defined by a functor. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Nullary\-Op} & template functor implementing the operator\\
+\hline
+\end{DoxyParams}
+This class represents an expression of a generic nullary operator. It is the return type of the \hyperlink{class_matrix_base_a6ea7fe1ebd5eb078bcafa2c00d5c4021}{Ones()}, \hyperlink{class_matrix_base_a80d399408db12eb60957efa2d7e8d4a9}{Zero()}, \hyperlink{class_matrix_base_a06986b94e4841f54bb8c6bd9473f0798}{Constant()}, \hyperlink{class_matrix_base_ae099ba9697a9989d827169994bd5728d}{Identity()} and \hyperlink{class_matrix_base_afaba6ac3461ed7f6bcdb2c877bc62b93}{Random()} functions, and most of the time this is the only way it is used.
+
+However, if you want to write a function returning such an expression, you will need to use this class.
+
+\begin{DoxySeeAlso}{See Also}
+class \hyperlink{class_cwise_unary_op}{Cwise\-Unary\-Op}, class \hyperlink{class_cwise_binary_op}{Cwise\-Binary\-Op}, \hyperlink{class_matrix_base_abbe8a3418394b62b12ac1e965e34aabc}{Matrix\-Base\-::\-Nullary\-Expr()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 57 of file Cwise\-Nullary\-Op.\-h.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_cwise_nullary_op_af5dd683f3065aad953b83ec4e62a7618}{\index{Cwise\-Nullary\-Op@{Cwise\-Nullary\-Op}!E\-I\-G\-E\-N\-\_\-\-G\-E\-N\-E\-R\-I\-C\-\_\-\-P\-U\-B\-L\-I\-C\-\_\-\-I\-N\-T\-E\-R\-F\-A\-C\-E@{E\-I\-G\-E\-N\-\_\-\-G\-E\-N\-E\-R\-I\-C\-\_\-\-P\-U\-B\-L\-I\-C\-\_\-\-I\-N\-T\-E\-R\-F\-A\-C\-E}}
+\index{E\-I\-G\-E\-N\-\_\-\-G\-E\-N\-E\-R\-I\-C\-\_\-\-P\-U\-B\-L\-I\-C\-\_\-\-I\-N\-T\-E\-R\-F\-A\-C\-E@{E\-I\-G\-E\-N\-\_\-\-G\-E\-N\-E\-R\-I\-C\-\_\-\-P\-U\-B\-L\-I\-C\-\_\-\-I\-N\-T\-E\-R\-F\-A\-C\-E}!CwiseNullaryOp@{Cwise\-Nullary\-Op}}
+\subsubsection[{E\-I\-G\-E\-N\-\_\-\-G\-E\-N\-E\-R\-I\-C\-\_\-\-P\-U\-B\-L\-I\-C\-\_\-\-I\-N\-T\-E\-R\-F\-A\-C\-E}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Nullary\-Op, typename Matrix\-Type$>$ {\bf Cwise\-Nullary\-Op}$<$ Nullary\-Op, Matrix\-Type $>$\-::E\-I\-G\-E\-N\-\_\-\-G\-E\-N\-E\-R\-I\-C\-\_\-\-P\-U\-B\-L\-I\-C\-\_\-\-I\-N\-T\-E\-R\-F\-A\-C\-E (
+\begin{DoxyParamCaption}
+\item[{{\bf Cwise\-Nullary\-Op}$<$ Nullary\-Op, Matrix\-Type $>$}]{}
+\end{DoxyParamCaption}
+)}}\label{class_cwise_nullary_op_af5dd683f3065aad953b83ec4e62a7618}
+
+
+\subsection{Member Data Documentation}
+\hypertarget{class_cwise_nullary_op_a6d3f028969f23734d328858dd1324f3a}{\index{Cwise\-Nullary\-Op@{Cwise\-Nullary\-Op}!cols@{cols}}
+\index{cols@{cols}!CwiseNullaryOp@{Cwise\-Nullary\-Op}}
+\subsubsection[{cols}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Nullary\-Op, typename Matrix\-Type$>$ {\bf int} {\bf Cwise\-Nullary\-Op}$<$ Nullary\-Op, Matrix\-Type $>$\-::cols}}\label{class_cwise_nullary_op_a6d3f028969f23734d328858dd1324f3a}
+
+
+Definition at line 64 of file Cwise\-Nullary\-Op.\-h.
+
+\hypertarget{class_cwise_nullary_op_af99933dc8ffb9fbac51842675e789f2a}{\index{Cwise\-Nullary\-Op@{Cwise\-Nullary\-Op}!func@{func}}
+\index{func@{func}!CwiseNullaryOp@{Cwise\-Nullary\-Op}}
+\subsubsection[{func}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Nullary\-Op, typename Matrix\-Type$>$ {\bf int} const Nullary\-Op\& {\bf Cwise\-Nullary\-Op}$<$ Nullary\-Op, Matrix\-Type $>$\-::func}}\label{class_cwise_nullary_op_af99933dc8ffb9fbac51842675e789f2a}
+
+
+Definition at line 64 of file Cwise\-Nullary\-Op.\-h.
+
+\hypertarget{class_cwise_nullary_op_a92d550c66800b83ee79adb67eb598726}{\index{Cwise\-Nullary\-Op@{Cwise\-Nullary\-Op}!m\-\_\-cols@{m\-\_\-cols}}
+\index{m\-\_\-cols@{m\-\_\-cols}!CwiseNullaryOp@{Cwise\-Nullary\-Op}}
+\subsubsection[{m\-\_\-cols}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Nullary\-Op, typename Matrix\-Type$>$ const ei\-\_\-int\-\_\-if\-\_\-dynamic$<${\bf Cols\-At\-Compile\-Time}$>$ {\bf Cwise\-Nullary\-Op}$<$ Nullary\-Op, Matrix\-Type $>$\-::m\-\_\-cols}}\label{class_cwise_nullary_op_a92d550c66800b83ee79adb67eb598726}
+
+
+Definition at line 103 of file Cwise\-Nullary\-Op.\-h.
+
+\hypertarget{class_cwise_nullary_op_a059f642569a46d7b0a6dd2f98c4e4e3d}{\index{Cwise\-Nullary\-Op@{Cwise\-Nullary\-Op}!m\-\_\-functor@{m\-\_\-functor}}
+\index{m\-\_\-functor@{m\-\_\-functor}!CwiseNullaryOp@{Cwise\-Nullary\-Op}}
+\subsubsection[{m\-\_\-functor}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Nullary\-Op, typename Matrix\-Type$>$ const Nullary\-Op {\bf Cwise\-Nullary\-Op}$<$ Nullary\-Op, Matrix\-Type $>$\-::m\-\_\-functor}}\label{class_cwise_nullary_op_a059f642569a46d7b0a6dd2f98c4e4e3d}
+
+
+Definition at line 104 of file Cwise\-Nullary\-Op.\-h.
+
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/eigen/\-Eigen/src/\-Core/\hyperlink{_cwise_nullary_op_8h}{Cwise\-Nullary\-Op.\-h}\end{DoxyCompactItemize}

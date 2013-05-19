@@ -1,0 +1,310 @@
+\hypertarget{class_qxt_filter_dialog}{\section{Qxt\-Filter\-Dialog Class Reference}
+\label{class_qxt_filter_dialog}\index{Qxt\-Filter\-Dialog@{Qxt\-Filter\-Dialog}}
+}
+
+
+The \hyperlink{class_qxt_filter_dialog}{Qxt\-Filter\-Dialog} class provides a dialog to select data from a Q\-Abstract\-Item\-Model.  
+
+
+
+
+{\ttfamily \#include $<$qxtfilterdialog.\-h$>$}
+
+Inheritance diagram for Qxt\-Filter\-Dialog\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_qxt_filter_dialog}
+\end{center}
+\end{figure}
+\subsection*{Public Slots}
+\begin{DoxyCompactItemize}
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qxt_filter_dialog_a489b6e0a8c33b1b12679ec60788c4d45}{done} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{glext_8h_abe08814c2f72843fde4d8df41440d5a0}{r})
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qxt_filter_dialog_a16f1e29f2bda69fa471234698b6fe705}{accept} ()
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qxt_filter_dialog_a94b6fa299122b2b225ecac7064f55597}{reject} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qxt_filter_dialog_aa77f58e963f330c3d5f092a44ff06e3e}{set\-Pattern\-Syntax} (Q\-Reg\-Exp\-::\-Pattern\-Syntax syntax)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qxt_filter_dialog_ae259e45e665d0a4471b631e8a83e0eba}{set\-Case\-Sensitivity} (Qt\-::\-Case\-Sensitivity \hyperlink{qxtstringvalidator_8h_af7fb4792796acf247594ddee41c93a3e}{case\-Sensitivity}=Qt\-::\-Case\-Sensitive)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qxt_filter_dialog_a6281d82987ac4b8e6a33556fc567d341}{set\-Filter\-Text} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{Q\-String} text)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qxt_filter_dialog_a97f7003e37dae675ee2d038ec6fd943f}{set\-Lookup\-Column} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{glext_8h_a3b58c39b1b7ca6f4012b27e84de3bdb3}{column})
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qxt_filter_dialog_a9eb89c02986483226f6d314f92d49c75}{set\-Lookup\-Role} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} role)
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_qxt_filter_dialog_a05d9d3ad46467ef45ad9b78306e5bf73}{Qxt\-Filter\-Dialog} (Q\-Widget $\ast$parent=0)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qxt_filter_dialog_aaae85323c27b08da9939b1bf3db55399}{set\-Source\-Model} (Q\-Abstract\-Item\-Model $\ast$model)
+\item 
+Q\-Reg\-Exp\-::\-Pattern\-Syntax \hyperlink{class_qxt_filter_dialog_a41c17f8491c6ae7f6428764153bfccbe}{pattern\-Syntax} ()
+\item 
+Q\-Abstract\-Item\-Model $\ast$ \hyperlink{class_qxt_filter_dialog_a26625c5dddcb4f66e5a56bee50071747}{source\-Model} () const 
+\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_qxt_filter_dialog_ae5fd1e3267512ab22263f0125ac4d45c}{lookup\-Column} () const 
+\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_qxt_filter_dialog_a9938667b9dd6fb09558fdb56ef85f491}{lookup\-Role} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{Q\-String} \hyperlink{class_qxt_filter_dialog_ad047c6594ae7155641a2959291aa2f58}{filter\-Text} () const 
+\item 
+Q\-Model\-Index \hyperlink{class_qxt_filter_dialog_aa0fae2137a208168a1ca3299a808e744}{selected\-Index} () const 
+\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static Q\-Model\-Index \hyperlink{class_qxt_filter_dialog_abb3064b75a4b9367eea5c64a53461e30}{get\-Index} (Q\-Widget $\ast$parent=0, Q\-Abstract\-Item\-Model $\ast$model=0, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{glext_8h_a3b58c39b1b7ca6f4012b27e84de3bdb3}{column}=0, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} role=Qt\-::\-Display\-Role, \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{Q\-String} \hyperlink{class_qxt_filter_dialog_a3d5e6822cc52a160cc6f89466c86ebcf}{filter\-Text}=\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{Q\-String}())
+\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qxt_filter_dialog_a7edf17cb205fbf060bd669d33a152678}{key\-Press\-Event} (Q\-Key\-Event $\ast$\hyperlink{_o_p_plots_8m_a9425be9aab51621e317ba7ade564b570}{e})
+\end{DoxyCompactItemize}
+\subsection*{Properties}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_qxt_filter_dialog_a483a82e5e9a72c5929f25162ef05d8b8}{lookup\-Column}
+\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_qxt_filter_dialog_a4a6dc70156b91fd6f287a08d44e64748}{lookup\-Role}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{Q\-String} \hyperlink{class_qxt_filter_dialog_a3d5e6822cc52a160cc6f89466c86ebcf}{filter\-Text}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+The \hyperlink{class_qxt_filter_dialog}{Qxt\-Filter\-Dialog} class provides a dialog to select data from a Q\-Abstract\-Item\-Model. 
+
+Provides a dialog to select data from a Q\-Abstract\-Item\-Model, the user can filter the items depending on a role and column to make the selection easier. 
+
+Definition at line 14 of file qxtfilterdialog.\-h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_qxt_filter_dialog_a05d9d3ad46467ef45ad9b78306e5bf73}{\index{Qxt\-Filter\-Dialog@{Qxt\-Filter\-Dialog}!Qxt\-Filter\-Dialog@{Qxt\-Filter\-Dialog}}
+\index{Qxt\-Filter\-Dialog@{Qxt\-Filter\-Dialog}!QxtFilterDialog@{Qxt\-Filter\-Dialog}}
+\subsubsection[{Qxt\-Filter\-Dialog}]{\setlength{\rightskip}{0pt plus 5cm}Qxt\-Filter\-Dialog\-::\-Qxt\-Filter\-Dialog (
+\begin{DoxyParamCaption}
+\item[{Q\-Widget $\ast$}]{parent = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)}}\label{class_qxt_filter_dialog_a05d9d3ad46467ef45ad9b78306e5bf73}
+
+
+Definition at line 89 of file qxtfilterdialog.\-cpp.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_qxt_filter_dialog_a16f1e29f2bda69fa471234698b6fe705}{\index{Qxt\-Filter\-Dialog@{Qxt\-Filter\-Dialog}!accept@{accept}}
+\index{accept@{accept}!QxtFilterDialog@{Qxt\-Filter\-Dialog}}
+\subsubsection[{accept}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qxt\-Filter\-Dialog\-::accept (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}, {\ttfamily [slot]}}}\label{class_qxt_filter_dialog_a16f1e29f2bda69fa471234698b6fe705}
+
+
+Definition at line 274 of file qxtfilterdialog.\-cpp.
+
+\hypertarget{class_qxt_filter_dialog_a489b6e0a8c33b1b12679ec60788c4d45}{\index{Qxt\-Filter\-Dialog@{Qxt\-Filter\-Dialog}!done@{done}}
+\index{done@{done}!QxtFilterDialog@{Qxt\-Filter\-Dialog}}
+\subsubsection[{done}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qxt\-Filter\-Dialog\-::done (
+\begin{DoxyParamCaption}
+\item[{{\bf int}}]{r}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}, {\ttfamily [slot]}}}\label{class_qxt_filter_dialog_a489b6e0a8c33b1b12679ec60788c4d45}
+
+
+Definition at line 258 of file qxtfilterdialog.\-cpp.
+
+\hypertarget{class_qxt_filter_dialog_ad047c6594ae7155641a2959291aa2f58}{\index{Qxt\-Filter\-Dialog@{Qxt\-Filter\-Dialog}!filter\-Text@{filter\-Text}}
+\index{filter\-Text@{filter\-Text}!QxtFilterDialog@{Qxt\-Filter\-Dialog}}
+\subsubsection[{filter\-Text}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Q\-String} Qxt\-Filter\-Dialog\-::filter\-Text (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_qxt_filter_dialog_ad047c6594ae7155641a2959291aa2f58}
+\hypertarget{class_qxt_filter_dialog_abb3064b75a4b9367eea5c64a53461e30}{\index{Qxt\-Filter\-Dialog@{Qxt\-Filter\-Dialog}!get\-Index@{get\-Index}}
+\index{get\-Index@{get\-Index}!QxtFilterDialog@{Qxt\-Filter\-Dialog}}
+\subsubsection[{get\-Index}]{\setlength{\rightskip}{0pt plus 5cm}Q\-Model\-Index Qxt\-Filter\-Dialog\-::get\-Index (
+\begin{DoxyParamCaption}
+\item[{Q\-Widget $\ast$}]{parent = {\ttfamily 0}, }
+\item[{Q\-Abstract\-Item\-Model $\ast$}]{model = {\ttfamily 0}, }
+\item[{{\bf int}}]{column = {\ttfamily 0}, }
+\item[{{\bf int}}]{role = {\ttfamily Qt\-:\-:DisplayRole}, }
+\item[{{\bf Q\-String}}]{filter\-Text = {\ttfamily {\bf Q\-String}()}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{class_qxt_filter_dialog_abb3064b75a4b9367eea5c64a53461e30}
+
+
+Definition at line 233 of file qxtfilterdialog.\-cpp.
+
+\hypertarget{class_qxt_filter_dialog_a7edf17cb205fbf060bd669d33a152678}{\index{Qxt\-Filter\-Dialog@{Qxt\-Filter\-Dialog}!key\-Press\-Event@{key\-Press\-Event}}
+\index{key\-Press\-Event@{key\-Press\-Event}!QxtFilterDialog@{Qxt\-Filter\-Dialog}}
+\subsubsection[{key\-Press\-Event}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qxt\-Filter\-Dialog\-::key\-Press\-Event (
+\begin{DoxyParamCaption}
+\item[{Q\-Key\-Event $\ast$}]{e}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}}\label{class_qxt_filter_dialog_a7edf17cb205fbf060bd669d33a152678}
+
+
+Definition at line 286 of file qxtfilterdialog.\-cpp.
+
+\hypertarget{class_qxt_filter_dialog_ae5fd1e3267512ab22263f0125ac4d45c}{\index{Qxt\-Filter\-Dialog@{Qxt\-Filter\-Dialog}!lookup\-Column@{lookup\-Column}}
+\index{lookup\-Column@{lookup\-Column}!QxtFilterDialog@{Qxt\-Filter\-Dialog}}
+\subsubsection[{lookup\-Column}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int} Qxt\-Filter\-Dialog\-::lookup\-Column (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_qxt_filter_dialog_ae5fd1e3267512ab22263f0125ac4d45c}
+\hypertarget{class_qxt_filter_dialog_a9938667b9dd6fb09558fdb56ef85f491}{\index{Qxt\-Filter\-Dialog@{Qxt\-Filter\-Dialog}!lookup\-Role@{lookup\-Role}}
+\index{lookup\-Role@{lookup\-Role}!QxtFilterDialog@{Qxt\-Filter\-Dialog}}
+\subsubsection[{lookup\-Role}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int} Qxt\-Filter\-Dialog\-::lookup\-Role (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_qxt_filter_dialog_a9938667b9dd6fb09558fdb56ef85f491}
+\hypertarget{class_qxt_filter_dialog_a41c17f8491c6ae7f6428764153bfccbe}{\index{Qxt\-Filter\-Dialog@{Qxt\-Filter\-Dialog}!pattern\-Syntax@{pattern\-Syntax}}
+\index{pattern\-Syntax@{pattern\-Syntax}!QxtFilterDialog@{Qxt\-Filter\-Dialog}}
+\subsubsection[{pattern\-Syntax}]{\setlength{\rightskip}{0pt plus 5cm}Q\-Reg\-Exp\-::\-Pattern\-Syntax Qxt\-Filter\-Dialog\-::pattern\-Syntax (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_qxt_filter_dialog_a41c17f8491c6ae7f6428764153bfccbe}
+
+
+Definition at line 161 of file qxtfilterdialog.\-cpp.
+
+\hypertarget{class_qxt_filter_dialog_a94b6fa299122b2b225ecac7064f55597}{\index{Qxt\-Filter\-Dialog@{Qxt\-Filter\-Dialog}!reject@{reject}}
+\index{reject@{reject}!QxtFilterDialog@{Qxt\-Filter\-Dialog}}
+\subsubsection[{reject}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qxt\-Filter\-Dialog\-::reject (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}, {\ttfamily [slot]}}}\label{class_qxt_filter_dialog_a94b6fa299122b2b225ecac7064f55597}
+
+
+Definition at line 280 of file qxtfilterdialog.\-cpp.
+
+\hypertarget{class_qxt_filter_dialog_aa0fae2137a208168a1ca3299a808e744}{\index{Qxt\-Filter\-Dialog@{Qxt\-Filter\-Dialog}!selected\-Index@{selected\-Index}}
+\index{selected\-Index@{selected\-Index}!QxtFilterDialog@{Qxt\-Filter\-Dialog}}
+\subsubsection[{selected\-Index}]{\setlength{\rightskip}{0pt plus 5cm}Q\-Model\-Index Qxt\-Filter\-Dialog\-::selected\-Index (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_qxt_filter_dialog_aa0fae2137a208168a1ca3299a808e744}
+
+
+Definition at line 222 of file qxtfilterdialog.\-cpp.
+
+\hypertarget{class_qxt_filter_dialog_ae259e45e665d0a4471b631e8a83e0eba}{\index{Qxt\-Filter\-Dialog@{Qxt\-Filter\-Dialog}!set\-Case\-Sensitivity@{set\-Case\-Sensitivity}}
+\index{set\-Case\-Sensitivity@{set\-Case\-Sensitivity}!QxtFilterDialog@{Qxt\-Filter\-Dialog}}
+\subsubsection[{set\-Case\-Sensitivity}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qxt\-Filter\-Dialog\-::set\-Case\-Sensitivity (
+\begin{DoxyParamCaption}
+\item[{Qt\-::\-Case\-Sensitivity}]{case\-Sensitivity = {\ttfamily Qt\-:\-:CaseSensitive}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [slot]}}}\label{class_qxt_filter_dialog_ae259e45e665d0a4471b631e8a83e0eba}
+
+
+Definition at line 227 of file qxtfilterdialog.\-cpp.
+
+\hypertarget{class_qxt_filter_dialog_a6281d82987ac4b8e6a33556fc567d341}{\index{Qxt\-Filter\-Dialog@{Qxt\-Filter\-Dialog}!set\-Filter\-Text@{set\-Filter\-Text}}
+\index{set\-Filter\-Text@{set\-Filter\-Text}!QxtFilterDialog@{Qxt\-Filter\-Dialog}}
+\subsubsection[{set\-Filter\-Text}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qxt\-Filter\-Dialog\-::set\-Filter\-Text (
+\begin{DoxyParamCaption}
+\item[{{\bf Q\-String}}]{text}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [slot]}}}\label{class_qxt_filter_dialog_a6281d82987ac4b8e6a33556fc567d341}
+
+
+Definition at line 217 of file qxtfilterdialog.\-cpp.
+
+\hypertarget{class_qxt_filter_dialog_a97f7003e37dae675ee2d038ec6fd943f}{\index{Qxt\-Filter\-Dialog@{Qxt\-Filter\-Dialog}!set\-Lookup\-Column@{set\-Lookup\-Column}}
+\index{set\-Lookup\-Column@{set\-Lookup\-Column}!QxtFilterDialog@{Qxt\-Filter\-Dialog}}
+\subsubsection[{set\-Lookup\-Column}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qxt\-Filter\-Dialog\-::set\-Lookup\-Column (
+\begin{DoxyParamCaption}
+\item[{{\bf int}}]{column}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [slot]}}}\label{class_qxt_filter_dialog_a97f7003e37dae675ee2d038ec6fd943f}
+
+
+Definition at line 182 of file qxtfilterdialog.\-cpp.
+
+\hypertarget{class_qxt_filter_dialog_a9eb89c02986483226f6d314f92d49c75}{\index{Qxt\-Filter\-Dialog@{Qxt\-Filter\-Dialog}!set\-Lookup\-Role@{set\-Lookup\-Role}}
+\index{set\-Lookup\-Role@{set\-Lookup\-Role}!QxtFilterDialog@{Qxt\-Filter\-Dialog}}
+\subsubsection[{set\-Lookup\-Role}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qxt\-Filter\-Dialog\-::set\-Lookup\-Role (
+\begin{DoxyParamCaption}
+\item[{{\bf int}}]{role}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [slot]}}}\label{class_qxt_filter_dialog_a9eb89c02986483226f6d314f92d49c75}
+
+
+Definition at line 191 of file qxtfilterdialog.\-cpp.
+
+\hypertarget{class_qxt_filter_dialog_aa77f58e963f330c3d5f092a44ff06e3e}{\index{Qxt\-Filter\-Dialog@{Qxt\-Filter\-Dialog}!set\-Pattern\-Syntax@{set\-Pattern\-Syntax}}
+\index{set\-Pattern\-Syntax@{set\-Pattern\-Syntax}!QxtFilterDialog@{Qxt\-Filter\-Dialog}}
+\subsubsection[{set\-Pattern\-Syntax}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qxt\-Filter\-Dialog\-::set\-Pattern\-Syntax (
+\begin{DoxyParamCaption}
+\item[{Q\-Reg\-Exp\-::\-Pattern\-Syntax}]{syntax}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [slot]}}}\label{class_qxt_filter_dialog_aa77f58e963f330c3d5f092a44ff06e3e}
+
+
+Definition at line 166 of file qxtfilterdialog.\-cpp.
+
+\hypertarget{class_qxt_filter_dialog_aaae85323c27b08da9939b1bf3db55399}{\index{Qxt\-Filter\-Dialog@{Qxt\-Filter\-Dialog}!set\-Source\-Model@{set\-Source\-Model}}
+\index{set\-Source\-Model@{set\-Source\-Model}!QxtFilterDialog@{Qxt\-Filter\-Dialog}}
+\subsubsection[{set\-Source\-Model}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qxt\-Filter\-Dialog\-::set\-Source\-Model (
+\begin{DoxyParamCaption}
+\item[{Q\-Abstract\-Item\-Model $\ast$}]{model}
+\end{DoxyParamCaption}
+)}}\label{class_qxt_filter_dialog_aaae85323c27b08da9939b1bf3db55399}
+
+
+Definition at line 172 of file qxtfilterdialog.\-cpp.
+
+\hypertarget{class_qxt_filter_dialog_a26625c5dddcb4f66e5a56bee50071747}{\index{Qxt\-Filter\-Dialog@{Qxt\-Filter\-Dialog}!source\-Model@{source\-Model}}
+\index{source\-Model@{source\-Model}!QxtFilterDialog@{Qxt\-Filter\-Dialog}}
+\subsubsection[{source\-Model}]{\setlength{\rightskip}{0pt plus 5cm}Q\-Abstract\-Item\-Model $\ast$ Qxt\-Filter\-Dialog\-::source\-Model (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_qxt_filter_dialog_a26625c5dddcb4f66e5a56bee50071747}
+
+
+Definition at line 197 of file qxtfilterdialog.\-cpp.
+
+
+
+\subsection{Property Documentation}
+\hypertarget{class_qxt_filter_dialog_a3d5e6822cc52a160cc6f89466c86ebcf}{\index{Qxt\-Filter\-Dialog@{Qxt\-Filter\-Dialog}!filter\-Text@{filter\-Text}}
+\index{filter\-Text@{filter\-Text}!QxtFilterDialog@{Qxt\-Filter\-Dialog}}
+\subsubsection[{filter\-Text}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Q\-String} Qxt\-Filter\-Dialog\-::filter\-Text\hspace{0.3cm}{\ttfamily [read]}, {\ttfamily [write]}}}\label{class_qxt_filter_dialog_a3d5e6822cc52a160cc6f89466c86ebcf}
+
+
+Definition at line 20 of file qxtfilterdialog.\-h.
+
+\hypertarget{class_qxt_filter_dialog_a483a82e5e9a72c5929f25162ef05d8b8}{\index{Qxt\-Filter\-Dialog@{Qxt\-Filter\-Dialog}!lookup\-Column@{lookup\-Column}}
+\index{lookup\-Column@{lookup\-Column}!QxtFilterDialog@{Qxt\-Filter\-Dialog}}
+\subsubsection[{lookup\-Column}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int} Qxt\-Filter\-Dialog\-::lookup\-Column\hspace{0.3cm}{\ttfamily [read]}, {\ttfamily [write]}}}\label{class_qxt_filter_dialog_a483a82e5e9a72c5929f25162ef05d8b8}
+
+
+Definition at line 18 of file qxtfilterdialog.\-h.
+
+\hypertarget{class_qxt_filter_dialog_a4a6dc70156b91fd6f287a08d44e64748}{\index{Qxt\-Filter\-Dialog@{Qxt\-Filter\-Dialog}!lookup\-Role@{lookup\-Role}}
+\index{lookup\-Role@{lookup\-Role}!QxtFilterDialog@{Qxt\-Filter\-Dialog}}
+\subsubsection[{lookup\-Role}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int} Qxt\-Filter\-Dialog\-::lookup\-Role\hspace{0.3cm}{\ttfamily [read]}, {\ttfamily [write]}}}\label{class_qxt_filter_dialog_a4a6dc70156b91fd6f287a08d44e64748}
+
+
+Definition at line 19 of file qxtfilterdialog.\-h.
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/libqxt/src/gui/\hyperlink{qxtfilterdialog_8h}{qxtfilterdialog.\-h}\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/libqxt/src/gui/\hyperlink{qxtfilterdialog_8cpp}{qxtfilterdialog.\-cpp}\end{DoxyCompactItemize}

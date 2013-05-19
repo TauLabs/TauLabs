@@ -1,0 +1,27 @@
+var struct_port__tag =
+[
+    [ "crc", "struct_port__tag.html#a3de48e9d4e4aeb5fbbcd78ad0ab90cf4", null ],
+    [ "DecodeState", "struct_port__tag.html#a727523e48966489e2ee78510203f9ee7", null ],
+    [ "flags", "struct_port__tag.html#a3ba36252e483d133c896772fa60d8d56", null ],
+    [ "InputState", "struct_port__tag.html#a872ebb985531c08f3c00e12be31d101d", null ],
+    [ "maxRetryCount", "struct_port__tag.html#a799f4edb9ea6e89612826ece3bc84923", null ],
+    [ "pfCallBack", "struct_port__tag.html#a76f9abf9220f4cd3949dabe2bdf087c9", null ],
+    [ "pfGetTime", "struct_port__tag.html#ad20edc7518658654c85bc8580bb0e72d", null ],
+    [ "pfSerialRead", "struct_port__tag.html#a22effbba9213e57ac4ab1006a7474bc3", null ],
+    [ "pfSerialWrite", "struct_port__tag.html#a046a534a56d0809f721a001cd0aeac8a", null ],
+    [ "retryCount", "struct_port__tag.html#a4b402cb1f1f50b59c0da70bdecaab4c2", null ],
+    [ "rxBuf", "struct_port__tag.html#a6443695333cf60025e806731fbeb3ffa", null ],
+    [ "rxBufLen", "struct_port__tag.html#a2b8635d420232bc0f5d790760d65e34e", null ],
+    [ "rxBufPos", "struct_port__tag.html#a65be5575b4a5f28bf7c8ccfd855f3020", null ],
+    [ "rxBufSize", "struct_port__tag.html#af09500b48a0a17a2ba95df22e44f0c06", null ],
+    [ "RxError", "struct_port__tag.html#aa25c893c348af3cfda6367dbc2de7961", null ],
+    [ "rxSeqNo", "struct_port__tag.html#a7a1772d5a99a1f86dacd3f04c7416e92", null ],
+    [ "SendState", "struct_port__tag.html#a2a4b6bca783da837f9e0c32a84e99788", null ],
+    [ "sendSynch", "struct_port__tag.html#afb61302bc42bc58ea142b22b20374e85", null ],
+    [ "timeout", "struct_port__tag.html#a1429dc9140577fa5d31205c4a51ce6f7", null ],
+    [ "timeoutLen", "struct_port__tag.html#a30b430b0873e01809b763b0df92e62aa", null ],
+    [ "txBuf", "struct_port__tag.html#ad1f74dda7ace34ad1709c12bce475f29", null ],
+    [ "txBufSize", "struct_port__tag.html#a42ed18a051e755953a8c5fab0542428d", null ],
+    [ "TxError", "struct_port__tag.html#a99fba539f62c058a3625d7837ada4d85", null ],
+    [ "txSeqNo", "struct_port__tag.html#af9374ecad6056fa238ffb54dacd953f0", null ]
+];

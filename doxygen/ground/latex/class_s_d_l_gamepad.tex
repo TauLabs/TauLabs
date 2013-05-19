@@ -1,0 +1,295 @@
+\hypertarget{class_s_d_l_gamepad}{\section{S\-D\-L\-Gamepad Class Reference}
+\label{class_s_d_l_gamepad}\index{S\-D\-L\-Gamepad@{S\-D\-L\-Gamepad}}
+}
+
+
+{\ttfamily \#include $<$sdlgamepad.\-h$>$}
+
+Inheritance diagram for S\-D\-L\-Gamepad\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_s_d_l_gamepad}
+\end{center}
+\end{figure}
+\subsection*{Public Slots}
+\begin{DoxyCompactItemize}
+\item 
+bool \hyperlink{class_s_d_l_gamepad_a9639243476c4164b5b81d8683a213692}{init} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_s_d_l_gamepad_aebce928aa8ee3e4cf04b6357b098f82c}{quit} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_s_d_l_gamepad_a5c83a83755fd9b5849caebebfc80ab92}{set\-Tick\-Rate} (qint16 ms)
+\item 
+bool \hyperlink{class_s_d_l_gamepad_aced2a7eda42d01515400ce56a0462661}{set\-Gamepad} (qint16 \hyperlink{glext_8h_ab47dd9958bcadea08866b42bf358e95e}{index})
+\end{DoxyCompactItemize}
+\subsection*{Signals}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_s_d_l_gamepad_a18305f7d7a3fdb519a946451cb48e0c5}{gamepads} (quint8 \hyperlink{glext_8h_a5b40aca7a9682963dd00a8f5aef0a901}{count})
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_s_d_l_gamepad_acbcb440f27707ca17e0bd7528f78d06a}{button\-State} (\hyperlink{sdlgamepad_8h_a2054e2a6e47649b0ab9d043afda9133f}{Button\-Number} number, bool pressed)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_s_d_l_gamepad_a200686c2d85389ac2be751234f691cc1}{axes\-Values} (\hyperlink{sdlgamepad_8h_a0cff90f48b1cb30ecb36bbfea594b50b}{Q\-List\-Int16} \hyperlink{glext_8h_a300a8ed5fb9490aa35713406ec0412df}{values})
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_s_d_l_gamepad_a2f5ed112d1442855fbfe4e7a18a9702d}{S\-D\-L\-Gamepad} ()
+\item 
+\hyperlink{class_s_d_l_gamepad_a7c987769ce02638c9e055629b6d3e7da}{$\sim$\-S\-D\-L\-Gamepad} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_s_d_l_gamepad_aebe70b7b23ef529cb6f11f36f30e8a39}{run} ()
+\item 
+qint16 \hyperlink{class_s_d_l_gamepad_a18cc78b4734a1adf192ee5dd335ee0c3}{get\-Axes} ()
+\item 
+qint16 \hyperlink{class_s_d_l_gamepad_a38638254aa9a6ebe7ae2e27dfcd9077b}{get\-Buttons} ()
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+A class for communication with a sdl gamepad.
+
+This class inherts Q\-Thread. The run method will look for new button states via S\-D\-L function calls and emit signals for every button if the state of the button has changed. It will also emit signals with the current axes values. The default sleep after this two tasks is 10 milliseconds.
+
+\begin{DoxyAuthor}{Author}
+Manuel Blanquett (\href{mailto:mail.nalla@gmail.com}{\tt mail.\-nalla@gmail.\-com}) 
+\end{DoxyAuthor}
+\begin{DoxyVersion}{Version}
+1.\-0 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+2009 
+\end{DoxyDate}
+
+
+Definition at line 132 of file sdlgamepad.\-h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_s_d_l_gamepad_a2f5ed112d1442855fbfe4e7a18a9702d}{\index{S\-D\-L\-Gamepad@{S\-D\-L\-Gamepad}!S\-D\-L\-Gamepad@{S\-D\-L\-Gamepad}}
+\index{S\-D\-L\-Gamepad@{S\-D\-L\-Gamepad}!SDLGamepad@{S\-D\-L\-Gamepad}}
+\subsubsection[{S\-D\-L\-Gamepad}]{\setlength{\rightskip}{0pt plus 5cm}S\-D\-L\-Gamepad\-::\-S\-D\-L\-Gamepad (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_s_d_l_gamepad_a2f5ed112d1442855fbfe4e7a18a9702d}
+Class constructor.
+
+Some private variables will be initzialized here and the tick rate will be set to M\-I\-N\-\_\-\-R\-A\-T\-E.
+
+This file is part of \hyperlink{class_s_d_l_gamepad}{S\-D\-L\-Gamepad}.
+
+\hyperlink{class_s_d_l_gamepad}{S\-D\-L\-Gamepad} is free software\-: you can redistribute it and/or modify it under the terms of the G\-N\-U General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+\hyperlink{class_s_d_l_gamepad}{S\-D\-L\-Gamepad} is distributed in the hope that it will be useful, but W\-I\-T\-H\-O\-U\-T A\-N\-Y W\-A\-R\-R\-A\-N\-T\-Y; without even the implied warranty of M\-E\-R\-C\-H\-A\-N\-T\-A\-B\-I\-L\-I\-T\-Y or F\-I\-T\-N\-E\-S\-S F\-O\-R A P\-A\-R\-T\-I\-C\-U\-L\-A\-R P\-U\-R\-P\-O\-S\-E. See the G\-N\-U General Public License for more details.
+
+You should have received a copy of the G\-N\-U General Public License along with Foobar. If not, see \href{http://www.gnu.org/licenses/}{\tt http\-://www.\-gnu.\-org/licenses/}.
+
+Manuel Blanquett \href{mailto:mail.nalla@gmail.com}{\tt mail.\-nalla@gmail.\-com} 
+
+Definition at line 25 of file sdlgamepad.\-cpp.
+
+\hypertarget{class_s_d_l_gamepad_a7c987769ce02638c9e055629b6d3e7da}{\index{S\-D\-L\-Gamepad@{S\-D\-L\-Gamepad}!$\sim$\-S\-D\-L\-Gamepad@{$\sim$\-S\-D\-L\-Gamepad}}
+\index{$\sim$\-S\-D\-L\-Gamepad@{$\sim$\-S\-D\-L\-Gamepad}!SDLGamepad@{S\-D\-L\-Gamepad}}
+\subsubsection[{$\sim$\-S\-D\-L\-Gamepad}]{\setlength{\rightskip}{0pt plus 5cm}S\-D\-L\-Gamepad\-::$\sim$\-S\-D\-L\-Gamepad (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_s_d_l_gamepad_a7c987769ce02638c9e055629b6d3e7da}
+Class deconstructor.
+
+The S\-D\-L gamepad will be cracefully closed. After that the S\-D\-L system will be terminated. 
+
+Definition at line 36 of file sdlgamepad.\-cpp.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_s_d_l_gamepad_a200686c2d85389ac2be751234f691cc1}{\index{S\-D\-L\-Gamepad@{S\-D\-L\-Gamepad}!axes\-Values@{axes\-Values}}
+\index{axes\-Values@{axes\-Values}!SDLGamepad@{S\-D\-L\-Gamepad}}
+\subsubsection[{axes\-Values}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} S\-D\-L\-Gamepad\-::axes\-Values (
+\begin{DoxyParamCaption}
+\item[{{\bf Q\-List\-Int16}}]{values}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [signal]}}}\label{class_s_d_l_gamepad_a200686c2d85389ac2be751234f691cc1}
+A signal that emitts the current values of the gamepad axes.
+
+You can connect to this signal to receive the values of the gamepad axes. Unlike the button signal, this signal is thrown with every tick. You will get a Q\-List\-Int16 containing the value of every present axis in a \hyperlink{class_q_list}{Q\-List}.
+
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{sdlgamepad_8h_a0cff90f48b1cb30ecb36bbfea594b50b}{Q\-List\-Int16} 
+\end{DoxySeeAlso}
+
+\begin{DoxyParams}{Parameters}
+{\em values} & A Q\-List\-Int16 Type containing all axes values. \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_s_d_l_gamepad_acbcb440f27707ca17e0bd7528f78d06a}{\index{S\-D\-L\-Gamepad@{S\-D\-L\-Gamepad}!button\-State@{button\-State}}
+\index{button\-State@{button\-State}!SDLGamepad@{S\-D\-L\-Gamepad}}
+\subsubsection[{button\-State}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} S\-D\-L\-Gamepad\-::button\-State (
+\begin{DoxyParamCaption}
+\item[{{\bf Button\-Number}}]{number, }
+\item[{bool}]{pressed}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [signal]}}}\label{class_s_d_l_gamepad_acbcb440f27707ca17e0bd7528f78d06a}
+A signal that emitts the current state of a gamepad button.
+
+You can connect to this signal to receive the state of the gamepad buttons. The states are not pressed at default. If the first pressed state will occur within S\-D\-L you will get a signal. You will get another signal if you release the button. With every tick the states will be reread from the S\-D\-L system.
+
+
+\begin{DoxyParams}{Parameters}
+{\em number} & A Button\-Number enum value. \\
+\hline
+{\em pressed} & A bool value wether the button is pressed or not. \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_s_d_l_gamepad_a18305f7d7a3fdb519a946451cb48e0c5}{\index{S\-D\-L\-Gamepad@{S\-D\-L\-Gamepad}!gamepads@{gamepads}}
+\index{gamepads@{gamepads}!SDLGamepad@{S\-D\-L\-Gamepad}}
+\subsubsection[{gamepads}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} S\-D\-L\-Gamepad\-::gamepads (
+\begin{DoxyParamCaption}
+\item[{quint8}]{count}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [signal]}}}\label{class_s_d_l_gamepad_a18305f7d7a3fdb519a946451cb48e0c5}
+A signal that emitts the number of gamepads present in S\-D\-L.
+
+This signal is emitted in the init slot, so you need connect to this bevore you call init! You get a quint8 with the number of gamepads currently present in the S\-D\-L system. The first gamepad will be opened at default. You can set another gamepad with the set\-Gamepad slot. If you have 5 gamepads in the system you need to use 0-\/4 in the set\-Gamepad slot.
+
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_s_d_l_gamepad_aced2a7eda42d01515400ce56a0462661}{set\-Gamepad()} 
+\end{DoxySeeAlso}
+
+\begin{DoxyParams}{Parameters}
+{\em count} & The number of gamepads present in S\-D\-L. \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_s_d_l_gamepad_a18cc78b4734a1adf192ee5dd335ee0c3}{\index{S\-D\-L\-Gamepad@{S\-D\-L\-Gamepad}!get\-Axes@{get\-Axes}}
+\index{get\-Axes@{get\-Axes}!SDLGamepad@{S\-D\-L\-Gamepad}}
+\subsubsection[{get\-Axes}]{\setlength{\rightskip}{0pt plus 5cm}qint16 S\-D\-L\-Gamepad\-::get\-Axes (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_s_d_l_gamepad_a18cc78b4734a1adf192ee5dd335ee0c3}
+Getter method for the axis count.
+
+This class member retunrs the actual number of axes present on the currently opened gamepad. If no gamepad is present after setting a new one with \hyperlink{class_s_d_l_gamepad_aced2a7eda42d01515400ce56a0462661}{set\-Gamepad()} the value will be -\/1. This is also the default value. 
+
+Definition at line 180 of file sdlgamepad.\-cpp.
+
+\hypertarget{class_s_d_l_gamepad_a38638254aa9a6ebe7ae2e27dfcd9077b}{\index{S\-D\-L\-Gamepad@{S\-D\-L\-Gamepad}!get\-Buttons@{get\-Buttons}}
+\index{get\-Buttons@{get\-Buttons}!SDLGamepad@{S\-D\-L\-Gamepad}}
+\subsubsection[{get\-Buttons}]{\setlength{\rightskip}{0pt plus 5cm}qint16 S\-D\-L\-Gamepad\-::get\-Buttons (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_s_d_l_gamepad_a38638254aa9a6ebe7ae2e27dfcd9077b}
+Getter method for the button count.
+
+This class member retunrs the actual number of buttons present on the currently opened gamepad. If no gamepad is present after setting a new one with \hyperlink{class_s_d_l_gamepad_aced2a7eda42d01515400ce56a0462661}{set\-Gamepad()} the value will be -\/1. This is also the default value. 
+
+Definition at line 186 of file sdlgamepad.\-cpp.
+
+\hypertarget{class_s_d_l_gamepad_a9639243476c4164b5b81d8683a213692}{\index{S\-D\-L\-Gamepad@{S\-D\-L\-Gamepad}!init@{init}}
+\index{init@{init}!SDLGamepad@{S\-D\-L\-Gamepad}}
+\subsubsection[{init}]{\setlength{\rightskip}{0pt plus 5cm}bool S\-D\-L\-Gamepad\-::init (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [slot]}}}\label{class_s_d_l_gamepad_a9639243476c4164b5b81d8683a213692}
+Init the S\-D\-L system and set up gamepad.
+
+You have to connect to the gamepads signal if you want to receive the gamepads present in the S\-D\-L system.
+
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_s_d_l_gamepad_a18305f7d7a3fdb519a946451cb48e0c5}{gamepads()} 
+\end{DoxySeeAlso}
+\begin{DoxyReturn}{Returns}
+True if the initzialisation was successfull. 
+\end{DoxyReturn}
+
+
+Definition at line 47 of file sdlgamepad.\-cpp.
+
+\hypertarget{class_s_d_l_gamepad_aebce928aa8ee3e4cf04b6357b098f82c}{\index{S\-D\-L\-Gamepad@{S\-D\-L\-Gamepad}!quit@{quit}}
+\index{quit@{quit}!SDLGamepad@{S\-D\-L\-Gamepad}}
+\subsubsection[{quit}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} S\-D\-L\-Gamepad\-::quit (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [slot]}}}\label{class_s_d_l_gamepad_aebce928aa8ee3e4cf04b6357b098f82c}
+Exiting the thread.
+
+This is a overwritten method from Q\-Thread to gracefully end the execution of this thread. You should connect the Q\-T App's about\-To\-Quit signal with this. 
+
+Definition at line 174 of file sdlgamepad.\-cpp.
+
+\hypertarget{class_s_d_l_gamepad_aebe70b7b23ef529cb6f11f36f30e8a39}{\index{S\-D\-L\-Gamepad@{S\-D\-L\-Gamepad}!run@{run}}
+\index{run@{run}!SDLGamepad@{S\-D\-L\-Gamepad}}
+\subsubsection[{run}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} S\-D\-L\-Gamepad\-::run (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_s_d_l_gamepad_aebe70b7b23ef529cb6f11f36f30e8a39}
+Implemented virtual run method from Q\-Thread.
+
+The base of operation so to speak. Very abstract this method does the following\-:
+\begin{DoxyItemize}
+\item refresh S\-D\-L information
+\item emit signals
+\item sleep tickrate 
+\end{DoxyItemize}
+
+Definition at line 72 of file sdlgamepad.\-cpp.
+
+\hypertarget{class_s_d_l_gamepad_aced2a7eda42d01515400ce56a0462661}{\index{S\-D\-L\-Gamepad@{S\-D\-L\-Gamepad}!set\-Gamepad@{set\-Gamepad}}
+\index{set\-Gamepad@{set\-Gamepad}!SDLGamepad@{S\-D\-L\-Gamepad}}
+\subsubsection[{set\-Gamepad}]{\setlength{\rightskip}{0pt plus 5cm}bool S\-D\-L\-Gamepad\-::set\-Gamepad (
+\begin{DoxyParamCaption}
+\item[{qint16}]{index}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [slot]}}}\label{class_s_d_l_gamepad_aced2a7eda42d01515400ce56a0462661}
+Change the active gamepad.
+
+You can set active gamepad here. The first gamepad to be activaed is 0. If the gamepad could not be activated a q\-Critical will be printed and false is returned.
+
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_s_d_l_gamepad_a18305f7d7a3fdb519a946451cb48e0c5}{gamepads()} 
+\end{DoxySeeAlso}
+
+\begin{DoxyParams}{Parameters}
+{\em index} & The new gamepad by index. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True if the gamepad was successfully changed. 
+\end{DoxyReturn}
+
+
+Definition at line 83 of file sdlgamepad.\-cpp.
+
+\hypertarget{class_s_d_l_gamepad_a5c83a83755fd9b5849caebebfc80ab92}{\index{S\-D\-L\-Gamepad@{S\-D\-L\-Gamepad}!set\-Tick\-Rate@{set\-Tick\-Rate}}
+\index{set\-Tick\-Rate@{set\-Tick\-Rate}!SDLGamepad@{S\-D\-L\-Gamepad}}
+\subsubsection[{set\-Tick\-Rate}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} S\-D\-L\-Gamepad\-::set\-Tick\-Rate (
+\begin{DoxyParamCaption}
+\item[{qint16}]{ms}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [slot]}}}\label{class_s_d_l_gamepad_a5c83a83755fd9b5849caebebfc80ab92}
+Change the default tickrate.
+
+You can change the tickrate at any time. So you can change the thread sleep dynamicly accordingly to your application's state.
+
+
+\begin{DoxyParams}{Parameters}
+{\em ms} & The new tickrate in milliseconds. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 122 of file sdlgamepad.\-cpp.
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/sdlgamepad/\hyperlink{sdlgamepad_8h}{sdlgamepad.\-h}\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/sdlgamepad/\hyperlink{sdlgamepad_8cpp}{sdlgamepad.\-cpp}\end{DoxyCompactItemize}

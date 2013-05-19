@@ -1,0 +1,816 @@
+\hypertarget{class_qwt_abstract_slider}{\section{Qwt\-Abstract\-Slider Class Reference}
+\label{class_qwt_abstract_slider}\index{Qwt\-Abstract\-Slider@{Qwt\-Abstract\-Slider}}
+}
+
+
+An abstract base class for slider widgets.  
+
+
+
+
+{\ttfamily \#include $<$qwt\-\_\-abstract\-\_\-slider.\-h$>$}
+
+Inheritance diagram for Qwt\-Abstract\-Slider\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.672131cm]{class_qwt_abstract_slider}
+\end{center}
+\end{figure}
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{class_qwt_abstract_slider_1_1_private_data}{Private\-Data}
+\end{DoxyCompactItemize}
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{class_qwt_abstract_slider_ae4c0c4844ac6a35356f3c529a8eae154}{Scroll\-Mode} \{ \\*
+\hyperlink{class_qwt_abstract_slider_ae4c0c4844ac6a35356f3c529a8eae154a807ce5a253287dc7baf7a9c3661b35c1}{Scr\-None}, 
+\hyperlink{class_qwt_abstract_slider_ae4c0c4844ac6a35356f3c529a8eae154a3b131974e6816c1f1e3223b2976f7e50}{Scr\-Mouse}, 
+\hyperlink{class_qwt_abstract_slider_ae4c0c4844ac6a35356f3c529a8eae154a0c20ad978c3bb2e833a476b3d8b3cecc}{Scr\-Timer}, 
+\hyperlink{class_qwt_abstract_slider_ae4c0c4844ac6a35356f3c529a8eae154a0c6c0f8bc0fc62cf6e5b00cd0e5729e3}{Scr\-Direct}, 
+\\*
+\hyperlink{class_qwt_abstract_slider_ae4c0c4844ac6a35356f3c529a8eae154a9e18dc0c7c8afdfbec8d0962144d971e}{Scr\-Page}
+ \}
+\end{DoxyCompactItemize}
+\subsection*{Public Slots}
+\begin{DoxyCompactItemize}
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_abstract_slider_ac3713f8989b647cb79f0a5894991e36a}{set\-Value} (\hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} val)
+\begin{DoxyCompactList}\small\item\em Move the slider to a specified value. \end{DoxyCompactList}\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_abstract_slider_a50ed1e265beaa1c8adbe718caa023e50}{fit\-Value} (\hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} val)
+\begin{DoxyCompactList}\small\item\em Set the slider's value to the nearest integer multiple of the step size. \end{DoxyCompactList}\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_abstract_slider_a5fccdb2ca370bba9ed4d29864fd80788}{inc\-Value} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} steps)
+\begin{DoxyCompactList}\small\item\em Increment the value by a specified number of steps. \end{DoxyCompactList}\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_abstract_slider_a9cc63283a2d4f0bcbb67fd331629a318}{set\-Read\-Only} (bool)
+\end{DoxyCompactItemize}
+\subsection*{Signals}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_abstract_slider_a6bc5c410cd56119c6ad50743c9a46af1}{value\-Changed} (\hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} \hyperlink{glext_8h_aa0e2e9cea7f208d28acda0480144beb0}{value})
+\begin{DoxyCompactList}\small\item\em Notify a change of value. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_abstract_slider_afd92a0c79c113b3c5e9952d12cff80f5}{slider\-Pressed} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_abstract_slider_ab94184da7a029a5f586671251ff380ea}{slider\-Released} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_abstract_slider_ae59671d27931b545073e599a10967452}{slider\-Moved} (\hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} \hyperlink{glext_8h_aa0e2e9cea7f208d28acda0480144beb0}{value})
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_qwt_abstract_slider_a5d23c0db6786757d7523b7fbfb3c34c9}{Qwt\-Abstract\-Slider} (Qt\-::\-Orientation, Q\-Widget $\ast$parent=N\-U\-L\-L)
+\begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
+virtual \hyperlink{class_qwt_abstract_slider_a31b9e0314988b7d547c9ded625014bbb}{$\sim$\-Qwt\-Abstract\-Slider} ()
+\begin{DoxyCompactList}\small\item\em Destructor. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_abstract_slider_a945ba36e1b8e20d362083f6737b0601d}{set\-Update\-Time} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{glext_8h_a00140d6f5c548b26daf170bf16e86a6d}{t})
+\begin{DoxyCompactList}\small\item\em Specify the update interval for automatic scrolling. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_abstract_slider_ab648229c972d0c3258d30b0c43eb5efc}{stop\-Moving} ()
+\begin{DoxyCompactList}\small\item\em Stop updating if automatic scrolling is active. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_abstract_slider_a91c03aada61745d8924f47319afefee1}{set\-Tracking} (bool enable)
+\begin{DoxyCompactList}\small\item\em Enables or disables tracking. \end{DoxyCompactList}\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_abstract_slider_a305b137fe4dd80cba307fe1b4bd46272}{set\-Mass} (\hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} val)
+\begin{DoxyCompactList}\small\item\em Set the slider's mass for flywheel effect. \end{DoxyCompactList}\item 
+virtual \hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} \hyperlink{class_qwt_abstract_slider_a1bfc8126a2ab01c83e8fa5e64b95de03}{mass} () const 
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_abstract_slider_a6b0fdc50bfbb0a8bb40f0dc6bf493b2c}{set\-Orientation} (Qt\-::\-Orientation o)
+\begin{DoxyCompactList}\small\item\em Set the orientation. \end{DoxyCompactList}\item 
+Qt\-::\-Orientation \hyperlink{class_qwt_abstract_slider_a4d2521b9c31ec64b71d8e1771b156d88}{orientation} () const 
+\item 
+bool \hyperlink{class_qwt_abstract_slider_a040fd1fd03592c524314bf4b5539608d}{is\-Read\-Only} () const 
+\item 
+bool \hyperlink{class_qwt_abstract_slider_a87c750f098cb5f70306a7908339cb88e}{is\-Valid} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_abstract_slider_a79d99f14ebd47dfede8135845c90cedb}{set\-Valid} (bool \hyperlink{class_qwt_abstract_slider_a65a589ff3bbfdeb3b5f099bbf7c5e45a}{valid})
+\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_abstract_slider_af9849c5c21412c7308cac6ad6a420e47}{set\-Position} (const Q\-Point \&)
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_abstract_slider_a2f04dc51e4402b51fef3250bcc99dc7f}{value\-Change} ()
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_abstract_slider_a26f4d684524925891113d46ffe383b5d}{timer\-Event} (Q\-Timer\-Event $\ast$\hyperlink{_o_p_plots_8m_a9425be9aab51621e317ba7ade564b570}{e})
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_abstract_slider_a60e33a71d34b23e9ebefebaa24cdd8c2}{mouse\-Press\-Event} (Q\-Mouse\-Event $\ast$\hyperlink{_o_p_plots_8m_a9425be9aab51621e317ba7ade564b570}{e})
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_abstract_slider_a8f27604396c9d2544931638b806c13e3}{mouse\-Release\-Event} (Q\-Mouse\-Event $\ast$\hyperlink{_o_p_plots_8m_a9425be9aab51621e317ba7ade564b570}{e})
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_abstract_slider_af9599b94c6771181ede59a84e33c0e6e}{mouse\-Move\-Event} (Q\-Mouse\-Event $\ast$\hyperlink{_o_p_plots_8m_a9425be9aab51621e317ba7ade564b570}{e})
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_abstract_slider_a4d55f8ffab93d8610bc026e00e3bdc81}{key\-Press\-Event} (Q\-Key\-Event $\ast$\hyperlink{_o_p_plots_8m_a9425be9aab51621e317ba7ade564b570}{e})
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_abstract_slider_a25d5c9fe00c81e310304461fa6e8ec97}{wheel\-Event} (Q\-Wheel\-Event $\ast$\hyperlink{_o_p_plots_8m_a9425be9aab51621e317ba7ade564b570}{e})
+\item 
+virtual \hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} \hyperlink{class_qwt_abstract_slider_a6e26a993536813c2d9846a28f3c27aa7}{get\-Value} (const Q\-Point \&\hyperlink{glext_8h_aa5367c14d90f462230c2611b81b41d23}{p})=0
+\begin{DoxyCompactList}\small\item\em Determine the value corresponding to a specified poind. \end{DoxyCompactList}\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_abstract_slider_a4124aa3b1e462d57ea2693214e66da0b}{get\-Scroll\-Mode} (const Q\-Point \&pos, \hyperlink{class_qwt_abstract_slider_ae4c0c4844ac6a35356f3c529a8eae154}{Scroll\-Mode} \&\hyperlink{class_qwt_abstract_slider_a4a1b9e022180a8567f09632388002396}{scroll\-Mode}, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \&direction) const =0
+\begin{DoxyCompactList}\small\item\em Determine what to do when the user presses a mouse button. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_abstract_slider_a120e5a03094ef0baf793000972a21722}{set\-Mouse\-Offset} (\hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double})
+\item 
+\hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} \hyperlink{class_qwt_abstract_slider_a138397a755057932b5da72f526fc74e6}{mouse\-Offset} () const 
+\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_qwt_abstract_slider_a4a1b9e022180a8567f09632388002396}{scroll\-Mode} () const 
+\begin{DoxyCompactList}\small\item\em sa Scroll\-Mode \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Properties}
+\begin{DoxyCompactItemize}
+\item 
+bool \hyperlink{class_qwt_abstract_slider_ad7074d3448c265bcb4d9c317b38812be}{read\-Only}
+\item 
+bool \hyperlink{class_qwt_abstract_slider_a65a589ff3bbfdeb3b5f099bbf7c5e45a}{valid}
+\item 
+\hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} \hyperlink{class_qwt_abstract_slider_aa22d54902fff272ceaedb6ebed8451b1}{mass}
+\item 
+Qt\-::\-Orientation \hyperlink{class_qwt_abstract_slider_ac6a51cf8c6e298be121c7bab1fdb4376}{orientation}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+An abstract base class for slider widgets. 
+
+\hyperlink{class_qwt_abstract_slider}{Qwt\-Abstract\-Slider} is a base class for slider widgets. It handles mouse events and updates the slider's value accordingly. Derived classes only have to implement the \hyperlink{class_qwt_abstract_slider_a6e26a993536813c2d9846a28f3c27aa7}{get\-Value()} and \hyperlink{class_qwt_abstract_slider_a4124aa3b1e462d57ea2693214e66da0b}{get\-Scroll\-Mode()} members, and should react to a \hyperlink{class_qwt_abstract_slider_a2f04dc51e4402b51fef3250bcc99dc7f}{value\-Change()}, which normally requires repainting. 
+
+Definition at line 28 of file qwt\-\_\-abstract\-\_\-slider.\-h.
+
+
+
+\subsection{Member Enumeration Documentation}
+\hypertarget{class_qwt_abstract_slider_ae4c0c4844ac6a35356f3c529a8eae154}{\index{Qwt\-Abstract\-Slider@{Qwt\-Abstract\-Slider}!Scroll\-Mode@{Scroll\-Mode}}
+\index{Scroll\-Mode@{Scroll\-Mode}!QwtAbstractSlider@{Qwt\-Abstract\-Slider}}
+\subsubsection[{Scroll\-Mode}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf Qwt\-Abstract\-Slider\-::\-Scroll\-Mode}}}\label{class_qwt_abstract_slider_ae4c0c4844ac6a35356f3c529a8eae154}
+Scroll mode \begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_abstract_slider_a4124aa3b1e462d57ea2693214e66da0b}{get\-Scroll\-Mode()} 
+\end{DoxySeeAlso}
+\begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{Scr\-None@{Scr\-None}!Qwt\-Abstract\-Slider@{Qwt\-Abstract\-Slider}}\index{Qwt\-Abstract\-Slider@{Qwt\-Abstract\-Slider}!Scr\-None@{Scr\-None}}\item[{\em 
+\hypertarget{class_qwt_abstract_slider_ae4c0c4844ac6a35356f3c529a8eae154a807ce5a253287dc7baf7a9c3661b35c1}{Scr\-None}\label{class_qwt_abstract_slider_ae4c0c4844ac6a35356f3c529a8eae154a807ce5a253287dc7baf7a9c3661b35c1}
+}]Scrolling switched off. Don't change the value. \index{Scr\-Mouse@{Scr\-Mouse}!Qwt\-Abstract\-Slider@{Qwt\-Abstract\-Slider}}\index{Qwt\-Abstract\-Slider@{Qwt\-Abstract\-Slider}!Scr\-Mouse@{Scr\-Mouse}}\item[{\em 
+\hypertarget{class_qwt_abstract_slider_ae4c0c4844ac6a35356f3c529a8eae154a3b131974e6816c1f1e3223b2976f7e50}{Scr\-Mouse}\label{class_qwt_abstract_slider_ae4c0c4844ac6a35356f3c529a8eae154a3b131974e6816c1f1e3223b2976f7e50}
+}]Change the value while the user keeps the button pressed and moves the mouse. \index{Scr\-Timer@{Scr\-Timer}!Qwt\-Abstract\-Slider@{Qwt\-Abstract\-Slider}}\index{Qwt\-Abstract\-Slider@{Qwt\-Abstract\-Slider}!Scr\-Timer@{Scr\-Timer}}\item[{\em 
+\hypertarget{class_qwt_abstract_slider_ae4c0c4844ac6a35356f3c529a8eae154a0c20ad978c3bb2e833a476b3d8b3cecc}{Scr\-Timer}\label{class_qwt_abstract_slider_ae4c0c4844ac6a35356f3c529a8eae154a0c20ad978c3bb2e833a476b3d8b3cecc}
+}]Automatic scrolling. Increment the value in the specified direction as long as the user keeps the button pressed. \index{Scr\-Direct@{Scr\-Direct}!Qwt\-Abstract\-Slider@{Qwt\-Abstract\-Slider}}\index{Qwt\-Abstract\-Slider@{Qwt\-Abstract\-Slider}!Scr\-Direct@{Scr\-Direct}}\item[{\em 
+\hypertarget{class_qwt_abstract_slider_ae4c0c4844ac6a35356f3c529a8eae154a0c6c0f8bc0fc62cf6e5b00cd0e5729e3}{Scr\-Direct}\label{class_qwt_abstract_slider_ae4c0c4844ac6a35356f3c529a8eae154a0c6c0f8bc0fc62cf6e5b00cd0e5729e3}
+}]\index{Scr\-Page@{Scr\-Page}!Qwt\-Abstract\-Slider@{Qwt\-Abstract\-Slider}}\index{Qwt\-Abstract\-Slider@{Qwt\-Abstract\-Slider}!Scr\-Page@{Scr\-Page}}\item[{\em 
+\hypertarget{class_qwt_abstract_slider_ae4c0c4844ac6a35356f3c529a8eae154a9e18dc0c7c8afdfbec8d0962144d971e}{Scr\-Page}\label{class_qwt_abstract_slider_ae4c0c4844ac6a35356f3c529a8eae154a9e18dc0c7c8afdfbec8d0962144d971e}
+}]Automatic scrolling. Same as Scr\-Timer, but increment by page size. \end{description}
+\end{Desc}
+
+
+Definition at line 42 of file qwt\-\_\-abstract\-\_\-slider.\-h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_qwt_abstract_slider_a5d23c0db6786757d7523b7fbfb3c34c9}{\index{Qwt\-Abstract\-Slider@{Qwt\-Abstract\-Slider}!Qwt\-Abstract\-Slider@{Qwt\-Abstract\-Slider}}
+\index{Qwt\-Abstract\-Slider@{Qwt\-Abstract\-Slider}!QwtAbstractSlider@{Qwt\-Abstract\-Slider}}
+\subsubsection[{Qwt\-Abstract\-Slider}]{\setlength{\rightskip}{0pt plus 5cm}Qwt\-Abstract\-Slider\-::\-Qwt\-Abstract\-Slider (
+\begin{DoxyParamCaption}
+\item[{Qt\-::\-Orientation}]{orientation, }
+\item[{Q\-Widget $\ast$}]{parent = {\ttfamily NULL}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [explicit]}}}\label{class_qwt_abstract_slider_a5d23c0db6786757d7523b7fbfb3c34c9}
+
+
+Constructor. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em orientation} & Orientation \\
+\hline
+{\em parent} & Parent widget \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 55 of file qwt\-\_\-abstract\-\_\-slider.\-cpp.
+
+\hypertarget{class_qwt_abstract_slider_a31b9e0314988b7d547c9ded625014bbb}{\index{Qwt\-Abstract\-Slider@{Qwt\-Abstract\-Slider}!$\sim$\-Qwt\-Abstract\-Slider@{$\sim$\-Qwt\-Abstract\-Slider}}
+\index{$\sim$\-Qwt\-Abstract\-Slider@{$\sim$\-Qwt\-Abstract\-Slider}!QwtAbstractSlider@{Qwt\-Abstract\-Slider}}
+\subsubsection[{$\sim$\-Qwt\-Abstract\-Slider}]{\setlength{\rightskip}{0pt plus 5cm}Qwt\-Abstract\-Slider\-::$\sim$\-Qwt\-Abstract\-Slider (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_qwt_abstract_slider_a31b9e0314988b7d547c9ded625014bbb}
+
+
+Destructor. 
+
+
+
+Definition at line 66 of file qwt\-\_\-abstract\-\_\-slider.\-cpp.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_qwt_abstract_slider_a50ed1e265beaa1c8adbe718caa023e50}{\index{Qwt\-Abstract\-Slider@{Qwt\-Abstract\-Slider}!fit\-Value@{fit\-Value}}
+\index{fit\-Value@{fit\-Value}!QwtAbstractSlider@{Qwt\-Abstract\-Slider}}
+\subsubsection[{fit\-Value}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Abstract\-Slider\-::fit\-Value (
+\begin{DoxyParamCaption}
+\item[{{\bf double}}]{value}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}, {\ttfamily [slot]}}}\label{class_qwt_abstract_slider_a50ed1e265beaa1c8adbe718caa023e50}
+
+
+Set the slider's value to the nearest integer multiple of the step size. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em value} & Value \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_abstract_slider_ac3713f8989b647cb79f0a5894991e36a}{set\-Value()}, \hyperlink{class_qwt_abstract_slider_a5fccdb2ca370bba9ed4d29864fd80788}{inc\-Value()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 558 of file qwt\-\_\-abstract\-\_\-slider.\-cpp.
+
+\hypertarget{class_qwt_abstract_slider_a4124aa3b1e462d57ea2693214e66da0b}{\index{Qwt\-Abstract\-Slider@{Qwt\-Abstract\-Slider}!get\-Scroll\-Mode@{get\-Scroll\-Mode}}
+\index{get\-Scroll\-Mode@{get\-Scroll\-Mode}!QwtAbstractSlider@{Qwt\-Abstract\-Slider}}
+\subsubsection[{get\-Scroll\-Mode}]{\setlength{\rightskip}{0pt plus 5cm}virtual {\bf void} Qwt\-Abstract\-Slider\-::get\-Scroll\-Mode (
+\begin{DoxyParamCaption}
+\item[{const Q\-Point \&}]{pos, }
+\item[{{\bf Scroll\-Mode} \&}]{scroll\-Mode, }
+\item[{{\bf int} \&}]{direction}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [pure virtual]}}}\label{class_qwt_abstract_slider_a4124aa3b1e462d57ea2693214e66da0b}
+
+
+Determine what to do when the user presses a mouse button. 
+
+This function is abstract and has to be implemented by derived classes. It is called on a mouse\-Press event. The derived class can determine what should happen next in dependence of the position where the mouse was pressed by returning scrolling mode and direction.
+
+
+\begin{DoxyParams}{Parameters}
+{\em pos} & point where the mouse was pressed \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em scroll\-Mode} & The scrolling mode \\
+\hline
+{\em direction} & direction\-: 1, 0, or -\/1. \\
+\hline
+\end{DoxyRetVals}
+
+
+Implemented in \hyperlink{class_qwt_dial_a26e8e2fe68799a5ee91acd99e81177e9}{Qwt\-Dial}, \hyperlink{class_qwt_knob_a42e3a55eb22c249311e5cacefb22ae71}{Qwt\-Knob}, \hyperlink{class_qwt_slider_aea81bd1a595840a9eb0eb46254366110}{Qwt\-Slider}, and \hyperlink{class_qwt_wheel_a0fdd78e189618b7c40832e4e52954653}{Qwt\-Wheel}.
+
+\hypertarget{class_qwt_abstract_slider_a6e26a993536813c2d9846a28f3c27aa7}{\index{Qwt\-Abstract\-Slider@{Qwt\-Abstract\-Slider}!get\-Value@{get\-Value}}
+\index{get\-Value@{get\-Value}!QwtAbstractSlider@{Qwt\-Abstract\-Slider}}
+\subsubsection[{get\-Value}]{\setlength{\rightskip}{0pt plus 5cm}virtual {\bf double} Qwt\-Abstract\-Slider\-::get\-Value (
+\begin{DoxyParamCaption}
+\item[{const Q\-Point \&}]{p}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [pure virtual]}}}\label{class_qwt_abstract_slider_a6e26a993536813c2d9846a28f3c27aa7}
+
+
+Determine the value corresponding to a specified poind. 
+
+This is an abstract virtual function which is called when the user presses or releases a mouse button or moves the mouse. It has to be implemented by the derived class. 
+\begin{DoxyParams}{Parameters}
+{\em p} & point \\
+\hline
+\end{DoxyParams}
+
+
+Implemented in \hyperlink{class_qwt_dial_a7acb904d2f2e9b20178cd9a9d9b37d3f}{Qwt\-Dial}, \hyperlink{class_qwt_knob_a8bc3dd547ed410548b451f074f633546}{Qwt\-Knob}, \hyperlink{class_qwt_slider_a9dce1bf10fdcd92feae56dd77a455358}{Qwt\-Slider}, and \hyperlink{class_qwt_wheel_ae356508d15272291857ca9ca6c84134e}{Qwt\-Wheel}.
+
+\hypertarget{class_qwt_abstract_slider_a5fccdb2ca370bba9ed4d29864fd80788}{\index{Qwt\-Abstract\-Slider@{Qwt\-Abstract\-Slider}!inc\-Value@{inc\-Value}}
+\index{inc\-Value@{inc\-Value}!QwtAbstractSlider@{Qwt\-Abstract\-Slider}}
+\subsubsection[{inc\-Value}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Abstract\-Slider\-::inc\-Value (
+\begin{DoxyParamCaption}
+\item[{{\bf int}}]{steps}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}, {\ttfamily [slot]}}}\label{class_qwt_abstract_slider_a5fccdb2ca370bba9ed4d29864fd80788}
+
+
+Increment the value by a specified number of steps. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em steps} & number of steps \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_abstract_slider_ac3713f8989b647cb79f0a5894991e36a}{set\-Value()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 570 of file qwt\-\_\-abstract\-\_\-slider.\-cpp.
+
+\hypertarget{class_qwt_abstract_slider_a040fd1fd03592c524314bf4b5539608d}{\index{Qwt\-Abstract\-Slider@{Qwt\-Abstract\-Slider}!is\-Read\-Only@{is\-Read\-Only}}
+\index{is\-Read\-Only@{is\-Read\-Only}!QwtAbstractSlider@{Qwt\-Abstract\-Slider}}
+\subsubsection[{is\-Read\-Only}]{\setlength{\rightskip}{0pt plus 5cm}bool Qwt\-Abstract\-Slider\-::is\-Read\-Only (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_qwt_abstract_slider_a040fd1fd03592c524314bf4b5539608d}
+In read only mode the slider can't be controlled by mouse or keyboard.
+
+\begin{DoxyReturn}{Returns}
+true if read only 
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_abstract_slider_a9cc63283a2d4f0bcbb67fd331629a318}{set\-Read\-Only()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 96 of file qwt\-\_\-abstract\-\_\-slider.\-cpp.
+
+\hypertarget{class_qwt_abstract_slider_a87c750f098cb5f70306a7908339cb88e}{\index{Qwt\-Abstract\-Slider@{Qwt\-Abstract\-Slider}!is\-Valid@{is\-Valid}}
+\index{is\-Valid@{is\-Valid}!QwtAbstractSlider@{Qwt\-Abstract\-Slider}}
+\subsubsection[{is\-Valid}]{\setlength{\rightskip}{0pt plus 5cm}bool Qwt\-Abstract\-Slider\-::is\-Valid (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_qwt_abstract_slider_a87c750f098cb5f70306a7908339cb88e}
+\begin{DoxySeeAlso}{See Also}
+Qwt\-Dbl\-Range\-::is\-Valid() 
+\end{DoxySeeAlso}
+
+
+Definition at line 88 of file qwt\-\_\-abstract\-\_\-slider.\-h.
+
+\hypertarget{class_qwt_abstract_slider_a4d55f8ffab93d8610bc026e00e3bdc81}{\index{Qwt\-Abstract\-Slider@{Qwt\-Abstract\-Slider}!key\-Press\-Event@{key\-Press\-Event}}
+\index{key\-Press\-Event@{key\-Press\-Event}!QwtAbstractSlider@{Qwt\-Abstract\-Slider}}
+\subsubsection[{key\-Press\-Event}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Abstract\-Slider\-::key\-Press\-Event (
+\begin{DoxyParamCaption}
+\item[{Q\-Key\-Event $\ast$}]{e}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}}\label{class_qwt_abstract_slider_a4d55f8ffab93d8610bc026e00e3bdc81}
+Handles key events
+
+
+\begin{DoxyItemize}
+\item Key\-\_\-\-Down, Key\-Left\par
+ Decrement by 1
+\item Key\-\_\-\-Up, Key\-\_\-\-Right\par
+ Increment by 1
+\end{DoxyItemize}
+
+
+\begin{DoxyParams}{Parameters}
+{\em e} & Key event \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_abstract_slider_a040fd1fd03592c524314bf4b5539608d}{is\-Read\-Only()} 
+\end{DoxySeeAlso}
+
+
+Reimplemented in \hyperlink{class_qwt_dial_a61a2341a76abc20ea5bd72a0485be136}{Qwt\-Dial}, and \hyperlink{class_qwt_compass_ad4f31e6837ea045834fe67d192a4209d}{Qwt\-Compass}.
+
+
+
+Definition at line 379 of file qwt\-\_\-abstract\-\_\-slider.\-cpp.
+
+\hypertarget{class_qwt_abstract_slider_a1bfc8126a2ab01c83e8fa5e64b95de03}{\index{Qwt\-Abstract\-Slider@{Qwt\-Abstract\-Slider}!mass@{mass}}
+\index{mass@{mass}!QwtAbstractSlider@{Qwt\-Abstract\-Slider}}
+\subsubsection[{mass}]{\setlength{\rightskip}{0pt plus 5cm}virtual {\bf double} Qwt\-Abstract\-Slider\-::mass (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_qwt_abstract_slider_a1bfc8126a2ab01c83e8fa5e64b95de03}
+
+
+Reimplemented in \hyperlink{class_qwt_wheel_a55de1496f0eef04da9bc293306a40df6}{Qwt\-Wheel}.
+
+\hypertarget{class_qwt_abstract_slider_af9599b94c6771181ede59a84e33c0e6e}{\index{Qwt\-Abstract\-Slider@{Qwt\-Abstract\-Slider}!mouse\-Move\-Event@{mouse\-Move\-Event}}
+\index{mouse\-Move\-Event@{mouse\-Move\-Event}!QwtAbstractSlider@{Qwt\-Abstract\-Slider}}
+\subsubsection[{mouse\-Move\-Event}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Abstract\-Slider\-::mouse\-Move\-Event (
+\begin{DoxyParamCaption}
+\item[{Q\-Mouse\-Event $\ast$}]{e}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}}\label{class_qwt_abstract_slider_af9599b94c6771181ede59a84e33c0e6e}
+Mouse Move Event handler 
+\begin{DoxyParams}{Parameters}
+{\em e} & Mouse event \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 309 of file qwt\-\_\-abstract\-\_\-slider.\-cpp.
+
+\hypertarget{class_qwt_abstract_slider_a138397a755057932b5da72f526fc74e6}{\index{Qwt\-Abstract\-Slider@{Qwt\-Abstract\-Slider}!mouse\-Offset@{mouse\-Offset}}
+\index{mouse\-Offset@{mouse\-Offset}!QwtAbstractSlider@{Qwt\-Abstract\-Slider}}
+\subsubsection[{mouse\-Offset}]{\setlength{\rightskip}{0pt plus 5cm}{\bf double} Qwt\-Abstract\-Slider\-::mouse\-Offset (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_qwt_abstract_slider_a138397a755057932b5da72f526fc74e6}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_abstract_slider_a120e5a03094ef0baf793000972a21722}{set\-Mouse\-Offset()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 588 of file qwt\-\_\-abstract\-\_\-slider.\-cpp.
+
+\hypertarget{class_qwt_abstract_slider_a60e33a71d34b23e9ebefebaa24cdd8c2}{\index{Qwt\-Abstract\-Slider@{Qwt\-Abstract\-Slider}!mouse\-Press\-Event@{mouse\-Press\-Event}}
+\index{mouse\-Press\-Event@{mouse\-Press\-Event}!QwtAbstractSlider@{Qwt\-Abstract\-Slider}}
+\subsubsection[{mouse\-Press\-Event}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Abstract\-Slider\-::mouse\-Press\-Event (
+\begin{DoxyParamCaption}
+\item[{Q\-Mouse\-Event $\ast$}]{e}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}}\label{class_qwt_abstract_slider_a60e33a71d34b23e9ebefebaa24cdd8c2}
+Mouse press event handler 
+\begin{DoxyParams}{Parameters}
+{\em e} & Mouse event \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 148 of file qwt\-\_\-abstract\-\_\-slider.\-cpp.
+
+\hypertarget{class_qwt_abstract_slider_a8f27604396c9d2544931638b806c13e3}{\index{Qwt\-Abstract\-Slider@{Qwt\-Abstract\-Slider}!mouse\-Release\-Event@{mouse\-Release\-Event}}
+\index{mouse\-Release\-Event@{mouse\-Release\-Event}!QwtAbstractSlider@{Qwt\-Abstract\-Slider}}
+\subsubsection[{mouse\-Release\-Event}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Abstract\-Slider\-::mouse\-Release\-Event (
+\begin{DoxyParamCaption}
+\item[{Q\-Mouse\-Event $\ast$}]{e}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}}\label{class_qwt_abstract_slider_a8f27604396c9d2544931638b806c13e3}
+Mouse Release Event handler 
+\begin{DoxyParams}{Parameters}
+{\em e} & Mouse event \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 200 of file qwt\-\_\-abstract\-\_\-slider.\-cpp.
+
+\hypertarget{class_qwt_abstract_slider_a4d2521b9c31ec64b71d8e1771b156d88}{\index{Qwt\-Abstract\-Slider@{Qwt\-Abstract\-Slider}!orientation@{orientation}}
+\index{orientation@{orientation}!QwtAbstractSlider@{Qwt\-Abstract\-Slider}}
+\subsubsection[{orientation}]{\setlength{\rightskip}{0pt plus 5cm}Qt\-::\-Orientation Qwt\-Abstract\-Slider\-::orientation (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_qwt_abstract_slider_a4d2521b9c31ec64b71d8e1771b156d88}
+\hypertarget{class_qwt_abstract_slider_a4a1b9e022180a8567f09632388002396}{\index{Qwt\-Abstract\-Slider@{Qwt\-Abstract\-Slider}!scroll\-Mode@{scroll\-Mode}}
+\index{scroll\-Mode@{scroll\-Mode}!QwtAbstractSlider@{Qwt\-Abstract\-Slider}}
+\subsubsection[{scroll\-Mode}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int} Qwt\-Abstract\-Slider\-::scroll\-Mode (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_qwt_abstract_slider_a4a1b9e022180a8567f09632388002396}
+
+
+sa Scroll\-Mode 
+
+
+
+Definition at line 594 of file qwt\-\_\-abstract\-\_\-slider.\-cpp.
+
+\hypertarget{class_qwt_abstract_slider_a305b137fe4dd80cba307fe1b4bd46272}{\index{Qwt\-Abstract\-Slider@{Qwt\-Abstract\-Slider}!set\-Mass@{set\-Mass}}
+\index{set\-Mass@{set\-Mass}!QwtAbstractSlider@{Qwt\-Abstract\-Slider}}
+\subsubsection[{set\-Mass}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Abstract\-Slider\-::set\-Mass (
+\begin{DoxyParamCaption}
+\item[{{\bf double}}]{val}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_qwt_abstract_slider_a305b137fe4dd80cba307fe1b4bd46272}
+
+
+Set the slider's mass for flywheel effect. 
+
+If the slider's mass is greater then 0, it will continue to move after the mouse button has been released. Its speed decreases with time at a rate depending on the slider's mass. A large mass means that it will continue to move for a long time.
+
+Derived widgets may overload this function to make it public.
+
+
+\begin{DoxyParams}{Parameters}
+{\em val} & New mass in kg\\
+\hline
+\end{DoxyParams}
+\begin{DoxyRefDesc}{Bug}
+\item[\hyperlink{bug__bug000001}{Bug}]If the mass is smaller than 1g, it is set to zero. The maximal mass is limited to 100kg. \end{DoxyRefDesc}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_abstract_slider_aa22d54902fff272ceaedb6ebed8451b1}{mass()} 
+\end{DoxySeeAlso}
+
+
+Reimplemented in \hyperlink{class_qwt_wheel_a2af8b9b10ebff58b351027208c1e2b86}{Qwt\-Wheel}.
+
+
+
+Definition at line 515 of file qwt\-\_\-abstract\-\_\-slider.\-cpp.
+
+\hypertarget{class_qwt_abstract_slider_a120e5a03094ef0baf793000972a21722}{\index{Qwt\-Abstract\-Slider@{Qwt\-Abstract\-Slider}!set\-Mouse\-Offset@{set\-Mouse\-Offset}}
+\index{set\-Mouse\-Offset@{set\-Mouse\-Offset}!QwtAbstractSlider@{Qwt\-Abstract\-Slider}}
+\subsubsection[{set\-Mouse\-Offset}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Abstract\-Slider\-::set\-Mouse\-Offset (
+\begin{DoxyParamCaption}
+\item[{{\bf double}}]{offset}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_qwt_abstract_slider_a120e5a03094ef0baf793000972a21722}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_abstract_slider_a138397a755057932b5da72f526fc74e6}{mouse\-Offset()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 580 of file qwt\-\_\-abstract\-\_\-slider.\-cpp.
+
+\hypertarget{class_qwt_abstract_slider_a6b0fdc50bfbb0a8bb40f0dc6bf493b2c}{\index{Qwt\-Abstract\-Slider@{Qwt\-Abstract\-Slider}!set\-Orientation@{set\-Orientation}}
+\index{set\-Orientation@{set\-Orientation}!QwtAbstractSlider@{Qwt\-Abstract\-Slider}}
+\subsubsection[{set\-Orientation}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Abstract\-Slider\-::set\-Orientation (
+\begin{DoxyParamCaption}
+\item[{Qt\-::\-Orientation}]{o}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_qwt_abstract_slider_a6b0fdc50bfbb0a8bb40f0dc6bf493b2c}
+
+
+Set the orientation. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em o} & Orientation. Allowed values are Qt\-::\-Horizontal and Qt\-::\-Vertical. \\
+\hline
+\end{DoxyParams}
+
+
+Reimplemented in \hyperlink{class_qwt_wheel_acae74c8161fd1df728f26253dd1defa8}{Qwt\-Wheel}.
+
+
+
+Definition at line 106 of file qwt\-\_\-abstract\-\_\-slider.\-cpp.
+
+\hypertarget{class_qwt_abstract_slider_af9849c5c21412c7308cac6ad6a420e47}{\index{Qwt\-Abstract\-Slider@{Qwt\-Abstract\-Slider}!set\-Position@{set\-Position}}
+\index{set\-Position@{set\-Position}!QwtAbstractSlider@{Qwt\-Abstract\-Slider}}
+\subsubsection[{set\-Position}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Abstract\-Slider\-::set\-Position (
+\begin{DoxyParamCaption}
+\item[{const Q\-Point \&}]{p}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}}\label{class_qwt_abstract_slider_af9849c5c21412c7308cac6ad6a420e47}
+Move the slider to a specified point, adjust the value and emit signals if necessary. 
+
+Definition at line 280 of file qwt\-\_\-abstract\-\_\-slider.\-cpp.
+
+\hypertarget{class_qwt_abstract_slider_a9cc63283a2d4f0bcbb67fd331629a318}{\index{Qwt\-Abstract\-Slider@{Qwt\-Abstract\-Slider}!set\-Read\-Only@{set\-Read\-Only}}
+\index{set\-Read\-Only@{set\-Read\-Only}!QwtAbstractSlider@{Qwt\-Abstract\-Slider}}
+\subsubsection[{set\-Read\-Only}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Abstract\-Slider\-::set\-Read\-Only (
+\begin{DoxyParamCaption}
+\item[{bool}]{read\-Only}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}, {\ttfamily [slot]}}}\label{class_qwt_abstract_slider_a9cc63283a2d4f0bcbb67fd331629a318}
+En/\-Disable read only mode
+
+In read only mode the slider can't be controlled by mouse or keyboard.
+
+
+\begin{DoxyParams}{Parameters}
+{\em read\-Only} & Enables in case of true \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_abstract_slider_a040fd1fd03592c524314bf4b5539608d}{is\-Read\-Only()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 83 of file qwt\-\_\-abstract\-\_\-slider.\-cpp.
+
+\hypertarget{class_qwt_abstract_slider_a91c03aada61745d8924f47319afefee1}{\index{Qwt\-Abstract\-Slider@{Qwt\-Abstract\-Slider}!set\-Tracking@{set\-Tracking}}
+\index{set\-Tracking@{set\-Tracking}!QwtAbstractSlider@{Qwt\-Abstract\-Slider}}
+\subsubsection[{set\-Tracking}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Abstract\-Slider\-::set\-Tracking (
+\begin{DoxyParamCaption}
+\item[{bool}]{enable}
+\end{DoxyParamCaption}
+)}}\label{class_qwt_abstract_slider_a91c03aada61745d8924f47319afefee1}
+
+
+Enables or disables tracking. 
+
+If tracking is enabled, the slider emits a \hyperlink{class_qwt_abstract_slider_a6bc5c410cd56119c6ad50743c9a46af1}{value\-Changed()} signal whenever its value changes (the default behaviour). If tracking is disabled, the value changed() signal will only be emitted if\-:
+\begin{DoxyItemize}
+\item the user releases the mouse button and the value has changed or 
+\item at the end of automatic scrolling.
+\end{DoxyItemize}Tracking is enabled by default. 
+\begin{DoxyParams}{Parameters}
+{\em enable} & {\ttfamily true} (enable) or {\ttfamily false} (disable) tracking. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 300 of file qwt\-\_\-abstract\-\_\-slider.\-cpp.
+
+\hypertarget{class_qwt_abstract_slider_a945ba36e1b8e20d362083f6737b0601d}{\index{Qwt\-Abstract\-Slider@{Qwt\-Abstract\-Slider}!set\-Update\-Time@{set\-Update\-Time}}
+\index{set\-Update\-Time@{set\-Update\-Time}!QwtAbstractSlider@{Qwt\-Abstract\-Slider}}
+\subsubsection[{set\-Update\-Time}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Abstract\-Slider\-::set\-Update\-Time (
+\begin{DoxyParamCaption}
+\item[{{\bf int}}]{t}
+\end{DoxyParamCaption}
+)}}\label{class_qwt_abstract_slider_a945ba36e1b8e20d362083f6737b0601d}
+
+
+Specify the update interval for automatic scrolling. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em t} & update interval in milliseconds \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_abstract_slider_a4124aa3b1e462d57ea2693214e66da0b}{get\-Scroll\-Mode()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 136 of file qwt\-\_\-abstract\-\_\-slider.\-cpp.
+
+\hypertarget{class_qwt_abstract_slider_a79d99f14ebd47dfede8135845c90cedb}{\index{Qwt\-Abstract\-Slider@{Qwt\-Abstract\-Slider}!set\-Valid@{set\-Valid}}
+\index{set\-Valid@{set\-Valid}!QwtAbstractSlider@{Qwt\-Abstract\-Slider}}
+\subsubsection[{set\-Valid}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Abstract\-Slider\-::set\-Valid (
+\begin{DoxyParamCaption}
+\item[{bool}]{valid}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_qwt_abstract_slider_a79d99f14ebd47dfede8135845c90cedb}
+
+\begin{DoxyParams}{Parameters}
+{\em valid} & true/false \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See Also}
+Qwt\-Dbl\-Range\-::is\-Valid() 
+\end{DoxySeeAlso}
+
+
+Definition at line 97 of file qwt\-\_\-abstract\-\_\-slider.\-h.
+
+\hypertarget{class_qwt_abstract_slider_ac3713f8989b647cb79f0a5894991e36a}{\index{Qwt\-Abstract\-Slider@{Qwt\-Abstract\-Slider}!set\-Value@{set\-Value}}
+\index{set\-Value@{set\-Value}!QwtAbstractSlider@{Qwt\-Abstract\-Slider}}
+\subsubsection[{set\-Value}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Abstract\-Slider\-::set\-Value (
+\begin{DoxyParamCaption}
+\item[{{\bf double}}]{val}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}, {\ttfamily [slot]}}}\label{class_qwt_abstract_slider_ac3713f8989b647cb79f0a5894991e36a}
+
+
+Move the slider to a specified value. 
+
+This function can be used to move the slider to a value which is not an integer multiple of the step size. 
+\begin{DoxyParams}{Parameters}
+{\em val} & new value \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_abstract_slider_a50ed1e265beaa1c8adbe718caa023e50}{fit\-Value()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 543 of file qwt\-\_\-abstract\-\_\-slider.\-cpp.
+
+\hypertarget{class_qwt_abstract_slider_ae59671d27931b545073e599a10967452}{\index{Qwt\-Abstract\-Slider@{Qwt\-Abstract\-Slider}!slider\-Moved@{slider\-Moved}}
+\index{slider\-Moved@{slider\-Moved}!QwtAbstractSlider@{Qwt\-Abstract\-Slider}}
+\subsubsection[{slider\-Moved}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Abstract\-Slider\-::slider\-Moved (
+\begin{DoxyParamCaption}
+\item[{{\bf double}}]{value}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [signal]}}}\label{class_qwt_abstract_slider_ae59671d27931b545073e599a10967452}
+This signal is emitted when the user moves the slider with the mouse. 
+\begin{DoxyParams}{Parameters}
+{\em value} & new value \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_qwt_abstract_slider_afd92a0c79c113b3c5e9952d12cff80f5}{\index{Qwt\-Abstract\-Slider@{Qwt\-Abstract\-Slider}!slider\-Pressed@{slider\-Pressed}}
+\index{slider\-Pressed@{slider\-Pressed}!QwtAbstractSlider@{Qwt\-Abstract\-Slider}}
+\subsubsection[{slider\-Pressed}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Abstract\-Slider\-::slider\-Pressed (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [signal]}}}\label{class_qwt_abstract_slider_afd92a0c79c113b3c5e9952d12cff80f5}
+This signal is emitted when the user presses the movable part of the slider (start Scr\-Mouse Mode). \hypertarget{class_qwt_abstract_slider_ab94184da7a029a5f586671251ff380ea}{\index{Qwt\-Abstract\-Slider@{Qwt\-Abstract\-Slider}!slider\-Released@{slider\-Released}}
+\index{slider\-Released@{slider\-Released}!QwtAbstractSlider@{Qwt\-Abstract\-Slider}}
+\subsubsection[{slider\-Released}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Abstract\-Slider\-::slider\-Released (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [signal]}}}\label{class_qwt_abstract_slider_ab94184da7a029a5f586671251ff380ea}
+This signal is emitted when the user releases the movable part of the slider. \hypertarget{class_qwt_abstract_slider_ab648229c972d0c3258d30b0c43eb5efc}{\index{Qwt\-Abstract\-Slider@{Qwt\-Abstract\-Slider}!stop\-Moving@{stop\-Moving}}
+\index{stop\-Moving@{stop\-Moving}!QwtAbstractSlider@{Qwt\-Abstract\-Slider}}
+\subsubsection[{stop\-Moving}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Abstract\-Slider\-::stop\-Moving (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_qwt_abstract_slider_ab648229c972d0c3258d30b0c43eb5efc}
+
+
+Stop updating if automatic scrolling is active. 
+
+
+
+Definition at line 122 of file qwt\-\_\-abstract\-\_\-slider.\-cpp.
+
+\hypertarget{class_qwt_abstract_slider_a26f4d684524925891113d46ffe383b5d}{\index{Qwt\-Abstract\-Slider@{Qwt\-Abstract\-Slider}!timer\-Event@{timer\-Event}}
+\index{timer\-Event@{timer\-Event}!QwtAbstractSlider@{Qwt\-Abstract\-Slider}}
+\subsubsection[{timer\-Event}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Abstract\-Slider\-::timer\-Event (
+\begin{DoxyParamCaption}
+\item[{Q\-Timer\-Event $\ast$}]{e}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}}\label{class_qwt_abstract_slider_a26f4d684524925891113d46ffe383b5d}
+Qt timer event 
+\begin{DoxyParams}{Parameters}
+{\em e} & Timer event \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 425 of file qwt\-\_\-abstract\-\_\-slider.\-cpp.
+
+\hypertarget{class_qwt_abstract_slider_a2f04dc51e4402b51fef3250bcc99dc7f}{\index{Qwt\-Abstract\-Slider@{Qwt\-Abstract\-Slider}!value\-Change@{value\-Change}}
+\index{value\-Change@{value\-Change}!QwtAbstractSlider@{Qwt\-Abstract\-Slider}}
+\subsubsection[{value\-Change}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Abstract\-Slider\-::value\-Change (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}}\label{class_qwt_abstract_slider_a2f04dc51e4402b51fef3250bcc99dc7f}
+Notify change of value
+
+This function can be reimplemented by derived classes in order to keep track of changes, i.\-e. repaint the widget. The default implementation emits a \hyperlink{class_qwt_abstract_slider_a6bc5c410cd56119c6ad50743c9a46af1}{value\-Changed()} signal if tracking is enabled. 
+
+Reimplemented from \hyperlink{class_qwt_double_range_a1d50398342d6aa1d9cd86650ee29aff8}{Qwt\-Double\-Range}.
+
+
+
+Reimplemented in \hyperlink{class_qwt_dial_ad8803d79d9fbefdae55907728bb01894}{Qwt\-Dial}, \hyperlink{class_qwt_slider_a62380259b0831ad98a1b0ad011f32bea}{Qwt\-Slider}, and \hyperlink{class_qwt_wheel_a0fa3d4f4189f7bb6ee0944cd30060eb5}{Qwt\-Wheel}.
+
+
+
+Definition at line 492 of file qwt\-\_\-abstract\-\_\-slider.\-cpp.
+
+\hypertarget{class_qwt_abstract_slider_a6bc5c410cd56119c6ad50743c9a46af1}{\index{Qwt\-Abstract\-Slider@{Qwt\-Abstract\-Slider}!value\-Changed@{value\-Changed}}
+\index{value\-Changed@{value\-Changed}!QwtAbstractSlider@{Qwt\-Abstract\-Slider}}
+\subsubsection[{value\-Changed}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Abstract\-Slider\-::value\-Changed (
+\begin{DoxyParamCaption}
+\item[{{\bf double}}]{value}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [signal]}}}\label{class_qwt_abstract_slider_a6bc5c410cd56119c6ad50743c9a46af1}
+
+
+Notify a change of value. 
+
+In the default setting (tracking enabled), this signal will be emitted every time the value changes ( see \hyperlink{class_qwt_abstract_slider_a91c03aada61745d8924f47319afefee1}{set\-Tracking()} ). 
+\begin{DoxyParams}{Parameters}
+{\em value} & new value \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_qwt_abstract_slider_a25d5c9fe00c81e310304461fa6e8ec97}{\index{Qwt\-Abstract\-Slider@{Qwt\-Abstract\-Slider}!wheel\-Event@{wheel\-Event}}
+\index{wheel\-Event@{wheel\-Event}!QwtAbstractSlider@{Qwt\-Abstract\-Slider}}
+\subsubsection[{wheel\-Event}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Abstract\-Slider\-::wheel\-Event (
+\begin{DoxyParamCaption}
+\item[{Q\-Wheel\-Event $\ast$}]{e}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}}\label{class_qwt_abstract_slider_a25d5c9fe00c81e310304461fa6e8ec97}
+Wheel Event handler 
+\begin{DoxyParams}{Parameters}
+{\em e} & Whell event \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 340 of file qwt\-\_\-abstract\-\_\-slider.\-cpp.
+
+
+
+\subsection{Property Documentation}
+\hypertarget{class_qwt_abstract_slider_aa22d54902fff272ceaedb6ebed8451b1}{\index{Qwt\-Abstract\-Slider@{Qwt\-Abstract\-Slider}!mass@{mass}}
+\index{mass@{mass}!QwtAbstractSlider@{Qwt\-Abstract\-Slider}}
+\subsubsection[{mass}]{\setlength{\rightskip}{0pt plus 5cm}{\bf double} Qwt\-Abstract\-Slider\-::mass\hspace{0.3cm}{\ttfamily [read]}, {\ttfamily [write]}}}\label{class_qwt_abstract_slider_aa22d54902fff272ceaedb6ebed8451b1}
+\begin{DoxyReturn}{Returns}
+mass 
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_abstract_slider_a305b137fe4dd80cba307fe1b4bd46272}{set\-Mass()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 33 of file qwt\-\_\-abstract\-\_\-slider.\-h.
+
+\hypertarget{class_qwt_abstract_slider_ac6a51cf8c6e298be121c7bab1fdb4376}{\index{Qwt\-Abstract\-Slider@{Qwt\-Abstract\-Slider}!orientation@{orientation}}
+\index{orientation@{orientation}!QwtAbstractSlider@{Qwt\-Abstract\-Slider}}
+\subsubsection[{orientation}]{\setlength{\rightskip}{0pt plus 5cm}Qt\-::\-Orientation Qwt\-Abstract\-Slider\-::orientation\hspace{0.3cm}{\ttfamily [read]}, {\ttfamily [write]}}}\label{class_qwt_abstract_slider_ac6a51cf8c6e298be121c7bab1fdb4376}
+\begin{DoxyReturn}{Returns}
+Orientation 
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_abstract_slider_a6b0fdc50bfbb0a8bb40f0dc6bf493b2c}{set\-Orientation()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 35 of file qwt\-\_\-abstract\-\_\-slider.\-h.
+
+\hypertarget{class_qwt_abstract_slider_ad7074d3448c265bcb4d9c317b38812be}{\index{Qwt\-Abstract\-Slider@{Qwt\-Abstract\-Slider}!read\-Only@{read\-Only}}
+\index{read\-Only@{read\-Only}!QwtAbstractSlider@{Qwt\-Abstract\-Slider}}
+\subsubsection[{read\-Only}]{\setlength{\rightskip}{0pt plus 5cm}bool Qwt\-Abstract\-Slider\-::read\-Only\hspace{0.3cm}{\ttfamily [read]}, {\ttfamily [write]}}}\label{class_qwt_abstract_slider_ad7074d3448c265bcb4d9c317b38812be}
+
+
+Definition at line 31 of file qwt\-\_\-abstract\-\_\-slider.\-h.
+
+\hypertarget{class_qwt_abstract_slider_a65a589ff3bbfdeb3b5f099bbf7c5e45a}{\index{Qwt\-Abstract\-Slider@{Qwt\-Abstract\-Slider}!valid@{valid}}
+\index{valid@{valid}!QwtAbstractSlider@{Qwt\-Abstract\-Slider}}
+\subsubsection[{valid}]{\setlength{\rightskip}{0pt plus 5cm}bool Qwt\-Abstract\-Slider\-::valid\hspace{0.3cm}{\ttfamily [read]}, {\ttfamily [write]}}}\label{class_qwt_abstract_slider_a65a589ff3bbfdeb3b5f099bbf7c5e45a}
+
+
+Definition at line 32 of file qwt\-\_\-abstract\-\_\-slider.\-h.
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/qwt/src/\hyperlink{qwt__abstract__slider_8h}{qwt\-\_\-abstract\-\_\-slider.\-h}\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/qwt/src/\hyperlink{qwt__abstract__slider_8cpp}{qwt\-\_\-abstract\-\_\-slider.\-cpp}\end{DoxyCompactItemize}

@@ -1,0 +1,187 @@
+\hypertarget{class_ambi_vector_1_1_iterator}{\section{Ambi\-Vector$<$ \-\_\-\-Scalar $>$\-:\-:Iterator Class Reference}
+\label{class_ambi_vector_1_1_iterator}\index{Ambi\-Vector$<$ \-\_\-\-Scalar $>$\-::\-Iterator@{Ambi\-Vector$<$ \-\_\-\-Scalar $>$\-::\-Iterator}}
+}
+
+
+{\ttfamily \#include $<$Ambi\-Vector.\-h$>$}
+
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+typedef \-\_\-\-Scalar \hyperlink{class_ambi_vector_1_1_iterator_a4b1d3f851039dfc016760c87ef570a32}{Scalar}
+\item 
+typedef \hyperlink{struct_num_traits}{Num\-Traits}$<$ \hyperlink{class_ambi_vector_1_1_iterator_a4b1d3f851039dfc016760c87ef570a32}{Scalar} $>$\-::Real \hyperlink{class_ambi_vector_1_1_iterator_acf5b6b8ccac8e159e4787202adc9591a}{Real\-Scalar}
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_ambi_vector_1_1_iterator_a0b05fd3fb88d415fbec72a4e60345f5e}{Iterator} (const \hyperlink{class_ambi_vector}{Ambi\-Vector} \&vec, \hyperlink{class_ambi_vector_1_1_iterator_acf5b6b8ccac8e159e4787202adc9591a}{Real\-Scalar} epsilon=\hyperlink{class_ambi_vector_1_1_iterator_acf5b6b8ccac8e159e4787202adc9591a}{Real\-Scalar}(0.\-1)$\ast$\hyperlink{_math_functions_8h_a3dc1c65cf9dc9b5a7ee66472d0ae83e1}{precision}$<$ \hyperlink{class_ambi_vector_1_1_iterator_acf5b6b8ccac8e159e4787202adc9591a}{Real\-Scalar} $>$())
+\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_ambi_vector_1_1_iterator_a21ddfa856f0047f8def20b7166accf84}{index} () const 
+\item 
+\hyperlink{class_ambi_vector_1_1_iterator_a4b1d3f851039dfc016760c87ef570a32}{Scalar} \hyperlink{class_ambi_vector_1_1_iterator_ade53023cc01750489da800323b83851b}{value} () const 
+\item 
+\hyperlink{class_ambi_vector_1_1_iterator_add0f5e87efa641fd3f5b7d528b1f5c4f}{operator bool} () const 
+\item 
+\hyperlink{class_ambi_vector_1_1_iterator}{Iterator} \& \hyperlink{class_ambi_vector_1_1_iterator_aa1c48078ffae4ca6118b88a5e601bfad}{operator++} ()
+\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+const \hyperlink{class_ambi_vector}{Ambi\-Vector} \& \hyperlink{class_ambi_vector_1_1_iterator_aaa2a76c6c5505e34055e7c00ce05d621}{m\-\_\-vector}
+\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_ambi_vector_1_1_iterator_adc920f115aa20828b40c85b45324058b}{m\-\_\-current\-El}
+\item 
+\hyperlink{class_ambi_vector_1_1_iterator_acf5b6b8ccac8e159e4787202adc9591a}{Real\-Scalar} \hyperlink{class_ambi_vector_1_1_iterator_ad9cc037301d3fb4f49969dfa3e9ca6c1}{m\-\_\-epsilon}
+\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_ambi_vector_1_1_iterator_ac7845ff7b1d7e8f874c0239d241bab04}{m\-\_\-cached\-Index}
+\item 
+\hyperlink{class_ambi_vector_1_1_iterator_a4b1d3f851039dfc016760c87ef570a32}{Scalar} \hyperlink{class_ambi_vector_1_1_iterator_a7cd798dc30a2cea4ce008259836c2d6c}{m\-\_\-cached\-Value}
+\item 
+bool \hyperlink{class_ambi_vector_1_1_iterator_a77c83fead6fa25c862cdb54911b18d08}{m\-\_\-is\-Dense}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$typename \-\_\-\-Scalar$>$class Ambi\-Vector$<$ \-\_\-\-Scalar $>$\-::\-Iterator}
+
+\hyperlink{class_ambi_vector_1_1_iterator}{Iterator} over the nonzero coefficients 
+
+Definition at line 290 of file Ambi\-Vector.\-h.
+
+
+
+\subsection{Member Typedef Documentation}
+\hypertarget{class_ambi_vector_1_1_iterator_acf5b6b8ccac8e159e4787202adc9591a}{\index{Ambi\-Vector\-::\-Iterator@{Ambi\-Vector\-::\-Iterator}!Real\-Scalar@{Real\-Scalar}}
+\index{Real\-Scalar@{Real\-Scalar}!AmbiVector::Iterator@{Ambi\-Vector\-::\-Iterator}}
+\subsubsection[{Real\-Scalar}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar$>$ typedef {\bf Num\-Traits}$<${\bf Scalar}$>$\-::Real {\bf Ambi\-Vector}$<$ \-\_\-\-Scalar $>$\-::{\bf Iterator\-::\-Real\-Scalar}}}\label{class_ambi_vector_1_1_iterator_acf5b6b8ccac8e159e4787202adc9591a}
+
+
+Definition at line 294 of file Ambi\-Vector.\-h.
+
+\hypertarget{class_ambi_vector_1_1_iterator_a4b1d3f851039dfc016760c87ef570a32}{\index{Ambi\-Vector\-::\-Iterator@{Ambi\-Vector\-::\-Iterator}!Scalar@{Scalar}}
+\index{Scalar@{Scalar}!AmbiVector::Iterator@{Ambi\-Vector\-::\-Iterator}}
+\subsubsection[{Scalar}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar$>$ typedef \-\_\-\-Scalar {\bf Ambi\-Vector}$<$ \-\_\-\-Scalar $>$\-::{\bf Iterator\-::\-Scalar}}}\label{class_ambi_vector_1_1_iterator_a4b1d3f851039dfc016760c87ef570a32}
+
+
+Definition at line 293 of file Ambi\-Vector.\-h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_ambi_vector_1_1_iterator_a0b05fd3fb88d415fbec72a4e60345f5e}{\index{Ambi\-Vector\-::\-Iterator@{Ambi\-Vector\-::\-Iterator}!Iterator@{Iterator}}
+\index{Iterator@{Iterator}!AmbiVector::Iterator@{Ambi\-Vector\-::\-Iterator}}
+\subsubsection[{Iterator}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar$>$ {\bf Ambi\-Vector}$<$ \-\_\-\-Scalar $>$\-::Iterator\-::\-Iterator (
+\begin{DoxyParamCaption}
+\item[{const {\bf Ambi\-Vector} \&}]{vec, }
+\item[{{\bf Real\-Scalar}}]{epsilon = {\ttfamily {\bf Real\-Scalar}(0.1)$\ast${\bf precision}$<${\bf Real\-Scalar}$>$()}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_ambi_vector_1_1_iterator_a0b05fd3fb88d415fbec72a4e60345f5e}
+Default constructor 
+\begin{DoxyParams}{Parameters}
+{\em vec} & the vector on which we iterate \\
+\hline
+{\em epsilon} & the minimal value used to prune zero coefficients. In practice, all coefficients having a magnitude smaller than {\itshape epsilon} are skipped. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 302 of file Ambi\-Vector.\-h.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_ambi_vector_1_1_iterator_a21ddfa856f0047f8def20b7166accf84}{\index{Ambi\-Vector\-::\-Iterator@{Ambi\-Vector\-::\-Iterator}!index@{index}}
+\index{index@{index}!AmbiVector::Iterator@{Ambi\-Vector\-::\-Iterator}}
+\subsubsection[{index}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar$>$ {\bf int} {\bf Ambi\-Vector}$<$ \-\_\-\-Scalar $>$\-::Iterator\-::index (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_ambi_vector_1_1_iterator_a21ddfa856f0047f8def20b7166accf84}
+
+
+Definition at line 330 of file Ambi\-Vector.\-h.
+
+\hypertarget{class_ambi_vector_1_1_iterator_add0f5e87efa641fd3f5b7d528b1f5c4f}{\index{Ambi\-Vector\-::\-Iterator@{Ambi\-Vector\-::\-Iterator}!operator bool@{operator bool}}
+\index{operator bool@{operator bool}!AmbiVector::Iterator@{Ambi\-Vector\-::\-Iterator}}
+\subsubsection[{operator bool}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar$>$ {\bf Ambi\-Vector}$<$ \-\_\-\-Scalar $>$\-::Iterator\-::operator bool (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_ambi_vector_1_1_iterator_add0f5e87efa641fd3f5b7d528b1f5c4f}
+
+
+Definition at line 333 of file Ambi\-Vector.\-h.
+
+\hypertarget{class_ambi_vector_1_1_iterator_aa1c48078ffae4ca6118b88a5e601bfad}{\index{Ambi\-Vector\-::\-Iterator@{Ambi\-Vector\-::\-Iterator}!operator++@{operator++}}
+\index{operator++@{operator++}!AmbiVector::Iterator@{Ambi\-Vector\-::\-Iterator}}
+\subsubsection[{operator++}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar$>$ {\bf Iterator}\& {\bf Ambi\-Vector}$<$ \-\_\-\-Scalar $>$\-::Iterator\-::operator++ (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_ambi_vector_1_1_iterator_aa1c48078ffae4ca6118b88a5e601bfad}
+
+
+Definition at line 335 of file Ambi\-Vector.\-h.
+
+\hypertarget{class_ambi_vector_1_1_iterator_ade53023cc01750489da800323b83851b}{\index{Ambi\-Vector\-::\-Iterator@{Ambi\-Vector\-::\-Iterator}!value@{value}}
+\index{value@{value}!AmbiVector::Iterator@{Ambi\-Vector\-::\-Iterator}}
+\subsubsection[{value}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar$>$ {\bf Scalar} {\bf Ambi\-Vector}$<$ \-\_\-\-Scalar $>$\-::Iterator\-::value (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_ambi_vector_1_1_iterator_ade53023cc01750489da800323b83851b}
+
+
+Definition at line 331 of file Ambi\-Vector.\-h.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{class_ambi_vector_1_1_iterator_ac7845ff7b1d7e8f874c0239d241bab04}{\index{Ambi\-Vector\-::\-Iterator@{Ambi\-Vector\-::\-Iterator}!m\-\_\-cached\-Index@{m\-\_\-cached\-Index}}
+\index{m\-\_\-cached\-Index@{m\-\_\-cached\-Index}!AmbiVector::Iterator@{Ambi\-Vector\-::\-Iterator}}
+\subsubsection[{m\-\_\-cached\-Index}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar$>$ {\bf int} {\bf Ambi\-Vector}$<$ \-\_\-\-Scalar $>$\-::Iterator\-::m\-\_\-cached\-Index\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_ambi_vector_1_1_iterator_ac7845ff7b1d7e8f874c0239d241bab04}
+
+
+Definition at line 370 of file Ambi\-Vector.\-h.
+
+\hypertarget{class_ambi_vector_1_1_iterator_a7cd798dc30a2cea4ce008259836c2d6c}{\index{Ambi\-Vector\-::\-Iterator@{Ambi\-Vector\-::\-Iterator}!m\-\_\-cached\-Value@{m\-\_\-cached\-Value}}
+\index{m\-\_\-cached\-Value@{m\-\_\-cached\-Value}!AmbiVector::Iterator@{Ambi\-Vector\-::\-Iterator}}
+\subsubsection[{m\-\_\-cached\-Value}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar$>$ {\bf Scalar} {\bf Ambi\-Vector}$<$ \-\_\-\-Scalar $>$\-::Iterator\-::m\-\_\-cached\-Value\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_ambi_vector_1_1_iterator_a7cd798dc30a2cea4ce008259836c2d6c}
+
+
+Definition at line 371 of file Ambi\-Vector.\-h.
+
+\hypertarget{class_ambi_vector_1_1_iterator_adc920f115aa20828b40c85b45324058b}{\index{Ambi\-Vector\-::\-Iterator@{Ambi\-Vector\-::\-Iterator}!m\-\_\-current\-El@{m\-\_\-current\-El}}
+\index{m\-\_\-current\-El@{m\-\_\-current\-El}!AmbiVector::Iterator@{Ambi\-Vector\-::\-Iterator}}
+\subsubsection[{m\-\_\-current\-El}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar$>$ {\bf int} {\bf Ambi\-Vector}$<$ \-\_\-\-Scalar $>$\-::Iterator\-::m\-\_\-current\-El\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_ambi_vector_1_1_iterator_adc920f115aa20828b40c85b45324058b}
+
+
+Definition at line 368 of file Ambi\-Vector.\-h.
+
+\hypertarget{class_ambi_vector_1_1_iterator_ad9cc037301d3fb4f49969dfa3e9ca6c1}{\index{Ambi\-Vector\-::\-Iterator@{Ambi\-Vector\-::\-Iterator}!m\-\_\-epsilon@{m\-\_\-epsilon}}
+\index{m\-\_\-epsilon@{m\-\_\-epsilon}!AmbiVector::Iterator@{Ambi\-Vector\-::\-Iterator}}
+\subsubsection[{m\-\_\-epsilon}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar$>$ {\bf Real\-Scalar} {\bf Ambi\-Vector}$<$ \-\_\-\-Scalar $>$\-::Iterator\-::m\-\_\-epsilon\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_ambi_vector_1_1_iterator_ad9cc037301d3fb4f49969dfa3e9ca6c1}
+
+
+Definition at line 369 of file Ambi\-Vector.\-h.
+
+\hypertarget{class_ambi_vector_1_1_iterator_a77c83fead6fa25c862cdb54911b18d08}{\index{Ambi\-Vector\-::\-Iterator@{Ambi\-Vector\-::\-Iterator}!m\-\_\-is\-Dense@{m\-\_\-is\-Dense}}
+\index{m\-\_\-is\-Dense@{m\-\_\-is\-Dense}!AmbiVector::Iterator@{Ambi\-Vector\-::\-Iterator}}
+\subsubsection[{m\-\_\-is\-Dense}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar$>$ bool {\bf Ambi\-Vector}$<$ \-\_\-\-Scalar $>$\-::Iterator\-::m\-\_\-is\-Dense\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_ambi_vector_1_1_iterator_a77c83fead6fa25c862cdb54911b18d08}
+
+
+Definition at line 372 of file Ambi\-Vector.\-h.
+
+\hypertarget{class_ambi_vector_1_1_iterator_aaa2a76c6c5505e34055e7c00ce05d621}{\index{Ambi\-Vector\-::\-Iterator@{Ambi\-Vector\-::\-Iterator}!m\-\_\-vector@{m\-\_\-vector}}
+\index{m\-\_\-vector@{m\-\_\-vector}!AmbiVector::Iterator@{Ambi\-Vector\-::\-Iterator}}
+\subsubsection[{m\-\_\-vector}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar$>$ const {\bf Ambi\-Vector}\& {\bf Ambi\-Vector}$<$ \-\_\-\-Scalar $>$\-::Iterator\-::m\-\_\-vector\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_ambi_vector_1_1_iterator_aaa2a76c6c5505e34055e7c00ce05d621}
+
+
+Definition at line 367 of file Ambi\-Vector.\-h.
+
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/eigen/\-Eigen/src/\-Sparse/\hyperlink{_ambi_vector_8h}{Ambi\-Vector.\-h}\end{DoxyCompactItemize}

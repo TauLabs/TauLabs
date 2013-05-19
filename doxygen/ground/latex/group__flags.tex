@@ -1,0 +1,160 @@
+\hypertarget{group__flags}{\section{flags}
+\label{group__flags}\index{flags@{flags}}
+}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+const unsigned \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{group__flags_ga7bd49e7b260e869e10fb9dc4fd081a85}{Row\-Major\-Bit} = 0x1
+\item 
+const unsigned \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{group__flags_gaf8ad6e2956f7368b8e3f7407e2319e63}{Eval\-Before\-Nesting\-Bit} = 0x2
+\item 
+const unsigned \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{group__flags_gadc8925e67a5a54bd479d6f587112e19a}{Eval\-Before\-Assigning\-Bit} = 0x4
+\item 
+const unsigned \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{group__flags_gaa780614dc11271c147db56e9c1524e76}{Packet\-Access\-Bit} = 0x8
+\item 
+const unsigned \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{group__flags_gaafbee24aed0aa204db61f7fce3334329}{Actual\-Packet\-Access\-Bit} = \hyperlink{group__flags_gaa780614dc11271c147db56e9c1524e76}{Packet\-Access\-Bit}
+\item 
+const unsigned \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{group__flags_gab9799bf6feed77fc9fce0136ee55b99c}{Linear\-Access\-Bit} = 0x10
+\item 
+const unsigned \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{group__flags_ga54c3b872f5a14e7e0d3d6539b704ea67}{Direct\-Access\-Bit} = 0x20
+\item 
+const unsigned \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{group__flags_ga972a2dcb6603215fa53e0b9e82051426}{Aligned\-Bit} = 0x40
+\item 
+const unsigned \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{group__flags_gab59e11ef20fc97c063991fc318d2d074}{Zero\-Diag\-Bit} = 0x80
+\item 
+const unsigned \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{group__flags_ga254555b50eae5fa8a8d241f6bc08939a}{Unit\-Diag\-Bit} = 0x100
+\item 
+const unsigned \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{group__flags_gadb6040aad0695de4085f5dc5e641c66f}{Self\-Adjoint\-Bit} = 0x200
+\item 
+const unsigned \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{group__flags_ga2c91e62bfb42e3ac7a6aae2153d2e8dc}{Upper\-Triangular\-Bit} = 0x400
+\item 
+const unsigned \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{group__flags_gac61c3fd638e895edd7c3d1e89b5d170b}{Lower\-Triangular\-Bit} = 0x800
+\item 
+const unsigned \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{group__flags_ga3c602d309bf5c3f5eba3d972bde5490c}{Sparse\-Bit} = 0x1000
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+These are the possible bits which can be O\-R'ed to constitute the flags of a matrix or expression.
+
+It is important to note that these flags are a purely compile-\/time notion. They are a compile-\/time property of an expression type, implemented as enum's. They are not stored in memory at runtime, and they do not incur any runtime overhead.
+
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_matrix_base_aaa53a8ec1bc1ba52b1e50631dac15d6da93aaf6d335b45cee8730ee9ebdef6f33}{Matrix\-Base\-::\-Flags} 
+\end{DoxySeeAlso}
+
+
+\subsection{Variable Documentation}
+\hypertarget{group__flags_gaafbee24aed0aa204db61f7fce3334329}{\index{flags@{flags}!Actual\-Packet\-Access\-Bit@{Actual\-Packet\-Access\-Bit}}
+\index{Actual\-Packet\-Access\-Bit@{Actual\-Packet\-Access\-Bit}!flags@{flags}}
+\subsubsection[{Actual\-Packet\-Access\-Bit}]{\setlength{\rightskip}{0pt plus 5cm}const unsigned {\bf int} Actual\-Packet\-Access\-Bit = {\bf Packet\-Access\-Bit}}}\label{group__flags_gaafbee24aed0aa204db61f7fce3334329}
+If vectorization is enabled (E\-I\-G\-E\-N\-\_\-\-V\-E\-C\-T\-O\-R\-I\-Z\-E is defined) this constant is set to the value {\itshape Packet\-Access\-Bit}.
+
+If vectorization is not enabled (E\-I\-G\-E\-N\-\_\-\-V\-E\-C\-T\-O\-R\-I\-Z\-E is not defined) this constant is set to the value 0. 
+
+Definition at line 108 of file Constants.\-h.
+
+\hypertarget{group__flags_ga972a2dcb6603215fa53e0b9e82051426}{\index{flags@{flags}!Aligned\-Bit@{Aligned\-Bit}}
+\index{Aligned\-Bit@{Aligned\-Bit}!flags@{flags}}
+\subsubsection[{Aligned\-Bit}]{\setlength{\rightskip}{0pt plus 5cm}const unsigned {\bf int} Aligned\-Bit = 0x40}}\label{group__flags_ga972a2dcb6603215fa53e0b9e82051426}
+means the first coefficient packet is guaranteed to be aligned 
+
+Definition at line 149 of file Constants.\-h.
+
+\hypertarget{group__flags_ga54c3b872f5a14e7e0d3d6539b704ea67}{\index{flags@{flags}!Direct\-Access\-Bit@{Direct\-Access\-Bit}}
+\index{Direct\-Access\-Bit@{Direct\-Access\-Bit}!flags@{flags}}
+\subsubsection[{Direct\-Access\-Bit}]{\setlength{\rightskip}{0pt plus 5cm}const unsigned {\bf int} Direct\-Access\-Bit = 0x20}}\label{group__flags_ga54c3b872f5a14e7e0d3d6539b704ea67}
+Means that the underlying array of coefficients can be directly accessed. This means two things. First, references to the coefficients must be available through coeff\-Ref(int, int). This rules out read-\/only expressions whose coefficients are computed on demand by coeff(int, int). Second, the memory layout of the array of coefficients must be exactly the natural one suggested by rows(), cols(), \hyperlink{glext_8h_a9d21c1b0530d07b637b5b71b969d7921}{stride()}, and the Row\-Major\-Bit. This rules out expressions such as \hyperlink{class_diagonal_coeffs}{Diagonal\-Coeffs}, whose coefficients, though referencable, do not have such a regular memory layout. 
+
+Definition at line 144 of file Constants.\-h.
+
+\hypertarget{group__flags_gadc8925e67a5a54bd479d6f587112e19a}{\index{flags@{flags}!Eval\-Before\-Assigning\-Bit@{Eval\-Before\-Assigning\-Bit}}
+\index{Eval\-Before\-Assigning\-Bit@{Eval\-Before\-Assigning\-Bit}!flags@{flags}}
+\subsubsection[{Eval\-Before\-Assigning\-Bit}]{\setlength{\rightskip}{0pt plus 5cm}const unsigned {\bf int} Eval\-Before\-Assigning\-Bit = 0x4}}\label{group__flags_gadc8925e67a5a54bd479d6f587112e19a}
+means the expression should be evaluated before any assignement 
+
+Definition at line 79 of file Constants.\-h.
+
+\hypertarget{group__flags_gaf8ad6e2956f7368b8e3f7407e2319e63}{\index{flags@{flags}!Eval\-Before\-Nesting\-Bit@{Eval\-Before\-Nesting\-Bit}}
+\index{Eval\-Before\-Nesting\-Bit@{Eval\-Before\-Nesting\-Bit}!flags@{flags}}
+\subsubsection[{Eval\-Before\-Nesting\-Bit}]{\setlength{\rightskip}{0pt plus 5cm}const unsigned {\bf int} Eval\-Before\-Nesting\-Bit = 0x2}}\label{group__flags_gaf8ad6e2956f7368b8e3f7407e2319e63}
+means the expression should be evaluated by the calling expression 
+
+Definition at line 74 of file Constants.\-h.
+
+\hypertarget{group__flags_gab9799bf6feed77fc9fce0136ee55b99c}{\index{flags@{flags}!Linear\-Access\-Bit@{Linear\-Access\-Bit}}
+\index{Linear\-Access\-Bit@{Linear\-Access\-Bit}!flags@{flags}}
+\subsubsection[{Linear\-Access\-Bit}]{\setlength{\rightskip}{0pt plus 5cm}const unsigned {\bf int} Linear\-Access\-Bit = 0x10}}\label{group__flags_gab9799bf6feed77fc9fce0136ee55b99c}
+Short version\-: means the expression can be seen as 1\-D vector.
+
+Long version\-: means that one can access the coefficients of this expression by coeff(int), and coeff\-Ref(int) in the case of a lvalue expression. These index-\/based access methods are guaranteed to not have to do any runtime computation of a (row, col)-\/pair from the index, so that it is guaranteed that whenever it is available, index-\/based access is at least as fast as (row,col)-\/based access. Expressions for which that isn't possible don't have the Linear\-Access\-Bit.
+
+If both Packet\-Access\-Bit and Linear\-Access\-Bit are set, then the packets of this expression can be accessed by packet(int), and write\-Packet(int) in the case of a lvalue expression.
+
+Typically, all vector expressions have the Linear\-Access\-Bit, but there is one exception\-: \hyperlink{class_product}{Product} expressions don't have it, because it would be troublesome for vectorization, even when the \hyperlink{class_product}{Product} is a vector expression. Thus, vector \hyperlink{class_product}{Product} expressions allow index-\/based coefficient access but not index-\/based packet access, so they don't have the Linear\-Access\-Bit. 
+
+Definition at line 133 of file Constants.\-h.
+
+\hypertarget{group__flags_gac61c3fd638e895edd7c3d1e89b5d170b}{\index{flags@{flags}!Lower\-Triangular\-Bit@{Lower\-Triangular\-Bit}}
+\index{Lower\-Triangular\-Bit@{Lower\-Triangular\-Bit}!flags@{flags}}
+\subsubsection[{Lower\-Triangular\-Bit}]{\setlength{\rightskip}{0pt plus 5cm}const unsigned {\bf int} Lower\-Triangular\-Bit = 0x800}}\label{group__flags_gac61c3fd638e895edd7c3d1e89b5d170b}
+means the strictly upper triangular part is 0 
+
+Definition at line 174 of file Constants.\-h.
+
+\hypertarget{group__flags_gaa780614dc11271c147db56e9c1524e76}{\index{flags@{flags}!Packet\-Access\-Bit@{Packet\-Access\-Bit}}
+\index{Packet\-Access\-Bit@{Packet\-Access\-Bit}!flags@{flags}}
+\subsubsection[{Packet\-Access\-Bit}]{\setlength{\rightskip}{0pt plus 5cm}const unsigned {\bf int} Packet\-Access\-Bit = 0x8}}\label{group__flags_gaa780614dc11271c147db56e9c1524e76}
+Short version\-: means the expression might be vectorized
+
+Long version\-: means that the coefficients can be handled by packets and start at a memory location whose alignment meets the requirements of the present C\-P\-U architecture for optimized packet access. In the fixed-\/size case, there is the additional condition that the total size of the coefficients array is a multiple of the packet size, so that it is possible to access all the coefficients by packets. In the dynamic-\/size case, there is no such condition on the total size, so it might not be possible to access the few last coeffs by packets.
+
+\begin{DoxyNote}{Note}
+This bit can be set regardless of whether vectorization is actually enabled. To check for actual vectorizability, see {\itshape Actual\-Packet\-Access\-Bit}. 
+\end{DoxyNote}
+
+
+Definition at line 97 of file Constants.\-h.
+
+\hypertarget{group__flags_ga7bd49e7b260e869e10fb9dc4fd081a85}{\index{flags@{flags}!Row\-Major\-Bit@{Row\-Major\-Bit}}
+\index{Row\-Major\-Bit@{Row\-Major\-Bit}!flags@{flags}}
+\subsubsection[{Row\-Major\-Bit}]{\setlength{\rightskip}{0pt plus 5cm}const unsigned {\bf int} Row\-Major\-Bit = 0x1}}\label{group__flags_ga7bd49e7b260e869e10fb9dc4fd081a85}
+for a matrix, this means that the storage order is row-\/major. If this bit is not set, the storage order is column-\/major. For an expression, this determines the storage order of the matrix created by evaluation of that expression. 
+
+Definition at line 69 of file Constants.\-h.
+
+\hypertarget{group__flags_gadb6040aad0695de4085f5dc5e641c66f}{\index{flags@{flags}!Self\-Adjoint\-Bit@{Self\-Adjoint\-Bit}}
+\index{Self\-Adjoint\-Bit@{Self\-Adjoint\-Bit}!flags@{flags}}
+\subsubsection[{Self\-Adjoint\-Bit}]{\setlength{\rightskip}{0pt plus 5cm}const unsigned {\bf int} Self\-Adjoint\-Bit = 0x200}}\label{group__flags_gadb6040aad0695de4085f5dc5e641c66f}
+means the matrix is selfadjoint (M=M$\ast$). 
+
+Definition at line 164 of file Constants.\-h.
+
+\hypertarget{group__flags_ga3c602d309bf5c3f5eba3d972bde5490c}{\index{flags@{flags}!Sparse\-Bit@{Sparse\-Bit}}
+\index{Sparse\-Bit@{Sparse\-Bit}!flags@{flags}}
+\subsubsection[{Sparse\-Bit}]{\setlength{\rightskip}{0pt plus 5cm}const unsigned {\bf int} Sparse\-Bit = 0x1000}}\label{group__flags_ga3c602d309bf5c3f5eba3d972bde5490c}
+means the expression includes sparse matrices and the sparse path has to be taken. 
+
+Definition at line 179 of file Constants.\-h.
+
+\hypertarget{group__flags_ga254555b50eae5fa8a8d241f6bc08939a}{\index{flags@{flags}!Unit\-Diag\-Bit@{Unit\-Diag\-Bit}}
+\index{Unit\-Diag\-Bit@{Unit\-Diag\-Bit}!flags@{flags}}
+\subsubsection[{Unit\-Diag\-Bit}]{\setlength{\rightskip}{0pt plus 5cm}const unsigned {\bf int} Unit\-Diag\-Bit = 0x100}}\label{group__flags_ga254555b50eae5fa8a8d241f6bc08939a}
+means all diagonal coefficients are equal to 1 
+
+Definition at line 159 of file Constants.\-h.
+
+\hypertarget{group__flags_ga2c91e62bfb42e3ac7a6aae2153d2e8dc}{\index{flags@{flags}!Upper\-Triangular\-Bit@{Upper\-Triangular\-Bit}}
+\index{Upper\-Triangular\-Bit@{Upper\-Triangular\-Bit}!flags@{flags}}
+\subsubsection[{Upper\-Triangular\-Bit}]{\setlength{\rightskip}{0pt plus 5cm}const unsigned {\bf int} Upper\-Triangular\-Bit = 0x400}}\label{group__flags_ga2c91e62bfb42e3ac7a6aae2153d2e8dc}
+means the strictly lower triangular part is 0 
+
+Definition at line 169 of file Constants.\-h.
+
+\hypertarget{group__flags_gab59e11ef20fc97c063991fc318d2d074}{\index{flags@{flags}!Zero\-Diag\-Bit@{Zero\-Diag\-Bit}}
+\index{Zero\-Diag\-Bit@{Zero\-Diag\-Bit}!flags@{flags}}
+\subsubsection[{Zero\-Diag\-Bit}]{\setlength{\rightskip}{0pt plus 5cm}const unsigned {\bf int} Zero\-Diag\-Bit = 0x80}}\label{group__flags_gab59e11ef20fc97c063991fc318d2d074}
+means all diagonal coefficients are equal to 0 
+
+Definition at line 154 of file Constants.\-h.
+

@@ -1,0 +1,27 @@
+var class_qwt_double_range =
+[
+    [ "PrivateData", "class_qwt_double_range_1_1_private_data.html", "class_qwt_double_range_1_1_private_data" ],
+    [ "QwtDoubleRange", "class_qwt_double_range.html#a86f9f76df03d7917d88a95d1667f2d72", null ],
+    [ "~QwtDoubleRange", "class_qwt_double_range.html#abdcecda4b14ba81cfdaf063e2b98a22d", null ],
+    [ "exactPrevValue", "class_qwt_double_range.html#a595c04ed863eb7f0adaf94440087fe0a", null ],
+    [ "exactValue", "class_qwt_double_range.html#a705b76d28882d37bc5313d6c38c9a720", null ],
+    [ "fitValue", "class_qwt_double_range.html#a63bc8ea5e7ecd776b7d32d21db1ea668", null ],
+    [ "incPages", "class_qwt_double_range.html#a19b85337d4ab0b5f0579b02e4fb29a8f", null ],
+    [ "incValue", "class_qwt_double_range.html#a299c35c72e9b69f5a0e3dcd2b7da775b", null ],
+    [ "isValid", "class_qwt_double_range.html#afc4921deb3f68a64cc08b0654a040bc6", null ],
+    [ "maxValue", "class_qwt_double_range.html#a215275a1a8b4218a424ee8444c7fe409", null ],
+    [ "minValue", "class_qwt_double_range.html#a8b8650a6f8a96144d3af21207ee71637", null ],
+    [ "pageSize", "class_qwt_double_range.html#ac12a5c43dc5839913379982ec40a39d8", null ],
+    [ "periodic", "class_qwt_double_range.html#ad1efbcbf29dbc74f3f378292b76b007b", null ],
+    [ "prevValue", "class_qwt_double_range.html#a38768187bef94dd5e5a2c8664746b365", null ],
+    [ "rangeChange", "class_qwt_double_range.html#a3583134a1ac32706aa4742088bb9d4dc", null ],
+    [ "setPeriodic", "class_qwt_double_range.html#a95fa6a4e44fc47726d939155bb6f6f1f", null ],
+    [ "setRange", "class_qwt_double_range.html#a43891011664b74b8e5454763a3f5ff21", null ],
+    [ "setStep", "class_qwt_double_range.html#a29ed5fc66439def424a8ad773eea285d", null ],
+    [ "setValid", "class_qwt_double_range.html#a50a9c386663e170016a74cf8ee28ab8f", null ],
+    [ "setValue", "class_qwt_double_range.html#af6a3aa74c970a2bef29f0c1af99720e8", null ],
+    [ "step", "class_qwt_double_range.html#a0cb8cc60548c10cb1d98e54387961967", null ],
+    [ "stepChange", "class_qwt_double_range.html#a86641f8755ed172ca4cf72d36df539ca", null ],
+    [ "value", "class_qwt_double_range.html#a7777cf257c812579c4891512f1b6cad0", null ],
+    [ "valueChange", "class_qwt_double_range.html#a1d50398342d6aa1d9cd86650ee29aff8", null ]
+];

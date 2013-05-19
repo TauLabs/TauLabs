@@ -1,0 +1,382 @@
+\hypertarget{class_g_l_c___frustum}{\section{G\-L\-C\-\_\-\-Frustum Class Reference}
+\label{class_g_l_c___frustum}\index{G\-L\-C\-\_\-\-Frustum@{G\-L\-C\-\_\-\-Frustum}}
+}
+
+
+\hyperlink{class_g_l_c___frustum}{G\-L\-C\-\_\-\-Frustum} \-: Open\-G\-L Frustum.  
+
+
+
+
+{\ttfamily \#include $<$glc\-\_\-frustum.\-h$>$}
+
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{class_g_l_c___frustum_a37926b89a9da497fc35c6ce746fc00cd}{Localisation} \{ \hyperlink{class_g_l_c___frustum_a37926b89a9da497fc35c6ce746fc00cda97cf5f818185711f6b2ac689194d1c70}{In\-Frustum} = 0, 
+\hyperlink{class_g_l_c___frustum_a37926b89a9da497fc35c6ce746fc00cdafa43271baac6dfbf38a8b39e1cb89f8b}{Intersect\-Frustum} = 1, 
+\hyperlink{class_g_l_c___frustum_a37926b89a9da497fc35c6ce746fc00cdacf620931975f342e7ee7cebc2282976f}{Out\-Frustum} = 3
+ \}
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{Indent}{\bf Constructor / Destructor}\par
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_g_l_c___frustum_a85e0f6aed42fd0b8946dad7e22de6769}{G\-L\-C\-\_\-\-Frustum} ()
+\begin{DoxyCompactList}\small\item\em Default constructor. \end{DoxyCompactList}\item 
+\hyperlink{class_g_l_c___frustum_a16390373c340ccaae8b77910e6f6edc5}{G\-L\-C\-\_\-\-Frustum} (const \hyperlink{class_g_l_c___frustum}{G\-L\-C\-\_\-\-Frustum} \&)
+\begin{DoxyCompactList}\small\item\em Copy constructor. \end{DoxyCompactList}\item 
+\hyperlink{class_g_l_c___frustum_a4b603ee05df9c441a4d8cbfdf5a01f47}{$\sim$\-G\-L\-C\-\_\-\-Frustum} ()
+\begin{DoxyCompactList}\small\item\em Destructor. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\end{Indent}
+\begin{Indent}{\bf Get Functions}\par
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_g_l_c___plane}{G\-L\-C\-\_\-\-Plane} \hyperlink{class_g_l_c___frustum_ac9df25a55e5a0bb41b274ee957211005}{left\-Clipping\-Plane} () const 
+\begin{DoxyCompactList}\small\item\em Return the left clipping plane. \end{DoxyCompactList}\item 
+\hyperlink{class_g_l_c___plane}{G\-L\-C\-\_\-\-Plane} \hyperlink{class_g_l_c___frustum_a008826f05d5f278cb35e2fae38ef0ef2}{right\-Clipping\-Plane} () const 
+\begin{DoxyCompactList}\small\item\em Return the Right clipping plane. \end{DoxyCompactList}\item 
+\hyperlink{class_g_l_c___plane}{G\-L\-C\-\_\-\-Plane} \hyperlink{class_g_l_c___frustum_ac771bba0e41f77fc74091acc75613da6}{top\-Clipping\-Plane} () const 
+\begin{DoxyCompactList}\small\item\em Return the top clipping plane. \end{DoxyCompactList}\item 
+\hyperlink{class_g_l_c___plane}{G\-L\-C\-\_\-\-Plane} \hyperlink{class_g_l_c___frustum_a5c3c1856e80e38ce12fc8a49627acf7b}{bottom\-Clipping\-Plane} () const 
+\begin{DoxyCompactList}\small\item\em Return the bottom clipping plane. \end{DoxyCompactList}\item 
+\hyperlink{class_g_l_c___plane}{G\-L\-C\-\_\-\-Plane} \hyperlink{class_g_l_c___frustum_ab74cdcfe2df8971c999316485e6cc03b}{near\-Clipping\-Plane} () const 
+\begin{DoxyCompactList}\small\item\em Return the near clipping plane. \end{DoxyCompactList}\item 
+\hyperlink{class_g_l_c___plane}{G\-L\-C\-\_\-\-Plane} \hyperlink{class_g_l_c___frustum_a2e3c3fb079be2e5eaaf83e866c0276cd}{far\-Clipping\-Plane} () const 
+\begin{DoxyCompactList}\small\item\em Return the far clipping plane. \end{DoxyCompactList}\item 
+\hyperlink{class_g_l_c___frustum_a37926b89a9da497fc35c6ce746fc00cd}{Localisation} \hyperlink{class_g_l_c___frustum_ac4f2e13b81851a74f12a8caee706c329}{localize\-Bounding\-Box} (const \hyperlink{class_g_l_c___bounding_box}{G\-L\-C\-\_\-\-Bounding\-Box} \&) const 
+\begin{DoxyCompactList}\small\item\em Localize bounding box. \end{DoxyCompactList}\item 
+\hyperlink{class_g_l_c___frustum_a37926b89a9da497fc35c6ce746fc00cd}{Localisation} \hyperlink{class_g_l_c___frustum_abe1508fb0501f34bd032fa38445a639f}{localize\-Sphere} (const \hyperlink{glc__vector3d_8h_a4e13a9bbc7ab3d34de7e98b41836772c}{G\-L\-C\-\_\-\-Point3d} \&, \hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double}) const 
+\begin{DoxyCompactList}\small\item\em Localize sphere. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\end{Indent}
+\begin{Indent}{\bf Set Functions}\par
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c___frustum_a1eccff54ff8a66191404a72298fb11b1}{set\-Left\-Clipping\-Plane} (const \hyperlink{class_g_l_c___plane}{G\-L\-C\-\_\-\-Plane} \&plane)
+\begin{DoxyCompactList}\small\item\em Set the left clipping plane. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c___frustum_a163e5e06d713109b43822761e5708656}{set\-Right\-Clipping\-Plane} (const \hyperlink{class_g_l_c___plane}{G\-L\-C\-\_\-\-Plane} \&plane)
+\begin{DoxyCompactList}\small\item\em Set the right clipping plane. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c___frustum_af9cd37e77997d668e0fcac7a813e396c}{set\-Top\-Clipping\-Plane} (const \hyperlink{class_g_l_c___plane}{G\-L\-C\-\_\-\-Plane} \&plane)
+\begin{DoxyCompactList}\small\item\em Set the top clipping plane. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c___frustum_ab4e5b0fe389956ee8ada0339fda99453}{set\-Bottom\-Clipping\-Plane} (const \hyperlink{class_g_l_c___plane}{G\-L\-C\-\_\-\-Plane} \&plane)
+\begin{DoxyCompactList}\small\item\em Set the bottom clipping plane. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c___frustum_aea27c1fc3c92f828e45865fb823cae1b}{set\-Near\-Clipping\-Plane} (const \hyperlink{class_g_l_c___plane}{G\-L\-C\-\_\-\-Plane} \&plane)
+\begin{DoxyCompactList}\small\item\em Set the near clipping plane. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c___frustum_a03a68532d4cd7dd2ece75de53299e356}{set\-Far\-Clipping\-Plane} (const \hyperlink{class_g_l_c___plane}{G\-L\-C\-\_\-\-Plane} \&plane)
+\begin{DoxyCompactList}\small\item\em Set the far clipping plane. \end{DoxyCompactList}\item 
+bool \hyperlink{class_g_l_c___frustum_a7a54557a996d137a0741965326bbc6b1}{update} (const \hyperlink{class_g_l_c___matrix4x4}{G\-L\-C\-\_\-\-Matrix4x4} \&)
+\begin{DoxyCompactList}\small\item\em Update the frustum. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\end{Indent}
+
+
+\subsection{Detailed Description}
+\hyperlink{class_g_l_c___frustum}{G\-L\-C\-\_\-\-Frustum} \-: Open\-G\-L Frustum. 
+
+\hyperlink{class_g_l_c___frustum}{G\-L\-C\-\_\-\-Frustum} by 6 planes 
+
+Definition at line 39 of file glc\-\_\-frustum.\-h.
+
+
+
+\subsection{Member Enumeration Documentation}
+\hypertarget{class_g_l_c___frustum_a37926b89a9da497fc35c6ce746fc00cd}{\index{G\-L\-C\-\_\-\-Frustum@{G\-L\-C\-\_\-\-Frustum}!Localisation@{Localisation}}
+\index{Localisation@{Localisation}!GLC_Frustum@{G\-L\-C\-\_\-\-Frustum}}
+\subsubsection[{Localisation}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf G\-L\-C\-\_\-\-Frustum\-::\-Localisation}}}\label{class_g_l_c___frustum_a37926b89a9da497fc35c6ce746fc00cd}
+\begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{In\-Frustum@{In\-Frustum}!G\-L\-C\-\_\-\-Frustum@{G\-L\-C\-\_\-\-Frustum}}\index{G\-L\-C\-\_\-\-Frustum@{G\-L\-C\-\_\-\-Frustum}!In\-Frustum@{In\-Frustum}}\item[{\em 
+\hypertarget{class_g_l_c___frustum_a37926b89a9da497fc35c6ce746fc00cda97cf5f818185711f6b2ac689194d1c70}{In\-Frustum}\label{class_g_l_c___frustum_a37926b89a9da497fc35c6ce746fc00cda97cf5f818185711f6b2ac689194d1c70}
+}]\index{Intersect\-Frustum@{Intersect\-Frustum}!G\-L\-C\-\_\-\-Frustum@{G\-L\-C\-\_\-\-Frustum}}\index{G\-L\-C\-\_\-\-Frustum@{G\-L\-C\-\_\-\-Frustum}!Intersect\-Frustum@{Intersect\-Frustum}}\item[{\em 
+\hypertarget{class_g_l_c___frustum_a37926b89a9da497fc35c6ce746fc00cdafa43271baac6dfbf38a8b39e1cb89f8b}{Intersect\-Frustum}\label{class_g_l_c___frustum_a37926b89a9da497fc35c6ce746fc00cdafa43271baac6dfbf38a8b39e1cb89f8b}
+}]\index{Out\-Frustum@{Out\-Frustum}!G\-L\-C\-\_\-\-Frustum@{G\-L\-C\-\_\-\-Frustum}}\index{G\-L\-C\-\_\-\-Frustum@{G\-L\-C\-\_\-\-Frustum}!Out\-Frustum@{Out\-Frustum}}\item[{\em 
+\hypertarget{class_g_l_c___frustum_a37926b89a9da497fc35c6ce746fc00cdacf620931975f342e7ee7cebc2282976f}{Out\-Frustum}\label{class_g_l_c___frustum_a37926b89a9da497fc35c6ce746fc00cdacf620931975f342e7ee7cebc2282976f}
+}]\end{description}
+\end{Desc}
+
+
+Definition at line 52 of file glc\-\_\-frustum.\-h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_g_l_c___frustum_a85e0f6aed42fd0b8946dad7e22de6769}{\index{G\-L\-C\-\_\-\-Frustum@{G\-L\-C\-\_\-\-Frustum}!G\-L\-C\-\_\-\-Frustum@{G\-L\-C\-\_\-\-Frustum}}
+\index{G\-L\-C\-\_\-\-Frustum@{G\-L\-C\-\_\-\-Frustum}!GLC_Frustum@{G\-L\-C\-\_\-\-Frustum}}
+\subsubsection[{G\-L\-C\-\_\-\-Frustum}]{\setlength{\rightskip}{0pt plus 5cm}G\-L\-C\-\_\-\-Frustum\-::\-G\-L\-C\-\_\-\-Frustum (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___frustum_a85e0f6aed42fd0b8946dad7e22de6769}
+
+
+Default constructor. 
+
+
+
+Definition at line 27 of file glc\-\_\-frustum.\-cpp.
+
+\hypertarget{class_g_l_c___frustum_a16390373c340ccaae8b77910e6f6edc5}{\index{G\-L\-C\-\_\-\-Frustum@{G\-L\-C\-\_\-\-Frustum}!G\-L\-C\-\_\-\-Frustum@{G\-L\-C\-\_\-\-Frustum}}
+\index{G\-L\-C\-\_\-\-Frustum@{G\-L\-C\-\_\-\-Frustum}!GLC_Frustum@{G\-L\-C\-\_\-\-Frustum}}
+\subsubsection[{G\-L\-C\-\_\-\-Frustum}]{\setlength{\rightskip}{0pt plus 5cm}G\-L\-C\-\_\-\-Frustum\-::\-G\-L\-C\-\_\-\-Frustum (
+\begin{DoxyParamCaption}
+\item[{const {\bf G\-L\-C\-\_\-\-Frustum} \&}]{frustum}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___frustum_a16390373c340ccaae8b77910e6f6edc5}
+
+
+Copy constructor. 
+
+
+
+Definition at line 37 of file glc\-\_\-frustum.\-cpp.
+
+\hypertarget{class_g_l_c___frustum_a4b603ee05df9c441a4d8cbfdf5a01f47}{\index{G\-L\-C\-\_\-\-Frustum@{G\-L\-C\-\_\-\-Frustum}!$\sim$\-G\-L\-C\-\_\-\-Frustum@{$\sim$\-G\-L\-C\-\_\-\-Frustum}}
+\index{$\sim$\-G\-L\-C\-\_\-\-Frustum@{$\sim$\-G\-L\-C\-\_\-\-Frustum}!GLC_Frustum@{G\-L\-C\-\_\-\-Frustum}}
+\subsubsection[{$\sim$\-G\-L\-C\-\_\-\-Frustum}]{\setlength{\rightskip}{0pt plus 5cm}G\-L\-C\-\_\-\-Frustum\-::$\sim$\-G\-L\-C\-\_\-\-Frustum (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___frustum_a4b603ee05df9c441a4d8cbfdf5a01f47}
+
+
+Destructor. 
+
+
+
+Definition at line 44 of file glc\-\_\-frustum.\-cpp.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_g_l_c___frustum_a5c3c1856e80e38ce12fc8a49627acf7b}{\index{G\-L\-C\-\_\-\-Frustum@{G\-L\-C\-\_\-\-Frustum}!bottom\-Clipping\-Plane@{bottom\-Clipping\-Plane}}
+\index{bottom\-Clipping\-Plane@{bottom\-Clipping\-Plane}!GLC_Frustum@{G\-L\-C\-\_\-\-Frustum}}
+\subsubsection[{bottom\-Clipping\-Plane}]{\setlength{\rightskip}{0pt plus 5cm}{\bf G\-L\-C\-\_\-\-Plane} G\-L\-C\-\_\-\-Frustum\-::bottom\-Clipping\-Plane (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___frustum_a5c3c1856e80e38ce12fc8a49627acf7b}
+
+
+Return the bottom clipping plane. 
+
+
+
+Definition at line 92 of file glc\-\_\-frustum.\-h.
+
+\hypertarget{class_g_l_c___frustum_a2e3c3fb079be2e5eaaf83e866c0276cd}{\index{G\-L\-C\-\_\-\-Frustum@{G\-L\-C\-\_\-\-Frustum}!far\-Clipping\-Plane@{far\-Clipping\-Plane}}
+\index{far\-Clipping\-Plane@{far\-Clipping\-Plane}!GLC_Frustum@{G\-L\-C\-\_\-\-Frustum}}
+\subsubsection[{far\-Clipping\-Plane}]{\setlength{\rightskip}{0pt plus 5cm}{\bf G\-L\-C\-\_\-\-Plane} G\-L\-C\-\_\-\-Frustum\-::far\-Clipping\-Plane (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___frustum_a2e3c3fb079be2e5eaaf83e866c0276cd}
+
+
+Return the far clipping plane. 
+
+
+
+Definition at line 100 of file glc\-\_\-frustum.\-h.
+
+\hypertarget{class_g_l_c___frustum_ac9df25a55e5a0bb41b274ee957211005}{\index{G\-L\-C\-\_\-\-Frustum@{G\-L\-C\-\_\-\-Frustum}!left\-Clipping\-Plane@{left\-Clipping\-Plane}}
+\index{left\-Clipping\-Plane@{left\-Clipping\-Plane}!GLC_Frustum@{G\-L\-C\-\_\-\-Frustum}}
+\subsubsection[{left\-Clipping\-Plane}]{\setlength{\rightskip}{0pt plus 5cm}{\bf G\-L\-C\-\_\-\-Plane} G\-L\-C\-\_\-\-Frustum\-::left\-Clipping\-Plane (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___frustum_ac9df25a55e5a0bb41b274ee957211005}
+
+
+Return the left clipping plane. 
+
+
+
+Definition at line 80 of file glc\-\_\-frustum.\-h.
+
+\hypertarget{class_g_l_c___frustum_ac4f2e13b81851a74f12a8caee706c329}{\index{G\-L\-C\-\_\-\-Frustum@{G\-L\-C\-\_\-\-Frustum}!localize\-Bounding\-Box@{localize\-Bounding\-Box}}
+\index{localize\-Bounding\-Box@{localize\-Bounding\-Box}!GLC_Frustum@{G\-L\-C\-\_\-\-Frustum}}
+\subsubsection[{localize\-Bounding\-Box}]{\setlength{\rightskip}{0pt plus 5cm}{\bf G\-L\-C\-\_\-\-Frustum\-::\-Localisation} G\-L\-C\-\_\-\-Frustum\-::localize\-Bounding\-Box (
+\begin{DoxyParamCaption}
+\item[{const {\bf G\-L\-C\-\_\-\-Bounding\-Box} \&}]{box}
+\end{DoxyParamCaption}
+) const}}\label{class_g_l_c___frustum_ac4f2e13b81851a74f12a8caee706c329}
+
+
+Localize bounding box. 
+
+
+
+Definition at line 49 of file glc\-\_\-frustum.\-cpp.
+
+\hypertarget{class_g_l_c___frustum_abe1508fb0501f34bd032fa38445a639f}{\index{G\-L\-C\-\_\-\-Frustum@{G\-L\-C\-\_\-\-Frustum}!localize\-Sphere@{localize\-Sphere}}
+\index{localize\-Sphere@{localize\-Sphere}!GLC_Frustum@{G\-L\-C\-\_\-\-Frustum}}
+\subsubsection[{localize\-Sphere}]{\setlength{\rightskip}{0pt plus 5cm}{\bf G\-L\-C\-\_\-\-Frustum\-::\-Localisation} G\-L\-C\-\_\-\-Frustum\-::localize\-Sphere (
+\begin{DoxyParamCaption}
+\item[{const {\bf G\-L\-C\-\_\-\-Point3d} \&}]{center, }
+\item[{{\bf double}}]{radius}
+\end{DoxyParamCaption}
+) const}}\label{class_g_l_c___frustum_abe1508fb0501f34bd032fa38445a639f}
+
+
+Localize sphere. 
+
+
+
+Definition at line 57 of file glc\-\_\-frustum.\-cpp.
+
+\hypertarget{class_g_l_c___frustum_ab74cdcfe2df8971c999316485e6cc03b}{\index{G\-L\-C\-\_\-\-Frustum@{G\-L\-C\-\_\-\-Frustum}!near\-Clipping\-Plane@{near\-Clipping\-Plane}}
+\index{near\-Clipping\-Plane@{near\-Clipping\-Plane}!GLC_Frustum@{G\-L\-C\-\_\-\-Frustum}}
+\subsubsection[{near\-Clipping\-Plane}]{\setlength{\rightskip}{0pt plus 5cm}{\bf G\-L\-C\-\_\-\-Plane} G\-L\-C\-\_\-\-Frustum\-::near\-Clipping\-Plane (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___frustum_ab74cdcfe2df8971c999316485e6cc03b}
+
+
+Return the near clipping plane. 
+
+
+
+Definition at line 96 of file glc\-\_\-frustum.\-h.
+
+\hypertarget{class_g_l_c___frustum_a008826f05d5f278cb35e2fae38ef0ef2}{\index{G\-L\-C\-\_\-\-Frustum@{G\-L\-C\-\_\-\-Frustum}!right\-Clipping\-Plane@{right\-Clipping\-Plane}}
+\index{right\-Clipping\-Plane@{right\-Clipping\-Plane}!GLC_Frustum@{G\-L\-C\-\_\-\-Frustum}}
+\subsubsection[{right\-Clipping\-Plane}]{\setlength{\rightskip}{0pt plus 5cm}{\bf G\-L\-C\-\_\-\-Plane} G\-L\-C\-\_\-\-Frustum\-::right\-Clipping\-Plane (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___frustum_a008826f05d5f278cb35e2fae38ef0ef2}
+
+
+Return the Right clipping plane. 
+
+
+
+Definition at line 84 of file glc\-\_\-frustum.\-h.
+
+\hypertarget{class_g_l_c___frustum_ab4e5b0fe389956ee8ada0339fda99453}{\index{G\-L\-C\-\_\-\-Frustum@{G\-L\-C\-\_\-\-Frustum}!set\-Bottom\-Clipping\-Plane@{set\-Bottom\-Clipping\-Plane}}
+\index{set\-Bottom\-Clipping\-Plane@{set\-Bottom\-Clipping\-Plane}!GLC_Frustum@{G\-L\-C\-\_\-\-Frustum}}
+\subsubsection[{set\-Bottom\-Clipping\-Plane}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-\-Frustum\-::set\-Bottom\-Clipping\-Plane (
+\begin{DoxyParamCaption}
+\item[{const {\bf G\-L\-C\-\_\-\-Plane} \&}]{plane}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___frustum_ab4e5b0fe389956ee8ada0339fda99453}
+
+
+Set the bottom clipping plane. 
+
+
+
+Definition at line 130 of file glc\-\_\-frustum.\-h.
+
+\hypertarget{class_g_l_c___frustum_a03a68532d4cd7dd2ece75de53299e356}{\index{G\-L\-C\-\_\-\-Frustum@{G\-L\-C\-\_\-\-Frustum}!set\-Far\-Clipping\-Plane@{set\-Far\-Clipping\-Plane}}
+\index{set\-Far\-Clipping\-Plane@{set\-Far\-Clipping\-Plane}!GLC_Frustum@{G\-L\-C\-\_\-\-Frustum}}
+\subsubsection[{set\-Far\-Clipping\-Plane}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-\-Frustum\-::set\-Far\-Clipping\-Plane (
+\begin{DoxyParamCaption}
+\item[{const {\bf G\-L\-C\-\_\-\-Plane} \&}]{plane}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___frustum_a03a68532d4cd7dd2ece75de53299e356}
+
+
+Set the far clipping plane. 
+
+
+
+Definition at line 138 of file glc\-\_\-frustum.\-h.
+
+\hypertarget{class_g_l_c___frustum_a1eccff54ff8a66191404a72298fb11b1}{\index{G\-L\-C\-\_\-\-Frustum@{G\-L\-C\-\_\-\-Frustum}!set\-Left\-Clipping\-Plane@{set\-Left\-Clipping\-Plane}}
+\index{set\-Left\-Clipping\-Plane@{set\-Left\-Clipping\-Plane}!GLC_Frustum@{G\-L\-C\-\_\-\-Frustum}}
+\subsubsection[{set\-Left\-Clipping\-Plane}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-\-Frustum\-::set\-Left\-Clipping\-Plane (
+\begin{DoxyParamCaption}
+\item[{const {\bf G\-L\-C\-\_\-\-Plane} \&}]{plane}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___frustum_a1eccff54ff8a66191404a72298fb11b1}
+
+
+Set the left clipping plane. 
+
+
+
+Definition at line 118 of file glc\-\_\-frustum.\-h.
+
+\hypertarget{class_g_l_c___frustum_aea27c1fc3c92f828e45865fb823cae1b}{\index{G\-L\-C\-\_\-\-Frustum@{G\-L\-C\-\_\-\-Frustum}!set\-Near\-Clipping\-Plane@{set\-Near\-Clipping\-Plane}}
+\index{set\-Near\-Clipping\-Plane@{set\-Near\-Clipping\-Plane}!GLC_Frustum@{G\-L\-C\-\_\-\-Frustum}}
+\subsubsection[{set\-Near\-Clipping\-Plane}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-\-Frustum\-::set\-Near\-Clipping\-Plane (
+\begin{DoxyParamCaption}
+\item[{const {\bf G\-L\-C\-\_\-\-Plane} \&}]{plane}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___frustum_aea27c1fc3c92f828e45865fb823cae1b}
+
+
+Set the near clipping plane. 
+
+
+
+Definition at line 134 of file glc\-\_\-frustum.\-h.
+
+\hypertarget{class_g_l_c___frustum_a163e5e06d713109b43822761e5708656}{\index{G\-L\-C\-\_\-\-Frustum@{G\-L\-C\-\_\-\-Frustum}!set\-Right\-Clipping\-Plane@{set\-Right\-Clipping\-Plane}}
+\index{set\-Right\-Clipping\-Plane@{set\-Right\-Clipping\-Plane}!GLC_Frustum@{G\-L\-C\-\_\-\-Frustum}}
+\subsubsection[{set\-Right\-Clipping\-Plane}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-\-Frustum\-::set\-Right\-Clipping\-Plane (
+\begin{DoxyParamCaption}
+\item[{const {\bf G\-L\-C\-\_\-\-Plane} \&}]{plane}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___frustum_a163e5e06d713109b43822761e5708656}
+
+
+Set the right clipping plane. 
+
+
+
+Definition at line 122 of file glc\-\_\-frustum.\-h.
+
+\hypertarget{class_g_l_c___frustum_af9cd37e77997d668e0fcac7a813e396c}{\index{G\-L\-C\-\_\-\-Frustum@{G\-L\-C\-\_\-\-Frustum}!set\-Top\-Clipping\-Plane@{set\-Top\-Clipping\-Plane}}
+\index{set\-Top\-Clipping\-Plane@{set\-Top\-Clipping\-Plane}!GLC_Frustum@{G\-L\-C\-\_\-\-Frustum}}
+\subsubsection[{set\-Top\-Clipping\-Plane}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-\-Frustum\-::set\-Top\-Clipping\-Plane (
+\begin{DoxyParamCaption}
+\item[{const {\bf G\-L\-C\-\_\-\-Plane} \&}]{plane}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___frustum_af9cd37e77997d668e0fcac7a813e396c}
+
+
+Set the top clipping plane. 
+
+
+
+Definition at line 126 of file glc\-\_\-frustum.\-h.
+
+\hypertarget{class_g_l_c___frustum_ac771bba0e41f77fc74091acc75613da6}{\index{G\-L\-C\-\_\-\-Frustum@{G\-L\-C\-\_\-\-Frustum}!top\-Clipping\-Plane@{top\-Clipping\-Plane}}
+\index{top\-Clipping\-Plane@{top\-Clipping\-Plane}!GLC_Frustum@{G\-L\-C\-\_\-\-Frustum}}
+\subsubsection[{top\-Clipping\-Plane}]{\setlength{\rightskip}{0pt plus 5cm}{\bf G\-L\-C\-\_\-\-Plane} G\-L\-C\-\_\-\-Frustum\-::top\-Clipping\-Plane (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___frustum_ac771bba0e41f77fc74091acc75613da6}
+
+
+Return the top clipping plane. 
+
+
+
+Definition at line 88 of file glc\-\_\-frustum.\-h.
+
+\hypertarget{class_g_l_c___frustum_a7a54557a996d137a0741965326bbc6b1}{\index{G\-L\-C\-\_\-\-Frustum@{G\-L\-C\-\_\-\-Frustum}!update@{update}}
+\index{update@{update}!GLC_Frustum@{G\-L\-C\-\_\-\-Frustum}}
+\subsubsection[{update}]{\setlength{\rightskip}{0pt plus 5cm}bool G\-L\-C\-\_\-\-Frustum\-::update (
+\begin{DoxyParamCaption}
+\item[{const {\bf G\-L\-C\-\_\-\-Matrix4x4} \&}]{comp\-Matrix}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___frustum_a7a54557a996d137a0741965326bbc6b1}
+
+
+Update the frustum. 
+
+Return true if the frustum as change 
+
+Definition at line 92 of file glc\-\_\-frustum.\-cpp.
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/glc\-\_\-lib/viewport/\hyperlink{glc__frustum_8h}{glc\-\_\-frustum.\-h}\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/glc\-\_\-lib/viewport/\hyperlink{glc__frustum_8cpp}{glc\-\_\-frustum.\-cpp}\end{DoxyCompactItemize}

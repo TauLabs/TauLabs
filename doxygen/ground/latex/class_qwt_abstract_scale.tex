@@ -1,0 +1,468 @@
+\hypertarget{class_qwt_abstract_scale}{\section{Qwt\-Abstract\-Scale Class Reference}
+\label{class_qwt_abstract_scale}\index{Qwt\-Abstract\-Scale@{Qwt\-Abstract\-Scale}}
+}
+
+
+An abstract base class for classes containing a scale.  
+
+
+
+
+{\ttfamily \#include $<$qwt\-\_\-abstract\-\_\-scale.\-h$>$}
+
+Inheritance diagram for Qwt\-Abstract\-Scale\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_qwt_abstract_scale}
+\end{center}
+\end{figure}
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{class_qwt_abstract_scale_1_1_private_data}{Private\-Data}
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_qwt_abstract_scale_aa12aff84cebf3ace4f1b5e61737e0051}{Qwt\-Abstract\-Scale} ()
+\item 
+virtual \hyperlink{class_qwt_abstract_scale_a73890593efff11427ea7a42a3ebadefd}{$\sim$\-Qwt\-Abstract\-Scale} ()
+\begin{DoxyCompactList}\small\item\em Destructor. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_abstract_scale_a91af529248b556ef130add4bcfc60bb2}{set\-Scale} (\hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} vmin, \hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} vmax, \hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} step=0.\-0)
+\begin{DoxyCompactList}\small\item\em Specify a scale. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_abstract_scale_a1e85d35fda2e18bad16e8aa43dbe99b4}{set\-Scale} (const \hyperlink{class_qwt_interval}{Qwt\-Interval} \&, \hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} step=0.\-0)
+\begin{DoxyCompactList}\small\item\em Specify a scale. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_abstract_scale_ad002e1a352ecf85c1a8595a138d42db7}{set\-Scale} (const \hyperlink{class_qwt_scale_div}{Qwt\-Scale\-Div} \&)
+\begin{DoxyCompactList}\small\item\em Specify a scale. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_abstract_scale_ade952bd5cbde1dba015bc16b880e3a28}{set\-Auto\-Scale} ()
+\begin{DoxyCompactList}\small\item\em Advise the widget to control the scale range internally. \end{DoxyCompactList}\item 
+bool \hyperlink{class_qwt_abstract_scale_a01f1f43502a8ba14988a0bd3142d94b1}{auto\-Scale} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_abstract_scale_a40fdb4572ad8fdec8b93766ff5f8eda8}{set\-Scale\-Max\-Major} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} ticks)
+\begin{DoxyCompactList}\small\item\em Set the maximum number of major tick intervals. \end{DoxyCompactList}\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_qwt_abstract_scale_a5b23fafbb56bb43fd241c1839256357f}{scale\-Max\-Minor} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_abstract_scale_a6520bb1e52571f865b21b3710786a4db}{set\-Scale\-Max\-Minor} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} ticks)
+\begin{DoxyCompactList}\small\item\em Set the maximum number of minor tick intervals. \end{DoxyCompactList}\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_qwt_abstract_scale_a4cfbcd9880297b1ca28fa824e3f4c3e6}{scale\-Max\-Major} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_abstract_scale_aa00f44140af3f2b7595cb6e23371198f}{set\-Scale\-Engine} (\hyperlink{class_qwt_scale_engine}{Qwt\-Scale\-Engine} $\ast$)
+\begin{DoxyCompactList}\small\item\em Set a scale engine. \end{DoxyCompactList}\item 
+const \hyperlink{class_qwt_scale_engine}{Qwt\-Scale\-Engine} $\ast$ \hyperlink{class_qwt_abstract_scale_a5b8084cc735933ce9338fd2df1126f0e}{scale\-Engine} () const 
+\item 
+\hyperlink{class_qwt_scale_engine}{Qwt\-Scale\-Engine} $\ast$ \hyperlink{class_qwt_abstract_scale_aea3b9d4912f1c28671f232e4100936d7}{scale\-Engine} ()
+\item 
+const \hyperlink{class_qwt_scale_map}{Qwt\-Scale\-Map} \& \hyperlink{class_qwt_abstract_scale_a68f120e12e373796b5d74199a9b8a4b0}{scale\-Map} () const 
+\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_abstract_scale_abd7c6b312b41882a3b509aadc9ada46e}{rescale} (\hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} vmin, \hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} vmax, \hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} step=0.\-0)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_abstract_scale_a950c5bf521dc704b78f76c7951346288}{set\-Abstract\-Scale\-Draw} (\hyperlink{class_qwt_abstract_scale_draw}{Qwt\-Abstract\-Scale\-Draw} $\ast$)
+\begin{DoxyCompactList}\small\item\em Set a scale draw. \end{DoxyCompactList}\item 
+const \hyperlink{class_qwt_abstract_scale_draw}{Qwt\-Abstract\-Scale\-Draw} $\ast$ \hyperlink{class_qwt_abstract_scale_ab3c5f30892792e5ca3d84f4409ef6216}{abstract\-Scale\-Draw} () const 
+\item 
+\hyperlink{class_qwt_abstract_scale_draw}{Qwt\-Abstract\-Scale\-Draw} $\ast$ \hyperlink{class_qwt_abstract_scale_aa61afdff037ef745a6dad686537cdb96}{abstract\-Scale\-Draw} ()
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_abstract_scale_a0dbb7bdc557c0a7b163643e41970ed6a}{scale\-Change} ()
+\begin{DoxyCompactList}\small\item\em Notify changed scale. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+An abstract base class for classes containing a scale. 
+
+\hyperlink{class_qwt_abstract_scale}{Qwt\-Abstract\-Scale} is used to provide classes with a \hyperlink{class_qwt_scale_draw}{Qwt\-Scale\-Draw}, and a \hyperlink{class_qwt_scale_div}{Qwt\-Scale\-Div}. The \hyperlink{class_qwt_scale_div}{Qwt\-Scale\-Div} might be set explicitely or calculated by a \hyperlink{class_qwt_scale_engine}{Qwt\-Scale\-Engine}. 
+
+Definition at line 29 of file qwt\-\_\-abstract\-\_\-scale.\-h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_qwt_abstract_scale_aa12aff84cebf3ace4f1b5e61737e0051}{\index{Qwt\-Abstract\-Scale@{Qwt\-Abstract\-Scale}!Qwt\-Abstract\-Scale@{Qwt\-Abstract\-Scale}}
+\index{Qwt\-Abstract\-Scale@{Qwt\-Abstract\-Scale}!QwtAbstractScale@{Qwt\-Abstract\-Scale}}
+\subsubsection[{Qwt\-Abstract\-Scale}]{\setlength{\rightskip}{0pt plus 5cm}Qwt\-Abstract\-Scale\-::\-Qwt\-Abstract\-Scale (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_qwt_abstract_scale_aa12aff84cebf3ace4f1b5e61737e0051}
+Constructor
+
+Creates a default \hyperlink{class_qwt_scale_draw}{Qwt\-Scale\-Draw} and a \hyperlink{class_qwt_linear_scale_engine}{Qwt\-Linear\-Scale\-Engine}. Autoscaling is enabled, and the step\-Size is initialized by 0.\-0. 
+
+Definition at line 53 of file qwt\-\_\-abstract\-\_\-scale.\-cpp.
+
+\hypertarget{class_qwt_abstract_scale_a73890593efff11427ea7a42a3ebadefd}{\index{Qwt\-Abstract\-Scale@{Qwt\-Abstract\-Scale}!$\sim$\-Qwt\-Abstract\-Scale@{$\sim$\-Qwt\-Abstract\-Scale}}
+\index{$\sim$\-Qwt\-Abstract\-Scale@{$\sim$\-Qwt\-Abstract\-Scale}!QwtAbstractScale@{Qwt\-Abstract\-Scale}}
+\subsubsection[{$\sim$\-Qwt\-Abstract\-Scale}]{\setlength{\rightskip}{0pt plus 5cm}Qwt\-Abstract\-Scale\-::$\sim$\-Qwt\-Abstract\-Scale (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_qwt_abstract_scale_a73890593efff11427ea7a42a3ebadefd}
+
+
+Destructor. 
+
+
+
+Definition at line 60 of file qwt\-\_\-abstract\-\_\-scale.\-cpp.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_qwt_abstract_scale_ab3c5f30892792e5ca3d84f4409ef6216}{\index{Qwt\-Abstract\-Scale@{Qwt\-Abstract\-Scale}!abstract\-Scale\-Draw@{abstract\-Scale\-Draw}}
+\index{abstract\-Scale\-Draw@{abstract\-Scale\-Draw}!QwtAbstractScale@{Qwt\-Abstract\-Scale}}
+\subsubsection[{abstract\-Scale\-Draw}]{\setlength{\rightskip}{0pt plus 5cm}const {\bf Qwt\-Abstract\-Scale\-Draw} $\ast$ Qwt\-Abstract\-Scale\-::abstract\-Scale\-Draw (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_qwt_abstract_scale_ab3c5f30892792e5ca3d84f4409ef6216}
+\begin{DoxyReturn}{Returns}
+Scale draw 
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_abstract_scale_a950c5bf521dc704b78f76c7951346288}{set\-Abstract\-Scale\-Draw()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 248 of file qwt\-\_\-abstract\-\_\-scale.\-cpp.
+
+\hypertarget{class_qwt_abstract_scale_aa61afdff037ef745a6dad686537cdb96}{\index{Qwt\-Abstract\-Scale@{Qwt\-Abstract\-Scale}!abstract\-Scale\-Draw@{abstract\-Scale\-Draw}}
+\index{abstract\-Scale\-Draw@{abstract\-Scale\-Draw}!QwtAbstractScale@{Qwt\-Abstract\-Scale}}
+\subsubsection[{abstract\-Scale\-Draw}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Qwt\-Abstract\-Scale\-Draw} $\ast$ Qwt\-Abstract\-Scale\-::abstract\-Scale\-Draw (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_qwt_abstract_scale_aa61afdff037ef745a6dad686537cdb96}
+\begin{DoxyReturn}{Returns}
+Scale draw 
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_abstract_scale_a950c5bf521dc704b78f76c7951346288}{set\-Abstract\-Scale\-Draw()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 239 of file qwt\-\_\-abstract\-\_\-scale.\-cpp.
+
+\hypertarget{class_qwt_abstract_scale_a01f1f43502a8ba14988a0bd3142d94b1}{\index{Qwt\-Abstract\-Scale@{Qwt\-Abstract\-Scale}!auto\-Scale@{auto\-Scale}}
+\index{auto\-Scale@{auto\-Scale}!QwtAbstractScale@{Qwt\-Abstract\-Scale}}
+\subsubsection[{auto\-Scale}]{\setlength{\rightskip}{0pt plus 5cm}bool Qwt\-Abstract\-Scale\-::auto\-Scale (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_qwt_abstract_scale_a01f1f43502a8ba14988a0bd3142d94b1}
+\begin{DoxyReturn}{Returns}
+{\ttfamily true} if autoscaling is enabled 
+\end{DoxyReturn}
+
+
+Definition at line 158 of file qwt\-\_\-abstract\-\_\-scale.\-cpp.
+
+\hypertarget{class_qwt_abstract_scale_abd7c6b312b41882a3b509aadc9ada46e}{\index{Qwt\-Abstract\-Scale@{Qwt\-Abstract\-Scale}!rescale@{rescale}}
+\index{rescale@{rescale}!QwtAbstractScale@{Qwt\-Abstract\-Scale}}
+\subsubsection[{rescale}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Abstract\-Scale\-::rescale (
+\begin{DoxyParamCaption}
+\item[{{\bf double}}]{vmin, }
+\item[{{\bf double}}]{vmax, }
+\item[{{\bf double}}]{step\-Size = {\ttfamily 0.0}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_qwt_abstract_scale_abd7c6b312b41882a3b509aadc9ada46e}
+Recalculate the scale division and update the scale draw.
+
+
+\begin{DoxyParams}{Parameters}
+{\em vmin} & Lower limit of the scale interval \\
+\hline
+{\em vmax} & Upper limit of the scale interval \\
+\hline
+{\em step\-Size} & Major step size\\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_abstract_scale_a0dbb7bdc557c0a7b163643e41970ed6a}{scale\-Change()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 126 of file qwt\-\_\-abstract\-\_\-scale.\-cpp.
+
+\hypertarget{class_qwt_abstract_scale_a0dbb7bdc557c0a7b163643e41970ed6a}{\index{Qwt\-Abstract\-Scale@{Qwt\-Abstract\-Scale}!scale\-Change@{scale\-Change}}
+\index{scale\-Change@{scale\-Change}!QwtAbstractScale@{Qwt\-Abstract\-Scale}}
+\subsubsection[{scale\-Change}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Abstract\-Scale\-::scale\-Change (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}}\label{class_qwt_abstract_scale_a0dbb7bdc557c0a7b163643e41970ed6a}
+
+
+Notify changed scale. 
+
+Dummy empty implementation, intended to be overloaded by derived classes 
+
+Reimplemented in \hyperlink{class_qwt_thermo_a3f2f5077580235a5a776805a9721c8ba}{Qwt\-Thermo}, and \hyperlink{class_qwt_slider_a31ae4c53eb17d77ee0fd846ff6eea7e3}{Qwt\-Slider}.
+
+
+
+Definition at line 300 of file qwt\-\_\-abstract\-\_\-scale.\-cpp.
+
+\hypertarget{class_qwt_abstract_scale_a5b8084cc735933ce9338fd2df1126f0e}{\index{Qwt\-Abstract\-Scale@{Qwt\-Abstract\-Scale}!scale\-Engine@{scale\-Engine}}
+\index{scale\-Engine@{scale\-Engine}!QwtAbstractScale@{Qwt\-Abstract\-Scale}}
+\subsubsection[{scale\-Engine}]{\setlength{\rightskip}{0pt plus 5cm}const {\bf Qwt\-Scale\-Engine} $\ast$ Qwt\-Abstract\-Scale\-::scale\-Engine (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_qwt_abstract_scale_a5b8084cc735933ce9338fd2df1126f0e}
+\begin{DoxyReturn}{Returns}
+Scale engine 
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_abstract_scale_aa00f44140af3f2b7595cb6e23371198f}{set\-Scale\-Engine()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 281 of file qwt\-\_\-abstract\-\_\-scale.\-cpp.
+
+\hypertarget{class_qwt_abstract_scale_aea3b9d4912f1c28671f232e4100936d7}{\index{Qwt\-Abstract\-Scale@{Qwt\-Abstract\-Scale}!scale\-Engine@{scale\-Engine}}
+\index{scale\-Engine@{scale\-Engine}!QwtAbstractScale@{Qwt\-Abstract\-Scale}}
+\subsubsection[{scale\-Engine}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Qwt\-Scale\-Engine} $\ast$ Qwt\-Abstract\-Scale\-::scale\-Engine (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_qwt_abstract_scale_aea3b9d4912f1c28671f232e4100936d7}
+\begin{DoxyReturn}{Returns}
+Scale engine 
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_abstract_scale_aa00f44140af3f2b7595cb6e23371198f}{set\-Scale\-Engine()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 290 of file qwt\-\_\-abstract\-\_\-scale.\-cpp.
+
+\hypertarget{class_qwt_abstract_scale_a68f120e12e373796b5d74199a9b8a4b0}{\index{Qwt\-Abstract\-Scale@{Qwt\-Abstract\-Scale}!scale\-Map@{scale\-Map}}
+\index{scale\-Map@{scale\-Map}!QwtAbstractScale@{Qwt\-Abstract\-Scale}}
+\subsubsection[{scale\-Map}]{\setlength{\rightskip}{0pt plus 5cm}const {\bf Qwt\-Scale\-Map} \& Qwt\-Abstract\-Scale\-::scale\-Map (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_qwt_abstract_scale_a68f120e12e373796b5d74199a9b8a4b0}
+\begin{DoxyReturn}{Returns}
+\hyperlink{class_qwt_abstract_scale_aa61afdff037ef745a6dad686537cdb96}{abstract\-Scale\-Draw()}-\/$>$\hyperlink{class_qwt_abstract_scale_a68f120e12e373796b5d74199a9b8a4b0}{scale\-Map()} 
+\end{DoxyReturn}
+
+
+Definition at line 307 of file qwt\-\_\-abstract\-\_\-scale.\-cpp.
+
+\hypertarget{class_qwt_abstract_scale_a4cfbcd9880297b1ca28fa824e3f4c3e6}{\index{Qwt\-Abstract\-Scale@{Qwt\-Abstract\-Scale}!scale\-Max\-Major@{scale\-Max\-Major}}
+\index{scale\-Max\-Major@{scale\-Max\-Major}!QwtAbstractScale@{Qwt\-Abstract\-Scale}}
+\subsubsection[{scale\-Max\-Major}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int} Qwt\-Abstract\-Scale\-::scale\-Max\-Major (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_qwt_abstract_scale_a4cfbcd9880297b1ca28fa824e3f4c3e6}
+\begin{DoxyReturn}{Returns}
+Max. number of major tick intervals The default value is 5. 
+\end{DoxyReturn}
+
+
+Definition at line 212 of file qwt\-\_\-abstract\-\_\-scale.\-cpp.
+
+\hypertarget{class_qwt_abstract_scale_a5b23fafbb56bb43fd241c1839256357f}{\index{Qwt\-Abstract\-Scale@{Qwt\-Abstract\-Scale}!scale\-Max\-Minor@{scale\-Max\-Minor}}
+\index{scale\-Max\-Minor@{scale\-Max\-Minor}!QwtAbstractScale@{Qwt\-Abstract\-Scale}}
+\subsubsection[{scale\-Max\-Minor}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int} Qwt\-Abstract\-Scale\-::scale\-Max\-Minor (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_qwt_abstract_scale_a5b23fafbb56bb43fd241c1839256357f}
+\begin{DoxyReturn}{Returns}
+Max. number of minor tick intervals The default value is 3. 
+\end{DoxyReturn}
+
+
+Definition at line 203 of file qwt\-\_\-abstract\-\_\-scale.\-cpp.
+
+\hypertarget{class_qwt_abstract_scale_a950c5bf521dc704b78f76c7951346288}{\index{Qwt\-Abstract\-Scale@{Qwt\-Abstract\-Scale}!set\-Abstract\-Scale\-Draw@{set\-Abstract\-Scale\-Draw}}
+\index{set\-Abstract\-Scale\-Draw@{set\-Abstract\-Scale\-Draw}!QwtAbstractScale@{Qwt\-Abstract\-Scale}}
+\subsubsection[{set\-Abstract\-Scale\-Draw}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Abstract\-Scale\-::set\-Abstract\-Scale\-Draw (
+\begin{DoxyParamCaption}
+\item[{{\bf Qwt\-Abstract\-Scale\-Draw} $\ast$}]{scale\-Draw}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_qwt_abstract_scale_a950c5bf521dc704b78f76c7951346288}
+
+
+Set a scale draw. 
+
+scale\-Draw has to be created with new and will be deleted in $\sim$\-Qwt\-Abstract\-Scale or the next call of set\-Abstract\-Scale\-Draw. 
+
+Definition at line 223 of file qwt\-\_\-abstract\-\_\-scale.\-cpp.
+
+\hypertarget{class_qwt_abstract_scale_ade952bd5cbde1dba015bc16b880e3a28}{\index{Qwt\-Abstract\-Scale@{Qwt\-Abstract\-Scale}!set\-Auto\-Scale@{set\-Auto\-Scale}}
+\index{set\-Auto\-Scale@{set\-Auto\-Scale}!QwtAbstractScale@{Qwt\-Abstract\-Scale}}
+\subsubsection[{set\-Auto\-Scale}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Abstract\-Scale\-::set\-Auto\-Scale (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_qwt_abstract_scale_ade952bd5cbde1dba015bc16b880e3a28}
+
+
+Advise the widget to control the scale range internally. 
+
+Autoscaling is on by default. \begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_abstract_scale_a91af529248b556ef130add4bcfc60bb2}{set\-Scale()}, \hyperlink{class_qwt_abstract_scale_a01f1f43502a8ba14988a0bd3142d94b1}{auto\-Scale()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 146 of file qwt\-\_\-abstract\-\_\-scale.\-cpp.
+
+\hypertarget{class_qwt_abstract_scale_a91af529248b556ef130add4bcfc60bb2}{\index{Qwt\-Abstract\-Scale@{Qwt\-Abstract\-Scale}!set\-Scale@{set\-Scale}}
+\index{set\-Scale@{set\-Scale}!QwtAbstractScale@{Qwt\-Abstract\-Scale}}
+\subsubsection[{set\-Scale}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Abstract\-Scale\-::set\-Scale (
+\begin{DoxyParamCaption}
+\item[{{\bf double}}]{vmin, }
+\item[{{\bf double}}]{vmax, }
+\item[{{\bf double}}]{step\-Size = {\ttfamily 0.0}}
+\end{DoxyParamCaption}
+)}}\label{class_qwt_abstract_scale_a91af529248b556ef130add4bcfc60bb2}
+
+
+Specify a scale. 
+
+Disable autoscaling and define a scale by an interval and a step size
+
+
+\begin{DoxyParams}{Parameters}
+{\em vmin} & lower limit of the scale interval \\
+\hline
+{\em vmax} & upper limit of the scale interval \\
+\hline
+{\em step\-Size} & major step size \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_abstract_scale_ade952bd5cbde1dba015bc16b880e3a28}{set\-Auto\-Scale()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 75 of file qwt\-\_\-abstract\-\_\-scale.\-cpp.
+
+\hypertarget{class_qwt_abstract_scale_a1e85d35fda2e18bad16e8aa43dbe99b4}{\index{Qwt\-Abstract\-Scale@{Qwt\-Abstract\-Scale}!set\-Scale@{set\-Scale}}
+\index{set\-Scale@{set\-Scale}!QwtAbstractScale@{Qwt\-Abstract\-Scale}}
+\subsubsection[{set\-Scale}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Abstract\-Scale\-::set\-Scale (
+\begin{DoxyParamCaption}
+\item[{const {\bf Qwt\-Interval} \&}]{interval, }
+\item[{{\bf double}}]{step\-Size = {\ttfamily 0.0}}
+\end{DoxyParamCaption}
+)}}\label{class_qwt_abstract_scale_a1e85d35fda2e18bad16e8aa43dbe99b4}
+
+
+Specify a scale. 
+
+Disable autoscaling and define a scale by an interval and a step size
+
+
+\begin{DoxyParams}{Parameters}
+{\em interval} & Interval \\
+\hline
+{\em step\-Size} & major step size \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_abstract_scale_ade952bd5cbde1dba015bc16b880e3a28}{set\-Auto\-Scale()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 92 of file qwt\-\_\-abstract\-\_\-scale.\-cpp.
+
+\hypertarget{class_qwt_abstract_scale_ad002e1a352ecf85c1a8595a138d42db7}{\index{Qwt\-Abstract\-Scale@{Qwt\-Abstract\-Scale}!set\-Scale@{set\-Scale}}
+\index{set\-Scale@{set\-Scale}!QwtAbstractScale@{Qwt\-Abstract\-Scale}}
+\subsubsection[{set\-Scale}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Abstract\-Scale\-::set\-Scale (
+\begin{DoxyParamCaption}
+\item[{const {\bf Qwt\-Scale\-Div} \&}]{scale\-Div}
+\end{DoxyParamCaption}
+)}}\label{class_qwt_abstract_scale_ad002e1a352ecf85c1a8595a138d42db7}
+
+
+Specify a scale. 
+
+Disable autoscaling and define a scale by a scale division
+
+
+\begin{DoxyParams}{Parameters}
+{\em scale\-Div} & Scale division \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_abstract_scale_ade952bd5cbde1dba015bc16b880e3a28}{set\-Auto\-Scale()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 106 of file qwt\-\_\-abstract\-\_\-scale.\-cpp.
+
+\hypertarget{class_qwt_abstract_scale_aa00f44140af3f2b7595cb6e23371198f}{\index{Qwt\-Abstract\-Scale@{Qwt\-Abstract\-Scale}!set\-Scale\-Engine@{set\-Scale\-Engine}}
+\index{set\-Scale\-Engine@{set\-Scale\-Engine}!QwtAbstractScale@{Qwt\-Abstract\-Scale}}
+\subsubsection[{set\-Scale\-Engine}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Abstract\-Scale\-::set\-Scale\-Engine (
+\begin{DoxyParamCaption}
+\item[{{\bf Qwt\-Scale\-Engine} $\ast$}]{scale\-Engine}
+\end{DoxyParamCaption}
+)}}\label{class_qwt_abstract_scale_aa00f44140af3f2b7595cb6e23371198f}
+
+
+Set a scale engine. 
+
+The scale engine is responsible for calculating the scale division, and in case of auto scaling how to align the scale.
+
+scale\-Engine has to be created with new and will be deleted in $\sim$\-Qwt\-Abstract\-Scale or the next call of set\-Scale\-Engine. 
+
+Definition at line 268 of file qwt\-\_\-abstract\-\_\-scale.\-cpp.
+
+\hypertarget{class_qwt_abstract_scale_a40fdb4572ad8fdec8b93766ff5f8eda8}{\index{Qwt\-Abstract\-Scale@{Qwt\-Abstract\-Scale}!set\-Scale\-Max\-Major@{set\-Scale\-Max\-Major}}
+\index{set\-Scale\-Max\-Major@{set\-Scale\-Max\-Major}!QwtAbstractScale@{Qwt\-Abstract\-Scale}}
+\subsubsection[{set\-Scale\-Max\-Major}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Abstract\-Scale\-::set\-Scale\-Max\-Major (
+\begin{DoxyParamCaption}
+\item[{{\bf int}}]{ticks}
+\end{DoxyParamCaption}
+)}}\label{class_qwt_abstract_scale_a40fdb4572ad8fdec8b93766ff5f8eda8}
+
+
+Set the maximum number of major tick intervals. 
+
+The scale's major ticks are calculated automatically such that the number of major intervals does not exceed ticks. The default value is 5. 
+\begin{DoxyParams}{Parameters}
+{\em ticks} & maximal number of major ticks. \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_abstract_scale_draw}{Qwt\-Abstract\-Scale\-Draw} 
+\end{DoxySeeAlso}
+
+
+Definition at line 172 of file qwt\-\_\-abstract\-\_\-scale.\-cpp.
+
+\hypertarget{class_qwt_abstract_scale_a6520bb1e52571f865b21b3710786a4db}{\index{Qwt\-Abstract\-Scale@{Qwt\-Abstract\-Scale}!set\-Scale\-Max\-Minor@{set\-Scale\-Max\-Minor}}
+\index{set\-Scale\-Max\-Minor@{set\-Scale\-Max\-Minor}!QwtAbstractScale@{Qwt\-Abstract\-Scale}}
+\subsubsection[{set\-Scale\-Max\-Minor}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Abstract\-Scale\-::set\-Scale\-Max\-Minor (
+\begin{DoxyParamCaption}
+\item[{{\bf int}}]{ticks}
+\end{DoxyParamCaption}
+)}}\label{class_qwt_abstract_scale_a6520bb1e52571f865b21b3710786a4db}
+
+
+Set the maximum number of minor tick intervals. 
+
+The scale's minor ticks are calculated automatically such that the number of minor intervals does not exceed ticks. The default value is 3. 
+\begin{DoxyParams}{Parameters}
+{\em ticks} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_abstract_scale_draw}{Qwt\-Abstract\-Scale\-Draw} 
+\end{DoxySeeAlso}
+
+
+Definition at line 190 of file qwt\-\_\-abstract\-\_\-scale.\-cpp.
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/qwt/src/\hyperlink{qwt__abstract__scale_8h}{qwt\-\_\-abstract\-\_\-scale.\-h}\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/qwt/src/\hyperlink{qwt__abstract__scale_8cpp}{qwt\-\_\-abstract\-\_\-scale.\-cpp}\end{DoxyCompactItemize}

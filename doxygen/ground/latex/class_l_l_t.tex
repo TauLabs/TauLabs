@@ -1,0 +1,218 @@
+\hypertarget{class_l_l_t}{\section{L\-L\-T$<$ Matrix\-Type $>$ Class Template Reference}
+\label{class_l_l_t}\index{L\-L\-T$<$ Matrix\-Type $>$@{L\-L\-T$<$ Matrix\-Type $>$}}
+}
+
+
+Standard Cholesky decomposition (L\-L$^\wedge$\-T) of a matrix and associated features.  
+
+
+
+
+{\ttfamily \#include $<$L\-L\-T.\-h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_l_l_t_a3137ff75078519115c09fe80d8c21bea}{L\-L\-T} ()
+\begin{DoxyCompactList}\small\item\em Default Constructor. \end{DoxyCompactList}\item 
+\hyperlink{class_l_l_t_a209d925c19e08cafed2fa7ffcd1a5257}{L\-L\-T} (const Matrix\-Type \&\hyperlink{glext_8h_a7b24a3f2f56eb1244ae69dacb4fecb6f}{matrix})
+\item 
+\hyperlink{class_part}{Part}$<$ Matrix\-Type, \hyperlink{_constants_8h_a9c6e15884c02c8075e3575670fe06894}{Lower\-Triangular} $>$ \hyperlink{class_l_l_t_a2a333c40e652eaec1c7195f207bb46f0}{matrix\-L} (\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void}) const 
+\item 
+bool \hyperlink{class_l_l_t_a831c8ae513e90e318100254893a8bc62}{is\-Positive\-Definite} (\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void}) const 
+\item 
+{\footnotesize template$<$typename Rhs\-Derived , typename Result\-Type $>$ }\\bool \hyperlink{class_l_l_t_a29ed8f17917594f7ac8859e2ae34a6a8}{solve} (const \hyperlink{class_matrix_base}{Matrix\-Base}$<$ Rhs\-Derived $>$ \&\hyperlink{glext_8h_a6eba317e3cf44d6d26c04a5a8f197dcb}{b}, Result\-Type $\ast$\hyperlink{qxtslotjob_8h_aab161efab0511ea9612b64c40e9852ca}{result}) const 
+\item 
+{\footnotesize template$<$typename Derived $>$ }\\bool \hyperlink{class_l_l_t_adb1def1609bf33b060e8cc7ae3ff8256}{solve\-In\-Place} (\hyperlink{class_matrix_base}{Matrix\-Base}$<$ Derived $>$ \&b\-And\-X) const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_l_l_t_a0a0f775cd7c86abd7885b0a82dc293f0}{compute} (const Matrix\-Type \&\hyperlink{glext_8h_a7b24a3f2f56eb1244ae69dacb4fecb6f}{matrix})
+\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+Matrix\-Type \hyperlink{class_l_l_t_a5750c879b44118e0d497b84c578a2c89}{m\-\_\-matrix}
+\item 
+bool \hyperlink{class_l_l_t_a538a8165865c01777995af8f30e9778a}{m\-\_\-is\-Initialized}
+\item 
+bool \hyperlink{class_l_l_t_a8e208b8ab05b525407b50a4047aaae73}{m\-\_\-is\-Positive\-Definite}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$typename Matrix\-Type$>$class L\-L\-T$<$ Matrix\-Type $>$}
+
+Standard Cholesky decomposition (L\-L$^\wedge$\-T) of a matrix and associated features. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Matrix\-Type} & the type of the matrix of which we are computing the L\-L$^\wedge$\-T Cholesky decomposition\\
+\hline
+\end{DoxyParams}
+This class performs a L\-L$^\wedge$\-T Cholesky decomposition of a symmetric, positive definite matrix A such that A = L\-L$^\wedge$$\ast$ = U$^\wedge$$\ast$\-U, where L is lower triangular.
+
+While the Cholesky decomposition is particularly useful to solve selfadjoint problems like D$^\wedge$$\ast$\-D x = b, for that purpose, we recommend the Cholesky decomposition without square root which is more stable and even faster. Nevertheless, this standard Cholesky decomposition remains useful in many other situations like generalised eigen problems with hermitian matrices.
+
+Remember that Cholesky decompositions are not rank-\/revealing. This \hyperlink{class_l_l_t}{L\-L\-T} decomposition is only stable on positive definite matrices, use \hyperlink{class_l_d_l_t}{L\-D\-L\-T} instead for the semidefinite case. Also, do not use a Cholesky decomposition to determine whether a system of equations has a solution.
+
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_matrix_base_a0219ae58c2348bcfd963e80bd95b6ab5}{Matrix\-Base\-::llt()}, class \hyperlink{class_l_d_l_t}{L\-D\-L\-T} 
+\end{DoxySeeAlso}
+
+
+Definition at line 54 of file L\-L\-T.\-h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_l_l_t_a3137ff75078519115c09fe80d8c21bea}{\index{L\-L\-T@{L\-L\-T}!L\-L\-T@{L\-L\-T}}
+\index{L\-L\-T@{L\-L\-T}!LLT@{L\-L\-T}}
+\subsubsection[{L\-L\-T}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type$>$ {\bf L\-L\-T}$<$ Matrix\-Type $>$\-::{\bf L\-L\-T} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_l_l_t_a3137ff75078519115c09fe80d8c21bea}
+
+
+Default Constructor. 
+
+The default constructor is useful in cases in which the user intends to perform decompositions via \hyperlink{class_l_l_t_a0a0f775cd7c86abd7885b0a82dc293f0}{L\-L\-T\-::compute(const Matrix\-Type\&)}. 
+
+Definition at line 74 of file L\-L\-T.\-h.
+
+\hypertarget{class_l_l_t_a209d925c19e08cafed2fa7ffcd1a5257}{\index{L\-L\-T@{L\-L\-T}!L\-L\-T@{L\-L\-T}}
+\index{L\-L\-T@{L\-L\-T}!LLT@{L\-L\-T}}
+\subsubsection[{L\-L\-T}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type$>$ {\bf L\-L\-T}$<$ Matrix\-Type $>$\-::{\bf L\-L\-T} (
+\begin{DoxyParamCaption}
+\item[{const Matrix\-Type \&}]{matrix}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_l_l_t_a209d925c19e08cafed2fa7ffcd1a5257}
+
+
+Definition at line 76 of file L\-L\-T.\-h.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_l_l_t_a0a0f775cd7c86abd7885b0a82dc293f0}{\index{L\-L\-T@{L\-L\-T}!compute@{compute}}
+\index{compute@{compute}!LLT@{L\-L\-T}}
+\subsubsection[{compute}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type $>$ {\bf void} {\bf L\-L\-T}$<$ Matrix\-Type $>$\-::compute (
+\begin{DoxyParamCaption}
+\item[{const Matrix\-Type \&}]{a}
+\end{DoxyParamCaption}
+)}}\label{class_l_l_t_a0a0f775cd7c86abd7885b0a82dc293f0}
+Computes / recomputes the Cholesky decomposition A = L\-L$^\wedge$$\ast$ = U$^\wedge$$\ast$\-U of {\itshape matrix} 
+
+Definition at line 114 of file L\-L\-T.\-h.
+
+\hypertarget{class_l_l_t_a831c8ae513e90e318100254893a8bc62}{\index{L\-L\-T@{L\-L\-T}!is\-Positive\-Definite@{is\-Positive\-Definite}}
+\index{is\-Positive\-Definite@{is\-Positive\-Definite}!LLT@{L\-L\-T}}
+\subsubsection[{is\-Positive\-Definite}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type$>$ bool {\bf L\-L\-T}$<$ Matrix\-Type $>$\-::is\-Positive\-Definite (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_l_l_t_a831c8ae513e90e318100254893a8bc62}
+\begin{DoxyRefDesc}{Deprecated}
+\item[\hyperlink{deprecated__deprecated000001}{Deprecated}]\end{DoxyRefDesc}
+
+
+Definition at line 91 of file L\-L\-T.\-h.
+
+\hypertarget{class_l_l_t_a2a333c40e652eaec1c7195f207bb46f0}{\index{L\-L\-T@{L\-L\-T}!matrix\-L@{matrix\-L}}
+\index{matrix\-L@{matrix\-L}!LLT@{L\-L\-T}}
+\subsubsection[{matrix\-L}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type$>$ {\bf Part}$<$Matrix\-Type, {\bf Lower\-Triangular}$>$ {\bf L\-L\-T}$<$ Matrix\-Type $>$\-::matrix\-L (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_l_l_t_a2a333c40e652eaec1c7195f207bb46f0}
+\begin{DoxyReturn}{Returns}
+the lower triangular matrix L 
+\end{DoxyReturn}
+
+
+Definition at line 84 of file L\-L\-T.\-h.
+
+\hypertarget{class_l_l_t_a29ed8f17917594f7ac8859e2ae34a6a8}{\index{L\-L\-T@{L\-L\-T}!solve@{solve}}
+\index{solve@{solve}!LLT@{L\-L\-T}}
+\subsubsection[{solve}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type $>$ template$<$typename Rhs\-Derived , typename Result\-Type $>$ bool {\bf L\-L\-T}$<$ Matrix\-Type $>$\-::solve (
+\begin{DoxyParamCaption}
+\item[{const {\bf Matrix\-Base}$<$ Rhs\-Derived $>$ \&}]{b, }
+\item[{Result\-Type $\ast$}]{result}
+\end{DoxyParamCaption}
+) const}}\label{class_l_l_t_a29ed8f17917594f7ac8859e2ae34a6a8}
+Computes the solution x of $ A x = b $ using the current decomposition of A. The result is stored in {\itshape result} 
+
+\begin{DoxyReturn}{Returns}
+true always! If you need to check for existence of solutions, use another decomposition like \hyperlink{class_l_u}{L\-U}, \hyperlink{class_q_r}{Q\-R}, or \hyperlink{class_s_v_d}{S\-V\-D}.
+\end{DoxyReturn}
+In other words, it computes $ b = A^{-1} b $ with $ {L^{*}}^{-1} L^{-1} b $ from right to left.
+
+Example\-:
+\begin{DoxyCodeInclude}
+\end{DoxyCodeInclude}
+ Output\-:
+\begin{DoxyVerbInclude}
+\end{DoxyVerbInclude}
+
+
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_l_l_t_adb1def1609bf33b060e8cc7ae3ff8256}{L\-L\-T\-::solve\-In\-Place()}, \hyperlink{class_matrix_base_a0219ae58c2348bcfd963e80bd95b6ab5}{Matrix\-Base\-::llt()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 179 of file L\-L\-T.\-h.
+
+\hypertarget{class_l_l_t_adb1def1609bf33b060e8cc7ae3ff8256}{\index{L\-L\-T@{L\-L\-T}!solve\-In\-Place@{solve\-In\-Place}}
+\index{solve\-In\-Place@{solve\-In\-Place}!LLT@{L\-L\-T}}
+\subsubsection[{solve\-In\-Place}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type $>$ template$<$typename Derived $>$ bool {\bf L\-L\-T}$<$ Matrix\-Type $>$\-::solve\-In\-Place (
+\begin{DoxyParamCaption}
+\item[{{\bf Matrix\-Base}$<$ Derived $>$ \&}]{b\-And\-X}
+\end{DoxyParamCaption}
+) const}}\label{class_l_l_t_adb1def1609bf33b060e8cc7ae3ff8256}
+This is the {\itshape in-\/place} version of \hyperlink{class_l_l_t_a29ed8f17917594f7ac8859e2ae34a6a8}{solve()}.
+
+
+\begin{DoxyParams}{Parameters}
+{\em b\-And\-X} & represents both the right-\/hand side matrix b and result x.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true always! If you need to check for existence of solutions, use another decomposition like \hyperlink{class_l_u}{L\-U}, \hyperlink{class_q_r}{Q\-R}, or \hyperlink{class_s_v_d}{S\-V\-D}.
+\end{DoxyReturn}
+This version avoids a copy when the right hand side matrix b is not needed anymore.
+
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_l_l_t_a29ed8f17917594f7ac8859e2ae34a6a8}{L\-L\-T\-::solve()}, \hyperlink{class_matrix_base_a0219ae58c2348bcfd963e80bd95b6ab5}{Matrix\-Base\-::llt()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 200 of file L\-L\-T.\-h.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{class_l_l_t_a538a8165865c01777995af8f30e9778a}{\index{L\-L\-T@{L\-L\-T}!m\-\_\-is\-Initialized@{m\-\_\-is\-Initialized}}
+\index{m\-\_\-is\-Initialized@{m\-\_\-is\-Initialized}!LLT@{L\-L\-T}}
+\subsubsection[{m\-\_\-is\-Initialized}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type$>$ bool {\bf L\-L\-T}$<$ Matrix\-Type $>$\-::m\-\_\-is\-Initialized\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_l_l_t_a538a8165865c01777995af8f30e9778a}
+
+
+Definition at line 107 of file L\-L\-T.\-h.
+
+\hypertarget{class_l_l_t_a8e208b8ab05b525407b50a4047aaae73}{\index{L\-L\-T@{L\-L\-T}!m\-\_\-is\-Positive\-Definite@{m\-\_\-is\-Positive\-Definite}}
+\index{m\-\_\-is\-Positive\-Definite@{m\-\_\-is\-Positive\-Definite}!LLT@{L\-L\-T}}
+\subsubsection[{m\-\_\-is\-Positive\-Definite}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type$>$ bool {\bf L\-L\-T}$<$ Matrix\-Type $>$\-::m\-\_\-is\-Positive\-Definite\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_l_l_t_a8e208b8ab05b525407b50a4047aaae73}
+
+
+Definition at line 108 of file L\-L\-T.\-h.
+
+\hypertarget{class_l_l_t_a5750c879b44118e0d497b84c578a2c89}{\index{L\-L\-T@{L\-L\-T}!m\-\_\-matrix@{m\-\_\-matrix}}
+\index{m\-\_\-matrix@{m\-\_\-matrix}!LLT@{L\-L\-T}}
+\subsubsection[{m\-\_\-matrix}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type$>$ Matrix\-Type {\bf L\-L\-T}$<$ Matrix\-Type $>$\-::m\-\_\-matrix\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_l_l_t_a5750c879b44118e0d497b84c578a2c89}
+
+
+Definition at line 106 of file L\-L\-T.\-h.
+
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/eigen/\-Eigen/src/\-Cholesky/\hyperlink{_l_l_t_8h}{L\-L\-T.\-h}\end{DoxyCompactItemize}

@@ -1,0 +1,372 @@
+\hypertarget{class_qxt_csv_model}{\section{Qxt\-Csv\-Model Class Reference}
+\label{class_qxt_csv_model}\index{Qxt\-Csv\-Model@{Qxt\-Csv\-Model}}
+}
+
+
+The \hyperlink{class_qxt_csv_model}{Qxt\-Csv\-Model} class provides a Q\-Abstract\-Table\-Model for C\-S\-V Files.  
+
+
+
+
+{\ttfamily \#include $<$qxtcsvmodel.\-h$>$}
+
+Inheritance diagram for Qxt\-Csv\-Model\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_qxt_csv_model}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_qxt_csv_model_a9056b197692dc53dc666272b36d69b69}{Qxt\-Csv\-Model} (Q\-Object $\ast$parent=0)
+\item 
+\hyperlink{class_qxt_csv_model_a9fd8d7f8c4e266ffcb1b7de1b573e850}{Qxt\-Csv\-Model} (Q\-I\-O\-Device $\ast$\hyperlink{uavobjecttemplate_8m_a97c04efa65bcf0928abf9260bc5cbf46}{file}, Q\-Object $\ast$parent=0, bool with\-Header=false, Q\-Char separator= ',')
+\item 
+\hyperlink{class_qxt_csv_model_a66d4dfa8bd58d57761271b623665c14c}{Qxt\-Csv\-Model} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{Q\-String} \hyperlink{ioapi_8h_a7a03a664b090ce5c848ecb31cb4a2fa8}{filename}, Q\-Object $\ast$parent=0, bool with\-Header=false, Q\-Char separator= ',')
+\item 
+\hyperlink{class_qxt_csv_model_a020d5314289b05df0a0f0ead546bfbcc}{$\sim$\-Qxt\-Csv\-Model} ()
+\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_qxt_csv_model_a124d7162c7e54ebcd5e0412eddf26cdf}{row\-Count} (const Q\-Model\-Index \&parent=Q\-Model\-Index()) const 
+\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_qxt_csv_model_a4724dac13f4846f0a267f972cbbf6232}{column\-Count} (const Q\-Model\-Index \&parent=Q\-Model\-Index()) const 
+\item 
+Q\-Variant \hyperlink{class_qxt_csv_model_a41e56375b9feed3286f4038056409be9}{data} (const Q\-Model\-Index \&\hyperlink{glext_8h_ab47dd9958bcadea08866b42bf358e95e}{index}, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} role=Qt\-::\-Display\-Role) const 
+\item 
+bool \hyperlink{class_qxt_csv_model_a31f44c022e93bd7c4aed50e694cd42f7}{set\-Data} (const Q\-Model\-Index \&\hyperlink{glext_8h_ab47dd9958bcadea08866b42bf358e95e}{index}, const Q\-Variant \&\hyperlink{glext_8h_a8850df0785e6fbcc2351af3b686b8c7a}{data}, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} role=Qt\-::\-Edit\-Role)
+\item 
+Q\-Variant \hyperlink{class_qxt_csv_model_a42544aa44336b4b6d4f0c69c2f010310}{header\-Data} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} section, Qt\-::\-Orientation orientation, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} role=Qt\-::\-Display\-Role) const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qxt_csv_model_a5788519db182175584c73582f943ea93}{set\-Header\-Data} (const Q\-String\-List \hyperlink{glext_8h_a8850df0785e6fbcc2351af3b686b8c7a}{data})
+\item 
+bool \hyperlink{class_qxt_csv_model_a79d2eb0cc646860b273cb9107e1638bb}{insert\-Row} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{glext_8h_a11b277b422822f784ee248b43eee3e1e}{row}, const Q\-Model\-Index \&parent=Q\-Model\-Index())
+\item 
+bool \hyperlink{class_qxt_csv_model_abd89f279815c4f55515540a6b893fa35}{insert\-Rows} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{glext_8h_a11b277b422822f784ee248b43eee3e1e}{row}, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{glext_8h_a5b40aca7a9682963dd00a8f5aef0a901}{count}, const Q\-Model\-Index \&parent=Q\-Model\-Index())
+\item 
+bool \hyperlink{class_qxt_csv_model_a702949bc62aef09a4489b69ae4c55f3d}{remove\-Row} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{glext_8h_a11b277b422822f784ee248b43eee3e1e}{row}, const Q\-Model\-Index \&parent=Q\-Model\-Index())
+\item 
+bool \hyperlink{class_qxt_csv_model_a062dc1da9a6ce5d2e7308b47e12854a9}{remove\-Rows} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{glext_8h_a11b277b422822f784ee248b43eee3e1e}{row}, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{glext_8h_a5b40aca7a9682963dd00a8f5aef0a901}{count}, const Q\-Model\-Index \&parent=Q\-Model\-Index())
+\item 
+bool \hyperlink{class_qxt_csv_model_a35f440fdc31a490d8c49fd0cd1327e70}{insert\-Column} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} col, const Q\-Model\-Index \&parent=Q\-Model\-Index())
+\item 
+bool \hyperlink{class_qxt_csv_model_a972e7b7021f61359360b46e7b0acff23}{insert\-Columns} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} col, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{glext_8h_a5b40aca7a9682963dd00a8f5aef0a901}{count}, const Q\-Model\-Index \&parent=Q\-Model\-Index())
+\item 
+bool \hyperlink{class_qxt_csv_model_a585df5622551f1c43f6fad1d37ef671f}{remove\-Column} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} col, const Q\-Model\-Index \&parent=Q\-Model\-Index())
+\item 
+bool \hyperlink{class_qxt_csv_model_ae53f7a456c8e01b4e622585b1a02d402}{remove\-Columns} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} col, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{glext_8h_a5b40aca7a9682963dd00a8f5aef0a901}{count}, const Q\-Model\-Index \&parent=Q\-Model\-Index())
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qxt_csv_model_a161072a199ca5e6388500de99d73c3e8}{set\-Source} (Q\-I\-O\-Device $\ast$\hyperlink{uavobjecttemplate_8m_a97c04efa65bcf0928abf9260bc5cbf46}{file}, bool with\-Header=false, Q\-Char separator= ',')
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qxt_csv_model_afaf5e74bda9f44a90df9d95e367aac27}{set\-Source} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{Q\-String} \hyperlink{ioapi_8h_a7a03a664b090ce5c848ecb31cb4a2fa8}{filename}, bool with\-Header=false, Q\-Char separator= ',')
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qxt_csv_model_aca35cec85bc21181d89004990930948e}{to\-C\-S\-V} (Q\-I\-O\-Device $\ast$\hyperlink{uavobjecttemplate_8m_a97c04efa65bcf0928abf9260bc5cbf46}{file}, bool with\-Header=false, Q\-Char separator= ',')
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qxt_csv_model_ae9563638e903e3644b0245ddb5b56fc5}{to\-C\-S\-V} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{Q\-String} \hyperlink{ioapi_8h_a7a03a664b090ce5c848ecb31cb4a2fa8}{filename}, bool with\-Header=false, Q\-Char separator= ',')
+\item 
+Qt\-::\-Item\-Flags \hyperlink{class_qxt_csv_model_acfe9b5cc0f1caefb4bb39cb45e6a3e4c}{flags} (const Q\-Model\-Index \&\hyperlink{glext_8h_ab47dd9958bcadea08866b42bf358e95e}{index}) const 
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+The \hyperlink{class_qxt_csv_model}{Qxt\-Csv\-Model} class provides a Q\-Abstract\-Table\-Model for C\-S\-V Files. 
+
+Qxt\-Core 
+
+Definition at line 38 of file qxtcsvmodel.\-h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_qxt_csv_model_a9056b197692dc53dc666272b36d69b69}{\index{Qxt\-Csv\-Model@{Qxt\-Csv\-Model}!Qxt\-Csv\-Model@{Qxt\-Csv\-Model}}
+\index{Qxt\-Csv\-Model@{Qxt\-Csv\-Model}!QxtCsvModel@{Qxt\-Csv\-Model}}
+\subsubsection[{Qxt\-Csv\-Model}]{\setlength{\rightskip}{0pt plus 5cm}Qxt\-Csv\-Model\-::\-Qxt\-Csv\-Model (
+\begin{DoxyParamCaption}
+\item[{Q\-Object $\ast$}]{parent = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)}}\label{class_qxt_csv_model_a9056b197692dc53dc666272b36d69b69}
+Constructs a new \hyperlink{class_qxt_csv_model}{Qxt\-Csv\-Model} with {\itshape parent} 
+
+Definition at line 106 of file qxtcsvmodel.\-cpp.
+
+\hypertarget{class_qxt_csv_model_a9fd8d7f8c4e266ffcb1b7de1b573e850}{\index{Qxt\-Csv\-Model@{Qxt\-Csv\-Model}!Qxt\-Csv\-Model@{Qxt\-Csv\-Model}}
+\index{Qxt\-Csv\-Model@{Qxt\-Csv\-Model}!QxtCsvModel@{Qxt\-Csv\-Model}}
+\subsubsection[{Qxt\-Csv\-Model}]{\setlength{\rightskip}{0pt plus 5cm}Qxt\-Csv\-Model\-::\-Qxt\-Csv\-Model (
+\begin{DoxyParamCaption}
+\item[{Q\-I\-O\-Device $\ast$}]{file, }
+\item[{Q\-Object $\ast$}]{parent = {\ttfamily 0}, }
+\item[{bool}]{with\-Header = {\ttfamily false}, }
+\item[{Q\-Char}]{separator = {\ttfamily ','}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [explicit]}}}\label{class_qxt_csv_model_a9fd8d7f8c4e266ffcb1b7de1b573e850}
+constructs a \hyperlink{class_qxt_csv_model}{Qxt\-Csv\-Model} from a Q\-I\-O\-Device {\itshape file} as source {\itshape with\-Header} specifies if the data on the device contains a header or not. {\itshape separator} is the separator to use for the columns. most widely used separators are ',' '\textbackslash{}t' ';' 
+
+Definition at line 111 of file qxtcsvmodel.\-cpp.
+
+\hypertarget{class_qxt_csv_model_a66d4dfa8bd58d57761271b623665c14c}{\index{Qxt\-Csv\-Model@{Qxt\-Csv\-Model}!Qxt\-Csv\-Model@{Qxt\-Csv\-Model}}
+\index{Qxt\-Csv\-Model@{Qxt\-Csv\-Model}!QxtCsvModel@{Qxt\-Csv\-Model}}
+\subsubsection[{Qxt\-Csv\-Model}]{\setlength{\rightskip}{0pt plus 5cm}Qxt\-Csv\-Model\-::\-Qxt\-Csv\-Model (
+\begin{DoxyParamCaption}
+\item[{const {\bf Q\-String}}]{filename, }
+\item[{Q\-Object $\ast$}]{parent = {\ttfamily 0}, }
+\item[{bool}]{with\-Header = {\ttfamily false}, }
+\item[{Q\-Char}]{separator = {\ttfamily ','}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [explicit]}}}\label{class_qxt_csv_model_a66d4dfa8bd58d57761271b623665c14c}
+constructs a \hyperlink{class_qxt_csv_model}{Qxt\-Csv\-Model} from {\itshape filename} as source {\itshape with\-Header} specifies if the data in the file contains a header or not. {\itshape separator} is the separator to use for the columns. most widely used separators are ',' '\textbackslash{}t' ';' 
+
+Definition at line 117 of file qxtcsvmodel.\-cpp.
+
+\hypertarget{class_qxt_csv_model_a020d5314289b05df0a0f0ead546bfbcc}{\index{Qxt\-Csv\-Model@{Qxt\-Csv\-Model}!$\sim$\-Qxt\-Csv\-Model@{$\sim$\-Qxt\-Csv\-Model}}
+\index{$\sim$\-Qxt\-Csv\-Model@{$\sim$\-Qxt\-Csv\-Model}!QxtCsvModel@{Qxt\-Csv\-Model}}
+\subsubsection[{$\sim$\-Qxt\-Csv\-Model}]{\setlength{\rightskip}{0pt plus 5cm}Qxt\-Csv\-Model\-::$\sim$\-Qxt\-Csv\-Model (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_qxt_csv_model_a020d5314289b05df0a0f0ead546bfbcc}
+Destructor 
+
+Definition at line 124 of file qxtcsvmodel.\-cpp.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_qxt_csv_model_a4724dac13f4846f0a267f972cbbf6232}{\index{Qxt\-Csv\-Model@{Qxt\-Csv\-Model}!column\-Count@{column\-Count}}
+\index{column\-Count@{column\-Count}!QxtCsvModel@{Qxt\-Csv\-Model}}
+\subsubsection[{column\-Count}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int} Qxt\-Csv\-Model\-::column\-Count (
+\begin{DoxyParamCaption}
+\item[{const Q\-Model\-Index \&}]{parent = {\ttfamily QModelIndex()}}
+\end{DoxyParamCaption}
+) const}}\label{class_qxt_csv_model_a4724dac13f4846f0a267f972cbbf6232}
+
+
+Definition at line 139 of file qxtcsvmodel.\-cpp.
+
+\hypertarget{class_qxt_csv_model_a41e56375b9feed3286f4038056409be9}{\index{Qxt\-Csv\-Model@{Qxt\-Csv\-Model}!data@{data}}
+\index{data@{data}!QxtCsvModel@{Qxt\-Csv\-Model}}
+\subsubsection[{data}]{\setlength{\rightskip}{0pt plus 5cm}Q\-Variant Qxt\-Csv\-Model\-::data (
+\begin{DoxyParamCaption}
+\item[{const Q\-Model\-Index \&}]{index, }
+\item[{{\bf int}}]{role = {\ttfamily Qt\-:\-:DisplayRole}}
+\end{DoxyParamCaption}
+) const}}\label{class_qxt_csv_model_a41e56375b9feed3286f4038056409be9}
+
+
+Definition at line 148 of file qxtcsvmodel.\-cpp.
+
+\hypertarget{class_qxt_csv_model_acfe9b5cc0f1caefb4bb39cb45e6a3e4c}{\index{Qxt\-Csv\-Model@{Qxt\-Csv\-Model}!flags@{flags}}
+\index{flags@{flags}!QxtCsvModel@{Qxt\-Csv\-Model}}
+\subsubsection[{flags}]{\setlength{\rightskip}{0pt plus 5cm}Qt\-::\-Item\-Flags Qxt\-Csv\-Model\-::flags (
+\begin{DoxyParamCaption}
+\item[{const Q\-Model\-Index \&}]{index}
+\end{DoxyParamCaption}
+) const}}\label{class_qxt_csv_model_acfe9b5cc0f1caefb4bb39cb45e6a3e4c}
+
+
+Definition at line 423 of file qxtcsvmodel.\-cpp.
+
+\hypertarget{class_qxt_csv_model_a42544aa44336b4b6d4f0c69c2f010310}{\index{Qxt\-Csv\-Model@{Qxt\-Csv\-Model}!header\-Data@{header\-Data}}
+\index{header\-Data@{header\-Data}!QxtCsvModel@{Qxt\-Csv\-Model}}
+\subsubsection[{header\-Data}]{\setlength{\rightskip}{0pt plus 5cm}Q\-Variant Qxt\-Csv\-Model\-::header\-Data (
+\begin{DoxyParamCaption}
+\item[{{\bf int}}]{section, }
+\item[{Qt\-::\-Orientation}]{orientation, }
+\item[{{\bf int}}]{role = {\ttfamily Qt\-:\-:DisplayRole}}
+\end{DoxyParamCaption}
+) const}}\label{class_qxt_csv_model_a42544aa44336b4b6d4f0c69c2f010310}
+
+
+Definition at line 163 of file qxtcsvmodel.\-cpp.
+
+\hypertarget{class_qxt_csv_model_a35f440fdc31a490d8c49fd0cd1327e70}{\index{Qxt\-Csv\-Model@{Qxt\-Csv\-Model}!insert\-Column@{insert\-Column}}
+\index{insert\-Column@{insert\-Column}!QxtCsvModel@{Qxt\-Csv\-Model}}
+\subsubsection[{insert\-Column}]{\setlength{\rightskip}{0pt plus 5cm}bool Qxt\-Csv\-Model\-::insert\-Column (
+\begin{DoxyParamCaption}
+\item[{{\bf int}}]{col, }
+\item[{const Q\-Model\-Index \&}]{parent = {\ttfamily QModelIndex()}}
+\end{DoxyParamCaption}
+)}}\label{class_qxt_csv_model_a35f440fdc31a490d8c49fd0cd1327e70}
+
+
+Definition at line 313 of file qxtcsvmodel.\-cpp.
+
+\hypertarget{class_qxt_csv_model_a972e7b7021f61359360b46e7b0acff23}{\index{Qxt\-Csv\-Model@{Qxt\-Csv\-Model}!insert\-Columns@{insert\-Columns}}
+\index{insert\-Columns@{insert\-Columns}!QxtCsvModel@{Qxt\-Csv\-Model}}
+\subsubsection[{insert\-Columns}]{\setlength{\rightskip}{0pt plus 5cm}bool Qxt\-Csv\-Model\-::insert\-Columns (
+\begin{DoxyParamCaption}
+\item[{{\bf int}}]{col, }
+\item[{{\bf int}}]{count, }
+\item[{const Q\-Model\-Index \&}]{parent = {\ttfamily QModelIndex()}}
+\end{DoxyParamCaption}
+)}}\label{class_qxt_csv_model_a972e7b7021f61359360b46e7b0acff23}
+
+
+Definition at line 321 of file qxtcsvmodel.\-cpp.
+
+\hypertarget{class_qxt_csv_model_a79d2eb0cc646860b273cb9107e1638bb}{\index{Qxt\-Csv\-Model@{Qxt\-Csv\-Model}!insert\-Row@{insert\-Row}}
+\index{insert\-Row@{insert\-Row}!QxtCsvModel@{Qxt\-Csv\-Model}}
+\subsubsection[{insert\-Row}]{\setlength{\rightskip}{0pt plus 5cm}bool Qxt\-Csv\-Model\-::insert\-Row (
+\begin{DoxyParamCaption}
+\item[{{\bf int}}]{row, }
+\item[{const Q\-Model\-Index \&}]{parent = {\ttfamily QModelIndex()}}
+\end{DoxyParamCaption}
+)}}\label{class_qxt_csv_model_a79d2eb0cc646860b273cb9107e1638bb}
+
+
+Definition at line 261 of file qxtcsvmodel.\-cpp.
+
+\hypertarget{class_qxt_csv_model_abd89f279815c4f55515540a6b893fa35}{\index{Qxt\-Csv\-Model@{Qxt\-Csv\-Model}!insert\-Rows@{insert\-Rows}}
+\index{insert\-Rows@{insert\-Rows}!QxtCsvModel@{Qxt\-Csv\-Model}}
+\subsubsection[{insert\-Rows}]{\setlength{\rightskip}{0pt plus 5cm}bool Qxt\-Csv\-Model\-::insert\-Rows (
+\begin{DoxyParamCaption}
+\item[{{\bf int}}]{row, }
+\item[{{\bf int}}]{count, }
+\item[{const Q\-Model\-Index \&}]{parent = {\ttfamily QModelIndex()}}
+\end{DoxyParamCaption}
+)}}\label{class_qxt_csv_model_abd89f279815c4f55515540a6b893fa35}
+
+
+Definition at line 269 of file qxtcsvmodel.\-cpp.
+
+\hypertarget{class_qxt_csv_model_a585df5622551f1c43f6fad1d37ef671f}{\index{Qxt\-Csv\-Model@{Qxt\-Csv\-Model}!remove\-Column@{remove\-Column}}
+\index{remove\-Column@{remove\-Column}!QxtCsvModel@{Qxt\-Csv\-Model}}
+\subsubsection[{remove\-Column}]{\setlength{\rightskip}{0pt plus 5cm}bool Qxt\-Csv\-Model\-::remove\-Column (
+\begin{DoxyParamCaption}
+\item[{{\bf int}}]{col, }
+\item[{const Q\-Model\-Index \&}]{parent = {\ttfamily QModelIndex()}}
+\end{DoxyParamCaption}
+)}}\label{class_qxt_csv_model_a585df5622551f1c43f6fad1d37ef671f}
+
+
+Definition at line 349 of file qxtcsvmodel.\-cpp.
+
+\hypertarget{class_qxt_csv_model_ae53f7a456c8e01b4e622585b1a02d402}{\index{Qxt\-Csv\-Model@{Qxt\-Csv\-Model}!remove\-Columns@{remove\-Columns}}
+\index{remove\-Columns@{remove\-Columns}!QxtCsvModel@{Qxt\-Csv\-Model}}
+\subsubsection[{remove\-Columns}]{\setlength{\rightskip}{0pt plus 5cm}bool Qxt\-Csv\-Model\-::remove\-Columns (
+\begin{DoxyParamCaption}
+\item[{{\bf int}}]{col, }
+\item[{{\bf int}}]{count, }
+\item[{const Q\-Model\-Index \&}]{parent = {\ttfamily QModelIndex()}}
+\end{DoxyParamCaption}
+)}}\label{class_qxt_csv_model_ae53f7a456c8e01b4e622585b1a02d402}
+
+
+Definition at line 357 of file qxtcsvmodel.\-cpp.
+
+\hypertarget{class_qxt_csv_model_a702949bc62aef09a4489b69ae4c55f3d}{\index{Qxt\-Csv\-Model@{Qxt\-Csv\-Model}!remove\-Row@{remove\-Row}}
+\index{remove\-Row@{remove\-Row}!QxtCsvModel@{Qxt\-Csv\-Model}}
+\subsubsection[{remove\-Row}]{\setlength{\rightskip}{0pt plus 5cm}bool Qxt\-Csv\-Model\-::remove\-Row (
+\begin{DoxyParamCaption}
+\item[{{\bf int}}]{row, }
+\item[{const Q\-Model\-Index \&}]{parent = {\ttfamily QModelIndex()}}
+\end{DoxyParamCaption}
+)}}\label{class_qxt_csv_model_a702949bc62aef09a4489b69ae4c55f3d}
+
+
+Definition at line 289 of file qxtcsvmodel.\-cpp.
+
+\hypertarget{class_qxt_csv_model_a062dc1da9a6ce5d2e7308b47e12854a9}{\index{Qxt\-Csv\-Model@{Qxt\-Csv\-Model}!remove\-Rows@{remove\-Rows}}
+\index{remove\-Rows@{remove\-Rows}!QxtCsvModel@{Qxt\-Csv\-Model}}
+\subsubsection[{remove\-Rows}]{\setlength{\rightskip}{0pt plus 5cm}bool Qxt\-Csv\-Model\-::remove\-Rows (
+\begin{DoxyParamCaption}
+\item[{{\bf int}}]{row, }
+\item[{{\bf int}}]{count, }
+\item[{const Q\-Model\-Index \&}]{parent = {\ttfamily QModelIndex()}}
+\end{DoxyParamCaption}
+)}}\label{class_qxt_csv_model_a062dc1da9a6ce5d2e7308b47e12854a9}
+
+
+Definition at line 297 of file qxtcsvmodel.\-cpp.
+
+\hypertarget{class_qxt_csv_model_a124d7162c7e54ebcd5e0412eddf26cdf}{\index{Qxt\-Csv\-Model@{Qxt\-Csv\-Model}!row\-Count@{row\-Count}}
+\index{row\-Count@{row\-Count}!QxtCsvModel@{Qxt\-Csv\-Model}}
+\subsubsection[{row\-Count}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int} Qxt\-Csv\-Model\-::row\-Count (
+\begin{DoxyParamCaption}
+\item[{const Q\-Model\-Index \&}]{parent = {\ttfamily QModelIndex()}}
+\end{DoxyParamCaption}
+) const}}\label{class_qxt_csv_model_a124d7162c7e54ebcd5e0412eddf26cdf}
+
+
+Definition at line 130 of file qxtcsvmodel.\-cpp.
+
+\hypertarget{class_qxt_csv_model_a31f44c022e93bd7c4aed50e694cd42f7}{\index{Qxt\-Csv\-Model@{Qxt\-Csv\-Model}!set\-Data@{set\-Data}}
+\index{set\-Data@{set\-Data}!QxtCsvModel@{Qxt\-Csv\-Model}}
+\subsubsection[{set\-Data}]{\setlength{\rightskip}{0pt plus 5cm}bool Qxt\-Csv\-Model\-::set\-Data (
+\begin{DoxyParamCaption}
+\item[{const Q\-Model\-Index \&}]{index, }
+\item[{const Q\-Variant \&}]{data, }
+\item[{{\bf int}}]{role = {\ttfamily Qt\-:\-:EditRole}}
+\end{DoxyParamCaption}
+)}}\label{class_qxt_csv_model_a31f44c022e93bd7c4aed50e694cd42f7}
+
+
+Definition at line 235 of file qxtcsvmodel.\-cpp.
+
+\hypertarget{class_qxt_csv_model_a5788519db182175584c73582f943ea93}{\index{Qxt\-Csv\-Model@{Qxt\-Csv\-Model}!set\-Header\-Data@{set\-Header\-Data}}
+\index{set\-Header\-Data@{set\-Header\-Data}!QxtCsvModel@{Qxt\-Csv\-Model}}
+\subsubsection[{set\-Header\-Data}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qxt\-Csv\-Model\-::set\-Header\-Data (
+\begin{DoxyParamCaption}
+\item[{const Q\-String\-List}]{data}
+\end{DoxyParamCaption}
+)}}\label{class_qxt_csv_model_a5788519db182175584c73582f943ea93}
+
+
+Definition at line 226 of file qxtcsvmodel.\-cpp.
+
+\hypertarget{class_qxt_csv_model_a161072a199ca5e6388500de99d73c3e8}{\index{Qxt\-Csv\-Model@{Qxt\-Csv\-Model}!set\-Source@{set\-Source}}
+\index{set\-Source@{set\-Source}!QxtCsvModel@{Qxt\-Csv\-Model}}
+\subsubsection[{set\-Source}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qxt\-Csv\-Model\-::set\-Source (
+\begin{DoxyParamCaption}
+\item[{Q\-I\-O\-Device $\ast$}]{file, }
+\item[{bool}]{with\-Header = {\ttfamily false}, }
+\item[{Q\-Char}]{separator = {\ttfamily ','}}
+\end{DoxyParamCaption}
+)}}\label{class_qxt_csv_model_a161072a199ca5e6388500de99d73c3e8}
+reads the cvs data from {\itshape file} {\itshape with\-Header} specifies if the data on the device contains a header or not. {\itshape separator} is the separator to use for the columns. most widely used separators are ',' '\textbackslash{}t' ';' 
+
+Definition at line 179 of file qxtcsvmodel.\-cpp.
+
+\hypertarget{class_qxt_csv_model_afaf5e74bda9f44a90df9d95e367aac27}{\index{Qxt\-Csv\-Model@{Qxt\-Csv\-Model}!set\-Source@{set\-Source}}
+\index{set\-Source@{set\-Source}!QxtCsvModel@{Qxt\-Csv\-Model}}
+\subsubsection[{set\-Source}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qxt\-Csv\-Model\-::set\-Source (
+\begin{DoxyParamCaption}
+\item[{const {\bf Q\-String}}]{filename, }
+\item[{bool}]{with\-Header = {\ttfamily false}, }
+\item[{Q\-Char}]{separator = {\ttfamily ','}}
+\end{DoxyParamCaption}
+)}}\label{class_qxt_csv_model_afaf5e74bda9f44a90df9d95e367aac27}
+reads the cvs data from {\itshape filename} {\itshape with\-Header} specifies if the data in the file contains a header or not. {\itshape separator} is the separator to use for the columns. most widely used separators are ',' '\textbackslash{}t' ';' 
+
+Definition at line 173 of file qxtcsvmodel.\-cpp.
+
+\hypertarget{class_qxt_csv_model_aca35cec85bc21181d89004990930948e}{\index{Qxt\-Csv\-Model@{Qxt\-Csv\-Model}!to\-C\-S\-V@{to\-C\-S\-V}}
+\index{to\-C\-S\-V@{to\-C\-S\-V}!QxtCsvModel@{Qxt\-Csv\-Model}}
+\subsubsection[{to\-C\-S\-V}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qxt\-Csv\-Model\-::to\-C\-S\-V (
+\begin{DoxyParamCaption}
+\item[{Q\-I\-O\-Device $\ast$}]{file, }
+\item[{bool}]{with\-Header = {\ttfamily false}, }
+\item[{Q\-Char}]{separator = {\ttfamily ','}}
+\end{DoxyParamCaption}
+)}}\label{class_qxt_csv_model_aca35cec85bc21181d89004990930948e}
+writes the cvs data to {\itshape file} {\itshape with\-Header} specifies if to write the header or not {\itshape separator} is the separator to use for the columns. most widely used separators are ',' '\textbackslash{}t' ';' 
+
+Definition at line 381 of file qxtcsvmodel.\-cpp.
+
+\hypertarget{class_qxt_csv_model_ae9563638e903e3644b0245ddb5b56fc5}{\index{Qxt\-Csv\-Model@{Qxt\-Csv\-Model}!to\-C\-S\-V@{to\-C\-S\-V}}
+\index{to\-C\-S\-V@{to\-C\-S\-V}!QxtCsvModel@{Qxt\-Csv\-Model}}
+\subsubsection[{to\-C\-S\-V}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qxt\-Csv\-Model\-::to\-C\-S\-V (
+\begin{DoxyParamCaption}
+\item[{const {\bf Q\-String}}]{filename, }
+\item[{bool}]{with\-Header = {\ttfamily false}, }
+\item[{Q\-Char}]{separator = {\ttfamily ','}}
+\end{DoxyParamCaption}
+)}}\label{class_qxt_csv_model_ae9563638e903e3644b0245ddb5b56fc5}
+writes the cvs data to {\itshape filename} {\itshape with\-Header} specifies if to write the header or not {\itshape separator} is the separator to use for the columns. most widely used separators are ',' '\textbackslash{}t' ';' 
+
+Definition at line 414 of file qxtcsvmodel.\-cpp.
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/libqxt/src/core/\hyperlink{qxtcsvmodel_8h}{qxtcsvmodel.\-h}\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/libqxt/src/core/\hyperlink{qxtcsvmodel_8cpp}{qxtcsvmodel.\-cpp}\end{DoxyCompactItemize}

@@ -1,0 +1,636 @@
+\hypertarget{class_sparse_vector}{\section{Sparse\-Vector$<$ \-\_\-\-Scalar, \-\_\-\-Flags $>$ Class Template Reference}
+\label{class_sparse_vector}\index{Sparse\-Vector$<$ \-\_\-\-Scalar, \-\_\-\-Flags $>$@{Sparse\-Vector$<$ \-\_\-\-Scalar, \-\_\-\-Flags $>$}}
+}
+
+
+a sparse vector class  
+
+
+
+
+{\ttfamily \#include $<$Sparse\-Util.\-h$>$}
+
+Inheritance diagram for Sparse\-Vector$<$ \-\_\-\-Scalar, \-\_\-\-Flags $>$\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_sparse_vector}
+\end{center}
+\end{figure}
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{class_sparse_vector_1_1_inner_iterator}{Inner\-Iterator}
+\end{DoxyCompactItemize}
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+enum \{ \hyperlink{class_sparse_vector_a9b64ff6343f93a1481d68f04e2da2f65a141068667acadaaeb792a2cc02dcea7c}{Is\-Col\-Vector} = ei\-\_\-traits$<$Sparse\-Vector$>$\-:\-:Is\-Col\-Vector
+ \}
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_sparse_vector_a252f4ebb3b09e2ef569f1a5d8747d8d3}{E\-I\-G\-E\-N\-\_\-\-S\-P\-A\-R\-S\-E\-\_\-\-G\-E\-N\-E\-R\-I\-C\-\_\-\-P\-U\-B\-L\-I\-C\-\_\-\-I\-N\-T\-E\-R\-F\-A\-C\-E} (\hyperlink{class_sparse_vector}{Sparse\-Vector}) E\-I\-G\-E\-N\-\_\-\-S\-P\-A\-R\-S\-E\-\_\-\-I\-N\-H\-E\-R\-I\-T\-\_\-\-A\-S\-S\-I\-G\-N\-M\-E\-N\-T\-\_\-\-O\-P\-E\-R\-A\-T\-O\-R(\hyperlink{class_sparse_vector}{Sparse\-Vector}
+\item 
+\hyperlink{class_compressed_storage}{Compressed\-Storage}$<$ \hyperlink{class_sparse_matrix_base_af39d70f2b7e775e9e17b666cd24128c8}{Scalar} $>$ \& \hyperlink{class_sparse_vector_a6bde71c66664b7e902cf09b3c51671ee}{\-\_\-data} ()
+\item 
+\hyperlink{class_compressed_storage}{Compressed\-Storage}$<$ \hyperlink{class_sparse_matrix_base_af39d70f2b7e775e9e17b666cd24128c8}{Scalar} $>$ \& \hyperlink{class_sparse_vector_ac1aac0eedec39adad406552b2109e2d0}{\-\_\-data} () const 
+\item 
+E\-I\-G\-E\-N\-\_\-\-S\-T\-R\-O\-N\-G\-\_\-\-I\-N\-L\-I\-N\-E \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_sparse_vector_a56b354dffd1a51cb0d896f66f1160fe3}{rows} () const 
+\item 
+E\-I\-G\-E\-N\-\_\-\-S\-T\-R\-O\-N\-G\-\_\-\-I\-N\-L\-I\-N\-E \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_sparse_vector_ac1a576a10b7ba8d64453dd015502a4ad}{cols} () const 
+\item 
+E\-I\-G\-E\-N\-\_\-\-S\-T\-R\-O\-N\-G\-\_\-\-I\-N\-L\-I\-N\-E \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_sparse_vector_abe5aab30e15fbecc60c276f50be850ee}{inner\-Size} () const 
+\item 
+E\-I\-G\-E\-N\-\_\-\-S\-T\-R\-O\-N\-G\-\_\-\-I\-N\-L\-I\-N\-E \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_sparse_vector_aa7f90d1222b6601645d8122680777d7d}{outer\-Size} () const 
+\item 
+E\-I\-G\-E\-N\-\_\-\-S\-T\-R\-O\-N\-G\-\_\-\-I\-N\-L\-I\-N\-E \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_sparse_vector_a6008e0f4f07816edf27500a6ec407031}{inner\-Non\-Zeros} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} j) const 
+\item 
+E\-I\-G\-E\-N\-\_\-\-S\-T\-R\-O\-N\-G\-\_\-\-I\-N\-L\-I\-N\-E const \hyperlink{class_sparse_matrix_base_af39d70f2b7e775e9e17b666cd24128c8}{Scalar} $\ast$ \hyperlink{class_sparse_vector_a9d0264778221aa39c149eb314de2ce86}{\-\_\-value\-Ptr} () const 
+\item 
+E\-I\-G\-E\-N\-\_\-\-S\-T\-R\-O\-N\-G\-\_\-\-I\-N\-L\-I\-N\-E \hyperlink{class_sparse_matrix_base_af39d70f2b7e775e9e17b666cd24128c8}{Scalar} $\ast$ \hyperlink{class_sparse_vector_a3211caea7b812edcd49cc5f194877576}{\-\_\-value\-Ptr} ()
+\item 
+E\-I\-G\-E\-N\-\_\-\-S\-T\-R\-O\-N\-G\-\_\-\-I\-N\-L\-I\-N\-E const \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} $\ast$ \hyperlink{class_sparse_vector_a14338e302653e1602af7134d59ee627e}{\-\_\-inner\-Index\-Ptr} () const 
+\item 
+E\-I\-G\-E\-N\-\_\-\-S\-T\-R\-O\-N\-G\-\_\-\-I\-N\-L\-I\-N\-E \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} $\ast$ \hyperlink{class_sparse_vector_afa4a03e164220adeceffdda559607e16}{\-\_\-inner\-Index\-Ptr} ()
+\item 
+\hyperlink{class_sparse_matrix_base_af39d70f2b7e775e9e17b666cd24128c8}{Scalar} \hyperlink{class_sparse_vector_a5ee710744e64424dbdbded1f8b9e20f4}{coeff} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{glext_8h_a11b277b422822f784ee248b43eee3e1e}{row}, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_sparse_matrix_base_a711a8f11f5f1915057922412dac2cc25}{col}) const 
+\item 
+\hyperlink{class_sparse_matrix_base_af39d70f2b7e775e9e17b666cd24128c8}{Scalar} \hyperlink{class_sparse_vector_a77b0a9d15fd29e76703844d2ccbbff07}{coeff} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{uavobjecttemplate_8m_a6f6ccfcf58b31cb6412107d9d5281426}{i}) const 
+\item 
+\hyperlink{class_sparse_matrix_base_af39d70f2b7e775e9e17b666cd24128c8}{Scalar} \& \hyperlink{class_sparse_vector_a3e6411de50fe0d7288591baef4a0839b}{coeff\-Ref} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{glext_8h_a11b277b422822f784ee248b43eee3e1e}{row}, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_sparse_matrix_base_a711a8f11f5f1915057922412dac2cc25}{col})
+\item 
+\hyperlink{class_sparse_matrix_base_af39d70f2b7e775e9e17b666cd24128c8}{Scalar} \& \hyperlink{class_sparse_vector_aa54e1bec361a19868a28e83785ebf254}{coeff\-Ref} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{uavobjecttemplate_8m_a6f6ccfcf58b31cb6412107d9d5281426}{i})
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_sparse_vector_a34f94ef08e22994fc78f7d8fb53dc092}{set\-Zero} ()
+\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_sparse_vector_a22644927e946441cf7c9a0967338c0ce}{non\-Zeros} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_sparse_vector_aa53b7a503c80e6079a3725f8290f24c0}{reserve} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} reserve\-Size)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_sparse_vector_a5591478791f37ade8ab6e849aebe96e4}{start\-Fill} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_sparse_vector_aa53b7a503c80e6079a3725f8290f24c0}{reserve})
+\item 
+\hyperlink{class_sparse_matrix_base_af39d70f2b7e775e9e17b666cd24128c8}{Scalar} \& \hyperlink{class_sparse_vector_a2338dce0b12942929a6a28ebf9f8f34a}{fill} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{glext_8h_abe08814c2f72843fde4d8df41440d5a0}{r}, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{glext_8h_a1f2d7f8147412c43ba2303a56f97ee73}{c})
+\item 
+\hyperlink{class_sparse_matrix_base_af39d70f2b7e775e9e17b666cd24128c8}{Scalar} \& \hyperlink{class_sparse_vector_abd07913ed99df721786f3b6674b506b4}{fill} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{uavobjecttemplate_8m_a6f6ccfcf58b31cb6412107d9d5281426}{i})
+\item 
+\hyperlink{class_sparse_matrix_base_af39d70f2b7e775e9e17b666cd24128c8}{Scalar} \& \hyperlink{class_sparse_vector_aff1b2af55cc1b1d5653705dd057dc753}{fillrand} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{glext_8h_abe08814c2f72843fde4d8df41440d5a0}{r}, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{glext_8h_a1f2d7f8147412c43ba2303a56f97ee73}{c})
+\item 
+\hyperlink{class_sparse_matrix_base_af39d70f2b7e775e9e17b666cd24128c8}{Scalar} \& \hyperlink{class_sparse_vector_a9e9aa653793ee7172603dabb7326e1ec}{fillrand} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{uavobjecttemplate_8m_a6f6ccfcf58b31cb6412107d9d5281426}{i})
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_sparse_vector_a36f11b5cbedb37dc71965c2b0309a6e6}{end\-Fill} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_sparse_vector_a832b7aca57e91eeff4aeff21f5371e26}{prune} (\hyperlink{class_sparse_matrix_base_af39d70f2b7e775e9e17b666cd24128c8}{Scalar} reference, \hyperlink{class_sparse_matrix_base_a615d56082efd03b5f31015cc4900e72f}{Real\-Scalar} epsilon=\hyperlink{_math_functions_8h_a3dc1c65cf9dc9b5a7ee66472d0ae83e1}{precision}$<$ \hyperlink{class_sparse_matrix_base_a615d56082efd03b5f31015cc4900e72f}{Real\-Scalar} $>$())
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_sparse_vector_a2e48979d67bdd4d59d20c24505cd49ac}{resize} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_sparse_vector_a56b354dffd1a51cb0d896f66f1160fe3}{rows}, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_sparse_vector_ac1a576a10b7ba8d64453dd015502a4ad}{cols})
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_sparse_vector_a011ae8ce9573abf1d495665609a1e8bb}{resize} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} new\-Size)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_sparse_vector_adad21f802ccc4e14855685ee599f36aa}{resize\-Non\-Zeros} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{glext_8h_a014d89bd76f74ef3a29c8f04b473eb76}{size})
+\item 
+\hyperlink{class_sparse_vector_acf782d828ce7a1412f0cde5e20660349}{Sparse\-Vector} ()
+\item 
+\hyperlink{class_sparse_vector_a0c07032b21cb80a21d41c2de97ea58a7}{Sparse\-Vector} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{glext_8h_a014d89bd76f74ef3a29c8f04b473eb76}{size})
+\item 
+\hyperlink{class_sparse_vector_a1b4dbdd961bfd67b9361e4ee3ccd2f9e}{Sparse\-Vector} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_sparse_vector_a56b354dffd1a51cb0d896f66f1160fe3}{rows}, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_sparse_vector_ac1a576a10b7ba8d64453dd015502a4ad}{cols})
+\item 
+{\footnotesize template$<$typename Other\-Derived $>$ }\\\hyperlink{class_sparse_vector_ad7bbf1b70af899fbf086f41d62c3189e}{Sparse\-Vector} (const \hyperlink{class_matrix_base}{Matrix\-Base}$<$ Other\-Derived $>$ \&other)
+\item 
+{\footnotesize template$<$typename Other\-Derived $>$ }\\\hyperlink{class_sparse_vector_a929576b5069d28c667a373c8d1fae573}{Sparse\-Vector} (const \hyperlink{class_sparse_matrix_base}{Sparse\-Matrix\-Base}$<$ Other\-Derived $>$ \&other)
+\item 
+\hyperlink{class_sparse_vector_a08781e266ec6c0b98f228905d04a01ee}{Sparse\-Vector} (const \hyperlink{class_sparse_vector}{Sparse\-Vector} \&other)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_sparse_vector_ad57bb16e85e2b3f957d1a0cd7e41239a}{swap} (\hyperlink{class_sparse_vector}{Sparse\-Vector} \&other)
+\item 
+\hyperlink{class_sparse_vector}{Sparse\-Vector} \& \hyperlink{class_sparse_vector_a0a249860458dc22a8b65b286403ddfd8}{operator=} (const \hyperlink{class_sparse_vector}{Sparse\-Vector} \&other)
+\item 
+{\footnotesize template$<$typename Other\-Derived $>$ }\\\hyperlink{class_sparse_vector}{Sparse\-Vector} \& \hyperlink{class_sparse_vector_abd10576024286daa6db322f770f66d39}{operator=} (const \hyperlink{class_sparse_matrix_base}{Sparse\-Matrix\-Base}$<$ Other\-Derived $>$ \&other)
+\item 
+\hyperlink{class_sparse_vector_a60247738fea1b560c791de2cf8248c54}{$\sim$\-Sparse\-Vector} ()
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_compressed_storage}{Compressed\-Storage}$<$ \hyperlink{class_sparse_matrix_base_af39d70f2b7e775e9e17b666cd24128c8}{Scalar} $>$ \hyperlink{class_sparse_vector_ad111f906cd22fea7a5e8fe3c19d855bf}{m\-\_\-data}
+\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_sparse_vector_a57bf4f94a89a405f06238fb994d5fece}{m\-\_\-size}
+\end{DoxyCompactItemize}
+\subsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+std\-::ostream \& \hyperlink{class_sparse_vector_a6cf8a05d15fd30ee4fb01ecb778305c3}{operator$<$$<$} (std\-::ostream \&\hyperlink{glext_8h_ad585a1393cfa368fa9dc3d8ebff640d5}{s}, const \hyperlink{class_sparse_vector}{Sparse\-Vector} \&\hyperlink{glext_8h_af593500c283bf1a787a6f947f503a5c2}{m})
+\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$typename \-\_\-\-Scalar, int \-\_\-\-Flags = 0$>$class Sparse\-Vector$<$ \-\_\-\-Scalar, \-\_\-\-Flags $>$}
+
+a sparse vector class 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \-\_\-\-Scalar} & the scalar type, i.\-e. the type of the coefficients\\
+\hline
+\end{DoxyParams}
+See \href{http://www.netlib.org/linalg/html_templates/node91.html}{\tt http\-://www.\-netlib.\-org/linalg/html\-\_\-templates/node91.\-html} for details on the storage scheme. 
+
+Definition at line 106 of file Sparse\-Util.\-h.
+
+
+
+\subsection{Member Enumeration Documentation}
+\hypertarget{class_sparse_vector_a9b64ff6343f93a1481d68f04e2da2f65}{\subsubsection[{anonymous enum}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar , int \-\_\-\-Flags = 0$>$ anonymous enum}}\label{class_sparse_vector_a9b64ff6343f93a1481d68f04e2da2f65}
+\begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{Is\-Col\-Vector@{Is\-Col\-Vector}!Sparse\-Vector@{Sparse\-Vector}}\index{Sparse\-Vector@{Sparse\-Vector}!Is\-Col\-Vector@{Is\-Col\-Vector}}\item[{\em 
+\hypertarget{class_sparse_vector_a9b64ff6343f93a1481d68f04e2da2f65a141068667acadaaeb792a2cc02dcea7c}{Is\-Col\-Vector}\label{class_sparse_vector_a9b64ff6343f93a1481d68f04e2da2f65a141068667acadaaeb792a2cc02dcea7c}
+}]\end{description}
+\end{Desc}
+
+
+Definition at line 68 of file Sparse\-Vector.\-h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_sparse_vector_acf782d828ce7a1412f0cde5e20660349}{\index{Sparse\-Vector@{Sparse\-Vector}!Sparse\-Vector@{Sparse\-Vector}}
+\index{Sparse\-Vector@{Sparse\-Vector}!SparseVector@{Sparse\-Vector}}
+\subsubsection[{Sparse\-Vector}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar , int \-\_\-\-Flags = 0$>$ {\bf Sparse\-Vector}$<$ \-\_\-\-Scalar, \-\_\-\-Flags $>$\-::{\bf Sparse\-Vector} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_sparse_vector_acf782d828ce7a1412f0cde5e20660349}
+
+
+Definition at line 193 of file Sparse\-Vector.\-h.
+
+\hypertarget{class_sparse_vector_a0c07032b21cb80a21d41c2de97ea58a7}{\index{Sparse\-Vector@{Sparse\-Vector}!Sparse\-Vector@{Sparse\-Vector}}
+\index{Sparse\-Vector@{Sparse\-Vector}!SparseVector@{Sparse\-Vector}}
+\subsubsection[{Sparse\-Vector}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar , int \-\_\-\-Flags = 0$>$ {\bf Sparse\-Vector}$<$ \-\_\-\-Scalar, \-\_\-\-Flags $>$\-::{\bf Sparse\-Vector} (
+\begin{DoxyParamCaption}
+\item[{{\bf int}}]{size}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_sparse_vector_a0c07032b21cb80a21d41c2de97ea58a7}
+
+
+Definition at line 195 of file Sparse\-Vector.\-h.
+
+\hypertarget{class_sparse_vector_a1b4dbdd961bfd67b9361e4ee3ccd2f9e}{\index{Sparse\-Vector@{Sparse\-Vector}!Sparse\-Vector@{Sparse\-Vector}}
+\index{Sparse\-Vector@{Sparse\-Vector}!SparseVector@{Sparse\-Vector}}
+\subsubsection[{Sparse\-Vector}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar , int \-\_\-\-Flags = 0$>$ {\bf Sparse\-Vector}$<$ \-\_\-\-Scalar, \-\_\-\-Flags $>$\-::{\bf Sparse\-Vector} (
+\begin{DoxyParamCaption}
+\item[{{\bf int}}]{rows, }
+\item[{{\bf int}}]{cols}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_sparse_vector_a1b4dbdd961bfd67b9361e4ee3ccd2f9e}
+
+
+Definition at line 197 of file Sparse\-Vector.\-h.
+
+\hypertarget{class_sparse_vector_ad7bbf1b70af899fbf086f41d62c3189e}{\index{Sparse\-Vector@{Sparse\-Vector}!Sparse\-Vector@{Sparse\-Vector}}
+\index{Sparse\-Vector@{Sparse\-Vector}!SparseVector@{Sparse\-Vector}}
+\subsubsection[{Sparse\-Vector}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar , int \-\_\-\-Flags = 0$>$ template$<$typename Other\-Derived $>$ {\bf Sparse\-Vector}$<$ \-\_\-\-Scalar, \-\_\-\-Flags $>$\-::{\bf Sparse\-Vector} (
+\begin{DoxyParamCaption}
+\item[{const {\bf Matrix\-Base}$<$ Other\-Derived $>$ \&}]{other}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_sparse_vector_ad7bbf1b70af899fbf086f41d62c3189e}
+
+
+Definition at line 200 of file Sparse\-Vector.\-h.
+
+\hypertarget{class_sparse_vector_a929576b5069d28c667a373c8d1fae573}{\index{Sparse\-Vector@{Sparse\-Vector}!Sparse\-Vector@{Sparse\-Vector}}
+\index{Sparse\-Vector@{Sparse\-Vector}!SparseVector@{Sparse\-Vector}}
+\subsubsection[{Sparse\-Vector}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar , int \-\_\-\-Flags = 0$>$ template$<$typename Other\-Derived $>$ {\bf Sparse\-Vector}$<$ \-\_\-\-Scalar, \-\_\-\-Flags $>$\-::{\bf Sparse\-Vector} (
+\begin{DoxyParamCaption}
+\item[{const {\bf Sparse\-Matrix\-Base}$<$ Other\-Derived $>$ \&}]{other}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_sparse_vector_a929576b5069d28c667a373c8d1fae573}
+
+
+Definition at line 207 of file Sparse\-Vector.\-h.
+
+\hypertarget{class_sparse_vector_a08781e266ec6c0b98f228905d04a01ee}{\index{Sparse\-Vector@{Sparse\-Vector}!Sparse\-Vector@{Sparse\-Vector}}
+\index{Sparse\-Vector@{Sparse\-Vector}!SparseVector@{Sparse\-Vector}}
+\subsubsection[{Sparse\-Vector}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar , int \-\_\-\-Flags = 0$>$ {\bf Sparse\-Vector}$<$ \-\_\-\-Scalar, \-\_\-\-Flags $>$\-::{\bf Sparse\-Vector} (
+\begin{DoxyParamCaption}
+\item[{const {\bf Sparse\-Vector}$<$ \-\_\-\-Scalar, \-\_\-\-Flags $>$ \&}]{other}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_sparse_vector_a08781e266ec6c0b98f228905d04a01ee}
+
+
+Definition at line 213 of file Sparse\-Vector.\-h.
+
+\hypertarget{class_sparse_vector_a60247738fea1b560c791de2cf8248c54}{\index{Sparse\-Vector@{Sparse\-Vector}!$\sim$\-Sparse\-Vector@{$\sim$\-Sparse\-Vector}}
+\index{$\sim$\-Sparse\-Vector@{$\sim$\-Sparse\-Vector}!SparseVector@{Sparse\-Vector}}
+\subsubsection[{$\sim$\-Sparse\-Vector}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar , int \-\_\-\-Flags = 0$>$ {\bf Sparse\-Vector}$<$ \-\_\-\-Scalar, \-\_\-\-Flags $>$\-::$\sim${\bf Sparse\-Vector} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_sparse_vector_a60247738fea1b560c791de2cf8248c54}
+Destructor 
+
+Definition at line 326 of file Sparse\-Vector.\-h.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_sparse_vector_a6bde71c66664b7e902cf09b3c51671ee}{\index{Sparse\-Vector@{Sparse\-Vector}!\-\_\-data@{\-\_\-data}}
+\index{\-\_\-data@{\-\_\-data}!SparseVector@{Sparse\-Vector}}
+\subsubsection[{\-\_\-data}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar , int \-\_\-\-Flags = 0$>$ {\bf Compressed\-Storage}$<${\bf Scalar}$>$\& {\bf Sparse\-Vector}$<$ \-\_\-\-Scalar, \-\_\-\-Flags $>$\-::\-\_\-data (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_sparse_vector_a6bde71c66664b7e902cf09b3c51671ee}
+
+
+Definition at line 73 of file Sparse\-Vector.\-h.
+
+\hypertarget{class_sparse_vector_ac1aac0eedec39adad406552b2109e2d0}{\index{Sparse\-Vector@{Sparse\-Vector}!\-\_\-data@{\-\_\-data}}
+\index{\-\_\-data@{\-\_\-data}!SparseVector@{Sparse\-Vector}}
+\subsubsection[{\-\_\-data}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar , int \-\_\-\-Flags = 0$>$ {\bf Compressed\-Storage}$<${\bf Scalar}$>$\& {\bf Sparse\-Vector}$<$ \-\_\-\-Scalar, \-\_\-\-Flags $>$\-::\-\_\-data (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_sparse_vector_ac1aac0eedec39adad406552b2109e2d0}
+
+
+Definition at line 74 of file Sparse\-Vector.\-h.
+
+\hypertarget{class_sparse_vector_a14338e302653e1602af7134d59ee627e}{\index{Sparse\-Vector@{Sparse\-Vector}!\-\_\-inner\-Index\-Ptr@{\-\_\-inner\-Index\-Ptr}}
+\index{\-\_\-inner\-Index\-Ptr@{\-\_\-inner\-Index\-Ptr}!SparseVector@{Sparse\-Vector}}
+\subsubsection[{\-\_\-inner\-Index\-Ptr}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar , int \-\_\-\-Flags = 0$>$ E\-I\-G\-E\-N\-\_\-\-S\-T\-R\-O\-N\-G\-\_\-\-I\-N\-L\-I\-N\-E const {\bf int}$\ast$ {\bf Sparse\-Vector}$<$ \-\_\-\-Scalar, \-\_\-\-Flags $>$\-::\-\_\-inner\-Index\-Ptr (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_sparse_vector_a14338e302653e1602af7134d59ee627e}
+
+
+Definition at line 87 of file Sparse\-Vector.\-h.
+
+\hypertarget{class_sparse_vector_afa4a03e164220adeceffdda559607e16}{\index{Sparse\-Vector@{Sparse\-Vector}!\-\_\-inner\-Index\-Ptr@{\-\_\-inner\-Index\-Ptr}}
+\index{\-\_\-inner\-Index\-Ptr@{\-\_\-inner\-Index\-Ptr}!SparseVector@{Sparse\-Vector}}
+\subsubsection[{\-\_\-inner\-Index\-Ptr}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar , int \-\_\-\-Flags = 0$>$ E\-I\-G\-E\-N\-\_\-\-S\-T\-R\-O\-N\-G\-\_\-\-I\-N\-L\-I\-N\-E {\bf int}$\ast$ {\bf Sparse\-Vector}$<$ \-\_\-\-Scalar, \-\_\-\-Flags $>$\-::\-\_\-inner\-Index\-Ptr (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_sparse_vector_afa4a03e164220adeceffdda559607e16}
+
+
+Definition at line 88 of file Sparse\-Vector.\-h.
+
+\hypertarget{class_sparse_vector_a9d0264778221aa39c149eb314de2ce86}{\index{Sparse\-Vector@{Sparse\-Vector}!\-\_\-value\-Ptr@{\-\_\-value\-Ptr}}
+\index{\-\_\-value\-Ptr@{\-\_\-value\-Ptr}!SparseVector@{Sparse\-Vector}}
+\subsubsection[{\-\_\-value\-Ptr}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar , int \-\_\-\-Flags = 0$>$ E\-I\-G\-E\-N\-\_\-\-S\-T\-R\-O\-N\-G\-\_\-\-I\-N\-L\-I\-N\-E const {\bf Scalar}$\ast$ {\bf Sparse\-Vector}$<$ \-\_\-\-Scalar, \-\_\-\-Flags $>$\-::\-\_\-value\-Ptr (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_sparse_vector_a9d0264778221aa39c149eb314de2ce86}
+
+
+Definition at line 84 of file Sparse\-Vector.\-h.
+
+\hypertarget{class_sparse_vector_a3211caea7b812edcd49cc5f194877576}{\index{Sparse\-Vector@{Sparse\-Vector}!\-\_\-value\-Ptr@{\-\_\-value\-Ptr}}
+\index{\-\_\-value\-Ptr@{\-\_\-value\-Ptr}!SparseVector@{Sparse\-Vector}}
+\subsubsection[{\-\_\-value\-Ptr}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar , int \-\_\-\-Flags = 0$>$ E\-I\-G\-E\-N\-\_\-\-S\-T\-R\-O\-N\-G\-\_\-\-I\-N\-L\-I\-N\-E {\bf Scalar}$\ast$ {\bf Sparse\-Vector}$<$ \-\_\-\-Scalar, \-\_\-\-Flags $>$\-::\-\_\-value\-Ptr (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_sparse_vector_a3211caea7b812edcd49cc5f194877576}
+
+
+Definition at line 85 of file Sparse\-Vector.\-h.
+
+\hypertarget{class_sparse_vector_a5ee710744e64424dbdbded1f8b9e20f4}{\index{Sparse\-Vector@{Sparse\-Vector}!coeff@{coeff}}
+\index{coeff@{coeff}!SparseVector@{Sparse\-Vector}}
+\subsubsection[{coeff}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar , int \-\_\-\-Flags = 0$>$ {\bf Scalar} {\bf Sparse\-Vector}$<$ \-\_\-\-Scalar, \-\_\-\-Flags $>$\-::coeff (
+\begin{DoxyParamCaption}
+\item[{{\bf int}}]{row, }
+\item[{{\bf int}}]{col}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_sparse_vector_a5ee710744e64424dbdbded1f8b9e20f4}
+
+
+Definition at line 90 of file Sparse\-Vector.\-h.
+
+\hypertarget{class_sparse_vector_a77b0a9d15fd29e76703844d2ccbbff07}{\index{Sparse\-Vector@{Sparse\-Vector}!coeff@{coeff}}
+\index{coeff@{coeff}!SparseVector@{Sparse\-Vector}}
+\subsubsection[{coeff}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar , int \-\_\-\-Flags = 0$>$ {\bf Scalar} {\bf Sparse\-Vector}$<$ \-\_\-\-Scalar, \-\_\-\-Flags $>$\-::coeff (
+\begin{DoxyParamCaption}
+\item[{{\bf int}}]{i}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_sparse_vector_a77b0a9d15fd29e76703844d2ccbbff07}
+
+
+Definition at line 95 of file Sparse\-Vector.\-h.
+
+\hypertarget{class_sparse_vector_a3e6411de50fe0d7288591baef4a0839b}{\index{Sparse\-Vector@{Sparse\-Vector}!coeff\-Ref@{coeff\-Ref}}
+\index{coeff\-Ref@{coeff\-Ref}!SparseVector@{Sparse\-Vector}}
+\subsubsection[{coeff\-Ref}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar , int \-\_\-\-Flags = 0$>$ {\bf Scalar}\& {\bf Sparse\-Vector}$<$ \-\_\-\-Scalar, \-\_\-\-Flags $>$\-::coeff\-Ref (
+\begin{DoxyParamCaption}
+\item[{{\bf int}}]{row, }
+\item[{{\bf int}}]{col}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_sparse_vector_a3e6411de50fe0d7288591baef4a0839b}
+
+
+Definition at line 97 of file Sparse\-Vector.\-h.
+
+\hypertarget{class_sparse_vector_aa54e1bec361a19868a28e83785ebf254}{\index{Sparse\-Vector@{Sparse\-Vector}!coeff\-Ref@{coeff\-Ref}}
+\index{coeff\-Ref@{coeff\-Ref}!SparseVector@{Sparse\-Vector}}
+\subsubsection[{coeff\-Ref}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar , int \-\_\-\-Flags = 0$>$ {\bf Scalar}\& {\bf Sparse\-Vector}$<$ \-\_\-\-Scalar, \-\_\-\-Flags $>$\-::coeff\-Ref (
+\begin{DoxyParamCaption}
+\item[{{\bf int}}]{i}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_sparse_vector_aa54e1bec361a19868a28e83785ebf254}
+\begin{DoxyReturn}{Returns}
+a reference to the coefficient value at given index {\itshape i} This operation involes a log(rho$\ast$size) binary search. If the coefficient does not exist yet, then a sorted insertion into a sequential buffer is performed.
+\end{DoxyReturn}
+This insertion might be very costly if the number of nonzeros above {\itshape i} is large. 
+
+Definition at line 109 of file Sparse\-Vector.\-h.
+
+\hypertarget{class_sparse_vector_ac1a576a10b7ba8d64453dd015502a4ad}{\index{Sparse\-Vector@{Sparse\-Vector}!cols@{cols}}
+\index{cols@{cols}!SparseVector@{Sparse\-Vector}}
+\subsubsection[{cols}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar , int \-\_\-\-Flags = 0$>$ E\-I\-G\-E\-N\-\_\-\-S\-T\-R\-O\-N\-G\-\_\-\-I\-N\-L\-I\-N\-E {\bf int} {\bf Sparse\-Vector}$<$ \-\_\-\-Scalar, \-\_\-\-Flags $>$\-::cols (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_sparse_vector_ac1a576a10b7ba8d64453dd015502a4ad}
+
+
+Definition at line 79 of file Sparse\-Vector.\-h.
+
+\hypertarget{class_sparse_vector_a252f4ebb3b09e2ef569f1a5d8747d8d3}{\index{Sparse\-Vector@{Sparse\-Vector}!E\-I\-G\-E\-N\-\_\-\-S\-P\-A\-R\-S\-E\-\_\-\-G\-E\-N\-E\-R\-I\-C\-\_\-\-P\-U\-B\-L\-I\-C\-\_\-\-I\-N\-T\-E\-R\-F\-A\-C\-E@{E\-I\-G\-E\-N\-\_\-\-S\-P\-A\-R\-S\-E\-\_\-\-G\-E\-N\-E\-R\-I\-C\-\_\-\-P\-U\-B\-L\-I\-C\-\_\-\-I\-N\-T\-E\-R\-F\-A\-C\-E}}
+\index{E\-I\-G\-E\-N\-\_\-\-S\-P\-A\-R\-S\-E\-\_\-\-G\-E\-N\-E\-R\-I\-C\-\_\-\-P\-U\-B\-L\-I\-C\-\_\-\-I\-N\-T\-E\-R\-F\-A\-C\-E@{E\-I\-G\-E\-N\-\_\-\-S\-P\-A\-R\-S\-E\-\_\-\-G\-E\-N\-E\-R\-I\-C\-\_\-\-P\-U\-B\-L\-I\-C\-\_\-\-I\-N\-T\-E\-R\-F\-A\-C\-E}!SparseVector@{Sparse\-Vector}}
+\subsubsection[{E\-I\-G\-E\-N\-\_\-\-S\-P\-A\-R\-S\-E\-\_\-\-G\-E\-N\-E\-R\-I\-C\-\_\-\-P\-U\-B\-L\-I\-C\-\_\-\-I\-N\-T\-E\-R\-F\-A\-C\-E}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar , int \-\_\-\-Flags = 0$>$ {\bf Sparse\-Vector}$<$ \-\_\-\-Scalar, \-\_\-\-Flags $>$\-::E\-I\-G\-E\-N\-\_\-\-S\-P\-A\-R\-S\-E\-\_\-\-G\-E\-N\-E\-R\-I\-C\-\_\-\-P\-U\-B\-L\-I\-C\-\_\-\-I\-N\-T\-E\-R\-F\-A\-C\-E (
+\begin{DoxyParamCaption}
+\item[{{\bf Sparse\-Vector}$<$ \-\_\-\-Scalar, \-\_\-\-Flags $>$}]{}
+\end{DoxyParamCaption}
+)}}\label{class_sparse_vector_a252f4ebb3b09e2ef569f1a5d8747d8d3}
+\hypertarget{class_sparse_vector_a36f11b5cbedb37dc71965c2b0309a6e6}{\index{Sparse\-Vector@{Sparse\-Vector}!end\-Fill@{end\-Fill}}
+\index{end\-Fill@{end\-Fill}!SparseVector@{Sparse\-Vector}}
+\subsubsection[{end\-Fill}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar , int \-\_\-\-Flags = 0$>$ {\bf void} {\bf Sparse\-Vector}$<$ \-\_\-\-Scalar, \-\_\-\-Flags $>$\-::end\-Fill (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_sparse_vector_a36f11b5cbedb37dc71965c2b0309a6e6}
+
+
+Definition at line 172 of file Sparse\-Vector.\-h.
+
+\hypertarget{class_sparse_vector_a2338dce0b12942929a6a28ebf9f8f34a}{\index{Sparse\-Vector@{Sparse\-Vector}!fill@{fill}}
+\index{fill@{fill}!SparseVector@{Sparse\-Vector}}
+\subsubsection[{fill}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar , int \-\_\-\-Flags = 0$>$ {\bf Scalar}\& {\bf Sparse\-Vector}$<$ \-\_\-\-Scalar, \-\_\-\-Flags $>$\-::fill (
+\begin{DoxyParamCaption}
+\item[{{\bf int}}]{r, }
+\item[{{\bf int}}]{c}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_sparse_vector_a2338dce0b12942929a6a28ebf9f8f34a}
+
+
+Definition at line 135 of file Sparse\-Vector.\-h.
+
+\hypertarget{class_sparse_vector_abd07913ed99df721786f3b6674b506b4}{\index{Sparse\-Vector@{Sparse\-Vector}!fill@{fill}}
+\index{fill@{fill}!SparseVector@{Sparse\-Vector}}
+\subsubsection[{fill}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar , int \-\_\-\-Flags = 0$>$ {\bf Scalar}\& {\bf Sparse\-Vector}$<$ \-\_\-\-Scalar, \-\_\-\-Flags $>$\-::fill (
+\begin{DoxyParamCaption}
+\item[{{\bf int}}]{i}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_sparse_vector_abd07913ed99df721786f3b6674b506b4}
+
+
+Definition at line 141 of file Sparse\-Vector.\-h.
+
+\hypertarget{class_sparse_vector_aff1b2af55cc1b1d5653705dd057dc753}{\index{Sparse\-Vector@{Sparse\-Vector}!fillrand@{fillrand}}
+\index{fillrand@{fillrand}!SparseVector@{Sparse\-Vector}}
+\subsubsection[{fillrand}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar , int \-\_\-\-Flags = 0$>$ {\bf Scalar}\& {\bf Sparse\-Vector}$<$ \-\_\-\-Scalar, \-\_\-\-Flags $>$\-::fillrand (
+\begin{DoxyParamCaption}
+\item[{{\bf int}}]{r, }
+\item[{{\bf int}}]{c}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_sparse_vector_aff1b2af55cc1b1d5653705dd057dc753}
+
+
+Definition at line 147 of file Sparse\-Vector.\-h.
+
+\hypertarget{class_sparse_vector_a9e9aa653793ee7172603dabb7326e1ec}{\index{Sparse\-Vector@{Sparse\-Vector}!fillrand@{fillrand}}
+\index{fillrand@{fillrand}!SparseVector@{Sparse\-Vector}}
+\subsubsection[{fillrand}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar , int \-\_\-\-Flags = 0$>$ {\bf Scalar}\& {\bf Sparse\-Vector}$<$ \-\_\-\-Scalar, \-\_\-\-Flags $>$\-::fillrand (
+\begin{DoxyParamCaption}
+\item[{{\bf int}}]{i}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_sparse_vector_a9e9aa653793ee7172603dabb7326e1ec}
+Like \hyperlink{class_sparse_vector_a2338dce0b12942929a6a28ebf9f8f34a}{fill()} but with random coordinates. 
+
+Definition at line 155 of file Sparse\-Vector.\-h.
+
+\hypertarget{class_sparse_vector_a6008e0f4f07816edf27500a6ec407031}{\index{Sparse\-Vector@{Sparse\-Vector}!inner\-Non\-Zeros@{inner\-Non\-Zeros}}
+\index{inner\-Non\-Zeros@{inner\-Non\-Zeros}!SparseVector@{Sparse\-Vector}}
+\subsubsection[{inner\-Non\-Zeros}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar , int \-\_\-\-Flags = 0$>$ E\-I\-G\-E\-N\-\_\-\-S\-T\-R\-O\-N\-G\-\_\-\-I\-N\-L\-I\-N\-E {\bf int} {\bf Sparse\-Vector}$<$ \-\_\-\-Scalar, \-\_\-\-Flags $>$\-::inner\-Non\-Zeros (
+\begin{DoxyParamCaption}
+\item[{{\bf int}}]{j}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_sparse_vector_a6008e0f4f07816edf27500a6ec407031}
+
+
+Definition at line 82 of file Sparse\-Vector.\-h.
+
+\hypertarget{class_sparse_vector_abe5aab30e15fbecc60c276f50be850ee}{\index{Sparse\-Vector@{Sparse\-Vector}!inner\-Size@{inner\-Size}}
+\index{inner\-Size@{inner\-Size}!SparseVector@{Sparse\-Vector}}
+\subsubsection[{inner\-Size}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar , int \-\_\-\-Flags = 0$>$ E\-I\-G\-E\-N\-\_\-\-S\-T\-R\-O\-N\-G\-\_\-\-I\-N\-L\-I\-N\-E {\bf int} {\bf Sparse\-Vector}$<$ \-\_\-\-Scalar, \-\_\-\-Flags $>$\-::inner\-Size (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_sparse_vector_abe5aab30e15fbecc60c276f50be850ee}
+
+
+Definition at line 80 of file Sparse\-Vector.\-h.
+
+\hypertarget{class_sparse_vector_a22644927e946441cf7c9a0967338c0ce}{\index{Sparse\-Vector@{Sparse\-Vector}!non\-Zeros@{non\-Zeros}}
+\index{non\-Zeros@{non\-Zeros}!SparseVector@{Sparse\-Vector}}
+\subsubsection[{non\-Zeros}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar , int \-\_\-\-Flags = 0$>$ {\bf int} {\bf Sparse\-Vector}$<$ \-\_\-\-Scalar, \-\_\-\-Flags $>$\-::non\-Zeros (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_sparse_vector_a22644927e946441cf7c9a0967338c0ce}
+\begin{DoxyReturn}{Returns}
+the number of non zero coefficients 
+\end{DoxyReturn}
+
+
+Definition at line 121 of file Sparse\-Vector.\-h.
+
+\hypertarget{class_sparse_vector_a0a249860458dc22a8b65b286403ddfd8}{\index{Sparse\-Vector@{Sparse\-Vector}!operator=@{operator=}}
+\index{operator=@{operator=}!SparseVector@{Sparse\-Vector}}
+\subsubsection[{operator=}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar , int \-\_\-\-Flags = 0$>$ {\bf Sparse\-Vector}\& {\bf Sparse\-Vector}$<$ \-\_\-\-Scalar, \-\_\-\-Flags $>$\-::operator= (
+\begin{DoxyParamCaption}
+\item[{const {\bf Sparse\-Vector}$<$ \-\_\-\-Scalar, \-\_\-\-Flags $>$ \&}]{other}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_sparse_vector_a0a249860458dc22a8b65b286403ddfd8}
+
+
+Definition at line 225 of file Sparse\-Vector.\-h.
+
+\hypertarget{class_sparse_vector_abd10576024286daa6db322f770f66d39}{\index{Sparse\-Vector@{Sparse\-Vector}!operator=@{operator=}}
+\index{operator=@{operator=}!SparseVector@{Sparse\-Vector}}
+\subsubsection[{operator=}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar , int \-\_\-\-Flags = 0$>$ template$<$typename Other\-Derived $>$ {\bf Sparse\-Vector}\& {\bf Sparse\-Vector}$<$ \-\_\-\-Scalar, \-\_\-\-Flags $>$\-::operator= (
+\begin{DoxyParamCaption}
+\item[{const {\bf Sparse\-Matrix\-Base}$<$ Other\-Derived $>$ \&}]{other}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_sparse_vector_abd10576024286daa6db322f770f66d39}
+
+
+Definition at line 240 of file Sparse\-Vector.\-h.
+
+\hypertarget{class_sparse_vector_aa7f90d1222b6601645d8122680777d7d}{\index{Sparse\-Vector@{Sparse\-Vector}!outer\-Size@{outer\-Size}}
+\index{outer\-Size@{outer\-Size}!SparseVector@{Sparse\-Vector}}
+\subsubsection[{outer\-Size}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar , int \-\_\-\-Flags = 0$>$ E\-I\-G\-E\-N\-\_\-\-S\-T\-R\-O\-N\-G\-\_\-\-I\-N\-L\-I\-N\-E {\bf int} {\bf Sparse\-Vector}$<$ \-\_\-\-Scalar, \-\_\-\-Flags $>$\-::outer\-Size (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_sparse_vector_aa7f90d1222b6601645d8122680777d7d}
+
+
+Definition at line 81 of file Sparse\-Vector.\-h.
+
+\hypertarget{class_sparse_vector_a832b7aca57e91eeff4aeff21f5371e26}{\index{Sparse\-Vector@{Sparse\-Vector}!prune@{prune}}
+\index{prune@{prune}!SparseVector@{Sparse\-Vector}}
+\subsubsection[{prune}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar , int \-\_\-\-Flags = 0$>$ {\bf void} {\bf Sparse\-Vector}$<$ \-\_\-\-Scalar, \-\_\-\-Flags $>$\-::prune (
+\begin{DoxyParamCaption}
+\item[{{\bf Scalar}}]{reference, }
+\item[{{\bf Real\-Scalar}}]{epsilon = {\ttfamily {\bf precision}$<${\bf Real\-Scalar}$>$()}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_sparse_vector_a832b7aca57e91eeff4aeff21f5371e26}
+
+
+Definition at line 174 of file Sparse\-Vector.\-h.
+
+\hypertarget{class_sparse_vector_aa53b7a503c80e6079a3725f8290f24c0}{\index{Sparse\-Vector@{Sparse\-Vector}!reserve@{reserve}}
+\index{reserve@{reserve}!SparseVector@{Sparse\-Vector}}
+\subsubsection[{reserve}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar , int \-\_\-\-Flags = 0$>$ {\bf void} {\bf Sparse\-Vector}$<$ \-\_\-\-Scalar, \-\_\-\-Flags $>$\-::reserve (
+\begin{DoxyParamCaption}
+\item[{{\bf int}}]{reserve\-Size}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_sparse_vector_aa53b7a503c80e6079a3725f8290f24c0}
+
+
+Definition at line 125 of file Sparse\-Vector.\-h.
+
+\hypertarget{class_sparse_vector_a2e48979d67bdd4d59d20c24505cd49ac}{\index{Sparse\-Vector@{Sparse\-Vector}!resize@{resize}}
+\index{resize@{resize}!SparseVector@{Sparse\-Vector}}
+\subsubsection[{resize}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar , int \-\_\-\-Flags = 0$>$ {\bf void} {\bf Sparse\-Vector}$<$ \-\_\-\-Scalar, \-\_\-\-Flags $>$\-::resize (
+\begin{DoxyParamCaption}
+\item[{{\bf int}}]{rows, }
+\item[{{\bf int}}]{cols}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_sparse_vector_a2e48979d67bdd4d59d20c24505cd49ac}
+
+
+Definition at line 179 of file Sparse\-Vector.\-h.
+
+\hypertarget{class_sparse_vector_a011ae8ce9573abf1d495665609a1e8bb}{\index{Sparse\-Vector@{Sparse\-Vector}!resize@{resize}}
+\index{resize@{resize}!SparseVector@{Sparse\-Vector}}
+\subsubsection[{resize}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar , int \-\_\-\-Flags = 0$>$ {\bf void} {\bf Sparse\-Vector}$<$ \-\_\-\-Scalar, \-\_\-\-Flags $>$\-::resize (
+\begin{DoxyParamCaption}
+\item[{{\bf int}}]{new\-Size}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_sparse_vector_a011ae8ce9573abf1d495665609a1e8bb}
+
+
+Definition at line 185 of file Sparse\-Vector.\-h.
+
+\hypertarget{class_sparse_vector_adad21f802ccc4e14855685ee599f36aa}{\index{Sparse\-Vector@{Sparse\-Vector}!resize\-Non\-Zeros@{resize\-Non\-Zeros}}
+\index{resize\-Non\-Zeros@{resize\-Non\-Zeros}!SparseVector@{Sparse\-Vector}}
+\subsubsection[{resize\-Non\-Zeros}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar , int \-\_\-\-Flags = 0$>$ {\bf void} {\bf Sparse\-Vector}$<$ \-\_\-\-Scalar, \-\_\-\-Flags $>$\-::resize\-Non\-Zeros (
+\begin{DoxyParamCaption}
+\item[{{\bf int}}]{size}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_sparse_vector_adad21f802ccc4e14855685ee599f36aa}
+
+
+Definition at line 191 of file Sparse\-Vector.\-h.
+
+\hypertarget{class_sparse_vector_a56b354dffd1a51cb0d896f66f1160fe3}{\index{Sparse\-Vector@{Sparse\-Vector}!rows@{rows}}
+\index{rows@{rows}!SparseVector@{Sparse\-Vector}}
+\subsubsection[{rows}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar , int \-\_\-\-Flags = 0$>$ E\-I\-G\-E\-N\-\_\-\-S\-T\-R\-O\-N\-G\-\_\-\-I\-N\-L\-I\-N\-E {\bf int} {\bf Sparse\-Vector}$<$ \-\_\-\-Scalar, \-\_\-\-Flags $>$\-::rows (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_sparse_vector_a56b354dffd1a51cb0d896f66f1160fe3}
+
+
+Definition at line 78 of file Sparse\-Vector.\-h.
+
+\hypertarget{class_sparse_vector_a34f94ef08e22994fc78f7d8fb53dc092}{\index{Sparse\-Vector@{Sparse\-Vector}!set\-Zero@{set\-Zero}}
+\index{set\-Zero@{set\-Zero}!SparseVector@{Sparse\-Vector}}
+\subsubsection[{set\-Zero}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar , int \-\_\-\-Flags = 0$>$ {\bf void} {\bf Sparse\-Vector}$<$ \-\_\-\-Scalar, \-\_\-\-Flags $>$\-::set\-Zero (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_sparse_vector_a34f94ef08e22994fc78f7d8fb53dc092}
+
+
+Definition at line 118 of file Sparse\-Vector.\-h.
+
+\hypertarget{class_sparse_vector_a5591478791f37ade8ab6e849aebe96e4}{\index{Sparse\-Vector@{Sparse\-Vector}!start\-Fill@{start\-Fill}}
+\index{start\-Fill@{start\-Fill}!SparseVector@{Sparse\-Vector}}
+\subsubsection[{start\-Fill}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar , int \-\_\-\-Flags = 0$>$ {\bf void} {\bf Sparse\-Vector}$<$ \-\_\-\-Scalar, \-\_\-\-Flags $>$\-::start\-Fill (
+\begin{DoxyParamCaption}
+\item[{{\bf int}}]{reserve}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_sparse_vector_a5591478791f37ade8ab6e849aebe96e4}
+
+
+Definition at line 127 of file Sparse\-Vector.\-h.
+
+\hypertarget{class_sparse_vector_ad57bb16e85e2b3f957d1a0cd7e41239a}{\index{Sparse\-Vector@{Sparse\-Vector}!swap@{swap}}
+\index{swap@{swap}!SparseVector@{Sparse\-Vector}}
+\subsubsection[{swap}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar , int \-\_\-\-Flags = 0$>$ {\bf void} {\bf Sparse\-Vector}$<$ \-\_\-\-Scalar, \-\_\-\-Flags $>$\-::swap (
+\begin{DoxyParamCaption}
+\item[{{\bf Sparse\-Vector}$<$ \-\_\-\-Scalar, \-\_\-\-Flags $>$ \&}]{other}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_sparse_vector_ad57bb16e85e2b3f957d1a0cd7e41239a}
+
+
+Definition at line 219 of file Sparse\-Vector.\-h.
+
+
+
+\subsection{Friends And Related Function Documentation}
+\hypertarget{class_sparse_vector_a6cf8a05d15fd30ee4fb01ecb778305c3}{\index{Sparse\-Vector@{Sparse\-Vector}!operator$<$$<$@{operator$<$$<$}}
+\index{operator$<$$<$@{operator$<$$<$}!SparseVector@{Sparse\-Vector}}
+\subsubsection[{operator$<$$<$}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar , int \-\_\-\-Flags = 0$>$ std\-::ostream\& operator$<$$<$ (
+\begin{DoxyParamCaption}
+\item[{std\-::ostream \&}]{s, }
+\item[{const {\bf Sparse\-Vector}$<$ \-\_\-\-Scalar, \-\_\-\-Flags $>$ \&}]{m}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [friend]}}}\label{class_sparse_vector_a6cf8a05d15fd30ee4fb01ecb778305c3}
+
+
+Definition at line 295 of file Sparse\-Vector.\-h.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{class_sparse_vector_ad111f906cd22fea7a5e8fe3c19d855bf}{\index{Sparse\-Vector@{Sparse\-Vector}!m\-\_\-data@{m\-\_\-data}}
+\index{m\-\_\-data@{m\-\_\-data}!SparseVector@{Sparse\-Vector}}
+\subsubsection[{m\-\_\-data}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar , int \-\_\-\-Flags = 0$>$ {\bf Compressed\-Storage}$<${\bf Scalar}$>$ {\bf Sparse\-Vector}$<$ \-\_\-\-Scalar, \-\_\-\-Flags $>$\-::m\-\_\-data}}\label{class_sparse_vector_ad111f906cd22fea7a5e8fe3c19d855bf}
+
+
+Definition at line 70 of file Sparse\-Vector.\-h.
+
+\hypertarget{class_sparse_vector_a57bf4f94a89a405f06238fb994d5fece}{\index{Sparse\-Vector@{Sparse\-Vector}!m\-\_\-size@{m\-\_\-size}}
+\index{m\-\_\-size@{m\-\_\-size}!SparseVector@{Sparse\-Vector}}
+\subsubsection[{m\-\_\-size}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar , int \-\_\-\-Flags = 0$>$ {\bf int} {\bf Sparse\-Vector}$<$ \-\_\-\-Scalar, \-\_\-\-Flags $>$\-::m\-\_\-size}}\label{class_sparse_vector_a57bf4f94a89a405f06238fb994d5fece}
+
+
+Definition at line 71 of file Sparse\-Vector.\-h.
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/eigen/\-Eigen/src/\-Sparse/\hyperlink{_sparse_util_8h}{Sparse\-Util.\-h}\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/eigen/\-Eigen/src/\-Sparse/\hyperlink{_sparse_vector_8h}{Sparse\-Vector.\-h}\end{DoxyCompactItemize}

@@ -1,0 +1,747 @@
+\hypertarget{group__tracks}{\section{Keyframing Tracks}
+\label{group__tracks}\index{Keyframing Tracks@{Keyframing Tracks}}
+}
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{struct_lib3ds_bool_key}{Lib3ds\-Bool\-Key}
+\item 
+struct \hyperlink{struct_lib3ds_bool_track}{Lib3ds\-Bool\-Track}
+\item 
+struct \hyperlink{struct_lib3ds_lin1_key}{Lib3ds\-Lin1\-Key}
+\item 
+struct \hyperlink{struct_lib3ds_lin1_track}{Lib3ds\-Lin1\-Track}
+\item 
+struct \hyperlink{struct_lib3ds_lin3_key}{Lib3ds\-Lin3\-Key}
+\item 
+struct \hyperlink{struct_lib3ds_lin3_track}{Lib3ds\-Lin3\-Track}
+\item 
+struct \hyperlink{struct_lib3ds_quat_key}{Lib3ds\-Quat\-Key}
+\item 
+struct \hyperlink{struct_lib3ds_quat_track}{Lib3ds\-Quat\-Track}
+\item 
+struct \hyperlink{struct_lib3ds_morph_key}{Lib3ds\-Morph\-Key}
+\item 
+struct \hyperlink{struct_lib3ds_morph_track}{Lib3ds\-Morph\-Track}
+\end{DoxyCompactItemize}
+\subsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{group__tracks_gafa7416688bb0948ccc630331686808fa}{Lib3ds\-Map\-Type} \{ \hyperlink{group__tracks_ggafa7416688bb0948ccc630331686808faadd21203218ab111848dad62a2beffe55}{L\-I\-B3\-D\-S\-\_\-\-M\-A\-P\-\_\-\-N\-O\-N\-E} =0x\-F\-F\-F\-F, 
+\hyperlink{group__tracks_ggafa7416688bb0948ccc630331686808faa984c5df302b355d2c3aeb8290d53b46a}{L\-I\-B3\-D\-S\-\_\-\-M\-A\-P\-\_\-\-P\-L\-A\-N\-A\-R} =0, 
+\hyperlink{group__tracks_ggafa7416688bb0948ccc630331686808faa3a5312fea88ae3b93779e292eb662d60}{L\-I\-B3\-D\-S\-\_\-\-M\-A\-P\-\_\-\-C\-Y\-L\-I\-N\-D\-R\-I\-C\-A\-L} =1, 
+\hyperlink{group__tracks_ggafa7416688bb0948ccc630331686808faa48ebf465e442f9bcda31917164712059}{L\-I\-B3\-D\-S\-\_\-\-M\-A\-P\-\_\-\-S\-P\-H\-E\-R\-I\-C\-A\-L} =2
+ \}
+\item 
+enum \hyperlink{group__tracks_gacea66dabdf9a544800f7b1a0b65d7777}{Lib3ds\-Track\-Flags} \{ \\*
+\hyperlink{group__tracks_ggacea66dabdf9a544800f7b1a0b65d7777a6adb8d55d4f35339a414aae2a3747725}{L\-I\-B3\-D\-S\-\_\-\-R\-E\-P\-E\-A\-T} =0x0001, 
+\hyperlink{group__tracks_ggacea66dabdf9a544800f7b1a0b65d7777aeedc2571a70e4596a71245f3474f1c66}{L\-I\-B3\-D\-S\-\_\-\-S\-M\-O\-O\-T\-H} =0x0002, 
+\hyperlink{group__tracks_ggacea66dabdf9a544800f7b1a0b65d7777a1cde6b155ae9a31ce46d6446b8e4c24a}{L\-I\-B3\-D\-S\-\_\-\-L\-O\-C\-K\-\_\-\-X} =0x0008, 
+\hyperlink{group__tracks_ggacea66dabdf9a544800f7b1a0b65d7777a5960c9731f256d79a16281d9c4c01611}{L\-I\-B3\-D\-S\-\_\-\-L\-O\-C\-K\-\_\-\-Y} =0x0010, 
+\\*
+\hyperlink{group__tracks_ggacea66dabdf9a544800f7b1a0b65d7777ad60182b73cdbe44eaa1808851208b307}{L\-I\-B3\-D\-S\-\_\-\-L\-O\-C\-K\-\_\-\-Z} =0x0020, 
+\hyperlink{group__tracks_ggacea66dabdf9a544800f7b1a0b65d7777a9c15aeeb30546b879ab746c4d5b264c8}{L\-I\-B3\-D\-S\-\_\-\-U\-N\-L\-I\-N\-K\-\_\-\-X} =0x0100, 
+\hyperlink{group__tracks_ggacea66dabdf9a544800f7b1a0b65d7777a8b9a0afee80ceb1ca402baf02471ec54}{L\-I\-B3\-D\-S\-\_\-\-U\-N\-L\-I\-N\-K\-\_\-\-Y} =0x0200, 
+\hyperlink{group__tracks_ggacea66dabdf9a544800f7b1a0b65d7777ab35de084313efbec78f49d6e3ce6e67f}{L\-I\-B3\-D\-S\-\_\-\-U\-N\-L\-I\-N\-K\-\_\-\-Z} =0x0400
+ \}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{struct_lib3ds_bool_key}{Lib3ds\-Bool\-Key} $\ast$ \hyperlink{group__tracks_gae3e2f2db59feb30601ac82c415c30549}{lib3ds\-\_\-bool\-\_\-key\-\_\-new} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group__tracks_gab1a8ad6ed429a91e27afe57742f660d4}{lib3ds\-\_\-bool\-\_\-key\-\_\-free} (\hyperlink{struct_lib3ds_bool_key}{Lib3ds\-Bool\-Key} $\ast$key)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group__tracks_gaa9930277963bb67cd92f4658fae2c7b3}{lib3ds\-\_\-bool\-\_\-track\-\_\-free\-\_\-keys} (\hyperlink{struct_lib3ds_bool_track}{Lib3ds\-Bool\-Track} $\ast$track)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group__tracks_gaaaf325aca33983f7da7d49c22add0a89}{lib3ds\-\_\-bool\-\_\-track\-\_\-insert} (\hyperlink{struct_lib3ds_bool_track}{Lib3ds\-Bool\-Track} $\ast$track, \hyperlink{struct_lib3ds_bool_key}{Lib3ds\-Bool\-Key} $\ast$key)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group__tracks_gab551dbe164827d7d228e45bf3598ece2}{lib3ds\-\_\-bool\-\_\-track\-\_\-remove} (\hyperlink{struct_lib3ds_bool_track}{Lib3ds\-Bool\-Track} $\ast$track, \hyperlink{types_8h_a5d92ad41149cf040ce2ee32cc2609403}{Lib3ds\-Intd} frame)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group__tracks_ga451e7ae1b9a3a32736f8a9cbb42f5c2c}{lib3ds\-\_\-bool\-\_\-track\-\_\-eval} (\hyperlink{struct_lib3ds_bool_track}{Lib3ds\-Bool\-Track} $\ast$track, \hyperlink{types_8h_a89dd7398a9ebbbf28011f8c32df67ad3}{Lib3ds\-Bool} $\ast$\hyperlink{glext_8h_aa5367c14d90f462230c2611b81b41d23}{p}, \hyperlink{types_8h_ab18e70f51f9a53c9dee8d930c8e1a7bf}{Lib3ds\-Float} \hyperlink{glext_8h_a00140d6f5c548b26daf170bf16e86a6d}{t})
+\item 
+\hyperlink{types_8h_a89dd7398a9ebbbf28011f8c32df67ad3}{Lib3ds\-Bool} \hyperlink{group__tracks_gaf00e12217fdb1905e27d027a6d05a599}{lib3ds\-\_\-bool\-\_\-track\-\_\-read} (\hyperlink{struct_lib3ds_bool_track}{Lib3ds\-Bool\-Track} $\ast$track, \hyperlink{struct_lib3ds_io}{Lib3ds\-Io} $\ast$io)
+\item 
+\hyperlink{types_8h_a89dd7398a9ebbbf28011f8c32df67ad3}{Lib3ds\-Bool} \hyperlink{group__tracks_gab81f8794b9ebf91f9e787d9452206a40}{lib3ds\-\_\-bool\-\_\-track\-\_\-write} (\hyperlink{struct_lib3ds_bool_track}{Lib3ds\-Bool\-Track} $\ast$track, \hyperlink{struct_lib3ds_io}{Lib3ds\-Io} $\ast$io)
+\item 
+\hyperlink{struct_lib3ds_lin1_key}{Lib3ds\-Lin1\-Key} $\ast$ \hyperlink{group__tracks_ga3b0f0b04eeb07d3bec46604c25935242}{lib3ds\-\_\-lin1\-\_\-key\-\_\-new} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group__tracks_gaed3e16edfd8384ec9aed95f532269541}{lib3ds\-\_\-lin1\-\_\-key\-\_\-free} (\hyperlink{struct_lib3ds_lin1_key}{Lib3ds\-Lin1\-Key} $\ast$key)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group__tracks_ga838608e75c159704ad2f212e51aa4e9c}{lib3ds\-\_\-lin1\-\_\-track\-\_\-free\-\_\-keys} (\hyperlink{struct_lib3ds_lin1_track}{Lib3ds\-Lin1\-Track} $\ast$track)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group__tracks_gab51367330c93daf2c9370544accd00d8}{lib3ds\-\_\-lin1\-\_\-key\-\_\-setup} (\hyperlink{struct_lib3ds_lin1_key}{Lib3ds\-Lin1\-Key} $\ast$\hyperlink{glext_8h_aa5367c14d90f462230c2611b81b41d23}{p}, \hyperlink{struct_lib3ds_lin1_key}{Lib3ds\-Lin1\-Key} $\ast$cp, \hyperlink{struct_lib3ds_lin1_key}{Lib3ds\-Lin1\-Key} $\ast$\hyperlink{glext_8h_a1f2d7f8147412c43ba2303a56f97ee73}{c}, \hyperlink{struct_lib3ds_lin1_key}{Lib3ds\-Lin1\-Key} $\ast$cn, \hyperlink{struct_lib3ds_lin1_key}{Lib3ds\-Lin1\-Key} $\ast$\hyperlink{glext_8h_a4eacae1d9e7c39f8236bb36d4ececa77}{n})
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group__tracks_gaf8bf2b0768e70a7f67251f46cece1ede}{lib3ds\-\_\-lin1\-\_\-track\-\_\-setup} (\hyperlink{struct_lib3ds_lin1_track}{Lib3ds\-Lin1\-Track} $\ast$track)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group__tracks_gadc39dd7ac081df6cb7f5f45be370a533}{lib3ds\-\_\-lin1\-\_\-track\-\_\-insert} (\hyperlink{struct_lib3ds_lin1_track}{Lib3ds\-Lin1\-Track} $\ast$track, \hyperlink{struct_lib3ds_lin1_key}{Lib3ds\-Lin1\-Key} $\ast$key)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group__tracks_ga4bd89481e70cc87bfb6e26603b98b796}{lib3ds\-\_\-lin1\-\_\-track\-\_\-remove} (\hyperlink{struct_lib3ds_lin1_track}{Lib3ds\-Lin1\-Track} $\ast$track, \hyperlink{types_8h_a5d92ad41149cf040ce2ee32cc2609403}{Lib3ds\-Intd} frame)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group__tracks_ga07f4c60d12076ce92cbae8ce93be412a}{lib3ds\-\_\-lin1\-\_\-track\-\_\-eval} (\hyperlink{struct_lib3ds_lin1_track}{Lib3ds\-Lin1\-Track} $\ast$track, \hyperlink{types_8h_ab18e70f51f9a53c9dee8d930c8e1a7bf}{Lib3ds\-Float} $\ast$\hyperlink{glext_8h_aa5367c14d90f462230c2611b81b41d23}{p}, \hyperlink{types_8h_ab18e70f51f9a53c9dee8d930c8e1a7bf}{Lib3ds\-Float} \hyperlink{glext_8h_a00140d6f5c548b26daf170bf16e86a6d}{t})
+\item 
+\hyperlink{types_8h_a89dd7398a9ebbbf28011f8c32df67ad3}{Lib3ds\-Bool} \hyperlink{group__tracks_ga8f5763d49369825683fafd40c1e2f3e3}{lib3ds\-\_\-lin1\-\_\-track\-\_\-read} (\hyperlink{struct_lib3ds_lin1_track}{Lib3ds\-Lin1\-Track} $\ast$track, \hyperlink{struct_lib3ds_io}{Lib3ds\-Io} $\ast$io)
+\item 
+\hyperlink{types_8h_a89dd7398a9ebbbf28011f8c32df67ad3}{Lib3ds\-Bool} \hyperlink{group__tracks_gae777b5fe09e8584e18635db7ff10c3c3}{lib3ds\-\_\-lin1\-\_\-track\-\_\-write} (\hyperlink{struct_lib3ds_lin1_track}{Lib3ds\-Lin1\-Track} $\ast$track, \hyperlink{struct_lib3ds_io}{Lib3ds\-Io} $\ast$io)
+\item 
+\hyperlink{struct_lib3ds_lin3_key}{Lib3ds\-Lin3\-Key} $\ast$ \hyperlink{group__tracks_ga868e72461de840b4a65da914fea76301}{lib3ds\-\_\-lin3\-\_\-key\-\_\-new} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group__tracks_gafa19a496403ee992e3157ed5b8f3e3d4}{lib3ds\-\_\-lin3\-\_\-key\-\_\-free} (\hyperlink{struct_lib3ds_lin3_key}{Lib3ds\-Lin3\-Key} $\ast$key)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group__tracks_gadf92cabf129f8ca290a3c3342a7b6111}{lib3ds\-\_\-lin3\-\_\-track\-\_\-free\-\_\-keys} (\hyperlink{struct_lib3ds_lin3_track}{Lib3ds\-Lin3\-Track} $\ast$track)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group__tracks_ga32ec773465e1e1d99696948cfaa04886}{lib3ds\-\_\-lin3\-\_\-key\-\_\-setup} (\hyperlink{struct_lib3ds_lin3_key}{Lib3ds\-Lin3\-Key} $\ast$\hyperlink{glext_8h_aa5367c14d90f462230c2611b81b41d23}{p}, \hyperlink{struct_lib3ds_lin3_key}{Lib3ds\-Lin3\-Key} $\ast$cp, \hyperlink{struct_lib3ds_lin3_key}{Lib3ds\-Lin3\-Key} $\ast$\hyperlink{glext_8h_a1f2d7f8147412c43ba2303a56f97ee73}{c}, \hyperlink{struct_lib3ds_lin3_key}{Lib3ds\-Lin3\-Key} $\ast$cn, \hyperlink{struct_lib3ds_lin3_key}{Lib3ds\-Lin3\-Key} $\ast$\hyperlink{glext_8h_a4eacae1d9e7c39f8236bb36d4ececa77}{n})
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group__tracks_ga7babfe23d4a49bfb875d678bab3d3aa4}{lib3ds\-\_\-lin3\-\_\-track\-\_\-setup} (\hyperlink{struct_lib3ds_lin3_track}{Lib3ds\-Lin3\-Track} $\ast$track)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group__tracks_ga67da574ae7749d1c08f5a0413ae8f16f}{lib3ds\-\_\-lin3\-\_\-track\-\_\-insert} (\hyperlink{struct_lib3ds_lin3_track}{Lib3ds\-Lin3\-Track} $\ast$track, \hyperlink{struct_lib3ds_lin3_key}{Lib3ds\-Lin3\-Key} $\ast$key)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group__tracks_ga02e6b624d2a85653b66adb3f70262b4b}{lib3ds\-\_\-lin3\-\_\-track\-\_\-remove} (\hyperlink{struct_lib3ds_lin3_track}{Lib3ds\-Lin3\-Track} $\ast$track, \hyperlink{types_8h_a5d92ad41149cf040ce2ee32cc2609403}{Lib3ds\-Intd} frame)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group__tracks_gabacc6b8f7d09c36a4038b08ddd3b4a51}{lib3ds\-\_\-lin3\-\_\-track\-\_\-eval} (\hyperlink{struct_lib3ds_lin3_track}{Lib3ds\-Lin3\-Track} $\ast$track, \hyperlink{group__vector_ga6ac1c3b3ef15381ebf6baf264d658dcf}{Lib3ds\-Vector} \hyperlink{glext_8h_aa5367c14d90f462230c2611b81b41d23}{p}, \hyperlink{types_8h_ab18e70f51f9a53c9dee8d930c8e1a7bf}{Lib3ds\-Float} \hyperlink{glext_8h_a00140d6f5c548b26daf170bf16e86a6d}{t})
+\item 
+\hyperlink{types_8h_a89dd7398a9ebbbf28011f8c32df67ad3}{Lib3ds\-Bool} \hyperlink{group__tracks_ga7a27e05d9efc95437e492166eec0458c}{lib3ds\-\_\-lin3\-\_\-track\-\_\-read} (\hyperlink{struct_lib3ds_lin3_track}{Lib3ds\-Lin3\-Track} $\ast$track, \hyperlink{struct_lib3ds_io}{Lib3ds\-Io} $\ast$io)
+\item 
+\hyperlink{types_8h_a89dd7398a9ebbbf28011f8c32df67ad3}{Lib3ds\-Bool} \hyperlink{group__tracks_ga8af9640de144fb749095f10ae3b75205}{lib3ds\-\_\-lin3\-\_\-track\-\_\-write} (\hyperlink{struct_lib3ds_lin3_track}{Lib3ds\-Lin3\-Track} $\ast$track, \hyperlink{struct_lib3ds_io}{Lib3ds\-Io} $\ast$io)
+\item 
+\hyperlink{struct_lib3ds_quat_key}{Lib3ds\-Quat\-Key} $\ast$ \hyperlink{group__tracks_ga6654d4a21a4c2558ce0f5486239ab381}{lib3ds\-\_\-quat\-\_\-key\-\_\-new} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group__tracks_ga63281dae1eda63a93b0c7b2dcf72f361}{lib3ds\-\_\-quat\-\_\-key\-\_\-free} (\hyperlink{struct_lib3ds_quat_key}{Lib3ds\-Quat\-Key} $\ast$key)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group__tracks_gab2e86513dfaaf70d7b86bf15e6cbe070}{lib3ds\-\_\-quat\-\_\-track\-\_\-free\-\_\-keys} (\hyperlink{struct_lib3ds_quat_track}{Lib3ds\-Quat\-Track} $\ast$track)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group__tracks_ga86bfa691e68d118215592228e1f7d873}{lib3ds\-\_\-quat\-\_\-key\-\_\-setup} (\hyperlink{struct_lib3ds_quat_key}{Lib3ds\-Quat\-Key} $\ast$\hyperlink{glext_8h_aa5367c14d90f462230c2611b81b41d23}{p}, \hyperlink{struct_lib3ds_quat_key}{Lib3ds\-Quat\-Key} $\ast$cp, \hyperlink{struct_lib3ds_quat_key}{Lib3ds\-Quat\-Key} $\ast$\hyperlink{glext_8h_a1f2d7f8147412c43ba2303a56f97ee73}{c}, \hyperlink{struct_lib3ds_quat_key}{Lib3ds\-Quat\-Key} $\ast$cn, \hyperlink{struct_lib3ds_quat_key}{Lib3ds\-Quat\-Key} $\ast$\hyperlink{glext_8h_a4eacae1d9e7c39f8236bb36d4ececa77}{n})
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group__tracks_gaee6778386db909424677bc98ceb46b1a}{lib3ds\-\_\-quat\-\_\-track\-\_\-setup} (\hyperlink{struct_lib3ds_quat_track}{Lib3ds\-Quat\-Track} $\ast$track)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group__tracks_gad718d02c1514377fd2c635f7cd9c50b2}{lib3ds\-\_\-quat\-\_\-track\-\_\-insert} (\hyperlink{struct_lib3ds_quat_track}{Lib3ds\-Quat\-Track} $\ast$track, \hyperlink{struct_lib3ds_quat_key}{Lib3ds\-Quat\-Key} $\ast$key)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group__tracks_ga5badde06bb9fbe6de8c2a2e5e513698a}{lib3ds\-\_\-quat\-\_\-track\-\_\-remove} (\hyperlink{struct_lib3ds_quat_track}{Lib3ds\-Quat\-Track} $\ast$track, \hyperlink{types_8h_a5d92ad41149cf040ce2ee32cc2609403}{Lib3ds\-Intd} frame)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group__tracks_gaac7f904909f3cfeb3b4068116dbad6e1}{lib3ds\-\_\-quat\-\_\-track\-\_\-eval} (\hyperlink{struct_lib3ds_quat_track}{Lib3ds\-Quat\-Track} $\ast$track, \hyperlink{group__quat_ga9969ef1e618ba698c4b8374f14b548be}{Lib3ds\-Quat} \hyperlink{glext_8h_afb30bc844faa48275d1c84294956a44b}{q}, \hyperlink{types_8h_ab18e70f51f9a53c9dee8d930c8e1a7bf}{Lib3ds\-Float} \hyperlink{glext_8h_a00140d6f5c548b26daf170bf16e86a6d}{t})
+\item 
+\hyperlink{types_8h_a89dd7398a9ebbbf28011f8c32df67ad3}{Lib3ds\-Bool} \hyperlink{group__tracks_gab6b3b2c0b9faa07eb654b6fc17c6d32d}{lib3ds\-\_\-quat\-\_\-track\-\_\-read} (\hyperlink{struct_lib3ds_quat_track}{Lib3ds\-Quat\-Track} $\ast$track, \hyperlink{struct_lib3ds_io}{Lib3ds\-Io} $\ast$io)
+\item 
+\hyperlink{types_8h_a89dd7398a9ebbbf28011f8c32df67ad3}{Lib3ds\-Bool} \hyperlink{group__tracks_gac35fc7c994fd90ed0ca28305a6ac8a8c}{lib3ds\-\_\-quat\-\_\-track\-\_\-write} (\hyperlink{struct_lib3ds_quat_track}{Lib3ds\-Quat\-Track} $\ast$track, \hyperlink{struct_lib3ds_io}{Lib3ds\-Io} $\ast$io)
+\item 
+\hyperlink{struct_lib3ds_morph_key}{Lib3ds\-Morph\-Key} $\ast$ \hyperlink{group__tracks_ga0cb08fbd64793b781ee14bd8942554cc}{lib3ds\-\_\-morph\-\_\-key\-\_\-new} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group__tracks_ga88f49043dc2880d77e5df818e86b317a}{lib3ds\-\_\-morph\-\_\-key\-\_\-free} (\hyperlink{struct_lib3ds_morph_key}{Lib3ds\-Morph\-Key} $\ast$key)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group__tracks_gaaf6ddcc7f3d892cb0a8d887d96decbba}{lib3ds\-\_\-morph\-\_\-track\-\_\-free\-\_\-keys} (\hyperlink{struct_lib3ds_morph_track}{Lib3ds\-Morph\-Track} $\ast$track)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group__tracks_ga2da72a4823feb5c85e9deda863a0fcf1}{lib3ds\-\_\-morph\-\_\-track\-\_\-insert} (\hyperlink{struct_lib3ds_morph_track}{Lib3ds\-Morph\-Track} $\ast$track, \hyperlink{struct_lib3ds_morph_key}{Lib3ds\-Morph\-Key} $\ast$key)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group__tracks_ga569b3c1cac16395196117739d298d91b}{lib3ds\-\_\-morph\-\_\-track\-\_\-remove} (\hyperlink{struct_lib3ds_morph_track}{Lib3ds\-Morph\-Track} $\ast$track, \hyperlink{types_8h_a5d92ad41149cf040ce2ee32cc2609403}{Lib3ds\-Intd} frame)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group__tracks_ga8bddb614f3968b22b600bd2ab5174773}{lib3ds\-\_\-morph\-\_\-track\-\_\-eval} (\hyperlink{struct_lib3ds_morph_track}{Lib3ds\-Morph\-Track} $\ast$track, char $\ast$\hyperlink{glext_8h_aa5367c14d90f462230c2611b81b41d23}{p}, \hyperlink{types_8h_ab18e70f51f9a53c9dee8d930c8e1a7bf}{Lib3ds\-Float} \hyperlink{glext_8h_a00140d6f5c548b26daf170bf16e86a6d}{t})
+\item 
+\hyperlink{types_8h_a89dd7398a9ebbbf28011f8c32df67ad3}{Lib3ds\-Bool} \hyperlink{group__tracks_ga677bede0a186cb3d33cc6e52f738bf11}{lib3ds\-\_\-morph\-\_\-track\-\_\-read} (\hyperlink{struct_lib3ds_morph_track}{Lib3ds\-Morph\-Track} $\ast$track, \hyperlink{struct_lib3ds_io}{Lib3ds\-Io} $\ast$io)
+\item 
+\hyperlink{types_8h_a89dd7398a9ebbbf28011f8c32df67ad3}{Lib3ds\-Bool} \hyperlink{group__tracks_ga9abfbbf0376d92a1ef163a7e2442662d}{lib3ds\-\_\-morph\-\_\-track\-\_\-write} (\hyperlink{struct_lib3ds_morph_track}{Lib3ds\-Morph\-Track} $\ast$track, \hyperlink{struct_lib3ds_io}{Lib3ds\-Io} $\ast$io)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+\subsection{Enumeration Type Documentation}
+\hypertarget{group__tracks_gafa7416688bb0948ccc630331686808fa}{\index{Keyframing Tracks@{Keyframing Tracks}!Lib3ds\-Map\-Type@{Lib3ds\-Map\-Type}}
+\index{Lib3ds\-Map\-Type@{Lib3ds\-Map\-Type}!Keyframing Tracks@{Keyframing Tracks}}
+\subsubsection[{Lib3ds\-Map\-Type}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf Lib3ds\-Map\-Type}}}\label{group__tracks_gafa7416688bb0948ccc630331686808fa}
+Texture projection type \begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{L\-I\-B3\-D\-S\-\_\-\-M\-A\-P\-\_\-\-N\-O\-N\-E@{L\-I\-B3\-D\-S\-\_\-\-M\-A\-P\-\_\-\-N\-O\-N\-E}!Keyframing Tracks@{Keyframing Tracks}}\index{Keyframing Tracks@{Keyframing Tracks}!L\-I\-B3\-D\-S\-\_\-\-M\-A\-P\-\_\-\-N\-O\-N\-E@{L\-I\-B3\-D\-S\-\_\-\-M\-A\-P\-\_\-\-N\-O\-N\-E}}\item[{\em 
+\hypertarget{group__tracks_ggafa7416688bb0948ccc630331686808faadd21203218ab111848dad62a2beffe55}{L\-I\-B3\-D\-S\-\_\-\-M\-A\-P\-\_\-\-N\-O\-N\-E}\label{group__tracks_ggafa7416688bb0948ccc630331686808faadd21203218ab111848dad62a2beffe55}
+}]\index{L\-I\-B3\-D\-S\-\_\-\-M\-A\-P\-\_\-\-P\-L\-A\-N\-A\-R@{L\-I\-B3\-D\-S\-\_\-\-M\-A\-P\-\_\-\-P\-L\-A\-N\-A\-R}!Keyframing Tracks@{Keyframing Tracks}}\index{Keyframing Tracks@{Keyframing Tracks}!L\-I\-B3\-D\-S\-\_\-\-M\-A\-P\-\_\-\-P\-L\-A\-N\-A\-R@{L\-I\-B3\-D\-S\-\_\-\-M\-A\-P\-\_\-\-P\-L\-A\-N\-A\-R}}\item[{\em 
+\hypertarget{group__tracks_ggafa7416688bb0948ccc630331686808faa984c5df302b355d2c3aeb8290d53b46a}{L\-I\-B3\-D\-S\-\_\-\-M\-A\-P\-\_\-\-P\-L\-A\-N\-A\-R}\label{group__tracks_ggafa7416688bb0948ccc630331686808faa984c5df302b355d2c3aeb8290d53b46a}
+}]\index{L\-I\-B3\-D\-S\-\_\-\-M\-A\-P\-\_\-\-C\-Y\-L\-I\-N\-D\-R\-I\-C\-A\-L@{L\-I\-B3\-D\-S\-\_\-\-M\-A\-P\-\_\-\-C\-Y\-L\-I\-N\-D\-R\-I\-C\-A\-L}!Keyframing Tracks@{Keyframing Tracks}}\index{Keyframing Tracks@{Keyframing Tracks}!L\-I\-B3\-D\-S\-\_\-\-M\-A\-P\-\_\-\-C\-Y\-L\-I\-N\-D\-R\-I\-C\-A\-L@{L\-I\-B3\-D\-S\-\_\-\-M\-A\-P\-\_\-\-C\-Y\-L\-I\-N\-D\-R\-I\-C\-A\-L}}\item[{\em 
+\hypertarget{group__tracks_ggafa7416688bb0948ccc630331686808faa3a5312fea88ae3b93779e292eb662d60}{L\-I\-B3\-D\-S\-\_\-\-M\-A\-P\-\_\-\-C\-Y\-L\-I\-N\-D\-R\-I\-C\-A\-L}\label{group__tracks_ggafa7416688bb0948ccc630331686808faa3a5312fea88ae3b93779e292eb662d60}
+}]\index{L\-I\-B3\-D\-S\-\_\-\-M\-A\-P\-\_\-\-S\-P\-H\-E\-R\-I\-C\-A\-L@{L\-I\-B3\-D\-S\-\_\-\-M\-A\-P\-\_\-\-S\-P\-H\-E\-R\-I\-C\-A\-L}!Keyframing Tracks@{Keyframing Tracks}}\index{Keyframing Tracks@{Keyframing Tracks}!L\-I\-B3\-D\-S\-\_\-\-M\-A\-P\-\_\-\-S\-P\-H\-E\-R\-I\-C\-A\-L@{L\-I\-B3\-D\-S\-\_\-\-M\-A\-P\-\_\-\-S\-P\-H\-E\-R\-I\-C\-A\-L}}\item[{\em 
+\hypertarget{group__tracks_ggafa7416688bb0948ccc630331686808faa48ebf465e442f9bcda31917164712059}{L\-I\-B3\-D\-S\-\_\-\-M\-A\-P\-\_\-\-S\-P\-H\-E\-R\-I\-C\-A\-L}\label{group__tracks_ggafa7416688bb0948ccc630331686808faa48ebf465e442f9bcda31917164712059}
+}]\end{description}
+\end{Desc}
+
+
+Definition at line 93 of file mesh.\-h.
+
+\hypertarget{group__tracks_gacea66dabdf9a544800f7b1a0b65d7777}{\index{Keyframing Tracks@{Keyframing Tracks}!Lib3ds\-Track\-Flags@{Lib3ds\-Track\-Flags}}
+\index{Lib3ds\-Track\-Flags@{Lib3ds\-Track\-Flags}!Keyframing Tracks@{Keyframing Tracks}}
+\subsubsection[{Lib3ds\-Track\-Flags}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf Lib3ds\-Track\-Flags}}}\label{group__tracks_gacea66dabdf9a544800f7b1a0b65d7777}
+Track flags \begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{L\-I\-B3\-D\-S\-\_\-\-R\-E\-P\-E\-A\-T@{L\-I\-B3\-D\-S\-\_\-\-R\-E\-P\-E\-A\-T}!Keyframing Tracks@{Keyframing Tracks}}\index{Keyframing Tracks@{Keyframing Tracks}!L\-I\-B3\-D\-S\-\_\-\-R\-E\-P\-E\-A\-T@{L\-I\-B3\-D\-S\-\_\-\-R\-E\-P\-E\-A\-T}}\item[{\em 
+\hypertarget{group__tracks_ggacea66dabdf9a544800f7b1a0b65d7777a6adb8d55d4f35339a414aae2a3747725}{L\-I\-B3\-D\-S\-\_\-\-R\-E\-P\-E\-A\-T}\label{group__tracks_ggacea66dabdf9a544800f7b1a0b65d7777a6adb8d55d4f35339a414aae2a3747725}
+}]\index{L\-I\-B3\-D\-S\-\_\-\-S\-M\-O\-O\-T\-H@{L\-I\-B3\-D\-S\-\_\-\-S\-M\-O\-O\-T\-H}!Keyframing Tracks@{Keyframing Tracks}}\index{Keyframing Tracks@{Keyframing Tracks}!L\-I\-B3\-D\-S\-\_\-\-S\-M\-O\-O\-T\-H@{L\-I\-B3\-D\-S\-\_\-\-S\-M\-O\-O\-T\-H}}\item[{\em 
+\hypertarget{group__tracks_ggacea66dabdf9a544800f7b1a0b65d7777aeedc2571a70e4596a71245f3474f1c66}{L\-I\-B3\-D\-S\-\_\-\-S\-M\-O\-O\-T\-H}\label{group__tracks_ggacea66dabdf9a544800f7b1a0b65d7777aeedc2571a70e4596a71245f3474f1c66}
+}]\index{L\-I\-B3\-D\-S\-\_\-\-L\-O\-C\-K\-\_\-\-X@{L\-I\-B3\-D\-S\-\_\-\-L\-O\-C\-K\-\_\-\-X}!Keyframing Tracks@{Keyframing Tracks}}\index{Keyframing Tracks@{Keyframing Tracks}!L\-I\-B3\-D\-S\-\_\-\-L\-O\-C\-K\-\_\-\-X@{L\-I\-B3\-D\-S\-\_\-\-L\-O\-C\-K\-\_\-\-X}}\item[{\em 
+\hypertarget{group__tracks_ggacea66dabdf9a544800f7b1a0b65d7777a1cde6b155ae9a31ce46d6446b8e4c24a}{L\-I\-B3\-D\-S\-\_\-\-L\-O\-C\-K\-\_\-\-X}\label{group__tracks_ggacea66dabdf9a544800f7b1a0b65d7777a1cde6b155ae9a31ce46d6446b8e4c24a}
+}]\index{L\-I\-B3\-D\-S\-\_\-\-L\-O\-C\-K\-\_\-\-Y@{L\-I\-B3\-D\-S\-\_\-\-L\-O\-C\-K\-\_\-\-Y}!Keyframing Tracks@{Keyframing Tracks}}\index{Keyframing Tracks@{Keyframing Tracks}!L\-I\-B3\-D\-S\-\_\-\-L\-O\-C\-K\-\_\-\-Y@{L\-I\-B3\-D\-S\-\_\-\-L\-O\-C\-K\-\_\-\-Y}}\item[{\em 
+\hypertarget{group__tracks_ggacea66dabdf9a544800f7b1a0b65d7777a5960c9731f256d79a16281d9c4c01611}{L\-I\-B3\-D\-S\-\_\-\-L\-O\-C\-K\-\_\-\-Y}\label{group__tracks_ggacea66dabdf9a544800f7b1a0b65d7777a5960c9731f256d79a16281d9c4c01611}
+}]\index{L\-I\-B3\-D\-S\-\_\-\-L\-O\-C\-K\-\_\-\-Z@{L\-I\-B3\-D\-S\-\_\-\-L\-O\-C\-K\-\_\-\-Z}!Keyframing Tracks@{Keyframing Tracks}}\index{Keyframing Tracks@{Keyframing Tracks}!L\-I\-B3\-D\-S\-\_\-\-L\-O\-C\-K\-\_\-\-Z@{L\-I\-B3\-D\-S\-\_\-\-L\-O\-C\-K\-\_\-\-Z}}\item[{\em 
+\hypertarget{group__tracks_ggacea66dabdf9a544800f7b1a0b65d7777ad60182b73cdbe44eaa1808851208b307}{L\-I\-B3\-D\-S\-\_\-\-L\-O\-C\-K\-\_\-\-Z}\label{group__tracks_ggacea66dabdf9a544800f7b1a0b65d7777ad60182b73cdbe44eaa1808851208b307}
+}]\index{L\-I\-B3\-D\-S\-\_\-\-U\-N\-L\-I\-N\-K\-\_\-\-X@{L\-I\-B3\-D\-S\-\_\-\-U\-N\-L\-I\-N\-K\-\_\-\-X}!Keyframing Tracks@{Keyframing Tracks}}\index{Keyframing Tracks@{Keyframing Tracks}!L\-I\-B3\-D\-S\-\_\-\-U\-N\-L\-I\-N\-K\-\_\-\-X@{L\-I\-B3\-D\-S\-\_\-\-U\-N\-L\-I\-N\-K\-\_\-\-X}}\item[{\em 
+\hypertarget{group__tracks_ggacea66dabdf9a544800f7b1a0b65d7777a9c15aeeb30546b879ab746c4d5b264c8}{L\-I\-B3\-D\-S\-\_\-\-U\-N\-L\-I\-N\-K\-\_\-\-X}\label{group__tracks_ggacea66dabdf9a544800f7b1a0b65d7777a9c15aeeb30546b879ab746c4d5b264c8}
+}]\index{L\-I\-B3\-D\-S\-\_\-\-U\-N\-L\-I\-N\-K\-\_\-\-Y@{L\-I\-B3\-D\-S\-\_\-\-U\-N\-L\-I\-N\-K\-\_\-\-Y}!Keyframing Tracks@{Keyframing Tracks}}\index{Keyframing Tracks@{Keyframing Tracks}!L\-I\-B3\-D\-S\-\_\-\-U\-N\-L\-I\-N\-K\-\_\-\-Y@{L\-I\-B3\-D\-S\-\_\-\-U\-N\-L\-I\-N\-K\-\_\-\-Y}}\item[{\em 
+\hypertarget{group__tracks_ggacea66dabdf9a544800f7b1a0b65d7777a8b9a0afee80ceb1ca402baf02471ec54}{L\-I\-B3\-D\-S\-\_\-\-U\-N\-L\-I\-N\-K\-\_\-\-Y}\label{group__tracks_ggacea66dabdf9a544800f7b1a0b65d7777a8b9a0afee80ceb1ca402baf02471ec54}
+}]\index{L\-I\-B3\-D\-S\-\_\-\-U\-N\-L\-I\-N\-K\-\_\-\-Z@{L\-I\-B3\-D\-S\-\_\-\-U\-N\-L\-I\-N\-K\-\_\-\-Z}!Keyframing Tracks@{Keyframing Tracks}}\index{Keyframing Tracks@{Keyframing Tracks}!L\-I\-B3\-D\-S\-\_\-\-U\-N\-L\-I\-N\-K\-\_\-\-Z@{L\-I\-B3\-D\-S\-\_\-\-U\-N\-L\-I\-N\-K\-\_\-\-Z}}\item[{\em 
+\hypertarget{group__tracks_ggacea66dabdf9a544800f7b1a0b65d7777ab35de084313efbec78f49d6e3ce6e67f}{L\-I\-B3\-D\-S\-\_\-\-U\-N\-L\-I\-N\-K\-\_\-\-Z}\label{group__tracks_ggacea66dabdf9a544800f7b1a0b65d7777ab35de084313efbec78f49d6e3ce6e67f}
+}]\end{description}
+\end{Desc}
+
+
+Definition at line 38 of file tracks.\-h.
+
+
+
+\subsection{Function Documentation}
+\hypertarget{group__tracks_gab1a8ad6ed429a91e27afe57742f660d4}{\index{Keyframing Tracks@{Keyframing Tracks}!lib3ds\-\_\-bool\-\_\-key\-\_\-free@{lib3ds\-\_\-bool\-\_\-key\-\_\-free}}
+\index{lib3ds\-\_\-bool\-\_\-key\-\_\-free@{lib3ds\-\_\-bool\-\_\-key\-\_\-free}!Keyframing Tracks@{Keyframing Tracks}}
+\subsubsection[{lib3ds\-\_\-bool\-\_\-key\-\_\-free}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} lib3ds\-\_\-bool\-\_\-key\-\_\-free (
+\begin{DoxyParamCaption}
+\item[{{\bf Lib3ds\-Bool\-Key} $\ast$}]{key}
+\end{DoxyParamCaption}
+)}}\label{group__tracks_gab1a8ad6ed429a91e27afe57742f660d4}
+
+
+Definition at line 54 of file tracks.\-c.
+
+\hypertarget{group__tracks_gae3e2f2db59feb30601ac82c415c30549}{\index{Keyframing Tracks@{Keyframing Tracks}!lib3ds\-\_\-bool\-\_\-key\-\_\-new@{lib3ds\-\_\-bool\-\_\-key\-\_\-new}}
+\index{lib3ds\-\_\-bool\-\_\-key\-\_\-new@{lib3ds\-\_\-bool\-\_\-key\-\_\-new}!Keyframing Tracks@{Keyframing Tracks}}
+\subsubsection[{lib3ds\-\_\-bool\-\_\-key\-\_\-new}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Lib3ds\-Bool\-Key}$\ast$ lib3ds\-\_\-bool\-\_\-key\-\_\-new (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group__tracks_gae3e2f2db59feb30601ac82c415c30549}
+
+
+Definition at line 42 of file tracks.\-c.
+
+\hypertarget{group__tracks_ga451e7ae1b9a3a32736f8a9cbb42f5c2c}{\index{Keyframing Tracks@{Keyframing Tracks}!lib3ds\-\_\-bool\-\_\-track\-\_\-eval@{lib3ds\-\_\-bool\-\_\-track\-\_\-eval}}
+\index{lib3ds\-\_\-bool\-\_\-track\-\_\-eval@{lib3ds\-\_\-bool\-\_\-track\-\_\-eval}!Keyframing Tracks@{Keyframing Tracks}}
+\subsubsection[{lib3ds\-\_\-bool\-\_\-track\-\_\-eval}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} lib3ds\-\_\-bool\-\_\-track\-\_\-eval (
+\begin{DoxyParamCaption}
+\item[{{\bf Lib3ds\-Bool\-Track} $\ast$}]{track, }
+\item[{{\bf Lib3ds\-Bool} $\ast$}]{p, }
+\item[{{\bf Lib3ds\-Float}}]{t}
+\end{DoxyParamCaption}
+)}}\label{group__tracks_ga451e7ae1b9a3a32736f8a9cbb42f5c2c}
+
+
+Definition at line 147 of file tracks.\-c.
+
+\hypertarget{group__tracks_gaa9930277963bb67cd92f4658fae2c7b3}{\index{Keyframing Tracks@{Keyframing Tracks}!lib3ds\-\_\-bool\-\_\-track\-\_\-free\-\_\-keys@{lib3ds\-\_\-bool\-\_\-track\-\_\-free\-\_\-keys}}
+\index{lib3ds\-\_\-bool\-\_\-track\-\_\-free\-\_\-keys@{lib3ds\-\_\-bool\-\_\-track\-\_\-free\-\_\-keys}!Keyframing Tracks@{Keyframing Tracks}}
+\subsubsection[{lib3ds\-\_\-bool\-\_\-track\-\_\-free\-\_\-keys}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} lib3ds\-\_\-bool\-\_\-track\-\_\-free\-\_\-keys (
+\begin{DoxyParamCaption}
+\item[{{\bf Lib3ds\-Bool\-Track} $\ast$}]{track}
+\end{DoxyParamCaption}
+)}}\label{group__tracks_gaa9930277963bb67cd92f4658fae2c7b3}
+
+
+Definition at line 65 of file tracks.\-c.
+
+\hypertarget{group__tracks_gaaaf325aca33983f7da7d49c22add0a89}{\index{Keyframing Tracks@{Keyframing Tracks}!lib3ds\-\_\-bool\-\_\-track\-\_\-insert@{lib3ds\-\_\-bool\-\_\-track\-\_\-insert}}
+\index{lib3ds\-\_\-bool\-\_\-track\-\_\-insert@{lib3ds\-\_\-bool\-\_\-track\-\_\-insert}!Keyframing Tracks@{Keyframing Tracks}}
+\subsubsection[{lib3ds\-\_\-bool\-\_\-track\-\_\-insert}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} lib3ds\-\_\-bool\-\_\-track\-\_\-insert (
+\begin{DoxyParamCaption}
+\item[{{\bf Lib3ds\-Bool\-Track} $\ast$}]{track, }
+\item[{{\bf Lib3ds\-Bool\-Key} $\ast$}]{key}
+\end{DoxyParamCaption}
+)}}\label{group__tracks_gaaaf325aca33983f7da7d49c22add0a89}
+
+
+Definition at line 81 of file tracks.\-c.
+
+\hypertarget{group__tracks_gaf00e12217fdb1905e27d027a6d05a599}{\index{Keyframing Tracks@{Keyframing Tracks}!lib3ds\-\_\-bool\-\_\-track\-\_\-read@{lib3ds\-\_\-bool\-\_\-track\-\_\-read}}
+\index{lib3ds\-\_\-bool\-\_\-track\-\_\-read@{lib3ds\-\_\-bool\-\_\-track\-\_\-read}!Keyframing Tracks@{Keyframing Tracks}}
+\subsubsection[{lib3ds\-\_\-bool\-\_\-track\-\_\-read}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Lib3ds\-Bool} lib3ds\-\_\-bool\-\_\-track\-\_\-read (
+\begin{DoxyParamCaption}
+\item[{{\bf Lib3ds\-Bool\-Track} $\ast$}]{track, }
+\item[{{\bf Lib3ds\-Io} $\ast$}]{io}
+\end{DoxyParamCaption}
+)}}\label{group__tracks_gaf00e12217fdb1905e27d027a6d05a599}
+
+
+Definition at line 192 of file tracks.\-c.
+
+\hypertarget{group__tracks_gab551dbe164827d7d228e45bf3598ece2}{\index{Keyframing Tracks@{Keyframing Tracks}!lib3ds\-\_\-bool\-\_\-track\-\_\-remove@{lib3ds\-\_\-bool\-\_\-track\-\_\-remove}}
+\index{lib3ds\-\_\-bool\-\_\-track\-\_\-remove@{lib3ds\-\_\-bool\-\_\-track\-\_\-remove}!Keyframing Tracks@{Keyframing Tracks}}
+\subsubsection[{lib3ds\-\_\-bool\-\_\-track\-\_\-remove}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} lib3ds\-\_\-bool\-\_\-track\-\_\-remove (
+\begin{DoxyParamCaption}
+\item[{{\bf Lib3ds\-Bool\-Track} $\ast$}]{track, }
+\item[{{\bf Lib3ds\-Intd}}]{frame}
+\end{DoxyParamCaption}
+)}}\label{group__tracks_gab551dbe164827d7d228e45bf3598ece2}
+
+
+Definition at line 120 of file tracks.\-c.
+
+\hypertarget{group__tracks_gab81f8794b9ebf91f9e787d9452206a40}{\index{Keyframing Tracks@{Keyframing Tracks}!lib3ds\-\_\-bool\-\_\-track\-\_\-write@{lib3ds\-\_\-bool\-\_\-track\-\_\-write}}
+\index{lib3ds\-\_\-bool\-\_\-track\-\_\-write@{lib3ds\-\_\-bool\-\_\-track\-\_\-write}!Keyframing Tracks@{Keyframing Tracks}}
+\subsubsection[{lib3ds\-\_\-bool\-\_\-track\-\_\-write}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Lib3ds\-Bool} lib3ds\-\_\-bool\-\_\-track\-\_\-write (
+\begin{DoxyParamCaption}
+\item[{{\bf Lib3ds\-Bool\-Track} $\ast$}]{track, }
+\item[{{\bf Lib3ds\-Io} $\ast$}]{io}
+\end{DoxyParamCaption}
+)}}\label{group__tracks_gab81f8794b9ebf91f9e787d9452206a40}
+
+
+Definition at line 219 of file tracks.\-c.
+
+\hypertarget{group__tracks_gaed3e16edfd8384ec9aed95f532269541}{\index{Keyframing Tracks@{Keyframing Tracks}!lib3ds\-\_\-lin1\-\_\-key\-\_\-free@{lib3ds\-\_\-lin1\-\_\-key\-\_\-free}}
+\index{lib3ds\-\_\-lin1\-\_\-key\-\_\-free@{lib3ds\-\_\-lin1\-\_\-key\-\_\-free}!Keyframing Tracks@{Keyframing Tracks}}
+\subsubsection[{lib3ds\-\_\-lin1\-\_\-key\-\_\-free}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} lib3ds\-\_\-lin1\-\_\-key\-\_\-free (
+\begin{DoxyParamCaption}
+\item[{{\bf Lib3ds\-Lin1\-Key} $\ast$}]{key}
+\end{DoxyParamCaption}
+)}}\label{group__tracks_gaed3e16edfd8384ec9aed95f532269541}
+
+
+Definition at line 256 of file tracks.\-c.
+
+\hypertarget{group__tracks_ga3b0f0b04eeb07d3bec46604c25935242}{\index{Keyframing Tracks@{Keyframing Tracks}!lib3ds\-\_\-lin1\-\_\-key\-\_\-new@{lib3ds\-\_\-lin1\-\_\-key\-\_\-new}}
+\index{lib3ds\-\_\-lin1\-\_\-key\-\_\-new@{lib3ds\-\_\-lin1\-\_\-key\-\_\-new}!Keyframing Tracks@{Keyframing Tracks}}
+\subsubsection[{lib3ds\-\_\-lin1\-\_\-key\-\_\-new}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Lib3ds\-Lin1\-Key}$\ast$ lib3ds\-\_\-lin1\-\_\-key\-\_\-new (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group__tracks_ga3b0f0b04eeb07d3bec46604c25935242}
+
+
+Definition at line 244 of file tracks.\-c.
+
+\hypertarget{group__tracks_gab51367330c93daf2c9370544accd00d8}{\index{Keyframing Tracks@{Keyframing Tracks}!lib3ds\-\_\-lin1\-\_\-key\-\_\-setup@{lib3ds\-\_\-lin1\-\_\-key\-\_\-setup}}
+\index{lib3ds\-\_\-lin1\-\_\-key\-\_\-setup@{lib3ds\-\_\-lin1\-\_\-key\-\_\-setup}!Keyframing Tracks@{Keyframing Tracks}}
+\subsubsection[{lib3ds\-\_\-lin1\-\_\-key\-\_\-setup}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} lib3ds\-\_\-lin1\-\_\-key\-\_\-setup (
+\begin{DoxyParamCaption}
+\item[{{\bf Lib3ds\-Lin1\-Key} $\ast$}]{p, }
+\item[{{\bf Lib3ds\-Lin1\-Key} $\ast$}]{cp, }
+\item[{{\bf Lib3ds\-Lin1\-Key} $\ast$}]{c, }
+\item[{{\bf Lib3ds\-Lin1\-Key} $\ast$}]{cn, }
+\item[{{\bf Lib3ds\-Lin1\-Key} $\ast$}]{n}
+\end{DoxyParamCaption}
+)}}\label{group__tracks_gab51367330c93daf2c9370544accd00d8}
+
+
+Definition at line 283 of file tracks.\-c.
+
+\hypertarget{group__tracks_ga07f4c60d12076ce92cbae8ce93be412a}{\index{Keyframing Tracks@{Keyframing Tracks}!lib3ds\-\_\-lin1\-\_\-track\-\_\-eval@{lib3ds\-\_\-lin1\-\_\-track\-\_\-eval}}
+\index{lib3ds\-\_\-lin1\-\_\-track\-\_\-eval@{lib3ds\-\_\-lin1\-\_\-track\-\_\-eval}!Keyframing Tracks@{Keyframing Tracks}}
+\subsubsection[{lib3ds\-\_\-lin1\-\_\-track\-\_\-eval}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} lib3ds\-\_\-lin1\-\_\-track\-\_\-eval (
+\begin{DoxyParamCaption}
+\item[{{\bf Lib3ds\-Lin1\-Track} $\ast$}]{track, }
+\item[{{\bf Lib3ds\-Float} $\ast$}]{p, }
+\item[{{\bf Lib3ds\-Float}}]{t}
+\end{DoxyParamCaption}
+)}}\label{group__tracks_ga07f4c60d12076ce92cbae8ce93be412a}
+
+
+Definition at line 453 of file tracks.\-c.
+
+\hypertarget{group__tracks_ga838608e75c159704ad2f212e51aa4e9c}{\index{Keyframing Tracks@{Keyframing Tracks}!lib3ds\-\_\-lin1\-\_\-track\-\_\-free\-\_\-keys@{lib3ds\-\_\-lin1\-\_\-track\-\_\-free\-\_\-keys}}
+\index{lib3ds\-\_\-lin1\-\_\-track\-\_\-free\-\_\-keys@{lib3ds\-\_\-lin1\-\_\-track\-\_\-free\-\_\-keys}!Keyframing Tracks@{Keyframing Tracks}}
+\subsubsection[{lib3ds\-\_\-lin1\-\_\-track\-\_\-free\-\_\-keys}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} lib3ds\-\_\-lin1\-\_\-track\-\_\-free\-\_\-keys (
+\begin{DoxyParamCaption}
+\item[{{\bf Lib3ds\-Lin1\-Track} $\ast$}]{track}
+\end{DoxyParamCaption}
+)}}\label{group__tracks_ga838608e75c159704ad2f212e51aa4e9c}
+
+
+Definition at line 267 of file tracks.\-c.
+
+\hypertarget{group__tracks_gadc39dd7ac081df6cb7f5f45be370a533}{\index{Keyframing Tracks@{Keyframing Tracks}!lib3ds\-\_\-lin1\-\_\-track\-\_\-insert@{lib3ds\-\_\-lin1\-\_\-track\-\_\-insert}}
+\index{lib3ds\-\_\-lin1\-\_\-track\-\_\-insert@{lib3ds\-\_\-lin1\-\_\-track\-\_\-insert}!Keyframing Tracks@{Keyframing Tracks}}
+\subsubsection[{lib3ds\-\_\-lin1\-\_\-track\-\_\-insert}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} lib3ds\-\_\-lin1\-\_\-track\-\_\-insert (
+\begin{DoxyParamCaption}
+\item[{{\bf Lib3ds\-Lin1\-Track} $\ast$}]{track, }
+\item[{{\bf Lib3ds\-Lin1\-Key} $\ast$}]{key}
+\end{DoxyParamCaption}
+)}}\label{group__tracks_gadc39dd7ac081df6cb7f5f45be370a533}
+
+
+Definition at line 374 of file tracks.\-c.
+
+\hypertarget{group__tracks_ga8f5763d49369825683fafd40c1e2f3e3}{\index{Keyframing Tracks@{Keyframing Tracks}!lib3ds\-\_\-lin1\-\_\-track\-\_\-read@{lib3ds\-\_\-lin1\-\_\-track\-\_\-read}}
+\index{lib3ds\-\_\-lin1\-\_\-track\-\_\-read@{lib3ds\-\_\-lin1\-\_\-track\-\_\-read}!Keyframing Tracks@{Keyframing Tracks}}
+\subsubsection[{lib3ds\-\_\-lin1\-\_\-track\-\_\-read}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Lib3ds\-Bool} lib3ds\-\_\-lin1\-\_\-track\-\_\-read (
+\begin{DoxyParamCaption}
+\item[{{\bf Lib3ds\-Lin1\-Track} $\ast$}]{track, }
+\item[{{\bf Lib3ds\-Io} $\ast$}]{io}
+\end{DoxyParamCaption}
+)}}\label{group__tracks_ga8f5763d49369825683fafd40c1e2f3e3}
+
+
+Definition at line 509 of file tracks.\-c.
+
+\hypertarget{group__tracks_ga4bd89481e70cc87bfb6e26603b98b796}{\index{Keyframing Tracks@{Keyframing Tracks}!lib3ds\-\_\-lin1\-\_\-track\-\_\-remove@{lib3ds\-\_\-lin1\-\_\-track\-\_\-remove}}
+\index{lib3ds\-\_\-lin1\-\_\-track\-\_\-remove@{lib3ds\-\_\-lin1\-\_\-track\-\_\-remove}!Keyframing Tracks@{Keyframing Tracks}}
+\subsubsection[{lib3ds\-\_\-lin1\-\_\-track\-\_\-remove}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} lib3ds\-\_\-lin1\-\_\-track\-\_\-remove (
+\begin{DoxyParamCaption}
+\item[{{\bf Lib3ds\-Lin1\-Track} $\ast$}]{track, }
+\item[{{\bf Lib3ds\-Intd}}]{frame}
+\end{DoxyParamCaption}
+)}}\label{group__tracks_ga4bd89481e70cc87bfb6e26603b98b796}
+
+
+Definition at line 413 of file tracks.\-c.
+
+\hypertarget{group__tracks_gaf8bf2b0768e70a7f67251f46cece1ede}{\index{Keyframing Tracks@{Keyframing Tracks}!lib3ds\-\_\-lin1\-\_\-track\-\_\-setup@{lib3ds\-\_\-lin1\-\_\-track\-\_\-setup}}
+\index{lib3ds\-\_\-lin1\-\_\-track\-\_\-setup@{lib3ds\-\_\-lin1\-\_\-track\-\_\-setup}!Keyframing Tracks@{Keyframing Tracks}}
+\subsubsection[{lib3ds\-\_\-lin1\-\_\-track\-\_\-setup}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} lib3ds\-\_\-lin1\-\_\-track\-\_\-setup (
+\begin{DoxyParamCaption}
+\item[{{\bf Lib3ds\-Lin1\-Track} $\ast$}]{track}
+\end{DoxyParamCaption}
+)}}\label{group__tracks_gaf8bf2b0768e70a7f67251f46cece1ede}
+
+
+Definition at line 329 of file tracks.\-c.
+
+\hypertarget{group__tracks_gae777b5fe09e8584e18635db7ff10c3c3}{\index{Keyframing Tracks@{Keyframing Tracks}!lib3ds\-\_\-lin1\-\_\-track\-\_\-write@{lib3ds\-\_\-lin1\-\_\-track\-\_\-write}}
+\index{lib3ds\-\_\-lin1\-\_\-track\-\_\-write@{lib3ds\-\_\-lin1\-\_\-track\-\_\-write}!Keyframing Tracks@{Keyframing Tracks}}
+\subsubsection[{lib3ds\-\_\-lin1\-\_\-track\-\_\-write}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Lib3ds\-Bool} lib3ds\-\_\-lin1\-\_\-track\-\_\-write (
+\begin{DoxyParamCaption}
+\item[{{\bf Lib3ds\-Lin1\-Track} $\ast$}]{track, }
+\item[{{\bf Lib3ds\-Io} $\ast$}]{io}
+\end{DoxyParamCaption}
+)}}\label{group__tracks_gae777b5fe09e8584e18635db7ff10c3c3}
+
+
+Definition at line 537 of file tracks.\-c.
+
+\hypertarget{group__tracks_gafa19a496403ee992e3157ed5b8f3e3d4}{\index{Keyframing Tracks@{Keyframing Tracks}!lib3ds\-\_\-lin3\-\_\-key\-\_\-free@{lib3ds\-\_\-lin3\-\_\-key\-\_\-free}}
+\index{lib3ds\-\_\-lin3\-\_\-key\-\_\-free@{lib3ds\-\_\-lin3\-\_\-key\-\_\-free}!Keyframing Tracks@{Keyframing Tracks}}
+\subsubsection[{lib3ds\-\_\-lin3\-\_\-key\-\_\-free}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} lib3ds\-\_\-lin3\-\_\-key\-\_\-free (
+\begin{DoxyParamCaption}
+\item[{{\bf Lib3ds\-Lin3\-Key} $\ast$}]{key}
+\end{DoxyParamCaption}
+)}}\label{group__tracks_gafa19a496403ee992e3157ed5b8f3e3d4}
+Free a Lin3 keyframe. 
+
+Definition at line 580 of file tracks.\-c.
+
+\hypertarget{group__tracks_ga868e72461de840b4a65da914fea76301}{\index{Keyframing Tracks@{Keyframing Tracks}!lib3ds\-\_\-lin3\-\_\-key\-\_\-new@{lib3ds\-\_\-lin3\-\_\-key\-\_\-new}}
+\index{lib3ds\-\_\-lin3\-\_\-key\-\_\-new@{lib3ds\-\_\-lin3\-\_\-key\-\_\-new}!Keyframing Tracks@{Keyframing Tracks}}
+\subsubsection[{lib3ds\-\_\-lin3\-\_\-key\-\_\-new}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Lib3ds\-Lin3\-Key}$\ast$ lib3ds\-\_\-lin3\-\_\-key\-\_\-new (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group__tracks_ga868e72461de840b4a65da914fea76301}
+Create and return one keyframe in a Lin3 track. All values are initialized to zero. 
+
+Definition at line 566 of file tracks.\-c.
+
+\hypertarget{group__tracks_ga32ec773465e1e1d99696948cfaa04886}{\index{Keyframing Tracks@{Keyframing Tracks}!lib3ds\-\_\-lin3\-\_\-key\-\_\-setup@{lib3ds\-\_\-lin3\-\_\-key\-\_\-setup}}
+\index{lib3ds\-\_\-lin3\-\_\-key\-\_\-setup@{lib3ds\-\_\-lin3\-\_\-key\-\_\-setup}!Keyframing Tracks@{Keyframing Tracks}}
+\subsubsection[{lib3ds\-\_\-lin3\-\_\-key\-\_\-setup}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} lib3ds\-\_\-lin3\-\_\-key\-\_\-setup (
+\begin{DoxyParamCaption}
+\item[{{\bf Lib3ds\-Lin3\-Key} $\ast$}]{p, }
+\item[{{\bf Lib3ds\-Lin3\-Key} $\ast$}]{cp, }
+\item[{{\bf Lib3ds\-Lin3\-Key} $\ast$}]{c, }
+\item[{{\bf Lib3ds\-Lin3\-Key} $\ast$}]{cn, }
+\item[{{\bf Lib3ds\-Lin3\-Key} $\ast$}]{n}
+\end{DoxyParamCaption}
+)}}\label{group__tracks_ga32ec773465e1e1d99696948cfaa04886}
+
+
+Definition at line 609 of file tracks.\-c.
+
+\hypertarget{group__tracks_gabacc6b8f7d09c36a4038b08ddd3b4a51}{\index{Keyframing Tracks@{Keyframing Tracks}!lib3ds\-\_\-lin3\-\_\-track\-\_\-eval@{lib3ds\-\_\-lin3\-\_\-track\-\_\-eval}}
+\index{lib3ds\-\_\-lin3\-\_\-track\-\_\-eval@{lib3ds\-\_\-lin3\-\_\-track\-\_\-eval}!Keyframing Tracks@{Keyframing Tracks}}
+\subsubsection[{lib3ds\-\_\-lin3\-\_\-track\-\_\-eval}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} lib3ds\-\_\-lin3\-\_\-track\-\_\-eval (
+\begin{DoxyParamCaption}
+\item[{{\bf Lib3ds\-Lin3\-Track} $\ast$}]{track, }
+\item[{{\bf Lib3ds\-Vector}}]{p, }
+\item[{{\bf Lib3ds\-Float}}]{t}
+\end{DoxyParamCaption}
+)}}\label{group__tracks_gabacc6b8f7d09c36a4038b08ddd3b4a51}
+
+
+Definition at line 769 of file tracks.\-c.
+
+\hypertarget{group__tracks_gadf92cabf129f8ca290a3c3342a7b6111}{\index{Keyframing Tracks@{Keyframing Tracks}!lib3ds\-\_\-lin3\-\_\-track\-\_\-free\-\_\-keys@{lib3ds\-\_\-lin3\-\_\-track\-\_\-free\-\_\-keys}}
+\index{lib3ds\-\_\-lin3\-\_\-track\-\_\-free\-\_\-keys@{lib3ds\-\_\-lin3\-\_\-track\-\_\-free\-\_\-keys}!Keyframing Tracks@{Keyframing Tracks}}
+\subsubsection[{lib3ds\-\_\-lin3\-\_\-track\-\_\-free\-\_\-keys}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} lib3ds\-\_\-lin3\-\_\-track\-\_\-free\-\_\-keys (
+\begin{DoxyParamCaption}
+\item[{{\bf Lib3ds\-Lin3\-Track} $\ast$}]{track}
+\end{DoxyParamCaption}
+)}}\label{group__tracks_gadf92cabf129f8ca290a3c3342a7b6111}
+Free all keyframes in a Lin3 track. 
+
+Definition at line 593 of file tracks.\-c.
+
+\hypertarget{group__tracks_ga67da574ae7749d1c08f5a0413ae8f16f}{\index{Keyframing Tracks@{Keyframing Tracks}!lib3ds\-\_\-lin3\-\_\-track\-\_\-insert@{lib3ds\-\_\-lin3\-\_\-track\-\_\-insert}}
+\index{lib3ds\-\_\-lin3\-\_\-track\-\_\-insert@{lib3ds\-\_\-lin3\-\_\-track\-\_\-insert}!Keyframing Tracks@{Keyframing Tracks}}
+\subsubsection[{lib3ds\-\_\-lin3\-\_\-track\-\_\-insert}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} lib3ds\-\_\-lin3\-\_\-track\-\_\-insert (
+\begin{DoxyParamCaption}
+\item[{{\bf Lib3ds\-Lin3\-Track} $\ast$}]{track, }
+\item[{{\bf Lib3ds\-Lin3\-Key} $\ast$}]{key}
+\end{DoxyParamCaption}
+)}}\label{group__tracks_ga67da574ae7749d1c08f5a0413ae8f16f}
+
+
+Definition at line 703 of file tracks.\-c.
+
+\hypertarget{group__tracks_ga7a27e05d9efc95437e492166eec0458c}{\index{Keyframing Tracks@{Keyframing Tracks}!lib3ds\-\_\-lin3\-\_\-track\-\_\-read@{lib3ds\-\_\-lin3\-\_\-track\-\_\-read}}
+\index{lib3ds\-\_\-lin3\-\_\-track\-\_\-read@{lib3ds\-\_\-lin3\-\_\-track\-\_\-read}!Keyframing Tracks@{Keyframing Tracks}}
+\subsubsection[{lib3ds\-\_\-lin3\-\_\-track\-\_\-read}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Lib3ds\-Bool} lib3ds\-\_\-lin3\-\_\-track\-\_\-read (
+\begin{DoxyParamCaption}
+\item[{{\bf Lib3ds\-Lin3\-Track} $\ast$}]{track, }
+\item[{{\bf Lib3ds\-Io} $\ast$}]{io}
+\end{DoxyParamCaption}
+)}}\label{group__tracks_ga7a27e05d9efc95437e492166eec0458c}
+
+
+Definition at line 825 of file tracks.\-c.
+
+\hypertarget{group__tracks_ga02e6b624d2a85653b66adb3f70262b4b}{\index{Keyframing Tracks@{Keyframing Tracks}!lib3ds\-\_\-lin3\-\_\-track\-\_\-remove@{lib3ds\-\_\-lin3\-\_\-track\-\_\-remove}}
+\index{lib3ds\-\_\-lin3\-\_\-track\-\_\-remove@{lib3ds\-\_\-lin3\-\_\-track\-\_\-remove}!Keyframing Tracks@{Keyframing Tracks}}
+\subsubsection[{lib3ds\-\_\-lin3\-\_\-track\-\_\-remove}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} lib3ds\-\_\-lin3\-\_\-track\-\_\-remove (
+\begin{DoxyParamCaption}
+\item[{{\bf Lib3ds\-Lin3\-Track} $\ast$}]{track, }
+\item[{{\bf Lib3ds\-Intd}}]{frame}
+\end{DoxyParamCaption}
+)}}\label{group__tracks_ga02e6b624d2a85653b66adb3f70262b4b}
+
+
+Definition at line 742 of file tracks.\-c.
+
+\hypertarget{group__tracks_ga7babfe23d4a49bfb875d678bab3d3aa4}{\index{Keyframing Tracks@{Keyframing Tracks}!lib3ds\-\_\-lin3\-\_\-track\-\_\-setup@{lib3ds\-\_\-lin3\-\_\-track\-\_\-setup}}
+\index{lib3ds\-\_\-lin3\-\_\-track\-\_\-setup@{lib3ds\-\_\-lin3\-\_\-track\-\_\-setup}!Keyframing Tracks@{Keyframing Tracks}}
+\subsubsection[{lib3ds\-\_\-lin3\-\_\-track\-\_\-setup}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} lib3ds\-\_\-lin3\-\_\-track\-\_\-setup (
+\begin{DoxyParamCaption}
+\item[{{\bf Lib3ds\-Lin3\-Track} $\ast$}]{track}
+\end{DoxyParamCaption}
+)}}\label{group__tracks_ga7babfe23d4a49bfb875d678bab3d3aa4}
+
+
+Definition at line 658 of file tracks.\-c.
+
+\hypertarget{group__tracks_ga8af9640de144fb749095f10ae3b75205}{\index{Keyframing Tracks@{Keyframing Tracks}!lib3ds\-\_\-lin3\-\_\-track\-\_\-write@{lib3ds\-\_\-lin3\-\_\-track\-\_\-write}}
+\index{lib3ds\-\_\-lin3\-\_\-track\-\_\-write@{lib3ds\-\_\-lin3\-\_\-track\-\_\-write}!Keyframing Tracks@{Keyframing Tracks}}
+\subsubsection[{lib3ds\-\_\-lin3\-\_\-track\-\_\-write}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Lib3ds\-Bool} lib3ds\-\_\-lin3\-\_\-track\-\_\-write (
+\begin{DoxyParamCaption}
+\item[{{\bf Lib3ds\-Lin3\-Track} $\ast$}]{track, }
+\item[{{\bf Lib3ds\-Io} $\ast$}]{io}
+\end{DoxyParamCaption}
+)}}\label{group__tracks_ga8af9640de144fb749095f10ae3b75205}
+
+
+Definition at line 855 of file tracks.\-c.
+
+\hypertarget{group__tracks_ga88f49043dc2880d77e5df818e86b317a}{\index{Keyframing Tracks@{Keyframing Tracks}!lib3ds\-\_\-morph\-\_\-key\-\_\-free@{lib3ds\-\_\-morph\-\_\-key\-\_\-free}}
+\index{lib3ds\-\_\-morph\-\_\-key\-\_\-free@{lib3ds\-\_\-morph\-\_\-key\-\_\-free}!Keyframing Tracks@{Keyframing Tracks}}
+\subsubsection[{lib3ds\-\_\-morph\-\_\-key\-\_\-free}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} lib3ds\-\_\-morph\-\_\-key\-\_\-free (
+\begin{DoxyParamCaption}
+\item[{{\bf Lib3ds\-Morph\-Key} $\ast$}]{key}
+\end{DoxyParamCaption}
+)}}\label{group__tracks_ga88f49043dc2880d77e5df818e86b317a}
+
+
+Definition at line 1243 of file tracks.\-c.
+
+\hypertarget{group__tracks_ga0cb08fbd64793b781ee14bd8942554cc}{\index{Keyframing Tracks@{Keyframing Tracks}!lib3ds\-\_\-morph\-\_\-key\-\_\-new@{lib3ds\-\_\-morph\-\_\-key\-\_\-new}}
+\index{lib3ds\-\_\-morph\-\_\-key\-\_\-new@{lib3ds\-\_\-morph\-\_\-key\-\_\-new}!Keyframing Tracks@{Keyframing Tracks}}
+\subsubsection[{lib3ds\-\_\-morph\-\_\-key\-\_\-new}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Lib3ds\-Morph\-Key}$\ast$ lib3ds\-\_\-morph\-\_\-key\-\_\-new (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group__tracks_ga0cb08fbd64793b781ee14bd8942554cc}
+
+
+Definition at line 1231 of file tracks.\-c.
+
+\hypertarget{group__tracks_ga8bddb614f3968b22b600bd2ab5174773}{\index{Keyframing Tracks@{Keyframing Tracks}!lib3ds\-\_\-morph\-\_\-track\-\_\-eval@{lib3ds\-\_\-morph\-\_\-track\-\_\-eval}}
+\index{lib3ds\-\_\-morph\-\_\-track\-\_\-eval@{lib3ds\-\_\-morph\-\_\-track\-\_\-eval}!Keyframing Tracks@{Keyframing Tracks}}
+\subsubsection[{lib3ds\-\_\-morph\-\_\-track\-\_\-eval}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} lib3ds\-\_\-morph\-\_\-track\-\_\-eval (
+\begin{DoxyParamCaption}
+\item[{{\bf Lib3ds\-Morph\-Track} $\ast$}]{track, }
+\item[{char $\ast$}]{p, }
+\item[{{\bf Lib3ds\-Float}}]{t}
+\end{DoxyParamCaption}
+)}}\label{group__tracks_ga8bddb614f3968b22b600bd2ab5174773}
+
+
+Definition at line 1336 of file tracks.\-c.
+
+\hypertarget{group__tracks_gaaf6ddcc7f3d892cb0a8d887d96decbba}{\index{Keyframing Tracks@{Keyframing Tracks}!lib3ds\-\_\-morph\-\_\-track\-\_\-free\-\_\-keys@{lib3ds\-\_\-morph\-\_\-track\-\_\-free\-\_\-keys}}
+\index{lib3ds\-\_\-morph\-\_\-track\-\_\-free\-\_\-keys@{lib3ds\-\_\-morph\-\_\-track\-\_\-free\-\_\-keys}!Keyframing Tracks@{Keyframing Tracks}}
+\subsubsection[{lib3ds\-\_\-morph\-\_\-track\-\_\-free\-\_\-keys}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} lib3ds\-\_\-morph\-\_\-track\-\_\-free\-\_\-keys (
+\begin{DoxyParamCaption}
+\item[{{\bf Lib3ds\-Morph\-Track} $\ast$}]{track}
+\end{DoxyParamCaption}
+)}}\label{group__tracks_gaaf6ddcc7f3d892cb0a8d887d96decbba}
+
+
+Definition at line 1254 of file tracks.\-c.
+
+\hypertarget{group__tracks_ga2da72a4823feb5c85e9deda863a0fcf1}{\index{Keyframing Tracks@{Keyframing Tracks}!lib3ds\-\_\-morph\-\_\-track\-\_\-insert@{lib3ds\-\_\-morph\-\_\-track\-\_\-insert}}
+\index{lib3ds\-\_\-morph\-\_\-track\-\_\-insert@{lib3ds\-\_\-morph\-\_\-track\-\_\-insert}!Keyframing Tracks@{Keyframing Tracks}}
+\subsubsection[{lib3ds\-\_\-morph\-\_\-track\-\_\-insert}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} lib3ds\-\_\-morph\-\_\-track\-\_\-insert (
+\begin{DoxyParamCaption}
+\item[{{\bf Lib3ds\-Morph\-Track} $\ast$}]{track, }
+\item[{{\bf Lib3ds\-Morph\-Key} $\ast$}]{key}
+\end{DoxyParamCaption}
+)}}\label{group__tracks_ga2da72a4823feb5c85e9deda863a0fcf1}
+
+
+Definition at line 1270 of file tracks.\-c.
+
+\hypertarget{group__tracks_ga677bede0a186cb3d33cc6e52f738bf11}{\index{Keyframing Tracks@{Keyframing Tracks}!lib3ds\-\_\-morph\-\_\-track\-\_\-read@{lib3ds\-\_\-morph\-\_\-track\-\_\-read}}
+\index{lib3ds\-\_\-morph\-\_\-track\-\_\-read@{lib3ds\-\_\-morph\-\_\-track\-\_\-read}!Keyframing Tracks@{Keyframing Tracks}}
+\subsubsection[{lib3ds\-\_\-morph\-\_\-track\-\_\-read}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Lib3ds\-Bool} lib3ds\-\_\-morph\-\_\-track\-\_\-read (
+\begin{DoxyParamCaption}
+\item[{{\bf Lib3ds\-Morph\-Track} $\ast$}]{track, }
+\item[{{\bf Lib3ds\-Io} $\ast$}]{io}
+\end{DoxyParamCaption}
+)}}\label{group__tracks_ga677bede0a186cb3d33cc6e52f738bf11}
+
+
+Definition at line 1377 of file tracks.\-c.
+
+\hypertarget{group__tracks_ga569b3c1cac16395196117739d298d91b}{\index{Keyframing Tracks@{Keyframing Tracks}!lib3ds\-\_\-morph\-\_\-track\-\_\-remove@{lib3ds\-\_\-morph\-\_\-track\-\_\-remove}}
+\index{lib3ds\-\_\-morph\-\_\-track\-\_\-remove@{lib3ds\-\_\-morph\-\_\-track\-\_\-remove}!Keyframing Tracks@{Keyframing Tracks}}
+\subsubsection[{lib3ds\-\_\-morph\-\_\-track\-\_\-remove}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} lib3ds\-\_\-morph\-\_\-track\-\_\-remove (
+\begin{DoxyParamCaption}
+\item[{{\bf Lib3ds\-Morph\-Track} $\ast$}]{track, }
+\item[{{\bf Lib3ds\-Intd}}]{frame}
+\end{DoxyParamCaption}
+)}}\label{group__tracks_ga569b3c1cac16395196117739d298d91b}
+
+
+Definition at line 1309 of file tracks.\-c.
+
+\hypertarget{group__tracks_ga9abfbbf0376d92a1ef163a7e2442662d}{\index{Keyframing Tracks@{Keyframing Tracks}!lib3ds\-\_\-morph\-\_\-track\-\_\-write@{lib3ds\-\_\-morph\-\_\-track\-\_\-write}}
+\index{lib3ds\-\_\-morph\-\_\-track\-\_\-write@{lib3ds\-\_\-morph\-\_\-track\-\_\-write}!Keyframing Tracks@{Keyframing Tracks}}
+\subsubsection[{lib3ds\-\_\-morph\-\_\-track\-\_\-write}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Lib3ds\-Bool} lib3ds\-\_\-morph\-\_\-track\-\_\-write (
+\begin{DoxyParamCaption}
+\item[{{\bf Lib3ds\-Morph\-Track} $\ast$}]{track, }
+\item[{{\bf Lib3ds\-Io} $\ast$}]{io}
+\end{DoxyParamCaption}
+)}}\label{group__tracks_ga9abfbbf0376d92a1ef163a7e2442662d}
+
+
+Definition at line 1410 of file tracks.\-c.
+
+\hypertarget{group__tracks_ga63281dae1eda63a93b0c7b2dcf72f361}{\index{Keyframing Tracks@{Keyframing Tracks}!lib3ds\-\_\-quat\-\_\-key\-\_\-free@{lib3ds\-\_\-quat\-\_\-key\-\_\-free}}
+\index{lib3ds\-\_\-quat\-\_\-key\-\_\-free@{lib3ds\-\_\-quat\-\_\-key\-\_\-free}!Keyframing Tracks@{Keyframing Tracks}}
+\subsubsection[{lib3ds\-\_\-quat\-\_\-key\-\_\-free}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} lib3ds\-\_\-quat\-\_\-key\-\_\-free (
+\begin{DoxyParamCaption}
+\item[{{\bf Lib3ds\-Quat\-Key} $\ast$}]{key}
+\end{DoxyParamCaption}
+)}}\label{group__tracks_ga63281dae1eda63a93b0c7b2dcf72f361}
+
+
+Definition at line 893 of file tracks.\-c.
+
+\hypertarget{group__tracks_ga6654d4a21a4c2558ce0f5486239ab381}{\index{Keyframing Tracks@{Keyframing Tracks}!lib3ds\-\_\-quat\-\_\-key\-\_\-new@{lib3ds\-\_\-quat\-\_\-key\-\_\-new}}
+\index{lib3ds\-\_\-quat\-\_\-key\-\_\-new@{lib3ds\-\_\-quat\-\_\-key\-\_\-new}!Keyframing Tracks@{Keyframing Tracks}}
+\subsubsection[{lib3ds\-\_\-quat\-\_\-key\-\_\-new}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Lib3ds\-Quat\-Key}$\ast$ lib3ds\-\_\-quat\-\_\-key\-\_\-new (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group__tracks_ga6654d4a21a4c2558ce0f5486239ab381}
+
+
+Definition at line 881 of file tracks.\-c.
+
+\hypertarget{group__tracks_ga86bfa691e68d118215592228e1f7d873}{\index{Keyframing Tracks@{Keyframing Tracks}!lib3ds\-\_\-quat\-\_\-key\-\_\-setup@{lib3ds\-\_\-quat\-\_\-key\-\_\-setup}}
+\index{lib3ds\-\_\-quat\-\_\-key\-\_\-setup@{lib3ds\-\_\-quat\-\_\-key\-\_\-setup}!Keyframing Tracks@{Keyframing Tracks}}
+\subsubsection[{lib3ds\-\_\-quat\-\_\-key\-\_\-setup}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} lib3ds\-\_\-quat\-\_\-key\-\_\-setup (
+\begin{DoxyParamCaption}
+\item[{{\bf Lib3ds\-Quat\-Key} $\ast$}]{p, }
+\item[{{\bf Lib3ds\-Quat\-Key} $\ast$}]{cp, }
+\item[{{\bf Lib3ds\-Quat\-Key} $\ast$}]{c, }
+\item[{{\bf Lib3ds\-Quat\-Key} $\ast$}]{cn, }
+\item[{{\bf Lib3ds\-Quat\-Key} $\ast$}]{n}
+\end{DoxyParamCaption}
+)}}\label{group__tracks_ga86bfa691e68d118215592228e1f7d873}
+
+
+Definition at line 920 of file tracks.\-c.
+
+\hypertarget{group__tracks_gaac7f904909f3cfeb3b4068116dbad6e1}{\index{Keyframing Tracks@{Keyframing Tracks}!lib3ds\-\_\-quat\-\_\-track\-\_\-eval@{lib3ds\-\_\-quat\-\_\-track\-\_\-eval}}
+\index{lib3ds\-\_\-quat\-\_\-track\-\_\-eval@{lib3ds\-\_\-quat\-\_\-track\-\_\-eval}!Keyframing Tracks@{Keyframing Tracks}}
+\subsubsection[{lib3ds\-\_\-quat\-\_\-track\-\_\-eval}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} lib3ds\-\_\-quat\-\_\-track\-\_\-eval (
+\begin{DoxyParamCaption}
+\item[{{\bf Lib3ds\-Quat\-Track} $\ast$}]{track, }
+\item[{{\bf Lib3ds\-Quat}}]{q, }
+\item[{{\bf Lib3ds\-Float}}]{t}
+\end{DoxyParamCaption}
+)}}\label{group__tracks_gaac7f904909f3cfeb3b4068116dbad6e1}
+
+
+Definition at line 1117 of file tracks.\-c.
+
+\hypertarget{group__tracks_gab2e86513dfaaf70d7b86bf15e6cbe070}{\index{Keyframing Tracks@{Keyframing Tracks}!lib3ds\-\_\-quat\-\_\-track\-\_\-free\-\_\-keys@{lib3ds\-\_\-quat\-\_\-track\-\_\-free\-\_\-keys}}
+\index{lib3ds\-\_\-quat\-\_\-track\-\_\-free\-\_\-keys@{lib3ds\-\_\-quat\-\_\-track\-\_\-free\-\_\-keys}!Keyframing Tracks@{Keyframing Tracks}}
+\subsubsection[{lib3ds\-\_\-quat\-\_\-track\-\_\-free\-\_\-keys}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} lib3ds\-\_\-quat\-\_\-track\-\_\-free\-\_\-keys (
+\begin{DoxyParamCaption}
+\item[{{\bf Lib3ds\-Quat\-Track} $\ast$}]{track}
+\end{DoxyParamCaption}
+)}}\label{group__tracks_gab2e86513dfaaf70d7b86bf15e6cbe070}
+
+
+Definition at line 904 of file tracks.\-c.
+
+\hypertarget{group__tracks_gad718d02c1514377fd2c635f7cd9c50b2}{\index{Keyframing Tracks@{Keyframing Tracks}!lib3ds\-\_\-quat\-\_\-track\-\_\-insert@{lib3ds\-\_\-quat\-\_\-track\-\_\-insert}}
+\index{lib3ds\-\_\-quat\-\_\-track\-\_\-insert@{lib3ds\-\_\-quat\-\_\-track\-\_\-insert}!Keyframing Tracks@{Keyframing Tracks}}
+\subsubsection[{lib3ds\-\_\-quat\-\_\-track\-\_\-insert}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} lib3ds\-\_\-quat\-\_\-track\-\_\-insert (
+\begin{DoxyParamCaption}
+\item[{{\bf Lib3ds\-Quat\-Track} $\ast$}]{track, }
+\item[{{\bf Lib3ds\-Quat\-Key} $\ast$}]{key}
+\end{DoxyParamCaption}
+)}}\label{group__tracks_gad718d02c1514377fd2c635f7cd9c50b2}
+
+
+Definition at line 1051 of file tracks.\-c.
+
+\hypertarget{group__tracks_gab6b3b2c0b9faa07eb654b6fc17c6d32d}{\index{Keyframing Tracks@{Keyframing Tracks}!lib3ds\-\_\-quat\-\_\-track\-\_\-read@{lib3ds\-\_\-quat\-\_\-track\-\_\-read}}
+\index{lib3ds\-\_\-quat\-\_\-track\-\_\-read@{lib3ds\-\_\-quat\-\_\-track\-\_\-read}!Keyframing Tracks@{Keyframing Tracks}}
+\subsubsection[{lib3ds\-\_\-quat\-\_\-track\-\_\-read}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Lib3ds\-Bool} lib3ds\-\_\-quat\-\_\-track\-\_\-read (
+\begin{DoxyParamCaption}
+\item[{{\bf Lib3ds\-Quat\-Track} $\ast$}]{track, }
+\item[{{\bf Lib3ds\-Io} $\ast$}]{io}
+\end{DoxyParamCaption}
+)}}\label{group__tracks_gab6b3b2c0b9faa07eb654b6fc17c6d32d}
+
+
+Definition at line 1173 of file tracks.\-c.
+
+\hypertarget{group__tracks_ga5badde06bb9fbe6de8c2a2e5e513698a}{\index{Keyframing Tracks@{Keyframing Tracks}!lib3ds\-\_\-quat\-\_\-track\-\_\-remove@{lib3ds\-\_\-quat\-\_\-track\-\_\-remove}}
+\index{lib3ds\-\_\-quat\-\_\-track\-\_\-remove@{lib3ds\-\_\-quat\-\_\-track\-\_\-remove}!Keyframing Tracks@{Keyframing Tracks}}
+\subsubsection[{lib3ds\-\_\-quat\-\_\-track\-\_\-remove}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} lib3ds\-\_\-quat\-\_\-track\-\_\-remove (
+\begin{DoxyParamCaption}
+\item[{{\bf Lib3ds\-Quat\-Track} $\ast$}]{track, }
+\item[{{\bf Lib3ds\-Intd}}]{frame}
+\end{DoxyParamCaption}
+)}}\label{group__tracks_ga5badde06bb9fbe6de8c2a2e5e513698a}
+
+
+Definition at line 1090 of file tracks.\-c.
+
+\hypertarget{group__tracks_gaee6778386db909424677bc98ceb46b1a}{\index{Keyframing Tracks@{Keyframing Tracks}!lib3ds\-\_\-quat\-\_\-track\-\_\-setup@{lib3ds\-\_\-quat\-\_\-track\-\_\-setup}}
+\index{lib3ds\-\_\-quat\-\_\-track\-\_\-setup@{lib3ds\-\_\-quat\-\_\-track\-\_\-setup}!Keyframing Tracks@{Keyframing Tracks}}
+\subsubsection[{lib3ds\-\_\-quat\-\_\-track\-\_\-setup}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} lib3ds\-\_\-quat\-\_\-track\-\_\-setup (
+\begin{DoxyParamCaption}
+\item[{{\bf Lib3ds\-Quat\-Track} $\ast$}]{track}
+\end{DoxyParamCaption}
+)}}\label{group__tracks_gaee6778386db909424677bc98ceb46b1a}
+
+
+Definition at line 995 of file tracks.\-c.
+
+\hypertarget{group__tracks_gac35fc7c994fd90ed0ca28305a6ac8a8c}{\index{Keyframing Tracks@{Keyframing Tracks}!lib3ds\-\_\-quat\-\_\-track\-\_\-write@{lib3ds\-\_\-quat\-\_\-track\-\_\-write}}
+\index{lib3ds\-\_\-quat\-\_\-track\-\_\-write@{lib3ds\-\_\-quat\-\_\-track\-\_\-write}!Keyframing Tracks@{Keyframing Tracks}}
+\subsubsection[{lib3ds\-\_\-quat\-\_\-track\-\_\-write}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Lib3ds\-Bool} lib3ds\-\_\-quat\-\_\-track\-\_\-write (
+\begin{DoxyParamCaption}
+\item[{{\bf Lib3ds\-Quat\-Track} $\ast$}]{track, }
+\item[{{\bf Lib3ds\-Io} $\ast$}]{io}
+\end{DoxyParamCaption}
+)}}\label{group__tracks_gac35fc7c994fd90ed0ca28305a6ac8a8c}
+
+
+Definition at line 1204 of file tracks.\-c.
+

@@ -1,0 +1,736 @@
+\hypertarget{class_qua_zip_file}{\section{Qua\-Zip\-File Class Reference}
+\label{class_qua_zip_file}\index{Qua\-Zip\-File@{Qua\-Zip\-File}}
+}
+
+
+A file inside Z\-I\-P archive.  
+
+
+
+
+{\ttfamily \#include $<$quazip/quazipfile.\-h$>$}
+
+Inheritance diagram for Qua\-Zip\-File\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_qua_zip_file}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_qua_zip_file_ad31592e0e8a9eaa009c6c0e2040a2158}{Qua\-Zip\-File} ()
+\begin{DoxyCompactList}\small\item\em Constructs a \hyperlink{class_qua_zip_file}{Qua\-Zip\-File} instance. \end{DoxyCompactList}\item 
+\hyperlink{class_qua_zip_file_a1349ad27f1947bc3e346d83dbf9586c4}{Qua\-Zip\-File} (Q\-Object $\ast$parent)
+\begin{DoxyCompactList}\small\item\em Constructs a \hyperlink{class_qua_zip_file}{Qua\-Zip\-File} instance. \end{DoxyCompactList}\item 
+\hyperlink{class_qua_zip_file_ae614495d6b2404a6c59d7cfca5c3f6fd}{Qua\-Zip\-File} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{Q\-String} \&zip\-Name, Q\-Object $\ast$parent=N\-U\-L\-L)
+\begin{DoxyCompactList}\small\item\em Constructs a \hyperlink{class_qua_zip_file}{Qua\-Zip\-File} instance. \end{DoxyCompactList}\item 
+\hyperlink{class_qua_zip_file_ac6e883b5a5d3a58c9c56eb497dd91220}{Qua\-Zip\-File} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{Q\-String} \&zip\-Name, const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{Q\-String} \&file\-Name, \hyperlink{class_qua_zip_a6053a1d249ed210a85c9d5eb7cf9cdbe}{Qua\-Zip\-::\-Case\-Sensitivity} cs=\hyperlink{class_qua_zip_a6053a1d249ed210a85c9d5eb7cf9cdbeac3cca8c0b976cf6397a28a5c84e75253}{Qua\-Zip\-::cs\-Default}, Q\-Object $\ast$parent=N\-U\-L\-L)
+\begin{DoxyCompactList}\small\item\em Constructs a \hyperlink{class_qua_zip_file}{Qua\-Zip\-File} instance. \end{DoxyCompactList}\item 
+\hyperlink{class_qua_zip_file_a54e944a6b3d27030f64c8f30d2cc33bb}{Qua\-Zip\-File} (\hyperlink{class_qua_zip}{Qua\-Zip} $\ast$zip, Q\-Object $\ast$parent=N\-U\-L\-L)
+\begin{DoxyCompactList}\small\item\em Constructs a \hyperlink{class_qua_zip_file}{Qua\-Zip\-File} instance. \end{DoxyCompactList}\item 
+virtual \hyperlink{class_qua_zip_file_aa1e5a0cf491bafae6cc73e649caa97fc}{$\sim$\-Qua\-Zip\-File} ()
+\begin{DoxyCompactList}\small\item\em Destroys a \hyperlink{class_qua_zip_file}{Qua\-Zip\-File} instance. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{Q\-String} \hyperlink{class_qua_zip_file_a6f034a714aa94631367590de3f8f4e22}{get\-Zip\-Name} () const 
+\begin{DoxyCompactList}\small\item\em Returns the Z\-I\-P archive file name. \end{DoxyCompactList}\item 
+\hyperlink{class_qua_zip}{Qua\-Zip} $\ast$ \hyperlink{class_qua_zip_file_abba38eaa52178120ee1f840c86026637}{get\-Zip} () const 
+\begin{DoxyCompactList}\small\item\em Returns a pointer to the associated \hyperlink{class_qua_zip}{Qua\-Zip} object. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{Q\-String} \hyperlink{class_qua_zip_file_a6999362e70a5b2396fba5cfb30095ff9}{get\-File\-Name} () const 
+\begin{DoxyCompactList}\small\item\em Returns file name. \end{DoxyCompactList}\item 
+\hyperlink{class_qua_zip_a6053a1d249ed210a85c9d5eb7cf9cdbe}{Qua\-Zip\-::\-Case\-Sensitivity} \hyperlink{class_qua_zip_file_a25dbfddc589bf6b69b39905f3c3bcc73}{get\-Case\-Sensitivity} () const 
+\begin{DoxyCompactList}\small\item\em Returns case sensitivity of the file name. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{Q\-String} \hyperlink{class_qua_zip_file_a7b8e3c39026855cd98661a1b2815c220}{get\-Actual\-File\-Name} () const 
+\begin{DoxyCompactList}\small\item\em Returns the actual file name in the archive. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qua_zip_file_ac8109e9a5c19bea75982ff6986b5cb1e}{set\-Zip\-Name} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{Q\-String} \&zip\-Name)
+\begin{DoxyCompactList}\small\item\em Sets the Z\-I\-P archive file name. \end{DoxyCompactList}\item 
+bool \hyperlink{class_qua_zip_file_a0df3db94c2a34c8d17ddaa0f54fc32c1}{is\-Raw} () const 
+\begin{DoxyCompactList}\small\item\em Returns {\ttfamily true} if the file was opened in raw mode. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qua_zip_file_ab7939a26d1e8de2f6aca54f49a12b980}{set\-Zip} (\hyperlink{class_qua_zip}{Qua\-Zip} $\ast$zip)
+\begin{DoxyCompactList}\small\item\em Binds to the existing \hyperlink{class_qua_zip}{Qua\-Zip} instance. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qua_zip_file_a3732ca7704379d457b6a27db8837de95}{set\-File\-Name} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{Q\-String} \&file\-Name, \hyperlink{class_qua_zip_a6053a1d249ed210a85c9d5eb7cf9cdbe}{Qua\-Zip\-::\-Case\-Sensitivity} cs=\hyperlink{class_qua_zip_a6053a1d249ed210a85c9d5eb7cf9cdbeac3cca8c0b976cf6397a28a5c84e75253}{Qua\-Zip\-::cs\-Default})
+\begin{DoxyCompactList}\small\item\em Sets the file name. \end{DoxyCompactList}\item 
+virtual bool \hyperlink{class_qua_zip_file_a4c20c0ef00ae79c9a59eafe2906c9384}{open} (Open\-Mode \hyperlink{glext_8h_a1e71d9c196e4683cc06c4b54d53f7ef5}{mode})
+\begin{DoxyCompactList}\small\item\em Opens a file for reading. \end{DoxyCompactList}\item 
+bool \hyperlink{class_qua_zip_file_a0bff0d15bbcd70306dc4a553a55776b9}{open} (Open\-Mode \hyperlink{glext_8h_a1e71d9c196e4683cc06c4b54d53f7ef5}{mode}, const char $\ast$password)
+\begin{DoxyCompactList}\small\item\em Opens a file for reading. \end{DoxyCompactList}\item 
+bool \hyperlink{class_qua_zip_file_aed75bace51f2bb4c3e4f656ab4493aac}{open} (Open\-Mode \hyperlink{glext_8h_a1e71d9c196e4683cc06c4b54d53f7ef5}{mode}, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} $\ast$method, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} $\ast$\hyperlink{glext_8h_abc60a79088789bd61297bf5f9ff500d1}{level}, bool raw, const char $\ast$password=N\-U\-L\-L)
+\begin{DoxyCompactList}\small\item\em Opens a file for reading. \end{DoxyCompactList}\item 
+bool \hyperlink{class_qua_zip_file_a2429ea59c77371d7af56d739db130b18}{open} (Open\-Mode \hyperlink{glext_8h_a1e71d9c196e4683cc06c4b54d53f7ef5}{mode}, const \hyperlink{struct_qua_zip_new_info}{Qua\-Zip\-New\-Info} \&info, const char $\ast$password=N\-U\-L\-L, quint32 crc=0, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} method=Z\-\_\-\-D\-E\-F\-L\-A\-T\-E\-D, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{glext_8h_abc60a79088789bd61297bf5f9ff500d1}{level}=Z\-\_\-\-D\-E\-F\-A\-U\-L\-T\-\_\-\-C\-O\-M\-P\-R\-E\-S\-S\-I\-O\-N, bool raw=false, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} window\-Bits=-\/M\-A\-X\-\_\-\-W\-B\-I\-T\-S, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} mem\-Level=D\-E\-F\-\_\-\-M\-E\-M\-\_\-\-L\-E\-V\-E\-L, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} strategy=Z\-\_\-\-D\-E\-F\-A\-U\-L\-T\-\_\-\-S\-T\-R\-A\-T\-E\-G\-Y)
+\begin{DoxyCompactList}\small\item\em Opens a file for writing. \end{DoxyCompactList}\item 
+virtual bool \hyperlink{class_qua_zip_file_a64430ec50820c8096f963a7e5f53001f}{is\-Sequential} () const 
+\begin{DoxyCompactList}\small\item\em Returns {\ttfamily true}, but \hyperlink{class_qua_zip_file_quazipfile-sequential}{beware}! \end{DoxyCompactList}\item 
+virtual qint64 \hyperlink{class_qua_zip_file_a90fd55dab83eca7f95df50b2c41b7f22}{pos} () const 
+\begin{DoxyCompactList}\small\item\em Returns current position in the file. \end{DoxyCompactList}\item 
+virtual bool \hyperlink{class_qua_zip_file_a1e3f4c3c075da98af426fc167440cfc3}{at\-End} () const 
+\begin{DoxyCompactList}\small\item\em Returns {\ttfamily true} if the end of file was reached. \end{DoxyCompactList}\item 
+virtual qint64 \hyperlink{class_qua_zip_file_ad1a17cc690a01c3edfb82984c3a4c8f0}{size} () const 
+\begin{DoxyCompactList}\small\item\em Returns file size. \end{DoxyCompactList}\item 
+qint64 \hyperlink{class_qua_zip_file_ac4da08e5cdec368a2a686775f7dc5639}{csize} () const 
+\begin{DoxyCompactList}\small\item\em Returns compressed file size. \end{DoxyCompactList}\item 
+qint64 \hyperlink{class_qua_zip_file_a4814b5e6e39fb254737b81ea10964f50}{usize} () const 
+\begin{DoxyCompactList}\small\item\em Returns uncompressed file size. \end{DoxyCompactList}\item 
+bool \hyperlink{class_qua_zip_file_ad3f5807329321be21b12c1ba5798b359}{get\-File\-Info} (\hyperlink{struct_qua_zip_file_info}{Qua\-Zip\-File\-Info} $\ast$info)
+\begin{DoxyCompactList}\small\item\em Gets information about current file. \end{DoxyCompactList}\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qua_zip_file_a42a39b12619bccd3d419ee60bbb3fcf6}{close} ()
+\begin{DoxyCompactList}\small\item\em Closes the file. \end{DoxyCompactList}\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_qua_zip_file_a26d2ee56aad947193b73052f80597ef0}{get\-Zip\-Error} () const 
+\begin{DoxyCompactList}\small\item\em Returns the error code returned by the last Z\-I\-P/\-U\-N\-Z\-I\-P A\-P\-I call. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+qint64 \hyperlink{class_qua_zip_file_aa1f2274e1579327855a17d67a9046ec2}{read\-Data} (char $\ast$\hyperlink{glext_8h_a8850df0785e6fbcc2351af3b686b8c7a}{data}, qint64 max\-Size)
+\begin{DoxyCompactList}\small\item\em Implementation of the Q\-I\-O\-Device\-::read\-Data(). \end{DoxyCompactList}\item 
+qint64 \hyperlink{class_qua_zip_file_abd07949a6fcc2ef094d2be5398bc8e7c}{write\-Data} (const char $\ast$\hyperlink{glext_8h_a8850df0785e6fbcc2351af3b686b8c7a}{data}, qint64 max\-Size)
+\begin{DoxyCompactList}\small\item\em Implementation of the Q\-I\-O\-Device\-::write\-Data(). \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+A file inside Z\-I\-P archive. 
+
+This is the most interesting class. Not only it provides C++ interface to the Z\-I\-P/\-U\-N\-Z\-I\-P package, but also integrates it with Qt by subclassing Q\-I\-O\-Device. This makes possible to access files inside Z\-I\-P archive using Q\-Text\-Stream or Q\-Data\-Stream, for example. Actually, this is the main purpose of the whole Qua\-Z\-I\-P library.
+
+You can either use existing \hyperlink{class_qua_zip}{Qua\-Zip} instance to create instance of this class or pass Z\-I\-P archive file name to this class, in which case it will create internal \hyperlink{class_qua_zip}{Qua\-Zip} object. See constructors' descriptions for details. Writing is only possible with the existing instance.\hypertarget{class_qua_zip_file_quazipfile-sequential}{}\subsection{Sequential or random-\/access?}\label{class_qua_zip_file_quazipfile-sequential}
+At the first thought, \hyperlink{class_qua_zip_file}{Qua\-Zip\-File} has fixed size, the start and the end and should be therefore considered random-\/access device. But there is one major obstacle to making it random-\/access\-: Z\-I\-P/\-U\-N\-Z\-I\-P A\-P\-I does not support seek() operation and the only way to implement it is through reopening the file and re-\/reading to the required position, but this is prohibitely slow.
+
+Therefore, \hyperlink{class_qua_zip_file}{Qua\-Zip\-File} is considered to be a sequential device. This has advantage of availability of the unget\-Char() operation (Q\-I\-O\-Device does not implement it properly for non-\/sequential devices unless they support seek()). Disadvantage is a somewhat strange behaviour of the \hyperlink{class_qua_zip_file_ad1a17cc690a01c3edfb82984c3a4c8f0}{size()} and \hyperlink{class_qua_zip_file_a90fd55dab83eca7f95df50b2c41b7f22}{pos()} functions. This should be kept in mind while using this class. 
+
+Definition at line 71 of file quazipfile.\-h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_qua_zip_file_ad31592e0e8a9eaa009c6c0e2040a2158}{\index{Qua\-Zip\-File@{Qua\-Zip\-File}!Qua\-Zip\-File@{Qua\-Zip\-File}}
+\index{Qua\-Zip\-File@{Qua\-Zip\-File}!QuaZipFile@{Qua\-Zip\-File}}
+\subsubsection[{Qua\-Zip\-File}]{\setlength{\rightskip}{0pt plus 5cm}Qua\-Zip\-File\-::\-Qua\-Zip\-File (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_qua_zip_file_ad31592e0e8a9eaa009c6c0e2040a2158}
+
+
+Constructs a \hyperlink{class_qua_zip_file}{Qua\-Zip\-File} instance. 
+
+You should use \hyperlink{class_qua_zip_file_ac8109e9a5c19bea75982ff6986b5cb1e}{set\-Zip\-Name()} and \hyperlink{class_qua_zip_file_a3732ca7704379d457b6a27db8837de95}{set\-File\-Name()} or \hyperlink{class_qua_zip_file_ab7939a26d1e8de2f6aca54f49a12b980}{set\-Zip()} before trying to call \hyperlink{class_qua_zip_file_a4c20c0ef00ae79c9a59eafe2906c9384}{open()} on the constructed object. 
+
+Definition at line 37 of file quazipfile.\-cpp.
+
+\hypertarget{class_qua_zip_file_a1349ad27f1947bc3e346d83dbf9586c4}{\index{Qua\-Zip\-File@{Qua\-Zip\-File}!Qua\-Zip\-File@{Qua\-Zip\-File}}
+\index{Qua\-Zip\-File@{Qua\-Zip\-File}!QuaZipFile@{Qua\-Zip\-File}}
+\subsubsection[{Qua\-Zip\-File}]{\setlength{\rightskip}{0pt plus 5cm}Qua\-Zip\-File\-::\-Qua\-Zip\-File (
+\begin{DoxyParamCaption}
+\item[{Q\-Object $\ast$}]{parent}
+\end{DoxyParamCaption}
+)}}\label{class_qua_zip_file_a1349ad27f1947bc3e346d83dbf9586c4}
+
+
+Constructs a \hyperlink{class_qua_zip_file}{Qua\-Zip\-File} instance. 
+
+{\itshape parent} argument specifies this object's parent object.
+
+You should use \hyperlink{class_qua_zip_file_ac8109e9a5c19bea75982ff6986b5cb1e}{set\-Zip\-Name()} and \hyperlink{class_qua_zip_file_a3732ca7704379d457b6a27db8837de95}{set\-File\-Name()} or \hyperlink{class_qua_zip_file_ab7939a26d1e8de2f6aca54f49a12b980}{set\-Zip()} before trying to call \hyperlink{class_qua_zip_file_a4c20c0ef00ae79c9a59eafe2906c9384}{open()} on the constructed object. 
+
+Definition at line 42 of file quazipfile.\-cpp.
+
+\hypertarget{class_qua_zip_file_ae614495d6b2404a6c59d7cfca5c3f6fd}{\index{Qua\-Zip\-File@{Qua\-Zip\-File}!Qua\-Zip\-File@{Qua\-Zip\-File}}
+\index{Qua\-Zip\-File@{Qua\-Zip\-File}!QuaZipFile@{Qua\-Zip\-File}}
+\subsubsection[{Qua\-Zip\-File}]{\setlength{\rightskip}{0pt plus 5cm}Qua\-Zip\-File\-::\-Qua\-Zip\-File (
+\begin{DoxyParamCaption}
+\item[{const {\bf Q\-String} \&}]{zip\-Name, }
+\item[{Q\-Object $\ast$}]{parent = {\ttfamily NULL}}
+\end{DoxyParamCaption}
+)}}\label{class_qua_zip_file_ae614495d6b2404a6c59d7cfca5c3f6fd}
+
+
+Constructs a \hyperlink{class_qua_zip_file}{Qua\-Zip\-File} instance. 
+
+{\itshape parent} argument specifies this object's parent object and {\itshape zip\-Name} specifies Z\-I\-P archive file name.
+
+You should use \hyperlink{class_qua_zip_file_a3732ca7704379d457b6a27db8837de95}{set\-File\-Name()} before trying to call \hyperlink{class_qua_zip_file_a4c20c0ef00ae79c9a59eafe2906c9384}{open()} on the constructed object.
+
+\hyperlink{class_qua_zip_file}{Qua\-Zip\-File} constructed by this constructor can be used for read only access. Use \hyperlink{class_qua_zip_file_a54e944a6b3d27030f64c8f30d2cc33bb}{Qua\-Zip\-File(\-Qua\-Zip$\ast$,\-Q\-Object$\ast$)} for writing. 
+
+Definition at line 47 of file quazipfile.\-cpp.
+
+\hypertarget{class_qua_zip_file_ac6e883b5a5d3a58c9c56eb497dd91220}{\index{Qua\-Zip\-File@{Qua\-Zip\-File}!Qua\-Zip\-File@{Qua\-Zip\-File}}
+\index{Qua\-Zip\-File@{Qua\-Zip\-File}!QuaZipFile@{Qua\-Zip\-File}}
+\subsubsection[{Qua\-Zip\-File}]{\setlength{\rightskip}{0pt plus 5cm}Qua\-Zip\-File\-::\-Qua\-Zip\-File (
+\begin{DoxyParamCaption}
+\item[{const {\bf Q\-String} \&}]{zip\-Name, }
+\item[{const {\bf Q\-String} \&}]{file\-Name, }
+\item[{{\bf Qua\-Zip\-::\-Case\-Sensitivity}}]{cs = {\ttfamily {\bf Qua\-Zip\-::cs\-Default}}, }
+\item[{Q\-Object $\ast$}]{parent = {\ttfamily NULL}}
+\end{DoxyParamCaption}
+)}}\label{class_qua_zip_file_ac6e883b5a5d3a58c9c56eb497dd91220}
+
+
+Constructs a \hyperlink{class_qua_zip_file}{Qua\-Zip\-File} instance. 
+
+{\itshape parent} argument specifies this object's parent object, {\itshape zip\-Name} specifies Z\-I\-P archive file name and {\itshape file\-Name} and {\itshape cs} specify a name of the file to open inside archive.
+
+\hyperlink{class_qua_zip_file}{Qua\-Zip\-File} constructed by this constructor can be used for read only access. Use \hyperlink{class_qua_zip_file_a54e944a6b3d27030f64c8f30d2cc33bb}{Qua\-Zip\-File(\-Qua\-Zip$\ast$,\-Q\-Object$\ast$)} for writing.
+
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qua_zip_a6c657bfcfccb59d728e0da24c677d899}{Qua\-Zip\-::set\-Current\-File()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 54 of file quazipfile.\-cpp.
+
+\hypertarget{class_qua_zip_file_a54e944a6b3d27030f64c8f30d2cc33bb}{\index{Qua\-Zip\-File@{Qua\-Zip\-File}!Qua\-Zip\-File@{Qua\-Zip\-File}}
+\index{Qua\-Zip\-File@{Qua\-Zip\-File}!QuaZipFile@{Qua\-Zip\-File}}
+\subsubsection[{Qua\-Zip\-File}]{\setlength{\rightskip}{0pt plus 5cm}Qua\-Zip\-File\-::\-Qua\-Zip\-File (
+\begin{DoxyParamCaption}
+\item[{{\bf Qua\-Zip} $\ast$}]{zip, }
+\item[{Q\-Object $\ast$}]{parent = {\ttfamily NULL}}
+\end{DoxyParamCaption}
+)}}\label{class_qua_zip_file_a54e944a6b3d27030f64c8f30d2cc33bb}
+
+
+Constructs a \hyperlink{class_qua_zip_file}{Qua\-Zip\-File} instance. 
+
+{\itshape parent} argument specifies this object's parent object.
+
+{\itshape zip} is the pointer to the existing \hyperlink{class_qua_zip}{Qua\-Zip} object. This \hyperlink{class_qua_zip_file}{Qua\-Zip\-File} object then can be used to read current file in the {\itshape zip} or to write to the file inside it.
+
+\begin{DoxyWarning}{Warning}
+Using this constructor for reading current file can be tricky. Let's take the following example\-: 
+\begin{DoxyCode}
+\hyperlink{class_qua_zip}{QuaZip} zip(\textcolor{stringliteral}{"archive.zip"});
+zip.\hyperlink{class_qua_zip_abfa4e6018b2964a3d10a4c54e5ab3962}{open}(\hyperlink{class_qua_zip_a47e28d4116ee716fdd6b431b821d0be4a803a371910c2dc830d111e9ce5b58897}{QuaZip::mdUnzip});
+zip.\hyperlink{class_qua_zip_a6c657bfcfccb59d728e0da24c677d899}{setCurrentFile}(\textcolor{stringliteral}{"file-in-archive"});
+\hyperlink{class_qua_zip_file}{QuaZipFile} \hyperlink{sdlgamepad_8dox_a049a073e5602cc325f7559a06c5a2420}{file}(&zip);
+\hyperlink{sdlgamepad_8dox_a049a073e5602cc325f7559a06c5a2420}{file}.open(QIODevice::ReadOnly);
+\textcolor{comment}{// ok, now we can read from the file}
+\hyperlink{sdlgamepad_8dox_a049a073e5602cc325f7559a06c5a2420}{file}.read(somewhere, some);
+zip.\hyperlink{class_qua_zip_a6c657bfcfccb59d728e0da24c677d899}{setCurrentFile}(\textcolor{stringliteral}{"another-file-in-archive"}); \textcolor{comment}{// oops...}
+\hyperlink{class_qua_zip_file}{QuaZipFile} anotherFile(&zip);
+anotherFile.open(QIODevice::ReadOnly);
+anotherFile.read(somewhere, some); \textcolor{comment}{// this is still ok...}
+\hyperlink{sdlgamepad_8dox_a049a073e5602cc325f7559a06c5a2420}{file}.read(somewhere, some); \textcolor{comment}{// and this is NOT}
+\end{DoxyCode}
+ So, what exactly happens here? When we change current file in the {\ttfamily zip} archive, {\ttfamily file} that references it becomes invalid (actually, as far as I understand Z\-I\-P/\-U\-N\-Z\-I\-P sources, it becomes closed, but \hyperlink{class_qua_zip_file}{Qua\-Zip\-File} has no means to detect it).
+\end{DoxyWarning}
+Summary\-: do not close {\ttfamily zip} object or change its current file as long as \hyperlink{class_qua_zip_file}{Qua\-Zip\-File} is open. Even better -\/ use another constructors which create internal \hyperlink{class_qua_zip}{Qua\-Zip} instances, one per object, and therefore do not cause unnecessary trouble. This constructor may be useful, though, if you already have a \hyperlink{class_qua_zip}{Qua\-Zip} instance and do not want to access several files at once. Good example\-: 
+\begin{DoxyCode}
+\hyperlink{class_qua_zip}{QuaZip} zip(\textcolor{stringliteral}{"archive.zip"});
+zip.\hyperlink{class_qua_zip_abfa4e6018b2964a3d10a4c54e5ab3962}{open}(\hyperlink{class_qua_zip_a47e28d4116ee716fdd6b431b821d0be4a803a371910c2dc830d111e9ce5b58897}{QuaZip::mdUnzip});
+\textcolor{comment}{// first, we need some information about archive itself}
+QByteArray comment=zip.\hyperlink{class_qua_zip_ae55cfbf2296132df808c557b62433051}{getComment}();
+\textcolor{comment}{// and now we are going to access files inside it}
+\hyperlink{class_qua_zip_file}{QuaZipFile} \hyperlink{sdlgamepad_8dox_a049a073e5602cc325f7559a06c5a2420}{file}(&zip);
+\textcolor{keywordflow}{for}(\textcolor{keywordtype}{bool} more=zip.\hyperlink{class_qua_zip_a745488f9177bcec3cdb858587584e033}{goToFirstFile}(); more; more=zip.\hyperlink{class_qua_zip_aee6779b6cd338420c2e8c5655fa8ba97}{goToNextFile}()) \{
+  \hyperlink{sdlgamepad_8dox_a049a073e5602cc325f7559a06c5a2420}{file}.open(QIODevice::ReadOnly);
+  \textcolor{comment}{// do something cool with file here}
+  \hyperlink{sdlgamepad_8dox_a049a073e5602cc325f7559a06c5a2420}{file}.close(); \textcolor{comment}{// do not forget to close!}
+\}
+zip.\hyperlink{class_qua_zip_a7a4323b73e12f3b4470109f200728f9f}{close}();
+\end{DoxyCode}
+ 
+
+Definition at line 64 of file quazipfile.\-cpp.
+
+\hypertarget{class_qua_zip_file_aa1e5a0cf491bafae6cc73e649caa97fc}{\index{Qua\-Zip\-File@{Qua\-Zip\-File}!$\sim$\-Qua\-Zip\-File@{$\sim$\-Qua\-Zip\-File}}
+\index{$\sim$\-Qua\-Zip\-File@{$\sim$\-Qua\-Zip\-File}!QuaZipFile@{Qua\-Zip\-File}}
+\subsubsection[{$\sim$\-Qua\-Zip\-File}]{\setlength{\rightskip}{0pt plus 5cm}Qua\-Zip\-File\-::$\sim$\-Qua\-Zip\-File (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_qua_zip_file_aa1e5a0cf491bafae6cc73e649caa97fc}
+
+
+Destroys a \hyperlink{class_qua_zip_file}{Qua\-Zip\-File} instance. 
+
+Closes file if open, destructs internal \hyperlink{class_qua_zip}{Qua\-Zip} object (if it exists and {\itshape is} internal, of course). 
+
+Definition at line 71 of file quazipfile.\-cpp.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_qua_zip_file_a1e3f4c3c075da98af426fc167440cfc3}{\index{Qua\-Zip\-File@{Qua\-Zip\-File}!at\-End@{at\-End}}
+\index{at\-End@{at\-End}!QuaZipFile@{Qua\-Zip\-File}}
+\subsubsection[{at\-End}]{\setlength{\rightskip}{0pt plus 5cm}bool Qua\-Zip\-File\-::at\-End (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_qua_zip_file_a1e3f4c3c075da98af426fc167440cfc3}
+
+
+Returns {\ttfamily true} if the end of file was reached. 
+
+This function returns {\ttfamily false} in the case of error. This means that you called this function on either not open file, or a file in the not open archive or even on a \hyperlink{class_qua_zip_file}{Qua\-Zip\-File} instance that does not even have \hyperlink{class_qua_zip}{Qua\-Zip} instance associated. Do not do that because there is no means to determine whether {\ttfamily false} is returned because of error or because end of file was reached. Well, on the other side you may interpret {\ttfamily false} return value as \char`\"{}there is no file open to check for end of file and there is
+no end of file therefore\char`\"{}.
+
+When writing, this function always returns {\ttfamily true} (because you are always writing to the end of file).
+
+Error code returned by \hyperlink{class_qua_zip_file_a26d2ee56aad947193b73052f80597ef0}{get\-Zip\-Error()} is not affected by this function call. 
+
+Definition at line 277 of file quazipfile.\-cpp.
+
+\hypertarget{class_qua_zip_file_a42a39b12619bccd3d419ee60bbb3fcf6}{\index{Qua\-Zip\-File@{Qua\-Zip\-File}!close@{close}}
+\index{close@{close}!QuaZipFile@{Qua\-Zip\-File}}
+\subsubsection[{close}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qua\-Zip\-File\-::close (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_qua_zip_file_a42a39b12619bccd3d419ee60bbb3fcf6}
+
+
+Closes the file. 
+
+Call \hyperlink{class_qua_zip_file_a26d2ee56aad947193b73052f80597ef0}{get\-Zip\-Error()} to determine if the close was successful. 
+
+Definition at line 335 of file quazipfile.\-cpp.
+
+\hypertarget{class_qua_zip_file_ac4da08e5cdec368a2a686775f7dc5639}{\index{Qua\-Zip\-File@{Qua\-Zip\-File}!csize@{csize}}
+\index{csize@{csize}!QuaZipFile@{Qua\-Zip\-File}}
+\subsubsection[{csize}]{\setlength{\rightskip}{0pt plus 5cm}qint64 Qua\-Zip\-File\-::csize (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_qua_zip_file_ac4da08e5cdec368a2a686775f7dc5639}
+
+
+Returns compressed file size. 
+
+Equivalent to calling \hyperlink{class_qua_zip_file_ad3f5807329321be21b12c1ba5798b359}{get\-File\-Info()} and then getting compressed\-Size field, but more convenient and faster.
+
+File must be open for reading before calling this function.
+
+Returns -\/1 on error, call \hyperlink{class_qua_zip_file_a26d2ee56aad947193b73052f80597ef0}{get\-Zip\-Error()} to get error code. 
+
+Definition at line 305 of file quazipfile.\-cpp.
+
+\hypertarget{class_qua_zip_file_a7b8e3c39026855cd98661a1b2815c220}{\index{Qua\-Zip\-File@{Qua\-Zip\-File}!get\-Actual\-File\-Name@{get\-Actual\-File\-Name}}
+\index{get\-Actual\-File\-Name@{get\-Actual\-File\-Name}!QuaZipFile@{Qua\-Zip\-File}}
+\subsubsection[{get\-Actual\-File\-Name}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Q\-String} Qua\-Zip\-File\-::get\-Actual\-File\-Name (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_qua_zip_file_a7b8e3c39026855cd98661a1b2815c220}
+
+
+Returns the actual file name in the archive. 
+
+This is {\itshape not} a Z\-I\-P archive file name, but a name of file inside archive. It is not necessary the same name that you have passed to the \hyperlink{class_qua_zip_file_ac6e883b5a5d3a58c9c56eb497dd91220}{Qua\-Zip\-File(const Q\-String\&,const Q\-String\&,\-Qua\-Zip\-::\-Case\-Sensitivity,\-Q\-Object$\ast$)}, \hyperlink{class_qua_zip_file_a3732ca7704379d457b6a27db8837de95}{set\-File\-Name()} or \hyperlink{class_qua_zip_a6c657bfcfccb59d728e0da24c677d899}{Qua\-Zip\-::set\-Current\-File()} -\/ this is the real file name inside archive, so it may differ in case if the file name search was case-\/insensitive.
+
+Equivalent to calling get\-Current\-File\-Name() on the associated \hyperlink{class_qua_zip}{Qua\-Zip} object. Returns null string if there is no associated \hyperlink{class_qua_zip}{Qua\-Zip} object or if it does not have a current file yet. And this is the case if you called \hyperlink{class_qua_zip_file_a3732ca7704379d457b6a27db8837de95}{set\-File\-Name()} but did not open the file yet. So this is perfectly fine\-: 
+\begin{DoxyCode}
+\hyperlink{class_qua_zip_file}{QuaZipFile} \hyperlink{sdlgamepad_8dox_a049a073e5602cc325f7559a06c5a2420}{file}(\textcolor{stringliteral}{"somezip.zip"});
+\hyperlink{sdlgamepad_8dox_a049a073e5602cc325f7559a06c5a2420}{file}.setFileName(\textcolor{stringliteral}{"somefile"});
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{QString} name=\hyperlink{sdlgamepad_8dox_a049a073e5602cc325f7559a06c5a2420}{file}.getName(); \textcolor{comment}{// name=="somefile"}
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{QString} actual=\hyperlink{sdlgamepad_8dox_a049a073e5602cc325f7559a06c5a2420}{file}.getActualFileName(); \textcolor{comment}{// actual is null string}
+\hyperlink{sdlgamepad_8dox_a049a073e5602cc325f7559a06c5a2420}{file}.open(QIODevice::ReadOnly);
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{QString} actual=\hyperlink{sdlgamepad_8dox_a049a073e5602cc325f7559a06c5a2420}{file}.getActualFileName(); \textcolor{comment}{// actual can be "SoMeFiLe" on Windows}
+\end{DoxyCode}
+
+
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qua_zip_file_a6f034a714aa94631367590de3f8f4e22}{get\-Zip\-Name()}, \hyperlink{class_qua_zip_file_a6999362e70a5b2396fba5cfb30095ff9}{get\-File\-Name()}, \hyperlink{class_qua_zip_a6053a1d249ed210a85c9d5eb7cf9cdbe}{Qua\-Zip\-::\-Case\-Sensitivity} 
+\end{DoxySeeAlso}
+
+
+Definition at line 82 of file quazipfile.\-cpp.
+
+\hypertarget{class_qua_zip_file_a25dbfddc589bf6b69b39905f3c3bcc73}{\index{Qua\-Zip\-File@{Qua\-Zip\-File}!get\-Case\-Sensitivity@{get\-Case\-Sensitivity}}
+\index{get\-Case\-Sensitivity@{get\-Case\-Sensitivity}!QuaZipFile@{Qua\-Zip\-File}}
+\subsubsection[{get\-Case\-Sensitivity}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Qua\-Zip\-::\-Case\-Sensitivity} Qua\-Zip\-File\-::get\-Case\-Sensitivity (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_qua_zip_file_a25dbfddc589bf6b69b39905f3c3bcc73}
+
+
+Returns case sensitivity of the file name. 
+
+This function returns case sensitivity argument you passed to this object either by using \hyperlink{class_qua_zip_file_ac6e883b5a5d3a58c9c56eb497dd91220}{Qua\-Zip\-File(const Q\-String\&,const Q\-String\&,\-Qua\-Zip\-::\-Case\-Sensitivity,\-Q\-Object$\ast$)} or by calling \hyperlink{class_qua_zip_file_a3732ca7704379d457b6a27db8837de95}{set\-File\-Name()}.
+
+Returns unpredictable value if \hyperlink{class_qua_zip_file_a6999362e70a5b2396fba5cfb30095ff9}{get\-File\-Name()} returns null string (this is the case when you did not used \hyperlink{class_qua_zip_file_a3732ca7704379d457b6a27db8837de95}{set\-File\-Name()} or constructor above).
+
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qua_zip_file_a6999362e70a5b2396fba5cfb30095ff9}{get\-File\-Name} 
+\end{DoxySeeAlso}
+
+
+Definition at line 228 of file quazipfile.\-h.
+
+\hypertarget{class_qua_zip_file_ad3f5807329321be21b12c1ba5798b359}{\index{Qua\-Zip\-File@{Qua\-Zip\-File}!get\-File\-Info@{get\-File\-Info}}
+\index{get\-File\-Info@{get\-File\-Info}!QuaZipFile@{Qua\-Zip\-File}}
+\subsubsection[{get\-File\-Info}]{\setlength{\rightskip}{0pt plus 5cm}bool Qua\-Zip\-File\-::get\-File\-Info (
+\begin{DoxyParamCaption}
+\item[{{\bf Qua\-Zip\-File\-Info} $\ast$}]{info}
+\end{DoxyParamCaption}
+)}}\label{class_qua_zip_file_ad3f5807329321be21b12c1ba5798b359}
+
+
+Gets information about current file. 
+
+This function does the same thing as calling \hyperlink{class_qua_zip_a9c91a53ed4c2038e153c64bdc097ebe8}{Qua\-Zip\-::get\-Current\-File\-Info()} on the associated \hyperlink{class_qua_zip}{Qua\-Zip} object, but you can not call get\-Current\-File\-Info() if the associated \hyperlink{class_qua_zip}{Qua\-Zip} is internal (because you do not have access to it), while you still can call this function in that case.
+
+File must be open for reading before calling this function.
+
+Returns {\ttfamily false} in the case of an error. 
+
+Definition at line 327 of file quazipfile.\-cpp.
+
+\hypertarget{class_qua_zip_file_a6999362e70a5b2396fba5cfb30095ff9}{\index{Qua\-Zip\-File@{Qua\-Zip\-File}!get\-File\-Name@{get\-File\-Name}}
+\index{get\-File\-Name@{get\-File\-Name}!QuaZipFile@{Qua\-Zip\-File}}
+\subsubsection[{get\-File\-Name}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Q\-String} Qua\-Zip\-File\-::get\-File\-Name (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_qua_zip_file_a6999362e70a5b2396fba5cfb30095ff9}
+
+
+Returns file name. 
+
+This function returns file name you passed to this object either by using \hyperlink{class_qua_zip_file_ac6e883b5a5d3a58c9c56eb497dd91220}{Qua\-Zip\-File(const Q\-String\&,const Q\-String\&,\-Qua\-Zip\-::\-Case\-Sensitivity,\-Q\-Object$\ast$)} or by calling \hyperlink{class_qua_zip_file_a3732ca7704379d457b6a27db8837de95}{set\-File\-Name()}. Real name of the file may differ in case if you used case-\/insensitivity.
+
+Returns null string if there is no file name set yet. This is the case when this \hyperlink{class_qua_zip_file}{Qua\-Zip\-File} operates on the existing \hyperlink{class_qua_zip}{Qua\-Zip} object (constructor \hyperlink{class_qua_zip_file_a54e944a6b3d27030f64c8f30d2cc33bb}{Qua\-Zip\-File(\-Qua\-Zip$\ast$,\-Q\-Object$\ast$)} or \hyperlink{class_qua_zip_file_ab7939a26d1e8de2f6aca54f49a12b980}{set\-Zip()} was used).
+
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qua_zip_file_a7b8e3c39026855cd98661a1b2815c220}{get\-Actual\-File\-Name} 
+\end{DoxySeeAlso}
+
+
+Definition at line 215 of file quazipfile.\-h.
+
+\hypertarget{class_qua_zip_file_abba38eaa52178120ee1f840c86026637}{\index{Qua\-Zip\-File@{Qua\-Zip\-File}!get\-Zip@{get\-Zip}}
+\index{get\-Zip@{get\-Zip}!QuaZipFile@{Qua\-Zip\-File}}
+\subsubsection[{get\-Zip}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Qua\-Zip}$\ast$ Qua\-Zip\-File\-::get\-Zip (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_qua_zip_file_abba38eaa52178120ee1f840c86026637}
+
+
+Returns a pointer to the associated \hyperlink{class_qua_zip}{Qua\-Zip} object. 
+
+Returns {\ttfamily N\-U\-L\-L} if there is no associated \hyperlink{class_qua_zip}{Qua\-Zip} or it is internal (so you will not mess with it). \hypertarget{class_qua_zip_file_a26d2ee56aad947193b73052f80597ef0}{\index{Qua\-Zip\-File@{Qua\-Zip\-File}!get\-Zip\-Error@{get\-Zip\-Error}}
+\index{get\-Zip\-Error@{get\-Zip\-Error}!QuaZipFile@{Qua\-Zip\-File}}
+\subsubsection[{get\-Zip\-Error}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int} Qua\-Zip\-File\-::get\-Zip\-Error (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_qua_zip_file_a26d2ee56aad947193b73052f80597ef0}
+
+
+Returns the error code returned by the last Z\-I\-P/\-U\-N\-Z\-I\-P A\-P\-I call. 
+
+
+
+Definition at line 439 of file quazipfile.\-h.
+
+\hypertarget{class_qua_zip_file_a6f034a714aa94631367590de3f8f4e22}{\index{Qua\-Zip\-File@{Qua\-Zip\-File}!get\-Zip\-Name@{get\-Zip\-Name}}
+\index{get\-Zip\-Name@{get\-Zip\-Name}!QuaZipFile@{Qua\-Zip\-File}}
+\subsubsection[{get\-Zip\-Name}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Q\-String} Qua\-Zip\-File\-::get\-Zip\-Name (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_qua_zip_file_a6f034a714aa94631367590de3f8f4e22}
+
+
+Returns the Z\-I\-P archive file name. 
+
+If this object was created by passing \hyperlink{class_qua_zip}{Qua\-Zip} pointer to the constructor, this function will return that \hyperlink{class_qua_zip}{Qua\-Zip}'s file name (or null string if that object does not have file name yet).
+
+Otherwise, returns associated Z\-I\-P archive file name or null string if there are no name set yet.
+
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qua_zip_file_ac8109e9a5c19bea75982ff6986b5cb1e}{set\-Zip\-Name()} \hyperlink{class_qua_zip_file_a6999362e70a5b2396fba5cfb30095ff9}{get\-File\-Name()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 77 of file quazipfile.\-cpp.
+
+\hypertarget{class_qua_zip_file_a0df3db94c2a34c8d17ddaa0f54fc32c1}{\index{Qua\-Zip\-File@{Qua\-Zip\-File}!is\-Raw@{is\-Raw}}
+\index{is\-Raw@{is\-Raw}!QuaZipFile@{Qua\-Zip\-File}}
+\subsubsection[{is\-Raw}]{\setlength{\rightskip}{0pt plus 5cm}bool Qua\-Zip\-File\-::is\-Raw (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_qua_zip_file_a0df3db94c2a34c8d17ddaa0f54fc32c1}
+
+
+Returns {\ttfamily true} if the file was opened in raw mode. 
+
+If the file is not open, the returned value is undefined.
+
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qua_zip_file_aed75bace51f2bb4c3e4f656ab4493aac}{open(\-Open\-Mode,int$\ast$,int$\ast$,bool,const char$\ast$)} 
+\end{DoxySeeAlso}
+
+
+Definition at line 268 of file quazipfile.\-h.
+
+\hypertarget{class_qua_zip_file_a64430ec50820c8096f963a7e5f53001f}{\index{Qua\-Zip\-File@{Qua\-Zip\-File}!is\-Sequential@{is\-Sequential}}
+\index{is\-Sequential@{is\-Sequential}!QuaZipFile@{Qua\-Zip\-File}}
+\subsubsection[{is\-Sequential}]{\setlength{\rightskip}{0pt plus 5cm}bool Qua\-Zip\-File\-::is\-Sequential (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_qua_zip_file_a64430ec50820c8096f963a7e5f53001f}
+
+
+Returns {\ttfamily true}, but \hyperlink{class_qua_zip_file_quazipfile-sequential}{beware}! 
+
+
+
+Definition at line 256 of file quazipfile.\-cpp.
+
+\hypertarget{class_qua_zip_file_a4c20c0ef00ae79c9a59eafe2906c9384}{\index{Qua\-Zip\-File@{Qua\-Zip\-File}!open@{open}}
+\index{open@{open}!QuaZipFile@{Qua\-Zip\-File}}
+\subsubsection[{open}]{\setlength{\rightskip}{0pt plus 5cm}bool Qua\-Zip\-File\-::open (
+\begin{DoxyParamCaption}
+\item[{Open\-Mode}]{mode}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_qua_zip_file_a4c20c0ef00ae79c9a59eafe2906c9384}
+
+
+Opens a file for reading. 
+
+Returns {\ttfamily true} on success, {\ttfamily false} otherwise. Call \hyperlink{class_qua_zip_file_a26d2ee56aad947193b73052f80597ef0}{get\-Zip\-Error()} to get error code.
+
+\begin{DoxyNote}{Note}
+Since Z\-I\-P/\-U\-N\-Z\-I\-P A\-P\-I provides buffered reading only, \hyperlink{class_qua_zip_file}{Qua\-Zip\-File} does not support unbuffered reading. So do not pass Q\-I\-O\-Device\-::\-Unbuffered flag in {\itshape mode}, or open will fail. 
+\end{DoxyNote}
+
+
+Definition at line 144 of file quazipfile.\-cpp.
+
+\hypertarget{class_qua_zip_file_a0bff0d15bbcd70306dc4a553a55776b9}{\index{Qua\-Zip\-File@{Qua\-Zip\-File}!open@{open}}
+\index{open@{open}!QuaZipFile@{Qua\-Zip\-File}}
+\subsubsection[{open}]{\setlength{\rightskip}{0pt plus 5cm}bool Qua\-Zip\-File\-::open (
+\begin{DoxyParamCaption}
+\item[{Open\-Mode}]{mode, }
+\item[{const char $\ast$}]{password}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_qua_zip_file_a0bff0d15bbcd70306dc4a553a55776b9}
+
+
+Opens a file for reading. 
+
+This is an overloaded member function, provided for convenience. It differs from the above function only in what argument(s) it accepts.\-Argument {\itshape password} specifies a password to decrypt the file. If it is N\-U\-L\-L then this function behaves just like \hyperlink{class_qua_zip_file_a4c20c0ef00ae79c9a59eafe2906c9384}{open(\-Open\-Mode)}. 
+
+Definition at line 306 of file quazipfile.\-h.
+
+\hypertarget{class_qua_zip_file_aed75bace51f2bb4c3e4f656ab4493aac}{\index{Qua\-Zip\-File@{Qua\-Zip\-File}!open@{open}}
+\index{open@{open}!QuaZipFile@{Qua\-Zip\-File}}
+\subsubsection[{open}]{\setlength{\rightskip}{0pt plus 5cm}bool Qua\-Zip\-File\-::open (
+\begin{DoxyParamCaption}
+\item[{Open\-Mode}]{mode, }
+\item[{{\bf int} $\ast$}]{method, }
+\item[{{\bf int} $\ast$}]{level, }
+\item[{bool}]{raw, }
+\item[{const char $\ast$}]{password = {\ttfamily NULL}}
+\end{DoxyParamCaption}
+)}}\label{class_qua_zip_file_aed75bace51f2bb4c3e4f656ab4493aac}
+
+
+Opens a file for reading. 
+
+This is an overloaded member function, provided for convenience. It differs from the above function only in what argument(s) it accepts.\-Argument {\itshape password} specifies a password to decrypt the file.
+
+An integers pointed by {\itshape method} and {\itshape level} will receive codes of the compression method and level used. See unzip.\-h.
+
+If raw is {\ttfamily true} then no decompression is performed.
+
+{\itshape method} should not be {\ttfamily N\-U\-L\-L}. {\itshape level} can be {\ttfamily N\-U\-L\-L} if you don't want to know the compression level. 
+
+Definition at line 149 of file quazipfile.\-cpp.
+
+\hypertarget{class_qua_zip_file_a2429ea59c77371d7af56d739db130b18}{\index{Qua\-Zip\-File@{Qua\-Zip\-File}!open@{open}}
+\index{open@{open}!QuaZipFile@{Qua\-Zip\-File}}
+\subsubsection[{open}]{\setlength{\rightskip}{0pt plus 5cm}bool Qua\-Zip\-File\-::open (
+\begin{DoxyParamCaption}
+\item[{Open\-Mode}]{mode, }
+\item[{const {\bf Qua\-Zip\-New\-Info} \&}]{info, }
+\item[{const char $\ast$}]{password = {\ttfamily NULL}, }
+\item[{quint32}]{crc = {\ttfamily 0}, }
+\item[{{\bf int}}]{method = {\ttfamily Z\-\_\-DEFLATED}, }
+\item[{{\bf int}}]{level = {\ttfamily Z\-\_\-DEFAULT\-\_\-COMPRESSION}, }
+\item[{bool}]{raw = {\ttfamily false}, }
+\item[{{\bf int}}]{window\-Bits = {\ttfamily -\/MAX\-\_\-WBITS}, }
+\item[{{\bf int}}]{mem\-Level = {\ttfamily DEF\-\_\-MEM\-\_\-LEVEL}, }
+\item[{{\bf int}}]{strategy = {\ttfamily Z\-\_\-DEFAULT\-\_\-STRATEGY}}
+\end{DoxyParamCaption}
+)}}\label{class_qua_zip_file_a2429ea59c77371d7af56d739db130b18}
+
+
+Opens a file for writing. 
+
+{\itshape info} argument specifies information about file. It should at least specify a correct file name. Also, it is a good idea to specify correct timestamp (by default, current time will be used). See \hyperlink{struct_qua_zip_new_info}{Qua\-Zip\-New\-Info}.
+
+Arguments {\itshape password} and {\itshape crc} provide necessary information for crypting. Note that you should specify both of them if you need crypting. If you do not, pass {\ttfamily N\-U\-L\-L} as password, but you still need to specify {\itshape crc} if you are going to use raw mode (see below).
+
+Arguments {\itshape method} and {\itshape level} specify compression method and level.
+
+If {\itshape raw} is {\ttfamily true}, no compression is performed. In this case, {\itshape crc} and uncompressed\-Size field of the {\itshape info} are required.
+
+Arguments {\itshape window\-Bits}, {\itshape mem\-Level}, {\itshape strategy} provide zlib algorithms tuning. See deflate\-Init2() in zlib. 
+
+Definition at line 198 of file quazipfile.\-cpp.
+
+\hypertarget{class_qua_zip_file_a90fd55dab83eca7f95df50b2c41b7f22}{\index{Qua\-Zip\-File@{Qua\-Zip\-File}!pos@{pos}}
+\index{pos@{pos}!QuaZipFile@{Qua\-Zip\-File}}
+\subsubsection[{pos}]{\setlength{\rightskip}{0pt plus 5cm}qint64 Qua\-Zip\-File\-::pos (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_qua_zip_file_a90fd55dab83eca7f95df50b2c41b7f22}
+
+
+Returns current position in the file. 
+
+Implementation of the Q\-I\-O\-Device\-::pos(). When reading, this function is a wrapper to the Z\-I\-P/\-U\-N\-Z\-I\-P \hyperlink{unzip_8c_a17362e5016023e9424a318d93c0475d4}{unztell()}, therefore it is unable to keep track of the unget\-Char() calls (which is non-\/virtual and therefore is dangerous to reimplement). So if you are using unget\-Char() feature of the Q\-I\-O\-Device, this function reports incorrect value until you get back characters which you ungot.
+
+When writing, \hyperlink{class_qua_zip_file_a90fd55dab83eca7f95df50b2c41b7f22}{pos()} returns number of bytes already written (uncompressed unless you use raw mode).
+
+\begin{DoxyNote}{Note}
+Although \hyperlink{class_qua_zip_file_quazipfile-sequential}{Qua\-Zip\-File is a sequential device} and therefore \hyperlink{class_qua_zip_file_a90fd55dab83eca7f95df50b2c41b7f22}{pos()} should always return zero, it does not, because it would be misguiding. Keep this in mind.
+\end{DoxyNote}
+This function returns -\/1 if the file or archive is not open.
+
+Error code returned by \hyperlink{class_qua_zip_file_a26d2ee56aad947193b73052f80597ef0}{get\-Zip\-Error()} is not affected by this function call. 
+
+Definition at line 261 of file quazipfile.\-cpp.
+
+\hypertarget{class_qua_zip_file_aa1f2274e1579327855a17d67a9046ec2}{\index{Qua\-Zip\-File@{Qua\-Zip\-File}!read\-Data@{read\-Data}}
+\index{read\-Data@{read\-Data}!QuaZipFile@{Qua\-Zip\-File}}
+\subsubsection[{read\-Data}]{\setlength{\rightskip}{0pt plus 5cm}qint64 Qua\-Zip\-File\-::read\-Data (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{data, }
+\item[{qint64}]{max\-Size}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_qua_zip_file_aa1f2274e1579327855a17d67a9046ec2}
+
+
+Implementation of the Q\-I\-O\-Device\-::read\-Data(). 
+
+
+
+Definition at line 360 of file quazipfile.\-cpp.
+
+\hypertarget{class_qua_zip_file_a3732ca7704379d457b6a27db8837de95}{\index{Qua\-Zip\-File@{Qua\-Zip\-File}!set\-File\-Name@{set\-File\-Name}}
+\index{set\-File\-Name@{set\-File\-Name}!QuaZipFile@{Qua\-Zip\-File}}
+\subsubsection[{set\-File\-Name}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qua\-Zip\-File\-::set\-File\-Name (
+\begin{DoxyParamCaption}
+\item[{const {\bf Q\-String} \&}]{file\-Name, }
+\item[{{\bf Qua\-Zip\-::\-Case\-Sensitivity}}]{cs = {\ttfamily {\bf Qua\-Zip\-::cs\-Default}}}
+\end{DoxyParamCaption}
+)}}\label{class_qua_zip_file_a3732ca7704379d457b6a27db8837de95}
+
+
+Sets the file name. 
+
+Will do nothing if at least one of the following conditions is met\-:
+\begin{DoxyItemize}
+\item Z\-I\-P name has not been set yet (\hyperlink{class_qua_zip_file_a6f034a714aa94631367590de3f8f4e22}{get\-Zip\-Name()} returns null string).
+\item This \hyperlink{class_qua_zip_file}{Qua\-Zip\-File} is associated with external \hyperlink{class_qua_zip}{Qua\-Zip}. In this case you should call that \hyperlink{class_qua_zip}{Qua\-Zip}'s set\-Current\-File() function instead!
+\item File is already open so setting the name is meaningless.
+\end{DoxyItemize}
+
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qua_zip_a6c657bfcfccb59d728e0da24c677d899}{Qua\-Zip\-::set\-Current\-File} 
+\end{DoxySeeAlso}
+
+
+Definition at line 116 of file quazipfile.\-cpp.
+
+\hypertarget{class_qua_zip_file_ab7939a26d1e8de2f6aca54f49a12b980}{\index{Qua\-Zip\-File@{Qua\-Zip\-File}!set\-Zip@{set\-Zip}}
+\index{set\-Zip@{set\-Zip}!QuaZipFile@{Qua\-Zip\-File}}
+\subsubsection[{set\-Zip}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qua\-Zip\-File\-::set\-Zip (
+\begin{DoxyParamCaption}
+\item[{{\bf Qua\-Zip} $\ast$}]{zip}
+\end{DoxyParamCaption}
+)}}\label{class_qua_zip_file_ab7939a26d1e8de2f6aca54f49a12b980}
+
+
+Binds to the existing \hyperlink{class_qua_zip}{Qua\-Zip} instance. 
+
+This function destroys internal \hyperlink{class_qua_zip}{Qua\-Zip} object, if any, and makes this \hyperlink{class_qua_zip_file}{Qua\-Zip\-File} to use current file in the {\itshape zip} object for any further operations. See \hyperlink{class_qua_zip_file_a54e944a6b3d27030f64c8f30d2cc33bb}{Qua\-Zip\-File(\-Qua\-Zip$\ast$,\-Q\-Object$\ast$)} for the possible pitfalls.
+
+Will do nothing if the file is currently open. You must \hyperlink{class_qua_zip_file_a42a39b12619bccd3d419ee60bbb3fcf6}{close()} it first. 
+
+Definition at line 104 of file quazipfile.\-cpp.
+
+\hypertarget{class_qua_zip_file_ac8109e9a5c19bea75982ff6986b5cb1e}{\index{Qua\-Zip\-File@{Qua\-Zip\-File}!set\-Zip\-Name@{set\-Zip\-Name}}
+\index{set\-Zip\-Name@{set\-Zip\-Name}!QuaZipFile@{Qua\-Zip\-File}}
+\subsubsection[{set\-Zip\-Name}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qua\-Zip\-File\-::set\-Zip\-Name (
+\begin{DoxyParamCaption}
+\item[{const {\bf Q\-String} \&}]{zip\-Name}
+\end{DoxyParamCaption}
+)}}\label{class_qua_zip_file_ac8109e9a5c19bea75982ff6986b5cb1e}
+
+
+Sets the Z\-I\-P archive file name. 
+
+Automatically creates internal \hyperlink{class_qua_zip}{Qua\-Zip} object and destroys previously created internal \hyperlink{class_qua_zip}{Qua\-Zip} object, if any.
+
+Will do nothing if this file is already open. You must \hyperlink{class_qua_zip_file_a42a39b12619bccd3d419ee60bbb3fcf6}{close()} it first. 
+
+Definition at line 92 of file quazipfile.\-cpp.
+
+\hypertarget{class_qua_zip_file_ad1a17cc690a01c3edfb82984c3a4c8f0}{\index{Qua\-Zip\-File@{Qua\-Zip\-File}!size@{size}}
+\index{size@{size}!QuaZipFile@{Qua\-Zip\-File}}
+\subsubsection[{size}]{\setlength{\rightskip}{0pt plus 5cm}qint64 Qua\-Zip\-File\-::size (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_qua_zip_file_ad1a17cc690a01c3edfb82984c3a4c8f0}
+
+
+Returns file size. 
+
+This function returns \hyperlink{class_qua_zip_file_ac4da08e5cdec368a2a686775f7dc5639}{csize()} if the file is open for reading in raw mode, \hyperlink{class_qua_zip_file_a4814b5e6e39fb254737b81ea10964f50}{usize()} if it is open for reading in normal mode and \hyperlink{class_qua_zip_file_a90fd55dab83eca7f95df50b2c41b7f22}{pos()} if it is open for writing.
+
+Returns -\/1 on error, call \hyperlink{class_qua_zip_file_a26d2ee56aad947193b73052f80597ef0}{get\-Zip\-Error()} to get error code.
+
+\begin{DoxyNote}{Note}
+This function returns file size despite that \hyperlink{class_qua_zip_file_quazipfile-sequential}{Qua\-Zip\-File is considered to be sequential device}, for which \hyperlink{class_qua_zip_file_ad1a17cc690a01c3edfb82984c3a4c8f0}{size()} should return bytes\-Available() instead. But its name would be very misguiding otherwise, so just keep in mind this inconsistence. 
+\end{DoxyNote}
+
+
+Definition at line 293 of file quazipfile.\-cpp.
+
+\hypertarget{class_qua_zip_file_a4814b5e6e39fb254737b81ea10964f50}{\index{Qua\-Zip\-File@{Qua\-Zip\-File}!usize@{usize}}
+\index{usize@{usize}!QuaZipFile@{Qua\-Zip\-File}}
+\subsubsection[{usize}]{\setlength{\rightskip}{0pt plus 5cm}qint64 Qua\-Zip\-File\-::usize (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_qua_zip_file_a4814b5e6e39fb254737b81ea10964f50}
+
+
+Returns uncompressed file size. 
+
+Equivalent to calling \hyperlink{class_qua_zip_file_ad3f5807329321be21b12c1ba5798b359}{get\-File\-Info()} and then getting uncompressed\-Size field, but more convenient and faster. See \hyperlink{class_qua_zip_file_ad3f5807329321be21b12c1ba5798b359}{get\-File\-Info()} for a warning.
+
+File must be open for reading before calling this function.
+
+Returns -\/1 on error, call \hyperlink{class_qua_zip_file_a26d2ee56aad947193b73052f80597ef0}{get\-Zip\-Error()} to get error code. 
+
+Definition at line 316 of file quazipfile.\-cpp.
+
+\hypertarget{class_qua_zip_file_abd07949a6fcc2ef094d2be5398bc8e7c}{\index{Qua\-Zip\-File@{Qua\-Zip\-File}!write\-Data@{write\-Data}}
+\index{write\-Data@{write\-Data}!QuaZipFile@{Qua\-Zip\-File}}
+\subsubsection[{write\-Data}]{\setlength{\rightskip}{0pt plus 5cm}qint64 Qua\-Zip\-File\-::write\-Data (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{data, }
+\item[{qint64}]{max\-Size}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_qua_zip_file_abd07949a6fcc2ef094d2be5398bc8e7c}
+
+
+Implementation of the Q\-I\-O\-Device\-::write\-Data(). 
+
+
+
+Definition at line 368 of file quazipfile.\-cpp.
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/glc\-\_\-lib/3rdparty/quazip/\hyperlink{quazipfile_8h}{quazipfile.\-h}\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/glc\-\_\-lib/3rdparty/quazip/\hyperlink{quazipfile_8cpp}{quazipfile.\-cpp}\end{DoxyCompactItemize}

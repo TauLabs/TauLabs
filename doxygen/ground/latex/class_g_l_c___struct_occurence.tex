@@ -1,0 +1,1052 @@
+\hypertarget{class_g_l_c___struct_occurence}{\section{G\-L\-C\-\_\-\-Struct\-Occurence Class Reference}
+\label{class_g_l_c___struct_occurence}\index{G\-L\-C\-\_\-\-Struct\-Occurence@{G\-L\-C\-\_\-\-Struct\-Occurence}}
+}
+
+
+\hyperlink{class_g_l_c___struct_occurence}{G\-L\-C\-\_\-\-Struct\-Occurence} \-: A scene graph occurence node.  
+
+
+
+
+{\ttfamily \#include $<$glc\-\_\-structoccurence.\-h$>$}
+
+\subsection*{Public Member Functions}
+\begin{Indent}{\bf Constructor / Destructor}\par
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_g_l_c___struct_occurence_a1087e296fd658cf3bdc8f6a909c4f22c}{G\-L\-C\-\_\-\-Struct\-Occurence} ()
+\begin{DoxyCompactList}\small\item\em Default constructor. \end{DoxyCompactList}\item 
+\hyperlink{class_g_l_c___struct_occurence_a599d9567700a80ab9239e752372ae0d6}{G\-L\-C\-\_\-\-Struct\-Occurence} (\hyperlink{class_g_l_c___struct_instance}{G\-L\-C\-\_\-\-Struct\-Instance} $\ast$, \hyperlink{class_g_l_c___world_handle}{G\-L\-C\-\_\-\-World\-Handle} $\ast$p\-World\-Handle=N\-U\-L\-L, \hyperlink{glext_8h_a2f0c8cd5c21f9fcbd931c3f48bc90dfc}{G\-Luint} shader\-Id=0)
+\begin{DoxyCompactList}\small\item\em Create Occurence of the specified instance. \end{DoxyCompactList}\item 
+\hyperlink{class_g_l_c___struct_occurence_a6988917cdb75659d77c635aef2196d2f}{G\-L\-C\-\_\-\-Struct\-Occurence} (\hyperlink{class_g_l_c__3_d_rep}{G\-L\-C\-\_\-3\-D\-Rep} $\ast$)
+\begin{DoxyCompactList}\small\item\em Construct Occurence withe the specified \hyperlink{class_g_l_c__3_d_rep}{G\-L\-C\-\_\-3\-D\-Rep}. \end{DoxyCompactList}\item 
+\hyperlink{class_g_l_c___struct_occurence_ae476a4c820e03cd8e0533e95a5ca8f3a}{G\-L\-C\-\_\-\-Struct\-Occurence} (\hyperlink{class_g_l_c___world_handle}{G\-L\-C\-\_\-\-World\-Handle} $\ast$, const \hyperlink{class_g_l_c___struct_occurence}{G\-L\-C\-\_\-\-Struct\-Occurence} \&, bool share\-Instance)
+\begin{DoxyCompactList}\small\item\em Copy constructor. \end{DoxyCompactList}\item 
+virtual \hyperlink{class_g_l_c___struct_occurence_a540d36c742a8c7cd6b063ca1a1c82b18}{$\sim$\-G\-L\-C\-\_\-\-Struct\-Occurence} ()
+\begin{DoxyCompactList}\small\item\em Destructor. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\end{Indent}
+\begin{Indent}{\bf Set Functions}\par
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c___struct_occurence_a6a87761ca87bc498b099d0c7f2602d0c}{set\-Name} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{Q\-String} \hyperlink{glext_8h_ad977737dfc9a274a62741b9500c49a32}{name})
+\begin{DoxyCompactList}\small\item\em Set Occurence instance Name. \end{DoxyCompactList}\item 
+\hyperlink{class_g_l_c___struct_occurence}{G\-L\-C\-\_\-\-Struct\-Occurence} $\ast$ \hyperlink{class_g_l_c___struct_occurence_a2403c8b6f018ab76caf2629ea89d4ecc}{update\-Absolute\-Matrix} ()
+\begin{DoxyCompactList}\small\item\em Update the absolute matrix. \end{DoxyCompactList}\item 
+\hyperlink{class_g_l_c___struct_occurence}{G\-L\-C\-\_\-\-Struct\-Occurence} $\ast$ \hyperlink{class_g_l_c___struct_occurence_ab29afb66038b64259ecfc360ee1f8b6a}{update\-Children\-Absolute\-Matrix} ()
+\begin{DoxyCompactList}\small\item\em Update children obsolute \hyperlink{class_matrix}{Matrix}. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c___struct_occurence_af2023d4e6924cbe12d1ccfde8804ffbe}{add\-Child} (\hyperlink{class_g_l_c___struct_occurence}{G\-L\-C\-\_\-\-Struct\-Occurence} $\ast$)
+\begin{DoxyCompactList}\small\item\em Add Child. \end{DoxyCompactList}\item 
+\hyperlink{class_g_l_c___struct_occurence}{G\-L\-C\-\_\-\-Struct\-Occurence} $\ast$ \hyperlink{class_g_l_c___struct_occurence_afc428487fa7c8b3b8348bc546e0d3fd4}{add\-Child} (\hyperlink{class_g_l_c___struct_instance}{G\-L\-C\-\_\-\-Struct\-Instance} $\ast$)
+\begin{DoxyCompactList}\small\item\em Add Child instance and returns the newly created occurence. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c___struct_occurence_aa4e4c7736a3c850f977e4db788ed6dcc}{make\-Orphan} ()
+\begin{DoxyCompactList}\small\item\em make the occurence orphan \end{DoxyCompactList}\item 
+bool \hyperlink{class_g_l_c___struct_occurence_aa29c26bbeee9dc84038bc1cfb0c7e68d}{remove\-Child} (\hyperlink{class_g_l_c___struct_occurence}{G\-L\-C\-\_\-\-Struct\-Occurence} $\ast$p\-Child)
+\begin{DoxyCompactList}\small\item\em Remove the specified child. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c___struct_occurence_ae9aaa8772d698295120adb3c78786260}{reverse\-Normals} ()
+\begin{DoxyCompactList}\small\item\em Reverse Normals of this Occurence and childs. \end{DoxyCompactList}\item 
+bool \hyperlink{class_g_l_c___struct_occurence_a973a87eb578f79c70d090045c6fc2e82}{create3\-D\-View\-Instance} ()
+\begin{DoxyCompactList}\small\item\em Create the 3\-D\-View\-Instance of this occurence if there is a valid 3\-D\-Rep. \end{DoxyCompactList}\item 
+bool \hyperlink{class_g_l_c___struct_occurence_a90af3db3d64b3f12b169413338525a0e}{remove3\-D\-View\-Instance} ()
+\begin{DoxyCompactList}\small\item\em Remove the 3\-D\-View\-Instance of this occurence. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c___struct_occurence_a345fae8501db6457db8aee49af80c54d}{set\-World\-Handle} (\hyperlink{class_g_l_c___world_handle}{G\-L\-C\-\_\-\-World\-Handle} $\ast$)
+\begin{DoxyCompactList}\small\item\em Set this occurence world Handle. \end{DoxyCompactList}\item 
+bool \hyperlink{class_g_l_c___struct_occurence_a0741a47957aa94ff4473be70c6524b6f}{load\-Representation} ()
+\begin{DoxyCompactList}\small\item\em Load the representation and return true if success. \end{DoxyCompactList}\item 
+bool \hyperlink{class_g_l_c___struct_occurence_aa79c7c12010247da816ac7ff942333c7}{unload\-Representation} ()
+\begin{DoxyCompactList}\small\item\em Un\-Load the representation and return true if success. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c___struct_occurence_a4a267def7b328ae08cddc27cb529c7a2}{set\-Occurence\-Number} (unsigned \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{glext_8h_a4eacae1d9e7c39f8236bb36d4ececa77}{n})
+\begin{DoxyCompactList}\small\item\em Set the occurence number of this occurence. \end{DoxyCompactList}\item 
+unsigned \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_g_l_c___struct_occurence_abec3d1fdb455e51001362c480024b104}{update\-Occurence\-Number} (unsigned \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{glext_8h_a4eacae1d9e7c39f8236bb36d4ececa77}{n})
+\begin{DoxyCompactList}\small\item\em Update the occurence number of this occurence branch. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c___struct_occurence_a1beaa79919aaccbb61ab72cc86195451}{set\-Visibility} (bool visibility)
+\begin{DoxyCompactList}\small\item\em Set this occurence visibility. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c___struct_occurence_a5cd7378dc05bd6a6f0a758ef29722447}{set\-Render\-Properties} (const \hyperlink{class_g_l_c___render_properties}{G\-L\-C\-\_\-\-Render\-Properties} \&render\-Properties)
+\begin{DoxyCompactList}\small\item\em set the render\-Properties of this occurence \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c___struct_occurence_a6647022fdd2bcc3acc37294ef0fd6496}{remove\-Empty\-Children} ()
+\begin{DoxyCompactList}\small\item\em Remove empty children. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c___struct_occurence_ad1ebf71ca68f7fa73723f5e606eee036}{set\-Reference} (\hyperlink{class_g_l_c___struct_reference}{G\-L\-C\-\_\-\-Struct\-Reference} $\ast$p\-Ref)
+\begin{DoxyCompactList}\small\item\em Set the given reference to this occurence. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c___struct_occurence_ae036acdd4ebf53bffddfcf3639a70a2e}{set\-Automatic3\-D\-View\-Instance\-Creation\-Usage} (bool \hyperlink{glext_8h_ae759ed0394ed5353d8bef2fb755305da}{usage})
+\begin{DoxyCompactList}\small\item\em Set the automatic creation of 3\-D\-View\-Instance usage. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c___struct_occurence_a682653eafa8117142ded5cab08a5cf11}{make\-Flexible} (const \hyperlink{class_g_l_c___matrix4x4}{G\-L\-C\-\_\-\-Matrix4x4} \&relative\-Matrix)
+\begin{DoxyCompactList}\small\item\em Make this occurence a flexible occurence. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c___struct_occurence_ac2e63627b3114ece31001829aaaf5f93}{make\-Rigid} ()
+\begin{DoxyCompactList}\small\item\em Make this occurence rigid. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\end{Indent}
+\subsection*{Get Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{glc__global_8h_abf950976fabed69026558df8e2da6c6b}{G\-L\-C\-\_\-uint} \hyperlink{class_g_l_c___struct_occurence_a55bc7161435b8e807ed7f315cc3da356}{id} () const 
+\begin{DoxyCompactList}\small\item\em Return this Occurence id. \end{DoxyCompactList}\item 
+const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{Q\-String} \hyperlink{class_g_l_c___struct_occurence_aecde0f1a741645cc4806c3f2c7f53e70}{name} () const 
+\begin{DoxyCompactList}\small\item\em Return the instance name of this occurence. \end{DoxyCompactList}\item 
+\hyperlink{class_g_l_c___matrix4x4}{G\-L\-C\-\_\-\-Matrix4x4} \hyperlink{class_g_l_c___struct_occurence_a4ff72c566eca78ed1e4ea6bac573bf21}{absolute\-Matrix} () const 
+\begin{DoxyCompactList}\small\item\em Return the absolute matrix of this occurence. \end{DoxyCompactList}\item 
+\hyperlink{class_g_l_c___matrix4x4}{G\-L\-C\-\_\-\-Matrix4x4} \hyperlink{class_g_l_c___struct_occurence_a4f661827fb296c0b463095a59cdd0ab3}{occurrence\-Relative\-Matrix} () const 
+\begin{DoxyCompactList}\small\item\em Return the surcharged relative matrix. \end{DoxyCompactList}\item 
+bool \hyperlink{class_g_l_c___struct_occurence_a35a1162346577367c8922477326a4b40}{is\-Orphan} () const 
+\begin{DoxyCompactList}\small\item\em Return true if this occurence is orphan. \end{DoxyCompactList}\item 
+bool \hyperlink{class_g_l_c___struct_occurence_ab936364375731b045b2e69e1aa0b51da}{has\-Parent} () const 
+\begin{DoxyCompactList}\small\item\em Return true if this occurence has parent. \end{DoxyCompactList}\item 
+bool \hyperlink{class_g_l_c___struct_occurence_af3261307ccf035ac0914e50a95c68bd4}{has\-Representation} () const 
+\begin{DoxyCompactList}\small\item\em Return true if this occurence has a representation. \end{DoxyCompactList}\item 
+bool \hyperlink{class_g_l_c___struct_occurence_ac99c73a3e60b6cd6b7f7963385123ded}{has3\-D\-View\-Instance} () const 
+\begin{DoxyCompactList}\small\item\em Return true if this occurence has 3\-D\-View\-Instance. \end{DoxyCompactList}\item 
+\hyperlink{class_g_l_c___struct_instance}{G\-L\-C\-\_\-\-Struct\-Instance} $\ast$ \hyperlink{class_g_l_c___struct_occurence_a930309eab5aa24ac12aedfbd6fb5f28e}{struct\-Instance} () const 
+\begin{DoxyCompactList}\small\item\em Return the instance of this occurence. \end{DoxyCompactList}\item 
+\hyperlink{class_g_l_c___struct_reference}{G\-L\-C\-\_\-\-Struct\-Reference} $\ast$ \hyperlink{class_g_l_c___struct_occurence_af41fa3dbb2fbdd91ed1dd27a324ce039}{struct\-Reference} () const 
+\begin{DoxyCompactList}\small\item\em Return the reference of this occurence. \end{DoxyCompactList}\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_g_l_c___struct_occurence_a823440bb8dbe42633f6d897d63861460}{child\-Count} () const 
+\begin{DoxyCompactList}\small\item\em Return the number of childs. \end{DoxyCompactList}\item 
+bool \hyperlink{class_g_l_c___struct_occurence_a25434c003f068bff6dc115ac0f263b8e}{has\-Child} () const 
+\begin{DoxyCompactList}\small\item\em Return true if the occurence has child. \end{DoxyCompactList}\item 
+bool \hyperlink{class_g_l_c___struct_occurence_aabf514513c7a74668c188487f4e620b3}{can\-Be\-Added\-To\-Children} (\hyperlink{class_g_l_c___struct_occurence}{G\-L\-C\-\_\-\-Struct\-Occurence} $\ast$p\-Occurence) const 
+\begin{DoxyCompactList}\small\item\em Return true if the given occurence can be added to this occurence children. \end{DoxyCompactList}\item 
+\hyperlink{class_g_l_c___struct_occurence}{G\-L\-C\-\_\-\-Struct\-Occurence} $\ast$ \hyperlink{class_g_l_c___struct_occurence_a32071de4bc5dbb8c3bdd0ed13ae3dd08}{parent} () const 
+\begin{DoxyCompactList}\small\item\em Return The parent of this occurence. \end{DoxyCompactList}\item 
+\hyperlink{class_g_l_c___struct_occurence}{G\-L\-C\-\_\-\-Struct\-Occurence} $\ast$ \hyperlink{class_g_l_c___struct_occurence_a20bb0e839e2573d60c2a61d900917740}{child} (const \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{glext_8h_ab47dd9958bcadea08866b42bf358e95e}{index}) const 
+\begin{DoxyCompactList}\small\item\em Return a child of this occurence. \end{DoxyCompactList}\item 
+\hyperlink{class_q_list}{Q\-List}$<$ \hyperlink{class_g_l_c___struct_occurence}{G\-L\-C\-\_\-\-Struct\-Occurence} $\ast$ $>$ \hyperlink{class_g_l_c___struct_occurence_a5f337666d091b1323242bcdde6e2b06b}{children} () const 
+\begin{DoxyCompactList}\small\item\em Return the list of children of this occurence. \end{DoxyCompactList}\item 
+\hyperlink{class_q_list}{Q\-List}$<$ \hyperlink{class_g_l_c___struct_occurence}{G\-L\-C\-\_\-\-Struct\-Occurence} $\ast$ $>$ \hyperlink{class_g_l_c___struct_occurence_a69a05dc5791ea796121fc06f0df4ec72}{sub\-Occurence\-List} () const 
+\begin{DoxyCompactList}\small\item\em Return the list of all accurence under this occurence. \end{DoxyCompactList}\item 
+unsigned \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_g_l_c___struct_occurence_a821c637a83a3d44f1b534f848f2eca15}{number\-Of\-Faces} () const 
+\begin{DoxyCompactList}\small\item\em Return the number of faces of the representation of this occurence. \end{DoxyCompactList}\item 
+unsigned \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_g_l_c___struct_occurence_a71d91e11f5e6060ff1a8a9aa9262e942}{number\-Of\-Vertex} () const 
+\begin{DoxyCompactList}\small\item\em Return the number of vertex of the representation of this occurence. \end{DoxyCompactList}\item 
+unsigned \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_g_l_c___struct_occurence_a9cad989073e6d196de9a2525c837b4b4}{number\-Of\-Materials} () const 
+\begin{DoxyCompactList}\small\item\em Return the number of materials of the representation of this occurence. \end{DoxyCompactList}\item 
+Q\-Set$<$ \hyperlink{class_g_l_c___material}{G\-L\-C\-\_\-\-Material} $\ast$ $>$ \hyperlink{class_g_l_c___struct_occurence_a57e600d783c759b969f1d3fb3b25bcdd}{material\-Set} () const 
+\begin{DoxyCompactList}\small\item\em Return the materials List of the representation of this occurence. \end{DoxyCompactList}\item 
+\hyperlink{class_g_l_c___struct_occurence}{G\-L\-C\-\_\-\-Struct\-Occurence} $\ast$ \hyperlink{class_g_l_c___struct_occurence_af0f50ff139eb266f0f34069485a12be6}{clone} (\hyperlink{class_g_l_c___world_handle}{G\-L\-C\-\_\-\-World\-Handle} $\ast$, bool share\-Instance) const 
+\begin{DoxyCompactList}\small\item\em Return a clone this occurence. \end{DoxyCompactList}\item 
+bool \hyperlink{class_g_l_c___struct_occurence_a87b3e8023cc509e78cc87e27a6264302}{is\-Visible} () const 
+\begin{DoxyCompactList}\small\item\em Return true if this occurence is visible. \end{DoxyCompactList}\item 
+\hyperlink{class_g_l_c___bounding_box}{G\-L\-C\-\_\-\-Bounding\-Box} \hyperlink{class_g_l_c___struct_occurence_a4064b362e69171d825269eb80d53aaee}{bounding\-Box} () const 
+\begin{DoxyCompactList}\small\item\em Return the occurence Bounding Box. \end{DoxyCompactList}\item 
+unsigned \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_g_l_c___struct_occurence_a1636bc3898831aa6d80513e18691a5b9}{occurence\-Number} () const 
+\begin{DoxyCompactList}\small\item\em Return the occurence number of this occurence. \end{DoxyCompactList}\item 
+\hyperlink{class_g_l_c___render_properties}{G\-L\-C\-\_\-\-Render\-Properties} $\ast$ \hyperlink{class_g_l_c___struct_occurence_ab57b2c91897dad08a81c7ac9671a50b4}{render\-Properties\-Handle} () const 
+\begin{DoxyCompactList}\small\item\em Return an handle of the render\-Properties of this occurence. \end{DoxyCompactList}\item 
+unsigned \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_g_l_c___struct_occurence_a117c6f6b869f5fe2a69bb455a3d9702f}{node\-Count} () const 
+\begin{DoxyCompactList}\small\item\em Return the number of node of this branch. \end{DoxyCompactList}\item 
+\hyperlink{class_g_l_c___world_handle}{G\-L\-C\-\_\-\-World\-Handle} $\ast$ \hyperlink{class_g_l_c___struct_occurence_acadf653fdd6453eb07ea79364d462964}{world\-Handle} () const 
+\begin{DoxyCompactList}\small\item\em Return the world handle of this occurence. \end{DoxyCompactList}\item 
+Q\-Set$<$ \hyperlink{class_g_l_c___struct_reference}{G\-L\-C\-\_\-\-Struct\-Reference} $\ast$ $>$ \hyperlink{class_g_l_c___struct_occurence_a569b520c2cf13ff4ca706fd521bf1e93}{children\-References} () const 
+\begin{DoxyCompactList}\small\item\em Return the Set of children references of this occurence. \end{DoxyCompactList}\item 
+bool \hyperlink{class_g_l_c___struct_occurence_ad79bdf08181ecef3f6261a63889025b4}{use\-Automatic3\-D\-View\-Instance\-Creation} () const 
+\begin{DoxyCompactList}\small\item\em Return true if the automatic creation of 3\-D\-View\-Instance is used. \end{DoxyCompactList}\item 
+bool \hyperlink{class_g_l_c___struct_occurence_a9445b4c021782086846427b0f4f91d39}{is\-Flexible} () const 
+\begin{DoxyCompactList}\small\item\em Return true if this occurence is flexible. \end{DoxyCompactList}\item 
+static Q\-Set\\*
+$<$ \hyperlink{class_g_l_c___struct_reference}{G\-L\-C\-\_\-\-Struct\-Reference} $\ast$ $>$ \hyperlink{class_g_l_c___struct_occurence_a3e9cf889284456c03b35baa131b0c07e}{parents\-References} (const \hyperlink{class_g_l_c___struct_occurence}{G\-L\-C\-\_\-\-Struct\-Occurence} $\ast$p\-Occurence)
+\begin{DoxyCompactList}\small\item\em Return the set of parents references of the given occurence. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\hyperlink{class_g_l_c___struct_occurence}{G\-L\-C\-\_\-\-Struct\-Occurence} \-: A scene graph occurence node. 
+
+Definition at line 43 of file glc\-\_\-structoccurence.\-h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_g_l_c___struct_occurence_a1087e296fd658cf3bdc8f6a909c4f22c}{\index{G\-L\-C\-\_\-\-Struct\-Occurence@{G\-L\-C\-\_\-\-Struct\-Occurence}!G\-L\-C\-\_\-\-Struct\-Occurence@{G\-L\-C\-\_\-\-Struct\-Occurence}}
+\index{G\-L\-C\-\_\-\-Struct\-Occurence@{G\-L\-C\-\_\-\-Struct\-Occurence}!GLC_StructOccurence@{G\-L\-C\-\_\-\-Struct\-Occurence}}
+\subsubsection[{G\-L\-C\-\_\-\-Struct\-Occurence}]{\setlength{\rightskip}{0pt plus 5cm}G\-L\-C\-\_\-\-Struct\-Occurence\-::\-G\-L\-C\-\_\-\-Struct\-Occurence (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___struct_occurence_a1087e296fd658cf3bdc8f6a909c4f22c}
+
+
+Default constructor. 
+
+
+
+Definition at line 32 of file glc\-\_\-structoccurence.\-cpp.
+
+\hypertarget{class_g_l_c___struct_occurence_a599d9567700a80ab9239e752372ae0d6}{\index{G\-L\-C\-\_\-\-Struct\-Occurence@{G\-L\-C\-\_\-\-Struct\-Occurence}!G\-L\-C\-\_\-\-Struct\-Occurence@{G\-L\-C\-\_\-\-Struct\-Occurence}}
+\index{G\-L\-C\-\_\-\-Struct\-Occurence@{G\-L\-C\-\_\-\-Struct\-Occurence}!GLC_StructOccurence@{G\-L\-C\-\_\-\-Struct\-Occurence}}
+\subsubsection[{G\-L\-C\-\_\-\-Struct\-Occurence}]{\setlength{\rightskip}{0pt plus 5cm}G\-L\-C\-\_\-\-Struct\-Occurence\-::\-G\-L\-C\-\_\-\-Struct\-Occurence (
+\begin{DoxyParamCaption}
+\item[{{\bf G\-L\-C\-\_\-\-Struct\-Instance} $\ast$}]{p\-Struct\-Instance, }
+\item[{{\bf G\-L\-C\-\_\-\-World\-Handle} $\ast$}]{p\-World\-Handle = {\ttfamily NULL}, }
+\item[{{\bf G\-Luint}}]{shader\-Id = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___struct_occurence_a599d9567700a80ab9239e752372ae0d6}
+
+
+Create Occurence of the specified instance. 
+
+
+
+Definition at line 52 of file glc\-\_\-structoccurence.\-cpp.
+
+\hypertarget{class_g_l_c___struct_occurence_a6988917cdb75659d77c635aef2196d2f}{\index{G\-L\-C\-\_\-\-Struct\-Occurence@{G\-L\-C\-\_\-\-Struct\-Occurence}!G\-L\-C\-\_\-\-Struct\-Occurence@{G\-L\-C\-\_\-\-Struct\-Occurence}}
+\index{G\-L\-C\-\_\-\-Struct\-Occurence@{G\-L\-C\-\_\-\-Struct\-Occurence}!GLC_StructOccurence@{G\-L\-C\-\_\-\-Struct\-Occurence}}
+\subsubsection[{G\-L\-C\-\_\-\-Struct\-Occurence}]{\setlength{\rightskip}{0pt plus 5cm}G\-L\-C\-\_\-\-Struct\-Occurence\-::\-G\-L\-C\-\_\-\-Struct\-Occurence (
+\begin{DoxyParamCaption}
+\item[{{\bf G\-L\-C\-\_\-3\-D\-Rep} $\ast$}]{p\-Rep}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___struct_occurence_a6988917cdb75659d77c635aef2196d2f}
+
+
+Construct Occurence withe the specified \hyperlink{class_g_l_c__3_d_rep}{G\-L\-C\-\_\-3\-D\-Rep}. 
+
+
+
+Definition at line 100 of file glc\-\_\-structoccurence.\-cpp.
+
+\hypertarget{class_g_l_c___struct_occurence_ae476a4c820e03cd8e0533e95a5ca8f3a}{\index{G\-L\-C\-\_\-\-Struct\-Occurence@{G\-L\-C\-\_\-\-Struct\-Occurence}!G\-L\-C\-\_\-\-Struct\-Occurence@{G\-L\-C\-\_\-\-Struct\-Occurence}}
+\index{G\-L\-C\-\_\-\-Struct\-Occurence@{G\-L\-C\-\_\-\-Struct\-Occurence}!GLC_StructOccurence@{G\-L\-C\-\_\-\-Struct\-Occurence}}
+\subsubsection[{G\-L\-C\-\_\-\-Struct\-Occurence}]{\setlength{\rightskip}{0pt plus 5cm}G\-L\-C\-\_\-\-Struct\-Occurence\-::\-G\-L\-C\-\_\-\-Struct\-Occurence (
+\begin{DoxyParamCaption}
+\item[{{\bf G\-L\-C\-\_\-\-World\-Handle} $\ast$}]{p\-World\-Handle, }
+\item[{const {\bf G\-L\-C\-\_\-\-Struct\-Occurence} \&}]{struct\-Occurence, }
+\item[{bool}]{share\-Instance}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___struct_occurence_ae476a4c820e03cd8e0533e95a5ca8f3a}
+
+
+Copy constructor. 
+
+
+
+Definition at line 122 of file glc\-\_\-structoccurence.\-cpp.
+
+\hypertarget{class_g_l_c___struct_occurence_a540d36c742a8c7cd6b063ca1a1c82b18}{\index{G\-L\-C\-\_\-\-Struct\-Occurence@{G\-L\-C\-\_\-\-Struct\-Occurence}!$\sim$\-G\-L\-C\-\_\-\-Struct\-Occurence@{$\sim$\-G\-L\-C\-\_\-\-Struct\-Occurence}}
+\index{$\sim$\-G\-L\-C\-\_\-\-Struct\-Occurence@{$\sim$\-G\-L\-C\-\_\-\-Struct\-Occurence}!GLC_StructOccurence@{G\-L\-C\-\_\-\-Struct\-Occurence}}
+\subsubsection[{$\sim$\-G\-L\-C\-\_\-\-Struct\-Occurence}]{\setlength{\rightskip}{0pt plus 5cm}G\-L\-C\-\_\-\-Struct\-Occurence\-::$\sim$\-G\-L\-C\-\_\-\-Struct\-Occurence (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_g_l_c___struct_occurence_a540d36c742a8c7cd6b063ca1a1c82b18}
+
+
+Destructor. 
+
+
+
+Definition at line 208 of file glc\-\_\-structoccurence.\-cpp.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_g_l_c___struct_occurence_a4ff72c566eca78ed1e4ea6bac573bf21}{\index{G\-L\-C\-\_\-\-Struct\-Occurence@{G\-L\-C\-\_\-\-Struct\-Occurence}!absolute\-Matrix@{absolute\-Matrix}}
+\index{absolute\-Matrix@{absolute\-Matrix}!GLC_StructOccurence@{G\-L\-C\-\_\-\-Struct\-Occurence}}
+\subsubsection[{absolute\-Matrix}]{\setlength{\rightskip}{0pt plus 5cm}{\bf G\-L\-C\-\_\-\-Matrix4x4} G\-L\-C\-\_\-\-Struct\-Occurence\-::absolute\-Matrix (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___struct_occurence_a4ff72c566eca78ed1e4ea6bac573bf21}
+
+
+Return the absolute matrix of this occurence. 
+
+
+
+Definition at line 80 of file glc\-\_\-structoccurence.\-h.
+
+\hypertarget{class_g_l_c___struct_occurence_af2023d4e6924cbe12d1ccfde8804ffbe}{\index{G\-L\-C\-\_\-\-Struct\-Occurence@{G\-L\-C\-\_\-\-Struct\-Occurence}!add\-Child@{add\-Child}}
+\index{add\-Child@{add\-Child}!GLC_StructOccurence@{G\-L\-C\-\_\-\-Struct\-Occurence}}
+\subsubsection[{add\-Child}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-\-Struct\-Occurence\-::add\-Child (
+\begin{DoxyParamCaption}
+\item[{{\bf G\-L\-C\-\_\-\-Struct\-Occurence} $\ast$}]{p\-Child}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___struct_occurence_af2023d4e6924cbe12d1ccfde8804ffbe}
+
+
+Add Child. 
+
+The new child must be orphan 
+
+Definition at line 545 of file glc\-\_\-structoccurence.\-cpp.
+
+\hypertarget{class_g_l_c___struct_occurence_afc428487fa7c8b3b8348bc546e0d3fd4}{\index{G\-L\-C\-\_\-\-Struct\-Occurence@{G\-L\-C\-\_\-\-Struct\-Occurence}!add\-Child@{add\-Child}}
+\index{add\-Child@{add\-Child}!GLC_StructOccurence@{G\-L\-C\-\_\-\-Struct\-Occurence}}
+\subsubsection[{add\-Child}]{\setlength{\rightskip}{0pt plus 5cm}{\bf G\-L\-C\-\_\-\-Struct\-Occurence} $\ast$ G\-L\-C\-\_\-\-Struct\-Occurence\-::add\-Child (
+\begin{DoxyParamCaption}
+\item[{{\bf G\-L\-C\-\_\-\-Struct\-Instance} $\ast$}]{p\-Instance}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___struct_occurence_afc428487fa7c8b3b8348bc546e0d3fd4}
+
+
+Add Child instance and returns the newly created occurence. 
+
+
+
+Definition at line 563 of file glc\-\_\-structoccurence.\-cpp.
+
+\hypertarget{class_g_l_c___struct_occurence_a4064b362e69171d825269eb80d53aaee}{\index{G\-L\-C\-\_\-\-Struct\-Occurence@{G\-L\-C\-\_\-\-Struct\-Occurence}!bounding\-Box@{bounding\-Box}}
+\index{bounding\-Box@{bounding\-Box}!GLC_StructOccurence@{G\-L\-C\-\_\-\-Struct\-Occurence}}
+\subsubsection[{bounding\-Box}]{\setlength{\rightskip}{0pt plus 5cm}{\bf G\-L\-C\-\_\-\-Bounding\-Box} G\-L\-C\-\_\-\-Struct\-Occurence\-::bounding\-Box (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+) const}}\label{class_g_l_c___struct_occurence_a4064b362e69171d825269eb80d53aaee}
+
+
+Return the occurence Bounding Box. 
+
+
+
+Definition at line 426 of file glc\-\_\-structoccurence.\-cpp.
+
+\hypertarget{class_g_l_c___struct_occurence_aabf514513c7a74668c188487f4e620b3}{\index{G\-L\-C\-\_\-\-Struct\-Occurence@{G\-L\-C\-\_\-\-Struct\-Occurence}!can\-Be\-Added\-To\-Children@{can\-Be\-Added\-To\-Children}}
+\index{can\-Be\-Added\-To\-Children@{can\-Be\-Added\-To\-Children}!GLC_StructOccurence@{G\-L\-C\-\_\-\-Struct\-Occurence}}
+\subsubsection[{can\-Be\-Added\-To\-Children}]{\setlength{\rightskip}{0pt plus 5cm}bool G\-L\-C\-\_\-\-Struct\-Occurence\-::can\-Be\-Added\-To\-Children (
+\begin{DoxyParamCaption}
+\item[{{\bf G\-L\-C\-\_\-\-Struct\-Occurence} $\ast$}]{p\-Occurence}
+\end{DoxyParamCaption}
+) const}}\label{class_g_l_c___struct_occurence_aabf514513c7a74668c188487f4e620b3}
+
+
+Return true if the given occurence can be added to this occurence children. 
+
+
+
+Definition at line 284 of file glc\-\_\-structoccurence.\-cpp.
+
+\hypertarget{class_g_l_c___struct_occurence_a20bb0e839e2573d60c2a61d900917740}{\index{G\-L\-C\-\_\-\-Struct\-Occurence@{G\-L\-C\-\_\-\-Struct\-Occurence}!child@{child}}
+\index{child@{child}!GLC_StructOccurence@{G\-L\-C\-\_\-\-Struct\-Occurence}}
+\subsubsection[{child}]{\setlength{\rightskip}{0pt plus 5cm}{\bf G\-L\-C\-\_\-\-Struct\-Occurence}$\ast$ G\-L\-C\-\_\-\-Struct\-Occurence\-::child (
+\begin{DoxyParamCaption}
+\item[{const {\bf int}}]{index}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___struct_occurence_a20bb0e839e2573d60c2a61d900917740}
+
+
+Return a child of this occurence. 
+
+The index must exist 
+
+Definition at line 128 of file glc\-\_\-structoccurence.\-h.
+
+\hypertarget{class_g_l_c___struct_occurence_a823440bb8dbe42633f6d897d63861460}{\index{G\-L\-C\-\_\-\-Struct\-Occurence@{G\-L\-C\-\_\-\-Struct\-Occurence}!child\-Count@{child\-Count}}
+\index{child\-Count@{child\-Count}!GLC_StructOccurence@{G\-L\-C\-\_\-\-Struct\-Occurence}}
+\subsubsection[{child\-Count}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int} G\-L\-C\-\_\-\-Struct\-Occurence\-::child\-Count (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___struct_occurence_a823440bb8dbe42633f6d897d63861460}
+
+
+Return the number of childs. 
+
+
+
+Definition at line 112 of file glc\-\_\-structoccurence.\-h.
+
+\hypertarget{class_g_l_c___struct_occurence_a5f337666d091b1323242bcdde6e2b06b}{\index{G\-L\-C\-\_\-\-Struct\-Occurence@{G\-L\-C\-\_\-\-Struct\-Occurence}!children@{children}}
+\index{children@{children}!GLC_StructOccurence@{G\-L\-C\-\_\-\-Struct\-Occurence}}
+\subsubsection[{children}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Q\-List}$<${\bf G\-L\-C\-\_\-\-Struct\-Occurence}$\ast$$>$ G\-L\-C\-\_\-\-Struct\-Occurence\-::children (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___struct_occurence_a5f337666d091b1323242bcdde6e2b06b}
+
+
+Return the list of children of this occurence. 
+
+
+
+Definition at line 132 of file glc\-\_\-structoccurence.\-h.
+
+\hypertarget{class_g_l_c___struct_occurence_a569b520c2cf13ff4ca706fd521bf1e93}{\index{G\-L\-C\-\_\-\-Struct\-Occurence@{G\-L\-C\-\_\-\-Struct\-Occurence}!children\-References@{children\-References}}
+\index{children\-References@{children\-References}!GLC_StructOccurence@{G\-L\-C\-\_\-\-Struct\-Occurence}}
+\subsubsection[{children\-References}]{\setlength{\rightskip}{0pt plus 5cm}Q\-Set$<$ {\bf G\-L\-C\-\_\-\-Struct\-Reference} $\ast$ $>$ G\-L\-C\-\_\-\-Struct\-Occurence\-::children\-References (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_g_l_c___struct_occurence_a569b520c2cf13ff4ca706fd521bf1e93}
+
+
+Return the Set of children references of this occurence. 
+
+
+
+Definition at line 466 of file glc\-\_\-structoccurence.\-cpp.
+
+\hypertarget{class_g_l_c___struct_occurence_af0f50ff139eb266f0f34069485a12be6}{\index{G\-L\-C\-\_\-\-Struct\-Occurence@{G\-L\-C\-\_\-\-Struct\-Occurence}!clone@{clone}}
+\index{clone@{clone}!GLC_StructOccurence@{G\-L\-C\-\_\-\-Struct\-Occurence}}
+\subsubsection[{clone}]{\setlength{\rightskip}{0pt plus 5cm}{\bf G\-L\-C\-\_\-\-Struct\-Occurence} $\ast$ G\-L\-C\-\_\-\-Struct\-Occurence\-::clone (
+\begin{DoxyParamCaption}
+\item[{{\bf G\-L\-C\-\_\-\-World\-Handle} $\ast$}]{p\-World\-Handle, }
+\item[{bool}]{share\-Instance}
+\end{DoxyParamCaption}
+) const}}\label{class_g_l_c___struct_occurence_af0f50ff139eb266f0f34069485a12be6}
+
+
+Return a clone this occurence. 
+
+
+
+Definition at line 394 of file glc\-\_\-structoccurence.\-cpp.
+
+\hypertarget{class_g_l_c___struct_occurence_a973a87eb578f79c70d090045c6fc2e82}{\index{G\-L\-C\-\_\-\-Struct\-Occurence@{G\-L\-C\-\_\-\-Struct\-Occurence}!create3\-D\-View\-Instance@{create3\-D\-View\-Instance}}
+\index{create3\-D\-View\-Instance@{create3\-D\-View\-Instance}!GLC_StructOccurence@{G\-L\-C\-\_\-\-Struct\-Occurence}}
+\subsubsection[{create3\-D\-View\-Instance}]{\setlength{\rightskip}{0pt plus 5cm}bool G\-L\-C\-\_\-\-Struct\-Occurence\-::create3\-D\-View\-Instance (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___struct_occurence_a973a87eb578f79c70d090045c6fc2e82}
+
+
+Create the 3\-D\-View\-Instance of this occurence if there is a valid 3\-D\-Rep. 
+
+
+
+Definition at line 605 of file glc\-\_\-structoccurence.\-cpp.
+
+\hypertarget{class_g_l_c___struct_occurence_ac99c73a3e60b6cd6b7f7963385123ded}{\index{G\-L\-C\-\_\-\-Struct\-Occurence@{G\-L\-C\-\_\-\-Struct\-Occurence}!has3\-D\-View\-Instance@{has3\-D\-View\-Instance}}
+\index{has3\-D\-View\-Instance@{has3\-D\-View\-Instance}!GLC_StructOccurence@{G\-L\-C\-\_\-\-Struct\-Occurence}}
+\subsubsection[{has3\-D\-View\-Instance}]{\setlength{\rightskip}{0pt plus 5cm}bool G\-L\-C\-\_\-\-Struct\-Occurence\-::has3\-D\-View\-Instance (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_g_l_c___struct_occurence_ac99c73a3e60b6cd6b7f7963385123ded}
+
+
+Return true if this occurence has 3\-D\-View\-Instance. 
+
+
+
+Definition at line 275 of file glc\-\_\-structoccurence.\-cpp.
+
+\hypertarget{class_g_l_c___struct_occurence_a25434c003f068bff6dc115ac0f263b8e}{\index{G\-L\-C\-\_\-\-Struct\-Occurence@{G\-L\-C\-\_\-\-Struct\-Occurence}!has\-Child@{has\-Child}}
+\index{has\-Child@{has\-Child}!GLC_StructOccurence@{G\-L\-C\-\_\-\-Struct\-Occurence}}
+\subsubsection[{has\-Child}]{\setlength{\rightskip}{0pt plus 5cm}bool G\-L\-C\-\_\-\-Struct\-Occurence\-::has\-Child (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___struct_occurence_a25434c003f068bff6dc115ac0f263b8e}
+
+
+Return true if the occurence has child. 
+
+
+
+Definition at line 116 of file glc\-\_\-structoccurence.\-h.
+
+\hypertarget{class_g_l_c___struct_occurence_ab936364375731b045b2e69e1aa0b51da}{\index{G\-L\-C\-\_\-\-Struct\-Occurence@{G\-L\-C\-\_\-\-Struct\-Occurence}!has\-Parent@{has\-Parent}}
+\index{has\-Parent@{has\-Parent}!GLC_StructOccurence@{G\-L\-C\-\_\-\-Struct\-Occurence}}
+\subsubsection[{has\-Parent}]{\setlength{\rightskip}{0pt plus 5cm}bool G\-L\-C\-\_\-\-Struct\-Occurence\-::has\-Parent (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___struct_occurence_ab936364375731b045b2e69e1aa0b51da}
+
+
+Return true if this occurence has parent. 
+
+
+
+Definition at line 91 of file glc\-\_\-structoccurence.\-h.
+
+\hypertarget{class_g_l_c___struct_occurence_af3261307ccf035ac0914e50a95c68bd4}{\index{G\-L\-C\-\_\-\-Struct\-Occurence@{G\-L\-C\-\_\-\-Struct\-Occurence}!has\-Representation@{has\-Representation}}
+\index{has\-Representation@{has\-Representation}!GLC_StructOccurence@{G\-L\-C\-\_\-\-Struct\-Occurence}}
+\subsubsection[{has\-Representation}]{\setlength{\rightskip}{0pt plus 5cm}bool G\-L\-C\-\_\-\-Struct\-Occurence\-::has\-Representation (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_g_l_c___struct_occurence_af3261307ccf035ac0914e50a95c68bd4}
+
+
+Return true if this occurence has a representation. 
+
+
+
+Definition at line 266 of file glc\-\_\-structoccurence.\-cpp.
+
+\hypertarget{class_g_l_c___struct_occurence_a55bc7161435b8e807ed7f315cc3da356}{\index{G\-L\-C\-\_\-\-Struct\-Occurence@{G\-L\-C\-\_\-\-Struct\-Occurence}!id@{id}}
+\index{id@{id}!GLC_StructOccurence@{G\-L\-C\-\_\-\-Struct\-Occurence}}
+\subsubsection[{id}]{\setlength{\rightskip}{0pt plus 5cm}{\bf G\-L\-C\-\_\-uint} G\-L\-C\-\_\-\-Struct\-Occurence\-::id (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___struct_occurence_a55bc7161435b8e807ed7f315cc3da356}
+
+
+Return this Occurence id. 
+
+
+
+Definition at line 72 of file glc\-\_\-structoccurence.\-h.
+
+\hypertarget{class_g_l_c___struct_occurence_a9445b4c021782086846427b0f4f91d39}{\index{G\-L\-C\-\_\-\-Struct\-Occurence@{G\-L\-C\-\_\-\-Struct\-Occurence}!is\-Flexible@{is\-Flexible}}
+\index{is\-Flexible@{is\-Flexible}!GLC_StructOccurence@{G\-L\-C\-\_\-\-Struct\-Occurence}}
+\subsubsection[{is\-Flexible}]{\setlength{\rightskip}{0pt plus 5cm}bool G\-L\-C\-\_\-\-Struct\-Occurence\-::is\-Flexible (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___struct_occurence_a9445b4c021782086846427b0f4f91d39}
+
+
+Return true if this occurence is flexible. 
+
+
+
+Definition at line 185 of file glc\-\_\-structoccurence.\-h.
+
+\hypertarget{class_g_l_c___struct_occurence_a35a1162346577367c8922477326a4b40}{\index{G\-L\-C\-\_\-\-Struct\-Occurence@{G\-L\-C\-\_\-\-Struct\-Occurence}!is\-Orphan@{is\-Orphan}}
+\index{is\-Orphan@{is\-Orphan}!GLC_StructOccurence@{G\-L\-C\-\_\-\-Struct\-Occurence}}
+\subsubsection[{is\-Orphan}]{\setlength{\rightskip}{0pt plus 5cm}bool G\-L\-C\-\_\-\-Struct\-Occurence\-::is\-Orphan (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___struct_occurence_a35a1162346577367c8922477326a4b40}
+
+
+Return true if this occurence is orphan. 
+
+
+
+Definition at line 87 of file glc\-\_\-structoccurence.\-h.
+
+\hypertarget{class_g_l_c___struct_occurence_a87b3e8023cc509e78cc87e27a6264302}{\index{G\-L\-C\-\_\-\-Struct\-Occurence@{G\-L\-C\-\_\-\-Struct\-Occurence}!is\-Visible@{is\-Visible}}
+\index{is\-Visible@{is\-Visible}!GLC_StructOccurence@{G\-L\-C\-\_\-\-Struct\-Occurence}}
+\subsubsection[{is\-Visible}]{\setlength{\rightskip}{0pt plus 5cm}bool G\-L\-C\-\_\-\-Struct\-Occurence\-::is\-Visible (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_g_l_c___struct_occurence_a87b3e8023cc509e78cc87e27a6264302}
+
+
+Return true if this occurence is visible. 
+
+
+
+Definition at line 400 of file glc\-\_\-structoccurence.\-cpp.
+
+\hypertarget{class_g_l_c___struct_occurence_a0741a47957aa94ff4473be70c6524b6f}{\index{G\-L\-C\-\_\-\-Struct\-Occurence@{G\-L\-C\-\_\-\-Struct\-Occurence}!load\-Representation@{load\-Representation}}
+\index{load\-Representation@{load\-Representation}!GLC_StructOccurence@{G\-L\-C\-\_\-\-Struct\-Occurence}}
+\subsubsection[{load\-Representation}]{\setlength{\rightskip}{0pt plus 5cm}bool G\-L\-C\-\_\-\-Struct\-Occurence\-::load\-Representation (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___struct_occurence_a0741a47957aa94ff4473be70c6524b6f}
+
+
+Load the representation and return true if success. 
+
+
+
+Definition at line 673 of file glc\-\_\-structoccurence.\-cpp.
+
+\hypertarget{class_g_l_c___struct_occurence_a682653eafa8117142ded5cab08a5cf11}{\index{G\-L\-C\-\_\-\-Struct\-Occurence@{G\-L\-C\-\_\-\-Struct\-Occurence}!make\-Flexible@{make\-Flexible}}
+\index{make\-Flexible@{make\-Flexible}!GLC_StructOccurence@{G\-L\-C\-\_\-\-Struct\-Occurence}}
+\subsubsection[{make\-Flexible}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-\-Struct\-Occurence\-::make\-Flexible (
+\begin{DoxyParamCaption}
+\item[{const {\bf G\-L\-C\-\_\-\-Matrix4x4} \&}]{relative\-Matrix}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___struct_occurence_a682653eafa8117142ded5cab08a5cf11}
+
+
+Make this occurence a flexible occurence. 
+
+
+
+Definition at line 832 of file glc\-\_\-structoccurence.\-cpp.
+
+\hypertarget{class_g_l_c___struct_occurence_aa4e4c7736a3c850f977e4db788ed6dcc}{\index{G\-L\-C\-\_\-\-Struct\-Occurence@{G\-L\-C\-\_\-\-Struct\-Occurence}!make\-Orphan@{make\-Orphan}}
+\index{make\-Orphan@{make\-Orphan}!GLC_StructOccurence@{G\-L\-C\-\_\-\-Struct\-Occurence}}
+\subsubsection[{make\-Orphan}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-\-Struct\-Occurence\-::make\-Orphan (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___struct_occurence_aa4e4c7736a3c850f977e4db788ed6dcc}
+
+
+make the occurence orphan 
+
+
+
+Definition at line 574 of file glc\-\_\-structoccurence.\-cpp.
+
+\hypertarget{class_g_l_c___struct_occurence_ac2e63627b3114ece31001829aaaf5f93}{\index{G\-L\-C\-\_\-\-Struct\-Occurence@{G\-L\-C\-\_\-\-Struct\-Occurence}!make\-Rigid@{make\-Rigid}}
+\index{make\-Rigid@{make\-Rigid}!GLC_StructOccurence@{G\-L\-C\-\_\-\-Struct\-Occurence}}
+\subsubsection[{make\-Rigid}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-\-Struct\-Occurence\-::make\-Rigid (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___struct_occurence_ac2e63627b3114ece31001829aaaf5f93}
+
+
+Make this occurence rigid. 
+
+
+
+Definition at line 840 of file glc\-\_\-structoccurence.\-cpp.
+
+\hypertarget{class_g_l_c___struct_occurence_a57e600d783c759b969f1d3fb3b25bcdd}{\index{G\-L\-C\-\_\-\-Struct\-Occurence@{G\-L\-C\-\_\-\-Struct\-Occurence}!material\-Set@{material\-Set}}
+\index{material\-Set@{material\-Set}!GLC_StructOccurence@{G\-L\-C\-\_\-\-Struct\-Occurence}}
+\subsubsection[{material\-Set}]{\setlength{\rightskip}{0pt plus 5cm}Q\-Set$<$ {\bf G\-L\-C\-\_\-\-Material} $\ast$ $>$ G\-L\-C\-\_\-\-Struct\-Occurence\-::material\-Set (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_g_l_c___struct_occurence_a57e600d783c759b969f1d3fb3b25bcdd}
+
+
+Return the materials List of the representation of this occurence. 
+
+
+
+Definition at line 376 of file glc\-\_\-structoccurence.\-cpp.
+
+\hypertarget{class_g_l_c___struct_occurence_aecde0f1a741645cc4806c3f2c7f53e70}{\index{G\-L\-C\-\_\-\-Struct\-Occurence@{G\-L\-C\-\_\-\-Struct\-Occurence}!name@{name}}
+\index{name@{name}!GLC_StructOccurence@{G\-L\-C\-\_\-\-Struct\-Occurence}}
+\subsubsection[{name}]{\setlength{\rightskip}{0pt plus 5cm}const {\bf Q\-String} G\-L\-C\-\_\-\-Struct\-Occurence\-::name (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___struct_occurence_aecde0f1a741645cc4806c3f2c7f53e70}
+
+
+Return the instance name of this occurence. 
+
+
+
+Definition at line 76 of file glc\-\_\-structoccurence.\-h.
+
+\hypertarget{class_g_l_c___struct_occurence_a117c6f6b869f5fe2a69bb455a3d9702f}{\index{G\-L\-C\-\_\-\-Struct\-Occurence@{G\-L\-C\-\_\-\-Struct\-Occurence}!node\-Count@{node\-Count}}
+\index{node\-Count@{node\-Count}!GLC_StructOccurence@{G\-L\-C\-\_\-\-Struct\-Occurence}}
+\subsubsection[{node\-Count}]{\setlength{\rightskip}{0pt plus 5cm}unsigned {\bf int} G\-L\-C\-\_\-\-Struct\-Occurence\-::node\-Count (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_g_l_c___struct_occurence_a117c6f6b869f5fe2a69bb455a3d9702f}
+
+
+Return the number of node of this branch. 
+
+
+
+Definition at line 455 of file glc\-\_\-structoccurence.\-cpp.
+
+\hypertarget{class_g_l_c___struct_occurence_a821c637a83a3d44f1b534f848f2eca15}{\index{G\-L\-C\-\_\-\-Struct\-Occurence@{G\-L\-C\-\_\-\-Struct\-Occurence}!number\-Of\-Faces@{number\-Of\-Faces}}
+\index{number\-Of\-Faces@{number\-Of\-Faces}!GLC_StructOccurence@{G\-L\-C\-\_\-\-Struct\-Occurence}}
+\subsubsection[{number\-Of\-Faces}]{\setlength{\rightskip}{0pt plus 5cm}unsigned {\bf int} G\-L\-C\-\_\-\-Struct\-Occurence\-::number\-Of\-Faces (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_g_l_c___struct_occurence_a821c637a83a3d44f1b534f848f2eca15}
+
+
+Return the number of faces of the representation of this occurence. 
+
+
+
+Definition at line 322 of file glc\-\_\-structoccurence.\-cpp.
+
+\hypertarget{class_g_l_c___struct_occurence_a9cad989073e6d196de9a2525c837b4b4}{\index{G\-L\-C\-\_\-\-Struct\-Occurence@{G\-L\-C\-\_\-\-Struct\-Occurence}!number\-Of\-Materials@{number\-Of\-Materials}}
+\index{number\-Of\-Materials@{number\-Of\-Materials}!GLC_StructOccurence@{G\-L\-C\-\_\-\-Struct\-Occurence}}
+\subsubsection[{number\-Of\-Materials}]{\setlength{\rightskip}{0pt plus 5cm}unsigned {\bf int} G\-L\-C\-\_\-\-Struct\-Occurence\-::number\-Of\-Materials (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_g_l_c___struct_occurence_a9cad989073e6d196de9a2525c837b4b4}
+
+
+Return the number of materials of the representation of this occurence. 
+
+
+
+Definition at line 356 of file glc\-\_\-structoccurence.\-cpp.
+
+\hypertarget{class_g_l_c___struct_occurence_a71d91e11f5e6060ff1a8a9aa9262e942}{\index{G\-L\-C\-\_\-\-Struct\-Occurence@{G\-L\-C\-\_\-\-Struct\-Occurence}!number\-Of\-Vertex@{number\-Of\-Vertex}}
+\index{number\-Of\-Vertex@{number\-Of\-Vertex}!GLC_StructOccurence@{G\-L\-C\-\_\-\-Struct\-Occurence}}
+\subsubsection[{number\-Of\-Vertex}]{\setlength{\rightskip}{0pt plus 5cm}unsigned {\bf int} G\-L\-C\-\_\-\-Struct\-Occurence\-::number\-Of\-Vertex (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_g_l_c___struct_occurence_a71d91e11f5e6060ff1a8a9aa9262e942}
+
+
+Return the number of vertex of the representation of this occurence. 
+
+
+
+Definition at line 339 of file glc\-\_\-structoccurence.\-cpp.
+
+\hypertarget{class_g_l_c___struct_occurence_a1636bc3898831aa6d80513e18691a5b9}{\index{G\-L\-C\-\_\-\-Struct\-Occurence@{G\-L\-C\-\_\-\-Struct\-Occurence}!occurence\-Number@{occurence\-Number}}
+\index{occurence\-Number@{occurence\-Number}!GLC_StructOccurence@{G\-L\-C\-\_\-\-Struct\-Occurence}}
+\subsubsection[{occurence\-Number}]{\setlength{\rightskip}{0pt plus 5cm}unsigned {\bf int} G\-L\-C\-\_\-\-Struct\-Occurence\-::occurence\-Number (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___struct_occurence_a1636bc3898831aa6d80513e18691a5b9}
+
+
+Return the occurence number of this occurence. 
+
+
+
+Definition at line 160 of file glc\-\_\-structoccurence.\-h.
+
+\hypertarget{class_g_l_c___struct_occurence_a4f661827fb296c0b463095a59cdd0ab3}{\index{G\-L\-C\-\_\-\-Struct\-Occurence@{G\-L\-C\-\_\-\-Struct\-Occurence}!occurrence\-Relative\-Matrix@{occurrence\-Relative\-Matrix}}
+\index{occurrence\-Relative\-Matrix@{occurrence\-Relative\-Matrix}!GLC_StructOccurence@{G\-L\-C\-\_\-\-Struct\-Occurence}}
+\subsubsection[{occurrence\-Relative\-Matrix}]{\setlength{\rightskip}{0pt plus 5cm}{\bf G\-L\-C\-\_\-\-Matrix4x4} G\-L\-C\-\_\-\-Struct\-Occurence\-::occurrence\-Relative\-Matrix (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_g_l_c___struct_occurence_a4f661827fb296c0b463095a59cdd0ab3}
+
+
+Return the surcharged relative matrix. 
+
+
+
+Definition at line 256 of file glc\-\_\-structoccurence.\-cpp.
+
+\hypertarget{class_g_l_c___struct_occurence_a32071de4bc5dbb8c3bdd0ed13ae3dd08}{\index{G\-L\-C\-\_\-\-Struct\-Occurence@{G\-L\-C\-\_\-\-Struct\-Occurence}!parent@{parent}}
+\index{parent@{parent}!GLC_StructOccurence@{G\-L\-C\-\_\-\-Struct\-Occurence}}
+\subsubsection[{parent}]{\setlength{\rightskip}{0pt plus 5cm}{\bf G\-L\-C\-\_\-\-Struct\-Occurence}$\ast$ G\-L\-C\-\_\-\-Struct\-Occurence\-::parent (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___struct_occurence_a32071de4bc5dbb8c3bdd0ed13ae3dd08}
+
+
+Return The parent of this occurence. 
+
+
+
+Definition at line 123 of file glc\-\_\-structoccurence.\-h.
+
+\hypertarget{class_g_l_c___struct_occurence_a3e9cf889284456c03b35baa131b0c07e}{\index{G\-L\-C\-\_\-\-Struct\-Occurence@{G\-L\-C\-\_\-\-Struct\-Occurence}!parents\-References@{parents\-References}}
+\index{parents\-References@{parents\-References}!GLC_StructOccurence@{G\-L\-C\-\_\-\-Struct\-Occurence}}
+\subsubsection[{parents\-References}]{\setlength{\rightskip}{0pt plus 5cm}Q\-Set$<$ {\bf G\-L\-C\-\_\-\-Struct\-Reference} $\ast$ $>$ G\-L\-C\-\_\-\-Struct\-Occurence\-::parents\-References (
+\begin{DoxyParamCaption}
+\item[{const {\bf G\-L\-C\-\_\-\-Struct\-Occurence} $\ast$}]{p\-Occurence}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{class_g_l_c___struct_occurence_a3e9cf889284456c03b35baa131b0c07e}
+
+
+Return the set of parents references of the given occurence. 
+
+
+
+Definition at line 482 of file glc\-\_\-structoccurence.\-cpp.
+
+\hypertarget{class_g_l_c___struct_occurence_a90af3db3d64b3f12b169413338525a0e}{\index{G\-L\-C\-\_\-\-Struct\-Occurence@{G\-L\-C\-\_\-\-Struct\-Occurence}!remove3\-D\-View\-Instance@{remove3\-D\-View\-Instance}}
+\index{remove3\-D\-View\-Instance@{remove3\-D\-View\-Instance}!GLC_StructOccurence@{G\-L\-C\-\_\-\-Struct\-Occurence}}
+\subsubsection[{remove3\-D\-View\-Instance}]{\setlength{\rightskip}{0pt plus 5cm}bool G\-L\-C\-\_\-\-Struct\-Occurence\-::remove3\-D\-View\-Instance (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___struct_occurence_a90af3db3d64b3f12b169413338525a0e}
+
+
+Remove the 3\-D\-View\-Instance of this occurence. 
+
+
+
+Definition at line 637 of file glc\-\_\-structoccurence.\-cpp.
+
+\hypertarget{class_g_l_c___struct_occurence_aa29c26bbeee9dc84038bc1cfb0c7e68d}{\index{G\-L\-C\-\_\-\-Struct\-Occurence@{G\-L\-C\-\_\-\-Struct\-Occurence}!remove\-Child@{remove\-Child}}
+\index{remove\-Child@{remove\-Child}!GLC_StructOccurence@{G\-L\-C\-\_\-\-Struct\-Occurence}}
+\subsubsection[{remove\-Child}]{\setlength{\rightskip}{0pt plus 5cm}bool G\-L\-C\-\_\-\-Struct\-Occurence\-::remove\-Child (
+\begin{DoxyParamCaption}
+\item[{{\bf G\-L\-C\-\_\-\-Struct\-Occurence} $\ast$}]{p\-Child}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___struct_occurence_aa29c26bbeee9dc84038bc1cfb0c7e68d}
+
+
+Remove the specified child. 
+
+The removed child will not be deleted 
+
+Definition at line 584 of file glc\-\_\-structoccurence.\-cpp.
+
+\hypertarget{class_g_l_c___struct_occurence_a6647022fdd2bcc3acc37294ef0fd6496}{\index{G\-L\-C\-\_\-\-Struct\-Occurence@{G\-L\-C\-\_\-\-Struct\-Occurence}!remove\-Empty\-Children@{remove\-Empty\-Children}}
+\index{remove\-Empty\-Children@{remove\-Empty\-Children}!GLC_StructOccurence@{G\-L\-C\-\_\-\-Struct\-Occurence}}
+\subsubsection[{remove\-Empty\-Children}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-\-Struct\-Occurence\-::remove\-Empty\-Children (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___struct_occurence_a6647022fdd2bcc3acc37294ef0fd6496}
+
+
+Remove empty children. 
+
+
+
+Definition at line 774 of file glc\-\_\-structoccurence.\-cpp.
+
+\hypertarget{class_g_l_c___struct_occurence_ab57b2c91897dad08a81c7ac9671a50b4}{\index{G\-L\-C\-\_\-\-Struct\-Occurence@{G\-L\-C\-\_\-\-Struct\-Occurence}!render\-Properties\-Handle@{render\-Properties\-Handle}}
+\index{render\-Properties\-Handle@{render\-Properties\-Handle}!GLC_StructOccurence@{G\-L\-C\-\_\-\-Struct\-Occurence}}
+\subsubsection[{render\-Properties\-Handle}]{\setlength{\rightskip}{0pt plus 5cm}{\bf G\-L\-C\-\_\-\-Render\-Properties}$\ast$ G\-L\-C\-\_\-\-Struct\-Occurence\-::render\-Properties\-Handle (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___struct_occurence_ab57b2c91897dad08a81c7ac9671a50b4}
+
+
+Return an handle of the render\-Properties of this occurence. 
+
+
+
+Definition at line 164 of file glc\-\_\-structoccurence.\-h.
+
+\hypertarget{class_g_l_c___struct_occurence_ae9aaa8772d698295120adb3c78786260}{\index{G\-L\-C\-\_\-\-Struct\-Occurence@{G\-L\-C\-\_\-\-Struct\-Occurence}!reverse\-Normals@{reverse\-Normals}}
+\index{reverse\-Normals@{reverse\-Normals}!GLC_StructOccurence@{G\-L\-C\-\_\-\-Struct\-Occurence}}
+\subsubsection[{reverse\-Normals}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-\-Struct\-Occurence\-::reverse\-Normals (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___struct_occurence_ae9aaa8772d698295120adb3c78786260}
+
+
+Reverse Normals of this Occurence and childs. 
+
+
+
+Definition at line 596 of file glc\-\_\-structoccurence.\-cpp.
+
+\hypertarget{class_g_l_c___struct_occurence_ae036acdd4ebf53bffddfcf3639a70a2e}{\index{G\-L\-C\-\_\-\-Struct\-Occurence@{G\-L\-C\-\_\-\-Struct\-Occurence}!set\-Automatic3\-D\-View\-Instance\-Creation\-Usage@{set\-Automatic3\-D\-View\-Instance\-Creation\-Usage}}
+\index{set\-Automatic3\-D\-View\-Instance\-Creation\-Usage@{set\-Automatic3\-D\-View\-Instance\-Creation\-Usage}!GLC_StructOccurence@{G\-L\-C\-\_\-\-Struct\-Occurence}}
+\subsubsection[{set\-Automatic3\-D\-View\-Instance\-Creation\-Usage}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-\-Struct\-Occurence\-::set\-Automatic3\-D\-View\-Instance\-Creation\-Usage (
+\begin{DoxyParamCaption}
+\item[{bool}]{usage}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___struct_occurence_ae036acdd4ebf53bffddfcf3639a70a2e}
+
+
+Set the automatic creation of 3\-D\-View\-Instance usage. 
+
+
+
+Definition at line 255 of file glc\-\_\-structoccurence.\-h.
+
+\hypertarget{class_g_l_c___struct_occurence_a6a87761ca87bc498b099d0c7f2602d0c}{\index{G\-L\-C\-\_\-\-Struct\-Occurence@{G\-L\-C\-\_\-\-Struct\-Occurence}!set\-Name@{set\-Name}}
+\index{set\-Name@{set\-Name}!GLC_StructOccurence@{G\-L\-C\-\_\-\-Struct\-Occurence}}
+\subsubsection[{set\-Name}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-\-Struct\-Occurence\-::set\-Name (
+\begin{DoxyParamCaption}
+\item[{const {\bf Q\-String}}]{name}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___struct_occurence_a6a87761ca87bc498b099d0c7f2602d0c}
+
+
+Set Occurence instance Name. 
+
+
+
+Definition at line 195 of file glc\-\_\-structoccurence.\-h.
+
+\hypertarget{class_g_l_c___struct_occurence_a4a267def7b328ae08cddc27cb529c7a2}{\index{G\-L\-C\-\_\-\-Struct\-Occurence@{G\-L\-C\-\_\-\-Struct\-Occurence}!set\-Occurence\-Number@{set\-Occurence\-Number}}
+\index{set\-Occurence\-Number@{set\-Occurence\-Number}!GLC_StructOccurence@{G\-L\-C\-\_\-\-Struct\-Occurence}}
+\subsubsection[{set\-Occurence\-Number}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-\-Struct\-Occurence\-::set\-Occurence\-Number (
+\begin{DoxyParamCaption}
+\item[{unsigned {\bf int}}]{n}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___struct_occurence_a4a267def7b328ae08cddc27cb529c7a2}
+
+
+Set the occurence number of this occurence. 
+
+
+
+Definition at line 236 of file glc\-\_\-structoccurence.\-h.
+
+\hypertarget{class_g_l_c___struct_occurence_ad1ebf71ca68f7fa73723f5e606eee036}{\index{G\-L\-C\-\_\-\-Struct\-Occurence@{G\-L\-C\-\_\-\-Struct\-Occurence}!set\-Reference@{set\-Reference}}
+\index{set\-Reference@{set\-Reference}!GLC_StructOccurence@{G\-L\-C\-\_\-\-Struct\-Occurence}}
+\subsubsection[{set\-Reference}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-\-Struct\-Occurence\-::set\-Reference (
+\begin{DoxyParamCaption}
+\item[{{\bf G\-L\-C\-\_\-\-Struct\-Reference} $\ast$}]{p\-Ref}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___struct_occurence_ad1ebf71ca68f7fa73723f5e606eee036}
+
+
+Set the given reference to this occurence. 
+
+
+
+Definition at line 792 of file glc\-\_\-structoccurence.\-cpp.
+
+\hypertarget{class_g_l_c___struct_occurence_a5cd7378dc05bd6a6f0a758ef29722447}{\index{G\-L\-C\-\_\-\-Struct\-Occurence@{G\-L\-C\-\_\-\-Struct\-Occurence}!set\-Render\-Properties@{set\-Render\-Properties}}
+\index{set\-Render\-Properties@{set\-Render\-Properties}!GLC_StructOccurence@{G\-L\-C\-\_\-\-Struct\-Occurence}}
+\subsubsection[{set\-Render\-Properties}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-\-Struct\-Occurence\-::set\-Render\-Properties (
+\begin{DoxyParamCaption}
+\item[{const {\bf G\-L\-C\-\_\-\-Render\-Properties} \&}]{render\-Properties}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___struct_occurence_a5cd7378dc05bd6a6f0a758ef29722447}
+
+
+set the render\-Properties of this occurence 
+
+
+
+Definition at line 753 of file glc\-\_\-structoccurence.\-cpp.
+
+\hypertarget{class_g_l_c___struct_occurence_a1beaa79919aaccbb61ab72cc86195451}{\index{G\-L\-C\-\_\-\-Struct\-Occurence@{G\-L\-C\-\_\-\-Struct\-Occurence}!set\-Visibility@{set\-Visibility}}
+\index{set\-Visibility@{set\-Visibility}!GLC_StructOccurence@{G\-L\-C\-\_\-\-Struct\-Occurence}}
+\subsubsection[{set\-Visibility}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-\-Struct\-Occurence\-::set\-Visibility (
+\begin{DoxyParamCaption}
+\item[{bool}]{visibility}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___struct_occurence_a1beaa79919aaccbb61ab72cc86195451}
+
+
+Set this occurence visibility. 
+
+
+
+Definition at line 739 of file glc\-\_\-structoccurence.\-cpp.
+
+\hypertarget{class_g_l_c___struct_occurence_a345fae8501db6457db8aee49af80c54d}{\index{G\-L\-C\-\_\-\-Struct\-Occurence@{G\-L\-C\-\_\-\-Struct\-Occurence}!set\-World\-Handle@{set\-World\-Handle}}
+\index{set\-World\-Handle@{set\-World\-Handle}!GLC_StructOccurence@{G\-L\-C\-\_\-\-Struct\-Occurence}}
+\subsubsection[{set\-World\-Handle}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-\-Struct\-Occurence\-::set\-World\-Handle (
+\begin{DoxyParamCaption}
+\item[{{\bf G\-L\-C\-\_\-\-World\-Handle} $\ast$}]{p\-World\-Handle}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___struct_occurence_a345fae8501db6457db8aee49af80c54d}
+
+
+Set this occurence world Handle. 
+
+
+
+Definition at line 647 of file glc\-\_\-structoccurence.\-cpp.
+
+\hypertarget{class_g_l_c___struct_occurence_a930309eab5aa24ac12aedfbd6fb5f28e}{\index{G\-L\-C\-\_\-\-Struct\-Occurence@{G\-L\-C\-\_\-\-Struct\-Occurence}!struct\-Instance@{struct\-Instance}}
+\index{struct\-Instance@{struct\-Instance}!GLC_StructOccurence@{G\-L\-C\-\_\-\-Struct\-Occurence}}
+\subsubsection[{struct\-Instance}]{\setlength{\rightskip}{0pt plus 5cm}{\bf G\-L\-C\-\_\-\-Struct\-Instance}$\ast$ G\-L\-C\-\_\-\-Struct\-Occurence\-::struct\-Instance (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___struct_occurence_a930309eab5aa24ac12aedfbd6fb5f28e}
+
+
+Return the instance of this occurence. 
+
+
+
+Definition at line 101 of file glc\-\_\-structoccurence.\-h.
+
+\hypertarget{class_g_l_c___struct_occurence_af41fa3dbb2fbdd91ed1dd27a324ce039}{\index{G\-L\-C\-\_\-\-Struct\-Occurence@{G\-L\-C\-\_\-\-Struct\-Occurence}!struct\-Reference@{struct\-Reference}}
+\index{struct\-Reference@{struct\-Reference}!GLC_StructOccurence@{G\-L\-C\-\_\-\-Struct\-Occurence}}
+\subsubsection[{struct\-Reference}]{\setlength{\rightskip}{0pt plus 5cm}{\bf G\-L\-C\-\_\-\-Struct\-Reference}$\ast$ G\-L\-C\-\_\-\-Struct\-Occurence\-::struct\-Reference (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___struct_occurence_af41fa3dbb2fbdd91ed1dd27a324ce039}
+
+
+Return the reference of this occurence. 
+
+
+
+Definition at line 105 of file glc\-\_\-structoccurence.\-h.
+
+\hypertarget{class_g_l_c___struct_occurence_a69a05dc5791ea796121fc06f0df4ec72}{\index{G\-L\-C\-\_\-\-Struct\-Occurence@{G\-L\-C\-\_\-\-Struct\-Occurence}!sub\-Occurence\-List@{sub\-Occurence\-List}}
+\index{sub\-Occurence\-List@{sub\-Occurence\-List}!GLC_StructOccurence@{G\-L\-C\-\_\-\-Struct\-Occurence}}
+\subsubsection[{sub\-Occurence\-List}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Q\-List}$<$ {\bf G\-L\-C\-\_\-\-Struct\-Occurence} $\ast$ $>$ G\-L\-C\-\_\-\-Struct\-Occurence\-::sub\-Occurence\-List (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_g_l_c___struct_occurence_a69a05dc5791ea796121fc06f0df4ec72}
+
+
+Return the list of all accurence under this occurence. 
+
+
+
+Definition at line 305 of file glc\-\_\-structoccurence.\-cpp.
+
+\hypertarget{class_g_l_c___struct_occurence_aa79c7c12010247da816ac7ff942333c7}{\index{G\-L\-C\-\_\-\-Struct\-Occurence@{G\-L\-C\-\_\-\-Struct\-Occurence}!unload\-Representation@{unload\-Representation}}
+\index{unload\-Representation@{unload\-Representation}!GLC_StructOccurence@{G\-L\-C\-\_\-\-Struct\-Occurence}}
+\subsubsection[{unload\-Representation}]{\setlength{\rightskip}{0pt plus 5cm}bool G\-L\-C\-\_\-\-Struct\-Occurence\-::unload\-Representation (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___struct_occurence_aa79c7c12010247da816ac7ff942333c7}
+
+
+Un\-Load the representation and return true if success. 
+
+
+
+Definition at line 699 of file glc\-\_\-structoccurence.\-cpp.
+
+\hypertarget{class_g_l_c___struct_occurence_a2403c8b6f018ab76caf2629ea89d4ecc}{\index{G\-L\-C\-\_\-\-Struct\-Occurence@{G\-L\-C\-\_\-\-Struct\-Occurence}!update\-Absolute\-Matrix@{update\-Absolute\-Matrix}}
+\index{update\-Absolute\-Matrix@{update\-Absolute\-Matrix}!GLC_StructOccurence@{G\-L\-C\-\_\-\-Struct\-Occurence}}
+\subsubsection[{update\-Absolute\-Matrix}]{\setlength{\rightskip}{0pt plus 5cm}{\bf G\-L\-C\-\_\-\-Struct\-Occurence} $\ast$ G\-L\-C\-\_\-\-Struct\-Occurence\-::update\-Absolute\-Matrix (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___struct_occurence_a2403c8b6f018ab76caf2629ea89d4ecc}
+
+
+Update the absolute matrix. 
+
+
+
+Definition at line 503 of file glc\-\_\-structoccurence.\-cpp.
+
+\hypertarget{class_g_l_c___struct_occurence_ab29afb66038b64259ecfc360ee1f8b6a}{\index{G\-L\-C\-\_\-\-Struct\-Occurence@{G\-L\-C\-\_\-\-Struct\-Occurence}!update\-Children\-Absolute\-Matrix@{update\-Children\-Absolute\-Matrix}}
+\index{update\-Children\-Absolute\-Matrix@{update\-Children\-Absolute\-Matrix}!GLC_StructOccurence@{G\-L\-C\-\_\-\-Struct\-Occurence}}
+\subsubsection[{update\-Children\-Absolute\-Matrix}]{\setlength{\rightskip}{0pt plus 5cm}{\bf G\-L\-C\-\_\-\-Struct\-Occurence} $\ast$ G\-L\-C\-\_\-\-Struct\-Occurence\-::update\-Children\-Absolute\-Matrix (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___struct_occurence_ab29afb66038b64259ecfc360ee1f8b6a}
+
+
+Update children obsolute \hyperlink{class_matrix}{Matrix}. 
+
+
+
+Definition at line 533 of file glc\-\_\-structoccurence.\-cpp.
+
+\hypertarget{class_g_l_c___struct_occurence_abec3d1fdb455e51001362c480024b104}{\index{G\-L\-C\-\_\-\-Struct\-Occurence@{G\-L\-C\-\_\-\-Struct\-Occurence}!update\-Occurence\-Number@{update\-Occurence\-Number}}
+\index{update\-Occurence\-Number@{update\-Occurence\-Number}!GLC_StructOccurence@{G\-L\-C\-\_\-\-Struct\-Occurence}}
+\subsubsection[{update\-Occurence\-Number}]{\setlength{\rightskip}{0pt plus 5cm}unsigned {\bf int} G\-L\-C\-\_\-\-Struct\-Occurence\-::update\-Occurence\-Number (
+\begin{DoxyParamCaption}
+\item[{unsigned {\bf int}}]{n}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___struct_occurence_abec3d1fdb455e51001362c480024b104}
+
+
+Update the occurence number of this occurence branch. 
+
+
+
+Definition at line 728 of file glc\-\_\-structoccurence.\-cpp.
+
+\hypertarget{class_g_l_c___struct_occurence_ad79bdf08181ecef3f6261a63889025b4}{\index{G\-L\-C\-\_\-\-Struct\-Occurence@{G\-L\-C\-\_\-\-Struct\-Occurence}!use\-Automatic3\-D\-View\-Instance\-Creation@{use\-Automatic3\-D\-View\-Instance\-Creation}}
+\index{use\-Automatic3\-D\-View\-Instance\-Creation@{use\-Automatic3\-D\-View\-Instance\-Creation}!GLC_StructOccurence@{G\-L\-C\-\_\-\-Struct\-Occurence}}
+\subsubsection[{use\-Automatic3\-D\-View\-Instance\-Creation}]{\setlength{\rightskip}{0pt plus 5cm}bool G\-L\-C\-\_\-\-Struct\-Occurence\-::use\-Automatic3\-D\-View\-Instance\-Creation (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___struct_occurence_ad79bdf08181ecef3f6261a63889025b4}
+
+
+Return true if the automatic creation of 3\-D\-View\-Instance is used. 
+
+
+
+Definition at line 181 of file glc\-\_\-structoccurence.\-h.
+
+\hypertarget{class_g_l_c___struct_occurence_acadf653fdd6453eb07ea79364d462964}{\index{G\-L\-C\-\_\-\-Struct\-Occurence@{G\-L\-C\-\_\-\-Struct\-Occurence}!world\-Handle@{world\-Handle}}
+\index{world\-Handle@{world\-Handle}!GLC_StructOccurence@{G\-L\-C\-\_\-\-Struct\-Occurence}}
+\subsubsection[{world\-Handle}]{\setlength{\rightskip}{0pt plus 5cm}{\bf G\-L\-C\-\_\-\-World\-Handle}$\ast$ G\-L\-C\-\_\-\-Struct\-Occurence\-::world\-Handle (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___struct_occurence_acadf653fdd6453eb07ea79364d462964}
+
+
+Return the world handle of this occurence. 
+
+
+
+Definition at line 171 of file glc\-\_\-structoccurence.\-h.
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/glc\-\_\-lib/scene\-Graph/\hyperlink{glc__structoccurence_8h}{glc\-\_\-structoccurence.\-h}\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/glc\-\_\-lib/scene\-Graph/\hyperlink{glc__structoccurence_8cpp}{glc\-\_\-structoccurence.\-cpp}\end{DoxyCompactItemize}

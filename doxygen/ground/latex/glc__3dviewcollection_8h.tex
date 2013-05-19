@@ -1,0 +1,81 @@
+\hypertarget{glc__3dviewcollection_8h}{\section{/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/glc\-\_\-lib/scene\-Graph/glc\-\_\-3dviewcollection.h File Reference}
+\label{glc__3dviewcollection_8h}\index{/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/glc\-\_\-lib/scene\-Graph/glc\-\_\-3dviewcollection.\-h@{/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/glc\-\_\-lib/scene\-Graph/glc\-\_\-3dviewcollection.\-h}}
+}
+
+
+interface for the \hyperlink{class_g_l_c__3_d_view_collection}{G\-L\-C\-\_\-3\-D\-View\-Collection} class.  
+
+
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{class_g_l_c__3_d_view_collection}{G\-L\-C\-\_\-3\-D\-View\-Collection}
+\begin{DoxyCompactList}\small\item\em \hyperlink{class_g_l_c__3_d_view_collection}{G\-L\-C\-\_\-3\-D\-View\-Collection} \-: \hyperlink{class_g_l_c__3_d_view_instance}{G\-L\-C\-\_\-3\-D\-View\-Instance} flat collection. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef Q\-Hash$<$ \hyperlink{glc__global_8h_abf950976fabed69026558df8e2da6c6b}{G\-L\-C\-\_\-uint}, \\*
+\hyperlink{class_g_l_c__3_d_view_instance}{G\-L\-C\-\_\-3\-D\-View\-Instance} $>$ \hyperlink{glc__3dviewcollection_8h_ae6bac4a63b236b7f1e51665e3f8de554}{View\-Instances\-Hash}
+\begin{DoxyCompactList}\small\item\em \hyperlink{class_g_l_c__3_d_view_instance}{G\-L\-C\-\_\-3\-D\-View\-Instance} Hash table. \end{DoxyCompactList}\item 
+typedef Q\-Hash$<$ \hyperlink{glc__global_8h_abf950976fabed69026558df8e2da6c6b}{G\-L\-C\-\_\-uint}, \\*
+\hyperlink{class_g_l_c__3_d_view_instance}{G\-L\-C\-\_\-3\-D\-View\-Instance} $\ast$ $>$ \hyperlink{glc__3dviewcollection_8h_a10d00d5caeab00b812ce3dceba3866bb}{Pointer\-View\-Instance\-Hash}
+\begin{DoxyCompactList}\small\item\em \hyperlink{class_g_l_c__3_d_view_instance}{G\-L\-C\-\_\-3\-D\-View\-Instance} pointer Hash table. \end{DoxyCompactList}\item 
+typedef Q\-Hash$<$ \hyperlink{glc__global_8h_abf950976fabed69026558df8e2da6c6b}{G\-L\-C\-\_\-uint}, \\*
+\hyperlink{glc__3dviewcollection_8h_a10d00d5caeab00b812ce3dceba3866bb}{Pointer\-View\-Instance\-Hash} $\ast$ $>$ \hyperlink{glc__3dviewcollection_8h_a400d983ff502a897a3cd19a251fab6bc}{Hash\-List}
+\begin{DoxyCompactList}\small\item\em Hash table of \hyperlink{class_g_l_c__3_d_view_instance}{G\-L\-C\-\_\-3\-D\-View\-Instance} Hash table which use a shader. \end{DoxyCompactList}\item 
+typedef Q\-Hash$<$ \hyperlink{glc__global_8h_abf950976fabed69026558df8e2da6c6b}{G\-L\-C\-\_\-uint}, \hyperlink{glc__global_8h_abf950976fabed69026558df8e2da6c6b}{G\-L\-C\-\_\-uint} $>$ \hyperlink{glc__3dviewcollection_8h_a328039395ed2b41acd883126020604e6}{Shader\-Id\-To\-Instances\-Id}
+\begin{DoxyCompactList}\small\item\em \hyperlink{class_map}{Map} Shader id to instances id (instances which use the shader) \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+interface for the \hyperlink{class_g_l_c__3_d_view_collection}{G\-L\-C\-\_\-3\-D\-View\-Collection} class. 
+
+Definition in file \hyperlink{glc__3dviewcollection_8h_source}{glc\-\_\-3dviewcollection.\-h}.
+
+
+
+\subsection{Typedef Documentation}
+\hypertarget{glc__3dviewcollection_8h_a400d983ff502a897a3cd19a251fab6bc}{\index{glc\-\_\-3dviewcollection.\-h@{glc\-\_\-3dviewcollection.\-h}!Hash\-List@{Hash\-List}}
+\index{Hash\-List@{Hash\-List}!glc_3dviewcollection.h@{glc\-\_\-3dviewcollection.\-h}}
+\subsubsection[{Hash\-List}]{\setlength{\rightskip}{0pt plus 5cm}typedef Q\-Hash$<${\bf G\-L\-C\-\_\-uint}, {\bf Pointer\-View\-Instance\-Hash}$\ast$$>$ {\bf Hash\-List}}}\label{glc__3dviewcollection_8h_a400d983ff502a897a3cd19a251fab6bc}
+
+
+Hash table of \hyperlink{class_g_l_c__3_d_view_instance}{G\-L\-C\-\_\-3\-D\-View\-Instance} Hash table which use a shader. 
+
+
+
+Definition at line 48 of file glc\-\_\-3dviewcollection.\-h.
+
+\hypertarget{glc__3dviewcollection_8h_a10d00d5caeab00b812ce3dceba3866bb}{\index{glc\-\_\-3dviewcollection.\-h@{glc\-\_\-3dviewcollection.\-h}!Pointer\-View\-Instance\-Hash@{Pointer\-View\-Instance\-Hash}}
+\index{Pointer\-View\-Instance\-Hash@{Pointer\-View\-Instance\-Hash}!glc_3dviewcollection.h@{glc\-\_\-3dviewcollection.\-h}}
+\subsubsection[{Pointer\-View\-Instance\-Hash}]{\setlength{\rightskip}{0pt plus 5cm}typedef Q\-Hash$<${\bf G\-L\-C\-\_\-uint}, {\bf G\-L\-C\-\_\-3\-D\-View\-Instance}$\ast$$>$ {\bf Pointer\-View\-Instance\-Hash}}}\label{glc__3dviewcollection_8h_a10d00d5caeab00b812ce3dceba3866bb}
+
+
+\hyperlink{class_g_l_c__3_d_view_instance}{G\-L\-C\-\_\-3\-D\-View\-Instance} pointer Hash table. 
+
+
+
+Definition at line 45 of file glc\-\_\-3dviewcollection.\-h.
+
+\hypertarget{glc__3dviewcollection_8h_a328039395ed2b41acd883126020604e6}{\index{glc\-\_\-3dviewcollection.\-h@{glc\-\_\-3dviewcollection.\-h}!Shader\-Id\-To\-Instances\-Id@{Shader\-Id\-To\-Instances\-Id}}
+\index{Shader\-Id\-To\-Instances\-Id@{Shader\-Id\-To\-Instances\-Id}!glc_3dviewcollection.h@{glc\-\_\-3dviewcollection.\-h}}
+\subsubsection[{Shader\-Id\-To\-Instances\-Id}]{\setlength{\rightskip}{0pt plus 5cm}typedef Q\-Hash$<${\bf G\-L\-C\-\_\-uint}, {\bf G\-L\-C\-\_\-uint}$>$ {\bf Shader\-Id\-To\-Instances\-Id}}}\label{glc__3dviewcollection_8h_a328039395ed2b41acd883126020604e6}
+
+
+\hyperlink{class_map}{Map} Shader id to instances id (instances which use the shader) 
+
+
+
+Definition at line 51 of file glc\-\_\-3dviewcollection.\-h.
+
+\hypertarget{glc__3dviewcollection_8h_ae6bac4a63b236b7f1e51665e3f8de554}{\index{glc\-\_\-3dviewcollection.\-h@{glc\-\_\-3dviewcollection.\-h}!View\-Instances\-Hash@{View\-Instances\-Hash}}
+\index{View\-Instances\-Hash@{View\-Instances\-Hash}!glc_3dviewcollection.h@{glc\-\_\-3dviewcollection.\-h}}
+\subsubsection[{View\-Instances\-Hash}]{\setlength{\rightskip}{0pt plus 5cm}typedef Q\-Hash$<$ {\bf G\-L\-C\-\_\-uint}, {\bf G\-L\-C\-\_\-3\-D\-View\-Instance}$>$ {\bf View\-Instances\-Hash}}}\label{glc__3dviewcollection_8h_ae6bac4a63b236b7f1e51665e3f8de554}
+
+
+\hyperlink{class_g_l_c__3_d_view_instance}{G\-L\-C\-\_\-3\-D\-View\-Instance} Hash table. 
+
+
+
+Definition at line 39 of file glc\-\_\-3dviewcollection.\-h.
+

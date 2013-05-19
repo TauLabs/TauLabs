@@ -1,0 +1,138 @@
+\hypertarget{class_g_l_c___interpolator}{\section{G\-L\-C\-\_\-\-Interpolator Class Reference}
+\label{class_g_l_c___interpolator}\index{G\-L\-C\-\_\-\-Interpolator@{G\-L\-C\-\_\-\-Interpolator}}
+}
+
+
+\hyperlink{class_g_l_c___interpolator}{G\-L\-C\-\_\-\-Interpolator} \-: \hyperlink{class_matrix}{Matrix} interpolation class.  
+
+
+
+
+{\ttfamily \#include $<$glc\-\_\-interpolator.\-h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_g_l_c___interpolator_acdcc7da44104df11b6f36e6ef273382b}{G\-L\-C\-\_\-\-Interpolator} ()
+\begin{DoxyCompactList}\small\item\em Default linear interpolation constructor. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c___interpolator_af569e834641c14a0f50e16a650b00e83}{Set\-Interpol\-Mat} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} Nbr\-Pas, const \hyperlink{class_g_l_c___vector3d}{G\-L\-C\-\_\-\-Vector3d} \&Vect\-Depart, const \hyperlink{class_g_l_c___vector3d}{G\-L\-C\-\_\-\-Vector3d} \&Vect\-Arrive, \hyperlink{glc__interpolator_8h_a04f8c29ee182e2ad60d9a7a27d94e1b4}{I\-N\-T\-E\-R\-P\-O\-L\-\_\-\-T\-Y\-P\-E} Interpolation=\hyperlink{glc__interpolator_8h_a04f8c29ee182e2ad60d9a7a27d94e1b4a354ae4967893f536f9dc8384087ad56c}{I\-N\-T\-E\-R\-P\-O\-L\-\_\-\-L\-I\-N\-E\-A\-I\-R\-E})
+\begin{DoxyCompactList}\small\item\em Set interpolation matrix. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c___interpolator_a1499c339a796381d865193795cfa37df}{Set\-Type} (\hyperlink{glc__interpolator_8h_a04f8c29ee182e2ad60d9a7a27d94e1b4}{I\-N\-T\-E\-R\-P\-O\-L\-\_\-\-T\-Y\-P\-E} Interpolation)
+\begin{DoxyCompactList}\small\item\em Set interpolation type. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c___interpolator_ad04ecd5ffc7c0c2ed81dca38a6efa6d8}{Set\-Nbr\-Pas} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} Nbr\-Pas)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c___interpolator_a876f362602cae9e21226676a87e27477}{Set\-Vecteurs} (const \hyperlink{class_g_l_c___vector3d}{G\-L\-C\-\_\-\-Vector3d} \&Vect\-Depart, const \hyperlink{class_g_l_c___vector3d}{G\-L\-C\-\_\-\-Vector3d} \&Vect\-Arrive)
+\begin{DoxyCompactList}\small\item\em Set start and end vector. \end{DoxyCompactList}\item 
+\hyperlink{class_g_l_c___matrix4x4}{G\-L\-C\-\_\-\-Matrix4x4} \hyperlink{class_g_l_c___interpolator_a49d6c0d437c27faaa59e296a251bd860}{Get\-Interpol\-Mat} (\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void}) const 
+\begin{DoxyCompactList}\small\item\em Return th interpolation matrix. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\hyperlink{class_g_l_c___interpolator}{G\-L\-C\-\_\-\-Interpolator} \-: \hyperlink{class_matrix}{Matrix} interpolation class. 
+
+An \hyperlink{class_g_l_c___interpolator}{G\-L\-C\-\_\-\-Interpolator} is a class used to interpolate 2 4\-D matrix 
+
+Definition at line 47 of file glc\-\_\-interpolator.\-h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_g_l_c___interpolator_acdcc7da44104df11b6f36e6ef273382b}{\index{G\-L\-C\-\_\-\-Interpolator@{G\-L\-C\-\_\-\-Interpolator}!G\-L\-C\-\_\-\-Interpolator@{G\-L\-C\-\_\-\-Interpolator}}
+\index{G\-L\-C\-\_\-\-Interpolator@{G\-L\-C\-\_\-\-Interpolator}!GLC_Interpolator@{G\-L\-C\-\_\-\-Interpolator}}
+\subsubsection[{G\-L\-C\-\_\-\-Interpolator}]{\setlength{\rightskip}{0pt plus 5cm}G\-L\-C\-\_\-\-Interpolator\-::\-G\-L\-C\-\_\-\-Interpolator (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___interpolator_acdcc7da44104df11b6f36e6ef273382b}
+
+
+Default linear interpolation constructor. 
+
+
+
+Definition at line 29 of file glc\-\_\-interpolator.\-cpp.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_g_l_c___interpolator_a49d6c0d437c27faaa59e296a251bd860}{\index{G\-L\-C\-\_\-\-Interpolator@{G\-L\-C\-\_\-\-Interpolator}!Get\-Interpol\-Mat@{Get\-Interpol\-Mat}}
+\index{Get\-Interpol\-Mat@{Get\-Interpol\-Mat}!GLC_Interpolator@{G\-L\-C\-\_\-\-Interpolator}}
+\subsubsection[{Get\-Interpol\-Mat}]{\setlength{\rightskip}{0pt plus 5cm}{\bf G\-L\-C\-\_\-\-Matrix4x4} G\-L\-C\-\_\-\-Interpolator\-::\-Get\-Interpol\-Mat (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___interpolator_a49d6c0d437c27faaa59e296a251bd860}
+
+
+Return th interpolation matrix. 
+
+
+
+Definition at line 76 of file glc\-\_\-interpolator.\-h.
+
+\hypertarget{class_g_l_c___interpolator_af569e834641c14a0f50e16a650b00e83}{\index{G\-L\-C\-\_\-\-Interpolator@{G\-L\-C\-\_\-\-Interpolator}!Set\-Interpol\-Mat@{Set\-Interpol\-Mat}}
+\index{Set\-Interpol\-Mat@{Set\-Interpol\-Mat}!GLC_Interpolator@{G\-L\-C\-\_\-\-Interpolator}}
+\subsubsection[{Set\-Interpol\-Mat}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-\-Interpolator\-::\-Set\-Interpol\-Mat (
+\begin{DoxyParamCaption}
+\item[{{\bf int}}]{Nbr\-Pas, }
+\item[{const {\bf G\-L\-C\-\_\-\-Vector3d} \&}]{Vect\-Depart, }
+\item[{const {\bf G\-L\-C\-\_\-\-Vector3d} \&}]{Vect\-Arrive, }
+\item[{{\bf I\-N\-T\-E\-R\-P\-O\-L\-\_\-\-T\-Y\-P\-E}}]{Interpolation = {\ttfamily {\bf I\-N\-T\-E\-R\-P\-O\-L\-\_\-\-L\-I\-N\-E\-A\-I\-R\-E}}}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___interpolator_af569e834641c14a0f50e16a650b00e83}
+
+
+Set interpolation matrix. 
+
+
+
+Definition at line 39 of file glc\-\_\-interpolator.\-cpp.
+
+\hypertarget{class_g_l_c___interpolator_ad04ecd5ffc7c0c2ed81dca38a6efa6d8}{\index{G\-L\-C\-\_\-\-Interpolator@{G\-L\-C\-\_\-\-Interpolator}!Set\-Nbr\-Pas@{Set\-Nbr\-Pas}}
+\index{Set\-Nbr\-Pas@{Set\-Nbr\-Pas}!GLC_Interpolator@{G\-L\-C\-\_\-\-Interpolator}}
+\subsubsection[{Set\-Nbr\-Pas}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-\-Interpolator\-::\-Set\-Nbr\-Pas (
+\begin{DoxyParamCaption}
+\item[{{\bf int}}]{Nbr\-Pas}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___interpolator_ad04ecd5ffc7c0c2ed81dca38a6efa6d8}
+
+
+Definition at line 62 of file glc\-\_\-interpolator.\-cpp.
+
+\hypertarget{class_g_l_c___interpolator_a1499c339a796381d865193795cfa37df}{\index{G\-L\-C\-\_\-\-Interpolator@{G\-L\-C\-\_\-\-Interpolator}!Set\-Type@{Set\-Type}}
+\index{Set\-Type@{Set\-Type}!GLC_Interpolator@{G\-L\-C\-\_\-\-Interpolator}}
+\subsubsection[{Set\-Type}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-\-Interpolator\-::\-Set\-Type (
+\begin{DoxyParamCaption}
+\item[{{\bf I\-N\-T\-E\-R\-P\-O\-L\-\_\-\-T\-Y\-P\-E}}]{Interpolation}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___interpolator_a1499c339a796381d865193795cfa37df}
+
+
+Set interpolation type. 
+
+
+
+Definition at line 52 of file glc\-\_\-interpolator.\-cpp.
+
+\hypertarget{class_g_l_c___interpolator_a876f362602cae9e21226676a87e27477}{\index{G\-L\-C\-\_\-\-Interpolator@{G\-L\-C\-\_\-\-Interpolator}!Set\-Vecteurs@{Set\-Vecteurs}}
+\index{Set\-Vecteurs@{Set\-Vecteurs}!GLC_Interpolator@{G\-L\-C\-\_\-\-Interpolator}}
+\subsubsection[{Set\-Vecteurs}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-\-Interpolator\-::\-Set\-Vecteurs (
+\begin{DoxyParamCaption}
+\item[{const {\bf G\-L\-C\-\_\-\-Vector3d} \&}]{Vect\-Depart, }
+\item[{const {\bf G\-L\-C\-\_\-\-Vector3d} \&}]{Vect\-Arrive}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___interpolator_a876f362602cae9e21226676a87e27477}
+
+
+Set start and end vector. 
+
+
+
+Definition at line 73 of file glc\-\_\-interpolator.\-cpp.
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/glc\-\_\-lib/maths/\hyperlink{glc__interpolator_8h}{glc\-\_\-interpolator.\-h}\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/glc\-\_\-lib/maths/\hyperlink{glc__interpolator_8cpp}{glc\-\_\-interpolator.\-cpp}\end{DoxyCompactItemize}

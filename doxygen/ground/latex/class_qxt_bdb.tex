@@ -1,0 +1,267 @@
+\hypertarget{class_qxt_bdb}{\section{Qxt\-Bdb Class Reference}
+\label{class_qxt_bdb}\index{Qxt\-Bdb@{Qxt\-Bdb}}
+}
+
+
+{\ttfamily \#include $<$qxtbdb.\-h$>$}
+
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{class_qxt_bdb_a5ad90b31cad64fcaa2664bf456c694e0}{Open\-Flag} \{ \hyperlink{class_qxt_bdb_a5ad90b31cad64fcaa2664bf456c694e0a5cdcd2672abc85b9b69c8e29de69d6b3}{Create\-Database} = 0x1, 
+\hyperlink{class_qxt_bdb_a5ad90b31cad64fcaa2664bf456c694e0a08e4dc60c860b3a5b1f769fd40d8375c}{Read\-Only} = 0x2, 
+\hyperlink{class_qxt_bdb_a5ad90b31cad64fcaa2664bf456c694e0a9a9502d4dec9d2d0429ef0daf1a51a66}{Lock\-Free} = 0x4
+ \}
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_qxt_bdb_a5ac25a3634147fb3028089a8c1fc94b2}{Q\-\_\-\-D\-E\-C\-L\-A\-R\-E\-\_\-\-F\-L\-A\-G\-S} (Open\-Flags, \hyperlink{class_qxt_bdb_a5ad90b31cad64fcaa2664bf456c694e0}{Open\-Flag})
+\item 
+\hyperlink{class_qxt_bdb_a790c662b841f3f0073ea556071bf7160}{Qxt\-Bdb} ()
+\item 
+\hyperlink{class_qxt_bdb_af9a017916007f97fbe601ceb5743b5b3}{$\sim$\-Qxt\-Bdb} ()
+\item 
+bool \hyperlink{class_qxt_bdb_aadd0a190dd205aea02f6ae55005a2914}{get} (\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} $\ast$key, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} keytype, \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} $\ast$\hyperlink{glext_8h_aa0e2e9cea7f208d28acda0480144beb0}{value}, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} valuetype, \hyperlink{namespace_berkeley_d_b_af18e51055727bcdaec71de4ebaae0d67}{Berkeley\-D\-B\-::u\-\_\-int32\-\_\-t} flags=N\-U\-L\-L, Berkeley\-D\-B\-::\-D\-B\-C $\ast$cursor=0) const 
+\item 
+bool \hyperlink{class_qxt_bdb_a7c61963379e0b92f8b0d00f0a46fb81c}{get} (const \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} $\ast$key, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} keytype, \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} $\ast$\hyperlink{glext_8h_aa0e2e9cea7f208d28acda0480144beb0}{value}, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} valuetype, \hyperlink{namespace_berkeley_d_b_af18e51055727bcdaec71de4ebaae0d67}{Berkeley\-D\-B\-::u\-\_\-int32\-\_\-t} flags=N\-U\-L\-L, Berkeley\-D\-B\-::\-D\-B\-C $\ast$cursor=0) const 
+\item 
+bool \hyperlink{class_qxt_bdb_a9049c1f74fb871f4cc804871a66cd0f5}{open} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{Q\-String} path, Open\-Flags f=0)
+\item 
+Open\-Flags \hyperlink{class_qxt_bdb_a1b854c2a33e31a9a2b03610c0d8b461e}{open\-Flags} ()
+\item 
+bool \hyperlink{class_qxt_bdb_ab34f1dae679ea9465df93e1ec7b95c48}{flush} ()
+\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{Q\-String} \hyperlink{class_qxt_bdb_a41630ef9d1adeb157e90bc645014ddec}{db\-Error\-Code\-To\-String} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{_o_p_plots_8m_a9425be9aab51621e317ba7ade564b570}{e})
+\item 
+{\footnotesize template$<$class T $>$ }\\static T \hyperlink{class_qxt_bdb_a4a3f247160b1ed79cb0dcceacd9fb7f0}{qxt\-Meta\-Load} (const \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} $\ast$\hyperlink{glext_8h_a8850df0785e6fbcc2351af3b686b8c7a}{data}, size\-\_\-t \hyperlink{glext_8h_a014d89bd76f74ef3a29c8f04b473eb76}{size})
+\item 
+static \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} $\ast$ \hyperlink{class_qxt_bdb_a2f0bcad0f2a2de525873ee7af8876cd0}{qxt\-Meta\-Load} (const \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} $\ast$\hyperlink{glext_8h_a8850df0785e6fbcc2351af3b686b8c7a}{data}, size\-\_\-t \hyperlink{glext_8h_a014d89bd76f74ef3a29c8f04b473eb76}{size}, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{glext_8h_a7d05960f4f1c1b11f3177dc963a45d86}{type})
+\item 
+{\footnotesize template$<$class T $>$ }\\static Q\-Byte\-Array \hyperlink{class_qxt_bdb_a50b3805cd1450b1f3be5e76bd3bbd7ca}{qxt\-Meta\-Save} (const T \&\hyperlink{glext_8h_a00140d6f5c548b26daf170bf16e86a6d}{t})
+\item 
+static \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} $\ast$ \hyperlink{class_qxt_bdb_aa77852815da418ec1c49d497397ff9e1}{qxt\-Meta\-Save} (size\-\_\-t $\ast$\hyperlink{glext_8h_a014d89bd76f74ef3a29c8f04b473eb76}{size}, \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} $\ast$\hyperlink{glext_8h_a00140d6f5c548b26daf170bf16e86a6d}{t}, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{glext_8h_a7d05960f4f1c1b11f3177dc963a45d86}{type})
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+Berkeley\-D\-B\-::\-D\-B $\ast$ \hyperlink{class_qxt_bdb_a8584fa41987b8ac6a01e428f507e0d16}{db}
+\item 
+bool \hyperlink{class_qxt_bdb_ab03f345a4070f46d60b940f637b7ecf0}{is\-Open}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 60 of file qxtbdb.\-h.
+
+
+
+\subsection{Member Enumeration Documentation}
+\hypertarget{class_qxt_bdb_a5ad90b31cad64fcaa2664bf456c694e0}{\index{Qxt\-Bdb@{Qxt\-Bdb}!Open\-Flag@{Open\-Flag}}
+\index{Open\-Flag@{Open\-Flag}!QxtBdb@{Qxt\-Bdb}}
+\subsubsection[{Open\-Flag}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf Qxt\-Bdb\-::\-Open\-Flag}}}\label{class_qxt_bdb_a5ad90b31cad64fcaa2664bf456c694e0}
+\begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{Create\-Database@{Create\-Database}!Qxt\-Bdb@{Qxt\-Bdb}}\index{Qxt\-Bdb@{Qxt\-Bdb}!Create\-Database@{Create\-Database}}\item[{\em 
+\hypertarget{class_qxt_bdb_a5ad90b31cad64fcaa2664bf456c694e0a5cdcd2672abc85b9b69c8e29de69d6b3}{Create\-Database}\label{class_qxt_bdb_a5ad90b31cad64fcaa2664bf456c694e0a5cdcd2672abc85b9b69c8e29de69d6b3}
+}]\index{Read\-Only@{Read\-Only}!Qxt\-Bdb@{Qxt\-Bdb}}\index{Qxt\-Bdb@{Qxt\-Bdb}!Read\-Only@{Read\-Only}}\item[{\em 
+\hypertarget{class_qxt_bdb_a5ad90b31cad64fcaa2664bf456c694e0a08e4dc60c860b3a5b1f769fd40d8375c}{Read\-Only}\label{class_qxt_bdb_a5ad90b31cad64fcaa2664bf456c694e0a08e4dc60c860b3a5b1f769fd40d8375c}
+}]\index{Lock\-Free@{Lock\-Free}!Qxt\-Bdb@{Qxt\-Bdb}}\index{Qxt\-Bdb@{Qxt\-Bdb}!Lock\-Free@{Lock\-Free}}\item[{\em 
+\hypertarget{class_qxt_bdb_a5ad90b31cad64fcaa2664bf456c694e0a9a9502d4dec9d2d0429ef0daf1a51a66}{Lock\-Free}\label{class_qxt_bdb_a5ad90b31cad64fcaa2664bf456c694e0a9a9502d4dec9d2d0429ef0daf1a51a66}
+}]\end{description}
+\end{Desc}
+
+
+Definition at line 63 of file qxtbdb.\-h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_qxt_bdb_a790c662b841f3f0073ea556071bf7160}{\index{Qxt\-Bdb@{Qxt\-Bdb}!Qxt\-Bdb@{Qxt\-Bdb}}
+\index{Qxt\-Bdb@{Qxt\-Bdb}!QxtBdb@{Qxt\-Bdb}}
+\subsubsection[{Qxt\-Bdb}]{\setlength{\rightskip}{0pt plus 5cm}Qxt\-Bdb\-::\-Qxt\-Bdb (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_qxt_bdb_a790c662b841f3f0073ea556071bf7160}
+
+
+Definition at line 41 of file qxtbdb.\-cpp.
+
+\hypertarget{class_qxt_bdb_af9a017916007f97fbe601ceb5743b5b3}{\index{Qxt\-Bdb@{Qxt\-Bdb}!$\sim$\-Qxt\-Bdb@{$\sim$\-Qxt\-Bdb}}
+\index{$\sim$\-Qxt\-Bdb@{$\sim$\-Qxt\-Bdb}!QxtBdb@{Qxt\-Bdb}}
+\subsubsection[{$\sim$\-Qxt\-Bdb}]{\setlength{\rightskip}{0pt plus 5cm}Qxt\-Bdb\-::$\sim$\-Qxt\-Bdb (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_qxt_bdb_af9a017916007f97fbe601ceb5743b5b3}
+
+
+Definition at line 49 of file qxtbdb.\-cpp.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_qxt_bdb_a41630ef9d1adeb157e90bc645014ddec}{\index{Qxt\-Bdb@{Qxt\-Bdb}!db\-Error\-Code\-To\-String@{db\-Error\-Code\-To\-String}}
+\index{db\-Error\-Code\-To\-String@{db\-Error\-Code\-To\-String}!QxtBdb@{Qxt\-Bdb}}
+\subsubsection[{db\-Error\-Code\-To\-String}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Q\-String} Qxt\-Bdb\-::db\-Error\-Code\-To\-String (
+\begin{DoxyParamCaption}
+\item[{{\bf int}}]{e}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{class_qxt_bdb_a41630ef9d1adeb157e90bc645014ddec}
+
+
+Definition at line 362 of file qxtbdb.\-cpp.
+
+\hypertarget{class_qxt_bdb_ab34f1dae679ea9465df93e1ec7b95c48}{\index{Qxt\-Bdb@{Qxt\-Bdb}!flush@{flush}}
+\index{flush@{flush}!QxtBdb@{Qxt\-Bdb}}
+\subsubsection[{flush}]{\setlength{\rightskip}{0pt plus 5cm}bool Qxt\-Bdb\-::flush (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_qxt_bdb_ab34f1dae679ea9465df93e1ec7b95c48}
+
+
+Definition at line 127 of file qxtbdb.\-cpp.
+
+\hypertarget{class_qxt_bdb_aadd0a190dd205aea02f6ae55005a2914}{\index{Qxt\-Bdb@{Qxt\-Bdb}!get@{get}}
+\index{get@{get}!QxtBdb@{Qxt\-Bdb}}
+\subsubsection[{get}]{\setlength{\rightskip}{0pt plus 5cm}bool Qxt\-Bdb\-::get (
+\begin{DoxyParamCaption}
+\item[{{\bf void} $\ast$}]{key, }
+\item[{{\bf int}}]{keytype, }
+\item[{{\bf void} $\ast$}]{value, }
+\item[{{\bf int}}]{valuetype, }
+\item[{{\bf Berkeley\-D\-B\-::u\-\_\-int32\-\_\-t}}]{flags = {\ttfamily NULL}, }
+\item[{Berkeley\-D\-B\-::\-D\-B\-C $\ast$}]{cursor = {\ttfamily 0}}
+\end{DoxyParamCaption}
+) const}}\label{class_qxt_bdb_aadd0a190dd205aea02f6ae55005a2914}
+low level get function. serialised key and value with the given meta ids. always reads {\bfseries and} writes both key and value, if given. use this when doing operations that require the key to be read out of the db. 
+
+Definition at line 140 of file qxtbdb.\-cpp.
+
+\hypertarget{class_qxt_bdb_a7c61963379e0b92f8b0d00f0a46fb81c}{\index{Qxt\-Bdb@{Qxt\-Bdb}!get@{get}}
+\index{get@{get}!QxtBdb@{Qxt\-Bdb}}
+\subsubsection[{get}]{\setlength{\rightskip}{0pt plus 5cm}bool Qxt\-Bdb\-::get (
+\begin{DoxyParamCaption}
+\item[{const {\bf void} $\ast$}]{key, }
+\item[{{\bf int}}]{keytype, }
+\item[{{\bf void} $\ast$}]{value, }
+\item[{{\bf int}}]{valuetype, }
+\item[{{\bf Berkeley\-D\-B\-::u\-\_\-int32\-\_\-t}}]{flags = {\ttfamily NULL}, }
+\item[{Berkeley\-D\-B\-::\-D\-B\-C $\ast$}]{cursor = {\ttfamily 0}}
+\end{DoxyParamCaption}
+) const}}\label{class_qxt_bdb_a7c61963379e0b92f8b0d00f0a46fb81c}
+low level get function. serialised key and value with the given meta ids. doesn't write to the key. use this when doing operations that require the key to be passed. 
+
+Definition at line 258 of file qxtbdb.\-cpp.
+
+\hypertarget{class_qxt_bdb_a9049c1f74fb871f4cc804871a66cd0f5}{\index{Qxt\-Bdb@{Qxt\-Bdb}!open@{open}}
+\index{open@{open}!QxtBdb@{Qxt\-Bdb}}
+\subsubsection[{open}]{\setlength{\rightskip}{0pt plus 5cm}bool Qxt\-Bdb\-::open (
+\begin{DoxyParamCaption}
+\item[{{\bf Q\-String}}]{path, }
+\item[{Open\-Flags}]{f = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)}}\label{class_qxt_bdb_a9049c1f74fb871f4cc804871a66cd0f5}
+
+
+Definition at line 57 of file qxtbdb.\-cpp.
+
+\hypertarget{class_qxt_bdb_a1b854c2a33e31a9a2b03610c0d8b461e}{\index{Qxt\-Bdb@{Qxt\-Bdb}!open\-Flags@{open\-Flags}}
+\index{open\-Flags@{open\-Flags}!QxtBdb@{Qxt\-Bdb}}
+\subsubsection[{open\-Flags}]{\setlength{\rightskip}{0pt plus 5cm}Qxt\-Bdb\-::\-Open\-Flags Qxt\-Bdb\-::open\-Flags (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_qxt_bdb_a1b854c2a33e31a9a2b03610c0d8b461e}
+
+
+Definition at line 102 of file qxtbdb.\-cpp.
+
+\hypertarget{class_qxt_bdb_a5ac25a3634147fb3028089a8c1fc94b2}{\index{Qxt\-Bdb@{Qxt\-Bdb}!Q\-\_\-\-D\-E\-C\-L\-A\-R\-E\-\_\-\-F\-L\-A\-G\-S@{Q\-\_\-\-D\-E\-C\-L\-A\-R\-E\-\_\-\-F\-L\-A\-G\-S}}
+\index{Q\-\_\-\-D\-E\-C\-L\-A\-R\-E\-\_\-\-F\-L\-A\-G\-S@{Q\-\_\-\-D\-E\-C\-L\-A\-R\-E\-\_\-\-F\-L\-A\-G\-S}!QxtBdb@{Qxt\-Bdb}}
+\subsubsection[{Q\-\_\-\-D\-E\-C\-L\-A\-R\-E\-\_\-\-F\-L\-A\-G\-S}]{\setlength{\rightskip}{0pt plus 5cm}Qxt\-Bdb\-::\-Q\-\_\-\-D\-E\-C\-L\-A\-R\-E\-\_\-\-F\-L\-A\-G\-S (
+\begin{DoxyParamCaption}
+\item[{Open\-Flags}]{, }
+\item[{{\bf Open\-Flag}}]{}
+\end{DoxyParamCaption}
+)}}\label{class_qxt_bdb_a5ac25a3634147fb3028089a8c1fc94b2}
+\hypertarget{class_qxt_bdb_a4a3f247160b1ed79cb0dcceacd9fb7f0}{\index{Qxt\-Bdb@{Qxt\-Bdb}!qxt\-Meta\-Load@{qxt\-Meta\-Load}}
+\index{qxt\-Meta\-Load@{qxt\-Meta\-Load}!QxtBdb@{Qxt\-Bdb}}
+\subsubsection[{qxt\-Meta\-Load}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class T $>$ static T Qxt\-Bdb\-::qxt\-Meta\-Load (
+\begin{DoxyParamCaption}
+\item[{const {\bf void} $\ast$}]{data, }
+\item[{size\-\_\-t}]{size}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{class_qxt_bdb_a4a3f247160b1ed79cb0dcceacd9fb7f0}
+
+
+Definition at line 91 of file qxtbdb.\-h.
+
+\hypertarget{class_qxt_bdb_a2f0bcad0f2a2de525873ee7af8876cd0}{\index{Qxt\-Bdb@{Qxt\-Bdb}!qxt\-Meta\-Load@{qxt\-Meta\-Load}}
+\index{qxt\-Meta\-Load@{qxt\-Meta\-Load}!QxtBdb@{Qxt\-Bdb}}
+\subsubsection[{qxt\-Meta\-Load}]{\setlength{\rightskip}{0pt plus 5cm}static {\bf void}$\ast$ Qxt\-Bdb\-::qxt\-Meta\-Load (
+\begin{DoxyParamCaption}
+\item[{const {\bf void} $\ast$}]{data, }
+\item[{size\-\_\-t}]{size, }
+\item[{{\bf int}}]{type}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{class_qxt_bdb_a2f0bcad0f2a2de525873ee7af8876cd0}
+
+
+Definition at line 104 of file qxtbdb.\-h.
+
+\hypertarget{class_qxt_bdb_a50b3805cd1450b1f3be5e76bd3bbd7ca}{\index{Qxt\-Bdb@{Qxt\-Bdb}!qxt\-Meta\-Save@{qxt\-Meta\-Save}}
+\index{qxt\-Meta\-Save@{qxt\-Meta\-Save}!QxtBdb@{Qxt\-Bdb}}
+\subsubsection[{qxt\-Meta\-Save}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class T $>$ static Q\-Byte\-Array Qxt\-Bdb\-::qxt\-Meta\-Save (
+\begin{DoxyParamCaption}
+\item[{const T \&}]{t}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{class_qxt_bdb_a50b3805cd1450b1f3be5e76bd3bbd7ca}
+
+
+Definition at line 121 of file qxtbdb.\-h.
+
+\hypertarget{class_qxt_bdb_aa77852815da418ec1c49d497397ff9e1}{\index{Qxt\-Bdb@{Qxt\-Bdb}!qxt\-Meta\-Save@{qxt\-Meta\-Save}}
+\index{qxt\-Meta\-Save@{qxt\-Meta\-Save}!QxtBdb@{Qxt\-Bdb}}
+\subsubsection[{qxt\-Meta\-Save}]{\setlength{\rightskip}{0pt plus 5cm}static {\bf void}$\ast$ Qxt\-Bdb\-::qxt\-Meta\-Save (
+\begin{DoxyParamCaption}
+\item[{size\-\_\-t $\ast$}]{size, }
+\item[{{\bf void} $\ast$}]{t, }
+\item[{{\bf int}}]{type}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{class_qxt_bdb_aa77852815da418ec1c49d497397ff9e1}
+
+
+Definition at line 134 of file qxtbdb.\-h.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{class_qxt_bdb_a8584fa41987b8ac6a01e428f507e0d16}{\index{Qxt\-Bdb@{Qxt\-Bdb}!db@{db}}
+\index{db@{db}!QxtBdb@{Qxt\-Bdb}}
+\subsubsection[{db}]{\setlength{\rightskip}{0pt plus 5cm}Berkeley\-D\-B\-::\-D\-B$\ast$ Qxt\-Bdb\-::db}}\label{class_qxt_bdb_a8584fa41987b8ac6a01e428f507e0d16}
+
+
+Definition at line 83 of file qxtbdb.\-h.
+
+\hypertarget{class_qxt_bdb_ab03f345a4070f46d60b940f637b7ecf0}{\index{Qxt\-Bdb@{Qxt\-Bdb}!is\-Open@{is\-Open}}
+\index{is\-Open@{is\-Open}!QxtBdb@{Qxt\-Bdb}}
+\subsubsection[{is\-Open}]{\setlength{\rightskip}{0pt plus 5cm}bool Qxt\-Bdb\-::is\-Open}}\label{class_qxt_bdb_ab03f345a4070f46d60b940f637b7ecf0}
+
+
+Definition at line 84 of file qxtbdb.\-h.
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/libqxt/src/berkeley/\hyperlink{qxtbdb_8h}{qxtbdb.\-h}\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/libqxt/src/berkeley/\hyperlink{qxtbdb_8cpp}{qxtbdb.\-cpp}\end{DoxyCompactItemize}

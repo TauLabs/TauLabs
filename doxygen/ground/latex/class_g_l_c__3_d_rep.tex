@@ -1,0 +1,682 @@
+\hypertarget{class_g_l_c__3_d_rep}{\section{G\-L\-C\-\_\-3\-D\-Rep Class Reference}
+\label{class_g_l_c__3_d_rep}\index{G\-L\-C\-\_\-3\-D\-Rep@{G\-L\-C\-\_\-3\-D\-Rep}}
+}
+
+
+\hyperlink{class_g_l_c__3_d_rep}{G\-L\-C\-\_\-3\-D\-Rep} \-: A referrence 3\-D Representation.  
+
+
+
+
+{\ttfamily \#include $<$glc\-\_\-3drep.\-h$>$}
+
+Inheritance diagram for G\-L\-C\-\_\-3\-D\-Rep\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_g_l_c__3_d_rep}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{Indent}{\bf Constructor / Destructor}\par
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_g_l_c__3_d_rep_a88865051e723c01265cade6d822afe93}{G\-L\-C\-\_\-3\-D\-Rep} ()
+\begin{DoxyCompactList}\small\item\em Default Constructor. \end{DoxyCompactList}\item 
+\hyperlink{class_g_l_c__3_d_rep_a79044f8562624af2ea8a1758ffe0a9ee}{G\-L\-C\-\_\-3\-D\-Rep} (\hyperlink{class_g_l_c___geometry}{G\-L\-C\-\_\-\-Geometry} $\ast$)
+\begin{DoxyCompactList}\small\item\em Construct a 3\-D\-Rep with a geometry. \end{DoxyCompactList}\item 
+\hyperlink{class_g_l_c__3_d_rep_aab9a32888f043f24dfcb0d97404f8cbc}{G\-L\-C\-\_\-3\-D\-Rep} (const \hyperlink{class_g_l_c__3_d_rep}{G\-L\-C\-\_\-3\-D\-Rep} \&)
+\begin{DoxyCompactList}\small\item\em Copy Constructor. \end{DoxyCompactList}\item 
+virtual \hyperlink{class_g_l_c__3_d_rep}{G\-L\-C\-\_\-3\-D\-Rep} \& \hyperlink{class_g_l_c__3_d_rep_a8caf8503d4b67bc3d58f8882be98de29}{operator=} (const \hyperlink{class_g_l_c___rep}{G\-L\-C\-\_\-\-Rep} \&)
+\begin{DoxyCompactList}\small\item\em Assignement operator. \end{DoxyCompactList}\item 
+virtual \hyperlink{class_g_l_c___rep}{G\-L\-C\-\_\-\-Rep} $\ast$ \hyperlink{class_g_l_c__3_d_rep_a46f07f948dfaba7c885a171451ed2486}{clone} () const 
+\begin{DoxyCompactList}\small\item\em Clone the representation. \end{DoxyCompactList}\item 
+virtual \hyperlink{class_g_l_c___rep}{G\-L\-C\-\_\-\-Rep} $\ast$ \hyperlink{class_g_l_c__3_d_rep_a0d448ace67203a7361afeb955246eaf8}{deep\-Copy} () const 
+\begin{DoxyCompactList}\small\item\em Make a deep copy of the 3\-D\-Rep. \end{DoxyCompactList}\item 
+virtual \hyperlink{class_g_l_c__3_d_rep_af1631146aa3a32195b710e8a2cdca244}{$\sim$\-G\-L\-C\-\_\-3\-D\-Rep} ()
+\begin{DoxyCompactList}\small\item\em Destructor. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\end{Indent}
+\begin{Indent}{\bf Set Functions}\par
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c__3_d_rep_aee2a5f0b7841d41ce5fd70aa6075ea50}{add\-Geom} (\hyperlink{class_g_l_c___geometry}{G\-L\-C\-\_\-\-Geometry} $\ast$p\-Geom)
+\begin{DoxyCompactList}\small\item\em Add Geometry to the 3\-D\-Rep. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c__3_d_rep_a43e867093f86e1d440117d6b26706029}{clean} ()
+\begin{DoxyCompactList}\small\item\em Remove empty geometries and factorise materials. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c__3_d_rep_ac6202b9b4e69b87e37c45148105a5b54}{reverse\-Normals} ()
+\begin{DoxyCompactList}\small\item\em Reverse geometries normals. \end{DoxyCompactList}\item 
+virtual bool \hyperlink{class_g_l_c__3_d_rep_ad71af8802feb16830a7ae528baec650f}{load} ()
+\begin{DoxyCompactList}\small\item\em Load the representation and return true if success. \end{DoxyCompactList}\item 
+virtual bool \hyperlink{class_g_l_c__3_d_rep_a7f1b9ea7dc3742aa37f396ddca3d6d38}{unload} ()
+\begin{DoxyCompactList}\small\item\em Un\-Load the representation and return true if success. \end{DoxyCompactList}\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c__3_d_rep_a946e0aab973fcc7e68d107c45a1e4c22}{replace} (\hyperlink{class_g_l_c___rep}{G\-L\-C\-\_\-\-Rep} $\ast$)
+\begin{DoxyCompactList}\small\item\em Replace the representation. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c__3_d_rep_a1aa803da235b8c63f543c22ea040668e}{replace\-Material} (\hyperlink{glc__global_8h_abf950976fabed69026558df8e2da6c6b}{G\-L\-C\-\_\-uint}, \hyperlink{class_g_l_c___material}{G\-L\-C\-\_\-\-Material} $\ast$)
+\begin{DoxyCompactList}\small\item\em Replace the specified material by a new one. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c__3_d_rep_a2a258fd51a958d88ed1bf466810d1aa9}{merge} (const \hyperlink{class_g_l_c__3_d_rep}{G\-L\-C\-\_\-3\-D\-Rep} $\ast$)
+\begin{DoxyCompactList}\small\item\em Merge this 3\-Drep with another 3\-D\-Rep. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c__3_d_rep_a3d39a18b5722448d651dfce9d6a22637}{take} (\hyperlink{class_g_l_c__3_d_rep}{G\-L\-C\-\_\-3\-D\-Rep} $\ast$p\-Source)
+\begin{DoxyCompactList}\small\item\em Take the geometry of another 3\-D\-Rep. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c__3_d_rep_ac1d9060716b6f262306f25f5a1903031}{copy\-Vbo\-To\-Client\-Side} ()
+\begin{DoxyCompactList}\small\item\em Copy V\-B\-O to the Client Side. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c__3_d_rep_aa9c31bcbd1d790b4626e6a979cbda4f5}{release\-Vbo\-Client\-Side} (bool update=false)
+\begin{DoxyCompactList}\small\item\em Release client V\-B\-O. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c__3_d_rep_a4d7fb925e83e1e71e1911590839a3d8e}{transform\-Sub\-Geometries} (const \hyperlink{class_g_l_c___matrix4x4}{G\-L\-C\-\_\-\-Matrix4x4} \&\hyperlink{glext_8h_a7b24a3f2f56eb1244ae69dacb4fecb6f}{matrix})
+\begin{DoxyCompactList}\small\item\em \hyperlink{class_transform}{Transform} 3\-D\-Rep sub mesh vertice with the given matrix. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c__3_d_rep_a4de971dc186a782e78750c05dd8d7a81}{set\-Vbo\-Usage} (bool \hyperlink{glext_8h_ae759ed0394ed5353d8bef2fb755305da}{usage})
+\begin{DoxyCompactList}\small\item\em Set V\-B\-O usage. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\end{Indent}
+\subsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+G\-L\-C\-\_\-\-L\-I\-B\-\_\-\-E\-X\-P\-O\-R\-T Q\-Data\-Stream \& \hyperlink{class_g_l_c__3_d_rep_a8c144ca426be8268672835e70c06663e}{operator$<$$<$} (Q\-Data\-Stream \&, const \hyperlink{class_g_l_c__3_d_rep}{G\-L\-C\-\_\-3\-D\-Rep} \&)
+\begin{DoxyCompactList}\small\item\em Non-\/member stream operator. \end{DoxyCompactList}\item 
+G\-L\-C\-\_\-\-L\-I\-B\-\_\-\-E\-X\-P\-O\-R\-T Q\-Data\-Stream \& \hyperlink{class_g_l_c__3_d_rep_a060c8733575693100a5ad6496098ffa4}{operator$>$$>$} (Q\-Data\-Stream \&, \hyperlink{class_g_l_c__3_d_rep}{G\-L\-C\-\_\-3\-D\-Rep} \&)
+\end{DoxyCompactItemize}
+\subsection*{Get Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_g_l_c__3_d_rep_a150ee489cfa8e446e0e7524123643ec4}{type} () const 
+\begin{DoxyCompactList}\small\item\em Return the type of representation. \end{DoxyCompactList}\item 
+\hyperlink{class_g_l_c___geometry}{G\-L\-C\-\_\-\-Geometry} $\ast$ \hyperlink{class_g_l_c__3_d_rep_afc721468e5a877015c4dca0f22cfb73b}{geom\-At} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{glext_8h_ab47dd9958bcadea08866b42bf358e95e}{index}) const 
+\begin{DoxyCompactList}\small\item\em Get Geometry. \end{DoxyCompactList}\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_g_l_c__3_d_rep_a7a70d55b137b7bcc6099b1916bce6dfd}{number\-Of\-Body} () const 
+\begin{DoxyCompactList}\small\item\em Return the number of body. \end{DoxyCompactList}\item 
+virtual bool \hyperlink{class_g_l_c__3_d_rep_aa3bffd4cab1357a083dd290b26ac3504}{is\-Empty} () const 
+\begin{DoxyCompactList}\small\item\em Return true if the representation is empty. \end{DoxyCompactList}\item 
+bool \hyperlink{class_g_l_c__3_d_rep_aac57e2b8b3b316ff5ff100069c54aca1}{bounding\-Box\-Is\-Valid} () const 
+\begin{DoxyCompactList}\small\item\em Return true if the rep bounding box is valid. \end{DoxyCompactList}\item 
+\hyperlink{class_g_l_c___bounding_box}{G\-L\-C\-\_\-\-Bounding\-Box} \hyperlink{class_g_l_c__3_d_rep_ac47a8d9a7cc3458d90579b2ea1c0f3ab}{bounding\-Box} () const 
+\begin{DoxyCompactList}\small\item\em Return the 3\-D\-Rep bounding Box. \end{DoxyCompactList}\item 
+bool \hyperlink{class_g_l_c__3_d_rep_abc9ba965b51e7d619653caee712fd11c}{contains} (\hyperlink{class_g_l_c___geometry}{G\-L\-C\-\_\-\-Geometry} $\ast$p\-Geom)
+\begin{DoxyCompactList}\small\item\em Return true if the 3\-D\-Rep contains the geometry. \end{DoxyCompactList}\item 
+unsigned \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_g_l_c__3_d_rep_af8cbe5fb15a6ff2eefe2a8f52089d69f}{face\-Count} () const 
+\begin{DoxyCompactList}\small\item\em Return the number of faces of this 3\-D\-Rep. \end{DoxyCompactList}\item 
+unsigned \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_g_l_c__3_d_rep_a385803eca1c20164788827428dae6392}{vertex\-Count} () const 
+\begin{DoxyCompactList}\small\item\em Return number of vertex of this 3\-D\-Rep. \end{DoxyCompactList}\item 
+unsigned \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_g_l_c__3_d_rep_a492b242fb26481dda80da39c52251445}{material\-Count} () const 
+\begin{DoxyCompactList}\small\item\em Return number of materials of this 3\-D\-Rep. \end{DoxyCompactList}\item 
+Q\-Set$<$ \hyperlink{class_g_l_c___material}{G\-L\-C\-\_\-\-Material} $\ast$ $>$ \hyperlink{class_g_l_c__3_d_rep_ab4c63807d79e3a69b813ae78d375135f}{material\-Set} () const 
+\begin{DoxyCompactList}\small\item\em Return materials Set of this 3\-D\-Rep. \end{DoxyCompactList}\item 
+\hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} \hyperlink{class_g_l_c__3_d_rep_aca0559a215917ef5c0b7267a9b072426}{volume} () const 
+\begin{DoxyCompactList}\small\item\em Return the volume of this 3\-D\-Rep. \end{DoxyCompactList}\item 
+static quint32 \hyperlink{class_g_l_c__3_d_rep_a9c23e6d9cd1e087e304a26911604e65c}{chunck\-I\-D} ()
+\begin{DoxyCompactList}\small\item\em Return the class Chunk I\-D. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Detailed Description}
+\hyperlink{class_g_l_c__3_d_rep}{G\-L\-C\-\_\-3\-D\-Rep} \-: A referrence 3\-D Representation. 
+
+Definition at line 36 of file glc\-\_\-3drep.\-h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_g_l_c__3_d_rep_a88865051e723c01265cade6d822afe93}{\index{G\-L\-C\-\_\-3\-D\-Rep@{G\-L\-C\-\_\-3\-D\-Rep}!G\-L\-C\-\_\-3\-D\-Rep@{G\-L\-C\-\_\-3\-D\-Rep}}
+\index{G\-L\-C\-\_\-3\-D\-Rep@{G\-L\-C\-\_\-3\-D\-Rep}!GLC_3DRep@{G\-L\-C\-\_\-3\-D\-Rep}}
+\subsubsection[{G\-L\-C\-\_\-3\-D\-Rep}]{\setlength{\rightskip}{0pt plus 5cm}G\-L\-C\-\_\-3\-D\-Rep\-::\-G\-L\-C\-\_\-3\-D\-Rep (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c__3_d_rep_a88865051e723c01265cade6d822afe93}
+
+
+Default Constructor. 
+
+
+
+Definition at line 31 of file glc\-\_\-3drep.\-cpp.
+
+\hypertarget{class_g_l_c__3_d_rep_a79044f8562624af2ea8a1758ffe0a9ee}{\index{G\-L\-C\-\_\-3\-D\-Rep@{G\-L\-C\-\_\-3\-D\-Rep}!G\-L\-C\-\_\-3\-D\-Rep@{G\-L\-C\-\_\-3\-D\-Rep}}
+\index{G\-L\-C\-\_\-3\-D\-Rep@{G\-L\-C\-\_\-3\-D\-Rep}!GLC_3DRep@{G\-L\-C\-\_\-3\-D\-Rep}}
+\subsubsection[{G\-L\-C\-\_\-3\-D\-Rep}]{\setlength{\rightskip}{0pt plus 5cm}G\-L\-C\-\_\-3\-D\-Rep\-::\-G\-L\-C\-\_\-3\-D\-Rep (
+\begin{DoxyParamCaption}
+\item[{{\bf G\-L\-C\-\_\-\-Geometry} $\ast$}]{p\-Geom}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c__3_d_rep_a79044f8562624af2ea8a1758ffe0a9ee}
+
+
+Construct a 3\-D\-Rep with a geometry. 
+
+
+
+Definition at line 39 of file glc\-\_\-3drep.\-cpp.
+
+\hypertarget{class_g_l_c__3_d_rep_aab9a32888f043f24dfcb0d97404f8cbc}{\index{G\-L\-C\-\_\-3\-D\-Rep@{G\-L\-C\-\_\-3\-D\-Rep}!G\-L\-C\-\_\-3\-D\-Rep@{G\-L\-C\-\_\-3\-D\-Rep}}
+\index{G\-L\-C\-\_\-3\-D\-Rep@{G\-L\-C\-\_\-3\-D\-Rep}!GLC_3DRep@{G\-L\-C\-\_\-3\-D\-Rep}}
+\subsubsection[{G\-L\-C\-\_\-3\-D\-Rep}]{\setlength{\rightskip}{0pt plus 5cm}G\-L\-C\-\_\-3\-D\-Rep\-::\-G\-L\-C\-\_\-3\-D\-Rep (
+\begin{DoxyParamCaption}
+\item[{const {\bf G\-L\-C\-\_\-3\-D\-Rep} \&}]{rep}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c__3_d_rep_aab9a32888f043f24dfcb0d97404f8cbc}
+
+
+Copy Constructor. 
+
+
+
+Definition at line 49 of file glc\-\_\-3drep.\-cpp.
+
+\hypertarget{class_g_l_c__3_d_rep_af1631146aa3a32195b710e8a2cdca244}{\index{G\-L\-C\-\_\-3\-D\-Rep@{G\-L\-C\-\_\-3\-D\-Rep}!$\sim$\-G\-L\-C\-\_\-3\-D\-Rep@{$\sim$\-G\-L\-C\-\_\-3\-D\-Rep}}
+\index{$\sim$\-G\-L\-C\-\_\-3\-D\-Rep@{$\sim$\-G\-L\-C\-\_\-3\-D\-Rep}!GLC_3DRep@{G\-L\-C\-\_\-3\-D\-Rep}}
+\subsubsection[{$\sim$\-G\-L\-C\-\_\-3\-D\-Rep}]{\setlength{\rightskip}{0pt plus 5cm}G\-L\-C\-\_\-3\-D\-Rep\-::$\sim$\-G\-L\-C\-\_\-3\-D\-Rep (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_g_l_c__3_d_rep_af1631146aa3a32195b710e8a2cdca244}
+
+
+Destructor. 
+
+
+
+Definition at line 92 of file glc\-\_\-3drep.\-cpp.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_g_l_c__3_d_rep_aee2a5f0b7841d41ce5fd70aa6075ea50}{\index{G\-L\-C\-\_\-3\-D\-Rep@{G\-L\-C\-\_\-3\-D\-Rep}!add\-Geom@{add\-Geom}}
+\index{add\-Geom@{add\-Geom}!GLC_3DRep@{G\-L\-C\-\_\-3\-D\-Rep}}
+\subsubsection[{add\-Geom}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-3\-D\-Rep\-::add\-Geom (
+\begin{DoxyParamCaption}
+\item[{{\bf G\-L\-C\-\_\-\-Geometry} $\ast$}]{p\-Geom}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c__3_d_rep_aee2a5f0b7841d41ce5fd70aa6075ea50}
+
+
+Add Geometry to the 3\-D\-Rep. 
+
+
+
+Definition at line 135 of file glc\-\_\-3drep.\-h.
+
+\hypertarget{class_g_l_c__3_d_rep_ac47a8d9a7cc3458d90579b2ea1c0f3ab}{\index{G\-L\-C\-\_\-3\-D\-Rep@{G\-L\-C\-\_\-3\-D\-Rep}!bounding\-Box@{bounding\-Box}}
+\index{bounding\-Box@{bounding\-Box}!GLC_3DRep@{G\-L\-C\-\_\-3\-D\-Rep}}
+\subsubsection[{bounding\-Box}]{\setlength{\rightskip}{0pt plus 5cm}{\bf G\-L\-C\-\_\-\-Bounding\-Box} G\-L\-C\-\_\-3\-D\-Rep\-::bounding\-Box (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_g_l_c__3_d_rep_ac47a8d9a7cc3458d90579b2ea1c0f3ab}
+
+
+Return the 3\-D\-Rep bounding Box. 
+
+
+
+Definition at line 127 of file glc\-\_\-3drep.\-cpp.
+
+\hypertarget{class_g_l_c__3_d_rep_aac57e2b8b3b316ff5ff100069c54aca1}{\index{G\-L\-C\-\_\-3\-D\-Rep@{G\-L\-C\-\_\-3\-D\-Rep}!bounding\-Box\-Is\-Valid@{bounding\-Box\-Is\-Valid}}
+\index{bounding\-Box\-Is\-Valid@{bounding\-Box\-Is\-Valid}!GLC_3DRep@{G\-L\-C\-\_\-3\-D\-Rep}}
+\subsubsection[{bounding\-Box\-Is\-Valid}]{\setlength{\rightskip}{0pt plus 5cm}bool G\-L\-C\-\_\-3\-D\-Rep\-::bounding\-Box\-Is\-Valid (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_g_l_c__3_d_rep_aac57e2b8b3b316ff5ff100069c54aca1}
+
+
+Return true if the rep bounding box is valid. 
+
+
+
+Definition at line 114 of file glc\-\_\-3drep.\-cpp.
+
+\hypertarget{class_g_l_c__3_d_rep_a9c23e6d9cd1e087e304a26911604e65c}{\index{G\-L\-C\-\_\-3\-D\-Rep@{G\-L\-C\-\_\-3\-D\-Rep}!chunck\-I\-D@{chunck\-I\-D}}
+\index{chunck\-I\-D@{chunck\-I\-D}!GLC_3DRep@{G\-L\-C\-\_\-3\-D\-Rep}}
+\subsubsection[{chunck\-I\-D}]{\setlength{\rightskip}{0pt plus 5cm}quint32 G\-L\-C\-\_\-3\-D\-Rep\-::chunck\-I\-D (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{class_g_l_c__3_d_rep_a9c23e6d9cd1e087e304a26911604e65c}
+
+
+Return the class Chunk I\-D. 
+
+
+
+Definition at line 100 of file glc\-\_\-3drep.\-cpp.
+
+\hypertarget{class_g_l_c__3_d_rep_a43e867093f86e1d440117d6b26706029}{\index{G\-L\-C\-\_\-3\-D\-Rep@{G\-L\-C\-\_\-3\-D\-Rep}!clean@{clean}}
+\index{clean@{clean}!GLC_3DRep@{G\-L\-C\-\_\-3\-D\-Rep}}
+\subsubsection[{clean}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-3\-D\-Rep\-::clean (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c__3_d_rep_a43e867093f86e1d440117d6b26706029}
+
+
+Remove empty geometries and factorise materials. 
+
+
+
+Definition at line 210 of file glc\-\_\-3drep.\-cpp.
+
+\hypertarget{class_g_l_c__3_d_rep_a46f07f948dfaba7c885a171451ed2486}{\index{G\-L\-C\-\_\-3\-D\-Rep@{G\-L\-C\-\_\-3\-D\-Rep}!clone@{clone}}
+\index{clone@{clone}!GLC_3DRep@{G\-L\-C\-\_\-3\-D\-Rep}}
+\subsubsection[{clone}]{\setlength{\rightskip}{0pt plus 5cm}{\bf G\-L\-C\-\_\-\-Rep} $\ast$ G\-L\-C\-\_\-3\-D\-Rep\-::clone (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_g_l_c__3_d_rep_a46f07f948dfaba7c885a171451ed2486}
+
+
+Clone the representation. 
+
+
+
+Implements \hyperlink{class_g_l_c___rep_afcd061365d3568f2f663fa06cfa8f70e}{G\-L\-C\-\_\-\-Rep}.
+
+
+
+Definition at line 72 of file glc\-\_\-3drep.\-cpp.
+
+\hypertarget{class_g_l_c__3_d_rep_abc9ba965b51e7d619653caee712fd11c}{\index{G\-L\-C\-\_\-3\-D\-Rep@{G\-L\-C\-\_\-3\-D\-Rep}!contains@{contains}}
+\index{contains@{contains}!GLC_3DRep@{G\-L\-C\-\_\-3\-D\-Rep}}
+\subsubsection[{contains}]{\setlength{\rightskip}{0pt plus 5cm}bool G\-L\-C\-\_\-3\-D\-Rep\-::contains (
+\begin{DoxyParamCaption}
+\item[{{\bf G\-L\-C\-\_\-\-Geometry} $\ast$}]{p\-Geom}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c__3_d_rep_abc9ba965b51e7d619653caee712fd11c}
+
+
+Return true if the 3\-D\-Rep contains the geometry. 
+
+
+
+Definition at line 109 of file glc\-\_\-3drep.\-h.
+
+\hypertarget{class_g_l_c__3_d_rep_ac1d9060716b6f262306f25f5a1903031}{\index{G\-L\-C\-\_\-3\-D\-Rep@{G\-L\-C\-\_\-3\-D\-Rep}!copy\-Vbo\-To\-Client\-Side@{copy\-Vbo\-To\-Client\-Side}}
+\index{copy\-Vbo\-To\-Client\-Side@{copy\-Vbo\-To\-Client\-Side}!GLC_3DRep@{G\-L\-C\-\_\-3\-D\-Rep}}
+\subsubsection[{copy\-Vbo\-To\-Client\-Side}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-3\-D\-Rep\-::copy\-Vbo\-To\-Client\-Side (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c__3_d_rep_ac1d9060716b6f262306f25f5a1903031}
+
+
+Copy V\-B\-O to the Client Side. 
+
+
+
+Definition at line 332 of file glc\-\_\-3drep.\-cpp.
+
+\hypertarget{class_g_l_c__3_d_rep_a0d448ace67203a7361afeb955246eaf8}{\index{G\-L\-C\-\_\-3\-D\-Rep@{G\-L\-C\-\_\-3\-D\-Rep}!deep\-Copy@{deep\-Copy}}
+\index{deep\-Copy@{deep\-Copy}!GLC_3DRep@{G\-L\-C\-\_\-3\-D\-Rep}}
+\subsubsection[{deep\-Copy}]{\setlength{\rightskip}{0pt plus 5cm}{\bf G\-L\-C\-\_\-\-Rep} $\ast$ G\-L\-C\-\_\-3\-D\-Rep\-::deep\-Copy (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_g_l_c__3_d_rep_a0d448ace67203a7361afeb955246eaf8}
+
+
+Make a deep copy of the 3\-D\-Rep. 
+
+
+
+Implements \hyperlink{class_g_l_c___rep_ad74997ec311874e456dc008723eca56d}{G\-L\-C\-\_\-\-Rep}.
+
+
+
+Definition at line 77 of file glc\-\_\-3drep.\-cpp.
+
+\hypertarget{class_g_l_c__3_d_rep_af8cbe5fb15a6ff2eefe2a8f52089d69f}{\index{G\-L\-C\-\_\-3\-D\-Rep@{G\-L\-C\-\_\-3\-D\-Rep}!face\-Count@{face\-Count}}
+\index{face\-Count@{face\-Count}!GLC_3DRep@{G\-L\-C\-\_\-3\-D\-Rep}}
+\subsubsection[{face\-Count}]{\setlength{\rightskip}{0pt plus 5cm}unsigned {\bf int} G\-L\-C\-\_\-3\-D\-Rep\-::face\-Count (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_g_l_c__3_d_rep_af8cbe5fb15a6ff2eefe2a8f52089d69f}
+
+
+Return the number of faces of this 3\-D\-Rep. 
+
+
+
+Definition at line 138 of file glc\-\_\-3drep.\-cpp.
+
+\hypertarget{class_g_l_c__3_d_rep_afc721468e5a877015c4dca0f22cfb73b}{\index{G\-L\-C\-\_\-3\-D\-Rep@{G\-L\-C\-\_\-3\-D\-Rep}!geom\-At@{geom\-At}}
+\index{geom\-At@{geom\-At}!GLC_3DRep@{G\-L\-C\-\_\-3\-D\-Rep}}
+\subsubsection[{geom\-At}]{\setlength{\rightskip}{0pt plus 5cm}{\bf G\-L\-C\-\_\-\-Geometry}$\ast$ G\-L\-C\-\_\-3\-D\-Rep\-::geom\-At (
+\begin{DoxyParamCaption}
+\item[{{\bf int}}]{index}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c__3_d_rep_afc721468e5a877015c4dca0f22cfb73b}
+
+
+Get Geometry. 
+
+
+
+Definition at line 81 of file glc\-\_\-3drep.\-h.
+
+\hypertarget{class_g_l_c__3_d_rep_aa3bffd4cab1357a083dd290b26ac3504}{\index{G\-L\-C\-\_\-3\-D\-Rep@{G\-L\-C\-\_\-3\-D\-Rep}!is\-Empty@{is\-Empty}}
+\index{is\-Empty@{is\-Empty}!GLC_3DRep@{G\-L\-C\-\_\-3\-D\-Rep}}
+\subsubsection[{is\-Empty}]{\setlength{\rightskip}{0pt plus 5cm}virtual bool G\-L\-C\-\_\-3\-D\-Rep\-::is\-Empty (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}}\label{class_g_l_c__3_d_rep_aa3bffd4cab1357a083dd290b26ac3504}
+
+
+Return true if the representation is empty. 
+
+
+
+Implements \hyperlink{class_g_l_c___rep_a637ca9befb3ec8b44635ff7e438fc262}{G\-L\-C\-\_\-\-Rep}.
+
+
+
+Definition at line 96 of file glc\-\_\-3drep.\-h.
+
+\hypertarget{class_g_l_c__3_d_rep_ad71af8802feb16830a7ae528baec650f}{\index{G\-L\-C\-\_\-3\-D\-Rep@{G\-L\-C\-\_\-3\-D\-Rep}!load@{load}}
+\index{load@{load}!GLC_3DRep@{G\-L\-C\-\_\-3\-D\-Rep}}
+\subsubsection[{load}]{\setlength{\rightskip}{0pt plus 5cm}bool G\-L\-C\-\_\-3\-D\-Rep\-::load (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_g_l_c__3_d_rep_ad71af8802feb16830a7ae528baec650f}
+
+
+Load the representation and return true if success. 
+
+
+
+Implements \hyperlink{class_g_l_c___rep_a1fc85fe0955fa94cd655a6484a6fa0b8}{G\-L\-C\-\_\-\-Rep}.
+
+
+
+Definition at line 237 of file glc\-\_\-3drep.\-cpp.
+
+\hypertarget{class_g_l_c__3_d_rep_a492b242fb26481dda80da39c52251445}{\index{G\-L\-C\-\_\-3\-D\-Rep@{G\-L\-C\-\_\-3\-D\-Rep}!material\-Count@{material\-Count}}
+\index{material\-Count@{material\-Count}!GLC_3DRep@{G\-L\-C\-\_\-3\-D\-Rep}}
+\subsubsection[{material\-Count}]{\setlength{\rightskip}{0pt plus 5cm}unsigned {\bf int} G\-L\-C\-\_\-3\-D\-Rep\-::material\-Count (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_g_l_c__3_d_rep_a492b242fb26481dda80da39c52251445}
+
+
+Return number of materials of this 3\-D\-Rep. 
+
+
+
+Definition at line 168 of file glc\-\_\-3drep.\-cpp.
+
+\hypertarget{class_g_l_c__3_d_rep_ab4c63807d79e3a69b813ae78d375135f}{\index{G\-L\-C\-\_\-3\-D\-Rep@{G\-L\-C\-\_\-3\-D\-Rep}!material\-Set@{material\-Set}}
+\index{material\-Set@{material\-Set}!GLC_3DRep@{G\-L\-C\-\_\-3\-D\-Rep}}
+\subsubsection[{material\-Set}]{\setlength{\rightskip}{0pt plus 5cm}Q\-Set$<$ {\bf G\-L\-C\-\_\-\-Material} $\ast$ $>$ G\-L\-C\-\_\-3\-D\-Rep\-::material\-Set (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_g_l_c__3_d_rep_ab4c63807d79e3a69b813ae78d375135f}
+
+
+Return materials Set of this 3\-D\-Rep. 
+
+
+
+Definition at line 183 of file glc\-\_\-3drep.\-cpp.
+
+\hypertarget{class_g_l_c__3_d_rep_a2a258fd51a958d88ed1bf466810d1aa9}{\index{G\-L\-C\-\_\-3\-D\-Rep@{G\-L\-C\-\_\-3\-D\-Rep}!merge@{merge}}
+\index{merge@{merge}!GLC_3DRep@{G\-L\-C\-\_\-3\-D\-Rep}}
+\subsubsection[{merge}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-3\-D\-Rep\-::merge (
+\begin{DoxyParamCaption}
+\item[{const {\bf G\-L\-C\-\_\-3\-D\-Rep} $\ast$}]{p\-Rep}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c__3_d_rep_a2a258fd51a958d88ed1bf466810d1aa9}
+
+
+Merge this 3\-Drep with another 3\-D\-Rep. 
+
+
+
+Definition at line 311 of file glc\-\_\-3drep.\-cpp.
+
+\hypertarget{class_g_l_c__3_d_rep_a7a70d55b137b7bcc6099b1916bce6dfd}{\index{G\-L\-C\-\_\-3\-D\-Rep@{G\-L\-C\-\_\-3\-D\-Rep}!number\-Of\-Body@{number\-Of\-Body}}
+\index{number\-Of\-Body@{number\-Of\-Body}!GLC_3DRep@{G\-L\-C\-\_\-3\-D\-Rep}}
+\subsubsection[{number\-Of\-Body}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int} G\-L\-C\-\_\-3\-D\-Rep\-::number\-Of\-Body (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c__3_d_rep_a7a70d55b137b7bcc6099b1916bce6dfd}
+
+
+Return the number of body. 
+
+
+
+Definition at line 89 of file glc\-\_\-3drep.\-h.
+
+\hypertarget{class_g_l_c__3_d_rep_a8caf8503d4b67bc3d58f8882be98de29}{\index{G\-L\-C\-\_\-3\-D\-Rep@{G\-L\-C\-\_\-3\-D\-Rep}!operator=@{operator=}}
+\index{operator=@{operator=}!GLC_3DRep@{G\-L\-C\-\_\-3\-D\-Rep}}
+\subsubsection[{operator=}]{\setlength{\rightskip}{0pt plus 5cm}{\bf G\-L\-C\-\_\-3\-D\-Rep} \& G\-L\-C\-\_\-3\-D\-Rep\-::operator= (
+\begin{DoxyParamCaption}
+\item[{const {\bf G\-L\-C\-\_\-\-Rep} \&}]{rep}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_g_l_c__3_d_rep_a8caf8503d4b67bc3d58f8882be98de29}
+
+
+Assignement operator. 
+
+
+
+Reimplemented from \hyperlink{class_g_l_c___rep_ad2e34a2d336835fe9ce96b26632267ed}{G\-L\-C\-\_\-\-Rep}.
+
+
+
+Definition at line 57 of file glc\-\_\-3drep.\-cpp.
+
+\hypertarget{class_g_l_c__3_d_rep_aa9c31bcbd1d790b4626e6a979cbda4f5}{\index{G\-L\-C\-\_\-3\-D\-Rep@{G\-L\-C\-\_\-3\-D\-Rep}!release\-Vbo\-Client\-Side@{release\-Vbo\-Client\-Side}}
+\index{release\-Vbo\-Client\-Side@{release\-Vbo\-Client\-Side}!GLC_3DRep@{G\-L\-C\-\_\-3\-D\-Rep}}
+\subsubsection[{release\-Vbo\-Client\-Side}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-3\-D\-Rep\-::release\-Vbo\-Client\-Side (
+\begin{DoxyParamCaption}
+\item[{bool}]{update = {\ttfamily false}}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c__3_d_rep_aa9c31bcbd1d790b4626e6a979cbda4f5}
+
+
+Release client V\-B\-O. 
+
+
+
+Definition at line 342 of file glc\-\_\-3drep.\-cpp.
+
+\hypertarget{class_g_l_c__3_d_rep_a946e0aab973fcc7e68d107c45a1e4c22}{\index{G\-L\-C\-\_\-3\-D\-Rep@{G\-L\-C\-\_\-3\-D\-Rep}!replace@{replace}}
+\index{replace@{replace}!GLC_3DRep@{G\-L\-C\-\_\-3\-D\-Rep}}
+\subsubsection[{replace}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-3\-D\-Rep\-::replace (
+\begin{DoxyParamCaption}
+\item[{{\bf G\-L\-C\-\_\-\-Rep} $\ast$}]{p\-Rep}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_g_l_c__3_d_rep_a946e0aab973fcc7e68d107c45a1e4c22}
+
+
+Replace the representation. 
+
+
+
+Implements \hyperlink{class_g_l_c___rep_ab56d10be46fbce65891c8a38905bb5b6}{G\-L\-C\-\_\-\-Rep}.
+
+
+
+Definition at line 272 of file glc\-\_\-3drep.\-cpp.
+
+\hypertarget{class_g_l_c__3_d_rep_a1aa803da235b8c63f543c22ea040668e}{\index{G\-L\-C\-\_\-3\-D\-Rep@{G\-L\-C\-\_\-3\-D\-Rep}!replace\-Material@{replace\-Material}}
+\index{replace\-Material@{replace\-Material}!GLC_3DRep@{G\-L\-C\-\_\-3\-D\-Rep}}
+\subsubsection[{replace\-Material}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-3\-D\-Rep\-::replace\-Material (
+\begin{DoxyParamCaption}
+\item[{{\bf G\-L\-C\-\_\-uint}}]{old\-Id, }
+\item[{{\bf G\-L\-C\-\_\-\-Material} $\ast$}]{p\-New\-Material}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c__3_d_rep_a1aa803da235b8c63f543c22ea040668e}
+
+
+Replace the specified material by a new one. 
+
+
+
+Definition at line 292 of file glc\-\_\-3drep.\-cpp.
+
+\hypertarget{class_g_l_c__3_d_rep_ac6202b9b4e69b87e37c45148105a5b54}{\index{G\-L\-C\-\_\-3\-D\-Rep@{G\-L\-C\-\_\-3\-D\-Rep}!reverse\-Normals@{reverse\-Normals}}
+\index{reverse\-Normals@{reverse\-Normals}!GLC_3DRep@{G\-L\-C\-\_\-3\-D\-Rep}}
+\subsubsection[{reverse\-Normals}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-3\-D\-Rep\-::reverse\-Normals (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c__3_d_rep_ac6202b9b4e69b87e37c45148105a5b54}
+
+
+Reverse geometries normals. 
+
+
+
+Definition at line 228 of file glc\-\_\-3drep.\-cpp.
+
+\hypertarget{class_g_l_c__3_d_rep_a4de971dc186a782e78750c05dd8d7a81}{\index{G\-L\-C\-\_\-3\-D\-Rep@{G\-L\-C\-\_\-3\-D\-Rep}!set\-Vbo\-Usage@{set\-Vbo\-Usage}}
+\index{set\-Vbo\-Usage@{set\-Vbo\-Usage}!GLC_3DRep@{G\-L\-C\-\_\-3\-D\-Rep}}
+\subsubsection[{set\-Vbo\-Usage}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-3\-D\-Rep\-::set\-Vbo\-Usage (
+\begin{DoxyParamCaption}
+\item[{bool}]{usage}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c__3_d_rep_a4de971dc186a782e78750c05dd8d7a81}
+
+
+Set V\-B\-O usage. 
+
+
+
+Definition at line 366 of file glc\-\_\-3drep.\-cpp.
+
+\hypertarget{class_g_l_c__3_d_rep_a3d39a18b5722448d651dfce9d6a22637}{\index{G\-L\-C\-\_\-3\-D\-Rep@{G\-L\-C\-\_\-3\-D\-Rep}!take@{take}}
+\index{take@{take}!GLC_3DRep@{G\-L\-C\-\_\-3\-D\-Rep}}
+\subsubsection[{take}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-3\-D\-Rep\-::take (
+\begin{DoxyParamCaption}
+\item[{{\bf G\-L\-C\-\_\-3\-D\-Rep} $\ast$}]{p\-Source}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c__3_d_rep_a3d39a18b5722448d651dfce9d6a22637}
+
+
+Take the geometry of another 3\-D\-Rep. 
+
+
+
+Definition at line 321 of file glc\-\_\-3drep.\-cpp.
+
+\hypertarget{class_g_l_c__3_d_rep_a4d7fb925e83e1e71e1911590839a3d8e}{\index{G\-L\-C\-\_\-3\-D\-Rep@{G\-L\-C\-\_\-3\-D\-Rep}!transform\-Sub\-Geometries@{transform\-Sub\-Geometries}}
+\index{transform\-Sub\-Geometries@{transform\-Sub\-Geometries}!GLC_3DRep@{G\-L\-C\-\_\-3\-D\-Rep}}
+\subsubsection[{transform\-Sub\-Geometries}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-3\-D\-Rep\-::transform\-Sub\-Geometries (
+\begin{DoxyParamCaption}
+\item[{const {\bf G\-L\-C\-\_\-\-Matrix4x4} \&}]{matrix}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c__3_d_rep_a4d7fb925e83e1e71e1911590839a3d8e}
+
+
+\hyperlink{class_transform}{Transform} 3\-D\-Rep sub mesh vertice with the given matrix. 
+
+
+
+Definition at line 352 of file glc\-\_\-3drep.\-cpp.
+
+\hypertarget{class_g_l_c__3_d_rep_a150ee489cfa8e446e0e7524123643ec4}{\index{G\-L\-C\-\_\-3\-D\-Rep@{G\-L\-C\-\_\-3\-D\-Rep}!type@{type}}
+\index{type@{type}!GLC_3DRep@{G\-L\-C\-\_\-3\-D\-Rep}}
+\subsubsection[{type}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int} G\-L\-C\-\_\-3\-D\-Rep\-::type (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_g_l_c__3_d_rep_a150ee489cfa8e446e0e7524123643ec4}
+
+
+Return the type of representation. 
+
+
+
+Implements \hyperlink{class_g_l_c___rep_a2b204c7435d74f137723c7ca48227dc8}{G\-L\-C\-\_\-\-Rep}.
+
+
+
+Definition at line 105 of file glc\-\_\-3drep.\-cpp.
+
+\hypertarget{class_g_l_c__3_d_rep_a7f1b9ea7dc3742aa37f396ddca3d6d38}{\index{G\-L\-C\-\_\-3\-D\-Rep@{G\-L\-C\-\_\-3\-D\-Rep}!unload@{unload}}
+\index{unload@{unload}!GLC_3DRep@{G\-L\-C\-\_\-3\-D\-Rep}}
+\subsubsection[{unload}]{\setlength{\rightskip}{0pt plus 5cm}bool G\-L\-C\-\_\-3\-D\-Rep\-::unload (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_g_l_c__3_d_rep_a7f1b9ea7dc3742aa37f396ddca3d6d38}
+
+
+Un\-Load the representation and return true if success. 
+
+
+
+Implements \hyperlink{class_g_l_c___rep_aebf9bddb310b7dff26e2691f0219f937}{G\-L\-C\-\_\-\-Rep}.
+
+
+
+Definition at line 376 of file glc\-\_\-3drep.\-cpp.
+
+\hypertarget{class_g_l_c__3_d_rep_a385803eca1c20164788827428dae6392}{\index{G\-L\-C\-\_\-3\-D\-Rep@{G\-L\-C\-\_\-3\-D\-Rep}!vertex\-Count@{vertex\-Count}}
+\index{vertex\-Count@{vertex\-Count}!GLC_3DRep@{G\-L\-C\-\_\-3\-D\-Rep}}
+\subsubsection[{vertex\-Count}]{\setlength{\rightskip}{0pt plus 5cm}unsigned {\bf int} G\-L\-C\-\_\-3\-D\-Rep\-::vertex\-Count (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_g_l_c__3_d_rep_a385803eca1c20164788827428dae6392}
+
+
+Return number of vertex of this 3\-D\-Rep. 
+
+
+
+Definition at line 153 of file glc\-\_\-3drep.\-cpp.
+
+\hypertarget{class_g_l_c__3_d_rep_aca0559a215917ef5c0b7267a9b072426}{\index{G\-L\-C\-\_\-3\-D\-Rep@{G\-L\-C\-\_\-3\-D\-Rep}!volume@{volume}}
+\index{volume@{volume}!GLC_3DRep@{G\-L\-C\-\_\-3\-D\-Rep}}
+\subsubsection[{volume}]{\setlength{\rightskip}{0pt plus 5cm}{\bf double} G\-L\-C\-\_\-3\-D\-Rep\-::volume (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_g_l_c__3_d_rep_aca0559a215917ef5c0b7267a9b072426}
+
+
+Return the volume of this 3\-D\-Rep. 
+
+
+
+Definition at line 198 of file glc\-\_\-3drep.\-cpp.
+
+
+
+\subsection{Friends And Related Function Documentation}
+\hypertarget{class_g_l_c__3_d_rep_a8c144ca426be8268672835e70c06663e}{\index{G\-L\-C\-\_\-3\-D\-Rep@{G\-L\-C\-\_\-3\-D\-Rep}!operator$<$$<$@{operator$<$$<$}}
+\index{operator$<$$<$@{operator$<$$<$}!GLC_3DRep@{G\-L\-C\-\_\-3\-D\-Rep}}
+\subsubsection[{operator$<$$<$}]{\setlength{\rightskip}{0pt plus 5cm}G\-L\-C\-\_\-\-L\-I\-B\-\_\-\-E\-X\-P\-O\-R\-T Q\-Data\-Stream\& operator$<$$<$ (
+\begin{DoxyParamCaption}
+\item[{Q\-Data\-Stream \&}]{, }
+\item[{const {\bf G\-L\-C\-\_\-3\-D\-Rep} \&}]{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [friend]}}}\label{class_g_l_c__3_d_rep_a8c144ca426be8268672835e70c06663e}
+
+
+Non-\/member stream operator. 
+
+
+
+Definition at line 424 of file glc\-\_\-3drep.\-cpp.
+
+\hypertarget{class_g_l_c__3_d_rep_a060c8733575693100a5ad6496098ffa4}{\index{G\-L\-C\-\_\-3\-D\-Rep@{G\-L\-C\-\_\-3\-D\-Rep}!operator$>$$>$@{operator$>$$>$}}
+\index{operator$>$$>$@{operator$>$$>$}!GLC_3DRep@{G\-L\-C\-\_\-3\-D\-Rep}}
+\subsubsection[{operator$>$$>$}]{\setlength{\rightskip}{0pt plus 5cm}G\-L\-C\-\_\-\-L\-I\-B\-\_\-\-E\-X\-P\-O\-R\-T Q\-Data\-Stream\& operator$>$$>$ (
+\begin{DoxyParamCaption}
+\item[{Q\-Data\-Stream \&}]{, }
+\item[{{\bf G\-L\-C\-\_\-3\-D\-Rep} \&}]{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [friend]}}}\label{class_g_l_c__3_d_rep_a060c8733575693100a5ad6496098ffa4}
+
+
+Definition at line 459 of file glc\-\_\-3drep.\-cpp.
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/glc\-\_\-lib/geometry/\hyperlink{glc__3drep_8h}{glc\-\_\-3drep.\-h}\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/glc\-\_\-lib/geometry/\hyperlink{glc__3drep_8cpp}{glc\-\_\-3drep.\-cpp}\end{DoxyCompactItemize}

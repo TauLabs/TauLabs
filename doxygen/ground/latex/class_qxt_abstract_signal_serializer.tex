@@ -1,0 +1,174 @@
+\hypertarget{class_qxt_abstract_signal_serializer}{\section{Qxt\-Abstract\-Signal\-Serializer Class Reference}
+\label{class_qxt_abstract_signal_serializer}\index{Qxt\-Abstract\-Signal\-Serializer@{Qxt\-Abstract\-Signal\-Serializer}}
+}
+
+
+The \hyperlink{class_qxt_abstract_signal_serializer}{Qxt\-Abstract\-Signal\-Serializer} class provides an interface for classes that convert signals to a binary form.  
+
+
+
+
+{\ttfamily \#include $<$qxtabstractsignalserializer.\-h$>$}
+
+Inheritance diagram for Qxt\-Abstract\-Signal\-Serializer\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_qxt_abstract_signal_serializer}
+\end{center}
+\end{figure}
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+typedef Q\-Pair$<$ \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{Q\-String}, \hyperlink{class_q_list}{Q\-List}\\*
+$<$ Q\-Variant $>$ $>$ \hyperlink{class_qxt_abstract_signal_serializer_a101019f7e2f0c3267e01c1da89104b40}{Deserialized\-Data}
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual \hyperlink{class_qxt_abstract_signal_serializer_aea95c9475ae88c1b20f64348eadd43ff}{$\sim$\-Qxt\-Abstract\-Signal\-Serializer} ()
+\item 
+virtual Q\-Byte\-Array \hyperlink{class_qxt_abstract_signal_serializer_a20413abc6a7b0b9046b4101193f8a64f}{serialize} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{Q\-String} \&fn, const Q\-Variant \&p1=Q\-Variant(), const Q\-Variant \&p2=Q\-Variant(), const Q\-Variant \&p3=Q\-Variant(), const Q\-Variant \&p4=Q\-Variant(), const Q\-Variant \&p5=Q\-Variant(), const Q\-Variant \&p6=Q\-Variant(), const Q\-Variant \&p7=Q\-Variant(), const Q\-Variant \&p8=Q\-Variant()) const =0
+\item 
+virtual \hyperlink{class_qxt_abstract_signal_serializer_a101019f7e2f0c3267e01c1da89104b40}{Deserialized\-Data} \hyperlink{class_qxt_abstract_signal_serializer_ab5a62cd3fa4bdc5a60e4bb41f743cb97}{deserialize} (Q\-Byte\-Array \&\hyperlink{glext_8h_a8850df0785e6fbcc2351af3b686b8c7a}{data})=0
+\item 
+virtual bool \hyperlink{class_qxt_abstract_signal_serializer_a585ac8f54a35d8558c19094149c6e835}{can\-Deserialize} (const Q\-Byte\-Array \&\hyperlink{glext_8h_af1b5122dc7bfe0a6319e14419cfe3423}{buffer}) const =0
+\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static \hyperlink{class_qxt_abstract_signal_serializer_a101019f7e2f0c3267e01c1da89104b40}{Deserialized\-Data} \hyperlink{class_qxt_abstract_signal_serializer_a98f688ca4c642997d2f77f3f4ea1a70c}{No\-Op} ()
+\item 
+static \hyperlink{class_qxt_abstract_signal_serializer_a101019f7e2f0c3267e01c1da89104b40}{Deserialized\-Data} \hyperlink{class_qxt_abstract_signal_serializer_afa01c378b590f2f45f53ec2cdc0b3838}{Protocol\-Error} ()
+\item 
+static bool \hyperlink{class_qxt_abstract_signal_serializer_a6cc4b142895f91590a201ebb4bed7a23}{is\-No\-Op} (const \hyperlink{class_qxt_abstract_signal_serializer_a101019f7e2f0c3267e01c1da89104b40}{Deserialized\-Data} \&\hyperlink{glext_8h_aa0e2e9cea7f208d28acda0480144beb0}{value})
+\item 
+static bool \hyperlink{class_qxt_abstract_signal_serializer_a13df33e37bfea0ba1557a06f06180789}{is\-Protocol\-Error} (const \hyperlink{class_qxt_abstract_signal_serializer_a101019f7e2f0c3267e01c1da89104b40}{Deserialized\-Data} \&\hyperlink{glext_8h_aa0e2e9cea7f208d28acda0480144beb0}{value})
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+The \hyperlink{class_qxt_abstract_signal_serializer}{Qxt\-Abstract\-Signal\-Serializer} class provides an interface for classes that convert signals to a binary form. 
+
+Qxt\-Core \hyperlink{class_qxt_abstract_signal_serializer}{Qxt\-Abstract\-Signal\-Serializer} is an abstract interface used by, for example, \hyperlink{class_qxt_r_p_c_service}{Qxt\-R\-P\-C\-Service} to convert signals into a serialized binary format suitable for storing or transmitting over an I/\-O device.
+
+Qxt provides a default implementation in the form of \hyperlink{class_qxt_data_stream_signal_serializer}{Qxt\-Data\-Stream\-Signal\-Serializer}, which is generally sufficient for most applications. Implement other subclasses of \hyperlink{class_qxt_abstract_signal_serializer}{Qxt\-Abstract\-Signal\-Serializer} to allow \hyperlink{class_qxt_r_p_c_service}{Qxt\-R\-P\-C\-Service} and similar tools to integrate with existing protocols. 
+
+Definition at line 49 of file qxtabstractsignalserializer.\-h.
+
+
+
+\subsection{Member Typedef Documentation}
+\hypertarget{class_qxt_abstract_signal_serializer_a101019f7e2f0c3267e01c1da89104b40}{\index{Qxt\-Abstract\-Signal\-Serializer@{Qxt\-Abstract\-Signal\-Serializer}!Deserialized\-Data@{Deserialized\-Data}}
+\index{Deserialized\-Data@{Deserialized\-Data}!QxtAbstractSignalSerializer@{Qxt\-Abstract\-Signal\-Serializer}}
+\subsubsection[{Deserialized\-Data}]{\setlength{\rightskip}{0pt plus 5cm}typedef Q\-Pair$<${\bf Q\-String}, {\bf Q\-List}$<$Q\-Variant$>$ $>$ {\bf Qxt\-Abstract\-Signal\-Serializer\-::\-Deserialized\-Data}}}\label{class_qxt_abstract_signal_serializer_a101019f7e2f0c3267e01c1da89104b40}
+The first half of \hyperlink{class_qxt_abstract_signal_serializer_a101019f7e2f0c3267e01c1da89104b40}{Qxt\-Abstract\-Signal\-Serializer\-::\-Deserialized\-Data} is the name of the deserialized signal. The second half is an array of Q\-Variants containing the parameters of the signal. 
+
+Definition at line 56 of file qxtabstractsignalserializer.\-h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_qxt_abstract_signal_serializer_aea95c9475ae88c1b20f64348eadd43ff}{\index{Qxt\-Abstract\-Signal\-Serializer@{Qxt\-Abstract\-Signal\-Serializer}!$\sim$\-Qxt\-Abstract\-Signal\-Serializer@{$\sim$\-Qxt\-Abstract\-Signal\-Serializer}}
+\index{$\sim$\-Qxt\-Abstract\-Signal\-Serializer@{$\sim$\-Qxt\-Abstract\-Signal\-Serializer}!QxtAbstractSignalSerializer@{Qxt\-Abstract\-Signal\-Serializer}}
+\subsubsection[{$\sim$\-Qxt\-Abstract\-Signal\-Serializer}]{\setlength{\rightskip}{0pt plus 5cm}virtual Qxt\-Abstract\-Signal\-Serializer\-::$\sim$\-Qxt\-Abstract\-Signal\-Serializer (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}}\label{class_qxt_abstract_signal_serializer_aea95c9475ae88c1b20f64348eadd43ff}
+Destroys the \hyperlink{class_qxt_abstract_signal_serializer}{Qxt\-Abstract\-Signal\-Serializer}. 
+
+Definition at line 61 of file qxtabstractsignalserializer.\-h.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_qxt_abstract_signal_serializer_a585ac8f54a35d8558c19094149c6e835}{\index{Qxt\-Abstract\-Signal\-Serializer@{Qxt\-Abstract\-Signal\-Serializer}!can\-Deserialize@{can\-Deserialize}}
+\index{can\-Deserialize@{can\-Deserialize}!QxtAbstractSignalSerializer@{Qxt\-Abstract\-Signal\-Serializer}}
+\subsubsection[{can\-Deserialize}]{\setlength{\rightskip}{0pt plus 5cm}virtual bool Qxt\-Abstract\-Signal\-Serializer\-::can\-Deserialize (
+\begin{DoxyParamCaption}
+\item[{const Q\-Byte\-Array \&}]{buffer}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [pure virtual]}}}\label{class_qxt_abstract_signal_serializer_a585ac8f54a35d8558c19094149c6e835}
+Indicates whether the data currently in the buffer can be deserialized. 
+
+Implemented in \hyperlink{class_qxt_data_stream_signal_serializer_a520cb8220d2fe4fc2c202d5d8475ec6a}{Qxt\-Data\-Stream\-Signal\-Serializer}.
+
+\hypertarget{class_qxt_abstract_signal_serializer_ab5a62cd3fa4bdc5a60e4bb41f743cb97}{\index{Qxt\-Abstract\-Signal\-Serializer@{Qxt\-Abstract\-Signal\-Serializer}!deserialize@{deserialize}}
+\index{deserialize@{deserialize}!QxtAbstractSignalSerializer@{Qxt\-Abstract\-Signal\-Serializer}}
+\subsubsection[{deserialize}]{\setlength{\rightskip}{0pt plus 5cm}virtual {\bf Deserialized\-Data} Qxt\-Abstract\-Signal\-Serializer\-::deserialize (
+\begin{DoxyParamCaption}
+\item[{Q\-Byte\-Array \&}]{data}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [pure virtual]}}}\label{class_qxt_abstract_signal_serializer_ab5a62cd3fa4bdc5a60e4bb41f743cb97}
+Deserializes binary data into a signal name and a list of parameters. When implementing this function, be sure to remove the processed portion of the data from the reference parameter. Return \hyperlink{class_qxt_abstract_signal_serializer_a98f688ca4c642997d2f77f3f4ea1a70c}{Qxt\-Abstract\-Signal\-Serializer\-::\-No\-Op()} if the deserialized data does not invoke a signal. Return \hyperlink{class_qxt_abstract_signal_serializer_afa01c378b590f2f45f53ec2cdc0b3838}{Qxt\-Abstract\-Signal\-Serializer\-::\-Protocol\-Error()} if the protocol has been violated and the connection should be severed. 
+
+Implemented in \hyperlink{class_qxt_data_stream_signal_serializer_af617ea882cc50e3d644a0ff4229954e1}{Qxt\-Data\-Stream\-Signal\-Serializer}.
+
+\hypertarget{class_qxt_abstract_signal_serializer_a6cc4b142895f91590a201ebb4bed7a23}{\index{Qxt\-Abstract\-Signal\-Serializer@{Qxt\-Abstract\-Signal\-Serializer}!is\-No\-Op@{is\-No\-Op}}
+\index{is\-No\-Op@{is\-No\-Op}!QxtAbstractSignalSerializer@{Qxt\-Abstract\-Signal\-Serializer}}
+\subsubsection[{is\-No\-Op}]{\setlength{\rightskip}{0pt plus 5cm}static bool Qxt\-Abstract\-Signal\-Serializer\-::is\-No\-Op (
+\begin{DoxyParamCaption}
+\item[{const {\bf Deserialized\-Data} \&}]{value}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{class_qxt_abstract_signal_serializer_a6cc4b142895f91590a201ebb4bed7a23}
+Checks to see if the provided object does not invoke a signal. 
+
+Definition at line 106 of file qxtabstractsignalserializer.\-h.
+
+\hypertarget{class_qxt_abstract_signal_serializer_a13df33e37bfea0ba1557a06f06180789}{\index{Qxt\-Abstract\-Signal\-Serializer@{Qxt\-Abstract\-Signal\-Serializer}!is\-Protocol\-Error@{is\-Protocol\-Error}}
+\index{is\-Protocol\-Error@{is\-Protocol\-Error}!QxtAbstractSignalSerializer@{Qxt\-Abstract\-Signal\-Serializer}}
+\subsubsection[{is\-Protocol\-Error}]{\setlength{\rightskip}{0pt plus 5cm}static bool Qxt\-Abstract\-Signal\-Serializer\-::is\-Protocol\-Error (
+\begin{DoxyParamCaption}
+\item[{const {\bf Deserialized\-Data} \&}]{value}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{class_qxt_abstract_signal_serializer_a13df33e37bfea0ba1557a06f06180789}
+Checks to see if the provided object indicates a fatal protocol error. 
+
+Definition at line 114 of file qxtabstractsignalserializer.\-h.
+
+\hypertarget{class_qxt_abstract_signal_serializer_a98f688ca4c642997d2f77f3f4ea1a70c}{\index{Qxt\-Abstract\-Signal\-Serializer@{Qxt\-Abstract\-Signal\-Serializer}!No\-Op@{No\-Op}}
+\index{No\-Op@{No\-Op}!QxtAbstractSignalSerializer@{Qxt\-Abstract\-Signal\-Serializer}}
+\subsubsection[{No\-Op}]{\setlength{\rightskip}{0pt plus 5cm}static {\bf Deserialized\-Data} Qxt\-Abstract\-Signal\-Serializer\-::\-No\-Op (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{class_qxt_abstract_signal_serializer_a98f688ca4c642997d2f77f3f4ea1a70c}
+Returns an object that indicates that the deserialized data does not invoke a signal. 
+
+Definition at line 88 of file qxtabstractsignalserializer.\-h.
+
+\hypertarget{class_qxt_abstract_signal_serializer_afa01c378b590f2f45f53ec2cdc0b3838}{\index{Qxt\-Abstract\-Signal\-Serializer@{Qxt\-Abstract\-Signal\-Serializer}!Protocol\-Error@{Protocol\-Error}}
+\index{Protocol\-Error@{Protocol\-Error}!QxtAbstractSignalSerializer@{Qxt\-Abstract\-Signal\-Serializer}}
+\subsubsection[{Protocol\-Error}]{\setlength{\rightskip}{0pt plus 5cm}static {\bf Deserialized\-Data} Qxt\-Abstract\-Signal\-Serializer\-::\-Protocol\-Error (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{class_qxt_abstract_signal_serializer_afa01c378b590f2f45f53ec2cdc0b3838}
+Returns an object that indicates that the deserialized data indicates a fatal protocol error. 
+
+Definition at line 97 of file qxtabstractsignalserializer.\-h.
+
+\hypertarget{class_qxt_abstract_signal_serializer_a20413abc6a7b0b9046b4101193f8a64f}{\index{Qxt\-Abstract\-Signal\-Serializer@{Qxt\-Abstract\-Signal\-Serializer}!serialize@{serialize}}
+\index{serialize@{serialize}!QxtAbstractSignalSerializer@{Qxt\-Abstract\-Signal\-Serializer}}
+\subsubsection[{serialize}]{\setlength{\rightskip}{0pt plus 5cm}virtual Q\-Byte\-Array Qxt\-Abstract\-Signal\-Serializer\-::serialize (
+\begin{DoxyParamCaption}
+\item[{const {\bf Q\-String} \&}]{fn, }
+\item[{const Q\-Variant \&}]{p1 = {\ttfamily QVariant()}, }
+\item[{const Q\-Variant \&}]{p2 = {\ttfamily QVariant()}, }
+\item[{const Q\-Variant \&}]{p3 = {\ttfamily QVariant()}, }
+\item[{const Q\-Variant \&}]{p4 = {\ttfamily QVariant()}, }
+\item[{const Q\-Variant \&}]{p5 = {\ttfamily QVariant()}, }
+\item[{const Q\-Variant \&}]{p6 = {\ttfamily QVariant()}, }
+\item[{const Q\-Variant \&}]{p7 = {\ttfamily QVariant()}, }
+\item[{const Q\-Variant \&}]{p8 = {\ttfamily QVariant()}}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [pure virtual]}}}\label{class_qxt_abstract_signal_serializer_a20413abc6a7b0b9046b4101193f8a64f}
+Serializes a signal into a form suitable for sending to an I/\-O device. 
+
+Implemented in \hyperlink{class_qxt_data_stream_signal_serializer_a6e86a392da2a0e8d294c1c0ee4054de5}{Qxt\-Data\-Stream\-Signal\-Serializer}.
+
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/libqxt/src/core/\hyperlink{qxtabstractsignalserializer_8h}{qxtabstractsignalserializer.\-h}\end{DoxyCompactItemize}

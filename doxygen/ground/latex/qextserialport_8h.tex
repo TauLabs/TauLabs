@@ -1,0 +1,215 @@
+\hypertarget{qextserialport_8h}{\section{/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/qextserialport/src/qextserialport.h File Reference}
+\label{qextserialport_8h}\index{/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/qextserialport/src/qextserialport.\-h@{/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/qextserialport/src/qextserialport.\-h}}
+}
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{struct_port_settings}{Port\-Settings}
+\item 
+class \hyperlink{class_qext_serial_port}{Qext\-Serial\-Port}
+\end{DoxyCompactItemize}
+\subsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{qextserialport_8h_a6f031169a6a9b150b5af707bb23cf010}{Baud\-Rate\-Type} \{ \\*
+\hyperlink{qextserialport_8h_a6f031169a6a9b150b5af707bb23cf010a0721b0e666074772b33c2ff05f03f6e2}{B\-A\-U\-D50}, 
+\hyperlink{qextserialport_8h_a6f031169a6a9b150b5af707bb23cf010a1cd023b44dceb4b59798e5203534b65b}{B\-A\-U\-D75}, 
+\hyperlink{qextserialport_8h_a6f031169a6a9b150b5af707bb23cf010a10174371591f621ab26540af3ac992a4}{B\-A\-U\-D110}, 
+\hyperlink{qextserialport_8h_a6f031169a6a9b150b5af707bb23cf010a192cb47e215d8642f3e26cd877eb904e}{B\-A\-U\-D134}, 
+\\*
+\hyperlink{qextserialport_8h_a6f031169a6a9b150b5af707bb23cf010ae7b4b2d0b7e6e309e57c64364328aff8}{B\-A\-U\-D150}, 
+\hyperlink{qextserialport_8h_a6f031169a6a9b150b5af707bb23cf010a1eff76dffd9e137cbfd3b0563e17348b}{B\-A\-U\-D200}, 
+\hyperlink{qextserialport_8h_a6f031169a6a9b150b5af707bb23cf010a41f8610ff3d721295c8692d6331bbc86}{B\-A\-U\-D300}, 
+\hyperlink{qextserialport_8h_a6f031169a6a9b150b5af707bb23cf010a2a05e5b7c7d350afe149a629af7f07a4}{B\-A\-U\-D600}, 
+\\*
+\hyperlink{qextserialport_8h_a6f031169a6a9b150b5af707bb23cf010a86057a69b2752b06b4302ae83c36e7a2}{B\-A\-U\-D1200}, 
+\hyperlink{qextserialport_8h_a6f031169a6a9b150b5af707bb23cf010a1815c0670961c2e5c20cfbd81954d3f1}{B\-A\-U\-D1800}, 
+\hyperlink{qextserialport_8h_a6f031169a6a9b150b5af707bb23cf010a0e653cf3163c75f11560ad0616049076}{B\-A\-U\-D2400}, 
+\hyperlink{qextserialport_8h_a6f031169a6a9b150b5af707bb23cf010a1de6d151ff739cebfa6f3aab0d76ec9e}{B\-A\-U\-D4800}, 
+\\*
+\hyperlink{qextserialport_8h_a6f031169a6a9b150b5af707bb23cf010a782c55daa9030c53e266213401c3707a}{B\-A\-U\-D9600}, 
+\hyperlink{qextserialport_8h_a6f031169a6a9b150b5af707bb23cf010ad208c844993c394ce55ed88a7da71d31}{B\-A\-U\-D14400}, 
+\hyperlink{qextserialport_8h_a6f031169a6a9b150b5af707bb23cf010a16d650adf414e7a4fceb3f72661a0420}{B\-A\-U\-D19200}, 
+\hyperlink{qextserialport_8h_a6f031169a6a9b150b5af707bb23cf010a56bb974293e65da8c97422abd0c514b7}{B\-A\-U\-D38400}, 
+\\*
+\hyperlink{qextserialport_8h_a6f031169a6a9b150b5af707bb23cf010a6b00b8cf6939c8b517deada3110de1ce}{B\-A\-U\-D56000}, 
+\hyperlink{qextserialport_8h_a6f031169a6a9b150b5af707bb23cf010a0e6f70f222bc4d91276a4a934ef66c48}{B\-A\-U\-D57600}, 
+\hyperlink{qextserialport_8h_a6f031169a6a9b150b5af707bb23cf010a9a7f6b7993e77c3603399cb0a58987be}{B\-A\-U\-D76800}, 
+\hyperlink{qextserialport_8h_a6f031169a6a9b150b5af707bb23cf010a54a5ab3e880bc1722d455e420c0351e6}{B\-A\-U\-D115200}, 
+\\*
+\hyperlink{qextserialport_8h_a6f031169a6a9b150b5af707bb23cf010a35d815a00139f06782b178b82f355f04}{B\-A\-U\-D128000}, 
+\hyperlink{qextserialport_8h_a6f031169a6a9b150b5af707bb23cf010ad2d5eef54308b00d2b49f2dd73af7956}{B\-A\-U\-D230400}, 
+\hyperlink{qextserialport_8h_a6f031169a6a9b150b5af707bb23cf010a2149280b354c383e6af48949ce3b807f}{B\-A\-U\-D256000}, 
+\hyperlink{qextserialport_8h_a6f031169a6a9b150b5af707bb23cf010a6084660ab9bed0662fc4db6ba74525f3}{B\-A\-U\-D460800}, 
+\\*
+\hyperlink{qextserialport_8h_a6f031169a6a9b150b5af707bb23cf010aaabbdcc2cb37c3861e464b4cbce2b21e}{B\-A\-U\-D921600}
+ \}
+\item 
+enum \hyperlink{qextserialport_8h_a189ef78c2c1b7537ab114d576f6214fa}{Data\-Bits\-Type} \{ \hyperlink{qextserialport_8h_a189ef78c2c1b7537ab114d576f6214faabdcd3759eeee2ffb002bbd8816afc5cc}{D\-A\-T\-A\-\_\-5}, 
+\hyperlink{qextserialport_8h_a189ef78c2c1b7537ab114d576f6214faa26d01dd98519521e747c3716b95b039f}{D\-A\-T\-A\-\_\-6}, 
+\hyperlink{qextserialport_8h_a189ef78c2c1b7537ab114d576f6214faac0ea91406eb909c082025299d879eed5}{D\-A\-T\-A\-\_\-7}, 
+\hyperlink{qextserialport_8h_a189ef78c2c1b7537ab114d576f6214faa719dc653cb3f7c9fbf6c8b8c36d78a9f}{D\-A\-T\-A\-\_\-8}
+ \}
+\item 
+enum \hyperlink{qextserialport_8h_aee22d32d87c815090354bf9b8e957ace}{Parity\-Type} \{ \\*
+\hyperlink{qextserialport_8h_aee22d32d87c815090354bf9b8e957aceae0df16cbf90ff8b05d96d37094b3980a}{P\-A\-R\-\_\-\-N\-O\-N\-E}, 
+\hyperlink{qextserialport_8h_aee22d32d87c815090354bf9b8e957acea53059ce3f8053f409937ff89a90afee9}{P\-A\-R\-\_\-\-O\-D\-D}, 
+\hyperlink{qextserialport_8h_aee22d32d87c815090354bf9b8e957aceadcf0e7e3469256fa6eadd03f93e9a5aa}{P\-A\-R\-\_\-\-E\-V\-E\-N}, 
+\hyperlink{qextserialport_8h_aee22d32d87c815090354bf9b8e957acea8e6eade7ff411bc2d325be080ce4ad10}{P\-A\-R\-\_\-\-M\-A\-R\-K}, 
+\\*
+\hyperlink{qextserialport_8h_aee22d32d87c815090354bf9b8e957acea1dd539202244b7b46ea83c168d3a447d}{P\-A\-R\-\_\-\-S\-P\-A\-C\-E}
+ \}
+\item 
+enum \hyperlink{qextserialport_8h_adc8078895cd941d755d46633b54d3e7f}{Stop\-Bits\-Type} \{ \hyperlink{qextserialport_8h_adc8078895cd941d755d46633b54d3e7fa5a97cec5fc7aa14a4caae4b53d97fcfc}{S\-T\-O\-P\-\_\-1}, 
+\hyperlink{qextserialport_8h_adc8078895cd941d755d46633b54d3e7fad5199e453f150adf605f4aa44254d31b}{S\-T\-O\-P\-\_\-1\-\_\-5}, 
+\hyperlink{qextserialport_8h_adc8078895cd941d755d46633b54d3e7fa9d9d66053c21f5142750606c4af19b61}{S\-T\-O\-P\-\_\-2}
+ \}
+\item 
+enum \hyperlink{qextserialport_8h_a02ad1c7cf791a069dd54e409f8db4790}{Flow\-Type} \{ \hyperlink{qextserialport_8h_a02ad1c7cf791a069dd54e409f8db4790ad4c112d4c8487384e429edeb50b01f6e}{F\-L\-O\-W\-\_\-\-O\-F\-F}, 
+\hyperlink{qextserialport_8h_a02ad1c7cf791a069dd54e409f8db4790a37eb6a580629a080ce39792149cf4976}{F\-L\-O\-W\-\_\-\-H\-A\-R\-D\-W\-A\-R\-E}, 
+\hyperlink{qextserialport_8h_a02ad1c7cf791a069dd54e409f8db4790a0d28447e3d97e184d5582f874d3dd92f}{F\-L\-O\-W\-\_\-\-X\-O\-N\-X\-O\-F\-F}
+ \}
+\end{DoxyCompactItemize}
+
+
+\subsection{Enumeration Type Documentation}
+\hypertarget{qextserialport_8h_a6f031169a6a9b150b5af707bb23cf010}{\index{qextserialport.\-h@{qextserialport.\-h}!Baud\-Rate\-Type@{Baud\-Rate\-Type}}
+\index{Baud\-Rate\-Type@{Baud\-Rate\-Type}!qextserialport.h@{qextserialport.\-h}}
+\subsubsection[{Baud\-Rate\-Type}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf Baud\-Rate\-Type}}}\label{qextserialport_8h_a6f031169a6a9b150b5af707bb23cf010}
+\begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{B\-A\-U\-D50@{B\-A\-U\-D50}!qextserialport.\-h@{qextserialport.\-h}}\index{qextserialport.\-h@{qextserialport.\-h}!B\-A\-U\-D50@{B\-A\-U\-D50}}\item[{\em 
+\hypertarget{qextserialport_8h_a6f031169a6a9b150b5af707bb23cf010a0721b0e666074772b33c2ff05f03f6e2}{B\-A\-U\-D50}\label{qextserialport_8h_a6f031169a6a9b150b5af707bb23cf010a0721b0e666074772b33c2ff05f03f6e2}
+}]\index{B\-A\-U\-D75@{B\-A\-U\-D75}!qextserialport.\-h@{qextserialport.\-h}}\index{qextserialport.\-h@{qextserialport.\-h}!B\-A\-U\-D75@{B\-A\-U\-D75}}\item[{\em 
+\hypertarget{qextserialport_8h_a6f031169a6a9b150b5af707bb23cf010a1cd023b44dceb4b59798e5203534b65b}{B\-A\-U\-D75}\label{qextserialport_8h_a6f031169a6a9b150b5af707bb23cf010a1cd023b44dceb4b59798e5203534b65b}
+}]\index{B\-A\-U\-D110@{B\-A\-U\-D110}!qextserialport.\-h@{qextserialport.\-h}}\index{qextserialport.\-h@{qextserialport.\-h}!B\-A\-U\-D110@{B\-A\-U\-D110}}\item[{\em 
+\hypertarget{qextserialport_8h_a6f031169a6a9b150b5af707bb23cf010a10174371591f621ab26540af3ac992a4}{B\-A\-U\-D110}\label{qextserialport_8h_a6f031169a6a9b150b5af707bb23cf010a10174371591f621ab26540af3ac992a4}
+}]\index{B\-A\-U\-D134@{B\-A\-U\-D134}!qextserialport.\-h@{qextserialport.\-h}}\index{qextserialport.\-h@{qextserialport.\-h}!B\-A\-U\-D134@{B\-A\-U\-D134}}\item[{\em 
+\hypertarget{qextserialport_8h_a6f031169a6a9b150b5af707bb23cf010a192cb47e215d8642f3e26cd877eb904e}{B\-A\-U\-D134}\label{qextserialport_8h_a6f031169a6a9b150b5af707bb23cf010a192cb47e215d8642f3e26cd877eb904e}
+}]\index{B\-A\-U\-D150@{B\-A\-U\-D150}!qextserialport.\-h@{qextserialport.\-h}}\index{qextserialport.\-h@{qextserialport.\-h}!B\-A\-U\-D150@{B\-A\-U\-D150}}\item[{\em 
+\hypertarget{qextserialport_8h_a6f031169a6a9b150b5af707bb23cf010ae7b4b2d0b7e6e309e57c64364328aff8}{B\-A\-U\-D150}\label{qextserialport_8h_a6f031169a6a9b150b5af707bb23cf010ae7b4b2d0b7e6e309e57c64364328aff8}
+}]\index{B\-A\-U\-D200@{B\-A\-U\-D200}!qextserialport.\-h@{qextserialport.\-h}}\index{qextserialport.\-h@{qextserialport.\-h}!B\-A\-U\-D200@{B\-A\-U\-D200}}\item[{\em 
+\hypertarget{qextserialport_8h_a6f031169a6a9b150b5af707bb23cf010a1eff76dffd9e137cbfd3b0563e17348b}{B\-A\-U\-D200}\label{qextserialport_8h_a6f031169a6a9b150b5af707bb23cf010a1eff76dffd9e137cbfd3b0563e17348b}
+}]\index{B\-A\-U\-D300@{B\-A\-U\-D300}!qextserialport.\-h@{qextserialport.\-h}}\index{qextserialport.\-h@{qextserialport.\-h}!B\-A\-U\-D300@{B\-A\-U\-D300}}\item[{\em 
+\hypertarget{qextserialport_8h_a6f031169a6a9b150b5af707bb23cf010a41f8610ff3d721295c8692d6331bbc86}{B\-A\-U\-D300}\label{qextserialport_8h_a6f031169a6a9b150b5af707bb23cf010a41f8610ff3d721295c8692d6331bbc86}
+}]\index{B\-A\-U\-D600@{B\-A\-U\-D600}!qextserialport.\-h@{qextserialport.\-h}}\index{qextserialport.\-h@{qextserialport.\-h}!B\-A\-U\-D600@{B\-A\-U\-D600}}\item[{\em 
+\hypertarget{qextserialport_8h_a6f031169a6a9b150b5af707bb23cf010a2a05e5b7c7d350afe149a629af7f07a4}{B\-A\-U\-D600}\label{qextserialport_8h_a6f031169a6a9b150b5af707bb23cf010a2a05e5b7c7d350afe149a629af7f07a4}
+}]\index{B\-A\-U\-D1200@{B\-A\-U\-D1200}!qextserialport.\-h@{qextserialport.\-h}}\index{qextserialport.\-h@{qextserialport.\-h}!B\-A\-U\-D1200@{B\-A\-U\-D1200}}\item[{\em 
+\hypertarget{qextserialport_8h_a6f031169a6a9b150b5af707bb23cf010a86057a69b2752b06b4302ae83c36e7a2}{B\-A\-U\-D1200}\label{qextserialport_8h_a6f031169a6a9b150b5af707bb23cf010a86057a69b2752b06b4302ae83c36e7a2}
+}]\index{B\-A\-U\-D1800@{B\-A\-U\-D1800}!qextserialport.\-h@{qextserialport.\-h}}\index{qextserialport.\-h@{qextserialport.\-h}!B\-A\-U\-D1800@{B\-A\-U\-D1800}}\item[{\em 
+\hypertarget{qextserialport_8h_a6f031169a6a9b150b5af707bb23cf010a1815c0670961c2e5c20cfbd81954d3f1}{B\-A\-U\-D1800}\label{qextserialport_8h_a6f031169a6a9b150b5af707bb23cf010a1815c0670961c2e5c20cfbd81954d3f1}
+}]\index{B\-A\-U\-D2400@{B\-A\-U\-D2400}!qextserialport.\-h@{qextserialport.\-h}}\index{qextserialport.\-h@{qextserialport.\-h}!B\-A\-U\-D2400@{B\-A\-U\-D2400}}\item[{\em 
+\hypertarget{qextserialport_8h_a6f031169a6a9b150b5af707bb23cf010a0e653cf3163c75f11560ad0616049076}{B\-A\-U\-D2400}\label{qextserialport_8h_a6f031169a6a9b150b5af707bb23cf010a0e653cf3163c75f11560ad0616049076}
+}]\index{B\-A\-U\-D4800@{B\-A\-U\-D4800}!qextserialport.\-h@{qextserialport.\-h}}\index{qextserialport.\-h@{qextserialport.\-h}!B\-A\-U\-D4800@{B\-A\-U\-D4800}}\item[{\em 
+\hypertarget{qextserialport_8h_a6f031169a6a9b150b5af707bb23cf010a1de6d151ff739cebfa6f3aab0d76ec9e}{B\-A\-U\-D4800}\label{qextserialport_8h_a6f031169a6a9b150b5af707bb23cf010a1de6d151ff739cebfa6f3aab0d76ec9e}
+}]\index{B\-A\-U\-D9600@{B\-A\-U\-D9600}!qextserialport.\-h@{qextserialport.\-h}}\index{qextserialport.\-h@{qextserialport.\-h}!B\-A\-U\-D9600@{B\-A\-U\-D9600}}\item[{\em 
+\hypertarget{qextserialport_8h_a6f031169a6a9b150b5af707bb23cf010a782c55daa9030c53e266213401c3707a}{B\-A\-U\-D9600}\label{qextserialport_8h_a6f031169a6a9b150b5af707bb23cf010a782c55daa9030c53e266213401c3707a}
+}]\index{B\-A\-U\-D14400@{B\-A\-U\-D14400}!qextserialport.\-h@{qextserialport.\-h}}\index{qextserialport.\-h@{qextserialport.\-h}!B\-A\-U\-D14400@{B\-A\-U\-D14400}}\item[{\em 
+\hypertarget{qextserialport_8h_a6f031169a6a9b150b5af707bb23cf010ad208c844993c394ce55ed88a7da71d31}{B\-A\-U\-D14400}\label{qextserialport_8h_a6f031169a6a9b150b5af707bb23cf010ad208c844993c394ce55ed88a7da71d31}
+}]\index{B\-A\-U\-D19200@{B\-A\-U\-D19200}!qextserialport.\-h@{qextserialport.\-h}}\index{qextserialport.\-h@{qextserialport.\-h}!B\-A\-U\-D19200@{B\-A\-U\-D19200}}\item[{\em 
+\hypertarget{qextserialport_8h_a6f031169a6a9b150b5af707bb23cf010a16d650adf414e7a4fceb3f72661a0420}{B\-A\-U\-D19200}\label{qextserialport_8h_a6f031169a6a9b150b5af707bb23cf010a16d650adf414e7a4fceb3f72661a0420}
+}]\index{B\-A\-U\-D38400@{B\-A\-U\-D38400}!qextserialport.\-h@{qextserialport.\-h}}\index{qextserialport.\-h@{qextserialport.\-h}!B\-A\-U\-D38400@{B\-A\-U\-D38400}}\item[{\em 
+\hypertarget{qextserialport_8h_a6f031169a6a9b150b5af707bb23cf010a56bb974293e65da8c97422abd0c514b7}{B\-A\-U\-D38400}\label{qextserialport_8h_a6f031169a6a9b150b5af707bb23cf010a56bb974293e65da8c97422abd0c514b7}
+}]\index{B\-A\-U\-D56000@{B\-A\-U\-D56000}!qextserialport.\-h@{qextserialport.\-h}}\index{qextserialport.\-h@{qextserialport.\-h}!B\-A\-U\-D56000@{B\-A\-U\-D56000}}\item[{\em 
+\hypertarget{qextserialport_8h_a6f031169a6a9b150b5af707bb23cf010a6b00b8cf6939c8b517deada3110de1ce}{B\-A\-U\-D56000}\label{qextserialport_8h_a6f031169a6a9b150b5af707bb23cf010a6b00b8cf6939c8b517deada3110de1ce}
+}]\index{B\-A\-U\-D57600@{B\-A\-U\-D57600}!qextserialport.\-h@{qextserialport.\-h}}\index{qextserialport.\-h@{qextserialport.\-h}!B\-A\-U\-D57600@{B\-A\-U\-D57600}}\item[{\em 
+\hypertarget{qextserialport_8h_a6f031169a6a9b150b5af707bb23cf010a0e6f70f222bc4d91276a4a934ef66c48}{B\-A\-U\-D57600}\label{qextserialport_8h_a6f031169a6a9b150b5af707bb23cf010a0e6f70f222bc4d91276a4a934ef66c48}
+}]\index{B\-A\-U\-D76800@{B\-A\-U\-D76800}!qextserialport.\-h@{qextserialport.\-h}}\index{qextserialport.\-h@{qextserialport.\-h}!B\-A\-U\-D76800@{B\-A\-U\-D76800}}\item[{\em 
+\hypertarget{qextserialport_8h_a6f031169a6a9b150b5af707bb23cf010a9a7f6b7993e77c3603399cb0a58987be}{B\-A\-U\-D76800}\label{qextserialport_8h_a6f031169a6a9b150b5af707bb23cf010a9a7f6b7993e77c3603399cb0a58987be}
+}]\index{B\-A\-U\-D115200@{B\-A\-U\-D115200}!qextserialport.\-h@{qextserialport.\-h}}\index{qextserialport.\-h@{qextserialport.\-h}!B\-A\-U\-D115200@{B\-A\-U\-D115200}}\item[{\em 
+\hypertarget{qextserialport_8h_a6f031169a6a9b150b5af707bb23cf010a54a5ab3e880bc1722d455e420c0351e6}{B\-A\-U\-D115200}\label{qextserialport_8h_a6f031169a6a9b150b5af707bb23cf010a54a5ab3e880bc1722d455e420c0351e6}
+}]\index{B\-A\-U\-D128000@{B\-A\-U\-D128000}!qextserialport.\-h@{qextserialport.\-h}}\index{qextserialport.\-h@{qextserialport.\-h}!B\-A\-U\-D128000@{B\-A\-U\-D128000}}\item[{\em 
+\hypertarget{qextserialport_8h_a6f031169a6a9b150b5af707bb23cf010a35d815a00139f06782b178b82f355f04}{B\-A\-U\-D128000}\label{qextserialport_8h_a6f031169a6a9b150b5af707bb23cf010a35d815a00139f06782b178b82f355f04}
+}]\index{B\-A\-U\-D230400@{B\-A\-U\-D230400}!qextserialport.\-h@{qextserialport.\-h}}\index{qextserialport.\-h@{qextserialport.\-h}!B\-A\-U\-D230400@{B\-A\-U\-D230400}}\item[{\em 
+\hypertarget{qextserialport_8h_a6f031169a6a9b150b5af707bb23cf010ad2d5eef54308b00d2b49f2dd73af7956}{B\-A\-U\-D230400}\label{qextserialport_8h_a6f031169a6a9b150b5af707bb23cf010ad2d5eef54308b00d2b49f2dd73af7956}
+}]\index{B\-A\-U\-D256000@{B\-A\-U\-D256000}!qextserialport.\-h@{qextserialport.\-h}}\index{qextserialport.\-h@{qextserialport.\-h}!B\-A\-U\-D256000@{B\-A\-U\-D256000}}\item[{\em 
+\hypertarget{qextserialport_8h_a6f031169a6a9b150b5af707bb23cf010a2149280b354c383e6af48949ce3b807f}{B\-A\-U\-D256000}\label{qextserialport_8h_a6f031169a6a9b150b5af707bb23cf010a2149280b354c383e6af48949ce3b807f}
+}]\index{B\-A\-U\-D460800@{B\-A\-U\-D460800}!qextserialport.\-h@{qextserialport.\-h}}\index{qextserialport.\-h@{qextserialport.\-h}!B\-A\-U\-D460800@{B\-A\-U\-D460800}}\item[{\em 
+\hypertarget{qextserialport_8h_a6f031169a6a9b150b5af707bb23cf010a6084660ab9bed0662fc4db6ba74525f3}{B\-A\-U\-D460800}\label{qextserialport_8h_a6f031169a6a9b150b5af707bb23cf010a6084660ab9bed0662fc4db6ba74525f3}
+}]\index{B\-A\-U\-D921600@{B\-A\-U\-D921600}!qextserialport.\-h@{qextserialport.\-h}}\index{qextserialport.\-h@{qextserialport.\-h}!B\-A\-U\-D921600@{B\-A\-U\-D921600}}\item[{\em 
+\hypertarget{qextserialport_8h_a6f031169a6a9b150b5af707bb23cf010aaabbdcc2cb37c3861e464b4cbce2b21e}{B\-A\-U\-D921600}\label{qextserialport_8h_a6f031169a6a9b150b5af707bb23cf010aaabbdcc2cb37c3861e464b4cbce2b21e}
+}]\end{description}
+\end{Desc}
+
+
+Definition at line 53 of file qextserialport.\-h.
+
+\hypertarget{qextserialport_8h_a189ef78c2c1b7537ab114d576f6214fa}{\index{qextserialport.\-h@{qextserialport.\-h}!Data\-Bits\-Type@{Data\-Bits\-Type}}
+\index{Data\-Bits\-Type@{Data\-Bits\-Type}!qextserialport.h@{qextserialport.\-h}}
+\subsubsection[{Data\-Bits\-Type}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf Data\-Bits\-Type}}}\label{qextserialport_8h_a189ef78c2c1b7537ab114d576f6214fa}
+\begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{D\-A\-T\-A\-\_\-5@{D\-A\-T\-A\-\_\-5}!qextserialport.\-h@{qextserialport.\-h}}\index{qextserialport.\-h@{qextserialport.\-h}!D\-A\-T\-A\-\_\-5@{D\-A\-T\-A\-\_\-5}}\item[{\em 
+\hypertarget{qextserialport_8h_a189ef78c2c1b7537ab114d576f6214faabdcd3759eeee2ffb002bbd8816afc5cc}{D\-A\-T\-A\-\_\-5}\label{qextserialport_8h_a189ef78c2c1b7537ab114d576f6214faabdcd3759eeee2ffb002bbd8816afc5cc}
+}]\index{D\-A\-T\-A\-\_\-6@{D\-A\-T\-A\-\_\-6}!qextserialport.\-h@{qextserialport.\-h}}\index{qextserialport.\-h@{qextserialport.\-h}!D\-A\-T\-A\-\_\-6@{D\-A\-T\-A\-\_\-6}}\item[{\em 
+\hypertarget{qextserialport_8h_a189ef78c2c1b7537ab114d576f6214faa26d01dd98519521e747c3716b95b039f}{D\-A\-T\-A\-\_\-6}\label{qextserialport_8h_a189ef78c2c1b7537ab114d576f6214faa26d01dd98519521e747c3716b95b039f}
+}]\index{D\-A\-T\-A\-\_\-7@{D\-A\-T\-A\-\_\-7}!qextserialport.\-h@{qextserialport.\-h}}\index{qextserialport.\-h@{qextserialport.\-h}!D\-A\-T\-A\-\_\-7@{D\-A\-T\-A\-\_\-7}}\item[{\em 
+\hypertarget{qextserialport_8h_a189ef78c2c1b7537ab114d576f6214faac0ea91406eb909c082025299d879eed5}{D\-A\-T\-A\-\_\-7}\label{qextserialport_8h_a189ef78c2c1b7537ab114d576f6214faac0ea91406eb909c082025299d879eed5}
+}]\index{D\-A\-T\-A\-\_\-8@{D\-A\-T\-A\-\_\-8}!qextserialport.\-h@{qextserialport.\-h}}\index{qextserialport.\-h@{qextserialport.\-h}!D\-A\-T\-A\-\_\-8@{D\-A\-T\-A\-\_\-8}}\item[{\em 
+\hypertarget{qextserialport_8h_a189ef78c2c1b7537ab114d576f6214faa719dc653cb3f7c9fbf6c8b8c36d78a9f}{D\-A\-T\-A\-\_\-8}\label{qextserialport_8h_a189ef78c2c1b7537ab114d576f6214faa719dc653cb3f7c9fbf6c8b8c36d78a9f}
+}]\end{description}
+\end{Desc}
+
+
+Definition at line 82 of file qextserialport.\-h.
+
+\hypertarget{qextserialport_8h_a02ad1c7cf791a069dd54e409f8db4790}{\index{qextserialport.\-h@{qextserialport.\-h}!Flow\-Type@{Flow\-Type}}
+\index{Flow\-Type@{Flow\-Type}!qextserialport.h@{qextserialport.\-h}}
+\subsubsection[{Flow\-Type}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf Flow\-Type}}}\label{qextserialport_8h_a02ad1c7cf791a069dd54e409f8db4790}
+\begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{F\-L\-O\-W\-\_\-\-O\-F\-F@{F\-L\-O\-W\-\_\-\-O\-F\-F}!qextserialport.\-h@{qextserialport.\-h}}\index{qextserialport.\-h@{qextserialport.\-h}!F\-L\-O\-W\-\_\-\-O\-F\-F@{F\-L\-O\-W\-\_\-\-O\-F\-F}}\item[{\em 
+\hypertarget{qextserialport_8h_a02ad1c7cf791a069dd54e409f8db4790ad4c112d4c8487384e429edeb50b01f6e}{F\-L\-O\-W\-\_\-\-O\-F\-F}\label{qextserialport_8h_a02ad1c7cf791a069dd54e409f8db4790ad4c112d4c8487384e429edeb50b01f6e}
+}]\index{F\-L\-O\-W\-\_\-\-H\-A\-R\-D\-W\-A\-R\-E@{F\-L\-O\-W\-\_\-\-H\-A\-R\-D\-W\-A\-R\-E}!qextserialport.\-h@{qextserialport.\-h}}\index{qextserialport.\-h@{qextserialport.\-h}!F\-L\-O\-W\-\_\-\-H\-A\-R\-D\-W\-A\-R\-E@{F\-L\-O\-W\-\_\-\-H\-A\-R\-D\-W\-A\-R\-E}}\item[{\em 
+\hypertarget{qextserialport_8h_a02ad1c7cf791a069dd54e409f8db4790a37eb6a580629a080ce39792149cf4976}{F\-L\-O\-W\-\_\-\-H\-A\-R\-D\-W\-A\-R\-E}\label{qextserialport_8h_a02ad1c7cf791a069dd54e409f8db4790a37eb6a580629a080ce39792149cf4976}
+}]\index{F\-L\-O\-W\-\_\-\-X\-O\-N\-X\-O\-F\-F@{F\-L\-O\-W\-\_\-\-X\-O\-N\-X\-O\-F\-F}!qextserialport.\-h@{qextserialport.\-h}}\index{qextserialport.\-h@{qextserialport.\-h}!F\-L\-O\-W\-\_\-\-X\-O\-N\-X\-O\-F\-F@{F\-L\-O\-W\-\_\-\-X\-O\-N\-X\-O\-F\-F}}\item[{\em 
+\hypertarget{qextserialport_8h_a02ad1c7cf791a069dd54e409f8db4790a0d28447e3d97e184d5582f874d3dd92f}{F\-L\-O\-W\-\_\-\-X\-O\-N\-X\-O\-F\-F}\label{qextserialport_8h_a02ad1c7cf791a069dd54e409f8db4790a0d28447e3d97e184d5582f874d3dd92f}
+}]\end{description}
+\end{Desc}
+
+
+Definition at line 106 of file qextserialport.\-h.
+
+\hypertarget{qextserialport_8h_aee22d32d87c815090354bf9b8e957ace}{\index{qextserialport.\-h@{qextserialport.\-h}!Parity\-Type@{Parity\-Type}}
+\index{Parity\-Type@{Parity\-Type}!qextserialport.h@{qextserialport.\-h}}
+\subsubsection[{Parity\-Type}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf Parity\-Type}}}\label{qextserialport_8h_aee22d32d87c815090354bf9b8e957ace}
+\begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{P\-A\-R\-\_\-\-N\-O\-N\-E@{P\-A\-R\-\_\-\-N\-O\-N\-E}!qextserialport.\-h@{qextserialport.\-h}}\index{qextserialport.\-h@{qextserialport.\-h}!P\-A\-R\-\_\-\-N\-O\-N\-E@{P\-A\-R\-\_\-\-N\-O\-N\-E}}\item[{\em 
+\hypertarget{qextserialport_8h_aee22d32d87c815090354bf9b8e957aceae0df16cbf90ff8b05d96d37094b3980a}{P\-A\-R\-\_\-\-N\-O\-N\-E}\label{qextserialport_8h_aee22d32d87c815090354bf9b8e957aceae0df16cbf90ff8b05d96d37094b3980a}
+}]\index{P\-A\-R\-\_\-\-O\-D\-D@{P\-A\-R\-\_\-\-O\-D\-D}!qextserialport.\-h@{qextserialport.\-h}}\index{qextserialport.\-h@{qextserialport.\-h}!P\-A\-R\-\_\-\-O\-D\-D@{P\-A\-R\-\_\-\-O\-D\-D}}\item[{\em 
+\hypertarget{qextserialport_8h_aee22d32d87c815090354bf9b8e957acea53059ce3f8053f409937ff89a90afee9}{P\-A\-R\-\_\-\-O\-D\-D}\label{qextserialport_8h_aee22d32d87c815090354bf9b8e957acea53059ce3f8053f409937ff89a90afee9}
+}]\index{P\-A\-R\-\_\-\-E\-V\-E\-N@{P\-A\-R\-\_\-\-E\-V\-E\-N}!qextserialport.\-h@{qextserialport.\-h}}\index{qextserialport.\-h@{qextserialport.\-h}!P\-A\-R\-\_\-\-E\-V\-E\-N@{P\-A\-R\-\_\-\-E\-V\-E\-N}}\item[{\em 
+\hypertarget{qextserialport_8h_aee22d32d87c815090354bf9b8e957aceadcf0e7e3469256fa6eadd03f93e9a5aa}{P\-A\-R\-\_\-\-E\-V\-E\-N}\label{qextserialport_8h_aee22d32d87c815090354bf9b8e957aceadcf0e7e3469256fa6eadd03f93e9a5aa}
+}]\index{P\-A\-R\-\_\-\-M\-A\-R\-K@{P\-A\-R\-\_\-\-M\-A\-R\-K}!qextserialport.\-h@{qextserialport.\-h}}\index{qextserialport.\-h@{qextserialport.\-h}!P\-A\-R\-\_\-\-M\-A\-R\-K@{P\-A\-R\-\_\-\-M\-A\-R\-K}}\item[{\em 
+\hypertarget{qextserialport_8h_aee22d32d87c815090354bf9b8e957acea8e6eade7ff411bc2d325be080ce4ad10}{P\-A\-R\-\_\-\-M\-A\-R\-K}\label{qextserialport_8h_aee22d32d87c815090354bf9b8e957acea8e6eade7ff411bc2d325be080ce4ad10}
+}]\index{P\-A\-R\-\_\-\-S\-P\-A\-C\-E@{P\-A\-R\-\_\-\-S\-P\-A\-C\-E}!qextserialport.\-h@{qextserialport.\-h}}\index{qextserialport.\-h@{qextserialport.\-h}!P\-A\-R\-\_\-\-S\-P\-A\-C\-E@{P\-A\-R\-\_\-\-S\-P\-A\-C\-E}}\item[{\em 
+\hypertarget{qextserialport_8h_aee22d32d87c815090354bf9b8e957acea1dd539202244b7b46ea83c168d3a447d}{P\-A\-R\-\_\-\-S\-P\-A\-C\-E}\label{qextserialport_8h_aee22d32d87c815090354bf9b8e957acea1dd539202244b7b46ea83c168d3a447d}
+}]\end{description}
+\end{Desc}
+
+
+Definition at line 90 of file qextserialport.\-h.
+
+\hypertarget{qextserialport_8h_adc8078895cd941d755d46633b54d3e7f}{\index{qextserialport.\-h@{qextserialport.\-h}!Stop\-Bits\-Type@{Stop\-Bits\-Type}}
+\index{Stop\-Bits\-Type@{Stop\-Bits\-Type}!qextserialport.h@{qextserialport.\-h}}
+\subsubsection[{Stop\-Bits\-Type}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf Stop\-Bits\-Type}}}\label{qextserialport_8h_adc8078895cd941d755d46633b54d3e7f}
+\begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{S\-T\-O\-P\-\_\-1@{S\-T\-O\-P\-\_\-1}!qextserialport.\-h@{qextserialport.\-h}}\index{qextserialport.\-h@{qextserialport.\-h}!S\-T\-O\-P\-\_\-1@{S\-T\-O\-P\-\_\-1}}\item[{\em 
+\hypertarget{qextserialport_8h_adc8078895cd941d755d46633b54d3e7fa5a97cec5fc7aa14a4caae4b53d97fcfc}{S\-T\-O\-P\-\_\-1}\label{qextserialport_8h_adc8078895cd941d755d46633b54d3e7fa5a97cec5fc7aa14a4caae4b53d97fcfc}
+}]\index{S\-T\-O\-P\-\_\-1\-\_\-5@{S\-T\-O\-P\-\_\-1\-\_\-5}!qextserialport.\-h@{qextserialport.\-h}}\index{qextserialport.\-h@{qextserialport.\-h}!S\-T\-O\-P\-\_\-1\-\_\-5@{S\-T\-O\-P\-\_\-1\-\_\-5}}\item[{\em 
+\hypertarget{qextserialport_8h_adc8078895cd941d755d46633b54d3e7fad5199e453f150adf605f4aa44254d31b}{S\-T\-O\-P\-\_\-1\-\_\-5}\label{qextserialport_8h_adc8078895cd941d755d46633b54d3e7fad5199e453f150adf605f4aa44254d31b}
+}]\index{S\-T\-O\-P\-\_\-2@{S\-T\-O\-P\-\_\-2}!qextserialport.\-h@{qextserialport.\-h}}\index{qextserialport.\-h@{qextserialport.\-h}!S\-T\-O\-P\-\_\-2@{S\-T\-O\-P\-\_\-2}}\item[{\em 
+\hypertarget{qextserialport_8h_adc8078895cd941d755d46633b54d3e7fa9d9d66053c21f5142750606c4af19b61}{S\-T\-O\-P\-\_\-2}\label{qextserialport_8h_adc8078895cd941d755d46633b54d3e7fa9d9d66053c21f5142750606c4af19b61}
+}]\end{description}
+\end{Desc}
+
+
+Definition at line 99 of file qextserialport.\-h.
+

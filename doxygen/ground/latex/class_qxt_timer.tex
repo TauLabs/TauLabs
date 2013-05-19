@@ -1,0 +1,109 @@
+\hypertarget{class_qxt_timer}{\section{Qxt\-Timer Class Reference}
+\label{class_qxt_timer}\index{Qxt\-Timer@{Qxt\-Timer}}
+}
+
+
+The \hyperlink{class_qxt_timer}{Qxt\-Timer} class extends Q\-Timer.  
+
+
+
+
+{\ttfamily \#include $<$qxttimer.\-h$>$}
+
+Inheritance diagram for Qxt\-Timer\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_qxt_timer}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_qxt_timer_af7a6f541fea58707b817890b1bdf2275}{Qxt\-Timer} (Q\-Object $\ast$parent=0)
+\item 
+virtual \hyperlink{class_qxt_timer_aa65541fc9209f45486e74c80c672a54a}{$\sim$\-Qxt\-Timer} ()
+\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qxt_timer_aa9521c587578b0f92821823a706ce362}{single\-Shot} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} msec, Q\-Object $\ast$receiver, const char $\ast$member, const Q\-Variant \&arg0, const Q\-Variant \&\hyperlink{glext_8h_a4b247ab422408c1761a36f9034c2585b}{arg1}=Q\-Variant(), const Q\-Variant \&\hyperlink{glext_8h_a5aee5a44bf92a9837fea48e41ef0df57}{arg2}=Q\-Variant(), const Q\-Variant \&\hyperlink{glext_8h_a525a52cc20e1aa70741e5c7dae172f25}{arg3}=Q\-Variant(), const Q\-Variant \&arg4=Q\-Variant(), const Q\-Variant \&arg5=Q\-Variant(), const Q\-Variant \&arg6=Q\-Variant(), const Q\-Variant \&arg7=Q\-Variant(), const Q\-Variant \&arg8=Q\-Variant(), const Q\-Variant \&arg9=Q\-Variant())
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+The \hyperlink{class_qxt_timer}{Qxt\-Timer} class extends Q\-Timer. 
+
+Qxt\-Core \hyperlink{class_qxt_timer}{Qxt\-Timer} extends Q\-Timer with capability to call a slot after with given parameters after a given time interval.
+
+Example usage\-: 
+\begin{DoxyCode}
+\hyperlink{class_qxt_timer_aa9521c587578b0f92821823a706ce362}{QxtTimer::singleShot}(500, widget, SLOT(setWindowTitle(
+      \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{QString})), \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{QString}(\textcolor{stringliteral}{"Window Title"}));
+\end{DoxyCode}
+ 
+
+Definition at line 32 of file qxttimer.\-h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_qxt_timer_af7a6f541fea58707b817890b1bdf2275}{\index{Qxt\-Timer@{Qxt\-Timer}!Qxt\-Timer@{Qxt\-Timer}}
+\index{Qxt\-Timer@{Qxt\-Timer}!QxtTimer@{Qxt\-Timer}}
+\subsubsection[{Qxt\-Timer}]{\setlength{\rightskip}{0pt plus 5cm}Qxt\-Timer\-::\-Qxt\-Timer (
+\begin{DoxyParamCaption}
+\item[{Q\-Object $\ast$}]{parent = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [explicit]}}}\label{class_qxt_timer_af7a6f541fea58707b817890b1bdf2275}
+Constructs a new \hyperlink{class_qxt_timer}{Qxt\-Timer} with {\itshape parent}. 
+
+Definition at line 79 of file qxttimer.\-cpp.
+
+\hypertarget{class_qxt_timer_aa65541fc9209f45486e74c80c672a54a}{\index{Qxt\-Timer@{Qxt\-Timer}!$\sim$\-Qxt\-Timer@{$\sim$\-Qxt\-Timer}}
+\index{$\sim$\-Qxt\-Timer@{$\sim$\-Qxt\-Timer}!QxtTimer@{Qxt\-Timer}}
+\subsubsection[{$\sim$\-Qxt\-Timer}]{\setlength{\rightskip}{0pt plus 5cm}Qxt\-Timer\-::$\sim$\-Qxt\-Timer (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_qxt_timer_aa65541fc9209f45486e74c80c672a54a}
+Destructs the timer. 
+
+Definition at line 86 of file qxttimer.\-cpp.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_qxt_timer_aa9521c587578b0f92821823a706ce362}{\index{Qxt\-Timer@{Qxt\-Timer}!single\-Shot@{single\-Shot}}
+\index{single\-Shot@{single\-Shot}!QxtTimer@{Qxt\-Timer}}
+\subsubsection[{single\-Shot}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qxt\-Timer\-::single\-Shot (
+\begin{DoxyParamCaption}
+\item[{{\bf int}}]{msec, }
+\item[{Q\-Object $\ast$}]{receiver, }
+\item[{const char $\ast$}]{member, }
+\item[{const Q\-Variant \&}]{arg0, }
+\item[{const Q\-Variant \&}]{arg1 = {\ttfamily QVariant()}, }
+\item[{const Q\-Variant \&}]{arg2 = {\ttfamily QVariant()}, }
+\item[{const Q\-Variant \&}]{arg3 = {\ttfamily QVariant()}, }
+\item[{const Q\-Variant \&}]{arg4 = {\ttfamily QVariant()}, }
+\item[{const Q\-Variant \&}]{arg5 = {\ttfamily QVariant()}, }
+\item[{const Q\-Variant \&}]{arg6 = {\ttfamily QVariant()}, }
+\item[{const Q\-Variant \&}]{arg7 = {\ttfamily QVariant()}, }
+\item[{const Q\-Variant \&}]{arg8 = {\ttfamily QVariant()}, }
+\item[{const Q\-Variant \&}]{arg9 = {\ttfamily QVariant()}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{class_qxt_timer_aa9521c587578b0f92821823a706ce362}
+This static function calls a slot with given parameters after a given time interval.
+
+It is very convenient to use this function because you do not need to bother with a timer\-Event or create a local Q\-Timer object.
+
+You can pass up to ten arguments ({\itshape arg0}, {\itshape arg1}, {\itshape arg2}, {\itshape arg3}, {\itshape arg4}, {\itshape arg5}, {\itshape arg6}, {\itshape arg7}, {\itshape arg8} and {\itshape arg9}).
+
+The {\itshape receiver} is the receiving object and the {\itshape member} is the slot. The time interval is {\itshape msec} milliseconds. 
+
+Definition at line 99 of file qxttimer.\-cpp.
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/libqxt/src/core/\hyperlink{qxttimer_8h}{qxttimer.\-h}\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/libqxt/src/core/\hyperlink{qxttimer_8cpp}{qxttimer.\-cpp}\end{DoxyCompactItemize}

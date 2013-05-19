@@ -1,0 +1,256 @@
+\hypertarget{class_g_l_c___object}{\section{G\-L\-C\-\_\-\-Object Class Reference}
+\label{class_g_l_c___object}\index{G\-L\-C\-\_\-\-Object@{G\-L\-C\-\_\-\-Object}}
+}
+
+
+\hyperlink{class_g_l_c___object}{G\-L\-C\-\_\-\-Object} is base class for some G\-L\-C class.  
+
+
+
+
+{\ttfamily \#include $<$glc\-\_\-object.\-h$>$}
+
+Inheritance diagram for G\-L\-C\-\_\-\-Object\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=1.958042cm]{class_g_l_c___object}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{Indent}{\bf Constructor / Destructor}\par
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_g_l_c___object_a4eef65edf485d22504c2ef661da0f759}{G\-L\-C\-\_\-\-Object} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{Q\-String} \&\hyperlink{glext_8h_ad977737dfc9a274a62741b9500c49a32}{name}=\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{Q\-String}())
+\begin{DoxyCompactList}\small\item\em Default constructor. \end{DoxyCompactList}\item 
+\hyperlink{class_g_l_c___object_a1abaeb27274868c0776b8a6cec2abc1c}{G\-L\-C\-\_\-\-Object} (const \hyperlink{class_g_l_c___object}{G\-L\-C\-\_\-\-Object} \&source\-Object)
+\begin{DoxyCompactList}\small\item\em Construct a \hyperlink{class_g_l_c___object}{G\-L\-C\-\_\-\-Object} from the given \hyperlink{class_g_l_c___object}{G\-L\-C\-\_\-\-Object}. \end{DoxyCompactList}\item 
+virtual \hyperlink{class_g_l_c___object_ab1a881fe7e67db986ec2d6330c62f654}{$\sim$\-G\-L\-C\-\_\-\-Object} ()
+\begin{DoxyCompactList}\small\item\em Virtual destructor. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\end{Indent}
+\begin{Indent}{\bf Get Functions}\par
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{glc__global_8h_abf950976fabed69026558df8e2da6c6b}{G\-L\-C\-\_\-uint} \hyperlink{class_g_l_c___object_ad202d773de8c8d760399e4d4cc40b2e1}{id} () const 
+\begin{DoxyCompactList}\small\item\em Return this object id. \end{DoxyCompactList}\item 
+const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{Q\-String} \hyperlink{class_g_l_c___object_a5f7f198bba887174ee760435292a3c6f}{name} () const 
+\begin{DoxyCompactList}\small\item\em Return this object name. \end{DoxyCompactList}\item 
+bool \hyperlink{class_g_l_c___object_a84499a2326e74954a2fef3560ffbcb32}{operator==} (const \hyperlink{class_g_l_c___object}{G\-L\-C\-\_\-\-Object} \&\hyperlink{glext_8h_a0c0d4701a6c89f4f7f0640715d27ab26}{obj})
+\begin{DoxyCompactList}\small\item\em Return true if this object is equal to the given object. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\end{Indent}
+\begin{Indent}{\bf Set Functions}\par
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c___object_a4cfaa3b2d34169a3b39912ca953d9042}{set\-Id} (const \hyperlink{glc__global_8h_abf950976fabed69026558df8e2da6c6b}{G\-L\-C\-\_\-uint} \hyperlink{glext_8h_a58c2a664503e14ffb8f21012aabff3e9}{id})
+\begin{DoxyCompactList}\small\item\em Set this object Id. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c___object_a8a6dad86d79d8353056106f4d1cc099b}{set\-Name} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{Q\-String} \&\hyperlink{glext_8h_ad977737dfc9a274a62741b9500c49a32}{name})
+\begin{DoxyCompactList}\small\item\em Set this object Name. \end{DoxyCompactList}\item 
+\hyperlink{class_g_l_c___object}{G\-L\-C\-\_\-\-Object} \& \hyperlink{class_g_l_c___object_a0a7177e9383f417c53ef7934dc4c5d16}{operator=} (const \hyperlink{class_g_l_c___object}{G\-L\-C\-\_\-\-Object} \&)
+\begin{DoxyCompactList}\small\item\em Set this object from the given object. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\end{Indent}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{glc__global_8h_abf950976fabed69026558df8e2da6c6b}{G\-L\-C\-\_\-uint} \hyperlink{class_g_l_c___object_a6e7849a0927cfba751cebcb3f6c469a8}{m\-\_\-\-Uid}
+\begin{DoxyCompactList}\small\item\em The Unique I\-D of an \hyperlink{class_g_l_c___object}{G\-L\-C\-\_\-\-Object}. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{Q\-String} \hyperlink{class_g_l_c___object_a33dc5c2f59f90204cf611a202501f26b}{m\-\_\-\-Name}
+\begin{DoxyCompactList}\small\item\em Name of an \hyperlink{class_g_l_c___object}{G\-L\-C\-\_\-\-Object}. \end{DoxyCompactList}\item 
+Q\-Mutex \hyperlink{class_g_l_c___object_a16e46766aa3ce2f2a2d2340f658060c7}{m\-\_\-\-Mutex}
+\begin{DoxyCompactList}\small\item\em \hyperlink{class_g_l_c___object}{G\-L\-C\-\_\-\-Object} Mutex. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\hyperlink{class_g_l_c___object}{G\-L\-C\-\_\-\-Object} is base class for some G\-L\-C class. 
+
+\hyperlink{class_g_l_c___object}{G\-L\-C\-\_\-\-Object} is a abstract class. \par
+ \par
+ Every \hyperlink{class_g_l_c___object}{G\-L\-C\-\_\-\-Object} have \-:
+\begin{DoxyItemize}
+\item unique I\-D \hyperlink{class_g_l_c___object_a6e7849a0927cfba751cebcb3f6c469a8}{m\-\_\-\-Uid} generated by \#\-G\-L\-C\-\_\-\-Gen\-I\-D
+\item virtual Open\-G\-L method G\-L\-C\-\_\-\-Object\-::gl\-Execute 
+\end{DoxyItemize}
+
+Definition at line 47 of file glc\-\_\-object.\-h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_g_l_c___object_a4eef65edf485d22504c2ef661da0f759}{\index{G\-L\-C\-\_\-\-Object@{G\-L\-C\-\_\-\-Object}!G\-L\-C\-\_\-\-Object@{G\-L\-C\-\_\-\-Object}}
+\index{G\-L\-C\-\_\-\-Object@{G\-L\-C\-\_\-\-Object}!GLC_Object@{G\-L\-C\-\_\-\-Object}}
+\subsubsection[{G\-L\-C\-\_\-\-Object}]{\setlength{\rightskip}{0pt plus 5cm}G\-L\-C\-\_\-\-Object\-::\-G\-L\-C\-\_\-\-Object (
+\begin{DoxyParamCaption}
+\item[{const {\bf Q\-String} \&}]{name = {\ttfamily {\bf Q\-String}()}}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___object_a4eef65edf485d22504c2ef661da0f759}
+
+
+Default constructor. 
+
+Construct a \hyperlink{class_g_l_c___object}{G\-L\-C\-\_\-\-Object} , Generate is U\-I\-D \hyperlink{class_g_l_c___object_a6e7849a0927cfba751cebcb3f6c469a8}{G\-L\-C\-\_\-\-Object\-::m\-\_\-\-Uid} and set \hyperlink{class_g_l_c___object_a33dc5c2f59f90204cf611a202501f26b}{G\-L\-C\-\_\-\-Object\-::m\-\_\-\-Name} to specified name 
+
+Definition at line 31 of file glc\-\_\-object.\-cpp.
+
+\hypertarget{class_g_l_c___object_a1abaeb27274868c0776b8a6cec2abc1c}{\index{G\-L\-C\-\_\-\-Object@{G\-L\-C\-\_\-\-Object}!G\-L\-C\-\_\-\-Object@{G\-L\-C\-\_\-\-Object}}
+\index{G\-L\-C\-\_\-\-Object@{G\-L\-C\-\_\-\-Object}!GLC_Object@{G\-L\-C\-\_\-\-Object}}
+\subsubsection[{G\-L\-C\-\_\-\-Object}]{\setlength{\rightskip}{0pt plus 5cm}G\-L\-C\-\_\-\-Object\-::\-G\-L\-C\-\_\-\-Object (
+\begin{DoxyParamCaption}
+\item[{const {\bf G\-L\-C\-\_\-\-Object} \&}]{source\-Object}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___object_a1abaeb27274868c0776b8a6cec2abc1c}
+
+
+Construct a \hyperlink{class_g_l_c___object}{G\-L\-C\-\_\-\-Object} from the given \hyperlink{class_g_l_c___object}{G\-L\-C\-\_\-\-Object}. 
+
+
+
+Definition at line 38 of file glc\-\_\-object.\-cpp.
+
+\hypertarget{class_g_l_c___object_ab1a881fe7e67db986ec2d6330c62f654}{\index{G\-L\-C\-\_\-\-Object@{G\-L\-C\-\_\-\-Object}!$\sim$\-G\-L\-C\-\_\-\-Object@{$\sim$\-G\-L\-C\-\_\-\-Object}}
+\index{$\sim$\-G\-L\-C\-\_\-\-Object@{$\sim$\-G\-L\-C\-\_\-\-Object}!GLC_Object@{G\-L\-C\-\_\-\-Object}}
+\subsubsection[{$\sim$\-G\-L\-C\-\_\-\-Object}]{\setlength{\rightskip}{0pt plus 5cm}G\-L\-C\-\_\-\-Object\-::$\sim$\-G\-L\-C\-\_\-\-Object (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_g_l_c___object_ab1a881fe7e67db986ec2d6330c62f654}
+
+
+Virtual destructor. 
+
+
+
+Definition at line 44 of file glc\-\_\-object.\-cpp.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_g_l_c___object_ad202d773de8c8d760399e4d4cc40b2e1}{\index{G\-L\-C\-\_\-\-Object@{G\-L\-C\-\_\-\-Object}!id@{id}}
+\index{id@{id}!GLC_Object@{G\-L\-C\-\_\-\-Object}}
+\subsubsection[{id}]{\setlength{\rightskip}{0pt plus 5cm}{\bf G\-L\-C\-\_\-uint} G\-L\-C\-\_\-\-Object\-::id (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___object_ad202d773de8c8d760399e4d4cc40b2e1}
+
+
+Return this object id. 
+
+
+
+Definition at line 73 of file glc\-\_\-object.\-h.
+
+\hypertarget{class_g_l_c___object_a5f7f198bba887174ee760435292a3c6f}{\index{G\-L\-C\-\_\-\-Object@{G\-L\-C\-\_\-\-Object}!name@{name}}
+\index{name@{name}!GLC_Object@{G\-L\-C\-\_\-\-Object}}
+\subsubsection[{name}]{\setlength{\rightskip}{0pt plus 5cm}const {\bf Q\-String} G\-L\-C\-\_\-\-Object\-::name (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___object_a5f7f198bba887174ee760435292a3c6f}
+
+
+Return this object name. 
+
+
+
+Definition at line 77 of file glc\-\_\-object.\-h.
+
+\hypertarget{class_g_l_c___object_a0a7177e9383f417c53ef7934dc4c5d16}{\index{G\-L\-C\-\_\-\-Object@{G\-L\-C\-\_\-\-Object}!operator=@{operator=}}
+\index{operator=@{operator=}!GLC_Object@{G\-L\-C\-\_\-\-Object}}
+\subsubsection[{operator=}]{\setlength{\rightskip}{0pt plus 5cm}{\bf G\-L\-C\-\_\-\-Object} \& G\-L\-C\-\_\-\-Object\-::operator= (
+\begin{DoxyParamCaption}
+\item[{const {\bf G\-L\-C\-\_\-\-Object} \&}]{object}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___object_a0a7177e9383f417c53ef7934dc4c5d16}
+
+
+Set this object from the given object. 
+
+This method is thread safe 
+
+Definition at line 67 of file glc\-\_\-object.\-cpp.
+
+\hypertarget{class_g_l_c___object_a84499a2326e74954a2fef3560ffbcb32}{\index{G\-L\-C\-\_\-\-Object@{G\-L\-C\-\_\-\-Object}!operator==@{operator==}}
+\index{operator==@{operator==}!GLC_Object@{G\-L\-C\-\_\-\-Object}}
+\subsubsection[{operator==}]{\setlength{\rightskip}{0pt plus 5cm}bool G\-L\-C\-\_\-\-Object\-::operator== (
+\begin{DoxyParamCaption}
+\item[{const {\bf G\-L\-C\-\_\-\-Object} \&}]{obj}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___object_a84499a2326e74954a2fef3560ffbcb32}
+
+
+Return true if this object is equal to the given object. 
+
+
+
+Definition at line 81 of file glc\-\_\-object.\-h.
+
+\hypertarget{class_g_l_c___object_a4cfaa3b2d34169a3b39912ca953d9042}{\index{G\-L\-C\-\_\-\-Object@{G\-L\-C\-\_\-\-Object}!set\-Id@{set\-Id}}
+\index{set\-Id@{set\-Id}!GLC_Object@{G\-L\-C\-\_\-\-Object}}
+\subsubsection[{set\-Id}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-\-Object\-::set\-Id (
+\begin{DoxyParamCaption}
+\item[{const {\bf G\-L\-C\-\_\-uint}}]{id}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___object_a4cfaa3b2d34169a3b39912ca953d9042}
+
+
+Set this object Id. 
+
+This method is thread safe 
+
+Definition at line 54 of file glc\-\_\-object.\-cpp.
+
+\hypertarget{class_g_l_c___object_a8a6dad86d79d8353056106f4d1cc099b}{\index{G\-L\-C\-\_\-\-Object@{G\-L\-C\-\_\-\-Object}!set\-Name@{set\-Name}}
+\index{set\-Name@{set\-Name}!GLC_Object@{G\-L\-C\-\_\-\-Object}}
+\subsubsection[{set\-Name}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-\-Object\-::set\-Name (
+\begin{DoxyParamCaption}
+\item[{const {\bf Q\-String} \&}]{name}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___object_a8a6dad86d79d8353056106f4d1cc099b}
+
+
+Set this object Name. 
+
+This method is thread safe 
+
+Definition at line 60 of file glc\-\_\-object.\-cpp.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{class_g_l_c___object_a16e46766aa3ce2f2a2d2340f658060c7}{\index{G\-L\-C\-\_\-\-Object@{G\-L\-C\-\_\-\-Object}!m\-\_\-\-Mutex@{m\-\_\-\-Mutex}}
+\index{m\-\_\-\-Mutex@{m\-\_\-\-Mutex}!GLC_Object@{G\-L\-C\-\_\-\-Object}}
+\subsubsection[{m\-\_\-\-Mutex}]{\setlength{\rightskip}{0pt plus 5cm}Q\-Mutex G\-L\-C\-\_\-\-Object\-::m\-\_\-\-Mutex\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_g_l_c___object_a16e46766aa3ce2f2a2d2340f658060c7}
+
+
+\hyperlink{class_g_l_c___object}{G\-L\-C\-\_\-\-Object} Mutex. 
+
+
+
+Definition at line 119 of file glc\-\_\-object.\-h.
+
+\hypertarget{class_g_l_c___object_a33dc5c2f59f90204cf611a202501f26b}{\index{G\-L\-C\-\_\-\-Object@{G\-L\-C\-\_\-\-Object}!m\-\_\-\-Name@{m\-\_\-\-Name}}
+\index{m\-\_\-\-Name@{m\-\_\-\-Name}!GLC_Object@{G\-L\-C\-\_\-\-Object}}
+\subsubsection[{m\-\_\-\-Name}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Q\-String} G\-L\-C\-\_\-\-Object\-::m\-\_\-\-Name\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_g_l_c___object_a33dc5c2f59f90204cf611a202501f26b}
+
+
+Name of an \hyperlink{class_g_l_c___object}{G\-L\-C\-\_\-\-Object}. 
+
+
+
+Definition at line 116 of file glc\-\_\-object.\-h.
+
+\hypertarget{class_g_l_c___object_a6e7849a0927cfba751cebcb3f6c469a8}{\index{G\-L\-C\-\_\-\-Object@{G\-L\-C\-\_\-\-Object}!m\-\_\-\-Uid@{m\-\_\-\-Uid}}
+\index{m\-\_\-\-Uid@{m\-\_\-\-Uid}!GLC_Object@{G\-L\-C\-\_\-\-Object}}
+\subsubsection[{m\-\_\-\-Uid}]{\setlength{\rightskip}{0pt plus 5cm}{\bf G\-L\-C\-\_\-uint} G\-L\-C\-\_\-\-Object\-::m\-\_\-\-Uid\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_g_l_c___object_a6e7849a0927cfba751cebcb3f6c469a8}
+
+
+The Unique I\-D of an \hyperlink{class_g_l_c___object}{G\-L\-C\-\_\-\-Object}. 
+
+Generated on \hyperlink{class_g_l_c___object}{G\-L\-C\-\_\-\-Object} creation 
+
+Definition at line 113 of file glc\-\_\-object.\-h.
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/glc\-\_\-lib/\hyperlink{glc__object_8h}{glc\-\_\-object.\-h}\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/glc\-\_\-lib/\hyperlink{glc__object_8cpp}{glc\-\_\-object.\-cpp}\end{DoxyCompactItemize}

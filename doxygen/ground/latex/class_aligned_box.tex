@@ -1,0 +1,466 @@
+\hypertarget{class_aligned_box}{\section{Aligned\-Box$<$ \-\_\-\-Scalar, \-\_\-\-Ambient\-Dim $>$ Class Template Reference}
+\label{class_aligned_box}\index{Aligned\-Box$<$ \-\_\-\-Scalar, \-\_\-\-Ambient\-Dim $>$@{Aligned\-Box$<$ \-\_\-\-Scalar, \-\_\-\-Ambient\-Dim $>$}}
+}
+
+
+An axis aligned box.  
+
+
+
+
+{\ttfamily \#include $<$Aligned\-Box.\-h$>$}
+
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+typedef \-\_\-\-Scalar \hyperlink{class_aligned_box_a9657f66d123142ede4a4c9c12768b187}{Scalar}
+\item 
+typedef \hyperlink{struct_num_traits}{Num\-Traits}$<$ \hyperlink{class_aligned_box_a9657f66d123142ede4a4c9c12768b187}{Scalar} $>$\-::Real \hyperlink{class_aligned_box_ab5698d35c955ad9f8e8bd5a809338439}{Real\-Scalar}
+\item 
+typedef \hyperlink{class_matrix}{Matrix}$<$ \hyperlink{class_aligned_box_a9657f66d123142ede4a4c9c12768b187}{Scalar}, \\*
+Ambient\-Dim\-At\-Compile\-Time, 1 $>$ \hyperlink{class_aligned_box_a0c3d2a6c755e0ad65a6e45371a4079ef}{Vector\-Type}
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_aligned_box_a6a6fc056ce62ba4c96265f609f2e968c}{E\-I\-G\-E\-N\-\_\-\-M\-A\-K\-E\-\_\-\-A\-L\-I\-G\-N\-E\-D\-\_\-\-O\-P\-E\-R\-A\-T\-O\-R\-\_\-\-N\-E\-W\-\_\-\-I\-F\-\_\-\-V\-E\-C\-T\-O\-R\-I\-Z\-A\-B\-L\-E\-\_\-\-F\-I\-X\-E\-D\-\_\-\-S\-I\-Z\-E} (\-\_\-\-Scalar, \-\_\-\-Ambient\-Dim==\hyperlink{_constants_8h_adc9da5be31bdce40c25a92c27999c0e3}{Dynamic}?Dynamic\-:\-\_\-\-Ambient\-Dim+1) enum
+\item 
+\hyperlink{class_aligned_box_ae2ca2681d661836f655dd14564ba2dc9}{Aligned\-Box} ()
+\item 
+\hyperlink{class_aligned_box_a9ea1fac6984062314598eaa06477b7d5}{Aligned\-Box} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \-\_\-dim)
+\item 
+\hyperlink{class_aligned_box_a14a114a9017a4297a9098fd2e04b240c}{Aligned\-Box} (const \hyperlink{class_aligned_box_a0c3d2a6c755e0ad65a6e45371a4079ef}{Vector\-Type} \&\-\_\-min, const \hyperlink{class_aligned_box_a0c3d2a6c755e0ad65a6e45371a4079ef}{Vector\-Type} \&\-\_\-max)
+\item 
+\hyperlink{class_aligned_box_afc0b407e6686fc80025ae6084bd4d49a}{Aligned\-Box} (const \hyperlink{class_aligned_box_a0c3d2a6c755e0ad65a6e45371a4079ef}{Vector\-Type} \&\hyperlink{glext_8h_aa5367c14d90f462230c2611b81b41d23}{p})
+\item 
+\hyperlink{class_aligned_box_a1d4291e86bb29ef8c12d1880319bbe27}{$\sim$\-Aligned\-Box} ()
+\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_aligned_box_a6c7e7fdb499bdc19c564fd5fca32f8c1}{dim} () const 
+\item 
+bool \hyperlink{class_aligned_box_ad6139a86188b9a1a762f7858f1079d1d}{is\-Null} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_aligned_box_aae255dc5c90e8e0680e4e4e8193fedbf}{set\-Null} ()
+\item 
+const \hyperlink{class_aligned_box_a0c3d2a6c755e0ad65a6e45371a4079ef}{Vector\-Type} \& \hyperlink{class_aligned_box_a33ef70ea20ee681e83b7fd82016eecdc}{min} () const 
+\item 
+\hyperlink{class_aligned_box_a0c3d2a6c755e0ad65a6e45371a4079ef}{Vector\-Type} \& \hyperlink{class_aligned_box_a6a94ac6fd18fd7ff96e7f4438096bf27}{min} ()
+\item 
+const \hyperlink{class_aligned_box_a0c3d2a6c755e0ad65a6e45371a4079ef}{Vector\-Type} \& \hyperlink{class_aligned_box_abcbc173555fdbffbefe0009f97239fc9}{max} () const 
+\item 
+\hyperlink{class_aligned_box_a0c3d2a6c755e0ad65a6e45371a4079ef}{Vector\-Type} \& \hyperlink{class_aligned_box_a88949821507c10408e2bb92c7553555d}{max} ()
+\item 
+bool \hyperlink{class_aligned_box_a9fe04fe311174e0aae33a92900f357c7}{contains} (const \hyperlink{class_aligned_box_a0c3d2a6c755e0ad65a6e45371a4079ef}{Vector\-Type} \&\hyperlink{glext_8h_aa5367c14d90f462230c2611b81b41d23}{p}) const 
+\item 
+bool \hyperlink{class_aligned_box_ac2eb8ec1588ef691fc15159cdf6e2af8}{contains} (const \hyperlink{class_aligned_box}{Aligned\-Box} \&\hyperlink{glext_8h_a6eba317e3cf44d6d26c04a5a8f197dcb}{b}) const 
+\item 
+\hyperlink{class_aligned_box}{Aligned\-Box} \& \hyperlink{class_aligned_box_a6357c2a5afc2237fd07dd0bf8ef7939c}{extend} (const \hyperlink{class_aligned_box_a0c3d2a6c755e0ad65a6e45371a4079ef}{Vector\-Type} \&\hyperlink{glext_8h_aa5367c14d90f462230c2611b81b41d23}{p})
+\item 
+\hyperlink{class_aligned_box}{Aligned\-Box} \& \hyperlink{class_aligned_box_a814cbe6746ae280295b7265feb3d3c5f}{extend} (const \hyperlink{class_aligned_box}{Aligned\-Box} \&\hyperlink{glext_8h_a6eba317e3cf44d6d26c04a5a8f197dcb}{b})
+\item 
+\hyperlink{class_aligned_box}{Aligned\-Box} \& \hyperlink{class_aligned_box_a37cff54a3234079367c9545d2c9bf83a}{clamp} (const \hyperlink{class_aligned_box}{Aligned\-Box} \&\hyperlink{glext_8h_a6eba317e3cf44d6d26c04a5a8f197dcb}{b})
+\item 
+\hyperlink{class_aligned_box}{Aligned\-Box} \& \hyperlink{class_aligned_box_add3a910023672eff33b4def4098ebf94}{translate} (const \hyperlink{class_aligned_box_a0c3d2a6c755e0ad65a6e45371a4079ef}{Vector\-Type} \&\hyperlink{glext_8h_a00140d6f5c548b26daf170bf16e86a6d}{t})
+\item 
+\hyperlink{class_aligned_box_a9657f66d123142ede4a4c9c12768b187}{Scalar} \hyperlink{class_aligned_box_adec105272da7f1b10b28349f100adf9c}{squared\-Exterior\-Distance} (const \hyperlink{class_aligned_box_a0c3d2a6c755e0ad65a6e45371a4079ef}{Vector\-Type} \&\hyperlink{glext_8h_aa5367c14d90f462230c2611b81b41d23}{p}) const 
+\item 
+\hyperlink{class_aligned_box_a9657f66d123142ede4a4c9c12768b187}{Scalar} \hyperlink{class_aligned_box_a5eb5ad5bcd84a1947f374bf8a92849d1}{exterior\-Distance} (const \hyperlink{class_aligned_box_a0c3d2a6c755e0ad65a6e45371a4079ef}{Vector\-Type} \&\hyperlink{glext_8h_aa5367c14d90f462230c2611b81b41d23}{p}) const 
+\item 
+{\footnotesize template$<$typename New\-Scalar\-Type $>$ }\\\hyperlink{structei__cast__return__type}{ei\-\_\-cast\-\_\-return\-\_\-type}\\*
+$<$ \hyperlink{class_aligned_box}{Aligned\-Box}, \hyperlink{class_aligned_box}{Aligned\-Box}\\*
+$<$ New\-Scalar\-Type, \\*
+Ambient\-Dim\-At\-Compile\-Time $>$\\*
+ $>$\-::\hyperlink{glext_8h_a7d05960f4f1c1b11f3177dc963a45d86}{type} \hyperlink{class_aligned_box_a7a7219fdfe2475d4de3c74d6f2603610}{cast} () const 
+\item 
+{\footnotesize template$<$typename Other\-Scalar\-Type $>$ }\\\hyperlink{class_aligned_box_a8a0ae2d9bd64ff8e1ac357aad83fbaac}{Aligned\-Box} (const \hyperlink{class_aligned_box}{Aligned\-Box}$<$ Other\-Scalar\-Type, Ambient\-Dim\-At\-Compile\-Time $>$ \&other)
+\item 
+bool \hyperlink{class_aligned_box_aa34177089c40db3dbf62c7564a336c6e}{is\-Approx} (const \hyperlink{class_aligned_box}{Aligned\-Box} \&other, typename \hyperlink{struct_num_traits}{Num\-Traits}$<$ \hyperlink{class_aligned_box_a9657f66d123142ede4a4c9c12768b187}{Scalar} $>$\-::Real prec=\hyperlink{_math_functions_8h_a3dc1c65cf9dc9b5a7ee66472d0ae83e1}{precision}$<$ \hyperlink{class_aligned_box_a9657f66d123142ede4a4c9c12768b187}{Scalar} $>$()) const 
+\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_aligned_box_a0c3d2a6c755e0ad65a6e45371a4079ef}{Vector\-Type} \hyperlink{class_aligned_box_ae25b586e6518366ce238a5a58d026770}{m\-\_\-min}
+\item 
+\hyperlink{class_aligned_box_a0c3d2a6c755e0ad65a6e45371a4079ef}{Vector\-Type} \hyperlink{class_aligned_box_a10b7690d3a414b036b6db22577a24b57}{m\-\_\-max}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$typename \-\_\-\-Scalar, int \-\_\-\-Ambient\-Dim$>$class Aligned\-Box$<$ \-\_\-\-Scalar, \-\_\-\-Ambient\-Dim $>$}
+
+An axis aligned box. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \-\_\-\-Scalar} & the type of the scalar coefficients \\
+\hline
+{\em \-\_\-\-Ambient\-Dim} & the dimension of the ambient space, can be a compile time value or Dynamic.\\
+\hline
+\end{DoxyParams}
+This class represents an axis aligned box as a pair of the minimal and maximal corners. 
+
+Definition at line 41 of file Aligned\-Box.\-h.
+
+
+
+\subsection{Member Typedef Documentation}
+\hypertarget{class_aligned_box_ab5698d35c955ad9f8e8bd5a809338439}{\index{Aligned\-Box@{Aligned\-Box}!Real\-Scalar@{Real\-Scalar}}
+\index{Real\-Scalar@{Real\-Scalar}!AlignedBox@{Aligned\-Box}}
+\subsubsection[{Real\-Scalar}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar, int \-\_\-\-Ambient\-Dim$>$ typedef {\bf Num\-Traits}$<${\bf Scalar}$>$\-::Real {\bf Aligned\-Box}$<$ \-\_\-\-Scalar, \-\_\-\-Ambient\-Dim $>$\-::{\bf Real\-Scalar}}}\label{class_aligned_box_ab5698d35c955ad9f8e8bd5a809338439}
+
+
+Definition at line 47 of file Aligned\-Box.\-h.
+
+\hypertarget{class_aligned_box_a9657f66d123142ede4a4c9c12768b187}{\index{Aligned\-Box@{Aligned\-Box}!Scalar@{Scalar}}
+\index{Scalar@{Scalar}!AlignedBox@{Aligned\-Box}}
+\subsubsection[{Scalar}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar, int \-\_\-\-Ambient\-Dim$>$ typedef \-\_\-\-Scalar {\bf Aligned\-Box}$<$ \-\_\-\-Scalar, \-\_\-\-Ambient\-Dim $>$\-::{\bf Scalar}}}\label{class_aligned_box_a9657f66d123142ede4a4c9c12768b187}
+
+
+Definition at line 45 of file Aligned\-Box.\-h.
+
+\hypertarget{class_aligned_box_a0c3d2a6c755e0ad65a6e45371a4079ef}{\index{Aligned\-Box@{Aligned\-Box}!Vector\-Type@{Vector\-Type}}
+\index{Vector\-Type@{Vector\-Type}!AlignedBox@{Aligned\-Box}}
+\subsubsection[{Vector\-Type}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar, int \-\_\-\-Ambient\-Dim$>$ typedef {\bf Matrix}$<${\bf Scalar},Ambient\-Dim\-At\-Compile\-Time,1$>$ {\bf Aligned\-Box}$<$ \-\_\-\-Scalar, \-\_\-\-Ambient\-Dim $>$\-::{\bf Vector\-Type}}}\label{class_aligned_box_a0c3d2a6c755e0ad65a6e45371a4079ef}
+
+
+Definition at line 48 of file Aligned\-Box.\-h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_aligned_box_ae2ca2681d661836f655dd14564ba2dc9}{\index{Aligned\-Box@{Aligned\-Box}!Aligned\-Box@{Aligned\-Box}}
+\index{Aligned\-Box@{Aligned\-Box}!AlignedBox@{Aligned\-Box}}
+\subsubsection[{Aligned\-Box}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar, int \-\_\-\-Ambient\-Dim$>$ {\bf Aligned\-Box}$<$ \-\_\-\-Scalar, \-\_\-\-Ambient\-Dim $>$\-::{\bf Aligned\-Box} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [explicit]}}}\label{class_aligned_box_ae2ca2681d661836f655dd14564ba2dc9}
+Default constructor initializing a null box. 
+
+Definition at line 51 of file Aligned\-Box.\-h.
+
+\hypertarget{class_aligned_box_a9ea1fac6984062314598eaa06477b7d5}{\index{Aligned\-Box@{Aligned\-Box}!Aligned\-Box@{Aligned\-Box}}
+\index{Aligned\-Box@{Aligned\-Box}!AlignedBox@{Aligned\-Box}}
+\subsubsection[{Aligned\-Box}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar, int \-\_\-\-Ambient\-Dim$>$ {\bf Aligned\-Box}$<$ \-\_\-\-Scalar, \-\_\-\-Ambient\-Dim $>$\-::{\bf Aligned\-Box} (
+\begin{DoxyParamCaption}
+\item[{{\bf int}}]{\-\_\-dim}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [explicit]}}}\label{class_aligned_box_a9ea1fac6984062314598eaa06477b7d5}
+Constructs a null box with {\itshape \-\_\-dim} the dimension of the ambient space. 
+
+Definition at line 55 of file Aligned\-Box.\-h.
+
+\hypertarget{class_aligned_box_a14a114a9017a4297a9098fd2e04b240c}{\index{Aligned\-Box@{Aligned\-Box}!Aligned\-Box@{Aligned\-Box}}
+\index{Aligned\-Box@{Aligned\-Box}!AlignedBox@{Aligned\-Box}}
+\subsubsection[{Aligned\-Box}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar, int \-\_\-\-Ambient\-Dim$>$ {\bf Aligned\-Box}$<$ \-\_\-\-Scalar, \-\_\-\-Ambient\-Dim $>$\-::{\bf Aligned\-Box} (
+\begin{DoxyParamCaption}
+\item[{const {\bf Vector\-Type} \&}]{\-\_\-min, }
+\item[{const {\bf Vector\-Type} \&}]{\-\_\-max}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_aligned_box_a14a114a9017a4297a9098fd2e04b240c}
+Constructs a box with extremities {\itshape \-\_\-min} and {\itshape \-\_\-max}. 
+
+Definition at line 59 of file Aligned\-Box.\-h.
+
+\hypertarget{class_aligned_box_afc0b407e6686fc80025ae6084bd4d49a}{\index{Aligned\-Box@{Aligned\-Box}!Aligned\-Box@{Aligned\-Box}}
+\index{Aligned\-Box@{Aligned\-Box}!AlignedBox@{Aligned\-Box}}
+\subsubsection[{Aligned\-Box}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar, int \-\_\-\-Ambient\-Dim$>$ {\bf Aligned\-Box}$<$ \-\_\-\-Scalar, \-\_\-\-Ambient\-Dim $>$\-::{\bf Aligned\-Box} (
+\begin{DoxyParamCaption}
+\item[{const {\bf Vector\-Type} \&}]{p}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [explicit]}}}\label{class_aligned_box_afc0b407e6686fc80025ae6084bd4d49a}
+Constructs a box containing a single point {\itshape p}. 
+
+Definition at line 62 of file Aligned\-Box.\-h.
+
+\hypertarget{class_aligned_box_a1d4291e86bb29ef8c12d1880319bbe27}{\index{Aligned\-Box@{Aligned\-Box}!$\sim$\-Aligned\-Box@{$\sim$\-Aligned\-Box}}
+\index{$\sim$\-Aligned\-Box@{$\sim$\-Aligned\-Box}!AlignedBox@{Aligned\-Box}}
+\subsubsection[{$\sim$\-Aligned\-Box}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar, int \-\_\-\-Ambient\-Dim$>$ {\bf Aligned\-Box}$<$ \-\_\-\-Scalar, \-\_\-\-Ambient\-Dim $>$\-::$\sim${\bf Aligned\-Box} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_aligned_box_a1d4291e86bb29ef8c12d1880319bbe27}
+
+
+Definition at line 64 of file Aligned\-Box.\-h.
+
+\hypertarget{class_aligned_box_a8a0ae2d9bd64ff8e1ac357aad83fbaac}{\index{Aligned\-Box@{Aligned\-Box}!Aligned\-Box@{Aligned\-Box}}
+\index{Aligned\-Box@{Aligned\-Box}!AlignedBox@{Aligned\-Box}}
+\subsubsection[{Aligned\-Box}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar, int \-\_\-\-Ambient\-Dim$>$ template$<$typename Other\-Scalar\-Type $>$ {\bf Aligned\-Box}$<$ \-\_\-\-Scalar, \-\_\-\-Ambient\-Dim $>$\-::{\bf Aligned\-Box} (
+\begin{DoxyParamCaption}
+\item[{const {\bf Aligned\-Box}$<$ Other\-Scalar\-Type, Ambient\-Dim\-At\-Compile\-Time $>$ \&}]{other}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [explicit]}}}\label{class_aligned_box_a8a0ae2d9bd64ff8e1ac357aad83fbaac}
+Copy constructor with scalar type conversion 
+
+Definition at line 140 of file Aligned\-Box.\-h.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_aligned_box_a7a7219fdfe2475d4de3c74d6f2603610}{\index{Aligned\-Box@{Aligned\-Box}!cast@{cast}}
+\index{cast@{cast}!AlignedBox@{Aligned\-Box}}
+\subsubsection[{cast}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar, int \-\_\-\-Ambient\-Dim$>$ template$<$typename New\-Scalar\-Type $>$ {\bf ei\-\_\-cast\-\_\-return\-\_\-type}$<${\bf Aligned\-Box}, {\bf Aligned\-Box}$<$New\-Scalar\-Type,Ambient\-Dim\-At\-Compile\-Time$>$ $>$\-::{\bf type} {\bf Aligned\-Box}$<$ \-\_\-\-Scalar, \-\_\-\-Ambient\-Dim $>$\-::cast (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_aligned_box_a7a7219fdfe2475d4de3c74d6f2603610}
+\begin{DoxyReturn}{Returns}
+{\ttfamily $\ast$this} with scalar type casted to {\itshape New\-Scalar\-Type} 
+\end{DoxyReturn}
+Note that if {\itshape New\-Scalar\-Type} is equal to the current scalar type of {\ttfamily $\ast$this} then this function smartly returns a const reference to {\ttfamily $\ast$this}. 
+
+Definition at line 132 of file Aligned\-Box.\-h.
+
+\hypertarget{class_aligned_box_a37cff54a3234079367c9545d2c9bf83a}{\index{Aligned\-Box@{Aligned\-Box}!clamp@{clamp}}
+\index{clamp@{clamp}!AlignedBox@{Aligned\-Box}}
+\subsubsection[{clamp}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar, int \-\_\-\-Ambient\-Dim$>$ {\bf Aligned\-Box}\& {\bf Aligned\-Box}$<$ \-\_\-\-Scalar, \-\_\-\-Ambient\-Dim $>$\-::{\bf clamp} (
+\begin{DoxyParamCaption}
+\item[{const {\bf Aligned\-Box}$<$ \-\_\-\-Scalar, \-\_\-\-Ambient\-Dim $>$ \&}]{b}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_aligned_box_a37cff54a3234079367c9545d2c9bf83a}
+Clamps {\ttfamily $\ast$this} by the box {\itshape b} and returns a reference to {\ttfamily $\ast$this}. 
+
+Definition at line 105 of file Aligned\-Box.\-h.
+
+\hypertarget{class_aligned_box_a9fe04fe311174e0aae33a92900f357c7}{\index{Aligned\-Box@{Aligned\-Box}!contains@{contains}}
+\index{contains@{contains}!AlignedBox@{Aligned\-Box}}
+\subsubsection[{contains}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar, int \-\_\-\-Ambient\-Dim$>$ bool {\bf Aligned\-Box}$<$ \-\_\-\-Scalar, \-\_\-\-Ambient\-Dim $>$\-::contains (
+\begin{DoxyParamCaption}
+\item[{const {\bf Vector\-Type} \&}]{p}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_aligned_box_a9fe04fe311174e0aae33a92900f357c7}
+\begin{DoxyReturn}{Returns}
+true if the point {\itshape p} is inside the box {\ttfamily $\ast$this}. 
+\end{DoxyReturn}
+
+
+Definition at line 89 of file Aligned\-Box.\-h.
+
+\hypertarget{class_aligned_box_ac2eb8ec1588ef691fc15159cdf6e2af8}{\index{Aligned\-Box@{Aligned\-Box}!contains@{contains}}
+\index{contains@{contains}!AlignedBox@{Aligned\-Box}}
+\subsubsection[{contains}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar, int \-\_\-\-Ambient\-Dim$>$ bool {\bf Aligned\-Box}$<$ \-\_\-\-Scalar, \-\_\-\-Ambient\-Dim $>$\-::contains (
+\begin{DoxyParamCaption}
+\item[{const {\bf Aligned\-Box}$<$ \-\_\-\-Scalar, \-\_\-\-Ambient\-Dim $>$ \&}]{b}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_aligned_box_ac2eb8ec1588ef691fc15159cdf6e2af8}
+\begin{DoxyReturn}{Returns}
+true if the box {\itshape b} is entirely inside the box {\ttfamily $\ast$this}. 
+\end{DoxyReturn}
+
+
+Definition at line 93 of file Aligned\-Box.\-h.
+
+\hypertarget{class_aligned_box_a6c7e7fdb499bdc19c564fd5fca32f8c1}{\index{Aligned\-Box@{Aligned\-Box}!dim@{dim}}
+\index{dim@{dim}!AlignedBox@{Aligned\-Box}}
+\subsubsection[{dim}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar, int \-\_\-\-Ambient\-Dim$>$ {\bf int} {\bf Aligned\-Box}$<$ \-\_\-\-Scalar, \-\_\-\-Ambient\-Dim $>$\-::dim (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_aligned_box_a6c7e7fdb499bdc19c564fd5fca32f8c1}
+\begin{DoxyReturn}{Returns}
+the dimension in which the box holds 
+\end{DoxyReturn}
+
+
+Definition at line 67 of file Aligned\-Box.\-h.
+
+\hypertarget{class_aligned_box_a6a6fc056ce62ba4c96265f609f2e968c}{\index{Aligned\-Box@{Aligned\-Box}!E\-I\-G\-E\-N\-\_\-\-M\-A\-K\-E\-\_\-\-A\-L\-I\-G\-N\-E\-D\-\_\-\-O\-P\-E\-R\-A\-T\-O\-R\-\_\-\-N\-E\-W\-\_\-\-I\-F\-\_\-\-V\-E\-C\-T\-O\-R\-I\-Z\-A\-B\-L\-E\-\_\-\-F\-I\-X\-E\-D\-\_\-\-S\-I\-Z\-E@{E\-I\-G\-E\-N\-\_\-\-M\-A\-K\-E\-\_\-\-A\-L\-I\-G\-N\-E\-D\-\_\-\-O\-P\-E\-R\-A\-T\-O\-R\-\_\-\-N\-E\-W\-\_\-\-I\-F\-\_\-\-V\-E\-C\-T\-O\-R\-I\-Z\-A\-B\-L\-E\-\_\-\-F\-I\-X\-E\-D\-\_\-\-S\-I\-Z\-E}}
+\index{E\-I\-G\-E\-N\-\_\-\-M\-A\-K\-E\-\_\-\-A\-L\-I\-G\-N\-E\-D\-\_\-\-O\-P\-E\-R\-A\-T\-O\-R\-\_\-\-N\-E\-W\-\_\-\-I\-F\-\_\-\-V\-E\-C\-T\-O\-R\-I\-Z\-A\-B\-L\-E\-\_\-\-F\-I\-X\-E\-D\-\_\-\-S\-I\-Z\-E@{E\-I\-G\-E\-N\-\_\-\-M\-A\-K\-E\-\_\-\-A\-L\-I\-G\-N\-E\-D\-\_\-\-O\-P\-E\-R\-A\-T\-O\-R\-\_\-\-N\-E\-W\-\_\-\-I\-F\-\_\-\-V\-E\-C\-T\-O\-R\-I\-Z\-A\-B\-L\-E\-\_\-\-F\-I\-X\-E\-D\-\_\-\-S\-I\-Z\-E}!AlignedBox@{Aligned\-Box}}
+\subsubsection[{E\-I\-G\-E\-N\-\_\-\-M\-A\-K\-E\-\_\-\-A\-L\-I\-G\-N\-E\-D\-\_\-\-O\-P\-E\-R\-A\-T\-O\-R\-\_\-\-N\-E\-W\-\_\-\-I\-F\-\_\-\-V\-E\-C\-T\-O\-R\-I\-Z\-A\-B\-L\-E\-\_\-\-F\-I\-X\-E\-D\-\_\-\-S\-I\-Z\-E}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar, int \-\_\-\-Ambient\-Dim$>$ {\bf Aligned\-Box}$<$ \-\_\-\-Scalar, \-\_\-\-Ambient\-Dim $>$\-::E\-I\-G\-E\-N\-\_\-\-M\-A\-K\-E\-\_\-\-A\-L\-I\-G\-N\-E\-D\-\_\-\-O\-P\-E\-R\-A\-T\-O\-R\-\_\-\-N\-E\-W\-\_\-\-I\-F\-\_\-\-V\-E\-C\-T\-O\-R\-I\-Z\-A\-B\-L\-E\-\_\-\-F\-I\-X\-E\-D\-\_\-\-S\-I\-Z\-E (
+\begin{DoxyParamCaption}
+\item[{\-\_\-\-Scalar}]{, }
+\item[{\-\_\-\-Ambient\-Dim}]{ = {\ttfamily ={\bf Dynamic}~?~{\bf Dynamic}~\-:~\-\_\-AmbientDim+1}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_aligned_box_a6a6fc056ce62ba4c96265f609f2e968c}
+
+
+Definition at line 44 of file Aligned\-Box.\-h.
+
+\hypertarget{class_aligned_box_a6357c2a5afc2237fd07dd0bf8ef7939c}{\index{Aligned\-Box@{Aligned\-Box}!extend@{extend}}
+\index{extend@{extend}!AlignedBox@{Aligned\-Box}}
+\subsubsection[{extend}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar, int \-\_\-\-Ambient\-Dim$>$ {\bf Aligned\-Box}\& {\bf Aligned\-Box}$<$ \-\_\-\-Scalar, \-\_\-\-Ambient\-Dim $>$\-::extend (
+\begin{DoxyParamCaption}
+\item[{const {\bf Vector\-Type} \&}]{p}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_aligned_box_a6357c2a5afc2237fd07dd0bf8ef7939c}
+Extends {\ttfamily $\ast$this} such that it contains the point {\itshape p} and returns a reference to {\ttfamily $\ast$this}. 
+
+Definition at line 97 of file Aligned\-Box.\-h.
+
+\hypertarget{class_aligned_box_a814cbe6746ae280295b7265feb3d3c5f}{\index{Aligned\-Box@{Aligned\-Box}!extend@{extend}}
+\index{extend@{extend}!AlignedBox@{Aligned\-Box}}
+\subsubsection[{extend}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar, int \-\_\-\-Ambient\-Dim$>$ {\bf Aligned\-Box}\& {\bf Aligned\-Box}$<$ \-\_\-\-Scalar, \-\_\-\-Ambient\-Dim $>$\-::extend (
+\begin{DoxyParamCaption}
+\item[{const {\bf Aligned\-Box}$<$ \-\_\-\-Scalar, \-\_\-\-Ambient\-Dim $>$ \&}]{b}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_aligned_box_a814cbe6746ae280295b7265feb3d3c5f}
+Extends {\ttfamily $\ast$this} such that it contains the box {\itshape b} and returns a reference to {\ttfamily $\ast$this}. 
+
+Definition at line 101 of file Aligned\-Box.\-h.
+
+\hypertarget{class_aligned_box_a5eb5ad5bcd84a1947f374bf8a92849d1}{\index{Aligned\-Box@{Aligned\-Box}!exterior\-Distance@{exterior\-Distance}}
+\index{exterior\-Distance@{exterior\-Distance}!AlignedBox@{Aligned\-Box}}
+\subsubsection[{exterior\-Distance}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar, int \-\_\-\-Ambient\-Dim$>$ {\bf Scalar} {\bf Aligned\-Box}$<$ \-\_\-\-Scalar, \-\_\-\-Ambient\-Dim $>$\-::exterior\-Distance (
+\begin{DoxyParamCaption}
+\item[{const {\bf Vector\-Type} \&}]{p}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_aligned_box_a5eb5ad5bcd84a1947f374bf8a92849d1}
+\begin{DoxyReturn}{Returns}
+the distance between the point {\itshape p} and the box {\ttfamily $\ast$this}, and zero if {\itshape p} is inside the box. 
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_aligned_box_adec105272da7f1b10b28349f100adf9c}{squared\-Exterior\-Distance()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 122 of file Aligned\-Box.\-h.
+
+\hypertarget{class_aligned_box_aa34177089c40db3dbf62c7564a336c6e}{\index{Aligned\-Box@{Aligned\-Box}!is\-Approx@{is\-Approx}}
+\index{is\-Approx@{is\-Approx}!AlignedBox@{Aligned\-Box}}
+\subsubsection[{is\-Approx}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar, int \-\_\-\-Ambient\-Dim$>$ bool {\bf Aligned\-Box}$<$ \-\_\-\-Scalar, \-\_\-\-Ambient\-Dim $>$\-::is\-Approx (
+\begin{DoxyParamCaption}
+\item[{const {\bf Aligned\-Box}$<$ \-\_\-\-Scalar, \-\_\-\-Ambient\-Dim $>$ \&}]{other, }
+\item[{typename {\bf Num\-Traits}$<$ {\bf Scalar} $>$\-::Real}]{prec = {\ttfamily {\bf precision}$<${\bf Scalar}$>$()}}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_aligned_box_aa34177089c40db3dbf62c7564a336c6e}
+\begin{DoxyReturn}{Returns}
+{\ttfamily true} if {\ttfamily $\ast$this} is approximately equal to {\itshape other}, within the precision determined by {\itshape prec}.
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_matrix_base_a85eb8c7adf519acfa5b74545a6870945}{Matrix\-Base\-::is\-Approx()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 150 of file Aligned\-Box.\-h.
+
+\hypertarget{class_aligned_box_ad6139a86188b9a1a762f7858f1079d1d}{\index{Aligned\-Box@{Aligned\-Box}!is\-Null@{is\-Null}}
+\index{is\-Null@{is\-Null}!AlignedBox@{Aligned\-Box}}
+\subsubsection[{is\-Null}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar, int \-\_\-\-Ambient\-Dim$>$ bool {\bf Aligned\-Box}$<$ \-\_\-\-Scalar, \-\_\-\-Ambient\-Dim $>$\-::is\-Null (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_aligned_box_ad6139a86188b9a1a762f7858f1079d1d}
+\begin{DoxyReturn}{Returns}
+true if the box is null, i.\-e, empty. 
+\end{DoxyReturn}
+
+
+Definition at line 70 of file Aligned\-Box.\-h.
+
+\hypertarget{class_aligned_box_abcbc173555fdbffbefe0009f97239fc9}{\index{Aligned\-Box@{Aligned\-Box}!max@{max}}
+\index{max@{max}!AlignedBox@{Aligned\-Box}}
+\subsubsection[{max}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar, int \-\_\-\-Ambient\-Dim$>$ const {\bf Vector\-Type}\& {\bf Aligned\-Box}$<$ \-\_\-\-Scalar, \-\_\-\-Ambient\-Dim $>$\-::max (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_aligned_box_abcbc173555fdbffbefe0009f97239fc9}
+\begin{DoxyReturn}{Returns}
+the maximal corner 
+\end{DoxyReturn}
+
+
+Definition at line 84 of file Aligned\-Box.\-h.
+
+\hypertarget{class_aligned_box_a88949821507c10408e2bb92c7553555d}{\index{Aligned\-Box@{Aligned\-Box}!max@{max}}
+\index{max@{max}!AlignedBox@{Aligned\-Box}}
+\subsubsection[{max}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar, int \-\_\-\-Ambient\-Dim$>$ {\bf Vector\-Type}\& {\bf Aligned\-Box}$<$ \-\_\-\-Scalar, \-\_\-\-Ambient\-Dim $>$\-::max (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_aligned_box_a88949821507c10408e2bb92c7553555d}
+\begin{DoxyReturn}{Returns}
+a non const reference to the maximal corner 
+\end{DoxyReturn}
+
+
+Definition at line 86 of file Aligned\-Box.\-h.
+
+\hypertarget{class_aligned_box_a33ef70ea20ee681e83b7fd82016eecdc}{\index{Aligned\-Box@{Aligned\-Box}!min@{min}}
+\index{min@{min}!AlignedBox@{Aligned\-Box}}
+\subsubsection[{min}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar, int \-\_\-\-Ambient\-Dim$>$ const {\bf Vector\-Type}\& {\bf Aligned\-Box}$<$ \-\_\-\-Scalar, \-\_\-\-Ambient\-Dim $>$\-::min (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_aligned_box_a33ef70ea20ee681e83b7fd82016eecdc}
+\begin{DoxyReturn}{Returns}
+the minimal corner 
+\end{DoxyReturn}
+
+
+Definition at line 80 of file Aligned\-Box.\-h.
+
+\hypertarget{class_aligned_box_a6a94ac6fd18fd7ff96e7f4438096bf27}{\index{Aligned\-Box@{Aligned\-Box}!min@{min}}
+\index{min@{min}!AlignedBox@{Aligned\-Box}}
+\subsubsection[{min}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar, int \-\_\-\-Ambient\-Dim$>$ {\bf Vector\-Type}\& {\bf Aligned\-Box}$<$ \-\_\-\-Scalar, \-\_\-\-Ambient\-Dim $>$\-::min (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_aligned_box_a6a94ac6fd18fd7ff96e7f4438096bf27}
+\begin{DoxyReturn}{Returns}
+a non const reference to the minimal corner 
+\end{DoxyReturn}
+
+
+Definition at line 82 of file Aligned\-Box.\-h.
+
+\hypertarget{class_aligned_box_aae255dc5c90e8e0680e4e4e8193fedbf}{\index{Aligned\-Box@{Aligned\-Box}!set\-Null@{set\-Null}}
+\index{set\-Null@{set\-Null}!AlignedBox@{Aligned\-Box}}
+\subsubsection[{set\-Null}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar, int \-\_\-\-Ambient\-Dim$>$ {\bf void} {\bf Aligned\-Box}$<$ \-\_\-\-Scalar, \-\_\-\-Ambient\-Dim $>$\-::set\-Null (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_aligned_box_aae255dc5c90e8e0680e4e4e8193fedbf}
+Makes {\ttfamily $\ast$this} a null/empty box. 
+
+Definition at line 73 of file Aligned\-Box.\-h.
+
+\hypertarget{class_aligned_box_adec105272da7f1b10b28349f100adf9c}{\index{Aligned\-Box@{Aligned\-Box}!squared\-Exterior\-Distance@{squared\-Exterior\-Distance}}
+\index{squared\-Exterior\-Distance@{squared\-Exterior\-Distance}!AlignedBox@{Aligned\-Box}}
+\subsubsection[{squared\-Exterior\-Distance}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Scalar , int Ambiant\-Dim$>$ {\bf Scalar} {\bf Aligned\-Box}$<$ {\bf Scalar}, Ambiant\-Dim $>$\-::squared\-Exterior\-Distance (
+\begin{DoxyParamCaption}
+\item[{const {\bf Vector\-Type} \&}]{p}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_aligned_box_adec105272da7f1b10b28349f100adf9c}
+\begin{DoxyReturn}{Returns}
+the squared distance between the point {\itshape p} and the box {\ttfamily $\ast$this}, and zero if {\itshape p} is inside the box. 
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_aligned_box_a5eb5ad5bcd84a1947f374bf8a92849d1}{exterior\-Distance()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 159 of file Aligned\-Box.\-h.
+
+\hypertarget{class_aligned_box_add3a910023672eff33b4def4098ebf94}{\index{Aligned\-Box@{Aligned\-Box}!translate@{translate}}
+\index{translate@{translate}!AlignedBox@{Aligned\-Box}}
+\subsubsection[{translate}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar, int \-\_\-\-Ambient\-Dim$>$ {\bf Aligned\-Box}\& {\bf Aligned\-Box}$<$ \-\_\-\-Scalar, \-\_\-\-Ambient\-Dim $>$\-::translate (
+\begin{DoxyParamCaption}
+\item[{const {\bf Vector\-Type} \&}]{t}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_aligned_box_add3a910023672eff33b4def4098ebf94}
+Translate {\ttfamily $\ast$this} by the vector {\itshape t} and returns a reference to {\ttfamily $\ast$this}. 
+
+Definition at line 109 of file Aligned\-Box.\-h.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{class_aligned_box_a10b7690d3a414b036b6db22577a24b57}{\index{Aligned\-Box@{Aligned\-Box}!m\-\_\-max@{m\-\_\-max}}
+\index{m\-\_\-max@{m\-\_\-max}!AlignedBox@{Aligned\-Box}}
+\subsubsection[{m\-\_\-max}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar, int \-\_\-\-Ambient\-Dim$>$ {\bf Vector\-Type} {\bf Aligned\-Box}$<$ \-\_\-\-Scalar, \-\_\-\-Ambient\-Dim $>$\-::m\-\_\-max\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_aligned_box_a10b7690d3a414b036b6db22577a24b57}
+
+
+Definition at line 155 of file Aligned\-Box.\-h.
+
+\hypertarget{class_aligned_box_ae25b586e6518366ce238a5a58d026770}{\index{Aligned\-Box@{Aligned\-Box}!m\-\_\-min@{m\-\_\-min}}
+\index{m\-\_\-min@{m\-\_\-min}!AlignedBox@{Aligned\-Box}}
+\subsubsection[{m\-\_\-min}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar, int \-\_\-\-Ambient\-Dim$>$ {\bf Vector\-Type} {\bf Aligned\-Box}$<$ \-\_\-\-Scalar, \-\_\-\-Ambient\-Dim $>$\-::m\-\_\-min\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_aligned_box_ae25b586e6518366ce238a5a58d026770}
+
+
+Definition at line 155 of file Aligned\-Box.\-h.
+
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/eigen/\-Eigen/src/\-Geometry/\hyperlink{_aligned_box_8h}{Aligned\-Box.\-h}\end{DoxyCompactItemize}

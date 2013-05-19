@@ -1,0 +1,260 @@
+\hypertarget{class_shared_tools_1_1_qt_single_application}{\section{Shared\-Tools\-:\-:Qt\-Single\-Application Class Reference}
+\label{class_shared_tools_1_1_qt_single_application}\index{Shared\-Tools\-::\-Qt\-Single\-Application@{Shared\-Tools\-::\-Qt\-Single\-Application}}
+}
+
+
+{\ttfamily \#include $<$qtsingleapplication.\-h$>$}
+
+Inheritance diagram for Shared\-Tools\-:\-:Qt\-Single\-Application\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_shared_tools_1_1_qt_single_application}
+\end{center}
+\end{figure}
+\subsection*{Public Slots}
+\begin{DoxyCompactItemize}
+\item 
+bool \hyperlink{class_shared_tools_1_1_qt_single_application_a02b98de033a9eede513891c99d0e3fd0}{send\-Message} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{Q\-String} \&message, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} timeout=5000)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_shared_tools_1_1_qt_single_application_a0e005a0421f59c3751b768f3212c2305}{activate\-Window} ()
+\end{DoxyCompactItemize}
+\subsection*{Signals}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_shared_tools_1_1_qt_single_application_abed6d7b36742052ddd66624fffa8b513}{message\-Received} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{Q\-String} \&message)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_shared_tools_1_1_qt_single_application_abbb3ce3a832f169b98850c5b65d7ec36}{file\-Open\-Request} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{Q\-String} \&\hyperlink{uavobjecttemplate_8m_a97c04efa65bcf0928abf9260bc5cbf46}{file})
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_shared_tools_1_1_qt_single_application_a30a41b1b5c6e9c3fdbe7befe38b31a72}{Qt\-Single\-Application} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \&argc, char $\ast$$\ast$argv, bool G\-U\-Ienabled=true)
+\item 
+\hyperlink{class_shared_tools_1_1_qt_single_application_a4d797ae0a19df72d7d90ec01701d9463}{Qt\-Single\-Application} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{Q\-String} \&\hyperlink{glext_8h_a58c2a664503e14ffb8f21012aabff3e9}{id}, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \&argc, char $\ast$$\ast$argv)
+\item 
+\hyperlink{class_shared_tools_1_1_qt_single_application_a321aaf6526a914f5058958fdd883d24a}{Qt\-Single\-Application} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \&argc, char $\ast$$\ast$argv, Type \hyperlink{glext_8h_a7d05960f4f1c1b11f3177dc963a45d86}{type})
+\item 
+\hyperlink{class_shared_tools_1_1_qt_single_application_a79f0658508b8256a3535f9e4a5bf70a7}{Qt\-Single\-Application} (Display $\ast$dpy, Qt\-::\-H\-A\-N\-D\-L\-E visual=0, Qt\-::\-H\-A\-N\-D\-L\-E colormap=0)
+\item 
+\hyperlink{class_shared_tools_1_1_qt_single_application_a5a580d0531b09c253fd26a6e7055006f}{Qt\-Single\-Application} (Display $\ast$dpy, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \&argc, char $\ast$$\ast$argv, Qt\-::\-H\-A\-N\-D\-L\-E visual=0, Qt\-::\-H\-A\-N\-D\-L\-E cmap=0)
+\item 
+bool \hyperlink{class_shared_tools_1_1_qt_single_application_a5ca39417f78bc18e1ca6c90f3893f564}{is\-Running} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{Q\-String} \hyperlink{class_shared_tools_1_1_qt_single_application_af93c0790cd8d680b990a3f162ad638f7}{id} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_shared_tools_1_1_qt_single_application_add1b1cfa4c420fe918f0ed0f6612307e}{set\-Activation\-Window} (Q\-Widget $\ast$aw, bool activate\-On\-Message=true)
+\item 
+Q\-Widget $\ast$ \hyperlink{class_shared_tools_1_1_qt_single_application_a17def66692c3af04fd9472ded214b078}{activation\-Window} () const 
+\item 
+bool \hyperlink{class_shared_tools_1_1_qt_single_application_aa366424c29af7795441c216a31fe7472}{event} (Q\-Event $\ast$event)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_shared_tools_1_1_qt_single_application_a24b9ff907619d3cb4e5ff261666feb7e}{initialize} (bool=true)
+\item 
+\hyperlink{class_shared_tools_1_1_qt_single_application_a43a38edd8a8b93765448797ec65eeaf4}{Qt\-Single\-Application} (Display $\ast$dpy, const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{Q\-String} \&\hyperlink{glext_8h_a58c2a664503e14ffb8f21012aabff3e9}{id}, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} argc, char $\ast$$\ast$argv, Qt\-::\-H\-A\-N\-D\-L\-E visual=0, Qt\-::\-H\-A\-N\-D\-L\-E colormap=0)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 35 of file qtsingleapplication.\-h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_shared_tools_1_1_qt_single_application_a30a41b1b5c6e9c3fdbe7befe38b31a72}{\index{Shared\-Tools\-::\-Qt\-Single\-Application@{Shared\-Tools\-::\-Qt\-Single\-Application}!Qt\-Single\-Application@{Qt\-Single\-Application}}
+\index{Qt\-Single\-Application@{Qt\-Single\-Application}!SharedTools::QtSingleApplication@{Shared\-Tools\-::\-Qt\-Single\-Application}}
+\subsubsection[{Qt\-Single\-Application}]{\setlength{\rightskip}{0pt plus 5cm}Shared\-Tools\-::\-Qt\-Single\-Application\-::\-Qt\-Single\-Application (
+\begin{DoxyParamCaption}
+\item[{{\bf int} \&}]{argc, }
+\item[{char $\ast$$\ast$}]{argv, }
+\item[{bool}]{G\-U\-Ienabled = {\ttfamily true}}
+\end{DoxyParamCaption}
+)}}\label{class_shared_tools_1_1_qt_single_application_a30a41b1b5c6e9c3fdbe7befe38b31a72}
+
+
+Definition at line 45 of file qtsingleapplication.\-cpp.
+
+\hypertarget{class_shared_tools_1_1_qt_single_application_a4d797ae0a19df72d7d90ec01701d9463}{\index{Shared\-Tools\-::\-Qt\-Single\-Application@{Shared\-Tools\-::\-Qt\-Single\-Application}!Qt\-Single\-Application@{Qt\-Single\-Application}}
+\index{Qt\-Single\-Application@{Qt\-Single\-Application}!SharedTools::QtSingleApplication@{Shared\-Tools\-::\-Qt\-Single\-Application}}
+\subsubsection[{Qt\-Single\-Application}]{\setlength{\rightskip}{0pt plus 5cm}Shared\-Tools\-::\-Qt\-Single\-Application\-::\-Qt\-Single\-Application (
+\begin{DoxyParamCaption}
+\item[{const {\bf Q\-String} \&}]{id, }
+\item[{{\bf int} \&}]{argc, }
+\item[{char $\ast$$\ast$}]{argv}
+\end{DoxyParamCaption}
+)}}\label{class_shared_tools_1_1_qt_single_application_a4d797ae0a19df72d7d90ec01701d9463}
+
+
+Definition at line 52 of file qtsingleapplication.\-cpp.
+
+\hypertarget{class_shared_tools_1_1_qt_single_application_a321aaf6526a914f5058958fdd883d24a}{\index{Shared\-Tools\-::\-Qt\-Single\-Application@{Shared\-Tools\-::\-Qt\-Single\-Application}!Qt\-Single\-Application@{Qt\-Single\-Application}}
+\index{Qt\-Single\-Application@{Qt\-Single\-Application}!SharedTools::QtSingleApplication@{Shared\-Tools\-::\-Qt\-Single\-Application}}
+\subsubsection[{Qt\-Single\-Application}]{\setlength{\rightskip}{0pt plus 5cm}Shared\-Tools\-::\-Qt\-Single\-Application\-::\-Qt\-Single\-Application (
+\begin{DoxyParamCaption}
+\item[{{\bf int} \&}]{argc, }
+\item[{char $\ast$$\ast$}]{argv, }
+\item[{Type}]{type}
+\end{DoxyParamCaption}
+)}}\label{class_shared_tools_1_1_qt_single_application_a321aaf6526a914f5058958fdd883d24a}
+
+
+Definition at line 59 of file qtsingleapplication.\-cpp.
+
+\hypertarget{class_shared_tools_1_1_qt_single_application_a79f0658508b8256a3535f9e4a5bf70a7}{\index{Shared\-Tools\-::\-Qt\-Single\-Application@{Shared\-Tools\-::\-Qt\-Single\-Application}!Qt\-Single\-Application@{Qt\-Single\-Application}}
+\index{Qt\-Single\-Application@{Qt\-Single\-Application}!SharedTools::QtSingleApplication@{Shared\-Tools\-::\-Qt\-Single\-Application}}
+\subsubsection[{Qt\-Single\-Application}]{\setlength{\rightskip}{0pt plus 5cm}Shared\-Tools\-::\-Qt\-Single\-Application\-::\-Qt\-Single\-Application (
+\begin{DoxyParamCaption}
+\item[{Display $\ast$}]{dpy, }
+\item[{Qt\-::\-H\-A\-N\-D\-L\-E}]{visual = {\ttfamily 0}, }
+\item[{Qt\-::\-H\-A\-N\-D\-L\-E}]{colormap = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)}}\label{class_shared_tools_1_1_qt_single_application_a79f0658508b8256a3535f9e4a5bf70a7}
+
+
+Definition at line 67 of file qtsingleapplication.\-cpp.
+
+\hypertarget{class_shared_tools_1_1_qt_single_application_a5a580d0531b09c253fd26a6e7055006f}{\index{Shared\-Tools\-::\-Qt\-Single\-Application@{Shared\-Tools\-::\-Qt\-Single\-Application}!Qt\-Single\-Application@{Qt\-Single\-Application}}
+\index{Qt\-Single\-Application@{Qt\-Single\-Application}!SharedTools::QtSingleApplication@{Shared\-Tools\-::\-Qt\-Single\-Application}}
+\subsubsection[{Qt\-Single\-Application}]{\setlength{\rightskip}{0pt plus 5cm}Shared\-Tools\-::\-Qt\-Single\-Application\-::\-Qt\-Single\-Application (
+\begin{DoxyParamCaption}
+\item[{Display $\ast$}]{dpy, }
+\item[{{\bf int} \&}]{argc, }
+\item[{char $\ast$$\ast$}]{argv, }
+\item[{Qt\-::\-H\-A\-N\-D\-L\-E}]{visual = {\ttfamily 0}, }
+\item[{Qt\-::\-H\-A\-N\-D\-L\-E}]{cmap = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)}}\label{class_shared_tools_1_1_qt_single_application_a5a580d0531b09c253fd26a6e7055006f}
+
+
+Definition at line 73 of file qtsingleapplication.\-cpp.
+
+\hypertarget{class_shared_tools_1_1_qt_single_application_a43a38edd8a8b93765448797ec65eeaf4}{\index{Shared\-Tools\-::\-Qt\-Single\-Application@{Shared\-Tools\-::\-Qt\-Single\-Application}!Qt\-Single\-Application@{Qt\-Single\-Application}}
+\index{Qt\-Single\-Application@{Qt\-Single\-Application}!SharedTools::QtSingleApplication@{Shared\-Tools\-::\-Qt\-Single\-Application}}
+\subsubsection[{Qt\-Single\-Application}]{\setlength{\rightskip}{0pt plus 5cm}Shared\-Tools\-::\-Qt\-Single\-Application\-::\-Qt\-Single\-Application (
+\begin{DoxyParamCaption}
+\item[{Display $\ast$}]{dpy, }
+\item[{const {\bf Q\-String} \&}]{id, }
+\item[{{\bf int}}]{argc, }
+\item[{char $\ast$$\ast$}]{argv, }
+\item[{Qt\-::\-H\-A\-N\-D\-L\-E}]{visual = {\ttfamily 0}, }
+\item[{Qt\-::\-H\-A\-N\-D\-L\-E}]{colormap = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)}}\label{class_shared_tools_1_1_qt_single_application_a43a38edd8a8b93765448797ec65eeaf4}
+
+
+Definition at line 79 of file qtsingleapplication.\-cpp.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_shared_tools_1_1_qt_single_application_a0e005a0421f59c3751b768f3212c2305}{\index{Shared\-Tools\-::\-Qt\-Single\-Application@{Shared\-Tools\-::\-Qt\-Single\-Application}!activate\-Window@{activate\-Window}}
+\index{activate\-Window@{activate\-Window}!SharedTools::QtSingleApplication@{Shared\-Tools\-::\-Qt\-Single\-Application}}
+\subsubsection[{activate\-Window}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Shared\-Tools\-::\-Qt\-Single\-Application\-::activate\-Window (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [slot]}}}\label{class_shared_tools_1_1_qt_single_application_a0e005a0421f59c3751b768f3212c2305}
+
+
+Definition at line 131 of file qtsingleapplication.\-cpp.
+
+\hypertarget{class_shared_tools_1_1_qt_single_application_a17def66692c3af04fd9472ded214b078}{\index{Shared\-Tools\-::\-Qt\-Single\-Application@{Shared\-Tools\-::\-Qt\-Single\-Application}!activation\-Window@{activation\-Window}}
+\index{activation\-Window@{activation\-Window}!SharedTools::QtSingleApplication@{Shared\-Tools\-::\-Qt\-Single\-Application}}
+\subsubsection[{activation\-Window}]{\setlength{\rightskip}{0pt plus 5cm}Q\-Widget $\ast$ Shared\-Tools\-::\-Qt\-Single\-Application\-::activation\-Window (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_shared_tools_1_1_qt_single_application_a17def66692c3af04fd9472ded214b078}
+
+
+Definition at line 125 of file qtsingleapplication.\-cpp.
+
+\hypertarget{class_shared_tools_1_1_qt_single_application_aa366424c29af7795441c216a31fe7472}{\index{Shared\-Tools\-::\-Qt\-Single\-Application@{Shared\-Tools\-::\-Qt\-Single\-Application}!event@{event}}
+\index{event@{event}!SharedTools::QtSingleApplication@{Shared\-Tools\-::\-Qt\-Single\-Application}}
+\subsubsection[{event}]{\setlength{\rightskip}{0pt plus 5cm}bool Shared\-Tools\-::\-Qt\-Single\-Application\-::event (
+\begin{DoxyParamCaption}
+\item[{Q\-Event $\ast$}]{event}
+\end{DoxyParamCaption}
+)}}\label{class_shared_tools_1_1_qt_single_application_aa366424c29af7795441c216a31fe7472}
+
+
+Definition at line 87 of file qtsingleapplication.\-cpp.
+
+\hypertarget{class_shared_tools_1_1_qt_single_application_abbb3ce3a832f169b98850c5b65d7ec36}{\index{Shared\-Tools\-::\-Qt\-Single\-Application@{Shared\-Tools\-::\-Qt\-Single\-Application}!file\-Open\-Request@{file\-Open\-Request}}
+\index{file\-Open\-Request@{file\-Open\-Request}!SharedTools::QtSingleApplication@{Shared\-Tools\-::\-Qt\-Single\-Application}}
+\subsubsection[{file\-Open\-Request}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Shared\-Tools\-::\-Qt\-Single\-Application\-::file\-Open\-Request (
+\begin{DoxyParamCaption}
+\item[{const {\bf Q\-String} \&}]{file}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [signal]}}}\label{class_shared_tools_1_1_qt_single_application_abbb3ce3a832f169b98850c5b65d7ec36}
+\hypertarget{class_shared_tools_1_1_qt_single_application_af93c0790cd8d680b990a3f162ad638f7}{\index{Shared\-Tools\-::\-Qt\-Single\-Application@{Shared\-Tools\-::\-Qt\-Single\-Application}!id@{id}}
+\index{id@{id}!SharedTools::QtSingleApplication@{Shared\-Tools\-::\-Qt\-Single\-Application}}
+\subsubsection[{id}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Q\-String} Shared\-Tools\-::\-Qt\-Single\-Application\-::id (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_shared_tools_1_1_qt_single_application_af93c0790cd8d680b990a3f162ad638f7}
+
+
+Definition at line 109 of file qtsingleapplication.\-cpp.
+
+\hypertarget{class_shared_tools_1_1_qt_single_application_a24b9ff907619d3cb4e5ff261666feb7e}{\index{Shared\-Tools\-::\-Qt\-Single\-Application@{Shared\-Tools\-::\-Qt\-Single\-Application}!initialize@{initialize}}
+\index{initialize@{initialize}!SharedTools::QtSingleApplication@{Shared\-Tools\-::\-Qt\-Single\-Application}}
+\subsubsection[{initialize}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Shared\-Tools\-::\-Qt\-Single\-Application\-::initialize (
+\begin{DoxyParamCaption}
+\item[{bool}]{ = {\ttfamily true}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_shared_tools_1_1_qt_single_application_a24b9ff907619d3cb4e5ff261666feb7e}
+
+
+Definition at line 62 of file qtsingleapplication.\-h.
+
+\hypertarget{class_shared_tools_1_1_qt_single_application_a5ca39417f78bc18e1ca6c90f3893f564}{\index{Shared\-Tools\-::\-Qt\-Single\-Application@{Shared\-Tools\-::\-Qt\-Single\-Application}!is\-Running@{is\-Running}}
+\index{is\-Running@{is\-Running}!SharedTools::QtSingleApplication@{Shared\-Tools\-::\-Qt\-Single\-Application}}
+\subsubsection[{is\-Running}]{\setlength{\rightskip}{0pt plus 5cm}bool Shared\-Tools\-::\-Qt\-Single\-Application\-::is\-Running (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_shared_tools_1_1_qt_single_application_a5ca39417f78bc18e1ca6c90f3893f564}
+
+
+Definition at line 97 of file qtsingleapplication.\-cpp.
+
+\hypertarget{class_shared_tools_1_1_qt_single_application_abed6d7b36742052ddd66624fffa8b513}{\index{Shared\-Tools\-::\-Qt\-Single\-Application@{Shared\-Tools\-::\-Qt\-Single\-Application}!message\-Received@{message\-Received}}
+\index{message\-Received@{message\-Received}!SharedTools::QtSingleApplication@{Shared\-Tools\-::\-Qt\-Single\-Application}}
+\subsubsection[{message\-Received}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Shared\-Tools\-::\-Qt\-Single\-Application\-::message\-Received (
+\begin{DoxyParamCaption}
+\item[{const {\bf Q\-String} \&}]{message}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [signal]}}}\label{class_shared_tools_1_1_qt_single_application_abed6d7b36742052ddd66624fffa8b513}
+\hypertarget{class_shared_tools_1_1_qt_single_application_a02b98de033a9eede513891c99d0e3fd0}{\index{Shared\-Tools\-::\-Qt\-Single\-Application@{Shared\-Tools\-::\-Qt\-Single\-Application}!send\-Message@{send\-Message}}
+\index{send\-Message@{send\-Message}!SharedTools::QtSingleApplication@{Shared\-Tools\-::\-Qt\-Single\-Application}}
+\subsubsection[{send\-Message}]{\setlength{\rightskip}{0pt plus 5cm}bool Shared\-Tools\-::\-Qt\-Single\-Application\-::send\-Message (
+\begin{DoxyParamCaption}
+\item[{const {\bf Q\-String} \&}]{message, }
+\item[{{\bf int}}]{timeout = {\ttfamily 5000}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [slot]}}}\label{class_shared_tools_1_1_qt_single_application_a02b98de033a9eede513891c99d0e3fd0}
+
+
+Definition at line 103 of file qtsingleapplication.\-cpp.
+
+\hypertarget{class_shared_tools_1_1_qt_single_application_add1b1cfa4c420fe918f0ed0f6612307e}{\index{Shared\-Tools\-::\-Qt\-Single\-Application@{Shared\-Tools\-::\-Qt\-Single\-Application}!set\-Activation\-Window@{set\-Activation\-Window}}
+\index{set\-Activation\-Window@{set\-Activation\-Window}!SharedTools::QtSingleApplication@{Shared\-Tools\-::\-Qt\-Single\-Application}}
+\subsubsection[{set\-Activation\-Window}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Shared\-Tools\-::\-Qt\-Single\-Application\-::set\-Activation\-Window (
+\begin{DoxyParamCaption}
+\item[{Q\-Widget $\ast$}]{aw, }
+\item[{bool}]{activate\-On\-Message = {\ttfamily true}}
+\end{DoxyParamCaption}
+)}}\label{class_shared_tools_1_1_qt_single_application_add1b1cfa4c420fe918f0ed0f6612307e}
+
+
+Definition at line 115 of file qtsingleapplication.\-cpp.
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/shared/qtsingleapplication/\hyperlink{qtsingleapplication_8h}{qtsingleapplication.\-h}\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/shared/qtsingleapplication/\hyperlink{qtsingleapplication_8cpp}{qtsingleapplication.\-cpp}\end{DoxyCompactItemize}

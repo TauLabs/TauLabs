@@ -1,0 +1,669 @@
+\hypertarget{class_l_u}{\section{L\-U$<$ Matrix\-Type $>$ Class Template Reference}
+\label{class_l_u}\index{L\-U$<$ Matrix\-Type $>$@{L\-U$<$ Matrix\-Type $>$}}
+}
+
+
+\hyperlink{class_l_u}{L\-U} decomposition of a matrix with complete pivoting, and related features.  
+
+
+
+
+{\ttfamily \#include $<$Forward\-Declarations.\-h$>$}
+
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+enum \{ \hyperlink{class_l_u_af921ac467bc601cae3a94b938d16316ca5bb95a99ba59c9c4221e34926f944fcd}{Max\-Small\-Dim\-At\-Compile\-Time}
+ \}
+\item 
+typedef Matrix\-Type\-::\-Scalar \hyperlink{class_l_u_a2652e625ba82c85391e6cf4c3d821350}{Scalar}
+\item 
+typedef \hyperlink{struct_num_traits}{Num\-Traits}$<$ typename \\*
+Matrix\-Type\-::\-Scalar $>$\-::Real \hyperlink{class_l_u_a2b211092ffd28cd189ea254c951cf8d5}{Real\-Scalar}
+\item 
+typedef \hyperlink{class_matrix}{Matrix}$<$ \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int}, \\*
+1, Matrix\-Type\-::\-Cols\-At\-Compile\-Time, \\*
+Matrix\-Type\-::\-Options, \\*
+1, Matrix\-Type\-::\-Max\-Cols\-At\-Compile\-Time $>$ \hyperlink{class_l_u_a8b1b7e093c9203820f5e557b9e0c4edf}{Int\-Row\-Vector\-Type}
+\item 
+typedef \hyperlink{class_matrix}{Matrix}$<$ \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int}, \\*
+Matrix\-Type\-::\-Rows\-At\-Compile\-Time, \\*
+1, Matrix\-Type\-::\-Options, \\*
+Matrix\-Type\-::\-Max\-Rows\-At\-Compile\-Time, 1 $>$ \hyperlink{class_l_u_a830b9928b7aed0f3b0147dd0aa6b8f2e}{Int\-Col\-Vector\-Type}
+\item 
+typedef \hyperlink{class_matrix}{Matrix}$<$ \hyperlink{class_l_u_a2652e625ba82c85391e6cf4c3d821350}{Scalar}, \\*
+1, Matrix\-Type\-::\-Cols\-At\-Compile\-Time, \\*
+Matrix\-Type\-::\-Options, \\*
+1, Matrix\-Type\-::\-Max\-Cols\-At\-Compile\-Time $>$ \hyperlink{class_l_u_acc26e46398241948a442c0435c282fd1}{Row\-Vector\-Type}
+\item 
+typedef \hyperlink{class_matrix}{Matrix}$<$ \hyperlink{class_l_u_a2652e625ba82c85391e6cf4c3d821350}{Scalar}, \\*
+Matrix\-Type\-::\-Rows\-At\-Compile\-Time, \\*
+1, Matrix\-Type\-::\-Options, \\*
+Matrix\-Type\-::\-Max\-Rows\-At\-Compile\-Time, 1 $>$ \hyperlink{class_l_u_affc6f0ec6472f4868698a066be969111}{Col\-Vector\-Type}
+\item 
+typedef \hyperlink{class_matrix}{Matrix}$<$ typename \\*
+Matrix\-Type\-::\-Scalar, \\*
+Matrix\-Type\-::\-Cols\-At\-Compile\-Time, \\*
+\hyperlink{_constants_8h_adc9da5be31bdce40c25a92c27999c0e3}{Dynamic}, Matrix\-Type\-::\-Options, \\*
+Matrix\-Type\-::\-Max\-Cols\-At\-Compile\-Time, \\*
+Matrix\-Type\-::\-Max\-Cols\-At\-Compile\-Time $>$ \hyperlink{class_l_u_a54c6b7bc8df14bc6d50249256a996e6f}{Kernel\-Result\-Type}
+\item 
+typedef \hyperlink{class_matrix}{Matrix}$<$ typename \\*
+Matrix\-Type\-::\-Scalar, \\*
+Matrix\-Type\-::\-Rows\-At\-Compile\-Time, \\*
+\hyperlink{_constants_8h_adc9da5be31bdce40c25a92c27999c0e3}{Dynamic}, Matrix\-Type\-::\-Options, \\*
+Matrix\-Type\-::\-Max\-Rows\-At\-Compile\-Time, \\*
+Matrix\-Type\-::\-Max\-Cols\-At\-Compile\-Time $>$ \hyperlink{class_l_u_a0c18d8a15aeec09772ef473875c03b2b}{Image\-Result\-Type}
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_l_u_aaeed97c71a99ce064ed6f2b503218907}{L\-U} (const Matrix\-Type \&\hyperlink{glext_8h_a7b24a3f2f56eb1244ae69dacb4fecb6f}{matrix})
+\item 
+const Matrix\-Type \& \hyperlink{class_l_u_a502973e871891b161b1cc66f105728cc}{matrix\-L\-U} () const 
+\item 
+const \hyperlink{class_l_u_a830b9928b7aed0f3b0147dd0aa6b8f2e}{Int\-Col\-Vector\-Type} \& \hyperlink{class_l_u_a734b5fd0ec8281e6985e2a90bc1e1570}{permutation\-P} () const 
+\item 
+const \hyperlink{class_l_u_a8b1b7e093c9203820f5e557b9e0c4edf}{Int\-Row\-Vector\-Type} \& \hyperlink{class_l_u_afb01cfd53e082fb9a7d371766b50ef96}{permutation\-Q} () const 
+\item 
+{\footnotesize template$<$typename Kernel\-Matrix\-Type $>$ }\\\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_l_u_ae15a7528f85589b1494cdf4d12312b59}{compute\-Kernel} (Kernel\-Matrix\-Type $\ast$\hyperlink{qxtslotjob_8h_aab161efab0511ea9612b64c40e9852ca}{result}) const 
+\item 
+{\footnotesize template$<$typename Image\-Matrix\-Type $>$ }\\\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_l_u_a31aedc3a457bdbb5f5d07c8bf07464da}{compute\-Image} (Image\-Matrix\-Type $\ast$\hyperlink{qxtslotjob_8h_aab161efab0511ea9612b64c40e9852ca}{result}) const 
+\item 
+const \hyperlink{class_l_u_a54c6b7bc8df14bc6d50249256a996e6f}{Kernel\-Result\-Type} \hyperlink{class_l_u_af6f47fa3872cd3e7931ef553e862202d}{kernel} () const 
+\item 
+const \hyperlink{class_l_u_a0c18d8a15aeec09772ef473875c03b2b}{Image\-Result\-Type} \hyperlink{class_l_u_a2c7e6a983dc0e0aad12040a653e05529}{image} () const 
+\item 
+{\footnotesize template$<$typename Other\-Derived , typename Result\-Type $>$ }\\bool \hyperlink{class_l_u_a69ac8b255d9d1d953cd6006ab96f2cd0}{solve} (const \hyperlink{class_matrix_base}{Matrix\-Base}$<$ Other\-Derived $>$ \&\hyperlink{glext_8h_a6eba317e3cf44d6d26c04a5a8f197dcb}{b}, Result\-Type $\ast$\hyperlink{qxtslotjob_8h_aab161efab0511ea9612b64c40e9852ca}{result}) const 
+\item 
+\hyperlink{structei__traits}{ei\-\_\-traits}$<$ Matrix\-Type $>$\-::\hyperlink{class_l_u_a2652e625ba82c85391e6cf4c3d821350}{Scalar} \hyperlink{class_l_u_ad6c5982642808e1269e858be11573c9a}{determinant} () const 
+\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_l_u_a23c04ccdfd9182b3b0b41dae12beb28a}{rank} () const 
+\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_l_u_a29bdadb2f92c28ddb4a2301bd766e327}{dimension\-Of\-Kernel} () const 
+\item 
+bool \hyperlink{class_l_u_ad6490dec31472836f633739a7789e71f}{is\-Injective} () const 
+\item 
+bool \hyperlink{class_l_u_a8519c32afdf82258b93bd7a3274b59eb}{is\-Surjective} () const 
+\item 
+bool \hyperlink{class_l_u_a7b4fe58c504fb3c28d29f198a10bf5e0}{is\-Invertible} () const 
+\item 
+{\footnotesize template$<$typename Result\-Type $>$ }\\\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_l_u_a3db080336b22760ca951e8732fd67d16}{compute\-Inverse} (Result\-Type $\ast$\hyperlink{qxtslotjob_8h_aab161efab0511ea9612b64c40e9852ca}{result}) const 
+\item 
+Matrix\-Type \hyperlink{class_l_u_aa6216497ac4d2d2ed495432793bb2ae7}{inverse} () const 
+\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+const Matrix\-Type \& \hyperlink{class_l_u_ac0ddae608326613044fd370e23fc5798}{m\-\_\-original\-Matrix}
+\item 
+Matrix\-Type \hyperlink{class_l_u_a6002bcdbe1c561d3e9e6ae3289db72cb}{m\-\_\-lu}
+\item 
+\hyperlink{class_l_u_a830b9928b7aed0f3b0147dd0aa6b8f2e}{Int\-Col\-Vector\-Type} \hyperlink{class_l_u_a7666f778da10e87f96aa8a3c19b7a112}{m\-\_\-p}
+\item 
+\hyperlink{class_l_u_a8b1b7e093c9203820f5e557b9e0c4edf}{Int\-Row\-Vector\-Type} \hyperlink{class_l_u_a3613b350d88bbf92f783cf0db45366f9}{m\-\_\-q}
+\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_l_u_a660047068751fe2899eab257abf2689d}{m\-\_\-det\-\_\-pq}
+\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_l_u_a6fce66346164396520654fc54d25c54a}{m\-\_\-rank}
+\item 
+\hyperlink{class_l_u_a2b211092ffd28cd189ea254c951cf8d5}{Real\-Scalar} \hyperlink{class_l_u_a2166ed8c8e8764d0ca86dca4518eadba}{m\-\_\-precision}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$typename Matrix\-Type$>$class L\-U$<$ Matrix\-Type $>$}
+
+\hyperlink{class_l_u}{L\-U} decomposition of a matrix with complete pivoting, and related features. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Matrix\-Type} & the type of the matrix of which we are computing the \hyperlink{class_l_u}{L\-U} decomposition\\
+\hline
+\end{DoxyParams}
+This class represents a \hyperlink{class_l_u}{L\-U} decomposition of any matrix, with complete pivoting\-: the matrix A is decomposed as A = P\-L\-U\-Q where L is unit-\/lower-\/triangular, U is upper-\/triangular, and P and Q are permutation matrices. This is a rank-\/revealing \hyperlink{class_l_u}{L\-U} decomposition. The eigenvalues (diagonal coefficients) of U are sorted in such a way that any zeros are at the end, so that the rank of A is the index of the first zero on the diagonal of U (with indices starting at 0) if any.
+
+This decomposition provides the generic approach to solving systems of linear equations, computing the rank, invertibility, inverse, kernel, and determinant.
+
+This \hyperlink{class_l_u}{L\-U} decomposition is very stable and well tested with large matrices. Even exact rank computation works at sizes larger than 1000x1000. However there are use cases where the \hyperlink{class_s_v_d}{S\-V\-D} decomposition is inherently more stable when dealing with numerically damaged input. For example, computing the kernel is more stable with \hyperlink{class_s_v_d}{S\-V\-D} because the \hyperlink{class_s_v_d}{S\-V\-D} can determine which singular values are negligible while \hyperlink{class_l_u}{L\-U} has to work at the level of matrix coefficients that are less meaningful in this respect.
+
+The data of the \hyperlink{class_l_u}{L\-U} decomposition can be directly accessed through the methods \hyperlink{class_l_u_a502973e871891b161b1cc66f105728cc}{matrix\-L\-U()}, \hyperlink{class_l_u_a734b5fd0ec8281e6985e2a90bc1e1570}{permutation\-P()}, \hyperlink{class_l_u_afb01cfd53e082fb9a7d371766b50ef96}{permutation\-Q()}.
+
+As an exemple, here is how the original matrix can be retrieved\-: 
+\begin{DoxyCodeInclude}
+\end{DoxyCodeInclude}
+ Output\-:
+\begin{DoxyVerbInclude}
+\end{DoxyVerbInclude}
+
+
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_matrix_base_a8ec83738a46f2a13e6d878726e289116}{Matrix\-Base\-::lu()}, \hyperlink{class_matrix_base_a575c602e776b302104919a8bf3094178}{Matrix\-Base\-::determinant()}, \hyperlink{class_matrix_base_a27c44883ab6a4828bcae0c8bf8c4a958}{Matrix\-Base\-::inverse()}, \hyperlink{class_matrix_base_a6c2b95ebe2784c06eb8020918519b3e4}{Matrix\-Base\-::compute\-Inverse()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 104 of file Forward\-Declarations.\-h.
+
+
+
+\subsection{Member Typedef Documentation}
+\hypertarget{class_l_u_affc6f0ec6472f4868698a066be969111}{\index{L\-U@{L\-U}!Col\-Vector\-Type@{Col\-Vector\-Type}}
+\index{Col\-Vector\-Type@{Col\-Vector\-Type}!LU@{L\-U}}
+\subsubsection[{Col\-Vector\-Type}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type$>$ typedef {\bf Matrix}$<${\bf Scalar}, Matrix\-Type\-::\-Rows\-At\-Compile\-Time, 1, Matrix\-Type\-::\-Options, Matrix\-Type\-::\-Max\-Rows\-At\-Compile\-Time, 1$>$ {\bf L\-U}$<$ Matrix\-Type $>$\-::{\bf Col\-Vector\-Type}}}\label{class_l_u_affc6f0ec6472f4868698a066be969111}
+
+
+Definition at line 69 of file L\-U.\-h.
+
+\hypertarget{class_l_u_a0c18d8a15aeec09772ef473875c03b2b}{\index{L\-U@{L\-U}!Image\-Result\-Type@{Image\-Result\-Type}}
+\index{Image\-Result\-Type@{Image\-Result\-Type}!LU@{L\-U}}
+\subsubsection[{Image\-Result\-Type}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type$>$ typedef {\bf Matrix}$<$typename Matrix\-Type\-::\-Scalar, Matrix\-Type\-::\-Rows\-At\-Compile\-Time, {\bf Dynamic}, Matrix\-Type\-::\-Options, Matrix\-Type\-::\-Max\-Rows\-At\-Compile\-Time, Matrix\-Type\-::\-Max\-Cols\-At\-Compile\-Time $>$ {\bf L\-U}$<$ Matrix\-Type $>$\-::{\bf Image\-Result\-Type}}}\label{class_l_u_a0c18d8a15aeec09772ef473875c03b2b}
+
+
+Definition at line 93 of file L\-U.\-h.
+
+\hypertarget{class_l_u_a830b9928b7aed0f3b0147dd0aa6b8f2e}{\index{L\-U@{L\-U}!Int\-Col\-Vector\-Type@{Int\-Col\-Vector\-Type}}
+\index{Int\-Col\-Vector\-Type@{Int\-Col\-Vector\-Type}!LU@{L\-U}}
+\subsubsection[{Int\-Col\-Vector\-Type}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type$>$ typedef {\bf Matrix}$<${\bf int}, Matrix\-Type\-::\-Rows\-At\-Compile\-Time, 1, Matrix\-Type\-::\-Options, Matrix\-Type\-::\-Max\-Rows\-At\-Compile\-Time, 1$>$ {\bf L\-U}$<$ Matrix\-Type $>$\-::{\bf Int\-Col\-Vector\-Type}}}\label{class_l_u_a830b9928b7aed0f3b0147dd0aa6b8f2e}
+
+
+Definition at line 67 of file L\-U.\-h.
+
+\hypertarget{class_l_u_a8b1b7e093c9203820f5e557b9e0c4edf}{\index{L\-U@{L\-U}!Int\-Row\-Vector\-Type@{Int\-Row\-Vector\-Type}}
+\index{Int\-Row\-Vector\-Type@{Int\-Row\-Vector\-Type}!LU@{L\-U}}
+\subsubsection[{Int\-Row\-Vector\-Type}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type$>$ typedef {\bf Matrix}$<${\bf int}, 1, Matrix\-Type\-::\-Cols\-At\-Compile\-Time, Matrix\-Type\-::\-Options, 1, Matrix\-Type\-::\-Max\-Cols\-At\-Compile\-Time$>$ {\bf L\-U}$<$ Matrix\-Type $>$\-::{\bf Int\-Row\-Vector\-Type}}}\label{class_l_u_a8b1b7e093c9203820f5e557b9e0c4edf}
+
+
+Definition at line 66 of file L\-U.\-h.
+
+\hypertarget{class_l_u_a54c6b7bc8df14bc6d50249256a996e6f}{\index{L\-U@{L\-U}!Kernel\-Result\-Type@{Kernel\-Result\-Type}}
+\index{Kernel\-Result\-Type@{Kernel\-Result\-Type}!LU@{L\-U}}
+\subsubsection[{Kernel\-Result\-Type}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type$>$ typedef {\bf Matrix}$<$typename Matrix\-Type\-::\-Scalar, Matrix\-Type\-::\-Cols\-At\-Compile\-Time, {\bf Dynamic}, Matrix\-Type\-::\-Options, Matrix\-Type\-::\-Max\-Cols\-At\-Compile\-Time, Matrix\-Type\-::\-Max\-Cols\-At\-Compile\-Time $>$ {\bf L\-U}$<$ Matrix\-Type $>$\-::{\bf Kernel\-Result\-Type}}}\label{class_l_u_a54c6b7bc8df14bc6d50249256a996e6f}
+
+
+Definition at line 84 of file L\-U.\-h.
+
+\hypertarget{class_l_u_a2b211092ffd28cd189ea254c951cf8d5}{\index{L\-U@{L\-U}!Real\-Scalar@{Real\-Scalar}}
+\index{Real\-Scalar@{Real\-Scalar}!LU@{L\-U}}
+\subsubsection[{Real\-Scalar}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type$>$ typedef {\bf Num\-Traits}$<$typename Matrix\-Type\-::\-Scalar$>$\-::Real {\bf L\-U}$<$ Matrix\-Type $>$\-::{\bf Real\-Scalar}}}\label{class_l_u_a2b211092ffd28cd189ea254c951cf8d5}
+
+
+Definition at line 65 of file L\-U.\-h.
+
+\hypertarget{class_l_u_acc26e46398241948a442c0435c282fd1}{\index{L\-U@{L\-U}!Row\-Vector\-Type@{Row\-Vector\-Type}}
+\index{Row\-Vector\-Type@{Row\-Vector\-Type}!LU@{L\-U}}
+\subsubsection[{Row\-Vector\-Type}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type$>$ typedef {\bf Matrix}$<${\bf Scalar}, 1, Matrix\-Type\-::\-Cols\-At\-Compile\-Time, Matrix\-Type\-::\-Options, 1, Matrix\-Type\-::\-Max\-Cols\-At\-Compile\-Time$>$ {\bf L\-U}$<$ Matrix\-Type $>$\-::{\bf Row\-Vector\-Type}}}\label{class_l_u_acc26e46398241948a442c0435c282fd1}
+
+
+Definition at line 68 of file L\-U.\-h.
+
+\hypertarget{class_l_u_a2652e625ba82c85391e6cf4c3d821350}{\index{L\-U@{L\-U}!Scalar@{Scalar}}
+\index{Scalar@{Scalar}!LU@{L\-U}}
+\subsubsection[{Scalar}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type$>$ typedef Matrix\-Type\-::\-Scalar {\bf L\-U}$<$ Matrix\-Type $>$\-::{\bf Scalar}}}\label{class_l_u_a2652e625ba82c85391e6cf4c3d821350}
+
+
+Definition at line 64 of file L\-U.\-h.
+
+
+
+\subsection{Member Enumeration Documentation}
+\hypertarget{class_l_u_af921ac467bc601cae3a94b938d16316c}{\subsubsection[{anonymous enum}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type$>$ anonymous enum}}\label{class_l_u_af921ac467bc601cae3a94b938d16316c}
+\begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{Max\-Small\-Dim\-At\-Compile\-Time@{Max\-Small\-Dim\-At\-Compile\-Time}!L\-U@{L\-U}}\index{L\-U@{L\-U}!Max\-Small\-Dim\-At\-Compile\-Time@{Max\-Small\-Dim\-At\-Compile\-Time}}\item[{\em 
+\hypertarget{class_l_u_af921ac467bc601cae3a94b938d16316ca5bb95a99ba59c9c4221e34926f944fcd}{Max\-Small\-Dim\-At\-Compile\-Time}\label{class_l_u_af921ac467bc601cae3a94b938d16316ca5bb95a99ba59c9c4221e34926f944fcd}
+}]\end{description}
+\end{Desc}
+
+
+Definition at line 71 of file L\-U.\-h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_l_u_aaeed97c71a99ce064ed6f2b503218907}{\index{L\-U@{L\-U}!L\-U@{L\-U}}
+\index{L\-U@{L\-U}!LU@{L\-U}}
+\subsubsection[{L\-U}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type $>$ {\bf L\-U}$<$ Matrix\-Type $>$\-::{\bf L\-U} (
+\begin{DoxyParamCaption}
+\item[{const Matrix\-Type \&}]{matrix}
+\end{DoxyParamCaption}
+)}}\label{class_l_u_aaeed97c71a99ce064ed6f2b503218907}
+Constructor.
+
+
+\begin{DoxyParams}{Parameters}
+{\em matrix} & the matrix of which to compute the \hyperlink{class_l_u}{L\-U} decomposition. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 331 of file L\-U.\-h.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_l_u_a31aedc3a457bdbb5f5d07c8bf07464da}{\index{L\-U@{L\-U}!compute\-Image@{compute\-Image}}
+\index{compute\-Image@{compute\-Image}!LU@{L\-U}}
+\subsubsection[{compute\-Image}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type $>$ template$<$typename Image\-Matrix\-Type $>$ {\bf void} {\bf L\-U}$<$ Matrix\-Type $>$\-::compute\-Image (
+\begin{DoxyParamCaption}
+\item[{Image\-Matrix\-Type $\ast$}]{result}
+\end{DoxyParamCaption}
+) const}}\label{class_l_u_a31aedc3a457bdbb5f5d07c8bf07464da}
+Computes a basis of the image of the matrix, also called the column-\/space or range of he matrix.
+
+\begin{DoxyNote}{Note}
+Calling this method on the zero matrix will make an assertion fail.
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em result} & a pointer to the matrix in which to store the image. The columns of this matrix will be set to form a basis of the image (it will be resized if necessary).\\
+\hline
+\end{DoxyParams}
+Example\-:
+\begin{DoxyCodeInclude}
+\end{DoxyCodeInclude}
+ Output\-:
+\begin{DoxyVerbInclude}
+\end{DoxyVerbInclude}
+
+
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_l_u_a2c7e6a983dc0e0aad12040a653e05529}{image()}, \hyperlink{class_l_u_ae15a7528f85589b1494cdf4d12312b59}{compute\-Kernel()}, \hyperlink{class_l_u_af6f47fa3872cd3e7931ef553e862202d}{kernel()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 457 of file L\-U.\-h.
+
+\hypertarget{class_l_u_a3db080336b22760ca951e8732fd67d16}{\index{L\-U@{L\-U}!compute\-Inverse@{compute\-Inverse}}
+\index{compute\-Inverse@{compute\-Inverse}!LU@{L\-U}}
+\subsubsection[{compute\-Inverse}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type$>$ template$<$typename Result\-Type $>$ {\bf void} {\bf L\-U}$<$ Matrix\-Type $>$\-::compute\-Inverse (
+\begin{DoxyParamCaption}
+\item[{Result\-Type $\ast$}]{result}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_l_u_a3db080336b22760ca951e8732fd67d16}
+Computes the inverse of the matrix of which $\ast$this is the \hyperlink{class_l_u}{L\-U} decomposition.
+
+
+\begin{DoxyParams}{Parameters}
+{\em result} & a pointer to the matrix into which to store the inverse. Resized if needed.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+If this matrix is not invertible, $\ast$result is left with undefined coefficients. Use \hyperlink{class_l_u_a7b4fe58c504fb3c28d29f198a10bf5e0}{is\-Invertible()} to first determine whether this matrix is invertible.
+\end{DoxyNote}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_matrix_base_a6c2b95ebe2784c06eb8020918519b3e4}{Matrix\-Base\-::compute\-Inverse()}, \hyperlink{class_l_u_aa6216497ac4d2d2ed495432793bb2ae7}{inverse()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 301 of file L\-U.\-h.
+
+\hypertarget{class_l_u_ae15a7528f85589b1494cdf4d12312b59}{\index{L\-U@{L\-U}!compute\-Kernel@{compute\-Kernel}}
+\index{compute\-Kernel@{compute\-Kernel}!LU@{L\-U}}
+\subsubsection[{compute\-Kernel}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type $>$ template$<$typename Kernel\-Matrix\-Type $>$ {\bf void} {\bf L\-U}$<$ Matrix\-Type $>$\-::compute\-Kernel (
+\begin{DoxyParamCaption}
+\item[{Kernel\-Matrix\-Type $\ast$}]{result}
+\end{DoxyParamCaption}
+) const}}\label{class_l_u_ae15a7528f85589b1494cdf4d12312b59}
+Computes a basis of the kernel of the matrix, also called the null-\/space of the matrix.
+
+\begin{DoxyNote}{Note}
+This method is only allowed on non-\/invertible matrices, as determined by \hyperlink{class_l_u_a7b4fe58c504fb3c28d29f198a10bf5e0}{is\-Invertible()}. Calling it on an invertible matrix will make an assertion fail.
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em result} & a pointer to the matrix in which to store the kernel. The columns of this matrix will be set to form a basis of the kernel (it will be resized if necessary).\\
+\hline
+\end{DoxyParams}
+Example\-:
+\begin{DoxyCodeInclude}
+\end{DoxyCodeInclude}
+ Output\-:
+\begin{DoxyVerbInclude}
+\end{DoxyVerbInclude}
+
+
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_l_u_af6f47fa3872cd3e7931ef553e862202d}{kernel()}, \hyperlink{class_l_u_a31aedc3a457bdbb5f5d07c8bf07464da}{compute\-Image()}, \hyperlink{class_l_u_a2c7e6a983dc0e0aad12040a653e05529}{image()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 411 of file L\-U.\-h.
+
+\hypertarget{class_l_u_ad6c5982642808e1269e858be11573c9a}{\index{L\-U@{L\-U}!determinant@{determinant}}
+\index{determinant@{determinant}!LU@{L\-U}}
+\subsubsection[{determinant}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type $>$ {\bf ei\-\_\-traits}$<$ Matrix\-Type $>$\-::{\bf Scalar} {\bf L\-U}$<$ Matrix\-Type $>$\-::determinant (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_l_u_ad6c5982642808e1269e858be11573c9a}
+\begin{DoxyReturn}{Returns}
+the determinant of the matrix of which $\ast$this is the \hyperlink{class_l_u}{L\-U} decomposition. It has only linear complexity (that is, O(n) where n is the dimension of the square matrix) as the \hyperlink{class_l_u}{L\-U} decomposition has already been computed.
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+This is only for square matrices.
+
+For fixed-\/size matrices of size up to 4, \hyperlink{class_matrix_base_a575c602e776b302104919a8bf3094178}{Matrix\-Base\-::determinant()} offers optimized paths.
+\end{DoxyNote}
+\begin{DoxyWarning}{Warning}
+a determinant can be very big or small, so for matrices of large enough dimension, there is a risk of overflow/underflow.
+\end{DoxyWarning}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_matrix_base_a575c602e776b302104919a8bf3094178}{Matrix\-Base\-::determinant()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 404 of file L\-U.\-h.
+
+\hypertarget{class_l_u_a29bdadb2f92c28ddb4a2301bd766e327}{\index{L\-U@{L\-U}!dimension\-Of\-Kernel@{dimension\-Of\-Kernel}}
+\index{dimension\-Of\-Kernel@{dimension\-Of\-Kernel}!LU@{L\-U}}
+\subsubsection[{dimension\-Of\-Kernel}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type$>$ {\bf int} {\bf L\-U}$<$ Matrix\-Type $>$\-::dimension\-Of\-Kernel (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_l_u_a29bdadb2f92c28ddb4a2301bd766e327}
+\begin{DoxyReturn}{Returns}
+the dimension of the kernel of the matrix of which $\ast$this is the \hyperlink{class_l_u}{L\-U} decomposition.
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+Since the rank is computed at the time of the construction of the \hyperlink{class_l_u}{L\-U} decomposition, this method almost does not perform any further computation. 
+\end{DoxyNote}
+
+
+Definition at line 254 of file L\-U.\-h.
+
+\hypertarget{class_l_u_a2c7e6a983dc0e0aad12040a653e05529}{\index{L\-U@{L\-U}!image@{image}}
+\index{image@{image}!LU@{L\-U}}
+\subsubsection[{image}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type $>$ const {\bf L\-U}$<$ Matrix\-Type $>$\-::{\bf Image\-Result\-Type} {\bf L\-U}$<$ Matrix\-Type $>$\-::{\bf image} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_l_u_a2c7e6a983dc0e0aad12040a653e05529}
+\begin{DoxyReturn}{Returns}
+the image of the matrix, also called its column-\/space. The columns of the returned matrix will form a basis of the kernel.
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+\-: Calling this method on the zero matrix will make an assertion fail.
+
+\-: this method returns a matrix by value, which induces some inefficiency. If you prefer to avoid this overhead, use \hyperlink{class_l_u_a31aedc3a457bdbb5f5d07c8bf07464da}{compute\-Image()} instead.
+\end{DoxyNote}
+Example\-:
+\begin{DoxyCodeInclude}
+\end{DoxyCodeInclude}
+ Output\-:
+\begin{DoxyVerbInclude}
+\end{DoxyVerbInclude}
+
+
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_l_u_a31aedc3a457bdbb5f5d07c8bf07464da}{compute\-Image()}, \hyperlink{class_l_u_af6f47fa3872cd3e7931ef553e862202d}{kernel()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 467 of file L\-U.\-h.
+
+\hypertarget{class_l_u_aa6216497ac4d2d2ed495432793bb2ae7}{\index{L\-U@{L\-U}!inverse@{inverse}}
+\index{inverse@{inverse}!LU@{L\-U}}
+\subsubsection[{inverse}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type$>$ Matrix\-Type {\bf L\-U}$<$ Matrix\-Type $>$\-::inverse (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_l_u_aa6216497ac4d2d2ed495432793bb2ae7}
+\begin{DoxyReturn}{Returns}
+the inverse of the matrix of which $\ast$this is the \hyperlink{class_l_u}{L\-U} decomposition.
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+If this matrix is not invertible, the returned matrix has undefined coefficients. Use \hyperlink{class_l_u_a7b4fe58c504fb3c28d29f198a10bf5e0}{is\-Invertible()} to first determine whether this matrix is invertible.
+\end{DoxyNote}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_l_u_a3db080336b22760ca951e8732fd67d16}{compute\-Inverse()}, \hyperlink{class_matrix_base_a27c44883ab6a4828bcae0c8bf8c4a958}{Matrix\-Base\-::inverse()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 313 of file L\-U.\-h.
+
+\hypertarget{class_l_u_ad6490dec31472836f633739a7789e71f}{\index{L\-U@{L\-U}!is\-Injective@{is\-Injective}}
+\index{is\-Injective@{is\-Injective}!LU@{L\-U}}
+\subsubsection[{is\-Injective}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type$>$ bool {\bf L\-U}$<$ Matrix\-Type $>$\-::is\-Injective (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_l_u_ad6490dec31472836f633739a7789e71f}
+\begin{DoxyReturn}{Returns}
+true if the matrix of which $\ast$this is the \hyperlink{class_l_u}{L\-U} decomposition represents an injective linear map, i.\-e. has trivial kernel; false otherwise.
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+Since the rank is computed at the time of the construction of the \hyperlink{class_l_u}{L\-U} decomposition, this method almost does not perform any further computation. 
+\end{DoxyNote}
+
+
+Definition at line 265 of file L\-U.\-h.
+
+\hypertarget{class_l_u_a7b4fe58c504fb3c28d29f198a10bf5e0}{\index{L\-U@{L\-U}!is\-Invertible@{is\-Invertible}}
+\index{is\-Invertible@{is\-Invertible}!LU@{L\-U}}
+\subsubsection[{is\-Invertible}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type$>$ bool {\bf L\-U}$<$ Matrix\-Type $>$\-::is\-Invertible (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_l_u_a7b4fe58c504fb3c28d29f198a10bf5e0}
+\begin{DoxyReturn}{Returns}
+true if the matrix of which $\ast$this is the \hyperlink{class_l_u}{L\-U} decomposition is invertible.
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+Since the rank is computed at the time of the construction of the \hyperlink{class_l_u}{L\-U} decomposition, this method almost does not perform any further computation. 
+\end{DoxyNote}
+
+
+Definition at line 286 of file L\-U.\-h.
+
+\hypertarget{class_l_u_a8519c32afdf82258b93bd7a3274b59eb}{\index{L\-U@{L\-U}!is\-Surjective@{is\-Surjective}}
+\index{is\-Surjective@{is\-Surjective}!LU@{L\-U}}
+\subsubsection[{is\-Surjective}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type$>$ bool {\bf L\-U}$<$ Matrix\-Type $>$\-::is\-Surjective (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_l_u_a8519c32afdf82258b93bd7a3274b59eb}
+\begin{DoxyReturn}{Returns}
+true if the matrix of which $\ast$this is the \hyperlink{class_l_u}{L\-U} decomposition represents a surjective linear map; false otherwise.
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+Since the rank is computed at the time of the construction of the \hyperlink{class_l_u}{L\-U} decomposition, this method almost does not perform any further computation. 
+\end{DoxyNote}
+
+
+Definition at line 276 of file L\-U.\-h.
+
+\hypertarget{class_l_u_af6f47fa3872cd3e7931ef553e862202d}{\index{L\-U@{L\-U}!kernel@{kernel}}
+\index{kernel@{kernel}!LU@{L\-U}}
+\subsubsection[{kernel}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type $>$ const {\bf L\-U}$<$ Matrix\-Type $>$\-::{\bf Kernel\-Result\-Type} {\bf L\-U}$<$ Matrix\-Type $>$\-::kernel (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_l_u_af6f47fa3872cd3e7931ef553e862202d}
+\begin{DoxyReturn}{Returns}
+the kernel of the matrix, also called its null-\/space. The columns of the returned matrix will form a basis of the kernel.
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+\-: this method is only allowed on non-\/invertible matrices, as determined by \hyperlink{class_l_u_a7b4fe58c504fb3c28d29f198a10bf5e0}{is\-Invertible()}. Calling it on an invertible matrix will make an assertion fail.
+
+\-: this method returns a matrix by value, which induces some inefficiency. If you prefer to avoid this overhead, use \hyperlink{class_l_u_ae15a7528f85589b1494cdf4d12312b59}{compute\-Kernel()} instead.
+\end{DoxyNote}
+Example\-:
+\begin{DoxyCodeInclude}
+\end{DoxyCodeInclude}
+ Output\-:
+\begin{DoxyVerbInclude}
+\end{DoxyVerbInclude}
+
+
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_l_u_ae15a7528f85589b1494cdf4d12312b59}{compute\-Kernel()}, \hyperlink{class_l_u_a2c7e6a983dc0e0aad12040a653e05529}{image()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 448 of file L\-U.\-h.
+
+\hypertarget{class_l_u_a502973e871891b161b1cc66f105728cc}{\index{L\-U@{L\-U}!matrix\-L\-U@{matrix\-L\-U}}
+\index{matrix\-L\-U@{matrix\-L\-U}!LU@{L\-U}}
+\subsubsection[{matrix\-L\-U}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type$>$ const Matrix\-Type\& {\bf L\-U}$<$ Matrix\-Type $>$\-::matrix\-L\-U (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_l_u_a502973e871891b161b1cc66f105728cc}
+\begin{DoxyReturn}{Returns}
+the \hyperlink{class_l_u}{L\-U} decomposition matrix\-: the upper-\/triangular part is U, the unit-\/lower-\/triangular part is L (at least for square matrices; in the non-\/square case, special care is needed, see the documentation of class \hyperlink{class_l_u}{L\-U}).
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+matrix\-L(), matrix\-U() 
+\end{DoxySeeAlso}
+
+
+Definition at line 107 of file L\-U.\-h.
+
+\hypertarget{class_l_u_a734b5fd0ec8281e6985e2a90bc1e1570}{\index{L\-U@{L\-U}!permutation\-P@{permutation\-P}}
+\index{permutation\-P@{permutation\-P}!LU@{L\-U}}
+\subsubsection[{permutation\-P}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type$>$ const {\bf Int\-Col\-Vector\-Type}\& {\bf L\-U}$<$ Matrix\-Type $>$\-::permutation\-P (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_l_u_a734b5fd0ec8281e6985e2a90bc1e1570}
+\begin{DoxyReturn}{Returns}
+a vector of integers, whose size is the number of rows of the matrix being decomposed, representing the P permutation i.\-e. the permutation of the rows. For its precise meaning, see the examples given in the documentation of class \hyperlink{class_l_u}{L\-U}.
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_l_u_afb01cfd53e082fb9a7d371766b50ef96}{permutation\-Q()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 118 of file L\-U.\-h.
+
+\hypertarget{class_l_u_afb01cfd53e082fb9a7d371766b50ef96}{\index{L\-U@{L\-U}!permutation\-Q@{permutation\-Q}}
+\index{permutation\-Q@{permutation\-Q}!LU@{L\-U}}
+\subsubsection[{permutation\-Q}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type$>$ const {\bf Int\-Row\-Vector\-Type}\& {\bf L\-U}$<$ Matrix\-Type $>$\-::permutation\-Q (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_l_u_afb01cfd53e082fb9a7d371766b50ef96}
+\begin{DoxyReturn}{Returns}
+a vector of integers, whose size is the number of columns of the matrix being decomposed, representing the Q permutation i.\-e. the permutation of the columns. For its precise meaning, see the examples given in the documentation of class \hyperlink{class_l_u}{L\-U}.
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_l_u_a734b5fd0ec8281e6985e2a90bc1e1570}{permutation\-P()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 129 of file L\-U.\-h.
+
+\hypertarget{class_l_u_a23c04ccdfd9182b3b0b41dae12beb28a}{\index{L\-U@{L\-U}!rank@{rank}}
+\index{rank@{rank}!LU@{L\-U}}
+\subsubsection[{rank}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type$>$ {\bf int} {\bf L\-U}$<$ Matrix\-Type $>$\-::rank (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_l_u_a23c04ccdfd9182b3b0b41dae12beb28a}
+\begin{DoxyReturn}{Returns}
+the rank of the matrix of which $\ast$this is the \hyperlink{class_l_u}{L\-U} decomposition.
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+This is computed at the time of the construction of the \hyperlink{class_l_u}{L\-U} decomposition. This method does not perform any further computation. 
+\end{DoxyNote}
+
+
+Definition at line 244 of file L\-U.\-h.
+
+\hypertarget{class_l_u_a69ac8b255d9d1d953cd6006ab96f2cd0}{\index{L\-U@{L\-U}!solve@{solve}}
+\index{solve@{solve}!LU@{L\-U}}
+\subsubsection[{solve}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type $>$ template$<$typename Other\-Derived , typename Result\-Type $>$ bool {\bf L\-U}$<$ Matrix\-Type $>$\-::solve (
+\begin{DoxyParamCaption}
+\item[{const {\bf Matrix\-Base}$<$ Other\-Derived $>$ \&}]{b, }
+\item[{Result\-Type $\ast$}]{result}
+\end{DoxyParamCaption}
+) const}}\label{class_l_u_a69ac8b255d9d1d953cd6006ab96f2cd0}
+This method finds a solution x to the equation Ax=b, where A is the matrix of which $\ast$this is the \hyperlink{class_l_u}{L\-U} decomposition, if any exists.
+
+
+\begin{DoxyParams}{Parameters}
+{\em b} & the right-\/hand-\/side of the equation to solve. Can be a vector or a matrix, the only requirement in order for the equation to make sense is that b.\-rows()==A.\-rows(), where A is the matrix of which $\ast$this is the \hyperlink{class_l_u}{L\-U} decomposition. \\
+\hline
+{\em result} & a pointer to the vector or matrix in which to store the solution, if any exists. Resized if necessary, so that result-\/$>$rows()==A.\-cols() and result-\/$>$cols()==b.\-cols(). If no solution exists, $\ast$result is left with undefined coefficients.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if any solution exists, false if no solution exists.
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+If there exist more than one solution, this method will arbitrarily choose one. If you need a complete analysis of the space of solutions, take the one solution obtained by this method and add to it elements of the kernel, as determined by \hyperlink{class_l_u_af6f47fa3872cd3e7931ef553e862202d}{kernel()}.
+\end{DoxyNote}
+Example\-:
+\begin{DoxyCodeInclude}
+\end{DoxyCodeInclude}
+ Output\-:
+\begin{DoxyVerbInclude}
+\end{DoxyVerbInclude}
+
+
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_matrix_base_aa338f29b37898b2104b39c32b6854a65}{Matrix\-Base\-::solve\-Triangular()}, \hyperlink{class_l_u_af6f47fa3872cd3e7931ef553e862202d}{kernel()}, \hyperlink{class_l_u_ae15a7528f85589b1494cdf4d12312b59}{compute\-Kernel()}, \hyperlink{class_l_u_aa6216497ac4d2d2ed495432793bb2ae7}{inverse()}, \hyperlink{class_l_u_a3db080336b22760ca951e8732fd67d16}{compute\-Inverse()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 476 of file L\-U.\-h.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{class_l_u_a660047068751fe2899eab257abf2689d}{\index{L\-U@{L\-U}!m\-\_\-det\-\_\-pq@{m\-\_\-det\-\_\-pq}}
+\index{m\-\_\-det\-\_\-pq@{m\-\_\-det\-\_\-pq}!LU@{L\-U}}
+\subsubsection[{m\-\_\-det\-\_\-pq}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type$>$ {\bf int} {\bf L\-U}$<$ Matrix\-Type $>$\-::m\-\_\-det\-\_\-pq\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_l_u_a660047068751fe2899eab257abf2689d}
+
+
+Definition at line 325 of file L\-U.\-h.
+
+\hypertarget{class_l_u_a6002bcdbe1c561d3e9e6ae3289db72cb}{\index{L\-U@{L\-U}!m\-\_\-lu@{m\-\_\-lu}}
+\index{m\-\_\-lu@{m\-\_\-lu}!LU@{L\-U}}
+\subsubsection[{m\-\_\-lu}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type$>$ Matrix\-Type {\bf L\-U}$<$ Matrix\-Type $>$\-::m\-\_\-lu\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_l_u_a6002bcdbe1c561d3e9e6ae3289db72cb}
+
+
+Definition at line 322 of file L\-U.\-h.
+
+\hypertarget{class_l_u_ac0ddae608326613044fd370e23fc5798}{\index{L\-U@{L\-U}!m\-\_\-original\-Matrix@{m\-\_\-original\-Matrix}}
+\index{m\-\_\-original\-Matrix@{m\-\_\-original\-Matrix}!LU@{L\-U}}
+\subsubsection[{m\-\_\-original\-Matrix}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type$>$ const Matrix\-Type\& {\bf L\-U}$<$ Matrix\-Type $>$\-::m\-\_\-original\-Matrix\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_l_u_ac0ddae608326613044fd370e23fc5798}
+
+
+Definition at line 321 of file L\-U.\-h.
+
+\hypertarget{class_l_u_a7666f778da10e87f96aa8a3c19b7a112}{\index{L\-U@{L\-U}!m\-\_\-p@{m\-\_\-p}}
+\index{m\-\_\-p@{m\-\_\-p}!LU@{L\-U}}
+\subsubsection[{m\-\_\-p}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type$>$ {\bf Int\-Col\-Vector\-Type} {\bf L\-U}$<$ Matrix\-Type $>$\-::m\-\_\-p\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_l_u_a7666f778da10e87f96aa8a3c19b7a112}
+
+
+Definition at line 323 of file L\-U.\-h.
+
+\hypertarget{class_l_u_a2166ed8c8e8764d0ca86dca4518eadba}{\index{L\-U@{L\-U}!m\-\_\-precision@{m\-\_\-precision}}
+\index{m\-\_\-precision@{m\-\_\-precision}!LU@{L\-U}}
+\subsubsection[{m\-\_\-precision}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type$>$ {\bf Real\-Scalar} {\bf L\-U}$<$ Matrix\-Type $>$\-::m\-\_\-precision\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_l_u_a2166ed8c8e8764d0ca86dca4518eadba}
+
+
+Definition at line 327 of file L\-U.\-h.
+
+\hypertarget{class_l_u_a3613b350d88bbf92f783cf0db45366f9}{\index{L\-U@{L\-U}!m\-\_\-q@{m\-\_\-q}}
+\index{m\-\_\-q@{m\-\_\-q}!LU@{L\-U}}
+\subsubsection[{m\-\_\-q}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type$>$ {\bf Int\-Row\-Vector\-Type} {\bf L\-U}$<$ Matrix\-Type $>$\-::m\-\_\-q\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_l_u_a3613b350d88bbf92f783cf0db45366f9}
+
+
+Definition at line 324 of file L\-U.\-h.
+
+\hypertarget{class_l_u_a6fce66346164396520654fc54d25c54a}{\index{L\-U@{L\-U}!m\-\_\-rank@{m\-\_\-rank}}
+\index{m\-\_\-rank@{m\-\_\-rank}!LU@{L\-U}}
+\subsubsection[{m\-\_\-rank}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type$>$ {\bf int} {\bf L\-U}$<$ Matrix\-Type $>$\-::m\-\_\-rank\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_l_u_a6fce66346164396520654fc54d25c54a}
+
+
+Definition at line 326 of file L\-U.\-h.
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/eigen/\-Eigen/src/\-Core/util/\hyperlink{_forward_declarations_8h}{Forward\-Declarations.\-h}\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/eigen/\-Eigen/src/\-L\-U/\hyperlink{_l_u_8h}{L\-U.\-h}\end{DoxyCompactItemize}

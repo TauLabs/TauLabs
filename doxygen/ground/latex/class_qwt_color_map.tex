@@ -1,0 +1,241 @@
+\hypertarget{class_qwt_color_map}{\section{Qwt\-Color\-Map Class Reference}
+\label{class_qwt_color_map}\index{Qwt\-Color\-Map@{Qwt\-Color\-Map}}
+}
+
+
+\hyperlink{class_qwt_color_map}{Qwt\-Color\-Map} is used to map values into colors.  
+
+
+
+
+{\ttfamily \#include $<$qwt\-\_\-color\-\_\-map.\-h$>$}
+
+Inheritance diagram for Qwt\-Color\-Map\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{class_qwt_color_map}
+\end{center}
+\end{figure}
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{class_qwt_color_map_a9e5570790910fa3894887bca7dc5a670}{Format} \{ \hyperlink{class_qwt_color_map_a9e5570790910fa3894887bca7dc5a670a663473fd836d9a84fe48ae1755de326a}{R\-G\-B}, 
+\hyperlink{class_qwt_color_map_a9e5570790910fa3894887bca7dc5a670a304cb055c004223ca77f1a4cbbf27ea2}{Indexed}
+ \}
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_qwt_color_map_a2ab0a6041ea6d37c0609ca2e3bd976ca}{Qwt\-Color\-Map} (\hyperlink{class_qwt_color_map_a9e5570790910fa3894887bca7dc5a670}{Format}=\hyperlink{class_qwt_color_map_a9e5570790910fa3894887bca7dc5a670a663473fd836d9a84fe48ae1755de326a}{Qwt\-Color\-Map\-::\-R\-G\-B})
+\begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
+virtual \hyperlink{class_qwt_color_map_af20e4ffdb3c5d34f5a6dc301bcbb9f7e}{$\sim$\-Qwt\-Color\-Map} ()
+\begin{DoxyCompactList}\small\item\em Destructor. \end{DoxyCompactList}\item 
+\hyperlink{class_qwt_color_map_a9e5570790910fa3894887bca7dc5a670}{Format} \hyperlink{class_qwt_color_map_a436802833ae1d4694f376655bc3d75be}{format} () const 
+\item 
+virtual Q\-Rgb \hyperlink{class_qwt_color_map_aaed0bb47b6379696c588732348438136}{rgb} (const \hyperlink{class_qwt_interval}{Qwt\-Interval} \&interval, \hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} \hyperlink{glext_8h_aa0e2e9cea7f208d28acda0480144beb0}{value}) const =0
+\item 
+virtual unsigned char \hyperlink{class_qwt_color_map_a762baa2edca8773ec09e0c1c5df2cf04}{color\-Index} (const \hyperlink{class_qwt_interval}{Qwt\-Interval} \&interval, \hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} \hyperlink{glext_8h_aa0e2e9cea7f208d28acda0480144beb0}{value}) const =0
+\item 
+Q\-Color \hyperlink{class_qwt_color_map_a35f74175e963d18e451a9fd4421ede1f}{color} (const \hyperlink{class_qwt_interval}{Qwt\-Interval} \&, \hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} \hyperlink{glext_8h_aa0e2e9cea7f208d28acda0480144beb0}{value}) const 
+\item 
+virtual Q\-Vector$<$ Q\-Rgb $>$ \hyperlink{class_qwt_color_map_a4ccc23356e058783071b06dee437b6d7}{color\-Table} (const \hyperlink{class_qwt_interval}{Qwt\-Interval} \&) const 
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\hyperlink{class_qwt_color_map}{Qwt\-Color\-Map} is used to map values into colors. 
+
+For displaying 3\-D data on a 2\-D plane the 3rd dimension is often displayed using colors, like f.\-e in a spectrogram.
+
+Each color map is optimized to return colors for only one of the following image formats\-:
+
+
+\begin{DoxyItemize}
+\item Q\-Image\-::\-Format\-\_\-\-Indexed8\par
+
+\item Q\-Image\-::\-Format\-\_\-\-A\-R\-G\-B32\par
+
+\end{DoxyItemize}
+
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_plot_spectrogram}{Qwt\-Plot\-Spectrogram}, \hyperlink{class_qwt_scale_widget}{Qwt\-Scale\-Widget} 
+\end{DoxySeeAlso}
+
+
+Definition at line 33 of file qwt\-\_\-color\-\_\-map.\-h.
+
+
+
+\subsection{Member Enumeration Documentation}
+\hypertarget{class_qwt_color_map_a9e5570790910fa3894887bca7dc5a670}{\index{Qwt\-Color\-Map@{Qwt\-Color\-Map}!Format@{Format}}
+\index{Format@{Format}!QwtColorMap@{Qwt\-Color\-Map}}
+\subsubsection[{Format}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf Qwt\-Color\-Map\-::\-Format}}}\label{class_qwt_color_map_a9e5570790910fa3894887bca7dc5a670}
+Format for color mapping \begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_color_map_aaed0bb47b6379696c588732348438136}{rgb()}, \hyperlink{class_qwt_color_map_a762baa2edca8773ec09e0c1c5df2cf04}{color\-Index()}, \hyperlink{class_qwt_color_map_a4ccc23356e058783071b06dee437b6d7}{color\-Table()} 
+\end{DoxySeeAlso}
+\begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{R\-G\-B@{R\-G\-B}!Qwt\-Color\-Map@{Qwt\-Color\-Map}}\index{Qwt\-Color\-Map@{Qwt\-Color\-Map}!R\-G\-B@{R\-G\-B}}\item[{\em 
+\hypertarget{class_qwt_color_map_a9e5570790910fa3894887bca7dc5a670a663473fd836d9a84fe48ae1755de326a}{R\-G\-B}\label{class_qwt_color_map_a9e5570790910fa3894887bca7dc5a670a663473fd836d9a84fe48ae1755de326a}
+}]The map is intended to map into Q\-Rgb values. \index{Indexed@{Indexed}!Qwt\-Color\-Map@{Qwt\-Color\-Map}}\index{Qwt\-Color\-Map@{Qwt\-Color\-Map}!Indexed@{Indexed}}\item[{\em 
+\hypertarget{class_qwt_color_map_a9e5570790910fa3894887bca7dc5a670a304cb055c004223ca77f1a4cbbf27ea2}{Indexed}\label{class_qwt_color_map_a9e5570790910fa3894887bca7dc5a670a304cb055c004223ca77f1a4cbbf27ea2}
+}]The map is intended to map into 8 bit values, that are indices into the color table. \end{description}
+\end{Desc}
+
+
+Definition at line 41 of file qwt\-\_\-color\-\_\-map.\-h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_qwt_color_map_a2ab0a6041ea6d37c0609ca2e3bd976ca}{\index{Qwt\-Color\-Map@{Qwt\-Color\-Map}!Qwt\-Color\-Map@{Qwt\-Color\-Map}}
+\index{Qwt\-Color\-Map@{Qwt\-Color\-Map}!QwtColorMap@{Qwt\-Color\-Map}}
+\subsubsection[{Qwt\-Color\-Map}]{\setlength{\rightskip}{0pt plus 5cm}Qwt\-Color\-Map\-::\-Qwt\-Color\-Map (
+\begin{DoxyParamCaption}
+\item[{{\bf Format}}]{format = {\ttfamily {\bf Qwt\-Color\-Map\-::\-R\-G\-B}}}
+\end{DoxyParamCaption}
+)}}\label{class_qwt_color_map_a2ab0a6041ea6d37c0609ca2e3bd976ca}
+
+
+Constructor. 
+
+
+
+Definition at line 147 of file qwt\-\_\-color\-\_\-map.\-cpp.
+
+\hypertarget{class_qwt_color_map_af20e4ffdb3c5d34f5a6dc301bcbb9f7e}{\index{Qwt\-Color\-Map@{Qwt\-Color\-Map}!$\sim$\-Qwt\-Color\-Map@{$\sim$\-Qwt\-Color\-Map}}
+\index{$\sim$\-Qwt\-Color\-Map@{$\sim$\-Qwt\-Color\-Map}!QwtColorMap@{Qwt\-Color\-Map}}
+\subsubsection[{$\sim$\-Qwt\-Color\-Map}]{\setlength{\rightskip}{0pt plus 5cm}Qwt\-Color\-Map\-::$\sim$\-Qwt\-Color\-Map (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_qwt_color_map_af20e4ffdb3c5d34f5a6dc301bcbb9f7e}
+
+
+Destructor. 
+
+
+
+Definition at line 153 of file qwt\-\_\-color\-\_\-map.\-cpp.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_qwt_color_map_a35f74175e963d18e451a9fd4421ede1f}{\index{Qwt\-Color\-Map@{Qwt\-Color\-Map}!color@{color}}
+\index{color@{color}!QwtColorMap@{Qwt\-Color\-Map}}
+\subsubsection[{color}]{\setlength{\rightskip}{0pt plus 5cm}Q\-Color Qwt\-Color\-Map\-::color (
+\begin{DoxyParamCaption}
+\item[{const {\bf Qwt\-Interval} \&}]{interval, }
+\item[{{\bf double}}]{value}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_qwt_color_map_a35f74175e963d18e451a9fd4421ede1f}
+\hyperlink{class_map}{Map} a value into a color
+
+
+\begin{DoxyParams}{Parameters}
+{\em interval} & Valid interval for values \\
+\hline
+{\em value} & Value\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Color corresponding to value
+\end{DoxyReturn}
+\begin{DoxyWarning}{Warning}
+This method is slow for Indexed color maps. If it is necessary to map many values, its better to get the color table once and find the color using \hyperlink{class_qwt_color_map_a762baa2edca8773ec09e0c1c5df2cf04}{color\-Index()}. 
+\end{DoxyWarning}
+
+
+Definition at line 175 of file qwt\-\_\-color\-\_\-map.\-h.
+
+\hypertarget{class_qwt_color_map_a762baa2edca8773ec09e0c1c5df2cf04}{\index{Qwt\-Color\-Map@{Qwt\-Color\-Map}!color\-Index@{color\-Index}}
+\index{color\-Index@{color\-Index}!QwtColorMap@{Qwt\-Color\-Map}}
+\subsubsection[{color\-Index}]{\setlength{\rightskip}{0pt plus 5cm}virtual unsigned char Qwt\-Color\-Map\-::color\-Index (
+\begin{DoxyParamCaption}
+\item[{const {\bf Qwt\-Interval} \&}]{interval, }
+\item[{{\bf double}}]{value}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [pure virtual]}}}\label{class_qwt_color_map_a762baa2edca8773ec09e0c1c5df2cf04}
+\hyperlink{class_map}{Map} a value of a given interval into a color index 
+\begin{DoxyParams}{Parameters}
+{\em interval} & Range for the values \\
+\hline
+{\em value} & Value \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+color index, corresponding to value 
+\end{DoxyReturn}
+
+
+Implemented in \hyperlink{class_qwt_linear_color_map_aa69528213eb7d484466f095c8a9a6efe}{Qwt\-Linear\-Color\-Map}.
+
+\hypertarget{class_qwt_color_map_a4ccc23356e058783071b06dee437b6d7}{\index{Qwt\-Color\-Map@{Qwt\-Color\-Map}!color\-Table@{color\-Table}}
+\index{color\-Table@{color\-Table}!QwtColorMap@{Qwt\-Color\-Map}}
+\subsubsection[{color\-Table}]{\setlength{\rightskip}{0pt plus 5cm}Q\-Vector$<$ Q\-Rgb $>$ Qwt\-Color\-Map\-::color\-Table (
+\begin{DoxyParamCaption}
+\item[{const {\bf Qwt\-Interval} \&}]{interval}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_qwt_color_map_a4ccc23356e058783071b06dee437b6d7}
+Build and return a color map of 256 colors
+
+The color table is needed for rendering indexed images in combination with using \hyperlink{class_qwt_color_map_a762baa2edca8773ec09e0c1c5df2cf04}{color\-Index()}.
+
+
+\begin{DoxyParams}{Parameters}
+{\em interval} & Range for the values \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A color table, that can be used for a Q\-Image 
+\end{DoxyReturn}
+
+
+Definition at line 166 of file qwt\-\_\-color\-\_\-map.\-cpp.
+
+\hypertarget{class_qwt_color_map_a436802833ae1d4694f376655bc3d75be}{\index{Qwt\-Color\-Map@{Qwt\-Color\-Map}!format@{format}}
+\index{format@{format}!QwtColorMap@{Qwt\-Color\-Map}}
+\subsubsection[{format}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Qwt\-Color\-Map\-::\-Format} Qwt\-Color\-Map\-::format (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_qwt_color_map_a436802833ae1d4694f376655bc3d75be}
+\begin{DoxyReturn}{Returns}
+Intended format of the color map 
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_color_map_a9e5570790910fa3894887bca7dc5a670}{Format} 
+\end{DoxySeeAlso}
+
+
+Definition at line 193 of file qwt\-\_\-color\-\_\-map.\-h.
+
+\hypertarget{class_qwt_color_map_aaed0bb47b6379696c588732348438136}{\index{Qwt\-Color\-Map@{Qwt\-Color\-Map}!rgb@{rgb}}
+\index{rgb@{rgb}!QwtColorMap@{Qwt\-Color\-Map}}
+\subsubsection[{rgb}]{\setlength{\rightskip}{0pt plus 5cm}virtual Q\-Rgb Qwt\-Color\-Map\-::rgb (
+\begin{DoxyParamCaption}
+\item[{const {\bf Qwt\-Interval} \&}]{interval, }
+\item[{{\bf double}}]{value}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [pure virtual]}}}\label{class_qwt_color_map_aaed0bb47b6379696c588732348438136}
+\hyperlink{class_map}{Map} a value of a given interval into a rgb value. 
+\begin{DoxyParams}{Parameters}
+{\em interval} & Range for the values \\
+\hline
+{\em value} & Value \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+rgb value, corresponding to value 
+\end{DoxyReturn}
+
+
+Implemented in \hyperlink{class_qwt_alpha_color_map_a2f0ce2bdaecf7e74b635b8433ed733d5}{Qwt\-Alpha\-Color\-Map}, and \hyperlink{class_qwt_linear_color_map_ac031babccc90d8c857c707d0841ba1eb}{Qwt\-Linear\-Color\-Map}.
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/qwt/src/\hyperlink{qwt__color__map_8h}{qwt\-\_\-color\-\_\-map.\-h}\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/qwt/src/\hyperlink{qwt__color__map_8cpp}{qwt\-\_\-color\-\_\-map.\-cpp}\end{DoxyCompactItemize}

@@ -1,0 +1,402 @@
+\hypertarget{class_parametrized_line}{\section{Parametrized\-Line$<$ \-\_\-\-Scalar, \-\_\-\-Ambient\-Dim $>$ Class Template Reference}
+\label{class_parametrized_line}\index{Parametrized\-Line$<$ \-\_\-\-Scalar, \-\_\-\-Ambient\-Dim $>$@{Parametrized\-Line$<$ \-\_\-\-Scalar, \-\_\-\-Ambient\-Dim $>$}}
+}
+
+
+A parametrized line.  
+
+
+
+
+{\ttfamily \#include $<$Forward\-Declarations.\-h$>$}
+
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+typedef \-\_\-\-Scalar \hyperlink{class_parametrized_line_ac4e083e5a62740e45d2158c6692b2115}{Scalar}
+\item 
+typedef \hyperlink{struct_num_traits}{Num\-Traits}$<$ \hyperlink{class_parametrized_line_ac4e083e5a62740e45d2158c6692b2115}{Scalar} $>$\-::Real \hyperlink{class_parametrized_line_a5a5bc8e0f892d08922cd4152622a1ea3}{Real\-Scalar}
+\item 
+typedef \hyperlink{class_matrix}{Matrix}$<$ \hyperlink{class_parametrized_line_ac4e083e5a62740e45d2158c6692b2115}{Scalar}, \\*
+Ambient\-Dim\-At\-Compile\-Time, 1 $>$ \hyperlink{class_parametrized_line_a50da4abea0ab33894502d66459f261ba}{Vector\-Type}
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_parametrized_line_a02796f7a1aae57ac2c8cbb410004ec6a}{E\-I\-G\-E\-N\-\_\-\-M\-A\-K\-E\-\_\-\-A\-L\-I\-G\-N\-E\-D\-\_\-\-O\-P\-E\-R\-A\-T\-O\-R\-\_\-\-N\-E\-W\-\_\-\-I\-F\-\_\-\-V\-E\-C\-T\-O\-R\-I\-Z\-A\-B\-L\-E\-\_\-\-F\-I\-X\-E\-D\-\_\-\-S\-I\-Z\-E} (\-\_\-\-Scalar, \-\_\-\-Ambient\-Dim) enum
+\item 
+\hyperlink{class_parametrized_line_acb0ad9566c1a4ac57b2ac17125203984}{Parametrized\-Line} ()
+\item 
+\hyperlink{class_parametrized_line_a5d3921691d757ad8843d1c338cf27c87}{Parametrized\-Line} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \-\_\-dim)
+\item 
+\hyperlink{class_parametrized_line_abc7eff4db1796ee48659a1448dcb8963}{Parametrized\-Line} (const \hyperlink{class_parametrized_line_a50da4abea0ab33894502d66459f261ba}{Vector\-Type} \&\hyperlink{ioapi_8h_a6ad5e17860121e666df109329b95c83e}{origin}, const \hyperlink{class_parametrized_line_a50da4abea0ab33894502d66459f261ba}{Vector\-Type} \&\hyperlink{class_parametrized_line_ac02a9d9489381e383d5f8e3ce43a639d}{direction})
+\item 
+\hyperlink{class_parametrized_line_ab71368e0269a63988f91929990c65f52}{Parametrized\-Line} (const \hyperlink{class_hyperplane}{Hyperplane}$<$ \-\_\-\-Scalar, \-\_\-\-Ambient\-Dim $>$ \&hyperplane)
+\item 
+\hyperlink{class_parametrized_line_a27d8f028f22b19f6051cb8dff2ac5b62}{$\sim$\-Parametrized\-Line} ()
+\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_parametrized_line_aee26dd595b1182d2c894537963093ed3}{dim} () const 
+\item 
+const \hyperlink{class_parametrized_line_a50da4abea0ab33894502d66459f261ba}{Vector\-Type} \& \hyperlink{class_parametrized_line_a51fe922fc27faa5a4d5079eac96e98e8}{origin} () const 
+\item 
+\hyperlink{class_parametrized_line_a50da4abea0ab33894502d66459f261ba}{Vector\-Type} \& \hyperlink{class_parametrized_line_af547b7cf08078e7a8e6b808b3f422c69}{origin} ()
+\item 
+const \hyperlink{class_parametrized_line_a50da4abea0ab33894502d66459f261ba}{Vector\-Type} \& \hyperlink{class_parametrized_line_ac02a9d9489381e383d5f8e3ce43a639d}{direction} () const 
+\item 
+\hyperlink{class_parametrized_line_a50da4abea0ab33894502d66459f261ba}{Vector\-Type} \& \hyperlink{class_parametrized_line_a053718f285d65533a2f26b18ad98cc82}{direction} ()
+\item 
+\hyperlink{class_parametrized_line_a5a5bc8e0f892d08922cd4152622a1ea3}{Real\-Scalar} \hyperlink{class_parametrized_line_a086f1472db36f58b1cf7b32bede144c0}{squared\-Distance} (const \hyperlink{class_parametrized_line_a50da4abea0ab33894502d66459f261ba}{Vector\-Type} \&\hyperlink{glext_8h_aa5367c14d90f462230c2611b81b41d23}{p}) const 
+\item 
+\hyperlink{class_parametrized_line_a5a5bc8e0f892d08922cd4152622a1ea3}{Real\-Scalar} \hyperlink{class_parametrized_line_a0b2c8fbc9ed995ed7acf4d8fc7036acd}{distance} (const \hyperlink{class_parametrized_line_a50da4abea0ab33894502d66459f261ba}{Vector\-Type} \&\hyperlink{glext_8h_aa5367c14d90f462230c2611b81b41d23}{p}) const 
+\item 
+\hyperlink{class_parametrized_line_a50da4abea0ab33894502d66459f261ba}{Vector\-Type} \hyperlink{class_parametrized_line_aa01c70cd21764b77e6c4cf505e1e96a9}{projection} (const \hyperlink{class_parametrized_line_a50da4abea0ab33894502d66459f261ba}{Vector\-Type} \&\hyperlink{glext_8h_aa5367c14d90f462230c2611b81b41d23}{p}) const 
+\item 
+\hyperlink{class_parametrized_line_ac4e083e5a62740e45d2158c6692b2115}{Scalar} \hyperlink{class_parametrized_line_a911c235c6a327e49ddeb41b22d4ff069}{intersection} (const \hyperlink{class_hyperplane}{Hyperplane}$<$ \-\_\-\-Scalar, \-\_\-\-Ambient\-Dim $>$ \&hyperplane)
+\item 
+{\footnotesize template$<$typename New\-Scalar\-Type $>$ }\\\hyperlink{structei__cast__return__type}{ei\-\_\-cast\-\_\-return\-\_\-type}\\*
+$<$ \hyperlink{class_parametrized_line}{Parametrized\-Line}, \\*
+\hyperlink{class_parametrized_line}{Parametrized\-Line}\\*
+$<$ New\-Scalar\-Type, \\*
+Ambient\-Dim\-At\-Compile\-Time $>$\\*
+ $>$\-::\hyperlink{glext_8h_a7d05960f4f1c1b11f3177dc963a45d86}{type} \hyperlink{class_parametrized_line_a7a871f67e3d017218e441f76a0ec9dff}{cast} () const 
+\item 
+{\footnotesize template$<$typename Other\-Scalar\-Type $>$ }\\\hyperlink{class_parametrized_line_a33b08092fee099734ba8f1adc93ce329}{Parametrized\-Line} (const \hyperlink{class_parametrized_line}{Parametrized\-Line}$<$ Other\-Scalar\-Type, Ambient\-Dim\-At\-Compile\-Time $>$ \&other)
+\item 
+bool \hyperlink{class_parametrized_line_a956329d58fcbdd7a910a3cae90e0f6d9}{is\-Approx} (const \hyperlink{class_parametrized_line}{Parametrized\-Line} \&other, typename \hyperlink{struct_num_traits}{Num\-Traits}$<$ \hyperlink{class_parametrized_line_ac4e083e5a62740e45d2158c6692b2115}{Scalar} $>$\-::Real prec=\hyperlink{_math_functions_8h_a3dc1c65cf9dc9b5a7ee66472d0ae83e1}{precision}$<$ \hyperlink{class_parametrized_line_ac4e083e5a62740e45d2158c6692b2115}{Scalar} $>$()) const 
+\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static \hyperlink{class_parametrized_line}{Parametrized\-Line} \hyperlink{class_parametrized_line_ac4bfeef3e46746a68dbd08e0b61400e3}{Through} (const \hyperlink{class_parametrized_line_a50da4abea0ab33894502d66459f261ba}{Vector\-Type} \&p0, const \hyperlink{class_parametrized_line_a50da4abea0ab33894502d66459f261ba}{Vector\-Type} \&p1)
+\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_parametrized_line_a50da4abea0ab33894502d66459f261ba}{Vector\-Type} \hyperlink{class_parametrized_line_a4a8e8e1f3df3d07c9170ed3a94f81138}{m\-\_\-origin}
+\item 
+\hyperlink{class_parametrized_line_a50da4abea0ab33894502d66459f261ba}{Vector\-Type} \hyperlink{class_parametrized_line_a0c55dd57c800ae31aabfe572e88221c2}{m\-\_\-direction}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$typename \-\_\-\-Scalar, int \-\_\-\-Ambient\-Dim$>$class Parametrized\-Line$<$ \-\_\-\-Scalar, \-\_\-\-Ambient\-Dim $>$}
+
+A parametrized line. 
+
+A parametrized line is defined by an origin point $ \mathbf{o} $ and a unit direction vector $ \mathbf{d} $ such that the line corresponds to the set $ l(t) = \mathbf{o} + t \mathbf{d} $, $ l \in \mathbf{R} $.
+
+
+\begin{DoxyParams}{Parameters}
+{\em \-\_\-\-Scalar} & the scalar type, i.\-e., the type of the coefficients \\
+\hline
+{\em \-\_\-\-Ambient\-Dim} & the dimension of the ambient space, can be a compile time value or Dynamic. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 117 of file Forward\-Declarations.\-h.
+
+
+
+\subsection{Member Typedef Documentation}
+\hypertarget{class_parametrized_line_a5a5bc8e0f892d08922cd4152622a1ea3}{\index{Parametrized\-Line@{Parametrized\-Line}!Real\-Scalar@{Real\-Scalar}}
+\index{Real\-Scalar@{Real\-Scalar}!ParametrizedLine@{Parametrized\-Line}}
+\subsubsection[{Real\-Scalar}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar, int \-\_\-\-Ambient\-Dim$>$ typedef {\bf Num\-Traits}$<${\bf Scalar}$>$\-::Real {\bf Parametrized\-Line}$<$ \-\_\-\-Scalar, \-\_\-\-Ambient\-Dim $>$\-::{\bf Real\-Scalar}}}\label{class_parametrized_line_a5a5bc8e0f892d08922cd4152622a1ea3}
+
+
+Definition at line 49 of file Parametrized\-Line.\-h.
+
+\hypertarget{class_parametrized_line_ac4e083e5a62740e45d2158c6692b2115}{\index{Parametrized\-Line@{Parametrized\-Line}!Scalar@{Scalar}}
+\index{Scalar@{Scalar}!ParametrizedLine@{Parametrized\-Line}}
+\subsubsection[{Scalar}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar, int \-\_\-\-Ambient\-Dim$>$ typedef \-\_\-\-Scalar {\bf Parametrized\-Line}$<$ \-\_\-\-Scalar, \-\_\-\-Ambient\-Dim $>$\-::{\bf Scalar}}}\label{class_parametrized_line_ac4e083e5a62740e45d2158c6692b2115}
+
+
+Definition at line 47 of file Parametrized\-Line.\-h.
+
+\hypertarget{class_parametrized_line_a50da4abea0ab33894502d66459f261ba}{\index{Parametrized\-Line@{Parametrized\-Line}!Vector\-Type@{Vector\-Type}}
+\index{Vector\-Type@{Vector\-Type}!ParametrizedLine@{Parametrized\-Line}}
+\subsubsection[{Vector\-Type}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar, int \-\_\-\-Ambient\-Dim$>$ typedef {\bf Matrix}$<${\bf Scalar},Ambient\-Dim\-At\-Compile\-Time,1$>$ {\bf Parametrized\-Line}$<$ \-\_\-\-Scalar, \-\_\-\-Ambient\-Dim $>$\-::{\bf Vector\-Type}}}\label{class_parametrized_line_a50da4abea0ab33894502d66459f261ba}
+
+
+Definition at line 50 of file Parametrized\-Line.\-h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_parametrized_line_acb0ad9566c1a4ac57b2ac17125203984}{\index{Parametrized\-Line@{Parametrized\-Line}!Parametrized\-Line@{Parametrized\-Line}}
+\index{Parametrized\-Line@{Parametrized\-Line}!ParametrizedLine@{Parametrized\-Line}}
+\subsubsection[{Parametrized\-Line}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar, int \-\_\-\-Ambient\-Dim$>$ {\bf Parametrized\-Line}$<$ \-\_\-\-Scalar, \-\_\-\-Ambient\-Dim $>$\-::{\bf Parametrized\-Line} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [explicit]}}}\label{class_parametrized_line_acb0ad9566c1a4ac57b2ac17125203984}
+Default constructor without initialization 
+
+Definition at line 53 of file Parametrized\-Line.\-h.
+
+\hypertarget{class_parametrized_line_a5d3921691d757ad8843d1c338cf27c87}{\index{Parametrized\-Line@{Parametrized\-Line}!Parametrized\-Line@{Parametrized\-Line}}
+\index{Parametrized\-Line@{Parametrized\-Line}!ParametrizedLine@{Parametrized\-Line}}
+\subsubsection[{Parametrized\-Line}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar, int \-\_\-\-Ambient\-Dim$>$ {\bf Parametrized\-Line}$<$ \-\_\-\-Scalar, \-\_\-\-Ambient\-Dim $>$\-::{\bf Parametrized\-Line} (
+\begin{DoxyParamCaption}
+\item[{{\bf int}}]{\-\_\-dim}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [explicit]}}}\label{class_parametrized_line_a5d3921691d757ad8843d1c338cf27c87}
+Constructs a dynamic-\/size line with {\itshape \-\_\-dim} the dimension of the ambient space 
+
+Definition at line 57 of file Parametrized\-Line.\-h.
+
+\hypertarget{class_parametrized_line_abc7eff4db1796ee48659a1448dcb8963}{\index{Parametrized\-Line@{Parametrized\-Line}!Parametrized\-Line@{Parametrized\-Line}}
+\index{Parametrized\-Line@{Parametrized\-Line}!ParametrizedLine@{Parametrized\-Line}}
+\subsubsection[{Parametrized\-Line}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar, int \-\_\-\-Ambient\-Dim$>$ {\bf Parametrized\-Line}$<$ \-\_\-\-Scalar, \-\_\-\-Ambient\-Dim $>$\-::{\bf Parametrized\-Line} (
+\begin{DoxyParamCaption}
+\item[{const {\bf Vector\-Type} \&}]{origin, }
+\item[{const {\bf Vector\-Type} \&}]{direction}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_parametrized_line_abc7eff4db1796ee48659a1448dcb8963}
+Initializes a parametrized line of direction {\itshape direction} and origin {\itshape origin}. \begin{DoxyWarning}{Warning}
+the vector direction is assumed to be normalized. 
+\end{DoxyWarning}
+
+
+Definition at line 62 of file Parametrized\-Line.\-h.
+
+\hypertarget{class_parametrized_line_ab71368e0269a63988f91929990c65f52}{\index{Parametrized\-Line@{Parametrized\-Line}!Parametrized\-Line@{Parametrized\-Line}}
+\index{Parametrized\-Line@{Parametrized\-Line}!ParametrizedLine@{Parametrized\-Line}}
+\subsubsection[{Parametrized\-Line}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar , int \-\_\-\-Ambient\-Dim$>$ {\bf Parametrized\-Line}$<$ \-\_\-\-Scalar, \-\_\-\-Ambient\-Dim $>$\-::{\bf Parametrized\-Line} (
+\begin{DoxyParamCaption}
+\item[{const {\bf Hyperplane}$<$ \-\_\-\-Scalar, \-\_\-\-Ambient\-Dim $>$ \&}]{hyperplane}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [explicit]}}}\label{class_parametrized_line_ab71368e0269a63988f91929990c65f52}
+Constructs a parametrized line from a 2\-D hyperplane
+
+\begin{DoxyWarning}{Warning}
+the ambient space must have dimension 2 such that the hyperplane actually describes a line 
+\end{DoxyWarning}
+
+
+Definition at line 139 of file Parametrized\-Line.\-h.
+
+\hypertarget{class_parametrized_line_a27d8f028f22b19f6051cb8dff2ac5b62}{\index{Parametrized\-Line@{Parametrized\-Line}!$\sim$\-Parametrized\-Line@{$\sim$\-Parametrized\-Line}}
+\index{$\sim$\-Parametrized\-Line@{$\sim$\-Parametrized\-Line}!ParametrizedLine@{Parametrized\-Line}}
+\subsubsection[{$\sim$\-Parametrized\-Line}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar, int \-\_\-\-Ambient\-Dim$>$ {\bf Parametrized\-Line}$<$ \-\_\-\-Scalar, \-\_\-\-Ambient\-Dim $>$\-::$\sim${\bf Parametrized\-Line} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_parametrized_line_a27d8f028f22b19f6051cb8dff2ac5b62}
+
+
+Definition at line 71 of file Parametrized\-Line.\-h.
+
+\hypertarget{class_parametrized_line_a33b08092fee099734ba8f1adc93ce329}{\index{Parametrized\-Line@{Parametrized\-Line}!Parametrized\-Line@{Parametrized\-Line}}
+\index{Parametrized\-Line@{Parametrized\-Line}!ParametrizedLine@{Parametrized\-Line}}
+\subsubsection[{Parametrized\-Line}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar, int \-\_\-\-Ambient\-Dim$>$ template$<$typename Other\-Scalar\-Type $>$ {\bf Parametrized\-Line}$<$ \-\_\-\-Scalar, \-\_\-\-Ambient\-Dim $>$\-::{\bf Parametrized\-Line} (
+\begin{DoxyParamCaption}
+\item[{const {\bf Parametrized\-Line}$<$ Other\-Scalar\-Type, Ambient\-Dim\-At\-Compile\-Time $>$ \&}]{other}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [explicit]}}}\label{class_parametrized_line_a33b08092fee099734ba8f1adc93ce329}
+Copy constructor with scalar type conversion 
+
+Definition at line 116 of file Parametrized\-Line.\-h.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_parametrized_line_a7a871f67e3d017218e441f76a0ec9dff}{\index{Parametrized\-Line@{Parametrized\-Line}!cast@{cast}}
+\index{cast@{cast}!ParametrizedLine@{Parametrized\-Line}}
+\subsubsection[{cast}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar, int \-\_\-\-Ambient\-Dim$>$ template$<$typename New\-Scalar\-Type $>$ {\bf ei\-\_\-cast\-\_\-return\-\_\-type}$<${\bf Parametrized\-Line}, {\bf Parametrized\-Line}$<$New\-Scalar\-Type,Ambient\-Dim\-At\-Compile\-Time$>$ $>$\-::{\bf type} {\bf Parametrized\-Line}$<$ \-\_\-\-Scalar, \-\_\-\-Ambient\-Dim $>$\-::cast (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_parametrized_line_a7a871f67e3d017218e441f76a0ec9dff}
+\begin{DoxyReturn}{Returns}
+{\ttfamily $\ast$this} with scalar type casted to {\itshape New\-Scalar\-Type} 
+\end{DoxyReturn}
+Note that if {\itshape New\-Scalar\-Type} is equal to the current scalar type of {\ttfamily $\ast$this} then this function smartly returns a const reference to {\ttfamily $\ast$this}. 
+
+Definition at line 108 of file Parametrized\-Line.\-h.
+
+\hypertarget{class_parametrized_line_aee26dd595b1182d2c894537963093ed3}{\index{Parametrized\-Line@{Parametrized\-Line}!dim@{dim}}
+\index{dim@{dim}!ParametrizedLine@{Parametrized\-Line}}
+\subsubsection[{dim}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar, int \-\_\-\-Ambient\-Dim$>$ {\bf int} {\bf Parametrized\-Line}$<$ \-\_\-\-Scalar, \-\_\-\-Ambient\-Dim $>$\-::dim (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_parametrized_line_aee26dd595b1182d2c894537963093ed3}
+\begin{DoxyReturn}{Returns}
+the dimension in which the line holds 
+\end{DoxyReturn}
+
+
+Definition at line 74 of file Parametrized\-Line.\-h.
+
+\hypertarget{class_parametrized_line_ac02a9d9489381e383d5f8e3ce43a639d}{\index{Parametrized\-Line@{Parametrized\-Line}!direction@{direction}}
+\index{direction@{direction}!ParametrizedLine@{Parametrized\-Line}}
+\subsubsection[{direction}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar, int \-\_\-\-Ambient\-Dim$>$ const {\bf Vector\-Type}\& {\bf Parametrized\-Line}$<$ \-\_\-\-Scalar, \-\_\-\-Ambient\-Dim $>$\-::direction (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_parametrized_line_ac02a9d9489381e383d5f8e3ce43a639d}
+
+
+Definition at line 79 of file Parametrized\-Line.\-h.
+
+\hypertarget{class_parametrized_line_a053718f285d65533a2f26b18ad98cc82}{\index{Parametrized\-Line@{Parametrized\-Line}!direction@{direction}}
+\index{direction@{direction}!ParametrizedLine@{Parametrized\-Line}}
+\subsubsection[{direction}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar, int \-\_\-\-Ambient\-Dim$>$ {\bf Vector\-Type}\& {\bf Parametrized\-Line}$<$ \-\_\-\-Scalar, \-\_\-\-Ambient\-Dim $>$\-::direction (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_parametrized_line_a053718f285d65533a2f26b18ad98cc82}
+
+
+Definition at line 80 of file Parametrized\-Line.\-h.
+
+\hypertarget{class_parametrized_line_a0b2c8fbc9ed995ed7acf4d8fc7036acd}{\index{Parametrized\-Line@{Parametrized\-Line}!distance@{distance}}
+\index{distance@{distance}!ParametrizedLine@{Parametrized\-Line}}
+\subsubsection[{distance}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar, int \-\_\-\-Ambient\-Dim$>$ {\bf Real\-Scalar} {\bf Parametrized\-Line}$<$ \-\_\-\-Scalar, \-\_\-\-Ambient\-Dim $>$\-::distance (
+\begin{DoxyParamCaption}
+\item[{const {\bf Vector\-Type} \&}]{p}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_parametrized_line_a0b2c8fbc9ed995ed7acf4d8fc7036acd}
+\begin{DoxyReturn}{Returns}
+the distance of a point {\itshape p} to its projection onto the line {\ttfamily $\ast$this}. 
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_parametrized_line_a086f1472db36f58b1cf7b32bede144c0}{squared\-Distance()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 93 of file Parametrized\-Line.\-h.
+
+\hypertarget{class_parametrized_line_a02796f7a1aae57ac2c8cbb410004ec6a}{\index{Parametrized\-Line@{Parametrized\-Line}!E\-I\-G\-E\-N\-\_\-\-M\-A\-K\-E\-\_\-\-A\-L\-I\-G\-N\-E\-D\-\_\-\-O\-P\-E\-R\-A\-T\-O\-R\-\_\-\-N\-E\-W\-\_\-\-I\-F\-\_\-\-V\-E\-C\-T\-O\-R\-I\-Z\-A\-B\-L\-E\-\_\-\-F\-I\-X\-E\-D\-\_\-\-S\-I\-Z\-E@{E\-I\-G\-E\-N\-\_\-\-M\-A\-K\-E\-\_\-\-A\-L\-I\-G\-N\-E\-D\-\_\-\-O\-P\-E\-R\-A\-T\-O\-R\-\_\-\-N\-E\-W\-\_\-\-I\-F\-\_\-\-V\-E\-C\-T\-O\-R\-I\-Z\-A\-B\-L\-E\-\_\-\-F\-I\-X\-E\-D\-\_\-\-S\-I\-Z\-E}}
+\index{E\-I\-G\-E\-N\-\_\-\-M\-A\-K\-E\-\_\-\-A\-L\-I\-G\-N\-E\-D\-\_\-\-O\-P\-E\-R\-A\-T\-O\-R\-\_\-\-N\-E\-W\-\_\-\-I\-F\-\_\-\-V\-E\-C\-T\-O\-R\-I\-Z\-A\-B\-L\-E\-\_\-\-F\-I\-X\-E\-D\-\_\-\-S\-I\-Z\-E@{E\-I\-G\-E\-N\-\_\-\-M\-A\-K\-E\-\_\-\-A\-L\-I\-G\-N\-E\-D\-\_\-\-O\-P\-E\-R\-A\-T\-O\-R\-\_\-\-N\-E\-W\-\_\-\-I\-F\-\_\-\-V\-E\-C\-T\-O\-R\-I\-Z\-A\-B\-L\-E\-\_\-\-F\-I\-X\-E\-D\-\_\-\-S\-I\-Z\-E}!ParametrizedLine@{Parametrized\-Line}}
+\subsubsection[{E\-I\-G\-E\-N\-\_\-\-M\-A\-K\-E\-\_\-\-A\-L\-I\-G\-N\-E\-D\-\_\-\-O\-P\-E\-R\-A\-T\-O\-R\-\_\-\-N\-E\-W\-\_\-\-I\-F\-\_\-\-V\-E\-C\-T\-O\-R\-I\-Z\-A\-B\-L\-E\-\_\-\-F\-I\-X\-E\-D\-\_\-\-S\-I\-Z\-E}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar, int \-\_\-\-Ambient\-Dim$>$ {\bf Parametrized\-Line}$<$ \-\_\-\-Scalar, \-\_\-\-Ambient\-Dim $>$\-::E\-I\-G\-E\-N\-\_\-\-M\-A\-K\-E\-\_\-\-A\-L\-I\-G\-N\-E\-D\-\_\-\-O\-P\-E\-R\-A\-T\-O\-R\-\_\-\-N\-E\-W\-\_\-\-I\-F\-\_\-\-V\-E\-C\-T\-O\-R\-I\-Z\-A\-B\-L\-E\-\_\-\-F\-I\-X\-E\-D\-\_\-\-S\-I\-Z\-E (
+\begin{DoxyParamCaption}
+\item[{\-\_\-\-Scalar}]{, }
+\item[{\-\_\-\-Ambient\-Dim}]{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_parametrized_line_a02796f7a1aae57ac2c8cbb410004ec6a}
+
+
+Definition at line 46 of file Parametrized\-Line.\-h.
+
+\hypertarget{class_parametrized_line_a911c235c6a327e49ddeb41b22d4ff069}{\index{Parametrized\-Line@{Parametrized\-Line}!intersection@{intersection}}
+\index{intersection@{intersection}!ParametrizedLine@{Parametrized\-Line}}
+\subsubsection[{intersection}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar , int \-\_\-\-Ambient\-Dim$>$ \-\_\-\-Scalar {\bf Parametrized\-Line}$<$ \-\_\-\-Scalar, \-\_\-\-Ambient\-Dim $>$\-::intersection (
+\begin{DoxyParamCaption}
+\item[{const {\bf Hyperplane}$<$ \-\_\-\-Scalar, \-\_\-\-Ambient\-Dim $>$ \&}]{hyperplane}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_parametrized_line_a911c235c6a327e49ddeb41b22d4ff069}
+\begin{DoxyReturn}{Returns}
+the parameter value of the intersection between {\ttfamily $\ast$this} and the given hyperplane 
+\end{DoxyReturn}
+
+
+Definition at line 149 of file Parametrized\-Line.\-h.
+
+\hypertarget{class_parametrized_line_a956329d58fcbdd7a910a3cae90e0f6d9}{\index{Parametrized\-Line@{Parametrized\-Line}!is\-Approx@{is\-Approx}}
+\index{is\-Approx@{is\-Approx}!ParametrizedLine@{Parametrized\-Line}}
+\subsubsection[{is\-Approx}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar, int \-\_\-\-Ambient\-Dim$>$ bool {\bf Parametrized\-Line}$<$ \-\_\-\-Scalar, \-\_\-\-Ambient\-Dim $>$\-::is\-Approx (
+\begin{DoxyParamCaption}
+\item[{const {\bf Parametrized\-Line}$<$ \-\_\-\-Scalar, \-\_\-\-Ambient\-Dim $>$ \&}]{other, }
+\item[{typename {\bf Num\-Traits}$<$ {\bf Scalar} $>$\-::Real}]{prec = {\ttfamily {\bf precision}$<${\bf Scalar}$>$()}}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_parametrized_line_a956329d58fcbdd7a910a3cae90e0f6d9}
+\begin{DoxyReturn}{Returns}
+{\ttfamily true} if {\ttfamily $\ast$this} is approximately equal to {\itshape other}, within the precision determined by {\itshape prec}.
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_matrix_base_a85eb8c7adf519acfa5b74545a6870945}{Matrix\-Base\-::is\-Approx()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 126 of file Parametrized\-Line.\-h.
+
+\hypertarget{class_parametrized_line_a51fe922fc27faa5a4d5079eac96e98e8}{\index{Parametrized\-Line@{Parametrized\-Line}!origin@{origin}}
+\index{origin@{origin}!ParametrizedLine@{Parametrized\-Line}}
+\subsubsection[{origin}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar, int \-\_\-\-Ambient\-Dim$>$ const {\bf Vector\-Type}\& {\bf Parametrized\-Line}$<$ \-\_\-\-Scalar, \-\_\-\-Ambient\-Dim $>$\-::{\bf origin} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_parametrized_line_a51fe922fc27faa5a4d5079eac96e98e8}
+
+
+Definition at line 76 of file Parametrized\-Line.\-h.
+
+\hypertarget{class_parametrized_line_af547b7cf08078e7a8e6b808b3f422c69}{\index{Parametrized\-Line@{Parametrized\-Line}!origin@{origin}}
+\index{origin@{origin}!ParametrizedLine@{Parametrized\-Line}}
+\subsubsection[{origin}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar, int \-\_\-\-Ambient\-Dim$>$ {\bf Vector\-Type}\& {\bf Parametrized\-Line}$<$ \-\_\-\-Scalar, \-\_\-\-Ambient\-Dim $>$\-::{\bf origin} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_parametrized_line_af547b7cf08078e7a8e6b808b3f422c69}
+
+
+Definition at line 77 of file Parametrized\-Line.\-h.
+
+\hypertarget{class_parametrized_line_aa01c70cd21764b77e6c4cf505e1e96a9}{\index{Parametrized\-Line@{Parametrized\-Line}!projection@{projection}}
+\index{projection@{projection}!ParametrizedLine@{Parametrized\-Line}}
+\subsubsection[{projection}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar, int \-\_\-\-Ambient\-Dim$>$ {\bf Vector\-Type} {\bf Parametrized\-Line}$<$ \-\_\-\-Scalar, \-\_\-\-Ambient\-Dim $>$\-::projection (
+\begin{DoxyParamCaption}
+\item[{const {\bf Vector\-Type} \&}]{p}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_parametrized_line_aa01c70cd21764b77e6c4cf505e1e96a9}
+\begin{DoxyReturn}{Returns}
+the projection of a point {\itshape p} onto the line {\ttfamily $\ast$this}. 
+\end{DoxyReturn}
+
+
+Definition at line 96 of file Parametrized\-Line.\-h.
+
+\hypertarget{class_parametrized_line_a086f1472db36f58b1cf7b32bede144c0}{\index{Parametrized\-Line@{Parametrized\-Line}!squared\-Distance@{squared\-Distance}}
+\index{squared\-Distance@{squared\-Distance}!ParametrizedLine@{Parametrized\-Line}}
+\subsubsection[{squared\-Distance}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar, int \-\_\-\-Ambient\-Dim$>$ {\bf Real\-Scalar} {\bf Parametrized\-Line}$<$ \-\_\-\-Scalar, \-\_\-\-Ambient\-Dim $>$\-::squared\-Distance (
+\begin{DoxyParamCaption}
+\item[{const {\bf Vector\-Type} \&}]{p}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_parametrized_line_a086f1472db36f58b1cf7b32bede144c0}
+\begin{DoxyReturn}{Returns}
+the squared distance of a point {\itshape p} to its projection onto the line {\ttfamily $\ast$this}. 
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_parametrized_line_a0b2c8fbc9ed995ed7acf4d8fc7036acd}{distance()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 85 of file Parametrized\-Line.\-h.
+
+\hypertarget{class_parametrized_line_ac4bfeef3e46746a68dbd08e0b61400e3}{\index{Parametrized\-Line@{Parametrized\-Line}!Through@{Through}}
+\index{Through@{Through}!ParametrizedLine@{Parametrized\-Line}}
+\subsubsection[{Through}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar, int \-\_\-\-Ambient\-Dim$>$ static {\bf Parametrized\-Line} {\bf Parametrized\-Line}$<$ \-\_\-\-Scalar, \-\_\-\-Ambient\-Dim $>$\-::Through (
+\begin{DoxyParamCaption}
+\item[{const {\bf Vector\-Type} \&}]{p0, }
+\item[{const {\bf Vector\-Type} \&}]{p1}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{class_parametrized_line_ac4bfeef3e46746a68dbd08e0b61400e3}
+Constructs a parametrized line going from {\itshape p0} to {\itshape p1}. 
+
+Definition at line 68 of file Parametrized\-Line.\-h.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{class_parametrized_line_a0c55dd57c800ae31aabfe572e88221c2}{\index{Parametrized\-Line@{Parametrized\-Line}!m\-\_\-direction@{m\-\_\-direction}}
+\index{m\-\_\-direction@{m\-\_\-direction}!ParametrizedLine@{Parametrized\-Line}}
+\subsubsection[{m\-\_\-direction}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar, int \-\_\-\-Ambient\-Dim$>$ {\bf Vector\-Type} {\bf Parametrized\-Line}$<$ \-\_\-\-Scalar, \-\_\-\-Ambient\-Dim $>$\-::m\-\_\-direction\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_parametrized_line_a0c55dd57c800ae31aabfe572e88221c2}
+
+
+Definition at line 131 of file Parametrized\-Line.\-h.
+
+\hypertarget{class_parametrized_line_a4a8e8e1f3df3d07c9170ed3a94f81138}{\index{Parametrized\-Line@{Parametrized\-Line}!m\-\_\-origin@{m\-\_\-origin}}
+\index{m\-\_\-origin@{m\-\_\-origin}!ParametrizedLine@{Parametrized\-Line}}
+\subsubsection[{m\-\_\-origin}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar, int \-\_\-\-Ambient\-Dim$>$ {\bf Vector\-Type} {\bf Parametrized\-Line}$<$ \-\_\-\-Scalar, \-\_\-\-Ambient\-Dim $>$\-::m\-\_\-origin\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_parametrized_line_a4a8e8e1f3df3d07c9170ed3a94f81138}
+
+
+Definition at line 131 of file Parametrized\-Line.\-h.
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/eigen/\-Eigen/src/\-Core/util/\hyperlink{_forward_declarations_8h}{Forward\-Declarations.\-h}\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/eigen/\-Eigen/src/\-Geometry/\hyperlink{_parametrized_line_8h}{Parametrized\-Line.\-h}\end{DoxyCompactItemize}

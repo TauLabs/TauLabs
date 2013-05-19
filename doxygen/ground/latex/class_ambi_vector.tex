@@ -1,0 +1,348 @@
+\hypertarget{class_ambi_vector}{\section{Ambi\-Vector$<$ \-\_\-\-Scalar $>$ Class Template Reference}
+\label{class_ambi_vector}\index{Ambi\-Vector$<$ \-\_\-\-Scalar $>$@{Ambi\-Vector$<$ \-\_\-\-Scalar $>$}}
+}
+
+
+{\ttfamily \#include $<$Ambi\-Vector.\-h$>$}
+
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{class_ambi_vector_1_1_iterator}{Iterator}
+\item 
+struct \hyperlink{struct_ambi_vector_1_1_list_el}{List\-El}
+\end{DoxyCompactItemize}
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+typedef \-\_\-\-Scalar \hyperlink{class_ambi_vector_a08d3ee74ff00bc66d19750bf79989e92}{Scalar}
+\item 
+typedef \hyperlink{struct_num_traits}{Num\-Traits}$<$ \hyperlink{class_ambi_vector_a08d3ee74ff00bc66d19750bf79989e92}{Scalar} $>$\-::Real \hyperlink{class_ambi_vector_affe86bf272a7fe9dd0e7c8d1945e2648}{Real\-Scalar}
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_ambi_vector_a6600ce2a7be0ed0392b6d605ee21c681}{Ambi\-Vector} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{glext_8h_a014d89bd76f74ef3a29c8f04b473eb76}{size})
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_ambi_vector_aeede5fd602f4bb365a11904bdee1445f}{init} (\hyperlink{class_ambi_vector_affe86bf272a7fe9dd0e7c8d1945e2648}{Real\-Scalar} estimated\-Density)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_ambi_vector_a68875cad4359450a8c8d998c3b7ef7ff}{init} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{glext_8h_a1e71d9c196e4683cc06c4b54d53f7ef5}{mode})
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_ambi_vector_ae3bd7641541a98e8071602aacf2fd893}{non\-Zeros} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_ambi_vector_a7543fef49a839611960bd16d7c4aa83a}{set\-Bounds} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{glext_8h_a13be19455586e95d5a42ed8f054afad2}{start}, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{glext_8h_a432111147038972f06e049e18a837002}{end})
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_ambi_vector_a5721cc21c1f0c990d3973fa7aecf91a5}{set\-Zero} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_ambi_vector_a8b318558c11cac47f1051e260c3efc7d}{restart} ()
+\item 
+\hyperlink{class_ambi_vector_a08d3ee74ff00bc66d19750bf79989e92}{Scalar} \& \hyperlink{class_ambi_vector_ac1a1cadb3a12e75fc7f3d5a7e0f3e297}{coeff\-Ref} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{uavobjecttemplate_8m_a6f6ccfcf58b31cb6412107d9d5281426}{i})
+\item 
+\hyperlink{class_ambi_vector_a08d3ee74ff00bc66d19750bf79989e92}{Scalar} \hyperlink{class_ambi_vector_aec6c89d42818db95a041d8ccade15f0e}{coeff} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{uavobjecttemplate_8m_a6f6ccfcf58b31cb6412107d9d5281426}{i})
+\item 
+\hyperlink{class_ambi_vector_a582fb2bb891d914d8f7adcaf97716972}{$\sim$\-Ambi\-Vector} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_ambi_vector_aa055617f92a8d20342e5670caa63337e}{resize} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{glext_8h_a014d89bd76f74ef3a29c8f04b473eb76}{size})
+\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_ambi_vector_aa0b87fdb324e2931e0d96621851f5258}{size} () const 
+\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_ambi_vector_ab0e83bd7b03671c625fdd8ce1ae2505c}{reallocate} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{glext_8h_a014d89bd76f74ef3a29c8f04b473eb76}{size})
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_ambi_vector_a8f8a75546c6411d69489916a37ff7c3f}{reallocate\-Sparse} ()
+\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_ambi_vector_a08d3ee74ff00bc66d19750bf79989e92}{Scalar} $\ast$ \hyperlink{class_ambi_vector_a2262e9c293c67b08455c7cac433949ca}{m\-\_\-buffer}
+\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_ambi_vector_a57b56d38a69c41a728f208a73e13c0ed}{m\-\_\-size}
+\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_ambi_vector_a54f46940c9a006b2c3742941df1cebc7}{m\-\_\-start}
+\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_ambi_vector_adb2a2a9f06dbd64a10e99e18fea3abad}{m\-\_\-end}
+\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_ambi_vector_a6d772745248106ddedce0894404001ee}{m\-\_\-allocated\-Size}
+\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_ambi_vector_aa2b08f6aeebb528610cd18484e837b81}{m\-\_\-allocated\-Elements}
+\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_ambi_vector_a78d7db3effaa0fcb9b71fe061d66c00d}{m\-\_\-mode}
+\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_ambi_vector_a86993e2686334e95b36b8e0995107bc5}{m\-\_\-ll\-Start}
+\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_ambi_vector_aa83e38676f9bb793b1d6ca818575d28c}{m\-\_\-ll\-Current}
+\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_ambi_vector_a8dd2e8783525aaff75ae08b03e1db603}{m\-\_\-ll\-Size}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$typename \-\_\-\-Scalar$>$class Ambi\-Vector$<$ \-\_\-\-Scalar $>$}
+
+
+
+Definition at line 33 of file Ambi\-Vector.\-h.
+
+
+
+\subsection{Member Typedef Documentation}
+\hypertarget{class_ambi_vector_affe86bf272a7fe9dd0e7c8d1945e2648}{\index{Ambi\-Vector@{Ambi\-Vector}!Real\-Scalar@{Real\-Scalar}}
+\index{Real\-Scalar@{Real\-Scalar}!AmbiVector@{Ambi\-Vector}}
+\subsubsection[{Real\-Scalar}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar$>$ typedef {\bf Num\-Traits}$<${\bf Scalar}$>$\-::Real {\bf Ambi\-Vector}$<$ \-\_\-\-Scalar $>$\-::{\bf Real\-Scalar}}}\label{class_ambi_vector_affe86bf272a7fe9dd0e7c8d1945e2648}
+
+
+Definition at line 37 of file Ambi\-Vector.\-h.
+
+\hypertarget{class_ambi_vector_a08d3ee74ff00bc66d19750bf79989e92}{\index{Ambi\-Vector@{Ambi\-Vector}!Scalar@{Scalar}}
+\index{Scalar@{Scalar}!AmbiVector@{Ambi\-Vector}}
+\subsubsection[{Scalar}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar$>$ typedef \-\_\-\-Scalar {\bf Ambi\-Vector}$<$ \-\_\-\-Scalar $>$\-::{\bf Scalar}}}\label{class_ambi_vector_a08d3ee74ff00bc66d19750bf79989e92}
+
+
+Definition at line 36 of file Ambi\-Vector.\-h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_ambi_vector_a6600ce2a7be0ed0392b6d605ee21c681}{\index{Ambi\-Vector@{Ambi\-Vector}!Ambi\-Vector@{Ambi\-Vector}}
+\index{Ambi\-Vector@{Ambi\-Vector}!AmbiVector@{Ambi\-Vector}}
+\subsubsection[{Ambi\-Vector}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar$>$ {\bf Ambi\-Vector}$<$ \-\_\-\-Scalar $>$\-::{\bf Ambi\-Vector} (
+\begin{DoxyParamCaption}
+\item[{{\bf int}}]{size}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_ambi_vector_a6600ce2a7be0ed0392b6d605ee21c681}
+
+
+Definition at line 38 of file Ambi\-Vector.\-h.
+
+\hypertarget{class_ambi_vector_a582fb2bb891d914d8f7adcaf97716972}{\index{Ambi\-Vector@{Ambi\-Vector}!$\sim$\-Ambi\-Vector@{$\sim$\-Ambi\-Vector}}
+\index{$\sim$\-Ambi\-Vector@{$\sim$\-Ambi\-Vector}!AmbiVector@{Ambi\-Vector}}
+\subsubsection[{$\sim$\-Ambi\-Vector}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar$>$ {\bf Ambi\-Vector}$<$ \-\_\-\-Scalar $>$\-::$\sim${\bf Ambi\-Vector} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_ambi_vector_a582fb2bb891d914d8f7adcaf97716972}
+
+
+Definition at line 60 of file Ambi\-Vector.\-h.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_ambi_vector_aec6c89d42818db95a041d8ccade15f0e}{\index{Ambi\-Vector@{Ambi\-Vector}!coeff@{coeff}}
+\index{coeff@{coeff}!AmbiVector@{Ambi\-Vector}}
+\subsubsection[{coeff}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Scalar $>$ {\bf Scalar} {\bf Ambi\-Vector}$<$ {\bf Scalar} $>$\-::coeff (
+\begin{DoxyParamCaption}
+\item[{{\bf int}}]{i}
+\end{DoxyParamCaption}
+)}}\label{class_ambi_vector_aec6c89d42818db95a041d8ccade15f0e}
+
+
+Definition at line 262 of file Ambi\-Vector.\-h.
+
+\hypertarget{class_ambi_vector_ac1a1cadb3a12e75fc7f3d5a7e0f3e297}{\index{Ambi\-Vector@{Ambi\-Vector}!coeff\-Ref@{coeff\-Ref}}
+\index{coeff\-Ref@{coeff\-Ref}!AmbiVector@{Ambi\-Vector}}
+\subsubsection[{coeff\-Ref}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Scalar $>$ {\bf Scalar} \& {\bf Ambi\-Vector}$<$ {\bf Scalar} $>$\-::coeff\-Ref (
+\begin{DoxyParamCaption}
+\item[{{\bf int}}]{i}
+\end{DoxyParamCaption}
+)}}\label{class_ambi_vector_ac1a1cadb3a12e75fc7f3d5a7e0f3e297}
+
+
+Definition at line 193 of file Ambi\-Vector.\-h.
+
+\hypertarget{class_ambi_vector_aeede5fd602f4bb365a11904bdee1445f}{\index{Ambi\-Vector@{Ambi\-Vector}!init@{init}}
+\index{init@{init}!AmbiVector@{Ambi\-Vector}}
+\subsubsection[{init}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Scalar $>$ {\bf void} {\bf Ambi\-Vector}$<$ {\bf Scalar} $>$\-::init (
+\begin{DoxyParamCaption}
+\item[{{\bf Real\-Scalar}}]{estimated\-Density}
+\end{DoxyParamCaption}
+)}}\label{class_ambi_vector_aeede5fd602f4bb365a11904bdee1445f}
+
+
+Definition at line 145 of file Ambi\-Vector.\-h.
+
+\hypertarget{class_ambi_vector_a68875cad4359450a8c8d998c3b7ef7ff}{\index{Ambi\-Vector@{Ambi\-Vector}!init@{init}}
+\index{init@{init}!AmbiVector@{Ambi\-Vector}}
+\subsubsection[{init}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Scalar $>$ {\bf void} {\bf Ambi\-Vector}$<$ {\bf Scalar} $>$\-::init (
+\begin{DoxyParamCaption}
+\item[{{\bf int}}]{mode}
+\end{DoxyParamCaption}
+)}}\label{class_ambi_vector_a68875cad4359450a8c8d998c3b7ef7ff}
+
+
+Definition at line 154 of file Ambi\-Vector.\-h.
+
+\hypertarget{class_ambi_vector_ae3bd7641541a98e8071602aacf2fd893}{\index{Ambi\-Vector@{Ambi\-Vector}!non\-Zeros@{non\-Zeros}}
+\index{non\-Zeros@{non\-Zeros}!AmbiVector@{Ambi\-Vector}}
+\subsubsection[{non\-Zeros}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Scalar $>$ {\bf void} {\bf Ambi\-Vector}$<$ {\bf Scalar} $>$\-::non\-Zeros (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_ambi_vector_ae3bd7641541a98e8071602aacf2fd893}
+\begin{DoxyReturn}{Returns}
+the number of non zeros in the current sub vector 
+\end{DoxyReturn}
+
+
+Definition at line 136 of file Ambi\-Vector.\-h.
+
+\hypertarget{class_ambi_vector_ab0e83bd7b03671c625fdd8ce1ae2505c}{\index{Ambi\-Vector@{Ambi\-Vector}!reallocate@{reallocate}}
+\index{reallocate@{reallocate}!AmbiVector@{Ambi\-Vector}}
+\subsubsection[{reallocate}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar$>$ {\bf void} {\bf Ambi\-Vector}$<$ \-\_\-\-Scalar $>$\-::reallocate (
+\begin{DoxyParamCaption}
+\item[{{\bf int}}]{size}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [protected]}}}\label{class_ambi_vector_ab0e83bd7b03671c625fdd8ce1ae2505c}
+
+
+Definition at line 73 of file Ambi\-Vector.\-h.
+
+\hypertarget{class_ambi_vector_a8f8a75546c6411d69489916a37ff7c3f}{\index{Ambi\-Vector@{Ambi\-Vector}!reallocate\-Sparse@{reallocate\-Sparse}}
+\index{reallocate\-Sparse@{reallocate\-Sparse}!AmbiVector@{Ambi\-Vector}}
+\subsubsection[{reallocate\-Sparse}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar$>$ {\bf void} {\bf Ambi\-Vector}$<$ \-\_\-\-Scalar $>$\-::reallocate\-Sparse (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [protected]}}}\label{class_ambi_vector_a8f8a75546c6411d69489916a37ff7c3f}
+
+
+Definition at line 94 of file Ambi\-Vector.\-h.
+
+\hypertarget{class_ambi_vector_aa055617f92a8d20342e5670caa63337e}{\index{Ambi\-Vector@{Ambi\-Vector}!resize@{resize}}
+\index{resize@{resize}!AmbiVector@{Ambi\-Vector}}
+\subsubsection[{resize}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar$>$ {\bf void} {\bf Ambi\-Vector}$<$ \-\_\-\-Scalar $>$\-::resize (
+\begin{DoxyParamCaption}
+\item[{{\bf int}}]{size}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_ambi_vector_aa055617f92a8d20342e5670caa63337e}
+
+
+Definition at line 62 of file Ambi\-Vector.\-h.
+
+\hypertarget{class_ambi_vector_a8b318558c11cac47f1051e260c3efc7d}{\index{Ambi\-Vector@{Ambi\-Vector}!restart@{restart}}
+\index{restart@{restart}!AmbiVector@{Ambi\-Vector}}
+\subsubsection[{restart}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Scalar $>$ {\bf void} {\bf Ambi\-Vector}$<$ {\bf Scalar} $>$\-::restart (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_ambi_vector_a8b318558c11cac47f1051e260c3efc7d}
+Must be called whenever we might perform a write access with an index smaller than the previous one.
+
+Don't worry, this function is extremely cheap. 
+
+Definition at line 170 of file Ambi\-Vector.\-h.
+
+\hypertarget{class_ambi_vector_a7543fef49a839611960bd16d7c4aa83a}{\index{Ambi\-Vector@{Ambi\-Vector}!set\-Bounds@{set\-Bounds}}
+\index{set\-Bounds@{set\-Bounds}!AmbiVector@{Ambi\-Vector}}
+\subsubsection[{set\-Bounds}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar$>$ {\bf void} {\bf Ambi\-Vector}$<$ \-\_\-\-Scalar $>$\-::set\-Bounds (
+\begin{DoxyParamCaption}
+\item[{{\bf int}}]{start, }
+\item[{{\bf int}}]{end}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_ambi_vector_a7543fef49a839611960bd16d7c4aa83a}
+Specifies a sub-\/vector to work on 
+
+Definition at line 50 of file Ambi\-Vector.\-h.
+
+\hypertarget{class_ambi_vector_a5721cc21c1f0c990d3973fa7aecf91a5}{\index{Ambi\-Vector@{Ambi\-Vector}!set\-Zero@{set\-Zero}}
+\index{set\-Zero@{set\-Zero}!AmbiVector@{Ambi\-Vector}}
+\subsubsection[{set\-Zero}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Scalar $>$ {\bf void} {\bf Ambi\-Vector}$<$ {\bf Scalar} $>$\-::set\-Zero (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_ambi_vector_a5721cc21c1f0c990d3973fa7aecf91a5}
+Set all coefficients of current subvector to zero 
+
+Definition at line 177 of file Ambi\-Vector.\-h.
+
+\hypertarget{class_ambi_vector_aa0b87fdb324e2931e0d96621851f5258}{\index{Ambi\-Vector@{Ambi\-Vector}!size@{size}}
+\index{size@{size}!AmbiVector@{Ambi\-Vector}}
+\subsubsection[{size}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar$>$ {\bf int} {\bf Ambi\-Vector}$<$ \-\_\-\-Scalar $>$\-::{\bf size} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_ambi_vector_aa0b87fdb324e2931e0d96621851f5258}
+
+
+Definition at line 69 of file Ambi\-Vector.\-h.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{class_ambi_vector_aa2b08f6aeebb528610cd18484e837b81}{\index{Ambi\-Vector@{Ambi\-Vector}!m\-\_\-allocated\-Elements@{m\-\_\-allocated\-Elements}}
+\index{m\-\_\-allocated\-Elements@{m\-\_\-allocated\-Elements}!AmbiVector@{Ambi\-Vector}}
+\subsubsection[{m\-\_\-allocated\-Elements}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar$>$ {\bf int} {\bf Ambi\-Vector}$<$ \-\_\-\-Scalar $>$\-::m\-\_\-allocated\-Elements\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_ambi_vector_aa2b08f6aeebb528610cd18484e837b81}
+
+
+Definition at line 121 of file Ambi\-Vector.\-h.
+
+\hypertarget{class_ambi_vector_a6d772745248106ddedce0894404001ee}{\index{Ambi\-Vector@{Ambi\-Vector}!m\-\_\-allocated\-Size@{m\-\_\-allocated\-Size}}
+\index{m\-\_\-allocated\-Size@{m\-\_\-allocated\-Size}!AmbiVector@{Ambi\-Vector}}
+\subsubsection[{m\-\_\-allocated\-Size}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar$>$ {\bf int} {\bf Ambi\-Vector}$<$ \-\_\-\-Scalar $>$\-::m\-\_\-allocated\-Size\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_ambi_vector_a6d772745248106ddedce0894404001ee}
+
+
+Definition at line 120 of file Ambi\-Vector.\-h.
+
+\hypertarget{class_ambi_vector_a2262e9c293c67b08455c7cac433949ca}{\index{Ambi\-Vector@{Ambi\-Vector}!m\-\_\-buffer@{m\-\_\-buffer}}
+\index{m\-\_\-buffer@{m\-\_\-buffer}!AmbiVector@{Ambi\-Vector}}
+\subsubsection[{m\-\_\-buffer}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar$>$ {\bf Scalar}$\ast$ {\bf Ambi\-Vector}$<$ \-\_\-\-Scalar $>$\-::m\-\_\-buffer\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_ambi_vector_a2262e9c293c67b08455c7cac433949ca}
+
+
+Definition at line 116 of file Ambi\-Vector.\-h.
+
+\hypertarget{class_ambi_vector_adb2a2a9f06dbd64a10e99e18fea3abad}{\index{Ambi\-Vector@{Ambi\-Vector}!m\-\_\-end@{m\-\_\-end}}
+\index{m\-\_\-end@{m\-\_\-end}!AmbiVector@{Ambi\-Vector}}
+\subsubsection[{m\-\_\-end}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar$>$ {\bf int} {\bf Ambi\-Vector}$<$ \-\_\-\-Scalar $>$\-::m\-\_\-end\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_ambi_vector_adb2a2a9f06dbd64a10e99e18fea3abad}
+
+
+Definition at line 119 of file Ambi\-Vector.\-h.
+
+\hypertarget{class_ambi_vector_aa83e38676f9bb793b1d6ca818575d28c}{\index{Ambi\-Vector@{Ambi\-Vector}!m\-\_\-ll\-Current@{m\-\_\-ll\-Current}}
+\index{m\-\_\-ll\-Current@{m\-\_\-ll\-Current}!AmbiVector@{Ambi\-Vector}}
+\subsubsection[{m\-\_\-ll\-Current}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar$>$ {\bf int} {\bf Ambi\-Vector}$<$ \-\_\-\-Scalar $>$\-::m\-\_\-ll\-Current\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_ambi_vector_aa83e38676f9bb793b1d6ca818575d28c}
+
+
+Definition at line 126 of file Ambi\-Vector.\-h.
+
+\hypertarget{class_ambi_vector_a8dd2e8783525aaff75ae08b03e1db603}{\index{Ambi\-Vector@{Ambi\-Vector}!m\-\_\-ll\-Size@{m\-\_\-ll\-Size}}
+\index{m\-\_\-ll\-Size@{m\-\_\-ll\-Size}!AmbiVector@{Ambi\-Vector}}
+\subsubsection[{m\-\_\-ll\-Size}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar$>$ {\bf int} {\bf Ambi\-Vector}$<$ \-\_\-\-Scalar $>$\-::m\-\_\-ll\-Size\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_ambi_vector_a8dd2e8783525aaff75ae08b03e1db603}
+
+
+Definition at line 127 of file Ambi\-Vector.\-h.
+
+\hypertarget{class_ambi_vector_a86993e2686334e95b36b8e0995107bc5}{\index{Ambi\-Vector@{Ambi\-Vector}!m\-\_\-ll\-Start@{m\-\_\-ll\-Start}}
+\index{m\-\_\-ll\-Start@{m\-\_\-ll\-Start}!AmbiVector@{Ambi\-Vector}}
+\subsubsection[{m\-\_\-ll\-Start}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar$>$ {\bf int} {\bf Ambi\-Vector}$<$ \-\_\-\-Scalar $>$\-::m\-\_\-ll\-Start\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_ambi_vector_a86993e2686334e95b36b8e0995107bc5}
+
+
+Definition at line 125 of file Ambi\-Vector.\-h.
+
+\hypertarget{class_ambi_vector_a78d7db3effaa0fcb9b71fe061d66c00d}{\index{Ambi\-Vector@{Ambi\-Vector}!m\-\_\-mode@{m\-\_\-mode}}
+\index{m\-\_\-mode@{m\-\_\-mode}!AmbiVector@{Ambi\-Vector}}
+\subsubsection[{m\-\_\-mode}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar$>$ {\bf int} {\bf Ambi\-Vector}$<$ \-\_\-\-Scalar $>$\-::m\-\_\-mode\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_ambi_vector_a78d7db3effaa0fcb9b71fe061d66c00d}
+
+
+Definition at line 122 of file Ambi\-Vector.\-h.
+
+\hypertarget{class_ambi_vector_a57b56d38a69c41a728f208a73e13c0ed}{\index{Ambi\-Vector@{Ambi\-Vector}!m\-\_\-size@{m\-\_\-size}}
+\index{m\-\_\-size@{m\-\_\-size}!AmbiVector@{Ambi\-Vector}}
+\subsubsection[{m\-\_\-size}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar$>$ {\bf int} {\bf Ambi\-Vector}$<$ \-\_\-\-Scalar $>$\-::m\-\_\-size\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_ambi_vector_a57b56d38a69c41a728f208a73e13c0ed}
+
+
+Definition at line 117 of file Ambi\-Vector.\-h.
+
+\hypertarget{class_ambi_vector_a54f46940c9a006b2c3742941df1cebc7}{\index{Ambi\-Vector@{Ambi\-Vector}!m\-\_\-start@{m\-\_\-start}}
+\index{m\-\_\-start@{m\-\_\-start}!AmbiVector@{Ambi\-Vector}}
+\subsubsection[{m\-\_\-start}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar$>$ {\bf int} {\bf Ambi\-Vector}$<$ \-\_\-\-Scalar $>$\-::m\-\_\-start\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_ambi_vector_a54f46940c9a006b2c3742941df1cebc7}
+
+
+Definition at line 118 of file Ambi\-Vector.\-h.
+
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/eigen/\-Eigen/src/\-Sparse/\hyperlink{_ambi_vector_8h}{Ambi\-Vector.\-h}\end{DoxyCompactItemize}

@@ -1,0 +1,263 @@
+\hypertarget{class_qwt_plot_series_item}{\section{Qwt\-Plot\-Series\-Item$<$ T $>$ Class Template Reference}
+\label{class_qwt_plot_series_item}\index{Qwt\-Plot\-Series\-Item$<$ T $>$@{Qwt\-Plot\-Series\-Item$<$ T $>$}}
+}
+
+
+Class template for plot items representing a series of samples.  
+
+
+
+
+{\ttfamily \#include $<$qwt\-\_\-plot\-\_\-seriesitem.\-h$>$}
+
+Inheritance diagram for Qwt\-Plot\-Series\-Item$<$ T $>$\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=4.000000cm]{class_qwt_plot_series_item}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_qwt_plot_series_item_a0bb060e109f2a957ef9750a37908afc7}{Qwt\-Plot\-Series\-Item} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{Q\-String} \&\hyperlink{class_qwt_plot_item_a3859d011b670b5f89e45d1ccef9206f7}{title}=Q\-String\-::null)
+\item 
+\hyperlink{class_qwt_plot_series_item_a4897128406328d3f4e391c739355082d}{Qwt\-Plot\-Series\-Item} (const \hyperlink{class_qwt_text}{Qwt\-Text} \&\hyperlink{class_qwt_plot_item_a3859d011b670b5f89e45d1ccef9206f7}{title})
+\item 
+virtual \hyperlink{class_qwt_plot_series_item_a99e5f0fa58e3de5dfee39220b2e7e382}{$\sim$\-Qwt\-Plot\-Series\-Item} ()
+\begin{DoxyCompactList}\small\item\em Destructor. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_plot_series_item_adba072515f7c71c923985882129878c4}{set\-Data} (\hyperlink{class_qwt_series_data}{Qwt\-Series\-Data}$<$ T $>$ $\ast$)
+\item 
+\hyperlink{class_qwt_series_data}{Qwt\-Series\-Data}$<$ T $>$ $\ast$ \hyperlink{class_qwt_plot_series_item_a3bf9920dace582cba17f18b522ed49dc}{data} ()
+\item 
+const \hyperlink{class_qwt_series_data}{Qwt\-Series\-Data}$<$ T $>$ $\ast$ \hyperlink{class_qwt_plot_series_item_a02b7f6c94e92f2248bb6daaca48d177b}{data} () const 
+\item 
+size\-\_\-t \hyperlink{class_qwt_plot_series_item_acbe4a4253fbabf943fbbf3813ffff743}{data\-Size} () const 
+\item 
+T \hyperlink{class_qwt_plot_series_item_a65865ed7b7c124c6ec538c2d8f1e8292}{sample} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{glext_8h_ab47dd9958bcadea08866b42bf358e95e}{index}) const 
+\item 
+virtual Q\-Rect\-F \hyperlink{class_qwt_plot_series_item_a183e7c88364eeea8e7c53b56604e0763}{bounding\-Rect} () const 
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_plot_series_item_a5c40b692a48718b71bed27a1802c50d0}{update\-Scale\-Div} (const \hyperlink{class_qwt_scale_div}{Qwt\-Scale\-Div} \&, const \hyperlink{class_qwt_scale_div}{Qwt\-Scale\-Div} \&)
+\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_qwt_series_data}{Qwt\-Series\-Data}$<$ T $>$ $\ast$ \hyperlink{class_qwt_plot_series_item_a5ec27b9647fcd02517f437f0e66c0950}{d\-\_\-series}
+\begin{DoxyCompactList}\small\item\em Series. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$typename T$>$class Qwt\-Plot\-Series\-Item$<$ T $>$}
+
+Class template for plot items representing a series of samples. 
+
+Definition at line 60 of file qwt\-\_\-plot\-\_\-seriesitem.\-h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_qwt_plot_series_item_a0bb060e109f2a957ef9750a37908afc7}{\index{Qwt\-Plot\-Series\-Item@{Qwt\-Plot\-Series\-Item}!Qwt\-Plot\-Series\-Item@{Qwt\-Plot\-Series\-Item}}
+\index{Qwt\-Plot\-Series\-Item@{Qwt\-Plot\-Series\-Item}!QwtPlotSeriesItem@{Qwt\-Plot\-Series\-Item}}
+\subsubsection[{Qwt\-Plot\-Series\-Item}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T $>$ {\bf Qwt\-Plot\-Series\-Item}$<$ T $>$\-::{\bf Qwt\-Plot\-Series\-Item} (
+\begin{DoxyParamCaption}
+\item[{const {\bf Q\-String} \&}]{title = {\ttfamily QString\-:\-:null}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [explicit]}}}\label{class_qwt_plot_series_item_a0bb060e109f2a957ef9750a37908afc7}
+Constructor 
+\begin{DoxyParams}{Parameters}
+{\em title} & Title of the series item \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 90 of file qwt\-\_\-plot\-\_\-seriesitem.\-h.
+
+\hypertarget{class_qwt_plot_series_item_a4897128406328d3f4e391c739355082d}{\index{Qwt\-Plot\-Series\-Item@{Qwt\-Plot\-Series\-Item}!Qwt\-Plot\-Series\-Item@{Qwt\-Plot\-Series\-Item}}
+\index{Qwt\-Plot\-Series\-Item@{Qwt\-Plot\-Series\-Item}!QwtPlotSeriesItem@{Qwt\-Plot\-Series\-Item}}
+\subsubsection[{Qwt\-Plot\-Series\-Item}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T $>$ {\bf Qwt\-Plot\-Series\-Item}$<$ T $>$\-::{\bf Qwt\-Plot\-Series\-Item} (
+\begin{DoxyParamCaption}
+\item[{const {\bf Qwt\-Text} \&}]{title}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [explicit]}}}\label{class_qwt_plot_series_item_a4897128406328d3f4e391c739355082d}
+Constructor 
+\begin{DoxyParams}{Parameters}
+{\em title} & Title of the series item \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 101 of file qwt\-\_\-plot\-\_\-seriesitem.\-h.
+
+\hypertarget{class_qwt_plot_series_item_a99e5f0fa58e3de5dfee39220b2e7e382}{\index{Qwt\-Plot\-Series\-Item@{Qwt\-Plot\-Series\-Item}!$\sim$\-Qwt\-Plot\-Series\-Item@{$\sim$\-Qwt\-Plot\-Series\-Item}}
+\index{$\sim$\-Qwt\-Plot\-Series\-Item@{$\sim$\-Qwt\-Plot\-Series\-Item}!QwtPlotSeriesItem@{Qwt\-Plot\-Series\-Item}}
+\subsubsection[{$\sim$\-Qwt\-Plot\-Series\-Item}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T $>$ {\bf Qwt\-Plot\-Series\-Item}$<$ T $>$\-::$\sim${\bf Qwt\-Plot\-Series\-Item} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_qwt_plot_series_item_a99e5f0fa58e3de5dfee39220b2e7e382}
+
+
+Destructor. 
+
+
+
+Definition at line 109 of file qwt\-\_\-plot\-\_\-seriesitem.\-h.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_qwt_plot_series_item_a183e7c88364eeea8e7c53b56604e0763}{\index{Qwt\-Plot\-Series\-Item@{Qwt\-Plot\-Series\-Item}!bounding\-Rect@{bounding\-Rect}}
+\index{bounding\-Rect@{bounding\-Rect}!QwtPlotSeriesItem@{Qwt\-Plot\-Series\-Item}}
+\subsubsection[{bounding\-Rect}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T $>$ Q\-Rect\-F {\bf Qwt\-Plot\-Series\-Item}$<$ T $>$\-::bounding\-Rect (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_qwt_plot_series_item_a183e7c88364eeea8e7c53b56604e0763}
+\begin{DoxyReturn}{Returns}
+Bounding rectangle of the data. If there is no bounding rect, like for empty data the rectangle is invalid.
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_series_data_aedb969ba51a27d88d26ad7f7cb1c2c7f}{Qwt\-Series\-Data$<$\-T$>$\-::bounding\-Rect()}, Q\-Rect\-F\-::is\-Valid() 
+\end{DoxySeeAlso}
+
+
+Reimplemented from \hyperlink{class_qwt_plot_item_aec3c408e14af30b82b52c1197310eb21}{Qwt\-Plot\-Item}.
+
+
+
+Reimplemented in \hyperlink{class_qwt_plot_interval_curve_ae4b1140a52682976bb5946a772b7da7c}{Qwt\-Plot\-Interval\-Curve}, and \hyperlink{class_qwt_plot_histogram_a683686684263a384cd609c484330bb1f}{Qwt\-Plot\-Histogram}.
+
+
+
+Definition at line 176 of file qwt\-\_\-plot\-\_\-seriesitem.\-h.
+
+\hypertarget{class_qwt_plot_series_item_a3bf9920dace582cba17f18b522ed49dc}{\index{Qwt\-Plot\-Series\-Item@{Qwt\-Plot\-Series\-Item}!data@{data}}
+\index{data@{data}!QwtPlotSeriesItem@{Qwt\-Plot\-Series\-Item}}
+\subsubsection[{data}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T $>$ {\bf Qwt\-Series\-Data}$<$ T $>$ $\ast$ {\bf Qwt\-Plot\-Series\-Item}$<$ T $>$\-::{\bf data} (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_qwt_plot_series_item_a3bf9920dace582cba17f18b522ed49dc}
+\begin{DoxyReturn}{Returns}
+the the curve data 
+\end{DoxyReturn}
+
+
+Definition at line 116 of file qwt\-\_\-plot\-\_\-seriesitem.\-h.
+
+\hypertarget{class_qwt_plot_series_item_a02b7f6c94e92f2248bb6daaca48d177b}{\index{Qwt\-Plot\-Series\-Item@{Qwt\-Plot\-Series\-Item}!data@{data}}
+\index{data@{data}!QwtPlotSeriesItem@{Qwt\-Plot\-Series\-Item}}
+\subsubsection[{data}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T $>$ const {\bf Qwt\-Series\-Data}$<$ T $>$ $\ast$ {\bf Qwt\-Plot\-Series\-Item}$<$ T $>$\-::{\bf data} (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_qwt_plot_series_item_a02b7f6c94e92f2248bb6daaca48d177b}
+\begin{DoxyReturn}{Returns}
+the the curve data 
+\end{DoxyReturn}
+
+
+Definition at line 123 of file qwt\-\_\-plot\-\_\-seriesitem.\-h.
+
+\hypertarget{class_qwt_plot_series_item_acbe4a4253fbabf943fbbf3813ffff743}{\index{Qwt\-Plot\-Series\-Item@{Qwt\-Plot\-Series\-Item}!data\-Size@{data\-Size}}
+\index{data\-Size@{data\-Size}!QwtPlotSeriesItem@{Qwt\-Plot\-Series\-Item}}
+\subsubsection[{data\-Size}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T $>$ size\-\_\-t {\bf Qwt\-Plot\-Series\-Item}$<$ T $>$\-::data\-Size (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_qwt_plot_series_item_acbe4a4253fbabf943fbbf3813ffff743}
+Return the size of the data arrays \begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_plot_series_item_adba072515f7c71c923985882129878c4}{set\-Data()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 161 of file qwt\-\_\-plot\-\_\-seriesitem.\-h.
+
+\hypertarget{class_qwt_plot_series_item_a65865ed7b7c124c6ec538c2d8f1e8292}{\index{Qwt\-Plot\-Series\-Item@{Qwt\-Plot\-Series\-Item}!sample@{sample}}
+\index{sample@{sample}!QwtPlotSeriesItem@{Qwt\-Plot\-Series\-Item}}
+\subsubsection[{sample}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T $>$ T {\bf Qwt\-Plot\-Series\-Item}$<$ T $>$\-::sample (
+\begin{DoxyParamCaption}
+\item[{{\bf int}}]{index}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_qwt_plot_series_item_a65865ed7b7c124c6ec538c2d8f1e8292}
+
+\begin{DoxyParams}{Parameters}
+{\em index} & Index \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Sample at position index 
+\end{DoxyReturn}
+
+
+Definition at line 133 of file qwt\-\_\-plot\-\_\-seriesitem.\-h.
+
+\hypertarget{class_qwt_plot_series_item_adba072515f7c71c923985882129878c4}{\index{Qwt\-Plot\-Series\-Item@{Qwt\-Plot\-Series\-Item}!set\-Data@{set\-Data}}
+\index{set\-Data@{set\-Data}!QwtPlotSeriesItem@{Qwt\-Plot\-Series\-Item}}
+\subsubsection[{set\-Data}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T$>$ {\bf void} {\bf Qwt\-Plot\-Series\-Item}$<$ T $>$\-::set\-Data (
+\begin{DoxyParamCaption}
+\item[{{\bf Qwt\-Series\-Data}$<$ T $>$ $\ast$}]{data}
+\end{DoxyParamCaption}
+)}}\label{class_qwt_plot_series_item_adba072515f7c71c923985882129878c4}
+Assign a series of samples
+
+
+\begin{DoxyParams}{Parameters}
+{\em data} & Data \\
+\hline
+\end{DoxyParams}
+\begin{DoxyWarning}{Warning}
+The item takes ownership of the data object, deleting it when its not used anymore. 
+\end{DoxyWarning}
+
+
+Definition at line 146 of file qwt\-\_\-plot\-\_\-seriesitem.\-h.
+
+\hypertarget{class_qwt_plot_series_item_a5c40b692a48718b71bed27a1802c50d0}{\index{Qwt\-Plot\-Series\-Item@{Qwt\-Plot\-Series\-Item}!update\-Scale\-Div@{update\-Scale\-Div}}
+\index{update\-Scale\-Div@{update\-Scale\-Div}!QwtPlotSeriesItem@{Qwt\-Plot\-Series\-Item}}
+\subsubsection[{update\-Scale\-Div}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T $>$ {\bf void} {\bf Qwt\-Plot\-Series\-Item}$<$ T $>$\-::update\-Scale\-Div (
+\begin{DoxyParamCaption}
+\item[{const {\bf Qwt\-Scale\-Div} \&}]{x\-Scale\-Div, }
+\item[{const {\bf Qwt\-Scale\-Div} \&}]{y\-Scale\-Div}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_qwt_plot_series_item_a5c40b692a48718b71bed27a1802c50d0}
+Update the rect of interest according to the current scale ranges
+
+
+\begin{DoxyParams}{Parameters}
+{\em x\-Scale\-Div} & Scale division of the x-\/axis \\
+\hline
+{\em y\-Scale\-Div} & Scale division of the y-\/axis\\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_series_data_a81466c72589c03310543d17e1f1d0ab7}{Qwt\-Series\-Data$<$\-T$>$\-::set\-Rect\-Of\-Interest()} 
+\end{DoxySeeAlso}
+
+
+Reimplemented from \hyperlink{class_qwt_plot_item_abf6a70847d3db952161ca4d4a952eea0}{Qwt\-Plot\-Item}.
+
+
+
+Definition at line 193 of file qwt\-\_\-plot\-\_\-seriesitem.\-h.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{class_qwt_plot_series_item_a5ec27b9647fcd02517f437f0e66c0950}{\index{Qwt\-Plot\-Series\-Item@{Qwt\-Plot\-Series\-Item}!d\-\_\-series@{d\-\_\-series}}
+\index{d\-\_\-series@{d\-\_\-series}!QwtPlotSeriesItem@{Qwt\-Plot\-Series\-Item}}
+\subsubsection[{d\-\_\-series}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T$>$ {\bf Qwt\-Series\-Data}$<$T$>$$\ast$ {\bf Qwt\-Plot\-Series\-Item}$<$ T $>$\-::d\-\_\-series\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_qwt_plot_series_item_a5ec27b9647fcd02517f437f0e66c0950}
+
+
+Series. 
+
+
+
+Definition at line 82 of file qwt\-\_\-plot\-\_\-seriesitem.\-h.
+
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/qwt/src/\hyperlink{qwt__plot__seriesitem_8h}{qwt\-\_\-plot\-\_\-seriesitem.\-h}\end{DoxyCompactItemize}

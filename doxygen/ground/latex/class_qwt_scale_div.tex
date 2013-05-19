@@ -1,0 +1,416 @@
+\hypertarget{class_qwt_scale_div}{\section{Qwt\-Scale\-Div Class Reference}
+\label{class_qwt_scale_div}\index{Qwt\-Scale\-Div@{Qwt\-Scale\-Div}}
+}
+
+
+A class representing a scale division.  
+
+
+
+
+{\ttfamily \#include $<$qwt\-\_\-scale\-\_\-div.\-h$>$}
+
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{class_qwt_scale_div_af21aedaa886dd5e067cf63505838736c}{Tick\-Type} \{ \\*
+\hyperlink{class_qwt_scale_div_af21aedaa886dd5e067cf63505838736ca9f64c3f9efef05e3020903a54331c4ac}{No\-Tick} = -\/1, 
+\hyperlink{class_qwt_scale_div_af21aedaa886dd5e067cf63505838736ca6af9f3b95636a6fdebb4824c6db0ab9e}{Minor\-Tick}, 
+\hyperlink{class_qwt_scale_div_af21aedaa886dd5e067cf63505838736ca42fbe3ad54900057e75225ff5e68cc4a}{Medium\-Tick}, 
+\hyperlink{class_qwt_scale_div_af21aedaa886dd5e067cf63505838736cadda390d4186a0ff20ece95d986c1ae60}{Major\-Tick}, 
+\\*
+\hyperlink{class_qwt_scale_div_af21aedaa886dd5e067cf63505838736ca86796bbf72d5eb7162a924ba27ce6553}{N\-Tick\-Types}
+ \}
+\begin{DoxyCompactList}\small\item\em Scale tick types. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_qwt_scale_div_ae986a8a451440876b60db561457c952f}{Qwt\-Scale\-Div} ()
+\begin{DoxyCompactList}\small\item\em Construct an invalid \hyperlink{class_qwt_scale_div}{Qwt\-Scale\-Div} instance. \end{DoxyCompactList}\item 
+\hyperlink{class_qwt_scale_div_abdc25d9fe6b2efdd76a60f363a7c719c}{Qwt\-Scale\-Div} (const \hyperlink{class_qwt_interval}{Qwt\-Interval} \&, \hyperlink{class_q_list}{Q\-List}$<$ \hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} $>$\mbox{[}\hyperlink{class_qwt_scale_div_af21aedaa886dd5e067cf63505838736ca86796bbf72d5eb7162a924ba27ce6553}{N\-Tick\-Types}\mbox{]})
+\item 
+\hyperlink{class_qwt_scale_div_a7326c0f401dee07c2a2661166daf24ae}{Qwt\-Scale\-Div} (\hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} \hyperlink{class_qwt_scale_div_a7b9b339170625553fbb488c7877372d0}{lower\-Bound}, \hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} \hyperlink{class_qwt_scale_div_af314ab8ccdf18dec6642c1700687b48d}{upper\-Bound}, \hyperlink{class_q_list}{Q\-List}$<$ \hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} $>$\mbox{[}\hyperlink{class_qwt_scale_div_af21aedaa886dd5e067cf63505838736ca86796bbf72d5eb7162a924ba27ce6553}{N\-Tick\-Types}\mbox{]})
+\item 
+bool \hyperlink{class_qwt_scale_div_a459952c4cb539bcd3719df5e5765e509}{operator==} (const \hyperlink{class_qwt_scale_div}{Qwt\-Scale\-Div} \&\hyperlink{glext_8h_ad585a1393cfa368fa9dc3d8ebff640d5}{s}) const 
+\begin{DoxyCompactList}\small\item\em Equality operator. \end{DoxyCompactList}\item 
+bool \hyperlink{class_qwt_scale_div_a231959412880b1994b03c59537a6dea1}{operator!=} (const \hyperlink{class_qwt_scale_div}{Qwt\-Scale\-Div} \&\hyperlink{glext_8h_ad585a1393cfa368fa9dc3d8ebff640d5}{s}) const 
+\begin{DoxyCompactList}\small\item\em Inequality. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_scale_div_aa5c61a5fef5f83f2735e4e1b8e545f0b}{set\-Interval} (\hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} \hyperlink{class_qwt_scale_div_a7b9b339170625553fbb488c7877372d0}{lower\-Bound}, \hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} \hyperlink{class_qwt_scale_div_af314ab8ccdf18dec6642c1700687b48d}{upper\-Bound})
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_scale_div_ad335ddb86f5c635324cd0e8d00430ac4}{set\-Interval} (const \hyperlink{class_qwt_interval}{Qwt\-Interval} \&)
+\item 
+\hyperlink{class_qwt_interval}{Qwt\-Interval} \hyperlink{class_qwt_scale_div_a00fa69fed58c7a8ce6c855bb4df799f0}{interval} () const 
+\item 
+\hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} \hyperlink{class_qwt_scale_div_a7b9b339170625553fbb488c7877372d0}{lower\-Bound} () const 
+\item 
+\hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} \hyperlink{class_qwt_scale_div_af314ab8ccdf18dec6642c1700687b48d}{upper\-Bound} () const 
+\item 
+\hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} \hyperlink{class_qwt_scale_div_abe63aa19b346a4683ab19bf59a5bb37c}{range} () const 
+\item 
+bool \hyperlink{class_qwt_scale_div_a9fe271ba1bee08d01033ce964c3216c1}{contains} (\hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} \hyperlink{glext_8h_a14cfbe2fc2234f5504618905b69d1e06}{v}) const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_scale_div_ace4b5d59fd84d4aa0825c007ed944ba9}{set\-Ticks} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{glext_8h_a7d05960f4f1c1b11f3177dc963a45d86}{type}, const \hyperlink{class_q_list}{Q\-List}$<$ \hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} $>$ \&)
+\item 
+const \hyperlink{class_q_list}{Q\-List}$<$ \hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} $>$ \& \hyperlink{class_qwt_scale_div_a6fc39bb3079b6bacb3d113afd314911d}{ticks} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{glext_8h_a7d05960f4f1c1b11f3177dc963a45d86}{type}) const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_scale_div_a429d3b6004f06c59530c084a9aecf2bb}{invalidate} ()
+\begin{DoxyCompactList}\small\item\em Invalidate the scale division. \end{DoxyCompactList}\item 
+bool \hyperlink{class_qwt_scale_div_a22f6955b5d2c73a91a8f01ad49cd4c39}{is\-Valid} () const 
+\begin{DoxyCompactList}\small\item\em Check if the scale division is valid. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_scale_div_a1ea38d52d5836fd4376f480180973786}{invert} ()
+\begin{DoxyCompactList}\small\item\em Invert the scale divison. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+A class representing a scale division. 
+
+A scale division consists of its limits and 3 list of tick values qualified as major, medium and minor ticks.
+
+In most cases scale divisions are calculated by a \hyperlink{class_qwt_scale_engine}{Qwt\-Scale\-Engine}.
+
+\begin{DoxySeeAlso}{See Also}
+sub\-Divide\-Into(), sub\-Divide() 
+\end{DoxySeeAlso}
+
+
+Definition at line 30 of file qwt\-\_\-scale\-\_\-div.\-h.
+
+
+
+\subsection{Member Enumeration Documentation}
+\hypertarget{class_qwt_scale_div_af21aedaa886dd5e067cf63505838736c}{\index{Qwt\-Scale\-Div@{Qwt\-Scale\-Div}!Tick\-Type@{Tick\-Type}}
+\index{Tick\-Type@{Tick\-Type}!QwtScaleDiv@{Qwt\-Scale\-Div}}
+\subsubsection[{Tick\-Type}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf Qwt\-Scale\-Div\-::\-Tick\-Type}}}\label{class_qwt_scale_div_af21aedaa886dd5e067cf63505838736c}
+
+
+Scale tick types. 
+
+\begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{No\-Tick@{No\-Tick}!Qwt\-Scale\-Div@{Qwt\-Scale\-Div}}\index{Qwt\-Scale\-Div@{Qwt\-Scale\-Div}!No\-Tick@{No\-Tick}}\item[{\em 
+\hypertarget{class_qwt_scale_div_af21aedaa886dd5e067cf63505838736ca9f64c3f9efef05e3020903a54331c4ac}{No\-Tick}\label{class_qwt_scale_div_af21aedaa886dd5e067cf63505838736ca9f64c3f9efef05e3020903a54331c4ac}
+}]No ticks. \index{Minor\-Tick@{Minor\-Tick}!Qwt\-Scale\-Div@{Qwt\-Scale\-Div}}\index{Qwt\-Scale\-Div@{Qwt\-Scale\-Div}!Minor\-Tick@{Minor\-Tick}}\item[{\em 
+\hypertarget{class_qwt_scale_div_af21aedaa886dd5e067cf63505838736ca6af9f3b95636a6fdebb4824c6db0ab9e}{Minor\-Tick}\label{class_qwt_scale_div_af21aedaa886dd5e067cf63505838736ca6af9f3b95636a6fdebb4824c6db0ab9e}
+}]\hyperlink{class_minor}{Minor} ticks. \index{Medium\-Tick@{Medium\-Tick}!Qwt\-Scale\-Div@{Qwt\-Scale\-Div}}\index{Qwt\-Scale\-Div@{Qwt\-Scale\-Div}!Medium\-Tick@{Medium\-Tick}}\item[{\em 
+\hypertarget{class_qwt_scale_div_af21aedaa886dd5e067cf63505838736ca42fbe3ad54900057e75225ff5e68cc4a}{Medium\-Tick}\label{class_qwt_scale_div_af21aedaa886dd5e067cf63505838736ca42fbe3ad54900057e75225ff5e68cc4a}
+}]Medium ticks. \index{Major\-Tick@{Major\-Tick}!Qwt\-Scale\-Div@{Qwt\-Scale\-Div}}\index{Qwt\-Scale\-Div@{Qwt\-Scale\-Div}!Major\-Tick@{Major\-Tick}}\item[{\em 
+\hypertarget{class_qwt_scale_div_af21aedaa886dd5e067cf63505838736cadda390d4186a0ff20ece95d986c1ae60}{Major\-Tick}\label{class_qwt_scale_div_af21aedaa886dd5e067cf63505838736cadda390d4186a0ff20ece95d986c1ae60}
+}]Major ticks. \index{N\-Tick\-Types@{N\-Tick\-Types}!Qwt\-Scale\-Div@{Qwt\-Scale\-Div}}\index{Qwt\-Scale\-Div@{Qwt\-Scale\-Div}!N\-Tick\-Types@{N\-Tick\-Types}}\item[{\em 
+\hypertarget{class_qwt_scale_div_af21aedaa886dd5e067cf63505838736ca86796bbf72d5eb7162a924ba27ce6553}{N\-Tick\-Types}\label{class_qwt_scale_div_af21aedaa886dd5e067cf63505838736ca86796bbf72d5eb7162a924ba27ce6553}
+}]Number of valid tick types. \end{description}
+\end{Desc}
+
+
+Definition at line 34 of file qwt\-\_\-scale\-\_\-div.\-h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_qwt_scale_div_ae986a8a451440876b60db561457c952f}{\index{Qwt\-Scale\-Div@{Qwt\-Scale\-Div}!Qwt\-Scale\-Div@{Qwt\-Scale\-Div}}
+\index{Qwt\-Scale\-Div@{Qwt\-Scale\-Div}!QwtScaleDiv@{Qwt\-Scale\-Div}}
+\subsubsection[{Qwt\-Scale\-Div}]{\setlength{\rightskip}{0pt plus 5cm}Qwt\-Scale\-Div\-::\-Qwt\-Scale\-Div (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [explicit]}}}\label{class_qwt_scale_div_ae986a8a451440876b60db561457c952f}
+
+
+Construct an invalid \hyperlink{class_qwt_scale_div}{Qwt\-Scale\-Div} instance. 
+
+
+
+Definition at line 16 of file qwt\-\_\-scale\-\_\-div.\-cpp.
+
+\hypertarget{class_qwt_scale_div_abdc25d9fe6b2efdd76a60f363a7c719c}{\index{Qwt\-Scale\-Div@{Qwt\-Scale\-Div}!Qwt\-Scale\-Div@{Qwt\-Scale\-Div}}
+\index{Qwt\-Scale\-Div@{Qwt\-Scale\-Div}!QwtScaleDiv@{Qwt\-Scale\-Div}}
+\subsubsection[{Qwt\-Scale\-Div}]{\setlength{\rightskip}{0pt plus 5cm}Qwt\-Scale\-Div\-::\-Qwt\-Scale\-Div (
+\begin{DoxyParamCaption}
+\item[{const {\bf Qwt\-Interval} \&}]{interval, }
+\item[{{\bf Q\-List}$<$ {\bf double} $>$}]{ticks\mbox{[}\-N\-Tick\-Types\mbox{]}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [explicit]}}}\label{class_qwt_scale_div_abdc25d9fe6b2efdd76a60f363a7c719c}
+Construct \hyperlink{class_qwt_scale_div}{Qwt\-Scale\-Div} instance.
+
+
+\begin{DoxyParams}{Parameters}
+{\em interval} & Interval \\
+\hline
+{\em ticks} & List of major, medium and minor ticks \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 29 of file qwt\-\_\-scale\-\_\-div.\-cpp.
+
+\hypertarget{class_qwt_scale_div_a7326c0f401dee07c2a2661166daf24ae}{\index{Qwt\-Scale\-Div@{Qwt\-Scale\-Div}!Qwt\-Scale\-Div@{Qwt\-Scale\-Div}}
+\index{Qwt\-Scale\-Div@{Qwt\-Scale\-Div}!QwtScaleDiv@{Qwt\-Scale\-Div}}
+\subsubsection[{Qwt\-Scale\-Div}]{\setlength{\rightskip}{0pt plus 5cm}Qwt\-Scale\-Div\-::\-Qwt\-Scale\-Div (
+\begin{DoxyParamCaption}
+\item[{{\bf double}}]{lower\-Bound, }
+\item[{{\bf double}}]{upper\-Bound, }
+\item[{{\bf Q\-List}$<$ {\bf double} $>$}]{ticks\mbox{[}\-N\-Tick\-Types\mbox{]}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [explicit]}}}\label{class_qwt_scale_div_a7326c0f401dee07c2a2661166daf24ae}
+Construct \hyperlink{class_qwt_scale_div}{Qwt\-Scale\-Div} instance.
+
+
+\begin{DoxyParams}{Parameters}
+{\em lower\-Bound} & First interval limit \\
+\hline
+{\em upper\-Bound} & Second interval limit \\
+\hline
+{\em ticks} & List of major, medium and minor ticks \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 46 of file qwt\-\_\-scale\-\_\-div.\-cpp.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_qwt_scale_div_a9fe271ba1bee08d01033ce964c3216c1}{\index{Qwt\-Scale\-Div@{Qwt\-Scale\-Div}!contains@{contains}}
+\index{contains@{contains}!QwtScaleDiv@{Qwt\-Scale\-Div}}
+\subsubsection[{contains}]{\setlength{\rightskip}{0pt plus 5cm}bool Qwt\-Scale\-Div\-::contains (
+\begin{DoxyParamCaption}
+\item[{{\bf double}}]{value}
+\end{DoxyParamCaption}
+) const}}\label{class_qwt_scale_div_a9fe271ba1bee08d01033ce964c3216c1}
+Return if a value is between \hyperlink{class_qwt_scale_div_a7b9b339170625553fbb488c7877372d0}{lower\-Bound()} and \hyperlink{class_qwt_scale_div_af314ab8ccdf18dec6642c1700687b48d}{upper\-Bound()}
+
+
+\begin{DoxyParams}{Parameters}
+{\em value} & Value \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true/false 
+\end{DoxyReturn}
+
+
+Definition at line 121 of file qwt\-\_\-scale\-\_\-div.\-cpp.
+
+\hypertarget{class_qwt_scale_div_a00fa69fed58c7a8ce6c855bb4df799f0}{\index{Qwt\-Scale\-Div@{Qwt\-Scale\-Div}!interval@{interval}}
+\index{interval@{interval}!QwtScaleDiv@{Qwt\-Scale\-Div}}
+\subsubsection[{interval}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Qwt\-Interval} Qwt\-Scale\-Div\-::interval (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_qwt_scale_div_a00fa69fed58c7a8ce6c855bb4df799f0}
+\begin{DoxyReturn}{Returns}
+lower\-Bound -\/$>$ upper\-Bound 
+\end{DoxyReturn}
+
+
+Definition at line 102 of file qwt\-\_\-scale\-\_\-div.\-h.
+
+\hypertarget{class_qwt_scale_div_a429d3b6004f06c59530c084a9aecf2bb}{\index{Qwt\-Scale\-Div@{Qwt\-Scale\-Div}!invalidate@{invalidate}}
+\index{invalidate@{invalidate}!QwtScaleDiv@{Qwt\-Scale\-Div}}
+\subsubsection[{invalidate}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Scale\-Div\-::invalidate (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_qwt_scale_div_a429d3b6004f06c59530c084a9aecf2bb}
+
+
+Invalidate the scale division. 
+
+
+
+Definition at line 98 of file qwt\-\_\-scale\-\_\-div.\-cpp.
+
+\hypertarget{class_qwt_scale_div_a1ea38d52d5836fd4376f480180973786}{\index{Qwt\-Scale\-Div@{Qwt\-Scale\-Div}!invert@{invert}}
+\index{invert@{invert}!QwtScaleDiv@{Qwt\-Scale\-Div}}
+\subsubsection[{invert}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Scale\-Div\-::invert (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+)}}\label{class_qwt_scale_div_a1ea38d52d5836fd4376f480180973786}
+
+
+Invert the scale divison. 
+
+
+
+Definition at line 133 of file qwt\-\_\-scale\-\_\-div.\-cpp.
+
+\hypertarget{class_qwt_scale_div_a22f6955b5d2c73a91a8f01ad49cd4c39}{\index{Qwt\-Scale\-Div@{Qwt\-Scale\-Div}!is\-Valid@{is\-Valid}}
+\index{is\-Valid@{is\-Valid}!QwtScaleDiv@{Qwt\-Scale\-Div}}
+\subsubsection[{is\-Valid}]{\setlength{\rightskip}{0pt plus 5cm}bool Qwt\-Scale\-Div\-::is\-Valid (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+) const}}\label{class_qwt_scale_div_a22f6955b5d2c73a91a8f01ad49cd4c39}
+
+
+Check if the scale division is valid. 
+
+
+
+Definition at line 110 of file qwt\-\_\-scale\-\_\-div.\-cpp.
+
+\hypertarget{class_qwt_scale_div_a7b9b339170625553fbb488c7877372d0}{\index{Qwt\-Scale\-Div@{Qwt\-Scale\-Div}!lower\-Bound@{lower\-Bound}}
+\index{lower\-Bound@{lower\-Bound}!QwtScaleDiv@{Qwt\-Scale\-Div}}
+\subsubsection[{lower\-Bound}]{\setlength{\rightskip}{0pt plus 5cm}{\bf double} Qwt\-Scale\-Div\-::lower\-Bound (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_qwt_scale_div_a7b9b339170625553fbb488c7877372d0}
+\begin{DoxyReturn}{Returns}
+lower bound 
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_scale_div_af314ab8ccdf18dec6642c1700687b48d}{upper\-Bound()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 111 of file qwt\-\_\-scale\-\_\-div.\-h.
+
+\hypertarget{class_qwt_scale_div_a231959412880b1994b03c59537a6dea1}{\index{Qwt\-Scale\-Div@{Qwt\-Scale\-Div}!operator!=@{operator!=}}
+\index{operator!=@{operator!=}!QwtScaleDiv@{Qwt\-Scale\-Div}}
+\subsubsection[{operator!=}]{\setlength{\rightskip}{0pt plus 5cm}bool Qwt\-Scale\-Div\-::operator!= (
+\begin{DoxyParamCaption}
+\item[{const {\bf Qwt\-Scale\-Div} \&}]{s}
+\end{DoxyParamCaption}
+) const}}\label{class_qwt_scale_div_a231959412880b1994b03c59537a6dea1}
+
+
+Inequality. 
+
+\begin{DoxyReturn}{Returns}
+true if this instance is not equal to s 
+\end{DoxyReturn}
+
+
+Definition at line 92 of file qwt\-\_\-scale\-\_\-div.\-cpp.
+
+\hypertarget{class_qwt_scale_div_a459952c4cb539bcd3719df5e5765e509}{\index{Qwt\-Scale\-Div@{Qwt\-Scale\-Div}!operator==@{operator==}}
+\index{operator==@{operator==}!QwtScaleDiv@{Qwt\-Scale\-Div}}
+\subsubsection[{operator==}]{\setlength{\rightskip}{0pt plus 5cm}bool Qwt\-Scale\-Div\-::operator== (
+\begin{DoxyParamCaption}
+\item[{const {\bf Qwt\-Scale\-Div} \&}]{other}
+\end{DoxyParamCaption}
+) const}}\label{class_qwt_scale_div_a459952c4cb539bcd3719df5e5765e509}
+
+
+Equality operator. 
+
+\begin{DoxyReturn}{Returns}
+true if this instance is equal to other 
+\end{DoxyReturn}
+
+
+Definition at line 70 of file qwt\-\_\-scale\-\_\-div.\-cpp.
+
+\hypertarget{class_qwt_scale_div_abe63aa19b346a4683ab19bf59a5bb37c}{\index{Qwt\-Scale\-Div@{Qwt\-Scale\-Div}!range@{range}}
+\index{range@{range}!QwtScaleDiv@{Qwt\-Scale\-Div}}
+\subsubsection[{range}]{\setlength{\rightskip}{0pt plus 5cm}{\bf double} Qwt\-Scale\-Div\-::range (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_qwt_scale_div_abe63aa19b346a4683ab19bf59a5bb37c}
+\begin{DoxyReturn}{Returns}
+\hyperlink{class_qwt_scale_div_af314ab8ccdf18dec6642c1700687b48d}{upper\-Bound()} -\/ \hyperlink{class_qwt_scale_div_a7b9b339170625553fbb488c7877372d0}{lower\-Bound()} 
+\end{DoxyReturn}
+
+
+Definition at line 128 of file qwt\-\_\-scale\-\_\-div.\-h.
+
+\hypertarget{class_qwt_scale_div_aa5c61a5fef5f83f2735e4e1b8e545f0b}{\index{Qwt\-Scale\-Div@{Qwt\-Scale\-Div}!set\-Interval@{set\-Interval}}
+\index{set\-Interval@{set\-Interval}!QwtScaleDiv@{Qwt\-Scale\-Div}}
+\subsubsection[{set\-Interval}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Scale\-Div\-::set\-Interval (
+\begin{DoxyParamCaption}
+\item[{{\bf double}}]{lower\-Bound, }
+\item[{{\bf double}}]{upper\-Bound}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_qwt_scale_div_aa5c61a5fef5f83f2735e4e1b8e545f0b}
+Change the interval 
+\begin{DoxyParams}{Parameters}
+{\em lower\-Bound} & lower bound \\
+\hline
+{\em upper\-Bound} & upper bound \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 93 of file qwt\-\_\-scale\-\_\-div.\-h.
+
+\hypertarget{class_qwt_scale_div_ad335ddb86f5c635324cd0e8d00430ac4}{\index{Qwt\-Scale\-Div@{Qwt\-Scale\-Div}!set\-Interval@{set\-Interval}}
+\index{set\-Interval@{set\-Interval}!QwtScaleDiv@{Qwt\-Scale\-Div}}
+\subsubsection[{set\-Interval}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Scale\-Div\-::set\-Interval (
+\begin{DoxyParamCaption}
+\item[{const {\bf Qwt\-Interval} \&}]{interval}
+\end{DoxyParamCaption}
+)}}\label{class_qwt_scale_div_ad335ddb86f5c635324cd0e8d00430ac4}
+Change the interval 
+\begin{DoxyParams}{Parameters}
+{\em interval} & Interval \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 61 of file qwt\-\_\-scale\-\_\-div.\-cpp.
+
+\hypertarget{class_qwt_scale_div_ace4b5d59fd84d4aa0825c007ed944ba9}{\index{Qwt\-Scale\-Div@{Qwt\-Scale\-Div}!set\-Ticks@{set\-Ticks}}
+\index{set\-Ticks@{set\-Ticks}!QwtScaleDiv@{Qwt\-Scale\-Div}}
+\subsubsection[{set\-Ticks}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Scale\-Div\-::set\-Ticks (
+\begin{DoxyParamCaption}
+\item[{{\bf int}}]{type, }
+\item[{const {\bf Q\-List}$<$ {\bf double} $>$ \&}]{ticks}
+\end{DoxyParamCaption}
+)}}\label{class_qwt_scale_div_ace4b5d59fd84d4aa0825c007ed944ba9}
+Assign ticks
+
+
+\begin{DoxyParams}{Parameters}
+{\em type} & Minor\-Tick, Medium\-Tick or Major\-Tick \\
+\hline
+{\em ticks} & Values of the tick positions \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 155 of file qwt\-\_\-scale\-\_\-div.\-cpp.
+
+\hypertarget{class_qwt_scale_div_a6fc39bb3079b6bacb3d113afd314911d}{\index{Qwt\-Scale\-Div@{Qwt\-Scale\-Div}!ticks@{ticks}}
+\index{ticks@{ticks}!QwtScaleDiv@{Qwt\-Scale\-Div}}
+\subsubsection[{ticks}]{\setlength{\rightskip}{0pt plus 5cm}const {\bf Q\-List}$<$ {\bf double} $>$ \& Qwt\-Scale\-Div\-::ticks (
+\begin{DoxyParamCaption}
+\item[{{\bf int}}]{type}
+\end{DoxyParamCaption}
+) const}}\label{class_qwt_scale_div_a6fc39bb3079b6bacb3d113afd314911d}
+Return a list of ticks
+
+
+\begin{DoxyParams}{Parameters}
+{\em type} & Minor\-Tick, Medium\-Tick or Major\-Tick \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 166 of file qwt\-\_\-scale\-\_\-div.\-cpp.
+
+\hypertarget{class_qwt_scale_div_af314ab8ccdf18dec6642c1700687b48d}{\index{Qwt\-Scale\-Div@{Qwt\-Scale\-Div}!upper\-Bound@{upper\-Bound}}
+\index{upper\-Bound@{upper\-Bound}!QwtScaleDiv@{Qwt\-Scale\-Div}}
+\subsubsection[{upper\-Bound}]{\setlength{\rightskip}{0pt plus 5cm}{\bf double} Qwt\-Scale\-Div\-::upper\-Bound (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_qwt_scale_div_af314ab8ccdf18dec6642c1700687b48d}
+\begin{DoxyReturn}{Returns}
+upper bound 
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_scale_div_a7b9b339170625553fbb488c7877372d0}{lower\-Bound()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 120 of file qwt\-\_\-scale\-\_\-div.\-h.
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/qwt/src/\hyperlink{qwt__scale__div_8h}{qwt\-\_\-scale\-\_\-div.\-h}\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/qwt/src/\hyperlink{qwt__scale__div_8cpp}{qwt\-\_\-scale\-\_\-div.\-cpp}\end{DoxyCompactItemize}

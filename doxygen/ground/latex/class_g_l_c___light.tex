@@ -1,0 +1,669 @@
+\hypertarget{class_g_l_c___light}{\section{G\-L\-C\-\_\-\-Light Class Reference}
+\label{class_g_l_c___light}\index{G\-L\-C\-\_\-\-Light@{G\-L\-C\-\_\-\-Light}}
+}
+
+
+\hyperlink{class_g_l_c___light}{G\-L\-C\-\_\-\-Light} \-: Open\-G\-L Point Light.  
+
+
+
+
+{\ttfamily \#include $<$glc\-\_\-light.\-h$>$}
+
+Inheritance diagram for G\-L\-C\-\_\-\-Light\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_g_l_c___light}
+\end{center}
+\end{figure}
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{class_g_l_c___light_a3b07c40e07008c58c5da29ccabfef6a6}{Light\-Type} \{ \hyperlink{class_g_l_c___light_a3b07c40e07008c58c5da29ccabfef6a6abd1dfe7544fffa9827c53dcf65b2df58}{Light\-Position} = 0, 
+\hyperlink{class_g_l_c___light_a3b07c40e07008c58c5da29ccabfef6a6a732582299b67022fad31e9aa4ffa0d21}{Light\-Direction} = 1, 
+\hyperlink{class_g_l_c___light_a3b07c40e07008c58c5da29ccabfef6a6a7692603efc5b77b548fa032b329b61a0}{Light\-Spot} = 2
+ \}
+\begin{DoxyCompactList}\small\item\em Light Type enum. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{Indent}{\bf Constructor / Destructor}\par
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_g_l_c___light_a945d23623d4a2d2978e94ed246459ffd}{G\-L\-C\-\_\-\-Light} (const Q\-G\-L\-Context $\ast$p\-Context=N\-U\-L\-L, const Q\-Color \&\hyperlink{glext_8h_a3ea846f998d64f079b86052b6c4193a8}{color}=Qt\-::white)
+\begin{DoxyCompactList}\small\item\em Construct a default \hyperlink{class_g_l_c___light}{G\-L\-C\-\_\-\-Light}. \end{DoxyCompactList}\item 
+\hyperlink{class_g_l_c___light_a2ef8266f4144857ef7b2205c43157fd5}{G\-L\-C\-\_\-\-Light} (\hyperlink{class_g_l_c___light_a3b07c40e07008c58c5da29ccabfef6a6}{Light\-Type} light\-Type, const Q\-G\-L\-Context $\ast$p\-Context=N\-U\-L\-L, const Q\-Color \&\hyperlink{glext_8h_a3ea846f998d64f079b86052b6c4193a8}{color}=Qt\-::white)
+\begin{DoxyCompactList}\small\item\em Construct a default \hyperlink{class_g_l_c___light}{G\-L\-C\-\_\-\-Light}. \end{DoxyCompactList}\item 
+\hyperlink{class_g_l_c___light_ae530d8f9d907a53637ccfbd909b3f697}{G\-L\-C\-\_\-\-Light} (const \hyperlink{class_g_l_c___light}{G\-L\-C\-\_\-\-Light} \&light)
+\begin{DoxyCompactList}\small\item\em Copy constructor. \end{DoxyCompactList}\item 
+virtual \hyperlink{class_g_l_c___light_aed91410bddc9bda631b0a64309de1d65}{$\sim$\-G\-L\-C\-\_\-\-Light} (\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void})
+\begin{DoxyCompactList}\small\item\em Delete Open\-G\-L list. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\end{Indent}
+\begin{Indent}{\bf Set Functions}\par
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c___light_a8da184bdaa003551465a21a9e36bc319}{init\-For\-This\-Context} ()
+\begin{DoxyCompactList}\small\item\em Init Max number of light for this light context. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c___light_a72acd1dfcf42f4e4783666954ad9d716}{set\-Position} (const \hyperlink{glc__vector3d_8h_a4e13a9bbc7ab3d34de7e98b41836772c}{G\-L\-C\-\_\-\-Point3d} \&pos)
+\begin{DoxyCompactList}\small\item\em Set lihgt's position by a point. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c___light_abd04f4f1df3285ed1e7a745921345e6e}{set\-Position} (G\-Lfloat \hyperlink{glext_8h_a1db9d104e3c2128177f26aff7b46982f}{x}, G\-Lfloat \hyperlink{glext_8h_a42315f3ed8fff752bb47fd782309fcfc}{y}, G\-Lfloat \hyperlink{glext_8h_a642c8d69fd1a54f255c898df4f0dd7ca}{z})
+\begin{DoxyCompactList}\small\item\em Set lihgt's position by a 3 G\-Lfloat. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c___light_a61bbf7ccbcc76585eedd6ff2b73ba0a0}{set\-Ambient\-Color} (const Q\-Color \&\hyperlink{glext_8h_a3ea846f998d64f079b86052b6c4193a8}{color})
+\begin{DoxyCompactList}\small\item\em Set light's ambiant color by a Q\-Color. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c___light_a698f1054bdc8283359d1f9a30b5d7b35}{set\-Diffuse\-Color} (const Q\-Color \&\hyperlink{glext_8h_a3ea846f998d64f079b86052b6c4193a8}{color})
+\begin{DoxyCompactList}\small\item\em Set light's diffuse color by a Q\-Color. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c___light_af09337a82a3b7f54d02fcd6beb97765e}{set\-Specular\-Color} (const Q\-Color \&\hyperlink{glext_8h_a3ea846f998d64f079b86052b6c4193a8}{color})
+\begin{DoxyCompactList}\small\item\em Set light's specular color by a Q\-Color. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c___light_a809335d00ef10909669e8884b688e7da}{set\-Two\-Sided} (const bool \hyperlink{glext_8h_a1e71d9c196e4683cc06c4b54d53f7ef5}{mode})
+\begin{DoxyCompactList}\small\item\em Set Mode. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c___light_a1792ead634c12c9ec550e20762950338}{set\-Constant\-Attenuation} (G\-Lfloat \hyperlink{class_g_l_c___light_ac2206e42a1100b0ed372009c88eb956a}{constant\-Attenuation})
+\begin{DoxyCompactList}\small\item\em Set this light constant attenuation. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c___light_a98e0ed4a47e3b63b3ab7c948e2af4008}{set\-Linear\-Attenuation} (G\-Lfloat \hyperlink{class_g_l_c___light_a38480562144c14ca8f1e2b9379757665}{linear\-Attenuation})
+\begin{DoxyCompactList}\small\item\em Set this light linear attenuation. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c___light_abd74d4c10e11cfeaf9451d5737eecc94}{set\-Quadratic\-Attenuation} (G\-Lfloat \hyperlink{class_g_l_c___light_a48f7482111079034f8dca2018f6cc4cc}{quadratic\-Attenuation})
+\begin{DoxyCompactList}\small\item\em Set this light quadratic attenuation. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c___light_aa4db408bb283450c805f8518ce572548}{set\-Spot\-Direction} (const \hyperlink{class_g_l_c___vector3d}{G\-L\-C\-\_\-\-Vector3d} \&direction)
+\begin{DoxyCompactList}\small\item\em Set this light spot direction. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c___light_a5211658122a0d97122138f30cc8b8bf0}{set\-Spot\-Cutoff\-Angle} (G\-Lfloat cutoff\-Angle)
+\begin{DoxyCompactList}\small\item\em Set this light spot cutoff angle. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c___light_a58d93cda120a0a27b2c878a6399589a1}{set\-Spot\-Eponent} (G\-Lfloat exponent)
+\begin{DoxyCompactList}\small\item\em Set this light spot exponent. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\end{Indent}
+\begin{Indent}{\bf Open\-G\-L Functions}\par
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c___light_a70f5256ab0134b958c1979d970e37779}{disable} ()
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c___light_a02812d66b0a3be7817501493a6ef3bea}{gl\-Execute} ()
+\begin{DoxyCompactList}\small\item\em Execute Open\-G\-L light. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\end{Indent}
+\subsection*{Get Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{glc__vector3d_8h_a4e13a9bbc7ab3d34de7e98b41836772c}{G\-L\-C\-\_\-\-Point3d} \hyperlink{class_g_l_c___light_a2dde41d70a35d06c366f2e0811798f27}{position} (\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void}) const 
+\begin{DoxyCompactList}\small\item\em Return a G\-L\-C\-\_\-\-Point3d representing light position. \end{DoxyCompactList}\item 
+Q\-Color \hyperlink{class_g_l_c___light_a651c4cd5f6ca96b3e3640f70844bd4dd}{ambient\-Color} () const 
+\begin{DoxyCompactList}\small\item\em Return the Q\-Color of the light's ambient color. \end{DoxyCompactList}\item 
+Q\-Color \hyperlink{class_g_l_c___light_a61485d888f751e5a5992c1324e3ff4f5}{diffuse\-Color} () const 
+\begin{DoxyCompactList}\small\item\em Return the Q\-Color of the light's Diffuse color. \end{DoxyCompactList}\item 
+Q\-Color \hyperlink{class_g_l_c___light_a4271143d5f970ca5cb291451db6b291f}{specular\-Color} () const 
+\begin{DoxyCompactList}\small\item\em Return the Q\-Color of the light's Specular color. \end{DoxyCompactList}\item 
+bool \hyperlink{class_g_l_c___light_a0679aca9723c75c61fd151ef58e00c94}{is\-Two\-Sided} () const 
+\begin{DoxyCompactList}\small\item\em Return true if the light used two sided ilumination. \end{DoxyCompactList}\item 
+\hyperlink{class_g_l_c___light_a3b07c40e07008c58c5da29ccabfef6a6}{Light\-Type} \hyperlink{class_g_l_c___light_a5d2df91a1b70c0e0b9f31b2f486c11a8}{type} () const 
+\begin{DoxyCompactList}\small\item\em Return the type of this light. \end{DoxyCompactList}\item 
+\hyperlink{glext_8h_a508b2dec21679e2e346cad3e0d1969bf}{G\-Lenum} \hyperlink{class_g_l_c___light_a33e1b8ed723241c12939f41f25248251}{opengl\-I\-D} () const 
+\begin{DoxyCompactList}\small\item\em Return the Open\-G\-L I\-D of this light. \end{DoxyCompactList}\item 
+G\-Lfloat \hyperlink{class_g_l_c___light_ac2206e42a1100b0ed372009c88eb956a}{constant\-Attenuation} () const 
+\begin{DoxyCompactList}\small\item\em Return this light const attenuation. \end{DoxyCompactList}\item 
+G\-Lfloat \hyperlink{class_g_l_c___light_a38480562144c14ca8f1e2b9379757665}{linear\-Attenuation} () const 
+\begin{DoxyCompactList}\small\item\em Return this light linear attenuation. \end{DoxyCompactList}\item 
+G\-Lfloat \hyperlink{class_g_l_c___light_a48f7482111079034f8dca2018f6cc4cc}{quadratic\-Attenuation} () const 
+\begin{DoxyCompactList}\small\item\em Return this light quadratic attenuation. \end{DoxyCompactList}\item 
+\hyperlink{class_g_l_c___vector3d}{G\-L\-C\-\_\-\-Vector3d} \hyperlink{class_g_l_c___light_a82a8133ea5283e6bb2ba19799e46a6dc}{spot\-Direction} () const 
+\begin{DoxyCompactList}\small\item\em Return this light spot direction. \end{DoxyCompactList}\item 
+G\-Lfloat \hyperlink{class_g_l_c___light_aa72d0878ac1fb804273def2ca3778cd8}{spot\-Cutoff\-Angle} () const 
+\begin{DoxyCompactList}\small\item\em Return this light spot cutoff angle. \end{DoxyCompactList}\item 
+G\-Lfloat \hyperlink{class_g_l_c___light_aa87e28c1ea754fb0c691bfc3fa7158a3}{spot\-Eponent} () const 
+\begin{DoxyCompactList}\small\item\em Return this light spot exponent. \end{DoxyCompactList}\item 
+static \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_g_l_c___light_add55fbb82c37f021ba9422bbda089f36}{max\-Light\-Count} ()
+\begin{DoxyCompactList}\small\item\em Return the maximum number light. \end{DoxyCompactList}\item 
+static \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_g_l_c___light_a644b0c6b07a93646802b79a7b646075d}{built\-Able\-Light\-Count} (Q\-G\-L\-Context $\ast$p\-Context)
+\begin{DoxyCompactList}\small\item\em Return the number of builtable light. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Detailed Description}
+\hyperlink{class_g_l_c___light}{G\-L\-C\-\_\-\-Light} \-: Open\-G\-L Point Light. 
+
+An \hyperlink{class_g_l_c___light}{G\-L\-C\-\_\-\-Light} is an Open\-G\-L point Light source at a 3\-D location\par
+ Point light is omnidirectional and have color 
+
+Definition at line 47 of file glc\-\_\-light.\-h.
+
+
+
+\subsection{Member Enumeration Documentation}
+\hypertarget{class_g_l_c___light_a3b07c40e07008c58c5da29ccabfef6a6}{\index{G\-L\-C\-\_\-\-Light@{G\-L\-C\-\_\-\-Light}!Light\-Type@{Light\-Type}}
+\index{Light\-Type@{Light\-Type}!GLC_Light@{G\-L\-C\-\_\-\-Light}}
+\subsubsection[{Light\-Type}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf G\-L\-C\-\_\-\-Light\-::\-Light\-Type}}}\label{class_g_l_c___light_a3b07c40e07008c58c5da29ccabfef6a6}
+
+
+Light Type enum. 
+
+\begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{Light\-Position@{Light\-Position}!G\-L\-C\-\_\-\-Light@{G\-L\-C\-\_\-\-Light}}\index{G\-L\-C\-\_\-\-Light@{G\-L\-C\-\_\-\-Light}!Light\-Position@{Light\-Position}}\item[{\em 
+\hypertarget{class_g_l_c___light_a3b07c40e07008c58c5da29ccabfef6a6abd1dfe7544fffa9827c53dcf65b2df58}{Light\-Position}\label{class_g_l_c___light_a3b07c40e07008c58c5da29ccabfef6a6abd1dfe7544fffa9827c53dcf65b2df58}
+}]\index{Light\-Direction@{Light\-Direction}!G\-L\-C\-\_\-\-Light@{G\-L\-C\-\_\-\-Light}}\index{G\-L\-C\-\_\-\-Light@{G\-L\-C\-\_\-\-Light}!Light\-Direction@{Light\-Direction}}\item[{\em 
+\hypertarget{class_g_l_c___light_a3b07c40e07008c58c5da29ccabfef6a6a732582299b67022fad31e9aa4ffa0d21}{Light\-Direction}\label{class_g_l_c___light_a3b07c40e07008c58c5da29ccabfef6a6a732582299b67022fad31e9aa4ffa0d21}
+}]\index{Light\-Spot@{Light\-Spot}!G\-L\-C\-\_\-\-Light@{G\-L\-C\-\_\-\-Light}}\index{G\-L\-C\-\_\-\-Light@{G\-L\-C\-\_\-\-Light}!Light\-Spot@{Light\-Spot}}\item[{\em 
+\hypertarget{class_g_l_c___light_a3b07c40e07008c58c5da29ccabfef6a6a7692603efc5b77b548fa032b329b61a0}{Light\-Spot}\label{class_g_l_c___light_a3b07c40e07008c58c5da29ccabfef6a6a7692603efc5b77b548fa032b329b61a0}
+}]\end{description}
+\end{Desc}
+
+
+Definition at line 51 of file glc\-\_\-light.\-h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_g_l_c___light_a945d23623d4a2d2978e94ed246459ffd}{\index{G\-L\-C\-\_\-\-Light@{G\-L\-C\-\_\-\-Light}!G\-L\-C\-\_\-\-Light@{G\-L\-C\-\_\-\-Light}}
+\index{G\-L\-C\-\_\-\-Light@{G\-L\-C\-\_\-\-Light}!GLC_Light@{G\-L\-C\-\_\-\-Light}}
+\subsubsection[{G\-L\-C\-\_\-\-Light}]{\setlength{\rightskip}{0pt plus 5cm}G\-L\-C\-\_\-\-Light\-::\-G\-L\-C\-\_\-\-Light (
+\begin{DoxyParamCaption}
+\item[{const Q\-G\-L\-Context $\ast$}]{p\-Context = {\ttfamily NULL}, }
+\item[{const Q\-Color \&}]{color = {\ttfamily Qt\-:\-:white}}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___light_a945d23623d4a2d2978e94ed246459ffd}
+
+
+Construct a default \hyperlink{class_g_l_c___light}{G\-L\-C\-\_\-\-Light}. 
+
+By default, ambient color is black, diffuse Color is white and specular color is white 
+
+Definition at line 38 of file glc\-\_\-light.\-cpp.
+
+\hypertarget{class_g_l_c___light_a2ef8266f4144857ef7b2205c43157fd5}{\index{G\-L\-C\-\_\-\-Light@{G\-L\-C\-\_\-\-Light}!G\-L\-C\-\_\-\-Light@{G\-L\-C\-\_\-\-Light}}
+\index{G\-L\-C\-\_\-\-Light@{G\-L\-C\-\_\-\-Light}!GLC_Light@{G\-L\-C\-\_\-\-Light}}
+\subsubsection[{G\-L\-C\-\_\-\-Light}]{\setlength{\rightskip}{0pt plus 5cm}G\-L\-C\-\_\-\-Light\-::\-G\-L\-C\-\_\-\-Light (
+\begin{DoxyParamCaption}
+\item[{{\bf Light\-Type}}]{light\-Type, }
+\item[{const Q\-G\-L\-Context $\ast$}]{p\-Context = {\ttfamily NULL}, }
+\item[{const Q\-Color \&}]{color = {\ttfamily Qt\-:\-:white}}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___light_a2ef8266f4144857ef7b2205c43157fd5}
+
+
+Construct a default \hyperlink{class_g_l_c___light}{G\-L\-C\-\_\-\-Light}. 
+
+By default, ambient color is black, diffuse Color is white and specular color is white 
+
+Definition at line 59 of file glc\-\_\-light.\-cpp.
+
+\hypertarget{class_g_l_c___light_ae530d8f9d907a53637ccfbd909b3f697}{\index{G\-L\-C\-\_\-\-Light@{G\-L\-C\-\_\-\-Light}!G\-L\-C\-\_\-\-Light@{G\-L\-C\-\_\-\-Light}}
+\index{G\-L\-C\-\_\-\-Light@{G\-L\-C\-\_\-\-Light}!GLC_Light@{G\-L\-C\-\_\-\-Light}}
+\subsubsection[{G\-L\-C\-\_\-\-Light}]{\setlength{\rightskip}{0pt plus 5cm}G\-L\-C\-\_\-\-Light\-::\-G\-L\-C\-\_\-\-Light (
+\begin{DoxyParamCaption}
+\item[{const {\bf G\-L\-C\-\_\-\-Light} \&}]{light}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___light_ae530d8f9d907a53637ccfbd909b3f697}
+
+
+Copy constructor. 
+
+
+
+Definition at line 80 of file glc\-\_\-light.\-cpp.
+
+\hypertarget{class_g_l_c___light_aed91410bddc9bda631b0a64309de1d65}{\index{G\-L\-C\-\_\-\-Light@{G\-L\-C\-\_\-\-Light}!$\sim$\-G\-L\-C\-\_\-\-Light@{$\sim$\-G\-L\-C\-\_\-\-Light}}
+\index{$\sim$\-G\-L\-C\-\_\-\-Light@{$\sim$\-G\-L\-C\-\_\-\-Light}!GLC_Light@{G\-L\-C\-\_\-\-Light}}
+\subsubsection[{$\sim$\-G\-L\-C\-\_\-\-Light}]{\setlength{\rightskip}{0pt plus 5cm}G\-L\-C\-\_\-\-Light\-::$\sim$\-G\-L\-C\-\_\-\-Light (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_g_l_c___light_aed91410bddc9bda631b0a64309de1d65}
+
+
+Delete Open\-G\-L list. 
+
+
+
+Definition at line 101 of file glc\-\_\-light.\-cpp.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_g_l_c___light_a651c4cd5f6ca96b3e3640f70844bd4dd}{\index{G\-L\-C\-\_\-\-Light@{G\-L\-C\-\_\-\-Light}!ambient\-Color@{ambient\-Color}}
+\index{ambient\-Color@{ambient\-Color}!GLC_Light@{G\-L\-C\-\_\-\-Light}}
+\subsubsection[{ambient\-Color}]{\setlength{\rightskip}{0pt plus 5cm}Q\-Color G\-L\-C\-\_\-\-Light\-::ambient\-Color (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___light_a651c4cd5f6ca96b3e3640f70844bd4dd}
+
+
+Return the Q\-Color of the light's ambient color. 
+
+
+
+Definition at line 93 of file glc\-\_\-light.\-h.
+
+\hypertarget{class_g_l_c___light_a644b0c6b07a93646802b79a7b646075d}{\index{G\-L\-C\-\_\-\-Light@{G\-L\-C\-\_\-\-Light}!built\-Able\-Light\-Count@{built\-Able\-Light\-Count}}
+\index{built\-Able\-Light\-Count@{built\-Able\-Light\-Count}!GLC_Light@{G\-L\-C\-\_\-\-Light}}
+\subsubsection[{built\-Able\-Light\-Count}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int} G\-L\-C\-\_\-\-Light\-::built\-Able\-Light\-Count (
+\begin{DoxyParamCaption}
+\item[{Q\-G\-L\-Context $\ast$}]{p\-Context}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{class_g_l_c___light_a644b0c6b07a93646802b79a7b646075d}
+
+
+Return the number of builtable light. 
+
+
+
+Definition at line 115 of file glc\-\_\-light.\-cpp.
+
+\hypertarget{class_g_l_c___light_ac2206e42a1100b0ed372009c88eb956a}{\index{G\-L\-C\-\_\-\-Light@{G\-L\-C\-\_\-\-Light}!constant\-Attenuation@{constant\-Attenuation}}
+\index{constant\-Attenuation@{constant\-Attenuation}!GLC_Light@{G\-L\-C\-\_\-\-Light}}
+\subsubsection[{constant\-Attenuation}]{\setlength{\rightskip}{0pt plus 5cm}G\-Lfloat G\-L\-C\-\_\-\-Light\-::constant\-Attenuation (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___light_ac2206e42a1100b0ed372009c88eb956a}
+
+
+Return this light const attenuation. 
+
+
+
+Definition at line 117 of file glc\-\_\-light.\-h.
+
+\hypertarget{class_g_l_c___light_a61485d888f751e5a5992c1324e3ff4f5}{\index{G\-L\-C\-\_\-\-Light@{G\-L\-C\-\_\-\-Light}!diffuse\-Color@{diffuse\-Color}}
+\index{diffuse\-Color@{diffuse\-Color}!GLC_Light@{G\-L\-C\-\_\-\-Light}}
+\subsubsection[{diffuse\-Color}]{\setlength{\rightskip}{0pt plus 5cm}Q\-Color G\-L\-C\-\_\-\-Light\-::diffuse\-Color (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___light_a61485d888f751e5a5992c1324e3ff4f5}
+
+
+Return the Q\-Color of the light's Diffuse color. 
+
+
+
+Definition at line 97 of file glc\-\_\-light.\-h.
+
+\hypertarget{class_g_l_c___light_a70f5256ab0134b958c1979d970e37779}{\index{G\-L\-C\-\_\-\-Light@{G\-L\-C\-\_\-\-Light}!disable@{disable}}
+\index{disable@{disable}!GLC_Light@{G\-L\-C\-\_\-\-Light}}
+\subsubsection[{disable}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-\-Light\-::disable (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___light_a70f5256ab0134b958c1979d970e37779}
+
+
+Definition at line 210 of file glc\-\_\-light.\-cpp.
+
+\hypertarget{class_g_l_c___light_a02812d66b0a3be7817501493a6ef3bea}{\index{G\-L\-C\-\_\-\-Light@{G\-L\-C\-\_\-\-Light}!gl\-Execute@{gl\-Execute}}
+\index{gl\-Execute@{gl\-Execute}!GLC_Light@{G\-L\-C\-\_\-\-Light}}
+\subsubsection[{gl\-Execute}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-\-Light\-::gl\-Execute (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_g_l_c___light_a02812d66b0a3be7817501493a6ef3bea}
+
+
+Execute Open\-G\-L light. 
+
+
+
+Definition at line 219 of file glc\-\_\-light.\-cpp.
+
+\hypertarget{class_g_l_c___light_a8da184bdaa003551465a21a9e36bc319}{\index{G\-L\-C\-\_\-\-Light@{G\-L\-C\-\_\-\-Light}!init\-For\-This\-Context@{init\-For\-This\-Context}}
+\index{init\-For\-This\-Context@{init\-For\-This\-Context}!GLC_Light@{G\-L\-C\-\_\-\-Light}}
+\subsubsection[{init\-For\-This\-Context}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-\-Light\-::init\-For\-This\-Context (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___light_a8da184bdaa003551465a21a9e36bc319}
+
+
+Init Max number of light for this light context. 
+
+
+
+Definition at line 127 of file glc\-\_\-light.\-cpp.
+
+\hypertarget{class_g_l_c___light_a0679aca9723c75c61fd151ef58e00c94}{\index{G\-L\-C\-\_\-\-Light@{G\-L\-C\-\_\-\-Light}!is\-Two\-Sided@{is\-Two\-Sided}}
+\index{is\-Two\-Sided@{is\-Two\-Sided}!GLC_Light@{G\-L\-C\-\_\-\-Light}}
+\subsubsection[{is\-Two\-Sided}]{\setlength{\rightskip}{0pt plus 5cm}bool G\-L\-C\-\_\-\-Light\-::is\-Two\-Sided (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___light_a0679aca9723c75c61fd151ef58e00c94}
+
+
+Return true if the light used two sided ilumination. 
+
+
+
+Definition at line 105 of file glc\-\_\-light.\-h.
+
+\hypertarget{class_g_l_c___light_a38480562144c14ca8f1e2b9379757665}{\index{G\-L\-C\-\_\-\-Light@{G\-L\-C\-\_\-\-Light}!linear\-Attenuation@{linear\-Attenuation}}
+\index{linear\-Attenuation@{linear\-Attenuation}!GLC_Light@{G\-L\-C\-\_\-\-Light}}
+\subsubsection[{linear\-Attenuation}]{\setlength{\rightskip}{0pt plus 5cm}G\-Lfloat G\-L\-C\-\_\-\-Light\-::linear\-Attenuation (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___light_a38480562144c14ca8f1e2b9379757665}
+
+
+Return this light linear attenuation. 
+
+
+
+Definition at line 121 of file glc\-\_\-light.\-h.
+
+\hypertarget{class_g_l_c___light_add55fbb82c37f021ba9422bbda089f36}{\index{G\-L\-C\-\_\-\-Light@{G\-L\-C\-\_\-\-Light}!max\-Light\-Count@{max\-Light\-Count}}
+\index{max\-Light\-Count@{max\-Light\-Count}!GLC_Light@{G\-L\-C\-\_\-\-Light}}
+\subsubsection[{max\-Light\-Count}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int} G\-L\-C\-\_\-\-Light\-::max\-Light\-Count (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{class_g_l_c___light_add55fbb82c37f021ba9422bbda089f36}
+
+
+Return the maximum number light. 
+
+
+
+Definition at line 110 of file glc\-\_\-light.\-cpp.
+
+\hypertarget{class_g_l_c___light_a33e1b8ed723241c12939f41f25248251}{\index{G\-L\-C\-\_\-\-Light@{G\-L\-C\-\_\-\-Light}!opengl\-I\-D@{opengl\-I\-D}}
+\index{opengl\-I\-D@{opengl\-I\-D}!GLC_Light@{G\-L\-C\-\_\-\-Light}}
+\subsubsection[{opengl\-I\-D}]{\setlength{\rightskip}{0pt plus 5cm}{\bf G\-Lenum} G\-L\-C\-\_\-\-Light\-::opengl\-I\-D (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___light_a33e1b8ed723241c12939f41f25248251}
+
+
+Return the Open\-G\-L I\-D of this light. 
+
+
+
+Definition at line 113 of file glc\-\_\-light.\-h.
+
+\hypertarget{class_g_l_c___light_a2dde41d70a35d06c366f2e0811798f27}{\index{G\-L\-C\-\_\-\-Light@{G\-L\-C\-\_\-\-Light}!position@{position}}
+\index{position@{position}!GLC_Light@{G\-L\-C\-\_\-\-Light}}
+\subsubsection[{position}]{\setlength{\rightskip}{0pt plus 5cm}{\bf G\-L\-C\-\_\-\-Point3d} G\-L\-C\-\_\-\-Light\-::position (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___light_a2dde41d70a35d06c366f2e0811798f27}
+
+
+Return a G\-L\-C\-\_\-\-Point3d representing light position. 
+
+
+
+Definition at line 89 of file glc\-\_\-light.\-h.
+
+\hypertarget{class_g_l_c___light_a48f7482111079034f8dca2018f6cc4cc}{\index{G\-L\-C\-\_\-\-Light@{G\-L\-C\-\_\-\-Light}!quadratic\-Attenuation@{quadratic\-Attenuation}}
+\index{quadratic\-Attenuation@{quadratic\-Attenuation}!GLC_Light@{G\-L\-C\-\_\-\-Light}}
+\subsubsection[{quadratic\-Attenuation}]{\setlength{\rightskip}{0pt plus 5cm}G\-Lfloat G\-L\-C\-\_\-\-Light\-::quadratic\-Attenuation (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___light_a48f7482111079034f8dca2018f6cc4cc}
+
+
+Return this light quadratic attenuation. 
+
+
+
+Definition at line 125 of file glc\-\_\-light.\-h.
+
+\hypertarget{class_g_l_c___light_a61bbf7ccbcc76585eedd6ff2b73ba0a0}{\index{G\-L\-C\-\_\-\-Light@{G\-L\-C\-\_\-\-Light}!set\-Ambient\-Color@{set\-Ambient\-Color}}
+\index{set\-Ambient\-Color@{set\-Ambient\-Color}!GLC_Light@{G\-L\-C\-\_\-\-Light}}
+\subsubsection[{set\-Ambient\-Color}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-\-Light\-::set\-Ambient\-Color (
+\begin{DoxyParamCaption}
+\item[{const Q\-Color \&}]{color}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___light_a61bbf7ccbcc76585eedd6ff2b73ba0a0}
+
+
+Set light's ambiant color by a Q\-Color. 
+
+
+
+Definition at line 145 of file glc\-\_\-light.\-cpp.
+
+\hypertarget{class_g_l_c___light_a1792ead634c12c9ec550e20762950338}{\index{G\-L\-C\-\_\-\-Light@{G\-L\-C\-\_\-\-Light}!set\-Constant\-Attenuation@{set\-Constant\-Attenuation}}
+\index{set\-Constant\-Attenuation@{set\-Constant\-Attenuation}!GLC_Light@{G\-L\-C\-\_\-\-Light}}
+\subsubsection[{set\-Constant\-Attenuation}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-\-Light\-::set\-Constant\-Attenuation (
+\begin{DoxyParamCaption}
+\item[{G\-Lfloat}]{constant\-Attenuation}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___light_a1792ead634c12c9ec550e20762950338}
+
+
+Set this light constant attenuation. 
+
+
+
+Definition at line 169 of file glc\-\_\-light.\-cpp.
+
+\hypertarget{class_g_l_c___light_a698f1054bdc8283359d1f9a30b5d7b35}{\index{G\-L\-C\-\_\-\-Light@{G\-L\-C\-\_\-\-Light}!set\-Diffuse\-Color@{set\-Diffuse\-Color}}
+\index{set\-Diffuse\-Color@{set\-Diffuse\-Color}!GLC_Light@{G\-L\-C\-\_\-\-Light}}
+\subsubsection[{set\-Diffuse\-Color}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-\-Light\-::set\-Diffuse\-Color (
+\begin{DoxyParamCaption}
+\item[{const Q\-Color \&}]{color}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___light_a698f1054bdc8283359d1f9a30b5d7b35}
+
+
+Set light's diffuse color by a Q\-Color. 
+
+
+
+Definition at line 151 of file glc\-\_\-light.\-cpp.
+
+\hypertarget{class_g_l_c___light_a98e0ed4a47e3b63b3ab7c948e2af4008}{\index{G\-L\-C\-\_\-\-Light@{G\-L\-C\-\_\-\-Light}!set\-Linear\-Attenuation@{set\-Linear\-Attenuation}}
+\index{set\-Linear\-Attenuation@{set\-Linear\-Attenuation}!GLC_Light@{G\-L\-C\-\_\-\-Light}}
+\subsubsection[{set\-Linear\-Attenuation}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-\-Light\-::set\-Linear\-Attenuation (
+\begin{DoxyParamCaption}
+\item[{G\-Lfloat}]{linear\-Attenuation}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___light_a98e0ed4a47e3b63b3ab7c948e2af4008}
+
+
+Set this light linear attenuation. 
+
+
+
+Definition at line 175 of file glc\-\_\-light.\-cpp.
+
+\hypertarget{class_g_l_c___light_a72acd1dfcf42f4e4783666954ad9d716}{\index{G\-L\-C\-\_\-\-Light@{G\-L\-C\-\_\-\-Light}!set\-Position@{set\-Position}}
+\index{set\-Position@{set\-Position}!GLC_Light@{G\-L\-C\-\_\-\-Light}}
+\subsubsection[{set\-Position}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-\-Light\-::set\-Position (
+\begin{DoxyParamCaption}
+\item[{const {\bf G\-L\-C\-\_\-\-Point3d} \&}]{pos}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___light_a72acd1dfcf42f4e4783666954ad9d716}
+
+
+Set lihgt's position by a point. 
+
+
+
+Definition at line 135 of file glc\-\_\-light.\-cpp.
+
+\hypertarget{class_g_l_c___light_abd04f4f1df3285ed1e7a745921345e6e}{\index{G\-L\-C\-\_\-\-Light@{G\-L\-C\-\_\-\-Light}!set\-Position@{set\-Position}}
+\index{set\-Position@{set\-Position}!GLC_Light@{G\-L\-C\-\_\-\-Light}}
+\subsubsection[{set\-Position}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-\-Light\-::set\-Position (
+\begin{DoxyParamCaption}
+\item[{G\-Lfloat}]{x, }
+\item[{G\-Lfloat}]{y, }
+\item[{G\-Lfloat}]{z}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___light_abd04f4f1df3285ed1e7a745921345e6e}
+
+
+Set lihgt's position by a 3 G\-Lfloat. 
+
+
+
+Definition at line 140 of file glc\-\_\-light.\-cpp.
+
+\hypertarget{class_g_l_c___light_abd74d4c10e11cfeaf9451d5737eecc94}{\index{G\-L\-C\-\_\-\-Light@{G\-L\-C\-\_\-\-Light}!set\-Quadratic\-Attenuation@{set\-Quadratic\-Attenuation}}
+\index{set\-Quadratic\-Attenuation@{set\-Quadratic\-Attenuation}!GLC_Light@{G\-L\-C\-\_\-\-Light}}
+\subsubsection[{set\-Quadratic\-Attenuation}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-\-Light\-::set\-Quadratic\-Attenuation (
+\begin{DoxyParamCaption}
+\item[{G\-Lfloat}]{quadratic\-Attenuation}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___light_abd74d4c10e11cfeaf9451d5737eecc94}
+
+
+Set this light quadratic attenuation. 
+
+
+
+Definition at line 181 of file glc\-\_\-light.\-cpp.
+
+\hypertarget{class_g_l_c___light_af09337a82a3b7f54d02fcd6beb97765e}{\index{G\-L\-C\-\_\-\-Light@{G\-L\-C\-\_\-\-Light}!set\-Specular\-Color@{set\-Specular\-Color}}
+\index{set\-Specular\-Color@{set\-Specular\-Color}!GLC_Light@{G\-L\-C\-\_\-\-Light}}
+\subsubsection[{set\-Specular\-Color}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-\-Light\-::set\-Specular\-Color (
+\begin{DoxyParamCaption}
+\item[{const Q\-Color \&}]{color}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___light_af09337a82a3b7f54d02fcd6beb97765e}
+
+
+Set light's specular color by a Q\-Color. 
+
+
+
+Definition at line 157 of file glc\-\_\-light.\-cpp.
+
+\hypertarget{class_g_l_c___light_a5211658122a0d97122138f30cc8b8bf0}{\index{G\-L\-C\-\_\-\-Light@{G\-L\-C\-\_\-\-Light}!set\-Spot\-Cutoff\-Angle@{set\-Spot\-Cutoff\-Angle}}
+\index{set\-Spot\-Cutoff\-Angle@{set\-Spot\-Cutoff\-Angle}!GLC_Light@{G\-L\-C\-\_\-\-Light}}
+\subsubsection[{set\-Spot\-Cutoff\-Angle}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-\-Light\-::set\-Spot\-Cutoff\-Angle (
+\begin{DoxyParamCaption}
+\item[{G\-Lfloat}]{cutoff\-Angle}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___light_a5211658122a0d97122138f30cc8b8bf0}
+
+
+Set this light spot cutoff angle. 
+
+
+
+Definition at line 193 of file glc\-\_\-light.\-cpp.
+
+\hypertarget{class_g_l_c___light_aa4db408bb283450c805f8518ce572548}{\index{G\-L\-C\-\_\-\-Light@{G\-L\-C\-\_\-\-Light}!set\-Spot\-Direction@{set\-Spot\-Direction}}
+\index{set\-Spot\-Direction@{set\-Spot\-Direction}!GLC_Light@{G\-L\-C\-\_\-\-Light}}
+\subsubsection[{set\-Spot\-Direction}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-\-Light\-::set\-Spot\-Direction (
+\begin{DoxyParamCaption}
+\item[{const {\bf G\-L\-C\-\_\-\-Vector3d} \&}]{direction}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___light_aa4db408bb283450c805f8518ce572548}
+
+
+Set this light spot direction. 
+
+
+
+Definition at line 187 of file glc\-\_\-light.\-cpp.
+
+\hypertarget{class_g_l_c___light_a58d93cda120a0a27b2c878a6399589a1}{\index{G\-L\-C\-\_\-\-Light@{G\-L\-C\-\_\-\-Light}!set\-Spot\-Eponent@{set\-Spot\-Eponent}}
+\index{set\-Spot\-Eponent@{set\-Spot\-Eponent}!GLC_Light@{G\-L\-C\-\_\-\-Light}}
+\subsubsection[{set\-Spot\-Eponent}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-\-Light\-::set\-Spot\-Eponent (
+\begin{DoxyParamCaption}
+\item[{G\-Lfloat}]{exponent}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___light_a58d93cda120a0a27b2c878a6399589a1}
+
+
+Set this light spot exponent. 
+
+
+
+Definition at line 199 of file glc\-\_\-light.\-cpp.
+
+\hypertarget{class_g_l_c___light_a809335d00ef10909669e8884b688e7da}{\index{G\-L\-C\-\_\-\-Light@{G\-L\-C\-\_\-\-Light}!set\-Two\-Sided@{set\-Two\-Sided}}
+\index{set\-Two\-Sided@{set\-Two\-Sided}!GLC_Light@{G\-L\-C\-\_\-\-Light}}
+\subsubsection[{set\-Two\-Sided}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-\-Light\-::set\-Two\-Sided (
+\begin{DoxyParamCaption}
+\item[{const bool}]{mode}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___light_a809335d00ef10909669e8884b688e7da}
+
+
+Set Mode. 
+
+
+
+Definition at line 163 of file glc\-\_\-light.\-cpp.
+
+\hypertarget{class_g_l_c___light_a4271143d5f970ca5cb291451db6b291f}{\index{G\-L\-C\-\_\-\-Light@{G\-L\-C\-\_\-\-Light}!specular\-Color@{specular\-Color}}
+\index{specular\-Color@{specular\-Color}!GLC_Light@{G\-L\-C\-\_\-\-Light}}
+\subsubsection[{specular\-Color}]{\setlength{\rightskip}{0pt plus 5cm}Q\-Color G\-L\-C\-\_\-\-Light\-::specular\-Color (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___light_a4271143d5f970ca5cb291451db6b291f}
+
+
+Return the Q\-Color of the light's Specular color. 
+
+
+
+Definition at line 101 of file glc\-\_\-light.\-h.
+
+\hypertarget{class_g_l_c___light_aa72d0878ac1fb804273def2ca3778cd8}{\index{G\-L\-C\-\_\-\-Light@{G\-L\-C\-\_\-\-Light}!spot\-Cutoff\-Angle@{spot\-Cutoff\-Angle}}
+\index{spot\-Cutoff\-Angle@{spot\-Cutoff\-Angle}!GLC_Light@{G\-L\-C\-\_\-\-Light}}
+\subsubsection[{spot\-Cutoff\-Angle}]{\setlength{\rightskip}{0pt plus 5cm}G\-Lfloat G\-L\-C\-\_\-\-Light\-::spot\-Cutoff\-Angle (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___light_aa72d0878ac1fb804273def2ca3778cd8}
+
+
+Return this light spot cutoff angle. 
+
+
+
+Definition at line 133 of file glc\-\_\-light.\-h.
+
+\hypertarget{class_g_l_c___light_a82a8133ea5283e6bb2ba19799e46a6dc}{\index{G\-L\-C\-\_\-\-Light@{G\-L\-C\-\_\-\-Light}!spot\-Direction@{spot\-Direction}}
+\index{spot\-Direction@{spot\-Direction}!GLC_Light@{G\-L\-C\-\_\-\-Light}}
+\subsubsection[{spot\-Direction}]{\setlength{\rightskip}{0pt plus 5cm}{\bf G\-L\-C\-\_\-\-Vector3d} G\-L\-C\-\_\-\-Light\-::spot\-Direction (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___light_a82a8133ea5283e6bb2ba19799e46a6dc}
+
+
+Return this light spot direction. 
+
+
+
+Definition at line 129 of file glc\-\_\-light.\-h.
+
+\hypertarget{class_g_l_c___light_aa87e28c1ea754fb0c691bfc3fa7158a3}{\index{G\-L\-C\-\_\-\-Light@{G\-L\-C\-\_\-\-Light}!spot\-Eponent@{spot\-Eponent}}
+\index{spot\-Eponent@{spot\-Eponent}!GLC_Light@{G\-L\-C\-\_\-\-Light}}
+\subsubsection[{spot\-Eponent}]{\setlength{\rightskip}{0pt plus 5cm}G\-Lfloat G\-L\-C\-\_\-\-Light\-::spot\-Eponent (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___light_aa87e28c1ea754fb0c691bfc3fa7158a3}
+
+
+Return this light spot exponent. 
+
+
+
+Definition at line 137 of file glc\-\_\-light.\-h.
+
+\hypertarget{class_g_l_c___light_a5d2df91a1b70c0e0b9f31b2f486c11a8}{\index{G\-L\-C\-\_\-\-Light@{G\-L\-C\-\_\-\-Light}!type@{type}}
+\index{type@{type}!GLC_Light@{G\-L\-C\-\_\-\-Light}}
+\subsubsection[{type}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Light\-Type} G\-L\-C\-\_\-\-Light\-::type (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___light_a5d2df91a1b70c0e0b9f31b2f486c11a8}
+
+
+Return the type of this light. 
+
+
+
+Definition at line 109 of file glc\-\_\-light.\-h.
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/glc\-\_\-lib/shading/\hyperlink{glc__light_8h}{glc\-\_\-light.\-h}\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/glc\-\_\-lib/shading/\hyperlink{glc__light_8cpp}{glc\-\_\-light.\-cpp}\end{DoxyCompactItemize}

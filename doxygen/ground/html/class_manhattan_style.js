@@ -1,0 +1,27 @@
+var class_manhattan_style =
+[
+    [ "ManhattanStyle", "group___core_plugin.html#ga4b21c0e4e089ae1e7393ef1349a47d36", null ],
+    [ "~ManhattanStyle", "group___core_plugin.html#ga6b9736a4e80d76843fcc68abaf59d38a", null ],
+    [ "drawComplexControl", "group___core_plugin.html#ga62de2c676daa999f53f69bff30ebbf4c", null ],
+    [ "drawControl", "group___core_plugin.html#ga535d0da17b1de8f4aead3234031bc4e9", null ],
+    [ "drawPrimitive", "group___core_plugin.html#ga05806a092b021a7b82a266b563ebe921", null ],
+    [ "event", "group___core_plugin.html#ga29cc9967198a03aa17cc33cf50d8a11e", null ],
+    [ "generatedIconPixmap", "group___core_plugin.html#gafda287aff563c7ed26a8301096c93fe2", null ],
+    [ "hitTestComplexControl", "group___core_plugin.html#ga1dce79a28fc44a61d53baca24aaa4754", null ],
+    [ "itemRect", "group___core_plugin.html#gaf4019d968fe156c4b16f8b3216544a0e", null ],
+    [ "layoutSpacingImplementation", "group___core_plugin.html#gad167bd25b1d2b81313748886998fce7d", null ],
+    [ "pixelMetric", "group___core_plugin.html#gab82e6e47c29f4a4dc06d1fc447c7f9f0", null ],
+    [ "polish", "group___core_plugin.html#ga69c435e6556d68ccfbdbd2226c913510", null ],
+    [ "polish", "group___core_plugin.html#ga4ba18ac82b5981cd705a2db4abc674ee", null ],
+    [ "polish", "group___core_plugin.html#ga92648f0b5ff41cd6fc94ff98a84ecf37", null ],
+    [ "sizeFromContents", "group___core_plugin.html#gae73b65e8a877259659ebe19fd11969e6", null ],
+    [ "standardIconImplementation", "group___core_plugin.html#ga391def9791426400daf51a02a5a58786", null ],
+    [ "standardPalette", "group___core_plugin.html#ga9045a941a0161ceafde31250e553909c", null ],
+    [ "standardPixmap", "group___core_plugin.html#ga175a432cafb816b4ac5f32966bc8acd3", null ],
+    [ "styleHint", "group___core_plugin.html#ga52818c2da80eda9a0961a672d7d0f9d7", null ],
+    [ "subControlRect", "group___core_plugin.html#ga50a13d81cf4a2ccf6f94f68ce6f9f069", null ],
+    [ "subElementRect", "group___core_plugin.html#ga5263b6ad64fb081f45d6a1c9553492dd", null ],
+    [ "systemStyle", "group___core_plugin.html#ga2ee8bb8626f313a1dc3b9c161d3e5321", null ],
+    [ "unpolish", "group___core_plugin.html#gad6eebdec94a84337c3998d9533972323", null ],
+    [ "unpolish", "group___core_plugin.html#gadcb93368b3bfbbc6746025b2d68e8dfe", null ]
+];

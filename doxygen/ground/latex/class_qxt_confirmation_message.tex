@@ -1,0 +1,105 @@
+\hypertarget{class_qxt_confirmation_message}{\section{Qxt\-Confirmation\-Message Class Reference}
+\label{class_qxt_confirmation_message}\index{Qxt\-Confirmation\-Message@{Qxt\-Confirmation\-Message}}
+}
+
+
+The \hyperlink{class_qxt_confirmation_message}{Qxt\-Confirmation\-Message} class provides a confirmation message.  
+
+
+
+
+{\ttfamily \#include $<$qxtconfirmationmessage.\-h$>$}
+
+Inheritance diagram for Qxt\-Confirmation\-Message\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_qxt_confirmation_message}
+\end{center}
+\end{figure}
+\subsection*{Public Slots}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_qxt_confirmation_message_acf11a522244c7ffd61634178a70c56e0}{exec} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qxt_confirmation_message_a0e1dc468babf30c170d5771a58b8134e}{reset} ()
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qxt_confirmation_message_ae38c6f1c682d49e4405299c5fbd3bdaf}{done} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{qxtslotjob_8h_aab161efab0511ea9612b64c40e9852ca}{result})
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+The \hyperlink{class_qxt_confirmation_message}{Qxt\-Confirmation\-Message} class provides a confirmation message. 
+
+Qxt\-Gui \hyperlink{class_qxt_confirmation_message}{Qxt\-Confirmation\-Message} is a confirmation message with checkable  \{\char`\"{}\-Do not show again.\char`\"{}\} option. A checked and accepted confirmation message is no more shown until reseted.
+
+Example usage\-: 
+\begin{DoxyCode}
+\textcolor{keywordtype}{void} MainWindow::closeEvent(QCloseEvent* event)
+\{
+    \textcolor{keyword}{static} \textcolor{keyword}{const} \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{QString} text(tr(\textcolor{stringliteral}{"Are you sure you want to quit?"}));
+    \textcolor{keywordflow}{if} (QxtConfirmationMessage::confirm(\textcolor{keyword}{this}, tr(\textcolor{stringliteral}{"Confirm"}), text) == QMessageBox::No)
+        \textcolor{keyword}{event}->ignore();
+\}
+\end{DoxyCode}
+
+
+\char`\"{}\-Qxt\-Confirmation\-Message in action.\char`\"{}
+
+\{Note\-:\} Q\-Core\-Application\-::organization\-Name and Q\-Core\-Application\-::application\-Name are used for storing settings. In case these properties are empty,  \char`\"{}\-Qxt\-Gui\char`\"{} and  \char`\"{}\-Qxt\-Confirmation\-Message\char`\"{} are used, respectively. 
+
+Definition at line 34 of file qxtconfirmationmessage.\-h.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_qxt_confirmation_message_ae38c6f1c682d49e4405299c5fbd3bdaf}{\index{Qxt\-Confirmation\-Message@{Qxt\-Confirmation\-Message}!done@{done}}
+\index{done@{done}!QxtConfirmationMessage@{Qxt\-Confirmation\-Message}}
+\subsubsection[{done}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qxt\-Confirmation\-Message\-::done (
+\begin{DoxyParamCaption}
+\item[{{\bf int}}]{result}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}, {\ttfamily [slot]}}}\label{class_qxt_confirmation_message_ae38c6f1c682d49e4405299c5fbd3bdaf}
+
+
+Definition at line 410 of file qxtconfirmationmessage.\-cpp.
+
+\hypertarget{class_qxt_confirmation_message_acf11a522244c7ffd61634178a70c56e0}{\index{Qxt\-Confirmation\-Message@{Qxt\-Confirmation\-Message}!exec@{exec}}
+\index{exec@{exec}!QxtConfirmationMessage@{Qxt\-Confirmation\-Message}}
+\subsubsection[{exec}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int} Qxt\-Confirmation\-Message\-::exec (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [slot]}}}\label{class_qxt_confirmation_message_acf11a522244c7ffd61634178a70c56e0}
+Shows the confirmation message if necessary. The confirmation message is not shown in case  \{\char`\"{}\-Do not show again.\char`\"{}\} has been checked while the same confirmation message was earlierly accepted.
+
+A confirmation message is identified by the combination of title, Q\-Message\-Box\-::text and optional Q\-Message\-Box\-::informative\-Text.
+
+A clicked button with role Q\-Dialog\-Button\-Box\-::\-Accept\-Role or Q\-Dialog\-Button\-Box\-::\-Yes\-Role is considered as \char`\"{}accepted\char`\"{}.
+
+\begin{DoxyWarning}{Warning}
+This function does not reimplement but shadows Q\-Message\-Box\-::exec().
+\end{DoxyWarning}
+\begin{DoxySeeAlso}{See Also}
+Q\-Widget\-::window\-Title, Q\-Message\-Box\-::text, Q\-Message\-Box\-::informative\-Text 
+\end{DoxySeeAlso}
+
+
+Definition at line 399 of file qxtconfirmationmessage.\-cpp.
+
+\hypertarget{class_qxt_confirmation_message_a0e1dc468babf30c170d5771a58b8134e}{\index{Qxt\-Confirmation\-Message@{Qxt\-Confirmation\-Message}!reset@{reset}}
+\index{reset@{reset}!QxtConfirmationMessage@{Qxt\-Confirmation\-Message}}
+\subsubsection[{reset}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qxt\-Confirmation\-Message\-::reset (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [slot]}}}\label{class_qxt_confirmation_message_a0e1dc468babf30c170d5771a58b8134e}
+Resets this instance of \hyperlink{class_qxt_confirmation_message}{Qxt\-Confirmation\-Message}. A reseted confirmation message is shown again until user checks  \{\char`\"{}\-Do not show again.\char`\"{}\} and accepts the confirmation message. 
+
+Definition at line 429 of file qxtconfirmationmessage.\-cpp.
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/libqxt/src/gui/\hyperlink{qxtconfirmationmessage_8h}{qxtconfirmationmessage.\-h}\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/libqxt/src/gui/\hyperlink{qxtconfirmationmessage_8cpp}{qxtconfirmationmessage.\-cpp}\end{DoxyCompactItemize}

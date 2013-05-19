@@ -1,0 +1,764 @@
+\hypertarget{class_g_l_c___material}{\section{G\-L\-C\-\_\-\-Material Class Reference}
+\label{class_g_l_c___material}\index{G\-L\-C\-\_\-\-Material@{G\-L\-C\-\_\-\-Material}}
+}
+
+
+\hyperlink{class_g_l_c___material}{G\-L\-C\-\_\-\-Material} \-: Open\-G\-L surface material properties.  
+
+
+
+
+{\ttfamily \#include $<$glc\-\_\-material.\-h$>$}
+
+Inheritance diagram for G\-L\-C\-\_\-\-Material\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_g_l_c___material}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{Indent}{\bf Constructor / Destructor}\par
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_g_l_c___material_a8e0f1a74114f411dfcf4af5555c151b1}{G\-L\-C\-\_\-\-Material} ()
+\item 
+\hyperlink{class_g_l_c___material_aedd777ed5057e8e9b75f55a30778387c}{G\-L\-C\-\_\-\-Material} (const Q\-Color \&)
+\item 
+\hyperlink{class_g_l_c___material_a379f6244d2d3cc964e6cf85e19e4a18f}{G\-L\-C\-\_\-\-Material} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{Q\-String} \&\hyperlink{glext_8h_ad977737dfc9a274a62741b9500c49a32}{name}, const G\-Lfloat $\ast$)
+\item 
+\hyperlink{class_g_l_c___material_af581997b9f63ad70e8aaf967aa266018}{G\-L\-C\-\_\-\-Material} (\hyperlink{class_g_l_c___texture}{G\-L\-C\-\_\-\-Texture} $\ast$p\-Texture, const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{Q\-String} \&\hyperlink{glext_8h_ad977737dfc9a274a62741b9500c49a32}{name}=\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{Q\-String}())
+\begin{DoxyCompactList}\small\item\em Construct textured \hyperlink{class_g_l_c___material}{G\-L\-C\-\_\-\-Material}. \end{DoxyCompactList}\item 
+\hyperlink{class_g_l_c___material_a50f010447bb35c08858d7218050b8a47}{G\-L\-C\-\_\-\-Material} (const \hyperlink{class_g_l_c___material}{G\-L\-C\-\_\-\-Material} \&Init\-Material)
+\begin{DoxyCompactList}\small\item\em Copy constructor. \end{DoxyCompactList}\item 
+virtual \hyperlink{class_g_l_c___material_ab16c3bf5d4325ddbebe2e65ad50ae62b}{$\sim$\-G\-L\-C\-\_\-\-Material} (\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void})
+\begin{DoxyCompactList}\small\item\em Remove material where used geometry. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\end{Indent}
+\begin{Indent}{\bf Set Functions}\par
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_g_l_c___material}{G\-L\-C\-\_\-\-Material} \& \hyperlink{class_g_l_c___material_ab1e46174e23951e0bfdc49bf0ca2e5b3}{operator=} (const \hyperlink{class_g_l_c___material}{G\-L\-C\-\_\-\-Material} \&\hyperlink{uavobjecttemplate_8m_a16a51e808b16c46bbfd36da2e37cd123}{mat})
+\begin{DoxyCompactList}\small\item\em Assignement operator. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c___material_a78796f9625043ff58c925e2d3ca0c0ce}{set\-Material} (const \hyperlink{class_g_l_c___material}{G\-L\-C\-\_\-\-Material} $\ast$)
+\begin{DoxyCompactList}\small\item\em Set Material properties. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c___material_aeb86c11061bda0f93b0da8772b69e287}{set\-Ambient\-Color} (const Q\-Color \&\hyperlink{class_g_l_c___material_a33d042e846e6bbd4abb4d38f859c9f58}{ambient\-Color})
+\begin{DoxyCompactList}\small\item\em Set Ambiant Color. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c___material_a2b8263d5c75c7dec7b109a9cce735b80}{set\-Diffuse\-Color} (const Q\-Color \&\hyperlink{class_g_l_c___material_a3d6924655bf86145e451ba03b40d04c2}{diffuse\-Color})
+\begin{DoxyCompactList}\small\item\em Set Diffuse color. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c___material_af13ba1d3e168c29b5fdf2b920df46745}{set\-Specular\-Color} (const Q\-Color \&\hyperlink{class_g_l_c___material_a72586c9558073c34fd538dc8efda7e6e}{specular\-Color})
+\begin{DoxyCompactList}\small\item\em Set Specular color. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c___material_a20c736f0c67536020a6a7a7bbb154a84}{set\-Emissive\-Color} (const Q\-Color \&light\-Emission)
+\begin{DoxyCompactList}\small\item\em Set Emissive. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c___material_addce1cf4c4d210f008b1a9f766261718}{set\-Shininess} (G\-Lfloat Shininess)
+\begin{DoxyCompactList}\small\item\em Set Shininess. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c___material_a4cd6f81a640b2d37f1113def3fcbdbe0}{set\-Texture} (\hyperlink{class_g_l_c___texture}{G\-L\-C\-\_\-\-Texture} $\ast$p\-Texture)
+\begin{DoxyCompactList}\small\item\em Set Texture. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c___material_a3af525a6553a551e68a3e661b5604aa4}{remove\-Texture} ()
+\begin{DoxyCompactList}\small\item\em remove Material Texture \end{DoxyCompactList}\item 
+bool \hyperlink{class_g_l_c___material_a9c9afd122d374cf3a71235933bc2382d}{add\-G\-L\-C\-\_\-\-Geom} (\hyperlink{class_g_l_c___geometry}{G\-L\-C\-\_\-\-Geometry} $\ast$p\-Geom)
+\begin{DoxyCompactList}\small\item\em Add Geometry to the \char`\"{}where used\char`\"{} hash table. \end{DoxyCompactList}\item 
+bool \hyperlink{class_g_l_c___material_ad8eb0fabe8fc995e7679f8519e9c0b04}{del\-G\-L\-C\-\_\-\-Geom} (\hyperlink{glc__global_8h_abf950976fabed69026558df8e2da6c6b}{G\-L\-C\-\_\-uint} Key)
+\begin{DoxyCompactList}\small\item\em Remove Geometry to the \char`\"{}where used\char`\"{} hash table. \end{DoxyCompactList}\item 
+bool \hyperlink{class_g_l_c___material_a2a15a98940fdaf12f579ecdd9fbcc060}{add\-Usage} (\hyperlink{glc__global_8h_abf950976fabed69026558df8e2da6c6b}{G\-L\-C\-\_\-uint})
+\begin{DoxyCompactList}\small\item\em Add the id to the other used Set. \end{DoxyCompactList}\item 
+bool \hyperlink{class_g_l_c___material_a5a9d983c32b47a5bb921d94d4d8a98f2}{del\-Usage} (\hyperlink{glc__global_8h_abf950976fabed69026558df8e2da6c6b}{G\-L\-C\-\_\-uint})
+\begin{DoxyCompactList}\small\item\em Remove the id to the other used Set. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c___material_a9f6345fbe0048a221c37cda9ff98ceb8}{set\-Opacity} (const qreal)
+\begin{DoxyCompactList}\small\item\em Set the material opacity. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\end{Indent}
+\begin{Indent}{\bf Open\-G\-L Functions}\par
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c___material_a7126ebaceabb751b75269c8cc567b69f}{gl\-Load\-Texture} (Q\-G\-L\-Context $\ast$p\-Context=N\-U\-L\-L)
+\begin{DoxyCompactList}\small\item\em Load the texture. \end{DoxyCompactList}\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c___material_a360d229e99bf4ee5f2b3880a34b41468}{gl\-Execute} ()
+\begin{DoxyCompactList}\small\item\em Execute Open\-G\-L Material. \end{DoxyCompactList}\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c___material_aa0d61e56646dfa068ba61e68d07f2509}{gl\-Execute} (\hyperlink{_super_l_u_support_8h_a6a1bb6ed41f44b60e7bd83b0e9945aa7}{float})
+\begin{DoxyCompactList}\small\item\em Execute Open\-G\-L Material with over\-Write transparency. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\end{Indent}
+\subsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+Q\-Data\-Stream \& \hyperlink{class_g_l_c___material_aad55ab8f9fc6b91d2a80b31865397afc}{operator$<$$<$} (Q\-Data\-Stream \&, const \hyperlink{class_g_l_c___material}{G\-L\-C\-\_\-\-Material} \&)
+\begin{DoxyCompactList}\small\item\em Non-\/member stream operator. \end{DoxyCompactList}\item 
+Q\-Data\-Stream \& \hyperlink{class_g_l_c___material_a22df39b5be309c55391b21093a439828}{operator$>$$>$} (Q\-Data\-Stream \&, \hyperlink{class_g_l_c___material}{G\-L\-C\-\_\-\-Material} \&)
+\end{DoxyCompactItemize}
+\subsection*{Get Functions}
+\begin{DoxyCompactItemize}
+\item 
+bool \hyperlink{class_g_l_c___material_a154e584bf0c517a5d91ad966c5fd9e78}{is\-Unused} () const 
+\begin{DoxyCompactList}\small\item\em Return true if the material is used. \end{DoxyCompactList}\item 
+bool \hyperlink{class_g_l_c___material_a47c78602dbdeab0b0a101f49face3c7a}{has\-Texture} () const 
+\begin{DoxyCompactList}\small\item\em Return true is material has attached texture. \end{DoxyCompactList}\item 
+Q\-Color \hyperlink{class_g_l_c___material_a33d042e846e6bbd4abb4d38f859c9f58}{ambient\-Color} () const 
+\begin{DoxyCompactList}\small\item\em Get Ambiant color. \end{DoxyCompactList}\item 
+Q\-Color \hyperlink{class_g_l_c___material_a3d6924655bf86145e451ba03b40d04c2}{diffuse\-Color} () const 
+\begin{DoxyCompactList}\small\item\em Get diffuse color. \end{DoxyCompactList}\item 
+Q\-Color \hyperlink{class_g_l_c___material_a72586c9558073c34fd538dc8efda7e6e}{specular\-Color} () const 
+\begin{DoxyCompactList}\small\item\em Get specular color. \end{DoxyCompactList}\item 
+Q\-Color \hyperlink{class_g_l_c___material_ad85ca437af098afe9061305bb25135d8}{emissive\-Color} () const 
+\begin{DoxyCompactList}\small\item\em Get the emissive color. \end{DoxyCompactList}\item 
+G\-Lfloat \hyperlink{class_g_l_c___material_a15fcdc2d11960cac10b64ab860a0e545}{shininess} () const 
+\begin{DoxyCompactList}\small\item\em Get Shininess. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{Q\-String} \hyperlink{class_g_l_c___material_a613e5b94bdb8c477f516856f99a0f94c}{texture\-File\-Name} () const 
+\begin{DoxyCompactList}\small\item\em Get the texture File Name. \end{DoxyCompactList}\item 
+\hyperlink{glext_8h_a2f0c8cd5c21f9fcbd931c3f48bc90dfc}{G\-Luint} \hyperlink{class_g_l_c___material_acf6481aef086d6fb39bd951e5f7ffc1b}{texture\-I\-D} () const 
+\begin{DoxyCompactList}\small\item\em Get Texture Id. \end{DoxyCompactList}\item 
+bool \hyperlink{class_g_l_c___material_abc7c69d8f3285eacb07fa490fbdb7c32}{texture\-Is\-Loaded} () const 
+\begin{DoxyCompactList}\small\item\em return true if the texture is loaded \end{DoxyCompactList}\item 
+bool \hyperlink{class_g_l_c___material_a666aa1dc40a4fc637f2ed59d53715aea}{is\-Transparent} () const 
+\begin{DoxyCompactList}\small\item\em Return true if the material is transparent. \end{DoxyCompactList}\item 
+bool \hyperlink{class_g_l_c___material_a4d903402e9f305b47ee1b891eeb442a6}{operator==} (const \hyperlink{class_g_l_c___material}{G\-L\-C\-\_\-\-Material} \&) const 
+\begin{DoxyCompactList}\small\item\em Return true if materials are equivalent. \end{DoxyCompactList}\item 
+\hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} \hyperlink{class_g_l_c___material_a758252c431f1a478104b9db39f12d687}{opacity} () const 
+\begin{DoxyCompactList}\small\item\em Return the material opacity. \end{DoxyCompactList}\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_g_l_c___material_ad2aeb04fa687e0cc3170ccb13b4acf90}{number\-Of\-Usage} () const 
+\begin{DoxyCompactList}\small\item\em Return the number of this material usage. \end{DoxyCompactList}\item 
+\hyperlink{class_g_l_c___texture}{G\-L\-C\-\_\-\-Texture} $\ast$ \hyperlink{class_g_l_c___material_afa5afff907a2cb6d03786d420cacb75d}{texture\-Handle} () const 
+\begin{DoxyCompactList}\small\item\em Return the texture handle. \end{DoxyCompactList}\item 
+uint \hyperlink{class_g_l_c___material_aa321b93a7677d51423cbbf4b9b44ae81}{hash\-Code} () const 
+\begin{DoxyCompactList}\small\item\em Return the material hash code. \end{DoxyCompactList}\item 
+static quint32 \hyperlink{class_g_l_c___material_a71e0922e5de47b4c88aa62ce55bfff63}{chunck\-I\-D} ()
+\begin{DoxyCompactList}\small\item\em Return the class Chunk I\-D. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Detailed Description}
+\hyperlink{class_g_l_c___material}{G\-L\-C\-\_\-\-Material} \-: Open\-G\-L surface material properties. 
+
+An \hyperlink{class_g_l_c___material}{G\-L\-C\-\_\-\-Material} specifies surface material properties 
+
+Definition at line 49 of file glc\-\_\-material.\-h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_g_l_c___material_a8e0f1a74114f411dfcf4af5555c151b1}{\index{G\-L\-C\-\_\-\-Material@{G\-L\-C\-\_\-\-Material}!G\-L\-C\-\_\-\-Material@{G\-L\-C\-\_\-\-Material}}
+\index{G\-L\-C\-\_\-\-Material@{G\-L\-C\-\_\-\-Material}!GLC_Material@{G\-L\-C\-\_\-\-Material}}
+\subsubsection[{G\-L\-C\-\_\-\-Material}]{\setlength{\rightskip}{0pt plus 5cm}G\-L\-C\-\_\-\-Material\-::\-G\-L\-C\-\_\-\-Material (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___material_a8e0f1a74114f411dfcf4af5555c151b1}
+Construct Colored \hyperlink{class_g_l_c___material}{G\-L\-C\-\_\-\-Material} Default constructor 
+
+Definition at line 39 of file glc\-\_\-material.\-cpp.
+
+\hypertarget{class_g_l_c___material_aedd777ed5057e8e9b75f55a30778387c}{\index{G\-L\-C\-\_\-\-Material@{G\-L\-C\-\_\-\-Material}!G\-L\-C\-\_\-\-Material@{G\-L\-C\-\_\-\-Material}}
+\index{G\-L\-C\-\_\-\-Material@{G\-L\-C\-\_\-\-Material}!GLC_Material@{G\-L\-C\-\_\-\-Material}}
+\subsubsection[{G\-L\-C\-\_\-\-Material}]{\setlength{\rightskip}{0pt plus 5cm}G\-L\-C\-\_\-\-Material\-::\-G\-L\-C\-\_\-\-Material (
+\begin{DoxyParamCaption}
+\item[{const Q\-Color \&}]{diffuse\-Color}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___material_aedd777ed5057e8e9b75f55a30778387c}
+By default, Ambiant Color is dark grey 
+
+Definition at line 59 of file glc\-\_\-material.\-cpp.
+
+\hypertarget{class_g_l_c___material_a379f6244d2d3cc964e6cf85e19e4a18f}{\index{G\-L\-C\-\_\-\-Material@{G\-L\-C\-\_\-\-Material}!G\-L\-C\-\_\-\-Material@{G\-L\-C\-\_\-\-Material}}
+\index{G\-L\-C\-\_\-\-Material@{G\-L\-C\-\_\-\-Material}!GLC_Material@{G\-L\-C\-\_\-\-Material}}
+\subsubsection[{G\-L\-C\-\_\-\-Material}]{\setlength{\rightskip}{0pt plus 5cm}G\-L\-C\-\_\-\-Material\-::\-G\-L\-C\-\_\-\-Material (
+\begin{DoxyParamCaption}
+\item[{const {\bf Q\-String} \&}]{name, }
+\item[{const G\-Lfloat $\ast$}]{p\-Diffuse\-Color}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___material_a379f6244d2d3cc964e6cf85e19e4a18f}
+By default, Ambiant Color is dark grey 
+
+Definition at line 76 of file glc\-\_\-material.\-cpp.
+
+\hypertarget{class_g_l_c___material_af581997b9f63ad70e8aaf967aa266018}{\index{G\-L\-C\-\_\-\-Material@{G\-L\-C\-\_\-\-Material}!G\-L\-C\-\_\-\-Material@{G\-L\-C\-\_\-\-Material}}
+\index{G\-L\-C\-\_\-\-Material@{G\-L\-C\-\_\-\-Material}!GLC_Material@{G\-L\-C\-\_\-\-Material}}
+\subsubsection[{G\-L\-C\-\_\-\-Material}]{\setlength{\rightskip}{0pt plus 5cm}G\-L\-C\-\_\-\-Material\-::\-G\-L\-C\-\_\-\-Material (
+\begin{DoxyParamCaption}
+\item[{{\bf G\-L\-C\-\_\-\-Texture} $\ast$}]{p\-Texture, }
+\item[{const {\bf Q\-String} \&}]{name = {\ttfamily {\bf Q\-String}()}}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___material_af581997b9f63ad70e8aaf967aa266018}
+
+
+Construct textured \hyperlink{class_g_l_c___material}{G\-L\-C\-\_\-\-Material}. 
+
+
+
+Definition at line 104 of file glc\-\_\-material.\-cpp.
+
+\hypertarget{class_g_l_c___material_a50f010447bb35c08858d7218050b8a47}{\index{G\-L\-C\-\_\-\-Material@{G\-L\-C\-\_\-\-Material}!G\-L\-C\-\_\-\-Material@{G\-L\-C\-\_\-\-Material}}
+\index{G\-L\-C\-\_\-\-Material@{G\-L\-C\-\_\-\-Material}!GLC_Material@{G\-L\-C\-\_\-\-Material}}
+\subsubsection[{G\-L\-C\-\_\-\-Material}]{\setlength{\rightskip}{0pt plus 5cm}G\-L\-C\-\_\-\-Material\-::\-G\-L\-C\-\_\-\-Material (
+\begin{DoxyParamCaption}
+\item[{const {\bf G\-L\-C\-\_\-\-Material} \&}]{Init\-Material}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___material_a50f010447bb35c08858d7218050b8a47}
+
+
+Copy constructor. 
+
+Hast usage table are not copying 
+
+Definition at line 129 of file glc\-\_\-material.\-cpp.
+
+\hypertarget{class_g_l_c___material_ab16c3bf5d4325ddbebe2e65ad50ae62b}{\index{G\-L\-C\-\_\-\-Material@{G\-L\-C\-\_\-\-Material}!$\sim$\-G\-L\-C\-\_\-\-Material@{$\sim$\-G\-L\-C\-\_\-\-Material}}
+\index{$\sim$\-G\-L\-C\-\_\-\-Material@{$\sim$\-G\-L\-C\-\_\-\-Material}!GLC_Material@{G\-L\-C\-\_\-\-Material}}
+\subsubsection[{$\sim$\-G\-L\-C\-\_\-\-Material}]{\setlength{\rightskip}{0pt plus 5cm}G\-L\-C\-\_\-\-Material\-::$\sim$\-G\-L\-C\-\_\-\-Material (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_g_l_c___material_ab16c3bf5d4325ddbebe2e65ad50ae62b}
+
+
+Remove material where used geometry. 
+
+
+
+Definition at line 151 of file glc\-\_\-material.\-cpp.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_g_l_c___material_a9c9afd122d374cf3a71235933bc2382d}{\index{G\-L\-C\-\_\-\-Material@{G\-L\-C\-\_\-\-Material}!add\-G\-L\-C\-\_\-\-Geom@{add\-G\-L\-C\-\_\-\-Geom}}
+\index{add\-G\-L\-C\-\_\-\-Geom@{add\-G\-L\-C\-\_\-\-Geom}!GLC_Material@{G\-L\-C\-\_\-\-Material}}
+\subsubsection[{add\-G\-L\-C\-\_\-\-Geom}]{\setlength{\rightskip}{0pt plus 5cm}bool G\-L\-C\-\_\-\-Material\-::add\-G\-L\-C\-\_\-\-Geom (
+\begin{DoxyParamCaption}
+\item[{{\bf G\-L\-C\-\_\-\-Geometry} $\ast$}]{p\-Geom}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___material_a9c9afd122d374cf3a71235933bc2382d}
+
+
+Add Geometry to the \char`\"{}where used\char`\"{} hash table. 
+
+This method is thread safe 
+
+Definition at line 372 of file glc\-\_\-material.\-cpp.
+
+\hypertarget{class_g_l_c___material_a2a15a98940fdaf12f579ecdd9fbcc060}{\index{G\-L\-C\-\_\-\-Material@{G\-L\-C\-\_\-\-Material}!add\-Usage@{add\-Usage}}
+\index{add\-Usage@{add\-Usage}!GLC_Material@{G\-L\-C\-\_\-\-Material}}
+\subsubsection[{add\-Usage}]{\setlength{\rightskip}{0pt plus 5cm}bool G\-L\-C\-\_\-\-Material\-::add\-Usage (
+\begin{DoxyParamCaption}
+\item[{{\bf G\-L\-C\-\_\-uint}}]{id}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___material_a2a15a98940fdaf12f579ecdd9fbcc060}
+
+
+Add the id to the other used Set. 
+
+This method is thread safe 
+
+Definition at line 410 of file glc\-\_\-material.\-cpp.
+
+\hypertarget{class_g_l_c___material_a33d042e846e6bbd4abb4d38f859c9f58}{\index{G\-L\-C\-\_\-\-Material@{G\-L\-C\-\_\-\-Material}!ambient\-Color@{ambient\-Color}}
+\index{ambient\-Color@{ambient\-Color}!GLC_Material@{G\-L\-C\-\_\-\-Material}}
+\subsubsection[{ambient\-Color}]{\setlength{\rightskip}{0pt plus 5cm}Q\-Color G\-L\-C\-\_\-\-Material\-::ambient\-Color (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_g_l_c___material_a33d042e846e6bbd4abb4d38f859c9f58}
+
+
+Get Ambiant color. 
+
+
+
+Definition at line 167 of file glc\-\_\-material.\-cpp.
+
+\hypertarget{class_g_l_c___material_a71e0922e5de47b4c88aa62ce55bfff63}{\index{G\-L\-C\-\_\-\-Material@{G\-L\-C\-\_\-\-Material}!chunck\-I\-D@{chunck\-I\-D}}
+\index{chunck\-I\-D@{chunck\-I\-D}!GLC_Material@{G\-L\-C\-\_\-\-Material}}
+\subsubsection[{chunck\-I\-D}]{\setlength{\rightskip}{0pt plus 5cm}quint32 G\-L\-C\-\_\-\-Material\-::chunck\-I\-D (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{class_g_l_c___material_a71e0922e5de47b4c88aa62ce55bfff63}
+
+
+Return the class Chunk I\-D. 
+
+
+
+Definition at line 161 of file glc\-\_\-material.\-cpp.
+
+\hypertarget{class_g_l_c___material_ad8eb0fabe8fc995e7679f8519e9c0b04}{\index{G\-L\-C\-\_\-\-Material@{G\-L\-C\-\_\-\-Material}!del\-G\-L\-C\-\_\-\-Geom@{del\-G\-L\-C\-\_\-\-Geom}}
+\index{del\-G\-L\-C\-\_\-\-Geom@{del\-G\-L\-C\-\_\-\-Geom}!GLC_Material@{G\-L\-C\-\_\-\-Material}}
+\subsubsection[{del\-G\-L\-C\-\_\-\-Geom}]{\setlength{\rightskip}{0pt plus 5cm}bool G\-L\-C\-\_\-\-Material\-::del\-G\-L\-C\-\_\-\-Geom (
+\begin{DoxyParamCaption}
+\item[{{\bf G\-L\-C\-\_\-uint}}]{Key}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___material_ad8eb0fabe8fc995e7679f8519e9c0b04}
+
+
+Remove Geometry to the \char`\"{}where used\char`\"{} hash table. 
+
+This method is thread safe 
+
+Definition at line 392 of file glc\-\_\-material.\-cpp.
+
+\hypertarget{class_g_l_c___material_a5a9d983c32b47a5bb921d94d4d8a98f2}{\index{G\-L\-C\-\_\-\-Material@{G\-L\-C\-\_\-\-Material}!del\-Usage@{del\-Usage}}
+\index{del\-Usage@{del\-Usage}!GLC_Material@{G\-L\-C\-\_\-\-Material}}
+\subsubsection[{del\-Usage}]{\setlength{\rightskip}{0pt plus 5cm}bool G\-L\-C\-\_\-\-Material\-::del\-Usage (
+\begin{DoxyParamCaption}
+\item[{{\bf G\-L\-C\-\_\-uint}}]{id}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___material_a5a9d983c32b47a5bb921d94d4d8a98f2}
+
+
+Remove the id to the other used Set. 
+
+This method is thread safe 
+
+Definition at line 426 of file glc\-\_\-material.\-cpp.
+
+\hypertarget{class_g_l_c___material_a3d6924655bf86145e451ba03b40d04c2}{\index{G\-L\-C\-\_\-\-Material@{G\-L\-C\-\_\-\-Material}!diffuse\-Color@{diffuse\-Color}}
+\index{diffuse\-Color@{diffuse\-Color}!GLC_Material@{G\-L\-C\-\_\-\-Material}}
+\subsubsection[{diffuse\-Color}]{\setlength{\rightskip}{0pt plus 5cm}Q\-Color G\-L\-C\-\_\-\-Material\-::diffuse\-Color (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_g_l_c___material_a3d6924655bf86145e451ba03b40d04c2}
+
+
+Get diffuse color. 
+
+
+
+Definition at line 173 of file glc\-\_\-material.\-cpp.
+
+\hypertarget{class_g_l_c___material_ad85ca437af098afe9061305bb25135d8}{\index{G\-L\-C\-\_\-\-Material@{G\-L\-C\-\_\-\-Material}!emissive\-Color@{emissive\-Color}}
+\index{emissive\-Color@{emissive\-Color}!GLC_Material@{G\-L\-C\-\_\-\-Material}}
+\subsubsection[{emissive\-Color}]{\setlength{\rightskip}{0pt plus 5cm}Q\-Color G\-L\-C\-\_\-\-Material\-::emissive\-Color (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_g_l_c___material_ad85ca437af098afe9061305bb25135d8}
+
+
+Get the emissive color. 
+
+
+
+Definition at line 185 of file glc\-\_\-material.\-cpp.
+
+\hypertarget{class_g_l_c___material_a360d229e99bf4ee5f2b3880a34b41468}{\index{G\-L\-C\-\_\-\-Material@{G\-L\-C\-\_\-\-Material}!gl\-Execute@{gl\-Execute}}
+\index{gl\-Execute@{gl\-Execute}!GLC_Material@{G\-L\-C\-\_\-\-Material}}
+\subsubsection[{gl\-Execute}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-\-Material\-::gl\-Execute (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_g_l_c___material_a360d229e99bf4ee5f2b3880a34b41468}
+
+
+Execute Open\-G\-L Material. 
+
+
+
+Definition at line 477 of file glc\-\_\-material.\-cpp.
+
+\hypertarget{class_g_l_c___material_aa0d61e56646dfa068ba61e68d07f2509}{\index{G\-L\-C\-\_\-\-Material@{G\-L\-C\-\_\-\-Material}!gl\-Execute@{gl\-Execute}}
+\index{gl\-Execute@{gl\-Execute}!GLC_Material@{G\-L\-C\-\_\-\-Material}}
+\subsubsection[{gl\-Execute}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-\-Material\-::gl\-Execute (
+\begin{DoxyParamCaption}
+\item[{{\bf float}}]{overwrite\-Transparency}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_g_l_c___material_aa0d61e56646dfa068ba61e68d07f2509}
+
+
+Execute Open\-G\-L Material with over\-Write transparency. 
+
+
+
+Definition at line 551 of file glc\-\_\-material.\-cpp.
+
+\hypertarget{class_g_l_c___material_a7126ebaceabb751b75269c8cc567b69f}{\index{G\-L\-C\-\_\-\-Material@{G\-L\-C\-\_\-\-Material}!gl\-Load\-Texture@{gl\-Load\-Texture}}
+\index{gl\-Load\-Texture@{gl\-Load\-Texture}!GLC_Material@{G\-L\-C\-\_\-\-Material}}
+\subsubsection[{gl\-Load\-Texture}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-\-Material\-::gl\-Load\-Texture (
+\begin{DoxyParamCaption}
+\item[{Q\-G\-L\-Context $\ast$}]{p\-Context = {\ttfamily NULL}}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___material_a7126ebaceabb751b75269c8cc567b69f}
+
+
+Load the texture. 
+
+
+
+Definition at line 464 of file glc\-\_\-material.\-cpp.
+
+\hypertarget{class_g_l_c___material_aa321b93a7677d51423cbbf4b9b44ae81}{\index{G\-L\-C\-\_\-\-Material@{G\-L\-C\-\_\-\-Material}!hash\-Code@{hash\-Code}}
+\index{hash\-Code@{hash\-Code}!GLC_Material@{G\-L\-C\-\_\-\-Material}}
+\subsubsection[{hash\-Code}]{\setlength{\rightskip}{0pt plus 5cm}uint G\-L\-C\-\_\-\-Material\-::hash\-Code (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_g_l_c___material_aa321b93a7677d51423cbbf4b9b44ae81}
+
+
+Return the material hash code. 
+
+
+
+Definition at line 258 of file glc\-\_\-material.\-cpp.
+
+\hypertarget{class_g_l_c___material_a47c78602dbdeab0b0a101f49face3c7a}{\index{G\-L\-C\-\_\-\-Material@{G\-L\-C\-\_\-\-Material}!has\-Texture@{has\-Texture}}
+\index{has\-Texture@{has\-Texture}!GLC_Material@{G\-L\-C\-\_\-\-Material}}
+\subsubsection[{has\-Texture}]{\setlength{\rightskip}{0pt plus 5cm}bool G\-L\-C\-\_\-\-Material\-::has\-Texture (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___material_a47c78602dbdeab0b0a101f49face3c7a}
+
+
+Return true is material has attached texture. 
+
+
+
+Definition at line 95 of file glc\-\_\-material.\-h.
+
+\hypertarget{class_g_l_c___material_a666aa1dc40a4fc637f2ed59d53715aea}{\index{G\-L\-C\-\_\-\-Material@{G\-L\-C\-\_\-\-Material}!is\-Transparent@{is\-Transparent}}
+\index{is\-Transparent@{is\-Transparent}!GLC_Material@{G\-L\-C\-\_\-\-Material}}
+\subsubsection[{is\-Transparent}]{\setlength{\rightskip}{0pt plus 5cm}bool G\-L\-C\-\_\-\-Material\-::is\-Transparent (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___material_a666aa1dc40a4fc637f2ed59d53715aea}
+
+
+Return true if the material is transparent. 
+
+
+
+Definition at line 124 of file glc\-\_\-material.\-h.
+
+\hypertarget{class_g_l_c___material_a154e584bf0c517a5d91ad966c5fd9e78}{\index{G\-L\-C\-\_\-\-Material@{G\-L\-C\-\_\-\-Material}!is\-Unused@{is\-Unused}}
+\index{is\-Unused@{is\-Unused}!GLC_Material@{G\-L\-C\-\_\-\-Material}}
+\subsubsection[{is\-Unused}]{\setlength{\rightskip}{0pt plus 5cm}bool G\-L\-C\-\_\-\-Material\-::is\-Unused (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___material_a154e584bf0c517a5d91ad966c5fd9e78}
+
+
+Return true if the material is used. 
+
+
+
+Definition at line 91 of file glc\-\_\-material.\-h.
+
+\hypertarget{class_g_l_c___material_ad2aeb04fa687e0cc3170ccb13b4acf90}{\index{G\-L\-C\-\_\-\-Material@{G\-L\-C\-\_\-\-Material}!number\-Of\-Usage@{number\-Of\-Usage}}
+\index{number\-Of\-Usage@{number\-Of\-Usage}!GLC_Material@{G\-L\-C\-\_\-\-Material}}
+\subsubsection[{number\-Of\-Usage}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int} G\-L\-C\-\_\-\-Material\-::number\-Of\-Usage (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___material_ad2aeb04fa687e0cc3170ccb13b4acf90}
+
+
+Return the number of this material usage. 
+
+
+
+Definition at line 135 of file glc\-\_\-material.\-h.
+
+\hypertarget{class_g_l_c___material_a758252c431f1a478104b9db39f12d687}{\index{G\-L\-C\-\_\-\-Material@{G\-L\-C\-\_\-\-Material}!opacity@{opacity}}
+\index{opacity@{opacity}!GLC_Material@{G\-L\-C\-\_\-\-Material}}
+\subsubsection[{opacity}]{\setlength{\rightskip}{0pt plus 5cm}{\bf double} G\-L\-C\-\_\-\-Material\-::opacity (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___material_a758252c431f1a478104b9db39f12d687}
+
+
+Return the material opacity. 
+
+
+
+Definition at line 131 of file glc\-\_\-material.\-h.
+
+\hypertarget{class_g_l_c___material_ab1e46174e23951e0bfdc49bf0ca2e5b3}{\index{G\-L\-C\-\_\-\-Material@{G\-L\-C\-\_\-\-Material}!operator=@{operator=}}
+\index{operator=@{operator=}!GLC_Material@{G\-L\-C\-\_\-\-Material}}
+\subsubsection[{operator=}]{\setlength{\rightskip}{0pt plus 5cm}{\bf G\-L\-C\-\_\-\-Material}\& G\-L\-C\-\_\-\-Material\-::operator= (
+\begin{DoxyParamCaption}
+\item[{const {\bf G\-L\-C\-\_\-\-Material} \&}]{mat}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___material_ab1e46174e23951e0bfdc49bf0ca2e5b3}
+
+
+Assignement operator. 
+
+The Hash Table Where\-Use is not modified 
+
+Definition at line 156 of file glc\-\_\-material.\-h.
+
+\hypertarget{class_g_l_c___material_a4d903402e9f305b47ee1b891eeb442a6}{\index{G\-L\-C\-\_\-\-Material@{G\-L\-C\-\_\-\-Material}!operator==@{operator==}}
+\index{operator==@{operator==}!GLC_Material@{G\-L\-C\-\_\-\-Material}}
+\subsubsection[{operator==}]{\setlength{\rightskip}{0pt plus 5cm}bool G\-L\-C\-\_\-\-Material\-::operator== (
+\begin{DoxyParamCaption}
+\item[{const {\bf G\-L\-C\-\_\-\-Material} \&}]{mat}
+\end{DoxyParamCaption}
+) const}}\label{class_g_l_c___material_a4d903402e9f305b47ee1b891eeb442a6}
+
+
+Return true if materials are equivalent. 
+
+
+
+Definition at line 230 of file glc\-\_\-material.\-cpp.
+
+\hypertarget{class_g_l_c___material_a3af525a6553a551e68a3e661b5604aa4}{\index{G\-L\-C\-\_\-\-Material@{G\-L\-C\-\_\-\-Material}!remove\-Texture@{remove\-Texture}}
+\index{remove\-Texture@{remove\-Texture}!GLC_Material@{G\-L\-C\-\_\-\-Material}}
+\subsubsection[{remove\-Texture}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-\-Material\-::remove\-Texture (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___material_a3af525a6553a551e68a3e661b5604aa4}
+
+
+remove Material Texture 
+
+
+
+Definition at line 362 of file glc\-\_\-material.\-cpp.
+
+\hypertarget{class_g_l_c___material_aeb86c11061bda0f93b0da8772b69e287}{\index{G\-L\-C\-\_\-\-Material@{G\-L\-C\-\_\-\-Material}!set\-Ambient\-Color@{set\-Ambient\-Color}}
+\index{set\-Ambient\-Color@{set\-Ambient\-Color}!GLC_Material@{G\-L\-C\-\_\-\-Material}}
+\subsubsection[{set\-Ambient\-Color}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-\-Material\-::set\-Ambient\-Color (
+\begin{DoxyParamCaption}
+\item[{const Q\-Color \&}]{ambient\-Color}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___material_aeb86c11061bda0f93b0da8772b69e287}
+
+
+Set Ambiant Color. 
+
+
+
+Definition at line 314 of file glc\-\_\-material.\-cpp.
+
+\hypertarget{class_g_l_c___material_a2b8263d5c75c7dec7b109a9cce735b80}{\index{G\-L\-C\-\_\-\-Material@{G\-L\-C\-\_\-\-Material}!set\-Diffuse\-Color@{set\-Diffuse\-Color}}
+\index{set\-Diffuse\-Color@{set\-Diffuse\-Color}!GLC_Material@{G\-L\-C\-\_\-\-Material}}
+\subsubsection[{set\-Diffuse\-Color}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-\-Material\-::set\-Diffuse\-Color (
+\begin{DoxyParamCaption}
+\item[{const Q\-Color \&}]{diffuse\-Color}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___material_a2b8263d5c75c7dec7b109a9cce735b80}
+
+
+Set Diffuse color. 
+
+
+
+Definition at line 321 of file glc\-\_\-material.\-cpp.
+
+\hypertarget{class_g_l_c___material_a20c736f0c67536020a6a7a7bbb154a84}{\index{G\-L\-C\-\_\-\-Material@{G\-L\-C\-\_\-\-Material}!set\-Emissive\-Color@{set\-Emissive\-Color}}
+\index{set\-Emissive\-Color@{set\-Emissive\-Color}!GLC_Material@{G\-L\-C\-\_\-\-Material}}
+\subsubsection[{set\-Emissive\-Color}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-\-Material\-::set\-Emissive\-Color (
+\begin{DoxyParamCaption}
+\item[{const Q\-Color \&}]{light\-Emission}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___material_a20c736f0c67536020a6a7a7bbb154a84}
+
+
+Set Emissive. 
+
+
+
+Definition at line 335 of file glc\-\_\-material.\-cpp.
+
+\hypertarget{class_g_l_c___material_a78796f9625043ff58c925e2d3ca0c0ce}{\index{G\-L\-C\-\_\-\-Material@{G\-L\-C\-\_\-\-Material}!set\-Material@{set\-Material}}
+\index{set\-Material@{set\-Material}!GLC_Material@{G\-L\-C\-\_\-\-Material}}
+\subsubsection[{set\-Material}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-\-Material\-::set\-Material (
+\begin{DoxyParamCaption}
+\item[{const {\bf G\-L\-C\-\_\-\-Material} $\ast$}]{p\-Mat}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___material_a78796f9625043ff58c925e2d3ca0c0ce}
+
+
+Set Material properties. 
+
+The Hash Table Where\-Use is not modified 
+
+Definition at line 278 of file glc\-\_\-material.\-cpp.
+
+\hypertarget{class_g_l_c___material_a9f6345fbe0048a221c37cda9ff98ceb8}{\index{G\-L\-C\-\_\-\-Material@{G\-L\-C\-\_\-\-Material}!set\-Opacity@{set\-Opacity}}
+\index{set\-Opacity@{set\-Opacity}!GLC_Material@{G\-L\-C\-\_\-\-Material}}
+\subsubsection[{set\-Opacity}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-\-Material\-::set\-Opacity (
+\begin{DoxyParamCaption}
+\item[{const qreal}]{alpha}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___material_a9f6345fbe0048a221c37cda9ff98ceb8}
+
+
+Set the material opacity. 
+
+
+
+Definition at line 443 of file glc\-\_\-material.\-cpp.
+
+\hypertarget{class_g_l_c___material_addce1cf4c4d210f008b1a9f766261718}{\index{G\-L\-C\-\_\-\-Material@{G\-L\-C\-\_\-\-Material}!set\-Shininess@{set\-Shininess}}
+\index{set\-Shininess@{set\-Shininess}!GLC_Material@{G\-L\-C\-\_\-\-Material}}
+\subsubsection[{set\-Shininess}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-\-Material\-::set\-Shininess (
+\begin{DoxyParamCaption}
+\item[{G\-Lfloat}]{Shininess}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___material_addce1cf4c4d210f008b1a9f766261718}
+
+
+Set Shininess. 
+
+
+
+Definition at line 181 of file glc\-\_\-material.\-h.
+
+\hypertarget{class_g_l_c___material_af13ba1d3e168c29b5fdf2b920df46745}{\index{G\-L\-C\-\_\-\-Material@{G\-L\-C\-\_\-\-Material}!set\-Specular\-Color@{set\-Specular\-Color}}
+\index{set\-Specular\-Color@{set\-Specular\-Color}!GLC_Material@{G\-L\-C\-\_\-\-Material}}
+\subsubsection[{set\-Specular\-Color}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-\-Material\-::set\-Specular\-Color (
+\begin{DoxyParamCaption}
+\item[{const Q\-Color \&}]{specular\-Color}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___material_af13ba1d3e168c29b5fdf2b920df46745}
+
+
+Set Specular color. 
+
+
+
+Definition at line 328 of file glc\-\_\-material.\-cpp.
+
+\hypertarget{class_g_l_c___material_a4cd6f81a640b2d37f1113def3fcbdbe0}{\index{G\-L\-C\-\_\-\-Material@{G\-L\-C\-\_\-\-Material}!set\-Texture@{set\-Texture}}
+\index{set\-Texture@{set\-Texture}!GLC_Material@{G\-L\-C\-\_\-\-Material}}
+\subsubsection[{set\-Texture}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-\-Material\-::set\-Texture (
+\begin{DoxyParamCaption}
+\item[{{\bf G\-L\-C\-\_\-\-Texture} $\ast$}]{p\-Texture}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___material_a4cd6f81a640b2d37f1113def3fcbdbe0}
+
+
+Set Texture. 
+
+
+
+Definition at line 342 of file glc\-\_\-material.\-cpp.
+
+\hypertarget{class_g_l_c___material_a15fcdc2d11960cac10b64ab860a0e545}{\index{G\-L\-C\-\_\-\-Material@{G\-L\-C\-\_\-\-Material}!shininess@{shininess}}
+\index{shininess@{shininess}!GLC_Material@{G\-L\-C\-\_\-\-Material}}
+\subsubsection[{shininess}]{\setlength{\rightskip}{0pt plus 5cm}G\-Lfloat G\-L\-C\-\_\-\-Material\-::shininess (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___material_a15fcdc2d11960cac10b64ab860a0e545}
+
+
+Get Shininess. 
+
+
+
+Definition at line 111 of file glc\-\_\-material.\-h.
+
+\hypertarget{class_g_l_c___material_a72586c9558073c34fd538dc8efda7e6e}{\index{G\-L\-C\-\_\-\-Material@{G\-L\-C\-\_\-\-Material}!specular\-Color@{specular\-Color}}
+\index{specular\-Color@{specular\-Color}!GLC_Material@{G\-L\-C\-\_\-\-Material}}
+\subsubsection[{specular\-Color}]{\setlength{\rightskip}{0pt plus 5cm}Q\-Color G\-L\-C\-\_\-\-Material\-::specular\-Color (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_g_l_c___material_a72586c9558073c34fd538dc8efda7e6e}
+
+
+Get specular color. 
+
+
+
+Definition at line 179 of file glc\-\_\-material.\-cpp.
+
+\hypertarget{class_g_l_c___material_a613e5b94bdb8c477f516856f99a0f94c}{\index{G\-L\-C\-\_\-\-Material@{G\-L\-C\-\_\-\-Material}!texture\-File\-Name@{texture\-File\-Name}}
+\index{texture\-File\-Name@{texture\-File\-Name}!GLC_Material@{G\-L\-C\-\_\-\-Material}}
+\subsubsection[{texture\-File\-Name}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Q\-String} G\-L\-C\-\_\-\-Material\-::texture\-File\-Name (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_g_l_c___material_a613e5b94bdb8c477f516856f99a0f94c}
+
+
+Get the texture File Name. 
+
+
+
+Definition at line 190 of file glc\-\_\-material.\-cpp.
+
+\hypertarget{class_g_l_c___material_afa5afff907a2cb6d03786d420cacb75d}{\index{G\-L\-C\-\_\-\-Material@{G\-L\-C\-\_\-\-Material}!texture\-Handle@{texture\-Handle}}
+\index{texture\-Handle@{texture\-Handle}!GLC_Material@{G\-L\-C\-\_\-\-Material}}
+\subsubsection[{texture\-Handle}]{\setlength{\rightskip}{0pt plus 5cm}{\bf G\-L\-C\-\_\-\-Texture}$\ast$ G\-L\-C\-\_\-\-Material\-::texture\-Handle (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___material_afa5afff907a2cb6d03786d420cacb75d}
+
+
+Return the texture handle. 
+
+
+
+Definition at line 139 of file glc\-\_\-material.\-h.
+
+\hypertarget{class_g_l_c___material_acf6481aef086d6fb39bd951e5f7ffc1b}{\index{G\-L\-C\-\_\-\-Material@{G\-L\-C\-\_\-\-Material}!texture\-I\-D@{texture\-I\-D}}
+\index{texture\-I\-D@{texture\-I\-D}!GLC_Material@{G\-L\-C\-\_\-\-Material}}
+\subsubsection[{texture\-I\-D}]{\setlength{\rightskip}{0pt plus 5cm}{\bf G\-Luint} G\-L\-C\-\_\-\-Material\-::texture\-I\-D (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_g_l_c___material_acf6481aef086d6fb39bd951e5f7ffc1b}
+
+
+Get Texture Id. 
+
+
+
+Definition at line 203 of file glc\-\_\-material.\-cpp.
+
+\hypertarget{class_g_l_c___material_abc7c69d8f3285eacb07fa490fbdb7c32}{\index{G\-L\-C\-\_\-\-Material@{G\-L\-C\-\_\-\-Material}!texture\-Is\-Loaded@{texture\-Is\-Loaded}}
+\index{texture\-Is\-Loaded@{texture\-Is\-Loaded}!GLC_Material@{G\-L\-C\-\_\-\-Material}}
+\subsubsection[{texture\-Is\-Loaded}]{\setlength{\rightskip}{0pt plus 5cm}bool G\-L\-C\-\_\-\-Material\-::texture\-Is\-Loaded (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_g_l_c___material_abc7c69d8f3285eacb07fa490fbdb7c32}
+
+
+return true if the texture is loaded 
+
+
+
+Definition at line 217 of file glc\-\_\-material.\-cpp.
+
+
+
+\subsection{Friends And Related Function Documentation}
+\hypertarget{class_g_l_c___material_aad55ab8f9fc6b91d2a80b31865397afc}{\index{G\-L\-C\-\_\-\-Material@{G\-L\-C\-\_\-\-Material}!operator$<$$<$@{operator$<$$<$}}
+\index{operator$<$$<$@{operator$<$$<$}!GLC_Material@{G\-L\-C\-\_\-\-Material}}
+\subsubsection[{operator$<$$<$}]{\setlength{\rightskip}{0pt plus 5cm}Q\-Data\-Stream\& operator$<$$<$ (
+\begin{DoxyParamCaption}
+\item[{Q\-Data\-Stream \&}]{, }
+\item[{const {\bf G\-L\-C\-\_\-\-Material} \&}]{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [friend]}}}\label{class_g_l_c___material_aad55ab8f9fc6b91d2a80b31865397afc}
+
+
+Non-\/member stream operator. 
+
+
+
+Definition at line 643 of file glc\-\_\-material.\-cpp.
+
+\hypertarget{class_g_l_c___material_a22df39b5be309c55391b21093a439828}{\index{G\-L\-C\-\_\-\-Material@{G\-L\-C\-\_\-\-Material}!operator$>$$>$@{operator$>$$>$}}
+\index{operator$>$$>$@{operator$>$$>$}!GLC_Material@{G\-L\-C\-\_\-\-Material}}
+\subsubsection[{operator$>$$>$}]{\setlength{\rightskip}{0pt plus 5cm}Q\-Data\-Stream\& operator$>$$>$ (
+\begin{DoxyParamCaption}
+\item[{Q\-Data\-Stream \&}]{, }
+\item[{{\bf G\-L\-C\-\_\-\-Material} \&}]{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [friend]}}}\label{class_g_l_c___material_a22df39b5be309c55391b21093a439828}
+
+
+Definition at line 666 of file glc\-\_\-material.\-cpp.
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/glc\-\_\-lib/shading/\hyperlink{glc__material_8h}{glc\-\_\-material.\-h}\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/glc\-\_\-lib/shading/\hyperlink{glc__material_8cpp}{glc\-\_\-material.\-cpp}\end{DoxyCompactItemize}

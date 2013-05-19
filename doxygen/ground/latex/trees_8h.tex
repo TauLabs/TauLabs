@@ -1,0 +1,138 @@
+\hypertarget{trees_8h}{\section{/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/glc\-\_\-lib/3rdparty/zlib/trees.h File Reference}
+\label{trees_8h}\index{/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/glc\-\_\-lib/3rdparty/zlib/trees.\-h@{/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/glc\-\_\-lib/3rdparty/zlib/trees.\-h}}
+}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+local const \hyperlink{deflate_8h_a0a4b5df3b2254c627b8a59e038963118}{ct\-\_\-data} \hyperlink{trees_8h_a6768b3bbdf10808bdddd44b13349c5a2}{static\-\_\-ltree} \mbox{[}L\-\_\-\-C\-O\-D\-E\-S+2\mbox{]}
+\item 
+local const \hyperlink{deflate_8h_a0a4b5df3b2254c627b8a59e038963118}{ct\-\_\-data} \hyperlink{trees_8h_a32b77d04af5dc26c5312766355386cec}{static\-\_\-dtree} \mbox{[}D\-\_\-\-C\-O\-D\-E\-S\mbox{]}
+\item 
+const \hyperlink{zutil_8h_af3307af5922c72924a837559c801a8a4}{uch} \hyperlink{trees_8h_a4b07c410c27f6182d3b8404b3ae824c8}{\-\_\-dist\-\_\-code} \mbox{[}D\-I\-S\-T\-\_\-\-C\-O\-D\-E\-\_\-\-L\-E\-N\mbox{]}
+\item 
+const \hyperlink{zutil_8h_af3307af5922c72924a837559c801a8a4}{uch} \hyperlink{trees_8h_a438c19d3b28bf2456a1876d3e4f02a00}{\-\_\-length\-\_\-code} \mbox{[}M\-A\-X\-\_\-\-M\-A\-T\-C\-H-\/M\-I\-N\-\_\-\-M\-A\-T\-C\-H+1\mbox{]}
+\item 
+local const \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{trees_8h_ac443b72d29eda7b511a746eab5411199}{base\-\_\-length} \mbox{[}L\-E\-N\-G\-T\-H\-\_\-\-C\-O\-D\-E\-S\mbox{]}
+\item 
+local const \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{trees_8h_a8aa132d4ec076aeec45b2fe616ce9db9}{base\-\_\-dist} \mbox{[}D\-\_\-\-C\-O\-D\-E\-S\mbox{]}
+\end{DoxyCompactItemize}
+
+
+\subsection{Variable Documentation}
+\hypertarget{trees_8h_a4b07c410c27f6182d3b8404b3ae824c8}{\index{trees.\-h@{trees.\-h}!\-\_\-dist\-\_\-code@{\-\_\-dist\-\_\-code}}
+\index{\-\_\-dist\-\_\-code@{\-\_\-dist\-\_\-code}!trees.h@{trees.\-h}}
+\subsubsection[{\-\_\-dist\-\_\-code}]{\setlength{\rightskip}{0pt plus 5cm}const {\bf uch} \-\_\-dist\-\_\-code\mbox{[}D\-I\-S\-T\-\_\-\-C\-O\-D\-E\-\_\-\-L\-E\-N\mbox{]}}}\label{trees_8h_a4b07c410c27f6182d3b8404b3ae824c8}
+{\bfseries Initial value\-:}
+\begin{DoxyCode}
+= \{
+ 0,  1,  2,  3,  4,  4,  5,  5,  6,  6,  6,  6,  7,  7,  7,  7,  8,  8,  8,  8,
+ 8,  8,  8,  8,  9,  9,  9,  9,  9,  9,  9,  9, 10, 10, 10, 10, 10, 10, 10, 10,
+10, 10, 10, 10, 10, 10, 10, 10, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11,
+11, 11, 11, 11, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12,
+12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 13, 13, 13, 13,
+13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13,
+13, 13, 13, 13, 13, 13, 13, 13, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14,
+14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14,
+14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14,
+14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 15, 15, 15, 15, 15, 15, 15, 15,
+15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15,
+15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15,
+15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15,  0,  0, 16, 17,
+18, 18, 19, 19, 20, 20, 20, 20, 21, 21, 21, 21, 22, 22, 22, 22, 22, 22, 22, 22,
+23, 23, 23, 23, 23, 23, 23, 23, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24,
+24, 24, 24, 24, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25,
+26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26,
+26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 27, 27, 27, 27, 27, 27, 27, 27,
+27, 27, 27, 27, 27, 27, 27, 27, 27, 27, 27, 27, 27, 27, 27, 27, 27, 27, 27, 27,
+27, 27, 27, 27, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28,
+28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28,
+28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28,
+28, 28, 28, 28, 28, 28, 28, 28, 29, 29, 29, 29, 29, 29, 29, 29, 29, 29, 29, 29,
+29, 29, 29, 29, 29, 29, 29, 29, 29, 29, 29, 29, 29, 29, 29, 29, 29, 29, 29, 29,
+29, 29, 29, 29, 29, 29, 29, 29, 29, 29, 29, 29, 29, 29, 29, 29, 29, 29, 29, 29,
+29, 29, 29, 29, 29, 29, 29, 29, 29, 29, 29, 29
+\}
+\end{DoxyCode}
+
+
+Definition at line 73 of file trees.\-h.
+
+\hypertarget{trees_8h_a438c19d3b28bf2456a1876d3e4f02a00}{\index{trees.\-h@{trees.\-h}!\-\_\-length\-\_\-code@{\-\_\-length\-\_\-code}}
+\index{\-\_\-length\-\_\-code@{\-\_\-length\-\_\-code}!trees.h@{trees.\-h}}
+\subsubsection[{\-\_\-length\-\_\-code}]{\setlength{\rightskip}{0pt plus 5cm}const {\bf uch} \-\_\-length\-\_\-code\mbox{[}M\-A\-X\-\_\-\-M\-A\-T\-C\-H-\/M\-I\-N\-\_\-\-M\-A\-T\-C\-H+1\mbox{]}}}\label{trees_8h_a438c19d3b28bf2456a1876d3e4f02a00}
+{\bfseries Initial value\-:}
+\begin{DoxyCode}
+= \{
+ 0,  1,  2,  3,  4,  5,  6,  7,  8,  8,  9,  9, 10, 10, 11, 11, 12, 12, 12, 12,
+13, 13, 13, 13, 14, 14, 14, 14, 15, 15, 15, 15, 16, 16, 16, 16, 16, 16, 16, 16,
+17, 17, 17, 17, 17, 17, 17, 17, 18, 18, 18, 18, 18, 18, 18, 18, 19, 19, 19, 19,
+19, 19, 19, 19, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
+21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 22, 22, 22, 22,
+22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 23, 23, 23, 23, 23, 23, 23, 23,
+23, 23, 23, 23, 23, 23, 23, 23, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24,
+24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24,
+25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25,
+25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 26, 26, 26, 26, 26, 26, 26, 26,
+26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26,
+26, 26, 26, 26, 27, 27, 27, 27, 27, 27, 27, 27, 27, 27, 27, 27, 27, 27, 27, 27,
+27, 27, 27, 27, 27, 27, 27, 27, 27, 27, 27, 27, 27, 27, 27, 28
+\}
+\end{DoxyCode}
+
+
+Definition at line 102 of file trees.\-h.
+
+\hypertarget{trees_8h_a8aa132d4ec076aeec45b2fe616ce9db9}{\index{trees.\-h@{trees.\-h}!base\-\_\-dist@{base\-\_\-dist}}
+\index{base\-\_\-dist@{base\-\_\-dist}!trees.h@{trees.\-h}}
+\subsubsection[{base\-\_\-dist}]{\setlength{\rightskip}{0pt plus 5cm}local const {\bf int} base\-\_\-dist\mbox{[}D\-\_\-\-C\-O\-D\-E\-S\mbox{]}}}\label{trees_8h_a8aa132d4ec076aeec45b2fe616ce9db9}
+{\bfseries Initial value\-:}
+\begin{DoxyCode}
+= \{
+    0,     1,     2,     3,     4,     6,     8,    12,    16,    24,
+   32,    48,    64,    96,   128,   192,   256,   384,   512,   768,
+ 1024,  1536,  2048,  3072,  4096,  6144,  8192, 12288, 16384, 24576
+\}
+\end{DoxyCode}
+
+
+Definition at line 123 of file trees.\-h.
+
+\hypertarget{trees_8h_ac443b72d29eda7b511a746eab5411199}{\index{trees.\-h@{trees.\-h}!base\-\_\-length@{base\-\_\-length}}
+\index{base\-\_\-length@{base\-\_\-length}!trees.h@{trees.\-h}}
+\subsubsection[{base\-\_\-length}]{\setlength{\rightskip}{0pt plus 5cm}local const {\bf int} base\-\_\-length\mbox{[}L\-E\-N\-G\-T\-H\-\_\-\-C\-O\-D\-E\-S\mbox{]}}}\label{trees_8h_ac443b72d29eda7b511a746eab5411199}
+{\bfseries Initial value\-:}
+\begin{DoxyCode}
+= \{
+0, 1, 2, 3, 4, 5, 6, 7, 8, 10, 12, 14, 16, 20, 24, 28, 32, 40, 48, 56,
+64, 80, 96, 112, 128, 160, 192, 224, 0
+\}
+\end{DoxyCode}
+
+
+Definition at line 118 of file trees.\-h.
+
+\hypertarget{trees_8h_a32b77d04af5dc26c5312766355386cec}{\index{trees.\-h@{trees.\-h}!static\-\_\-dtree@{static\-\_\-dtree}}
+\index{static\-\_\-dtree@{static\-\_\-dtree}!trees.h@{trees.\-h}}
+\subsubsection[{static\-\_\-dtree}]{\setlength{\rightskip}{0pt plus 5cm}local const {\bf ct\-\_\-data} static\-\_\-dtree\mbox{[}D\-\_\-\-C\-O\-D\-E\-S\mbox{]}}}\label{trees_8h_a32b77d04af5dc26c5312766355386cec}
+{\bfseries Initial value\-:}
+\begin{DoxyCode}
+= \{
+\{\{ 0\},\{ 5\}\}, \{\{16\},\{ 5\}\}, \{\{ 8\},\{ 5\}\}, \{\{24\},\{ 5\}\}, \{\{ 4\},\{ 5\}\},
+\{\{20\},\{ 5\}\}, \{\{12\},\{ 5\}\}, \{\{28\},\{ 5\}\}, \{\{ 2\},\{ 5\}\}, \{\{18\},\{ 5\}\},
+\{\{10\},\{ 5\}\}, \{\{26\},\{ 5\}\}, \{\{ 6\},\{ 5\}\}, \{\{22\},\{ 5\}\}, \{\{14\},\{ 5\}\},
+\{\{30\},\{ 5\}\}, \{\{ 1\},\{ 5\}\}, \{\{17\},\{ 5\}\}, \{\{ 9\},\{ 5\}\}, \{\{25\},\{ 5\}\},
+\{\{ 5\},\{ 5\}\}, \{\{21\},\{ 5\}\}, \{\{13\},\{ 5\}\}, \{\{29\},\{ 5\}\}, \{\{ 3\},\{ 5\}\},
+\{\{19\},\{ 5\}\}, \{\{11\},\{ 5\}\}, \{\{27\},\{ 5\}\}, \{\{ 7\},\{ 5\}\}, \{\{23\},\{ 5\}\}
+\}
+\end{DoxyCode}
+
+
+Definition at line 64 of file trees.\-h.
+
+\hypertarget{trees_8h_a6768b3bbdf10808bdddd44b13349c5a2}{\index{trees.\-h@{trees.\-h}!static\-\_\-ltree@{static\-\_\-ltree}}
+\index{static\-\_\-ltree@{static\-\_\-ltree}!trees.h@{trees.\-h}}
+\subsubsection[{static\-\_\-ltree}]{\setlength{\rightskip}{0pt plus 5cm}local const {\bf ct\-\_\-data} static\-\_\-ltree\mbox{[}L\-\_\-\-C\-O\-D\-E\-S+2\mbox{]}}}\label{trees_8h_a6768b3bbdf10808bdddd44b13349c5a2}
+
+
+Definition at line 3 of file trees.\-h.
+

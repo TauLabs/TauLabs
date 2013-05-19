@@ -1,0 +1,241 @@
+\hypertarget{class_block_3_01_matrix_type_00_01_block_rows_00_01_block_cols_00_01_packet_access_00_01_is_sparse_01_4}{\section{Block$<$ Matrix\-Type, Block\-Rows, Block\-Cols, Packet\-Access, Is\-Sparse $>$ Class Template Reference}
+\label{class_block_3_01_matrix_type_00_01_block_rows_00_01_block_cols_00_01_packet_access_00_01_is_sparse_01_4}\index{Block$<$ Matrix\-Type, Block\-Rows, Block\-Cols, Packet\-Access, Is\-Sparse $>$@{Block$<$ Matrix\-Type, Block\-Rows, Block\-Cols, Packet\-Access, Is\-Sparse $>$}}
+}
+
+
+{\ttfamily \#include $<$Sparse\-Block.\-h$>$}
+
+Inheritance diagram for Block$<$ Matrix\-Type, Block\-Rows, Block\-Cols, Packet\-Access, Is\-Sparse $>$\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_block_3_01_matrix_type_00_01_block_rows_00_01_block_cols_00_01_packet_access_00_01_is_sparse_01_4}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_block_3_01_matrix_type_00_01_block_rows_00_01_block_cols_00_01_packet_access_00_01_is_sparse_01_4_a82ec82189575d2a1c1d866302efd0ce8}{\-\_\-\-E\-I\-G\-E\-N\-\_\-\-G\-E\-N\-E\-R\-I\-C\-\_\-\-P\-U\-B\-L\-I\-C\-\_\-\-I\-N\-T\-E\-R\-F\-A\-C\-E} (\hyperlink{class_block}{Block}, \hyperlink{class_sparse_matrix_base}{Sparse\-Matrix\-Base}$<$ \hyperlink{class_block}{Block} $>$) class \hyperlink{class_inner_iterator}{Inner\-Iterator}
+\item 
+\hyperlink{class_block_3_01_matrix_type_00_01_block_rows_00_01_block_cols_00_01_packet_access_00_01_is_sparse_01_4_adde9ad397bb7f9e8a34321ff0b9002e2}{Block} (const Matrix\-Type \&\hyperlink{glext_8h_a7b24a3f2f56eb1244ae69dacb4fecb6f}{matrix}, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{uavobjecttemplate_8m_a6f6ccfcf58b31cb6412107d9d5281426}{i})
+\item 
+\hyperlink{class_block_3_01_matrix_type_00_01_block_rows_00_01_block_cols_00_01_packet_access_00_01_is_sparse_01_4_ab8ba09c18c374d14888da26e3f8a9bf3}{Block} (const Matrix\-Type \&\hyperlink{glext_8h_a7b24a3f2f56eb1244ae69dacb4fecb6f}{matrix}, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} start\-Row, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} start\-Col)
+\item 
+\hyperlink{class_block_3_01_matrix_type_00_01_block_rows_00_01_block_cols_00_01_packet_access_00_01_is_sparse_01_4_a82b3e2ef157c7586a93dc2b9a7cb131a}{Block} (const Matrix\-Type \&\hyperlink{glext_8h_a7b24a3f2f56eb1244ae69dacb4fecb6f}{matrix}, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} start\-Row, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} start\-Col, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} block\-Rows, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} block\-Cols)
+\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_block_3_01_matrix_type_00_01_block_rows_00_01_block_cols_00_01_packet_access_00_01_is_sparse_01_4_ab1164de01c920b3a8bd8f10cad56232f}{rows} () const 
+\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_block_3_01_matrix_type_00_01_block_rows_00_01_block_cols_00_01_packet_access_00_01_is_sparse_01_4_a53f8ae9194ea7bcfce64a18aa0415f52}{cols} () const 
+\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_block_3_01_matrix_type_00_01_block_rows_00_01_block_cols_00_01_packet_access_00_01_is_sparse_01_4_aefe1950dbd92ffe7823ae06005d1ad77}{stride} (\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void}) const 
+\item 
+\hyperlink{class_sparse_matrix_base_af39d70f2b7e775e9e17b666cd24128c8}{Scalar} \& \hyperlink{class_block_3_01_matrix_type_00_01_block_rows_00_01_block_cols_00_01_packet_access_00_01_is_sparse_01_4_a578f187bdb5a114913a573bf06340d95}{coeff\-Ref} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{glext_8h_a11b277b422822f784ee248b43eee3e1e}{row}, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_sparse_matrix_base_a711a8f11f5f1915057922412dac2cc25}{col})
+\item 
+const \hyperlink{class_sparse_matrix_base_af39d70f2b7e775e9e17b666cd24128c8}{Scalar} \hyperlink{class_block_3_01_matrix_type_00_01_block_rows_00_01_block_cols_00_01_packet_access_00_01_is_sparse_01_4_addebfcb5b18a3b9dcafdea2e47235bf0}{coeff} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{glext_8h_a11b277b422822f784ee248b43eee3e1e}{row}, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_sparse_matrix_base_a711a8f11f5f1915057922412dac2cc25}{col}) const 
+\item 
+\hyperlink{class_sparse_matrix_base_af39d70f2b7e775e9e17b666cd24128c8}{Scalar} \& \hyperlink{class_block_3_01_matrix_type_00_01_block_rows_00_01_block_cols_00_01_packet_access_00_01_is_sparse_01_4_ab6910adc1a4af5b3fcd36c300752c0b5}{coeff\-Ref} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{glext_8h_ab47dd9958bcadea08866b42bf358e95e}{index})
+\item 
+const \hyperlink{class_sparse_matrix_base_af39d70f2b7e775e9e17b666cd24128c8}{Scalar} \hyperlink{class_block_3_01_matrix_type_00_01_block_rows_00_01_block_cols_00_01_packet_access_00_01_is_sparse_01_4_a7ff1e5af1995a11988ad57ba11d9c6de}{coeff} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{glext_8h_ab47dd9958bcadea08866b42bf358e95e}{index}) const 
+\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+const Matrix\-Type\-::\-Nested \hyperlink{class_block_3_01_matrix_type_00_01_block_rows_00_01_block_cols_00_01_packet_access_00_01_is_sparse_01_4_a4a32807f94aefd0d12d8e28e619dd3e8}{m\-\_\-matrix}
+\item 
+const ei\-\_\-int\-\_\-if\-\_\-dynamic\\*
+$<$ Matrix\-Type\-::\-Rows\-At\-Compile\-Time==1?0\-:\hyperlink{_constants_8h_adc9da5be31bdce40c25a92c27999c0e3}{Dynamic} $>$ \hyperlink{class_block_3_01_matrix_type_00_01_block_rows_00_01_block_cols_00_01_packet_access_00_01_is_sparse_01_4_abe05988121d3fe7a31b2634f25802976}{m\-\_\-start\-Row}
+\item 
+const ei\-\_\-int\-\_\-if\-\_\-dynamic\\*
+$<$ Matrix\-Type\-::\-Cols\-At\-Compile\-Time==1?0\-:\hyperlink{_constants_8h_adc9da5be31bdce40c25a92c27999c0e3}{Dynamic} $>$ \hyperlink{class_block_3_01_matrix_type_00_01_block_rows_00_01_block_cols_00_01_packet_access_00_01_is_sparse_01_4_ad2ba05e47f339d5c74d6e46cbd089e22}{m\-\_\-start\-Col}
+\item 
+const ei\-\_\-int\-\_\-if\-\_\-dynamic\\*
+$<$ \hyperlink{class_sparse_matrix_base_af601f771c204b3ca254a52085525004ca6f1c32affc05e36001dd1643129f15a9}{Rows\-At\-Compile\-Time} $>$ \hyperlink{class_block_3_01_matrix_type_00_01_block_rows_00_01_block_cols_00_01_packet_access_00_01_is_sparse_01_4_a7c5ff9c106b46ca33a056bf6af597df1}{m\-\_\-block\-Rows}
+\item 
+const ei\-\_\-int\-\_\-if\-\_\-dynamic\\*
+$<$ \hyperlink{class_sparse_matrix_base_af601f771c204b3ca254a52085525004ca121f168f43ca4df38f99335271cad6e4}{Cols\-At\-Compile\-Time} $>$ \hyperlink{class_block_3_01_matrix_type_00_01_block_rows_00_01_block_cols_00_01_packet_access_00_01_is_sparse_01_4_a866f0ab333360219bc705caa933efe9c}{m\-\_\-block\-Cols}
+\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$typename Matrix\-Type, int Block\-Rows, int Block\-Cols, int Packet\-Access$>$class Block$<$ Matrix\-Type, Block\-Rows, Block\-Cols, Packet\-Access, Is\-Sparse $>$}
+
+
+
+Definition at line 362 of file Sparse\-Block.\-h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_block_3_01_matrix_type_00_01_block_rows_00_01_block_cols_00_01_packet_access_00_01_is_sparse_01_4_adde9ad397bb7f9e8a34321ff0b9002e2}{\index{Block$<$ Matrix\-Type, Block\-Rows, Block\-Cols, Packet\-Access, Is\-Sparse $>$@{Block$<$ Matrix\-Type, Block\-Rows, Block\-Cols, Packet\-Access, Is\-Sparse $>$}!Block@{Block}}
+\index{Block@{Block}!Block< MatrixType, BlockRows, BlockCols, PacketAccess, IsSparse >@{Block$<$ Matrix\-Type, Block\-Rows, Block\-Cols, Packet\-Access, Is\-Sparse $>$}}
+\subsubsection[{Block}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type , int Block\-Rows, int Block\-Cols, int Packet\-Access$>$ {\bf Block}$<$ Matrix\-Type, Block\-Rows, Block\-Cols, Packet\-Access, {\bf Is\-Sparse} $>$\-::{\bf Block} (
+\begin{DoxyParamCaption}
+\item[{const Matrix\-Type \&}]{matrix, }
+\item[{{\bf int}}]{i}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_block_3_01_matrix_type_00_01_block_rows_00_01_block_cols_00_01_packet_access_00_01_is_sparse_01_4_adde9ad397bb7f9e8a34321ff0b9002e2}
+Column or Row constructor 
+
+Definition at line 372 of file Sparse\-Block.\-h.
+
+\hypertarget{class_block_3_01_matrix_type_00_01_block_rows_00_01_block_cols_00_01_packet_access_00_01_is_sparse_01_4_ab8ba09c18c374d14888da26e3f8a9bf3}{\index{Block$<$ Matrix\-Type, Block\-Rows, Block\-Cols, Packet\-Access, Is\-Sparse $>$@{Block$<$ Matrix\-Type, Block\-Rows, Block\-Cols, Packet\-Access, Is\-Sparse $>$}!Block@{Block}}
+\index{Block@{Block}!Block< MatrixType, BlockRows, BlockCols, PacketAccess, IsSparse >@{Block$<$ Matrix\-Type, Block\-Rows, Block\-Cols, Packet\-Access, Is\-Sparse $>$}}
+\subsubsection[{Block}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type , int Block\-Rows, int Block\-Cols, int Packet\-Access$>$ {\bf Block}$<$ Matrix\-Type, Block\-Rows, Block\-Cols, Packet\-Access, {\bf Is\-Sparse} $>$\-::{\bf Block} (
+\begin{DoxyParamCaption}
+\item[{const Matrix\-Type \&}]{matrix, }
+\item[{{\bf int}}]{start\-Row, }
+\item[{{\bf int}}]{start\-Col}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_block_3_01_matrix_type_00_01_block_rows_00_01_block_cols_00_01_packet_access_00_01_is_sparse_01_4_ab8ba09c18c374d14888da26e3f8a9bf3}
+Fixed-\/size constructor 
+
+Definition at line 390 of file Sparse\-Block.\-h.
+
+\hypertarget{class_block_3_01_matrix_type_00_01_block_rows_00_01_block_cols_00_01_packet_access_00_01_is_sparse_01_4_a82b3e2ef157c7586a93dc2b9a7cb131a}{\index{Block$<$ Matrix\-Type, Block\-Rows, Block\-Cols, Packet\-Access, Is\-Sparse $>$@{Block$<$ Matrix\-Type, Block\-Rows, Block\-Cols, Packet\-Access, Is\-Sparse $>$}!Block@{Block}}
+\index{Block@{Block}!Block< MatrixType, BlockRows, BlockCols, PacketAccess, IsSparse >@{Block$<$ Matrix\-Type, Block\-Rows, Block\-Cols, Packet\-Access, Is\-Sparse $>$}}
+\subsubsection[{Block}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type , int Block\-Rows, int Block\-Cols, int Packet\-Access$>$ {\bf Block}$<$ Matrix\-Type, Block\-Rows, Block\-Cols, Packet\-Access, {\bf Is\-Sparse} $>$\-::{\bf Block} (
+\begin{DoxyParamCaption}
+\item[{const Matrix\-Type \&}]{matrix, }
+\item[{{\bf int}}]{start\-Row, }
+\item[{{\bf int}}]{start\-Col, }
+\item[{{\bf int}}]{block\-Rows, }
+\item[{{\bf int}}]{block\-Cols}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_block_3_01_matrix_type_00_01_block_rows_00_01_block_cols_00_01_packet_access_00_01_is_sparse_01_4_a82b3e2ef157c7586a93dc2b9a7cb131a}
+Dynamic-\/size constructor 
+
+Definition at line 401 of file Sparse\-Block.\-h.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_block_3_01_matrix_type_00_01_block_rows_00_01_block_cols_00_01_packet_access_00_01_is_sparse_01_4_a82ec82189575d2a1c1d866302efd0ce8}{\index{Block$<$ Matrix\-Type, Block\-Rows, Block\-Cols, Packet\-Access, Is\-Sparse $>$@{Block$<$ Matrix\-Type, Block\-Rows, Block\-Cols, Packet\-Access, Is\-Sparse $>$}!\-\_\-\-E\-I\-G\-E\-N\-\_\-\-G\-E\-N\-E\-R\-I\-C\-\_\-\-P\-U\-B\-L\-I\-C\-\_\-\-I\-N\-T\-E\-R\-F\-A\-C\-E@{\-\_\-\-E\-I\-G\-E\-N\-\_\-\-G\-E\-N\-E\-R\-I\-C\-\_\-\-P\-U\-B\-L\-I\-C\-\_\-\-I\-N\-T\-E\-R\-F\-A\-C\-E}}
+\index{\-\_\-\-E\-I\-G\-E\-N\-\_\-\-G\-E\-N\-E\-R\-I\-C\-\_\-\-P\-U\-B\-L\-I\-C\-\_\-\-I\-N\-T\-E\-R\-F\-A\-C\-E@{\-\_\-\-E\-I\-G\-E\-N\-\_\-\-G\-E\-N\-E\-R\-I\-C\-\_\-\-P\-U\-B\-L\-I\-C\-\_\-\-I\-N\-T\-E\-R\-F\-A\-C\-E}!Block< MatrixType, BlockRows, BlockCols, PacketAccess, IsSparse >@{Block$<$ Matrix\-Type, Block\-Rows, Block\-Cols, Packet\-Access, Is\-Sparse $>$}}
+\subsubsection[{\-\_\-\-E\-I\-G\-E\-N\-\_\-\-G\-E\-N\-E\-R\-I\-C\-\_\-\-P\-U\-B\-L\-I\-C\-\_\-\-I\-N\-T\-E\-R\-F\-A\-C\-E}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type , int Block\-Rows, int Block\-Cols, int Packet\-Access$>$ {\bf Block}$<$ Matrix\-Type, Block\-Rows, Block\-Cols, Packet\-Access, {\bf Is\-Sparse} $>$\-::\-\_\-\-E\-I\-G\-E\-N\-\_\-\-G\-E\-N\-E\-R\-I\-C\-\_\-\-P\-U\-B\-L\-I\-C\-\_\-\-I\-N\-T\-E\-R\-F\-A\-C\-E (
+\begin{DoxyParamCaption}
+\item[{{\bf Block}$<$ Matrix\-Type, Block\-Rows, Block\-Cols, Packet\-Access, {\bf Is\-Sparse} $>$}]{, }
+\item[{{\bf Sparse\-Matrix\-Base}$<$ {\bf Block}$<$ Matrix\-Type, Block\-Rows, Block\-Cols, Packet\-Access, {\bf Is\-Sparse} $>$ $>$}]{}
+\end{DoxyParamCaption}
+)}}\label{class_block_3_01_matrix_type_00_01_block_rows_00_01_block_cols_00_01_packet_access_00_01_is_sparse_01_4_a82ec82189575d2a1c1d866302efd0ce8}
+\hypertarget{class_block_3_01_matrix_type_00_01_block_rows_00_01_block_cols_00_01_packet_access_00_01_is_sparse_01_4_addebfcb5b18a3b9dcafdea2e47235bf0}{\index{Block$<$ Matrix\-Type, Block\-Rows, Block\-Cols, Packet\-Access, Is\-Sparse $>$@{Block$<$ Matrix\-Type, Block\-Rows, Block\-Cols, Packet\-Access, Is\-Sparse $>$}!coeff@{coeff}}
+\index{coeff@{coeff}!Block< MatrixType, BlockRows, BlockCols, PacketAccess, IsSparse >@{Block$<$ Matrix\-Type, Block\-Rows, Block\-Cols, Packet\-Access, Is\-Sparse $>$}}
+\subsubsection[{coeff}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type , int Block\-Rows, int Block\-Cols, int Packet\-Access$>$ const {\bf Scalar} {\bf Block}$<$ Matrix\-Type, Block\-Rows, Block\-Cols, Packet\-Access, {\bf Is\-Sparse} $>$\-::coeff (
+\begin{DoxyParamCaption}
+\item[{{\bf int}}]{row, }
+\item[{{\bf int}}]{col}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_block_3_01_matrix_type_00_01_block_rows_00_01_block_cols_00_01_packet_access_00_01_is_sparse_01_4_addebfcb5b18a3b9dcafdea2e47235bf0}
+
+
+Definition at line 424 of file Sparse\-Block.\-h.
+
+\hypertarget{class_block_3_01_matrix_type_00_01_block_rows_00_01_block_cols_00_01_packet_access_00_01_is_sparse_01_4_a7ff1e5af1995a11988ad57ba11d9c6de}{\index{Block$<$ Matrix\-Type, Block\-Rows, Block\-Cols, Packet\-Access, Is\-Sparse $>$@{Block$<$ Matrix\-Type, Block\-Rows, Block\-Cols, Packet\-Access, Is\-Sparse $>$}!coeff@{coeff}}
+\index{coeff@{coeff}!Block< MatrixType, BlockRows, BlockCols, PacketAccess, IsSparse >@{Block$<$ Matrix\-Type, Block\-Rows, Block\-Cols, Packet\-Access, Is\-Sparse $>$}}
+\subsubsection[{coeff}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type , int Block\-Rows, int Block\-Cols, int Packet\-Access$>$ const {\bf Scalar} {\bf Block}$<$ Matrix\-Type, Block\-Rows, Block\-Cols, Packet\-Access, {\bf Is\-Sparse} $>$\-::coeff (
+\begin{DoxyParamCaption}
+\item[{{\bf int}}]{index}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_block_3_01_matrix_type_00_01_block_rows_00_01_block_cols_00_01_packet_access_00_01_is_sparse_01_4_a7ff1e5af1995a11988ad57ba11d9c6de}
+
+
+Definition at line 436 of file Sparse\-Block.\-h.
+
+\hypertarget{class_block_3_01_matrix_type_00_01_block_rows_00_01_block_cols_00_01_packet_access_00_01_is_sparse_01_4_a578f187bdb5a114913a573bf06340d95}{\index{Block$<$ Matrix\-Type, Block\-Rows, Block\-Cols, Packet\-Access, Is\-Sparse $>$@{Block$<$ Matrix\-Type, Block\-Rows, Block\-Cols, Packet\-Access, Is\-Sparse $>$}!coeff\-Ref@{coeff\-Ref}}
+\index{coeff\-Ref@{coeff\-Ref}!Block< MatrixType, BlockRows, BlockCols, PacketAccess, IsSparse >@{Block$<$ Matrix\-Type, Block\-Rows, Block\-Cols, Packet\-Access, Is\-Sparse $>$}}
+\subsubsection[{coeff\-Ref}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type , int Block\-Rows, int Block\-Cols, int Packet\-Access$>$ {\bf Scalar}\& {\bf Block}$<$ Matrix\-Type, Block\-Rows, Block\-Cols, Packet\-Access, {\bf Is\-Sparse} $>$\-::coeff\-Ref (
+\begin{DoxyParamCaption}
+\item[{{\bf int}}]{row, }
+\item[{{\bf int}}]{col}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_block_3_01_matrix_type_00_01_block_rows_00_01_block_cols_00_01_packet_access_00_01_is_sparse_01_4_a578f187bdb5a114913a573bf06340d95}
+
+
+Definition at line 418 of file Sparse\-Block.\-h.
+
+\hypertarget{class_block_3_01_matrix_type_00_01_block_rows_00_01_block_cols_00_01_packet_access_00_01_is_sparse_01_4_ab6910adc1a4af5b3fcd36c300752c0b5}{\index{Block$<$ Matrix\-Type, Block\-Rows, Block\-Cols, Packet\-Access, Is\-Sparse $>$@{Block$<$ Matrix\-Type, Block\-Rows, Block\-Cols, Packet\-Access, Is\-Sparse $>$}!coeff\-Ref@{coeff\-Ref}}
+\index{coeff\-Ref@{coeff\-Ref}!Block< MatrixType, BlockRows, BlockCols, PacketAccess, IsSparse >@{Block$<$ Matrix\-Type, Block\-Rows, Block\-Cols, Packet\-Access, Is\-Sparse $>$}}
+\subsubsection[{coeff\-Ref}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type , int Block\-Rows, int Block\-Cols, int Packet\-Access$>$ {\bf Scalar}\& {\bf Block}$<$ Matrix\-Type, Block\-Rows, Block\-Cols, Packet\-Access, {\bf Is\-Sparse} $>$\-::coeff\-Ref (
+\begin{DoxyParamCaption}
+\item[{{\bf int}}]{index}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_block_3_01_matrix_type_00_01_block_rows_00_01_block_cols_00_01_packet_access_00_01_is_sparse_01_4_ab6910adc1a4af5b3fcd36c300752c0b5}
+
+
+Definition at line 429 of file Sparse\-Block.\-h.
+
+\hypertarget{class_block_3_01_matrix_type_00_01_block_rows_00_01_block_cols_00_01_packet_access_00_01_is_sparse_01_4_a53f8ae9194ea7bcfce64a18aa0415f52}{\index{Block$<$ Matrix\-Type, Block\-Rows, Block\-Cols, Packet\-Access, Is\-Sparse $>$@{Block$<$ Matrix\-Type, Block\-Rows, Block\-Cols, Packet\-Access, Is\-Sparse $>$}!cols@{cols}}
+\index{cols@{cols}!Block< MatrixType, BlockRows, BlockCols, PacketAccess, IsSparse >@{Block$<$ Matrix\-Type, Block\-Rows, Block\-Cols, Packet\-Access, Is\-Sparse $>$}}
+\subsubsection[{cols}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type , int Block\-Rows, int Block\-Cols, int Packet\-Access$>$ {\bf int} {\bf Block}$<$ Matrix\-Type, Block\-Rows, Block\-Cols, Packet\-Access, {\bf Is\-Sparse} $>$\-::cols (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_block_3_01_matrix_type_00_01_block_rows_00_01_block_cols_00_01_packet_access_00_01_is_sparse_01_4_a53f8ae9194ea7bcfce64a18aa0415f52}
+
+
+Definition at line 414 of file Sparse\-Block.\-h.
+
+\hypertarget{class_block_3_01_matrix_type_00_01_block_rows_00_01_block_cols_00_01_packet_access_00_01_is_sparse_01_4_ab1164de01c920b3a8bd8f10cad56232f}{\index{Block$<$ Matrix\-Type, Block\-Rows, Block\-Cols, Packet\-Access, Is\-Sparse $>$@{Block$<$ Matrix\-Type, Block\-Rows, Block\-Cols, Packet\-Access, Is\-Sparse $>$}!rows@{rows}}
+\index{rows@{rows}!Block< MatrixType, BlockRows, BlockCols, PacketAccess, IsSparse >@{Block$<$ Matrix\-Type, Block\-Rows, Block\-Cols, Packet\-Access, Is\-Sparse $>$}}
+\subsubsection[{rows}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type , int Block\-Rows, int Block\-Cols, int Packet\-Access$>$ {\bf int} {\bf Block}$<$ Matrix\-Type, Block\-Rows, Block\-Cols, Packet\-Access, {\bf Is\-Sparse} $>$\-::rows (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_block_3_01_matrix_type_00_01_block_rows_00_01_block_cols_00_01_packet_access_00_01_is_sparse_01_4_ab1164de01c920b3a8bd8f10cad56232f}
+
+
+Definition at line 413 of file Sparse\-Block.\-h.
+
+\hypertarget{class_block_3_01_matrix_type_00_01_block_rows_00_01_block_cols_00_01_packet_access_00_01_is_sparse_01_4_aefe1950dbd92ffe7823ae06005d1ad77}{\index{Block$<$ Matrix\-Type, Block\-Rows, Block\-Cols, Packet\-Access, Is\-Sparse $>$@{Block$<$ Matrix\-Type, Block\-Rows, Block\-Cols, Packet\-Access, Is\-Sparse $>$}!stride@{stride}}
+\index{stride@{stride}!Block< MatrixType, BlockRows, BlockCols, PacketAccess, IsSparse >@{Block$<$ Matrix\-Type, Block\-Rows, Block\-Cols, Packet\-Access, Is\-Sparse $>$}}
+\subsubsection[{stride}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type , int Block\-Rows, int Block\-Cols, int Packet\-Access$>$ {\bf int} {\bf Block}$<$ Matrix\-Type, Block\-Rows, Block\-Cols, Packet\-Access, {\bf Is\-Sparse} $>$\-::{\bf stride} (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_block_3_01_matrix_type_00_01_block_rows_00_01_block_cols_00_01_packet_access_00_01_is_sparse_01_4_aefe1950dbd92ffe7823ae06005d1ad77}
+
+
+Definition at line 416 of file Sparse\-Block.\-h.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{class_block_3_01_matrix_type_00_01_block_rows_00_01_block_cols_00_01_packet_access_00_01_is_sparse_01_4_a866f0ab333360219bc705caa933efe9c}{\index{Block$<$ Matrix\-Type, Block\-Rows, Block\-Cols, Packet\-Access, Is\-Sparse $>$@{Block$<$ Matrix\-Type, Block\-Rows, Block\-Cols, Packet\-Access, Is\-Sparse $>$}!m\-\_\-block\-Cols@{m\-\_\-block\-Cols}}
+\index{m\-\_\-block\-Cols@{m\-\_\-block\-Cols}!Block< MatrixType, BlockRows, BlockCols, PacketAccess, IsSparse >@{Block$<$ Matrix\-Type, Block\-Rows, Block\-Cols, Packet\-Access, Is\-Sparse $>$}}
+\subsubsection[{m\-\_\-block\-Cols}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type , int Block\-Rows, int Block\-Cols, int Packet\-Access$>$ const ei\-\_\-int\-\_\-if\-\_\-dynamic$<${\bf Cols\-At\-Compile\-Time}$>$ {\bf Block}$<$ Matrix\-Type, Block\-Rows, Block\-Cols, Packet\-Access, {\bf Is\-Sparse} $>$\-::m\-\_\-block\-Cols\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_block_3_01_matrix_type_00_01_block_rows_00_01_block_cols_00_01_packet_access_00_01_is_sparse_01_4_a866f0ab333360219bc705caa933efe9c}
+
+
+Definition at line 449 of file Sparse\-Block.\-h.
+
+\hypertarget{class_block_3_01_matrix_type_00_01_block_rows_00_01_block_cols_00_01_packet_access_00_01_is_sparse_01_4_a7c5ff9c106b46ca33a056bf6af597df1}{\index{Block$<$ Matrix\-Type, Block\-Rows, Block\-Cols, Packet\-Access, Is\-Sparse $>$@{Block$<$ Matrix\-Type, Block\-Rows, Block\-Cols, Packet\-Access, Is\-Sparse $>$}!m\-\_\-block\-Rows@{m\-\_\-block\-Rows}}
+\index{m\-\_\-block\-Rows@{m\-\_\-block\-Rows}!Block< MatrixType, BlockRows, BlockCols, PacketAccess, IsSparse >@{Block$<$ Matrix\-Type, Block\-Rows, Block\-Cols, Packet\-Access, Is\-Sparse $>$}}
+\subsubsection[{m\-\_\-block\-Rows}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type , int Block\-Rows, int Block\-Cols, int Packet\-Access$>$ const ei\-\_\-int\-\_\-if\-\_\-dynamic$<${\bf Rows\-At\-Compile\-Time}$>$ {\bf Block}$<$ Matrix\-Type, Block\-Rows, Block\-Cols, Packet\-Access, {\bf Is\-Sparse} $>$\-::m\-\_\-block\-Rows\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_block_3_01_matrix_type_00_01_block_rows_00_01_block_cols_00_01_packet_access_00_01_is_sparse_01_4_a7c5ff9c106b46ca33a056bf6af597df1}
+
+
+Definition at line 448 of file Sparse\-Block.\-h.
+
+\hypertarget{class_block_3_01_matrix_type_00_01_block_rows_00_01_block_cols_00_01_packet_access_00_01_is_sparse_01_4_a4a32807f94aefd0d12d8e28e619dd3e8}{\index{Block$<$ Matrix\-Type, Block\-Rows, Block\-Cols, Packet\-Access, Is\-Sparse $>$@{Block$<$ Matrix\-Type, Block\-Rows, Block\-Cols, Packet\-Access, Is\-Sparse $>$}!m\-\_\-matrix@{m\-\_\-matrix}}
+\index{m\-\_\-matrix@{m\-\_\-matrix}!Block< MatrixType, BlockRows, BlockCols, PacketAccess, IsSparse >@{Block$<$ Matrix\-Type, Block\-Rows, Block\-Cols, Packet\-Access, Is\-Sparse $>$}}
+\subsubsection[{m\-\_\-matrix}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type , int Block\-Rows, int Block\-Cols, int Packet\-Access$>$ const Matrix\-Type\-::\-Nested {\bf Block}$<$ Matrix\-Type, Block\-Rows, Block\-Cols, Packet\-Access, {\bf Is\-Sparse} $>$\-::m\-\_\-matrix\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_block_3_01_matrix_type_00_01_block_rows_00_01_block_cols_00_01_packet_access_00_01_is_sparse_01_4_a4a32807f94aefd0d12d8e28e619dd3e8}
+
+
+Definition at line 445 of file Sparse\-Block.\-h.
+
+\hypertarget{class_block_3_01_matrix_type_00_01_block_rows_00_01_block_cols_00_01_packet_access_00_01_is_sparse_01_4_ad2ba05e47f339d5c74d6e46cbd089e22}{\index{Block$<$ Matrix\-Type, Block\-Rows, Block\-Cols, Packet\-Access, Is\-Sparse $>$@{Block$<$ Matrix\-Type, Block\-Rows, Block\-Cols, Packet\-Access, Is\-Sparse $>$}!m\-\_\-start\-Col@{m\-\_\-start\-Col}}
+\index{m\-\_\-start\-Col@{m\-\_\-start\-Col}!Block< MatrixType, BlockRows, BlockCols, PacketAccess, IsSparse >@{Block$<$ Matrix\-Type, Block\-Rows, Block\-Cols, Packet\-Access, Is\-Sparse $>$}}
+\subsubsection[{m\-\_\-start\-Col}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type , int Block\-Rows, int Block\-Cols, int Packet\-Access$>$ const ei\-\_\-int\-\_\-if\-\_\-dynamic$<$Matrix\-Type\-::\-Cols\-At\-Compile\-Time == 1 ? 0 \-: {\bf Dynamic}$>$ {\bf Block}$<$ Matrix\-Type, Block\-Rows, Block\-Cols, Packet\-Access, {\bf Is\-Sparse} $>$\-::m\-\_\-start\-Col\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_block_3_01_matrix_type_00_01_block_rows_00_01_block_cols_00_01_packet_access_00_01_is_sparse_01_4_ad2ba05e47f339d5c74d6e46cbd089e22}
+
+
+Definition at line 447 of file Sparse\-Block.\-h.
+
+\hypertarget{class_block_3_01_matrix_type_00_01_block_rows_00_01_block_cols_00_01_packet_access_00_01_is_sparse_01_4_abe05988121d3fe7a31b2634f25802976}{\index{Block$<$ Matrix\-Type, Block\-Rows, Block\-Cols, Packet\-Access, Is\-Sparse $>$@{Block$<$ Matrix\-Type, Block\-Rows, Block\-Cols, Packet\-Access, Is\-Sparse $>$}!m\-\_\-start\-Row@{m\-\_\-start\-Row}}
+\index{m\-\_\-start\-Row@{m\-\_\-start\-Row}!Block< MatrixType, BlockRows, BlockCols, PacketAccess, IsSparse >@{Block$<$ Matrix\-Type, Block\-Rows, Block\-Cols, Packet\-Access, Is\-Sparse $>$}}
+\subsubsection[{m\-\_\-start\-Row}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type , int Block\-Rows, int Block\-Cols, int Packet\-Access$>$ const ei\-\_\-int\-\_\-if\-\_\-dynamic$<$Matrix\-Type\-::\-Rows\-At\-Compile\-Time == 1 ? 0 \-: {\bf Dynamic}$>$ {\bf Block}$<$ Matrix\-Type, Block\-Rows, Block\-Cols, Packet\-Access, {\bf Is\-Sparse} $>$\-::m\-\_\-start\-Row\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_block_3_01_matrix_type_00_01_block_rows_00_01_block_cols_00_01_packet_access_00_01_is_sparse_01_4_abe05988121d3fe7a31b2634f25802976}
+
+
+Definition at line 446 of file Sparse\-Block.\-h.
+
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/eigen/\-Eigen/src/\-Sparse/\hyperlink{_sparse_block_8h}{Sparse\-Block.\-h}\end{DoxyCompactItemize}

@@ -1,0 +1,177 @@
+\hypertarget{class_qxt_m_d_n_s_private}{\section{Qxt\-M\-D\-N\-S\-Private Class Reference}
+\label{class_qxt_m_d_n_s_private}\index{Qxt\-M\-D\-N\-S\-Private@{Qxt\-M\-D\-N\-S\-Private}}
+}
+
+
+{\ttfamily \#include $<$qxtmdns\-\_\-avahi\-\_\-p.\-h$>$}
+
+Inheritance diagram for Qxt\-M\-D\-N\-S\-Private\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_qxt_m_d_n_s_private}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_qxt_m_d_n_s_private_ade8e8b00bf373f7dbbf53f29374238fc}{Qxt\-M\-D\-N\-S\-Private} ()
+\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qxt_m_d_n_s_private_a8e6cc77bb59d8b73361398713db013a4}{avahi\-Client\-Callback} (Avahi\-Client $\ast$\hyperlink{glext_8h_ad585a1393cfa368fa9dc3d8ebff640d5}{s}, Avahi\-Client\-State state, \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} $\ast$userdata)
+\item 
+static \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qxt_m_d_n_s_private_a0a47d63556ccf3b50ab6388d5f2b635a}{avahi\-Record\-Browser\-Callback} (Avahi\-Record\-Browser $\ast$\hyperlink{glext_8h_a6eba317e3cf44d6d26c04a5a8f197dcb}{b}, Avahi\-If\-Index interface, Avahi\-Protocol protocol, Avahi\-Browser\-Event event, const char $\ast$\hyperlink{glext_8h_ad977737dfc9a274a62741b9500c49a32}{name}, uint16\-\_\-t clazz, uint16\-\_\-t \hyperlink{glext_8h_a7d05960f4f1c1b11f3177dc963a45d86}{type}, const \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} $\ast$rdata, size\-\_\-t \hyperlink{glext_8h_a014d89bd76f74ef3a29c8f04b473eb76}{size}, Avahi\-Lookup\-Result\-Flags flags, \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} $\ast$userdata)
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+Q\-Host\-Info \hyperlink{class_qxt_m_d_n_s_private_a094d2f2bc58a87ba07e2afa43f91652f}{info}
+\item 
+\hyperlink{class_q_list}{Q\-List}$<$ Q\-Host\-Address $>$ \hyperlink{class_qxt_m_d_n_s_private_a75d9132bdaccbcf9c1e7a375941613bd}{addresses}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{Q\-String} \hyperlink{class_qxt_m_d_n_s_private_acf3fda20dc948af2f060c90a042dc545}{name}
+\item 
+Q\-Object $\ast$ \hyperlink{class_qxt_m_d_n_s_private_acfd639c9dc24a9f61a9ced21f723e5c9}{receiver}
+\item 
+Q\-Byte\-Array \hyperlink{class_qxt_m_d_n_s_private_a9bbde3018309b137822a25b740e1f8c8}{member}
+\item 
+Avahi\-Client $\ast$ \hyperlink{class_qxt_m_d_n_s_private_ab9f30eec80344cb5c8e162a2ca581af4}{client}
+\item 
+Avahi\-Record\-Browser $\ast$ \hyperlink{class_qxt_m_d_n_s_private_a5614d288f518b9f735c2653b4d910f98}{recordbrowser}
+\item 
+bool \hyperlink{class_qxt_m_d_n_s_private_aa1cffbdc147c9f9e15eb8b96b8845982}{sent}
+\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_qxt_m_d_n_s_private_ab2f6f2e09886b6cb9f2cd447fc90399a}{id}
+\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 36 of file qxtmdns\-\_\-avahi\-\_\-p.\-h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_qxt_m_d_n_s_private_ade8e8b00bf373f7dbbf53f29374238fc}{\index{Qxt\-M\-D\-N\-S\-Private@{Qxt\-M\-D\-N\-S\-Private}!Qxt\-M\-D\-N\-S\-Private@{Qxt\-M\-D\-N\-S\-Private}}
+\index{Qxt\-M\-D\-N\-S\-Private@{Qxt\-M\-D\-N\-S\-Private}!QxtMDNSPrivate@{Qxt\-M\-D\-N\-S\-Private}}
+\subsubsection[{Qxt\-M\-D\-N\-S\-Private}]{\setlength{\rightskip}{0pt plus 5cm}Qxt\-M\-D\-N\-S\-Private\-::\-Qxt\-M\-D\-N\-S\-Private (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_qxt_m_d_n_s_private_ade8e8b00bf373f7dbbf53f29374238fc}
+
+
+Definition at line 39 of file qxtmdns\-\_\-avahi\-\_\-p.\-h.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_qxt_m_d_n_s_private_a8e6cc77bb59d8b73361398713db013a4}{\index{Qxt\-M\-D\-N\-S\-Private@{Qxt\-M\-D\-N\-S\-Private}!avahi\-Client\-Callback@{avahi\-Client\-Callback}}
+\index{avahi\-Client\-Callback@{avahi\-Client\-Callback}!QxtMDNSPrivate@{Qxt\-M\-D\-N\-S\-Private}}
+\subsubsection[{avahi\-Client\-Callback}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qxt\-M\-D\-N\-S\-Private\-::avahi\-Client\-Callback (
+\begin{DoxyParamCaption}
+\item[{Avahi\-Client $\ast$}]{s, }
+\item[{Avahi\-Client\-State}]{state, }
+\item[{{\bf void} $\ast$}]{userdata}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{class_qxt_m_d_n_s_private_a8e6cc77bb59d8b73361398713db013a4}
+
+
+Definition at line 60 of file qxtmdns\-\_\-avahi.\-cpp.
+
+\hypertarget{class_qxt_m_d_n_s_private_a0a47d63556ccf3b50ab6388d5f2b635a}{\index{Qxt\-M\-D\-N\-S\-Private@{Qxt\-M\-D\-N\-S\-Private}!avahi\-Record\-Browser\-Callback@{avahi\-Record\-Browser\-Callback}}
+\index{avahi\-Record\-Browser\-Callback@{avahi\-Record\-Browser\-Callback}!QxtMDNSPrivate@{Qxt\-M\-D\-N\-S\-Private}}
+\subsubsection[{avahi\-Record\-Browser\-Callback}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qxt\-M\-D\-N\-S\-Private\-::avahi\-Record\-Browser\-Callback (
+\begin{DoxyParamCaption}
+\item[{Avahi\-Record\-Browser $\ast$}]{b, }
+\item[{Avahi\-If\-Index}]{interface, }
+\item[{Avahi\-Protocol}]{protocol, }
+\item[{Avahi\-Browser\-Event}]{event, }
+\item[{const char $\ast$}]{name, }
+\item[{uint16\-\_\-t}]{clazz, }
+\item[{uint16\-\_\-t}]{type, }
+\item[{const {\bf void} $\ast$}]{rdata, }
+\item[{size\-\_\-t}]{size, }
+\item[{Avahi\-Lookup\-Result\-Flags}]{flags, }
+\item[{{\bf void} $\ast$}]{userdata}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{class_qxt_m_d_n_s_private_a0a47d63556ccf3b50ab6388d5f2b635a}
+Support I\-Pv6 
+
+Definition at line 87 of file qxtmdns\-\_\-avahi.\-cpp.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{class_qxt_m_d_n_s_private_a75d9132bdaccbcf9c1e7a375941613bd}{\index{Qxt\-M\-D\-N\-S\-Private@{Qxt\-M\-D\-N\-S\-Private}!addresses@{addresses}}
+\index{addresses@{addresses}!QxtMDNSPrivate@{Qxt\-M\-D\-N\-S\-Private}}
+\subsubsection[{addresses}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Q\-List}$<$Q\-Host\-Address$>$ Qxt\-M\-D\-N\-S\-Private\-::addresses}}\label{class_qxt_m_d_n_s_private_a75d9132bdaccbcf9c1e7a375941613bd}
+
+
+Definition at line 47 of file qxtmdns\-\_\-avahi\-\_\-p.\-h.
+
+\hypertarget{class_qxt_m_d_n_s_private_ab9f30eec80344cb5c8e162a2ca581af4}{\index{Qxt\-M\-D\-N\-S\-Private@{Qxt\-M\-D\-N\-S\-Private}!client@{client}}
+\index{client@{client}!QxtMDNSPrivate@{Qxt\-M\-D\-N\-S\-Private}}
+\subsubsection[{client}]{\setlength{\rightskip}{0pt plus 5cm}Avahi\-Client$\ast$ Qxt\-M\-D\-N\-S\-Private\-::client}}\label{class_qxt_m_d_n_s_private_ab9f30eec80344cb5c8e162a2ca581af4}
+
+
+Definition at line 52 of file qxtmdns\-\_\-avahi\-\_\-p.\-h.
+
+\hypertarget{class_qxt_m_d_n_s_private_ab2f6f2e09886b6cb9f2cd447fc90399a}{\index{Qxt\-M\-D\-N\-S\-Private@{Qxt\-M\-D\-N\-S\-Private}!id@{id}}
+\index{id@{id}!QxtMDNSPrivate@{Qxt\-M\-D\-N\-S\-Private}}
+\subsubsection[{id}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int} Qxt\-M\-D\-N\-S\-Private\-::id}}\label{class_qxt_m_d_n_s_private_ab2f6f2e09886b6cb9f2cd447fc90399a}
+
+
+Definition at line 55 of file qxtmdns\-\_\-avahi\-\_\-p.\-h.
+
+\hypertarget{class_qxt_m_d_n_s_private_a094d2f2bc58a87ba07e2afa43f91652f}{\index{Qxt\-M\-D\-N\-S\-Private@{Qxt\-M\-D\-N\-S\-Private}!info@{info}}
+\index{info@{info}!QxtMDNSPrivate@{Qxt\-M\-D\-N\-S\-Private}}
+\subsubsection[{info}]{\setlength{\rightskip}{0pt plus 5cm}Q\-Host\-Info Qxt\-M\-D\-N\-S\-Private\-::info}}\label{class_qxt_m_d_n_s_private_a094d2f2bc58a87ba07e2afa43f91652f}
+
+
+Definition at line 46 of file qxtmdns\-\_\-avahi\-\_\-p.\-h.
+
+\hypertarget{class_qxt_m_d_n_s_private_a9bbde3018309b137822a25b740e1f8c8}{\index{Qxt\-M\-D\-N\-S\-Private@{Qxt\-M\-D\-N\-S\-Private}!member@{member}}
+\index{member@{member}!QxtMDNSPrivate@{Qxt\-M\-D\-N\-S\-Private}}
+\subsubsection[{member}]{\setlength{\rightskip}{0pt plus 5cm}Q\-Byte\-Array Qxt\-M\-D\-N\-S\-Private\-::member}}\label{class_qxt_m_d_n_s_private_a9bbde3018309b137822a25b740e1f8c8}
+
+
+Definition at line 51 of file qxtmdns\-\_\-avahi\-\_\-p.\-h.
+
+\hypertarget{class_qxt_m_d_n_s_private_acf3fda20dc948af2f060c90a042dc545}{\index{Qxt\-M\-D\-N\-S\-Private@{Qxt\-M\-D\-N\-S\-Private}!name@{name}}
+\index{name@{name}!QxtMDNSPrivate@{Qxt\-M\-D\-N\-S\-Private}}
+\subsubsection[{name}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Q\-String} Qxt\-M\-D\-N\-S\-Private\-::name}}\label{class_qxt_m_d_n_s_private_acf3fda20dc948af2f060c90a042dc545}
+
+
+Definition at line 49 of file qxtmdns\-\_\-avahi\-\_\-p.\-h.
+
+\hypertarget{class_qxt_m_d_n_s_private_acfd639c9dc24a9f61a9ced21f723e5c9}{\index{Qxt\-M\-D\-N\-S\-Private@{Qxt\-M\-D\-N\-S\-Private}!receiver@{receiver}}
+\index{receiver@{receiver}!QxtMDNSPrivate@{Qxt\-M\-D\-N\-S\-Private}}
+\subsubsection[{receiver}]{\setlength{\rightskip}{0pt plus 5cm}Q\-Object$\ast$ Qxt\-M\-D\-N\-S\-Private\-::receiver}}\label{class_qxt_m_d_n_s_private_acfd639c9dc24a9f61a9ced21f723e5c9}
+
+
+Definition at line 50 of file qxtmdns\-\_\-avahi\-\_\-p.\-h.
+
+\hypertarget{class_qxt_m_d_n_s_private_a5614d288f518b9f735c2653b4d910f98}{\index{Qxt\-M\-D\-N\-S\-Private@{Qxt\-M\-D\-N\-S\-Private}!recordbrowser@{recordbrowser}}
+\index{recordbrowser@{recordbrowser}!QxtMDNSPrivate@{Qxt\-M\-D\-N\-S\-Private}}
+\subsubsection[{recordbrowser}]{\setlength{\rightskip}{0pt plus 5cm}Avahi\-Record\-Browser$\ast$ Qxt\-M\-D\-N\-S\-Private\-::recordbrowser}}\label{class_qxt_m_d_n_s_private_a5614d288f518b9f735c2653b4d910f98}
+
+
+Definition at line 53 of file qxtmdns\-\_\-avahi\-\_\-p.\-h.
+
+\hypertarget{class_qxt_m_d_n_s_private_aa1cffbdc147c9f9e15eb8b96b8845982}{\index{Qxt\-M\-D\-N\-S\-Private@{Qxt\-M\-D\-N\-S\-Private}!sent@{sent}}
+\index{sent@{sent}!QxtMDNSPrivate@{Qxt\-M\-D\-N\-S\-Private}}
+\subsubsection[{sent}]{\setlength{\rightskip}{0pt plus 5cm}bool Qxt\-M\-D\-N\-S\-Private\-::sent}}\label{class_qxt_m_d_n_s_private_aa1cffbdc147c9f9e15eb8b96b8845982}
+
+
+Definition at line 54 of file qxtmdns\-\_\-avahi\-\_\-p.\-h.
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/libqxt/src/zeroconf/\hyperlink{qxtmdns__avahi__p_8h}{qxtmdns\-\_\-avahi\-\_\-p.\-h}\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/libqxt/src/zeroconf/\hyperlink{qxtmdns__avahi_8cpp}{qxtmdns\-\_\-avahi.\-cpp}\end{DoxyCompactItemize}

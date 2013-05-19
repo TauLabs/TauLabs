@@ -1,0 +1,200 @@
+\hypertarget{class_sparse_matrix_1_1_inner_iterator}{\section{Sparse\-Matrix$<$ \-\_\-\-Scalar, \-\_\-\-Flags $>$\-:\-:Inner\-Iterator Class Reference}
+\label{class_sparse_matrix_1_1_inner_iterator}\index{Sparse\-Matrix$<$ \-\_\-\-Scalar, \-\_\-\-Flags $>$\-::\-Inner\-Iterator@{Sparse\-Matrix$<$ \-\_\-\-Scalar, \-\_\-\-Flags $>$\-::\-Inner\-Iterator}}
+}
+
+
+{\ttfamily \#include $<$Sparse\-Matrix.\-h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_sparse_matrix_1_1_inner_iterator_a17d46297e038b9ec586d19691acdfbfc}{Inner\-Iterator} (const \hyperlink{class_sparse_matrix}{Sparse\-Matrix} \&\hyperlink{uavobjecttemplate_8m_a16a51e808b16c46bbfd36da2e37cd123}{mat}, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} outer)
+\item 
+{\footnotesize template$<$unsigned int Added, unsigned int Removed$>$ }\\\hyperlink{class_sparse_matrix_1_1_inner_iterator_a15daabe1833b34570420fa92ba33ef6c}{Inner\-Iterator} (const \hyperlink{class_flagged}{Flagged}$<$ \hyperlink{class_sparse_matrix}{Sparse\-Matrix}, Added, Removed $>$ \&\hyperlink{uavobjecttemplate_8m_a16a51e808b16c46bbfd36da2e37cd123}{mat}, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} outer)
+\item 
+\hyperlink{class_sparse_matrix_1_1_inner_iterator}{Inner\-Iterator} \& \hyperlink{class_sparse_matrix_1_1_inner_iterator_aa5b23a73432afc4b61cc89521793e516}{operator++} ()
+\item 
+\hyperlink{class_sparse_matrix_base_af39d70f2b7e775e9e17b666cd24128c8}{Scalar} \hyperlink{class_sparse_matrix_1_1_inner_iterator_a95b8f199da2962ce75be20ee8e9358bc}{value} () const 
+\item 
+\hyperlink{class_sparse_matrix_base_af39d70f2b7e775e9e17b666cd24128c8}{Scalar} \& \hyperlink{class_sparse_matrix_1_1_inner_iterator_a746bab482d56839f89536dad351ed559}{value\-Ref} ()
+\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_sparse_matrix_1_1_inner_iterator_aa3015698b1a51a57e9b43182e997a8df}{index} () const 
+\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_sparse_matrix_1_1_inner_iterator_a79e77799f1d0fea21df7326588d7b94e}{row} () const 
+\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_sparse_matrix_1_1_inner_iterator_a299a2cd6c66e3e13e165accba57a3f0e}{col} () const 
+\item 
+\hyperlink{class_sparse_matrix_1_1_inner_iterator_aa0873415bd36fdc155ce07d6341de288}{operator bool} () const 
+\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+const \hyperlink{class_sparse_matrix}{Sparse\-Matrix} \& \hyperlink{class_sparse_matrix_1_1_inner_iterator_abdfdb78265864b419133fbb24a293c01}{m\-\_\-matrix}
+\item 
+const \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_sparse_matrix_1_1_inner_iterator_aa6bee154b1f23cd7510a459c3bc33c9c}{m\-\_\-outer}
+\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_sparse_matrix_1_1_inner_iterator_a715fcceba7bd2cddd4a09572a81f6a3d}{m\-\_\-id}
+\item 
+const \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_sparse_matrix_1_1_inner_iterator_ab921abc4c659845a3e19479047ab56c0}{m\-\_\-start}
+\item 
+const \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_sparse_matrix_1_1_inner_iterator_a5ddf9c88f723aeaa34b3e376e05ff0e7}{m\-\_\-end}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$typename \-\_\-\-Scalar, int \-\_\-\-Flags$>$class Sparse\-Matrix$<$ \-\_\-\-Scalar, \-\_\-\-Flags $>$\-::\-Inner\-Iterator}
+
+
+
+Definition at line 417 of file Sparse\-Matrix.\-h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_sparse_matrix_1_1_inner_iterator_a17d46297e038b9ec586d19691acdfbfc}{\index{Sparse\-Matrix\-::\-Inner\-Iterator@{Sparse\-Matrix\-::\-Inner\-Iterator}!Inner\-Iterator@{Inner\-Iterator}}
+\index{Inner\-Iterator@{Inner\-Iterator}!SparseMatrix::InnerIterator@{Sparse\-Matrix\-::\-Inner\-Iterator}}
+\subsubsection[{Inner\-Iterator}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar, int \-\_\-\-Flags$>$ {\bf Sparse\-Matrix}$<$ \-\_\-\-Scalar, \-\_\-\-Flags $>$\-::Inner\-Iterator\-::\-Inner\-Iterator (
+\begin{DoxyParamCaption}
+\item[{const {\bf Sparse\-Matrix} \&}]{mat, }
+\item[{{\bf int}}]{outer}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_sparse_matrix_1_1_inner_iterator_a17d46297e038b9ec586d19691acdfbfc}
+
+
+Definition at line 420 of file Sparse\-Matrix.\-h.
+
+\hypertarget{class_sparse_matrix_1_1_inner_iterator_a15daabe1833b34570420fa92ba33ef6c}{\index{Sparse\-Matrix\-::\-Inner\-Iterator@{Sparse\-Matrix\-::\-Inner\-Iterator}!Inner\-Iterator@{Inner\-Iterator}}
+\index{Inner\-Iterator@{Inner\-Iterator}!SparseMatrix::InnerIterator@{Sparse\-Matrix\-::\-Inner\-Iterator}}
+\subsubsection[{Inner\-Iterator}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar, int \-\_\-\-Flags$>$ template$<$unsigned int Added, unsigned int Removed$>$ {\bf Sparse\-Matrix}$<$ \-\_\-\-Scalar, \-\_\-\-Flags $>$\-::Inner\-Iterator\-::\-Inner\-Iterator (
+\begin{DoxyParamCaption}
+\item[{const {\bf Flagged}$<$ {\bf Sparse\-Matrix}, Added, Removed $>$ \&}]{mat, }
+\item[{{\bf int}}]{outer}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_sparse_matrix_1_1_inner_iterator_a15daabe1833b34570420fa92ba33ef6c}
+
+
+Definition at line 425 of file Sparse\-Matrix.\-h.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_sparse_matrix_1_1_inner_iterator_a299a2cd6c66e3e13e165accba57a3f0e}{\index{Sparse\-Matrix\-::\-Inner\-Iterator@{Sparse\-Matrix\-::\-Inner\-Iterator}!col@{col}}
+\index{col@{col}!SparseMatrix::InnerIterator@{Sparse\-Matrix\-::\-Inner\-Iterator}}
+\subsubsection[{col}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar, int \-\_\-\-Flags$>$ {\bf int} {\bf Sparse\-Matrix}$<$ \-\_\-\-Scalar, \-\_\-\-Flags $>$\-::Inner\-Iterator\-::col (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_sparse_matrix_1_1_inner_iterator_a299a2cd6c66e3e13e165accba57a3f0e}
+
+
+Definition at line 437 of file Sparse\-Matrix.\-h.
+
+\hypertarget{class_sparse_matrix_1_1_inner_iterator_aa3015698b1a51a57e9b43182e997a8df}{\index{Sparse\-Matrix\-::\-Inner\-Iterator@{Sparse\-Matrix\-::\-Inner\-Iterator}!index@{index}}
+\index{index@{index}!SparseMatrix::InnerIterator@{Sparse\-Matrix\-::\-Inner\-Iterator}}
+\subsubsection[{index}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar, int \-\_\-\-Flags$>$ {\bf int} {\bf Sparse\-Matrix}$<$ \-\_\-\-Scalar, \-\_\-\-Flags $>$\-::Inner\-Iterator\-::index (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_sparse_matrix_1_1_inner_iterator_aa3015698b1a51a57e9b43182e997a8df}
+
+
+Definition at line 435 of file Sparse\-Matrix.\-h.
+
+\hypertarget{class_sparse_matrix_1_1_inner_iterator_aa0873415bd36fdc155ce07d6341de288}{\index{Sparse\-Matrix\-::\-Inner\-Iterator@{Sparse\-Matrix\-::\-Inner\-Iterator}!operator bool@{operator bool}}
+\index{operator bool@{operator bool}!SparseMatrix::InnerIterator@{Sparse\-Matrix\-::\-Inner\-Iterator}}
+\subsubsection[{operator bool}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar, int \-\_\-\-Flags$>$ {\bf Sparse\-Matrix}$<$ \-\_\-\-Scalar, \-\_\-\-Flags $>$\-::Inner\-Iterator\-::operator bool (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_sparse_matrix_1_1_inner_iterator_aa0873415bd36fdc155ce07d6341de288}
+
+
+Definition at line 439 of file Sparse\-Matrix.\-h.
+
+\hypertarget{class_sparse_matrix_1_1_inner_iterator_aa5b23a73432afc4b61cc89521793e516}{\index{Sparse\-Matrix\-::\-Inner\-Iterator@{Sparse\-Matrix\-::\-Inner\-Iterator}!operator++@{operator++}}
+\index{operator++@{operator++}!SparseMatrix::InnerIterator@{Sparse\-Matrix\-::\-Inner\-Iterator}}
+\subsubsection[{operator++}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar, int \-\_\-\-Flags$>$ {\bf Inner\-Iterator}\& {\bf Sparse\-Matrix}$<$ \-\_\-\-Scalar, \-\_\-\-Flags $>$\-::Inner\-Iterator\-::operator++ (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_sparse_matrix_1_1_inner_iterator_aa5b23a73432afc4b61cc89521793e516}
+
+
+Definition at line 430 of file Sparse\-Matrix.\-h.
+
+\hypertarget{class_sparse_matrix_1_1_inner_iterator_a79e77799f1d0fea21df7326588d7b94e}{\index{Sparse\-Matrix\-::\-Inner\-Iterator@{Sparse\-Matrix\-::\-Inner\-Iterator}!row@{row}}
+\index{row@{row}!SparseMatrix::InnerIterator@{Sparse\-Matrix\-::\-Inner\-Iterator}}
+\subsubsection[{row}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar, int \-\_\-\-Flags$>$ {\bf int} {\bf Sparse\-Matrix}$<$ \-\_\-\-Scalar, \-\_\-\-Flags $>$\-::Inner\-Iterator\-::row (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_sparse_matrix_1_1_inner_iterator_a79e77799f1d0fea21df7326588d7b94e}
+
+
+Definition at line 436 of file Sparse\-Matrix.\-h.
+
+\hypertarget{class_sparse_matrix_1_1_inner_iterator_a95b8f199da2962ce75be20ee8e9358bc}{\index{Sparse\-Matrix\-::\-Inner\-Iterator@{Sparse\-Matrix\-::\-Inner\-Iterator}!value@{value}}
+\index{value@{value}!SparseMatrix::InnerIterator@{Sparse\-Matrix\-::\-Inner\-Iterator}}
+\subsubsection[{value}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar, int \-\_\-\-Flags$>$ {\bf Scalar} {\bf Sparse\-Matrix}$<$ \-\_\-\-Scalar, \-\_\-\-Flags $>$\-::Inner\-Iterator\-::value (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_sparse_matrix_1_1_inner_iterator_a95b8f199da2962ce75be20ee8e9358bc}
+
+
+Definition at line 432 of file Sparse\-Matrix.\-h.
+
+\hypertarget{class_sparse_matrix_1_1_inner_iterator_a746bab482d56839f89536dad351ed559}{\index{Sparse\-Matrix\-::\-Inner\-Iterator@{Sparse\-Matrix\-::\-Inner\-Iterator}!value\-Ref@{value\-Ref}}
+\index{value\-Ref@{value\-Ref}!SparseMatrix::InnerIterator@{Sparse\-Matrix\-::\-Inner\-Iterator}}
+\subsubsection[{value\-Ref}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar, int \-\_\-\-Flags$>$ {\bf Scalar}\& {\bf Sparse\-Matrix}$<$ \-\_\-\-Scalar, \-\_\-\-Flags $>$\-::Inner\-Iterator\-::value\-Ref (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_sparse_matrix_1_1_inner_iterator_a746bab482d56839f89536dad351ed559}
+
+
+Definition at line 433 of file Sparse\-Matrix.\-h.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{class_sparse_matrix_1_1_inner_iterator_a5ddf9c88f723aeaa34b3e376e05ff0e7}{\index{Sparse\-Matrix\-::\-Inner\-Iterator@{Sparse\-Matrix\-::\-Inner\-Iterator}!m\-\_\-end@{m\-\_\-end}}
+\index{m\-\_\-end@{m\-\_\-end}!SparseMatrix::InnerIterator@{Sparse\-Matrix\-::\-Inner\-Iterator}}
+\subsubsection[{m\-\_\-end}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar, int \-\_\-\-Flags$>$ const {\bf int} {\bf Sparse\-Matrix}$<$ \-\_\-\-Scalar, \-\_\-\-Flags $>$\-::Inner\-Iterator\-::m\-\_\-end\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_sparse_matrix_1_1_inner_iterator_a5ddf9c88f723aeaa34b3e376e05ff0e7}
+
+
+Definition at line 446 of file Sparse\-Matrix.\-h.
+
+\hypertarget{class_sparse_matrix_1_1_inner_iterator_a715fcceba7bd2cddd4a09572a81f6a3d}{\index{Sparse\-Matrix\-::\-Inner\-Iterator@{Sparse\-Matrix\-::\-Inner\-Iterator}!m\-\_\-id@{m\-\_\-id}}
+\index{m\-\_\-id@{m\-\_\-id}!SparseMatrix::InnerIterator@{Sparse\-Matrix\-::\-Inner\-Iterator}}
+\subsubsection[{m\-\_\-id}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar, int \-\_\-\-Flags$>$ {\bf int} {\bf Sparse\-Matrix}$<$ \-\_\-\-Scalar, \-\_\-\-Flags $>$\-::Inner\-Iterator\-::m\-\_\-id\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_sparse_matrix_1_1_inner_iterator_a715fcceba7bd2cddd4a09572a81f6a3d}
+
+
+Definition at line 444 of file Sparse\-Matrix.\-h.
+
+\hypertarget{class_sparse_matrix_1_1_inner_iterator_abdfdb78265864b419133fbb24a293c01}{\index{Sparse\-Matrix\-::\-Inner\-Iterator@{Sparse\-Matrix\-::\-Inner\-Iterator}!m\-\_\-matrix@{m\-\_\-matrix}}
+\index{m\-\_\-matrix@{m\-\_\-matrix}!SparseMatrix::InnerIterator@{Sparse\-Matrix\-::\-Inner\-Iterator}}
+\subsubsection[{m\-\_\-matrix}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar, int \-\_\-\-Flags$>$ const {\bf Sparse\-Matrix}\& {\bf Sparse\-Matrix}$<$ \-\_\-\-Scalar, \-\_\-\-Flags $>$\-::Inner\-Iterator\-::m\-\_\-matrix\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_sparse_matrix_1_1_inner_iterator_abdfdb78265864b419133fbb24a293c01}
+
+
+Definition at line 442 of file Sparse\-Matrix.\-h.
+
+\hypertarget{class_sparse_matrix_1_1_inner_iterator_aa6bee154b1f23cd7510a459c3bc33c9c}{\index{Sparse\-Matrix\-::\-Inner\-Iterator@{Sparse\-Matrix\-::\-Inner\-Iterator}!m\-\_\-outer@{m\-\_\-outer}}
+\index{m\-\_\-outer@{m\-\_\-outer}!SparseMatrix::InnerIterator@{Sparse\-Matrix\-::\-Inner\-Iterator}}
+\subsubsection[{m\-\_\-outer}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar, int \-\_\-\-Flags$>$ const {\bf int} {\bf Sparse\-Matrix}$<$ \-\_\-\-Scalar, \-\_\-\-Flags $>$\-::Inner\-Iterator\-::m\-\_\-outer\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_sparse_matrix_1_1_inner_iterator_aa6bee154b1f23cd7510a459c3bc33c9c}
+
+
+Definition at line 443 of file Sparse\-Matrix.\-h.
+
+\hypertarget{class_sparse_matrix_1_1_inner_iterator_ab921abc4c659845a3e19479047ab56c0}{\index{Sparse\-Matrix\-::\-Inner\-Iterator@{Sparse\-Matrix\-::\-Inner\-Iterator}!m\-\_\-start@{m\-\_\-start}}
+\index{m\-\_\-start@{m\-\_\-start}!SparseMatrix::InnerIterator@{Sparse\-Matrix\-::\-Inner\-Iterator}}
+\subsubsection[{m\-\_\-start}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar, int \-\_\-\-Flags$>$ const {\bf int} {\bf Sparse\-Matrix}$<$ \-\_\-\-Scalar, \-\_\-\-Flags $>$\-::Inner\-Iterator\-::m\-\_\-start\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_sparse_matrix_1_1_inner_iterator_ab921abc4c659845a3e19479047ab56c0}
+
+
+Definition at line 445 of file Sparse\-Matrix.\-h.
+
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/eigen/\-Eigen/src/\-Sparse/\hyperlink{_sparse_matrix_8h}{Sparse\-Matrix.\-h}\end{DoxyCompactItemize}

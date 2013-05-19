@@ -1,0 +1,136 @@
+\hypertarget{structei__traits_3_01_partial_redux_expr_3_01_matrix_type_00_01_member_op_00_01_direction_01_4_01_4}{\section{ei\-\_\-traits$<$ Partial\-Redux\-Expr$<$ Matrix\-Type, Member\-Op, Direction $>$ $>$ Struct Template Reference}
+\label{structei__traits_3_01_partial_redux_expr_3_01_matrix_type_00_01_member_op_00_01_direction_01_4_01_4}\index{ei\-\_\-traits$<$ Partial\-Redux\-Expr$<$ Matrix\-Type, Member\-Op, Direction $>$ $>$@{ei\-\_\-traits$<$ Partial\-Redux\-Expr$<$ Matrix\-Type, Member\-Op, Direction $>$ $>$}}
+}
+
+
+{\ttfamily \#include $<$Partial\-Redux.\-h$>$}
+
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+enum \{ \\*
+\hyperlink{structei__traits_3_01_partial_redux_expr_3_01_matrix_type_00_01_member_op_00_01_direction_01_4_01_4_aba326fa0834fe1b68621481b483a1f4faac90526d6810c7480170b59065bbd525}{Rows\-At\-Compile\-Time} = Direction==Vertical ? 1 \-: Matrix\-Type\-:\-:Rows\-At\-Compile\-Time, 
+\hyperlink{structei__traits_3_01_partial_redux_expr_3_01_matrix_type_00_01_member_op_00_01_direction_01_4_01_4_aba326fa0834fe1b68621481b483a1f4fafc3af15224894cca47aa97c6d16af456}{Cols\-At\-Compile\-Time} = Direction==Horizontal ? 1 \-: Matrix\-Type\-:\-:Cols\-At\-Compile\-Time, 
+\hyperlink{structei__traits_3_01_partial_redux_expr_3_01_matrix_type_00_01_member_op_00_01_direction_01_4_01_4_aba326fa0834fe1b68621481b483a1f4faa34bcec427541066742499e986d623ff}{Max\-Rows\-At\-Compile\-Time} = Direction==Vertical ? 1 \-: Matrix\-Type\-:\-:Max\-Rows\-At\-Compile\-Time, 
+\hyperlink{structei__traits_3_01_partial_redux_expr_3_01_matrix_type_00_01_member_op_00_01_direction_01_4_01_4_aba326fa0834fe1b68621481b483a1f4faeda8733ec3ce47b57d832f92e5e828de}{Max\-Cols\-At\-Compile\-Time} = Direction==Horizontal ? 1 \-: Matrix\-Type\-:\-:Max\-Cols\-At\-Compile\-Time, 
+\\*
+\hyperlink{structei__traits_3_01_partial_redux_expr_3_01_matrix_type_00_01_member_op_00_01_direction_01_4_01_4_aba326fa0834fe1b68621481b483a1f4fafb86d8bd9f318774cf36f2a976b43375}{Flags} = (unsigned int)\-\_\-\-Matrix\-Type\-Nested\-:\-:Flags \& Hereditary\-Bits, 
+\hyperlink{structei__traits_3_01_partial_redux_expr_3_01_matrix_type_00_01_member_op_00_01_direction_01_4_01_4_aba326fa0834fe1b68621481b483a1f4fa6521b6cf1fb9f5a558de46235b67540b}{Traversal\-Size} = Direction==Vertical ? Rows\-At\-Compile\-Time \-: Cols\-At\-Compile\-Time
+ \}
+\item 
+enum \{ \hyperlink{structei__traits_3_01_partial_redux_expr_3_01_matrix_type_00_01_member_op_00_01_direction_01_4_01_4_a9e8b4a07820fe92849ed6fb867d0c2c0ae026055727bda4e3065b725fe35eafe6}{Coeff\-Read\-Cost} = Traversal\-Size $\ast$ ei\-\_\-traits$<$\-\_\-\-Matrix\-Type\-Nested$>$\-:\-:Coeff\-Read\-Cost + int(Cost\-Op\-Type\-:\-:value)
+ \}
+\item 
+typedef Member\-Op\-::result\-\_\-type \hyperlink{structei__traits_3_01_partial_redux_expr_3_01_matrix_type_00_01_member_op_00_01_direction_01_4_01_4_a283ef4c36b09a8e93ae1b83386792f8f}{Scalar}
+\item 
+typedef Matrix\-Type\-::\-Scalar \hyperlink{structei__traits_3_01_partial_redux_expr_3_01_matrix_type_00_01_member_op_00_01_direction_01_4_01_4_a8397852e5119754c311a9260900296b9}{Input\-Scalar}
+\item 
+typedef \hyperlink{structei__nested}{ei\-\_\-nested}$<$ Matrix\-Type $>$\\*
+\-::\hyperlink{glext_8h_a7d05960f4f1c1b11f3177dc963a45d86}{type} \hyperlink{structei__traits_3_01_partial_redux_expr_3_01_matrix_type_00_01_member_op_00_01_direction_01_4_01_4_ab9457c4a06b40274691c6ce7cf6b5987}{Matrix\-Type\-Nested}
+\item 
+typedef \hyperlink{structei__cleantype}{ei\-\_\-cleantype}\\*
+$<$ \hyperlink{structei__traits_3_01_partial_redux_expr_3_01_matrix_type_00_01_member_op_00_01_direction_01_4_01_4_ab9457c4a06b40274691c6ce7cf6b5987}{Matrix\-Type\-Nested} $>$\-::\hyperlink{glext_8h_a7d05960f4f1c1b11f3177dc963a45d86}{type} \hyperlink{structei__traits_3_01_partial_redux_expr_3_01_matrix_type_00_01_member_op_00_01_direction_01_4_01_4_ac762a6a484f857cb532f8b1aa615e5a5}{\-\_\-\-Matrix\-Type\-Nested}
+\item 
+typedef Member\-Op\-::template \\*
+Cost$<$ \hyperlink{structei__traits_3_01_partial_redux_expr_3_01_matrix_type_00_01_member_op_00_01_direction_01_4_01_4_a8397852e5119754c311a9260900296b9}{Input\-Scalar}, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int}(\hyperlink{structei__traits_3_01_partial_redux_expr_3_01_matrix_type_00_01_member_op_00_01_direction_01_4_01_4_aba326fa0834fe1b68621481b483a1f4fa6521b6cf1fb9f5a558de46235b67540b}{Traversal\-Size})$>$ \hyperlink{structei__traits_3_01_partial_redux_expr_3_01_matrix_type_00_01_member_op_00_01_direction_01_4_01_4_a741a0eacb4a72c3a935e08ad0a8e371d}{Cost\-Op\-Type}
+\item 
+typedef Member\-Op\-::template \\*
+Cost$<$ \hyperlink{structei__traits_3_01_partial_redux_expr_3_01_matrix_type_00_01_member_op_00_01_direction_01_4_01_4_a8397852e5119754c311a9260900296b9}{Input\-Scalar}, \\*
+\hyperlink{structei__traits_3_01_partial_redux_expr_3_01_matrix_type_00_01_member_op_00_01_direction_01_4_01_4_aba326fa0834fe1b68621481b483a1f4fa6521b6cf1fb9f5a558de46235b67540b}{Traversal\-Size} $>$ \hyperlink{structei__traits_3_01_partial_redux_expr_3_01_matrix_type_00_01_member_op_00_01_direction_01_4_01_4_aca9283e9f04a0eec6aab1ac88dc9bf25}{Cost\-Op\-Type}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$typename Matrix\-Type, typename Member\-Op, int Direction$>$struct ei\-\_\-traits$<$ Partial\-Redux\-Expr$<$ Matrix\-Type, Member\-Op, Direction $>$ $>$}
+
+
+
+Definition at line 50 of file Partial\-Redux.\-h.
+
+
+
+\subsection{Member Typedef Documentation}
+\hypertarget{structei__traits_3_01_partial_redux_expr_3_01_matrix_type_00_01_member_op_00_01_direction_01_4_01_4_ac762a6a484f857cb532f8b1aa615e5a5}{\index{ei\-\_\-traits$<$ Partial\-Redux\-Expr$<$ Matrix\-Type, Member\-Op, Direction $>$ $>$@{ei\-\_\-traits$<$ Partial\-Redux\-Expr$<$ Matrix\-Type, Member\-Op, Direction $>$ $>$}!\-\_\-\-Matrix\-Type\-Nested@{\-\_\-\-Matrix\-Type\-Nested}}
+\index{\-\_\-\-Matrix\-Type\-Nested@{\-\_\-\-Matrix\-Type\-Nested}!ei_traits< PartialReduxExpr< MatrixType, MemberOp, Direction > >@{ei\-\_\-traits$<$ Partial\-Redux\-Expr$<$ Matrix\-Type, Member\-Op, Direction $>$ $>$}}
+\subsubsection[{\-\_\-\-Matrix\-Type\-Nested}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type , typename Member\-Op , int Direction$>$ typedef {\bf ei\-\_\-cleantype}$<${\bf Matrix\-Type\-Nested}$>$\-::{\bf type} {\bf ei\-\_\-traits}$<$ {\bf Partial\-Redux\-Expr}$<$ Matrix\-Type, Member\-Op, Direction $>$ $>$\-::{\bf \-\_\-\-Matrix\-Type\-Nested}}}\label{structei__traits_3_01_partial_redux_expr_3_01_matrix_type_00_01_member_op_00_01_direction_01_4_01_4_ac762a6a484f857cb532f8b1aa615e5a5}
+
+
+Definition at line 55 of file Partial\-Redux.\-h.
+
+\hypertarget{structei__traits_3_01_partial_redux_expr_3_01_matrix_type_00_01_member_op_00_01_direction_01_4_01_4_a741a0eacb4a72c3a935e08ad0a8e371d}{\index{ei\-\_\-traits$<$ Partial\-Redux\-Expr$<$ Matrix\-Type, Member\-Op, Direction $>$ $>$@{ei\-\_\-traits$<$ Partial\-Redux\-Expr$<$ Matrix\-Type, Member\-Op, Direction $>$ $>$}!Cost\-Op\-Type@{Cost\-Op\-Type}}
+\index{Cost\-Op\-Type@{Cost\-Op\-Type}!ei_traits< PartialReduxExpr< MatrixType, MemberOp, Direction > >@{ei\-\_\-traits$<$ Partial\-Redux\-Expr$<$ Matrix\-Type, Member\-Op, Direction $>$ $>$}}
+\subsubsection[{Cost\-Op\-Type}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type , typename Member\-Op , int Direction$>$ typedef Member\-Op\-::template Cost$<${\bf Input\-Scalar},{\bf int}({\bf Traversal\-Size})$>$ {\bf ei\-\_\-traits}$<$ {\bf Partial\-Redux\-Expr}$<$ Matrix\-Type, Member\-Op, Direction $>$ $>$\-::{\bf Cost\-Op\-Type}}}\label{structei__traits_3_01_partial_redux_expr_3_01_matrix_type_00_01_member_op_00_01_direction_01_4_01_4_a741a0eacb4a72c3a935e08ad0a8e371d}
+
+
+Definition at line 65 of file Partial\-Redux.\-h.
+
+\hypertarget{structei__traits_3_01_partial_redux_expr_3_01_matrix_type_00_01_member_op_00_01_direction_01_4_01_4_aca9283e9f04a0eec6aab1ac88dc9bf25}{\index{ei\-\_\-traits$<$ Partial\-Redux\-Expr$<$ Matrix\-Type, Member\-Op, Direction $>$ $>$@{ei\-\_\-traits$<$ Partial\-Redux\-Expr$<$ Matrix\-Type, Member\-Op, Direction $>$ $>$}!Cost\-Op\-Type@{Cost\-Op\-Type}}
+\index{Cost\-Op\-Type@{Cost\-Op\-Type}!ei_traits< PartialReduxExpr< MatrixType, MemberOp, Direction > >@{ei\-\_\-traits$<$ Partial\-Redux\-Expr$<$ Matrix\-Type, Member\-Op, Direction $>$ $>$}}
+\subsubsection[{Cost\-Op\-Type}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type , typename Member\-Op , int Direction$>$ typedef Member\-Op\-::template Cost$<${\bf Input\-Scalar},{\bf Traversal\-Size}$>$ {\bf ei\-\_\-traits}$<$ {\bf Partial\-Redux\-Expr}$<$ Matrix\-Type, Member\-Op, Direction $>$ $>$\-::{\bf Cost\-Op\-Type}}}\label{structei__traits_3_01_partial_redux_expr_3_01_matrix_type_00_01_member_op_00_01_direction_01_4_01_4_aca9283e9f04a0eec6aab1ac88dc9bf25}
+
+
+Definition at line 67 of file Partial\-Redux.\-h.
+
+\hypertarget{structei__traits_3_01_partial_redux_expr_3_01_matrix_type_00_01_member_op_00_01_direction_01_4_01_4_a8397852e5119754c311a9260900296b9}{\index{ei\-\_\-traits$<$ Partial\-Redux\-Expr$<$ Matrix\-Type, Member\-Op, Direction $>$ $>$@{ei\-\_\-traits$<$ Partial\-Redux\-Expr$<$ Matrix\-Type, Member\-Op, Direction $>$ $>$}!Input\-Scalar@{Input\-Scalar}}
+\index{Input\-Scalar@{Input\-Scalar}!ei_traits< PartialReduxExpr< MatrixType, MemberOp, Direction > >@{ei\-\_\-traits$<$ Partial\-Redux\-Expr$<$ Matrix\-Type, Member\-Op, Direction $>$ $>$}}
+\subsubsection[{Input\-Scalar}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type , typename Member\-Op , int Direction$>$ typedef Matrix\-Type\-::\-Scalar {\bf ei\-\_\-traits}$<$ {\bf Partial\-Redux\-Expr}$<$ Matrix\-Type, Member\-Op, Direction $>$ $>$\-::{\bf Input\-Scalar}}}\label{structei__traits_3_01_partial_redux_expr_3_01_matrix_type_00_01_member_op_00_01_direction_01_4_01_4_a8397852e5119754c311a9260900296b9}
+
+
+Definition at line 53 of file Partial\-Redux.\-h.
+
+\hypertarget{structei__traits_3_01_partial_redux_expr_3_01_matrix_type_00_01_member_op_00_01_direction_01_4_01_4_ab9457c4a06b40274691c6ce7cf6b5987}{\index{ei\-\_\-traits$<$ Partial\-Redux\-Expr$<$ Matrix\-Type, Member\-Op, Direction $>$ $>$@{ei\-\_\-traits$<$ Partial\-Redux\-Expr$<$ Matrix\-Type, Member\-Op, Direction $>$ $>$}!Matrix\-Type\-Nested@{Matrix\-Type\-Nested}}
+\index{Matrix\-Type\-Nested@{Matrix\-Type\-Nested}!ei_traits< PartialReduxExpr< MatrixType, MemberOp, Direction > >@{ei\-\_\-traits$<$ Partial\-Redux\-Expr$<$ Matrix\-Type, Member\-Op, Direction $>$ $>$}}
+\subsubsection[{Matrix\-Type\-Nested}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type , typename Member\-Op , int Direction$>$ typedef {\bf ei\-\_\-nested}$<$Matrix\-Type$>$\-::{\bf type} {\bf ei\-\_\-traits}$<$ {\bf Partial\-Redux\-Expr}$<$ Matrix\-Type, Member\-Op, Direction $>$ $>$\-::{\bf Matrix\-Type\-Nested}}}\label{structei__traits_3_01_partial_redux_expr_3_01_matrix_type_00_01_member_op_00_01_direction_01_4_01_4_ab9457c4a06b40274691c6ce7cf6b5987}
+
+
+Definition at line 54 of file Partial\-Redux.\-h.
+
+\hypertarget{structei__traits_3_01_partial_redux_expr_3_01_matrix_type_00_01_member_op_00_01_direction_01_4_01_4_a283ef4c36b09a8e93ae1b83386792f8f}{\index{ei\-\_\-traits$<$ Partial\-Redux\-Expr$<$ Matrix\-Type, Member\-Op, Direction $>$ $>$@{ei\-\_\-traits$<$ Partial\-Redux\-Expr$<$ Matrix\-Type, Member\-Op, Direction $>$ $>$}!Scalar@{Scalar}}
+\index{Scalar@{Scalar}!ei_traits< PartialReduxExpr< MatrixType, MemberOp, Direction > >@{ei\-\_\-traits$<$ Partial\-Redux\-Expr$<$ Matrix\-Type, Member\-Op, Direction $>$ $>$}}
+\subsubsection[{Scalar}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type , typename Member\-Op , int Direction$>$ typedef Member\-Op\-::result\-\_\-type {\bf ei\-\_\-traits}$<$ {\bf Partial\-Redux\-Expr}$<$ Matrix\-Type, Member\-Op, Direction $>$ $>$\-::{\bf Scalar}}}\label{structei__traits_3_01_partial_redux_expr_3_01_matrix_type_00_01_member_op_00_01_direction_01_4_01_4_a283ef4c36b09a8e93ae1b83386792f8f}
+
+
+Definition at line 52 of file Partial\-Redux.\-h.
+
+
+
+\subsection{Member Enumeration Documentation}
+\hypertarget{structei__traits_3_01_partial_redux_expr_3_01_matrix_type_00_01_member_op_00_01_direction_01_4_01_4_aba326fa0834fe1b68621481b483a1f4f}{\subsubsection[{anonymous enum}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type , typename Member\-Op , int Direction$>$ anonymous enum}}\label{structei__traits_3_01_partial_redux_expr_3_01_matrix_type_00_01_member_op_00_01_direction_01_4_01_4_aba326fa0834fe1b68621481b483a1f4f}
+\begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{Rows\-At\-Compile\-Time@{Rows\-At\-Compile\-Time}!ei\-\_\-traits$<$ Partial\-Redux\-Expr$<$ Matrix\-Type, Member\-Op, Direction $>$ $>$@{ei\-\_\-traits$<$ Partial\-Redux\-Expr$<$ Matrix\-Type, Member\-Op, Direction $>$ $>$}}\index{ei\-\_\-traits$<$ Partial\-Redux\-Expr$<$ Matrix\-Type, Member\-Op, Direction $>$ $>$@{ei\-\_\-traits$<$ Partial\-Redux\-Expr$<$ Matrix\-Type, Member\-Op, Direction $>$ $>$}!Rows\-At\-Compile\-Time@{Rows\-At\-Compile\-Time}}\item[{\em 
+\hypertarget{structei__traits_3_01_partial_redux_expr_3_01_matrix_type_00_01_member_op_00_01_direction_01_4_01_4_aba326fa0834fe1b68621481b483a1f4faac90526d6810c7480170b59065bbd525}{Rows\-At\-Compile\-Time}\label{structei__traits_3_01_partial_redux_expr_3_01_matrix_type_00_01_member_op_00_01_direction_01_4_01_4_aba326fa0834fe1b68621481b483a1f4faac90526d6810c7480170b59065bbd525}
+}]\index{Cols\-At\-Compile\-Time@{Cols\-At\-Compile\-Time}!ei\-\_\-traits$<$ Partial\-Redux\-Expr$<$ Matrix\-Type, Member\-Op, Direction $>$ $>$@{ei\-\_\-traits$<$ Partial\-Redux\-Expr$<$ Matrix\-Type, Member\-Op, Direction $>$ $>$}}\index{ei\-\_\-traits$<$ Partial\-Redux\-Expr$<$ Matrix\-Type, Member\-Op, Direction $>$ $>$@{ei\-\_\-traits$<$ Partial\-Redux\-Expr$<$ Matrix\-Type, Member\-Op, Direction $>$ $>$}!Cols\-At\-Compile\-Time@{Cols\-At\-Compile\-Time}}\item[{\em 
+\hypertarget{structei__traits_3_01_partial_redux_expr_3_01_matrix_type_00_01_member_op_00_01_direction_01_4_01_4_aba326fa0834fe1b68621481b483a1f4fafc3af15224894cca47aa97c6d16af456}{Cols\-At\-Compile\-Time}\label{structei__traits_3_01_partial_redux_expr_3_01_matrix_type_00_01_member_op_00_01_direction_01_4_01_4_aba326fa0834fe1b68621481b483a1f4fafc3af15224894cca47aa97c6d16af456}
+}]\index{Max\-Rows\-At\-Compile\-Time@{Max\-Rows\-At\-Compile\-Time}!ei\-\_\-traits$<$ Partial\-Redux\-Expr$<$ Matrix\-Type, Member\-Op, Direction $>$ $>$@{ei\-\_\-traits$<$ Partial\-Redux\-Expr$<$ Matrix\-Type, Member\-Op, Direction $>$ $>$}}\index{ei\-\_\-traits$<$ Partial\-Redux\-Expr$<$ Matrix\-Type, Member\-Op, Direction $>$ $>$@{ei\-\_\-traits$<$ Partial\-Redux\-Expr$<$ Matrix\-Type, Member\-Op, Direction $>$ $>$}!Max\-Rows\-At\-Compile\-Time@{Max\-Rows\-At\-Compile\-Time}}\item[{\em 
+\hypertarget{structei__traits_3_01_partial_redux_expr_3_01_matrix_type_00_01_member_op_00_01_direction_01_4_01_4_aba326fa0834fe1b68621481b483a1f4faa34bcec427541066742499e986d623ff}{Max\-Rows\-At\-Compile\-Time}\label{structei__traits_3_01_partial_redux_expr_3_01_matrix_type_00_01_member_op_00_01_direction_01_4_01_4_aba326fa0834fe1b68621481b483a1f4faa34bcec427541066742499e986d623ff}
+}]\index{Max\-Cols\-At\-Compile\-Time@{Max\-Cols\-At\-Compile\-Time}!ei\-\_\-traits$<$ Partial\-Redux\-Expr$<$ Matrix\-Type, Member\-Op, Direction $>$ $>$@{ei\-\_\-traits$<$ Partial\-Redux\-Expr$<$ Matrix\-Type, Member\-Op, Direction $>$ $>$}}\index{ei\-\_\-traits$<$ Partial\-Redux\-Expr$<$ Matrix\-Type, Member\-Op, Direction $>$ $>$@{ei\-\_\-traits$<$ Partial\-Redux\-Expr$<$ Matrix\-Type, Member\-Op, Direction $>$ $>$}!Max\-Cols\-At\-Compile\-Time@{Max\-Cols\-At\-Compile\-Time}}\item[{\em 
+\hypertarget{structei__traits_3_01_partial_redux_expr_3_01_matrix_type_00_01_member_op_00_01_direction_01_4_01_4_aba326fa0834fe1b68621481b483a1f4faeda8733ec3ce47b57d832f92e5e828de}{Max\-Cols\-At\-Compile\-Time}\label{structei__traits_3_01_partial_redux_expr_3_01_matrix_type_00_01_member_op_00_01_direction_01_4_01_4_aba326fa0834fe1b68621481b483a1f4faeda8733ec3ce47b57d832f92e5e828de}
+}]\index{Flags@{Flags}!ei\-\_\-traits$<$ Partial\-Redux\-Expr$<$ Matrix\-Type, Member\-Op, Direction $>$ $>$@{ei\-\_\-traits$<$ Partial\-Redux\-Expr$<$ Matrix\-Type, Member\-Op, Direction $>$ $>$}}\index{ei\-\_\-traits$<$ Partial\-Redux\-Expr$<$ Matrix\-Type, Member\-Op, Direction $>$ $>$@{ei\-\_\-traits$<$ Partial\-Redux\-Expr$<$ Matrix\-Type, Member\-Op, Direction $>$ $>$}!Flags@{Flags}}\item[{\em 
+\hypertarget{structei__traits_3_01_partial_redux_expr_3_01_matrix_type_00_01_member_op_00_01_direction_01_4_01_4_aba326fa0834fe1b68621481b483a1f4fafb86d8bd9f318774cf36f2a976b43375}{Flags}\label{structei__traits_3_01_partial_redux_expr_3_01_matrix_type_00_01_member_op_00_01_direction_01_4_01_4_aba326fa0834fe1b68621481b483a1f4fafb86d8bd9f318774cf36f2a976b43375}
+}]\index{Traversal\-Size@{Traversal\-Size}!ei\-\_\-traits$<$ Partial\-Redux\-Expr$<$ Matrix\-Type, Member\-Op, Direction $>$ $>$@{ei\-\_\-traits$<$ Partial\-Redux\-Expr$<$ Matrix\-Type, Member\-Op, Direction $>$ $>$}}\index{ei\-\_\-traits$<$ Partial\-Redux\-Expr$<$ Matrix\-Type, Member\-Op, Direction $>$ $>$@{ei\-\_\-traits$<$ Partial\-Redux\-Expr$<$ Matrix\-Type, Member\-Op, Direction $>$ $>$}!Traversal\-Size@{Traversal\-Size}}\item[{\em 
+\hypertarget{structei__traits_3_01_partial_redux_expr_3_01_matrix_type_00_01_member_op_00_01_direction_01_4_01_4_aba326fa0834fe1b68621481b483a1f4fa6521b6cf1fb9f5a558de46235b67540b}{Traversal\-Size}\label{structei__traits_3_01_partial_redux_expr_3_01_matrix_type_00_01_member_op_00_01_direction_01_4_01_4_aba326fa0834fe1b68621481b483a1f4fa6521b6cf1fb9f5a558de46235b67540b}
+}]\end{description}
+\end{Desc}
+
+
+Definition at line 56 of file Partial\-Redux.\-h.
+
+\hypertarget{structei__traits_3_01_partial_redux_expr_3_01_matrix_type_00_01_member_op_00_01_direction_01_4_01_4_a9e8b4a07820fe92849ed6fb867d0c2c0}{\subsubsection[{anonymous enum}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type , typename Member\-Op , int Direction$>$ anonymous enum}}\label{structei__traits_3_01_partial_redux_expr_3_01_matrix_type_00_01_member_op_00_01_direction_01_4_01_4_a9e8b4a07820fe92849ed6fb867d0c2c0}
+\begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{Coeff\-Read\-Cost@{Coeff\-Read\-Cost}!ei\-\_\-traits$<$ Partial\-Redux\-Expr$<$ Matrix\-Type, Member\-Op, Direction $>$ $>$@{ei\-\_\-traits$<$ Partial\-Redux\-Expr$<$ Matrix\-Type, Member\-Op, Direction $>$ $>$}}\index{ei\-\_\-traits$<$ Partial\-Redux\-Expr$<$ Matrix\-Type, Member\-Op, Direction $>$ $>$@{ei\-\_\-traits$<$ Partial\-Redux\-Expr$<$ Matrix\-Type, Member\-Op, Direction $>$ $>$}!Coeff\-Read\-Cost@{Coeff\-Read\-Cost}}\item[{\em 
+\hypertarget{structei__traits_3_01_partial_redux_expr_3_01_matrix_type_00_01_member_op_00_01_direction_01_4_01_4_a9e8b4a07820fe92849ed6fb867d0c2c0ae026055727bda4e3065b725fe35eafe6}{Coeff\-Read\-Cost}\label{structei__traits_3_01_partial_redux_expr_3_01_matrix_type_00_01_member_op_00_01_direction_01_4_01_4_a9e8b4a07820fe92849ed6fb867d0c2c0ae026055727bda4e3065b725fe35eafe6}
+}]\end{description}
+\end{Desc}
+
+
+Definition at line 69 of file Partial\-Redux.\-h.
+
+
+
+The documentation for this struct was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/eigen/\-Eigen/src/\-Array/\hyperlink{_partial_redux_8h}{Partial\-Redux.\-h}\end{DoxyCompactItemize}

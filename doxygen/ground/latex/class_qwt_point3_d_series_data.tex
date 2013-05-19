@@ -1,0 +1,85 @@
+\hypertarget{class_qwt_point3_d_series_data}{\section{Qwt\-Point3\-D\-Series\-Data Class Reference}
+\label{class_qwt_point3_d_series_data}\index{Qwt\-Point3\-D\-Series\-Data@{Qwt\-Point3\-D\-Series\-Data}}
+}
+
+
+Interface for iterating over an array of 3\-D points.  
+
+
+
+
+{\ttfamily \#include $<$qwt\-\_\-series\-\_\-data.\-h$>$}
+
+Inheritance diagram for Qwt\-Point3\-D\-Series\-Data\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{class_qwt_point3_d_series_data}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_qwt_point3_d_series_data_a4410e3dea4acccfdde70eb1f99829c16}{Qwt\-Point3\-D\-Series\-Data} (const Q\-Vector$<$ \hyperlink{class_qwt_point3_d}{Qwt\-Point3\-D} $>$ \&=Q\-Vector$<$ \hyperlink{class_qwt_point3_d}{Qwt\-Point3\-D} $>$())
+\item 
+virtual Q\-Rect\-F \hyperlink{class_qwt_point3_d_series_data_a94ea1834516a2a484712723b5c9625ca}{bounding\-Rect} () const 
+\begin{DoxyCompactList}\small\item\em Calculate the bounding rect. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Detailed Description}
+Interface for iterating over an array of 3\-D points. 
+
+Definition at line 274 of file qwt\-\_\-series\-\_\-data.\-h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_qwt_point3_d_series_data_a4410e3dea4acccfdde70eb1f99829c16}{\index{Qwt\-Point3\-D\-Series\-Data@{Qwt\-Point3\-D\-Series\-Data}!Qwt\-Point3\-D\-Series\-Data@{Qwt\-Point3\-D\-Series\-Data}}
+\index{Qwt\-Point3\-D\-Series\-Data@{Qwt\-Point3\-D\-Series\-Data}!QwtPoint3DSeriesData@{Qwt\-Point3\-D\-Series\-Data}}
+\subsubsection[{Qwt\-Point3\-D\-Series\-Data}]{\setlength{\rightskip}{0pt plus 5cm}Qwt\-Point3\-D\-Series\-Data\-::\-Qwt\-Point3\-D\-Series\-Data (
+\begin{DoxyParamCaption}
+\item[{const Q\-Vector$<$ {\bf Qwt\-Point3\-D} $>$ \&}]{samples = {\ttfamily QVector$<${\bf Qwt\-Point3\-D}$>$()}}
+\end{DoxyParamCaption}
+)}}\label{class_qwt_point3_d_series_data_a4410e3dea4acccfdde70eb1f99829c16}
+Constructor 
+\begin{DoxyParams}{Parameters}
+{\em samples} & Samples \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 225 of file qwt\-\_\-series\-\_\-data.\-cpp.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_qwt_point3_d_series_data_a94ea1834516a2a484712723b5c9625ca}{\index{Qwt\-Point3\-D\-Series\-Data@{Qwt\-Point3\-D\-Series\-Data}!bounding\-Rect@{bounding\-Rect}}
+\index{bounding\-Rect@{bounding\-Rect}!QwtPoint3DSeriesData@{Qwt\-Point3\-D\-Series\-Data}}
+\subsubsection[{bounding\-Rect}]{\setlength{\rightskip}{0pt plus 5cm}Q\-Rect\-F Qwt\-Point3\-D\-Series\-Data\-::bounding\-Rect (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_qwt_point3_d_series_data_a94ea1834516a2a484712723b5c9625ca}
+
+
+Calculate the bounding rect. 
+
+The bounding rectangle is calculated once by iterating over all points and is stored for all following requests.
+
+\begin{DoxyReturn}{Returns}
+Bounding rectangle 
+\end{DoxyReturn}
+
+
+Implements \hyperlink{class_qwt_series_data_aedb969ba51a27d88d26ad7f7cb1c2c7f}{Qwt\-Series\-Data$<$ Qwt\-Point3\-D $>$}.
+
+
+
+Definition at line 239 of file qwt\-\_\-series\-\_\-data.\-cpp.
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/qwt/src/\hyperlink{qwt__series__data_8h}{qwt\-\_\-series\-\_\-data.\-h}\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/qwt/src/\hyperlink{qwt__series__data_8cpp}{qwt\-\_\-series\-\_\-data.\-cpp}\end{DoxyCompactItemize}

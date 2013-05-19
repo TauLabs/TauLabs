@@ -1,0 +1,550 @@
+\hypertarget{class_hyperplane}{\section{Hyperplane$<$ \-\_\-\-Scalar, \-\_\-\-Ambient\-Dim $>$ Class Template Reference}
+\label{class_hyperplane}\index{Hyperplane$<$ \-\_\-\-Scalar, \-\_\-\-Ambient\-Dim $>$@{Hyperplane$<$ \-\_\-\-Scalar, \-\_\-\-Ambient\-Dim $>$}}
+}
+
+
+A hyperplane.  
+
+
+
+
+{\ttfamily \#include $<$Forward\-Declarations.\-h$>$}
+
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+typedef \-\_\-\-Scalar \hyperlink{class_hyperplane_a7aa8093dff10cabfce189f280fb14069}{Scalar}
+\item 
+typedef \hyperlink{struct_num_traits}{Num\-Traits}$<$ \hyperlink{class_hyperplane_a7aa8093dff10cabfce189f280fb14069}{Scalar} $>$\-::Real \hyperlink{class_hyperplane_a4004d38aa17f44855be49535482bb2b1}{Real\-Scalar}
+\item 
+typedef \hyperlink{class_matrix}{Matrix}$<$ \hyperlink{class_hyperplane_a7aa8093dff10cabfce189f280fb14069}{Scalar}, \\*
+Ambient\-Dim\-At\-Compile\-Time, 1 $>$ \hyperlink{class_hyperplane_ae700a24e287a31cece3618e1e1bc6385}{Vector\-Type}
+\item 
+typedef \hyperlink{class_matrix}{Matrix}$<$ \hyperlink{class_hyperplane_a7aa8093dff10cabfce189f280fb14069}{Scalar}, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int}(Ambient\-Dim\-At\-Compile\-Time)==\hyperlink{_constants_8h_adc9da5be31bdce40c25a92c27999c0e3}{Dynamic}?Dynamic\-:int(Ambient\-Dim\-At\-Compile\-Time)+1, 1 $>$ \hyperlink{class_hyperplane_ab7c2ddb9b72c5b8bbf5b754bd54b3f48}{Coefficients}
+\item 
+typedef \hyperlink{class_block}{Block}$<$ \hyperlink{class_hyperplane_ab7c2ddb9b72c5b8bbf5b754bd54b3f48}{Coefficients}, \\*
+Ambient\-Dim\-At\-Compile\-Time, 1 $>$ \hyperlink{class_hyperplane_afe891d31b5136e497ed034c658659539}{Normal\-Return\-Type}
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_hyperplane_ac7a6ef7e911a9f850f0edc2307bae25b}{E\-I\-G\-E\-N\-\_\-\-M\-A\-K\-E\-\_\-\-A\-L\-I\-G\-N\-E\-D\-\_\-\-O\-P\-E\-R\-A\-T\-O\-R\-\_\-\-N\-E\-W\-\_\-\-I\-F\-\_\-\-V\-E\-C\-T\-O\-R\-I\-Z\-A\-B\-L\-E\-\_\-\-F\-I\-X\-E\-D\-\_\-\-S\-I\-Z\-E} (\-\_\-\-Scalar, \-\_\-\-Ambient\-Dim==\hyperlink{_constants_8h_adc9da5be31bdce40c25a92c27999c0e3}{Dynamic}?Dynamic\-:\-\_\-\-Ambient\-Dim+1) enum
+\item 
+\hyperlink{class_hyperplane_a92cf06e96f6c7d3c4da0b3c637407bb1}{Hyperplane} ()
+\item 
+\hyperlink{class_hyperplane_a2dcce9a134371ce9b837c56096772fdd}{Hyperplane} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \-\_\-dim)
+\item 
+\hyperlink{class_hyperplane_a7584d7ea2fdd14e36040ae5839bba88b}{Hyperplane} (const \hyperlink{class_hyperplane_ae700a24e287a31cece3618e1e1bc6385}{Vector\-Type} \&\hyperlink{glext_8h_a4eacae1d9e7c39f8236bb36d4ececa77}{n}, const \hyperlink{class_hyperplane_ae700a24e287a31cece3618e1e1bc6385}{Vector\-Type} \&\hyperlink{_o_p_plots_8m_a9425be9aab51621e317ba7ade564b570}{e})
+\item 
+\hyperlink{class_hyperplane_a1e1283aa2ef6e196fa4d58a7259a72db}{Hyperplane} (const \hyperlink{class_hyperplane_ae700a24e287a31cece3618e1e1bc6385}{Vector\-Type} \&\hyperlink{glext_8h_a4eacae1d9e7c39f8236bb36d4ececa77}{n}, \hyperlink{class_hyperplane_a7aa8093dff10cabfce189f280fb14069}{Scalar} d)
+\item 
+\hyperlink{class_hyperplane_aba4d93992906244aabb5ed90f1d02f18}{Hyperplane} (const \hyperlink{class_parametrized_line}{Parametrized\-Line}$<$ \hyperlink{class_hyperplane_a7aa8093dff10cabfce189f280fb14069}{Scalar}, Ambient\-Dim\-At\-Compile\-Time $>$ \&parametrized)
+\item 
+\hyperlink{class_hyperplane_ab4998afde3d7ec9157b12bb63edfed93}{$\sim$\-Hyperplane} ()
+\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_hyperplane_ab49ca50e4edea1011a0b7e4dd8a36275}{dim} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_hyperplane_af068590a97c05b81d73dea0dd28be2f6}{normalize} (\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void})
+\item 
+\hyperlink{class_hyperplane_a7aa8093dff10cabfce189f280fb14069}{Scalar} \hyperlink{class_hyperplane_a2daf520a43be42fd98ae3779d2ef7fc9}{signed\-Distance} (const \hyperlink{class_hyperplane_ae700a24e287a31cece3618e1e1bc6385}{Vector\-Type} \&\hyperlink{glext_8h_aa5367c14d90f462230c2611b81b41d23}{p}) const 
+\item 
+\hyperlink{class_hyperplane_a7aa8093dff10cabfce189f280fb14069}{Scalar} \hyperlink{class_hyperplane_ad69a6e645690c995636298e896a45c36}{abs\-Distance} (const \hyperlink{class_hyperplane_ae700a24e287a31cece3618e1e1bc6385}{Vector\-Type} \&\hyperlink{glext_8h_aa5367c14d90f462230c2611b81b41d23}{p}) const 
+\item 
+\hyperlink{class_hyperplane_ae700a24e287a31cece3618e1e1bc6385}{Vector\-Type} \hyperlink{class_hyperplane_aa25633fe8c36b9736f3b27dd3970146e}{projection} (const \hyperlink{class_hyperplane_ae700a24e287a31cece3618e1e1bc6385}{Vector\-Type} \&\hyperlink{glext_8h_aa5367c14d90f462230c2611b81b41d23}{p}) const 
+\item 
+const \hyperlink{class_hyperplane_afe891d31b5136e497ed034c658659539}{Normal\-Return\-Type} \hyperlink{class_hyperplane_af15df7439581973bf971981ef77a7a99}{normal} () const 
+\item 
+\hyperlink{class_hyperplane_afe891d31b5136e497ed034c658659539}{Normal\-Return\-Type} \hyperlink{class_hyperplane_ad2655a6a91d919a605711470ece98a9b}{normal} ()
+\item 
+const \hyperlink{class_hyperplane_a7aa8093dff10cabfce189f280fb14069}{Scalar} \& \hyperlink{class_hyperplane_afb82fd06d1c5ddf991dd145bcd4336ef}{offset} () const 
+\item 
+\hyperlink{class_hyperplane_a7aa8093dff10cabfce189f280fb14069}{Scalar} \& \hyperlink{class_hyperplane_ae72fa4aec9273b729371d38c45634ae4}{offset} ()
+\item 
+const \hyperlink{class_hyperplane_ab7c2ddb9b72c5b8bbf5b754bd54b3f48}{Coefficients} \& \hyperlink{class_hyperplane_a3b376f4a3634dd2cbab89439bee716de}{coeffs} () const 
+\item 
+\hyperlink{class_hyperplane_ab7c2ddb9b72c5b8bbf5b754bd54b3f48}{Coefficients} \& \hyperlink{class_hyperplane_a029db90f8901be3cee4419f2068e2b5a}{coeffs} ()
+\item 
+\hyperlink{class_hyperplane_ae700a24e287a31cece3618e1e1bc6385}{Vector\-Type} \hyperlink{class_hyperplane_ac9177251d0e700efe53314657f640eab}{intersection} (const \hyperlink{class_hyperplane}{Hyperplane} \&other)
+\item 
+{\footnotesize template$<$typename Xpr\-Type $>$ }\\\hyperlink{class_hyperplane}{Hyperplane} \& \hyperlink{class_hyperplane_ae8bf9410d0c8ab664c1da042f6b4fbcc}{transform} (const \hyperlink{class_matrix_base}{Matrix\-Base}$<$ Xpr\-Type $>$ \&\hyperlink{uavobjecttemplate_8m_a16a51e808b16c46bbfd36da2e37cd123}{mat}, \hyperlink{_transform_8h_a302a826315506a7217d4b477ea78425f}{Transform\-Traits} traits=\hyperlink{_transform_8h_a302a826315506a7217d4b477ea78425fac0984f0c0fc7cdcea1c0bde170f9c925}{Affine})
+\item 
+\hyperlink{class_hyperplane}{Hyperplane} \& \hyperlink{class_hyperplane_a64585d83cec9f9f9480c986dc585ce8e}{transform} (const \hyperlink{class_transform}{Transform}$<$ \hyperlink{class_hyperplane_a7aa8093dff10cabfce189f280fb14069}{Scalar}, Ambient\-Dim\-At\-Compile\-Time $>$ \&\hyperlink{glext_8h_a00140d6f5c548b26daf170bf16e86a6d}{t}, \hyperlink{_transform_8h_a302a826315506a7217d4b477ea78425f}{Transform\-Traits} traits=\hyperlink{_transform_8h_a302a826315506a7217d4b477ea78425fac0984f0c0fc7cdcea1c0bde170f9c925}{Affine})
+\item 
+{\footnotesize template$<$typename New\-Scalar\-Type $>$ }\\\hyperlink{structei__cast__return__type}{ei\-\_\-cast\-\_\-return\-\_\-type}\\*
+$<$ \hyperlink{class_hyperplane}{Hyperplane}, \hyperlink{class_hyperplane}{Hyperplane}\\*
+$<$ New\-Scalar\-Type, \\*
+Ambient\-Dim\-At\-Compile\-Time $>$\\*
+ $>$\-::\hyperlink{glext_8h_a7d05960f4f1c1b11f3177dc963a45d86}{type} \hyperlink{class_hyperplane_a938863707d6218a51525ab0733d98728}{cast} () const 
+\item 
+{\footnotesize template$<$typename Other\-Scalar\-Type $>$ }\\\hyperlink{class_hyperplane_a6225bf4647cb5cc7f31ac91b1eb21d8b}{Hyperplane} (const \hyperlink{class_hyperplane}{Hyperplane}$<$ Other\-Scalar\-Type, Ambient\-Dim\-At\-Compile\-Time $>$ \&other)
+\item 
+bool \hyperlink{class_hyperplane_a5b7cbb56f2687b2666e7f3541b3632a2}{is\-Approx} (const \hyperlink{class_hyperplane}{Hyperplane} \&other, typename \hyperlink{struct_num_traits}{Num\-Traits}$<$ \hyperlink{class_hyperplane_a7aa8093dff10cabfce189f280fb14069}{Scalar} $>$\-::Real prec=\hyperlink{_math_functions_8h_a3dc1c65cf9dc9b5a7ee66472d0ae83e1}{precision}$<$ \hyperlink{class_hyperplane_a7aa8093dff10cabfce189f280fb14069}{Scalar} $>$()) const 
+\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static \hyperlink{class_hyperplane}{Hyperplane} \hyperlink{class_hyperplane_aa1b08f260f6a00f77940e05774a541e3}{Through} (const \hyperlink{class_hyperplane_ae700a24e287a31cece3618e1e1bc6385}{Vector\-Type} \&p0, const \hyperlink{class_hyperplane_ae700a24e287a31cece3618e1e1bc6385}{Vector\-Type} \&p1)
+\item 
+static \hyperlink{class_hyperplane}{Hyperplane} \hyperlink{class_hyperplane_afbae06656ee6cbe4c23640bdba0f3a32}{Through} (const \hyperlink{class_hyperplane_ae700a24e287a31cece3618e1e1bc6385}{Vector\-Type} \&p0, const \hyperlink{class_hyperplane_ae700a24e287a31cece3618e1e1bc6385}{Vector\-Type} \&p1, const \hyperlink{class_hyperplane_ae700a24e287a31cece3618e1e1bc6385}{Vector\-Type} \&p2)
+\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_hyperplane_ab7c2ddb9b72c5b8bbf5b754bd54b3f48}{Coefficients} \hyperlink{class_hyperplane_a641ff024d9a1d9f811bf7221643c37fd}{m\-\_\-coeffs}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$typename \-\_\-\-Scalar, int \-\_\-\-Ambient\-Dim$>$class Hyperplane$<$ \-\_\-\-Scalar, \-\_\-\-Ambient\-Dim $>$}
+
+A hyperplane. 
+
+A hyperplane is an affine subspace of dimension n-\/1 in a space of dimension n. For example, a hyperplane in a plane is a line; a hyperplane in 3-\/space is a plane.
+
+
+\begin{DoxyParams}{Parameters}
+{\em \-\_\-\-Scalar} & the scalar type, i.\-e., the type of the coefficients \\
+\hline
+{\em \-\_\-\-Ambient\-Dim} & the dimension of the ambient space, can be a compile time value or Dynamic. Notice that the dimension of the hyperplane is \-\_\-\-Ambient\-Dim-\/1.\\
+\hline
+\end{DoxyParams}
+This class represents an hyperplane as the zero set of the implicit equation $ n \cdot x + d = 0 $ where $ n $ is a unit normal vector of the plane (linear part) and $ d $ is the distance (offset) to the origin. 
+
+Definition at line 118 of file Forward\-Declarations.\-h.
+
+
+
+\subsection{Member Typedef Documentation}
+\hypertarget{class_hyperplane_ab7c2ddb9b72c5b8bbf5b754bd54b3f48}{\index{Hyperplane@{Hyperplane}!Coefficients@{Coefficients}}
+\index{Coefficients@{Coefficients}!Hyperplane@{Hyperplane}}
+\subsubsection[{Coefficients}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar, int \-\_\-\-Ambient\-Dim$>$ typedef {\bf Matrix}$<${\bf Scalar},{\bf int}(Ambient\-Dim\-At\-Compile\-Time)=={\bf Dynamic} ? {\bf Dynamic} \-: {\bf int}(Ambient\-Dim\-At\-Compile\-Time)+1,1$>$ {\bf Hyperplane}$<$ \-\_\-\-Scalar, \-\_\-\-Ambient\-Dim $>$\-::{\bf Coefficients}}}\label{class_hyperplane_ab7c2ddb9b72c5b8bbf5b754bd54b3f48}
+
+
+Definition at line 57 of file Hyperplane.\-h.
+
+\hypertarget{class_hyperplane_afe891d31b5136e497ed034c658659539}{\index{Hyperplane@{Hyperplane}!Normal\-Return\-Type@{Normal\-Return\-Type}}
+\index{Normal\-Return\-Type@{Normal\-Return\-Type}!Hyperplane@{Hyperplane}}
+\subsubsection[{Normal\-Return\-Type}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar, int \-\_\-\-Ambient\-Dim$>$ typedef {\bf Block}$<${\bf Coefficients},Ambient\-Dim\-At\-Compile\-Time,1$>$ {\bf Hyperplane}$<$ \-\_\-\-Scalar, \-\_\-\-Ambient\-Dim $>$\-::{\bf Normal\-Return\-Type}}}\label{class_hyperplane_afe891d31b5136e497ed034c658659539}
+
+
+Definition at line 58 of file Hyperplane.\-h.
+
+\hypertarget{class_hyperplane_a4004d38aa17f44855be49535482bb2b1}{\index{Hyperplane@{Hyperplane}!Real\-Scalar@{Real\-Scalar}}
+\index{Real\-Scalar@{Real\-Scalar}!Hyperplane@{Hyperplane}}
+\subsubsection[{Real\-Scalar}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar, int \-\_\-\-Ambient\-Dim$>$ typedef {\bf Num\-Traits}$<${\bf Scalar}$>$\-::Real {\bf Hyperplane}$<$ \-\_\-\-Scalar, \-\_\-\-Ambient\-Dim $>$\-::{\bf Real\-Scalar}}}\label{class_hyperplane_a4004d38aa17f44855be49535482bb2b1}
+
+
+Definition at line 53 of file Hyperplane.\-h.
+
+\hypertarget{class_hyperplane_a7aa8093dff10cabfce189f280fb14069}{\index{Hyperplane@{Hyperplane}!Scalar@{Scalar}}
+\index{Scalar@{Scalar}!Hyperplane@{Hyperplane}}
+\subsubsection[{Scalar}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar, int \-\_\-\-Ambient\-Dim$>$ typedef \-\_\-\-Scalar {\bf Hyperplane}$<$ \-\_\-\-Scalar, \-\_\-\-Ambient\-Dim $>$\-::{\bf Scalar}}}\label{class_hyperplane_a7aa8093dff10cabfce189f280fb14069}
+
+
+Definition at line 51 of file Hyperplane.\-h.
+
+\hypertarget{class_hyperplane_ae700a24e287a31cece3618e1e1bc6385}{\index{Hyperplane@{Hyperplane}!Vector\-Type@{Vector\-Type}}
+\index{Vector\-Type@{Vector\-Type}!Hyperplane@{Hyperplane}}
+\subsubsection[{Vector\-Type}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar, int \-\_\-\-Ambient\-Dim$>$ typedef {\bf Matrix}$<${\bf Scalar},Ambient\-Dim\-At\-Compile\-Time,1$>$ {\bf Hyperplane}$<$ \-\_\-\-Scalar, \-\_\-\-Ambient\-Dim $>$\-::{\bf Vector\-Type}}}\label{class_hyperplane_ae700a24e287a31cece3618e1e1bc6385}
+
+
+Definition at line 54 of file Hyperplane.\-h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_hyperplane_a92cf06e96f6c7d3c4da0b3c637407bb1}{\index{Hyperplane@{Hyperplane}!Hyperplane@{Hyperplane}}
+\index{Hyperplane@{Hyperplane}!Hyperplane@{Hyperplane}}
+\subsubsection[{Hyperplane}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar, int \-\_\-\-Ambient\-Dim$>$ {\bf Hyperplane}$<$ \-\_\-\-Scalar, \-\_\-\-Ambient\-Dim $>$\-::{\bf Hyperplane} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [explicit]}}}\label{class_hyperplane_a92cf06e96f6c7d3c4da0b3c637407bb1}
+Default constructor without initialization 
+
+Definition at line 61 of file Hyperplane.\-h.
+
+\hypertarget{class_hyperplane_a2dcce9a134371ce9b837c56096772fdd}{\index{Hyperplane@{Hyperplane}!Hyperplane@{Hyperplane}}
+\index{Hyperplane@{Hyperplane}!Hyperplane@{Hyperplane}}
+\subsubsection[{Hyperplane}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar, int \-\_\-\-Ambient\-Dim$>$ {\bf Hyperplane}$<$ \-\_\-\-Scalar, \-\_\-\-Ambient\-Dim $>$\-::{\bf Hyperplane} (
+\begin{DoxyParamCaption}
+\item[{{\bf int}}]{\-\_\-dim}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [explicit]}}}\label{class_hyperplane_a2dcce9a134371ce9b837c56096772fdd}
+Constructs a dynamic-\/size hyperplane with {\itshape \-\_\-dim} the dimension of the ambient space 
+
+Definition at line 65 of file Hyperplane.\-h.
+
+\hypertarget{class_hyperplane_a7584d7ea2fdd14e36040ae5839bba88b}{\index{Hyperplane@{Hyperplane}!Hyperplane@{Hyperplane}}
+\index{Hyperplane@{Hyperplane}!Hyperplane@{Hyperplane}}
+\subsubsection[{Hyperplane}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar, int \-\_\-\-Ambient\-Dim$>$ {\bf Hyperplane}$<$ \-\_\-\-Scalar, \-\_\-\-Ambient\-Dim $>$\-::{\bf Hyperplane} (
+\begin{DoxyParamCaption}
+\item[{const {\bf Vector\-Type} \&}]{n, }
+\item[{const {\bf Vector\-Type} \&}]{e}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_hyperplane_a7584d7ea2fdd14e36040ae5839bba88b}
+Construct a plane from its normal {\itshape n} and a point {\itshape e} onto the plane. \begin{DoxyWarning}{Warning}
+the vector normal is assumed to be normalized. 
+\end{DoxyWarning}
+
+
+Definition at line 70 of file Hyperplane.\-h.
+
+\hypertarget{class_hyperplane_a1e1283aa2ef6e196fa4d58a7259a72db}{\index{Hyperplane@{Hyperplane}!Hyperplane@{Hyperplane}}
+\index{Hyperplane@{Hyperplane}!Hyperplane@{Hyperplane}}
+\subsubsection[{Hyperplane}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar, int \-\_\-\-Ambient\-Dim$>$ {\bf Hyperplane}$<$ \-\_\-\-Scalar, \-\_\-\-Ambient\-Dim $>$\-::{\bf Hyperplane} (
+\begin{DoxyParamCaption}
+\item[{const {\bf Vector\-Type} \&}]{n, }
+\item[{{\bf Scalar}}]{d}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_hyperplane_a1e1283aa2ef6e196fa4d58a7259a72db}
+Constructs a plane from its normal {\itshape n} and distance to the origin {\itshape d} such that the algebraic equation of the plane is $ n \cdot x + d = 0 $. \begin{DoxyWarning}{Warning}
+the vector normal is assumed to be normalized. 
+\end{DoxyWarning}
+
+
+Definition at line 81 of file Hyperplane.\-h.
+
+\hypertarget{class_hyperplane_aba4d93992906244aabb5ed90f1d02f18}{\index{Hyperplane@{Hyperplane}!Hyperplane@{Hyperplane}}
+\index{Hyperplane@{Hyperplane}!Hyperplane@{Hyperplane}}
+\subsubsection[{Hyperplane}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar, int \-\_\-\-Ambient\-Dim$>$ {\bf Hyperplane}$<$ \-\_\-\-Scalar, \-\_\-\-Ambient\-Dim $>$\-::{\bf Hyperplane} (
+\begin{DoxyParamCaption}
+\item[{const {\bf Parametrized\-Line}$<$ {\bf Scalar}, Ambient\-Dim\-At\-Compile\-Time $>$ \&}]{parametrized}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [explicit]}}}\label{class_hyperplane_aba4d93992906244aabb5ed90f1d02f18}
+Constructs a hyperplane passing through the parametrized line {\itshape parametrized}. If the dimension of the ambient space is greater than 2, then there isn't uniqueness, so an arbitrary choice is made. 
+
+Definition at line 116 of file Hyperplane.\-h.
+
+\hypertarget{class_hyperplane_ab4998afde3d7ec9157b12bb63edfed93}{\index{Hyperplane@{Hyperplane}!$\sim$\-Hyperplane@{$\sim$\-Hyperplane}}
+\index{$\sim$\-Hyperplane@{$\sim$\-Hyperplane}!Hyperplane@{Hyperplane}}
+\subsubsection[{$\sim$\-Hyperplane}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar, int \-\_\-\-Ambient\-Dim$>$ {\bf Hyperplane}$<$ \-\_\-\-Scalar, \-\_\-\-Ambient\-Dim $>$\-::$\sim${\bf Hyperplane} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_hyperplane_ab4998afde3d7ec9157b12bb63edfed93}
+
+
+Definition at line 122 of file Hyperplane.\-h.
+
+\hypertarget{class_hyperplane_a6225bf4647cb5cc7f31ac91b1eb21d8b}{\index{Hyperplane@{Hyperplane}!Hyperplane@{Hyperplane}}
+\index{Hyperplane@{Hyperplane}!Hyperplane@{Hyperplane}}
+\subsubsection[{Hyperplane}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar, int \-\_\-\-Ambient\-Dim$>$ template$<$typename Other\-Scalar\-Type $>$ {\bf Hyperplane}$<$ \-\_\-\-Scalar, \-\_\-\-Ambient\-Dim $>$\-::{\bf Hyperplane} (
+\begin{DoxyParamCaption}
+\item[{const {\bf Hyperplane}$<$ Other\-Scalar\-Type, Ambient\-Dim\-At\-Compile\-Time $>$ \&}]{other}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [explicit]}}}\label{class_hyperplane_a6225bf4647cb5cc7f31ac91b1eb21d8b}
+Copy constructor with scalar type conversion 
+
+Definition at line 253 of file Hyperplane.\-h.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_hyperplane_ad69a6e645690c995636298e896a45c36}{\index{Hyperplane@{Hyperplane}!abs\-Distance@{abs\-Distance}}
+\index{abs\-Distance@{abs\-Distance}!Hyperplane@{Hyperplane}}
+\subsubsection[{abs\-Distance}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar, int \-\_\-\-Ambient\-Dim$>$ {\bf Scalar} {\bf Hyperplane}$<$ \-\_\-\-Scalar, \-\_\-\-Ambient\-Dim $>$\-::abs\-Distance (
+\begin{DoxyParamCaption}
+\item[{const {\bf Vector\-Type} \&}]{p}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_hyperplane_ad69a6e645690c995636298e896a45c36}
+\begin{DoxyReturn}{Returns}
+the absolute distance between the plane {\ttfamily $\ast$this} and a point {\itshape p}. 
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_hyperplane_a2daf520a43be42fd98ae3779d2ef7fc9}{signed\-Distance()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 141 of file Hyperplane.\-h.
+
+\hypertarget{class_hyperplane_a938863707d6218a51525ab0733d98728}{\index{Hyperplane@{Hyperplane}!cast@{cast}}
+\index{cast@{cast}!Hyperplane@{Hyperplane}}
+\subsubsection[{cast}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar, int \-\_\-\-Ambient\-Dim$>$ template$<$typename New\-Scalar\-Type $>$ {\bf ei\-\_\-cast\-\_\-return\-\_\-type}$<${\bf Hyperplane}, {\bf Hyperplane}$<$New\-Scalar\-Type,Ambient\-Dim\-At\-Compile\-Time$>$ $>$\-::{\bf type} {\bf Hyperplane}$<$ \-\_\-\-Scalar, \-\_\-\-Ambient\-Dim $>$\-::cast (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_hyperplane_a938863707d6218a51525ab0733d98728}
+\begin{DoxyReturn}{Returns}
+{\ttfamily $\ast$this} with scalar type casted to {\itshape New\-Scalar\-Type} 
+\end{DoxyReturn}
+Note that if {\itshape New\-Scalar\-Type} is equal to the current scalar type of {\ttfamily $\ast$this} then this function smartly returns a const reference to {\ttfamily $\ast$this}. 
+
+Definition at line 245 of file Hyperplane.\-h.
+
+\hypertarget{class_hyperplane_a3b376f4a3634dd2cbab89439bee716de}{\index{Hyperplane@{Hyperplane}!coeffs@{coeffs}}
+\index{coeffs@{coeffs}!Hyperplane@{Hyperplane}}
+\subsubsection[{coeffs}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar, int \-\_\-\-Ambient\-Dim$>$ const {\bf Coefficients}\& {\bf Hyperplane}$<$ \-\_\-\-Scalar, \-\_\-\-Ambient\-Dim $>$\-::coeffs (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_hyperplane_a3b376f4a3634dd2cbab89439bee716de}
+\begin{DoxyReturn}{Returns}
+a constant reference to the coefficients c\-\_\-i of the plane equation\-: $ c_0*x_0 + ... + c_{d-1}*x_{d-1} + c_d = 0 $ 
+\end{DoxyReturn}
+
+
+Definition at line 169 of file Hyperplane.\-h.
+
+\hypertarget{class_hyperplane_a029db90f8901be3cee4419f2068e2b5a}{\index{Hyperplane@{Hyperplane}!coeffs@{coeffs}}
+\index{coeffs@{coeffs}!Hyperplane@{Hyperplane}}
+\subsubsection[{coeffs}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar, int \-\_\-\-Ambient\-Dim$>$ {\bf Coefficients}\& {\bf Hyperplane}$<$ \-\_\-\-Scalar, \-\_\-\-Ambient\-Dim $>$\-::coeffs (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_hyperplane_a029db90f8901be3cee4419f2068e2b5a}
+\begin{DoxyReturn}{Returns}
+a non-\/constant reference to the coefficients c\-\_\-i of the plane equation\-: $ c_0*x_0 + ... + c_{d-1}*x_{d-1} + c_d = 0 $ 
+\end{DoxyReturn}
+
+
+Definition at line 174 of file Hyperplane.\-h.
+
+\hypertarget{class_hyperplane_ab49ca50e4edea1011a0b7e4dd8a36275}{\index{Hyperplane@{Hyperplane}!dim@{dim}}
+\index{dim@{dim}!Hyperplane@{Hyperplane}}
+\subsubsection[{dim}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar, int \-\_\-\-Ambient\-Dim$>$ {\bf int} {\bf Hyperplane}$<$ \-\_\-\-Scalar, \-\_\-\-Ambient\-Dim $>$\-::dim (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_hyperplane_ab49ca50e4edea1011a0b7e4dd8a36275}
+\begin{DoxyReturn}{Returns}
+the dimension in which the plane holds 
+\end{DoxyReturn}
+
+
+Definition at line 125 of file Hyperplane.\-h.
+
+\hypertarget{class_hyperplane_ac7a6ef7e911a9f850f0edc2307bae25b}{\index{Hyperplane@{Hyperplane}!E\-I\-G\-E\-N\-\_\-\-M\-A\-K\-E\-\_\-\-A\-L\-I\-G\-N\-E\-D\-\_\-\-O\-P\-E\-R\-A\-T\-O\-R\-\_\-\-N\-E\-W\-\_\-\-I\-F\-\_\-\-V\-E\-C\-T\-O\-R\-I\-Z\-A\-B\-L\-E\-\_\-\-F\-I\-X\-E\-D\-\_\-\-S\-I\-Z\-E@{E\-I\-G\-E\-N\-\_\-\-M\-A\-K\-E\-\_\-\-A\-L\-I\-G\-N\-E\-D\-\_\-\-O\-P\-E\-R\-A\-T\-O\-R\-\_\-\-N\-E\-W\-\_\-\-I\-F\-\_\-\-V\-E\-C\-T\-O\-R\-I\-Z\-A\-B\-L\-E\-\_\-\-F\-I\-X\-E\-D\-\_\-\-S\-I\-Z\-E}}
+\index{E\-I\-G\-E\-N\-\_\-\-M\-A\-K\-E\-\_\-\-A\-L\-I\-G\-N\-E\-D\-\_\-\-O\-P\-E\-R\-A\-T\-O\-R\-\_\-\-N\-E\-W\-\_\-\-I\-F\-\_\-\-V\-E\-C\-T\-O\-R\-I\-Z\-A\-B\-L\-E\-\_\-\-F\-I\-X\-E\-D\-\_\-\-S\-I\-Z\-E@{E\-I\-G\-E\-N\-\_\-\-M\-A\-K\-E\-\_\-\-A\-L\-I\-G\-N\-E\-D\-\_\-\-O\-P\-E\-R\-A\-T\-O\-R\-\_\-\-N\-E\-W\-\_\-\-I\-F\-\_\-\-V\-E\-C\-T\-O\-R\-I\-Z\-A\-B\-L\-E\-\_\-\-F\-I\-X\-E\-D\-\_\-\-S\-I\-Z\-E}!Hyperplane@{Hyperplane}}
+\subsubsection[{E\-I\-G\-E\-N\-\_\-\-M\-A\-K\-E\-\_\-\-A\-L\-I\-G\-N\-E\-D\-\_\-\-O\-P\-E\-R\-A\-T\-O\-R\-\_\-\-N\-E\-W\-\_\-\-I\-F\-\_\-\-V\-E\-C\-T\-O\-R\-I\-Z\-A\-B\-L\-E\-\_\-\-F\-I\-X\-E\-D\-\_\-\-S\-I\-Z\-E}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar, int \-\_\-\-Ambient\-Dim$>$ {\bf Hyperplane}$<$ \-\_\-\-Scalar, \-\_\-\-Ambient\-Dim $>$\-::E\-I\-G\-E\-N\-\_\-\-M\-A\-K\-E\-\_\-\-A\-L\-I\-G\-N\-E\-D\-\_\-\-O\-P\-E\-R\-A\-T\-O\-R\-\_\-\-N\-E\-W\-\_\-\-I\-F\-\_\-\-V\-E\-C\-T\-O\-R\-I\-Z\-A\-B\-L\-E\-\_\-\-F\-I\-X\-E\-D\-\_\-\-S\-I\-Z\-E (
+\begin{DoxyParamCaption}
+\item[{\-\_\-\-Scalar}]{, }
+\item[{\-\_\-\-Ambient\-Dim}]{ = {\ttfamily ={\bf Dynamic}~?~{\bf Dynamic}~\-:~\-\_\-AmbientDim+1}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_hyperplane_ac7a6ef7e911a9f850f0edc2307bae25b}
+
+
+Definition at line 50 of file Hyperplane.\-h.
+
+\hypertarget{class_hyperplane_ac9177251d0e700efe53314657f640eab}{\index{Hyperplane@{Hyperplane}!intersection@{intersection}}
+\index{intersection@{intersection}!Hyperplane@{Hyperplane}}
+\subsubsection[{intersection}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar, int \-\_\-\-Ambient\-Dim$>$ {\bf Vector\-Type} {\bf Hyperplane}$<$ \-\_\-\-Scalar, \-\_\-\-Ambient\-Dim $>$\-::intersection (
+\begin{DoxyParamCaption}
+\item[{const {\bf Hyperplane}$<$ \-\_\-\-Scalar, \-\_\-\-Ambient\-Dim $>$ \&}]{other}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_hyperplane_ac9177251d0e700efe53314657f640eab}
+\begin{DoxyReturn}{Returns}
+the intersection of $\ast$this with {\itshape other}.
+\end{DoxyReturn}
+\begin{DoxyWarning}{Warning}
+The ambient space must be a plane, i.\-e. have dimension 2, so that {\ttfamily $\ast$this} and {\itshape other} are lines.
+\end{DoxyWarning}
+\begin{DoxyNote}{Note}
+If {\itshape other} is approximately parallel to $\ast$this, this method will return any point on $\ast$this. 
+\end{DoxyNote}
+
+
+Definition at line 182 of file Hyperplane.\-h.
+
+\hypertarget{class_hyperplane_a5b7cbb56f2687b2666e7f3541b3632a2}{\index{Hyperplane@{Hyperplane}!is\-Approx@{is\-Approx}}
+\index{is\-Approx@{is\-Approx}!Hyperplane@{Hyperplane}}
+\subsubsection[{is\-Approx}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar, int \-\_\-\-Ambient\-Dim$>$ bool {\bf Hyperplane}$<$ \-\_\-\-Scalar, \-\_\-\-Ambient\-Dim $>$\-::is\-Approx (
+\begin{DoxyParamCaption}
+\item[{const {\bf Hyperplane}$<$ \-\_\-\-Scalar, \-\_\-\-Ambient\-Dim $>$ \&}]{other, }
+\item[{typename {\bf Num\-Traits}$<$ {\bf Scalar} $>$\-::Real}]{prec = {\ttfamily {\bf precision}$<${\bf Scalar}$>$()}}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_hyperplane_a5b7cbb56f2687b2666e7f3541b3632a2}
+\begin{DoxyReturn}{Returns}
+{\ttfamily true} if {\ttfamily $\ast$this} is approximately equal to {\itshape other}, within the precision determined by {\itshape prec}.
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_matrix_base_a85eb8c7adf519acfa5b74545a6870945}{Matrix\-Base\-::is\-Approx()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 260 of file Hyperplane.\-h.
+
+\hypertarget{class_hyperplane_af15df7439581973bf971981ef77a7a99}{\index{Hyperplane@{Hyperplane}!normal@{normal}}
+\index{normal@{normal}!Hyperplane@{Hyperplane}}
+\subsubsection[{normal}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar, int \-\_\-\-Ambient\-Dim$>$ const {\bf Normal\-Return\-Type} {\bf Hyperplane}$<$ \-\_\-\-Scalar, \-\_\-\-Ambient\-Dim $>$\-::normal (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_hyperplane_af15df7439581973bf971981ef77a7a99}
+\begin{DoxyReturn}{Returns}
+a constant reference to the unit normal vector of the plane, which corresponds to the linear part of the implicit equation. 
+\end{DoxyReturn}
+
+
+Definition at line 150 of file Hyperplane.\-h.
+
+\hypertarget{class_hyperplane_ad2655a6a91d919a605711470ece98a9b}{\index{Hyperplane@{Hyperplane}!normal@{normal}}
+\index{normal@{normal}!Hyperplane@{Hyperplane}}
+\subsubsection[{normal}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar, int \-\_\-\-Ambient\-Dim$>$ {\bf Normal\-Return\-Type} {\bf Hyperplane}$<$ \-\_\-\-Scalar, \-\_\-\-Ambient\-Dim $>$\-::normal (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_hyperplane_ad2655a6a91d919a605711470ece98a9b}
+\begin{DoxyReturn}{Returns}
+a non-\/constant reference to the unit normal vector of the plane, which corresponds to the linear part of the implicit equation. 
+\end{DoxyReturn}
+
+
+Definition at line 155 of file Hyperplane.\-h.
+
+\hypertarget{class_hyperplane_af068590a97c05b81d73dea0dd28be2f6}{\index{Hyperplane@{Hyperplane}!normalize@{normalize}}
+\index{normalize@{normalize}!Hyperplane@{Hyperplane}}
+\subsubsection[{normalize}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar, int \-\_\-\-Ambient\-Dim$>$ {\bf void} {\bf Hyperplane}$<$ \-\_\-\-Scalar, \-\_\-\-Ambient\-Dim $>$\-::normalize (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_hyperplane_af068590a97c05b81d73dea0dd28be2f6}
+normalizes {\ttfamily $\ast$this} 
+
+Definition at line 128 of file Hyperplane.\-h.
+
+\hypertarget{class_hyperplane_afb82fd06d1c5ddf991dd145bcd4336ef}{\index{Hyperplane@{Hyperplane}!offset@{offset}}
+\index{offset@{offset}!Hyperplane@{Hyperplane}}
+\subsubsection[{offset}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar, int \-\_\-\-Ambient\-Dim$>$ const {\bf Scalar}\& {\bf Hyperplane}$<$ \-\_\-\-Scalar, \-\_\-\-Ambient\-Dim $>$\-::{\bf offset} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_hyperplane_afb82fd06d1c5ddf991dd145bcd4336ef}
+\begin{DoxyReturn}{Returns}
+the distance to the origin, which is also the \char`\"{}constant term\char`\"{} of the implicit equation 
+\end{DoxyReturn}
+\begin{DoxyWarning}{Warning}
+the vector normal is assumed to be normalized. 
+\end{DoxyWarning}
+
+
+Definition at line 160 of file Hyperplane.\-h.
+
+\hypertarget{class_hyperplane_ae72fa4aec9273b729371d38c45634ae4}{\index{Hyperplane@{Hyperplane}!offset@{offset}}
+\index{offset@{offset}!Hyperplane@{Hyperplane}}
+\subsubsection[{offset}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar, int \-\_\-\-Ambient\-Dim$>$ {\bf Scalar}\& {\bf Hyperplane}$<$ \-\_\-\-Scalar, \-\_\-\-Ambient\-Dim $>$\-::{\bf offset} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_hyperplane_ae72fa4aec9273b729371d38c45634ae4}
+\begin{DoxyReturn}{Returns}
+a non-\/constant reference to the distance to the origin, which is also the constant part of the implicit equation 
+\end{DoxyReturn}
+
+
+Definition at line 164 of file Hyperplane.\-h.
+
+\hypertarget{class_hyperplane_aa25633fe8c36b9736f3b27dd3970146e}{\index{Hyperplane@{Hyperplane}!projection@{projection}}
+\index{projection@{projection}!Hyperplane@{Hyperplane}}
+\subsubsection[{projection}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar, int \-\_\-\-Ambient\-Dim$>$ {\bf Vector\-Type} {\bf Hyperplane}$<$ \-\_\-\-Scalar, \-\_\-\-Ambient\-Dim $>$\-::projection (
+\begin{DoxyParamCaption}
+\item[{const {\bf Vector\-Type} \&}]{p}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_hyperplane_aa25633fe8c36b9736f3b27dd3970146e}
+\begin{DoxyReturn}{Returns}
+the projection of a point {\itshape p} onto the plane {\ttfamily $\ast$this}. 
+\end{DoxyReturn}
+
+
+Definition at line 145 of file Hyperplane.\-h.
+
+\hypertarget{class_hyperplane_a2daf520a43be42fd98ae3779d2ef7fc9}{\index{Hyperplane@{Hyperplane}!signed\-Distance@{signed\-Distance}}
+\index{signed\-Distance@{signed\-Distance}!Hyperplane@{Hyperplane}}
+\subsubsection[{signed\-Distance}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar, int \-\_\-\-Ambient\-Dim$>$ {\bf Scalar} {\bf Hyperplane}$<$ \-\_\-\-Scalar, \-\_\-\-Ambient\-Dim $>$\-::signed\-Distance (
+\begin{DoxyParamCaption}
+\item[{const {\bf Vector\-Type} \&}]{p}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_hyperplane_a2daf520a43be42fd98ae3779d2ef7fc9}
+\begin{DoxyReturn}{Returns}
+the signed distance between the plane {\ttfamily $\ast$this} and a point {\itshape p}. 
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_hyperplane_ad69a6e645690c995636298e896a45c36}{abs\-Distance()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 136 of file Hyperplane.\-h.
+
+\hypertarget{class_hyperplane_aa1b08f260f6a00f77940e05774a541e3}{\index{Hyperplane@{Hyperplane}!Through@{Through}}
+\index{Through@{Through}!Hyperplane@{Hyperplane}}
+\subsubsection[{Through}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar, int \-\_\-\-Ambient\-Dim$>$ static {\bf Hyperplane} {\bf Hyperplane}$<$ \-\_\-\-Scalar, \-\_\-\-Ambient\-Dim $>$\-::Through (
+\begin{DoxyParamCaption}
+\item[{const {\bf Vector\-Type} \&}]{p0, }
+\item[{const {\bf Vector\-Type} \&}]{p1}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{class_hyperplane_aa1b08f260f6a00f77940e05774a541e3}
+Constructs a hyperplane passing through the two points. If the dimension of the ambient space is greater than 2, then there isn't uniqueness, so an arbitrary choice is made. 
+
+Definition at line 91 of file Hyperplane.\-h.
+
+\hypertarget{class_hyperplane_afbae06656ee6cbe4c23640bdba0f3a32}{\index{Hyperplane@{Hyperplane}!Through@{Through}}
+\index{Through@{Through}!Hyperplane@{Hyperplane}}
+\subsubsection[{Through}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar, int \-\_\-\-Ambient\-Dim$>$ static {\bf Hyperplane} {\bf Hyperplane}$<$ \-\_\-\-Scalar, \-\_\-\-Ambient\-Dim $>$\-::Through (
+\begin{DoxyParamCaption}
+\item[{const {\bf Vector\-Type} \&}]{p0, }
+\item[{const {\bf Vector\-Type} \&}]{p1, }
+\item[{const {\bf Vector\-Type} \&}]{p2}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{class_hyperplane_afbae06656ee6cbe4c23640bdba0f3a32}
+Constructs a hyperplane passing through the three points. The dimension of the ambient space is required to be exactly 3. 
+
+Definition at line 102 of file Hyperplane.\-h.
+
+\hypertarget{class_hyperplane_ae8bf9410d0c8ab664c1da042f6b4fbcc}{\index{Hyperplane@{Hyperplane}!transform@{transform}}
+\index{transform@{transform}!Hyperplane@{Hyperplane}}
+\subsubsection[{transform}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar, int \-\_\-\-Ambient\-Dim$>$ template$<$typename Xpr\-Type $>$ {\bf Hyperplane}\& {\bf Hyperplane}$<$ \-\_\-\-Scalar, \-\_\-\-Ambient\-Dim $>$\-::{\bf transform} (
+\begin{DoxyParamCaption}
+\item[{const {\bf Matrix\-Base}$<$ Xpr\-Type $>$ \&}]{mat, }
+\item[{{\bf Transform\-Traits}}]{traits = {\ttfamily {\bf Affine}}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_hyperplane_ae8bf9410d0c8ab664c1da042f6b4fbcc}
+Applies the transformation matrix {\itshape mat} to {\ttfamily $\ast$this} and returns a reference to {\ttfamily $\ast$this}.
+
+
+\begin{DoxyParams}{Parameters}
+{\em mat} & the Dim x Dim transformation matrix \\
+\hline
+{\em traits} & specifies whether the matrix {\itshape mat} represents an Isometry or a more generic Affine transformation. The default is Affine. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 210 of file Hyperplane.\-h.
+
+\hypertarget{class_hyperplane_a64585d83cec9f9f9480c986dc585ce8e}{\index{Hyperplane@{Hyperplane}!transform@{transform}}
+\index{transform@{transform}!Hyperplane@{Hyperplane}}
+\subsubsection[{transform}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar, int \-\_\-\-Ambient\-Dim$>$ {\bf Hyperplane}\& {\bf Hyperplane}$<$ \-\_\-\-Scalar, \-\_\-\-Ambient\-Dim $>$\-::{\bf transform} (
+\begin{DoxyParamCaption}
+\item[{const {\bf Transform}$<$ {\bf Scalar}, Ambient\-Dim\-At\-Compile\-Time $>$ \&}]{t, }
+\item[{{\bf Transform\-Traits}}]{traits = {\ttfamily {\bf Affine}}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_hyperplane_a64585d83cec9f9f9480c986dc585ce8e}
+Applies the transformation {\itshape t} to {\ttfamily $\ast$this} and returns a reference to {\ttfamily $\ast$this}.
+
+
+\begin{DoxyParams}{Parameters}
+{\em t} & the transformation of dimension Dim \\
+\hline
+{\em traits} & specifies whether the transformation {\itshape t} represents an Isometry or a more generic Affine transformation. The default is Affine. Other kind of transformations are not supported. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 230 of file Hyperplane.\-h.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{class_hyperplane_a641ff024d9a1d9f811bf7221643c37fd}{\index{Hyperplane@{Hyperplane}!m\-\_\-coeffs@{m\-\_\-coeffs}}
+\index{m\-\_\-coeffs@{m\-\_\-coeffs}!Hyperplane@{Hyperplane}}
+\subsubsection[{m\-\_\-coeffs}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar, int \-\_\-\-Ambient\-Dim$>$ {\bf Coefficients} {\bf Hyperplane}$<$ \-\_\-\-Scalar, \-\_\-\-Ambient\-Dim $>$\-::m\-\_\-coeffs\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_hyperplane_a641ff024d9a1d9f811bf7221643c37fd}
+
+
+Definition at line 265 of file Hyperplane.\-h.
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/eigen/\-Eigen/src/\-Core/util/\hyperlink{_forward_declarations_8h}{Forward\-Declarations.\-h}\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/eigen/\-Eigen/src/\-Geometry/\hyperlink{_hyperplane_8h}{Hyperplane.\-h}\end{DoxyCompactItemize}

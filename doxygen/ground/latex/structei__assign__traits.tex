@@ -1,0 +1,97 @@
+\hypertarget{structei__assign__traits}{\section{ei\-\_\-assign\-\_\-traits$<$ Derived, Other\-Derived $>$ Struct Template Reference}
+\label{structei__assign__traits}\index{ei\-\_\-assign\-\_\-traits$<$ Derived, Other\-Derived $>$@{ei\-\_\-assign\-\_\-traits$<$ Derived, Other\-Derived $>$}}
+}
+
+
+{\ttfamily \#include $<$Assign.\-h$>$}
+
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+enum \{ \hyperlink{structei__assign__traits_adb76bc7019909f60a44d8c2711217dd6a8a8e85068577b3ba4e30e01580553190}{Dst\-Is\-Aligned} = Derived\-:\-:Flags \& Aligned\-Bit, 
+\hyperlink{structei__assign__traits_adb76bc7019909f60a44d8c2711217dd6af74e9b9d9671572056d8db8e0a64bbf0}{Src\-Is\-Aligned} = Other\-Derived\-:\-:Flags \& Aligned\-Bit, 
+\hyperlink{structei__assign__traits_adb76bc7019909f60a44d8c2711217dd6a1dfdd57f6e3f9359556f3b15ac5f2f0c}{Src\-Alignment} = Dst\-Is\-Aligned \&\& Src\-Is\-Aligned ? Aligned \-: Unaligned
+ \}
+\item 
+enum \{ \hyperlink{structei__assign__traits_ac1a4600997e18e41b5bb63318a19f25ba2542ac1ebcb19cf17e3274b6faabeab1}{Vectorization}
+ \}
+\item 
+enum \{ \hyperlink{structei__assign__traits_a6c8bcbf7c2c8e287c2c52b4e01f0c8caac94f4e3749ec7e4ddb82e1cb0962c355}{Unrolling}
+ \}
+\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{structei__assign__traits_a1a0416c3056661c715e387a88642c967}{debug} ()
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$typename Derived, typename Other\-Derived$>$struct ei\-\_\-assign\-\_\-traits$<$ Derived, Other\-Derived $>$}
+
+
+
+Definition at line 35 of file Assign.\-h.
+
+
+
+\subsection{Member Enumeration Documentation}
+\hypertarget{structei__assign__traits_adb76bc7019909f60a44d8c2711217dd6}{\subsubsection[{anonymous enum}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Derived , typename Other\-Derived $>$ anonymous enum}}\label{structei__assign__traits_adb76bc7019909f60a44d8c2711217dd6}
+\begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{Dst\-Is\-Aligned@{Dst\-Is\-Aligned}!ei\-\_\-assign\-\_\-traits@{ei\-\_\-assign\-\_\-traits}}\index{ei\-\_\-assign\-\_\-traits@{ei\-\_\-assign\-\_\-traits}!Dst\-Is\-Aligned@{Dst\-Is\-Aligned}}\item[{\em 
+\hypertarget{structei__assign__traits_adb76bc7019909f60a44d8c2711217dd6a8a8e85068577b3ba4e30e01580553190}{Dst\-Is\-Aligned}\label{structei__assign__traits_adb76bc7019909f60a44d8c2711217dd6a8a8e85068577b3ba4e30e01580553190}
+}]\index{Src\-Is\-Aligned@{Src\-Is\-Aligned}!ei\-\_\-assign\-\_\-traits@{ei\-\_\-assign\-\_\-traits}}\index{ei\-\_\-assign\-\_\-traits@{ei\-\_\-assign\-\_\-traits}!Src\-Is\-Aligned@{Src\-Is\-Aligned}}\item[{\em 
+\hypertarget{structei__assign__traits_adb76bc7019909f60a44d8c2711217dd6af74e9b9d9671572056d8db8e0a64bbf0}{Src\-Is\-Aligned}\label{structei__assign__traits_adb76bc7019909f60a44d8c2711217dd6af74e9b9d9671572056d8db8e0a64bbf0}
+}]\index{Src\-Alignment@{Src\-Alignment}!ei\-\_\-assign\-\_\-traits@{ei\-\_\-assign\-\_\-traits}}\index{ei\-\_\-assign\-\_\-traits@{ei\-\_\-assign\-\_\-traits}!Src\-Alignment@{Src\-Alignment}}\item[{\em 
+\hypertarget{structei__assign__traits_adb76bc7019909f60a44d8c2711217dd6a1dfdd57f6e3f9359556f3b15ac5f2f0c}{Src\-Alignment}\label{structei__assign__traits_adb76bc7019909f60a44d8c2711217dd6a1dfdd57f6e3f9359556f3b15ac5f2f0c}
+}]\end{description}
+\end{Desc}
+
+
+Definition at line 38 of file Assign.\-h.
+
+\hypertarget{structei__assign__traits_ac1a4600997e18e41b5bb63318a19f25b}{\subsubsection[{anonymous enum}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Derived , typename Other\-Derived $>$ anonymous enum}}\label{structei__assign__traits_ac1a4600997e18e41b5bb63318a19f25b}
+\begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{Vectorization@{Vectorization}!ei\-\_\-assign\-\_\-traits@{ei\-\_\-assign\-\_\-traits}}\index{ei\-\_\-assign\-\_\-traits@{ei\-\_\-assign\-\_\-traits}!Vectorization@{Vectorization}}\item[{\em 
+\hypertarget{structei__assign__traits_ac1a4600997e18e41b5bb63318a19f25ba2542ac1ebcb19cf17e3274b6faabeab1}{Vectorization}\label{structei__assign__traits_ac1a4600997e18e41b5bb63318a19f25ba2542ac1ebcb19cf17e3274b6faabeab1}
+}]\end{description}
+\end{Desc}
+
+
+Definition at line 67 of file Assign.\-h.
+
+\hypertarget{structei__assign__traits_a6c8bcbf7c2c8e287c2c52b4e01f0c8ca}{\subsubsection[{anonymous enum}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Derived , typename Other\-Derived $>$ anonymous enum}}\label{structei__assign__traits_a6c8bcbf7c2c8e287c2c52b4e01f0c8ca}
+\begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{Unrolling@{Unrolling}!ei\-\_\-assign\-\_\-traits@{ei\-\_\-assign\-\_\-traits}}\index{ei\-\_\-assign\-\_\-traits@{ei\-\_\-assign\-\_\-traits}!Unrolling@{Unrolling}}\item[{\em 
+\hypertarget{structei__assign__traits_a6c8bcbf7c2c8e287c2c52b4e01f0c8caac94f4e3749ec7e4ddb82e1cb0962c355}{Unrolling}\label{structei__assign__traits_a6c8bcbf7c2c8e287c2c52b4e01f0c8caac94f4e3749ec7e4ddb82e1cb0962c355}
+}]\end{description}
+\end{Desc}
+
+
+Definition at line 82 of file Assign.\-h.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{structei__assign__traits_a1a0416c3056661c715e387a88642c967}{\index{ei\-\_\-assign\-\_\-traits@{ei\-\_\-assign\-\_\-traits}!debug@{debug}}
+\index{debug@{debug}!ei_assign_traits@{ei\-\_\-assign\-\_\-traits}}
+\subsubsection[{debug}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Derived , typename Other\-Derived $>$ static {\bf void} {\bf ei\-\_\-assign\-\_\-traits}$<$ Derived, Other\-Derived $>$\-::debug (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{structei__assign__traits_a1a0416c3056661c715e387a88642c967}
+
+
+Definition at line 96 of file Assign.\-h.
+
+
+
+The documentation for this struct was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/eigen/\-Eigen/src/\-Core/\hyperlink{_assign_8h}{Assign.\-h}\end{DoxyCompactItemize}

@@ -1,0 +1,209 @@
+\hypertarget{class_qwt_dial_needle}{\section{Qwt\-Dial\-Needle Class Reference}
+\label{class_qwt_dial_needle}\index{Qwt\-Dial\-Needle@{Qwt\-Dial\-Needle}}
+}
+
+
+Base class for needles that can be used in a \hyperlink{class_qwt_dial}{Qwt\-Dial}.  
+
+
+
+
+{\ttfamily \#include $<$qwt\-\_\-dial\-\_\-needle.\-h$>$}
+
+Inheritance diagram for Qwt\-Dial\-Needle\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_qwt_dial_needle}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_qwt_dial_needle_aef3af79632ce784bc4d7332f6e269a1f}{Qwt\-Dial\-Needle} ()
+\begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
+virtual \hyperlink{class_qwt_dial_needle_ac23b2af4af50042967c8cea87b474247}{$\sim$\-Qwt\-Dial\-Needle} ()
+\begin{DoxyCompactList}\small\item\em Destructor. \end{DoxyCompactList}\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_dial_needle_ae850883a64501136bca64d6ea2d084b9}{set\-Palette} (const Q\-Palette \&)
+\item 
+const Q\-Palette \& \hyperlink{class_qwt_dial_needle_a8b3c915032389261e07cc983b433166c}{palette} () const 
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_dial_needle_a425085086c4a8c7baff10b161616ee42}{draw} (Q\-Painter $\ast$painter, const Q\-Point\-F \&center, \hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} \hyperlink{glext_8h_a3c8469415bbc83dd1341af15c67f1cef}{length}, \hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} direction, Q\-Palette\-::\-Color\-Group=Q\-Palette\-::\-Active) const 
+\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_dial_needle_a1e4fee366fec1838edc18890d9957f2b}{draw\-Needle} (Q\-Painter $\ast$painter, \hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} \hyperlink{glext_8h_a3c8469415bbc83dd1341af15c67f1cef}{length}, Q\-Palette\-::\-Color\-Group color\-Group) const =0
+\begin{DoxyCompactList}\small\item\em Draw the needle. \end{DoxyCompactList}\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_dial_needle_aaca9572717a1db10b1b6609571024688}{draw\-Knob} (Q\-Painter $\ast$, \hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} \hyperlink{glext_8h_a76aaa5c50746272e7d2de9aece921757}{width}, const Q\-Brush \&, bool sunken) const 
+\begin{DoxyCompactList}\small\item\em Draw the knob. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Base class for needles that can be used in a \hyperlink{class_qwt_dial}{Qwt\-Dial}. 
+
+\hyperlink{class_qwt_dial_needle}{Qwt\-Dial\-Needle} is a pointer that indicates a value by pointing to a specific direction.
+
+\hyperlink{namespace_qwt}{Qwt} is missing a set of good looking needles. Contributions are very welcome.
+
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_dial}{Qwt\-Dial}, \hyperlink{class_qwt_compass}{Qwt\-Compass} 
+\end{DoxySeeAlso}
+
+
+Definition at line 31 of file qwt\-\_\-dial\-\_\-needle.\-h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_qwt_dial_needle_aef3af79632ce784bc4d7332f6e269a1f}{\index{Qwt\-Dial\-Needle@{Qwt\-Dial\-Needle}!Qwt\-Dial\-Needle@{Qwt\-Dial\-Needle}}
+\index{Qwt\-Dial\-Needle@{Qwt\-Dial\-Needle}!QwtDialNeedle@{Qwt\-Dial\-Needle}}
+\subsubsection[{Qwt\-Dial\-Needle}]{\setlength{\rightskip}{0pt plus 5cm}Qwt\-Dial\-Needle\-::\-Qwt\-Dial\-Needle (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_qwt_dial_needle_aef3af79632ce784bc4d7332f6e269a1f}
+
+
+Constructor. 
+
+
+
+Definition at line 183 of file qwt\-\_\-dial\-\_\-needle.\-cpp.
+
+\hypertarget{class_qwt_dial_needle_ac23b2af4af50042967c8cea87b474247}{\index{Qwt\-Dial\-Needle@{Qwt\-Dial\-Needle}!$\sim$\-Qwt\-Dial\-Needle@{$\sim$\-Qwt\-Dial\-Needle}}
+\index{$\sim$\-Qwt\-Dial\-Needle@{$\sim$\-Qwt\-Dial\-Needle}!QwtDialNeedle@{Qwt\-Dial\-Needle}}
+\subsubsection[{$\sim$\-Qwt\-Dial\-Needle}]{\setlength{\rightskip}{0pt plus 5cm}Qwt\-Dial\-Needle\-::$\sim$\-Qwt\-Dial\-Needle (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_qwt_dial_needle_ac23b2af4af50042967c8cea87b474247}
+
+
+Destructor. 
+
+
+
+Definition at line 189 of file qwt\-\_\-dial\-\_\-needle.\-cpp.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_qwt_dial_needle_a425085086c4a8c7baff10b161616ee42}{\index{Qwt\-Dial\-Needle@{Qwt\-Dial\-Needle}!draw@{draw}}
+\index{draw@{draw}!QwtDialNeedle@{Qwt\-Dial\-Needle}}
+\subsubsection[{draw}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Dial\-Needle\-::draw (
+\begin{DoxyParamCaption}
+\item[{Q\-Painter $\ast$}]{painter, }
+\item[{const Q\-Point\-F \&}]{center, }
+\item[{{\bf double}}]{length, }
+\item[{{\bf double}}]{direction, }
+\item[{Q\-Palette\-::\-Color\-Group}]{color\-Group = {\ttfamily QPalette\-:\-:Active}}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_qwt_dial_needle_a425085086c4a8c7baff10b161616ee42}
+Draw the needle
+
+
+\begin{DoxyParams}{Parameters}
+{\em painter} & Painter \\
+\hline
+{\em center} & Center of the dial, start position for the needle \\
+\hline
+{\em length} & Length of the needle \\
+\hline
+{\em direction} & Direction of the needle, in degrees counter clockwise \\
+\hline
+{\em color\-Group} & Color group, used for painting \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 220 of file qwt\-\_\-dial\-\_\-needle.\-cpp.
+
+\hypertarget{class_qwt_dial_needle_aaca9572717a1db10b1b6609571024688}{\index{Qwt\-Dial\-Needle@{Qwt\-Dial\-Needle}!draw\-Knob@{draw\-Knob}}
+\index{draw\-Knob@{draw\-Knob}!QwtDialNeedle@{Qwt\-Dial\-Needle}}
+\subsubsection[{draw\-Knob}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Dial\-Needle\-::draw\-Knob (
+\begin{DoxyParamCaption}
+\item[{Q\-Painter $\ast$}]{painter, }
+\item[{{\bf double}}]{width, }
+\item[{const Q\-Brush \&}]{brush, }
+\item[{bool}]{sunken}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}}\label{class_qwt_dial_needle_aaca9572717a1db10b1b6609571024688}
+
+
+Draw the knob. 
+
+
+
+Definition at line 235 of file qwt\-\_\-dial\-\_\-needle.\-cpp.
+
+\hypertarget{class_qwt_dial_needle_a1e4fee366fec1838edc18890d9957f2b}{\index{Qwt\-Dial\-Needle@{Qwt\-Dial\-Needle}!draw\-Needle@{draw\-Needle}}
+\index{draw\-Needle@{draw\-Needle}!QwtDialNeedle@{Qwt\-Dial\-Needle}}
+\subsubsection[{draw\-Needle}]{\setlength{\rightskip}{0pt plus 5cm}virtual {\bf void} Qwt\-Dial\-Needle\-::draw\-Needle (
+\begin{DoxyParamCaption}
+\item[{Q\-Painter $\ast$}]{painter, }
+\item[{{\bf double}}]{length, }
+\item[{Q\-Palette\-::\-Color\-Group}]{color\-Group}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [pure virtual]}}}\label{class_qwt_dial_needle_a1e4fee366fec1838edc18890d9957f2b}
+
+
+Draw the needle. 
+
+The origin of the needle is at position (0.\-0, 0.\-0 ) pointing in direction 0.\-0 ( = east ).
+
+The painter is already initilaized with translation and rotation.
+
+
+\begin{DoxyParams}{Parameters}
+{\em painter} & Painter \\
+\hline
+{\em length} & Length of the needle \\
+\hline
+{\em color\-Group} & Color group, used for painting\\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_dial_needle_ae850883a64501136bca64d6ea2d084b9}{set\-Palette()}, \hyperlink{class_qwt_dial_needle_a8b3c915032389261e07cc983b433166c}{palette()} 
+\end{DoxySeeAlso}
+
+
+Implemented in \hyperlink{class_qwt_compass_wind_arrow_a4e3b612f2de83ff416e34f62c1f0fd6c}{Qwt\-Compass\-Wind\-Arrow}, \hyperlink{class_qwt_compass_magnet_needle_aa052d929a09bfc6d487a973b2221d44d}{Qwt\-Compass\-Magnet\-Needle}, and \hyperlink{class_qwt_dial_simple_needle_a0eff8832707ff968d17eddf478d6a771}{Qwt\-Dial\-Simple\-Needle}.
+
+\hypertarget{class_qwt_dial_needle_a8b3c915032389261e07cc983b433166c}{\index{Qwt\-Dial\-Needle@{Qwt\-Dial\-Needle}!palette@{palette}}
+\index{palette@{palette}!QwtDialNeedle@{Qwt\-Dial\-Needle}}
+\subsubsection[{palette}]{\setlength{\rightskip}{0pt plus 5cm}const Q\-Palette \& Qwt\-Dial\-Needle\-::palette (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_qwt_dial_needle_a8b3c915032389261e07cc983b433166c}
+\begin{DoxyReturn}{Returns}
+the palette of the needle. 
+\end{DoxyReturn}
+
+
+Definition at line 206 of file qwt\-\_\-dial\-\_\-needle.\-cpp.
+
+\hypertarget{class_qwt_dial_needle_ae850883a64501136bca64d6ea2d084b9}{\index{Qwt\-Dial\-Needle@{Qwt\-Dial\-Needle}!set\-Palette@{set\-Palette}}
+\index{set\-Palette@{set\-Palette}!QwtDialNeedle@{Qwt\-Dial\-Needle}}
+\subsubsection[{set\-Palette}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Dial\-Needle\-::set\-Palette (
+\begin{DoxyParamCaption}
+\item[{const Q\-Palette \&}]{palette}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_qwt_dial_needle_ae850883a64501136bca64d6ea2d084b9}
+Sets the palette for the needle.
+
+
+\begin{DoxyParams}{Parameters}
+{\em palette} & New Palette \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 198 of file qwt\-\_\-dial\-\_\-needle.\-cpp.
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/qwt/src/\hyperlink{qwt__dial__needle_8h}{qwt\-\_\-dial\-\_\-needle.\-h}\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/qwt/src/\hyperlink{qwt__dial__needle_8cpp}{qwt\-\_\-dial\-\_\-needle.\-cpp}\end{DoxyCompactItemize}

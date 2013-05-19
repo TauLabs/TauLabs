@@ -1,0 +1,144 @@
+\hypertarget{class_qwt_compass_wind_arrow}{\section{Qwt\-Compass\-Wind\-Arrow Class Reference}
+\label{class_qwt_compass_wind_arrow}\index{Qwt\-Compass\-Wind\-Arrow@{Qwt\-Compass\-Wind\-Arrow}}
+}
+
+
+An indicator for the wind direction.  
+
+
+
+
+{\ttfamily \#include $<$qwt\-\_\-dial\-\_\-needle.\-h$>$}
+
+Inheritance diagram for Qwt\-Compass\-Wind\-Arrow\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_qwt_compass_wind_arrow}
+\end{center}
+\end{figure}
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{class_qwt_compass_wind_arrow_a55f11e28c9d87c0fb7c306ccd174f2a8}{Style} \{ \hyperlink{class_qwt_compass_wind_arrow_a55f11e28c9d87c0fb7c306ccd174f2a8a62b689f03b4e974660ce1241942b09fc}{Style1}, 
+\hyperlink{class_qwt_compass_wind_arrow_a55f11e28c9d87c0fb7c306ccd174f2a8a44a462b3f0fa85bf3fa8dc421484e529}{Style2}
+ \}
+\begin{DoxyCompactList}\small\item\em Style of the arrow. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_qwt_compass_wind_arrow_a1b5931f43dd7e72fc5a3e2c9b509769d}{Qwt\-Compass\-Wind\-Arrow} (\hyperlink{class_qwt_compass_wind_arrow_a55f11e28c9d87c0fb7c306ccd174f2a8}{Style}, const Q\-Color \&light=Qt\-::white, const Q\-Color \&dark=Qt\-::gray)
+\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_compass_wind_arrow_a4e3b612f2de83ff416e34f62c1f0fd6c}{draw\-Needle} (Q\-Painter $\ast$, \hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} \hyperlink{glext_8h_a3c8469415bbc83dd1341af15c67f1cef}{length}, Q\-Palette\-::\-Color\-Group) const 
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+An indicator for the wind direction. 
+
+\hyperlink{class_qwt_compass_wind_arrow}{Qwt\-Compass\-Wind\-Arrow} shows the direction where the wind comes from.
+
+
+\begin{DoxyItemize}
+\item Q\-Palette\-::\-Light\par
+ Used for Style1, or the light half of Style2
+\item Q\-Palette\-::\-Dark\par
+ Used for the dark half of Style2
+\end{DoxyItemize}
+
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_dial}{Qwt\-Dial}, \hyperlink{class_qwt_compass}{Qwt\-Compass} 
+\end{DoxySeeAlso}
+
+
+Definition at line 166 of file qwt\-\_\-dial\-\_\-needle.\-h.
+
+
+
+\subsection{Member Enumeration Documentation}
+\hypertarget{class_qwt_compass_wind_arrow_a55f11e28c9d87c0fb7c306ccd174f2a8}{\index{Qwt\-Compass\-Wind\-Arrow@{Qwt\-Compass\-Wind\-Arrow}!Style@{Style}}
+\index{Style@{Style}!QwtCompassWindArrow@{Qwt\-Compass\-Wind\-Arrow}}
+\subsubsection[{Style}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf Qwt\-Compass\-Wind\-Arrow\-::\-Style}}}\label{class_qwt_compass_wind_arrow_a55f11e28c9d87c0fb7c306ccd174f2a8}
+
+
+Style of the arrow. 
+
+\begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{Style1@{Style1}!Qwt\-Compass\-Wind\-Arrow@{Qwt\-Compass\-Wind\-Arrow}}\index{Qwt\-Compass\-Wind\-Arrow@{Qwt\-Compass\-Wind\-Arrow}!Style1@{Style1}}\item[{\em 
+\hypertarget{class_qwt_compass_wind_arrow_a55f11e28c9d87c0fb7c306ccd174f2a8a62b689f03b4e974660ce1241942b09fc}{Style1}\label{class_qwt_compass_wind_arrow_a55f11e28c9d87c0fb7c306ccd174f2a8a62b689f03b4e974660ce1241942b09fc}
+}]A needle pointing to the center. \index{Style2@{Style2}!Qwt\-Compass\-Wind\-Arrow@{Qwt\-Compass\-Wind\-Arrow}}\index{Qwt\-Compass\-Wind\-Arrow@{Qwt\-Compass\-Wind\-Arrow}!Style2@{Style2}}\item[{\em 
+\hypertarget{class_qwt_compass_wind_arrow_a55f11e28c9d87c0fb7c306ccd174f2a8a44a462b3f0fa85bf3fa8dc421484e529}{Style2}\label{class_qwt_compass_wind_arrow_a55f11e28c9d87c0fb7c306ccd174f2a8a44a462b3f0fa85bf3fa8dc421484e529}
+}]A needle pointing to the center. \end{description}
+\end{Desc}
+
+
+Definition at line 170 of file qwt\-\_\-dial\-\_\-needle.\-h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_qwt_compass_wind_arrow_a1b5931f43dd7e72fc5a3e2c9b509769d}{\index{Qwt\-Compass\-Wind\-Arrow@{Qwt\-Compass\-Wind\-Arrow}!Qwt\-Compass\-Wind\-Arrow@{Qwt\-Compass\-Wind\-Arrow}}
+\index{Qwt\-Compass\-Wind\-Arrow@{Qwt\-Compass\-Wind\-Arrow}!QwtCompassWindArrow@{Qwt\-Compass\-Wind\-Arrow}}
+\subsubsection[{Qwt\-Compass\-Wind\-Arrow}]{\setlength{\rightskip}{0pt plus 5cm}Qwt\-Compass\-Wind\-Arrow\-::\-Qwt\-Compass\-Wind\-Arrow (
+\begin{DoxyParamCaption}
+\item[{{\bf Style}}]{style, }
+\item[{const Q\-Color \&}]{light = {\ttfamily Qt\-:\-:white}, }
+\item[{const Q\-Color \&}]{dark = {\ttfamily Qt\-:\-:gray}}
+\end{DoxyParamCaption}
+)}}\label{class_qwt_compass_wind_arrow_a1b5931f43dd7e72fc5a3e2c9b509769d}
+Constructor
+
+
+\begin{DoxyParams}{Parameters}
+{\em style} & Arrow style \\
+\hline
+{\em light} & Light color \\
+\hline
+{\em dark} & Dark color \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 422 of file qwt\-\_\-dial\-\_\-needle.\-cpp.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_qwt_compass_wind_arrow_a4e3b612f2de83ff416e34f62c1f0fd6c}{\index{Qwt\-Compass\-Wind\-Arrow@{Qwt\-Compass\-Wind\-Arrow}!draw\-Needle@{draw\-Needle}}
+\index{draw\-Needle@{draw\-Needle}!QwtCompassWindArrow@{Qwt\-Compass\-Wind\-Arrow}}
+\subsubsection[{draw\-Needle}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Compass\-Wind\-Arrow\-::draw\-Needle (
+\begin{DoxyParamCaption}
+\item[{Q\-Painter $\ast$}]{painter, }
+\item[{{\bf double}}]{length, }
+\item[{Q\-Palette\-::\-Color\-Group}]{color\-Group}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}}\label{class_qwt_compass_wind_arrow_a4e3b612f2de83ff416e34f62c1f0fd6c}
+Draw the needle
+
+
+\begin{DoxyParams}{Parameters}
+{\em painter} & Painter \\
+\hline
+{\em length} & Length of the needle \\
+\hline
+{\em color\-Group} & Color group, used for painting \\
+\hline
+\end{DoxyParams}
+
+
+Implements \hyperlink{class_qwt_dial_needle_a1e4fee366fec1838edc18890d9957f2b}{Qwt\-Dial\-Needle}.
+
+
+
+Definition at line 445 of file qwt\-\_\-dial\-\_\-needle.\-cpp.
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/qwt/src/\hyperlink{qwt__dial__needle_8h}{qwt\-\_\-dial\-\_\-needle.\-h}\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/qwt/src/\hyperlink{qwt__dial__needle_8cpp}{qwt\-\_\-dial\-\_\-needle.\-cpp}\end{DoxyCompactItemize}

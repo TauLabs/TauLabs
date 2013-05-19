@@ -1,0 +1,165 @@
+\hypertarget{class_qwt_weeding_curve_fitter}{\section{Qwt\-Weeding\-Curve\-Fitter Class Reference}
+\label{class_qwt_weeding_curve_fitter}\index{Qwt\-Weeding\-Curve\-Fitter@{Qwt\-Weeding\-Curve\-Fitter}}
+}
+
+
+A curve fitter implementing Douglas and Peucker algorithm.  
+
+
+
+
+{\ttfamily \#include $<$qwt\-\_\-curve\-\_\-fitter.\-h$>$}
+
+Inheritance diagram for Qwt\-Weeding\-Curve\-Fitter\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_qwt_weeding_curve_fitter}
+\end{center}
+\end{figure}
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{class_qwt_weeding_curve_fitter_1_1_line}{Line}
+\item 
+class \hyperlink{class_qwt_weeding_curve_fitter_1_1_private_data}{Private\-Data}
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_qwt_weeding_curve_fitter_a7deb4d070a329cbdee454023194898a7}{Qwt\-Weeding\-Curve\-Fitter} (\hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} \hyperlink{class_qwt_weeding_curve_fitter_aa2e69ce083d02c4da0d669a082a15187}{tolerance}=1.\-0)
+\item 
+virtual \hyperlink{class_qwt_weeding_curve_fitter_abbd30a948fc6974f881678f80a29768c}{$\sim$\-Qwt\-Weeding\-Curve\-Fitter} ()
+\begin{DoxyCompactList}\small\item\em Destructor. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_weeding_curve_fitter_a62c303f6826fef2be7b7bbe82f530680}{set\-Tolerance} (\hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double})
+\item 
+\hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} \hyperlink{class_qwt_weeding_curve_fitter_aa2e69ce083d02c4da0d669a082a15187}{tolerance} () const 
+\item 
+virtual Q\-Polygon\-F \hyperlink{class_qwt_weeding_curve_fitter_aa316dc6c60ae0d0c74ef0bc0fc239f0b}{fit\-Curve} (const Q\-Polygon\-F \&) const 
+\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Detailed Description}
+A curve fitter implementing Douglas and Peucker algorithm. 
+
+The purpose of the Douglas and Peucker algorithm is that given a 'curve' composed of line segments to find a curve not too dissimilar but that has fewer points. The algorithm defines 'too dissimilar' based on the maximum distance (tolerance) between the original curve and the smoothed curve.
+
+The smoothed curve consists of a subset of the points that defined the original curve.
+
+In opposite to \hyperlink{class_qwt_spline_curve_fitter}{Qwt\-Spline\-Curve\-Fitter} the Douglas and Peucker algorithm reduces the number of points. By adjusting the tolerance parameter according to the axis scales \hyperlink{class_qwt_spline_curve_fitter}{Qwt\-Spline\-Curve\-Fitter} can be used to implement different level of details to speed up painting of curves of many points. 
+
+Definition at line 110 of file qwt\-\_\-curve\-\_\-fitter.\-h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_qwt_weeding_curve_fitter_a7deb4d070a329cbdee454023194898a7}{\index{Qwt\-Weeding\-Curve\-Fitter@{Qwt\-Weeding\-Curve\-Fitter}!Qwt\-Weeding\-Curve\-Fitter@{Qwt\-Weeding\-Curve\-Fitter}}
+\index{Qwt\-Weeding\-Curve\-Fitter@{Qwt\-Weeding\-Curve\-Fitter}!QwtWeedingCurveFitter@{Qwt\-Weeding\-Curve\-Fitter}}
+\subsubsection[{Qwt\-Weeding\-Curve\-Fitter}]{\setlength{\rightskip}{0pt plus 5cm}Qwt\-Weeding\-Curve\-Fitter\-::\-Qwt\-Weeding\-Curve\-Fitter (
+\begin{DoxyParamCaption}
+\item[{{\bf double}}]{tolerance = {\ttfamily 1.0}}
+\end{DoxyParamCaption}
+)}}\label{class_qwt_weeding_curve_fitter_a7deb4d070a329cbdee454023194898a7}
+Constructor
+
+
+\begin{DoxyParams}{Parameters}
+{\em tolerance} & Tolerance \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_weeding_curve_fitter_a62c303f6826fef2be7b7bbe82f530680}{set\-Tolerance()}, \hyperlink{class_qwt_weeding_curve_fitter_aa2e69ce083d02c4da0d669a082a15187}{tolerance()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 275 of file qwt\-\_\-curve\-\_\-fitter.\-cpp.
+
+\hypertarget{class_qwt_weeding_curve_fitter_abbd30a948fc6974f881678f80a29768c}{\index{Qwt\-Weeding\-Curve\-Fitter@{Qwt\-Weeding\-Curve\-Fitter}!$\sim$\-Qwt\-Weeding\-Curve\-Fitter@{$\sim$\-Qwt\-Weeding\-Curve\-Fitter}}
+\index{$\sim$\-Qwt\-Weeding\-Curve\-Fitter@{$\sim$\-Qwt\-Weeding\-Curve\-Fitter}!QwtWeedingCurveFitter@{Qwt\-Weeding\-Curve\-Fitter}}
+\subsubsection[{$\sim$\-Qwt\-Weeding\-Curve\-Fitter}]{\setlength{\rightskip}{0pt plus 5cm}Qwt\-Weeding\-Curve\-Fitter\-::$\sim$\-Qwt\-Weeding\-Curve\-Fitter (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_qwt_weeding_curve_fitter_abbd30a948fc6974f881678f80a29768c}
+
+
+Destructor. 
+
+
+
+Definition at line 282 of file qwt\-\_\-curve\-\_\-fitter.\-cpp.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_qwt_weeding_curve_fitter_aa316dc6c60ae0d0c74ef0bc0fc239f0b}{\index{Qwt\-Weeding\-Curve\-Fitter@{Qwt\-Weeding\-Curve\-Fitter}!fit\-Curve@{fit\-Curve}}
+\index{fit\-Curve@{fit\-Curve}!QwtWeedingCurveFitter@{Qwt\-Weeding\-Curve\-Fitter}}
+\subsubsection[{fit\-Curve}]{\setlength{\rightskip}{0pt plus 5cm}Q\-Polygon\-F Qwt\-Weeding\-Curve\-Fitter\-::fit\-Curve (
+\begin{DoxyParamCaption}
+\item[{const Q\-Polygon\-F \&}]{points}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_qwt_weeding_curve_fitter_aa316dc6c60ae0d0c74ef0bc0fc239f0b}
+
+\begin{DoxyParams}{Parameters}
+{\em points} & Series of data points \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Curve points 
+\end{DoxyReturn}
+
+
+Implements \hyperlink{class_qwt_curve_fitter_afa9bf5b328aa553229e204533a60fec0}{Qwt\-Curve\-Fitter}.
+
+
+
+Definition at line 318 of file qwt\-\_\-curve\-\_\-fitter.\-cpp.
+
+\hypertarget{class_qwt_weeding_curve_fitter_a62c303f6826fef2be7b7bbe82f530680}{\index{Qwt\-Weeding\-Curve\-Fitter@{Qwt\-Weeding\-Curve\-Fitter}!set\-Tolerance@{set\-Tolerance}}
+\index{set\-Tolerance@{set\-Tolerance}!QwtWeedingCurveFitter@{Qwt\-Weeding\-Curve\-Fitter}}
+\subsubsection[{set\-Tolerance}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Weeding\-Curve\-Fitter\-::set\-Tolerance (
+\begin{DoxyParamCaption}
+\item[{{\bf double}}]{tolerance}
+\end{DoxyParamCaption}
+)}}\label{class_qwt_weeding_curve_fitter_a62c303f6826fef2be7b7bbe82f530680}
+Assign the tolerance
+
+The tolerance is the maximum distance, that is accaptable between the original curve and the smoothed curve.
+
+Increasing the tolerance will reduce the number of the resulting points.
+
+
+\begin{DoxyParams}{Parameters}
+{\em tolerance} & Tolerance\\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_weeding_curve_fitter_aa2e69ce083d02c4da0d669a082a15187}{tolerance()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 300 of file qwt\-\_\-curve\-\_\-fitter.\-cpp.
+
+\hypertarget{class_qwt_weeding_curve_fitter_aa2e69ce083d02c4da0d669a082a15187}{\index{Qwt\-Weeding\-Curve\-Fitter@{Qwt\-Weeding\-Curve\-Fitter}!tolerance@{tolerance}}
+\index{tolerance@{tolerance}!QwtWeedingCurveFitter@{Qwt\-Weeding\-Curve\-Fitter}}
+\subsubsection[{tolerance}]{\setlength{\rightskip}{0pt plus 5cm}{\bf double} Qwt\-Weeding\-Curve\-Fitter\-::tolerance (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_qwt_weeding_curve_fitter_aa2e69ce083d02c4da0d669a082a15187}
+\begin{DoxyReturn}{Returns}
+Tolerance 
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_weeding_curve_fitter_a62c303f6826fef2be7b7bbe82f530680}{set\-Tolerance()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 309 of file qwt\-\_\-curve\-\_\-fitter.\-cpp.
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/qwt/src/\hyperlink{qwt__curve__fitter_8h}{qwt\-\_\-curve\-\_\-fitter.\-h}\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/qwt/src/\hyperlink{qwt__curve__fitter_8cpp}{qwt\-\_\-curve\-\_\-fitter.\-cpp}\end{DoxyCompactItemize}

@@ -1,0 +1,164 @@
+\hypertarget{analyze_e_k_f_8m}{\section{/home/jose/\-Code/gui\-Tau/ground/gcs/src/experimental/\-Serial\-Logger/analyze\-E\-K\-F.m File Reference}
+\label{analyze_e_k_f_8m}\index{/home/jose/\-Code/gui\-Tau/ground/gcs/src/experimental/\-Serial\-Logger/analyze\-E\-K\-F.\-m@{/home/jose/\-Code/gui\-Tau/ground/gcs/src/experimental/\-Serial\-Logger/analyze\-E\-K\-F.\-m}}
+}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{uavobjecttemplate_8m_a2420833d971716e9bab41cc9fb3abba1}{function} \hyperlink{analyze_e_k_f_8m_a086d9cb5f45aa0d07e429aec09e353d7}{analyze\-E\-K\-F} (fn) fid
+\item 
+\hyperlink{analyze_e_k_f_8m_a5e769bbbabcaddc548203741c7100228}{fclose} (fid)
+\item 
+\hyperlink{analyze_e_k_f_8m_afbb6eda2b6f503d51c9aac61db776e84}{starts} (\hyperlink{glext_8h_a432111147038972f06e049e18a837002}{end})
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{analyze_e_k_f_8m_a76c4a0a43b42e96b60b2016e14b8b1c1}{dat} = \hyperlink{analyze_raw_8m_a2bd360018338874758daf245dc7c51b9}{uint8}(fread(fid,inf,'uchar'))
+\item 
+\hyperlink{analyze_e_k_f_8m_aa5405ec398ddc45bbdb81ab40374c0bf}{mag\-\_\-data\-\_\-size} = 1 + 4$\ast$3
+\item 
+\hyperlink{analyze_e_k_f_8m_a4670019167e12ec9c7f8bc67e41fdb48}{accel\-\_\-sensor\-\_\-size} = 4$\ast$3
+\item 
+\hyperlink{analyze_e_k_f_8m_ae632fbb8e3dc2c229068c0d8ad016eef}{gyro\-\_\-sensor\-\_\-size} = 4$\ast$3
+\item 
+\hyperlink{analyze_e_k_f_8m_abdf952a4fd0c4e7dd24c25d3d6f55430}{raw\-\_\-framing} = 15\-:-\/1\-:0
+\item 
+\hyperlink{analyze_e_k_f_8m_a97b40a45a893919b7c3d281b502b4d37}{starts} = strfind(char(\hyperlink{_parse_e_k_f_log_8m_a4cabe20f4789aa5689735cd972635612}{dat}'),char(\hyperlink{_parse_e_k_f_log_8m_abdf952a4fd0c4e7dd24c25d3d6f55430}{raw\-\_\-framing}))
+\item 
+\hyperlink{analyze_e_k_f_8m_a10c8c3e72533f5f324dcf742e02483d9}{counts} = typecast(reshape(\hyperlink{_parse_e_k_f_log_8m_a4cabe20f4789aa5689735cd972635612}{dat}(bsxfun(@plus,\hyperlink{_parse_e_k_f_log_8m_afbb6eda2b6f503d51c9aac61db776e84}{starts},(16\-:19)')),1,\mbox{[}$\,$\mbox{]}),'\hyperlink{analyze_raw_8m_a9b24b01902f038c46a677cd00052d94f}{int32}')
+\item 
+\hyperlink{analyze_e_k_f_8m_ac3accd0b202111384b72654ac85fe26b}{accel} = reshape(typecast(reshape(\hyperlink{_parse_e_k_f_log_8m_a4cabe20f4789aa5689735cd972635612}{dat}(bsxfun(@plus,\hyperlink{_parse_e_k_f_log_8m_afbb6eda2b6f503d51c9aac61db776e84}{starts},(20\-:31)')),1,\mbox{[}$\,$\mbox{]}),'single'),3,\mbox{[}$\,$\mbox{]})'
+\item 
+\hyperlink{analyze_e_k_f_8m_adf8497ec1c181427211780880a2c554d}{gyro} = reshape(typecast(reshape(\hyperlink{_parse_e_k_f_log_8m_a4cabe20f4789aa5689735cd972635612}{dat}(bsxfun(@plus,\hyperlink{_parse_e_k_f_log_8m_afbb6eda2b6f503d51c9aac61db776e84}{starts},(32\-:43)')),1,\mbox{[}$\,$\mbox{]}),'single'),3,\mbox{[}$\,$\mbox{]})'
+\item 
+\hyperlink{analyze_e_k_f_8m_ace8a2f2f6be16847c37fca662d3d451c}{mag\-\_\-updated} = \hyperlink{_parse_e_k_f_log_8m_a4cabe20f4789aa5689735cd972635612}{dat}(\hyperlink{_parse_e_k_f_log_8m_afbb6eda2b6f503d51c9aac61db776e84}{starts}+44)
+\item 
+\hyperlink{analyze_e_k_f_8m_a8e403a5cdc3ce0c8d780f32e433982e4}{mag} = reshape(typecast(reshape(\hyperlink{_parse_e_k_f_log_8m_a4cabe20f4789aa5689735cd972635612}{dat}(bsxfun(@plus,\hyperlink{_parse_e_k_f_log_8m_afbb6eda2b6f503d51c9aac61db776e84}{starts},(45\-:56)')),1,\mbox{[}$\,$\mbox{]}),'single'),3,\mbox{[}$\,$\mbox{]})'
+\item 
+\hyperlink{analyze_e_k_f_8m_ae60203a581cc7376c4ff719262432a28}{gps}
+\item 
+\hyperlink{analyze_e_k_f_8m_a4baee84af7a92177c9064ddc2fc010ce}{P} = reshape(typecast(reshape(\hyperlink{_parse_e_k_f_log_8m_a4cabe20f4789aa5689735cd972635612}{dat}(bsxfun(@plus,\hyperlink{_parse_e_k_f_log_8m_afbb6eda2b6f503d51c9aac61db776e84}{starts},(137\-:137+13$\ast$4-\/1)')),1,\mbox{[}$\,$\mbox{]}),'single'),13,\mbox{[}$\,$\mbox{]})'
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\hypertarget{analyze_e_k_f_8m_a086d9cb5f45aa0d07e429aec09e353d7}{\index{analyze\-E\-K\-F.\-m@{analyze\-E\-K\-F.\-m}!analyze\-E\-K\-F@{analyze\-E\-K\-F}}
+\index{analyze\-E\-K\-F@{analyze\-E\-K\-F}!analyzeEKF.m@{analyze\-E\-K\-F.\-m}}
+\subsubsection[{analyze\-E\-K\-F}]{\setlength{\rightskip}{0pt plus 5cm}{\bf function} analyze\-E\-K\-F (
+\begin{DoxyParamCaption}
+\item[{fn}]{}
+\end{DoxyParamCaption}
+)}}\label{analyze_e_k_f_8m_a086d9cb5f45aa0d07e429aec09e353d7}
+\hypertarget{analyze_e_k_f_8m_a5e769bbbabcaddc548203741c7100228}{\index{analyze\-E\-K\-F.\-m@{analyze\-E\-K\-F.\-m}!fclose@{fclose}}
+\index{fclose@{fclose}!analyzeEKF.m@{analyze\-E\-K\-F.\-m}}
+\subsubsection[{fclose}]{\setlength{\rightskip}{0pt plus 5cm}fclose (
+\begin{DoxyParamCaption}
+\item[{fid}]{}
+\end{DoxyParamCaption}
+)}}\label{analyze_e_k_f_8m_a5e769bbbabcaddc548203741c7100228}
+\hypertarget{analyze_e_k_f_8m_afbb6eda2b6f503d51c9aac61db776e84}{\index{analyze\-E\-K\-F.\-m@{analyze\-E\-K\-F.\-m}!starts@{starts}}
+\index{starts@{starts}!analyzeEKF.m@{analyze\-E\-K\-F.\-m}}
+\subsubsection[{starts}]{\setlength{\rightskip}{0pt plus 5cm}starts (
+\begin{DoxyParamCaption}
+\item[{{\bf end}}]{}
+\end{DoxyParamCaption}
+)}}\label{analyze_e_k_f_8m_afbb6eda2b6f503d51c9aac61db776e84}
+
+
+\subsection{Variable Documentation}
+\hypertarget{analyze_e_k_f_8m_ac3accd0b202111384b72654ac85fe26b}{\index{analyze\-E\-K\-F.\-m@{analyze\-E\-K\-F.\-m}!accel@{accel}}
+\index{accel@{accel}!analyzeEKF.m@{analyze\-E\-K\-F.\-m}}
+\subsubsection[{accel}]{\setlength{\rightskip}{0pt plus 5cm}{\bf data}({\bf i} accel = reshape(typecast(reshape({\bf dat}(bsxfun(@plus,{\bf starts},(20\-:31)')),1,\mbox{[}$\,$\mbox{]}),'single'),3,\mbox{[}$\,$\mbox{]})'}}\label{analyze_e_k_f_8m_ac3accd0b202111384b72654ac85fe26b}
+
+
+Definition at line 16 of file analyze\-E\-K\-F.\-m.
+
+\hypertarget{analyze_e_k_f_8m_a4670019167e12ec9c7f8bc67e41fdb48}{\index{analyze\-E\-K\-F.\-m@{analyze\-E\-K\-F.\-m}!accel\-\_\-sensor\-\_\-size@{accel\-\_\-sensor\-\_\-size}}
+\index{accel\-\_\-sensor\-\_\-size@{accel\-\_\-sensor\-\_\-size}!analyzeEKF.m@{analyze\-E\-K\-F.\-m}}
+\subsubsection[{accel\-\_\-sensor\-\_\-size}]{\setlength{\rightskip}{0pt plus 5cm}accel\-\_\-sensor\-\_\-size = 4$\ast$3}}\label{analyze_e_k_f_8m_a4670019167e12ec9c7f8bc67e41fdb48}
+
+
+Definition at line 8 of file analyze\-E\-K\-F.\-m.
+
+\hypertarget{analyze_e_k_f_8m_a10c8c3e72533f5f324dcf742e02483d9}{\index{analyze\-E\-K\-F.\-m@{analyze\-E\-K\-F.\-m}!counts@{counts}}
+\index{counts@{counts}!analyzeEKF.m@{analyze\-E\-K\-F.\-m}}
+\subsubsection[{counts}]{\setlength{\rightskip}{0pt plus 5cm}counts = typecast(reshape({\bf dat}(bsxfun(@plus,{\bf starts},(16\-:19)')),1,\mbox{[}$\,$\mbox{]}),'{\bf int32}')}}\label{analyze_e_k_f_8m_a10c8c3e72533f5f324dcf742e02483d9}
+
+
+Definition at line 15 of file analyze\-E\-K\-F.\-m.
+
+\hypertarget{analyze_e_k_f_8m_a76c4a0a43b42e96b60b2016e14b8b1c1}{\index{analyze\-E\-K\-F.\-m@{analyze\-E\-K\-F.\-m}!dat@{dat}}
+\index{dat@{dat}!analyzeEKF.m@{analyze\-E\-K\-F.\-m}}
+\subsubsection[{dat}]{\setlength{\rightskip}{0pt plus 5cm}{\bf end} {\bf end} {\bf else} dat = {\bf uint8}(fread(fid,inf,'uchar'))}}\label{analyze_e_k_f_8m_a76c4a0a43b42e96b60b2016e14b8b1c1}
+
+
+Definition at line 4 of file analyze\-E\-K\-F.\-m.
+
+\hypertarget{analyze_e_k_f_8m_ae60203a581cc7376c4ff719262432a28}{\index{analyze\-E\-K\-F.\-m@{analyze\-E\-K\-F.\-m}!gps@{gps}}
+\index{gps@{gps}!analyzeEKF.m@{analyze\-E\-K\-F.\-m}}
+\subsubsection[{gps}]{\setlength{\rightskip}{0pt plus 5cm}gps}}\label{analyze_e_k_f_8m_ae60203a581cc7376c4ff719262432a28}
+{\bfseries Initial value\-:}
+\begin{DoxyCode}
+= 28 bytes 57:84
+\hyperlink{_parse_e_k_f_log_8m_ac51b57a703ba1c5869228690c93e1701}{X} = reshape(typecast(reshape(\hyperlink{analyze_e_k_f_8m_a76c4a0a43b42e96b60b2016e14b8b1c1}{dat}(bsxfun(@plus,\hyperlink{analyze_e_k_f_8m_a97b40a45a893919b7c3d281b502b4d37}{starts},(85:85+13*4-1)\textcolor{stringliteral}{')),1,[]),'}single\textcolor{stringliteral}{'),13,[])'}
+\end{DoxyCode}
+
+
+Definition at line 20 of file analyze\-E\-K\-F.\-m.
+
+\hypertarget{analyze_e_k_f_8m_adf8497ec1c181427211780880a2c554d}{\index{analyze\-E\-K\-F.\-m@{analyze\-E\-K\-F.\-m}!gyro@{gyro}}
+\index{gyro@{gyro}!analyzeEKF.m@{analyze\-E\-K\-F.\-m}}
+\subsubsection[{gyro}]{\setlength{\rightskip}{0pt plus 5cm}{\bf data}({\bf i} gyro = reshape(typecast(reshape({\bf dat}(bsxfun(@plus,{\bf starts},(32\-:43)')),1,\mbox{[}$\,$\mbox{]}),'single'),3,\mbox{[}$\,$\mbox{]})'}}\label{analyze_e_k_f_8m_adf8497ec1c181427211780880a2c554d}
+
+
+Definition at line 17 of file analyze\-E\-K\-F.\-m.
+
+\hypertarget{analyze_e_k_f_8m_ae632fbb8e3dc2c229068c0d8ad016eef}{\index{analyze\-E\-K\-F.\-m@{analyze\-E\-K\-F.\-m}!gyro\-\_\-sensor\-\_\-size@{gyro\-\_\-sensor\-\_\-size}}
+\index{gyro\-\_\-sensor\-\_\-size@{gyro\-\_\-sensor\-\_\-size}!analyzeEKF.m@{analyze\-E\-K\-F.\-m}}
+\subsubsection[{gyro\-\_\-sensor\-\_\-size}]{\setlength{\rightskip}{0pt plus 5cm}gyro\-\_\-sensor\-\_\-size = 4$\ast$3}}\label{analyze_e_k_f_8m_ae632fbb8e3dc2c229068c0d8ad016eef}
+
+
+Definition at line 9 of file analyze\-E\-K\-F.\-m.
+
+\hypertarget{analyze_e_k_f_8m_a8e403a5cdc3ce0c8d780f32e433982e4}{\index{analyze\-E\-K\-F.\-m@{analyze\-E\-K\-F.\-m}!mag@{mag}}
+\index{mag@{mag}!analyzeEKF.m@{analyze\-E\-K\-F.\-m}}
+\subsubsection[{mag}]{\setlength{\rightskip}{0pt plus 5cm}{\bf data}({\bf i} mag = reshape(typecast(reshape({\bf dat}(bsxfun(@plus,{\bf starts},(45\-:56)')),1,\mbox{[}$\,$\mbox{]}),'single'),3,\mbox{[}$\,$\mbox{]})'}}\label{analyze_e_k_f_8m_a8e403a5cdc3ce0c8d780f32e433982e4}
+
+
+Definition at line 19 of file analyze\-E\-K\-F.\-m.
+
+\hypertarget{analyze_e_k_f_8m_aa5405ec398ddc45bbdb81ab40374c0bf}{\index{analyze\-E\-K\-F.\-m@{analyze\-E\-K\-F.\-m}!mag\-\_\-data\-\_\-size@{mag\-\_\-data\-\_\-size}}
+\index{mag\-\_\-data\-\_\-size@{mag\-\_\-data\-\_\-size}!analyzeEKF.m@{analyze\-E\-K\-F.\-m}}
+\subsubsection[{mag\-\_\-data\-\_\-size}]{\setlength{\rightskip}{0pt plus 5cm}mag\-\_\-data\-\_\-size = 1 + 4$\ast$3}}\label{analyze_e_k_f_8m_aa5405ec398ddc45bbdb81ab40374c0bf}
+
+
+Definition at line 7 of file analyze\-E\-K\-F.\-m.
+
+\hypertarget{analyze_e_k_f_8m_ace8a2f2f6be16847c37fca662d3d451c}{\index{analyze\-E\-K\-F.\-m@{analyze\-E\-K\-F.\-m}!mag\-\_\-updated@{mag\-\_\-updated}}
+\index{mag\-\_\-updated@{mag\-\_\-updated}!analyzeEKF.m@{analyze\-E\-K\-F.\-m}}
+\subsubsection[{mag\-\_\-updated}]{\setlength{\rightskip}{0pt plus 5cm}mag\-\_\-updated = {\bf dat}({\bf starts}+44)}}\label{analyze_e_k_f_8m_ace8a2f2f6be16847c37fca662d3d451c}
+
+
+Definition at line 18 of file analyze\-E\-K\-F.\-m.
+
+\hypertarget{analyze_e_k_f_8m_a4baee84af7a92177c9064ddc2fc010ce}{\index{analyze\-E\-K\-F.\-m@{analyze\-E\-K\-F.\-m}!P@{P}}
+\index{P@{P}!analyzeEKF.m@{analyze\-E\-K\-F.\-m}}
+\subsubsection[{P}]{\setlength{\rightskip}{0pt plus 5cm}P = reshape(typecast(reshape({\bf dat}(bsxfun(@plus,{\bf starts},(137\-:137+13$\ast$4-\/1)')),1,\mbox{[}$\,$\mbox{]}),'single'),13,\mbox{[}$\,$\mbox{]})'}}\label{analyze_e_k_f_8m_a4baee84af7a92177c9064ddc2fc010ce}
+
+
+Definition at line 22 of file analyze\-E\-K\-F.\-m.
+
+\hypertarget{analyze_e_k_f_8m_abdf952a4fd0c4e7dd24c25d3d6f55430}{\index{analyze\-E\-K\-F.\-m@{analyze\-E\-K\-F.\-m}!raw\-\_\-framing@{raw\-\_\-framing}}
+\index{raw\-\_\-framing@{raw\-\_\-framing}!analyzeEKF.m@{analyze\-E\-K\-F.\-m}}
+\subsubsection[{raw\-\_\-framing}]{\setlength{\rightskip}{0pt plus 5cm}raw\-\_\-framing = 15\-:-\/1\-:0}}\label{analyze_e_k_f_8m_abdf952a4fd0c4e7dd24c25d3d6f55430}
+
+
+Definition at line 10 of file analyze\-E\-K\-F.\-m.
+
+\hypertarget{analyze_e_k_f_8m_a97b40a45a893919b7c3d281b502b4d37}{\index{analyze\-E\-K\-F.\-m@{analyze\-E\-K\-F.\-m}!starts@{starts}}
+\index{starts@{starts}!analyzeEKF.m@{analyze\-E\-K\-F.\-m}}
+\subsubsection[{starts}]{\setlength{\rightskip}{0pt plus 5cm}starts = strfind(char({\bf dat}'),char({\bf raw\-\_\-framing}))}}\label{analyze_e_k_f_8m_a97b40a45a893919b7c3d281b502b4d37}
+
+
+Definition at line 12 of file analyze\-E\-K\-F.\-m.
+

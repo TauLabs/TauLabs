@@ -1,0 +1,238 @@
+\hypertarget{class_qwt_plot_magnifier}{\section{Qwt\-Plot\-Magnifier Class Reference}
+\label{class_qwt_plot_magnifier}\index{Qwt\-Plot\-Magnifier@{Qwt\-Plot\-Magnifier}}
+}
+
+
+\hyperlink{class_qwt_plot_magnifier}{Qwt\-Plot\-Magnifier} provides zooming, by magnifying in steps.  
+
+
+
+
+{\ttfamily \#include $<$qwt\-\_\-plot\-\_\-magnifier.\-h$>$}
+
+Inheritance diagram for Qwt\-Plot\-Magnifier\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{class_qwt_plot_magnifier}
+\end{center}
+\end{figure}
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{class_qwt_plot_magnifier_1_1_private_data}{Private\-Data}
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_qwt_plot_magnifier_ab60fc56ac5a3f2e9ab879f0a9be0fdb9}{Qwt\-Plot\-Magnifier} (\hyperlink{class_qwt_plot_canvas}{Qwt\-Plot\-Canvas} $\ast$)
+\item 
+virtual \hyperlink{class_qwt_plot_magnifier_a38c0508241885ea49542cc0f11c740df}{$\sim$\-Qwt\-Plot\-Magnifier} ()
+\begin{DoxyCompactList}\small\item\em Destructor. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_plot_magnifier_ac8806df408b5ed9eac79cd38e5fc1508}{set\-Axis\-Enabled} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} axis, bool on)
+\begin{DoxyCompactList}\small\item\em En/\-Disable an axis. \end{DoxyCompactList}\item 
+bool \hyperlink{class_qwt_plot_magnifier_acb4c33465bdd3c19c07ea3fa836c1f8d}{is\-Axis\-Enabled} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} axis) const 
+\item 
+\hyperlink{class_qwt_plot_canvas}{Qwt\-Plot\-Canvas} $\ast$ \hyperlink{class_qwt_plot_magnifier_a947d94f9517bb096851738b5c2bf4b7d}{canvas} ()
+\begin{DoxyCompactList}\small\item\em Return observed plot canvas. \end{DoxyCompactList}\item 
+const \hyperlink{class_qwt_plot_canvas}{Qwt\-Plot\-Canvas} $\ast$ \hyperlink{class_qwt_plot_magnifier_aadc3279e94ae3aad04824377b2d93829}{canvas} () const 
+\begin{DoxyCompactList}\small\item\em Return Observed plot canvas. \end{DoxyCompactList}\item 
+\hyperlink{class_qwt_plot}{Qwt\-Plot} $\ast$ \hyperlink{class_qwt_plot_magnifier_ae0197fb4f393e149585ff62f8e29cea6}{plot} ()
+\begin{DoxyCompactList}\small\item\em Return plot widget, containing the observed plot canvas. \end{DoxyCompactList}\item 
+const \hyperlink{class_qwt_plot}{Qwt\-Plot} $\ast$ \hyperlink{class_qwt_plot_magnifier_a2cc4ae00009f34f54880aea9e9837826}{plot} () const 
+\begin{DoxyCompactList}\small\item\em Return plot widget, containing the observed plot canvas. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_plot_magnifier_a271ae5ad42c3dd12812246d2dee687ea}{rescale} (\hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} factor)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\hyperlink{class_qwt_plot_magnifier}{Qwt\-Plot\-Magnifier} provides zooming, by magnifying in steps. 
+
+Using \hyperlink{class_qwt_plot_magnifier}{Qwt\-Plot\-Magnifier} a plot can be zoomed in/out in steps using keys, the mouse wheel or moving a mouse button in vertical direction.
+
+Together with \hyperlink{class_qwt_plot_zoomer}{Qwt\-Plot\-Zoomer} and \hyperlink{class_qwt_plot_panner}{Qwt\-Plot\-Panner} it is possible to implement individual and powerful navigation of the plot canvas.
+
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_plot_zoomer}{Qwt\-Plot\-Zoomer}, \hyperlink{class_qwt_plot_panner}{Qwt\-Plot\-Panner}, \hyperlink{class_qwt_plot}{Qwt\-Plot} 
+\end{DoxySeeAlso}
+
+
+Definition at line 30 of file qwt\-\_\-plot\-\_\-magnifier.\-h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_qwt_plot_magnifier_ab60fc56ac5a3f2e9ab879f0a9be0fdb9}{\index{Qwt\-Plot\-Magnifier@{Qwt\-Plot\-Magnifier}!Qwt\-Plot\-Magnifier@{Qwt\-Plot\-Magnifier}}
+\index{Qwt\-Plot\-Magnifier@{Qwt\-Plot\-Magnifier}!QwtPlotMagnifier@{Qwt\-Plot\-Magnifier}}
+\subsubsection[{Qwt\-Plot\-Magnifier}]{\setlength{\rightskip}{0pt plus 5cm}Qwt\-Plot\-Magnifier\-::\-Qwt\-Plot\-Magnifier (
+\begin{DoxyParamCaption}
+\item[{{\bf Qwt\-Plot\-Canvas} $\ast$}]{canvas}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [explicit]}}}\label{class_qwt_plot_magnifier_ab60fc56ac5a3f2e9ab879f0a9be0fdb9}
+Constructor 
+\begin{DoxyParams}{Parameters}
+{\em canvas} & Plot canvas to be magnified \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 32 of file qwt\-\_\-plot\-\_\-magnifier.\-cpp.
+
+\hypertarget{class_qwt_plot_magnifier_a38c0508241885ea49542cc0f11c740df}{\index{Qwt\-Plot\-Magnifier@{Qwt\-Plot\-Magnifier}!$\sim$\-Qwt\-Plot\-Magnifier@{$\sim$\-Qwt\-Plot\-Magnifier}}
+\index{$\sim$\-Qwt\-Plot\-Magnifier@{$\sim$\-Qwt\-Plot\-Magnifier}!QwtPlotMagnifier@{Qwt\-Plot\-Magnifier}}
+\subsubsection[{$\sim$\-Qwt\-Plot\-Magnifier}]{\setlength{\rightskip}{0pt plus 5cm}Qwt\-Plot\-Magnifier\-::$\sim$\-Qwt\-Plot\-Magnifier (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_qwt_plot_magnifier_a38c0508241885ea49542cc0f11c740df}
+
+
+Destructor. 
+
+
+
+Definition at line 39 of file qwt\-\_\-plot\-\_\-magnifier.\-cpp.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_qwt_plot_magnifier_a947d94f9517bb096851738b5c2bf4b7d}{\index{Qwt\-Plot\-Magnifier@{Qwt\-Plot\-Magnifier}!canvas@{canvas}}
+\index{canvas@{canvas}!QwtPlotMagnifier@{Qwt\-Plot\-Magnifier}}
+\subsubsection[{canvas}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Qwt\-Plot\-Canvas} $\ast$ Qwt\-Plot\-Magnifier\-::canvas (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_qwt_plot_magnifier_a947d94f9517bb096851738b5c2bf4b7d}
+
+
+Return observed plot canvas. 
+
+
+
+Definition at line 78 of file qwt\-\_\-plot\-\_\-magnifier.\-cpp.
+
+\hypertarget{class_qwt_plot_magnifier_aadc3279e94ae3aad04824377b2d93829}{\index{Qwt\-Plot\-Magnifier@{Qwt\-Plot\-Magnifier}!canvas@{canvas}}
+\index{canvas@{canvas}!QwtPlotMagnifier@{Qwt\-Plot\-Magnifier}}
+\subsubsection[{canvas}]{\setlength{\rightskip}{0pt plus 5cm}const {\bf Qwt\-Plot\-Canvas} $\ast$ Qwt\-Plot\-Magnifier\-::canvas (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_qwt_plot_magnifier_aadc3279e94ae3aad04824377b2d93829}
+
+
+Return Observed plot canvas. 
+
+
+
+Definition at line 84 of file qwt\-\_\-plot\-\_\-magnifier.\-cpp.
+
+\hypertarget{class_qwt_plot_magnifier_acb4c33465bdd3c19c07ea3fa836c1f8d}{\index{Qwt\-Plot\-Magnifier@{Qwt\-Plot\-Magnifier}!is\-Axis\-Enabled@{is\-Axis\-Enabled}}
+\index{is\-Axis\-Enabled@{is\-Axis\-Enabled}!QwtPlotMagnifier@{Qwt\-Plot\-Magnifier}}
+\subsubsection[{is\-Axis\-Enabled}]{\setlength{\rightskip}{0pt plus 5cm}bool Qwt\-Plot\-Magnifier\-::is\-Axis\-Enabled (
+\begin{DoxyParamCaption}
+\item[{{\bf int}}]{axis}
+\end{DoxyParamCaption}
+) const}}\label{class_qwt_plot_magnifier_acb4c33465bdd3c19c07ea3fa836c1f8d}
+Test if an axis is enabled
+
+
+\begin{DoxyParams}{Parameters}
+{\em axis} & Axis, see \hyperlink{class_qwt_plot_a81df699dcf9dde0752c0726b5f31e271}{Qwt\-Plot\-::\-Axis} \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True, if the axis is enabled
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_plot_magnifier_ac8806df408b5ed9eac79cd38e5fc1508}{set\-Axis\-Enabled()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 69 of file qwt\-\_\-plot\-\_\-magnifier.\-cpp.
+
+\hypertarget{class_qwt_plot_magnifier_ae0197fb4f393e149585ff62f8e29cea6}{\index{Qwt\-Plot\-Magnifier@{Qwt\-Plot\-Magnifier}!plot@{plot}}
+\index{plot@{plot}!QwtPlotMagnifier@{Qwt\-Plot\-Magnifier}}
+\subsubsection[{plot}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Qwt\-Plot} $\ast$ Qwt\-Plot\-Magnifier\-::plot (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_qwt_plot_magnifier_ae0197fb4f393e149585ff62f8e29cea6}
+
+
+Return plot widget, containing the observed plot canvas. 
+
+
+
+Definition at line 90 of file qwt\-\_\-plot\-\_\-magnifier.\-cpp.
+
+\hypertarget{class_qwt_plot_magnifier_a2cc4ae00009f34f54880aea9e9837826}{\index{Qwt\-Plot\-Magnifier@{Qwt\-Plot\-Magnifier}!plot@{plot}}
+\index{plot@{plot}!QwtPlotMagnifier@{Qwt\-Plot\-Magnifier}}
+\subsubsection[{plot}]{\setlength{\rightskip}{0pt plus 5cm}const {\bf Qwt\-Plot} $\ast$ Qwt\-Plot\-Magnifier\-::plot (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_qwt_plot_magnifier_a2cc4ae00009f34f54880aea9e9837826}
+
+
+Return plot widget, containing the observed plot canvas. 
+
+
+
+Definition at line 100 of file qwt\-\_\-plot\-\_\-magnifier.\-cpp.
+
+\hypertarget{class_qwt_plot_magnifier_a271ae5ad42c3dd12812246d2dee687ea}{\index{Qwt\-Plot\-Magnifier@{Qwt\-Plot\-Magnifier}!rescale@{rescale}}
+\index{rescale@{rescale}!QwtPlotMagnifier@{Qwt\-Plot\-Magnifier}}
+\subsubsection[{rescale}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Plot\-Magnifier\-::rescale (
+\begin{DoxyParamCaption}
+\item[{{\bf double}}]{factor}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}}\label{class_qwt_plot_magnifier_a271ae5ad42c3dd12812246d2dee687ea}
+Zoom in/out the axes scales 
+\begin{DoxyParams}{Parameters}
+{\em factor} & A value $<$ 1.\-0 zooms in, a value $>$ 1.\-0 zooms out. \\
+\hline
+\end{DoxyParams}
+
+
+Implements \hyperlink{class_qwt_magnifier_a5c3d5bda10412a50bd403afe84e2ccee}{Qwt\-Magnifier}.
+
+
+
+Definition at line 113 of file qwt\-\_\-plot\-\_\-magnifier.\-cpp.
+
+\hypertarget{class_qwt_plot_magnifier_ac8806df408b5ed9eac79cd38e5fc1508}{\index{Qwt\-Plot\-Magnifier@{Qwt\-Plot\-Magnifier}!set\-Axis\-Enabled@{set\-Axis\-Enabled}}
+\index{set\-Axis\-Enabled@{set\-Axis\-Enabled}!QwtPlotMagnifier@{Qwt\-Plot\-Magnifier}}
+\subsubsection[{set\-Axis\-Enabled}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Plot\-Magnifier\-::set\-Axis\-Enabled (
+\begin{DoxyParamCaption}
+\item[{{\bf int}}]{axis, }
+\item[{bool}]{on}
+\end{DoxyParamCaption}
+)}}\label{class_qwt_plot_magnifier_ac8806df408b5ed9eac79cd38e5fc1508}
+
+
+En/\-Disable an axis. 
+
+Only Axes that are enabled will be zoomed. All other axes will remain unchanged.
+
+
+\begin{DoxyParams}{Parameters}
+{\em axis} & Axis, see \hyperlink{class_qwt_plot_a81df699dcf9dde0752c0726b5f31e271}{Qwt\-Plot\-::\-Axis} \\
+\hline
+{\em on} & On/\-Off\\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_plot_magnifier_acb4c33465bdd3c19c07ea3fa836c1f8d}{is\-Axis\-Enabled()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 55 of file qwt\-\_\-plot\-\_\-magnifier.\-cpp.
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/qwt/src/\hyperlink{qwt__plot__magnifier_8h}{qwt\-\_\-plot\-\_\-magnifier.\-h}\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/qwt/src/\hyperlink{qwt__plot__magnifier_8cpp}{qwt\-\_\-plot\-\_\-magnifier.\-cpp}\end{DoxyCompactItemize}

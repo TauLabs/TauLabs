@@ -1,0 +1,513 @@
+\hypertarget{class_qxt_r_p_c_service}{\section{Qxt\-R\-P\-C\-Service Class Reference}
+\label{class_qxt_r_p_c_service}\index{Qxt\-R\-P\-C\-Service@{Qxt\-R\-P\-C\-Service}}
+}
+
+
+The \hyperlink{class_qxt_r_p_c_service}{Qxt\-R\-P\-C\-Service} class transmits Qt signals over a Q\-I\-O\-Device.  
+
+
+
+
+{\ttfamily \#include $<$qxtrpcservice.\-h$>$}
+
+Inheritance diagram for Qxt\-R\-P\-C\-Service\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{class_qxt_r_p_c_service}
+\end{center}
+\end{figure}
+\subsection*{Public Slots}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qxt_r_p_c_service_a1c97516152b02be1a303e38bb2fa22da}{disconnect\-Client} (quint64 \hyperlink{glext_8h_a58c2a664503e14ffb8f21012aabff3e9}{id})
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qxt_r_p_c_service_aa7aaebcdc571455f9a04abce87ca79d1}{disconnect\-Server} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qxt_r_p_c_service_a931a2118af9363ec236dcfa49483681f}{disconnect\-All} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qxt_r_p_c_service_a5a0cb803d5f0dbadc102cc33cef612a3}{call} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{Q\-String} fn, const Q\-Variant \&p1=Q\-Variant(), const Q\-Variant \&p2=Q\-Variant(), const Q\-Variant \&p3=Q\-Variant(), const Q\-Variant \&p4=Q\-Variant(), const Q\-Variant \&p5=Q\-Variant(), const Q\-Variant \&p6=Q\-Variant(), const Q\-Variant \&p7=Q\-Variant(), const Q\-Variant \&p8=Q\-Variant())
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qxt_r_p_c_service_af63e5956c301b51e9007baf0ed8c6b51}{call} (\hyperlink{class_q_list}{Q\-List}$<$ quint64 $>$ \hyperlink{glext_8h_a9d87e17a2e32dd2a7b881c7b1ca24a98}{ids}, \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{Q\-String} fn, const Q\-Variant \&p1=Q\-Variant(), const Q\-Variant \&p2=Q\-Variant(), const Q\-Variant \&p3=Q\-Variant(), const Q\-Variant \&p4=Q\-Variant(), const Q\-Variant \&p5=Q\-Variant(), const Q\-Variant \&p6=Q\-Variant(), const Q\-Variant \&p7=Q\-Variant(), const Q\-Variant \&p8=Q\-Variant())
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qxt_r_p_c_service_ab105ef15a085758e05d3dd9ab329ad29}{call} (quint64 \hyperlink{glext_8h_a58c2a664503e14ffb8f21012aabff3e9}{id}, \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{Q\-String} fn, const Q\-Variant \&p1=Q\-Variant(), const Q\-Variant \&p2=Q\-Variant(), const Q\-Variant \&p3=Q\-Variant(), const Q\-Variant \&p4=Q\-Variant(), const Q\-Variant \&p5=Q\-Variant(), const Q\-Variant \&p6=Q\-Variant(), const Q\-Variant \&p7=Q\-Variant(), const Q\-Variant \&p8=Q\-Variant())
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qxt_r_p_c_service_a29735715edb6be280733d774d02bb3ab}{call\-Except} (quint64 \hyperlink{glext_8h_a58c2a664503e14ffb8f21012aabff3e9}{id}, \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{Q\-String} fn, const Q\-Variant \&p1=Q\-Variant(), const Q\-Variant \&p2=Q\-Variant(), const Q\-Variant \&p3=Q\-Variant(), const Q\-Variant \&p4=Q\-Variant(), const Q\-Variant \&p5=Q\-Variant(), const Q\-Variant \&p6=Q\-Variant(), const Q\-Variant \&p7=Q\-Variant(), const Q\-Variant \&p8=Q\-Variant())
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qxt_r_p_c_service_a6e9b1bbfe00e384025a58e70fa0e10de}{detach\-Sender} ()
+\end{DoxyCompactItemize}
+\subsection*{Signals}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qxt_r_p_c_service_a9b2af33db0cebccc82ecc2b9d21c8843}{client\-Connected} (quint64 \hyperlink{glext_8h_a58c2a664503e14ffb8f21012aabff3e9}{id})
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qxt_r_p_c_service_aaaa2a3cb64b4e59dbfefd7c68bf8c305}{client\-Disconnected} (quint64 \hyperlink{glext_8h_a58c2a664503e14ffb8f21012aabff3e9}{id})
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_qxt_r_p_c_service_a399b02f5839f36f3bed794f048f51530}{Qxt\-R\-P\-C\-Service} (Q\-Object $\ast$parent=0)
+\item 
+\hyperlink{class_qxt_r_p_c_service_aead492ecb762654be48be9f63bd254fa}{Qxt\-R\-P\-C\-Service} (Q\-I\-O\-Device $\ast$\hyperlink{class_qxt_r_p_c_service_a4eb4de0d4d04cadb92e469eed75bf7e8}{device}, Q\-Object $\ast$parent=0)
+\item 
+virtual \hyperlink{class_qxt_r_p_c_service_acaa67772390551273cdf421a60448606}{$\sim$\-Qxt\-R\-P\-C\-Service} ()
+\item 
+bool \hyperlink{class_qxt_r_p_c_service_afa257d10a02bd602d1994ef33027448e}{is\-Server} () const 
+\item 
+bool \hyperlink{class_qxt_r_p_c_service_a7e98c261583ad87bf80c3783756af0c8}{is\-Client} () const 
+\item 
+\hyperlink{class_q_list}{Q\-List}$<$ quint64 $>$ \hyperlink{class_qxt_r_p_c_service_af01a9230c41db79851937a34484dd75b}{clients} () const 
+\item 
+Q\-I\-O\-Device $\ast$ \hyperlink{class_qxt_r_p_c_service_a4eb4de0d4d04cadb92e469eed75bf7e8}{device} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qxt_r_p_c_service_aad1934ec252605d8543a940d4ca8238d}{set\-Device} (Q\-I\-O\-Device $\ast$dev)
+\item 
+Q\-I\-O\-Device $\ast$ \hyperlink{class_qxt_r_p_c_service_a492fe2088fdb58b8d9dc6d497df6a2de}{take\-Device} ()
+\item 
+\hyperlink{class_qxt_abstract_signal_serializer}{Qxt\-Abstract\-Signal\-Serializer} $\ast$ \hyperlink{class_qxt_r_p_c_service_a34dd27cfe4af223c4cc5335168a9c203}{serializer} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qxt_r_p_c_service_a4f9f712dd948aed4a65837ab19111305}{set\-Serializer} (\hyperlink{class_qxt_abstract_signal_serializer}{Qxt\-Abstract\-Signal\-Serializer} $\ast$\hyperlink{class_qxt_r_p_c_service_a34dd27cfe4af223c4cc5335168a9c203}{serializer})
+\item 
+\hyperlink{class_qxt_abstract_connection_manager}{Qxt\-Abstract\-Connection\-Manager} $\ast$ \hyperlink{class_qxt_r_p_c_service_ac86d1c59f3552bcbc88559f2c23edc7c}{connection\-Manager} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qxt_r_p_c_service_ae4246182fe7a84119fb37e90eb9cccf7}{set\-Connection\-Manager} (\hyperlink{class_qxt_abstract_connection_manager}{Qxt\-Abstract\-Connection\-Manager} $\ast$manager)
+\item 
+bool \hyperlink{class_qxt_r_p_c_service_adc5ae895c4fc3194254af52eda31aa6d}{attach\-Signal} (Q\-Object $\ast$sender, const char $\ast$\hyperlink{qxtdaemon_8h_aa2d2a7a3fc548ea76dcbc5e441b51260}{signal}, const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{Q\-String} \&rpc\-Function=\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{Q\-String}())
+\item 
+bool \hyperlink{class_qxt_r_p_c_service_a6166ed6737dba6215aa5093656bbe37d}{attach\-Slot} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{Q\-String} \&rpc\-Function, Q\-Object $\ast$recv, const char $\ast$slot, Qt\-::\-Connection\-Type \hyperlink{glext_8h_a7d05960f4f1c1b11f3177dc963a45d86}{type}=Qt\-::\-Auto\-Connection)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qxt_r_p_c_service_a68a87fe3f5491baa1c745e9680881eea}{detach\-Signals} (Q\-Object $\ast$\hyperlink{glext_8h_a0c0d4701a6c89f4f7f0640715d27ab26}{obj})
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qxt_r_p_c_service_a88ca491af26eb487d6bbe3a15e210642}{detach\-Slots} (Q\-Object $\ast$\hyperlink{glext_8h_a0c0d4701a6c89f4f7f0640715d27ab26}{obj})
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qxt_r_p_c_service_af8c18776b34e4da35df553aa0618d6bf}{detach\-Object} (Q\-Object $\ast$\hyperlink{glext_8h_a0c0d4701a6c89f4f7f0640715d27ab26}{obj})
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+The \hyperlink{class_qxt_r_p_c_service}{Qxt\-R\-P\-C\-Service} class transmits Qt signals over a Q\-I\-O\-Device. 
+
+Qxt\-Core \hyperlink{class_qxt_r_p_c_service}{Qxt\-R\-P\-C\-Service} is a tool that encapsulates Qt signals and transmits them over a Q\-I\-O\-Device. The signal is subsequently re-\/emitted on the receiving end of the connection.
+
+\hyperlink{class_qxt_r_p_c_service}{Qxt\-R\-P\-C\-Service} can act as a client or a server. When acting as a server, it uses a \hyperlink{class_qxt_abstract_connection_manager}{Qxt\-Abstract\-Connection\-Manager} to accept connections. When acting as a client, the application should provide an already-\/connected Q\-I\-O\-Device to the \hyperlink{class_qxt_r_p_c_service_aad1934ec252605d8543a940d4ca8238d}{set\-Device()} function.
+
+All data types used in attached signals and slots must be declared and registered with Q\-Meta\-Type using Q\-\_\-\-D\-E\-C\-L\-A\-R\-E\-\_\-\-M\-E\-T\-A\-T\-Y\-P\-E and q\-Register\-Meta\-Type. Additional requirements may be imposed by the \hyperlink{class_qxt_abstract_signal_serializer}{Qxt\-Abstract\-Signal\-Serializer} subclass in use; the default (\hyperlink{class_qxt_data_stream_signal_serializer}{Qxt\-Data\-Stream\-Signal\-Serializer}) requires that they have stream operators registered with q\-Register\-Meta\-Type\-Stream\-Operators.
+
+Due to a restriction of Qt's signals and slots mechanism, the number of parameters that can be passed to \hyperlink{class_qxt_r_p_c_service_a5a0cb803d5f0dbadc102cc33cef612a3}{call()} and its related functions, as well as the number of parameters to any signal or slot attached to \hyperlink{class_qxt_r_p_c_service}{Qxt\-R\-P\-C\-Service}, is limited to 8. 
+
+Definition at line 41 of file qxtrpcservice.\-h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_qxt_r_p_c_service_a399b02f5839f36f3bed794f048f51530}{\index{Qxt\-R\-P\-C\-Service@{Qxt\-R\-P\-C\-Service}!Qxt\-R\-P\-C\-Service@{Qxt\-R\-P\-C\-Service}}
+\index{Qxt\-R\-P\-C\-Service@{Qxt\-R\-P\-C\-Service}!QxtRPCService@{Qxt\-R\-P\-C\-Service}}
+\subsubsection[{Qxt\-R\-P\-C\-Service}]{\setlength{\rightskip}{0pt plus 5cm}Qxt\-R\-P\-C\-Service\-::\-Qxt\-R\-P\-C\-Service (
+\begin{DoxyParamCaption}
+\item[{Q\-Object $\ast$}]{parent = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)}}\label{class_qxt_r_p_c_service_a399b02f5839f36f3bed794f048f51530}
+Creates a \hyperlink{class_qxt_r_p_c_service}{Qxt\-R\-P\-C\-Service} object with the given {\itshape parent}. 
+
+Definition at line 407 of file qxtrpcservice.\-cpp.
+
+\hypertarget{class_qxt_r_p_c_service_aead492ecb762654be48be9f63bd254fa}{\index{Qxt\-R\-P\-C\-Service@{Qxt\-R\-P\-C\-Service}!Qxt\-R\-P\-C\-Service@{Qxt\-R\-P\-C\-Service}}
+\index{Qxt\-R\-P\-C\-Service@{Qxt\-R\-P\-C\-Service}!QxtRPCService@{Qxt\-R\-P\-C\-Service}}
+\subsubsection[{Qxt\-R\-P\-C\-Service}]{\setlength{\rightskip}{0pt plus 5cm}Qxt\-R\-P\-C\-Service\-::\-Qxt\-R\-P\-C\-Service (
+\begin{DoxyParamCaption}
+\item[{Q\-I\-O\-Device $\ast$}]{device, }
+\item[{Q\-Object $\ast$}]{parent = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [explicit]}}}\label{class_qxt_r_p_c_service_aead492ecb762654be48be9f63bd254fa}
+Creates a \hyperlink{class_qxt_r_p_c_service}{Qxt\-R\-P\-C\-Service} object with the given {\itshape parent} and connects it to the specified I/\-O {\itshape device}.
+
+The I/\-O device must already be opened for reading and writing. 
+
+Definition at line 421 of file qxtrpcservice.\-cpp.
+
+\hypertarget{class_qxt_r_p_c_service_acaa67772390551273cdf421a60448606}{\index{Qxt\-R\-P\-C\-Service@{Qxt\-R\-P\-C\-Service}!$\sim$\-Qxt\-R\-P\-C\-Service@{$\sim$\-Qxt\-R\-P\-C\-Service}}
+\index{$\sim$\-Qxt\-R\-P\-C\-Service@{$\sim$\-Qxt\-R\-P\-C\-Service}!QxtRPCService@{Qxt\-R\-P\-C\-Service}}
+\subsubsection[{$\sim$\-Qxt\-R\-P\-C\-Service}]{\setlength{\rightskip}{0pt plus 5cm}Qxt\-R\-P\-C\-Service\-::$\sim$\-Qxt\-R\-P\-C\-Service (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_qxt_r_p_c_service_acaa67772390551273cdf421a60448606}
+Destroys the \hyperlink{class_qxt_r_p_c_service}{Qxt\-R\-P\-C\-Service} object. 
+
+Definition at line 431 of file qxtrpcservice.\-cpp.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_qxt_r_p_c_service_adc5ae895c4fc3194254af52eda31aa6d}{\index{Qxt\-R\-P\-C\-Service@{Qxt\-R\-P\-C\-Service}!attach\-Signal@{attach\-Signal}}
+\index{attach\-Signal@{attach\-Signal}!QxtRPCService@{Qxt\-R\-P\-C\-Service}}
+\subsubsection[{attach\-Signal}]{\setlength{\rightskip}{0pt plus 5cm}bool Qxt\-R\-P\-C\-Service\-::attach\-Signal (
+\begin{DoxyParamCaption}
+\item[{Q\-Object $\ast$}]{sender, }
+\item[{const char $\ast$}]{signal, }
+\item[{const {\bf Q\-String} \&}]{rpc\-Function = {\ttfamily {\bf Q\-String}()}}
+\end{DoxyParamCaption}
+)}}\label{class_qxt_r_p_c_service_adc5ae895c4fc3194254af52eda31aa6d}
+Attaches the given signal.
+
+When the attached {\itshape signal} is emitted by {\itshape sender}, it will be transmitted to all connected servers, clients, or peers. If an optional {\itshape rpc\-Function} is provided, it will be used in place of the name of the transmitted signal. Use the S\-I\-G\-N\-A\-L() macro to specify the signal, just as you would for \hyperlink{namespace_qxt_meta_object_a0672fb5917d321762dfd192f229469d5}{Q\-Object\-::connect()}.
+
+Like \hyperlink{namespace_qxt_meta_object_a0672fb5917d321762dfd192f229469d5}{Q\-Object\-::connect()}, \hyperlink{class_qxt_r_p_c_service_adc5ae895c4fc3194254af52eda31aa6d}{attach\-Signal()} returns {\ttfamily false} if the connection cannot be established. 
+
+Definition at line 646 of file qxtrpcservice.\-cpp.
+
+\hypertarget{class_qxt_r_p_c_service_a6166ed6737dba6215aa5093656bbe37d}{\index{Qxt\-R\-P\-C\-Service@{Qxt\-R\-P\-C\-Service}!attach\-Slot@{attach\-Slot}}
+\index{attach\-Slot@{attach\-Slot}!QxtRPCService@{Qxt\-R\-P\-C\-Service}}
+\subsubsection[{attach\-Slot}]{\setlength{\rightskip}{0pt plus 5cm}bool Qxt\-R\-P\-C\-Service\-::attach\-Slot (
+\begin{DoxyParamCaption}
+\item[{const {\bf Q\-String} \&}]{rpc\-Function, }
+\item[{Q\-Object $\ast$}]{recv, }
+\item[{const char $\ast$}]{slot, }
+\item[{Qt\-::\-Connection\-Type}]{type = {\ttfamily Qt\-:\-:AutoConnection}}
+\end{DoxyParamCaption}
+)}}\label{class_qxt_r_p_c_service_a6166ed6737dba6215aa5093656bbe37d}
+Attaches an R\-P\-C function to the given slot.
+
+When a signal with the name given by {\itshape rpc\-Function} is received from the network, the attached {\itshape slot} is executed. Use the S\-L\-O\-T() macro to specify the slot, just as you would for \hyperlink{namespace_qxt_meta_object_a0672fb5917d321762dfd192f229469d5}{Q\-Object\-::connect()}.
+
+Like \hyperlink{namespace_qxt_meta_object_a0672fb5917d321762dfd192f229469d5}{Q\-Object\-::connect()}, \hyperlink{class_qxt_r_p_c_service_a6166ed6737dba6215aa5093656bbe37d}{attach\-Slot()} returns {\ttfamily false} if the connection cannot be established. Also like \hyperlink{namespace_qxt_meta_object_a0672fb5917d321762dfd192f229469d5}{Q\-Object\-::connect()}, a signal may be used as a slot; invocation will cause the signal to be emitted.
+
+\{Note\-:\} When acting like a server, the first parameter of the slot must be {\bfseries quint64 id}. The parameters of the incoming signal follow. For example, S\-I\-G\-N\-A\-L(my\-Signal(\-Q\-String)) from the client connects to S\-L\-O\-T(my\-Slot(quint64, Q\-String)) on the server. 
+
+Definition at line 664 of file qxtrpcservice.\-cpp.
+
+\hypertarget{class_qxt_r_p_c_service_a5a0cb803d5f0dbadc102cc33cef612a3}{\index{Qxt\-R\-P\-C\-Service@{Qxt\-R\-P\-C\-Service}!call@{call}}
+\index{call@{call}!QxtRPCService@{Qxt\-R\-P\-C\-Service}}
+\subsubsection[{call}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qxt\-R\-P\-C\-Service\-::call (
+\begin{DoxyParamCaption}
+\item[{{\bf Q\-String}}]{fn, }
+\item[{const Q\-Variant \&}]{p1 = {\ttfamily QVariant()}, }
+\item[{const Q\-Variant \&}]{p2 = {\ttfamily QVariant()}, }
+\item[{const Q\-Variant \&}]{p3 = {\ttfamily QVariant()}, }
+\item[{const Q\-Variant \&}]{p4 = {\ttfamily QVariant()}, }
+\item[{const Q\-Variant \&}]{p5 = {\ttfamily QVariant()}, }
+\item[{const Q\-Variant \&}]{p6 = {\ttfamily QVariant()}, }
+\item[{const Q\-Variant \&}]{p7 = {\ttfamily QVariant()}, }
+\item[{const Q\-Variant \&}]{p8 = {\ttfamily QVariant()}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [slot]}}}\label{class_qxt_r_p_c_service_a5a0cb803d5f0dbadc102cc33cef612a3}
+Sends the signal {\itshape fn} with the given parameter list to the server, or to all connected clients.
+
+The receiver is not obligated to act upon the signal. If no clients are connected, and if not communicating with a server, this function does nothing. 
+
+Definition at line 748 of file qxtrpcservice.\-cpp.
+
+\hypertarget{class_qxt_r_p_c_service_af63e5956c301b51e9007baf0ed8c6b51}{\index{Qxt\-R\-P\-C\-Service@{Qxt\-R\-P\-C\-Service}!call@{call}}
+\index{call@{call}!QxtRPCService@{Qxt\-R\-P\-C\-Service}}
+\subsubsection[{call}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qxt\-R\-P\-C\-Service\-::call (
+\begin{DoxyParamCaption}
+\item[{{\bf Q\-List}$<$ quint64 $>$}]{ids, }
+\item[{{\bf Q\-String}}]{fn, }
+\item[{const Q\-Variant \&}]{p1 = {\ttfamily QVariant()}, }
+\item[{const Q\-Variant \&}]{p2 = {\ttfamily QVariant()}, }
+\item[{const Q\-Variant \&}]{p3 = {\ttfamily QVariant()}, }
+\item[{const Q\-Variant \&}]{p4 = {\ttfamily QVariant()}, }
+\item[{const Q\-Variant \&}]{p5 = {\ttfamily QVariant()}, }
+\item[{const Q\-Variant \&}]{p6 = {\ttfamily QVariant()}, }
+\item[{const Q\-Variant \&}]{p7 = {\ttfamily QVariant()}, }
+\item[{const Q\-Variant \&}]{p8 = {\ttfamily QVariant()}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [slot]}}}\label{class_qxt_r_p_c_service_af63e5956c301b51e9007baf0ed8c6b51}
+Sends the signal {\itshape fn} with the given parameter list to the provided list of clients.
+
+The receivers are not obligated to act upon the signal. If no client is connected with a provided I\-D, the I\-D is ignored with a warning. If acting as a client, this function does nothing. 
+
+Definition at line 773 of file qxtrpcservice.\-cpp.
+
+\hypertarget{class_qxt_r_p_c_service_ab105ef15a085758e05d3dd9ab329ad29}{\index{Qxt\-R\-P\-C\-Service@{Qxt\-R\-P\-C\-Service}!call@{call}}
+\index{call@{call}!QxtRPCService@{Qxt\-R\-P\-C\-Service}}
+\subsubsection[{call}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qxt\-R\-P\-C\-Service\-::call (
+\begin{DoxyParamCaption}
+\item[{quint64}]{id, }
+\item[{{\bf Q\-String}}]{fn, }
+\item[{const Q\-Variant \&}]{p1 = {\ttfamily QVariant()}, }
+\item[{const Q\-Variant \&}]{p2 = {\ttfamily QVariant()}, }
+\item[{const Q\-Variant \&}]{p3 = {\ttfamily QVariant()}, }
+\item[{const Q\-Variant \&}]{p4 = {\ttfamily QVariant()}, }
+\item[{const Q\-Variant \&}]{p5 = {\ttfamily QVariant()}, }
+\item[{const Q\-Variant \&}]{p6 = {\ttfamily QVariant()}, }
+\item[{const Q\-Variant \&}]{p7 = {\ttfamily QVariant()}, }
+\item[{const Q\-Variant \&}]{p8 = {\ttfamily QVariant()}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [slot]}}}\label{class_qxt_r_p_c_service_ab105ef15a085758e05d3dd9ab329ad29}
+Sends the signal {\itshape fn} with the given parameter list to the specified client.
+
+The receiver is not obligated to act upon the signal. If no client with the given I\-D is connected, the call will be ignored with a warning. If acting as a client, this function does nothing. 
+
+Definition at line 798 of file qxtrpcservice.\-cpp.
+
+\hypertarget{class_qxt_r_p_c_service_a29735715edb6be280733d774d02bb3ab}{\index{Qxt\-R\-P\-C\-Service@{Qxt\-R\-P\-C\-Service}!call\-Except@{call\-Except}}
+\index{call\-Except@{call\-Except}!QxtRPCService@{Qxt\-R\-P\-C\-Service}}
+\subsubsection[{call\-Except}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qxt\-R\-P\-C\-Service\-::call\-Except (
+\begin{DoxyParamCaption}
+\item[{quint64}]{id, }
+\item[{{\bf Q\-String}}]{fn, }
+\item[{const Q\-Variant \&}]{p1 = {\ttfamily QVariant()}, }
+\item[{const Q\-Variant \&}]{p2 = {\ttfamily QVariant()}, }
+\item[{const Q\-Variant \&}]{p3 = {\ttfamily QVariant()}, }
+\item[{const Q\-Variant \&}]{p4 = {\ttfamily QVariant()}, }
+\item[{const Q\-Variant \&}]{p5 = {\ttfamily QVariant()}, }
+\item[{const Q\-Variant \&}]{p6 = {\ttfamily QVariant()}, }
+\item[{const Q\-Variant \&}]{p7 = {\ttfamily QVariant()}, }
+\item[{const Q\-Variant \&}]{p8 = {\ttfamily QVariant()}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [slot]}}}\label{class_qxt_r_p_c_service_a29735715edb6be280733d774d02bb3ab}
+Sends the signal {\itshape fn} with the given parameter list to all connected clients except for the client specified.
+
+The receiver is not obligated to act upon the signal. This function is useful for rebroadcasting a signal from one client to all other connected clients. If acting as a client, this function does nothing. 
+
+Definition at line 811 of file qxtrpcservice.\-cpp.
+
+\hypertarget{class_qxt_r_p_c_service_a9b2af33db0cebccc82ecc2b9d21c8843}{\index{Qxt\-R\-P\-C\-Service@{Qxt\-R\-P\-C\-Service}!client\-Connected@{client\-Connected}}
+\index{client\-Connected@{client\-Connected}!QxtRPCService@{Qxt\-R\-P\-C\-Service}}
+\subsubsection[{client\-Connected}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qxt\-R\-P\-C\-Service\-::client\-Connected (
+\begin{DoxyParamCaption}
+\item[{quint64}]{id}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [signal]}}}\label{class_qxt_r_p_c_service_a9b2af33db0cebccc82ecc2b9d21c8843}
+This signal is emitted after a successful connection from a client.
+
+The given I\-D is used for \hyperlink{class_qxt_r_p_c_service_a1c97516152b02be1a303e38bb2fa22da}{disconnect\-Client()}, \hyperlink{class_qxt_r_p_c_service_a5a0cb803d5f0dbadc102cc33cef612a3}{call()}, and related functions. \hypertarget{class_qxt_r_p_c_service_aaaa2a3cb64b4e59dbfefd7c68bf8c305}{\index{Qxt\-R\-P\-C\-Service@{Qxt\-R\-P\-C\-Service}!client\-Disconnected@{client\-Disconnected}}
+\index{client\-Disconnected@{client\-Disconnected}!QxtRPCService@{Qxt\-R\-P\-C\-Service}}
+\subsubsection[{client\-Disconnected}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qxt\-R\-P\-C\-Service\-::client\-Disconnected (
+\begin{DoxyParamCaption}
+\item[{quint64}]{id}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [signal]}}}\label{class_qxt_r_p_c_service_aaaa2a3cb64b4e59dbfefd7c68bf8c305}
+This signal is emitted when a client disconnects. The given I\-D is no longer valid. \hypertarget{class_qxt_r_p_c_service_af01a9230c41db79851937a34484dd75b}{\index{Qxt\-R\-P\-C\-Service@{Qxt\-R\-P\-C\-Service}!clients@{clients}}
+\index{clients@{clients}!QxtRPCService@{Qxt\-R\-P\-C\-Service}}
+\subsubsection[{clients}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Q\-List}$<$ quint64 $>$ Qxt\-R\-P\-C\-Service\-::clients (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_qxt_r_p_c_service_af01a9230c41db79851937a34484dd75b}
+Returns a list of client I\-Ds for all connected clients. 
+
+Definition at line 518 of file qxtrpcservice.\-cpp.
+
+\hypertarget{class_qxt_r_p_c_service_ac86d1c59f3552bcbc88559f2c23edc7c}{\index{Qxt\-R\-P\-C\-Service@{Qxt\-R\-P\-C\-Service}!connection\-Manager@{connection\-Manager}}
+\index{connection\-Manager@{connection\-Manager}!QxtRPCService@{Qxt\-R\-P\-C\-Service}}
+\subsubsection[{connection\-Manager}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Qxt\-Abstract\-Connection\-Manager} $\ast$ Qxt\-R\-P\-C\-Service\-::connection\-Manager (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_qxt_r_p_c_service_ac86d1c59f3552bcbc88559f2c23edc7c}
+Returns the connection manager used to accept incoming connections. \begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qxt_r_p_c_service_ae4246182fe7a84119fb37e90eb9cccf7}{set\-Connection\-Manager()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 610 of file qxtrpcservice.\-cpp.
+
+\hypertarget{class_qxt_r_p_c_service_af8c18776b34e4da35df553aa0618d6bf}{\index{Qxt\-R\-P\-C\-Service@{Qxt\-R\-P\-C\-Service}!detach\-Object@{detach\-Object}}
+\index{detach\-Object@{detach\-Object}!QxtRPCService@{Qxt\-R\-P\-C\-Service}}
+\subsubsection[{detach\-Object}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qxt\-R\-P\-C\-Service\-::detach\-Object (
+\begin{DoxyParamCaption}
+\item[{Q\-Object $\ast$}]{obj}
+\end{DoxyParamCaption}
+)}}\label{class_qxt_r_p_c_service_af8c18776b34e4da35df553aa0618d6bf}
+Detaches all signals and slots for the given object {\itshape obj}. 
+
+Definition at line 713 of file qxtrpcservice.\-cpp.
+
+\hypertarget{class_qxt_r_p_c_service_a6e9b1bbfe00e384025a58e70fa0e10de}{\index{Qxt\-R\-P\-C\-Service@{Qxt\-R\-P\-C\-Service}!detach\-Sender@{detach\-Sender}}
+\index{detach\-Sender@{detach\-Sender}!QxtRPCService@{Qxt\-R\-P\-C\-Service}}
+\subsubsection[{detach\-Sender}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qxt\-R\-P\-C\-Service\-::detach\-Sender (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [slot]}}}\label{class_qxt_r_p_c_service_a6e9b1bbfe00e384025a58e70fa0e10de}
+Detaches all signals and slots for the object that emitted the signal connected to \hyperlink{class_qxt_r_p_c_service_a6e9b1bbfe00e384025a58e70fa0e10de}{detach\-Sender()}. 
+
+Definition at line 823 of file qxtrpcservice.\-cpp.
+
+\hypertarget{class_qxt_r_p_c_service_a68a87fe3f5491baa1c745e9680881eea}{\index{Qxt\-R\-P\-C\-Service@{Qxt\-R\-P\-C\-Service}!detach\-Signals@{detach\-Signals}}
+\index{detach\-Signals@{detach\-Signals}!QxtRPCService@{Qxt\-R\-P\-C\-Service}}
+\subsubsection[{detach\-Signals}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qxt\-R\-P\-C\-Service\-::detach\-Signals (
+\begin{DoxyParamCaption}
+\item[{Q\-Object $\ast$}]{obj}
+\end{DoxyParamCaption}
+)}}\label{class_qxt_r_p_c_service_a68a87fe3f5491baa1c745e9680881eea}
+Detaches all signals for the given object {\itshape obj}. 
+
+Definition at line 722 of file qxtrpcservice.\-cpp.
+
+\hypertarget{class_qxt_r_p_c_service_a88ca491af26eb487d6bbe3a15e210642}{\index{Qxt\-R\-P\-C\-Service@{Qxt\-R\-P\-C\-Service}!detach\-Slots@{detach\-Slots}}
+\index{detach\-Slots@{detach\-Slots}!QxtRPCService@{Qxt\-R\-P\-C\-Service}}
+\subsubsection[{detach\-Slots}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qxt\-R\-P\-C\-Service\-::detach\-Slots (
+\begin{DoxyParamCaption}
+\item[{Q\-Object $\ast$}]{obj}
+\end{DoxyParamCaption}
+)}}\label{class_qxt_r_p_c_service_a88ca491af26eb487d6bbe3a15e210642}
+Detaches all slots for the given object {\itshape obj}. 
+
+Definition at line 730 of file qxtrpcservice.\-cpp.
+
+\hypertarget{class_qxt_r_p_c_service_a4eb4de0d4d04cadb92e469eed75bf7e8}{\index{Qxt\-R\-P\-C\-Service@{Qxt\-R\-P\-C\-Service}!device@{device}}
+\index{device@{device}!QxtRPCService@{Qxt\-R\-P\-C\-Service}}
+\subsubsection[{device}]{\setlength{\rightskip}{0pt plus 5cm}Q\-I\-O\-Device $\ast$ Qxt\-R\-P\-C\-Service\-::device (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_qxt_r_p_c_service_a4eb4de0d4d04cadb92e469eed75bf7e8}
+When operating as a client, returns the Q\-I\-O\-Device connected to the server. When operating as a server, or if not connected to a server, returns N\-U\-L\-L. \begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qxt_r_p_c_service_aad1934ec252605d8543a940d4ca8238d}{set\-Device()} 
+
+\hyperlink{class_qxt_r_p_c_service_a492fe2088fdb58b8d9dc6d497df6a2de}{take\-Device()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 535 of file qxtrpcservice.\-cpp.
+
+\hypertarget{class_qxt_r_p_c_service_a931a2118af9363ec236dcfa49483681f}{\index{Qxt\-R\-P\-C\-Service@{Qxt\-R\-P\-C\-Service}!disconnect\-All@{disconnect\-All}}
+\index{disconnect\-All@{disconnect\-All}!QxtRPCService@{Qxt\-R\-P\-C\-Service}}
+\subsubsection[{disconnect\-All}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qxt\-R\-P\-C\-Service\-::disconnect\-All (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [slot]}}}\label{class_qxt_r_p_c_service_a931a2118af9363ec236dcfa49483681f}
+Disconnects all clients, or disconnects from the server. 
+
+Definition at line 501 of file qxtrpcservice.\-cpp.
+
+\hypertarget{class_qxt_r_p_c_service_a1c97516152b02be1a303e38bb2fa22da}{\index{Qxt\-R\-P\-C\-Service@{Qxt\-R\-P\-C\-Service}!disconnect\-Client@{disconnect\-Client}}
+\index{disconnect\-Client@{disconnect\-Client}!QxtRPCService@{Qxt\-R\-P\-C\-Service}}
+\subsubsection[{disconnect\-Client}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qxt\-R\-P\-C\-Service\-::disconnect\-Client (
+\begin{DoxyParamCaption}
+\item[{quint64}]{id}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [slot]}}}\label{class_qxt_r_p_c_service_a1c97516152b02be1a303e38bb2fa22da}
+Disconnects a client with {\itshape id} using the attached connection manager.
+
+If connected to a server, this function is ignored with a warning. 
+
+Definition at line 464 of file qxtrpcservice.\-cpp.
+
+\hypertarget{class_qxt_r_p_c_service_aa7aaebcdc571455f9a04abce87ca79d1}{\index{Qxt\-R\-P\-C\-Service@{Qxt\-R\-P\-C\-Service}!disconnect\-Server@{disconnect\-Server}}
+\index{disconnect\-Server@{disconnect\-Server}!QxtRPCService@{Qxt\-R\-P\-C\-Service}}
+\subsubsection[{disconnect\-Server}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qxt\-R\-P\-C\-Service\-::disconnect\-Server (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [slot]}}}\label{class_qxt_r_p_c_service_aa7aaebcdc571455f9a04abce87ca79d1}
+Disconnects from the server. The Q\-I\-O\-Device is deleted. Use \hyperlink{class_qxt_r_p_c_service_a492fe2088fdb58b8d9dc6d497df6a2de}{take\-Device()} to disconnect from the server without deleting the device.
+
+If not connected to a server, for instance if acting as a server, this function is ignored with a warning. \begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qxt_r_p_c_service_a4eb4de0d4d04cadb92e469eed75bf7e8}{device()} 
+
+\hyperlink{class_qxt_r_p_c_service_a492fe2088fdb58b8d9dc6d497df6a2de}{take\-Device()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 489 of file qxtrpcservice.\-cpp.
+
+\hypertarget{class_qxt_r_p_c_service_a7e98c261583ad87bf80c3783756af0c8}{\index{Qxt\-R\-P\-C\-Service@{Qxt\-R\-P\-C\-Service}!is\-Client@{is\-Client}}
+\index{is\-Client@{is\-Client}!QxtRPCService@{Qxt\-R\-P\-C\-Service}}
+\subsubsection[{is\-Client}]{\setlength{\rightskip}{0pt plus 5cm}bool Qxt\-R\-P\-C\-Service\-::is\-Client (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_qxt_r_p_c_service_a7e98c261583ad87bf80c3783756af0c8}
+Returns {\ttfamily true} if the \hyperlink{class_qxt_r_p_c_service}{Qxt\-R\-P\-C\-Service} is currently communicating with a server. It is possible for both \hyperlink{class_qxt_r_p_c_service_afa257d10a02bd602d1994ef33027448e}{is\-Server()} and \hyperlink{class_qxt_r_p_c_service_a7e98c261583ad87bf80c3783756af0c8}{is\-Client()} to return {\ttfamily false} if the connection manager is not accepting connections, no clients are connected, and no Q\-I\-O\-Device is set for a server. \begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qxt_r_p_c_service_afa257d10a02bd602d1994ef33027448e}{is\-Server()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 454 of file qxtrpcservice.\-cpp.
+
+\hypertarget{class_qxt_r_p_c_service_afa257d10a02bd602d1994ef33027448e}{\index{Qxt\-R\-P\-C\-Service@{Qxt\-R\-P\-C\-Service}!is\-Server@{is\-Server}}
+\index{is\-Server@{is\-Server}!QxtRPCService@{Qxt\-R\-P\-C\-Service}}
+\subsubsection[{is\-Server}]{\setlength{\rightskip}{0pt plus 5cm}bool Qxt\-R\-P\-C\-Service\-::is\-Server (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_qxt_r_p_c_service_afa257d10a02bd602d1994ef33027448e}
+Returns {\ttfamily true} if the connection manager is accepting connections or if any clients are currently connected. It is possible for both \hyperlink{class_qxt_r_p_c_service_afa257d10a02bd602d1994ef33027448e}{is\-Server()} and \hyperlink{class_qxt_r_p_c_service_a7e98c261583ad87bf80c3783756af0c8}{is\-Client()} to return {\ttfamily false} if the connection manager is not accepting connections, no clients are connected, and no Q\-I\-O\-Device is set for a server. \begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qxt_r_p_c_service_a7e98c261583ad87bf80c3783756af0c8}{is\-Client()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 443 of file qxtrpcservice.\-cpp.
+
+\hypertarget{class_qxt_r_p_c_service_a34dd27cfe4af223c4cc5335168a9c203}{\index{Qxt\-R\-P\-C\-Service@{Qxt\-R\-P\-C\-Service}!serializer@{serializer}}
+\index{serializer@{serializer}!QxtRPCService@{Qxt\-R\-P\-C\-Service}}
+\subsubsection[{serializer}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Qxt\-Abstract\-Signal\-Serializer} $\ast$ Qxt\-R\-P\-C\-Service\-::serializer (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_qxt_r_p_c_service_a34dd27cfe4af223c4cc5335168a9c203}
+Returns the signal serializer used to encode signals before transmission. \begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qxt_r_p_c_service_a4f9f712dd948aed4a65837ab19111305}{set\-Serializer()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 591 of file qxtrpcservice.\-cpp.
+
+\hypertarget{class_qxt_r_p_c_service_ae4246182fe7a84119fb37e90eb9cccf7}{\index{Qxt\-R\-P\-C\-Service@{Qxt\-R\-P\-C\-Service}!set\-Connection\-Manager@{set\-Connection\-Manager}}
+\index{set\-Connection\-Manager@{set\-Connection\-Manager}!QxtRPCService@{Qxt\-R\-P\-C\-Service}}
+\subsubsection[{set\-Connection\-Manager}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qxt\-R\-P\-C\-Service\-::set\-Connection\-Manager (
+\begin{DoxyParamCaption}
+\item[{{\bf Qxt\-Abstract\-Connection\-Manager} $\ast$}]{manager}
+\end{DoxyParamCaption}
+)}}\label{class_qxt_r_p_c_service_ae4246182fe7a84119fb37e90eb9cccf7}
+Sets the connection {\itshape manager} used to accept incoming connections. The existing manager will be deleted and the provided manager will be reparented to the \hyperlink{class_qxt_r_p_c_service}{Qxt\-R\-P\-C\-Service}. \begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qxt_r_p_c_service_ac86d1c59f3552bcbc88559f2c23edc7c}{connection\-Manager()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 620 of file qxtrpcservice.\-cpp.
+
+\hypertarget{class_qxt_r_p_c_service_aad1934ec252605d8543a940d4ca8238d}{\index{Qxt\-R\-P\-C\-Service@{Qxt\-R\-P\-C\-Service}!set\-Device@{set\-Device}}
+\index{set\-Device@{set\-Device}!QxtRPCService@{Qxt\-R\-P\-C\-Service}}
+\subsubsection[{set\-Device}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qxt\-R\-P\-C\-Service\-::set\-Device (
+\begin{DoxyParamCaption}
+\item[{Q\-I\-O\-Device $\ast$}]{dev}
+\end{DoxyParamCaption}
+)}}\label{class_qxt_r_p_c_service_aad1934ec252605d8543a940d4ca8238d}
+Begins communicating with a server through the provided Q\-I\-O\-Device {\itshape dev}. If called while acting as a server, this function is ignored with a warning. If called while another device is set, the original Q\-I\-O\-Device is deleted. The provided device will be reparented to the \hyperlink{class_qxt_r_p_c_service}{Qxt\-R\-P\-C\-Service}.
+
+Note that because Q\-I\-O\-Device is a generic interface, \hyperlink{class_qxt_r_p_c_service}{Qxt\-R\-P\-C\-Service} cannot provide signals when this device is disconnected or has low-\/level errors. Connect to the Q\-I\-O\-Device subclass's signals directly if you need this information. \begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qxt_r_p_c_service_a4eb4de0d4d04cadb92e469eed75bf7e8}{device()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 550 of file qxtrpcservice.\-cpp.
+
+\hypertarget{class_qxt_r_p_c_service_a4f9f712dd948aed4a65837ab19111305}{\index{Qxt\-R\-P\-C\-Service@{Qxt\-R\-P\-C\-Service}!set\-Serializer@{set\-Serializer}}
+\index{set\-Serializer@{set\-Serializer}!QxtRPCService@{Qxt\-R\-P\-C\-Service}}
+\subsubsection[{set\-Serializer}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qxt\-R\-P\-C\-Service\-::set\-Serializer (
+\begin{DoxyParamCaption}
+\item[{{\bf Qxt\-Abstract\-Signal\-Serializer} $\ast$}]{serializer}
+\end{DoxyParamCaption}
+)}}\label{class_qxt_r_p_c_service_a4f9f712dd948aed4a65837ab19111305}
+Sets the signal {\itshape serializer} used to encode signals before transmission. The existing serializer will be deleted. \begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qxt_r_p_c_service_a34dd27cfe4af223c4cc5335168a9c203}{serializer()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 600 of file qxtrpcservice.\-cpp.
+
+\hypertarget{class_qxt_r_p_c_service_a492fe2088fdb58b8d9dc6d497df6a2de}{\index{Qxt\-R\-P\-C\-Service@{Qxt\-R\-P\-C\-Service}!take\-Device@{take\-Device}}
+\index{take\-Device@{take\-Device}!QxtRPCService@{Qxt\-R\-P\-C\-Service}}
+\subsubsection[{take\-Device}]{\setlength{\rightskip}{0pt plus 5cm}Q\-I\-O\-Device $\ast$ Qxt\-R\-P\-C\-Service\-::take\-Device (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_qxt_r_p_c_service_a492fe2088fdb58b8d9dc6d497df6a2de}
+When operating as a client, returns the Q\-I\-O\-Device used to communicate with the server. After this function is called, the \hyperlink{class_qxt_r_p_c_service}{Qxt\-R\-P\-C\-Service} will no longer be connected and \hyperlink{class_qxt_r_p_c_service_a4eb4de0d4d04cadb92e469eed75bf7e8}{device()} will return N\-U\-L\-L. When operating as a server, or if not connected to a server, this function returns N\-U\-L\-L without any other effect. \begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qxt_r_p_c_service_a4eb4de0d4d04cadb92e469eed75bf7e8}{device()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 574 of file qxtrpcservice.\-cpp.
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/libqxt/src/core/\hyperlink{qxtrpcservice_8h}{qxtrpcservice.\-h}\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/libqxt/src/core/\hyperlink{qxtrpcservice_8cpp}{qxtrpcservice.\-cpp}\end{DoxyCompactItemize}

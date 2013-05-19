@@ -1,0 +1,360 @@
+\hypertarget{class_qwt_column_symbol}{\section{Qwt\-Column\-Symbol Class Reference}
+\label{class_qwt_column_symbol}\index{Qwt\-Column\-Symbol@{Qwt\-Column\-Symbol}}
+}
+
+
+A drawing primitive for columns.  
+
+
+
+
+{\ttfamily \#include $<$qwt\-\_\-column\-\_\-symbol.\-h$>$}
+
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{class_qwt_column_symbol_1_1_private_data}{Private\-Data}
+\end{DoxyCompactItemize}
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{class_qwt_column_symbol_aaace508375eef3ee23ed6c47b1d65ef2}{Style} \{ \hyperlink{class_qwt_column_symbol_aaace508375eef3ee23ed6c47b1d65ef2a3c16d900e0dcfc18f174f4120136cb5b}{No\-Style} = -\/1, 
+\hyperlink{class_qwt_column_symbol_aaace508375eef3ee23ed6c47b1d65ef2ad21d1b393a2474a1caa6a9d83daa8f21}{Box}, 
+\hyperlink{class_qwt_column_symbol_aaace508375eef3ee23ed6c47b1d65ef2aa9a5f984f62fb53ce3eeea35be3b0536}{User\-Style} = 1000
+ \}
+\item 
+enum \hyperlink{class_qwt_column_symbol_a4b97f7748370447559a11a5adeb70e44}{Frame\-Style} \{ \hyperlink{class_qwt_column_symbol_a4b97f7748370447559a11a5adeb70e44a11a035d598228e1498b98153e3e9e043}{No\-Frame}, 
+\hyperlink{class_qwt_column_symbol_a4b97f7748370447559a11a5adeb70e44a2841bca1e2a5d94fbfc5a51787460be1}{Plain}, 
+\hyperlink{class_qwt_column_symbol_a4b97f7748370447559a11a5adeb70e44a078f2b7db1cee79e83878fcc869df62e}{Raised}
+ \}
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_qwt_column_symbol_a78d6b04908f7f814cdc07c3ae704b329}{Qwt\-Column\-Symbol} (\hyperlink{class_qwt_column_symbol_aaace508375eef3ee23ed6c47b1d65ef2}{Style}=\hyperlink{class_qwt_column_symbol_aaace508375eef3ee23ed6c47b1d65ef2a3c16d900e0dcfc18f174f4120136cb5b}{No\-Style})
+\item 
+virtual \hyperlink{class_qwt_column_symbol_a4ca8a7cb15c23be659f3bdcdb50ae20c}{$\sim$\-Qwt\-Column\-Symbol} ()
+\begin{DoxyCompactList}\small\item\em Destructor. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_column_symbol_a80826051d63efaf033868f05404ef565}{set\-Frame\-Style} (\hyperlink{class_qwt_column_symbol_a4b97f7748370447559a11a5adeb70e44}{Frame\-Style} \hyperlink{class_qwt_column_symbol_a3cf6f4e696a6df0936160d6bdb8e6b25}{style})
+\item 
+\hyperlink{class_qwt_column_symbol_a4b97f7748370447559a11a5adeb70e44}{Frame\-Style} \hyperlink{class_qwt_column_symbol_a9e13ae8a8b07556ee2de672c7067606a}{frame\-Style} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_column_symbol_af9348444ae2c21d3bcaff3217fc694fc}{set\-Line\-Width} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{glext_8h_a76aaa5c50746272e7d2de9aece921757}{width})
+\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_qwt_column_symbol_afe6850ba90ade0fdf61edd203e49206d}{line\-Width} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_column_symbol_a7d2b17a4b8aef7ae098fd42bc663527b}{set\-Palette} (const Q\-Palette \&)
+\item 
+const Q\-Palette \& \hyperlink{class_qwt_column_symbol_afe13154e29f882e77fedf8bbc3280f7e}{palette} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_column_symbol_a3e2c72514fdc2e857ee2a34bc9f96e93}{set\-Style} (\hyperlink{class_qwt_column_symbol_aaace508375eef3ee23ed6c47b1d65ef2}{Style})
+\item 
+\hyperlink{class_qwt_column_symbol_aaace508375eef3ee23ed6c47b1d65ef2}{Style} \hyperlink{class_qwt_column_symbol_a3cf6f4e696a6df0936160d6bdb8e6b25}{style} () const 
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_column_symbol_a647960f89c1f2f8524789d7ad90482d8}{draw} (Q\-Painter $\ast$, const \hyperlink{class_qwt_column_rect}{Qwt\-Column\-Rect} \&) const 
+\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_column_symbol_a7f7951e3c38927c25f21dd8c3d47372a}{draw\-Box} (Q\-Painter $\ast$, const \hyperlink{class_qwt_column_rect}{Qwt\-Column\-Rect} \&) const 
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+A drawing primitive for columns. 
+
+Definition at line 93 of file qwt\-\_\-column\-\_\-symbol.\-h.
+
+
+
+\subsection{Member Enumeration Documentation}
+\hypertarget{class_qwt_column_symbol_a4b97f7748370447559a11a5adeb70e44}{\index{Qwt\-Column\-Symbol@{Qwt\-Column\-Symbol}!Frame\-Style@{Frame\-Style}}
+\index{Frame\-Style@{Frame\-Style}!QwtColumnSymbol@{Qwt\-Column\-Symbol}}
+\subsubsection[{Frame\-Style}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf Qwt\-Column\-Symbol\-::\-Frame\-Style}}}\label{class_qwt_column_symbol_a4b97f7748370447559a11a5adeb70e44}
+Frame Style used in Box \hyperlink{class_qwt_column_symbol_a3cf6f4e696a6df0936160d6bdb8e6b25}{style()}. \begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_column_symbol_aaace508375eef3ee23ed6c47b1d65ef2}{Style}, \hyperlink{class_qwt_column_symbol_a80826051d63efaf033868f05404ef565}{set\-Frame\-Style()}, \hyperlink{class_qwt_column_symbol_a9e13ae8a8b07556ee2de672c7067606a}{frame\-Style()}, \hyperlink{class_qwt_column_symbol_a3e2c72514fdc2e857ee2a34bc9f96e93}{set\-Style()}, \hyperlink{class_qwt_column_symbol_a7d2b17a4b8aef7ae098fd42bc663527b}{set\-Palette()} 
+\end{DoxySeeAlso}
+\begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{No\-Frame@{No\-Frame}!Qwt\-Column\-Symbol@{Qwt\-Column\-Symbol}}\index{Qwt\-Column\-Symbol@{Qwt\-Column\-Symbol}!No\-Frame@{No\-Frame}}\item[{\em 
+\hypertarget{class_qwt_column_symbol_a4b97f7748370447559a11a5adeb70e44a11a035d598228e1498b98153e3e9e043}{No\-Frame}\label{class_qwt_column_symbol_a4b97f7748370447559a11a5adeb70e44a11a035d598228e1498b98153e3e9e043}
+}]No frame. \index{Plain@{Plain}!Qwt\-Column\-Symbol@{Qwt\-Column\-Symbol}}\index{Qwt\-Column\-Symbol@{Qwt\-Column\-Symbol}!Plain@{Plain}}\item[{\em 
+\hypertarget{class_qwt_column_symbol_a4b97f7748370447559a11a5adeb70e44a2841bca1e2a5d94fbfc5a51787460be1}{Plain}\label{class_qwt_column_symbol_a4b97f7748370447559a11a5adeb70e44a2841bca1e2a5d94fbfc5a51787460be1}
+}]A plain frame style. \index{Raised@{Raised}!Qwt\-Column\-Symbol@{Qwt\-Column\-Symbol}}\index{Qwt\-Column\-Symbol@{Qwt\-Column\-Symbol}!Raised@{Raised}}\item[{\em 
+\hypertarget{class_qwt_column_symbol_a4b97f7748370447559a11a5adeb70e44a078f2b7db1cee79e83878fcc869df62e}{Raised}\label{class_qwt_column_symbol_a4b97f7748370447559a11a5adeb70e44a078f2b7db1cee79e83878fcc869df62e}
+}]A raised frame style. \end{description}
+\end{Desc}
+
+
+Definition at line 123 of file qwt\-\_\-column\-\_\-symbol.\-h.
+
+\hypertarget{class_qwt_column_symbol_aaace508375eef3ee23ed6c47b1d65ef2}{\index{Qwt\-Column\-Symbol@{Qwt\-Column\-Symbol}!Style@{Style}}
+\index{Style@{Style}!QwtColumnSymbol@{Qwt\-Column\-Symbol}}
+\subsubsection[{Style}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf Qwt\-Column\-Symbol\-::\-Style}}}\label{class_qwt_column_symbol_aaace508375eef3ee23ed6c47b1d65ef2}
+Style \begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_column_symbol_a3e2c72514fdc2e857ee2a34bc9f96e93}{set\-Style()}, \hyperlink{class_qwt_column_symbol_a3cf6f4e696a6df0936160d6bdb8e6b25}{style()} 
+\end{DoxySeeAlso}
+\begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{No\-Style@{No\-Style}!Qwt\-Column\-Symbol@{Qwt\-Column\-Symbol}}\index{Qwt\-Column\-Symbol@{Qwt\-Column\-Symbol}!No\-Style@{No\-Style}}\item[{\em 
+\hypertarget{class_qwt_column_symbol_aaace508375eef3ee23ed6c47b1d65ef2a3c16d900e0dcfc18f174f4120136cb5b}{No\-Style}\label{class_qwt_column_symbol_aaace508375eef3ee23ed6c47b1d65ef2a3c16d900e0dcfc18f174f4120136cb5b}
+}]No Style, the symbol draws nothing. \index{Box@{Box}!Qwt\-Column\-Symbol@{Qwt\-Column\-Symbol}}\index{Qwt\-Column\-Symbol@{Qwt\-Column\-Symbol}!Box@{Box}}\item[{\em 
+\hypertarget{class_qwt_column_symbol_aaace508375eef3ee23ed6c47b1d65ef2ad21d1b393a2474a1caa6a9d83daa8f21}{Box}\label{class_qwt_column_symbol_aaace508375eef3ee23ed6c47b1d65ef2ad21d1b393a2474a1caa6a9d83daa8f21}
+}]The column is painted with a frame depending on the \hyperlink{class_qwt_column_symbol_a9e13ae8a8b07556ee2de672c7067606a}{frame\-Style()} and \hyperlink{class_qwt_column_symbol_afe6850ba90ade0fdf61edd203e49206d}{line\-Width()} using the \hyperlink{class_qwt_column_symbol_afe13154e29f882e77fedf8bbc3280f7e}{palette()}. \index{User\-Style@{User\-Style}!Qwt\-Column\-Symbol@{Qwt\-Column\-Symbol}}\index{Qwt\-Column\-Symbol@{Qwt\-Column\-Symbol}!User\-Style@{User\-Style}}\item[{\em 
+\hypertarget{class_qwt_column_symbol_aaace508375eef3ee23ed6c47b1d65ef2aa9a5f984f62fb53ce3eeea35be3b0536}{User\-Style}\label{class_qwt_column_symbol_aaace508375eef3ee23ed6c47b1d65ef2aa9a5f984f62fb53ce3eeea35be3b0536}
+}]Styles $>$= \hyperlink{class_qwt_column_symbol_aaace508375eef3ee23ed6c47b1d65ef2aa9a5f984f62fb53ce3eeea35be3b0536}{Qwt\-Column\-Symbol\-::\-User\-Style} are reserved for derived classes of \hyperlink{class_qwt_column_symbol}{Qwt\-Column\-Symbol} that overload \hyperlink{class_qwt_column_symbol_a647960f89c1f2f8524789d7ad90482d8}{draw()} with additional application specific symbol types. \end{description}
+\end{Desc}
+
+
+Definition at line 100 of file qwt\-\_\-column\-\_\-symbol.\-h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_qwt_column_symbol_a78d6b04908f7f814cdc07c3ae704b329}{\index{Qwt\-Column\-Symbol@{Qwt\-Column\-Symbol}!Qwt\-Column\-Symbol@{Qwt\-Column\-Symbol}}
+\index{Qwt\-Column\-Symbol@{Qwt\-Column\-Symbol}!QwtColumnSymbol@{Qwt\-Column\-Symbol}}
+\subsubsection[{Qwt\-Column\-Symbol}]{\setlength{\rightskip}{0pt plus 5cm}Qwt\-Column\-Symbol\-::\-Qwt\-Column\-Symbol (
+\begin{DoxyParamCaption}
+\item[{{\bf Style}}]{style = {\ttfamily {\bf No\-Style}}}
+\end{DoxyParamCaption}
+)}}\label{class_qwt_column_symbol_a78d6b04908f7f814cdc07c3ae704b329}
+Constructor
+
+
+\begin{DoxyParams}{Parameters}
+{\em style} & Style of the symbol \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_column_symbol_a3e2c72514fdc2e857ee2a34bc9f96e93}{set\-Style()}, \hyperlink{class_qwt_column_symbol_a3cf6f4e696a6df0936160d6bdb8e6b25}{style()}, \hyperlink{class_qwt_column_symbol_aaace508375eef3ee23ed6c47b1d65ef2}{Style} 
+\end{DoxySeeAlso}
+
+
+Definition at line 138 of file qwt\-\_\-column\-\_\-symbol.\-cpp.
+
+\hypertarget{class_qwt_column_symbol_a4ca8a7cb15c23be659f3bdcdb50ae20c}{\index{Qwt\-Column\-Symbol@{Qwt\-Column\-Symbol}!$\sim$\-Qwt\-Column\-Symbol@{$\sim$\-Qwt\-Column\-Symbol}}
+\index{$\sim$\-Qwt\-Column\-Symbol@{$\sim$\-Qwt\-Column\-Symbol}!QwtColumnSymbol@{Qwt\-Column\-Symbol}}
+\subsubsection[{$\sim$\-Qwt\-Column\-Symbol}]{\setlength{\rightskip}{0pt plus 5cm}Qwt\-Column\-Symbol\-::$\sim$\-Qwt\-Column\-Symbol (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_qwt_column_symbol_a4ca8a7cb15c23be659f3bdcdb50ae20c}
+
+
+Destructor. 
+
+
+
+Definition at line 145 of file qwt\-\_\-column\-\_\-symbol.\-cpp.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_qwt_column_symbol_a647960f89c1f2f8524789d7ad90482d8}{\index{Qwt\-Column\-Symbol@{Qwt\-Column\-Symbol}!draw@{draw}}
+\index{draw@{draw}!QwtColumnSymbol@{Qwt\-Column\-Symbol}}
+\subsubsection[{draw}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Column\-Symbol\-::draw (
+\begin{DoxyParamCaption}
+\item[{Q\-Painter $\ast$}]{painter, }
+\item[{const {\bf Qwt\-Column\-Rect} \&}]{rect}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_qwt_column_symbol_a647960f89c1f2f8524789d7ad90482d8}
+Draw the symbol depending on its style.
+
+
+\begin{DoxyParams}{Parameters}
+{\em painter} & Painter \\
+\hline
+{\em rect} & Directed rectangle\\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_column_symbol_a7f7951e3c38927c25f21dd8c3d47372a}{draw\-Box()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 241 of file qwt\-\_\-column\-\_\-symbol.\-cpp.
+
+\hypertarget{class_qwt_column_symbol_a7f7951e3c38927c25f21dd8c3d47372a}{\index{Qwt\-Column\-Symbol@{Qwt\-Column\-Symbol}!draw\-Box@{draw\-Box}}
+\index{draw\-Box@{draw\-Box}!QwtColumnSymbol@{Qwt\-Column\-Symbol}}
+\subsubsection[{draw\-Box}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Column\-Symbol\-::draw\-Box (
+\begin{DoxyParamCaption}
+\item[{Q\-Painter $\ast$}]{painter, }
+\item[{const {\bf Qwt\-Column\-Rect} \&}]{rect}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_qwt_column_symbol_a7f7951e3c38927c25f21dd8c3d47372a}
+Draw the symbol when it is in Box style.
+
+
+\begin{DoxyParams}{Parameters}
+{\em painter} & Painter \\
+\hline
+{\em rect} & Directed rectangle\\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_column_symbol_a647960f89c1f2f8524789d7ad90482d8}{draw()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 267 of file qwt\-\_\-column\-\_\-symbol.\-cpp.
+
+\hypertarget{class_qwt_column_symbol_a9e13ae8a8b07556ee2de672c7067606a}{\index{Qwt\-Column\-Symbol@{Qwt\-Column\-Symbol}!frame\-Style@{frame\-Style}}
+\index{frame\-Style@{frame\-Style}!QwtColumnSymbol@{Qwt\-Column\-Symbol}}
+\subsubsection[{frame\-Style}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Qwt\-Column\-Symbol\-::\-Frame\-Style} Qwt\-Column\-Symbol\-::frame\-Style (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_qwt_column_symbol_a9e13ae8a8b07556ee2de672c7067606a}
+\begin{DoxyReturn}{Returns}
+Current frame style, that is used for the Box style. 
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_column_symbol_a80826051d63efaf033868f05404ef565}{set\-Frame\-Style()}, \hyperlink{class_qwt_column_symbol_afe6850ba90ade0fdf61edd203e49206d}{line\-Width()}, \hyperlink{class_qwt_column_symbol_a3e2c72514fdc2e857ee2a34bc9f96e93}{set\-Style()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 205 of file qwt\-\_\-column\-\_\-symbol.\-cpp.
+
+\hypertarget{class_qwt_column_symbol_afe6850ba90ade0fdf61edd203e49206d}{\index{Qwt\-Column\-Symbol@{Qwt\-Column\-Symbol}!line\-Width@{line\-Width}}
+\index{line\-Width@{line\-Width}!QwtColumnSymbol@{Qwt\-Column\-Symbol}}
+\subsubsection[{line\-Width}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int} Qwt\-Column\-Symbol\-::line\-Width (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_qwt_column_symbol_afe6850ba90ade0fdf61edd203e49206d}
+\begin{DoxyReturn}{Returns}
+Line width of the frame, that is used for the Box style. 
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_column_symbol_af9348444ae2c21d3bcaff3217fc694fc}{set\-Line\-Width()}, \hyperlink{class_qwt_column_symbol_a9e13ae8a8b07556ee2de672c7067606a}{frame\-Style()}, \hyperlink{class_qwt_column_symbol_a3e2c72514fdc2e857ee2a34bc9f96e93}{set\-Style()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 228 of file qwt\-\_\-column\-\_\-symbol.\-cpp.
+
+\hypertarget{class_qwt_column_symbol_afe13154e29f882e77fedf8bbc3280f7e}{\index{Qwt\-Column\-Symbol@{Qwt\-Column\-Symbol}!palette@{palette}}
+\index{palette@{palette}!QwtColumnSymbol@{Qwt\-Column\-Symbol}}
+\subsubsection[{palette}]{\setlength{\rightskip}{0pt plus 5cm}const Q\-Palette \& Qwt\-Column\-Symbol\-::palette (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_qwt_column_symbol_afe13154e29f882e77fedf8bbc3280f7e}
+\begin{DoxyReturn}{Returns}
+Current palette 
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_column_symbol_a7d2b17a4b8aef7ae098fd42bc663527b}{set\-Palette()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 185 of file qwt\-\_\-column\-\_\-symbol.\-cpp.
+
+\hypertarget{class_qwt_column_symbol_a80826051d63efaf033868f05404ef565}{\index{Qwt\-Column\-Symbol@{Qwt\-Column\-Symbol}!set\-Frame\-Style@{set\-Frame\-Style}}
+\index{set\-Frame\-Style@{set\-Frame\-Style}!QwtColumnSymbol@{Qwt\-Column\-Symbol}}
+\subsubsection[{set\-Frame\-Style}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Column\-Symbol\-::set\-Frame\-Style (
+\begin{DoxyParamCaption}
+\item[{{\bf Frame\-Style}}]{frame\-Style}
+\end{DoxyParamCaption}
+)}}\label{class_qwt_column_symbol_a80826051d63efaf033868f05404ef565}
+Set the frame, that is used for the Box style.
+
+
+\begin{DoxyParams}{Parameters}
+{\em frame\-Style} & Frame style \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_column_symbol_a9e13ae8a8b07556ee2de672c7067606a}{frame\-Style()}, \hyperlink{class_qwt_column_symbol_af9348444ae2c21d3bcaff3217fc694fc}{set\-Line\-Width()}, \hyperlink{class_qwt_column_symbol_a3e2c72514fdc2e857ee2a34bc9f96e93}{set\-Style()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 196 of file qwt\-\_\-column\-\_\-symbol.\-cpp.
+
+\hypertarget{class_qwt_column_symbol_af9348444ae2c21d3bcaff3217fc694fc}{\index{Qwt\-Column\-Symbol@{Qwt\-Column\-Symbol}!set\-Line\-Width@{set\-Line\-Width}}
+\index{set\-Line\-Width@{set\-Line\-Width}!QwtColumnSymbol@{Qwt\-Column\-Symbol}}
+\subsubsection[{set\-Line\-Width}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Column\-Symbol\-::set\-Line\-Width (
+\begin{DoxyParamCaption}
+\item[{{\bf int}}]{width}
+\end{DoxyParamCaption}
+)}}\label{class_qwt_column_symbol_af9348444ae2c21d3bcaff3217fc694fc}
+Set the line width of the frame, that is used for the Box style.
+
+
+\begin{DoxyParams}{Parameters}
+{\em width} & Width \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_column_symbol_afe6850ba90ade0fdf61edd203e49206d}{line\-Width()}, \hyperlink{class_qwt_column_symbol_a80826051d63efaf033868f05404ef565}{set\-Frame\-Style()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 216 of file qwt\-\_\-column\-\_\-symbol.\-cpp.
+
+\hypertarget{class_qwt_column_symbol_a7d2b17a4b8aef7ae098fd42bc663527b}{\index{Qwt\-Column\-Symbol@{Qwt\-Column\-Symbol}!set\-Palette@{set\-Palette}}
+\index{set\-Palette@{set\-Palette}!QwtColumnSymbol@{Qwt\-Column\-Symbol}}
+\subsubsection[{set\-Palette}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Column\-Symbol\-::set\-Palette (
+\begin{DoxyParamCaption}
+\item[{const Q\-Palette \&}]{palette}
+\end{DoxyParamCaption}
+)}}\label{class_qwt_column_symbol_a7d2b17a4b8aef7ae098fd42bc663527b}
+Assign a palette for the symbol
+
+
+\begin{DoxyParams}{Parameters}
+{\em palette} & Palette \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_column_symbol_afe13154e29f882e77fedf8bbc3280f7e}{palette()}, \hyperlink{class_qwt_column_symbol_a3e2c72514fdc2e857ee2a34bc9f96e93}{set\-Style()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 176 of file qwt\-\_\-column\-\_\-symbol.\-cpp.
+
+\hypertarget{class_qwt_column_symbol_a3e2c72514fdc2e857ee2a34bc9f96e93}{\index{Qwt\-Column\-Symbol@{Qwt\-Column\-Symbol}!set\-Style@{set\-Style}}
+\index{set\-Style@{set\-Style}!QwtColumnSymbol@{Qwt\-Column\-Symbol}}
+\subsubsection[{set\-Style}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Column\-Symbol\-::set\-Style (
+\begin{DoxyParamCaption}
+\item[{{\bf Style}}]{style}
+\end{DoxyParamCaption}
+)}}\label{class_qwt_column_symbol_a3e2c72514fdc2e857ee2a34bc9f96e93}
+Specify the symbol style
+
+
+\begin{DoxyParams}{Parameters}
+{\em style} & Style \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_column_symbol_a3cf6f4e696a6df0936160d6bdb8e6b25}{style()}, \hyperlink{class_qwt_column_symbol_a7d2b17a4b8aef7ae098fd42bc663527b}{set\-Palette()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 156 of file qwt\-\_\-column\-\_\-symbol.\-cpp.
+
+\hypertarget{class_qwt_column_symbol_a3cf6f4e696a6df0936160d6bdb8e6b25}{\index{Qwt\-Column\-Symbol@{Qwt\-Column\-Symbol}!style@{style}}
+\index{style@{style}!QwtColumnSymbol@{Qwt\-Column\-Symbol}}
+\subsubsection[{style}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Qwt\-Column\-Symbol\-::\-Style} Qwt\-Column\-Symbol\-::style (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_qwt_column_symbol_a3cf6f4e696a6df0936160d6bdb8e6b25}
+\begin{DoxyReturn}{Returns}
+Current symbol style 
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_column_symbol_a3e2c72514fdc2e857ee2a34bc9f96e93}{set\-Style()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 165 of file qwt\-\_\-column\-\_\-symbol.\-cpp.
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/qwt/src/\hyperlink{qwt__column__symbol_8h}{qwt\-\_\-column\-\_\-symbol.\-h}\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/qwt/src/\hyperlink{qwt__column__symbol_8cpp}{qwt\-\_\-column\-\_\-symbol.\-cpp}\end{DoxyCompactItemize}

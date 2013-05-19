@@ -1,0 +1,125 @@
+\hypertarget{group___config}{\section{plugin}
+\label{group___config}\index{plugin@{plugin}}
+}
+
+
+Implements low-\/level calibration algorithms.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+C \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{group___config_ga9739bd10b55fe3bf60748adb6e3b1e27}{isnan} (\hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double})
+\item 
+C \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{group___config_ga7e00132f340b91558ae199ea563de81b}{isinf} (\hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double})
+\item 
+Vector3f \hyperlink{group___config_ga01970f12c529e37db9f7e4ea0099b038}{twostep\-\_\-bias\-\_\-only} (const Vector3f \hyperlink{glext_8h_aba70cd077c2c52c15358c231c6d293aa}{samples}\mbox{[}$\,$\mbox{]}, size\-\_\-t n\-\_\-samples, const Vector3f \&reference\-Field, const \hyperlink{_super_l_u_support_8h_a6a1bb6ed41f44b60e7bd83b0e9945aa7}{float} noise)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___config_gaeadf339a179257ec1a940f8e0c29fe29}{twostep\-\_\-bias\-\_\-scale} (Vector3f \&\hyperlink{glext_8h_a39c3ffa18f420251c5d132dd8c1c6137}{bias}, Vector3f \&\hyperlink{glext_8h_a281421b881aa7a1266842b73a3bc7655}{scale}, const Vector3f \hyperlink{glext_8h_aba70cd077c2c52c15358c231c6d293aa}{samples}\mbox{[}$\,$\mbox{]}, const size\-\_\-t n\-\_\-samples, const Vector3f \&reference\-Field, const \hyperlink{_super_l_u_support_8h_a6a1bb6ed41f44b60e7bd83b0e9945aa7}{float} noise)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___config_ga2730cf74cc141a73bf523a0ea259400a}{twostep\-\_\-bias\-\_\-scale} (Vector3f \&\hyperlink{glext_8h_a39c3ffa18f420251c5d132dd8c1c6137}{bias}, Matrix3f \&\hyperlink{glext_8h_a281421b881aa7a1266842b73a3bc7655}{scale}, const Vector3f \hyperlink{glext_8h_aba70cd077c2c52c15358c231c6d293aa}{samples}\mbox{[}$\,$\mbox{]}, const size\-\_\-t n\-\_\-samples, const Vector3f \&reference\-Field, const \hyperlink{_super_l_u_support_8h_a6a1bb6ed41f44b60e7bd83b0e9945aa7}{float} noise)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Implements low-\/level calibration algorithms. 
+
+\subsection{Function Documentation}
+\hypertarget{group___config_ga7e00132f340b91558ae199ea563de81b}{\index{plugin@{plugin}!isinf@{isinf}}
+\index{isinf@{isinf}!plugin@{plugin}}
+\subsubsection[{isinf}]{\setlength{\rightskip}{0pt plus 5cm}C {\bf int} isinf (
+\begin{DoxyParamCaption}
+\item[{{\bf double}}]{}
+\end{DoxyParamCaption}
+)}}\label{group___config_ga7e00132f340b91558ae199ea563de81b}
+\hypertarget{group___config_ga9739bd10b55fe3bf60748adb6e3b1e27}{\index{plugin@{plugin}!isnan@{isnan}}
+\index{isnan@{isnan}!plugin@{plugin}}
+\subsubsection[{isnan}]{\setlength{\rightskip}{0pt plus 5cm}C {\bf int} isnan (
+\begin{DoxyParamCaption}
+\item[{{\bf double}}]{}
+\end{DoxyParamCaption}
+)}}\label{group___config_ga9739bd10b55fe3bf60748adb6e3b1e27}
+\hypertarget{group___config_ga01970f12c529e37db9f7e4ea0099b038}{\index{plugin@{plugin}!twostep\-\_\-bias\-\_\-only@{twostep\-\_\-bias\-\_\-only}}
+\index{twostep\-\_\-bias\-\_\-only@{twostep\-\_\-bias\-\_\-only}!plugin@{plugin}}
+\subsubsection[{twostep\-\_\-bias\-\_\-only}]{\setlength{\rightskip}{0pt plus 5cm}Vector3f twostep\-\_\-bias\-\_\-only (
+\begin{DoxyParamCaption}
+\item[{const Vector3f}]{samples\mbox{[}$\,$\mbox{]}, }
+\item[{size\-\_\-t}]{n\-\_\-samples, }
+\item[{const Vector3f \&}]{reference\-Field, }
+\item[{const {\bf float}}]{noise}
+\end{DoxyParamCaption}
+)}}\label{group___config_ga01970f12c529e37db9f7e4ea0099b038}
+
+
+Definition at line 123 of file twostep.\-cpp.
+
+\hypertarget{group___config_gaeadf339a179257ec1a940f8e0c29fe29}{\index{plugin@{plugin}!twostep\-\_\-bias\-\_\-scale@{twostep\-\_\-bias\-\_\-scale}}
+\index{twostep\-\_\-bias\-\_\-scale@{twostep\-\_\-bias\-\_\-scale}!plugin@{plugin}}
+\subsubsection[{twostep\-\_\-bias\-\_\-scale}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} twostep\-\_\-bias\-\_\-scale (
+\begin{DoxyParamCaption}
+\item[{Vector3f \&}]{bias, }
+\item[{Vector3f \&}]{scale, }
+\item[{const Vector3f}]{samples\mbox{[}$\,$\mbox{]}, }
+\item[{const size\-\_\-t}]{n\-\_\-samples, }
+\item[{const Vector3f \&}]{reference\-Field, }
+\item[{const {\bf float}}]{noise}
+\end{DoxyParamCaption}
+)}}\label{group___config_gaeadf339a179257ec1a940f8e0c29fe29}
+Compute the scale factor and bias associated with a vector observer according to the equation\-: B\-\_\-k = (I\-\_\-\{3x3\} + D)$^\wedge$\{-\/1\}  (O$^\wedge$\-T A\-\_\-k H\-\_\-k + b + ) where k is the sample index, B\-\_\-k is the kth measurement I\-\_\-\{3x3\} is a 3x3 identity matrix D is a 3x3 diagonal matrix of scale factors O is the orthogonal alignment matrix A\-\_\-k is the attitude at the kth sample b is the bias in the global reference frame  is the noise at the kth sample This implementation makes the assumption that  is a constant white, gaussian noise source that is common to all k. The misalignment matrix O is not computed, and the off-\/diagonal elements of D, corresponding to the misalignment scale factors are not either.
+
+
+\begin{DoxyParams}{Parameters}
+{\em bias\mbox{[}out\mbox{]}} & The computed bias, in the global frame \\
+\hline
+{\em scale\mbox{[}out\mbox{]}} & The computed scale factor, in the sensor frame \\
+\hline
+{\em samples\mbox{[}in\mbox{]}} & An array of measurement samples. \\
+\hline
+{\em n\-\_\-samples} & The number of samples in the array. \\
+\hline
+{\em reference\-Field} & The magnetic field vector at this location. \\
+\hline
+{\em noise} & The one-\/sigma squared standard deviation of the observed noise in the sensor. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 262 of file twostep.\-cpp.
+
+\hypertarget{group___config_ga2730cf74cc141a73bf523a0ea259400a}{\index{plugin@{plugin}!twostep\-\_\-bias\-\_\-scale@{twostep\-\_\-bias\-\_\-scale}}
+\index{twostep\-\_\-bias\-\_\-scale@{twostep\-\_\-bias\-\_\-scale}!plugin@{plugin}}
+\subsubsection[{twostep\-\_\-bias\-\_\-scale}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} twostep\-\_\-bias\-\_\-scale (
+\begin{DoxyParamCaption}
+\item[{Vector3f \&}]{bias, }
+\item[{Matrix3f \&}]{scale, }
+\item[{const Vector3f}]{samples\mbox{[}$\,$\mbox{]}, }
+\item[{const size\-\_\-t}]{n\-\_\-samples, }
+\item[{const Vector3f \&}]{reference\-Field, }
+\item[{const {\bf float}}]{noise}
+\end{DoxyParamCaption}
+)}}\label{group___config_ga2730cf74cc141a73bf523a0ea259400a}
+Compute the scale factor and bias associated with a vector observer according to the equation\-: B\-\_\-k = (I\-\_\-\{3x3\} + D)$^\wedge$\{-\/1\}  (O$^\wedge$\-T A\-\_\-k H\-\_\-k + b + ) where k is the sample index, B\-\_\-k is the kth measurement I\-\_\-\{3x3\} is a 3x3 identity matrix D is a 3x3 symmetric matrix of scale factors O is the orthogonal alignment matrix A\-\_\-k is the attitude at the kth sample b is the bias in the global reference frame  is the noise at the kth sample
+
+After computing the scale factor and bias matrices, the optimal estimate is given by \{B\}\-\_\-k = (I\-\_\-\{3x3\} + D)B\-\_\-k -\/ b
+
+This implementation makes the assumption that  is a constant white, gaussian noise source that is common to all k. The misalignment matrix O is not computed.
+
+
+\begin{DoxyParams}{Parameters}
+{\em bias\mbox{[}out\mbox{]}} & The computed bias, in the global frame \\
+\hline
+{\em scale\mbox{[}out\mbox{]}} & The computed scale factor matrix, in the sensor frame. \\
+\hline
+{\em samples\mbox{[}in\mbox{]}} & An array of measurement samples. \\
+\hline
+{\em n\-\_\-samples} & The number of samples in the array. \\
+\hline
+{\em reference\-Field} & The magnetic field vector at this location. \\
+\hline
+{\em noise} & The one-\/sigma squared standard deviation of the observed noise in the sensor. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 481 of file twostep.\-cpp.
+

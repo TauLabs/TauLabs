@@ -1,0 +1,186 @@
+\hypertarget{class_g_l_c___world_to3dxml}{\section{G\-L\-C\-\_\-\-World\-To3dxml Class Reference}
+\label{class_g_l_c___world_to3dxml}\index{G\-L\-C\-\_\-\-World\-To3dxml@{G\-L\-C\-\_\-\-World\-To3dxml}}
+}
+
+
+\hyperlink{class_g_l_c___world_to3dxml}{G\-L\-C\-\_\-\-World\-To3dxml} \-: Export a \hyperlink{class_g_l_c___world}{G\-L\-C\-\_\-\-World} to a 3dxml file.  
+
+
+
+
+{\ttfamily \#include $<$glc\-\_\-worldto3dxml.\-h$>$}
+
+Inheritance diagram for G\-L\-C\-\_\-\-World\-To3dxml\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_g_l_c___world_to3dxml}
+\end{center}
+\end{figure}
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{class_g_l_c___world_to3dxml_a00bd3e3fded597cda87766c5a2e12b96}{Export\-Type} \{ \hyperlink{class_g_l_c___world_to3dxml_a00bd3e3fded597cda87766c5a2e12b96aeb6c9542eea06c14c05116553ddb1941}{Compressed3dxml}, 
+\hyperlink{class_g_l_c___world_to3dxml_a00bd3e3fded597cda87766c5a2e12b96a6a29a52f62c0ec5228fbc754c34e7323}{Exploded3dxml}, 
+\hyperlink{class_g_l_c___world_to3dxml_a00bd3e3fded597cda87766c5a2e12b96a9a71e68d5a68bdee1391af2690a244f0}{Structure\-Only}
+ \}
+\end{DoxyCompactItemize}
+\subsection*{Signals}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c___world_to3dxml_a6c647493a85b7ae3d1e620435ebfffe3}{current\-Quantum} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int})
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{Indent}{\bf Constructor / Destructor}\par
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_g_l_c___world_to3dxml_ac9c6fd38be043be4a183b52183e91d4a}{G\-L\-C\-\_\-\-World\-To3dxml} (const \hyperlink{class_g_l_c___world}{G\-L\-C\-\_\-\-World} \&world, bool threaded=true)
+\item 
+virtual \hyperlink{class_g_l_c___world_to3dxml_aa70a9579476538a948473fa0a2f68585}{$\sim$\-G\-L\-C\-\_\-\-World\-To3dxml} ()
+\end{DoxyCompactItemize}
+\end{Indent}
+\begin{Indent}{\bf Set Functions}\par
+\begin{DoxyCompactItemize}
+\item 
+bool \hyperlink{class_g_l_c___world_to3dxml_afc36c19b69c9afedb9d76f64194a0282}{export\-To3dxml} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{Q\-String} \&\hyperlink{ioapi_8h_a7a03a664b090ce5c848ecb31cb4a2fa8}{filename}, \hyperlink{class_g_l_c___world_to3dxml_a00bd3e3fded597cda87766c5a2e12b96}{G\-L\-C\-\_\-\-World\-To3dxml\-::\-Export\-Type} export\-Type, bool export\-Material=true)
+\begin{DoxyCompactList}\small\item\em Save the world to the specified file name. \end{DoxyCompactList}\item 
+bool \hyperlink{class_g_l_c___world_to3dxml_adbe0c8eb2c72e142ee5f3491f92fca6f}{export\-Reference\-To3\-D\-Rep} (const \hyperlink{class_g_l_c__3_d_rep}{G\-L\-C\-\_\-3\-D\-Rep} $\ast$p3\-D\-Rep, const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{Q\-String} \&full\-File\-Name)
+\begin{DoxyCompactList}\small\item\em Save the given 3\-D\-Rep into the given path name. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c___world_to3dxml_a9d284f8dfc24e8d7bc64c27631dab23f}{set\-Generator\-Name} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{Q\-String} \&generator)
+\begin{DoxyCompactList}\small\item\em Set the name of the 3dxml generator default is G\-L\-C\-\_\-\-L\-I\-B. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c___world_to3dxml_a4ae09d476cb928aea32a86036fe6cff9}{set\-Interupt} (Q\-Read\-Write\-Lock $\ast$p\-Read\-Write\-Lock, bool $\ast$p\-Interupt)
+\begin{DoxyCompactList}\small\item\em set interrupt flag adress \end{DoxyCompactList}\end{DoxyCompactItemize}
+\end{Indent}
+
+
+\subsection{Detailed Description}
+\hyperlink{class_g_l_c___world_to3dxml}{G\-L\-C\-\_\-\-World\-To3dxml} \-: Export a \hyperlink{class_g_l_c___world}{G\-L\-C\-\_\-\-World} to a 3dxml file. 
+
+Definition at line 42 of file glc\-\_\-worldto3dxml.\-h.
+
+
+
+\subsection{Member Enumeration Documentation}
+\hypertarget{class_g_l_c___world_to3dxml_a00bd3e3fded597cda87766c5a2e12b96}{\index{G\-L\-C\-\_\-\-World\-To3dxml@{G\-L\-C\-\_\-\-World\-To3dxml}!Export\-Type@{Export\-Type}}
+\index{Export\-Type@{Export\-Type}!GLC_WorldTo3dxml@{G\-L\-C\-\_\-\-World\-To3dxml}}
+\subsubsection[{Export\-Type}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf G\-L\-C\-\_\-\-World\-To3dxml\-::\-Export\-Type}}}\label{class_g_l_c___world_to3dxml_a00bd3e3fded597cda87766c5a2e12b96}
+\begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{Compressed3dxml@{Compressed3dxml}!G\-L\-C\-\_\-\-World\-To3dxml@{G\-L\-C\-\_\-\-World\-To3dxml}}\index{G\-L\-C\-\_\-\-World\-To3dxml@{G\-L\-C\-\_\-\-World\-To3dxml}!Compressed3dxml@{Compressed3dxml}}\item[{\em 
+\hypertarget{class_g_l_c___world_to3dxml_a00bd3e3fded597cda87766c5a2e12b96aeb6c9542eea06c14c05116553ddb1941}{Compressed3dxml}\label{class_g_l_c___world_to3dxml_a00bd3e3fded597cda87766c5a2e12b96aeb6c9542eea06c14c05116553ddb1941}
+}]\index{Exploded3dxml@{Exploded3dxml}!G\-L\-C\-\_\-\-World\-To3dxml@{G\-L\-C\-\_\-\-World\-To3dxml}}\index{G\-L\-C\-\_\-\-World\-To3dxml@{G\-L\-C\-\_\-\-World\-To3dxml}!Exploded3dxml@{Exploded3dxml}}\item[{\em 
+\hypertarget{class_g_l_c___world_to3dxml_a00bd3e3fded597cda87766c5a2e12b96a6a29a52f62c0ec5228fbc754c34e7323}{Exploded3dxml}\label{class_g_l_c___world_to3dxml_a00bd3e3fded597cda87766c5a2e12b96a6a29a52f62c0ec5228fbc754c34e7323}
+}]\index{Structure\-Only@{Structure\-Only}!G\-L\-C\-\_\-\-World\-To3dxml@{G\-L\-C\-\_\-\-World\-To3dxml}}\index{G\-L\-C\-\_\-\-World\-To3dxml@{G\-L\-C\-\_\-\-World\-To3dxml}!Structure\-Only@{Structure\-Only}}\item[{\em 
+\hypertarget{class_g_l_c___world_to3dxml_a00bd3e3fded597cda87766c5a2e12b96a9a71e68d5a68bdee1391af2690a244f0}{Structure\-Only}\label{class_g_l_c___world_to3dxml_a00bd3e3fded597cda87766c5a2e12b96a9a71e68d5a68bdee1391af2690a244f0}
+}]\end{description}
+\end{Desc}
+
+
+Definition at line 47 of file glc\-\_\-worldto3dxml.\-h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_g_l_c___world_to3dxml_ac9c6fd38be043be4a183b52183e91d4a}{\index{G\-L\-C\-\_\-\-World\-To3dxml@{G\-L\-C\-\_\-\-World\-To3dxml}!G\-L\-C\-\_\-\-World\-To3dxml@{G\-L\-C\-\_\-\-World\-To3dxml}}
+\index{G\-L\-C\-\_\-\-World\-To3dxml@{G\-L\-C\-\_\-\-World\-To3dxml}!GLC_WorldTo3dxml@{G\-L\-C\-\_\-\-World\-To3dxml}}
+\subsubsection[{G\-L\-C\-\_\-\-World\-To3dxml}]{\setlength{\rightskip}{0pt plus 5cm}G\-L\-C\-\_\-\-World\-To3dxml\-::\-G\-L\-C\-\_\-\-World\-To3dxml (
+\begin{DoxyParamCaption}
+\item[{const {\bf G\-L\-C\-\_\-\-World} \&}]{world, }
+\item[{bool}]{threaded = {\ttfamily true}}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___world_to3dxml_ac9c6fd38be043be4a183b52183e91d4a}
+
+
+Definition at line 33 of file glc\-\_\-worldto3dxml.\-cpp.
+
+\hypertarget{class_g_l_c___world_to3dxml_aa70a9579476538a948473fa0a2f68585}{\index{G\-L\-C\-\_\-\-World\-To3dxml@{G\-L\-C\-\_\-\-World\-To3dxml}!$\sim$\-G\-L\-C\-\_\-\-World\-To3dxml@{$\sim$\-G\-L\-C\-\_\-\-World\-To3dxml}}
+\index{$\sim$\-G\-L\-C\-\_\-\-World\-To3dxml@{$\sim$\-G\-L\-C\-\_\-\-World\-To3dxml}!GLC_WorldTo3dxml@{G\-L\-C\-\_\-\-World\-To3dxml}}
+\subsubsection[{$\sim$\-G\-L\-C\-\_\-\-World\-To3dxml}]{\setlength{\rightskip}{0pt plus 5cm}G\-L\-C\-\_\-\-World\-To3dxml\-::$\sim$\-G\-L\-C\-\_\-\-World\-To3dxml (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_g_l_c___world_to3dxml_aa70a9579476538a948473fa0a2f68585}
+
+
+Definition at line 65 of file glc\-\_\-worldto3dxml.\-cpp.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_g_l_c___world_to3dxml_a6c647493a85b7ae3d1e620435ebfffe3}{\index{G\-L\-C\-\_\-\-World\-To3dxml@{G\-L\-C\-\_\-\-World\-To3dxml}!current\-Quantum@{current\-Quantum}}
+\index{current\-Quantum@{current\-Quantum}!GLC_WorldTo3dxml@{G\-L\-C\-\_\-\-World\-To3dxml}}
+\subsubsection[{current\-Quantum}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-\-World\-To3dxml\-::current\-Quantum (
+\begin{DoxyParamCaption}
+\item[{{\bf int}}]{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [signal]}}}\label{class_g_l_c___world_to3dxml_a6c647493a85b7ae3d1e620435ebfffe3}
+\hypertarget{class_g_l_c___world_to3dxml_adbe0c8eb2c72e142ee5f3491f92fca6f}{\index{G\-L\-C\-\_\-\-World\-To3dxml@{G\-L\-C\-\_\-\-World\-To3dxml}!export\-Reference\-To3\-D\-Rep@{export\-Reference\-To3\-D\-Rep}}
+\index{export\-Reference\-To3\-D\-Rep@{export\-Reference\-To3\-D\-Rep}!GLC_WorldTo3dxml@{G\-L\-C\-\_\-\-World\-To3dxml}}
+\subsubsection[{export\-Reference\-To3\-D\-Rep}]{\setlength{\rightskip}{0pt plus 5cm}bool G\-L\-C\-\_\-\-World\-To3dxml\-::export\-Reference\-To3\-D\-Rep (
+\begin{DoxyParamCaption}
+\item[{const {\bf G\-L\-C\-\_\-3\-D\-Rep} $\ast$}]{p3\-D\-Rep, }
+\item[{const {\bf Q\-String} \&}]{full\-File\-Name}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___world_to3dxml_adbe0c8eb2c72e142ee5f3491f92fca6f}
+
+
+Save the given 3\-D\-Rep into the given path name. 
+
+
+
+Definition at line 141 of file glc\-\_\-worldto3dxml.\-cpp.
+
+\hypertarget{class_g_l_c___world_to3dxml_afc36c19b69c9afedb9d76f64194a0282}{\index{G\-L\-C\-\_\-\-World\-To3dxml@{G\-L\-C\-\_\-\-World\-To3dxml}!export\-To3dxml@{export\-To3dxml}}
+\index{export\-To3dxml@{export\-To3dxml}!GLC_WorldTo3dxml@{G\-L\-C\-\_\-\-World\-To3dxml}}
+\subsubsection[{export\-To3dxml}]{\setlength{\rightskip}{0pt plus 5cm}bool G\-L\-C\-\_\-\-World\-To3dxml\-::export\-To3dxml (
+\begin{DoxyParamCaption}
+\item[{const {\bf Q\-String} \&}]{filename, }
+\item[{{\bf G\-L\-C\-\_\-\-World\-To3dxml\-::\-Export\-Type}}]{export\-Type, }
+\item[{bool}]{export\-Material = {\ttfamily true}}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___world_to3dxml_afc36c19b69c9afedb9d76f64194a0282}
+
+
+Save the world to the specified file name. 
+
+
+
+Definition at line 72 of file glc\-\_\-worldto3dxml.\-cpp.
+
+\hypertarget{class_g_l_c___world_to3dxml_a9d284f8dfc24e8d7bc64c27631dab23f}{\index{G\-L\-C\-\_\-\-World\-To3dxml@{G\-L\-C\-\_\-\-World\-To3dxml}!set\-Generator\-Name@{set\-Generator\-Name}}
+\index{set\-Generator\-Name@{set\-Generator\-Name}!GLC_WorldTo3dxml@{G\-L\-C\-\_\-\-World\-To3dxml}}
+\subsubsection[{set\-Generator\-Name}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-\-World\-To3dxml\-::set\-Generator\-Name (
+\begin{DoxyParamCaption}
+\item[{const {\bf Q\-String} \&}]{generator}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___world_to3dxml_a9d284f8dfc24e8d7bc64c27631dab23f}
+
+
+Set the name of the 3dxml generator default is G\-L\-C\-\_\-\-L\-I\-B. 
+
+
+
+Definition at line 74 of file glc\-\_\-worldto3dxml.\-h.
+
+\hypertarget{class_g_l_c___world_to3dxml_a4ae09d476cb928aea32a86036fe6cff9}{\index{G\-L\-C\-\_\-\-World\-To3dxml@{G\-L\-C\-\_\-\-World\-To3dxml}!set\-Interupt@{set\-Interupt}}
+\index{set\-Interupt@{set\-Interupt}!GLC_WorldTo3dxml@{G\-L\-C\-\_\-\-World\-To3dxml}}
+\subsubsection[{set\-Interupt}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-\-World\-To3dxml\-::set\-Interupt (
+\begin{DoxyParamCaption}
+\item[{Q\-Read\-Write\-Lock $\ast$}]{p\-Read\-Write\-Lock, }
+\item[{bool $\ast$}]{p\-Interupt}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___world_to3dxml_a4ae09d476cb928aea32a86036fe6cff9}
+
+
+set interrupt flag adress 
+
+
+
+Definition at line 155 of file glc\-\_\-worldto3dxml.\-cpp.
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/glc\-\_\-lib/io/\hyperlink{glc__worldto3dxml_8h}{glc\-\_\-worldto3dxml.\-h}\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/glc\-\_\-lib/io/\hyperlink{glc__worldto3dxml_8cpp}{glc\-\_\-worldto3dxml.\-cpp}\end{DoxyCompactItemize}

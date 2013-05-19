@@ -1,0 +1,198 @@
+\hypertarget{class_g_l_c___zoom_mover}{\section{G\-L\-C\-\_\-\-Zoom\-Mover Class Reference}
+\label{class_g_l_c___zoom_mover}\index{G\-L\-C\-\_\-\-Zoom\-Mover@{G\-L\-C\-\_\-\-Zoom\-Mover}}
+}
+
+
+\hyperlink{class_g_l_c___zoom_mover}{G\-L\-C\-\_\-\-Zoom\-Mover} \-: Zoom interactive manipulation.  
+
+
+
+
+{\ttfamily \#include $<$glc\-\_\-zoommover.\-h$>$}
+
+Inheritance diagram for G\-L\-C\-\_\-\-Zoom\-Mover\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{class_g_l_c___zoom_mover}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_g_l_c___zoom_mover_a171dd386c7c68cf5d47965f054681ccd}{G\-L\-C\-\_\-\-Zoom\-Mover} (\hyperlink{class_g_l_c___viewport}{G\-L\-C\-\_\-\-Viewport} $\ast$, const \hyperlink{class_q_list}{Q\-List}$<$ \hyperlink{class_g_l_c___rep_mover}{G\-L\-C\-\_\-\-Rep\-Mover} $\ast$ $>$ \&reps\-List=\hyperlink{class_q_list}{Q\-List}$<$ \hyperlink{class_g_l_c___rep_mover}{G\-L\-C\-\_\-\-Rep\-Mover} $\ast$ $>$())
+\begin{DoxyCompactList}\small\item\em Default constructor. \end{DoxyCompactList}\item 
+\hyperlink{class_g_l_c___zoom_mover_ac4f1d9c5285750d1ccfdb8b1a540cc01}{G\-L\-C\-\_\-\-Zoom\-Mover} (const \hyperlink{class_g_l_c___zoom_mover}{G\-L\-C\-\_\-\-Zoom\-Mover} \&)
+\begin{DoxyCompactList}\small\item\em Copy constructor. \end{DoxyCompactList}\item 
+virtual \hyperlink{class_g_l_c___zoom_mover_aed02bec61a88c3a27d10ea46bd867eb0}{$\sim$\-G\-L\-C\-\_\-\-Zoom\-Mover} ()
+\begin{DoxyCompactList}\small\item\em Destructor. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{Indent}{\bf Get Functions}\par
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} \hyperlink{class_g_l_c___zoom_mover_a3d19c0d6ebe0f40aa062b909f70baeae}{max\-Zoom\-Factor} () const 
+\begin{DoxyCompactList}\small\item\em Return the maximum zoom factor. \end{DoxyCompactList}\item 
+virtual \hyperlink{class_g_l_c___mover}{G\-L\-C\-\_\-\-Mover} $\ast$ \hyperlink{class_g_l_c___zoom_mover_a38cb134949e877c730ddc4840bfcc4b1}{clone} () const 
+\begin{DoxyCompactList}\small\item\em Return a clone of the mover. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\end{Indent}
+\begin{Indent}{\bf Set Functions}\par
+\begin{DoxyCompactItemize}
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c___zoom_mover_af44b07ea2addcacfd5061f9f5dd5f63b}{init} (const \hyperlink{class_g_l_c___user_input}{G\-L\-C\-\_\-\-User\-Input} \&user\-Input)
+\begin{DoxyCompactList}\small\item\em Initialized the mover. \end{DoxyCompactList}\item 
+virtual bool \hyperlink{class_g_l_c___zoom_mover_aa6f260134db8d0f6599a265c2433dbd9}{move} (const \hyperlink{class_g_l_c___user_input}{G\-L\-C\-\_\-\-User\-Input} \&user\-Input)
+\begin{DoxyCompactList}\small\item\em Move the camera. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c___zoom_mover_abffffbee539bef08d4f6f126da84f78e}{set\-Max\-Zoom\-Factor} (const \hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} factor)
+\begin{DoxyCompactList}\small\item\em Set the maximum zoom factor. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\end{Indent}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Detailed Description}
+\hyperlink{class_g_l_c___zoom_mover}{G\-L\-C\-\_\-\-Zoom\-Mover} \-: Zoom interactive manipulation. 
+
+Definition at line 34 of file glc\-\_\-zoommover.\-h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_g_l_c___zoom_mover_a171dd386c7c68cf5d47965f054681ccd}{\index{G\-L\-C\-\_\-\-Zoom\-Mover@{G\-L\-C\-\_\-\-Zoom\-Mover}!G\-L\-C\-\_\-\-Zoom\-Mover@{G\-L\-C\-\_\-\-Zoom\-Mover}}
+\index{G\-L\-C\-\_\-\-Zoom\-Mover@{G\-L\-C\-\_\-\-Zoom\-Mover}!GLC_ZoomMover@{G\-L\-C\-\_\-\-Zoom\-Mover}}
+\subsubsection[{G\-L\-C\-\_\-\-Zoom\-Mover}]{\setlength{\rightskip}{0pt plus 5cm}G\-L\-C\-\_\-\-Zoom\-Mover\-::\-G\-L\-C\-\_\-\-Zoom\-Mover (
+\begin{DoxyParamCaption}
+\item[{{\bf G\-L\-C\-\_\-\-Viewport} $\ast$}]{p\-Viewport, }
+\item[{const {\bf Q\-List}$<$ {\bf G\-L\-C\-\_\-\-Rep\-Mover} $\ast$ $>$ \&}]{reps\-List = {\ttfamily {\bf Q\-List}$<${\bf G\-L\-C\-\_\-\-Rep\-Mover}$\ast$$>$()}}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___zoom_mover_a171dd386c7c68cf5d47965f054681ccd}
+
+
+Default constructor. 
+
+
+
+Definition at line 27 of file glc\-\_\-zoommover.\-cpp.
+
+\hypertarget{class_g_l_c___zoom_mover_ac4f1d9c5285750d1ccfdb8b1a540cc01}{\index{G\-L\-C\-\_\-\-Zoom\-Mover@{G\-L\-C\-\_\-\-Zoom\-Mover}!G\-L\-C\-\_\-\-Zoom\-Mover@{G\-L\-C\-\_\-\-Zoom\-Mover}}
+\index{G\-L\-C\-\_\-\-Zoom\-Mover@{G\-L\-C\-\_\-\-Zoom\-Mover}!GLC_ZoomMover@{G\-L\-C\-\_\-\-Zoom\-Mover}}
+\subsubsection[{G\-L\-C\-\_\-\-Zoom\-Mover}]{\setlength{\rightskip}{0pt plus 5cm}G\-L\-C\-\_\-\-Zoom\-Mover\-::\-G\-L\-C\-\_\-\-Zoom\-Mover (
+\begin{DoxyParamCaption}
+\item[{const {\bf G\-L\-C\-\_\-\-Zoom\-Mover} \&}]{mover}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___zoom_mover_ac4f1d9c5285750d1ccfdb8b1a540cc01}
+
+
+Copy constructor. 
+
+
+
+Definition at line 35 of file glc\-\_\-zoommover.\-cpp.
+
+\hypertarget{class_g_l_c___zoom_mover_aed02bec61a88c3a27d10ea46bd867eb0}{\index{G\-L\-C\-\_\-\-Zoom\-Mover@{G\-L\-C\-\_\-\-Zoom\-Mover}!$\sim$\-G\-L\-C\-\_\-\-Zoom\-Mover@{$\sim$\-G\-L\-C\-\_\-\-Zoom\-Mover}}
+\index{$\sim$\-G\-L\-C\-\_\-\-Zoom\-Mover@{$\sim$\-G\-L\-C\-\_\-\-Zoom\-Mover}!GLC_ZoomMover@{G\-L\-C\-\_\-\-Zoom\-Mover}}
+\subsubsection[{$\sim$\-G\-L\-C\-\_\-\-Zoom\-Mover}]{\setlength{\rightskip}{0pt plus 5cm}G\-L\-C\-\_\-\-Zoom\-Mover\-::$\sim$\-G\-L\-C\-\_\-\-Zoom\-Mover (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_g_l_c___zoom_mover_aed02bec61a88c3a27d10ea46bd867eb0}
+
+
+Destructor. 
+
+
+
+Definition at line 42 of file glc\-\_\-zoommover.\-cpp.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_g_l_c___zoom_mover_a38cb134949e877c730ddc4840bfcc4b1}{\index{G\-L\-C\-\_\-\-Zoom\-Mover@{G\-L\-C\-\_\-\-Zoom\-Mover}!clone@{clone}}
+\index{clone@{clone}!GLC_ZoomMover@{G\-L\-C\-\_\-\-Zoom\-Mover}}
+\subsubsection[{clone}]{\setlength{\rightskip}{0pt plus 5cm}{\bf G\-L\-C\-\_\-\-Mover} $\ast$ G\-L\-C\-\_\-\-Zoom\-Mover\-::clone (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_g_l_c___zoom_mover_a38cb134949e877c730ddc4840bfcc4b1}
+
+
+Return a clone of the mover. 
+
+
+
+Implements \hyperlink{class_g_l_c___mover_abcf4ca22f14bc73158e3ad6e8d60410c}{G\-L\-C\-\_\-\-Mover}.
+
+
+
+Definition at line 53 of file glc\-\_\-zoommover.\-cpp.
+
+\hypertarget{class_g_l_c___zoom_mover_af44b07ea2addcacfd5061f9f5dd5f63b}{\index{G\-L\-C\-\_\-\-Zoom\-Mover@{G\-L\-C\-\_\-\-Zoom\-Mover}!init@{init}}
+\index{init@{init}!GLC_ZoomMover@{G\-L\-C\-\_\-\-Zoom\-Mover}}
+\subsubsection[{init}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-\-Zoom\-Mover\-::init (
+\begin{DoxyParamCaption}
+\item[{const {\bf G\-L\-C\-\_\-\-User\-Input} \&}]{user\-Input}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_g_l_c___zoom_mover_af44b07ea2addcacfd5061f9f5dd5f63b}
+
+
+Initialized the mover. 
+
+
+
+Implements \hyperlink{class_g_l_c___mover_aa42bf47dbe0181baebb33fd4901ea516}{G\-L\-C\-\_\-\-Mover}.
+
+
+
+Definition at line 63 of file glc\-\_\-zoommover.\-cpp.
+
+\hypertarget{class_g_l_c___zoom_mover_a3d19c0d6ebe0f40aa062b909f70baeae}{\index{G\-L\-C\-\_\-\-Zoom\-Mover@{G\-L\-C\-\_\-\-Zoom\-Mover}!max\-Zoom\-Factor@{max\-Zoom\-Factor}}
+\index{max\-Zoom\-Factor@{max\-Zoom\-Factor}!GLC_ZoomMover@{G\-L\-C\-\_\-\-Zoom\-Mover}}
+\subsubsection[{max\-Zoom\-Factor}]{\setlength{\rightskip}{0pt plus 5cm}{\bf double} G\-L\-C\-\_\-\-Zoom\-Mover\-::max\-Zoom\-Factor (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___zoom_mover_a3d19c0d6ebe0f40aa062b909f70baeae}
+
+
+Return the maximum zoom factor. 
+
+
+
+Definition at line 53 of file glc\-\_\-zoommover.\-h.
+
+\hypertarget{class_g_l_c___zoom_mover_aa6f260134db8d0f6599a265c2433dbd9}{\index{G\-L\-C\-\_\-\-Zoom\-Mover@{G\-L\-C\-\_\-\-Zoom\-Mover}!move@{move}}
+\index{move@{move}!GLC_ZoomMover@{G\-L\-C\-\_\-\-Zoom\-Mover}}
+\subsubsection[{move}]{\setlength{\rightskip}{0pt plus 5cm}bool G\-L\-C\-\_\-\-Zoom\-Mover\-::move (
+\begin{DoxyParamCaption}
+\item[{const {\bf G\-L\-C\-\_\-\-User\-Input} \&}]{user\-Input}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_g_l_c___zoom_mover_aa6f260134db8d0f6599a265c2433dbd9}
+
+
+Move the camera. 
+
+
+
+Implements \hyperlink{class_g_l_c___mover_a50797471a7a71612eef7d80f509f8a74}{G\-L\-C\-\_\-\-Mover}.
+
+
+
+Definition at line 71 of file glc\-\_\-zoommover.\-cpp.
+
+\hypertarget{class_g_l_c___zoom_mover_abffffbee539bef08d4f6f126da84f78e}{\index{G\-L\-C\-\_\-\-Zoom\-Mover@{G\-L\-C\-\_\-\-Zoom\-Mover}!set\-Max\-Zoom\-Factor@{set\-Max\-Zoom\-Factor}}
+\index{set\-Max\-Zoom\-Factor@{set\-Max\-Zoom\-Factor}!GLC_ZoomMover@{G\-L\-C\-\_\-\-Zoom\-Mover}}
+\subsubsection[{set\-Max\-Zoom\-Factor}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-\-Zoom\-Mover\-::set\-Max\-Zoom\-Factor (
+\begin{DoxyParamCaption}
+\item[{const {\bf double}}]{factor}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___zoom_mover_abffffbee539bef08d4f6f126da84f78e}
+
+
+Set the maximum zoom factor. 
+
+
+
+Definition at line 73 of file glc\-\_\-zoommover.\-h.
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/glc\-\_\-lib/viewport/\hyperlink{glc__zoommover_8h}{glc\-\_\-zoommover.\-h}\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/glc\-\_\-lib/viewport/\hyperlink{glc__zoommover_8cpp}{glc\-\_\-zoommover.\-cpp}\end{DoxyCompactItemize}

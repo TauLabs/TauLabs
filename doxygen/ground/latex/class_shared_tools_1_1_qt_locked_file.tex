@@ -1,0 +1,211 @@
+\hypertarget{class_shared_tools_1_1_qt_locked_file}{\section{Shared\-Tools\-:\-:Qt\-Locked\-File Class Reference}
+\label{class_shared_tools_1_1_qt_locked_file}\index{Shared\-Tools\-::\-Qt\-Locked\-File@{Shared\-Tools\-::\-Qt\-Locked\-File}}
+}
+
+
+The \hyperlink{class_shared_tools_1_1_qt_locked_file}{Qt\-Locked\-File} class extends Q\-File with advisory locking functions.  
+
+
+
+
+{\ttfamily \#include $<$qtlockedfile.\-h$>$}
+
+Inheritance diagram for Shared\-Tools\-:\-:Qt\-Locked\-File\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_shared_tools_1_1_qt_locked_file}
+\end{center}
+\end{figure}
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{class_shared_tools_1_1_qt_locked_file_aaa69b096bf94afaae92f0ebcec10f2ed}{Lock\-Mode} \{ \hyperlink{class_shared_tools_1_1_qt_locked_file_aaa69b096bf94afaae92f0ebcec10f2edaef56306bfebfe99d2a8e7caad9a1de65}{No\-Lock} = 0, 
+\hyperlink{class_shared_tools_1_1_qt_locked_file_aaa69b096bf94afaae92f0ebcec10f2eda9729b3d3f240074ed63626e285af2b75}{Read\-Lock}, 
+\hyperlink{class_shared_tools_1_1_qt_locked_file_aaa69b096bf94afaae92f0ebcec10f2eda8435c3fea5ef1733bd3a8a792227a9c5}{Write\-Lock}
+ \}
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_shared_tools_1_1_qt_locked_file_ae5ace5574511e5205df025a316cc71fc}{Qt\-Locked\-File} ()
+\item 
+\hyperlink{class_shared_tools_1_1_qt_locked_file_a6fdeb77acd21ab32905dff2c88af39b7}{Qt\-Locked\-File} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{Q\-String} \&\hyperlink{glext_8h_ad977737dfc9a274a62741b9500c49a32}{name})
+\item 
+\hyperlink{class_shared_tools_1_1_qt_locked_file_a2b8be83f7c4ab09bb90740baafae414a}{$\sim$\-Qt\-Locked\-File} ()
+\item 
+bool \hyperlink{class_shared_tools_1_1_qt_locked_file_a699007e880a1a0d22868e0d1b58a8cd1}{lock} (\hyperlink{class_shared_tools_1_1_qt_locked_file_aaa69b096bf94afaae92f0ebcec10f2ed}{Lock\-Mode} \hyperlink{glext_8h_a1e71d9c196e4683cc06c4b54d53f7ef5}{mode}, bool block=true)
+\item 
+bool \hyperlink{class_shared_tools_1_1_qt_locked_file_aa1b8a9fb6b6ef26b6c8bb24d1e7ce832}{unlock} ()
+\item 
+bool \hyperlink{class_shared_tools_1_1_qt_locked_file_a743c5a172709f06b8eee2ee63f84a0fc}{is\-Locked} () const 
+\item 
+\hyperlink{class_shared_tools_1_1_qt_locked_file_aaa69b096bf94afaae92f0ebcec10f2ed}{Lock\-Mode} \hyperlink{class_shared_tools_1_1_qt_locked_file_a103815203ce6d27e45aea5d37e6d76cf}{lock\-Mode} () const 
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+The \hyperlink{class_shared_tools_1_1_qt_locked_file}{Qt\-Locked\-File} class extends Q\-File with advisory locking functions. 
+
+A file may be locked in read or write mode. Multiple instances of {\itshape \hyperlink{class_shared_tools_1_1_qt_locked_file}{Qt\-Locked\-File}}, created in multiple processes running on the same machine, may have a file locked in read mode. Exactly one instance may have it locked in write mode. A read and a write lock cannot exist simultaneously on the same file.
+
+The file locks are advisory. This means that nothing prevents another process from manipulating a locked file using Q\-File or file system functions offered by the O\-S. Serialization is only guaranteed if all processes that access the file use \hyperlink{class_shared_tools_1_1_qt_locked_file}{Qt\-Locked\-File}. Also, while holding a lock on a file, a process must not open the same file again (through any A\-P\-I), or locks can be unexpectedly lost.
+
+The lock provided by an instance of {\itshape \hyperlink{class_shared_tools_1_1_qt_locked_file}{Qt\-Locked\-File}} is released whenever the program terminates. This is true even when the program crashes and no destructors are called. 
+
+Definition at line 52 of file qtlockedfile.\-h.
+
+
+
+\subsection{Member Enumeration Documentation}
+\hypertarget{class_shared_tools_1_1_qt_locked_file_aaa69b096bf94afaae92f0ebcec10f2ed}{\index{Shared\-Tools\-::\-Qt\-Locked\-File@{Shared\-Tools\-::\-Qt\-Locked\-File}!Lock\-Mode@{Lock\-Mode}}
+\index{Lock\-Mode@{Lock\-Mode}!SharedTools::QtLockedFile@{Shared\-Tools\-::\-Qt\-Locked\-File}}
+\subsubsection[{Lock\-Mode}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf Shared\-Tools\-::\-Qt\-Locked\-File\-::\-Lock\-Mode}}}\label{class_shared_tools_1_1_qt_locked_file_aaa69b096bf94afaae92f0ebcec10f2ed}
+This enum describes the available lock modes.
+
+Read\-Lock A read lock.  Write\-Lock A write lock.  No\-Lock Neither a read lock nor a write lock. \begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{No\-Lock@{No\-Lock}!Shared\-Tools\-::\-Qt\-Locked\-File@{Shared\-Tools\-::\-Qt\-Locked\-File}}\index{Shared\-Tools\-::\-Qt\-Locked\-File@{Shared\-Tools\-::\-Qt\-Locked\-File}!No\-Lock@{No\-Lock}}\item[{\em 
+\hypertarget{class_shared_tools_1_1_qt_locked_file_aaa69b096bf94afaae92f0ebcec10f2edaef56306bfebfe99d2a8e7caad9a1de65}{No\-Lock}\label{class_shared_tools_1_1_qt_locked_file_aaa69b096bf94afaae92f0ebcec10f2edaef56306bfebfe99d2a8e7caad9a1de65}
+}]\index{Read\-Lock@{Read\-Lock}!Shared\-Tools\-::\-Qt\-Locked\-File@{Shared\-Tools\-::\-Qt\-Locked\-File}}\index{Shared\-Tools\-::\-Qt\-Locked\-File@{Shared\-Tools\-::\-Qt\-Locked\-File}!Read\-Lock@{Read\-Lock}}\item[{\em 
+\hypertarget{class_shared_tools_1_1_qt_locked_file_aaa69b096bf94afaae92f0ebcec10f2eda9729b3d3f240074ed63626e285af2b75}{Read\-Lock}\label{class_shared_tools_1_1_qt_locked_file_aaa69b096bf94afaae92f0ebcec10f2eda9729b3d3f240074ed63626e285af2b75}
+}]\index{Write\-Lock@{Write\-Lock}!Shared\-Tools\-::\-Qt\-Locked\-File@{Shared\-Tools\-::\-Qt\-Locked\-File}}\index{Shared\-Tools\-::\-Qt\-Locked\-File@{Shared\-Tools\-::\-Qt\-Locked\-File}!Write\-Lock@{Write\-Lock}}\item[{\em 
+\hypertarget{class_shared_tools_1_1_qt_locked_file_aaa69b096bf94afaae92f0ebcec10f2eda8435c3fea5ef1733bd3a8a792227a9c5}{Write\-Lock}\label{class_shared_tools_1_1_qt_locked_file_aaa69b096bf94afaae92f0ebcec10f2eda8435c3fea5ef1733bd3a8a792227a9c5}
+}]\end{description}
+\end{Desc}
+
+
+Definition at line 55 of file qtlockedfile.\-h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_shared_tools_1_1_qt_locked_file_ae5ace5574511e5205df025a316cc71fc}{\index{Shared\-Tools\-::\-Qt\-Locked\-File@{Shared\-Tools\-::\-Qt\-Locked\-File}!Qt\-Locked\-File@{Qt\-Locked\-File}}
+\index{Qt\-Locked\-File@{Qt\-Locked\-File}!SharedTools::QtLockedFile@{Shared\-Tools\-::\-Qt\-Locked\-File}}
+\subsubsection[{Qt\-Locked\-File}]{\setlength{\rightskip}{0pt plus 5cm}Shared\-Tools\-::\-Qt\-Locked\-File\-::\-Qt\-Locked\-File (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_shared_tools_1_1_qt_locked_file_ae5ace5574511e5205df025a316cc71fc}
+Constructs an unlocked {\itshape \hyperlink{class_shared_tools_1_1_qt_locked_file}{Qt\-Locked\-File}} object. This constructor behaves in the same way as {\itshape Q\-File\-::\-Q\-File()}.
+
+\begin{DoxySeeAlso}{See Also}
+Q\-File\-::\-Q\-File() 
+\end{DoxySeeAlso}
+
+
+Definition at line 72 of file qtlockedfile.\-cpp.
+
+\hypertarget{class_shared_tools_1_1_qt_locked_file_a6fdeb77acd21ab32905dff2c88af39b7}{\index{Shared\-Tools\-::\-Qt\-Locked\-File@{Shared\-Tools\-::\-Qt\-Locked\-File}!Qt\-Locked\-File@{Qt\-Locked\-File}}
+\index{Qt\-Locked\-File@{Qt\-Locked\-File}!SharedTools::QtLockedFile@{Shared\-Tools\-::\-Qt\-Locked\-File}}
+\subsubsection[{Qt\-Locked\-File}]{\setlength{\rightskip}{0pt plus 5cm}Shared\-Tools\-::\-Qt\-Locked\-File\-::\-Qt\-Locked\-File (
+\begin{DoxyParamCaption}
+\item[{const {\bf Q\-String} \&}]{name}
+\end{DoxyParamCaption}
+)}}\label{class_shared_tools_1_1_qt_locked_file_a6fdeb77acd21ab32905dff2c88af39b7}
+Constructs an unlocked \hyperlink{class_shared_tools_1_1_qt_locked_file}{Qt\-Locked\-File} object with file {\itshape name}. This constructor behaves in the same way as {\itshape Q\-File\-::\-Q\-File(const Q\-String\&)}.
+
+\begin{DoxySeeAlso}{See Also}
+Q\-File\-::\-Q\-File() 
+\end{DoxySeeAlso}
+
+
+Definition at line 88 of file qtlockedfile.\-cpp.
+
+\hypertarget{class_shared_tools_1_1_qt_locked_file_a2b8be83f7c4ab09bb90740baafae414a}{\index{Shared\-Tools\-::\-Qt\-Locked\-File@{Shared\-Tools\-::\-Qt\-Locked\-File}!$\sim$\-Qt\-Locked\-File@{$\sim$\-Qt\-Locked\-File}}
+\index{$\sim$\-Qt\-Locked\-File@{$\sim$\-Qt\-Locked\-File}!SharedTools::QtLockedFile@{Shared\-Tools\-::\-Qt\-Locked\-File}}
+\subsubsection[{$\sim$\-Qt\-Locked\-File}]{\setlength{\rightskip}{0pt plus 5cm}Shared\-Tools\-::\-Qt\-Locked\-File\-::$\sim$\-Qt\-Locked\-File (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_shared_tools_1_1_qt_locked_file_a2b8be83f7c4ab09bb90740baafae414a}
+Destroys the {\itshape \hyperlink{class_shared_tools_1_1_qt_locked_file}{Qt\-Locked\-File}} object. If any locks were held, they are released. 
+
+Definition at line 100 of file qtlockedfile\-\_\-unix.\-cpp.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_shared_tools_1_1_qt_locked_file_a743c5a172709f06b8eee2ee63f84a0fc}{\index{Shared\-Tools\-::\-Qt\-Locked\-File@{Shared\-Tools\-::\-Qt\-Locked\-File}!is\-Locked@{is\-Locked}}
+\index{is\-Locked@{is\-Locked}!SharedTools::QtLockedFile@{Shared\-Tools\-::\-Qt\-Locked\-File}}
+\subsubsection[{is\-Locked}]{\setlength{\rightskip}{0pt plus 5cm}bool Shared\-Tools\-::\-Qt\-Locked\-File\-::is\-Locked (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_shared_tools_1_1_qt_locked_file_a743c5a172709f06b8eee2ee63f84a0fc}
+Returns {\itshape true} if this object has a in read or write lock; otherwise returns {\itshape false}.
+
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_shared_tools_1_1_qt_locked_file_a103815203ce6d27e45aea5d37e6d76cf}{lock\-Mode()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 104 of file qtlockedfile.\-cpp.
+
+\hypertarget{class_shared_tools_1_1_qt_locked_file_a699007e880a1a0d22868e0d1b58a8cd1}{\index{Shared\-Tools\-::\-Qt\-Locked\-File@{Shared\-Tools\-::\-Qt\-Locked\-File}!lock@{lock}}
+\index{lock@{lock}!SharedTools::QtLockedFile@{Shared\-Tools\-::\-Qt\-Locked\-File}}
+\subsubsection[{lock}]{\setlength{\rightskip}{0pt plus 5cm}bool Shared\-Tools\-::\-Qt\-Locked\-File\-::lock (
+\begin{DoxyParamCaption}
+\item[{{\bf Lock\-Mode}}]{mode, }
+\item[{bool}]{block = {\ttfamily true}}
+\end{DoxyParamCaption}
+)}}\label{class_shared_tools_1_1_qt_locked_file_a699007e880a1a0d22868e0d1b58a8cd1}
+Obtains a lock of type {\itshape mode}.
+
+If {\itshape block} is true, this function will block until the lock is aquired. If {\itshape block} is false, this function returns {\itshape false} immediately if the lock cannot be aquired.
+
+If this object already has a lock of type {\itshape mode}, this function returns {\itshape true} immediately. If this object has a lock of a different type than {\itshape mode}, the lock is first released and then a new lock is obtained.
+
+This function returns {\itshape true} if, after it executes, the file is locked by this object, and {\itshape false} otherwise.
+
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_shared_tools_1_1_qt_locked_file_aa1b8a9fb6b6ef26b6c8bb24d1e7ce832}{unlock()}, \hyperlink{class_shared_tools_1_1_qt_locked_file_a743c5a172709f06b8eee2ee63f84a0fc}{is\-Locked()}, \hyperlink{class_shared_tools_1_1_qt_locked_file_a103815203ce6d27e45aea5d37e6d76cf}{lock\-Mode()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 38 of file qtlockedfile\-\_\-unix.\-cpp.
+
+\hypertarget{class_shared_tools_1_1_qt_locked_file_a103815203ce6d27e45aea5d37e6d76cf}{\index{Shared\-Tools\-::\-Qt\-Locked\-File@{Shared\-Tools\-::\-Qt\-Locked\-File}!lock\-Mode@{lock\-Mode}}
+\index{lock\-Mode@{lock\-Mode}!SharedTools::QtLockedFile@{Shared\-Tools\-::\-Qt\-Locked\-File}}
+\subsubsection[{lock\-Mode}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Qt\-Locked\-File\-::\-Lock\-Mode} Shared\-Tools\-::\-Qt\-Locked\-File\-::lock\-Mode (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_shared_tools_1_1_qt_locked_file_a103815203ce6d27e45aea5d37e6d76cf}
+Returns the type of lock currently held by this object, or {\itshape \hyperlink{class_shared_tools_1_1_qt_locked_file_aaa69b096bf94afaae92f0ebcec10f2edaef56306bfebfe99d2a8e7caad9a1de65}{Qt\-Locked\-File\-::\-No\-Lock}}.
+
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_shared_tools_1_1_qt_locked_file_a743c5a172709f06b8eee2ee63f84a0fc}{is\-Locked()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 114 of file qtlockedfile.\-cpp.
+
+\hypertarget{class_shared_tools_1_1_qt_locked_file_aa1b8a9fb6b6ef26b6c8bb24d1e7ce832}{\index{Shared\-Tools\-::\-Qt\-Locked\-File@{Shared\-Tools\-::\-Qt\-Locked\-File}!unlock@{unlock}}
+\index{unlock@{unlock}!SharedTools::QtLockedFile@{Shared\-Tools\-::\-Qt\-Locked\-File}}
+\subsubsection[{unlock}]{\setlength{\rightskip}{0pt plus 5cm}bool Shared\-Tools\-::\-Qt\-Locked\-File\-::unlock (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_shared_tools_1_1_qt_locked_file_aa1b8a9fb6b6ef26b6c8bb24d1e7ce832}
+Releases a lock.
+
+If the object has no lock, this function returns immediately.
+
+This function returns {\itshape true} if, after it executes, the file is not locked by this object, and {\itshape false} otherwise.
+
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_shared_tools_1_1_qt_locked_file_a699007e880a1a0d22868e0d1b58a8cd1}{lock()}, \hyperlink{class_shared_tools_1_1_qt_locked_file_a743c5a172709f06b8eee2ee63f84a0fc}{is\-Locked()}, \hyperlink{class_shared_tools_1_1_qt_locked_file_a103815203ce6d27e45aea5d37e6d76cf}{lock\-Mode()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 74 of file qtlockedfile\-\_\-unix.\-cpp.
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/shared/qtlockedfile/\hyperlink{qtlockedfile_8h}{qtlockedfile.\-h}\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/shared/qtlockedfile/\hyperlink{qtlockedfile_8cpp}{qtlockedfile.\-cpp}\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/shared/qtlockedfile/\hyperlink{qtlockedfile__unix_8cpp}{qtlockedfile\-\_\-unix.\-cpp}\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/shared/qtlockedfile/\hyperlink{qtlockedfile__win_8cpp}{qtlockedfile\-\_\-win.\-cpp}\end{DoxyCompactItemize}

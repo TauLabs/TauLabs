@@ -1,0 +1,69 @@
+\hypertarget{class_qxt_item_delegate}{\section{Qxt\-Item\-Delegate Class Reference}
+\label{class_qxt_item_delegate}\index{Qxt\-Item\-Delegate@{Qxt\-Item\-Delegate}}
+}
+
+
+The \hyperlink{class_qxt_item_delegate}{Qxt\-Item\-Delegate} class is an extended Q\-Item\-Delegate.  
+
+
+
+
+{\ttfamily \#include $<$qxtitemdelegate.\-h$>$}
+
+Inheritance diagram for Qxt\-Item\-Delegate\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_qxt_item_delegate}
+\end{center}
+\end{figure}
+\subsection*{Signals}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qxt_item_delegate_a3b3068865e5185d6eb4348c2dcce99d7}{editing\-Started} (const Q\-Model\-Index \&\hyperlink{glext_8h_ab47dd9958bcadea08866b42bf358e95e}{index})
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qxt_item_delegate_a593c068bb974266241f9a48c28200d26}{editing\-Finished} (const Q\-Model\-Index \&\hyperlink{glext_8h_ab47dd9958bcadea08866b42bf358e95e}{index})
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+The \hyperlink{class_qxt_item_delegate}{Qxt\-Item\-Delegate} class is an extended Q\-Item\-Delegate. 
+
+Qxt\-Gui \hyperlink{class_qxt_item_delegate}{Qxt\-Item\-Delegate} provides signals for starting and finishing of editing and an optional decoration of top level items in a Q\-Tree\-View.
+
+\hyperlink{class_qxt_item_delegate}{Qxt\-Item\-Delegate} can also draw a progress bar for items providing appropriate progress data. Just like Q\-Progress\-Bar, \hyperlink{class_qxt_item_delegate}{Qxt\-Item\-Delegate} can show a busy indicator. If minimum and maximum both are set to {\ttfamily 0}, a busy indicator is shown instead of a percentage of steps. 
+
+Definition at line 34 of file qxtitemdelegate.\-h.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_qxt_item_delegate_a593c068bb974266241f9a48c28200d26}{\index{Qxt\-Item\-Delegate@{Qxt\-Item\-Delegate}!editing\-Finished@{editing\-Finished}}
+\index{editing\-Finished@{editing\-Finished}!QxtItemDelegate@{Qxt\-Item\-Delegate}}
+\subsubsection[{editing\-Finished}]{\setlength{\rightskip}{0pt plus 5cm}Qxt\-Item\-Delegate\-::editing\-Finished (
+\begin{DoxyParamCaption}
+\item[{const Q\-Model\-Index \&}]{index}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [signal]}}}\label{class_qxt_item_delegate_a593c068bb974266241f9a48c28200d26}
+This signal is emitted after the editing of {\itshape index} has been finished.
+
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qxt_item_delegate_a3b3068865e5185d6eb4348c2dcce99d7}{editing\-Started()} 
+\end{DoxySeeAlso}
+\hypertarget{class_qxt_item_delegate_a3b3068865e5185d6eb4348c2dcce99d7}{\index{Qxt\-Item\-Delegate@{Qxt\-Item\-Delegate}!editing\-Started@{editing\-Started}}
+\index{editing\-Started@{editing\-Started}!QxtItemDelegate@{Qxt\-Item\-Delegate}}
+\subsubsection[{editing\-Started}]{\setlength{\rightskip}{0pt plus 5cm}Qxt\-Item\-Delegate\-::editing\-Started (
+\begin{DoxyParamCaption}
+\item[{const Q\-Model\-Index \&}]{index}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [signal]}}}\label{class_qxt_item_delegate_a3b3068865e5185d6eb4348c2dcce99d7}
+This signal is emitted after the editing of {\itshape index} has been started.
+
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qxt_item_delegate_a593c068bb974266241f9a48c28200d26}{editing\-Finished()} 
+\end{DoxySeeAlso}
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/libqxt/src/gui/\hyperlink{qxtitemdelegate_8h}{qxtitemdelegate.\-h}\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/libqxt/src/gui/\hyperlink{qxtitemdelegate_8cpp}{qxtitemdelegate.\-cpp}\end{DoxyCompactItemize}

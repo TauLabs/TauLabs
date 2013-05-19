@@ -1,0 +1,514 @@
+\hypertarget{class_qwt_legend_item}{\section{Qwt\-Legend\-Item Class Reference}
+\label{class_qwt_legend_item}\index{Qwt\-Legend\-Item@{Qwt\-Legend\-Item}}
+}
+
+
+A widget representing something on a Qwt\-Legend().  
+
+
+
+
+{\ttfamily \#include $<$qwt\-\_\-legend\-\_\-item.\-h$>$}
+
+Inheritance diagram for Qwt\-Legend\-Item\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{class_qwt_legend_item}
+\end{center}
+\end{figure}
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{class_qwt_legend_item_1_1_private_data}{Private\-Data}
+\end{DoxyCompactItemize}
+\subsection*{Public Slots}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_legend_item_af7a194ea464d2c405479dd8be1bd1e1b}{set\-Checked} (bool on)
+\end{DoxyCompactItemize}
+\subsection*{Signals}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_legend_item_a28c4837ec402725c87ecee6de558c956}{clicked} ()
+\begin{DoxyCompactList}\small\item\em Signal, when the legend item has been clicked. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_legend_item_a7cc6a0390cc0aaea2feb8a324139410c}{pressed} ()
+\begin{DoxyCompactList}\small\item\em Signal, when the legend item has been pressed. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_legend_item_a7286b8900294659d0850ac588aafaa97}{released} ()
+\begin{DoxyCompactList}\small\item\em Signal, when the legend item has been relased. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_legend_item_a95fe5b1ec7fcfaa86fd9ec49a3bf23aa}{checked} (bool)
+\begin{DoxyCompactList}\small\item\em Signal, when the legend item has been toggled. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_qwt_legend_item_a46f61a0eaaf24a3a78d498db3fc8c457}{Qwt\-Legend\-Item} (Q\-Widget $\ast$parent=0)
+\item 
+virtual \hyperlink{class_qwt_legend_item_a8c98d47b26d4ad3af98bffc7107f6fc9}{$\sim$\-Qwt\-Legend\-Item} ()
+\begin{DoxyCompactList}\small\item\em Destructor. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_legend_item_ae6487dbe8f2c72512887df8bcb648d53}{set\-Item\-Mode} (\hyperlink{class_qwt_legend_ab216dd2dba9ebf6cb0ed2dd621a652e0}{Qwt\-Legend\-::\-Legend\-Item\-Mode})
+\item 
+\hyperlink{class_qwt_legend_ab216dd2dba9ebf6cb0ed2dd621a652e0}{Qwt\-Legend\-::\-Legend\-Item\-Mode} \hyperlink{class_qwt_legend_item_a2574e634e54eb7afff34ca24752c3f9b}{item\-Mode} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_legend_item_a4ff8a83f130d56bf5932c6a35384d85f}{set\-Spacing} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_qwt_legend_item_adc59d1683f3bb11a795098776e76c0bc}{spacing})
+\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_qwt_legend_item_adc59d1683f3bb11a795098776e76c0bc}{spacing} () const 
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_legend_item_a8420c4d8cd73945a25697109df5c2f0e}{set\-Text} (const \hyperlink{class_qwt_text}{Qwt\-Text} \&)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_legend_item_a24495f46aa413af62f1228b4cc13f237}{set\-Identifier} (const Q\-Pixmap \&)
+\item 
+Q\-Pixmap \hyperlink{class_qwt_legend_item_ab9dc7521b29d0e7b5cdd021db2dd7e4a}{identifier} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_legend_item_aecd9706e156b236b64a2eb5115c7a9ae}{set\-Identifier\-Size} (const Q\-Size \&)
+\item 
+Q\-Size \hyperlink{class_qwt_legend_item_a3b948f33ab0bfc898ffe5260a9de87dc}{identifier\-Size} () const 
+\item 
+virtual Q\-Size \hyperlink{class_qwt_legend_item_a6248ff72fbbdf1997a590fb0a2d7088f}{size\-Hint} () const 
+\begin{DoxyCompactList}\small\item\em Return a size hint. \end{DoxyCompactList}\item 
+bool \hyperlink{class_qwt_legend_item_a89c9b96ad3dc37f31ec92779a3899d23}{is\-Checked} () const 
+\begin{DoxyCompactList}\small\item\em Return true, if the item is checked. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_legend_item_a1c871e735a96cc86f95b4dffe2339f85}{set\-Down} (bool)
+\begin{DoxyCompactList}\small\item\em Set the item being down. \end{DoxyCompactList}\item 
+bool \hyperlink{class_qwt_legend_item_ad88e70289e552d67f881d0435fae1098}{is\-Down} () const 
+\begin{DoxyCompactList}\small\item\em Return true, if the item is down. \end{DoxyCompactList}\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_legend_item_ac154aa6b045d78f8134bbfab19a9729b}{paint\-Event} (Q\-Paint\-Event $\ast$)
+\begin{DoxyCompactList}\small\item\em Paint event. \end{DoxyCompactList}\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_legend_item_aaf54f5473fc174aac5cb5cdcfdcc7292}{mouse\-Press\-Event} (Q\-Mouse\-Event $\ast$)
+\begin{DoxyCompactList}\small\item\em Handle mouse press events. \end{DoxyCompactList}\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_legend_item_a37950b4dd9de4dfe74c05eee572c16a2}{mouse\-Release\-Event} (Q\-Mouse\-Event $\ast$)
+\begin{DoxyCompactList}\small\item\em Handle mouse release events. \end{DoxyCompactList}\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_legend_item_a9b6a6527d2b867a912a21ef3358eb63f}{key\-Press\-Event} (Q\-Key\-Event $\ast$)
+\begin{DoxyCompactList}\small\item\em Handle key press events. \end{DoxyCompactList}\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_legend_item_a0b31f4435914a8cd0491ea8aab45041f}{key\-Release\-Event} (Q\-Key\-Event $\ast$)
+\begin{DoxyCompactList}\small\item\em Handle key release events. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Detailed Description}
+A widget representing something on a Qwt\-Legend(). 
+
+Definition at line 22 of file qwt\-\_\-legend\-\_\-item.\-h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_qwt_legend_item_a46f61a0eaaf24a3a78d498db3fc8c457}{\index{Qwt\-Legend\-Item@{Qwt\-Legend\-Item}!Qwt\-Legend\-Item@{Qwt\-Legend\-Item}}
+\index{Qwt\-Legend\-Item@{Qwt\-Legend\-Item}!QwtLegendItem@{Qwt\-Legend\-Item}}
+\subsubsection[{Qwt\-Legend\-Item}]{\setlength{\rightskip}{0pt plus 5cm}Qwt\-Legend\-Item\-::\-Qwt\-Legend\-Item (
+\begin{DoxyParamCaption}
+\item[{Q\-Widget $\ast$}]{parent = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [explicit]}}}\label{class_qwt_legend_item_a46f61a0eaaf24a3a78d498db3fc8c457}
+
+\begin{DoxyParams}{Parameters}
+{\em parent} & Parent widget \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 60 of file qwt\-\_\-legend\-\_\-item.\-cpp.
+
+\hypertarget{class_qwt_legend_item_a8c98d47b26d4ad3af98bffc7107f6fc9}{\index{Qwt\-Legend\-Item@{Qwt\-Legend\-Item}!$\sim$\-Qwt\-Legend\-Item@{$\sim$\-Qwt\-Legend\-Item}}
+\index{$\sim$\-Qwt\-Legend\-Item@{$\sim$\-Qwt\-Legend\-Item}!QwtLegendItem@{Qwt\-Legend\-Item}}
+\subsubsection[{$\sim$\-Qwt\-Legend\-Item}]{\setlength{\rightskip}{0pt plus 5cm}Qwt\-Legend\-Item\-::$\sim$\-Qwt\-Legend\-Item (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_qwt_legend_item_a8c98d47b26d4ad3af98bffc7107f6fc9}
+
+
+Destructor. 
+
+
+
+Definition at line 69 of file qwt\-\_\-legend\-\_\-item.\-cpp.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_qwt_legend_item_a95fe5b1ec7fcfaa86fd9ec49a3bf23aa}{\index{Qwt\-Legend\-Item@{Qwt\-Legend\-Item}!checked@{checked}}
+\index{checked@{checked}!QwtLegendItem@{Qwt\-Legend\-Item}}
+\subsubsection[{checked}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Legend\-Item\-::checked (
+\begin{DoxyParamCaption}
+\item[{bool}]{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [signal]}}}\label{class_qwt_legend_item_a95fe5b1ec7fcfaa86fd9ec49a3bf23aa}
+
+
+Signal, when the legend item has been toggled. 
+
+\hypertarget{class_qwt_legend_item_a28c4837ec402725c87ecee6de558c956}{\index{Qwt\-Legend\-Item@{Qwt\-Legend\-Item}!clicked@{clicked}}
+\index{clicked@{clicked}!QwtLegendItem@{Qwt\-Legend\-Item}}
+\subsubsection[{clicked}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Legend\-Item\-::clicked (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [signal]}}}\label{class_qwt_legend_item_a28c4837ec402725c87ecee6de558c956}
+
+
+Signal, when the legend item has been clicked. 
+
+\hypertarget{class_qwt_legend_item_ab9dc7521b29d0e7b5cdd021db2dd7e4a}{\index{Qwt\-Legend\-Item@{Qwt\-Legend\-Item}!identifier@{identifier}}
+\index{identifier@{identifier}!QwtLegendItem@{Qwt\-Legend\-Item}}
+\subsubsection[{identifier}]{\setlength{\rightskip}{0pt plus 5cm}Q\-Pixmap Qwt\-Legend\-Item\-::identifier (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_qwt_legend_item_ab9dc7521b29d0e7b5cdd021db2dd7e4a}
+\begin{DoxyReturn}{Returns}
+pixmap representing a plot item 
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_legend_item_a24495f46aa413af62f1228b4cc13f237}{set\-Identifier()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 141 of file qwt\-\_\-legend\-\_\-item.\-cpp.
+
+\hypertarget{class_qwt_legend_item_a3b948f33ab0bfc898ffe5260a9de87dc}{\index{Qwt\-Legend\-Item@{Qwt\-Legend\-Item}!identifier\-Size@{identifier\-Size}}
+\index{identifier\-Size@{identifier\-Size}!QwtLegendItem@{Qwt\-Legend\-Item}}
+\subsubsection[{identifier\-Size}]{\setlength{\rightskip}{0pt plus 5cm}Q\-Size Qwt\-Legend\-Item\-::identifier\-Size (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_qwt_legend_item_a3b948f33ab0bfc898ffe5260a9de87dc}
+Return the width of the identifier
+
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_legend_item_aecd9706e156b236b64a2eb5115c7a9ae}{set\-Identifier\-Size()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 170 of file qwt\-\_\-legend\-\_\-item.\-cpp.
+
+\hypertarget{class_qwt_legend_item_a89c9b96ad3dc37f31ec92779a3899d23}{\index{Qwt\-Legend\-Item@{Qwt\-Legend\-Item}!is\-Checked@{is\-Checked}}
+\index{is\-Checked@{is\-Checked}!QwtLegendItem@{Qwt\-Legend\-Item}}
+\subsubsection[{is\-Checked}]{\setlength{\rightskip}{0pt plus 5cm}bool Qwt\-Legend\-Item\-::is\-Checked (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_qwt_legend_item_a89c9b96ad3dc37f31ec92779a3899d23}
+
+
+Return true, if the item is checked. 
+
+
+
+Definition at line 220 of file qwt\-\_\-legend\-\_\-item.\-cpp.
+
+\hypertarget{class_qwt_legend_item_ad88e70289e552d67f881d0435fae1098}{\index{Qwt\-Legend\-Item@{Qwt\-Legend\-Item}!is\-Down@{is\-Down}}
+\index{is\-Down@{is\-Down}!QwtLegendItem@{Qwt\-Legend\-Item}}
+\subsubsection[{is\-Down}]{\setlength{\rightskip}{0pt plus 5cm}bool Qwt\-Legend\-Item\-::is\-Down (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_qwt_legend_item_ad88e70289e552d67f881d0435fae1098}
+
+
+Return true, if the item is down. 
+
+
+
+Definition at line 250 of file qwt\-\_\-legend\-\_\-item.\-cpp.
+
+\hypertarget{class_qwt_legend_item_a2574e634e54eb7afff34ca24752c3f9b}{\index{Qwt\-Legend\-Item@{Qwt\-Legend\-Item}!item\-Mode@{item\-Mode}}
+\index{item\-Mode@{item\-Mode}!QwtLegendItem@{Qwt\-Legend\-Item}}
+\subsubsection[{item\-Mode}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Qwt\-Legend\-::\-Legend\-Item\-Mode} Qwt\-Legend\-Item\-::item\-Mode (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_qwt_legend_item_a2574e634e54eb7afff34ca24752c3f9b}
+Return the item mode
+
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_legend_item_ae6487dbe8f2c72512887df8bcb648d53}{set\-Item\-Mode()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 118 of file qwt\-\_\-legend\-\_\-item.\-cpp.
+
+\hypertarget{class_qwt_legend_item_a9b6a6527d2b867a912a21ef3358eb63f}{\index{Qwt\-Legend\-Item@{Qwt\-Legend\-Item}!key\-Press\-Event@{key\-Press\-Event}}
+\index{key\-Press\-Event@{key\-Press\-Event}!QwtLegendItem@{Qwt\-Legend\-Item}}
+\subsubsection[{key\-Press\-Event}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Legend\-Item\-::key\-Press\-Event (
+\begin{DoxyParamCaption}
+\item[{Q\-Key\-Event $\ast$}]{e}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}}\label{class_qwt_legend_item_a9b6a6527d2b867a912a21ef3358eb63f}
+
+
+Handle key press events. 
+
+
+
+Definition at line 358 of file qwt\-\_\-legend\-\_\-item.\-cpp.
+
+\hypertarget{class_qwt_legend_item_a0b31f4435914a8cd0491ea8aab45041f}{\index{Qwt\-Legend\-Item@{Qwt\-Legend\-Item}!key\-Release\-Event@{key\-Release\-Event}}
+\index{key\-Release\-Event@{key\-Release\-Event}!QwtLegendItem@{Qwt\-Legend\-Item}}
+\subsubsection[{key\-Release\-Event}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Legend\-Item\-::key\-Release\-Event (
+\begin{DoxyParamCaption}
+\item[{Q\-Key\-Event $\ast$}]{e}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}}\label{class_qwt_legend_item_a0b31f4435914a8cd0491ea8aab45041f}
+
+
+Handle key release events. 
+
+
+
+Definition at line 384 of file qwt\-\_\-legend\-\_\-item.\-cpp.
+
+\hypertarget{class_qwt_legend_item_aaf54f5473fc174aac5cb5cdcfdcc7292}{\index{Qwt\-Legend\-Item@{Qwt\-Legend\-Item}!mouse\-Press\-Event@{mouse\-Press\-Event}}
+\index{mouse\-Press\-Event@{mouse\-Press\-Event}!QwtLegendItem@{Qwt\-Legend\-Item}}
+\subsubsection[{mouse\-Press\-Event}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Legend\-Item\-::mouse\-Press\-Event (
+\begin{DoxyParamCaption}
+\item[{Q\-Mouse\-Event $\ast$}]{e}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}}\label{class_qwt_legend_item_aaf54f5473fc174aac5cb5cdcfdcc7292}
+
+
+Handle mouse press events. 
+
+
+
+Definition at line 313 of file qwt\-\_\-legend\-\_\-item.\-cpp.
+
+\hypertarget{class_qwt_legend_item_a37950b4dd9de4dfe74c05eee572c16a2}{\index{Qwt\-Legend\-Item@{Qwt\-Legend\-Item}!mouse\-Release\-Event@{mouse\-Release\-Event}}
+\index{mouse\-Release\-Event@{mouse\-Release\-Event}!QwtLegendItem@{Qwt\-Legend\-Item}}
+\subsubsection[{mouse\-Release\-Event}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Legend\-Item\-::mouse\-Release\-Event (
+\begin{DoxyParamCaption}
+\item[{Q\-Mouse\-Event $\ast$}]{e}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}}\label{class_qwt_legend_item_a37950b4dd9de4dfe74c05eee572c16a2}
+
+
+Handle mouse release events. 
+
+
+
+Definition at line 336 of file qwt\-\_\-legend\-\_\-item.\-cpp.
+
+\hypertarget{class_qwt_legend_item_ac154aa6b045d78f8134bbfab19a9729b}{\index{Qwt\-Legend\-Item@{Qwt\-Legend\-Item}!paint\-Event@{paint\-Event}}
+\index{paint\-Event@{paint\-Event}!QwtLegendItem@{Qwt\-Legend\-Item}}
+\subsubsection[{paint\-Event}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Legend\-Item\-::paint\-Event (
+\begin{DoxyParamCaption}
+\item[{Q\-Paint\-Event $\ast$}]{e}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}}\label{class_qwt_legend_item_ac154aa6b045d78f8134bbfab19a9729b}
+
+
+Paint event. 
+
+
+
+Reimplemented from \hyperlink{class_qwt_text_label_aff00274ee1c860530920b4feaca02393}{Qwt\-Text\-Label}.
+
+
+
+Definition at line 271 of file qwt\-\_\-legend\-\_\-item.\-cpp.
+
+\hypertarget{class_qwt_legend_item_a7cc6a0390cc0aaea2feb8a324139410c}{\index{Qwt\-Legend\-Item@{Qwt\-Legend\-Item}!pressed@{pressed}}
+\index{pressed@{pressed}!QwtLegendItem@{Qwt\-Legend\-Item}}
+\subsubsection[{pressed}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Legend\-Item\-::pressed (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [signal]}}}\label{class_qwt_legend_item_a7cc6a0390cc0aaea2feb8a324139410c}
+
+
+Signal, when the legend item has been pressed. 
+
+\hypertarget{class_qwt_legend_item_a7286b8900294659d0850ac588aafaa97}{\index{Qwt\-Legend\-Item@{Qwt\-Legend\-Item}!released@{released}}
+\index{released@{released}!QwtLegendItem@{Qwt\-Legend\-Item}}
+\subsubsection[{released}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Legend\-Item\-::released (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [signal]}}}\label{class_qwt_legend_item_a7286b8900294659d0850ac588aafaa97}
+
+
+Signal, when the legend item has been relased. 
+
+\hypertarget{class_qwt_legend_item_af7a194ea464d2c405479dd8be1bd1e1b}{\index{Qwt\-Legend\-Item@{Qwt\-Legend\-Item}!set\-Checked@{set\-Checked}}
+\index{set\-Checked@{set\-Checked}!QwtLegendItem@{Qwt\-Legend\-Item}}
+\subsubsection[{set\-Checked}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Legend\-Item\-::set\-Checked (
+\begin{DoxyParamCaption}
+\item[{bool}]{on}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [slot]}}}\label{class_qwt_legend_item_af7a194ea464d2c405479dd8be1bd1e1b}
+Check/\-Uncheck a the item
+
+
+\begin{DoxyParams}{Parameters}
+{\em on} & check/uncheck \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_legend_item_ae6487dbe8f2c72512887df8bcb648d53}{set\-Item\-Mode()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 206 of file qwt\-\_\-legend\-\_\-item.\-cpp.
+
+\hypertarget{class_qwt_legend_item_a1c871e735a96cc86f95b4dffe2339f85}{\index{Qwt\-Legend\-Item@{Qwt\-Legend\-Item}!set\-Down@{set\-Down}}
+\index{set\-Down@{set\-Down}!QwtLegendItem@{Qwt\-Legend\-Item}}
+\subsubsection[{set\-Down}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Legend\-Item\-::set\-Down (
+\begin{DoxyParamCaption}
+\item[{bool}]{down}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_qwt_legend_item_a1c871e735a96cc86f95b4dffe2339f85}
+
+
+Set the item being down. 
+
+
+
+Definition at line 226 of file qwt\-\_\-legend\-\_\-item.\-cpp.
+
+\hypertarget{class_qwt_legend_item_a24495f46aa413af62f1228b4cc13f237}{\index{Qwt\-Legend\-Item@{Qwt\-Legend\-Item}!set\-Identifier@{set\-Identifier}}
+\index{set\-Identifier@{set\-Identifier}!QwtLegendItem@{Qwt\-Legend\-Item}}
+\subsubsection[{set\-Identifier}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Legend\-Item\-::set\-Identifier (
+\begin{DoxyParamCaption}
+\item[{const Q\-Pixmap \&}]{identifier}
+\end{DoxyParamCaption}
+)}}\label{class_qwt_legend_item_a24495f46aa413af62f1228b4cc13f237}
+Assign the identifier The identifier needs to be created according to the identifier\-Width()
+
+
+\begin{DoxyParams}{Parameters}
+{\em identifier} & Pixmap representing a plot item\\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_legend_item_ab9dc7521b29d0e7b5cdd021db2dd7e4a}{identifier()}, identifier\-Width() 
+\end{DoxySeeAlso}
+
+
+Definition at line 131 of file qwt\-\_\-legend\-\_\-item.\-cpp.
+
+\hypertarget{class_qwt_legend_item_aecd9706e156b236b64a2eb5115c7a9ae}{\index{Qwt\-Legend\-Item@{Qwt\-Legend\-Item}!set\-Identifier\-Size@{set\-Identifier\-Size}}
+\index{set\-Identifier\-Size@{set\-Identifier\-Size}!QwtLegendItem@{Qwt\-Legend\-Item}}
+\subsubsection[{set\-Identifier\-Size}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Legend\-Item\-::set\-Identifier\-Size (
+\begin{DoxyParamCaption}
+\item[{const Q\-Size \&}]{size}
+\end{DoxyParamCaption}
+)}}\label{class_qwt_legend_item_aecd9706e156b236b64a2eb5115c7a9ae}
+Set the size for the identifier Default is 8x8 pixels
+
+
+\begin{DoxyParams}{Parameters}
+{\em size} & New size\\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_legend_item_a3b948f33ab0bfc898ffe5260a9de87dc}{identifier\-Size()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 154 of file qwt\-\_\-legend\-\_\-item.\-cpp.
+
+\hypertarget{class_qwt_legend_item_ae6487dbe8f2c72512887df8bcb648d53}{\index{Qwt\-Legend\-Item@{Qwt\-Legend\-Item}!set\-Item\-Mode@{set\-Item\-Mode}}
+\index{set\-Item\-Mode@{set\-Item\-Mode}!QwtLegendItem@{Qwt\-Legend\-Item}}
+\subsubsection[{set\-Item\-Mode}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Legend\-Item\-::set\-Item\-Mode (
+\begin{DoxyParamCaption}
+\item[{{\bf Qwt\-Legend\-::\-Legend\-Item\-Mode}}]{mode}
+\end{DoxyParamCaption}
+)}}\label{class_qwt_legend_item_ae6487dbe8f2c72512887df8bcb648d53}
+Set the item mode The default is \hyperlink{class_qwt_legend_ab216dd2dba9ebf6cb0ed2dd621a652e0a82869bcd75310e861ae9257677185186}{Qwt\-Legend\-::\-Read\-Only\-Item}
+
+
+\begin{DoxyParams}{Parameters}
+{\em mode} & Item mode \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_legend_item_a2574e634e54eb7afff34ca24752c3f9b}{item\-Mode()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 99 of file qwt\-\_\-legend\-\_\-item.\-cpp.
+
+\hypertarget{class_qwt_legend_item_a4ff8a83f130d56bf5932c6a35384d85f}{\index{Qwt\-Legend\-Item@{Qwt\-Legend\-Item}!set\-Spacing@{set\-Spacing}}
+\index{set\-Spacing@{set\-Spacing}!QwtLegendItem@{Qwt\-Legend\-Item}}
+\subsubsection[{set\-Spacing}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Legend\-Item\-::set\-Spacing (
+\begin{DoxyParamCaption}
+\item[{{\bf int}}]{spacing}
+\end{DoxyParamCaption}
+)}}\label{class_qwt_legend_item_a4ff8a83f130d56bf5932c6a35384d85f}
+Change the spacing 
+\begin{DoxyParams}{Parameters}
+{\em spacing} & Spacing \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_legend_item_adc59d1683f3bb11a795098776e76c0bc}{spacing()}, identifier\-Width(), \hyperlink{class_qwt_text_label_ad97e23bc19c83c55422e1ec6dc49fc02}{Qwt\-Text\-Label\-::margin()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 180 of file qwt\-\_\-legend\-\_\-item.\-cpp.
+
+\hypertarget{class_qwt_legend_item_a8420c4d8cd73945a25697109df5c2f0e}{\index{Qwt\-Legend\-Item@{Qwt\-Legend\-Item}!set\-Text@{set\-Text}}
+\index{set\-Text@{set\-Text}!QwtLegendItem@{Qwt\-Legend\-Item}}
+\subsubsection[{set\-Text}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Legend\-Item\-::set\-Text (
+\begin{DoxyParamCaption}
+\item[{const {\bf Qwt\-Text} \&}]{text}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_qwt_legend_item_a8420c4d8cd73945a25697109df5c2f0e}
+Set the text to the legend item
+
+
+\begin{DoxyParams}{Parameters}
+{\em text} & Text label \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_text_label_a6ff4f9a87e11594740f312c8522f933e}{Qwt\-Text\-Label\-::text()} 
+\end{DoxySeeAlso}
+
+
+Reimplemented from \hyperlink{class_qwt_text_label_ac43ba313b78dccf7aa7433f26059b2e2}{Qwt\-Text\-Label}.
+
+
+
+Definition at line 81 of file qwt\-\_\-legend\-\_\-item.\-cpp.
+
+\hypertarget{class_qwt_legend_item_a6248ff72fbbdf1997a590fb0a2d7088f}{\index{Qwt\-Legend\-Item@{Qwt\-Legend\-Item}!size\-Hint@{size\-Hint}}
+\index{size\-Hint@{size\-Hint}!QwtLegendItem@{Qwt\-Legend\-Item}}
+\subsubsection[{size\-Hint}]{\setlength{\rightskip}{0pt plus 5cm}Q\-Size Qwt\-Legend\-Item\-::size\-Hint (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_qwt_legend_item_a6248ff72fbbdf1997a590fb0a2d7088f}
+
+
+Return a size hint. 
+
+
+
+Reimplemented from \hyperlink{class_qwt_text_label_a0217bc022e6f3b2f22819c84d5867ae7}{Qwt\-Text\-Label}.
+
+
+
+Definition at line 256 of file qwt\-\_\-legend\-\_\-item.\-cpp.
+
+\hypertarget{class_qwt_legend_item_adc59d1683f3bb11a795098776e76c0bc}{\index{Qwt\-Legend\-Item@{Qwt\-Legend\-Item}!spacing@{spacing}}
+\index{spacing@{spacing}!QwtLegendItem@{Qwt\-Legend\-Item}}
+\subsubsection[{spacing}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int} Qwt\-Legend\-Item\-::spacing (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_qwt_legend_item_adc59d1683f3bb11a795098776e76c0bc}
+Return the spacing \begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_legend_item_a4ff8a83f130d56bf5932c6a35384d85f}{set\-Spacing()}, identifier\-Width(), \hyperlink{class_qwt_text_label_ad97e23bc19c83c55422e1ec6dc49fc02}{Qwt\-Text\-Label\-::margin()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 195 of file qwt\-\_\-legend\-\_\-item.\-cpp.
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/qwt/src/\hyperlink{qwt__legend__item_8h}{qwt\-\_\-legend\-\_\-item.\-h}\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/qwt/src/\hyperlink{qwt__legend__item_8cpp}{qwt\-\_\-legend\-\_\-item.\-cpp}\end{DoxyCompactItemize}

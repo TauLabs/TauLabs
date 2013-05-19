@@ -1,0 +1,285 @@
+\hypertarget{class_qxt_sort_filter_proxy_model}{\section{Qxt\-Sort\-Filter\-Proxy\-Model Class Reference}
+\label{class_qxt_sort_filter_proxy_model}\index{Qxt\-Sort\-Filter\-Proxy\-Model@{Qxt\-Sort\-Filter\-Proxy\-Model}}
+}
+
+
+The \hyperlink{class_qxt_sort_filter_proxy_model}{Qxt\-Sort\-Filter\-Proxy\-Model} class is a multi column filter model.  
+
+
+
+
+{\ttfamily \#include $<$qxtsortfilterproxymodel.\-h$>$}
+
+Inheritance diagram for Qxt\-Sort\-Filter\-Proxy\-Model\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_qxt_sort_filter_proxy_model}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_qxt_sort_filter_proxy_model_acaf9aa94aadd029fc7888c5e70bcc32e}{Qxt\-Sort\-Filter\-Proxy\-Model} (Q\-Object $\ast$parent=0)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qxt_sort_filter_proxy_model_aed9d7acfa357bec84ba07df45034c284}{begin\-Declare\-Filter} ()
+\begin{DoxyCompactList}\small\item\em tells the model you want to declare a new filter \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qxt_sort_filter_proxy_model_a17ba119b09788b58bcc08211fa6c3b81}{end\-Declare\-Filter} ()
+\begin{DoxyCompactList}\small\item\em stops the filter declaration and invalidates the filter \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qxt_sort_filter_proxy_model_ab256bfa0285cd326e6e6dbf6b4474b06}{set\-Filter} (const \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{glext_8h_a3b58c39b1b7ca6f4012b27e84de3bdb3}{column}, const Q\-Variant \&\hyperlink{glext_8h_aa0e2e9cea7f208d28acda0480144beb0}{value}, const \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} role=Qt\-::\-Display\-Role, Qt\-::\-Match\-Flags flags=Qt\-::\-Match\-Contains)
+\begin{DoxyCompactList}\small\item\em Sets the filter with {\itshape value}, {\itshape role} and {\itshape flags} to the given {\itshape column}. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qxt_sort_filter_proxy_model_a5ac90e29d8d7fb33639bacff6a3670ab}{set\-Filter\-Value} (const \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{glext_8h_a3b58c39b1b7ca6f4012b27e84de3bdb3}{column}, const Q\-Variant \&\hyperlink{glext_8h_aa0e2e9cea7f208d28acda0480144beb0}{value})
+\begin{DoxyCompactList}\small\item\em Sets the filter {\itshape value} for the given {\itshape column}. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qxt_sort_filter_proxy_model_aabc785fb421ce1edbf9f4f02d3c64138}{set\-Filter\-Role} (const \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{glext_8h_a3b58c39b1b7ca6f4012b27e84de3bdb3}{column}, const \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} role=Qt\-::\-Display\-Role)
+\begin{DoxyCompactList}\small\item\em Sets the filter {\itshape role} for the given {\itshape column}. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qxt_sort_filter_proxy_model_ae4e4542e6964f5921ebeac67b9e31a7c}{set\-Filter\-Flags} (const \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{glext_8h_a3b58c39b1b7ca6f4012b27e84de3bdb3}{column}, const Qt\-::\-Match\-Flags flags=Qt\-::\-Match\-Contains)
+\begin{DoxyCompactList}\small\item\em Sets the filter {\itshape flags} for the given {\itshape column}. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qxt_sort_filter_proxy_model_aa60c8b0497e71073be692a2a0a9f4fd2}{remove\-Filter} (const \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{glext_8h_a3b58c39b1b7ca6f4012b27e84de3bdb3}{column})
+\begin{DoxyCompactList}\small\item\em Removes the filter from the given {\itshape column}. \end{DoxyCompactList}\item 
+Q\-Variant \hyperlink{class_qxt_sort_filter_proxy_model_ad8d5631a6c27604771d7160b37089714}{filter\-Value} (const \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{glext_8h_a3b58c39b1b7ca6f4012b27e84de3bdb3}{column}) const 
+\begin{DoxyCompactList}\small\item\em Returns the filter value for the given {\itshape column}. \end{DoxyCompactList}\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_qxt_sort_filter_proxy_model_aef83983c69105f947db1ab890e963382}{filter\-Role} (const \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{glext_8h_a3b58c39b1b7ca6f4012b27e84de3bdb3}{column}) const 
+\begin{DoxyCompactList}\small\item\em Returns the filter role for the given {\itshape column}. \end{DoxyCompactList}\item 
+Qt\-::\-Match\-Flags \hyperlink{class_qxt_sort_filter_proxy_model_ae014d83b798aaaca91853a93f55b010c}{filter\-Flags} (const \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{glext_8h_a3b58c39b1b7ca6f4012b27e84de3bdb3}{column}) const 
+\begin{DoxyCompactList}\small\item\em returns the filter flags for the given {\itshape column} \end{DoxyCompactList}\item 
+bool \hyperlink{class_qxt_sort_filter_proxy_model_af06b946226bde50f9d57056b2f61ba77}{is\-Filtered} (const \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{glext_8h_a3b58c39b1b7ca6f4012b27e84de3bdb3}{column})
+\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual bool \hyperlink{class_qxt_sort_filter_proxy_model_ae0fa3aa867f6e42a655e4a74daa4647f}{filter\-Accepts\-Row} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} source\-\_\-row, const Q\-Model\-Index \&source\-\_\-parent) const 
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+The \hyperlink{class_qxt_sort_filter_proxy_model}{Qxt\-Sort\-Filter\-Proxy\-Model} class is a multi column filter model. 
+
+Qxt\-Gui The \hyperlink{class_qxt_sort_filter_proxy_model}{Qxt\-Sort\-Filter\-Proxy\-Model} makes it possible to filter over multiple columns.
+
+
+\begin{DoxyCode}
+\hyperlink{class_qxt_sort_filter_proxy_model}{QxtSortFilterProxyModel} * filterModel = \textcolor{keyword}{new} 
+      \hyperlink{class_qxt_sort_filter_proxy_model_acaf9aa94aadd029fc7888c5e70bcc32e}{QxtSortFilterProxyModel}(parent);
+filterModel->setSourceModel(sourceModel);
+filterModel->\hyperlink{class_qxt_sort_filter_proxy_model_aed9d7acfa357bec84ba07df45034c284}{beginDeclareFilter}();
+filterModel->\hyperlink{class_qxt_sort_filter_proxy_model_ab256bfa0285cd326e6e6dbf6b4474b06}{setFilter}(1,QVariant(\textcolor{stringliteral}{"SomeStringValue"}),Qt::DisplayRole,Qt::MatchExactly);
+\textcolor{comment}{//remove some old filter}
+filterModel->\hyperlink{class_qxt_sort_filter_proxy_model_aa60c8b0497e71073be692a2a0a9f4fd2}{removeFilter}(2);
+filterModel->\hyperlink{class_qxt_sort_filter_proxy_model_ab256bfa0285cd326e6e6dbf6b4474b06}{setFilter}(5,QVariant(1234),Qt::DisplayRole,Qt::MatchExactly);
+filterModel->endDeclateFilter();
+\end{DoxyCode}
+
+
+Now the model will filter column 1 and 5, to be accepted by the filtermodel a row needs to pass all filters 
+
+Definition at line 37 of file qxtsortfilterproxymodel.\-h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_qxt_sort_filter_proxy_model_acaf9aa94aadd029fc7888c5e70bcc32e}{\index{Qxt\-Sort\-Filter\-Proxy\-Model@{Qxt\-Sort\-Filter\-Proxy\-Model}!Qxt\-Sort\-Filter\-Proxy\-Model@{Qxt\-Sort\-Filter\-Proxy\-Model}}
+\index{Qxt\-Sort\-Filter\-Proxy\-Model@{Qxt\-Sort\-Filter\-Proxy\-Model}!QxtSortFilterProxyModel@{Qxt\-Sort\-Filter\-Proxy\-Model}}
+\subsubsection[{Qxt\-Sort\-Filter\-Proxy\-Model}]{\setlength{\rightskip}{0pt plus 5cm}Qxt\-Sort\-Filter\-Proxy\-Model\-::\-Qxt\-Sort\-Filter\-Proxy\-Model (
+\begin{DoxyParamCaption}
+\item[{Q\-Object $\ast$}]{parent = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)}}\label{class_qxt_sort_filter_proxy_model_acaf9aa94aadd029fc7888c5e70bcc32e}
+Constructs a new \hyperlink{class_qxt_sort_filter_proxy_model}{Qxt\-Sort\-Filter\-Proxy\-Model} with {\itshape parent}. 
+
+Definition at line 123 of file qxtsortfilterproxymodel.\-cpp.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_qxt_sort_filter_proxy_model_aed9d7acfa357bec84ba07df45034c284}{\index{Qxt\-Sort\-Filter\-Proxy\-Model@{Qxt\-Sort\-Filter\-Proxy\-Model}!begin\-Declare\-Filter@{begin\-Declare\-Filter}}
+\index{begin\-Declare\-Filter@{begin\-Declare\-Filter}!QxtSortFilterProxyModel@{Qxt\-Sort\-Filter\-Proxy\-Model}}
+\subsubsection[{begin\-Declare\-Filter}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qxt\-Sort\-Filter\-Proxy\-Model\-::begin\-Declare\-Filter (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_qxt_sort_filter_proxy_model_aed9d7acfa357bec84ba07df45034c284}
+
+
+tells the model you want to declare a new filter 
+
+If you have a lot of data in your model it can be slow to declare more than one filter, because the model will always rebuild itself. If you call this member before setting the new filters the model will invalidate its contents not before you call
+
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qxt_sort_filter_proxy_model_a17ba119b09788b58bcc08211fa6c3b81}{end\-Declare\-Filter()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 139 of file qxtsortfilterproxymodel.\-cpp.
+
+\hypertarget{class_qxt_sort_filter_proxy_model_a17ba119b09788b58bcc08211fa6c3b81}{\index{Qxt\-Sort\-Filter\-Proxy\-Model@{Qxt\-Sort\-Filter\-Proxy\-Model}!end\-Declare\-Filter@{end\-Declare\-Filter}}
+\index{end\-Declare\-Filter@{end\-Declare\-Filter}!QxtSortFilterProxyModel@{Qxt\-Sort\-Filter\-Proxy\-Model}}
+\subsubsection[{end\-Declare\-Filter}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qxt\-Sort\-Filter\-Proxy\-Model\-::end\-Declare\-Filter (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_qxt_sort_filter_proxy_model_a17ba119b09788b58bcc08211fa6c3b81}
+
+
+stops the filter declaration and invalidates the filter 
+
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qxt_sort_filter_proxy_model_aed9d7acfa357bec84ba07df45034c284}{begin\-Declare\-Filter()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 149 of file qxtsortfilterproxymodel.\-cpp.
+
+\hypertarget{class_qxt_sort_filter_proxy_model_ae0fa3aa867f6e42a655e4a74daa4647f}{\index{Qxt\-Sort\-Filter\-Proxy\-Model@{Qxt\-Sort\-Filter\-Proxy\-Model}!filter\-Accepts\-Row@{filter\-Accepts\-Row}}
+\index{filter\-Accepts\-Row@{filter\-Accepts\-Row}!QxtSortFilterProxyModel@{Qxt\-Sort\-Filter\-Proxy\-Model}}
+\subsubsection[{filter\-Accepts\-Row}]{\setlength{\rightskip}{0pt plus 5cm}bool Qxt\-Sort\-Filter\-Proxy\-Model\-::filter\-Accepts\-Row (
+\begin{DoxyParamCaption}
+\item[{{\bf int}}]{source\-\_\-row, }
+\item[{const Q\-Model\-Index \&}]{source\-\_\-parent}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}}\label{class_qxt_sort_filter_proxy_model_ae0fa3aa867f6e42a655e4a74daa4647f}
+
+
+Definition at line 160 of file qxtsortfilterproxymodel.\-cpp.
+
+\hypertarget{class_qxt_sort_filter_proxy_model_ae014d83b798aaaca91853a93f55b010c}{\index{Qxt\-Sort\-Filter\-Proxy\-Model@{Qxt\-Sort\-Filter\-Proxy\-Model}!filter\-Flags@{filter\-Flags}}
+\index{filter\-Flags@{filter\-Flags}!QxtSortFilterProxyModel@{Qxt\-Sort\-Filter\-Proxy\-Model}}
+\subsubsection[{filter\-Flags}]{\setlength{\rightskip}{0pt plus 5cm}Qt\-::\-Match\-Flags Qxt\-Sort\-Filter\-Proxy\-Model\-::filter\-Flags (
+\begin{DoxyParamCaption}
+\item[{const {\bf int}}]{column}
+\end{DoxyParamCaption}
+) const}}\label{class_qxt_sort_filter_proxy_model_ae014d83b798aaaca91853a93f55b010c}
+
+
+returns the filter flags for the given {\itshape column} 
+
+\{Note\-:\} if the column is not filtered it will return the default value 
+
+Definition at line 285 of file qxtsortfilterproxymodel.\-cpp.
+
+\hypertarget{class_qxt_sort_filter_proxy_model_aef83983c69105f947db1ab890e963382}{\index{Qxt\-Sort\-Filter\-Proxy\-Model@{Qxt\-Sort\-Filter\-Proxy\-Model}!filter\-Role@{filter\-Role}}
+\index{filter\-Role@{filter\-Role}!QxtSortFilterProxyModel@{Qxt\-Sort\-Filter\-Proxy\-Model}}
+\subsubsection[{filter\-Role}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int} Qxt\-Sort\-Filter\-Proxy\-Model\-::filter\-Role (
+\begin{DoxyParamCaption}
+\item[{const {\bf int}}]{column}
+\end{DoxyParamCaption}
+) const}}\label{class_qxt_sort_filter_proxy_model_aef83983c69105f947db1ab890e963382}
+
+
+Returns the filter role for the given {\itshape column}. 
+
+\{Note\-:\} if the column is not filtered it will return {\ttfamily -\/1} 
+
+Definition at line 273 of file qxtsortfilterproxymodel.\-cpp.
+
+\hypertarget{class_qxt_sort_filter_proxy_model_ad8d5631a6c27604771d7160b37089714}{\index{Qxt\-Sort\-Filter\-Proxy\-Model@{Qxt\-Sort\-Filter\-Proxy\-Model}!filter\-Value@{filter\-Value}}
+\index{filter\-Value@{filter\-Value}!QxtSortFilterProxyModel@{Qxt\-Sort\-Filter\-Proxy\-Model}}
+\subsubsection[{filter\-Value}]{\setlength{\rightskip}{0pt plus 5cm}Q\-Variant Qxt\-Sort\-Filter\-Proxy\-Model\-::filter\-Value (
+\begin{DoxyParamCaption}
+\item[{const {\bf int}}]{column}
+\end{DoxyParamCaption}
+) const}}\label{class_qxt_sort_filter_proxy_model_ad8d5631a6c27604771d7160b37089714}
+
+
+Returns the filter value for the given {\itshape column}. 
+
+\{Note\-:\} if the column is not filtered it will return a null variant 
+
+Definition at line 261 of file qxtsortfilterproxymodel.\-cpp.
+
+\hypertarget{class_qxt_sort_filter_proxy_model_af06b946226bde50f9d57056b2f61ba77}{\index{Qxt\-Sort\-Filter\-Proxy\-Model@{Qxt\-Sort\-Filter\-Proxy\-Model}!is\-Filtered@{is\-Filtered}}
+\index{is\-Filtered@{is\-Filtered}!QxtSortFilterProxyModel@{Qxt\-Sort\-Filter\-Proxy\-Model}}
+\subsubsection[{is\-Filtered}]{\setlength{\rightskip}{0pt plus 5cm}bool Qxt\-Sort\-Filter\-Proxy\-Model\-::is\-Filtered (
+\begin{DoxyParamCaption}
+\item[{const {\bf int}}]{column}
+\end{DoxyParamCaption}
+)}}\label{class_qxt_sort_filter_proxy_model_af06b946226bde50f9d57056b2f61ba77}
+Returns true if the {\itshape column} is filtered 
+
+Definition at line 295 of file qxtsortfilterproxymodel.\-cpp.
+
+\hypertarget{class_qxt_sort_filter_proxy_model_aa60c8b0497e71073be692a2a0a9f4fd2}{\index{Qxt\-Sort\-Filter\-Proxy\-Model@{Qxt\-Sort\-Filter\-Proxy\-Model}!remove\-Filter@{remove\-Filter}}
+\index{remove\-Filter@{remove\-Filter}!QxtSortFilterProxyModel@{Qxt\-Sort\-Filter\-Proxy\-Model}}
+\subsubsection[{remove\-Filter}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qxt\-Sort\-Filter\-Proxy\-Model\-::remove\-Filter (
+\begin{DoxyParamCaption}
+\item[{const {\bf int}}]{column}
+\end{DoxyParamCaption}
+)}}\label{class_qxt_sort_filter_proxy_model_aa60c8b0497e71073be692a2a0a9f4fd2}
+
+
+Removes the filter from the given {\itshape column}. 
+
+
+
+Definition at line 204 of file qxtsortfilterproxymodel.\-cpp.
+
+\hypertarget{class_qxt_sort_filter_proxy_model_ab256bfa0285cd326e6e6dbf6b4474b06}{\index{Qxt\-Sort\-Filter\-Proxy\-Model@{Qxt\-Sort\-Filter\-Proxy\-Model}!set\-Filter@{set\-Filter}}
+\index{set\-Filter@{set\-Filter}!QxtSortFilterProxyModel@{Qxt\-Sort\-Filter\-Proxy\-Model}}
+\subsubsection[{set\-Filter}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qxt\-Sort\-Filter\-Proxy\-Model\-::set\-Filter (
+\begin{DoxyParamCaption}
+\item[{const {\bf int}}]{column, }
+\item[{const Q\-Variant \&}]{value, }
+\item[{const {\bf int}}]{role = {\ttfamily Qt\-:\-:DisplayRole}, }
+\item[{Qt\-::\-Match\-Flags}]{flags = {\ttfamily Qt\-:\-:MatchContains}}
+\end{DoxyParamCaption}
+)}}\label{class_qxt_sort_filter_proxy_model_ab256bfa0285cd326e6e6dbf6b4474b06}
+
+
+Sets the filter with {\itshape value}, {\itshape role} and {\itshape flags} to the given {\itshape column}. 
+
+
+
+Definition at line 190 of file qxtsortfilterproxymodel.\-cpp.
+
+\hypertarget{class_qxt_sort_filter_proxy_model_ae4e4542e6964f5921ebeac67b9e31a7c}{\index{Qxt\-Sort\-Filter\-Proxy\-Model@{Qxt\-Sort\-Filter\-Proxy\-Model}!set\-Filter\-Flags@{set\-Filter\-Flags}}
+\index{set\-Filter\-Flags@{set\-Filter\-Flags}!QxtSortFilterProxyModel@{Qxt\-Sort\-Filter\-Proxy\-Model}}
+\subsubsection[{set\-Filter\-Flags}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qxt\-Sort\-Filter\-Proxy\-Model\-::set\-Filter\-Flags (
+\begin{DoxyParamCaption}
+\item[{const {\bf int}}]{column, }
+\item[{const Qt\-::\-Match\-Flags}]{flags = {\ttfamily Qt\-:\-:MatchContains}}
+\end{DoxyParamCaption}
+)}}\label{class_qxt_sort_filter_proxy_model_ae4e4542e6964f5921ebeac67b9e31a7c}
+
+
+Sets the filter {\itshape flags} for the given {\itshape column}. 
+
+
+
+Definition at line 245 of file qxtsortfilterproxymodel.\-cpp.
+
+\hypertarget{class_qxt_sort_filter_proxy_model_aabc785fb421ce1edbf9f4f02d3c64138}{\index{Qxt\-Sort\-Filter\-Proxy\-Model@{Qxt\-Sort\-Filter\-Proxy\-Model}!set\-Filter\-Role@{set\-Filter\-Role}}
+\index{set\-Filter\-Role@{set\-Filter\-Role}!QxtSortFilterProxyModel@{Qxt\-Sort\-Filter\-Proxy\-Model}}
+\subsubsection[{set\-Filter\-Role}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qxt\-Sort\-Filter\-Proxy\-Model\-::set\-Filter\-Role (
+\begin{DoxyParamCaption}
+\item[{const {\bf int}}]{column, }
+\item[{const {\bf int}}]{role = {\ttfamily Qt\-:\-:DisplayRole}}
+\end{DoxyParamCaption}
+)}}\label{class_qxt_sort_filter_proxy_model_aabc785fb421ce1edbf9f4f02d3c64138}
+
+
+Sets the filter {\itshape role} for the given {\itshape column}. 
+
+
+
+Definition at line 231 of file qxtsortfilterproxymodel.\-cpp.
+
+\hypertarget{class_qxt_sort_filter_proxy_model_a5ac90e29d8d7fb33639bacff6a3670ab}{\index{Qxt\-Sort\-Filter\-Proxy\-Model@{Qxt\-Sort\-Filter\-Proxy\-Model}!set\-Filter\-Value@{set\-Filter\-Value}}
+\index{set\-Filter\-Value@{set\-Filter\-Value}!QxtSortFilterProxyModel@{Qxt\-Sort\-Filter\-Proxy\-Model}}
+\subsubsection[{set\-Filter\-Value}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qxt\-Sort\-Filter\-Proxy\-Model\-::set\-Filter\-Value (
+\begin{DoxyParamCaption}
+\item[{const {\bf int}}]{column, }
+\item[{const Q\-Variant \&}]{value}
+\end{DoxyParamCaption}
+)}}\label{class_qxt_sort_filter_proxy_model_a5ac90e29d8d7fb33639bacff6a3670ab}
+
+
+Sets the filter {\itshape value} for the given {\itshape column}. 
+
+
+
+Definition at line 217 of file qxtsortfilterproxymodel.\-cpp.
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/libqxt/src/gui/\hyperlink{qxtsortfilterproxymodel_8h}{qxtsortfilterproxymodel.\-h}\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/libqxt/src/gui/\hyperlink{qxtsortfilterproxymodel_8cpp}{qxtsortfilterproxymodel.\-cpp}\end{DoxyCompactItemize}

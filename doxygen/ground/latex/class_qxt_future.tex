@@ -1,0 +1,133 @@
+\hypertarget{class_qxt_future}{\section{Qxt\-Future Class Reference}
+\label{class_qxt_future}\index{Qxt\-Future@{Qxt\-Future}}
+}
+
+
+The \hyperlink{class_qxt_future}{Qxt\-Future} class provides a reference to a future result of a \hyperlink{class_qxt_slot_job}{Qxt\-Slot\-Job}.  
+
+
+
+
+{\ttfamily \#include $<$qxtslotjob.\-h$>$}
+
+Inheritance diagram for Qxt\-Future\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_qxt_future}
+\end{center}
+\end{figure}
+\subsection*{Signals}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qxt_future_aaf95d390e7b66b3f7fbaecbfa71ea84e}{done} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qxt_future_ad4d92c3d13f657a1ae1add7a72878022}{done} (Q\-Variant)
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+Q\-Variant \hyperlink{class_qxt_future_a58eb4615eb20b0ddf4a9d57a33040cee}{delayed\-Result} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} msec=-\/1)
+\item 
+Q\-Variant \hyperlink{class_qxt_future_a3e160ab1ebbbc957233ffe7c337cc224}{joined\-Result} ()
+\item 
+\hyperlink{class_qxt_future_a01d6c807023b7b38e044d7c1edf2eb29}{Qxt\-Future} (const \hyperlink{class_qxt_future}{Qxt\-Future} \&other)
+\item 
+\hyperlink{class_qxt_future_a227ebddc0c997bc3c6663a3231907f9d}{$\sim$\-Qxt\-Future} ()
+\end{DoxyCompactItemize}
+\subsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{class_qxt_future_a036b4c56eb61ff4d187a9aae002074b0}{Qxt\-Slot\-Job}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+The \hyperlink{class_qxt_future}{Qxt\-Future} class provides a reference to a future result of a \hyperlink{class_qxt_slot_job}{Qxt\-Slot\-Job}. 
+
+Qxt\-Core 
+
+Definition at line 36 of file qxtslotjob.\-h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_qxt_future_a01d6c807023b7b38e044d7c1edf2eb29}{\index{Qxt\-Future@{Qxt\-Future}!Qxt\-Future@{Qxt\-Future}}
+\index{Qxt\-Future@{Qxt\-Future}!QxtFuture@{Qxt\-Future}}
+\subsubsection[{Qxt\-Future}]{\setlength{\rightskip}{0pt plus 5cm}Qxt\-Future\-::\-Qxt\-Future (
+\begin{DoxyParamCaption}
+\item[{const {\bf Qxt\-Future} \&}]{other}
+\end{DoxyParamCaption}
+)}}\label{class_qxt_future_a01d6c807023b7b38e044d7c1edf2eb29}
+
+
+Definition at line 133 of file qxtslotjob.\-cpp.
+
+\hypertarget{class_qxt_future_a227ebddc0c997bc3c6663a3231907f9d}{\index{Qxt\-Future@{Qxt\-Future}!$\sim$\-Qxt\-Future@{$\sim$\-Qxt\-Future}}
+\index{$\sim$\-Qxt\-Future@{$\sim$\-Qxt\-Future}!QxtFuture@{Qxt\-Future}}
+\subsubsection[{$\sim$\-Qxt\-Future}]{\setlength{\rightskip}{0pt plus 5cm}Qxt\-Future\-::$\sim$\-Qxt\-Future (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_qxt_future_a227ebddc0c997bc3c6663a3231907f9d}
+
+
+Definition at line 149 of file qxtslotjob.\-cpp.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_qxt_future_a58eb4615eb20b0ddf4a9d57a33040cee}{\index{Qxt\-Future@{Qxt\-Future}!delayed\-Result@{delayed\-Result}}
+\index{delayed\-Result@{delayed\-Result}!QxtFuture@{Qxt\-Future}}
+\subsubsection[{delayed\-Result}]{\setlength{\rightskip}{0pt plus 5cm}Q\-Variant Qxt\-Future\-::delayed\-Result (
+\begin{DoxyParamCaption}
+\item[{{\bf int}}]{msec = {\ttfamily -\/1}}
+\end{DoxyParamCaption}
+)}}\label{class_qxt_future_a58eb4615eb20b0ddf4a9d57a33040cee}
+asks for the result of the execution. waits until the \hyperlink{class_qxt_future_aaf95d390e7b66b3f7fbaecbfa71ea84e}{done()} signal occurred or return a Q\-Variant() if the timout ocures earlier This uses \hyperlink{class_qxt_signal_waiter}{Qxt\-Signal\-Waiter} so it will {\itshape not} block your current thread. \begin{DoxyWarning}{Warning}
+this function is not reentrant. You have been warned 
+\end{DoxyWarning}
+
+
+Definition at line 175 of file qxtslotjob.\-cpp.
+
+\hypertarget{class_qxt_future_aaf95d390e7b66b3f7fbaecbfa71ea84e}{\index{Qxt\-Future@{Qxt\-Future}!done@{done}}
+\index{done@{done}!QxtFuture@{Qxt\-Future}}
+\subsubsection[{done}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qxt\-Future\-::done (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [signal]}}}\label{class_qxt_future_aaf95d390e7b66b3f7fbaecbfa71ea84e}
+\hypertarget{class_qxt_future_ad4d92c3d13f657a1ae1add7a72878022}{\index{Qxt\-Future@{Qxt\-Future}!done@{done}}
+\index{done@{done}!QxtFuture@{Qxt\-Future}}
+\subsubsection[{done}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qxt\-Future\-::done (
+\begin{DoxyParamCaption}
+\item[{Q\-Variant}]{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [signal]}}}\label{class_qxt_future_ad4d92c3d13f657a1ae1add7a72878022}
+\hypertarget{class_qxt_future_a3e160ab1ebbbc957233ffe7c337cc224}{\index{Qxt\-Future@{Qxt\-Future}!joined\-Result@{joined\-Result}}
+\index{joined\-Result@{joined\-Result}!QxtFuture@{Qxt\-Future}}
+\subsubsection[{joined\-Result}]{\setlength{\rightskip}{0pt plus 5cm}Q\-Variant Qxt\-Future\-::joined\-Result (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_qxt_future_a3e160ab1ebbbc957233ffe7c337cc224}
+asks for the result of the execution. This calls Qxt\-Job\-::join() means it will {\itshape block} the current thread untill the Slot has finished execution 
+
+Definition at line 157 of file qxtslotjob.\-cpp.
+
+
+
+\subsection{Friends And Related Function Documentation}
+\hypertarget{class_qxt_future_a036b4c56eb61ff4d187a9aae002074b0}{\index{Qxt\-Future@{Qxt\-Future}!Qxt\-Slot\-Job@{Qxt\-Slot\-Job}}
+\index{Qxt\-Slot\-Job@{Qxt\-Slot\-Job}!QxtFuture@{Qxt\-Future}}
+\subsubsection[{Qxt\-Slot\-Job}]{\setlength{\rightskip}{0pt plus 5cm}friend class {\bf Qxt\-Slot\-Job}\hspace{0.3cm}{\ttfamily [friend]}}}\label{class_qxt_future_a036b4c56eb61ff4d187a9aae002074b0}
+
+
+Definition at line 46 of file qxtslotjob.\-h.
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/libqxt/src/core/\hyperlink{qxtslotjob_8h}{qxtslotjob.\-h}\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/libqxt/src/core/\hyperlink{qxtslotjob_8cpp}{qxtslotjob.\-cpp}\end{DoxyCompactItemize}

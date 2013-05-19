@@ -1,0 +1,26 @@
+var class_qxt_csv_model =
+[
+    [ "QxtCsvModel", "class_qxt_csv_model.html#a9056b197692dc53dc666272b36d69b69", null ],
+    [ "QxtCsvModel", "class_qxt_csv_model.html#a9fd8d7f8c4e266ffcb1b7de1b573e850", null ],
+    [ "QxtCsvModel", "class_qxt_csv_model.html#a66d4dfa8bd58d57761271b623665c14c", null ],
+    [ "~QxtCsvModel", "class_qxt_csv_model.html#a020d5314289b05df0a0f0ead546bfbcc", null ],
+    [ "columnCount", "class_qxt_csv_model.html#a4724dac13f4846f0a267f972cbbf6232", null ],
+    [ "data", "class_qxt_csv_model.html#a41e56375b9feed3286f4038056409be9", null ],
+    [ "flags", "class_qxt_csv_model.html#acfe9b5cc0f1caefb4bb39cb45e6a3e4c", null ],
+    [ "headerData", "class_qxt_csv_model.html#a42544aa44336b4b6d4f0c69c2f010310", null ],
+    [ "insertColumn", "class_qxt_csv_model.html#a35f440fdc31a490d8c49fd0cd1327e70", null ],
+    [ "insertColumns", "class_qxt_csv_model.html#a972e7b7021f61359360b46e7b0acff23", null ],
+    [ "insertRow", "class_qxt_csv_model.html#a79d2eb0cc646860b273cb9107e1638bb", null ],
+    [ "insertRows", "class_qxt_csv_model.html#abd89f279815c4f55515540a6b893fa35", null ],
+    [ "removeColumn", "class_qxt_csv_model.html#a585df5622551f1c43f6fad1d37ef671f", null ],
+    [ "removeColumns", "class_qxt_csv_model.html#ae53f7a456c8e01b4e622585b1a02d402", null ],
+    [ "removeRow", "class_qxt_csv_model.html#a702949bc62aef09a4489b69ae4c55f3d", null ],
+    [ "removeRows", "class_qxt_csv_model.html#a062dc1da9a6ce5d2e7308b47e12854a9", null ],
+    [ "rowCount", "class_qxt_csv_model.html#a124d7162c7e54ebcd5e0412eddf26cdf", null ],
+    [ "setData", "class_qxt_csv_model.html#a31f44c022e93bd7c4aed50e694cd42f7", null ],
+    [ "setHeaderData", "class_qxt_csv_model.html#a5788519db182175584c73582f943ea93", null ],
+    [ "setSource", "class_qxt_csv_model.html#a161072a199ca5e6388500de99d73c3e8", null ],
+    [ "setSource", "class_qxt_csv_model.html#afaf5e74bda9f44a90df9d95e367aac27", null ],
+    [ "toCSV", "class_qxt_csv_model.html#aca35cec85bc21181d89004990930948e", null ],
+    [ "toCSV", "class_qxt_csv_model.html#ae9563638e903e3644b0245ddb5b56fc5", null ]
+];

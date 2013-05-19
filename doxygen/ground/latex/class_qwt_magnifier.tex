@@ -1,0 +1,658 @@
+\hypertarget{class_qwt_magnifier}{\section{Qwt\-Magnifier Class Reference}
+\label{class_qwt_magnifier}\index{Qwt\-Magnifier@{Qwt\-Magnifier}}
+}
+
+
+\hyperlink{class_qwt_magnifier}{Qwt\-Magnifier} provides zooming, by magnifying in steps.  
+
+
+
+
+{\ttfamily \#include $<$qwt\-\_\-magnifier.\-h$>$}
+
+Inheritance diagram for Qwt\-Magnifier\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{class_qwt_magnifier}
+\end{center}
+\end{figure}
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{class_qwt_magnifier_1_1_private_data}{Private\-Data}
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_qwt_magnifier_aa11b927c72e0421570a137f0fa1cfb7b}{Qwt\-Magnifier} (Q\-Widget $\ast$)
+\item 
+virtual \hyperlink{class_qwt_magnifier_ac18a7858407951a335399ee6969a50da}{$\sim$\-Qwt\-Magnifier} ()
+\begin{DoxyCompactList}\small\item\em Destructor. \end{DoxyCompactList}\item 
+Q\-Widget $\ast$ \hyperlink{class_qwt_magnifier_a56b7ad2366a7f908c38bc2a994acde16}{parent\-Widget} ()
+\item 
+const Q\-Widget $\ast$ \hyperlink{class_qwt_magnifier_a7ea89693ca6ebd6376838d4ab107bf5a}{parent\-Widget} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_magnifier_a03d892c58039fc864a452b7c636a1df7}{set\-Enabled} (bool)
+\begin{DoxyCompactList}\small\item\em En/disable the magnifier. \end{DoxyCompactList}\item 
+bool \hyperlink{class_qwt_magnifier_a65552cac613ceac77e51b8deca522509}{is\-Enabled} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_magnifier_ada5dac479dc1e69c04760bb7dc197ac9}{set\-Mouse\-Factor} (\hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double})
+\begin{DoxyCompactList}\small\item\em Change the mouse factor. \end{DoxyCompactList}\item 
+\hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} \hyperlink{class_qwt_magnifier_a49348534d3cd7fe37a4a7cb6c3bbff8d}{mouse\-Factor} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_magnifier_a345e4f61d48274f73f6e39fdcaea6745}{set\-Mouse\-Button} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} button, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} button\-State=Qt\-::\-No\-Button)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_magnifier_a3bf315d2740542648b2aed56ade85705}{get\-Mouse\-Button} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \&button, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \&button\-State) const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_magnifier_ae3a33ab8776ed2122fecc821a32bb36a}{set\-Wheel\-Factor} (\hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double})
+\begin{DoxyCompactList}\small\item\em Change the wheel factor. \end{DoxyCompactList}\item 
+\hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} \hyperlink{class_qwt_magnifier_a83722e9f081603a45e118947d7f810a4}{wheel\-Factor} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_magnifier_a36270c611c465f11f3ade46f3b3bb74a}{set\-Wheel\-Button\-State} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} button\-State)
+\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_qwt_magnifier_a76521288b081b76d1edebfc8bc16e884}{wheel\-Button\-State} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_magnifier_ac079b44e124fdaba1d894ef519bc4e4f}{set\-Key\-Factor} (\hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double})
+\begin{DoxyCompactList}\small\item\em Change the key factor. \end{DoxyCompactList}\item 
+\hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} \hyperlink{class_qwt_magnifier_a98706c848275b06d2830a8dbe053c9a3}{key\-Factor} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_magnifier_a51691b6a49437467d140fc0687b68140}{set\-Zoom\-In\-Key} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} key, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} modifiers)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_magnifier_a4cb3ef96e22af3c9af6a42978a575401}{get\-Zoom\-In\-Key} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \&key, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \&modifiers) const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_magnifier_ae265bcef7b3a1c59fc432c20fa407805}{set\-Zoom\-Out\-Key} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} key, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} modifiers)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_magnifier_aa4ebc8789e6d7591c74f2c7ea4689d18}{get\-Zoom\-Out\-Key} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \&key, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \&modifiers) const 
+\item 
+virtual bool \hyperlink{class_qwt_magnifier_ae7f4c0ad7631501cec17abe31695281f}{event\-Filter} (Q\-Object $\ast$, Q\-Event $\ast$)
+\begin{DoxyCompactList}\small\item\em Event filter. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_magnifier_a5c3d5bda10412a50bd403afe84e2ccee}{rescale} (\hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} factor)=0
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_magnifier_a5930b3ec00ae99883f36cf8bf568cbf7}{widget\-Mouse\-Press\-Event} (Q\-Mouse\-Event $\ast$)
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_magnifier_aa7cc31995444ca8dd8412b8a6dab7b93}{widget\-Mouse\-Release\-Event} (Q\-Mouse\-Event $\ast$)
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_magnifier_a4eb68b98b063cc14b7839f02f8671dfc}{widget\-Mouse\-Move\-Event} (Q\-Mouse\-Event $\ast$)
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_magnifier_a236762870830cc0621411c173472392b}{widget\-Wheel\-Event} (Q\-Wheel\-Event $\ast$)
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_magnifier_a382cec084a2bfc0610ca500121205f04}{widget\-Key\-Press\-Event} (Q\-Key\-Event $\ast$)
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_magnifier_af84037c68c9b88263d1c27bb648cf9ff}{widget\-Key\-Release\-Event} (Q\-Key\-Event $\ast$)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\hyperlink{class_qwt_magnifier}{Qwt\-Magnifier} provides zooming, by magnifying in steps. 
+
+Using \hyperlink{class_qwt_magnifier}{Qwt\-Magnifier} a plot can be zoomed in/out in steps using keys, the mouse wheel or moving a mouse button in vertical direction. 
+
+Definition at line 27 of file qwt\-\_\-magnifier.\-h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_qwt_magnifier_aa11b927c72e0421570a137f0fa1cfb7b}{\index{Qwt\-Magnifier@{Qwt\-Magnifier}!Qwt\-Magnifier@{Qwt\-Magnifier}}
+\index{Qwt\-Magnifier@{Qwt\-Magnifier}!QwtMagnifier@{Qwt\-Magnifier}}
+\subsubsection[{Qwt\-Magnifier}]{\setlength{\rightskip}{0pt plus 5cm}Qwt\-Magnifier\-::\-Qwt\-Magnifier (
+\begin{DoxyParamCaption}
+\item[{Q\-Widget $\ast$}]{parent}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [explicit]}}}\label{class_qwt_magnifier_aa11b927c72e0421570a137f0fa1cfb7b}
+Constructor 
+\begin{DoxyParams}{Parameters}
+{\em parent} & \hyperlink{class_widget}{Widget} to be magnified \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 58 of file qwt\-\_\-magnifier.\-cpp.
+
+\hypertarget{class_qwt_magnifier_ac18a7858407951a335399ee6969a50da}{\index{Qwt\-Magnifier@{Qwt\-Magnifier}!$\sim$\-Qwt\-Magnifier@{$\sim$\-Qwt\-Magnifier}}
+\index{$\sim$\-Qwt\-Magnifier@{$\sim$\-Qwt\-Magnifier}!QwtMagnifier@{Qwt\-Magnifier}}
+\subsubsection[{$\sim$\-Qwt\-Magnifier}]{\setlength{\rightskip}{0pt plus 5cm}Qwt\-Magnifier\-::$\sim$\-Qwt\-Magnifier (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_qwt_magnifier_ac18a7858407951a335399ee6969a50da}
+
+
+Destructor. 
+
+
+
+Definition at line 66 of file qwt\-\_\-magnifier.\-cpp.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_qwt_magnifier_ae7f4c0ad7631501cec17abe31695281f}{\index{Qwt\-Magnifier@{Qwt\-Magnifier}!event\-Filter@{event\-Filter}}
+\index{event\-Filter@{event\-Filter}!QwtMagnifier@{Qwt\-Magnifier}}
+\subsubsection[{event\-Filter}]{\setlength{\rightskip}{0pt plus 5cm}bool Qwt\-Magnifier\-::event\-Filter (
+\begin{DoxyParamCaption}
+\item[{Q\-Object $\ast$}]{object, }
+\item[{Q\-Event $\ast$}]{event}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_qwt_magnifier_ae7f4c0ad7631501cec17abe31695281f}
+
+
+Event filter. 
+
+When \hyperlink{class_qwt_magnifier_a65552cac613ceac77e51b8deca522509}{is\-Enabled()} the mouse events of the observed widget are filtered.
+
+
+\begin{DoxyParams}{Parameters}
+{\em object} & Object to be filtered \\
+\hline
+{\em event} & Event\\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_magnifier_a5930b3ec00ae99883f36cf8bf568cbf7}{widget\-Mouse\-Press\-Event()}, \hyperlink{class_qwt_magnifier_aa7cc31995444ca8dd8412b8a6dab7b93}{widget\-Mouse\-Release\-Event()}, \hyperlink{class_qwt_magnifier_a4eb68b98b063cc14b7839f02f8671dfc}{widget\-Mouse\-Move\-Event()}, \hyperlink{class_qwt_magnifier_a236762870830cc0621411c173472392b}{widget\-Wheel\-Event()}, \hyperlink{class_qwt_magnifier_a382cec084a2bfc0610ca500121205f04}{widget\-Key\-Press\-Event()} \hyperlink{class_qwt_magnifier_af84037c68c9b88263d1c27bb648cf9ff}{widget\-Key\-Release\-Event()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 277 of file qwt\-\_\-magnifier.\-cpp.
+
+\hypertarget{class_qwt_magnifier_a3bf315d2740542648b2aed56ade85705}{\index{Qwt\-Magnifier@{Qwt\-Magnifier}!get\-Mouse\-Button@{get\-Mouse\-Button}}
+\index{get\-Mouse\-Button@{get\-Mouse\-Button}!QwtMagnifier@{Qwt\-Magnifier}}
+\subsubsection[{get\-Mouse\-Button}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Magnifier\-::get\-Mouse\-Button (
+\begin{DoxyParamCaption}
+\item[{{\bf int} \&}]{button, }
+\item[{{\bf int} \&}]{button\-State}
+\end{DoxyParamCaption}
+) const}}\label{class_qwt_magnifier_a3bf315d2740542648b2aed56ade85705}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_magnifier_a345e4f61d48274f73f6e39fdcaea6745}{set\-Mouse\-Button()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 191 of file qwt\-\_\-magnifier.\-cpp.
+
+\hypertarget{class_qwt_magnifier_a4cb3ef96e22af3c9af6a42978a575401}{\index{Qwt\-Magnifier@{Qwt\-Magnifier}!get\-Zoom\-In\-Key@{get\-Zoom\-In\-Key}}
+\index{get\-Zoom\-In\-Key@{get\-Zoom\-In\-Key}!QwtMagnifier@{Qwt\-Magnifier}}
+\subsubsection[{get\-Zoom\-In\-Key}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Magnifier\-::get\-Zoom\-In\-Key (
+\begin{DoxyParamCaption}
+\item[{{\bf int} \&}]{key, }
+\item[{{\bf int} \&}]{modifiers}
+\end{DoxyParamCaption}
+) const}}\label{class_qwt_magnifier_a4cb3ef96e22af3c9af6a42978a575401}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_magnifier_a51691b6a49437467d140fc0687b68140}{set\-Zoom\-In\-Key()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 238 of file qwt\-\_\-magnifier.\-cpp.
+
+\hypertarget{class_qwt_magnifier_aa4ebc8789e6d7591c74f2c7ea4689d18}{\index{Qwt\-Magnifier@{Qwt\-Magnifier}!get\-Zoom\-Out\-Key@{get\-Zoom\-Out\-Key}}
+\index{get\-Zoom\-Out\-Key@{get\-Zoom\-Out\-Key}!QwtMagnifier@{Qwt\-Magnifier}}
+\subsubsection[{get\-Zoom\-Out\-Key}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Magnifier\-::get\-Zoom\-Out\-Key (
+\begin{DoxyParamCaption}
+\item[{{\bf int} \&}]{key, }
+\item[{{\bf int} \&}]{modifiers}
+\end{DoxyParamCaption}
+) const}}\label{class_qwt_magnifier_aa4ebc8789e6d7591c74f2c7ea4689d18}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_magnifier_ae265bcef7b3a1c59fc432c20fa407805}{set\-Zoom\-Out\-Key()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 259 of file qwt\-\_\-magnifier.\-cpp.
+
+\hypertarget{class_qwt_magnifier_a65552cac613ceac77e51b8deca522509}{\index{Qwt\-Magnifier@{Qwt\-Magnifier}!is\-Enabled@{is\-Enabled}}
+\index{is\-Enabled@{is\-Enabled}!QwtMagnifier@{Qwt\-Magnifier}}
+\subsubsection[{is\-Enabled}]{\setlength{\rightskip}{0pt plus 5cm}bool Qwt\-Magnifier\-::is\-Enabled (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_qwt_magnifier_a65552cac613ceac77e51b8deca522509}
+\begin{DoxyReturn}{Returns}
+true when enabled, false otherwise 
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_magnifier_a03d892c58039fc864a452b7c636a1df7}{set\-Enabled()}, \hyperlink{class_qwt_magnifier_ae7f4c0ad7631501cec17abe31695281f}{event\-Filter()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 101 of file qwt\-\_\-magnifier.\-cpp.
+
+\hypertarget{class_qwt_magnifier_a98706c848275b06d2830a8dbe053c9a3}{\index{Qwt\-Magnifier@{Qwt\-Magnifier}!key\-Factor@{key\-Factor}}
+\index{key\-Factor@{key\-Factor}!QwtMagnifier@{Qwt\-Magnifier}}
+\subsubsection[{key\-Factor}]{\setlength{\rightskip}{0pt plus 5cm}{\bf double} Qwt\-Magnifier\-::key\-Factor (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_qwt_magnifier_a98706c848275b06d2830a8dbe053c9a3}
+\begin{DoxyReturn}{Returns}
+Key factor 
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_magnifier_ac079b44e124fdaba1d894ef519bc4e4f}{set\-Key\-Factor()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 218 of file qwt\-\_\-magnifier.\-cpp.
+
+\hypertarget{class_qwt_magnifier_a49348534d3cd7fe37a4a7cb6c3bbff8d}{\index{Qwt\-Magnifier@{Qwt\-Magnifier}!mouse\-Factor@{mouse\-Factor}}
+\index{mouse\-Factor@{mouse\-Factor}!QwtMagnifier@{Qwt\-Magnifier}}
+\subsubsection[{mouse\-Factor}]{\setlength{\rightskip}{0pt plus 5cm}{\bf double} Qwt\-Magnifier\-::mouse\-Factor (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_qwt_magnifier_a49348534d3cd7fe37a4a7cb6c3bbff8d}
+\begin{DoxyReturn}{Returns}
+Mouse factor 
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_magnifier_ada5dac479dc1e69c04760bb7dc197ac9}{set\-Mouse\-Factor()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 171 of file qwt\-\_\-magnifier.\-cpp.
+
+\hypertarget{class_qwt_magnifier_a56b7ad2366a7f908c38bc2a994acde16}{\index{Qwt\-Magnifier@{Qwt\-Magnifier}!parent\-Widget@{parent\-Widget}}
+\index{parent\-Widget@{parent\-Widget}!QwtMagnifier@{Qwt\-Magnifier}}
+\subsubsection[{parent\-Widget}]{\setlength{\rightskip}{0pt plus 5cm}Q\-Widget $\ast$ Qwt\-Magnifier\-::parent\-Widget (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_qwt_magnifier_a56b7ad2366a7f908c38bc2a994acde16}
+\begin{DoxyReturn}{Returns}
+Parent widget, where the rescaling happens 
+\end{DoxyReturn}
+
+
+Definition at line 457 of file qwt\-\_\-magnifier.\-cpp.
+
+\hypertarget{class_qwt_magnifier_a7ea89693ca6ebd6376838d4ab107bf5a}{\index{Qwt\-Magnifier@{Qwt\-Magnifier}!parent\-Widget@{parent\-Widget}}
+\index{parent\-Widget@{parent\-Widget}!QwtMagnifier@{Qwt\-Magnifier}}
+\subsubsection[{parent\-Widget}]{\setlength{\rightskip}{0pt plus 5cm}const Q\-Widget $\ast$ Qwt\-Magnifier\-::parent\-Widget (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_qwt_magnifier_a7ea89693ca6ebd6376838d4ab107bf5a}
+\begin{DoxyReturn}{Returns}
+Parent widget, where the rescaling happens 
+\end{DoxyReturn}
+
+
+Definition at line 466 of file qwt\-\_\-magnifier.\-cpp.
+
+\hypertarget{class_qwt_magnifier_a5c3d5bda10412a50bd403afe84e2ccee}{\index{Qwt\-Magnifier@{Qwt\-Magnifier}!rescale@{rescale}}
+\index{rescale@{rescale}!QwtMagnifier@{Qwt\-Magnifier}}
+\subsubsection[{rescale}]{\setlength{\rightskip}{0pt plus 5cm}virtual {\bf void} Qwt\-Magnifier\-::rescale (
+\begin{DoxyParamCaption}
+\item[{{\bf double}}]{factor}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [pure virtual]}}}\label{class_qwt_magnifier_a5c3d5bda10412a50bd403afe84e2ccee}
+Rescale the parent widget 
+\begin{DoxyParams}{Parameters}
+{\em factor} & Scale factor \\
+\hline
+\end{DoxyParams}
+
+
+Implemented in \hyperlink{class_qwt_plot_magnifier_a271ae5ad42c3dd12812246d2dee687ea}{Qwt\-Plot\-Magnifier}.
+
+\hypertarget{class_qwt_magnifier_a03d892c58039fc864a452b7c636a1df7}{\index{Qwt\-Magnifier@{Qwt\-Magnifier}!set\-Enabled@{set\-Enabled}}
+\index{set\-Enabled@{set\-Enabled}!QwtMagnifier@{Qwt\-Magnifier}}
+\subsubsection[{set\-Enabled}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Magnifier\-::set\-Enabled (
+\begin{DoxyParamCaption}
+\item[{bool}]{on}
+\end{DoxyParamCaption}
+)}}\label{class_qwt_magnifier_a03d892c58039fc864a452b7c636a1df7}
+
+
+En/disable the magnifier. 
+
+When enabled is true an event filter is installed for the observed widget, otherwise the event filter is removed.
+
+
+\begin{DoxyParams}{Parameters}
+{\em on} & true or false \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_magnifier_a65552cac613ceac77e51b8deca522509}{is\-Enabled()}, \hyperlink{class_qwt_magnifier_ae7f4c0ad7631501cec17abe31695281f}{event\-Filter()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 80 of file qwt\-\_\-magnifier.\-cpp.
+
+\hypertarget{class_qwt_magnifier_ac079b44e124fdaba1d894ef519bc4e4f}{\index{Qwt\-Magnifier@{Qwt\-Magnifier}!set\-Key\-Factor@{set\-Key\-Factor}}
+\index{set\-Key\-Factor@{set\-Key\-Factor}!QwtMagnifier@{Qwt\-Magnifier}}
+\subsubsection[{set\-Key\-Factor}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Magnifier\-::set\-Key\-Factor (
+\begin{DoxyParamCaption}
+\item[{{\bf double}}]{factor}
+\end{DoxyParamCaption}
+)}}\label{class_qwt_magnifier_ac079b44e124fdaba1d894ef519bc4e4f}
+
+
+Change the key factor. 
+
+The key factor defines the ratio between the current range on the parent widget and the zoomed range for each key press of the zoom in/out keys. The default value is 0.\-9.
+
+
+\begin{DoxyParams}{Parameters}
+{\em factor} & Key factor \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_magnifier_a98706c848275b06d2830a8dbe053c9a3}{key\-Factor()}, \hyperlink{class_qwt_magnifier_a51691b6a49437467d140fc0687b68140}{set\-Zoom\-In\-Key()}, \hyperlink{class_qwt_magnifier_ae265bcef7b3a1c59fc432c20fa407805}{set\-Zoom\-Out\-Key()}, \hyperlink{class_qwt_magnifier_ae3a33ab8776ed2122fecc821a32bb36a}{set\-Wheel\-Factor}, \hyperlink{class_qwt_magnifier_ada5dac479dc1e69c04760bb7dc197ac9}{set\-Mouse\-Factor()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 209 of file qwt\-\_\-magnifier.\-cpp.
+
+\hypertarget{class_qwt_magnifier_a345e4f61d48274f73f6e39fdcaea6745}{\index{Qwt\-Magnifier@{Qwt\-Magnifier}!set\-Mouse\-Button@{set\-Mouse\-Button}}
+\index{set\-Mouse\-Button@{set\-Mouse\-Button}!QwtMagnifier@{Qwt\-Magnifier}}
+\subsubsection[{set\-Mouse\-Button}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Magnifier\-::set\-Mouse\-Button (
+\begin{DoxyParamCaption}
+\item[{{\bf int}}]{button, }
+\item[{{\bf int}}]{button\-State = {\ttfamily Qt\-:\-:NoButton}}
+\end{DoxyParamCaption}
+)}}\label{class_qwt_magnifier_a345e4f61d48274f73f6e39fdcaea6745}
+Assign the mouse button, that is used for zooming in/out. The default value is Qt\-::\-Right\-Button.
+
+
+\begin{DoxyParams}{Parameters}
+{\em button} & Button \\
+\hline
+{\em button\-State} & Button state \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_magnifier_a3bf315d2740542648b2aed56ade85705}{get\-Mouse\-Button()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 184 of file qwt\-\_\-magnifier.\-cpp.
+
+\hypertarget{class_qwt_magnifier_ada5dac479dc1e69c04760bb7dc197ac9}{\index{Qwt\-Magnifier@{Qwt\-Magnifier}!set\-Mouse\-Factor@{set\-Mouse\-Factor}}
+\index{set\-Mouse\-Factor@{set\-Mouse\-Factor}!QwtMagnifier@{Qwt\-Magnifier}}
+\subsubsection[{set\-Mouse\-Factor}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Magnifier\-::set\-Mouse\-Factor (
+\begin{DoxyParamCaption}
+\item[{{\bf double}}]{factor}
+\end{DoxyParamCaption}
+)}}\label{class_qwt_magnifier_ada5dac479dc1e69c04760bb7dc197ac9}
+
+
+Change the mouse factor. 
+
+The mouse factor defines the ratio between the current range on the parent widget and the zoomed range for each vertical mouse movement. The default value is 0.\-95.
+
+
+\begin{DoxyParams}{Parameters}
+{\em factor} & Wheel factor \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_magnifier_a49348534d3cd7fe37a4a7cb6c3bbff8d}{mouse\-Factor()}, \hyperlink{class_qwt_magnifier_a345e4f61d48274f73f6e39fdcaea6745}{set\-Mouse\-Button()}, \hyperlink{class_qwt_magnifier_ae3a33ab8776ed2122fecc821a32bb36a}{set\-Wheel\-Factor()}, \hyperlink{class_qwt_magnifier_ac079b44e124fdaba1d894ef519bc4e4f}{set\-Key\-Factor()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 162 of file qwt\-\_\-magnifier.\-cpp.
+
+\hypertarget{class_qwt_magnifier_a36270c611c465f11f3ade46f3b3bb74a}{\index{Qwt\-Magnifier@{Qwt\-Magnifier}!set\-Wheel\-Button\-State@{set\-Wheel\-Button\-State}}
+\index{set\-Wheel\-Button\-State@{set\-Wheel\-Button\-State}!QwtMagnifier@{Qwt\-Magnifier}}
+\subsubsection[{set\-Wheel\-Button\-State}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Magnifier\-::set\-Wheel\-Button\-State (
+\begin{DoxyParamCaption}
+\item[{{\bf int}}]{button\-State}
+\end{DoxyParamCaption}
+)}}\label{class_qwt_magnifier_a36270c611c465f11f3ade46f3b3bb74a}
+Assign a mandatory button state for zooming in/out using the wheel. The default button state is Qt\-::\-No\-Button.
+
+
+\begin{DoxyParams}{Parameters}
+{\em button\-State} & Button state \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_magnifier_a76521288b081b76d1edebfc8bc16e884}{wheel\-Button\-State()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 138 of file qwt\-\_\-magnifier.\-cpp.
+
+\hypertarget{class_qwt_magnifier_ae3a33ab8776ed2122fecc821a32bb36a}{\index{Qwt\-Magnifier@{Qwt\-Magnifier}!set\-Wheel\-Factor@{set\-Wheel\-Factor}}
+\index{set\-Wheel\-Factor@{set\-Wheel\-Factor}!QwtMagnifier@{Qwt\-Magnifier}}
+\subsubsection[{set\-Wheel\-Factor}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Magnifier\-::set\-Wheel\-Factor (
+\begin{DoxyParamCaption}
+\item[{{\bf double}}]{factor}
+\end{DoxyParamCaption}
+)}}\label{class_qwt_magnifier_ae3a33ab8776ed2122fecc821a32bb36a}
+
+
+Change the wheel factor. 
+
+The wheel factor defines the ratio between the current range on the parent widget and the zoomed range for each step of the wheel. The default value is 0.\-9.
+
+
+\begin{DoxyParams}{Parameters}
+{\em factor} & Wheel factor \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_magnifier_a83722e9f081603a45e118947d7f810a4}{wheel\-Factor()}, \hyperlink{class_qwt_magnifier_a36270c611c465f11f3ade46f3b3bb74a}{set\-Wheel\-Button\-State()}, \hyperlink{class_qwt_magnifier_ada5dac479dc1e69c04760bb7dc197ac9}{set\-Mouse\-Factor()}, \hyperlink{class_qwt_magnifier_ac079b44e124fdaba1d894ef519bc4e4f}{set\-Key\-Factor()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 117 of file qwt\-\_\-magnifier.\-cpp.
+
+\hypertarget{class_qwt_magnifier_a51691b6a49437467d140fc0687b68140}{\index{Qwt\-Magnifier@{Qwt\-Magnifier}!set\-Zoom\-In\-Key@{set\-Zoom\-In\-Key}}
+\index{set\-Zoom\-In\-Key@{set\-Zoom\-In\-Key}!QwtMagnifier@{Qwt\-Magnifier}}
+\subsubsection[{set\-Zoom\-In\-Key}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Magnifier\-::set\-Zoom\-In\-Key (
+\begin{DoxyParamCaption}
+\item[{{\bf int}}]{key, }
+\item[{{\bf int}}]{modifiers}
+\end{DoxyParamCaption}
+)}}\label{class_qwt_magnifier_a51691b6a49437467d140fc0687b68140}
+Assign the key, that is used for zooming in. The default combination is Qt\-::\-Key\-\_\-\-Plus + Qt\-::\-No\-Modifier.
+
+
+\begin{DoxyParams}{Parameters}
+{\em key} & \\
+\hline
+{\em modifiers} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_magnifier_a4cb3ef96e22af3c9af6a42978a575401}{get\-Zoom\-In\-Key()}, \hyperlink{class_qwt_magnifier_ae265bcef7b3a1c59fc432c20fa407805}{set\-Zoom\-Out\-Key()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 231 of file qwt\-\_\-magnifier.\-cpp.
+
+\hypertarget{class_qwt_magnifier_ae265bcef7b3a1c59fc432c20fa407805}{\index{Qwt\-Magnifier@{Qwt\-Magnifier}!set\-Zoom\-Out\-Key@{set\-Zoom\-Out\-Key}}
+\index{set\-Zoom\-Out\-Key@{set\-Zoom\-Out\-Key}!QwtMagnifier@{Qwt\-Magnifier}}
+\subsubsection[{set\-Zoom\-Out\-Key}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Magnifier\-::set\-Zoom\-Out\-Key (
+\begin{DoxyParamCaption}
+\item[{{\bf int}}]{key, }
+\item[{{\bf int}}]{modifiers}
+\end{DoxyParamCaption}
+)}}\label{class_qwt_magnifier_ae265bcef7b3a1c59fc432c20fa407805}
+Assign the key, that is used for zooming out. The default combination is Qt\-::\-Key\-\_\-\-Minus + Qt\-::\-No\-Modifier.
+
+
+\begin{DoxyParams}{Parameters}
+{\em key} & \\
+\hline
+{\em modifiers} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_magnifier_aa4ebc8789e6d7591c74f2c7ea4689d18}{get\-Zoom\-Out\-Key()}, \hyperlink{class_qwt_magnifier_ae265bcef7b3a1c59fc432c20fa407805}{set\-Zoom\-Out\-Key()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 252 of file qwt\-\_\-magnifier.\-cpp.
+
+\hypertarget{class_qwt_magnifier_a76521288b081b76d1edebfc8bc16e884}{\index{Qwt\-Magnifier@{Qwt\-Magnifier}!wheel\-Button\-State@{wheel\-Button\-State}}
+\index{wheel\-Button\-State@{wheel\-Button\-State}!QwtMagnifier@{Qwt\-Magnifier}}
+\subsubsection[{wheel\-Button\-State}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int} Qwt\-Magnifier\-::wheel\-Button\-State (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_qwt_magnifier_a76521288b081b76d1edebfc8bc16e884}
+\begin{DoxyReturn}{Returns}
+Wheel button state 
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_magnifier_a36270c611c465f11f3ade46f3b3bb74a}{set\-Wheel\-Button\-State()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 147 of file qwt\-\_\-magnifier.\-cpp.
+
+\hypertarget{class_qwt_magnifier_a83722e9f081603a45e118947d7f810a4}{\index{Qwt\-Magnifier@{Qwt\-Magnifier}!wheel\-Factor@{wheel\-Factor}}
+\index{wheel\-Factor@{wheel\-Factor}!QwtMagnifier@{Qwt\-Magnifier}}
+\subsubsection[{wheel\-Factor}]{\setlength{\rightskip}{0pt plus 5cm}{\bf double} Qwt\-Magnifier\-::wheel\-Factor (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_qwt_magnifier_a83722e9f081603a45e118947d7f810a4}
+\begin{DoxyReturn}{Returns}
+Wheel factor 
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_magnifier_ae3a33ab8776ed2122fecc821a32bb36a}{set\-Wheel\-Factor()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 126 of file qwt\-\_\-magnifier.\-cpp.
+
+\hypertarget{class_qwt_magnifier_a382cec084a2bfc0610ca500121205f04}{\index{Qwt\-Magnifier@{Qwt\-Magnifier}!widget\-Key\-Press\-Event@{widget\-Key\-Press\-Event}}
+\index{widget\-Key\-Press\-Event@{widget\-Key\-Press\-Event}!QwtMagnifier@{Qwt\-Magnifier}}
+\subsubsection[{widget\-Key\-Press\-Event}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Magnifier\-::widget\-Key\-Press\-Event (
+\begin{DoxyParamCaption}
+\item[{Q\-Key\-Event $\ast$}]{key\-Event}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}}\label{class_qwt_magnifier_a382cec084a2bfc0610ca500121205f04}
+Handle a key press event for the observed widget.
+
+
+\begin{DoxyParams}{Parameters}
+{\em key\-Event} & Key event \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_magnifier_ae7f4c0ad7631501cec17abe31695281f}{event\-Filter()}, \hyperlink{class_qwt_magnifier_af84037c68c9b88263d1c27bb648cf9ff}{widget\-Key\-Release\-Event()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 428 of file qwt\-\_\-magnifier.\-cpp.
+
+\hypertarget{class_qwt_magnifier_af84037c68c9b88263d1c27bb648cf9ff}{\index{Qwt\-Magnifier@{Qwt\-Magnifier}!widget\-Key\-Release\-Event@{widget\-Key\-Release\-Event}}
+\index{widget\-Key\-Release\-Event@{widget\-Key\-Release\-Event}!QwtMagnifier@{Qwt\-Magnifier}}
+\subsubsection[{widget\-Key\-Release\-Event}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Magnifier\-::widget\-Key\-Release\-Event (
+\begin{DoxyParamCaption}
+\item[{Q\-Key\-Event $\ast$}]{key\-Event}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}}\label{class_qwt_magnifier_af84037c68c9b88263d1c27bb648cf9ff}
+Handle a key release event for the observed widget.
+
+
+\begin{DoxyParams}{Parameters}
+{\em key\-Event} & Key event \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_magnifier_ae7f4c0ad7631501cec17abe31695281f}{event\-Filter()}, \hyperlink{class_qwt_magnifier_af84037c68c9b88263d1c27bb648cf9ff}{widget\-Key\-Release\-Event()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 451 of file qwt\-\_\-magnifier.\-cpp.
+
+\hypertarget{class_qwt_magnifier_a4eb68b98b063cc14b7839f02f8671dfc}{\index{Qwt\-Magnifier@{Qwt\-Magnifier}!widget\-Mouse\-Move\-Event@{widget\-Mouse\-Move\-Event}}
+\index{widget\-Mouse\-Move\-Event@{widget\-Mouse\-Move\-Event}!QwtMagnifier@{Qwt\-Magnifier}}
+\subsubsection[{widget\-Mouse\-Move\-Event}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Magnifier\-::widget\-Mouse\-Move\-Event (
+\begin{DoxyParamCaption}
+\item[{Q\-Mouse\-Event $\ast$}]{mouse\-Event}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}}\label{class_qwt_magnifier_a4eb68b98b063cc14b7839f02f8671dfc}
+Handle a mouse move event for the observed widget.
+
+
+\begin{DoxyParams}{Parameters}
+{\em mouse\-Event} & Mouse event \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_magnifier_ae7f4c0ad7631501cec17abe31695281f}{event\-Filter()}, \hyperlink{class_qwt_magnifier_a5930b3ec00ae99883f36cf8bf568cbf7}{widget\-Mouse\-Press\-Event()}, \hyperlink{class_qwt_magnifier_aa7cc31995444ca8dd8412b8a6dab7b93}{widget\-Mouse\-Release\-Event()}, 
+\end{DoxySeeAlso}
+
+
+Definition at line 369 of file qwt\-\_\-magnifier.\-cpp.
+
+\hypertarget{class_qwt_magnifier_a5930b3ec00ae99883f36cf8bf568cbf7}{\index{Qwt\-Magnifier@{Qwt\-Magnifier}!widget\-Mouse\-Press\-Event@{widget\-Mouse\-Press\-Event}}
+\index{widget\-Mouse\-Press\-Event@{widget\-Mouse\-Press\-Event}!QwtMagnifier@{Qwt\-Magnifier}}
+\subsubsection[{widget\-Mouse\-Press\-Event}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Magnifier\-::widget\-Mouse\-Press\-Event (
+\begin{DoxyParamCaption}
+\item[{Q\-Mouse\-Event $\ast$}]{mouse\-Event}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}}\label{class_qwt_magnifier_a5930b3ec00ae99883f36cf8bf568cbf7}
+Handle a mouse press event for the observed widget.
+
+
+\begin{DoxyParams}{Parameters}
+{\em mouse\-Event} & Mouse event \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_magnifier_ae7f4c0ad7631501cec17abe31695281f}{event\-Filter()}, \hyperlink{class_qwt_magnifier_aa7cc31995444ca8dd8412b8a6dab7b93}{widget\-Mouse\-Release\-Event()}, \hyperlink{class_qwt_magnifier_a4eb68b98b063cc14b7839f02f8671dfc}{widget\-Mouse\-Move\-Event()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 325 of file qwt\-\_\-magnifier.\-cpp.
+
+\hypertarget{class_qwt_magnifier_aa7cc31995444ca8dd8412b8a6dab7b93}{\index{Qwt\-Magnifier@{Qwt\-Magnifier}!widget\-Mouse\-Release\-Event@{widget\-Mouse\-Release\-Event}}
+\index{widget\-Mouse\-Release\-Event@{widget\-Mouse\-Release\-Event}!QwtMagnifier@{Qwt\-Magnifier}}
+\subsubsection[{widget\-Mouse\-Release\-Event}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Magnifier\-::widget\-Mouse\-Release\-Event (
+\begin{DoxyParamCaption}
+\item[{Q\-Mouse\-Event $\ast$}]{mouse\-Event}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}}\label{class_qwt_magnifier_aa7cc31995444ca8dd8412b8a6dab7b93}
+Handle a mouse release event for the observed widget.
+
+
+\begin{DoxyParams}{Parameters}
+{\em mouse\-Event} & Mouse event\\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_magnifier_ae7f4c0ad7631501cec17abe31695281f}{event\-Filter()}, \hyperlink{class_qwt_magnifier_a5930b3ec00ae99883f36cf8bf568cbf7}{widget\-Mouse\-Press\-Event()}, \hyperlink{class_qwt_magnifier_a4eb68b98b063cc14b7839f02f8671dfc}{widget\-Mouse\-Move\-Event()}, 
+\end{DoxySeeAlso}
+
+
+Definition at line 352 of file qwt\-\_\-magnifier.\-cpp.
+
+\hypertarget{class_qwt_magnifier_a236762870830cc0621411c173472392b}{\index{Qwt\-Magnifier@{Qwt\-Magnifier}!widget\-Wheel\-Event@{widget\-Wheel\-Event}}
+\index{widget\-Wheel\-Event@{widget\-Wheel\-Event}!QwtMagnifier@{Qwt\-Magnifier}}
+\subsubsection[{widget\-Wheel\-Event}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Magnifier\-::widget\-Wheel\-Event (
+\begin{DoxyParamCaption}
+\item[{Q\-Wheel\-Event $\ast$}]{wheel\-Event}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}}\label{class_qwt_magnifier_a236762870830cc0621411c173472392b}
+Handle a wheel event for the observed widget.
+
+
+\begin{DoxyParams}{Parameters}
+{\em wheel\-Event} & Wheel event \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_magnifier_ae7f4c0ad7631501cec17abe31695281f}{event\-Filter()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 393 of file qwt\-\_\-magnifier.\-cpp.
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/qwt/src/\hyperlink{qwt__magnifier_8h}{qwt\-\_\-magnifier.\-h}\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/qwt/src/\hyperlink{qwt__magnifier_8cpp}{qwt\-\_\-magnifier.\-cpp}\end{DoxyCompactItemize}

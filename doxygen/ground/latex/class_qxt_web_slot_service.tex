@@ -1,0 +1,129 @@
+\hypertarget{class_qxt_web_slot_service}{\section{Qxt\-Web\-Slot\-Service Class Reference}
+\label{class_qxt_web_slot_service}\index{Qxt\-Web\-Slot\-Service@{Qxt\-Web\-Slot\-Service}}
+}
+
+
+The \hyperlink{class_qxt_web_slot_service}{Qxt\-Web\-Slot\-Service} class provides a Slot based webservice.  
+
+
+
+
+{\ttfamily \#include $<$qxtwebslotservice.\-h$>$}
+
+Inheritance diagram for Qxt\-Web\-Slot\-Service\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{class_qxt_web_slot_service}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_qxt_web_slot_service_a492de2b211131846f2ba9a47c8569c3a}{Qxt\-Web\-Slot\-Service} (\hyperlink{class_qxt_abstract_web_session_manager}{Qxt\-Abstract\-Web\-Session\-Manager} $\ast$sm, Q\-Object $\ast$parent=0)
+\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+Q\-Url \hyperlink{class_qxt_web_slot_service_af49031fa6f7d37edc3f5894565ba2acb}{self} (\hyperlink{class_qxt_web_request_event}{Qxt\-Web\-Request\-Event} $\ast$event)
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qxt_web_slot_service_a64ba7126f65a67d2400b1a3cf0b8a765}{page\-Requested\-Event} (\hyperlink{class_qxt_web_request_event}{Qxt\-Web\-Request\-Event} $\ast$event)
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qxt_web_slot_service_a02e641fa3cea8927918cd3fe03e79998}{function\-Invoked\-Event} (\hyperlink{class_qxt_web_request_event}{Qxt\-Web\-Request\-Event} $\ast$event)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+The \hyperlink{class_qxt_web_slot_service}{Qxt\-Web\-Slot\-Service} class provides a Slot based webservice. 
+
+Qxt\-Web
+
+A Web\-Service that resolves the first part of the path to a slot name and passes the rest as arguments.
+
+
+\begin{DoxyCode}
+\textcolor{keyword}{class }MyService : \textcolor{keyword}{public} \hyperlink{class_qxt_web_slot_service}{QxtWebSlotService}
+\{
+Q\_OBJECT
+\textcolor{keyword}{public} slots:
+    \textcolor{keywordtype}{void} \hyperlink{example_8c_a5086e15ab813b256ea192b78c78015e3}{hello}(\hyperlink{class_qxt_web_request_event}{QxtWebRequestEvent}* event, \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{QString} a)
+    \{
+        \hyperlink{class_qxt_abstract_web_service_a5487b2135d56fd87a50c058e4a5317d7}{postEvent}(\textcolor{keyword}{new} \hyperlink{class_qxt_web_page_event}{QxtWebPageEvent}(event->\hyperlink{class_qxt_web_event_a3fdb1d80c46e535c2c79a06269a5d307}{sessionID}, event->
+      \hyperlink{class_qxt_web_request_event_a79e20dd1cbc06f8cf1abe47bf6360277}{requestID}, \textcolor{stringliteral}{"&lth1&gt"}+a.toUtf8()+\textcolor{stringliteral}{"&lt/h1&gt));}
+\textcolor{stringliteral}{    \}}
+\textcolor{stringliteral}{\}}
+\end{DoxyCode}
+
+
+/hello/foo\par
+ will output\par
+ \&lth1\&gt\-Foo\&lt/h1\&gt\par
+
+
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qxt_abstract_web_service}{Qxt\-Abstract\-Web\-Service} 
+\end{DoxySeeAlso}
+
+
+Definition at line 32 of file qxtwebslotservice.\-h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_qxt_web_slot_service_a492de2b211131846f2ba9a47c8569c3a}{\index{Qxt\-Web\-Slot\-Service@{Qxt\-Web\-Slot\-Service}!Qxt\-Web\-Slot\-Service@{Qxt\-Web\-Slot\-Service}}
+\index{Qxt\-Web\-Slot\-Service@{Qxt\-Web\-Slot\-Service}!QxtWebSlotService@{Qxt\-Web\-Slot\-Service}}
+\subsubsection[{Qxt\-Web\-Slot\-Service}]{\setlength{\rightskip}{0pt plus 5cm}Qxt\-Web\-Slot\-Service\-::\-Qxt\-Web\-Slot\-Service (
+\begin{DoxyParamCaption}
+\item[{{\bf Qxt\-Abstract\-Web\-Session\-Manager} $\ast$}]{sm, }
+\item[{Q\-Object $\ast$}]{parent = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [explicit]}}}\label{class_qxt_web_slot_service_a492de2b211131846f2ba9a47c8569c3a}
+Constructs a new \hyperlink{class_qxt_web_slot_service}{Qxt\-Web\-Slot\-Service} with {\itshape sm} and {\itshape parent}. 
+
+Definition at line 63 of file qxtwebslotservice.\-cpp.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_qxt_web_slot_service_a02e641fa3cea8927918cd3fe03e79998}{\index{Qxt\-Web\-Slot\-Service@{Qxt\-Web\-Slot\-Service}!function\-Invoked\-Event@{function\-Invoked\-Event}}
+\index{function\-Invoked\-Event@{function\-Invoked\-Event}!QxtWebSlotService@{Qxt\-Web\-Slot\-Service}}
+\subsubsection[{function\-Invoked\-Event}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qxt\-Web\-Slot\-Service\-::function\-Invoked\-Event (
+\begin{DoxyParamCaption}
+\item[{{\bf Qxt\-Web\-Request\-Event} $\ast$}]{event}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}}\label{class_qxt_web_slot_service_a02e641fa3cea8927918cd3fe03e79998}
+
+
+Definition at line 223 of file qxtwebslotservice.\-cpp.
+
+\hypertarget{class_qxt_web_slot_service_a64ba7126f65a67d2400b1a3cf0b8a765}{\index{Qxt\-Web\-Slot\-Service@{Qxt\-Web\-Slot\-Service}!page\-Requested\-Event@{page\-Requested\-Event}}
+\index{page\-Requested\-Event@{page\-Requested\-Event}!QxtWebSlotService@{Qxt\-Web\-Slot\-Service}}
+\subsubsection[{page\-Requested\-Event}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qxt\-Web\-Slot\-Service\-::page\-Requested\-Event (
+\begin{DoxyParamCaption}
+\item[{{\bf Qxt\-Web\-Request\-Event} $\ast$}]{event}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}}\label{class_qxt_web_slot_service_a64ba7126f65a67d2400b1a3cf0b8a765}
+-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/---find action -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/--- 
+
+Implements \hyperlink{class_qxt_abstract_web_service_aca8a326b48edd775ea52ec9c3dc8daba}{Qxt\-Abstract\-Web\-Service}.
+
+
+
+Definition at line 92 of file qxtwebslotservice.\-cpp.
+
+\hypertarget{class_qxt_web_slot_service_af49031fa6f7d37edc3f5894565ba2acb}{\index{Qxt\-Web\-Slot\-Service@{Qxt\-Web\-Slot\-Service}!self@{self}}
+\index{self@{self}!QxtWebSlotService@{Qxt\-Web\-Slot\-Service}}
+\subsubsection[{self}]{\setlength{\rightskip}{0pt plus 5cm}Q\-Url Qxt\-Web\-Slot\-Service\-::self (
+\begin{DoxyParamCaption}
+\item[{{\bf Qxt\-Web\-Request\-Event} $\ast$}]{event}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_qxt_web_slot_service_af49031fa6f7d37edc3f5894565ba2acb}
+Returns the current absolute url of this service depending on the request {\itshape event}. 
+
+Definition at line 70 of file qxtwebslotservice.\-cpp.
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/libqxt/src/web/\hyperlink{qxtwebslotservice_8h}{qxtwebslotservice.\-h}\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/libqxt/src/web/\hyperlink{qxtwebslotservice_8cpp}{qxtwebslotservice.\-cpp}\end{DoxyCompactItemize}

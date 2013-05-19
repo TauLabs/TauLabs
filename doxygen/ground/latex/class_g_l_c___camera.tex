@@ -1,0 +1,831 @@
+\hypertarget{class_g_l_c___camera}{\section{G\-L\-C\-\_\-\-Camera Class Reference}
+\label{class_g_l_c___camera}\index{G\-L\-C\-\_\-\-Camera@{G\-L\-C\-\_\-\-Camera}}
+}
+
+
+\hyperlink{class_g_l_c___camera}{G\-L\-C\-\_\-\-Camera} \-: Open\-G\-L perpective viewpoint.  
+
+
+
+
+{\ttfamily \#include $<$glc\-\_\-camera.\-h$>$}
+
+Inheritance diagram for G\-L\-C\-\_\-\-Camera\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_g_l_c___camera}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{Indent}{\bf Constructor / Destructor}\par
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_g_l_c___camera_aeb2cd90c0e88d70feded05b07f72afce}{G\-L\-C\-\_\-\-Camera} ()
+\begin{DoxyCompactList}\small\item\em Default constructor. \end{DoxyCompactList}\item 
+\hyperlink{class_g_l_c___camera_a76cd53c70f42b012e83763a012a13f6b}{G\-L\-C\-\_\-\-Camera} (const \hyperlink{glc__vector3d_8h_a4e13a9bbc7ab3d34de7e98b41836772c}{G\-L\-C\-\_\-\-Point3d} \&, const \hyperlink{glc__vector3d_8h_a4e13a9bbc7ab3d34de7e98b41836772c}{G\-L\-C\-\_\-\-Point3d} \&, const \hyperlink{class_g_l_c___vector3d}{G\-L\-C\-\_\-\-Vector3d} \&)
+\begin{DoxyCompactList}\small\item\em Explicit constructor. \end{DoxyCompactList}\item 
+\hyperlink{class_g_l_c___camera_ac70ec8572ddec347fc2f74fe68de81ae}{G\-L\-C\-\_\-\-Camera} (const \hyperlink{class_g_l_c___camera}{G\-L\-C\-\_\-\-Camera} \&)
+\begin{DoxyCompactList}\small\item\em Copy constructor. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\end{Indent}
+\begin{Indent}{\bf Get Functions}\par
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} \hyperlink{class_g_l_c___camera_a425cd6e6095963f1b00a7168f94f81bb}{dist\-Eye\-Target} (\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void}) const 
+\begin{DoxyCompactList}\small\item\em Get the distance between the eye and the target of camera. \end{DoxyCompactList}\item 
+\hyperlink{glc__vector3d_8h_a4e13a9bbc7ab3d34de7e98b41836772c}{G\-L\-C\-\_\-\-Point3d} \hyperlink{class_g_l_c___camera_a5041bd562519848e77c863ee298bc16d}{eye} (\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void}) const 
+\begin{DoxyCompactList}\small\item\em Get camera's eye coordinate point. \end{DoxyCompactList}\item 
+\hyperlink{glc__vector3d_8h_a4e13a9bbc7ab3d34de7e98b41836772c}{G\-L\-C\-\_\-\-Point3d} \hyperlink{class_g_l_c___camera_a25d20f626be27230479931f0c73a5677}{target} (\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void}) const 
+\begin{DoxyCompactList}\small\item\em Get camera's target coordinate point. \end{DoxyCompactList}\item 
+\hyperlink{class_g_l_c___vector3d}{G\-L\-C\-\_\-\-Vector3d} \hyperlink{class_g_l_c___camera_a4f4adbb5b7268d216cf8bed418edb115}{up\-Vector} (\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void}) const 
+\begin{DoxyCompactList}\small\item\em Get camera's Up vector. \end{DoxyCompactList}\item 
+\hyperlink{class_g_l_c___vector3d}{G\-L\-C\-\_\-\-Vector3d} \hyperlink{class_g_l_c___camera_a87b31d1c53c32befaf4a284d7f913238}{forward} (\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void}) const 
+\begin{DoxyCompactList}\small\item\em Get camera's forward vector (from eye to target) \end{DoxyCompactList}\item 
+\hyperlink{class_g_l_c___vector3d}{G\-L\-C\-\_\-\-Vector3d} \hyperlink{class_g_l_c___camera_a0d7177e52087d3f991cde23c9fac8fa5}{side\-Vector} () const 
+\begin{DoxyCompactList}\small\item\em Side camera vector. \end{DoxyCompactList}\item 
+\hyperlink{class_g_l_c___matrix4x4}{G\-L\-C\-\_\-\-Matrix4x4} \hyperlink{class_g_l_c___camera_abc7c3373ebea4741bee55f843dc43201}{view\-Matrix} (\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void}) const 
+\begin{DoxyCompactList}\small\item\em Get camera's orbit composition matrix. \end{DoxyCompactList}\item 
+bool \hyperlink{class_g_l_c___camera_a989ac169619dd479d1193a261dcc2eac}{operator==} (const \hyperlink{class_g_l_c___camera}{G\-L\-C\-\_\-\-Camera} \&) const 
+\begin{DoxyCompactList}\small\item\em equality operator \end{DoxyCompactList}\item 
+bool \hyperlink{class_g_l_c___camera_a9a2efb62c9538aee259baa6aa994f09c}{is\-Almost\-Equal\-To} (const \hyperlink{class_g_l_c___camera}{G\-L\-C\-\_\-\-Camera} \&, const \hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} distance\-Accuracy=0.\-05) const 
+\begin{DoxyCompactList}\small\item\em almost equality (Bauer Laurent) \end{DoxyCompactList}\item 
+\hyperlink{class_g_l_c___vector3d}{G\-L\-C\-\_\-\-Vector3d} \hyperlink{class_g_l_c___camera_ac1afed0de570ce21586e5ad947bae985}{default\-Up\-Vector} () const 
+\begin{DoxyCompactList}\small\item\em Return the default up vector. \end{DoxyCompactList}\item 
+\hyperlink{class_g_l_c___camera}{G\-L\-C\-\_\-\-Camera} \hyperlink{class_g_l_c___camera_aa6388508d09cf09bb03a9a81b9a820a2}{front\-View} () const 
+\begin{DoxyCompactList}\small\item\em Return the standard front view form this camera. \end{DoxyCompactList}\item 
+\hyperlink{class_g_l_c___camera}{G\-L\-C\-\_\-\-Camera} \hyperlink{class_g_l_c___camera_a5172cd61f4fbef9d118eeda588cab1dc}{rear\-View} () const 
+\begin{DoxyCompactList}\small\item\em Return the standard rear view form this camera. \end{DoxyCompactList}\item 
+\hyperlink{class_g_l_c___camera}{G\-L\-C\-\_\-\-Camera} \hyperlink{class_g_l_c___camera_af76efc467c96d2cf2e6ff82026081625}{right\-View} () const 
+\begin{DoxyCompactList}\small\item\em Return the standard right view form this camera. \end{DoxyCompactList}\item 
+\hyperlink{class_g_l_c___camera}{G\-L\-C\-\_\-\-Camera} \hyperlink{class_g_l_c___camera_a506af19871f54a76580b2acd13ac8ae5}{left\-View} () const 
+\begin{DoxyCompactList}\small\item\em Return the standard left view form this camera. \end{DoxyCompactList}\item 
+\hyperlink{class_g_l_c___camera}{G\-L\-C\-\_\-\-Camera} \hyperlink{class_g_l_c___camera_a621bbcef676d05742c67f331ea787398}{top\-View} () const 
+\begin{DoxyCompactList}\small\item\em Return the standard top view form this camera. \end{DoxyCompactList}\item 
+\hyperlink{class_g_l_c___camera}{G\-L\-C\-\_\-\-Camera} \hyperlink{class_g_l_c___camera_a3ff9738f10b21551174c6d1c63796954}{bottom\-View} () const 
+\begin{DoxyCompactList}\small\item\em Return the standard bottom view form this camera. \end{DoxyCompactList}\item 
+\hyperlink{class_g_l_c___camera}{G\-L\-C\-\_\-\-Camera} \hyperlink{class_g_l_c___camera_a975d6edfe2c6a3f6c0c379c0ad5199a4}{iso\-View} () const 
+\begin{DoxyCompactList}\small\item\em Return the standard isoview from his camera. \end{DoxyCompactList}\item 
+\hyperlink{class_g_l_c___matrix4x4}{G\-L\-C\-\_\-\-Matrix4x4} \hyperlink{class_g_l_c___camera_a4e56bb7721f3f1d2b9ffb83fa2a400b7}{model\-View\-Matrix} () const 
+\begin{DoxyCompactList}\small\item\em Return the model view matrix of the camera. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\end{Indent}
+\begin{Indent}{\bf Set Functions}\par
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_g_l_c___camera}{G\-L\-C\-\_\-\-Camera} \& \hyperlink{class_g_l_c___camera_a9a745a22b9d9cc4c0db885b727cd06e7}{orbit} (\hyperlink{class_g_l_c___vector3d}{G\-L\-C\-\_\-\-Vector3d} Vect\-Old\-Poss, \hyperlink{class_g_l_c___vector3d}{G\-L\-C\-\_\-\-Vector3d} Vect\-Cur\-Poss)
+\begin{DoxyCompactList}\small\item\em Camera orbiting. \end{DoxyCompactList}\item 
+\hyperlink{class_g_l_c___camera}{G\-L\-C\-\_\-\-Camera} \& \hyperlink{class_g_l_c___camera_aa353ab78316528cb8dc01084d34306de}{pan} (\hyperlink{class_g_l_c___vector3d}{G\-L\-C\-\_\-\-Vector3d} Vect\-Dep)
+\begin{DoxyCompactList}\small\item\em panoramic movement \end{DoxyCompactList}\item 
+\hyperlink{class_g_l_c___camera}{G\-L\-C\-\_\-\-Camera} \& \hyperlink{class_g_l_c___camera_a59f25aa7fa65e5783e2d13dd8dc2106b}{zoom} (\hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} factor)
+\begin{DoxyCompactList}\small\item\em move camera's eye along camera vector (eye -\/$>$ target) \end{DoxyCompactList}\item 
+\hyperlink{class_g_l_c___camera}{G\-L\-C\-\_\-\-Camera} \& \hyperlink{class_g_l_c___camera_ab9db83af7f303c6504841fac78d9be6e}{move} (const \hyperlink{class_g_l_c___matrix4x4}{G\-L\-C\-\_\-\-Matrix4x4} \&Mat\-Move)
+\begin{DoxyCompactList}\small\item\em Move camera. \end{DoxyCompactList}\item 
+\hyperlink{class_g_l_c___camera}{G\-L\-C\-\_\-\-Camera} \& \hyperlink{class_g_l_c___camera_abd344faeea868ebc48f93be3196d2665}{rotate\-Around} (const \hyperlink{class_g_l_c___vector3d}{G\-L\-C\-\_\-\-Vector3d} \&, const \hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} \&, const \hyperlink{glc__vector3d_8h_a4e13a9bbc7ab3d34de7e98b41836772c}{G\-L\-C\-\_\-\-Point3d} \&)
+\begin{DoxyCompactList}\small\item\em Rotate around an axis. \end{DoxyCompactList}\item 
+\hyperlink{class_g_l_c___camera}{G\-L\-C\-\_\-\-Camera} \& \hyperlink{class_g_l_c___camera_ae54d2166b2f3f93b7602c02c35b4e330}{rotate\-Around\-Target} (const \hyperlink{class_g_l_c___vector3d}{G\-L\-C\-\_\-\-Vector3d} \&, const \hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} \&)
+\begin{DoxyCompactList}\small\item\em Rotate around camera target. \end{DoxyCompactList}\item 
+\hyperlink{class_g_l_c___camera}{G\-L\-C\-\_\-\-Camera} \& \hyperlink{class_g_l_c___camera_a60a03405d0161a2aa215f9d4ec16c494}{translate} (const \hyperlink{class_g_l_c___vector3d}{G\-L\-C\-\_\-\-Vector3d} \&Vect\-Trans)
+\begin{DoxyCompactList}\small\item\em Camera translation. \end{DoxyCompactList}\item 
+\hyperlink{class_g_l_c___camera}{G\-L\-C\-\_\-\-Camera} \& \hyperlink{class_g_l_c___camera_a1c236df9bad696f60176323387096a34}{set\-Cam} (\hyperlink{glc__vector3d_8h_a4e13a9bbc7ab3d34de7e98b41836772c}{G\-L\-C\-\_\-\-Point3d} Eye, \hyperlink{glc__vector3d_8h_a4e13a9bbc7ab3d34de7e98b41836772c}{G\-L\-C\-\_\-\-Point3d} Target, \hyperlink{class_g_l_c___vector3d}{G\-L\-C\-\_\-\-Vector3d} Up)
+\begin{DoxyCompactList}\small\item\em Set the camera. \end{DoxyCompactList}\item 
+\hyperlink{class_g_l_c___camera}{G\-L\-C\-\_\-\-Camera} \& \hyperlink{class_g_l_c___camera_a342137b6daecbfb8ead3c13e60f6b77e}{set\-Cam} (const \hyperlink{class_g_l_c___camera}{G\-L\-C\-\_\-\-Camera} \&)
+\begin{DoxyCompactList}\small\item\em Set the camera by copying another camera. \end{DoxyCompactList}\item 
+\hyperlink{class_g_l_c___camera}{G\-L\-C\-\_\-\-Camera} \& \hyperlink{class_g_l_c___camera_afd162e5bf922f3e05b292aa8870e3b02}{set\-Eye\-Cam} (const \hyperlink{glc__vector3d_8h_a4e13a9bbc7ab3d34de7e98b41836772c}{G\-L\-C\-\_\-\-Point3d} \&Eye)
+\begin{DoxyCompactList}\small\item\em Set camera's eye coordinate vector. \end{DoxyCompactList}\item 
+\hyperlink{class_g_l_c___camera}{G\-L\-C\-\_\-\-Camera} \& \hyperlink{class_g_l_c___camera_a29b69303e8e73800f8fbbac75ab71816}{set\-Target\-Cam} (const \hyperlink{glc__vector3d_8h_a4e13a9bbc7ab3d34de7e98b41836772c}{G\-L\-C\-\_\-\-Point3d} \&Target)
+\begin{DoxyCompactList}\small\item\em Set camera's target coordinate vector. \end{DoxyCompactList}\item 
+\hyperlink{class_g_l_c___camera}{G\-L\-C\-\_\-\-Camera} \& \hyperlink{class_g_l_c___camera_a5540fd0c002a2137a2ff0442cd3c9f11}{set\-Up\-Cam} (const \hyperlink{class_g_l_c___vector3d}{G\-L\-C\-\_\-\-Vector3d} \&Up)
+\begin{DoxyCompactList}\small\item\em Set camera's Up vector. \end{DoxyCompactList}\item 
+\hyperlink{class_g_l_c___camera}{G\-L\-C\-\_\-\-Camera} \& \hyperlink{class_g_l_c___camera_a07627bff5a1d0b0ca766098e10154cdf}{set\-Dist\-Eye\-Target} (\hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} Longueur)
+\begin{DoxyCompactList}\small\item\em Set the distance between eye and target (move eye) \end{DoxyCompactList}\item 
+\hyperlink{class_g_l_c___camera}{G\-L\-C\-\_\-\-Camera} \& \hyperlink{class_g_l_c___camera_a7a32e067b9c661c513792914906531b1}{set\-Dist\-Target\-Eye} (\hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} Longueur)
+\begin{DoxyCompactList}\small\item\em Set the distance between target and eye (move target) \end{DoxyCompactList}\item 
+\hyperlink{class_g_l_c___camera}{G\-L\-C\-\_\-\-Camera} \& \hyperlink{class_g_l_c___camera_acfab21ce3d4f23a00b3b07e62e44c7d4}{operator=} (const \hyperlink{class_g_l_c___camera}{G\-L\-C\-\_\-\-Camera} \&)
+\begin{DoxyCompactList}\small\item\em Assignement operator. \end{DoxyCompactList}\item 
+\hyperlink{class_g_l_c___camera}{G\-L\-C\-\_\-\-Camera} \& \hyperlink{class_g_l_c___camera_a5a2cfbbb9a41751d13e1af62b257db63}{set\-Default\-Up\-Vector} (const \hyperlink{class_g_l_c___vector3d}{G\-L\-C\-\_\-\-Vector3d} \&up)
+\begin{DoxyCompactList}\small\item\em Set the default Up vector. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c___camera_a8af278479f6aba3e9f93cbc98e91b9bb}{set\-Front\-View} ()
+\begin{DoxyCompactList}\small\item\em Set the standard front view form this camera. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c___camera_a858e489b2260f05092a436bfecc98ee4}{set\-Rear\-View} ()
+\begin{DoxyCompactList}\small\item\em Set the standard rear view form this camera. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c___camera_a7d5fb7bdbb744822843d37e16d39460d}{set\-Right\-View} ()
+\begin{DoxyCompactList}\small\item\em Set the standard right view form this camera. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c___camera_a3c4a23ac7defce1b5902797dbd4a9408}{set\-Left\-View} ()
+\begin{DoxyCompactList}\small\item\em Set the standard left view form this camera. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c___camera_a4e60e55cb3720381d4e2f66befe49b3c}{set\-Top\-View} ()
+\begin{DoxyCompactList}\small\item\em Set the standard top view form this camera. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c___camera_ada9c9d157ffbcda0175f4be319821119}{set\-Bottom\-View} ()
+\begin{DoxyCompactList}\small\item\em Set the standard bottom view form this camera. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c___camera_a5d1f688e1782b6b0e7dc54e1438d3f7b}{set\-Iso\-View} ()
+\begin{DoxyCompactList}\small\item\em Set the standard isoview from his camera. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\end{Indent}
+\begin{Indent}{\bf Open\-G\-L Functions}\par
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c___camera_a5f294df986bdd4da5d05c17f5af7b8e8}{gl\-Execute} ()
+\begin{DoxyCompactList}\small\item\em Execute Open\-G\-L Camera. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\end{Indent}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Detailed Description}
+\hyperlink{class_g_l_c___camera}{G\-L\-C\-\_\-\-Camera} \-: Open\-G\-L perpective viewpoint. 
+
+An \hyperlink{class_g_l_c___camera}{G\-L\-C\-\_\-\-Camera} define Viewpoint and orientation of an Open\-G\-L perpective camera 
+
+Definition at line 43 of file glc\-\_\-camera.\-h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_g_l_c___camera_aeb2cd90c0e88d70feded05b07f72afce}{\index{G\-L\-C\-\_\-\-Camera@{G\-L\-C\-\_\-\-Camera}!G\-L\-C\-\_\-\-Camera@{G\-L\-C\-\_\-\-Camera}}
+\index{G\-L\-C\-\_\-\-Camera@{G\-L\-C\-\_\-\-Camera}!GLC_Camera@{G\-L\-C\-\_\-\-Camera}}
+\subsubsection[{G\-L\-C\-\_\-\-Camera}]{\setlength{\rightskip}{0pt plus 5cm}G\-L\-C\-\_\-\-Camera\-::\-G\-L\-C\-\_\-\-Camera (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___camera_aeb2cd90c0e88d70feded05b07f72afce}
+
+
+Default constructor. 
+
+Point of view (0, 0, 1) Up Vector (0, 1, 0) 
+
+Definition at line 35 of file glc\-\_\-camera.\-cpp.
+
+\hypertarget{class_g_l_c___camera_a76cd53c70f42b012e83763a012a13f6b}{\index{G\-L\-C\-\_\-\-Camera@{G\-L\-C\-\_\-\-Camera}!G\-L\-C\-\_\-\-Camera@{G\-L\-C\-\_\-\-Camera}}
+\index{G\-L\-C\-\_\-\-Camera@{G\-L\-C\-\_\-\-Camera}!GLC_Camera@{G\-L\-C\-\_\-\-Camera}}
+\subsubsection[{G\-L\-C\-\_\-\-Camera}]{\setlength{\rightskip}{0pt plus 5cm}G\-L\-C\-\_\-\-Camera\-::\-G\-L\-C\-\_\-\-Camera (
+\begin{DoxyParamCaption}
+\item[{const {\bf G\-L\-C\-\_\-\-Point3d} \&}]{Eye, }
+\item[{const {\bf G\-L\-C\-\_\-\-Point3d} \&}]{Target, }
+\item[{const {\bf G\-L\-C\-\_\-\-Vector3d} \&}]{Up}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___camera_a76cd53c70f42b012e83763a012a13f6b}
+
+
+Explicit constructor. 
+
+
+
+Definition at line 46 of file glc\-\_\-camera.\-cpp.
+
+\hypertarget{class_g_l_c___camera_ac70ec8572ddec347fc2f74fe68de81ae}{\index{G\-L\-C\-\_\-\-Camera@{G\-L\-C\-\_\-\-Camera}!G\-L\-C\-\_\-\-Camera@{G\-L\-C\-\_\-\-Camera}}
+\index{G\-L\-C\-\_\-\-Camera@{G\-L\-C\-\_\-\-Camera}!GLC_Camera@{G\-L\-C\-\_\-\-Camera}}
+\subsubsection[{G\-L\-C\-\_\-\-Camera}]{\setlength{\rightskip}{0pt plus 5cm}G\-L\-C\-\_\-\-Camera\-::\-G\-L\-C\-\_\-\-Camera (
+\begin{DoxyParamCaption}
+\item[{const {\bf G\-L\-C\-\_\-\-Camera} \&}]{cam}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___camera_ac70ec8572ddec347fc2f74fe68de81ae}
+
+
+Copy constructor. 
+
+
+
+Definition at line 59 of file glc\-\_\-camera.\-cpp.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_g_l_c___camera_a3ff9738f10b21551174c6d1c63796954}{\index{G\-L\-C\-\_\-\-Camera@{G\-L\-C\-\_\-\-Camera}!bottom\-View@{bottom\-View}}
+\index{bottom\-View@{bottom\-View}!GLC_Camera@{G\-L\-C\-\_\-\-Camera}}
+\subsubsection[{bottom\-View}]{\setlength{\rightskip}{0pt plus 5cm}{\bf G\-L\-C\-\_\-\-Camera} G\-L\-C\-\_\-\-Camera\-::bottom\-View (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_g_l_c___camera_a3ff9738f10b21551174c6d1c63796954}
+
+
+Return the standard bottom view form this camera. 
+
+
+
+Definition at line 397 of file glc\-\_\-camera.\-cpp.
+
+\hypertarget{class_g_l_c___camera_ac1afed0de570ce21586e5ad947bae985}{\index{G\-L\-C\-\_\-\-Camera@{G\-L\-C\-\_\-\-Camera}!default\-Up\-Vector@{default\-Up\-Vector}}
+\index{default\-Up\-Vector@{default\-Up\-Vector}!GLC_Camera@{G\-L\-C\-\_\-\-Camera}}
+\subsubsection[{default\-Up\-Vector}]{\setlength{\rightskip}{0pt plus 5cm}{\bf G\-L\-C\-\_\-\-Vector3d} G\-L\-C\-\_\-\-Camera\-::default\-Up\-Vector (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___camera_ac1afed0de570ce21586e5ad947bae985}
+
+
+Return the default up vector. 
+
+
+
+Definition at line 105 of file glc\-\_\-camera.\-h.
+
+\hypertarget{class_g_l_c___camera_a425cd6e6095963f1b00a7168f94f81bb}{\index{G\-L\-C\-\_\-\-Camera@{G\-L\-C\-\_\-\-Camera}!dist\-Eye\-Target@{dist\-Eye\-Target}}
+\index{dist\-Eye\-Target@{dist\-Eye\-Target}!GLC_Camera@{G\-L\-C\-\_\-\-Camera}}
+\subsubsection[{dist\-Eye\-Target}]{\setlength{\rightskip}{0pt plus 5cm}{\bf double} G\-L\-C\-\_\-\-Camera\-::dist\-Eye\-Target (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___camera_a425cd6e6095963f1b00a7168f94f81bb}
+
+
+Get the distance between the eye and the target of camera. 
+
+
+
+Definition at line 71 of file glc\-\_\-camera.\-h.
+
+\hypertarget{class_g_l_c___camera_a5041bd562519848e77c863ee298bc16d}{\index{G\-L\-C\-\_\-\-Camera@{G\-L\-C\-\_\-\-Camera}!eye@{eye}}
+\index{eye@{eye}!GLC_Camera@{G\-L\-C\-\_\-\-Camera}}
+\subsubsection[{eye}]{\setlength{\rightskip}{0pt plus 5cm}{\bf G\-L\-C\-\_\-\-Point3d} G\-L\-C\-\_\-\-Camera\-::eye (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___camera_a5041bd562519848e77c863ee298bc16d}
+
+
+Get camera's eye coordinate point. 
+
+
+
+Definition at line 75 of file glc\-\_\-camera.\-h.
+
+\hypertarget{class_g_l_c___camera_a87b31d1c53c32befaf4a284d7f913238}{\index{G\-L\-C\-\_\-\-Camera@{G\-L\-C\-\_\-\-Camera}!forward@{forward}}
+\index{forward@{forward}!GLC_Camera@{G\-L\-C\-\_\-\-Camera}}
+\subsubsection[{forward}]{\setlength{\rightskip}{0pt plus 5cm}{\bf G\-L\-C\-\_\-\-Vector3d} G\-L\-C\-\_\-\-Camera\-::forward (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___camera_a87b31d1c53c32befaf4a284d7f913238}
+
+
+Get camera's forward vector (from eye to target) 
+
+
+
+Definition at line 87 of file glc\-\_\-camera.\-h.
+
+\hypertarget{class_g_l_c___camera_aa6388508d09cf09bb03a9a81b9a820a2}{\index{G\-L\-C\-\_\-\-Camera@{G\-L\-C\-\_\-\-Camera}!front\-View@{front\-View}}
+\index{front\-View@{front\-View}!GLC_Camera@{G\-L\-C\-\_\-\-Camera}}
+\subsubsection[{front\-View}]{\setlength{\rightskip}{0pt plus 5cm}{\bf G\-L\-C\-\_\-\-Camera} G\-L\-C\-\_\-\-Camera\-::front\-View (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_g_l_c___camera_aa6388508d09cf09bb03a9a81b9a820a2}
+
+
+Return the standard front view form this camera. 
+
+
+
+Definition at line 336 of file glc\-\_\-camera.\-cpp.
+
+\hypertarget{class_g_l_c___camera_a5f294df986bdd4da5d05c17f5af7b8e8}{\index{G\-L\-C\-\_\-\-Camera@{G\-L\-C\-\_\-\-Camera}!gl\-Execute@{gl\-Execute}}
+\index{gl\-Execute@{gl\-Execute}!GLC_Camera@{G\-L\-C\-\_\-\-Camera}}
+\subsubsection[{gl\-Execute}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-\-Camera\-::gl\-Execute (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___camera_a5f294df986bdd4da5d05c17f5af7b8e8}
+
+
+Execute Open\-G\-L Camera. 
+
+
+
+Definition at line 433 of file glc\-\_\-camera.\-cpp.
+
+\hypertarget{class_g_l_c___camera_a9a2efb62c9538aee259baa6aa994f09c}{\index{G\-L\-C\-\_\-\-Camera@{G\-L\-C\-\_\-\-Camera}!is\-Almost\-Equal\-To@{is\-Almost\-Equal\-To}}
+\index{is\-Almost\-Equal\-To@{is\-Almost\-Equal\-To}!GLC_Camera@{G\-L\-C\-\_\-\-Camera}}
+\subsubsection[{is\-Almost\-Equal\-To}]{\setlength{\rightskip}{0pt plus 5cm}bool G\-L\-C\-\_\-\-Camera\-::is\-Almost\-Equal\-To (
+\begin{DoxyParamCaption}
+\item[{const {\bf G\-L\-C\-\_\-\-Camera} \&}]{cam, }
+\item[{const {\bf double}}]{distance\-Accuracy = {\ttfamily 0.05}}
+\end{DoxyParamCaption}
+) const}}\label{class_g_l_c___camera_a9a2efb62c9538aee259baa6aa994f09c}
+
+
+almost equality (Bauer Laurent) 
+
+
+
+Definition at line 322 of file glc\-\_\-camera.\-cpp.
+
+\hypertarget{class_g_l_c___camera_a975d6edfe2c6a3f6c0c379c0ad5199a4}{\index{G\-L\-C\-\_\-\-Camera@{G\-L\-C\-\_\-\-Camera}!iso\-View@{iso\-View}}
+\index{iso\-View@{iso\-View}!GLC_Camera@{G\-L\-C\-\_\-\-Camera}}
+\subsubsection[{iso\-View}]{\setlength{\rightskip}{0pt plus 5cm}{\bf G\-L\-C\-\_\-\-Camera} G\-L\-C\-\_\-\-Camera\-::iso\-View (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_g_l_c___camera_a975d6edfe2c6a3f6c0c379c0ad5199a4}
+
+
+Return the standard isoview from his camera. 
+
+Iso View is at the front top left 
+
+Definition at line 406 of file glc\-\_\-camera.\-cpp.
+
+\hypertarget{class_g_l_c___camera_a506af19871f54a76580b2acd13ac8ae5}{\index{G\-L\-C\-\_\-\-Camera@{G\-L\-C\-\_\-\-Camera}!left\-View@{left\-View}}
+\index{left\-View@{left\-View}!GLC_Camera@{G\-L\-C\-\_\-\-Camera}}
+\subsubsection[{left\-View}]{\setlength{\rightskip}{0pt plus 5cm}{\bf G\-L\-C\-\_\-\-Camera} G\-L\-C\-\_\-\-Camera\-::left\-View (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_g_l_c___camera_a506af19871f54a76580b2acd13ac8ae5}
+
+
+Return the standard left view form this camera. 
+
+
+
+Definition at line 368 of file glc\-\_\-camera.\-cpp.
+
+\hypertarget{class_g_l_c___camera_a4e56bb7721f3f1d2b9ffb83fa2a400b7}{\index{G\-L\-C\-\_\-\-Camera@{G\-L\-C\-\_\-\-Camera}!model\-View\-Matrix@{model\-View\-Matrix}}
+\index{model\-View\-Matrix@{model\-View\-Matrix}!GLC_Camera@{G\-L\-C\-\_\-\-Camera}}
+\subsubsection[{model\-View\-Matrix}]{\setlength{\rightskip}{0pt plus 5cm}{\bf G\-L\-C\-\_\-\-Matrix4x4} G\-L\-C\-\_\-\-Camera\-::model\-View\-Matrix (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___camera_a4e56bb7721f3f1d2b9ffb83fa2a400b7}
+
+
+Return the model view matrix of the camera. 
+
+
+
+Definition at line 131 of file glc\-\_\-camera.\-h.
+
+\hypertarget{class_g_l_c___camera_ab9db83af7f303c6504841fac78d9be6e}{\index{G\-L\-C\-\_\-\-Camera@{G\-L\-C\-\_\-\-Camera}!move@{move}}
+\index{move@{move}!GLC_Camera@{G\-L\-C\-\_\-\-Camera}}
+\subsubsection[{move}]{\setlength{\rightskip}{0pt plus 5cm}{\bf G\-L\-C\-\_\-\-Camera} \& G\-L\-C\-\_\-\-Camera\-::move (
+\begin{DoxyParamCaption}
+\item[{const {\bf G\-L\-C\-\_\-\-Matrix4x4} \&}]{Mat\-Move}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___camera_ab9db83af7f303c6504841fac78d9be6e}
+
+
+Move camera. 
+
+
+
+Definition at line 140 of file glc\-\_\-camera.\-cpp.
+
+\hypertarget{class_g_l_c___camera_acfab21ce3d4f23a00b3b07e62e44c7d4}{\index{G\-L\-C\-\_\-\-Camera@{G\-L\-C\-\_\-\-Camera}!operator=@{operator=}}
+\index{operator=@{operator=}!GLC_Camera@{G\-L\-C\-\_\-\-Camera}}
+\subsubsection[{operator=}]{\setlength{\rightskip}{0pt plus 5cm}{\bf G\-L\-C\-\_\-\-Camera} \& G\-L\-C\-\_\-\-Camera\-::operator= (
+\begin{DoxyParamCaption}
+\item[{const {\bf G\-L\-C\-\_\-\-Camera} \&}]{cam}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___camera_acfab21ce3d4f23a00b3b07e62e44c7d4}
+
+
+Assignement operator. 
+
+
+
+Definition at line 310 of file glc\-\_\-camera.\-cpp.
+
+\hypertarget{class_g_l_c___camera_a989ac169619dd479d1193a261dcc2eac}{\index{G\-L\-C\-\_\-\-Camera@{G\-L\-C\-\_\-\-Camera}!operator==@{operator==}}
+\index{operator==@{operator==}!GLC_Camera@{G\-L\-C\-\_\-\-Camera}}
+\subsubsection[{operator==}]{\setlength{\rightskip}{0pt plus 5cm}bool G\-L\-C\-\_\-\-Camera\-::operator== (
+\begin{DoxyParamCaption}
+\item[{const {\bf G\-L\-C\-\_\-\-Camera} \&}]{cam}
+\end{DoxyParamCaption}
+) const}}\label{class_g_l_c___camera_a989ac169619dd479d1193a261dcc2eac}
+
+
+equality operator 
+
+
+
+Definition at line 75 of file glc\-\_\-camera.\-cpp.
+
+\hypertarget{class_g_l_c___camera_a9a745a22b9d9cc4c0db885b727cd06e7}{\index{G\-L\-C\-\_\-\-Camera@{G\-L\-C\-\_\-\-Camera}!orbit@{orbit}}
+\index{orbit@{orbit}!GLC_Camera@{G\-L\-C\-\_\-\-Camera}}
+\subsubsection[{orbit}]{\setlength{\rightskip}{0pt plus 5cm}{\bf G\-L\-C\-\_\-\-Camera} \& G\-L\-C\-\_\-\-Camera\-::orbit (
+\begin{DoxyParamCaption}
+\item[{{\bf G\-L\-C\-\_\-\-Vector3d}}]{Vect\-Old\-Poss, }
+\item[{{\bf G\-L\-C\-\_\-\-Vector3d}}]{Vect\-Cur\-Poss}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___camera_a9a745a22b9d9cc4c0db885b727cd06e7}
+
+
+Camera orbiting. 
+
+
+
+Definition at line 85 of file glc\-\_\-camera.\-cpp.
+
+\hypertarget{class_g_l_c___camera_aa353ab78316528cb8dc01084d34306de}{\index{G\-L\-C\-\_\-\-Camera@{G\-L\-C\-\_\-\-Camera}!pan@{pan}}
+\index{pan@{pan}!GLC_Camera@{G\-L\-C\-\_\-\-Camera}}
+\subsubsection[{pan}]{\setlength{\rightskip}{0pt plus 5cm}{\bf G\-L\-C\-\_\-\-Camera} \& G\-L\-C\-\_\-\-Camera\-::pan (
+\begin{DoxyParamCaption}
+\item[{{\bf G\-L\-C\-\_\-\-Vector3d}}]{Vect\-Dep}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___camera_aa353ab78316528cb8dc01084d34306de}
+
+
+panoramic movement 
+
+
+
+Definition at line 110 of file glc\-\_\-camera.\-cpp.
+
+\hypertarget{class_g_l_c___camera_a5172cd61f4fbef9d118eeda588cab1dc}{\index{G\-L\-C\-\_\-\-Camera@{G\-L\-C\-\_\-\-Camera}!rear\-View@{rear\-View}}
+\index{rear\-View@{rear\-View}!GLC_Camera@{G\-L\-C\-\_\-\-Camera}}
+\subsubsection[{rear\-View}]{\setlength{\rightskip}{0pt plus 5cm}{\bf G\-L\-C\-\_\-\-Camera} G\-L\-C\-\_\-\-Camera\-::rear\-View (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_g_l_c___camera_a5172cd61f4fbef9d118eeda588cab1dc}
+
+
+Return the standard rear view form this camera. 
+
+
+
+Definition at line 357 of file glc\-\_\-camera.\-cpp.
+
+\hypertarget{class_g_l_c___camera_af76efc467c96d2cf2e6ff82026081625}{\index{G\-L\-C\-\_\-\-Camera@{G\-L\-C\-\_\-\-Camera}!right\-View@{right\-View}}
+\index{right\-View@{right\-View}!GLC_Camera@{G\-L\-C\-\_\-\-Camera}}
+\subsubsection[{right\-View}]{\setlength{\rightskip}{0pt plus 5cm}{\bf G\-L\-C\-\_\-\-Camera} G\-L\-C\-\_\-\-Camera\-::right\-View (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_g_l_c___camera_af76efc467c96d2cf2e6ff82026081625}
+
+
+Return the standard right view form this camera. 
+
+
+
+Definition at line 363 of file glc\-\_\-camera.\-cpp.
+
+\hypertarget{class_g_l_c___camera_abd344faeea868ebc48f93be3196d2665}{\index{G\-L\-C\-\_\-\-Camera@{G\-L\-C\-\_\-\-Camera}!rotate\-Around@{rotate\-Around}}
+\index{rotate\-Around@{rotate\-Around}!GLC_Camera@{G\-L\-C\-\_\-\-Camera}}
+\subsubsection[{rotate\-Around}]{\setlength{\rightskip}{0pt plus 5cm}{\bf G\-L\-C\-\_\-\-Camera} \& G\-L\-C\-\_\-\-Camera\-::rotate\-Around (
+\begin{DoxyParamCaption}
+\item[{const {\bf G\-L\-C\-\_\-\-Vector3d} \&}]{axis, }
+\item[{const {\bf double} \&}]{angle, }
+\item[{const {\bf G\-L\-C\-\_\-\-Point3d} \&}]{point}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___camera_abd344faeea868ebc48f93be3196d2665}
+
+
+Rotate around an axis. 
+
+
+
+Definition at line 151 of file glc\-\_\-camera.\-cpp.
+
+\hypertarget{class_g_l_c___camera_ae54d2166b2f3f93b7602c02c35b4e330}{\index{G\-L\-C\-\_\-\-Camera@{G\-L\-C\-\_\-\-Camera}!rotate\-Around\-Target@{rotate\-Around\-Target}}
+\index{rotate\-Around\-Target@{rotate\-Around\-Target}!GLC_Camera@{G\-L\-C\-\_\-\-Camera}}
+\subsubsection[{rotate\-Around\-Target}]{\setlength{\rightskip}{0pt plus 5cm}{\bf G\-L\-C\-\_\-\-Camera} \& G\-L\-C\-\_\-\-Camera\-::rotate\-Around\-Target (
+\begin{DoxyParamCaption}
+\item[{const {\bf G\-L\-C\-\_\-\-Vector3d} \&}]{axis, }
+\item[{const {\bf double} \&}]{angle}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___camera_ae54d2166b2f3f93b7602c02c35b4e330}
+
+
+Rotate around camera target. 
+
+
+
+Definition at line 162 of file glc\-\_\-camera.\-cpp.
+
+\hypertarget{class_g_l_c___camera_ada9c9d157ffbcda0175f4be319821119}{\index{G\-L\-C\-\_\-\-Camera@{G\-L\-C\-\_\-\-Camera}!set\-Bottom\-View@{set\-Bottom\-View}}
+\index{set\-Bottom\-View@{set\-Bottom\-View}!GLC_Camera@{G\-L\-C\-\_\-\-Camera}}
+\subsubsection[{set\-Bottom\-View}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-\-Camera\-::set\-Bottom\-View (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___camera_ada9c9d157ffbcda0175f4be319821119}
+
+
+Set the standard bottom view form this camera. 
+
+
+
+Definition at line 224 of file glc\-\_\-camera.\-h.
+
+\hypertarget{class_g_l_c___camera_a1c236df9bad696f60176323387096a34}{\index{G\-L\-C\-\_\-\-Camera@{G\-L\-C\-\_\-\-Camera}!set\-Cam@{set\-Cam}}
+\index{set\-Cam@{set\-Cam}!GLC_Camera@{G\-L\-C\-\_\-\-Camera}}
+\subsubsection[{set\-Cam}]{\setlength{\rightskip}{0pt plus 5cm}{\bf G\-L\-C\-\_\-\-Camera} \& G\-L\-C\-\_\-\-Camera\-::set\-Cam (
+\begin{DoxyParamCaption}
+\item[{{\bf G\-L\-C\-\_\-\-Point3d}}]{Eye, }
+\item[{{\bf G\-L\-C\-\_\-\-Point3d}}]{Target, }
+\item[{{\bf G\-L\-C\-\_\-\-Vector3d}}]{Up}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___camera_a1c236df9bad696f60176323387096a34}
+
+
+Set the camera. 
+
+
+
+Definition at line 253 of file glc\-\_\-camera.\-cpp.
+
+\hypertarget{class_g_l_c___camera_a342137b6daecbfb8ead3c13e60f6b77e}{\index{G\-L\-C\-\_\-\-Camera@{G\-L\-C\-\_\-\-Camera}!set\-Cam@{set\-Cam}}
+\index{set\-Cam@{set\-Cam}!GLC_Camera@{G\-L\-C\-\_\-\-Camera}}
+\subsubsection[{set\-Cam}]{\setlength{\rightskip}{0pt plus 5cm}{\bf G\-L\-C\-\_\-\-Camera} \& G\-L\-C\-\_\-\-Camera\-::set\-Cam (
+\begin{DoxyParamCaption}
+\item[{const {\bf G\-L\-C\-\_\-\-Camera} \&}]{cam}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___camera_a342137b6daecbfb8ead3c13e60f6b77e}
+
+
+Set the camera by copying another camera. 
+
+
+
+Definition at line 281 of file glc\-\_\-camera.\-cpp.
+
+\hypertarget{class_g_l_c___camera_a5a2cfbbb9a41751d13e1af62b257db63}{\index{G\-L\-C\-\_\-\-Camera@{G\-L\-C\-\_\-\-Camera}!set\-Default\-Up\-Vector@{set\-Default\-Up\-Vector}}
+\index{set\-Default\-Up\-Vector@{set\-Default\-Up\-Vector}!GLC_Camera@{G\-L\-C\-\_\-\-Camera}}
+\subsubsection[{set\-Default\-Up\-Vector}]{\setlength{\rightskip}{0pt plus 5cm}{\bf G\-L\-C\-\_\-\-Camera}\& G\-L\-C\-\_\-\-Camera\-::set\-Default\-Up\-Vector (
+\begin{DoxyParamCaption}
+\item[{const {\bf G\-L\-C\-\_\-\-Vector3d} \&}]{up}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___camera_a5a2cfbbb9a41751d13e1af62b257db63}
+
+
+Set the default Up vector. 
+
+Must Be X, Y or Z Axis 
+
+Definition at line 196 of file glc\-\_\-camera.\-h.
+
+\hypertarget{class_g_l_c___camera_a07627bff5a1d0b0ca766098e10154cdf}{\index{G\-L\-C\-\_\-\-Camera@{G\-L\-C\-\_\-\-Camera}!set\-Dist\-Eye\-Target@{set\-Dist\-Eye\-Target}}
+\index{set\-Dist\-Eye\-Target@{set\-Dist\-Eye\-Target}!GLC_Camera@{G\-L\-C\-\_\-\-Camera}}
+\subsubsection[{set\-Dist\-Eye\-Target}]{\setlength{\rightskip}{0pt plus 5cm}{\bf G\-L\-C\-\_\-\-Camera} \& G\-L\-C\-\_\-\-Camera\-::set\-Dist\-Eye\-Target (
+\begin{DoxyParamCaption}
+\item[{{\bf double}}]{Longueur}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___camera_a07627bff5a1d0b0ca766098e10154cdf}
+
+
+Set the distance between eye and target (move eye) 
+
+
+
+Definition at line 292 of file glc\-\_\-camera.\-cpp.
+
+\hypertarget{class_g_l_c___camera_a7a32e067b9c661c513792914906531b1}{\index{G\-L\-C\-\_\-\-Camera@{G\-L\-C\-\_\-\-Camera}!set\-Dist\-Target\-Eye@{set\-Dist\-Target\-Eye}}
+\index{set\-Dist\-Target\-Eye@{set\-Dist\-Target\-Eye}!GLC_Camera@{G\-L\-C\-\_\-\-Camera}}
+\subsubsection[{set\-Dist\-Target\-Eye}]{\setlength{\rightskip}{0pt plus 5cm}{\bf G\-L\-C\-\_\-\-Camera} \& G\-L\-C\-\_\-\-Camera\-::set\-Dist\-Target\-Eye (
+\begin{DoxyParamCaption}
+\item[{{\bf double}}]{Longueur}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___camera_a7a32e067b9c661c513792914906531b1}
+
+
+Set the distance between target and eye (move target) 
+
+
+
+Definition at line 300 of file glc\-\_\-camera.\-cpp.
+
+\hypertarget{class_g_l_c___camera_afd162e5bf922f3e05b292aa8870e3b02}{\index{G\-L\-C\-\_\-\-Camera@{G\-L\-C\-\_\-\-Camera}!set\-Eye\-Cam@{set\-Eye\-Cam}}
+\index{set\-Eye\-Cam@{set\-Eye\-Cam}!GLC_Camera@{G\-L\-C\-\_\-\-Camera}}
+\subsubsection[{set\-Eye\-Cam}]{\setlength{\rightskip}{0pt plus 5cm}{\bf G\-L\-C\-\_\-\-Camera} \& G\-L\-C\-\_\-\-Camera\-::set\-Eye\-Cam (
+\begin{DoxyParamCaption}
+\item[{const {\bf G\-L\-C\-\_\-\-Point3d} \&}]{Eye}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___camera_afd162e5bf922f3e05b292aa8870e3b02}
+
+
+Set camera's eye coordinate vector. 
+
+
+
+Definition at line 178 of file glc\-\_\-camera.\-cpp.
+
+\hypertarget{class_g_l_c___camera_a8af278479f6aba3e9f93cbc98e91b9bb}{\index{G\-L\-C\-\_\-\-Camera@{G\-L\-C\-\_\-\-Camera}!set\-Front\-View@{set\-Front\-View}}
+\index{set\-Front\-View@{set\-Front\-View}!GLC_Camera@{G\-L\-C\-\_\-\-Camera}}
+\subsubsection[{set\-Front\-View}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-\-Camera\-::set\-Front\-View (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___camera_a8af278479f6aba3e9f93cbc98e91b9bb}
+
+
+Set the standard front view form this camera. 
+
+
+
+Definition at line 204 of file glc\-\_\-camera.\-h.
+
+\hypertarget{class_g_l_c___camera_a5d1f688e1782b6b0e7dc54e1438d3f7b}{\index{G\-L\-C\-\_\-\-Camera@{G\-L\-C\-\_\-\-Camera}!set\-Iso\-View@{set\-Iso\-View}}
+\index{set\-Iso\-View@{set\-Iso\-View}!GLC_Camera@{G\-L\-C\-\_\-\-Camera}}
+\subsubsection[{set\-Iso\-View}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-\-Camera\-::set\-Iso\-View (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___camera_a5d1f688e1782b6b0e7dc54e1438d3f7b}
+
+
+Set the standard isoview from his camera. 
+
+Iso View is at the front top left 
+
+Definition at line 229 of file glc\-\_\-camera.\-h.
+
+\hypertarget{class_g_l_c___camera_a3c4a23ac7defce1b5902797dbd4a9408}{\index{G\-L\-C\-\_\-\-Camera@{G\-L\-C\-\_\-\-Camera}!set\-Left\-View@{set\-Left\-View}}
+\index{set\-Left\-View@{set\-Left\-View}!GLC_Camera@{G\-L\-C\-\_\-\-Camera}}
+\subsubsection[{set\-Left\-View}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-\-Camera\-::set\-Left\-View (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___camera_a3c4a23ac7defce1b5902797dbd4a9408}
+
+
+Set the standard left view form this camera. 
+
+
+
+Definition at line 216 of file glc\-\_\-camera.\-h.
+
+\hypertarget{class_g_l_c___camera_a858e489b2260f05092a436bfecc98ee4}{\index{G\-L\-C\-\_\-\-Camera@{G\-L\-C\-\_\-\-Camera}!set\-Rear\-View@{set\-Rear\-View}}
+\index{set\-Rear\-View@{set\-Rear\-View}!GLC_Camera@{G\-L\-C\-\_\-\-Camera}}
+\subsubsection[{set\-Rear\-View}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-\-Camera\-::set\-Rear\-View (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___camera_a858e489b2260f05092a436bfecc98ee4}
+
+
+Set the standard rear view form this camera. 
+
+
+
+Definition at line 208 of file glc\-\_\-camera.\-h.
+
+\hypertarget{class_g_l_c___camera_a7d5fb7bdbb744822843d37e16d39460d}{\index{G\-L\-C\-\_\-\-Camera@{G\-L\-C\-\_\-\-Camera}!set\-Right\-View@{set\-Right\-View}}
+\index{set\-Right\-View@{set\-Right\-View}!GLC_Camera@{G\-L\-C\-\_\-\-Camera}}
+\subsubsection[{set\-Right\-View}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-\-Camera\-::set\-Right\-View (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___camera_a7d5fb7bdbb744822843d37e16d39460d}
+
+
+Set the standard right view form this camera. 
+
+
+
+Definition at line 212 of file glc\-\_\-camera.\-h.
+
+\hypertarget{class_g_l_c___camera_a29b69303e8e73800f8fbbac75ab71816}{\index{G\-L\-C\-\_\-\-Camera@{G\-L\-C\-\_\-\-Camera}!set\-Target\-Cam@{set\-Target\-Cam}}
+\index{set\-Target\-Cam@{set\-Target\-Cam}!GLC_Camera@{G\-L\-C\-\_\-\-Camera}}
+\subsubsection[{set\-Target\-Cam}]{\setlength{\rightskip}{0pt plus 5cm}{\bf G\-L\-C\-\_\-\-Camera} \& G\-L\-C\-\_\-\-Camera\-::set\-Target\-Cam (
+\begin{DoxyParamCaption}
+\item[{const {\bf G\-L\-C\-\_\-\-Point3d} \&}]{Target}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___camera_a29b69303e8e73800f8fbbac75ab71816}
+
+
+Set camera's target coordinate vector. 
+
+
+
+Definition at line 209 of file glc\-\_\-camera.\-cpp.
+
+\hypertarget{class_g_l_c___camera_a4e60e55cb3720381d4e2f66befe49b3c}{\index{G\-L\-C\-\_\-\-Camera@{G\-L\-C\-\_\-\-Camera}!set\-Top\-View@{set\-Top\-View}}
+\index{set\-Top\-View@{set\-Top\-View}!GLC_Camera@{G\-L\-C\-\_\-\-Camera}}
+\subsubsection[{set\-Top\-View}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-\-Camera\-::set\-Top\-View (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___camera_a4e60e55cb3720381d4e2f66befe49b3c}
+
+
+Set the standard top view form this camera. 
+
+
+
+Definition at line 220 of file glc\-\_\-camera.\-h.
+
+\hypertarget{class_g_l_c___camera_a5540fd0c002a2137a2ff0442cd3c9f11}{\index{G\-L\-C\-\_\-\-Camera@{G\-L\-C\-\_\-\-Camera}!set\-Up\-Cam@{set\-Up\-Cam}}
+\index{set\-Up\-Cam@{set\-Up\-Cam}!GLC_Camera@{G\-L\-C\-\_\-\-Camera}}
+\subsubsection[{set\-Up\-Cam}]{\setlength{\rightskip}{0pt plus 5cm}{\bf G\-L\-C\-\_\-\-Camera} \& G\-L\-C\-\_\-\-Camera\-::set\-Up\-Cam (
+\begin{DoxyParamCaption}
+\item[{const {\bf G\-L\-C\-\_\-\-Vector3d} \&}]{Up}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___camera_a5540fd0c002a2137a2ff0442cd3c9f11}
+
+
+Set camera's Up vector. 
+
+
+
+Definition at line 240 of file glc\-\_\-camera.\-cpp.
+
+\hypertarget{class_g_l_c___camera_a0d7177e52087d3f991cde23c9fac8fa5}{\index{G\-L\-C\-\_\-\-Camera@{G\-L\-C\-\_\-\-Camera}!side\-Vector@{side\-Vector}}
+\index{side\-Vector@{side\-Vector}!GLC_Camera@{G\-L\-C\-\_\-\-Camera}}
+\subsubsection[{side\-Vector}]{\setlength{\rightskip}{0pt plus 5cm}{\bf G\-L\-C\-\_\-\-Vector3d} G\-L\-C\-\_\-\-Camera\-::side\-Vector (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___camera_a0d7177e52087d3f991cde23c9fac8fa5}
+
+
+Side camera vector. 
+
+
+
+Definition at line 91 of file glc\-\_\-camera.\-h.
+
+\hypertarget{class_g_l_c___camera_a25d20f626be27230479931f0c73a5677}{\index{G\-L\-C\-\_\-\-Camera@{G\-L\-C\-\_\-\-Camera}!target@{target}}
+\index{target@{target}!GLC_Camera@{G\-L\-C\-\_\-\-Camera}}
+\subsubsection[{target}]{\setlength{\rightskip}{0pt plus 5cm}{\bf G\-L\-C\-\_\-\-Point3d} G\-L\-C\-\_\-\-Camera\-::target (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___camera_a25d20f626be27230479931f0c73a5677}
+
+
+Get camera's target coordinate point. 
+
+
+
+Definition at line 79 of file glc\-\_\-camera.\-h.
+
+\hypertarget{class_g_l_c___camera_a621bbcef676d05742c67f331ea787398}{\index{G\-L\-C\-\_\-\-Camera@{G\-L\-C\-\_\-\-Camera}!top\-View@{top\-View}}
+\index{top\-View@{top\-View}!GLC_Camera@{G\-L\-C\-\_\-\-Camera}}
+\subsubsection[{top\-View}]{\setlength{\rightskip}{0pt plus 5cm}{\bf G\-L\-C\-\_\-\-Camera} G\-L\-C\-\_\-\-Camera\-::top\-View (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_g_l_c___camera_a621bbcef676d05742c67f331ea787398}
+
+
+Return the standard top view form this camera. 
+
+
+
+Definition at line 374 of file glc\-\_\-camera.\-cpp.
+
+\hypertarget{class_g_l_c___camera_a60a03405d0161a2aa215f9d4ec16c494}{\index{G\-L\-C\-\_\-\-Camera@{G\-L\-C\-\_\-\-Camera}!translate@{translate}}
+\index{translate@{translate}!GLC_Camera@{G\-L\-C\-\_\-\-Camera}}
+\subsubsection[{translate}]{\setlength{\rightskip}{0pt plus 5cm}{\bf G\-L\-C\-\_\-\-Camera} \& G\-L\-C\-\_\-\-Camera\-::translate (
+\begin{DoxyParamCaption}
+\item[{const {\bf G\-L\-C\-\_\-\-Vector3d} \&}]{Vect\-Trans}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___camera_a60a03405d0161a2aa215f9d4ec16c494}
+
+
+Camera translation. 
+
+
+
+Definition at line 170 of file glc\-\_\-camera.\-cpp.
+
+\hypertarget{class_g_l_c___camera_a4f4adbb5b7268d216cf8bed418edb115}{\index{G\-L\-C\-\_\-\-Camera@{G\-L\-C\-\_\-\-Camera}!up\-Vector@{up\-Vector}}
+\index{up\-Vector@{up\-Vector}!GLC_Camera@{G\-L\-C\-\_\-\-Camera}}
+\subsubsection[{up\-Vector}]{\setlength{\rightskip}{0pt plus 5cm}{\bf G\-L\-C\-\_\-\-Vector3d} G\-L\-C\-\_\-\-Camera\-::up\-Vector (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___camera_a4f4adbb5b7268d216cf8bed418edb115}
+
+
+Get camera's Up vector. 
+
+
+
+Definition at line 83 of file glc\-\_\-camera.\-h.
+
+\hypertarget{class_g_l_c___camera_abc7c3373ebea4741bee55f843dc43201}{\index{G\-L\-C\-\_\-\-Camera@{G\-L\-C\-\_\-\-Camera}!view\-Matrix@{view\-Matrix}}
+\index{view\-Matrix@{view\-Matrix}!GLC_Camera@{G\-L\-C\-\_\-\-Camera}}
+\subsubsection[{view\-Matrix}]{\setlength{\rightskip}{0pt plus 5cm}{\bf G\-L\-C\-\_\-\-Matrix4x4} G\-L\-C\-\_\-\-Camera\-::view\-Matrix (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___camera_abc7c3373ebea4741bee55f843dc43201}
+
+
+Get camera's orbit composition matrix. 
+
+
+
+Definition at line 95 of file glc\-\_\-camera.\-h.
+
+\hypertarget{class_g_l_c___camera_a59f25aa7fa65e5783e2d13dd8dc2106b}{\index{G\-L\-C\-\_\-\-Camera@{G\-L\-C\-\_\-\-Camera}!zoom@{zoom}}
+\index{zoom@{zoom}!GLC_Camera@{G\-L\-C\-\_\-\-Camera}}
+\subsubsection[{zoom}]{\setlength{\rightskip}{0pt plus 5cm}{\bf G\-L\-C\-\_\-\-Camera} \& G\-L\-C\-\_\-\-Camera\-::zoom (
+\begin{DoxyParamCaption}
+\item[{{\bf double}}]{factor}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___camera_a59f25aa7fa65e5783e2d13dd8dc2106b}
+
+
+move camera's eye along camera vector (eye -\/$>$ target) 
+
+Factor must be $>$ 0 
+
+Definition at line 124 of file glc\-\_\-camera.\-cpp.
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/glc\-\_\-lib/viewport/\hyperlink{glc__camera_8h}{glc\-\_\-camera.\-h}\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/glc\-\_\-lib/viewport/\hyperlink{glc__camera_8cpp}{glc\-\_\-camera.\-cpp}\end{DoxyCompactItemize}

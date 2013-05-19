@@ -1,0 +1,183 @@
+\hypertarget{class_qxt_tcp_connection_manager}{\section{Qxt\-Tcp\-Connection\-Manager Class Reference}
+\label{class_qxt_tcp_connection_manager}\index{Qxt\-Tcp\-Connection\-Manager@{Qxt\-Tcp\-Connection\-Manager}}
+}
+
+
+The \hyperlink{class_qxt_tcp_connection_manager}{Qxt\-Tcp\-Connection\-Manager} class accepts T\-C\-P connections and maintains a connection pool.  
+
+
+
+
+{\ttfamily \#include $<$qxttcpconnectionmanager.\-h$>$}
+
+Inheritance diagram for Qxt\-Tcp\-Connection\-Manager\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{class_qxt_tcp_connection_manager}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_qxt_tcp_connection_manager_aabe701bb16057da03f2e070299225995}{Qxt\-Tcp\-Connection\-Manager} (Q\-Object $\ast$parent)
+\item 
+bool \hyperlink{class_qxt_tcp_connection_manager_a3ffb3c21084c7f690d6a39f340663129}{listen} (Q\-Host\-Address iface=Q\-Host\-Address\-::\-Any, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{classport}{port}=80)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qxt_tcp_connection_manager_a2d30ce42c06cd0031602bcbf9822a78b}{stop\-Listening} ()
+\item 
+bool \hyperlink{class_qxt_tcp_connection_manager_a950c27afebf8044574b6ccbfd564958d}{is\-Accepting\-Connections} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qxt_tcp_connection_manager_acc70bd503b8830c173cc05216af71497}{set\-Proxy} (const Q\-Network\-Proxy \&\hyperlink{class_qxt_tcp_connection_manager_a95e4aa212c2f8512d99478eb6002d48d}{proxy})
+\item 
+Q\-Network\-Proxy \hyperlink{class_qxt_tcp_connection_manager_a95e4aa212c2f8512d99478eb6002d48d}{proxy} () const 
+\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual Q\-I\-O\-Device $\ast$ \hyperlink{class_qxt_tcp_connection_manager_a6134bf18757992452f83296b71c66ac3}{incoming\-Connection} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} socket\-Descriptor)
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qxt_tcp_connection_manager_a21ea8c0e14068b79e968cdcbf6321e24}{remove\-Connection} (Q\-I\-O\-Device $\ast$device, quint64 client\-I\-D)
+\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Detailed Description}
+The \hyperlink{class_qxt_tcp_connection_manager}{Qxt\-Tcp\-Connection\-Manager} class accepts T\-C\-P connections and maintains a connection pool. 
+
+Qxt\-Network \hyperlink{class_qxt_tcp_connection_manager}{Qxt\-Tcp\-Connection\-Manager} is a standardized interface for accepting and tracking incoming T\-C\-P connections.
+
+Each incoming connection is assigned an arbitrary, opaque client I\-D number. This number can be used to retrieve the Q\-Tcp\-Socket associated with it. A list of I\-Ds for all current connections can be retrieved with the \hyperlink{class_qxt_abstract_connection_manager_a3f56af8280c20210a4694d79a206d2bb}{clients()} function.
+
+Like Q\-Tcp\-Server, \hyperlink{class_qxt_tcp_connection_manager}{Qxt\-Tcp\-Connection\-Manager} can listen for incoming connections on a specified interface and port, and like Q\-Tcp\-Server you may override the \hyperlink{class_qxt_tcp_connection_manager_a6134bf18757992452f83296b71c66ac3}{incoming\-Connection()} function to change the handling of new connections. This is, for instance, where you would create a Q\-Ssl\-Socket to encrypt communications.
+
+\begin{DoxySeeAlso}{See Also}
+Q\-Tcp\-Server 
+\end{DoxySeeAlso}
+
+
+Definition at line 35 of file qxttcpconnectionmanager.\-h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_qxt_tcp_connection_manager_aabe701bb16057da03f2e070299225995}{\index{Qxt\-Tcp\-Connection\-Manager@{Qxt\-Tcp\-Connection\-Manager}!Qxt\-Tcp\-Connection\-Manager@{Qxt\-Tcp\-Connection\-Manager}}
+\index{Qxt\-Tcp\-Connection\-Manager@{Qxt\-Tcp\-Connection\-Manager}!QxtTcpConnectionManager@{Qxt\-Tcp\-Connection\-Manager}}
+\subsubsection[{Qxt\-Tcp\-Connection\-Manager}]{\setlength{\rightskip}{0pt plus 5cm}Qxt\-Tcp\-Connection\-Manager\-::\-Qxt\-Tcp\-Connection\-Manager (
+\begin{DoxyParamCaption}
+\item[{Q\-Object $\ast$}]{parent}
+\end{DoxyParamCaption}
+)}}\label{class_qxt_tcp_connection_manager_aabe701bb16057da03f2e070299225995}
+Constructs a new \hyperlink{class_qxt_tcp_connection_manager}{Qxt\-Tcp\-Connection\-Manager} object with the specified {\itshape parent}. 
+
+Definition at line 54 of file qxttcpconnectionmanager.\-cpp.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_qxt_tcp_connection_manager_a6134bf18757992452f83296b71c66ac3}{\index{Qxt\-Tcp\-Connection\-Manager@{Qxt\-Tcp\-Connection\-Manager}!incoming\-Connection@{incoming\-Connection}}
+\index{incoming\-Connection@{incoming\-Connection}!QxtTcpConnectionManager@{Qxt\-Tcp\-Connection\-Manager}}
+\subsubsection[{incoming\-Connection}]{\setlength{\rightskip}{0pt plus 5cm}Q\-I\-O\-Device $\ast$ Qxt\-Tcp\-Connection\-Manager\-::incoming\-Connection (
+\begin{DoxyParamCaption}
+\item[{{\bf int}}]{socket\-Descriptor}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}}\label{class_qxt_tcp_connection_manager_a6134bf18757992452f83296b71c66ac3}
+This function is called when a new T\-C\-P connection becomes available. The parameter is the native {\itshape socket\-Descriptor} for the connection, suitable for use in Q\-Tcp\-Socket\-::set\-Socket\-Descriptor.
+
+The default implementation returns a new Q\-Tcp\-Socket with the specified descriptor. Subclasses may return Q\-Tcp\-Socket subclasses, such as Q\-Ssl\-Socket. 
+
+Definition at line 121 of file qxttcpconnectionmanager.\-cpp.
+
+\hypertarget{class_qxt_tcp_connection_manager_a950c27afebf8044574b6ccbfd564958d}{\index{Qxt\-Tcp\-Connection\-Manager@{Qxt\-Tcp\-Connection\-Manager}!is\-Accepting\-Connections@{is\-Accepting\-Connections}}
+\index{is\-Accepting\-Connections@{is\-Accepting\-Connections}!QxtTcpConnectionManager@{Qxt\-Tcp\-Connection\-Manager}}
+\subsubsection[{is\-Accepting\-Connections}]{\setlength{\rightskip}{0pt plus 5cm}bool Qxt\-Tcp\-Connection\-Manager\-::is\-Accepting\-Connections (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_qxt_tcp_connection_manager_a950c27afebf8044574b6ccbfd564958d}
+
+
+Implements \hyperlink{class_qxt_abstract_connection_manager_ac16a3f73a5f26ce75ef7967dfc9c6e25}{Qxt\-Abstract\-Connection\-Manager}.
+
+
+
+Definition at line 108 of file qxttcpconnectionmanager.\-cpp.
+
+\hypertarget{class_qxt_tcp_connection_manager_a3ffb3c21084c7f690d6a39f340663129}{\index{Qxt\-Tcp\-Connection\-Manager@{Qxt\-Tcp\-Connection\-Manager}!listen@{listen}}
+\index{listen@{listen}!QxtTcpConnectionManager@{Qxt\-Tcp\-Connection\-Manager}}
+\subsubsection[{listen}]{\setlength{\rightskip}{0pt plus 5cm}bool Qxt\-Tcp\-Connection\-Manager\-::listen (
+\begin{DoxyParamCaption}
+\item[{Q\-Host\-Address}]{iface = {\ttfamily QHostAddress\-:\-:Any}, }
+\item[{{\bf int}}]{port = {\ttfamily 80}}
+\end{DoxyParamCaption}
+)}}\label{class_qxt_tcp_connection_manager_a3ffb3c21084c7f690d6a39f340663129}
+Listens on the specified interface {\itshape iface} on the specified {\itshape port} for connections. If {\itshape iface} is Q\-Host\-Address\-::\-Any, listens on all interfaces.
+
+Returns {\ttfamily true} on success; otherwise returns {\ttfamily false}. 
+
+Definition at line 87 of file qxttcpconnectionmanager.\-cpp.
+
+\hypertarget{class_qxt_tcp_connection_manager_a95e4aa212c2f8512d99478eb6002d48d}{\index{Qxt\-Tcp\-Connection\-Manager@{Qxt\-Tcp\-Connection\-Manager}!proxy@{proxy}}
+\index{proxy@{proxy}!QxtTcpConnectionManager@{Qxt\-Tcp\-Connection\-Manager}}
+\subsubsection[{proxy}]{\setlength{\rightskip}{0pt plus 5cm}Q\-Network\-Proxy Qxt\-Tcp\-Connection\-Manager\-::proxy (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_qxt_tcp_connection_manager_a95e4aa212c2f8512d99478eb6002d48d}
+Returns the proxy in use for the connection manager.
+
+\begin{DoxySeeAlso}{See Also}
+Q\-Tcp\-Server\-::proxy() 
+\end{DoxySeeAlso}
+
+
+Definition at line 158 of file qxttcpconnectionmanager.\-cpp.
+
+\hypertarget{class_qxt_tcp_connection_manager_a21ea8c0e14068b79e968cdcbf6321e24}{\index{Qxt\-Tcp\-Connection\-Manager@{Qxt\-Tcp\-Connection\-Manager}!remove\-Connection@{remove\-Connection}}
+\index{remove\-Connection@{remove\-Connection}!QxtTcpConnectionManager@{Qxt\-Tcp\-Connection\-Manager}}
+\subsubsection[{remove\-Connection}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qxt\-Tcp\-Connection\-Manager\-::remove\-Connection (
+\begin{DoxyParamCaption}
+\item[{Q\-I\-O\-Device $\ast$}]{device, }
+\item[{quint64}]{client\-I\-D}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}}\label{class_qxt_tcp_connection_manager_a21ea8c0e14068b79e968cdcbf6321e24}
+
+
+Implements \hyperlink{class_qxt_abstract_connection_manager_a796c43f7c8996d21111a9e35141e0078}{Qxt\-Abstract\-Connection\-Manager}.
+
+
+
+Definition at line 131 of file qxttcpconnectionmanager.\-cpp.
+
+\hypertarget{class_qxt_tcp_connection_manager_acc70bd503b8830c173cc05216af71497}{\index{Qxt\-Tcp\-Connection\-Manager@{Qxt\-Tcp\-Connection\-Manager}!set\-Proxy@{set\-Proxy}}
+\index{set\-Proxy@{set\-Proxy}!QxtTcpConnectionManager@{Qxt\-Tcp\-Connection\-Manager}}
+\subsubsection[{set\-Proxy}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qxt\-Tcp\-Connection\-Manager\-::set\-Proxy (
+\begin{DoxyParamCaption}
+\item[{const Q\-Network\-Proxy \&}]{proxy}
+\end{DoxyParamCaption}
+)}}\label{class_qxt_tcp_connection_manager_acc70bd503b8830c173cc05216af71497}
+Sets an explicit network {\itshape proxy} for the connection manager.
+
+\begin{DoxySeeAlso}{See Also}
+Q\-Tcp\-Server\-::set\-Proxy() 
+\end{DoxySeeAlso}
+
+
+Definition at line 148 of file qxttcpconnectionmanager.\-cpp.
+
+\hypertarget{class_qxt_tcp_connection_manager_a2d30ce42c06cd0031602bcbf9822a78b}{\index{Qxt\-Tcp\-Connection\-Manager@{Qxt\-Tcp\-Connection\-Manager}!stop\-Listening@{stop\-Listening}}
+\index{stop\-Listening@{stop\-Listening}!QxtTcpConnectionManager@{Qxt\-Tcp\-Connection\-Manager}}
+\subsubsection[{stop\-Listening}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qxt\-Tcp\-Connection\-Manager\-::stop\-Listening (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_qxt_tcp_connection_manager_a2d30ce42c06cd0031602bcbf9822a78b}
+Stops listening for connections. Any connections still open will remain connected. 
+
+Definition at line 95 of file qxttcpconnectionmanager.\-cpp.
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/libqxt/src/network/\hyperlink{qxttcpconnectionmanager_8h}{qxttcpconnectionmanager.\-h}\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/libqxt/src/network/\hyperlink{qxttcpconnectionmanager_8cpp}{qxttcpconnectionmanager.\-cpp}\end{DoxyCompactItemize}

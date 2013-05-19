@@ -1,0 +1,475 @@
+\hypertarget{analyze_raw_8m}{\section{/home/jose/\-Code/gui\-Tau/ground/gcs/src/experimental/\-Serial\-Logger/analyze\-Raw.m File Reference}
+\label{analyze_raw_8m}\index{/home/jose/\-Code/gui\-Tau/ground/gcs/src/experimental/\-Serial\-Logger/analyze\-Raw.\-m@{/home/jose/\-Code/gui\-Tau/ground/gcs/src/experimental/\-Serial\-Logger/analyze\-Raw.\-m}}
+}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{uavobjecttemplate_8m_a2420833d971716e9bab41cc9fb3abba1}{function} \hyperlink{analyze_raw_8m_adcf7aa6b0dbabe00b675263f4fe4d1ae}{analyze\-Raw} (device) downsample
+\item 
+need to close \hyperlink{qxtdiscoverableservice_8cpp_aa620047247d7e2a6894ad8ad666771de}{if} \hyperlink{analyze_raw_8m_a17ae820abdd69f55e45edbed6c383b57}{ischar} (device) \hyperlink{glext_8h_ad585a1393cfa368fa9dc3d8ebff640d5}{s}
+\item 
+\hyperlink{analyze_raw_8m_a11671e12e7b3fc5881313758d6cc0b45}{set} (\hyperlink{glext_8h_ad585a1393cfa368fa9dc3d8ebff640d5}{s},'Input\-Buffer\-Size', 10000)
+\item 
+\hyperlink{analyze_raw_8m_a51fd345aeb7eafd986a2774ce4bbbb87}{fopen} (\hyperlink{glext_8h_ad585a1393cfa368fa9dc3d8ebff640d5}{s})
+\item 
+\hyperlink{analyze_raw_8m_a2bd360018338874758daf245dc7c51b9}{uint8} (fread(\hyperlink{glext_8h_ad585a1393cfa368fa9dc3d8ebff640d5}{s}))\mbox{]}
+\item 
+\hyperlink{analyze_raw_8m_acc7ee8f8d3b25e500d544e87e0ae8b85}{if} (\hyperlink{_parse_e_k_f_log_8m_afbb6eda2b6f503d51c9aac61db776e84}{starts})\%found raw \hyperlink{glext_8h_a8850df0785e6fbcc2351af3b686b8c7a}{data}
+\item 
+reshape(\hyperlink{_parse_e_k_f_log_8m_a4cabe20f4789aa5689735cd972635612}{dat}(bsxfun(@plus, \\*
+\hyperlink{_parse_e_k_f_log_8m_afbb6eda2b6f503d51c9aac61db776e84}{starts},(16\-:19 \hyperlink{analyze_raw_8m_a9b24b01902f038c46a677cd00052d94f}{int32} ()
+\item 
+display accels \hyperlink{analyze_raw_8m_a97ded64e89181dfdfd67673534ef0d27}{figure} (1) \hyperlink{analyze_raw_8m_ad7817963131570d61e0b1c58ef2856f4}{subplot}(321)
+\item 
+\hyperlink{analyze_raw_8m_a67b1e00c42ed8b9940a432a01a989e40}{plot} (\hyperlink{analyze_raw_8m_a70c092a6aebace0b1ea406e14da78a40}{time}, \hyperlink{analyze_raw_8m_afebb17c6c96cb8b23b6da76ffa884eae}{accel\-\_\-x})
+\item 
+\hyperlink{analyze_raw_8m_ae0d888d0fb273dd62a75c1e42ce6a604}{xlim} (\mbox{[}0 1\mbox{]}) \hyperlink{_parse_e_k_f_log_8m_a4de7356fb0a5a93c0971791dc6a868c1}{ylim}(\mbox{[}mean(\hyperlink{analyze_raw_8m_afebb17c6c96cb8b23b6da76ffa884eae}{accel\-\_\-x})-\/2 $\ast$std(\hyperlink{analyze_raw_8m_afebb17c6c96cb8b23b6da76ffa884eae}{accel\-\_\-x}) mean(\hyperlink{analyze_raw_8m_afebb17c6c96cb8b23b6da76ffa884eae}{accel\-\_\-x})+4 $\ast$std(\hyperlink{analyze_raw_8m_afebb17c6c96cb8b23b6da76ffa884eae}{accel\-\_\-x})\mbox{]})
+\item 
+\hyperlink{analyze_raw_8m_a7b1991c7d1f7290dad5530a293d7708e}{title} ('Accel \hyperlink{_parse_e_k_f_log_8m_ac51b57a703ba1c5869228690c93e1701}{X}')
+\item 
+\hyperlink{analyze_raw_8m_aee492cb416ad9700df20df70c433958b}{subplot} (322)
+\item 
+\hyperlink{analyze_raw_8m_af80cc353d215347e5892c4a7a7d7f8f3}{pwelch} (\hyperlink{analyze_raw_8m_afebb17c6c96cb8b23b6da76ffa884eae}{accel\-\_\-x}-\/mean(\hyperlink{analyze_raw_8m_afebb17c6c96cb8b23b6da76ffa884eae}{accel\-\_\-x}),\mbox{[}$\,$\mbox{]},\mbox{[}$\,$\mbox{]},\mbox{[}$\,$\mbox{]}, \hyperlink{analyze_raw_8m_af1c9e8bb8cc2f0f0c17587f024724f1d}{Fs})
+\item 
+\hyperlink{analyze_raw_8m_a92e0fe482f1a665eb940df6d30d58dfb}{subplot} (323)
+\item 
+\hyperlink{analyze_raw_8m_ad6379b7e85598103877ca3526de81d83}{plot} (\hyperlink{analyze_raw_8m_a70c092a6aebace0b1ea406e14da78a40}{time}, \hyperlink{analyze_raw_8m_a510284861cf04e68c6d4f669046eb2cc}{accel\-\_\-y})
+\item 
+\hyperlink{analyze_raw_8m_a21d40dde2bd561ced3698b759d84c75b}{title} ('Accel Y')
+\item 
+\hyperlink{analyze_raw_8m_ade7fdb77c7bfd7489da1f1bcbf7ee42f}{subplot} (324)
+\item 
+\hyperlink{analyze_raw_8m_a00b42ce6cb6fda68e2f8d56ce54dc4f7}{pwelch} (\hyperlink{analyze_raw_8m_a510284861cf04e68c6d4f669046eb2cc}{accel\-\_\-y}-\/mean(\hyperlink{analyze_raw_8m_a510284861cf04e68c6d4f669046eb2cc}{accel\-\_\-y}),\mbox{[}$\,$\mbox{]},\mbox{[}$\,$\mbox{]},\mbox{[}$\,$\mbox{]}, \hyperlink{analyze_raw_8m_af1c9e8bb8cc2f0f0c17587f024724f1d}{Fs})
+\item 
+\hyperlink{analyze_raw_8m_abb45e40ae2e1b8b13d7f3b7856df3d8f}{subplot} (325)
+\item 
+\hyperlink{analyze_raw_8m_a8669e92372e937a4790b06dbb571e908}{plot} (\hyperlink{analyze_raw_8m_a70c092a6aebace0b1ea406e14da78a40}{time}, \hyperlink{analyze_raw_8m_afd5d82de0389d584f7a6f4354ab4a0fa}{accel\-\_\-z})
+\item 
+\hyperlink{analyze_raw_8m_a7ab680801b7f190825a55c0f7b7583c9}{title} ('Accel Z')
+\item 
+\hyperlink{analyze_raw_8m_ad7817963131570d61e0b1c58ef2856f4}{subplot} (326)
+\item 
+\hyperlink{analyze_raw_8m_a21c625e419f23900b061734a04a6fd37}{pwelch} (\hyperlink{analyze_raw_8m_afd5d82de0389d584f7a6f4354ab4a0fa}{accel\-\_\-z}-\/mean(\hyperlink{analyze_raw_8m_afd5d82de0389d584f7a6f4354ab4a0fa}{accel\-\_\-z}),\mbox{[}$\,$\mbox{]},\mbox{[}$\,$\mbox{]},\mbox{[}$\,$\mbox{]}, \hyperlink{analyze_raw_8m_af1c9e8bb8cc2f0f0c17587f024724f1d}{Fs})
+\item 
+display gyros \hyperlink{analyze_raw_8m_ac3dc71b325df009e5f373fb606b8e573}{figure} (2) \hyperlink{analyze_raw_8m_ad7817963131570d61e0b1c58ef2856f4}{subplot}(321)
+\item 
+\hyperlink{analyze_raw_8m_ac04aecf067a105a8f0bf777de6263f0c}{plot} (\hyperlink{analyze_raw_8m_a70c092a6aebace0b1ea406e14da78a40}{time}, \hyperlink{analyze_raw_8m_a9fb979b65c15ade0c366f259500cb08b}{gyro\-\_\-x})
+\item 
+\hyperlink{analyze_raw_8m_a27f07c7a2427355dcb266eaaa232f304}{title} ('Gyro \hyperlink{_parse_e_k_f_log_8m_ac51b57a703ba1c5869228690c93e1701}{X}')
+\item 
+\hyperlink{analyze_raw_8m_a27ce94f2dc0f0f051f72fbc8eeca17e8}{pwelch} (\hyperlink{analyze_raw_8m_a9fb979b65c15ade0c366f259500cb08b}{gyro\-\_\-x}-\/mean(\hyperlink{analyze_raw_8m_a9fb979b65c15ade0c366f259500cb08b}{gyro\-\_\-x}),\mbox{[}$\,$\mbox{]},\mbox{[}$\,$\mbox{]},\mbox{[}$\,$\mbox{]}, \hyperlink{analyze_raw_8m_af1c9e8bb8cc2f0f0c17587f024724f1d}{Fs})
+\item 
+\hyperlink{analyze_raw_8m_a2c52c4a03a0e33fcf2b4a60a45fb6810}{plot} (\hyperlink{analyze_raw_8m_a70c092a6aebace0b1ea406e14da78a40}{time}, \hyperlink{analyze_raw_8m_a31bb5e2305beca98210a9eaad37d8747}{gyro\-\_\-y})
+\item 
+\hyperlink{analyze_raw_8m_ae63a814c4630911df93fa3e0071464f0}{title} ('Gyro Y')
+\item 
+\hyperlink{analyze_raw_8m_ab8e4a4039322531fa3463d3a8119a4c3}{pwelch} (\hyperlink{analyze_raw_8m_a31bb5e2305beca98210a9eaad37d8747}{gyro\-\_\-y}-\/mean(\hyperlink{analyze_raw_8m_a31bb5e2305beca98210a9eaad37d8747}{gyro\-\_\-y}),\mbox{[}$\,$\mbox{]},\mbox{[}$\,$\mbox{]},\mbox{[}$\,$\mbox{]}, \hyperlink{analyze_raw_8m_af1c9e8bb8cc2f0f0c17587f024724f1d}{Fs})
+\item 
+\hyperlink{analyze_raw_8m_af19b79c0d62f61c35880ae829b6fa313}{plot} (\hyperlink{analyze_raw_8m_a70c092a6aebace0b1ea406e14da78a40}{time}, \hyperlink{analyze_raw_8m_a190ff6aad3a0bc5f422769345021c67d}{gyro\-\_\-z})
+\item 
+\hyperlink{analyze_raw_8m_a84eb5849eeaec8293a46b01acc819aee}{title} ('Gyro Z')
+\item 
+\hyperlink{analyze_raw_8m_ab0c830344a05ce7cae44d15fff00de2e}{pwelch} (\hyperlink{analyze_raw_8m_a190ff6aad3a0bc5f422769345021c67d}{gyro\-\_\-z}-\/mean(\hyperlink{analyze_raw_8m_a190ff6aad3a0bc5f422769345021c67d}{gyro\-\_\-z}),\mbox{[}$\,$\mbox{]},\mbox{[}$\,$\mbox{]},\mbox{[}$\,$\mbox{]}, \hyperlink{analyze_raw_8m_af1c9e8bb8cc2f0f0c17587f024724f1d}{Fs})
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+relevant \hyperlink{crypt_8h_a6f9c0aaf91aa1ee6f13a43244e90af87}{for} knowing block \hyperlink{glext_8h_a014d89bd76f74ef3a29c8f04b473eb76}{size} \hyperlink{analyze_raw_8m_af1c9e8bb8cc2f0f0c17587f024724f1d}{Fs} = 512
+\item 
+need to \hyperlink{analyze_raw_8m_a1835448b913ced5d93c9665a7a62b20d}{verify}
+\item 
+\hyperlink{analyze_raw_8m_a76c4a0a43b42e96b60b2016e14b8b1c1}{dat} = \mbox{[}$\,$\mbox{]}
+\item 
+\hyperlink{crypt_8h_a6f9c0aaf91aa1ee6f13a43244e90af87}{for} \hyperlink{analyze_raw_8m_a6f6ccfcf58b31cb6412107d9d5281426}{i}
+\item 
+\hyperlink{glext_8h_a432111147038972f06e049e18a837002}{end} \hyperlink{analyze_raw_8m_a393cd0e3361e00107e6bbf102458e80b}{raw\-\_\-framing} = 0\-:15
+\item 
+\hyperlink{analyze_raw_8m_a97b40a45a893919b7c3d281b502b4d37}{starts} = strfind(char(\hyperlink{_parse_e_k_f_log_8m_a4cabe20f4789aa5689735cd972635612}{dat}'),char(\hyperlink{_parse_e_k_f_log_8m_abdf952a4fd0c4e7dd24c25d3d6f55430}{raw\-\_\-framing}))
+\item 
+\hyperlink{analyze_raw_8m_a0483ecfaa115fc75cabb981a81291d02}{gaps}
+\item 
+\hyperlink{glext_8h_a432111147038972f06e049e18a837002}{end} \hyperlink{analyze_raw_8m_a812d6b7f43a582bec81c201334c7f011}{blocks} = typecast(reshape(\hyperlink{_parse_e_k_f_log_8m_a4cabe20f4789aa5689735cd972635612}{dat}(bsxfun(@plus,\hyperlink{_parse_e_k_f_log_8m_afbb6eda2b6f503d51c9aac61db776e84}{starts}(1\-:\hyperlink{glext_8h_a432111147038972f06e049e18a837002}{end}-\/1),(20\-:20+downsample$\ast$8$\ast$2-\/1)')),1,\mbox{[}$\,$\mbox{]}),'int16')
+\item 
+\hyperlink{analyze_raw_8m_a510284861cf04e68c6d4f669046eb2cc}{accel\-\_\-y} = 0.\-012$\ast$(\hyperlink{analyze_raw_8m_a812d6b7f43a582bec81c201334c7f011}{blocks}(1,\-:)-\/2048)
+\item 
+\hyperlink{analyze_raw_8m_afebb17c6c96cb8b23b6da76ffa884eae}{accel\-\_\-x} = 0.\-012$\ast$(\hyperlink{analyze_raw_8m_a812d6b7f43a582bec81c201334c7f011}{blocks}(3,\-:)-\/2048)
+\item 
+\hyperlink{analyze_raw_8m_afd5d82de0389d584f7a6f4354ab4a0fa}{accel\-\_\-z} = 0.\-012$\ast$(\hyperlink{analyze_raw_8m_a812d6b7f43a582bec81c201334c7f011}{blocks}(5,\-:)-\/2048)
+\item 
+\hyperlink{analyze_raw_8m_a9fb979b65c15ade0c366f259500cb08b}{gyro\-\_\-x} = 0.\-007$\ast$(\hyperlink{analyze_raw_8m_a812d6b7f43a582bec81c201334c7f011}{blocks}(2,\-:)-\/1675)
+\item 
+\hyperlink{analyze_raw_8m_a31bb5e2305beca98210a9eaad37d8747}{gyro\-\_\-y} = 0.\-007$\ast$(\hyperlink{analyze_raw_8m_a812d6b7f43a582bec81c201334c7f011}{blocks}(4,\-:)-\/1675)
+\item 
+\hyperlink{analyze_raw_8m_a190ff6aad3a0bc5f422769345021c67d}{gyro\-\_\-z} = 0.\-007$\ast$(\hyperlink{analyze_raw_8m_a812d6b7f43a582bec81c201334c7f011}{blocks}(6,\-:)-\/1675)
+\item 
+\hyperlink{analyze_raw_8m_a70c092a6aebace0b1ea406e14da78a40}{time} = (1\-:\hyperlink{glext_8h_a3c8469415bbc83dd1341af15c67f1cef}{length}(\hyperlink{analyze_raw_8m_afebb17c6c96cb8b23b6da76ffa884eae}{accel\-\_\-x}))/512
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\hypertarget{analyze_raw_8m_adcf7aa6b0dbabe00b675263f4fe4d1ae}{\index{analyze\-Raw.\-m@{analyze\-Raw.\-m}!analyze\-Raw@{analyze\-Raw}}
+\index{analyze\-Raw@{analyze\-Raw}!analyzeRaw.m@{analyze\-Raw.\-m}}
+\subsubsection[{analyze\-Raw}]{\setlength{\rightskip}{0pt plus 5cm}{\bf function} analyze\-Raw (
+\begin{DoxyParamCaption}
+\item[{device}]{}
+\end{DoxyParamCaption}
+)}}\label{analyze_raw_8m_adcf7aa6b0dbabe00b675263f4fe4d1ae}
+\hypertarget{analyze_raw_8m_a97ded64e89181dfdfd67673534ef0d27}{\index{analyze\-Raw.\-m@{analyze\-Raw.\-m}!figure@{figure}}
+\index{figure@{figure}!analyzeRaw.m@{analyze\-Raw.\-m}}
+\subsubsection[{figure}]{\setlength{\rightskip}{0pt plus 5cm}display accels figure (
+\begin{DoxyParamCaption}
+\item[{1}]{}
+\end{DoxyParamCaption}
+)}}\label{analyze_raw_8m_a97ded64e89181dfdfd67673534ef0d27}
+\hypertarget{analyze_raw_8m_ac3dc71b325df009e5f373fb606b8e573}{\index{analyze\-Raw.\-m@{analyze\-Raw.\-m}!figure@{figure}}
+\index{figure@{figure}!analyzeRaw.m@{analyze\-Raw.\-m}}
+\subsubsection[{figure}]{\setlength{\rightskip}{0pt plus 5cm}display gyros figure (
+\begin{DoxyParamCaption}
+\item[{2}]{}
+\end{DoxyParamCaption}
+)}}\label{analyze_raw_8m_ac3dc71b325df009e5f373fb606b8e573}
+\hypertarget{analyze_raw_8m_a51fd345aeb7eafd986a2774ce4bbbb87}{\index{analyze\-Raw.\-m@{analyze\-Raw.\-m}!fopen@{fopen}}
+\index{fopen@{fopen}!analyzeRaw.m@{analyze\-Raw.\-m}}
+\subsubsection[{fopen}]{\setlength{\rightskip}{0pt plus 5cm}fopen (
+\begin{DoxyParamCaption}
+\item[{{\bf s}}]{}
+\end{DoxyParamCaption}
+)}}\label{analyze_raw_8m_a51fd345aeb7eafd986a2774ce4bbbb87}
+\hypertarget{analyze_raw_8m_acc7ee8f8d3b25e500d544e87e0ae8b85}{\index{analyze\-Raw.\-m@{analyze\-Raw.\-m}!if@{if}}
+\index{if@{if}!analyzeRaw.m@{analyze\-Raw.\-m}}
+\subsubsection[{if}]{\setlength{\rightskip}{0pt plus 5cm}if (
+\begin{DoxyParamCaption}
+\item[{{\bf starts}}]{}
+\end{DoxyParamCaption}
+)}}\label{analyze_raw_8m_acc7ee8f8d3b25e500d544e87e0ae8b85}
+\hypertarget{analyze_raw_8m_a9b24b01902f038c46a677cd00052d94f}{\index{analyze\-Raw.\-m@{analyze\-Raw.\-m}!int32@{int32}}
+\index{int32@{int32}!analyzeRaw.m@{analyze\-Raw.\-m}}
+\subsubsection[{int32}]{\setlength{\rightskip}{0pt plus 5cm}reshape({\bf dat}(bsxfun(@plus,{\bf starts},(16\-:19 int32 (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{analyze_raw_8m_a9b24b01902f038c46a677cd00052d94f}
+\hypertarget{analyze_raw_8m_a17ae820abdd69f55e45edbed6c383b57}{\index{analyze\-Raw.\-m@{analyze\-Raw.\-m}!ischar@{ischar}}
+\index{ischar@{ischar}!analyzeRaw.m@{analyze\-Raw.\-m}}
+\subsubsection[{ischar}]{\setlength{\rightskip}{0pt plus 5cm}need to close {\bf if} ischar (
+\begin{DoxyParamCaption}
+\item[{device}]{}
+\end{DoxyParamCaption}
+)}}\label{analyze_raw_8m_a17ae820abdd69f55e45edbed6c383b57}
+\hypertarget{analyze_raw_8m_a67b1e00c42ed8b9940a432a01a989e40}{\index{analyze\-Raw.\-m@{analyze\-Raw.\-m}!plot@{plot}}
+\index{plot@{plot}!analyzeRaw.m@{analyze\-Raw.\-m}}
+\subsubsection[{plot}]{\setlength{\rightskip}{0pt plus 5cm}plot (
+\begin{DoxyParamCaption}
+\item[{{\bf time}}]{, }
+\item[{{\bf accel\-\_\-x}}]{}
+\end{DoxyParamCaption}
+)}}\label{analyze_raw_8m_a67b1e00c42ed8b9940a432a01a989e40}
+\hypertarget{analyze_raw_8m_ad6379b7e85598103877ca3526de81d83}{\index{analyze\-Raw.\-m@{analyze\-Raw.\-m}!plot@{plot}}
+\index{plot@{plot}!analyzeRaw.m@{analyze\-Raw.\-m}}
+\subsubsection[{plot}]{\setlength{\rightskip}{0pt plus 5cm}plot (
+\begin{DoxyParamCaption}
+\item[{{\bf time}}]{, }
+\item[{{\bf accel\-\_\-y}}]{}
+\end{DoxyParamCaption}
+)}}\label{analyze_raw_8m_ad6379b7e85598103877ca3526de81d83}
+\hypertarget{analyze_raw_8m_a8669e92372e937a4790b06dbb571e908}{\index{analyze\-Raw.\-m@{analyze\-Raw.\-m}!plot@{plot}}
+\index{plot@{plot}!analyzeRaw.m@{analyze\-Raw.\-m}}
+\subsubsection[{plot}]{\setlength{\rightskip}{0pt plus 5cm}plot (
+\begin{DoxyParamCaption}
+\item[{{\bf time}}]{, }
+\item[{{\bf accel\-\_\-z}}]{}
+\end{DoxyParamCaption}
+)}}\label{analyze_raw_8m_a8669e92372e937a4790b06dbb571e908}
+\hypertarget{analyze_raw_8m_ac04aecf067a105a8f0bf777de6263f0c}{\index{analyze\-Raw.\-m@{analyze\-Raw.\-m}!plot@{plot}}
+\index{plot@{plot}!analyzeRaw.m@{analyze\-Raw.\-m}}
+\subsubsection[{plot}]{\setlength{\rightskip}{0pt plus 5cm}plot (
+\begin{DoxyParamCaption}
+\item[{{\bf time}}]{, }
+\item[{{\bf gyro\-\_\-x}}]{}
+\end{DoxyParamCaption}
+)}}\label{analyze_raw_8m_ac04aecf067a105a8f0bf777de6263f0c}
+\hypertarget{analyze_raw_8m_a2c52c4a03a0e33fcf2b4a60a45fb6810}{\index{analyze\-Raw.\-m@{analyze\-Raw.\-m}!plot@{plot}}
+\index{plot@{plot}!analyzeRaw.m@{analyze\-Raw.\-m}}
+\subsubsection[{plot}]{\setlength{\rightskip}{0pt plus 5cm}plot (
+\begin{DoxyParamCaption}
+\item[{{\bf time}}]{, }
+\item[{{\bf gyro\-\_\-y}}]{}
+\end{DoxyParamCaption}
+)}}\label{analyze_raw_8m_a2c52c4a03a0e33fcf2b4a60a45fb6810}
+\hypertarget{analyze_raw_8m_af19b79c0d62f61c35880ae829b6fa313}{\index{analyze\-Raw.\-m@{analyze\-Raw.\-m}!plot@{plot}}
+\index{plot@{plot}!analyzeRaw.m@{analyze\-Raw.\-m}}
+\subsubsection[{plot}]{\setlength{\rightskip}{0pt plus 5cm}plot (
+\begin{DoxyParamCaption}
+\item[{{\bf time}}]{, }
+\item[{{\bf gyro\-\_\-z}}]{}
+\end{DoxyParamCaption}
+)}}\label{analyze_raw_8m_af19b79c0d62f61c35880ae829b6fa313}
+\hypertarget{analyze_raw_8m_af80cc353d215347e5892c4a7a7d7f8f3}{\index{analyze\-Raw.\-m@{analyze\-Raw.\-m}!pwelch@{pwelch}}
+\index{pwelch@{pwelch}!analyzeRaw.m@{analyze\-Raw.\-m}}
+\subsubsection[{pwelch}]{\setlength{\rightskip}{0pt plus 5cm}pwelch (
+\begin{DoxyParamCaption}
+\item[{{\bf accel\-\_\-x}-\/}]{meanaccel\-\_\-x, }
+\item[{{\bf Fs}}]{}
+\end{DoxyParamCaption}
+)}}\label{analyze_raw_8m_af80cc353d215347e5892c4a7a7d7f8f3}
+\hypertarget{analyze_raw_8m_a00b42ce6cb6fda68e2f8d56ce54dc4f7}{\index{analyze\-Raw.\-m@{analyze\-Raw.\-m}!pwelch@{pwelch}}
+\index{pwelch@{pwelch}!analyzeRaw.m@{analyze\-Raw.\-m}}
+\subsubsection[{pwelch}]{\setlength{\rightskip}{0pt plus 5cm}pwelch (
+\begin{DoxyParamCaption}
+\item[{{\bf accel\-\_\-y}-\/}]{meanaccel\-\_\-y, }
+\item[{{\bf Fs}}]{}
+\end{DoxyParamCaption}
+)}}\label{analyze_raw_8m_a00b42ce6cb6fda68e2f8d56ce54dc4f7}
+\hypertarget{analyze_raw_8m_a21c625e419f23900b061734a04a6fd37}{\index{analyze\-Raw.\-m@{analyze\-Raw.\-m}!pwelch@{pwelch}}
+\index{pwelch@{pwelch}!analyzeRaw.m@{analyze\-Raw.\-m}}
+\subsubsection[{pwelch}]{\setlength{\rightskip}{0pt plus 5cm}pwelch (
+\begin{DoxyParamCaption}
+\item[{{\bf accel\-\_\-z}-\/}]{meanaccel\-\_\-z, }
+\item[{{\bf Fs}}]{}
+\end{DoxyParamCaption}
+)}}\label{analyze_raw_8m_a21c625e419f23900b061734a04a6fd37}
+\hypertarget{analyze_raw_8m_a27ce94f2dc0f0f051f72fbc8eeca17e8}{\index{analyze\-Raw.\-m@{analyze\-Raw.\-m}!pwelch@{pwelch}}
+\index{pwelch@{pwelch}!analyzeRaw.m@{analyze\-Raw.\-m}}
+\subsubsection[{pwelch}]{\setlength{\rightskip}{0pt plus 5cm}pwelch (
+\begin{DoxyParamCaption}
+\item[{{\bf gyro\-\_\-x}-\/}]{meangyro\-\_\-x, }
+\item[{{\bf Fs}}]{}
+\end{DoxyParamCaption}
+)}}\label{analyze_raw_8m_a27ce94f2dc0f0f051f72fbc8eeca17e8}
+\hypertarget{analyze_raw_8m_ab8e4a4039322531fa3463d3a8119a4c3}{\index{analyze\-Raw.\-m@{analyze\-Raw.\-m}!pwelch@{pwelch}}
+\index{pwelch@{pwelch}!analyzeRaw.m@{analyze\-Raw.\-m}}
+\subsubsection[{pwelch}]{\setlength{\rightskip}{0pt plus 5cm}pwelch (
+\begin{DoxyParamCaption}
+\item[{{\bf gyro\-\_\-y}-\/}]{meangyro\-\_\-y, }
+\item[{{\bf Fs}}]{}
+\end{DoxyParamCaption}
+)}}\label{analyze_raw_8m_ab8e4a4039322531fa3463d3a8119a4c3}
+\hypertarget{analyze_raw_8m_ab0c830344a05ce7cae44d15fff00de2e}{\index{analyze\-Raw.\-m@{analyze\-Raw.\-m}!pwelch@{pwelch}}
+\index{pwelch@{pwelch}!analyzeRaw.m@{analyze\-Raw.\-m}}
+\subsubsection[{pwelch}]{\setlength{\rightskip}{0pt plus 5cm}pwelch (
+\begin{DoxyParamCaption}
+\item[{{\bf gyro\-\_\-z}-\/}]{meangyro\-\_\-z, }
+\item[{{\bf Fs}}]{}
+\end{DoxyParamCaption}
+)}}\label{analyze_raw_8m_ab0c830344a05ce7cae44d15fff00de2e}
+\hypertarget{analyze_raw_8m_a11671e12e7b3fc5881313758d6cc0b45}{\index{analyze\-Raw.\-m@{analyze\-Raw.\-m}!set@{set}}
+\index{set@{set}!analyzeRaw.m@{analyze\-Raw.\-m}}
+\subsubsection[{set}]{\setlength{\rightskip}{0pt plus 5cm}set (
+\begin{DoxyParamCaption}
+\item[{{\bf s}}]{, }
+\item[{'Input\-Buffer\-Size'}]{, }
+\item[{10000}]{}
+\end{DoxyParamCaption}
+)}}\label{analyze_raw_8m_a11671e12e7b3fc5881313758d6cc0b45}
+\hypertarget{analyze_raw_8m_aee492cb416ad9700df20df70c433958b}{\index{analyze\-Raw.\-m@{analyze\-Raw.\-m}!subplot@{subplot}}
+\index{subplot@{subplot}!analyzeRaw.m@{analyze\-Raw.\-m}}
+\subsubsection[{subplot}]{\setlength{\rightskip}{0pt plus 5cm}subplot (
+\begin{DoxyParamCaption}
+\item[{322}]{}
+\end{DoxyParamCaption}
+)}}\label{analyze_raw_8m_aee492cb416ad9700df20df70c433958b}
+\hypertarget{analyze_raw_8m_a92e0fe482f1a665eb940df6d30d58dfb}{\index{analyze\-Raw.\-m@{analyze\-Raw.\-m}!subplot@{subplot}}
+\index{subplot@{subplot}!analyzeRaw.m@{analyze\-Raw.\-m}}
+\subsubsection[{subplot}]{\setlength{\rightskip}{0pt plus 5cm}subplot (
+\begin{DoxyParamCaption}
+\item[{323}]{}
+\end{DoxyParamCaption}
+)}}\label{analyze_raw_8m_a92e0fe482f1a665eb940df6d30d58dfb}
+\hypertarget{analyze_raw_8m_ade7fdb77c7bfd7489da1f1bcbf7ee42f}{\index{analyze\-Raw.\-m@{analyze\-Raw.\-m}!subplot@{subplot}}
+\index{subplot@{subplot}!analyzeRaw.m@{analyze\-Raw.\-m}}
+\subsubsection[{subplot}]{\setlength{\rightskip}{0pt plus 5cm}subplot (
+\begin{DoxyParamCaption}
+\item[{324}]{}
+\end{DoxyParamCaption}
+)}}\label{analyze_raw_8m_ade7fdb77c7bfd7489da1f1bcbf7ee42f}
+\hypertarget{analyze_raw_8m_abb45e40ae2e1b8b13d7f3b7856df3d8f}{\index{analyze\-Raw.\-m@{analyze\-Raw.\-m}!subplot@{subplot}}
+\index{subplot@{subplot}!analyzeRaw.m@{analyze\-Raw.\-m}}
+\subsubsection[{subplot}]{\setlength{\rightskip}{0pt plus 5cm}subplot (
+\begin{DoxyParamCaption}
+\item[{325}]{}
+\end{DoxyParamCaption}
+)}}\label{analyze_raw_8m_abb45e40ae2e1b8b13d7f3b7856df3d8f}
+\hypertarget{analyze_raw_8m_ad7817963131570d61e0b1c58ef2856f4}{\index{analyze\-Raw.\-m@{analyze\-Raw.\-m}!subplot@{subplot}}
+\index{subplot@{subplot}!analyzeRaw.m@{analyze\-Raw.\-m}}
+\subsubsection[{subplot}]{\setlength{\rightskip}{0pt plus 5cm}subplot (
+\begin{DoxyParamCaption}
+\item[{326}]{}
+\end{DoxyParamCaption}
+)}}\label{analyze_raw_8m_ad7817963131570d61e0b1c58ef2856f4}
+\hypertarget{analyze_raw_8m_a7b1991c7d1f7290dad5530a293d7708e}{\index{analyze\-Raw.\-m@{analyze\-Raw.\-m}!title@{title}}
+\index{title@{title}!analyzeRaw.m@{analyze\-Raw.\-m}}
+\subsubsection[{title}]{\setlength{\rightskip}{0pt plus 5cm}title (
+\begin{DoxyParamCaption}
+\item[{'Accel {\bf X}'}]{}
+\end{DoxyParamCaption}
+)}}\label{analyze_raw_8m_a7b1991c7d1f7290dad5530a293d7708e}
+\hypertarget{analyze_raw_8m_a21d40dde2bd561ced3698b759d84c75b}{\index{analyze\-Raw.\-m@{analyze\-Raw.\-m}!title@{title}}
+\index{title@{title}!analyzeRaw.m@{analyze\-Raw.\-m}}
+\subsubsection[{title}]{\setlength{\rightskip}{0pt plus 5cm}title (
+\begin{DoxyParamCaption}
+\item[{'Accel Y'}]{}
+\end{DoxyParamCaption}
+)}}\label{analyze_raw_8m_a21d40dde2bd561ced3698b759d84c75b}
+\hypertarget{analyze_raw_8m_a7ab680801b7f190825a55c0f7b7583c9}{\index{analyze\-Raw.\-m@{analyze\-Raw.\-m}!title@{title}}
+\index{title@{title}!analyzeRaw.m@{analyze\-Raw.\-m}}
+\subsubsection[{title}]{\setlength{\rightskip}{0pt plus 5cm}title (
+\begin{DoxyParamCaption}
+\item[{'Accel Z'}]{}
+\end{DoxyParamCaption}
+)}}\label{analyze_raw_8m_a7ab680801b7f190825a55c0f7b7583c9}
+\hypertarget{analyze_raw_8m_a27f07c7a2427355dcb266eaaa232f304}{\index{analyze\-Raw.\-m@{analyze\-Raw.\-m}!title@{title}}
+\index{title@{title}!analyzeRaw.m@{analyze\-Raw.\-m}}
+\subsubsection[{title}]{\setlength{\rightskip}{0pt plus 5cm}title (
+\begin{DoxyParamCaption}
+\item[{'Gyro {\bf X}'}]{}
+\end{DoxyParamCaption}
+)}}\label{analyze_raw_8m_a27f07c7a2427355dcb266eaaa232f304}
+\hypertarget{analyze_raw_8m_ae63a814c4630911df93fa3e0071464f0}{\index{analyze\-Raw.\-m@{analyze\-Raw.\-m}!title@{title}}
+\index{title@{title}!analyzeRaw.m@{analyze\-Raw.\-m}}
+\subsubsection[{title}]{\setlength{\rightskip}{0pt plus 5cm}title (
+\begin{DoxyParamCaption}
+\item[{'Gyro Y'}]{}
+\end{DoxyParamCaption}
+)}}\label{analyze_raw_8m_ae63a814c4630911df93fa3e0071464f0}
+\hypertarget{analyze_raw_8m_a84eb5849eeaec8293a46b01acc819aee}{\index{analyze\-Raw.\-m@{analyze\-Raw.\-m}!title@{title}}
+\index{title@{title}!analyzeRaw.m@{analyze\-Raw.\-m}}
+\subsubsection[{title}]{\setlength{\rightskip}{0pt plus 5cm}title (
+\begin{DoxyParamCaption}
+\item[{'Gyro Z'}]{}
+\end{DoxyParamCaption}
+)}}\label{analyze_raw_8m_a84eb5849eeaec8293a46b01acc819aee}
+\hypertarget{analyze_raw_8m_a2bd360018338874758daf245dc7c51b9}{\index{analyze\-Raw.\-m@{analyze\-Raw.\-m}!uint8@{uint8}}
+\index{uint8@{uint8}!analyzeRaw.m@{analyze\-Raw.\-m}}
+\subsubsection[{uint8}]{\setlength{\rightskip}{0pt plus 5cm}uint8 (
+\begin{DoxyParamCaption}
+\item[{fread({\bf s})}]{}
+\end{DoxyParamCaption}
+)}}\label{analyze_raw_8m_a2bd360018338874758daf245dc7c51b9}
+\hypertarget{analyze_raw_8m_ae0d888d0fb273dd62a75c1e42ce6a604}{\index{analyze\-Raw.\-m@{analyze\-Raw.\-m}!xlim@{xlim}}
+\index{xlim@{xlim}!analyzeRaw.m@{analyze\-Raw.\-m}}
+\subsubsection[{xlim}]{\setlength{\rightskip}{0pt plus 5cm}xlim (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{analyze_raw_8m_ae0d888d0fb273dd62a75c1e42ce6a604}
+
+
+\subsection{Variable Documentation}
+\hypertarget{analyze_raw_8m_afebb17c6c96cb8b23b6da76ffa884eae}{\index{analyze\-Raw.\-m@{analyze\-Raw.\-m}!accel\-\_\-x@{accel\-\_\-x}}
+\index{accel\-\_\-x@{accel\-\_\-x}!analyzeRaw.m@{analyze\-Raw.\-m}}
+\subsubsection[{accel\-\_\-x}]{\setlength{\rightskip}{0pt plus 5cm}accel\-\_\-x = 0.\-012$\ast$({\bf blocks}(3,\-:)-\/2048)}}\label{analyze_raw_8m_afebb17c6c96cb8b23b6da76ffa884eae}
+
+
+Definition at line 35 of file analyze\-Raw.\-m.
+
+\hypertarget{analyze_raw_8m_a510284861cf04e68c6d4f669046eb2cc}{\index{analyze\-Raw.\-m@{analyze\-Raw.\-m}!accel\-\_\-y@{accel\-\_\-y}}
+\index{accel\-\_\-y@{accel\-\_\-y}!analyzeRaw.m@{analyze\-Raw.\-m}}
+\subsubsection[{accel\-\_\-y}]{\setlength{\rightskip}{0pt plus 5cm}accel\-\_\-y = 0.\-012$\ast$({\bf blocks}(1,\-:)-\/2048)}}\label{analyze_raw_8m_a510284861cf04e68c6d4f669046eb2cc}
+
+
+Definition at line 34 of file analyze\-Raw.\-m.
+
+\hypertarget{analyze_raw_8m_afd5d82de0389d584f7a6f4354ab4a0fa}{\index{analyze\-Raw.\-m@{analyze\-Raw.\-m}!accel\-\_\-z@{accel\-\_\-z}}
+\index{accel\-\_\-z@{accel\-\_\-z}!analyzeRaw.m@{analyze\-Raw.\-m}}
+\subsubsection[{accel\-\_\-z}]{\setlength{\rightskip}{0pt plus 5cm}accel\-\_\-z = 0.\-012$\ast$({\bf blocks}(5,\-:)-\/2048)}}\label{analyze_raw_8m_afd5d82de0389d584f7a6f4354ab4a0fa}
+
+
+Definition at line 36 of file analyze\-Raw.\-m.
+
+\hypertarget{analyze_raw_8m_a812d6b7f43a582bec81c201334c7f011}{\index{analyze\-Raw.\-m@{analyze\-Raw.\-m}!blocks@{blocks}}
+\index{blocks@{blocks}!analyzeRaw.m@{analyze\-Raw.\-m}}
+\subsubsection[{blocks}]{\setlength{\rightskip}{0pt plus 5cm}blocks = typecast(reshape({\bf dat}(bsxfun(@plus,{\bf starts}(1\-:{\bf end}-\/1),(20\-:20+downsample$\ast$8$\ast$2-\/1)')),1,\mbox{[}$\,$\mbox{]}),'int16')}}\label{analyze_raw_8m_a812d6b7f43a582bec81c201334c7f011}
+
+
+Definition at line 31 of file analyze\-Raw.\-m.
+
+\hypertarget{analyze_raw_8m_a76c4a0a43b42e96b60b2016e14b8b1c1}{\index{analyze\-Raw.\-m@{analyze\-Raw.\-m}!dat@{dat}}
+\index{dat@{dat}!analyzeRaw.m@{analyze\-Raw.\-m}}
+\subsubsection[{dat}]{\setlength{\rightskip}{0pt plus 5cm}{\bf end} {\bf end} {\bf else} dat = \mbox{[}$\,$\mbox{]}}}\label{analyze_raw_8m_a76c4a0a43b42e96b60b2016e14b8b1c1}
+
+
+Definition at line 11 of file analyze\-Raw.\-m.
+
+\hypertarget{analyze_raw_8m_af1c9e8bb8cc2f0f0c17587f024724f1d}{\index{analyze\-Raw.\-m@{analyze\-Raw.\-m}!Fs@{Fs}}
+\index{Fs@{Fs}!analyzeRaw.m@{analyze\-Raw.\-m}}
+\subsubsection[{Fs}]{\setlength{\rightskip}{0pt plus 5cm}relevant {\bf for} knowing block {\bf size} Fs = 512}}\label{analyze_raw_8m_af1c9e8bb8cc2f0f0c17587f024724f1d}
+
+
+Definition at line 4 of file analyze\-Raw.\-m.
+
+\hypertarget{analyze_raw_8m_a0483ecfaa115fc75cabb981a81291d02}{\index{analyze\-Raw.\-m@{analyze\-Raw.\-m}!gaps@{gaps}}
+\index{gaps@{gaps}!analyzeRaw.m@{analyze\-Raw.\-m}}
+\subsubsection[{gaps}]{\setlength{\rightskip}{0pt plus 5cm}gaps}}\label{analyze_raw_8m_a0483ecfaa115fc75cabb981a81291d02}
+{\bfseries Initial value\-:}
+\begin{DoxyCode}
+= find(\hyperlink{_o_p_plots_8m_acbb9d2dc78b59ac8322ba303b960b44b}{diff}(\hyperlink{analyze_e_k_f_8m_a10c8c3e72533f5f324dcf742e02483d9}{counts}) > 1) % exclude any discontiuous sections
+    \textcolor{keywordflow}{if}(\hyperlink{analyze_i_n_s_g_p_s_8m_ac0e9ec496f8f2bdef1c810bde5bb7108}{gaps})
+        \hyperlink{analyze_e_k_f_8m_a97b40a45a893919b7c3d281b502b4d37}{starts}(1:\hyperlink{analyze_i_n_s_g_p_s_8m_ac0e9ec496f8f2bdef1c810bde5bb7108}{gaps}(\hyperlink{glext_8h_a432111147038972f06e049e18a837002}{end})) = []
+\end{DoxyCode}
+
+
+Definition at line 27 of file analyze\-Raw.\-m.
+
+\hypertarget{analyze_raw_8m_a9fb979b65c15ade0c366f259500cb08b}{\index{analyze\-Raw.\-m@{analyze\-Raw.\-m}!gyro\-\_\-x@{gyro\-\_\-x}}
+\index{gyro\-\_\-x@{gyro\-\_\-x}!analyzeRaw.m@{analyze\-Raw.\-m}}
+\subsubsection[{gyro\-\_\-x}]{\setlength{\rightskip}{0pt plus 5cm}gyro\-\_\-x = 0.\-007$\ast$({\bf blocks}(2,\-:)-\/1675)}}\label{analyze_raw_8m_a9fb979b65c15ade0c366f259500cb08b}
+
+
+Definition at line 37 of file analyze\-Raw.\-m.
+
+\hypertarget{analyze_raw_8m_a31bb5e2305beca98210a9eaad37d8747}{\index{analyze\-Raw.\-m@{analyze\-Raw.\-m}!gyro\-\_\-y@{gyro\-\_\-y}}
+\index{gyro\-\_\-y@{gyro\-\_\-y}!analyzeRaw.m@{analyze\-Raw.\-m}}
+\subsubsection[{gyro\-\_\-y}]{\setlength{\rightskip}{0pt plus 5cm}gyro\-\_\-y = 0.\-007$\ast$({\bf blocks}(4,\-:)-\/1675)}}\label{analyze_raw_8m_a31bb5e2305beca98210a9eaad37d8747}
+
+
+Definition at line 38 of file analyze\-Raw.\-m.
+
+\hypertarget{analyze_raw_8m_a190ff6aad3a0bc5f422769345021c67d}{\index{analyze\-Raw.\-m@{analyze\-Raw.\-m}!gyro\-\_\-z@{gyro\-\_\-z}}
+\index{gyro\-\_\-z@{gyro\-\_\-z}!analyzeRaw.m@{analyze\-Raw.\-m}}
+\subsubsection[{gyro\-\_\-z}]{\setlength{\rightskip}{0pt plus 5cm}gyro\-\_\-z = 0.\-007$\ast$({\bf blocks}(6,\-:)-\/1675)}}\label{analyze_raw_8m_a190ff6aad3a0bc5f422769345021c67d}
+
+
+Definition at line 39 of file analyze\-Raw.\-m.
+
+\hypertarget{analyze_raw_8m_a6f6ccfcf58b31cb6412107d9d5281426}{\index{analyze\-Raw.\-m@{analyze\-Raw.\-m}!i@{i}}
+\index{i@{i}!analyzeRaw.m@{analyze\-Raw.\-m}}
+\subsubsection[{i}]{\setlength{\rightskip}{0pt plus 5cm}{\bf for} i}}\label{analyze_raw_8m_a6f6ccfcf58b31cb6412107d9d5281426}
+{\bfseries Initial value\-:}
+\begin{DoxyCode}
+= 1:20
+        \hyperlink{analyze_i_n_s_g_p_s_8m_a6f6ccfcf58b31cb6412107d9d5281426}{i}
+        \textcolor{keywordflow}{if}(\hyperlink{analyze_i_n_s_g_p_s_8m_a6f6ccfcf58b31cb6412107d9d5281426}{i} > 5)  % must flush \hyperlink{glext_8h_af1b5122dc7bfe0a6319e14419cfe3423}{buffer}
+            \hyperlink{analyze_e_k_f_8m_a76c4a0a43b42e96b60b2016e14b8b1c1}{dat} = 
+\end{DoxyCode}
+
+
+Definition at line 12 of file analyze\-Raw.\-m.
+
+\hypertarget{analyze_raw_8m_a393cd0e3361e00107e6bbf102458e80b}{\index{analyze\-Raw.\-m@{analyze\-Raw.\-m}!raw\-\_\-framing@{raw\-\_\-framing}}
+\index{raw\-\_\-framing@{raw\-\_\-framing}!analyzeRaw.m@{analyze\-Raw.\-m}}
+\subsubsection[{raw\-\_\-framing}]{\setlength{\rightskip}{0pt plus 5cm}{\bf end} raw\-\_\-framing = 0\-:15}}\label{analyze_raw_8m_a393cd0e3361e00107e6bbf102458e80b}
+
+
+Definition at line 22 of file analyze\-Raw.\-m.
+
+\hypertarget{analyze_raw_8m_a97b40a45a893919b7c3d281b502b4d37}{\index{analyze\-Raw.\-m@{analyze\-Raw.\-m}!starts@{starts}}
+\index{starts@{starts}!analyzeRaw.m@{analyze\-Raw.\-m}}
+\subsubsection[{starts}]{\setlength{\rightskip}{0pt plus 5cm}starts = strfind(char({\bf dat}'),char({\bf raw\-\_\-framing}))}}\label{analyze_raw_8m_a97b40a45a893919b7c3d281b502b4d37}
+
+
+Definition at line 23 of file analyze\-Raw.\-m.
+
+\hypertarget{analyze_raw_8m_a70c092a6aebace0b1ea406e14da78a40}{\index{analyze\-Raw.\-m@{analyze\-Raw.\-m}!time@{time}}
+\index{time@{time}!analyzeRaw.m@{analyze\-Raw.\-m}}
+\subsubsection[{time}]{\setlength{\rightskip}{0pt plus 5cm}time = (1\-:{\bf length}({\bf accel\-\_\-x}))/512}}\label{analyze_raw_8m_a70c092a6aebace0b1ea406e14da78a40}
+
+
+Definition at line 41 of file analyze\-Raw.\-m.
+
+\hypertarget{analyze_raw_8m_a1835448b913ced5d93c9665a7a62b20d}{\index{analyze\-Raw.\-m@{analyze\-Raw.\-m}!verify@{verify}}
+\index{verify@{verify}!analyzeRaw.m@{analyze\-Raw.\-m}}
+\subsubsection[{verify}]{\setlength{\rightskip}{0pt plus 5cm}need to verify}}\label{analyze_raw_8m_a1835448b913ced5d93c9665a7a62b20d}
+
+
+Definition at line 4 of file analyze\-Raw.\-m.
+

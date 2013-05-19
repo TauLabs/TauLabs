@@ -1,0 +1,81 @@
+\hypertarget{glc__geomtools_8h}{\section{/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/glc\-\_\-lib/maths/glc\-\_\-geomtools.h File Reference}
+\label{glc__geomtools_8h}\index{/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/glc\-\_\-lib/maths/glc\-\_\-geomtools.\-h@{/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/glc\-\_\-lib/maths/glc\-\_\-geomtools.\-h}}
+}
+
+
+declaration of geometry tools functions  
+
+
+\subsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+namespace \hyperlink{namespaceglc}{glc}
+\begin{DoxyCompactList}\small\item\em Define render mode enum in glc namespace. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{Indent}{\bf Tools Functions}\par
+\begin{DoxyCompactItemize}
+\item 
+G\-L\-C\-\_\-\-L\-I\-B\-\_\-\-E\-X\-P\-O\-R\-T bool \hyperlink{namespaceglc_aacdcc60584beb39feae6ca17888b18f7}{glc\-::polygon2\-D\-Is\-Convex} (const \hyperlink{class_q_list}{Q\-List}$<$ \hyperlink{glc__vector2d_8h_aa2ff653e68023d8ac19c421c53fd764a}{G\-L\-C\-\_\-\-Point2d} $>$ \&vertices)
+\begin{DoxyCompactList}\small\item\em test if the given 2\-D polygon is convex \end{DoxyCompactList}\item 
+G\-L\-C\-\_\-\-L\-I\-B\-\_\-\-E\-X\-P\-O\-R\-T bool \hyperlink{namespaceglc_a7217a24d583f259a6e6b4ec4cb5406c8}{glc\-::polygon\-Is\-Convex} (\hyperlink{class_q_list}{Q\-List}$<$ \hyperlink{glext_8h_a2f0c8cd5c21f9fcbd931c3f48bc90dfc}{G\-Luint} $>$ $\ast$p\-Index\-List, const \hyperlink{class_q_list}{Q\-List}$<$ \hyperlink{_super_l_u_support_8h_a6a1bb6ed41f44b60e7bd83b0e9945aa7}{float} $>$ \&bulk\-List)
+\begin{DoxyCompactList}\small\item\em Test if the given 3d polygon is convex. \end{DoxyCompactList}\item 
+G\-L\-C\-\_\-\-L\-I\-B\-\_\-\-E\-X\-P\-O\-R\-T Q\-Vector\\*
+$<$ \hyperlink{glc__vector2d_8h_aa2ff653e68023d8ac19c421c53fd764a}{G\-L\-C\-\_\-\-Point2d} $>$ \hyperlink{namespaceglc_a5c369470a3a436cfdc056207fc38bc51}{glc\-::find\-Intersection} (const \hyperlink{glc__vector2d_8h_aa2ff653e68023d8ac19c421c53fd764a}{G\-L\-C\-\_\-\-Point2d} \&, const \hyperlink{glc__vector2d_8h_aa2ff653e68023d8ac19c421c53fd764a}{G\-L\-C\-\_\-\-Point2d} \&, const \hyperlink{glc__vector2d_8h_aa2ff653e68023d8ac19c421c53fd764a}{G\-L\-C\-\_\-\-Point2d} \&, const \hyperlink{glc__vector2d_8h_aa2ff653e68023d8ac19c421c53fd764a}{G\-L\-C\-\_\-\-Point2d} \&)
+\begin{DoxyCompactList}\small\item\em find intersection between two 2\-D segments \end{DoxyCompactList}\item 
+G\-L\-C\-\_\-\-L\-I\-B\-\_\-\-E\-X\-P\-O\-R\-T bool \hyperlink{namespaceglc_ac9142f5e175abc2b6f96a2e58aa7b95c}{glc\-::is\-Intersected} (const \hyperlink{glc__vector2d_8h_aa2ff653e68023d8ac19c421c53fd764a}{G\-L\-C\-\_\-\-Point2d} \&, const \hyperlink{glc__vector2d_8h_aa2ff653e68023d8ac19c421c53fd764a}{G\-L\-C\-\_\-\-Point2d} \&, const \hyperlink{glc__vector2d_8h_aa2ff653e68023d8ac19c421c53fd764a}{G\-L\-C\-\_\-\-Point2d} \&, const \hyperlink{glc__vector2d_8h_aa2ff653e68023d8ac19c421c53fd764a}{G\-L\-C\-\_\-\-Point2d} \&)
+\begin{DoxyCompactList}\small\item\em Return true if there is an intersection between 2 segments. \end{DoxyCompactList}\item 
+G\-L\-C\-\_\-\-L\-I\-B\-\_\-\-E\-X\-P\-O\-R\-T bool \hyperlink{namespaceglc_a56b1297badfff023142a6606fb2bf091}{glc\-::is\-Intersected\-Ray\-Segment} (const \hyperlink{glc__vector2d_8h_aa2ff653e68023d8ac19c421c53fd764a}{G\-L\-C\-\_\-\-Point2d} \&, const \hyperlink{class_g_l_c___vector2d}{G\-L\-C\-\_\-\-Vector2d} \&, const \hyperlink{glc__vector2d_8h_aa2ff653e68023d8ac19c421c53fd764a}{G\-L\-C\-\_\-\-Point2d} \&, const \hyperlink{glc__vector2d_8h_aa2ff653e68023d8ac19c421c53fd764a}{G\-L\-C\-\_\-\-Point2d} \&)
+\begin{DoxyCompactList}\small\item\em return true if there is an intersection between a ray and a segment \end{DoxyCompactList}\item 
+G\-L\-C\-\_\-\-L\-I\-B\-\_\-\-E\-X\-P\-O\-R\-T Q\-Vector$<$ \hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} $>$ \hyperlink{namespaceglc_ae04a0015cdab6303c023e2d93ab71f55}{glc\-::find\-Intersection} (const \hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} \&, const \hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} \&, const \hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} \&, const \hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} \&)
+\begin{DoxyCompactList}\small\item\em Find intersection of two intervals \mbox{[}u0, u1\mbox{]} and \mbox{[}v0, v1\mbox{]}. \end{DoxyCompactList}\item 
+G\-L\-C\-\_\-\-L\-I\-B\-\_\-\-E\-X\-P\-O\-R\-T bool \hyperlink{namespaceglc_ae25d2a5e89cc7f6ad4083663aee6728e}{glc\-::segment\-In\-Cone} (const \hyperlink{glc__vector2d_8h_aa2ff653e68023d8ac19c421c53fd764a}{G\-L\-C\-\_\-\-Point2d} \&, const \hyperlink{glc__vector2d_8h_aa2ff653e68023d8ac19c421c53fd764a}{G\-L\-C\-\_\-\-Point2d} \&, const \hyperlink{glc__vector2d_8h_aa2ff653e68023d8ac19c421c53fd764a}{G\-L\-C\-\_\-\-Point2d} \&, const \hyperlink{glc__vector2d_8h_aa2ff653e68023d8ac19c421c53fd764a}{G\-L\-C\-\_\-\-Point2d} \&)
+\begin{DoxyCompactList}\small\item\em Return true if the segment is in polygon cone. \end{DoxyCompactList}\item 
+G\-L\-C\-\_\-\-L\-I\-B\-\_\-\-E\-X\-P\-O\-R\-T bool \hyperlink{namespaceglc_a0e64a1e14165f7ff61f09bee2091f3d6}{glc\-::is\-Diagonal} (const \hyperlink{class_q_list}{Q\-List}$<$ \hyperlink{glc__vector2d_8h_aa2ff653e68023d8ac19c421c53fd764a}{G\-L\-C\-\_\-\-Point2d} $>$ \&, const \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int}, const \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int})
+\begin{DoxyCompactList}\small\item\em Return true if the segment is a polygon diagonal. \end{DoxyCompactList}\item 
+G\-L\-C\-\_\-\-L\-I\-B\-\_\-\-E\-X\-P\-O\-R\-T \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{namespaceglc_a2093bae17f2d2e2646493709b445acc6}{glc\-::triangulate} (\hyperlink{class_q_list}{Q\-List}$<$ \hyperlink{glc__vector2d_8h_aa2ff653e68023d8ac19c421c53fd764a}{G\-L\-C\-\_\-\-Point2d} $>$ \&, \hyperlink{class_q_list}{Q\-List}$<$ \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} $>$ \&, \hyperlink{class_q_list}{Q\-List}$<$ \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} $>$ \&)
+\begin{DoxyCompactList}\small\item\em Triangulate a polygon. \end{DoxyCompactList}\item 
+G\-L\-C\-\_\-\-L\-I\-B\-\_\-\-E\-X\-P\-O\-R\-T bool \hyperlink{namespaceglc_afe228dedc1463f6cf6ef6ee0221ce5ba}{glc\-::is\-Counterclockwise\-Ordered} (const \hyperlink{class_q_list}{Q\-List}$<$ \hyperlink{glc__vector2d_8h_aa2ff653e68023d8ac19c421c53fd764a}{G\-L\-C\-\_\-\-Point2d} $>$ \&)
+\begin{DoxyCompactList}\small\item\em Return true if the polygon is couterclockwise ordered. \end{DoxyCompactList}\item 
+G\-L\-C\-\_\-\-L\-I\-B\-\_\-\-E\-X\-P\-O\-R\-T \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{namespaceglc_a34855c9d0c4a0de4dc26b02ac3f53646}{glc\-::triangulate\-Polygon} (\hyperlink{class_q_list}{Q\-List}$<$ \hyperlink{glext_8h_a2f0c8cd5c21f9fcbd931c3f48bc90dfc}{G\-Luint} $>$ $\ast$, const \hyperlink{class_q_list}{Q\-List}$<$ \hyperlink{_super_l_u_support_8h_a6a1bb6ed41f44b60e7bd83b0e9945aa7}{float} $>$ \&)
+\begin{DoxyCompactList}\small\item\em Triangulate a polygon return true if the polygon is convex. \end{DoxyCompactList}\item 
+G\-L\-C\-\_\-\-L\-I\-B\-\_\-\-E\-X\-P\-O\-R\-T bool \hyperlink{namespaceglc_a8bdef0e1ec05d75dbc0c8c370fae1ab8}{glc\-::line\-Intersect\-Plane} (const \hyperlink{class_g_l_c___line3d}{G\-L\-C\-\_\-\-Line3d} \&line, const \hyperlink{class_g_l_c___plane}{G\-L\-C\-\_\-\-Plane} \&plane, \hyperlink{glc__vector3d_8h_a4e13a9bbc7ab3d34de7e98b41836772c}{G\-L\-C\-\_\-\-Point3d} $\ast$p\-Point)
+\begin{DoxyCompactList}\small\item\em Return true if the given 3d line intersect the given plane. \end{DoxyCompactList}\item 
+G\-L\-C\-\_\-\-L\-I\-B\-\_\-\-E\-X\-P\-O\-R\-T \hyperlink{glc__vector3d_8h_a4e13a9bbc7ab3d34de7e98b41836772c}{G\-L\-C\-\_\-\-Point3d} \hyperlink{namespaceglc_a336b18eedbe3fc2f78d6d1ea2a72b6c3}{glc\-::project} (const \hyperlink{glc__vector3d_8h_a4e13a9bbc7ab3d34de7e98b41836772c}{G\-L\-C\-\_\-\-Point3d} \&point, const \hyperlink{class_g_l_c___line3d}{G\-L\-C\-\_\-\-Line3d} \&line)
+\begin{DoxyCompactList}\small\item\em Return the projected point on the given line form the given point. \end{DoxyCompactList}\item 
+\hyperlink{glc__vector3d_8h_a4e13a9bbc7ab3d34de7e98b41836772c}{G\-L\-C\-\_\-\-Point3d} \hyperlink{namespaceglc_ab918c024e6e7eb5667ef24a8132a7342}{glc\-::mid\-Point} (const \hyperlink{glc__vector3d_8h_a4e13a9bbc7ab3d34de7e98b41836772c}{G\-L\-C\-\_\-\-Point3d} \&point1, const \hyperlink{glc__vector3d_8h_a4e13a9bbc7ab3d34de7e98b41836772c}{G\-L\-C\-\_\-\-Point3d} point2)
+\begin{DoxyCompactList}\small\item\em Return the midpoint of the two given points. \end{DoxyCompactList}\item 
+\hyperlink{class_g_l_c___vector2d}{G\-L\-C\-\_\-\-Vector2d} \hyperlink{namespaceglc_ae53951b6cdc7e05f244d4c7586fe3fb4}{glc\-::perp\-Vector} (const \hyperlink{class_g_l_c___vector2d}{G\-L\-C\-\_\-\-Vector2d} \&vect)
+\begin{DoxyCompactList}\small\item\em Return the perpendicular 2\-D vector of the given 2\-D vector. \end{DoxyCompactList}\item 
+G\-L\-C\-\_\-\-L\-I\-B\-\_\-\-E\-X\-P\-O\-R\-T \hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} \hyperlink{namespaceglc_ac527bff20949d4743f56909a5dba8e47}{glc\-::point\-Line\-Distance} (const \hyperlink{glc__vector3d_8h_a4e13a9bbc7ab3d34de7e98b41836772c}{G\-L\-C\-\_\-\-Point3d} \&point, const \hyperlink{class_g_l_c___line3d}{G\-L\-C\-\_\-\-Line3d} \&line)
+\begin{DoxyCompactList}\small\item\em Return the distance between the given point and line. \end{DoxyCompactList}\item 
+G\-L\-C\-\_\-\-L\-I\-B\-\_\-\-E\-X\-P\-O\-R\-T bool \hyperlink{namespaceglc_afdaec36bd6864a3d38e7624e59f1f8ed}{glc\-::points\-Are\-Collinear} (const \hyperlink{glc__vector3d_8h_a4e13a9bbc7ab3d34de7e98b41836772c}{G\-L\-C\-\_\-\-Point3d} \&p1, const \hyperlink{glc__vector3d_8h_a4e13a9bbc7ab3d34de7e98b41836772c}{G\-L\-C\-\_\-\-Point3d} \&p2, const \hyperlink{glc__vector3d_8h_a4e13a9bbc7ab3d34de7e98b41836772c}{G\-L\-C\-\_\-\-Point3d} \&p3)
+\begin{DoxyCompactList}\small\item\em Return true if the given 3 points are collinear. \end{DoxyCompactList}\item 
+G\-L\-C\-\_\-\-L\-I\-B\-\_\-\-E\-X\-P\-O\-R\-T bool \hyperlink{namespaceglc_aacca942c010a41e3920a354c8ff53bfd}{glc\-::compare} (\hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} p1, \hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} p2)
+\item 
+G\-L\-C\-\_\-\-L\-I\-B\-\_\-\-E\-X\-P\-O\-R\-T bool \hyperlink{namespaceglc_a25462e4c2e39b61c2e8affe9558610dc}{glc\-::compare\-Angle} (\hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} p1, \hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} p2)
+\item 
+G\-L\-C\-\_\-\-L\-I\-B\-\_\-\-E\-X\-P\-O\-R\-T bool \hyperlink{namespaceglc_a1be487b7b6c813452292cecdad56ae16}{glc\-::compare} (const \hyperlink{class_g_l_c___vector3d}{G\-L\-C\-\_\-\-Vector3d} \&\hyperlink{glext_8h_aabdd9aabede45fcf97cea04f88d2ad60}{v1}, const \hyperlink{class_g_l_c___vector3d}{G\-L\-C\-\_\-\-Vector3d} \&\hyperlink{glext_8h_ae35401c8c2fcdcc48c20ba325ee473ea}{v2})
+\item 
+G\-L\-C\-\_\-\-L\-I\-B\-\_\-\-E\-X\-P\-O\-R\-T bool \hyperlink{namespaceglc_a7945a8843feebddbe9bdced2138db25a}{glc\-::compare} (const \hyperlink{class_g_l_c___vector2d}{G\-L\-C\-\_\-\-Vector2d} \&\hyperlink{glext_8h_aabdd9aabede45fcf97cea04f88d2ad60}{v1}, const \hyperlink{class_g_l_c___vector2d}{G\-L\-C\-\_\-\-Vector2d} \&\hyperlink{glext_8h_ae35401c8c2fcdcc48c20ba325ee473ea}{v2})
+\item 
+G\-L\-C\-\_\-\-L\-I\-B\-\_\-\-E\-X\-P\-O\-R\-T bool \hyperlink{namespaceglc_ac6b207ca6cf047ee0020195dc388f082}{glc\-::compare} (const Q\-Point\-F \&\hyperlink{glext_8h_aabdd9aabede45fcf97cea04f88d2ad60}{v1}, const Q\-Point\-F \&\hyperlink{glext_8h_ae35401c8c2fcdcc48c20ba325ee473ea}{v2})
+\item 
+G\-L\-C\-\_\-\-L\-I\-B\-\_\-\-E\-X\-P\-O\-R\-T bool \hyperlink{namespaceglc_ad250e523ebf6d885011a2ac60ba0c478}{glc\-::point\-In\-Polygon} (const \hyperlink{glc__vector2d_8h_aa2ff653e68023d8ac19c421c53fd764a}{G\-L\-C\-\_\-\-Point2d} \&point, const \hyperlink{class_q_list}{Q\-List}$<$ \hyperlink{glc__vector2d_8h_aa2ff653e68023d8ac19c421c53fd764a}{G\-L\-C\-\_\-\-Point2d} $>$ \&polygon)
+\begin{DoxyCompactList}\small\item\em Return true if the given 2d point is inside the given polygon. \end{DoxyCompactList}\item 
+G\-L\-C\-\_\-\-L\-I\-B\-\_\-\-E\-X\-P\-O\-R\-T \hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} \hyperlink{namespaceglc_a98543c1d04f4f5e0ac80a8e76692b6f4}{glc\-::zero\-To2\-P\-I\-Angle} (\hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} \hyperlink{glext_8h_a9e06c1f76a20fed54ca742cd25cb02c4}{angle})
+\begin{DoxyCompactList}\small\item\em Return the angle from 0 to 2\-P\-I from an given angle from -\/\-P\-I to P\-I. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\end{Indent}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+const \hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} \hyperlink{namespaceglc_a0b8f3bbe0682af341eecdb07b91b6c01}{glc\-::default\-Precision} = 0.\-01
+\item 
+\hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} \hyperlink{namespaceglc_ae146899b11b8acc404897dae6184c487}{glc\-::compared\-Precision} = \hyperlink{namespaceglc_a0b8f3bbe0682af341eecdb07b91b6c01}{glc\-::default\-Precision}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+declaration of geometry tools functions 
+
+Definition in file \hyperlink{glc__geomtools_8h_source}{glc\-\_\-geomtools.\-h}.
+

@@ -1,0 +1,163 @@
+\hypertarget{class_sparse_l_l_t_3_01_matrix_type_00_01_taucs_01_4}{\section{Sparse\-L\-L\-T$<$ Matrix\-Type, Taucs $>$ Class Template Reference}
+\label{class_sparse_l_l_t_3_01_matrix_type_00_01_taucs_01_4}\index{Sparse\-L\-L\-T$<$ Matrix\-Type, Taucs $>$@{Sparse\-L\-L\-T$<$ Matrix\-Type, Taucs $>$}}
+}
+
+
+{\ttfamily \#include $<$Taucs\-Support.\-h$>$}
+
+Inheritance diagram for Sparse\-L\-L\-T$<$ Matrix\-Type, Taucs $>$\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_sparse_l_l_t_3_01_matrix_type_00_01_taucs_01_4}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_sparse_l_l_t_3_01_matrix_type_00_01_taucs_01_4_a4e3ca2677c8458f64be2ef7d4ae682ae}{Sparse\-L\-L\-T} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_sparse_l_l_t_a7649229f826139f5c457f91e1fc996ce}{flags}=0)
+\item 
+\hyperlink{class_sparse_l_l_t_3_01_matrix_type_00_01_taucs_01_4_a08ff908c86097c963435f3687459431d}{Sparse\-L\-L\-T} (const Matrix\-Type \&\hyperlink{glext_8h_a7b24a3f2f56eb1244ae69dacb4fecb6f}{matrix}, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_sparse_l_l_t_a7649229f826139f5c457f91e1fc996ce}{flags}=0)
+\item 
+\hyperlink{class_sparse_l_l_t_3_01_matrix_type_00_01_taucs_01_4_a56f1217053fd190fded9190cb98e90ce}{$\sim$\-Sparse\-L\-L\-T} ()
+\item 
+const \hyperlink{class_sparse_l_l_t_a2c9d9dfe18d1e70b0f46de8c9d106bf2}{Base\-::\-Chol\-Matrix\-Type} \& \hyperlink{class_sparse_l_l_t_3_01_matrix_type_00_01_taucs_01_4_ac2c8e9f3de0e331886c6f8f0b20be503}{matrix\-L} (\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void}) const 
+\item 
+{\footnotesize template$<$typename Derived $>$ }\\\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_sparse_l_l_t_3_01_matrix_type_00_01_taucs_01_4_a3e525f8e674f60ade14084772e5395f7}{solve\-In\-Place} (\hyperlink{class_matrix_base}{Matrix\-Base}$<$ Derived $>$ \&\hyperlink{glext_8h_a6eba317e3cf44d6d26c04a5a8f197dcb}{b}) const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_sparse_l_l_t_3_01_matrix_type_00_01_taucs_01_4_a181544aedd01cc536fbf6d2b36ca8833}{compute} (const Matrix\-Type \&\hyperlink{glext_8h_a7b24a3f2f56eb1244ae69dacb4fecb6f}{matrix})
+\end{DoxyCompactItemize}
+\subsection*{Protected Types}
+\begin{DoxyCompactItemize}
+\item 
+typedef \hyperlink{class_sparse_l_l_t}{Sparse\-L\-L\-T}$<$ Matrix\-Type $>$ \hyperlink{class_sparse_l_l_t_3_01_matrix_type_00_01_taucs_01_4_aa32ceb8ea9072662365579ce983b2d4d}{Base}
+\item 
+typedef \hyperlink{class_sparse_l_l_t_acc629078ed9cd42c5d1d2c16012de3a4}{Base\-::\-Scalar} \hyperlink{class_sparse_l_l_t_3_01_matrix_type_00_01_taucs_01_4_a4605049d6c6de0e621127a55058c6ed9}{Scalar}
+\item 
+typedef \hyperlink{class_sparse_l_l_t_a20661706ee54d830837a844d675fb236}{Base\-::\-Real\-Scalar} \hyperlink{class_sparse_l_l_t_3_01_matrix_type_00_01_taucs_01_4_afc3f7bd032d6700143cc6ee76c93800f}{Real\-Scalar}
+\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} $\ast$ \hyperlink{class_sparse_l_l_t_3_01_matrix_type_00_01_taucs_01_4_a3b6f70482493394ddd42075dab3336bb}{m\-\_\-taucs\-Supernodal\-Factor}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$typename Matrix\-Type$>$class Sparse\-L\-L\-T$<$ Matrix\-Type, Taucs $>$}
+
+
+
+Definition at line 77 of file Taucs\-Support.\-h.
+
+
+
+\subsection{Member Typedef Documentation}
+\hypertarget{class_sparse_l_l_t_3_01_matrix_type_00_01_taucs_01_4_aa32ceb8ea9072662365579ce983b2d4d}{\index{Sparse\-L\-L\-T$<$ Matrix\-Type, Taucs $>$@{Sparse\-L\-L\-T$<$ Matrix\-Type, Taucs $>$}!Base@{Base}}
+\index{Base@{Base}!SparseLLT< MatrixType, Taucs >@{Sparse\-L\-L\-T$<$ Matrix\-Type, Taucs $>$}}
+\subsubsection[{Base}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type $>$ typedef {\bf Sparse\-L\-L\-T}$<$Matrix\-Type$>$ {\bf Sparse\-L\-L\-T}$<$ Matrix\-Type, {\bf Taucs} $>$\-::{\bf Base}\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_sparse_l_l_t_3_01_matrix_type_00_01_taucs_01_4_aa32ceb8ea9072662365579ce983b2d4d}
+
+
+Definition at line 80 of file Taucs\-Support.\-h.
+
+\hypertarget{class_sparse_l_l_t_3_01_matrix_type_00_01_taucs_01_4_afc3f7bd032d6700143cc6ee76c93800f}{\index{Sparse\-L\-L\-T$<$ Matrix\-Type, Taucs $>$@{Sparse\-L\-L\-T$<$ Matrix\-Type, Taucs $>$}!Real\-Scalar@{Real\-Scalar}}
+\index{Real\-Scalar@{Real\-Scalar}!SparseLLT< MatrixType, Taucs >@{Sparse\-L\-L\-T$<$ Matrix\-Type, Taucs $>$}}
+\subsubsection[{Real\-Scalar}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type $>$ typedef {\bf Base\-::\-Real\-Scalar} {\bf Sparse\-L\-L\-T}$<$ Matrix\-Type, {\bf Taucs} $>$\-::{\bf Real\-Scalar}\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_sparse_l_l_t_3_01_matrix_type_00_01_taucs_01_4_afc3f7bd032d6700143cc6ee76c93800f}
+
+
+Definition at line 82 of file Taucs\-Support.\-h.
+
+\hypertarget{class_sparse_l_l_t_3_01_matrix_type_00_01_taucs_01_4_a4605049d6c6de0e621127a55058c6ed9}{\index{Sparse\-L\-L\-T$<$ Matrix\-Type, Taucs $>$@{Sparse\-L\-L\-T$<$ Matrix\-Type, Taucs $>$}!Scalar@{Scalar}}
+\index{Scalar@{Scalar}!SparseLLT< MatrixType, Taucs >@{Sparse\-L\-L\-T$<$ Matrix\-Type, Taucs $>$}}
+\subsubsection[{Scalar}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type $>$ typedef {\bf Base\-::\-Scalar} {\bf Sparse\-L\-L\-T}$<$ Matrix\-Type, {\bf Taucs} $>$\-::{\bf Scalar}\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_sparse_l_l_t_3_01_matrix_type_00_01_taucs_01_4_a4605049d6c6de0e621127a55058c6ed9}
+
+
+Definition at line 81 of file Taucs\-Support.\-h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_sparse_l_l_t_3_01_matrix_type_00_01_taucs_01_4_a4e3ca2677c8458f64be2ef7d4ae682ae}{\index{Sparse\-L\-L\-T$<$ Matrix\-Type, Taucs $>$@{Sparse\-L\-L\-T$<$ Matrix\-Type, Taucs $>$}!Sparse\-L\-L\-T@{Sparse\-L\-L\-T}}
+\index{Sparse\-L\-L\-T@{Sparse\-L\-L\-T}!SparseLLT< MatrixType, Taucs >@{Sparse\-L\-L\-T$<$ Matrix\-Type, Taucs $>$}}
+\subsubsection[{Sparse\-L\-L\-T}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type $>$ {\bf Sparse\-L\-L\-T}$<$ Matrix\-Type, {\bf Taucs} $>$\-::{\bf Sparse\-L\-L\-T} (
+\begin{DoxyParamCaption}
+\item[{{\bf int}}]{flags = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_sparse_l_l_t_3_01_matrix_type_00_01_taucs_01_4_a4e3ca2677c8458f64be2ef7d4ae682ae}
+
+
+Definition at line 91 of file Taucs\-Support.\-h.
+
+\hypertarget{class_sparse_l_l_t_3_01_matrix_type_00_01_taucs_01_4_a08ff908c86097c963435f3687459431d}{\index{Sparse\-L\-L\-T$<$ Matrix\-Type, Taucs $>$@{Sparse\-L\-L\-T$<$ Matrix\-Type, Taucs $>$}!Sparse\-L\-L\-T@{Sparse\-L\-L\-T}}
+\index{Sparse\-L\-L\-T@{Sparse\-L\-L\-T}!SparseLLT< MatrixType, Taucs >@{Sparse\-L\-L\-T$<$ Matrix\-Type, Taucs $>$}}
+\subsubsection[{Sparse\-L\-L\-T}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type $>$ {\bf Sparse\-L\-L\-T}$<$ Matrix\-Type, {\bf Taucs} $>$\-::{\bf Sparse\-L\-L\-T} (
+\begin{DoxyParamCaption}
+\item[{const Matrix\-Type \&}]{matrix, }
+\item[{{\bf int}}]{flags = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_sparse_l_l_t_3_01_matrix_type_00_01_taucs_01_4_a08ff908c86097c963435f3687459431d}
+
+
+Definition at line 96 of file Taucs\-Support.\-h.
+
+\hypertarget{class_sparse_l_l_t_3_01_matrix_type_00_01_taucs_01_4_a56f1217053fd190fded9190cb98e90ce}{\index{Sparse\-L\-L\-T$<$ Matrix\-Type, Taucs $>$@{Sparse\-L\-L\-T$<$ Matrix\-Type, Taucs $>$}!$\sim$\-Sparse\-L\-L\-T@{$\sim$\-Sparse\-L\-L\-T}}
+\index{$\sim$\-Sparse\-L\-L\-T@{$\sim$\-Sparse\-L\-L\-T}!SparseLLT< MatrixType, Taucs >@{Sparse\-L\-L\-T$<$ Matrix\-Type, Taucs $>$}}
+\subsubsection[{$\sim$\-Sparse\-L\-L\-T}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type $>$ {\bf Sparse\-L\-L\-T}$<$ Matrix\-Type, {\bf Taucs} $>$\-::$\sim${\bf Sparse\-L\-L\-T} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_sparse_l_l_t_3_01_matrix_type_00_01_taucs_01_4_a56f1217053fd190fded9190cb98e90ce}
+
+
+Definition at line 102 of file Taucs\-Support.\-h.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_sparse_l_l_t_3_01_matrix_type_00_01_taucs_01_4_a181544aedd01cc536fbf6d2b36ca8833}{\index{Sparse\-L\-L\-T$<$ Matrix\-Type, Taucs $>$@{Sparse\-L\-L\-T$<$ Matrix\-Type, Taucs $>$}!compute@{compute}}
+\index{compute@{compute}!SparseLLT< MatrixType, Taucs >@{Sparse\-L\-L\-T$<$ Matrix\-Type, Taucs $>$}}
+\subsubsection[{compute}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type $>$ {\bf void} {\bf Sparse\-L\-L\-T}$<$ Matrix\-Type, {\bf Taucs} $>$\-::compute (
+\begin{DoxyParamCaption}
+\item[{const Matrix\-Type \&}]{matrix}
+\end{DoxyParamCaption}
+)}}\label{class_sparse_l_l_t_3_01_matrix_type_00_01_taucs_01_4_a181544aedd01cc536fbf6d2b36ca8833}
+
+
+Definition at line 120 of file Taucs\-Support.\-h.
+
+\hypertarget{class_sparse_l_l_t_3_01_matrix_type_00_01_taucs_01_4_ac2c8e9f3de0e331886c6f8f0b20be503}{\index{Sparse\-L\-L\-T$<$ Matrix\-Type, Taucs $>$@{Sparse\-L\-L\-T$<$ Matrix\-Type, Taucs $>$}!matrix\-L@{matrix\-L}}
+\index{matrix\-L@{matrix\-L}!SparseLLT< MatrixType, Taucs >@{Sparse\-L\-L\-T$<$ Matrix\-Type, Taucs $>$}}
+\subsubsection[{matrix\-L}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type $>$ const {\bf Sparse\-L\-L\-T}$<$ Matrix\-Type $>$\-::{\bf Chol\-Matrix\-Type} \& {\bf Sparse\-L\-L\-T}$<$ Matrix\-Type, {\bf Taucs} $>$\-::matrix\-L (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_sparse_l_l_t_3_01_matrix_type_00_01_taucs_01_4_ac2c8e9f3de0e331886c6f8f0b20be503}
+
+
+Definition at line 160 of file Taucs\-Support.\-h.
+
+\hypertarget{class_sparse_l_l_t_3_01_matrix_type_00_01_taucs_01_4_a3e525f8e674f60ade14084772e5395f7}{\index{Sparse\-L\-L\-T$<$ Matrix\-Type, Taucs $>$@{Sparse\-L\-L\-T$<$ Matrix\-Type, Taucs $>$}!solve\-In\-Place@{solve\-In\-Place}}
+\index{solve\-In\-Place@{solve\-In\-Place}!SparseLLT< MatrixType, Taucs >@{Sparse\-L\-L\-T$<$ Matrix\-Type, Taucs $>$}}
+\subsubsection[{solve\-In\-Place}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type $>$ template$<$typename Derived $>$ {\bf void} {\bf Sparse\-L\-L\-T}$<$ Matrix\-Type, {\bf Taucs} $>$\-::solve\-In\-Place (
+\begin{DoxyParamCaption}
+\item[{{\bf Matrix\-Base}$<$ Derived $>$ \&}]{b}
+\end{DoxyParamCaption}
+) const}}\label{class_sparse_l_l_t_3_01_matrix_type_00_01_taucs_01_4_a3e525f8e674f60ade14084772e5395f7}
+
+
+Definition at line 180 of file Taucs\-Support.\-h.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{class_sparse_l_l_t_3_01_matrix_type_00_01_taucs_01_4_a3b6f70482493394ddd42075dab3336bb}{\index{Sparse\-L\-L\-T$<$ Matrix\-Type, Taucs $>$@{Sparse\-L\-L\-T$<$ Matrix\-Type, Taucs $>$}!m\-\_\-taucs\-Supernodal\-Factor@{m\-\_\-taucs\-Supernodal\-Factor}}
+\index{m\-\_\-taucs\-Supernodal\-Factor@{m\-\_\-taucs\-Supernodal\-Factor}!SparseLLT< MatrixType, Taucs >@{Sparse\-L\-L\-T$<$ Matrix\-Type, Taucs $>$}}
+\subsubsection[{m\-\_\-taucs\-Supernodal\-Factor}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type $>$ {\bf void}$\ast$ {\bf Sparse\-L\-L\-T}$<$ Matrix\-Type, {\bf Taucs} $>$\-::m\-\_\-taucs\-Supernodal\-Factor\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_sparse_l_l_t_3_01_matrix_type_00_01_taucs_01_4_a3b6f70482493394ddd42075dab3336bb}
+
+
+Definition at line 116 of file Taucs\-Support.\-h.
+
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/eigen/\-Eigen/src/\-Sparse/\hyperlink{_taucs_support_8h}{Taucs\-Support.\-h}\end{DoxyCompactItemize}

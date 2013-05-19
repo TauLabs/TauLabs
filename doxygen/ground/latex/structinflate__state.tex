@@ -1,0 +1,304 @@
+\hypertarget{structinflate__state}{\section{inflate\-\_\-state Struct Reference}
+\label{structinflate__state}\index{inflate\-\_\-state@{inflate\-\_\-state}}
+}
+
+
+{\ttfamily \#include $<$inflate.\-h$>$}
+
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{inflate_8h_a164ea0159d5f0b5f12a646f25f99ecea}{inflate\-\_\-mode} \hyperlink{structinflate__state_a9c7906fee7eeeb450b13576531ca639d}{mode}
+\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{structinflate__state_ab3cbcd2c5ff3b0b8b34ef402a13afdf7}{last}
+\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{structinflate__state_a990d157b5c0d4ba178c3361de9ce6561}{wrap}
+\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{structinflate__state_a2eb1cd634ed6baade952ffa5938ebcdc}{havedict}
+\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{structinflate__state_a9dcf6151443750d75b2283d0a3e62c39}{flags}
+\item 
+unsigned \hyperlink{structinflate__state_ae3d433011714e673b22e82156acc4416}{dmax}
+\item 
+unsigned \hyperlink{ioapi_8h_a3c7b35ad9dab18b8310343c201f7b27e}{long} \hyperlink{structinflate__state_ae597e4f5c37b9f7881015384bf826371}{check}
+\item 
+unsigned \hyperlink{ioapi_8h_a3c7b35ad9dab18b8310343c201f7b27e}{long} \hyperlink{structinflate__state_af9d1071eb75b1ee37a151ccec8dfee95}{total}
+\item 
+\hyperlink{zlib_8h_a40e9dcc294796d99b25e98fb06477fc8}{gz\-\_\-headerp} \hyperlink{structinflate__state_aac35b33a559009eb4bc0e2bdd8e9b5c6}{head}
+\item 
+unsigned \hyperlink{structinflate__state_a71f844b589ac450f17d69f3692a8c5cc}{wbits}
+\item 
+unsigned \hyperlink{structinflate__state_acca16ca86216760eaf307bf71e15e470}{wsize}
+\item 
+unsigned \hyperlink{structinflate__state_a6b56aabe80412784eadc1068981c9d00}{whave}
+\item 
+unsigned \hyperlink{structinflate__state_a8b89588c1a322e622ebb694d8daa644c}{write}
+\item 
+unsigned char F\-A\-R $\ast$ \hyperlink{structinflate__state_a9cc4c0bde426383731394dcf91c40673}{window}
+\item 
+unsigned \hyperlink{ioapi_8h_a3c7b35ad9dab18b8310343c201f7b27e}{long} \hyperlink{structinflate__state_a5a91b1c59e52f1aa7eda75b86b05b843}{hold}
+\item 
+unsigned \hyperlink{structinflate__state_ab37c3563f306f29e6ded8e933af14365}{bits}
+\item 
+unsigned \hyperlink{structinflate__state_a5179d4c9b332d976cce7c6cce6bdf3c1}{length}
+\item 
+unsigned \hyperlink{structinflate__state_af1e38258e8585b1a37854066ef9d939c}{offset}
+\item 
+unsigned \hyperlink{structinflate__state_a5b7b0be77d61e8468716c7f265dd0780}{extra}
+\item 
+\hyperlink{structcode}{code} const F\-A\-R $\ast$ \hyperlink{structinflate__state_a4560e1eb3318f7ea41896be84de0679a}{lencode}
+\item 
+\hyperlink{structcode}{code} const F\-A\-R $\ast$ \hyperlink{structinflate__state_a19f7ae2fe2682cb1163860f6991a107f}{distcode}
+\item 
+unsigned \hyperlink{structinflate__state_a3ff97e6b230d7551fc848ff9de0236e9}{lenbits}
+\item 
+unsigned \hyperlink{structinflate__state_a98952f3f8f420a05b567f080aca0eb4b}{distbits}
+\item 
+unsigned \hyperlink{structinflate__state_a62b5ea8559856b315b6c89d9114c2109}{ncode}
+\item 
+unsigned \hyperlink{structinflate__state_a489b005f4fe214353cd80b77b4f23194}{nlen}
+\item 
+unsigned \hyperlink{structinflate__state_a4415e5e51efdd0c8672e4c601caa4762}{ndist}
+\item 
+unsigned \hyperlink{structinflate__state_a4a2b15912256bcf7b39980e15095ba58}{have}
+\item 
+\hyperlink{structcode}{code} F\-A\-R $\ast$ \hyperlink{structinflate__state_a872bf267d91efb4143e9cfb812e670bb}{next}
+\item 
+unsigned short \hyperlink{structinflate__state_aa0620e64487c48635f6c3a11a0aeb99d}{lens} \mbox{[}320\mbox{]}
+\item 
+unsigned short \hyperlink{structinflate__state_a85403907f7f5b9d355821ffa2591456c}{work} \mbox{[}288\mbox{]}
+\item 
+\hyperlink{structcode}{code} \hyperlink{structinflate__state_af9581f523a7d8d47fba6cdd73eaf1edc}{codes} \mbox{[}E\-N\-O\-U\-G\-H\mbox{]}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 77 of file inflate.\-h.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{structinflate__state_ab37c3563f306f29e6ded8e933af14365}{\index{inflate\-\_\-state@{inflate\-\_\-state}!bits@{bits}}
+\index{bits@{bits}!inflate_state@{inflate\-\_\-state}}
+\subsubsection[{bits}]{\setlength{\rightskip}{0pt plus 5cm}unsigned inflate\-\_\-state\-::bits}}\label{structinflate__state_ab37c3563f306f29e6ded8e933af14365}
+
+
+Definition at line 95 of file inflate.\-h.
+
+\hypertarget{structinflate__state_ae597e4f5c37b9f7881015384bf826371}{\index{inflate\-\_\-state@{inflate\-\_\-state}!check@{check}}
+\index{check@{check}!inflate_state@{inflate\-\_\-state}}
+\subsubsection[{check}]{\setlength{\rightskip}{0pt plus 5cm}unsigned {\bf long} inflate\-\_\-state\-::check}}\label{structinflate__state_ae597e4f5c37b9f7881015384bf826371}
+
+
+Definition at line 84 of file inflate.\-h.
+
+\hypertarget{structinflate__state_af9581f523a7d8d47fba6cdd73eaf1edc}{\index{inflate\-\_\-state@{inflate\-\_\-state}!codes@{codes}}
+\index{codes@{codes}!inflate_state@{inflate\-\_\-state}}
+\subsubsection[{codes}]{\setlength{\rightskip}{0pt plus 5cm}{\bf code} inflate\-\_\-state\-::codes\mbox{[}E\-N\-O\-U\-G\-H\mbox{]}}}\label{structinflate__state_af9581f523a7d8d47fba6cdd73eaf1edc}
+
+
+Definition at line 114 of file inflate.\-h.
+
+\hypertarget{structinflate__state_a98952f3f8f420a05b567f080aca0eb4b}{\index{inflate\-\_\-state@{inflate\-\_\-state}!distbits@{distbits}}
+\index{distbits@{distbits}!inflate_state@{inflate\-\_\-state}}
+\subsubsection[{distbits}]{\setlength{\rightskip}{0pt plus 5cm}unsigned inflate\-\_\-state\-::distbits}}\label{structinflate__state_a98952f3f8f420a05b567f080aca0eb4b}
+
+
+Definition at line 105 of file inflate.\-h.
+
+\hypertarget{structinflate__state_a19f7ae2fe2682cb1163860f6991a107f}{\index{inflate\-\_\-state@{inflate\-\_\-state}!distcode@{distcode}}
+\index{distcode@{distcode}!inflate_state@{inflate\-\_\-state}}
+\subsubsection[{distcode}]{\setlength{\rightskip}{0pt plus 5cm}{\bf code} const F\-A\-R$\ast$ inflate\-\_\-state\-::distcode}}\label{structinflate__state_a19f7ae2fe2682cb1163860f6991a107f}
+
+
+Definition at line 103 of file inflate.\-h.
+
+\hypertarget{structinflate__state_ae3d433011714e673b22e82156acc4416}{\index{inflate\-\_\-state@{inflate\-\_\-state}!dmax@{dmax}}
+\index{dmax@{dmax}!inflate_state@{inflate\-\_\-state}}
+\subsubsection[{dmax}]{\setlength{\rightskip}{0pt plus 5cm}unsigned inflate\-\_\-state\-::dmax}}\label{structinflate__state_ae3d433011714e673b22e82156acc4416}
+
+
+Definition at line 83 of file inflate.\-h.
+
+\hypertarget{structinflate__state_a5b7b0be77d61e8468716c7f265dd0780}{\index{inflate\-\_\-state@{inflate\-\_\-state}!extra@{extra}}
+\index{extra@{extra}!inflate_state@{inflate\-\_\-state}}
+\subsubsection[{extra}]{\setlength{\rightskip}{0pt plus 5cm}unsigned inflate\-\_\-state\-::extra}}\label{structinflate__state_a5b7b0be77d61e8468716c7f265dd0780}
+
+
+Definition at line 100 of file inflate.\-h.
+
+\hypertarget{structinflate__state_a9dcf6151443750d75b2283d0a3e62c39}{\index{inflate\-\_\-state@{inflate\-\_\-state}!flags@{flags}}
+\index{flags@{flags}!inflate_state@{inflate\-\_\-state}}
+\subsubsection[{flags}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int} inflate\-\_\-state\-::flags}}\label{structinflate__state_a9dcf6151443750d75b2283d0a3e62c39}
+
+
+Definition at line 82 of file inflate.\-h.
+
+\hypertarget{structinflate__state_a4a2b15912256bcf7b39980e15095ba58}{\index{inflate\-\_\-state@{inflate\-\_\-state}!have@{have}}
+\index{have@{have}!inflate_state@{inflate\-\_\-state}}
+\subsubsection[{have}]{\setlength{\rightskip}{0pt plus 5cm}unsigned inflate\-\_\-state\-::have}}\label{structinflate__state_a4a2b15912256bcf7b39980e15095ba58}
+
+
+Definition at line 110 of file inflate.\-h.
+
+\hypertarget{structinflate__state_a2eb1cd634ed6baade952ffa5938ebcdc}{\index{inflate\-\_\-state@{inflate\-\_\-state}!havedict@{havedict}}
+\index{havedict@{havedict}!inflate_state@{inflate\-\_\-state}}
+\subsubsection[{havedict}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int} inflate\-\_\-state\-::havedict}}\label{structinflate__state_a2eb1cd634ed6baade952ffa5938ebcdc}
+
+
+Definition at line 81 of file inflate.\-h.
+
+\hypertarget{structinflate__state_aac35b33a559009eb4bc0e2bdd8e9b5c6}{\index{inflate\-\_\-state@{inflate\-\_\-state}!head@{head}}
+\index{head@{head}!inflate_state@{inflate\-\_\-state}}
+\subsubsection[{head}]{\setlength{\rightskip}{0pt plus 5cm}{\bf gz\-\_\-headerp} inflate\-\_\-state\-::head}}\label{structinflate__state_aac35b33a559009eb4bc0e2bdd8e9b5c6}
+
+
+Definition at line 86 of file inflate.\-h.
+
+\hypertarget{structinflate__state_a5a91b1c59e52f1aa7eda75b86b05b843}{\index{inflate\-\_\-state@{inflate\-\_\-state}!hold@{hold}}
+\index{hold@{hold}!inflate_state@{inflate\-\_\-state}}
+\subsubsection[{hold}]{\setlength{\rightskip}{0pt plus 5cm}unsigned {\bf long} inflate\-\_\-state\-::hold}}\label{structinflate__state_a5a91b1c59e52f1aa7eda75b86b05b843}
+
+
+Definition at line 94 of file inflate.\-h.
+
+\hypertarget{structinflate__state_ab3cbcd2c5ff3b0b8b34ef402a13afdf7}{\index{inflate\-\_\-state@{inflate\-\_\-state}!last@{last}}
+\index{last@{last}!inflate_state@{inflate\-\_\-state}}
+\subsubsection[{last}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int} inflate\-\_\-state\-::last}}\label{structinflate__state_ab3cbcd2c5ff3b0b8b34ef402a13afdf7}
+
+
+Definition at line 79 of file inflate.\-h.
+
+\hypertarget{structinflate__state_a3ff97e6b230d7551fc848ff9de0236e9}{\index{inflate\-\_\-state@{inflate\-\_\-state}!lenbits@{lenbits}}
+\index{lenbits@{lenbits}!inflate_state@{inflate\-\_\-state}}
+\subsubsection[{lenbits}]{\setlength{\rightskip}{0pt plus 5cm}unsigned inflate\-\_\-state\-::lenbits}}\label{structinflate__state_a3ff97e6b230d7551fc848ff9de0236e9}
+
+
+Definition at line 104 of file inflate.\-h.
+
+\hypertarget{structinflate__state_a4560e1eb3318f7ea41896be84de0679a}{\index{inflate\-\_\-state@{inflate\-\_\-state}!lencode@{lencode}}
+\index{lencode@{lencode}!inflate_state@{inflate\-\_\-state}}
+\subsubsection[{lencode}]{\setlength{\rightskip}{0pt plus 5cm}{\bf code} const F\-A\-R$\ast$ inflate\-\_\-state\-::lencode}}\label{structinflate__state_a4560e1eb3318f7ea41896be84de0679a}
+
+
+Definition at line 102 of file inflate.\-h.
+
+\hypertarget{structinflate__state_a5179d4c9b332d976cce7c6cce6bdf3c1}{\index{inflate\-\_\-state@{inflate\-\_\-state}!length@{length}}
+\index{length@{length}!inflate_state@{inflate\-\_\-state}}
+\subsubsection[{length}]{\setlength{\rightskip}{0pt plus 5cm}unsigned inflate\-\_\-state\-::length}}\label{structinflate__state_a5179d4c9b332d976cce7c6cce6bdf3c1}
+
+
+Definition at line 97 of file inflate.\-h.
+
+\hypertarget{structinflate__state_aa0620e64487c48635f6c3a11a0aeb99d}{\index{inflate\-\_\-state@{inflate\-\_\-state}!lens@{lens}}
+\index{lens@{lens}!inflate_state@{inflate\-\_\-state}}
+\subsubsection[{lens}]{\setlength{\rightskip}{0pt plus 5cm}unsigned short inflate\-\_\-state\-::lens\mbox{[}320\mbox{]}}}\label{structinflate__state_aa0620e64487c48635f6c3a11a0aeb99d}
+
+
+Definition at line 112 of file inflate.\-h.
+
+\hypertarget{structinflate__state_a9c7906fee7eeeb450b13576531ca639d}{\index{inflate\-\_\-state@{inflate\-\_\-state}!mode@{mode}}
+\index{mode@{mode}!inflate_state@{inflate\-\_\-state}}
+\subsubsection[{mode}]{\setlength{\rightskip}{0pt plus 5cm}{\bf inflate\-\_\-mode} inflate\-\_\-state\-::mode}}\label{structinflate__state_a9c7906fee7eeeb450b13576531ca639d}
+
+
+Definition at line 78 of file inflate.\-h.
+
+\hypertarget{structinflate__state_a62b5ea8559856b315b6c89d9114c2109}{\index{inflate\-\_\-state@{inflate\-\_\-state}!ncode@{ncode}}
+\index{ncode@{ncode}!inflate_state@{inflate\-\_\-state}}
+\subsubsection[{ncode}]{\setlength{\rightskip}{0pt plus 5cm}unsigned inflate\-\_\-state\-::ncode}}\label{structinflate__state_a62b5ea8559856b315b6c89d9114c2109}
+
+
+Definition at line 107 of file inflate.\-h.
+
+\hypertarget{structinflate__state_a4415e5e51efdd0c8672e4c601caa4762}{\index{inflate\-\_\-state@{inflate\-\_\-state}!ndist@{ndist}}
+\index{ndist@{ndist}!inflate_state@{inflate\-\_\-state}}
+\subsubsection[{ndist}]{\setlength{\rightskip}{0pt plus 5cm}unsigned inflate\-\_\-state\-::ndist}}\label{structinflate__state_a4415e5e51efdd0c8672e4c601caa4762}
+
+
+Definition at line 109 of file inflate.\-h.
+
+\hypertarget{structinflate__state_a872bf267d91efb4143e9cfb812e670bb}{\index{inflate\-\_\-state@{inflate\-\_\-state}!next@{next}}
+\index{next@{next}!inflate_state@{inflate\-\_\-state}}
+\subsubsection[{next}]{\setlength{\rightskip}{0pt plus 5cm}{\bf code} F\-A\-R$\ast$ inflate\-\_\-state\-::next}}\label{structinflate__state_a872bf267d91efb4143e9cfb812e670bb}
+
+
+Definition at line 111 of file inflate.\-h.
+
+\hypertarget{structinflate__state_a489b005f4fe214353cd80b77b4f23194}{\index{inflate\-\_\-state@{inflate\-\_\-state}!nlen@{nlen}}
+\index{nlen@{nlen}!inflate_state@{inflate\-\_\-state}}
+\subsubsection[{nlen}]{\setlength{\rightskip}{0pt plus 5cm}unsigned inflate\-\_\-state\-::nlen}}\label{structinflate__state_a489b005f4fe214353cd80b77b4f23194}
+
+
+Definition at line 108 of file inflate.\-h.
+
+\hypertarget{structinflate__state_af1e38258e8585b1a37854066ef9d939c}{\index{inflate\-\_\-state@{inflate\-\_\-state}!offset@{offset}}
+\index{offset@{offset}!inflate_state@{inflate\-\_\-state}}
+\subsubsection[{offset}]{\setlength{\rightskip}{0pt plus 5cm}unsigned inflate\-\_\-state\-::offset}}\label{structinflate__state_af1e38258e8585b1a37854066ef9d939c}
+
+
+Definition at line 98 of file inflate.\-h.
+
+\hypertarget{structinflate__state_af9d1071eb75b1ee37a151ccec8dfee95}{\index{inflate\-\_\-state@{inflate\-\_\-state}!total@{total}}
+\index{total@{total}!inflate_state@{inflate\-\_\-state}}
+\subsubsection[{total}]{\setlength{\rightskip}{0pt plus 5cm}unsigned {\bf long} inflate\-\_\-state\-::total}}\label{structinflate__state_af9d1071eb75b1ee37a151ccec8dfee95}
+
+
+Definition at line 85 of file inflate.\-h.
+
+\hypertarget{structinflate__state_a71f844b589ac450f17d69f3692a8c5cc}{\index{inflate\-\_\-state@{inflate\-\_\-state}!wbits@{wbits}}
+\index{wbits@{wbits}!inflate_state@{inflate\-\_\-state}}
+\subsubsection[{wbits}]{\setlength{\rightskip}{0pt plus 5cm}unsigned inflate\-\_\-state\-::wbits}}\label{structinflate__state_a71f844b589ac450f17d69f3692a8c5cc}
+
+
+Definition at line 88 of file inflate.\-h.
+
+\hypertarget{structinflate__state_a6b56aabe80412784eadc1068981c9d00}{\index{inflate\-\_\-state@{inflate\-\_\-state}!whave@{whave}}
+\index{whave@{whave}!inflate_state@{inflate\-\_\-state}}
+\subsubsection[{whave}]{\setlength{\rightskip}{0pt plus 5cm}unsigned inflate\-\_\-state\-::whave}}\label{structinflate__state_a6b56aabe80412784eadc1068981c9d00}
+
+
+Definition at line 90 of file inflate.\-h.
+
+\hypertarget{structinflate__state_a9cc4c0bde426383731394dcf91c40673}{\index{inflate\-\_\-state@{inflate\-\_\-state}!window@{window}}
+\index{window@{window}!inflate_state@{inflate\-\_\-state}}
+\subsubsection[{window}]{\setlength{\rightskip}{0pt plus 5cm}unsigned char F\-A\-R$\ast$ inflate\-\_\-state\-::window}}\label{structinflate__state_a9cc4c0bde426383731394dcf91c40673}
+
+
+Definition at line 92 of file inflate.\-h.
+
+\hypertarget{structinflate__state_a85403907f7f5b9d355821ffa2591456c}{\index{inflate\-\_\-state@{inflate\-\_\-state}!work@{work}}
+\index{work@{work}!inflate_state@{inflate\-\_\-state}}
+\subsubsection[{work}]{\setlength{\rightskip}{0pt plus 5cm}unsigned short inflate\-\_\-state\-::work\mbox{[}288\mbox{]}}}\label{structinflate__state_a85403907f7f5b9d355821ffa2591456c}
+
+
+Definition at line 113 of file inflate.\-h.
+
+\hypertarget{structinflate__state_a990d157b5c0d4ba178c3361de9ce6561}{\index{inflate\-\_\-state@{inflate\-\_\-state}!wrap@{wrap}}
+\index{wrap@{wrap}!inflate_state@{inflate\-\_\-state}}
+\subsubsection[{wrap}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int} inflate\-\_\-state\-::wrap}}\label{structinflate__state_a990d157b5c0d4ba178c3361de9ce6561}
+
+
+Definition at line 80 of file inflate.\-h.
+
+\hypertarget{structinflate__state_a8b89588c1a322e622ebb694d8daa644c}{\index{inflate\-\_\-state@{inflate\-\_\-state}!write@{write}}
+\index{write@{write}!inflate_state@{inflate\-\_\-state}}
+\subsubsection[{write}]{\setlength{\rightskip}{0pt plus 5cm}unsigned inflate\-\_\-state\-::write}}\label{structinflate__state_a8b89588c1a322e622ebb694d8daa644c}
+
+
+Definition at line 91 of file inflate.\-h.
+
+\hypertarget{structinflate__state_acca16ca86216760eaf307bf71e15e470}{\index{inflate\-\_\-state@{inflate\-\_\-state}!wsize@{wsize}}
+\index{wsize@{wsize}!inflate_state@{inflate\-\_\-state}}
+\subsubsection[{wsize}]{\setlength{\rightskip}{0pt plus 5cm}unsigned inflate\-\_\-state\-::wsize}}\label{structinflate__state_acca16ca86216760eaf307bf71e15e470}
+
+
+Definition at line 89 of file inflate.\-h.
+
+
+
+The documentation for this struct was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/glc\-\_\-lib/3rdparty/zlib/\hyperlink{inflate_8h}{inflate.\-h}\end{DoxyCompactItemize}

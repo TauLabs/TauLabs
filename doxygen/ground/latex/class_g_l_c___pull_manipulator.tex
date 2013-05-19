@@ -1,0 +1,185 @@
+\hypertarget{class_g_l_c___pull_manipulator}{\section{G\-L\-C\-\_\-\-Pull\-Manipulator Class Reference}
+\label{class_g_l_c___pull_manipulator}\index{G\-L\-C\-\_\-\-Pull\-Manipulator@{G\-L\-C\-\_\-\-Pull\-Manipulator}}
+}
+
+
+\hyperlink{class_g_l_c___pull_manipulator}{G\-L\-C\-\_\-\-Pull\-Manipulator} \-:  
+
+
+
+
+{\ttfamily \#include $<$glc\-\_\-pullmanipulator.\-h$>$}
+
+Inheritance diagram for G\-L\-C\-\_\-\-Pull\-Manipulator\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_g_l_c___pull_manipulator}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{Indent}{\bf Constructor / Destructor}\par
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_g_l_c___pull_manipulator_a36b98e2aa3d3f32a7000d50a4ba15915}{G\-L\-C\-\_\-\-Pull\-Manipulator} (\hyperlink{class_g_l_c___viewport}{G\-L\-C\-\_\-\-Viewport} $\ast$p\-Viewport, const \hyperlink{class_g_l_c___vector3d}{G\-L\-C\-\_\-\-Vector3d} \&pull\-Direction)
+\begin{DoxyCompactList}\small\item\em Construct pull manipulator with the given viewport and pulling direction. \end{DoxyCompactList}\item 
+\hyperlink{class_g_l_c___pull_manipulator_aa9b88f64035c40a2f704596cc130c8e2}{G\-L\-C\-\_\-\-Pull\-Manipulator} (const \hyperlink{class_g_l_c___pull_manipulator}{G\-L\-C\-\_\-\-Pull\-Manipulator} \&pull\-Manipulator)
+\begin{DoxyCompactList}\small\item\em Copy constructor. \end{DoxyCompactList}\item 
+virtual \hyperlink{class_g_l_c___pull_manipulator_ae6c12362891244497a4966a8632f5c50}{$\sim$\-G\-L\-C\-\_\-\-Pull\-Manipulator} ()
+\begin{DoxyCompactList}\small\item\em Destructor. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\end{Indent}
+\begin{Indent}{\bf Get Functions}\par
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_g_l_c___vector3d}{G\-L\-C\-\_\-\-Vector3d} \hyperlink{class_g_l_c___pull_manipulator_af11fb912703430dd6559dea2deb00f8e}{pulling\-Direction} () const 
+\begin{DoxyCompactList}\small\item\em Return the pulling direction of this pull manipulator. \end{DoxyCompactList}\item 
+virtual \hyperlink{class_g_l_c___abstract_manipulator}{G\-L\-C\-\_\-\-Abstract\-Manipulator} $\ast$ \hyperlink{class_g_l_c___pull_manipulator_a30f32e5554a058dd0f069ecf8142c28f}{clone} () const 
+\begin{DoxyCompactList}\small\item\em Clone the concrete manipulator. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\end{Indent}
+\begin{Indent}{\bf Set Functions}\par
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c___pull_manipulator_a492c2ac7ef4f38f63f7a01e0dd0d5f0a}{set\-Pulling\-Direction} (const \hyperlink{class_g_l_c___vector3d}{G\-L\-C\-\_\-\-Vector3d} \&\hyperlink{class_g_l_c___pull_manipulator_af11fb912703430dd6559dea2deb00f8e}{pulling\-Direction})
+\begin{DoxyCompactList}\small\item\em Set the pulling direction of this manipulator. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\end{Indent}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual \hyperlink{class_g_l_c___matrix4x4}{G\-L\-C\-\_\-\-Matrix4x4} \hyperlink{class_g_l_c___pull_manipulator_a36b298b60e100d9a40ce907d320c9d0d}{do\-Manipulate} (const \hyperlink{glc__vector3d_8h_a4e13a9bbc7ab3d34de7e98b41836772c}{G\-L\-C\-\_\-\-Point3d} \&new\-Point, const \hyperlink{class_g_l_c___vector3d}{G\-L\-C\-\_\-\-Vector3d} \&projection\-Direction)
+\begin{DoxyCompactList}\small\item\em Manipulate this manipulator and return the moving matrix. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Detailed Description}
+\hyperlink{class_g_l_c___pull_manipulator}{G\-L\-C\-\_\-\-Pull\-Manipulator} \-: 
+
+\hyperlink{class_g_l_c___pull_manipulator}{G\-L\-C\-\_\-\-Pull\-Manipulator} 
+
+Definition at line 37 of file glc\-\_\-pullmanipulator.\-h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_g_l_c___pull_manipulator_a36b98e2aa3d3f32a7000d50a4ba15915}{\index{G\-L\-C\-\_\-\-Pull\-Manipulator@{G\-L\-C\-\_\-\-Pull\-Manipulator}!G\-L\-C\-\_\-\-Pull\-Manipulator@{G\-L\-C\-\_\-\-Pull\-Manipulator}}
+\index{G\-L\-C\-\_\-\-Pull\-Manipulator@{G\-L\-C\-\_\-\-Pull\-Manipulator}!GLC_PullManipulator@{G\-L\-C\-\_\-\-Pull\-Manipulator}}
+\subsubsection[{G\-L\-C\-\_\-\-Pull\-Manipulator}]{\setlength{\rightskip}{0pt plus 5cm}G\-L\-C\-\_\-\-Pull\-Manipulator\-::\-G\-L\-C\-\_\-\-Pull\-Manipulator (
+\begin{DoxyParamCaption}
+\item[{{\bf G\-L\-C\-\_\-\-Viewport} $\ast$}]{p\-Viewport, }
+\item[{const {\bf G\-L\-C\-\_\-\-Vector3d} \&}]{pull\-Direction}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___pull_manipulator_a36b98e2aa3d3f32a7000d50a4ba15915}
+
+
+Construct pull manipulator with the given viewport and pulling direction. 
+
+
+
+Definition at line 31 of file glc\-\_\-pullmanipulator.\-cpp.
+
+\hypertarget{class_g_l_c___pull_manipulator_aa9b88f64035c40a2f704596cc130c8e2}{\index{G\-L\-C\-\_\-\-Pull\-Manipulator@{G\-L\-C\-\_\-\-Pull\-Manipulator}!G\-L\-C\-\_\-\-Pull\-Manipulator@{G\-L\-C\-\_\-\-Pull\-Manipulator}}
+\index{G\-L\-C\-\_\-\-Pull\-Manipulator@{G\-L\-C\-\_\-\-Pull\-Manipulator}!GLC_PullManipulator@{G\-L\-C\-\_\-\-Pull\-Manipulator}}
+\subsubsection[{G\-L\-C\-\_\-\-Pull\-Manipulator}]{\setlength{\rightskip}{0pt plus 5cm}G\-L\-C\-\_\-\-Pull\-Manipulator\-::\-G\-L\-C\-\_\-\-Pull\-Manipulator (
+\begin{DoxyParamCaption}
+\item[{const {\bf G\-L\-C\-\_\-\-Pull\-Manipulator} \&}]{pull\-Manipulator}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___pull_manipulator_aa9b88f64035c40a2f704596cc130c8e2}
+
+
+Copy constructor. 
+
+
+
+Definition at line 38 of file glc\-\_\-pullmanipulator.\-cpp.
+
+\hypertarget{class_g_l_c___pull_manipulator_ae6c12362891244497a4966a8632f5c50}{\index{G\-L\-C\-\_\-\-Pull\-Manipulator@{G\-L\-C\-\_\-\-Pull\-Manipulator}!$\sim$\-G\-L\-C\-\_\-\-Pull\-Manipulator@{$\sim$\-G\-L\-C\-\_\-\-Pull\-Manipulator}}
+\index{$\sim$\-G\-L\-C\-\_\-\-Pull\-Manipulator@{$\sim$\-G\-L\-C\-\_\-\-Pull\-Manipulator}!GLC_PullManipulator@{G\-L\-C\-\_\-\-Pull\-Manipulator}}
+\subsubsection[{$\sim$\-G\-L\-C\-\_\-\-Pull\-Manipulator}]{\setlength{\rightskip}{0pt plus 5cm}G\-L\-C\-\_\-\-Pull\-Manipulator\-::$\sim$\-G\-L\-C\-\_\-\-Pull\-Manipulator (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_g_l_c___pull_manipulator_ae6c12362891244497a4966a8632f5c50}
+
+
+Destructor. 
+
+
+
+Definition at line 45 of file glc\-\_\-pullmanipulator.\-cpp.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_g_l_c___pull_manipulator_a30f32e5554a058dd0f069ecf8142c28f}{\index{G\-L\-C\-\_\-\-Pull\-Manipulator@{G\-L\-C\-\_\-\-Pull\-Manipulator}!clone@{clone}}
+\index{clone@{clone}!GLC_PullManipulator@{G\-L\-C\-\_\-\-Pull\-Manipulator}}
+\subsubsection[{clone}]{\setlength{\rightskip}{0pt plus 5cm}{\bf G\-L\-C\-\_\-\-Abstract\-Manipulator} $\ast$ G\-L\-C\-\_\-\-Pull\-Manipulator\-::clone (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_g_l_c___pull_manipulator_a30f32e5554a058dd0f069ecf8142c28f}
+
+
+Clone the concrete manipulator. 
+
+
+
+Implements \hyperlink{class_g_l_c___abstract_manipulator_a7cd00c4173c63bbb3c1bd46b56ef793d}{G\-L\-C\-\_\-\-Abstract\-Manipulator}.
+
+
+
+Definition at line 50 of file glc\-\_\-pullmanipulator.\-cpp.
+
+\hypertarget{class_g_l_c___pull_manipulator_a36b298b60e100d9a40ce907d320c9d0d}{\index{G\-L\-C\-\_\-\-Pull\-Manipulator@{G\-L\-C\-\_\-\-Pull\-Manipulator}!do\-Manipulate@{do\-Manipulate}}
+\index{do\-Manipulate@{do\-Manipulate}!GLC_PullManipulator@{G\-L\-C\-\_\-\-Pull\-Manipulator}}
+\subsubsection[{do\-Manipulate}]{\setlength{\rightskip}{0pt plus 5cm}{\bf G\-L\-C\-\_\-\-Matrix4x4} G\-L\-C\-\_\-\-Pull\-Manipulator\-::do\-Manipulate (
+\begin{DoxyParamCaption}
+\item[{const {\bf G\-L\-C\-\_\-\-Point3d} \&}]{new\-Point, }
+\item[{const {\bf G\-L\-C\-\_\-\-Vector3d} \&}]{projection\-Direction}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}}\label{class_g_l_c___pull_manipulator_a36b298b60e100d9a40ce907d320c9d0d}
+
+
+Manipulate this manipulator and return the moving matrix. 
+
+
+
+Implements \hyperlink{class_g_l_c___abstract_manipulator_a75d2c9e9ba5e21dad1d238e95ee85eb5}{G\-L\-C\-\_\-\-Abstract\-Manipulator}.
+
+
+
+Definition at line 61 of file glc\-\_\-pullmanipulator.\-cpp.
+
+\hypertarget{class_g_l_c___pull_manipulator_af11fb912703430dd6559dea2deb00f8e}{\index{G\-L\-C\-\_\-\-Pull\-Manipulator@{G\-L\-C\-\_\-\-Pull\-Manipulator}!pulling\-Direction@{pulling\-Direction}}
+\index{pulling\-Direction@{pulling\-Direction}!GLC_PullManipulator@{G\-L\-C\-\_\-\-Pull\-Manipulator}}
+\subsubsection[{pulling\-Direction}]{\setlength{\rightskip}{0pt plus 5cm}{\bf G\-L\-C\-\_\-\-Vector3d} G\-L\-C\-\_\-\-Pull\-Manipulator\-::pulling\-Direction (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___pull_manipulator_af11fb912703430dd6559dea2deb00f8e}
+
+
+Return the pulling direction of this pull manipulator. 
+
+
+
+Definition at line 60 of file glc\-\_\-pullmanipulator.\-h.
+
+\hypertarget{class_g_l_c___pull_manipulator_a492c2ac7ef4f38f63f7a01e0dd0d5f0a}{\index{G\-L\-C\-\_\-\-Pull\-Manipulator@{G\-L\-C\-\_\-\-Pull\-Manipulator}!set\-Pulling\-Direction@{set\-Pulling\-Direction}}
+\index{set\-Pulling\-Direction@{set\-Pulling\-Direction}!GLC_PullManipulator@{G\-L\-C\-\_\-\-Pull\-Manipulator}}
+\subsubsection[{set\-Pulling\-Direction}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-\-Pull\-Manipulator\-::set\-Pulling\-Direction (
+\begin{DoxyParamCaption}
+\item[{const {\bf G\-L\-C\-\_\-\-Vector3d} \&}]{pulling\-Direction}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___pull_manipulator_a492c2ac7ef4f38f63f7a01e0dd0d5f0a}
+
+
+Set the pulling direction of this manipulator. 
+
+
+
+Definition at line 55 of file glc\-\_\-pullmanipulator.\-cpp.
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/glc\-\_\-lib/3\-D\-Widget/\hyperlink{glc__pullmanipulator_8h}{glc\-\_\-pullmanipulator.\-h}\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/glc\-\_\-lib/3\-D\-Widget/\hyperlink{glc__pullmanipulator_8cpp}{glc\-\_\-pullmanipulator.\-cpp}\end{DoxyCompactItemize}

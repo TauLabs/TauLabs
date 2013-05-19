@@ -1,0 +1,131 @@
+\hypertarget{class_qxt_j_s_o_n_rpc_client}{\section{Qxt\-J\-S\-O\-N\-Rpc\-Client Class Reference}
+\label{class_qxt_j_s_o_n_rpc_client}\index{Qxt\-J\-S\-O\-N\-Rpc\-Client@{Qxt\-J\-S\-O\-N\-Rpc\-Client}}
+}
+
+
+The \hyperlink{class_qxt_j_s_o_n_rpc_client}{Qxt\-J\-S\-O\-N\-Rpc\-Client} class implements a J\-S\-O\-N-\/\-R\-P\-C Client.  
+
+
+
+
+{\ttfamily \#include $<$qxtjsonrpcclient.\-h$>$}
+
+Inheritance diagram for Qxt\-J\-S\-O\-N\-Rpc\-Client\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_qxt_j_s_o_n_rpc_client}
+\end{center}
+\end{figure}
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{struct_qxt_j_s_o_n_rpc_client_1_1_private}{Private}
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_qxt_j_s_o_n_rpc_client_a5d9a4fd5c248df626615e2d68b5eed80}{Qxt\-J\-S\-O\-N\-Rpc\-Client} (Q\-Object $\ast$parent=0)
+\item 
+Q\-Url \hyperlink{class_qxt_j_s_o_n_rpc_client_a9474ba5662df7fa775d982f3cc16ef80}{service\-Url} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qxt_j_s_o_n_rpc_client_a47ab3134426533c16cedd203d33c3934}{set\-Service\-Url} (Q\-Url uri)
+\item 
+Q\-Network\-Access\-Manager $\ast$ \hyperlink{class_qxt_j_s_o_n_rpc_client_a1a801438f9723a7996c9e0904f94196a}{network\-Manager} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qxt_j_s_o_n_rpc_client_a0537c80e6d94eee1a2a974b5c8a3c57f}{set\-Network\-Manager} (Q\-Network\-Access\-Manager $\ast$manager)
+\item 
+\hyperlink{class_qxt_j_s_o_n_rpc_call}{Qxt\-J\-S\-O\-N\-Rpc\-Call} $\ast$ \hyperlink{class_qxt_j_s_o_n_rpc_client_a2927df0db802be834abc854344873cd2}{call} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{Q\-String} method, Q\-Variant\-List arguments)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+The \hyperlink{class_qxt_j_s_o_n_rpc_client}{Qxt\-J\-S\-O\-N\-Rpc\-Client} class implements a J\-S\-O\-N-\/\-R\-P\-C Client. 
+
+Qxt\-Network Implements a Client that can communicate with services implementing the J\-S\-O\-N-\/\-R\-P\-C spec \href{http://json-rpc.org/wiki/specification}{\tt http\-://json-\/rpc.\-org/wiki/specification}
+
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qxt_j_s_o_n}{Qxt\-J\-S\-O\-N} 
+\end{DoxySeeAlso}
+
+
+Definition at line 37 of file qxtjsonrpcclient.\-h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_qxt_j_s_o_n_rpc_client_a5d9a4fd5c248df626615e2d68b5eed80}{\index{Qxt\-J\-S\-O\-N\-Rpc\-Client@{Qxt\-J\-S\-O\-N\-Rpc\-Client}!Qxt\-J\-S\-O\-N\-Rpc\-Client@{Qxt\-J\-S\-O\-N\-Rpc\-Client}}
+\index{Qxt\-J\-S\-O\-N\-Rpc\-Client@{Qxt\-J\-S\-O\-N\-Rpc\-Client}!QxtJSONRpcClient@{Qxt\-J\-S\-O\-N\-Rpc\-Client}}
+\subsubsection[{Qxt\-J\-S\-O\-N\-Rpc\-Client}]{\setlength{\rightskip}{0pt plus 5cm}Qxt\-J\-S\-O\-N\-Rpc\-Client\-::\-Qxt\-J\-S\-O\-N\-Rpc\-Client (
+\begin{DoxyParamCaption}
+\item[{Q\-Object $\ast$}]{parent = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)}}\label{class_qxt_j_s_o_n_rpc_client_a5d9a4fd5c248df626615e2d68b5eed80}
+
+
+Definition at line 52 of file qxtjsonrpcclient.\-cpp.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_qxt_j_s_o_n_rpc_client_a2927df0db802be834abc854344873cd2}{\index{Qxt\-J\-S\-O\-N\-Rpc\-Client@{Qxt\-J\-S\-O\-N\-Rpc\-Client}!call@{call}}
+\index{call@{call}!QxtJSONRpcClient@{Qxt\-J\-S\-O\-N\-Rpc\-Client}}
+\subsubsection[{call}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Qxt\-J\-S\-O\-N\-Rpc\-Call} $\ast$ Qxt\-J\-S\-O\-N\-Rpc\-Client\-::call (
+\begin{DoxyParamCaption}
+\item[{{\bf Q\-String}}]{method, }
+\item[{Q\-Variant\-List}]{arguments}
+\end{DoxyParamCaption}
+)}}\label{class_qxt_j_s_o_n_rpc_client_a2927df0db802be834abc854344873cd2}
+calls the remote {\itshape method} with {\itshape arguments} and returns a \hyperlink{class_qxt_j_s_o_n_rpc_call}{Qxt\-J\-S\-O\-N\-Rpc\-Call} wrapping it. you can connect to \hyperlink{class_qxt_j_s_o_n_rpc_call}{Qxt\-J\-S\-O\-N\-Rpc\-Call}'s signals to retreive the status of the call. 
+
+Definition at line 96 of file qxtjsonrpcclient.\-cpp.
+
+\hypertarget{class_qxt_j_s_o_n_rpc_client_a1a801438f9723a7996c9e0904f94196a}{\index{Qxt\-J\-S\-O\-N\-Rpc\-Client@{Qxt\-J\-S\-O\-N\-Rpc\-Client}!network\-Manager@{network\-Manager}}
+\index{network\-Manager@{network\-Manager}!QxtJSONRpcClient@{Qxt\-J\-S\-O\-N\-Rpc\-Client}}
+\subsubsection[{network\-Manager}]{\setlength{\rightskip}{0pt plus 5cm}Q\-Network\-Access\-Manager $\ast$ Qxt\-J\-S\-O\-N\-Rpc\-Client\-::network\-Manager (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_qxt_j_s_o_n_rpc_client_a1a801438f9723a7996c9e0904f94196a}
+returns the Q\-Network\-Access\-Manager used for connecting to the remote service 
+
+Definition at line 78 of file qxtjsonrpcclient.\-cpp.
+
+\hypertarget{class_qxt_j_s_o_n_rpc_client_a9474ba5662df7fa775d982f3cc16ef80}{\index{Qxt\-J\-S\-O\-N\-Rpc\-Client@{Qxt\-J\-S\-O\-N\-Rpc\-Client}!service\-Url@{service\-Url}}
+\index{service\-Url@{service\-Url}!QxtJSONRpcClient@{Qxt\-J\-S\-O\-N\-Rpc\-Client}}
+\subsubsection[{service\-Url}]{\setlength{\rightskip}{0pt plus 5cm}Q\-Url Qxt\-J\-S\-O\-N\-Rpc\-Client\-::service\-Url (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_qxt_j_s_o_n_rpc_client_a9474ba5662df7fa775d982f3cc16ef80}
+returns the url of the remote service 
+
+Definition at line 63 of file qxtjsonrpcclient.\-cpp.
+
+\hypertarget{class_qxt_j_s_o_n_rpc_client_a0537c80e6d94eee1a2a974b5c8a3c57f}{\index{Qxt\-J\-S\-O\-N\-Rpc\-Client@{Qxt\-J\-S\-O\-N\-Rpc\-Client}!set\-Network\-Manager@{set\-Network\-Manager}}
+\index{set\-Network\-Manager@{set\-Network\-Manager}!QxtJSONRpcClient@{Qxt\-J\-S\-O\-N\-Rpc\-Client}}
+\subsubsection[{set\-Network\-Manager}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qxt\-J\-S\-O\-N\-Rpc\-Client\-::set\-Network\-Manager (
+\begin{DoxyParamCaption}
+\item[{Q\-Network\-Access\-Manager $\ast$}]{manager}
+\end{DoxyParamCaption}
+)}}\label{class_qxt_j_s_o_n_rpc_client_a0537c80e6d94eee1a2a974b5c8a3c57f}
+sets the Q\-Network\-Access\-Manager used for connecting to the remote service to {\itshape manager} 
+
+Definition at line 86 of file qxtjsonrpcclient.\-cpp.
+
+\hypertarget{class_qxt_j_s_o_n_rpc_client_a47ab3134426533c16cedd203d33c3934}{\index{Qxt\-J\-S\-O\-N\-Rpc\-Client@{Qxt\-J\-S\-O\-N\-Rpc\-Client}!set\-Service\-Url@{set\-Service\-Url}}
+\index{set\-Service\-Url@{set\-Service\-Url}!QxtJSONRpcClient@{Qxt\-J\-S\-O\-N\-Rpc\-Client}}
+\subsubsection[{set\-Service\-Url}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qxt\-J\-S\-O\-N\-Rpc\-Client\-::set\-Service\-Url (
+\begin{DoxyParamCaption}
+\item[{Q\-Url}]{url}
+\end{DoxyParamCaption}
+)}}\label{class_qxt_j_s_o_n_rpc_client_a47ab3134426533c16cedd203d33c3934}
+sets the url of the remote service to {\itshape url} 
+
+Definition at line 71 of file qxtjsonrpcclient.\-cpp.
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/libqxt/src/network/\hyperlink{qxtjsonrpcclient_8h}{qxtjsonrpcclient.\-h}\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/libqxt/src/network/\hyperlink{qxtjsonrpcclient_8cpp}{qxtjsonrpcclient.\-cpp}\end{DoxyCompactItemize}

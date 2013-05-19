@@ -1,0 +1,120 @@
+\hypertarget{class_qwt_clipper}{\section{Qwt\-Clipper Class Reference}
+\label{class_qwt_clipper}\index{Qwt\-Clipper@{Qwt\-Clipper}}
+}
+
+
+Some clipping algos.  
+
+
+
+
+{\ttfamily \#include $<$qwt\-\_\-clipper.\-h$>$}
+
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static Q\-Polygon \hyperlink{class_qwt_clipper_ab42cda85c068194ae0c60f66ecd12022}{clip\-Polygon} (const Q\-Rect \&, const Q\-Polygon \&, bool close\-Polygon=false)
+\item 
+static Q\-Polygon\-F \hyperlink{class_qwt_clipper_ab7f737adc53ccd730934197359de3c95}{clip\-Polygon\-F} (const Q\-Rect\-F \&, const Q\-Polygon\-F \&, bool close\-Polygon=false)
+\item 
+static Q\-Vector$<$ \hyperlink{class_qwt_interval}{Qwt\-Interval} $>$ \hyperlink{class_qwt_clipper_ab36605186b4a1c411fccb3b68cf1724a}{clip\-Circle} (const Q\-Rect\-F \&, const Q\-Point\-F \&, \hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} radius)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Some clipping algos. 
+
+Definition at line 25 of file qwt\-\_\-clipper.\-h.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_qwt_clipper_ab36605186b4a1c411fccb3b68cf1724a}{\index{Qwt\-Clipper@{Qwt\-Clipper}!clip\-Circle@{clip\-Circle}}
+\index{clip\-Circle@{clip\-Circle}!QwtClipper@{Qwt\-Clipper}}
+\subsubsection[{clip\-Circle}]{\setlength{\rightskip}{0pt plus 5cm}Q\-Vector$<$ {\bf Qwt\-Interval} $>$ Qwt\-Clipper\-::clip\-Circle (
+\begin{DoxyParamCaption}
+\item[{const Q\-Rect\-F \&}]{clip\-Rect, }
+\item[{const Q\-Point\-F \&}]{center, }
+\item[{{\bf double}}]{radius}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{class_qwt_clipper_ab36605186b4a1c411fccb3b68cf1724a}
+Circle clipping
+
+\hyperlink{class_qwt_clipper_ab36605186b4a1c411fccb3b68cf1724a}{clip\-Circle()} devides a circle into intervals of angles representing arcs of the circle. When the circle is completely inside the clip rectangle an interval \mbox{[}0.\-0, 2 $\ast$ M\-\_\-\-P\-I\mbox{]} is returned.
+
+
+\begin{DoxyParams}{Parameters}
+{\em clip\-Rect} & Clip rectangle \\
+\hline
+{\em center} & Center of the circle \\
+\hline
+{\em radius} & Radius of the circle\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Arcs of the circle 
+\end{DoxyReturn}
+
+
+Definition at line 481 of file qwt\-\_\-clipper.\-cpp.
+
+\hypertarget{class_qwt_clipper_ab42cda85c068194ae0c60f66ecd12022}{\index{Qwt\-Clipper@{Qwt\-Clipper}!clip\-Polygon@{clip\-Polygon}}
+\index{clip\-Polygon@{clip\-Polygon}!QwtClipper@{Qwt\-Clipper}}
+\subsubsection[{clip\-Polygon}]{\setlength{\rightskip}{0pt plus 5cm}Q\-Polygon Qwt\-Clipper\-::clip\-Polygon (
+\begin{DoxyParamCaption}
+\item[{const Q\-Rect \&}]{clip\-Rect, }
+\item[{const Q\-Polygon \&}]{polygon, }
+\item[{bool}]{close\-Polygon = {\ttfamily false}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{class_qwt_clipper_ab42cda85c068194ae0c60f66ecd12022}
+Sutherland-\/\-Hodgman polygon clipping
+
+
+\begin{DoxyParams}{Parameters}
+{\em clip\-Rect} & Clip rectangle \\
+\hline
+{\em polygon} & Polygon \\
+\hline
+{\em close\-Polygon} & True, when the polygon is closed\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Clipped polygon 
+\end{DoxyReturn}
+
+
+Definition at line 445 of file qwt\-\_\-clipper.\-cpp.
+
+\hypertarget{class_qwt_clipper_ab7f737adc53ccd730934197359de3c95}{\index{Qwt\-Clipper@{Qwt\-Clipper}!clip\-Polygon\-F@{clip\-Polygon\-F}}
+\index{clip\-Polygon\-F@{clip\-Polygon\-F}!QwtClipper@{Qwt\-Clipper}}
+\subsubsection[{clip\-Polygon\-F}]{\setlength{\rightskip}{0pt plus 5cm}Q\-Polygon\-F Qwt\-Clipper\-::clip\-Polygon\-F (
+\begin{DoxyParamCaption}
+\item[{const Q\-Rect\-F \&}]{clip\-Rect, }
+\item[{const Q\-Polygon\-F \&}]{polygon, }
+\item[{bool}]{close\-Polygon = {\ttfamily false}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{class_qwt_clipper_ab7f737adc53ccd730934197359de3c95}
+Sutherland-\/\-Hodgman polygon clipping
+
+
+\begin{DoxyParams}{Parameters}
+{\em clip\-Rect} & Clip rectangle \\
+\hline
+{\em polygon} & Polygon \\
+\hline
+{\em close\-Polygon} & True, when the polygon is closed\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Clipped polygon 
+\end{DoxyReturn}
+
+
+Definition at line 461 of file qwt\-\_\-clipper.\-cpp.
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/qwt/src/\hyperlink{qwt__clipper_8h}{qwt\-\_\-clipper.\-h}\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/qwt/src/\hyperlink{qwt__clipper_8cpp}{qwt\-\_\-clipper.\-cpp}\end{DoxyCompactItemize}

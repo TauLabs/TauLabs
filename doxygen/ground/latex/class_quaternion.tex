@@ -1,0 +1,808 @@
+\hypertarget{class_quaternion}{\section{Quaternion$<$ Scalar $>$ Class Template Reference}
+\label{class_quaternion}\index{Quaternion$<$ Scalar $>$@{Quaternion$<$ Scalar $>$}}
+}
+
+
+The quaternion class used to represent 3\-D orientations and rotations.  
+
+
+
+
+{\ttfamily \#include $<$Forward\-Declarations.\-h$>$}
+
+Inheritance diagram for Quaternion$<$ Scalar $>$\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_quaternion}
+\end{center}
+\end{figure}
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+typedef \hyperlink{class_matrix}{Matrix}$<$ \hyperlink{class_rotation_base_ae9cbe0a3a87dfe2fa70958d9fe948a09}{Scalar}, 4, 1 $>$ \hyperlink{class_quaternion_ad622be107fa0707a98a1966345f961a1}{Coefficients}
+\item 
+typedef \hyperlink{class_matrix}{Matrix}$<$ \hyperlink{class_rotation_base_ae9cbe0a3a87dfe2fa70958d9fe948a09}{Scalar}, 3, 1 $>$ \hyperlink{class_quaternion_a585d82ad2af10253cfcbd08241bc6ca2}{Vector3}
+\item 
+typedef \hyperlink{class_matrix}{Matrix}$<$ \hyperlink{class_rotation_base_ae9cbe0a3a87dfe2fa70958d9fe948a09}{Scalar}, 3, 3 $>$ \hyperlink{class_quaternion_a9fb40d1207bd7f8f5e2fcfefb353c7ba}{Matrix3}
+\item 
+typedef \hyperlink{class_angle_axis}{Angle\-Axis}$<$ \hyperlink{class_rotation_base_ae9cbe0a3a87dfe2fa70958d9fe948a09}{Scalar} $>$ \hyperlink{class_quaternion_a9669c6f15433959ede73917adff4ce53}{Angle\-Axis\-Type}
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_rotation_base_ae9cbe0a3a87dfe2fa70958d9fe948a09}{Scalar} \hyperlink{class_quaternion_a675b3ee05d5fe850ff918768953c872b}{x} () const 
+\item 
+\hyperlink{class_rotation_base_ae9cbe0a3a87dfe2fa70958d9fe948a09}{Scalar} \hyperlink{class_quaternion_acbbd96430e27ad789764e1f6fe0e34ef}{y} () const 
+\item 
+\hyperlink{class_rotation_base_ae9cbe0a3a87dfe2fa70958d9fe948a09}{Scalar} \hyperlink{class_quaternion_ae95ae113469a730c7ed21f0812cf3c89}{z} () const 
+\item 
+\hyperlink{class_rotation_base_ae9cbe0a3a87dfe2fa70958d9fe948a09}{Scalar} \hyperlink{class_quaternion_a9d7444ce18bda3bb08e6845ba060e6d8}{w} () const 
+\item 
+\hyperlink{class_rotation_base_ae9cbe0a3a87dfe2fa70958d9fe948a09}{Scalar} \& \hyperlink{class_quaternion_a22cbbb9e3e27c1b1439c1c7bb1dac5d1}{x} ()
+\item 
+\hyperlink{class_rotation_base_ae9cbe0a3a87dfe2fa70958d9fe948a09}{Scalar} \& \hyperlink{class_quaternion_a4d100a6be90231e0490ed266b4940dba}{y} ()
+\item 
+\hyperlink{class_rotation_base_ae9cbe0a3a87dfe2fa70958d9fe948a09}{Scalar} \& \hyperlink{class_quaternion_a6346563343b59f2409eebfb1115a28aa}{z} ()
+\item 
+\hyperlink{class_rotation_base_ae9cbe0a3a87dfe2fa70958d9fe948a09}{Scalar} \& \hyperlink{class_quaternion_a13d09bc70ce4af13179ed5259c965305}{w} ()
+\item 
+const \hyperlink{class_block}{Block}$<$ \hyperlink{class_quaternion_ad622be107fa0707a98a1966345f961a1}{Coefficients}, 3, 1 $>$ \hyperlink{class_quaternion_a10d14d80ff427795e62e7e8b049f1279}{vec} () const 
+\item 
+\hyperlink{class_block}{Block}$<$ \hyperlink{class_quaternion_ad622be107fa0707a98a1966345f961a1}{Coefficients}, 3, 1 $>$ \hyperlink{class_quaternion_a4309780e1a89a4fcec76a2484d003557}{vec} ()
+\item 
+const \hyperlink{class_quaternion_ad622be107fa0707a98a1966345f961a1}{Coefficients} \& \hyperlink{class_quaternion_a90e1d4dccf2cbea8458ac5de36482fea}{coeffs} () const 
+\item 
+\hyperlink{class_quaternion_ad622be107fa0707a98a1966345f961a1}{Coefficients} \& \hyperlink{class_quaternion_a455e9ef89e552d2c50e4350428e91450}{coeffs} ()
+\item 
+\hyperlink{class_quaternion_a3eb59fb5f0174686b6d50795b4053a2d}{Quaternion} ()
+\item 
+\hyperlink{class_quaternion_a45e2c68aa528049d93491633986ade58}{Quaternion} (\hyperlink{class_rotation_base_ae9cbe0a3a87dfe2fa70958d9fe948a09}{Scalar} \hyperlink{glext_8h_ac1795f3b2fee217274b85c2750e1a889}{w}, \hyperlink{class_rotation_base_ae9cbe0a3a87dfe2fa70958d9fe948a09}{Scalar} \hyperlink{glext_8h_a1db9d104e3c2128177f26aff7b46982f}{x}, \hyperlink{class_rotation_base_ae9cbe0a3a87dfe2fa70958d9fe948a09}{Scalar} \hyperlink{glext_8h_a42315f3ed8fff752bb47fd782309fcfc}{y}, \hyperlink{class_rotation_base_ae9cbe0a3a87dfe2fa70958d9fe948a09}{Scalar} \hyperlink{glext_8h_a642c8d69fd1a54f255c898df4f0dd7ca}{z})
+\item 
+\hyperlink{class_quaternion_a12f965865b4ea7ee541bb60d94df690c}{Quaternion} (const \hyperlink{class_quaternion}{Quaternion} \&other)
+\item 
+\hyperlink{class_quaternion_a50363c51e8f12dcf2d0ac52029c01fbf}{Quaternion} (const \hyperlink{class_quaternion_a9669c6f15433959ede73917adff4ce53}{Angle\-Axis\-Type} \&aa)
+\item 
+{\footnotesize template$<$typename Derived $>$ }\\\hyperlink{class_quaternion_ad44ab95b0a69d0bc520b03610da1aa0c}{Quaternion} (const \hyperlink{class_matrix_base}{Matrix\-Base}$<$ Derived $>$ \&other)
+\item 
+\hyperlink{class_quaternion}{Quaternion} \& \hyperlink{class_quaternion_aaf3d54b762e7c7122812facbc1b0d7a3}{operator=} (const \hyperlink{class_quaternion}{Quaternion} \&other)
+\item 
+\hyperlink{class_quaternion}{Quaternion} \& \hyperlink{class_quaternion_a3d0cabe9261eacc4eb6c4bd442113655}{operator=} (const \hyperlink{class_quaternion_a9669c6f15433959ede73917adff4ce53}{Angle\-Axis\-Type} \&aa)
+\item 
+{\footnotesize template$<$typename Derived $>$ }\\\hyperlink{class_quaternion}{Quaternion} \& \hyperlink{class_quaternion_af8bc27b4d1382641e8fa0561792cc665}{operator=} (const \hyperlink{class_matrix_base}{Matrix\-Base}$<$ Derived $>$ \&\hyperlink{glext_8h_af593500c283bf1a787a6f947f503a5c2}{m})
+\item 
+\hyperlink{class_quaternion}{Quaternion} \& \hyperlink{class_quaternion_a4c9ec69d3a73f4b9f3daf550c9f52ff8}{set\-Identity} ()
+\item 
+\hyperlink{class_rotation_base_ae9cbe0a3a87dfe2fa70958d9fe948a09}{Scalar} \hyperlink{class_quaternion_a32e7a9dfba2bd87ea76296f79a31e684}{squared\-Norm} () const 
+\item 
+\hyperlink{class_rotation_base_ae9cbe0a3a87dfe2fa70958d9fe948a09}{Scalar} \hyperlink{class_quaternion_a4effeec326ab5970a71373496b913253}{norm} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_quaternion_a63cbfc0acf73550848211efb177f4521}{normalize} ()
+\item 
+\hyperlink{class_quaternion}{Quaternion} \hyperlink{class_quaternion_ac4cd49607acefb24d204b18d0b18b4d5}{normalized} () const 
+\item 
+\hyperlink{class_rotation_base_ae9cbe0a3a87dfe2fa70958d9fe948a09}{Scalar} \hyperlink{class_quaternion_a090d3926a926b5345f5f17082f1cdb26}{dot} (const \hyperlink{class_quaternion}{Quaternion} \&other) const 
+\item 
+\hyperlink{class_rotation_base_ae9cbe0a3a87dfe2fa70958d9fe948a09}{Scalar} \hyperlink{class_quaternion_a79486d849f76d1551c5005898a6b2a81}{angular\-Distance} (const \hyperlink{class_quaternion}{Quaternion} \&other) const 
+\item 
+\hyperlink{class_quaternion_a9fb40d1207bd7f8f5e2fcfefb353c7ba}{Matrix3} \hyperlink{class_quaternion_a0bc697c4a0504b94f759c1a5ff31795a}{to\-Rotation\-Matrix} (\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void}) const 
+\item 
+{\footnotesize template$<$typename Derived1 , typename Derived2 $>$ }\\\hyperlink{class_quaternion}{Quaternion} \& \hyperlink{class_quaternion_ac8a1f0d9361b62c6d5a5178cd5c23536}{set\-From\-Two\-Vectors} (const \hyperlink{class_matrix_base}{Matrix\-Base}$<$ Derived1 $>$ \&\hyperlink{glext_8h_ac8729153468b5dcf13f971b21d84d4e5}{a}, const \hyperlink{class_matrix_base}{Matrix\-Base}$<$ Derived2 $>$ \&\hyperlink{glext_8h_a6eba317e3cf44d6d26c04a5a8f197dcb}{b})
+\item 
+\hyperlink{class_quaternion}{Quaternion} \hyperlink{class_quaternion_ab26fe0a0d3aee99169952acfb31e899d}{operator$\ast$} (const \hyperlink{class_quaternion}{Quaternion} \&\hyperlink{glext_8h_afb30bc844faa48275d1c84294956a44b}{q}) const 
+\item 
+\hyperlink{class_quaternion}{Quaternion} \& \hyperlink{class_quaternion_ab6ae9c14ac677514ff6cdbaae45fe37e}{operator$\ast$=} (const \hyperlink{class_quaternion}{Quaternion} \&\hyperlink{glext_8h_afb30bc844faa48275d1c84294956a44b}{q})
+\item 
+\hyperlink{class_quaternion}{Quaternion} \hyperlink{class_quaternion_ab773683087c58b6d9916a7c4eb38887b}{inverse} (\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void}) const 
+\item 
+\hyperlink{class_quaternion}{Quaternion} \hyperlink{class_quaternion_a9b721d2b930f481554b3b9e23a54096a}{conjugate} (\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void}) const 
+\item 
+\hyperlink{class_quaternion}{Quaternion} \hyperlink{class_quaternion_a96e6495f85941b9f2bf883b6f38c47ea}{slerp} (\hyperlink{class_rotation_base_ae9cbe0a3a87dfe2fa70958d9fe948a09}{Scalar} \hyperlink{glext_8h_a00140d6f5c548b26daf170bf16e86a6d}{t}, const \hyperlink{class_quaternion}{Quaternion} \&other) const 
+\item 
+{\footnotesize template$<$typename Derived $>$ }\\\hyperlink{class_quaternion_a585d82ad2af10253cfcbd08241bc6ca2}{Vector3} \hyperlink{class_quaternion_a11d9aaf3b15449b00aa6339b19c996db}{operator$\ast$} (const \hyperlink{class_matrix_base}{Matrix\-Base}$<$ Derived $>$ \&\hyperlink{class_quaternion_a10d14d80ff427795e62e7e8b049f1279}{vec}) const 
+\item 
+{\footnotesize template$<$typename New\-Scalar\-Type $>$ }\\\hyperlink{structei__cast__return__type}{ei\-\_\-cast\-\_\-return\-\_\-type}\\*
+$<$ \hyperlink{class_quaternion}{Quaternion}, \hyperlink{class_quaternion}{Quaternion}\\*
+$<$ New\-Scalar\-Type $>$ $>$\-::\hyperlink{glext_8h_a7d05960f4f1c1b11f3177dc963a45d86}{type} \hyperlink{class_quaternion_a2edbf32b00fca109eee807139f122b59}{cast} () const 
+\item 
+{\footnotesize template$<$typename Other\-Scalar\-Type $>$ }\\\hyperlink{class_quaternion_a970981fb66a11b6929b1e9a99c3b0885}{Quaternion} (const \hyperlink{class_quaternion}{Quaternion}$<$ Other\-Scalar\-Type $>$ \&other)
+\item 
+bool \hyperlink{class_quaternion_a9d4080066641252e12e2d04782ed0bac}{is\-Approx} (const \hyperlink{class_quaternion}{Quaternion} \&other, typename \hyperlink{struct_num_traits}{Num\-Traits}$<$ \hyperlink{class_rotation_base_ae9cbe0a3a87dfe2fa70958d9fe948a09}{Scalar} $>$\-::Real prec=\hyperlink{_math_functions_8h_a3dc1c65cf9dc9b5a7ee66472d0ae83e1}{precision}$<$ \hyperlink{class_rotation_base_ae9cbe0a3a87dfe2fa70958d9fe948a09}{Scalar} $>$()) const 
+\item 
+{\footnotesize template$<$typename Derived $>$ }\\\hyperlink{class_quaternion}{Quaternion}$<$ \hyperlink{class_rotation_base_ae9cbe0a3a87dfe2fa70958d9fe948a09}{Scalar} $>$\-::\hyperlink{class_quaternion_a585d82ad2af10253cfcbd08241bc6ca2}{Vector3} \hyperlink{class_quaternion_ac3d6d6cb3e28e72c0a741f793d465888}{operator$\ast$} (const \hyperlink{class_matrix_base}{Matrix\-Base}$<$ Derived $>$ \&\hyperlink{glext_8h_a14cfbe2fc2234f5504618905b69d1e06}{v}) const 
+\item 
+{\footnotesize template$<$typename Derived $>$ }\\\hyperlink{class_quaternion}{Quaternion}$<$ \hyperlink{class_rotation_base_ae9cbe0a3a87dfe2fa70958d9fe948a09}{Scalar} $>$ \& \hyperlink{class_quaternion_aa2e85bd25b74435fecd161a3a8c9f5fe}{operator=} (const \hyperlink{class_matrix_base}{Matrix\-Base}$<$ Derived $>$ \&xpr)
+\item 
+{\footnotesize template$<$typename Derived1 , typename Derived2 $>$ }\\\hyperlink{class_quaternion}{Quaternion}$<$ \hyperlink{class_rotation_base_ae9cbe0a3a87dfe2fa70958d9fe948a09}{Scalar} $>$ \& \hyperlink{class_quaternion_a3695d141d17e0c34ee54a787ae5d4c71}{set\-From\-Two\-Vectors} (const \hyperlink{class_matrix_base}{Matrix\-Base}$<$ Derived1 $>$ \&\hyperlink{glext_8h_ac8729153468b5dcf13f971b21d84d4e5}{a}, const \hyperlink{class_matrix_base}{Matrix\-Base}$<$ Derived2 $>$ \&\hyperlink{glext_8h_a6eba317e3cf44d6d26c04a5a8f197dcb}{b})
+\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static \hyperlink{class_quaternion}{Quaternion} \hyperlink{class_quaternion_a3a16d70a440085a6520c2acd81e5ee5c}{Identity} ()
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+E\-I\-G\-E\-N\-\_\-\-M\-A\-K\-E\-\_\-\-A\-L\-I\-G\-N\-E\-D\-\_\-\-O\-P\-E\-R\-A\-T\-O\-R\-\_\-\-N\-E\-W\-\_\-\-I\-F\-\_\-\-V\-E\-C\-T\-O\-R\-I\-Z\-A\-B\-L\-E\-\_\-\-F\-I\-X\-E\-D\-\_\-\-S\-I\-Z\-E(\-\_\-\-Scalar, \\*
+4) using \hyperlink{class_rotation_base}{Base} typedef \-\_\-\-Scalar \hyperlink{class_quaternion_a8ea39a2c8e8ed06b7763f93af1c04266}{Scalar}
+\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_quaternion_ad622be107fa0707a98a1966345f961a1}{Coefficients} \hyperlink{class_quaternion_a61cc84a5d914b6ce737c609b3cffd6d0}{m\-\_\-coeffs}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$typename Scalar$>$class Quaternion$<$ Scalar $>$}
+
+The quaternion class used to represent 3\-D orientations and rotations. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \-\_\-\-Scalar} & the scalar type, i.\-e., the type of the coefficients\\
+\hline
+\end{DoxyParams}
+This class represents a quaternion $ w+xi+yj+zk $ that is a convenient representation of orientations and rotations of objects in three dimensions. Compared to other representations like Euler angles or 3x3 matrices, quatertions offer the following advantages\-: \begin{DoxyItemize}
+\item {\bfseries compact} storage (4 scalars) \item {\bfseries efficient} to compose (28 flops), \item {\bfseries stable} spherical interpolation\end{DoxyItemize}
+The following two typedefs are provided for convenience\-: \begin{DoxyItemize}
+\item {\ttfamily Quaternionf} for {\ttfamily float} \item {\ttfamily Quaterniond} for {\ttfamily double} \end{DoxyItemize}
+\begin{DoxySeeAlso}{See Also}
+class \hyperlink{class_angle_axis}{Angle\-Axis}, class \hyperlink{class_transform}{Transform} 
+\end{DoxySeeAlso}
+
+
+Definition at line 113 of file Forward\-Declarations.\-h.
+
+
+
+\subsection{Member Typedef Documentation}
+\hypertarget{class_quaternion_a9669c6f15433959ede73917adff4ce53}{\index{Quaternion@{Quaternion}!Angle\-Axis\-Type@{Angle\-Axis\-Type}}
+\index{Angle\-Axis\-Type@{Angle\-Axis\-Type}!Quaternion@{Quaternion}}
+\subsubsection[{Angle\-Axis\-Type}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Scalar$>$ typedef {\bf Angle\-Axis}$<${\bf Scalar}$>$ {\bf Quaternion}$<$ {\bf Scalar} $>$\-::{\bf Angle\-Axis\-Type}}}\label{class_quaternion_a9669c6f15433959ede73917adff4ce53}
+the equivalent angle-\/axis type 
+
+Definition at line 80 of file Quaternion.\-h.
+
+\hypertarget{class_quaternion_ad622be107fa0707a98a1966345f961a1}{\index{Quaternion@{Quaternion}!Coefficients@{Coefficients}}
+\index{Coefficients@{Coefficients}!Quaternion@{Quaternion}}
+\subsubsection[{Coefficients}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Scalar$>$ typedef {\bf Matrix}$<${\bf Scalar}, 4, 1$>$ {\bf Quaternion}$<$ {\bf Scalar} $>$\-::{\bf Coefficients}}}\label{class_quaternion_ad622be107fa0707a98a1966345f961a1}
+the type of the Coefficients 4-\/vector 
+
+Definition at line 74 of file Quaternion.\-h.
+
+\hypertarget{class_quaternion_a9fb40d1207bd7f8f5e2fcfefb353c7ba}{\index{Quaternion@{Quaternion}!Matrix3@{Matrix3}}
+\index{Matrix3@{Matrix3}!Quaternion@{Quaternion}}
+\subsubsection[{Matrix3}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Scalar$>$ typedef {\bf Matrix}$<${\bf Scalar},3,3$>$ {\bf Quaternion}$<$ {\bf Scalar} $>$\-::{\bf Matrix3}}}\label{class_quaternion_a9fb40d1207bd7f8f5e2fcfefb353c7ba}
+the equivalent rotation matrix type 
+
+Definition at line 78 of file Quaternion.\-h.
+
+\hypertarget{class_quaternion_a585d82ad2af10253cfcbd08241bc6ca2}{\index{Quaternion@{Quaternion}!Vector3@{Vector3}}
+\index{Vector3@{Vector3}!Quaternion@{Quaternion}}
+\subsubsection[{Vector3}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Scalar$>$ typedef {\bf Matrix}$<${\bf Scalar},3,1$>$ {\bf Quaternion}$<$ {\bf Scalar} $>$\-::{\bf Vector3}}}\label{class_quaternion_a585d82ad2af10253cfcbd08241bc6ca2}
+the type of a 3\-D vector 
+
+Definition at line 76 of file Quaternion.\-h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_quaternion_a3eb59fb5f0174686b6d50795b4053a2d}{\index{Quaternion@{Quaternion}!Quaternion@{Quaternion}}
+\index{Quaternion@{Quaternion}!Quaternion@{Quaternion}}
+\subsubsection[{Quaternion}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Scalar$>$ {\bf Quaternion}$<$ {\bf Scalar} $>$\-::{\bf Quaternion} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_quaternion_a3eb59fb5f0174686b6d50795b4053a2d}
+Default constructor leaving the quaternion uninitialized. 
+
+Definition at line 113 of file Quaternion.\-h.
+
+\hypertarget{class_quaternion_a45e2c68aa528049d93491633986ade58}{\index{Quaternion@{Quaternion}!Quaternion@{Quaternion}}
+\index{Quaternion@{Quaternion}!Quaternion@{Quaternion}}
+\subsubsection[{Quaternion}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Scalar$>$ {\bf Quaternion}$<$ {\bf Scalar} $>$\-::{\bf Quaternion} (
+\begin{DoxyParamCaption}
+\item[{{\bf Scalar}}]{w, }
+\item[{{\bf Scalar}}]{x, }
+\item[{{\bf Scalar}}]{y, }
+\item[{{\bf Scalar}}]{z}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_quaternion_a45e2c68aa528049d93491633986ade58}
+Constructs and initializes the quaternion $ w+xi+yj+zk $ from its four coefficients {\itshape w}, {\itshape x}, {\itshape y} and {\itshape z}.
+
+\begin{DoxyWarning}{Warning}
+Note the order of the arguments\-: the real {\itshape w} coefficient first, while internally the coefficients are stored in the following order\-: \mbox{[}{\ttfamily x}, {\ttfamily y}, {\ttfamily z}, {\ttfamily w}\mbox{]} 
+\end{DoxyWarning}
+
+
+Definition at line 122 of file Quaternion.\-h.
+
+\hypertarget{class_quaternion_a12f965865b4ea7ee541bb60d94df690c}{\index{Quaternion@{Quaternion}!Quaternion@{Quaternion}}
+\index{Quaternion@{Quaternion}!Quaternion@{Quaternion}}
+\subsubsection[{Quaternion}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Scalar$>$ {\bf Quaternion}$<$ {\bf Scalar} $>$\-::{\bf Quaternion} (
+\begin{DoxyParamCaption}
+\item[{const {\bf Quaternion}$<$ {\bf Scalar} $>$ \&}]{other}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_quaternion_a12f965865b4ea7ee541bb60d94df690c}
+Copy constructor 
+
+Definition at line 126 of file Quaternion.\-h.
+
+\hypertarget{class_quaternion_a50363c51e8f12dcf2d0ac52029c01fbf}{\index{Quaternion@{Quaternion}!Quaternion@{Quaternion}}
+\index{Quaternion@{Quaternion}!Quaternion@{Quaternion}}
+\subsubsection[{Quaternion}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Scalar$>$ {\bf Quaternion}$<$ {\bf Scalar} $>$\-::{\bf Quaternion} (
+\begin{DoxyParamCaption}
+\item[{const {\bf Angle\-Axis\-Type} \&}]{aa}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [explicit]}}}\label{class_quaternion_a50363c51e8f12dcf2d0ac52029c01fbf}
+Constructs and initializes a quaternion from the angle-\/axis {\itshape aa} 
+
+Definition at line 129 of file Quaternion.\-h.
+
+\hypertarget{class_quaternion_ad44ab95b0a69d0bc520b03610da1aa0c}{\index{Quaternion@{Quaternion}!Quaternion@{Quaternion}}
+\index{Quaternion@{Quaternion}!Quaternion@{Quaternion}}
+\subsubsection[{Quaternion}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Scalar$>$ template$<$typename Derived $>$ {\bf Quaternion}$<$ {\bf Scalar} $>$\-::{\bf Quaternion} (
+\begin{DoxyParamCaption}
+\item[{const {\bf Matrix\-Base}$<$ Derived $>$ \&}]{other}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [explicit]}}}\label{class_quaternion_ad44ab95b0a69d0bc520b03610da1aa0c}
+Constructs and initializes a quaternion from either\-:
+\begin{DoxyItemize}
+\item a rotation matrix expression,
+\item a 4\-D vector expression representing quaternion coefficients. \begin{DoxySeeAlso}{See Also}
+operator=(\-Matrix\-Base$<$\-Derived$>$) 
+\end{DoxySeeAlso}
+
+\end{DoxyItemize}
+
+Definition at line 137 of file Quaternion.\-h.
+
+\hypertarget{class_quaternion_a970981fb66a11b6929b1e9a99c3b0885}{\index{Quaternion@{Quaternion}!Quaternion@{Quaternion}}
+\index{Quaternion@{Quaternion}!Quaternion@{Quaternion}}
+\subsubsection[{Quaternion}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Scalar$>$ template$<$typename Other\-Scalar\-Type $>$ {\bf Quaternion}$<$ {\bf Scalar} $>$\-::{\bf Quaternion} (
+\begin{DoxyParamCaption}
+\item[{const {\bf Quaternion}$<$ Other\-Scalar\-Type $>$ \&}]{other}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [explicit]}}}\label{class_quaternion_a970981fb66a11b6929b1e9a99c3b0885}
+Copy constructor with scalar type conversion 
+
+Definition at line 206 of file Quaternion.\-h.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_quaternion_a79486d849f76d1551c5005898a6b2a81}{\index{Quaternion@{Quaternion}!angular\-Distance@{angular\-Distance}}
+\index{angular\-Distance@{angular\-Distance}!Quaternion@{Quaternion}}
+\subsubsection[{angular\-Distance}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Scalar $>$ {\bf Scalar} {\bf Quaternion}$<$ {\bf Scalar} $>$\-::angular\-Distance (
+\begin{DoxyParamCaption}
+\item[{const {\bf Quaternion}$<$ {\bf Scalar} $>$ \&}]{other}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_quaternion_a79486d849f76d1551c5005898a6b2a81}
+\begin{DoxyReturn}{Returns}
+the angle (in radian) between two rotations 
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_quaternion_a090d3926a926b5345f5f17082f1cdb26}{dot()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 439 of file Quaternion.\-h.
+
+\hypertarget{class_quaternion_a2edbf32b00fca109eee807139f122b59}{\index{Quaternion@{Quaternion}!cast@{cast}}
+\index{cast@{cast}!Quaternion@{Quaternion}}
+\subsubsection[{cast}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Scalar$>$ template$<$typename New\-Scalar\-Type $>$ {\bf ei\-\_\-cast\-\_\-return\-\_\-type}$<${\bf Quaternion},{\bf Quaternion}$<$New\-Scalar\-Type$>$ $>$\-::{\bf type} {\bf Quaternion}$<$ {\bf Scalar} $>$\-::cast (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_quaternion_a2edbf32b00fca109eee807139f122b59}
+\begin{DoxyReturn}{Returns}
+{\ttfamily $\ast$this} with scalar type casted to {\itshape New\-Scalar\-Type} 
+\end{DoxyReturn}
+Note that if {\itshape New\-Scalar\-Type} is equal to the current scalar type of {\ttfamily $\ast$this} then this function smartly returns a const reference to {\ttfamily $\ast$this}. 
+
+Definition at line 201 of file Quaternion.\-h.
+
+\hypertarget{class_quaternion_a90e1d4dccf2cbea8458ac5de36482fea}{\index{Quaternion@{Quaternion}!coeffs@{coeffs}}
+\index{coeffs@{coeffs}!Quaternion@{Quaternion}}
+\subsubsection[{coeffs}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Scalar$>$ const {\bf Coefficients}\& {\bf Quaternion}$<$ {\bf Scalar} $>$\-::coeffs (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_quaternion_a90e1d4dccf2cbea8458ac5de36482fea}
+\begin{DoxyReturn}{Returns}
+a read-\/only vector expression of the coefficients (x,y,z,w) 
+\end{DoxyReturn}
+
+
+Definition at line 107 of file Quaternion.\-h.
+
+\hypertarget{class_quaternion_a455e9ef89e552d2c50e4350428e91450}{\index{Quaternion@{Quaternion}!coeffs@{coeffs}}
+\index{coeffs@{coeffs}!Quaternion@{Quaternion}}
+\subsubsection[{coeffs}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Scalar$>$ {\bf Coefficients}\& {\bf Quaternion}$<$ {\bf Scalar} $>$\-::coeffs (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_quaternion_a455e9ef89e552d2c50e4350428e91450}
+\begin{DoxyReturn}{Returns}
+a vector expression of the coefficients (x,y,z,w) 
+\end{DoxyReturn}
+
+
+Definition at line 110 of file Quaternion.\-h.
+
+\hypertarget{class_quaternion_a9b721d2b930f481554b3b9e23a54096a}{\index{Quaternion@{Quaternion}!conjugate@{conjugate}}
+\index{conjugate@{conjugate}!Quaternion@{Quaternion}}
+\subsubsection[{conjugate}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Scalar $>$ {\bf Quaternion}$<$ {\bf Scalar} $>$ {\bf Quaternion}$<$ {\bf Scalar} $>$\-::conjugate (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_quaternion_a9b721d2b930f481554b3b9e23a54096a}
+\begin{DoxyReturn}{Returns}
+the conjugate of the {\ttfamily $\ast$this} which is equal to the multiplicative inverse if the quaternion is normalized. The conjugate of a quaternion represents the opposite rotation.
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_quaternion_ab773683087c58b6d9916a7c4eb38887b}{Quaternion\-::inverse()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 430 of file Quaternion.\-h.
+
+\hypertarget{class_quaternion_a090d3926a926b5345f5f17082f1cdb26}{\index{Quaternion@{Quaternion}!dot@{dot}}
+\index{dot@{dot}!Quaternion@{Quaternion}}
+\subsubsection[{dot}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Scalar$>$ {\bf Scalar} {\bf Quaternion}$<$ {\bf Scalar} $>$\-::dot (
+\begin{DoxyParamCaption}
+\item[{const {\bf Quaternion}$<$ {\bf Scalar} $>$ \&}]{other}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_quaternion_a090d3926a926b5345f5f17082f1cdb26}
+\begin{DoxyReturn}{Returns}
+the dot product of {\ttfamily $\ast$this} and {\itshape other} Geometrically speaking, the dot product of two unit quaternions corresponds to the cosine of half the angle between the two rotations. 
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_quaternion_a79486d849f76d1551c5005898a6b2a81}{angular\-Distance()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 175 of file Quaternion.\-h.
+
+\hypertarget{class_quaternion_a3a16d70a440085a6520c2acd81e5ee5c}{\index{Quaternion@{Quaternion}!Identity@{Identity}}
+\index{Identity@{Identity}!Quaternion@{Quaternion}}
+\subsubsection[{Identity}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Scalar$>$ static {\bf Quaternion} {\bf Quaternion}$<$ {\bf Scalar} $>$\-::Identity (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{class_quaternion_a3a16d70a440085a6520c2acd81e5ee5c}
+\begin{DoxyReturn}{Returns}
+a quaternion representing an identity rotation 
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_matrix_base_ae099ba9697a9989d827169994bd5728d}{Matrix\-Base\-::\-Identity()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 147 of file Quaternion.\-h.
+
+\hypertarget{class_quaternion_ab773683087c58b6d9916a7c4eb38887b}{\index{Quaternion@{Quaternion}!inverse@{inverse}}
+\index{inverse@{inverse}!Quaternion@{Quaternion}}
+\subsubsection[{inverse}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Scalar $>$ {\bf Quaternion}$<$ {\bf Scalar} $>$ {\bf Quaternion}$<$ {\bf Scalar} $>$\-::inverse (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_quaternion_ab773683087c58b6d9916a7c4eb38887b}
+\begin{DoxyReturn}{Returns}
+the multiplicative inverse of {\ttfamily $\ast$this} Note that in most cases, i.\-e., if you simply want the opposite rotation, and/or the quaternion is normalized, then it is enough to use the conjugate.
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_quaternion_a9b721d2b930f481554b3b9e23a54096a}{Quaternion\-::conjugate()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 410 of file Quaternion.\-h.
+
+\hypertarget{class_quaternion_a9d4080066641252e12e2d04782ed0bac}{\index{Quaternion@{Quaternion}!is\-Approx@{is\-Approx}}
+\index{is\-Approx@{is\-Approx}!Quaternion@{Quaternion}}
+\subsubsection[{is\-Approx}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Scalar$>$ bool {\bf Quaternion}$<$ {\bf Scalar} $>$\-::is\-Approx (
+\begin{DoxyParamCaption}
+\item[{const {\bf Quaternion}$<$ {\bf Scalar} $>$ \&}]{other, }
+\item[{typename {\bf Num\-Traits}$<$ {\bf Scalar} $>$\-::Real}]{prec = {\ttfamily {\bf precision}$<${\bf Scalar}$>$()}}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_quaternion_a9d4080066641252e12e2d04782ed0bac}
+\begin{DoxyReturn}{Returns}
+{\ttfamily true} if {\ttfamily $\ast$this} is approximately equal to {\itshape other}, within the precision determined by {\itshape prec}.
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_matrix_base_a85eb8c7adf519acfa5b74545a6870945}{Matrix\-Base\-::is\-Approx()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 213 of file Quaternion.\-h.
+
+\hypertarget{class_quaternion_a4effeec326ab5970a71373496b913253}{\index{Quaternion@{Quaternion}!norm@{norm}}
+\index{norm@{norm}!Quaternion@{Quaternion}}
+\subsubsection[{norm}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Scalar$>$ {\bf Scalar} {\bf Quaternion}$<$ {\bf Scalar} $>$\-::norm (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_quaternion_a4effeec326ab5970a71373496b913253}
+\begin{DoxyReturn}{Returns}
+the norm of the quaternion's coefficients 
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_quaternion_a32e7a9dfba2bd87ea76296f79a31e684}{Quaternion\-::squared\-Norm()}, \hyperlink{class_matrix_base_ab227b26a58ab1cb0f23451a8c856c411}{Matrix\-Base\-::norm()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 161 of file Quaternion.\-h.
+
+\hypertarget{class_quaternion_a63cbfc0acf73550848211efb177f4521}{\index{Quaternion@{Quaternion}!normalize@{normalize}}
+\index{normalize@{normalize}!Quaternion@{Quaternion}}
+\subsubsection[{normalize}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Scalar$>$ {\bf void} {\bf Quaternion}$<$ {\bf Scalar} $>$\-::normalize (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_quaternion_a63cbfc0acf73550848211efb177f4521}
+Normalizes the quaternion {\ttfamily $\ast$this} \begin{DoxySeeAlso}{See Also}
+\hyperlink{class_quaternion_ac4cd49607acefb24d204b18d0b18b4d5}{normalized()}, \hyperlink{class_matrix_base_a5502971e5f38762b7c4e14e8e918a08c}{Matrix\-Base\-::normalize()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 165 of file Quaternion.\-h.
+
+\hypertarget{class_quaternion_ac4cd49607acefb24d204b18d0b18b4d5}{\index{Quaternion@{Quaternion}!normalized@{normalized}}
+\index{normalized@{normalized}!Quaternion@{Quaternion}}
+\subsubsection[{normalized}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Scalar$>$ {\bf Quaternion} {\bf Quaternion}$<$ {\bf Scalar} $>$\-::{\bf normalized} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_quaternion_ac4cd49607acefb24d204b18d0b18b4d5}
+\begin{DoxyReturn}{Returns}
+a normalized version of {\ttfamily $\ast$this} 
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_quaternion_a63cbfc0acf73550848211efb177f4521}{normalize()}, \hyperlink{class_matrix_base_a65f587dc428711338002878c561bff6f}{Matrix\-Base\-::normalized()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 168 of file Quaternion.\-h.
+
+\hypertarget{class_quaternion_ab26fe0a0d3aee99169952acfb31e899d}{\index{Quaternion@{Quaternion}!operator$\ast$@{operator$\ast$}}
+\index{operator$\ast$@{operator$\ast$}!Quaternion@{Quaternion}}
+\subsubsection[{operator$\ast$}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Scalar $>$ {\bf Quaternion}$<$ {\bf Scalar} $>$ {\bf Quaternion}$<$ {\bf Scalar} $>$\-::operator$\ast$ (
+\begin{DoxyParamCaption}
+\item[{const {\bf Quaternion}$<$ {\bf Scalar} $>$ \&}]{other}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_quaternion_ab26fe0a0d3aee99169952acfb31e899d}
+\begin{DoxyReturn}{Returns}
+the concatenation of two rotations as a quaternion-\/quaternion product 
+\end{DoxyReturn}
+
+
+Definition at line 263 of file Quaternion.\-h.
+
+\hypertarget{class_quaternion_a11d9aaf3b15449b00aa6339b19c996db}{\index{Quaternion@{Quaternion}!operator$\ast$@{operator$\ast$}}
+\index{operator$\ast$@{operator$\ast$}!Quaternion@{Quaternion}}
+\subsubsection[{operator$\ast$}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Scalar$>$ template$<$typename Derived $>$ {\bf Vector3} {\bf Quaternion}$<$ {\bf Scalar} $>$\-::operator$\ast$ (
+\begin{DoxyParamCaption}
+\item[{const {\bf Matrix\-Base}$<$ Derived $>$ \&}]{vec}
+\end{DoxyParamCaption}
+) const}}\label{class_quaternion_a11d9aaf3b15449b00aa6339b19c996db}
+\hypertarget{class_quaternion_ac3d6d6cb3e28e72c0a741f793d465888}{\index{Quaternion@{Quaternion}!operator$\ast$@{operator$\ast$}}
+\index{operator$\ast$@{operator$\ast$}!Quaternion@{Quaternion}}
+\subsubsection[{operator$\ast$}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Scalar$>$ template$<$typename Derived $>$ {\bf Quaternion}$<${\bf Scalar}$>$\-::{\bf Vector3} {\bf Quaternion}$<$ {\bf Scalar} $>$\-::operator$\ast$ (
+\begin{DoxyParamCaption}
+\item[{const {\bf Matrix\-Base}$<$ Derived $>$ \&}]{v}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_quaternion_ac3d6d6cb3e28e72c0a741f793d465888}
+Rotation of a vector by a quaternion. \begin{DoxyRemark}{Remarks}
+If the quaternion is used to rotate several points ($>$1) then it is much more efficient to first convert it to a 3x3 \hyperlink{class_matrix}{Matrix}. Comparison of the operation cost for n transformations\-:
+\begin{DoxyItemize}
+\item \hyperlink{class_quaternion}{Quaternion}\-: 30n
+\item Via a Matrix3\-: 24 + 15n 
+\end{DoxyItemize}
+\end{DoxyRemark}
+
+
+Definition at line 285 of file Quaternion.\-h.
+
+\hypertarget{class_quaternion_ab6ae9c14ac677514ff6cdbaae45fe37e}{\index{Quaternion@{Quaternion}!operator$\ast$=@{operator$\ast$=}}
+\index{operator$\ast$=@{operator$\ast$=}!Quaternion@{Quaternion}}
+\subsubsection[{operator$\ast$=}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Scalar $>$ {\bf Quaternion}$<$ {\bf Scalar} $>$ \& {\bf Quaternion}$<$ {\bf Scalar} $>$\-::operator$\ast$= (
+\begin{DoxyParamCaption}
+\item[{const {\bf Quaternion}$<$ {\bf Scalar} $>$ \&}]{other}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_quaternion_ab6ae9c14ac677514ff6cdbaae45fe37e}
+\begin{DoxySeeAlso}{See Also}
+operator$\ast$(\-Quaternion) 
+\end{DoxySeeAlso}
+
+
+Definition at line 270 of file Quaternion.\-h.
+
+\hypertarget{class_quaternion_aaf3d54b762e7c7122812facbc1b0d7a3}{\index{Quaternion@{Quaternion}!operator=@{operator=}}
+\index{operator=@{operator=}!Quaternion@{Quaternion}}
+\subsubsection[{operator=}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Scalar $>$ {\bf Quaternion}$<$ {\bf Scalar} $>$ \& {\bf Quaternion}$<$ {\bf Scalar} $>$\-::operator= (
+\begin{DoxyParamCaption}
+\item[{const {\bf Quaternion}$<$ {\bf Scalar} $>$ \&}]{other}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_quaternion_aaf3d54b762e7c7122812facbc1b0d7a3}
+
+
+Definition at line 298 of file Quaternion.\-h.
+
+\hypertarget{class_quaternion_a3d0cabe9261eacc4eb6c4bd442113655}{\index{Quaternion@{Quaternion}!operator=@{operator=}}
+\index{operator=@{operator=}!Quaternion@{Quaternion}}
+\subsubsection[{operator=}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Scalar $>$ {\bf Quaternion}$<$ {\bf Scalar} $>$ \& {\bf Quaternion}$<$ {\bf Scalar} $>$\-::operator= (
+\begin{DoxyParamCaption}
+\item[{const {\bf Angle\-Axis\-Type} \&}]{aa}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_quaternion_a3d0cabe9261eacc4eb6c4bd442113655}
+Set {\ttfamily $\ast$this} from an angle-\/axis {\itshape aa} and returns a reference to {\ttfamily $\ast$this} 
+
+Definition at line 307 of file Quaternion.\-h.
+
+\hypertarget{class_quaternion_af8bc27b4d1382641e8fa0561792cc665}{\index{Quaternion@{Quaternion}!operator=@{operator=}}
+\index{operator=@{operator=}!Quaternion@{Quaternion}}
+\subsubsection[{operator=}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Scalar$>$ template$<$typename Derived $>$ {\bf Quaternion}\& {\bf Quaternion}$<$ {\bf Scalar} $>$\-::operator= (
+\begin{DoxyParamCaption}
+\item[{const {\bf Matrix\-Base}$<$ Derived $>$ \&}]{m}
+\end{DoxyParamCaption}
+)}}\label{class_quaternion_af8bc27b4d1382641e8fa0561792cc665}
+\hypertarget{class_quaternion_aa2e85bd25b74435fecd161a3a8c9f5fe}{\index{Quaternion@{Quaternion}!operator=@{operator=}}
+\index{operator=@{operator=}!Quaternion@{Quaternion}}
+\subsubsection[{operator=}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Scalar$>$ template$<$typename Derived $>$ {\bf Quaternion}$<${\bf Scalar}$>$\& {\bf Quaternion}$<$ {\bf Scalar} $>$\-::operator= (
+\begin{DoxyParamCaption}
+\item[{const {\bf Matrix\-Base}$<$ Derived $>$ \&}]{xpr}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_quaternion_aa2e85bd25b74435fecd161a3a8c9f5fe}
+Set {\ttfamily $\ast$this} from the expression {\itshape xpr\-:} 
+\begin{DoxyItemize}
+\item if {\itshape xpr} is a 4x1 vector, then {\itshape xpr} is assumed to be a quaternion
+\item if {\itshape xpr} is a 3x3 matrix, then {\itshape xpr} is assumed to be rotation matrix and {\itshape xpr} is converted to a quaternion 
+\end{DoxyItemize}
+
+Definition at line 322 of file Quaternion.\-h.
+
+\hypertarget{class_quaternion_ac8a1f0d9361b62c6d5a5178cd5c23536}{\index{Quaternion@{Quaternion}!set\-From\-Two\-Vectors@{set\-From\-Two\-Vectors}}
+\index{set\-From\-Two\-Vectors@{set\-From\-Two\-Vectors}!Quaternion@{Quaternion}}
+\subsubsection[{set\-From\-Two\-Vectors}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Scalar$>$ template$<$typename Derived1 , typename Derived2 $>$ {\bf Quaternion}\& {\bf Quaternion}$<$ {\bf Scalar} $>$\-::set\-From\-Two\-Vectors (
+\begin{DoxyParamCaption}
+\item[{const {\bf Matrix\-Base}$<$ Derived1 $>$ \&}]{a, }
+\item[{const {\bf Matrix\-Base}$<$ Derived2 $>$ \&}]{b}
+\end{DoxyParamCaption}
+)}}\label{class_quaternion_ac8a1f0d9361b62c6d5a5178cd5c23536}
+\hypertarget{class_quaternion_a3695d141d17e0c34ee54a787ae5d4c71}{\index{Quaternion@{Quaternion}!set\-From\-Two\-Vectors@{set\-From\-Two\-Vectors}}
+\index{set\-From\-Two\-Vectors@{set\-From\-Two\-Vectors}!Quaternion@{Quaternion}}
+\subsubsection[{set\-From\-Two\-Vectors}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Scalar$>$ template$<$typename Derived1 , typename Derived2 $>$ {\bf Quaternion}$<${\bf Scalar}$>$\& {\bf Quaternion}$<$ {\bf Scalar} $>$\-::set\-From\-Two\-Vectors (
+\begin{DoxyParamCaption}
+\item[{const {\bf Matrix\-Base}$<$ Derived1 $>$ \&}]{a, }
+\item[{const {\bf Matrix\-Base}$<$ Derived2 $>$ \&}]{b}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_quaternion_a3695d141d17e0c34ee54a787ae5d4c71}
+Sets $\ast$this to be a quaternion representing a rotation sending the vector {\itshape a} to the vector {\itshape b}.
+
+\begin{DoxyReturn}{Returns}
+a reference to $\ast$this.
+\end{DoxyReturn}
+Note that the two input vectors do {\bfseries not} have to be normalized. 
+
+Definition at line 373 of file Quaternion.\-h.
+
+\hypertarget{class_quaternion_a4c9ec69d3a73f4b9f3daf550c9f52ff8}{\index{Quaternion@{Quaternion}!set\-Identity@{set\-Identity}}
+\index{set\-Identity@{set\-Identity}!Quaternion@{Quaternion}}
+\subsubsection[{set\-Identity}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Scalar$>$ {\bf Quaternion}\& {\bf Quaternion}$<$ {\bf Scalar} $>$\-::set\-Identity (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_quaternion_a4c9ec69d3a73f4b9f3daf550c9f52ff8}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_quaternion_a3a16d70a440085a6520c2acd81e5ee5c}{Quaternion\-::\-Identity()}, \hyperlink{class_matrix_base_ab9afa6647581c8c3f638b4db96bb5f2c}{Matrix\-Base\-::set\-Identity()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 151 of file Quaternion.\-h.
+
+\hypertarget{class_quaternion_a96e6495f85941b9f2bf883b6f38c47ea}{\index{Quaternion@{Quaternion}!slerp@{slerp}}
+\index{slerp@{slerp}!Quaternion@{Quaternion}}
+\subsubsection[{slerp}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Scalar $>$ {\bf Quaternion}$<$ {\bf Scalar} $>$ {\bf Quaternion}$<$ {\bf Scalar} $>$\-::slerp (
+\begin{DoxyParamCaption}
+\item[{{\bf Scalar}}]{t, }
+\item[{const {\bf Quaternion}$<$ {\bf Scalar} $>$ \&}]{other}
+\end{DoxyParamCaption}
+) const}}\label{class_quaternion_a96e6495f85941b9f2bf883b6f38c47ea}
+\begin{DoxyReturn}{Returns}
+the spherical linear interpolation between the two quaternions {\ttfamily $\ast$this} and {\itshape other} at the parameter {\itshape t} 
+\end{DoxyReturn}
+
+
+Definition at line 451 of file Quaternion.\-h.
+
+\hypertarget{class_quaternion_a32e7a9dfba2bd87ea76296f79a31e684}{\index{Quaternion@{Quaternion}!squared\-Norm@{squared\-Norm}}
+\index{squared\-Norm@{squared\-Norm}!Quaternion@{Quaternion}}
+\subsubsection[{squared\-Norm}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Scalar$>$ {\bf Scalar} {\bf Quaternion}$<$ {\bf Scalar} $>$\-::squared\-Norm (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_quaternion_a32e7a9dfba2bd87ea76296f79a31e684}
+\begin{DoxyReturn}{Returns}
+the squared norm of the quaternion's coefficients 
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_quaternion_a4effeec326ab5970a71373496b913253}{Quaternion\-::norm()}, \hyperlink{class_matrix_base_a87e14260e8d43d5578c6721c1ad6d3df}{Matrix\-Base\-::squared\-Norm()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 156 of file Quaternion.\-h.
+
+\hypertarget{class_quaternion_a0bc697c4a0504b94f759c1a5ff31795a}{\index{Quaternion@{Quaternion}!to\-Rotation\-Matrix@{to\-Rotation\-Matrix}}
+\index{to\-Rotation\-Matrix@{to\-Rotation\-Matrix}!Quaternion@{Quaternion}}
+\subsubsection[{to\-Rotation\-Matrix}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Scalar $>$ {\bf Quaternion}$<$ {\bf Scalar} $>$\-::{\bf Matrix3} {\bf Quaternion}$<$ {\bf Scalar} $>$\-::to\-Rotation\-Matrix (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_quaternion_a0bc697c4a0504b94f759c1a5ff31795a}
+Convert the quaternion to a 3x3 rotation matrix 
+
+Definition at line 331 of file Quaternion.\-h.
+
+\hypertarget{class_quaternion_a10d14d80ff427795e62e7e8b049f1279}{\index{Quaternion@{Quaternion}!vec@{vec}}
+\index{vec@{vec}!Quaternion@{Quaternion}}
+\subsubsection[{vec}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Scalar$>$ const {\bf Block}$<${\bf Coefficients},3,1$>$ {\bf Quaternion}$<$ {\bf Scalar} $>$\-::vec (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_quaternion_a10d14d80ff427795e62e7e8b049f1279}
+\begin{DoxyReturn}{Returns}
+a read-\/only vector expression of the imaginary part (x,y,z) 
+\end{DoxyReturn}
+
+
+Definition at line 101 of file Quaternion.\-h.
+
+\hypertarget{class_quaternion_a4309780e1a89a4fcec76a2484d003557}{\index{Quaternion@{Quaternion}!vec@{vec}}
+\index{vec@{vec}!Quaternion@{Quaternion}}
+\subsubsection[{vec}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Scalar$>$ {\bf Block}$<${\bf Coefficients},3,1$>$ {\bf Quaternion}$<$ {\bf Scalar} $>$\-::vec (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_quaternion_a4309780e1a89a4fcec76a2484d003557}
+\begin{DoxyReturn}{Returns}
+a vector expression of the imaginary part (x,y,z) 
+\end{DoxyReturn}
+
+
+Definition at line 104 of file Quaternion.\-h.
+
+\hypertarget{class_quaternion_a9d7444ce18bda3bb08e6845ba060e6d8}{\index{Quaternion@{Quaternion}!w@{w}}
+\index{w@{w}!Quaternion@{Quaternion}}
+\subsubsection[{w}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Scalar$>$ {\bf Scalar} {\bf Quaternion}$<$ {\bf Scalar} $>$\-::{\bf w} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_quaternion_a9d7444ce18bda3bb08e6845ba060e6d8}
+\begin{DoxyReturn}{Returns}
+the {\ttfamily w} coefficient 
+\end{DoxyReturn}
+
+
+Definition at line 89 of file Quaternion.\-h.
+
+\hypertarget{class_quaternion_a13d09bc70ce4af13179ed5259c965305}{\index{Quaternion@{Quaternion}!w@{w}}
+\index{w@{w}!Quaternion@{Quaternion}}
+\subsubsection[{w}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Scalar$>$ {\bf Scalar}\& {\bf Quaternion}$<$ {\bf Scalar} $>$\-::{\bf w} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_quaternion_a13d09bc70ce4af13179ed5259c965305}
+\begin{DoxyReturn}{Returns}
+a reference to the {\ttfamily w} coefficient 
+\end{DoxyReturn}
+
+
+Definition at line 98 of file Quaternion.\-h.
+
+\hypertarget{class_quaternion_a675b3ee05d5fe850ff918768953c872b}{\index{Quaternion@{Quaternion}!x@{x}}
+\index{x@{x}!Quaternion@{Quaternion}}
+\subsubsection[{x}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Scalar$>$ {\bf Scalar} {\bf Quaternion}$<$ {\bf Scalar} $>$\-::{\bf x} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_quaternion_a675b3ee05d5fe850ff918768953c872b}
+\begin{DoxyReturn}{Returns}
+the {\ttfamily x} coefficient 
+\end{DoxyReturn}
+
+
+Definition at line 83 of file Quaternion.\-h.
+
+\hypertarget{class_quaternion_a22cbbb9e3e27c1b1439c1c7bb1dac5d1}{\index{Quaternion@{Quaternion}!x@{x}}
+\index{x@{x}!Quaternion@{Quaternion}}
+\subsubsection[{x}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Scalar$>$ {\bf Scalar}\& {\bf Quaternion}$<$ {\bf Scalar} $>$\-::{\bf x} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_quaternion_a22cbbb9e3e27c1b1439c1c7bb1dac5d1}
+\begin{DoxyReturn}{Returns}
+a reference to the {\ttfamily x} coefficient 
+\end{DoxyReturn}
+
+
+Definition at line 92 of file Quaternion.\-h.
+
+\hypertarget{class_quaternion_acbbd96430e27ad789764e1f6fe0e34ef}{\index{Quaternion@{Quaternion}!y@{y}}
+\index{y@{y}!Quaternion@{Quaternion}}
+\subsubsection[{y}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Scalar$>$ {\bf Scalar} {\bf Quaternion}$<$ {\bf Scalar} $>$\-::{\bf y} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_quaternion_acbbd96430e27ad789764e1f6fe0e34ef}
+\begin{DoxyReturn}{Returns}
+the {\ttfamily y} coefficient 
+\end{DoxyReturn}
+
+
+Definition at line 85 of file Quaternion.\-h.
+
+\hypertarget{class_quaternion_a4d100a6be90231e0490ed266b4940dba}{\index{Quaternion@{Quaternion}!y@{y}}
+\index{y@{y}!Quaternion@{Quaternion}}
+\subsubsection[{y}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Scalar$>$ {\bf Scalar}\& {\bf Quaternion}$<$ {\bf Scalar} $>$\-::{\bf y} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_quaternion_a4d100a6be90231e0490ed266b4940dba}
+\begin{DoxyReturn}{Returns}
+a reference to the {\ttfamily y} coefficient 
+\end{DoxyReturn}
+
+
+Definition at line 94 of file Quaternion.\-h.
+
+\hypertarget{class_quaternion_ae95ae113469a730c7ed21f0812cf3c89}{\index{Quaternion@{Quaternion}!z@{z}}
+\index{z@{z}!Quaternion@{Quaternion}}
+\subsubsection[{z}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Scalar$>$ {\bf Scalar} {\bf Quaternion}$<$ {\bf Scalar} $>$\-::{\bf z} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_quaternion_ae95ae113469a730c7ed21f0812cf3c89}
+\begin{DoxyReturn}{Returns}
+the {\ttfamily z} coefficient 
+\end{DoxyReturn}
+
+
+Definition at line 87 of file Quaternion.\-h.
+
+\hypertarget{class_quaternion_a6346563343b59f2409eebfb1115a28aa}{\index{Quaternion@{Quaternion}!z@{z}}
+\index{z@{z}!Quaternion@{Quaternion}}
+\subsubsection[{z}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Scalar$>$ {\bf Scalar}\& {\bf Quaternion}$<$ {\bf Scalar} $>$\-::{\bf z} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_quaternion_a6346563343b59f2409eebfb1115a28aa}
+\begin{DoxyReturn}{Returns}
+a reference to the {\ttfamily z} coefficient 
+\end{DoxyReturn}
+
+
+Definition at line 96 of file Quaternion.\-h.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{class_quaternion_a61cc84a5d914b6ce737c609b3cffd6d0}{\index{Quaternion@{Quaternion}!m\-\_\-coeffs@{m\-\_\-coeffs}}
+\index{m\-\_\-coeffs@{m\-\_\-coeffs}!Quaternion@{Quaternion}}
+\subsubsection[{m\-\_\-coeffs}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Scalar$>$ {\bf Coefficients} {\bf Quaternion}$<$ {\bf Scalar} $>$\-::m\-\_\-coeffs\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_quaternion_a61cc84a5d914b6ce737c609b3cffd6d0}
+
+
+Definition at line 217 of file Quaternion.\-h.
+
+\hypertarget{class_quaternion_a8ea39a2c8e8ed06b7763f93af1c04266}{\index{Quaternion@{Quaternion}!Scalar@{Scalar}}
+\index{Scalar@{Scalar}!Quaternion@{Quaternion}}
+\subsubsection[{Scalar}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Scalar$>$ E\-I\-G\-E\-N\-\_\-\-M\-A\-K\-E\-\_\-\-A\-L\-I\-G\-N\-E\-D\-\_\-\-O\-P\-E\-R\-A\-T\-O\-R\-\_\-\-N\-E\-W\-\_\-\-I\-F\-\_\-\-V\-E\-C\-T\-O\-R\-I\-Z\-A\-B\-L\-E\-\_\-\-F\-I\-X\-E\-D\-\_\-\-S\-I\-Z\-E (\-\_\-\-Scalar,4) using {\bf Base} typedef \-\_\-\-Scalar {\bf Quaternion}$<$ {\bf Scalar} $>$\-::{\bf Scalar}}}\label{class_quaternion_a8ea39a2c8e8ed06b7763f93af1c04266}
+the scalar type of the coefficients 
+
+Definition at line 66 of file Quaternion.\-h.
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/eigen/\-Eigen/src/\-Core/util/\hyperlink{_forward_declarations_8h}{Forward\-Declarations.\-h}\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/eigen/\-Eigen/src/\-Geometry/\hyperlink{_quaternion_8h}{Quaternion.\-h}\end{DoxyCompactItemize}

@@ -1,0 +1,97 @@
+\hypertarget{class_qxt_global_shortcut}{\section{Qxt\-Global\-Shortcut Class Reference}
+\label{class_qxt_global_shortcut}\index{Qxt\-Global\-Shortcut@{Qxt\-Global\-Shortcut}}
+}
+
+
+The \hyperlink{class_qxt_global_shortcut}{Qxt\-Global\-Shortcut} class provides a global shortcut aka \char`\"{}hotkey\char`\"{}.  
+
+
+
+
+{\ttfamily \#include $<$qxtglobalshortcut.\-h$>$}
+
+Inheritance diagram for Qxt\-Global\-Shortcut\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_qxt_global_shortcut}
+\end{center}
+\end{figure}
+\subsection*{Public Slots}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qxt_global_shortcut_a470a6799146d1693a23140ca55edbea6}{set\-Enabled} (bool enabled=true)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qxt_global_shortcut_afd5563a5b2b9b63b18ed7e3e7b67e048}{set\-Disabled} (bool disabled=true)
+\end{DoxyCompactItemize}
+\subsection*{Signals}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qxt_global_shortcut_ae5048554f63055a79bc708e231cb8818}{activated} ()
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+The \hyperlink{class_qxt_global_shortcut}{Qxt\-Global\-Shortcut} class provides a global shortcut aka \char`\"{}hotkey\char`\"{}. 
+
+Qxt\-Gui A global shortcut triggers even if the application is not active. This makes it easy to implement applications that react to certain shortcuts still if some other application is active or if the application is for example minimized to the system tray.
+
+Example usage\-: 
+\begin{DoxyCode}
+\hyperlink{class_qxt_global_shortcut}{QxtGlobalShortcut}* shortcut = \textcolor{keyword}{new} \hyperlink{class_qxt_global_shortcut}{QxtGlobalShortcut}(window);
+\hyperlink{namespace_qxt_meta_object_a0672fb5917d321762dfd192f229469d5}{connect}(shortcut, SIGNAL(\hyperlink{class_qxt_global_shortcut_ae5048554f63055a79bc708e231cb8818}{activated}()), window, SLOT(toggleVisibility()));
+shortcut->setShortcut(QKeySequence(\textcolor{stringliteral}{"Ctrl+Shift+F12"}));
+\end{DoxyCode}
+
+
+\{Note\-:\} Since Qxt 0.\-6 \hyperlink{class_qxt_global_shortcut}{Qxt\-Global\-Shortcut} no more requires \hyperlink{class_qxt_application}{Qxt\-Application}. 
+
+Definition at line 33 of file qxtglobalshortcut.\-h.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_qxt_global_shortcut_ae5048554f63055a79bc708e231cb8818}{\index{Qxt\-Global\-Shortcut@{Qxt\-Global\-Shortcut}!activated@{activated}}
+\index{activated@{activated}!QxtGlobalShortcut@{Qxt\-Global\-Shortcut}}
+\subsubsection[{activated}]{\setlength{\rightskip}{0pt plus 5cm}Qxt\-Global\-Shortcut\-::activated (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [signal]}}}\label{class_qxt_global_shortcut_ae5048554f63055a79bc708e231cb8818}
+This signal is emitted when the user types the shortcut's key sequence.
+
+\begin{DoxySeeAlso}{See Also}
+shortcut 
+\end{DoxySeeAlso}
+\hypertarget{class_qxt_global_shortcut_afd5563a5b2b9b63b18ed7e3e7b67e048}{\index{Qxt\-Global\-Shortcut@{Qxt\-Global\-Shortcut}!set\-Disabled@{set\-Disabled}}
+\index{set\-Disabled@{set\-Disabled}!QxtGlobalShortcut@{Qxt\-Global\-Shortcut}}
+\subsubsection[{set\-Disabled}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qxt\-Global\-Shortcut\-::set\-Disabled (
+\begin{DoxyParamCaption}
+\item[{bool}]{disabled = {\ttfamily true}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [slot]}}}\label{class_qxt_global_shortcut_afd5563a5b2b9b63b18ed7e3e7b67e048}
+Sets the shortcut {\itshape disabled}.
+
+\begin{DoxySeeAlso}{See Also}
+enabled 
+\end{DoxySeeAlso}
+
+
+Definition at line 188 of file qxtglobalshortcut.\-cpp.
+
+\hypertarget{class_qxt_global_shortcut_a470a6799146d1693a23140ca55edbea6}{\index{Qxt\-Global\-Shortcut@{Qxt\-Global\-Shortcut}!set\-Enabled@{set\-Enabled}}
+\index{set\-Enabled@{set\-Enabled}!QxtGlobalShortcut@{Qxt\-Global\-Shortcut}}
+\subsubsection[{set\-Enabled}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qxt\-Global\-Shortcut\-::set\-Enabled (
+\begin{DoxyParamCaption}
+\item[{bool}]{enabled = {\ttfamily true}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [slot]}}}\label{class_qxt_global_shortcut_a470a6799146d1693a23140ca55edbea6}
+
+
+Definition at line 178 of file qxtglobalshortcut.\-cpp.
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/libqxt/src/gui/\hyperlink{qxtglobalshortcut_8h}{qxtglobalshortcut.\-h}\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/libqxt/src/gui/\hyperlink{qxtglobalshortcut_8cpp}{qxtglobalshortcut.\-cpp}\end{DoxyCompactItemize}

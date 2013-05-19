@@ -1,0 +1,271 @@
+\hypertarget{class_product}{\section{Product$<$ Lhs\-Nested, Rhs\-Nested, Product\-Mode $>$ Class Template Reference}
+\label{class_product}\index{Product$<$ Lhs\-Nested, Rhs\-Nested, Product\-Mode $>$@{Product$<$ Lhs\-Nested, Rhs\-Nested, Product\-Mode $>$}}
+}
+
+
+Expression of the product of two matrices.  
+
+
+
+
+{\ttfamily \#include $<$Product.\-h$>$}
+
+Inheritance diagram for Product$<$ Lhs\-Nested, Rhs\-Nested, Product\-Mode $>$\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=1.443299cm]{class_product}
+\end{center}
+\end{figure}
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+enum \{ \hyperlink{class_product_aed4106fbae3137a79eecc0b126eda5c7a6815056433cb21ada8e1d722e096bb30}{Packet\-Size} = ei\-\_\-packet\-\_\-traits$<$Scalar$>$\-:\-:size, 
+\hyperlink{class_product_aed4106fbae3137a79eecc0b126eda5c7abe4ec3b9d5ac4d3adf94d768f994ac8d}{Inner\-Size} = ei\-\_\-traits$<$Product$>$\-:\-:Inner\-Size
+ \}
+\item 
+typedef \hyperlink{structei__product__coeff__impl}{ei\-\_\-product\-\_\-coeff\-\_\-impl}\\*
+$<$ Can\-Vectorize\-Inner?Inner\-Vectorization\-:\-No\-Vectorization, \\*
+Unroll?\hyperlink{class_product_aed4106fbae3137a79eecc0b126eda5c7abe4ec3b9d5ac4d3adf94d768f994ac8d}{Inner\-Size}-\/1\-:\hyperlink{_constants_8h_adc9da5be31bdce40c25a92c27999c0e3}{Dynamic}, \\*
+\-\_\-\-Lhs\-Nested, \hyperlink{class_product_a6bd9dcf946f54f28090951b0dc48c0f7}{\-\_\-\-Rhs\-Nested}, \hyperlink{class_matrix_base_a625df8339dc2d816cbc0fd66e7dadaf5}{Scalar} $>$ \hyperlink{class_product_a8da86980a3699fb57fea9a803af58708}{Scalar\-Coeff\-Impl}
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$typename Lhs , typename Rhs $>$ }\\\hyperlink{class_product_a5f94f1a30ba777d17c66ad74a9fb5016}{Product} (const Lhs \&\hyperlink{class_product_ac87bd6121c704869861f4535a64de124}{lhs}, const Rhs \&\hyperlink{class_product_ad8b3e57239117bf53d6a93283cc72428}{rhs})
+\item 
+{\footnotesize template$<$typename Dest\-Derived $>$ }\\\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_product_a008bf720657115baf420af2f6128bc31}{\-\_\-cache\-Friendly\-Eval\-And\-Add} (Dest\-Derived \&\hyperlink{glext_8h_a1dbb21208b9047cc8031ca9c840d3c2f}{res}) const 
+\item 
+E\-I\-G\-E\-N\-\_\-\-S\-T\-R\-O\-N\-G\-\_\-\-I\-N\-L\-I\-N\-E bool \hyperlink{class_product_aa3a79c0ebcf1f746a924332d995c2457}{\-\_\-use\-Cache\-Friendly\-Product} () const 
+\item 
+E\-I\-G\-E\-N\-\_\-\-S\-T\-R\-O\-N\-G\-\_\-\-I\-N\-L\-I\-N\-E \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_product_a64aac4e527632938d19f8fa8d5d77488}{rows} () const 
+\item 
+E\-I\-G\-E\-N\-\_\-\-S\-T\-R\-O\-N\-G\-\_\-\-I\-N\-L\-I\-N\-E \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_product_a42cb9c10db6babdcde6131137723a941}{cols} () const 
+\item 
+E\-I\-G\-E\-N\-\_\-\-S\-T\-R\-O\-N\-G\-\_\-\-I\-N\-L\-I\-N\-E const \hyperlink{class_matrix_base_a625df8339dc2d816cbc0fd66e7dadaf5}{Scalar} \hyperlink{class_product_a88ecda91816a3674d28108e405844dc8}{coeff} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{glext_8h_a11b277b422822f784ee248b43eee3e1e}{row}, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_matrix_base_ae3c94b0f25b4273c7a8125169bdf60e0}{col}) const 
+\item 
+E\-I\-G\-E\-N\-\_\-\-S\-T\-R\-O\-N\-G\-\_\-\-I\-N\-L\-I\-N\-E const \hyperlink{class_matrix_base_a625df8339dc2d816cbc0fd66e7dadaf5}{Scalar} \hyperlink{class_product_ab5ba5ae93b975cf4fc35e58181a0743c}{coeff} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{glext_8h_ab47dd9958bcadea08866b42bf358e95e}{index}) const 
+\item 
+{\footnotesize template$<$int Load\-Mode$>$ }\\E\-I\-G\-E\-N\-\_\-\-S\-T\-R\-O\-N\-G\-\_\-\-I\-N\-L\-I\-N\-E const \\*
+\hyperlink{class_matrix_base_a58f32cd6a06433ee7a60efa03e99183a}{Packet\-Scalar} \hyperlink{class_product_a73ed64a8726d0c8865bd917db683ac4e}{packet} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{glext_8h_a11b277b422822f784ee248b43eee3e1e}{row}, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_matrix_base_ae3c94b0f25b4273c7a8125169bdf60e0}{col}) const 
+\item 
+E\-I\-G\-E\-N\-\_\-\-S\-T\-R\-O\-N\-G\-\_\-\-I\-N\-L\-I\-N\-E const \\*
+\-\_\-\-Lhs\-Nested \& \hyperlink{class_product_ac87bd6121c704869861f4535a64de124}{lhs} () const 
+\item 
+E\-I\-G\-E\-N\-\_\-\-S\-T\-R\-O\-N\-G\-\_\-\-I\-N\-L\-I\-N\-E const \\*
+\hyperlink{class_product_a6bd9dcf946f54f28090951b0dc48c0f7}{\-\_\-\-Rhs\-Nested} \& \hyperlink{class_product_ad8b3e57239117bf53d6a93283cc72428}{rhs} () const 
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+E\-I\-G\-E\-N\-\_\-\-G\-E\-N\-E\-R\-I\-C\-\_\-\-P\-U\-B\-L\-I\-C\-\_\-\-I\-N\-T\-E\-R\-F\-A\-C\-E(\hyperlink{class_product}{Product}) \\*
+private typedef \hyperlink{structei__traits}{ei\-\_\-traits}\\*
+$<$ \hyperlink{class_product}{Product} $>$\-::\-\_\-\-Rhs\-Nested \hyperlink{class_product_a6bd9dcf946f54f28090951b0dc48c0f7}{\-\_\-\-Rhs\-Nested}
+\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+const Lhs\-Nested \hyperlink{class_product_ab53fb2c36065209ef0e63910f1b20f60}{m\-\_\-lhs}
+\item 
+const Rhs\-Nested \hyperlink{class_product_acb2fc3355c62da64b8ddf4e7bec22ef8}{m\-\_\-rhs}
+\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$typename Lhs\-Nested, typename Rhs\-Nested, int Product\-Mode$>$class Product$<$ Lhs\-Nested, Rhs\-Nested, Product\-Mode $>$}
+
+Expression of the product of two matrices. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Lhs\-Nested} & the type used to store the left-\/hand side \\
+\hline
+{\em Rhs\-Nested} & the type used to store the right-\/hand side \\
+\hline
+{\em Product\-Mode} & the type of the product\\
+\hline
+\end{DoxyParams}
+This class represents an expression of the product of two matrices. It is the return type of the operator$\ast$ between matrices. Its template arguments are determined automatically by \hyperlink{struct_product_return_type}{Product\-Return\-Type}. Therefore, \hyperlink{class_product}{Product} should never be used direclty. To determine the result type of a function which involves a matrix product, use \hyperlink{struct_product_return_type_a3a7733c6fd9c465f7fa5d09f53fe35e6}{Product\-Return\-Type\-::\-Type}.
+
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{struct_product_return_type}{Product\-Return\-Type}, Matrix\-Base\-::operator$\ast$(const Matrix\-Base$<$\-Other\-Derived$>$\&) 
+\end{DoxySeeAlso}
+
+
+Definition at line 166 of file Product.\-h.
+
+
+
+\subsection{Member Typedef Documentation}
+\hypertarget{class_product_a8da86980a3699fb57fea9a803af58708}{\index{Product@{Product}!Scalar\-Coeff\-Impl@{Scalar\-Coeff\-Impl}}
+\index{Scalar\-Coeff\-Impl@{Scalar\-Coeff\-Impl}!Product@{Product}}
+\subsubsection[{Scalar\-Coeff\-Impl}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Lhs\-Nested, typename Rhs\-Nested, int Product\-Mode$>$ typedef {\bf ei\-\_\-product\-\_\-coeff\-\_\-impl}$<$Can\-Vectorize\-Inner ? {\bf Inner\-Vectorization} \-: {\bf No\-Vectorization}, Unroll ? {\bf Inner\-Size}-\/1 \-: {\bf Dynamic}, \-\_\-\-Lhs\-Nested, {\bf \-\_\-\-Rhs\-Nested}, {\bf Scalar}$>$ {\bf Product}$<$ Lhs\-Nested, Rhs\-Nested, Product\-Mode $>$\-::{\bf Scalar\-Coeff\-Impl}}}\label{class_product_a8da86980a3699fb57fea9a803af58708}
+
+
+Definition at line 187 of file Product.\-h.
+
+
+
+\subsection{Member Enumeration Documentation}
+\hypertarget{class_product_aed4106fbae3137a79eecc0b126eda5c7}{\subsubsection[{anonymous enum}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Lhs\-Nested, typename Rhs\-Nested, int Product\-Mode$>$ anonymous enum}}\label{class_product_aed4106fbae3137a79eecc0b126eda5c7}
+\begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{Packet\-Size@{Packet\-Size}!Product@{Product}}\index{Product@{Product}!Packet\-Size@{Packet\-Size}}\item[{\em 
+\hypertarget{class_product_aed4106fbae3137a79eecc0b126eda5c7a6815056433cb21ada8e1d722e096bb30}{Packet\-Size}\label{class_product_aed4106fbae3137a79eecc0b126eda5c7a6815056433cb21ada8e1d722e096bb30}
+}]\index{Inner\-Size@{Inner\-Size}!Product@{Product}}\index{Product@{Product}!Inner\-Size@{Inner\-Size}}\item[{\em 
+\hypertarget{class_product_aed4106fbae3137a79eecc0b126eda5c7abe4ec3b9d5ac4d3adf94d768f994ac8d}{Inner\-Size}\label{class_product_aed4106fbae3137a79eecc0b126eda5c7abe4ec3b9d5ac4d3adf94d768f994ac8d}
+}]\end{description}
+\end{Desc}
+
+
+Definition at line 178 of file Product.\-h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_product_a5f94f1a30ba777d17c66ad74a9fb5016}{\index{Product@{Product}!Product@{Product}}
+\index{Product@{Product}!Product@{Product}}
+\subsubsection[{Product}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Lhs\-Nested, typename Rhs\-Nested, int Product\-Mode$>$ template$<$typename Lhs , typename Rhs $>$ {\bf Product}$<$ Lhs\-Nested, Rhs\-Nested, Product\-Mode $>$\-::{\bf Product} (
+\begin{DoxyParamCaption}
+\item[{const Lhs \&}]{lhs, }
+\item[{const Rhs \&}]{rhs}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_product_a5f94f1a30ba777d17c66ad74a9fb5016}
+
+
+Definition at line 192 of file Product.\-h.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_product_a008bf720657115baf420af2f6128bc31}{\index{Product@{Product}!\-\_\-cache\-Friendly\-Eval\-And\-Add@{\-\_\-cache\-Friendly\-Eval\-And\-Add}}
+\index{\-\_\-cache\-Friendly\-Eval\-And\-Add@{\-\_\-cache\-Friendly\-Eval\-And\-Add}!Product@{Product}}
+\subsubsection[{\-\_\-cache\-Friendly\-Eval\-And\-Add}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Lhs , typename Rhs , int Product\-Mode$>$ template$<$typename Dest\-Derived $>$ {\bf void} {\bf Product}$<$ Lhs, Rhs, Product\-Mode $>$\-::\-\_\-cache\-Friendly\-Eval\-And\-Add (
+\begin{DoxyParamCaption}
+\item[{Dest\-Derived \&}]{res}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_product_a008bf720657115baf420af2f6128bc31}
+
+
+Definition at line 790 of file Product.\-h.
+
+\hypertarget{class_product_aa3a79c0ebcf1f746a924332d995c2457}{\index{Product@{Product}!\-\_\-use\-Cache\-Friendly\-Product@{\-\_\-use\-Cache\-Friendly\-Product}}
+\index{\-\_\-use\-Cache\-Friendly\-Product@{\-\_\-use\-Cache\-Friendly\-Product}!Product@{Product}}
+\subsubsection[{\-\_\-use\-Cache\-Friendly\-Product}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Lhs\-Nested, typename Rhs\-Nested, int Product\-Mode$>$ E\-I\-G\-E\-N\-\_\-\-S\-T\-R\-O\-N\-G\-\_\-\-I\-N\-L\-I\-N\-E bool {\bf Product}$<$ Lhs\-Nested, Rhs\-Nested, Product\-Mode $>$\-::\-\_\-use\-Cache\-Friendly\-Product (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_product_aa3a79c0ebcf1f746a924332d995c2457}
+
+
+Definition at line 213 of file Product.\-h.
+
+\hypertarget{class_product_a88ecda91816a3674d28108e405844dc8}{\index{Product@{Product}!coeff@{coeff}}
+\index{coeff@{coeff}!Product@{Product}}
+\subsubsection[{coeff}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Lhs\-Nested, typename Rhs\-Nested, int Product\-Mode$>$ E\-I\-G\-E\-N\-\_\-\-S\-T\-R\-O\-N\-G\-\_\-\-I\-N\-L\-I\-N\-E const {\bf Scalar} {\bf Product}$<$ Lhs\-Nested, Rhs\-Nested, Product\-Mode $>$\-::coeff (
+\begin{DoxyParamCaption}
+\item[{{\bf int}}]{row, }
+\item[{{\bf int}}]{col}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_product_a88ecda91816a3674d28108e405844dc8}
+
+
+Definition at line 223 of file Product.\-h.
+
+\hypertarget{class_product_ab5ba5ae93b975cf4fc35e58181a0743c}{\index{Product@{Product}!coeff@{coeff}}
+\index{coeff@{coeff}!Product@{Product}}
+\subsubsection[{coeff}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Lhs\-Nested, typename Rhs\-Nested, int Product\-Mode$>$ E\-I\-G\-E\-N\-\_\-\-S\-T\-R\-O\-N\-G\-\_\-\-I\-N\-L\-I\-N\-E const {\bf Scalar} {\bf Product}$<$ Lhs\-Nested, Rhs\-Nested, Product\-Mode $>$\-::coeff (
+\begin{DoxyParamCaption}
+\item[{{\bf int}}]{index}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_product_ab5ba5ae93b975cf4fc35e58181a0743c}
+
+
+Definition at line 233 of file Product.\-h.
+
+\hypertarget{class_product_a42cb9c10db6babdcde6131137723a941}{\index{Product@{Product}!cols@{cols}}
+\index{cols@{cols}!Product@{Product}}
+\subsubsection[{cols}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Lhs\-Nested, typename Rhs\-Nested, int Product\-Mode$>$ E\-I\-G\-E\-N\-\_\-\-S\-T\-R\-O\-N\-G\-\_\-\-I\-N\-L\-I\-N\-E {\bf int} {\bf Product}$<$ Lhs\-Nested, Rhs\-Nested, Product\-Mode $>$\-::cols (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_product_a42cb9c10db6babdcde6131137723a941}
+
+
+Definition at line 221 of file Product.\-h.
+
+\hypertarget{class_product_ac87bd6121c704869861f4535a64de124}{\index{Product@{Product}!lhs@{lhs}}
+\index{lhs@{lhs}!Product@{Product}}
+\subsubsection[{lhs}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Lhs\-Nested, typename Rhs\-Nested, int Product\-Mode$>$ E\-I\-G\-E\-N\-\_\-\-S\-T\-R\-O\-N\-G\-\_\-\-I\-N\-L\-I\-N\-E const \-\_\-\-Lhs\-Nested\& {\bf Product}$<$ Lhs\-Nested, Rhs\-Nested, Product\-Mode $>$\-::lhs (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_product_ac87bd6121c704869861f4535a64de124}
+
+
+Definition at line 253 of file Product.\-h.
+
+\hypertarget{class_product_a73ed64a8726d0c8865bd917db683ac4e}{\index{Product@{Product}!packet@{packet}}
+\index{packet@{packet}!Product@{Product}}
+\subsubsection[{packet}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Lhs\-Nested, typename Rhs\-Nested, int Product\-Mode$>$ template$<$int Load\-Mode$>$ E\-I\-G\-E\-N\-\_\-\-S\-T\-R\-O\-N\-G\-\_\-\-I\-N\-L\-I\-N\-E const {\bf Packet\-Scalar} {\bf Product}$<$ Lhs\-Nested, Rhs\-Nested, Product\-Mode $>$\-::packet (
+\begin{DoxyParamCaption}
+\item[{{\bf int}}]{row, }
+\item[{{\bf int}}]{col}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_product_a73ed64a8726d0c8865bd917db683ac4e}
+
+
+Definition at line 243 of file Product.\-h.
+
+\hypertarget{class_product_ad8b3e57239117bf53d6a93283cc72428}{\index{Product@{Product}!rhs@{rhs}}
+\index{rhs@{rhs}!Product@{Product}}
+\subsubsection[{rhs}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Lhs\-Nested, typename Rhs\-Nested, int Product\-Mode$>$ E\-I\-G\-E\-N\-\_\-\-S\-T\-R\-O\-N\-G\-\_\-\-I\-N\-L\-I\-N\-E const {\bf \-\_\-\-Rhs\-Nested}\& {\bf Product}$<$ Lhs\-Nested, Rhs\-Nested, Product\-Mode $>$\-::rhs (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_product_ad8b3e57239117bf53d6a93283cc72428}
+
+
+Definition at line 254 of file Product.\-h.
+
+\hypertarget{class_product_a64aac4e527632938d19f8fa8d5d77488}{\index{Product@{Product}!rows@{rows}}
+\index{rows@{rows}!Product@{Product}}
+\subsubsection[{rows}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Lhs\-Nested, typename Rhs\-Nested, int Product\-Mode$>$ E\-I\-G\-E\-N\-\_\-\-S\-T\-R\-O\-N\-G\-\_\-\-I\-N\-L\-I\-N\-E {\bf int} {\bf Product}$<$ Lhs\-Nested, Rhs\-Nested, Product\-Mode $>$\-::rows (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_product_a64aac4e527632938d19f8fa8d5d77488}
+
+
+Definition at line 220 of file Product.\-h.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{class_product_a6bd9dcf946f54f28090951b0dc48c0f7}{\index{Product@{Product}!\-\_\-\-Rhs\-Nested@{\-\_\-\-Rhs\-Nested}}
+\index{\-\_\-\-Rhs\-Nested@{\-\_\-\-Rhs\-Nested}!Product@{Product}}
+\subsubsection[{\-\_\-\-Rhs\-Nested}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Lhs\-Nested, typename Rhs\-Nested, int Product\-Mode$>$ E\-I\-G\-E\-N\-\_\-\-G\-E\-N\-E\-R\-I\-C\-\_\-\-P\-U\-B\-L\-I\-C\-\_\-\-I\-N\-T\-E\-R\-F\-A\-C\-E ({\bf Product}) private typedef {\bf ei\-\_\-traits}$<${\bf Product}$>$\-::\-\_\-\-Rhs\-Nested {\bf Product}$<$ Lhs\-Nested, Rhs\-Nested, Product\-Mode $>$\-::\-\_\-\-Rhs\-Nested}}\label{class_product_a6bd9dcf946f54f28090951b0dc48c0f7}
+
+
+Definition at line 171 of file Product.\-h.
+
+\hypertarget{class_product_ab53fb2c36065209ef0e63910f1b20f60}{\index{Product@{Product}!m\-\_\-lhs@{m\-\_\-lhs}}
+\index{m\-\_\-lhs@{m\-\_\-lhs}!Product@{Product}}
+\subsubsection[{m\-\_\-lhs}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Lhs\-Nested, typename Rhs\-Nested, int Product\-Mode$>$ const Lhs\-Nested {\bf Product}$<$ Lhs\-Nested, Rhs\-Nested, Product\-Mode $>$\-::m\-\_\-lhs\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_product_ab53fb2c36065209ef0e63910f1b20f60}
+
+
+Definition at line 257 of file Product.\-h.
+
+\hypertarget{class_product_acb2fc3355c62da64b8ddf4e7bec22ef8}{\index{Product@{Product}!m\-\_\-rhs@{m\-\_\-rhs}}
+\index{m\-\_\-rhs@{m\-\_\-rhs}!Product@{Product}}
+\subsubsection[{m\-\_\-rhs}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Lhs\-Nested, typename Rhs\-Nested, int Product\-Mode$>$ const Rhs\-Nested {\bf Product}$<$ Lhs\-Nested, Rhs\-Nested, Product\-Mode $>$\-::m\-\_\-rhs\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_product_acb2fc3355c62da64b8ddf4e7bec22ef8}
+
+
+Definition at line 258 of file Product.\-h.
+
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/eigen/\-Eigen/src/\-Core/\hyperlink{_product_8h}{Product.\-h}\end{DoxyCompactItemize}

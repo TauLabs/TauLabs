@@ -1,0 +1,119 @@
+\hypertarget{class_qxt_basic_file_logger_engine}{\section{Qxt\-Basic\-File\-Logger\-Engine Class Reference}
+\label{class_qxt_basic_file_logger_engine}\index{Qxt\-Basic\-File\-Logger\-Engine@{Qxt\-Basic\-File\-Logger\-Engine}}
+}
+
+
+The \hyperlink{class_qxt_basic_file_logger_engine}{Qxt\-Basic\-File\-Logger\-Engine} class provides a basic file logger engine.  Qxt\-Core.  
+
+
+
+
+{\ttfamily \#include $<$qxtbasicfileloggerengine.\-h$>$}
+
+Inheritance diagram for Qxt\-Basic\-File\-Logger\-Engine\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=4.000000cm]{class_qxt_basic_file_logger_engine}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_qxt_basic_file_logger_engine_ab9b7d0e5e2ee6ed0522e79dfa7933655}{Qxt\-Basic\-File\-Logger\-Engine} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{Q\-String} \&file\-Name=\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{Q\-String}())
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{Q\-String} \hyperlink{class_qxt_basic_file_logger_engine_a638bdfc4405f04095e5f79f53de7a911}{date\-Format} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qxt_basic_file_logger_engine_a0b7557cd5ab8f15e107b7ce0ddba7154}{set\-Date\-Format} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{Q\-String} \&\hyperlink{glext_8h_a86f086d889f7cdb4d6461497ae891265}{format})
+\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qxt_basic_file_logger_engine_ac531172b0e6871f7adba080c26c4b5e8}{write\-To\-File} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{Q\-String} \&\hyperlink{glext_8h_abc60a79088789bd61297bf5f9ff500d1}{level}, const Q\-Variant\-List \&messages)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+The \hyperlink{class_qxt_basic_file_logger_engine}{Qxt\-Basic\-File\-Logger\-Engine} class provides a basic file logger engine.  Qxt\-Core. 
+
+Example basic file log output\-: 
+\begin{DoxyCode}
+[22:38:33.159] [Error] Unknown \hyperlink{minigzip_8c_aee763da2c1c9da197307bad1d009513d}{error}
+[22:51:43.488] [Debug] What\textcolor{stringliteral}{'s going on?}
+\textcolor{stringliteral}{                       Hi there!}
+\end{DoxyCode}
+
+
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qxt_logger}{Qxt\-Logger} 
+\end{DoxySeeAlso}
+
+
+Definition at line 40 of file qxtbasicfileloggerengine.\-h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_qxt_basic_file_logger_engine_ab9b7d0e5e2ee6ed0522e79dfa7933655}{\index{Qxt\-Basic\-File\-Logger\-Engine@{Qxt\-Basic\-File\-Logger\-Engine}!Qxt\-Basic\-File\-Logger\-Engine@{Qxt\-Basic\-File\-Logger\-Engine}}
+\index{Qxt\-Basic\-File\-Logger\-Engine@{Qxt\-Basic\-File\-Logger\-Engine}!QxtBasicFileLoggerEngine@{Qxt\-Basic\-File\-Logger\-Engine}}
+\subsubsection[{Qxt\-Basic\-File\-Logger\-Engine}]{\setlength{\rightskip}{0pt plus 5cm}Qxt\-Basic\-File\-Logger\-Engine\-::\-Qxt\-Basic\-File\-Logger\-Engine (
+\begin{DoxyParamCaption}
+\item[{const {\bf Q\-String} \&}]{file\-Name = {\ttfamily {\bf Q\-String}()}}
+\end{DoxyParamCaption}
+)}}\label{class_qxt_basic_file_logger_engine_ab9b7d0e5e2ee6ed0522e79dfa7933655}
+Constructs a basic file logger engine with {\itshape file\-Name}. 
+
+Definition at line 54 of file qxtbasicfileloggerengine.\-cpp.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_qxt_basic_file_logger_engine_a638bdfc4405f04095e5f79f53de7a911}{\index{Qxt\-Basic\-File\-Logger\-Engine@{Qxt\-Basic\-File\-Logger\-Engine}!date\-Format@{date\-Format}}
+\index{date\-Format@{date\-Format}!QxtBasicFileLoggerEngine@{Qxt\-Basic\-File\-Logger\-Engine}}
+\subsubsection[{date\-Format}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Q\-String} Qxt\-Basic\-File\-Logger\-Engine\-::date\-Format (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_qxt_basic_file_logger_engine_a638bdfc4405f04095e5f79f53de7a911}
+Returns the date format in use by this logger engine. \begin{DoxySeeAlso}{See Also}
+Q\-Date\-Time\-::to\-String() 
+\end{DoxySeeAlso}
+
+
+Definition at line 65 of file qxtbasicfileloggerengine.\-cpp.
+
+\hypertarget{class_qxt_basic_file_logger_engine_a0b7557cd5ab8f15e107b7ce0ddba7154}{\index{Qxt\-Basic\-File\-Logger\-Engine@{Qxt\-Basic\-File\-Logger\-Engine}!set\-Date\-Format@{set\-Date\-Format}}
+\index{set\-Date\-Format@{set\-Date\-Format}!QxtBasicFileLoggerEngine@{Qxt\-Basic\-File\-Logger\-Engine}}
+\subsubsection[{set\-Date\-Format}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qxt\-Basic\-File\-Logger\-Engine\-::set\-Date\-Format (
+\begin{DoxyParamCaption}
+\item[{const {\bf Q\-String} \&}]{format}
+\end{DoxyParamCaption}
+)}}\label{class_qxt_basic_file_logger_engine_a0b7557cd5ab8f15e107b7ce0ddba7154}
+Sets the date {\itshape format} used by this logger engine. \begin{DoxySeeAlso}{See Also}
+Q\-Date\-Time\-::to\-String() 
+\end{DoxySeeAlso}
+
+
+Definition at line 74 of file qxtbasicfileloggerengine.\-cpp.
+
+\hypertarget{class_qxt_basic_file_logger_engine_ac531172b0e6871f7adba080c26c4b5e8}{\index{Qxt\-Basic\-File\-Logger\-Engine@{Qxt\-Basic\-File\-Logger\-Engine}!write\-To\-File@{write\-To\-File}}
+\index{write\-To\-File@{write\-To\-File}!QxtBasicFileLoggerEngine@{Qxt\-Basic\-File\-Logger\-Engine}}
+\subsubsection[{write\-To\-File}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qxt\-Basic\-File\-Logger\-Engine\-::write\-To\-File (
+\begin{DoxyParamCaption}
+\item[{const {\bf Q\-String} \&}]{level, }
+\item[{const Q\-Variant\-List \&}]{messages}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}}\label{class_qxt_basic_file_logger_engine_ac531172b0e6871f7adba080c26c4b5e8}
+
+
+Implements \hyperlink{class_qxt_abstract_file_logger_engine_ad6eb59b9c89a04e5f583b217b0ff3c89}{Qxt\-Abstract\-File\-Logger\-Engine}.
+
+
+
+Definition at line 82 of file qxtbasicfileloggerengine.\-cpp.
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/libqxt/src/core/logengines/\hyperlink{qxtbasicfileloggerengine_8h}{qxtbasicfileloggerengine.\-h}\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/libqxt/src/core/logengines/\hyperlink{qxtbasicfileloggerengine_8cpp}{qxtbasicfileloggerengine.\-cpp}\end{DoxyCompactItemize}

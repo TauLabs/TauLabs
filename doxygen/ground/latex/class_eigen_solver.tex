@@ -1,0 +1,286 @@
+\hypertarget{class_eigen_solver}{\section{Eigen\-Solver$<$ \-\_\-\-Matrix\-Type $>$ Class Template Reference}
+\label{class_eigen_solver}\index{Eigen\-Solver$<$ \-\_\-\-Matrix\-Type $>$@{Eigen\-Solver$<$ \-\_\-\-Matrix\-Type $>$}}
+}
+
+
+\hyperlink{namespace_eigen}{Eigen} values/vectors solver for non selfadjoint matrices.  
+
+
+
+
+{\ttfamily \#include $<$Eigen\-Solver.\-h$>$}
+
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+typedef \-\_\-\-Matrix\-Type \hyperlink{class_eigen_solver_a2fd3a7b430468ffe4316cb8729c80bb2}{Matrix\-Type}
+\item 
+typedef Matrix\-Type\-::\-Scalar \hyperlink{class_eigen_solver_a40234d1d2c3dc9c76b05308329943e3f}{Scalar}
+\item 
+typedef \hyperlink{struct_num_traits}{Num\-Traits}$<$ \hyperlink{class_eigen_solver_a40234d1d2c3dc9c76b05308329943e3f}{Scalar} $>$\-::Real \hyperlink{class_eigen_solver_a90899b9a9b6155f766160e9ffc75117b}{Real\-Scalar}
+\item 
+typedef std\-::complex$<$ \hyperlink{class_eigen_solver_a90899b9a9b6155f766160e9ffc75117b}{Real\-Scalar} $>$ \hyperlink{class_eigen_solver_a5fef085778f87f8104a5226b9cd80933}{Complex}
+\item 
+typedef \hyperlink{class_matrix}{Matrix}$<$ \hyperlink{class_eigen_solver_a5fef085778f87f8104a5226b9cd80933}{Complex}, \\*
+Matrix\-Type\-::\-Cols\-At\-Compile\-Time, 1 $>$ \hyperlink{class_eigen_solver_abeff77daec5eb8f177c90adc13a4fba0}{Eigenvalue\-Type}
+\item 
+typedef \hyperlink{class_matrix}{Matrix}$<$ \hyperlink{class_eigen_solver_a5fef085778f87f8104a5226b9cd80933}{Complex}, \\*
+Matrix\-Type\-::\-Rows\-At\-Compile\-Time, \\*
+Matrix\-Type\-::\-Cols\-At\-Compile\-Time $>$ \hyperlink{class_eigen_solver_a573e33fff25ab71e92f5f3d50eb80338}{Eigenvector\-Type}
+\item 
+typedef \hyperlink{class_matrix}{Matrix}$<$ \hyperlink{class_eigen_solver_a90899b9a9b6155f766160e9ffc75117b}{Real\-Scalar}, \\*
+Matrix\-Type\-::\-Cols\-At\-Compile\-Time, 1 $>$ \hyperlink{class_eigen_solver_af62a93e73fdeb86320f622b727126eed}{Real\-Vector\-Type}
+\item 
+typedef \hyperlink{class_matrix}{Matrix}$<$ \hyperlink{class_eigen_solver_a90899b9a9b6155f766160e9ffc75117b}{Real\-Scalar}, \\*
+\hyperlink{_constants_8h_adc9da5be31bdce40c25a92c27999c0e3}{Dynamic}, 1 $>$ \hyperlink{class_eigen_solver_a7696ab4a43324d85fb6df69de0d2148b}{Real\-Vector\-Type\-X}
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_eigen_solver_a1b1c5e0e87583d3f0c7d00a17b8cd900}{Eigen\-Solver} ()
+\begin{DoxyCompactList}\small\item\em Default Constructor. \end{DoxyCompactList}\item 
+\hyperlink{class_eigen_solver_abfb6083ab9d2a615baa3af146ddc3b53}{Eigen\-Solver} (const \hyperlink{class_eigen_solver_a2fd3a7b430468ffe4316cb8729c80bb2}{Matrix\-Type} \&\hyperlink{glext_8h_a7b24a3f2f56eb1244ae69dacb4fecb6f}{matrix})
+\item 
+\hyperlink{class_eigen_solver_a573e33fff25ab71e92f5f3d50eb80338}{Eigenvector\-Type} \hyperlink{class_eigen_solver_a12d253e435c886edd9098af7e53d1715}{eigenvectors} (\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void}) const 
+\item 
+const \hyperlink{class_eigen_solver_a2fd3a7b430468ffe4316cb8729c80bb2}{Matrix\-Type} \& \hyperlink{class_eigen_solver_ac8e31dcdee7148865704adc2d145c25f}{pseudo\-Eigenvectors} () const 
+\item 
+\hyperlink{class_eigen_solver_a2fd3a7b430468ffe4316cb8729c80bb2}{Matrix\-Type} \hyperlink{class_eigen_solver_a5db680e1e08078ed30e477322409f12e}{pseudo\-Eigenvalue\-Matrix} () const 
+\item 
+\hyperlink{class_eigen_solver_abeff77daec5eb8f177c90adc13a4fba0}{Eigenvalue\-Type} \hyperlink{class_eigen_solver_a757c9c9839509c514d3d541288073614}{eigenvalues} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_eigen_solver_aaa0bd956b37d7929078ee54ba9662523}{compute} (const \hyperlink{class_eigen_solver_a2fd3a7b430468ffe4316cb8729c80bb2}{Matrix\-Type} \&\hyperlink{glext_8h_a7b24a3f2f56eb1244ae69dacb4fecb6f}{matrix})
+\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_eigen_solver_a2fd3a7b430468ffe4316cb8729c80bb2}{Matrix\-Type} \hyperlink{class_eigen_solver_a3e70e63cdecd25adfdfa895c867269b7}{m\-\_\-eivec}
+\item 
+\hyperlink{class_eigen_solver_abeff77daec5eb8f177c90adc13a4fba0}{Eigenvalue\-Type} \hyperlink{class_eigen_solver_afe25fa1caa5b650612c712a333ae14d6}{m\-\_\-eivalues}
+\item 
+bool \hyperlink{class_eigen_solver_ab982df42f44631be52969b190229c47a}{m\-\_\-is\-Initialized}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$typename \-\_\-\-Matrix\-Type$>$class Eigen\-Solver$<$ \-\_\-\-Matrix\-Type $>$}
+
+\hyperlink{namespace_eigen}{Eigen} values/vectors solver for non selfadjoint matrices. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Matrix\-Type} & the type of the matrix of which we are computing the eigen decomposition\\
+\hline
+\end{DoxyParams}
+Currently it only support real matrices.
+
+\begin{DoxyNote}{Note}
+this code was adapted from J\-A\-M\-A (public domain)
+\end{DoxyNote}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_matrix_base_a335e48e1808d344d8f23ab4cfc5a62b7}{Matrix\-Base\-::eigenvalues()}, \hyperlink{class_self_adjoint_eigen_solver}{Self\-Adjoint\-Eigen\-Solver} 
+\end{DoxySeeAlso}
+
+
+Definition at line 43 of file Eigen\-Solver.\-h.
+
+
+
+\subsection{Member Typedef Documentation}
+\hypertarget{class_eigen_solver_a5fef085778f87f8104a5226b9cd80933}{\index{Eigen\-Solver@{Eigen\-Solver}!Complex@{Complex}}
+\index{Complex@{Complex}!EigenSolver@{Eigen\-Solver}}
+\subsubsection[{Complex}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Matrix\-Type $>$ typedef std\-::complex$<${\bf Real\-Scalar}$>$ {\bf Eigen\-Solver}$<$ \-\_\-\-Matrix\-Type $>$\-::{\bf Complex}}}\label{class_eigen_solver_a5fef085778f87f8104a5226b9cd80933}
+
+
+Definition at line 50 of file Eigen\-Solver.\-h.
+
+\hypertarget{class_eigen_solver_abeff77daec5eb8f177c90adc13a4fba0}{\index{Eigen\-Solver@{Eigen\-Solver}!Eigenvalue\-Type@{Eigenvalue\-Type}}
+\index{Eigenvalue\-Type@{Eigenvalue\-Type}!EigenSolver@{Eigen\-Solver}}
+\subsubsection[{Eigenvalue\-Type}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Matrix\-Type $>$ typedef {\bf Matrix}$<${\bf Complex}, Matrix\-Type\-::\-Cols\-At\-Compile\-Time, 1$>$ {\bf Eigen\-Solver}$<$ \-\_\-\-Matrix\-Type $>$\-::{\bf Eigenvalue\-Type}}}\label{class_eigen_solver_abeff77daec5eb8f177c90adc13a4fba0}
+
+
+Definition at line 51 of file Eigen\-Solver.\-h.
+
+\hypertarget{class_eigen_solver_a573e33fff25ab71e92f5f3d50eb80338}{\index{Eigen\-Solver@{Eigen\-Solver}!Eigenvector\-Type@{Eigenvector\-Type}}
+\index{Eigenvector\-Type@{Eigenvector\-Type}!EigenSolver@{Eigen\-Solver}}
+\subsubsection[{Eigenvector\-Type}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Matrix\-Type $>$ typedef {\bf Matrix}$<${\bf Complex}, Matrix\-Type\-::\-Rows\-At\-Compile\-Time, Matrix\-Type\-::\-Cols\-At\-Compile\-Time$>$ {\bf Eigen\-Solver}$<$ \-\_\-\-Matrix\-Type $>$\-::{\bf Eigenvector\-Type}}}\label{class_eigen_solver_a573e33fff25ab71e92f5f3d50eb80338}
+
+
+Definition at line 52 of file Eigen\-Solver.\-h.
+
+\hypertarget{class_eigen_solver_a2fd3a7b430468ffe4316cb8729c80bb2}{\index{Eigen\-Solver@{Eigen\-Solver}!Matrix\-Type@{Matrix\-Type}}
+\index{Matrix\-Type@{Matrix\-Type}!EigenSolver@{Eigen\-Solver}}
+\subsubsection[{Matrix\-Type}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Matrix\-Type $>$ typedef \-\_\-\-Matrix\-Type {\bf Eigen\-Solver}$<$ \-\_\-\-Matrix\-Type $>$\-::{\bf Matrix\-Type}}}\label{class_eigen_solver_a2fd3a7b430468ffe4316cb8729c80bb2}
+
+
+Definition at line 47 of file Eigen\-Solver.\-h.
+
+\hypertarget{class_eigen_solver_a90899b9a9b6155f766160e9ffc75117b}{\index{Eigen\-Solver@{Eigen\-Solver}!Real\-Scalar@{Real\-Scalar}}
+\index{Real\-Scalar@{Real\-Scalar}!EigenSolver@{Eigen\-Solver}}
+\subsubsection[{Real\-Scalar}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Matrix\-Type $>$ typedef {\bf Num\-Traits}$<${\bf Scalar}$>$\-::Real {\bf Eigen\-Solver}$<$ \-\_\-\-Matrix\-Type $>$\-::{\bf Real\-Scalar}}}\label{class_eigen_solver_a90899b9a9b6155f766160e9ffc75117b}
+
+
+Definition at line 49 of file Eigen\-Solver.\-h.
+
+\hypertarget{class_eigen_solver_af62a93e73fdeb86320f622b727126eed}{\index{Eigen\-Solver@{Eigen\-Solver}!Real\-Vector\-Type@{Real\-Vector\-Type}}
+\index{Real\-Vector\-Type@{Real\-Vector\-Type}!EigenSolver@{Eigen\-Solver}}
+\subsubsection[{Real\-Vector\-Type}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Matrix\-Type $>$ typedef {\bf Matrix}$<${\bf Real\-Scalar}, Matrix\-Type\-::\-Cols\-At\-Compile\-Time, 1$>$ {\bf Eigen\-Solver}$<$ \-\_\-\-Matrix\-Type $>$\-::{\bf Real\-Vector\-Type}}}\label{class_eigen_solver_af62a93e73fdeb86320f622b727126eed}
+
+
+Definition at line 53 of file Eigen\-Solver.\-h.
+
+\hypertarget{class_eigen_solver_a7696ab4a43324d85fb6df69de0d2148b}{\index{Eigen\-Solver@{Eigen\-Solver}!Real\-Vector\-Type\-X@{Real\-Vector\-Type\-X}}
+\index{Real\-Vector\-Type\-X@{Real\-Vector\-Type\-X}!EigenSolver@{Eigen\-Solver}}
+\subsubsection[{Real\-Vector\-Type\-X}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Matrix\-Type $>$ typedef {\bf Matrix}$<${\bf Real\-Scalar}, {\bf Dynamic}, 1$>$ {\bf Eigen\-Solver}$<$ \-\_\-\-Matrix\-Type $>$\-::{\bf Real\-Vector\-Type\-X}}}\label{class_eigen_solver_a7696ab4a43324d85fb6df69de0d2148b}
+
+
+Definition at line 54 of file Eigen\-Solver.\-h.
+
+\hypertarget{class_eigen_solver_a40234d1d2c3dc9c76b05308329943e3f}{\index{Eigen\-Solver@{Eigen\-Solver}!Scalar@{Scalar}}
+\index{Scalar@{Scalar}!EigenSolver@{Eigen\-Solver}}
+\subsubsection[{Scalar}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Matrix\-Type $>$ typedef Matrix\-Type\-::\-Scalar {\bf Eigen\-Solver}$<$ \-\_\-\-Matrix\-Type $>$\-::{\bf Scalar}}}\label{class_eigen_solver_a40234d1d2c3dc9c76b05308329943e3f}
+
+
+Definition at line 48 of file Eigen\-Solver.\-h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_eigen_solver_a1b1c5e0e87583d3f0c7d00a17b8cd900}{\index{Eigen\-Solver@{Eigen\-Solver}!Eigen\-Solver@{Eigen\-Solver}}
+\index{Eigen\-Solver@{Eigen\-Solver}!EigenSolver@{Eigen\-Solver}}
+\subsubsection[{Eigen\-Solver}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Matrix\-Type $>$ {\bf Eigen\-Solver}$<$ \-\_\-\-Matrix\-Type $>$\-::{\bf Eigen\-Solver} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_eigen_solver_a1b1c5e0e87583d3f0c7d00a17b8cd900}
+
+
+Default Constructor. 
+
+The default constructor is useful in cases in which the user intends to perform decompositions via \hyperlink{class_eigen_solver_aaa0bd956b37d7929078ee54ba9662523}{Eigen\-Solver\-::compute(const Matrix\-Type\&)}. 
+
+Definition at line 62 of file Eigen\-Solver.\-h.
+
+\hypertarget{class_eigen_solver_abfb6083ab9d2a615baa3af146ddc3b53}{\index{Eigen\-Solver@{Eigen\-Solver}!Eigen\-Solver@{Eigen\-Solver}}
+\index{Eigen\-Solver@{Eigen\-Solver}!EigenSolver@{Eigen\-Solver}}
+\subsubsection[{Eigen\-Solver}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Matrix\-Type $>$ {\bf Eigen\-Solver}$<$ \-\_\-\-Matrix\-Type $>$\-::{\bf Eigen\-Solver} (
+\begin{DoxyParamCaption}
+\item[{const {\bf Matrix\-Type} \&}]{matrix}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_eigen_solver_abfb6083ab9d2a615baa3af146ddc3b53}
+
+
+Definition at line 64 of file Eigen\-Solver.\-h.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_eigen_solver_aaa0bd956b37d7929078ee54ba9662523}{\index{Eigen\-Solver@{Eigen\-Solver}!compute@{compute}}
+\index{compute@{compute}!EigenSolver@{Eigen\-Solver}}
+\subsubsection[{compute}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type $>$ {\bf void} {\bf Eigen\-Solver}$<$ {\bf Matrix\-Type} $>$\-::compute (
+\begin{DoxyParamCaption}
+\item[{const {\bf Matrix\-Type} \&}]{matrix}
+\end{DoxyParamCaption}
+)}}\label{class_eigen_solver_aaa0bd956b37d7929078ee54ba9662523}
+
+
+Definition at line 192 of file Eigen\-Solver.\-h.
+
+\hypertarget{class_eigen_solver_a757c9c9839509c514d3d541288073614}{\index{Eigen\-Solver@{Eigen\-Solver}!eigenvalues@{eigenvalues}}
+\index{eigenvalues@{eigenvalues}!EigenSolver@{Eigen\-Solver}}
+\subsubsection[{eigenvalues}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Matrix\-Type $>$ {\bf Eigenvalue\-Type} {\bf Eigen\-Solver}$<$ \-\_\-\-Matrix\-Type $>$\-::eigenvalues (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_eigen_solver_a757c9c9839509c514d3d541288073614}
+\begin{DoxyReturn}{Returns}
+the eigenvalues as a column vector 
+\end{DoxyReturn}
+
+
+Definition at line 115 of file Eigen\-Solver.\-h.
+
+\hypertarget{class_eigen_solver_a12d253e435c886edd9098af7e53d1715}{\index{Eigen\-Solver@{Eigen\-Solver}!eigenvectors@{eigenvectors}}
+\index{eigenvectors@{eigenvectors}!EigenSolver@{Eigen\-Solver}}
+\subsubsection[{eigenvectors}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type $>$ {\bf Eigen\-Solver}$<$ {\bf Matrix\-Type} $>$\-::{\bf Eigenvector\-Type} {\bf Eigen\-Solver}$<$ {\bf Matrix\-Type} $>$\-::eigenvectors (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+) const}}\label{class_eigen_solver_a12d253e435c886edd9098af7e53d1715}
+\begin{DoxyReturn}{Returns}
+the normalized complex eigenvectors as a matrix of column vectors.
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_eigen_solver_a757c9c9839509c514d3d541288073614}{eigenvalues()}, \hyperlink{class_eigen_solver_ac8e31dcdee7148865704adc2d145c25f}{pseudo\-Eigenvectors()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 163 of file Eigen\-Solver.\-h.
+
+\hypertarget{class_eigen_solver_a5db680e1e08078ed30e477322409f12e}{\index{Eigen\-Solver@{Eigen\-Solver}!pseudo\-Eigenvalue\-Matrix@{pseudo\-Eigenvalue\-Matrix}}
+\index{pseudo\-Eigenvalue\-Matrix@{pseudo\-Eigenvalue\-Matrix}!EigenSolver@{Eigen\-Solver}}
+\subsubsection[{pseudo\-Eigenvalue\-Matrix}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type $>$ {\bf Matrix\-Type} {\bf Eigen\-Solver}$<$ {\bf Matrix\-Type} $>$\-::pseudo\-Eigenvalue\-Matrix (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_eigen_solver_a5db680e1e08078ed30e477322409f12e}
+\begin{DoxyReturn}{Returns}
+the real block diagonal matrix D of the eigenvalues.
+\end{DoxyReturn}
+See \hyperlink{class_eigen_solver_ac8e31dcdee7148865704adc2d145c25f}{pseudo\-Eigenvectors()} for the details. 
+
+Definition at line 139 of file Eigen\-Solver.\-h.
+
+\hypertarget{class_eigen_solver_ac8e31dcdee7148865704adc2d145c25f}{\index{Eigen\-Solver@{Eigen\-Solver}!pseudo\-Eigenvectors@{pseudo\-Eigenvectors}}
+\index{pseudo\-Eigenvectors@{pseudo\-Eigenvectors}!EigenSolver@{Eigen\-Solver}}
+\subsubsection[{pseudo\-Eigenvectors}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Matrix\-Type $>$ const {\bf Matrix\-Type}\& {\bf Eigen\-Solver}$<$ \-\_\-\-Matrix\-Type $>$\-::pseudo\-Eigenvectors (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_eigen_solver_ac8e31dcdee7148865704adc2d145c25f}
+\begin{DoxyReturn}{Returns}
+a real matrix V of pseudo eigenvectors.
+\end{DoxyReturn}
+Let D be the block diagonal matrix with the real eigenvalues in 1x1 blocks, and any complex values u+iv in 2x2 blocks \mbox{[}u v ; -\/v u\mbox{]}. Then, the matrices D and V satisfy A$\ast$\-V = V$\ast$\-D.
+
+More precisely, if the diagonal matrix of the eigen values is\-:\par
+ $ \left[ \begin{array}{cccccc} u+iv & & & & & \\ & u-iv & & & & \\ & & a+ib & & & \\ & & & a-ib & & \\ & & & & x & \\ & & & & & y \\ \end{array} \right] $ \par
+ then, we have\-:\par
+ $ D =\left[ \begin{array}{cccccc} u & v & & & & \\ -v & u & & & & \\ & & a & b & & \\ & & -b & a & & \\ & & & & x & \\ & & & & & y \\ \end{array} \right] $
+
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_eigen_solver_a5db680e1e08078ed30e477322409f12e}{pseudo\-Eigenvalue\-Matrix()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 106 of file Eigen\-Solver.\-h.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{class_eigen_solver_afe25fa1caa5b650612c712a333ae14d6}{\index{Eigen\-Solver@{Eigen\-Solver}!m\-\_\-eivalues@{m\-\_\-eivalues}}
+\index{m\-\_\-eivalues@{m\-\_\-eivalues}!EigenSolver@{Eigen\-Solver}}
+\subsubsection[{m\-\_\-eivalues}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Matrix\-Type $>$ {\bf Eigenvalue\-Type} {\bf Eigen\-Solver}$<$ \-\_\-\-Matrix\-Type $>$\-::m\-\_\-eivalues\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_eigen_solver_afe25fa1caa5b650612c712a333ae14d6}
+
+
+Definition at line 130 of file Eigen\-Solver.\-h.
+
+\hypertarget{class_eigen_solver_a3e70e63cdecd25adfdfa895c867269b7}{\index{Eigen\-Solver@{Eigen\-Solver}!m\-\_\-eivec@{m\-\_\-eivec}}
+\index{m\-\_\-eivec@{m\-\_\-eivec}!EigenSolver@{Eigen\-Solver}}
+\subsubsection[{m\-\_\-eivec}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Matrix\-Type $>$ {\bf Matrix\-Type} {\bf Eigen\-Solver}$<$ \-\_\-\-Matrix\-Type $>$\-::m\-\_\-eivec\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_eigen_solver_a3e70e63cdecd25adfdfa895c867269b7}
+
+
+Definition at line 129 of file Eigen\-Solver.\-h.
+
+\hypertarget{class_eigen_solver_ab982df42f44631be52969b190229c47a}{\index{Eigen\-Solver@{Eigen\-Solver}!m\-\_\-is\-Initialized@{m\-\_\-is\-Initialized}}
+\index{m\-\_\-is\-Initialized@{m\-\_\-is\-Initialized}!EigenSolver@{Eigen\-Solver}}
+\subsubsection[{m\-\_\-is\-Initialized}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Matrix\-Type $>$ bool {\bf Eigen\-Solver}$<$ \-\_\-\-Matrix\-Type $>$\-::m\-\_\-is\-Initialized\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_eigen_solver_ab982df42f44631be52969b190229c47a}
+
+
+Definition at line 131 of file Eigen\-Solver.\-h.
+
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/eigen/\-Eigen/src/\-Q\-R/\hyperlink{_eigen_solver_8h}{Eigen\-Solver.\-h}\end{DoxyCompactItemize}

@@ -1,0 +1,438 @@
+\hypertarget{class_qxt_schedule_view_private}{\section{Qxt\-Schedule\-View\-Private Class Reference}
+\label{class_qxt_schedule_view_private}\index{Qxt\-Schedule\-View\-Private@{Qxt\-Schedule\-View\-Private}}
+}
+
+
+{\ttfamily \#include $<$qxtscheduleview\-\_\-p.\-h$>$}
+
+Inheritance diagram for Qxt\-Schedule\-View\-Private\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_qxt_schedule_view_private}
+\end{center}
+\end{figure}
+\subsection*{Public Slots}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qxt_schedule_view_private_a64200c287a7db519bf4bff0a156bf253}{item\-Geometry\-Changed} (\hyperlink{class_qxt_schedule_internal_item}{Qxt\-Schedule\-Internal\-Item} $\ast$item, Q\-Vector$<$ Q\-Rect $>$ old\-Geometry)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qxt_schedule_view_private_ac914af0957ce5a15af07c157775d94c3}{scroll\-Timer\-Timeout} ()
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_qxt_schedule_view_private_a4fc125cd42cc324eb4a471220a1c36fd}{Q\-X\-T\-\_\-\-D\-E\-C\-L\-A\-R\-E\-\_\-\-P\-U\-B\-L\-I\-C} (\hyperlink{class_qxt_schedule_view}{Qxt\-Schedule\-View}) \hyperlink{class_qxt_schedule_view_private}{Qxt\-Schedule\-View\-Private}()
+\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_qxt_schedule_view_private_a1546317491227d0bb70fdc7289caa92f}{offset\-To\-Visual\-Column} (const \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} i\-Offset) const 
+\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_qxt_schedule_view_private_a52218e6eb072ede576c677b70226007b}{offset\-To\-Visual\-Row} (const \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} i\-Offset) const 
+\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_qxt_schedule_view_private_ad98a807a53742a6391c78e4d7620c945}{visual\-Index\-To\-Offset} (const \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} i\-Row, const \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} i\-Col) const 
+\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_qxt_schedule_view_private_a88e86740e505eb36ec8a8e9caf40f54f}{unix\-Time\-To\-Offset} (const uint const\-Unix\-Time, bool index\-End\-Time=false) const 
+\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_qxt_schedule_view_private_a5793d828e5d20c21f18abfd61a56a2b6}{offset\-To\-Unix\-Time} (const \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{glext_8h_ae1b92ae085ddef4b1cdca7d749339fb0}{offset}, bool index\-End\-Time=false) const 
+\item 
+Q\-Vector$<$ Q\-Rect $>$ \hyperlink{class_qxt_schedule_view_private_a02f1ddf3b14c2ce316c48a4373dc09d6}{calculate\-Range\-Geometries} (const \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} i\-Start\-Offset, const \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} i\-End\-Offset) const 
+\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_qxt_schedule_view_private_a8b72b48fad4fc0018143626a57bc5179}{point\-To\-Offset} (const Q\-Point \&point)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qxt_schedule_view_private_a6205ab248bb5dd09bcc836ce47ff0b48}{handle\-Item\-Concurrency} (const \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} from, const \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} to)
+\item 
+\hyperlink{class_q_list}{Q\-List}$<$ Q\-Linked\-List\\*
+$<$ \hyperlink{class_qxt_schedule_internal_item}{Qxt\-Schedule\-Internal\-Item} $\ast$ $>$ $>$ \hyperlink{class_qxt_schedule_view_private_ac0f8ef451a8c9f9ed51cb3d1b80a05dd}{find\-Concurrent\-Items} (const \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} from, const \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} to) const 
+\item 
+\hyperlink{class_qxt_schedule_internal_item}{Qxt\-Schedule\-Internal\-Item} $\ast$ \hyperlink{class_qxt_schedule_view_private_a312d43b8daee1f72ada1f3cc0ca1aa38}{internal\-Item\-At} (const Q\-Point \&pt)
+\item 
+\hyperlink{class_qxt_schedule_internal_item}{Qxt\-Schedule\-Internal\-Item} $\ast$ \hyperlink{class_qxt_schedule_view_private_a782741a65db619eb44e20511f95f9c57}{internal\-Item\-At\-Model\-Index} (const Q\-Model\-Index \&\hyperlink{glext_8h_ab47dd9958bcadea08866b42bf358e95e}{index})
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qxt_schedule_view_private_a650cf638fab902542ca94260d0b1368b}{init} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qxt_schedule_view_private_a96140a8dacd9021c56229fd6c1978552}{reload\-Items\-From\-Model} ()
+\item 
+\hyperlink{class_qxt_schedule_internal_item}{Qxt\-Schedule\-Internal\-Item} $\ast$ \hyperlink{class_qxt_schedule_view_private_a66caf3592371aa8d0dfb4d52f24aea1c}{item\-For\-Model\-Index} (const Q\-Model\-Index \&\hyperlink{glext_8h_ab47dd9958bcadea08866b42bf358e95e}{index}) const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qxt_schedule_view_private_a88fba5a45801b0ca0692ae52cdce2ec2}{handle\-Item\-Concurrency} (\hyperlink{class_qxt_schedule_internal_item}{Qxt\-Schedule\-Internal\-Item} $\ast$item)
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_qxt_schedule_internal_item}{Qxt\-Schedule\-Internal\-Item} $\ast$ \hyperlink{class_qxt_schedule_view_private_adbd3d0ac27543a57b9f8690fab96ac6f}{m\-\_\-current\-Item}
+\item 
+\hyperlink{class_qxt_schedule_internal_item}{Qxt\-Schedule\-Internal\-Item} $\ast$ \hyperlink{class_qxt_schedule_view_private_a5060fd61796c43856fbac971da90b605}{m\-\_\-selected\-Item}
+\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_qxt_schedule_view_private_a493afa216b514a23862a183a388daf74}{m\-\_\-last\-Mouse\-Pos\-Offset}
+\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_qxt_schedule_view_private_a149d1085a5634b54038df67d5205bacc}{m\-\_\-current\-Zoom\-Depth}
+\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_qxt_schedule_view_private_a6835e926cbd90f1cb7e7a30c3cf715fc}{m\-\_\-zoom\-Step\-Width}
+\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_qxt_schedule_view_private_acf0f9a88b9225a5f1263a27914e6fc87}{m\-\_\-current\-View\-Mode}
+\item 
+uint \hyperlink{class_qxt_schedule_view_private_a53606665328fa6a63c4c951b101f275d}{m\-\_\-start\-Unix\-Time}
+\item 
+uint \hyperlink{class_qxt_schedule_view_private_ace36106f3daeff15a9fd29aec2b72c4c}{m\-\_\-end\-Unix\-Time}
+\item 
+\hyperlink{class_q_list}{Q\-List}$<$ \hyperlink{class_qxt_schedule_internal_item}{Qxt\-Schedule\-Internal\-Item} $\ast$ $>$ \hyperlink{class_qxt_schedule_view_private_a484aa797dad1ad0499937c02f5f687fc}{m\-\_\-\-Items}
+\item 
+\hyperlink{class_q_list}{Q\-List}$<$ \hyperlink{class_qxt_schedule_internal_item}{Qxt\-Schedule\-Internal\-Item} $\ast$ $>$ \hyperlink{class_qxt_schedule_view_private_a1346f58f4afdebcc45a229b726071b02}{m\-\_\-\-Inactive\-Items}
+\item 
+Q\-Timer \hyperlink{class_qxt_schedule_view_private_af44460008acd0aadd209e59a9841bbc0}{scroll\-Timer}
+\item 
+\hyperlink{class_qxt_schedule_header_widget}{Qxt\-Schedule\-Header\-Widget} $\ast$ \hyperlink{class_qxt_schedule_view_private_a2e1b737cbe6365e0912c0eba21eb3d2e}{m\-\_\-v\-Header}
+\item 
+\hyperlink{class_qxt_schedule_header_widget}{Qxt\-Schedule\-Header\-Widget} $\ast$ \hyperlink{class_qxt_schedule_view_private_a07b5161e537aad14106e0adb296d9ae0}{m\-\_\-h\-Header}
+\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_qxt_schedule_view_private_abdc6a83bd72e6fe6bed43c56c4affe88}{m\-\_\-\-Cols}
+\item 
+Q\-Abstract\-Item\-Model $\ast$ \hyperlink{class_qxt_schedule_view_private_af64379945aa97466a6a01989b238625b}{m\-\_\-\-Model}
+\item 
+bool \hyperlink{class_qxt_schedule_view_private_ab8ffcb1e26c62bd1a090ce13f4438735}{handles\-Concurrency}
+\item 
+\hyperlink{qxtscheduleitemdelegate_8h_a9b8b6fec2a65bed5bb2b496d7178c6e0}{Qxt\-Schedule\-Item\-Delegate} $\ast$ \hyperlink{class_qxt_schedule_view_private_a98dc6cc67d2e8558e87b1b8048cb006e}{delegate}
+\item 
+\hyperlink{qxtscheduleitemdelegate_8h_a9b8b6fec2a65bed5bb2b496d7178c6e0}{Qxt\-Schedule\-Item\-Delegate} $\ast$ \hyperlink{class_qxt_schedule_view_private_a5d5b75a342263c6829d1564fc96886bc}{default\-Delegate}
+\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 103 of file qxtscheduleview\-\_\-p.\-h.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_qxt_schedule_view_private_a02f1ddf3b14c2ce316c48a4373dc09d6}{\index{Qxt\-Schedule\-View\-Private@{Qxt\-Schedule\-View\-Private}!calculate\-Range\-Geometries@{calculate\-Range\-Geometries}}
+\index{calculate\-Range\-Geometries@{calculate\-Range\-Geometries}!QxtScheduleViewPrivate@{Qxt\-Schedule\-View\-Private}}
+\subsubsection[{calculate\-Range\-Geometries}]{\setlength{\rightskip}{0pt plus 5cm}Q\-Vector$<$ Q\-Rect $>$ Qxt\-Schedule\-View\-Private\-::calculate\-Range\-Geometries (
+\begin{DoxyParamCaption}
+\item[{const {\bf int}}]{i\-Start\-Offset, }
+\item[{const {\bf int}}]{i\-End\-Offset}
+\end{DoxyParamCaption}
+) const}}\label{class_qxt_schedule_view_private_a02f1ddf3b14c2ce316c48a4373dc09d6}
+
+
+Definition at line 64 of file qxtscheduleview\-\_\-p.\-cpp.
+
+\hypertarget{class_qxt_schedule_view_private_ac0f8ef451a8c9f9ed51cb3d1b80a05dd}{\index{Qxt\-Schedule\-View\-Private@{Qxt\-Schedule\-View\-Private}!find\-Concurrent\-Items@{find\-Concurrent\-Items}}
+\index{find\-Concurrent\-Items@{find\-Concurrent\-Items}!QxtScheduleViewPrivate@{Qxt\-Schedule\-View\-Private}}
+\subsubsection[{find\-Concurrent\-Items}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Q\-List}$<$ Q\-Linked\-List$<$ {\bf Qxt\-Schedule\-Internal\-Item} $\ast$ $>$ $>$ Qxt\-Schedule\-View\-Private\-::find\-Concurrent\-Items (
+\begin{DoxyParamCaption}
+\item[{const {\bf int}}]{from, }
+\item[{const {\bf int}}]{to}
+\end{DoxyParamCaption}
+) const}}\label{class_qxt_schedule_view_private_ac0f8ef451a8c9f9ed51cb3d1b80a05dd}
+collects groups of concurrent items in the offset range 
+
+Definition at line 173 of file qxtscheduleview\-\_\-p.\-cpp.
+
+\hypertarget{class_qxt_schedule_view_private_a6205ab248bb5dd09bcc836ce47ff0b48}{\index{Qxt\-Schedule\-View\-Private@{Qxt\-Schedule\-View\-Private}!handle\-Item\-Concurrency@{handle\-Item\-Concurrency}}
+\index{handle\-Item\-Concurrency@{handle\-Item\-Concurrency}!QxtScheduleViewPrivate@{Qxt\-Schedule\-View\-Private}}
+\subsubsection[{handle\-Item\-Concurrency}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qxt\-Schedule\-View\-Private\-::handle\-Item\-Concurrency (
+\begin{DoxyParamCaption}
+\item[{const {\bf int}}]{from, }
+\item[{const {\bf int}}]{to}
+\end{DoxyParamCaption}
+)}}\label{class_qxt_schedule_view_private_a6205ab248bb5dd09bcc836ce47ff0b48}
+
+
+Definition at line 274 of file qxtscheduleview\-\_\-p.\-cpp.
+
+\hypertarget{class_qxt_schedule_view_private_a88fba5a45801b0ca0692ae52cdce2ec2}{\index{Qxt\-Schedule\-View\-Private@{Qxt\-Schedule\-View\-Private}!handle\-Item\-Concurrency@{handle\-Item\-Concurrency}}
+\index{handle\-Item\-Concurrency@{handle\-Item\-Concurrency}!QxtScheduleViewPrivate@{Qxt\-Schedule\-View\-Private}}
+\subsubsection[{handle\-Item\-Concurrency}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qxt\-Schedule\-View\-Private\-::handle\-Item\-Concurrency (
+\begin{DoxyParamCaption}
+\item[{{\bf Qxt\-Schedule\-Internal\-Item} $\ast$}]{item}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_qxt_schedule_view_private_a88fba5a45801b0ca0692ae52cdce2ec2}
+
+
+Definition at line 140 of file qxtscheduleview\-\_\-p.\-h.
+
+\hypertarget{class_qxt_schedule_view_private_a650cf638fab902542ca94260d0b1368b}{\index{Qxt\-Schedule\-View\-Private@{Qxt\-Schedule\-View\-Private}!init@{init}}
+\index{init@{init}!QxtScheduleViewPrivate@{Qxt\-Schedule\-View\-Private}}
+\subsubsection[{init}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qxt\-Schedule\-View\-Private\-::init (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_qxt_schedule_view_private_a650cf638fab902542ca94260d0b1368b}
+
+
+Definition at line 142 of file qxtscheduleview\-\_\-p.\-cpp.
+
+\hypertarget{class_qxt_schedule_view_private_a312d43b8daee1f72ada1f3cc0ca1aa38}{\index{Qxt\-Schedule\-View\-Private@{Qxt\-Schedule\-View\-Private}!internal\-Item\-At@{internal\-Item\-At}}
+\index{internal\-Item\-At@{internal\-Item\-At}!QxtScheduleViewPrivate@{Qxt\-Schedule\-View\-Private}}
+\subsubsection[{internal\-Item\-At}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Qxt\-Schedule\-Internal\-Item} $\ast$ Qxt\-Schedule\-View\-Private\-::internal\-Item\-At (
+\begin{DoxyParamCaption}
+\item[{const Q\-Point \&}]{pt}
+\end{DoxyParamCaption}
+)}}\label{class_qxt_schedule_view_private_a312d43b8daee1f72ada1f3cc0ca1aa38}
+
+
+Definition at line 108 of file qxtscheduleview\-\_\-p.\-cpp.
+
+\hypertarget{class_qxt_schedule_view_private_a782741a65db619eb44e20511f95f9c57}{\index{Qxt\-Schedule\-View\-Private@{Qxt\-Schedule\-View\-Private}!internal\-Item\-At\-Model\-Index@{internal\-Item\-At\-Model\-Index}}
+\index{internal\-Item\-At\-Model\-Index@{internal\-Item\-At\-Model\-Index}!QxtScheduleViewPrivate@{Qxt\-Schedule\-View\-Private}}
+\subsubsection[{internal\-Item\-At\-Model\-Index}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Qxt\-Schedule\-Internal\-Item}$\ast$ Qxt\-Schedule\-View\-Private\-::internal\-Item\-At\-Model\-Index (
+\begin{DoxyParamCaption}
+\item[{const Q\-Model\-Index \&}]{index}
+\end{DoxyParamCaption}
+)}}\label{class_qxt_schedule_view_private_a782741a65db619eb44e20511f95f9c57}
+\hypertarget{class_qxt_schedule_view_private_a66caf3592371aa8d0dfb4d52f24aea1c}{\index{Qxt\-Schedule\-View\-Private@{Qxt\-Schedule\-View\-Private}!item\-For\-Model\-Index@{item\-For\-Model\-Index}}
+\index{item\-For\-Model\-Index@{item\-For\-Model\-Index}!QxtScheduleViewPrivate@{Qxt\-Schedule\-View\-Private}}
+\subsubsection[{item\-For\-Model\-Index}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Qxt\-Schedule\-Internal\-Item}$\ast$ Qxt\-Schedule\-View\-Private\-::item\-For\-Model\-Index (
+\begin{DoxyParamCaption}
+\item[{const Q\-Model\-Index \&}]{index}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_qxt_schedule_view_private_a66caf3592371aa8d0dfb4d52f24aea1c}
+
+
+Definition at line 130 of file qxtscheduleview\-\_\-p.\-h.
+
+\hypertarget{class_qxt_schedule_view_private_a64200c287a7db519bf4bff0a156bf253}{\index{Qxt\-Schedule\-View\-Private@{Qxt\-Schedule\-View\-Private}!item\-Geometry\-Changed@{item\-Geometry\-Changed}}
+\index{item\-Geometry\-Changed@{item\-Geometry\-Changed}!QxtScheduleViewPrivate@{Qxt\-Schedule\-View\-Private}}
+\subsubsection[{item\-Geometry\-Changed}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qxt\-Schedule\-View\-Private\-::item\-Geometry\-Changed (
+\begin{DoxyParamCaption}
+\item[{{\bf Qxt\-Schedule\-Internal\-Item} $\ast$}]{item, }
+\item[{Q\-Vector$<$ Q\-Rect $>$}]{old\-Geometry}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [slot]}}}\label{class_qxt_schedule_view_private_a64200c287a7db519bf4bff0a156bf253}
+
+
+Definition at line 432 of file qxtscheduleview\-\_\-p.\-cpp.
+
+\hypertarget{class_qxt_schedule_view_private_a5793d828e5d20c21f18abfd61a56a2b6}{\index{Qxt\-Schedule\-View\-Private@{Qxt\-Schedule\-View\-Private}!offset\-To\-Unix\-Time@{offset\-To\-Unix\-Time}}
+\index{offset\-To\-Unix\-Time@{offset\-To\-Unix\-Time}!QxtScheduleViewPrivate@{Qxt\-Schedule\-View\-Private}}
+\subsubsection[{offset\-To\-Unix\-Time}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int} Qxt\-Schedule\-View\-Private\-::offset\-To\-Unix\-Time (
+\begin{DoxyParamCaption}
+\item[{const {\bf int}}]{offset, }
+\item[{bool}]{index\-End\-Time = {\ttfamily false}}
+\end{DoxyParamCaption}
+) const}}\label{class_qxt_schedule_view_private_a5793d828e5d20c21f18abfd61a56a2b6}
+
+
+Definition at line 539 of file qxtscheduleview\-\_\-p.\-cpp.
+
+\hypertarget{class_qxt_schedule_view_private_a1546317491227d0bb70fdc7289caa92f}{\index{Qxt\-Schedule\-View\-Private@{Qxt\-Schedule\-View\-Private}!offset\-To\-Visual\-Column@{offset\-To\-Visual\-Column}}
+\index{offset\-To\-Visual\-Column@{offset\-To\-Visual\-Column}!QxtScheduleViewPrivate@{Qxt\-Schedule\-View\-Private}}
+\subsubsection[{offset\-To\-Visual\-Column}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int} Qxt\-Schedule\-View\-Private\-::offset\-To\-Visual\-Column (
+\begin{DoxyParamCaption}
+\item[{const {\bf int}}]{i\-Offset}
+\end{DoxyParamCaption}
+) const}}\label{class_qxt_schedule_view_private_a1546317491227d0bb70fdc7289caa92f}
+
+
+Definition at line 45 of file qxtscheduleview\-\_\-p.\-cpp.
+
+\hypertarget{class_qxt_schedule_view_private_a52218e6eb072ede576c677b70226007b}{\index{Qxt\-Schedule\-View\-Private@{Qxt\-Schedule\-View\-Private}!offset\-To\-Visual\-Row@{offset\-To\-Visual\-Row}}
+\index{offset\-To\-Visual\-Row@{offset\-To\-Visual\-Row}!QxtScheduleViewPrivate@{Qxt\-Schedule\-View\-Private}}
+\subsubsection[{offset\-To\-Visual\-Row}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int} Qxt\-Schedule\-View\-Private\-::offset\-To\-Visual\-Row (
+\begin{DoxyParamCaption}
+\item[{const {\bf int}}]{i\-Offset}
+\end{DoxyParamCaption}
+) const}}\label{class_qxt_schedule_view_private_a52218e6eb072ede576c677b70226007b}
+
+
+Definition at line 57 of file qxtscheduleview\-\_\-p.\-cpp.
+
+\hypertarget{class_qxt_schedule_view_private_a8b72b48fad4fc0018143626a57bc5179}{\index{Qxt\-Schedule\-View\-Private@{Qxt\-Schedule\-View\-Private}!point\-To\-Offset@{point\-To\-Offset}}
+\index{point\-To\-Offset@{point\-To\-Offset}!QxtScheduleViewPrivate@{Qxt\-Schedule\-View\-Private}}
+\subsubsection[{point\-To\-Offset}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int} Qxt\-Schedule\-View\-Private\-::point\-To\-Offset (
+\begin{DoxyParamCaption}
+\item[{const Q\-Point \&}]{point}
+\end{DoxyParamCaption}
+)}}\label{class_qxt_schedule_view_private_a8b72b48fad4fc0018143626a57bc5179}
+
+
+Definition at line 99 of file qxtscheduleview\-\_\-p.\-cpp.
+
+\hypertarget{class_qxt_schedule_view_private_a4fc125cd42cc324eb4a471220a1c36fd}{\index{Qxt\-Schedule\-View\-Private@{Qxt\-Schedule\-View\-Private}!Q\-X\-T\-\_\-\-D\-E\-C\-L\-A\-R\-E\-\_\-\-P\-U\-B\-L\-I\-C@{Q\-X\-T\-\_\-\-D\-E\-C\-L\-A\-R\-E\-\_\-\-P\-U\-B\-L\-I\-C}}
+\index{Q\-X\-T\-\_\-\-D\-E\-C\-L\-A\-R\-E\-\_\-\-P\-U\-B\-L\-I\-C@{Q\-X\-T\-\_\-\-D\-E\-C\-L\-A\-R\-E\-\_\-\-P\-U\-B\-L\-I\-C}!QxtScheduleViewPrivate@{Qxt\-Schedule\-View\-Private}}
+\subsubsection[{Q\-X\-T\-\_\-\-D\-E\-C\-L\-A\-R\-E\-\_\-\-P\-U\-B\-L\-I\-C}]{\setlength{\rightskip}{0pt plus 5cm}Qxt\-Schedule\-View\-Private\-::\-Q\-X\-T\-\_\-\-D\-E\-C\-L\-A\-R\-E\-\_\-\-P\-U\-B\-L\-I\-C (
+\begin{DoxyParamCaption}
+\item[{{\bf Qxt\-Schedule\-View}}]{}
+\end{DoxyParamCaption}
+)}}\label{class_qxt_schedule_view_private_a4fc125cd42cc324eb4a471220a1c36fd}
+\hypertarget{class_qxt_schedule_view_private_a96140a8dacd9021c56229fd6c1978552}{\index{Qxt\-Schedule\-View\-Private@{Qxt\-Schedule\-View\-Private}!reload\-Items\-From\-Model@{reload\-Items\-From\-Model}}
+\index{reload\-Items\-From\-Model@{reload\-Items\-From\-Model}!QxtScheduleViewPrivate@{Qxt\-Schedule\-View\-Private}}
+\subsubsection[{reload\-Items\-From\-Model}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qxt\-Schedule\-View\-Private\-::reload\-Items\-From\-Model (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_qxt_schedule_view_private_a96140a8dacd9021c56229fd6c1978552}
+
+
+Definition at line 123 of file qxtscheduleview\-\_\-p.\-cpp.
+
+\hypertarget{class_qxt_schedule_view_private_ac914af0957ce5a15af07c157775d94c3}{\index{Qxt\-Schedule\-View\-Private@{Qxt\-Schedule\-View\-Private}!scroll\-Timer\-Timeout@{scroll\-Timer\-Timeout}}
+\index{scroll\-Timer\-Timeout@{scroll\-Timer\-Timeout}!QxtScheduleViewPrivate@{Qxt\-Schedule\-View\-Private}}
+\subsubsection[{scroll\-Timer\-Timeout}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qxt\-Schedule\-View\-Private\-::scroll\-Timer\-Timeout (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [slot]}}}\label{class_qxt_schedule_view_private_ac914af0957ce5a15af07c157775d94c3}
+
+
+Definition at line 485 of file qxtscheduleview\-\_\-p.\-cpp.
+
+\hypertarget{class_qxt_schedule_view_private_a88e86740e505eb36ec8a8e9caf40f54f}{\index{Qxt\-Schedule\-View\-Private@{Qxt\-Schedule\-View\-Private}!unix\-Time\-To\-Offset@{unix\-Time\-To\-Offset}}
+\index{unix\-Time\-To\-Offset@{unix\-Time\-To\-Offset}!QxtScheduleViewPrivate@{Qxt\-Schedule\-View\-Private}}
+\subsubsection[{unix\-Time\-To\-Offset}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int} Qxt\-Schedule\-View\-Private\-::unix\-Time\-To\-Offset (
+\begin{DoxyParamCaption}
+\item[{const uint}]{const\-Unix\-Time, }
+\item[{bool}]{index\-End\-Time = {\ttfamily false}}
+\end{DoxyParamCaption}
+) const}}\label{class_qxt_schedule_view_private_a88e86740e505eb36ec8a8e9caf40f54f}
+
+
+Definition at line 462 of file qxtscheduleview\-\_\-p.\-cpp.
+
+\hypertarget{class_qxt_schedule_view_private_ad98a807a53742a6391c78e4d7620c945}{\index{Qxt\-Schedule\-View\-Private@{Qxt\-Schedule\-View\-Private}!visual\-Index\-To\-Offset@{visual\-Index\-To\-Offset}}
+\index{visual\-Index\-To\-Offset@{visual\-Index\-To\-Offset}!QxtScheduleViewPrivate@{Qxt\-Schedule\-View\-Private}}
+\subsubsection[{visual\-Index\-To\-Offset}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int} Qxt\-Schedule\-View\-Private\-::visual\-Index\-To\-Offset (
+\begin{DoxyParamCaption}
+\item[{const {\bf int}}]{i\-Row, }
+\item[{const {\bf int}}]{i\-Col}
+\end{DoxyParamCaption}
+) const}}\label{class_qxt_schedule_view_private_ad98a807a53742a6391c78e4d7620c945}
+
+
+Definition at line 52 of file qxtscheduleview\-\_\-p.\-cpp.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{class_qxt_schedule_view_private_a5d5b75a342263c6829d1564fc96886bc}{\index{Qxt\-Schedule\-View\-Private@{Qxt\-Schedule\-View\-Private}!default\-Delegate@{default\-Delegate}}
+\index{default\-Delegate@{default\-Delegate}!QxtScheduleViewPrivate@{Qxt\-Schedule\-View\-Private}}
+\subsubsection[{default\-Delegate}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Qxt\-Schedule\-Item\-Delegate}$\ast$ Qxt\-Schedule\-View\-Private\-::default\-Delegate}}\label{class_qxt_schedule_view_private_a5d5b75a342263c6829d1564fc96886bc}
+
+
+Definition at line 173 of file qxtscheduleview\-\_\-p.\-h.
+
+\hypertarget{class_qxt_schedule_view_private_a98dc6cc67d2e8558e87b1b8048cb006e}{\index{Qxt\-Schedule\-View\-Private@{Qxt\-Schedule\-View\-Private}!delegate@{delegate}}
+\index{delegate@{delegate}!QxtScheduleViewPrivate@{Qxt\-Schedule\-View\-Private}}
+\subsubsection[{delegate}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Qxt\-Schedule\-Item\-Delegate}$\ast$ Qxt\-Schedule\-View\-Private\-::delegate}}\label{class_qxt_schedule_view_private_a98dc6cc67d2e8558e87b1b8048cb006e}
+
+
+Definition at line 172 of file qxtscheduleview\-\_\-p.\-h.
+
+\hypertarget{class_qxt_schedule_view_private_ab8ffcb1e26c62bd1a090ce13f4438735}{\index{Qxt\-Schedule\-View\-Private@{Qxt\-Schedule\-View\-Private}!handles\-Concurrency@{handles\-Concurrency}}
+\index{handles\-Concurrency@{handles\-Concurrency}!QxtScheduleViewPrivate@{Qxt\-Schedule\-View\-Private}}
+\subsubsection[{handles\-Concurrency}]{\setlength{\rightskip}{0pt plus 5cm}bool Qxt\-Schedule\-View\-Private\-::handles\-Concurrency}}\label{class_qxt_schedule_view_private_ab8ffcb1e26c62bd1a090ce13f4438735}
+
+
+Definition at line 171 of file qxtscheduleview\-\_\-p.\-h.
+
+\hypertarget{class_qxt_schedule_view_private_abdc6a83bd72e6fe6bed43c56c4affe88}{\index{Qxt\-Schedule\-View\-Private@{Qxt\-Schedule\-View\-Private}!m\-\_\-\-Cols@{m\-\_\-\-Cols}}
+\index{m\-\_\-\-Cols@{m\-\_\-\-Cols}!QxtScheduleViewPrivate@{Qxt\-Schedule\-View\-Private}}
+\subsubsection[{m\-\_\-\-Cols}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int} Qxt\-Schedule\-View\-Private\-::m\-\_\-\-Cols}}\label{class_qxt_schedule_view_private_abdc6a83bd72e6fe6bed43c56c4affe88}
+
+
+Definition at line 168 of file qxtscheduleview\-\_\-p.\-h.
+
+\hypertarget{class_qxt_schedule_view_private_adbd3d0ac27543a57b9f8690fab96ac6f}{\index{Qxt\-Schedule\-View\-Private@{Qxt\-Schedule\-View\-Private}!m\-\_\-current\-Item@{m\-\_\-current\-Item}}
+\index{m\-\_\-current\-Item@{m\-\_\-current\-Item}!QxtScheduleViewPrivate@{Qxt\-Schedule\-View\-Private}}
+\subsubsection[{m\-\_\-current\-Item}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Qxt\-Schedule\-Internal\-Item}$\ast$ Qxt\-Schedule\-View\-Private\-::m\-\_\-current\-Item}}\label{class_qxt_schedule_view_private_adbd3d0ac27543a57b9f8690fab96ac6f}
+
+
+Definition at line 150 of file qxtscheduleview\-\_\-p.\-h.
+
+\hypertarget{class_qxt_schedule_view_private_acf0f9a88b9225a5f1263a27914e6fc87}{\index{Qxt\-Schedule\-View\-Private@{Qxt\-Schedule\-View\-Private}!m\-\_\-current\-View\-Mode@{m\-\_\-current\-View\-Mode}}
+\index{m\-\_\-current\-View\-Mode@{m\-\_\-current\-View\-Mode}!QxtScheduleViewPrivate@{Qxt\-Schedule\-View\-Private}}
+\subsubsection[{m\-\_\-current\-View\-Mode}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int} Qxt\-Schedule\-View\-Private\-::m\-\_\-current\-View\-Mode}}\label{class_qxt_schedule_view_private_acf0f9a88b9225a5f1263a27914e6fc87}
+
+
+Definition at line 156 of file qxtscheduleview\-\_\-p.\-h.
+
+\hypertarget{class_qxt_schedule_view_private_a149d1085a5634b54038df67d5205bacc}{\index{Qxt\-Schedule\-View\-Private@{Qxt\-Schedule\-View\-Private}!m\-\_\-current\-Zoom\-Depth@{m\-\_\-current\-Zoom\-Depth}}
+\index{m\-\_\-current\-Zoom\-Depth@{m\-\_\-current\-Zoom\-Depth}!QxtScheduleViewPrivate@{Qxt\-Schedule\-View\-Private}}
+\subsubsection[{m\-\_\-current\-Zoom\-Depth}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int} Qxt\-Schedule\-View\-Private\-::m\-\_\-current\-Zoom\-Depth}}\label{class_qxt_schedule_view_private_a149d1085a5634b54038df67d5205bacc}
+
+
+Definition at line 154 of file qxtscheduleview\-\_\-p.\-h.
+
+\hypertarget{class_qxt_schedule_view_private_ace36106f3daeff15a9fd29aec2b72c4c}{\index{Qxt\-Schedule\-View\-Private@{Qxt\-Schedule\-View\-Private}!m\-\_\-end\-Unix\-Time@{m\-\_\-end\-Unix\-Time}}
+\index{m\-\_\-end\-Unix\-Time@{m\-\_\-end\-Unix\-Time}!QxtScheduleViewPrivate@{Qxt\-Schedule\-View\-Private}}
+\subsubsection[{m\-\_\-end\-Unix\-Time}]{\setlength{\rightskip}{0pt plus 5cm}uint Qxt\-Schedule\-View\-Private\-::m\-\_\-end\-Unix\-Time}}\label{class_qxt_schedule_view_private_ace36106f3daeff15a9fd29aec2b72c4c}
+
+
+Definition at line 158 of file qxtscheduleview\-\_\-p.\-h.
+
+\hypertarget{class_qxt_schedule_view_private_a07b5161e537aad14106e0adb296d9ae0}{\index{Qxt\-Schedule\-View\-Private@{Qxt\-Schedule\-View\-Private}!m\-\_\-h\-Header@{m\-\_\-h\-Header}}
+\index{m\-\_\-h\-Header@{m\-\_\-h\-Header}!QxtScheduleViewPrivate@{Qxt\-Schedule\-View\-Private}}
+\subsubsection[{m\-\_\-h\-Header}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Qxt\-Schedule\-Header\-Widget}$\ast$ Qxt\-Schedule\-View\-Private\-::m\-\_\-h\-Header}}\label{class_qxt_schedule_view_private_a07b5161e537aad14106e0adb296d9ae0}
+
+
+Definition at line 166 of file qxtscheduleview\-\_\-p.\-h.
+
+\hypertarget{class_qxt_schedule_view_private_a1346f58f4afdebcc45a229b726071b02}{\index{Qxt\-Schedule\-View\-Private@{Qxt\-Schedule\-View\-Private}!m\-\_\-\-Inactive\-Items@{m\-\_\-\-Inactive\-Items}}
+\index{m\-\_\-\-Inactive\-Items@{m\-\_\-\-Inactive\-Items}!QxtScheduleViewPrivate@{Qxt\-Schedule\-View\-Private}}
+\subsubsection[{m\-\_\-\-Inactive\-Items}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Q\-List}$<${\bf Qxt\-Schedule\-Internal\-Item}$\ast$ $>$ Qxt\-Schedule\-View\-Private\-::m\-\_\-\-Inactive\-Items}}\label{class_qxt_schedule_view_private_a1346f58f4afdebcc45a229b726071b02}
+
+
+Definition at line 161 of file qxtscheduleview\-\_\-p.\-h.
+
+\hypertarget{class_qxt_schedule_view_private_a484aa797dad1ad0499937c02f5f687fc}{\index{Qxt\-Schedule\-View\-Private@{Qxt\-Schedule\-View\-Private}!m\-\_\-\-Items@{m\-\_\-\-Items}}
+\index{m\-\_\-\-Items@{m\-\_\-\-Items}!QxtScheduleViewPrivate@{Qxt\-Schedule\-View\-Private}}
+\subsubsection[{m\-\_\-\-Items}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Q\-List}$<${\bf Qxt\-Schedule\-Internal\-Item}$\ast$ $>$ Qxt\-Schedule\-View\-Private\-::m\-\_\-\-Items}}\label{class_qxt_schedule_view_private_a484aa797dad1ad0499937c02f5f687fc}
+
+
+Definition at line 160 of file qxtscheduleview\-\_\-p.\-h.
+
+\hypertarget{class_qxt_schedule_view_private_a493afa216b514a23862a183a388daf74}{\index{Qxt\-Schedule\-View\-Private@{Qxt\-Schedule\-View\-Private}!m\-\_\-last\-Mouse\-Pos\-Offset@{m\-\_\-last\-Mouse\-Pos\-Offset}}
+\index{m\-\_\-last\-Mouse\-Pos\-Offset@{m\-\_\-last\-Mouse\-Pos\-Offset}!QxtScheduleViewPrivate@{Qxt\-Schedule\-View\-Private}}
+\subsubsection[{m\-\_\-last\-Mouse\-Pos\-Offset}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int} Qxt\-Schedule\-View\-Private\-::m\-\_\-last\-Mouse\-Pos\-Offset}}\label{class_qxt_schedule_view_private_a493afa216b514a23862a183a388daf74}
+
+
+Definition at line 153 of file qxtscheduleview\-\_\-p.\-h.
+
+\hypertarget{class_qxt_schedule_view_private_af64379945aa97466a6a01989b238625b}{\index{Qxt\-Schedule\-View\-Private@{Qxt\-Schedule\-View\-Private}!m\-\_\-\-Model@{m\-\_\-\-Model}}
+\index{m\-\_\-\-Model@{m\-\_\-\-Model}!QxtScheduleViewPrivate@{Qxt\-Schedule\-View\-Private}}
+\subsubsection[{m\-\_\-\-Model}]{\setlength{\rightskip}{0pt plus 5cm}Q\-Abstract\-Item\-Model$\ast$ Qxt\-Schedule\-View\-Private\-::m\-\_\-\-Model}}\label{class_qxt_schedule_view_private_af64379945aa97466a6a01989b238625b}
+
+
+Definition at line 170 of file qxtscheduleview\-\_\-p.\-h.
+
+\hypertarget{class_qxt_schedule_view_private_a5060fd61796c43856fbac971da90b605}{\index{Qxt\-Schedule\-View\-Private@{Qxt\-Schedule\-View\-Private}!m\-\_\-selected\-Item@{m\-\_\-selected\-Item}}
+\index{m\-\_\-selected\-Item@{m\-\_\-selected\-Item}!QxtScheduleViewPrivate@{Qxt\-Schedule\-View\-Private}}
+\subsubsection[{m\-\_\-selected\-Item}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Qxt\-Schedule\-Internal\-Item}$\ast$ Qxt\-Schedule\-View\-Private\-::m\-\_\-selected\-Item}}\label{class_qxt_schedule_view_private_a5060fd61796c43856fbac971da90b605}
+
+
+Definition at line 151 of file qxtscheduleview\-\_\-p.\-h.
+
+\hypertarget{class_qxt_schedule_view_private_a53606665328fa6a63c4c951b101f275d}{\index{Qxt\-Schedule\-View\-Private@{Qxt\-Schedule\-View\-Private}!m\-\_\-start\-Unix\-Time@{m\-\_\-start\-Unix\-Time}}
+\index{m\-\_\-start\-Unix\-Time@{m\-\_\-start\-Unix\-Time}!QxtScheduleViewPrivate@{Qxt\-Schedule\-View\-Private}}
+\subsubsection[{m\-\_\-start\-Unix\-Time}]{\setlength{\rightskip}{0pt plus 5cm}uint Qxt\-Schedule\-View\-Private\-::m\-\_\-start\-Unix\-Time}}\label{class_qxt_schedule_view_private_a53606665328fa6a63c4c951b101f275d}
+
+
+Definition at line 157 of file qxtscheduleview\-\_\-p.\-h.
+
+\hypertarget{class_qxt_schedule_view_private_a2e1b737cbe6365e0912c0eba21eb3d2e}{\index{Qxt\-Schedule\-View\-Private@{Qxt\-Schedule\-View\-Private}!m\-\_\-v\-Header@{m\-\_\-v\-Header}}
+\index{m\-\_\-v\-Header@{m\-\_\-v\-Header}!QxtScheduleViewPrivate@{Qxt\-Schedule\-View\-Private}}
+\subsubsection[{m\-\_\-v\-Header}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Qxt\-Schedule\-Header\-Widget}$\ast$ Qxt\-Schedule\-View\-Private\-::m\-\_\-v\-Header}}\label{class_qxt_schedule_view_private_a2e1b737cbe6365e0912c0eba21eb3d2e}
+
+
+Definition at line 165 of file qxtscheduleview\-\_\-p.\-h.
+
+\hypertarget{class_qxt_schedule_view_private_a6835e926cbd90f1cb7e7a30c3cf715fc}{\index{Qxt\-Schedule\-View\-Private@{Qxt\-Schedule\-View\-Private}!m\-\_\-zoom\-Step\-Width@{m\-\_\-zoom\-Step\-Width}}
+\index{m\-\_\-zoom\-Step\-Width@{m\-\_\-zoom\-Step\-Width}!QxtScheduleViewPrivate@{Qxt\-Schedule\-View\-Private}}
+\subsubsection[{m\-\_\-zoom\-Step\-Width}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int} Qxt\-Schedule\-View\-Private\-::m\-\_\-zoom\-Step\-Width}}\label{class_qxt_schedule_view_private_a6835e926cbd90f1cb7e7a30c3cf715fc}
+
+
+Definition at line 155 of file qxtscheduleview\-\_\-p.\-h.
+
+\hypertarget{class_qxt_schedule_view_private_af44460008acd0aadd209e59a9841bbc0}{\index{Qxt\-Schedule\-View\-Private@{Qxt\-Schedule\-View\-Private}!scroll\-Timer@{scroll\-Timer}}
+\index{scroll\-Timer@{scroll\-Timer}!QxtScheduleViewPrivate@{Qxt\-Schedule\-View\-Private}}
+\subsubsection[{scroll\-Timer}]{\setlength{\rightskip}{0pt plus 5cm}Q\-Timer Qxt\-Schedule\-View\-Private\-::scroll\-Timer}}\label{class_qxt_schedule_view_private_af44460008acd0aadd209e59a9841bbc0}
+
+
+Definition at line 163 of file qxtscheduleview\-\_\-p.\-h.
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/libqxt/src/gui/\hyperlink{qxtscheduleview__p_8h}{qxtscheduleview\-\_\-p.\-h}\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/libqxt/src/gui/\hyperlink{qxtscheduleview__p_8cpp}{qxtscheduleview\-\_\-p.\-cpp}\end{DoxyCompactItemize}

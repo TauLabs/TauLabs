@@ -1,0 +1,178 @@
+\hypertarget{class_qxt_service_browser}{\section{Qxt\-Service\-Browser Class Reference}
+\label{class_qxt_service_browser}\index{Qxt\-Service\-Browser@{Qxt\-Service\-Browser}}
+}
+
+
+The \hyperlink{class_qxt_service_browser}{Qxt\-Service\-Browser} class locates Zeroconf-\/enabled services on the network.  
+
+
+
+
+{\ttfamily \#include $<$qxtservicebrowser.\-h$>$}
+
+Inheritance diagram for Qxt\-Service\-Browser\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_qxt_service_browser}
+\end{center}
+\end{figure}
+\subsection*{Public Slots}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qxt_service_browser_a2881a842a417ef17395733b4e01569a4}{browse} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qxt_service_browser_ae55abbd2db7ba3f151049b1a6e587326}{stop\-Browsing} ()
+\end{DoxyCompactItemize}
+\subsection*{Signals}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qxt_service_browser_a64ae93186e3b3168753045325599be18}{browsing\-Failed} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} error\-Code)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qxt_service_browser_a7ff617e438d9c31647c771bdcf32a6d3}{service\-Added} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{Q\-String} \&service\-Name, const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{Q\-String} \&domain)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qxt_service_browser_a99c14f67893cd97ee134151711c56d50}{service\-Removed} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{Q\-String} \&service\-Name, const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{Q\-String} \&domain)
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+Q\-String\-List \hyperlink{class_qxt_service_browser_aa997db633abd90f54326fd4f1cb2764e}{service\-Sub\-Types} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qxt_service_browser_ad95a31fe11e7b3a5beb1d04cd885f935}{set\-Service\-Sub\-Types} (const Q\-String\-List \&subtypes)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qxt_service_browser_a9c94d071f91d129602ce1e8ac4e52408}{add\-Service\-Sub\-Type} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{Q\-String} \&subtype)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qxt_service_browser_aafa36805fde58b47418aea62c13160e5}{remove\-Service\-Sub\-Type} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{Q\-String} \&subtype)
+\item 
+bool \hyperlink{class_qxt_service_browser_ad6ff9641c42987a12f10be9bec14e855}{has\-Service\-Sub\-Type} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{Q\-String} \&subtype)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+The \hyperlink{class_qxt_service_browser}{Qxt\-Service\-Browser} class locates Zeroconf-\/enabled services on the network. 
+
+Qxt\-Zeroconf
+
+\hyperlink{class_qxt_service_browser}{Qxt\-Service\-Browser} is a tool for locating Zeroconf-\/enabled services on the local network. When starting to browse, all existing services reachable on the local network matching the specified search parameters will be announced with the \hyperlink{class_qxt_service_browser_a7ff617e438d9c31647c771bdcf32a6d3}{service\-Added()} signal. Afterward, while browsing, new services apearing on the network will be announced with the same signal, and services that are closed will be announced with the \hyperlink{class_qxt_service_browser_a99c14f67893cd97ee134151711c56d50}{service\-Removed()} signal.
+
+Services on the network are identified by a service type and may be further disambiguated by service subtypes. If any service subtypes are added to the \hyperlink{class_qxt_service_browser}{Qxt\-Service\-Browser}, only services offering the specified subtypes will be found. Use the properties inherited from \hyperlink{class_qxt_discoverable_service_name}{Qxt\-Discoverable\-Service\-Name} to configure the search parameters.
+
+For more information about Zeroconf, see the documentation available on www.\-zeroconf.\-org.
+
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qxt_discoverable_service}{Qxt\-Discoverable\-Service} 
+
+\hyperlink{class_qxt_discoverable_service_name}{Qxt\-Discoverable\-Service\-Name} 
+\end{DoxySeeAlso}
+
+
+Definition at line 10 of file qxtservicebrowser.\-h.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_qxt_service_browser_a9c94d071f91d129602ce1e8ac4e52408}{\index{Qxt\-Service\-Browser@{Qxt\-Service\-Browser}!add\-Service\-Sub\-Type@{add\-Service\-Sub\-Type}}
+\index{add\-Service\-Sub\-Type@{add\-Service\-Sub\-Type}!QxtServiceBrowser@{Qxt\-Service\-Browser}}
+\subsubsection[{add\-Service\-Sub\-Type}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qxt\-Service\-Browser\-::add\-Service\-Sub\-Type (
+\begin{DoxyParamCaption}
+\item[{const {\bf Q\-String} \&}]{subtype}
+\end{DoxyParamCaption}
+)}}\label{class_qxt_service_browser_a9c94d071f91d129602ce1e8ac4e52408}
+
+
+Definition at line 106 of file qxtservicebrowser.\-cpp.
+
+\hypertarget{class_qxt_service_browser_a2881a842a417ef17395733b4e01569a4}{\index{Qxt\-Service\-Browser@{Qxt\-Service\-Browser}!browse@{browse}}
+\index{browse@{browse}!QxtServiceBrowser@{Qxt\-Service\-Browser}}
+\subsubsection[{browse}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qxt\-Service\-Browser\-::browse (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [slot]}}}\label{class_qxt_service_browser_a2881a842a417ef17395733b4e01569a4}
+
+
+Definition at line 64 of file qxtservicebrowser.\-cpp.
+
+\hypertarget{class_qxt_service_browser_a64ae93186e3b3168753045325599be18}{\index{Qxt\-Service\-Browser@{Qxt\-Service\-Browser}!browsing\-Failed@{browsing\-Failed}}
+\index{browsing\-Failed@{browsing\-Failed}!QxtServiceBrowser@{Qxt\-Service\-Browser}}
+\subsubsection[{browsing\-Failed}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qxt\-Service\-Browser\-::browsing\-Failed (
+\begin{DoxyParamCaption}
+\item[{{\bf int}}]{error\-Code}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [signal]}}}\label{class_qxt_service_browser_a64ae93186e3b3168753045325599be18}
+\hypertarget{class_qxt_service_browser_ad6ff9641c42987a12f10be9bec14e855}{\index{Qxt\-Service\-Browser@{Qxt\-Service\-Browser}!has\-Service\-Sub\-Type@{has\-Service\-Sub\-Type}}
+\index{has\-Service\-Sub\-Type@{has\-Service\-Sub\-Type}!QxtServiceBrowser@{Qxt\-Service\-Browser}}
+\subsubsection[{has\-Service\-Sub\-Type}]{\setlength{\rightskip}{0pt plus 5cm}bool Qxt\-Service\-Browser\-::has\-Service\-Sub\-Type (
+\begin{DoxyParamCaption}
+\item[{const {\bf Q\-String} \&}]{subtype}
+\end{DoxyParamCaption}
+)}}\label{class_qxt_service_browser_ad6ff9641c42987a12f10be9bec14e855}
+
+
+Definition at line 120 of file qxtservicebrowser.\-cpp.
+
+\hypertarget{class_qxt_service_browser_aafa36805fde58b47418aea62c13160e5}{\index{Qxt\-Service\-Browser@{Qxt\-Service\-Browser}!remove\-Service\-Sub\-Type@{remove\-Service\-Sub\-Type}}
+\index{remove\-Service\-Sub\-Type@{remove\-Service\-Sub\-Type}!QxtServiceBrowser@{Qxt\-Service\-Browser}}
+\subsubsection[{remove\-Service\-Sub\-Type}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qxt\-Service\-Browser\-::remove\-Service\-Sub\-Type (
+\begin{DoxyParamCaption}
+\item[{const {\bf Q\-String} \&}]{subtype}
+\end{DoxyParamCaption}
+)}}\label{class_qxt_service_browser_aafa36805fde58b47418aea62c13160e5}
+
+
+Definition at line 113 of file qxtservicebrowser.\-cpp.
+
+\hypertarget{class_qxt_service_browser_a7ff617e438d9c31647c771bdcf32a6d3}{\index{Qxt\-Service\-Browser@{Qxt\-Service\-Browser}!service\-Added@{service\-Added}}
+\index{service\-Added@{service\-Added}!QxtServiceBrowser@{Qxt\-Service\-Browser}}
+\subsubsection[{service\-Added}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qxt\-Service\-Browser\-::service\-Added (
+\begin{DoxyParamCaption}
+\item[{const {\bf Q\-String} \&}]{service\-Name, }
+\item[{const {\bf Q\-String} \&}]{domain}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [signal]}}}\label{class_qxt_service_browser_a7ff617e438d9c31647c771bdcf32a6d3}
+\hypertarget{class_qxt_service_browser_a99c14f67893cd97ee134151711c56d50}{\index{Qxt\-Service\-Browser@{Qxt\-Service\-Browser}!service\-Removed@{service\-Removed}}
+\index{service\-Removed@{service\-Removed}!QxtServiceBrowser@{Qxt\-Service\-Browser}}
+\subsubsection[{service\-Removed}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qxt\-Service\-Browser\-::service\-Removed (
+\begin{DoxyParamCaption}
+\item[{const {\bf Q\-String} \&}]{service\-Name, }
+\item[{const {\bf Q\-String} \&}]{domain}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [signal]}}}\label{class_qxt_service_browser_a99c14f67893cd97ee134151711c56d50}
+\hypertarget{class_qxt_service_browser_aa997db633abd90f54326fd4f1cb2764e}{\index{Qxt\-Service\-Browser@{Qxt\-Service\-Browser}!service\-Sub\-Types@{service\-Sub\-Types}}
+\index{service\-Sub\-Types@{service\-Sub\-Types}!QxtServiceBrowser@{Qxt\-Service\-Browser}}
+\subsubsection[{service\-Sub\-Types}]{\setlength{\rightskip}{0pt plus 5cm}Q\-String\-List Qxt\-Service\-Browser\-::service\-Sub\-Types (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_qxt_service_browser_aa997db633abd90f54326fd4f1cb2764e}
+
+
+Definition at line 94 of file qxtservicebrowser.\-cpp.
+
+\hypertarget{class_qxt_service_browser_ad95a31fe11e7b3a5beb1d04cd885f935}{\index{Qxt\-Service\-Browser@{Qxt\-Service\-Browser}!set\-Service\-Sub\-Types@{set\-Service\-Sub\-Types}}
+\index{set\-Service\-Sub\-Types@{set\-Service\-Sub\-Types}!QxtServiceBrowser@{Qxt\-Service\-Browser}}
+\subsubsection[{set\-Service\-Sub\-Types}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qxt\-Service\-Browser\-::set\-Service\-Sub\-Types (
+\begin{DoxyParamCaption}
+\item[{const Q\-String\-List \&}]{subtypes}
+\end{DoxyParamCaption}
+)}}\label{class_qxt_service_browser_ad95a31fe11e7b3a5beb1d04cd885f935}
+
+
+Definition at line 99 of file qxtservicebrowser.\-cpp.
+
+\hypertarget{class_qxt_service_browser_ae55abbd2db7ba3f151049b1a6e587326}{\index{Qxt\-Service\-Browser@{Qxt\-Service\-Browser}!stop\-Browsing@{stop\-Browsing}}
+\index{stop\-Browsing@{stop\-Browsing}!QxtServiceBrowser@{Qxt\-Service\-Browser}}
+\subsubsection[{stop\-Browsing}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qxt\-Service\-Browser\-::stop\-Browsing (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [slot]}}}\label{class_qxt_service_browser_ae55abbd2db7ba3f151049b1a6e587326}
+
+
+Definition at line 85 of file qxtservicebrowser.\-cpp.
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/libqxt/src/zeroconf/\hyperlink{qxtservicebrowser_8h}{qxtservicebrowser.\-h}\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/libqxt/src/zeroconf/\hyperlink{qxtservicebrowser_8cpp}{qxtservicebrowser.\-cpp}\end{DoxyCompactItemize}

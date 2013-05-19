@@ -1,0 +1,318 @@
+\hypertarget{class_g_l_c___mover}{\section{G\-L\-C\-\_\-\-Mover Class Reference}
+\label{class_g_l_c___mover}\index{G\-L\-C\-\_\-\-Mover@{G\-L\-C\-\_\-\-Mover}}
+}
+
+
+\hyperlink{class_g_l_c___mover}{G\-L\-C\-\_\-\-Mover} \-: Base class for all interactive manipulation.  
+
+
+
+
+{\ttfamily \#include $<$glc\-\_\-mover.\-h$>$}
+
+Inheritance diagram for G\-L\-C\-\_\-\-Mover\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=1.643836cm]{class_g_l_c___mover}
+\end{center}
+\end{figure}
+\subsection*{Signals}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c___mover_a0fe81c733ad743b7296d51cc57a353d3}{updated} ()
+\begin{DoxyCompactList}\small\item\em Signal sent if the view as been updated. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_g_l_c___mover_a883f83eb58c6a93d86ccafe100cd2fce}{G\-L\-C\-\_\-\-Mover} (\hyperlink{class_g_l_c___viewport}{G\-L\-C\-\_\-\-Viewport} $\ast$, const \hyperlink{class_q_list}{Q\-List}$<$ \hyperlink{class_g_l_c___rep_mover}{G\-L\-C\-\_\-\-Rep\-Mover} $\ast$ $>$ \&)
+\begin{DoxyCompactList}\small\item\em Default constructor. \end{DoxyCompactList}\item 
+\hyperlink{class_g_l_c___mover_a07444e354abc9f451e8d6afbbed60eb4}{G\-L\-C\-\_\-\-Mover} (const \hyperlink{class_g_l_c___mover}{G\-L\-C\-\_\-\-Mover} \&)
+\begin{DoxyCompactList}\small\item\em Copy constructor. \end{DoxyCompactList}\item 
+virtual \hyperlink{class_g_l_c___mover_a76a09a838476379ec1a9e47175777f87}{$\sim$\-G\-L\-C\-\_\-\-Mover} ()
+\begin{DoxyCompactList}\small\item\em Destructor. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{Indent}{\bf Get Functions}\par
+\begin{DoxyCompactItemize}
+\item 
+virtual \hyperlink{class_g_l_c___mover}{G\-L\-C\-\_\-\-Mover} $\ast$ \hyperlink{class_g_l_c___mover_abcf4ca22f14bc73158e3ad6e8d60410c}{clone} () const =0
+\begin{DoxyCompactList}\small\item\em Return a clone of the mover. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\end{Indent}
+\begin{Indent}{\bf Set Functions}\par
+\begin{DoxyCompactItemize}
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c___mover_aa42bf47dbe0181baebb33fd4901ea516}{init} (const \hyperlink{class_g_l_c___user_input}{G\-L\-C\-\_\-\-User\-Input} \&user\-Input)=0
+\begin{DoxyCompactList}\small\item\em Initialized the mover. \end{DoxyCompactList}\item 
+virtual bool \hyperlink{class_g_l_c___mover_a50797471a7a71612eef7d80f509f8a74}{move} (const \hyperlink{class_g_l_c___user_input}{G\-L\-C\-\_\-\-User\-Input} \&user\-Input)=0
+\begin{DoxyCompactList}\small\item\em Move the camera. \end{DoxyCompactList}\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c___mover_a9483b8fb6f95a49de1f3f56e29763bd6}{ends} ()
+\begin{DoxyCompactList}\small\item\em Ends this mover. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c___mover_a1a40b002963f10cbf90d238b0c1e069f}{set\-Representations\-List} (const \hyperlink{class_q_list}{Q\-List}$<$ \hyperlink{class_g_l_c___rep_mover}{G\-L\-C\-\_\-\-Rep\-Mover} $\ast$ $>$ \&)
+\begin{DoxyCompactList}\small\item\em Set the mover representation list. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c___mover_a7ec77cceb13ae8bb8fd6c29715099a69}{init\-Representation} ()
+\begin{DoxyCompactList}\small\item\em Init representation. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c___mover_aecb658727443c3ec29c0fa65b71309a8}{update\-Representation} ()
+\begin{DoxyCompactList}\small\item\em Update representation. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\end{Indent}
+\begin{Indent}{\bf Open\-G\-L Functions}\par
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c___mover_ac073b036242e55ac68ffa32547e32dc4}{render\-Representation} ()
+\begin{DoxyCompactList}\small\item\em Mover representations list display. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\end{Indent}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_q_list}{Q\-List}$<$ \hyperlink{class_g_l_c___rep_mover}{G\-L\-C\-\_\-\-Rep\-Mover} $\ast$ $>$ \hyperlink{class_g_l_c___mover_a25ce5c9b799eae3464346ac151047c6f}{m\-\_\-\-Rep\-Mover\-List}
+\begin{DoxyCompactList}\small\item\em The mover representations list. \end{DoxyCompactList}\item 
+\hyperlink{class_g_l_c___vector3d}{G\-L\-C\-\_\-\-Vector3d} \hyperlink{class_g_l_c___mover_a514f83b7922d5e260800215abf4dc47c}{m\-\_\-\-Previous\-Vector}
+\begin{DoxyCompactList}\small\item\em The previous mover value. \end{DoxyCompactList}\item 
+\hyperlink{class_g_l_c___viewport}{G\-L\-C\-\_\-\-Viewport} $\ast$ \hyperlink{class_g_l_c___mover_a9c48f31500f8968481b33d30e6694c85}{m\-\_\-p\-Viewport}
+\begin{DoxyCompactList}\small\item\em The Viewport. \end{DoxyCompactList}\item 
+\hyperlink{struct_g_l_c___rep_mover_1_1_rep_mover_info}{G\-L\-C\-\_\-\-Rep\-Mover\-::\-Rep\-Mover\-Info} \hyperlink{class_g_l_c___mover_acb3a70ceabd4bd81662a15502da4f004}{m\-\_\-\-Mover\-Info}
+\begin{DoxyCompactList}\small\item\em The mover info (passed to the rep) \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\hyperlink{class_g_l_c___mover}{G\-L\-C\-\_\-\-Mover} \-: Base class for all interactive manipulation. 
+
+Definition at line 43 of file glc\-\_\-mover.\-h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_g_l_c___mover_a883f83eb58c6a93d86ccafe100cd2fce}{\index{G\-L\-C\-\_\-\-Mover@{G\-L\-C\-\_\-\-Mover}!G\-L\-C\-\_\-\-Mover@{G\-L\-C\-\_\-\-Mover}}
+\index{G\-L\-C\-\_\-\-Mover@{G\-L\-C\-\_\-\-Mover}!GLC_Mover@{G\-L\-C\-\_\-\-Mover}}
+\subsubsection[{G\-L\-C\-\_\-\-Mover}]{\setlength{\rightskip}{0pt plus 5cm}G\-L\-C\-\_\-\-Mover\-::\-G\-L\-C\-\_\-\-Mover (
+\begin{DoxyParamCaption}
+\item[{{\bf G\-L\-C\-\_\-\-Viewport} $\ast$}]{p\-Viewport, }
+\item[{const {\bf Q\-List}$<$ {\bf G\-L\-C\-\_\-\-Rep\-Mover} $\ast$ $>$ \&}]{reps\-List}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___mover_a883f83eb58c6a93d86ccafe100cd2fce}
+
+
+Default constructor. 
+
+
+
+Definition at line 28 of file glc\-\_\-mover.\-cpp.
+
+\hypertarget{class_g_l_c___mover_a07444e354abc9f451e8d6afbbed60eb4}{\index{G\-L\-C\-\_\-\-Mover@{G\-L\-C\-\_\-\-Mover}!G\-L\-C\-\_\-\-Mover@{G\-L\-C\-\_\-\-Mover}}
+\index{G\-L\-C\-\_\-\-Mover@{G\-L\-C\-\_\-\-Mover}!GLC_Mover@{G\-L\-C\-\_\-\-Mover}}
+\subsubsection[{G\-L\-C\-\_\-\-Mover}]{\setlength{\rightskip}{0pt plus 5cm}G\-L\-C\-\_\-\-Mover\-::\-G\-L\-C\-\_\-\-Mover (
+\begin{DoxyParamCaption}
+\item[{const {\bf G\-L\-C\-\_\-\-Mover} \&}]{mover}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___mover_a07444e354abc9f451e8d6afbbed60eb4}
+
+
+Copy constructor. 
+
+
+
+Definition at line 43 of file glc\-\_\-mover.\-cpp.
+
+\hypertarget{class_g_l_c___mover_a76a09a838476379ec1a9e47175777f87}{\index{G\-L\-C\-\_\-\-Mover@{G\-L\-C\-\_\-\-Mover}!$\sim$\-G\-L\-C\-\_\-\-Mover@{$\sim$\-G\-L\-C\-\_\-\-Mover}}
+\index{$\sim$\-G\-L\-C\-\_\-\-Mover@{$\sim$\-G\-L\-C\-\_\-\-Mover}!GLC_Mover@{G\-L\-C\-\_\-\-Mover}}
+\subsubsection[{$\sim$\-G\-L\-C\-\_\-\-Mover}]{\setlength{\rightskip}{0pt plus 5cm}G\-L\-C\-\_\-\-Mover\-::$\sim$\-G\-L\-C\-\_\-\-Mover (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_g_l_c___mover_a76a09a838476379ec1a9e47175777f87}
+
+
+Destructor. 
+
+
+
+Definition at line 58 of file glc\-\_\-mover.\-cpp.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_g_l_c___mover_abcf4ca22f14bc73158e3ad6e8d60410c}{\index{G\-L\-C\-\_\-\-Mover@{G\-L\-C\-\_\-\-Mover}!clone@{clone}}
+\index{clone@{clone}!GLC_Mover@{G\-L\-C\-\_\-\-Mover}}
+\subsubsection[{clone}]{\setlength{\rightskip}{0pt plus 5cm}virtual {\bf G\-L\-C\-\_\-\-Mover}$\ast$ G\-L\-C\-\_\-\-Mover\-::clone (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [pure virtual]}}}\label{class_g_l_c___mover_abcf4ca22f14bc73158e3ad6e8d60410c}
+
+
+Return a clone of the mover. 
+
+
+
+Implemented in \hyperlink{class_g_l_c___track_ball_mover_ae4d9805062308f16c153608c92387135}{G\-L\-C\-\_\-\-Track\-Ball\-Mover}, \hyperlink{class_g_l_c___fly_mover_ae6ad02a62e32bbc839fe28f9c6c9c532}{G\-L\-C\-\_\-\-Fly\-Mover}, \hyperlink{class_g_l_c___zoom_mover_a38cb134949e877c730ddc4840bfcc4b1}{G\-L\-C\-\_\-\-Zoom\-Mover}, \hyperlink{class_g_l_c___pan_mover_ae2a9e72d2db9d2d1da67c12561b3b5cf}{G\-L\-C\-\_\-\-Pan\-Mover}, \hyperlink{class_g_l_c___tsr_mover_aa8acd6c2eb498b7de90894f3683ebb06}{G\-L\-C\-\_\-\-Tsr\-Mover}, \hyperlink{class_g_l_c___turn_table_mover_a313753abe6c9a336e15de78b4919af68}{G\-L\-C\-\_\-\-Turn\-Table\-Mover}, and \hyperlink{class_g_l_c___set_target_mover_a45eab18ffcb8f601d6081c011f67909a}{G\-L\-C\-\_\-\-Set\-Target\-Mover}.
+
+\hypertarget{class_g_l_c___mover_a9483b8fb6f95a49de1f3f56e29763bd6}{\index{G\-L\-C\-\_\-\-Mover@{G\-L\-C\-\_\-\-Mover}!ends@{ends}}
+\index{ends@{ends}!GLC_Mover@{G\-L\-C\-\_\-\-Mover}}
+\subsubsection[{ends}]{\setlength{\rightskip}{0pt plus 5cm}virtual {\bf void} G\-L\-C\-\_\-\-Mover\-::ends (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}}\label{class_g_l_c___mover_a9483b8fb6f95a49de1f3f56e29763bd6}
+
+
+Ends this mover. 
+
+
+
+Reimplemented in \hyperlink{class_g_l_c___fly_mover_aa614f2be5e7f5781fadd669947f4b64e}{G\-L\-C\-\_\-\-Fly\-Mover}.
+
+
+
+Definition at line 79 of file glc\-\_\-mover.\-h.
+
+\hypertarget{class_g_l_c___mover_aa42bf47dbe0181baebb33fd4901ea516}{\index{G\-L\-C\-\_\-\-Mover@{G\-L\-C\-\_\-\-Mover}!init@{init}}
+\index{init@{init}!GLC_Mover@{G\-L\-C\-\_\-\-Mover}}
+\subsubsection[{init}]{\setlength{\rightskip}{0pt plus 5cm}virtual {\bf void} G\-L\-C\-\_\-\-Mover\-::init (
+\begin{DoxyParamCaption}
+\item[{const {\bf G\-L\-C\-\_\-\-User\-Input} \&}]{user\-Input}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [pure virtual]}}}\label{class_g_l_c___mover_aa42bf47dbe0181baebb33fd4901ea516}
+
+
+Initialized the mover. 
+
+
+
+Implemented in \hyperlink{class_g_l_c___fly_mover_a9bd77b3a82302d074a53f7e95916f657}{G\-L\-C\-\_\-\-Fly\-Mover}, \hyperlink{class_g_l_c___track_ball_mover_a876a78986b67739d82d0d7d68b9d860d}{G\-L\-C\-\_\-\-Track\-Ball\-Mover}, \hyperlink{class_g_l_c___zoom_mover_af44b07ea2addcacfd5061f9f5dd5f63b}{G\-L\-C\-\_\-\-Zoom\-Mover}, \hyperlink{class_g_l_c___pan_mover_a3ff298cd9e76f3e7246888cab1e4105f}{G\-L\-C\-\_\-\-Pan\-Mover}, \hyperlink{class_g_l_c___tsr_mover_a49d0ab2714d32d36dfbb7cb2383d60d1}{G\-L\-C\-\_\-\-Tsr\-Mover}, \hyperlink{class_g_l_c___turn_table_mover_a456b3375eea1b1aeb8001cdf25ebe53d}{G\-L\-C\-\_\-\-Turn\-Table\-Mover}, and \hyperlink{class_g_l_c___set_target_mover_a7e6220d9f05cbaf4eb701a7e6cb68c9c}{G\-L\-C\-\_\-\-Set\-Target\-Mover}.
+
+\hypertarget{class_g_l_c___mover_a7ec77cceb13ae8bb8fd6c29715099a69}{\index{G\-L\-C\-\_\-\-Mover@{G\-L\-C\-\_\-\-Mover}!init\-Representation@{init\-Representation}}
+\index{init\-Representation@{init\-Representation}!GLC_Mover@{G\-L\-C\-\_\-\-Mover}}
+\subsubsection[{init\-Representation}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-\-Mover\-::init\-Representation (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___mover_a7ec77cceb13ae8bb8fd6c29715099a69}
+
+
+Init representation. 
+
+
+
+Definition at line 81 of file glc\-\_\-mover.\-cpp.
+
+\hypertarget{class_g_l_c___mover_a50797471a7a71612eef7d80f509f8a74}{\index{G\-L\-C\-\_\-\-Mover@{G\-L\-C\-\_\-\-Mover}!move@{move}}
+\index{move@{move}!GLC_Mover@{G\-L\-C\-\_\-\-Mover}}
+\subsubsection[{move}]{\setlength{\rightskip}{0pt plus 5cm}virtual bool G\-L\-C\-\_\-\-Mover\-::move (
+\begin{DoxyParamCaption}
+\item[{const {\bf G\-L\-C\-\_\-\-User\-Input} \&}]{user\-Input}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [pure virtual]}}}\label{class_g_l_c___mover_a50797471a7a71612eef7d80f509f8a74}
+
+
+Move the camera. 
+
+
+
+Implemented in \hyperlink{class_g_l_c___fly_mover_af667d8526c4ef6522e50c028d69e43c7}{G\-L\-C\-\_\-\-Fly\-Mover}, \hyperlink{class_g_l_c___track_ball_mover_a99399ee08f65bcdff03695d6b3f7a56b}{G\-L\-C\-\_\-\-Track\-Ball\-Mover}, \hyperlink{class_g_l_c___zoom_mover_aa6f260134db8d0f6599a265c2433dbd9}{G\-L\-C\-\_\-\-Zoom\-Mover}, \hyperlink{class_g_l_c___pan_mover_a62dd7a7b6d84c9880842ed538a68da28}{G\-L\-C\-\_\-\-Pan\-Mover}, \hyperlink{class_g_l_c___tsr_mover_a2b1c40766d01a97144f6fcb199923d74}{G\-L\-C\-\_\-\-Tsr\-Mover}, \hyperlink{class_g_l_c___turn_table_mover_a88a3c009a44516ea4d24a83599687aae}{G\-L\-C\-\_\-\-Turn\-Table\-Mover}, and \hyperlink{class_g_l_c___set_target_mover_a88bcb1421a004dfdca72ea4f448b85b4}{G\-L\-C\-\_\-\-Set\-Target\-Mover}.
+
+\hypertarget{class_g_l_c___mover_ac073b036242e55ac68ffa32547e32dc4}{\index{G\-L\-C\-\_\-\-Mover@{G\-L\-C\-\_\-\-Mover}!render\-Representation@{render\-Representation}}
+\index{render\-Representation@{render\-Representation}!GLC_Mover@{G\-L\-C\-\_\-\-Mover}}
+\subsubsection[{render\-Representation}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-\-Mover\-::render\-Representation (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___mover_ac073b036242e55ac68ffa32547e32dc4}
+
+
+Mover representations list display. 
+
+
+
+Definition at line 106 of file glc\-\_\-mover.\-cpp.
+
+\hypertarget{class_g_l_c___mover_a1a40b002963f10cbf90d238b0c1e069f}{\index{G\-L\-C\-\_\-\-Mover@{G\-L\-C\-\_\-\-Mover}!set\-Representations\-List@{set\-Representations\-List}}
+\index{set\-Representations\-List@{set\-Representations\-List}!GLC_Mover@{G\-L\-C\-\_\-\-Mover}}
+\subsubsection[{set\-Representations\-List}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-\-Mover\-::set\-Representations\-List (
+\begin{DoxyParamCaption}
+\item[{const {\bf Q\-List}$<$ {\bf G\-L\-C\-\_\-\-Rep\-Mover} $\ast$ $>$ \&}]{list\-Of\-Rep}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___mover_a1a40b002963f10cbf90d238b0c1e069f}
+
+
+Set the mover representation list. 
+
+
+
+Definition at line 68 of file glc\-\_\-mover.\-cpp.
+
+\hypertarget{class_g_l_c___mover_a0fe81c733ad743b7296d51cc57a353d3}{\index{G\-L\-C\-\_\-\-Mover@{G\-L\-C\-\_\-\-Mover}!updated@{updated}}
+\index{updated@{updated}!GLC_Mover@{G\-L\-C\-\_\-\-Mover}}
+\subsubsection[{updated}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-\-Mover\-::updated (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [signal]}}}\label{class_g_l_c___mover_a0fe81c733ad743b7296d51cc57a353d3}
+
+
+Signal sent if the view as been updated. 
+
+\hypertarget{class_g_l_c___mover_aecb658727443c3ec29c0fa65b71309a8}{\index{G\-L\-C\-\_\-\-Mover@{G\-L\-C\-\_\-\-Mover}!update\-Representation@{update\-Representation}}
+\index{update\-Representation@{update\-Representation}!GLC_Mover@{G\-L\-C\-\_\-\-Mover}}
+\subsubsection[{update\-Representation}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-\-Mover\-::update\-Representation (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___mover_aecb658727443c3ec29c0fa65b71309a8}
+
+
+Update representation. 
+
+
+
+Definition at line 91 of file glc\-\_\-mover.\-cpp.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{class_g_l_c___mover_acb3a70ceabd4bd81662a15502da4f004}{\index{G\-L\-C\-\_\-\-Mover@{G\-L\-C\-\_\-\-Mover}!m\-\_\-\-Mover\-Info@{m\-\_\-\-Mover\-Info}}
+\index{m\-\_\-\-Mover\-Info@{m\-\_\-\-Mover\-Info}!GLC_Mover@{G\-L\-C\-\_\-\-Mover}}
+\subsubsection[{m\-\_\-\-Mover\-Info}]{\setlength{\rightskip}{0pt plus 5cm}{\bf G\-L\-C\-\_\-\-Rep\-Mover\-::\-Rep\-Mover\-Info} G\-L\-C\-\_\-\-Mover\-::m\-\_\-\-Mover\-Info\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_g_l_c___mover_acb3a70ceabd4bd81662a15502da4f004}
+
+
+The mover info (passed to the rep) 
+
+
+
+Definition at line 128 of file glc\-\_\-mover.\-h.
+
+\hypertarget{class_g_l_c___mover_a514f83b7922d5e260800215abf4dc47c}{\index{G\-L\-C\-\_\-\-Mover@{G\-L\-C\-\_\-\-Mover}!m\-\_\-\-Previous\-Vector@{m\-\_\-\-Previous\-Vector}}
+\index{m\-\_\-\-Previous\-Vector@{m\-\_\-\-Previous\-Vector}!GLC_Mover@{G\-L\-C\-\_\-\-Mover}}
+\subsubsection[{m\-\_\-\-Previous\-Vector}]{\setlength{\rightskip}{0pt plus 5cm}{\bf G\-L\-C\-\_\-\-Vector3d} G\-L\-C\-\_\-\-Mover\-::m\-\_\-\-Previous\-Vector\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_g_l_c___mover_a514f83b7922d5e260800215abf4dc47c}
+
+
+The previous mover value. 
+
+
+
+Definition at line 122 of file glc\-\_\-mover.\-h.
+
+\hypertarget{class_g_l_c___mover_a9c48f31500f8968481b33d30e6694c85}{\index{G\-L\-C\-\_\-\-Mover@{G\-L\-C\-\_\-\-Mover}!m\-\_\-p\-Viewport@{m\-\_\-p\-Viewport}}
+\index{m\-\_\-p\-Viewport@{m\-\_\-p\-Viewport}!GLC_Mover@{G\-L\-C\-\_\-\-Mover}}
+\subsubsection[{m\-\_\-p\-Viewport}]{\setlength{\rightskip}{0pt plus 5cm}{\bf G\-L\-C\-\_\-\-Viewport}$\ast$ G\-L\-C\-\_\-\-Mover\-::m\-\_\-p\-Viewport\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_g_l_c___mover_a9c48f31500f8968481b33d30e6694c85}
+
+
+The Viewport. 
+
+
+
+Definition at line 125 of file glc\-\_\-mover.\-h.
+
+\hypertarget{class_g_l_c___mover_a25ce5c9b799eae3464346ac151047c6f}{\index{G\-L\-C\-\_\-\-Mover@{G\-L\-C\-\_\-\-Mover}!m\-\_\-\-Rep\-Mover\-List@{m\-\_\-\-Rep\-Mover\-List}}
+\index{m\-\_\-\-Rep\-Mover\-List@{m\-\_\-\-Rep\-Mover\-List}!GLC_Mover@{G\-L\-C\-\_\-\-Mover}}
+\subsubsection[{m\-\_\-\-Rep\-Mover\-List}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Q\-List}$<${\bf G\-L\-C\-\_\-\-Rep\-Mover}$\ast$$>$ G\-L\-C\-\_\-\-Mover\-::m\-\_\-\-Rep\-Mover\-List\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_g_l_c___mover_a25ce5c9b799eae3464346ac151047c6f}
+
+
+The mover representations list. 
+
+
+
+Definition at line 119 of file glc\-\_\-mover.\-h.
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/glc\-\_\-lib/viewport/\hyperlink{glc__mover_8h}{glc\-\_\-mover.\-h}\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/glc\-\_\-lib/viewport/\hyperlink{glc__mover_8cpp}{glc\-\_\-mover.\-cpp}\end{DoxyCompactItemize}

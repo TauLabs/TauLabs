@@ -1,0 +1,281 @@
+\hypertarget{classqssp}{\section{qssp Class Reference}
+\label{classqssp}\index{qssp@{qssp}}
+}
+
+
+{\ttfamily \#include $<$qssp.\-h$>$}
+
+Inheritance diagram for qssp\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classqssp}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{classqssp_ga28dc454e607c69686bf4df989ad3d1ae}{pf\-Call\-Back} (uint8\-\_\-t $\ast$, uint16\-\_\-t)
+\item 
+int16\-\_\-t \hyperlink{classqssp_ga11e7402dcc0d8efde83d13592279f122}{ssp\-\_\-\-Receive\-Process} ()
+\begin{DoxyCompactList}\small\item\em Runs the receive process. fetches a byte at a time and runs the byte through the protocol receive state machine. \end{DoxyCompactList}\item 
+int16\-\_\-t \hyperlink{classqssp_gaa1b44e385ddf057c81585809dc71e4ba}{ssp\-\_\-\-Send\-Process} ()
+\begin{DoxyCompactList}\small\item\em Runs the send process, checks for receipt of ack, timeouts and resends if needed. \end{DoxyCompactList}\item 
+uint16\-\_\-t \hyperlink{classqssp_a53a085c64c9a0e54a10cefe2ce660714}{ssp\-\_\-\-Send\-String} (char $\ast$str)
+\item 
+int16\-\_\-t \hyperlink{classqssp_gae129d1cdf9ba386b6cd8002176a35a3b}{ssp\-\_\-\-Send\-Data} (const uint8\-\_\-t $\ast$\hyperlink{glext_8h_a8850df0785e6fbcc2351af3b686b8c7a}{data}, const uint16\-\_\-t \hyperlink{glext_8h_a3c8469415bbc83dd1341af15c67f1cef}{length})
+\begin{DoxyCompactList}\small\item\em sends a chunk of data and does not block \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{classqssp_gaa7efad31d36502cca3aab3e4eed10d12}{ssp\-\_\-\-Init} (const \hyperlink{struct_port_config__t}{Port\-Config\-\_\-t} $\ast$const info)
+\begin{DoxyCompactList}\small\item\em Initializes the communication port for use. \end{DoxyCompactList}\item 
+int16\-\_\-t \hyperlink{classqssp_gae06a33d9cc36f1b95bb0bc0a5ab8ca3a}{ssp\-\_\-\-Receive\-Byte} ()
+\begin{DoxyCompactList}\small\item\em processes a single byte through the receive state machine. \end{DoxyCompactList}\item 
+uint16\-\_\-t \hyperlink{classqssp_ga6f47e7cf74215ceeaf3d6234ef0c37b7}{ssp\-\_\-\-Synchronise} ()
+\begin{DoxyCompactList}\small\item\em Attempts to synchronize the sequence numbers with the other end of the connectin. \end{DoxyCompactList}\item 
+\hyperlink{classqssp_ga6b7f70326e497709fc513c3d122379cb}{qssp} (\hyperlink{classport}{port} $\ast$info, bool debug)
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___uploader_ga28dc454e607c69686bf4df989ad3d1ae}{pf\-Call\-Back} (uint8\-\_\-t $\ast$, uint16\-\_\-t)
+\item 
+int16\-\_\-t \hyperlink{group___uploader_ga11e7402dcc0d8efde83d13592279f122}{ssp\-\_\-\-Receive\-Process} ()
+\item 
+int16\-\_\-t \hyperlink{group___uploader_gaa1b44e385ddf057c81585809dc71e4ba}{ssp\-\_\-\-Send\-Process} ()
+\item 
+uint16\-\_\-t \hyperlink{group___uploader_ga53a085c64c9a0e54a10cefe2ce660714}{ssp\-\_\-\-Send\-String} (char $\ast$str)
+\item 
+int16\-\_\-t \hyperlink{group___uploader_gae129d1cdf9ba386b6cd8002176a35a3b}{ssp\-\_\-\-Send\-Data} (const uint8\-\_\-t $\ast$\hyperlink{glext_8h_a8850df0785e6fbcc2351af3b686b8c7a}{data}, const uint16\-\_\-t \hyperlink{glext_8h_a3c8469415bbc83dd1341af15c67f1cef}{length})
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___uploader_gaa7efad31d36502cca3aab3e4eed10d12}{ssp\-\_\-\-Init} (const \hyperlink{struct_port_config__t}{Port\-Config\-\_\-t} $\ast$const info)
+\item 
+int16\-\_\-t \hyperlink{group___uploader_gae06a33d9cc36f1b95bb0bc0a5ab8ca3a}{ssp\-\_\-\-Receive\-Byte} ()
+\item 
+uint16\-\_\-t \hyperlink{group___uploader_ga6f47e7cf74215ceeaf3d6234ef0c37b7}{ssp\-\_\-\-Synchronise} ()
+\item 
+\hyperlink{group___uploader_ga6b7f70326e497709fc513c3d122379cb}{qssp} (\hyperlink{classport}{port} $\ast$info, bool debug)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Public Data E\-X\-T\-E\-R\-N\-A\-L F\-U\-N\-C\-T\-I\-O\-N\-S 
+
+Definition at line 63 of file qssp.\-h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classqssp_ga6b7f70326e497709fc513c3d122379cb}{\index{qssp@{qssp}!qssp@{qssp}}
+\index{qssp@{qssp}!qssp@{qssp}}
+\subsubsection[{qssp}]{\setlength{\rightskip}{0pt plus 5cm}qssp\-::qssp (
+\begin{DoxyParamCaption}
+\item[{{\bf port} $\ast$}]{info, }
+\item[{bool}]{debug}
+\end{DoxyParamCaption}
+)}}\label{classqssp_ga6b7f70326e497709fc513c3d122379cb}
+
+
+Definition at line 755 of file qssp.\-cpp.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classqssp_ga28dc454e607c69686bf4df989ad3d1ae}{\index{qssp@{qssp}!pf\-Call\-Back@{pf\-Call\-Back}}
+\index{pf\-Call\-Back@{pf\-Call\-Back}!qssp@{qssp}}
+\subsubsection[{pf\-Call\-Back}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} qssp\-::pf\-Call\-Back (
+\begin{DoxyParamCaption}
+\item[{uint8\-\_\-t $\ast$}]{buf, }
+\item[{uint16\-\_\-t}]{size}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classqssp_ga28dc454e607c69686bf4df989ad3d1ae}
+P\-U\-B\-L\-I\-C F\-U\-N\-C\-T\-I\-O\-N\-S 
+
+Definition at line 777 of file qssp.\-cpp.
+
+\hypertarget{classqssp_gaa7efad31d36502cca3aab3e4eed10d12}{\index{qssp@{qssp}!ssp\-\_\-\-Init@{ssp\-\_\-\-Init}}
+\index{ssp\-\_\-\-Init@{ssp\-\_\-\-Init}!qssp@{qssp}}
+\subsubsection[{ssp\-\_\-\-Init}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} qssp\-::ssp\-\_\-\-Init (
+\begin{DoxyParamCaption}
+\item[{const {\bf Port\-Config\-\_\-t} $\ast$const}]{info}
+\end{DoxyParamCaption}
+)}}\label{classqssp_gaa7efad31d36502cca3aab3e4eed10d12}
+
+
+Initializes the communication port for use. 
+
+E\-X\-T\-E\-R\-N\-A\-L D\-A\-T\-A E\-X\-T\-E\-R\-N\-A\-L F\-U\-N\-C\-T\-I\-O\-N\-S V\-E\-R\-I\-F\-I\-C\-A\-T\-I\-O\-N F\-U\-N\-C\-T\-I\-O\-N\-S
+
+
+\begin{DoxyParams}{Parameters}
+{\em thisport} & = pointer to port structure to initialize \\
+\hline
+{\em info} & = config struct with default values. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+None.
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+Must be called before calling the Send or R\-Eceive process functions. 
+\end{DoxyNote}
+
+
+Definition at line 108 of file qssp.\-cpp.
+
+\hypertarget{classqssp_gae06a33d9cc36f1b95bb0bc0a5ab8ca3a}{\index{qssp@{qssp}!ssp\-\_\-\-Receive\-Byte@{ssp\-\_\-\-Receive\-Byte}}
+\index{ssp\-\_\-\-Receive\-Byte@{ssp\-\_\-\-Receive\-Byte}!qssp@{qssp}}
+\subsubsection[{ssp\-\_\-\-Receive\-Byte}]{\setlength{\rightskip}{0pt plus 5cm}int16\-\_\-t qssp\-::ssp\-\_\-\-Receive\-Byte (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classqssp_gae06a33d9cc36f1b95bb0bc0a5ab8ca3a}
+
+
+processes a single byte through the receive state machine. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em thisport} & = which port to use \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+current receive status
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+
+\end{DoxyNote}
+
+
+Definition at line 208 of file qssp.\-cpp.
+
+\hypertarget{classqssp_ga11e7402dcc0d8efde83d13592279f122}{\index{qssp@{qssp}!ssp\-\_\-\-Receive\-Process@{ssp\-\_\-\-Receive\-Process}}
+\index{ssp\-\_\-\-Receive\-Process@{ssp\-\_\-\-Receive\-Process}!qssp@{qssp}}
+\subsubsection[{ssp\-\_\-\-Receive\-Process}]{\setlength{\rightskip}{0pt plus 5cm}int16\-\_\-t qssp\-::ssp\-\_\-\-Receive\-Process (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classqssp_ga11e7402dcc0d8efde83d13592279f122}
+
+
+Runs the receive process. fetches a byte at a time and runs the byte through the protocol receive state machine. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em thisport} & -\/ which port to use. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+receive status.
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+
+\end{DoxyNote}
+
+
+Definition at line 183 of file qssp.\-cpp.
+
+\hypertarget{classqssp_gae129d1cdf9ba386b6cd8002176a35a3b}{\index{qssp@{qssp}!ssp\-\_\-\-Send\-Data@{ssp\-\_\-\-Send\-Data}}
+\index{ssp\-\_\-\-Send\-Data@{ssp\-\_\-\-Send\-Data}!qssp@{qssp}}
+\subsubsection[{ssp\-\_\-\-Send\-Data}]{\setlength{\rightskip}{0pt plus 5cm}int16\-\_\-t qssp\-::ssp\-\_\-\-Send\-Data (
+\begin{DoxyParamCaption}
+\item[{const uint8\-\_\-t $\ast$}]{data, }
+\item[{const uint16\-\_\-t}]{length}
+\end{DoxyParamCaption}
+)}}\label{classqssp_gae129d1cdf9ba386b6cd8002176a35a3b}
+
+
+sends a chunk of data and does not block 
+
+
+\begin{DoxyParams}{Parameters}
+{\em thisport} & = which port to use \\
+\hline
+{\em data} & = pointer to data to send \\
+\hline
+{\em length} & = number of bytes to send \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+S\-S\-P\-\_\-\-T\-X\-\_\-\-B\-U\-F\-O\-V\-E\-R\-R\-U\-N = tried to send too much data 
+
+S\-S\-P\-\_\-\-T\-X\-\_\-\-W\-A\-I\-T\-I\-N\-G = data sent and waiting for an ack to arrive 
+
+S\-S\-P\-\_\-\-T\-X\-\_\-\-B\-U\-S\-Y = a packet has already been sent, but not yet acked
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+
+\end{DoxyNote}
+
+
+Definition at line 261 of file qssp.\-cpp.
+
+\hypertarget{classqssp_gaa1b44e385ddf057c81585809dc71e4ba}{\index{qssp@{qssp}!ssp\-\_\-\-Send\-Process@{ssp\-\_\-\-Send\-Process}}
+\index{ssp\-\_\-\-Send\-Process@{ssp\-\_\-\-Send\-Process}!qssp@{qssp}}
+\subsubsection[{ssp\-\_\-\-Send\-Process}]{\setlength{\rightskip}{0pt plus 5cm}int16\-\_\-t qssp\-::ssp\-\_\-\-Send\-Process (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classqssp_gaa1b44e385ddf057c81585809dc71e4ba}
+
+
+Runs the send process, checks for receipt of ack, timeouts and resends if needed. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em thisport} & = which port to use \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+S\-S\-P\-\_\-\-T\-X\-\_\-\-W\-A\-I\-T\-I\-N\-G -\/ waiting for a valid A\-C\-K to arrive 
+
+S\-S\-P\-\_\-\-T\-X\-\_\-\-T\-I\-M\-E\-O\-U\-T -\/ failed to receive a valid A\-C\-K in the timeout period, after retrying. 
+
+S\-S\-P\-\_\-\-T\-X\-\_\-\-I\-D\-L\-E -\/ not expecting a A\-C\-K packet (no current transmissions in progress) 
+
+S\-S\-P\-\_\-\-T\-X\-\_\-\-A\-C\-K\-E\-D -\/ valid A\-C\-K received before timeout period.
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+
+\end{DoxyNote}
+
+
+Definition at line 142 of file qssp.\-cpp.
+
+\hypertarget{classqssp_a53a085c64c9a0e54a10cefe2ce660714}{\index{qssp@{qssp}!ssp\-\_\-\-Send\-String@{ssp\-\_\-\-Send\-String}}
+\index{ssp\-\_\-\-Send\-String@{ssp\-\_\-\-Send\-String}!qssp@{qssp}}
+\subsubsection[{ssp\-\_\-\-Send\-String}]{\setlength{\rightskip}{0pt plus 5cm}uint16\-\_\-t qssp\-::ssp\-\_\-\-Send\-String (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{str}
+\end{DoxyParamCaption}
+)}}\label{classqssp_a53a085c64c9a0e54a10cefe2ce660714}
+\hypertarget{classqssp_ga6f47e7cf74215ceeaf3d6234ef0c37b7}{\index{qssp@{qssp}!ssp\-\_\-\-Synchronise@{ssp\-\_\-\-Synchronise}}
+\index{ssp\-\_\-\-Synchronise@{ssp\-\_\-\-Synchronise}!qssp@{qssp}}
+\subsubsection[{ssp\-\_\-\-Synchronise}]{\setlength{\rightskip}{0pt plus 5cm}uint16\-\_\-t qssp\-::ssp\-\_\-\-Synchronise (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classqssp_ga6f47e7cf74215ceeaf3d6234ef0c37b7}
+
+
+Attempts to synchronize the sequence numbers with the other end of the connectin. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em thisport} & = which port to use \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true = success 
+
+false = failed to receive an A\-C\-K to our synch request
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+A. send a packet with a sequence number equal to zero B. if timed out then\-: send synch packet again increment try counter if number of tries exceed maximum try limit then exit C. goto A 
+\end{DoxyNote}
+
+
+Definition at line 334 of file qssp.\-cpp.
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/experimental/\-U\-S\-B\-\_\-\-U\-P\-L\-O\-A\-D\-\_\-\-T\-O\-O\-L/\-S\-S\-P/\hyperlink{experimental_2_u_s_b___u_p_l_o_a_d___t_o_o_l_2_s_s_p_2qssp_8h}{qssp.\-h}\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/plugins/uploader/\-S\-S\-P/\hyperlink{plugins_2uploader_2_s_s_p_2qssp_8h}{qssp.\-h}\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/experimental/\-U\-S\-B\-\_\-\-U\-P\-L\-O\-A\-D\-\_\-\-T\-O\-O\-L/\-S\-S\-P/\hyperlink{experimental_2_u_s_b___u_p_l_o_a_d___t_o_o_l_2_s_s_p_2qssp_8cpp}{qssp.\-cpp}\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/plugins/uploader/\-S\-S\-P/\hyperlink{plugins_2uploader_2_s_s_p_2qssp_8cpp}{qssp.\-cpp}\end{DoxyCompactItemize}

@@ -1,0 +1,179 @@
+\hypertarget{sdlgamepad_8h}{\section{/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/sdlgamepad/sdlgamepad.h File Reference}
+\label{sdlgamepad_8h}\index{/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/sdlgamepad/sdlgamepad.\-h@{/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/sdlgamepad/sdlgamepad.\-h}}
+}
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{class_s_d_l_gamepad}{S\-D\-L\-Gamepad}
+\end{DoxyCompactItemize}
+\subsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef \hyperlink{class_q_list}{Q\-List}$<$ qint16 $>$ \hyperlink{sdlgamepad_8h_a0cff90f48b1cb30ecb36bbfea594b50b}{Q\-List\-Int16}
+\end{DoxyCompactItemize}
+\subsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{sdlgamepad_8h_af26197a96724db6e360b1a82fb8fccbf}{Axis\-Number} \{ \\*
+\hyperlink{sdlgamepad_8h_af26197a96724db6e360b1a82fb8fccbfa85f3a961f56dd995f09a7af0f877ffff}{A\-X\-I\-S\-\_\-1}, 
+\hyperlink{sdlgamepad_8h_af26197a96724db6e360b1a82fb8fccbfab262f5445e6582a5fb499e18c1aa11bd}{A\-X\-I\-S\-\_\-2}, 
+\hyperlink{sdlgamepad_8h_af26197a96724db6e360b1a82fb8fccbfaeb78109fb2898d0a3cfb1e65159b6d9c}{A\-X\-I\-S\-\_\-3}, 
+\hyperlink{sdlgamepad_8h_af26197a96724db6e360b1a82fb8fccbfa1e2846505245cb58e1adf8171114a71a}{A\-X\-I\-S\-\_\-4}, 
+\\*
+\hyperlink{sdlgamepad_8h_af26197a96724db6e360b1a82fb8fccbfad7a63ab9b6cb9fae0c8578e7b0232d89}{A\-X\-I\-S\-\_\-5}, 
+\hyperlink{sdlgamepad_8h_af26197a96724db6e360b1a82fb8fccbfa53bf77554ea7e079e4c66d07dd57525b}{A\-X\-I\-S\-\_\-6}, 
+\hyperlink{sdlgamepad_8h_af26197a96724db6e360b1a82fb8fccbfaaea27a3f40513aa920fc43231b1fa542}{A\-X\-I\-S\-\_\-7}, 
+\hyperlink{sdlgamepad_8h_af26197a96724db6e360b1a82fb8fccbfa7041d5df4f094eb14decb35ef0f577cc}{A\-X\-I\-S\-\_\-8}, 
+\\*
+\hyperlink{sdlgamepad_8h_af26197a96724db6e360b1a82fb8fccbfa96588b6ea0484775bf9f09fc97798a48}{A\-X\-I\-S\-\_\-9}
+ \}
+\item 
+enum \hyperlink{sdlgamepad_8h_a2054e2a6e47649b0ab9d043afda9133f}{Button\-Number} \{ \\*
+\hyperlink{sdlgamepad_8h_a2054e2a6e47649b0ab9d043afda9133facb0994aefae26c9b952124a2d38cb403}{B\-U\-T\-T\-O\-N\-\_\-01}, 
+\hyperlink{sdlgamepad_8h_a2054e2a6e47649b0ab9d043afda9133fa342ca35e8f1dc6bdd2e6bf06316c3ea5}{B\-U\-T\-T\-O\-N\-\_\-02}, 
+\hyperlink{sdlgamepad_8h_a2054e2a6e47649b0ab9d043afda9133fa47a8681aa2a059cdbbf40efe0b4bbc5b}{B\-U\-T\-T\-O\-N\-\_\-03}, 
+\hyperlink{sdlgamepad_8h_a2054e2a6e47649b0ab9d043afda9133fa016f310907eade1f46f2f3e52c6c4bc4}{B\-U\-T\-T\-O\-N\-\_\-04}, 
+\\*
+\hyperlink{sdlgamepad_8h_a2054e2a6e47649b0ab9d043afda9133fa6a7da3415ef472fb533778bf53c31ac0}{B\-U\-T\-T\-O\-N\-\_\-05}, 
+\hyperlink{sdlgamepad_8h_a2054e2a6e47649b0ab9d043afda9133fa149eedd394e4c08847582dfc5b422755}{B\-U\-T\-T\-O\-N\-\_\-06}, 
+\hyperlink{sdlgamepad_8h_a2054e2a6e47649b0ab9d043afda9133fa5c11dbd063ce823c7aa237597a524782}{B\-U\-T\-T\-O\-N\-\_\-07}, 
+\hyperlink{sdlgamepad_8h_a2054e2a6e47649b0ab9d043afda9133fa7154725a1c4a9db8db36b5ad35530bc9}{B\-U\-T\-T\-O\-N\-\_\-08}, 
+\\*
+\hyperlink{sdlgamepad_8h_a2054e2a6e47649b0ab9d043afda9133fa22c19ef74809fccedfb7626bd6eb076a}{B\-U\-T\-T\-O\-N\-\_\-09}, 
+\hyperlink{sdlgamepad_8h_a2054e2a6e47649b0ab9d043afda9133faea41d705a31f0fff3909bfd660ffd12a}{B\-U\-T\-T\-O\-N\-\_\-10}, 
+\hyperlink{sdlgamepad_8h_a2054e2a6e47649b0ab9d043afda9133fa0cacf29fe1a01fc139d88ead50ddf386}{B\-U\-T\-T\-O\-N\-\_\-11}, 
+\hyperlink{sdlgamepad_8h_a2054e2a6e47649b0ab9d043afda9133fa89d0c165c9a25bf70220554cb3f4f35f}{B\-U\-T\-T\-O\-N\-\_\-12}, 
+\\*
+\hyperlink{sdlgamepad_8h_a2054e2a6e47649b0ab9d043afda9133fa2277f958252f6046a3c70de9cfef103a}{B\-U\-T\-T\-O\-N\-\_\-13}, 
+\hyperlink{sdlgamepad_8h_a2054e2a6e47649b0ab9d043afda9133fa94120aa5117d41d931e358b90a879e00}{B\-U\-T\-T\-O\-N\-\_\-14}, 
+\hyperlink{sdlgamepad_8h_a2054e2a6e47649b0ab9d043afda9133fa6ca393250225d9e07ce4421dc2b9542b}{B\-U\-T\-T\-O\-N\-\_\-15}, 
+\hyperlink{sdlgamepad_8h_a2054e2a6e47649b0ab9d043afda9133fa4b09d104af17c4a449e59540ef9820d7}{B\-U\-T\-T\-O\-N\-\_\-16}, 
+\\*
+\hyperlink{sdlgamepad_8h_a2054e2a6e47649b0ab9d043afda9133facb755a0e07c8e0e54cc9ce00a6ea4164}{B\-U\-T\-T\-O\-N\-\_\-17}, 
+\hyperlink{sdlgamepad_8h_a2054e2a6e47649b0ab9d043afda9133fa7f40528cf2b1308fa831c85cb29437af}{B\-U\-T\-T\-O\-N\-\_\-18}, 
+\hyperlink{sdlgamepad_8h_a2054e2a6e47649b0ab9d043afda9133fab245446c45d5cf6f8401cf072f1d05b2}{B\-U\-T\-T\-O\-N\-\_\-19}, 
+\hyperlink{sdlgamepad_8h_a2054e2a6e47649b0ab9d043afda9133fa631d76e641c4cc0bdfb02c6297cb4152}{B\-U\-T\-T\-O\-N\-\_\-20}
+ \}
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{sdlgamepad_8h_af26197a96724db6e360b1a82fb8fccbf}{Axis\-Number} \hyperlink{sdlgamepad_8h_abcde77109d6ee4aaceaee49b4bc7f1a6}{projects}
+\end{DoxyCompactItemize}
+
+
+\subsection{Typedef Documentation}
+\hypertarget{sdlgamepad_8h_a0cff90f48b1cb30ecb36bbfea594b50b}{\index{sdlgamepad.\-h@{sdlgamepad.\-h}!Q\-List\-Int16@{Q\-List\-Int16}}
+\index{Q\-List\-Int16@{Q\-List\-Int16}!sdlgamepad.h@{sdlgamepad.\-h}}
+\subsubsection[{Q\-List\-Int16}]{\setlength{\rightskip}{0pt plus 5cm}typedef {\bf Q\-List}$<$qint16$>$ {\bf Q\-List\-Int16}}}\label{sdlgamepad_8h_a0cff90f48b1cb30ecb36bbfea594b50b}
+A typedef for q\-Register\-Meta\-Type().
+
+This typedef is used to int the signal axes\-Values. You need this if you want to use the signal with queued connections, because you can not register \hyperlink{class_q_list}{Q\-List$<$qint16$>$} directly.
+
+\begin{DoxySeeAlso}{See Also}
+S\-D\-L\-Gamepad\-::axis\-Values() 
+\end{DoxySeeAlso}
+
+
+Definition at line 117 of file sdlgamepad.\-h.
+
+
+
+\subsection{Enumeration Type Documentation}
+\hypertarget{sdlgamepad_8h_af26197a96724db6e360b1a82fb8fccbf}{\index{sdlgamepad.\-h@{sdlgamepad.\-h}!Axis\-Number@{Axis\-Number}}
+\index{Axis\-Number@{Axis\-Number}!sdlgamepad.h@{sdlgamepad.\-h}}
+\subsubsection[{Axis\-Number}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf Axis\-Number}}}\label{sdlgamepad_8h_af26197a96724db6e360b1a82fb8fccbf}
+Axis enumeration.
+
+This enumeration can be used to have a more readable code for dealing with axes numbers. Up to 10 axes are supported. That should be more than enough for every gamepad out there. \begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{A\-X\-I\-S\-\_\-1@{A\-X\-I\-S\-\_\-1}!sdlgamepad.\-h@{sdlgamepad.\-h}}\index{sdlgamepad.\-h@{sdlgamepad.\-h}!A\-X\-I\-S\-\_\-1@{A\-X\-I\-S\-\_\-1}}\item[{\em 
+\hypertarget{sdlgamepad_8h_af26197a96724db6e360b1a82fb8fccbfa85f3a961f56dd995f09a7af0f877ffff}{A\-X\-I\-S\-\_\-1}\label{sdlgamepad_8h_af26197a96724db6e360b1a82fb8fccbfa85f3a961f56dd995f09a7af0f877ffff}
+}]\index{A\-X\-I\-S\-\_\-2@{A\-X\-I\-S\-\_\-2}!sdlgamepad.\-h@{sdlgamepad.\-h}}\index{sdlgamepad.\-h@{sdlgamepad.\-h}!A\-X\-I\-S\-\_\-2@{A\-X\-I\-S\-\_\-2}}\item[{\em 
+\hypertarget{sdlgamepad_8h_af26197a96724db6e360b1a82fb8fccbfab262f5445e6582a5fb499e18c1aa11bd}{A\-X\-I\-S\-\_\-2}\label{sdlgamepad_8h_af26197a96724db6e360b1a82fb8fccbfab262f5445e6582a5fb499e18c1aa11bd}
+}]\index{A\-X\-I\-S\-\_\-3@{A\-X\-I\-S\-\_\-3}!sdlgamepad.\-h@{sdlgamepad.\-h}}\index{sdlgamepad.\-h@{sdlgamepad.\-h}!A\-X\-I\-S\-\_\-3@{A\-X\-I\-S\-\_\-3}}\item[{\em 
+\hypertarget{sdlgamepad_8h_af26197a96724db6e360b1a82fb8fccbfaeb78109fb2898d0a3cfb1e65159b6d9c}{A\-X\-I\-S\-\_\-3}\label{sdlgamepad_8h_af26197a96724db6e360b1a82fb8fccbfaeb78109fb2898d0a3cfb1e65159b6d9c}
+}]\index{A\-X\-I\-S\-\_\-4@{A\-X\-I\-S\-\_\-4}!sdlgamepad.\-h@{sdlgamepad.\-h}}\index{sdlgamepad.\-h@{sdlgamepad.\-h}!A\-X\-I\-S\-\_\-4@{A\-X\-I\-S\-\_\-4}}\item[{\em 
+\hypertarget{sdlgamepad_8h_af26197a96724db6e360b1a82fb8fccbfa1e2846505245cb58e1adf8171114a71a}{A\-X\-I\-S\-\_\-4}\label{sdlgamepad_8h_af26197a96724db6e360b1a82fb8fccbfa1e2846505245cb58e1adf8171114a71a}
+}]\index{A\-X\-I\-S\-\_\-5@{A\-X\-I\-S\-\_\-5}!sdlgamepad.\-h@{sdlgamepad.\-h}}\index{sdlgamepad.\-h@{sdlgamepad.\-h}!A\-X\-I\-S\-\_\-5@{A\-X\-I\-S\-\_\-5}}\item[{\em 
+\hypertarget{sdlgamepad_8h_af26197a96724db6e360b1a82fb8fccbfad7a63ab9b6cb9fae0c8578e7b0232d89}{A\-X\-I\-S\-\_\-5}\label{sdlgamepad_8h_af26197a96724db6e360b1a82fb8fccbfad7a63ab9b6cb9fae0c8578e7b0232d89}
+}]\index{A\-X\-I\-S\-\_\-6@{A\-X\-I\-S\-\_\-6}!sdlgamepad.\-h@{sdlgamepad.\-h}}\index{sdlgamepad.\-h@{sdlgamepad.\-h}!A\-X\-I\-S\-\_\-6@{A\-X\-I\-S\-\_\-6}}\item[{\em 
+\hypertarget{sdlgamepad_8h_af26197a96724db6e360b1a82fb8fccbfa53bf77554ea7e079e4c66d07dd57525b}{A\-X\-I\-S\-\_\-6}\label{sdlgamepad_8h_af26197a96724db6e360b1a82fb8fccbfa53bf77554ea7e079e4c66d07dd57525b}
+}]\index{A\-X\-I\-S\-\_\-7@{A\-X\-I\-S\-\_\-7}!sdlgamepad.\-h@{sdlgamepad.\-h}}\index{sdlgamepad.\-h@{sdlgamepad.\-h}!A\-X\-I\-S\-\_\-7@{A\-X\-I\-S\-\_\-7}}\item[{\em 
+\hypertarget{sdlgamepad_8h_af26197a96724db6e360b1a82fb8fccbfaaea27a3f40513aa920fc43231b1fa542}{A\-X\-I\-S\-\_\-7}\label{sdlgamepad_8h_af26197a96724db6e360b1a82fb8fccbfaaea27a3f40513aa920fc43231b1fa542}
+}]\index{A\-X\-I\-S\-\_\-8@{A\-X\-I\-S\-\_\-8}!sdlgamepad.\-h@{sdlgamepad.\-h}}\index{sdlgamepad.\-h@{sdlgamepad.\-h}!A\-X\-I\-S\-\_\-8@{A\-X\-I\-S\-\_\-8}}\item[{\em 
+\hypertarget{sdlgamepad_8h_af26197a96724db6e360b1a82fb8fccbfa7041d5df4f094eb14decb35ef0f577cc}{A\-X\-I\-S\-\_\-8}\label{sdlgamepad_8h_af26197a96724db6e360b1a82fb8fccbfa7041d5df4f094eb14decb35ef0f577cc}
+}]\index{A\-X\-I\-S\-\_\-9@{A\-X\-I\-S\-\_\-9}!sdlgamepad.\-h@{sdlgamepad.\-h}}\index{sdlgamepad.\-h@{sdlgamepad.\-h}!A\-X\-I\-S\-\_\-9@{A\-X\-I\-S\-\_\-9}}\item[{\em 
+\hypertarget{sdlgamepad_8h_af26197a96724db6e360b1a82fb8fccbfa96588b6ea0484775bf9f09fc97798a48}{A\-X\-I\-S\-\_\-9}\label{sdlgamepad_8h_af26197a96724db6e360b1a82fb8fccbfa96588b6ea0484775bf9f09fc97798a48}
+}]\end{description}
+\end{Desc}
+
+
+Definition at line 61 of file sdlgamepad.\-h.
+
+\hypertarget{sdlgamepad_8h_a2054e2a6e47649b0ab9d043afda9133f}{\index{sdlgamepad.\-h@{sdlgamepad.\-h}!Button\-Number@{Button\-Number}}
+\index{Button\-Number@{Button\-Number}!sdlgamepad.h@{sdlgamepad.\-h}}
+\subsubsection[{Button\-Number}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf Button\-Number}}}\label{sdlgamepad_8h_a2054e2a6e47649b0ab9d043afda9133f}
+Button enumeration.
+
+This enumeration is uesed internaly in the singal for the buttons. Be aware that you need to register this enumeration with q\-Register\-Meta\-Type when you want to use the signal button\-State with queued connections.
+
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_s_d_l_gamepad_acbcb440f27707ca17e0bd7528f78d06a}{S\-D\-L\-Gamepad\-::button\-State()} 
+\end{DoxySeeAlso}
+\begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{B\-U\-T\-T\-O\-N\-\_\-01@{B\-U\-T\-T\-O\-N\-\_\-01}!sdlgamepad.\-h@{sdlgamepad.\-h}}\index{sdlgamepad.\-h@{sdlgamepad.\-h}!B\-U\-T\-T\-O\-N\-\_\-01@{B\-U\-T\-T\-O\-N\-\_\-01}}\item[{\em 
+\hypertarget{sdlgamepad_8h_a2054e2a6e47649b0ab9d043afda9133facb0994aefae26c9b952124a2d38cb403}{B\-U\-T\-T\-O\-N\-\_\-01}\label{sdlgamepad_8h_a2054e2a6e47649b0ab9d043afda9133facb0994aefae26c9b952124a2d38cb403}
+}]\index{B\-U\-T\-T\-O\-N\-\_\-02@{B\-U\-T\-T\-O\-N\-\_\-02}!sdlgamepad.\-h@{sdlgamepad.\-h}}\index{sdlgamepad.\-h@{sdlgamepad.\-h}!B\-U\-T\-T\-O\-N\-\_\-02@{B\-U\-T\-T\-O\-N\-\_\-02}}\item[{\em 
+\hypertarget{sdlgamepad_8h_a2054e2a6e47649b0ab9d043afda9133fa342ca35e8f1dc6bdd2e6bf06316c3ea5}{B\-U\-T\-T\-O\-N\-\_\-02}\label{sdlgamepad_8h_a2054e2a6e47649b0ab9d043afda9133fa342ca35e8f1dc6bdd2e6bf06316c3ea5}
+}]\index{B\-U\-T\-T\-O\-N\-\_\-03@{B\-U\-T\-T\-O\-N\-\_\-03}!sdlgamepad.\-h@{sdlgamepad.\-h}}\index{sdlgamepad.\-h@{sdlgamepad.\-h}!B\-U\-T\-T\-O\-N\-\_\-03@{B\-U\-T\-T\-O\-N\-\_\-03}}\item[{\em 
+\hypertarget{sdlgamepad_8h_a2054e2a6e47649b0ab9d043afda9133fa47a8681aa2a059cdbbf40efe0b4bbc5b}{B\-U\-T\-T\-O\-N\-\_\-03}\label{sdlgamepad_8h_a2054e2a6e47649b0ab9d043afda9133fa47a8681aa2a059cdbbf40efe0b4bbc5b}
+}]\index{B\-U\-T\-T\-O\-N\-\_\-04@{B\-U\-T\-T\-O\-N\-\_\-04}!sdlgamepad.\-h@{sdlgamepad.\-h}}\index{sdlgamepad.\-h@{sdlgamepad.\-h}!B\-U\-T\-T\-O\-N\-\_\-04@{B\-U\-T\-T\-O\-N\-\_\-04}}\item[{\em 
+\hypertarget{sdlgamepad_8h_a2054e2a6e47649b0ab9d043afda9133fa016f310907eade1f46f2f3e52c6c4bc4}{B\-U\-T\-T\-O\-N\-\_\-04}\label{sdlgamepad_8h_a2054e2a6e47649b0ab9d043afda9133fa016f310907eade1f46f2f3e52c6c4bc4}
+}]\index{B\-U\-T\-T\-O\-N\-\_\-05@{B\-U\-T\-T\-O\-N\-\_\-05}!sdlgamepad.\-h@{sdlgamepad.\-h}}\index{sdlgamepad.\-h@{sdlgamepad.\-h}!B\-U\-T\-T\-O\-N\-\_\-05@{B\-U\-T\-T\-O\-N\-\_\-05}}\item[{\em 
+\hypertarget{sdlgamepad_8h_a2054e2a6e47649b0ab9d043afda9133fa6a7da3415ef472fb533778bf53c31ac0}{B\-U\-T\-T\-O\-N\-\_\-05}\label{sdlgamepad_8h_a2054e2a6e47649b0ab9d043afda9133fa6a7da3415ef472fb533778bf53c31ac0}
+}]\index{B\-U\-T\-T\-O\-N\-\_\-06@{B\-U\-T\-T\-O\-N\-\_\-06}!sdlgamepad.\-h@{sdlgamepad.\-h}}\index{sdlgamepad.\-h@{sdlgamepad.\-h}!B\-U\-T\-T\-O\-N\-\_\-06@{B\-U\-T\-T\-O\-N\-\_\-06}}\item[{\em 
+\hypertarget{sdlgamepad_8h_a2054e2a6e47649b0ab9d043afda9133fa149eedd394e4c08847582dfc5b422755}{B\-U\-T\-T\-O\-N\-\_\-06}\label{sdlgamepad_8h_a2054e2a6e47649b0ab9d043afda9133fa149eedd394e4c08847582dfc5b422755}
+}]\index{B\-U\-T\-T\-O\-N\-\_\-07@{B\-U\-T\-T\-O\-N\-\_\-07}!sdlgamepad.\-h@{sdlgamepad.\-h}}\index{sdlgamepad.\-h@{sdlgamepad.\-h}!B\-U\-T\-T\-O\-N\-\_\-07@{B\-U\-T\-T\-O\-N\-\_\-07}}\item[{\em 
+\hypertarget{sdlgamepad_8h_a2054e2a6e47649b0ab9d043afda9133fa5c11dbd063ce823c7aa237597a524782}{B\-U\-T\-T\-O\-N\-\_\-07}\label{sdlgamepad_8h_a2054e2a6e47649b0ab9d043afda9133fa5c11dbd063ce823c7aa237597a524782}
+}]\index{B\-U\-T\-T\-O\-N\-\_\-08@{B\-U\-T\-T\-O\-N\-\_\-08}!sdlgamepad.\-h@{sdlgamepad.\-h}}\index{sdlgamepad.\-h@{sdlgamepad.\-h}!B\-U\-T\-T\-O\-N\-\_\-08@{B\-U\-T\-T\-O\-N\-\_\-08}}\item[{\em 
+\hypertarget{sdlgamepad_8h_a2054e2a6e47649b0ab9d043afda9133fa7154725a1c4a9db8db36b5ad35530bc9}{B\-U\-T\-T\-O\-N\-\_\-08}\label{sdlgamepad_8h_a2054e2a6e47649b0ab9d043afda9133fa7154725a1c4a9db8db36b5ad35530bc9}
+}]\index{B\-U\-T\-T\-O\-N\-\_\-09@{B\-U\-T\-T\-O\-N\-\_\-09}!sdlgamepad.\-h@{sdlgamepad.\-h}}\index{sdlgamepad.\-h@{sdlgamepad.\-h}!B\-U\-T\-T\-O\-N\-\_\-09@{B\-U\-T\-T\-O\-N\-\_\-09}}\item[{\em 
+\hypertarget{sdlgamepad_8h_a2054e2a6e47649b0ab9d043afda9133fa22c19ef74809fccedfb7626bd6eb076a}{B\-U\-T\-T\-O\-N\-\_\-09}\label{sdlgamepad_8h_a2054e2a6e47649b0ab9d043afda9133fa22c19ef74809fccedfb7626bd6eb076a}
+}]\index{B\-U\-T\-T\-O\-N\-\_\-10@{B\-U\-T\-T\-O\-N\-\_\-10}!sdlgamepad.\-h@{sdlgamepad.\-h}}\index{sdlgamepad.\-h@{sdlgamepad.\-h}!B\-U\-T\-T\-O\-N\-\_\-10@{B\-U\-T\-T\-O\-N\-\_\-10}}\item[{\em 
+\hypertarget{sdlgamepad_8h_a2054e2a6e47649b0ab9d043afda9133faea41d705a31f0fff3909bfd660ffd12a}{B\-U\-T\-T\-O\-N\-\_\-10}\label{sdlgamepad_8h_a2054e2a6e47649b0ab9d043afda9133faea41d705a31f0fff3909bfd660ffd12a}
+}]\index{B\-U\-T\-T\-O\-N\-\_\-11@{B\-U\-T\-T\-O\-N\-\_\-11}!sdlgamepad.\-h@{sdlgamepad.\-h}}\index{sdlgamepad.\-h@{sdlgamepad.\-h}!B\-U\-T\-T\-O\-N\-\_\-11@{B\-U\-T\-T\-O\-N\-\_\-11}}\item[{\em 
+\hypertarget{sdlgamepad_8h_a2054e2a6e47649b0ab9d043afda9133fa0cacf29fe1a01fc139d88ead50ddf386}{B\-U\-T\-T\-O\-N\-\_\-11}\label{sdlgamepad_8h_a2054e2a6e47649b0ab9d043afda9133fa0cacf29fe1a01fc139d88ead50ddf386}
+}]\index{B\-U\-T\-T\-O\-N\-\_\-12@{B\-U\-T\-T\-O\-N\-\_\-12}!sdlgamepad.\-h@{sdlgamepad.\-h}}\index{sdlgamepad.\-h@{sdlgamepad.\-h}!B\-U\-T\-T\-O\-N\-\_\-12@{B\-U\-T\-T\-O\-N\-\_\-12}}\item[{\em 
+\hypertarget{sdlgamepad_8h_a2054e2a6e47649b0ab9d043afda9133fa89d0c165c9a25bf70220554cb3f4f35f}{B\-U\-T\-T\-O\-N\-\_\-12}\label{sdlgamepad_8h_a2054e2a6e47649b0ab9d043afda9133fa89d0c165c9a25bf70220554cb3f4f35f}
+}]\index{B\-U\-T\-T\-O\-N\-\_\-13@{B\-U\-T\-T\-O\-N\-\_\-13}!sdlgamepad.\-h@{sdlgamepad.\-h}}\index{sdlgamepad.\-h@{sdlgamepad.\-h}!B\-U\-T\-T\-O\-N\-\_\-13@{B\-U\-T\-T\-O\-N\-\_\-13}}\item[{\em 
+\hypertarget{sdlgamepad_8h_a2054e2a6e47649b0ab9d043afda9133fa2277f958252f6046a3c70de9cfef103a}{B\-U\-T\-T\-O\-N\-\_\-13}\label{sdlgamepad_8h_a2054e2a6e47649b0ab9d043afda9133fa2277f958252f6046a3c70de9cfef103a}
+}]\index{B\-U\-T\-T\-O\-N\-\_\-14@{B\-U\-T\-T\-O\-N\-\_\-14}!sdlgamepad.\-h@{sdlgamepad.\-h}}\index{sdlgamepad.\-h@{sdlgamepad.\-h}!B\-U\-T\-T\-O\-N\-\_\-14@{B\-U\-T\-T\-O\-N\-\_\-14}}\item[{\em 
+\hypertarget{sdlgamepad_8h_a2054e2a6e47649b0ab9d043afda9133fa94120aa5117d41d931e358b90a879e00}{B\-U\-T\-T\-O\-N\-\_\-14}\label{sdlgamepad_8h_a2054e2a6e47649b0ab9d043afda9133fa94120aa5117d41d931e358b90a879e00}
+}]\index{B\-U\-T\-T\-O\-N\-\_\-15@{B\-U\-T\-T\-O\-N\-\_\-15}!sdlgamepad.\-h@{sdlgamepad.\-h}}\index{sdlgamepad.\-h@{sdlgamepad.\-h}!B\-U\-T\-T\-O\-N\-\_\-15@{B\-U\-T\-T\-O\-N\-\_\-15}}\item[{\em 
+\hypertarget{sdlgamepad_8h_a2054e2a6e47649b0ab9d043afda9133fa6ca393250225d9e07ce4421dc2b9542b}{B\-U\-T\-T\-O\-N\-\_\-15}\label{sdlgamepad_8h_a2054e2a6e47649b0ab9d043afda9133fa6ca393250225d9e07ce4421dc2b9542b}
+}]\index{B\-U\-T\-T\-O\-N\-\_\-16@{B\-U\-T\-T\-O\-N\-\_\-16}!sdlgamepad.\-h@{sdlgamepad.\-h}}\index{sdlgamepad.\-h@{sdlgamepad.\-h}!B\-U\-T\-T\-O\-N\-\_\-16@{B\-U\-T\-T\-O\-N\-\_\-16}}\item[{\em 
+\hypertarget{sdlgamepad_8h_a2054e2a6e47649b0ab9d043afda9133fa4b09d104af17c4a449e59540ef9820d7}{B\-U\-T\-T\-O\-N\-\_\-16}\label{sdlgamepad_8h_a2054e2a6e47649b0ab9d043afda9133fa4b09d104af17c4a449e59540ef9820d7}
+}]\index{B\-U\-T\-T\-O\-N\-\_\-17@{B\-U\-T\-T\-O\-N\-\_\-17}!sdlgamepad.\-h@{sdlgamepad.\-h}}\index{sdlgamepad.\-h@{sdlgamepad.\-h}!B\-U\-T\-T\-O\-N\-\_\-17@{B\-U\-T\-T\-O\-N\-\_\-17}}\item[{\em 
+\hypertarget{sdlgamepad_8h_a2054e2a6e47649b0ab9d043afda9133facb755a0e07c8e0e54cc9ce00a6ea4164}{B\-U\-T\-T\-O\-N\-\_\-17}\label{sdlgamepad_8h_a2054e2a6e47649b0ab9d043afda9133facb755a0e07c8e0e54cc9ce00a6ea4164}
+}]\index{B\-U\-T\-T\-O\-N\-\_\-18@{B\-U\-T\-T\-O\-N\-\_\-18}!sdlgamepad.\-h@{sdlgamepad.\-h}}\index{sdlgamepad.\-h@{sdlgamepad.\-h}!B\-U\-T\-T\-O\-N\-\_\-18@{B\-U\-T\-T\-O\-N\-\_\-18}}\item[{\em 
+\hypertarget{sdlgamepad_8h_a2054e2a6e47649b0ab9d043afda9133fa7f40528cf2b1308fa831c85cb29437af}{B\-U\-T\-T\-O\-N\-\_\-18}\label{sdlgamepad_8h_a2054e2a6e47649b0ab9d043afda9133fa7f40528cf2b1308fa831c85cb29437af}
+}]\index{B\-U\-T\-T\-O\-N\-\_\-19@{B\-U\-T\-T\-O\-N\-\_\-19}!sdlgamepad.\-h@{sdlgamepad.\-h}}\index{sdlgamepad.\-h@{sdlgamepad.\-h}!B\-U\-T\-T\-O\-N\-\_\-19@{B\-U\-T\-T\-O\-N\-\_\-19}}\item[{\em 
+\hypertarget{sdlgamepad_8h_a2054e2a6e47649b0ab9d043afda9133fab245446c45d5cf6f8401cf072f1d05b2}{B\-U\-T\-T\-O\-N\-\_\-19}\label{sdlgamepad_8h_a2054e2a6e47649b0ab9d043afda9133fab245446c45d5cf6f8401cf072f1d05b2}
+}]\index{B\-U\-T\-T\-O\-N\-\_\-20@{B\-U\-T\-T\-O\-N\-\_\-20}!sdlgamepad.\-h@{sdlgamepad.\-h}}\index{sdlgamepad.\-h@{sdlgamepad.\-h}!B\-U\-T\-T\-O\-N\-\_\-20@{B\-U\-T\-T\-O\-N\-\_\-20}}\item[{\em 
+\hypertarget{sdlgamepad_8h_a2054e2a6e47649b0ab9d043afda9133fa631d76e641c4cc0bdfb02c6297cb4152}{B\-U\-T\-T\-O\-N\-\_\-20}\label{sdlgamepad_8h_a2054e2a6e47649b0ab9d043afda9133fa631d76e641c4cc0bdfb02c6297cb4152}
+}]\end{description}
+\end{Desc}
+
+
+Definition at line 84 of file sdlgamepad.\-h.
+
+
+
+\subsection{Variable Documentation}
+\hypertarget{sdlgamepad_8h_abcde77109d6ee4aaceaee49b4bc7f1a6}{\index{sdlgamepad.\-h@{sdlgamepad.\-h}!projects@{projects}}
+\index{projects@{projects}!sdlgamepad.h@{sdlgamepad.\-h}}
+\subsubsection[{projects}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf Axis\-Number} projects}}\label{sdlgamepad_8h_abcde77109d6ee4aaceaee49b4bc7f1a6}

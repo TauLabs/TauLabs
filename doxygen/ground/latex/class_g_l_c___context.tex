@@ -1,0 +1,413 @@
+\hypertarget{class_g_l_c___context}{\section{G\-L\-C\-\_\-\-Context Class Reference}
+\label{class_g_l_c___context}\index{G\-L\-C\-\_\-\-Context@{G\-L\-C\-\_\-\-Context}}
+}
+
+
+\hyperlink{class_g_l_c___context}{G\-L\-C\-\_\-\-Context} \-: Encapsulates Open\-G\-L rendering context.  
+
+
+
+
+{\ttfamily \#include $<$glc\-\_\-context.\-h$>$}
+
+Inheritance diagram for G\-L\-C\-\_\-\-Context\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_g_l_c___context}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{Indent}{\bf Constructor / Destructor}\par
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_g_l_c___context_a51391e639a5909216e129745fb521947}{G\-L\-C\-\_\-\-Context} (const Q\-G\-L\-Format \&\hyperlink{glext_8h_a86f086d889f7cdb4d6461497ae891265}{format})
+\item 
+virtual \hyperlink{class_g_l_c___context_a1f91d4163e4ad4140b662fd0aeaa5f4b}{$\sim$\-G\-L\-C\-\_\-\-Context} ()
+\end{DoxyCompactItemize}
+\end{Indent}
+\begin{Indent}{\bf Open\-G\-L Functions}\par
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c___context_a30375a4d8e2427b8044434c18b2b2804}{glc\-Matrix\-Mode} (\hyperlink{glext_8h_a508b2dec21679e2e346cad3e0d1969bf}{G\-Lenum} \hyperlink{glext_8h_a1e71d9c196e4683cc06c4b54d53f7ef5}{mode})
+\begin{DoxyCompactList}\small\item\em Set the matrix mode. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c___context_abe6ec1f67d305aaab30fa944ed3f7351}{glc\-Load\-Identity} ()
+\begin{DoxyCompactList}\small\item\em Replace the current matrix with the identity. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c___context_a1e1d6a92c5b2a455c1d446db7ca42db0}{glc\-Push\-Matrix} ()
+\begin{DoxyCompactList}\small\item\em push and pop the current matrix stack \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c___context_a95d89a98839dfbad6780f4e21ffcd33e}{glc\-Pop\-Matrix} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c___context_ab3160bff555487a7c9206c0f65f5ade4}{glc\-Load\-Matrix} (const \hyperlink{class_g_l_c___matrix4x4}{G\-L\-C\-\_\-\-Matrix4x4} \&\hyperlink{glext_8h_a7b24a3f2f56eb1244ae69dacb4fecb6f}{matrix})
+\begin{DoxyCompactList}\small\item\em Replace the current matrix with the specified matrix. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c___context_a0ccbd2d753859fddf5b3ece29e212bc2}{glc\-Mult\-Matrix} (const \hyperlink{class_g_l_c___matrix4x4}{G\-L\-C\-\_\-\-Matrix4x4} \&\hyperlink{glext_8h_a7b24a3f2f56eb1244ae69dacb4fecb6f}{matrix})
+\begin{DoxyCompactList}\small\item\em Multiply the current matrix with the specified matrix. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c___context_a516c2e704cd460fbcf3f4f00b0005541}{glc\-Translated} (\hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} \hyperlink{glext_8h_a1db9d104e3c2128177f26aff7b46982f}{x}, \hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} \hyperlink{glext_8h_a42315f3ed8fff752bb47fd782309fcfc}{y}, \hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} \hyperlink{glext_8h_a642c8d69fd1a54f255c898df4f0dd7ca}{z})
+\begin{DoxyCompactList}\small\item\em Multiply the current matrix by a translation matrix. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c___context_a8a24ed9c43752ea3340f31fd6a5e7730}{glc\-Scaled} (\hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} \hyperlink{glext_8h_a1db9d104e3c2128177f26aff7b46982f}{x}, \hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} \hyperlink{glext_8h_a42315f3ed8fff752bb47fd782309fcfc}{y}, \hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} \hyperlink{glext_8h_a642c8d69fd1a54f255c898df4f0dd7ca}{z})
+\begin{DoxyCompactList}\small\item\em Multiply the current matrix by a general scaling matrix. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c___context_a614b620882d0b94297efaf302d4169b0}{glc\-Ortho} (\hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} \hyperlink{glext_8h_a85b8f6c07fbc1fb5d77c2ae090f21995}{left}, \hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} \hyperlink{glext_8h_a5ffadbbacc6b89cf6218bc43b384d3fe}{right}, \hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} \hyperlink{glext_8h_a95fc257e5ddf46f7db9d5e898cdf1991}{bottom}, \hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} \hyperlink{glext_8h_a5ab323daeacf8dfdb8f91132fecdca23}{top}, \hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} near\-Val, \hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} far\-Val)
+\begin{DoxyCompactList}\small\item\em Multiply the current matrix with an orthographic matrix. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c___context_a8076a77848e9e2dbf734466c09b665fe}{glc\-Frustum} (\hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} \hyperlink{glext_8h_a85b8f6c07fbc1fb5d77c2ae090f21995}{left}, \hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} \hyperlink{glext_8h_a5ffadbbacc6b89cf6218bc43b384d3fe}{right}, \hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} \hyperlink{glext_8h_a95fc257e5ddf46f7db9d5e898cdf1991}{bottom}, \hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} \hyperlink{glext_8h_a5ab323daeacf8dfdb8f91132fecdca23}{top}, \hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} near\-Val, \hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} far\-Val)
+\begin{DoxyCompactList}\small\item\em Multiply the current matrix by a perspective matrix. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c___context_abbe9b65bf4a83e973e6d2a6836b67188}{glc\-Enable\-Lighting} (bool enable)
+\begin{DoxyCompactList}\small\item\em Enable lighting. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\end{Indent}
+\begin{Indent}{\bf Set Functions}\par
+\begin{DoxyCompactItemize}
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c___context_a5760f8d403610237234dc405231e4979}{make\-Current} ()
+\begin{DoxyCompactList}\small\item\em Make this context the current one. \end{DoxyCompactList}\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c___context_ac3e1b22a80e6809654895aba111b1b6c}{done\-Current} ()
+\begin{DoxyCompactList}\small\item\em Make no context to be the current one. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c___context_afae3929b966a3e98c9a1c615accb6880}{update\-Uniform\-Variables} ()
+\begin{DoxyCompactList}\small\item\em Update uniform variable. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\end{Indent}
+\subsection*{Get Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_g_l_c___matrix4x4}{G\-L\-C\-\_\-\-Matrix4x4} \hyperlink{class_g_l_c___context_a92b5c3a79026269b4de4c64957c488bc}{model\-View\-Matrix} () const 
+\begin{DoxyCompactList}\small\item\em Return the model view matrix. \end{DoxyCompactList}\item 
+\hyperlink{class_g_l_c___matrix4x4}{G\-L\-C\-\_\-\-Matrix4x4} \hyperlink{class_g_l_c___context_a4180b8cd13ea8d4040fb55317a855dd3}{projection\-Matrix} () const 
+\begin{DoxyCompactList}\small\item\em Return the projection matrix. \end{DoxyCompactList}\item 
+bool \hyperlink{class_g_l_c___context_a5beaeaccd87dcbf1d9f3d1299fda82ce}{lighting\-Is\-Enable} () const 
+\begin{DoxyCompactList}\small\item\em Return lighting enable state. \end{DoxyCompactList}\item 
+static \hyperlink{class_g_l_c___context}{G\-L\-C\-\_\-\-Context} $\ast$ \hyperlink{class_g_l_c___context_a4534815e72d7afc95e829ec8616539fb}{current} ()
+\begin{DoxyCompactList}\small\item\em Return the current context. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Private services Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual bool \hyperlink{class_g_l_c___context_afde38d2c69cb7f0f92ed1fa7c697e19d}{choose\-Context} (const Q\-G\-L\-Context $\ast$share\-Context=0)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\hyperlink{class_g_l_c___context}{G\-L\-C\-\_\-\-Context} \-: Encapsulates Open\-G\-L rendering context. 
+
+The \hyperlink{class_g_l_c___context}{G\-L\-C\-\_\-\-Context} class store all G\-L\-C state associated to an Open\-G\-L rendering context. This class is also used to simplified Open\-G\-L and Open\-G\-L-\/\-E\-S interoperability 
+
+Definition at line 59 of file glc\-\_\-context.\-h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_g_l_c___context_a51391e639a5909216e129745fb521947}{\index{G\-L\-C\-\_\-\-Context@{G\-L\-C\-\_\-\-Context}!G\-L\-C\-\_\-\-Context@{G\-L\-C\-\_\-\-Context}}
+\index{G\-L\-C\-\_\-\-Context@{G\-L\-C\-\_\-\-Context}!GLC_Context@{G\-L\-C\-\_\-\-Context}}
+\subsubsection[{G\-L\-C\-\_\-\-Context}]{\setlength{\rightskip}{0pt plus 5cm}G\-L\-C\-\_\-\-Context\-::\-G\-L\-C\-\_\-\-Context (
+\begin{DoxyParamCaption}
+\item[{const Q\-G\-L\-Format \&}]{format}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___context_a51391e639a5909216e129745fb521947}
+
+
+Definition at line 32 of file glc\-\_\-context.\-cpp.
+
+\hypertarget{class_g_l_c___context_a1f91d4163e4ad4140b662fd0aeaa5f4b}{\index{G\-L\-C\-\_\-\-Context@{G\-L\-C\-\_\-\-Context}!$\sim$\-G\-L\-C\-\_\-\-Context@{$\sim$\-G\-L\-C\-\_\-\-Context}}
+\index{$\sim$\-G\-L\-C\-\_\-\-Context@{$\sim$\-G\-L\-C\-\_\-\-Context}!GLC_Context@{G\-L\-C\-\_\-\-Context}}
+\subsubsection[{$\sim$\-G\-L\-C\-\_\-\-Context}]{\setlength{\rightskip}{0pt plus 5cm}G\-L\-C\-\_\-\-Context\-::$\sim$\-G\-L\-C\-\_\-\-Context (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_g_l_c___context_a1f91d4163e4ad4140b662fd0aeaa5f4b}
+
+
+Definition at line 45 of file glc\-\_\-context.\-cpp.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_g_l_c___context_afde38d2c69cb7f0f92ed1fa7c697e19d}{\index{G\-L\-C\-\_\-\-Context@{G\-L\-C\-\_\-\-Context}!choose\-Context@{choose\-Context}}
+\index{choose\-Context@{choose\-Context}!GLC_Context@{G\-L\-C\-\_\-\-Context}}
+\subsubsection[{choose\-Context}]{\setlength{\rightskip}{0pt plus 5cm}bool G\-L\-C\-\_\-\-Context\-::choose\-Context (
+\begin{DoxyParamCaption}
+\item[{const Q\-G\-L\-Context $\ast$}]{share\-Context = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}}\label{class_g_l_c___context_afde38d2c69cb7f0f92ed1fa7c697e19d}
+
+
+Definition at line 252 of file glc\-\_\-context.\-cpp.
+
+\hypertarget{class_g_l_c___context_a4534815e72d7afc95e829ec8616539fb}{\index{G\-L\-C\-\_\-\-Context@{G\-L\-C\-\_\-\-Context}!current@{current}}
+\index{current@{current}!GLC_Context@{G\-L\-C\-\_\-\-Context}}
+\subsubsection[{current}]{\setlength{\rightskip}{0pt plus 5cm}{\bf G\-L\-C\-\_\-\-Context} $\ast$ G\-L\-C\-\_\-\-Context\-::current (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{class_g_l_c___context_a4534815e72d7afc95e829ec8616539fb}
+
+
+Return the current context. 
+
+
+
+Definition at line 62 of file glc\-\_\-context.\-cpp.
+
+\hypertarget{class_g_l_c___context_ac3e1b22a80e6809654895aba111b1b6c}{\index{G\-L\-C\-\_\-\-Context@{G\-L\-C\-\_\-\-Context}!done\-Current@{done\-Current}}
+\index{done\-Current@{done\-Current}!GLC_Context@{G\-L\-C\-\_\-\-Context}}
+\subsubsection[{done\-Current}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-\-Context\-::done\-Current (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_g_l_c___context_ac3e1b22a80e6809654895aba111b1b6c}
+
+
+Make no context to be the current one. 
+
+
+
+Definition at line 245 of file glc\-\_\-context.\-cpp.
+
+\hypertarget{class_g_l_c___context_abbe9b65bf4a83e973e6d2a6836b67188}{\index{G\-L\-C\-\_\-\-Context@{G\-L\-C\-\_\-\-Context}!glc\-Enable\-Lighting@{glc\-Enable\-Lighting}}
+\index{glc\-Enable\-Lighting@{glc\-Enable\-Lighting}!GLC_Context@{G\-L\-C\-\_\-\-Context}}
+\subsubsection[{glc\-Enable\-Lighting}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-\-Context\-::glc\-Enable\-Lighting (
+\begin{DoxyParamCaption}
+\item[{bool}]{enable}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___context_abbe9b65bf4a83e973e6d2a6836b67188}
+
+
+Enable lighting. 
+
+
+
+Definition at line 209 of file glc\-\_\-context.\-cpp.
+
+\hypertarget{class_g_l_c___context_a8076a77848e9e2dbf734466c09b665fe}{\index{G\-L\-C\-\_\-\-Context@{G\-L\-C\-\_\-\-Context}!glc\-Frustum@{glc\-Frustum}}
+\index{glc\-Frustum@{glc\-Frustum}!GLC_Context@{G\-L\-C\-\_\-\-Context}}
+\subsubsection[{glc\-Frustum}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-\-Context\-::glc\-Frustum (
+\begin{DoxyParamCaption}
+\item[{{\bf double}}]{left, }
+\item[{{\bf double}}]{right, }
+\item[{{\bf double}}]{bottom, }
+\item[{{\bf double}}]{top, }
+\item[{{\bf double}}]{near\-Val, }
+\item[{{\bf double}}]{far\-Val}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___context_a8076a77848e9e2dbf734466c09b665fe}
+
+
+Multiply the current matrix by a perspective matrix. 
+
+
+
+Definition at line 187 of file glc\-\_\-context.\-cpp.
+
+\hypertarget{class_g_l_c___context_abe6ec1f67d305aaab30fa944ed3f7351}{\index{G\-L\-C\-\_\-\-Context@{G\-L\-C\-\_\-\-Context}!glc\-Load\-Identity@{glc\-Load\-Identity}}
+\index{glc\-Load\-Identity@{glc\-Load\-Identity}!GLC_Context@{G\-L\-C\-\_\-\-Context}}
+\subsubsection[{glc\-Load\-Identity}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-\-Context\-::glc\-Load\-Identity (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___context_abe6ec1f67d305aaab30fa944ed3f7351}
+
+
+Replace the current matrix with the identity. 
+
+
+
+Definition at line 84 of file glc\-\_\-context.\-cpp.
+
+\hypertarget{class_g_l_c___context_ab3160bff555487a7c9206c0f65f5ade4}{\index{G\-L\-C\-\_\-\-Context@{G\-L\-C\-\_\-\-Context}!glc\-Load\-Matrix@{glc\-Load\-Matrix}}
+\index{glc\-Load\-Matrix@{glc\-Load\-Matrix}!GLC_Context@{G\-L\-C\-\_\-\-Context}}
+\subsubsection[{glc\-Load\-Matrix}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-\-Context\-::glc\-Load\-Matrix (
+\begin{DoxyParamCaption}
+\item[{const {\bf G\-L\-C\-\_\-\-Matrix4x4} \&}]{matrix}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___context_ab3160bff555487a7c9206c0f65f5ade4}
+
+
+Replace the current matrix with the specified matrix. 
+
+
+
+Definition at line 130 of file glc\-\_\-context.\-cpp.
+
+\hypertarget{class_g_l_c___context_a30375a4d8e2427b8044434c18b2b2804}{\index{G\-L\-C\-\_\-\-Context@{G\-L\-C\-\_\-\-Context}!glc\-Matrix\-Mode@{glc\-Matrix\-Mode}}
+\index{glc\-Matrix\-Mode@{glc\-Matrix\-Mode}!GLC_Context@{G\-L\-C\-\_\-\-Context}}
+\subsubsection[{glc\-Matrix\-Mode}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-\-Context\-::glc\-Matrix\-Mode (
+\begin{DoxyParamCaption}
+\item[{{\bf G\-Lenum}}]{mode}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___context_a30375a4d8e2427b8044434c18b2b2804}
+
+
+Set the matrix mode. 
+
+
+
+Definition at line 70 of file glc\-\_\-context.\-cpp.
+
+\hypertarget{class_g_l_c___context_a0ccbd2d753859fddf5b3ece29e212bc2}{\index{G\-L\-C\-\_\-\-Context@{G\-L\-C\-\_\-\-Context}!glc\-Mult\-Matrix@{glc\-Mult\-Matrix}}
+\index{glc\-Mult\-Matrix@{glc\-Mult\-Matrix}!GLC_Context@{G\-L\-C\-\_\-\-Context}}
+\subsubsection[{glc\-Mult\-Matrix}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-\-Context\-::glc\-Mult\-Matrix (
+\begin{DoxyParamCaption}
+\item[{const {\bf G\-L\-C\-\_\-\-Matrix4x4} \&}]{matrix}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___context_a0ccbd2d753859fddf5b3ece29e212bc2}
+
+
+Multiply the current matrix with the specified matrix. 
+
+
+
+Definition at line 146 of file glc\-\_\-context.\-cpp.
+
+\hypertarget{class_g_l_c___context_a614b620882d0b94297efaf302d4169b0}{\index{G\-L\-C\-\_\-\-Context@{G\-L\-C\-\_\-\-Context}!glc\-Ortho@{glc\-Ortho}}
+\index{glc\-Ortho@{glc\-Ortho}!GLC_Context@{G\-L\-C\-\_\-\-Context}}
+\subsubsection[{glc\-Ortho}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-\-Context\-::glc\-Ortho (
+\begin{DoxyParamCaption}
+\item[{{\bf double}}]{left, }
+\item[{{\bf double}}]{right, }
+\item[{{\bf double}}]{bottom, }
+\item[{{\bf double}}]{top, }
+\item[{{\bf double}}]{near\-Val, }
+\item[{{\bf double}}]{far\-Val}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___context_a614b620882d0b94297efaf302d4169b0}
+
+
+Multiply the current matrix with an orthographic matrix. 
+
+
+
+Definition at line 169 of file glc\-\_\-context.\-cpp.
+
+\hypertarget{class_g_l_c___context_a95d89a98839dfbad6780f4e21ffcd33e}{\index{G\-L\-C\-\_\-\-Context@{G\-L\-C\-\_\-\-Context}!glc\-Pop\-Matrix@{glc\-Pop\-Matrix}}
+\index{glc\-Pop\-Matrix@{glc\-Pop\-Matrix}!GLC_Context@{G\-L\-C\-\_\-\-Context}}
+\subsubsection[{glc\-Pop\-Matrix}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-\-Context\-::glc\-Pop\-Matrix (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___context_a95d89a98839dfbad6780f4e21ffcd33e}
+
+
+Definition at line 112 of file glc\-\_\-context.\-cpp.
+
+\hypertarget{class_g_l_c___context_a1e1d6a92c5b2a455c1d446db7ca42db0}{\index{G\-L\-C\-\_\-\-Context@{G\-L\-C\-\_\-\-Context}!glc\-Push\-Matrix@{glc\-Push\-Matrix}}
+\index{glc\-Push\-Matrix@{glc\-Push\-Matrix}!GLC_Context@{G\-L\-C\-\_\-\-Context}}
+\subsubsection[{glc\-Push\-Matrix}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-\-Context\-::glc\-Push\-Matrix (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___context_a1e1d6a92c5b2a455c1d446db7ca42db0}
+
+
+push and pop the current matrix stack 
+
+
+
+Definition at line 101 of file glc\-\_\-context.\-cpp.
+
+\hypertarget{class_g_l_c___context_a8a24ed9c43752ea3340f31fd6a5e7730}{\index{G\-L\-C\-\_\-\-Context@{G\-L\-C\-\_\-\-Context}!glc\-Scaled@{glc\-Scaled}}
+\index{glc\-Scaled@{glc\-Scaled}!GLC_Context@{G\-L\-C\-\_\-\-Context}}
+\subsubsection[{glc\-Scaled}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-\-Context\-::glc\-Scaled (
+\begin{DoxyParamCaption}
+\item[{{\bf double}}]{x, }
+\item[{{\bf double}}]{y, }
+\item[{{\bf double}}]{z}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___context_a8a24ed9c43752ea3340f31fd6a5e7730}
+
+
+Multiply the current matrix by a general scaling matrix. 
+
+
+
+Definition at line 162 of file glc\-\_\-context.\-cpp.
+
+\hypertarget{class_g_l_c___context_a516c2e704cd460fbcf3f4f00b0005541}{\index{G\-L\-C\-\_\-\-Context@{G\-L\-C\-\_\-\-Context}!glc\-Translated@{glc\-Translated}}
+\index{glc\-Translated@{glc\-Translated}!GLC_Context@{G\-L\-C\-\_\-\-Context}}
+\subsubsection[{glc\-Translated}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-\-Context\-::glc\-Translated (
+\begin{DoxyParamCaption}
+\item[{{\bf double}}]{x, }
+\item[{{\bf double}}]{y, }
+\item[{{\bf double}}]{z}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___context_a516c2e704cd460fbcf3f4f00b0005541}
+
+
+Multiply the current matrix by a translation matrix. 
+
+
+
+Definition at line 113 of file glc\-\_\-context.\-h.
+
+\hypertarget{class_g_l_c___context_a5beaeaccd87dcbf1d9f3d1299fda82ce}{\index{G\-L\-C\-\_\-\-Context@{G\-L\-C\-\_\-\-Context}!lighting\-Is\-Enable@{lighting\-Is\-Enable}}
+\index{lighting\-Is\-Enable@{lighting\-Is\-Enable}!GLC_Context@{G\-L\-C\-\_\-\-Context}}
+\subsubsection[{lighting\-Is\-Enable}]{\setlength{\rightskip}{0pt plus 5cm}bool G\-L\-C\-\_\-\-Context\-::lighting\-Is\-Enable (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___context_a5beaeaccd87dcbf1d9f3d1299fda82ce}
+
+
+Return lighting enable state. 
+
+
+
+Definition at line 88 of file glc\-\_\-context.\-h.
+
+\hypertarget{class_g_l_c___context_a5760f8d403610237234dc405231e4979}{\index{G\-L\-C\-\_\-\-Context@{G\-L\-C\-\_\-\-Context}!make\-Current@{make\-Current}}
+\index{make\-Current@{make\-Current}!GLC_Context@{G\-L\-C\-\_\-\-Context}}
+\subsubsection[{make\-Current}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-\-Context\-::make\-Current (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_g_l_c___context_a5760f8d403610237234dc405231e4979}
+
+
+Make this context the current one. 
+
+
+
+Definition at line 234 of file glc\-\_\-context.\-cpp.
+
+\hypertarget{class_g_l_c___context_a92b5c3a79026269b4de4c64957c488bc}{\index{G\-L\-C\-\_\-\-Context@{G\-L\-C\-\_\-\-Context}!model\-View\-Matrix@{model\-View\-Matrix}}
+\index{model\-View\-Matrix@{model\-View\-Matrix}!GLC_Context@{G\-L\-C\-\_\-\-Context}}
+\subsubsection[{model\-View\-Matrix}]{\setlength{\rightskip}{0pt plus 5cm}{\bf G\-L\-C\-\_\-\-Matrix4x4} G\-L\-C\-\_\-\-Context\-::model\-View\-Matrix (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___context_a92b5c3a79026269b4de4c64957c488bc}
+
+
+Return the model view matrix. 
+
+
+
+Definition at line 80 of file glc\-\_\-context.\-h.
+
+\hypertarget{class_g_l_c___context_a4180b8cd13ea8d4040fb55317a855dd3}{\index{G\-L\-C\-\_\-\-Context@{G\-L\-C\-\_\-\-Context}!projection\-Matrix@{projection\-Matrix}}
+\index{projection\-Matrix@{projection\-Matrix}!GLC_Context@{G\-L\-C\-\_\-\-Context}}
+\subsubsection[{projection\-Matrix}]{\setlength{\rightskip}{0pt plus 5cm}{\bf G\-L\-C\-\_\-\-Matrix4x4} G\-L\-C\-\_\-\-Context\-::projection\-Matrix (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___context_a4180b8cd13ea8d4040fb55317a855dd3}
+
+
+Return the projection matrix. 
+
+
+
+Definition at line 84 of file glc\-\_\-context.\-h.
+
+\hypertarget{class_g_l_c___context_afae3929b966a3e98c9a1c615accb6880}{\index{G\-L\-C\-\_\-\-Context@{G\-L\-C\-\_\-\-Context}!update\-Uniform\-Variables@{update\-Uniform\-Variables}}
+\index{update\-Uniform\-Variables@{update\-Uniform\-Variables}!GLC_Context@{G\-L\-C\-\_\-\-Context}}
+\subsubsection[{update\-Uniform\-Variables}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-\-Context\-::update\-Uniform\-Variables (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___context_afae3929b966a3e98c9a1c615accb6880}
+
+
+Update uniform variable. 
+
+
+
+Definition at line 142 of file glc\-\_\-context.\-h.
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/glc\-\_\-lib/\hyperlink{glc__context_8h}{glc\-\_\-context.\-h}\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/glc\-\_\-lib/\hyperlink{glc__context_8cpp}{glc\-\_\-context.\-cpp}\end{DoxyCompactItemize}

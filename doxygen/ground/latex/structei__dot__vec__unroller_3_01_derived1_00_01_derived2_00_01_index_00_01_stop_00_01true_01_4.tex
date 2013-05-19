@@ -1,0 +1,101 @@
+\hypertarget{structei__dot__vec__unroller_3_01_derived1_00_01_derived2_00_01_index_00_01_stop_00_01true_01_4}{\section{ei\-\_\-dot\-\_\-vec\-\_\-unroller$<$ Derived1, Derived2, Index, Stop, true $>$ Struct Template Reference}
+\label{structei__dot__vec__unroller_3_01_derived1_00_01_derived2_00_01_index_00_01_stop_00_01true_01_4}\index{ei\-\_\-dot\-\_\-vec\-\_\-unroller$<$ Derived1, Derived2, Index, Stop, true $>$@{ei\-\_\-dot\-\_\-vec\-\_\-unroller$<$ Derived1, Derived2, Index, Stop, true $>$}}
+}
+
+
+{\ttfamily \#include $<$Dot.\-h$>$}
+
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+enum \{ \\*
+\hyperlink{structei__dot__vec__unroller_3_01_derived1_00_01_derived2_00_01_index_00_01_stop_00_01true_01_4_afe5683f464440deadfef1d55e4e7f784a2ee216da438b0a4139d759d6fb0fb545}{row1} = Derived1\-:\-:Rows\-At\-Compile\-Time == 1 ? 0 \-: Index, 
+\hyperlink{structei__dot__vec__unroller_3_01_derived1_00_01_derived2_00_01_index_00_01_stop_00_01true_01_4_afe5683f464440deadfef1d55e4e7f784a14bb0d4f12cba11e5baa6d2e3cbb6d83}{col1} = Derived1\-:\-:Rows\-At\-Compile\-Time == 1 ? Index \-: 0, 
+\hyperlink{structei__dot__vec__unroller_3_01_derived1_00_01_derived2_00_01_index_00_01_stop_00_01true_01_4_afe5683f464440deadfef1d55e4e7f784a50b85a074f1b6438cfeeab7cc467f63e}{row2} = Derived2\-:\-:Rows\-At\-Compile\-Time == 1 ? 0 \-: Index, 
+\hyperlink{structei__dot__vec__unroller_3_01_derived1_00_01_derived2_00_01_index_00_01_stop_00_01true_01_4_afe5683f464440deadfef1d55e4e7f784a238d99c36d173dfb133904e765be6f74}{col2} = Derived2\-:\-:Rows\-At\-Compile\-Time == 1 ? Index \-: 0, 
+\\*
+\hyperlink{structei__dot__vec__unroller_3_01_derived1_00_01_derived2_00_01_index_00_01_stop_00_01true_01_4_afe5683f464440deadfef1d55e4e7f784a18571ddb31add410f76bbfd1761ef29c}{alignment1} = (Derived1\-:\-:Flags \& Aligned\-Bit) ? Aligned \-: Unaligned, 
+\hyperlink{structei__dot__vec__unroller_3_01_derived1_00_01_derived2_00_01_index_00_01_stop_00_01true_01_4_afe5683f464440deadfef1d55e4e7f784a23b2f74f61e5aef8be2346e2c42a5319}{alignment2} = (Derived2\-:\-:Flags \& Aligned\-Bit) ? Aligned \-: Unaligned
+ \}
+\item 
+typedef Derived1\-::\-Scalar \hyperlink{structei__dot__vec__unroller_3_01_derived1_00_01_derived2_00_01_index_00_01_stop_00_01true_01_4_a1d80de60683b2fca00070f3f3ff204ab}{Scalar}
+\item 
+typedef \hyperlink{structei__packet__traits}{ei\-\_\-packet\-\_\-traits}\\*
+$<$ \hyperlink{structei__dot__vec__unroller_3_01_derived1_00_01_derived2_00_01_index_00_01_stop_00_01true_01_4_a1d80de60683b2fca00070f3f3ff204ab}{Scalar} $>$\-::\hyperlink{glext_8h_a7d05960f4f1c1b11f3177dc963a45d86}{type} \hyperlink{structei__dot__vec__unroller_3_01_derived1_00_01_derived2_00_01_index_00_01_stop_00_01true_01_4_a2d76052ba25bd60e5fee8f20edc9ab92}{Packet\-Scalar}
+\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static \hyperlink{structei__dot__vec__unroller_3_01_derived1_00_01_derived2_00_01_index_00_01_stop_00_01true_01_4_a2d76052ba25bd60e5fee8f20edc9ab92}{Packet\-Scalar} \hyperlink{structei__dot__vec__unroller_3_01_derived1_00_01_derived2_00_01_index_00_01_stop_00_01true_01_4_a8763c8a1d7ad0f8b2dd0958592829dd4}{run} (const Derived1 \&\hyperlink{glext_8h_aabdd9aabede45fcf97cea04f88d2ad60}{v1}, const Derived2 \&\hyperlink{glext_8h_ae35401c8c2fcdcc48c20ba325ee473ea}{v2})
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$typename Derived1, typename Derived2, int Index, int Stop$>$struct ei\-\_\-dot\-\_\-vec\-\_\-unroller$<$ Derived1, Derived2, Index, Stop, true $>$}
+
+
+
+Definition at line 120 of file Dot.\-h.
+
+
+
+\subsection{Member Typedef Documentation}
+\hypertarget{structei__dot__vec__unroller_3_01_derived1_00_01_derived2_00_01_index_00_01_stop_00_01true_01_4_a2d76052ba25bd60e5fee8f20edc9ab92}{\index{ei\-\_\-dot\-\_\-vec\-\_\-unroller$<$ Derived1, Derived2, Index, Stop, true $>$@{ei\-\_\-dot\-\_\-vec\-\_\-unroller$<$ Derived1, Derived2, Index, Stop, true $>$}!Packet\-Scalar@{Packet\-Scalar}}
+\index{Packet\-Scalar@{Packet\-Scalar}!ei_dot_vec_unroller< Derived1, Derived2, Index, Stop, true >@{ei\-\_\-dot\-\_\-vec\-\_\-unroller$<$ Derived1, Derived2, Index, Stop, true $>$}}
+\subsubsection[{Packet\-Scalar}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Derived1 , typename Derived2 , int Index, int Stop$>$ typedef {\bf ei\-\_\-packet\-\_\-traits}$<${\bf Scalar}$>$\-::{\bf type} {\bf ei\-\_\-dot\-\_\-vec\-\_\-unroller}$<$ Derived1, Derived2, Index, Stop, true $>$\-::{\bf Packet\-Scalar}}}\label{structei__dot__vec__unroller_3_01_derived1_00_01_derived2_00_01_index_00_01_stop_00_01true_01_4_a2d76052ba25bd60e5fee8f20edc9ab92}
+
+
+Definition at line 132 of file Dot.\-h.
+
+\hypertarget{structei__dot__vec__unroller_3_01_derived1_00_01_derived2_00_01_index_00_01_stop_00_01true_01_4_a1d80de60683b2fca00070f3f3ff204ab}{\index{ei\-\_\-dot\-\_\-vec\-\_\-unroller$<$ Derived1, Derived2, Index, Stop, true $>$@{ei\-\_\-dot\-\_\-vec\-\_\-unroller$<$ Derived1, Derived2, Index, Stop, true $>$}!Scalar@{Scalar}}
+\index{Scalar@{Scalar}!ei_dot_vec_unroller< Derived1, Derived2, Index, Stop, true >@{ei\-\_\-dot\-\_\-vec\-\_\-unroller$<$ Derived1, Derived2, Index, Stop, true $>$}}
+\subsubsection[{Scalar}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Derived1 , typename Derived2 , int Index, int Stop$>$ typedef Derived1\-::\-Scalar {\bf ei\-\_\-dot\-\_\-vec\-\_\-unroller}$<$ Derived1, Derived2, Index, Stop, true $>$\-::{\bf Scalar}}}\label{structei__dot__vec__unroller_3_01_derived1_00_01_derived2_00_01_index_00_01_stop_00_01true_01_4_a1d80de60683b2fca00070f3f3ff204ab}
+
+
+Definition at line 131 of file Dot.\-h.
+
+
+
+\subsection{Member Enumeration Documentation}
+\hypertarget{structei__dot__vec__unroller_3_01_derived1_00_01_derived2_00_01_index_00_01_stop_00_01true_01_4_afe5683f464440deadfef1d55e4e7f784}{\subsubsection[{anonymous enum}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Derived1 , typename Derived2 , int Index, int Stop$>$ anonymous enum}}\label{structei__dot__vec__unroller_3_01_derived1_00_01_derived2_00_01_index_00_01_stop_00_01true_01_4_afe5683f464440deadfef1d55e4e7f784}
+\begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{row1@{row1}!ei\-\_\-dot\-\_\-vec\-\_\-unroller$<$ Derived1, Derived2, Index, Stop, true $>$@{ei\-\_\-dot\-\_\-vec\-\_\-unroller$<$ Derived1, Derived2, Index, Stop, true $>$}}\index{ei\-\_\-dot\-\_\-vec\-\_\-unroller$<$ Derived1, Derived2, Index, Stop, true $>$@{ei\-\_\-dot\-\_\-vec\-\_\-unroller$<$ Derived1, Derived2, Index, Stop, true $>$}!row1@{row1}}\item[{\em 
+\hypertarget{structei__dot__vec__unroller_3_01_derived1_00_01_derived2_00_01_index_00_01_stop_00_01true_01_4_afe5683f464440deadfef1d55e4e7f784a2ee216da438b0a4139d759d6fb0fb545}{row1}\label{structei__dot__vec__unroller_3_01_derived1_00_01_derived2_00_01_index_00_01_stop_00_01true_01_4_afe5683f464440deadfef1d55e4e7f784a2ee216da438b0a4139d759d6fb0fb545}
+}]\index{col1@{col1}!ei\-\_\-dot\-\_\-vec\-\_\-unroller$<$ Derived1, Derived2, Index, Stop, true $>$@{ei\-\_\-dot\-\_\-vec\-\_\-unroller$<$ Derived1, Derived2, Index, Stop, true $>$}}\index{ei\-\_\-dot\-\_\-vec\-\_\-unroller$<$ Derived1, Derived2, Index, Stop, true $>$@{ei\-\_\-dot\-\_\-vec\-\_\-unroller$<$ Derived1, Derived2, Index, Stop, true $>$}!col1@{col1}}\item[{\em 
+\hypertarget{structei__dot__vec__unroller_3_01_derived1_00_01_derived2_00_01_index_00_01_stop_00_01true_01_4_afe5683f464440deadfef1d55e4e7f784a14bb0d4f12cba11e5baa6d2e3cbb6d83}{col1}\label{structei__dot__vec__unroller_3_01_derived1_00_01_derived2_00_01_index_00_01_stop_00_01true_01_4_afe5683f464440deadfef1d55e4e7f784a14bb0d4f12cba11e5baa6d2e3cbb6d83}
+}]\index{row2@{row2}!ei\-\_\-dot\-\_\-vec\-\_\-unroller$<$ Derived1, Derived2, Index, Stop, true $>$@{ei\-\_\-dot\-\_\-vec\-\_\-unroller$<$ Derived1, Derived2, Index, Stop, true $>$}}\index{ei\-\_\-dot\-\_\-vec\-\_\-unroller$<$ Derived1, Derived2, Index, Stop, true $>$@{ei\-\_\-dot\-\_\-vec\-\_\-unroller$<$ Derived1, Derived2, Index, Stop, true $>$}!row2@{row2}}\item[{\em 
+\hypertarget{structei__dot__vec__unroller_3_01_derived1_00_01_derived2_00_01_index_00_01_stop_00_01true_01_4_afe5683f464440deadfef1d55e4e7f784a50b85a074f1b6438cfeeab7cc467f63e}{row2}\label{structei__dot__vec__unroller_3_01_derived1_00_01_derived2_00_01_index_00_01_stop_00_01true_01_4_afe5683f464440deadfef1d55e4e7f784a50b85a074f1b6438cfeeab7cc467f63e}
+}]\index{col2@{col2}!ei\-\_\-dot\-\_\-vec\-\_\-unroller$<$ Derived1, Derived2, Index, Stop, true $>$@{ei\-\_\-dot\-\_\-vec\-\_\-unroller$<$ Derived1, Derived2, Index, Stop, true $>$}}\index{ei\-\_\-dot\-\_\-vec\-\_\-unroller$<$ Derived1, Derived2, Index, Stop, true $>$@{ei\-\_\-dot\-\_\-vec\-\_\-unroller$<$ Derived1, Derived2, Index, Stop, true $>$}!col2@{col2}}\item[{\em 
+\hypertarget{structei__dot__vec__unroller_3_01_derived1_00_01_derived2_00_01_index_00_01_stop_00_01true_01_4_afe5683f464440deadfef1d55e4e7f784a238d99c36d173dfb133904e765be6f74}{col2}\label{structei__dot__vec__unroller_3_01_derived1_00_01_derived2_00_01_index_00_01_stop_00_01true_01_4_afe5683f464440deadfef1d55e4e7f784a238d99c36d173dfb133904e765be6f74}
+}]\index{alignment1@{alignment1}!ei\-\_\-dot\-\_\-vec\-\_\-unroller$<$ Derived1, Derived2, Index, Stop, true $>$@{ei\-\_\-dot\-\_\-vec\-\_\-unroller$<$ Derived1, Derived2, Index, Stop, true $>$}}\index{ei\-\_\-dot\-\_\-vec\-\_\-unroller$<$ Derived1, Derived2, Index, Stop, true $>$@{ei\-\_\-dot\-\_\-vec\-\_\-unroller$<$ Derived1, Derived2, Index, Stop, true $>$}!alignment1@{alignment1}}\item[{\em 
+\hypertarget{structei__dot__vec__unroller_3_01_derived1_00_01_derived2_00_01_index_00_01_stop_00_01true_01_4_afe5683f464440deadfef1d55e4e7f784a18571ddb31add410f76bbfd1761ef29c}{alignment1}\label{structei__dot__vec__unroller_3_01_derived1_00_01_derived2_00_01_index_00_01_stop_00_01true_01_4_afe5683f464440deadfef1d55e4e7f784a18571ddb31add410f76bbfd1761ef29c}
+}]\index{alignment2@{alignment2}!ei\-\_\-dot\-\_\-vec\-\_\-unroller$<$ Derived1, Derived2, Index, Stop, true $>$@{ei\-\_\-dot\-\_\-vec\-\_\-unroller$<$ Derived1, Derived2, Index, Stop, true $>$}}\index{ei\-\_\-dot\-\_\-vec\-\_\-unroller$<$ Derived1, Derived2, Index, Stop, true $>$@{ei\-\_\-dot\-\_\-vec\-\_\-unroller$<$ Derived1, Derived2, Index, Stop, true $>$}!alignment2@{alignment2}}\item[{\em 
+\hypertarget{structei__dot__vec__unroller_3_01_derived1_00_01_derived2_00_01_index_00_01_stop_00_01true_01_4_afe5683f464440deadfef1d55e4e7f784a23b2f74f61e5aef8be2346e2c42a5319}{alignment2}\label{structei__dot__vec__unroller_3_01_derived1_00_01_derived2_00_01_index_00_01_stop_00_01true_01_4_afe5683f464440deadfef1d55e4e7f784a23b2f74f61e5aef8be2346e2c42a5319}
+}]\end{description}
+\end{Desc}
+
+
+Definition at line 122 of file Dot.\-h.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{structei__dot__vec__unroller_3_01_derived1_00_01_derived2_00_01_index_00_01_stop_00_01true_01_4_a8763c8a1d7ad0f8b2dd0958592829dd4}{\index{ei\-\_\-dot\-\_\-vec\-\_\-unroller$<$ Derived1, Derived2, Index, Stop, true $>$@{ei\-\_\-dot\-\_\-vec\-\_\-unroller$<$ Derived1, Derived2, Index, Stop, true $>$}!run@{run}}
+\index{run@{run}!ei_dot_vec_unroller< Derived1, Derived2, Index, Stop, true >@{ei\-\_\-dot\-\_\-vec\-\_\-unroller$<$ Derived1, Derived2, Index, Stop, true $>$}}
+\subsubsection[{run}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Derived1 , typename Derived2 , int Index, int Stop$>$ static {\bf Packet\-Scalar} {\bf ei\-\_\-dot\-\_\-vec\-\_\-unroller}$<$ Derived1, Derived2, Index, Stop, true $>$\-::run (
+\begin{DoxyParamCaption}
+\item[{const Derived1 \&}]{v1, }
+\item[{const Derived2 \&}]{v2}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{structei__dot__vec__unroller_3_01_derived1_00_01_derived2_00_01_index_00_01_stop_00_01true_01_4_a8763c8a1d7ad0f8b2dd0958592829dd4}
+
+
+Definition at line 134 of file Dot.\-h.
+
+
+
+The documentation for this struct was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/eigen/\-Eigen/src/\-Core/\hyperlink{_dot_8h}{Dot.\-h}\end{DoxyCompactItemize}

@@ -1,0 +1,236 @@
+\hypertarget{ssp_8cpp}{\section{/home/jose/\-Code/gui\-Tau/ground/gcs/src/experimental/\-U\-S\-B\-\_\-\-U\-P\-L\-O\-A\-D\-\_\-\-T\-O\-O\-L/\-S\-S\-P/ssp.cpp File Reference}
+\label{ssp_8cpp}\index{/home/jose/\-Code/gui\-Tau/ground/gcs/src/experimental/\-U\-S\-B\-\_\-\-U\-P\-L\-O\-A\-D\-\_\-\-T\-O\-O\-L/\-S\-S\-P/ssp.\-cpp@{/home/jose/\-Code/gui\-Tau/ground/gcs/src/experimental/\-U\-S\-B\-\_\-\-U\-P\-L\-O\-A\-D\-\_\-\-T\-O\-O\-L/\-S\-S\-P/ssp.\-cpp}}
+}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{ssp_8cpp_a010b52b0b5264eabd8ce45929315fb6e}{ssp\-\_\-\-Init} (\hyperlink{ssp_8h_ac1a33ac2884158a818277c908ed679dd}{Port\-\_\-t} $\ast$thisport, const \hyperlink{struct_port_config__t}{Port\-Config\-\_\-t} $\ast$const info)
+\begin{DoxyCompactList}\small\item\em Initializes the communication port for use. \end{DoxyCompactList}\item 
+int16\-\_\-t \hyperlink{ssp_8cpp_ae2cc51efdeabafd2f8c1c3ef3e6eb664}{ssp\-\_\-\-Send\-Process} (\hyperlink{ssp_8h_ac1a33ac2884158a818277c908ed679dd}{Port\-\_\-t} $\ast$thisport)
+\begin{DoxyCompactList}\small\item\em Runs the send process, checks for receipt of ack, timeouts and resends if needed. \end{DoxyCompactList}\item 
+int16\-\_\-t \hyperlink{ssp_8cpp_afa8a84ae62b69fdb227b54743a724855}{ssp\-\_\-\-Receive\-Process} (\hyperlink{ssp_8h_ac1a33ac2884158a818277c908ed679dd}{Port\-\_\-t} $\ast$thisport)
+\begin{DoxyCompactList}\small\item\em Runs the receive process. fetches a byte at a time and runs the byte through the protocol receive state machine. \end{DoxyCompactList}\item 
+int16\-\_\-t \hyperlink{ssp_8cpp_a36ce6a629ba8ada8ac07a4ebeb173ad8}{ssp\-\_\-\-Receive\-Byte} (\hyperlink{ssp_8h_ac1a33ac2884158a818277c908ed679dd}{Port\-\_\-t} $\ast$thisport)
+\begin{DoxyCompactList}\small\item\em processes a single byte through the receive state machine. \end{DoxyCompactList}\item 
+uint16\-\_\-t \hyperlink{ssp_8cpp_a086e9f6871d9418ca47c7e35fa168a97}{ssp\-\_\-\-Send\-Data\-Block} (\hyperlink{ssp_8h_ac1a33ac2884158a818277c908ed679dd}{Port\-\_\-t} $\ast$thisport, uint8\-\_\-t $\ast$\hyperlink{glext_8h_a8850df0785e6fbcc2351af3b686b8c7a}{data}, uint16\-\_\-t \hyperlink{glext_8h_a3c8469415bbc83dd1341af15c67f1cef}{length})
+\begin{DoxyCompactList}\small\item\em Sends a data packet and blocks until timeout or ack is received. \end{DoxyCompactList}\item 
+int16\-\_\-t \hyperlink{ssp_8cpp_a712f3a0570cf76b50ec58f95f5633ebb}{ssp\-\_\-\-Send\-Data} (\hyperlink{ssp_8h_ac1a33ac2884158a818277c908ed679dd}{Port\-\_\-t} $\ast$thisport, const uint8\-\_\-t $\ast$\hyperlink{glext_8h_a8850df0785e6fbcc2351af3b686b8c7a}{data}, const uint16\-\_\-t \hyperlink{glext_8h_a3c8469415bbc83dd1341af15c67f1cef}{length})
+\begin{DoxyCompactList}\small\item\em sends a chunk of data and does not block \end{DoxyCompactList}\item 
+uint16\-\_\-t \hyperlink{ssp_8cpp_ae6796215c1cc45bc0a3e83d33043bcc4}{ssp\-\_\-\-Synchronise} (\hyperlink{ssp_8h_ac1a33ac2884158a818277c908ed679dd}{Port\-\_\-t} $\ast$thisport)
+\begin{DoxyCompactList}\small\item\em Attempts to synchronize the sequence numbers with the other end of the connectin. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\hypertarget{ssp_8cpp_a010b52b0b5264eabd8ce45929315fb6e}{\index{ssp.\-cpp@{ssp.\-cpp}!ssp\-\_\-\-Init@{ssp\-\_\-\-Init}}
+\index{ssp\-\_\-\-Init@{ssp\-\_\-\-Init}!ssp.cpp@{ssp.\-cpp}}
+\subsubsection[{ssp\-\_\-\-Init}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} ssp\-\_\-\-Init (
+\begin{DoxyParamCaption}
+\item[{{\bf Port\-\_\-t} $\ast$}]{thisport, }
+\item[{const {\bf Port\-Config\-\_\-t} $\ast$const}]{info}
+\end{DoxyParamCaption}
+)}}\label{ssp_8cpp_a010b52b0b5264eabd8ce45929315fb6e}
+
+
+Initializes the communication port for use. 
+
+E\-X\-T\-E\-R\-N\-A\-L D\-A\-T\-A E\-X\-T\-E\-R\-N\-A\-L F\-U\-N\-C\-T\-I\-O\-N\-S V\-E\-R\-I\-F\-I\-C\-A\-T\-I\-O\-N F\-U\-N\-C\-T\-I\-O\-N\-S
+
+
+\begin{DoxyParams}{Parameters}
+{\em thisport} & = pointer to port structure to initialize \\
+\hline
+{\em info} & = config struct with default values. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+None.
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+Must be called before calling the Send or R\-Eceive process functions. 
+\end{DoxyNote}
+
+
+Definition at line 191 of file ssp.\-cpp.
+
+\hypertarget{ssp_8cpp_a36ce6a629ba8ada8ac07a4ebeb173ad8}{\index{ssp.\-cpp@{ssp.\-cpp}!ssp\-\_\-\-Receive\-Byte@{ssp\-\_\-\-Receive\-Byte}}
+\index{ssp\-\_\-\-Receive\-Byte@{ssp\-\_\-\-Receive\-Byte}!ssp.cpp@{ssp.\-cpp}}
+\subsubsection[{ssp\-\_\-\-Receive\-Byte}]{\setlength{\rightskip}{0pt plus 5cm}int16\-\_\-t ssp\-\_\-\-Receive\-Byte (
+\begin{DoxyParamCaption}
+\item[{{\bf Port\-\_\-t} $\ast$}]{thisport}
+\end{DoxyParamCaption}
+)}}\label{ssp_8cpp_a36ce6a629ba8ada8ac07a4ebeb173ad8}
+
+
+processes a single byte through the receive state machine. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em thisport} & = which port to use \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+current receive status
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+
+\end{DoxyNote}
+
+
+Definition at line 285 of file ssp.\-cpp.
+
+\hypertarget{ssp_8cpp_afa8a84ae62b69fdb227b54743a724855}{\index{ssp.\-cpp@{ssp.\-cpp}!ssp\-\_\-\-Receive\-Process@{ssp\-\_\-\-Receive\-Process}}
+\index{ssp\-\_\-\-Receive\-Process@{ssp\-\_\-\-Receive\-Process}!ssp.cpp@{ssp.\-cpp}}
+\subsubsection[{ssp\-\_\-\-Receive\-Process}]{\setlength{\rightskip}{0pt plus 5cm}int16\-\_\-t ssp\-\_\-\-Receive\-Process (
+\begin{DoxyParamCaption}
+\item[{{\bf Port\-\_\-t} $\ast$}]{thisport}
+\end{DoxyParamCaption}
+)}}\label{ssp_8cpp_afa8a84ae62b69fdb227b54743a724855}
+
+
+Runs the receive process. fetches a byte at a time and runs the byte through the protocol receive state machine. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em thisport} & -\/ which port to use. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+receive status.
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+
+\end{DoxyNote}
+
+
+Definition at line 261 of file ssp.\-cpp.
+
+\hypertarget{ssp_8cpp_a712f3a0570cf76b50ec58f95f5633ebb}{\index{ssp.\-cpp@{ssp.\-cpp}!ssp\-\_\-\-Send\-Data@{ssp\-\_\-\-Send\-Data}}
+\index{ssp\-\_\-\-Send\-Data@{ssp\-\_\-\-Send\-Data}!ssp.cpp@{ssp.\-cpp}}
+\subsubsection[{ssp\-\_\-\-Send\-Data}]{\setlength{\rightskip}{0pt plus 5cm}int16\-\_\-t ssp\-\_\-\-Send\-Data (
+\begin{DoxyParamCaption}
+\item[{{\bf Port\-\_\-t} $\ast$}]{thisport, }
+\item[{const uint8\-\_\-t $\ast$}]{data, }
+\item[{const uint16\-\_\-t}]{length}
+\end{DoxyParamCaption}
+)}}\label{ssp_8cpp_a712f3a0570cf76b50ec58f95f5633ebb}
+
+
+sends a chunk of data and does not block 
+
+
+\begin{DoxyParams}{Parameters}
+{\em thisport} & = which port to use \\
+\hline
+{\em data} & = pointer to data to send \\
+\hline
+{\em length} & = number of bytes to send \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+S\-S\-P\-\_\-\-T\-X\-\_\-\-B\-U\-F\-O\-V\-E\-R\-R\-U\-N = tried to send too much data 
+
+S\-S\-P\-\_\-\-T\-X\-\_\-\-W\-A\-I\-T\-I\-N\-G = data sent and waiting for an ack to arrive 
+
+S\-S\-P\-\_\-\-T\-X\-\_\-\-B\-U\-S\-Y = a packet has already been sent, but not yet acked
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+
+\end{DoxyNote}
+
+
+Definition at line 338 of file ssp.\-cpp.
+
+\hypertarget{ssp_8cpp_a086e9f6871d9418ca47c7e35fa168a97}{\index{ssp.\-cpp@{ssp.\-cpp}!ssp\-\_\-\-Send\-Data\-Block@{ssp\-\_\-\-Send\-Data\-Block}}
+\index{ssp\-\_\-\-Send\-Data\-Block@{ssp\-\_\-\-Send\-Data\-Block}!ssp.cpp@{ssp.\-cpp}}
+\subsubsection[{ssp\-\_\-\-Send\-Data\-Block}]{\setlength{\rightskip}{0pt plus 5cm}uint16\-\_\-t ssp\-\_\-\-Send\-Data\-Block (
+\begin{DoxyParamCaption}
+\item[{{\bf Port\-\_\-t} $\ast$}]{thisport, }
+\item[{uint8\-\_\-t $\ast$}]{data, }
+\item[{uint16\-\_\-t}]{length}
+\end{DoxyParamCaption}
+)}}\label{ssp_8cpp_a086e9f6871d9418ca47c7e35fa168a97}
+
+
+Sends a data packet and blocks until timeout or ack is received. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em thisport} & = which port to use \\
+\hline
+{\em data} & = pointer to data to send \\
+\hline
+{\em length} & = number of data bytes to send. Must be less than 254 \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true = ack was received within number of retries 
+
+false = ack was not received.
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+
+\end{DoxyNote}
+
+
+Definition at line 308 of file ssp.\-cpp.
+
+\hypertarget{ssp_8cpp_ae2cc51efdeabafd2f8c1c3ef3e6eb664}{\index{ssp.\-cpp@{ssp.\-cpp}!ssp\-\_\-\-Send\-Process@{ssp\-\_\-\-Send\-Process}}
+\index{ssp\-\_\-\-Send\-Process@{ssp\-\_\-\-Send\-Process}!ssp.cpp@{ssp.\-cpp}}
+\subsubsection[{ssp\-\_\-\-Send\-Process}]{\setlength{\rightskip}{0pt plus 5cm}int16\-\_\-t ssp\-\_\-\-Send\-Process (
+\begin{DoxyParamCaption}
+\item[{{\bf Port\-\_\-t} $\ast$}]{thisport}
+\end{DoxyParamCaption}
+)}}\label{ssp_8cpp_ae2cc51efdeabafd2f8c1c3ef3e6eb664}
+
+
+Runs the send process, checks for receipt of ack, timeouts and resends if needed. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em thisport} & = which port to use \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+S\-S\-P\-\_\-\-T\-X\-\_\-\-W\-A\-I\-T\-I\-N\-G -\/ waiting for a valid A\-C\-K to arrive 
+
+S\-S\-P\-\_\-\-T\-X\-\_\-\-T\-I\-M\-E\-O\-U\-T -\/ failed to receive a valid A\-C\-K in the timeout period, after retrying. 
+
+S\-S\-P\-\_\-\-T\-X\-\_\-\-I\-D\-L\-E -\/ not expecting a A\-C\-K packet (no current transmissions in progress) 
+
+S\-S\-P\-\_\-\-T\-X\-\_\-\-A\-C\-K\-E\-D -\/ valid A\-C\-K received before timeout period.
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+
+\end{DoxyNote}
+
+
+Definition at line 222 of file ssp.\-cpp.
+
+\hypertarget{ssp_8cpp_ae6796215c1cc45bc0a3e83d33043bcc4}{\index{ssp.\-cpp@{ssp.\-cpp}!ssp\-\_\-\-Synchronise@{ssp\-\_\-\-Synchronise}}
+\index{ssp\-\_\-\-Synchronise@{ssp\-\_\-\-Synchronise}!ssp.cpp@{ssp.\-cpp}}
+\subsubsection[{ssp\-\_\-\-Synchronise}]{\setlength{\rightskip}{0pt plus 5cm}uint16\-\_\-t ssp\-\_\-\-Synchronise (
+\begin{DoxyParamCaption}
+\item[{{\bf Port\-\_\-t} $\ast$}]{thisport}
+\end{DoxyParamCaption}
+)}}\label{ssp_8cpp_ae6796215c1cc45bc0a3e83d33043bcc4}
+
+
+Attempts to synchronize the sequence numbers with the other end of the connectin. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em thisport} & = which port to use \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true = success 
+
+false = failed to receive an A\-C\-K to our synch request
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+A. send a packet with a sequence number equal to zero B. if timed out then\-: send synch packet again increment try counter if number of tries exceed maximum try limit then exit C. goto A 
+\end{DoxyNote}
+
+
+Definition at line 407 of file ssp.\-cpp.
+

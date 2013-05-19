@@ -1,0 +1,445 @@
+\hypertarget{class_qxt_proxy_style}{\section{Qxt\-Proxy\-Style Class Reference}
+\label{class_qxt_proxy_style}\index{Qxt\-Proxy\-Style@{Qxt\-Proxy\-Style}}
+}
+
+
+The \hyperlink{class_qxt_proxy_style}{Qxt\-Proxy\-Style} class provides a proxy style.  
+
+
+
+
+{\ttfamily \#include $<$qxtproxystyle.\-h$>$}
+
+Inheritance diagram for Qxt\-Proxy\-Style\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_qxt_proxy_style}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_qxt_proxy_style_abaf2879916f0cae9d90aea8caedeb5f7}{Qxt\-Proxy\-Style} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{Q\-String} \&base\-Style)
+\item 
+virtual \hyperlink{class_qxt_proxy_style_aa0fa2a8509bd90acf844736d73dff9ec}{$\sim$\-Qxt\-Proxy\-Style} ()
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qxt_proxy_style_a349d5cec91063aa8ecad54fe20545f30}{draw\-Complex\-Control} (Complex\-Control control, const Q\-Style\-Option\-Complex $\ast$option, Q\-Painter $\ast$painter, const Q\-Widget $\ast$widget=0) const 
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qxt_proxy_style_ad7450c1b1dc995ea865c9a451a8589f4}{draw\-Control} (Control\-Element element, const Q\-Style\-Option $\ast$option, Q\-Painter $\ast$painter, const Q\-Widget $\ast$widget=0) const 
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qxt_proxy_style_aaeaf8ef782f3f2ca1d6e8fc514ad63be}{draw\-Item\-Pixmap} (Q\-Painter $\ast$painter, const Q\-Rect \&rect, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} alignment, const Q\-Pixmap \&pixmap) const 
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qxt_proxy_style_a14d2bdc0ecefdc9aea904f1a8de6070b}{draw\-Item\-Text} (Q\-Painter $\ast$painter, const Q\-Rect \&rect, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} alignment, const Q\-Palette \&pal, bool enabled, const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{Q\-String} \&text, Q\-Palette\-::\-Color\-Role text\-Role=Q\-Palette\-::\-No\-Role) const 
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qxt_proxy_style_a352bd51ceed6f32af12fdc6e40793617}{draw\-Primitive} (Primitive\-Element elem, const Q\-Style\-Option $\ast$option, Q\-Painter $\ast$painter, const Q\-Widget $\ast$widget=0) const 
+\item 
+virtual Q\-Pixmap \hyperlink{class_qxt_proxy_style_a77efbe530bb609a94662587fd1b6642b}{generated\-Icon\-Pixmap} (Q\-Icon\-::\-Mode icon\-Mode, const Q\-Pixmap \&pixmap, const Q\-Style\-Option $\ast$option) const 
+\item 
+virtual Sub\-Control \hyperlink{class_qxt_proxy_style_a85159e7d6e14121e5b3ee33955799f4e}{hit\-Test\-Complex\-Control} (Complex\-Control control, const Q\-Style\-Option\-Complex $\ast$option, const Q\-Point \&pos, const Q\-Widget $\ast$widget=0) const 
+\item 
+virtual Q\-Rect \hyperlink{class_qxt_proxy_style_ac4f4d852fa825842d91d3c4e7af3154a}{item\-Pixmap\-Rect} (const Q\-Rect \&rect, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} alignment, const Q\-Pixmap \&pixmap) const 
+\item 
+virtual Q\-Rect \hyperlink{class_qxt_proxy_style_a17a6317af09989533e8a598cf64e03cc}{item\-Text\-Rect} (const Q\-Font\-Metrics \&metrics, const Q\-Rect \&rect, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} alignment, bool enabled, const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{Q\-String} \&text) const 
+\item 
+virtual \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_qxt_proxy_style_a14fd21c337d2406c05338b43bc59e9b7}{pixel\-Metric} (Pixel\-Metric metric, const Q\-Style\-Option $\ast$option=0, const Q\-Widget $\ast$widget=0) const 
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qxt_proxy_style_ae3ad169526899e419b635bae16b2f228}{polish} (Q\-Widget $\ast$widget)
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qxt_proxy_style_a2d43fa8d127be7d3eb4ba9d826c28a1b}{polish} (Q\-Application $\ast$app)
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qxt_proxy_style_afa168b50694197845a1e1e876ce2e913}{polish} (Q\-Palette \&pal)
+\item 
+virtual Q\-Size \hyperlink{class_qxt_proxy_style_acb04af8b796612d0b3c3d5b535a577d6}{size\-From\-Contents} (Contents\-Type \hyperlink{glext_8h_a7d05960f4f1c1b11f3177dc963a45d86}{type}, const Q\-Style\-Option $\ast$option, const Q\-Size \&contents\-Size, const Q\-Widget $\ast$widget=0) const 
+\item 
+virtual Q\-Palette \hyperlink{class_qxt_proxy_style_acf379e2b32b203b311b8d2ee80e53c90}{standard\-Palette} () const 
+\item 
+virtual Q\-Pixmap \hyperlink{class_qxt_proxy_style_ab584811e6292ee9c62856eef4d778aa0}{standard\-Pixmap} (Standard\-Pixmap standard\-Pixmap, const Q\-Style\-Option $\ast$option=0, const Q\-Widget $\ast$widget=0) const 
+\item 
+virtual \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_qxt_proxy_style_a7b927e90827227436e2904587792ac74}{style\-Hint} (Style\-Hint hint, const Q\-Style\-Option $\ast$option=0, const Q\-Widget $\ast$widget=0, Q\-Style\-Hint\-Return $\ast$return\-Data=0) const 
+\item 
+virtual Q\-Rect \hyperlink{class_qxt_proxy_style_a1dc665ce0f1a426472006786e94749bf}{sub\-Control\-Rect} (Complex\-Control control, const Q\-Style\-Option\-Complex $\ast$option, Sub\-Control sub\-Control, const Q\-Widget $\ast$widget=0) const 
+\item 
+virtual Q\-Rect \hyperlink{class_qxt_proxy_style_a220291ef760c56678bf46305545d5a25}{sub\-Element\-Rect} (Sub\-Element element, const Q\-Style\-Option $\ast$option, const Q\-Widget $\ast$widget=0) const 
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qxt_proxy_style_aee33b6da70a8606a9b74b86b3a93ff9f}{unpolish} (Q\-Widget $\ast$widget)
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qxt_proxy_style_a703ddd02b7d92996480a16a8a3db3458}{unpolish} (Q\-Application $\ast$app)
+\end{DoxyCompactItemize}
+\subsection*{Protected Slots}
+\begin{DoxyCompactItemize}
+\item 
+Q\-Icon \hyperlink{class_qxt_proxy_style_a4e25225683737fe2006255ae508666d2}{standard\-Icon\-Implementation} (Standard\-Pixmap standard\-Icon, const Q\-Style\-Option $\ast$option=0, const Q\-Widget $\ast$widget=0) const 
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+The \hyperlink{class_qxt_proxy_style}{Qxt\-Proxy\-Style} class provides a proxy style. 
+
+Qxt\-Gui A technique called \char`\"{}proxy style\char`\"{} is a common way for creating cross-\/platform custom styles. Developers often want to do slight adjustments in some specific values returned by Q\-Style. A proxy style is the solution to avoid subclassing any platform specific style (eg. Q\-Plastique\-Style, Q\-Windows\-X\-P\-Style, or Q\-Mac\-Style) and to retain the native look on all supported platforms.
+
+The subject has been discussed in  \{\href{http://doc.trolltech.com/qq/qq09-q-and-a.html#style}{\tt http\-://doc.\-trolltech.\-com/qq/qq09-\/q-\/and-\/a.\-html\#style}\} \{Qt Quarterly 9\} (just notice that there are a few noteworthy spelling mistakes in the article).
+
+Proxy styles are becoming obsolete thanks to style sheets introduced in Qt 4.\-2. However, style sheets still is a new concept and only a portion of features are supported yet. Both -\/ style sheets and proxy styles -\/ have their pros and cons.\hypertarget{class_qxt_proxy_style_Usage}{}\subsection{Usage}\label{class_qxt_proxy_style_Usage}
+Implement the custom behaviour in a subclass of \hyperlink{class_qxt_proxy_style}{Qxt\-Proxy\-Style}\-: 
+\begin{DoxyCode}
+\textcolor{keyword}{class }MyCustomStyle : \textcolor{keyword}{public} \hyperlink{class_qxt_proxy_style}{QxtProxyStyle}
+\{
+   \textcolor{keyword}{public}:
+      MyCustomStyle(\textcolor{keyword}{const} \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{QString}& baseStyle) : \hyperlink{class_qxt_proxy_style}{QxtProxyStyle}(baseStyle)
+      \{
+      \}
+
+      \textcolor{keywordtype}{int} \hyperlink{class_qxt_proxy_style_a14fd21c337d2406c05338b43bc59e9b7}{pixelMetric}(PixelMetric metric, \textcolor{keyword}{const} QStyleOption* option = 0, \textcolor{keyword}{const} QWidget* widget 
+      = 0)\textcolor{keyword}{ const}
+\textcolor{keyword}{      }\{
+         \textcolor{keywordflow}{if} (metric == QStyle::PM\_ButtonMargin)
+            \textcolor{keywordflow}{return} 6;
+         \textcolor{keywordflow}{return} \hyperlink{class_qxt_proxy_style_a14fd21c337d2406c05338b43bc59e9b7}{QxtProxyStyle::pixelMetric}(metric, option, widget);
+      \}
+\};
+\end{DoxyCode}
+
+
+Using the custom style for the whole application\-: 
+\begin{DoxyCode}
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{QString} defaultStyle = QApplication::style()->objectName();
+QApplication::setStyle(\textcolor{keyword}{new} MyCustomStyle(defaultStyle));
+\end{DoxyCode}
+
+
+Using the custom style for a single widget\-: 
+\begin{DoxyCode}
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{QString} defaultStyle = widget->style()->objectName();
+widget->setStyle(\textcolor{keyword}{new} MyCustomStyle(defaultStyle));
+\end{DoxyCode}
+ 
+
+Definition at line 31 of file qxtproxystyle.\-h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_qxt_proxy_style_abaf2879916f0cae9d90aea8caedeb5f7}{\index{Qxt\-Proxy\-Style@{Qxt\-Proxy\-Style}!Qxt\-Proxy\-Style@{Qxt\-Proxy\-Style}}
+\index{Qxt\-Proxy\-Style@{Qxt\-Proxy\-Style}!QxtProxyStyle@{Qxt\-Proxy\-Style}}
+\subsubsection[{Qxt\-Proxy\-Style}]{\setlength{\rightskip}{0pt plus 5cm}Qxt\-Proxy\-Style\-::\-Qxt\-Proxy\-Style (
+\begin{DoxyParamCaption}
+\item[{const {\bf Q\-String} \&}]{base\-Style}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [explicit]}}}\label{class_qxt_proxy_style_abaf2879916f0cae9d90aea8caedeb5f7}
+Constructs a new \hyperlink{class_qxt_proxy_style}{Qxt\-Proxy\-Style} for {\itshape base\-Style}. See Q\-Style\-Factory\-::keys() for supported styles.
+
+\begin{DoxySeeAlso}{See Also}
+Q\-Style\-Factory\-::keys() 
+\end{DoxySeeAlso}
+
+
+Definition at line 89 of file qxtproxystyle.\-cpp.
+
+\hypertarget{class_qxt_proxy_style_aa0fa2a8509bd90acf844736d73dff9ec}{\index{Qxt\-Proxy\-Style@{Qxt\-Proxy\-Style}!$\sim$\-Qxt\-Proxy\-Style@{$\sim$\-Qxt\-Proxy\-Style}}
+\index{$\sim$\-Qxt\-Proxy\-Style@{$\sim$\-Qxt\-Proxy\-Style}!QxtProxyStyle@{Qxt\-Proxy\-Style}}
+\subsubsection[{$\sim$\-Qxt\-Proxy\-Style}]{\setlength{\rightskip}{0pt plus 5cm}Qxt\-Proxy\-Style\-::$\sim$\-Qxt\-Proxy\-Style (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_qxt_proxy_style_aa0fa2a8509bd90acf844736d73dff9ec}
+Destructs the proxy style. 
+
+Definition at line 98 of file qxtproxystyle.\-cpp.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_qxt_proxy_style_a349d5cec91063aa8ecad54fe20545f30}{\index{Qxt\-Proxy\-Style@{Qxt\-Proxy\-Style}!draw\-Complex\-Control@{draw\-Complex\-Control}}
+\index{draw\-Complex\-Control@{draw\-Complex\-Control}!QxtProxyStyle@{Qxt\-Proxy\-Style}}
+\subsubsection[{draw\-Complex\-Control}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qxt\-Proxy\-Style\-::draw\-Complex\-Control (
+\begin{DoxyParamCaption}
+\item[{Complex\-Control}]{control, }
+\item[{const Q\-Style\-Option\-Complex $\ast$}]{option, }
+\item[{Q\-Painter $\ast$}]{painter, }
+\item[{const Q\-Widget $\ast$}]{widget = {\ttfamily 0}}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_qxt_proxy_style_a349d5cec91063aa8ecad54fe20545f30}
+
+
+Definition at line 106 of file qxtproxystyle.\-cpp.
+
+\hypertarget{class_qxt_proxy_style_ad7450c1b1dc995ea865c9a451a8589f4}{\index{Qxt\-Proxy\-Style@{Qxt\-Proxy\-Style}!draw\-Control@{draw\-Control}}
+\index{draw\-Control@{draw\-Control}!QxtProxyStyle@{Qxt\-Proxy\-Style}}
+\subsubsection[{draw\-Control}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qxt\-Proxy\-Style\-::draw\-Control (
+\begin{DoxyParamCaption}
+\item[{Control\-Element}]{element, }
+\item[{const Q\-Style\-Option $\ast$}]{option, }
+\item[{Q\-Painter $\ast$}]{painter, }
+\item[{const Q\-Widget $\ast$}]{widget = {\ttfamily 0}}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_qxt_proxy_style_ad7450c1b1dc995ea865c9a451a8589f4}
+
+
+Definition at line 114 of file qxtproxystyle.\-cpp.
+
+\hypertarget{class_qxt_proxy_style_aaeaf8ef782f3f2ca1d6e8fc514ad63be}{\index{Qxt\-Proxy\-Style@{Qxt\-Proxy\-Style}!draw\-Item\-Pixmap@{draw\-Item\-Pixmap}}
+\index{draw\-Item\-Pixmap@{draw\-Item\-Pixmap}!QxtProxyStyle@{Qxt\-Proxy\-Style}}
+\subsubsection[{draw\-Item\-Pixmap}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qxt\-Proxy\-Style\-::draw\-Item\-Pixmap (
+\begin{DoxyParamCaption}
+\item[{Q\-Painter $\ast$}]{painter, }
+\item[{const Q\-Rect \&}]{rect, }
+\item[{{\bf int}}]{alignment, }
+\item[{const Q\-Pixmap \&}]{pixmap}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_qxt_proxy_style_aaeaf8ef782f3f2ca1d6e8fc514ad63be}
+
+
+Definition at line 122 of file qxtproxystyle.\-cpp.
+
+\hypertarget{class_qxt_proxy_style_a14d2bdc0ecefdc9aea904f1a8de6070b}{\index{Qxt\-Proxy\-Style@{Qxt\-Proxy\-Style}!draw\-Item\-Text@{draw\-Item\-Text}}
+\index{draw\-Item\-Text@{draw\-Item\-Text}!QxtProxyStyle@{Qxt\-Proxy\-Style}}
+\subsubsection[{draw\-Item\-Text}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qxt\-Proxy\-Style\-::draw\-Item\-Text (
+\begin{DoxyParamCaption}
+\item[{Q\-Painter $\ast$}]{painter, }
+\item[{const Q\-Rect \&}]{rect, }
+\item[{{\bf int}}]{alignment, }
+\item[{const Q\-Palette \&}]{pal, }
+\item[{bool}]{enabled, }
+\item[{const {\bf Q\-String} \&}]{text, }
+\item[{Q\-Palette\-::\-Color\-Role}]{text\-Role = {\ttfamily QPalette\-:\-:NoRole}}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_qxt_proxy_style_a14d2bdc0ecefdc9aea904f1a8de6070b}
+
+
+Definition at line 130 of file qxtproxystyle.\-cpp.
+
+\hypertarget{class_qxt_proxy_style_a352bd51ceed6f32af12fdc6e40793617}{\index{Qxt\-Proxy\-Style@{Qxt\-Proxy\-Style}!draw\-Primitive@{draw\-Primitive}}
+\index{draw\-Primitive@{draw\-Primitive}!QxtProxyStyle@{Qxt\-Proxy\-Style}}
+\subsubsection[{draw\-Primitive}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qxt\-Proxy\-Style\-::draw\-Primitive (
+\begin{DoxyParamCaption}
+\item[{Primitive\-Element}]{elem, }
+\item[{const Q\-Style\-Option $\ast$}]{option, }
+\item[{Q\-Painter $\ast$}]{painter, }
+\item[{const Q\-Widget $\ast$}]{widget = {\ttfamily 0}}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_qxt_proxy_style_a352bd51ceed6f32af12fdc6e40793617}
+
+
+Definition at line 138 of file qxtproxystyle.\-cpp.
+
+\hypertarget{class_qxt_proxy_style_a77efbe530bb609a94662587fd1b6642b}{\index{Qxt\-Proxy\-Style@{Qxt\-Proxy\-Style}!generated\-Icon\-Pixmap@{generated\-Icon\-Pixmap}}
+\index{generated\-Icon\-Pixmap@{generated\-Icon\-Pixmap}!QxtProxyStyle@{Qxt\-Proxy\-Style}}
+\subsubsection[{generated\-Icon\-Pixmap}]{\setlength{\rightskip}{0pt plus 5cm}Q\-Pixmap Qxt\-Proxy\-Style\-::generated\-Icon\-Pixmap (
+\begin{DoxyParamCaption}
+\item[{Q\-Icon\-::\-Mode}]{icon\-Mode, }
+\item[{const Q\-Pixmap \&}]{pixmap, }
+\item[{const Q\-Style\-Option $\ast$}]{option}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_qxt_proxy_style_a77efbe530bb609a94662587fd1b6642b}
+
+
+Definition at line 146 of file qxtproxystyle.\-cpp.
+
+\hypertarget{class_qxt_proxy_style_a85159e7d6e14121e5b3ee33955799f4e}{\index{Qxt\-Proxy\-Style@{Qxt\-Proxy\-Style}!hit\-Test\-Complex\-Control@{hit\-Test\-Complex\-Control}}
+\index{hit\-Test\-Complex\-Control@{hit\-Test\-Complex\-Control}!QxtProxyStyle@{Qxt\-Proxy\-Style}}
+\subsubsection[{hit\-Test\-Complex\-Control}]{\setlength{\rightskip}{0pt plus 5cm}Q\-Style\-::\-Sub\-Control Qxt\-Proxy\-Style\-::hit\-Test\-Complex\-Control (
+\begin{DoxyParamCaption}
+\item[{Complex\-Control}]{control, }
+\item[{const Q\-Style\-Option\-Complex $\ast$}]{option, }
+\item[{const Q\-Point \&}]{pos, }
+\item[{const Q\-Widget $\ast$}]{widget = {\ttfamily 0}}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_qxt_proxy_style_a85159e7d6e14121e5b3ee33955799f4e}
+
+
+Definition at line 154 of file qxtproxystyle.\-cpp.
+
+\hypertarget{class_qxt_proxy_style_ac4f4d852fa825842d91d3c4e7af3154a}{\index{Qxt\-Proxy\-Style@{Qxt\-Proxy\-Style}!item\-Pixmap\-Rect@{item\-Pixmap\-Rect}}
+\index{item\-Pixmap\-Rect@{item\-Pixmap\-Rect}!QxtProxyStyle@{Qxt\-Proxy\-Style}}
+\subsubsection[{item\-Pixmap\-Rect}]{\setlength{\rightskip}{0pt plus 5cm}Q\-Rect Qxt\-Proxy\-Style\-::item\-Pixmap\-Rect (
+\begin{DoxyParamCaption}
+\item[{const Q\-Rect \&}]{rect, }
+\item[{{\bf int}}]{alignment, }
+\item[{const Q\-Pixmap \&}]{pixmap}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_qxt_proxy_style_ac4f4d852fa825842d91d3c4e7af3154a}
+
+
+Definition at line 162 of file qxtproxystyle.\-cpp.
+
+\hypertarget{class_qxt_proxy_style_a17a6317af09989533e8a598cf64e03cc}{\index{Qxt\-Proxy\-Style@{Qxt\-Proxy\-Style}!item\-Text\-Rect@{item\-Text\-Rect}}
+\index{item\-Text\-Rect@{item\-Text\-Rect}!QxtProxyStyle@{Qxt\-Proxy\-Style}}
+\subsubsection[{item\-Text\-Rect}]{\setlength{\rightskip}{0pt plus 5cm}Q\-Rect Qxt\-Proxy\-Style\-::item\-Text\-Rect (
+\begin{DoxyParamCaption}
+\item[{const Q\-Font\-Metrics \&}]{metrics, }
+\item[{const Q\-Rect \&}]{rect, }
+\item[{{\bf int}}]{alignment, }
+\item[{bool}]{enabled, }
+\item[{const {\bf Q\-String} \&}]{text}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_qxt_proxy_style_a17a6317af09989533e8a598cf64e03cc}
+
+
+Definition at line 170 of file qxtproxystyle.\-cpp.
+
+\hypertarget{class_qxt_proxy_style_a14fd21c337d2406c05338b43bc59e9b7}{\index{Qxt\-Proxy\-Style@{Qxt\-Proxy\-Style}!pixel\-Metric@{pixel\-Metric}}
+\index{pixel\-Metric@{pixel\-Metric}!QxtProxyStyle@{Qxt\-Proxy\-Style}}
+\subsubsection[{pixel\-Metric}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int} Qxt\-Proxy\-Style\-::pixel\-Metric (
+\begin{DoxyParamCaption}
+\item[{Pixel\-Metric}]{metric, }
+\item[{const Q\-Style\-Option $\ast$}]{option = {\ttfamily 0}, }
+\item[{const Q\-Widget $\ast$}]{widget = {\ttfamily 0}}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_qxt_proxy_style_a14fd21c337d2406c05338b43bc59e9b7}
+
+
+Definition at line 178 of file qxtproxystyle.\-cpp.
+
+\hypertarget{class_qxt_proxy_style_ae3ad169526899e419b635bae16b2f228}{\index{Qxt\-Proxy\-Style@{Qxt\-Proxy\-Style}!polish@{polish}}
+\index{polish@{polish}!QxtProxyStyle@{Qxt\-Proxy\-Style}}
+\subsubsection[{polish}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qxt\-Proxy\-Style\-::polish (
+\begin{DoxyParamCaption}
+\item[{Q\-Widget $\ast$}]{widget}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_qxt_proxy_style_ae3ad169526899e419b635bae16b2f228}
+
+
+Definition at line 186 of file qxtproxystyle.\-cpp.
+
+\hypertarget{class_qxt_proxy_style_a2d43fa8d127be7d3eb4ba9d826c28a1b}{\index{Qxt\-Proxy\-Style@{Qxt\-Proxy\-Style}!polish@{polish}}
+\index{polish@{polish}!QxtProxyStyle@{Qxt\-Proxy\-Style}}
+\subsubsection[{polish}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qxt\-Proxy\-Style\-::polish (
+\begin{DoxyParamCaption}
+\item[{Q\-Application $\ast$}]{app}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_qxt_proxy_style_a2d43fa8d127be7d3eb4ba9d826c28a1b}
+
+
+Definition at line 194 of file qxtproxystyle.\-cpp.
+
+\hypertarget{class_qxt_proxy_style_afa168b50694197845a1e1e876ce2e913}{\index{Qxt\-Proxy\-Style@{Qxt\-Proxy\-Style}!polish@{polish}}
+\index{polish@{polish}!QxtProxyStyle@{Qxt\-Proxy\-Style}}
+\subsubsection[{polish}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qxt\-Proxy\-Style\-::polish (
+\begin{DoxyParamCaption}
+\item[{Q\-Palette \&}]{pal}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_qxt_proxy_style_afa168b50694197845a1e1e876ce2e913}
+
+
+Definition at line 202 of file qxtproxystyle.\-cpp.
+
+\hypertarget{class_qxt_proxy_style_acb04af8b796612d0b3c3d5b535a577d6}{\index{Qxt\-Proxy\-Style@{Qxt\-Proxy\-Style}!size\-From\-Contents@{size\-From\-Contents}}
+\index{size\-From\-Contents@{size\-From\-Contents}!QxtProxyStyle@{Qxt\-Proxy\-Style}}
+\subsubsection[{size\-From\-Contents}]{\setlength{\rightskip}{0pt plus 5cm}Q\-Size Qxt\-Proxy\-Style\-::size\-From\-Contents (
+\begin{DoxyParamCaption}
+\item[{Contents\-Type}]{type, }
+\item[{const Q\-Style\-Option $\ast$}]{option, }
+\item[{const Q\-Size \&}]{contents\-Size, }
+\item[{const Q\-Widget $\ast$}]{widget = {\ttfamily 0}}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_qxt_proxy_style_acb04af8b796612d0b3c3d5b535a577d6}
+
+
+Definition at line 210 of file qxtproxystyle.\-cpp.
+
+\hypertarget{class_qxt_proxy_style_a4e25225683737fe2006255ae508666d2}{\index{Qxt\-Proxy\-Style@{Qxt\-Proxy\-Style}!standard\-Icon\-Implementation@{standard\-Icon\-Implementation}}
+\index{standard\-Icon\-Implementation@{standard\-Icon\-Implementation}!QxtProxyStyle@{Qxt\-Proxy\-Style}}
+\subsubsection[{standard\-Icon\-Implementation}]{\setlength{\rightskip}{0pt plus 5cm}Q\-Icon Qxt\-Proxy\-Style\-::standard\-Icon\-Implementation (
+\begin{DoxyParamCaption}
+\item[{Standard\-Pixmap}]{standard\-Icon, }
+\item[{const Q\-Style\-Option $\ast$}]{option = {\ttfamily 0}, }
+\item[{const Q\-Widget $\ast$}]{widget = {\ttfamily 0}}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [slot]}}}\label{class_qxt_proxy_style_a4e25225683737fe2006255ae508666d2}
+
+
+Definition at line 274 of file qxtproxystyle.\-cpp.
+
+\hypertarget{class_qxt_proxy_style_acf379e2b32b203b311b8d2ee80e53c90}{\index{Qxt\-Proxy\-Style@{Qxt\-Proxy\-Style}!standard\-Palette@{standard\-Palette}}
+\index{standard\-Palette@{standard\-Palette}!QxtProxyStyle@{Qxt\-Proxy\-Style}}
+\subsubsection[{standard\-Palette}]{\setlength{\rightskip}{0pt plus 5cm}Q\-Palette Qxt\-Proxy\-Style\-::standard\-Palette (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_qxt_proxy_style_acf379e2b32b203b311b8d2ee80e53c90}
+
+
+Definition at line 218 of file qxtproxystyle.\-cpp.
+
+\hypertarget{class_qxt_proxy_style_ab584811e6292ee9c62856eef4d778aa0}{\index{Qxt\-Proxy\-Style@{Qxt\-Proxy\-Style}!standard\-Pixmap@{standard\-Pixmap}}
+\index{standard\-Pixmap@{standard\-Pixmap}!QxtProxyStyle@{Qxt\-Proxy\-Style}}
+\subsubsection[{standard\-Pixmap}]{\setlength{\rightskip}{0pt plus 5cm}Q\-Pixmap Qxt\-Proxy\-Style\-::standard\-Pixmap (
+\begin{DoxyParamCaption}
+\item[{Standard\-Pixmap}]{standard\-Pixmap, }
+\item[{const Q\-Style\-Option $\ast$}]{option = {\ttfamily 0}, }
+\item[{const Q\-Widget $\ast$}]{widget = {\ttfamily 0}}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_qxt_proxy_style_ab584811e6292ee9c62856eef4d778aa0}
+
+
+Definition at line 226 of file qxtproxystyle.\-cpp.
+
+\hypertarget{class_qxt_proxy_style_a7b927e90827227436e2904587792ac74}{\index{Qxt\-Proxy\-Style@{Qxt\-Proxy\-Style}!style\-Hint@{style\-Hint}}
+\index{style\-Hint@{style\-Hint}!QxtProxyStyle@{Qxt\-Proxy\-Style}}
+\subsubsection[{style\-Hint}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int} Qxt\-Proxy\-Style\-::style\-Hint (
+\begin{DoxyParamCaption}
+\item[{Style\-Hint}]{hint, }
+\item[{const Q\-Style\-Option $\ast$}]{option = {\ttfamily 0}, }
+\item[{const Q\-Widget $\ast$}]{widget = {\ttfamily 0}, }
+\item[{Q\-Style\-Hint\-Return $\ast$}]{return\-Data = {\ttfamily 0}}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_qxt_proxy_style_a7b927e90827227436e2904587792ac74}
+
+
+Definition at line 234 of file qxtproxystyle.\-cpp.
+
+\hypertarget{class_qxt_proxy_style_a1dc665ce0f1a426472006786e94749bf}{\index{Qxt\-Proxy\-Style@{Qxt\-Proxy\-Style}!sub\-Control\-Rect@{sub\-Control\-Rect}}
+\index{sub\-Control\-Rect@{sub\-Control\-Rect}!QxtProxyStyle@{Qxt\-Proxy\-Style}}
+\subsubsection[{sub\-Control\-Rect}]{\setlength{\rightskip}{0pt plus 5cm}Q\-Rect Qxt\-Proxy\-Style\-::sub\-Control\-Rect (
+\begin{DoxyParamCaption}
+\item[{Complex\-Control}]{control, }
+\item[{const Q\-Style\-Option\-Complex $\ast$}]{option, }
+\item[{Sub\-Control}]{sub\-Control, }
+\item[{const Q\-Widget $\ast$}]{widget = {\ttfamily 0}}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_qxt_proxy_style_a1dc665ce0f1a426472006786e94749bf}
+
+
+Definition at line 242 of file qxtproxystyle.\-cpp.
+
+\hypertarget{class_qxt_proxy_style_a220291ef760c56678bf46305545d5a25}{\index{Qxt\-Proxy\-Style@{Qxt\-Proxy\-Style}!sub\-Element\-Rect@{sub\-Element\-Rect}}
+\index{sub\-Element\-Rect@{sub\-Element\-Rect}!QxtProxyStyle@{Qxt\-Proxy\-Style}}
+\subsubsection[{sub\-Element\-Rect}]{\setlength{\rightskip}{0pt plus 5cm}Q\-Rect Qxt\-Proxy\-Style\-::sub\-Element\-Rect (
+\begin{DoxyParamCaption}
+\item[{Sub\-Element}]{element, }
+\item[{const Q\-Style\-Option $\ast$}]{option, }
+\item[{const Q\-Widget $\ast$}]{widget = {\ttfamily 0}}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_qxt_proxy_style_a220291ef760c56678bf46305545d5a25}
+
+
+Definition at line 250 of file qxtproxystyle.\-cpp.
+
+\hypertarget{class_qxt_proxy_style_aee33b6da70a8606a9b74b86b3a93ff9f}{\index{Qxt\-Proxy\-Style@{Qxt\-Proxy\-Style}!unpolish@{unpolish}}
+\index{unpolish@{unpolish}!QxtProxyStyle@{Qxt\-Proxy\-Style}}
+\subsubsection[{unpolish}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qxt\-Proxy\-Style\-::unpolish (
+\begin{DoxyParamCaption}
+\item[{Q\-Widget $\ast$}]{widget}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_qxt_proxy_style_aee33b6da70a8606a9b74b86b3a93ff9f}
+
+
+Definition at line 258 of file qxtproxystyle.\-cpp.
+
+\hypertarget{class_qxt_proxy_style_a703ddd02b7d92996480a16a8a3db3458}{\index{Qxt\-Proxy\-Style@{Qxt\-Proxy\-Style}!unpolish@{unpolish}}
+\index{unpolish@{unpolish}!QxtProxyStyle@{Qxt\-Proxy\-Style}}
+\subsubsection[{unpolish}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qxt\-Proxy\-Style\-::unpolish (
+\begin{DoxyParamCaption}
+\item[{Q\-Application $\ast$}]{app}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_qxt_proxy_style_a703ddd02b7d92996480a16a8a3db3458}
+
+
+Definition at line 266 of file qxtproxystyle.\-cpp.
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/libqxt/src/gui/\hyperlink{qxtproxystyle_8h}{qxtproxystyle.\-h}\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/libqxt/src/gui/\hyperlink{qxtproxystyle_8cpp}{qxtproxystyle.\-cpp}\end{DoxyCompactItemize}

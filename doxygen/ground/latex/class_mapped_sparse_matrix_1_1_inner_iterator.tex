@@ -1,0 +1,200 @@
+\hypertarget{class_mapped_sparse_matrix_1_1_inner_iterator}{\section{Mapped\-Sparse\-Matrix$<$ \-\_\-\-Scalar, \-\_\-\-Flags $>$\-:\-:Inner\-Iterator Class Reference}
+\label{class_mapped_sparse_matrix_1_1_inner_iterator}\index{Mapped\-Sparse\-Matrix$<$ \-\_\-\-Scalar, \-\_\-\-Flags $>$\-::\-Inner\-Iterator@{Mapped\-Sparse\-Matrix$<$ \-\_\-\-Scalar, \-\_\-\-Flags $>$\-::\-Inner\-Iterator}}
+}
+
+
+{\ttfamily \#include $<$Mapped\-Sparse\-Matrix.\-h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_mapped_sparse_matrix_1_1_inner_iterator_adebae45c6bdd2e3fa820cd575ed5784e}{Inner\-Iterator} (const \hyperlink{class_mapped_sparse_matrix}{Mapped\-Sparse\-Matrix} \&\hyperlink{uavobjecttemplate_8m_a16a51e808b16c46bbfd36da2e37cd123}{mat}, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} outer)
+\item 
+{\footnotesize template$<$unsigned int Added, unsigned int Removed$>$ }\\\hyperlink{class_mapped_sparse_matrix_1_1_inner_iterator_a5b087d7566acd96e0a1dde7c43bb007d}{Inner\-Iterator} (const \hyperlink{class_flagged}{Flagged}$<$ \hyperlink{class_mapped_sparse_matrix}{Mapped\-Sparse\-Matrix}, Added, Removed $>$ \&\hyperlink{uavobjecttemplate_8m_a16a51e808b16c46bbfd36da2e37cd123}{mat}, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} outer)
+\item 
+\hyperlink{class_mapped_sparse_matrix_1_1_inner_iterator}{Inner\-Iterator} \& \hyperlink{class_mapped_sparse_matrix_1_1_inner_iterator_a809c69d26b558c495be8ffd954a6791a}{operator++} ()
+\item 
+\hyperlink{class_sparse_matrix_base_af39d70f2b7e775e9e17b666cd24128c8}{Scalar} \hyperlink{class_mapped_sparse_matrix_1_1_inner_iterator_a6a66f415196389183a568ec00dc5136b}{value} () const 
+\item 
+\hyperlink{class_sparse_matrix_base_af39d70f2b7e775e9e17b666cd24128c8}{Scalar} \& \hyperlink{class_mapped_sparse_matrix_1_1_inner_iterator_a9481869df307f75ec1f3216d07f1fc0e}{value\-Ref} ()
+\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_mapped_sparse_matrix_1_1_inner_iterator_a2c96886696556a4e8d286ad914f3c95d}{index} () const 
+\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_mapped_sparse_matrix_1_1_inner_iterator_af15523c43887f987b34c95abc4d0bc61}{row} () const 
+\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_mapped_sparse_matrix_1_1_inner_iterator_a6e7e314bf717f04332d22e584af84c58}{col} () const 
+\item 
+\hyperlink{class_mapped_sparse_matrix_1_1_inner_iterator_af4ff7bb077863442f5c99fb211498eb4}{operator bool} () const 
+\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+const \hyperlink{class_mapped_sparse_matrix}{Mapped\-Sparse\-Matrix} \& \hyperlink{class_mapped_sparse_matrix_1_1_inner_iterator_a4b68f0f4484a05012906f8e728c4ce69}{m\-\_\-matrix}
+\item 
+const \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_mapped_sparse_matrix_1_1_inner_iterator_a4b0d95329bd5a88ba6b5c84126ed2c15}{m\-\_\-outer}
+\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_mapped_sparse_matrix_1_1_inner_iterator_aa0525d021c270d8f6cf867028b0699ce}{m\-\_\-id}
+\item 
+const \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_mapped_sparse_matrix_1_1_inner_iterator_a03b2d3eed69004d889c8e35ff0521402}{m\-\_\-start}
+\item 
+const \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_mapped_sparse_matrix_1_1_inner_iterator_a7d907189dc2dd590c52733de2cea6252}{m\-\_\-end}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$typename \-\_\-\-Scalar, int \-\_\-\-Flags$>$class Mapped\-Sparse\-Matrix$<$ \-\_\-\-Scalar, \-\_\-\-Flags $>$\-::\-Inner\-Iterator}
+
+
+
+Definition at line 139 of file Mapped\-Sparse\-Matrix.\-h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_mapped_sparse_matrix_1_1_inner_iterator_adebae45c6bdd2e3fa820cd575ed5784e}{\index{Mapped\-Sparse\-Matrix\-::\-Inner\-Iterator@{Mapped\-Sparse\-Matrix\-::\-Inner\-Iterator}!Inner\-Iterator@{Inner\-Iterator}}
+\index{Inner\-Iterator@{Inner\-Iterator}!MappedSparseMatrix::InnerIterator@{Mapped\-Sparse\-Matrix\-::\-Inner\-Iterator}}
+\subsubsection[{Inner\-Iterator}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar, int \-\_\-\-Flags$>$ {\bf Mapped\-Sparse\-Matrix}$<$ \-\_\-\-Scalar, \-\_\-\-Flags $>$\-::Inner\-Iterator\-::\-Inner\-Iterator (
+\begin{DoxyParamCaption}
+\item[{const {\bf Mapped\-Sparse\-Matrix} \&}]{mat, }
+\item[{{\bf int}}]{outer}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_mapped_sparse_matrix_1_1_inner_iterator_adebae45c6bdd2e3fa820cd575ed5784e}
+
+
+Definition at line 142 of file Mapped\-Sparse\-Matrix.\-h.
+
+\hypertarget{class_mapped_sparse_matrix_1_1_inner_iterator_a5b087d7566acd96e0a1dde7c43bb007d}{\index{Mapped\-Sparse\-Matrix\-::\-Inner\-Iterator@{Mapped\-Sparse\-Matrix\-::\-Inner\-Iterator}!Inner\-Iterator@{Inner\-Iterator}}
+\index{Inner\-Iterator@{Inner\-Iterator}!MappedSparseMatrix::InnerIterator@{Mapped\-Sparse\-Matrix\-::\-Inner\-Iterator}}
+\subsubsection[{Inner\-Iterator}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar, int \-\_\-\-Flags$>$ template$<$unsigned int Added, unsigned int Removed$>$ {\bf Mapped\-Sparse\-Matrix}$<$ \-\_\-\-Scalar, \-\_\-\-Flags $>$\-::Inner\-Iterator\-::\-Inner\-Iterator (
+\begin{DoxyParamCaption}
+\item[{const {\bf Flagged}$<$ {\bf Mapped\-Sparse\-Matrix}, Added, Removed $>$ \&}]{mat, }
+\item[{{\bf int}}]{outer}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_mapped_sparse_matrix_1_1_inner_iterator_a5b087d7566acd96e0a1dde7c43bb007d}
+
+
+Definition at line 151 of file Mapped\-Sparse\-Matrix.\-h.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_mapped_sparse_matrix_1_1_inner_iterator_a6e7e314bf717f04332d22e584af84c58}{\index{Mapped\-Sparse\-Matrix\-::\-Inner\-Iterator@{Mapped\-Sparse\-Matrix\-::\-Inner\-Iterator}!col@{col}}
+\index{col@{col}!MappedSparseMatrix::InnerIterator@{Mapped\-Sparse\-Matrix\-::\-Inner\-Iterator}}
+\subsubsection[{col}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar, int \-\_\-\-Flags$>$ {\bf int} {\bf Mapped\-Sparse\-Matrix}$<$ \-\_\-\-Scalar, \-\_\-\-Flags $>$\-::Inner\-Iterator\-::col (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_mapped_sparse_matrix_1_1_inner_iterator_a6e7e314bf717f04332d22e584af84c58}
+
+
+Definition at line 163 of file Mapped\-Sparse\-Matrix.\-h.
+
+\hypertarget{class_mapped_sparse_matrix_1_1_inner_iterator_a2c96886696556a4e8d286ad914f3c95d}{\index{Mapped\-Sparse\-Matrix\-::\-Inner\-Iterator@{Mapped\-Sparse\-Matrix\-::\-Inner\-Iterator}!index@{index}}
+\index{index@{index}!MappedSparseMatrix::InnerIterator@{Mapped\-Sparse\-Matrix\-::\-Inner\-Iterator}}
+\subsubsection[{index}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar, int \-\_\-\-Flags$>$ {\bf int} {\bf Mapped\-Sparse\-Matrix}$<$ \-\_\-\-Scalar, \-\_\-\-Flags $>$\-::Inner\-Iterator\-::index (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_mapped_sparse_matrix_1_1_inner_iterator_a2c96886696556a4e8d286ad914f3c95d}
+
+
+Definition at line 161 of file Mapped\-Sparse\-Matrix.\-h.
+
+\hypertarget{class_mapped_sparse_matrix_1_1_inner_iterator_af4ff7bb077863442f5c99fb211498eb4}{\index{Mapped\-Sparse\-Matrix\-::\-Inner\-Iterator@{Mapped\-Sparse\-Matrix\-::\-Inner\-Iterator}!operator bool@{operator bool}}
+\index{operator bool@{operator bool}!MappedSparseMatrix::InnerIterator@{Mapped\-Sparse\-Matrix\-::\-Inner\-Iterator}}
+\subsubsection[{operator bool}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar, int \-\_\-\-Flags$>$ {\bf Mapped\-Sparse\-Matrix}$<$ \-\_\-\-Scalar, \-\_\-\-Flags $>$\-::Inner\-Iterator\-::operator bool (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_mapped_sparse_matrix_1_1_inner_iterator_af4ff7bb077863442f5c99fb211498eb4}
+
+
+Definition at line 165 of file Mapped\-Sparse\-Matrix.\-h.
+
+\hypertarget{class_mapped_sparse_matrix_1_1_inner_iterator_a809c69d26b558c495be8ffd954a6791a}{\index{Mapped\-Sparse\-Matrix\-::\-Inner\-Iterator@{Mapped\-Sparse\-Matrix\-::\-Inner\-Iterator}!operator++@{operator++}}
+\index{operator++@{operator++}!MappedSparseMatrix::InnerIterator@{Mapped\-Sparse\-Matrix\-::\-Inner\-Iterator}}
+\subsubsection[{operator++}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar, int \-\_\-\-Flags$>$ {\bf Inner\-Iterator}\& {\bf Mapped\-Sparse\-Matrix}$<$ \-\_\-\-Scalar, \-\_\-\-Flags $>$\-::Inner\-Iterator\-::operator++ (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_mapped_sparse_matrix_1_1_inner_iterator_a809c69d26b558c495be8ffd954a6791a}
+
+
+Definition at line 156 of file Mapped\-Sparse\-Matrix.\-h.
+
+\hypertarget{class_mapped_sparse_matrix_1_1_inner_iterator_af15523c43887f987b34c95abc4d0bc61}{\index{Mapped\-Sparse\-Matrix\-::\-Inner\-Iterator@{Mapped\-Sparse\-Matrix\-::\-Inner\-Iterator}!row@{row}}
+\index{row@{row}!MappedSparseMatrix::InnerIterator@{Mapped\-Sparse\-Matrix\-::\-Inner\-Iterator}}
+\subsubsection[{row}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar, int \-\_\-\-Flags$>$ {\bf int} {\bf Mapped\-Sparse\-Matrix}$<$ \-\_\-\-Scalar, \-\_\-\-Flags $>$\-::Inner\-Iterator\-::row (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_mapped_sparse_matrix_1_1_inner_iterator_af15523c43887f987b34c95abc4d0bc61}
+
+
+Definition at line 162 of file Mapped\-Sparse\-Matrix.\-h.
+
+\hypertarget{class_mapped_sparse_matrix_1_1_inner_iterator_a6a66f415196389183a568ec00dc5136b}{\index{Mapped\-Sparse\-Matrix\-::\-Inner\-Iterator@{Mapped\-Sparse\-Matrix\-::\-Inner\-Iterator}!value@{value}}
+\index{value@{value}!MappedSparseMatrix::InnerIterator@{Mapped\-Sparse\-Matrix\-::\-Inner\-Iterator}}
+\subsubsection[{value}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar, int \-\_\-\-Flags$>$ {\bf Scalar} {\bf Mapped\-Sparse\-Matrix}$<$ \-\_\-\-Scalar, \-\_\-\-Flags $>$\-::Inner\-Iterator\-::value (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_mapped_sparse_matrix_1_1_inner_iterator_a6a66f415196389183a568ec00dc5136b}
+
+
+Definition at line 158 of file Mapped\-Sparse\-Matrix.\-h.
+
+\hypertarget{class_mapped_sparse_matrix_1_1_inner_iterator_a9481869df307f75ec1f3216d07f1fc0e}{\index{Mapped\-Sparse\-Matrix\-::\-Inner\-Iterator@{Mapped\-Sparse\-Matrix\-::\-Inner\-Iterator}!value\-Ref@{value\-Ref}}
+\index{value\-Ref@{value\-Ref}!MappedSparseMatrix::InnerIterator@{Mapped\-Sparse\-Matrix\-::\-Inner\-Iterator}}
+\subsubsection[{value\-Ref}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar, int \-\_\-\-Flags$>$ {\bf Scalar}\& {\bf Mapped\-Sparse\-Matrix}$<$ \-\_\-\-Scalar, \-\_\-\-Flags $>$\-::Inner\-Iterator\-::value\-Ref (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_mapped_sparse_matrix_1_1_inner_iterator_a9481869df307f75ec1f3216d07f1fc0e}
+
+
+Definition at line 159 of file Mapped\-Sparse\-Matrix.\-h.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{class_mapped_sparse_matrix_1_1_inner_iterator_a7d907189dc2dd590c52733de2cea6252}{\index{Mapped\-Sparse\-Matrix\-::\-Inner\-Iterator@{Mapped\-Sparse\-Matrix\-::\-Inner\-Iterator}!m\-\_\-end@{m\-\_\-end}}
+\index{m\-\_\-end@{m\-\_\-end}!MappedSparseMatrix::InnerIterator@{Mapped\-Sparse\-Matrix\-::\-Inner\-Iterator}}
+\subsubsection[{m\-\_\-end}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar, int \-\_\-\-Flags$>$ const {\bf int} {\bf Mapped\-Sparse\-Matrix}$<$ \-\_\-\-Scalar, \-\_\-\-Flags $>$\-::Inner\-Iterator\-::m\-\_\-end\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_mapped_sparse_matrix_1_1_inner_iterator_a7d907189dc2dd590c52733de2cea6252}
+
+
+Definition at line 172 of file Mapped\-Sparse\-Matrix.\-h.
+
+\hypertarget{class_mapped_sparse_matrix_1_1_inner_iterator_aa0525d021c270d8f6cf867028b0699ce}{\index{Mapped\-Sparse\-Matrix\-::\-Inner\-Iterator@{Mapped\-Sparse\-Matrix\-::\-Inner\-Iterator}!m\-\_\-id@{m\-\_\-id}}
+\index{m\-\_\-id@{m\-\_\-id}!MappedSparseMatrix::InnerIterator@{Mapped\-Sparse\-Matrix\-::\-Inner\-Iterator}}
+\subsubsection[{m\-\_\-id}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar, int \-\_\-\-Flags$>$ {\bf int} {\bf Mapped\-Sparse\-Matrix}$<$ \-\_\-\-Scalar, \-\_\-\-Flags $>$\-::Inner\-Iterator\-::m\-\_\-id\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_mapped_sparse_matrix_1_1_inner_iterator_aa0525d021c270d8f6cf867028b0699ce}
+
+
+Definition at line 170 of file Mapped\-Sparse\-Matrix.\-h.
+
+\hypertarget{class_mapped_sparse_matrix_1_1_inner_iterator_a4b68f0f4484a05012906f8e728c4ce69}{\index{Mapped\-Sparse\-Matrix\-::\-Inner\-Iterator@{Mapped\-Sparse\-Matrix\-::\-Inner\-Iterator}!m\-\_\-matrix@{m\-\_\-matrix}}
+\index{m\-\_\-matrix@{m\-\_\-matrix}!MappedSparseMatrix::InnerIterator@{Mapped\-Sparse\-Matrix\-::\-Inner\-Iterator}}
+\subsubsection[{m\-\_\-matrix}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar, int \-\_\-\-Flags$>$ const {\bf Mapped\-Sparse\-Matrix}\& {\bf Mapped\-Sparse\-Matrix}$<$ \-\_\-\-Scalar, \-\_\-\-Flags $>$\-::Inner\-Iterator\-::m\-\_\-matrix\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_mapped_sparse_matrix_1_1_inner_iterator_a4b68f0f4484a05012906f8e728c4ce69}
+
+
+Definition at line 168 of file Mapped\-Sparse\-Matrix.\-h.
+
+\hypertarget{class_mapped_sparse_matrix_1_1_inner_iterator_a4b0d95329bd5a88ba6b5c84126ed2c15}{\index{Mapped\-Sparse\-Matrix\-::\-Inner\-Iterator@{Mapped\-Sparse\-Matrix\-::\-Inner\-Iterator}!m\-\_\-outer@{m\-\_\-outer}}
+\index{m\-\_\-outer@{m\-\_\-outer}!MappedSparseMatrix::InnerIterator@{Mapped\-Sparse\-Matrix\-::\-Inner\-Iterator}}
+\subsubsection[{m\-\_\-outer}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar, int \-\_\-\-Flags$>$ const {\bf int} {\bf Mapped\-Sparse\-Matrix}$<$ \-\_\-\-Scalar, \-\_\-\-Flags $>$\-::Inner\-Iterator\-::m\-\_\-outer\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_mapped_sparse_matrix_1_1_inner_iterator_a4b0d95329bd5a88ba6b5c84126ed2c15}
+
+
+Definition at line 169 of file Mapped\-Sparse\-Matrix.\-h.
+
+\hypertarget{class_mapped_sparse_matrix_1_1_inner_iterator_a03b2d3eed69004d889c8e35ff0521402}{\index{Mapped\-Sparse\-Matrix\-::\-Inner\-Iterator@{Mapped\-Sparse\-Matrix\-::\-Inner\-Iterator}!m\-\_\-start@{m\-\_\-start}}
+\index{m\-\_\-start@{m\-\_\-start}!MappedSparseMatrix::InnerIterator@{Mapped\-Sparse\-Matrix\-::\-Inner\-Iterator}}
+\subsubsection[{m\-\_\-start}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \-\_\-\-Scalar, int \-\_\-\-Flags$>$ const {\bf int} {\bf Mapped\-Sparse\-Matrix}$<$ \-\_\-\-Scalar, \-\_\-\-Flags $>$\-::Inner\-Iterator\-::m\-\_\-start\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_mapped_sparse_matrix_1_1_inner_iterator_a03b2d3eed69004d889c8e35ff0521402}
+
+
+Definition at line 171 of file Mapped\-Sparse\-Matrix.\-h.
+
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/eigen/\-Eigen/src/\-Sparse/\hyperlink{_mapped_sparse_matrix_8h}{Mapped\-Sparse\-Matrix.\-h}\end{DoxyCompactItemize}

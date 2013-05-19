@@ -1,0 +1,744 @@
+\hypertarget{class_qwt_counter}{\section{Qwt\-Counter Class Reference}
+\label{class_qwt_counter}\index{Qwt\-Counter@{Qwt\-Counter}}
+}
+
+
+The Counter \hyperlink{class_widget}{Widget}.  
+
+
+
+
+{\ttfamily \#include $<$qwt\-\_\-counter.\-h$>$}
+
+Inheritance diagram for Qwt\-Counter\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_qwt_counter}
+\end{center}
+\end{figure}
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{class_qwt_counter_1_1_private_data}{Private\-Data}
+\end{DoxyCompactItemize}
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{class_qwt_counter_a027cfd91946ca9a19a1d606411e0f374}{Button} \{ \hyperlink{class_qwt_counter_a027cfd91946ca9a19a1d606411e0f374a1b29fe43c7d59986eb5854ddaf6f7179}{Button1}, 
+\hyperlink{class_qwt_counter_a027cfd91946ca9a19a1d606411e0f374a6015e556fcb8c4d45126dee5435b478d}{Button2}, 
+\hyperlink{class_qwt_counter_a027cfd91946ca9a19a1d606411e0f374a30b64d40b31283807f1a4f3d57af0e74}{Button3}, 
+\hyperlink{class_qwt_counter_a027cfd91946ca9a19a1d606411e0f374aca8e93a2d129f7cc91f54f5f4da20c5f}{Button\-Cnt}
+ \}
+\begin{DoxyCompactList}\small\item\em Button index. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Signals}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_counter_a694ed7277e137e44bccc5918b4c15ecc}{button\-Released} (\hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} \hyperlink{glext_8h_aa0e2e9cea7f208d28acda0480144beb0}{value})
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_counter_add02928c348417fbfadd7095d058f331}{value\-Changed} (\hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} \hyperlink{glext_8h_aa0e2e9cea7f208d28acda0480144beb0}{value})
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_qwt_counter_aee94cdbaf1f3d22e110fd3535dbca34a}{Qwt\-Counter} (Q\-Widget $\ast$parent=N\-U\-L\-L)
+\item 
+virtual \hyperlink{class_qwt_counter_a6469133eb210b470023a3dcc735aec4d}{$\sim$\-Qwt\-Counter} ()
+\begin{DoxyCompactList}\small\item\em Destructor. \end{DoxyCompactList}\item 
+bool \hyperlink{class_qwt_counter_a8817a2b253273d694b02a81feb76ef64}{editable} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_counter_a2d2f4bf2813d2aa30c2fb9ec7a90163c}{set\-Editable} (bool)
+\begin{DoxyCompactList}\small\item\em Allow/disallow the user to manually edit the value. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_counter_ae9241fda2e375becdb484cc2cf7752f4}{set\-Num\-Buttons} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{glext_8h_a4eacae1d9e7c39f8236bb36d4ececa77}{n})
+\begin{DoxyCompactList}\small\item\em Specify the number of buttons on each side of the label. \end{DoxyCompactList}\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_qwt_counter_ac160c5e7a1c7f858b7f52ff0904ea142}{num\-Buttons} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_counter_a6aa68e7fc717fb0e2e48a978301c96eb}{set\-Inc\-Steps} (\hyperlink{class_qwt_counter_a027cfd91946ca9a19a1d606411e0f374}{Qwt\-Counter\-::\-Button} btn, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} n\-Steps)
+\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_qwt_counter_a9c81b37e547358cc588311d941649de1}{inc\-Steps} (\hyperlink{class_qwt_counter_a027cfd91946ca9a19a1d606411e0f374}{Qwt\-Counter\-::\-Button} btn) const 
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_counter_a429a2e986aa46c1231643df5d4c78970}{set\-Value} (\hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double})
+\begin{DoxyCompactList}\small\item\em Set a new value. \end{DoxyCompactList}\item 
+virtual Q\-Size \hyperlink{class_qwt_counter_a9ccdfd602ccd5ecd8595172cd22b2b27}{size\-Hint} () const 
+\begin{DoxyCompactList}\small\item\em A size hint. \end{DoxyCompactList}\item 
+\hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} \hyperlink{class_qwt_counter_ab3496bdd6bdb093462bca588880d8c1b}{step} () const 
+\begin{DoxyCompactList}\small\item\em returns the step size \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_counter_ab885e97d0071877dfefb73feb0adc0cd}{set\-Step} (\hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} \hyperlink{glext_8h_ad585a1393cfa368fa9dc3d8ebff640d5}{s})
+\item 
+\hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} \hyperlink{class_qwt_counter_aa8ccc5f0626ae1ad4f542b0fdb51cc08}{min\-Value} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_counter_a8c1b902c0805f3581568b4d700e79221}{set\-Min\-Value} (\hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} \hyperlink{glext_8h_af593500c283bf1a787a6f947f503a5c2}{m})
+\item 
+\hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} \hyperlink{class_qwt_counter_a1db7484bea02c18681f9d628cd88695f}{max\-Value} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_counter_afd1de4657645bd41a8ccdaa21a7dc591}{set\-Max\-Value} (\hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} \hyperlink{glext_8h_af593500c283bf1a787a6f947f503a5c2}{m})
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_counter_ae56a556a72955b6d10419f2c41779383}{set\-Step\-Button1} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} n\-Steps)
+\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_qwt_counter_a8e0b28f111c45b3a2241fd8889bc8bce}{step\-Button1} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_counter_a0d764a96706593d8c8b51338e92abfcc}{set\-Step\-Button2} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} n\-Steps)
+\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_qwt_counter_a7d99de95e1c05e4994413e6d8cd641fe}{step\-Button2} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_counter_a8b55539578de083793b8310cb8909294}{set\-Step\-Button3} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} n\-Steps)
+\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_qwt_counter_abc6eb2073cc7d7b5f1d7e4c6c7b205c9}{step\-Button3} () const 
+\item 
+virtual \hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} \hyperlink{class_qwt_counter_aa40eebb77b2401d0a3fc4558befaebb8}{value} () const 
+\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual bool \hyperlink{class_qwt_counter_ad855f1cec9068fd73cce5e2e29fb5771}{event} (Q\-Event $\ast$)
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_counter_acdada1ba1d5873b9c8b3f75d63b4685a}{wheel\-Event} (Q\-Wheel\-Event $\ast$)
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_counter_aafdc19bff96fcafc4b8ed8e3bf7bf07b}{key\-Press\-Event} (Q\-Key\-Event $\ast$)
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_counter_a4fd4e750b1f5a852250e57778a3e4159}{range\-Change} ()
+\begin{DoxyCompactList}\small\item\em Notify change of range. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Properties}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_qwt_counter_a6a07ff0c9612ae4fb8a4acbb4466c0b6}{num\-Buttons}
+\item 
+\hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} \hyperlink{class_qwt_counter_a810180900cea7cd2fec2918051852505}{basicstep}
+\item 
+\hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} \hyperlink{class_qwt_counter_a7db2ffbdab4216c83f95fb41c89e8c53}{min\-Value}
+\begin{DoxyCompactList}\small\item\em returns the minimum value of the range \end{DoxyCompactList}\item 
+\hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} \hyperlink{class_qwt_counter_a5011e951134590d174a824385e5fb2ae}{max\-Value}
+\begin{DoxyCompactList}\small\item\em returns the maximum value of the range \end{DoxyCompactList}\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_qwt_counter_a4cee5a93ef787068ed5b63bcb55167f6}{step\-Button1}
+\begin{DoxyCompactList}\small\item\em returns the number of increment steps for button 1 \end{DoxyCompactList}\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_qwt_counter_a3bf49238a71fc0edd6d7259a902997a5}{step\-Button2}
+\begin{DoxyCompactList}\small\item\em returns the number of increment steps for button 2 \end{DoxyCompactList}\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_qwt_counter_ae484def1d66d3fb1c720e4ee4a67c512}{step\-Button3}
+\begin{DoxyCompactList}\small\item\em returns the number of increment steps for button 3 \end{DoxyCompactList}\item 
+\hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} \hyperlink{class_qwt_counter_a6f98bf5e2110835ce0c00425e682b7e2}{value}
+\item 
+bool \hyperlink{class_qwt_counter_a3fb541ce259dceef47e927cc697f739c}{editable}
+\begin{DoxyCompactList}\small\item\em returns whether the line edit is edatble. (default is yes) \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+The Counter \hyperlink{class_widget}{Widget}. 
+
+A Counter consists of a label displaying a number and one ore more (up to three) push buttons on each side of the label which can be used to increment or decrement the counter's value.
+
+A Counter has a range from a minimum value to a maximum value and a step size. The range can be specified using Qwt\-Dbl\-Range\-::set\-Range(). The counter's value is an integer multiple of the step size. The number of steps by which a button increments or decrements the value can be specified using \hyperlink{class_qwt_counter_a6aa68e7fc717fb0e2e48a978301c96eb}{Qwt\-Counter\-::set\-Inc\-Steps()}. The number of buttons can be changed with \hyperlink{class_qwt_counter_ae9241fda2e375becdb484cc2cf7752f4}{Qwt\-Counter\-::set\-Num\-Buttons()}.
+
+Holding the space bar down with focus on a button is the fastest method to step through the counter values. When the counter underflows/overflows, the focus is set to the smallest up/down button and counting is disabled. Counting is re-\/enabled on a button release event (mouse or space bar).
+
+Example\-: 
+\begin{DoxyCode}
+\textcolor{preprocessor}{#include "../include/qwt\_counter.h>}
+
+\hyperlink{class_qwt_counter}{QwtCounter} *cnt;
+
+cnt = \textcolor{keyword}{new} \hyperlink{class_qwt_counter_aee94cdbaf1f3d22e110fd3535dbca34a}{QwtCounter}(parent, name);
+
+cnt->\hyperlink{class_qwt_double_range_a43891011664b74b8e5454763a3f5ff21}{setRange}(0.0, 100.0, 1.0);             \textcolor{comment}{// From 0.0 to 100, step 1.0}
+cnt->\hyperlink{class_qwt_counter_ae9241fda2e375becdb484cc2cf7752f4}{setNumButtons}(2);                      \textcolor{comment}{// Two buttons each side}
+cnt->\hyperlink{class_qwt_counter_a6aa68e7fc717fb0e2e48a978301c96eb}{setIncSteps}(\hyperlink{class_qwt_counter_a027cfd91946ca9a19a1d606411e0f374a1b29fe43c7d59986eb5854ddaf6f7179}{QwtCounter::Button1}, 1);   \textcolor{comment}{// Button 1 increments 1 step}
+cnt->\hyperlink{class_qwt_counter_a6aa68e7fc717fb0e2e48a978301c96eb}{setIncSteps}(\hyperlink{class_qwt_counter_a027cfd91946ca9a19a1d606411e0f374a6015e556fcb8c4d45126dee5435b478d}{QwtCounter::Button2}, 20);  \textcolor{comment}{// Button 2 increments 20 steps}
+
+\hyperlink{namespace_qxt_meta_object_a0672fb5917d321762dfd192f229469d5}{connect}(cnt, SIGNAL(\hyperlink{class_qwt_counter_add02928c348417fbfadd7095d058f331}{valueChanged}(\textcolor{keywordtype}{double})), my\_class, SLOT(newValue(\textcolor{keywordtype}{double})));
+\end{DoxyCode}
+ 
+
+Definition at line 58 of file qwt\-\_\-counter.\-h.
+
+
+
+\subsection{Member Enumeration Documentation}
+\hypertarget{class_qwt_counter_a027cfd91946ca9a19a1d606411e0f374}{\index{Qwt\-Counter@{Qwt\-Counter}!Button@{Button}}
+\index{Button@{Button}!QwtCounter@{Qwt\-Counter}}
+\subsubsection[{Button}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf Qwt\-Counter\-::\-Button}}}\label{class_qwt_counter_a027cfd91946ca9a19a1d606411e0f374}
+
+
+Button index. 
+
+\begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{Button1@{Button1}!Qwt\-Counter@{Qwt\-Counter}}\index{Qwt\-Counter@{Qwt\-Counter}!Button1@{Button1}}\item[{\em 
+\hypertarget{class_qwt_counter_a027cfd91946ca9a19a1d606411e0f374a1b29fe43c7d59986eb5854ddaf6f7179}{Button1}\label{class_qwt_counter_a027cfd91946ca9a19a1d606411e0f374a1b29fe43c7d59986eb5854ddaf6f7179}
+}]Button intended for minor steps. \index{Button2@{Button2}!Qwt\-Counter@{Qwt\-Counter}}\index{Qwt\-Counter@{Qwt\-Counter}!Button2@{Button2}}\item[{\em 
+\hypertarget{class_qwt_counter_a027cfd91946ca9a19a1d606411e0f374a6015e556fcb8c4d45126dee5435b478d}{Button2}\label{class_qwt_counter_a027cfd91946ca9a19a1d606411e0f374a6015e556fcb8c4d45126dee5435b478d}
+}]Button intended for medium steps. \index{Button3@{Button3}!Qwt\-Counter@{Qwt\-Counter}}\index{Qwt\-Counter@{Qwt\-Counter}!Button3@{Button3}}\item[{\em 
+\hypertarget{class_qwt_counter_a027cfd91946ca9a19a1d606411e0f374a30b64d40b31283807f1a4f3d57af0e74}{Button3}\label{class_qwt_counter_a027cfd91946ca9a19a1d606411e0f374a30b64d40b31283807f1a4f3d57af0e74}
+}]Button intended for large steps. \index{Button\-Cnt@{Button\-Cnt}!Qwt\-Counter@{Qwt\-Counter}}\index{Qwt\-Counter@{Qwt\-Counter}!Button\-Cnt@{Button\-Cnt}}\item[{\em 
+\hypertarget{class_qwt_counter_a027cfd91946ca9a19a1d606411e0f374aca8e93a2d129f7cc91f54f5f4da20c5f}{Button\-Cnt}\label{class_qwt_counter_a027cfd91946ca9a19a1d606411e0f374aca8e93a2d129f7cc91f54f5f4da20c5f}
+}]Number of buttons. \end{description}
+\end{Desc}
+
+
+Definition at line 74 of file qwt\-\_\-counter.\-h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_qwt_counter_aee94cdbaf1f3d22e110fd3535dbca34a}{\index{Qwt\-Counter@{Qwt\-Counter}!Qwt\-Counter@{Qwt\-Counter}}
+\index{Qwt\-Counter@{Qwt\-Counter}!QwtCounter@{Qwt\-Counter}}
+\subsubsection[{Qwt\-Counter}]{\setlength{\rightskip}{0pt plus 5cm}Qwt\-Counter\-::\-Qwt\-Counter (
+\begin{DoxyParamCaption}
+\item[{Q\-Widget $\ast$}]{parent = {\ttfamily NULL}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [explicit]}}}\label{class_qwt_counter_aee94cdbaf1f3d22e110fd3535dbca34a}
+The default number of buttons is set to 2. The default increments are\-: \begin{DoxyItemize}
+\item Button 1\-: 1 step \item Button 2\-: 10 steps \item Button 3\-: 100 steps\end{DoxyItemize}
+
+\begin{DoxyParams}{Parameters}
+{\em parent} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 48 of file qwt\-\_\-counter.\-cpp.
+
+\hypertarget{class_qwt_counter_a6469133eb210b470023a3dcc735aec4d}{\index{Qwt\-Counter@{Qwt\-Counter}!$\sim$\-Qwt\-Counter@{$\sim$\-Qwt\-Counter}}
+\index{$\sim$\-Qwt\-Counter@{$\sim$\-Qwt\-Counter}!QwtCounter@{Qwt\-Counter}}
+\subsubsection[{$\sim$\-Qwt\-Counter}]{\setlength{\rightskip}{0pt plus 5cm}Qwt\-Counter\-::$\sim$\-Qwt\-Counter (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_qwt_counter_a6469133eb210b470023a3dcc735aec4d}
+
+
+Destructor. 
+
+
+
+Definition at line 112 of file qwt\-\_\-counter.\-cpp.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_qwt_counter_a694ed7277e137e44bccc5918b4c15ecc}{\index{Qwt\-Counter@{Qwt\-Counter}!button\-Released@{button\-Released}}
+\index{button\-Released@{button\-Released}!QwtCounter@{Qwt\-Counter}}
+\subsubsection[{button\-Released}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Counter\-::button\-Released (
+\begin{DoxyParamCaption}
+\item[{{\bf double}}]{value}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [signal]}}}\label{class_qwt_counter_a694ed7277e137e44bccc5918b4c15ecc}
+This signal is emitted when a button has been released 
+\begin{DoxyParams}{Parameters}
+{\em value} & The new value \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_qwt_counter_a8817a2b253273d694b02a81feb76ef64}{\index{Qwt\-Counter@{Qwt\-Counter}!editable@{editable}}
+\index{editable@{editable}!QwtCounter@{Qwt\-Counter}}
+\subsubsection[{editable}]{\setlength{\rightskip}{0pt plus 5cm}bool Qwt\-Counter\-::editable (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_qwt_counter_a8817a2b253273d694b02a81feb76ef64}
+\hypertarget{class_qwt_counter_ad855f1cec9068fd73cce5e2e29fb5771}{\index{Qwt\-Counter@{Qwt\-Counter}!event@{event}}
+\index{event@{event}!QwtCounter@{Qwt\-Counter}}
+\subsubsection[{event}]{\setlength{\rightskip}{0pt plus 5cm}bool Qwt\-Counter\-::event (
+\begin{DoxyParamCaption}
+\item[{Q\-Event $\ast$}]{event}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}}\label{class_qwt_counter_ad855f1cec9068fd73cce5e2e29fb5771}
+Handle Polish\-Request events 
+\begin{DoxyParams}{Parameters}
+{\em event} & Event \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 155 of file qwt\-\_\-counter.\-cpp.
+
+\hypertarget{class_qwt_counter_a9c81b37e547358cc588311d941649de1}{\index{Qwt\-Counter@{Qwt\-Counter}!inc\-Steps@{inc\-Steps}}
+\index{inc\-Steps@{inc\-Steps}!QwtCounter@{Qwt\-Counter}}
+\subsubsection[{inc\-Steps}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int} Qwt\-Counter\-::inc\-Steps (
+\begin{DoxyParamCaption}
+\item[{{\bf Qwt\-Counter\-::\-Button}}]{button}
+\end{DoxyParamCaption}
+) const}}\label{class_qwt_counter_a9c81b37e547358cc588311d941649de1}
+\begin{DoxyReturn}{Returns}
+the number of steps by which a specified button increments the value or 0 if the button is invalid. 
+\end{DoxyReturn}
+
+\begin{DoxyParams}{Parameters}
+{\em button} & Button index\\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_counter_a6aa68e7fc717fb0e2e48a978301c96eb}{set\-Inc\-Steps()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 319 of file qwt\-\_\-counter.\-cpp.
+
+\hypertarget{class_qwt_counter_aafdc19bff96fcafc4b8ed8e3bf7bf07b}{\index{Qwt\-Counter@{Qwt\-Counter}!key\-Press\-Event@{key\-Press\-Event}}
+\index{key\-Press\-Event@{key\-Press\-Event}!QwtCounter@{Qwt\-Counter}}
+\subsubsection[{key\-Press\-Event}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Counter\-::key\-Press\-Event (
+\begin{DoxyParamCaption}
+\item[{Q\-Key\-Event $\ast$}]{event}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}}\label{class_qwt_counter_aafdc19bff96fcafc4b8ed8e3bf7bf07b}
+Handle key events
+
+
+\begin{DoxyItemize}
+\item Ctrl + Qt\-::\-Key\-\_\-\-Home\par
+ Step to \hyperlink{class_qwt_counter_a7db2ffbdab4216c83f95fb41c89e8c53}{min\-Value()}
+\item Ctrl + Qt\-::\-Key\-\_\-\-End\par
+ Step to \hyperlink{class_qwt_counter_a5011e951134590d174a824385e5fb2ae}{max\-Value()}
+\item Qt\-::\-Key\-\_\-\-Up\par
+ Increment by inc\-Steps(\-Qwt\-Counter\-::\-Button1)
+\item Qt\-::\-Key\-\_\-\-Down\par
+ Decrement by inc\-Steps(\-Qwt\-Counter\-::\-Button1)
+\item Qt\-::\-Key\-\_\-\-Page\-Up\par
+ Increment by inc\-Steps(\-Qwt\-Counter\-::\-Button2)
+\item Qt\-::\-Key\-\_\-\-Page\-Down\par
+ Decrement by inc\-Steps(\-Qwt\-Counter\-::\-Button2)
+\item Shift + Qt\-::\-Key\-\_\-\-Page\-Up\par
+ Increment by inc\-Steps(\-Qwt\-Counter\-::\-Button3)
+\item Shift + Qt\-::\-Key\-\_\-\-Page\-Down\par
+ Decrement by inc\-Steps(\-Qwt\-Counter\-::\-Button3)
+\end{DoxyItemize}
+
+
+\begin{DoxyParams}{Parameters}
+{\em event} & Key event \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 192 of file qwt\-\_\-counter.\-cpp.
+
+\hypertarget{class_qwt_counter_a1db7484bea02c18681f9d628cd88695f}{\index{Qwt\-Counter@{Qwt\-Counter}!max\-Value@{max\-Value}}
+\index{max\-Value@{max\-Value}!QwtCounter@{Qwt\-Counter}}
+\subsubsection[{max\-Value}]{\setlength{\rightskip}{0pt plus 5cm}{\bf double} Qwt\-Counter\-::max\-Value (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_qwt_counter_a1db7484bea02c18681f9d628cd88695f}
+\hypertarget{class_qwt_counter_aa8ccc5f0626ae1ad4f542b0fdb51cc08}{\index{Qwt\-Counter@{Qwt\-Counter}!min\-Value@{min\-Value}}
+\index{min\-Value@{min\-Value}!QwtCounter@{Qwt\-Counter}}
+\subsubsection[{min\-Value}]{\setlength{\rightskip}{0pt plus 5cm}{\bf double} Qwt\-Counter\-::min\-Value (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_qwt_counter_aa8ccc5f0626ae1ad4f542b0fdb51cc08}
+\hypertarget{class_qwt_counter_ac160c5e7a1c7f858b7f52ff0904ea142}{\index{Qwt\-Counter@{Qwt\-Counter}!num\-Buttons@{num\-Buttons}}
+\index{num\-Buttons@{num\-Buttons}!QwtCounter@{Qwt\-Counter}}
+\subsubsection[{num\-Buttons}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int} Qwt\-Counter\-::num\-Buttons (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_qwt_counter_ac160c5e7a1c7f858b7f52ff0904ea142}
+\hypertarget{class_qwt_counter_a4fd4e750b1f5a852250e57778a3e4159}{\index{Qwt\-Counter@{Qwt\-Counter}!range\-Change@{range\-Change}}
+\index{range\-Change@{range\-Change}!QwtCounter@{Qwt\-Counter}}
+\subsubsection[{range\-Change}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Counter\-::range\-Change (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}}\label{class_qwt_counter_a4fd4e750b1f5a852250e57778a3e4159}
+
+
+Notify change of range. 
+
+This function updates the enabled property of all buttons contained in \hyperlink{class_qwt_counter}{Qwt\-Counter}. 
+
+Reimplemented from \hyperlink{class_qwt_double_range_a3583134a1ac32706aa4742088bb9d4dc}{Qwt\-Double\-Range}.
+
+
+
+Definition at line 465 of file qwt\-\_\-counter.\-cpp.
+
+\hypertarget{class_qwt_counter_a2d2f4bf2813d2aa30c2fb9ec7a90163c}{\index{Qwt\-Counter@{Qwt\-Counter}!set\-Editable@{set\-Editable}}
+\index{set\-Editable@{set\-Editable}!QwtCounter@{Qwt\-Counter}}
+\subsubsection[{set\-Editable}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Counter\-::set\-Editable (
+\begin{DoxyParamCaption}
+\item[{bool}]{editable}
+\end{DoxyParamCaption}
+)}}\label{class_qwt_counter_a2d2f4bf2813d2aa30c2fb9ec7a90163c}
+
+
+Allow/disallow the user to manually edit the value. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em editable} & true enables editing \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_counter_a3fb541ce259dceef47e927cc697f739c}{editable()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 136 of file qwt\-\_\-counter.\-cpp.
+
+\hypertarget{class_qwt_counter_a6aa68e7fc717fb0e2e48a978301c96eb}{\index{Qwt\-Counter@{Qwt\-Counter}!set\-Inc\-Steps@{set\-Inc\-Steps}}
+\index{set\-Inc\-Steps@{set\-Inc\-Steps}!QwtCounter@{Qwt\-Counter}}
+\subsubsection[{set\-Inc\-Steps}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Counter\-::set\-Inc\-Steps (
+\begin{DoxyParamCaption}
+\item[{{\bf Qwt\-Counter\-::\-Button}}]{button, }
+\item[{{\bf int}}]{n\-Steps}
+\end{DoxyParamCaption}
+)}}\label{class_qwt_counter_a6aa68e7fc717fb0e2e48a978301c96eb}
+Specify the number of steps by which the value is incremented or decremented when a specified button is pushed.
+
+
+\begin{DoxyParams}{Parameters}
+{\em button} & Button index \\
+\hline
+{\em n\-Steps} & Number of steps\\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_counter_a9c81b37e547358cc588311d941649de1}{inc\-Steps()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 306 of file qwt\-\_\-counter.\-cpp.
+
+\hypertarget{class_qwt_counter_afd1de4657645bd41a8ccdaa21a7dc591}{\index{Qwt\-Counter@{Qwt\-Counter}!set\-Max\-Value@{set\-Max\-Value}}
+\index{set\-Max\-Value@{set\-Max\-Value}!QwtCounter@{Qwt\-Counter}}
+\subsubsection[{set\-Max\-Value}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Counter\-::set\-Max\-Value (
+\begin{DoxyParamCaption}
+\item[{{\bf double}}]{value}
+\end{DoxyParamCaption}
+)}}\label{class_qwt_counter_afd1de4657645bd41a8ccdaa21a7dc591}
+Set the maximum value of the range
+
+
+\begin{DoxyParams}{Parameters}
+{\em value} & Maximum value \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_counter_a8c1b902c0805f3581568b4d700e79221}{set\-Min\-Value()}, max\-Val() 
+\end{DoxySeeAlso}
+
+
+Definition at line 548 of file qwt\-\_\-counter.\-cpp.
+
+\hypertarget{class_qwt_counter_a8c1b902c0805f3581568b4d700e79221}{\index{Qwt\-Counter@{Qwt\-Counter}!set\-Min\-Value@{set\-Min\-Value}}
+\index{set\-Min\-Value@{set\-Min\-Value}!QwtCounter@{Qwt\-Counter}}
+\subsubsection[{set\-Min\-Value}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Counter\-::set\-Min\-Value (
+\begin{DoxyParamCaption}
+\item[{{\bf double}}]{value}
+\end{DoxyParamCaption}
+)}}\label{class_qwt_counter_a8c1b902c0805f3581568b4d700e79221}
+Set the minimum value of the range
+
+
+\begin{DoxyParams}{Parameters}
+{\em value} & Minimum value \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_counter_afd1de4657645bd41a8ccdaa21a7dc591}{set\-Max\-Value()}, \hyperlink{class_qwt_counter_a7db2ffbdab4216c83f95fb41c89e8c53}{min\-Value()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 531 of file qwt\-\_\-counter.\-cpp.
+
+\hypertarget{class_qwt_counter_ae9241fda2e375becdb484cc2cf7752f4}{\index{Qwt\-Counter@{Qwt\-Counter}!set\-Num\-Buttons@{set\-Num\-Buttons}}
+\index{set\-Num\-Buttons@{set\-Num\-Buttons}!QwtCounter@{Qwt\-Counter}}
+\subsubsection[{set\-Num\-Buttons}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Counter\-::set\-Num\-Buttons (
+\begin{DoxyParamCaption}
+\item[{{\bf int}}]{num\-Buttons}
+\end{DoxyParamCaption}
+)}}\label{class_qwt_counter_ae9241fda2e375becdb484cc2cf7752f4}
+
+
+Specify the number of buttons on each side of the label. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em num\-Buttons} & Number of buttons \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 395 of file qwt\-\_\-counter.\-cpp.
+
+\hypertarget{class_qwt_counter_ab885e97d0071877dfefb73feb0adc0cd}{\index{Qwt\-Counter@{Qwt\-Counter}!set\-Step@{set\-Step}}
+\index{set\-Step@{set\-Step}!QwtCounter@{Qwt\-Counter}}
+\subsubsection[{set\-Step}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Counter\-::set\-Step (
+\begin{DoxyParamCaption}
+\item[{{\bf double}}]{step\-Size}
+\end{DoxyParamCaption}
+)}}\label{class_qwt_counter_ab885e97d0071877dfefb73feb0adc0cd}
+Set the step size 
+\begin{DoxyParams}{Parameters}
+{\em step\-Size} & Step size \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_double_range_a29ed5fc66439def424a8ad773eea285d}{Qwt\-Double\-Range\-::set\-Step()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 514 of file qwt\-\_\-counter.\-cpp.
+
+\hypertarget{class_qwt_counter_ae56a556a72955b6d10419f2c41779383}{\index{Qwt\-Counter@{Qwt\-Counter}!set\-Step\-Button1@{set\-Step\-Button1}}
+\index{set\-Step\-Button1@{set\-Step\-Button1}!QwtCounter@{Qwt\-Counter}}
+\subsubsection[{set\-Step\-Button1}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Counter\-::set\-Step\-Button1 (
+\begin{DoxyParamCaption}
+\item[{{\bf int}}]{n\-Steps}
+\end{DoxyParamCaption}
+)}}\label{class_qwt_counter_ae56a556a72955b6d10419f2c41779383}
+Set the number of increment steps for button 1 
+\begin{DoxyParams}{Parameters}
+{\em n\-Steps} & Number of steps \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 557 of file qwt\-\_\-counter.\-cpp.
+
+\hypertarget{class_qwt_counter_a0d764a96706593d8c8b51338e92abfcc}{\index{Qwt\-Counter@{Qwt\-Counter}!set\-Step\-Button2@{set\-Step\-Button2}}
+\index{set\-Step\-Button2@{set\-Step\-Button2}!QwtCounter@{Qwt\-Counter}}
+\subsubsection[{set\-Step\-Button2}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Counter\-::set\-Step\-Button2 (
+\begin{DoxyParamCaption}
+\item[{{\bf int}}]{n\-Steps}
+\end{DoxyParamCaption}
+)}}\label{class_qwt_counter_a0d764a96706593d8c8b51338e92abfcc}
+Set the number of increment steps for button 2 
+\begin{DoxyParams}{Parameters}
+{\em n\-Steps} & Number of steps \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 572 of file qwt\-\_\-counter.\-cpp.
+
+\hypertarget{class_qwt_counter_a8b55539578de083793b8310cb8909294}{\index{Qwt\-Counter@{Qwt\-Counter}!set\-Step\-Button3@{set\-Step\-Button3}}
+\index{set\-Step\-Button3@{set\-Step\-Button3}!QwtCounter@{Qwt\-Counter}}
+\subsubsection[{set\-Step\-Button3}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Counter\-::set\-Step\-Button3 (
+\begin{DoxyParamCaption}
+\item[{{\bf int}}]{n\-Steps}
+\end{DoxyParamCaption}
+)}}\label{class_qwt_counter_a8b55539578de083793b8310cb8909294}
+Set the number of increment steps for button 3 
+\begin{DoxyParams}{Parameters}
+{\em n\-Steps} & Number of steps \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 587 of file qwt\-\_\-counter.\-cpp.
+
+\hypertarget{class_qwt_counter_a429a2e986aa46c1231643df5d4c78970}{\index{Qwt\-Counter@{Qwt\-Counter}!set\-Value@{set\-Value}}
+\index{set\-Value@{set\-Value}!QwtCounter@{Qwt\-Counter}}
+\subsubsection[{set\-Value}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Counter\-::set\-Value (
+\begin{DoxyParamCaption}
+\item[{{\bf double}}]{value}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_qwt_counter_a429a2e986aa46c1231643df5d4c78970}
+
+
+Set a new value. 
+
+Calls \hyperlink{class_qwt_double_range_af6a3aa74c970a2bef29f0c1af99720e8}{Qwt\-Double\-Range\-::set\-Value} and does all visual updates.
+
+
+\begin{DoxyParams}{Parameters}
+{\em value} & New value \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_double_range_af6a3aa74c970a2bef29f0c1af99720e8}{Qwt\-Double\-Range\-::set\-Value()} 
+\end{DoxySeeAlso}
+
+
+Reimplemented from \hyperlink{class_qwt_double_range_af6a3aa74c970a2bef29f0c1af99720e8}{Qwt\-Double\-Range}.
+
+
+
+Definition at line 336 of file qwt\-\_\-counter.\-cpp.
+
+\hypertarget{class_qwt_counter_a9ccdfd602ccd5ecd8595172cd22b2b27}{\index{Qwt\-Counter@{Qwt\-Counter}!size\-Hint@{size\-Hint}}
+\index{size\-Hint@{size\-Hint}!QwtCounter@{Qwt\-Counter}}
+\subsubsection[{size\-Hint}]{\setlength{\rightskip}{0pt plus 5cm}Q\-Size Qwt\-Counter\-::size\-Hint (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_qwt_counter_a9ccdfd602ccd5ecd8595172cd22b2b27}
+
+
+A size hint. 
+
+
+
+Definition at line 471 of file qwt\-\_\-counter.\-cpp.
+
+\hypertarget{class_qwt_counter_ab3496bdd6bdb093462bca588880d8c1b}{\index{Qwt\-Counter@{Qwt\-Counter}!step@{step}}
+\index{step@{step}!QwtCounter@{Qwt\-Counter}}
+\subsubsection[{step}]{\setlength{\rightskip}{0pt plus 5cm}{\bf double} Qwt\-Counter\-::step (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_qwt_counter_ab3496bdd6bdb093462bca588880d8c1b}
+
+
+returns the step size 
+
+
+
+Definition at line 504 of file qwt\-\_\-counter.\-cpp.
+
+\hypertarget{class_qwt_counter_a8e0b28f111c45b3a2241fd8889bc8bce}{\index{Qwt\-Counter@{Qwt\-Counter}!step\-Button1@{step\-Button1}}
+\index{step\-Button1@{step\-Button1}!QwtCounter@{Qwt\-Counter}}
+\subsubsection[{step\-Button1}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int} Qwt\-Counter\-::step\-Button1 (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_qwt_counter_a8e0b28f111c45b3a2241fd8889bc8bce}
+\hypertarget{class_qwt_counter_a7d99de95e1c05e4994413e6d8cd641fe}{\index{Qwt\-Counter@{Qwt\-Counter}!step\-Button2@{step\-Button2}}
+\index{step\-Button2@{step\-Button2}!QwtCounter@{Qwt\-Counter}}
+\subsubsection[{step\-Button2}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int} Qwt\-Counter\-::step\-Button2 (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_qwt_counter_a7d99de95e1c05e4994413e6d8cd641fe}
+\hypertarget{class_qwt_counter_abc6eb2073cc7d7b5f1d7e4c6c7b205c9}{\index{Qwt\-Counter@{Qwt\-Counter}!step\-Button3@{step\-Button3}}
+\index{step\-Button3@{step\-Button3}!QwtCounter@{Qwt\-Counter}}
+\subsubsection[{step\-Button3}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int} Qwt\-Counter\-::step\-Button3 (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_qwt_counter_abc6eb2073cc7d7b5f1d7e4c6c7b205c9}
+\hypertarget{class_qwt_counter_aa40eebb77b2401d0a3fc4558befaebb8}{\index{Qwt\-Counter@{Qwt\-Counter}!value@{value}}
+\index{value@{value}!QwtCounter@{Qwt\-Counter}}
+\subsubsection[{value}]{\setlength{\rightskip}{0pt plus 5cm}virtual {\bf double} Qwt\-Counter\-::value (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_qwt_counter_aa40eebb77b2401d0a3fc4558befaebb8}
+\hypertarget{class_qwt_counter_add02928c348417fbfadd7095d058f331}{\index{Qwt\-Counter@{Qwt\-Counter}!value\-Changed@{value\-Changed}}
+\index{value\-Changed@{value\-Changed}!QwtCounter@{Qwt\-Counter}}
+\subsubsection[{value\-Changed}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Counter\-::value\-Changed (
+\begin{DoxyParamCaption}
+\item[{{\bf double}}]{value}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [signal]}}}\label{class_qwt_counter_add02928c348417fbfadd7095d058f331}
+This signal is emitted when the counter's value has changed 
+\begin{DoxyParams}{Parameters}
+{\em value} & The new value \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_qwt_counter_acdada1ba1d5873b9c8b3f75d63b4685a}{\index{Qwt\-Counter@{Qwt\-Counter}!wheel\-Event@{wheel\-Event}}
+\index{wheel\-Event@{wheel\-Event}!QwtCounter@{Qwt\-Counter}}
+\subsubsection[{wheel\-Event}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Counter\-::wheel\-Event (
+\begin{DoxyParamCaption}
+\item[{Q\-Wheel\-Event $\ast$}]{event}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}}\label{class_qwt_counter_acdada1ba1d5873b9c8b3f75d63b4685a}
+Handle wheel events 
+\begin{DoxyParams}{Parameters}
+{\em event} & Wheel event \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 259 of file qwt\-\_\-counter.\-cpp.
+
+
+
+\subsection{Property Documentation}
+\hypertarget{class_qwt_counter_a810180900cea7cd2fec2918051852505}{\index{Qwt\-Counter@{Qwt\-Counter}!basicstep@{basicstep}}
+\index{basicstep@{basicstep}!QwtCounter@{Qwt\-Counter}}
+\subsubsection[{basicstep}]{\setlength{\rightskip}{0pt plus 5cm}{\bf double} Qwt\-Counter\-::basicstep\hspace{0.3cm}{\ttfamily [read]}, {\ttfamily [write]}}}\label{class_qwt_counter_a810180900cea7cd2fec2918051852505}
+
+
+Definition at line 63 of file qwt\-\_\-counter.\-h.
+
+\hypertarget{class_qwt_counter_a3fb541ce259dceef47e927cc697f739c}{\index{Qwt\-Counter@{Qwt\-Counter}!editable@{editable}}
+\index{editable@{editable}!QwtCounter@{Qwt\-Counter}}
+\subsubsection[{editable}]{\setlength{\rightskip}{0pt plus 5cm}bool Qwt\-Counter\-::editable\hspace{0.3cm}{\ttfamily [read]}, {\ttfamily [write]}}}\label{class_qwt_counter_a3fb541ce259dceef47e927cc697f739c}
+
+
+returns whether the line edit is edatble. (default is yes) 
+
+
+
+Definition at line 70 of file qwt\-\_\-counter.\-h.
+
+\hypertarget{class_qwt_counter_a5011e951134590d174a824385e5fb2ae}{\index{Qwt\-Counter@{Qwt\-Counter}!max\-Value@{max\-Value}}
+\index{max\-Value@{max\-Value}!QwtCounter@{Qwt\-Counter}}
+\subsubsection[{max\-Value}]{\setlength{\rightskip}{0pt plus 5cm}{\bf double} Qwt\-Counter\-::max\-Value\hspace{0.3cm}{\ttfamily [read]}, {\ttfamily [write]}}}\label{class_qwt_counter_a5011e951134590d174a824385e5fb2ae}
+
+
+returns the maximum value of the range 
+
+
+
+Definition at line 65 of file qwt\-\_\-counter.\-h.
+
+\hypertarget{class_qwt_counter_a7db2ffbdab4216c83f95fb41c89e8c53}{\index{Qwt\-Counter@{Qwt\-Counter}!min\-Value@{min\-Value}}
+\index{min\-Value@{min\-Value}!QwtCounter@{Qwt\-Counter}}
+\subsubsection[{min\-Value}]{\setlength{\rightskip}{0pt plus 5cm}{\bf double} Qwt\-Counter\-::min\-Value\hspace{0.3cm}{\ttfamily [read]}, {\ttfamily [write]}}}\label{class_qwt_counter_a7db2ffbdab4216c83f95fb41c89e8c53}
+
+
+returns the minimum value of the range 
+
+
+
+Definition at line 64 of file qwt\-\_\-counter.\-h.
+
+\hypertarget{class_qwt_counter_a6a07ff0c9612ae4fb8a4acbb4466c0b6}{\index{Qwt\-Counter@{Qwt\-Counter}!num\-Buttons@{num\-Buttons}}
+\index{num\-Buttons@{num\-Buttons}!QwtCounter@{Qwt\-Counter}}
+\subsubsection[{num\-Buttons}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int} Qwt\-Counter\-::num\-Buttons\hspace{0.3cm}{\ttfamily [read]}, {\ttfamily [write]}}}\label{class_qwt_counter_a6a07ff0c9612ae4fb8a4acbb4466c0b6}
+\begin{DoxyReturn}{Returns}
+The number of buttons on each side of the widget. 
+\end{DoxyReturn}
+
+
+Definition at line 62 of file qwt\-\_\-counter.\-h.
+
+\hypertarget{class_qwt_counter_a4cee5a93ef787068ed5b63bcb55167f6}{\index{Qwt\-Counter@{Qwt\-Counter}!step\-Button1@{step\-Button1}}
+\index{step\-Button1@{step\-Button1}!QwtCounter@{Qwt\-Counter}}
+\subsubsection[{step\-Button1}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int} Qwt\-Counter\-::step\-Button1\hspace{0.3cm}{\ttfamily [read]}, {\ttfamily [write]}}}\label{class_qwt_counter_a4cee5a93ef787068ed5b63bcb55167f6}
+
+
+returns the number of increment steps for button 1 
+
+
+
+Definition at line 66 of file qwt\-\_\-counter.\-h.
+
+\hypertarget{class_qwt_counter_a3bf49238a71fc0edd6d7259a902997a5}{\index{Qwt\-Counter@{Qwt\-Counter}!step\-Button2@{step\-Button2}}
+\index{step\-Button2@{step\-Button2}!QwtCounter@{Qwt\-Counter}}
+\subsubsection[{step\-Button2}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int} Qwt\-Counter\-::step\-Button2\hspace{0.3cm}{\ttfamily [read]}, {\ttfamily [write]}}}\label{class_qwt_counter_a3bf49238a71fc0edd6d7259a902997a5}
+
+
+returns the number of increment steps for button 2 
+
+
+
+Definition at line 67 of file qwt\-\_\-counter.\-h.
+
+\hypertarget{class_qwt_counter_ae484def1d66d3fb1c720e4ee4a67c512}{\index{Qwt\-Counter@{Qwt\-Counter}!step\-Button3@{step\-Button3}}
+\index{step\-Button3@{step\-Button3}!QwtCounter@{Qwt\-Counter}}
+\subsubsection[{step\-Button3}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int} Qwt\-Counter\-::step\-Button3\hspace{0.3cm}{\ttfamily [read]}, {\ttfamily [write]}}}\label{class_qwt_counter_ae484def1d66d3fb1c720e4ee4a67c512}
+
+
+returns the number of increment steps for button 3 
+
+
+
+Definition at line 68 of file qwt\-\_\-counter.\-h.
+
+\hypertarget{class_qwt_counter_a6f98bf5e2110835ce0c00425e682b7e2}{\index{Qwt\-Counter@{Qwt\-Counter}!value@{value}}
+\index{value@{value}!QwtCounter@{Qwt\-Counter}}
+\subsubsection[{value}]{\setlength{\rightskip}{0pt plus 5cm}{\bf double} Qwt\-Counter\-::value\hspace{0.3cm}{\ttfamily [read]}, {\ttfamily [write]}}}\label{class_qwt_counter_a6f98bf5e2110835ce0c00425e682b7e2}
+\begin{DoxyReturn}{Returns}
+Current value 
+\end{DoxyReturn}
+
+
+Definition at line 69 of file qwt\-\_\-counter.\-h.
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/qwt/src/\hyperlink{qwt__counter_8h}{qwt\-\_\-counter.\-h}\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/qwt/src/\hyperlink{qwt__counter_8cpp}{qwt\-\_\-counter.\-cpp}\end{DoxyCompactItemize}

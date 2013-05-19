@@ -1,0 +1,148 @@
+\hypertarget{class_qxt_bdb_tree}{\section{Qxt\-Bdb\-Tree$<$ T $>$ Class Template Reference}
+\label{class_qxt_bdb_tree}\index{Qxt\-Bdb\-Tree$<$ T $>$@{Qxt\-Bdb\-Tree$<$ T $>$}}
+}
+
+
+The \hyperlink{class_qxt_bdb_tree}{Qxt\-Bdb\-Tree} class is a template berkeley container for tree structured data.  
+
+
+
+
+{\ttfamily \#include $<$qxtbdbtree.\-h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_qxt_bdb_tree_ac86018b8b97de88bced48a12d6bde24c}{Qxt\-Bdb\-Tree} ()
+\item 
+\hyperlink{class_qxt_bdb_tree_a4a0039e33300d73e7fa11da3f6bb0f09}{Qxt\-Bdb\-Tree} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{Q\-String} \hyperlink{uavobjecttemplate_8m_a97c04efa65bcf0928abf9260bc5cbf46}{file})
+\item 
+bool \hyperlink{class_qxt_bdb_tree_a32daaad953219b5bf3c5620711e7159b}{open} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{Q\-String} \hyperlink{uavobjecttemplate_8m_a97c04efa65bcf0928abf9260bc5cbf46}{file})
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qxt_bdb_tree_a3620f72f72e43f13b21944ddbc498ace}{clear} ()
+\item 
+bool \hyperlink{class_qxt_bdb_tree_aba88a7a64f5923fdf03b889c3b7087c2}{flush} ()
+\item 
+\hyperlink{class_qxt_bdb_tree_iterator}{Qxt\-Bdb\-Tree\-Iterator}$<$ T $>$ \hyperlink{class_qxt_bdb_tree_a2fa944b6d32264d0a90c58574bad4d4f}{root} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qxt_bdb_tree_ae83610a22960b12db697062d4871d5b7}{dump\-Tree} () const 
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$class T$>$class Qxt\-Bdb\-Tree$<$ T $>$}
+
+The \hyperlink{class_qxt_bdb_tree}{Qxt\-Bdb\-Tree} class is a template berkeley container for tree structured data. 
+
+Qxt\-Berkeley The template argument must be registered with the Qt meta system. You may not touch the file while a \hyperlink{class_qxt_bdb_tree}{Qxt\-Bdb\-Tree} instance is running on it.
+
+Example usage\-: 
+\begin{DoxyCode}
+\hyperlink{class_qxt_bdb_tree}{QxtBdbTree<QString>} db(\textcolor{stringliteral}{"test.db"});
+db.root().append(\textcolor{stringliteral}{"fooooo"}).append(\textcolor{stringliteral}{"bla"});
+db.dumpTree(); \textcolor{comment}{//try this if you are unsure, how the data will look like}
+\end{DoxyCode}
+
+
+There is an extensive example in /examples/berkeley/xmlstorage
+
+All functions of this class are thread safe. Calling \hyperlink{class_qxt_bdb_tree_a32daaad953219b5bf3c5620711e7159b}{open()} multiple times is undefined. An iterator may only be used from one thread at once, but you can have multiple iterators.
+
+T\-O\-D\-O\-: \{implicitshared\} \begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qxt_bdb_tree_iterator}{Qxt\-Bdb\-Tree\-Iterator} 
+\end{DoxySeeAlso}
+
+
+Definition at line 40 of file qxtbdbtree.\-h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_qxt_bdb_tree_ac86018b8b97de88bced48a12d6bde24c}{\index{Qxt\-Bdb\-Tree@{Qxt\-Bdb\-Tree}!Qxt\-Bdb\-Tree@{Qxt\-Bdb\-Tree}}
+\index{Qxt\-Bdb\-Tree@{Qxt\-Bdb\-Tree}!QxtBdbTree@{Qxt\-Bdb\-Tree}}
+\subsubsection[{Qxt\-Bdb\-Tree}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class T $>$ {\bf Qxt\-Bdb\-Tree}$<$ T $>$\-::{\bf Qxt\-Bdb\-Tree} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_qxt_bdb_tree_ac86018b8b97de88bced48a12d6bde24c}
+Constructs an invalid \hyperlink{class_qxt_bdb_tree}{Qxt\-Bdb\-Tree} 
+
+Definition at line 65 of file qxtbdbtree.\-h.
+
+\hypertarget{class_qxt_bdb_tree_a4a0039e33300d73e7fa11da3f6bb0f09}{\index{Qxt\-Bdb\-Tree@{Qxt\-Bdb\-Tree}!Qxt\-Bdb\-Tree@{Qxt\-Bdb\-Tree}}
+\index{Qxt\-Bdb\-Tree@{Qxt\-Bdb\-Tree}!QxtBdbTree@{Qxt\-Bdb\-Tree}}
+\subsubsection[{Qxt\-Bdb\-Tree}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class T $>$ {\bf Qxt\-Bdb\-Tree}$<$ T $>$\-::{\bf Qxt\-Bdb\-Tree} (
+\begin{DoxyParamCaption}
+\item[{{\bf Q\-String}}]{file}
+\end{DoxyParamCaption}
+)}}\label{class_qxt_bdb_tree_a4a0039e33300d73e7fa11da3f6bb0f09}
+Constructs a \hyperlink{class_qxt_bdb_tree}{Qxt\-Bdb\-Tree}, and opens the {\itshape file} specified as its database. 
+
+Definition at line 72 of file qxtbdbtree.\-h.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_qxt_bdb_tree_a3620f72f72e43f13b21944ddbc498ace}{\index{Qxt\-Bdb\-Tree@{Qxt\-Bdb\-Tree}!clear@{clear}}
+\index{clear@{clear}!QxtBdbTree@{Qxt\-Bdb\-Tree}}
+\subsubsection[{clear}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class T $>$ {\bf void} {\bf Qxt\-Bdb\-Tree}$<$ T $>$\-::clear (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+)}}\label{class_qxt_bdb_tree_a3620f72f72e43f13b21944ddbc498ace}
+Erase all records. This does not delete the underlying file. 
+
+Definition at line 93 of file qxtbdbtree.\-h.
+
+\hypertarget{class_qxt_bdb_tree_ae83610a22960b12db697062d4871d5b7}{\index{Qxt\-Bdb\-Tree@{Qxt\-Bdb\-Tree}!dump\-Tree@{dump\-Tree}}
+\index{dump\-Tree@{dump\-Tree}!QxtBdbTree@{Qxt\-Bdb\-Tree}}
+\subsubsection[{dump\-Tree}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class T $>$ {\bf void} {\bf Qxt\-Bdb\-Tree}$<$ T $>$\-::dump\-Tree (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_qxt_bdb_tree_ae83610a22960b12db697062d4871d5b7}
+Outputs the contents of the database as flat file, and as iterateable tree onto q\-Debug(). This function assumes, the class used for template initialisation implements the Q\-Debug$<$$<$ operator 
+
+Definition at line 152 of file qxtbdbtree.\-h.
+
+\hypertarget{class_qxt_bdb_tree_aba88a7a64f5923fdf03b889c3b7087c2}{\index{Qxt\-Bdb\-Tree@{Qxt\-Bdb\-Tree}!flush@{flush}}
+\index{flush@{flush}!QxtBdbTree@{Qxt\-Bdb\-Tree}}
+\subsubsection[{flush}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class T $>$ bool {\bf Qxt\-Bdb\-Tree}$<$ T $>$\-::flush (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_qxt_bdb_tree_aba88a7a64f5923fdf03b889c3b7087c2}
+Flushes the underlying D\-B file. All changes are synced to disk. 
+
+Definition at line 103 of file qxtbdbtree.\-h.
+
+\hypertarget{class_qxt_bdb_tree_a32daaad953219b5bf3c5620711e7159b}{\index{Qxt\-Bdb\-Tree@{Qxt\-Bdb\-Tree}!open@{open}}
+\index{open@{open}!QxtBdbTree@{Qxt\-Bdb\-Tree}}
+\subsubsection[{open}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class T $>$ bool {\bf Qxt\-Bdb\-Tree}$<$ T $>$\-::open (
+\begin{DoxyParamCaption}
+\item[{{\bf Q\-String}}]{file}
+\end{DoxyParamCaption}
+)}}\label{class_qxt_bdb_tree_a32daaad953219b5bf3c5620711e7159b}
+Opens the specified {\itshape file}.
+
+Returns {\ttfamily true} on success and {\ttfamily false} on failure.  \{Note\-:\} a sanity check is performed before opening the file. 
+
+Definition at line 81 of file qxtbdbtree.\-h.
+
+\hypertarget{class_qxt_bdb_tree_a2fa944b6d32264d0a90c58574bad4d4f}{\index{Qxt\-Bdb\-Tree@{Qxt\-Bdb\-Tree}!root@{root}}
+\index{root@{root}!QxtBdbTree@{Qxt\-Bdb\-Tree}}
+\subsubsection[{root}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class T $>$ {\bf Qxt\-Bdb\-Tree\-Iterator}$<$ T $>$ {\bf Qxt\-Bdb\-Tree}$<$ T $>$\-::root (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_qxt_bdb_tree_a2fa944b6d32264d0a90c58574bad4d4f}
+Returns the rootnode, which is, similar to Q\-Abstract\-Item\-Model, invalid and has no data itself. 
+
+Definition at line 110 of file qxtbdbtree.\-h.
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/libqxt/src/berkeley/\hyperlink{qxtbdbtree_8h}{qxtbdbtree.\-h}\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/libqxt/src/berkeley/\hyperlink{qxtbdbtree_8cpp}{qxtbdbtree.\-cpp}\end{DoxyCompactItemize}

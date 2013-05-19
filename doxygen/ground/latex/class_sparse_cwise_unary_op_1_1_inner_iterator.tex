@@ -1,0 +1,152 @@
+\hypertarget{class_sparse_cwise_unary_op_1_1_inner_iterator}{\section{Sparse\-Cwise\-Unary\-Op$<$ Unary\-Op, Matrix\-Type $>$\-:\-:Inner\-Iterator Class Reference}
+\label{class_sparse_cwise_unary_op_1_1_inner_iterator}\index{Sparse\-Cwise\-Unary\-Op$<$ Unary\-Op, Matrix\-Type $>$\-::\-Inner\-Iterator@{Sparse\-Cwise\-Unary\-Op$<$ Unary\-Op, Matrix\-Type $>$\-::\-Inner\-Iterator}}
+}
+
+
+{\ttfamily \#include $<$Sparse\-Cwise\-Unary\-Op.\-h$>$}
+
+Inheritance diagram for Sparse\-Cwise\-Unary\-Op$<$ Unary\-Op, Matrix\-Type $>$\-:\-:Inner\-Iterator\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=0.693928cm]{class_sparse_cwise_unary_op_1_1_inner_iterator}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+E\-I\-G\-E\-N\-\_\-\-S\-T\-R\-O\-N\-G\-\_\-\-I\-N\-L\-I\-N\-E \hyperlink{class_sparse_cwise_unary_op_1_1_inner_iterator_abf783ea55cc59a024ba1e866969c614e}{Inner\-Iterator} (const \hyperlink{class_sparse_cwise_unary_op}{Sparse\-Cwise\-Unary\-Op} \&unary\-Op, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} outer)
+\item 
+E\-I\-G\-E\-N\-\_\-\-S\-T\-R\-O\-N\-G\-\_\-\-I\-N\-L\-I\-N\-E \hyperlink{class_sparse_cwise_unary_op_1_1_inner_iterator}{Inner\-Iterator} \& \hyperlink{class_sparse_cwise_unary_op_1_1_inner_iterator_aa321e62ce9548b3d54a854b4d68b72f0}{operator++} ()
+\item 
+E\-I\-G\-E\-N\-\_\-\-S\-T\-R\-O\-N\-G\-\_\-\-I\-N\-L\-I\-N\-E Scalar \hyperlink{class_sparse_cwise_unary_op_1_1_inner_iterator_a8678b7f952b8b279da1f3b585804e867}{value} () const 
+\item 
+E\-I\-G\-E\-N\-\_\-\-S\-T\-R\-O\-N\-G\-\_\-\-I\-N\-L\-I\-N\-E \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_sparse_cwise_unary_op_1_1_inner_iterator_a45f6bb4aac3ccd10354fe19b3226ab69}{index} () const 
+\item 
+E\-I\-G\-E\-N\-\_\-\-S\-T\-R\-O\-N\-G\-\_\-\-I\-N\-L\-I\-N\-E \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_sparse_cwise_unary_op_1_1_inner_iterator_a761334e7cdb4b2557f001ea68dd13c57}{row} () const 
+\item 
+E\-I\-G\-E\-N\-\_\-\-S\-T\-R\-O\-N\-G\-\_\-\-I\-N\-L\-I\-N\-E \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_sparse_cwise_unary_op_1_1_inner_iterator_aab6391456ade105f913b62b15aa4eb26}{col} () const 
+\item 
+E\-I\-G\-E\-N\-\_\-\-S\-T\-R\-O\-N\-G\-\_\-\-I\-N\-L\-I\-N\-E \hyperlink{class_sparse_cwise_unary_op_1_1_inner_iterator_a940ffd6dac9bf959db5a267aa6878f41}{operator bool} () const 
+\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+Matrix\-Type\-Iterator \hyperlink{class_sparse_cwise_unary_op_1_1_inner_iterator_a0b7ca4bcd6452664c580d1245bf8aa4e}{m\-\_\-iter}
+\item 
+const Unary\-Op \hyperlink{class_sparse_cwise_unary_op_1_1_inner_iterator_a2a24282b74c70983989a7afe4b408a2f}{m\-\_\-functor}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$typename Unary\-Op, typename Matrix\-Type$>$class Sparse\-Cwise\-Unary\-Op$<$ Unary\-Op, Matrix\-Type $>$\-::\-Inner\-Iterator}
+
+
+
+Definition at line 68 of file Sparse\-Cwise\-Unary\-Op.\-h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_sparse_cwise_unary_op_1_1_inner_iterator_abf783ea55cc59a024ba1e866969c614e}{\index{Sparse\-Cwise\-Unary\-Op\-::\-Inner\-Iterator@{Sparse\-Cwise\-Unary\-Op\-::\-Inner\-Iterator}!Inner\-Iterator@{Inner\-Iterator}}
+\index{Inner\-Iterator@{Inner\-Iterator}!SparseCwiseUnaryOp::InnerIterator@{Sparse\-Cwise\-Unary\-Op\-::\-Inner\-Iterator}}
+\subsubsection[{Inner\-Iterator}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Unary\-Op, typename Matrix\-Type$>$ E\-I\-G\-E\-N\-\_\-\-S\-T\-R\-O\-N\-G\-\_\-\-I\-N\-L\-I\-N\-E {\bf Sparse\-Cwise\-Unary\-Op}$<$ Unary\-Op, Matrix\-Type $>$\-::Inner\-Iterator\-::\-Inner\-Iterator (
+\begin{DoxyParamCaption}
+\item[{const {\bf Sparse\-Cwise\-Unary\-Op} \&}]{unary\-Op, }
+\item[{{\bf int}}]{outer}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_sparse_cwise_unary_op_1_1_inner_iterator_abf783ea55cc59a024ba1e866969c614e}
+
+
+Definition at line 75 of file Sparse\-Cwise\-Unary\-Op.\-h.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_sparse_cwise_unary_op_1_1_inner_iterator_aab6391456ade105f913b62b15aa4eb26}{\index{Sparse\-Cwise\-Unary\-Op\-::\-Inner\-Iterator@{Sparse\-Cwise\-Unary\-Op\-::\-Inner\-Iterator}!col@{col}}
+\index{col@{col}!SparseCwiseUnaryOp::InnerIterator@{Sparse\-Cwise\-Unary\-Op\-::\-Inner\-Iterator}}
+\subsubsection[{col}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Unary\-Op, typename Matrix\-Type$>$ E\-I\-G\-E\-N\-\_\-\-S\-T\-R\-O\-N\-G\-\_\-\-I\-N\-L\-I\-N\-E {\bf int} {\bf Sparse\-Cwise\-Unary\-Op}$<$ Unary\-Op, Matrix\-Type $>$\-::Inner\-Iterator\-::col (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_sparse_cwise_unary_op_1_1_inner_iterator_aab6391456ade105f913b62b15aa4eb26}
+
+
+Definition at line 86 of file Sparse\-Cwise\-Unary\-Op.\-h.
+
+\hypertarget{class_sparse_cwise_unary_op_1_1_inner_iterator_a45f6bb4aac3ccd10354fe19b3226ab69}{\index{Sparse\-Cwise\-Unary\-Op\-::\-Inner\-Iterator@{Sparse\-Cwise\-Unary\-Op\-::\-Inner\-Iterator}!index@{index}}
+\index{index@{index}!SparseCwiseUnaryOp::InnerIterator@{Sparse\-Cwise\-Unary\-Op\-::\-Inner\-Iterator}}
+\subsubsection[{index}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Unary\-Op, typename Matrix\-Type$>$ E\-I\-G\-E\-N\-\_\-\-S\-T\-R\-O\-N\-G\-\_\-\-I\-N\-L\-I\-N\-E {\bf int} {\bf Sparse\-Cwise\-Unary\-Op}$<$ Unary\-Op, Matrix\-Type $>$\-::Inner\-Iterator\-::index (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_sparse_cwise_unary_op_1_1_inner_iterator_a45f6bb4aac3ccd10354fe19b3226ab69}
+
+
+Definition at line 84 of file Sparse\-Cwise\-Unary\-Op.\-h.
+
+\hypertarget{class_sparse_cwise_unary_op_1_1_inner_iterator_a940ffd6dac9bf959db5a267aa6878f41}{\index{Sparse\-Cwise\-Unary\-Op\-::\-Inner\-Iterator@{Sparse\-Cwise\-Unary\-Op\-::\-Inner\-Iterator}!operator bool@{operator bool}}
+\index{operator bool@{operator bool}!SparseCwiseUnaryOp::InnerIterator@{Sparse\-Cwise\-Unary\-Op\-::\-Inner\-Iterator}}
+\subsubsection[{operator bool}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Unary\-Op, typename Matrix\-Type$>$ E\-I\-G\-E\-N\-\_\-\-S\-T\-R\-O\-N\-G\-\_\-\-I\-N\-L\-I\-N\-E {\bf Sparse\-Cwise\-Unary\-Op}$<$ Unary\-Op, Matrix\-Type $>$\-::Inner\-Iterator\-::operator bool (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_sparse_cwise_unary_op_1_1_inner_iterator_a940ffd6dac9bf959db5a267aa6878f41}
+
+
+Definition at line 88 of file Sparse\-Cwise\-Unary\-Op.\-h.
+
+\hypertarget{class_sparse_cwise_unary_op_1_1_inner_iterator_aa321e62ce9548b3d54a854b4d68b72f0}{\index{Sparse\-Cwise\-Unary\-Op\-::\-Inner\-Iterator@{Sparse\-Cwise\-Unary\-Op\-::\-Inner\-Iterator}!operator++@{operator++}}
+\index{operator++@{operator++}!SparseCwiseUnaryOp::InnerIterator@{Sparse\-Cwise\-Unary\-Op\-::\-Inner\-Iterator}}
+\subsubsection[{operator++}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Unary\-Op, typename Matrix\-Type$>$ E\-I\-G\-E\-N\-\_\-\-S\-T\-R\-O\-N\-G\-\_\-\-I\-N\-L\-I\-N\-E {\bf Inner\-Iterator}\& {\bf Sparse\-Cwise\-Unary\-Op}$<$ Unary\-Op, Matrix\-Type $>$\-::Inner\-Iterator\-::operator++ (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_sparse_cwise_unary_op_1_1_inner_iterator_aa321e62ce9548b3d54a854b4d68b72f0}
+
+
+Definition at line 79 of file Sparse\-Cwise\-Unary\-Op.\-h.
+
+\hypertarget{class_sparse_cwise_unary_op_1_1_inner_iterator_a761334e7cdb4b2557f001ea68dd13c57}{\index{Sparse\-Cwise\-Unary\-Op\-::\-Inner\-Iterator@{Sparse\-Cwise\-Unary\-Op\-::\-Inner\-Iterator}!row@{row}}
+\index{row@{row}!SparseCwiseUnaryOp::InnerIterator@{Sparse\-Cwise\-Unary\-Op\-::\-Inner\-Iterator}}
+\subsubsection[{row}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Unary\-Op, typename Matrix\-Type$>$ E\-I\-G\-E\-N\-\_\-\-S\-T\-R\-O\-N\-G\-\_\-\-I\-N\-L\-I\-N\-E {\bf int} {\bf Sparse\-Cwise\-Unary\-Op}$<$ Unary\-Op, Matrix\-Type $>$\-::Inner\-Iterator\-::row (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_sparse_cwise_unary_op_1_1_inner_iterator_a761334e7cdb4b2557f001ea68dd13c57}
+
+
+Definition at line 85 of file Sparse\-Cwise\-Unary\-Op.\-h.
+
+\hypertarget{class_sparse_cwise_unary_op_1_1_inner_iterator_a8678b7f952b8b279da1f3b585804e867}{\index{Sparse\-Cwise\-Unary\-Op\-::\-Inner\-Iterator@{Sparse\-Cwise\-Unary\-Op\-::\-Inner\-Iterator}!value@{value}}
+\index{value@{value}!SparseCwiseUnaryOp::InnerIterator@{Sparse\-Cwise\-Unary\-Op\-::\-Inner\-Iterator}}
+\subsubsection[{value}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Unary\-Op, typename Matrix\-Type$>$ E\-I\-G\-E\-N\-\_\-\-S\-T\-R\-O\-N\-G\-\_\-\-I\-N\-L\-I\-N\-E Scalar {\bf Sparse\-Cwise\-Unary\-Op}$<$ Unary\-Op, Matrix\-Type $>$\-::Inner\-Iterator\-::value (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_sparse_cwise_unary_op_1_1_inner_iterator_a8678b7f952b8b279da1f3b585804e867}
+
+
+Definition at line 82 of file Sparse\-Cwise\-Unary\-Op.\-h.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{class_sparse_cwise_unary_op_1_1_inner_iterator_a2a24282b74c70983989a7afe4b408a2f}{\index{Sparse\-Cwise\-Unary\-Op\-::\-Inner\-Iterator@{Sparse\-Cwise\-Unary\-Op\-::\-Inner\-Iterator}!m\-\_\-functor@{m\-\_\-functor}}
+\index{m\-\_\-functor@{m\-\_\-functor}!SparseCwiseUnaryOp::InnerIterator@{Sparse\-Cwise\-Unary\-Op\-::\-Inner\-Iterator}}
+\subsubsection[{m\-\_\-functor}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Unary\-Op, typename Matrix\-Type$>$ const Unary\-Op {\bf Sparse\-Cwise\-Unary\-Op}$<$ Unary\-Op, Matrix\-Type $>$\-::Inner\-Iterator\-::m\-\_\-functor\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_sparse_cwise_unary_op_1_1_inner_iterator_a2a24282b74c70983989a7afe4b408a2f}
+
+
+Definition at line 92 of file Sparse\-Cwise\-Unary\-Op.\-h.
+
+\hypertarget{class_sparse_cwise_unary_op_1_1_inner_iterator_a0b7ca4bcd6452664c580d1245bf8aa4e}{\index{Sparse\-Cwise\-Unary\-Op\-::\-Inner\-Iterator@{Sparse\-Cwise\-Unary\-Op\-::\-Inner\-Iterator}!m\-\_\-iter@{m\-\_\-iter}}
+\index{m\-\_\-iter@{m\-\_\-iter}!SparseCwiseUnaryOp::InnerIterator@{Sparse\-Cwise\-Unary\-Op\-::\-Inner\-Iterator}}
+\subsubsection[{m\-\_\-iter}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Unary\-Op, typename Matrix\-Type$>$ Matrix\-Type\-Iterator {\bf Sparse\-Cwise\-Unary\-Op}$<$ Unary\-Op, Matrix\-Type $>$\-::Inner\-Iterator\-::m\-\_\-iter\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_sparse_cwise_unary_op_1_1_inner_iterator_a0b7ca4bcd6452664c580d1245bf8aa4e}
+
+
+Definition at line 91 of file Sparse\-Cwise\-Unary\-Op.\-h.
+
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/eigen/\-Eigen/src/\-Sparse/\hyperlink{_sparse_cwise_unary_op_8h}{Sparse\-Cwise\-Unary\-Op.\-h}\end{DoxyCompactItemize}

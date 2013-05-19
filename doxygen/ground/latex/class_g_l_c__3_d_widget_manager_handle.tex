@@ -1,0 +1,491 @@
+\hypertarget{class_g_l_c__3_d_widget_manager_handle}{\section{G\-L\-C\-\_\-3\-D\-Widget\-Manager\-Handle Class Reference}
+\label{class_g_l_c__3_d_widget_manager_handle}\index{G\-L\-C\-\_\-3\-D\-Widget\-Manager\-Handle@{G\-L\-C\-\_\-3\-D\-Widget\-Manager\-Handle}}
+}
+
+
+{\ttfamily \#include $<$glc\-\_\-3dwidgetmanagerhandle.\-h$>$}
+
+\subsection*{Public Member Functions}
+\begin{Indent}{\bf Constructor / Destructor}\par
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_g_l_c__3_d_widget_manager_handle_ac4d29b191d7339c91ed0774c851447e7}{G\-L\-C\-\_\-3\-D\-Widget\-Manager\-Handle} (\hyperlink{class_g_l_c___viewport}{G\-L\-C\-\_\-\-Viewport} $\ast$p\-Viewport)
+\begin{DoxyCompactList}\small\item\em Construct a 3\-D widget manager attached to the given viewport. \end{DoxyCompactList}\item 
+\hyperlink{class_g_l_c__3_d_widget_manager_handle_ab77edd658cbab7cbcd9ae248b3bf9c1a}{$\sim$\-G\-L\-C\-\_\-3\-D\-Widget\-Manager\-Handle} ()
+\begin{DoxyCompactList}\small\item\em Destructor. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\end{Indent}
+\begin{Indent}{\bf Get Functions}\par
+\begin{DoxyCompactItemize}
+\item 
+bool \hyperlink{class_g_l_c__3_d_widget_manager_handle_a58a7d517830d0e7867b7974b0322ec40}{is\-Orphan} () const 
+\begin{DoxyCompactList}\small\item\em Return true if there is only one widget manager associated to this handle. \end{DoxyCompactList}\item 
+\hyperlink{class_g_l_c__3_d_view_instance}{G\-L\-C\-\_\-3\-D\-View\-Instance} $\ast$ \hyperlink{class_g_l_c__3_d_widget_manager_handle_ac8b495e4c3b14e4aa7c726c6d639fd9c}{instance\-Handle} (\hyperlink{glc__global_8h_abf950976fabed69026558df8e2da6c6b}{G\-L\-C\-\_\-uint} \hyperlink{glext_8h_a58c2a664503e14ffb8f21012aabff3e9}{id})
+\begin{DoxyCompactList}\small\item\em Return the 3\-D\-View instance of the given id. \end{DoxyCompactList}\item 
+bool \hyperlink{class_g_l_c__3_d_widget_manager_handle_a75db6f8a89f9f6ee74f88274a7a46f99}{has\-An\-Active\-Widget} () const 
+\begin{DoxyCompactList}\small\item\em Return true if this 3\-D\-Widget manager has active widget. \end{DoxyCompactList}\item 
+const \hyperlink{class_g_l_c___camera}{G\-L\-C\-\_\-\-Camera} $\ast$ \hyperlink{class_g_l_c__3_d_widget_manager_handle_a65ca53e42cb4b2e07fd78f5bbbc9bd68}{camera\-Handle} () const 
+\begin{DoxyCompactList}\small\item\em Return an handle to the camera of the viewport of this manager. \end{DoxyCompactList}\item 
+\hyperlink{class_g_l_c___bounding_box}{G\-L\-C\-\_\-\-Bounding\-Box} \hyperlink{class_g_l_c__3_d_widget_manager_handle_a2af890c0e1179eff5dd690f7a7e901e5}{bounding\-Box} ()
+\begin{DoxyCompactList}\small\item\em Return the bounding\-Box of 3dwidget. \end{DoxyCompactList}\item 
+bool \hyperlink{class_g_l_c__3_d_widget_manager_handle_ae1fa285870498ddda8265afdd817a9c7}{use\-Ortho} () const 
+\begin{DoxyCompactList}\small\item\em Return true if the viewport use orthographic projection. \end{DoxyCompactList}\item 
+\hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} \hyperlink{class_g_l_c__3_d_widget_manager_handle_ada89c6b38170f221213de87038caa37b}{viewport\-Tangent} () const 
+\begin{DoxyCompactList}\small\item\em Return the tangent value of the viewport. \end{DoxyCompactList}\item 
+\hyperlink{class_g_l_c___viewport}{G\-L\-C\-\_\-\-Viewport} $\ast$ \hyperlink{class_g_l_c__3_d_widget_manager_handle_ab108d25ffbbef194ca8a642b93fe817c}{viewport} () const 
+\begin{DoxyCompactList}\small\item\em Return the viewport of this manager. \end{DoxyCompactList}\item 
+bool \hyperlink{class_g_l_c__3_d_widget_manager_handle_af2986da5dbc2b41cdcc108b303873ae2}{contains3\-D\-Widget} (\hyperlink{glc__global_8h_abf950976fabed69026558df8e2da6c6b}{G\-L\-C\-\_\-uint} \hyperlink{glext_8h_a58c2a664503e14ffb8f21012aabff3e9}{id}) const 
+\begin{DoxyCompactList}\small\item\em Return true if this manager contains the given widget id. \end{DoxyCompactList}\item 
+\hyperlink{class_g_l_c__3_d_widget}{G\-L\-C\-\_\-3\-D\-Widget} $\ast$ \hyperlink{class_g_l_c__3_d_widget_manager_handle_a250a83acbace68f8cdf742a8a2563925}{widget} (\hyperlink{glc__global_8h_abf950976fabed69026558df8e2da6c6b}{G\-L\-C\-\_\-uint} \hyperlink{glext_8h_a58c2a664503e14ffb8f21012aabff3e9}{id}) const 
+\begin{DoxyCompactList}\small\item\em Return the 3\-D\-Widget of the given widget id. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\end{Indent}
+\begin{Indent}{\bf Set Functions}\par
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c__3_d_widget_manager_handle_a3b1de294611f93bfe502007f92c9e55a}{increment} ()
+\begin{DoxyCompactList}\small\item\em Increment the number of world. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c__3_d_widget_manager_handle_adb039f84118cb399a581e94c86a164f6}{decrement} ()
+\begin{DoxyCompactList}\small\item\em Decrement the number of world. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c__3_d_widget_manager_handle_a235ee2dac1cbe62f37e37db2e4af9c82}{add3\-D\-Widget} (\hyperlink{class_g_l_c__3_d_widget}{G\-L\-C\-\_\-3\-D\-Widget} $\ast$p3\-D\-Widget)
+\begin{DoxyCompactList}\small\item\em Add the given 3\-D widget into this manager. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c__3_d_widget_manager_handle_a71ec9590a76136e7dbccbf8b688ede49}{remove3\-D\-Widget} (\hyperlink{glc__global_8h_abf950976fabed69026558df8e2da6c6b}{G\-L\-C\-\_\-uint} \hyperlink{glext_8h_a58c2a664503e14ffb8f21012aabff3e9}{id})
+\begin{DoxyCompactList}\small\item\em Remove the 3\-D widget with the given id from this manager. \end{DoxyCompactList}\item 
+\hyperlink{class_g_l_c__3_d_widget}{G\-L\-C\-\_\-3\-D\-Widget} $\ast$ \hyperlink{class_g_l_c__3_d_widget_manager_handle_a064b01863f76f188ef6dcf7f0ac83a4d}{take} (\hyperlink{glc__global_8h_abf950976fabed69026558df8e2da6c6b}{G\-L\-C\-\_\-uint} \hyperlink{glext_8h_a58c2a664503e14ffb8f21012aabff3e9}{id})
+\begin{DoxyCompactList}\small\item\em Take the 3\-D widget with the given id from this manager. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c__3_d_widget_manager_handle_a1f2859f01eb258b95f354214c64b8e7d}{add3\-D\-View\-Instance} (const \hyperlink{class_g_l_c__3_d_view_instance}{G\-L\-C\-\_\-3\-D\-View\-Instance} \&instance, \hyperlink{glc__global_8h_abf950976fabed69026558df8e2da6c6b}{G\-L\-C\-\_\-uint} widget\-Id)
+\begin{DoxyCompactList}\small\item\em Add the given 3\-D view instance link to the given 3\-D widget into this manager. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c__3_d_widget_manager_handle_ac26759b7d2ee545547b58db7c8dc1325}{remove3\-D\-View\-Instance} (\hyperlink{glc__global_8h_abf950976fabed69026558df8e2da6c6b}{G\-L\-C\-\_\-uint} \hyperlink{glext_8h_a58c2a664503e14ffb8f21012aabff3e9}{id})
+\begin{DoxyCompactList}\small\item\em Remove the 3\-D view instance with the given id from this manager collection. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c__3_d_widget_manager_handle_aaac9f06e711f2d6b2721f01802802b28}{clear} ()
+\begin{DoxyCompactList}\small\item\em Remove all 3\-D view instance from this manager. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c__3_d_widget_manager_handle_a4331489f0b38438519608dbfcd272e68}{set\-Widget\-Visible} (\hyperlink{glc__global_8h_abf950976fabed69026558df8e2da6c6b}{G\-L\-C\-\_\-uint} \hyperlink{glext_8h_a58c2a664503e14ffb8f21012aabff3e9}{id}, bool visible)
+\begin{DoxyCompactList}\small\item\em Set the visibility of the given 3\-D widget id. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\end{Indent}
+\begin{Indent}{\bf Interaction Functions}\par
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{namespaceglc_a7a4a1e3955352aeb2d018746fbe626d5}{glc\-::\-Widget\-Event\-Flag} \hyperlink{class_g_l_c__3_d_widget_manager_handle_ae3d33e8b17b10825f13b3510f8f50b4c}{mouse\-Double\-Click\-Event} (Q\-Mouse\-Event $\ast$p\-Event)
+\begin{DoxyCompactList}\small\item\em Recieve Mouse double click event with the given instance id Return true if the event is catch. \end{DoxyCompactList}\item 
+\hyperlink{namespaceglc_a7a4a1e3955352aeb2d018746fbe626d5}{glc\-::\-Widget\-Event\-Flag} \hyperlink{class_g_l_c__3_d_widget_manager_handle_a64f2cd9c781c5eac1041dd9e8e560446}{mouse\-Move\-Event} (Q\-Mouse\-Event $\ast$p\-Event)
+\begin{DoxyCompactList}\small\item\em Recieve Mouse move event with the given instance id Return true if the event is catch. \end{DoxyCompactList}\item 
+\hyperlink{namespaceglc_a7a4a1e3955352aeb2d018746fbe626d5}{glc\-::\-Widget\-Event\-Flag} \hyperlink{class_g_l_c__3_d_widget_manager_handle_ae6c4d4dd35b14718a86beccd770e646d}{mouse\-Press\-Event} (Q\-Mouse\-Event $\ast$p\-Event)
+\begin{DoxyCompactList}\small\item\em Recieve Mouse press event with the given instance id Return true if the event is catch. \end{DoxyCompactList}\item 
+\hyperlink{namespaceglc_a7a4a1e3955352aeb2d018746fbe626d5}{glc\-::\-Widget\-Event\-Flag} \hyperlink{class_g_l_c__3_d_widget_manager_handle_a230d0ef8f7ade31c7063491476fa2c5a}{mouse\-Release\-Event} (Q\-Mouse\-Event $\ast$p\-Event)
+\begin{DoxyCompactList}\small\item\em Recieve Mouse release event with the given instance id Return true if the event is catch. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\end{Indent}
+\begin{Indent}{\bf Open\-G\-L Functions}\par
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c__3_d_widget_manager_handle_a496db7147214c8737d4e42cb3ac9ba17}{render} ()
+\begin{DoxyCompactList}\small\item\em Render the 3\-D\-Widget of this manager. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\end{Indent}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 34 of file glc\-\_\-3dwidgetmanagerhandle.\-h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_g_l_c__3_d_widget_manager_handle_ac4d29b191d7339c91ed0774c851447e7}{\index{G\-L\-C\-\_\-3\-D\-Widget\-Manager\-Handle@{G\-L\-C\-\_\-3\-D\-Widget\-Manager\-Handle}!G\-L\-C\-\_\-3\-D\-Widget\-Manager\-Handle@{G\-L\-C\-\_\-3\-D\-Widget\-Manager\-Handle}}
+\index{G\-L\-C\-\_\-3\-D\-Widget\-Manager\-Handle@{G\-L\-C\-\_\-3\-D\-Widget\-Manager\-Handle}!GLC_3DWidgetManagerHandle@{G\-L\-C\-\_\-3\-D\-Widget\-Manager\-Handle}}
+\subsubsection[{G\-L\-C\-\_\-3\-D\-Widget\-Manager\-Handle}]{\setlength{\rightskip}{0pt plus 5cm}G\-L\-C\-\_\-3\-D\-Widget\-Manager\-Handle\-::\-G\-L\-C\-\_\-3\-D\-Widget\-Manager\-Handle (
+\begin{DoxyParamCaption}
+\item[{{\bf G\-L\-C\-\_\-\-Viewport} $\ast$}]{p\-Viewport}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c__3_d_widget_manager_handle_ac4d29b191d7339c91ed0774c851447e7}
+
+
+Construct a 3\-D widget manager attached to the given viewport. 
+
+
+
+Definition at line 31 of file glc\-\_\-3dwidgetmanagerhandle.\-cpp.
+
+\hypertarget{class_g_l_c__3_d_widget_manager_handle_ab77edd658cbab7cbcd9ae248b3bf9c1a}{\index{G\-L\-C\-\_\-3\-D\-Widget\-Manager\-Handle@{G\-L\-C\-\_\-3\-D\-Widget\-Manager\-Handle}!$\sim$\-G\-L\-C\-\_\-3\-D\-Widget\-Manager\-Handle@{$\sim$\-G\-L\-C\-\_\-3\-D\-Widget\-Manager\-Handle}}
+\index{$\sim$\-G\-L\-C\-\_\-3\-D\-Widget\-Manager\-Handle@{$\sim$\-G\-L\-C\-\_\-3\-D\-Widget\-Manager\-Handle}!GLC_3DWidgetManagerHandle@{G\-L\-C\-\_\-3\-D\-Widget\-Manager\-Handle}}
+\subsubsection[{$\sim$\-G\-L\-C\-\_\-3\-D\-Widget\-Manager\-Handle}]{\setlength{\rightskip}{0pt plus 5cm}G\-L\-C\-\_\-3\-D\-Widget\-Manager\-Handle\-::$\sim$\-G\-L\-C\-\_\-3\-D\-Widget\-Manager\-Handle (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c__3_d_widget_manager_handle_ab77edd658cbab7cbcd9ae248b3bf9c1a}
+
+
+Destructor. 
+
+
+
+Definition at line 43 of file glc\-\_\-3dwidgetmanagerhandle.\-cpp.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_g_l_c__3_d_widget_manager_handle_a1f2859f01eb258b95f354214c64b8e7d}{\index{G\-L\-C\-\_\-3\-D\-Widget\-Manager\-Handle@{G\-L\-C\-\_\-3\-D\-Widget\-Manager\-Handle}!add3\-D\-View\-Instance@{add3\-D\-View\-Instance}}
+\index{add3\-D\-View\-Instance@{add3\-D\-View\-Instance}!GLC_3DWidgetManagerHandle@{G\-L\-C\-\_\-3\-D\-Widget\-Manager\-Handle}}
+\subsubsection[{add3\-D\-View\-Instance}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-3\-D\-Widget\-Manager\-Handle\-::add3\-D\-View\-Instance (
+\begin{DoxyParamCaption}
+\item[{const {\bf G\-L\-C\-\_\-3\-D\-View\-Instance} \&}]{instance, }
+\item[{{\bf G\-L\-C\-\_\-uint}}]{widget\-Id}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c__3_d_widget_manager_handle_a1f2859f01eb258b95f354214c64b8e7d}
+
+
+Add the given 3\-D view instance link to the given 3\-D widget into this manager. 
+
+
+
+Definition at line 74 of file glc\-\_\-3dwidgetmanagerhandle.\-cpp.
+
+\hypertarget{class_g_l_c__3_d_widget_manager_handle_a235ee2dac1cbe62f37e37db2e4af9c82}{\index{G\-L\-C\-\_\-3\-D\-Widget\-Manager\-Handle@{G\-L\-C\-\_\-3\-D\-Widget\-Manager\-Handle}!add3\-D\-Widget@{add3\-D\-Widget}}
+\index{add3\-D\-Widget@{add3\-D\-Widget}!GLC_3DWidgetManagerHandle@{G\-L\-C\-\_\-3\-D\-Widget\-Manager\-Handle}}
+\subsubsection[{add3\-D\-Widget}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-3\-D\-Widget\-Manager\-Handle\-::add3\-D\-Widget (
+\begin{DoxyParamCaption}
+\item[{{\bf G\-L\-C\-\_\-3\-D\-Widget} $\ast$}]{p3\-D\-Widget}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c__3_d_widget_manager_handle_a235ee2dac1cbe62f37e37db2e4af9c82}
+
+
+Add the given 3\-D widget into this manager. 
+
+
+
+Definition at line 53 of file glc\-\_\-3dwidgetmanagerhandle.\-cpp.
+
+\hypertarget{class_g_l_c__3_d_widget_manager_handle_a2af890c0e1179eff5dd690f7a7e901e5}{\index{G\-L\-C\-\_\-3\-D\-Widget\-Manager\-Handle@{G\-L\-C\-\_\-3\-D\-Widget\-Manager\-Handle}!bounding\-Box@{bounding\-Box}}
+\index{bounding\-Box@{bounding\-Box}!GLC_3DWidgetManagerHandle@{G\-L\-C\-\_\-3\-D\-Widget\-Manager\-Handle}}
+\subsubsection[{bounding\-Box}]{\setlength{\rightskip}{0pt plus 5cm}{\bf G\-L\-C\-\_\-\-Bounding\-Box} G\-L\-C\-\_\-3\-D\-Widget\-Manager\-Handle\-::bounding\-Box (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c__3_d_widget_manager_handle_a2af890c0e1179eff5dd690f7a7e901e5}
+
+
+Return the bounding\-Box of 3dwidget. 
+
+
+
+Definition at line 71 of file glc\-\_\-3dwidgetmanagerhandle.\-h.
+
+\hypertarget{class_g_l_c__3_d_widget_manager_handle_a65ca53e42cb4b2e07fd78f5bbbc9bd68}{\index{G\-L\-C\-\_\-3\-D\-Widget\-Manager\-Handle@{G\-L\-C\-\_\-3\-D\-Widget\-Manager\-Handle}!camera\-Handle@{camera\-Handle}}
+\index{camera\-Handle@{camera\-Handle}!GLC_3DWidgetManagerHandle@{G\-L\-C\-\_\-3\-D\-Widget\-Manager\-Handle}}
+\subsubsection[{camera\-Handle}]{\setlength{\rightskip}{0pt plus 5cm}const {\bf G\-L\-C\-\_\-\-Camera}$\ast$ G\-L\-C\-\_\-3\-D\-Widget\-Manager\-Handle\-::camera\-Handle (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c__3_d_widget_manager_handle_a65ca53e42cb4b2e07fd78f5bbbc9bd68}
+
+
+Return an handle to the camera of the viewport of this manager. 
+
+
+
+Definition at line 67 of file glc\-\_\-3dwidgetmanagerhandle.\-h.
+
+\hypertarget{class_g_l_c__3_d_widget_manager_handle_aaac9f06e711f2d6b2721f01802802b28}{\index{G\-L\-C\-\_\-3\-D\-Widget\-Manager\-Handle@{G\-L\-C\-\_\-3\-D\-Widget\-Manager\-Handle}!clear@{clear}}
+\index{clear@{clear}!GLC_3DWidgetManagerHandle@{G\-L\-C\-\_\-3\-D\-Widget\-Manager\-Handle}}
+\subsubsection[{clear}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-3\-D\-Widget\-Manager\-Handle\-::clear (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c__3_d_widget_manager_handle_aaac9f06e711f2d6b2721f01802802b28}
+
+
+Remove all 3\-D view instance from this manager. 
+
+
+
+Definition at line 92 of file glc\-\_\-3dwidgetmanagerhandle.\-cpp.
+
+\hypertarget{class_g_l_c__3_d_widget_manager_handle_af2986da5dbc2b41cdcc108b303873ae2}{\index{G\-L\-C\-\_\-3\-D\-Widget\-Manager\-Handle@{G\-L\-C\-\_\-3\-D\-Widget\-Manager\-Handle}!contains3\-D\-Widget@{contains3\-D\-Widget}}
+\index{contains3\-D\-Widget@{contains3\-D\-Widget}!GLC_3DWidgetManagerHandle@{G\-L\-C\-\_\-3\-D\-Widget\-Manager\-Handle}}
+\subsubsection[{contains3\-D\-Widget}]{\setlength{\rightskip}{0pt plus 5cm}bool G\-L\-C\-\_\-3\-D\-Widget\-Manager\-Handle\-::contains3\-D\-Widget (
+\begin{DoxyParamCaption}
+\item[{{\bf G\-L\-C\-\_\-uint}}]{id}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c__3_d_widget_manager_handle_af2986da5dbc2b41cdcc108b303873ae2}
+
+
+Return true if this manager contains the given widget id. 
+
+
+
+Definition at line 87 of file glc\-\_\-3dwidgetmanagerhandle.\-h.
+
+\hypertarget{class_g_l_c__3_d_widget_manager_handle_adb039f84118cb399a581e94c86a164f6}{\index{G\-L\-C\-\_\-3\-D\-Widget\-Manager\-Handle@{G\-L\-C\-\_\-3\-D\-Widget\-Manager\-Handle}!decrement@{decrement}}
+\index{decrement@{decrement}!GLC_3DWidgetManagerHandle@{G\-L\-C\-\_\-3\-D\-Widget\-Manager\-Handle}}
+\subsubsection[{decrement}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-3\-D\-Widget\-Manager\-Handle\-::decrement (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c__3_d_widget_manager_handle_adb039f84118cb399a581e94c86a164f6}
+
+
+Decrement the number of world. 
+
+
+
+Definition at line 106 of file glc\-\_\-3dwidgetmanagerhandle.\-h.
+
+\hypertarget{class_g_l_c__3_d_widget_manager_handle_a75db6f8a89f9f6ee74f88274a7a46f99}{\index{G\-L\-C\-\_\-3\-D\-Widget\-Manager\-Handle@{G\-L\-C\-\_\-3\-D\-Widget\-Manager\-Handle}!has\-An\-Active\-Widget@{has\-An\-Active\-Widget}}
+\index{has\-An\-Active\-Widget@{has\-An\-Active\-Widget}!GLC_3DWidgetManagerHandle@{G\-L\-C\-\_\-3\-D\-Widget\-Manager\-Handle}}
+\subsubsection[{has\-An\-Active\-Widget}]{\setlength{\rightskip}{0pt plus 5cm}bool G\-L\-C\-\_\-3\-D\-Widget\-Manager\-Handle\-::has\-An\-Active\-Widget (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c__3_d_widget_manager_handle_a75db6f8a89f9f6ee74f88274a7a46f99}
+
+
+Return true if this 3\-D\-Widget manager has active widget. 
+
+
+
+Definition at line 63 of file glc\-\_\-3dwidgetmanagerhandle.\-h.
+
+\hypertarget{class_g_l_c__3_d_widget_manager_handle_a3b1de294611f93bfe502007f92c9e55a}{\index{G\-L\-C\-\_\-3\-D\-Widget\-Manager\-Handle@{G\-L\-C\-\_\-3\-D\-Widget\-Manager\-Handle}!increment@{increment}}
+\index{increment@{increment}!GLC_3DWidgetManagerHandle@{G\-L\-C\-\_\-3\-D\-Widget\-Manager\-Handle}}
+\subsubsection[{increment}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-3\-D\-Widget\-Manager\-Handle\-::increment (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c__3_d_widget_manager_handle_a3b1de294611f93bfe502007f92c9e55a}
+
+
+Increment the number of world. 
+
+
+
+Definition at line 102 of file glc\-\_\-3dwidgetmanagerhandle.\-h.
+
+\hypertarget{class_g_l_c__3_d_widget_manager_handle_ac8b495e4c3b14e4aa7c726c6d639fd9c}{\index{G\-L\-C\-\_\-3\-D\-Widget\-Manager\-Handle@{G\-L\-C\-\_\-3\-D\-Widget\-Manager\-Handle}!instance\-Handle@{instance\-Handle}}
+\index{instance\-Handle@{instance\-Handle}!GLC_3DWidgetManagerHandle@{G\-L\-C\-\_\-3\-D\-Widget\-Manager\-Handle}}
+\subsubsection[{instance\-Handle}]{\setlength{\rightskip}{0pt plus 5cm}{\bf G\-L\-C\-\_\-3\-D\-View\-Instance}$\ast$ G\-L\-C\-\_\-3\-D\-Widget\-Manager\-Handle\-::instance\-Handle (
+\begin{DoxyParamCaption}
+\item[{{\bf G\-L\-C\-\_\-uint}}]{id}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c__3_d_widget_manager_handle_ac8b495e4c3b14e4aa7c726c6d639fd9c}
+
+
+Return the 3\-D\-View instance of the given id. 
+
+
+
+Definition at line 59 of file glc\-\_\-3dwidgetmanagerhandle.\-h.
+
+\hypertarget{class_g_l_c__3_d_widget_manager_handle_a58a7d517830d0e7867b7974b0322ec40}{\index{G\-L\-C\-\_\-3\-D\-Widget\-Manager\-Handle@{G\-L\-C\-\_\-3\-D\-Widget\-Manager\-Handle}!is\-Orphan@{is\-Orphan}}
+\index{is\-Orphan@{is\-Orphan}!GLC_3DWidgetManagerHandle@{G\-L\-C\-\_\-3\-D\-Widget\-Manager\-Handle}}
+\subsubsection[{is\-Orphan}]{\setlength{\rightskip}{0pt plus 5cm}bool G\-L\-C\-\_\-3\-D\-Widget\-Manager\-Handle\-::is\-Orphan (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c__3_d_widget_manager_handle_a58a7d517830d0e7867b7974b0322ec40}
+
+
+Return true if there is only one widget manager associated to this handle. 
+
+
+
+Definition at line 55 of file glc\-\_\-3dwidgetmanagerhandle.\-h.
+
+\hypertarget{class_g_l_c__3_d_widget_manager_handle_ae3d33e8b17b10825f13b3510f8f50b4c}{\index{G\-L\-C\-\_\-3\-D\-Widget\-Manager\-Handle@{G\-L\-C\-\_\-3\-D\-Widget\-Manager\-Handle}!mouse\-Double\-Click\-Event@{mouse\-Double\-Click\-Event}}
+\index{mouse\-Double\-Click\-Event@{mouse\-Double\-Click\-Event}!GLC_3DWidgetManagerHandle@{G\-L\-C\-\_\-3\-D\-Widget\-Manager\-Handle}}
+\subsubsection[{mouse\-Double\-Click\-Event}]{\setlength{\rightskip}{0pt plus 5cm}{\bf glc\-::\-Widget\-Event\-Flag} G\-L\-C\-\_\-3\-D\-Widget\-Manager\-Handle\-::mouse\-Double\-Click\-Event (
+\begin{DoxyParamCaption}
+\item[{Q\-Mouse\-Event $\ast$}]{p\-Event}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c__3_d_widget_manager_handle_ae3d33e8b17b10825f13b3510f8f50b4c}
+
+
+Recieve Mouse double click event with the given instance id Return true if the event is catch. 
+
+
+
+Definition at line 113 of file glc\-\_\-3dwidgetmanagerhandle.\-cpp.
+
+\hypertarget{class_g_l_c__3_d_widget_manager_handle_a64f2cd9c781c5eac1041dd9e8e560446}{\index{G\-L\-C\-\_\-3\-D\-Widget\-Manager\-Handle@{G\-L\-C\-\_\-3\-D\-Widget\-Manager\-Handle}!mouse\-Move\-Event@{mouse\-Move\-Event}}
+\index{mouse\-Move\-Event@{mouse\-Move\-Event}!GLC_3DWidgetManagerHandle@{G\-L\-C\-\_\-3\-D\-Widget\-Manager\-Handle}}
+\subsubsection[{mouse\-Move\-Event}]{\setlength{\rightskip}{0pt plus 5cm}{\bf glc\-::\-Widget\-Event\-Flag} G\-L\-C\-\_\-3\-D\-Widget\-Manager\-Handle\-::mouse\-Move\-Event (
+\begin{DoxyParamCaption}
+\item[{Q\-Mouse\-Event $\ast$}]{p\-Event}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c__3_d_widget_manager_handle_a64f2cd9c781c5eac1041dd9e8e560446}
+
+
+Recieve Mouse move event with the given instance id Return true if the event is catch. 
+
+
+
+Definition at line 123 of file glc\-\_\-3dwidgetmanagerhandle.\-cpp.
+
+\hypertarget{class_g_l_c__3_d_widget_manager_handle_ae6c4d4dd35b14718a86beccd770e646d}{\index{G\-L\-C\-\_\-3\-D\-Widget\-Manager\-Handle@{G\-L\-C\-\_\-3\-D\-Widget\-Manager\-Handle}!mouse\-Press\-Event@{mouse\-Press\-Event}}
+\index{mouse\-Press\-Event@{mouse\-Press\-Event}!GLC_3DWidgetManagerHandle@{G\-L\-C\-\_\-3\-D\-Widget\-Manager\-Handle}}
+\subsubsection[{mouse\-Press\-Event}]{\setlength{\rightskip}{0pt plus 5cm}{\bf glc\-::\-Widget\-Event\-Flag} G\-L\-C\-\_\-3\-D\-Widget\-Manager\-Handle\-::mouse\-Press\-Event (
+\begin{DoxyParamCaption}
+\item[{Q\-Mouse\-Event $\ast$}]{p\-Event}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c__3_d_widget_manager_handle_ae6c4d4dd35b14718a86beccd770e646d}
+
+
+Recieve Mouse press event with the given instance id Return true if the event is catch. 
+
+
+
+Definition at line 163 of file glc\-\_\-3dwidgetmanagerhandle.\-cpp.
+
+\hypertarget{class_g_l_c__3_d_widget_manager_handle_a230d0ef8f7ade31c7063491476fa2c5a}{\index{G\-L\-C\-\_\-3\-D\-Widget\-Manager\-Handle@{G\-L\-C\-\_\-3\-D\-Widget\-Manager\-Handle}!mouse\-Release\-Event@{mouse\-Release\-Event}}
+\index{mouse\-Release\-Event@{mouse\-Release\-Event}!GLC_3DWidgetManagerHandle@{G\-L\-C\-\_\-3\-D\-Widget\-Manager\-Handle}}
+\subsubsection[{mouse\-Release\-Event}]{\setlength{\rightskip}{0pt plus 5cm}{\bf glc\-::\-Widget\-Event\-Flag} G\-L\-C\-\_\-3\-D\-Widget\-Manager\-Handle\-::mouse\-Release\-Event (
+\begin{DoxyParamCaption}
+\item[{Q\-Mouse\-Event $\ast$}]{p\-Event}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c__3_d_widget_manager_handle_a230d0ef8f7ade31c7063491476fa2c5a}
+
+
+Recieve Mouse release event with the given instance id Return true if the event is catch. 
+
+
+
+Definition at line 212 of file glc\-\_\-3dwidgetmanagerhandle.\-cpp.
+
+\hypertarget{class_g_l_c__3_d_widget_manager_handle_ac26759b7d2ee545547b58db7c8dc1325}{\index{G\-L\-C\-\_\-3\-D\-Widget\-Manager\-Handle@{G\-L\-C\-\_\-3\-D\-Widget\-Manager\-Handle}!remove3\-D\-View\-Instance@{remove3\-D\-View\-Instance}}
+\index{remove3\-D\-View\-Instance@{remove3\-D\-View\-Instance}!GLC_3DWidgetManagerHandle@{G\-L\-C\-\_\-3\-D\-Widget\-Manager\-Handle}}
+\subsubsection[{remove3\-D\-View\-Instance}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-3\-D\-Widget\-Manager\-Handle\-::remove3\-D\-View\-Instance (
+\begin{DoxyParamCaption}
+\item[{{\bf G\-L\-C\-\_\-uint}}]{id}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c__3_d_widget_manager_handle_ac26759b7d2ee545547b58db7c8dc1325}
+
+
+Remove the 3\-D view instance with the given id from this manager collection. 
+
+
+
+Definition at line 84 of file glc\-\_\-3dwidgetmanagerhandle.\-cpp.
+
+\hypertarget{class_g_l_c__3_d_widget_manager_handle_a71ec9590a76136e7dbccbf8b688ede49}{\index{G\-L\-C\-\_\-3\-D\-Widget\-Manager\-Handle@{G\-L\-C\-\_\-3\-D\-Widget\-Manager\-Handle}!remove3\-D\-Widget@{remove3\-D\-Widget}}
+\index{remove3\-D\-Widget@{remove3\-D\-Widget}!GLC_3DWidgetManagerHandle@{G\-L\-C\-\_\-3\-D\-Widget\-Manager\-Handle}}
+\subsubsection[{remove3\-D\-Widget}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-3\-D\-Widget\-Manager\-Handle\-::remove3\-D\-Widget (
+\begin{DoxyParamCaption}
+\item[{{\bf G\-L\-C\-\_\-uint}}]{id}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c__3_d_widget_manager_handle_a71ec9590a76136e7dbccbf8b688ede49}
+
+
+Remove the 3\-D widget with the given id from this manager. 
+
+Associated 3\-D view instance are removed 
+
+Definition at line 60 of file glc\-\_\-3dwidgetmanagerhandle.\-cpp.
+
+\hypertarget{class_g_l_c__3_d_widget_manager_handle_a496db7147214c8737d4e42cb3ac9ba17}{\index{G\-L\-C\-\_\-3\-D\-Widget\-Manager\-Handle@{G\-L\-C\-\_\-3\-D\-Widget\-Manager\-Handle}!render@{render}}
+\index{render@{render}!GLC_3DWidgetManagerHandle@{G\-L\-C\-\_\-3\-D\-Widget\-Manager\-Handle}}
+\subsubsection[{render}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-3\-D\-Widget\-Manager\-Handle\-::render (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c__3_d_widget_manager_handle_a496db7147214c8737d4e42cb3ac9ba17}
+
+
+Render the 3\-D\-Widget of this manager. 
+
+
+
+Definition at line 225 of file glc\-\_\-3dwidgetmanagerhandle.\-cpp.
+
+\hypertarget{class_g_l_c__3_d_widget_manager_handle_a4331489f0b38438519608dbfcd272e68}{\index{G\-L\-C\-\_\-3\-D\-Widget\-Manager\-Handle@{G\-L\-C\-\_\-3\-D\-Widget\-Manager\-Handle}!set\-Widget\-Visible@{set\-Widget\-Visible}}
+\index{set\-Widget\-Visible@{set\-Widget\-Visible}!GLC_3DWidgetManagerHandle@{G\-L\-C\-\_\-3\-D\-Widget\-Manager\-Handle}}
+\subsubsection[{set\-Widget\-Visible}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-3\-D\-Widget\-Manager\-Handle\-::set\-Widget\-Visible (
+\begin{DoxyParamCaption}
+\item[{{\bf G\-L\-C\-\_\-uint}}]{id, }
+\item[{bool}]{visible}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c__3_d_widget_manager_handle_a4331489f0b38438519608dbfcd272e68}
+
+
+Set the visibility of the given 3\-D widget id. 
+
+
+
+Definition at line 106 of file glc\-\_\-3dwidgetmanagerhandle.\-cpp.
+
+\hypertarget{class_g_l_c__3_d_widget_manager_handle_a064b01863f76f188ef6dcf7f0ac83a4d}{\index{G\-L\-C\-\_\-3\-D\-Widget\-Manager\-Handle@{G\-L\-C\-\_\-3\-D\-Widget\-Manager\-Handle}!take@{take}}
+\index{take@{take}!GLC_3DWidgetManagerHandle@{G\-L\-C\-\_\-3\-D\-Widget\-Manager\-Handle}}
+\subsubsection[{take}]{\setlength{\rightskip}{0pt plus 5cm}{\bf G\-L\-C\-\_\-3\-D\-Widget} $\ast$ G\-L\-C\-\_\-3\-D\-Widget\-Manager\-Handle\-::take (
+\begin{DoxyParamCaption}
+\item[{{\bf G\-L\-C\-\_\-uint}}]{id}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c__3_d_widget_manager_handle_a064b01863f76f188ef6dcf7f0ac83a4d}
+
+
+Take the 3\-D widget with the given id from this manager. 
+
+Associated 3\-D view instance are N\-O\-T removed 
+
+Definition at line 68 of file glc\-\_\-3dwidgetmanagerhandle.\-cpp.
+
+\hypertarget{class_g_l_c__3_d_widget_manager_handle_ae1fa285870498ddda8265afdd817a9c7}{\index{G\-L\-C\-\_\-3\-D\-Widget\-Manager\-Handle@{G\-L\-C\-\_\-3\-D\-Widget\-Manager\-Handle}!use\-Ortho@{use\-Ortho}}
+\index{use\-Ortho@{use\-Ortho}!GLC_3DWidgetManagerHandle@{G\-L\-C\-\_\-3\-D\-Widget\-Manager\-Handle}}
+\subsubsection[{use\-Ortho}]{\setlength{\rightskip}{0pt plus 5cm}bool G\-L\-C\-\_\-3\-D\-Widget\-Manager\-Handle\-::use\-Ortho (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c__3_d_widget_manager_handle_ae1fa285870498ddda8265afdd817a9c7}
+
+
+Return true if the viewport use orthographic projection. 
+
+
+
+Definition at line 75 of file glc\-\_\-3dwidgetmanagerhandle.\-h.
+
+\hypertarget{class_g_l_c__3_d_widget_manager_handle_ab108d25ffbbef194ca8a642b93fe817c}{\index{G\-L\-C\-\_\-3\-D\-Widget\-Manager\-Handle@{G\-L\-C\-\_\-3\-D\-Widget\-Manager\-Handle}!viewport@{viewport}}
+\index{viewport@{viewport}!GLC_3DWidgetManagerHandle@{G\-L\-C\-\_\-3\-D\-Widget\-Manager\-Handle}}
+\subsubsection[{viewport}]{\setlength{\rightskip}{0pt plus 5cm}{\bf G\-L\-C\-\_\-\-Viewport}$\ast$ G\-L\-C\-\_\-3\-D\-Widget\-Manager\-Handle\-::viewport (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c__3_d_widget_manager_handle_ab108d25ffbbef194ca8a642b93fe817c}
+
+
+Return the viewport of this manager. 
+
+
+
+Definition at line 83 of file glc\-\_\-3dwidgetmanagerhandle.\-h.
+
+\hypertarget{class_g_l_c__3_d_widget_manager_handle_ada89c6b38170f221213de87038caa37b}{\index{G\-L\-C\-\_\-3\-D\-Widget\-Manager\-Handle@{G\-L\-C\-\_\-3\-D\-Widget\-Manager\-Handle}!viewport\-Tangent@{viewport\-Tangent}}
+\index{viewport\-Tangent@{viewport\-Tangent}!GLC_3DWidgetManagerHandle@{G\-L\-C\-\_\-3\-D\-Widget\-Manager\-Handle}}
+\subsubsection[{viewport\-Tangent}]{\setlength{\rightskip}{0pt plus 5cm}{\bf double} G\-L\-C\-\_\-3\-D\-Widget\-Manager\-Handle\-::viewport\-Tangent (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c__3_d_widget_manager_handle_ada89c6b38170f221213de87038caa37b}
+
+
+Return the tangent value of the viewport. 
+
+
+
+Definition at line 79 of file glc\-\_\-3dwidgetmanagerhandle.\-h.
+
+\hypertarget{class_g_l_c__3_d_widget_manager_handle_a250a83acbace68f8cdf742a8a2563925}{\index{G\-L\-C\-\_\-3\-D\-Widget\-Manager\-Handle@{G\-L\-C\-\_\-3\-D\-Widget\-Manager\-Handle}!widget@{widget}}
+\index{widget@{widget}!GLC_3DWidgetManagerHandle@{G\-L\-C\-\_\-3\-D\-Widget\-Manager\-Handle}}
+\subsubsection[{widget}]{\setlength{\rightskip}{0pt plus 5cm}{\bf G\-L\-C\-\_\-3\-D\-Widget}$\ast$ G\-L\-C\-\_\-3\-D\-Widget\-Manager\-Handle\-::widget (
+\begin{DoxyParamCaption}
+\item[{{\bf G\-L\-C\-\_\-uint}}]{id}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c__3_d_widget_manager_handle_a250a83acbace68f8cdf742a8a2563925}
+
+
+Return the 3\-D\-Widget of the given widget id. 
+
+
+
+Definition at line 91 of file glc\-\_\-3dwidgetmanagerhandle.\-h.
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/glc\-\_\-lib/3\-D\-Widget/\hyperlink{glc__3dwidgetmanagerhandle_8h}{glc\-\_\-3dwidgetmanagerhandle.\-h}\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/glc\-\_\-lib/3\-D\-Widget/\hyperlink{glc__3dwidgetmanagerhandle_8cpp}{glc\-\_\-3dwidgetmanagerhandle.\-cpp}\end{DoxyCompactItemize}

@@ -1,0 +1,207 @@
+\hypertarget{class_qxt_web_service_directory}{\section{Qxt\-Web\-Service\-Directory Class Reference}
+\label{class_qxt_web_service_directory}\index{Qxt\-Web\-Service\-Directory@{Qxt\-Web\-Service\-Directory}}
+}
+
+
+The \hyperlink{class_qxt_web_service_directory}{Qxt\-Web\-Service\-Directory} class provides Path-\/based web service dispatcher.  
+
+
+
+
+{\ttfamily \#include $<$qxtwebservicedirectory.\-h$>$}
+
+Inheritance diagram for Qxt\-Web\-Service\-Directory\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{class_qxt_web_service_directory}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_qxt_web_service_directory_a6bf41820673aebe2a07a25f32c19f784}{Qxt\-Web\-Service\-Directory} (\hyperlink{class_qxt_abstract_web_session_manager}{Qxt\-Abstract\-Web\-Session\-Manager} $\ast$sm, Q\-Object $\ast$parent=0)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qxt_web_service_directory_a296db6823177ac67fb9dfdb079ec9d2c}{add\-Service} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{Q\-String} \&path, \hyperlink{class_qxt_abstract_web_service}{Qxt\-Abstract\-Web\-Service} $\ast$\hyperlink{class_qxt_web_service_directory_a4692f2bb045fb0f391b96128a2066fb7}{service})
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qxt_web_service_directory_a986a33319b57447044b3ef2075205818}{remove\-Service} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{Q\-String} \&path)
+\item 
+\hyperlink{class_qxt_abstract_web_service}{Qxt\-Abstract\-Web\-Service} $\ast$ \hyperlink{class_qxt_web_service_directory_a4692f2bb045fb0f391b96128a2066fb7}{service} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{Q\-String} \&path) const 
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qxt_web_service_directory_a36b4af936bb1dad3a1b86ead54da384c}{page\-Requested\-Event} (\hyperlink{class_qxt_web_request_event}{Qxt\-Web\-Request\-Event} $\ast$event)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{Q\-String} \hyperlink{class_qxt_web_service_directory_ab61356b17ef544c2869e15dbad8de289}{default\-Redirect} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qxt_web_service_directory_acda443b6ab3499c2ae5682cbe2a15937}{set\-Default\-Redirect} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{Q\-String} \&path)
+\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qxt_web_service_directory_a0b0bd30adcb4664978bcc2f95f38ebf2}{unknown\-Service\-Requested} (\hyperlink{class_qxt_web_request_event}{Qxt\-Web\-Request\-Event} $\ast$event, const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{Q\-String} \&\hyperlink{glext_8h_ad977737dfc9a274a62741b9500c49a32}{name})
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qxt_web_service_directory_aeae51d5b5607ba5a4db37c97567f10ff}{index\-Requested} (\hyperlink{class_qxt_web_request_event}{Qxt\-Web\-Request\-Event} $\ast$event)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+The \hyperlink{class_qxt_web_service_directory}{Qxt\-Web\-Service\-Directory} class provides Path-\/based web service dispatcher. 
+
+Qxt\-Web
+
+\hyperlink{class_qxt_web_service_directory}{Qxt\-Web\-Service\-Directory} allows multiple services to be associated with a single session. Selection between services is determined by the first path component in the U\-R\-L. For example, the U\-R\-L \char`\"{}/site/request?param=true\char`\"{} would relay the U\-R\-L \char`\"{}/request?param=true\char`\"{} to the service named \char`\"{}site\char`\"{}.
+
+This class can be used recursively to declare a hierarchy of services. For example\-: 
+\begin{DoxyCode}
+\hyperlink{class_qxt_web_service_directory}{QxtWebServiceDirectory}* top = \textcolor{keyword}{new} \hyperlink{class_qxt_web_service_directory_a6bf41820673aebe2a07a25f32c19f784}{QxtWebServiceDirectory}(sm, sm
+      );
+\hyperlink{class_qxt_web_service_directory}{QxtWebServiceDirectory}* service1 = \textcolor{keyword}{new} 
+      \hyperlink{class_qxt_web_service_directory_a6bf41820673aebe2a07a25f32c19f784}{QxtWebServiceDirectory}(sm, top);
+\hyperlink{class_qxt_web_service_directory}{QxtWebServiceDirectory}* service2 = \textcolor{keyword}{new} 
+      \hyperlink{class_qxt_web_service_directory_a6bf41820673aebe2a07a25f32c19f784}{QxtWebServiceDirectory}(sm, top);
+\hyperlink{class_qxt_web_service_directory}{QxtWebServiceDirectory}* service1a = \textcolor{keyword}{new} 
+      \hyperlink{class_qxt_web_service_directory_a6bf41820673aebe2a07a25f32c19f784}{QxtWebServiceDirectory}(sm, service1);
+\hyperlink{class_qxt_web_service_directory}{QxtWebServiceDirectory}* service1b = \textcolor{keyword}{new} 
+      \hyperlink{class_qxt_web_service_directory_a6bf41820673aebe2a07a25f32c19f784}{QxtWebServiceDirectory}(sm, service1);
+top->\hyperlink{class_qxt_web_service_directory_a296db6823177ac67fb9dfdb079ec9d2c}{addService}(\textcolor{stringliteral}{"1"}, service1);
+top->\hyperlink{class_qxt_web_service_directory_a296db6823177ac67fb9dfdb079ec9d2c}{addService}(\textcolor{stringliteral}{"2"}, service2);
+service1->\hyperlink{class_qxt_web_service_directory_a296db6823177ac67fb9dfdb079ec9d2c}{addService}(\textcolor{stringliteral}{"a"}, service1a);
+service1->\hyperlink{class_qxt_web_service_directory_a296db6823177ac67fb9dfdb079ec9d2c}{addService}(\textcolor{stringliteral}{"b"}, service1b);
+\end{DoxyCode}
+ This accepts the U\-R\-Ls \char`\"{}/1/a/\char`\"{}, \char`\"{}/1/b/\char`\"{}, and \char`\"{}/2/\char`\"{}. 
+
+Definition at line 35 of file qxtwebservicedirectory.\-h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_qxt_web_service_directory_a6bf41820673aebe2a07a25f32c19f784}{\index{Qxt\-Web\-Service\-Directory@{Qxt\-Web\-Service\-Directory}!Qxt\-Web\-Service\-Directory@{Qxt\-Web\-Service\-Directory}}
+\index{Qxt\-Web\-Service\-Directory@{Qxt\-Web\-Service\-Directory}!QxtWebServiceDirectory@{Qxt\-Web\-Service\-Directory}}
+\subsubsection[{Qxt\-Web\-Service\-Directory}]{\setlength{\rightskip}{0pt plus 5cm}Qxt\-Web\-Service\-Directory\-::\-Qxt\-Web\-Service\-Directory (
+\begin{DoxyParamCaption}
+\item[{{\bf Qxt\-Abstract\-Web\-Session\-Manager} $\ast$}]{sm, }
+\item[{Q\-Object $\ast$}]{parent = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [explicit]}}}\label{class_qxt_web_service_directory_a6bf41820673aebe2a07a25f32c19f784}
+Constructs a \hyperlink{class_qxt_web_service_directory}{Qxt\-Web\-Service\-Directory} object with the specified session manager {\itshape sm} and {\itshape parent}.
+
+Often, the session manager will also be the parent, but this is not a requirement. 
+
+Definition at line 83 of file qxtwebservicedirectory.\-cpp.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_qxt_web_service_directory_a296db6823177ac67fb9dfdb079ec9d2c}{\index{Qxt\-Web\-Service\-Directory@{Qxt\-Web\-Service\-Directory}!add\-Service@{add\-Service}}
+\index{add\-Service@{add\-Service}!QxtWebServiceDirectory@{Qxt\-Web\-Service\-Directory}}
+\subsubsection[{add\-Service}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qxt\-Web\-Service\-Directory\-::add\-Service (
+\begin{DoxyParamCaption}
+\item[{const {\bf Q\-String} \&}]{path, }
+\item[{{\bf Qxt\-Abstract\-Web\-Service} $\ast$}]{service}
+\end{DoxyParamCaption}
+)}}\label{class_qxt_web_service_directory_a296db6823177ac67fb9dfdb079ec9d2c}
+Adds a {\itshape service} to the directory at the given {\itshape path}. \begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qxt_web_service_directory_a986a33319b57447044b3ef2075205818}{remove\-Service()}, \hyperlink{class_qxt_web_service_directory_a4692f2bb045fb0f391b96128a2066fb7}{service()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 92 of file qxtwebservicedirectory.\-cpp.
+
+\hypertarget{class_qxt_web_service_directory_ab61356b17ef544c2869e15dbad8de289}{\index{Qxt\-Web\-Service\-Directory@{Qxt\-Web\-Service\-Directory}!default\-Redirect@{default\-Redirect}}
+\index{default\-Redirect@{default\-Redirect}!QxtWebServiceDirectory@{Qxt\-Web\-Service\-Directory}}
+\subsubsection[{default\-Redirect}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Q\-String} Qxt\-Web\-Service\-Directory\-::default\-Redirect (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_qxt_web_service_directory_ab61356b17ef544c2869e15dbad8de289}
+Returns the path that will be used by default by the index\-Requested event. \begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qxt_web_service_directory_aeae51d5b5607ba5a4db37c97567f10ff}{index\-Requested()}, \hyperlink{class_qxt_web_service_directory_acda443b6ab3499c2ae5682cbe2a15937}{set\-Default\-Redirect()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 225 of file qxtwebservicedirectory.\-cpp.
+
+\hypertarget{class_qxt_web_service_directory_aeae51d5b5607ba5a4db37c97567f10ff}{\index{Qxt\-Web\-Service\-Directory@{Qxt\-Web\-Service\-Directory}!index\-Requested@{index\-Requested}}
+\index{index\-Requested@{index\-Requested}!QxtWebServiceDirectory@{Qxt\-Web\-Service\-Directory}}
+\subsubsection[{index\-Requested}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qxt\-Web\-Service\-Directory\-::index\-Requested (
+\begin{DoxyParamCaption}
+\item[{{\bf Qxt\-Web\-Request\-Event} $\ast$}]{event}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}}\label{class_qxt_web_service_directory_aeae51d5b5607ba5a4db37c97567f10ff}
+This {\itshape event} handler is called whenever the U\-R\-L does not contain a path, that is, the U\-R\-L is \char`\"{}/\char`\"{} or empty.
+
+The default implementation redirects to the service specified by \hyperlink{class_qxt_web_service_directory_acda443b6ab3499c2ae5682cbe2a15937}{set\-Default\-Redirect()}, or invokes \hyperlink{class_qxt_web_service_directory_a0b0bd30adcb4664978bcc2f95f38ebf2}{unknown\-Service\-Requested()} if no default redirect has been set. 
+
+Definition at line 209 of file qxtwebservicedirectory.\-cpp.
+
+\hypertarget{class_qxt_web_service_directory_a36b4af936bb1dad3a1b86ead54da384c}{\index{Qxt\-Web\-Service\-Directory@{Qxt\-Web\-Service\-Directory}!page\-Requested\-Event@{page\-Requested\-Event}}
+\index{page\-Requested\-Event@{page\-Requested\-Event}!QxtWebServiceDirectory@{Qxt\-Web\-Service\-Directory}}
+\subsubsection[{page\-Requested\-Event}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qxt\-Web\-Service\-Directory\-::page\-Requested\-Event (
+\begin{DoxyParamCaption}
+\item[{{\bf Qxt\-Web\-Request\-Event} $\ast$}]{event}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_qxt_web_service_directory_a36b4af936bb1dad3a1b86ead54da384c}
+
+
+Implements \hyperlink{class_qxt_abstract_web_service_aca8a326b48edd775ea52ec9c3dc8daba}{Qxt\-Abstract\-Web\-Service}.
+
+
+
+Definition at line 152 of file qxtwebservicedirectory.\-cpp.
+
+\hypertarget{class_qxt_web_service_directory_a986a33319b57447044b3ef2075205818}{\index{Qxt\-Web\-Service\-Directory@{Qxt\-Web\-Service\-Directory}!remove\-Service@{remove\-Service}}
+\index{remove\-Service@{remove\-Service}!QxtWebServiceDirectory@{Qxt\-Web\-Service\-Directory}}
+\subsubsection[{remove\-Service}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qxt\-Web\-Service\-Directory\-::remove\-Service (
+\begin{DoxyParamCaption}
+\item[{const {\bf Q\-String} \&}]{path}
+\end{DoxyParamCaption}
+)}}\label{class_qxt_web_service_directory_a986a33319b57447044b3ef2075205818}
+Removes the service at the given {\itshape path}.
+
+Note that the service object is not destroyed. 
+
+Definition at line 110 of file qxtwebservicedirectory.\-cpp.
+
+\hypertarget{class_qxt_web_service_directory_a4692f2bb045fb0f391b96128a2066fb7}{\index{Qxt\-Web\-Service\-Directory@{Qxt\-Web\-Service\-Directory}!service@{service}}
+\index{service@{service}!QxtWebServiceDirectory@{Qxt\-Web\-Service\-Directory}}
+\subsubsection[{service}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Qxt\-Abstract\-Web\-Service} $\ast$ Qxt\-Web\-Service\-Directory\-::service (
+\begin{DoxyParamCaption}
+\item[{const {\bf Q\-String} \&}]{path}
+\end{DoxyParamCaption}
+) const}}\label{class_qxt_web_service_directory_a4692f2bb045fb0f391b96128a2066fb7}
+Returns the service at the given {\itshape path}. 
+
+Definition at line 125 of file qxtwebservicedirectory.\-cpp.
+
+\hypertarget{class_qxt_web_service_directory_acda443b6ab3499c2ae5682cbe2a15937}{\index{Qxt\-Web\-Service\-Directory@{Qxt\-Web\-Service\-Directory}!set\-Default\-Redirect@{set\-Default\-Redirect}}
+\index{set\-Default\-Redirect@{set\-Default\-Redirect}!QxtWebServiceDirectory@{Qxt\-Web\-Service\-Directory}}
+\subsubsection[{set\-Default\-Redirect}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qxt\-Web\-Service\-Directory\-::set\-Default\-Redirect (
+\begin{DoxyParamCaption}
+\item[{const {\bf Q\-String} \&}]{path}
+\end{DoxyParamCaption}
+)}}\label{class_qxt_web_service_directory_acda443b6ab3499c2ae5682cbe2a15937}
+Sets the {\itshape path} that will be used by default by the index\-Requested event. \begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qxt_web_service_directory_aeae51d5b5607ba5a4db37c97567f10ff}{index\-Requested()}, \hyperlink{class_qxt_web_service_directory_ab61356b17ef544c2869e15dbad8de289}{default\-Redirect()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 234 of file qxtwebservicedirectory.\-cpp.
+
+\hypertarget{class_qxt_web_service_directory_a0b0bd30adcb4664978bcc2f95f38ebf2}{\index{Qxt\-Web\-Service\-Directory@{Qxt\-Web\-Service\-Directory}!unknown\-Service\-Requested@{unknown\-Service\-Requested}}
+\index{unknown\-Service\-Requested@{unknown\-Service\-Requested}!QxtWebServiceDirectory@{Qxt\-Web\-Service\-Directory}}
+\subsubsection[{unknown\-Service\-Requested}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qxt\-Web\-Service\-Directory\-::unknown\-Service\-Requested (
+\begin{DoxyParamCaption}
+\item[{{\bf Qxt\-Web\-Request\-Event} $\ast$}]{event, }
+\item[{const {\bf Q\-String} \&}]{name}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}}\label{class_qxt_web_service_directory_a0b0bd30adcb4664978bcc2f95f38ebf2}
+This {\itshape event} handler is called whenever the U\-R\-L requests a service with {\itshape name} that has not been added to the directory.
+
+The default implementation returns a 404 \char`\"{}\-Service not known\char`\"{} error. Subclasses may reimplement this event handler to customize this behavior. 
+
+Definition at line 196 of file qxtwebservicedirectory.\-cpp.
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/libqxt/src/web/\hyperlink{qxtwebservicedirectory_8h}{qxtwebservicedirectory.\-h}\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/libqxt/src/web/\hyperlink{qxtwebservicedirectory_8cpp}{qxtwebservicedirectory.\-cpp}\end{DoxyCompactItemize}

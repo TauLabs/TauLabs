@@ -1,0 +1,523 @@
+\hypertarget{class_g_l_c___world_handle}{\section{G\-L\-C\-\_\-\-World\-Handle Class Reference}
+\label{class_g_l_c___world_handle}\index{G\-L\-C\-\_\-\-World\-Handle@{G\-L\-C\-\_\-\-World\-Handle}}
+}
+
+
+\hyperlink{class_g_l_c___world_handle}{G\-L\-C\-\_\-\-World\-Handle} \-: Handle of shared \hyperlink{class_g_l_c___world}{G\-L\-C\-\_\-\-World}.  
+
+
+
+
+{\ttfamily \#include $<$glc\-\_\-worldhandle.\-h$>$}
+
+\subsection*{Public Member Functions}
+\begin{Indent}{\bf Constructor / Destructor}\par
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_g_l_c___world_handle_a279e95725e759fa7ca42e5be6f0075e5}{G\-L\-C\-\_\-\-World\-Handle} ()
+\begin{DoxyCompactList}\small\item\em The default constructor. \end{DoxyCompactList}\item 
+\hyperlink{class_g_l_c___world_handle_a1683ac93460792e187a32bd04fa0d2f7}{$\sim$\-G\-L\-C\-\_\-\-World\-Handle} ()
+\begin{DoxyCompactList}\small\item\em The default destructor. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\end{Indent}
+\begin{Indent}{\bf Get Functions}\par
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_g_l_c__3_d_view_collection}{G\-L\-C\-\_\-3\-D\-View\-Collection} $\ast$ \hyperlink{class_g_l_c___world_handle_a0de6e0e48e5c24805e379721b968b461}{collection} ()
+\begin{DoxyCompactList}\small\item\em Return the collection. \end{DoxyCompactList}\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_g_l_c___world_handle_a94854392b93a0646fa809f1120d7b7a3}{number\-Of\-World} () const 
+\begin{DoxyCompactList}\small\item\em Return the number of world associated with this handle. \end{DoxyCompactList}\item 
+bool \hyperlink{class_g_l_c___world_handle_a580e7fe26e0d3cad31712ed03ecfbe8d}{is\-Orphan} () const 
+\begin{DoxyCompactList}\small\item\em Return true if there is only one world associated with this handle. \end{DoxyCompactList}\item 
+bool \hyperlink{class_g_l_c___world_handle_a95ea7344d9dc15ac019b7965eea1b258}{contains\-Occurence} (\hyperlink{glc__global_8h_abf950976fabed69026558df8e2da6c6b}{G\-L\-C\-\_\-uint} \hyperlink{glext_8h_a58c2a664503e14ffb8f21012aabff3e9}{id}) const 
+\begin{DoxyCompactList}\small\item\em Return true if the specified occurence id is in this world. \end{DoxyCompactList}\item 
+\hyperlink{class_g_l_c___struct_occurence}{G\-L\-C\-\_\-\-Struct\-Occurence} $\ast$ \hyperlink{class_g_l_c___world_handle_a420fd2dcf5c4e119c9bc5180daef9bef}{get\-Occurence} (\hyperlink{glc__global_8h_abf950976fabed69026558df8e2da6c6b}{G\-L\-C\-\_\-uint} \hyperlink{glext_8h_a58c2a664503e14ffb8f21012aabff3e9}{id}) const 
+\begin{DoxyCompactList}\small\item\em Return the occurence specified by an id. \end{DoxyCompactList}\item 
+\hyperlink{class_q_list}{Q\-List}$<$ \hyperlink{class_g_l_c___struct_occurence}{G\-L\-C\-\_\-\-Struct\-Occurence} $\ast$ $>$ \hyperlink{class_g_l_c___world_handle_a049b8791733897228fa8c702a6cde75a}{occurences} () const 
+\begin{DoxyCompactList}\small\item\em Return the list off occurences. \end{DoxyCompactList}\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_g_l_c___world_handle_a8099e1f606dbe5aeec476c7aed3bc07c}{number\-Of\-Occurence} () const 
+\begin{DoxyCompactList}\small\item\em Return the number of occurence. \end{DoxyCompactList}\item 
+\hyperlink{class_q_list}{Q\-List}$<$ \hyperlink{class_g_l_c___struct_instance}{G\-L\-C\-\_\-\-Struct\-Instance} $\ast$ $>$ \hyperlink{class_g_l_c___world_handle_abf85630cd1b3bc0f823c1531f60c4867}{instances} () const 
+\begin{DoxyCompactList}\small\item\em Return the list of instance. \end{DoxyCompactList}\item 
+\hyperlink{class_q_list}{Q\-List}$<$ \hyperlink{class_g_l_c___struct_reference}{G\-L\-C\-\_\-\-Struct\-Reference} $\ast$ $>$ \hyperlink{class_g_l_c___world_handle_ad8c8065a808d6620b57ea46dcec1dfb6}{references} () const 
+\begin{DoxyCompactList}\small\item\em Return the list of Reference. \end{DoxyCompactList}\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_g_l_c___world_handle_ab36eddeb6d71dce68100266f37598b87}{number\-Of\-Body} () const 
+\begin{DoxyCompactList}\small\item\em Return the number of body. \end{DoxyCompactList}\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_g_l_c___world_handle_aadfc2a2f22b21700ac1b13d343570f4d}{representation\-Count} () const 
+\begin{DoxyCompactList}\small\item\em Return the number of representation. \end{DoxyCompactList}\item 
+\hyperlink{class_g_l_c___vector3d}{G\-L\-C\-\_\-\-Vector3d} \hyperlink{class_g_l_c___world_handle_a7695d653f3609ee372279514a8393e63}{up\-Vector} () const 
+\begin{DoxyCompactList}\small\item\em Return the world Up vector. \end{DoxyCompactList}\item 
+\hyperlink{class_g_l_c___selection_set}{G\-L\-C\-\_\-\-Selection\-Set} $\ast$ \hyperlink{class_g_l_c___world_handle_a5520bdcf6f264d87c5d3c87843412c9e}{selection\-Set\-Handle} ()
+\begin{DoxyCompactList}\small\item\em Return an handle to the selection set. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\end{Indent}
+\begin{Indent}{\bf Set Functions}\par
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c___world_handle_a85588e138963ba90a0a5d7f1dbb72e77}{increment} ()
+\begin{DoxyCompactList}\small\item\em Increment the number of world. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c___world_handle_aaf705d4865eb2d6909073db6c0c3397d}{decrement} ()
+\begin{DoxyCompactList}\small\item\em Decrement the number of world. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c___world_handle_ae363552e639328225c417db4f5dcf790}{add\-Occurence} (\hyperlink{class_g_l_c___struct_occurence}{G\-L\-C\-\_\-\-Struct\-Occurence} $\ast$p\-Occurence, bool is\-Selected=false, \hyperlink{glext_8h_a2f0c8cd5c21f9fcbd931c3f48bc90dfc}{G\-Luint} shader\-Id=0)
+\begin{DoxyCompactList}\small\item\em An Occurence has been added. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c___world_handle_a0babef6776eb21545aff6797102a01ad}{remove\-Occurence} (\hyperlink{class_g_l_c___struct_occurence}{G\-L\-C\-\_\-\-Struct\-Occurence} $\ast$p\-Occurence)
+\begin{DoxyCompactList}\small\item\em An Occurence has been removed. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c___world_handle_a1121f6a6a02f79997e8bcfbebfca6b7f}{remove\-All\-Occurences} ()
+\begin{DoxyCompactList}\small\item\em All Occurence has been removed. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c___world_handle_ae4a79b98e7ff3db2864b0b023cc3263e}{set\-Up\-Vector} (const \hyperlink{class_g_l_c___vector3d}{G\-L\-C\-\_\-\-Vector3d} \&vect)
+\begin{DoxyCompactList}\small\item\em Set the world Up Vector. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c___world_handle_a841ad2f8d23e1c169e080394a2dd7df6}{set\-Attached\-Viewport} (\hyperlink{class_g_l_c___viewport}{G\-L\-C\-\_\-\-Viewport} $\ast$p\-Viewport)
+\begin{DoxyCompactList}\small\item\em Set the attached viewport of this world handle. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c___world_handle_acf31fb75c3395e4678ae23f13cffb979}{select} (\hyperlink{glc__global_8h_abf950976fabed69026558df8e2da6c6b}{G\-L\-C\-\_\-uint} occurence\-Id)
+\begin{DoxyCompactList}\small\item\em \hyperlink{class_select}{Select} the given occurence id. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c___world_handle_acfba405bd828e7b66e63b3cb1815ddb0}{unselect} (\hyperlink{glc__global_8h_abf950976fabed69026558df8e2da6c6b}{G\-L\-C\-\_\-uint} occurence\-Id, bool propagate=true)
+\begin{DoxyCompactList}\small\item\em Unselect the given occurence id. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c___world_handle_ad70e886ed03340912a09194724c71f1a}{select\-All\-With3\-D\-View\-Instance} (bool all\-Show\-State)
+\begin{DoxyCompactList}\small\item\em \hyperlink{class_select}{Select} all occurence of this world handle. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c___world_handle_ac841cd16c1d27898b555c58d499e803a}{unselect\-All} ()
+\begin{DoxyCompactList}\small\item\em Unselecte all occurence of this world handle. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c___world_handle_a93e6ab65ba908d5bdac070b64f7b0fef}{show\-Hide\-Selected3\-D\-View\-Instance} ()
+\begin{DoxyCompactList}\small\item\em Show / Hide selected 3\-D\-View\-Instance. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c___world_handle_ae5e1aa752c9e18911c713b8144ca5f3e}{set\-Selected3\-D\-View\-Instance\-Visibility} (bool is\-Visible)
+\begin{DoxyCompactList}\small\item\em Set selected 3\-D\-View\-Instance visibility. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\end{Indent}
+
+
+\subsection{Detailed Description}
+\hyperlink{class_g_l_c___world_handle}{G\-L\-C\-\_\-\-World\-Handle} \-: Handle of shared \hyperlink{class_g_l_c___world}{G\-L\-C\-\_\-\-World}. 
+
+Definition at line 38 of file glc\-\_\-worldhandle.\-h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_g_l_c___world_handle_a279e95725e759fa7ca42e5be6f0075e5}{\index{G\-L\-C\-\_\-\-World\-Handle@{G\-L\-C\-\_\-\-World\-Handle}!G\-L\-C\-\_\-\-World\-Handle@{G\-L\-C\-\_\-\-World\-Handle}}
+\index{G\-L\-C\-\_\-\-World\-Handle@{G\-L\-C\-\_\-\-World\-Handle}!GLC_WorldHandle@{G\-L\-C\-\_\-\-World\-Handle}}
+\subsubsection[{G\-L\-C\-\_\-\-World\-Handle}]{\setlength{\rightskip}{0pt plus 5cm}G\-L\-C\-\_\-\-World\-Handle\-::\-G\-L\-C\-\_\-\-World\-Handle (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___world_handle_a279e95725e759fa7ca42e5be6f0075e5}
+
+
+The default constructor. 
+
+
+
+Definition at line 27 of file glc\-\_\-worldhandle.\-cpp.
+
+\hypertarget{class_g_l_c___world_handle_a1683ac93460792e187a32bd04fa0d2f7}{\index{G\-L\-C\-\_\-\-World\-Handle@{G\-L\-C\-\_\-\-World\-Handle}!$\sim$\-G\-L\-C\-\_\-\-World\-Handle@{$\sim$\-G\-L\-C\-\_\-\-World\-Handle}}
+\index{$\sim$\-G\-L\-C\-\_\-\-World\-Handle@{$\sim$\-G\-L\-C\-\_\-\-World\-Handle}!GLC_WorldHandle@{G\-L\-C\-\_\-\-World\-Handle}}
+\subsubsection[{$\sim$\-G\-L\-C\-\_\-\-World\-Handle}]{\setlength{\rightskip}{0pt plus 5cm}G\-L\-C\-\_\-\-World\-Handle\-::$\sim$\-G\-L\-C\-\_\-\-World\-Handle (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___world_handle_a1683ac93460792e187a32bd04fa0d2f7}
+
+
+The default destructor. 
+
+
+
+Definition at line 37 of file glc\-\_\-worldhandle.\-cpp.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_g_l_c___world_handle_ae363552e639328225c417db4f5dcf790}{\index{G\-L\-C\-\_\-\-World\-Handle@{G\-L\-C\-\_\-\-World\-Handle}!add\-Occurence@{add\-Occurence}}
+\index{add\-Occurence@{add\-Occurence}!GLC_WorldHandle@{G\-L\-C\-\_\-\-World\-Handle}}
+\subsubsection[{add\-Occurence}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-\-World\-Handle\-::add\-Occurence (
+\begin{DoxyParamCaption}
+\item[{{\bf G\-L\-C\-\_\-\-Struct\-Occurence} $\ast$}]{p\-Occurence, }
+\item[{bool}]{is\-Selected = {\ttfamily false}, }
+\item[{{\bf G\-Luint}}]{shader\-Id = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___world_handle_ae363552e639328225c417db4f5dcf790}
+
+
+An Occurence has been added. 
+
+
+
+Definition at line 95 of file glc\-\_\-worldhandle.\-cpp.
+
+\hypertarget{class_g_l_c___world_handle_a0de6e0e48e5c24805e379721b968b461}{\index{G\-L\-C\-\_\-\-World\-Handle@{G\-L\-C\-\_\-\-World\-Handle}!collection@{collection}}
+\index{collection@{collection}!GLC_WorldHandle@{G\-L\-C\-\_\-\-World\-Handle}}
+\subsubsection[{collection}]{\setlength{\rightskip}{0pt plus 5cm}{\bf G\-L\-C\-\_\-3\-D\-View\-Collection}$\ast$ G\-L\-C\-\_\-\-World\-Handle\-::collection (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___world_handle_a0de6e0e48e5c24805e379721b968b461}
+
+
+Return the collection. 
+
+
+
+Definition at line 58 of file glc\-\_\-worldhandle.\-h.
+
+\hypertarget{class_g_l_c___world_handle_a95ea7344d9dc15ac019b7965eea1b258}{\index{G\-L\-C\-\_\-\-World\-Handle@{G\-L\-C\-\_\-\-World\-Handle}!contains\-Occurence@{contains\-Occurence}}
+\index{contains\-Occurence@{contains\-Occurence}!GLC_WorldHandle@{G\-L\-C\-\_\-\-World\-Handle}}
+\subsubsection[{contains\-Occurence}]{\setlength{\rightskip}{0pt plus 5cm}bool G\-L\-C\-\_\-\-World\-Handle\-::contains\-Occurence (
+\begin{DoxyParamCaption}
+\item[{{\bf G\-L\-C\-\_\-uint}}]{id}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___world_handle_a95ea7344d9dc15ac019b7965eea1b258}
+
+
+Return true if the specified occurence id is in this world. 
+
+
+
+Definition at line 70 of file glc\-\_\-worldhandle.\-h.
+
+\hypertarget{class_g_l_c___world_handle_aaf705d4865eb2d6909073db6c0c3397d}{\index{G\-L\-C\-\_\-\-World\-Handle@{G\-L\-C\-\_\-\-World\-Handle}!decrement@{decrement}}
+\index{decrement@{decrement}!GLC_WorldHandle@{G\-L\-C\-\_\-\-World\-Handle}}
+\subsubsection[{decrement}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-\-World\-Handle\-::decrement (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___world_handle_aaf705d4865eb2d6909073db6c0c3397d}
+
+
+Decrement the number of world. 
+
+
+
+Definition at line 121 of file glc\-\_\-worldhandle.\-h.
+
+\hypertarget{class_g_l_c___world_handle_a420fd2dcf5c4e119c9bc5180daef9bef}{\index{G\-L\-C\-\_\-\-World\-Handle@{G\-L\-C\-\_\-\-World\-Handle}!get\-Occurence@{get\-Occurence}}
+\index{get\-Occurence@{get\-Occurence}!GLC_WorldHandle@{G\-L\-C\-\_\-\-World\-Handle}}
+\subsubsection[{get\-Occurence}]{\setlength{\rightskip}{0pt plus 5cm}{\bf G\-L\-C\-\_\-\-Struct\-Occurence}$\ast$ G\-L\-C\-\_\-\-World\-Handle\-::get\-Occurence (
+\begin{DoxyParamCaption}
+\item[{{\bf G\-L\-C\-\_\-uint}}]{id}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___world_handle_a420fd2dcf5c4e119c9bc5180daef9bef}
+
+
+Return the occurence specified by an id. 
+
+Id must be a valid identifier 
+
+Definition at line 75 of file glc\-\_\-worldhandle.\-h.
+
+\hypertarget{class_g_l_c___world_handle_a85588e138963ba90a0a5d7f1dbb72e77}{\index{G\-L\-C\-\_\-\-World\-Handle@{G\-L\-C\-\_\-\-World\-Handle}!increment@{increment}}
+\index{increment@{increment}!GLC_WorldHandle@{G\-L\-C\-\_\-\-World\-Handle}}
+\subsubsection[{increment}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-\-World\-Handle\-::increment (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___world_handle_a85588e138963ba90a0a5d7f1dbb72e77}
+
+
+Increment the number of world. 
+
+
+
+Definition at line 117 of file glc\-\_\-worldhandle.\-h.
+
+\hypertarget{class_g_l_c___world_handle_abf85630cd1b3bc0f823c1531f60c4867}{\index{G\-L\-C\-\_\-\-World\-Handle@{G\-L\-C\-\_\-\-World\-Handle}!instances@{instances}}
+\index{instances@{instances}!GLC_WorldHandle@{G\-L\-C\-\_\-\-World\-Handle}}
+\subsubsection[{instances}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Q\-List}$<$ {\bf G\-L\-C\-\_\-\-Struct\-Instance} $\ast$ $>$ G\-L\-C\-\_\-\-World\-Handle\-::instances (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_g_l_c___world_handle_abf85630cd1b3bc0f823c1531f60c4867}
+
+
+Return the list of instance. 
+
+
+
+Definition at line 43 of file glc\-\_\-worldhandle.\-cpp.
+
+\hypertarget{class_g_l_c___world_handle_a580e7fe26e0d3cad31712ed03ecfbe8d}{\index{G\-L\-C\-\_\-\-World\-Handle@{G\-L\-C\-\_\-\-World\-Handle}!is\-Orphan@{is\-Orphan}}
+\index{is\-Orphan@{is\-Orphan}!GLC_WorldHandle@{G\-L\-C\-\_\-\-World\-Handle}}
+\subsubsection[{is\-Orphan}]{\setlength{\rightskip}{0pt plus 5cm}bool G\-L\-C\-\_\-\-World\-Handle\-::is\-Orphan (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___world_handle_a580e7fe26e0d3cad31712ed03ecfbe8d}
+
+
+Return true if there is only one world associated with this handle. 
+
+
+
+Definition at line 66 of file glc\-\_\-worldhandle.\-h.
+
+\hypertarget{class_g_l_c___world_handle_ab36eddeb6d71dce68100266f37598b87}{\index{G\-L\-C\-\_\-\-World\-Handle@{G\-L\-C\-\_\-\-World\-Handle}!number\-Of\-Body@{number\-Of\-Body}}
+\index{number\-Of\-Body@{number\-Of\-Body}!GLC_WorldHandle@{G\-L\-C\-\_\-\-World\-Handle}}
+\subsubsection[{number\-Of\-Body}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int} G\-L\-C\-\_\-\-World\-Handle\-::number\-Of\-Body (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_g_l_c___world_handle_ab36eddeb6d71dce68100266f37598b87}
+
+
+Return the number of body. 
+
+
+
+Definition at line 69 of file glc\-\_\-worldhandle.\-cpp.
+
+\hypertarget{class_g_l_c___world_handle_a8099e1f606dbe5aeec476c7aed3bc07c}{\index{G\-L\-C\-\_\-\-World\-Handle@{G\-L\-C\-\_\-\-World\-Handle}!number\-Of\-Occurence@{number\-Of\-Occurence}}
+\index{number\-Of\-Occurence@{number\-Of\-Occurence}!GLC_WorldHandle@{G\-L\-C\-\_\-\-World\-Handle}}
+\subsubsection[{number\-Of\-Occurence}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int} G\-L\-C\-\_\-\-World\-Handle\-::number\-Of\-Occurence (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___world_handle_a8099e1f606dbe5aeec476c7aed3bc07c}
+
+
+Return the number of occurence. 
+
+
+
+Definition at line 86 of file glc\-\_\-worldhandle.\-h.
+
+\hypertarget{class_g_l_c___world_handle_a94854392b93a0646fa809f1120d7b7a3}{\index{G\-L\-C\-\_\-\-World\-Handle@{G\-L\-C\-\_\-\-World\-Handle}!number\-Of\-World@{number\-Of\-World}}
+\index{number\-Of\-World@{number\-Of\-World}!GLC_WorldHandle@{G\-L\-C\-\_\-\-World\-Handle}}
+\subsubsection[{number\-Of\-World}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int} G\-L\-C\-\_\-\-World\-Handle\-::number\-Of\-World (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___world_handle_a94854392b93a0646fa809f1120d7b7a3}
+
+
+Return the number of world associated with this handle. 
+
+
+
+Definition at line 62 of file glc\-\_\-worldhandle.\-h.
+
+\hypertarget{class_g_l_c___world_handle_a049b8791733897228fa8c702a6cde75a}{\index{G\-L\-C\-\_\-\-World\-Handle@{G\-L\-C\-\_\-\-World\-Handle}!occurences@{occurences}}
+\index{occurences@{occurences}!GLC_WorldHandle@{G\-L\-C\-\_\-\-World\-Handle}}
+\subsubsection[{occurences}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Q\-List}$<${\bf G\-L\-C\-\_\-\-Struct\-Occurence}$\ast$$>$ G\-L\-C\-\_\-\-World\-Handle\-::occurences (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___world_handle_a049b8791733897228fa8c702a6cde75a}
+
+
+Return the list off occurences. 
+
+
+
+Definition at line 82 of file glc\-\_\-worldhandle.\-h.
+
+\hypertarget{class_g_l_c___world_handle_ad8c8065a808d6620b57ea46dcec1dfb6}{\index{G\-L\-C\-\_\-\-World\-Handle@{G\-L\-C\-\_\-\-World\-Handle}!references@{references}}
+\index{references@{references}!GLC_WorldHandle@{G\-L\-C\-\_\-\-World\-Handle}}
+\subsubsection[{references}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Q\-List}$<$ {\bf G\-L\-C\-\_\-\-Struct\-Reference} $\ast$ $>$ G\-L\-C\-\_\-\-World\-Handle\-::references (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_g_l_c___world_handle_ad8c8065a808d6620b57ea46dcec1dfb6}
+
+
+Return the list of Reference. 
+
+
+
+Definition at line 56 of file glc\-\_\-worldhandle.\-cpp.
+
+\hypertarget{class_g_l_c___world_handle_a1121f6a6a02f79997e8bcfbebfca6b7f}{\index{G\-L\-C\-\_\-\-World\-Handle@{G\-L\-C\-\_\-\-World\-Handle}!remove\-All\-Occurences@{remove\-All\-Occurences}}
+\index{remove\-All\-Occurences@{remove\-All\-Occurences}!GLC_WorldHandle@{G\-L\-C\-\_\-\-World\-Handle}}
+\subsubsection[{remove\-All\-Occurences}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-\-World\-Handle\-::remove\-All\-Occurences (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___world_handle_a1121f6a6a02f79997e8bcfbebfca6b7f}
+
+
+All Occurence has been removed. 
+
+
+
+Definition at line 131 of file glc\-\_\-worldhandle.\-h.
+
+\hypertarget{class_g_l_c___world_handle_a0babef6776eb21545aff6797102a01ad}{\index{G\-L\-C\-\_\-\-World\-Handle@{G\-L\-C\-\_\-\-World\-Handle}!remove\-Occurence@{remove\-Occurence}}
+\index{remove\-Occurence@{remove\-Occurence}!GLC_WorldHandle@{G\-L\-C\-\_\-\-World\-Handle}}
+\subsubsection[{remove\-Occurence}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-\-World\-Handle\-::remove\-Occurence (
+\begin{DoxyParamCaption}
+\item[{{\bf G\-L\-C\-\_\-\-Struct\-Occurence} $\ast$}]{p\-Occurence}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___world_handle_a0babef6776eb21545aff6797102a01ad}
+
+
+An Occurence has been removed. 
+
+
+
+Definition at line 123 of file glc\-\_\-worldhandle.\-cpp.
+
+\hypertarget{class_g_l_c___world_handle_aadfc2a2f22b21700ac1b13d343570f4d}{\index{G\-L\-C\-\_\-\-World\-Handle@{G\-L\-C\-\_\-\-World\-Handle}!representation\-Count@{representation\-Count}}
+\index{representation\-Count@{representation\-Count}!GLC_WorldHandle@{G\-L\-C\-\_\-\-World\-Handle}}
+\subsubsection[{representation\-Count}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int} G\-L\-C\-\_\-\-World\-Handle\-::representation\-Count (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_g_l_c___world_handle_aadfc2a2f22b21700ac1b13d343570f4d}
+
+
+Return the number of representation. 
+
+
+
+Definition at line 81 of file glc\-\_\-worldhandle.\-cpp.
+
+\hypertarget{class_g_l_c___world_handle_acf31fb75c3395e4678ae23f13cffb979}{\index{G\-L\-C\-\_\-\-World\-Handle@{G\-L\-C\-\_\-\-World\-Handle}!select@{select}}
+\index{select@{select}!GLC_WorldHandle@{G\-L\-C\-\_\-\-World\-Handle}}
+\subsubsection[{select}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-\-World\-Handle\-::select (
+\begin{DoxyParamCaption}
+\item[{{\bf G\-L\-C\-\_\-uint}}]{occurence\-Id}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___world_handle_acf31fb75c3395e4678ae23f13cffb979}
+
+
+\hyperlink{class_select}{Select} the given occurence id. 
+
+The given occurence id must belong to this worldhandle 
+
+Definition at line 134 of file glc\-\_\-worldhandle.\-cpp.
+
+\hypertarget{class_g_l_c___world_handle_ad70e886ed03340912a09194724c71f1a}{\index{G\-L\-C\-\_\-\-World\-Handle@{G\-L\-C\-\_\-\-World\-Handle}!select\-All\-With3\-D\-View\-Instance@{select\-All\-With3\-D\-View\-Instance}}
+\index{select\-All\-With3\-D\-View\-Instance@{select\-All\-With3\-D\-View\-Instance}!GLC_WorldHandle@{G\-L\-C\-\_\-\-World\-Handle}}
+\subsubsection[{select\-All\-With3\-D\-View\-Instance}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-\-World\-Handle\-::select\-All\-With3\-D\-View\-Instance (
+\begin{DoxyParamCaption}
+\item[{bool}]{all\-Show\-State}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___world_handle_ad70e886ed03340912a09194724c71f1a}
+
+
+\hyperlink{class_select}{Select} all occurence of this world handle. 
+
+
+
+Definition at line 175 of file glc\-\_\-worldhandle.\-cpp.
+
+\hypertarget{class_g_l_c___world_handle_a5520bdcf6f264d87c5d3c87843412c9e}{\index{G\-L\-C\-\_\-\-World\-Handle@{G\-L\-C\-\_\-\-World\-Handle}!selection\-Set\-Handle@{selection\-Set\-Handle}}
+\index{selection\-Set\-Handle@{selection\-Set\-Handle}!GLC_WorldHandle@{G\-L\-C\-\_\-\-World\-Handle}}
+\subsubsection[{selection\-Set\-Handle}]{\setlength{\rightskip}{0pt plus 5cm}{\bf G\-L\-C\-\_\-\-Selection\-Set}$\ast$ G\-L\-C\-\_\-\-World\-Handle\-::selection\-Set\-Handle (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___world_handle_a5520bdcf6f264d87c5d3c87843412c9e}
+
+
+Return an handle to the selection set. 
+
+
+
+Definition at line 106 of file glc\-\_\-worldhandle.\-h.
+
+\hypertarget{class_g_l_c___world_handle_a841ad2f8d23e1c169e080394a2dd7df6}{\index{G\-L\-C\-\_\-\-World\-Handle@{G\-L\-C\-\_\-\-World\-Handle}!set\-Attached\-Viewport@{set\-Attached\-Viewport}}
+\index{set\-Attached\-Viewport@{set\-Attached\-Viewport}!GLC_WorldHandle@{G\-L\-C\-\_\-\-World\-Handle}}
+\subsubsection[{set\-Attached\-Viewport}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-\-World\-Handle\-::set\-Attached\-Viewport (
+\begin{DoxyParamCaption}
+\item[{{\bf G\-L\-C\-\_\-\-Viewport} $\ast$}]{p\-Viewport}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___world_handle_a841ad2f8d23e1c169e080394a2dd7df6}
+
+
+Set the attached viewport of this world handle. 
+
+
+
+Definition at line 141 of file glc\-\_\-worldhandle.\-h.
+
+\hypertarget{class_g_l_c___world_handle_ae5e1aa752c9e18911c713b8144ca5f3e}{\index{G\-L\-C\-\_\-\-World\-Handle@{G\-L\-C\-\_\-\-World\-Handle}!set\-Selected3\-D\-View\-Instance\-Visibility@{set\-Selected3\-D\-View\-Instance\-Visibility}}
+\index{set\-Selected3\-D\-View\-Instance\-Visibility@{set\-Selected3\-D\-View\-Instance\-Visibility}!GLC_WorldHandle@{G\-L\-C\-\_\-\-World\-Handle}}
+\subsubsection[{set\-Selected3\-D\-View\-Instance\-Visibility}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-\-World\-Handle\-::set\-Selected3\-D\-View\-Instance\-Visibility (
+\begin{DoxyParamCaption}
+\item[{bool}]{is\-Visible}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___world_handle_ae5e1aa752c9e18911c713b8144ca5f3e}
+
+
+Set selected 3\-D\-View\-Instance visibility. 
+
+
+
+Definition at line 204 of file glc\-\_\-worldhandle.\-cpp.
+
+\hypertarget{class_g_l_c___world_handle_ae4a79b98e7ff3db2864b0b023cc3263e}{\index{G\-L\-C\-\_\-\-World\-Handle@{G\-L\-C\-\_\-\-World\-Handle}!set\-Up\-Vector@{set\-Up\-Vector}}
+\index{set\-Up\-Vector@{set\-Up\-Vector}!GLC_WorldHandle@{G\-L\-C\-\_\-\-World\-Handle}}
+\subsubsection[{set\-Up\-Vector}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-\-World\-Handle\-::set\-Up\-Vector (
+\begin{DoxyParamCaption}
+\item[{const {\bf G\-L\-C\-\_\-\-Vector3d} \&}]{vect}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___world_handle_ae4a79b98e7ff3db2864b0b023cc3263e}
+
+
+Set the world Up Vector. 
+
+
+
+Definition at line 137 of file glc\-\_\-worldhandle.\-h.
+
+\hypertarget{class_g_l_c___world_handle_a93e6ab65ba908d5bdac070b64f7b0fef}{\index{G\-L\-C\-\_\-\-World\-Handle@{G\-L\-C\-\_\-\-World\-Handle}!show\-Hide\-Selected3\-D\-View\-Instance@{show\-Hide\-Selected3\-D\-View\-Instance}}
+\index{show\-Hide\-Selected3\-D\-View\-Instance@{show\-Hide\-Selected3\-D\-View\-Instance}!GLC_WorldHandle@{G\-L\-C\-\_\-\-World\-Handle}}
+\subsubsection[{show\-Hide\-Selected3\-D\-View\-Instance}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-\-World\-Handle\-::show\-Hide\-Selected3\-D\-View\-Instance (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___world_handle_a93e6ab65ba908d5bdac070b64f7b0fef}
+
+
+Show / Hide selected 3\-D\-View\-Instance. 
+
+
+
+Definition at line 193 of file glc\-\_\-worldhandle.\-cpp.
+
+\hypertarget{class_g_l_c___world_handle_acfba405bd828e7b66e63b3cb1815ddb0}{\index{G\-L\-C\-\_\-\-World\-Handle@{G\-L\-C\-\_\-\-World\-Handle}!unselect@{unselect}}
+\index{unselect@{unselect}!GLC_WorldHandle@{G\-L\-C\-\_\-\-World\-Handle}}
+\subsubsection[{unselect}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-\-World\-Handle\-::unselect (
+\begin{DoxyParamCaption}
+\item[{{\bf G\-L\-C\-\_\-uint}}]{occurence\-Id, }
+\item[{bool}]{propagate = {\ttfamily true}}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___world_handle_acfba405bd828e7b66e63b3cb1815ddb0}
+
+
+Unselect the given occurence id. 
+
+The given occurence id must belong to this worldhandle 
+
+Definition at line 156 of file glc\-\_\-worldhandle.\-cpp.
+
+\hypertarget{class_g_l_c___world_handle_ac841cd16c1d27898b555c58d499e803a}{\index{G\-L\-C\-\_\-\-World\-Handle@{G\-L\-C\-\_\-\-World\-Handle}!unselect\-All@{unselect\-All}}
+\index{unselect\-All@{unselect\-All}!GLC_WorldHandle@{G\-L\-C\-\_\-\-World\-Handle}}
+\subsubsection[{unselect\-All}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-\-World\-Handle\-::unselect\-All (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___world_handle_ac841cd16c1d27898b555c58d499e803a}
+
+
+Unselecte all occurence of this world handle. 
+
+
+
+Definition at line 187 of file glc\-\_\-worldhandle.\-cpp.
+
+\hypertarget{class_g_l_c___world_handle_a7695d653f3609ee372279514a8393e63}{\index{G\-L\-C\-\_\-\-World\-Handle@{G\-L\-C\-\_\-\-World\-Handle}!up\-Vector@{up\-Vector}}
+\index{up\-Vector@{up\-Vector}!GLC_WorldHandle@{G\-L\-C\-\_\-\-World\-Handle}}
+\subsubsection[{up\-Vector}]{\setlength{\rightskip}{0pt plus 5cm}{\bf G\-L\-C\-\_\-\-Vector3d} G\-L\-C\-\_\-\-World\-Handle\-::up\-Vector (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___world_handle_a7695d653f3609ee372279514a8393e63}
+
+
+Return the world Up vector. 
+
+
+
+Definition at line 102 of file glc\-\_\-worldhandle.\-h.
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/glc\-\_\-lib/scene\-Graph/\hyperlink{glc__worldhandle_8h}{glc\-\_\-worldhandle.\-h}\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/glc\-\_\-lib/scene\-Graph/\hyperlink{glc__worldhandle_8cpp}{glc\-\_\-worldhandle.\-cpp}\end{DoxyCompactItemize}

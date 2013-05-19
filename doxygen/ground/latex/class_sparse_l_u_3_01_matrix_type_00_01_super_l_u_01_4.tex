@@ -1,0 +1,444 @@
+\hypertarget{class_sparse_l_u_3_01_matrix_type_00_01_super_l_u_01_4}{\section{Sparse\-L\-U$<$ Matrix\-Type, Super\-L\-U $>$ Class Template Reference}
+\label{class_sparse_l_u_3_01_matrix_type_00_01_super_l_u_01_4}\index{Sparse\-L\-U$<$ Matrix\-Type, Super\-L\-U $>$@{Sparse\-L\-U$<$ Matrix\-Type, Super\-L\-U $>$}}
+}
+
+
+{\ttfamily \#include $<$Super\-L\-U\-Support.\-h$>$}
+
+Inheritance diagram for Sparse\-L\-U$<$ Matrix\-Type, Super\-L\-U $>$\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_sparse_l_u_3_01_matrix_type_00_01_super_l_u_01_4}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_sparse_l_u_3_01_matrix_type_00_01_super_l_u_01_4_ae09b40bf905585895577b644feac096c}{Sparse\-L\-U} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_sparse_l_u_a615b2637e9c72a9ae9ceb297f5a200ea}{flags}=\hyperlink{_sparse_util_8h_ad4a9934b75947f1fae21deee31688bb7acda9685a1ef5c7d3165275024473d9e1}{Natural\-Ordering})
+\item 
+\hyperlink{class_sparse_l_u_3_01_matrix_type_00_01_super_l_u_01_4_a2d5e9b2a9d55f33d8ba897bb62dd0f7a}{Sparse\-L\-U} (const Matrix\-Type \&\hyperlink{glext_8h_a7b24a3f2f56eb1244ae69dacb4fecb6f}{matrix}, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_sparse_l_u_a615b2637e9c72a9ae9ceb297f5a200ea}{flags}=\hyperlink{_sparse_util_8h_ad4a9934b75947f1fae21deee31688bb7acda9685a1ef5c7d3165275024473d9e1}{Natural\-Ordering})
+\item 
+\hyperlink{class_sparse_l_u_3_01_matrix_type_00_01_super_l_u_01_4_a549ac1c614e929cf0b4dcb1fa84d336e}{$\sim$\-Sparse\-L\-U} ()
+\item 
+const \hyperlink{class_sparse_l_u_3_01_matrix_type_00_01_super_l_u_01_4_a456d27de5a655bef64e8d749e80e3aad}{L\-Matrix\-Type} \& \hyperlink{class_sparse_l_u_3_01_matrix_type_00_01_super_l_u_01_4_ac3a90d23048f3a4507c443a405ee6005}{matrix\-L} () const 
+\item 
+const \hyperlink{class_sparse_l_u_3_01_matrix_type_00_01_super_l_u_01_4_ae359d4920c56a9ac93bc728bc0d04b77}{U\-Matrix\-Type} \& \hyperlink{class_sparse_l_u_3_01_matrix_type_00_01_super_l_u_01_4_a083b67b56cedbf21fbd2e9aa94a79480}{matrix\-U} () const 
+\item 
+const \hyperlink{class_sparse_l_u_3_01_matrix_type_00_01_super_l_u_01_4_a904f8c9f7dcd198fcc6fd897cec1ac8e}{Int\-Col\-Vector\-Type} \& \hyperlink{class_sparse_l_u_3_01_matrix_type_00_01_super_l_u_01_4_a748b956992e5d79867327c24e7dcef1d}{permutation\-P} () const 
+\item 
+const \hyperlink{class_sparse_l_u_3_01_matrix_type_00_01_super_l_u_01_4_a341f04a651379c2395a17abc5a566ccf}{Int\-Row\-Vector\-Type} \& \hyperlink{class_sparse_l_u_3_01_matrix_type_00_01_super_l_u_01_4_a704ec2b3211c873bb428598a5c709367}{permutation\-Q} () const 
+\item 
+\hyperlink{class_sparse_l_u_3_01_matrix_type_00_01_super_l_u_01_4_ae21a6c1f9f89d9345035a47e161d8ac7}{Scalar} \hyperlink{class_sparse_l_u_3_01_matrix_type_00_01_super_l_u_01_4_a73df29b7d95500ca82d4db8145ce2d50}{determinant} () const 
+\item 
+{\footnotesize template$<$typename B\-Derived , typename X\-Derived $>$ }\\bool \hyperlink{class_sparse_l_u_3_01_matrix_type_00_01_super_l_u_01_4_a2a72fefce4fbeb75b4dfaef6d9e826b8}{solve} (const \hyperlink{class_matrix_base}{Matrix\-Base}$<$ B\-Derived $>$ \&\hyperlink{glext_8h_a6eba317e3cf44d6d26c04a5a8f197dcb}{b}, \hyperlink{class_matrix_base}{Matrix\-Base}$<$ X\-Derived $>$ $\ast$\hyperlink{glext_8h_a1db9d104e3c2128177f26aff7b46982f}{x}) const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_sparse_l_u_3_01_matrix_type_00_01_super_l_u_01_4_a30d338f40ce6303cb8300e492ac847ca}{compute} (const Matrix\-Type \&\hyperlink{glext_8h_a7b24a3f2f56eb1244ae69dacb4fecb6f}{matrix})
+\end{DoxyCompactItemize}
+\subsection*{Protected Types}
+\begin{DoxyCompactItemize}
+\item 
+typedef \hyperlink{class_sparse_l_u}{Sparse\-L\-U}$<$ Matrix\-Type $>$ \hyperlink{class_sparse_l_u_3_01_matrix_type_00_01_super_l_u_01_4_ac408a79e1a4e8fb823d8ec9bb9d1bded}{Base}
+\item 
+typedef \hyperlink{class_sparse_l_u_a1c13b088bd115436caa27f0f8f0c26fd}{Base\-::\-Scalar} \hyperlink{class_sparse_l_u_3_01_matrix_type_00_01_super_l_u_01_4_ae21a6c1f9f89d9345035a47e161d8ac7}{Scalar}
+\item 
+typedef \hyperlink{class_sparse_l_u_a1090bc6ec27ebb0b088f6a1bf2ad6eab}{Base\-::\-Real\-Scalar} \hyperlink{class_sparse_l_u_3_01_matrix_type_00_01_super_l_u_01_4_aa3cef21ac23d8f5ffe8709bc9178ab23}{Real\-Scalar}
+\item 
+typedef \hyperlink{class_matrix}{Matrix}$<$ \hyperlink{class_sparse_l_u_3_01_matrix_type_00_01_super_l_u_01_4_ae21a6c1f9f89d9345035a47e161d8ac7}{Scalar}, \\*
+\hyperlink{_constants_8h_adc9da5be31bdce40c25a92c27999c0e3}{Dynamic}, 1 $>$ \hyperlink{class_sparse_l_u_3_01_matrix_type_00_01_super_l_u_01_4_a3cf266f148229c44f36eee6be889db6e}{Vector}
+\item 
+typedef \hyperlink{class_matrix}{Matrix}$<$ \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int}, \\*
+1, Matrix\-Type\-::\-Cols\-At\-Compile\-Time $>$ \hyperlink{class_sparse_l_u_3_01_matrix_type_00_01_super_l_u_01_4_a341f04a651379c2395a17abc5a566ccf}{Int\-Row\-Vector\-Type}
+\item 
+typedef \hyperlink{class_matrix}{Matrix}$<$ \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int}, \\*
+Matrix\-Type\-::\-Rows\-At\-Compile\-Time, 1 $>$ \hyperlink{class_sparse_l_u_3_01_matrix_type_00_01_super_l_u_01_4_a904f8c9f7dcd198fcc6fd897cec1ac8e}{Int\-Col\-Vector\-Type}
+\item 
+typedef \hyperlink{class_sparse_matrix}{Sparse\-Matrix}$<$ \hyperlink{class_sparse_l_u_3_01_matrix_type_00_01_super_l_u_01_4_ae21a6c1f9f89d9345035a47e161d8ac7}{Scalar}, \\*
+\hyperlink{_constants_8h_a9c6e15884c02c8075e3575670fe06894}{Lower\-Triangular}$|$\hyperlink{group__flags_ga254555b50eae5fa8a8d241f6bc08939a}{Unit\-Diag\-Bit} $>$ \hyperlink{class_sparse_l_u_3_01_matrix_type_00_01_super_l_u_01_4_a456d27de5a655bef64e8d749e80e3aad}{L\-Matrix\-Type}
+\item 
+typedef \hyperlink{class_sparse_matrix}{Sparse\-Matrix}$<$ \hyperlink{class_sparse_l_u_3_01_matrix_type_00_01_super_l_u_01_4_ae21a6c1f9f89d9345035a47e161d8ac7}{Scalar}, \\*
+\hyperlink{_constants_8h_a96ca999d353b2e4ed0976aab836d047a}{Upper\-Triangular} $>$ \hyperlink{class_sparse_l_u_3_01_matrix_type_00_01_super_l_u_01_4_ae359d4920c56a9ac93bc728bc0d04b77}{U\-Matrix\-Type}
+\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_sparse_l_u_3_01_matrix_type_00_01_super_l_u_01_4_a89b28568353287ecd38f38f8f1c5f60d}{extract\-Data} () const 
+\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_sparse_l_u_3_01_matrix_type_00_01_super_l_u_01_4_a456d27de5a655bef64e8d749e80e3aad}{L\-Matrix\-Type} \hyperlink{class_sparse_l_u_3_01_matrix_type_00_01_super_l_u_01_4_a082c53c0ea1cb1547e88f6a602b3216c}{m\-\_\-l}
+\item 
+\hyperlink{class_sparse_l_u_3_01_matrix_type_00_01_super_l_u_01_4_ae359d4920c56a9ac93bc728bc0d04b77}{U\-Matrix\-Type} \hyperlink{class_sparse_l_u_3_01_matrix_type_00_01_super_l_u_01_4_ac97819e7370a01935c33b6309df603fb}{m\-\_\-u}
+\item 
+\hyperlink{class_sparse_l_u_3_01_matrix_type_00_01_super_l_u_01_4_a904f8c9f7dcd198fcc6fd897cec1ac8e}{Int\-Col\-Vector\-Type} \hyperlink{class_sparse_l_u_3_01_matrix_type_00_01_super_l_u_01_4_a53e9ea0364b931aec6c28fe65b82173a}{m\-\_\-p}
+\item 
+\hyperlink{class_sparse_l_u_3_01_matrix_type_00_01_super_l_u_01_4_a341f04a651379c2395a17abc5a566ccf}{Int\-Row\-Vector\-Type} \hyperlink{class_sparse_l_u_3_01_matrix_type_00_01_super_l_u_01_4_aaa8b743a946f2e1ad0c2828fe7149576}{m\-\_\-q}
+\item 
+\hyperlink{class_sparse_matrix}{Sparse\-Matrix}$<$ \hyperlink{class_sparse_l_u_3_01_matrix_type_00_01_super_l_u_01_4_ae21a6c1f9f89d9345035a47e161d8ac7}{Scalar} $>$ \hyperlink{class_sparse_l_u_3_01_matrix_type_00_01_super_l_u_01_4_a85a2c468e0ae13c1c6b12c47d119ef71}{m\-\_\-matrix}
+\item 
+\hyperlink{struct_slu_matrix}{Slu\-Matrix} \hyperlink{class_sparse_l_u_3_01_matrix_type_00_01_super_l_u_01_4_aa35e7477b877824fa14eb1f759f8eb3b}{m\-\_\-slu\-A}
+\item 
+Super\-Matrix \hyperlink{class_sparse_l_u_3_01_matrix_type_00_01_super_l_u_01_4_acadc22ec35946abdb3ba2a7b23804dac}{m\-\_\-slu\-L}
+\item 
+Super\-Matrix \hyperlink{class_sparse_l_u_3_01_matrix_type_00_01_super_l_u_01_4_ad16d9d6b6338e16f12316e26242b9585}{m\-\_\-slu\-U}
+\item 
+\hyperlink{struct_slu_matrix}{Slu\-Matrix} \hyperlink{class_sparse_l_u_3_01_matrix_type_00_01_super_l_u_01_4_a07f5889a610dee96568fc82738b54d8c}{m\-\_\-slu\-B}
+\item 
+\hyperlink{struct_slu_matrix}{Slu\-Matrix} \hyperlink{class_sparse_l_u_3_01_matrix_type_00_01_super_l_u_01_4_a258b16a8e33706027a7d1be030c46870}{m\-\_\-slu\-X}
+\item 
+Super\-L\-U\-Stat\-\_\-t \hyperlink{class_sparse_l_u_3_01_matrix_type_00_01_super_l_u_01_4_a3000e29ed20a97d861ed9ebb16a72cc6}{m\-\_\-slu\-Stat}
+\item 
+superlu\-\_\-options\-\_\-t \hyperlink{class_sparse_l_u_3_01_matrix_type_00_01_super_l_u_01_4_a7a682af53524b683030b75b341ef8b3d}{m\-\_\-slu\-Options}
+\item 
+std\-::vector$<$ \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} $>$ \hyperlink{class_sparse_l_u_3_01_matrix_type_00_01_super_l_u_01_4_a98713daa0dba9934f94f9562fe8d70bc}{m\-\_\-slu\-Etree}
+\item 
+std\-::vector$<$ \hyperlink{class_sparse_l_u_3_01_matrix_type_00_01_super_l_u_01_4_aa3cef21ac23d8f5ffe8709bc9178ab23}{Real\-Scalar} $>$ \hyperlink{class_sparse_l_u_3_01_matrix_type_00_01_super_l_u_01_4_a063708bbf4aedffb3e56440f13f36c41}{m\-\_\-slu\-Rscale}
+\item 
+std\-::vector$<$ \hyperlink{class_sparse_l_u_3_01_matrix_type_00_01_super_l_u_01_4_aa3cef21ac23d8f5ffe8709bc9178ab23}{Real\-Scalar} $>$ \hyperlink{class_sparse_l_u_3_01_matrix_type_00_01_super_l_u_01_4_a9316b254caf60cd7ea59de49161633aa}{m\-\_\-slu\-Cscale}
+\item 
+std\-::vector$<$ \hyperlink{class_sparse_l_u_3_01_matrix_type_00_01_super_l_u_01_4_aa3cef21ac23d8f5ffe8709bc9178ab23}{Real\-Scalar} $>$ \hyperlink{class_sparse_l_u_3_01_matrix_type_00_01_super_l_u_01_4_aa1556f872d1bb4b8ddcf863995ff39ce}{m\-\_\-slu\-Ferr}
+\item 
+std\-::vector$<$ \hyperlink{class_sparse_l_u_3_01_matrix_type_00_01_super_l_u_01_4_aa3cef21ac23d8f5ffe8709bc9178ab23}{Real\-Scalar} $>$ \hyperlink{class_sparse_l_u_3_01_matrix_type_00_01_super_l_u_01_4_a66623b8295795f38f19148833f5d5798}{m\-\_\-slu\-Berr}
+\item 
+char \hyperlink{class_sparse_l_u_3_01_matrix_type_00_01_super_l_u_01_4_a909b219339c648af7221c00ded94e80f}{m\-\_\-slu\-Equed}
+\item 
+bool \hyperlink{class_sparse_l_u_3_01_matrix_type_00_01_super_l_u_01_4_aa73e205fdfcccaee7e6fcab5565deb19}{m\-\_\-extracted\-Data\-Are\-Dirty}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$typename Matrix\-Type$>$class Sparse\-L\-U$<$ Matrix\-Type, Super\-L\-U $>$}
+
+
+
+Definition at line 261 of file Super\-L\-U\-Support.\-h.
+
+
+
+\subsection{Member Typedef Documentation}
+\hypertarget{class_sparse_l_u_3_01_matrix_type_00_01_super_l_u_01_4_ac408a79e1a4e8fb823d8ec9bb9d1bded}{\index{Sparse\-L\-U$<$ Matrix\-Type, Super\-L\-U $>$@{Sparse\-L\-U$<$ Matrix\-Type, Super\-L\-U $>$}!Base@{Base}}
+\index{Base@{Base}!SparseLU< MatrixType, SuperLU >@{Sparse\-L\-U$<$ Matrix\-Type, Super\-L\-U $>$}}
+\subsubsection[{Base}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type $>$ typedef {\bf Sparse\-L\-U}$<$Matrix\-Type$>$ {\bf Sparse\-L\-U}$<$ Matrix\-Type, {\bf Super\-L\-U} $>$\-::{\bf Base}\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_sparse_l_u_3_01_matrix_type_00_01_super_l_u_01_4_ac408a79e1a4e8fb823d8ec9bb9d1bded}
+
+
+Definition at line 264 of file Super\-L\-U\-Support.\-h.
+
+\hypertarget{class_sparse_l_u_3_01_matrix_type_00_01_super_l_u_01_4_a904f8c9f7dcd198fcc6fd897cec1ac8e}{\index{Sparse\-L\-U$<$ Matrix\-Type, Super\-L\-U $>$@{Sparse\-L\-U$<$ Matrix\-Type, Super\-L\-U $>$}!Int\-Col\-Vector\-Type@{Int\-Col\-Vector\-Type}}
+\index{Int\-Col\-Vector\-Type@{Int\-Col\-Vector\-Type}!SparseLU< MatrixType, SuperLU >@{Sparse\-L\-U$<$ Matrix\-Type, Super\-L\-U $>$}}
+\subsubsection[{Int\-Col\-Vector\-Type}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type $>$ typedef {\bf Matrix}$<${\bf int}, Matrix\-Type\-::\-Rows\-At\-Compile\-Time, 1$>$ {\bf Sparse\-L\-U}$<$ Matrix\-Type, {\bf Super\-L\-U} $>$\-::{\bf Int\-Col\-Vector\-Type}\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_sparse_l_u_3_01_matrix_type_00_01_super_l_u_01_4_a904f8c9f7dcd198fcc6fd897cec1ac8e}
+
+
+Definition at line 269 of file Super\-L\-U\-Support.\-h.
+
+\hypertarget{class_sparse_l_u_3_01_matrix_type_00_01_super_l_u_01_4_a341f04a651379c2395a17abc5a566ccf}{\index{Sparse\-L\-U$<$ Matrix\-Type, Super\-L\-U $>$@{Sparse\-L\-U$<$ Matrix\-Type, Super\-L\-U $>$}!Int\-Row\-Vector\-Type@{Int\-Row\-Vector\-Type}}
+\index{Int\-Row\-Vector\-Type@{Int\-Row\-Vector\-Type}!SparseLU< MatrixType, SuperLU >@{Sparse\-L\-U$<$ Matrix\-Type, Super\-L\-U $>$}}
+\subsubsection[{Int\-Row\-Vector\-Type}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type $>$ typedef {\bf Matrix}$<${\bf int}, 1, Matrix\-Type\-::\-Cols\-At\-Compile\-Time$>$ {\bf Sparse\-L\-U}$<$ Matrix\-Type, {\bf Super\-L\-U} $>$\-::{\bf Int\-Row\-Vector\-Type}\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_sparse_l_u_3_01_matrix_type_00_01_super_l_u_01_4_a341f04a651379c2395a17abc5a566ccf}
+
+
+Definition at line 268 of file Super\-L\-U\-Support.\-h.
+
+\hypertarget{class_sparse_l_u_3_01_matrix_type_00_01_super_l_u_01_4_a456d27de5a655bef64e8d749e80e3aad}{\index{Sparse\-L\-U$<$ Matrix\-Type, Super\-L\-U $>$@{Sparse\-L\-U$<$ Matrix\-Type, Super\-L\-U $>$}!L\-Matrix\-Type@{L\-Matrix\-Type}}
+\index{L\-Matrix\-Type@{L\-Matrix\-Type}!SparseLU< MatrixType, SuperLU >@{Sparse\-L\-U$<$ Matrix\-Type, Super\-L\-U $>$}}
+\subsubsection[{L\-Matrix\-Type}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type $>$ typedef {\bf Sparse\-Matrix}$<${\bf Scalar},{\bf Lower\-Triangular}$|${\bf Unit\-Diag\-Bit}$>$ {\bf Sparse\-L\-U}$<$ Matrix\-Type, {\bf Super\-L\-U} $>$\-::{\bf L\-Matrix\-Type}\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_sparse_l_u_3_01_matrix_type_00_01_super_l_u_01_4_a456d27de5a655bef64e8d749e80e3aad}
+
+
+Definition at line 270 of file Super\-L\-U\-Support.\-h.
+
+\hypertarget{class_sparse_l_u_3_01_matrix_type_00_01_super_l_u_01_4_aa3cef21ac23d8f5ffe8709bc9178ab23}{\index{Sparse\-L\-U$<$ Matrix\-Type, Super\-L\-U $>$@{Sparse\-L\-U$<$ Matrix\-Type, Super\-L\-U $>$}!Real\-Scalar@{Real\-Scalar}}
+\index{Real\-Scalar@{Real\-Scalar}!SparseLU< MatrixType, SuperLU >@{Sparse\-L\-U$<$ Matrix\-Type, Super\-L\-U $>$}}
+\subsubsection[{Real\-Scalar}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type $>$ typedef {\bf Base\-::\-Real\-Scalar} {\bf Sparse\-L\-U}$<$ Matrix\-Type, {\bf Super\-L\-U} $>$\-::{\bf Real\-Scalar}\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_sparse_l_u_3_01_matrix_type_00_01_super_l_u_01_4_aa3cef21ac23d8f5ffe8709bc9178ab23}
+
+
+Definition at line 266 of file Super\-L\-U\-Support.\-h.
+
+\hypertarget{class_sparse_l_u_3_01_matrix_type_00_01_super_l_u_01_4_ae21a6c1f9f89d9345035a47e161d8ac7}{\index{Sparse\-L\-U$<$ Matrix\-Type, Super\-L\-U $>$@{Sparse\-L\-U$<$ Matrix\-Type, Super\-L\-U $>$}!Scalar@{Scalar}}
+\index{Scalar@{Scalar}!SparseLU< MatrixType, SuperLU >@{Sparse\-L\-U$<$ Matrix\-Type, Super\-L\-U $>$}}
+\subsubsection[{Scalar}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type $>$ typedef {\bf Base\-::\-Scalar} {\bf Sparse\-L\-U}$<$ Matrix\-Type, {\bf Super\-L\-U} $>$\-::{\bf Scalar}\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_sparse_l_u_3_01_matrix_type_00_01_super_l_u_01_4_ae21a6c1f9f89d9345035a47e161d8ac7}
+
+
+Definition at line 265 of file Super\-L\-U\-Support.\-h.
+
+\hypertarget{class_sparse_l_u_3_01_matrix_type_00_01_super_l_u_01_4_ae359d4920c56a9ac93bc728bc0d04b77}{\index{Sparse\-L\-U$<$ Matrix\-Type, Super\-L\-U $>$@{Sparse\-L\-U$<$ Matrix\-Type, Super\-L\-U $>$}!U\-Matrix\-Type@{U\-Matrix\-Type}}
+\index{U\-Matrix\-Type@{U\-Matrix\-Type}!SparseLU< MatrixType, SuperLU >@{Sparse\-L\-U$<$ Matrix\-Type, Super\-L\-U $>$}}
+\subsubsection[{U\-Matrix\-Type}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type $>$ typedef {\bf Sparse\-Matrix}$<${\bf Scalar},{\bf Upper\-Triangular}$>$ {\bf Sparse\-L\-U}$<$ Matrix\-Type, {\bf Super\-L\-U} $>$\-::{\bf U\-Matrix\-Type}\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_sparse_l_u_3_01_matrix_type_00_01_super_l_u_01_4_ae359d4920c56a9ac93bc728bc0d04b77}
+
+
+Definition at line 271 of file Super\-L\-U\-Support.\-h.
+
+\hypertarget{class_sparse_l_u_3_01_matrix_type_00_01_super_l_u_01_4_a3cf266f148229c44f36eee6be889db6e}{\index{Sparse\-L\-U$<$ Matrix\-Type, Super\-L\-U $>$@{Sparse\-L\-U$<$ Matrix\-Type, Super\-L\-U $>$}!Vector@{Vector}}
+\index{Vector@{Vector}!SparseLU< MatrixType, SuperLU >@{Sparse\-L\-U$<$ Matrix\-Type, Super\-L\-U $>$}}
+\subsubsection[{Vector}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type $>$ typedef {\bf Matrix}$<${\bf Scalar},{\bf Dynamic},1$>$ {\bf Sparse\-L\-U}$<$ Matrix\-Type, {\bf Super\-L\-U} $>$\-::{\bf Vector}\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_sparse_l_u_3_01_matrix_type_00_01_super_l_u_01_4_a3cf266f148229c44f36eee6be889db6e}
+
+
+Definition at line 267 of file Super\-L\-U\-Support.\-h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_sparse_l_u_3_01_matrix_type_00_01_super_l_u_01_4_ae09b40bf905585895577b644feac096c}{\index{Sparse\-L\-U$<$ Matrix\-Type, Super\-L\-U $>$@{Sparse\-L\-U$<$ Matrix\-Type, Super\-L\-U $>$}!Sparse\-L\-U@{Sparse\-L\-U}}
+\index{Sparse\-L\-U@{Sparse\-L\-U}!SparseLU< MatrixType, SuperLU >@{Sparse\-L\-U$<$ Matrix\-Type, Super\-L\-U $>$}}
+\subsubsection[{Sparse\-L\-U}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type $>$ {\bf Sparse\-L\-U}$<$ Matrix\-Type, {\bf Super\-L\-U} $>$\-::{\bf Sparse\-L\-U} (
+\begin{DoxyParamCaption}
+\item[{{\bf int}}]{flags = {\ttfamily {\bf Natural\-Ordering}}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_sparse_l_u_3_01_matrix_type_00_01_super_l_u_01_4_ae09b40bf905585895577b644feac096c}
+
+
+Definition at line 277 of file Super\-L\-U\-Support.\-h.
+
+\hypertarget{class_sparse_l_u_3_01_matrix_type_00_01_super_l_u_01_4_a2d5e9b2a9d55f33d8ba897bb62dd0f7a}{\index{Sparse\-L\-U$<$ Matrix\-Type, Super\-L\-U $>$@{Sparse\-L\-U$<$ Matrix\-Type, Super\-L\-U $>$}!Sparse\-L\-U@{Sparse\-L\-U}}
+\index{Sparse\-L\-U@{Sparse\-L\-U}!SparseLU< MatrixType, SuperLU >@{Sparse\-L\-U$<$ Matrix\-Type, Super\-L\-U $>$}}
+\subsubsection[{Sparse\-L\-U}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type $>$ {\bf Sparse\-L\-U}$<$ Matrix\-Type, {\bf Super\-L\-U} $>$\-::{\bf Sparse\-L\-U} (
+\begin{DoxyParamCaption}
+\item[{const Matrix\-Type \&}]{matrix, }
+\item[{{\bf int}}]{flags = {\ttfamily {\bf Natural\-Ordering}}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_sparse_l_u_3_01_matrix_type_00_01_super_l_u_01_4_a2d5e9b2a9d55f33d8ba897bb62dd0f7a}
+
+
+Definition at line 282 of file Super\-L\-U\-Support.\-h.
+
+\hypertarget{class_sparse_l_u_3_01_matrix_type_00_01_super_l_u_01_4_a549ac1c614e929cf0b4dcb1fa84d336e}{\index{Sparse\-L\-U$<$ Matrix\-Type, Super\-L\-U $>$@{Sparse\-L\-U$<$ Matrix\-Type, Super\-L\-U $>$}!$\sim$\-Sparse\-L\-U@{$\sim$\-Sparse\-L\-U}}
+\index{$\sim$\-Sparse\-L\-U@{$\sim$\-Sparse\-L\-U}!SparseLU< MatrixType, SuperLU >@{Sparse\-L\-U$<$ Matrix\-Type, Super\-L\-U $>$}}
+\subsubsection[{$\sim$\-Sparse\-L\-U}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type $>$ {\bf Sparse\-L\-U}$<$ Matrix\-Type, {\bf Super\-L\-U} $>$\-::$\sim${\bf Sparse\-L\-U} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_sparse_l_u_3_01_matrix_type_00_01_super_l_u_01_4_a549ac1c614e929cf0b4dcb1fa84d336e}
+
+
+Definition at line 288 of file Super\-L\-U\-Support.\-h.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_sparse_l_u_3_01_matrix_type_00_01_super_l_u_01_4_a30d338f40ce6303cb8300e492ac847ca}{\index{Sparse\-L\-U$<$ Matrix\-Type, Super\-L\-U $>$@{Sparse\-L\-U$<$ Matrix\-Type, Super\-L\-U $>$}!compute@{compute}}
+\index{compute@{compute}!SparseLU< MatrixType, SuperLU >@{Sparse\-L\-U$<$ Matrix\-Type, Super\-L\-U $>$}}
+\subsubsection[{compute}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type $>$ {\bf void} {\bf Sparse\-L\-U}$<$ Matrix\-Type, {\bf Super\-L\-U} $>$\-::compute (
+\begin{DoxyParamCaption}
+\item[{const Matrix\-Type \&}]{matrix}
+\end{DoxyParamCaption}
+)}}\label{class_sparse_l_u_3_01_matrix_type_00_01_super_l_u_01_4_a30d338f40ce6303cb8300e492ac847ca}
+
+
+Definition at line 348 of file Super\-L\-U\-Support.\-h.
+
+\hypertarget{class_sparse_l_u_3_01_matrix_type_00_01_super_l_u_01_4_a73df29b7d95500ca82d4db8145ce2d50}{\index{Sparse\-L\-U$<$ Matrix\-Type, Super\-L\-U $>$@{Sparse\-L\-U$<$ Matrix\-Type, Super\-L\-U $>$}!determinant@{determinant}}
+\index{determinant@{determinant}!SparseLU< MatrixType, SuperLU >@{Sparse\-L\-U$<$ Matrix\-Type, Super\-L\-U $>$}}
+\subsubsection[{determinant}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type $>$ {\bf Sparse\-L\-U}$<$ Matrix\-Type, {\bf Super\-L\-U} $>$\-::{\bf Scalar} {\bf Sparse\-L\-U}$<$ Matrix\-Type, {\bf Super\-L\-U} $>$\-::determinant (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_sparse_l_u_3_01_matrix_type_00_01_super_l_u_01_4_a73df29b7d95500ca82d4db8145ce2d50}
+
+
+Definition at line 541 of file Super\-L\-U\-Support.\-h.
+
+\hypertarget{class_sparse_l_u_3_01_matrix_type_00_01_super_l_u_01_4_a89b28568353287ecd38f38f8f1c5f60d}{\index{Sparse\-L\-U$<$ Matrix\-Type, Super\-L\-U $>$@{Sparse\-L\-U$<$ Matrix\-Type, Super\-L\-U $>$}!extract\-Data@{extract\-Data}}
+\index{extract\-Data@{extract\-Data}!SparseLU< MatrixType, SuperLU >@{Sparse\-L\-U$<$ Matrix\-Type, Super\-L\-U $>$}}
+\subsubsection[{extract\-Data}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type $>$ {\bf void} {\bf Sparse\-L\-U}$<$ Matrix\-Type, {\bf Super\-L\-U} $>$\-::extract\-Data (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_sparse_l_u_3_01_matrix_type_00_01_super_l_u_01_4_a89b28568353287ecd38f38f8f1c5f60d}
+
+
+Definition at line 456 of file Super\-L\-U\-Support.\-h.
+
+\hypertarget{class_sparse_l_u_3_01_matrix_type_00_01_super_l_u_01_4_ac3a90d23048f3a4507c443a405ee6005}{\index{Sparse\-L\-U$<$ Matrix\-Type, Super\-L\-U $>$@{Sparse\-L\-U$<$ Matrix\-Type, Super\-L\-U $>$}!matrix\-L@{matrix\-L}}
+\index{matrix\-L@{matrix\-L}!SparseLU< MatrixType, SuperLU >@{Sparse\-L\-U$<$ Matrix\-Type, Super\-L\-U $>$}}
+\subsubsection[{matrix\-L}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type $>$ const {\bf L\-Matrix\-Type}\& {\bf Sparse\-L\-U}$<$ Matrix\-Type, {\bf Super\-L\-U} $>$\-::matrix\-L (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_sparse_l_u_3_01_matrix_type_00_01_super_l_u_01_4_ac3a90d23048f3a4507c443a405ee6005}
+
+
+Definition at line 292 of file Super\-L\-U\-Support.\-h.
+
+\hypertarget{class_sparse_l_u_3_01_matrix_type_00_01_super_l_u_01_4_a083b67b56cedbf21fbd2e9aa94a79480}{\index{Sparse\-L\-U$<$ Matrix\-Type, Super\-L\-U $>$@{Sparse\-L\-U$<$ Matrix\-Type, Super\-L\-U $>$}!matrix\-U@{matrix\-U}}
+\index{matrix\-U@{matrix\-U}!SparseLU< MatrixType, SuperLU >@{Sparse\-L\-U$<$ Matrix\-Type, Super\-L\-U $>$}}
+\subsubsection[{matrix\-U}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type $>$ const {\bf U\-Matrix\-Type}\& {\bf Sparse\-L\-U}$<$ Matrix\-Type, {\bf Super\-L\-U} $>$\-::matrix\-U (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_sparse_l_u_3_01_matrix_type_00_01_super_l_u_01_4_a083b67b56cedbf21fbd2e9aa94a79480}
+
+
+Definition at line 298 of file Super\-L\-U\-Support.\-h.
+
+\hypertarget{class_sparse_l_u_3_01_matrix_type_00_01_super_l_u_01_4_a748b956992e5d79867327c24e7dcef1d}{\index{Sparse\-L\-U$<$ Matrix\-Type, Super\-L\-U $>$@{Sparse\-L\-U$<$ Matrix\-Type, Super\-L\-U $>$}!permutation\-P@{permutation\-P}}
+\index{permutation\-P@{permutation\-P}!SparseLU< MatrixType, SuperLU >@{Sparse\-L\-U$<$ Matrix\-Type, Super\-L\-U $>$}}
+\subsubsection[{permutation\-P}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type $>$ const {\bf Int\-Col\-Vector\-Type}\& {\bf Sparse\-L\-U}$<$ Matrix\-Type, {\bf Super\-L\-U} $>$\-::permutation\-P (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_sparse_l_u_3_01_matrix_type_00_01_super_l_u_01_4_a748b956992e5d79867327c24e7dcef1d}
+
+
+Definition at line 304 of file Super\-L\-U\-Support.\-h.
+
+\hypertarget{class_sparse_l_u_3_01_matrix_type_00_01_super_l_u_01_4_a704ec2b3211c873bb428598a5c709367}{\index{Sparse\-L\-U$<$ Matrix\-Type, Super\-L\-U $>$@{Sparse\-L\-U$<$ Matrix\-Type, Super\-L\-U $>$}!permutation\-Q@{permutation\-Q}}
+\index{permutation\-Q@{permutation\-Q}!SparseLU< MatrixType, SuperLU >@{Sparse\-L\-U$<$ Matrix\-Type, Super\-L\-U $>$}}
+\subsubsection[{permutation\-Q}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type $>$ const {\bf Int\-Row\-Vector\-Type}\& {\bf Sparse\-L\-U}$<$ Matrix\-Type, {\bf Super\-L\-U} $>$\-::permutation\-Q (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_sparse_l_u_3_01_matrix_type_00_01_super_l_u_01_4_a704ec2b3211c873bb428598a5c709367}
+
+
+Definition at line 310 of file Super\-L\-U\-Support.\-h.
+
+\hypertarget{class_sparse_l_u_3_01_matrix_type_00_01_super_l_u_01_4_a2a72fefce4fbeb75b4dfaef6d9e826b8}{\index{Sparse\-L\-U$<$ Matrix\-Type, Super\-L\-U $>$@{Sparse\-L\-U$<$ Matrix\-Type, Super\-L\-U $>$}!solve@{solve}}
+\index{solve@{solve}!SparseLU< MatrixType, SuperLU >@{Sparse\-L\-U$<$ Matrix\-Type, Super\-L\-U $>$}}
+\subsubsection[{solve}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type $>$ template$<$typename B\-Derived , typename X\-Derived $>$ bool {\bf Sparse\-L\-U}$<$ Matrix\-Type, {\bf Super\-L\-U} $>$\-::solve (
+\begin{DoxyParamCaption}
+\item[{const {\bf Matrix\-Base}$<$ B\-Derived $>$ \&}]{b, }
+\item[{{\bf Matrix\-Base}$<$ X\-Derived $>$ $\ast$}]{x}
+\end{DoxyParamCaption}
+) const}}\label{class_sparse_l_u_3_01_matrix_type_00_01_super_l_u_01_4_a2a72fefce4fbeb75b4dfaef6d9e826b8}
+
+
+Definition at line 414 of file Super\-L\-U\-Support.\-h.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{class_sparse_l_u_3_01_matrix_type_00_01_super_l_u_01_4_aa73e205fdfcccaee7e6fcab5565deb19}{\index{Sparse\-L\-U$<$ Matrix\-Type, Super\-L\-U $>$@{Sparse\-L\-U$<$ Matrix\-Type, Super\-L\-U $>$}!m\-\_\-extracted\-Data\-Are\-Dirty@{m\-\_\-extracted\-Data\-Are\-Dirty}}
+\index{m\-\_\-extracted\-Data\-Are\-Dirty@{m\-\_\-extracted\-Data\-Are\-Dirty}!SparseLU< MatrixType, SuperLU >@{Sparse\-L\-U$<$ Matrix\-Type, Super\-L\-U $>$}}
+\subsubsection[{m\-\_\-extracted\-Data\-Are\-Dirty}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type $>$ bool {\bf Sparse\-L\-U}$<$ Matrix\-Type, {\bf Super\-L\-U} $>$\-::m\-\_\-extracted\-Data\-Are\-Dirty\hspace{0.3cm}{\ttfamily [mutable]}, {\ttfamily [protected]}}}\label{class_sparse_l_u_3_01_matrix_type_00_01_super_l_u_01_4_aa73e205fdfcccaee7e6fcab5565deb19}
+
+
+Definition at line 344 of file Super\-L\-U\-Support.\-h.
+
+\hypertarget{class_sparse_l_u_3_01_matrix_type_00_01_super_l_u_01_4_a082c53c0ea1cb1547e88f6a602b3216c}{\index{Sparse\-L\-U$<$ Matrix\-Type, Super\-L\-U $>$@{Sparse\-L\-U$<$ Matrix\-Type, Super\-L\-U $>$}!m\-\_\-l@{m\-\_\-l}}
+\index{m\-\_\-l@{m\-\_\-l}!SparseLU< MatrixType, SuperLU >@{Sparse\-L\-U$<$ Matrix\-Type, Super\-L\-U $>$}}
+\subsubsection[{m\-\_\-l}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type $>$ {\bf L\-Matrix\-Type} {\bf Sparse\-L\-U}$<$ Matrix\-Type, {\bf Super\-L\-U} $>$\-::m\-\_\-l\hspace{0.3cm}{\ttfamily [mutable]}, {\ttfamily [protected]}}}\label{class_sparse_l_u_3_01_matrix_type_00_01_super_l_u_01_4_a082c53c0ea1cb1547e88f6a602b3216c}
+
+
+Definition at line 329 of file Super\-L\-U\-Support.\-h.
+
+\hypertarget{class_sparse_l_u_3_01_matrix_type_00_01_super_l_u_01_4_a85a2c468e0ae13c1c6b12c47d119ef71}{\index{Sparse\-L\-U$<$ Matrix\-Type, Super\-L\-U $>$@{Sparse\-L\-U$<$ Matrix\-Type, Super\-L\-U $>$}!m\-\_\-matrix@{m\-\_\-matrix}}
+\index{m\-\_\-matrix@{m\-\_\-matrix}!SparseLU< MatrixType, SuperLU >@{Sparse\-L\-U$<$ Matrix\-Type, Super\-L\-U $>$}}
+\subsubsection[{m\-\_\-matrix}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type $>$ {\bf Sparse\-Matrix}$<${\bf Scalar}$>$ {\bf Sparse\-L\-U}$<$ Matrix\-Type, {\bf Super\-L\-U} $>$\-::m\-\_\-matrix\hspace{0.3cm}{\ttfamily [mutable]}, {\ttfamily [protected]}}}\label{class_sparse_l_u_3_01_matrix_type_00_01_super_l_u_01_4_a85a2c468e0ae13c1c6b12c47d119ef71}
+
+
+Definition at line 334 of file Super\-L\-U\-Support.\-h.
+
+\hypertarget{class_sparse_l_u_3_01_matrix_type_00_01_super_l_u_01_4_a53e9ea0364b931aec6c28fe65b82173a}{\index{Sparse\-L\-U$<$ Matrix\-Type, Super\-L\-U $>$@{Sparse\-L\-U$<$ Matrix\-Type, Super\-L\-U $>$}!m\-\_\-p@{m\-\_\-p}}
+\index{m\-\_\-p@{m\-\_\-p}!SparseLU< MatrixType, SuperLU >@{Sparse\-L\-U$<$ Matrix\-Type, Super\-L\-U $>$}}
+\subsubsection[{m\-\_\-p}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type $>$ {\bf Int\-Col\-Vector\-Type} {\bf Sparse\-L\-U}$<$ Matrix\-Type, {\bf Super\-L\-U} $>$\-::m\-\_\-p\hspace{0.3cm}{\ttfamily [mutable]}, {\ttfamily [protected]}}}\label{class_sparse_l_u_3_01_matrix_type_00_01_super_l_u_01_4_a53e9ea0364b931aec6c28fe65b82173a}
+
+
+Definition at line 331 of file Super\-L\-U\-Support.\-h.
+
+\hypertarget{class_sparse_l_u_3_01_matrix_type_00_01_super_l_u_01_4_aaa8b743a946f2e1ad0c2828fe7149576}{\index{Sparse\-L\-U$<$ Matrix\-Type, Super\-L\-U $>$@{Sparse\-L\-U$<$ Matrix\-Type, Super\-L\-U $>$}!m\-\_\-q@{m\-\_\-q}}
+\index{m\-\_\-q@{m\-\_\-q}!SparseLU< MatrixType, SuperLU >@{Sparse\-L\-U$<$ Matrix\-Type, Super\-L\-U $>$}}
+\subsubsection[{m\-\_\-q}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type $>$ {\bf Int\-Row\-Vector\-Type} {\bf Sparse\-L\-U}$<$ Matrix\-Type, {\bf Super\-L\-U} $>$\-::m\-\_\-q\hspace{0.3cm}{\ttfamily [mutable]}, {\ttfamily [protected]}}}\label{class_sparse_l_u_3_01_matrix_type_00_01_super_l_u_01_4_aaa8b743a946f2e1ad0c2828fe7149576}
+
+
+Definition at line 332 of file Super\-L\-U\-Support.\-h.
+
+\hypertarget{class_sparse_l_u_3_01_matrix_type_00_01_super_l_u_01_4_aa35e7477b877824fa14eb1f759f8eb3b}{\index{Sparse\-L\-U$<$ Matrix\-Type, Super\-L\-U $>$@{Sparse\-L\-U$<$ Matrix\-Type, Super\-L\-U $>$}!m\-\_\-slu\-A@{m\-\_\-slu\-A}}
+\index{m\-\_\-slu\-A@{m\-\_\-slu\-A}!SparseLU< MatrixType, SuperLU >@{Sparse\-L\-U$<$ Matrix\-Type, Super\-L\-U $>$}}
+\subsubsection[{m\-\_\-slu\-A}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type $>$ {\bf Slu\-Matrix} {\bf Sparse\-L\-U}$<$ Matrix\-Type, {\bf Super\-L\-U} $>$\-::m\-\_\-slu\-A\hspace{0.3cm}{\ttfamily [mutable]}, {\ttfamily [protected]}}}\label{class_sparse_l_u_3_01_matrix_type_00_01_super_l_u_01_4_aa35e7477b877824fa14eb1f759f8eb3b}
+
+
+Definition at line 335 of file Super\-L\-U\-Support.\-h.
+
+\hypertarget{class_sparse_l_u_3_01_matrix_type_00_01_super_l_u_01_4_a07f5889a610dee96568fc82738b54d8c}{\index{Sparse\-L\-U$<$ Matrix\-Type, Super\-L\-U $>$@{Sparse\-L\-U$<$ Matrix\-Type, Super\-L\-U $>$}!m\-\_\-slu\-B@{m\-\_\-slu\-B}}
+\index{m\-\_\-slu\-B@{m\-\_\-slu\-B}!SparseLU< MatrixType, SuperLU >@{Sparse\-L\-U$<$ Matrix\-Type, Super\-L\-U $>$}}
+\subsubsection[{m\-\_\-slu\-B}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type $>$ {\bf Slu\-Matrix} {\bf Sparse\-L\-U}$<$ Matrix\-Type, {\bf Super\-L\-U} $>$\-::m\-\_\-slu\-B\hspace{0.3cm}{\ttfamily [mutable]}, {\ttfamily [protected]}}}\label{class_sparse_l_u_3_01_matrix_type_00_01_super_l_u_01_4_a07f5889a610dee96568fc82738b54d8c}
+
+
+Definition at line 337 of file Super\-L\-U\-Support.\-h.
+
+\hypertarget{class_sparse_l_u_3_01_matrix_type_00_01_super_l_u_01_4_a66623b8295795f38f19148833f5d5798}{\index{Sparse\-L\-U$<$ Matrix\-Type, Super\-L\-U $>$@{Sparse\-L\-U$<$ Matrix\-Type, Super\-L\-U $>$}!m\-\_\-slu\-Berr@{m\-\_\-slu\-Berr}}
+\index{m\-\_\-slu\-Berr@{m\-\_\-slu\-Berr}!SparseLU< MatrixType, SuperLU >@{Sparse\-L\-U$<$ Matrix\-Type, Super\-L\-U $>$}}
+\subsubsection[{m\-\_\-slu\-Berr}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type $>$ std\-::vector$<${\bf Real\-Scalar}$>$ {\bf Sparse\-L\-U}$<$ Matrix\-Type, {\bf Super\-L\-U} $>$\-::m\-\_\-slu\-Berr\hspace{0.3cm}{\ttfamily [mutable]}, {\ttfamily [protected]}}}\label{class_sparse_l_u_3_01_matrix_type_00_01_super_l_u_01_4_a66623b8295795f38f19148833f5d5798}
+
+
+Definition at line 342 of file Super\-L\-U\-Support.\-h.
+
+\hypertarget{class_sparse_l_u_3_01_matrix_type_00_01_super_l_u_01_4_a9316b254caf60cd7ea59de49161633aa}{\index{Sparse\-L\-U$<$ Matrix\-Type, Super\-L\-U $>$@{Sparse\-L\-U$<$ Matrix\-Type, Super\-L\-U $>$}!m\-\_\-slu\-Cscale@{m\-\_\-slu\-Cscale}}
+\index{m\-\_\-slu\-Cscale@{m\-\_\-slu\-Cscale}!SparseLU< MatrixType, SuperLU >@{Sparse\-L\-U$<$ Matrix\-Type, Super\-L\-U $>$}}
+\subsubsection[{m\-\_\-slu\-Cscale}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type $>$ std\-::vector$<${\bf Real\-Scalar}$>$ {\bf Sparse\-L\-U}$<$ Matrix\-Type, {\bf Super\-L\-U} $>$\-::m\-\_\-slu\-Cscale\hspace{0.3cm}{\ttfamily [mutable]}, {\ttfamily [protected]}}}\label{class_sparse_l_u_3_01_matrix_type_00_01_super_l_u_01_4_a9316b254caf60cd7ea59de49161633aa}
+
+
+Definition at line 341 of file Super\-L\-U\-Support.\-h.
+
+\hypertarget{class_sparse_l_u_3_01_matrix_type_00_01_super_l_u_01_4_a909b219339c648af7221c00ded94e80f}{\index{Sparse\-L\-U$<$ Matrix\-Type, Super\-L\-U $>$@{Sparse\-L\-U$<$ Matrix\-Type, Super\-L\-U $>$}!m\-\_\-slu\-Equed@{m\-\_\-slu\-Equed}}
+\index{m\-\_\-slu\-Equed@{m\-\_\-slu\-Equed}!SparseLU< MatrixType, SuperLU >@{Sparse\-L\-U$<$ Matrix\-Type, Super\-L\-U $>$}}
+\subsubsection[{m\-\_\-slu\-Equed}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type $>$ char {\bf Sparse\-L\-U}$<$ Matrix\-Type, {\bf Super\-L\-U} $>$\-::m\-\_\-slu\-Equed\hspace{0.3cm}{\ttfamily [mutable]}, {\ttfamily [protected]}}}\label{class_sparse_l_u_3_01_matrix_type_00_01_super_l_u_01_4_a909b219339c648af7221c00ded94e80f}
+
+
+Definition at line 343 of file Super\-L\-U\-Support.\-h.
+
+\hypertarget{class_sparse_l_u_3_01_matrix_type_00_01_super_l_u_01_4_a98713daa0dba9934f94f9562fe8d70bc}{\index{Sparse\-L\-U$<$ Matrix\-Type, Super\-L\-U $>$@{Sparse\-L\-U$<$ Matrix\-Type, Super\-L\-U $>$}!m\-\_\-slu\-Etree@{m\-\_\-slu\-Etree}}
+\index{m\-\_\-slu\-Etree@{m\-\_\-slu\-Etree}!SparseLU< MatrixType, SuperLU >@{Sparse\-L\-U$<$ Matrix\-Type, Super\-L\-U $>$}}
+\subsubsection[{m\-\_\-slu\-Etree}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type $>$ std\-::vector$<${\bf int}$>$ {\bf Sparse\-L\-U}$<$ Matrix\-Type, {\bf Super\-L\-U} $>$\-::m\-\_\-slu\-Etree\hspace{0.3cm}{\ttfamily [mutable]}, {\ttfamily [protected]}}}\label{class_sparse_l_u_3_01_matrix_type_00_01_super_l_u_01_4_a98713daa0dba9934f94f9562fe8d70bc}
+
+
+Definition at line 340 of file Super\-L\-U\-Support.\-h.
+
+\hypertarget{class_sparse_l_u_3_01_matrix_type_00_01_super_l_u_01_4_aa1556f872d1bb4b8ddcf863995ff39ce}{\index{Sparse\-L\-U$<$ Matrix\-Type, Super\-L\-U $>$@{Sparse\-L\-U$<$ Matrix\-Type, Super\-L\-U $>$}!m\-\_\-slu\-Ferr@{m\-\_\-slu\-Ferr}}
+\index{m\-\_\-slu\-Ferr@{m\-\_\-slu\-Ferr}!SparseLU< MatrixType, SuperLU >@{Sparse\-L\-U$<$ Matrix\-Type, Super\-L\-U $>$}}
+\subsubsection[{m\-\_\-slu\-Ferr}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type $>$ std\-::vector$<${\bf Real\-Scalar}$>$ {\bf Sparse\-L\-U}$<$ Matrix\-Type, {\bf Super\-L\-U} $>$\-::m\-\_\-slu\-Ferr\hspace{0.3cm}{\ttfamily [mutable]}, {\ttfamily [protected]}}}\label{class_sparse_l_u_3_01_matrix_type_00_01_super_l_u_01_4_aa1556f872d1bb4b8ddcf863995ff39ce}
+
+
+Definition at line 342 of file Super\-L\-U\-Support.\-h.
+
+\hypertarget{class_sparse_l_u_3_01_matrix_type_00_01_super_l_u_01_4_acadc22ec35946abdb3ba2a7b23804dac}{\index{Sparse\-L\-U$<$ Matrix\-Type, Super\-L\-U $>$@{Sparse\-L\-U$<$ Matrix\-Type, Super\-L\-U $>$}!m\-\_\-slu\-L@{m\-\_\-slu\-L}}
+\index{m\-\_\-slu\-L@{m\-\_\-slu\-L}!SparseLU< MatrixType, SuperLU >@{Sparse\-L\-U$<$ Matrix\-Type, Super\-L\-U $>$}}
+\subsubsection[{m\-\_\-slu\-L}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type $>$ Super\-Matrix {\bf Sparse\-L\-U}$<$ Matrix\-Type, {\bf Super\-L\-U} $>$\-::m\-\_\-slu\-L\hspace{0.3cm}{\ttfamily [mutable]}, {\ttfamily [protected]}}}\label{class_sparse_l_u_3_01_matrix_type_00_01_super_l_u_01_4_acadc22ec35946abdb3ba2a7b23804dac}
+
+
+Definition at line 336 of file Super\-L\-U\-Support.\-h.
+
+\hypertarget{class_sparse_l_u_3_01_matrix_type_00_01_super_l_u_01_4_a7a682af53524b683030b75b341ef8b3d}{\index{Sparse\-L\-U$<$ Matrix\-Type, Super\-L\-U $>$@{Sparse\-L\-U$<$ Matrix\-Type, Super\-L\-U $>$}!m\-\_\-slu\-Options@{m\-\_\-slu\-Options}}
+\index{m\-\_\-slu\-Options@{m\-\_\-slu\-Options}!SparseLU< MatrixType, SuperLU >@{Sparse\-L\-U$<$ Matrix\-Type, Super\-L\-U $>$}}
+\subsubsection[{m\-\_\-slu\-Options}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type $>$ superlu\-\_\-options\-\_\-t {\bf Sparse\-L\-U}$<$ Matrix\-Type, {\bf Super\-L\-U} $>$\-::m\-\_\-slu\-Options\hspace{0.3cm}{\ttfamily [mutable]}, {\ttfamily [protected]}}}\label{class_sparse_l_u_3_01_matrix_type_00_01_super_l_u_01_4_a7a682af53524b683030b75b341ef8b3d}
+
+
+Definition at line 339 of file Super\-L\-U\-Support.\-h.
+
+\hypertarget{class_sparse_l_u_3_01_matrix_type_00_01_super_l_u_01_4_a063708bbf4aedffb3e56440f13f36c41}{\index{Sparse\-L\-U$<$ Matrix\-Type, Super\-L\-U $>$@{Sparse\-L\-U$<$ Matrix\-Type, Super\-L\-U $>$}!m\-\_\-slu\-Rscale@{m\-\_\-slu\-Rscale}}
+\index{m\-\_\-slu\-Rscale@{m\-\_\-slu\-Rscale}!SparseLU< MatrixType, SuperLU >@{Sparse\-L\-U$<$ Matrix\-Type, Super\-L\-U $>$}}
+\subsubsection[{m\-\_\-slu\-Rscale}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type $>$ std\-::vector$<${\bf Real\-Scalar}$>$ {\bf Sparse\-L\-U}$<$ Matrix\-Type, {\bf Super\-L\-U} $>$\-::m\-\_\-slu\-Rscale\hspace{0.3cm}{\ttfamily [mutable]}, {\ttfamily [protected]}}}\label{class_sparse_l_u_3_01_matrix_type_00_01_super_l_u_01_4_a063708bbf4aedffb3e56440f13f36c41}
+
+
+Definition at line 341 of file Super\-L\-U\-Support.\-h.
+
+\hypertarget{class_sparse_l_u_3_01_matrix_type_00_01_super_l_u_01_4_a3000e29ed20a97d861ed9ebb16a72cc6}{\index{Sparse\-L\-U$<$ Matrix\-Type, Super\-L\-U $>$@{Sparse\-L\-U$<$ Matrix\-Type, Super\-L\-U $>$}!m\-\_\-slu\-Stat@{m\-\_\-slu\-Stat}}
+\index{m\-\_\-slu\-Stat@{m\-\_\-slu\-Stat}!SparseLU< MatrixType, SuperLU >@{Sparse\-L\-U$<$ Matrix\-Type, Super\-L\-U $>$}}
+\subsubsection[{m\-\_\-slu\-Stat}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type $>$ Super\-L\-U\-Stat\-\_\-t {\bf Sparse\-L\-U}$<$ Matrix\-Type, {\bf Super\-L\-U} $>$\-::m\-\_\-slu\-Stat\hspace{0.3cm}{\ttfamily [mutable]}, {\ttfamily [protected]}}}\label{class_sparse_l_u_3_01_matrix_type_00_01_super_l_u_01_4_a3000e29ed20a97d861ed9ebb16a72cc6}
+
+
+Definition at line 338 of file Super\-L\-U\-Support.\-h.
+
+\hypertarget{class_sparse_l_u_3_01_matrix_type_00_01_super_l_u_01_4_ad16d9d6b6338e16f12316e26242b9585}{\index{Sparse\-L\-U$<$ Matrix\-Type, Super\-L\-U $>$@{Sparse\-L\-U$<$ Matrix\-Type, Super\-L\-U $>$}!m\-\_\-slu\-U@{m\-\_\-slu\-U}}
+\index{m\-\_\-slu\-U@{m\-\_\-slu\-U}!SparseLU< MatrixType, SuperLU >@{Sparse\-L\-U$<$ Matrix\-Type, Super\-L\-U $>$}}
+\subsubsection[{m\-\_\-slu\-U}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type $>$ Super\-Matrix {\bf Sparse\-L\-U}$<$ Matrix\-Type, {\bf Super\-L\-U} $>$\-::m\-\_\-slu\-U\hspace{0.3cm}{\ttfamily [mutable]}, {\ttfamily [protected]}}}\label{class_sparse_l_u_3_01_matrix_type_00_01_super_l_u_01_4_ad16d9d6b6338e16f12316e26242b9585}
+
+
+Definition at line 336 of file Super\-L\-U\-Support.\-h.
+
+\hypertarget{class_sparse_l_u_3_01_matrix_type_00_01_super_l_u_01_4_a258b16a8e33706027a7d1be030c46870}{\index{Sparse\-L\-U$<$ Matrix\-Type, Super\-L\-U $>$@{Sparse\-L\-U$<$ Matrix\-Type, Super\-L\-U $>$}!m\-\_\-slu\-X@{m\-\_\-slu\-X}}
+\index{m\-\_\-slu\-X@{m\-\_\-slu\-X}!SparseLU< MatrixType, SuperLU >@{Sparse\-L\-U$<$ Matrix\-Type, Super\-L\-U $>$}}
+\subsubsection[{m\-\_\-slu\-X}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type $>$ {\bf Slu\-Matrix} {\bf Sparse\-L\-U}$<$ Matrix\-Type, {\bf Super\-L\-U} $>$\-::m\-\_\-slu\-X\hspace{0.3cm}{\ttfamily [mutable]}, {\ttfamily [protected]}}}\label{class_sparse_l_u_3_01_matrix_type_00_01_super_l_u_01_4_a258b16a8e33706027a7d1be030c46870}
+
+
+Definition at line 337 of file Super\-L\-U\-Support.\-h.
+
+\hypertarget{class_sparse_l_u_3_01_matrix_type_00_01_super_l_u_01_4_ac97819e7370a01935c33b6309df603fb}{\index{Sparse\-L\-U$<$ Matrix\-Type, Super\-L\-U $>$@{Sparse\-L\-U$<$ Matrix\-Type, Super\-L\-U $>$}!m\-\_\-u@{m\-\_\-u}}
+\index{m\-\_\-u@{m\-\_\-u}!SparseLU< MatrixType, SuperLU >@{Sparse\-L\-U$<$ Matrix\-Type, Super\-L\-U $>$}}
+\subsubsection[{m\-\_\-u}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type $>$ {\bf U\-Matrix\-Type} {\bf Sparse\-L\-U}$<$ Matrix\-Type, {\bf Super\-L\-U} $>$\-::m\-\_\-u\hspace{0.3cm}{\ttfamily [mutable]}, {\ttfamily [protected]}}}\label{class_sparse_l_u_3_01_matrix_type_00_01_super_l_u_01_4_ac97819e7370a01935c33b6309df603fb}
+
+
+Definition at line 330 of file Super\-L\-U\-Support.\-h.
+
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/eigen/\-Eigen/src/\-Sparse/\hyperlink{_super_l_u_support_8h}{Super\-L\-U\-Support.\-h}\end{DoxyCompactItemize}

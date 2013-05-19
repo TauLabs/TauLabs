@@ -1,0 +1,122 @@
+\hypertarget{uavobjectparser_8h}{\section{/home/jose/\-Code/gui\-Tau/ground/uavobjgenerator/uavobjectparser.h File Reference}
+\label{uavobjectparser_8h}\index{/home/jose/\-Code/gui\-Tau/ground/uavobjgenerator/uavobjectparser.\-h@{/home/jose/\-Code/gui\-Tau/ground/uavobjgenerator/uavobjectparser.\-h}}
+}
+
+
+Parses X\-M\-L files and extracts object information.  
+
+
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{struct_field_info}{Field\-Info}
+\item 
+struct \hyperlink{struct_object_info}{Object\-Info}
+\item 
+class \hyperlink{class_u_a_v_object_parser}{U\-A\-V\-Object\-Parser}
+\end{DoxyCompactItemize}
+\subsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{uavobjectparser_8h_aa01498a3ceb2fa74dc9536c16caef1da}{Field\-Type} \{ \\*
+\hyperlink{uavobjectparser_8h_aa01498a3ceb2fa74dc9536c16caef1daafe30918c33dc359ba1b68f7e76650eca}{F\-I\-E\-L\-D\-T\-Y\-P\-E\-\_\-\-I\-N\-T8} = 0, 
+\hyperlink{uavobjectparser_8h_aa01498a3ceb2fa74dc9536c16caef1daa742b311cf487ed689d43ac33afeb2887}{F\-I\-E\-L\-D\-T\-Y\-P\-E\-\_\-\-I\-N\-T16}, 
+\hyperlink{uavobjectparser_8h_aa01498a3ceb2fa74dc9536c16caef1daa16759884bbb3d5ca55df8594e672b276}{F\-I\-E\-L\-D\-T\-Y\-P\-E\-\_\-\-I\-N\-T32}, 
+\hyperlink{uavobjectparser_8h_aa01498a3ceb2fa74dc9536c16caef1daab2353e0ce6242b06cb93b7ea0e85c9ab}{F\-I\-E\-L\-D\-T\-Y\-P\-E\-\_\-\-U\-I\-N\-T8}, 
+\\*
+\hyperlink{uavobjectparser_8h_aa01498a3ceb2fa74dc9536c16caef1daa0aa2738a597d255af6d3110de2b8d6ba}{F\-I\-E\-L\-D\-T\-Y\-P\-E\-\_\-\-U\-I\-N\-T16}, 
+\hyperlink{uavobjectparser_8h_aa01498a3ceb2fa74dc9536c16caef1daac385376682a47c6b513b679aff74ea68}{F\-I\-E\-L\-D\-T\-Y\-P\-E\-\_\-\-U\-I\-N\-T32}, 
+\hyperlink{uavobjectparser_8h_aa01498a3ceb2fa74dc9536c16caef1daafc06fc9e6a5157c4f8bc15de2ccf59b0}{F\-I\-E\-L\-D\-T\-Y\-P\-E\-\_\-\-F\-L\-O\-A\-T32}, 
+\hyperlink{uavobjectparser_8h_aa01498a3ceb2fa74dc9536c16caef1daa1b1dfb09a5e128a6b82d45387b009ab9}{F\-I\-E\-L\-D\-T\-Y\-P\-E\-\_\-\-E\-N\-U\-M}
+ \}
+\item 
+enum \hyperlink{uavobjectparser_8h_af6f79ca652f5cd37cb76957fb76b1630}{Update\-Mode} \{ \hyperlink{uavobjectparser_8h_af6f79ca652f5cd37cb76957fb76b1630a12e805e1980a6c1db387c6dd64899211}{U\-P\-D\-A\-T\-E\-M\-O\-D\-E\-\_\-\-M\-A\-N\-U\-A\-L} = 0, 
+\hyperlink{uavobjectparser_8h_af6f79ca652f5cd37cb76957fb76b1630af74249c30e59637ef72cb3e8bfa4f2e6}{U\-P\-D\-A\-T\-E\-M\-O\-D\-E\-\_\-\-P\-E\-R\-I\-O\-D\-I\-C} = 1, 
+\hyperlink{uavobjectparser_8h_af6f79ca652f5cd37cb76957fb76b1630acbf36ecb56ab3709a62fc424e4572a12}{U\-P\-D\-A\-T\-E\-M\-O\-D\-E\-\_\-\-O\-N\-C\-H\-A\-N\-G\-E} = 2, 
+\hyperlink{uavobjectparser_8h_af6f79ca652f5cd37cb76957fb76b1630a58214a235c70b2326a2ced4b4b35b8e1}{U\-P\-D\-A\-T\-E\-M\-O\-D\-E\-\_\-\-T\-H\-R\-O\-T\-T\-L\-E\-D} = 3
+ \}
+\item 
+enum \hyperlink{uavobjectparser_8h_ab22d35ed086a478dd91e93ac78037f40}{Access\-Mode} \{ \hyperlink{uavobjectparser_8h_ab22d35ed086a478dd91e93ac78037f40adeb231224503f8c63c221877b388fbe1}{A\-C\-C\-E\-S\-S\-\_\-\-R\-E\-A\-D\-W\-R\-I\-T\-E} = 0, 
+\hyperlink{uavobjectparser_8h_ab22d35ed086a478dd91e93ac78037f40a88d5dcaffa414c5fe3e778789366bad3}{A\-C\-C\-E\-S\-S\-\_\-\-R\-E\-A\-D\-O\-N\-L\-Y} = 1
+ \}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Parses X\-M\-L files and extracts object information. \begin{DoxyAuthor}{Author}
+The Open\-Pilot Team, \href{http://www.openpilot.org}{\tt http\-://www.\-openpilot.\-org} Copyright (C) 2010. 
+\end{DoxyAuthor}
+\begin{DoxySeeAlso}{See Also}
+The G\-N\-U Public License (G\-P\-L) Version 3 
+\end{DoxySeeAlso}
+
+
+Definition in file \hyperlink{uavobjectparser_8h_source}{uavobjectparser.\-h}.
+
+
+
+\subsection{Enumeration Type Documentation}
+\hypertarget{uavobjectparser_8h_ab22d35ed086a478dd91e93ac78037f40}{\index{uavobjectparser.\-h@{uavobjectparser.\-h}!Access\-Mode@{Access\-Mode}}
+\index{Access\-Mode@{Access\-Mode}!uavobjectparser.h@{uavobjectparser.\-h}}
+\subsubsection[{Access\-Mode}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf Access\-Mode}}}\label{uavobjectparser_8h_ab22d35ed086a478dd91e93ac78037f40}
+\begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{A\-C\-C\-E\-S\-S\-\_\-\-R\-E\-A\-D\-W\-R\-I\-T\-E@{A\-C\-C\-E\-S\-S\-\_\-\-R\-E\-A\-D\-W\-R\-I\-T\-E}!uavobjectparser.\-h@{uavobjectparser.\-h}}\index{uavobjectparser.\-h@{uavobjectparser.\-h}!A\-C\-C\-E\-S\-S\-\_\-\-R\-E\-A\-D\-W\-R\-I\-T\-E@{A\-C\-C\-E\-S\-S\-\_\-\-R\-E\-A\-D\-W\-R\-I\-T\-E}}\item[{\em 
+\hypertarget{uavobjectparser_8h_ab22d35ed086a478dd91e93ac78037f40adeb231224503f8c63c221877b388fbe1}{A\-C\-C\-E\-S\-S\-\_\-\-R\-E\-A\-D\-W\-R\-I\-T\-E}\label{uavobjectparser_8h_ab22d35ed086a478dd91e93ac78037f40adeb231224503f8c63c221877b388fbe1}
+}]\index{A\-C\-C\-E\-S\-S\-\_\-\-R\-E\-A\-D\-O\-N\-L\-Y@{A\-C\-C\-E\-S\-S\-\_\-\-R\-E\-A\-D\-O\-N\-L\-Y}!uavobjectparser.\-h@{uavobjectparser.\-h}}\index{uavobjectparser.\-h@{uavobjectparser.\-h}!A\-C\-C\-E\-S\-S\-\_\-\-R\-E\-A\-D\-O\-N\-L\-Y@{A\-C\-C\-E\-S\-S\-\_\-\-R\-E\-A\-D\-O\-N\-L\-Y}}\item[{\em 
+\hypertarget{uavobjectparser_8h_ab22d35ed086a478dd91e93ac78037f40a88d5dcaffa414c5fe3e778789366bad3}{A\-C\-C\-E\-S\-S\-\_\-\-R\-E\-A\-D\-O\-N\-L\-Y}\label{uavobjectparser_8h_ab22d35ed086a478dd91e93ac78037f40a88d5dcaffa414c5fe3e778789366bad3}
+}]\end{description}
+\end{Desc}
+
+
+Definition at line 74 of file uavobjectparser.\-h.
+
+\hypertarget{uavobjectparser_8h_aa01498a3ceb2fa74dc9536c16caef1da}{\index{uavobjectparser.\-h@{uavobjectparser.\-h}!Field\-Type@{Field\-Type}}
+\index{Field\-Type@{Field\-Type}!uavobjectparser.h@{uavobjectparser.\-h}}
+\subsubsection[{Field\-Type}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf Field\-Type}}}\label{uavobjectparser_8h_aa01498a3ceb2fa74dc9536c16caef1da}
+\begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{F\-I\-E\-L\-D\-T\-Y\-P\-E\-\_\-\-I\-N\-T8@{F\-I\-E\-L\-D\-T\-Y\-P\-E\-\_\-\-I\-N\-T8}!uavobjectparser.\-h@{uavobjectparser.\-h}}\index{uavobjectparser.\-h@{uavobjectparser.\-h}!F\-I\-E\-L\-D\-T\-Y\-P\-E\-\_\-\-I\-N\-T8@{F\-I\-E\-L\-D\-T\-Y\-P\-E\-\_\-\-I\-N\-T8}}\item[{\em 
+\hypertarget{uavobjectparser_8h_aa01498a3ceb2fa74dc9536c16caef1daafe30918c33dc359ba1b68f7e76650eca}{F\-I\-E\-L\-D\-T\-Y\-P\-E\-\_\-\-I\-N\-T8}\label{uavobjectparser_8h_aa01498a3ceb2fa74dc9536c16caef1daafe30918c33dc359ba1b68f7e76650eca}
+}]\index{F\-I\-E\-L\-D\-T\-Y\-P\-E\-\_\-\-I\-N\-T16@{F\-I\-E\-L\-D\-T\-Y\-P\-E\-\_\-\-I\-N\-T16}!uavobjectparser.\-h@{uavobjectparser.\-h}}\index{uavobjectparser.\-h@{uavobjectparser.\-h}!F\-I\-E\-L\-D\-T\-Y\-P\-E\-\_\-\-I\-N\-T16@{F\-I\-E\-L\-D\-T\-Y\-P\-E\-\_\-\-I\-N\-T16}}\item[{\em 
+\hypertarget{uavobjectparser_8h_aa01498a3ceb2fa74dc9536c16caef1daa742b311cf487ed689d43ac33afeb2887}{F\-I\-E\-L\-D\-T\-Y\-P\-E\-\_\-\-I\-N\-T16}\label{uavobjectparser_8h_aa01498a3ceb2fa74dc9536c16caef1daa742b311cf487ed689d43ac33afeb2887}
+}]\index{F\-I\-E\-L\-D\-T\-Y\-P\-E\-\_\-\-I\-N\-T32@{F\-I\-E\-L\-D\-T\-Y\-P\-E\-\_\-\-I\-N\-T32}!uavobjectparser.\-h@{uavobjectparser.\-h}}\index{uavobjectparser.\-h@{uavobjectparser.\-h}!F\-I\-E\-L\-D\-T\-Y\-P\-E\-\_\-\-I\-N\-T32@{F\-I\-E\-L\-D\-T\-Y\-P\-E\-\_\-\-I\-N\-T32}}\item[{\em 
+\hypertarget{uavobjectparser_8h_aa01498a3ceb2fa74dc9536c16caef1daa16759884bbb3d5ca55df8594e672b276}{F\-I\-E\-L\-D\-T\-Y\-P\-E\-\_\-\-I\-N\-T32}\label{uavobjectparser_8h_aa01498a3ceb2fa74dc9536c16caef1daa16759884bbb3d5ca55df8594e672b276}
+}]\index{F\-I\-E\-L\-D\-T\-Y\-P\-E\-\_\-\-U\-I\-N\-T8@{F\-I\-E\-L\-D\-T\-Y\-P\-E\-\_\-\-U\-I\-N\-T8}!uavobjectparser.\-h@{uavobjectparser.\-h}}\index{uavobjectparser.\-h@{uavobjectparser.\-h}!F\-I\-E\-L\-D\-T\-Y\-P\-E\-\_\-\-U\-I\-N\-T8@{F\-I\-E\-L\-D\-T\-Y\-P\-E\-\_\-\-U\-I\-N\-T8}}\item[{\em 
+\hypertarget{uavobjectparser_8h_aa01498a3ceb2fa74dc9536c16caef1daab2353e0ce6242b06cb93b7ea0e85c9ab}{F\-I\-E\-L\-D\-T\-Y\-P\-E\-\_\-\-U\-I\-N\-T8}\label{uavobjectparser_8h_aa01498a3ceb2fa74dc9536c16caef1daab2353e0ce6242b06cb93b7ea0e85c9ab}
+}]\index{F\-I\-E\-L\-D\-T\-Y\-P\-E\-\_\-\-U\-I\-N\-T16@{F\-I\-E\-L\-D\-T\-Y\-P\-E\-\_\-\-U\-I\-N\-T16}!uavobjectparser.\-h@{uavobjectparser.\-h}}\index{uavobjectparser.\-h@{uavobjectparser.\-h}!F\-I\-E\-L\-D\-T\-Y\-P\-E\-\_\-\-U\-I\-N\-T16@{F\-I\-E\-L\-D\-T\-Y\-P\-E\-\_\-\-U\-I\-N\-T16}}\item[{\em 
+\hypertarget{uavobjectparser_8h_aa01498a3ceb2fa74dc9536c16caef1daa0aa2738a597d255af6d3110de2b8d6ba}{F\-I\-E\-L\-D\-T\-Y\-P\-E\-\_\-\-U\-I\-N\-T16}\label{uavobjectparser_8h_aa01498a3ceb2fa74dc9536c16caef1daa0aa2738a597d255af6d3110de2b8d6ba}
+}]\index{F\-I\-E\-L\-D\-T\-Y\-P\-E\-\_\-\-U\-I\-N\-T32@{F\-I\-E\-L\-D\-T\-Y\-P\-E\-\_\-\-U\-I\-N\-T32}!uavobjectparser.\-h@{uavobjectparser.\-h}}\index{uavobjectparser.\-h@{uavobjectparser.\-h}!F\-I\-E\-L\-D\-T\-Y\-P\-E\-\_\-\-U\-I\-N\-T32@{F\-I\-E\-L\-D\-T\-Y\-P\-E\-\_\-\-U\-I\-N\-T32}}\item[{\em 
+\hypertarget{uavobjectparser_8h_aa01498a3ceb2fa74dc9536c16caef1daac385376682a47c6b513b679aff74ea68}{F\-I\-E\-L\-D\-T\-Y\-P\-E\-\_\-\-U\-I\-N\-T32}\label{uavobjectparser_8h_aa01498a3ceb2fa74dc9536c16caef1daac385376682a47c6b513b679aff74ea68}
+}]\index{F\-I\-E\-L\-D\-T\-Y\-P\-E\-\_\-\-F\-L\-O\-A\-T32@{F\-I\-E\-L\-D\-T\-Y\-P\-E\-\_\-\-F\-L\-O\-A\-T32}!uavobjectparser.\-h@{uavobjectparser.\-h}}\index{uavobjectparser.\-h@{uavobjectparser.\-h}!F\-I\-E\-L\-D\-T\-Y\-P\-E\-\_\-\-F\-L\-O\-A\-T32@{F\-I\-E\-L\-D\-T\-Y\-P\-E\-\_\-\-F\-L\-O\-A\-T32}}\item[{\em 
+\hypertarget{uavobjectparser_8h_aa01498a3ceb2fa74dc9536c16caef1daafc06fc9e6a5157c4f8bc15de2ccf59b0}{F\-I\-E\-L\-D\-T\-Y\-P\-E\-\_\-\-F\-L\-O\-A\-T32}\label{uavobjectparser_8h_aa01498a3ceb2fa74dc9536c16caef1daafc06fc9e6a5157c4f8bc15de2ccf59b0}
+}]\index{F\-I\-E\-L\-D\-T\-Y\-P\-E\-\_\-\-E\-N\-U\-M@{F\-I\-E\-L\-D\-T\-Y\-P\-E\-\_\-\-E\-N\-U\-M}!uavobjectparser.\-h@{uavobjectparser.\-h}}\index{uavobjectparser.\-h@{uavobjectparser.\-h}!F\-I\-E\-L\-D\-T\-Y\-P\-E\-\_\-\-E\-N\-U\-M@{F\-I\-E\-L\-D\-T\-Y\-P\-E\-\_\-\-E\-N\-U\-M}}\item[{\em 
+\hypertarget{uavobjectparser_8h_aa01498a3ceb2fa74dc9536c16caef1daa1b1dfb09a5e128a6b82d45387b009ab9}{F\-I\-E\-L\-D\-T\-Y\-P\-E\-\_\-\-E\-N\-U\-M}\label{uavobjectparser_8h_aa01498a3ceb2fa74dc9536c16caef1daa1b1dfb09a5e128a6b82d45387b009ab9}
+}]\end{description}
+\end{Desc}
+
+
+Definition at line 39 of file uavobjectparser.\-h.
+
+\hypertarget{uavobjectparser_8h_af6f79ca652f5cd37cb76957fb76b1630}{\index{uavobjectparser.\-h@{uavobjectparser.\-h}!Update\-Mode@{Update\-Mode}}
+\index{Update\-Mode@{Update\-Mode}!uavobjectparser.h@{uavobjectparser.\-h}}
+\subsubsection[{Update\-Mode}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf Update\-Mode}}}\label{uavobjectparser_8h_af6f79ca652f5cd37cb76957fb76b1630}
+Object update mode \begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{U\-P\-D\-A\-T\-E\-M\-O\-D\-E\-\_\-\-M\-A\-N\-U\-A\-L@{U\-P\-D\-A\-T\-E\-M\-O\-D\-E\-\_\-\-M\-A\-N\-U\-A\-L}!uavobjectparser.\-h@{uavobjectparser.\-h}}\index{uavobjectparser.\-h@{uavobjectparser.\-h}!U\-P\-D\-A\-T\-E\-M\-O\-D\-E\-\_\-\-M\-A\-N\-U\-A\-L@{U\-P\-D\-A\-T\-E\-M\-O\-D\-E\-\_\-\-M\-A\-N\-U\-A\-L}}\item[{\em 
+\hypertarget{uavobjectparser_8h_af6f79ca652f5cd37cb76957fb76b1630a12e805e1980a6c1db387c6dd64899211}{U\-P\-D\-A\-T\-E\-M\-O\-D\-E\-\_\-\-M\-A\-N\-U\-A\-L}\label{uavobjectparser_8h_af6f79ca652f5cd37cb76957fb76b1630a12e805e1980a6c1db387c6dd64899211}
+}]\index{U\-P\-D\-A\-T\-E\-M\-O\-D\-E\-\_\-\-P\-E\-R\-I\-O\-D\-I\-C@{U\-P\-D\-A\-T\-E\-M\-O\-D\-E\-\_\-\-P\-E\-R\-I\-O\-D\-I\-C}!uavobjectparser.\-h@{uavobjectparser.\-h}}\index{uavobjectparser.\-h@{uavobjectparser.\-h}!U\-P\-D\-A\-T\-E\-M\-O\-D\-E\-\_\-\-P\-E\-R\-I\-O\-D\-I\-C@{U\-P\-D\-A\-T\-E\-M\-O\-D\-E\-\_\-\-P\-E\-R\-I\-O\-D\-I\-C}}\item[{\em 
+\hypertarget{uavobjectparser_8h_af6f79ca652f5cd37cb76957fb76b1630af74249c30e59637ef72cb3e8bfa4f2e6}{U\-P\-D\-A\-T\-E\-M\-O\-D\-E\-\_\-\-P\-E\-R\-I\-O\-D\-I\-C}\label{uavobjectparser_8h_af6f79ca652f5cd37cb76957fb76b1630af74249c30e59637ef72cb3e8bfa4f2e6}
+}]Manually update object, by calling the \hyperlink{_parse_e_k_f_log_8m_ae27e566dc7dcd1f77211f8374e4b017a}{updated()} function \index{U\-P\-D\-A\-T\-E\-M\-O\-D\-E\-\_\-\-O\-N\-C\-H\-A\-N\-G\-E@{U\-P\-D\-A\-T\-E\-M\-O\-D\-E\-\_\-\-O\-N\-C\-H\-A\-N\-G\-E}!uavobjectparser.\-h@{uavobjectparser.\-h}}\index{uavobjectparser.\-h@{uavobjectparser.\-h}!U\-P\-D\-A\-T\-E\-M\-O\-D\-E\-\_\-\-O\-N\-C\-H\-A\-N\-G\-E@{U\-P\-D\-A\-T\-E\-M\-O\-D\-E\-\_\-\-O\-N\-C\-H\-A\-N\-G\-E}}\item[{\em 
+\hypertarget{uavobjectparser_8h_af6f79ca652f5cd37cb76957fb76b1630acbf36ecb56ab3709a62fc424e4572a12}{U\-P\-D\-A\-T\-E\-M\-O\-D\-E\-\_\-\-O\-N\-C\-H\-A\-N\-G\-E}\label{uavobjectparser_8h_af6f79ca652f5cd37cb76957fb76b1630acbf36ecb56ab3709a62fc424e4572a12}
+}]Automatically update object at periodic intervals \index{U\-P\-D\-A\-T\-E\-M\-O\-D\-E\-\_\-\-T\-H\-R\-O\-T\-T\-L\-E\-D@{U\-P\-D\-A\-T\-E\-M\-O\-D\-E\-\_\-\-T\-H\-R\-O\-T\-T\-L\-E\-D}!uavobjectparser.\-h@{uavobjectparser.\-h}}\index{uavobjectparser.\-h@{uavobjectparser.\-h}!U\-P\-D\-A\-T\-E\-M\-O\-D\-E\-\_\-\-T\-H\-R\-O\-T\-T\-L\-E\-D@{U\-P\-D\-A\-T\-E\-M\-O\-D\-E\-\_\-\-T\-H\-R\-O\-T\-T\-L\-E\-D}}\item[{\em 
+\hypertarget{uavobjectparser_8h_af6f79ca652f5cd37cb76957fb76b1630a58214a235c70b2326a2ced4b4b35b8e1}{U\-P\-D\-A\-T\-E\-M\-O\-D\-E\-\_\-\-T\-H\-R\-O\-T\-T\-L\-E\-D}\label{uavobjectparser_8h_af6f79ca652f5cd37cb76957fb76b1630a58214a235c70b2326a2ced4b4b35b8e1}
+}]Only update object when its data changes \end{description}
+\end{Desc}
+
+
+Definition at line 66 of file uavobjectparser.\-h.
+

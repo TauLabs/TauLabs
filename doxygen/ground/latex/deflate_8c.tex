@@ -1,0 +1,528 @@
+\hypertarget{deflate_8c}{\section{/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/glc\-\_\-lib/3rdparty/zlib/deflate.c File Reference}
+\label{deflate_8c}\index{/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/glc\-\_\-lib/3rdparty/zlib/deflate.\-c@{/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/glc\-\_\-lib/3rdparty/zlib/deflate.\-c}}
+}
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structconfig__s}{config\-\_\-s}
+\item 
+struct \hyperlink{structstatic__tree__desc__s}{static\-\_\-tree\-\_\-desc\-\_\-s}
+\end{DoxyCompactItemize}
+\subsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef \hyperlink{deflate_8c_a1048c01fb24f2195a6b9a2a7c12e9454}{block\-\_\-state} compress\-\_\-func \hyperlink{deflate_8c_a50b39012daf202fe448bcec1b9603828}{O\-F} ((\hyperlink{deflate_8h_aeaabc84f4830ec10deb9b64bd719617a}{deflate\-\_\-state} $\ast$\hyperlink{glext_8h_ad585a1393cfa368fa9dc3d8ebff640d5}{s}, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} flush))
+\item 
+typedef \hyperlink{sdlgamepad_8dox_aba655c5729da86df745f0c8e7f9ba8d2}{struct} \hyperlink{structconfig__s}{config\-\_\-s} \hyperlink{deflate_8c_a4473b5227787415097004fd39f55185e}{config}
+\end{DoxyCompactItemize}
+\subsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{deflate_8c_a1048c01fb24f2195a6b9a2a7c12e9454}{block\-\_\-state} \{ \hyperlink{deflate_8c_a1048c01fb24f2195a6b9a2a7c12e9454aa05dd4e7c2f875eee52a6568c244c1e4}{need\-\_\-more}, 
+\hyperlink{deflate_8c_a1048c01fb24f2195a6b9a2a7c12e9454a94dca976f7dcfb0605e086068f09daa1}{block\-\_\-done}, 
+\hyperlink{deflate_8c_a1048c01fb24f2195a6b9a2a7c12e9454a5ff14f05c1ba145fc4da40fb50211140}{finish\-\_\-started}, 
+\hyperlink{deflate_8c_a1048c01fb24f2195a6b9a2a7c12e9454af1f0edbb0d9d8272a762de3b7be0b50c}{finish\-\_\-done}
+ \}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+local \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{deflate_8c_a6cf3c43817cac5f5c422e94b2a57ea49}{fill\-\_\-window} \hyperlink{deflate_8c_a39020875dba6274d4890d928ece7af4d}{O\-F} ((\hyperlink{deflate_8h_aeaabc84f4830ec10deb9b64bd719617a}{deflate\-\_\-state} $\ast$\hyperlink{glext_8h_ad585a1393cfa368fa9dc3d8ebff640d5}{s}))
+\item 
+local \hyperlink{deflate_8c_a1048c01fb24f2195a6b9a2a7c12e9454}{block\-\_\-state} \hyperlink{deflate_8c_a67569326587f77f823522212036fc2f9}{deflate\-\_\-stored} \hyperlink{deflate_8c_a8c5f4f16898c33f6c80e2c03a8f41f8a}{O\-F} ((\hyperlink{deflate_8h_aeaabc84f4830ec10deb9b64bd719617a}{deflate\-\_\-state} $\ast$\hyperlink{glext_8h_ad585a1393cfa368fa9dc3d8ebff640d5}{s}, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} flush))
+\item 
+local \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{deflate_8c_a6db0a0a840addf113cb217c4aa1c0384}{put\-Short\-M\-S\-B} \hyperlink{deflate_8c_a7a385b4ab82557d539fe9a6059caf4d7}{O\-F} ((\hyperlink{deflate_8h_aeaabc84f4830ec10deb9b64bd719617a}{deflate\-\_\-state} $\ast$\hyperlink{glext_8h_ad585a1393cfa368fa9dc3d8ebff640d5}{s}, \hyperlink{zconf_8h_a87d141052bcd5ec8a80812a565c70369}{u\-Int} \hyperlink{glext_8h_a6eba317e3cf44d6d26c04a5a8f197dcb}{b}))
+\item 
+local \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{deflate_8c_ae9a3263767d40c4f7443bf07c31e0119}{flush\-\_\-pending} \hyperlink{deflate_8c_a7c2e426a5f352f7e8c43ef7beec5138f}{O\-F} ((\hyperlink{zlib_8h_a6ede25c84d3c9f8632305866acffb1d6}{z\-\_\-streamp} strm))
+\item 
+local \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{deflate_8c_a30b7fcd3e6bea023c1c00eafad492639}{read\-\_\-buf} \hyperlink{deflate_8c_a89775aad02a4843022d7e83a3301239b}{O\-F} ((\hyperlink{zlib_8h_a6ede25c84d3c9f8632305866acffb1d6}{z\-\_\-streamp} strm, \hyperlink{zconf_8h_aeb722a888064be47e12d05f692e0f407}{Bytef} $\ast$\hyperlink{ioapi_8h_a8ad8a13c88886b9f623034ff88570adb}{buf}, unsigned \hyperlink{glext_8h_a014d89bd76f74ef3a29c8f04b473eb76}{size}))
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} match\-\_\-init \hyperlink{deflate_8c_a76ffc15f53ff24a334a751a3cf19f481}{O\-F} ((\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void}))
+\item 
+\hyperlink{zconf_8h_a87d141052bcd5ec8a80812a565c70369}{u\-Int} \hyperlink{deflate_8c_a9c89f33a3fab1b87063832eeda415389}{longest\-\_\-match} \hyperlink{deflate_8c_a0d041aa12606a3df8804211e6cc0ffbc}{O\-F} ((\hyperlink{deflate_8h_aeaabc84f4830ec10deb9b64bd719617a}{deflate\-\_\-state} $\ast$\hyperlink{glext_8h_ad585a1393cfa368fa9dc3d8ebff640d5}{s}, \hyperlink{deflate_8h_ada696b787a46d01634b6365afcec1a9e}{I\-Pos} cur\-\_\-match))
+\item 
+local \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{deflate_8c_ab1c0a4040189c1911264149adf93acaa}{check\-\_\-match} \hyperlink{deflate_8c_aab71fb4a0da6ede1cb531ba004066938}{O\-F} ((\hyperlink{deflate_8h_aeaabc84f4830ec10deb9b64bd719617a}{deflate\-\_\-state} $\ast$\hyperlink{glext_8h_ad585a1393cfa368fa9dc3d8ebff640d5}{s}, \hyperlink{deflate_8h_ada696b787a46d01634b6365afcec1a9e}{I\-Pos} \hyperlink{glext_8h_a13be19455586e95d5a42ed8f054afad2}{start}, \hyperlink{deflate_8h_ada696b787a46d01634b6365afcec1a9e}{I\-Pos} match, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{glext_8h_a3c8469415bbc83dd1341af15c67f1cef}{length}))
+\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} Z\-E\-X\-P\-O\-R\-T \hyperlink{deflate_8c_a0e6601591faa9573f27340153b0f3296}{deflate\-Init\-\_\-} (\hyperlink{zlib_8h_a6ede25c84d3c9f8632305866acffb1d6}{z\-\_\-streamp} strm, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{glext_8h_abc60a79088789bd61297bf5f9ff500d1}{level}, const char $\ast$version, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} stream\-\_\-size)
+\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} Z\-E\-X\-P\-O\-R\-T \hyperlink{deflate_8c_ae501d2862c68d17b909d6f1c9264815c}{deflate\-Init2\-\_\-} (\hyperlink{zlib_8h_a6ede25c84d3c9f8632305866acffb1d6}{z\-\_\-streamp} strm, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{glext_8h_abc60a79088789bd61297bf5f9ff500d1}{level}, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} method, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} window\-Bits, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} mem\-Level, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} strategy, const char $\ast$version, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} stream\-\_\-size)
+\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} Z\-E\-X\-P\-O\-R\-T \hyperlink{deflate_8c_a4e2855f986abd56d4515e9bb09986a5b}{deflate\-Set\-Dictionary} (\hyperlink{zlib_8h_a6ede25c84d3c9f8632305866acffb1d6}{z\-\_\-streamp} strm, const \hyperlink{zconf_8h_aeb722a888064be47e12d05f692e0f407}{Bytef} $\ast$\hyperlink{example_8c_a050a02a0902aa81571331f8b3b876deb}{dictionary}, \hyperlink{zconf_8h_a87d141052bcd5ec8a80812a565c70369}{u\-Int} dict\-Length)
+\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} Z\-E\-X\-P\-O\-R\-T \hyperlink{deflate_8c_a4f17a4d330d76066b4b26c27f7cde5dc}{deflate\-Reset} (\hyperlink{zlib_8h_a6ede25c84d3c9f8632305866acffb1d6}{z\-\_\-streamp} strm)
+\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} Z\-E\-X\-P\-O\-R\-T \hyperlink{deflate_8c_a0bb9d562cacbe698297de30cdeeb2153}{deflate\-Set\-Header} (\hyperlink{zlib_8h_a6ede25c84d3c9f8632305866acffb1d6}{z\-\_\-streamp} strm, \hyperlink{zlib_8h_a40e9dcc294796d99b25e98fb06477fc8}{gz\-\_\-headerp} head)
+\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} Z\-E\-X\-P\-O\-R\-T \hyperlink{deflate_8c_aa8ca15b272bfde8fd23ab658d789aa87}{deflate\-Prime} (\hyperlink{zlib_8h_a6ede25c84d3c9f8632305866acffb1d6}{z\-\_\-streamp} strm, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{glext_8h_a47cf4c5c5dc1c252e3be3e4f59ffb98a}{bits}, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{glext_8h_aa0e2e9cea7f208d28acda0480144beb0}{value})
+\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} Z\-E\-X\-P\-O\-R\-T \hyperlink{deflate_8c_a6be3d26b7e317aa4db6c7870b1911d4d}{deflate\-Params} (\hyperlink{zlib_8h_a6ede25c84d3c9f8632305866acffb1d6}{z\-\_\-streamp} strm, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{glext_8h_abc60a79088789bd61297bf5f9ff500d1}{level}, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} strategy)
+\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} Z\-E\-X\-P\-O\-R\-T \hyperlink{deflate_8c_aa2f2f8ee11441c80c35f035ad7efbb8e}{deflate\-Tune} (\hyperlink{zlib_8h_a6ede25c84d3c9f8632305866acffb1d6}{z\-\_\-streamp} strm, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} good\-\_\-length, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} max\-\_\-lazy, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} nice\-\_\-length, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} max\-\_\-chain)
+\item 
+\hyperlink{zconf_8h_a154b3b80120c903a368fec5f11f3007a}{u\-Long} Z\-E\-X\-P\-O\-R\-T \hyperlink{deflate_8c_a746d0203373d0033ab69055f72a370e8}{deflate\-Bound} (\hyperlink{zlib_8h_a6ede25c84d3c9f8632305866acffb1d6}{z\-\_\-streamp} strm, \hyperlink{zconf_8h_a154b3b80120c903a368fec5f11f3007a}{u\-Long} source\-Len)
+\item 
+local \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{deflate_8c_a6db0a0a840addf113cb217c4aa1c0384}{put\-Short\-M\-S\-B} (\hyperlink{deflate_8h_aeaabc84f4830ec10deb9b64bd719617a}{deflate\-\_\-state} $\ast$\hyperlink{glext_8h_ad585a1393cfa368fa9dc3d8ebff640d5}{s}, \hyperlink{zconf_8h_a87d141052bcd5ec8a80812a565c70369}{u\-Int} \hyperlink{glext_8h_a6eba317e3cf44d6d26c04a5a8f197dcb}{b})
+\item 
+local \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{deflate_8c_ae9a3263767d40c4f7443bf07c31e0119}{flush\-\_\-pending} (\hyperlink{zlib_8h_a6ede25c84d3c9f8632305866acffb1d6}{z\-\_\-streamp} strm)
+\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} Z\-E\-X\-P\-O\-R\-T \hyperlink{deflate_8c_aedba3a94d6e827d61b660443ae5b9f09}{deflate} (\hyperlink{zlib_8h_a6ede25c84d3c9f8632305866acffb1d6}{z\-\_\-streamp} strm, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} flush)
+\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} Z\-E\-X\-P\-O\-R\-T \hyperlink{deflate_8c_ada68769789b1d84de7e708d6e848a075}{deflate\-End} (\hyperlink{zlib_8h_a6ede25c84d3c9f8632305866acffb1d6}{z\-\_\-streamp} strm)
+\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} Z\-E\-X\-P\-O\-R\-T \hyperlink{deflate_8c_a496430688ab9f4179689c883a6776b02}{deflate\-Copy} (\hyperlink{zlib_8h_a6ede25c84d3c9f8632305866acffb1d6}{z\-\_\-streamp} dest, \hyperlink{zlib_8h_a6ede25c84d3c9f8632305866acffb1d6}{z\-\_\-streamp} \hyperlink{glext_8h_afdd0f0e67e302eefcb4f6b23732e7ea3}{source})
+\item 
+local \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{deflate_8c_a30b7fcd3e6bea023c1c00eafad492639}{read\-\_\-buf} (\hyperlink{zlib_8h_a6ede25c84d3c9f8632305866acffb1d6}{z\-\_\-streamp} strm, \hyperlink{zconf_8h_aeb722a888064be47e12d05f692e0f407}{Bytef} $\ast$\hyperlink{ioapi_8h_a8ad8a13c88886b9f623034ff88570adb}{buf}, unsigned \hyperlink{glext_8h_a014d89bd76f74ef3a29c8f04b473eb76}{size})
+\item 
+local \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{deflate_8c_ab197bb7bbeee75dcfccbfa8d55cae272}{lm\-\_\-init} (\hyperlink{deflate_8h_aeaabc84f4830ec10deb9b64bd719617a}{deflate\-\_\-state} $\ast$\hyperlink{glext_8h_ad585a1393cfa368fa9dc3d8ebff640d5}{s})
+\item 
+local \hyperlink{zconf_8h_a87d141052bcd5ec8a80812a565c70369}{u\-Int} \hyperlink{deflate_8c_a9c89f33a3fab1b87063832eeda415389}{longest\-\_\-match} (\hyperlink{deflate_8h_aeaabc84f4830ec10deb9b64bd719617a}{deflate\-\_\-state} $\ast$\hyperlink{glext_8h_ad585a1393cfa368fa9dc3d8ebff640d5}{s}, \hyperlink{deflate_8h_ada696b787a46d01634b6365afcec1a9e}{I\-Pos} cur\-\_\-match)
+\item 
+local \hyperlink{zconf_8h_a87d141052bcd5ec8a80812a565c70369}{u\-Int} \hyperlink{deflate_8c_ada5e12c38f51cac74465ef4af16e46ed}{longest\-\_\-match\-\_\-fast} (\hyperlink{deflate_8h_aeaabc84f4830ec10deb9b64bd719617a}{deflate\-\_\-state} $\ast$\hyperlink{glext_8h_ad585a1393cfa368fa9dc3d8ebff640d5}{s}, \hyperlink{deflate_8h_ada696b787a46d01634b6365afcec1a9e}{I\-Pos} cur\-\_\-match)
+\item 
+local \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{deflate_8c_ab1c0a4040189c1911264149adf93acaa}{check\-\_\-match} (\hyperlink{deflate_8h_aeaabc84f4830ec10deb9b64bd719617a}{deflate\-\_\-state} $\ast$\hyperlink{glext_8h_ad585a1393cfa368fa9dc3d8ebff640d5}{s}, \hyperlink{deflate_8h_ada696b787a46d01634b6365afcec1a9e}{I\-Pos} \hyperlink{glext_8h_a13be19455586e95d5a42ed8f054afad2}{start}, \hyperlink{deflate_8h_ada696b787a46d01634b6365afcec1a9e}{I\-Pos} match, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{glext_8h_a3c8469415bbc83dd1341af15c67f1cef}{length})
+\item 
+local \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{deflate_8c_a6cf3c43817cac5f5c422e94b2a57ea49}{fill\-\_\-window} (\hyperlink{deflate_8h_aeaabc84f4830ec10deb9b64bd719617a}{deflate\-\_\-state} $\ast$\hyperlink{glext_8h_ad585a1393cfa368fa9dc3d8ebff640d5}{s})
+\item 
+local \hyperlink{deflate_8c_a1048c01fb24f2195a6b9a2a7c12e9454}{block\-\_\-state} \hyperlink{deflate_8c_a67569326587f77f823522212036fc2f9}{deflate\-\_\-stored} (\hyperlink{deflate_8h_aeaabc84f4830ec10deb9b64bd719617a}{deflate\-\_\-state} $\ast$\hyperlink{glext_8h_ad585a1393cfa368fa9dc3d8ebff640d5}{s}, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} flush)
+\item 
+local \hyperlink{deflate_8c_a1048c01fb24f2195a6b9a2a7c12e9454}{block\-\_\-state} \hyperlink{deflate_8c_a1ee6259c01fb1c8cd3ecc551a8fe7192}{deflate\-\_\-fast} (\hyperlink{deflate_8h_aeaabc84f4830ec10deb9b64bd719617a}{deflate\-\_\-state} $\ast$\hyperlink{glext_8h_ad585a1393cfa368fa9dc3d8ebff640d5}{s}, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} flush)
+\item 
+local \hyperlink{deflate_8c_a1048c01fb24f2195a6b9a2a7c12e9454}{block\-\_\-state} \hyperlink{deflate_8c_a9fc7e4969451bb185e77d530c376f79f}{deflate\-\_\-slow} (\hyperlink{deflate_8h_aeaabc84f4830ec10deb9b64bd719617a}{deflate\-\_\-state} $\ast$\hyperlink{glext_8h_ad585a1393cfa368fa9dc3d8ebff640d5}{s}, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} flush)
+\item 
+local \hyperlink{deflate_8c_a1048c01fb24f2195a6b9a2a7c12e9454}{block\-\_\-state} \hyperlink{deflate_8c_aea13a1600dd641f5584b39b840eecaae}{deflate\-\_\-rle} (\hyperlink{deflate_8h_aeaabc84f4830ec10deb9b64bd719617a}{deflate\-\_\-state} $\ast$\hyperlink{glext_8h_ad585a1393cfa368fa9dc3d8ebff640d5}{s}, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} flush)
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+const char \hyperlink{deflate_8c_a75f4ce56f376b4ec7efc61fab510c8e7}{deflate\-\_\-copyright} \mbox{[}$\,$\mbox{]}
+\item 
+local const \hyperlink{deflate_8c_a4473b5227787415097004fd39f55185e}{config} \hyperlink{deflate_8c_ae57814be7343966dd02ee8e7cfc4f99d}{configuration\-\_\-table} \mbox{[}2\mbox{]}
+\end{DoxyCompactItemize}
+
+
+\subsection{Typedef Documentation}
+\hypertarget{deflate_8c_a4473b5227787415097004fd39f55185e}{\index{deflate.\-c@{deflate.\-c}!config@{config}}
+\index{config@{config}!deflate.c@{deflate.\-c}}
+\subsubsection[{config}]{\setlength{\rightskip}{0pt plus 5cm}typedef {\bf struct} {\bf config\-\_\-s}  {\bf config}}}\label{deflate_8c_a4473b5227787415097004fd39f55185e}
+\hypertarget{deflate_8c_a50b39012daf202fe448bcec1b9603828}{\index{deflate.\-c@{deflate.\-c}!O\-F@{O\-F}}
+\index{O\-F@{O\-F}!deflate.c@{deflate.\-c}}
+\subsubsection[{O\-F}]{\setlength{\rightskip}{0pt plus 5cm}Z\-E\-X\-T\-E\-R\-N Q\-\_\-\-Z\-E\-X\-P\-O\-R\-T const {\bf u\-Longf} $\ast${\bf get\-\_\-crc\-\_\-table} O\-F (
+\begin{DoxyParamCaption}
+\item[{({\bf deflate\-\_\-state} $\ast${\bf s}, {\bf int} flush)}]{}
+\end{DoxyParamCaption}
+)}}\label{deflate_8c_a50b39012daf202fe448bcec1b9603828}
+
+
+Definition at line 73 of file deflate.\-c.
+
+
+
+\subsection{Enumeration Type Documentation}
+\hypertarget{deflate_8c_a1048c01fb24f2195a6b9a2a7c12e9454}{\index{deflate.\-c@{deflate.\-c}!block\-\_\-state@{block\-\_\-state}}
+\index{block\-\_\-state@{block\-\_\-state}!deflate.c@{deflate.\-c}}
+\subsubsection[{block\-\_\-state}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf block\-\_\-state}}}\label{deflate_8c_a1048c01fb24f2195a6b9a2a7c12e9454}
+\begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{need\-\_\-more@{need\-\_\-more}!deflate.\-c@{deflate.\-c}}\index{deflate.\-c@{deflate.\-c}!need\-\_\-more@{need\-\_\-more}}\item[{\em 
+\hypertarget{deflate_8c_a1048c01fb24f2195a6b9a2a7c12e9454aa05dd4e7c2f875eee52a6568c244c1e4}{need\-\_\-more}\label{deflate_8c_a1048c01fb24f2195a6b9a2a7c12e9454aa05dd4e7c2f875eee52a6568c244c1e4}
+}]\index{block\-\_\-done@{block\-\_\-done}!deflate.\-c@{deflate.\-c}}\index{deflate.\-c@{deflate.\-c}!block\-\_\-done@{block\-\_\-done}}\item[{\em 
+\hypertarget{deflate_8c_a1048c01fb24f2195a6b9a2a7c12e9454a94dca976f7dcfb0605e086068f09daa1}{block\-\_\-done}\label{deflate_8c_a1048c01fb24f2195a6b9a2a7c12e9454a94dca976f7dcfb0605e086068f09daa1}
+}]\index{finish\-\_\-started@{finish\-\_\-started}!deflate.\-c@{deflate.\-c}}\index{deflate.\-c@{deflate.\-c}!finish\-\_\-started@{finish\-\_\-started}}\item[{\em 
+\hypertarget{deflate_8c_a1048c01fb24f2195a6b9a2a7c12e9454a5ff14f05c1ba145fc4da40fb50211140}{finish\-\_\-started}\label{deflate_8c_a1048c01fb24f2195a6b9a2a7c12e9454a5ff14f05c1ba145fc4da40fb50211140}
+}]\index{finish\-\_\-done@{finish\-\_\-done}!deflate.\-c@{deflate.\-c}}\index{deflate.\-c@{deflate.\-c}!finish\-\_\-done@{finish\-\_\-done}}\item[{\em 
+\hypertarget{deflate_8c_a1048c01fb24f2195a6b9a2a7c12e9454af1f0edbb0d9d8272a762de3b7be0b50c}{finish\-\_\-done}\label{deflate_8c_a1048c01fb24f2195a6b9a2a7c12e9454af1f0edbb0d9d8272a762de3b7be0b50c}
+}]\end{description}
+\end{Desc}
+
+
+Definition at line 66 of file deflate.\-c.
+
+
+
+\subsection{Function Documentation}
+\hypertarget{deflate_8c_ab1c0a4040189c1911264149adf93acaa}{\index{deflate.\-c@{deflate.\-c}!check\-\_\-match@{check\-\_\-match}}
+\index{check\-\_\-match@{check\-\_\-match}!deflate.c@{deflate.\-c}}
+\subsubsection[{check\-\_\-match}]{\setlength{\rightskip}{0pt plus 5cm}local {\bf void} check\-\_\-match (
+\begin{DoxyParamCaption}
+\item[{{\bf deflate\-\_\-state} $\ast$}]{s, }
+\item[{{\bf I\-Pos}}]{start, }
+\item[{{\bf I\-Pos}}]{match, }
+\item[{{\bf int}}]{length}
+\end{DoxyParamCaption}
+)}}\label{deflate_8c_ab1c0a4040189c1911264149adf93acaa}
+
+
+Definition at line 1232 of file deflate.\-c.
+
+\hypertarget{deflate_8c_aedba3a94d6e827d61b660443ae5b9f09}{\index{deflate.\-c@{deflate.\-c}!deflate@{deflate}}
+\index{deflate@{deflate}!deflate.c@{deflate.\-c}}
+\subsubsection[{deflate}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int} Z\-E\-X\-P\-O\-R\-T deflate (
+\begin{DoxyParamCaption}
+\item[{{\bf z\-\_\-streamp}}]{strm, }
+\item[{{\bf int}}]{flush}
+\end{DoxyParamCaption}
+)}}\label{deflate_8c_aedba3a94d6e827d61b660443ae5b9f09}
+
+
+Definition at line 552 of file deflate.\-c.
+
+\hypertarget{deflate_8c_a1ee6259c01fb1c8cd3ecc551a8fe7192}{\index{deflate.\-c@{deflate.\-c}!deflate\-\_\-fast@{deflate\-\_\-fast}}
+\index{deflate\-\_\-fast@{deflate\-\_\-fast}!deflate.c@{deflate.\-c}}
+\subsubsection[{deflate\-\_\-fast}]{\setlength{\rightskip}{0pt plus 5cm}local {\bf block\-\_\-state} deflate\-\_\-fast (
+\begin{DoxyParamCaption}
+\item[{{\bf deflate\-\_\-state} $\ast$}]{s, }
+\item[{{\bf int}}]{flush}
+\end{DoxyParamCaption}
+)}}\label{deflate_8c_a1ee6259c01fb1c8cd3ecc551a8fe7192}
+
+
+Definition at line 1448 of file deflate.\-c.
+
+\hypertarget{deflate_8c_aea13a1600dd641f5584b39b840eecaae}{\index{deflate.\-c@{deflate.\-c}!deflate\-\_\-rle@{deflate\-\_\-rle}}
+\index{deflate\-\_\-rle@{deflate\-\_\-rle}!deflate.c@{deflate.\-c}}
+\subsubsection[{deflate\-\_\-rle}]{\setlength{\rightskip}{0pt plus 5cm}local {\bf block\-\_\-state} deflate\-\_\-rle (
+\begin{DoxyParamCaption}
+\item[{{\bf deflate\-\_\-state} $\ast$}]{s, }
+\item[{{\bf int}}]{flush}
+\end{DoxyParamCaption}
+)}}\label{deflate_8c_aea13a1600dd641f5584b39b840eecaae}
+
+
+Definition at line 1683 of file deflate.\-c.
+
+\hypertarget{deflate_8c_a9fc7e4969451bb185e77d530c376f79f}{\index{deflate.\-c@{deflate.\-c}!deflate\-\_\-slow@{deflate\-\_\-slow}}
+\index{deflate\-\_\-slow@{deflate\-\_\-slow}!deflate.c@{deflate.\-c}}
+\subsubsection[{deflate\-\_\-slow}]{\setlength{\rightskip}{0pt plus 5cm}local {\bf block\-\_\-state} deflate\-\_\-slow (
+\begin{DoxyParamCaption}
+\item[{{\bf deflate\-\_\-state} $\ast$}]{s, }
+\item[{{\bf int}}]{flush}
+\end{DoxyParamCaption}
+)}}\label{deflate_8c_a9fc7e4969451bb185e77d530c376f79f}
+
+
+Definition at line 1554 of file deflate.\-c.
+
+\hypertarget{deflate_8c_a67569326587f77f823522212036fc2f9}{\index{deflate.\-c@{deflate.\-c}!deflate\-\_\-stored@{deflate\-\_\-stored}}
+\index{deflate\-\_\-stored@{deflate\-\_\-stored}!deflate.c@{deflate.\-c}}
+\subsubsection[{deflate\-\_\-stored}]{\setlength{\rightskip}{0pt plus 5cm}local {\bf block\-\_\-state} deflate\-\_\-stored (
+\begin{DoxyParamCaption}
+\item[{{\bf deflate\-\_\-state} $\ast$}]{s, }
+\item[{{\bf int}}]{flush}
+\end{DoxyParamCaption}
+)}}\label{deflate_8c_a67569326587f77f823522212036fc2f9}
+
+
+Definition at line 1390 of file deflate.\-c.
+
+\hypertarget{deflate_8c_a746d0203373d0033ab69055f72a370e8}{\index{deflate.\-c@{deflate.\-c}!deflate\-Bound@{deflate\-Bound}}
+\index{deflate\-Bound@{deflate\-Bound}!deflate.c@{deflate.\-c}}
+\subsubsection[{deflate\-Bound}]{\setlength{\rightskip}{0pt plus 5cm}{\bf u\-Long} Z\-E\-X\-P\-O\-R\-T deflate\-Bound (
+\begin{DoxyParamCaption}
+\item[{{\bf z\-\_\-streamp}}]{strm, }
+\item[{{\bf u\-Long}}]{source\-Len}
+\end{DoxyParamCaption}
+)}}\label{deflate_8c_a746d0203373d0033ab69055f72a370e8}
+
+
+Definition at line 489 of file deflate.\-c.
+
+\hypertarget{deflate_8c_a496430688ab9f4179689c883a6776b02}{\index{deflate.\-c@{deflate.\-c}!deflate\-Copy@{deflate\-Copy}}
+\index{deflate\-Copy@{deflate\-Copy}!deflate.c@{deflate.\-c}}
+\subsubsection[{deflate\-Copy}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int} Z\-E\-X\-P\-O\-R\-T deflate\-Copy (
+\begin{DoxyParamCaption}
+\item[{{\bf z\-\_\-streamp}}]{dest, }
+\item[{{\bf z\-\_\-streamp}}]{source}
+\end{DoxyParamCaption}
+)}}\label{deflate_8c_a496430688ab9f4179689c883a6776b02}
+
+
+Definition at line 894 of file deflate.\-c.
+
+\hypertarget{deflate_8c_ada68769789b1d84de7e708d6e848a075}{\index{deflate.\-c@{deflate.\-c}!deflate\-End@{deflate\-End}}
+\index{deflate\-End@{deflate\-End}!deflate.c@{deflate.\-c}}
+\subsubsection[{deflate\-End}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int} Z\-E\-X\-P\-O\-R\-T deflate\-End (
+\begin{DoxyParamCaption}
+\item[{{\bf z\-\_\-streamp}}]{strm}
+\end{DoxyParamCaption}
+)}}\label{deflate_8c_ada68769789b1d84de7e708d6e848a075}
+
+
+Definition at line 859 of file deflate.\-c.
+
+\hypertarget{deflate_8c_ae501d2862c68d17b909d6f1c9264815c}{\index{deflate.\-c@{deflate.\-c}!deflate\-Init2\-\_\-@{deflate\-Init2\-\_\-}}
+\index{deflate\-Init2\-\_\-@{deflate\-Init2\-\_\-}!deflate.c@{deflate.\-c}}
+\subsubsection[{deflate\-Init2\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int} Z\-E\-X\-P\-O\-R\-T deflate\-Init2\-\_\- (
+\begin{DoxyParamCaption}
+\item[{{\bf z\-\_\-streamp}}]{strm, }
+\item[{{\bf int}}]{level, }
+\item[{{\bf int}}]{method, }
+\item[{{\bf int}}]{window\-Bits, }
+\item[{{\bf int}}]{mem\-Level, }
+\item[{{\bf int}}]{strategy, }
+\item[{const char $\ast$}]{version, }
+\item[{{\bf int}}]{stream\-\_\-size}
+\end{DoxyParamCaption}
+)}}\label{deflate_8c_ae501d2862c68d17b909d6f1c9264815c}
+
+
+Definition at line 216 of file deflate.\-c.
+
+\hypertarget{deflate_8c_a0e6601591faa9573f27340153b0f3296}{\index{deflate.\-c@{deflate.\-c}!deflate\-Init\-\_\-@{deflate\-Init\-\_\-}}
+\index{deflate\-Init\-\_\-@{deflate\-Init\-\_\-}!deflate.c@{deflate.\-c}}
+\subsubsection[{deflate\-Init\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int} Z\-E\-X\-P\-O\-R\-T deflate\-Init\-\_\- (
+\begin{DoxyParamCaption}
+\item[{{\bf z\-\_\-streamp}}]{strm, }
+\item[{{\bf int}}]{level, }
+\item[{const char $\ast$}]{version, }
+\item[{{\bf int}}]{stream\-\_\-size}
+\end{DoxyParamCaption}
+)}}\label{deflate_8c_a0e6601591faa9573f27340153b0f3296}
+
+
+Definition at line 204 of file deflate.\-c.
+
+\hypertarget{deflate_8c_a6be3d26b7e317aa4db6c7870b1911d4d}{\index{deflate.\-c@{deflate.\-c}!deflate\-Params@{deflate\-Params}}
+\index{deflate\-Params@{deflate\-Params}!deflate.c@{deflate.\-c}}
+\subsubsection[{deflate\-Params}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int} Z\-E\-X\-P\-O\-R\-T deflate\-Params (
+\begin{DoxyParamCaption}
+\item[{{\bf z\-\_\-streamp}}]{strm, }
+\item[{{\bf int}}]{level, }
+\item[{{\bf int}}]{strategy}
+\end{DoxyParamCaption}
+)}}\label{deflate_8c_a6be3d26b7e317aa4db6c7870b1911d4d}
+
+
+Definition at line 416 of file deflate.\-c.
+
+\hypertarget{deflate_8c_aa8ca15b272bfde8fd23ab658d789aa87}{\index{deflate.\-c@{deflate.\-c}!deflate\-Prime@{deflate\-Prime}}
+\index{deflate\-Prime@{deflate\-Prime}!deflate.c@{deflate.\-c}}
+\subsubsection[{deflate\-Prime}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int} Z\-E\-X\-P\-O\-R\-T deflate\-Prime (
+\begin{DoxyParamCaption}
+\item[{{\bf z\-\_\-streamp}}]{strm, }
+\item[{{\bf int}}]{bits, }
+\item[{{\bf int}}]{value}
+\end{DoxyParamCaption}
+)}}\label{deflate_8c_aa8ca15b272bfde8fd23ab658d789aa87}
+
+
+Definition at line 404 of file deflate.\-c.
+
+\hypertarget{deflate_8c_a4f17a4d330d76066b4b26c27f7cde5dc}{\index{deflate.\-c@{deflate.\-c}!deflate\-Reset@{deflate\-Reset}}
+\index{deflate\-Reset@{deflate\-Reset}!deflate.c@{deflate.\-c}}
+\subsubsection[{deflate\-Reset}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int} Z\-E\-X\-P\-O\-R\-T deflate\-Reset (
+\begin{DoxyParamCaption}
+\item[{{\bf z\-\_\-streamp}}]{strm}
+\end{DoxyParamCaption}
+)}}\label{deflate_8c_a4f17a4d330d76066b4b26c27f7cde5dc}
+
+
+Definition at line 357 of file deflate.\-c.
+
+\hypertarget{deflate_8c_a4e2855f986abd56d4515e9bb09986a5b}{\index{deflate.\-c@{deflate.\-c}!deflate\-Set\-Dictionary@{deflate\-Set\-Dictionary}}
+\index{deflate\-Set\-Dictionary@{deflate\-Set\-Dictionary}!deflate.c@{deflate.\-c}}
+\subsubsection[{deflate\-Set\-Dictionary}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int} Z\-E\-X\-P\-O\-R\-T deflate\-Set\-Dictionary (
+\begin{DoxyParamCaption}
+\item[{{\bf z\-\_\-streamp}}]{strm, }
+\item[{const {\bf Bytef} $\ast$}]{dictionary, }
+\item[{{\bf u\-Int}}]{dict\-Length}
+\end{DoxyParamCaption}
+)}}\label{deflate_8c_a4e2855f986abd56d4515e9bb09986a5b}
+
+
+Definition at line 315 of file deflate.\-c.
+
+\hypertarget{deflate_8c_a0bb9d562cacbe698297de30cdeeb2153}{\index{deflate.\-c@{deflate.\-c}!deflate\-Set\-Header@{deflate\-Set\-Header}}
+\index{deflate\-Set\-Header@{deflate\-Set\-Header}!deflate.c@{deflate.\-c}}
+\subsubsection[{deflate\-Set\-Header}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int} Z\-E\-X\-P\-O\-R\-T deflate\-Set\-Header (
+\begin{DoxyParamCaption}
+\item[{{\bf z\-\_\-streamp}}]{strm, }
+\item[{{\bf gz\-\_\-headerp}}]{head}
+\end{DoxyParamCaption}
+)}}\label{deflate_8c_a0bb9d562cacbe698297de30cdeeb2153}
+
+
+Definition at line 393 of file deflate.\-c.
+
+\hypertarget{deflate_8c_aa2f2f8ee11441c80c35f035ad7efbb8e}{\index{deflate.\-c@{deflate.\-c}!deflate\-Tune@{deflate\-Tune}}
+\index{deflate\-Tune@{deflate\-Tune}!deflate.c@{deflate.\-c}}
+\subsubsection[{deflate\-Tune}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int} Z\-E\-X\-P\-O\-R\-T deflate\-Tune (
+\begin{DoxyParamCaption}
+\item[{{\bf z\-\_\-streamp}}]{strm, }
+\item[{{\bf int}}]{good\-\_\-length, }
+\item[{{\bf int}}]{max\-\_\-lazy, }
+\item[{{\bf int}}]{nice\-\_\-length, }
+\item[{{\bf int}}]{max\-\_\-chain}
+\end{DoxyParamCaption}
+)}}\label{deflate_8c_aa2f2f8ee11441c80c35f035ad7efbb8e}
+
+
+Definition at line 454 of file deflate.\-c.
+
+\hypertarget{deflate_8c_a6cf3c43817cac5f5c422e94b2a57ea49}{\index{deflate.\-c@{deflate.\-c}!fill\-\_\-window@{fill\-\_\-window}}
+\index{fill\-\_\-window@{fill\-\_\-window}!deflate.c@{deflate.\-c}}
+\subsubsection[{fill\-\_\-window}]{\setlength{\rightskip}{0pt plus 5cm}local {\bf void} fill\-\_\-window (
+\begin{DoxyParamCaption}
+\item[{{\bf deflate\-\_\-state} $\ast$}]{s}
+\end{DoxyParamCaption}
+)}}\label{deflate_8c_a6cf3c43817cac5f5c422e94b2a57ea49}
+
+
+Definition at line 1266 of file deflate.\-c.
+
+\hypertarget{deflate_8c_ae9a3263767d40c4f7443bf07c31e0119}{\index{deflate.\-c@{deflate.\-c}!flush\-\_\-pending@{flush\-\_\-pending}}
+\index{flush\-\_\-pending@{flush\-\_\-pending}!deflate.c@{deflate.\-c}}
+\subsubsection[{flush\-\_\-pending}]{\setlength{\rightskip}{0pt plus 5cm}local {\bf void} flush\-\_\-pending (
+\begin{DoxyParamCaption}
+\item[{{\bf z\-\_\-streamp}}]{strm}
+\end{DoxyParamCaption}
+)}}\label{deflate_8c_ae9a3263767d40c4f7443bf07c31e0119}
+
+
+Definition at line 532 of file deflate.\-c.
+
+\hypertarget{deflate_8c_ab197bb7bbeee75dcfccbfa8d55cae272}{\index{deflate.\-c@{deflate.\-c}!lm\-\_\-init@{lm\-\_\-init}}
+\index{lm\-\_\-init@{lm\-\_\-init}!deflate.c@{deflate.\-c}}
+\subsubsection[{lm\-\_\-init}]{\setlength{\rightskip}{0pt plus 5cm}local {\bf void} lm\-\_\-init (
+\begin{DoxyParamCaption}
+\item[{{\bf deflate\-\_\-state} $\ast$}]{s}
+\end{DoxyParamCaption}
+)}}\label{deflate_8c_ab197bb7bbeee75dcfccbfa8d55cae272}
+
+
+Definition at line 986 of file deflate.\-c.
+
+\hypertarget{deflate_8c_a9c89f33a3fab1b87063832eeda415389}{\index{deflate.\-c@{deflate.\-c}!longest\-\_\-match@{longest\-\_\-match}}
+\index{longest\-\_\-match@{longest\-\_\-match}!deflate.c@{deflate.\-c}}
+\subsubsection[{longest\-\_\-match}]{\setlength{\rightskip}{0pt plus 5cm}local {\bf u\-Int} longest\-\_\-match (
+\begin{DoxyParamCaption}
+\item[{{\bf deflate\-\_\-state} $\ast$}]{s, }
+\item[{{\bf I\-Pos}}]{cur\-\_\-match}
+\end{DoxyParamCaption}
+)}}\label{deflate_8c_a9c89f33a3fab1b87063832eeda415389}
+
+
+Definition at line 1027 of file deflate.\-c.
+
+\hypertarget{deflate_8c_ada5e12c38f51cac74465ef4af16e46ed}{\index{deflate.\-c@{deflate.\-c}!longest\-\_\-match\-\_\-fast@{longest\-\_\-match\-\_\-fast}}
+\index{longest\-\_\-match\-\_\-fast@{longest\-\_\-match\-\_\-fast}!deflate.c@{deflate.\-c}}
+\subsubsection[{longest\-\_\-match\-\_\-fast}]{\setlength{\rightskip}{0pt plus 5cm}local {\bf u\-Int} longest\-\_\-match\-\_\-fast (
+\begin{DoxyParamCaption}
+\item[{{\bf deflate\-\_\-state} $\ast$}]{s, }
+\item[{{\bf I\-Pos}}]{cur\-\_\-match}
+\end{DoxyParamCaption}
+)}}\label{deflate_8c_ada5e12c38f51cac74465ef4af16e46ed}
+
+
+Definition at line 1175 of file deflate.\-c.
+
+\hypertarget{deflate_8c_a39020875dba6274d4890d928ece7af4d}{\index{deflate.\-c@{deflate.\-c}!O\-F@{O\-F}}
+\index{O\-F@{O\-F}!deflate.c@{deflate.\-c}}
+\subsubsection[{O\-F}]{\setlength{\rightskip}{0pt plus 5cm}local {\bf void} {\bf fill\-\_\-window} O\-F (
+\begin{DoxyParamCaption}
+\item[{({\bf deflate\-\_\-state} $\ast${\bf s})}]{}
+\end{DoxyParamCaption}
+)}}\label{deflate_8c_a39020875dba6274d4890d928ece7af4d}
+\hypertarget{deflate_8c_a8c5f4f16898c33f6c80e2c03a8f41f8a}{\index{deflate.\-c@{deflate.\-c}!O\-F@{O\-F}}
+\index{O\-F@{O\-F}!deflate.c@{deflate.\-c}}
+\subsubsection[{O\-F}]{\setlength{\rightskip}{0pt plus 5cm}local {\bf block\-\_\-state} {\bf deflate\-\_\-stored} O\-F (
+\begin{DoxyParamCaption}
+\item[{({\bf deflate\-\_\-state} $\ast${\bf s}, {\bf int} flush)}]{}
+\end{DoxyParamCaption}
+)}}\label{deflate_8c_a8c5f4f16898c33f6c80e2c03a8f41f8a}
+\hypertarget{deflate_8c_a7a385b4ab82557d539fe9a6059caf4d7}{\index{deflate.\-c@{deflate.\-c}!O\-F@{O\-F}}
+\index{O\-F@{O\-F}!deflate.c@{deflate.\-c}}
+\subsubsection[{O\-F}]{\setlength{\rightskip}{0pt plus 5cm}local {\bf void} {\bf put\-Short\-M\-S\-B} O\-F (
+\begin{DoxyParamCaption}
+\item[{({\bf deflate\-\_\-state} $\ast${\bf s}, {\bf u\-Int} {\bf b})}]{}
+\end{DoxyParamCaption}
+)}}\label{deflate_8c_a7a385b4ab82557d539fe9a6059caf4d7}
+\hypertarget{deflate_8c_a7c2e426a5f352f7e8c43ef7beec5138f}{\index{deflate.\-c@{deflate.\-c}!O\-F@{O\-F}}
+\index{O\-F@{O\-F}!deflate.c@{deflate.\-c}}
+\subsubsection[{O\-F}]{\setlength{\rightskip}{0pt plus 5cm}local {\bf void} {\bf flush\-\_\-pending} O\-F (
+\begin{DoxyParamCaption}
+\item[{({\bf z\-\_\-streamp} strm)}]{}
+\end{DoxyParamCaption}
+)}}\label{deflate_8c_a7c2e426a5f352f7e8c43ef7beec5138f}
+\hypertarget{deflate_8c_a89775aad02a4843022d7e83a3301239b}{\index{deflate.\-c@{deflate.\-c}!O\-F@{O\-F}}
+\index{O\-F@{O\-F}!deflate.c@{deflate.\-c}}
+\subsubsection[{O\-F}]{\setlength{\rightskip}{0pt plus 5cm}local {\bf int} {\bf read\-\_\-buf} O\-F (
+\begin{DoxyParamCaption}
+\item[{({\bf z\-\_\-streamp} strm, {\bf Bytef} $\ast${\bf buf}, unsigned {\bf size})}]{}
+\end{DoxyParamCaption}
+)}}\label{deflate_8c_a89775aad02a4843022d7e83a3301239b}
+\hypertarget{deflate_8c_a76ffc15f53ff24a334a751a3cf19f481}{\index{deflate.\-c@{deflate.\-c}!O\-F@{O\-F}}
+\index{O\-F@{O\-F}!deflate.c@{deflate.\-c}}
+\subsubsection[{O\-F}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} match\-\_\-init O\-F (
+\begin{DoxyParamCaption}
+\item[{({\bf void})}]{}
+\end{DoxyParamCaption}
+)}}\label{deflate_8c_a76ffc15f53ff24a334a751a3cf19f481}
+\hypertarget{deflate_8c_a0d041aa12606a3df8804211e6cc0ffbc}{\index{deflate.\-c@{deflate.\-c}!O\-F@{O\-F}}
+\index{O\-F@{O\-F}!deflate.c@{deflate.\-c}}
+\subsubsection[{O\-F}]{\setlength{\rightskip}{0pt plus 5cm}{\bf u\-Int} {\bf longest\-\_\-match} O\-F (
+\begin{DoxyParamCaption}
+\item[{({\bf deflate\-\_\-state} $\ast${\bf s}, {\bf I\-Pos} cur\-\_\-match)}]{}
+\end{DoxyParamCaption}
+)}}\label{deflate_8c_a0d041aa12606a3df8804211e6cc0ffbc}
+\hypertarget{deflate_8c_aab71fb4a0da6ede1cb531ba004066938}{\index{deflate.\-c@{deflate.\-c}!O\-F@{O\-F}}
+\index{O\-F@{O\-F}!deflate.c@{deflate.\-c}}
+\subsubsection[{O\-F}]{\setlength{\rightskip}{0pt plus 5cm}local {\bf void} {\bf check\-\_\-match} O\-F (
+\begin{DoxyParamCaption}
+\item[{({\bf deflate\-\_\-state} $\ast${\bf s}, {\bf I\-Pos} {\bf start}, {\bf I\-Pos} match, {\bf int} {\bf length})}]{}
+\end{DoxyParamCaption}
+)}}\label{deflate_8c_aab71fb4a0da6ede1cb531ba004066938}
+\hypertarget{deflate_8c_a6db0a0a840addf113cb217c4aa1c0384}{\index{deflate.\-c@{deflate.\-c}!put\-Short\-M\-S\-B@{put\-Short\-M\-S\-B}}
+\index{put\-Short\-M\-S\-B@{put\-Short\-M\-S\-B}!deflate.c@{deflate.\-c}}
+\subsubsection[{put\-Short\-M\-S\-B}]{\setlength{\rightskip}{0pt plus 5cm}local {\bf void} put\-Short\-M\-S\-B (
+\begin{DoxyParamCaption}
+\item[{{\bf deflate\-\_\-state} $\ast$}]{s, }
+\item[{{\bf u\-Int}}]{b}
+\end{DoxyParamCaption}
+)}}\label{deflate_8c_a6db0a0a840addf113cb217c4aa1c0384}
+
+
+Definition at line 518 of file deflate.\-c.
+
+\hypertarget{deflate_8c_a30b7fcd3e6bea023c1c00eafad492639}{\index{deflate.\-c@{deflate.\-c}!read\-\_\-buf@{read\-\_\-buf}}
+\index{read\-\_\-buf@{read\-\_\-buf}!deflate.c@{deflate.\-c}}
+\subsubsection[{read\-\_\-buf}]{\setlength{\rightskip}{0pt plus 5cm}local {\bf int} read\-\_\-buf (
+\begin{DoxyParamCaption}
+\item[{{\bf z\-\_\-streamp}}]{strm, }
+\item[{{\bf Bytef} $\ast$}]{buf, }
+\item[{unsigned}]{size}
+\end{DoxyParamCaption}
+)}}\label{deflate_8c_a30b7fcd3e6bea023c1c00eafad492639}
+
+
+Definition at line 956 of file deflate.\-c.
+
+
+
+\subsection{Variable Documentation}
+\hypertarget{deflate_8c_ae57814be7343966dd02ee8e7cfc4f99d}{\index{deflate.\-c@{deflate.\-c}!configuration\-\_\-table@{configuration\-\_\-table}}
+\index{configuration\-\_\-table@{configuration\-\_\-table}!deflate.c@{deflate.\-c}}
+\subsubsection[{configuration\-\_\-table}]{\setlength{\rightskip}{0pt plus 5cm}local const {\bf config} configuration\-\_\-table}}\label{deflate_8c_ae57814be7343966dd02ee8e7cfc4f99d}
+{\bfseries Initial value\-:}
+\begin{DoxyCode}
+= \{
+
+ \{0,    0,  0,    0, \hyperlink{deflate_8c_a67569326587f77f823522212036fc2f9}{deflate\_stored}\},  
+ \{4,    4,  8,    4, \hyperlink{deflate_8c_a1ee6259c01fb1c8cd3ecc551a8fe7192}{deflate\_fast}\}\}
+\end{DoxyCode}
+
+
+Definition at line 132 of file deflate.\-c.
+
+\hypertarget{deflate_8c_a75f4ce56f376b4ec7efc61fab510c8e7}{\index{deflate.\-c@{deflate.\-c}!deflate\-\_\-copyright@{deflate\-\_\-copyright}}
+\index{deflate\-\_\-copyright@{deflate\-\_\-copyright}!deflate.c@{deflate.\-c}}
+\subsubsection[{deflate\-\_\-copyright}]{\setlength{\rightskip}{0pt plus 5cm}const char deflate\-\_\-copyright\mbox{[}$\,$\mbox{]}}}\label{deflate_8c_a75f4ce56f376b4ec7efc61fab510c8e7}
+{\bfseries Initial value\-:}
+\begin{DoxyCode}
+=
+   \textcolor{stringliteral}{" deflate 1.2.3 Copyright 1995-2005 Jean-loup Gailly "}
+\end{DoxyCode}
+
+
+Definition at line 54 of file deflate.\-c.
+

@@ -1,0 +1,215 @@
+\hypertarget{class_qwt_knob}{\section{Qwt\-Knob Class Reference}
+\label{class_qwt_knob}\index{Qwt\-Knob@{Qwt\-Knob}}
+}
+
+
+The Knob \hyperlink{class_widget}{Widget}.  
+
+
+
+
+{\ttfamily \#include $<$qwt\-\_\-knob.\-h$>$}
+
+Inheritance diagram for Qwt\-Knob\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{class_qwt_knob}
+\end{center}
+\end{figure}
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{class_qwt_knob_1_1_private_data}{Private\-Data}
+\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_knob_aac9eb31c18408aaa224f5ad040631384}{paint\-Event} (Q\-Paint\-Event $\ast$)
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_knob_abf47fbc76e68791d3012499198285662}{resize\-Event} (Q\-Resize\-Event $\ast$)
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_knob_abccdba2f96c353ecc004adfcb19d2db9}{change\-Event} (Q\-Event $\ast$)
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_knob_a5ebc1ef5761b8db6d67820fc14cb89d5}{draw\-Knob} (Q\-Painter $\ast$, const Q\-Rect\-F \&) const 
+\begin{DoxyCompactList}\small\item\em Draw the knob. \end{DoxyCompactList}\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_knob_a2b0523757918e335fe444df702972f3e}{draw\-Marker} (Q\-Painter $\ast$, const Q\-Rect\-F \&, \hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} arc) const 
+\begin{DoxyCompactList}\small\item\em Draw the marker at the knob's front. \end{DoxyCompactList}\item 
+virtual \hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} \hyperlink{class_qwt_knob_a8bc3dd547ed410548b451f074f633546}{get\-Value} (const Q\-Point \&\hyperlink{glext_8h_aa5367c14d90f462230c2611b81b41d23}{p})
+\begin{DoxyCompactList}\small\item\em Determine the value corresponding to a specified position. \end{DoxyCompactList}\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_knob_a42e3a55eb22c249311e5cacefb22ae71}{get\-Scroll\-Mode} (const Q\-Point \&, \hyperlink{class_qwt_abstract_slider_ae4c0c4844ac6a35356f3c529a8eae154}{Qwt\-Abstract\-Slider\-::\-Scroll\-Mode} \&, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \&direction) const 
+\begin{DoxyCompactList}\small\item\em Set the scrolling mode and direction. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Detailed Description}
+The Knob \hyperlink{class_widget}{Widget}. 
+
+The \hyperlink{class_qwt_knob}{Qwt\-Knob} widget imitates look and behaviour of a volume knob on a radio. It contains a scale around the knob which is set up automatically or can be configured manually (see \hyperlink{class_qwt_abstract_scale}{Qwt\-Abstract\-Scale}). Automatic scrolling is enabled when the user presses a mouse button on the scale. For a description of signals, slots and other members, see \hyperlink{class_qwt_abstract_slider}{Qwt\-Abstract\-Slider}.
+
+ \begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_abstract_slider}{Qwt\-Abstract\-Slider} and \hyperlink{class_qwt_abstract_scale}{Qwt\-Abstract\-Scale} \hyperlink{crypt_8h_a6f9c0aaf91aa1ee6f13a43244e90af87}{for} the descriptions of the inherited members. 
+\end{DoxySeeAlso}
+
+
+Definition at line 34 of file qwt\-\_\-knob.\-h.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_qwt_knob_abccdba2f96c353ecc004adfcb19d2db9}{\index{Qwt\-Knob@{Qwt\-Knob}!change\-Event@{change\-Event}}
+\index{change\-Event@{change\-Event}!QwtKnob@{Qwt\-Knob}}
+\subsubsection[{change\-Event}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Knob\-::change\-Event (
+\begin{DoxyParamCaption}
+\item[{Q\-Event $\ast$}]{event}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}}\label{class_qwt_knob_abccdba2f96c353ecc004adfcb19d2db9}
+Handle Q\-Event\-::\-Style\-Change and Q\-Event\-::\-Font\-Change; 
+\begin{DoxyParams}{Parameters}
+{\em event} & Change event \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 308 of file qwt\-\_\-knob.\-cpp.
+
+\hypertarget{class_qwt_knob_a5ebc1ef5761b8db6d67820fc14cb89d5}{\index{Qwt\-Knob@{Qwt\-Knob}!draw\-Knob@{draw\-Knob}}
+\index{draw\-Knob@{draw\-Knob}!QwtKnob@{Qwt\-Knob}}
+\subsubsection[{draw\-Knob}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Knob\-::draw\-Knob (
+\begin{DoxyParamCaption}
+\item[{Q\-Painter $\ast$}]{painter, }
+\item[{const Q\-Rect\-F \&}]{knob\-Rect}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}}\label{class_qwt_knob_a5ebc1ef5761b8db6d67820fc14cb89d5}
+
+
+Draw the knob. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em painter} & painter \\
+\hline
+{\em knob\-Rect} & Bounding rectangle of the knob (without scale) \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 378 of file qwt\-\_\-knob.\-cpp.
+
+\hypertarget{class_qwt_knob_a2b0523757918e335fe444df702972f3e}{\index{Qwt\-Knob@{Qwt\-Knob}!draw\-Marker@{draw\-Marker}}
+\index{draw\-Marker@{draw\-Marker}!QwtKnob@{Qwt\-Knob}}
+\subsubsection[{draw\-Marker}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Knob\-::draw\-Marker (
+\begin{DoxyParamCaption}
+\item[{Q\-Painter $\ast$}]{painter, }
+\item[{const Q\-Rect\-F \&}]{rect, }
+\item[{{\bf double}}]{angle}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}}\label{class_qwt_knob_a2b0523757918e335fe444df702972f3e}
+
+
+Draw the marker at the knob's front. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em painter} & Painter \\
+\hline
+{\em rect} & Bounding rectangle of the knob without scale \\
+\hline
+{\em angle} & Angle of the marker in degrees \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 445 of file qwt\-\_\-knob.\-cpp.
+
+\hypertarget{class_qwt_knob_a42e3a55eb22c249311e5cacefb22ae71}{\index{Qwt\-Knob@{Qwt\-Knob}!get\-Scroll\-Mode@{get\-Scroll\-Mode}}
+\index{get\-Scroll\-Mode@{get\-Scroll\-Mode}!QwtKnob@{Qwt\-Knob}}
+\subsubsection[{get\-Scroll\-Mode}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Knob\-::get\-Scroll\-Mode (
+\begin{DoxyParamCaption}
+\item[{const Q\-Point \&}]{pos, }
+\item[{{\bf Qwt\-Abstract\-Slider\-::\-Scroll\-Mode} \&}]{scroll\-Mode, }
+\item[{{\bf int} \&}]{direction}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}}\label{class_qwt_knob_a42e3a55eb22c249311e5cacefb22ae71}
+
+
+Set the scrolling mode and direction. 
+
+Called by \hyperlink{class_qwt_abstract_slider}{Qwt\-Abstract\-Slider} 
+\begin{DoxyParams}{Parameters}
+{\em pos} & Point in question \\
+\hline
+{\em scroll\-Mode} & Scrolling mode \\
+\hline
+{\em direction} & Direction \\
+\hline
+\end{DoxyParams}
+
+
+Implements \hyperlink{class_qwt_abstract_slider_a4124aa3b1e462d57ea2693214e66da0b}{Qwt\-Abstract\-Slider}.
+
+
+
+Definition at line 254 of file qwt\-\_\-knob.\-cpp.
+
+\hypertarget{class_qwt_knob_a8bc3dd547ed410548b451f074f633546}{\index{Qwt\-Knob@{Qwt\-Knob}!get\-Value@{get\-Value}}
+\index{get\-Value@{get\-Value}!QwtKnob@{Qwt\-Knob}}
+\subsubsection[{get\-Value}]{\setlength{\rightskip}{0pt plus 5cm}{\bf double} Qwt\-Knob\-::get\-Value (
+\begin{DoxyParamCaption}
+\item[{const Q\-Point \&}]{pos}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}}\label{class_qwt_knob_a8bc3dd547ed410548b451f074f633546}
+
+
+Determine the value corresponding to a specified position. 
+
+Called by \hyperlink{class_qwt_abstract_slider}{Qwt\-Abstract\-Slider} 
+\begin{DoxyParams}{Parameters}
+{\em pos} & point \\
+\hline
+\end{DoxyParams}
+
+
+Implements \hyperlink{class_qwt_abstract_slider_a6e26a993536813c2d9846a28f3c27aa7}{Qwt\-Abstract\-Slider}.
+
+
+
+Definition at line 221 of file qwt\-\_\-knob.\-cpp.
+
+\hypertarget{class_qwt_knob_aac9eb31c18408aaa224f5ad040631384}{\index{Qwt\-Knob@{Qwt\-Knob}!paint\-Event@{paint\-Event}}
+\index{paint\-Event@{paint\-Event}!QwtKnob@{Qwt\-Knob}}
+\subsubsection[{paint\-Event}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Knob\-::paint\-Event (
+\begin{DoxyParamCaption}
+\item[{Q\-Paint\-Event $\ast$}]{event}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}}\label{class_qwt_knob_aac9eb31c18408aaa224f5ad040631384}
+Repaint the knob 
+\begin{DoxyParams}{Parameters}
+{\em event} & Paint event \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 350 of file qwt\-\_\-knob.\-cpp.
+
+\hypertarget{class_qwt_knob_abf47fbc76e68791d3012499198285662}{\index{Qwt\-Knob@{Qwt\-Knob}!resize\-Event@{resize\-Event}}
+\index{resize\-Event@{resize\-Event}!QwtKnob@{Qwt\-Knob}}
+\subsubsection[{resize\-Event}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Knob\-::resize\-Event (
+\begin{DoxyParamCaption}
+\item[{Q\-Resize\-Event $\ast$}]{event}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}}\label{class_qwt_knob_abf47fbc76e68791d3012499198285662}
+Qt Resize Event 
+\begin{DoxyParams}{Parameters}
+{\em event} & Resize event \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 298 of file qwt\-\_\-knob.\-cpp.
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/qwt/src/\hyperlink{qwt__knob_8h}{qwt\-\_\-knob.\-h}\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/qwt/src/\hyperlink{qwt__knob_8cpp}{qwt\-\_\-knob.\-cpp}\end{DoxyCompactItemize}

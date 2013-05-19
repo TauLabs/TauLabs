@@ -1,0 +1,206 @@
+\hypertarget{class_qwt_plot_dict}{\section{Qwt\-Plot\-Dict Class Reference}
+\label{class_qwt_plot_dict}\index{Qwt\-Plot\-Dict@{Qwt\-Plot\-Dict}}
+}
+
+
+A dictionary for plot items.  
+
+
+
+
+{\ttfamily \#include $<$qwt\-\_\-plot\-\_\-dict.\-h$>$}
+
+Inheritance diagram for Qwt\-Plot\-Dict\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{class_qwt_plot_dict}
+\end{center}
+\end{figure}
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{class_qwt_plot_dict_1_1_private_data}{Private\-Data}
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_qwt_plot_dict_a0ee364450834ac63f4cbd5baab82d15f}{Qwt\-Plot\-Dict} ()
+\item 
+virtual \hyperlink{class_qwt_plot_dict_a9199acfe3e8dcb095065bff3f90f518b}{$\sim$\-Qwt\-Plot\-Dict} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_plot_dict_a3291431f0a9cca5b2affc5adf17bbdfb}{set\-Auto\-Delete} (bool)
+\item 
+bool \hyperlink{class_qwt_plot_dict_a10dfae8b454fa4258b0372366013507a}{auto\-Delete} () const 
+\item 
+const \hyperlink{qwt__plot__dict_8h_a375ca32f3e8a24c8eeb076a637ecd1d8}{Qwt\-Plot\-Item\-List} \& \hyperlink{class_qwt_plot_dict_a9cbb1c5c22de93594b7e2524af108f55}{item\-List} () const 
+\begin{DoxyCompactList}\small\item\em A Qwt\-Plot\-Item\-List of all attached plot items. \end{DoxyCompactList}\item 
+\hyperlink{qwt__plot__dict_8h_a375ca32f3e8a24c8eeb076a637ecd1d8}{Qwt\-Plot\-Item\-List} \hyperlink{class_qwt_plot_dict_a0979adc53ad5ecf5e4a93aa9b5a4df38}{item\-List} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} rtti) const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_plot_dict_acb2e402e05c693433ed7e84696fbdfc0}{detach\-Items} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} rtti=\hyperlink{class_qwt_plot_item_ab149ac85e233ce9cedf2f2f2af871bf3af1fb53ddb320ecbf2bba00a323cf08ff}{Qwt\-Plot\-Item\-::\-Rtti\-\_\-\-Plot\-Item}, bool \hyperlink{class_qwt_plot_dict_a10dfae8b454fa4258b0372366013507a}{auto\-Delete}=true)
+\end{DoxyCompactItemize}
+\subsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{class_qwt_plot_dict_a055bada44394b2c38d0d907087a14fa3}{Qwt\-Plot\-Item}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+A dictionary for plot items. 
+
+\hyperlink{class_qwt_plot_dict}{Qwt\-Plot\-Dict} organizes plot items in increasing z-\/order. If \hyperlink{class_qwt_plot_dict_a10dfae8b454fa4258b0372366013507a}{auto\-Delete()} is enabled, all attached items will be deleted in the destructor of the dictionary.
+
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_plot_item_aeb2f676533ccae3436bf578824e2165e}{Qwt\-Plot\-Item\-::attach()}, \hyperlink{class_qwt_plot_item_ab2bbee6dbe36a5f1d0ce853ac66716a6}{Qwt\-Plot\-Item\-::detach()}, \hyperlink{class_qwt_plot_item_a4c58d814336643190b9f2918f80c30df}{Qwt\-Plot\-Item\-::z()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 32 of file qwt\-\_\-plot\-\_\-dict.\-h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_qwt_plot_dict_a0ee364450834ac63f4cbd5baab82d15f}{\index{Qwt\-Plot\-Dict@{Qwt\-Plot\-Dict}!Qwt\-Plot\-Dict@{Qwt\-Plot\-Dict}}
+\index{Qwt\-Plot\-Dict@{Qwt\-Plot\-Dict}!QwtPlotDict@{Qwt\-Plot\-Dict}}
+\subsubsection[{Qwt\-Plot\-Dict}]{\setlength{\rightskip}{0pt plus 5cm}Qwt\-Plot\-Dict\-::\-Qwt\-Plot\-Dict (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [explicit]}}}\label{class_qwt_plot_dict_a0ee364450834ac63f4cbd5baab82d15f}
+Constructor
+
+Auto deletion is enabled. \begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_plot_dict_a3291431f0a9cca5b2affc5adf17bbdfb}{set\-Auto\-Delete()}, attach\-Item() 
+\end{DoxySeeAlso}
+
+
+Definition at line 68 of file qwt\-\_\-plot\-\_\-dict.\-cpp.
+
+\hypertarget{class_qwt_plot_dict_a9199acfe3e8dcb095065bff3f90f518b}{\index{Qwt\-Plot\-Dict@{Qwt\-Plot\-Dict}!$\sim$\-Qwt\-Plot\-Dict@{$\sim$\-Qwt\-Plot\-Dict}}
+\index{$\sim$\-Qwt\-Plot\-Dict@{$\sim$\-Qwt\-Plot\-Dict}!QwtPlotDict@{Qwt\-Plot\-Dict}}
+\subsubsection[{$\sim$\-Qwt\-Plot\-Dict}]{\setlength{\rightskip}{0pt plus 5cm}Qwt\-Plot\-Dict\-::$\sim$\-Qwt\-Plot\-Dict (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_qwt_plot_dict_a9199acfe3e8dcb095065bff3f90f518b}
+Destructor
+
+If auto\-Delete is on, all attached items will be deleted \begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_plot_dict_a3291431f0a9cca5b2affc5adf17bbdfb}{set\-Auto\-Delete()}, \hyperlink{class_qwt_plot_dict_a10dfae8b454fa4258b0372366013507a}{auto\-Delete()}, attach\-Item() 
+\end{DoxySeeAlso}
+
+
+Definition at line 80 of file qwt\-\_\-plot\-\_\-dict.\-cpp.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_qwt_plot_dict_a10dfae8b454fa4258b0372366013507a}{\index{Qwt\-Plot\-Dict@{Qwt\-Plot\-Dict}!auto\-Delete@{auto\-Delete}}
+\index{auto\-Delete@{auto\-Delete}!QwtPlotDict@{Qwt\-Plot\-Dict}}
+\subsubsection[{auto\-Delete}]{\setlength{\rightskip}{0pt plus 5cm}bool Qwt\-Plot\-Dict\-::auto\-Delete (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_qwt_plot_dict_a10dfae8b454fa4258b0372366013507a}
+\begin{DoxyReturn}{Returns}
+true if auto deletion is enabled 
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_plot_dict_a3291431f0a9cca5b2affc5adf17bbdfb}{set\-Auto\-Delete()}, attach\-Item() 
+\end{DoxySeeAlso}
+
+
+Definition at line 103 of file qwt\-\_\-plot\-\_\-dict.\-cpp.
+
+\hypertarget{class_qwt_plot_dict_acb2e402e05c693433ed7e84696fbdfc0}{\index{Qwt\-Plot\-Dict@{Qwt\-Plot\-Dict}!detach\-Items@{detach\-Items}}
+\index{detach\-Items@{detach\-Items}!QwtPlotDict@{Qwt\-Plot\-Dict}}
+\subsubsection[{detach\-Items}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Plot\-Dict\-::detach\-Items (
+\begin{DoxyParamCaption}
+\item[{{\bf int}}]{rtti = {\ttfamily {\bf Qwt\-Plot\-Item\-::\-Rtti\-\_\-\-Plot\-Item}}, }
+\item[{bool}]{auto\-Delete = {\ttfamily true}}
+\end{DoxyParamCaption}
+)}}\label{class_qwt_plot_dict_acb2e402e05c693433ed7e84696fbdfc0}
+Detach items from the dictionary
+
+
+\begin{DoxyParams}{Parameters}
+{\em rtti} & In case of \hyperlink{class_qwt_plot_item_ab149ac85e233ce9cedf2f2f2af871bf3af1fb53ddb320ecbf2bba00a323cf08ff}{Qwt\-Plot\-Item\-::\-Rtti\-\_\-\-Plot\-Item} detach all items otherwise only those items of the type rtti. \\
+\hline
+{\em auto\-Delete} & If true, delete all detached items \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 135 of file qwt\-\_\-plot\-\_\-dict.\-cpp.
+
+\hypertarget{class_qwt_plot_dict_a9cbb1c5c22de93594b7e2524af108f55}{\index{Qwt\-Plot\-Dict@{Qwt\-Plot\-Dict}!item\-List@{item\-List}}
+\index{item\-List@{item\-List}!QwtPlotDict@{Qwt\-Plot\-Dict}}
+\subsubsection[{item\-List}]{\setlength{\rightskip}{0pt plus 5cm}const {\bf Qwt\-Plot\-Item\-List} \& Qwt\-Plot\-Dict\-::item\-List (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_qwt_plot_dict_a9cbb1c5c22de93594b7e2524af108f55}
+
+
+A Qwt\-Plot\-Item\-List of all attached plot items. 
+
+Use caution when iterating these lists, as removing/detaching an item will invalidate the iterator. Instead you can place pointers to objects to be removed in a removal list, and traverse that list later.
+
+\begin{DoxyReturn}{Returns}
+List of all attached plot items. 
+\end{DoxyReturn}
+
+
+Definition at line 163 of file qwt\-\_\-plot\-\_\-dict.\-cpp.
+
+\hypertarget{class_qwt_plot_dict_a0979adc53ad5ecf5e4a93aa9b5a4df38}{\index{Qwt\-Plot\-Dict@{Qwt\-Plot\-Dict}!item\-List@{item\-List}}
+\index{item\-List@{item\-List}!QwtPlotDict@{Qwt\-Plot\-Dict}}
+\subsubsection[{item\-List}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Qwt\-Plot\-Item\-List} Qwt\-Plot\-Dict\-::item\-List (
+\begin{DoxyParamCaption}
+\item[{{\bf int}}]{rtti}
+\end{DoxyParamCaption}
+) const}}\label{class_qwt_plot_dict_a0979adc53ad5ecf5e4a93aa9b5a4df38}
+\begin{DoxyReturn}{Returns}
+List of all attached plot items of a specific type. 
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_plot_item_af153b5a40a60ac626f1c58e69fc4ecad}{Qwt\-Plot\-Item\-::rtti()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 172 of file qwt\-\_\-plot\-\_\-dict.\-cpp.
+
+\hypertarget{class_qwt_plot_dict_a3291431f0a9cca5b2affc5adf17bbdfb}{\index{Qwt\-Plot\-Dict@{Qwt\-Plot\-Dict}!set\-Auto\-Delete@{set\-Auto\-Delete}}
+\index{set\-Auto\-Delete@{set\-Auto\-Delete}!QwtPlotDict@{Qwt\-Plot\-Dict}}
+\subsubsection[{set\-Auto\-Delete}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Plot\-Dict\-::set\-Auto\-Delete (
+\begin{DoxyParamCaption}
+\item[{bool}]{auto\-Delete}
+\end{DoxyParamCaption}
+)}}\label{class_qwt_plot_dict_a3291431f0a9cca5b2affc5adf17bbdfb}
+En/\-Disable Auto deletion
+
+If Auto deletion is on all attached plot items will be deleted in the destructor of \hyperlink{class_qwt_plot_dict}{Qwt\-Plot\-Dict}. The default value is on.
+
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_plot_dict_a10dfae8b454fa4258b0372366013507a}{auto\-Delete()}, attach\-Item() 
+\end{DoxySeeAlso}
+
+
+Definition at line 94 of file qwt\-\_\-plot\-\_\-dict.\-cpp.
+
+
+
+\subsection{Friends And Related Function Documentation}
+\hypertarget{class_qwt_plot_dict_a055bada44394b2c38d0d907087a14fa3}{\index{Qwt\-Plot\-Dict@{Qwt\-Plot\-Dict}!Qwt\-Plot\-Item@{Qwt\-Plot\-Item}}
+\index{Qwt\-Plot\-Item@{Qwt\-Plot\-Item}!QwtPlotDict@{Qwt\-Plot\-Dict}}
+\subsubsection[{Qwt\-Plot\-Item}]{\setlength{\rightskip}{0pt plus 5cm}friend class {\bf Qwt\-Plot\-Item}\hspace{0.3cm}{\ttfamily [friend]}}}\label{class_qwt_plot_dict_a055bada44394b2c38d0d907087a14fa3}
+
+
+Definition at line 48 of file qwt\-\_\-plot\-\_\-dict.\-h.
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/qwt/src/\hyperlink{qwt__plot__dict_8h}{qwt\-\_\-plot\-\_\-dict.\-h}\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/qwt/src/\hyperlink{qwt__plot__dict_8cpp}{qwt\-\_\-plot\-\_\-dict.\-cpp}\end{DoxyCompactItemize}

@@ -1,0 +1,370 @@
+\hypertarget{class_g_l_c___texture}{\section{G\-L\-C\-\_\-\-Texture Class Reference}
+\label{class_g_l_c___texture}\index{G\-L\-C\-\_\-\-Texture@{G\-L\-C\-\_\-\-Texture}}
+}
+
+
+\hyperlink{class_g_l_c___texture}{G\-L\-C\-\_\-\-Texture} \-: Image texture.  
+
+
+
+
+{\ttfamily \#include $<$glc\-\_\-texture.\-h$>$}
+
+\subsection*{Public Member Functions}
+\begin{Indent}{\bf Constructor / Destructor}\par
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_g_l_c___texture_a250a1a2f3b1bfc8e7c65095506cb2adb}{G\-L\-C\-\_\-\-Texture} ()
+\begin{DoxyCompactList}\small\item\em Default constructor. \end{DoxyCompactList}\item 
+\hyperlink{class_g_l_c___texture_af68a0fe0646130d355ad5e850bb68a40}{G\-L\-C\-\_\-\-Texture} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{Q\-String} \&)
+\begin{DoxyCompactList}\small\item\em Constructor with file\-Name. \end{DoxyCompactList}\item 
+\hyperlink{class_g_l_c___texture_ab2087c7ead978763880712ce3f665939}{G\-L\-C\-\_\-\-Texture} (const Q\-File \&)
+\begin{DoxyCompactList}\small\item\em Constructor with Q\-File. \end{DoxyCompactList}\item 
+\hyperlink{class_g_l_c___texture_a7d0d3a77074e7d793735232c15392ea5}{G\-L\-C\-\_\-\-Texture} (const Q\-Image \&, const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{Q\-String} \&\hyperlink{class_g_l_c___texture_acc10491a7ab8a8072820657633d41dea}{file\-Name}=\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{Q\-String}())
+\begin{DoxyCompactList}\small\item\em Constructor with Q\-Image. \end{DoxyCompactList}\item 
+\hyperlink{class_g_l_c___texture_a47eae83b9a37647a94cda97b1600cb37}{G\-L\-C\-\_\-\-Texture} (const \hyperlink{class_g_l_c___texture}{G\-L\-C\-\_\-\-Texture} \&Texture\-To\-Copy)
+\begin{DoxyCompactList}\small\item\em Copy constructor. \end{DoxyCompactList}\item 
+\hyperlink{class_g_l_c___texture}{G\-L\-C\-\_\-\-Texture} \& \hyperlink{class_g_l_c___texture_a8e436c2d371d5e99c7fd623cf51d0ced}{operator=} (const \hyperlink{class_g_l_c___texture}{G\-L\-C\-\_\-\-Texture} \&)
+\begin{DoxyCompactList}\small\item\em Overload \char`\"{}=\char`\"{} operator. \end{DoxyCompactList}\item 
+virtual \hyperlink{class_g_l_c___texture_a1bcc0477afde8277665b6f49611e261f}{$\sim$\-G\-L\-C\-\_\-\-Texture} ()
+\begin{DoxyCompactList}\small\item\em Default Destructor. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\end{Indent}
+\begin{Indent}{\bf Open\-G\-L Functions}\par
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c___texture_a131a6e72f37f449162dc4c7e3fd827b8}{gl\-Load\-Texture} (Q\-G\-L\-Context $\ast$p\-Context=N\-U\-L\-L)
+\begin{DoxyCompactList}\small\item\em Load the texture. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c___texture_af63e9de56cc3040c4a24e50e4553cf61}{glc\-Bind\-Texture} (\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void})
+\begin{DoxyCompactList}\small\item\em Bind texture in 2\-D mode. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\end{Indent}
+\subsection*{Static Public Member Functions}
+\begin{Indent}{\bf Set Functions}\par
+\begin{DoxyCompactItemize}
+\item 
+static \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c___texture_a0bb8b419472e4eb4948020b250c6170a}{set\-Max\-Texture\-Size} (const Q\-Size \&)
+\end{DoxyCompactItemize}
+\end{Indent}
+\subsection*{Get Functions}
+\begin{DoxyCompactItemize}
+\item 
+Q\-G\-L\-Context $\ast$ \hyperlink{class_g_l_c___texture_a935e4e185b1b914542c9f7ffa18c6854}{context} () const 
+\begin{DoxyCompactList}\small\item\em Return the Q\-G\-L\-Context of the texture. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{Q\-String} \hyperlink{class_g_l_c___texture_acc10491a7ab8a8072820657633d41dea}{file\-Name} () const 
+\begin{DoxyCompactList}\small\item\em Return the texture File Name. \end{DoxyCompactList}\item 
+\hyperlink{glext_8h_a2f0c8cd5c21f9fcbd931c3f48bc90dfc}{G\-Luint} \hyperlink{class_g_l_c___texture_aa9bc7312ee7b04afb7d51be631779ff1}{G\-L\-\_\-\-I\-D} () const 
+\begin{DoxyCompactList}\small\item\em Return Open\-G\-L Texture Id. \end{DoxyCompactList}\item 
+bool \hyperlink{class_g_l_c___texture_a8b5e4919ac8ead344b9696eb7bc05bb5}{is\-Loaded} () const 
+\begin{DoxyCompactList}\small\item\em Return true if the texture is loaded. \end{DoxyCompactList}\item 
+Q\-Size \hyperlink{class_g_l_c___texture_aa9454cf8057367715de164ee12de950c}{size} () const 
+\begin{DoxyCompactList}\small\item\em Return the texture size. \end{DoxyCompactList}\item 
+bool \hyperlink{class_g_l_c___texture_a8b74be7ccddb3c1fc64b66f2d458bda8}{operator==} (const \hyperlink{class_g_l_c___texture}{G\-L\-C\-\_\-\-Texture} \&) const 
+\begin{DoxyCompactList}\small\item\em Return true if texture are the same. \end{DoxyCompactList}\item 
+bool \hyperlink{class_g_l_c___texture_af040d82570c44cbf505214089c4fbbc2}{has\-Alpha\-Channel} () const 
+\begin{DoxyCompactList}\small\item\em Return true if the texture has alpha channel. \end{DoxyCompactList}\item 
+Q\-Image \hyperlink{class_g_l_c___texture_a50ae33c3581f868c1249623b01a9329f}{image\-Of\-Texture} () const 
+\begin{DoxyCompactList}\small\item\em Return the an image of the texture. \end{DoxyCompactList}\item 
+static Q\-Size \hyperlink{class_g_l_c___texture_a74da499316b195a93aca9cee68db8701}{max\-Size} ()
+\begin{DoxyCompactList}\small\item\em Return the maximum texture size. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\hyperlink{class_g_l_c___texture}{G\-L\-C\-\_\-\-Texture} \-: Image texture. 
+
+Image texture define a texture map in 2 D coordinate system 
+
+Definition at line 41 of file glc\-\_\-texture.\-h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_g_l_c___texture_a250a1a2f3b1bfc8e7c65095506cb2adb}{\index{G\-L\-C\-\_\-\-Texture@{G\-L\-C\-\_\-\-Texture}!G\-L\-C\-\_\-\-Texture@{G\-L\-C\-\_\-\-Texture}}
+\index{G\-L\-C\-\_\-\-Texture@{G\-L\-C\-\_\-\-Texture}!GLC_Texture@{G\-L\-C\-\_\-\-Texture}}
+\subsubsection[{G\-L\-C\-\_\-\-Texture}]{\setlength{\rightskip}{0pt plus 5cm}G\-L\-C\-\_\-\-Texture\-::\-G\-L\-C\-\_\-\-Texture (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___texture_a250a1a2f3b1bfc8e7c65095506cb2adb}
+
+
+Default constructor. 
+
+
+
+Definition at line 49 of file glc\-\_\-texture.\-cpp.
+
+\hypertarget{class_g_l_c___texture_af68a0fe0646130d355ad5e850bb68a40}{\index{G\-L\-C\-\_\-\-Texture@{G\-L\-C\-\_\-\-Texture}!G\-L\-C\-\_\-\-Texture@{G\-L\-C\-\_\-\-Texture}}
+\index{G\-L\-C\-\_\-\-Texture@{G\-L\-C\-\_\-\-Texture}!GLC_Texture@{G\-L\-C\-\_\-\-Texture}}
+\subsubsection[{G\-L\-C\-\_\-\-Texture}]{\setlength{\rightskip}{0pt plus 5cm}G\-L\-C\-\_\-\-Texture\-::\-G\-L\-C\-\_\-\-Texture (
+\begin{DoxyParamCaption}
+\item[{const {\bf Q\-String} \&}]{Filename}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___texture_af68a0fe0646130d355ad5e850bb68a40}
+
+
+Constructor with file\-Name. 
+
+
+
+Definition at line 61 of file glc\-\_\-texture.\-cpp.
+
+\hypertarget{class_g_l_c___texture_ab2087c7ead978763880712ce3f665939}{\index{G\-L\-C\-\_\-\-Texture@{G\-L\-C\-\_\-\-Texture}!G\-L\-C\-\_\-\-Texture@{G\-L\-C\-\_\-\-Texture}}
+\index{G\-L\-C\-\_\-\-Texture@{G\-L\-C\-\_\-\-Texture}!GLC_Texture@{G\-L\-C\-\_\-\-Texture}}
+\subsubsection[{G\-L\-C\-\_\-\-Texture}]{\setlength{\rightskip}{0pt plus 5cm}G\-L\-C\-\_\-\-Texture\-::\-G\-L\-C\-\_\-\-Texture (
+\begin{DoxyParamCaption}
+\item[{const Q\-File \&}]{file}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___texture_ab2087c7ead978763880712ce3f665939}
+
+
+Constructor with Q\-File. 
+
+
+
+Definition at line 79 of file glc\-\_\-texture.\-cpp.
+
+\hypertarget{class_g_l_c___texture_a7d0d3a77074e7d793735232c15392ea5}{\index{G\-L\-C\-\_\-\-Texture@{G\-L\-C\-\_\-\-Texture}!G\-L\-C\-\_\-\-Texture@{G\-L\-C\-\_\-\-Texture}}
+\index{G\-L\-C\-\_\-\-Texture@{G\-L\-C\-\_\-\-Texture}!GLC_Texture@{G\-L\-C\-\_\-\-Texture}}
+\subsubsection[{G\-L\-C\-\_\-\-Texture}]{\setlength{\rightskip}{0pt plus 5cm}G\-L\-C\-\_\-\-Texture\-::\-G\-L\-C\-\_\-\-Texture (
+\begin{DoxyParamCaption}
+\item[{const Q\-Image \&}]{image, }
+\item[{const {\bf Q\-String} \&}]{file\-Name = {\ttfamily {\bf Q\-String}()}}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___texture_a7d0d3a77074e7d793735232c15392ea5}
+
+
+Constructor with Q\-Image. 
+
+
+
+Definition at line 99 of file glc\-\_\-texture.\-cpp.
+
+\hypertarget{class_g_l_c___texture_a47eae83b9a37647a94cda97b1600cb37}{\index{G\-L\-C\-\_\-\-Texture@{G\-L\-C\-\_\-\-Texture}!G\-L\-C\-\_\-\-Texture@{G\-L\-C\-\_\-\-Texture}}
+\index{G\-L\-C\-\_\-\-Texture@{G\-L\-C\-\_\-\-Texture}!GLC_Texture@{G\-L\-C\-\_\-\-Texture}}
+\subsubsection[{G\-L\-C\-\_\-\-Texture}]{\setlength{\rightskip}{0pt plus 5cm}G\-L\-C\-\_\-\-Texture\-::\-G\-L\-C\-\_\-\-Texture (
+\begin{DoxyParamCaption}
+\item[{const {\bf G\-L\-C\-\_\-\-Texture} \&}]{Texture\-To\-Copy}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___texture_a47eae83b9a37647a94cda97b1600cb37}
+
+
+Copy constructor. 
+
+
+
+Definition at line 110 of file glc\-\_\-texture.\-cpp.
+
+\hypertarget{class_g_l_c___texture_a1bcc0477afde8277665b6f49611e261f}{\index{G\-L\-C\-\_\-\-Texture@{G\-L\-C\-\_\-\-Texture}!$\sim$\-G\-L\-C\-\_\-\-Texture@{$\sim$\-G\-L\-C\-\_\-\-Texture}}
+\index{$\sim$\-G\-L\-C\-\_\-\-Texture@{$\sim$\-G\-L\-C\-\_\-\-Texture}!GLC_Texture@{G\-L\-C\-\_\-\-Texture}}
+\subsubsection[{$\sim$\-G\-L\-C\-\_\-\-Texture}]{\setlength{\rightskip}{0pt plus 5cm}G\-L\-C\-\_\-\-Texture\-::$\sim$\-G\-L\-C\-\_\-\-Texture (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_g_l_c___texture_a1bcc0477afde8277665b6f49611e261f}
+
+
+Default Destructor. 
+
+
+
+Definition at line 148 of file glc\-\_\-texture.\-cpp.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_g_l_c___texture_a935e4e185b1b914542c9f7ffa18c6854}{\index{G\-L\-C\-\_\-\-Texture@{G\-L\-C\-\_\-\-Texture}!context@{context}}
+\index{context@{context}!GLC_Texture@{G\-L\-C\-\_\-\-Texture}}
+\subsubsection[{context}]{\setlength{\rightskip}{0pt plus 5cm}Q\-G\-L\-Context$\ast$ G\-L\-C\-\_\-\-Texture\-::context (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___texture_a935e4e185b1b914542c9f7ffa18c6854}
+
+
+Return the Q\-G\-L\-Context of the texture. 
+
+
+
+Definition at line 77 of file glc\-\_\-texture.\-h.
+
+\hypertarget{class_g_l_c___texture_acc10491a7ab8a8072820657633d41dea}{\index{G\-L\-C\-\_\-\-Texture@{G\-L\-C\-\_\-\-Texture}!file\-Name@{file\-Name}}
+\index{file\-Name@{file\-Name}!GLC_Texture@{G\-L\-C\-\_\-\-Texture}}
+\subsubsection[{file\-Name}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Q\-String} G\-L\-C\-\_\-\-Texture\-::file\-Name (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___texture_acc10491a7ab8a8072820657633d41dea}
+
+
+Return the texture File Name. 
+
+
+
+Definition at line 81 of file glc\-\_\-texture.\-h.
+
+\hypertarget{class_g_l_c___texture_aa9bc7312ee7b04afb7d51be631779ff1}{\index{G\-L\-C\-\_\-\-Texture@{G\-L\-C\-\_\-\-Texture}!G\-L\-\_\-\-I\-D@{G\-L\-\_\-\-I\-D}}
+\index{G\-L\-\_\-\-I\-D@{G\-L\-\_\-\-I\-D}!GLC_Texture@{G\-L\-C\-\_\-\-Texture}}
+\subsubsection[{G\-L\-\_\-\-I\-D}]{\setlength{\rightskip}{0pt plus 5cm}{\bf G\-Luint} G\-L\-C\-\_\-\-Texture\-::\-G\-L\-\_\-\-I\-D (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___texture_aa9bc7312ee7b04afb7d51be631779ff1}
+
+
+Return Open\-G\-L Texture Id. 
+
+
+
+Definition at line 85 of file glc\-\_\-texture.\-h.
+
+\hypertarget{class_g_l_c___texture_af63e9de56cc3040c4a24e50e4553cf61}{\index{G\-L\-C\-\_\-\-Texture@{G\-L\-C\-\_\-\-Texture}!glc\-Bind\-Texture@{glc\-Bind\-Texture}}
+\index{glc\-Bind\-Texture@{glc\-Bind\-Texture}!GLC_Texture@{G\-L\-C\-\_\-\-Texture}}
+\subsubsection[{glc\-Bind\-Texture}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-\-Texture\-::glc\-Bind\-Texture (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___texture_af63e9de56cc3040c4a24e50e4553cf61}
+
+
+Bind texture in 2\-D mode. 
+
+
+
+Definition at line 235 of file glc\-\_\-texture.\-cpp.
+
+\hypertarget{class_g_l_c___texture_a131a6e72f37f449162dc4c7e3fd827b8}{\index{G\-L\-C\-\_\-\-Texture@{G\-L\-C\-\_\-\-Texture}!gl\-Load\-Texture@{gl\-Load\-Texture}}
+\index{gl\-Load\-Texture@{gl\-Load\-Texture}!GLC_Texture@{G\-L\-C\-\_\-\-Texture}}
+\subsubsection[{gl\-Load\-Texture}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-\-Texture\-::gl\-Load\-Texture (
+\begin{DoxyParamCaption}
+\item[{Q\-G\-L\-Context $\ast$}]{p\-Context = {\ttfamily NULL}}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___texture_a131a6e72f37f449162dc4c7e3fd827b8}
+
+
+Load the texture. 
+
+
+
+Definition at line 194 of file glc\-\_\-texture.\-cpp.
+
+\hypertarget{class_g_l_c___texture_af040d82570c44cbf505214089c4fbbc2}{\index{G\-L\-C\-\_\-\-Texture@{G\-L\-C\-\_\-\-Texture}!has\-Alpha\-Channel@{has\-Alpha\-Channel}}
+\index{has\-Alpha\-Channel@{has\-Alpha\-Channel}!GLC_Texture@{G\-L\-C\-\_\-\-Texture}}
+\subsubsection[{has\-Alpha\-Channel}]{\setlength{\rightskip}{0pt plus 5cm}bool G\-L\-C\-\_\-\-Texture\-::has\-Alpha\-Channel (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___texture_af040d82570c44cbf505214089c4fbbc2}
+
+
+Return true if the texture has alpha channel. 
+
+
+
+Definition at line 104 of file glc\-\_\-texture.\-h.
+
+\hypertarget{class_g_l_c___texture_a50ae33c3581f868c1249623b01a9329f}{\index{G\-L\-C\-\_\-\-Texture@{G\-L\-C\-\_\-\-Texture}!image\-Of\-Texture@{image\-Of\-Texture}}
+\index{image\-Of\-Texture@{image\-Of\-Texture}!GLC_Texture@{G\-L\-C\-\_\-\-Texture}}
+\subsubsection[{image\-Of\-Texture}]{\setlength{\rightskip}{0pt plus 5cm}Q\-Image G\-L\-C\-\_\-\-Texture\-::image\-Of\-Texture (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___texture_a50ae33c3581f868c1249623b01a9329f}
+
+
+Return the an image of the texture. 
+
+
+
+Definition at line 108 of file glc\-\_\-texture.\-h.
+
+\hypertarget{class_g_l_c___texture_a8b5e4919ac8ead344b9696eb7bc05bb5}{\index{G\-L\-C\-\_\-\-Texture@{G\-L\-C\-\_\-\-Texture}!is\-Loaded@{is\-Loaded}}
+\index{is\-Loaded@{is\-Loaded}!GLC_Texture@{G\-L\-C\-\_\-\-Texture}}
+\subsubsection[{is\-Loaded}]{\setlength{\rightskip}{0pt plus 5cm}bool G\-L\-C\-\_\-\-Texture\-::is\-Loaded (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___texture_a8b5e4919ac8ead344b9696eb7bc05bb5}
+
+
+Return true if the texture is loaded. 
+
+
+
+Definition at line 89 of file glc\-\_\-texture.\-h.
+
+\hypertarget{class_g_l_c___texture_a74da499316b195a93aca9cee68db8701}{\index{G\-L\-C\-\_\-\-Texture@{G\-L\-C\-\_\-\-Texture}!max\-Size@{max\-Size}}
+\index{max\-Size@{max\-Size}!GLC_Texture@{G\-L\-C\-\_\-\-Texture}}
+\subsubsection[{max\-Size}]{\setlength{\rightskip}{0pt plus 5cm}static Q\-Size G\-L\-C\-\_\-\-Texture\-::max\-Size (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{class_g_l_c___texture_a74da499316b195a93aca9cee68db8701}
+
+
+Return the maximum texture size. 
+
+
+
+Definition at line 97 of file glc\-\_\-texture.\-h.
+
+\hypertarget{class_g_l_c___texture_a8e436c2d371d5e99c7fd623cf51d0ced}{\index{G\-L\-C\-\_\-\-Texture@{G\-L\-C\-\_\-\-Texture}!operator=@{operator=}}
+\index{operator=@{operator=}!GLC_Texture@{G\-L\-C\-\_\-\-Texture}}
+\subsubsection[{operator=}]{\setlength{\rightskip}{0pt plus 5cm}{\bf G\-L\-C\-\_\-\-Texture} \& G\-L\-C\-\_\-\-Texture\-::operator= (
+\begin{DoxyParamCaption}
+\item[{const {\bf G\-L\-C\-\_\-\-Texture} \&}]{texture}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___texture_a8e436c2d371d5e99c7fd623cf51d0ced}
+
+
+Overload \char`\"{}=\char`\"{} operator. 
+
+
+
+Definition at line 131 of file glc\-\_\-texture.\-cpp.
+
+\hypertarget{class_g_l_c___texture_a8b74be7ccddb3c1fc64b66f2d458bda8}{\index{G\-L\-C\-\_\-\-Texture@{G\-L\-C\-\_\-\-Texture}!operator==@{operator==}}
+\index{operator==@{operator==}!GLC_Texture@{G\-L\-C\-\_\-\-Texture}}
+\subsubsection[{operator==}]{\setlength{\rightskip}{0pt plus 5cm}bool G\-L\-C\-\_\-\-Texture\-::operator== (
+\begin{DoxyParamCaption}
+\item[{const {\bf G\-L\-C\-\_\-\-Texture} \&}]{texture}
+\end{DoxyParamCaption}
+) const}}\label{class_g_l_c___texture_a8b74be7ccddb3c1fc64b66f2d458bda8}
+
+
+Return true if texture are the same. 
+
+
+
+Definition at line 158 of file glc\-\_\-texture.\-cpp.
+
+\hypertarget{class_g_l_c___texture_a0bb8b419472e4eb4948020b250c6170a}{\index{G\-L\-C\-\_\-\-Texture@{G\-L\-C\-\_\-\-Texture}!set\-Max\-Texture\-Size@{set\-Max\-Texture\-Size}}
+\index{set\-Max\-Texture\-Size@{set\-Max\-Texture\-Size}!GLC_Texture@{G\-L\-C\-\_\-\-Texture}}
+\subsubsection[{set\-Max\-Texture\-Size}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-\-Texture\-::set\-Max\-Texture\-Size (
+\begin{DoxyParamCaption}
+\item[{const Q\-Size \&}]{size}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{class_g_l_c___texture_a0bb8b419472e4eb4948020b250c6170a}
+
+
+Definition at line 177 of file glc\-\_\-texture.\-cpp.
+
+\hypertarget{class_g_l_c___texture_aa9454cf8057367715de164ee12de950c}{\index{G\-L\-C\-\_\-\-Texture@{G\-L\-C\-\_\-\-Texture}!size@{size}}
+\index{size@{size}!GLC_Texture@{G\-L\-C\-\_\-\-Texture}}
+\subsubsection[{size}]{\setlength{\rightskip}{0pt plus 5cm}Q\-Size G\-L\-C\-\_\-\-Texture\-::size (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___texture_aa9454cf8057367715de164ee12de950c}
+
+
+Return the texture size. 
+
+
+
+Definition at line 93 of file glc\-\_\-texture.\-h.
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/glc\-\_\-lib/shading/\hyperlink{glc__texture_8h}{glc\-\_\-texture.\-h}\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/glc\-\_\-lib/shading/\hyperlink{glc__texture_8cpp}{glc\-\_\-texture.\-cpp}\end{DoxyCompactItemize}

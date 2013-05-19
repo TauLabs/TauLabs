@@ -1,0 +1,426 @@
+\hypertarget{class_g_l_c___cutting_plane}{\section{G\-L\-C\-\_\-\-Cutting\-Plane Class Reference}
+\label{class_g_l_c___cutting_plane}\index{G\-L\-C\-\_\-\-Cutting\-Plane@{G\-L\-C\-\_\-\-Cutting\-Plane}}
+}
+
+
+\hyperlink{class_g_l_c___cutting_plane}{G\-L\-C\-\_\-\-Cutting\-Plane} \-: 3d cutting plane widget.  
+
+
+
+
+{\ttfamily \#include $<$glc\-\_\-cuttingplane.\-h$>$}
+
+Inheritance diagram for G\-L\-C\-\_\-\-Cutting\-Plane\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{class_g_l_c___cutting_plane}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{Indent}{\bf Constructor / Destructor}\par
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_g_l_c___cutting_plane_adb2d0cfde9b5f9ddd3ce9280dca48ac0}{G\-L\-C\-\_\-\-Cutting\-Plane} (const \hyperlink{glc__vector3d_8h_a4e13a9bbc7ab3d34de7e98b41836772c}{G\-L\-C\-\_\-\-Point3d} \&\hyperlink{class_g_l_c___cutting_plane_af58a0f0ccbbd7b02f754397241558b8c}{center}, const \hyperlink{class_g_l_c___vector3d}{G\-L\-C\-\_\-\-Vector3d} \&\hyperlink{class_g_l_c___cutting_plane_af469fadf296434eee46c4ba187ed07e6}{normal}, \hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} l1, \hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} l2, \hyperlink{class_g_l_c__3_d_widget_manager_handle}{G\-L\-C\-\_\-3\-D\-Widget\-Manager\-Handle} $\ast$p\-Widget\-Manager\-Handle=N\-U\-L\-L)
+\begin{DoxyCompactList}\small\item\em Construct a 3d cutting plane widget. \end{DoxyCompactList}\item 
+\hyperlink{class_g_l_c___cutting_plane_ab27f38b9ae184394fc8db3eac9a45806}{G\-L\-C\-\_\-\-Cutting\-Plane} (const \hyperlink{class_g_l_c___cutting_plane}{G\-L\-C\-\_\-\-Cutting\-Plane} \&cutting\-Plane)
+\begin{DoxyCompactList}\small\item\em Construct a 3d cutting plane with the given cutting plane. \end{DoxyCompactList}\item 
+virtual \hyperlink{class_g_l_c___cutting_plane_aabf1ed6bac9528991dab821450281148}{$\sim$\-G\-L\-C\-\_\-\-Cutting\-Plane} ()
+\begin{DoxyCompactList}\small\item\em Destructor. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\end{Indent}
+\begin{Indent}{\bf Get Functions}\par
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{glc__vector3d_8h_a4e13a9bbc7ab3d34de7e98b41836772c}{G\-L\-C\-\_\-\-Point3d} \hyperlink{class_g_l_c___cutting_plane_af58a0f0ccbbd7b02f754397241558b8c}{center} () const 
+\begin{DoxyCompactList}\small\item\em Return this cutting plane center. \end{DoxyCompactList}\item 
+\hyperlink{class_g_l_c___vector3d}{G\-L\-C\-\_\-\-Vector3d} \hyperlink{class_g_l_c___cutting_plane_af469fadf296434eee46c4ba187ed07e6}{normal} () const 
+\begin{DoxyCompactList}\small\item\em Return this cutting plane normal. \end{DoxyCompactList}\item 
+Q\-Color \hyperlink{class_g_l_c___cutting_plane_a2072a6fa23ee3008be13b1243494e555}{color} () const 
+\begin{DoxyCompactList}\small\item\em Return this plane color. \end{DoxyCompactList}\item 
+\hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} \hyperlink{class_g_l_c___cutting_plane_a23c0d810579c076c5e2f86c64bb6051f}{opacity} () const 
+\begin{DoxyCompactList}\small\item\em Return this plane opacity. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\end{Indent}
+\begin{Indent}{\bf Set Functions}\par
+\begin{DoxyCompactItemize}
+\item 
+virtual \hyperlink{class_g_l_c___cutting_plane}{G\-L\-C\-\_\-\-Cutting\-Plane} \& \hyperlink{class_g_l_c___cutting_plane_ab97a89bca423f610d2cae4e8faaa7e97}{operator=} (const \hyperlink{class_g_l_c___cutting_plane}{G\-L\-C\-\_\-\-Cutting\-Plane} \&cutting\-Plane)
+\begin{DoxyCompactList}\small\item\em Copy the given cutting plane in this cutting plane and return a reference on this cutting plane. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c___cutting_plane_a7c78b660583f6032fa966a7dd36a7fc5}{update\-Length} (\hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} l1, \hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} l2)
+\begin{DoxyCompactList}\small\item\em Update the lenght of this cutting plane. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c___cutting_plane_a48e42ef0f50f4ebf945d97c8814a4ece}{set\-Color} (const Q\-Color \&\hyperlink{glext_8h_a3ea846f998d64f079b86052b6c4193a8}{color})
+\begin{DoxyCompactList}\small\item\em Set this plane color. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c___cutting_plane_aeb6983e11e55efb96e5fc579eec3642c}{set\-Opacity} (\hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} \hyperlink{class_g_l_c___cutting_plane_a23c0d810579c076c5e2f86c64bb6051f}{opacity})
+\begin{DoxyCompactList}\small\item\em Set this plane opacity. \end{DoxyCompactList}\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c___cutting_plane_accb19c1a82131397480b98c6b52dcb55}{update\-Widget\-Rep} ()
+\begin{DoxyCompactList}\small\item\em Update widget representation. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\end{Indent}
+\begin{Indent}{\bf Interaction Functions}\par
+\begin{DoxyCompactItemize}
+\item 
+virtual \hyperlink{namespaceglc_a7a4a1e3955352aeb2d018746fbe626d5}{glc\-::\-Widget\-Event\-Flag} \hyperlink{class_g_l_c___cutting_plane_a3221df2707dc2a73043f33d4b1e8d20d}{select} (const \hyperlink{glc__vector3d_8h_a4e13a9bbc7ab3d34de7e98b41836772c}{G\-L\-C\-\_\-\-Point3d} \&, \hyperlink{glc__global_8h_abf950976fabed69026558df8e2da6c6b}{G\-L\-C\-\_\-uint} \hyperlink{glext_8h_a58c2a664503e14ffb8f21012aabff3e9}{id})
+\begin{DoxyCompactList}\small\item\em This widget as been selected. \end{DoxyCompactList}\item 
+virtual \hyperlink{namespaceglc_a7a4a1e3955352aeb2d018746fbe626d5}{glc\-::\-Widget\-Event\-Flag} \hyperlink{class_g_l_c___cutting_plane_a648e749bab772b7c000eefa7367ee66d}{unselect} (const \hyperlink{glc__vector3d_8h_a4e13a9bbc7ab3d34de7e98b41836772c}{G\-L\-C\-\_\-\-Point3d} \&, \hyperlink{glc__global_8h_abf950976fabed69026558df8e2da6c6b}{G\-L\-C\-\_\-uint} \hyperlink{glext_8h_a58c2a664503e14ffb8f21012aabff3e9}{id})
+\begin{DoxyCompactList}\small\item\em This widget as been unselected. \end{DoxyCompactList}\item 
+virtual \hyperlink{namespaceglc_a7a4a1e3955352aeb2d018746fbe626d5}{glc\-::\-Widget\-Event\-Flag} \hyperlink{class_g_l_c___cutting_plane_a7012c26e140ce1a41b026134d1fc11e2}{mouse\-Pressed} (const \hyperlink{glc__vector3d_8h_a4e13a9bbc7ab3d34de7e98b41836772c}{G\-L\-C\-\_\-\-Point3d} \&, Qt\-::\-Mouse\-Button, \hyperlink{glc__global_8h_abf950976fabed69026558df8e2da6c6b}{G\-L\-C\-\_\-uint} \hyperlink{glext_8h_a58c2a664503e14ffb8f21012aabff3e9}{id})
+\begin{DoxyCompactList}\small\item\em The mouse is over this widget and a mousse button is pressed. \end{DoxyCompactList}\item 
+virtual \hyperlink{namespaceglc_a7a4a1e3955352aeb2d018746fbe626d5}{glc\-::\-Widget\-Event\-Flag} \hyperlink{class_g_l_c___cutting_plane_aceae3cb58aa08ea45e0cb5a0dd368854}{mouse\-Released} (Qt\-::\-Mouse\-Button)
+\begin{DoxyCompactList}\small\item\em The mouse is over this widget and a mousse button is released. \end{DoxyCompactList}\item 
+virtual \hyperlink{namespaceglc_a7a4a1e3955352aeb2d018746fbe626d5}{glc\-::\-Widget\-Event\-Flag} \hyperlink{class_g_l_c___cutting_plane_ab126d8cbb6c55bb6d4293bcd616b34d2}{mouse\-Move} (const \hyperlink{glc__vector3d_8h_a4e13a9bbc7ab3d34de7e98b41836772c}{G\-L\-C\-\_\-\-Point3d} \&, Qt\-::\-Mouse\-Buttons, \hyperlink{glc__global_8h_abf950976fabed69026558df8e2da6c6b}{G\-L\-C\-\_\-uint} \hyperlink{glext_8h_a58c2a664503e14ffb8f21012aabff3e9}{id})
+\begin{DoxyCompactList}\small\item\em This widget is selected and the mousse move with a pressed buttons. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\end{Indent}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c___cutting_plane_a2ed67a36a6d0cdf862c42b704b640f28}{create3\-Dview\-Instance} ()
+\begin{DoxyCompactList}\small\item\em Create the 3\-D\-View instance of this 3d widget. \end{DoxyCompactList}\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c___cutting_plane_a223a872c836f8d5ed2e5b3a752a23f09}{reset\-View\-State} ()
+\begin{DoxyCompactList}\small\item\em Reset the view state of this 3\-D\-Widget. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Detailed Description}
+\hyperlink{class_g_l_c___cutting_plane}{G\-L\-C\-\_\-\-Cutting\-Plane} \-: 3d cutting plane widget. 
+
+\hyperlink{class_g_l_c___cutting_plane}{G\-L\-C\-\_\-\-Cutting\-Plane} 
+
+Definition at line 38 of file glc\-\_\-cuttingplane.\-h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_g_l_c___cutting_plane_adb2d0cfde9b5f9ddd3ce9280dca48ac0}{\index{G\-L\-C\-\_\-\-Cutting\-Plane@{G\-L\-C\-\_\-\-Cutting\-Plane}!G\-L\-C\-\_\-\-Cutting\-Plane@{G\-L\-C\-\_\-\-Cutting\-Plane}}
+\index{G\-L\-C\-\_\-\-Cutting\-Plane@{G\-L\-C\-\_\-\-Cutting\-Plane}!GLC_CuttingPlane@{G\-L\-C\-\_\-\-Cutting\-Plane}}
+\subsubsection[{G\-L\-C\-\_\-\-Cutting\-Plane}]{\setlength{\rightskip}{0pt plus 5cm}G\-L\-C\-\_\-\-Cutting\-Plane\-::\-G\-L\-C\-\_\-\-Cutting\-Plane (
+\begin{DoxyParamCaption}
+\item[{const {\bf G\-L\-C\-\_\-\-Point3d} \&}]{center, }
+\item[{const {\bf G\-L\-C\-\_\-\-Vector3d} \&}]{normal, }
+\item[{{\bf double}}]{l1, }
+\item[{{\bf double}}]{l2, }
+\item[{{\bf G\-L\-C\-\_\-3\-D\-Widget\-Manager\-Handle} $\ast$}]{p\-Widget\-Manager\-Handle = {\ttfamily NULL}}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___cutting_plane_adb2d0cfde9b5f9ddd3ce9280dca48ac0}
+
+
+Construct a 3d cutting plane widget. 
+
+
+
+Definition at line 33 of file glc\-\_\-cuttingplane.\-cpp.
+
+\hypertarget{class_g_l_c___cutting_plane_ab27f38b9ae184394fc8db3eac9a45806}{\index{G\-L\-C\-\_\-\-Cutting\-Plane@{G\-L\-C\-\_\-\-Cutting\-Plane}!G\-L\-C\-\_\-\-Cutting\-Plane@{G\-L\-C\-\_\-\-Cutting\-Plane}}
+\index{G\-L\-C\-\_\-\-Cutting\-Plane@{G\-L\-C\-\_\-\-Cutting\-Plane}!GLC_CuttingPlane@{G\-L\-C\-\_\-\-Cutting\-Plane}}
+\subsubsection[{G\-L\-C\-\_\-\-Cutting\-Plane}]{\setlength{\rightskip}{0pt plus 5cm}G\-L\-C\-\_\-\-Cutting\-Plane\-::\-G\-L\-C\-\_\-\-Cutting\-Plane (
+\begin{DoxyParamCaption}
+\item[{const {\bf G\-L\-C\-\_\-\-Cutting\-Plane} \&}]{cutting\-Plane}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___cutting_plane_ab27f38b9ae184394fc8db3eac9a45806}
+
+
+Construct a 3d cutting plane with the given cutting plane. 
+
+
+
+Definition at line 68 of file glc\-\_\-cuttingplane.\-cpp.
+
+\hypertarget{class_g_l_c___cutting_plane_aabf1ed6bac9528991dab821450281148}{\index{G\-L\-C\-\_\-\-Cutting\-Plane@{G\-L\-C\-\_\-\-Cutting\-Plane}!$\sim$\-G\-L\-C\-\_\-\-Cutting\-Plane@{$\sim$\-G\-L\-C\-\_\-\-Cutting\-Plane}}
+\index{$\sim$\-G\-L\-C\-\_\-\-Cutting\-Plane@{$\sim$\-G\-L\-C\-\_\-\-Cutting\-Plane}!GLC_CuttingPlane@{G\-L\-C\-\_\-\-Cutting\-Plane}}
+\subsubsection[{$\sim$\-G\-L\-C\-\_\-\-Cutting\-Plane}]{\setlength{\rightskip}{0pt plus 5cm}G\-L\-C\-\_\-\-Cutting\-Plane\-::$\sim$\-G\-L\-C\-\_\-\-Cutting\-Plane (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_g_l_c___cutting_plane_aabf1ed6bac9528991dab821450281148}
+
+
+Destructor. 
+
+
+
+Definition at line 90 of file glc\-\_\-cuttingplane.\-cpp.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_g_l_c___cutting_plane_af58a0f0ccbbd7b02f754397241558b8c}{\index{G\-L\-C\-\_\-\-Cutting\-Plane@{G\-L\-C\-\_\-\-Cutting\-Plane}!center@{center}}
+\index{center@{center}!GLC_CuttingPlane@{G\-L\-C\-\_\-\-Cutting\-Plane}}
+\subsubsection[{center}]{\setlength{\rightskip}{0pt plus 5cm}{\bf G\-L\-C\-\_\-\-Point3d} G\-L\-C\-\_\-\-Cutting\-Plane\-::center (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___cutting_plane_af58a0f0ccbbd7b02f754397241558b8c}
+
+
+Return this cutting plane center. 
+
+
+
+Definition at line 66 of file glc\-\_\-cuttingplane.\-h.
+
+\hypertarget{class_g_l_c___cutting_plane_a2072a6fa23ee3008be13b1243494e555}{\index{G\-L\-C\-\_\-\-Cutting\-Plane@{G\-L\-C\-\_\-\-Cutting\-Plane}!color@{color}}
+\index{color@{color}!GLC_CuttingPlane@{G\-L\-C\-\_\-\-Cutting\-Plane}}
+\subsubsection[{color}]{\setlength{\rightskip}{0pt plus 5cm}Q\-Color G\-L\-C\-\_\-\-Cutting\-Plane\-::color (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___cutting_plane_a2072a6fa23ee3008be13b1243494e555}
+
+
+Return this plane color. 
+
+
+
+Definition at line 74 of file glc\-\_\-cuttingplane.\-h.
+
+\hypertarget{class_g_l_c___cutting_plane_a2ed67a36a6d0cdf862c42b704b640f28}{\index{G\-L\-C\-\_\-\-Cutting\-Plane@{G\-L\-C\-\_\-\-Cutting\-Plane}!create3\-Dview\-Instance@{create3\-Dview\-Instance}}
+\index{create3\-Dview\-Instance@{create3\-Dview\-Instance}!GLC_CuttingPlane@{G\-L\-C\-\_\-\-Cutting\-Plane}}
+\subsubsection[{create3\-Dview\-Instance}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-\-Cutting\-Plane\-::create3\-Dview\-Instance (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}}\label{class_g_l_c___cutting_plane_a2ed67a36a6d0cdf862c42b704b640f28}
+
+
+Create the 3\-D\-View instance of this 3d widget. 
+
+
+
+Implements \hyperlink{class_g_l_c__3_d_widget_af077b9f297d4fdec467ef0222411501f}{G\-L\-C\-\_\-3\-D\-Widget}.
+
+
+
+Definition at line 292 of file glc\-\_\-cuttingplane.\-cpp.
+
+\hypertarget{class_g_l_c___cutting_plane_ab126d8cbb6c55bb6d4293bcd616b34d2}{\index{G\-L\-C\-\_\-\-Cutting\-Plane@{G\-L\-C\-\_\-\-Cutting\-Plane}!mouse\-Move@{mouse\-Move}}
+\index{mouse\-Move@{mouse\-Move}!GLC_CuttingPlane@{G\-L\-C\-\_\-\-Cutting\-Plane}}
+\subsubsection[{mouse\-Move}]{\setlength{\rightskip}{0pt plus 5cm}{\bf glc\-::\-Widget\-Event\-Flag} G\-L\-C\-\_\-\-Cutting\-Plane\-::mouse\-Move (
+\begin{DoxyParamCaption}
+\item[{const {\bf G\-L\-C\-\_\-\-Point3d} \&}]{pos, }
+\item[{Qt\-::\-Mouse\-Buttons}]{button, }
+\item[{{\bf G\-L\-C\-\_\-uint}}]{id}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_g_l_c___cutting_plane_ab126d8cbb6c55bb6d4293bcd616b34d2}
+
+
+This widget is selected and the mousse move with a pressed buttons. 
+
+
+
+Reimplemented from \hyperlink{class_g_l_c__3_d_widget_a28d8301332236a7637fd745ac43f0a2a}{G\-L\-C\-\_\-3\-D\-Widget}.
+
+
+
+Definition at line 252 of file glc\-\_\-cuttingplane.\-cpp.
+
+\hypertarget{class_g_l_c___cutting_plane_a7012c26e140ce1a41b026134d1fc11e2}{\index{G\-L\-C\-\_\-\-Cutting\-Plane@{G\-L\-C\-\_\-\-Cutting\-Plane}!mouse\-Pressed@{mouse\-Pressed}}
+\index{mouse\-Pressed@{mouse\-Pressed}!GLC_CuttingPlane@{G\-L\-C\-\_\-\-Cutting\-Plane}}
+\subsubsection[{mouse\-Pressed}]{\setlength{\rightskip}{0pt plus 5cm}{\bf glc\-::\-Widget\-Event\-Flag} G\-L\-C\-\_\-\-Cutting\-Plane\-::mouse\-Pressed (
+\begin{DoxyParamCaption}
+\item[{const {\bf G\-L\-C\-\_\-\-Point3d} \&}]{pos, }
+\item[{Qt\-::\-Mouse\-Button}]{button, }
+\item[{{\bf G\-L\-C\-\_\-uint}}]{id}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_g_l_c___cutting_plane_a7012c26e140ce1a41b026134d1fc11e2}
+
+
+The mouse is over this widget and a mousse button is pressed. 
+
+
+
+Reimplemented from \hyperlink{class_g_l_c__3_d_widget_ae6e20612066524b12073278eda6657ac}{G\-L\-C\-\_\-3\-D\-Widget}.
+
+
+
+Definition at line 160 of file glc\-\_\-cuttingplane.\-cpp.
+
+\hypertarget{class_g_l_c___cutting_plane_aceae3cb58aa08ea45e0cb5a0dd368854}{\index{G\-L\-C\-\_\-\-Cutting\-Plane@{G\-L\-C\-\_\-\-Cutting\-Plane}!mouse\-Released@{mouse\-Released}}
+\index{mouse\-Released@{mouse\-Released}!GLC_CuttingPlane@{G\-L\-C\-\_\-\-Cutting\-Plane}}
+\subsubsection[{mouse\-Released}]{\setlength{\rightskip}{0pt plus 5cm}{\bf glc\-::\-Widget\-Event\-Flag} G\-L\-C\-\_\-\-Cutting\-Plane\-::mouse\-Released (
+\begin{DoxyParamCaption}
+\item[{Qt\-::\-Mouse\-Button}]{button}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_g_l_c___cutting_plane_aceae3cb58aa08ea45e0cb5a0dd368854}
+
+
+The mouse is over this widget and a mousse button is released. 
+
+
+
+Reimplemented from \hyperlink{class_g_l_c__3_d_widget_a8ad4d9f85d78d42c396283175da1b1ca}{G\-L\-C\-\_\-3\-D\-Widget}.
+
+
+
+Definition at line 201 of file glc\-\_\-cuttingplane.\-cpp.
+
+\hypertarget{class_g_l_c___cutting_plane_af469fadf296434eee46c4ba187ed07e6}{\index{G\-L\-C\-\_\-\-Cutting\-Plane@{G\-L\-C\-\_\-\-Cutting\-Plane}!normal@{normal}}
+\index{normal@{normal}!GLC_CuttingPlane@{G\-L\-C\-\_\-\-Cutting\-Plane}}
+\subsubsection[{normal}]{\setlength{\rightskip}{0pt plus 5cm}{\bf G\-L\-C\-\_\-\-Vector3d} G\-L\-C\-\_\-\-Cutting\-Plane\-::normal (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___cutting_plane_af469fadf296434eee46c4ba187ed07e6}
+
+
+Return this cutting plane normal. 
+
+
+
+Definition at line 70 of file glc\-\_\-cuttingplane.\-h.
+
+\hypertarget{class_g_l_c___cutting_plane_a23c0d810579c076c5e2f86c64bb6051f}{\index{G\-L\-C\-\_\-\-Cutting\-Plane@{G\-L\-C\-\_\-\-Cutting\-Plane}!opacity@{opacity}}
+\index{opacity@{opacity}!GLC_CuttingPlane@{G\-L\-C\-\_\-\-Cutting\-Plane}}
+\subsubsection[{opacity}]{\setlength{\rightskip}{0pt plus 5cm}{\bf double} G\-L\-C\-\_\-\-Cutting\-Plane\-::opacity (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___cutting_plane_a23c0d810579c076c5e2f86c64bb6051f}
+
+
+Return this plane opacity. 
+
+
+
+Definition at line 78 of file glc\-\_\-cuttingplane.\-h.
+
+\hypertarget{class_g_l_c___cutting_plane_ab97a89bca423f610d2cae4e8faaa7e97}{\index{G\-L\-C\-\_\-\-Cutting\-Plane@{G\-L\-C\-\_\-\-Cutting\-Plane}!operator=@{operator=}}
+\index{operator=@{operator=}!GLC_CuttingPlane@{G\-L\-C\-\_\-\-Cutting\-Plane}}
+\subsubsection[{operator=}]{\setlength{\rightskip}{0pt plus 5cm}{\bf G\-L\-C\-\_\-\-Cutting\-Plane} \& G\-L\-C\-\_\-\-Cutting\-Plane\-::operator= (
+\begin{DoxyParamCaption}
+\item[{const {\bf G\-L\-C\-\_\-\-Cutting\-Plane} \&}]{cutting\-Plane}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_g_l_c___cutting_plane_ab97a89bca423f610d2cae4e8faaa7e97}
+
+
+Copy the given cutting plane in this cutting plane and return a reference on this cutting plane. 
+
+
+
+Definition at line 95 of file glc\-\_\-cuttingplane.\-cpp.
+
+\hypertarget{class_g_l_c___cutting_plane_a223a872c836f8d5ed2e5b3a752a23f09}{\index{G\-L\-C\-\_\-\-Cutting\-Plane@{G\-L\-C\-\_\-\-Cutting\-Plane}!reset\-View\-State@{reset\-View\-State}}
+\index{reset\-View\-State@{reset\-View\-State}!GLC_CuttingPlane@{G\-L\-C\-\_\-\-Cutting\-Plane}}
+\subsubsection[{reset\-View\-State}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-\-Cutting\-Plane\-::reset\-View\-State (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}}\label{class_g_l_c___cutting_plane_a223a872c836f8d5ed2e5b3a752a23f09}
+
+
+Reset the view state of this 3\-D\-Widget. 
+
+
+
+Implements \hyperlink{class_g_l_c__3_d_widget_ad7a2b4238c9838b2b2b58a6feb349b54}{G\-L\-C\-\_\-3\-D\-Widget}.
+
+
+
+Definition at line 351 of file glc\-\_\-cuttingplane.\-cpp.
+
+\hypertarget{class_g_l_c___cutting_plane_a3221df2707dc2a73043f33d4b1e8d20d}{\index{G\-L\-C\-\_\-\-Cutting\-Plane@{G\-L\-C\-\_\-\-Cutting\-Plane}!select@{select}}
+\index{select@{select}!GLC_CuttingPlane@{G\-L\-C\-\_\-\-Cutting\-Plane}}
+\subsubsection[{select}]{\setlength{\rightskip}{0pt plus 5cm}{\bf glc\-::\-Widget\-Event\-Flag} G\-L\-C\-\_\-\-Cutting\-Plane\-::select (
+\begin{DoxyParamCaption}
+\item[{const {\bf G\-L\-C\-\_\-\-Point3d} \&}]{pos, }
+\item[{{\bf G\-L\-C\-\_\-uint}}]{id}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_g_l_c___cutting_plane_a3221df2707dc2a73043f33d4b1e8d20d}
+
+
+This widget as been selected. 
+
+Create the default manipulator 
+
+Reimplemented from \hyperlink{class_g_l_c__3_d_widget_abd8ec691f376bc8821c34741481cb564}{G\-L\-C\-\_\-3\-D\-Widget}.
+
+
+
+Definition at line 141 of file glc\-\_\-cuttingplane.\-cpp.
+
+\hypertarget{class_g_l_c___cutting_plane_a48e42ef0f50f4ebf945d97c8814a4ece}{\index{G\-L\-C\-\_\-\-Cutting\-Plane@{G\-L\-C\-\_\-\-Cutting\-Plane}!set\-Color@{set\-Color}}
+\index{set\-Color@{set\-Color}!GLC_CuttingPlane@{G\-L\-C\-\_\-\-Cutting\-Plane}}
+\subsubsection[{set\-Color}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-\-Cutting\-Plane\-::set\-Color (
+\begin{DoxyParamCaption}
+\item[{const Q\-Color \&}]{color}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___cutting_plane_a48e42ef0f50f4ebf945d97c8814a4ece}
+
+
+Set this plane color. 
+
+
+
+Definition at line 95 of file glc\-\_\-cuttingplane.\-h.
+
+\hypertarget{class_g_l_c___cutting_plane_aeb6983e11e55efb96e5fc579eec3642c}{\index{G\-L\-C\-\_\-\-Cutting\-Plane@{G\-L\-C\-\_\-\-Cutting\-Plane}!set\-Opacity@{set\-Opacity}}
+\index{set\-Opacity@{set\-Opacity}!GLC_CuttingPlane@{G\-L\-C\-\_\-\-Cutting\-Plane}}
+\subsubsection[{set\-Opacity}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-\-Cutting\-Plane\-::set\-Opacity (
+\begin{DoxyParamCaption}
+\item[{{\bf double}}]{opacity}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___cutting_plane_aeb6983e11e55efb96e5fc579eec3642c}
+
+
+Set this plane opacity. 
+
+
+
+Definition at line 99 of file glc\-\_\-cuttingplane.\-h.
+
+\hypertarget{class_g_l_c___cutting_plane_a648e749bab772b7c000eefa7367ee66d}{\index{G\-L\-C\-\_\-\-Cutting\-Plane@{G\-L\-C\-\_\-\-Cutting\-Plane}!unselect@{unselect}}
+\index{unselect@{unselect}!GLC_CuttingPlane@{G\-L\-C\-\_\-\-Cutting\-Plane}}
+\subsubsection[{unselect}]{\setlength{\rightskip}{0pt plus 5cm}{\bf glc\-::\-Widget\-Event\-Flag} G\-L\-C\-\_\-\-Cutting\-Plane\-::unselect (
+\begin{DoxyParamCaption}
+\item[{const {\bf G\-L\-C\-\_\-\-Point3d} \&}]{, }
+\item[{{\bf G\-L\-C\-\_\-uint}}]{id}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_g_l_c___cutting_plane_a648e749bab772b7c000eefa7367ee66d}
+
+
+This widget as been unselected. 
+
+
+
+Reimplemented from \hyperlink{class_g_l_c__3_d_widget_ae15c01776e9e985520e9c72205fbccc7}{G\-L\-C\-\_\-3\-D\-Widget}.
+
+
+
+Definition at line 246 of file glc\-\_\-cuttingplane.\-cpp.
+
+\hypertarget{class_g_l_c___cutting_plane_a7c78b660583f6032fa966a7dd36a7fc5}{\index{G\-L\-C\-\_\-\-Cutting\-Plane@{G\-L\-C\-\_\-\-Cutting\-Plane}!update\-Length@{update\-Length}}
+\index{update\-Length@{update\-Length}!GLC_CuttingPlane@{G\-L\-C\-\_\-\-Cutting\-Plane}}
+\subsubsection[{update\-Length}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-\-Cutting\-Plane\-::update\-Length (
+\begin{DoxyParamCaption}
+\item[{{\bf double}}]{l1, }
+\item[{{\bf double}}]{l2}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___cutting_plane_a7c78b660583f6032fa966a7dd36a7fc5}
+
+
+Update the lenght of this cutting plane. 
+
+
+
+Definition at line 116 of file glc\-\_\-cuttingplane.\-cpp.
+
+\hypertarget{class_g_l_c___cutting_plane_accb19c1a82131397480b98c6b52dcb55}{\index{G\-L\-C\-\_\-\-Cutting\-Plane@{G\-L\-C\-\_\-\-Cutting\-Plane}!update\-Widget\-Rep@{update\-Widget\-Rep}}
+\index{update\-Widget\-Rep@{update\-Widget\-Rep}!GLC_CuttingPlane@{G\-L\-C\-\_\-\-Cutting\-Plane}}
+\subsubsection[{update\-Widget\-Rep}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-\-Cutting\-Plane\-::update\-Widget\-Rep (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_g_l_c___cutting_plane_accb19c1a82131397480b98c6b52dcb55}
+
+
+Update widget representation. 
+
+
+
+Reimplemented from \hyperlink{class_g_l_c__3_d_widget_a954e9118a3c9e10db03f2db49437ecd8}{G\-L\-C\-\_\-3\-D\-Widget}.
+
+
+
+Definition at line 128 of file glc\-\_\-cuttingplane.\-cpp.
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/glc\-\_\-lib/3\-D\-Widget/\hyperlink{glc__cuttingplane_8h}{glc\-\_\-cuttingplane.\-h}\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/glc\-\_\-lib/3\-D\-Widget/\hyperlink{glc__cuttingplane_8cpp}{glc\-\_\-cuttingplane.\-cpp}\end{DoxyCompactItemize}

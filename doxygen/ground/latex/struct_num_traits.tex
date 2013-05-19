@@ -1,0 +1,35 @@
+\hypertarget{struct_num_traits}{\section{Num\-Traits$<$ T $>$ Class Template Reference}
+\label{struct_num_traits}\index{Num\-Traits$<$ T $>$@{Num\-Traits$<$ T $>$}}
+}
+
+
+Holds some data about the various numeric (i.\-e. scalar) types allowed by \hyperlink{namespace_eigen}{Eigen}.  
+
+
+
+
+{\ttfamily \#include $<$Num\-Traits.\-h$>$}
+
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$typename T$>$class Num\-Traits$<$ T $>$}
+
+Holds some data about the various numeric (i.\-e. scalar) types allowed by \hyperlink{namespace_eigen}{Eigen}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em T} & the numeric type about which this class provides data. Recall that \hyperlink{namespace_eigen}{Eigen} allows only the following types for {\itshape T\-:} {\ttfamily int}, {\ttfamily float}, {\ttfamily double}, {\ttfamily std\-::complex$<$float$>$}, {\ttfamily std\-::complex$<$double$>$}, and {\ttfamily long} {\ttfamily double} (especially useful to enforce x87 arithmetics when S\-S\-E is the default).\\
+\hline
+\end{DoxyParams}
+The provided data consists of\-: \begin{DoxyItemize}
+\item A typedef {\itshape Real}, giving the \char`\"{}real part\char`\"{} type of {\itshape T}. If {\itshape T} is already real, then {\itshape Real} is just a typedef to {\itshape T}. If {\itshape T} is {\ttfamily std\-::complex$<$\-U$>$} then {\itshape Real} is a typedef to {\itshape U}. \item A typedef {\itshape Floating\-Point}, giving the \char`\"{}floating-\/point type\char`\"{} of {\itshape T}. If {\itshape T} is {\ttfamily int}, then {\itshape Floating\-Point} is a typedef to {\ttfamily double}. Otherwise, {\itshape Floating\-Point} is a typedef to {\itshape T}. \item An enum value {\itshape Is\-Complex}. It is equal to 1 if {\itshape T} is a {\ttfamily std\-::complex} type, and to 0 otherwise. \item An enum {\itshape Has\-Floating\-Point}. It is equal to {\ttfamily 0} if {\itshape T} is {\ttfamily int}, and to {\ttfamily 1} otherwise. \end{DoxyItemize}
+
+
+Definition at line 49 of file Num\-Traits.\-h.
+
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/eigen/\-Eigen/src/\-Core/\hyperlink{_num_traits_8h}{Num\-Traits.\-h}\end{DoxyCompactItemize}

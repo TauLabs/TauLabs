@@ -1,0 +1,310 @@
+\hypertarget{class_qxt_sql_package}{\section{Qxt\-Sql\-Package Class Reference}
+\label{class_qxt_sql_package}\index{Qxt\-Sql\-Package@{Qxt\-Sql\-Package}}
+}
+
+
+The \hyperlink{class_qxt_sql_package}{Qxt\-Sql\-Package} class provides a full serializable Q\-Sql\-Query storage.  
+
+
+
+
+{\ttfamily \#include $<$qxtsqlpackage.\-h$>$}
+
+Inheritance diagram for Qxt\-Sql\-Package\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_qxt_sql_package}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_qxt_sql_package_a396a7c2accc2306ef4580eeffe87575d}{Qxt\-Sql\-Package} (Q\-Object $\ast$parent=0)
+\item 
+\hyperlink{class_qxt_sql_package_ae299548003b9f1ba63b17321695f65fe}{Qxt\-Sql\-Package} (const \hyperlink{class_qxt_sql_package}{Qxt\-Sql\-Package} \&other, Q\-Object $\ast$parent=0)
+\item 
+bool \hyperlink{class_qxt_sql_package_a15c930583d93fab0d46dc102ae4b696c}{is\-Valid} ()
+\begin{DoxyCompactList}\small\item\em determinates if the package curently points to a valid row \end{DoxyCompactList}\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_qxt_sql_package_a876d5f178adf89c1f47197a526aa38fe}{at} ()
+\begin{DoxyCompactList}\small\item\em curent pointer position \end{DoxyCompactList}\item 
+bool \hyperlink{class_qxt_sql_package_a3c53546ad9510ff1e37aa042d8277594}{next} ()
+\begin{DoxyCompactList}\small\item\em point to next entry \end{DoxyCompactList}\item 
+bool \hyperlink{class_qxt_sql_package_a2db1b2f59c2b7a96fe0ac28db3a5bcab}{last} ()
+\begin{DoxyCompactList}\small\item\em point to last entry in storage \end{DoxyCompactList}\item 
+bool \hyperlink{class_qxt_sql_package_ae85d2a6bede4163e0d33acfac4ce3fef}{first} ()
+\begin{DoxyCompactList}\small\item\em point to first entry in storage \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{Q\-String} \hyperlink{class_qxt_sql_package_a6b0d004f679ee988b13f3b45588f789a}{value} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{Q\-String} \&key)
+\begin{DoxyCompactList}\small\item\em return a column in current row in contrast to Q\-Sql\-Query you have to provide the name of the {\itshape key}. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qxt_sql_package_a8cb821ede737fb9c783aaf9c4af661a9}{insert} (Q\-Sql\-Query query)
+\begin{DoxyCompactList}\small\item\em read from {\itshape query} \end{DoxyCompactList}\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_qxt_sql_package_aaa2f9f5f1eccaa7141fa61e8c049331f}{count} () const 
+\begin{DoxyCompactList}\small\item\em Returns the number of rows stored. \end{DoxyCompactList}\item 
+Q\-Byte\-Array \hyperlink{class_qxt_sql_package_abfed3d86a288985559b5bd161989545b}{data} () const 
+\begin{DoxyCompactList}\small\item\em Returns serialised data. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qxt_sql_package_a3963e060e2e3a32138ea28381c982044}{set\-Data} (const Q\-Byte\-Array \&\hyperlink{glext_8h_a8850df0785e6fbcc2351af3b686b8c7a}{data})
+\begin{DoxyCompactList}\small\item\em Deserialise {\itshape data}. \end{DoxyCompactList}\item 
+Q\-Hash$<$ \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{Q\-String}, \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{Q\-String} $>$ \hyperlink{class_qxt_sql_package_ac326ae46d86a4cc8653fccdb298650d8}{hash} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{glext_8h_ab47dd9958bcadea08866b42bf358e95e}{index})
+\begin{DoxyCompactList}\small\item\em return a specific {\itshape index} as Hash \end{DoxyCompactList}\item 
+Q\-Hash$<$ \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{Q\-String}, \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{Q\-String} $>$ \hyperlink{class_qxt_sql_package_ace82302355c58b7876bf31e7fccf7a88}{hash} ()
+\begin{DoxyCompactList}\small\item\em return the curent row as Hash \end{DoxyCompactList}\item 
+\hyperlink{class_qxt_sql_package}{Qxt\-Sql\-Package} \& \hyperlink{class_qxt_sql_package_aec80092db969a1070622f1c7f61afa5b}{operator=} (const \hyperlink{class_qxt_sql_package}{Qxt\-Sql\-Package} \&other)
+\begin{DoxyCompactList}\small\item\em copy {\itshape other} \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+The \hyperlink{class_qxt_sql_package}{Qxt\-Sql\-Package} class provides a full serializable Q\-Sql\-Query storage. 
+
+Qxt\-Sql
+
+Sometimes you want to send sql results over network or store them into files. \hyperlink{class_qxt_sql_package}{Qxt\-Sql\-Package} can provide you a storage that is still valid after the actual Q\-Sql\-Query has been destroyed. for confidence the interface is similar to Q\-Sql\-Query. 
+
+Definition at line 34 of file qxtsqlpackage.\-h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_qxt_sql_package_a396a7c2accc2306ef4580eeffe87575d}{\index{Qxt\-Sql\-Package@{Qxt\-Sql\-Package}!Qxt\-Sql\-Package@{Qxt\-Sql\-Package}}
+\index{Qxt\-Sql\-Package@{Qxt\-Sql\-Package}!QxtSqlPackage@{Qxt\-Sql\-Package}}
+\subsubsection[{Qxt\-Sql\-Package}]{\setlength{\rightskip}{0pt plus 5cm}Qxt\-Sql\-Package\-::\-Qxt\-Sql\-Package (
+\begin{DoxyParamCaption}
+\item[{Q\-Object $\ast$}]{parent = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)}}\label{class_qxt_sql_package_a396a7c2accc2306ef4580eeffe87575d}
+Constructs a \hyperlink{class_qxt_sql_package}{Qxt\-Sql\-Package} with {\itshape parent}. 
+
+Definition at line 138 of file qxtsqlpackage.\-cpp.
+
+\hypertarget{class_qxt_sql_package_ae299548003b9f1ba63b17321695f65fe}{\index{Qxt\-Sql\-Package@{Qxt\-Sql\-Package}!Qxt\-Sql\-Package@{Qxt\-Sql\-Package}}
+\index{Qxt\-Sql\-Package@{Qxt\-Sql\-Package}!QxtSqlPackage@{Qxt\-Sql\-Package}}
+\subsubsection[{Qxt\-Sql\-Package}]{\setlength{\rightskip}{0pt plus 5cm}Qxt\-Sql\-Package\-::\-Qxt\-Sql\-Package (
+\begin{DoxyParamCaption}
+\item[{const {\bf Qxt\-Sql\-Package} \&}]{other, }
+\item[{Q\-Object $\ast$}]{parent = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)}}\label{class_qxt_sql_package_ae299548003b9f1ba63b17321695f65fe}
+Constructs a copy of {\itshape other} with {\itshape parent}. 
+
+Definition at line 146 of file qxtsqlpackage.\-cpp.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_qxt_sql_package_a876d5f178adf89c1f47197a526aa38fe}{\index{Qxt\-Sql\-Package@{Qxt\-Sql\-Package}!at@{at}}
+\index{at@{at}!QxtSqlPackage@{Qxt\-Sql\-Package}}
+\subsubsection[{at}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int} Qxt\-Sql\-Package\-::at (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_qxt_sql_package_a876d5f178adf89c1f47197a526aa38fe}
+
+
+curent pointer position 
+
+
+
+Definition at line 164 of file qxtsqlpackage.\-cpp.
+
+\hypertarget{class_qxt_sql_package_aaa2f9f5f1eccaa7141fa61e8c049331f}{\index{Qxt\-Sql\-Package@{Qxt\-Sql\-Package}!count@{count}}
+\index{count@{count}!QxtSqlPackage@{Qxt\-Sql\-Package}}
+\subsubsection[{count}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int} Qxt\-Sql\-Package\-::count (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_qxt_sql_package_aaa2f9f5f1eccaa7141fa61e8c049331f}
+
+
+Returns the number of rows stored. 
+
+
+
+Definition at line 247 of file qxtsqlpackage.\-cpp.
+
+\hypertarget{class_qxt_sql_package_abfed3d86a288985559b5bd161989545b}{\index{Qxt\-Sql\-Package@{Qxt\-Sql\-Package}!data@{data}}
+\index{data@{data}!QxtSqlPackage@{Qxt\-Sql\-Package}}
+\subsubsection[{data}]{\setlength{\rightskip}{0pt plus 5cm}Q\-Byte\-Array Qxt\-Sql\-Package\-::data (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+) const}}\label{class_qxt_sql_package_abfed3d86a288985559b5bd161989545b}
+
+
+Returns serialised data. 
+
+
+
+Definition at line 252 of file qxtsqlpackage.\-cpp.
+
+\hypertarget{class_qxt_sql_package_ae85d2a6bede4163e0d33acfac4ce3fef}{\index{Qxt\-Sql\-Package@{Qxt\-Sql\-Package}!first@{first}}
+\index{first@{first}!QxtSqlPackage@{Qxt\-Sql\-Package}}
+\subsubsection[{first}]{\setlength{\rightskip}{0pt plus 5cm}bool Qxt\-Sql\-Package\-::first (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_qxt_sql_package_ae85d2a6bede4163e0d33acfac4ce3fef}
+
+
+point to first entry in storage 
+
+
+
+Definition at line 190 of file qxtsqlpackage.\-cpp.
+
+\hypertarget{class_qxt_sql_package_ac326ae46d86a4cc8653fccdb298650d8}{\index{Qxt\-Sql\-Package@{Qxt\-Sql\-Package}!hash@{hash}}
+\index{hash@{hash}!QxtSqlPackage@{Qxt\-Sql\-Package}}
+\subsubsection[{hash}]{\setlength{\rightskip}{0pt plus 5cm}Q\-Hash$<$ {\bf Q\-String}, {\bf Q\-String} $>$ Qxt\-Sql\-Package\-::hash (
+\begin{DoxyParamCaption}
+\item[{{\bf int}}]{index}
+\end{DoxyParamCaption}
+)}}\label{class_qxt_sql_package_ac326ae46d86a4cc8653fccdb298650d8}
+
+
+return a specific {\itshape index} as Hash 
+
+
+
+Definition at line 288 of file qxtsqlpackage.\-cpp.
+
+\hypertarget{class_qxt_sql_package_ace82302355c58b7876bf31e7fccf7a88}{\index{Qxt\-Sql\-Package@{Qxt\-Sql\-Package}!hash@{hash}}
+\index{hash@{hash}!QxtSqlPackage@{Qxt\-Sql\-Package}}
+\subsubsection[{hash}]{\setlength{\rightskip}{0pt plus 5cm}Q\-Hash$<$ {\bf Q\-String}, {\bf Q\-String} $>$ Qxt\-Sql\-Package\-::hash (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_qxt_sql_package_ace82302355c58b7876bf31e7fccf7a88}
+
+
+return the curent row as Hash 
+
+
+
+Definition at line 295 of file qxtsqlpackage.\-cpp.
+
+\hypertarget{class_qxt_sql_package_a8cb821ede737fb9c783aaf9c4af661a9}{\index{Qxt\-Sql\-Package@{Qxt\-Sql\-Package}!insert@{insert}}
+\index{insert@{insert}!QxtSqlPackage@{Qxt\-Sql\-Package}}
+\subsubsection[{insert}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qxt\-Sql\-Package\-::insert (
+\begin{DoxyParamCaption}
+\item[{Q\-Sql\-Query}]{query}
+\end{DoxyParamCaption}
+)}}\label{class_qxt_sql_package_a8cb821ede737fb9c783aaf9c4af661a9}
+
+
+read from {\itshape query} 
+
+read out a Q\-Sql\-Query and store the result. you may close the query after reading, the data will stay.
+
+
+\begin{DoxyCode}
+QxSqlPackage::insert(\hyperlink{qxtjob_8h_a0ac75fd6c317bcc88ac6a1bfa697d8b9}{QSqlQuery::exec}(\textcolor{stringliteral}{"select name,foo,bar from table;"}));
+\end{DoxyCode}
+ 
+
+Definition at line 211 of file qxtsqlpackage.\-cpp.
+
+\hypertarget{class_qxt_sql_package_a15c930583d93fab0d46dc102ae4b696c}{\index{Qxt\-Sql\-Package@{Qxt\-Sql\-Package}!is\-Valid@{is\-Valid}}
+\index{is\-Valid@{is\-Valid}!QxtSqlPackage@{Qxt\-Sql\-Package}}
+\subsubsection[{is\-Valid}]{\setlength{\rightskip}{0pt plus 5cm}bool Qxt\-Sql\-Package\-::is\-Valid (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+)}}\label{class_qxt_sql_package_a15c930583d93fab0d46dc102ae4b696c}
+
+
+determinates if the package curently points to a valid row 
+
+Returns {\ttfamily true} if the package is valid, {\ttfamily false} otherwise. 
+
+Definition at line 156 of file qxtsqlpackage.\-cpp.
+
+\hypertarget{class_qxt_sql_package_a2db1b2f59c2b7a96fe0ac28db3a5bcab}{\index{Qxt\-Sql\-Package@{Qxt\-Sql\-Package}!last@{last}}
+\index{last@{last}!QxtSqlPackage@{Qxt\-Sql\-Package}}
+\subsubsection[{last}]{\setlength{\rightskip}{0pt plus 5cm}bool Qxt\-Sql\-Package\-::last (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_qxt_sql_package_a2db1b2f59c2b7a96fe0ac28db3a5bcab}
+
+
+point to last entry in storage 
+
+
+
+Definition at line 181 of file qxtsqlpackage.\-cpp.
+
+\hypertarget{class_qxt_sql_package_a3c53546ad9510ff1e37aa042d8277594}{\index{Qxt\-Sql\-Package@{Qxt\-Sql\-Package}!next@{next}}
+\index{next@{next}!QxtSqlPackage@{Qxt\-Sql\-Package}}
+\subsubsection[{next}]{\setlength{\rightskip}{0pt plus 5cm}bool Qxt\-Sql\-Package\-::next (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_qxt_sql_package_a3c53546ad9510ff1e37aa042d8277594}
+
+
+point to next entry 
+
+returns false if there is no next entry. provided for easy porting from Q\-Sql\-Query.
+
+
+\begin{DoxyCode}
+\textcolor{keywordflow}{while} (\hyperlink{namespace_aggregation_a1b5f85f4af221459c037427c41e18d98}{query}.next())
+    \{
+    \}
+\end{DoxyCode}
+ 
+
+Definition at line 169 of file qxtsqlpackage.\-cpp.
+
+\hypertarget{class_qxt_sql_package_aec80092db969a1070622f1c7f61afa5b}{\index{Qxt\-Sql\-Package@{Qxt\-Sql\-Package}!operator=@{operator=}}
+\index{operator=@{operator=}!QxtSqlPackage@{Qxt\-Sql\-Package}}
+\subsubsection[{operator=}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Qxt\-Sql\-Package} \& Qxt\-Sql\-Package\-::operator= (
+\begin{DoxyParamCaption}
+\item[{const {\bf Qxt\-Sql\-Package} \&}]{other}
+\end{DoxyParamCaption}
+)}}\label{class_qxt_sql_package_aec80092db969a1070622f1c7f61afa5b}
+
+
+copy {\itshape other} 
+
+
+
+Definition at line 302 of file qxtsqlpackage.\-cpp.
+
+\hypertarget{class_qxt_sql_package_a3963e060e2e3a32138ea28381c982044}{\index{Qxt\-Sql\-Package@{Qxt\-Sql\-Package}!set\-Data@{set\-Data}}
+\index{set\-Data@{set\-Data}!QxtSqlPackage@{Qxt\-Sql\-Package}}
+\subsubsection[{set\-Data}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qxt\-Sql\-Package\-::set\-Data (
+\begin{DoxyParamCaption}
+\item[{const Q\-Byte\-Array \&}]{data}
+\end{DoxyParamCaption}
+)}}\label{class_qxt_sql_package_a3963e060e2e3a32138ea28381c982044}
+
+
+Deserialise {\itshape data}. 
+
+
+
+Definition at line 266 of file qxtsqlpackage.\-cpp.
+
+\hypertarget{class_qxt_sql_package_a6b0d004f679ee988b13f3b45588f789a}{\index{Qxt\-Sql\-Package@{Qxt\-Sql\-Package}!value@{value}}
+\index{value@{value}!QxtSqlPackage@{Qxt\-Sql\-Package}}
+\subsubsection[{value}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Q\-String} Qxt\-Sql\-Package\-::value (
+\begin{DoxyParamCaption}
+\item[{const {\bf Q\-String} \&}]{key}
+\end{DoxyParamCaption}
+)}}\label{class_qxt_sql_package_a6b0d004f679ee988b13f3b45588f789a}
+
+
+return a column in current row in contrast to Q\-Sql\-Query you have to provide the name of the {\itshape key}. 
+
+the entry is returned as Q\-String becouse in most cases you need Q\-String anyway, and converting to needed data type is easy. 
+\begin{DoxyCode}
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{QString} name = \hyperlink{namespace_aggregation_a1b5f85f4af221459c037427c41e18d98}{query}.value(\textcolor{stringliteral}{"name"});
+\end{DoxyCode}
+ 
+
+Definition at line 204 of file qxtsqlpackage.\-cpp.
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/libqxt/src/sql/\hyperlink{qxtsqlpackage_8h}{qxtsqlpackage.\-h}\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/libqxt/src/sql/\hyperlink{qxtsqlpackage_8cpp}{qxtsqlpackage.\-cpp}\end{DoxyCompactItemize}

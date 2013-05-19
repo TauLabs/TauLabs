@@ -1,0 +1,656 @@
+\hypertarget{class_qwt_abstract_scale_draw}{\section{Qwt\-Abstract\-Scale\-Draw Class Reference}
+\label{class_qwt_abstract_scale_draw}\index{Qwt\-Abstract\-Scale\-Draw@{Qwt\-Abstract\-Scale\-Draw}}
+}
+
+
+A abstract base class for drawing scales.  
+
+
+
+
+{\ttfamily \#include $<$qwt\-\_\-abstract\-\_\-scale\-\_\-draw.\-h$>$}
+
+Inheritance diagram for Qwt\-Abstract\-Scale\-Draw\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{class_qwt_abstract_scale_draw}
+\end{center}
+\end{figure}
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{class_qwt_abstract_scale_draw_1_1_private_data}{Private\-Data}
+\end{DoxyCompactItemize}
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{class_qwt_abstract_scale_draw_a26215d06a4d48adf401d0aa05d4193c5}{Scale\-Component} \{ \hyperlink{class_qwt_abstract_scale_draw_a26215d06a4d48adf401d0aa05d4193c5a61a6c4f4dec2b089edfb655e2b21c3a2}{Backbone} = 0x01, 
+\hyperlink{class_qwt_abstract_scale_draw_a26215d06a4d48adf401d0aa05d4193c5a1f23d080ce1229a0c4f70469e88acce0}{Ticks} = 0x02, 
+\hyperlink{class_qwt_abstract_scale_draw_a26215d06a4d48adf401d0aa05d4193c5ad2709d7efbb6f1618f0a8a3b6cafae96}{Labels} = 0x04
+ \}
+\item 
+typedef Q\-Flags$<$ \hyperlink{class_qwt_abstract_scale_draw_a26215d06a4d48adf401d0aa05d4193c5}{Scale\-Component} $>$ \hyperlink{class_qwt_abstract_scale_draw_a0dd3ccdfa074fb6b1781b84ed2a4729a}{Scale\-Components}
+\begin{DoxyCompactList}\small\item\em Scale components. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_qwt_abstract_scale_draw_a19c944664a2e36f06ae71b745fbd442e}{Qwt\-Abstract\-Scale\-Draw} ()
+\begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
+virtual \hyperlink{class_qwt_abstract_scale_draw_adc4d3f491b28ee39d728a4a4a9cdd494}{$\sim$\-Qwt\-Abstract\-Scale\-Draw} ()
+\begin{DoxyCompactList}\small\item\em Destructor. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_abstract_scale_draw_a4399aac94a294f5ed6c52114dde00d2f}{set\-Scale\-Div} (const \hyperlink{class_qwt_scale_div}{Qwt\-Scale\-Div} \&\hyperlink{glext_8h_ad585a1393cfa368fa9dc3d8ebff640d5}{s})
+\item 
+const \hyperlink{class_qwt_scale_div}{Qwt\-Scale\-Div} \& \hyperlink{class_qwt_abstract_scale_draw_a82510027cd5bee269628c9d6302a19a9}{scale\-Div} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_abstract_scale_draw_a0011367eb32519070e6f276ac393dcfb}{set\-Transformation} (\hyperlink{class_qwt_scale_transformation}{Qwt\-Scale\-Transformation} $\ast$)
+\item 
+const \hyperlink{class_qwt_scale_map}{Qwt\-Scale\-Map} \& \hyperlink{class_qwt_abstract_scale_draw_aac87f593525666a47a57d9e2b4f02c66}{scale\-Map} () const 
+\item 
+\hyperlink{class_qwt_scale_map}{Qwt\-Scale\-Map} \& \hyperlink{class_qwt_abstract_scale_draw_ae7488eb63ad73a2e69acb29ff069c904}{scale\-Map} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_abstract_scale_draw_af975410588db6103f281e49d0b43c6a6}{enable\-Component} (\hyperlink{class_qwt_abstract_scale_draw_a26215d06a4d48adf401d0aa05d4193c5}{Scale\-Component}, bool enable=true)
+\item 
+bool \hyperlink{class_qwt_abstract_scale_draw_a95d74d9eaa5520754295efb33a4db50f}{has\-Component} (\hyperlink{class_qwt_abstract_scale_draw_a26215d06a4d48adf401d0aa05d4193c5}{Scale\-Component}) const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_abstract_scale_draw_a7fed388e435aae791d61f48cc9ddf632}{set\-Tick\-Length} (\hyperlink{class_qwt_scale_div_af21aedaa886dd5e067cf63505838736c}{Qwt\-Scale\-Div\-::\-Tick\-Type}, \hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} \hyperlink{glext_8h_a3c8469415bbc83dd1341af15c67f1cef}{length})
+\item 
+\hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} \hyperlink{class_qwt_abstract_scale_draw_aa43034f7ad87c33e9790c730ed48c55d}{tick\-Length} (\hyperlink{class_qwt_scale_div_af21aedaa886dd5e067cf63505838736c}{Qwt\-Scale\-Div\-::\-Tick\-Type}) const 
+\item 
+\hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} \hyperlink{class_qwt_abstract_scale_draw_afac6ad0e98fefd9d103366726542a055}{max\-Tick\-Length} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_abstract_scale_draw_ae5bdaadb303510f7eb9dbec5c52f7a47}{set\-Spacing} (\hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} \hyperlink{fancylineedit_8cpp_a0fa6e789ab8d8c920f2104ee8c183196a9c8c6ada5d0208410d9bb9a14780df36}{margin})
+\begin{DoxyCompactList}\small\item\em Set the spacing between tick and labels. \end{DoxyCompactList}\item 
+\hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} \hyperlink{class_qwt_abstract_scale_draw_a93561d85e879402086f2607e45e89cc2}{spacing} () const 
+\begin{DoxyCompactList}\small\item\em Get the spacing. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_abstract_scale_draw_a098e1f813077c9bb0c5f83266035943a}{set\-Pen\-Width} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{glext_8h_a76aaa5c50746272e7d2de9aece921757}{width})
+\begin{DoxyCompactList}\small\item\em Specify the width of the scale pen. \end{DoxyCompactList}\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_qwt_abstract_scale_draw_a8933b8da6332a6d4badfa83e67b74865}{pen\-Width} () const 
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_abstract_scale_draw_aca3c3a7499112f52616d0ee8518fa5a6}{draw} (Q\-Painter $\ast$, const Q\-Palette \&) const 
+\begin{DoxyCompactList}\small\item\em Draw the scale. \end{DoxyCompactList}\item 
+virtual \hyperlink{class_qwt_text}{Qwt\-Text} \hyperlink{class_qwt_abstract_scale_draw_a4ff88bc827dd6c6ca9298de13483b61f}{label} (\hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double}) const 
+\begin{DoxyCompactList}\small\item\em Convert a value into its representing label. \end{DoxyCompactList}\item 
+virtual \hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} \hyperlink{class_qwt_abstract_scale_draw_a1ac28ff3f13123bc6b67223a368c096f}{extent} (const Q\-Font \&) const =0
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_abstract_scale_draw_ac174255c334b995ca010a6964597d5f2}{set\-Minimum\-Extent} (\hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double})
+\begin{DoxyCompactList}\small\item\em Set a minimum for the extent. \end{DoxyCompactList}\item 
+\hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} \hyperlink{class_qwt_abstract_scale_draw_a563f102ef1370ecdfdc47133fb0c78ec}{minimum\-Extent} () const 
+\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_abstract_scale_draw_a31791e80bf07d23adbe500740aac5a58}{draw\-Tick} (Q\-Painter $\ast$painter, \hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} \hyperlink{glext_8h_aa0e2e9cea7f208d28acda0480144beb0}{value}, \hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} \hyperlink{glext_8h_ac759c9f8b2506530e65879e566e59f02}{len}) const =0
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_abstract_scale_draw_a15994a6033e689c3acdb8d83ae4f2a1c}{draw\-Backbone} (Q\-Painter $\ast$painter) const =0
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_abstract_scale_draw_aa78dc8bf05a0224450c947af54128d8d}{draw\-Label} (Q\-Painter $\ast$painter, \hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} \hyperlink{glext_8h_aa0e2e9cea7f208d28acda0480144beb0}{value}) const =0
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_abstract_scale_draw_a4ed95cd23c5d779c1b05aa5295409aa6}{invalidate\-Cache} ()
+\item 
+const \hyperlink{class_qwt_text}{Qwt\-Text} \& \hyperlink{class_qwt_abstract_scale_draw_a5e703dcb115a51024f89f92e61c2c8d8}{tick\-Label} (const Q\-Font \&, \hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} \hyperlink{glext_8h_aa0e2e9cea7f208d28acda0480144beb0}{value}) const 
+\begin{DoxyCompactList}\small\item\em Convert a value into its representing label and cache it. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+A abstract base class for drawing scales. 
+
+\hyperlink{class_qwt_abstract_scale_draw}{Qwt\-Abstract\-Scale\-Draw} can be used to draw linear or logarithmic scales.
+
+After a scale division has been specified as a \hyperlink{class_qwt_scale_div}{Qwt\-Scale\-Div} object using \hyperlink{class_qwt_abstract_scale_draw_a4399aac94a294f5ed6c52114dde00d2f}{Qwt\-Abstract\-Scale\-Draw\-::set\-Scale\-Div(const Qwt\-Scale\-Div \&s)}, the scale can be drawn with the \hyperlink{class_qwt_abstract_scale_draw_aca3c3a7499112f52616d0ee8518fa5a6}{Qwt\-Abstract\-Scale\-Draw\-::draw()} member. 
+
+Definition at line 32 of file qwt\-\_\-abstract\-\_\-scale\-\_\-draw.\-h.
+
+
+
+\subsection{Member Typedef Documentation}
+\hypertarget{class_qwt_abstract_scale_draw_a0dd3ccdfa074fb6b1781b84ed2a4729a}{\index{Qwt\-Abstract\-Scale\-Draw@{Qwt\-Abstract\-Scale\-Draw}!Scale\-Components@{Scale\-Components}}
+\index{Scale\-Components@{Scale\-Components}!QwtAbstractScaleDraw@{Qwt\-Abstract\-Scale\-Draw}}
+\subsubsection[{Scale\-Components}]{\setlength{\rightskip}{0pt plus 5cm}typedef Q\-Flags$<${\bf Scale\-Component}$>$ {\bf Qwt\-Abstract\-Scale\-Draw\-::\-Scale\-Components}}}\label{class_qwt_abstract_scale_draw_a0dd3ccdfa074fb6b1781b84ed2a4729a}
+
+
+Scale components. 
+
+
+
+Definition at line 53 of file qwt\-\_\-abstract\-\_\-scale\-\_\-draw.\-h.
+
+
+
+\subsection{Member Enumeration Documentation}
+\hypertarget{class_qwt_abstract_scale_draw_a26215d06a4d48adf401d0aa05d4193c5}{\index{Qwt\-Abstract\-Scale\-Draw@{Qwt\-Abstract\-Scale\-Draw}!Scale\-Component@{Scale\-Component}}
+\index{Scale\-Component@{Scale\-Component}!QwtAbstractScaleDraw@{Qwt\-Abstract\-Scale\-Draw}}
+\subsubsection[{Scale\-Component}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf Qwt\-Abstract\-Scale\-Draw\-::\-Scale\-Component}}}\label{class_qwt_abstract_scale_draw_a26215d06a4d48adf401d0aa05d4193c5}
+Components of a scale \begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_abstract_scale_draw_af975410588db6103f281e49d0b43c6a6}{enable\-Component()}, \hyperlink{class_qwt_abstract_scale_draw_a95d74d9eaa5520754295efb33a4db50f}{has\-Component} 
+\end{DoxySeeAlso}
+\begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{Backbone@{Backbone}!Qwt\-Abstract\-Scale\-Draw@{Qwt\-Abstract\-Scale\-Draw}}\index{Qwt\-Abstract\-Scale\-Draw@{Qwt\-Abstract\-Scale\-Draw}!Backbone@{Backbone}}\item[{\em 
+\hypertarget{class_qwt_abstract_scale_draw_a26215d06a4d48adf401d0aa05d4193c5a61a6c4f4dec2b089edfb655e2b21c3a2}{Backbone}\label{class_qwt_abstract_scale_draw_a26215d06a4d48adf401d0aa05d4193c5a61a6c4f4dec2b089edfb655e2b21c3a2}
+}]Backbone = the line where the ticks are located. \index{Ticks@{Ticks}!Qwt\-Abstract\-Scale\-Draw@{Qwt\-Abstract\-Scale\-Draw}}\index{Qwt\-Abstract\-Scale\-Draw@{Qwt\-Abstract\-Scale\-Draw}!Ticks@{Ticks}}\item[{\em 
+\hypertarget{class_qwt_abstract_scale_draw_a26215d06a4d48adf401d0aa05d4193c5a1f23d080ce1229a0c4f70469e88acce0}{Ticks}\label{class_qwt_abstract_scale_draw_a26215d06a4d48adf401d0aa05d4193c5a1f23d080ce1229a0c4f70469e88acce0}
+}]Ticks. \index{Labels@{Labels}!Qwt\-Abstract\-Scale\-Draw@{Qwt\-Abstract\-Scale\-Draw}}\index{Qwt\-Abstract\-Scale\-Draw@{Qwt\-Abstract\-Scale\-Draw}!Labels@{Labels}}\item[{\em 
+\hypertarget{class_qwt_abstract_scale_draw_a26215d06a4d48adf401d0aa05d4193c5ad2709d7efbb6f1618f0a8a3b6cafae96}{Labels}\label{class_qwt_abstract_scale_draw_a26215d06a4d48adf401d0aa05d4193c5ad2709d7efbb6f1618f0a8a3b6cafae96}
+}]Labels. \end{description}
+\end{Desc}
+
+
+Definition at line 40 of file qwt\-\_\-abstract\-\_\-scale\-\_\-draw.\-h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_qwt_abstract_scale_draw_a19c944664a2e36f06ae71b745fbd442e}{\index{Qwt\-Abstract\-Scale\-Draw@{Qwt\-Abstract\-Scale\-Draw}!Qwt\-Abstract\-Scale\-Draw@{Qwt\-Abstract\-Scale\-Draw}}
+\index{Qwt\-Abstract\-Scale\-Draw@{Qwt\-Abstract\-Scale\-Draw}!QwtAbstractScaleDraw@{Qwt\-Abstract\-Scale\-Draw}}
+\subsubsection[{Qwt\-Abstract\-Scale\-Draw}]{\setlength{\rightskip}{0pt plus 5cm}Qwt\-Abstract\-Scale\-Draw\-::\-Qwt\-Abstract\-Scale\-Draw (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_qwt_abstract_scale_draw_a19c944664a2e36f06ae71b745fbd442e}
+
+
+Constructor. 
+
+The range of the scale is initialized to \mbox{[}0, 100\mbox{]}, The spacing (distance between ticks and labels) is set to 4, the tick lengths are set to 4,6 and 8 pixels 
+
+Definition at line 58 of file qwt\-\_\-abstract\-\_\-scale\-\_\-draw.\-cpp.
+
+\hypertarget{class_qwt_abstract_scale_draw_adc4d3f491b28ee39d728a4a4a9cdd494}{\index{Qwt\-Abstract\-Scale\-Draw@{Qwt\-Abstract\-Scale\-Draw}!$\sim$\-Qwt\-Abstract\-Scale\-Draw@{$\sim$\-Qwt\-Abstract\-Scale\-Draw}}
+\index{$\sim$\-Qwt\-Abstract\-Scale\-Draw@{$\sim$\-Qwt\-Abstract\-Scale\-Draw}!QwtAbstractScaleDraw@{Qwt\-Abstract\-Scale\-Draw}}
+\subsubsection[{$\sim$\-Qwt\-Abstract\-Scale\-Draw}]{\setlength{\rightskip}{0pt plus 5cm}Qwt\-Abstract\-Scale\-Draw\-::$\sim$\-Qwt\-Abstract\-Scale\-Draw (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_qwt_abstract_scale_draw_adc4d3f491b28ee39d728a4a4a9cdd494}
+
+
+Destructor. 
+
+
+
+Definition at line 64 of file qwt\-\_\-abstract\-\_\-scale\-\_\-draw.\-cpp.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_qwt_abstract_scale_draw_aca3c3a7499112f52616d0ee8518fa5a6}{\index{Qwt\-Abstract\-Scale\-Draw@{Qwt\-Abstract\-Scale\-Draw}!draw@{draw}}
+\index{draw@{draw}!QwtAbstractScaleDraw@{Qwt\-Abstract\-Scale\-Draw}}
+\subsubsection[{draw}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Abstract\-Scale\-Draw\-::draw (
+\begin{DoxyParamCaption}
+\item[{Q\-Painter $\ast$}]{painter, }
+\item[{const Q\-Palette \&}]{palette}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_qwt_abstract_scale_draw_aca3c3a7499112f52616d0ee8518fa5a6}
+
+
+Draw the scale. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em painter} & The painter\\
+\hline
+{\em palette} & Palette, text color is used for the labels, foreground color for ticks and backbone \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 165 of file qwt\-\_\-abstract\-\_\-scale\-\_\-draw.\-cpp.
+
+\hypertarget{class_qwt_abstract_scale_draw_a15994a6033e689c3acdb8d83ae4f2a1c}{\index{Qwt\-Abstract\-Scale\-Draw@{Qwt\-Abstract\-Scale\-Draw}!draw\-Backbone@{draw\-Backbone}}
+\index{draw\-Backbone@{draw\-Backbone}!QwtAbstractScaleDraw@{Qwt\-Abstract\-Scale\-Draw}}
+\subsubsection[{draw\-Backbone}]{\setlength{\rightskip}{0pt plus 5cm}virtual {\bf void} Qwt\-Abstract\-Scale\-Draw\-::draw\-Backbone (
+\begin{DoxyParamCaption}
+\item[{Q\-Painter $\ast$}]{painter}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [pure virtual]}}}\label{class_qwt_abstract_scale_draw_a15994a6033e689c3acdb8d83ae4f2a1c}
+Draws the baseline of the scale 
+\begin{DoxyParams}{Parameters}
+{\em painter} & Painter\\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_abstract_scale_draw_a31791e80bf07d23adbe500740aac5a58}{draw\-Tick()}, \hyperlink{class_qwt_abstract_scale_draw_aa78dc8bf05a0224450c947af54128d8d}{draw\-Label()} 
+\end{DoxySeeAlso}
+
+
+Implemented in \hyperlink{class_qwt_scale_draw_aa53015c17e2abb01b179473cc488f20c}{Qwt\-Scale\-Draw}, and \hyperlink{class_qwt_round_scale_draw_a845dc48b006ee168415112f39e80da09}{Qwt\-Round\-Scale\-Draw}.
+
+\hypertarget{class_qwt_abstract_scale_draw_aa78dc8bf05a0224450c947af54128d8d}{\index{Qwt\-Abstract\-Scale\-Draw@{Qwt\-Abstract\-Scale\-Draw}!draw\-Label@{draw\-Label}}
+\index{draw\-Label@{draw\-Label}!QwtAbstractScaleDraw@{Qwt\-Abstract\-Scale\-Draw}}
+\subsubsection[{draw\-Label}]{\setlength{\rightskip}{0pt plus 5cm}virtual {\bf void} Qwt\-Abstract\-Scale\-Draw\-::draw\-Label (
+\begin{DoxyParamCaption}
+\item[{Q\-Painter $\ast$}]{painter, }
+\item[{{\bf double}}]{value}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [pure virtual]}}}\label{class_qwt_abstract_scale_draw_aa78dc8bf05a0224450c947af54128d8d}
+Draws the label for a major scale tick
+
+
+\begin{DoxyParams}{Parameters}
+{\em painter} & Painter \\
+\hline
+{\em value} & Value\\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_abstract_scale_draw_a31791e80bf07d23adbe500740aac5a58}{draw\-Tick()}, \hyperlink{class_qwt_abstract_scale_draw_a15994a6033e689c3acdb8d83ae4f2a1c}{draw\-Backbone()} 
+\end{DoxySeeAlso}
+
+
+Implemented in \hyperlink{class_qwt_scale_draw_afc02a11a03efde4ea239d77c4d7711f4}{Qwt\-Scale\-Draw}, and \hyperlink{class_qwt_round_scale_draw_aa43bf3624c464727bb4f0cab28c3f6fe}{Qwt\-Round\-Scale\-Draw}.
+
+\hypertarget{class_qwt_abstract_scale_draw_a31791e80bf07d23adbe500740aac5a58}{\index{Qwt\-Abstract\-Scale\-Draw@{Qwt\-Abstract\-Scale\-Draw}!draw\-Tick@{draw\-Tick}}
+\index{draw\-Tick@{draw\-Tick}!QwtAbstractScaleDraw@{Qwt\-Abstract\-Scale\-Draw}}
+\subsubsection[{draw\-Tick}]{\setlength{\rightskip}{0pt plus 5cm}virtual {\bf void} Qwt\-Abstract\-Scale\-Draw\-::draw\-Tick (
+\begin{DoxyParamCaption}
+\item[{Q\-Painter $\ast$}]{painter, }
+\item[{{\bf double}}]{value, }
+\item[{{\bf double}}]{len}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [pure virtual]}}}\label{class_qwt_abstract_scale_draw_a31791e80bf07d23adbe500740aac5a58}
+Draw a tick
+
+
+\begin{DoxyParams}{Parameters}
+{\em painter} & Painter \\
+\hline
+{\em value} & Value of the tick \\
+\hline
+{\em len} & Lenght of the tick\\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_abstract_scale_draw_a15994a6033e689c3acdb8d83ae4f2a1c}{draw\-Backbone()}, \hyperlink{class_qwt_abstract_scale_draw_aa78dc8bf05a0224450c947af54128d8d}{draw\-Label()} 
+\end{DoxySeeAlso}
+
+
+Implemented in \hyperlink{class_qwt_scale_draw_a84badd947ddc95a462ec20fe64922b36}{Qwt\-Scale\-Draw}, and \hyperlink{class_qwt_round_scale_draw_a8e0363f57f85b8dcf316c9351ab72fc2}{Qwt\-Round\-Scale\-Draw}.
+
+\hypertarget{class_qwt_abstract_scale_draw_af975410588db6103f281e49d0b43c6a6}{\index{Qwt\-Abstract\-Scale\-Draw@{Qwt\-Abstract\-Scale\-Draw}!enable\-Component@{enable\-Component}}
+\index{enable\-Component@{enable\-Component}!QwtAbstractScaleDraw@{Qwt\-Abstract\-Scale\-Draw}}
+\subsubsection[{enable\-Component}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Abstract\-Scale\-Draw\-::enable\-Component (
+\begin{DoxyParamCaption}
+\item[{{\bf Scale\-Component}}]{component, }
+\item[{bool}]{enable = {\ttfamily true}}
+\end{DoxyParamCaption}
+)}}\label{class_qwt_abstract_scale_draw_af975410588db6103f281e49d0b43c6a6}
+En/\-Disable a component of the scale
+
+
+\begin{DoxyParams}{Parameters}
+{\em component} & Scale component \\
+\hline
+{\em enable} & On/\-Off\\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_abstract_scale_draw_a95d74d9eaa5520754295efb33a4db50f}{has\-Component()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 77 of file qwt\-\_\-abstract\-\_\-scale\-\_\-draw.\-cpp.
+
+\hypertarget{class_qwt_abstract_scale_draw_a1ac28ff3f13123bc6b67223a368c096f}{\index{Qwt\-Abstract\-Scale\-Draw@{Qwt\-Abstract\-Scale\-Draw}!extent@{extent}}
+\index{extent@{extent}!QwtAbstractScaleDraw@{Qwt\-Abstract\-Scale\-Draw}}
+\subsubsection[{extent}]{\setlength{\rightskip}{0pt plus 5cm}virtual {\bf double} Qwt\-Abstract\-Scale\-Draw\-::extent (
+\begin{DoxyParamCaption}
+\item[{const Q\-Font \&}]{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [pure virtual]}}}\label{class_qwt_abstract_scale_draw_a1ac28ff3f13123bc6b67223a368c096f}
+Calculate the extent
+
+The extent is the distcance from the baseline to the outermost pixel of the scale draw in opposite to its orientation. It is at least \hyperlink{class_qwt_abstract_scale_draw_a563f102ef1370ecdfdc47133fb0c78ec}{minimum\-Extent()} pixels.
+
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_abstract_scale_draw_ac174255c334b995ca010a6964597d5f2}{set\-Minimum\-Extent()}, \hyperlink{class_qwt_abstract_scale_draw_a563f102ef1370ecdfdc47133fb0c78ec}{minimum\-Extent()} 
+\end{DoxySeeAlso}
+
+
+Implemented in \hyperlink{class_qwt_scale_draw_a1fa0cebc2b8f69dce72b0514ad7653f0}{Qwt\-Scale\-Draw}, and \hyperlink{class_qwt_round_scale_draw_a786fd49ec94ab51bb75d7a2f495b2727}{Qwt\-Round\-Scale\-Draw}.
+
+\hypertarget{class_qwt_abstract_scale_draw_a95d74d9eaa5520754295efb33a4db50f}{\index{Qwt\-Abstract\-Scale\-Draw@{Qwt\-Abstract\-Scale\-Draw}!has\-Component@{has\-Component}}
+\index{has\-Component@{has\-Component}!QwtAbstractScaleDraw@{Qwt\-Abstract\-Scale\-Draw}}
+\subsubsection[{has\-Component}]{\setlength{\rightskip}{0pt plus 5cm}bool Qwt\-Abstract\-Scale\-Draw\-::has\-Component (
+\begin{DoxyParamCaption}
+\item[{{\bf Scale\-Component}}]{component}
+\end{DoxyParamCaption}
+) const}}\label{class_qwt_abstract_scale_draw_a95d74d9eaa5520754295efb33a4db50f}
+Check if a component is enabled \begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_abstract_scale_draw_af975410588db6103f281e49d0b43c6a6}{enable\-Component()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 90 of file qwt\-\_\-abstract\-\_\-scale\-\_\-draw.\-cpp.
+
+\hypertarget{class_qwt_abstract_scale_draw_a4ed95cd23c5d779c1b05aa5295409aa6}{\index{Qwt\-Abstract\-Scale\-Draw@{Qwt\-Abstract\-Scale\-Draw}!invalidate\-Cache@{invalidate\-Cache}}
+\index{invalidate\-Cache@{invalidate\-Cache}!QwtAbstractScaleDraw@{Qwt\-Abstract\-Scale\-Draw}}
+\subsubsection[{invalidate\-Cache}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Abstract\-Scale\-Draw\-::invalidate\-Cache (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_qwt_abstract_scale_draw_a4ed95cd23c5d779c1b05aa5295409aa6}
+Invalidate the cache used by \hyperlink{class_qwt_abstract_scale_draw_a5e703dcb115a51024f89f92e61c2c8d8}{Qwt\-Abstract\-Scale\-Draw\-::tick\-Label}
+
+The cache is invalidated, when a new \hyperlink{class_qwt_scale_div}{Qwt\-Scale\-Div} is set. If the labels need to be changed. while the same \hyperlink{class_qwt_scale_div}{Qwt\-Scale\-Div} is set, \hyperlink{class_qwt_abstract_scale_draw_a4ed95cd23c5d779c1b05aa5295409aa6}{invalidate\-Cache()} needs to be called manually. 
+
+Definition at line 409 of file qwt\-\_\-abstract\-\_\-scale\-\_\-draw.\-cpp.
+
+\hypertarget{class_qwt_abstract_scale_draw_a4ff88bc827dd6c6ca9298de13483b61f}{\index{Qwt\-Abstract\-Scale\-Draw@{Qwt\-Abstract\-Scale\-Draw}!label@{label}}
+\index{label@{label}!QwtAbstractScaleDraw@{Qwt\-Abstract\-Scale\-Draw}}
+\subsubsection[{label}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Qwt\-Text} Qwt\-Abstract\-Scale\-Draw\-::label (
+\begin{DoxyParamCaption}
+\item[{{\bf double}}]{value}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_qwt_abstract_scale_draw_a4ff88bc827dd6c6ca9298de13483b61f}
+
+
+Convert a value into its representing label. 
+
+The value is converted to a plain text using Q\-Locale\-::system().to\-String(value). This method is often overloaded by applications to have individual labels.
+
+
+\begin{DoxyParams}{Parameters}
+{\em value} & Value \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Label string. 
+\end{DoxyReturn}
+
+
+Reimplemented in \hyperlink{group__scopeplugin_gadd46f1edfb468453018c231b7a1e92f2}{Time\-Scale\-Draw}, and \hyperlink{class_qwt_dial_scale_draw_aa497b0ca0f1c4d27a0bcc3c30556cb09}{Qwt\-Dial\-Scale\-Draw}.
+
+
+
+Definition at line 366 of file qwt\-\_\-abstract\-\_\-scale\-\_\-draw.\-cpp.
+
+\hypertarget{class_qwt_abstract_scale_draw_afac6ad0e98fefd9d103366726542a055}{\index{Qwt\-Abstract\-Scale\-Draw@{Qwt\-Abstract\-Scale\-Draw}!max\-Tick\-Length@{max\-Tick\-Length}}
+\index{max\-Tick\-Length@{max\-Tick\-Length}!QwtAbstractScaleDraw@{Qwt\-Abstract\-Scale\-Draw}}
+\subsubsection[{max\-Tick\-Length}]{\setlength{\rightskip}{0pt plus 5cm}{\bf double} Qwt\-Abstract\-Scale\-Draw\-::max\-Tick\-Length (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_qwt_abstract_scale_draw_afac6ad0e98fefd9d103366726542a055}
+\begin{DoxyReturn}{Returns}
+Length of the longest tick
+\end{DoxyReturn}
+Useful for layout calculations \begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_abstract_scale_draw_aa43034f7ad87c33e9790c730ed48c55d}{tick\-Length()}, \hyperlink{class_qwt_abstract_scale_draw_a7fed388e435aae791d61f48cc9ddf632}{set\-Tick\-Length()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 346 of file qwt\-\_\-abstract\-\_\-scale\-\_\-draw.\-cpp.
+
+\hypertarget{class_qwt_abstract_scale_draw_a563f102ef1370ecdfdc47133fb0c78ec}{\index{Qwt\-Abstract\-Scale\-Draw@{Qwt\-Abstract\-Scale\-Draw}!minimum\-Extent@{minimum\-Extent}}
+\index{minimum\-Extent@{minimum\-Extent}!QwtAbstractScaleDraw@{Qwt\-Abstract\-Scale\-Draw}}
+\subsubsection[{minimum\-Extent}]{\setlength{\rightskip}{0pt plus 5cm}{\bf double} Qwt\-Abstract\-Scale\-Draw\-::minimum\-Extent (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_qwt_abstract_scale_draw_a563f102ef1370ecdfdc47133fb0c78ec}
+Get the minimum extent \begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_abstract_scale_draw_a1ac28ff3f13123bc6b67223a368c096f}{extent()}, \hyperlink{class_qwt_abstract_scale_draw_ac174255c334b995ca010a6964597d5f2}{set\-Minimum\-Extent()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 292 of file qwt\-\_\-abstract\-\_\-scale\-\_\-draw.\-cpp.
+
+\hypertarget{class_qwt_abstract_scale_draw_a8933b8da6332a6d4badfa83e67b74865}{\index{Qwt\-Abstract\-Scale\-Draw@{Qwt\-Abstract\-Scale\-Draw}!pen\-Width@{pen\-Width}}
+\index{pen\-Width@{pen\-Width}!QwtAbstractScaleDraw@{Qwt\-Abstract\-Scale\-Draw}}
+\subsubsection[{pen\-Width}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int} Qwt\-Abstract\-Scale\-Draw\-::pen\-Width (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_qwt_abstract_scale_draw_a8933b8da6332a6d4badfa83e67b74865}
+\begin{DoxyReturn}{Returns}
+Scale pen width 
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_abstract_scale_draw_a098e1f813077c9bb0c5f83266035943a}{set\-Pen\-Width()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 152 of file qwt\-\_\-abstract\-\_\-scale\-\_\-draw.\-cpp.
+
+\hypertarget{class_qwt_abstract_scale_draw_a82510027cd5bee269628c9d6302a19a9}{\index{Qwt\-Abstract\-Scale\-Draw@{Qwt\-Abstract\-Scale\-Draw}!scale\-Div@{scale\-Div}}
+\index{scale\-Div@{scale\-Div}!QwtAbstractScaleDraw@{Qwt\-Abstract\-Scale\-Draw}}
+\subsubsection[{scale\-Div}]{\setlength{\rightskip}{0pt plus 5cm}const {\bf Qwt\-Scale\-Div} \& Qwt\-Abstract\-Scale\-Draw\-::scale\-Div (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_qwt_abstract_scale_draw_a82510027cd5bee269628c9d6302a19a9}
+\begin{DoxyReturn}{Returns}
+scale division 
+\end{DoxyReturn}
+
+
+Definition at line 129 of file qwt\-\_\-abstract\-\_\-scale\-\_\-draw.\-cpp.
+
+\hypertarget{class_qwt_abstract_scale_draw_aac87f593525666a47a57d9e2b4f02c66}{\index{Qwt\-Abstract\-Scale\-Draw@{Qwt\-Abstract\-Scale\-Draw}!scale\-Map@{scale\-Map}}
+\index{scale\-Map@{scale\-Map}!QwtAbstractScaleDraw@{Qwt\-Abstract\-Scale\-Draw}}
+\subsubsection[{scale\-Map}]{\setlength{\rightskip}{0pt plus 5cm}const {\bf Qwt\-Scale\-Map} \& Qwt\-Abstract\-Scale\-Draw\-::scale\-Map (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_qwt_abstract_scale_draw_aac87f593525666a47a57d9e2b4f02c66}
+\begin{DoxyReturn}{Returns}
+\hyperlink{class_map}{Map} how to translate between scale and pixel values 
+\end{DoxyReturn}
+
+
+Definition at line 117 of file qwt\-\_\-abstract\-\_\-scale\-\_\-draw.\-cpp.
+
+\hypertarget{class_qwt_abstract_scale_draw_ae7488eb63ad73a2e69acb29ff069c904}{\index{Qwt\-Abstract\-Scale\-Draw@{Qwt\-Abstract\-Scale\-Draw}!scale\-Map@{scale\-Map}}
+\index{scale\-Map@{scale\-Map}!QwtAbstractScaleDraw@{Qwt\-Abstract\-Scale\-Draw}}
+\subsubsection[{scale\-Map}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Qwt\-Scale\-Map} \& Qwt\-Abstract\-Scale\-Draw\-::scale\-Map (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_qwt_abstract_scale_draw_ae7488eb63ad73a2e69acb29ff069c904}
+\begin{DoxyReturn}{Returns}
+\hyperlink{class_map}{Map} how to translate between scale and pixel values 
+\end{DoxyReturn}
+
+
+Definition at line 123 of file qwt\-\_\-abstract\-\_\-scale\-\_\-draw.\-cpp.
+
+\hypertarget{class_qwt_abstract_scale_draw_ac174255c334b995ca010a6964597d5f2}{\index{Qwt\-Abstract\-Scale\-Draw@{Qwt\-Abstract\-Scale\-Draw}!set\-Minimum\-Extent@{set\-Minimum\-Extent}}
+\index{set\-Minimum\-Extent@{set\-Minimum\-Extent}!QwtAbstractScaleDraw@{Qwt\-Abstract\-Scale\-Draw}}
+\subsubsection[{set\-Minimum\-Extent}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Abstract\-Scale\-Draw\-::set\-Minimum\-Extent (
+\begin{DoxyParamCaption}
+\item[{{\bf double}}]{min\-Extent}
+\end{DoxyParamCaption}
+)}}\label{class_qwt_abstract_scale_draw_ac174255c334b995ca010a6964597d5f2}
+
+
+Set a minimum for the extent. 
+
+The extent is calculated from the coomponents of the scale draw. In situations, where the labels are changing and the layout depends on the extent (f.\-e scrolling a scale), setting an upper limit as minimum extent will avoid jumps of the layout.
+
+
+\begin{DoxyParams}{Parameters}
+{\em min\-Extent} & Minimum extent\\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_abstract_scale_draw_a1ac28ff3f13123bc6b67223a368c096f}{extent()}, \hyperlink{class_qwt_abstract_scale_draw_a563f102ef1370ecdfdc47133fb0c78ec}{minimum\-Extent()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 280 of file qwt\-\_\-abstract\-\_\-scale\-\_\-draw.\-cpp.
+
+\hypertarget{class_qwt_abstract_scale_draw_a098e1f813077c9bb0c5f83266035943a}{\index{Qwt\-Abstract\-Scale\-Draw@{Qwt\-Abstract\-Scale\-Draw}!set\-Pen\-Width@{set\-Pen\-Width}}
+\index{set\-Pen\-Width@{set\-Pen\-Width}!QwtAbstractScaleDraw@{Qwt\-Abstract\-Scale\-Draw}}
+\subsubsection[{set\-Pen\-Width}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Abstract\-Scale\-Draw\-::set\-Pen\-Width (
+\begin{DoxyParamCaption}
+\item[{{\bf int}}]{width}
+\end{DoxyParamCaption}
+)}}\label{class_qwt_abstract_scale_draw_a098e1f813077c9bb0c5f83266035943a}
+
+
+Specify the width of the scale pen. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em width} & Pen width \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_abstract_scale_draw_a8933b8da6332a6d4badfa83e67b74865}{pen\-Width()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 139 of file qwt\-\_\-abstract\-\_\-scale\-\_\-draw.\-cpp.
+
+\hypertarget{class_qwt_abstract_scale_draw_a4399aac94a294f5ed6c52114dde00d2f}{\index{Qwt\-Abstract\-Scale\-Draw@{Qwt\-Abstract\-Scale\-Draw}!set\-Scale\-Div@{set\-Scale\-Div}}
+\index{set\-Scale\-Div@{set\-Scale\-Div}!QwtAbstractScaleDraw@{Qwt\-Abstract\-Scale\-Draw}}
+\subsubsection[{set\-Scale\-Div}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Abstract\-Scale\-Draw\-::set\-Scale\-Div (
+\begin{DoxyParamCaption}
+\item[{const {\bf Qwt\-Scale\-Div} \&}]{sd}
+\end{DoxyParamCaption}
+)}}\label{class_qwt_abstract_scale_draw_a4399aac94a294f5ed6c52114dde00d2f}
+Change the scale division 
+\begin{DoxyParams}{Parameters}
+{\em sd} & New scale division \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 99 of file qwt\-\_\-abstract\-\_\-scale\-\_\-draw.\-cpp.
+
+\hypertarget{class_qwt_abstract_scale_draw_ae5bdaadb303510f7eb9dbec5c52f7a47}{\index{Qwt\-Abstract\-Scale\-Draw@{Qwt\-Abstract\-Scale\-Draw}!set\-Spacing@{set\-Spacing}}
+\index{set\-Spacing@{set\-Spacing}!QwtAbstractScaleDraw@{Qwt\-Abstract\-Scale\-Draw}}
+\subsubsection[{set\-Spacing}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Abstract\-Scale\-Draw\-::set\-Spacing (
+\begin{DoxyParamCaption}
+\item[{{\bf double}}]{spacing}
+\end{DoxyParamCaption}
+)}}\label{class_qwt_abstract_scale_draw_ae5bdaadb303510f7eb9dbec5c52f7a47}
+
+
+Set the spacing between tick and labels. 
+
+The spacing is the distance between ticks and labels. The default spacing is 4 pixels.
+
+
+\begin{DoxyParams}{Parameters}
+{\em spacing} & Spacing\\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_abstract_scale_draw_a93561d85e879402086f2607e45e89cc2}{spacing()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 246 of file qwt\-\_\-abstract\-\_\-scale\-\_\-draw.\-cpp.
+
+\hypertarget{class_qwt_abstract_scale_draw_a7fed388e435aae791d61f48cc9ddf632}{\index{Qwt\-Abstract\-Scale\-Draw@{Qwt\-Abstract\-Scale\-Draw}!set\-Tick\-Length@{set\-Tick\-Length}}
+\index{set\-Tick\-Length@{set\-Tick\-Length}!QwtAbstractScaleDraw@{Qwt\-Abstract\-Scale\-Draw}}
+\subsubsection[{set\-Tick\-Length}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Abstract\-Scale\-Draw\-::set\-Tick\-Length (
+\begin{DoxyParamCaption}
+\item[{{\bf Qwt\-Scale\-Div\-::\-Tick\-Type}}]{tick\-Type, }
+\item[{{\bf double}}]{length}
+\end{DoxyParamCaption}
+)}}\label{class_qwt_abstract_scale_draw_a7fed388e435aae791d61f48cc9ddf632}
+Set the length of the ticks
+
+
+\begin{DoxyParams}{Parameters}
+{\em tick\-Type} & Tick type \\
+\hline
+{\em length} & New length\\
+\hline
+\end{DoxyParams}
+\begin{DoxyWarning}{Warning}
+the length is limited to \mbox{[}0..1000\mbox{]} 
+\end{DoxyWarning}
+
+
+Definition at line 305 of file qwt\-\_\-abstract\-\_\-scale\-\_\-draw.\-cpp.
+
+\hypertarget{class_qwt_abstract_scale_draw_a0011367eb32519070e6f276ac393dcfb}{\index{Qwt\-Abstract\-Scale\-Draw@{Qwt\-Abstract\-Scale\-Draw}!set\-Transformation@{set\-Transformation}}
+\index{set\-Transformation@{set\-Transformation}!QwtAbstractScaleDraw@{Qwt\-Abstract\-Scale\-Draw}}
+\subsubsection[{set\-Transformation}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Abstract\-Scale\-Draw\-::set\-Transformation (
+\begin{DoxyParamCaption}
+\item[{{\bf Qwt\-Scale\-Transformation} $\ast$}]{transformation}
+\end{DoxyParamCaption}
+)}}\label{class_qwt_abstract_scale_draw_a0011367eb32519070e6f276ac393dcfb}
+Change the transformation of the scale 
+\begin{DoxyParams}{Parameters}
+{\em transformation} & New scale transformation \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 110 of file qwt\-\_\-abstract\-\_\-scale\-\_\-draw.\-cpp.
+
+\hypertarget{class_qwt_abstract_scale_draw_a93561d85e879402086f2607e45e89cc2}{\index{Qwt\-Abstract\-Scale\-Draw@{Qwt\-Abstract\-Scale\-Draw}!spacing@{spacing}}
+\index{spacing@{spacing}!QwtAbstractScaleDraw@{Qwt\-Abstract\-Scale\-Draw}}
+\subsubsection[{spacing}]{\setlength{\rightskip}{0pt plus 5cm}{\bf double} Qwt\-Abstract\-Scale\-Draw\-::spacing (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_qwt_abstract_scale_draw_a93561d85e879402086f2607e45e89cc2}
+
+
+Get the spacing. 
+
+The spacing is the distance between ticks and labels. The default spacing is 4 pixels.
+
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_abstract_scale_draw_ae5bdaadb303510f7eb9dbec5c52f7a47}{set\-Spacing()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 262 of file qwt\-\_\-abstract\-\_\-scale\-\_\-draw.\-cpp.
+
+\hypertarget{class_qwt_abstract_scale_draw_a5e703dcb115a51024f89f92e61c2c8d8}{\index{Qwt\-Abstract\-Scale\-Draw@{Qwt\-Abstract\-Scale\-Draw}!tick\-Label@{tick\-Label}}
+\index{tick\-Label@{tick\-Label}!QwtAbstractScaleDraw@{Qwt\-Abstract\-Scale\-Draw}}
+\subsubsection[{tick\-Label}]{\setlength{\rightskip}{0pt plus 5cm}const {\bf Qwt\-Text} \& Qwt\-Abstract\-Scale\-Draw\-::tick\-Label (
+\begin{DoxyParamCaption}
+\item[{const Q\-Font \&}]{font, }
+\item[{{\bf double}}]{value}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_qwt_abstract_scale_draw_a5e703dcb115a51024f89f92e61c2c8d8}
+
+
+Convert a value into its representing label and cache it. 
+
+The conversion between value and label is called very often in the layout and painting code. Unfortunately the calculation of the label sizes might be slow (really slow for rich text in Qt4), so it's necessary to cache the labels.
+
+
+\begin{DoxyParams}{Parameters}
+{\em font} & Font \\
+\hline
+{\em value} & Value\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Tick label 
+\end{DoxyReturn}
+
+
+Definition at line 384 of file qwt\-\_\-abstract\-\_\-scale\-\_\-draw.\-cpp.
+
+\hypertarget{class_qwt_abstract_scale_draw_aa43034f7ad87c33e9790c730ed48c55d}{\index{Qwt\-Abstract\-Scale\-Draw@{Qwt\-Abstract\-Scale\-Draw}!tick\-Length@{tick\-Length}}
+\index{tick\-Length@{tick\-Length}!QwtAbstractScaleDraw@{Qwt\-Abstract\-Scale\-Draw}}
+\subsubsection[{tick\-Length}]{\setlength{\rightskip}{0pt plus 5cm}{\bf double} Qwt\-Abstract\-Scale\-Draw\-::tick\-Length (
+\begin{DoxyParamCaption}
+\item[{{\bf Qwt\-Scale\-Div\-::\-Tick\-Type}}]{tick\-Type}
+\end{DoxyParamCaption}
+) const}}\label{class_qwt_abstract_scale_draw_aa43034f7ad87c33e9790c730ed48c55d}
+Return the length of the ticks
+
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_abstract_scale_draw_a7fed388e435aae791d61f48cc9ddf632}{set\-Tick\-Length()}, \hyperlink{class_qwt_abstract_scale_draw_afac6ad0e98fefd9d103366726542a055}{max\-Tick\-Length()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 329 of file qwt\-\_\-abstract\-\_\-scale\-\_\-draw.\-cpp.
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/qwt/src/\hyperlink{qwt__abstract__scale__draw_8h}{qwt\-\_\-abstract\-\_\-scale\-\_\-draw.\-h}\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/qwt/src/\hyperlink{qwt__abstract__scale__draw_8cpp}{qwt\-\_\-abstract\-\_\-scale\-\_\-draw.\-cpp}\end{DoxyCompactItemize}

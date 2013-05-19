@@ -1,0 +1,208 @@
+\hypertarget{class_qwt_plot_abstract_series_item}{\section{Qwt\-Plot\-Abstract\-Series\-Item Class Reference}
+\label{class_qwt_plot_abstract_series_item}\index{Qwt\-Plot\-Abstract\-Series\-Item@{Qwt\-Plot\-Abstract\-Series\-Item}}
+}
+
+
+Base class for plot items representing a series of samples.  
+
+
+
+
+{\ttfamily \#include $<$qwt\-\_\-plot\-\_\-seriesitem.\-h$>$}
+
+Inheritance diagram for Qwt\-Plot\-Abstract\-Series\-Item\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.240000cm]{class_qwt_plot_abstract_series_item}
+\end{center}
+\end{figure}
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{class_qwt_plot_abstract_series_item_1_1_private_data}{Private\-Data}
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_qwt_plot_abstract_series_item_ad57bfd18c6f8e25c6fe214543b5f593e}{Qwt\-Plot\-Abstract\-Series\-Item} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{Q\-String} \&\hyperlink{class_qwt_plot_item_a3859d011b670b5f89e45d1ccef9206f7}{title}=Q\-String\-::null)
+\item 
+\hyperlink{class_qwt_plot_abstract_series_item_a3114a57978451fb4b940b94e79a8f42d}{Qwt\-Plot\-Abstract\-Series\-Item} (const \hyperlink{class_qwt_text}{Qwt\-Text} \&\hyperlink{class_qwt_plot_item_a3859d011b670b5f89e45d1ccef9206f7}{title})
+\item 
+virtual \hyperlink{class_qwt_plot_abstract_series_item_a0b35d4e683b1082dcf5c8a188243f26d}{$\sim$\-Qwt\-Plot\-Abstract\-Series\-Item} ()
+\begin{DoxyCompactList}\small\item\em Destructor. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_plot_abstract_series_item_ad1c9234a165e569633eb0b7f8c81c88b}{set\-Orientation} (Qt\-::\-Orientation)
+\item 
+Qt\-::\-Orientation \hyperlink{class_qwt_plot_abstract_series_item_aa51dc15e0845c1674602828a90d75f81}{orientation} () const 
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_plot_abstract_series_item_ae6592df5d033931bf6200cb68b6b34f0}{draw} (Q\-Painter $\ast$\hyperlink{glext_8h_aa5367c14d90f462230c2611b81b41d23}{p}, const \hyperlink{class_qwt_scale_map}{Qwt\-Scale\-Map} \&x\-Map, const \hyperlink{class_qwt_scale_map}{Qwt\-Scale\-Map} \&y\-Map, const Q\-Rect\-F \&) const 
+\begin{DoxyCompactList}\small\item\em Draw the complete series. \end{DoxyCompactList}\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_plot_abstract_series_item_ad411a172087666b4852ae244ac6f5663}{draw\-Series} (Q\-Painter $\ast$painter, const \hyperlink{class_qwt_scale_map}{Qwt\-Scale\-Map} \&x\-Map, const \hyperlink{class_qwt_scale_map}{Qwt\-Scale\-Map} \&y\-Map, const Q\-Rect\-F \&canvas\-Rect, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} from, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} to) const =0
+\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Detailed Description}
+Base class for plot items representing a series of samples. 
+
+Definition at line 21 of file qwt\-\_\-plot\-\_\-seriesitem.\-h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_qwt_plot_abstract_series_item_ad57bfd18c6f8e25c6fe214543b5f593e}{\index{Qwt\-Plot\-Abstract\-Series\-Item@{Qwt\-Plot\-Abstract\-Series\-Item}!Qwt\-Plot\-Abstract\-Series\-Item@{Qwt\-Plot\-Abstract\-Series\-Item}}
+\index{Qwt\-Plot\-Abstract\-Series\-Item@{Qwt\-Plot\-Abstract\-Series\-Item}!QwtPlotAbstractSeriesItem@{Qwt\-Plot\-Abstract\-Series\-Item}}
+\subsubsection[{Qwt\-Plot\-Abstract\-Series\-Item}]{\setlength{\rightskip}{0pt plus 5cm}Qwt\-Plot\-Abstract\-Series\-Item\-::\-Qwt\-Plot\-Abstract\-Series\-Item (
+\begin{DoxyParamCaption}
+\item[{const {\bf Q\-String} \&}]{title = {\ttfamily QString\-:\-:null}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [explicit]}}}\label{class_qwt_plot_abstract_series_item_ad57bfd18c6f8e25c6fe214543b5f593e}
+Constructor 
+\begin{DoxyParams}{Parameters}
+{\em title} & Title of the curve \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 37 of file qwt\-\_\-plot\-\_\-seriesitem.\-cpp.
+
+\hypertarget{class_qwt_plot_abstract_series_item_a3114a57978451fb4b940b94e79a8f42d}{\index{Qwt\-Plot\-Abstract\-Series\-Item@{Qwt\-Plot\-Abstract\-Series\-Item}!Qwt\-Plot\-Abstract\-Series\-Item@{Qwt\-Plot\-Abstract\-Series\-Item}}
+\index{Qwt\-Plot\-Abstract\-Series\-Item@{Qwt\-Plot\-Abstract\-Series\-Item}!QwtPlotAbstractSeriesItem@{Qwt\-Plot\-Abstract\-Series\-Item}}
+\subsubsection[{Qwt\-Plot\-Abstract\-Series\-Item}]{\setlength{\rightskip}{0pt plus 5cm}Qwt\-Plot\-Abstract\-Series\-Item\-::\-Qwt\-Plot\-Abstract\-Series\-Item (
+\begin{DoxyParamCaption}
+\item[{const {\bf Qwt\-Text} \&}]{title}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [explicit]}}}\label{class_qwt_plot_abstract_series_item_a3114a57978451fb4b940b94e79a8f42d}
+Constructor 
+\begin{DoxyParams}{Parameters}
+{\em title} & Title of the curve \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 27 of file qwt\-\_\-plot\-\_\-seriesitem.\-cpp.
+
+\hypertarget{class_qwt_plot_abstract_series_item_a0b35d4e683b1082dcf5c8a188243f26d}{\index{Qwt\-Plot\-Abstract\-Series\-Item@{Qwt\-Plot\-Abstract\-Series\-Item}!$\sim$\-Qwt\-Plot\-Abstract\-Series\-Item@{$\sim$\-Qwt\-Plot\-Abstract\-Series\-Item}}
+\index{$\sim$\-Qwt\-Plot\-Abstract\-Series\-Item@{$\sim$\-Qwt\-Plot\-Abstract\-Series\-Item}!QwtPlotAbstractSeriesItem@{Qwt\-Plot\-Abstract\-Series\-Item}}
+\subsubsection[{$\sim$\-Qwt\-Plot\-Abstract\-Series\-Item}]{\setlength{\rightskip}{0pt plus 5cm}Qwt\-Plot\-Abstract\-Series\-Item\-::$\sim$\-Qwt\-Plot\-Abstract\-Series\-Item (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_qwt_plot_abstract_series_item_a0b35d4e683b1082dcf5c8a188243f26d}
+
+
+Destructor. 
+
+
+
+Definition at line 44 of file qwt\-\_\-plot\-\_\-seriesitem.\-cpp.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_qwt_plot_abstract_series_item_ae6592df5d033931bf6200cb68b6b34f0}{\index{Qwt\-Plot\-Abstract\-Series\-Item@{Qwt\-Plot\-Abstract\-Series\-Item}!draw@{draw}}
+\index{draw@{draw}!QwtPlotAbstractSeriesItem@{Qwt\-Plot\-Abstract\-Series\-Item}}
+\subsubsection[{draw}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Plot\-Abstract\-Series\-Item\-::draw (
+\begin{DoxyParamCaption}
+\item[{Q\-Painter $\ast$}]{painter, }
+\item[{const {\bf Qwt\-Scale\-Map} \&}]{x\-Map, }
+\item[{const {\bf Qwt\-Scale\-Map} \&}]{y\-Map, }
+\item[{const Q\-Rect\-F \&}]{canvas\-Rect}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_qwt_plot_abstract_series_item_ae6592df5d033931bf6200cb68b6b34f0}
+
+
+Draw the complete series. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em painter} & Painter \\
+\hline
+{\em x\-Map} & Maps x-\/values into pixel coordinates. \\
+\hline
+{\em y\-Map} & Maps y-\/values into pixel coordinates. \\
+\hline
+{\em canvas\-Rect} & Contents rect of the canvas \\
+\hline
+\end{DoxyParams}
+
+
+Implements \hyperlink{class_qwt_plot_item_a0b0d6589d5db81ce72e6b33c4fbb21f9}{Qwt\-Plot\-Item}.
+
+
+
+Definition at line 84 of file qwt\-\_\-plot\-\_\-seriesitem.\-cpp.
+
+\hypertarget{class_qwt_plot_abstract_series_item_ad411a172087666b4852ae244ac6f5663}{\index{Qwt\-Plot\-Abstract\-Series\-Item@{Qwt\-Plot\-Abstract\-Series\-Item}!draw\-Series@{draw\-Series}}
+\index{draw\-Series@{draw\-Series}!QwtPlotAbstractSeriesItem@{Qwt\-Plot\-Abstract\-Series\-Item}}
+\subsubsection[{draw\-Series}]{\setlength{\rightskip}{0pt plus 5cm}virtual {\bf void} Qwt\-Plot\-Abstract\-Series\-Item\-::draw\-Series (
+\begin{DoxyParamCaption}
+\item[{Q\-Painter $\ast$}]{painter, }
+\item[{const {\bf Qwt\-Scale\-Map} \&}]{x\-Map, }
+\item[{const {\bf Qwt\-Scale\-Map} \&}]{y\-Map, }
+\item[{const Q\-Rect\-F \&}]{canvas\-Rect, }
+\item[{{\bf int}}]{from, }
+\item[{{\bf int}}]{to}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [pure virtual]}}}\label{class_qwt_plot_abstract_series_item_ad411a172087666b4852ae244ac6f5663}
+Draw a subset of the samples
+
+
+\begin{DoxyParams}{Parameters}
+{\em painter} & Painter \\
+\hline
+{\em x\-Map} & Maps x-\/values into pixel coordinates. \\
+\hline
+{\em y\-Map} & Maps y-\/values into pixel coordinates. \\
+\hline
+{\em canvas\-Rect} & Contents rect of the canvas \\
+\hline
+{\em from} & Index of the first point to be painted \\
+\hline
+{\em to} & Index of the last point to be painted. If to $<$ 0 the curve will be painted to its last point. \\
+\hline
+\end{DoxyParams}
+
+
+Implemented in \hyperlink{class_qwt_plot_curve_aea90af49da5296087499e06ae1e35c9e}{Qwt\-Plot\-Curve}, \hyperlink{class_qwt_plot_interval_curve_add274e6e29ff2df9b6961f3ed5ebcd5e}{Qwt\-Plot\-Interval\-Curve}, \hyperlink{class_qwt_plot_histogram_a588eb9f56482fe8669c4d6eaa2db09e2}{Qwt\-Plot\-Histogram}, and \hyperlink{class_qwt_plot_spectro_curve_a04529b82d2acbcf9fc8f66da73bae8e9}{Qwt\-Plot\-Spectro\-Curve}.
+
+\hypertarget{class_qwt_plot_abstract_series_item_aa51dc15e0845c1674602828a90d75f81}{\index{Qwt\-Plot\-Abstract\-Series\-Item@{Qwt\-Plot\-Abstract\-Series\-Item}!orientation@{orientation}}
+\index{orientation@{orientation}!QwtPlotAbstractSeriesItem@{Qwt\-Plot\-Abstract\-Series\-Item}}
+\subsubsection[{orientation}]{\setlength{\rightskip}{0pt plus 5cm}Qt\-::\-Orientation Qwt\-Plot\-Abstract\-Series\-Item\-::orientation (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_qwt_plot_abstract_series_item_aa51dc15e0845c1674602828a90d75f81}
+\begin{DoxyReturn}{Returns}
+Orientation of the plot item 
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_plot_abstract_series_item_ad1c9234a165e569633eb0b7f8c81c88b}{set\-Orientation()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 71 of file qwt\-\_\-plot\-\_\-seriesitem.\-cpp.
+
+\hypertarget{class_qwt_plot_abstract_series_item_ad1c9234a165e569633eb0b7f8c81c88b}{\index{Qwt\-Plot\-Abstract\-Series\-Item@{Qwt\-Plot\-Abstract\-Series\-Item}!set\-Orientation@{set\-Orientation}}
+\index{set\-Orientation@{set\-Orientation}!QwtPlotAbstractSeriesItem@{Qwt\-Plot\-Abstract\-Series\-Item}}
+\subsubsection[{set\-Orientation}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Plot\-Abstract\-Series\-Item\-::set\-Orientation (
+\begin{DoxyParamCaption}
+\item[{Qt\-::\-Orientation}]{orientation}
+\end{DoxyParamCaption}
+)}}\label{class_qwt_plot_abstract_series_item_ad1c9234a165e569633eb0b7f8c81c88b}
+Set the orientation of the item.
+
+The \hyperlink{class_qwt_plot_abstract_series_item_aa51dc15e0845c1674602828a90d75f81}{orientation()} might be used in specific way by a plot item. F.\-e. a \hyperlink{class_qwt_plot_curve}{Qwt\-Plot\-Curve} uses it to identify how to display the curve int \hyperlink{class_qwt_plot_curve_a15998aa80a11ba6ba80eebabaf773f70a18071408a0b9bfe58378c6d81e207b2c}{Qwt\-Plot\-Curve\-::\-Steps} or \hyperlink{class_qwt_plot_curve_a15998aa80a11ba6ba80eebabaf773f70a770b0908599507e5677b6e9ff9913f38}{Qwt\-Plot\-Curve\-::\-Sticks} style.
+
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_plot_abstract_series_item_aa51dc15e0845c1674602828a90d75f81}{orientation()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 58 of file qwt\-\_\-plot\-\_\-seriesitem.\-cpp.
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/qwt/src/\hyperlink{qwt__plot__seriesitem_8h}{qwt\-\_\-plot\-\_\-seriesitem.\-h}\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/qwt/src/\hyperlink{qwt__plot__seriesitem_8cpp}{qwt\-\_\-plot\-\_\-seriesitem.\-cpp}\end{DoxyCompactItemize}

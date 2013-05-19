@@ -1,0 +1,126 @@
+\hypertarget{deflate_8h}{\section{/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/glc\-\_\-lib/3rdparty/zlib/deflate.h File Reference}
+\label{deflate_8h}\index{/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/glc\-\_\-lib/3rdparty/zlib/deflate.\-h@{/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/glc\-\_\-lib/3rdparty/zlib/deflate.\-h}}
+}
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structct__data__s}{ct\-\_\-data\-\_\-s}
+\item 
+struct \hyperlink{structtree__desc__s}{tree\-\_\-desc\-\_\-s}
+\item 
+struct \hyperlink{structinternal__state}{internal\-\_\-state}
+\end{DoxyCompactItemize}
+\subsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef \hyperlink{sdlgamepad_8dox_aba655c5729da86df745f0c8e7f9ba8d2}{struct} \hyperlink{structct__data__s}{ct\-\_\-data\-\_\-s} \hyperlink{deflate_8h_a0a4b5df3b2254c627b8a59e038963118}{ct\-\_\-data}
+\item 
+typedef \hyperlink{sdlgamepad_8dox_aba655c5729da86df745f0c8e7f9ba8d2}{struct} \hyperlink{structstatic__tree__desc__s}{static\-\_\-tree\-\_\-desc\-\_\-s} \hyperlink{deflate_8h_a905910aabf6aabbe79ff0832e4a664cc}{static\-\_\-tree\-\_\-desc}
+\item 
+typedef \hyperlink{sdlgamepad_8dox_aba655c5729da86df745f0c8e7f9ba8d2}{struct} \hyperlink{structtree__desc__s}{tree\-\_\-desc\-\_\-s} \hyperlink{deflate_8h_ae978a66d78f0d68f945f48951f9151ff}{tree\-\_\-desc}
+\item 
+typedef \hyperlink{zutil_8h_a3754180d606d4ed15468d15d9665aa2e}{ush} \hyperlink{deflate_8h_a80a8610ae675eaeead82013bacde10a1}{Pos}
+\item 
+typedef \hyperlink{deflate_8h_a80a8610ae675eaeead82013bacde10a1}{Pos} F\-A\-R \hyperlink{deflate_8h_a7fc422ecb86afdd5f330dad6f7c1136b}{Posf}
+\item 
+typedef unsigned \hyperlink{deflate_8h_ada696b787a46d01634b6365afcec1a9e}{I\-Pos}
+\item 
+typedef \hyperlink{sdlgamepad_8dox_aba655c5729da86df745f0c8e7f9ba8d2}{struct} \hyperlink{structinternal__state}{internal\-\_\-state} \hyperlink{deflate_8h_aeaabc84f4830ec10deb9b64bd719617a}{deflate\-\_\-state}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{trees_8c_a339961134b155099c972524109f9119b}{\-\_\-tr\-\_\-init} \hyperlink{deflate_8h_a7421434e97aacf6ea4ddd238d18bf9c8}{O\-F} ((\hyperlink{deflate_8h_aeaabc84f4830ec10deb9b64bd719617a}{deflate\-\_\-state} $\ast$\hyperlink{glext_8h_ad585a1393cfa368fa9dc3d8ebff640d5}{s}))
+\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \-\_\-tr\-\_\-tally \hyperlink{deflate_8h_ad2b29e535c13f6bfd762db8d1dd3bb3f}{O\-F} ((\hyperlink{deflate_8h_aeaabc84f4830ec10deb9b64bd719617a}{deflate\-\_\-state} $\ast$\hyperlink{glext_8h_ad585a1393cfa368fa9dc3d8ebff640d5}{s}, unsigned dist, unsigned lc))
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{trees_8c_a4dca532d73a1df8ac5af0cf3ae3b079b}{\-\_\-tr\-\_\-flush\-\_\-block} \hyperlink{deflate_8h_af8aa63aa73ba838890d15dddb92e2360}{O\-F} ((\hyperlink{deflate_8h_aeaabc84f4830ec10deb9b64bd719617a}{deflate\-\_\-state} $\ast$\hyperlink{glext_8h_ad585a1393cfa368fa9dc3d8ebff640d5}{s}, \hyperlink{zconf_8h_a0f3f92a9c02f6f688bf081aabf230212}{charf} $\ast$\hyperlink{ioapi_8h_a8ad8a13c88886b9f623034ff88570adb}{buf}, \hyperlink{zutil_8h_abd6f60bf9450af2ecb94097a32c19a64}{ulg} stored\-\_\-len, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} eof))
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{zutil_8h_af3307af5922c72924a837559c801a8a4}{uch} \hyperlink{deflate_8h_a66c0da5310f9b9dc4c5b5df466b85fdc}{\-\_\-length\-\_\-code} \mbox{[}$\,$\mbox{]}
+\item 
+\hyperlink{zutil_8h_af3307af5922c72924a837559c801a8a4}{uch} \hyperlink{deflate_8h_a6a1e8be99c9dc5e94e0ec12b9837cc18}{\-\_\-dist\-\_\-code} \mbox{[}$\,$\mbox{]}
+\end{DoxyCompactItemize}
+
+
+\subsection{Typedef Documentation}
+\hypertarget{deflate_8h_a0a4b5df3b2254c627b8a59e038963118}{\index{deflate.\-h@{deflate.\-h}!ct\-\_\-data@{ct\-\_\-data}}
+\index{ct\-\_\-data@{ct\-\_\-data}!deflate.h@{deflate.\-h}}
+\subsubsection[{ct\-\_\-data}]{\setlength{\rightskip}{0pt plus 5cm}typedef {\bf struct} {\bf ct\-\_\-data\-\_\-s} {\bf ct\-\_\-data}}}\label{deflate_8h_a0a4b5df3b2254c627b8a59e038963118}
+\hypertarget{deflate_8h_aeaabc84f4830ec10deb9b64bd719617a}{\index{deflate.\-h@{deflate.\-h}!deflate\-\_\-state@{deflate\-\_\-state}}
+\index{deflate\-\_\-state@{deflate\-\_\-state}!deflate.h@{deflate.\-h}}
+\subsubsection[{deflate\-\_\-state}]{\setlength{\rightskip}{0pt plus 5cm}typedef {\bf struct} {\bf internal\-\_\-state} {\bf deflate\-\_\-state}}}\label{deflate_8h_aeaabc84f4830ec10deb9b64bd719617a}
+\hypertarget{deflate_8h_ada696b787a46d01634b6365afcec1a9e}{\index{deflate.\-h@{deflate.\-h}!I\-Pos@{I\-Pos}}
+\index{I\-Pos@{I\-Pos}!deflate.h@{deflate.\-h}}
+\subsubsection[{I\-Pos}]{\setlength{\rightskip}{0pt plus 5cm}typedef unsigned {\bf I\-Pos}}}\label{deflate_8h_ada696b787a46d01634b6365afcec1a9e}
+
+
+Definition at line 88 of file deflate.\-h.
+
+\hypertarget{deflate_8h_a80a8610ae675eaeead82013bacde10a1}{\index{deflate.\-h@{deflate.\-h}!Pos@{Pos}}
+\index{Pos@{Pos}!deflate.h@{deflate.\-h}}
+\subsubsection[{Pos}]{\setlength{\rightskip}{0pt plus 5cm}typedef {\bf ush} {\bf Pos}}}\label{deflate_8h_a80a8610ae675eaeead82013bacde10a1}
+
+
+Definition at line 86 of file deflate.\-h.
+
+\hypertarget{deflate_8h_a7fc422ecb86afdd5f330dad6f7c1136b}{\index{deflate.\-h@{deflate.\-h}!Posf@{Posf}}
+\index{Posf@{Posf}!deflate.h@{deflate.\-h}}
+\subsubsection[{Posf}]{\setlength{\rightskip}{0pt plus 5cm}typedef {\bf Pos} F\-A\-R {\bf Posf}}}\label{deflate_8h_a7fc422ecb86afdd5f330dad6f7c1136b}
+
+
+Definition at line 87 of file deflate.\-h.
+
+\hypertarget{deflate_8h_a905910aabf6aabbe79ff0832e4a664cc}{\index{deflate.\-h@{deflate.\-h}!static\-\_\-tree\-\_\-desc@{static\-\_\-tree\-\_\-desc}}
+\index{static\-\_\-tree\-\_\-desc@{static\-\_\-tree\-\_\-desc}!deflate.h@{deflate.\-h}}
+\subsubsection[{static\-\_\-tree\-\_\-desc}]{\setlength{\rightskip}{0pt plus 5cm}typedef {\bf struct} {\bf static\-\_\-tree\-\_\-desc\-\_\-s} {\bf static\-\_\-tree\-\_\-desc}}}\label{deflate_8h_a905910aabf6aabbe79ff0832e4a664cc}
+
+
+Definition at line 78 of file deflate.\-h.
+
+\hypertarget{deflate_8h_ae978a66d78f0d68f945f48951f9151ff}{\index{deflate.\-h@{deflate.\-h}!tree\-\_\-desc@{tree\-\_\-desc}}
+\index{tree\-\_\-desc@{tree\-\_\-desc}!deflate.h@{deflate.\-h}}
+\subsubsection[{tree\-\_\-desc}]{\setlength{\rightskip}{0pt plus 5cm}typedef {\bf struct} {\bf tree\-\_\-desc\-\_\-s} {\bf tree\-\_\-desc}}}\label{deflate_8h_ae978a66d78f0d68f945f48951f9151ff}
+
+
+\subsection{Function Documentation}
+\hypertarget{deflate_8h_a7421434e97aacf6ea4ddd238d18bf9c8}{\index{deflate.\-h@{deflate.\-h}!O\-F@{O\-F}}
+\index{O\-F@{O\-F}!deflate.h@{deflate.\-h}}
+\subsubsection[{O\-F}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-\_\-tr\-\_\-init} O\-F (
+\begin{DoxyParamCaption}
+\item[{({\bf deflate\-\_\-state} $\ast${\bf s})}]{}
+\end{DoxyParamCaption}
+)}}\label{deflate_8h_a7421434e97aacf6ea4ddd238d18bf9c8}
+\hypertarget{deflate_8h_ad2b29e535c13f6bfd762db8d1dd3bb3f}{\index{deflate.\-h@{deflate.\-h}!O\-F@{O\-F}}
+\index{O\-F@{O\-F}!deflate.h@{deflate.\-h}}
+\subsubsection[{O\-F}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int} \-\_\-tr\-\_\-tally O\-F (
+\begin{DoxyParamCaption}
+\item[{({\bf deflate\-\_\-state} $\ast${\bf s}, unsigned dist, unsigned lc)}]{}
+\end{DoxyParamCaption}
+)}}\label{deflate_8h_ad2b29e535c13f6bfd762db8d1dd3bb3f}
+\hypertarget{deflate_8h_af8aa63aa73ba838890d15dddb92e2360}{\index{deflate.\-h@{deflate.\-h}!O\-F@{O\-F}}
+\index{O\-F@{O\-F}!deflate.h@{deflate.\-h}}
+\subsubsection[{O\-F}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-\_\-tr\-\_\-flush\-\_\-block} O\-F (
+\begin{DoxyParamCaption}
+\item[{({\bf deflate\-\_\-state} $\ast${\bf s}, {\bf charf} $\ast${\bf buf}, {\bf ulg} stored\-\_\-len, {\bf int} eof)}]{}
+\end{DoxyParamCaption}
+)}}\label{deflate_8h_af8aa63aa73ba838890d15dddb92e2360}
+
+
+\subsection{Variable Documentation}
+\hypertarget{deflate_8h_a6a1e8be99c9dc5e94e0ec12b9837cc18}{\index{deflate.\-h@{deflate.\-h}!\-\_\-dist\-\_\-code@{\-\_\-dist\-\_\-code}}
+\index{\-\_\-dist\-\_\-code@{\-\_\-dist\-\_\-code}!deflate.h@{deflate.\-h}}
+\subsubsection[{\-\_\-dist\-\_\-code}]{\setlength{\rightskip}{0pt plus 5cm}const {\bf uch} \-\_\-dist\-\_\-code}}\label{deflate_8h_a6a1e8be99c9dc5e94e0ec12b9837cc18}
+
+
+Definition at line 305 of file deflate.\-h.
+
+\hypertarget{deflate_8h_a66c0da5310f9b9dc4c5b5df466b85fdc}{\index{deflate.\-h@{deflate.\-h}!\-\_\-length\-\_\-code@{\-\_\-length\-\_\-code}}
+\index{\-\_\-length\-\_\-code@{\-\_\-length\-\_\-code}!deflate.h@{deflate.\-h}}
+\subsubsection[{\-\_\-length\-\_\-code}]{\setlength{\rightskip}{0pt plus 5cm}const {\bf uch} \-\_\-length\-\_\-code}}\label{deflate_8h_a66c0da5310f9b9dc4c5b5df466b85fdc}
+
+
+Definition at line 304 of file deflate.\-h.
+

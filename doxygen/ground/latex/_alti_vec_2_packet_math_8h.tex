@@ -1,0 +1,503 @@
+\hypertarget{_alti_vec_2_packet_math_8h}{\section{/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/eigen/\-Eigen/src/\-Core/arch/\-Alti\-Vec/\-Packet\-Math.h File Reference}
+\label{_alti_vec_2_packet_math_8h}\index{/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/eigen/\-Eigen/src/\-Core/arch/\-Alti\-Vec/\-Packet\-Math.\-h@{/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/eigen/\-Eigen/src/\-Core/arch/\-Alti\-Vec/\-Packet\-Math.\-h}}
+}
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structei__packet__traits_3_01float_01_4}{ei\-\_\-packet\-\_\-traits$<$ float $>$}
+\item 
+struct \hyperlink{structei__packet__traits_3_01int_01_4}{ei\-\_\-packet\-\_\-traits$<$ int $>$}
+\item 
+struct \hyperlink{structei__unpacket__traits_3_01v4f_01_4}{ei\-\_\-unpacket\-\_\-traits$<$ v4f $>$}
+\item 
+struct \hyperlink{structei__unpacket__traits_3_01v4i_01_4}{ei\-\_\-unpacket\-\_\-traits$<$ v4i $>$}
+\item 
+struct \hyperlink{structei__palign__impl_3_01_offset_00_01v4f_01_4}{ei\-\_\-palign\-\_\-impl$<$ Offset, v4f $>$}
+\item 
+struct \hyperlink{structei__palign__impl_3_01_offset_00_01v4i_01_4}{ei\-\_\-palign\-\_\-impl$<$ Offset, v4i $>$}
+\end{DoxyCompactItemize}
+\subsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef \-\_\-\-\_\-vector \hyperlink{_super_l_u_support_8h_a6a1bb6ed41f44b60e7bd83b0e9945aa7}{float} \hyperlink{_alti_vec_2_packet_math_8h_a797e34bb4901532e01ef24c9f9458bf2}{v4f}
+\item 
+typedef \-\_\-\-\_\-vector \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{_alti_vec_2_packet_math_8h_a04a2325bab18a1292103e0dd8ef1046b}{v4i}
+\item 
+typedef \-\_\-\-\_\-vector unsigned \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{_alti_vec_2_packet_math_8h_a5cb578adeb62f95c1aafc8049af19d55}{v4ui}
+\item 
+typedef \-\_\-\-\_\-vector \-\_\-\-\_\-bool \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{_alti_vec_2_packet_math_8h_a048818049913fac041692ee42f0fdb29}{v4bi}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+std\-::ostream \& \hyperlink{_alti_vec_2_packet_math_8h_a97c05cb24877456c2115d6e158db9fe1}{operator$<$$<$} (std\-::ostream \&\hyperlink{glext_8h_ad585a1393cfa368fa9dc3d8ebff640d5}{s}, const \hyperlink{_alti_vec_2_packet_math_8h_a797e34bb4901532e01ef24c9f9458bf2}{v4f} \&\hyperlink{glext_8h_a14cfbe2fc2234f5504618905b69d1e06}{v})
+\item 
+std\-::ostream \& \hyperlink{_alti_vec_2_packet_math_8h_a721ed001aa6bad95be2263469fc4f9a3}{operator$<$$<$} (std\-::ostream \&\hyperlink{glext_8h_ad585a1393cfa368fa9dc3d8ebff640d5}{s}, const \hyperlink{_alti_vec_2_packet_math_8h_a04a2325bab18a1292103e0dd8ef1046b}{v4i} \&\hyperlink{glext_8h_a14cfbe2fc2234f5504618905b69d1e06}{v})
+\item 
+std\-::ostream \& \hyperlink{_alti_vec_2_packet_math_8h_afff71bbff57ce04705f957d856bb5cc1}{operator$<$$<$} (std\-::ostream \&\hyperlink{glext_8h_ad585a1393cfa368fa9dc3d8ebff640d5}{s}, const \hyperlink{_alti_vec_2_packet_math_8h_a5cb578adeb62f95c1aafc8049af19d55}{v4ui} \&\hyperlink{glext_8h_a14cfbe2fc2234f5504618905b69d1e06}{v})
+\item 
+std\-::ostream \& \hyperlink{_alti_vec_2_packet_math_8h_a9d7c17a5b5bb6fa16277485cdef3a0ed}{operator$<$$<$} (std\-::ostream \&\hyperlink{glext_8h_ad585a1393cfa368fa9dc3d8ebff640d5}{s}, const \hyperlink{_alti_vec_2_packet_math_8h_a048818049913fac041692ee42f0fdb29}{v4bi} \&\hyperlink{glext_8h_a14cfbe2fc2234f5504618905b69d1e06}{v})
+\item 
+{\footnotesize template$<$$>$ }\\\hyperlink{_alti_vec_2_packet_math_8h_a797e34bb4901532e01ef24c9f9458bf2}{v4f} \hyperlink{_alti_vec_2_packet_math_8h_afcfbf70cb5e28b5863fcb7d02c5bce36}{ei\-\_\-padd} (const \hyperlink{_alti_vec_2_packet_math_8h_a797e34bb4901532e01ef24c9f9458bf2}{v4f} \&\hyperlink{glext_8h_ac8729153468b5dcf13f971b21d84d4e5}{a}, const \hyperlink{_alti_vec_2_packet_math_8h_a797e34bb4901532e01ef24c9f9458bf2}{v4f} \&\hyperlink{glext_8h_a6eba317e3cf44d6d26c04a5a8f197dcb}{b})
+\item 
+{\footnotesize template$<$$>$ }\\\hyperlink{_alti_vec_2_packet_math_8h_a04a2325bab18a1292103e0dd8ef1046b}{v4i} \hyperlink{_alti_vec_2_packet_math_8h_a24d9b74929206f1ca4a8caae52b4362f}{ei\-\_\-padd} (const \hyperlink{_alti_vec_2_packet_math_8h_a04a2325bab18a1292103e0dd8ef1046b}{v4i} \&\hyperlink{glext_8h_ac8729153468b5dcf13f971b21d84d4e5}{a}, const \hyperlink{_alti_vec_2_packet_math_8h_a04a2325bab18a1292103e0dd8ef1046b}{v4i} \&\hyperlink{glext_8h_a6eba317e3cf44d6d26c04a5a8f197dcb}{b})
+\item 
+{\footnotesize template$<$$>$ }\\\hyperlink{_alti_vec_2_packet_math_8h_a797e34bb4901532e01ef24c9f9458bf2}{v4f} \hyperlink{_alti_vec_2_packet_math_8h_a0e46d0adfe8fdbb9b1442daf385d3b68}{ei\-\_\-psub} (const \hyperlink{_alti_vec_2_packet_math_8h_a797e34bb4901532e01ef24c9f9458bf2}{v4f} \&\hyperlink{glext_8h_ac8729153468b5dcf13f971b21d84d4e5}{a}, const \hyperlink{_alti_vec_2_packet_math_8h_a797e34bb4901532e01ef24c9f9458bf2}{v4f} \&\hyperlink{glext_8h_a6eba317e3cf44d6d26c04a5a8f197dcb}{b})
+\item 
+{\footnotesize template$<$$>$ }\\\hyperlink{_alti_vec_2_packet_math_8h_a04a2325bab18a1292103e0dd8ef1046b}{v4i} \hyperlink{_alti_vec_2_packet_math_8h_aac844ac1c55b258c9a084eeb418ef8fc}{ei\-\_\-psub} (const \hyperlink{_alti_vec_2_packet_math_8h_a04a2325bab18a1292103e0dd8ef1046b}{v4i} \&\hyperlink{glext_8h_ac8729153468b5dcf13f971b21d84d4e5}{a}, const \hyperlink{_alti_vec_2_packet_math_8h_a04a2325bab18a1292103e0dd8ef1046b}{v4i} \&\hyperlink{glext_8h_a6eba317e3cf44d6d26c04a5a8f197dcb}{b})
+\item 
+{\footnotesize template$<$$>$ }\\\hyperlink{_alti_vec_2_packet_math_8h_a797e34bb4901532e01ef24c9f9458bf2}{v4f} \hyperlink{_alti_vec_2_packet_math_8h_af7a111a08e54e1ad72b016ac708a5980}{ei\-\_\-pmul} (const \hyperlink{_alti_vec_2_packet_math_8h_a797e34bb4901532e01ef24c9f9458bf2}{v4f} \&\hyperlink{glext_8h_ac8729153468b5dcf13f971b21d84d4e5}{a}, const \hyperlink{_alti_vec_2_packet_math_8h_a797e34bb4901532e01ef24c9f9458bf2}{v4f} \&\hyperlink{glext_8h_a6eba317e3cf44d6d26c04a5a8f197dcb}{b})
+\item 
+{\footnotesize template$<$$>$ }\\\hyperlink{_alti_vec_2_packet_math_8h_a04a2325bab18a1292103e0dd8ef1046b}{v4i} \hyperlink{_alti_vec_2_packet_math_8h_ab011a32e854f5133e3c1fbde13d3b36a}{ei\-\_\-pmul} (const \hyperlink{_alti_vec_2_packet_math_8h_a04a2325bab18a1292103e0dd8ef1046b}{v4i} \&\hyperlink{glext_8h_ac8729153468b5dcf13f971b21d84d4e5}{a}, const \hyperlink{_alti_vec_2_packet_math_8h_a04a2325bab18a1292103e0dd8ef1046b}{v4i} \&\hyperlink{glext_8h_a6eba317e3cf44d6d26c04a5a8f197dcb}{b})
+\item 
+{\footnotesize template$<$$>$ }\\\hyperlink{_alti_vec_2_packet_math_8h_a797e34bb4901532e01ef24c9f9458bf2}{v4f} \hyperlink{_alti_vec_2_packet_math_8h_a0b21eb3e7c37f77412be4a3c2cde65e7}{ei\-\_\-pdiv} (const \hyperlink{_alti_vec_2_packet_math_8h_a797e34bb4901532e01ef24c9f9458bf2}{v4f} \&\hyperlink{glext_8h_ac8729153468b5dcf13f971b21d84d4e5}{a}, const \hyperlink{_alti_vec_2_packet_math_8h_a797e34bb4901532e01ef24c9f9458bf2}{v4f} \&\hyperlink{glext_8h_a6eba317e3cf44d6d26c04a5a8f197dcb}{b})
+\item 
+{\footnotesize template$<$$>$ }\\\hyperlink{_alti_vec_2_packet_math_8h_a797e34bb4901532e01ef24c9f9458bf2}{v4f} \hyperlink{_alti_vec_2_packet_math_8h_a9323e644262a03cd6b795d8be37ec44e}{ei\-\_\-pmadd} (const \hyperlink{_alti_vec_2_packet_math_8h_a797e34bb4901532e01ef24c9f9458bf2}{v4f} \&\hyperlink{glext_8h_ac8729153468b5dcf13f971b21d84d4e5}{a}, const \hyperlink{_alti_vec_2_packet_math_8h_a797e34bb4901532e01ef24c9f9458bf2}{v4f} \&\hyperlink{glext_8h_a6eba317e3cf44d6d26c04a5a8f197dcb}{b}, const \hyperlink{_alti_vec_2_packet_math_8h_a797e34bb4901532e01ef24c9f9458bf2}{v4f} \&\hyperlink{glext_8h_a1f2d7f8147412c43ba2303a56f97ee73}{c})
+\item 
+{\footnotesize template$<$$>$ }\\\hyperlink{_alti_vec_2_packet_math_8h_a797e34bb4901532e01ef24c9f9458bf2}{v4f} \hyperlink{_alti_vec_2_packet_math_8h_a041b121890a62cd109cbdc00b7e39d26}{ei\-\_\-pmin} (const \hyperlink{_alti_vec_2_packet_math_8h_a797e34bb4901532e01ef24c9f9458bf2}{v4f} \&\hyperlink{glext_8h_ac8729153468b5dcf13f971b21d84d4e5}{a}, const \hyperlink{_alti_vec_2_packet_math_8h_a797e34bb4901532e01ef24c9f9458bf2}{v4f} \&\hyperlink{glext_8h_a6eba317e3cf44d6d26c04a5a8f197dcb}{b})
+\item 
+{\footnotesize template$<$$>$ }\\\hyperlink{_alti_vec_2_packet_math_8h_a04a2325bab18a1292103e0dd8ef1046b}{v4i} \hyperlink{_alti_vec_2_packet_math_8h_a2b5cc44aa56a4958ef670e7a84542da2}{ei\-\_\-pmin} (const \hyperlink{_alti_vec_2_packet_math_8h_a04a2325bab18a1292103e0dd8ef1046b}{v4i} \&\hyperlink{glext_8h_ac8729153468b5dcf13f971b21d84d4e5}{a}, const \hyperlink{_alti_vec_2_packet_math_8h_a04a2325bab18a1292103e0dd8ef1046b}{v4i} \&\hyperlink{glext_8h_a6eba317e3cf44d6d26c04a5a8f197dcb}{b})
+\item 
+{\footnotesize template$<$$>$ }\\\hyperlink{_alti_vec_2_packet_math_8h_a797e34bb4901532e01ef24c9f9458bf2}{v4f} \hyperlink{_alti_vec_2_packet_math_8h_a280a37f93483e304233133c73717c20e}{ei\-\_\-pmax} (const \hyperlink{_alti_vec_2_packet_math_8h_a797e34bb4901532e01ef24c9f9458bf2}{v4f} \&\hyperlink{glext_8h_ac8729153468b5dcf13f971b21d84d4e5}{a}, const \hyperlink{_alti_vec_2_packet_math_8h_a797e34bb4901532e01ef24c9f9458bf2}{v4f} \&\hyperlink{glext_8h_a6eba317e3cf44d6d26c04a5a8f197dcb}{b})
+\item 
+{\footnotesize template$<$$>$ }\\\hyperlink{_alti_vec_2_packet_math_8h_a04a2325bab18a1292103e0dd8ef1046b}{v4i} \hyperlink{_alti_vec_2_packet_math_8h_a0d2d3b93c8cc94c39329c6e10b7301ba}{ei\-\_\-pmax} (const \hyperlink{_alti_vec_2_packet_math_8h_a04a2325bab18a1292103e0dd8ef1046b}{v4i} \&\hyperlink{glext_8h_ac8729153468b5dcf13f971b21d84d4e5}{a}, const \hyperlink{_alti_vec_2_packet_math_8h_a04a2325bab18a1292103e0dd8ef1046b}{v4i} \&\hyperlink{glext_8h_a6eba317e3cf44d6d26c04a5a8f197dcb}{b})
+\item 
+{\footnotesize template$<$$>$ }\\\hyperlink{_alti_vec_2_packet_math_8h_a797e34bb4901532e01ef24c9f9458bf2}{v4f} \hyperlink{_alti_vec_2_packet_math_8h_a78553da89cca700d46f0dc8fc9c88899}{ei\-\_\-pload} (const \hyperlink{_super_l_u_support_8h_a6a1bb6ed41f44b60e7bd83b0e9945aa7}{float} $\ast$from)
+\item 
+{\footnotesize template$<$$>$ }\\\hyperlink{_alti_vec_2_packet_math_8h_a04a2325bab18a1292103e0dd8ef1046b}{v4i} \hyperlink{_alti_vec_2_packet_math_8h_a95095dac1fd1494e11b214aca5521000}{ei\-\_\-pload} (const \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} $\ast$from)
+\item 
+{\footnotesize template$<$$>$ }\\\hyperlink{_alti_vec_2_packet_math_8h_a797e34bb4901532e01ef24c9f9458bf2}{v4f} \hyperlink{_alti_vec_2_packet_math_8h_a5595da7f33f7fa13a85eb4b7b9685650}{ei\-\_\-ploadu} (const \hyperlink{_super_l_u_support_8h_a6a1bb6ed41f44b60e7bd83b0e9945aa7}{float} $\ast$from)
+\item 
+{\footnotesize template$<$$>$ }\\\hyperlink{_alti_vec_2_packet_math_8h_a04a2325bab18a1292103e0dd8ef1046b}{v4i} \hyperlink{_alti_vec_2_packet_math_8h_aa941354cb9339bf774eec7910bd7bb85}{ei\-\_\-ploadu} (const \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} $\ast$from)
+\item 
+{\footnotesize template$<$$>$ }\\\hyperlink{_alti_vec_2_packet_math_8h_a797e34bb4901532e01ef24c9f9458bf2}{v4f} \hyperlink{_alti_vec_2_packet_math_8h_aacd52ed2ee83ac44540ab675a174f7a0}{ei\-\_\-pset1} (const \hyperlink{_super_l_u_support_8h_a6a1bb6ed41f44b60e7bd83b0e9945aa7}{float} \&from)
+\item 
+{\footnotesize template$<$$>$ }\\\hyperlink{_alti_vec_2_packet_math_8h_a04a2325bab18a1292103e0dd8ef1046b}{v4i} \hyperlink{_alti_vec_2_packet_math_8h_ab4d95106e7e3e34ec568bad4612c5cbb}{ei\-\_\-pset1} (const \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \&from)
+\item 
+{\footnotesize template$<$$>$ }\\\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{_alti_vec_2_packet_math_8h_a84a5a3a271ac580b5cca1cc009ae072a}{ei\-\_\-pstore} (\hyperlink{_super_l_u_support_8h_a6a1bb6ed41f44b60e7bd83b0e9945aa7}{float} $\ast$to, const \hyperlink{_alti_vec_2_packet_math_8h_a797e34bb4901532e01ef24c9f9458bf2}{v4f} \&from)
+\item 
+{\footnotesize template$<$$>$ }\\\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{_alti_vec_2_packet_math_8h_a4ef70ccc8813e83986e884c9da9264e1}{ei\-\_\-pstore} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} $\ast$to, const \hyperlink{_alti_vec_2_packet_math_8h_a04a2325bab18a1292103e0dd8ef1046b}{v4i} \&from)
+\item 
+{\footnotesize template$<$$>$ }\\\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{_alti_vec_2_packet_math_8h_a37f58b518ec881173c114b27ff104044}{ei\-\_\-pstoreu} (\hyperlink{_super_l_u_support_8h_a6a1bb6ed41f44b60e7bd83b0e9945aa7}{float} $\ast$to, const \hyperlink{_alti_vec_2_packet_math_8h_a797e34bb4901532e01ef24c9f9458bf2}{v4f} \&from)
+\item 
+{\footnotesize template$<$$>$ }\\\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{_alti_vec_2_packet_math_8h_aec89517fc2a1777c03aeff40c95ed461}{ei\-\_\-pstoreu} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} $\ast$to, const \hyperlink{_alti_vec_2_packet_math_8h_a04a2325bab18a1292103e0dd8ef1046b}{v4i} \&from)
+\item 
+{\footnotesize template$<$$>$ }\\\hyperlink{_super_l_u_support_8h_a6a1bb6ed41f44b60e7bd83b0e9945aa7}{float} \hyperlink{_alti_vec_2_packet_math_8h_add66517b75a20abb7706005a7ea632bc}{ei\-\_\-pfirst} (const \hyperlink{_alti_vec_2_packet_math_8h_a797e34bb4901532e01ef24c9f9458bf2}{v4f} \&\hyperlink{glext_8h_ac8729153468b5dcf13f971b21d84d4e5}{a})
+\item 
+{\footnotesize template$<$$>$ }\\\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{_alti_vec_2_packet_math_8h_ac087d281968cae2beb444948bb3d92ab}{ei\-\_\-pfirst} (const \hyperlink{_alti_vec_2_packet_math_8h_a04a2325bab18a1292103e0dd8ef1046b}{v4i} \&\hyperlink{glext_8h_ac8729153468b5dcf13f971b21d84d4e5}{a})
+\item 
+\hyperlink{_alti_vec_2_packet_math_8h_a797e34bb4901532e01ef24c9f9458bf2}{v4f} \hyperlink{_alti_vec_2_packet_math_8h_adf1a42b20b5f0ccfee3f2b9c663412e7}{ei\-\_\-preduxp} (const \hyperlink{_alti_vec_2_packet_math_8h_a797e34bb4901532e01ef24c9f9458bf2}{v4f} $\ast$vecs)
+\item 
+\hyperlink{_super_l_u_support_8h_a6a1bb6ed41f44b60e7bd83b0e9945aa7}{float} \hyperlink{_alti_vec_2_packet_math_8h_ad0cb8d593646e00107d54ec4f6c34708}{ei\-\_\-predux} (const \hyperlink{_alti_vec_2_packet_math_8h_a797e34bb4901532e01ef24c9f9458bf2}{v4f} \&\hyperlink{glext_8h_ac8729153468b5dcf13f971b21d84d4e5}{a})
+\item 
+\hyperlink{_alti_vec_2_packet_math_8h_a04a2325bab18a1292103e0dd8ef1046b}{v4i} \hyperlink{_alti_vec_2_packet_math_8h_a0b7eeb9e4b8f532ae6be460e0598c13b}{ei\-\_\-preduxp} (const \hyperlink{_alti_vec_2_packet_math_8h_a04a2325bab18a1292103e0dd8ef1046b}{v4i} $\ast$vecs)
+\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{_alti_vec_2_packet_math_8h_acc43ff883ebc5be64e07791f64549de8}{ei\-\_\-predux} (const \hyperlink{_alti_vec_2_packet_math_8h_a04a2325bab18a1292103e0dd8ef1046b}{v4i} \&\hyperlink{glext_8h_ac8729153468b5dcf13f971b21d84d4e5}{a})
+\end{DoxyCompactItemize}
+
+
+\subsection{Typedef Documentation}
+\hypertarget{_alti_vec_2_packet_math_8h_a048818049913fac041692ee42f0fdb29}{\index{Alti\-Vec/\-Packet\-Math.\-h@{Alti\-Vec/\-Packet\-Math.\-h}!v4bi@{v4bi}}
+\index{v4bi@{v4bi}!AltiVec/PacketMath.h@{Alti\-Vec/\-Packet\-Math.\-h}}
+\subsubsection[{v4bi}]{\setlength{\rightskip}{0pt plus 5cm}typedef \-\_\-\-\_\-vector \-\_\-\-\_\-bool {\bf int} {\bf v4bi}}}\label{_alti_vec_2_packet_math_8h_a048818049913fac041692ee42f0fdb29}
+
+
+Definition at line 35 of file Packet\-Math.\-h.
+
+\hypertarget{_alti_vec_2_packet_math_8h_a797e34bb4901532e01ef24c9f9458bf2}{\index{Alti\-Vec/\-Packet\-Math.\-h@{Alti\-Vec/\-Packet\-Math.\-h}!v4f@{v4f}}
+\index{v4f@{v4f}!AltiVec/PacketMath.h@{Alti\-Vec/\-Packet\-Math.\-h}}
+\subsubsection[{v4f}]{\setlength{\rightskip}{0pt plus 5cm}typedef \-\_\-\-\_\-vector {\bf float} {\bf v4f}}}\label{_alti_vec_2_packet_math_8h_a797e34bb4901532e01ef24c9f9458bf2}
+
+
+Definition at line 32 of file Packet\-Math.\-h.
+
+\hypertarget{_alti_vec_2_packet_math_8h_a04a2325bab18a1292103e0dd8ef1046b}{\index{Alti\-Vec/\-Packet\-Math.\-h@{Alti\-Vec/\-Packet\-Math.\-h}!v4i@{v4i}}
+\index{v4i@{v4i}!AltiVec/PacketMath.h@{Alti\-Vec/\-Packet\-Math.\-h}}
+\subsubsection[{v4i}]{\setlength{\rightskip}{0pt plus 5cm}typedef \-\_\-\-\_\-vector {\bf int} {\bf v4i}}}\label{_alti_vec_2_packet_math_8h_a04a2325bab18a1292103e0dd8ef1046b}
+
+
+Definition at line 33 of file Packet\-Math.\-h.
+
+\hypertarget{_alti_vec_2_packet_math_8h_a5cb578adeb62f95c1aafc8049af19d55}{\index{Alti\-Vec/\-Packet\-Math.\-h@{Alti\-Vec/\-Packet\-Math.\-h}!v4ui@{v4ui}}
+\index{v4ui@{v4ui}!AltiVec/PacketMath.h@{Alti\-Vec/\-Packet\-Math.\-h}}
+\subsubsection[{v4ui}]{\setlength{\rightskip}{0pt plus 5cm}typedef \-\_\-\-\_\-vector unsigned {\bf int} {\bf v4ui}}}\label{_alti_vec_2_packet_math_8h_a5cb578adeb62f95c1aafc8049af19d55}
+
+
+Definition at line 34 of file Packet\-Math.\-h.
+
+
+
+\subsection{Function Documentation}
+\hypertarget{_alti_vec_2_packet_math_8h_afcfbf70cb5e28b5863fcb7d02c5bce36}{\index{Alti\-Vec/\-Packet\-Math.\-h@{Alti\-Vec/\-Packet\-Math.\-h}!ei\-\_\-padd@{ei\-\_\-padd}}
+\index{ei\-\_\-padd@{ei\-\_\-padd}!AltiVec/PacketMath.h@{Alti\-Vec/\-Packet\-Math.\-h}}
+\subsubsection[{ei\-\_\-padd}]{\setlength{\rightskip}{0pt plus 5cm}template$<$$>$ {\bf v4f} ei\-\_\-padd (
+\begin{DoxyParamCaption}
+\item[{const {\bf v4f} \&}]{a, }
+\item[{const {\bf v4f} \&}]{b}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{_alti_vec_2_packet_math_8h_afcfbf70cb5e28b5863fcb7d02c5bce36}
+
+
+Definition at line 98 of file Packet\-Math.\-h.
+
+\hypertarget{_alti_vec_2_packet_math_8h_a24d9b74929206f1ca4a8caae52b4362f}{\index{Alti\-Vec/\-Packet\-Math.\-h@{Alti\-Vec/\-Packet\-Math.\-h}!ei\-\_\-padd@{ei\-\_\-padd}}
+\index{ei\-\_\-padd@{ei\-\_\-padd}!AltiVec/PacketMath.h@{Alti\-Vec/\-Packet\-Math.\-h}}
+\subsubsection[{ei\-\_\-padd}]{\setlength{\rightskip}{0pt plus 5cm}template$<$$>$ {\bf v4i} ei\-\_\-padd (
+\begin{DoxyParamCaption}
+\item[{const {\bf v4i} \&}]{a, }
+\item[{const {\bf v4i} \&}]{b}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{_alti_vec_2_packet_math_8h_a24d9b74929206f1ca4a8caae52b4362f}
+
+
+Definition at line 99 of file Packet\-Math.\-h.
+
+\hypertarget{_alti_vec_2_packet_math_8h_a0b21eb3e7c37f77412be4a3c2cde65e7}{\index{Alti\-Vec/\-Packet\-Math.\-h@{Alti\-Vec/\-Packet\-Math.\-h}!ei\-\_\-pdiv@{ei\-\_\-pdiv}}
+\index{ei\-\_\-pdiv@{ei\-\_\-pdiv}!AltiVec/PacketMath.h@{Alti\-Vec/\-Packet\-Math.\-h}}
+\subsubsection[{ei\-\_\-pdiv}]{\setlength{\rightskip}{0pt plus 5cm}template$<$$>$ {\bf v4f} ei\-\_\-pdiv (
+\begin{DoxyParamCaption}
+\item[{const {\bf v4f} \&}]{a, }
+\item[{const {\bf v4f} \&}]{b}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{_alti_vec_2_packet_math_8h_a0b21eb3e7c37f77412be4a3c2cde65e7}
+
+
+Definition at line 142 of file Packet\-Math.\-h.
+
+\hypertarget{_alti_vec_2_packet_math_8h_add66517b75a20abb7706005a7ea632bc}{\index{Alti\-Vec/\-Packet\-Math.\-h@{Alti\-Vec/\-Packet\-Math.\-h}!ei\-\_\-pfirst@{ei\-\_\-pfirst}}
+\index{ei\-\_\-pfirst@{ei\-\_\-pfirst}!AltiVec/PacketMath.h@{Alti\-Vec/\-Packet\-Math.\-h}}
+\subsubsection[{ei\-\_\-pfirst}]{\setlength{\rightskip}{0pt plus 5cm}template$<$$>$ {\bf float} ei\-\_\-pfirst (
+\begin{DoxyParamCaption}
+\item[{const {\bf v4f} \&}]{a}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{_alti_vec_2_packet_math_8h_add66517b75a20abb7706005a7ea632bc}
+
+
+Definition at line 249 of file Packet\-Math.\-h.
+
+\hypertarget{_alti_vec_2_packet_math_8h_ac087d281968cae2beb444948bb3d92ab}{\index{Alti\-Vec/\-Packet\-Math.\-h@{Alti\-Vec/\-Packet\-Math.\-h}!ei\-\_\-pfirst@{ei\-\_\-pfirst}}
+\index{ei\-\_\-pfirst@{ei\-\_\-pfirst}!AltiVec/PacketMath.h@{Alti\-Vec/\-Packet\-Math.\-h}}
+\subsubsection[{ei\-\_\-pfirst}]{\setlength{\rightskip}{0pt plus 5cm}template$<$$>$ {\bf int} ei\-\_\-pfirst (
+\begin{DoxyParamCaption}
+\item[{const {\bf v4i} \&}]{a}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{_alti_vec_2_packet_math_8h_ac087d281968cae2beb444948bb3d92ab}
+
+
+Definition at line 256 of file Packet\-Math.\-h.
+
+\hypertarget{_alti_vec_2_packet_math_8h_a78553da89cca700d46f0dc8fc9c88899}{\index{Alti\-Vec/\-Packet\-Math.\-h@{Alti\-Vec/\-Packet\-Math.\-h}!ei\-\_\-pload@{ei\-\_\-pload}}
+\index{ei\-\_\-pload@{ei\-\_\-pload}!AltiVec/PacketMath.h@{Alti\-Vec/\-Packet\-Math.\-h}}
+\subsubsection[{ei\-\_\-pload}]{\setlength{\rightskip}{0pt plus 5cm}template$<$$>$ {\bf v4f} ei\-\_\-pload (
+\begin{DoxyParamCaption}
+\item[{const {\bf float} $\ast$}]{from}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{_alti_vec_2_packet_math_8h_a78553da89cca700d46f0dc8fc9c88899}
+
+
+Definition at line 166 of file Packet\-Math.\-h.
+
+\hypertarget{_alti_vec_2_packet_math_8h_a95095dac1fd1494e11b214aca5521000}{\index{Alti\-Vec/\-Packet\-Math.\-h@{Alti\-Vec/\-Packet\-Math.\-h}!ei\-\_\-pload@{ei\-\_\-pload}}
+\index{ei\-\_\-pload@{ei\-\_\-pload}!AltiVec/PacketMath.h@{Alti\-Vec/\-Packet\-Math.\-h}}
+\subsubsection[{ei\-\_\-pload}]{\setlength{\rightskip}{0pt plus 5cm}template$<$$>$ {\bf v4i} ei\-\_\-pload (
+\begin{DoxyParamCaption}
+\item[{const {\bf int} $\ast$}]{from}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{_alti_vec_2_packet_math_8h_a95095dac1fd1494e11b214aca5521000}
+
+
+Definition at line 167 of file Packet\-Math.\-h.
+
+\hypertarget{_alti_vec_2_packet_math_8h_a5595da7f33f7fa13a85eb4b7b9685650}{\index{Alti\-Vec/\-Packet\-Math.\-h@{Alti\-Vec/\-Packet\-Math.\-h}!ei\-\_\-ploadu@{ei\-\_\-ploadu}}
+\index{ei\-\_\-ploadu@{ei\-\_\-ploadu}!AltiVec/PacketMath.h@{Alti\-Vec/\-Packet\-Math.\-h}}
+\subsubsection[{ei\-\_\-ploadu}]{\setlength{\rightskip}{0pt plus 5cm}template$<$$>$ {\bf v4f} ei\-\_\-ploadu (
+\begin{DoxyParamCaption}
+\item[{const {\bf float} $\ast$}]{from}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{_alti_vec_2_packet_math_8h_a5595da7f33f7fa13a85eb4b7b9685650}
+
+
+Definition at line 169 of file Packet\-Math.\-h.
+
+\hypertarget{_alti_vec_2_packet_math_8h_aa941354cb9339bf774eec7910bd7bb85}{\index{Alti\-Vec/\-Packet\-Math.\-h@{Alti\-Vec/\-Packet\-Math.\-h}!ei\-\_\-ploadu@{ei\-\_\-ploadu}}
+\index{ei\-\_\-ploadu@{ei\-\_\-ploadu}!AltiVec/PacketMath.h@{Alti\-Vec/\-Packet\-Math.\-h}}
+\subsubsection[{ei\-\_\-ploadu}]{\setlength{\rightskip}{0pt plus 5cm}template$<$$>$ {\bf v4i} ei\-\_\-ploadu (
+\begin{DoxyParamCaption}
+\item[{const {\bf int} $\ast$}]{from}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{_alti_vec_2_packet_math_8h_aa941354cb9339bf774eec7910bd7bb85}
+
+
+Definition at line 180 of file Packet\-Math.\-h.
+
+\hypertarget{_alti_vec_2_packet_math_8h_a9323e644262a03cd6b795d8be37ec44e}{\index{Alti\-Vec/\-Packet\-Math.\-h@{Alti\-Vec/\-Packet\-Math.\-h}!ei\-\_\-pmadd@{ei\-\_\-pmadd}}
+\index{ei\-\_\-pmadd@{ei\-\_\-pmadd}!AltiVec/PacketMath.h@{Alti\-Vec/\-Packet\-Math.\-h}}
+\subsubsection[{ei\-\_\-pmadd}]{\setlength{\rightskip}{0pt plus 5cm}template$<$$>$ {\bf v4f} ei\-\_\-pmadd (
+\begin{DoxyParamCaption}
+\item[{const {\bf v4f} \&}]{a, }
+\item[{const {\bf v4f} \&}]{b, }
+\item[{const {\bf v4f} \&}]{c}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{_alti_vec_2_packet_math_8h_a9323e644262a03cd6b795d8be37ec44e}
+
+
+Definition at line 158 of file Packet\-Math.\-h.
+
+\hypertarget{_alti_vec_2_packet_math_8h_a280a37f93483e304233133c73717c20e}{\index{Alti\-Vec/\-Packet\-Math.\-h@{Alti\-Vec/\-Packet\-Math.\-h}!ei\-\_\-pmax@{ei\-\_\-pmax}}
+\index{ei\-\_\-pmax@{ei\-\_\-pmax}!AltiVec/PacketMath.h@{Alti\-Vec/\-Packet\-Math.\-h}}
+\subsubsection[{ei\-\_\-pmax}]{\setlength{\rightskip}{0pt plus 5cm}template$<$$>$ {\bf v4f} ei\-\_\-pmax (
+\begin{DoxyParamCaption}
+\item[{const {\bf v4f} \&}]{a, }
+\item[{const {\bf v4f} \&}]{b}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{_alti_vec_2_packet_math_8h_a280a37f93483e304233133c73717c20e}
+
+
+Definition at line 163 of file Packet\-Math.\-h.
+
+\hypertarget{_alti_vec_2_packet_math_8h_a0d2d3b93c8cc94c39329c6e10b7301ba}{\index{Alti\-Vec/\-Packet\-Math.\-h@{Alti\-Vec/\-Packet\-Math.\-h}!ei\-\_\-pmax@{ei\-\_\-pmax}}
+\index{ei\-\_\-pmax@{ei\-\_\-pmax}!AltiVec/PacketMath.h@{Alti\-Vec/\-Packet\-Math.\-h}}
+\subsubsection[{ei\-\_\-pmax}]{\setlength{\rightskip}{0pt plus 5cm}template$<$$>$ {\bf v4i} ei\-\_\-pmax (
+\begin{DoxyParamCaption}
+\item[{const {\bf v4i} \&}]{a, }
+\item[{const {\bf v4i} \&}]{b}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{_alti_vec_2_packet_math_8h_a0d2d3b93c8cc94c39329c6e10b7301ba}
+
+
+Definition at line 164 of file Packet\-Math.\-h.
+
+\hypertarget{_alti_vec_2_packet_math_8h_a041b121890a62cd109cbdc00b7e39d26}{\index{Alti\-Vec/\-Packet\-Math.\-h@{Alti\-Vec/\-Packet\-Math.\-h}!ei\-\_\-pmin@{ei\-\_\-pmin}}
+\index{ei\-\_\-pmin@{ei\-\_\-pmin}!AltiVec/PacketMath.h@{Alti\-Vec/\-Packet\-Math.\-h}}
+\subsubsection[{ei\-\_\-pmin}]{\setlength{\rightskip}{0pt plus 5cm}template$<$$>$ {\bf v4f} ei\-\_\-pmin (
+\begin{DoxyParamCaption}
+\item[{const {\bf v4f} \&}]{a, }
+\item[{const {\bf v4f} \&}]{b}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{_alti_vec_2_packet_math_8h_a041b121890a62cd109cbdc00b7e39d26}
+
+
+Definition at line 160 of file Packet\-Math.\-h.
+
+\hypertarget{_alti_vec_2_packet_math_8h_a2b5cc44aa56a4958ef670e7a84542da2}{\index{Alti\-Vec/\-Packet\-Math.\-h@{Alti\-Vec/\-Packet\-Math.\-h}!ei\-\_\-pmin@{ei\-\_\-pmin}}
+\index{ei\-\_\-pmin@{ei\-\_\-pmin}!AltiVec/PacketMath.h@{Alti\-Vec/\-Packet\-Math.\-h}}
+\subsubsection[{ei\-\_\-pmin}]{\setlength{\rightskip}{0pt plus 5cm}template$<$$>$ {\bf v4i} ei\-\_\-pmin (
+\begin{DoxyParamCaption}
+\item[{const {\bf v4i} \&}]{a, }
+\item[{const {\bf v4i} \&}]{b}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{_alti_vec_2_packet_math_8h_a2b5cc44aa56a4958ef670e7a84542da2}
+
+
+Definition at line 161 of file Packet\-Math.\-h.
+
+\hypertarget{_alti_vec_2_packet_math_8h_af7a111a08e54e1ad72b016ac708a5980}{\index{Alti\-Vec/\-Packet\-Math.\-h@{Alti\-Vec/\-Packet\-Math.\-h}!ei\-\_\-pmul@{ei\-\_\-pmul}}
+\index{ei\-\_\-pmul@{ei\-\_\-pmul}!AltiVec/PacketMath.h@{Alti\-Vec/\-Packet\-Math.\-h}}
+\subsubsection[{ei\-\_\-pmul}]{\setlength{\rightskip}{0pt plus 5cm}template$<$$>$ {\bf v4f} ei\-\_\-pmul (
+\begin{DoxyParamCaption}
+\item[{const {\bf v4f} \&}]{a, }
+\item[{const {\bf v4f} \&}]{b}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{_alti_vec_2_packet_math_8h_af7a111a08e54e1ad72b016ac708a5980}
+
+
+Definition at line 104 of file Packet\-Math.\-h.
+
+\hypertarget{_alti_vec_2_packet_math_8h_ab011a32e854f5133e3c1fbde13d3b36a}{\index{Alti\-Vec/\-Packet\-Math.\-h@{Alti\-Vec/\-Packet\-Math.\-h}!ei\-\_\-pmul@{ei\-\_\-pmul}}
+\index{ei\-\_\-pmul@{ei\-\_\-pmul}!AltiVec/PacketMath.h@{Alti\-Vec/\-Packet\-Math.\-h}}
+\subsubsection[{ei\-\_\-pmul}]{\setlength{\rightskip}{0pt plus 5cm}template$<$$>$ {\bf v4i} ei\-\_\-pmul (
+\begin{DoxyParamCaption}
+\item[{const {\bf v4i} \&}]{a, }
+\item[{const {\bf v4i} \&}]{b}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{_alti_vec_2_packet_math_8h_ab011a32e854f5133e3c1fbde13d3b36a}
+
+
+Definition at line 105 of file Packet\-Math.\-h.
+
+\hypertarget{_alti_vec_2_packet_math_8h_ad0cb8d593646e00107d54ec4f6c34708}{\index{Alti\-Vec/\-Packet\-Math.\-h@{Alti\-Vec/\-Packet\-Math.\-h}!ei\-\_\-predux@{ei\-\_\-predux}}
+\index{ei\-\_\-predux@{ei\-\_\-predux}!AltiVec/PacketMath.h@{Alti\-Vec/\-Packet\-Math.\-h}}
+\subsubsection[{ei\-\_\-predux}]{\setlength{\rightskip}{0pt plus 5cm}{\bf float} ei\-\_\-predux (
+\begin{DoxyParamCaption}
+\item[{const {\bf v4f} \&}]{a}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{_alti_vec_2_packet_math_8h_ad0cb8d593646e00107d54ec4f6c34708}
+
+
+Definition at line 290 of file Packet\-Math.\-h.
+
+\hypertarget{_alti_vec_2_packet_math_8h_acc43ff883ebc5be64e07791f64549de8}{\index{Alti\-Vec/\-Packet\-Math.\-h@{Alti\-Vec/\-Packet\-Math.\-h}!ei\-\_\-predux@{ei\-\_\-predux}}
+\index{ei\-\_\-predux@{ei\-\_\-predux}!AltiVec/PacketMath.h@{Alti\-Vec/\-Packet\-Math.\-h}}
+\subsubsection[{ei\-\_\-predux}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int} ei\-\_\-predux (
+\begin{DoxyParamCaption}
+\item[{const {\bf v4i} \&}]{a}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{_alti_vec_2_packet_math_8h_acc43ff883ebc5be64e07791f64549de8}
+
+
+Definition at line 327 of file Packet\-Math.\-h.
+
+\hypertarget{_alti_vec_2_packet_math_8h_adf1a42b20b5f0ccfee3f2b9c663412e7}{\index{Alti\-Vec/\-Packet\-Math.\-h@{Alti\-Vec/\-Packet\-Math.\-h}!ei\-\_\-preduxp@{ei\-\_\-preduxp}}
+\index{ei\-\_\-preduxp@{ei\-\_\-preduxp}!AltiVec/PacketMath.h@{Alti\-Vec/\-Packet\-Math.\-h}}
+\subsubsection[{ei\-\_\-preduxp}]{\setlength{\rightskip}{0pt plus 5cm}{\bf v4f} ei\-\_\-preduxp (
+\begin{DoxyParamCaption}
+\item[{const {\bf v4f} $\ast$}]{vecs}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{_alti_vec_2_packet_math_8h_adf1a42b20b5f0ccfee3f2b9c663412e7}
+
+
+Definition at line 263 of file Packet\-Math.\-h.
+
+\hypertarget{_alti_vec_2_packet_math_8h_a0b7eeb9e4b8f532ae6be460e0598c13b}{\index{Alti\-Vec/\-Packet\-Math.\-h@{Alti\-Vec/\-Packet\-Math.\-h}!ei\-\_\-preduxp@{ei\-\_\-preduxp}}
+\index{ei\-\_\-preduxp@{ei\-\_\-preduxp}!AltiVec/PacketMath.h@{Alti\-Vec/\-Packet\-Math.\-h}}
+\subsubsection[{ei\-\_\-preduxp}]{\setlength{\rightskip}{0pt plus 5cm}{\bf v4i} ei\-\_\-preduxp (
+\begin{DoxyParamCaption}
+\item[{const {\bf v4i} $\ast$}]{vecs}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{_alti_vec_2_packet_math_8h_a0b7eeb9e4b8f532ae6be460e0598c13b}
+
+
+Definition at line 300 of file Packet\-Math.\-h.
+
+\hypertarget{_alti_vec_2_packet_math_8h_aacd52ed2ee83ac44540ab675a174f7a0}{\index{Alti\-Vec/\-Packet\-Math.\-h@{Alti\-Vec/\-Packet\-Math.\-h}!ei\-\_\-pset1@{ei\-\_\-pset1}}
+\index{ei\-\_\-pset1@{ei\-\_\-pset1}!AltiVec/PacketMath.h@{Alti\-Vec/\-Packet\-Math.\-h}}
+\subsubsection[{ei\-\_\-pset1}]{\setlength{\rightskip}{0pt plus 5cm}template$<$$>$ {\bf v4f} ei\-\_\-pset1 (
+\begin{DoxyParamCaption}
+\item[{const {\bf float} \&}]{from}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{_alti_vec_2_packet_math_8h_aacd52ed2ee83ac44540ab675a174f7a0}
+
+
+Definition at line 191 of file Packet\-Math.\-h.
+
+\hypertarget{_alti_vec_2_packet_math_8h_ab4d95106e7e3e34ec568bad4612c5cbb}{\index{Alti\-Vec/\-Packet\-Math.\-h@{Alti\-Vec/\-Packet\-Math.\-h}!ei\-\_\-pset1@{ei\-\_\-pset1}}
+\index{ei\-\_\-pset1@{ei\-\_\-pset1}!AltiVec/PacketMath.h@{Alti\-Vec/\-Packet\-Math.\-h}}
+\subsubsection[{ei\-\_\-pset1}]{\setlength{\rightskip}{0pt plus 5cm}template$<$$>$ {\bf v4i} ei\-\_\-pset1 (
+\begin{DoxyParamCaption}
+\item[{const {\bf int} \&}]{from}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{_alti_vec_2_packet_math_8h_ab4d95106e7e3e34ec568bad4612c5cbb}
+
+
+Definition at line 201 of file Packet\-Math.\-h.
+
+\hypertarget{_alti_vec_2_packet_math_8h_a84a5a3a271ac580b5cca1cc009ae072a}{\index{Alti\-Vec/\-Packet\-Math.\-h@{Alti\-Vec/\-Packet\-Math.\-h}!ei\-\_\-pstore@{ei\-\_\-pstore}}
+\index{ei\-\_\-pstore@{ei\-\_\-pstore}!AltiVec/PacketMath.h@{Alti\-Vec/\-Packet\-Math.\-h}}
+\subsubsection[{ei\-\_\-pstore}]{\setlength{\rightskip}{0pt plus 5cm}template$<$$>$ {\bf void} ei\-\_\-pstore (
+\begin{DoxyParamCaption}
+\item[{{\bf float} $\ast$}]{to, }
+\item[{const {\bf v4f} \&}]{from}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{_alti_vec_2_packet_math_8h_a84a5a3a271ac580b5cca1cc009ae072a}
+
+
+Definition at line 210 of file Packet\-Math.\-h.
+
+\hypertarget{_alti_vec_2_packet_math_8h_a4ef70ccc8813e83986e884c9da9264e1}{\index{Alti\-Vec/\-Packet\-Math.\-h@{Alti\-Vec/\-Packet\-Math.\-h}!ei\-\_\-pstore@{ei\-\_\-pstore}}
+\index{ei\-\_\-pstore@{ei\-\_\-pstore}!AltiVec/PacketMath.h@{Alti\-Vec/\-Packet\-Math.\-h}}
+\subsubsection[{ei\-\_\-pstore}]{\setlength{\rightskip}{0pt plus 5cm}template$<$$>$ {\bf void} ei\-\_\-pstore (
+\begin{DoxyParamCaption}
+\item[{{\bf int} $\ast$}]{to, }
+\item[{const {\bf v4i} \&}]{from}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{_alti_vec_2_packet_math_8h_a4ef70ccc8813e83986e884c9da9264e1}
+
+
+Definition at line 211 of file Packet\-Math.\-h.
+
+\hypertarget{_alti_vec_2_packet_math_8h_a37f58b518ec881173c114b27ff104044}{\index{Alti\-Vec/\-Packet\-Math.\-h@{Alti\-Vec/\-Packet\-Math.\-h}!ei\-\_\-pstoreu@{ei\-\_\-pstoreu}}
+\index{ei\-\_\-pstoreu@{ei\-\_\-pstoreu}!AltiVec/PacketMath.h@{Alti\-Vec/\-Packet\-Math.\-h}}
+\subsubsection[{ei\-\_\-pstoreu}]{\setlength{\rightskip}{0pt plus 5cm}template$<$$>$ {\bf void} ei\-\_\-pstoreu (
+\begin{DoxyParamCaption}
+\item[{{\bf float} $\ast$}]{to, }
+\item[{const {\bf v4f} \&}]{from}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{_alti_vec_2_packet_math_8h_a37f58b518ec881173c114b27ff104044}
+
+
+Definition at line 213 of file Packet\-Math.\-h.
+
+\hypertarget{_alti_vec_2_packet_math_8h_aec89517fc2a1777c03aeff40c95ed461}{\index{Alti\-Vec/\-Packet\-Math.\-h@{Alti\-Vec/\-Packet\-Math.\-h}!ei\-\_\-pstoreu@{ei\-\_\-pstoreu}}
+\index{ei\-\_\-pstoreu@{ei\-\_\-pstoreu}!AltiVec/PacketMath.h@{Alti\-Vec/\-Packet\-Math.\-h}}
+\subsubsection[{ei\-\_\-pstoreu}]{\setlength{\rightskip}{0pt plus 5cm}template$<$$>$ {\bf void} ei\-\_\-pstoreu (
+\begin{DoxyParamCaption}
+\item[{{\bf int} $\ast$}]{to, }
+\item[{const {\bf v4i} \&}]{from}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{_alti_vec_2_packet_math_8h_aec89517fc2a1777c03aeff40c95ed461}
+
+
+Definition at line 231 of file Packet\-Math.\-h.
+
+\hypertarget{_alti_vec_2_packet_math_8h_a0e46d0adfe8fdbb9b1442daf385d3b68}{\index{Alti\-Vec/\-Packet\-Math.\-h@{Alti\-Vec/\-Packet\-Math.\-h}!ei\-\_\-psub@{ei\-\_\-psub}}
+\index{ei\-\_\-psub@{ei\-\_\-psub}!AltiVec/PacketMath.h@{Alti\-Vec/\-Packet\-Math.\-h}}
+\subsubsection[{ei\-\_\-psub}]{\setlength{\rightskip}{0pt plus 5cm}template$<$$>$ {\bf v4f} ei\-\_\-psub (
+\begin{DoxyParamCaption}
+\item[{const {\bf v4f} \&}]{a, }
+\item[{const {\bf v4f} \&}]{b}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{_alti_vec_2_packet_math_8h_a0e46d0adfe8fdbb9b1442daf385d3b68}
+
+
+Definition at line 101 of file Packet\-Math.\-h.
+
+\hypertarget{_alti_vec_2_packet_math_8h_aac844ac1c55b258c9a084eeb418ef8fc}{\index{Alti\-Vec/\-Packet\-Math.\-h@{Alti\-Vec/\-Packet\-Math.\-h}!ei\-\_\-psub@{ei\-\_\-psub}}
+\index{ei\-\_\-psub@{ei\-\_\-psub}!AltiVec/PacketMath.h@{Alti\-Vec/\-Packet\-Math.\-h}}
+\subsubsection[{ei\-\_\-psub}]{\setlength{\rightskip}{0pt plus 5cm}template$<$$>$ {\bf v4i} ei\-\_\-psub (
+\begin{DoxyParamCaption}
+\item[{const {\bf v4i} \&}]{a, }
+\item[{const {\bf v4i} \&}]{b}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{_alti_vec_2_packet_math_8h_aac844ac1c55b258c9a084eeb418ef8fc}
+
+
+Definition at line 102 of file Packet\-Math.\-h.
+
+\hypertarget{_alti_vec_2_packet_math_8h_a97c05cb24877456c2115d6e158db9fe1}{\index{Alti\-Vec/\-Packet\-Math.\-h@{Alti\-Vec/\-Packet\-Math.\-h}!operator$<$$<$@{operator$<$$<$}}
+\index{operator$<$$<$@{operator$<$$<$}!AltiVec/PacketMath.h@{Alti\-Vec/\-Packet\-Math.\-h}}
+\subsubsection[{operator$<$$<$}]{\setlength{\rightskip}{0pt plus 5cm}std\-::ostream\& operator$<$$<$ (
+\begin{DoxyParamCaption}
+\item[{std\-::ostream \&}]{s, }
+\item[{const {\bf v4f} \&}]{v}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{_alti_vec_2_packet_math_8h_a97c05cb24877456c2115d6e158db9fe1}
+
+
+Definition at line 54 of file Packet\-Math.\-h.
+
+\hypertarget{_alti_vec_2_packet_math_8h_a721ed001aa6bad95be2263469fc4f9a3}{\index{Alti\-Vec/\-Packet\-Math.\-h@{Alti\-Vec/\-Packet\-Math.\-h}!operator$<$$<$@{operator$<$$<$}}
+\index{operator$<$$<$@{operator$<$$<$}!AltiVec/PacketMath.h@{Alti\-Vec/\-Packet\-Math.\-h}}
+\subsubsection[{operator$<$$<$}]{\setlength{\rightskip}{0pt plus 5cm}std\-::ostream\& operator$<$$<$ (
+\begin{DoxyParamCaption}
+\item[{std\-::ostream \&}]{s, }
+\item[{const {\bf v4i} \&}]{v}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{_alti_vec_2_packet_math_8h_a721ed001aa6bad95be2263469fc4f9a3}
+
+
+Definition at line 65 of file Packet\-Math.\-h.
+
+\hypertarget{_alti_vec_2_packet_math_8h_afff71bbff57ce04705f957d856bb5cc1}{\index{Alti\-Vec/\-Packet\-Math.\-h@{Alti\-Vec/\-Packet\-Math.\-h}!operator$<$$<$@{operator$<$$<$}}
+\index{operator$<$$<$@{operator$<$$<$}!AltiVec/PacketMath.h@{Alti\-Vec/\-Packet\-Math.\-h}}
+\subsubsection[{operator$<$$<$}]{\setlength{\rightskip}{0pt plus 5cm}std\-::ostream\& operator$<$$<$ (
+\begin{DoxyParamCaption}
+\item[{std\-::ostream \&}]{s, }
+\item[{const {\bf v4ui} \&}]{v}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{_alti_vec_2_packet_math_8h_afff71bbff57ce04705f957d856bb5cc1}
+
+
+Definition at line 76 of file Packet\-Math.\-h.
+
+\hypertarget{_alti_vec_2_packet_math_8h_a9d7c17a5b5bb6fa16277485cdef3a0ed}{\index{Alti\-Vec/\-Packet\-Math.\-h@{Alti\-Vec/\-Packet\-Math.\-h}!operator$<$$<$@{operator$<$$<$}}
+\index{operator$<$$<$@{operator$<$$<$}!AltiVec/PacketMath.h@{Alti\-Vec/\-Packet\-Math.\-h}}
+\subsubsection[{operator$<$$<$}]{\setlength{\rightskip}{0pt plus 5cm}std\-::ostream\& operator$<$$<$ (
+\begin{DoxyParamCaption}
+\item[{std\-::ostream \&}]{s, }
+\item[{const {\bf v4bi} \&}]{v}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{_alti_vec_2_packet_math_8h_a9d7c17a5b5bb6fa16277485cdef3a0ed}
+
+
+Definition at line 87 of file Packet\-Math.\-h.
+

@@ -1,0 +1,87 @@
+\hypertarget{class_qwt_picker_drag_rect_machine}{\section{Qwt\-Picker\-Drag\-Rect\-Machine Class Reference}
+\label{class_qwt_picker_drag_rect_machine}\index{Qwt\-Picker\-Drag\-Rect\-Machine@{Qwt\-Picker\-Drag\-Rect\-Machine}}
+}
+
+
+A state machine for rectangle selections.  
+
+
+
+
+{\ttfamily \#include $<$qwt\-\_\-picker\-\_\-machine.\-h$>$}
+
+Inheritance diagram for Qwt\-Picker\-Drag\-Rect\-Machine\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_qwt_picker_drag_rect_machine}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_qwt_picker_drag_rect_machine_a49ce41d12442bc295578c0682cb38682}{Qwt\-Picker\-Drag\-Rect\-Machine} ()
+\begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
+virtual \hyperlink{class_q_list}{Q\-List}$<$ \hyperlink{class_qwt_picker_machine_a3a8d3d4c107ce5f8351e4cbdd38c43f7}{Command} $>$ \hyperlink{class_qwt_picker_drag_rect_machine_a5ff67c2ab51575ddbffe225288ff5f33}{transition} (const \hyperlink{class_qwt_event_pattern}{Qwt\-Event\-Pattern} \&, const Q\-Event $\ast$)
+\begin{DoxyCompactList}\small\item\em \hyperlink{class_transition}{Transition}. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Detailed Description}
+A state machine for rectangle selections. 
+
+Pressing \hyperlink{class_qwt_event_pattern_af48dc808ac5e125eeed41a4c0285d1eaa5875976eba018ca30eb30ba92986d270}{Qwt\-Event\-Pattern\-::\-Mouse\-Select1} selects the first point, releasing it the second point. Pressing \hyperlink{class_qwt_event_pattern_a8fb57ceb9982d5583a1bf568e37d3007a32afc68b8e31079c00666a251d0b9c25}{Qwt\-Event\-Pattern\-::\-Key\-Select1} also selects the first point, a second press selects the second point and terminates the selection.
+
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_event_pattern_af48dc808ac5e125eeed41a4c0285d1ea}{Qwt\-Event\-Pattern\-::\-Mouse\-Pattern\-Code}, \hyperlink{class_qwt_event_pattern_a8fb57ceb9982d5583a1bf568e37d3007}{Qwt\-Event\-Pattern\-::\-Key\-Pattern\-Code} 
+\end{DoxySeeAlso}
+
+
+Definition at line 161 of file qwt\-\_\-picker\-\_\-machine.\-h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_qwt_picker_drag_rect_machine_a49ce41d12442bc295578c0682cb38682}{\index{Qwt\-Picker\-Drag\-Rect\-Machine@{Qwt\-Picker\-Drag\-Rect\-Machine}!Qwt\-Picker\-Drag\-Rect\-Machine@{Qwt\-Picker\-Drag\-Rect\-Machine}}
+\index{Qwt\-Picker\-Drag\-Rect\-Machine@{Qwt\-Picker\-Drag\-Rect\-Machine}!QwtPickerDragRectMachine@{Qwt\-Picker\-Drag\-Rect\-Machine}}
+\subsubsection[{Qwt\-Picker\-Drag\-Rect\-Machine}]{\setlength{\rightskip}{0pt plus 5cm}Qwt\-Picker\-Drag\-Rect\-Machine\-::\-Qwt\-Picker\-Drag\-Rect\-Machine (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_qwt_picker_drag_rect_machine_a49ce41d12442bc295578c0682cb38682}
+
+
+Constructor. 
+
+
+
+Definition at line 301 of file qwt\-\_\-picker\-\_\-machine.\-cpp.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_qwt_picker_drag_rect_machine_a5ff67c2ab51575ddbffe225288ff5f33}{\index{Qwt\-Picker\-Drag\-Rect\-Machine@{Qwt\-Picker\-Drag\-Rect\-Machine}!transition@{transition}}
+\index{transition@{transition}!QwtPickerDragRectMachine@{Qwt\-Picker\-Drag\-Rect\-Machine}}
+\subsubsection[{transition}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Q\-List}$<$ {\bf Qwt\-Picker\-Machine\-::\-Command} $>$ Qwt\-Picker\-Drag\-Rect\-Machine\-::transition (
+\begin{DoxyParamCaption}
+\item[{const {\bf Qwt\-Event\-Pattern} \&}]{event\-Pattern, }
+\item[{const Q\-Event $\ast$}]{e}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_qwt_picker_drag_rect_machine_a5ff67c2ab51575ddbffe225288ff5f33}
+
+
+\hyperlink{class_transition}{Transition}. 
+
+
+
+Implements \hyperlink{class_qwt_picker_machine_acf7b57003bec437ce1ecf83e6d544968}{Qwt\-Picker\-Machine}.
+
+
+
+Definition at line 307 of file qwt\-\_\-picker\-\_\-machine.\-cpp.
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/qwt/src/\hyperlink{qwt__picker__machine_8h}{qwt\-\_\-picker\-\_\-machine.\-h}\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/qwt/src/\hyperlink{qwt__picker__machine_8cpp}{qwt\-\_\-picker\-\_\-machine.\-cpp}\end{DoxyCompactItemize}

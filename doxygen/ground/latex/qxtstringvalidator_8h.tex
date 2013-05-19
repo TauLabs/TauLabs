@@ -1,0 +1,217 @@
+\hypertarget{qxtstringvalidator_8h}{\section{/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/libqxt/src/gui/qxtstringvalidator.h File Reference}
+\label{qxtstringvalidator_8h}\index{/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/libqxt/src/gui/qxtstringvalidator.\-h@{/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/libqxt/src/gui/qxtstringvalidator.\-h}}
+}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{qxtwebevent_8h_a05349ea9a1dc1a7296db2f484529f48a}{Q\-T\-\_\-\-F\-O\-R\-W\-A\-R\-D\-\_\-\-D\-E\-C\-L\-A\-R\-E\-\_\-\-C\-L\-A\-S\-S}(Q\-Abstract\-Item\-Model) \\*
+class Q\-X\-T\-\_\-\-G\-U\-I\-\_\-\-E\-X\-P\-O\-R\-T \\*
+Qxt\-String\-Validator \hyperlink{qxtstringvalidator_8h_a300a80f0e498179ecf0e3d14a1536bc9}{$\sim$\-Qxt\-String\-Validator} ()
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{qxtstringvalidator_8h_a45804d26c3c2e1112769c848b69eb4df}{fixup} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{Q\-String} \&\hyperlink{glext_8h_ad3c78daa7d8673f71649d4840c641779}{input}) const 
+\item 
+virtual Q\-Validator\-::\-State \hyperlink{qxtstringvalidator_8h_ad3d03fa0122dea8fd98f78688800e695}{validate} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{Q\-String} \&\hyperlink{glext_8h_ad3c78daa7d8673f71649d4840c641779}{input}, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \&pos) const 
+\item 
+Qt\-::\-Case\-Sensitivity \hyperlink{qxtstringvalidator_8h_af7fb4792796acf247594ddee41c93a3e}{case\-Sensitivity} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{qxtstringvalidator_8h_a438c5ec370a5f6e12e293de71881d6f9}{set\-Case\-Sensitivity} (Qt\-::\-Case\-Sensitivity \hyperlink{qxtstringvalidator_8h_af7fb4792796acf247594ddee41c93a3e}{case\-Sensitivity})
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{qxtstringvalidator_8h_a21506876031f02333fcbbbb3be11eea6}{set\-Start\-Model\-Index} (const Q\-Model\-Index \&\hyperlink{glext_8h_ab47dd9958bcadea08866b42bf358e95e}{index})
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{qxtstringvalidator_8h_ac675d147b68cc34db4158e3bb795a969}{set\-String\-List} (const Q\-String\-List \&string\-List)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{qxtstringvalidator_8h_abce48dd314cfcf28bfc1573f41008970}{set\-Recursive\-Lookup} (bool enable)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{qxtstringvalidator_8h_adafd55f64cd3151051301f5dff3c88a8}{set\-Wrapping\-Lookup} (bool enable)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{qxtstringvalidator_8h_af4f8ae1c5d49960a33498efeaa8fbe29}{set\-Lookup\-Model} (Q\-Abstract\-Item\-Model $\ast$model)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{qxtstringvalidator_8h_a053fee7c2c9e256021d95f28a7fb0c55}{set\-Lookup\-Role} (const \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} role)
+\item 
+Q\-Model\-Index \hyperlink{qxtstringvalidator_8h_a214d8c8baf9be99d7e8b8cbc3d15a78a}{start\-Model\-Index} () const 
+\item 
+bool \hyperlink{qxtstringvalidator_8h_a5a51e107f75ea86be9ba7800ad23ce1b}{recursive\-Lookup} () const 
+\item 
+bool \hyperlink{qxtstringvalidator_8h_ac9c731697512114a368257d9c9ac5a39}{wrapping\-Lookup} () const 
+\item 
+Q\-Abstract\-Item\-Model $\ast$ \hyperlink{qxtstringvalidator_8h_a2d6ddfb5229f15dbc1a37bb8417241f5}{lookup\-Model} () const 
+\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{qxtstringvalidator_8h_a809aaef33ea2adaa77fdd6486dc08bad}{lookup\-Role} () const 
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\hypertarget{qxtstringvalidator_8h_af7fb4792796acf247594ddee41c93a3e}{\index{qxtstringvalidator.\-h@{qxtstringvalidator.\-h}!case\-Sensitivity@{case\-Sensitivity}}
+\index{case\-Sensitivity@{case\-Sensitivity}!qxtstringvalidator.h@{qxtstringvalidator.\-h}}
+\subsubsection[{case\-Sensitivity}]{\setlength{\rightskip}{0pt plus 5cm}Qt\-::\-Case\-Sensitivity case\-Sensitivity (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{qxtstringvalidator_8h_af7fb4792796acf247594ddee41c93a3e}
+\hypertarget{qxtstringvalidator_8h_a45804d26c3c2e1112769c848b69eb4df}{\index{qxtstringvalidator.\-h@{qxtstringvalidator.\-h}!fixup@{fixup}}
+\index{fixup@{fixup}!qxtstringvalidator.h@{qxtstringvalidator.\-h}}
+\subsubsection[{fixup}]{\setlength{\rightskip}{0pt plus 5cm}virtual {\bf void} fixup (
+\begin{DoxyParamCaption}
+\item[{{\bf Q\-String} \&}]{input}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [virtual]}}}\label{qxtstringvalidator_8h_a45804d26c3c2e1112769c848b69eb4df}
+\hypertarget{qxtstringvalidator_8h_a2d6ddfb5229f15dbc1a37bb8417241f5}{\index{qxtstringvalidator.\-h@{qxtstringvalidator.\-h}!lookup\-Model@{lookup\-Model}}
+\index{lookup\-Model@{lookup\-Model}!qxtstringvalidator.h@{qxtstringvalidator.\-h}}
+\subsubsection[{lookup\-Model}]{\setlength{\rightskip}{0pt plus 5cm}Q\-Abstract\-Item\-Model $\ast$ Qxt\-String\-Validator\-::lookup\-Model (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{qxtstringvalidator_8h_a2d6ddfb5229f15dbc1a37bb8417241f5}
+Returns the used model if it was set by the user. \begin{DoxySeeAlso}{See Also}
+\hyperlink{qxtstringvalidator_8h_af4f8ae1c5d49960a33498efeaa8fbe29}{set\-Lookup\-Model()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 229 of file qxtstringvalidator.\-cpp.
+
+\hypertarget{qxtstringvalidator_8h_a809aaef33ea2adaa77fdd6486dc08bad}{\index{qxtstringvalidator.\-h@{qxtstringvalidator.\-h}!lookup\-Role@{lookup\-Role}}
+\index{lookup\-Role@{lookup\-Role}!qxtstringvalidator.h@{qxtstringvalidator.\-h}}
+\subsubsection[{lookup\-Role}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int} lookup\-Role (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{qxtstringvalidator_8h_a809aaef33ea2adaa77fdd6486dc08bad}
+\hypertarget{qxtstringvalidator_8h_a5a51e107f75ea86be9ba7800ad23ce1b}{\index{qxtstringvalidator.\-h@{qxtstringvalidator.\-h}!recursive\-Lookup@{recursive\-Lookup}}
+\index{recursive\-Lookup@{recursive\-Lookup}!qxtstringvalidator.h@{qxtstringvalidator.\-h}}
+\subsubsection[{recursive\-Lookup}]{\setlength{\rightskip}{0pt plus 5cm}bool Qxt\-String\-Validator\-::recursive\-Lookup (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{qxtstringvalidator_8h_a5a51e107f75ea86be9ba7800ad23ce1b}
+Returns if recursive lookup is enabled. \begin{DoxySeeAlso}{See Also}
+\hyperlink{qxtstringvalidator_8h_abce48dd314cfcf28bfc1573f41008970}{set\-Recursive\-Lookup()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 207 of file qxtstringvalidator.\-cpp.
+
+\hypertarget{qxtstringvalidator_8h_a438c5ec370a5f6e12e293de71881d6f9}{\index{qxtstringvalidator.\-h@{qxtstringvalidator.\-h}!set\-Case\-Sensitivity@{set\-Case\-Sensitivity}}
+\index{set\-Case\-Sensitivity@{set\-Case\-Sensitivity}!qxtstringvalidator.h@{qxtstringvalidator.\-h}}
+\subsubsection[{set\-Case\-Sensitivity}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} set\-Case\-Sensitivity (
+\begin{DoxyParamCaption}
+\item[{Qt\-::\-Case\-Sensitivity}]{case\-Sensitivity}
+\end{DoxyParamCaption}
+)}}\label{qxtstringvalidator_8h_a438c5ec370a5f6e12e293de71881d6f9}
+\hypertarget{qxtstringvalidator_8h_af4f8ae1c5d49960a33498efeaa8fbe29}{\index{qxtstringvalidator.\-h@{qxtstringvalidator.\-h}!set\-Lookup\-Model@{set\-Lookup\-Model}}
+\index{set\-Lookup\-Model@{set\-Lookup\-Model}!qxtstringvalidator.h@{qxtstringvalidator.\-h}}
+\subsubsection[{set\-Lookup\-Model}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qxt\-String\-Validator\-::set\-Lookup\-Model (
+\begin{DoxyParamCaption}
+\item[{Q\-Abstract\-Item\-Model $\ast$}]{model}
+\end{DoxyParamCaption}
+)}}\label{qxtstringvalidator_8h_af4f8ae1c5d49960a33498efeaa8fbe29}
+Uses model as new validation model. Note\-: The validator does not take ownership of the model. sa\textbackslash{} \hyperlink{qxtstringvalidator_8h_a2d6ddfb5229f15dbc1a37bb8417241f5}{lookup\-Model()} 
+
+Definition at line 305 of file qxtstringvalidator.\-cpp.
+
+\hypertarget{qxtstringvalidator_8h_a053fee7c2c9e256021d95f28a7fb0c55}{\index{qxtstringvalidator.\-h@{qxtstringvalidator.\-h}!set\-Lookup\-Role@{set\-Lookup\-Role}}
+\index{set\-Lookup\-Role@{set\-Lookup\-Role}!qxtstringvalidator.h@{qxtstringvalidator.\-h}}
+\subsubsection[{set\-Lookup\-Role}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} set\-Lookup\-Role (
+\begin{DoxyParamCaption}
+\item[{const {\bf int}}]{role}
+\end{DoxyParamCaption}
+)}}\label{qxtstringvalidator_8h_a053fee7c2c9e256021d95f28a7fb0c55}
+\hypertarget{qxtstringvalidator_8h_abce48dd314cfcf28bfc1573f41008970}{\index{qxtstringvalidator.\-h@{qxtstringvalidator.\-h}!set\-Recursive\-Lookup@{set\-Recursive\-Lookup}}
+\index{set\-Recursive\-Lookup@{set\-Recursive\-Lookup}!qxtstringvalidator.h@{qxtstringvalidator.\-h}}
+\subsubsection[{set\-Recursive\-Lookup}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qxt\-String\-Validator\-::set\-Recursive\-Lookup (
+\begin{DoxyParamCaption}
+\item[{bool}]{enable}
+\end{DoxyParamCaption}
+)}}\label{qxtstringvalidator_8h_abce48dd314cfcf28bfc1573f41008970}
+If enabled Qxt\-String\-Validator searches the entire hierarchy of the model. This is disabled by default. \begin{DoxySeeAlso}{See Also}
+\hyperlink{qxtstringvalidator_8h_a5a51e107f75ea86be9ba7800ad23ce1b}{recursive\-Lookup()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 277 of file qxtstringvalidator.\-cpp.
+
+\hypertarget{qxtstringvalidator_8h_a21506876031f02333fcbbbb3be11eea6}{\index{qxtstringvalidator.\-h@{qxtstringvalidator.\-h}!set\-Start\-Model\-Index@{set\-Start\-Model\-Index}}
+\index{set\-Start\-Model\-Index@{set\-Start\-Model\-Index}!qxtstringvalidator.h@{qxtstringvalidator.\-h}}
+\subsubsection[{set\-Start\-Model\-Index}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qxt\-String\-Validator\-::set\-Start\-Model\-Index (
+\begin{DoxyParamCaption}
+\item[{const Q\-Model\-Index \&}]{index}
+\end{DoxyParamCaption}
+)}}\label{qxtstringvalidator_8h_a21506876031f02333fcbbbb3be11eea6}
+Sets the index the search should start at The default is Q\-Model\-Index(0,0). Note\-: this is set to default when the model changes. Changing the start\-Model\-Index is only possible if the validator uses a userdefined model and the modelindex comes from the used model \begin{DoxySeeAlso}{See Also}
+\hyperlink{qxtstringvalidator_8h_a214d8c8baf9be99d7e8b8cbc3d15a78a}{start\-Model\-Index()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 264 of file qxtstringvalidator.\-cpp.
+
+\hypertarget{qxtstringvalidator_8h_ac675d147b68cc34db4158e3bb795a969}{\index{qxtstringvalidator.\-h@{qxtstringvalidator.\-h}!set\-String\-List@{set\-String\-List}}
+\index{set\-String\-List@{set\-String\-List}!qxtstringvalidator.h@{qxtstringvalidator.\-h}}
+\subsubsection[{set\-String\-List}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qxt\-String\-Validator\-::set\-String\-List (
+\begin{DoxyParamCaption}
+\item[{const Q\-String\-List \&}]{string\-List}
+\end{DoxyParamCaption}
+)}}\label{qxtstringvalidator_8h_ac675d147b68cc34db4158e3bb795a969}
+uses stringlist as new validation list if a model was set before it is not deleted 
+
+Definition at line 132 of file qxtstringvalidator.\-cpp.
+
+\hypertarget{qxtstringvalidator_8h_adafd55f64cd3151051301f5dff3c88a8}{\index{qxtstringvalidator.\-h@{qxtstringvalidator.\-h}!set\-Wrapping\-Lookup@{set\-Wrapping\-Lookup}}
+\index{set\-Wrapping\-Lookup@{set\-Wrapping\-Lookup}!qxtstringvalidator.h@{qxtstringvalidator.\-h}}
+\subsubsection[{set\-Wrapping\-Lookup}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qxt\-String\-Validator\-::set\-Wrapping\-Lookup (
+\begin{DoxyParamCaption}
+\item[{bool}]{enable}
+\end{DoxyParamCaption}
+)}}\label{qxtstringvalidator_8h_adafd55f64cd3151051301f5dff3c88a8}
+If enabled Qxt\-String\-Validator performs a search that wraps around, so that when the search reaches the last item in the model, it begins again at the first item and continues until all items have been examined. This is set by default. \begin{DoxySeeAlso}{See Also}
+\hyperlink{qxtstringvalidator_8h_ac9c731697512114a368257d9c9ac5a39}{wrapping\-Lookup()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 292 of file qxtstringvalidator.\-cpp.
+
+\hypertarget{qxtstringvalidator_8h_a214d8c8baf9be99d7e8b8cbc3d15a78a}{\index{qxtstringvalidator.\-h@{qxtstringvalidator.\-h}!start\-Model\-Index@{start\-Model\-Index}}
+\index{start\-Model\-Index@{start\-Model\-Index}!qxtstringvalidator.h@{qxtstringvalidator.\-h}}
+\subsubsection[{start\-Model\-Index}]{\setlength{\rightskip}{0pt plus 5cm}Q\-Model\-Index Qxt\-String\-Validator\-::start\-Model\-Index (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{qxtstringvalidator_8h_a214d8c8baf9be99d7e8b8cbc3d15a78a}
+Returns the start\-Model\-Index. Note\-: The return value will only we valid if the user has set the model with \hyperlink{qxtstringvalidator_8h_af4f8ae1c5d49960a33498efeaa8fbe29}{set\-Lookup\-Model()}. \begin{DoxySeeAlso}{See Also}
+\hyperlink{qxtstringvalidator_8h_a21506876031f02333fcbbbb3be11eea6}{set\-Start\-Model\-Index()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 191 of file qxtstringvalidator.\-cpp.
+
+\hypertarget{qxtstringvalidator_8h_ad3d03fa0122dea8fd98f78688800e695}{\index{qxtstringvalidator.\-h@{qxtstringvalidator.\-h}!validate@{validate}}
+\index{validate@{validate}!qxtstringvalidator.h@{qxtstringvalidator.\-h}}
+\subsubsection[{validate}]{\setlength{\rightskip}{0pt plus 5cm}virtual Q\-Validator\-::\-State validate (
+\begin{DoxyParamCaption}
+\item[{{\bf Q\-String} \&}]{input, }
+\item[{{\bf int} \&}]{pos}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [virtual]}}}\label{qxtstringvalidator_8h_ad3d03fa0122dea8fd98f78688800e695}
+\hypertarget{qxtstringvalidator_8h_ac9c731697512114a368257d9c9ac5a39}{\index{qxtstringvalidator.\-h@{qxtstringvalidator.\-h}!wrapping\-Lookup@{wrapping\-Lookup}}
+\index{wrapping\-Lookup@{wrapping\-Lookup}!qxtstringvalidator.h@{qxtstringvalidator.\-h}}
+\subsubsection[{wrapping\-Lookup}]{\setlength{\rightskip}{0pt plus 5cm}bool Qxt\-String\-Validator\-::wrapping\-Lookup (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{qxtstringvalidator_8h_ac9c731697512114a368257d9c9ac5a39}
+Returns if wrapping lookup is enabled. \begin{DoxySeeAlso}{See Also}
+\hyperlink{qxtstringvalidator_8h_adafd55f64cd3151051301f5dff3c88a8}{set\-Wrapping\-Lookup()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 218 of file qxtstringvalidator.\-cpp.
+
+\hypertarget{qxtstringvalidator_8h_a300a80f0e498179ecf0e3d14a1536bc9}{\index{qxtstringvalidator.\-h@{qxtstringvalidator.\-h}!$\sim$\-Qxt\-String\-Validator@{$\sim$\-Qxt\-String\-Validator}}
+\index{$\sim$\-Qxt\-String\-Validator@{$\sim$\-Qxt\-String\-Validator}!qxtstringvalidator.h@{qxtstringvalidator.\-h}}
+\subsubsection[{$\sim$\-Qxt\-String\-Validator}]{\setlength{\rightskip}{0pt plus 5cm}Qxt\-String\-Validator\-::$\sim$\-Qxt\-String\-Validator (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+)}}\label{qxtstringvalidator_8h_a300a80f0e498179ecf0e3d14a1536bc9}
+
+
+Definition at line 112 of file qxtstringvalidator.\-cpp.
+

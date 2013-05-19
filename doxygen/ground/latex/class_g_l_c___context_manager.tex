@@ -1,0 +1,173 @@
+\hypertarget{class_g_l_c___context_manager}{\section{G\-L\-C\-\_\-\-Context\-Manager Class Reference}
+\label{class_g_l_c___context_manager}\index{G\-L\-C\-\_\-\-Context\-Manager@{G\-L\-C\-\_\-\-Context\-Manager}}
+}
+
+
+\hyperlink{class_g_l_c___context_manager}{G\-L\-C\-\_\-\-Context\-Manager} \-: Manager a set of \hyperlink{class_g_l_c___context}{G\-L\-C\-\_\-\-Context}.  
+
+
+
+
+{\ttfamily \#include $<$glc\-\_\-contextmanager.\-h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual \hyperlink{class_g_l_c___context_manager_aa87f31b171dea07d6ff26e50be03ce7a}{$\sim$\-G\-L\-C\-\_\-\-Context\-Manager} ()
+\end{DoxyCompactItemize}
+\begin{Indent}{\bf Set Functions}\par
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c___context_manager_a3194df9ab465dfe21545137ad0cce103}{add\-Context} (\hyperlink{class_g_l_c___context}{G\-L\-C\-\_\-\-Context} $\ast$p\-Context)
+\begin{DoxyCompactList}\small\item\em Add the given context. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c___context_manager_acb9be35c85b08288544598be9a16f577}{remove} (\hyperlink{class_g_l_c___context}{G\-L\-C\-\_\-\-Context} $\ast$p\-Context)
+\begin{DoxyCompactList}\small\item\em Remove the given context. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c___context_manager_adf6fb5fbe5ff3c8df91dce9b53fba4da}{set\-Current} (\hyperlink{class_g_l_c___context}{G\-L\-C\-\_\-\-Context} $\ast$p\-Context)
+\begin{DoxyCompactList}\small\item\em Set the current the given context. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\end{Indent}
+\subsection*{Get Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_g_l_c___context}{G\-L\-C\-\_\-\-Context} $\ast$ \hyperlink{class_g_l_c___context_manager_a7d6f02a2d12ef9a9d87088bef7164f51}{current\-Context} () const 
+\begin{DoxyCompactList}\small\item\em Return the current context. \end{DoxyCompactList}\item 
+bool \hyperlink{class_g_l_c___context_manager_ab81949f40615c17f2bd7be5b8059bd71}{current\-Context\-Exists} () const 
+\begin{DoxyCompactList}\small\item\em Return true if there is a current context. \end{DoxyCompactList}\item 
+bool \hyperlink{class_g_l_c___context_manager_a9940da1a9265f1a7b3ff6d9b0499aefb}{has\-Context} () const 
+\begin{DoxyCompactList}\small\item\em Return true if this manager has context. \end{DoxyCompactList}\item 
+static \hyperlink{class_g_l_c___context_manager}{G\-L\-C\-\_\-\-Context\-Manager} $\ast$ \hyperlink{class_g_l_c___context_manager_aca70f0a74d1d31ee3af4765a6d5d554a}{instance} ()
+\begin{DoxyCompactList}\small\item\em Return the unique instance of context manager. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\hyperlink{class_g_l_c___context_manager}{G\-L\-C\-\_\-\-Context\-Manager} \-: Manager a set of \hyperlink{class_g_l_c___context}{G\-L\-C\-\_\-\-Context}. 
+
+Definition at line 38 of file glc\-\_\-contextmanager.\-h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_g_l_c___context_manager_aa87f31b171dea07d6ff26e50be03ce7a}{\index{G\-L\-C\-\_\-\-Context\-Manager@{G\-L\-C\-\_\-\-Context\-Manager}!$\sim$\-G\-L\-C\-\_\-\-Context\-Manager@{$\sim$\-G\-L\-C\-\_\-\-Context\-Manager}}
+\index{$\sim$\-G\-L\-C\-\_\-\-Context\-Manager@{$\sim$\-G\-L\-C\-\_\-\-Context\-Manager}!GLC_ContextManager@{G\-L\-C\-\_\-\-Context\-Manager}}
+\subsubsection[{$\sim$\-G\-L\-C\-\_\-\-Context\-Manager}]{\setlength{\rightskip}{0pt plus 5cm}G\-L\-C\-\_\-\-Context\-Manager\-::$\sim$\-G\-L\-C\-\_\-\-Context\-Manager (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_g_l_c___context_manager_aa87f31b171dea07d6ff26e50be03ce7a}
+
+
+Definition at line 39 of file glc\-\_\-contextmanager.\-cpp.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_g_l_c___context_manager_a3194df9ab465dfe21545137ad0cce103}{\index{G\-L\-C\-\_\-\-Context\-Manager@{G\-L\-C\-\_\-\-Context\-Manager}!add\-Context@{add\-Context}}
+\index{add\-Context@{add\-Context}!GLC_ContextManager@{G\-L\-C\-\_\-\-Context\-Manager}}
+\subsubsection[{add\-Context}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-\-Context\-Manager\-::add\-Context (
+\begin{DoxyParamCaption}
+\item[{{\bf G\-L\-C\-\_\-\-Context} $\ast$}]{p\-Context}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___context_manager_a3194df9ab465dfe21545137ad0cce103}
+
+
+Add the given context. 
+
+
+
+Definition at line 65 of file glc\-\_\-contextmanager.\-cpp.
+
+\hypertarget{class_g_l_c___context_manager_a7d6f02a2d12ef9a9d87088bef7164f51}{\index{G\-L\-C\-\_\-\-Context\-Manager@{G\-L\-C\-\_\-\-Context\-Manager}!current\-Context@{current\-Context}}
+\index{current\-Context@{current\-Context}!GLC_ContextManager@{G\-L\-C\-\_\-\-Context\-Manager}}
+\subsubsection[{current\-Context}]{\setlength{\rightskip}{0pt plus 5cm}{\bf G\-L\-C\-\_\-\-Context} $\ast$ G\-L\-C\-\_\-\-Context\-Manager\-::current\-Context (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_g_l_c___context_manager_a7d6f02a2d12ef9a9d87088bef7164f51}
+
+
+Return the current context. 
+
+
+
+Definition at line 57 of file glc\-\_\-contextmanager.\-cpp.
+
+\hypertarget{class_g_l_c___context_manager_ab81949f40615c17f2bd7be5b8059bd71}{\index{G\-L\-C\-\_\-\-Context\-Manager@{G\-L\-C\-\_\-\-Context\-Manager}!current\-Context\-Exists@{current\-Context\-Exists}}
+\index{current\-Context\-Exists@{current\-Context\-Exists}!GLC_ContextManager@{G\-L\-C\-\_\-\-Context\-Manager}}
+\subsubsection[{current\-Context\-Exists}]{\setlength{\rightskip}{0pt plus 5cm}bool G\-L\-C\-\_\-\-Context\-Manager\-::current\-Context\-Exists (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___context_manager_ab81949f40615c17f2bd7be5b8059bd71}
+
+
+Return true if there is a current context. 
+
+
+
+Definition at line 58 of file glc\-\_\-contextmanager.\-h.
+
+\hypertarget{class_g_l_c___context_manager_a9940da1a9265f1a7b3ff6d9b0499aefb}{\index{G\-L\-C\-\_\-\-Context\-Manager@{G\-L\-C\-\_\-\-Context\-Manager}!has\-Context@{has\-Context}}
+\index{has\-Context@{has\-Context}!GLC_ContextManager@{G\-L\-C\-\_\-\-Context\-Manager}}
+\subsubsection[{has\-Context}]{\setlength{\rightskip}{0pt plus 5cm}bool G\-L\-C\-\_\-\-Context\-Manager\-::has\-Context (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___context_manager_a9940da1a9265f1a7b3ff6d9b0499aefb}
+
+
+Return true if this manager has context. 
+
+
+
+Definition at line 62 of file glc\-\_\-contextmanager.\-h.
+
+\hypertarget{class_g_l_c___context_manager_aca70f0a74d1d31ee3af4765a6d5d554a}{\index{G\-L\-C\-\_\-\-Context\-Manager@{G\-L\-C\-\_\-\-Context\-Manager}!instance@{instance}}
+\index{instance@{instance}!GLC_ContextManager@{G\-L\-C\-\_\-\-Context\-Manager}}
+\subsubsection[{instance}]{\setlength{\rightskip}{0pt plus 5cm}{\bf G\-L\-C\-\_\-\-Context\-Manager} $\ast$ G\-L\-C\-\_\-\-Context\-Manager\-::instance (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{class_g_l_c___context_manager_aca70f0a74d1d31ee3af4765a6d5d554a}
+
+
+Return the unique instance of context manager. 
+
+
+
+Definition at line 47 of file glc\-\_\-contextmanager.\-cpp.
+
+\hypertarget{class_g_l_c___context_manager_acb9be35c85b08288544598be9a16f577}{\index{G\-L\-C\-\_\-\-Context\-Manager@{G\-L\-C\-\_\-\-Context\-Manager}!remove@{remove}}
+\index{remove@{remove}!GLC_ContextManager@{G\-L\-C\-\_\-\-Context\-Manager}}
+\subsubsection[{remove}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-\-Context\-Manager\-::remove (
+\begin{DoxyParamCaption}
+\item[{{\bf G\-L\-C\-\_\-\-Context} $\ast$}]{p\-Context}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___context_manager_acb9be35c85b08288544598be9a16f577}
+
+
+Remove the given context. 
+
+
+
+Definition at line 71 of file glc\-\_\-contextmanager.\-cpp.
+
+\hypertarget{class_g_l_c___context_manager_adf6fb5fbe5ff3c8df91dce9b53fba4da}{\index{G\-L\-C\-\_\-\-Context\-Manager@{G\-L\-C\-\_\-\-Context\-Manager}!set\-Current@{set\-Current}}
+\index{set\-Current@{set\-Current}!GLC_ContextManager@{G\-L\-C\-\_\-\-Context\-Manager}}
+\subsubsection[{set\-Current}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-\-Context\-Manager\-::set\-Current (
+\begin{DoxyParamCaption}
+\item[{{\bf G\-L\-C\-\_\-\-Context} $\ast$}]{p\-Context}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___context_manager_adf6fb5fbe5ff3c8df91dce9b53fba4da}
+
+
+Set the current the given context. 
+
+
+
+Definition at line 81 of file glc\-\_\-contextmanager.\-cpp.
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/glc\-\_\-lib/\hyperlink{glc__contextmanager_8h}{glc\-\_\-contextmanager.\-h}\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/glc\-\_\-lib/\hyperlink{glc__contextmanager_8cpp}{glc\-\_\-contextmanager.\-cpp}\end{DoxyCompactItemize}

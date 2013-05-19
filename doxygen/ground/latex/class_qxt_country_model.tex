@@ -1,0 +1,125 @@
+\hypertarget{class_qxt_country_model}{\section{Qxt\-Country\-Model Class Reference}
+\label{class_qxt_country_model}\index{Qxt\-Country\-Model@{Qxt\-Country\-Model}}
+}
+
+
+The \hyperlink{class_qxt_country_model}{Qxt\-Country\-Model} class is a subclass of Q\-Abstract\-Table\-Model to display country data.  
+
+
+
+
+{\ttfamily \#include $<$qxtcountrymodel.\-h$>$}
+
+Inheritance diagram for Qxt\-Country\-Model\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_qxt_country_model}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_qxt_country_model_a92127cd7a491b4d49186a8fa251bb1f6}{Qxt\-Country\-Model} (Q\-Object $\ast$parent=0)
+\item 
+\hyperlink{class_qxt_country_model_aaa7d5e1487fb8802800142416df8f6fd}{$\sim$\-Qxt\-Country\-Model} ()
+\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_qxt_country_model_a4c4777c44986875a161f61699377b40c}{row\-Count} (const Q\-Model\-Index \&) const 
+\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_qxt_country_model_a8575309ebb749cf25d6e80d2f76772f1}{column\-Count} (const Q\-Model\-Index \&) const 
+\item 
+Q\-Variant \hyperlink{class_qxt_country_model_a6f1f6c93bfb96a4ec53173bf1a950fe9}{data} (const Q\-Model\-Index \&\hyperlink{glext_8h_ab47dd9958bcadea08866b42bf358e95e}{index}, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} role=Qt\-::\-Display\-Role) const 
+\item 
+Q\-Variant \hyperlink{class_qxt_country_model_ad6e85c2370de2f6efa0e4f48c38ee1d6}{header\-Data} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} section, Qt\-::\-Orientation orientation, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} role=Qt\-::\-Display\-Role) const 
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+The \hyperlink{class_qxt_country_model}{Qxt\-Country\-Model} class is a subclass of Q\-Abstract\-Table\-Model to display country data. 
+
+Qxt\-Gui \hyperlink{class_qxt_country_model}{Qxt\-Country\-Model} is a specialized Q\-Abstract\-Table\-Model to display countries. The countries are taken from Q\-Locale\-::\-Country.
+
+\char`\"{}\-Qxt\-Country\-Model in a Q\-Table\-View in Plastique style.\char`\"{} 
+
+Definition at line 33 of file qxtcountrymodel.\-h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_qxt_country_model_a92127cd7a491b4d49186a8fa251bb1f6}{\index{Qxt\-Country\-Model@{Qxt\-Country\-Model}!Qxt\-Country\-Model@{Qxt\-Country\-Model}}
+\index{Qxt\-Country\-Model@{Qxt\-Country\-Model}!QxtCountryModel@{Qxt\-Country\-Model}}
+\subsubsection[{Qxt\-Country\-Model}]{\setlength{\rightskip}{0pt plus 5cm}Qxt\-Country\-Model\-::\-Qxt\-Country\-Model (
+\begin{DoxyParamCaption}
+\item[{Q\-Object $\ast$}]{parent = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [explicit]}}}\label{class_qxt_country_model_a92127cd7a491b4d49186a8fa251bb1f6}
+Constructs a new \hyperlink{class_qxt_country_model}{Qxt\-Country\-Model} with {\itshape parent}. 
+
+Definition at line 149 of file qxtcountrymodel.\-cpp.
+
+\hypertarget{class_qxt_country_model_aaa7d5e1487fb8802800142416df8f6fd}{\index{Qxt\-Country\-Model@{Qxt\-Country\-Model}!$\sim$\-Qxt\-Country\-Model@{$\sim$\-Qxt\-Country\-Model}}
+\index{$\sim$\-Qxt\-Country\-Model@{$\sim$\-Qxt\-Country\-Model}!QxtCountryModel@{Qxt\-Country\-Model}}
+\subsubsection[{$\sim$\-Qxt\-Country\-Model}]{\setlength{\rightskip}{0pt plus 5cm}Qxt\-Country\-Model\-::$\sim$\-Qxt\-Country\-Model (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_qxt_country_model_aaa7d5e1487fb8802800142416df8f6fd}
+Destructs the country model. 
+
+Definition at line 158 of file qxtcountrymodel.\-cpp.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_qxt_country_model_a8575309ebb749cf25d6e80d2f76772f1}{\index{Qxt\-Country\-Model@{Qxt\-Country\-Model}!column\-Count@{column\-Count}}
+\index{column\-Count@{column\-Count}!QxtCountryModel@{Qxt\-Country\-Model}}
+\subsubsection[{column\-Count}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int} Qxt\-Country\-Model\-::column\-Count (
+\begin{DoxyParamCaption}
+\item[{const Q\-Model\-Index \&}]{parent}
+\end{DoxyParamCaption}
+) const}}\label{class_qxt_country_model_a8575309ebb749cf25d6e80d2f76772f1}
+Returns the number of columns {\itshape parent} in the model. 
+
+Definition at line 173 of file qxtcountrymodel.\-cpp.
+
+\hypertarget{class_qxt_country_model_a6f1f6c93bfb96a4ec53173bf1a950fe9}{\index{Qxt\-Country\-Model@{Qxt\-Country\-Model}!data@{data}}
+\index{data@{data}!QxtCountryModel@{Qxt\-Country\-Model}}
+\subsubsection[{data}]{\setlength{\rightskip}{0pt plus 5cm}Q\-Variant Qxt\-Country\-Model\-::data (
+\begin{DoxyParamCaption}
+\item[{const Q\-Model\-Index \&}]{index, }
+\item[{{\bf int}}]{role = {\ttfamily Qt\-:\-:DisplayRole}}
+\end{DoxyParamCaption}
+) const}}\label{class_qxt_country_model_a6f1f6c93bfb96a4ec53173bf1a950fe9}
+Returns the data for the given {\itshape index} for a specific {\itshape role}. 
+
+Definition at line 181 of file qxtcountrymodel.\-cpp.
+
+\hypertarget{class_qxt_country_model_ad6e85c2370de2f6efa0e4f48c38ee1d6}{\index{Qxt\-Country\-Model@{Qxt\-Country\-Model}!header\-Data@{header\-Data}}
+\index{header\-Data@{header\-Data}!QxtCountryModel@{Qxt\-Country\-Model}}
+\subsubsection[{header\-Data}]{\setlength{\rightskip}{0pt plus 5cm}Q\-Variant Qxt\-Country\-Model\-::header\-Data (
+\begin{DoxyParamCaption}
+\item[{{\bf int}}]{section, }
+\item[{Qt\-::\-Orientation}]{orientation, }
+\item[{{\bf int}}]{role = {\ttfamily Qt\-:\-:DisplayRole}}
+\end{DoxyParamCaption}
+) const}}\label{class_qxt_country_model_ad6e85c2370de2f6efa0e4f48c38ee1d6}
+Returns the column or row name for the given {\itshape section} in {\itshape orientation} for a sepcific {\itshape role}. 
+
+Definition at line 189 of file qxtcountrymodel.\-cpp.
+
+\hypertarget{class_qxt_country_model_a4c4777c44986875a161f61699377b40c}{\index{Qxt\-Country\-Model@{Qxt\-Country\-Model}!row\-Count@{row\-Count}}
+\index{row\-Count@{row\-Count}!QxtCountryModel@{Qxt\-Country\-Model}}
+\subsubsection[{row\-Count}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int} Qxt\-Country\-Model\-::row\-Count (
+\begin{DoxyParamCaption}
+\item[{const Q\-Model\-Index \&}]{parent}
+\end{DoxyParamCaption}
+) const}}\label{class_qxt_country_model_a4c4777c44986875a161f61699377b40c}
+Returns the number of countries for {\itshape parent} in the model. 
+
+Definition at line 165 of file qxtcountrymodel.\-cpp.
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/libqxt/src/gui/\hyperlink{qxtcountrymodel_8h}{qxtcountrymodel.\-h}\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/libqxt/src/gui/\hyperlink{qxtcountrymodel_8cpp}{qxtcountrymodel.\-cpp}\end{DoxyCompactItemize}

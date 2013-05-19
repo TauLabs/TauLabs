@@ -1,0 +1,113 @@
+\hypertarget{mesh_8h}{\section{/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/glc\-\_\-lib/3rdparty/lib3ds/mesh.h File Reference}
+\label{mesh_8h}\index{/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/glc\-\_\-lib/3rdparty/lib3ds/mesh.\-h@{/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/glc\-\_\-lib/3rdparty/lib3ds/mesh.\-h}}
+}
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{struct_lib3ds_point}{Lib3ds\-Point}
+\item 
+struct \hyperlink{struct_lib3ds_face}{Lib3ds\-Face}
+\item 
+struct \hyperlink{struct_lib3ds_box_map}{Lib3ds\-Box\-Map}
+\item 
+struct \hyperlink{struct_lib3ds_map_data}{Lib3ds\-Map\-Data}
+\item 
+struct \hyperlink{struct_lib3ds_mesh}{Lib3ds\-Mesh}
+\end{DoxyCompactItemize}
+\subsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef \hyperlink{sdlgamepad_8dox_aba655c5729da86df745f0c8e7f9ba8d2}{struct} \hyperlink{struct_lib3ds_point}{Lib3ds\-Point} \hyperlink{group__mesh_ga6cd59034c5b1363705d3cb07076fea6f}{Lib3ds\-Point}
+\end{DoxyCompactItemize}
+\subsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{mesh_8h_ae39baeb87be5b82c5990966453f24b25}{Lib3ds\-Face\-Flag} \{ \\*
+\hyperlink{mesh_8h_ae39baeb87be5b82c5990966453f24b25a8926be86ccb48652bc50548c4108367c}{L\-I\-B3\-D\-S\-\_\-\-F\-A\-C\-E\-\_\-\-F\-L\-A\-G\-\_\-\-V\-I\-S\-\_\-\-A\-C} = 0x1, 
+\hyperlink{mesh_8h_ae39baeb87be5b82c5990966453f24b25a20ff8fb3273c8455793051f2e919fb29}{L\-I\-B3\-D\-S\-\_\-\-F\-A\-C\-E\-\_\-\-F\-L\-A\-G\-\_\-\-V\-I\-S\-\_\-\-B\-C} = 0x2, 
+\hyperlink{mesh_8h_ae39baeb87be5b82c5990966453f24b25aabb9ac8d5acf35761625da6ead846bd5}{L\-I\-B3\-D\-S\-\_\-\-F\-A\-C\-E\-\_\-\-F\-L\-A\-G\-\_\-\-V\-I\-S\-\_\-\-A\-B} = 0x4, 
+\hyperlink{mesh_8h_ae39baeb87be5b82c5990966453f24b25abe2186debd34e8bccb2c0d2d52076a4e}{L\-I\-B3\-D\-S\-\_\-\-F\-A\-C\-E\-\_\-\-F\-L\-A\-G\-\_\-\-W\-R\-A\-P\-\_\-\-U} = 0x8, 
+\\*
+\hyperlink{mesh_8h_ae39baeb87be5b82c5990966453f24b25ae2e850aac02273d8662597332b6ceb14}{L\-I\-B3\-D\-S\-\_\-\-F\-A\-C\-E\-\_\-\-F\-L\-A\-G\-\_\-\-W\-R\-A\-P\-\_\-\-V} = 0x10, 
+\hyperlink{mesh_8h_ae39baeb87be5b82c5990966453f24b25a5770641ae8fb8d9bb79c54111b3491b4}{L\-I\-B3\-D\-S\-\_\-\-F\-A\-C\-E\-\_\-\-F\-L\-A\-G\-\_\-\-U\-N\-K7} = 0x80, 
+\hyperlink{mesh_8h_ae39baeb87be5b82c5990966453f24b25a68b4326f73d0effe28c5aa48b19898bc}{L\-I\-B3\-D\-S\-\_\-\-F\-A\-C\-E\-\_\-\-F\-L\-A\-G\-\_\-\-U\-N\-K10} = 0x400, 
+\hyperlink{mesh_8h_ae39baeb87be5b82c5990966453f24b25a214bee82853eb8758ba9f28b4532f2d4}{L\-I\-B3\-D\-S\-\_\-\-F\-A\-C\-E\-\_\-\-F\-L\-A\-G\-\_\-\-S\-E\-L\-E\-C\-T\-\_\-3} = (1$<$$<$13), 
+\\*
+\hyperlink{mesh_8h_ae39baeb87be5b82c5990966453f24b25a54f03918df177db2503c52b6302e3e9f}{L\-I\-B3\-D\-S\-\_\-\-F\-A\-C\-E\-\_\-\-F\-L\-A\-G\-\_\-\-S\-E\-L\-E\-C\-T\-\_\-2} = (1$<$$<$14), 
+\hyperlink{mesh_8h_ae39baeb87be5b82c5990966453f24b25a599e8a51c5196a8711299947a214b462}{L\-I\-B3\-D\-S\-\_\-\-F\-A\-C\-E\-\_\-\-F\-L\-A\-G\-\_\-\-S\-E\-L\-E\-C\-T\-\_\-1} = (1$<$$<$15)
+ \}
+\item 
+enum \hyperlink{group__tracks_gafa7416688bb0948ccc630331686808fa}{Lib3ds\-Map\-Type} \{ \hyperlink{group__tracks_ggafa7416688bb0948ccc630331686808faadd21203218ab111848dad62a2beffe55}{L\-I\-B3\-D\-S\-\_\-\-M\-A\-P\-\_\-\-N\-O\-N\-E} =0x\-F\-F\-F\-F, 
+\hyperlink{group__tracks_ggafa7416688bb0948ccc630331686808faa984c5df302b355d2c3aeb8290d53b46a}{L\-I\-B3\-D\-S\-\_\-\-M\-A\-P\-\_\-\-P\-L\-A\-N\-A\-R} =0, 
+\hyperlink{group__tracks_ggafa7416688bb0948ccc630331686808faa3a5312fea88ae3b93779e292eb662d60}{L\-I\-B3\-D\-S\-\_\-\-M\-A\-P\-\_\-\-C\-Y\-L\-I\-N\-D\-R\-I\-C\-A\-L} =1, 
+\hyperlink{group__tracks_ggafa7416688bb0948ccc630331686808faa48ebf465e442f9bcda31917164712059}{L\-I\-B3\-D\-S\-\_\-\-M\-A\-P\-\_\-\-S\-P\-H\-E\-R\-I\-C\-A\-L} =2
+ \}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+L\-I\-B3\-D\-S\-A\-P\-I \hyperlink{struct_lib3ds_mesh}{Lib3ds\-Mesh} $\ast$ \hyperlink{group__mesh_ga7edcae326ee09f46d3b52c99c2aa9e24}{lib3ds\-\_\-mesh\-\_\-new} (const char $\ast$\hyperlink{glext_8h_ad977737dfc9a274a62741b9500c49a32}{name})
+\item 
+L\-I\-B3\-D\-S\-A\-P\-I \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group__mesh_gadadcac46515770b081c8b8771e157ccc}{lib3ds\-\_\-mesh\-\_\-free} (\hyperlink{struct_lib3ds_mesh}{Lib3ds\-Mesh} $\ast$mesh)
+\item 
+L\-I\-B3\-D\-S\-A\-P\-I \hyperlink{types_8h_a89dd7398a9ebbbf28011f8c32df67ad3}{Lib3ds\-Bool} \hyperlink{group__mesh_gafe60f3c7105b3bc41d4c94a84cb1a0a2}{lib3ds\-\_\-mesh\-\_\-new\-\_\-point\-\_\-list} (\hyperlink{struct_lib3ds_mesh}{Lib3ds\-Mesh} $\ast$mesh, \hyperlink{types_8h_a299c9663303144c562f6bd92c2f273d3}{Lib3ds\-Dword} \hyperlink{glext_8h_ae75d9f560170dfeaadc8718c87f5fbec}{points})
+\item 
+L\-I\-B3\-D\-S\-A\-P\-I \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group__mesh_ga9f7920b532154eb01e1060d8fc3e017b}{lib3ds\-\_\-mesh\-\_\-free\-\_\-point\-\_\-list} (\hyperlink{struct_lib3ds_mesh}{Lib3ds\-Mesh} $\ast$mesh)
+\item 
+L\-I\-B3\-D\-S\-A\-P\-I \hyperlink{types_8h_a89dd7398a9ebbbf28011f8c32df67ad3}{Lib3ds\-Bool} \hyperlink{group__mesh_gaa62e7733106927763525c466a4fde142}{lib3ds\-\_\-mesh\-\_\-new\-\_\-flag\-\_\-list} (\hyperlink{struct_lib3ds_mesh}{Lib3ds\-Mesh} $\ast$mesh, \hyperlink{types_8h_a299c9663303144c562f6bd92c2f273d3}{Lib3ds\-Dword} flags)
+\item 
+L\-I\-B3\-D\-S\-A\-P\-I \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group__mesh_ga9f3f6af9176319e3d892bc42e10a53d1}{lib3ds\-\_\-mesh\-\_\-free\-\_\-flag\-\_\-list} (\hyperlink{struct_lib3ds_mesh}{Lib3ds\-Mesh} $\ast$mesh)
+\item 
+L\-I\-B3\-D\-S\-A\-P\-I \hyperlink{types_8h_a89dd7398a9ebbbf28011f8c32df67ad3}{Lib3ds\-Bool} \hyperlink{group__mesh_ga3ddeb369b1102dde6bb74f417fd0e69d}{lib3ds\-\_\-mesh\-\_\-new\-\_\-texel\-\_\-list} (\hyperlink{struct_lib3ds_mesh}{Lib3ds\-Mesh} $\ast$mesh, \hyperlink{types_8h_a299c9663303144c562f6bd92c2f273d3}{Lib3ds\-Dword} texels)
+\item 
+L\-I\-B3\-D\-S\-A\-P\-I \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group__mesh_ga3aa50465569d0197e75e029b564c59ca}{lib3ds\-\_\-mesh\-\_\-free\-\_\-texel\-\_\-list} (\hyperlink{struct_lib3ds_mesh}{Lib3ds\-Mesh} $\ast$mesh)
+\item 
+L\-I\-B3\-D\-S\-A\-P\-I \hyperlink{types_8h_a89dd7398a9ebbbf28011f8c32df67ad3}{Lib3ds\-Bool} \hyperlink{group__mesh_gacf6978458c8d2ddfe34048ba5aa3e48b}{lib3ds\-\_\-mesh\-\_\-new\-\_\-face\-\_\-list} (\hyperlink{struct_lib3ds_mesh}{Lib3ds\-Mesh} $\ast$mesh, \hyperlink{types_8h_a299c9663303144c562f6bd92c2f273d3}{Lib3ds\-Dword} flags)
+\item 
+L\-I\-B3\-D\-S\-A\-P\-I \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group__mesh_gaff057c8d175e319ce3e4f02ef2287ca6}{lib3ds\-\_\-mesh\-\_\-free\-\_\-face\-\_\-list} (\hyperlink{struct_lib3ds_mesh}{Lib3ds\-Mesh} $\ast$mesh)
+\item 
+L\-I\-B3\-D\-S\-A\-P\-I \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group__mesh_gafb6f23418a8ce0f6aaa85923463cad56}{lib3ds\-\_\-mesh\-\_\-bounding\-\_\-box} (\hyperlink{struct_lib3ds_mesh}{Lib3ds\-Mesh} $\ast$mesh, \hyperlink{group__vector_ga6ac1c3b3ef15381ebf6baf264d658dcf}{Lib3ds\-Vector} bmin, \hyperlink{group__vector_ga6ac1c3b3ef15381ebf6baf264d658dcf}{Lib3ds\-Vector} bmax)
+\item 
+L\-I\-B3\-D\-S\-A\-P\-I \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group__mesh_gad76dc09dc12d1ef5e3a02ff8449749c0}{lib3ds\-\_\-mesh\-\_\-calculate\-\_\-normals} (\hyperlink{struct_lib3ds_mesh}{Lib3ds\-Mesh} $\ast$mesh, \hyperlink{group__vector_ga6ac1c3b3ef15381ebf6baf264d658dcf}{Lib3ds\-Vector} $\ast$normal\-L)
+\item 
+L\-I\-B3\-D\-S\-A\-P\-I \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group__mesh_ga9edfbdf4d2bb0742124595dc417d4954}{lib3ds\-\_\-mesh\-\_\-dump} (\hyperlink{struct_lib3ds_mesh}{Lib3ds\-Mesh} $\ast$mesh)
+\item 
+L\-I\-B3\-D\-S\-A\-P\-I \hyperlink{types_8h_a89dd7398a9ebbbf28011f8c32df67ad3}{Lib3ds\-Bool} \hyperlink{group__mesh_gab897e43c2c62a7b36c8d04654860bef9}{lib3ds\-\_\-mesh\-\_\-read} (\hyperlink{struct_lib3ds_mesh}{Lib3ds\-Mesh} $\ast$mesh, \hyperlink{struct_lib3ds_io}{Lib3ds\-Io} $\ast$io)
+\item 
+L\-I\-B3\-D\-S\-A\-P\-I \hyperlink{types_8h_a89dd7398a9ebbbf28011f8c32df67ad3}{Lib3ds\-Bool} \hyperlink{group__mesh_gacb38fcbccbfd471479cc8717f51a5873}{lib3ds\-\_\-mesh\-\_\-write} (\hyperlink{struct_lib3ds_mesh}{Lib3ds\-Mesh} $\ast$mesh, \hyperlink{struct_lib3ds_io}{Lib3ds\-Io} $\ast$io)
+\end{DoxyCompactItemize}
+
+
+\subsection{Enumeration Type Documentation}
+\hypertarget{mesh_8h_ae39baeb87be5b82c5990966453f24b25}{\index{mesh.\-h@{mesh.\-h}!Lib3ds\-Face\-Flag@{Lib3ds\-Face\-Flag}}
+\index{Lib3ds\-Face\-Flag@{Lib3ds\-Face\-Flag}!mesh.h@{mesh.\-h}}
+\subsubsection[{Lib3ds\-Face\-Flag}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf Lib3ds\-Face\-Flag}}}\label{mesh_8h_ae39baeb87be5b82c5990966453f24b25}
+Vertex flags Meaning of \-\_\-\-Lib3ds\-Face\-::flags. A\-B\-C are points of the current face (A\-: is 1st vertex, B is 2nd vertex, C is 3rd vertex) \begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{L\-I\-B3\-D\-S\-\_\-\-F\-A\-C\-E\-\_\-\-F\-L\-A\-G\-\_\-\-V\-I\-S\-\_\-\-A\-C@{L\-I\-B3\-D\-S\-\_\-\-F\-A\-C\-E\-\_\-\-F\-L\-A\-G\-\_\-\-V\-I\-S\-\_\-\-A\-C}!mesh.\-h@{mesh.\-h}}\index{mesh.\-h@{mesh.\-h}!L\-I\-B3\-D\-S\-\_\-\-F\-A\-C\-E\-\_\-\-F\-L\-A\-G\-\_\-\-V\-I\-S\-\_\-\-A\-C@{L\-I\-B3\-D\-S\-\_\-\-F\-A\-C\-E\-\_\-\-F\-L\-A\-G\-\_\-\-V\-I\-S\-\_\-\-A\-C}}\item[{\em 
+\hypertarget{mesh_8h_ae39baeb87be5b82c5990966453f24b25a8926be86ccb48652bc50548c4108367c}{L\-I\-B3\-D\-S\-\_\-\-F\-A\-C\-E\-\_\-\-F\-L\-A\-G\-\_\-\-V\-I\-S\-\_\-\-A\-C}\label{mesh_8h_ae39baeb87be5b82c5990966453f24b25a8926be86ccb48652bc50548c4108367c}
+}]Bit 0\-: \hyperlink{class_edge}{Edge} visibility A\-C \index{L\-I\-B3\-D\-S\-\_\-\-F\-A\-C\-E\-\_\-\-F\-L\-A\-G\-\_\-\-V\-I\-S\-\_\-\-B\-C@{L\-I\-B3\-D\-S\-\_\-\-F\-A\-C\-E\-\_\-\-F\-L\-A\-G\-\_\-\-V\-I\-S\-\_\-\-B\-C}!mesh.\-h@{mesh.\-h}}\index{mesh.\-h@{mesh.\-h}!L\-I\-B3\-D\-S\-\_\-\-F\-A\-C\-E\-\_\-\-F\-L\-A\-G\-\_\-\-V\-I\-S\-\_\-\-B\-C@{L\-I\-B3\-D\-S\-\_\-\-F\-A\-C\-E\-\_\-\-F\-L\-A\-G\-\_\-\-V\-I\-S\-\_\-\-B\-C}}\item[{\em 
+\hypertarget{mesh_8h_ae39baeb87be5b82c5990966453f24b25a20ff8fb3273c8455793051f2e919fb29}{L\-I\-B3\-D\-S\-\_\-\-F\-A\-C\-E\-\_\-\-F\-L\-A\-G\-\_\-\-V\-I\-S\-\_\-\-B\-C}\label{mesh_8h_ae39baeb87be5b82c5990966453f24b25a20ff8fb3273c8455793051f2e919fb29}
+}]Bit 1\-: \hyperlink{class_edge}{Edge} visibility B\-C \index{L\-I\-B3\-D\-S\-\_\-\-F\-A\-C\-E\-\_\-\-F\-L\-A\-G\-\_\-\-V\-I\-S\-\_\-\-A\-B@{L\-I\-B3\-D\-S\-\_\-\-F\-A\-C\-E\-\_\-\-F\-L\-A\-G\-\_\-\-V\-I\-S\-\_\-\-A\-B}!mesh.\-h@{mesh.\-h}}\index{mesh.\-h@{mesh.\-h}!L\-I\-B3\-D\-S\-\_\-\-F\-A\-C\-E\-\_\-\-F\-L\-A\-G\-\_\-\-V\-I\-S\-\_\-\-A\-B@{L\-I\-B3\-D\-S\-\_\-\-F\-A\-C\-E\-\_\-\-F\-L\-A\-G\-\_\-\-V\-I\-S\-\_\-\-A\-B}}\item[{\em 
+\hypertarget{mesh_8h_ae39baeb87be5b82c5990966453f24b25aabb9ac8d5acf35761625da6ead846bd5}{L\-I\-B3\-D\-S\-\_\-\-F\-A\-C\-E\-\_\-\-F\-L\-A\-G\-\_\-\-V\-I\-S\-\_\-\-A\-B}\label{mesh_8h_ae39baeb87be5b82c5990966453f24b25aabb9ac8d5acf35761625da6ead846bd5}
+}]Bit 2\-: \hyperlink{class_edge}{Edge} visibility A\-B \index{L\-I\-B3\-D\-S\-\_\-\-F\-A\-C\-E\-\_\-\-F\-L\-A\-G\-\_\-\-W\-R\-A\-P\-\_\-\-U@{L\-I\-B3\-D\-S\-\_\-\-F\-A\-C\-E\-\_\-\-F\-L\-A\-G\-\_\-\-W\-R\-A\-P\-\_\-\-U}!mesh.\-h@{mesh.\-h}}\index{mesh.\-h@{mesh.\-h}!L\-I\-B3\-D\-S\-\_\-\-F\-A\-C\-E\-\_\-\-F\-L\-A\-G\-\_\-\-W\-R\-A\-P\-\_\-\-U@{L\-I\-B3\-D\-S\-\_\-\-F\-A\-C\-E\-\_\-\-F\-L\-A\-G\-\_\-\-W\-R\-A\-P\-\_\-\-U}}\item[{\em 
+\hypertarget{mesh_8h_ae39baeb87be5b82c5990966453f24b25abe2186debd34e8bccb2c0d2d52076a4e}{L\-I\-B3\-D\-S\-\_\-\-F\-A\-C\-E\-\_\-\-F\-L\-A\-G\-\_\-\-W\-R\-A\-P\-\_\-\-U}\label{mesh_8h_ae39baeb87be5b82c5990966453f24b25abe2186debd34e8bccb2c0d2d52076a4e}
+}]Bit 3\-: Face is at tex U wrap seam \index{L\-I\-B3\-D\-S\-\_\-\-F\-A\-C\-E\-\_\-\-F\-L\-A\-G\-\_\-\-W\-R\-A\-P\-\_\-\-V@{L\-I\-B3\-D\-S\-\_\-\-F\-A\-C\-E\-\_\-\-F\-L\-A\-G\-\_\-\-W\-R\-A\-P\-\_\-\-V}!mesh.\-h@{mesh.\-h}}\index{mesh.\-h@{mesh.\-h}!L\-I\-B3\-D\-S\-\_\-\-F\-A\-C\-E\-\_\-\-F\-L\-A\-G\-\_\-\-W\-R\-A\-P\-\_\-\-V@{L\-I\-B3\-D\-S\-\_\-\-F\-A\-C\-E\-\_\-\-F\-L\-A\-G\-\_\-\-W\-R\-A\-P\-\_\-\-V}}\item[{\em 
+\hypertarget{mesh_8h_ae39baeb87be5b82c5990966453f24b25ae2e850aac02273d8662597332b6ceb14}{L\-I\-B3\-D\-S\-\_\-\-F\-A\-C\-E\-\_\-\-F\-L\-A\-G\-\_\-\-W\-R\-A\-P\-\_\-\-V}\label{mesh_8h_ae39baeb87be5b82c5990966453f24b25ae2e850aac02273d8662597332b6ceb14}
+}]Bit 4\-: Face is at tex V wrap seam \index{L\-I\-B3\-D\-S\-\_\-\-F\-A\-C\-E\-\_\-\-F\-L\-A\-G\-\_\-\-U\-N\-K7@{L\-I\-B3\-D\-S\-\_\-\-F\-A\-C\-E\-\_\-\-F\-L\-A\-G\-\_\-\-U\-N\-K7}!mesh.\-h@{mesh.\-h}}\index{mesh.\-h@{mesh.\-h}!L\-I\-B3\-D\-S\-\_\-\-F\-A\-C\-E\-\_\-\-F\-L\-A\-G\-\_\-\-U\-N\-K7@{L\-I\-B3\-D\-S\-\_\-\-F\-A\-C\-E\-\_\-\-F\-L\-A\-G\-\_\-\-U\-N\-K7}}\item[{\em 
+\hypertarget{mesh_8h_ae39baeb87be5b82c5990966453f24b25a5770641ae8fb8d9bb79c54111b3491b4}{L\-I\-B3\-D\-S\-\_\-\-F\-A\-C\-E\-\_\-\-F\-L\-A\-G\-\_\-\-U\-N\-K7}\label{mesh_8h_ae39baeb87be5b82c5990966453f24b25a5770641ae8fb8d9bb79c54111b3491b4}
+}]\index{L\-I\-B3\-D\-S\-\_\-\-F\-A\-C\-E\-\_\-\-F\-L\-A\-G\-\_\-\-U\-N\-K10@{L\-I\-B3\-D\-S\-\_\-\-F\-A\-C\-E\-\_\-\-F\-L\-A\-G\-\_\-\-U\-N\-K10}!mesh.\-h@{mesh.\-h}}\index{mesh.\-h@{mesh.\-h}!L\-I\-B3\-D\-S\-\_\-\-F\-A\-C\-E\-\_\-\-F\-L\-A\-G\-\_\-\-U\-N\-K10@{L\-I\-B3\-D\-S\-\_\-\-F\-A\-C\-E\-\_\-\-F\-L\-A\-G\-\_\-\-U\-N\-K10}}\item[{\em 
+\hypertarget{mesh_8h_ae39baeb87be5b82c5990966453f24b25a68b4326f73d0effe28c5aa48b19898bc}{L\-I\-B3\-D\-S\-\_\-\-F\-A\-C\-E\-\_\-\-F\-L\-A\-G\-\_\-\-U\-N\-K10}\label{mesh_8h_ae39baeb87be5b82c5990966453f24b25a68b4326f73d0effe28c5aa48b19898bc}
+}]\index{L\-I\-B3\-D\-S\-\_\-\-F\-A\-C\-E\-\_\-\-F\-L\-A\-G\-\_\-\-S\-E\-L\-E\-C\-T\-\_\-3@{L\-I\-B3\-D\-S\-\_\-\-F\-A\-C\-E\-\_\-\-F\-L\-A\-G\-\_\-\-S\-E\-L\-E\-C\-T\-\_\-3}!mesh.\-h@{mesh.\-h}}\index{mesh.\-h@{mesh.\-h}!L\-I\-B3\-D\-S\-\_\-\-F\-A\-C\-E\-\_\-\-F\-L\-A\-G\-\_\-\-S\-E\-L\-E\-C\-T\-\_\-3@{L\-I\-B3\-D\-S\-\_\-\-F\-A\-C\-E\-\_\-\-F\-L\-A\-G\-\_\-\-S\-E\-L\-E\-C\-T\-\_\-3}}\item[{\em 
+\hypertarget{mesh_8h_ae39baeb87be5b82c5990966453f24b25a214bee82853eb8758ba9f28b4532f2d4}{L\-I\-B3\-D\-S\-\_\-\-F\-A\-C\-E\-\_\-\-F\-L\-A\-G\-\_\-\-S\-E\-L\-E\-C\-T\-\_\-3}\label{mesh_8h_ae39baeb87be5b82c5990966453f24b25a214bee82853eb8758ba9f28b4532f2d4}
+}]Bit 13\-: Selection of the face in selection 3 \index{L\-I\-B3\-D\-S\-\_\-\-F\-A\-C\-E\-\_\-\-F\-L\-A\-G\-\_\-\-S\-E\-L\-E\-C\-T\-\_\-2@{L\-I\-B3\-D\-S\-\_\-\-F\-A\-C\-E\-\_\-\-F\-L\-A\-G\-\_\-\-S\-E\-L\-E\-C\-T\-\_\-2}!mesh.\-h@{mesh.\-h}}\index{mesh.\-h@{mesh.\-h}!L\-I\-B3\-D\-S\-\_\-\-F\-A\-C\-E\-\_\-\-F\-L\-A\-G\-\_\-\-S\-E\-L\-E\-C\-T\-\_\-2@{L\-I\-B3\-D\-S\-\_\-\-F\-A\-C\-E\-\_\-\-F\-L\-A\-G\-\_\-\-S\-E\-L\-E\-C\-T\-\_\-2}}\item[{\em 
+\hypertarget{mesh_8h_ae39baeb87be5b82c5990966453f24b25a54f03918df177db2503c52b6302e3e9f}{L\-I\-B3\-D\-S\-\_\-\-F\-A\-C\-E\-\_\-\-F\-L\-A\-G\-\_\-\-S\-E\-L\-E\-C\-T\-\_\-2}\label{mesh_8h_ae39baeb87be5b82c5990966453f24b25a54f03918df177db2503c52b6302e3e9f}
+}]Bit 14\-: Selection of the face in selection 2 \index{L\-I\-B3\-D\-S\-\_\-\-F\-A\-C\-E\-\_\-\-F\-L\-A\-G\-\_\-\-S\-E\-L\-E\-C\-T\-\_\-1@{L\-I\-B3\-D\-S\-\_\-\-F\-A\-C\-E\-\_\-\-F\-L\-A\-G\-\_\-\-S\-E\-L\-E\-C\-T\-\_\-1}!mesh.\-h@{mesh.\-h}}\index{mesh.\-h@{mesh.\-h}!L\-I\-B3\-D\-S\-\_\-\-F\-A\-C\-E\-\_\-\-F\-L\-A\-G\-\_\-\-S\-E\-L\-E\-C\-T\-\_\-1@{L\-I\-B3\-D\-S\-\_\-\-F\-A\-C\-E\-\_\-\-F\-L\-A\-G\-\_\-\-S\-E\-L\-E\-C\-T\-\_\-1}}\item[{\em 
+\hypertarget{mesh_8h_ae39baeb87be5b82c5990966453f24b25a599e8a51c5196a8711299947a214b462}{L\-I\-B3\-D\-S\-\_\-\-F\-A\-C\-E\-\_\-\-F\-L\-A\-G\-\_\-\-S\-E\-L\-E\-C\-T\-\_\-1}\label{mesh_8h_ae39baeb87be5b82c5990966453f24b25a599e8a51c5196a8711299947a214b462}
+}]Bit 15\-: Selection of the face in selection 1 \end{description}
+\end{Desc}
+
+
+Definition at line 62 of file mesh.\-h.
+

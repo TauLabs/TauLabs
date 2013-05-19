@@ -1,0 +1,1344 @@
+\hypertarget{class_qwt_plot_curve}{\section{Qwt\-Plot\-Curve Class Reference}
+\label{class_qwt_plot_curve}\index{Qwt\-Plot\-Curve@{Qwt\-Plot\-Curve}}
+}
+
+
+A plot item, that represents a series of points.  
+
+
+
+
+{\ttfamily \#include $<$qwt\-\_\-plot\-\_\-curve.\-h$>$}
+
+Inheritance diagram for Qwt\-Plot\-Curve\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=5.000000cm]{class_qwt_plot_curve}
+\end{center}
+\end{figure}
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{class_qwt_plot_curve_1_1_private_data}{Private\-Data}
+\end{DoxyCompactItemize}
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{class_qwt_plot_curve_a15998aa80a11ba6ba80eebabaf773f70}{Curve\-Style} \{ \\*
+\hyperlink{class_qwt_plot_curve_a15998aa80a11ba6ba80eebabaf773f70a0b6dcf16619a08af39437d6b6a234c9c}{No\-Curve} = -\/1, 
+\hyperlink{class_qwt_plot_curve_a15998aa80a11ba6ba80eebabaf773f70a8914d88bcd5f680e7091469fed67c9ba}{Lines}, 
+\hyperlink{class_qwt_plot_curve_a15998aa80a11ba6ba80eebabaf773f70a770b0908599507e5677b6e9ff9913f38}{Sticks}, 
+\hyperlink{class_qwt_plot_curve_a15998aa80a11ba6ba80eebabaf773f70a18071408a0b9bfe58378c6d81e207b2c}{Steps}, 
+\\*
+\hyperlink{class_qwt_plot_curve_a15998aa80a11ba6ba80eebabaf773f70ac30a3c76d19bc69fc69bed68fc154838}{Dots}, 
+\hyperlink{class_qwt_plot_curve_a15998aa80a11ba6ba80eebabaf773f70a7d8b49e6cead1de23860e1c68d17dee3}{User\-Curve} = 100
+ \}
+\item 
+enum \hyperlink{class_qwt_plot_curve_a38064f7de6f026a49db782c365f872c3}{Curve\-Attribute} \{ \hyperlink{class_qwt_plot_curve_a38064f7de6f026a49db782c365f872c3af7790b4716576fd0641ec393f476bc46}{Inverted} = 0x01, 
+\hyperlink{class_qwt_plot_curve_a38064f7de6f026a49db782c365f872c3a583f7bc6ca4d5245fa82757f4bddea1b}{Fitted} = 0x02
+ \}
+\item 
+enum \hyperlink{class_qwt_plot_curve_a6c1ac1ca99c06598c4044dd2ceeb9fd7}{Legend\-Attribute} \{ \hyperlink{class_qwt_plot_curve_a6c1ac1ca99c06598c4044dd2ceeb9fd7a5ca8291c000cca41c082035610b08a67}{Legend\-No\-Attribute} = 0x00, 
+\hyperlink{class_qwt_plot_curve_a6c1ac1ca99c06598c4044dd2ceeb9fd7a7eb8387acab6a10a95219634c97c266f}{Legend\-Show\-Line} = 0x01, 
+\hyperlink{class_qwt_plot_curve_a6c1ac1ca99c06598c4044dd2ceeb9fd7a5902a8ff0c4c7f1080dd4e2bd5eb29be}{Legend\-Show\-Symbol} = 0x02, 
+\hyperlink{class_qwt_plot_curve_a6c1ac1ca99c06598c4044dd2ceeb9fd7a20cd7f91d61c44b05c49bffd930646be}{Legend\-Show\-Brush} = 0x04
+ \}
+\item 
+enum \hyperlink{class_qwt_plot_curve_a96db1b854c63bfbc452c943251a11b66}{Paint\-Attribute} \{ \hyperlink{class_qwt_plot_curve_a96db1b854c63bfbc452c943251a11b66a26f9aa8ae434aa94b4049b9908995abf}{Clip\-Polygons} = 0x01, 
+\hyperlink{class_qwt_plot_curve_a96db1b854c63bfbc452c943251a11b66abc3af223152fb6195b31861eb3bcaf78}{Cache\-Symbols} = 0x02
+ \}
+\item 
+typedef Q\-Flags$<$ \hyperlink{class_qwt_plot_curve_a38064f7de6f026a49db782c365f872c3}{Curve\-Attribute} $>$ \hyperlink{class_qwt_plot_curve_a43f465d035a5125d582768944287c70c}{Curve\-Attributes}
+\begin{DoxyCompactList}\small\item\em Curve attributes. \end{DoxyCompactList}\item 
+typedef Q\-Flags$<$ \hyperlink{class_qwt_plot_curve_a6c1ac1ca99c06598c4044dd2ceeb9fd7}{Legend\-Attribute} $>$ \hyperlink{class_qwt_plot_curve_aa9b27e27ddc27466eed70485e690daa6}{Legend\-Attributes}
+\begin{DoxyCompactList}\small\item\em Legend attributes. \end{DoxyCompactList}\item 
+typedef Q\-Flags$<$ \hyperlink{class_qwt_plot_curve_a96db1b854c63bfbc452c943251a11b66}{Paint\-Attribute} $>$ \hyperlink{class_qwt_plot_curve_a39ba40485087294c775a367d859b6237}{Paint\-Attributes}
+\begin{DoxyCompactList}\small\item\em Paint attributes. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_qwt_plot_curve_ac7d2d9e21ee3e054b51fb954cf95c820}{Qwt\-Plot\-Curve} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{Q\-String} \&\hyperlink{class_qwt_plot_item_a3859d011b670b5f89e45d1ccef9206f7}{title}=Q\-String\-::null)
+\item 
+\hyperlink{class_qwt_plot_curve_a3bcaa88363509f4bc1ad92bee498f203}{Qwt\-Plot\-Curve} (const \hyperlink{class_qwt_text}{Qwt\-Text} \&\hyperlink{class_qwt_plot_item_a3859d011b670b5f89e45d1ccef9206f7}{title})
+\item 
+virtual \hyperlink{class_qwt_plot_curve_aa05ec6d3883821a8e62330fbeeb85dbd}{$\sim$\-Qwt\-Plot\-Curve} ()
+\begin{DoxyCompactList}\small\item\em Destructor. \end{DoxyCompactList}\item 
+virtual \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_qwt_plot_curve_a1cb75062e781f4e0839a6cd2081c3928}{rtti} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_plot_curve_a7f9c70366415b5cb068af80be5bf3748}{set\-Paint\-Attribute} (\hyperlink{class_qwt_plot_curve_a96db1b854c63bfbc452c943251a11b66}{Paint\-Attribute}, bool on=true)
+\item 
+bool \hyperlink{class_qwt_plot_curve_ad262cf6b8448d3cb693cbceecc6d8481}{test\-Paint\-Attribute} (\hyperlink{class_qwt_plot_curve_a96db1b854c63bfbc452c943251a11b66}{Paint\-Attribute}) const 
+\begin{DoxyCompactList}\small\item\em Return the current paint attributes. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_plot_curve_a0b1b7816e822607eb16e6eb2fd7bfa5c}{set\-Legend\-Attribute} (\hyperlink{class_qwt_plot_curve_a6c1ac1ca99c06598c4044dd2ceeb9fd7}{Legend\-Attribute}, bool on=true)
+\item 
+bool \hyperlink{class_qwt_plot_curve_a7ca93712e476c18995e396425e451039}{test\-Legend\-Attribute} (\hyperlink{class_qwt_plot_curve_a6c1ac1ca99c06598c4044dd2ceeb9fd7}{Legend\-Attribute}) const 
+\begin{DoxyCompactList}\small\item\em Return the current paint attributes. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_plot_curve_afd13c94e23520dacbc37b4d0fd036a8b}{set\-Raw\-Samples} (const \hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} $\ast$x\-Data, const \hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} $\ast$y\-Data, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{glext_8h_a014d89bd76f74ef3a29c8f04b473eb76}{size})
+\begin{DoxyCompactList}\small\item\em Initialize the data by pointing to memory blocks which are not managed by \hyperlink{class_qwt_plot_curve}{Qwt\-Plot\-Curve}. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_plot_curve_aa51cd3fa00f2a046ca5a9889c5db2413}{set\-Samples} (const \hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} $\ast$x\-Data, const \hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} $\ast$y\-Data, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{glext_8h_a014d89bd76f74ef3a29c8f04b473eb76}{size})
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_plot_curve_a1e6e9a417479e372197b746538fae47c}{set\-Samples} (const Q\-Vector$<$ \hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} $>$ \&x\-Data, const Q\-Vector$<$ \hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} $>$ \&y\-Data)
+\begin{DoxyCompactList}\small\item\em Initialize data with x-\/ and y-\/arrays (explicitly shared) \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_plot_curve_a67b24f3663484ff5e973a288c6071b2a}{set\-Samples} (const Q\-Vector$<$ Q\-Point\-F $>$ \&)
+\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_qwt_plot_curve_a47620cb8ca3940f7007f8fb990d614f6}{closest\-Point} (const Q\-Point \&pos, \hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} $\ast$dist=N\-U\-L\-L) const 
+\item 
+\hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} \hyperlink{class_qwt_plot_curve_a20c92bfce270e71893cdfa465781017b}{min\-X\-Value} () const 
+\begin{DoxyCompactList}\small\item\em \hyperlink{class_qwt_plot_series_item_a183e7c88364eeea8e7c53b56604e0763}{bounding\-Rect()}.\hyperlink{glext_8h_a85b8f6c07fbc1fb5d77c2ae090f21995}{left()} \end{DoxyCompactList}\item 
+\hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} \hyperlink{class_qwt_plot_curve_a2428e72e84b23a9442ae48fe4540c17f}{max\-X\-Value} () const 
+\begin{DoxyCompactList}\small\item\em \hyperlink{class_qwt_plot_series_item_a183e7c88364eeea8e7c53b56604e0763}{bounding\-Rect()}.\hyperlink{glext_8h_a5ffadbbacc6b89cf6218bc43b384d3fe}{right()} \end{DoxyCompactList}\item 
+\hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} \hyperlink{class_qwt_plot_curve_a09f7aac646f0e534c2540d61a027b856}{min\-Y\-Value} () const 
+\begin{DoxyCompactList}\small\item\em \hyperlink{class_qwt_plot_series_item_a183e7c88364eeea8e7c53b56604e0763}{bounding\-Rect()}.\hyperlink{glext_8h_a5ab323daeacf8dfdb8f91132fecdca23}{top()} \end{DoxyCompactList}\item 
+\hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} \hyperlink{class_qwt_plot_curve_a135a412978bf646716b37b0ac8528665}{max\-Y\-Value} () const 
+\begin{DoxyCompactList}\small\item\em \hyperlink{class_qwt_plot_series_item_a183e7c88364eeea8e7c53b56604e0763}{bounding\-Rect()}.\hyperlink{glext_8h_a95fc257e5ddf46f7db9d5e898cdf1991}{bottom()} \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_plot_curve_a6ac9243e280f96cd149102a91271a473}{set\-Curve\-Attribute} (\hyperlink{class_qwt_plot_curve_a38064f7de6f026a49db782c365f872c3}{Curve\-Attribute}, bool on=true)
+\item 
+bool \hyperlink{class_qwt_plot_curve_a0dc5e6af9ec33a1b54e3c3041c00b939}{test\-Curve\-Attribute} (\hyperlink{class_qwt_plot_curve_a38064f7de6f026a49db782c365f872c3}{Curve\-Attribute}) const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_plot_curve_a08328abaf2c3b67e479d1e485d2d0c4d}{set\-Pen} (const Q\-Pen \&)
+\item 
+const Q\-Pen \& \hyperlink{class_qwt_plot_curve_a778aafd1385ce833821751d0a8635cef}{pen} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_plot_curve_adc52ea882ec1f994e2d2e23c7465b0c2}{set\-Brush} (const Q\-Brush \&)
+\begin{DoxyCompactList}\small\item\em Assign a brush. \end{DoxyCompactList}\item 
+const Q\-Brush \& \hyperlink{class_qwt_plot_curve_a72b678ebb8e4821c1f85351292ce5697}{brush} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_plot_curve_a2d60cc9c35527480ad3a7b2f668d05fc}{set\-Baseline} (\hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} \hyperlink{glext_8h_a083de4c8e32ad3d9059245f26be721de}{ref})
+\begin{DoxyCompactList}\small\item\em Set the value of the baseline. \end{DoxyCompactList}\item 
+\hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} \hyperlink{class_qwt_plot_curve_a93e390b172c5fa9ffd534aeb2d572c0e}{baseline} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_plot_curve_a2de41014c2b87fd459d0c438a15dd33e}{set\-Style} (\hyperlink{class_qwt_plot_curve_a15998aa80a11ba6ba80eebabaf773f70}{Curve\-Style} \hyperlink{class_qwt_plot_curve_a2df43bdea2a17118c9114d6fa774e598}{style})
+\item 
+\hyperlink{class_qwt_plot_curve_a15998aa80a11ba6ba80eebabaf773f70}{Curve\-Style} \hyperlink{class_qwt_plot_curve_a2df43bdea2a17118c9114d6fa774e598}{style} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_plot_curve_aa66020b4a0fd8dd500acd93d17d1d1a4}{set\-Symbol} (const \hyperlink{class_qwt_symbol}{Qwt\-Symbol} $\ast$\hyperlink{glext_8h_ad585a1393cfa368fa9dc3d8ebff640d5}{s})
+\item 
+const \hyperlink{class_qwt_symbol}{Qwt\-Symbol} $\ast$ \hyperlink{class_qwt_plot_curve_a38e6e66301d602e80bf751f43820c080}{symbol} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_plot_curve_ac15588c78d175906a30de501b4dd7957}{set\-Curve\-Fitter} (\hyperlink{class_qwt_curve_fitter}{Qwt\-Curve\-Fitter} $\ast$)
+\item 
+\hyperlink{class_qwt_curve_fitter}{Qwt\-Curve\-Fitter} $\ast$ \hyperlink{class_qwt_plot_curve_aaf299522e4ad972996c781aacc940d31}{curve\-Fitter} () const 
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_plot_curve_aea90af49da5296087499e06ae1e35c9e}{draw\-Series} (Q\-Painter $\ast$, const \hyperlink{class_qwt_scale_map}{Qwt\-Scale\-Map} \&x\-Map, const \hyperlink{class_qwt_scale_map}{Qwt\-Scale\-Map} \&y\-Map, const Q\-Rect\-F \&canvas\-Rect, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} from, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} to) const 
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_plot_curve_aedbca95048e4c7b42cd0bf486ec36b4d}{update\-Legend} (\hyperlink{class_qwt_legend}{Qwt\-Legend} $\ast$) const 
+\begin{DoxyCompactList}\small\item\em Update the widget that represents the item on the legend. \end{DoxyCompactList}\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_plot_curve_a8e9518a3e9f64e1d024a7f4550335df0}{draw\-Legend\-Identifier} (Q\-Painter $\ast$, const Q\-Rect\-F \&) const 
+\begin{DoxyCompactList}\small\item\em Draw the identifier representing the curve on the legend. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_plot_curve_a7afecd61327d56ddc76687d119e92b5d}{init} ()
+\begin{DoxyCompactList}\small\item\em Initialize internal members. \end{DoxyCompactList}\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_plot_curve_a9a1188e6abab05ed66ee7aebfc3d3679}{draw\-Curve} (Q\-Painter $\ast$\hyperlink{glext_8h_aa5367c14d90f462230c2611b81b41d23}{p}, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_qwt_plot_curve_a2df43bdea2a17118c9114d6fa774e598}{style}, const \hyperlink{class_qwt_scale_map}{Qwt\-Scale\-Map} \&x\-Map, const \hyperlink{class_qwt_scale_map}{Qwt\-Scale\-Map} \&y\-Map, const Q\-Rect\-F \&canvas\-Rect, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} from, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} to) const 
+\begin{DoxyCompactList}\small\item\em Draw the line part (without symbols) of a curve interval. \end{DoxyCompactList}\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_plot_curve_ad734862538617112beb6a59cc06ed3b5}{draw\-Symbols} (Q\-Painter $\ast$\hyperlink{glext_8h_aa5367c14d90f462230c2611b81b41d23}{p}, const \hyperlink{class_qwt_symbol}{Qwt\-Symbol} \&, const \hyperlink{class_qwt_scale_map}{Qwt\-Scale\-Map} \&x\-Map, const \hyperlink{class_qwt_scale_map}{Qwt\-Scale\-Map} \&y\-Map, const Q\-Rect\-F \&canvas\-Rect, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} from, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} to) const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_plot_curve_a20948ab52983ee8c2058b2b2689e97a0}{draw\-Lines} (Q\-Painter $\ast$\hyperlink{glext_8h_aa5367c14d90f462230c2611b81b41d23}{p}, const \hyperlink{class_qwt_scale_map}{Qwt\-Scale\-Map} \&x\-Map, const \hyperlink{class_qwt_scale_map}{Qwt\-Scale\-Map} \&y\-Map, const Q\-Rect\-F \&canvas\-Rect, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} from, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} to) const 
+\begin{DoxyCompactList}\small\item\em Draw lines. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_plot_curve_a732c4a8b905be4f635d8558b6d959b52}{draw\-Sticks} (Q\-Painter $\ast$\hyperlink{glext_8h_aa5367c14d90f462230c2611b81b41d23}{p}, const \hyperlink{class_qwt_scale_map}{Qwt\-Scale\-Map} \&x\-Map, const \hyperlink{class_qwt_scale_map}{Qwt\-Scale\-Map} \&y\-Map, const Q\-Rect\-F \&canvas\-Rect, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} from, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} to) const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_plot_curve_a9d5c81d3340aebf2ab8cf0dfee7e9c81}{draw\-Dots} (Q\-Painter $\ast$\hyperlink{glext_8h_aa5367c14d90f462230c2611b81b41d23}{p}, const \hyperlink{class_qwt_scale_map}{Qwt\-Scale\-Map} \&x\-Map, const \hyperlink{class_qwt_scale_map}{Qwt\-Scale\-Map} \&y\-Map, const Q\-Rect\-F \&canvas\-Rect, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} from, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} to) const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_plot_curve_aa55bd22c153a15b7cba082c499536602}{draw\-Steps} (Q\-Painter $\ast$\hyperlink{glext_8h_aa5367c14d90f462230c2611b81b41d23}{p}, const \hyperlink{class_qwt_scale_map}{Qwt\-Scale\-Map} \&x\-Map, const \hyperlink{class_qwt_scale_map}{Qwt\-Scale\-Map} \&y\-Map, const Q\-Rect\-F \&canvas\-Rect, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} from, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} to) const 
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_plot_curve_a599d88770d6fafa5ae4edb75fd5d445f}{fill\-Curve} (Q\-Painter $\ast$, const \hyperlink{class_qwt_scale_map}{Qwt\-Scale\-Map} \&, const \hyperlink{class_qwt_scale_map}{Qwt\-Scale\-Map} \&, const Q\-Rect\-F \&canvas\-Rect, Q\-Polygon\-F \&) const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_qwt_plot_curve_abada791559395b278f9dc4478dffcc6f}{close\-Polyline} (Q\-Painter $\ast$, const \hyperlink{class_qwt_scale_map}{Qwt\-Scale\-Map} \&, const \hyperlink{class_qwt_scale_map}{Qwt\-Scale\-Map} \&, Q\-Polygon\-F \&) const 
+\begin{DoxyCompactList}\small\item\em Complete a polygon to be a closed polygon including the area between the original polygon and the baseline. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Detailed Description}
+A plot item, that represents a series of points. 
+
+A curve is the representation of a series of points in the x-\/y plane. It supports different display styles, interpolation ( f.\-e. spline ) and symbols.
+
+\begin{DoxyParagraph}{Usage}
+
+\begin{DoxyDescription}
+\item[a) Assign curve properties ]When a curve is created, it is configured to draw black solid lines with in \hyperlink{class_qwt_plot_curve_a15998aa80a11ba6ba80eebabaf773f70a8914d88bcd5f680e7091469fed67c9ba}{Qwt\-Plot\-Curve\-::\-Lines} style and no symbols. You can change this by calling \hyperlink{class_qwt_plot_curve_a08328abaf2c3b67e479d1e485d2d0c4d}{set\-Pen()}, \hyperlink{class_qwt_plot_curve_a2de41014c2b87fd459d0c438a15dd33e}{set\-Style()} and \hyperlink{class_qwt_plot_curve_aa66020b4a0fd8dd500acd93d17d1d1a4}{set\-Symbol()}. 
+\item[b) Connect/\-Assign data. ]\hyperlink{class_qwt_plot_curve}{Qwt\-Plot\-Curve} gets its points using a \hyperlink{class_qwt_series_data}{Qwt\-Series\-Data} object offering a bridge to the real storage of the points ( like Q\-Abstract\-Item\-Model ). There are several convenience classes derived from \hyperlink{class_qwt_series_data}{Qwt\-Series\-Data}, that also store the points inside ( like Q\-Standard\-Item\-Model ). \hyperlink{class_qwt_plot_curve}{Qwt\-Plot\-Curve} also offers a couple of variations of \hyperlink{class_qwt_plot_curve_aa51cd3fa00f2a046ca5a9889c5db2413}{set\-Samples()}, that build \hyperlink{class_qwt_series_data}{Qwt\-Series\-Data} objects from arrays internally. 
+\item[c) Attach the curve to a plot ]See \hyperlink{class_qwt_plot_item_aeb2f676533ccae3436bf578824e2165e}{Qwt\-Plot\-Item\-::attach()} 
+\end{DoxyDescription}
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{Example\-:}
+see examples/bode
+\end{DoxyParagraph}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_point_series_data}{Qwt\-Point\-Series\-Data}, \hyperlink{class_qwt_symbol}{Qwt\-Symbol}, \hyperlink{class_qwt_scale_map}{Qwt\-Scale\-Map} 
+\end{DoxySeeAlso}
+
+
+Definition at line 55 of file qwt\-\_\-plot\-\_\-curve.\-h.
+
+
+
+\subsection{Member Typedef Documentation}
+\hypertarget{class_qwt_plot_curve_a43f465d035a5125d582768944287c70c}{\index{Qwt\-Plot\-Curve@{Qwt\-Plot\-Curve}!Curve\-Attributes@{Curve\-Attributes}}
+\index{Curve\-Attributes@{Curve\-Attributes}!QwtPlotCurve@{Qwt\-Plot\-Curve}}
+\subsubsection[{Curve\-Attributes}]{\setlength{\rightskip}{0pt plus 5cm}typedef Q\-Flags$<${\bf Curve\-Attribute}$>$ {\bf Qwt\-Plot\-Curve\-::\-Curve\-Attributes}}}\label{class_qwt_plot_curve_a43f465d035a5125d582768944287c70c}
+
+
+Curve attributes. 
+
+
+
+Definition at line 131 of file qwt\-\_\-plot\-\_\-curve.\-h.
+
+\hypertarget{class_qwt_plot_curve_aa9b27e27ddc27466eed70485e690daa6}{\index{Qwt\-Plot\-Curve@{Qwt\-Plot\-Curve}!Legend\-Attributes@{Legend\-Attributes}}
+\index{Legend\-Attributes@{Legend\-Attributes}!QwtPlotCurve@{Qwt\-Plot\-Curve}}
+\subsubsection[{Legend\-Attributes}]{\setlength{\rightskip}{0pt plus 5cm}typedef Q\-Flags$<${\bf Legend\-Attribute}$>$ {\bf Qwt\-Plot\-Curve\-::\-Legend\-Attributes}}}\label{class_qwt_plot_curve_aa9b27e27ddc27466eed70485e690daa6}
+
+
+Legend attributes. 
+
+
+
+Definition at line 167 of file qwt\-\_\-plot\-\_\-curve.\-h.
+
+\hypertarget{class_qwt_plot_curve_a39ba40485087294c775a367d859b6237}{\index{Qwt\-Plot\-Curve@{Qwt\-Plot\-Curve}!Paint\-Attributes@{Paint\-Attributes}}
+\index{Paint\-Attributes@{Paint\-Attributes}!QwtPlotCurve@{Qwt\-Plot\-Curve}}
+\subsubsection[{Paint\-Attributes}]{\setlength{\rightskip}{0pt plus 5cm}typedef Q\-Flags$<${\bf Paint\-Attribute}$>$ {\bf Qwt\-Plot\-Curve\-::\-Paint\-Attributes}}}\label{class_qwt_plot_curve_a39ba40485087294c775a367d859b6237}
+
+
+Paint attributes. 
+
+
+
+Definition at line 194 of file qwt\-\_\-plot\-\_\-curve.\-h.
+
+
+
+\subsection{Member Enumeration Documentation}
+\hypertarget{class_qwt_plot_curve_a38064f7de6f026a49db782c365f872c3}{\index{Qwt\-Plot\-Curve@{Qwt\-Plot\-Curve}!Curve\-Attribute@{Curve\-Attribute}}
+\index{Curve\-Attribute@{Curve\-Attribute}!QwtPlotCurve@{Qwt\-Plot\-Curve}}
+\subsubsection[{Curve\-Attribute}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf Qwt\-Plot\-Curve\-::\-Curve\-Attribute}}}\label{class_qwt_plot_curve_a38064f7de6f026a49db782c365f872c3}
+Attribute for drawing the curve \begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_plot_curve_a6ac9243e280f96cd149102a91271a473}{set\-Curve\-Attribute()}, \hyperlink{class_qwt_plot_curve_a0dc5e6af9ec33a1b54e3c3041c00b939}{test\-Curve\-Attribute()}, \hyperlink{class_qwt_plot_curve_aaf299522e4ad972996c781aacc940d31}{curve\-Fitter()} 
+\end{DoxySeeAlso}
+\begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{Inverted@{Inverted}!Qwt\-Plot\-Curve@{Qwt\-Plot\-Curve}}\index{Qwt\-Plot\-Curve@{Qwt\-Plot\-Curve}!Inverted@{Inverted}}\item[{\em 
+\hypertarget{class_qwt_plot_curve_a38064f7de6f026a49db782c365f872c3af7790b4716576fd0641ec393f476bc46}{Inverted}\label{class_qwt_plot_curve_a38064f7de6f026a49db782c365f872c3af7790b4716576fd0641ec393f476bc46}
+}]For \hyperlink{class_qwt_plot_curve_a15998aa80a11ba6ba80eebabaf773f70a18071408a0b9bfe58378c6d81e207b2c}{Qwt\-Plot\-Curve\-::\-Steps} only. Draws a step function from the right to the left. \index{Fitted@{Fitted}!Qwt\-Plot\-Curve@{Qwt\-Plot\-Curve}}\index{Qwt\-Plot\-Curve@{Qwt\-Plot\-Curve}!Fitted@{Fitted}}\item[{\em 
+\hypertarget{class_qwt_plot_curve_a38064f7de6f026a49db782c365f872c3a583f7bc6ca4d5245fa82757f4bddea1b}{Fitted}\label{class_qwt_plot_curve_a38064f7de6f026a49db782c365f872c3a583f7bc6ca4d5245fa82757f4bddea1b}
+}]Only in combination with \hyperlink{class_qwt_plot_curve_a15998aa80a11ba6ba80eebabaf773f70a8914d88bcd5f680e7091469fed67c9ba}{Qwt\-Plot\-Curve\-::\-Lines} A \hyperlink{class_qwt_curve_fitter}{Qwt\-Curve\-Fitter} tries to interpolate/smooth the curve, before it is painted.
+
+\begin{DoxyNote}{Note}
+Curve fitting requires temorary memory for calculating coefficients and additional points. If painting in \hyperlink{class_qwt_plot_curve_a38064f7de6f026a49db782c365f872c3a583f7bc6ca4d5245fa82757f4bddea1b}{Qwt\-Plot\-Curve\-::\-Fitted} mode is slow it might be better to fit the points, before they are passed to \hyperlink{class_qwt_plot_curve}{Qwt\-Plot\-Curve}. 
+\end{DoxyNote}
+\end{description}
+\end{Desc}
+
+
+Definition at line 109 of file qwt\-\_\-plot\-\_\-curve.\-h.
+
+\hypertarget{class_qwt_plot_curve_a15998aa80a11ba6ba80eebabaf773f70}{\index{Qwt\-Plot\-Curve@{Qwt\-Plot\-Curve}!Curve\-Style@{Curve\-Style}}
+\index{Curve\-Style@{Curve\-Style}!QwtPlotCurve@{Qwt\-Plot\-Curve}}
+\subsubsection[{Curve\-Style}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf Qwt\-Plot\-Curve\-::\-Curve\-Style}}}\label{class_qwt_plot_curve_a15998aa80a11ba6ba80eebabaf773f70}
+Curve styles. \begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_plot_curve_a2de41014c2b87fd459d0c438a15dd33e}{set\-Style()}, \hyperlink{class_qwt_plot_curve_a2df43bdea2a17118c9114d6fa774e598}{style()} 
+\end{DoxySeeAlso}
+\begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{No\-Curve@{No\-Curve}!Qwt\-Plot\-Curve@{Qwt\-Plot\-Curve}}\index{Qwt\-Plot\-Curve@{Qwt\-Plot\-Curve}!No\-Curve@{No\-Curve}}\item[{\em 
+\hypertarget{class_qwt_plot_curve_a15998aa80a11ba6ba80eebabaf773f70a0b6dcf16619a08af39437d6b6a234c9c}{No\-Curve}\label{class_qwt_plot_curve_a15998aa80a11ba6ba80eebabaf773f70a0b6dcf16619a08af39437d6b6a234c9c}
+}]Don't draw a curve. Note\-: This doesn't affect the symbols. \index{Lines@{Lines}!Qwt\-Plot\-Curve@{Qwt\-Plot\-Curve}}\index{Qwt\-Plot\-Curve@{Qwt\-Plot\-Curve}!Lines@{Lines}}\item[{\em 
+\hypertarget{class_qwt_plot_curve_a15998aa80a11ba6ba80eebabaf773f70a8914d88bcd5f680e7091469fed67c9ba}{Lines}\label{class_qwt_plot_curve_a15998aa80a11ba6ba80eebabaf773f70a8914d88bcd5f680e7091469fed67c9ba}
+}]Connect the points with straight lines. The lines might be interpolated depending on the 'Fitted' attribute. Curve fitting can be configured using \hyperlink{class_qwt_plot_curve_ac15588c78d175906a30de501b4dd7957}{set\-Curve\-Fitter()}. \index{Sticks@{Sticks}!Qwt\-Plot\-Curve@{Qwt\-Plot\-Curve}}\index{Qwt\-Plot\-Curve@{Qwt\-Plot\-Curve}!Sticks@{Sticks}}\item[{\em 
+\hypertarget{class_qwt_plot_curve_a15998aa80a11ba6ba80eebabaf773f70a770b0908599507e5677b6e9ff9913f38}{Sticks}\label{class_qwt_plot_curve_a15998aa80a11ba6ba80eebabaf773f70a770b0908599507e5677b6e9ff9913f38}
+}]Draw vertical or horizontal sticks ( depending on the \hyperlink{class_qwt_plot_abstract_series_item_aa51dc15e0845c1674602828a90d75f81}{orientation()} ) from a baseline which is defined by \hyperlink{class_qwt_plot_curve_a2d60cc9c35527480ad3a7b2f668d05fc}{set\-Baseline()}. \index{Steps@{Steps}!Qwt\-Plot\-Curve@{Qwt\-Plot\-Curve}}\index{Qwt\-Plot\-Curve@{Qwt\-Plot\-Curve}!Steps@{Steps}}\item[{\em 
+\hypertarget{class_qwt_plot_curve_a15998aa80a11ba6ba80eebabaf773f70a18071408a0b9bfe58378c6d81e207b2c}{Steps}\label{class_qwt_plot_curve_a15998aa80a11ba6ba80eebabaf773f70a18071408a0b9bfe58378c6d81e207b2c}
+}]Connect the points with a step function. The step function is drawn from the left to the right or vice versa, depending on the \hyperlink{class_qwt_plot_curve_a38064f7de6f026a49db782c365f872c3af7790b4716576fd0641ec393f476bc46}{Qwt\-Plot\-Curve\-::\-Inverted} attribute. \index{Dots@{Dots}!Qwt\-Plot\-Curve@{Qwt\-Plot\-Curve}}\index{Qwt\-Plot\-Curve@{Qwt\-Plot\-Curve}!Dots@{Dots}}\item[{\em 
+\hypertarget{class_qwt_plot_curve_a15998aa80a11ba6ba80eebabaf773f70ac30a3c76d19bc69fc69bed68fc154838}{Dots}\label{class_qwt_plot_curve_a15998aa80a11ba6ba80eebabaf773f70ac30a3c76d19bc69fc69bed68fc154838}
+}]Draw dots at the locations of the data points. Note\-: This is different from a dotted line (see \hyperlink{class_qwt_plot_curve_a08328abaf2c3b67e479d1e485d2d0c4d}{set\-Pen()}), and faster as a curve in Qwt\-Plot\-Curve\-::\-No\-Style style and a symbol painting a point. \index{User\-Curve@{User\-Curve}!Qwt\-Plot\-Curve@{Qwt\-Plot\-Curve}}\index{Qwt\-Plot\-Curve@{Qwt\-Plot\-Curve}!User\-Curve@{User\-Curve}}\item[{\em 
+\hypertarget{class_qwt_plot_curve_a15998aa80a11ba6ba80eebabaf773f70a7d8b49e6cead1de23860e1c68d17dee3}{User\-Curve}\label{class_qwt_plot_curve_a15998aa80a11ba6ba80eebabaf773f70a7d8b49e6cead1de23860e1c68d17dee3}
+}]Styles $>$= \hyperlink{class_qwt_plot_curve_a15998aa80a11ba6ba80eebabaf773f70a7d8b49e6cead1de23860e1c68d17dee3}{Qwt\-Plot\-Curve\-::\-User\-Curve} are reserved for derived classes of \hyperlink{class_qwt_plot_curve}{Qwt\-Plot\-Curve} that overload \hyperlink{class_qwt_plot_curve_a9a1188e6abab05ed66ee7aebfc3d3679}{draw\-Curve()} with additional application specific curve types. \end{description}
+\end{Desc}
+
+
+Definition at line 62 of file qwt\-\_\-plot\-\_\-curve.\-h.
+
+\hypertarget{class_qwt_plot_curve_a6c1ac1ca99c06598c4044dd2ceeb9fd7}{\index{Qwt\-Plot\-Curve@{Qwt\-Plot\-Curve}!Legend\-Attribute@{Legend\-Attribute}}
+\index{Legend\-Attribute@{Legend\-Attribute}!QwtPlotCurve@{Qwt\-Plot\-Curve}}
+\subsubsection[{Legend\-Attribute}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf Qwt\-Plot\-Curve\-::\-Legend\-Attribute}}}\label{class_qwt_plot_curve_a6c1ac1ca99c06598c4044dd2ceeb9fd7}
+Attributes how to represent the curve on the legend
+
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_plot_curve_a0b1b7816e822607eb16e6eb2fd7bfa5c}{set\-Legend\-Attribute()}, \hyperlink{class_qwt_plot_curve_a7ca93712e476c18995e396425e451039}{test\-Legend\-Attribute()}, \hyperlink{class_qwt_plot_curve_a8e9518a3e9f64e1d024a7f4550335df0}{draw\-Legend\-Identifier()} 
+\end{DoxySeeAlso}
+\begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{Legend\-No\-Attribute@{Legend\-No\-Attribute}!Qwt\-Plot\-Curve@{Qwt\-Plot\-Curve}}\index{Qwt\-Plot\-Curve@{Qwt\-Plot\-Curve}!Legend\-No\-Attribute@{Legend\-No\-Attribute}}\item[{\em 
+\hypertarget{class_qwt_plot_curve_a6c1ac1ca99c06598c4044dd2ceeb9fd7a5ca8291c000cca41c082035610b08a67}{Legend\-No\-Attribute}\label{class_qwt_plot_curve_a6c1ac1ca99c06598c4044dd2ceeb9fd7a5ca8291c000cca41c082035610b08a67}
+}]\hyperlink{class_qwt_plot_curve}{Qwt\-Plot\-Curve} tries to find a color representing the curve and paints a rectangle with it. \index{Legend\-Show\-Line@{Legend\-Show\-Line}!Qwt\-Plot\-Curve@{Qwt\-Plot\-Curve}}\index{Qwt\-Plot\-Curve@{Qwt\-Plot\-Curve}!Legend\-Show\-Line@{Legend\-Show\-Line}}\item[{\em 
+\hypertarget{class_qwt_plot_curve_a6c1ac1ca99c06598c4044dd2ceeb9fd7a7eb8387acab6a10a95219634c97c266f}{Legend\-Show\-Line}\label{class_qwt_plot_curve_a6c1ac1ca99c06598c4044dd2ceeb9fd7a7eb8387acab6a10a95219634c97c266f}
+}]If the \hyperlink{class_qwt_plot_curve_a2df43bdea2a17118c9114d6fa774e598}{style()} is not \hyperlink{class_qwt_plot_curve_a15998aa80a11ba6ba80eebabaf773f70a0b6dcf16619a08af39437d6b6a234c9c}{Qwt\-Plot\-Curve\-::\-No\-Curve} a line is painted with the curve \hyperlink{class_qwt_plot_curve_a778aafd1385ce833821751d0a8635cef}{pen()}. \index{Legend\-Show\-Symbol@{Legend\-Show\-Symbol}!Qwt\-Plot\-Curve@{Qwt\-Plot\-Curve}}\index{Qwt\-Plot\-Curve@{Qwt\-Plot\-Curve}!Legend\-Show\-Symbol@{Legend\-Show\-Symbol}}\item[{\em 
+\hypertarget{class_qwt_plot_curve_a6c1ac1ca99c06598c4044dd2ceeb9fd7a5902a8ff0c4c7f1080dd4e2bd5eb29be}{Legend\-Show\-Symbol}\label{class_qwt_plot_curve_a6c1ac1ca99c06598c4044dd2ceeb9fd7a5902a8ff0c4c7f1080dd4e2bd5eb29be}
+}]If the curve has a valid symbol it is painted. \index{Legend\-Show\-Brush@{Legend\-Show\-Brush}!Qwt\-Plot\-Curve@{Qwt\-Plot\-Curve}}\index{Qwt\-Plot\-Curve@{Qwt\-Plot\-Curve}!Legend\-Show\-Brush@{Legend\-Show\-Brush}}\item[{\em 
+\hypertarget{class_qwt_plot_curve_a6c1ac1ca99c06598c4044dd2ceeb9fd7a20cd7f91d61c44b05c49bffd930646be}{Legend\-Show\-Brush}\label{class_qwt_plot_curve_a6c1ac1ca99c06598c4044dd2ceeb9fd7a20cd7f91d61c44b05c49bffd930646be}
+}]If the curve has a brush a rectangle filled with the curve \hyperlink{class_qwt_plot_curve_a72b678ebb8e4821c1f85351292ce5697}{brush()} is painted. \end{description}
+\end{Desc}
+
+
+Definition at line 140 of file qwt\-\_\-plot\-\_\-curve.\-h.
+
+\hypertarget{class_qwt_plot_curve_a96db1b854c63bfbc452c943251a11b66}{\index{Qwt\-Plot\-Curve@{Qwt\-Plot\-Curve}!Paint\-Attribute@{Paint\-Attribute}}
+\index{Paint\-Attribute@{Paint\-Attribute}!QwtPlotCurve@{Qwt\-Plot\-Curve}}
+\subsubsection[{Paint\-Attribute}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf Qwt\-Plot\-Curve\-::\-Paint\-Attribute}}}\label{class_qwt_plot_curve_a96db1b854c63bfbc452c943251a11b66}
+Attributes to modify the drawing algorithm. The default setting enables Clip\-Polygons
+
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_plot_curve_a7f9c70366415b5cb068af80be5bf3748}{set\-Paint\-Attribute()}, \hyperlink{class_qwt_plot_curve_ad262cf6b8448d3cb693cbceecc6d8481}{test\-Paint\-Attribute()} 
+\end{DoxySeeAlso}
+\begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{Clip\-Polygons@{Clip\-Polygons}!Qwt\-Plot\-Curve@{Qwt\-Plot\-Curve}}\index{Qwt\-Plot\-Curve@{Qwt\-Plot\-Curve}!Clip\-Polygons@{Clip\-Polygons}}\item[{\em 
+\hypertarget{class_qwt_plot_curve_a96db1b854c63bfbc452c943251a11b66a26f9aa8ae434aa94b4049b9908995abf}{Clip\-Polygons}\label{class_qwt_plot_curve_a96db1b854c63bfbc452c943251a11b66a26f9aa8ae434aa94b4049b9908995abf}
+}]Clip polygons before painting them. In situations, where points are far outside the visible area (f.\-e when zooming deep) this might be a substantial improvement for the painting performance \index{Cache\-Symbols@{Cache\-Symbols}!Qwt\-Plot\-Curve@{Qwt\-Plot\-Curve}}\index{Qwt\-Plot\-Curve@{Qwt\-Plot\-Curve}!Cache\-Symbols@{Cache\-Symbols}}\item[{\em 
+\hypertarget{class_qwt_plot_curve_a96db1b854c63bfbc452c943251a11b66abc3af223152fb6195b31861eb3bcaf78}{Cache\-Symbols}\label{class_qwt_plot_curve_a96db1b854c63bfbc452c943251a11b66abc3af223152fb6195b31861eb3bcaf78}
+}]Paint the symbol to a Q\-Pixmap and paint the pixmap instead rendering the symbol for each point. The flag has no effect, when the curve is not painted to the canvas ( f.\-e when exporting the plot to a P\-D\-F document ). \end{description}
+\end{Desc}
+
+
+Definition at line 175 of file qwt\-\_\-plot\-\_\-curve.\-h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_qwt_plot_curve_ac7d2d9e21ee3e054b51fb954cf95c820}{\index{Qwt\-Plot\-Curve@{Qwt\-Plot\-Curve}!Qwt\-Plot\-Curve@{Qwt\-Plot\-Curve}}
+\index{Qwt\-Plot\-Curve@{Qwt\-Plot\-Curve}!QwtPlotCurve@{Qwt\-Plot\-Curve}}
+\subsubsection[{Qwt\-Plot\-Curve}]{\setlength{\rightskip}{0pt plus 5cm}Qwt\-Plot\-Curve\-::\-Qwt\-Plot\-Curve (
+\begin{DoxyParamCaption}
+\item[{const {\bf Q\-String} \&}]{title = {\ttfamily QString\-:\-:null}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [explicit]}}}\label{class_qwt_plot_curve_ac7d2d9e21ee3e054b51fb954cf95c820}
+Constructor 
+\begin{DoxyParams}{Parameters}
+{\em title} & Title of the curve \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 90 of file qwt\-\_\-plot\-\_\-curve.\-cpp.
+
+\hypertarget{class_qwt_plot_curve_a3bcaa88363509f4bc1ad92bee498f203}{\index{Qwt\-Plot\-Curve@{Qwt\-Plot\-Curve}!Qwt\-Plot\-Curve@{Qwt\-Plot\-Curve}}
+\index{Qwt\-Plot\-Curve@{Qwt\-Plot\-Curve}!QwtPlotCurve@{Qwt\-Plot\-Curve}}
+\subsubsection[{Qwt\-Plot\-Curve}]{\setlength{\rightskip}{0pt plus 5cm}Qwt\-Plot\-Curve\-::\-Qwt\-Plot\-Curve (
+\begin{DoxyParamCaption}
+\item[{const {\bf Qwt\-Text} \&}]{title}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [explicit]}}}\label{class_qwt_plot_curve_a3bcaa88363509f4bc1ad92bee498f203}
+Constructor 
+\begin{DoxyParams}{Parameters}
+{\em title} & Title of the curve \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 80 of file qwt\-\_\-plot\-\_\-curve.\-cpp.
+
+\hypertarget{class_qwt_plot_curve_aa05ec6d3883821a8e62330fbeeb85dbd}{\index{Qwt\-Plot\-Curve@{Qwt\-Plot\-Curve}!$\sim$\-Qwt\-Plot\-Curve@{$\sim$\-Qwt\-Plot\-Curve}}
+\index{$\sim$\-Qwt\-Plot\-Curve@{$\sim$\-Qwt\-Plot\-Curve}!QwtPlotCurve@{Qwt\-Plot\-Curve}}
+\subsubsection[{$\sim$\-Qwt\-Plot\-Curve}]{\setlength{\rightskip}{0pt plus 5cm}Qwt\-Plot\-Curve\-::$\sim$\-Qwt\-Plot\-Curve (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_qwt_plot_curve_aa05ec6d3883821a8e62330fbeeb85dbd}
+
+
+Destructor. 
+
+
+
+Definition at line 97 of file qwt\-\_\-plot\-\_\-curve.\-cpp.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_qwt_plot_curve_a93e390b172c5fa9ffd534aeb2d572c0e}{\index{Qwt\-Plot\-Curve@{Qwt\-Plot\-Curve}!baseline@{baseline}}
+\index{baseline@{baseline}!QwtPlotCurve@{Qwt\-Plot\-Curve}}
+\subsubsection[{baseline}]{\setlength{\rightskip}{0pt plus 5cm}{\bf double} Qwt\-Plot\-Curve\-::baseline (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_qwt_plot_curve_a93e390b172c5fa9ffd534aeb2d572c0e}
+\begin{DoxyReturn}{Returns}
+Value of the baseline 
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_plot_curve_a2d60cc9c35527480ad3a7b2f668d05fc}{set\-Baseline()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 881 of file qwt\-\_\-plot\-\_\-curve.\-cpp.
+
+\hypertarget{class_qwt_plot_curve_a72b678ebb8e4821c1f85351292ce5697}{\index{Qwt\-Plot\-Curve@{Qwt\-Plot\-Curve}!brush@{brush}}
+\index{brush@{brush}!QwtPlotCurve@{Qwt\-Plot\-Curve}}
+\subsubsection[{brush}]{\setlength{\rightskip}{0pt plus 5cm}const Q\-Brush \& Qwt\-Plot\-Curve\-::brush (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_qwt_plot_curve_a72b678ebb8e4821c1f85351292ce5697}
+\begin{DoxyReturn}{Returns}
+Brush used to fill the area between lines and the baseline 
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_plot_curve_adc52ea882ec1f994e2d2e23c7465b0c2}{set\-Brush()}, \hyperlink{class_qwt_plot_curve_a2d60cc9c35527480ad3a7b2f668d05fc}{set\-Baseline()}, \hyperlink{class_qwt_plot_curve_a93e390b172c5fa9ffd534aeb2d572c0e}{baseline()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 269 of file qwt\-\_\-plot\-\_\-curve.\-cpp.
+
+\hypertarget{class_qwt_plot_curve_abada791559395b278f9dc4478dffcc6f}{\index{Qwt\-Plot\-Curve@{Qwt\-Plot\-Curve}!close\-Polyline@{close\-Polyline}}
+\index{close\-Polyline@{close\-Polyline}!QwtPlotCurve@{Qwt\-Plot\-Curve}}
+\subsubsection[{close\-Polyline}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Plot\-Curve\-::close\-Polyline (
+\begin{DoxyParamCaption}
+\item[{Q\-Painter $\ast$}]{painter, }
+\item[{const {\bf Qwt\-Scale\-Map} \&}]{x\-Map, }
+\item[{const {\bf Qwt\-Scale\-Map} \&}]{y\-Map, }
+\item[{Q\-Polygon\-F \&}]{polygon}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_qwt_plot_curve_abada791559395b278f9dc4478dffcc6f}
+
+
+Complete a polygon to be a closed polygon including the area between the original polygon and the baseline. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em painter} & Painter \\
+\hline
+{\em x\-Map} & X map \\
+\hline
+{\em y\-Map} & Y map \\
+\hline
+{\em polygon} & Polygon to be completed \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 722 of file qwt\-\_\-plot\-\_\-curve.\-cpp.
+
+\hypertarget{class_qwt_plot_curve_a47620cb8ca3940f7007f8fb990d614f6}{\index{Qwt\-Plot\-Curve@{Qwt\-Plot\-Curve}!closest\-Point@{closest\-Point}}
+\index{closest\-Point@{closest\-Point}!QwtPlotCurve@{Qwt\-Plot\-Curve}}
+\subsubsection[{closest\-Point}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int} Qwt\-Plot\-Curve\-::closest\-Point (
+\begin{DoxyParamCaption}
+\item[{const Q\-Point \&}]{pos, }
+\item[{{\bf double} $\ast$}]{dist = {\ttfamily NULL}}
+\end{DoxyParamCaption}
+) const}}\label{class_qwt_plot_curve_a47620cb8ca3940f7007f8fb990d614f6}
+Find the closest curve point for a specific position
+
+
+\begin{DoxyParams}{Parameters}
+{\em pos} & Position, where to look for the closest curve point \\
+\hline
+{\em dist} & If dist != N\-U\-L\-L, \hyperlink{class_qwt_plot_curve_a47620cb8ca3940f7007f8fb990d614f6}{closest\-Point()} returns the distance between the position and the clostest curve point \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Index of the closest curve point, or -\/1 if none can be found ( f.\-e when the curve has no points ) 
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+\hyperlink{class_qwt_plot_curve_a47620cb8ca3940f7007f8fb990d614f6}{closest\-Point()} implements a dumb algorithm, that iterates over all points 
+\end{DoxyNote}
+
+
+Definition at line 897 of file qwt\-\_\-plot\-\_\-curve.\-cpp.
+
+\hypertarget{class_qwt_plot_curve_aaf299522e4ad972996c781aacc940d31}{\index{Qwt\-Plot\-Curve@{Qwt\-Plot\-Curve}!curve\-Fitter@{curve\-Fitter}}
+\index{curve\-Fitter@{curve\-Fitter}!QwtPlotCurve@{Qwt\-Plot\-Curve}}
+\subsubsection[{curve\-Fitter}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Qwt\-Curve\-Fitter} $\ast$ Qwt\-Plot\-Curve\-::curve\-Fitter (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_qwt_plot_curve_aaf299522e4ad972996c781aacc940d31}
+Get the curve fitter. If curve fitting is disabled N\-U\-L\-L is returned.
+
+\begin{DoxyReturn}{Returns}
+Curve fitter 
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_plot_curve_ac15588c78d175906a30de501b4dd7957}{set\-Curve\-Fitter()}, \hyperlink{class_qwt_plot_curve_a38064f7de6f026a49db782c365f872c3a583f7bc6ca4d5245fa82757f4bddea1b}{Fitted} 
+\end{DoxySeeAlso}
+
+
+Definition at line 668 of file qwt\-\_\-plot\-\_\-curve.\-cpp.
+
+\hypertarget{class_qwt_plot_curve_a9a1188e6abab05ed66ee7aebfc3d3679}{\index{Qwt\-Plot\-Curve@{Qwt\-Plot\-Curve}!draw\-Curve@{draw\-Curve}}
+\index{draw\-Curve@{draw\-Curve}!QwtPlotCurve@{Qwt\-Plot\-Curve}}
+\subsubsection[{draw\-Curve}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Plot\-Curve\-::draw\-Curve (
+\begin{DoxyParamCaption}
+\item[{Q\-Painter $\ast$}]{painter, }
+\item[{{\bf int}}]{style, }
+\item[{const {\bf Qwt\-Scale\-Map} \&}]{x\-Map, }
+\item[{const {\bf Qwt\-Scale\-Map} \&}]{y\-Map, }
+\item[{const Q\-Rect\-F \&}]{canvas\-Rect, }
+\item[{{\bf int}}]{from, }
+\item[{{\bf int}}]{to}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}}\label{class_qwt_plot_curve_a9a1188e6abab05ed66ee7aebfc3d3679}
+
+
+Draw the line part (without symbols) of a curve interval. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em painter} & Painter \\
+\hline
+{\em style} & curve style, see \hyperlink{class_qwt_plot_curve_a15998aa80a11ba6ba80eebabaf773f70}{Qwt\-Plot\-Curve\-::\-Curve\-Style} \\
+\hline
+{\em x\-Map} & x map \\
+\hline
+{\em y\-Map} & y map \\
+\hline
+{\em canvas\-Rect} & Contents rect of the canvas \\
+\hline
+{\em from} & index of the first point to be painted \\
+\hline
+{\em to} & index of the last point to be painted \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_plot_abstract_series_item_ae6592df5d033931bf6200cb68b6b34f0}{draw()}, \hyperlink{class_qwt_plot_curve_a9d5c81d3340aebf2ab8cf0dfee7e9c81}{draw\-Dots()}, \hyperlink{class_qwt_plot_curve_a20948ab52983ee8c2058b2b2689e97a0}{draw\-Lines()}, \hyperlink{class_qwt_plot_curve_aa55bd22c153a15b7cba082c499536602}{draw\-Steps()}, \hyperlink{class_qwt_plot_curve_a732c4a8b905be4f635d8558b6d959b52}{draw\-Sticks()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 333 of file qwt\-\_\-plot\-\_\-curve.\-cpp.
+
+\hypertarget{class_qwt_plot_curve_a9d5c81d3340aebf2ab8cf0dfee7e9c81}{\index{Qwt\-Plot\-Curve@{Qwt\-Plot\-Curve}!draw\-Dots@{draw\-Dots}}
+\index{draw\-Dots@{draw\-Dots}!QwtPlotCurve@{Qwt\-Plot\-Curve}}
+\subsubsection[{draw\-Dots}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Plot\-Curve\-::draw\-Dots (
+\begin{DoxyParamCaption}
+\item[{Q\-Painter $\ast$}]{painter, }
+\item[{const {\bf Qwt\-Scale\-Map} \&}]{x\-Map, }
+\item[{const {\bf Qwt\-Scale\-Map} \&}]{y\-Map, }
+\item[{const Q\-Rect\-F \&}]{canvas\-Rect, }
+\item[{{\bf int}}]{from, }
+\item[{{\bf int}}]{to}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_qwt_plot_curve_a9d5c81d3340aebf2ab8cf0dfee7e9c81}
+Draw dots
+
+
+\begin{DoxyParams}{Parameters}
+{\em painter} & Painter \\
+\hline
+{\em x\-Map} & x map \\
+\hline
+{\em y\-Map} & y map \\
+\hline
+{\em canvas\-Rect} & Contents rect of the canvas \\
+\hline
+{\em from} & index of the first point to be painted \\
+\hline
+{\em to} & index of the last point to be painted\\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_plot_abstract_series_item_ae6592df5d033931bf6200cb68b6b34f0}{draw()}, \hyperlink{class_qwt_plot_curve_a9a1188e6abab05ed66ee7aebfc3d3679}{draw\-Curve()}, \hyperlink{class_qwt_plot_curve_a732c4a8b905be4f635d8558b6d959b52}{draw\-Sticks()}, \hyperlink{class_qwt_plot_curve_a20948ab52983ee8c2058b2b2689e97a0}{draw\-Lines()}, \hyperlink{class_qwt_plot_curve_aa55bd22c153a15b7cba082c499536602}{draw\-Steps()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 492 of file qwt\-\_\-plot\-\_\-curve.\-cpp.
+
+\hypertarget{class_qwt_plot_curve_a8e9518a3e9f64e1d024a7f4550335df0}{\index{Qwt\-Plot\-Curve@{Qwt\-Plot\-Curve}!draw\-Legend\-Identifier@{draw\-Legend\-Identifier}}
+\index{draw\-Legend\-Identifier@{draw\-Legend\-Identifier}!QwtPlotCurve@{Qwt\-Plot\-Curve}}
+\subsubsection[{draw\-Legend\-Identifier}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Plot\-Curve\-::draw\-Legend\-Identifier (
+\begin{DoxyParamCaption}
+\item[{Q\-Painter $\ast$}]{painter, }
+\item[{const Q\-Rect\-F \&}]{rect}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_qwt_plot_curve_a8e9518a3e9f64e1d024a7f4550335df0}
+
+
+Draw the identifier representing the curve on the legend. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em painter} & Painter \\
+\hline
+{\em rect} & Bounding rectangle for the identifier\\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_plot_curve_a0b1b7816e822607eb16e6eb2fd7bfa5c}{set\-Legend\-Attribute()}, \hyperlink{class_qwt_plot_item_ae0fabcdd35f4818ce5bbe019b0eed062a4e377b54bd879c60a95162b6a9e9e176}{Qwt\-Plot\-Item\-::\-Legend} 
+\end{DoxySeeAlso}
+
+
+Reimplemented from \hyperlink{class_qwt_legend_item_manager_a8dd765a2fd5b9a286fa398810a5c2ad8}{Qwt\-Legend\-Item\-Manager}.
+
+
+
+Definition at line 981 of file qwt\-\_\-plot\-\_\-curve.\-cpp.
+
+\hypertarget{class_qwt_plot_curve_a20948ab52983ee8c2058b2b2689e97a0}{\index{Qwt\-Plot\-Curve@{Qwt\-Plot\-Curve}!draw\-Lines@{draw\-Lines}}
+\index{draw\-Lines@{draw\-Lines}!QwtPlotCurve@{Qwt\-Plot\-Curve}}
+\subsubsection[{draw\-Lines}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Plot\-Curve\-::draw\-Lines (
+\begin{DoxyParamCaption}
+\item[{Q\-Painter $\ast$}]{painter, }
+\item[{const {\bf Qwt\-Scale\-Map} \&}]{x\-Map, }
+\item[{const {\bf Qwt\-Scale\-Map} \&}]{y\-Map, }
+\item[{const Q\-Rect\-F \&}]{canvas\-Rect, }
+\item[{{\bf int}}]{from, }
+\item[{{\bf int}}]{to}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_qwt_plot_curve_a20948ab52983ee8c2058b2b2689e97a0}
+
+
+Draw lines. 
+
+If the Curve\-Attribute Fitted is enabled a \hyperlink{class_qwt_curve_fitter}{Qwt\-Curve\-Fitter} tries to interpolate/smooth the curve, before it is painted.
+
+
+\begin{DoxyParams}{Parameters}
+{\em painter} & Painter \\
+\hline
+{\em x\-Map} & x map \\
+\hline
+{\em y\-Map} & y map \\
+\hline
+{\em canvas\-Rect} & Contents rect of the canvas \\
+\hline
+{\em from} & index of the first point to be painted \\
+\hline
+{\em to} & index of the last point to be painted\\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_plot_curve_a6ac9243e280f96cd149102a91271a473}{set\-Curve\-Attribute()}, \hyperlink{class_qwt_plot_curve_ac15588c78d175906a30de501b4dd7957}{set\-Curve\-Fitter()}, \hyperlink{class_qwt_plot_abstract_series_item_ae6592df5d033931bf6200cb68b6b34f0}{draw()}, \hyperlink{class_qwt_plot_curve_a20948ab52983ee8c2058b2b2689e97a0}{draw\-Lines()}, \hyperlink{class_qwt_plot_curve_a9d5c81d3340aebf2ab8cf0dfee7e9c81}{draw\-Dots()}, \hyperlink{class_qwt_plot_curve_aa55bd22c153a15b7cba082c499536602}{draw\-Steps()}, \hyperlink{class_qwt_plot_curve_a732c4a8b905be4f635d8558b6d959b52}{draw\-Sticks()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 380 of file qwt\-\_\-plot\-\_\-curve.\-cpp.
+
+\hypertarget{class_qwt_plot_curve_aea90af49da5296087499e06ae1e35c9e}{\index{Qwt\-Plot\-Curve@{Qwt\-Plot\-Curve}!draw\-Series@{draw\-Series}}
+\index{draw\-Series@{draw\-Series}!QwtPlotCurve@{Qwt\-Plot\-Curve}}
+\subsubsection[{draw\-Series}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Plot\-Curve\-::draw\-Series (
+\begin{DoxyParamCaption}
+\item[{Q\-Painter $\ast$}]{painter, }
+\item[{const {\bf Qwt\-Scale\-Map} \&}]{x\-Map, }
+\item[{const {\bf Qwt\-Scale\-Map} \&}]{y\-Map, }
+\item[{const Q\-Rect\-F \&}]{canvas\-Rect, }
+\item[{{\bf int}}]{from, }
+\item[{{\bf int}}]{to}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_qwt_plot_curve_aea90af49da5296087499e06ae1e35c9e}
+Draw an interval of the curve
+
+
+\begin{DoxyParams}{Parameters}
+{\em painter} & Painter \\
+\hline
+{\em x\-Map} & Maps x-\/values into pixel coordinates. \\
+\hline
+{\em y\-Map} & Maps y-\/values into pixel coordinates. \\
+\hline
+{\em canvas\-Rect} & Contents rect of the canvas \\
+\hline
+{\em from} & Index of the first point to be painted \\
+\hline
+{\em to} & Index of the last point to be painted. If to $<$ 0 the curve will be painted to its last point.\\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_plot_curve_a9a1188e6abab05ed66ee7aebfc3d3679}{draw\-Curve()}, \hyperlink{class_qwt_plot_curve_ad734862538617112beb6a59cc06ed3b5}{draw\-Symbols()}, 
+\end{DoxySeeAlso}
+
+
+Implements \hyperlink{class_qwt_plot_abstract_series_item_ad411a172087666b4852ae244ac6f5663}{Qwt\-Plot\-Abstract\-Series\-Item}.
+
+
+
+Definition at line 287 of file qwt\-\_\-plot\-\_\-curve.\-cpp.
+
+\hypertarget{class_qwt_plot_curve_aa55bd22c153a15b7cba082c499536602}{\index{Qwt\-Plot\-Curve@{Qwt\-Plot\-Curve}!draw\-Steps@{draw\-Steps}}
+\index{draw\-Steps@{draw\-Steps}!QwtPlotCurve@{Qwt\-Plot\-Curve}}
+\subsubsection[{draw\-Steps}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Plot\-Curve\-::draw\-Steps (
+\begin{DoxyParamCaption}
+\item[{Q\-Painter $\ast$}]{painter, }
+\item[{const {\bf Qwt\-Scale\-Map} \&}]{x\-Map, }
+\item[{const {\bf Qwt\-Scale\-Map} \&}]{y\-Map, }
+\item[{const Q\-Rect\-F \&}]{canvas\-Rect, }
+\item[{{\bf int}}]{from, }
+\item[{{\bf int}}]{to}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_qwt_plot_curve_aa55bd22c153a15b7cba082c499536602}
+Draw step function
+
+The direction of the steps depends on Inverted attribute.
+
+
+\begin{DoxyParams}{Parameters}
+{\em painter} & Painter \\
+\hline
+{\em x\-Map} & x map \\
+\hline
+{\em y\-Map} & y map \\
+\hline
+{\em canvas\-Rect} & Contents rect of the canvas \\
+\hline
+{\em from} & index of the first point to be painted \\
+\hline
+{\em to} & index of the last point to be painted\\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_plot_curve_a38064f7de6f026a49db782c365f872c3}{Curve\-Attribute}, \hyperlink{class_qwt_plot_curve_a6ac9243e280f96cd149102a91271a473}{set\-Curve\-Attribute()}, \hyperlink{class_qwt_plot_abstract_series_item_ae6592df5d033931bf6200cb68b6b34f0}{draw()}, \hyperlink{class_qwt_plot_curve_a9a1188e6abab05ed66ee7aebfc3d3679}{draw\-Curve()}, \hyperlink{class_qwt_plot_curve_a9d5c81d3340aebf2ab8cf0dfee7e9c81}{draw\-Dots()}, \hyperlink{class_qwt_plot_curve_a20948ab52983ee8c2058b2b2689e97a0}{draw\-Lines()}, \hyperlink{class_qwt_plot_curve_a732c4a8b905be4f635d8558b6d959b52}{draw\-Sticks()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 544 of file qwt\-\_\-plot\-\_\-curve.\-cpp.
+
+\hypertarget{class_qwt_plot_curve_a732c4a8b905be4f635d8558b6d959b52}{\index{Qwt\-Plot\-Curve@{Qwt\-Plot\-Curve}!draw\-Sticks@{draw\-Sticks}}
+\index{draw\-Sticks@{draw\-Sticks}!QwtPlotCurve@{Qwt\-Plot\-Curve}}
+\subsubsection[{draw\-Sticks}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Plot\-Curve\-::draw\-Sticks (
+\begin{DoxyParamCaption}
+\item[{Q\-Painter $\ast$}]{painter, }
+\item[{const {\bf Qwt\-Scale\-Map} \&}]{x\-Map, }
+\item[{const {\bf Qwt\-Scale\-Map} \&}]{y\-Map, }
+\item[{const Q\-Rect\-F \&}]{canvas\-Rect, }
+\item[{{\bf int}}]{from, }
+\item[{{\bf int}}]{to}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_qwt_plot_curve_a732c4a8b905be4f635d8558b6d959b52}
+Draw sticks
+
+
+\begin{DoxyParams}{Parameters}
+{\em painter} & Painter \\
+\hline
+{\em x\-Map} & x map \\
+\hline
+{\em y\-Map} & y map \\
+\hline
+{\em canvas\-Rect} & Contents rect of the canvas \\
+\hline
+{\em from} & index of the first point to be painted \\
+\hline
+{\em to} & index of the last point to be painted\\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_plot_abstract_series_item_ae6592df5d033931bf6200cb68b6b34f0}{draw()}, \hyperlink{class_qwt_plot_curve_a9a1188e6abab05ed66ee7aebfc3d3679}{draw\-Curve()}, \hyperlink{class_qwt_plot_curve_a9d5c81d3340aebf2ab8cf0dfee7e9c81}{draw\-Dots()}, \hyperlink{class_qwt_plot_curve_a20948ab52983ee8c2058b2b2689e97a0}{draw\-Lines()}, \hyperlink{class_qwt_plot_curve_aa55bd22c153a15b7cba082c499536602}{draw\-Steps()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 441 of file qwt\-\_\-plot\-\_\-curve.\-cpp.
+
+\hypertarget{class_qwt_plot_curve_ad734862538617112beb6a59cc06ed3b5}{\index{Qwt\-Plot\-Curve@{Qwt\-Plot\-Curve}!draw\-Symbols@{draw\-Symbols}}
+\index{draw\-Symbols@{draw\-Symbols}!QwtPlotCurve@{Qwt\-Plot\-Curve}}
+\subsubsection[{draw\-Symbols}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Plot\-Curve\-::draw\-Symbols (
+\begin{DoxyParamCaption}
+\item[{Q\-Painter $\ast$}]{painter, }
+\item[{const {\bf Qwt\-Symbol} \&}]{symbol, }
+\item[{const {\bf Qwt\-Scale\-Map} \&}]{x\-Map, }
+\item[{const {\bf Qwt\-Scale\-Map} \&}]{y\-Map, }
+\item[{const Q\-Rect\-F \&}]{canvas\-Rect, }
+\item[{{\bf int}}]{from, }
+\item[{{\bf int}}]{to}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}}\label{class_qwt_plot_curve_ad734862538617112beb6a59cc06ed3b5}
+Draw symbols
+
+
+\begin{DoxyParams}{Parameters}
+{\em painter} & Painter \\
+\hline
+{\em symbol} & Curve symbol \\
+\hline
+{\em x\-Map} & x map \\
+\hline
+{\em y\-Map} & y map \\
+\hline
+{\em canvas\-Rect} & Contents rect of the canvas \\
+\hline
+{\em from} & Index of the first point to be painted \\
+\hline
+{\em to} & Index of the last point to be painted\\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_plot_curve_aa66020b4a0fd8dd500acd93d17d1d1a4}{set\-Symbol()}, \hyperlink{class_qwt_plot_curve_aea90af49da5296087499e06ae1e35c9e}{draw\-Series()}, \hyperlink{class_qwt_plot_curve_a9a1188e6abab05ed66ee7aebfc3d3679}{draw\-Curve()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 778 of file qwt\-\_\-plot\-\_\-curve.\-cpp.
+
+\hypertarget{class_qwt_plot_curve_a599d88770d6fafa5ae4edb75fd5d445f}{\index{Qwt\-Plot\-Curve@{Qwt\-Plot\-Curve}!fill\-Curve@{fill\-Curve}}
+\index{fill\-Curve@{fill\-Curve}!QwtPlotCurve@{Qwt\-Plot\-Curve}}
+\subsubsection[{fill\-Curve}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Plot\-Curve\-::fill\-Curve (
+\begin{DoxyParamCaption}
+\item[{Q\-Painter $\ast$}]{painter, }
+\item[{const {\bf Qwt\-Scale\-Map} \&}]{x\-Map, }
+\item[{const {\bf Qwt\-Scale\-Map} \&}]{y\-Map, }
+\item[{const Q\-Rect\-F \&}]{canvas\-Rect, }
+\item[{Q\-Polygon\-F \&}]{polygon}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}}\label{class_qwt_plot_curve_a599d88770d6fafa5ae4edb75fd5d445f}
+Fill the area between the curve and the baseline with the curve brush
+
+
+\begin{DoxyParams}{Parameters}
+{\em painter} & Painter \\
+\hline
+{\em x\-Map} & x map \\
+\hline
+{\em y\-Map} & y map \\
+\hline
+{\em canvas\-Rect} & Contents rect of the canvas \\
+\hline
+{\em polygon} & Polygon -\/ will be modified !\\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_plot_curve_adc52ea882ec1f994e2d2e23c7465b0c2}{set\-Brush()}, \hyperlink{class_qwt_plot_curve_a2d60cc9c35527480ad3a7b2f668d05fc}{set\-Baseline()}, \hyperlink{class_qwt_plot_curve_a2de41014c2b87fd459d0c438a15dd33e}{set\-Style()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 685 of file qwt\-\_\-plot\-\_\-curve.\-cpp.
+
+\hypertarget{class_qwt_plot_curve_a7afecd61327d56ddc76687d119e92b5d}{\index{Qwt\-Plot\-Curve@{Qwt\-Plot\-Curve}!init@{init}}
+\index{init@{init}!QwtPlotCurve@{Qwt\-Plot\-Curve}}
+\subsubsection[{init}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Plot\-Curve\-::init (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_qwt_plot_curve_a7afecd61327d56ddc76687d119e92b5d}
+
+
+Initialize internal members. 
+
+
+
+Definition at line 103 of file qwt\-\_\-plot\-\_\-curve.\-cpp.
+
+\hypertarget{class_qwt_plot_curve_a2428e72e84b23a9442ae48fe4540c17f}{\index{Qwt\-Plot\-Curve@{Qwt\-Plot\-Curve}!max\-X\-Value@{max\-X\-Value}}
+\index{max\-X\-Value@{max\-X\-Value}!QwtPlotCurve@{Qwt\-Plot\-Curve}}
+\subsubsection[{max\-X\-Value}]{\setlength{\rightskip}{0pt plus 5cm}{\bf double} Qwt\-Plot\-Curve\-::max\-X\-Value (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_qwt_plot_curve_a2428e72e84b23a9442ae48fe4540c17f}
+
+
+\hyperlink{class_qwt_plot_series_item_a183e7c88364eeea8e7c53b56604e0763}{bounding\-Rect()}.\hyperlink{glext_8h_a5ffadbbacc6b89cf6218bc43b384d3fe}{right()} 
+
+
+
+Definition at line 298 of file qwt\-\_\-plot\-\_\-curve.\-h.
+
+\hypertarget{class_qwt_plot_curve_a135a412978bf646716b37b0ac8528665}{\index{Qwt\-Plot\-Curve@{Qwt\-Plot\-Curve}!max\-Y\-Value@{max\-Y\-Value}}
+\index{max\-Y\-Value@{max\-Y\-Value}!QwtPlotCurve@{Qwt\-Plot\-Curve}}
+\subsubsection[{max\-Y\-Value}]{\setlength{\rightskip}{0pt plus 5cm}{\bf double} Qwt\-Plot\-Curve\-::max\-Y\-Value (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_qwt_plot_curve_a135a412978bf646716b37b0ac8528665}
+
+
+\hyperlink{class_qwt_plot_series_item_a183e7c88364eeea8e7c53b56604e0763}{bounding\-Rect()}.\hyperlink{glext_8h_a95fc257e5ddf46f7db9d5e898cdf1991}{bottom()} 
+
+
+
+Definition at line 310 of file qwt\-\_\-plot\-\_\-curve.\-h.
+
+\hypertarget{class_qwt_plot_curve_a20c92bfce270e71893cdfa465781017b}{\index{Qwt\-Plot\-Curve@{Qwt\-Plot\-Curve}!min\-X\-Value@{min\-X\-Value}}
+\index{min\-X\-Value@{min\-X\-Value}!QwtPlotCurve@{Qwt\-Plot\-Curve}}
+\subsubsection[{min\-X\-Value}]{\setlength{\rightskip}{0pt plus 5cm}{\bf double} Qwt\-Plot\-Curve\-::min\-X\-Value (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_qwt_plot_curve_a20c92bfce270e71893cdfa465781017b}
+
+
+\hyperlink{class_qwt_plot_series_item_a183e7c88364eeea8e7c53b56604e0763}{bounding\-Rect()}.\hyperlink{glext_8h_a85b8f6c07fbc1fb5d77c2ae090f21995}{left()} 
+
+
+
+Definition at line 292 of file qwt\-\_\-plot\-\_\-curve.\-h.
+
+\hypertarget{class_qwt_plot_curve_a09f7aac646f0e534c2540d61a027b856}{\index{Qwt\-Plot\-Curve@{Qwt\-Plot\-Curve}!min\-Y\-Value@{min\-Y\-Value}}
+\index{min\-Y\-Value@{min\-Y\-Value}!QwtPlotCurve@{Qwt\-Plot\-Curve}}
+\subsubsection[{min\-Y\-Value}]{\setlength{\rightskip}{0pt plus 5cm}{\bf double} Qwt\-Plot\-Curve\-::min\-Y\-Value (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_qwt_plot_curve_a09f7aac646f0e534c2540d61a027b856}
+
+
+\hyperlink{class_qwt_plot_series_item_a183e7c88364eeea8e7c53b56604e0763}{bounding\-Rect()}.\hyperlink{glext_8h_a5ab323daeacf8dfdb8f91132fecdca23}{top()} 
+
+
+
+Definition at line 304 of file qwt\-\_\-plot\-\_\-curve.\-h.
+
+\hypertarget{class_qwt_plot_curve_a778aafd1385ce833821751d0a8635cef}{\index{Qwt\-Plot\-Curve@{Qwt\-Plot\-Curve}!pen@{pen}}
+\index{pen@{pen}!QwtPlotCurve@{Qwt\-Plot\-Curve}}
+\subsubsection[{pen}]{\setlength{\rightskip}{0pt plus 5cm}const Q\-Pen \& Qwt\-Plot\-Curve\-::pen (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_qwt_plot_curve_a778aafd1385ce833821751d0a8635cef}
+\begin{DoxyReturn}{Returns}
+Pen used to draw the lines 
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_plot_curve_a08328abaf2c3b67e479d1e485d2d0c4d}{set\-Pen()}, \hyperlink{class_qwt_plot_curve_a72b678ebb8e4821c1f85351292ce5697}{brush()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 236 of file qwt\-\_\-plot\-\_\-curve.\-cpp.
+
+\hypertarget{class_qwt_plot_curve_a1cb75062e781f4e0839a6cd2081c3928}{\index{Qwt\-Plot\-Curve@{Qwt\-Plot\-Curve}!rtti@{rtti}}
+\index{rtti@{rtti}!QwtPlotCurve@{Qwt\-Plot\-Curve}}
+\subsubsection[{rtti}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int} Qwt\-Plot\-Curve\-::rtti (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_qwt_plot_curve_a1cb75062e781f4e0839a6cd2081c3928}
+\begin{DoxyReturn}{Returns}
+\hyperlink{class_qwt_plot_item_ab149ac85e233ce9cedf2f2f2af871bf3af51a35012ed097a762b8918cf20caa69}{Qwt\-Plot\-Item\-::\-Rtti\-\_\-\-Plot\-Curve} 
+\end{DoxyReturn}
+
+
+Reimplemented from \hyperlink{class_qwt_plot_item_af153b5a40a60ac626f1c58e69fc4ecad}{Qwt\-Plot\-Item}.
+
+
+
+Definition at line 115 of file qwt\-\_\-plot\-\_\-curve.\-cpp.
+
+\hypertarget{class_qwt_plot_curve_a2d60cc9c35527480ad3a7b2f668d05fc}{\index{Qwt\-Plot\-Curve@{Qwt\-Plot\-Curve}!set\-Baseline@{set\-Baseline}}
+\index{set\-Baseline@{set\-Baseline}!QwtPlotCurve@{Qwt\-Plot\-Curve}}
+\subsubsection[{set\-Baseline}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Plot\-Curve\-::set\-Baseline (
+\begin{DoxyParamCaption}
+\item[{{\bf double}}]{value}
+\end{DoxyParamCaption}
+)}}\label{class_qwt_plot_curve_a2d60cc9c35527480ad3a7b2f668d05fc}
+
+
+Set the value of the baseline. 
+
+The baseline is needed for filling the curve with a brush or the Sticks drawing style. The interpretation of the baseline depends on the Curve\-Type. With Qwt\-Plot\-Curve\-::\-Yfx, the baseline is interpreted as a horizontal line at y = \hyperlink{class_qwt_plot_curve_a93e390b172c5fa9ffd534aeb2d572c0e}{baseline()}, with Qwt\-Plot\-Curve\-::\-Yfy, it is interpreted as a vertical line at x = \hyperlink{class_qwt_plot_curve_a93e390b172c5fa9ffd534aeb2d572c0e}{baseline()}.
+
+The default value is 0.\-0.
+
+
+\begin{DoxyParams}{Parameters}
+{\em value} & Value of the baseline \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_plot_curve_a93e390b172c5fa9ffd534aeb2d572c0e}{baseline()}, \hyperlink{class_qwt_plot_curve_adc52ea882ec1f994e2d2e23c7465b0c2}{set\-Brush()}, \hyperlink{class_qwt_plot_curve_a2de41014c2b87fd459d0c438a15dd33e}{set\-Style()}, \hyperlink{class_qwt_plot_curve_a2de41014c2b87fd459d0c438a15dd33e}{set\-Style()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 868 of file qwt\-\_\-plot\-\_\-curve.\-cpp.
+
+\hypertarget{class_qwt_plot_curve_adc52ea882ec1f994e2d2e23c7465b0c2}{\index{Qwt\-Plot\-Curve@{Qwt\-Plot\-Curve}!set\-Brush@{set\-Brush}}
+\index{set\-Brush@{set\-Brush}!QwtPlotCurve@{Qwt\-Plot\-Curve}}
+\subsubsection[{set\-Brush}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Plot\-Curve\-::set\-Brush (
+\begin{DoxyParamCaption}
+\item[{const Q\-Brush \&}]{brush}
+\end{DoxyParamCaption}
+)}}\label{class_qwt_plot_curve_adc52ea882ec1f994e2d2e23c7465b0c2}
+
+
+Assign a brush. 
+
+In case of brush.\-style() != Q\-Brush\-::\-No\-Brush and \hyperlink{class_qwt_plot_curve_a2df43bdea2a17118c9114d6fa774e598}{style()} != \hyperlink{class_qwt_plot_curve_a15998aa80a11ba6ba80eebabaf773f70a770b0908599507e5677b6e9ff9913f38}{Qwt\-Plot\-Curve\-::\-Sticks} the area between the curve and the baseline will be filled.
+
+In case !brush.\hyperlink{glext_8h_a3ea846f998d64f079b86052b6c4193a8}{color()}.is\-Valid() the area will be filled by pen.\-color(). The fill algorithm simply connects the first and the last curve point to the baseline. So the curve data has to be sorted (ascending or descending).
+
+
+\begin{DoxyParams}{Parameters}
+{\em brush} & New brush \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_plot_curve_a72b678ebb8e4821c1f85351292ce5697}{brush()}, \hyperlink{class_qwt_plot_curve_a2d60cc9c35527480ad3a7b2f668d05fc}{set\-Baseline()}, \hyperlink{class_qwt_plot_curve_a93e390b172c5fa9ffd534aeb2d572c0e}{baseline()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 256 of file qwt\-\_\-plot\-\_\-curve.\-cpp.
+
+\hypertarget{class_qwt_plot_curve_a6ac9243e280f96cd149102a91271a473}{\index{Qwt\-Plot\-Curve@{Qwt\-Plot\-Curve}!set\-Curve\-Attribute@{set\-Curve\-Attribute}}
+\index{set\-Curve\-Attribute@{set\-Curve\-Attribute}!QwtPlotCurve@{Qwt\-Plot\-Curve}}
+\subsubsection[{set\-Curve\-Attribute}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Plot\-Curve\-::set\-Curve\-Attribute (
+\begin{DoxyParamCaption}
+\item[{{\bf Curve\-Attribute}}]{attribute, }
+\item[{bool}]{on = {\ttfamily true}}
+\end{DoxyParamCaption}
+)}}\label{class_qwt_plot_curve_a6ac9243e280f96cd149102a91271a473}
+Specify an attribute for drawing the curve
+
+
+\begin{DoxyParams}{Parameters}
+{\em attribute} & Curve attribute \\
+\hline
+{\em on} & On/\-Off\\
+\hline
+\end{DoxyParams}
+/sa \hyperlink{class_qwt_plot_curve_a0dc5e6af9ec33a1b54e3c3041c00b939}{test\-Curve\-Attribute()}, \hyperlink{class_qwt_plot_curve_ac15588c78d175906a30de501b4dd7957}{set\-Curve\-Fitter()} 
+
+Definition at line 615 of file qwt\-\_\-plot\-\_\-curve.\-cpp.
+
+\hypertarget{class_qwt_plot_curve_ac15588c78d175906a30de501b4dd7957}{\index{Qwt\-Plot\-Curve@{Qwt\-Plot\-Curve}!set\-Curve\-Fitter@{set\-Curve\-Fitter}}
+\index{set\-Curve\-Fitter@{set\-Curve\-Fitter}!QwtPlotCurve@{Qwt\-Plot\-Curve}}
+\subsubsection[{set\-Curve\-Fitter}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Plot\-Curve\-::set\-Curve\-Fitter (
+\begin{DoxyParamCaption}
+\item[{{\bf Qwt\-Curve\-Fitter} $\ast$}]{curve\-Fitter}
+\end{DoxyParamCaption}
+)}}\label{class_qwt_plot_curve_ac15588c78d175906a30de501b4dd7957}
+Assign a curve fitter
+
+The curve fitter \char`\"{}smooths\char`\"{} the curve points, when the Fitted Curve\-Attribute is set. set\-Curve\-Fitter(\-N\-U\-L\-L) also disables curve fitting.
+
+The curve fitter operates on the translated points ( = widget coordinates) to be functional for logarithmic scales. Obviously this is less performant for fitting algorithms, that reduce the number of points.
+
+For situations, where curve fitting is used to improve the performance of painting huge series of points it might be better to execute the fitter on the curve points once and to cache the result in the \hyperlink{class_qwt_series_data}{Qwt\-Series\-Data} object.
+
+
+\begin{DoxyParams}{Parameters}
+{\em \hyperlink{class_qwt_plot_curve_aaf299522e4ad972996c781aacc940d31}{curve\-Fitter()}} & Curve fitter \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_plot_curve_a38064f7de6f026a49db782c365f872c3a583f7bc6ca4d5245fa82757f4bddea1b}{Fitted} 
+\end{DoxySeeAlso}
+
+
+Definition at line 654 of file qwt\-\_\-plot\-\_\-curve.\-cpp.
+
+\hypertarget{class_qwt_plot_curve_a0b1b7816e822607eb16e6eb2fd7bfa5c}{\index{Qwt\-Plot\-Curve@{Qwt\-Plot\-Curve}!set\-Legend\-Attribute@{set\-Legend\-Attribute}}
+\index{set\-Legend\-Attribute@{set\-Legend\-Attribute}!QwtPlotCurve@{Qwt\-Plot\-Curve}}
+\subsubsection[{set\-Legend\-Attribute}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Plot\-Curve\-::set\-Legend\-Attribute (
+\begin{DoxyParamCaption}
+\item[{{\bf Legend\-Attribute}}]{attribute, }
+\item[{bool}]{on = {\ttfamily true}}
+\end{DoxyParamCaption}
+)}}\label{class_qwt_plot_curve_a0b1b7816e822607eb16e6eb2fd7bfa5c}
+Specify an attribute how to draw the legend identifier
+
+
+\begin{DoxyParams}{Parameters}
+{\em attribute} & Attribute \\
+\hline
+{\em on} & On/\-Off /sa \hyperlink{class_qwt_plot_curve_a7ca93712e476c18995e396425e451039}{test\-Legend\-Attribute()} \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 151 of file qwt\-\_\-plot\-\_\-curve.\-cpp.
+
+\hypertarget{class_qwt_plot_curve_a7f9c70366415b5cb068af80be5bf3748}{\index{Qwt\-Plot\-Curve@{Qwt\-Plot\-Curve}!set\-Paint\-Attribute@{set\-Paint\-Attribute}}
+\index{set\-Paint\-Attribute@{set\-Paint\-Attribute}!QwtPlotCurve@{Qwt\-Plot\-Curve}}
+\subsubsection[{set\-Paint\-Attribute}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Plot\-Curve\-::set\-Paint\-Attribute (
+\begin{DoxyParamCaption}
+\item[{{\bf Paint\-Attribute}}]{attribute, }
+\item[{bool}]{on = {\ttfamily true}}
+\end{DoxyParamCaption}
+)}}\label{class_qwt_plot_curve_a7f9c70366415b5cb068af80be5bf3748}
+Specify an attribute how to draw the curve
+
+
+\begin{DoxyParams}{Parameters}
+{\em attribute} & Paint attribute \\
+\hline
+{\em on} & On/\-Off \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_plot_curve_ad262cf6b8448d3cb693cbceecc6d8481}{test\-Paint\-Attribute()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 127 of file qwt\-\_\-plot\-\_\-curve.\-cpp.
+
+\hypertarget{class_qwt_plot_curve_a08328abaf2c3b67e479d1e485d2d0c4d}{\index{Qwt\-Plot\-Curve@{Qwt\-Plot\-Curve}!set\-Pen@{set\-Pen}}
+\index{set\-Pen@{set\-Pen}!QwtPlotCurve@{Qwt\-Plot\-Curve}}
+\subsubsection[{set\-Pen}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Plot\-Curve\-::set\-Pen (
+\begin{DoxyParamCaption}
+\item[{const Q\-Pen \&}]{pen}
+\end{DoxyParamCaption}
+)}}\label{class_qwt_plot_curve_a08328abaf2c3b67e479d1e485d2d0c4d}
+Assign a pen
+
+
+\begin{DoxyParams}{Parameters}
+{\em pen} & New pen \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_plot_curve_a778aafd1385ce833821751d0a8635cef}{pen()}, \hyperlink{class_qwt_plot_curve_a72b678ebb8e4821c1f85351292ce5697}{brush()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 223 of file qwt\-\_\-plot\-\_\-curve.\-cpp.
+
+\hypertarget{class_qwt_plot_curve_afd13c94e23520dacbc37b4d0fd036a8b}{\index{Qwt\-Plot\-Curve@{Qwt\-Plot\-Curve}!set\-Raw\-Samples@{set\-Raw\-Samples}}
+\index{set\-Raw\-Samples@{set\-Raw\-Samples}!QwtPlotCurve@{Qwt\-Plot\-Curve}}
+\subsubsection[{set\-Raw\-Samples}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Plot\-Curve\-::set\-Raw\-Samples (
+\begin{DoxyParamCaption}
+\item[{const {\bf double} $\ast$}]{x\-Data, }
+\item[{const {\bf double} $\ast$}]{y\-Data, }
+\item[{{\bf int}}]{size}
+\end{DoxyParamCaption}
+)}}\label{class_qwt_plot_curve_afd13c94e23520dacbc37b4d0fd036a8b}
+
+
+Initialize the data by pointing to memory blocks which are not managed by \hyperlink{class_qwt_plot_curve}{Qwt\-Plot\-Curve}. 
+
+set\-Raw\-Samples is provided for efficiency. It is important to keep the pointers during the lifetime of the underlying \hyperlink{class_qwt_c_pointer_data}{Qwt\-C\-Pointer\-Data} class.
+
+
+\begin{DoxyParams}{Parameters}
+{\em x\-Data} & pointer to x data \\
+\hline
+{\em y\-Data} & pointer to y data \\
+\hline
+{\em size} & size of x and y\\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_c_pointer_data}{Qwt\-C\-Pointer\-Data} 
+\end{DoxySeeAlso}
+
+
+Definition at line 1081 of file qwt\-\_\-plot\-\_\-curve.\-cpp.
+
+\hypertarget{class_qwt_plot_curve_aa51cd3fa00f2a046ca5a9889c5db2413}{\index{Qwt\-Plot\-Curve@{Qwt\-Plot\-Curve}!set\-Samples@{set\-Samples}}
+\index{set\-Samples@{set\-Samples}!QwtPlotCurve@{Qwt\-Plot\-Curve}}
+\subsubsection[{set\-Samples}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Plot\-Curve\-::set\-Samples (
+\begin{DoxyParamCaption}
+\item[{const {\bf double} $\ast$}]{x\-Data, }
+\item[{const {\bf double} $\ast$}]{y\-Data, }
+\item[{{\bf int}}]{size}
+\end{DoxyParamCaption}
+)}}\label{class_qwt_plot_curve_aa51cd3fa00f2a046ca5a9889c5db2413}
+Set data by copying x-\/ and y-\/values from specified memory blocks. Contrary to \hyperlink{class_qwt_plot_curve_afd13c94e23520dacbc37b4d0fd036a8b}{set\-Raw\-Samples()}, this function makes a 'deep copy' of the data.
+
+
+\begin{DoxyParams}{Parameters}
+{\em x\-Data} & pointer to x values \\
+\hline
+{\em y\-Data} & pointer to y values \\
+\hline
+{\em size} & size of x\-Data and y\-Data\\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_point_array_data}{Qwt\-Point\-Array\-Data} 
+\end{DoxySeeAlso}
+
+
+Definition at line 1100 of file qwt\-\_\-plot\-\_\-curve.\-cpp.
+
+\hypertarget{class_qwt_plot_curve_a1e6e9a417479e372197b746538fae47c}{\index{Qwt\-Plot\-Curve@{Qwt\-Plot\-Curve}!set\-Samples@{set\-Samples}}
+\index{set\-Samples@{set\-Samples}!QwtPlotCurve@{Qwt\-Plot\-Curve}}
+\subsubsection[{set\-Samples}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Plot\-Curve\-::set\-Samples (
+\begin{DoxyParamCaption}
+\item[{const Q\-Vector$<$ {\bf double} $>$ \&}]{x\-Data, }
+\item[{const Q\-Vector$<$ {\bf double} $>$ \&}]{y\-Data}
+\end{DoxyParamCaption}
+)}}\label{class_qwt_plot_curve_a1e6e9a417479e372197b746538fae47c}
+
+
+Initialize data with x-\/ and y-\/arrays (explicitly shared) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em x\-Data} & x data \\
+\hline
+{\em y\-Data} & y data\\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_point_array_data}{Qwt\-Point\-Array\-Data} 
+\end{DoxySeeAlso}
+
+
+Definition at line 1116 of file qwt\-\_\-plot\-\_\-curve.\-cpp.
+
+\hypertarget{class_qwt_plot_curve_a67b24f3663484ff5e973a288c6071b2a}{\index{Qwt\-Plot\-Curve@{Qwt\-Plot\-Curve}!set\-Samples@{set\-Samples}}
+\index{set\-Samples@{set\-Samples}!QwtPlotCurve@{Qwt\-Plot\-Curve}}
+\subsubsection[{set\-Samples}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Plot\-Curve\-::set\-Samples (
+\begin{DoxyParamCaption}
+\item[{const Q\-Vector$<$ Q\-Point\-F $>$ \&}]{samples}
+\end{DoxyParamCaption}
+)}}\label{class_qwt_plot_curve_a67b24f3663484ff5e973a288c6071b2a}
+Initialize data with an array of points (explicitly shared).
+
+
+\begin{DoxyParams}{Parameters}
+{\em samples} & Vector of points \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 1058 of file qwt\-\_\-plot\-\_\-curve.\-cpp.
+
+\hypertarget{class_qwt_plot_curve_a2de41014c2b87fd459d0c438a15dd33e}{\index{Qwt\-Plot\-Curve@{Qwt\-Plot\-Curve}!set\-Style@{set\-Style}}
+\index{set\-Style@{set\-Style}!QwtPlotCurve@{Qwt\-Plot\-Curve}}
+\subsubsection[{set\-Style}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Plot\-Curve\-::set\-Style (
+\begin{DoxyParamCaption}
+\item[{{\bf Curve\-Style}}]{style}
+\end{DoxyParamCaption}
+)}}\label{class_qwt_plot_curve_a2de41014c2b87fd459d0c438a15dd33e}
+Set the curve's drawing style
+
+
+\begin{DoxyParams}{Parameters}
+{\em style} & Curve style \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_plot_curve_a2df43bdea2a17118c9114d6fa774e598}{style()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 174 of file qwt\-\_\-plot\-\_\-curve.\-cpp.
+
+\hypertarget{class_qwt_plot_curve_aa66020b4a0fd8dd500acd93d17d1d1a4}{\index{Qwt\-Plot\-Curve@{Qwt\-Plot\-Curve}!set\-Symbol@{set\-Symbol}}
+\index{set\-Symbol@{set\-Symbol}!QwtPlotCurve@{Qwt\-Plot\-Curve}}
+\subsubsection[{set\-Symbol}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Plot\-Curve\-::set\-Symbol (
+\begin{DoxyParamCaption}
+\item[{const {\bf Qwt\-Symbol} $\ast$}]{symbol}
+\end{DoxyParamCaption}
+)}}\label{class_qwt_plot_curve_aa66020b4a0fd8dd500acd93d17d1d1a4}
+Assign a symbol
+
+
+\begin{DoxyParams}{Parameters}
+{\em symbol} & Symbol \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_plot_curve_a38e6e66301d602e80bf751f43820c080}{symbol()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 198 of file qwt\-\_\-plot\-\_\-curve.\-cpp.
+
+\hypertarget{class_qwt_plot_curve_a2df43bdea2a17118c9114d6fa774e598}{\index{Qwt\-Plot\-Curve@{Qwt\-Plot\-Curve}!style@{style}}
+\index{style@{style}!QwtPlotCurve@{Qwt\-Plot\-Curve}}
+\subsubsection[{style}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Qwt\-Plot\-Curve\-::\-Curve\-Style} Qwt\-Plot\-Curve\-::style (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_qwt_plot_curve_a2df43bdea2a17118c9114d6fa774e598}
+Return the current style \begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_plot_curve_a2de41014c2b87fd459d0c438a15dd33e}{set\-Style()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 187 of file qwt\-\_\-plot\-\_\-curve.\-cpp.
+
+\hypertarget{class_qwt_plot_curve_a38e6e66301d602e80bf751f43820c080}{\index{Qwt\-Plot\-Curve@{Qwt\-Plot\-Curve}!symbol@{symbol}}
+\index{symbol@{symbol}!QwtPlotCurve@{Qwt\-Plot\-Curve}}
+\subsubsection[{symbol}]{\setlength{\rightskip}{0pt plus 5cm}const {\bf Qwt\-Symbol} $\ast$ Qwt\-Plot\-Curve\-::symbol (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_qwt_plot_curve_a38e6e66301d602e80bf751f43820c080}
+\begin{DoxyReturn}{Returns}
+Current symbol or N\-U\-L\-L, when no symbol has been assigned 
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_plot_curve_aa66020b4a0fd8dd500acd93d17d1d1a4}{set\-Symbol()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 212 of file qwt\-\_\-plot\-\_\-curve.\-cpp.
+
+\hypertarget{class_qwt_plot_curve_a0dc5e6af9ec33a1b54e3c3041c00b939}{\index{Qwt\-Plot\-Curve@{Qwt\-Plot\-Curve}!test\-Curve\-Attribute@{test\-Curve\-Attribute}}
+\index{test\-Curve\-Attribute@{test\-Curve\-Attribute}!QwtPlotCurve@{Qwt\-Plot\-Curve}}
+\subsubsection[{test\-Curve\-Attribute}]{\setlength{\rightskip}{0pt plus 5cm}bool Qwt\-Plot\-Curve\-::test\-Curve\-Attribute (
+\begin{DoxyParamCaption}
+\item[{{\bf Curve\-Attribute}}]{attribute}
+\end{DoxyParamCaption}
+) const}}\label{class_qwt_plot_curve_a0dc5e6af9ec33a1b54e3c3041c00b939}
+\begin{DoxyReturn}{Returns}
+true, if attribute is enabled 
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_plot_curve_a6ac9243e280f96cd149102a91271a473}{set\-Curve\-Attribute()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 632 of file qwt\-\_\-plot\-\_\-curve.\-cpp.
+
+\hypertarget{class_qwt_plot_curve_a7ca93712e476c18995e396425e451039}{\index{Qwt\-Plot\-Curve@{Qwt\-Plot\-Curve}!test\-Legend\-Attribute@{test\-Legend\-Attribute}}
+\index{test\-Legend\-Attribute@{test\-Legend\-Attribute}!QwtPlotCurve@{Qwt\-Plot\-Curve}}
+\subsubsection[{test\-Legend\-Attribute}]{\setlength{\rightskip}{0pt plus 5cm}bool Qwt\-Plot\-Curve\-::test\-Legend\-Attribute (
+\begin{DoxyParamCaption}
+\item[{{\bf Legend\-Attribute}}]{attribute}
+\end{DoxyParamCaption}
+) const}}\label{class_qwt_plot_curve_a7ca93712e476c18995e396425e451039}
+
+
+Return the current paint attributes. 
+
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_plot_curve_a0b1b7816e822607eb16e6eb2fd7bfa5c}{set\-Legend\-Attribute()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 163 of file qwt\-\_\-plot\-\_\-curve.\-cpp.
+
+\hypertarget{class_qwt_plot_curve_ad262cf6b8448d3cb693cbceecc6d8481}{\index{Qwt\-Plot\-Curve@{Qwt\-Plot\-Curve}!test\-Paint\-Attribute@{test\-Paint\-Attribute}}
+\index{test\-Paint\-Attribute@{test\-Paint\-Attribute}!QwtPlotCurve@{Qwt\-Plot\-Curve}}
+\subsubsection[{test\-Paint\-Attribute}]{\setlength{\rightskip}{0pt plus 5cm}bool Qwt\-Plot\-Curve\-::test\-Paint\-Attribute (
+\begin{DoxyParamCaption}
+\item[{{\bf Paint\-Attribute}}]{attribute}
+\end{DoxyParamCaption}
+) const}}\label{class_qwt_plot_curve_ad262cf6b8448d3cb693cbceecc6d8481}
+
+
+Return the current paint attributes. 
+
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_plot_curve_a7f9c70366415b5cb068af80be5bf3748}{set\-Paint\-Attribute()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 139 of file qwt\-\_\-plot\-\_\-curve.\-cpp.
+
+\hypertarget{class_qwt_plot_curve_aedbca95048e4c7b42cd0bf486ec36b4d}{\index{Qwt\-Plot\-Curve@{Qwt\-Plot\-Curve}!update\-Legend@{update\-Legend}}
+\index{update\-Legend@{update\-Legend}!QwtPlotCurve@{Qwt\-Plot\-Curve}}
+\subsubsection[{update\-Legend}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} Qwt\-Plot\-Curve\-::update\-Legend (
+\begin{DoxyParamCaption}
+\item[{{\bf Qwt\-Legend} $\ast$}]{legend}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_qwt_plot_curve_aedbca95048e4c7b42cd0bf486ec36b4d}
+
+
+Update the widget that represents the item on the legend. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em legend} & Legend \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_qwt_plot_curve_a8e9518a3e9f64e1d024a7f4550335df0}{draw\-Legend\-Identifier()}, \hyperlink{class_qwt_plot_item_a09824eda5e564a853e6586bc387a3b4b}{legend\-Item()}, \hyperlink{class_qwt_plot_item_ae0fabcdd35f4818ce5bbe019b0eed062a4e377b54bd879c60a95162b6a9e9e176}{Qwt\-Plot\-Item\-::\-Legend} 
+\end{DoxySeeAlso}
+
+
+Reimplemented from \hyperlink{class_qwt_plot_item_a193770cd20609a368c5130de59cb782e}{Qwt\-Plot\-Item}.
+
+
+
+Definition at line 934 of file qwt\-\_\-plot\-\_\-curve.\-cpp.
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/qwt/src/\hyperlink{qwt__plot__curve_8h}{qwt\-\_\-plot\-\_\-curve.\-h}\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/qwt/src/\hyperlink{qwt__plot__curve_8cpp}{qwt\-\_\-plot\-\_\-curve.\-cpp}\end{DoxyCompactItemize}

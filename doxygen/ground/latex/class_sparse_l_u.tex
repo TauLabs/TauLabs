@@ -1,0 +1,325 @@
+\hypertarget{class_sparse_l_u}{\section{Sparse\-L\-U$<$ Matrix\-Type, Backend $>$ Class Template Reference}
+\label{class_sparse_l_u}\index{Sparse\-L\-U$<$ Matrix\-Type, Backend $>$@{Sparse\-L\-U$<$ Matrix\-Type, Backend $>$}}
+}
+
+
+\hyperlink{class_l_u}{L\-U} decomposition of a sparse matrix and associated features.  
+
+
+
+
+{\ttfamily \#include $<$Sparse\-L\-U.\-h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_sparse_l_u_aa91ed390c852c4945967e928dd48803b}{Sparse\-L\-U} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_sparse_l_u_a615b2637e9c72a9ae9ceb297f5a200ea}{flags}=0)
+\item 
+\hyperlink{class_sparse_l_u_a2f719f2a8959aefe1074edda1ffa0a70}{Sparse\-L\-U} (const Matrix\-Type \&\hyperlink{glext_8h_a7b24a3f2f56eb1244ae69dacb4fecb6f}{matrix}, \hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_sparse_l_u_a615b2637e9c72a9ae9ceb297f5a200ea}{flags}=0)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_sparse_l_u_ad43ea425c0b757d8e5f9e2095f052449}{set\-Precision} (\hyperlink{class_sparse_l_u_a1090bc6ec27ebb0b088f6a1bf2ad6eab}{Real\-Scalar} \hyperlink{glext_8h_a14cfbe2fc2234f5504618905b69d1e06}{v})
+\item 
+\hyperlink{class_sparse_l_u_a1090bc6ec27ebb0b088f6a1bf2ad6eab}{Real\-Scalar} \hyperlink{class_sparse_l_u_ad5f56c5e4c0de8f49af71f940f921fce}{precision} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_sparse_l_u_a151bb7c200f5540abeb73c97083359c3}{set\-Flags} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} f)
+\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_sparse_l_u_a615b2637e9c72a9ae9ceb297f5a200ea}{flags} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_sparse_l_u_acffbcc0ac58bdbd092053735ecff9ae9}{set\-Ordering\-Method} (\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{glext_8h_af593500c283bf1a787a6f947f503a5c2}{m})
+\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_sparse_l_u_aeac863a35f5fd1789bb6204f542af654}{ordering\-Method} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_sparse_l_u_aa6d1bdaa3a56c134f320fdfd4de69388}{compute} (const Matrix\-Type \&\hyperlink{glext_8h_a7b24a3f2f56eb1244ae69dacb4fecb6f}{matrix})
+\item 
+{\footnotesize template$<$typename B\-Derived , typename X\-Derived $>$ }\\bool \hyperlink{class_sparse_l_u_abaffcc4e509351a2316d190eedadf602}{solve} (const \hyperlink{class_matrix_base}{Matrix\-Base}$<$ B\-Derived $>$ \&\hyperlink{glext_8h_a6eba317e3cf44d6d26c04a5a8f197dcb}{b}, \hyperlink{class_matrix_base}{Matrix\-Base}$<$ X\-Derived $>$ $\ast$\hyperlink{glext_8h_a1db9d104e3c2128177f26aff7b46982f}{x}) const 
+\item 
+bool \hyperlink{class_sparse_l_u_a13d90e525e1e8ad5d4affccad5f025e8}{succeeded} (\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void}) const 
+\end{DoxyCompactItemize}
+\subsection*{Protected Types}
+\begin{DoxyCompactItemize}
+\item 
+enum \{ \hyperlink{class_sparse_l_u_ae24c4bbe9625458772050a8cefa747e6a7db92998d2341577c9230aa6f1b2e3fd}{Matrix\-L\-U\-Is\-Dirty} = 0x10000
+ \}
+\item 
+typedef Matrix\-Type\-::\-Scalar \hyperlink{class_sparse_l_u_a1c13b088bd115436caa27f0f8f0c26fd}{Scalar}
+\item 
+typedef \hyperlink{struct_num_traits}{Num\-Traits}$<$ typename \\*
+Matrix\-Type\-::\-Scalar $>$\-::Real \hyperlink{class_sparse_l_u_a1090bc6ec27ebb0b088f6a1bf2ad6eab}{Real\-Scalar}
+\item 
+typedef \hyperlink{class_sparse_matrix}{Sparse\-Matrix}$<$ \hyperlink{class_sparse_l_u_a1c13b088bd115436caa27f0f8f0c26fd}{Scalar}, \\*
+\hyperlink{_constants_8h_a9c6e15884c02c8075e3575670fe06894}{Lower\-Triangular} $>$ \hyperlink{class_sparse_l_u_a2a00945644909dbf287e5d3bb3e71867}{L\-U\-Matrix\-Type}
+\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_sparse_l_u_a1090bc6ec27ebb0b088f6a1bf2ad6eab}{Real\-Scalar} \hyperlink{class_sparse_l_u_a489d44afaeb03a937be210f2356cfc8c}{m\-\_\-precision}
+\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_sparse_l_u_ad88d522e5b2a4f6d29b01553b6a54674}{m\-\_\-flags}
+\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_sparse_l_u_a4c892188136935ccaba41d1f60688e30}{m\-\_\-status}
+\item 
+bool \hyperlink{class_sparse_l_u_a6d8cbd9b21ff099a6eacf621171f13c6}{m\-\_\-succeeded}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$typename Matrix\-Type, int Backend = Default\-Backend$>$class Sparse\-L\-U$<$ Matrix\-Type, Backend $>$}
+
+\hyperlink{class_l_u}{L\-U} decomposition of a sparse matrix and associated features. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Matrix\-Type} & the type of the matrix of which we are computing the \hyperlink{class_l_u}{L\-U} factorization\\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See Also}
+class \hyperlink{class_l_u}{L\-U}, class \hyperlink{class_sparse_l_l_t}{Sparse\-L\-L\-T} 
+\end{DoxySeeAlso}
+
+
+Definition at line 39 of file Sparse\-L\-U.\-h.
+
+
+
+\subsection{Member Typedef Documentation}
+\hypertarget{class_sparse_l_u_a2a00945644909dbf287e5d3bb3e71867}{\index{Sparse\-L\-U@{Sparse\-L\-U}!L\-U\-Matrix\-Type@{L\-U\-Matrix\-Type}}
+\index{L\-U\-Matrix\-Type@{L\-U\-Matrix\-Type}!SparseLU@{Sparse\-L\-U}}
+\subsubsection[{L\-U\-Matrix\-Type}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type, int Backend = Default\-Backend$>$ typedef {\bf Sparse\-Matrix}$<${\bf Scalar},{\bf Lower\-Triangular}$>$ {\bf Sparse\-L\-U}$<$ Matrix\-Type, Backend $>$\-::{\bf L\-U\-Matrix\-Type}\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_sparse_l_u_a2a00945644909dbf287e5d3bb3e71867}
+
+
+Definition at line 44 of file Sparse\-L\-U.\-h.
+
+\hypertarget{class_sparse_l_u_a1090bc6ec27ebb0b088f6a1bf2ad6eab}{\index{Sparse\-L\-U@{Sparse\-L\-U}!Real\-Scalar@{Real\-Scalar}}
+\index{Real\-Scalar@{Real\-Scalar}!SparseLU@{Sparse\-L\-U}}
+\subsubsection[{Real\-Scalar}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type, int Backend = Default\-Backend$>$ typedef {\bf Num\-Traits}$<$typename Matrix\-Type\-::\-Scalar$>$\-::Real {\bf Sparse\-L\-U}$<$ Matrix\-Type, Backend $>$\-::{\bf Real\-Scalar}\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_sparse_l_u_a1090bc6ec27ebb0b088f6a1bf2ad6eab}
+
+
+Definition at line 43 of file Sparse\-L\-U.\-h.
+
+\hypertarget{class_sparse_l_u_a1c13b088bd115436caa27f0f8f0c26fd}{\index{Sparse\-L\-U@{Sparse\-L\-U}!Scalar@{Scalar}}
+\index{Scalar@{Scalar}!SparseLU@{Sparse\-L\-U}}
+\subsubsection[{Scalar}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type, int Backend = Default\-Backend$>$ typedef Matrix\-Type\-::\-Scalar {\bf Sparse\-L\-U}$<$ Matrix\-Type, Backend $>$\-::{\bf Scalar}\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_sparse_l_u_a1c13b088bd115436caa27f0f8f0c26fd}
+
+
+Definition at line 42 of file Sparse\-L\-U.\-h.
+
+
+
+\subsection{Member Enumeration Documentation}
+\hypertarget{class_sparse_l_u_ae24c4bbe9625458772050a8cefa747e6}{\subsubsection[{anonymous enum}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type, int Backend = Default\-Backend$>$ anonymous enum\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_sparse_l_u_ae24c4bbe9625458772050a8cefa747e6}
+\begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{Matrix\-L\-U\-Is\-Dirty@{Matrix\-L\-U\-Is\-Dirty}!Sparse\-L\-U@{Sparse\-L\-U}}\index{Sparse\-L\-U@{Sparse\-L\-U}!Matrix\-L\-U\-Is\-Dirty@{Matrix\-L\-U\-Is\-Dirty}}\item[{\em 
+\hypertarget{class_sparse_l_u_ae24c4bbe9625458772050a8cefa747e6a7db92998d2341577c9230aa6f1b2e3fd}{Matrix\-L\-U\-Is\-Dirty}\label{class_sparse_l_u_ae24c4bbe9625458772050a8cefa747e6a7db92998d2341577c9230aa6f1b2e3fd}
+}]\end{description}
+\end{Desc}
+
+
+Definition at line 46 of file Sparse\-L\-U.\-h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_sparse_l_u_aa91ed390c852c4945967e928dd48803b}{\index{Sparse\-L\-U@{Sparse\-L\-U}!Sparse\-L\-U@{Sparse\-L\-U}}
+\index{Sparse\-L\-U@{Sparse\-L\-U}!SparseLU@{Sparse\-L\-U}}
+\subsubsection[{Sparse\-L\-U}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type, int Backend = Default\-Backend$>$ {\bf Sparse\-L\-U}$<$ Matrix\-Type, Backend $>$\-::{\bf Sparse\-L\-U} (
+\begin{DoxyParamCaption}
+\item[{{\bf int}}]{flags = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_sparse_l_u_aa91ed390c852c4945967e928dd48803b}
+Creates a dummy \hyperlink{class_l_u}{L\-U} factorization object with flags {\itshape flags}. 
+
+Definition at line 53 of file Sparse\-L\-U.\-h.
+
+\hypertarget{class_sparse_l_u_a2f719f2a8959aefe1074edda1ffa0a70}{\index{Sparse\-L\-U@{Sparse\-L\-U}!Sparse\-L\-U@{Sparse\-L\-U}}
+\index{Sparse\-L\-U@{Sparse\-L\-U}!SparseLU@{Sparse\-L\-U}}
+\subsubsection[{Sparse\-L\-U}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type, int Backend = Default\-Backend$>$ {\bf Sparse\-L\-U}$<$ Matrix\-Type, Backend $>$\-::{\bf Sparse\-L\-U} (
+\begin{DoxyParamCaption}
+\item[{const Matrix\-Type \&}]{matrix, }
+\item[{{\bf int}}]{flags = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_sparse_l_u_a2f719f2a8959aefe1074edda1ffa0a70}
+Creates a \hyperlink{class_l_u}{L\-U} object and compute the respective factorization of {\itshape matrix} using flags {\itshape flags}. 
+
+Definition at line 61 of file Sparse\-L\-U.\-h.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_sparse_l_u_aa6d1bdaa3a56c134f320fdfd4de69388}{\index{Sparse\-L\-U@{Sparse\-L\-U}!compute@{compute}}
+\index{compute@{compute}!SparseLU@{Sparse\-L\-U}}
+\subsubsection[{compute}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type, int Backend$>$ {\bf void} {\bf Sparse\-L\-U}$<$ Matrix\-Type, Backend $>$\-::compute (
+\begin{DoxyParamCaption}
+\item[{const Matrix\-Type \&}]{a}
+\end{DoxyParamCaption}
+)}}\label{class_sparse_l_u_aa6d1bdaa3a56c134f320fdfd4de69388}
+Computes/re-\/computes the \hyperlink{class_l_u}{L\-U} factorization
+
+Computes / recomputes the \hyperlink{class_l_u}{L\-U} decomposition of matrix {\itshape a} using the default algorithm. 
+
+Definition at line 134 of file Sparse\-L\-U.\-h.
+
+\hypertarget{class_sparse_l_u_a615b2637e9c72a9ae9ceb297f5a200ea}{\index{Sparse\-L\-U@{Sparse\-L\-U}!flags@{flags}}
+\index{flags@{flags}!SparseLU@{Sparse\-L\-U}}
+\subsubsection[{flags}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type, int Backend = Default\-Backend$>$ {\bf int} {\bf Sparse\-L\-U}$<$ Matrix\-Type, Backend $>$\-::flags (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_sparse_l_u_a615b2637e9c72a9ae9ceb297f5a200ea}
+\begin{DoxyReturn}{Returns}
+the current flags 
+\end{DoxyReturn}
+
+
+Definition at line 95 of file Sparse\-L\-U.\-h.
+
+\hypertarget{class_sparse_l_u_aeac863a35f5fd1789bb6204f542af654}{\index{Sparse\-L\-U@{Sparse\-L\-U}!ordering\-Method@{ordering\-Method}}
+\index{ordering\-Method@{ordering\-Method}!SparseLU@{Sparse\-L\-U}}
+\subsubsection[{ordering\-Method}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type, int Backend = Default\-Backend$>$ {\bf int} {\bf Sparse\-L\-U}$<$ Matrix\-Type, Backend $>$\-::ordering\-Method (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_sparse_l_u_aeac863a35f5fd1789bb6204f542af654}
+
+
+Definition at line 103 of file Sparse\-L\-U.\-h.
+
+\hypertarget{class_sparse_l_u_ad5f56c5e4c0de8f49af71f940f921fce}{\index{Sparse\-L\-U@{Sparse\-L\-U}!precision@{precision}}
+\index{precision@{precision}!SparseLU@{Sparse\-L\-U}}
+\subsubsection[{precision}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type, int Backend = Default\-Backend$>$ {\bf Real\-Scalar} {\bf Sparse\-L\-U}$<$ Matrix\-Type, Backend $>$\-::precision (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_sparse_l_u_ad5f56c5e4c0de8f49af71f940f921fce}
+\begin{DoxyReturn}{Returns}
+the current precision.
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_sparse_l_u_ad43ea425c0b757d8e5f9e2095f052449}{set\-Precision()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 83 of file Sparse\-L\-U.\-h.
+
+\hypertarget{class_sparse_l_u_a151bb7c200f5540abeb73c97083359c3}{\index{Sparse\-L\-U@{Sparse\-L\-U}!set\-Flags@{set\-Flags}}
+\index{set\-Flags@{set\-Flags}!SparseLU@{Sparse\-L\-U}}
+\subsubsection[{set\-Flags}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type, int Backend = Default\-Backend$>$ {\bf void} {\bf Sparse\-L\-U}$<$ Matrix\-Type, Backend $>$\-::set\-Flags (
+\begin{DoxyParamCaption}
+\item[{{\bf int}}]{f}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_sparse_l_u_a151bb7c200f5540abeb73c97083359c3}
+Sets the flags. Possible values are\-:
+\begin{DoxyItemize}
+\item Complete\-Factorization
+\item Incomplete\-Factorization
+\item Memory\-Efficient
+\item one of the ordering methods
+\item etc...
+\end{DoxyItemize}
+
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_sparse_l_u_a615b2637e9c72a9ae9ceb297f5a200ea}{flags()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 93 of file Sparse\-L\-U.\-h.
+
+\hypertarget{class_sparse_l_u_acffbcc0ac58bdbd092053735ecff9ae9}{\index{Sparse\-L\-U@{Sparse\-L\-U}!set\-Ordering\-Method@{set\-Ordering\-Method}}
+\index{set\-Ordering\-Method@{set\-Ordering\-Method}!SparseLU@{Sparse\-L\-U}}
+\subsubsection[{set\-Ordering\-Method}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type, int Backend = Default\-Backend$>$ {\bf void} {\bf Sparse\-L\-U}$<$ Matrix\-Type, Backend $>$\-::set\-Ordering\-Method (
+\begin{DoxyParamCaption}
+\item[{{\bf int}}]{m}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_sparse_l_u_acffbcc0ac58bdbd092053735ecff9ae9}
+
+
+Definition at line 97 of file Sparse\-L\-U.\-h.
+
+\hypertarget{class_sparse_l_u_ad43ea425c0b757d8e5f9e2095f052449}{\index{Sparse\-L\-U@{Sparse\-L\-U}!set\-Precision@{set\-Precision}}
+\index{set\-Precision@{set\-Precision}!SparseLU@{Sparse\-L\-U}}
+\subsubsection[{set\-Precision}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type, int Backend = Default\-Backend$>$ {\bf void} {\bf Sparse\-L\-U}$<$ Matrix\-Type, Backend $>$\-::set\-Precision (
+\begin{DoxyParamCaption}
+\item[{{\bf Real\-Scalar}}]{v}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_sparse_l_u_ad43ea425c0b757d8e5f9e2095f052449}
+Sets the relative threshold value used to prune zero coefficients during the decomposition.
+
+Setting a value greater than zero speeds up computation, and yields to an imcomplete factorization with fewer non zero coefficients. Such approximate factors are especially useful to initialize an iterative solver.
+
+Note that the exact meaning of this parameter might depends on the actual backend. Moreover, not all backends support this feature.
+
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_sparse_l_u_ad5f56c5e4c0de8f49af71f940f921fce}{precision()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 78 of file Sparse\-L\-U.\-h.
+
+\hypertarget{class_sparse_l_u_abaffcc4e509351a2316d190eedadf602}{\index{Sparse\-L\-U@{Sparse\-L\-U}!solve@{solve}}
+\index{solve@{solve}!SparseLU@{Sparse\-L\-U}}
+\subsubsection[{solve}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type , int Backend$>$ template$<$typename B\-Derived , typename X\-Derived $>$ bool {\bf Sparse\-L\-U}$<$ Matrix\-Type, Backend $>$\-::solve (
+\begin{DoxyParamCaption}
+\item[{const {\bf Matrix\-Base}$<$ B\-Derived $>$ \&}]{b, }
+\item[{{\bf Matrix\-Base}$<$ X\-Derived $>$ $\ast$}]{x}
+\end{DoxyParamCaption}
+) const}}\label{class_sparse_l_u_abaffcc4e509351a2316d190eedadf602}
+\begin{DoxyReturn}{Returns}
+the lower triangular matrix L 
+
+the upper triangular matrix U
+\end{DoxyReturn}
+Computes $\ast$x = U$^\wedge$-\/1 L$^\wedge$-\/1 b 
+
+Definition at line 142 of file Sparse\-L\-U.\-h.
+
+\hypertarget{class_sparse_l_u_a13d90e525e1e8ad5d4affccad5f025e8}{\index{Sparse\-L\-U@{Sparse\-L\-U}!succeeded@{succeeded}}
+\index{succeeded@{succeeded}!SparseLU@{Sparse\-L\-U}}
+\subsubsection[{succeeded}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type, int Backend = Default\-Backend$>$ bool {\bf Sparse\-L\-U}$<$ Matrix\-Type, Backend $>$\-::succeeded (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_sparse_l_u_a13d90e525e1e8ad5d4affccad5f025e8}
+\begin{DoxyReturn}{Returns}
+true if the factorization succeeded 
+\end{DoxyReturn}
+
+
+Definition at line 121 of file Sparse\-L\-U.\-h.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{class_sparse_l_u_ad88d522e5b2a4f6d29b01553b6a54674}{\index{Sparse\-L\-U@{Sparse\-L\-U}!m\-\_\-flags@{m\-\_\-flags}}
+\index{m\-\_\-flags@{m\-\_\-flags}!SparseLU@{Sparse\-L\-U}}
+\subsubsection[{m\-\_\-flags}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type, int Backend = Default\-Backend$>$ {\bf int} {\bf Sparse\-L\-U}$<$ Matrix\-Type, Backend $>$\-::m\-\_\-flags\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_sparse_l_u_ad88d522e5b2a4f6d29b01553b6a54674}
+
+
+Definition at line 125 of file Sparse\-L\-U.\-h.
+
+\hypertarget{class_sparse_l_u_a489d44afaeb03a937be210f2356cfc8c}{\index{Sparse\-L\-U@{Sparse\-L\-U}!m\-\_\-precision@{m\-\_\-precision}}
+\index{m\-\_\-precision@{m\-\_\-precision}!SparseLU@{Sparse\-L\-U}}
+\subsubsection[{m\-\_\-precision}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type, int Backend = Default\-Backend$>$ {\bf Real\-Scalar} {\bf Sparse\-L\-U}$<$ Matrix\-Type, Backend $>$\-::m\-\_\-precision\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_sparse_l_u_a489d44afaeb03a937be210f2356cfc8c}
+
+
+Definition at line 124 of file Sparse\-L\-U.\-h.
+
+\hypertarget{class_sparse_l_u_a4c892188136935ccaba41d1f60688e30}{\index{Sparse\-L\-U@{Sparse\-L\-U}!m\-\_\-status@{m\-\_\-status}}
+\index{m\-\_\-status@{m\-\_\-status}!SparseLU@{Sparse\-L\-U}}
+\subsubsection[{m\-\_\-status}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type, int Backend = Default\-Backend$>$ {\bf int} {\bf Sparse\-L\-U}$<$ Matrix\-Type, Backend $>$\-::m\-\_\-status\hspace{0.3cm}{\ttfamily [mutable]}, {\ttfamily [protected]}}}\label{class_sparse_l_u_a4c892188136935ccaba41d1f60688e30}
+
+
+Definition at line 126 of file Sparse\-L\-U.\-h.
+
+\hypertarget{class_sparse_l_u_a6d8cbd9b21ff099a6eacf621171f13c6}{\index{Sparse\-L\-U@{Sparse\-L\-U}!m\-\_\-succeeded@{m\-\_\-succeeded}}
+\index{m\-\_\-succeeded@{m\-\_\-succeeded}!SparseLU@{Sparse\-L\-U}}
+\subsubsection[{m\-\_\-succeeded}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Matrix\-Type, int Backend = Default\-Backend$>$ bool {\bf Sparse\-L\-U}$<$ Matrix\-Type, Backend $>$\-::m\-\_\-succeeded\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_sparse_l_u_a6d8cbd9b21ff099a6eacf621171f13c6}
+
+
+Definition at line 127 of file Sparse\-L\-U.\-h.
+
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/eigen/\-Eigen/src/\-Sparse/\hyperlink{_sparse_l_u_8h}{Sparse\-L\-U.\-h}\end{DoxyCompactItemize}

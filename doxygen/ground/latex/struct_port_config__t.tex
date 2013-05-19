@@ -1,0 +1,75 @@
+\hypertarget{struct_port_config__t}{\section{Port\-Config\-\_\-t Struct Reference}
+\label{struct_port_config__t}\index{Port\-Config\-\_\-t@{Port\-Config\-\_\-t}}
+}
+
+
+{\ttfamily \#include $<$qssp.\-h$>$}
+
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+uint8\-\_\-t $\ast$ \hyperlink{group___uploader_gaf9c6613e85487823c8b69881abf4f4b2}{rx\-Buf}
+\item 
+uint16\-\_\-t \hyperlink{group___uploader_ga2f1cf7a3eabee4b4fa51aeedb4e7f708}{rx\-Buf\-Size}
+\item 
+uint8\-\_\-t $\ast$ \hyperlink{group___uploader_gafcdd55fafcda334941b490883a8185f7}{tx\-Buf}
+\item 
+uint16\-\_\-t \hyperlink{group___uploader_gacc8a53158605f7a72f895d2a80036137}{tx\-Buf\-Size}
+\item 
+uint16\-\_\-t \hyperlink{group___uploader_ga780cb1cf13c87035b0715a39dec4981b}{max\-\_\-retry}
+\item 
+\hyperlink{glext_8h_a37994e3b11c72957c6f454c6ec96d43d}{int32\-\_\-t} \hyperlink{group___uploader_ga13c21abf5c985cf8f33e4a6ccc45310f}{timeout\-Len}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void}($\ast$ \hyperlink{struct_port_config__t_a761912e7c4f6babdbf30bc5427212175}{pf\-Call\-Back} )(uint8\-\_\-t $\ast$, uint16\-\_\-t)
+\item 
+int16\-\_\-t($\ast$ \hyperlink{struct_port_config__t_a99013e72ff1a44c3d4ffc9d4f645862d}{pf\-Serial\-Read} )(\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void})
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void}($\ast$ \hyperlink{struct_port_config__t_a4f05f6e2fc7ec69a863b303e44191881}{pf\-Serial\-Write} )(uint8\-\_\-t)
+\item 
+uint32\-\_\-t($\ast$ \hyperlink{struct_port_config__t_aacab2789effcced0f99bff1dbceb2bbe}{pf\-Get\-Time} )(\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void})
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 41 of file qssp.\-h.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{struct_port_config__t_a761912e7c4f6babdbf30bc5427212175}{\index{Port\-Config\-\_\-t@{Port\-Config\-\_\-t}!pf\-Call\-Back@{pf\-Call\-Back}}
+\index{pf\-Call\-Back@{pf\-Call\-Back}!PortConfig_t@{Port\-Config\-\_\-t}}
+\subsubsection[{pf\-Call\-Back}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void}($\ast$ Port\-Config\-\_\-t\-::pf\-Call\-Back)(uint8\-\_\-t $\ast$, uint16\-\_\-t)}}\label{struct_port_config__t_a761912e7c4f6babdbf30bc5427212175}
+
+
+Definition at line 68 of file ssp.\-h.
+
+\hypertarget{struct_port_config__t_aacab2789effcced0f99bff1dbceb2bbe}{\index{Port\-Config\-\_\-t@{Port\-Config\-\_\-t}!pf\-Get\-Time@{pf\-Get\-Time}}
+\index{pf\-Get\-Time@{pf\-Get\-Time}!PortConfig_t@{Port\-Config\-\_\-t}}
+\subsubsection[{pf\-Get\-Time}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t($\ast$ Port\-Config\-\_\-t\-::pf\-Get\-Time)({\bf void})}}\label{struct_port_config__t_aacab2789effcced0f99bff1dbceb2bbe}
+
+
+Definition at line 71 of file ssp.\-h.
+
+\hypertarget{struct_port_config__t_a99013e72ff1a44c3d4ffc9d4f645862d}{\index{Port\-Config\-\_\-t@{Port\-Config\-\_\-t}!pf\-Serial\-Read@{pf\-Serial\-Read}}
+\index{pf\-Serial\-Read@{pf\-Serial\-Read}!PortConfig_t@{Port\-Config\-\_\-t}}
+\subsubsection[{pf\-Serial\-Read}]{\setlength{\rightskip}{0pt plus 5cm}int16\-\_\-t($\ast$ Port\-Config\-\_\-t\-::pf\-Serial\-Read)({\bf void})}}\label{struct_port_config__t_a99013e72ff1a44c3d4ffc9d4f645862d}
+
+
+Definition at line 69 of file ssp.\-h.
+
+\hypertarget{struct_port_config__t_a4f05f6e2fc7ec69a863b303e44191881}{\index{Port\-Config\-\_\-t@{Port\-Config\-\_\-t}!pf\-Serial\-Write@{pf\-Serial\-Write}}
+\index{pf\-Serial\-Write@{pf\-Serial\-Write}!PortConfig_t@{Port\-Config\-\_\-t}}
+\subsubsection[{pf\-Serial\-Write}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void}($\ast$ Port\-Config\-\_\-t\-::pf\-Serial\-Write)(uint8\-\_\-t)}}\label{struct_port_config__t_a4f05f6e2fc7ec69a863b303e44191881}
+
+
+Definition at line 70 of file ssp.\-h.
+
+
+
+The documentation for this struct was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/experimental/\-U\-S\-B\-\_\-\-U\-P\-L\-O\-A\-D\-\_\-\-T\-O\-O\-L/\-S\-S\-P/\hyperlink{experimental_2_u_s_b___u_p_l_o_a_d___t_o_o_l_2_s_s_p_2qssp_8h}{qssp.\-h}\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/experimental/\-U\-S\-B\-\_\-\-U\-P\-L\-O\-A\-D\-\_\-\-T\-O\-O\-L/\-S\-S\-P/\hyperlink{ssp_8h}{ssp.\-h}\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/plugins/uploader/\-S\-S\-P/\hyperlink{plugins_2uploader_2_s_s_p_2qssp_8h}{qssp.\-h}\end{DoxyCompactItemize}

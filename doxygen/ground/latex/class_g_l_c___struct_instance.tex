@@ -1,0 +1,495 @@
+\hypertarget{class_g_l_c___struct_instance}{\section{G\-L\-C\-\_\-\-Struct\-Instance Class Reference}
+\label{class_g_l_c___struct_instance}\index{G\-L\-C\-\_\-\-Struct\-Instance@{G\-L\-C\-\_\-\-Struct\-Instance}}
+}
+
+
+\hyperlink{class_g_l_c___struct_instance}{G\-L\-C\-\_\-\-Struct\-Instance} \-: A scene graph instance node.  
+
+
+
+
+{\ttfamily \#include $<$glc\-\_\-structinstance.\-h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_g_l_c___struct_instance_a0b5f3faa5b7b4809c060076c4ad1ae9d}{G\-L\-C\-\_\-\-Struct\-Instance} (\hyperlink{class_g_l_c___struct_reference}{G\-L\-C\-\_\-\-Struct\-Reference} $\ast$p\-Ref=N\-U\-L\-L)
+\begin{DoxyCompactList}\small\item\em Default constructor. \end{DoxyCompactList}\item 
+\hyperlink{class_g_l_c___struct_instance_a3a50d981565e7a4b03444ef08c72a774}{G\-L\-C\-\_\-\-Struct\-Instance} (\hyperlink{class_g_l_c___rep}{G\-L\-C\-\_\-\-Rep} $\ast$)
+\begin{DoxyCompactList}\small\item\em Create instance with a rep. \end{DoxyCompactList}\item 
+\hyperlink{class_g_l_c___struct_instance_afb857e2847d7966d15b95630dd6f6016}{G\-L\-C\-\_\-\-Struct\-Instance} (const \hyperlink{class_g_l_c___struct_instance}{G\-L\-C\-\_\-\-Struct\-Instance} \&)
+\begin{DoxyCompactList}\small\item\em Copy constructor. \end{DoxyCompactList}\item 
+\hyperlink{class_g_l_c___struct_instance_a67fe0f4e978b2d0f4a9003e8ae95dbd6}{G\-L\-C\-\_\-\-Struct\-Instance} (\hyperlink{class_g_l_c___struct_instance}{G\-L\-C\-\_\-\-Struct\-Instance} $\ast$)
+\begin{DoxyCompactList}\small\item\em Copy constructor. \end{DoxyCompactList}\item 
+\hyperlink{class_g_l_c___struct_instance_aa7a42283d2bdab739ecd28f25a01f87e}{G\-L\-C\-\_\-\-Struct\-Instance} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{Q\-String} \&)
+\begin{DoxyCompactList}\small\item\em Create empty instance. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c___struct_instance_a27983fede5a044d2f36eb97c406dbe61}{set\-Reference} (\hyperlink{class_g_l_c___struct_reference}{G\-L\-C\-\_\-\-Struct\-Reference} $\ast$)
+\begin{DoxyCompactList}\small\item\em Set the reference of an empty instance. \end{DoxyCompactList}\item 
+virtual \hyperlink{class_g_l_c___struct_instance_a822212e5a83e11ec502bc8c73eaf676e}{$\sim$\-G\-L\-C\-\_\-\-Struct\-Instance} ()
+\end{DoxyCompactItemize}
+\begin{Indent}{\bf Get Functions}\par
+\begin{DoxyCompactItemize}
+\item 
+bool \hyperlink{class_g_l_c___struct_instance_a55fd30b91cd55b98a4ac75c1b23d4df6}{has\-Struct\-Occurence} () const 
+\begin{DoxyCompactList}\small\item\em Return true if this instance have occurence. \end{DoxyCompactList}\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_g_l_c___struct_instance_a858b9fd0630b55d04a567d5ac63a83aa}{number\-Of\-Occurence} () const 
+\begin{DoxyCompactList}\small\item\em Return the number of occurence. \end{DoxyCompactList}\item 
+\hyperlink{class_g_l_c___struct_occurence}{G\-L\-C\-\_\-\-Struct\-Occurence} $\ast$ \hyperlink{class_g_l_c___struct_instance_ab2b4d227aad1d72a13748c496049883d}{first\-Occurence\-Handle} () const 
+\begin{DoxyCompactList}\small\item\em Return first occurence handle. \end{DoxyCompactList}\item 
+\hyperlink{class_g_l_c___matrix4x4}{G\-L\-C\-\_\-\-Matrix4x4} \hyperlink{class_g_l_c___struct_instance_a3b98f6cc39e34875b38dff7ee894f834}{relative\-Matrix} () const 
+\begin{DoxyCompactList}\small\item\em Return the relative matrix of this instance. \end{DoxyCompactList}\item 
+\hyperlink{class_g_l_c___struct_reference}{G\-L\-C\-\_\-\-Struct\-Reference} $\ast$ \hyperlink{class_g_l_c___struct_instance_a9add43f75fab5d40c90614bc8263a4a5}{struct\-Reference} () const 
+\begin{DoxyCompactList}\small\item\em Return the reference of this instance. \end{DoxyCompactList}\item 
+\hyperlink{class_q_list}{Q\-List}$<$ \hyperlink{class_g_l_c___struct_occurence}{G\-L\-C\-\_\-\-Struct\-Occurence} $\ast$ $>$ \hyperlink{class_g_l_c___struct_instance_ac7b1a85fc4d2b963903680f3a2168083}{list\-Of\-Struct\-Occurences} () const 
+\begin{DoxyCompactList}\small\item\em Return the list off occurence of this instance. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{Q\-String} \hyperlink{class_g_l_c___struct_instance_a675d880ff5a3e5d11cf1dcd41e6441ce}{name} () const 
+\begin{DoxyCompactList}\small\item\em Return the instance name. \end{DoxyCompactList}\item 
+bool \hyperlink{class_g_l_c___struct_instance_a0cbaf4e2d418b9bf1ac3f8c3906acd27}{contains\-Attributes} () const 
+\begin{DoxyCompactList}\small\item\em Return true if the reference contains User attributes. \end{DoxyCompactList}\item 
+\hyperlink{class_g_l_c___attributes}{G\-L\-C\-\_\-\-Attributes} $\ast$ \hyperlink{class_g_l_c___struct_instance_a4f2b9d183dcf4ef50ee7784c7bdca419}{attributes\-Handle} () const 
+\begin{DoxyCompactList}\small\item\em Return handle to the reference attributes. \end{DoxyCompactList}\item 
+\hyperlink{ioapi_8h_a787fa3cf048117ba7123753c1e74fcd6}{int} \hyperlink{class_g_l_c___struct_instance_a9b2b53689c20b1b01dc0367cfa5731a4}{usage\-Count} () const 
+\begin{DoxyCompactList}\small\item\em Return the number of usage of this instance. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\end{Indent}
+\begin{Indent}{\bf Set Functions}\par
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c___struct_instance_a125728e0a55429cfc7d02f5369b10f3e}{struct\-Occurence\-Created} (\hyperlink{class_g_l_c___struct_occurence}{G\-L\-C\-\_\-\-Struct\-Occurence} $\ast$p\-Occurence)
+\begin{DoxyCompactList}\small\item\em An occurence of this instance have been created. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c___struct_instance_ac5eb15cd839f19bf21c8f170203d3143}{struct\-Occurence\-Deleted} (\hyperlink{class_g_l_c___struct_occurence}{G\-L\-C\-\_\-\-Struct\-Occurence} $\ast$p\-Occurence)
+\item 
+\hyperlink{class_g_l_c___struct_instance}{G\-L\-C\-\_\-\-Struct\-Instance} $\ast$ \hyperlink{class_g_l_c___struct_instance_a18fed322060f88ca5372afbeff46bf62}{move} (const \hyperlink{class_g_l_c___matrix4x4}{G\-L\-C\-\_\-\-Matrix4x4} \&\hyperlink{glext_8h_a7b24a3f2f56eb1244ae69dacb4fecb6f}{matrix})
+\begin{DoxyCompactList}\small\item\em Move the instance by specified matrix. \end{DoxyCompactList}\item 
+\hyperlink{class_g_l_c___struct_instance}{G\-L\-C\-\_\-\-Struct\-Instance} $\ast$ \hyperlink{class_g_l_c___struct_instance_a9f983b292743e995b2c6db15629646c2}{translate} (\hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} Tx, \hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} Ty, \hyperlink{_super_l_u_support_8h_a8956b2b9f49bf918deed98379d159ca7}{double} Tz)
+\begin{DoxyCompactList}\small\item\em Translate Instance. \end{DoxyCompactList}\item 
+\hyperlink{class_g_l_c___struct_instance}{G\-L\-C\-\_\-\-Struct\-Instance} $\ast$ \hyperlink{class_g_l_c___struct_instance_ab85e8ccbf5ca2b9b511ecf8891bd798d}{translate} (const \hyperlink{class_g_l_c___vector3d}{G\-L\-C\-\_\-\-Vector3d} \&\hyperlink{glext_8h_a14cfbe2fc2234f5504618905b69d1e06}{v})
+\begin{DoxyCompactList}\small\item\em Translate Instance. \end{DoxyCompactList}\item 
+\hyperlink{class_g_l_c___struct_instance}{G\-L\-C\-\_\-\-Struct\-Instance} $\ast$ \hyperlink{class_g_l_c___struct_instance_a516113325adddef83c01f6a3f39caa2a}{set\-Matrix} (const \hyperlink{class_g_l_c___matrix4x4}{G\-L\-C\-\_\-\-Matrix4x4} \&Set\-Mat)
+\begin{DoxyCompactList}\small\item\em Replace the instance \hyperlink{class_matrix}{Matrix}. \end{DoxyCompactList}\item 
+\hyperlink{class_g_l_c___struct_instance}{G\-L\-C\-\_\-\-Struct\-Instance} $\ast$ \hyperlink{class_g_l_c___struct_instance_affd3df6f7a28e1624f3aded5b487fba1}{reset\-Matrix} ()
+\begin{DoxyCompactList}\small\item\em Reset the instance \hyperlink{class_matrix}{Matrix}. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c___struct_instance_a5aaebe0c401ca94e0a6327541e285b2a}{set\-Name} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{Q\-String} \&\hyperlink{glext_8h_ad977737dfc9a274a62741b9500c49a32}{name})
+\begin{DoxyCompactList}\small\item\em Set the instance name. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c___struct_instance_a0d6dda80c0f5e8af40ea90fba0d3f15f}{set\-Attributes} (const \hyperlink{class_g_l_c___attributes}{G\-L\-C\-\_\-\-Attributes} \&attr)
+\begin{DoxyCompactList}\small\item\em Set the instance attributes. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_g_l_c___struct_instance_ab859338da5f476f93aa9afa544760fe3}{update\-Occurences\-Absolute\-Matrix} ()
+\begin{DoxyCompactList}\small\item\em Update absolute matrix off children and all occurences of this instance. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\end{Indent}
+
+
+\subsection{Detailed Description}
+\hyperlink{class_g_l_c___struct_instance}{G\-L\-C\-\_\-\-Struct\-Instance} \-: A scene graph instance node. 
+
+Definition at line 44 of file glc\-\_\-structinstance.\-h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_g_l_c___struct_instance_a0b5f3faa5b7b4809c060076c4ad1ae9d}{\index{G\-L\-C\-\_\-\-Struct\-Instance@{G\-L\-C\-\_\-\-Struct\-Instance}!G\-L\-C\-\_\-\-Struct\-Instance@{G\-L\-C\-\_\-\-Struct\-Instance}}
+\index{G\-L\-C\-\_\-\-Struct\-Instance@{G\-L\-C\-\_\-\-Struct\-Instance}!GLC_StructInstance@{G\-L\-C\-\_\-\-Struct\-Instance}}
+\subsubsection[{G\-L\-C\-\_\-\-Struct\-Instance}]{\setlength{\rightskip}{0pt plus 5cm}G\-L\-C\-\_\-\-Struct\-Instance\-::\-G\-L\-C\-\_\-\-Struct\-Instance (
+\begin{DoxyParamCaption}
+\item[{{\bf G\-L\-C\-\_\-\-Struct\-Reference} $\ast$}]{p\-Ref = {\ttfamily NULL}}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___struct_instance_a0b5f3faa5b7b4809c060076c4ad1ae9d}
+
+
+Default constructor. 
+
+
+
+Definition at line 30 of file glc\-\_\-structinstance.\-cpp.
+
+\hypertarget{class_g_l_c___struct_instance_a3a50d981565e7a4b03444ef08c72a774}{\index{G\-L\-C\-\_\-\-Struct\-Instance@{G\-L\-C\-\_\-\-Struct\-Instance}!G\-L\-C\-\_\-\-Struct\-Instance@{G\-L\-C\-\_\-\-Struct\-Instance}}
+\index{G\-L\-C\-\_\-\-Struct\-Instance@{G\-L\-C\-\_\-\-Struct\-Instance}!GLC_StructInstance@{G\-L\-C\-\_\-\-Struct\-Instance}}
+\subsubsection[{G\-L\-C\-\_\-\-Struct\-Instance}]{\setlength{\rightskip}{0pt plus 5cm}G\-L\-C\-\_\-\-Struct\-Instance\-::\-G\-L\-C\-\_\-\-Struct\-Instance (
+\begin{DoxyParamCaption}
+\item[{{\bf G\-L\-C\-\_\-\-Rep} $\ast$}]{p\-Rep}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___struct_instance_a3a50d981565e7a4b03444ef08c72a774}
+
+
+Create instance with a rep. 
+
+
+
+Definition at line 59 of file glc\-\_\-structinstance.\-cpp.
+
+\hypertarget{class_g_l_c___struct_instance_afb857e2847d7966d15b95630dd6f6016}{\index{G\-L\-C\-\_\-\-Struct\-Instance@{G\-L\-C\-\_\-\-Struct\-Instance}!G\-L\-C\-\_\-\-Struct\-Instance@{G\-L\-C\-\_\-\-Struct\-Instance}}
+\index{G\-L\-C\-\_\-\-Struct\-Instance@{G\-L\-C\-\_\-\-Struct\-Instance}!GLC_StructInstance@{G\-L\-C\-\_\-\-Struct\-Instance}}
+\subsubsection[{G\-L\-C\-\_\-\-Struct\-Instance}]{\setlength{\rightskip}{0pt plus 5cm}G\-L\-C\-\_\-\-Struct\-Instance\-::\-G\-L\-C\-\_\-\-Struct\-Instance (
+\begin{DoxyParamCaption}
+\item[{const {\bf G\-L\-C\-\_\-\-Struct\-Instance} \&}]{struct\-Instance}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___struct_instance_afb857e2847d7966d15b95630dd6f6016}
+
+
+Copy constructor. 
+
+
+
+Definition at line 81 of file glc\-\_\-structinstance.\-cpp.
+
+\hypertarget{class_g_l_c___struct_instance_a67fe0f4e978b2d0f4a9003e8ae95dbd6}{\index{G\-L\-C\-\_\-\-Struct\-Instance@{G\-L\-C\-\_\-\-Struct\-Instance}!G\-L\-C\-\_\-\-Struct\-Instance@{G\-L\-C\-\_\-\-Struct\-Instance}}
+\index{G\-L\-C\-\_\-\-Struct\-Instance@{G\-L\-C\-\_\-\-Struct\-Instance}!GLC_StructInstance@{G\-L\-C\-\_\-\-Struct\-Instance}}
+\subsubsection[{G\-L\-C\-\_\-\-Struct\-Instance}]{\setlength{\rightskip}{0pt plus 5cm}G\-L\-C\-\_\-\-Struct\-Instance\-::\-G\-L\-C\-\_\-\-Struct\-Instance (
+\begin{DoxyParamCaption}
+\item[{{\bf G\-L\-C\-\_\-\-Struct\-Instance} $\ast$}]{p\-Struct\-Instance}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___struct_instance_a67fe0f4e978b2d0f4a9003e8ae95dbd6}
+
+
+Copy constructor. 
+
+
+
+Definition at line 104 of file glc\-\_\-structinstance.\-cpp.
+
+\hypertarget{class_g_l_c___struct_instance_aa7a42283d2bdab739ecd28f25a01f87e}{\index{G\-L\-C\-\_\-\-Struct\-Instance@{G\-L\-C\-\_\-\-Struct\-Instance}!G\-L\-C\-\_\-\-Struct\-Instance@{G\-L\-C\-\_\-\-Struct\-Instance}}
+\index{G\-L\-C\-\_\-\-Struct\-Instance@{G\-L\-C\-\_\-\-Struct\-Instance}!GLC_StructInstance@{G\-L\-C\-\_\-\-Struct\-Instance}}
+\subsubsection[{G\-L\-C\-\_\-\-Struct\-Instance}]{\setlength{\rightskip}{0pt plus 5cm}G\-L\-C\-\_\-\-Struct\-Instance\-::\-G\-L\-C\-\_\-\-Struct\-Instance (
+\begin{DoxyParamCaption}
+\item[{const {\bf Q\-String} \&}]{name}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___struct_instance_aa7a42283d2bdab739ecd28f25a01f87e}
+
+
+Create empty instance. 
+
+
+
+Definition at line 127 of file glc\-\_\-structinstance.\-cpp.
+
+\hypertarget{class_g_l_c___struct_instance_a822212e5a83e11ec502bc8c73eaf676e}{\index{G\-L\-C\-\_\-\-Struct\-Instance@{G\-L\-C\-\_\-\-Struct\-Instance}!$\sim$\-G\-L\-C\-\_\-\-Struct\-Instance@{$\sim$\-G\-L\-C\-\_\-\-Struct\-Instance}}
+\index{$\sim$\-G\-L\-C\-\_\-\-Struct\-Instance@{$\sim$\-G\-L\-C\-\_\-\-Struct\-Instance}!GLC_StructInstance@{G\-L\-C\-\_\-\-Struct\-Instance}}
+\subsubsection[{$\sim$\-G\-L\-C\-\_\-\-Struct\-Instance}]{\setlength{\rightskip}{0pt plus 5cm}G\-L\-C\-\_\-\-Struct\-Instance\-::$\sim$\-G\-L\-C\-\_\-\-Struct\-Instance (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_g_l_c___struct_instance_a822212e5a83e11ec502bc8c73eaf676e}
+
+
+Definition at line 162 of file glc\-\_\-structinstance.\-cpp.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_g_l_c___struct_instance_a4f2b9d183dcf4ef50ee7784c7bdca419}{\index{G\-L\-C\-\_\-\-Struct\-Instance@{G\-L\-C\-\_\-\-Struct\-Instance}!attributes\-Handle@{attributes\-Handle}}
+\index{attributes\-Handle@{attributes\-Handle}!GLC_StructInstance@{G\-L\-C\-\_\-\-Struct\-Instance}}
+\subsubsection[{attributes\-Handle}]{\setlength{\rightskip}{0pt plus 5cm}{\bf G\-L\-C\-\_\-\-Attributes}$\ast$ G\-L\-C\-\_\-\-Struct\-Instance\-::attributes\-Handle (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___struct_instance_a4f2b9d183dcf4ef50ee7784c7bdca419}
+
+
+Return handle to the reference attributes. 
+
+
+
+Definition at line 105 of file glc\-\_\-structinstance.\-h.
+
+\hypertarget{class_g_l_c___struct_instance_a0cbaf4e2d418b9bf1ac3f8c3906acd27}{\index{G\-L\-C\-\_\-\-Struct\-Instance@{G\-L\-C\-\_\-\-Struct\-Instance}!contains\-Attributes@{contains\-Attributes}}
+\index{contains\-Attributes@{contains\-Attributes}!GLC_StructInstance@{G\-L\-C\-\_\-\-Struct\-Instance}}
+\subsubsection[{contains\-Attributes}]{\setlength{\rightskip}{0pt plus 5cm}bool G\-L\-C\-\_\-\-Struct\-Instance\-::contains\-Attributes (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___struct_instance_a0cbaf4e2d418b9bf1ac3f8c3906acd27}
+
+
+Return true if the reference contains User attributes. 
+
+
+
+Definition at line 101 of file glc\-\_\-structinstance.\-h.
+
+\hypertarget{class_g_l_c___struct_instance_ab2b4d227aad1d72a13748c496049883d}{\index{G\-L\-C\-\_\-\-Struct\-Instance@{G\-L\-C\-\_\-\-Struct\-Instance}!first\-Occurence\-Handle@{first\-Occurence\-Handle}}
+\index{first\-Occurence\-Handle@{first\-Occurence\-Handle}!GLC_StructInstance@{G\-L\-C\-\_\-\-Struct\-Instance}}
+\subsubsection[{first\-Occurence\-Handle}]{\setlength{\rightskip}{0pt plus 5cm}{\bf G\-L\-C\-\_\-\-Struct\-Occurence}$\ast$ G\-L\-C\-\_\-\-Struct\-Instance\-::first\-Occurence\-Handle (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___struct_instance_ab2b4d227aad1d72a13748c496049883d}
+
+
+Return first occurence handle. 
+
+
+
+Definition at line 81 of file glc\-\_\-structinstance.\-h.
+
+\hypertarget{class_g_l_c___struct_instance_a55fd30b91cd55b98a4ac75c1b23d4df6}{\index{G\-L\-C\-\_\-\-Struct\-Instance@{G\-L\-C\-\_\-\-Struct\-Instance}!has\-Struct\-Occurence@{has\-Struct\-Occurence}}
+\index{has\-Struct\-Occurence@{has\-Struct\-Occurence}!GLC_StructInstance@{G\-L\-C\-\_\-\-Struct\-Instance}}
+\subsubsection[{has\-Struct\-Occurence}]{\setlength{\rightskip}{0pt plus 5cm}bool G\-L\-C\-\_\-\-Struct\-Instance\-::has\-Struct\-Occurence (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___struct_instance_a55fd30b91cd55b98a4ac75c1b23d4df6}
+
+
+Return true if this instance have occurence. 
+
+
+
+Definition at line 73 of file glc\-\_\-structinstance.\-h.
+
+\hypertarget{class_g_l_c___struct_instance_ac7b1a85fc4d2b963903680f3a2168083}{\index{G\-L\-C\-\_\-\-Struct\-Instance@{G\-L\-C\-\_\-\-Struct\-Instance}!list\-Of\-Struct\-Occurences@{list\-Of\-Struct\-Occurences}}
+\index{list\-Of\-Struct\-Occurences@{list\-Of\-Struct\-Occurences}!GLC_StructInstance@{G\-L\-C\-\_\-\-Struct\-Instance}}
+\subsubsection[{list\-Of\-Struct\-Occurences}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Q\-List}$<${\bf G\-L\-C\-\_\-\-Struct\-Occurence}$\ast$$>$ G\-L\-C\-\_\-\-Struct\-Instance\-::list\-Of\-Struct\-Occurences (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___struct_instance_ac7b1a85fc4d2b963903680f3a2168083}
+
+
+Return the list off occurence of this instance. 
+
+
+
+Definition at line 93 of file glc\-\_\-structinstance.\-h.
+
+\hypertarget{class_g_l_c___struct_instance_a18fed322060f88ca5372afbeff46bf62}{\index{G\-L\-C\-\_\-\-Struct\-Instance@{G\-L\-C\-\_\-\-Struct\-Instance}!move@{move}}
+\index{move@{move}!GLC_StructInstance@{G\-L\-C\-\_\-\-Struct\-Instance}}
+\subsubsection[{move}]{\setlength{\rightskip}{0pt plus 5cm}{\bf G\-L\-C\-\_\-\-Struct\-Instance}$\ast$ G\-L\-C\-\_\-\-Struct\-Instance\-::move (
+\begin{DoxyParamCaption}
+\item[{const {\bf G\-L\-C\-\_\-\-Matrix4x4} \&}]{matrix}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___struct_instance_a18fed322060f88ca5372afbeff46bf62}
+
+
+Move the instance by specified matrix. 
+
+
+
+Definition at line 131 of file glc\-\_\-structinstance.\-h.
+
+\hypertarget{class_g_l_c___struct_instance_a675d880ff5a3e5d11cf1dcd41e6441ce}{\index{G\-L\-C\-\_\-\-Struct\-Instance@{G\-L\-C\-\_\-\-Struct\-Instance}!name@{name}}
+\index{name@{name}!GLC_StructInstance@{G\-L\-C\-\_\-\-Struct\-Instance}}
+\subsubsection[{name}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Q\-String} G\-L\-C\-\_\-\-Struct\-Instance\-::name (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___struct_instance_a675d880ff5a3e5d11cf1dcd41e6441ce}
+
+
+Return the instance name. 
+
+
+
+Definition at line 97 of file glc\-\_\-structinstance.\-h.
+
+\hypertarget{class_g_l_c___struct_instance_a858b9fd0630b55d04a567d5ac63a83aa}{\index{G\-L\-C\-\_\-\-Struct\-Instance@{G\-L\-C\-\_\-\-Struct\-Instance}!number\-Of\-Occurence@{number\-Of\-Occurence}}
+\index{number\-Of\-Occurence@{number\-Of\-Occurence}!GLC_StructInstance@{G\-L\-C\-\_\-\-Struct\-Instance}}
+\subsubsection[{number\-Of\-Occurence}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int} G\-L\-C\-\_\-\-Struct\-Instance\-::number\-Of\-Occurence (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___struct_instance_a858b9fd0630b55d04a567d5ac63a83aa}
+
+
+Return the number of occurence. 
+
+
+
+Definition at line 77 of file glc\-\_\-structinstance.\-h.
+
+\hypertarget{class_g_l_c___struct_instance_a3b98f6cc39e34875b38dff7ee894f834}{\index{G\-L\-C\-\_\-\-Struct\-Instance@{G\-L\-C\-\_\-\-Struct\-Instance}!relative\-Matrix@{relative\-Matrix}}
+\index{relative\-Matrix@{relative\-Matrix}!GLC_StructInstance@{G\-L\-C\-\_\-\-Struct\-Instance}}
+\subsubsection[{relative\-Matrix}]{\setlength{\rightskip}{0pt plus 5cm}{\bf G\-L\-C\-\_\-\-Matrix4x4} G\-L\-C\-\_\-\-Struct\-Instance\-::relative\-Matrix (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___struct_instance_a3b98f6cc39e34875b38dff7ee894f834}
+
+
+Return the relative matrix of this instance. 
+
+
+
+Definition at line 85 of file glc\-\_\-structinstance.\-h.
+
+\hypertarget{class_g_l_c___struct_instance_affd3df6f7a28e1624f3aded5b487fba1}{\index{G\-L\-C\-\_\-\-Struct\-Instance@{G\-L\-C\-\_\-\-Struct\-Instance}!reset\-Matrix@{reset\-Matrix}}
+\index{reset\-Matrix@{reset\-Matrix}!GLC_StructInstance@{G\-L\-C\-\_\-\-Struct\-Instance}}
+\subsubsection[{reset\-Matrix}]{\setlength{\rightskip}{0pt plus 5cm}{\bf G\-L\-C\-\_\-\-Struct\-Instance}$\ast$ G\-L\-C\-\_\-\-Struct\-Instance\-::reset\-Matrix (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___struct_instance_affd3df6f7a28e1624f3aded5b487fba1}
+
+
+Reset the instance \hyperlink{class_matrix}{Matrix}. 
+
+
+
+Definition at line 158 of file glc\-\_\-structinstance.\-h.
+
+\hypertarget{class_g_l_c___struct_instance_a0d6dda80c0f5e8af40ea90fba0d3f15f}{\index{G\-L\-C\-\_\-\-Struct\-Instance@{G\-L\-C\-\_\-\-Struct\-Instance}!set\-Attributes@{set\-Attributes}}
+\index{set\-Attributes@{set\-Attributes}!GLC_StructInstance@{G\-L\-C\-\_\-\-Struct\-Instance}}
+\subsubsection[{set\-Attributes}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-\-Struct\-Instance\-::set\-Attributes (
+\begin{DoxyParamCaption}
+\item[{const {\bf G\-L\-C\-\_\-\-Attributes} \&}]{attr}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___struct_instance_a0d6dda80c0f5e8af40ea90fba0d3f15f}
+
+
+Set the instance attributes. 
+
+
+
+Definition at line 169 of file glc\-\_\-structinstance.\-h.
+
+\hypertarget{class_g_l_c___struct_instance_a516113325adddef83c01f6a3f39caa2a}{\index{G\-L\-C\-\_\-\-Struct\-Instance@{G\-L\-C\-\_\-\-Struct\-Instance}!set\-Matrix@{set\-Matrix}}
+\index{set\-Matrix@{set\-Matrix}!GLC_StructInstance@{G\-L\-C\-\_\-\-Struct\-Instance}}
+\subsubsection[{set\-Matrix}]{\setlength{\rightskip}{0pt plus 5cm}{\bf G\-L\-C\-\_\-\-Struct\-Instance}$\ast$ G\-L\-C\-\_\-\-Struct\-Instance\-::set\-Matrix (
+\begin{DoxyParamCaption}
+\item[{const {\bf G\-L\-C\-\_\-\-Matrix4x4} \&}]{Set\-Mat}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___struct_instance_a516113325adddef83c01f6a3f39caa2a}
+
+
+Replace the instance \hyperlink{class_matrix}{Matrix}. 
+
+
+
+Definition at line 151 of file glc\-\_\-structinstance.\-h.
+
+\hypertarget{class_g_l_c___struct_instance_a5aaebe0c401ca94e0a6327541e285b2a}{\index{G\-L\-C\-\_\-\-Struct\-Instance@{G\-L\-C\-\_\-\-Struct\-Instance}!set\-Name@{set\-Name}}
+\index{set\-Name@{set\-Name}!GLC_StructInstance@{G\-L\-C\-\_\-\-Struct\-Instance}}
+\subsubsection[{set\-Name}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-\-Struct\-Instance\-::set\-Name (
+\begin{DoxyParamCaption}
+\item[{const {\bf Q\-String} \&}]{name}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___struct_instance_a5aaebe0c401ca94e0a6327541e285b2a}
+
+
+Set the instance name. 
+
+
+
+Definition at line 165 of file glc\-\_\-structinstance.\-h.
+
+\hypertarget{class_g_l_c___struct_instance_a27983fede5a044d2f36eb97c406dbe61}{\index{G\-L\-C\-\_\-\-Struct\-Instance@{G\-L\-C\-\_\-\-Struct\-Instance}!set\-Reference@{set\-Reference}}
+\index{set\-Reference@{set\-Reference}!GLC_StructInstance@{G\-L\-C\-\_\-\-Struct\-Instance}}
+\subsubsection[{set\-Reference}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-\-Struct\-Instance\-::set\-Reference (
+\begin{DoxyParamCaption}
+\item[{{\bf G\-L\-C\-\_\-\-Struct\-Reference} $\ast$}]{p\-Struct\-Reference}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___struct_instance_a27983fede5a044d2f36eb97c406dbe61}
+
+
+Set the reference of an empty instance. 
+
+
+
+Definition at line 138 of file glc\-\_\-structinstance.\-cpp.
+
+\hypertarget{class_g_l_c___struct_instance_a125728e0a55429cfc7d02f5369b10f3e}{\index{G\-L\-C\-\_\-\-Struct\-Instance@{G\-L\-C\-\_\-\-Struct\-Instance}!struct\-Occurence\-Created@{struct\-Occurence\-Created}}
+\index{struct\-Occurence\-Created@{struct\-Occurence\-Created}!GLC_StructInstance@{G\-L\-C\-\_\-\-Struct\-Instance}}
+\subsubsection[{struct\-Occurence\-Created}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-\-Struct\-Instance\-::struct\-Occurence\-Created (
+\begin{DoxyParamCaption}
+\item[{{\bf G\-L\-C\-\_\-\-Struct\-Occurence} $\ast$}]{p\-Occurence}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___struct_instance_a125728e0a55429cfc7d02f5369b10f3e}
+
+
+An occurence of this instance have been created. 
+
+
+
+Definition at line 119 of file glc\-\_\-structinstance.\-h.
+
+\hypertarget{class_g_l_c___struct_instance_ac5eb15cd839f19bf21c8f170203d3143}{\index{G\-L\-C\-\_\-\-Struct\-Instance@{G\-L\-C\-\_\-\-Struct\-Instance}!struct\-Occurence\-Deleted@{struct\-Occurence\-Deleted}}
+\index{struct\-Occurence\-Deleted@{struct\-Occurence\-Deleted}!GLC_StructInstance@{G\-L\-C\-\_\-\-Struct\-Instance}}
+\subsubsection[{struct\-Occurence\-Deleted}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-\-Struct\-Instance\-::struct\-Occurence\-Deleted (
+\begin{DoxyParamCaption}
+\item[{{\bf G\-L\-C\-\_\-\-Struct\-Occurence} $\ast$}]{p\-Occurence}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___struct_instance_ac5eb15cd839f19bf21c8f170203d3143}
+
+
+Definition at line 125 of file glc\-\_\-structinstance.\-h.
+
+\hypertarget{class_g_l_c___struct_instance_a9add43f75fab5d40c90614bc8263a4a5}{\index{G\-L\-C\-\_\-\-Struct\-Instance@{G\-L\-C\-\_\-\-Struct\-Instance}!struct\-Reference@{struct\-Reference}}
+\index{struct\-Reference@{struct\-Reference}!GLC_StructInstance@{G\-L\-C\-\_\-\-Struct\-Instance}}
+\subsubsection[{struct\-Reference}]{\setlength{\rightskip}{0pt plus 5cm}{\bf G\-L\-C\-\_\-\-Struct\-Reference}$\ast$ G\-L\-C\-\_\-\-Struct\-Instance\-::struct\-Reference (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___struct_instance_a9add43f75fab5d40c90614bc8263a4a5}
+
+
+Return the reference of this instance. 
+
+
+
+Definition at line 89 of file glc\-\_\-structinstance.\-h.
+
+\hypertarget{class_g_l_c___struct_instance_a9f983b292743e995b2c6db15629646c2}{\index{G\-L\-C\-\_\-\-Struct\-Instance@{G\-L\-C\-\_\-\-Struct\-Instance}!translate@{translate}}
+\index{translate@{translate}!GLC_StructInstance@{G\-L\-C\-\_\-\-Struct\-Instance}}
+\subsubsection[{translate}]{\setlength{\rightskip}{0pt plus 5cm}{\bf G\-L\-C\-\_\-\-Struct\-Instance}$\ast$ G\-L\-C\-\_\-\-Struct\-Instance\-::translate (
+\begin{DoxyParamCaption}
+\item[{{\bf double}}]{Tx, }
+\item[{{\bf double}}]{Ty, }
+\item[{{\bf double}}]{Tz}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___struct_instance_a9f983b292743e995b2c6db15629646c2}
+
+
+Translate Instance. 
+
+
+
+Definition at line 138 of file glc\-\_\-structinstance.\-h.
+
+\hypertarget{class_g_l_c___struct_instance_ab85e8ccbf5ca2b9b511ecf8891bd798d}{\index{G\-L\-C\-\_\-\-Struct\-Instance@{G\-L\-C\-\_\-\-Struct\-Instance}!translate@{translate}}
+\index{translate@{translate}!GLC_StructInstance@{G\-L\-C\-\_\-\-Struct\-Instance}}
+\subsubsection[{translate}]{\setlength{\rightskip}{0pt plus 5cm}{\bf G\-L\-C\-\_\-\-Struct\-Instance}$\ast$ G\-L\-C\-\_\-\-Struct\-Instance\-::translate (
+\begin{DoxyParamCaption}
+\item[{const {\bf G\-L\-C\-\_\-\-Vector3d} \&}]{v}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___struct_instance_ab85e8ccbf5ca2b9b511ecf8891bd798d}
+
+
+Translate Instance. 
+
+
+
+Definition at line 145 of file glc\-\_\-structinstance.\-h.
+
+\hypertarget{class_g_l_c___struct_instance_ab859338da5f476f93aa9afa544760fe3}{\index{G\-L\-C\-\_\-\-Struct\-Instance@{G\-L\-C\-\_\-\-Struct\-Instance}!update\-Occurences\-Absolute\-Matrix@{update\-Occurences\-Absolute\-Matrix}}
+\index{update\-Occurences\-Absolute\-Matrix@{update\-Occurences\-Absolute\-Matrix}!GLC_StructInstance@{G\-L\-C\-\_\-\-Struct\-Instance}}
+\subsubsection[{update\-Occurences\-Absolute\-Matrix}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} G\-L\-C\-\_\-\-Struct\-Instance\-::update\-Occurences\-Absolute\-Matrix (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_g_l_c___struct_instance_ab859338da5f476f93aa9afa544760fe3}
+
+
+Update absolute matrix off children and all occurences of this instance. 
+
+
+
+Definition at line 184 of file glc\-\_\-structinstance.\-cpp.
+
+\hypertarget{class_g_l_c___struct_instance_a9b2b53689c20b1b01dc0367cfa5731a4}{\index{G\-L\-C\-\_\-\-Struct\-Instance@{G\-L\-C\-\_\-\-Struct\-Instance}!usage\-Count@{usage\-Count}}
+\index{usage\-Count@{usage\-Count}!GLC_StructInstance@{G\-L\-C\-\_\-\-Struct\-Instance}}
+\subsubsection[{usage\-Count}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int} G\-L\-C\-\_\-\-Struct\-Instance\-::usage\-Count (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_g_l_c___struct_instance_a9b2b53689c20b1b01dc0367cfa5731a4}
+
+
+Return the number of usage of this instance. 
+
+
+
+Definition at line 109 of file glc\-\_\-structinstance.\-h.
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/glc\-\_\-lib/scene\-Graph/\hyperlink{glc__structinstance_8h}{glc\-\_\-structinstance.\-h}\item 
+/home/jose/\-Code/gui\-Tau/ground/gcs/src/libs/glc\-\_\-lib/scene\-Graph/\hyperlink{glc__structinstance_8cpp}{glc\-\_\-structinstance.\-cpp}\end{DoxyCompactItemize}
