@@ -27,7 +27,6 @@
 #ifndef PATH_MANAGERS_H_
 #define PATH_MANAGERS_H_
 
-#include "pios.h"
 #include "openpilot.h"
 
 #include "pathsegmentdescriptor.h"

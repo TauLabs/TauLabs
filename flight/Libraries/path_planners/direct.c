@@ -24,7 +24,7 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
-#include "pios.h"
+#include "openpilot.h"
 #include "physical_constants.h"
 #include "CoordinateConversions.h"
 #include "misc_math.h"

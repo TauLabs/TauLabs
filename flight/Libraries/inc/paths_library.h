@@ -27,7 +27,6 @@
 #ifndef PATHS_LIBRARY_H_
 #define PATHS_LIBRARY_H_
 
-#include "pios.h"
 #include "openpilot.h"
 
 void simple_return_to_home();

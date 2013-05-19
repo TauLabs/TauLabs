@@ -25,7 +25,6 @@
 #ifndef PATH_FOLLOWERS_H
 #define PATH_FOLLOWERS_H
 
-#include <pios.h>
 #include "openpilot.h"
 
 #include "positionactual.h"
