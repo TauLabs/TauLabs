@@ -46,7 +46,7 @@
 #if defined(PIOS_INCLUDE_MS5611)
 #include "pios_ms5611_priv.h"
 static const struct pios_ms5611_cfg pios_ms5611_cfg = {
-	.oversampling = MS5611_OSR_512,
+	.oversampling = MS5611_OSR_4096,
 	.temperature_interleaving = 1,
 };
 #endif /* PIOS_INCLUDE_MS5611 */
@@ -137,7 +137,7 @@ static const struct pios_exti_cfg pios_exti_mpu9150_cfg __exti_config = {
 
 static const struct pios_mpu60x0_cfg pios_mpu9150_cfg = {
 	.exti_cfg = &pios_exti_mpu9150_cfg,
-	.default_samplerate = 500,
+	.default_samplerate = 444,
 	.interrupt_cfg = PIOS_MPU60X0_INT_CLR_ANYRD,
 	.interrupt_en = PIOS_MPU60X0_INTEN_DATA_RDY,
 	.User_ctl = 0,
