@@ -31,8 +31,10 @@
 
 
 #include "openpilot.h"
+
 #include "actuatordesired.h"
 #include "brushlessgimbalsettings.h"
+#include "gyros.h"
 
 // Private constants
 #define MAX_QUEUE_SIZE 2
@@ -131,6 +133,17 @@ static void brushlessGimbalTask(void* parameters)
 
 		PIOS_Brushless_SetSpeed(0, actuatorDesired.Roll * settings.MaxDPS[BRUSHLESSGIMBALSETTINGS_MAXDPS_ROLL], 0.001f);
 		PIOS_Brushless_SetSpeed(1, actuatorDesired.Pitch  * settings.MaxDPS[BRUSHLESSGIMBALSETTINGS_MAXDPS_PITCH], 0.001f);
+
+		// Use the gyros to set a damping term.  This creates a phase offset of the integrated
+		// driving position to make the control pull against any momentum.  Essentially the main
+		// output to the driver (above) is a velocity signal which the driver takes care of
+		// integrating to create a position.  The current rate of roll creates a shift in that
+		// position (without changing the integrated position).
+		// This idea was taken from https://code.google.com/p/brushless-gimbal/
+		GyrosData gyros;
+		GyrosGet(&gyros);
+		PIOS_Brushless_SetPhaseLag(0, -gyros.x * settings.Damping[BRUSHLESSGIMBALSETTINGS_DAMPING_ROLL]);
+		PIOS_Brushless_SetPhaseLag(1, -gyros.y * settings.Damping[BRUSHLESSGIMBALSETTINGS_DAMPING_PITCH]);
 	}
 }
 
