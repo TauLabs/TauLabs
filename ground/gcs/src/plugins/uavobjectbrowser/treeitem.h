@@ -156,6 +156,7 @@ signals:
     void updateHighlight(TreeItem*);
 
 private slots:
+    static void updateCurrentTime();
 
 private:
     QList<TreeItem*> m_children;
@@ -169,6 +170,8 @@ private:
     QTime m_highlightExpires;
     HighLightManager* m_highlightManager;
     static int m_highlightTimeMs;
+
+    static QTimer *currentTimeTimer;
 public:
     static const int dataColumn = 1;
 };
