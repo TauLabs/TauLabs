@@ -35,6 +35,9 @@
 //! Set the speed of a channel in deg / s
 extern void PIOS_Brushless_SetSpeed(uint32_t channel, float speed, float dT);
 
+//! Set the phase offset for a channel relative to integrated position
+extern void PIOS_Brushless_SetPhaseLag(uint32_t channel, float phase);
+
 //! Set the update rate in hz
 extern void PIOS_Brushless_SetUpdateRate(uint32_t rate);
 

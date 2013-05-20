@@ -112,6 +112,7 @@ int32_t PIOS_Brushless_Init(const struct pios_brushless_cfg * cfg)
 }
 
 float    phases[NUM_BGC_CHANNELS];
+float    phase_lag[NUM_BGC_CHANNELS];
 float    speeds[NUM_BGC_CHANNELS];
 float    scales[NUM_BGC_CHANNELS];
 float    accel_limit[NUM_BGC_CHANNELS] = {3000,3000,3000};
@@ -159,8 +160,9 @@ void PIOS_Brushless_SetUpdateRate(uint32_t rate)
 
 /**
 * Set servo position
-* \param[in] Servo Servo number (0-7)
-* \param[in] Position Servo position in microseconds
+* \param[in] channel The brushless output channel
+* \param[in] speed The desired speed (integrated by internal task)
+* \
 */
 void PIOS_Brushless_SetSpeed(uint32_t channel, float speed, float dT)
 {
@@ -170,6 +172,19 @@ void PIOS_Brushless_SetSpeed(uint32_t channel, float speed, float dT)
 	// Limit the slew rate 
 	float diff = bound_sym(speed - speeds[channel], accel_limit[channel] * dT);
 	speeds[channel] += diff;
+}
+
+/**
+ * Set the phase offset for a channel relative to integrated position
+ * @param[in] channel The brushless output channel
+ * @param[in] phase The phase lag for a channel (for damping)
+ */
+void PIOS_Brushless_SetPhaseLag(uint32_t channel, float phase)
+{
+	if (channel >= NUM_BGC_CHANNELS)
+		return; // TODO: add error code
+
+	phase_lag[channel] = phase;
 }
 
 //! Set the amplitude scale in %
@@ -253,7 +268,7 @@ static void PIOS_BRUSHLESS_Task(void* parameters)
 			if (phases[channel] >= 360)
 				phases[channel] -= 360;
 
-			PIOS_Brushless_SetPhase(channel, phases[channel]);
+			PIOS_Brushless_SetPhase(channel, phases[channel] + phase_lag[channel]);
 		}
 	}
 }
