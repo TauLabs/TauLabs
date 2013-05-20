@@ -34,7 +34,8 @@
  * @brief This heading controller computes a roll command command based on
  * an arc-following vector field, taking into account the vehicle's roll angle
  * contraints. A full description of parameters as well as a proof of convergence
- * is given in "Fixed Wing UAV Path Following in Wind with Input Constraints"
+ * is given in "Fixed Wing UAV Path Following in Wind with Input Constraints",
+ * R. Beard, 2012.
  * @param positionActual Vehicle's current position vector
  * @param velocityActual Vehicle's current velocity vector
  * @param arc_center_NE Arc center in North-East coordinates

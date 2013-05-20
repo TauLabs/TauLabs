@@ -32,11 +32,11 @@
 #include "velocityactual.h"
 #include "pathdesired.h"
 
-/* Taken from "Small Unmanned Aircraft-- Theory and Practice" */
+/* Taken from from R. Beard and T. McLain, "Small Unmanned Aircraft: Theory and Practice", 2011. */
 float simple_line_follower(PositionActualData *positionActual, PathDesiredData *pathDesired, float chi_inf, float k_path, float k_psi_int, float *line_error_accum, float delT);
 float simple_arc_follower(PositionActualData *positionActual, float c[2], float rho, int8_t curvature_sign, float k_orbit, float k_psi_int, float *arc_error_accum, float delT);
 
-/* Taken from "Fixed Wing UAV Path Following in Wind with Input Constraints" */
+/* Taken from R. Beard, "Fixed Wing UAV Path Following in Wind with Input Constraints" */
 float roll_limited_line_follower(PositionActualData *positionActual, VelocityActualData *velocityActual, PathDesiredData *pathDesired,
 								  float true_airspeed, float true_airspeed_desired,
 								  float headingActual_R, float gamma_max, float phi_max);

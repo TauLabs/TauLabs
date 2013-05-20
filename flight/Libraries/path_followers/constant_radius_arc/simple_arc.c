@@ -28,7 +28,7 @@
 /**
  * @brief simple_line_follower Calculate command for following simple vector-based orbit. A
  * full description of parameters as well as a proof of convergence is given in
- * "Small Unmanned Aircraft-- Theory and Practice".
+ * "Small Unmanned Aircraft-- Theory and Practice", R. Beard and T. McLain, 2011.
  * @param positionActual Current vehicle position
  * @param c[2] Center of arc in North-East coordinates
  * @param rho Arcradius

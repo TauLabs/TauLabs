@@ -28,7 +28,7 @@
 /**
  * @brief simple_line_follower Calculate command for following simple vector-based line. A
  * full description of parameters as well as a proof of convergence is given in
- * "Small Unmanned Aircraft-- Theory and Practice".
+ * "Small Unmanned Aircraft-- Theory and Practice", R. Beard and T. McLain, 2011.
  * @param positionActual Current vehicle position
  * @param pathDesired Structure containing intial and final path points
  * @param chi_inf Maximum approach angle
