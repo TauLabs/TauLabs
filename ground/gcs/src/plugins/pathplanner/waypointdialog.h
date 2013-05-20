@@ -59,16 +59,16 @@ private slots:
     void setupModeWidgets();
 
     //! Close the dialog, abort any changes
-    void on_cancelButton_clicked();
+    void onCancelButton_clicked();
 
     //! Close the dialog, accept any changes
-    void on_okButton_clicked();
+    void onOkButton_clicked();
 
     //! User requests the previous waypoint
-    void on_previousButton_clicked();
+    void onPreviousButton_clicked();
 
     //! User requests the next waypoint
-    void on_nextButton_clicked();
+    void onNextButton_clicked();
 
     //! When the selector changes pass the update to the data mapper
     void currentRowChanged(QModelIndex,QModelIndex);

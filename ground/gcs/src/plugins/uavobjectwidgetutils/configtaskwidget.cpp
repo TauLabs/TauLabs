@@ -601,13 +601,11 @@ void ConfigTaskWidget::objectUpdated(UAVObject *obj)
  */
 bool ConfigTaskWidget::allObjectsUpdated()
 {
-    qDebug()<<"ConfigTaskWidge:allObjectsUpdated called";
     bool ret=true;
     foreach(UAVObject *obj, objectUpdates.keys())
     {
         ret=ret & objectUpdates[obj];
     }
-    qDebug()<<"Returned:"<<ret;
     return ret;
 }
 /**
@@ -812,16 +810,6 @@ void ConfigTaskWidget::autoLoadWidgets()
     }
     refreshWidgetsValues();
     forceShadowUpdates();
-    foreach(objectToWidget * ow,objOfInterest)
-    {
-        if(ow->widget)
-            qDebug()<<"Master:"<<ow->widget->objectName();
-        foreach(shadow * sh,ow->shadowsList)
-        {
-            if(sh->widget)
-                qDebug()<<"Child"<<sh->widget->objectName();
-        }
-    }
 }
 /**
  * Adds a widget to a list of default/reload groups
