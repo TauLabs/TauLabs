@@ -27,6 +27,10 @@
 
 #include "treeitem.h"
 #include "fieldtreeitem.h"
+#include <math.h>
+
+
+static QTime currentTime;
 
 /* Constructor */
 HighLightManager::HighLightManager(long checkingInterval)
@@ -82,7 +86,7 @@ void HighLightManager::checkItemsExpired()
     QMutableLinkedListIterator<TreeItem*> iter(m_itemsList);
 
     // This is the timestamp to compare with
-    QTime now = QTime::currentTime();
+    QTime now = currentTime;
 
     // Loop over all items, check if they expired.
     while(iter.hasNext())
@@ -100,6 +104,8 @@ void HighLightManager::checkItemsExpired()
 }
 
 int TreeItem::m_highlightTimeMs = 500;
+//QTime TreeItem::currentTime;
+QTimer* TreeItem::currentTimeTimer = NULL;
 
 TreeItem::TreeItem(const QList<QVariant> &data, TreeItem *parent) :
         QObject(0),
@@ -109,6 +115,14 @@ TreeItem::TreeItem(const QList<QVariant> &data, TreeItem *parent) :
         m_changed(false),
         m_updated(false)
 {
+    // Create static timer instance. This single timer sets the rhythm for all highlight events. Otherwise
+    // each class instance has its own timer and this leads to lots of expensives and unnecessary calls
+    // to QTime::currenttime();
+    if (currentTimeTimer == NULL) {
+        currentTimeTimer = new QTimer(this);
+        connect(currentTimeTimer, SIGNAL(timeout()), this, SLOT(updateCurrentTime()));
+        currentTimeTimer->start(lrint(fmin(m_highlightTimeMs / 10.0f, 1))); // Never go faster than 1ms
+    }
 }
 
 TreeItem::TreeItem(const QVariant &data, TreeItem *parent) :
@@ -124,6 +138,14 @@ TreeItem::TreeItem(const QVariant &data, TreeItem *parent) :
 TreeItem::~TreeItem()
 {
     qDeleteAll(m_children);
+}
+
+/**
+ * @brief TreeItem::updateCurrentTime  This single timer sets the rhythm for all highlight events.
+ */
+void TreeItem::updateCurrentTime()
+{
+    currentTime = QTime::currentTime();
 }
 
 void TreeItem::appendChild(TreeItem *child)
@@ -190,7 +212,7 @@ void TreeItem::setHighlight(bool highlight) {
     m_changed = false;
     if (highlight) {
         // Update the expires timestamp
-        m_highlightExpires = QTime::currentTime().addMSecs(m_highlightTimeMs);
+        m_highlightExpires = currentTime.addMSecs(m_highlightTimeMs);
 
         // Add to highlightmanager
         if(m_highlightManager->add(this))
