@@ -957,7 +957,7 @@ static const struct pios_tim_channel pios_tim_rcvrport_all_channels[] = {
 	{
 		.timer = TIM2,
 		.timer_chan = TIM_Channel_4,
-		.remap = GPIO_AF_6,
+		.remap = GPIO_AF_1,
 		.pin = {
 			.gpio = GPIOA,
 			.init = {
@@ -985,7 +985,7 @@ static const struct pios_ppm_cfg pios_ppm_cfg = {
 		.TIM_ICSelection = TIM_ICSelection_DirectTI,
 		.TIM_ICPrescaler = TIM_ICPSC_DIV1,
 		.TIM_ICFilter = 0x0,
-		.TIM_Channel = TIM_Channel_1,
+		.TIM_Channel = TIM_Channel_4,
 	},
 	/* Use only the first channel for ppm */
 	.channels = pios_tim_rcvrport_all_channels,
