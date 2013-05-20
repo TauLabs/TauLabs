@@ -207,7 +207,7 @@ static int32_t PIOS_Brushless_SetPhase(uint32_t channel, float phase_deg)
 		if (phase_deg > 360)
 			phase_deg -= 360;
 
-		int32_t position = center + scale * scales[channel] * sinf(phase_deg * DEG2RAD);
+		int32_t position = scales[channel] * (center + scale * sinf(phase_deg * DEG2RAD));
 
 		/* Update the position */
 		const struct pios_tim_channel * chan = &brushless_cfg->channels[idx];
