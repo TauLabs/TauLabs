@@ -989,7 +989,7 @@ void ConfigTaskWidget::connectWidgetUpdatesToSlot(QWidget * widget,const char* f
         connect(cb,SIGNAL(clicked()),this,function);
     }
     else
-        qDebug()<<__FUNCTION__<<"widget to uavobject relation not implemented"<<widget->metaObject()->className();
+        qDebug() << __FUNCTION__ << "widget to uavobject relation not implemented for widget: " << widget->objectName()  << "of class:" << widget->metaObject()->className();
 
 }
 /**
@@ -1036,7 +1036,7 @@ void ConfigTaskWidget::disconnectWidgetUpdatesToSlot(QWidget * widget,const char
         disconnect(cb,SIGNAL(clicked()),this,function);
     }
     else
-        qDebug()<<__FUNCTION__<<"widget to uavobject relation not implemented"<<widget->metaObject()->className();
+        qDebug() << __FUNCTION__ << "widget to uavobject relation not implemented for widget: " << widget->objectName()  << "of class:" << widget->metaObject()->className();
 
 }
 /**
@@ -1058,7 +1058,7 @@ bool ConfigTaskWidget::setFieldFromWidget(QWidget * widget,UAVObjectField * fiel
         return true;
     }
     {
-        qDebug()<<__FUNCTION__<<"widget to uavobject relation not implemented"<<widget->metaObject()->className();
+        qDebug() << __FUNCTION__ << "widget to uavobject relation not implemented for widget: " << widget->objectName()  << "of class:" << widget->metaObject()->className();
         return false;
     }
 }
@@ -1186,7 +1186,7 @@ bool ConfigTaskWidget::setWidgetFromField(QWidget * widget,UAVObjectField * fiel
         return true;
     else
     {
-        qDebug()<<__FUNCTION__<<"widget to uavobject relation not implemented"<<widget->metaObject()->className();
+        qDebug() << __FUNCTION__ << "widget to uavobject relation not implemented for widget: " << widget->objectName()  << "of class:" << widget->metaObject()->className();
         return false;
     }
 }
