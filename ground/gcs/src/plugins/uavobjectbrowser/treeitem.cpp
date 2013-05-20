@@ -104,7 +104,6 @@ void HighLightManager::checkItemsExpired()
 }
 
 int TreeItem::m_highlightTimeMs = 500;
-//QTime TreeItem::currentTime;
 QTimer* TreeItem::currentTimeTimer = NULL;
 
 TreeItem::TreeItem(const QList<QVariant> &data, TreeItem *parent) :
@@ -120,8 +119,10 @@ TreeItem::TreeItem(const QList<QVariant> &data, TreeItem *parent) :
     // to QTime::currenttime();
     if (currentTimeTimer == NULL) {
         currentTimeTimer = new QTimer(this);
-        connect(currentTimeTimer, SIGNAL(timeout()), this, SLOT(updateCurrentTime()));
-        currentTimeTimer->start(lrint(fmax(m_highlightTimeMs / 10.0f, 1))); // Never go faster than 1ms
+        bool ret = connect(currentTimeTimer, SIGNAL(timeout()), this, SLOT(updateCurrentTime()), Qt::UniqueConnection);
+        if (ret)
+            currentTimeTimer->start(lrint(fmax(m_highlightTimeMs / 10.0f, 10))); // Update the timer 10 times faster than the time
+                                                                                 // out. In any case, never go faster than 10ms.
     }
 }
 
