@@ -41,21 +41,29 @@
 
 #include "airspeedactual.h"
 #include "fixedwingairspeeds.h"
-#include "fixedwingpathfollowersettingscc.h"
+#include "fixedwingpathfollowersettings.h"
 #include "flightstatus.h"
-#include "pathdesired.h"
+#include "modulesettings.h"
 #include "systemsettings.h"
+
+#include "positionactual.h"
+#include "velocityactual.h"
+#include "stabilizationdesired.h"
+
 
 #include "fixedwingpathfollower.h"
 #include "helicopterpathfollower.h"
 #include "multirotorpathfollower.h"
 #include "dubinscartpathfollower.h"
 
+#include "pathdesired.h"
+#include "pathmanagerstatus.h"
+#include "pathfollowerstatus.h"
+
 #include "coordinate_conversions.h"
 
 // Private constants
 #define MAX_QUEUE_SIZE 4
-#define STACK_SIZE_BYTES 750
 #define TASK_PRIORITY (tskIDLE_PRIORITY+2)
 #define CRITICAL_ERROR_THRESHOLD_MS 5000	//Time in [ms] before an error becomes a critical error
 
@@ -68,8 +76,10 @@ enum pathFollowerTypes {
 static xTaskHandle PathFollowerTaskHandle;
 static uint8_t flightMode = FLIGHTSTATUS_FLIGHTMODE_MANUAL;
 static bool followerEnabled = false;
-bool flightStatusUpdate = false;
+static bool flightStatusUpdate = false;
 static uint8_t pathFollowerType;
+static uint16_t stackSizeBytes = 750;
+static uint16_t update_peroid_ms = 1000;
 
 // Private functions
 static void PathFollowerTask(void *parameters);
@@ -83,12 +93,11 @@ int32_t PathFollowerStart()
 {
 	// Start main task
 	if (followerEnabled) {
+
+
 		// Start main task
-		xTaskCreate(PathFollowerTask, (signed char *)"PathFollower",
-			    STACK_SIZE_BYTES / 4, NULL, TASK_PRIORITY,
-			    &PathFollowerTaskHandle);
-		TaskMonitorAdd(TASKINFO_RUNNING_PATHFOLLOWER,
-			       PathFollowerTaskHandle);
+		xTaskCreate(PathFollowerTask, (signed char *)"PathFollower", stackSizeBytes/4, NULL, TASK_PRIORITY, &PathFollowerTaskHandle);
+		TaskMonitorAdd(TASKINFO_RUNNING_PATHFOLLOWER, PathFollowerTaskHandle);
 	}
 
 	return 0;
@@ -100,9 +109,9 @@ int32_t PathFollowerStart()
  */
 int32_t PathFollowerInitialize()
 {
-	HwSettingsInitialize();
-	uint8_t optionalModules[HWSETTINGS_OPTIONALMODULES_NUMELEM];
-	HwSettingsOptionalModulesGet(optionalModules);
+	ModuleSettingsInitialize();
+	uint8_t module_state[MODULESETTINGS_ADMINSTATE_NUMELEM];
+	ModuleSettingsAdminStateGet(module_state);
 
 	// Select algorithm based on vehicle type
 	SystemSettingsInitialize();
@@ -147,28 +156,43 @@ int32_t PathFollowerInitialize()
 			break;
 	}
 
-	if (optionalModules[HWSETTINGS_OPTIONALMODULES_FIXEDWINGPATHFOLLOWER] ==
-	    HWSETTINGS_OPTIONALMODULES_ENABLED) {
-		FixedWingPathFollowerSettingsCCInitialize();
-		FixedWingAirspeedsInitialize();
-		AirspeedActualInitialize();
-		PathDesiredInitialize();
+	// Initialize UAVOs necessary for all pathfinders
+	FlightStatusInitialize();
+	PathFollowerStatusInitialize();
+	PathManagerStatusInitialize();
+	PositionActualInitialize();
+	StabilizationDesiredInitialize();
+	VelocityActualInitialize();
+
+#if defined(PATHDESIRED_DIAGNOSTICS)
+	PathDesiredInitialize();
+#endif
+
+	if (module_state[MODULESETTINGS_ADMINSTATE_FIXEDWINGPATHFOLLOWER] ==
+	    MODULESETTINGS_ADMINSTATE_ENABLED) {
 
 		// TODO: Index into array of functions
 		switch (pathFollowerType) {
 		case FIXEDWING:
 			initializeFixedWingPathFollower();
+
+			stackSizeBytes = 850;
+			FixedWingPathFollowerSettingsUpdatePeriodGet(&update_peroid_ms);
 			break;
 		case MULTIROTOR:
 //			initializeMultirotorPathFollower();
+			return -1;
 			break;
 		case HELICOPTER:
 //			initializeHelicopterPathFollower();
+			return -1;
 			break;
 		case HOLONOMIC:
+			return -1;
 			break;
 		case DUBINSCART:
 //			initializeDubinsCartPathFollower();
+			return -1;
 			break;
 		default:
 			PIOS_DEBUG_Assert(0);
@@ -185,32 +209,42 @@ int32_t PathFollowerInitialize()
 	return -1;
 }
 
-MODULE_INITCALL(PathFollowerInitialize, PathFollowerStart)
+MODULE_INITCALL(PathFollowerInitialize, PathFollowerStart);
 
 /**
  * Module thread, should not return.
  */
 static void PathFollowerTask(void *parameters)
 {
+	AlarmsClear(SYSTEMALARMS_ALARM_PATHFOLLOWER);
+
 	portTickType lastUpdateTime;
-	FixedWingPathFollowerSettingsCCData fixedwingpathfollowerSettings;
 
 	// Main task loop
 	lastUpdateTime = xTaskGetTickCount();
 	while (1) {
-		// TODO: Refactor this into the fixed wing method as a callback
-		FixedWingPathFollowerSettingsCCGet(&fixedwingpathfollowerSettings);
-
-		vTaskDelayUntil(&lastUpdateTime, MS2TICKS(fixedwingpathfollowerSettings.UpdatePeriod));
 
 		if (flightStatusUpdate)
 			FlightStatusFlightModeGet(&flightMode);
+
+		if(flightMode != FLIGHTSTATUS_FLIGHTMODE_RETURNTOHOME &&
+				flightMode != FLIGHTSTATUS_FLIGHTMODE_POSITIONHOLD &&
+				flightMode != FLIGHTSTATUS_FLIGHTMODE_PATHPLANNER){
+
+			// Be clean and reset integrals
+			zeroGuidanceIntegral();
+
+			// Wait 100ms before continuing
+			vTaskDelay(100 * portTICK_RATE_MS);
+			continue;
+		}
 
 		// Depending on vehicle type, call appropriate path follower
 		// TODO: Index into array of methods
 		switch (pathFollowerType) {
 		case FIXEDWING:
-			updateFixedWingDesiredStabilization(flightMode, fixedwingpathfollowerSettings);
+			vTaskDelayUntil(&lastUpdateTime, update_peroid_ms * portTICK_RATE_MS);
+			updateFixedWingDesiredStabilization();
 			break;
 //		case MULTIROTOR:
 //			// Set alarm, currently untested
@@ -229,8 +263,10 @@ static void PathFollowerTask(void *parameters)
 //			updateDubinsCartDesiredStabilization(flightMode, fixedwingpathfollowerSettings);
 //			break;
 		default:
-			//Something has gone wrong, we shouldn't be able to get to this point
+			//Something has gone wrong, we shouldn't be able to get to this point. Set an alarm and wait
 			AlarmsSet(SYSTEMALARMS_ALARM_PATHFOLLOWER, SYSTEMALARMS_ALARM_CRITICAL);
+
+			vTaskDelay(1000 * portTICK_RATE_MS);
 			break;
 		}
 	}

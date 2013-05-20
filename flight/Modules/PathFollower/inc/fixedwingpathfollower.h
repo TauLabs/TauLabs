@@ -31,14 +31,16 @@
 
 #ifndef FIXEDWINGPATHFOLLOWER_H
 #define FIXEDWINGPATHFOLLOWER_H
-#include "fixedwingpathfollowersettingscc.h"
+
+#include "openpilot.h"
 
 void initializeFixedWingPathFollower();
-uint8_t updateFixedWingDesiredStabilization(uint8_t flightMode, FixedWingPathFollowerSettingsCCData fixedwingpathfollowerSettingsCC);
-#endif /* FIXEDWINGPATHFOLLOWER_H */
+int8_t updateFixedWingDesiredStabilization();
+void zeroGuidanceIntegral();
+
+#endif				// FIXEDWINGPATHFOLLOWER_H
 
 /**
  * @}
  * @}
  */
- 
