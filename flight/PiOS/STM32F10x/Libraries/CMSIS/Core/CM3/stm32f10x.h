@@ -499,7 +499,7 @@ typedef __I uint32_t vuc32;  /*!< Read Only */
 typedef __I uint16_t vuc16;  /*!< Read Only */
 typedef __I uint8_t vuc8;   /*!< Read Only */
 
-#ifndef __cplusplus
+#if (!defined __cplusplus) && (!defined bool)
 	 typedef enum {FALSE = 0, TRUE = !FALSE} bool;
 #endif	 
 	 
