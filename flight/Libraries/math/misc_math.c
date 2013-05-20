@@ -121,7 +121,7 @@ enum arc_center_results find_arc_center(float start_point[2], float end_point[2]
 		// case of coincident points, there is not enough information to define the circle
 		center[0]=NAN;
 		center[1]=NAN;
-		return COINCIDENT_POINTS;
+		return ARC_COINCIDENT_POINTS;
 	}
 
 	float m_n, m_e, p_n, p_e, d, d2;
@@ -149,7 +149,7 @@ enum arc_center_results find_arc_center(float start_point[2], float end_point[2]
 		else {
 			center[0]=NAN;
 			center[1]=NAN;
-			return INSUFFICIENT_RADIUS; // In this case, the radius wasn't big enough to connect the two points
+			return ARC_INSUFFICIENT_RADIUS; // In this case, the radius wasn't big enough to connect the two points
 		}
 	}
 
@@ -164,7 +164,7 @@ enum arc_center_results find_arc_center(float start_point[2], float end_point[2]
 		center[1] = m_e + p_e * d;
 	}
 
-	return CENTER_FOUND;
+	return ARC_CENTER_FOUND;
 }
 
 

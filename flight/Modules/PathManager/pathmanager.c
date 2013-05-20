@@ -78,7 +78,7 @@ static float angularDistanceCompleted_D;
 static float oldPosition_NE[2];
 static float arcCenter_NE[2];
 static uint8_t guidanceType = NOMANAGER;
-static enum arc_center_results arc_has_center = INSUFFICIENT_RADIUS;
+static enum arc_center_results arc_has_center = ARC_INSUFFICIENT_RADIUS;
 
 // Private functions
 static bool checkGoalCondition();
@@ -244,7 +244,7 @@ static void pathManagerTask(void *parameters)
 			PositionActualData positionActual;
 			PositionActualGet(&positionActual);
 			float newPosition_NE[2] = {positionActual.North, positionActual.East};
-			if (arc_has_center == CENTER_FOUND) {
+			if (arc_has_center == ARC_CENTER_FOUND) {
 				angularDistanceCompleted_D  += measure_arc_rad(oldPosition_NE, newPosition_NE, arcCenter_NE) * RAD2DEG;
 
 				oldPosition_NE[0] = newPosition_NE[0];
@@ -345,7 +345,7 @@ static void advanceSegment()
 		// If the arc has a center, then set the initial position as the beginning of the arc, and calculate the angular
 		// distance to be traveled along the arc
 		switch (arc_has_center) {
-		case CENTER_FOUND:
+		case ARC_CENTER_FOUND:
 		{
 			oldPosition_NE[0] = previousLocus->Position[0];
 			oldPosition_NE[1] = previousLocus->Position[1];

@@ -497,7 +497,7 @@ static void updateDestination()
 
 		ret = find_arc_center(oldPosition_NE, newPosition_NE, 1.0f/pathSegmentDescriptor->PathCurvature, pathSegmentDescriptor->PathCurvature > 0, pathSegmentDescriptor->ArcRank == PATHSEGMENTDESCRIPTOR_ARCRANK_MINOR, arcCenter_NE);
 
-		if (ret == CENTER_FOUND) {
+		if (ret == ARC_CENTER_FOUND) {
 			pathDesired->End[0]=arcCenter_NE[0];
 			pathDesired->End[1]=arcCenter_NE[1];
 			pathDesired->End[2]=pathSegmentDescriptor->SwitchingLocus[2];

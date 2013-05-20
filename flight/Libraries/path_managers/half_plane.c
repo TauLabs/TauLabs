@@ -102,7 +102,7 @@ bool half_plane_goal_test(float position_NE[2], float angular_distance_completed
 										 pathSegmentDescriptor_future->ArcRank == PATHSEGMENTDESCRIPTOR_ARCRANK_MINOR,
 										 arc_center_NE_future);
 
-		if (arc_has_center == CENTER_FOUND) {
+		if (arc_has_center == ARC_CENTER_FOUND) {
 			// Arc tangent vector at intersection of line and arc
 			q_future[0] = -lambda*(swl_current[1] - arc_center_NE_future[1]);
 			q_future[1] =  lambda*(swl_current[0] - arc_center_NE_future[0]);
