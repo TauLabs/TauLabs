@@ -42,8 +42,10 @@
 // Private constants
 #if defined(PIOS_CONTROL_STACK_SIZE)
 #define STACK_SIZE_BYTES PIOS_MANUAL_STACK_SIZE
-#else
+#elif !defined(COPTERCONTROL)
 #define STACK_SIZE_BYTES 1424
+#else
+#define STACK_SIZE_BYTES 550
 #endif
 
 #define TASK_PRIORITY (tskIDLE_PRIORITY+4)
@@ -100,6 +102,7 @@ static void manualControlTask(void *parameters)
 	FlightStatusData flightStatus;
 	FlightStatusGet(&flightStatus);
 	flightStatus.Armed = FLIGHTSTATUS_ARMED_DISARMED;
+	FlightStatusSet(&flightStatus);
 
 	// Main task loop
 	lastSysTime = xTaskGetTickCount();
