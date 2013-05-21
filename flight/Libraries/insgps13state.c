@@ -35,15 +35,6 @@
 #include <math.h>
 #include <stdint.h>
 
-// Structure which holds the state variables
-struct NavStruct {
-	float Pos[3];           // Position in meters and relative to a local NED frame
-	float Vel[3];           // Velocity in meters and in NED
-	float q[4];             // unit quaternion rotation relative to NED
-	float gyro_bias[3];
-	float accel_bias[3];
-};
-
 // constants/macros/typdefs
 #define NUMX 13			// number of states, X is the state vector
 #define NUMW 9			// number of plant noise inputs, w is disturbance noise vector
@@ -76,7 +67,6 @@ float Be[3];			// local magnetic unit vector in NED frame
 float P[NUMX][NUMX], X[NUMX];	// covariance matrix and state vector
 float Q[NUMW], R[NUMV];		// input noise and measurement noise variances
 float K[NUMX][NUMV];		// feedback gain matrix
-static struct NavStruct Nav;
 
 //  *************  Exposed Functions ****************
 //  *************************************************
@@ -308,21 +298,6 @@ void INSStatePrediction(const float gyro_data[3], const float accel_data[3], flo
 	X[8] /= qmag;
 	X[9] /= qmag;
 	//CovariancePrediction(F,G,Q,dT,P);
-
-	// Update Nav solution structure
-	Nav.Pos[0] = X[0];
-	Nav.Pos[1] = X[1];
-	Nav.Pos[2] = X[2];
-	Nav.Vel[0] = X[3];
-	Nav.Vel[1] = X[4];
-	Nav.Vel[2] = X[5];
-	Nav.q[0] = X[6];
-	Nav.q[1] = X[7];
-	Nav.q[2] = X[8];
-	Nav.q[3] = X[9];
-	Nav.gyro_bias[0] = X[10];
-	Nav.gyro_bias[1] = X[11];
-	Nav.gyro_bias[2] = X[12];	
 }
 
 void INSCovariancePrediction(float dT)
@@ -404,21 +379,6 @@ void INSCorrection(const float mag_data[3], const float Pos[3], const float Vel[
 	X[7] /= qmag;
 	X[8] /= qmag;
 	X[9] /= qmag;
-
-	// Update Nav solution structure
-	Nav.Pos[0] = X[0];
-	Nav.Pos[1] = X[1];
-	Nav.Pos[2] = X[2];
-	Nav.Vel[0] = X[3];
-	Nav.Vel[1] = X[4];
-	Nav.Vel[2] = X[5];
-	Nav.q[0] = X[6];
-	Nav.q[1] = X[7];
-	Nav.q[2] = X[8];
-	Nav.q[3] = X[9];
-	Nav.gyro_bias[0] = X[10];
-	Nav.gyro_bias[1] = X[11];
-	Nav.gyro_bias[2] = X[12];
 }
 
 //  *************  CovariancePrediction *************
