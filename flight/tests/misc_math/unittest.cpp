@@ -176,7 +176,7 @@ TEST_F(BoundSym, NonZeroRange) {
 };
 
 // Test fixture for circular_modulus_deg()
-class CircularModulusDeg : public MiscMath {
+class CircularModulus : public MiscMath {
 protected:
   virtual void SetUp() {
   }
@@ -185,55 +185,84 @@ protected:
   }
 };
 
-TEST_F(CircularModulusDeg, NullError) {
+TEST_F(CircularModulus, NullError) {
   float error = 0.0f;
-  EXPECT_EQ(-error, circular_modulus_deg(error - 3600000));
-  EXPECT_EQ(-error, circular_modulus_deg(error - 1080));
-  EXPECT_EQ(-error, circular_modulus_deg(error - 720));
-  EXPECT_EQ(-error, circular_modulus_deg(error - 360));
-  EXPECT_EQ(-error, circular_modulus_deg(error));
-  EXPECT_EQ(-error, circular_modulus_deg(error + 360));
-  EXPECT_EQ(-error, circular_modulus_deg(error + 720));
-  EXPECT_EQ(-error, circular_modulus_deg(error + 1080));
-  EXPECT_EQ(-error, circular_modulus_deg(error + 3600000));
+  uint8_t num_test_inputs = 9;
+
+  float test_inputs[num_test_inputs];
+  test_inputs[0] = error - 3600000;
+  test_inputs[1] = error - 1080;
+  test_inputs[2] = error - 720;
+  test_inputs[3] = error - 360;
+  test_inputs[4] = error;
+  test_inputs[5] = error + 360;
+  test_inputs[6] = error + 720;
+  test_inputs[7] = error + 1080;
+  test_inputs[8] = error + 3600000;
+  for (uint8_t i=0; i < num_test_inputs; i++){
+    EXPECT_EQ(-error, circular_modulus_deg(test_inputs[i]));
+    EXPECT_EQ(-error * DEG2RAD, circular_modulus_rad(test_inputs[i] * DEG2RAD));
+  }
 };
 
-TEST_F(CircularModulusDeg, MaxPosError) {
+TEST_F(CircularModulus, MaxPosError) {
   // Use fabs() for +/-180.0 to accept either -180.0 or +180.0 as valid and correct
-  EXPECT_EQ(180.0f, fabs(circular_modulus_deg(180.0f - 3600000)));
-  EXPECT_EQ(180.0f, fabs(circular_modulus_deg(180.0f - 1080)));
-  EXPECT_EQ(180.0f, fabs(circular_modulus_deg(180.0f - 720)));
-  EXPECT_EQ(180.0f, fabs(circular_modulus_deg(180.0f - 360)));
-  EXPECT_EQ(180.0f, fabs(circular_modulus_deg(180.0f)));
-  EXPECT_EQ(180.0f, fabs(circular_modulus_deg(180.0f + 360)));
-  EXPECT_EQ(180.0f, fabs(circular_modulus_deg(180.0f + 720)));
-  EXPECT_EQ(180.0f, fabs(circular_modulus_deg(180.0f + 1080)));
-  EXPECT_EQ(180.0f, fabs(circular_modulus_deg(180.0f + 3600000)));
+  float error = 180.0f;
+  uint8_t num_test_inputs = 9;
+
+  float test_inputs[num_test_inputs];
+  test_inputs[0] = error - 3600000;
+  test_inputs[1] = error - 1080;
+  test_inputs[2] = error - 720;
+  test_inputs[3] = error - 360;
+  test_inputs[4] = error;
+  test_inputs[5] = error + 360;
+  test_inputs[6] = error + 720;
+  test_inputs[7] = error + 1080;
+  test_inputs[8] = error + 3600000;
+  for (uint8_t i=0; i < num_test_inputs; i++){
+    EXPECT_EQ(error, fabsf(circular_modulus_deg(test_inputs[i])));
+    EXPECT_EQ(error * DEG2RAD, fabsf(circular_modulus_rad(test_inputs[i] * DEG2RAD)));
+  }
 };
 
-TEST_F(CircularModulusDeg, MaxNegError) {
+TEST_F(CircularModulus, MaxNegError) {
   // Use fabs() for +/-180.0 to accept either -180.0 or +180.0 as valid and correct
-  EXPECT_EQ(180.0f, fabs(circular_modulus_deg(-180.0f - 3600000)));
-  EXPECT_EQ(180.0f, fabs(circular_modulus_deg(-180.0f - 1080)));
-  EXPECT_EQ(180.0f, fabs(circular_modulus_deg(-180.0f - 720)));
-  EXPECT_EQ(180.0f, fabs(circular_modulus_deg(-180.0f - 360)));
-  EXPECT_EQ(180.0f, fabs(circular_modulus_deg(-180.0f)));
-  EXPECT_EQ(180.0f, fabs(circular_modulus_deg(-180.0f + 360)));
-  EXPECT_EQ(180.0f, fabs(circular_modulus_deg(-180.0f + 720)));
-  EXPECT_EQ(180.0f, fabs(circular_modulus_deg(-180.0f + 1080)));
-  EXPECT_EQ(180.0f, fabs(circular_modulus_deg(-180.0f + 3600000)));
+  float error = 180.0f;
+  uint8_t num_test_inputs = 9;
+
+  float test_inputs[num_test_inputs];
+  test_inputs[0] = -error - 3600000;
+  test_inputs[1] = -error - 1080;
+  test_inputs[2] = -error - 720;
+  test_inputs[3] = -error - 360;
+  test_inputs[4] = -error;
+  test_inputs[5] = -error + 360;
+  test_inputs[6] = -error + 720;
+  test_inputs[7] = -error + 1080;
+  test_inputs[8] = -error + 3600000;
+  for (uint8_t i=0; i < num_test_inputs; i++){
+    EXPECT_EQ(error, fabsf(circular_modulus_deg(test_inputs[i])));
+    EXPECT_EQ(error * DEG2RAD, fabsf(circular_modulus_rad(test_inputs[i] * DEG2RAD)));
+  }
 };
 
-TEST_F(CircularModulusDeg, SweepError) {
+TEST_F(CircularModulus, SweepError) {
   float eps = 0.0001f;
+  uint8_t num_test_inputs = 7;
 
   for (float error = -179.9f; error < 179.9f; error += 0.001f) {
-    ASSERT_NEAR(error, circular_modulus_deg(error - 1080), eps);
-    ASSERT_NEAR(error, circular_modulus_deg(error - 720), eps);
-    ASSERT_NEAR(error, circular_modulus_deg(error - 360), eps);
-    ASSERT_NEAR(error, circular_modulus_deg(error), eps);
-    ASSERT_NEAR(error, circular_modulus_deg(error + 360), eps);
-    ASSERT_NEAR(error, circular_modulus_deg(error + 720), eps);
-    ASSERT_NEAR(error, circular_modulus_deg(error + 1080), eps);
+    float test_inputs[num_test_inputs];
+    test_inputs[0] = error - 1080;
+    test_inputs[1] = error - 720;
+    test_inputs[2] = error - 360;
+    test_inputs[3] = error;
+    test_inputs[4] = error + 360;
+    test_inputs[5] = error + 720;
+    test_inputs[6] = error + 1080;
+    for (uint8_t i=0; i < num_test_inputs; i++){
+      ASSERT_NEAR(error, circular_modulus_deg(test_inputs[i]), eps);
+      ASSERT_NEAR(error * DEG2RAD, circular_modulus_rad(test_inputs[i] * DEG2RAD), eps);
+    }
   }
 };
