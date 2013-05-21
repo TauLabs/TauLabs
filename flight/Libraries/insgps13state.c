@@ -35,6 +35,15 @@
 #include <math.h>
 #include <stdint.h>
 
+// Structure which holds the state variables
+struct NavStruct {
+	float Pos[3];           // Position in meters and relative to a local NED frame
+	float Vel[3];           // Velocity in meters and in NED
+	float q[4];             // unit quaternion rotation relative to NED
+	float gyro_bias[3];
+	float accel_bias[3];
+};
+
 // constants/macros/typdefs
 #define NUMX 13			// number of states, X is the state vector
 #define NUMW 9			// number of plant noise inputs, w is disturbance noise vector
@@ -127,9 +136,49 @@ void INSGPSInit()		//pretty much just a place holder for now
 	R[9] = .25f;                    // High freq altimeter noise variance (m^2)
 }
 
-struct NavStruct *INSGPSGetNav()
+/**
+ * Get the current state estimate (null input skips that get)
+ * @param[out] pos The position in NED space (m)
+ * @param[out] vel The velocity in NED (m/s)
+ * @param[out] attitude Quaternion representation of attitude
+ * @param[out] gyros_bias Estimate of gyro bias (rad/s)
+ */
+void INSGetState(float *pos, float *vel, float *attitude, float *gyro_bias)
 {
-	return &Nav;
+	if (pos) {
+		pos[0] = X[0];
+		pos[1] = X[1];
+		pos[2] = X[2];
+	}
+
+	if (vel) {
+		vel[0] = X[3];
+		vel[1] = X[4];
+		vel[2] = X[5];
+	}
+
+	if (attitude) {
+		attitude[0] = X[6];
+		attitude[1] = X[7];
+		attitude[2] = X[8];
+		attitude[3] = X[9];
+	}
+
+	if (gyro_bias) {
+		gyro_bias[0] = X[10];
+		gyro_bias[1] = X[11];
+		gyro_bias[2] = X[12];
+	}
+}
+
+/**
+ * Get the variance, for visualizing the filter performance
+ * @param[out var_out The variances
+ */
+void INSGetVariance(float *var_out)
+{
+	for (uint32_t i = 0; i < NUMX; i++)
+		var_out[i] = P[i][i];
 }
 
 void INSResetP(const float PDiag[NUMX])

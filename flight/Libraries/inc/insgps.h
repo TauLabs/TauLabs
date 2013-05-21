@@ -1,6 +1,6 @@
 /**
  ******************************************************************************
- * @addtogroup AHRS 
+ * @addtogroup Math 
  * @{
  * @addtogroup INSGPS
  * @{
@@ -53,12 +53,28 @@
   * @}
   */
 
-//  Exposed Function Prototypes
+/****************************************************/
+/**  Main interface for running the filter         **/
+/****************************************************/
+
+//! Reset the internal state variables and variances
 void INSGPSInit();
-struct NavStruct *INSGPSGetNav();
+
+//! Compute an update of the state estimate
 void INSStatePrediction(const float gyro_data[3], const float accel_data[3], float dT);
+
+//! Compute an update of the state covariance
 void INSCovariancePrediction(float dT);
+
+//! Correct the state and covariance estimate based on the sensors that were updated
 void INSCorrection(const float mag_data[3], const float Pos[3], const float Vel[3], float BaroAlt, uint16_t SensorsUsed);
+
+//! Get the current state estimate
+void INSGetState(float *pos, float *vel, float *attitude, float *bias);
+
+/****************************************************/
+/** These methods alter the behavior of the filter **/
+/****************************************************/
 
 void INSResetP(const float PDiag[13]);
 void INSSetState(const float pos[3], const float vel[3], const float q[4], const float gyro_bias[3], const float accel_bias[3]);
@@ -71,6 +87,8 @@ void INSSetMagVar(const float scaled_mag_var[3]);
 void INSSetBaroVar(float baro_var);
 void INSPosVelReset(const float pos[3], const float vel[3]);
 
+void INSGetVariance(float *p);
+
 void MagCorrection(const float mag_data[3]);
 void MagVelBaroCorrection(const float mag_data[3], const float Vel[3], float BaroAlt);
 void FullCorrection(const float mag_data[3], const float Pos[3], const float Vel[3],
@@ -80,15 +98,6 @@ void GpsMagCorrection(const float mag_data[3], const float Pos[3], const float V
 void VelBaroCorrection(const float Vel[3], float BaroAlt);
 
 uint16_t ins_get_num_states();
-
-//  Nav structure containing current solution
-struct NavStruct {
-	float Pos[3];		// Position in meters and relative to a local NED frame
-	float Vel[3];		// Velocity in meters and in NED
-	float q[4];		// unit quaternion rotation relative to NED
-	float gyro_bias[3];
-	float accel_bias[3];
-};
 
 /**
  * @}
