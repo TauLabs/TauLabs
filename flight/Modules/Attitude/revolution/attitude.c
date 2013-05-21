@@ -1016,12 +1016,10 @@ static int32_t updateAttitudeINSGPS(bool first_run, bool outdoor_mode)
 	if (sensors)
 		INSCorrection(&magData.x, NED, vel, ( baroData.Altitude + baro_offset ), sensors);
 
+	// Export the state and variance for monitoring the EKF
 	INSStateData state;
-	extern float P[13][13], X[13];
-	for (uint32_t i = 0; i < 13; i++) {
-		state.State[i] = X[i];
-		state.Var[i] = P[i][i];
-	}
+	INSGetVariance(state.Var);
+	INSGetState(&state.State[0], &state.State[3], &state.State[6], &state.State[10]);
 	INSStateSet(&state);
 
 	return 0;

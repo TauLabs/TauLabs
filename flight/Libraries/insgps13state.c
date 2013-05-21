@@ -48,25 +48,24 @@
 #endif
 
 // Private functions
-void CovariancePrediction(float F[NUMX][NUMX], float G[NUMX][NUMW],
+static void CovariancePrediction(float F[NUMX][NUMX], float G[NUMX][NUMW],
 			  float Q[NUMW], float dT, float P[NUMX][NUMX]);
-void SerialUpdate(float H[NUMV][NUMX], float R[NUMV], float Z[NUMV],
+static void SerialUpdate(float H[NUMV][NUMX], float R[NUMV], float Z[NUMV],
 		  float Y[NUMV], float P[NUMX][NUMX], float X[NUMX],
 		  uint16_t SensorsUsed);
-void RungeKutta(float X[NUMX], float U[NUMU], float dT);
-void StateEq(float X[NUMX], float U[NUMU], float Xdot[NUMX]);
-void LinearizeFG(float X[NUMX], float U[NUMU], float F[NUMX][NUMX],
+static void RungeKutta(float X[NUMX], float U[NUMU], float dT);
+static void StateEq(float X[NUMX], float U[NUMU], float Xdot[NUMX]);
+static void LinearizeFG(float X[NUMX], float U[NUMU], float F[NUMX][NUMX],
 		 float G[NUMX][NUMW]);
-void MeasurementEq(float X[NUMX], float Be[3], float Y[NUMV]);
-void LinearizeH(float X[NUMX], float Be[3], float H[NUMV][NUMX]);
+static void MeasurementEq(float X[NUMX], float Be[3], float Y[NUMV]);
+static void LinearizeH(float X[NUMX], float Be[3], float H[NUMV][NUMX]);
 
 // Private variables
-float F[NUMX][NUMX], G[NUMX][NUMW], H[NUMV][NUMX];	// linearized system matrices
-													// global to init to zero and maintain zero elements
-float Be[3];			// local magnetic unit vector in NED frame
-float P[NUMX][NUMX], X[NUMX];	// covariance matrix and state vector
-float Q[NUMW], R[NUMV];		// input noise and measurement noise variances
-float K[NUMX][NUMV];		// feedback gain matrix
+static float F[NUMX][NUMX], G[NUMX][NUMW], H[NUMV][NUMX];	// linearized system matrices
+static float Be[3];	                    // local magnetic unit vector in NED frame
+static float P[NUMX][NUMX], X[NUMX];	// covariance matrix and state vector
+static float Q[NUMW], R[NUMV];   // input noise and measurement noise variances
+static float K[NUMX][NUMV];	     // feedback gain matrix
 
 //  *************  Exposed Functions ****************
 //  *************************************************
@@ -394,7 +393,7 @@ void INSCorrection(const float mag_data[3], const float Pos[3], const float Vel[
 
 #ifdef COVARIANCE_PREDICTION_GENERAL
 
-void CovariancePrediction(float F[NUMX][NUMX], float G[NUMX][NUMW],
+static void CovariancePrediction(float F[NUMX][NUMX], float G[NUMX][NUMW],
 			  float Q[NUMW], float dT, float P[NUMX][NUMX])
 {
 	float Dummy[NUMX][NUMX], dTsq;
@@ -423,7 +422,7 @@ void CovariancePrediction(float F[NUMX][NUMX], float G[NUMX][NUMW],
 
 #else
 
-void CovariancePrediction(float F[NUMX][NUMX], float G[NUMX][NUMW],
+static void CovariancePrediction(float F[NUMX][NUMX], float G[NUMX][NUMW],
 			  float Q[NUMW], float dT, float P[NUMX][NUMX])
 {
 	float D[NUMX][NUMX], T, Tsq;
@@ -1375,7 +1374,7 @@ void CovariancePrediction(float F[NUMX][NUMX], float G[NUMX][NUMW],
 //     should be used in the update.
 //  ************************************************
 
-void SerialUpdate(float H[NUMV][NUMX], float R[NUMV], float Z[NUMV],
+static void SerialUpdate(float H[NUMV][NUMX], float R[NUMV], float Z[NUMV],
 		  float Y[NUMV], float P[NUMX][NUMX], float X[NUMX],
 		  uint16_t SensorsUsed)
 {
@@ -1419,7 +1418,7 @@ void SerialUpdate(float H[NUMV][NUMX], float R[NUMV], float Z[NUMV],
 //    constant inputs over integration step
 //  ************************************************
 
-void RungeKutta(float X[NUMX], float U[NUMU], float dT)
+static void RungeKutta(float X[NUMX], float U[NUMU], float dT)
 {
 
 	float dT2 =
@@ -1466,7 +1465,7 @@ void RungeKutta(float X[NUMX], float U[NUMU], float dT)
 //  H is output of LinearizeH(), all elements not set should be zero
 //  ************************************************
 
-void StateEq(float X[NUMX], float U[NUMU], float Xdot[NUMX])
+static void StateEq(float X[NUMX], float U[NUMU], float Xdot[NUMX])
 {
 	float ax, ay, az, wx, wy, wz, q0, q1, q2, q3;
 
@@ -1511,7 +1510,7 @@ void StateEq(float X[NUMX], float U[NUMU], float Xdot[NUMX])
 	Xdot[10] = Xdot[11] = Xdot[12] = 0;
 }
 
-void LinearizeFG(float X[NUMX], float U[NUMU], float F[NUMX][NUMX],
+static void LinearizeFG(float X[NUMX], float U[NUMU], float F[NUMX][NUMX],
 		 float G[NUMX][NUMW])
 {
 	float ax, ay, az, wx, wy, wz, q0, q1, q2, q3;
@@ -1613,7 +1612,7 @@ void LinearizeFG(float X[NUMX], float U[NUMU], float F[NUMX][NUMX],
 	// G[13][9]=G[14][10]=G[15][11]=1;  // NO BIAS STATES ON ACCELS
 }
 
-void MeasurementEq(float X[NUMX], float Be[3], float Y[NUMV])
+static void MeasurementEq(float X[NUMX], float Be[3], float Y[NUMV])
 {
 	float q0, q1, q2, q3;
 
@@ -1648,7 +1647,7 @@ void MeasurementEq(float X[NUMX], float Be[3], float Y[NUMV])
 	Y[9] = -1.0f * X[2];
 }
 
-void LinearizeH(float X[NUMX], float Be[3], float H[NUMV][NUMX])
+static void LinearizeH(float X[NUMX], float Be[3], float H[NUMV][NUMX])
 {
 	float q0, q1, q2, q3;
 
