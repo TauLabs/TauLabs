@@ -303,7 +303,6 @@ void PIOS_ADC_Config(uint32_t oversampling)
  * TODO we currently ignore internal_adc_id since this driver doesn't support multiple instances
  * TODO we should probably refactor this similarly to the new F3 driver
  */
-int32_t last_conv_value;
 static int32_t PIOS_INTERNAL_ADC_PinGet(uint32_t internal_adc_id, uint32_t pin)
 {
 #if defined(PIOS_INCLUDE_ADC)
