@@ -46,43 +46,6 @@
 /**
  * Sensor configurations
  */
-
-#if defined(PIOS_INCLUDE_ADC)
-#include "pios_adc_priv.h"
-void PIOS_ADC_DMA_irq_handler(void);
-void DMA2_Stream4_IRQHandler(void) __attribute__((alias("PIOS_ADC_DMA_irq_handler")));
-struct pios_adc_cfg pios_adc_cfg = {
-	.adc_dev = ADC1,
-	.dma = {
-		.irq = {
-			.flags = (DMA_FLAG_TCIF4 | DMA_FLAG_TEIF4 | DMA_FLAG_HTIF4),
-			.init = {
-				.NVIC_IRQChannel = DMA2_Stream4_IRQn,
-				.NVIC_IRQChannelPreemptionPriority = PIOS_IRQ_PRIO_LOW,
-				.NVIC_IRQChannelSubPriority = 0,
-				.NVIC_IRQChannelCmd = ENABLE,
-			},
-		},
-		.rx = {
-			.channel = DMA2_Stream4,
-			.init = {
-				.DMA_Channel = DMA_Channel_0,
-				.DMA_PeripheralBaseAddr = (uint32_t)&ADC1->DR
-			},
-		}
-	},
-	.half_flag = DMA_IT_HTIF4,
-	.full_flag = DMA_IT_TCIF4,
-};
-
-void PIOS_ADC_DMA_irq_handler(void)
-{
-	/* Call into the generic code to handle the IRQ for this specific device */
-	PIOS_ADC_DMA_Handler();
-}
-
-#endif
-
 #if defined(PIOS_INCLUDE_HMC5883)
 #include "pios_hmc5883.h"
 static const struct pios_exti_cfg pios_exti_hmc5883_cfg __exti_config = {
@@ -219,6 +182,7 @@ uintptr_t pios_com_overo_id;
 uintptr_t pios_com_mavlink_id;
 uintptr_t pios_uavo_settings_fs_id;
 uintptr_t pios_waypoints_settings_fs_id;
+uintptr_t pios_internal_adc_id;
 
 /*
  * Setup a com port based on the passed cfg, driver and buffer sizes. rx or tx size of 0 disables rx or tx
@@ -1160,8 +1124,11 @@ void PIOS_Board_Init(void) {
 			hw_rcvrport == HWQUANTON_RCVRPORT_PPMADC ||
 			hw_rcvrport == HWQUANTON_RCVRPORT_PPMPWMADC ||
 			hw_rcvrport == HWQUANTON_RCVRPORT_OUTPUTSADC ||
-			hw_rcvrport == HWQUANTON_RCVRPORT_PPMOUTPUTSADC)
-		PIOS_ADC_Init(&pios_adc_cfg);
+			hw_rcvrport == HWQUANTON_RCVRPORT_PPMOUTPUTSADC) {
+		uint32_t internal_adc_id;
+		PIOS_INTERNAL_ADC_Init(&internal_adc_id, &pios_adc_cfg);
+		PIOS_ADC_Init(&pios_internal_adc_id, &pios_internal_adc_driver, internal_adc_id);
+	}
 #endif
 
 	//Set battery input pin to floating as long as it is unused
