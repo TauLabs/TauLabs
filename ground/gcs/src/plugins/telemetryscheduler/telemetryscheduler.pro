@@ -2,6 +2,7 @@ TEMPLATE = lib
 QT += xml
 
 TARGET = TelemetryScheduler 
+DEFINES += TELEMETRYSCHEDULER_LIBRARY
 
 include(../../taulabsgcsplugin.pri) 
 include(../../plugins/coreplugin/coreplugin.pri) 
@@ -14,6 +15,7 @@ HEADERS += telemetryschedulergadgetconfiguration.h
 HEADERS += telemetryschedulergadgetwidget.h
 HEADERS += telemetryschedulergadgetfactory.h
 HEADERS += telemetryschedulerplugin.h
+HEADERS += telemetryscheduler_global.h
 HEADERS += metadata_dialog.h
 
 SOURCES += telemetryschedulergadget.cpp
