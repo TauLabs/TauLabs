@@ -129,6 +129,7 @@ help:
 	@echo "     dfuutil_install      - Install the dfu-util tool for unbricking F4-based boards"
 	@echo "     android_sdk_install  - Install the Android SDK tools"
 	@echo "     gui_install          - Install the make gui tool"
+	@echo "     gtest_install        - Install the google unit test suite"
 	@echo
 	@echo "   [Big Hammer]"
 	@echo "     all                  - Generate UAVObjects, build openpilot firmware and gcs"
