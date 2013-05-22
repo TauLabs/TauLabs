@@ -163,6 +163,7 @@ uintptr_t pios_com_telem_usb_id;
 uintptr_t pios_com_telem_rf_id;
 uintptr_t pios_com_vcp_id;
 uintptr_t pios_com_bridge_id;
+uintptr_t pios_internal_adc_id;
 uintptr_t pios_com_mavlink_id;
 uintptr_t pios_com_overo_id;
 
@@ -1101,7 +1102,10 @@ void PIOS_Board_Init(void) {
 #endif
 
 #if defined(PIOS_INCLUDE_ADC)
-	PIOS_ADC_Init(&pios_adc_cfg);
+	uint32_t internal_adc_id;
+	if(PIOS_INTERNAL_ADC_Init(&internal_adc_id, &internal_adc_cfg) < 0)
+	        PIOS_Assert(0);
+	PIOS_ADC_Init(&pios_internal_adc_id, &pios_internal_adc_driver, internal_adc_id);
 #endif
 
 	/* Make sure we have at least one telemetry link configured or else fail initialization */

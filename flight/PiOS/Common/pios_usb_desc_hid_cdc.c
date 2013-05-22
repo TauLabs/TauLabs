@@ -8,6 +8,7 @@
  *
  * @file       pios_usb_desc_hid_cdc.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @author     Tau Labs, http://github.com/TauLabs, Copyright (C) 2012-2013.
  * @brief      USB Descriptor definitions for HID and CDC
  * @see        The GNU Public License (GPL) Version 3
  *
