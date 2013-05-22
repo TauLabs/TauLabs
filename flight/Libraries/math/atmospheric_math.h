@@ -27,7 +27,7 @@
 #ifndef ATMOSPHERIC_MATH_H
 #define ATMOSPHERIC_MATH_H
 
-typedef struct
+struct AirParameters
 {
     float air_density_at_surface;
     float air_temperature_at_surface;
@@ -37,13 +37,13 @@ typedef struct
     float dry_air_constant;
     float relative_humidity; //[%]
     float M; //Molar mass
-} AirParameters;
+};
 
-float air_density_from_altitude(float altitude, AirParameters *air);
-float air_pressure_from_altitude(float altitude, AirParameters *air);
-float cas2tas(float CAS, float altitude, AirParameters *air);
-float tas2cas(float TAS, float altitude, AirParameters *air);
+float air_density_from_altitude(float altitude, struct AirParameters *air);
+float air_pressure_from_altitude(float altitude, struct AirParameters *air);
+float cas2tas(float CAS, float altitude, struct AirParameters *air);
+float tas2cas(float TAS, float altitude, struct AirParameters *air);
 
-AirParameters initialize_air_structure();
+struct AirParameters initialize_air_structure();
 
 #endif /* ATMOSPHERIC_MATH_H */

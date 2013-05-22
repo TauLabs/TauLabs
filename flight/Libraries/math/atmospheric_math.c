@@ -36,7 +36,7 @@
  * @param gravity
  * @return
  */
-float air_density_from_altitude(float altitude, AirParameters *air)
+float air_density_from_altitude(float altitude, struct AirParameters *air)
 {
 	float pressure = air_pressure_from_altitude(altitude, air);
 	float rho = pressure*air->M / (air->univ_gas_constant*(air->air_temperature_at_surface - air->temperature_lapse_rate*altitude));
@@ -51,7 +51,7 @@ float air_density_from_altitude(float altitude, AirParameters *air)
  * @param gravity
  * @return
  */
-float air_pressure_from_altitude(float altitude, AirParameters *air)
+float air_pressure_from_altitude(float altitude, struct AirParameters *air)
 {
 	float pressure = air->sea_level_press* powf(1 - air->temperature_lapse_rate*altitude / air->air_temperature_at_surface, GRAVITY*air->M / (air->univ_gas_constant*air->temperature_lapse_rate));
 
@@ -66,7 +66,7 @@ float air_pressure_from_altitude(float altitude, AirParameters *air)
  * @param gravity
  * @return TAS True airspeed
  */
-float cas2tas(float CAS, float altitude, AirParameters *air)
+float cas2tas(float CAS, float altitude, struct AirParameters *air)
 {
 	float rho=air_density_from_altitude(altitude, air);
 	float TAS = CAS * sqrtf(air->air_density_at_surface/rho);
@@ -82,7 +82,7 @@ float cas2tas(float CAS, float altitude, AirParameters *air)
  * @param gravity
  * @return CAS Calibrated airspeed
  */
-float tas2cas(float TAS, float altitude, AirParameters *air)
+float tas2cas(float TAS, float altitude, struct AirParameters *air)
 {
 	float rho=air_density_from_altitude(altitude, air);
 	float CAS = TAS / sqrtf(air->air_density_at_surface/rho);
@@ -95,9 +95,9 @@ float tas2cas(float TAS, float altitude, AirParameters *air)
  * @brief initialize_air_structure Initializes the structure with standard-temperature-pressure values
  * @return
  */
-AirParameters initialize_air_structure()
+struct AirParameters initialize_air_structure()
 {
-	AirParameters air;
+	struct AirParameters air;
 
 	air.sea_level_press = STANDARD_AIR_SEA_LEVEL_PRESSURE;
 	air.air_density_at_surface = STANDARD_AIR_DENSITY;
