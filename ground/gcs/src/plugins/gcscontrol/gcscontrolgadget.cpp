@@ -81,6 +81,19 @@ void GCSControlGadget::loadConfiguration(IUAVGadgetConfiguration* config)
     controlsMode = GCSControlConfig->getControlsMode();
     gcsReceiverMode = GCSControlConfig->getGcsReceiverMode();
 
+    // Connect timer for periodically sending gcs receiver when in gcs receiver mode
+    if (gcsReceiverMode) {
+        gcsReceiverTimer = new QTimer(this);
+        gcsReceiverTimer->setInterval(100);
+        gcsReceiverTimer->start();
+        connect(gcsReceiverTimer, SIGNAL(timeout()), this, SLOT(sendGcsReceiver()));
+    } else if (gcsReceiverTimer) {
+        disconnect(gcsReceiverTimer, SIGNAL(timeout()), this, SLOT(sendGcsReceiver()));
+        delete gcsReceiverTimer;
+        gcsReceiverTimer = NULL;
+    }
+
+
     for (unsigned int i = 0; i < 8; i++)
     {
         buttonSettings[i].ActionID=GCSControlConfig->getbuttonSettings(i).ActionID;
@@ -217,6 +230,16 @@ void GCSControlGadget::setGcsReceiver(double leftX, double leftY, double rightX,
         emit sticksChangedRemotely(newRoll,newThrottle,newYaw,-newPitch);
         break;
     }
+}
+
+//! Update GCS Receiver remotely
+void GCSControlGadget::sendGcsReceiver()
+{
+    GCSReceiver *obj = getGcsReceiver();
+    Q_ASSERT(obj);
+    if (obj == NULL)
+        return;
+    obj->updated();
 }
 
 //! Set the ManualControlCommand object

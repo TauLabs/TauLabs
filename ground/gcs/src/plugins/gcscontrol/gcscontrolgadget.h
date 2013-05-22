@@ -31,6 +31,7 @@
 #include <coreplugin/iuavgadget.h>
 #include "gcscontrolgadgetconfiguration.h"
 #include "gcscontrolplugin.h"
+#include <QTimer>
 #include <QTime>
 #include <QUdpSocket>
 #include <QHostAddress>
@@ -102,6 +103,7 @@ private:
     bool channelReverse[8];
     QUdpSocket *control_sock;
 
+    QTimer *gcsReceiverTimer;
 
 signals:
     void sticksChangedRemotely(double leftX, double leftY, double rightX, double rightY);
@@ -110,6 +112,8 @@ protected slots:
     void manualControlCommandUpdated(UAVObject *);
     void sticksChangedLocally(double leftX, double leftY, double rightX, double rightY);
     void readUDPCommand();
+    void sendGcsReceiver();
+
 
     // signals from joystick
     void gamepads(quint8 count);
