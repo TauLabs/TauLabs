@@ -114,10 +114,30 @@ void GCSControlGadget::loadConfiguration(IUAVGadgetConfiguration* config)
 void GCSControlGadget::enableControl(bool enable)
 {
     enableSending = enable;
-    if (enableSending && gcsReceiverMode)
-        gcsReceiverTimer->start();
-    else if (gcsReceiverTimer)
-        gcsReceiverTimer->stop();
+    if (gcsReceiverMode) {
+        if (enableSending)
+            gcsReceiverTimer->start();
+        else
+            gcsReceiverTimer->stop();
+    } else {
+        ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
+        UAVObjectManager *objManager = pm->getObject<UAVObjectManager>();
+        UAVDataObject* obj = dynamic_cast<UAVDataObject*>( objManager->getObject(QString("ManualControlCommand")) );
+
+        UAVObject::Metadata mdata;
+        if (enableSending)
+        {
+            mccInitialData = mdata = obj->getMetadata();
+            UAVObject::SetFlightAccess(mdata, UAVObject::ACCESS_READONLY);
+            UAVObject::SetFlightTelemetryUpdateMode(mdata, UAVObject::UPDATEMODE_ONCHANGE);
+            UAVObject::SetGcsTelemetryAcked(mdata, false);
+            UAVObject::SetGcsTelemetryUpdateMode(mdata, UAVObject::UPDATEMODE_ONCHANGE);
+            mdata.gcsTelemetryUpdatePeriod = 100;
+        }
+        else
+            mdata = mccInitialData;
+        obj->setMetadata(mdata);
+    }
 }
 
 ManualControlCommand* GCSControlGadget::getManualControlCommand() {
