@@ -170,13 +170,6 @@ plugin_waypointeditor.depends = plugin_coreplugin
 plugin_waypointeditor.depends += plugin_uavobjects
 SUBDIRS += plugin_waypointeditor
 
-
-# Telemetry Scheduler gadget
-plugin_telemetryscheduler.subdir = telemetryscheduler
-plugin_telemetryscheduler.depends = plugin_coreplugin
-plugin_telemetryscheduler.depends += plugin_uavobjects
-SUBDIRS += plugin_telemetryscheduler
-
 # Primary Flight Display (PFD) gadget, QML version
 !LIGHTWEIGHT_GCS {
 plugin_pfdqml.subdir = pfdqml
