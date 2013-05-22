@@ -27,6 +27,7 @@
 #ifndef TELEMETRYSCHEDULERGADGETFACTORY_H_
 #define TELEMETRYSCHEDULERGADGETFACTORY_H_
 
+#include "telemetryscheduler_global.h"
 #include <coreplugin/iuavgadgetfactory.h>
 
 namespace Core {
@@ -36,7 +37,7 @@ class IUAVGadgetFactory;
 
 using namespace Core;
 
-class Q_DECL_IMPORT TelemetrySchedulerGadgetFactory : public IUAVGadgetFactory
+class TELEMETRYSCHEDULER_EXPORT TelemetrySchedulerGadgetFactory : public IUAVGadgetFactory
 {
     Q_OBJECT
 public:
