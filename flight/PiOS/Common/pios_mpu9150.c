@@ -41,6 +41,7 @@
 #define MPU9150_TASK_PRIORITY	(tskIDLE_PRIORITY + configMAX_PRIORITIES - 1)	// max priority
 #define MPU9150_TASK_STACK		(484 / 4)
 
+#define MPU9150_WHOAMI_ID        0x68
 #define MPU9150_MAG_ADDR         0x0c
 #define MPU9150_MAG_STATUS       0x02
 #define MPU9150_MAG_XH           0x03
@@ -295,13 +296,13 @@ void PIOS_MPU9150_SetLPF(enum pios_mpu60x0_filter filter)
  */
 int32_t PIOS_MPU9150_Probe(uint32_t i2c_id, uint8_t i2c_addr)
 {
-	// This function needs to set up the full transactions becaues
+	// This function needs to set up the full transactions because
 	// it should not assume anything is configured
 
 	uint8_t mag_addr_buffer[] = {
 		0,
 	};
-	uint8_t mag_read_buffer[1] = {
+	uint8_t mag_read_buffer[] = {
 		0
 	};
 
@@ -325,10 +326,6 @@ int32_t PIOS_MPU9150_Probe(uint32_t i2c_id, uint8_t i2c_addr)
 	int32_t retval = PIOS_I2C_Transfer(i2c_id, mag_txn_list, NELEMENTS(mag_txn_list));
 	if (retval < 0)
 		return -1;
-
-	// invalid WHOAMI for MPU9150 mag
-	//if (read_buffer[0] != 0x48)
-	//	return -2;
 
 	return 0;
 }
@@ -577,12 +574,12 @@ static float PIOS_MPU9150_GetMagScale()
  */
 uint8_t PIOS_MPU9150_Test(void)
 {
-	/* Verify that ID matches (MPU9150 ID is 0x68) */
+	/* Verify that ID matches (MPU9150 ID is MPU9150_WHOAMI_ID) */
 	int32_t mpu9150_id = PIOS_MPU9150_ReadID();
 	if (mpu9150_id < 0)
 		return -1;
 	
-	if (mpu9150_id != 0x68)
+	if (mpu9150_id != MPU9150_WHOAMI_ID)
 		return -2;
 	
 	return 0;
@@ -605,8 +602,7 @@ bool PIOS_MPU9150_IRQHandler(void)
 
 static void PIOS_MPU9150_Task(void *parameters)
 {
-	while (1)
-	{
+	while (1) {
 		//Wait for data ready interrupt
 		if (xSemaphoreTake(dev->data_ready_sema, portMAX_DELAY) != pdTRUE)
 			continue;
