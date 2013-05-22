@@ -2165,3 +2165,16 @@ const struct pios_usb_cdc_cfg pios_usb_cdc_cfg = {
 	.data_tx_ep = 3,
 };
 #endif	/* PIOS_INCLUDE_USB_CDC */
+
+/*
+ * ADC system
+ */
+#if defined(PIOS_INCLUDE_ADC)
+#include "pios_internal_adc_priv.h"
+#include "pios_adc_priv.h"
+#include "pios_dma.h"
+
+//TODO Write valid configuration for this target
+static const struct pios_internal_adc_cfg internal_adc_cfg = {};
+
+#endif //PIOS_INCLUDE_ADC

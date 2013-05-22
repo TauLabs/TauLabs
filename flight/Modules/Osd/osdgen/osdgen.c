@@ -2223,7 +2223,7 @@ void updateGraphics() {
 			write_string(temp, APPLY_HDEADBAND(GRAPHICS_RIGHT-40), APPLY_VDEADBAND(30), 0, 0, TEXT_VA_TOP, TEXT_HA_RIGHT, 0, 2);
 			
 			/* Print ADC voltage FLIGHT*/
-			sprintf(temp,"V:%5.2fV",(PIOS_ADC_PinGet(2)*3*6.1f/4096));
+			sprintf(temp,"V:%5.2fV",(PIOS_ADC_DevicePinGet(PIOS_INTERNAL_ADC, 2)*3*6.1f/4096));
 			write_string(temp, APPLY_HDEADBAND(20), APPLY_VDEADBAND(20), 0, 0, TEXT_VA_TOP, TEXT_HA_LEFT, 0, 3);
 			
 			if(gpsData.Heading>180)
@@ -2294,25 +2294,25 @@ void updateGraphics() {
 				write_string(temp, APPLY_HDEADBAND((GRAPHICS_RIGHT - 8)),APPLY_VDEADBAND(5), 0, 0, TEXT_VA_TOP, TEXT_HA_RIGHT, 0, 2);
 				
 				/* Print ADC voltage */
-				//sprintf(temp,"Rssi:%4dV",(int)(PIOS_ADC_PinGet(4)*3000/4096));
+				//sprintf(temp,"Rssi:%4dV",(int)(PIOS_ADC_DevicePinGet(PIOS_INTERNAL_ADC,4)*3000/4096));
 				//write_string(temp, (GRAPHICS_WIDTH_REAL - 2),15, 0, 0, TEXT_VA_TOP, TEXT_HA_RIGHT, 0, 2);
-				sprintf(temp,"Rssi:%4.2fV",(PIOS_ADC_PinGet(4)*3.0f/4096.0f));
+				sprintf(temp,"Rssi:%4.2fV",(PIOS_ADC_DevicePinGet(PIOS_INTERNAL_ADC,4)*3.0f/4096.0f));
 				write_string(temp, APPLY_HDEADBAND((GRAPHICS_RIGHT - 8)),APPLY_VDEADBAND(15), 0, 0, TEXT_VA_TOP, TEXT_HA_RIGHT, 0, 2);
 				
 				/* Print CPU temperature */
-				sprintf(temp,"Temp:%4.2fC",(PIOS_ADC_PinGet(6)*0.29296875f-264));
+				sprintf(temp,"Temp:%4.2fC",(PIOS_ADC_DevicePinGet(PIOS_INTERNAL_ADC,6)*0.29296875f-264));
 				write_string(temp, APPLY_HDEADBAND((GRAPHICS_RIGHT - 8)),APPLY_VDEADBAND(25), 0, 0, TEXT_VA_TOP, TEXT_HA_RIGHT, 0, 2);
 				
 				/* Print ADC voltage FLIGHT*/
-				sprintf(temp,"FltV:%4.2fV",(PIOS_ADC_PinGet(2)*3.0f*6.1f/4096.0f));
+				sprintf(temp,"FltV:%4.2fV",(PIOS_ADC_DevicePinGet(PIOS_INTERNAL_ADC,2)*3.0f*6.1f/4096.0f));
 				write_string(temp, APPLY_HDEADBAND((GRAPHICS_RIGHT - 8)),APPLY_VDEADBAND(35), 0, 0, TEXT_VA_TOP, TEXT_HA_RIGHT, 0, 2);
 				
 				/* Print ADC voltage VIDEO*/
-				sprintf(temp,"VidV:%4.2fV",(PIOS_ADC_PinGet(3)*3.0f*6.1f/4096.0f));
+				sprintf(temp,"VidV:%4.2fV",(PIOS_ADC_DevicePinGet(PIOS_INTERNAL_ADC,3)*3.0f*6.1f/4096.0f));
 				write_string(temp, APPLY_HDEADBAND((GRAPHICS_RIGHT - 8)),APPLY_VDEADBAND(45), 0, 0, TEXT_VA_TOP, TEXT_HA_RIGHT, 0, 2);
 				
 				/* Print ADC voltage RSSI */
-				//sprintf(temp,"Curr:%4dA",(int)(PIOS_ADC_PinGet(0)*300*61/4096));
+				//sprintf(temp,"Curr:%4dA",(int)(PIOS_ADC_DevicePinGet(PIOS_INTERNAL_ADC,0)*300*61/4096));
 				//write_string(temp, (GRAPHICS_WIDTH_REAL - 2),60, 0, 0, TEXT_VA_TOP, TEXT_HA_RIGHT, 0, 2);
 				
 				/* Draw Battery Gauge */
