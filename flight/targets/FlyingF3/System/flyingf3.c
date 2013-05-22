@@ -1,17 +1,16 @@
 /**
  ******************************************************************************
- * @addtogroup OpenPilotSystem OpenPilot System
- * @brief These files are the core system files of OpenPilot.
- * They are the ground layer just above PiOS. In practice, OpenPilot actually starts
- * in the main() function of openpilot.c
+ * @addtogroup TauLabsSystem Tau Labs System
+ * @brief These files are the core system files of Tau Labs.
  * @{
- * @addtogroup OpenPilotCore OpenPilot Core
- * @brief This is where the OP firmware starts. Those files also define the compile-time
+ * @addtogroup TauLabsCore Tau Labs Core
+ * @brief This is where the firmware starts. Those files also define the compile-time
  * options of the firmware.
  * @{
- * @file       openpilot.c 
+ * @file       flyingf3.c 
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
- * @brief      Sets up and runs main OpenPilot tasks.
+ * @author     Tau Labs, http://github.com/TauLabs, Copyright (C) 2012-2013.
+ * @brief      Sets up and runs main Tau Labs tasks.
  * @see        The GNU Public License (GPL) Version 3
  * 
  *****************************************************************************/
@@ -40,27 +39,6 @@
 /* Task Priorities */
 #define PRIORITY_TASK_HOOKS             (tskIDLE_PRIORITY + 3)
 
-/* Global Variables */
-
-/* Local Variables */
-#define INCLUDE_TEST_TASKS 0
-#if INCLUDE_TEST_TASKS
-static uint8_t sdcard_available;
-#endif
-char Buffer[1024];
-uint32_t Cache;
-
-/* Function Prototypes */
-#if INCLUDE_TEST_TASKS
-static void TaskTick(void *pvParameters);
-static void TaskTesting(void *pvParameters);
-static void TaskHIDTest(void *pvParameters);
-static void TaskServos(void *pvParameters);
-static void TaskSDCard(void *pvParameters);
-#endif
-int32_t CONSOLE_Parse(uint8_t port, char c);
-void OP_ADC_NotifyChange(uint32_t pin, uint32_t pin_value);
-
 /* Prototype of PIOS_Board_Init() function */
 extern void PIOS_Board_Init(void);
 extern void Stack_Change(void);
@@ -78,14 +56,14 @@ static void initTask(void *parameters);
 extern void InitModules(void);
 
 /**
-* OpenPilot Main function:
-*
-* Initialize PiOS<BR>
-* Create the "System" task (SystemModInitializein Modules/System/systemmod.c) <BR>
-* Start FreeRTOS Scheduler (vTaskStartScheduler)<BR>
-* If something goes wrong, blink LED1 and LED2 every 100ms
-*
-*/
+ * Tau Labs Main function:
+ *
+ * Initialize PiOS<BR>
+ * Create the "System" task (SystemModInitializein Modules/System/systemmod.c) <BR>
+ * Start FreeRTOS Scheduler (vTaskStartScheduler)<BR>
+ * If something goes wrong, blink LED1 and LED2 every 100ms
+ *
+ */
 int main()
 {
 	int	result;
