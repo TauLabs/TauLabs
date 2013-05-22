@@ -100,25 +100,25 @@ static struct mpu9150_dev * PIOS_MPU9150_alloc(void)
 	mpu9150_dev->magic = PIOS_MPU9150_DEV_MAGIC;
 	
 	mpu9150_dev->accel_queue = xQueueCreate(PIOS_MPU9150_MAX_DOWNSAMPLE, sizeof(struct pios_sensor_gyro_data));
-	if(mpu9150_dev->accel_queue == NULL) {
+	if (mpu9150_dev->accel_queue == NULL) {
 		vPortFree(mpu9150_dev);
 		return NULL;
 	}
 
 	mpu9150_dev->gyro_queue = xQueueCreate(PIOS_MPU9150_MAX_DOWNSAMPLE, sizeof(struct pios_sensor_gyro_data));
-	if(mpu9150_dev->gyro_queue == NULL) {
+	if (mpu9150_dev->gyro_queue == NULL) {
 		vPortFree(mpu9150_dev);
 		return NULL;
 	}
 
 	mpu9150_dev->mag_queue = xQueueCreate(PIOS_MPU9150_MAX_DOWNSAMPLE, sizeof(struct pios_sensor_mag_data));
-	if(mpu9150_dev->mag_queue == NULL) {
+	if (mpu9150_dev->mag_queue == NULL) {
 		vPortFree(mpu9150_dev);
 		return NULL;
 	}
 
 	mpu9150_dev->data_ready_sema = xSemaphoreCreateMutex();
-	if(mpu9150_dev->data_ready_sema == NULL) {
+	if (mpu9150_dev->data_ready_sema == NULL) {
 		vPortFree(mpu9150_dev);
 		return NULL;
 	}
@@ -148,7 +148,7 @@ static int32_t PIOS_MPU9150_Validate(struct mpu9150_dev * dev)
 int32_t PIOS_MPU9150_Init(uint32_t i2c_id, uint8_t i2c_addr, const struct pios_mpu60x0_cfg * cfg)
 {
 	dev = PIOS_MPU9150_alloc();
-	if(dev == NULL)
+	if (dev == NULL)
 		return -1;
 	
 	dev->i2c_id = i2c_id;
@@ -526,7 +526,7 @@ static int32_t PIOS_MPU9150_Mag_SetReg(uint8_t reg, uint8_t data)
 static int32_t PIOS_MPU9150_ReadID()
 {
 	int32_t mpu9150_id = PIOS_MPU9150_GetReg(PIOS_MPU60X0_WHOAMI);
-	if(mpu9150_id < 0)
+	if (mpu9150_id < 0)
 		return -1;
 	return mpu9150_id;
 }
@@ -579,10 +579,10 @@ uint8_t PIOS_MPU9150_Test(void)
 {
 	/* Verify that ID matches (MPU9150 ID is 0x68) */
 	int32_t mpu9150_id = PIOS_MPU9150_ReadID();
-	if(mpu9150_id < 0)
+	if (mpu9150_id < 0)
 		return -1;
 	
-	if(mpu9150_id != 0x68)
+	if (mpu9150_id != 0x68)
 		return -2;
 	
 	return 0;
