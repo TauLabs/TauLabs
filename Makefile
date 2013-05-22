@@ -813,7 +813,7 @@ quanton_short          := 'quan'
 flyingf4_short         := 'fly4'
 discoveryf4_short      := 'dif4'
 flyingf3_short         := 'fly3'
-sparky_short           := 'spar'
+sparky_short           := 'sprk'
 
 # Start out assuming that we'll build fw, bl and bu for all boards
 FW_BOARDS  := $(ALL_BOARDS)
