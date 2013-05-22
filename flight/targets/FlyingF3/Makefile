@@ -38,7 +38,7 @@ DEBUG ?= NO
 # @endgroup Compile Options
 # List of modules to include
 MODULES = Sensors
-MODULES += Attitude/revolution
+MODULES += StateEstimation/default
 MODULES += Actuator
 MODULES += ManualControl
 MODULES += Stabilization

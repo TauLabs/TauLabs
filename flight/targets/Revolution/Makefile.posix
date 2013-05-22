@@ -81,7 +81,7 @@ CFLAGS += $(BLONLY_CDEFS)
 # List of modules to include
 MODULES += Actuator ManualControl Stabilization 
 MODULES += PathPlanner
-MODULES += Attitude/revolution
+MODULES += StateEstimation/default
 MODULES += FirmwareIAP
 MODULES += Telemetry
 

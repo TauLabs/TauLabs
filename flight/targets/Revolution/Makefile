@@ -62,7 +62,7 @@ endif
 
 # List of modules to include
 MODULES = Sensors 
-MODULES += Attitude/revolution
+MODULES += StateEstimation/default
 MODULES += ManualControl
 MODULES += Stabilization
 MODULES += Actuator
