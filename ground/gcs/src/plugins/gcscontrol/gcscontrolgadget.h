@@ -97,6 +97,9 @@ private:
     //! Send commands to FC via GCS receiver UAVO
     bool gcsReceiverMode;
 
+    //! Whether GCS control is enabled
+    bool enableSending;
+
     buttonSettingsStruct buttonSettings[8];
     double bound(double input);
     double wrap(double input);
@@ -114,6 +117,8 @@ protected slots:
     void readUDPCommand();
     void sendGcsReceiver();
 
+    //! Enable or disable sending data
+    void enableControl(bool enable);
 
     // signals from joystick
     void gamepads(quint8 count);

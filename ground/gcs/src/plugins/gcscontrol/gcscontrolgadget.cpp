@@ -41,6 +41,7 @@ GCSControlGadget::GCSControlGadget(QString classId, GCSControlGadgetWidget *widg
 {
     connect(getManualControlCommand(),SIGNAL(objectUpdated(UAVObject*)),this,SLOT(manualControlCommandUpdated(UAVObject*)));
     connect(widget,SIGNAL(sticksChanged(double,double,double,double)),this,SLOT(sticksChangedLocally(double,double,double,double)));
+    connect(widget,SIGNAL(controlEnabled(bool)), this, SLOT(enableControl(bool)));
     connect(this,SIGNAL(sticksChangedRemotely(double,double,double,double)),widget,SLOT(updateSticks(double,double,double,double)));
 
     manualControlCommandUpdated(getManualControlCommand());
@@ -85,9 +86,9 @@ void GCSControlGadget::loadConfiguration(IUAVGadgetConfiguration* config)
     if (gcsReceiverMode) {
         gcsReceiverTimer = new QTimer(this);
         gcsReceiverTimer->setInterval(100);
-        gcsReceiverTimer->start();
         connect(gcsReceiverTimer, SIGNAL(timeout()), this, SLOT(sendGcsReceiver()));
     } else if (gcsReceiverTimer) {
+        gcsReceiverTimer->stop();
         disconnect(gcsReceiverTimer, SIGNAL(timeout()), this, SLOT(sendGcsReceiver()));
         delete gcsReceiverTimer;
         gcsReceiverTimer = NULL;
@@ -103,6 +104,20 @@ void GCSControlGadget::loadConfiguration(IUAVGadgetConfiguration* config)
         channelReverse[i]=GCSControlConfig->getChannelsReverse().at(i);
     }
 
+}
+
+/**
+ * @brief GCSControlGadget::enableControl Enable or disable sending updates
+ * In the case of GCSReceiver mode it enables the timer for updates
+ * @param enable Whether to enable or disable it
+ */
+void GCSControlGadget::enableControl(bool enable)
+{
+    enableSending = enable;
+    if (enableSending && gcsReceiverMode)
+        gcsReceiverTimer->start();
+    else if (gcsReceiverTimer)
+        gcsReceiverTimer->stop();
 }
 
 ManualControlCommand* GCSControlGadget::getManualControlCommand() {
@@ -151,7 +166,10 @@ void GCSControlGadget::manualControlCommandUpdated(UAVObject * obj) {
 /**
   Update the manual commands - maps depending on mode
   */
-void GCSControlGadget::sticksChangedLocally(double leftX, double leftY, double rightX, double rightY) {
+void GCSControlGadget::sticksChangedLocally(double leftX, double leftY, double rightX, double rightY)
+{
+    if (!enableSending)
+        return;
 
     if (gcsReceiverMode)
         setGcsReceiver(leftX, leftY, rightX, rightY);

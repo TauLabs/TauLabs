@@ -130,12 +130,15 @@ void GCSControlGadgetWidget::toggleControl(int state)
         mdata.gcsTelemetryUpdatePeriod = 100;
         m_gcscontrol->checkBoxUDPControl->setEnabled(true);
 
+        emit controlEnabled(true);
     }
     else
     {
         mdata = mccInitialData;
         toggleUDPControl(false);
         m_gcscontrol->checkBoxUDPControl->setEnabled(false);
+
+        emit controlEnabled(false);
     }
     obj->setMetadata(mdata);
 }
