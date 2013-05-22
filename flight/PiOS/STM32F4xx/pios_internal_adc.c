@@ -65,7 +65,7 @@
 
 // Private types
 enum pios_adc_dev_magic {
-	PIOS_ADC_DEV_MAGIC = 0x58375124,
+	PIOS_INTERNAL_ADC_DEV_MAGIC = 0x58375124,
 };
 
 struct pios_internal_adc_dev {
@@ -87,21 +87,24 @@ struct pios_internal_adc_dev {
 static struct pios_internal_adc_dev * pios_adc_dev;
 
 // Private functions
-static struct pios_internal_adc_dev * PIOS_ADC_Allocate();
-static bool PIOS_ADC_validate(struct pios_internal_adc_dev *);
+static struct pios_internal_adc_dev * PIOS_INTERNAL_ADC_Allocate();
+static bool PIOS_INTERNAL_ADC_validate(struct pios_internal_adc_dev *);
 
 #if defined(PIOS_INCLUDE_ADC)
 static void init_pins(void);
 static void init_dma(void);
 static void init_adc(void);
 #endif
-static int32_t PIOS_ADC_PinGet(uint32_t internal_adc_id, uint32_t pin);
+static int32_t PIOS_INTERNAL_ADC_PinGet(uint32_t internal_adc_id, uint32_t pin);
+static uint8_t PIOS_INTERNAL_ADC_Number_of_Channels(uint32_t internal_adc_id);
+static bool PIOS_INTERNAL_ADC_Available(uint32_t adc_id, uint32_t device_pin);
+
 
 const struct pios_adc_driver pios_internal_adc_driver = {
-                .available      = NULL,
-                .get_pin        = PIOS_ADC_PinGet,
+                .available      = PIOS_INTERNAL_ADC_Available,
+                .get_pin        = PIOS_INTERNAL_ADC_PinGet,
                 .set_queue      = NULL,
-                .number_of_channels = NULL,
+                .number_of_channels = PIOS_INTERNAL_ADC_Number_of_Channels,
 };
 
 struct dma_config {
@@ -126,8 +129,7 @@ static uint16_t adc_raw_buffer[2][PIOS_ADC_MAX_SAMPLES][PIOS_ADC_NUM_PINS];
 #endif
 
 #if defined(PIOS_INCLUDE_ADC)
-static void
-init_pins(void)
+static void init_pins(void)
 {
 	/* Setup analog pins */
 	GPIO_InitTypeDef GPIO_InitStructure;
@@ -143,8 +145,7 @@ init_pins(void)
 	}
 }
 
-static void
-init_dma(void)
+static void init_dma(void)
 {
 	/* Disable interrupts */
 	DMA_ITConfig(pios_adc_dev->cfg->dma.rx.channel, pios_adc_dev->cfg->dma.irq.flags, DISABLE);
@@ -182,8 +183,7 @@ init_dma(void)
 	NVIC_Init(&NVICInit);
 }
 
-static void
-init_adc(void)
+static void init_adc(void)
 {
 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_ADC1, ENABLE);
 
@@ -231,30 +231,30 @@ init_adc(void)
 }
 #endif
 
-static bool PIOS_ADC_validate(struct pios_internal_adc_dev * dev)
+static bool PIOS_INTERNAL_ADC_validate(struct pios_internal_adc_dev * dev)
 {
 	if (dev == NULL)
 		return false;
 	
-	return (dev->magic == PIOS_ADC_DEV_MAGIC);
+	return (dev->magic == PIOS_INTERNAL_ADC_DEV_MAGIC);
 }
 
 #if defined(PIOS_INCLUDE_FREERTOS)
-static struct pios_internal_adc_dev * PIOS_ADC_Allocate()
+static struct pios_internal_adc_dev * PIOS_INTERNAL_ADC_Allocate()
 {
 	struct pios_internal_adc_dev * adc_dev;
 	
 	adc_dev = (struct pios_internal_adc_dev *)pvPortMalloc(sizeof(*adc_dev));
 	if (!adc_dev) return (NULL);
 	
-	adc_dev->magic = PIOS_ADC_DEV_MAGIC;
+	adc_dev->magic = PIOS_INTERNAL_ADC_DEV_MAGIC;
 	return(adc_dev);
 }
 #else
 #if defined(PIOS_INCLUDE_ADC)
 #error Not implemented
 #endif
-static struct pios_adc_dev * PIOS_ADC_Allocate()
+static struct pios_adc_dev * PIOS_INTERNAL_ADC_Allocate()
 {
 	return (struct pios_adc_dev *) NULL;
 }
@@ -265,7 +265,7 @@ static struct pios_adc_dev * PIOS_ADC_Allocate()
  */
 int32_t PIOS_INTERNAL_ADC_Init(uint32_t * internal_adc_id, const struct pios_internal_adc_cfg * cfg)
 {
-        pios_adc_dev = PIOS_ADC_Allocate();
+        pios_adc_dev = PIOS_INTERNAL_ADC_Allocate();
 	if (pios_adc_dev == NULL)
 		return -1;
 	
@@ -304,7 +304,7 @@ void PIOS_ADC_Config(uint32_t oversampling)
  * TODO we should probably refactor this similarly to the new F3 driver
  */
 int32_t last_conv_value;
-static int32_t PIOS_ADC_PinGet(uint32_t internal_adc_id, uint32_t pin)
+static int32_t PIOS_INTERNAL_ADC_PinGet(uint32_t internal_adc_id, uint32_t pin)
 {
 #if defined(PIOS_INCLUDE_ADC)
 	int32_t	result;
@@ -332,7 +332,7 @@ static int32_t PIOS_ADC_PinGet(uint32_t internal_adc_id, uint32_t pin)
  * the ADC double buffer swaps 
  * @note Not currently supported.
  */
-void PIOS_ADC_SetCallback(ADCCallback new_function) 
+void PIOS_ADC_SetCallback(ADCCallback new_function)
 {
 	pios_adc_dev->callback_function = new_function;
 }
@@ -426,7 +426,7 @@ void accumulate(uint16_t *buffer, uint32_t count)
  */
 void PIOS_INTERNAL_ADC_DMA_Handler(void)
 {
-	if (!PIOS_ADC_validate(pios_adc_dev))
+	if (!PIOS_INTERNAL_ADC_validate(pios_adc_dev))
 		return;
 
 #if defined(PIOS_INCLUDE_ADC)
@@ -440,6 +440,31 @@ void PIOS_INTERNAL_ADC_DMA_Handler(void)
 
 	}
 #endif
+}
+
+/**
+  * @brief Checks if a given pin is available on the given device
+  * \param[in] adc_id handle of the device to read
+  * \param[in] device_pin pin to check if available
+  * \return true if available
+  */
+static bool PIOS_INTERNAL_ADC_Available(uint32_t adc_id, uint32_t device_pin) {
+	/* Check if pin exists */
+	return (!(device_pin >= PIOS_ADC_NUM_CHANNELS));
+}
+
+
+/**
+  * @brief Checks the number of available ADC channels on the device
+  * \param[in] adc_id handle of the device
+  * \return number of ADC channels of the device
+  */
+static uint8_t PIOS_INTERNAL_ADC_Number_of_Channels(uint32_t internal_adc_id)
+{
+	struct pios_internal_adc_dev * adc_dev = (struct pios_internal_adc_dev *)internal_adc_id;
+	if(!PIOS_INTERNAL_ADC_validate(adc_dev))
+			return 0;
+	return PIOS_ADC_NUM_CHANNELS;
 }
 
 #endif /* PIOS_INCLUDE_ADC */
