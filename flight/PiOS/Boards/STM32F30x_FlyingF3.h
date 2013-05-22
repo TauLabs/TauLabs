@@ -37,6 +37,12 @@
 #define DEBUG_PRINTF(level, ...)
 #endif	/* PIOS_INCLUDE_DEBUG_CONSOLE */
 
+#if defined(PIOS_INCLUDE_ADC)
+extern uintptr_t pios_internal_adc_id;
+#define PIOS_INTERNAL_ADC                               (pios_internal_adc_id)
+#endif
+#define PIOS_ADC_SUB_DRIVER_MAX_INSTANCES       3
+
 //------------------------
 // Timers and Channels Used
 //------------------------
@@ -227,6 +233,9 @@ extern uintptr_t pios_com_debug_id;
 // ADC
 // None.
 //-------------------------
+#define PIOS_INTERNAL_ADC_COUNT                         4
+#define PIOS_INTERNAL_ADC_MAPPING                { ADC1, ADC2, ADC3, ADC4 }
+#define PIOS_INTERNAL_ADC_MAX_INSTANCES                 4
 
 //-------------------------
 // USB
@@ -235,5 +244,10 @@ extern uintptr_t pios_com_debug_id;
 #define PIOS_USB_ENABLED				1 /* Should remove all references to this */
 #define PIOS_USB_HID_MAX_DEVS			1
 
-
+//-------------------------
+// DMA
+//-------------------------
+#define PIOS_DMA_MAX_CHANNELS                   12
+#define PIOS_DMA_MAX_HANDLERS_PER_CHANNEL       3
+#define PIOS_DMA_CHANNELS {DMA1_Channel1, DMA1_Channel2, DMA1_Channel3, DMA1_Channel4, DMA1_Channel5, DMA1_Channel6, DMA1_Channel7, DMA2_Channel1, DMA2_Channel2, DMA2_Channel3, DMA2_Channel4, DMA2_Channel5}
 #endif /* STM3210E_INS_H_ */
