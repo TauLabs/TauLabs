@@ -42,11 +42,6 @@
 
 /* Global Variables */
 
-/* Local Variables */
-#define INCLUDE_TEST_TASKS 0
-char Buffer[1024];
-uint32_t Cache;
-
 /* Prototype of PIOS_Board_Init() function */
 extern void PIOS_Board_Init(void);
 extern void Stack_Change(void);
