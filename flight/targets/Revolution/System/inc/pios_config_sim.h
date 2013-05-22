@@ -1,9 +1,9 @@
 /**
  ******************************************************************************
  *
- * @file       pios_config.h  
+ * @file       plop_config.h  
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
- * @brief      PiOS configuration header. 
+ * @brief      plop configuration header. 
  *             Central compile time config for the project.
  * @see        The GNU Public License (GPL) Version 3
  *
@@ -25,33 +25,33 @@
  */
 
 
-#ifndef PIOS_CONFIG_POSIX_H
-#define PIOS_CONFIG_POSIX_H
+#ifndef plop_CONFIG_POSIX_H
+#define plop_CONFIG_POSIX_H
 
 
-/* Enable/Disable PiOS Modules */
-#define PIOS_INCLUDE_SYS
-#define PIOS_INCLUDE_DELAY
-#define PIOS_INCLUDE_LED
-#define PIOS_INCLUDE_SDCARD
-#define PIOS_INCLUDE_FREERTOS
-#define PIOS_INCLUDE_COM
-//#define PIOS_INCLUDE_GPS
-#define PIOS_INCLUDE_IRQ
-#define PIOS_INCLUDE_TELEMETRY_RF
-#define PIOS_INCLUDE_TCP
-#define PIOS_INCLUDE_UDP
-#define PIOS_INCLUDE_SERVO
-#define PIOS_INCLUDE_RCVR
-#define PIOS_INCLUDE_GCSRCVR
-#define PIOS_INCLUDE_IAP
-#define PIOS_INCLUDE_BL_HELPER
+/* Enable/Disable plop Modules */
+#define plop_INCLUDE_SYS
+#define plop_INCLUDE_DELAY
+#define plop_INCLUDE_LED
+#define plop_INCLUDE_SDCARD
+#define plop_INCLUDE_FREERTOS
+#define plop_INCLUDE_COM
+//#define plop_INCLUDE_GPS
+#define plop_INCLUDE_IRQ
+#define plop_INCLUDE_TELEMETRY_RF
+#define plop_INCLUDE_TCP
+#define plop_INCLUDE_UDP
+#define plop_INCLUDE_SERVO
+#define plop_INCLUDE_RCVR
+#define plop_INCLUDE_GCSRCVR
+#define plop_INCLUDE_IAP
+#define plop_INCLUDE_BL_HELPER
 
-#define PIOS_RCVR_MAX_CHANNELS			12
-#define PIOS_RCVR_MAX_DEVS              3
+#define plop_RCVR_MAX_CHANNELS			12
+#define plop_RCVR_MAX_DEVS              3
 
 /* Defaults for Logging */
-#define LOG_FILENAME 			"PIOS.LOG"
+#define LOG_FILENAME 			"plop.LOG"
 #define STARTUP_LOG_ENABLED		1
 
 /* COM Module */
@@ -61,13 +61,13 @@
 #define AUXUART_BAUDRATE		19200
 
 #define TELEM_QUEUE_SIZE                20
-#define PIOS_TELEM_STACK_SIZE           2048
+#define plop_TELEM_STACK_SIZE           2048
 
 /* Stabilization options */
-#define PIOS_QUATERNION_STABILIZATION
+#define plop_QUATERNION_STABILIZATION
 
 /* GPS options */
-#define PIOS_GPS_SETS_HOMELOCATION
+#define plop_GPS_SETS_HOMELOCATION
 
 #define HEAP_LIMIT_WARNING		4000
 #define HEAP_LIMIT_CRITICAL		1000
@@ -78,4 +78,4 @@
 
 #define REVOLUTION
 
-#endif /* PIOS_CONFIG_POSIX_H */
+#endif /* plop_CONFIG_POSIX_H */

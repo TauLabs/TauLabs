@@ -62,22 +62,22 @@ OPSYSTEM = ./System
 OPSYSTEMINC = $(OPSYSTEM)/inc
 OPUAVTALKINC = $(OPUAVTALK)/inc
 OPUAVOBJINC = $(OPUAVOBJ)/inc
-PIOSINC = $(PIOS)/inc
+plopINC = $(plop)/inc
 FLIGHTLIBINC = $(FLIGHTLIB)/inc
 MATHLIB = $(FLIGHTLIB)/math
 MATHLIBINC = $(FLIGHTLIB)/math
 RSCODE = $(FLIGHTLIB)/rscode
 RSCODEINC = $(FLIGHTLIB)/rscode
-PIOSSTM32F4XX = $(PIOS)/STM32F4xx
-PIOSCOMMON = $(PIOS)/Common
-PIOSBOARDS = $(PIOS)/Boards
-PIOSCOMMONLIB = $(PIOSCOMMON)/Libraries
-APPLIBDIR = $(PIOSSTM32F4XX)/Libraries
+plopSTM32F4XX = $(plop)/STM32F4xx
+plopCOMMON = $(plop)/Common
+plopBOARDS = $(plop)/Boards
+plopCOMMONLIB = $(plopCOMMON)/Libraries
+APPLIBDIR = $(plopSTM32F4XX)/Libraries
 STMLIBDIR = $(APPLIBDIR)
 STMSPDDIR = $(STMLIBDIR)/STM32F4xx_StdPeriph_Driver
 STMSPDSRCDIR = $(STMSPDDIR)/src
 STMSPDINCDIR = $(STMSPDDIR)/inc
-DEBUG_CM3_DIR = $(PIOSCOMMONLIB)/Debug
+DEBUG_CM3_DIR = $(plopCOMMONLIB)/Debug
 DEBUG_CM3_DIR_INC = $(DEBUG_CM3_DIR)/inc
 OPUAVOBJINC = $(OPUAVOBJ)/inc
 PYMITE = $(FLIGHTLIB)/PyMite
@@ -93,9 +93,9 @@ FLIGHTPLANS = $(OPMODULEDIR)/FlightPlan/flightplans
 
 SRC = 
 # optional component libraries
-include $(PIOSCOMMONLIB)/FreeRTOS/library.mk
-#include $(PIOSCOMMONLIB)/dosfs/library.mk
-include $(PIOSCOMMONLIB)/msheap/library.mk
+include $(plopCOMMONLIB)/FreeRTOS/library.mk
+#include $(plopCOMMONLIB)/dosfs/library.mk
+include $(plopCOMMONLIB)/msheap/library.mk
 include $(FLIGHTLIB)/CMSIS3/DSP_Lib/library.mk
 
 
@@ -117,8 +117,8 @@ SRC += ${foreach MOD, ${MODULES} ${OPTMODULES}, ${wildcard ${OPMODULEDIR}/${MOD}
 ## OPENPILOT CORE:
 SRC += ${OPMODULEDIR}/System/systemmod.c
 SRC += $(OPSYSTEM)/revolution.c
-SRC += $(OPSYSTEM)/pios_board.c
-SRC += $(OPSYSTEM)/pios_usb_board_data.c
+SRC += $(OPSYSTEM)/plop_board.c
+SRC += $(OPSYSTEM)/plop_usb_board_data.c
 SRC += $(FLIGHTLIB)/alarms.c
 SRC += $(OPUAVTALK)/uavtalk.c
 SRC += $(OPUAVOBJ)/uavobjectmanager.c
@@ -146,29 +146,29 @@ SRC += $(RSCODE)/crcgen.c
 SRC += $(RSCODE)/galois.c
 SRC += $(RSCODE)/rs.c
 
-## PIOS Hardware (STM32F4xx)
-include $(PIOS)/STM32F4xx/library.mk
+## plop Hardware (STM32F4xx)
+include $(plop)/STM32F4xx/library.mk
 
-## PIOS Hardware (Common)
-SRC += $(PIOSCOMMON)/pios_mpu6000.c
-SRC += $(PIOSCOMMON)/pios_bma180.c
-SRC += $(PIOSCOMMON)/pios_etasv3.c
-SRC += $(PIOSCOMMON)/pios_gcsrcvr.c
-SRC += $(PIOSCOMMON)/pios_l3gd20.c
-SRC += $(PIOSCOMMON)/pios_hmc5883.c
-SRC += $(PIOSCOMMON)/pios_ms5611.c
-SRC += $(PIOSCOMMON)/pios_crc.c
-SRC += $(PIOSCOMMON)/pios_com.c
-SRC += $(PIOSCOMMON)/pios_rfm22b.c
-SRC += $(PIOSCOMMON)/pios_rfm22b_com.c
-SRC += $(PIOSCOMMON)/pios_rcvr.c
-SRC += $(PIOSCOMMON)/pios_sensors.c
-SRC += $(PIOSCOMMON)/pios_flash_jedec.c
-SRC += $(PIOSCOMMON)/pios_flashfs_logfs.c
-SRC += $(PIOSCOMMON)/printf-stdarg.c
-SRC += $(PIOSCOMMON)/pios_usb_desc_hid_cdc.c
-SRC += $(PIOSCOMMON)/pios_usb_desc_hid_only.c
-SRC += $(PIOSCOMMON)/pios_usb_util.c
+## plop Hardware (Common)
+SRC += $(plopCOMMON)/plop_mpu6000.c
+SRC += $(plopCOMMON)/plop_bma180.c
+SRC += $(plopCOMMON)/plop_etasv3.c
+SRC += $(plopCOMMON)/plop_gcsrcvr.c
+SRC += $(plopCOMMON)/plop_l3gd20.c
+SRC += $(plopCOMMON)/plop_hmc5883.c
+SRC += $(plopCOMMON)/plop_ms5611.c
+SRC += $(plopCOMMON)/plop_crc.c
+SRC += $(plopCOMMON)/plop_com.c
+SRC += $(plopCOMMON)/plop_rfm22b.c
+SRC += $(plopCOMMON)/plop_rfm22b_com.c
+SRC += $(plopCOMMON)/plop_rcvr.c
+SRC += $(plopCOMMON)/plop_sensors.c
+SRC += $(plopCOMMON)/plop_flash_jedec.c
+SRC += $(plopCOMMON)/plop_flashfs_logfs.c
+SRC += $(plopCOMMON)/printf-stdarg.c
+SRC += $(plopCOMMON)/plop_usb_desc_hid_cdc.c
+SRC += $(plopCOMMON)/plop_usb_desc_hid_only.c
+SRC += $(plopCOMMON)/plop_usb_util.c
 
 include ./UAVObjects.inc
 SRC += $(UAVOBJSRC)
@@ -202,8 +202,8 @@ ASRCARM =
 # List any extra directories to look for include files here.
 #    Each directory must be seperated by a space.
 EXTRAINCDIRS  += $(SHAREDAPIDIR)
-EXTRAINCDIRS  += $(PIOS)
-EXTRAINCDIRS  += $(PIOSINC)
+EXTRAINCDIRS  += $(plop)
+EXTRAINCDIRS  += $(plopINC)
 EXTRAINCDIRS  += $(OPSYSTEMINC)
 EXTRAINCDIRS  += $(OPUAVTALK)
 EXTRAINCDIRS  += $(OPUAVTALKINC)
@@ -213,9 +213,9 @@ EXTRAINCDIRS  += $(UAVOBJSYNTHDIR)
 EXTRAINCDIRS  += $(FLIGHTLIBINC)
 EXTRAINCDIRS  += $(MATHLIBINC)
 EXTRAINCDIRS  += $(RSCODEINC)
-EXTRAINCDIRS  += $(PIOSSTM32F4XX)
-EXTRAINCDIRS  += $(PIOSCOMMON)
-EXTRAINCDIRS  += $(PIOSBOARDS)
+EXTRAINCDIRS  += $(plopSTM32F4XX)
+EXTRAINCDIRS  += $(plopCOMMON)
+EXTRAINCDIRS  += $(plopBOARDS)
 EXTRAINCDIRS  += $(STMSPDINCDIR)
 EXTRAINCDIRS  += $(CMSISDIR)
 EXTRAINCDIRS  += $(OPUAVSYNTHDIR)
@@ -254,7 +254,7 @@ EXTRA_LIBDIRS =
 EXTRA_LIBS =
 
 # Path to Linker-Scripts
-LINKERSCRIPTPATH = $(PIOSSTM32F4XX)
+LINKERSCRIPTPATH = $(plopSTM32F4XX)
 
 # Optimization level, can be [0, 1, 2, 3, s].
 # 0 = turn off optimization. s = optimize for size.
@@ -305,11 +305,11 @@ CDEFS += -DSYSCLK_FREQ=$(SYSCLK_FREQ)
 CDEFS += -DUSE_STDPERIPH_DRIVER
 CDEFS += -DUSE_$(BOARD)
 ifeq ($(ENABLE_DEBUG_CONSOLE), YES)
-CDEFS += -DPIOS_INCLUDE_DEBUG_CONSOLE
+CDEFS += -Dplop_INCLUDE_DEBUG_CONSOLE
 endif
 
 ifeq ($(ENABLE_DEBUG_CONSOLE), YES)
-CDEFS += -DPIOS_INCLUDE_DEBUG_CONSOLE
+CDEFS += -Dplop_INCLUDE_DEBUG_CONSOLE
 endif
 
 # Declare all non-optional modules as built-in to force inclusion

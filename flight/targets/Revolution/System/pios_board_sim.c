@@ -1,7 +1,7 @@
 /**
  ******************************************************************************
  *
- * @file       pios_board.c
+ * @file       plop_board.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
  * @brief      Defines board specific static initializers for hardware for the OpenPilot board.
  * @see        The GNU Public License (GPL) Version 3
@@ -23,11 +23,11 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
-#include <pios.h>
-#include "pios_board_sim.h"
-#include <pios_com_priv.h>
-#include <pios_tcp_priv.h>
-#include <pios_udp_priv.h>
+#include <plop.h>
+#include "plop_board_sim.h"
+#include <plop_com_priv.h>
+#include <plop_tcp_priv.h>
+#include <plop_udp_priv.h>
 #include <openpilot.h>
 #include <uavobjectsinit.h>
 
@@ -39,8 +39,8 @@
 #include "magnetometer.h"
 #include "manualcontrolsettings.h"
 
-#include "pios_rcvr_priv.h"
-#include "pios_gcsrcvr_priv.h"
+#include "plop_rcvr_priv.h"
+#include "plop_gcsrcvr_priv.h"
 
 void Stack_Change() {
 }
@@ -49,49 +49,49 @@ void Stack_Change_Weak() {
 }
 
 
-const struct pios_tcp_cfg pios_tcp_telem_cfg = {
+const struct plop_tcp_cfg plop_tcp_telem_cfg = {
   .ip = "0.0.0.0",
   .port = 9000,
 };
 
-const struct pios_udp_cfg pios_udp_telem_cfg = {
+const struct plop_udp_cfg plop_udp_telem_cfg = {
 	.ip = "0.0.0.0",
 	.port = 9000,
 };
 
-const struct pios_tcp_cfg pios_tcp_gps_cfg = {
+const struct plop_tcp_cfg plop_tcp_gps_cfg = {
   .ip = "0.0.0.0",
   .port = 9001,
 };
-const struct pios_tcp_cfg pios_tcp_debug_cfg = {
+const struct plop_tcp_cfg plop_tcp_debug_cfg = {
   .ip = "0.0.0.0",
   .port = 9002,
 };
 
-#ifdef PIOS_COM_AUX
+#ifdef plop_COM_AUX
 /*
  * AUX USART
  */
-const struct pios_tcp_cfg pios_tcp_aux_cfg = {
+const struct plop_tcp_cfg plop_tcp_aux_cfg = {
   .ip = "0.0.0.0",
   .port = 9003,
 };
 #endif
 
-#define PIOS_COM_TELEM_RF_RX_BUF_LEN 192
-#define PIOS_COM_TELEM_RF_TX_BUF_LEN 192
-#define PIOS_COM_GPS_RX_BUF_LEN 96
+#define plop_COM_TELEM_RF_RX_BUF_LEN 192
+#define plop_COM_TELEM_RF_TX_BUF_LEN 192
+#define plop_COM_GPS_RX_BUF_LEN 96
 
 /**
  * Simulation of the flash filesystem
  */
-#include "../../../tests/logfs/pios_flash_ut_priv.h"
-const struct pios_flash_ut_cfg flash_config = {
+#include "../../../tests/logfs/plop_flash_ut_priv.h"
+const struct plop_flash_ut_cfg flash_config = {
 	.size_of_flash  = 0x00300000,
 	.size_of_sector = 0x00010000,
 };
 
-#include "pios_flashfs_logfs_priv.h"
+#include "plop_flashfs_logfs_priv.h"
 
 const struct flashfs_logfs_cfg flashfs_config_partition_a = {
 	.fs_magic      = 0x89abceef,
@@ -115,32 +115,32 @@ const struct flashfs_logfs_cfg flashfs_config_partition_b = {
 	.page_size     = 0x00000100, /* 256 bytes */
 };
 
-uintptr_t pios_uavo_settings_fs_id;
-uintptr_t pios_waypoints_settings_fs_id;
+uintptr_t plop_uavo_settings_fs_id;
+uintptr_t plop_waypoints_settings_fs_id;
 
 /*
  * Board specific number of devices.
  */
-extern const struct pios_com_driver pios_serial_com_driver;
-extern const struct pios_com_driver pios_udp_com_driver;
-extern const struct pios_com_driver pios_tcp_com_driver;
+extern const struct plop_com_driver plop_serial_com_driver;
+extern const struct plop_com_driver plop_udp_com_driver;
+extern const struct plop_com_driver plop_tcp_com_driver;
 
-uint32_t pios_com_telem_rf_id;
-uint32_t pios_com_telem_usb_id;
-uint32_t pios_com_gps_id;
-uint32_t pios_com_aux_id;
-uint32_t pios_com_spectrum_id;
-uint32_t pios_rcvr_group_map[MANUALCONTROLSETTINGS_CHANNELGROUPS_NONE];
+uint32_t plop_com_telem_rf_id;
+uint32_t plop_com_telem_usb_id;
+uint32_t plop_com_gps_id;
+uint32_t plop_com_aux_id;
+uint32_t plop_com_spectrum_id;
+uint32_t plop_rcvr_group_map[MANUALCONTROLSETTINGS_CHANNELGROUPS_NONE];
 
 /**
- * PIOS_Board_Init()
+ * plop_Board_Init()
  * initializes all the core systems on this specific hardware
  * called from System/openpilot.c
  */
-void PIOS_Board_Init(void) {
+void plop_Board_Init(void) {
 
 	/* Delay system */
-	PIOS_DELAY_Init();
+	plop_DELAY_Init();
 
 	/* Initialize UAVObject libraries */
 	EventDispatcherInitialize();
@@ -161,89 +161,89 @@ void PIOS_Board_Init(void) {
 	TaskMonitorInitialize();
 
 	uintptr_t flash_id;
-	int32_t retval = PIOS_Flash_UT_Init(&flash_id, &flash_config);
+	int32_t retval = plop_Flash_UT_Init(&flash_id, &flash_config);
   	if (retval != 0)
 		fprintf(stderr, "Unable to initialize flash ut simulator: %d\n", retval);
 
-  	if(PIOS_FLASHFS_Logfs_Init(&pios_waypoints_settings_fs_id, &flashfs_config_partition_b, &pios_ut_flash_driver, flash_id) != 0)
+  	if(plop_FLASHFS_Logfs_Init(&plop_waypoints_settings_fs_id, &flashfs_config_partition_b, &plop_ut_flash_driver, flash_id) != 0)
 		fprintf(stderr, "Unable to open the waypoints partition\n");
 
 
-#if defined(PIOS_INCLUDE_COM)
-#if defined(PIOS_INCLUDE_TELEMETRY_RF) && 1
+#if defined(plop_INCLUDE_COM)
+#if defined(plop_INCLUDE_TELEMETRY_RF) && 1
 	{
-		uint32_t pios_tcp_telem_rf_id;
-		if (PIOS_TCP_Init(&pios_tcp_telem_rf_id, &pios_tcp_telem_cfg)) {
-			PIOS_Assert(0);
+		uint32_t plop_tcp_telem_rf_id;
+		if (plop_TCP_Init(&plop_tcp_telem_rf_id, &plop_tcp_telem_cfg)) {
+			plop_Assert(0);
 		}
 
-		uint8_t * rx_buffer = (uint8_t *) pvPortMalloc(PIOS_COM_TELEM_RF_RX_BUF_LEN);
-		uint8_t * tx_buffer = (uint8_t *) pvPortMalloc(PIOS_COM_TELEM_RF_TX_BUF_LEN);
-		PIOS_Assert(rx_buffer);
-		PIOS_Assert(tx_buffer);
-		if (PIOS_COM_Init(&pios_com_telem_rf_id, &pios_tcp_com_driver, pios_tcp_telem_rf_id,
-						  rx_buffer, PIOS_COM_TELEM_RF_RX_BUF_LEN,
-						  tx_buffer, PIOS_COM_TELEM_RF_TX_BUF_LEN)) {
-			PIOS_Assert(0);
+		uint8_t * rx_buffer = (uint8_t *) pvPortMalloc(plop_COM_TELEM_RF_RX_BUF_LEN);
+		uint8_t * tx_buffer = (uint8_t *) pvPortMalloc(plop_COM_TELEM_RF_TX_BUF_LEN);
+		plop_Assert(rx_buffer);
+		plop_Assert(tx_buffer);
+		if (plop_COM_Init(&plop_com_telem_rf_id, &plop_tcp_com_driver, plop_tcp_telem_rf_id,
+						  rx_buffer, plop_COM_TELEM_RF_RX_BUF_LEN,
+						  tx_buffer, plop_COM_TELEM_RF_TX_BUF_LEN)) {
+			plop_Assert(0);
 		}
 	}
-#endif /* PIOS_INCLUDE_TELEMETRY_RF */
+#endif /* plop_INCLUDE_TELEMETRY_RF */
 
-#if defined(PIOS_INCLUDE_TELEMETRY_RF) && 0
+#if defined(plop_INCLUDE_TELEMETRY_RF) && 0
 	{
-		uint32_t pios_udp_telem_rf_id;
-		if (PIOS_UDP_Init(&pios_udp_telem_rf_id, &pios_udp_telem_cfg)) {
-			PIOS_Assert(0);
+		uint32_t plop_udp_telem_rf_id;
+		if (plop_UDP_Init(&plop_udp_telem_rf_id, &plop_udp_telem_cfg)) {
+			plop_Assert(0);
 		}
 		
-		uint8_t * rx_buffer = (uint8_t *) pvPortMalloc(PIOS_COM_TELEM_RF_RX_BUF_LEN);
-		uint8_t * tx_buffer = (uint8_t *) pvPortMalloc(PIOS_COM_TELEM_RF_TX_BUF_LEN);
-		PIOS_Assert(rx_buffer);
-		PIOS_Assert(tx_buffer);
-		if (PIOS_COM_Init(&pios_com_telem_rf_id, &pios_udp_com_driver, pios_udp_telem_rf_id,
-						  rx_buffer, PIOS_COM_TELEM_RF_RX_BUF_LEN,
-						  tx_buffer, PIOS_COM_TELEM_RF_TX_BUF_LEN)) {
-			PIOS_Assert(0);
+		uint8_t * rx_buffer = (uint8_t *) pvPortMalloc(plop_COM_TELEM_RF_RX_BUF_LEN);
+		uint8_t * tx_buffer = (uint8_t *) pvPortMalloc(plop_COM_TELEM_RF_TX_BUF_LEN);
+		plop_Assert(rx_buffer);
+		plop_Assert(tx_buffer);
+		if (plop_COM_Init(&plop_com_telem_rf_id, &plop_udp_com_driver, plop_udp_telem_rf_id,
+						  rx_buffer, plop_COM_TELEM_RF_RX_BUF_LEN,
+						  tx_buffer, plop_COM_TELEM_RF_TX_BUF_LEN)) {
+			plop_Assert(0);
 		}
 	}
-#endif /* PIOS_INCLUDE_TELEMETRY_RF */
+#endif /* plop_INCLUDE_TELEMETRY_RF */
 
 
-#if defined(PIOS_INCLUDE_GPS)
+#if defined(plop_INCLUDE_GPS)
 	{
-		uint32_t pios_tcp_gps_id;
-		if (PIOS_TCP_Init(&pios_tcp_gps_id, &pios_tcp_gps_cfg)) {
-			PIOS_Assert(0);
+		uint32_t plop_tcp_gps_id;
+		if (plop_TCP_Init(&plop_tcp_gps_id, &plop_tcp_gps_cfg)) {
+			plop_Assert(0);
 		}
-		uint8_t * rx_buffer = (uint8_t *) pvPortMalloc(PIOS_COM_GPS_RX_BUF_LEN);
-		PIOS_Assert(rx_buffer);
-		if (PIOS_COM_Init(&pios_com_gps_id, &pios_tcp_com_driver, pios_tcp_gps_id,
-				  rx_buffer, PIOS_COM_GPS_RX_BUF_LEN,
+		uint8_t * rx_buffer = (uint8_t *) pvPortMalloc(plop_COM_GPS_RX_BUF_LEN);
+		plop_Assert(rx_buffer);
+		if (plop_COM_Init(&plop_com_gps_id, &plop_tcp_com_driver, plop_tcp_gps_id,
+				  rx_buffer, plop_COM_GPS_RX_BUF_LEN,
 				  NULL, 0)) {
-			PIOS_Assert(0);
+			plop_Assert(0);
 		}
 	}
-#endif	/* PIOS_INCLUDE_GPS */
+#endif	/* plop_INCLUDE_GPS */
 #endif
 
-#if defined(PIOS_INCLUDE_GCSRCVR)
+#if defined(plop_INCLUDE_GCSRCVR)
 	GCSReceiverInitialize();
-	uint32_t pios_gcsrcvr_id;
-	PIOS_GCSRCVR_Init(&pios_gcsrcvr_id);
-	uint32_t pios_gcsrcvr_rcvr_id;
-	if (PIOS_RCVR_Init(&pios_gcsrcvr_rcvr_id, &pios_gcsrcvr_rcvr_driver, pios_gcsrcvr_id)) {
-		PIOS_Assert(0);
+	uint32_t plop_gcsrcvr_id;
+	plop_GCSRCVR_Init(&plop_gcsrcvr_id);
+	uint32_t plop_gcsrcvr_rcvr_id;
+	if (plop_RCVR_Init(&plop_gcsrcvr_rcvr_id, &plop_gcsrcvr_rcvr_driver, plop_gcsrcvr_id)) {
+		plop_Assert(0);
 	}
-	pios_rcvr_group_map[MANUALCONTROLSETTINGS_CHANNELGROUPS_GCS] = pios_gcsrcvr_rcvr_id;
-#endif	/* PIOS_INCLUDE_GCSRCVR */
+	plop_rcvr_group_map[MANUALCONTROLSETTINGS_CHANNELGROUPS_GCS] = plop_gcsrcvr_rcvr_id;
+#endif	/* plop_INCLUDE_GCSRCVR */
 
 	// Register fake address.  Later if we really fake entire sensors then
 	// it will make sense to have real queues registered.  For now if these
 	// queues are used a crash is appropriate.
-	PIOS_SENSORS_Register(PIOS_SENSOR_ACCEL, (xQueueHandle) 1);
-	PIOS_SENSORS_Register(PIOS_SENSOR_GYRO, (xQueueHandle) 1);
-	PIOS_SENSORS_Register(PIOS_SENSOR_MAG, (xQueueHandle) 1);
-	PIOS_SENSORS_Register(PIOS_SENSOR_BARO, (xQueueHandle) 1);
+	plop_SENSORS_Register(plop_SENSOR_ACCEL, (xQueueHandle) 1);
+	plop_SENSORS_Register(plop_SENSOR_GYRO, (xQueueHandle) 1);
+	plop_SENSORS_Register(plop_SENSOR_MAG, (xQueueHandle) 1);
+	plop_SENSORS_Register(plop_SENSOR_BARO, (xQueueHandle) 1);
 }
 
 /**

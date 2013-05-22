@@ -2,7 +2,7 @@
  ******************************************************************************
  * @addtogroup OpenPilotSystem OpenPilot System
  * @brief These files are the core system files of OpenPilot.
- * They are the ground layer just above PiOS. In practice, OpenPilot actually starts
+ * They are the ground layer just above plop. In practice, OpenPilot actually starts
  * in the main() function of openpilot.c
  * @{
  * @addtogroup OpenPilotCore OpenPilot Core
@@ -61,8 +61,8 @@ static void TaskSDCard(void *pvParameters);
 int32_t CONSOLE_Parse(uint8_t port, char c);
 void OP_ADC_NotifyChange(uint32_t pin, uint32_t pin_value);
 
-/* Prototype of PIOS_Board_Init() function */
-extern void PIOS_Board_Init(void);
+/* Prototype of plop_Board_Init() function */
+extern void plop_Board_Init(void);
 extern void Stack_Change(void);
 static void Stack_Change_Weak () __attribute__ ((weakref ("Stack_Change")));
 
@@ -80,7 +80,7 @@ extern void InitModules(void);
 /**
 * OpenPilot Main function:
 *
-* Initialize PiOS<BR>
+* Initialize plop<BR>
 * Create the "System" task (SystemModInitializein Modules/System/systemmod.c) <BR>
 * Start FreeRTOS Scheduler (vTaskStartScheduler)<BR>
 * If something goes wrong, blink LED1 and LED2 every 100ms
@@ -95,24 +95,24 @@ int main()
 	vPortInitialiseBlocks();  
 
 	/* Brings up System using CMSIS functions, enables the LEDs. */
-	PIOS_SYS_Init();
+	plop_SYS_Init();
 	
 	/* For Revolution we use a FreeRTOS task to bring up the system so we can */
 	/* always rely on FreeRTOS primitive */
 	result = xTaskCreate(initTask, (const signed char *)"init",
 						 INIT_TASK_STACK, NULL, INIT_TASK_PRIORITY,
 						 &initTaskHandle);
-	PIOS_Assert(result == pdPASS);
+	plop_Assert(result == pdPASS);
 	
 	/* Start the FreeRTOS scheduler */
 	vTaskStartScheduler();
 
 	/* If all is well we will never reach here as the scheduler will now be running. */
-	/* Do some PIOS_LED_HEARTBEAT to user that something bad just happened */
-	PIOS_LED_Off(PIOS_LED_HEARTBEAT); \
+	/* Do some plop_LED_HEARTBEAT to user that something bad just happened */
+	plop_LED_Off(plop_LED_HEARTBEAT); \
 	for(;;) { \
-		PIOS_LED_Toggle(PIOS_LED_HEARTBEAT); \
-		PIOS_DELAY_WaitmS(100); \
+		plop_LED_Toggle(plop_LED_HEARTBEAT); \
+		plop_DELAY_WaitmS(100); \
 	};
 
 	return 0;
@@ -126,7 +126,7 @@ void
 initTask(void *parameters)
 {
 	/* board driver init */
-	PIOS_Board_Init();
+	plop_Board_Init();
 	
 	/* Initialize modules */
 	MODULE_INITIALISE_ALL;

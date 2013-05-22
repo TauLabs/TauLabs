@@ -5,11 +5,11 @@
  * @addtogroup OpenPilotCore OpenPilot Core
  * @{
  *
- * @file       pios_config.h  
+ * @file       plop_config.h  
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
- * @brief      PiOS configuration header. 
+ * @brief      plop configuration header. 
  *             Central compile time config for the project.
- *             In particular, pios_config.h is where you define which PiOS libraries
+ *             In particular, plop_config.h is where you define which plop libraries
  *             and features are included in the firmware.
  * @see        The GNU Public License (GPL) Version 3
  *
@@ -31,80 +31,80 @@
  */
 
 
-#ifndef PIOS_CONFIG_H
-#define PIOS_CONFIG_H
+#ifndef plop_CONFIG_H
+#define plop_CONFIG_H
 
 /* Major features */
-#define PIOS_INCLUDE_FREERTOS
-#define PIOS_INCLUDE_BL_HELPER
+#define plop_INCLUDE_FREERTOS
+#define plop_INCLUDE_BL_HELPER
 
-/* Enable/Disable PiOS Modules */
-#define PIOS_INCLUDE_ADC
-#define PIOS_INCLUDE_DELAY
-#define PIOS_INCLUDE_I2C
-#define PIOS_I2C_DIAGNOSTICS
+/* Enable/Disable plop Modules */
+#define plop_INCLUDE_ADC
+#define plop_INCLUDE_DELAY
+#define plop_INCLUDE_I2C
+#define plop_I2C_DIAGNOSTICS
 #define I2C_WDG_STATS_DIAGNOSTICS
-#define PIOS_INCLUDE_IRQ
-#define PIOS_INCLUDE_LED
-#define PIOS_INCLUDE_IAP
-#define PIOS_INCLUDE_SERVO
-#define PIOS_INCLUDE_SPI
-#define PIOS_INCLUDE_SYS
-#define PIOS_INCLUDE_USART
-#define PIOS_INCLUDE_USB
-#define PIOS_INCLUDE_USB_HID
-#define PIOS_INCLUDE_USB_CDC
-//#define PIOS_INCLUDE_GPIO
-#define PIOS_INCLUDE_EXTI
-#define PIOS_INCLUDE_RTC
-#define PIOS_INCLUDE_WDG
+#define plop_INCLUDE_IRQ
+#define plop_INCLUDE_LED
+#define plop_INCLUDE_IAP
+#define plop_INCLUDE_SERVO
+#define plop_INCLUDE_SPI
+#define plop_INCLUDE_SYS
+#define plop_INCLUDE_USART
+#define plop_INCLUDE_USB
+#define plop_INCLUDE_USB_HID
+#define plop_INCLUDE_USB_CDC
+//#define plop_INCLUDE_GPIO
+#define plop_INCLUDE_EXTI
+#define plop_INCLUDE_RTC
+#define plop_INCLUDE_WDG
 
 /* Variables related to the RFM22B functionality */
-#define PIOS_INCLUDE_RFM22B
-#define PIOS_INCLUDE_RFM22B_COM
+#define plop_INCLUDE_RFM22B
+#define plop_INCLUDE_RFM22B_COM
  
 /* Select the sensors to include */
-#define PIOS_INCLUDE_HMC5883
-#define PIOS_HMC5883_HAS_GPIOS
-#define PIOS_INCLUDE_MPU6000
-#define PIOS_MPU6000_ACCEL
-#define PIOS_INCLUDE_MS5611
-//#define PIOS_INCLUDE_ETASV3
-//#define PIOS_INCLUDE_HCSR04
+#define plop_INCLUDE_HMC5883
+#define plop_HMC5883_HAS_Gplop
+#define plop_INCLUDE_MPU6000
+#define plop_MPU6000_ACCEL
+#define plop_INCLUDE_MS5611
+//#define plop_INCLUDE_ETASV3
+//#define plop_INCLUDE_HCSR04
 #define FLASH_FREERTOS
 /* Com systems to include */
-#define PIOS_INCLUDE_COM
-#define PIOS_INCLUDE_COM_TELEM
-#define PIOS_INCLUDE_COM_FLEXI
+#define plop_INCLUDE_COM
+#define plop_INCLUDE_COM_TELEM
+#define plop_INCLUDE_COM_FLEXI
 
-#define PIOS_INCLUDE_GPS
-#define PIOS_INCLUDE_GPS_NMEA_PARSER
-#define PIOS_INCLUDE_GPS_UBX_PARSER
-#define PIOS_GPS_SETS_HOMELOCATION
+#define plop_INCLUDE_GPS
+#define plop_INCLUDE_GPS_NMEA_PARSER
+#define plop_INCLUDE_GPS_UBX_PARSER
+#define plop_GPS_SETS_HOMELOCATION
 
 /* Supported receiver interfaces */
-#define PIOS_INCLUDE_RCVR
-#define PIOS_INCLUDE_DSM
-//#define PIOS_INCLUDE_SBUS
-#define PIOS_INCLUDE_PPM
-#define PIOS_INCLUDE_PWM
-#define PIOS_INCLUDE_GCSRCVR
+#define plop_INCLUDE_RCVR
+#define plop_INCLUDE_DSM
+//#define plop_INCLUDE_SBUS
+#define plop_INCLUDE_PPM
+#define plop_INCLUDE_PWM
+#define plop_INCLUDE_GCSRCVR
 
-#define PIOS_INCLUDE_SETTINGS
-#define PIOS_INCLUDE_FLASH
+#define plop_INCLUDE_SETTINGS
+#define plop_INCLUDE_FLASH
 /* A really shitty setting saving implementation */
-#define PIOS_INCLUDE_FLASH_SECTOR_SETTINGS
+#define plop_INCLUDE_FLASH_SECTOR_SETTINGS
 
-//#define PIOS_INCLUDE_DEBUG_CONSOLE
+//#define plop_INCLUDE_DEBUG_CONSOLE
 
 /* Other Interfaces */
-//#define PIOS_INCLUDE_I2C_ESC
+//#define plop_INCLUDE_I2C_ESC
 
 /* Flags that alter behaviors - mostly to lower resources for CC */
-#define PIOS_INCLUDE_INITCALL           /* Include init call structures */
-#define PIOS_TELEM_PRIORITY_QUEUE       /* Enable a priority queue in telemetry */
-//#define PIOS_QUATERNION_STABILIZATION   /* Stabilization options */
-#define PIOS_GPS_SETS_HOMELOCATION      /* GPS options */
+#define plop_INCLUDE_INITCALL           /* Include init call structures */
+#define plop_TELEM_PRIORITY_QUEUE       /* Enable a priority queue in telemetry */
+//#define plop_QUATERNION_STABILIZATION   /* Stabilization options */
+#define plop_GPS_SETS_HOMELOCATION      /* GPS options */
 
 /* Alarm Thresholds */
 #define HEAP_LIMIT_WARNING		1000
@@ -129,7 +129,7 @@
 
 #define REVOLUTION
 
-#endif /* PIOS_CONFIG_H */
+#endif /* plop_CONFIG_H */
 /**
  * @}
  * @}

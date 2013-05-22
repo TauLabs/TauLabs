@@ -19,7 +19,7 @@
  *----------------------------------------------------------*/
 
 /**
-  * @addtogroup PIOS PIOS
+  * @addtogroup plop plop
   * @{
   * @addtogroup FreeRTOS FreeRTOS
   * @{
