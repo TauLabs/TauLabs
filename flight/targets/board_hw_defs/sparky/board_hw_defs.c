@@ -888,6 +888,7 @@ static const struct pios_tim_channel pios_tim_servoport_v02_pins[] = {
 			.pin_source = GPIO_PinSource7,
 		},
 	},
+#if !defined(PIOS_INCLUDE_ADC)	
 	{ // Ch9 TIM3_CH2  (PA4)
 		.timer = TIM3,
 		.timer_chan = TIM_Channel_2,
@@ -920,6 +921,7 @@ static const struct pios_tim_channel pios_tim_servoport_v02_pins[] = {
 			.pin_source = GPIO_PinSource1,
 		},
 	},
+#endif  /* PIOS_INCLUDE_ADC */
 };
 
 
