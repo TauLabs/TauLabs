@@ -2,7 +2,7 @@
  ******************************************************************************
  * @file       waypointdelegate.h
  * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013.
- * @addtogroup PhoenixPilot GCS Plugins
+ * @addtogroup TauLabs GCS Plugins
  * @{
  * @addtogroup PathPlanner Map Plugin
  * @{
