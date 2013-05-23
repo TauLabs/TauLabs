@@ -7,7 +7,7 @@
  * @{
  *
  * @file       pios_pcf8591_adc.c
- * @author     The Tau Labs Team, http://www.taulabs.org Copyright (C) 2013.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013.
  * @brief      PCF8591 ADC driver
  * @see        The GNU Public License (GPL) Version 3
  *
