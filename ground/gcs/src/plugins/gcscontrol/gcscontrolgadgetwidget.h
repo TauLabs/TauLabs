@@ -50,6 +50,7 @@ public:
 signals:
     //! Emitted whenever the UI is clicked on to indicate the new stick positions
     void sticksChanged(double leftX, double leftY, double rightX, double rightY);
+    void controlEnabled(bool);
 
 public slots:
     //! Signals from parent gadget indicating change from the remote system
@@ -68,7 +69,6 @@ protected slots:
 
 private:
     Ui_GCSControl *m_gcscontrol;
-    UAVObject::Metadata mccInitialData;
     double leftX,leftY,rightX,rightY;
 };
 
