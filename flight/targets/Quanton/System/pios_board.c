@@ -43,6 +43,9 @@
 #include "modulesettings.h"
 
 
+/**
+ * Sensor configurations
+ */
 #if defined(PIOS_INCLUDE_HMC5883)
 #include "pios_hmc5883.h"
 static const struct pios_exti_cfg pios_exti_hmc5883_cfg __exti_config = {
@@ -179,6 +182,7 @@ uintptr_t pios_com_overo_id;
 uintptr_t pios_com_mavlink_id;
 uintptr_t pios_uavo_settings_fs_id;
 uintptr_t pios_waypoints_settings_fs_id;
+uintptr_t pios_internal_adc_id;
 
 /*
  * Setup a com port based on the passed cfg, driver and buffer sizes. rx or tx size of 0 disables rx or tx
@@ -885,8 +889,24 @@ void PIOS_Board_Init(void) {
 		}
 #endif	/* PIOS_INCLUDE_PWM */
 		break;
+	case HWQUANTON_RCVRPORT_PWMADC:
+#if defined(PIOS_INCLUDE_PWM)
+		{
+			uint32_t pios_pwm_id;
+			PIOS_PWM_Init(&pios_pwm_id, &pios_pwm_with_adc_cfg);
+
+			uint32_t pios_pwm_rcvr_id;
+			if (PIOS_RCVR_Init(&pios_pwm_rcvr_id, &pios_pwm_rcvr_driver, pios_pwm_id)) {
+				PIOS_Assert(0);
+			}
+			pios_rcvr_group_map[MANUALCONTROLSETTINGS_CHANNELGROUPS_PWM] = pios_pwm_rcvr_id;
+		}
+#endif	/* PIOS_INCLUDE_PWM */
+		break;
 	case HWQUANTON_RCVRPORT_PPM:
+	case HWQUANTON_RCVRPORT_PPMADC:
 	case HWQUANTON_RCVRPORT_PPMOUTPUTS:
+	case HWQUANTON_RCVRPORT_PPMOUTPUTSADC:
 #if defined(PIOS_INCLUDE_PPM)
 		{
 			uint32_t pios_ppm_id;
@@ -927,6 +947,33 @@ void PIOS_Board_Init(void) {
 		}
 #endif	/* PIOS_INCLUDE_PWM */
 		break;
+	case HWQUANTON_RCVRPORT_PPMPWMADC:
+		/* This is a combination of PPM and PWM inputs with IN6 and IN7 free for adc */
+#if defined(PIOS_INCLUDE_PPM)
+		{
+			uint32_t pios_ppm_id;
+			PIOS_PPM_Init(&pios_ppm_id, &pios_ppm_cfg);
+
+			uint32_t pios_ppm_rcvr_id;
+			if (PIOS_RCVR_Init(&pios_ppm_rcvr_id, &pios_ppm_rcvr_driver, pios_ppm_id)) {
+				PIOS_Assert(0);
+			}
+			pios_rcvr_group_map[MANUALCONTROLSETTINGS_CHANNELGROUPS_PPM] = pios_ppm_rcvr_id;
+		}
+#endif	/* PIOS_INCLUDE_PPM */
+#if defined(PIOS_INCLUDE_PWM)
+		{
+			uint32_t pios_pwm_id;
+			PIOS_PWM_Init(&pios_pwm_id, &pios_pwm_with_ppm_with_adc_cfg);
+
+			uint32_t pios_pwm_rcvr_id;
+			if (PIOS_RCVR_Init(&pios_pwm_rcvr_id, &pios_pwm_rcvr_driver, pios_pwm_id)) {
+				PIOS_Assert(0);
+			}
+			pios_rcvr_group_map[MANUALCONTROLSETTINGS_CHANNELGROUPS_PWM] = pios_pwm_rcvr_id;
+		}
+#endif	/* PIOS_INCLUDE_PWM */
+		break;
 	}
 
 
@@ -945,7 +992,9 @@ void PIOS_Board_Init(void) {
 	switch (hw_rcvrport) {
 		case HWQUANTON_RCVRPORT_DISABLED:
 		case HWQUANTON_RCVRPORT_PWM:
+		case HWQUANTON_RCVRPORT_PWMADC:
 		case HWQUANTON_RCVRPORT_PPM:
+		case HWQUANTON_RCVRPORT_PPMADC:
 			/* Set up the servo outputs */
 #ifdef PIOS_INCLUDE_SERVO
 			PIOS_Servo_Init(&pios_servo_cfg);
@@ -954,7 +1003,13 @@ void PIOS_Board_Init(void) {
 		case HWQUANTON_RCVRPORT_PPMOUTPUTS:
 		case HWQUANTON_RCVRPORT_OUTPUTS:
 #ifdef PIOS_INCLUDE_SERVO
-			PIOS_Servo_Init(&pios_servo_rcvr_cfg);
+			PIOS_Servo_Init(&pios_servo_with_rcvr_cfg);
+#endif
+			break;
+		case HWQUANTON_RCVRPORT_PPMOUTPUTSADC:
+		case HWQUANTON_RCVRPORT_OUTPUTSADC:
+#ifdef PIOS_INCLUDE_SERVO
+			PIOS_Servo_Init(&pios_servo_with_rcvr_with_adc_cfg);
 #endif
 			break;
 	}
@@ -1065,10 +1120,18 @@ void PIOS_Board_Init(void) {
 #endif
 
 #if defined(PIOS_INCLUDE_ADC)
-	PIOS_ADC_Init(&pios_adc_cfg);
+	if (hw_rcvrport == HWQUANTON_RCVRPORT_PWMADC ||
+			hw_rcvrport == HWQUANTON_RCVRPORT_PPMADC ||
+			hw_rcvrport == HWQUANTON_RCVRPORT_PPMPWMADC ||
+			hw_rcvrport == HWQUANTON_RCVRPORT_OUTPUTSADC ||
+			hw_rcvrport == HWQUANTON_RCVRPORT_PPMOUTPUTSADC) {
+		uint32_t internal_adc_id;
+		PIOS_INTERNAL_ADC_Init(&internal_adc_id, &pios_adc_cfg);
+		PIOS_ADC_Init(&pios_internal_adc_id, &pios_internal_adc_driver, internal_adc_id);
+	}
 #endif
 
-	//Set adc input to floating as long as it is unused
+	//Set battery input pin to floating as long as it is unused
 	GPIO_InitTypeDef GPIO_InitStructure;
 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN;
 	GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
