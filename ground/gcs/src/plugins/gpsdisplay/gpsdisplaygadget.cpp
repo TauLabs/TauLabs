@@ -98,7 +98,6 @@ void GpsDisplayGadget::loadConfiguration(IUAVGadgetConfiguration* config)
         }
         m_widget->dataStreamGroupBox->setHidden(false);
     } else if (gpsDisplayConfig->connectionMode() == "Telemetry") {
-        qDebug() << "Using Telemetry parser";
         parser = new TelemetryParser();
         m_widget->disconnectButton->setHidden(true);
         m_widget->connectButton->setHidden(true);
