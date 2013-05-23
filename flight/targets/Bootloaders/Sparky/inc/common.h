@@ -5,7 +5,7 @@
  *
  * @{
  * @file       common.c
- * @author     Tau Labs, http://github.com/TauLabs, Copyright (C) 2013.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
  * @brief      This file contains various common defines for the BootLoader
  * @see        The GNU Public License (GPL) Version 3
  *

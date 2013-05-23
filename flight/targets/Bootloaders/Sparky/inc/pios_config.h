@@ -2,7 +2,7 @@
  ******************************************************************************
  *
  * @file       pios_config.h  
- * @author     Tau Labs, http://github.com/TauLabs Copyright (C) 2013.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
  * @brief      PiOS configuration header. 
  *                 - Central compile time config for the project.
  * @see        The GNU Public License (GPL) Version 3

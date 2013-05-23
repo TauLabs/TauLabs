@@ -5,7 +5,7 @@
  *
  * @{
  * @file       main.c
- * @author     TauLabs, http://github.com/TauLabs, Copyright (C) 2013.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
  * @brief      This is the file with the main function of the Revolution BootLoader
  * @see        The GNU Public License (GPL) Version 3
  * 

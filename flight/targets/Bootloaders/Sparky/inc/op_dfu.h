@@ -2,7 +2,7 @@
  ******************************************************************************
  *
  * @file       op_dfu.h
- * @author     Tau Labs, http://github.com/TauLabs, Copyright (C) 2013.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
  * @brief
  * @see        The GNU Public License (GPL) Version 3
  *
