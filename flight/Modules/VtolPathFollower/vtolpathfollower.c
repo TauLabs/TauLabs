@@ -2,7 +2,7 @@
  ******************************************************************************
  * @file       vtolpathfollower.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
  * @brief      This module compared @ref PositionActual to @ref PathDesired 
  * and sets @ref Stabilization.  It only does this when the FlightMode field
  * of @ref FlightStatus is PathPlanner or RTH.

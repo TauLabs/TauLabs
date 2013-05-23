@@ -1,7 +1,7 @@
 /**
  ******************************************************************************
  * @file       alarmsmonitorwidget.h
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
  * @addtogroup GCSPlugins GCS Plugins
  * @{
  * @addtogroup CorePlugin Core Plugin

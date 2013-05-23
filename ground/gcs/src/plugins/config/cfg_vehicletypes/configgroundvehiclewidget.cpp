@@ -3,7 +3,7 @@
  *
  * @file       configgroundvehiclemwidget.cpp
  * @author     K. Sebesta & The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
- * @author     Tau Labs, http://taulabs.org, Copyright 2013.
+ * @author     Tau Labs, http://taulabs.org, Copyright 2013
  * @addtogroup GCSPlugins GCS Plugins
  * @{
  * @addtogroup ConfigPlugin Config Plugin

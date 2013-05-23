@@ -7,7 +7,7 @@
  * @{
  *
  * @file       control.c
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
  * @brief      ManualControl module. Handles safety R/C link and flight mode.
  *
  * @see        The GNU Public License (GPL) Version 3

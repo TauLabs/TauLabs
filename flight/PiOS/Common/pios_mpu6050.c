@@ -8,7 +8,7 @@
  *
  * @file       pios_mpu6050.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
  * @brief      MPU6050 6-axis gyro and accel chip
  * @see        The GNU Public License (GPL) Version 3
  *

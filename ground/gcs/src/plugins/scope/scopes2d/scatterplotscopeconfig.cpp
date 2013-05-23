@@ -2,7 +2,7 @@
  ******************************************************************************
  *
  * @file       scatterplotscope.cpp
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
  * @addtogroup GCSPlugins GCS Plugins
  * @{
  * @addtogroup ScopePlugin Scope Gadget Plugin

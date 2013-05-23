@@ -7,7 +7,7 @@
  * @{
  *
  * @file       pios_pcf8591_adc_priv.h
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
  * @brief      PCF8591 ADC private definitions.
  * @see        The GNU Public License (GPL) Version 3
  *
