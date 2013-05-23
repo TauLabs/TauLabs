@@ -3,7 +3,7 @@
  *
  * @file       scopegadgetwidget.h
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
- * @author     Tau Labs, http://www.taulabs.org Copyright (C) 2013.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013.
  * @brief      Scope Plugin Gadget Widget
  * @see        The GNU Public License (GPL) Version 3
  * @defgroup   scopeplugin

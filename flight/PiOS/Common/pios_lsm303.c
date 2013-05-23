@@ -1,7 +1,7 @@
 /**
  ******************************************************************************
  * @file       pios_lsm303.c
- * @author     Tau Labs, http://www.taulabs.org Copyright (C) 2013.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013.
  * @addtogroup PIOS PIOS Core hardware abstraction layer
  * @{
  * @addtogroup PIOS_LSM303 LSM303 Functions

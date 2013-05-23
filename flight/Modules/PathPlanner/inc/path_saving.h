@@ -1,7 +1,7 @@
 /**
  ******************************************************************************
  * @file       path_saving.h
- * @author     Tau Labs, http://www.taulabs.org Copyright (C) 2013.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013.
  * @brief      Functions for loading and saving paths
  * @addtogroup TauLabsModules Tau Labs Modules
  * @{
