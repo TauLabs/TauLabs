@@ -2,7 +2,7 @@
  ******************************************************************************
  * @file       i2c_vm_asm.h
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
- * @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2012
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012
  * @addtogroup I2C VirtualMachines
  * @{
  * @addtogroup 
