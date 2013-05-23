@@ -226,8 +226,26 @@ extern uintptr_t pios_com_debug_id;
 
 //-------------------------
 // ADC
-// None.
+// ADC0 : PA1 ADC1_IN2
+// ADC1 : PA4 ADC2_IN1
+// ADC2 : PA7 ADC2_IN4 (disabled by default and should have external resistor)
 //-------------------------
+#define PIOS_INTERNAL_ADC_MAX_INSTANCES          4
+#define PIOS_INTERNAL_ADC_COUNT                  4
+#define PIOS_INTERNAL_ADC_MAPPING                { ADC1, ADC2, ADC3, ADC4 }
+
+#if defined(PIOS_INCLUDE_ADC)
+extern uintptr_t pios_internal_adc_id;
+#define PIOS_INTERNAL_ADC                               (pios_internal_adc_id)
+#endif
+#define PIOS_ADC_SUB_DRIVER_MAX_INSTANCES       3
+
+//-------------------------
+// DMA
+//-------------------------
+#define PIOS_DMA_MAX_CHANNELS                   12
+#define PIOS_DMA_MAX_HANDLERS_PER_CHANNEL       3
+#define PIOS_DMA_CHANNELS {DMA1_Channel1, DMA1_Channel2, DMA1_Channel3, DMA1_Channel4, DMA1_Channel5, DMA1_Channel6, DMA1_Channel7, DMA2_Channel1, DMA2_Channel2, DMA2_Channel3, DMA2_Channel4, DMA2_Channel5}
 
 //-------------------------
 // USB
