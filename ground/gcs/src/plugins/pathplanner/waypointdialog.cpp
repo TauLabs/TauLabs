@@ -38,10 +38,10 @@ WaypointDialog::WaypointDialog(QWidget *parent, QAbstractItemModel *model,QItemS
     connect(ui->cbMode,SIGNAL(currentIndexChanged(int)),this,SLOT(setupModeWidgets()));
 
     // Connect up the buttons
-    connect(ui->pushButtonOK, SIGNAL(clicked()), this, SLOT(on_okButton_clicked()));
-    connect(ui->pushButtonCancel, SIGNAL(clicked()), this, SLOT(on_cancelButton_clicked()));
-    connect(ui->pushButtonPrevious, SIGNAL(clicked()), this, SLOT(on_previousButton_clicked()));
-    connect(ui->pushButtonNext, SIGNAL(clicked()), this, SLOT(on_nextButton_clicked()));
+    connect(ui->pushButtonOK, SIGNAL(clicked()), this, SLOT(onOkButton_clicked()));
+    connect(ui->pushButtonCancel, SIGNAL(clicked()), this, SLOT(onCancelButton_clicked()));
+    connect(ui->pushButtonPrevious, SIGNAL(clicked()), this, SLOT(onPreviousButton_clicked()));
+    connect(ui->pushButtonNext, SIGNAL(clicked()), this, SLOT(onNextButton_clicked()));
 
     mapper = new QDataWidgetMapper(this);
 
@@ -145,27 +145,27 @@ void WaypointDialog::editWaypoint(int number)
 }
 
 //! Close the dialog button, accept the changes
-void WaypointDialog::on_okButton_clicked()
+void WaypointDialog::onOkButton_clicked()
 {
     mapper->submit();
     close();
 }
 
 //! Close the dialog button, revert any changes
-void WaypointDialog::on_cancelButton_clicked()
+void WaypointDialog::onCancelButton_clicked()
 {
     mapper->revert();
     close();
 }
 
 //! User requests the previous waypoint
-void WaypointDialog::on_previousButton_clicked()
+void WaypointDialog::onPreviousButton_clicked()
 {
     mapper->toPrevious();
 }
 
 //! User requests the next waypoint
-void WaypointDialog::on_nextButton_clicked()
+void WaypointDialog::onNextButton_clicked()
 {
     mapper->toNext();
 }
