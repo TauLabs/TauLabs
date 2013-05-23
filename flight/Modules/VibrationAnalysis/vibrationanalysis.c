@@ -2,7 +2,7 @@
  ******************************************************************************
  *
  * @file       vibrationanalysis.c
- * @author     Tau Labs, http://www.taulabs.org Copyright (C) 2013.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
  * @brief      VibrationAnalysis module 
  *
  * @see        The GNU Public License (GPL) Version 3

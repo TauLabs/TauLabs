@@ -1,7 +1,7 @@
 /**
  *****************************************************************************
  * @file       pios_board.c
- * @author     Tau Labs, http://www.taulabs.org, Copyright (C) 2012-2013
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
  * @addtogroup Freedom Freedom configuration files
  * @{
  * @addtogroup 

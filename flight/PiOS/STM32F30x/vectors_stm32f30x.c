@@ -5,7 +5,7 @@
  *
  * @file       vector_stm32f4xx.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
- * @author     Tau Labs, http://github.com/TauLabs, Copyright (C) 2012-2013
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
  * @brief      C based vectors for F4
  * @see        The GNU Public License (GPL) Version 3
  *
