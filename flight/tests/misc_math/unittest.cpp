@@ -56,6 +56,7 @@ protected:
   }
 };
 
+
 // Test fixture for bound_min_max()
 class BoundMinMax : public MiscMath {
 protected:
@@ -175,6 +176,7 @@ TEST_F(BoundSym, NonZeroRange) {
   EXPECT_EQ(range, bound_sym(range + 1.0f, range));
 };
 
+
 // Test fixture for circular_modulus_deg()
 class CircularModulus : public MiscMath {
 protected:
@@ -264,5 +266,181 @@ TEST_F(CircularModulus, SweepError) {
       ASSERT_NEAR(error, circular_modulus_deg(test_inputs[i]), eps);
       ASSERT_NEAR(error * DEG2RAD, circular_modulus_rad(test_inputs[i] * DEG2RAD), eps);
     }
+  }
+};
+
+
+// Test fixture for find_arc_center()
+class FindArcCenter : public MiscMath {
+protected:
+  virtual void SetUp() {
+  }
+
+  virtual void TearDown() {
+  }
+};
+
+TEST_F(FindArcCenter, ArcCenterExists) {
+  float eps = 0.0001f;
+  float center[2];
+  enum arc_center_results ret;
+
+  for (int i=0; i< 10; i++){
+    float radius = 1.1;
+    float center0[2] = {pow(1.1, i), pow(-0.9, i)}; // pseudo-random center
+	float theta[2] = {0, 2*PI/11};
+	bool arc_minor = i%2;
+	bool arc_sense = i%2;
+    float start_point[2] = {center0[0] + radius*cosf(theta[0]), center0[1] + radius*sinf(theta[0])};
+    float end_point[2]   = {center0[0] + radius*cosf(theta[1]), center0[1] + radius*sinf(theta[1])};
+    ret = find_arc_center(start_point, end_point, radius, arc_sense, arc_minor, center);
+
+    // Test lower bounding when min = max with (val < min)
+    EXPECT_EQ(ARC_CENTER_FOUND, ret);
+    ASSERT_NEAR(center0[0], center[0], eps);
+    ASSERT_NEAR(center0[1], center[1], eps);
+  }
+};
+
+TEST_F(FindArcCenter, ArcCenterBarelyExists) {
+  // Test a .5% error in radius
+  float radius_scale_error = 1.005;
+  float center[2];
+  enum arc_center_results ret;
+
+  for (int i=0; i< 10; i++){
+    float radius = 1.1;
+    float center0[2] = {pow(1.1, i), pow(-0.9, i)}; // pseudo-random center
+	float theta[2] = {0, 2*PI/11};
+	bool arc_minor = i%2;
+	bool arc_sense = i%2;
+    float start_point[2] = {center0[0] + radius_scale_error*radius*cosf(theta[0]), center0[1] + radius_scale_error*radius*sinf(theta[0])};
+    float end_point[2]   = {center0[0] + radius_scale_error*radius*cosf(theta[1]), center0[1] + radius_scale_error*radius*sinf(theta[1])};
+	ret = find_arc_center(start_point, end_point, radius, arc_sense, arc_minor, center);
+
+    // Test lower bounding when min = max with (val < min)
+    EXPECT_EQ(ARC_CENTER_FOUND, ret);
+    ASSERT_NEAR(center0[0], center[0], radius*(radius_scale_error - 1+.001));
+    ASSERT_NEAR(center0[1], center[1], radius*(radius_scale_error - 1+.001));
+  }
+};
+
+TEST_F(FindArcCenter, ArcCenterDoesNotExist) {
+  // Test a 1.5% error in radius
+  float radius_scale_error = 1.15;
+  float center[2];
+  enum arc_center_results ret;
+
+  for (int i=0; i< 10; i++){
+	float radius = 1.1;
+    float center0[2] = {pow(1.1, i), pow(-0.9, i)}; // pseudo-random center
+	float theta[2] = {0, 2*PI/11};
+	bool arc_minor = i%2;
+	bool arc_sense = i%2;
+    float start_point[2] = {center0[0] + radius_scale_error*radius*cosf(theta[0]), center0[1] + radius_scale_error*radius*sinf(theta[0])};
+    float end_point[2]   = {center0[0] + radius_scale_error*radius*cosf(theta[0]+PI), center0[1] + radius_scale_error*radius*sinf(theta[0]+PI)};
+	ret = find_arc_center(start_point, end_point, radius, arc_sense, arc_minor, center);
+
+    // Test lower bounding when min = max with (val < min)
+    EXPECT_EQ(ARC_INSUFFICIENT_RADIUS, ret);
+  }
+}
+
+TEST_F(FindArcCenter, CoincidentInputs) {
+  float center[2];
+  enum arc_center_results ret;
+
+  for (int i=0; i< 10; i++){
+    float radius = 1.1;
+    float center0[2] = {pow(1.1, i), pow(-0.9, i)}; // pseudo-random center
+    float theta = expf(i); // pseudo-random angles
+    float start_point[2] = {center0[0] + radius*cosf(theta), center0[1] + radius*sinf(theta)};
+    ret = find_arc_center(start_point, start_point, radius, i%2, i%2, center);
+
+    // Test lower bounding when min = max with (val < min)
+    EXPECT_EQ(ARC_COINCIDENT_POINTS, ret);
+  }
+}
+
+
+// Test fixture for measure_arc_rad()
+class MeasureArcRad : public MiscMath {
+protected:
+  virtual void SetUp() {
+  }
+
+  virtual void TearDown() {
+  }
+};
+
+TEST_F(MeasureArcRad, SeparatedPoints) {
+  float eps = 0.005f;
+  float phi;
+  for (int i=0; i< 10; i++){
+    float radius = exp(i);
+    float center0[2] = {pow(1.1, i), pow(-0.9, i)}; // pseudo-random center
+    float theta[2] = {expf(i), expf(i+1)}; // pseudo-random angles
+    float start_point[2] = {center0[0] + radius*cosf(theta[0]), center0[1] + radius*sinf(theta[0])};
+    float end_point[2]   = {center0[0] + radius*cosf(theta[1]), center0[1] + radius*sinf(theta[1])};
+    phi = measure_arc_rad(start_point, end_point, center0);
+
+    // Test lower bounding when min = max with (val < min)
+    ASSERT_NEAR(circular_modulus_rad(theta[1]-theta[0]), circular_modulus_rad(phi), eps);
+  }
+};
+
+TEST_F(MeasureArcRad, CoincidentPoints) {
+  float eps = 0.0001f;
+  float phi;
+  for (int i=0; i< 10; i++){
+    float radius = exp(i);
+    float center0[2] = {pow(1.1, i), pow(-0.9, i)}; // pseudo-random center
+    float theta = expf(i); // pseudo-random angles
+    float start_point[2] = {center0[0] + radius*cosf(theta), center0[1] + radius*sinf(theta)};
+    phi = measure_arc_rad(start_point, start_point, center0);
+
+    // Test lower bounding when min = max with (val < min)
+    ASSERT_NEAR(0, phi, eps);
+  }
+};
+
+
+// Test fixture for angle_between_2d_vectors()
+class AngleBetween2dVectors : public MiscMath {
+protected:
+  virtual void SetUp() {
+  }
+
+  virtual void TearDown() {
+  }
+};
+
+TEST_F(AngleBetween2dVectors, DivergentVectors) {
+  float eps = 0.005f;
+  float phi;
+  for (int i=0; i< 10; i++){
+    float theta[2] = {expf(i), expf(i+1)}; // pseudo-random angles
+    float mag_a = expf(i);
+    float mag_b = pow(i+1, 1.1);
+    float a[2] = {mag_a * cosf(theta[0]), mag_a * sinf(theta[0])};
+    float b[2] = {mag_b * cosf(theta[1]), mag_b * sinf(theta[1])};
+    phi = angle_between_2d_vectors(a, b);
+
+    // Test lower bounding when min = max with (val < min)
+    ASSERT_NEAR(circular_modulus_rad(theta[1]-theta[0]), circular_modulus_rad(phi), eps);
+  }
+};
+
+TEST_F(AngleBetween2dVectors, ParallelVectors) {
+  float eps = 0.0001f;
+  float phi;
+  for (int i=0; i< 10; i++){
+    float theta = expf(i); // pseudo-random angles
+    float mag_a = expf(i);
+    float a[2] = {mag_a * cosf(theta), mag_a * sinf(theta)};
+    phi = angle_between_2d_vectors(a, a);
+
+    // Test lower bounding when min = max with (val < min)
+    ASSERT_NEAR(0, phi, eps);
   }
 };
