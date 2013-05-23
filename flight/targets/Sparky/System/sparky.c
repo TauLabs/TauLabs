@@ -10,7 +10,7 @@
  * options of the firmware.
  * @{
  * @file       sparky.c 
- * @author     Tau Labs, http://github.com/TauLabs, Copyright (C) 2013.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
  * @brief      Sets up and runs main Sparky tasks.
  * @see        The GNU Public License (GPL) Version 3
  * 

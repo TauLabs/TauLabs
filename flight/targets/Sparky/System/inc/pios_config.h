@@ -1,7 +1,7 @@
 /**
  ******************************************************************************
  * @file       pios_config.h
- * @author     Tau Labs, http://github.com/TauLabs, Copyright (C) 2013
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
  * @addtogroup TauLabsSystem Tau Labs System
  * @{
  * @addtogroup TauLabsCore Tau Labs Core

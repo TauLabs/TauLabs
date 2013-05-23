@@ -1,7 +1,7 @@
 /**
  ******************************************************************************
  * @file       pios_usb_board_data.h
- * @author     Tau Labs, http://github.com/TauLabs, Copyright (C) 2013
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
  * @addtogroup PIOS PIOS Core hardware abstraction layer
  * @{
  * @addtogroup PIOS_USB_BOARD Board specific USB definitions

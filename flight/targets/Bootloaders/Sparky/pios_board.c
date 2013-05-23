@@ -2,7 +2,7 @@
  ******************************************************************************
  *
  * @file       pios_board.c
- * @author     Tau Labs, http://github.com/TauLabs, Copyright (C) 2013.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
  * @brief      Defines board specific initialization for Sparky.
  * @see        The GNU Public License (GPL) Version 3
  *
