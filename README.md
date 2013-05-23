@@ -7,7 +7,7 @@ The goal of Tau Labs is to focus on writing high quality open source code for au
 
 By “research”, we mean not only universities or institutions focused on research on UAVs, but any group who might have use for UAVs for their research purpose. Examples include UAVs used for agricultural surveys, air quality logging. By “students” we mean aiming the use of our project in the classroom, especially thanks to the availability of an entry-level reference platform (see below).
 
-The PhoenixPilot software is released under the GPL and will be treated in that spirit.  Porting the software to new boards is encouraged and fun.  The project will also maintain a set of reference platforms which the code will be more frequently tested against and will be expected to perform optimally.  As it was put, these will receive “A+ development support.”  As Lilvinz put it, with open source you can only give and create and we want to continue doing that.
+The Tau Labs software is released under the GPL and will be treated in that spirit.  Porting the software to new boards is encouraged and fun.  The project will also maintain a set of reference platforms which the code will be more frequently tested against and will be expected to perform optimally.  As it was put, these will receive “A+ development support.”  As Lilvinz put it, with open source you can only give and create and we want to continue doing that.
 
 ## Getting involved
 Click that big fork button on github and start coding!  We use pull requests as reviews so expect a lot of constructive feedback!

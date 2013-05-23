@@ -6,7 +6,7 @@
  * @{
  *
  * @file       failsafe_control.h
- * @author     Tau Labs, http://github.org/TauLabs Copyright (C) 2013.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
  * @brief      Failsafe controller when transmitter control is lost
  *
  * @see        The GNU Public License (GPL) Version 3

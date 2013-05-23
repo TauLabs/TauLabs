@@ -7,7 +7,7 @@
  * @{
  *
  * @file       pios_adc_priv.h
- * @author     The Tau Labs Team, http://www.taulabs.org Copyright (C) 2013.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
  * @brief      ADC private definitions.
  * @see        The GNU Public License (GPL) Version 3
  *

@@ -1,7 +1,7 @@
 /**
  ******************************************************************************
  * @file       pios_flash_internal_priv.h
- * @author     Tau Labs, http://github.com/TauLabs, Copyright (C) 2012-2013
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
  * @addtogroup 
  * @{
  * @addtogroup 
