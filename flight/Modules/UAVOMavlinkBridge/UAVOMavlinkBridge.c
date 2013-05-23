@@ -7,7 +7,7 @@
  * @{ 
  *
  * @file       UAVOMavlinkBridge.c
- * @author     The TauLabs Team, http://www.taulabs.org Copyright (C) 2013.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013.
  * @brief      Bridges selected UAVObjects to Mavlink
  * @see        The GNU Public License (GPL) Version 3
  *
