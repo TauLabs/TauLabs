@@ -1,7 +1,7 @@
 /**
  ******************************************************************************
  * @file       calibration.cpp
- * @author     Tau Labs, http://www.taulabs.org, Copyright (C) 2013
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
  * @brief      Gui-less support class for calibration
  *****************************************************************************/
 /*

@@ -102,8 +102,8 @@ private slots:
     void viewSlot();
     void viewOptionsChangedSlot();
 
-    void on_TreeItemCollapsed(QModelIndex);
-    void on_TreeItemExpanded(QModelIndex);
+    void onTreeItemCollapsed(QModelIndex);
+    void onTreeItemExpanded(QModelIndex);
 
 signals:
     void viewOptionsChanged(bool categorized,bool scientific,bool metadata);

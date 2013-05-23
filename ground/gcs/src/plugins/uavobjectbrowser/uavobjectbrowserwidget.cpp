@@ -3,7 +3,7 @@
  *
  * @file       uavobjectbrowserwidget.cpp
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
- * @author     Tau Labs, http://www.taulabs.org Copyright (C) 2013.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
  * @addtogroup GCSPlugins GCS Plugins
  * @{
  * @addtogroup UAVObjectBrowserPlugin UAVObject Browser Plugin
@@ -88,14 +88,14 @@ UAVObjectBrowserWidget::UAVObjectBrowserWidget(QWidget *parent) : QWidget(parent
     connect(m_viewoptions->cbMetaData, SIGNAL(toggled(bool)), this, SLOT(viewOptionsChangedSlot()));
     connect(m_viewoptions->cbCategorized, SIGNAL(toggled(bool)), this, SLOT(viewOptionsChangedSlot()));
 
-    connect((QTreeView*) treeView, SIGNAL(collapsed(QModelIndex)), this, SLOT(on_TreeItemCollapsed(QModelIndex) ));
-    connect((QTreeView*) treeView, SIGNAL(expanded(QModelIndex)), this, SLOT(on_TreeItemExpanded(QModelIndex) ));
+    connect((QTreeView*) treeView, SIGNAL(collapsed(QModelIndex)), this, SLOT(onTreeItemCollapsed(QModelIndex) ));
+    connect((QTreeView*) treeView, SIGNAL(expanded(QModelIndex)), this, SLOT(onTreeItemExpanded(QModelIndex) ));
 
     // Set browser buttons to disabled
     enableUAVOBrowserButtons(false);
 }
 
-void UAVObjectBrowserWidget::on_TreeItemExpanded(QModelIndex currentIndex)
+void UAVObjectBrowserWidget::onTreeItemExpanded(QModelIndex currentIndex)
 {
     TreeItem *item = static_cast<TreeItem*>(currentIndex.internalPointer());
     TopTreeItem *top = dynamic_cast<TopTreeItem*>(item->parent());
@@ -154,7 +154,7 @@ void UAVObjectBrowserWidget::on_TreeItemExpanded(QModelIndex currentIndex)
     }
 }
 
-void UAVObjectBrowserWidget::on_TreeItemCollapsed(QModelIndex currentIndex)
+void UAVObjectBrowserWidget::onTreeItemCollapsed(QModelIndex currentIndex)
 {
 
     TreeItem *item = static_cast<TreeItem*>(currentIndex.internalPointer());

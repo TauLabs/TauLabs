@@ -3,7 +3,7 @@
  *
  * @file       aerosimrc.cpp
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010-2012.
- * @author     Tau Labs, http://www.taulabs.org, Copyright (C) 2013
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
  * @addtogroup GCSPlugins GCS Plugins
  * @{
  * @addtogroup HITLPlugin HITLv2 Plugin

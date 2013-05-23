@@ -1,17 +1,16 @@
 /**
  ******************************************************************************
- * @addtogroup OpenPilotSystem OpenPilot System
- * @brief These files are the core system files of OpenPilot.
- * They are the ground layer just above PiOS. In practice, OpenPilot actually starts
- * in the main() function of openpilot.c
+ * @addtogroup TauLabsSystem Tau Labs System
+ * @brief These files are the core system files of Tau Labs.
  * @{
- * @addtogroup OpenPilotCore OpenPilot Core
- * @brief This is where the OP firmware starts. Those files also define the compile-time
+ * @addtogroup TauLabsCore Tau Labs Core
+ * @brief This is where the firmware starts. Those files also define the compile-time
  * options of the firmware.
  * @{
- * @file       openpilot.c 
+ * @file       coptercontrol.c 
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
- * @brief      Sets up and runs main OpenPilot tasks.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
+ * @brief      Sets up and runs main Tau Labs tasks.
  * @see        The GNU Public License (GPL) Version 3
  * 
  *****************************************************************************/
@@ -47,7 +46,7 @@ extern void PIOS_Board_Init(void);
 extern void Stack_Change(void);
 
 /**
-* OpenPilot Main function:
+* Tau Labs Main function:
 *
 * Initialize PiOS<BR>
 * Create the "System" task (SystemModInitializein Modules/System/systemmod.c) <BR>

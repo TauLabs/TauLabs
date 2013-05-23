@@ -31,6 +31,7 @@
 #include <coreplugin/iuavgadget.h>
 #include "gcscontrolgadgetconfiguration.h"
 #include "gcscontrolplugin.h"
+#include <QTimer>
 #include <QTime>
 #include <QUdpSocket>
 #include <QHostAddress>
@@ -96,12 +97,16 @@ private:
     //! Send commands to FC via GCS receiver UAVO
     bool gcsReceiverMode;
 
+    //! Whether GCS control is enabled
+    bool enableSending;
+
     buttonSettingsStruct buttonSettings[8];
     double bound(double input);
     double wrap(double input);
     bool channelReverse[8];
     QUdpSocket *control_sock;
 
+    QTimer *gcsReceiverTimer;
 
 signals:
     void sticksChangedRemotely(double leftX, double leftY, double rightX, double rightY);
@@ -110,6 +115,10 @@ protected slots:
     void manualControlCommandUpdated(UAVObject *);
     void sticksChangedLocally(double leftX, double leftY, double rightX, double rightY);
     void readUDPCommand();
+    void sendGcsReceiver();
+
+    //! Enable or disable sending data
+    void enableControl(bool enable);
 
     // signals from joystick
     void gamepads(quint8 count);

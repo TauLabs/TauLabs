@@ -1,7 +1,7 @@
 /**
  ******************************************************************************
  * @file       vmprog_endiantest.c
- * @author     Tau Labs, http://github.com/TauLabs, Copyright (C) 2012-2013
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
  * @addtogroup I2C Virtual Machine
  * @{
  * @addtogroup %CLASS%

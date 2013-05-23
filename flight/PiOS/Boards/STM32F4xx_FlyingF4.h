@@ -1,7 +1,7 @@
 /******************************************************************************
  * @file       STM32F4xx_FlyingF4.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
- * @author     Tau Labs, http://www.taulabs.org, Copyright (C) 2012-2013
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
  * @addtogroup TauLabsSystem TauLabs System
  * @{
  * @addtogroup OpenPilotCore OpenPilot Core

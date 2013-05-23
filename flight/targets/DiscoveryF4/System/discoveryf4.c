@@ -2,7 +2,7 @@
  ******************************************************************************
  * @file       discoveryf4.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
- * @author     Tau Labs, http://github.com/TauLabs, Copyright (C) 2012-2013
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
  * @addtogroup 
  * @{
  * @addtogroup 
@@ -34,25 +34,6 @@
 /* Task Priorities */
 #define PRIORITY_TASK_HOOKS             (tskIDLE_PRIORITY + 3)
 
-/* Global Variables */
-
-/* Local Variables */
-#define INCLUDE_TEST_TASKS 0
-#if INCLUDE_TEST_TASKS
-static uint8_t sdcard_available;
-#endif
-
-/* Function Prototypes */
-#if INCLUDE_TEST_TASKS
-static void TaskTick(void *pvParameters);
-static void TaskTesting(void *pvParameters);
-static void TaskHIDTest(void *pvParameters);
-static void TaskServos(void *pvParameters);
-static void TaskSDCard(void *pvParameters);
-#endif
-int32_t CONSOLE_Parse(uint8_t port, char c);
-void OP_ADC_NotifyChange(uint32_t pin, uint32_t pin_value);
-
 /* Prototype of PIOS_Board_Init() function */
 extern void PIOS_Board_Init(void);
 extern void Stack_Change(void);
@@ -70,7 +51,7 @@ static void initTask(void *parameters);
 extern void InitModules(void);
 
 /**
-* OpenPilot Main function:
+* Tau Labs Main function:
 *
 * Initialize PiOS<BR>
 * Create the "System" task (SystemModInitializein Modules/System/systemmod.c) <BR>
