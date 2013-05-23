@@ -6,7 +6,7 @@
  * @{
  *
  * @file       tablet_control.c
- * @author     Tau Labs, http://github.org/TauLabs Copyright (C) 2013.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013.
  * @brief      Use tablet for control source
  *
  * @see        The GNU Public License (GPL) Version 3
