@@ -32,6 +32,7 @@
  */
 
 #include "gtest/gtest.h"
+#include "physical_constants.h"
 
 #include <stdio.h>		/* printf */
 #include <stdlib.h>		/* abort */
@@ -188,6 +189,7 @@ protected:
 };
 
 TEST_F(CircularModulus, NullError) {
+  float eps = 0.005;
   float error = 0.0f;
   uint8_t num_test_inputs = 9;
 
@@ -203,12 +205,13 @@ TEST_F(CircularModulus, NullError) {
   test_inputs[8] = error + 3600000;
   for (uint8_t i=0; i < num_test_inputs; i++){
     EXPECT_EQ(-error, circular_modulus_deg(test_inputs[i]));
-    EXPECT_EQ(-error * DEG2RAD, circular_modulus_rad(test_inputs[i] * DEG2RAD));
+    ASSERT_NEAR(-error * DEG2RAD, circular_modulus_rad(test_inputs[i] * DEG2RAD), eps);
   }
 };
 
 TEST_F(CircularModulus, MaxPosError) {
   // Use fabs() for +/-180.0 to accept either -180.0 or +180.0 as valid and correct
+  float eps = 0.005;
   float error = 180.0f;
   uint8_t num_test_inputs = 9;
 
@@ -224,12 +227,13 @@ TEST_F(CircularModulus, MaxPosError) {
   test_inputs[8] = error + 3600000;
   for (uint8_t i=0; i < num_test_inputs; i++){
     EXPECT_EQ(error, fabsf(circular_modulus_deg(test_inputs[i])));
-    EXPECT_EQ(error * DEG2RAD, fabsf(circular_modulus_rad(test_inputs[i] * DEG2RAD)));
+    ASSERT_NEAR(error * DEG2RAD, fabsf(circular_modulus_rad(test_inputs[i] * DEG2RAD)), eps);
   }
 };
 
 TEST_F(CircularModulus, MaxNegError) {
   // Use fabs() for +/-180.0 to accept either -180.0 or +180.0 as valid and correct
+  float eps = 0.005;
   float error = 180.0f;
   uint8_t num_test_inputs = 9;
 
@@ -245,7 +249,7 @@ TEST_F(CircularModulus, MaxNegError) {
   test_inputs[8] = -error + 3600000;
   for (uint8_t i=0; i < num_test_inputs; i++){
     EXPECT_EQ(error, fabsf(circular_modulus_deg(test_inputs[i])));
-    EXPECT_EQ(error * DEG2RAD, fabsf(circular_modulus_rad(test_inputs[i] * DEG2RAD)));
+    ASSERT_NEAR(error * DEG2RAD, fabsf(circular_modulus_rad(test_inputs[i] * DEG2RAD)), eps);
   }
 };
 
@@ -444,3 +448,4 @@ TEST_F(AngleBetween2dVectors, ParallelVectors) {
     ASSERT_NEAR(0, phi, eps);
   }
 };
+
