@@ -53,7 +53,7 @@ OPTMODULES += Autotune
 OPTMODULES += TxPID
 OPTMODULES += VibrationAnalysis
 OPTMODULES += UAVOMavlinkBridge
-#OPTMODULES += Battery
+OPTMODULES += Battery
 OPTMODULES += ComUsbBridge
 
 # Paths
@@ -140,6 +140,7 @@ SRC += $(PIOSCOMMON)/printf-stdarg.c
 SRC += $(PIOSCOMMON)/pios_usb_desc_hid_cdc.c
 SRC += $(PIOSCOMMON)/pios_usb_desc_hid_only.c
 SRC += $(PIOSCOMMON)/pios_usb_util.c
+SRC += $(PIOSCOMMON)/pios_adc.c
 
 include ./UAVObjects.inc
 SRC += $(UAVOBJSRC)
