@@ -766,10 +766,6 @@ static int32_t updateAttitudeINSGPS(bool first_run, bool outdoor_mode)
 	static BaroAltitudeData baroData;
 	static GPSPositionData gpsData;
 
-	struct NavStruct *Nav = INSGPSGetNav();
-	if (Nav == NULL)
-		return -1;
-
 	static bool mag_updated = false;
 	static bool baro_updated;
 	static bool gps_updated;
@@ -1020,12 +1016,10 @@ static int32_t updateAttitudeINSGPS(bool first_run, bool outdoor_mode)
 	if (sensors)
 		INSCorrection(&magData.x, NED, vel, ( baroData.Altitude + baro_offset ), sensors);
 
+	// Export the state and variance for monitoring the EKF
 	INSStateData state;
-	extern float P[13][13], X[13];
-	for (uint32_t i = 0; i < 13; i++) {
-		state.State[i] = X[i];
-		state.Var[i] = P[i][i];
-	}
+	INSGetVariance(state.Var);
+	INSGetState(&state.State[0], &state.State[3], &state.State[6], &state.State[10]);
 	INSStateSet(&state);
 
 	return 0;
@@ -1034,15 +1028,10 @@ static int32_t updateAttitudeINSGPS(bool first_run, bool outdoor_mode)
 //! Set the attitude to the current INSGPS estimate
 static int32_t setAttitudeINSGPS()
 {
-	struct NavStruct *Nav = INSGPSGetNav();
-	if (Nav == NULL)
-		return -1;
-
+	float gyro_bias[3];
 	AttitudeActualData attitude;
-	attitude.q1 = Nav->q[0];
-	attitude.q2 = Nav->q[1];
-	attitude.q3 = Nav->q[2];
-	attitude.q4 = Nav->q[3];
+
+	INSGetState(NULL, NULL, &attitude.q1, gyro_bias);
 	Quaternion2RPY(&attitude.q1,&attitude.Roll);
 	AttitudeActualSet(&attitude);
 
@@ -1053,9 +1042,9 @@ static int32_t setAttitudeINSGPS()
 		// from the settings during the calculation, then consume it
 		// next cycle
 		GyrosBiasData gyrosBias;
-		gyrosBias.x = Nav->gyro_bias[0] * RAD2DEG;
-		gyrosBias.y = Nav->gyro_bias[1] * RAD2DEG;
-		gyrosBias.z = Nav->gyro_bias[2] * RAD2DEG;
+		gyrosBias.x = gyro_bias[0] * RAD2DEG;
+		gyrosBias.y = gyro_bias[1] * RAD2DEG;
+		gyrosBias.z = gyro_bias[2] * RAD2DEG;
 		GyrosBiasSet(&gyrosBias);
 	}
 
@@ -1065,21 +1054,12 @@ static int32_t setAttitudeINSGPS()
 //! Set the navigation to the current INSGPS estimate
 static int32_t setNavigationINSGPS()
 {
-	struct NavStruct *Nav = INSGPSGetNav();
-	if (Nav == NULL)
-		return -1;
-
-	// Copy the position and velocity into the UAVO
 	PositionActualData positionActual;
-	positionActual.North = Nav->Pos[0];
-	positionActual.East = Nav->Pos[1];
-	positionActual.Down = Nav->Pos[2];
-	PositionActualSet(&positionActual);
-	
 	VelocityActualData velocityActual;
-	velocityActual.North = Nav->Vel[0];
-	velocityActual.East = Nav->Vel[1];
-	velocityActual.Down = Nav->Vel[2];
+
+	INSGetState(&positionActual.North, &velocityActual.North, NULL, NULL);
+
+	PositionActualSet(&positionActual);
 	VelocityActualSet(&velocityActual);
 
 	return 0;
