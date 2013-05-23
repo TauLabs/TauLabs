@@ -2,7 +2,7 @@
  ******************************************************************************
  *
  * @file       boardmanager.cpp
- * @author     Tau Labs, http://github.com/TauLabs, Copyright (C) 2012-2013.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013.
  *             Parts by Nokia Corporation (qt-info@nokia.com) Copyright (C) 2009.
  *
  *   The board manager listens for the arrival or "Board Type" objects, which are

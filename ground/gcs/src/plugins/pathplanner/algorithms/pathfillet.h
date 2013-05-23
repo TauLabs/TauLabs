@@ -1,7 +1,7 @@
 /**
  ******************************************************************************
  * @file       pathfillet.h
- * @author     Tau Labs, http://github.com/TauLabs, Copyright (C) 2012-2013.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013.
  * @brief      Algorithm to add filtets to path
  * @addtogroup GCSPlugins GCS Plugins
  * @{
