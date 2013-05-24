@@ -58,13 +58,6 @@
 // Private variables
 static xTaskHandle attitudeTaskHandle;
 
-static xQueueHandle gyroQueue;
-static xQueueHandle accelQueue;
-static xQueueHandle magQueue;
-static xQueueHandle baroQueue;
-static xQueueHandle gpsQueue;
-static xQueueHandle gpsVelQueue;
-
 // Private functions
 static void StateEstimationTask(void *parameters);
 static void settingsUpdatedCb(UAVObjEvent * objEv);
@@ -123,17 +116,6 @@ int32_t StateEstimationStart(void)
 	gyrosBias.z = 0;
 	GyrosBiasSet(&gyrosBias);
 
-	GyrosConnectQueue(gyroQueue);
-	AccelsConnectQueue(accelQueue);
-	if (MagnetometerHandle())
-		MagnetometerConnectQueue(magQueue);
-	if (BaroAltitudeHandle())
-		BaroAltitudeConnectQueue(baroQueue);
-	if (GPSPositionHandle())
-		GPSPositionConnectQueue(gpsQueue);
-	if (GPSVelocityHandle())
-		GPSVelocityConnectQueue(gpsVelQueue);
-
 	// Start main task
 	xTaskCreate(StateEstimationTask, (signed char *)"StateEstimation", STACK_SIZE_BYTES/4, NULL, TASK_PRIORITY, &attitudeTaskHandle);
 	TaskMonitorAdd(TASKINFO_RUNNING_ATTITUDE, attitudeTaskHandle);
@@ -172,14 +154,20 @@ static void StateEstimationTask(void *parameters)
 		break;
 	}
 
-	// If a filter request was changed and the new filter is valid reset and initialize
-	if (filter_validate(current_filter)) {
-		if (requested_filter->init(&running_filter_id) != 0)
-			goto FAIL;
-		if (requested_filter->reset(running_filter_id) != 0)
-			goto FAIL;
-	} else {
+	if (!filter_validate(current_filter))
 		goto FAIL;
+	if (requested_filter->init(&running_filter_id) != 0)
+		goto FAIL;
+	if (requested_filter->reset(running_filter_id) != 0)
+		goto FAIL;
+
+	// Set up the filter class specific infrastructure
+	switch(requested_filter->class) {
+	case FILTER_CLASS_S3:
+		prepare_s3_infrastructure();
+		break;
+	default:
+		// other filters set up their own infrastructure
 	}
 
 	// Main task loop
@@ -191,10 +179,6 @@ static void StateEstimationTask(void *parameters)
 			break;
 		case FILTER_CLASS_GENERIC:
 			process_filter_generic(&requested_filter->driver_generic, running_filter_id, dT);
-
-			// This flushes the queues not used by this filter (all)
-			flush_queues();
-
 			break;
 		}
 
@@ -230,6 +214,8 @@ static bool filter_validate(struct filter_driver *filter, uintptr_t id)
 	}
 }
 
+/************ code related to running generic filters *********/
+
 /**
  * process_filter_generic Compute an update of a generic filter
  * @param[in] driver The generic filter driver
@@ -243,13 +229,39 @@ static int32_t process_filter_generic(struct filter_driver_generic *driver, uint
 	driver->get_state(id);
 }
 
+/************ code related to running s3 filters **************/
+
+static xQueueHandle gyroQueue;
+static xQueueHandle accelQueue;
+static xQueueHandle magQueue;
+static xQueueHandle baroQueue;
+static xQueueHandle gpsQueue;
+static xQueueHandle gpsVelQueue;
+
+//! Connect the queues used for S3 filters
+static int32_t prepare_s3_infrastructure()
+{
+	if (GyrosHandle())
+		GyrosConnectQueue(gyroQueue);
+	if (AccelsHandle())
+		AccelsConnectQueue(accelQueue);
+	if (MagnetometerHandle())
+		MagnetometerConnectQueue(magQueue);
+	if (BaroAltitudeHandle())
+		BaroAltitudeConnectQueue(baroQueue);
+	if (GPSPositionHandle())
+		GPSPositionConnectQueue(gpsQueue);
+	if (GPSVelocityHandle())
+		GPSVelocityConnectQueue(gpsVelQueue);
+}
+
 /**
  * process_filter_generic Compute an update of an S3 filter
  * @param[in] driver The S3 filter driver
  * @param[in] dT the update time in seconds
  * @return 0 if succesfully updated or error code
  */
-static int32_t process_filter_s3(struct filter_driver_s3 *driver, uintptr_t id);
+static int32_t process_filter_s3(struct filter_driver_s3 *driver, uintptr_t id)
 {
 	// TODO: check error codes
 
@@ -344,21 +356,8 @@ static int32_t process_filter_s3(struct filter_driver_s3 *driver, uintptr_t id);
 	AttitudeActualSet(&attitudeActual);
 }
 
-/**
- * Flushes all the queues for filters that do not use them
- * note this is not the same as "flushing the ones not checked"
- * and if we start flushing subsets this will need to be parameterized
- * but it is required to avoid warnings
- */
-static int32_t flush_queues()
-{
-	xQueueReceive(gyroQueue, &ev, 0);
-	xQueueReceive(accelQueue, &ev, 0);
-	xQueueReceive(magQueue, &ev, 0);
-	xQueueReceive(baroQueue, &ev, 0);
-	xQueueReceive(gpsQueue, &ev, 0);
-	xQueueReceive(gpsVelQueue, &ev, 0);
-}
+
+/*********** miscellaneous code ****************/
 
 /**
  * @brief Convert the GPS LLA position into NED coordinates
