@@ -54,7 +54,7 @@
 
 // ****************
 // Private constants
-#define STACK_SIZE_BYTES            350
+#define STACK_SIZE_BYTES            400
 #define TASK_PRIORITY               (tskIDLE_PRIORITY + 1)
 #define SAMPLE_PERIOD_MS		500
 // Private types
