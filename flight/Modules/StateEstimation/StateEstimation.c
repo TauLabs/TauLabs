@@ -162,6 +162,7 @@ static void StateEstimationTask(void *parameters)
 
 	struct filter_driver *current_filter = NULL;
 	struct filter_driver *requested_filter;
+	uintptr_t running_filter_id;
 
 	// Main task loop
 	while (1) {
@@ -179,12 +180,12 @@ static void StateEstimationTask(void *parameters)
 		if (requested_filter != current_filter && filter_validate(requested_filter)) {
 			// Shut down current filter
 			if (current_filter != NULL) {
-				current_filter->deinit();
+				current_filter->deinit(running_filter_id);
 			}
 
 			// TODO: check error codes and set critical if either fail.  Wait for new filter.
-			requested_filter->init();
-			requested_filter->reset();
+			requested_filter->init(&running_filter_id);
+			requested_filter->reset(running_filter_id);
 
 			current_filter = requested_filter;
 		}
@@ -194,10 +195,10 @@ static void StateEstimationTask(void *parameters)
 		// Compute update of the active filter
 		switch(requested_filter->class) {
 		case FILTER_CLASS_S3:
-			process_filter_s3(&requested_filter->driver_s3, dT);
+			process_filter_s3(&requested_filter->driver_s3, running_filter_id, dT);
 			break;
 		case FILTER_CLASS_GENERIC:
-			process_filter_generic(&requested_filter->driver_generic, dT);
+			process_filter_generic(&requested_filter->driver_generic, running_filter_id, dT);
 
 			// This flushes the queues not used by this filter (all)
 			flush_queues();
@@ -212,10 +213,11 @@ static void StateEstimationTask(void *parameters)
 /**
  * filter_validate Validate a filter has is safe to run and 
  * has a correct and matching driver
- * @param[in] filter the filter to check
+ * @param[in] filter    the filter to check
+ * @param[in] id        the handle for the filter to process
  * @return true if safe, false if not
  */
-static bool filter_validate(struct filter_driver *filter)
+static bool filter_validate(struct filter_driver *filter, uintptr_t id)
 {
 	if (filter == NULL)
 		return false;
@@ -236,11 +238,11 @@ static bool filter_validate(struct filter_driver *filter)
  * @param[in] dT the update time in seconds
  * @return 0 if succesfully updated or error code
  */
-static int32_t process_filter_generic(struct filter_driver_generic *driver, float dT)
+static int32_t process_filter_generic(struct filter_driver_generic *driver, uintptr_t id, float dT)
 {
-	driver->get_sensors();
-	driver->updat_filter(dT);
-	driver->get_state();
+	driver->get_sensors(id);
+	driver->update_filter(id, dT);
+	driver->get_state(id);
 }
 
 /**
@@ -249,11 +251,14 @@ static int32_t process_filter_generic(struct filter_driver_generic *driver, floa
  * @param[in] dT the update time in seconds
  * @return 0 if succesfully updated or error code
  */
-static int32_t process_filter_s3(struct filter_driver_s3 *driver);
+static int32_t process_filter_s3(struct filter_driver_s3 *driver, uintptr_t id);
 {
 	// TODO: check error codes
 
-	/* 1. fetch the data from queues and pass to filter */
+	/* 1. fetch the data from queues and pass to filter                    */
+	/* if we want to start running multiple instances of this filter class */
+	/* simultaneously, then this step should be done once and then all     */
+	/* filters should be processed with the same data                      */
 
 	// Potential measurements
 	float *gyros = NULL;
@@ -306,10 +311,10 @@ static int32_t process_filter_s3(struct filter_driver_s3 *driver);
 	}
 
 	// Store the measurements in the driver
-	driver->get_sensors(gyros, accels, mag, pos, vel, baro, airspeed);
+	driver->get_sensors(id, gyros, accels, mag, pos, vel, baro, airspeed);
 
 	/* 2. compute update */
-	driver->update_filter(dT);
+	driver->update_filter(id, dT);
 
 	/* 3. get the state update from the filter */
 	float pos_state[3];
@@ -317,7 +322,7 @@ static int32_t process_filter_s3(struct filter_driver_s3 *driver);
 	float q_state[4];
 	float gyro_bias_state[3];
 
-	driver->get_state(pos_state, vel_state, q_state, gyro_bias_state);
+	driver->get_state(id, pos_state, vel_state, q_state, gyro_bias_state);
 
 	// Store the data in UAVOs
 	PositionActualData positionActual;
