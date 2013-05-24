@@ -58,7 +58,7 @@ const static struct filter_driver filters[] = {
  * Initialise the module.  Called before the start function
  * \returns 0 on success or -1 if initialisation failed
  */
-int32_t StateEstimationInitialize(void)
+int32_t StateEstimationModuleInitialize(void)
 {
 	StateEstimationInitialize();
 
@@ -89,14 +89,6 @@ int32_t StateEstimationInitialize(void)
  */
 int32_t StateEstimationStart(void)
 {
-	// Create the queues for the sensors
-	gyroQueue = xQueueCreate(1, sizeof(UAVObjEvent));
-	accelQueue = xQueueCreate(1, sizeof(UAVObjEvent));
-	magQueue = xQueueCreate(2, sizeof(UAVObjEvent));
-	baroQueue = xQueueCreate(1, sizeof(UAVObjEvent));
-	gpsQueue = xQueueCreate(1, sizeof(UAVObjEvent));
-	gpsVelQueue = xQueueCreate(1, sizeof(UAVObjEvent));
-
 	// Initialize quaternion
 	AttitudeActualData attitude;
 	AttitudeActualGet(&attitude);
@@ -122,7 +114,7 @@ int32_t StateEstimationStart(void)
 	return 0;
 }
 
-MODULE_INITCALL(StateEstimationInitialize, StateEstimationStart)
+MODULE_INITCALL(StateEstimationModuleInitialize, StateEstimationStart)
 
 /**
  * Module thread, should not return.
