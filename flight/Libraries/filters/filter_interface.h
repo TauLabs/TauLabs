@@ -137,12 +137,6 @@ struct filter_driver {
 	int32_t (*init)(uintptr_t *id);
 
 	/**
-	 * Shut down the filter and disconnect all queues
-	 * @param[in]  id        the running filter handle
-	 */
-	int32_t (*deinit)(uintptr_t id);
-
-	/**
 	 * Reset the filter state to default
 	 * @param[in]  id        the filter handle to reset
 	 */
