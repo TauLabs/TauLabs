@@ -130,6 +130,7 @@ help:
 	@echo "     android_sdk_install  - Install the Android SDK tools"
 	@echo "     gui_install          - Install the make gui tool"
 	@echo "     gtest_install        - Install the google unit test suite"
+	@echo "     astyle_install       - Install the astyle code formatter"	
 	@echo
 	@echo "   [Big Hammer]"
 	@echo "     all                  - Generate UAVObjects, build openpilot firmware and gcs"
@@ -208,9 +209,14 @@ help:
 	@echo "     uavobjects_test      - parse xml-files - check for valid, duplicate ObjId's, ... "
 	@echo "     uavobjects_<group>   - Generate source files from a subset of the UAVObject definition XML files"
 	@echo "                            supported groups are ($(UAVOBJ_TARGETS))"
+	@echo
 	@echo "   [Package]"
 	@echo "     package              - Executes a make all_clean and then generates a complete package build for"
 	@echo "                            the GCS and all target board firmwares."
+	@echo
+	@echo "   [Misc]"
+	@echo "     astyle_flight FILE=<name>   - Executes the astyle code formatter to reformat"
+	@echo "                                   a c source file according to the flight code style"
 	@echo
 	@echo "   Hint: Add V=1 to your command line to see verbose build output."
 	@echo
@@ -270,6 +276,13 @@ else
   ANDROID     ?= android
   ANDROID_DX  ?= dx
   ANDROID_ADB ?= adb
+endif
+
+ifeq ($(shell [ -d "$(ASTYLE_DIR)" ] && echo "exists"), exists)
+  ASTYLE := $(ASTYLE_DIR)/bin/astyle
+else
+  # not installed, hope it's in the path...
+  ASTYLE ?= astyle
 endif
 
 ##############################
@@ -978,3 +991,21 @@ package:
 .PHONY: package_resources
 package_resources:
 	$(V1) cd package && $(MAKE) --no-print-directory tlfw_resource
+
+##############################
+#
+# AStyle
+#
+##############################
+
+ifneq ($(strip $(filter astyle_flight,$(MAKECMDGOALS))),)
+  ifeq ($(FILE),)
+    $(error pass files to astyle by adding FILE=<file> to the make command line)
+  endif
+endif
+
+.PHONY: astyle_flight
+astyle_flight: ASTYLE_OPTIONS := --suffix=none --lineend=linux --mode=c --align-pointer=name --align-reference=name --indent=tab=4 --style=linux --pad-oper --pad-header --unpad-paren
+astyle_flight:
+	$(V1) $(ASTYLE) $(ASTYLE_OPTIONS) $(FILE)
+
