@@ -141,20 +141,20 @@ namespace mapcontrol
         return ret;
     }
 
-    WayPointCircle * OPMapWidget::WPCircleCreate(WayPointItem *center, WayPointItem *radius, bool clockwise,QColor color)
+    MapCircle * OPMapWidget::WPCircleCreate(WayPointItem *center, WayPointItem *radius, bool clockwise,QColor color)
     {
         if(!center|!radius)
             return NULL;
-        WayPointCircle* ret= new WayPointCircle(center,radius,clockwise,map,color);
+        MapCircle* ret= new MapCircle(center,radius,clockwise,map,color);
         ret->setOpacity(overlayOpacity);
         return ret;
     }
 
-    WayPointCircle *OPMapWidget::WPCircleCreate(HomeItem *center, WayPointItem *radius, bool clockwise,QColor color)
+    MapCircle *OPMapWidget::WPCircleCreate(HomeItem *center, WayPointItem *radius, bool clockwise,QColor color)
     {
         if(!center|!radius)
             return NULL;
-        WayPointCircle* ret= new WayPointCircle(center,radius,clockwise,map,color);
+        MapCircle* ret= new MapCircle(center,radius,clockwise,map,color);
         ret->setOpacity(overlayOpacity);
         return ret;
     }
@@ -449,7 +449,7 @@ namespace mapcontrol
                 w->deleteLater();
             else
             {
-                WayPointCircle* ww=qgraphicsitem_cast<WayPointCircle*>(i);
+                MapCircle* ww=qgraphicsitem_cast<MapCircle*>(i);
                 if(ww)
                     ww->deleteLater();
             }

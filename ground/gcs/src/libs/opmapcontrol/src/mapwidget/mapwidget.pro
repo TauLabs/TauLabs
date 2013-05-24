@@ -16,7 +16,7 @@ SOURCES += mapgraphicitem.cpp \
     mapripper.cpp \
     traillineitem.cpp \
     waypointline.cpp \
-    waypointcircle.cpp \
+    mapcircle.cpp \
     waypointcurve.cpp
 
 LIBS += -L../build \
@@ -44,7 +44,7 @@ HEADERS += mapgraphicitem.h \
     mapripper.h \
     traillineitem.h \
     waypointline.h \
-    waypointcircle.h \
+    mapcircle.h \
     waypointcurve.h
 QT += opengl
 QT += network

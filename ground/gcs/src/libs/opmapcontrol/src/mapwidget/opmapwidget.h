@@ -42,7 +42,7 @@
 #include "homeitem.h"
 #include "mapripper.h"
 #include "waypointline.h"
-#include "waypointcircle.h"
+#include "mapcircle.h"
 #include "waypointcurve.h"
 #include "waypointitem.h"
 namespace mapcontrol
@@ -376,9 +376,9 @@ namespace mapcontrol
         //! Create a curve from one waypoint item to another with a given radius
         WayPointCurve *WPCurveCreate(WayPointItem *start, WayPointItem *dest, double radius, bool clockwise, QColor color);
         //! Create a circle around a waypoint with the radius specified by the distance to another waypoint
-        WayPointCircle *WPCircleCreate(WayPointItem *center, WayPointItem *radius,bool clockwise,QColor color);
+        MapCircle *WPCircleCreate(WayPointItem *center, WayPointItem *radius,bool clockwise,QColor color);
         //! Create a circle around home with the radius specifed by the distance to another waypoint
-        WayPointCircle *WPCircleCreate(HomeItem *center, WayPointItem *radius,bool clockwise,QColor color);
+        MapCircle *WPCircleCreate(HomeItem *center, WayPointItem *radius,bool clockwise,QColor color);
 
         void deleteAllOverlays();
         void WPSetVisibleAll(bool value);

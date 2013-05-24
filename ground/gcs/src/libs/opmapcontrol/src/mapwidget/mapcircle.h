@@ -1,8 +1,9 @@
 /**
 ******************************************************************************
 *
-* @file       waypointcircle.h
+* @file       mapcircle.h
 * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
+* @author     Tau Labs, http://taulabs.org Copyright (C) 2013.
 * @brief      A graphicsItem representing a circle connecting 2 waypoints
 * @see        The GNU Public License (GPL) Version 3
 * @defgroup   OPMapWidget
@@ -24,8 +25,8 @@
 * with this program; if not, write to the Free Software Foundation, Inc.,
 * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 */
-#ifndef WAYPOINTCIRCLE_H
-#define WAYPOINTCIRCLE_H
+#ifndef MAPCIRCLE_H
+#define MAPCIRCLE_H
 #include <QGraphicsItem>
 #include <QPainter>
 #include <QLabel>
@@ -38,14 +39,14 @@
 namespace mapcontrol
 {
 
-class WayPointCircle: public QObject, public QGraphicsEllipseItem
+class MapCircle: public QObject, public QGraphicsEllipseItem
 {
     Q_OBJECT
     Q_INTERFACES(QGraphicsItem)
 public:
     enum { Type = UserType + 9 };
-    WayPointCircle(WayPointItem * center, WayPointItem * radius,bool clockwise,MapGraphicItem * map,QColor color=Qt::green);
-    WayPointCircle(HomeItem * center, WayPointItem * radius,bool clockwise,MapGraphicItem * map,QColor color=Qt::green);
+    MapCircle(WayPointItem * center, WayPointItem * radius,bool clockwise,MapGraphicItem * map,QColor color=Qt::green);
+    MapCircle(HomeItem * center, WayPointItem * radius,bool clockwise,MapGraphicItem * map,QColor color=Qt::green);
     int type() const;
     void setColor(const QColor &color)
         { myColor = color; }
@@ -66,4 +67,4 @@ public slots:
 };
 }
 
-#endif // WAYPOINTCIRCLE_H
+#endif // MAPCIRCLE_H

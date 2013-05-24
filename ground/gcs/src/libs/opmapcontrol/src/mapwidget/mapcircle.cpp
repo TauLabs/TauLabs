@@ -1,8 +1,9 @@
 /**
 ******************************************************************************
 *
-* @file       waypointcircle.cpp
+* @file       mapcircle.cpp
 * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
+* @author     Tau Labs, http://taulabs.org Copyright (C) 2013.
 * @brief      A graphicsItem representing a circle connecting 2 waypoints
 * @see        The GNU Public License (GPL) Version 3
 * @defgroup   OPMapWidget
@@ -24,13 +25,13 @@
 * with this program; if not, write to the Free Software Foundation, Inc.,
 * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 */
-#include "waypointcircle.h"
+#include "mapcircle.h"
 #include <math.h>
 #include "homeitem.h"
 
 namespace mapcontrol
 {
-WayPointCircle::WayPointCircle(WayPointItem *center, WayPointItem *radius, bool clockwise, MapGraphicItem *map, QColor color) :
+MapCircle::MapCircle(WayPointItem *center, WayPointItem *radius, bool clockwise, MapGraphicItem *map, QColor color) :
     QGraphicsEllipseItem(map), my_center(center), my_radius(radius),
     my_map(map), myColor(color), myClockWise(clockwise)
 {
@@ -43,7 +44,7 @@ WayPointCircle::WayPointCircle(WayPointItem *center, WayPointItem *radius, bool 
 
 }
 
-WayPointCircle::WayPointCircle(HomeItem *radius, WayPointItem *center, bool clockwise, MapGraphicItem *map, QColor color) :
+MapCircle::MapCircle(HomeItem *radius, WayPointItem *center, bool clockwise, MapGraphicItem *map, QColor color) :
     QGraphicsEllipseItem(map), my_center(center), my_radius(radius),
     my_map(map), myColor(color), myClockWise(clockwise)
 {
@@ -54,13 +55,13 @@ WayPointCircle::WayPointCircle(HomeItem *radius, WayPointItem *center, bool cloc
     connect(map,SIGNAL(childSetOpacity(qreal)),this,SLOT(setOpacitySlot(qreal)));
 }
 
-int WayPointCircle::type() const
+int MapCircle::type() const
 {
     // Enable the use of qgraphicsitem_cast with this item.
     return Type;
 }
 
-void WayPointCircle::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
+void MapCircle::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     Q_UNUSED(option);
     Q_UNUSED(widget);
@@ -101,19 +102,19 @@ void WayPointCircle::paint(QPainter *painter, const QStyleOptionGraphicsItem *op
 
 }
 
-void WayPointCircle::refreshLocations()
+void MapCircle::refreshLocations()
 {
     line=QLineF(my_center->pos(),my_radius->pos());
     this->setRect(my_center->pos().x(),my_center->pos().y(),2*line.length(),2*line.length());
     this->update();
 }
 
-void WayPointCircle::waypointdeleted()
+void MapCircle::waypointdeleted()
 {
     this->deleteLater();
 }
 
-void WayPointCircle::setOpacitySlot(qreal opacity)
+void MapCircle::setOpacitySlot(qreal opacity)
 {
     setOpacity(opacity);
 }
