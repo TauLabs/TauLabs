@@ -2,7 +2,7 @@
  ******************************************************************************
  * @addtogroup TauLabsModules Tau Labs Modules
  * @{
- * @file       filter_infrastructure.c
+ * @file       filter_infrastructure_se3.c
  * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
  * @brief      Infrastructure for managing SE(3)+ filters
  *             because of the airspeed output this is slightly more than SE(3)
@@ -45,20 +45,20 @@
 #include "stateestimation.h"
 #include "velocityactual.h"
 
-static struct filter_infrastructure_s3_data *s3_data;
+static struct filter_infrastructure_se3_data *s3_data;
 
 /**
  * Initialize SE(3)+ filter infrastructure
  * @param[out] data   the common part shared amongst SE(3)+ filters
  */
-int32_t filter_infrastructure_s3_init(struct filter_infrastructure_s3_data **data)
+int32_t filter_infrastructure_se3_init(struct filter_infrastructure_se3_data **data)
 {
 	// Only create one instance of the common data.  This might not be what we want to
 	// keep doing.  A easy (but more memory intense) way to run multiple filters would
 	// be to make them all manage their own queues
 
 	if (s3_data == NULL) {
-		s3_data = (struct filter_infrastructure_s3_data *) pvPortMalloc(sizeof(struct filter_infrastructure_s3_data));
+		s3_data = (struct filter_infrastructure_se3_data *) pvPortMalloc(sizeof(struct filter_infrastructure_se3_data));
 	}
 	if (!s3_data)
 		return -1;
@@ -82,7 +82,7 @@ int32_t filter_infrastructure_s3_init(struct filter_infrastructure_s3_data **dat
 }
 
 //! Connect the queues used for SE(3)+ filters
-int32_t filter_infrastructure_s3_start(uintptr_t id)
+int32_t filter_infrastructure_se3_start(uintptr_t id)
 {
 	if (GyrosHandle())
 		GyrosConnectQueue(s3_data->gyroQueue);
@@ -104,7 +104,7 @@ int32_t filter_infrastructure_s3_start(uintptr_t id)
  * @param[in] dT the update time in seconds
  * @return 0 if succesfully updated or error code
  */
-int32_t filter_infrastructure_s3_process(struct filter_driver_s3 *driver, uintptr_t id)
+int32_t filter_infrastructure_se3_process(struct filter_driver_s3 *driver, uintptr_t id)
 {
 	// TODO: check error codes
 
