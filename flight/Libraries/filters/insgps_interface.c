@@ -4,7 +4,7 @@
  * @{
  * @file       filter_interface_insgps.c
  * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
- * @brief      Infrastructure for managing S3 filters
+ * @brief      Interface from the SE(3)+ infrastructure to the INSGPS
  *
  * @see        The GNU Public License (GPL) Version 3
  *
@@ -40,10 +40,10 @@ static int32_t insgps_interface_get_state(uintptr_t id, float pos[3], float vel[
 struct filter_driver {
 	.class = FILTER_CLASS_S3,
 
-	// this will initialize the s3 infrastrcture too
+	// this will initialize the SE(3)+ infrastrcture too
 	.init = insgps_interface_init,
 
-	// connects the s3 queues
+	// connects the SE(3)+ queues
 	.start = filter_infrastructure_s3_start,
 	.reset = insgps_interface_reset,
 	.process = filter_infrastructure_s3_process,
@@ -66,7 +66,7 @@ static struct insgps_interface_data * insgps_interface_alloc()
 }
 
 /**
- * Initialize this INSGPS filter and the S3 infrastructure
+ * Initialize this INSGPS filter and the SE(3)+ infrastructure
  * @param[out]  id   the handle for this filter instance
  * @return 0 if successful, -1 if not
  */

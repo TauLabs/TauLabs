@@ -4,7 +4,8 @@
  * @{
  * @file       filter_infrastrcture_s3.h
  * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
- * @brief      Infrastructure for managing S(3) filters
+ * @brief      Infrastructure for managing SE(3)+ filters
+ *             because of the airspeed output this is slightly more than SE(3)
  *
  * @see        The GNU Public License (GPL) Version 3
  *
@@ -31,7 +32,7 @@
 // This should probably be opaque and the init should return uintptr_t
 // for better API
 
-//! Private data common for S(3) filters
+//! Private data common for SE(3)+ filters
 struct filter_infrastructure_s3_data {
 	xQueueHandle gyroQueue;
 	xQueueHandle accelQueue;
@@ -41,13 +42,13 @@ struct filter_infrastructure_s3_data {
 	xQueueHandle gpsVelQueue;
 };
 
-// Initialize S(3) UAVOs
+// Initialize SE(3)+ UAVOs
 int32_t filter_infrastructure_s3_init(struct filter_infrastructure_s3_data **data);
 
-//! Connect S(3) queues
+//! Connect  SE(3)+ queues
 int32_t filter_infrastructure_s3_start(uintptr_t id);
 
-//! Process an update for S(3)
+//! Process an update for  SE(3)+
 int32_t filter_infrastructure_s3_process(struct filter_driver_s3 *driver, uintptr_t id, float dt);
 
 #endif /* FILTER_INFRASTRUCTURE_S3 */

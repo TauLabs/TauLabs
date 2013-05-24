@@ -4,7 +4,7 @@
  * @{
  * @file       filter_interface_insgps.h
  * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
- * @brief      Interface for INSGPS filter
+ * @brief      Interface from the SE(3)+ infrastructure to the INSGPS
  *
  * @see        The GNU Public License (GPL) Version 3
  *
