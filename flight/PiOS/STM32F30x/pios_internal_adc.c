@@ -348,7 +348,9 @@ static void PIOS_INTERNAL_ADC_Converter_Config(uint32_t internal_adc_id)
         ADC_Cmd(adc_dev->cfg->adc_dev_master, ENABLE);
         if (adc_dev->cfg->adc_dev_slave)
                 ADC_Cmd(adc_dev->cfg->adc_dev_slave, ENABLE);
-        while (!ADC_GetFlagStatus(ADC1, ADC_FLAG_RDY));
+        while (!ADC_GetFlagStatus(adc_dev->cfg->adc_dev_master, ADC_FLAG_RDY));
+        if(adc_dev->cfg->adc_dev_slave)
+        	while (!ADC_GetFlagStatus(adc_dev->cfg->adc_dev_slave, ADC_FLAG_RDY));
         ADC_StartConversion(adc_dev->cfg->adc_dev_master);
 }
 
