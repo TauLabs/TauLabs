@@ -26,7 +26,7 @@
  */
 
 #include "filter_interface.h"
-#include "filter_infrastructure_s3.h"
+#include "filter_infrastructure_se3.h"
 
 static int32_t insgps_interface_init(uintptr_t id);
 static int32_t insgps_interface_reset(uintptr_t id);
@@ -44,9 +44,9 @@ struct filter_driver {
 	.init = insgps_interface_init,
 
 	// connects the SE(3)+ queues
-	.start = filter_infrastructure_s3_start,
+	.start = filter_infrastructure_se3_start,
 	.reset = insgps_interface_reset,
-	.process = filter_infrastructure_s3_process,
+	.process = filter_infrastructure_se3_process,
 	.driver_s3 = {
 		.get_sensors = insgps_interface_get_sensors,
 		.update_filter = insgps_interface_update_filter,
@@ -56,7 +56,7 @@ struct filter_driver {
 } insgps_filter_driver;
 
 struct insgps_interface_data {
-	struct filter_infrastructure_s3_data *s3_data;
+	struct filter_infrastructure_se3_data *s3_data;
 	uint32_t magic;
 };
 
@@ -78,7 +78,7 @@ static int32_t insgps_interface_init(uintptr_t *id)
 		return -1;
 
 	// Initialize the infrastructure
-	if (filter_infrastructure_s3_init(&insgps_interface_data->s3_data) != 0)
+	if (filter_infrastructure_se3_init(&insgps_interface_data->s3_data) != 0)
 		return -2;
 	
 	// Return the handle

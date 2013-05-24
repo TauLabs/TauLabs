@@ -29,7 +29,7 @@
 #define INSGPS_INTERFACE_H
 
 #include "filter_interface.h"
-#include "filter_infrastructure_s3.h"
+#include "filter_infrastructure_se3.h"
 
 extern struct filter_driver insgps_filter_driver;
 
