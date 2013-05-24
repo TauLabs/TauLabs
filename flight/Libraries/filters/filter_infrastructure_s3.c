@@ -4,7 +4,8 @@
  * @{
  * @file       filter_infrastructure.c
  * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
- * @brief      Infrastructure for managing S(3) filters
+ * @brief      Infrastructure for managing SE(3)+ filters
+ *             because of the airspeed output this is slightly more than SE(3)
  *
  * @see        The GNU Public License (GPL) Version 3
  *
@@ -47,8 +48,8 @@
 static struct filter_infrastructure_s3_data *s3_data;
 
 /**
- * Initialize S(3) filter infrastructure
- * @param[out] data   the common part shared amongst S(3) filters
+ * Initialize SE(3)+ filter infrastructure
+ * @param[out] data   the common part shared amongst SE(3)+ filters
  */
 int32_t filter_infrastructure_s3_init(struct filter_infrastructure_s3_data **data)
 {
@@ -80,7 +81,7 @@ int32_t filter_infrastructure_s3_init(struct filter_infrastructure_s3_data **dat
 	s3_data->gpsVelQueue = xQueueCreate(1, sizeof(UAVObjEvent));
 }
 
-//! Connect the queues used for S3 filters
+//! Connect the queues used for SE(3)+ filters
 int32_t filter_infrastructure_s3_start(uintptr_t id)
 {
 	if (GyrosHandle())
@@ -98,8 +99,8 @@ int32_t filter_infrastructure_s3_start(uintptr_t id)
 }
 
 /**
- * process_filter_generic Compute an update of an S3 filter
- * @param[in] driver The S3 filter driver
+ * process_filter_generic Compute an update of an SE(3)+ filter
+ * @param[in] driver The SE(3)+ filter driver
  * @param[in] dT the update time in seconds
  * @return 0 if succesfully updated or error code
  */
