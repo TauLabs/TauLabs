@@ -65,8 +65,6 @@ static xQueueHandle baroQueue;
 static xQueueHandle gpsQueue;
 static xQueueHandle gpsVelQueue;
 
-static StateEstimationData stateEstimation;
-
 // Private functions
 static void StateEstimationTask(void *parameters);
 static void settingsUpdatedCb(UAVObjEvent * objEv);
@@ -90,7 +88,6 @@ int32_t StateEstimationInitialize(void)
 	VelocityActualInitialize();
 
 	SensorSettingsConnectCallback(&settingsUpdatedCb);
-	StateEstimationConnectCallback(&settingsUpdatedCb);
 
 	return 0;
 }
@@ -161,37 +158,32 @@ static void StateEstimationTask(void *parameters)
 	vTaskDelay(100);
 
 	struct filter_driver *current_filter = NULL;
-	struct filter_driver *requested_filter;
 	uintptr_t running_filter_id;
+
+
+	uint8_t selected_filter;
+	StateEstimationAttitudeFilterGet(&selected_filter);
+	switch (selected_filter) {
+	case STATEESTIMATION_ATTITUDEFILTER_COMPLEMENTARY:
+		current_filter = complementary_filter_driver;
+		break;
+	case STATEESTIMATION_ATTITUDEFILTER_INSOUTDOOR:
+		current_filter = insgps_filter_driver;
+		break;
+	}
+
+	// If a filter request was changed and the new filter is valid reset and initialize
+	if (filter_validate(current_filter)) {
+		if (requested_filter->init(&running_filter_id) != 0)
+			goto FAIL;
+		if (requested_filter->reset(running_filter_id) != 0)
+			goto FAIL;
+	} else {
+		goto FAIL;
+	}
 
 	// Main task loop
 	while (1) {
-
-		switch (stateEstimation.AttitudeFilter ) {
-		case STATEESTIMATION_ATTITUDEFILTER_COMPLEMENTARY:
-			requested_filter = complementary_filter_driver;
-			break;
-		case STATEESTIMATION_ATTITUDEFILTER_INSOUTDOOR:
-			requested_filter = insgps_filter_driver;
-			break;
-		}
-
-		// If a filter request was changed and the new filter is valid reset and initialize
-		if (requested_filter != current_filter && filter_validate(requested_filter)) {
-			// Shut down current filter
-			if (current_filter != NULL) {
-				current_filter->deinit(running_filter_id);
-			}
-
-			// TODO: check error codes and set critical if either fail.  Wait for new filter.
-			requested_filter->init(&running_filter_id);
-			requested_filter->reset(running_filter_id);
-
-			current_filter = requested_filter;
-		}
-
-		// TODO: short circuit out here with error whenever we aren't safe to run
-
 		// Compute update of the active filter
 		switch(requested_filter->class) {
 		case FILTER_CLASS_S3:
@@ -206,6 +198,12 @@ static void StateEstimationTask(void *parameters)
 			break;
 		}
 
+		PIOS_WDG_UpdateFlag(PIOS_WDG_ATTITUDE);
+	}
+FAIL:
+	AlarmsSet(SYSTEMALARMS_ALARM_ATTITUDE, SYSTEMALARMS_ALARM_CRITICAL);
+	while(1) {
+		vTaskDelay(100);
 		PIOS_WDG_UpdateFlag(PIOS_WDG_ATTITUDE);
 	}
 }
@@ -387,20 +385,6 @@ static int32_t getNED(GPSPositionData * gpsPosition, float * NED)
 
 static void settingsUpdatedCb(UAVObjEvent * ev) 
 {
-	if (ev == NULL || ev->obj == SensorSettingsHandle()) {
-		SensorSettingsData sensorSettings;
-		SensorSettingsGet(&sensorSettings);
-		
-		/* When the revo calibration is updated, update the GyroBias object */
-		GyrosBiasData gyrosBias;
-		GyrosBiasGet(&gyrosBias);
-		gyrosBias.x = 0;
-		gyrosBias.y = 0;
-		gyrosBias.z = 0;
-		GyrosBiasSet(&gyrosBias);
-
-		gyroBiasSettingsUpdated = true;
-	}
 	if(ev == NULL || ev->obj == HomeLocationHandle()) {
 		uint8_t armed;
 		FlightStatusArmedGet(&armed);
@@ -425,6 +409,7 @@ static void settingsUpdatedCb(UAVObjEvent * ev)
 	if (ev == NULL || ev->obj == StateEstimationHandle())
 		StateEstimationGet(&stateEstimation);
 }
+
 /**
  * @}
  * @}
