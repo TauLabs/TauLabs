@@ -116,7 +116,7 @@ int32_t PIOS_ADC_Init(uintptr_t *adc_id, const struct pios_adc_driver *driver, u
 
 	adc_dev->driver = driver;
 	adc_dev->lower_id = lower_id;
-
+	*adc_id = (uintptr_t) adc_dev;
 	sub_device_list.sub_device_pointers[sub_device_list.number_of_devices] = adc_dev;
 	sub_device_list.number_of_devices++;
 	return 0;
