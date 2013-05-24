@@ -62,6 +62,13 @@ static xTaskHandle attitudeTaskHandle;
 static void StateEstimationTask(void *parameters);
 static void settingsUpdatedCb(UAVObjEvent * objEv);
 
+// Mapping from UAVO setting to filters
+const static struct filter_driver filters[] = {
+	[STATEESTIMATION_ATTITUDEFILTER_COMPLEMENTARY] = complementary_filter_driver,
+	[STATEESTIMATION_ATTITUDEFILTER_INSINDOOR] = insindoor_filter_driver,
+	[STATEESTIMATION_ATTITUDEFILTER_INSOUTDOOR] = insoutdoor_filter_driver,
+};
+
 /**
  * Initialise the module.  Called before the start function
  * \returns 0 on success or -1 if initialisation failed
@@ -142,18 +149,15 @@ static void StateEstimationTask(void *parameters)
 	struct filter_driver *current_filter = NULL;
 	uintptr_t running_filter_id;
 
-
+	// Get the driver for the selected filter
 	uint8_t selected_filter;
 	StateEstimationAttitudeFilterGet(&selected_filter);
-	switch (selected_filter) {
-	case STATEESTIMATION_ATTITUDEFILTER_COMPLEMENTARY:
-		current_filter = complementary_filter_driver;
-		break;
-	case STATEESTIMATION_ATTITUDEFILTER_INSOUTDOOR:
-		current_filter = insgps_filter_driver;
-		break;
-	}
+	if (current_filter < NELEMENTS(filters))
+		current_filter = filters[selected_filter];
+	else
+		goto FAIL;
 
+	// Check this filter is safe to run
 	if (!filter_validate(current_filter))
 		goto FAIL;
 	if (requested_filter->init(&running_filter_id) != 0)
