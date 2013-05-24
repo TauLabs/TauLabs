@@ -37,6 +37,7 @@
 #include <QtCore/QTimer>
 #include <QtCore/QSignalMapper>
 #include <QtCore/QDebug>
+#include <math.h>
 
 UAVObjectTreeModel::UAVObjectTreeModel(QObject *parent, bool categorize, bool useScientificNotation) :
     QAbstractItemModel(parent),
@@ -49,8 +50,16 @@ UAVObjectTreeModel::UAVObjectTreeModel(QObject *parent, bool categorize, bool us
     ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
     UAVObjectManager *objManager = pm->getObject<UAVObjectManager>();
 
+    currentTime = QTime::currentTime();
+
+    // Create timer that sets the rhythm for all highlight events.
+    connect(&currentTimeTimer, SIGNAL(timeout()), this, SLOT(updateCurrentTime()));
+    currentTimeTimer.start(lrint(fmax(m_recentlyUpdatedTimeout / 10.0f, 10))); // Update the timer 10 times faster than the time
+                                                                               // out. In any case, never go faster than 10ms.
+
+
     // Create highlight manager, let it run every 300 ms.
-    m_highlightManager = new HighLightManager(300);
+    m_highlightManager = new HighLightManager(300, &currentTime);
     connect(objManager, SIGNAL(newObject(UAVObject*)), this, SLOT(newObject(UAVObject*)));
     connect(objManager, SIGNAL(newInstance(UAVObject*)), this, SLOT(newObject(UAVObject*)));
 
@@ -69,7 +78,7 @@ void UAVObjectTreeModel::setupModelData(UAVObjectManager *objManager, bool categ
     // root
     QList<QVariant> rootData;
     rootData << tr("Property") << tr("Value") << tr("Unit");
-    m_rootItem = new TreeItem(rootData);
+    m_rootItem = new TreeItem(rootData, &currentTime);
 
     m_settingsTree = new TopTreeItem(tr("Settings"), m_rootItem);
     m_settingsTree->setHighlightManager(m_highlightManager);
@@ -461,4 +470,13 @@ void UAVObjectTreeModel::updateHighlight(TreeItem *item)
     QModelIndex itemIndex = index(item);
     Q_ASSERT(itemIndex != QModelIndex());
     emit dataChanged(itemIndex, itemIndex.sibling(itemIndex.row(), TreeItem::dataColumn));
+}
+
+
+/**
+ * @brief TreeItem::updateCurrentTime  This single timer sets the rhythm for all highlight events.
+ */
+void UAVObjectTreeModel::updateCurrentTime()
+{
+    currentTime = QTime::currentTime();
 }

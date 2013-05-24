@@ -29,15 +29,18 @@
 #include "fieldtreeitem.h"
 #include <math.h>
 
-
-static QTime currentTime;
+QTime* HighLightManager::currentTime = NULL;
 
 /* Constructor */
-HighLightManager::HighLightManager(long checkingInterval)
+HighLightManager::HighLightManager(long checkingInterval, QTime *currentTime)
 {
     // Start the timer and connect it to the callback
     m_expirationTimer.start(checkingInterval);
     connect(&m_expirationTimer, SIGNAL(timeout()), this, SLOT(checkItemsExpired()));
+
+    if (currentTime == NULL)
+        this->currentTime = new QTime;
+    this->currentTime = currentTime;
 }
 
 /*
@@ -85,14 +88,11 @@ void HighLightManager::checkItemsExpired()
     // Get a mutable iterator for the list
     QMutableLinkedListIterator<TreeItem*> iter(m_itemsList);
 
-    // This is the timestamp to compare with
-    QTime now = currentTime;
-
     // Loop over all items, check if they expired.
     while(iter.hasNext())
     {
         TreeItem* item = iter.next();
-        if(item->getHiglightExpires() < now)
+        if(item->getHiglightExpires() < *currentTime)
         {
             // If expired, call removeHighlight
             item->removeHighlight();
@@ -104,7 +104,20 @@ void HighLightManager::checkItemsExpired()
 }
 
 int TreeItem::m_highlightTimeMs = 500;
-QTimer* TreeItem::currentTimeTimer = NULL;
+QTime* TreeItem::currentTime = NULL;
+
+TreeItem::TreeItem(const QList<QVariant> &data, QTime *currentTime, TreeItem *parent) :
+        QObject(0),
+        m_data(data),
+        m_parent(parent),
+        m_highlight(false),
+        m_changed(false),
+        m_updated(false)
+{
+    if (currentTime == NULL)
+        this->currentTime = new QTime;
+    this->currentTime = currentTime;
+}
 
 TreeItem::TreeItem(const QList<QVariant> &data, TreeItem *parent) :
         QObject(0),
@@ -114,16 +127,8 @@ TreeItem::TreeItem(const QList<QVariant> &data, TreeItem *parent) :
         m_changed(false),
         m_updated(false)
 {
-    // Create static timer instance. This single timer sets the rhythm for all highlight events. Otherwise
-    // each class instance has its own timer and this leads to lots of expensives and unnecessary calls
-    // to QTime::currenttime();
-    if (currentTimeTimer == NULL) {
-        currentTimeTimer = new QTimer(this);
-        bool ret = connect(currentTimeTimer, SIGNAL(timeout()), this, SLOT(updateCurrentTime()), Qt::UniqueConnection);
-        if (ret)
-            currentTimeTimer->start(lrint(fmax(m_highlightTimeMs / 10.0f, 10))); // Update the timer 10 times faster than the time
-                                                                                 // out. In any case, never go faster than 10ms.
-    }
+    if (currentTime == NULL)
+        currentTime = new QTime;
 }
 
 TreeItem::TreeItem(const QVariant &data, TreeItem *parent) :
@@ -134,19 +139,13 @@ TreeItem::TreeItem(const QVariant &data, TreeItem *parent) :
         m_updated(false)
 {
     m_data << data << "" << "";
+    if (currentTime == NULL)
+        currentTime = new QTime;
 }
 
 TreeItem::~TreeItem()
 {
     qDeleteAll(m_children);
-}
-
-/**
- * @brief TreeItem::updateCurrentTime  This single timer sets the rhythm for all highlight events.
- */
-void TreeItem::updateCurrentTime()
-{
-    currentTime = QTime::currentTime();
 }
 
 void TreeItem::appendChild(TreeItem *child)
@@ -213,7 +212,7 @@ void TreeItem::setHighlight(bool highlight) {
     m_changed = false;
     if (highlight) {
         // Update the expires timestamp
-        m_highlightExpires = currentTime.addMSecs(m_highlightTimeMs);
+        m_highlightExpires = currentTime->addMSecs(m_highlightTimeMs);
 
         // Add to highlightmanager
         if(m_highlightManager->add(this))
