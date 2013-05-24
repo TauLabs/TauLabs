@@ -4,7 +4,7 @@
  * @{
  * @file       filter_infrastructure.c
  * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
- * @brief      Infrastructure for managing S3 filters
+ * @brief      Infrastructure for managing S(3) filters
  *
  * @see        The GNU Public License (GPL) Version 3
  *
@@ -44,38 +44,57 @@
 #include "stateestimation.h"
 #include "velocityactual.h"
 
-static xQueueHandle gyroQueue;
-static xQueueHandle accelQueue;
-static xQueueHandle magQueue;
-static xQueueHandle baroQueue;
-static xQueueHandle gpsQueue;
-static xQueueHandle gpsVelQueue;
+static struct filter_infrastructure_s3_data *s3_data;
 
-int32_t filter_infrastructure_s3_init(uintptr_t *id)
+/**
+ * Initialize S(3) filter infrastructure
+ * @param[out] data   the common part shared amongst S(3) filters
+ */
+int32_t filter_infrastructure_s3_init(struct filter_infrastructure_s3_data **data)
 {
+	// Only create one instance of the common data.  This might not be what we want to
+	// keep doing.  A easy (but more memory intense) way to run multiple filters would
+	// be to make them all manage their own queues
+
+	if (s3_data == NULL) {
+		s3_data = (struct filter_infrastructure_s3_data *) pvPortMalloc(sizeof(struct filter_infrastructure_s3_data));
+	}
+	if (!s3_data)
+		return -1;
+
+	(*data) = s3_data;
+
 	AttitudeActualInitialize();
 	AttitudeSettingsInitialize();
 	SensorSettingsInitialize();
 	NEDPositionInitialize();
 	PositionActualInitialize();
 	VelocityActualInitialize();
+
+	// Create the data queues
+	s3_data->gyroQueue = xQueueCreate(1, sizeof(UAVObjEvent));
+	s3_data->accelQueue = xQueueCreate(1, sizeof(UAVObjEvent));
+	s3_data->magQueue = xQueueCreate(2, sizeof(UAVObjEvent));
+	s3_data->baroQueue = xQueueCreate(1, sizeof(UAVObjEvent));
+	s3_data->gpsQueue = xQueueCreate(1, sizeof(UAVObjEvent));
+	s3_data->gpsVelQueue = xQueueCreate(1, sizeof(UAVObjEvent));
 }
 
 //! Connect the queues used for S3 filters
 int32_t filter_infrastructure_s3_start(uintptr_t id)
 {
 	if (GyrosHandle())
-		GyrosConnectQueue(gyroQueue);
+		GyrosConnectQueue(s3_data->gyroQueue);
 	if (AccelsHandle())
-		AccelsConnectQueue(accelQueue);
+		AccelsConnectQueue(s3_data->accelQueue);
 	if (MagnetometerHandle())
-		MagnetometerConnectQueue(magQueue);
+		MagnetometerConnectQueue(s3_data->magQueue);
 	if (BaroAltitudeHandle())
-		BaroAltitudeConnectQueue(baroQueue);
+		BaroAltitudeConnectQueue(s3_data->baroQueue);
 	if (GPSPositionHandle())
-		GPSPositionConnectQueue(gpsQueue);
+		GPSPositionConnectQueue(s3_data->gpsQueue);
 	if (GPSVelocityHandle())
-		GPSVelocityConnectQueue(gpsVelQueue);
+		GPSVelocityConnectQueue(s3_data->gpsVelQueue);
 }
 
 /**
@@ -112,33 +131,33 @@ int32_t filter_infrastructure_s3_process(struct filter_driver_s3 *driver, uintpt
 	GPSVelocity gpsVelocity;
 	float NED[3];
 
-	if (gyroQueue, &ev, FAILSAFE_TIMEOUT_MS / portTICK_RATE_MS) == pdTRUE) {
+	if (xQueueReceive(s3_data->gyroQueue, &ev, FAILSAFE_TIMEOUT_MS / portTICK_RATE_MS) == pdTRUE) {
 		GyrosGet(&gyrosData);
 		gyros = &gyrosData.x;
 	}
 
-	if (xQueueReceive(accelQueue, &ev, 1 / portTICK_RATE_MS) == pdTRUE) {
+	if (xQueueReceive(s3_data->accelQueue, &ev, 1 / portTICK_RATE_MS) == pdTRUE) {
 		AcceslGet(&accelsData);
 		accels = &accelsData.x;
 	}
 
-	if (xQueueReceive(magQueue, &ev, 0 / portTICK_RATE_MS) == pdTRUE)) {
+	if (xQueueReceive(s3_data->magQueue, &ev, 0 / portTICK_RATE_MS) == pdTRUE)) {
 		MagsGet(&magData);
 		mags = &magData.x;
 	}
 
-	if (xQueueReceive(baroQueue, &ev, 0 / portTICK_RATE_MS) == pdTRUE) {
+	if (xQueueReceive(s3_data->baroQueue, &ev, 0 / portTICK_RATE_MS) == pdTRUE) {
 		BaroGet(&baroData);
 		baro = &baroData.Altitude;
 	}
 
-	if (xQueueReceive(gpsQueue, &ev, 0 / portTICK_RATE_MS) == pdTRUE) {
+	if (xQueueReceive(s3_data->gpsQueue, &ev, 0 / portTICK_RATE_MS) == pdTRUE) {
 		GPSPositionGet(&gpsPosition);
 		getNED(gpsPosition, NED);
 		pos = NED;
 	}
 
-	if (xQueueReceive(gpsVelQueue, &ev, 0 / portTICK_RATE_MS) == pdTRUE) {
+	if (xQueueReceive(s3_data->gpsVelQueue, &ev, 0 / portTICK_RATE_MS) == pdTRUE) {
 		GPSVelocityGet(&gpsVelocity);
 		vel = &gpsVelocity.North;
 	}

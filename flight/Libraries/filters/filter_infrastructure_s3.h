@@ -4,7 +4,7 @@
  * @{
  * @file       filter_infrastrcture_s3.h
  * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
- * @brief      Infrastructure for managing S3 filters
+ * @brief      Infrastructure for managing S(3) filters
  *
  * @see        The GNU Public License (GPL) Version 3
  *
@@ -25,15 +25,24 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
- #if !defined(FILTER_INFRASTRUCTURE_S3)
- #define FILTER_INFRASTRUCTURE_S3
+#if !defined(FILTER_INFRASTRUCTURE_S3)
+#define FILTER_INFRASTRUCTURE_S3
 
+// This should probably be opaque and the init should return uintptr_t
+// for better API
+
+//! Private data common for S(3) filters
 struct filter_infrastructure_s3_data {
-
+	xQueueHandle gyroQueue;
+	xQueueHandle accelQueue;
+	xQueueHandle magQueue;
+	xQueueHandle baroQueue;
+	xQueueHandle gpsQueue;
+	xQueueHandle gpsVelQueue;
 };
 
 // Initialize S(3) UAVOs
-int32_t filter_infrastructure_s3_init(uintptr_t *id);
+int32_t filter_infrastructure_s3_init(struct filter_infrastructure_s3_data **data);
 
 //! Connect S(3) queues
 int32_t filter_infrastructure_s3_start(uintptr_t id);
@@ -41,7 +50,7 @@ int32_t filter_infrastructure_s3_start(uintptr_t id);
 //! Process an update for S(3)
 int32_t filter_infrastructure_s3_process(struct filter_driver_s3 *driver, uintptr_t id, float dt);
 
- #endif /* FILTER_INFRASTRUCTURE_S3 */
+#endif /* FILTER_INFRASTRUCTURE_S3 */
 
  /**
   * @}
