@@ -432,10 +432,10 @@ int32_t PIOS_INTERNAL_ADC_Init(uint32_t * internal_adc_id, const struct pios_int
 }
 
 /**
- * Returns value of an ADC PinTODO
+ * Checks if a pin is available on a certain ADC device
  * @param[in] pin number
- * @return ADC pin value averaged over the set of samples since the last reading.
- * @return -1 if pin doesn't exist
+ * @param[in] internal_adc_id handler to the device to check
+ * @return True if the pin is available.
  */
 static bool PIOS_INTERNAL_ADC_Available(uint32_t internal_adc_id, uint32_t pin)
 {
