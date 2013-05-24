@@ -41,6 +41,7 @@
 #define PIOS_MPU60X0_GYRO_CFG_REG         0X1B
 #define PIOS_MPU60X0_ACCEL_CFG_REG        0X1C
 #define PIOS_MPU60X0_FIFO_EN_REG          0x23
+#define PIOS_MPU60X0_I2C_MST_CFG_REG      0x36
 #define PIOS_MPU60X0_INT_CFG_REG          0x37
 #define PIOS_MPU60X0_INT_EN_REG           0x38
 #define PIOS_MPU60X0_INT_STATUS_REG       0x3A
