@@ -122,25 +122,37 @@ struct filter_generic {
 
 /***** union of all the filter classes *****/
 
-// NOTE: we might want to move class into the first field of all the
-// types to make it a 'flatter' structure but this would be less type
-// safe, to the extent this is type safe at all
 struct filter_driver {
 	//! class must accurately match the following type
 	enum filter_class class;
 
 	/**
-	 * Initialize the filter, allocate memory, and connect additional queues
+	 * Initialize the filter, allocate memory
 	 * @param[out] id        the handle for this initialized filter instance
 	 * @param[out] id handle for local data for this filter instance
 	 */
 	int32_t (*init)(uintptr_t *id);
 
 	/**
+	 * Start the filter once FreeRTOS running (all should exist)
+	 * @param[in]  id        the filter handle to start
+	 * @param[out] id handle for local data for this filter instance
+	 */
+	int32_t (*start)(uintptr_t id);
+
+	/**
 	 * Reset the filter state to default
 	 * @param[in]  id        the filter handle to reset
 	 */
 	int32_t (*reset)(uintptr_t id);
+
+	/**
+	 * Process the filter forward a step
+	 * @param[in]  id        the filter handle to reset
+	 * @param[in]  dt        time step [s]
+	 * @return 0 if successful or error code
+	 */
+	int32_t (*process)(uintptr_t id, float dt);
 
 	//! The specific driver for this filter implementation class
 	union driver {
@@ -149,9 +161,7 @@ struct filter_driver {
 	};
 };
 
-// NOTE: we might have to switch to heap_4.c for deinit to make sense.  we can't even disconnect
-// queues currently so you wouldn't be able to meaningfully disconnect a filter.  this is someting
-// that we can bypass with a reboot for now
+bool filter_interface_validate(struct filter_driver *filter, uintptr_t id);
 
 /**
  * @}
