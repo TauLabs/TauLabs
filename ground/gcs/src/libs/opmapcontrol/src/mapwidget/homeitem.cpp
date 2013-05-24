@@ -24,12 +24,24 @@
 * with this program; if not, write to the Free Software Foundation, Inc.,
 * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 */
+
+#include "opmapwidget.h"
+
 #include "homeitem.h"
 namespace mapcontrol
 {
-    HomeItem::HomeItem(MapGraphicItem* map,OPMapWidget* parent):safe(true),map(map),mapwidget(parent),
-        showsafearea(true),toggleRefresh(true),safearea(1000),localsafearea(0),altitude(0),isDragging(false)
+    HomeItem::HomeItem(MapGraphicItem* map, OPMapWidget* parent):
+        safe(true),
+        mapwidget(parent),
+        showsafearea(true),
+        toggleRefresh(true),
+        safearea(1000),
+        localsafearea(0),
+        isDragging(false)
     {
+        this->map = map;
+        this->altitude = altitude;
+
         pic.load(QString::fromUtf8(":/markers/images/home2.svg"));
         pic=pic.scaled(30,30,Qt::IgnoreAspectRatio);
         this->setFlag(QGraphicsItem::ItemIgnoresTransformations,true);
@@ -119,7 +131,7 @@ namespace mapcontrol
             coord=map->FromLocalToLatLng(this->pos().x(),this->pos().y());
             isDragging=false;
 
-            emit homePositionChanged(coord,Altitude());
+            emit absolutePositionChanged(coord, Altitude());
         }
         QGraphicsItem::mouseReleaseEvent(event);
 
@@ -138,7 +150,7 @@ namespace mapcontrol
         if(isDragging)
         {
             coord=map->FromLocalToLatLng(this->pos().x(),this->pos().y());
-            emit homePositionChanged(coord,Altitude());
+            emit absolutePositionChanged(coord, Altitude());
         }
             QGraphicsItem::mouseMoveEvent(event);
     }

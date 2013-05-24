@@ -37,7 +37,6 @@
 #include <QBrush>
 #include <QFont>
 #include <QObject>
-#include "waypointitem.h"
 
 namespace mapcontrol
 {

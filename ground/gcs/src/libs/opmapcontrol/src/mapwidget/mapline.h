@@ -3,7 +3,8 @@
 *
 * @file       mapline.h
 * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
-* @brief      A graphicsItem representing a line connecting 2 waypoints
+* @author     Tau Labs, http://taulabs.org Copyright (C) 2013.
+* @brief      A graphicsItem representing a line connecting 2 map points
 * @see        The GNU Public License (GPL) Version 3
 * @defgroup   OPMapWidget
 * @{
@@ -26,25 +27,22 @@
 */
 #ifndef MAPLINE_H
 #define MAPLINE_H
-#include <QGraphicsItem>
-#include <QPainter>
-#include <QLabel>
-#include "../internals/pointlatlng.h"
+
 #include "mapgraphicitem.h"
-#include "waypointitem.h"
-#include <QObject>
-#include <QPoint>
+#include "mappoint.h"
 
 namespace mapcontrol
 {
+class HomeItem;
+
 class MapLine : public QObject, public QGraphicsLineItem
 {
     Q_OBJECT
     Q_INTERFACES(QGraphicsItem)
 public:
     enum { Type = UserType + 8 };
-    MapLine(WayPointItem * from, WayPointItem * to,MapGraphicItem * map,QColor color=Qt::green);
-    MapLine(HomeItem * from, WayPointItem * to,MapGraphicItem * map,QColor color=Qt::green);
+    MapLine(MapPoint *from, MapPoint *to, MapGraphicItem *map, QColor color=Qt::green);
+    MapLine(HomeItem *from, MapPoint *to, MapGraphicItem *map, QColor color=Qt::green);
     int type() const;
     QPainterPath shape() const;
     void setColor(const QColor &color)
@@ -59,7 +57,7 @@ protected:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
 public slots:
     void refreshLocations();
-    void waypointdeleted();
+    void pointdeleted();
     void setOpacitySlot(qreal opacity);
 };
 }

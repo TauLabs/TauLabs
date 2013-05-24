@@ -141,7 +141,7 @@ namespace mapcontrol
         return ret;
     }
 
-    MapCircle * OPMapWidget::WPCircleCreate(WayPointItem *center, WayPointItem *radius, bool clockwise,QColor color)
+    MapCircle *OPMapWidget::WPCircleCreate(WayPointItem *center, WayPointItem *radius, bool clockwise, QColor color)
     {
         if(!center|!radius)
             return NULL;

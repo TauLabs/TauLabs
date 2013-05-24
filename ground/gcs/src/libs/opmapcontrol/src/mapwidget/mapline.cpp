@@ -3,7 +3,8 @@
 *
 * @file       mapline.cpp
 * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
-* @brief      A graphicsItem representing a line connecting 2 waypoints
+* @author     Tau Labs, http://taulabs.org Copyright (C) 2013.
+* @brief      A graphicsItem representing a line connecting 2 map points
 * @see        The GNU Public License (GPL) Version 3
 * @defgroup   OPMapWidget
 * @{
@@ -30,14 +31,14 @@
 
 namespace mapcontrol
 {
-MapLine::MapLine(WayPointItem *from, WayPointItem *to, MapGraphicItem *map, QColor color) :
+MapLine::MapLine(MapPoint *from, MapPoint *to, MapGraphicItem *map, QColor color) :
     QGraphicsLineItem(map), source(from), destination(to), my_map(map), myColor(color)
 {
     this->setLine(to->pos().x(),to->pos().y(),from->pos().x(),from->pos().y());
-    connect(from,SIGNAL(localPositionChanged(QPointF,WayPointItem*)),this,SLOT(refreshLocations()));
-    connect(to,SIGNAL(localPositionChanged(QPointF,WayPointItem*)),this,SLOT(refreshLocations()));
-    connect(from,SIGNAL(aboutToBeDeleted(WayPointItem*)),this,SLOT(waypointdeleted()));
-    connect(to,SIGNAL(aboutToBeDeleted(WayPointItem*)),this,SLOT(waypointdeleted()));
+    connect(from, SIGNAL(relativePositionChanged(QPointF, MapPoint*)), this, SLOT(refreshLocations()));
+    connect(to, SIGNAL(relativePositionChanged(QPointF, MapPoint*)), this, SLOT(refreshLocations()));
+    connect(from, SIGNAL(aboutToBeDeleted(MapPoint*)), this, SLOT(pointdeleted()));
+    connect(to, SIGNAL(aboutToBeDeleted(MapPoint*)), this, SLOT(pointdeleted()));
     if(myColor==Qt::green)
         this->setZValue(10);
     else if(myColor==Qt::yellow)
@@ -47,13 +48,13 @@ MapLine::MapLine(WayPointItem *from, WayPointItem *to, MapGraphicItem *map, QCol
     connect(map,SIGNAL(childSetOpacity(qreal)),this,SLOT(setOpacitySlot(qreal)));
 }
 
-MapLine::MapLine(HomeItem *from, WayPointItem *to, MapGraphicItem *map, QColor color) :
+MapLine::MapLine(HomeItem *from, MapPoint *to, MapGraphicItem *map, QColor color) :
     QGraphicsLineItem(map), source(from), destination(to), my_map(map), myColor(color)
 {
     this->setLine(to->pos().x(),to->pos().y(),from->pos().x(),from->pos().y());
-    connect(from,SIGNAL(homePositionChanged(internals::PointLatLng,float)),this,SLOT(refreshLocations()));
-    connect(to,SIGNAL(localPositionChanged(QPointF,WayPointItem*)),this,SLOT(refreshLocations()));
-    connect(to,SIGNAL(aboutToBeDeleted(WayPointItem*)),this,SLOT(waypointdeleted()));
+    connect(from, SIGNAL(absolutePositionChanged(internals::PointLatLng, float)), this, SLOT(refreshLocations()));
+    connect(to, SIGNAL(relativePositionChanged(QPointF, MapPoint*)), this, SLOT(refreshLocations()));
+    connect(to, SIGNAL(aboutToBeDeleted(MapPoint*)), this, SLOT(pointdeleted()));
     if(myColor==Qt::green)
         this->setZValue(10);
     else if(myColor==Qt::yellow)
@@ -114,7 +115,7 @@ void MapLine::refreshLocations()
     this->setLine(destination->pos().x(),destination->pos().y(),source->pos().x(),source->pos().y());
 }
 
-void MapLine::waypointdeleted()
+void MapLine::pointdeleted()
 {
     this->deleteLater();
 }

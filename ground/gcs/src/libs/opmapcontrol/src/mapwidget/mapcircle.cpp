@@ -4,7 +4,7 @@
 * @file       mapcircle.cpp
 * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
 * @author     Tau Labs, http://taulabs.org Copyright (C) 2013.
-* @brief      A graphicsItem representing a circle connecting 2 waypoints
+* @brief      A graphicsItem representing a circle connecting 2 map points
 * @see        The GNU Public License (GPL) Version 3
 * @defgroup   OPMapWidget
 * @{
@@ -28,29 +28,29 @@
 #include "mapcircle.h"
 #include <math.h>
 #include "homeitem.h"
+#include "mappoint.h"
 
 namespace mapcontrol
 {
-MapCircle::MapCircle(WayPointItem *center, WayPointItem *radius, bool clockwise, MapGraphicItem *map, QColor color) :
+MapCircle::MapCircle(MapPoint *center, MapPoint *radius, bool clockwise, MapGraphicItem *map, QColor color) :
     QGraphicsEllipseItem(map), my_center(center), my_radius(radius),
     my_map(map), myColor(color), myClockWise(clockwise)
 {
-    connect(center,SIGNAL(localPositionChanged(QPointF,WayPointItem*)),this,SLOT(refreshLocations()));
-    connect(radius,SIGNAL(localPositionChanged(QPointF,WayPointItem*)),this,SLOT(refreshLocations()));
-    connect(center,SIGNAL(aboutToBeDeleted(WayPointItem*)),this,SLOT(waypointdeleted()));
-    connect(radius,SIGNAL(aboutToBeDeleted(WayPointItem*)),this,SLOT(waypointdeleted()));
+    connect(center, SIGNAL(relativePositionChanged(QPointF, WayPointItem*)), this, SLOT(refreshLocations()));
+    connect(radius, SIGNAL(relativePositionChanged(QPointF, WayPointItem*)), this, SLOT(refreshLocations()));
+    connect(center, SIGNAL(aboutToBeDeleted(MapPoint*)), this, SLOT(pointdeleted()));
+    connect(radius, SIGNAL(aboutToBeDeleted(MapPoint*)), this, SLOT(pointdeleted()));
     refreshLocations();
     connect(map,SIGNAL(childSetOpacity(qreal)),this,SLOT(setOpacitySlot(qreal)));
-
 }
 
-MapCircle::MapCircle(HomeItem *radius, WayPointItem *center, bool clockwise, MapGraphicItem *map, QColor color) :
+MapCircle::MapCircle(HomeItem *center, MapPoint *radius, bool clockwise, MapGraphicItem *map, QColor color) :
     QGraphicsEllipseItem(map), my_center(center), my_radius(radius),
     my_map(map), myColor(color), myClockWise(clockwise)
 {
-    connect(radius,SIGNAL(homePositionChanged(internals::PointLatLng,float)),this,SLOT(refreshLocations()));
-    connect(center,SIGNAL(localPositionChanged(QPointF)),this,SLOT(refreshLocations()));
-    connect(center,SIGNAL(aboutToBeDeleted(WayPointItem*)),this,SLOT(waypointdeleted()));
+    connect(center, SIGNAL(absolutePositionChanged(internals::PointLatLng, float)), this, SLOT(refreshLocations()));
+    connect(radius, SIGNAL(relativePositionChanged(QPointF)), this, SLOT(refreshLocations()));
+    connect(radius, SIGNAL(aboutToBeDeleted(MapPoint*)), this, SLOT(pointdeleted()));
     refreshLocations();
     connect(map,SIGNAL(childSetOpacity(qreal)),this,SLOT(setOpacitySlot(qreal)));
 }
@@ -109,7 +109,7 @@ void MapCircle::refreshLocations()
     this->update();
 }
 
-void MapCircle::waypointdeleted()
+void MapCircle::pointdeleted()
 {
     this->deleteLater();
 }
