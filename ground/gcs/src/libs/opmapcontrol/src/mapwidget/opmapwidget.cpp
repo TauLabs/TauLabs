@@ -106,19 +106,19 @@ namespace mapcontrol
             GPS->SetUavPic(UAVPic);
     }
 
-    WayPointLine * OPMapWidget::WPLineCreate(WayPointItem *from, WayPointItem *to,QColor color)
+    MapLine * OPMapWidget::WPLineCreate(WayPointItem *from, WayPointItem *to,QColor color)
     {
         if(!from|!to)
             return NULL;
-        WayPointLine* ret= new WayPointLine(from,to,map,color);
+        MapLine* ret= new MapLine(from,to,map,color);
         ret->setOpacity(overlayOpacity);
         return ret;
     }
-    WayPointLine * OPMapWidget::WPLineCreate(HomeItem *from, WayPointItem *to,QColor color)
+    MapLine * OPMapWidget::WPLineCreate(HomeItem *from, WayPointItem *to,QColor color)
     {
         if(!from|!to)
             return NULL;
-        WayPointLine* ret= new WayPointLine(from,to,map,color);
+        MapLine* ret= new MapLine(from,to,map,color);
         ret->setOpacity(overlayOpacity);
         return ret;
     }
@@ -444,7 +444,7 @@ namespace mapcontrol
     {
         foreach(QGraphicsItem* i,map->childItems())
         {
-            WayPointLine* w=qgraphicsitem_cast<WayPointLine*>(i);
+            MapLine* w=qgraphicsitem_cast<MapLine*>(i);
             if(w)
                 w->deleteLater();
             else

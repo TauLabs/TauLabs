@@ -1,7 +1,7 @@
 /**
 ******************************************************************************
 *
-* @file       waypointline.h
+* @file       mapline.h
 * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
 * @brief      A graphicsItem representing a line connecting 2 waypoints
 * @see        The GNU Public License (GPL) Version 3
@@ -24,8 +24,8 @@
 * with this program; if not, write to the Free Software Foundation, Inc.,
 * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 */
-#ifndef WAYPOINTLINE_H
-#define WAYPOINTLINE_H
+#ifndef MAPLINE_H
+#define MAPLINE_H
 #include <QGraphicsItem>
 #include <QPainter>
 #include <QLabel>
@@ -37,14 +37,14 @@
 
 namespace mapcontrol
 {
-class WayPointLine : public QObject, public QGraphicsLineItem
+class MapLine : public QObject, public QGraphicsLineItem
 {
     Q_OBJECT
     Q_INTERFACES(QGraphicsItem)
 public:
     enum { Type = UserType + 8 };
-    WayPointLine(WayPointItem * from, WayPointItem * to,MapGraphicItem * map,QColor color=Qt::green);
-    WayPointLine(HomeItem * from, WayPointItem * to,MapGraphicItem * map,QColor color=Qt::green);
+    MapLine(WayPointItem * from, WayPointItem * to,MapGraphicItem * map,QColor color=Qt::green);
+    MapLine(HomeItem * from, WayPointItem * to,MapGraphicItem * map,QColor color=Qt::green);
     int type() const;
     QPainterPath shape() const;
     void setColor(const QColor &color)
@@ -63,4 +63,4 @@ public slots:
     void setOpacitySlot(qreal opacity);
 };
 }
-#endif // WAYPOINTLINE_H
+#endif // MAPLINE_H

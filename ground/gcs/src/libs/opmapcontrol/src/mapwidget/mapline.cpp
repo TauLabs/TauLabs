@@ -1,7 +1,7 @@
 /**
 ******************************************************************************
 *
-* @file       waypointline.cpp
+* @file       mapline.cpp
 * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
 * @brief      A graphicsItem representing a line connecting 2 waypoints
 * @see        The GNU Public License (GPL) Version 3
@@ -24,13 +24,13 @@
 * with this program; if not, write to the Free Software Foundation, Inc.,
 * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 */
-#include "waypointline.h"
+#include "mapline.h"
 #include <math.h>
 #include "homeitem.h"
 
 namespace mapcontrol
 {
-WayPointLine::WayPointLine(WayPointItem *from, WayPointItem *to, MapGraphicItem *map, QColor color) :
+MapLine::MapLine(WayPointItem *from, WayPointItem *to, MapGraphicItem *map, QColor color) :
     QGraphicsLineItem(map), source(from), destination(to), my_map(map), myColor(color)
 {
     this->setLine(to->pos().x(),to->pos().y(),from->pos().x(),from->pos().y());
@@ -47,7 +47,7 @@ WayPointLine::WayPointLine(WayPointItem *from, WayPointItem *to, MapGraphicItem 
     connect(map,SIGNAL(childSetOpacity(qreal)),this,SLOT(setOpacitySlot(qreal)));
 }
 
-WayPointLine::WayPointLine(HomeItem *from, WayPointItem *to, MapGraphicItem *map, QColor color) :
+MapLine::MapLine(HomeItem *from, WayPointItem *to, MapGraphicItem *map, QColor color) :
     QGraphicsLineItem(map), source(from), destination(to), my_map(map), myColor(color)
 {
     this->setLine(to->pos().x(),to->pos().y(),from->pos().x(),from->pos().y());
@@ -63,20 +63,20 @@ WayPointLine::WayPointLine(HomeItem *from, WayPointItem *to, MapGraphicItem *map
     connect(map,SIGNAL(childSetOpacity(qreal)),this,SLOT(setOpacitySlot(qreal)));
 }
 
-int WayPointLine::type() const
+int MapLine::type() const
 {
     // Enable the use of qgraphicsitem_cast with this item.
     return Type;
 }
 
-QPainterPath WayPointLine::shape() const
+QPainterPath MapLine::shape() const
 {
     QPainterPath path = QGraphicsLineItem::shape();
     path.addPolygon(arrowHead);
     return path;
 }
 
-void WayPointLine::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
+void MapLine::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     Q_UNUSED(option);
     Q_UNUSED(widget);
@@ -109,17 +109,17 @@ void WayPointLine::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
 
 }
 
-void WayPointLine::refreshLocations()
+void MapLine::refreshLocations()
 {
     this->setLine(destination->pos().x(),destination->pos().y(),source->pos().x(),source->pos().y());
 }
 
-void WayPointLine::waypointdeleted()
+void MapLine::waypointdeleted()
 {
     this->deleteLater();
 }
 
-void WayPointLine::setOpacitySlot(qreal opacity)
+void MapLine::setOpacitySlot(qreal opacity)
 {
     setOpacity(opacity);
 }

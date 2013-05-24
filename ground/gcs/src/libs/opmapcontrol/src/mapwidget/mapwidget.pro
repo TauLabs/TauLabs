@@ -15,7 +15,7 @@ SOURCES += mapgraphicitem.cpp \
     mapripform.cpp \
     mapripper.cpp \
     traillineitem.cpp \
-    waypointline.cpp \
+    mapline.cpp \
     mapcircle.cpp \
     waypointcurve.cpp
 
@@ -43,7 +43,7 @@ HEADERS += mapgraphicitem.h \
     mapripform.h \
     mapripper.h \
     traillineitem.h \
-    waypointline.h \
+    mapline.h \
     mapcircle.h \
     waypointcurve.h
 QT += opengl

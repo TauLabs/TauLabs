@@ -41,7 +41,7 @@
 #include "gpsitem.h"
 #include "homeitem.h"
 #include "mapripper.h"
-#include "waypointline.h"
+#include "mapline.h"
 #include "mapcircle.h"
 #include "waypointcurve.h"
 #include "waypointitem.h"
@@ -370,9 +370,9 @@ namespace mapcontrol
         void SetUavPic(QString UAVPic);
 
         //! Create a line between two waypoint items
-        WayPointLine *WPLineCreate(WayPointItem *from,WayPointItem *to, QColor color);
+        MapLine *WPLineCreate(WayPointItem *from,WayPointItem *to, QColor color);
         //! Create a line from home to a waypoint item
-        WayPointLine *WPLineCreate(HomeItem *from,WayPointItem *to, QColor color);
+        MapLine *WPLineCreate(HomeItem *from,WayPointItem *to, QColor color);
         //! Create a curve from one waypoint item to another with a given radius
         WayPointCurve *WPCurveCreate(WayPointItem *start, WayPointItem *dest, double radius, bool clockwise, QColor color);
         //! Create a circle around a waypoint with the radius specified by the distance to another waypoint
