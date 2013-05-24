@@ -44,28 +44,21 @@ enum filter_s3_magic {
 //! Driver for an S3 filter using standard core sensors
 struct filter_s3 {
 	/**
-	 * get_sensors Get the sensor data from the core loop
-	 * @param[in]  id       the running filter handle
-	 * @params[in] gyros    new gyro data [deg/s] or NULL
-	 * @params[in] accels   new accel data [m/s^2] or NULL
-	 * @params[in] mag      new mag data [mGau] or NULL
-	 * @params[in] pos      new position measurement in NED [m] or NULL
-	 * @params[in] vel      new velocity meansurement in NED [m/s] or NULL
-	 * @params[in] baro     new baro data [m] or NULL
-	 * @params[in] airspeed new airspeed [m/s] or NULL
+	 * get_sensors Compute one time step of the filter
+	 * @param[in] id        the running filter handle
+	 * @param[in] gyros     new gyro data [deg/s] or NULL
+	 * @param[in] accels    new accel data [m/s^2] or NULL
+	 * @param[in] mag       new mag data [mGau] or NULL
+	 * @param[in] pos       new position measurement in NED [m] or NULL
+	 * @param[in] vel       new velocity meansurement in NED [m/s] or NULL
+	 * @param[in] baro      new baro data [m] or NULL
+	 * @param[in] airspeed  new airspeed [m/s] or NULL
+	 * @param[in] dt        the time step
 	 * @returns 0 if sufficient data to run update
 	 */
-	int32_t (*get_sensors)(uintptr_t id, float gyros[3], float accels[3], 
+	int32_t (*update_filter)(uintptr_t id, float gyros[3], float accels[3], 
 		float mag[3], float pos[3], float vel[3], float baro[1],
-		float airspeed[1]);
-
-	/**
-	 * update_filter Compute one time step of the filter
-	 * @param[in]  id        the running filter handle
-	 * @param[in]  dt        time step [s]
-	 * @return 0 if succesfully update, -1 if not
-	 */
-	int32_t (*update_filter)(uintptr_t id, float dt);
+		float airspeed[1], float dt);
 
 	/**
 	 * get_state Retrieve the state from the S(3) filter
