@@ -51,12 +51,13 @@ int32_t PIOS_INTERNAL_ADC_Init(uint32_t *internal_adc_id, const struct pios_inte
 static void PIOS_INTERNAL_ADC_Converter_Config(uint32_t internal_adc_id);
 static bool PIOS_INTERNAL_ADC_Available(uint32_t internal_adc_id, uint32_t pin);
 static int32_t PIOS_INTERNAL_ADC_PinGet(uint32_t internal_adc_id, uint32_t pin);
+static uint8_t PIOS_INTERNAL_ADC_NumberOfChannels(uint32_t internal_adc_id);
 
 const struct pios_adc_driver pios_internal_adc_driver = {
                 .available      = PIOS_INTERNAL_ADC_Available,
                 .get_pin        = PIOS_INTERNAL_ADC_PinGet,
                 .set_queue      = NULL,
-                .number_of_channels = NULL,
+                .number_of_channels = PIOS_INTERNAL_ADC_NumberOfChannels,
 };
 
 static void PIOS_INTERNAL_ADC_DMA_Handler1(void);
@@ -446,6 +447,20 @@ static bool PIOS_INTERNAL_ADC_Available(uint32_t internal_adc_id, uint32_t pin)
         return true;
 }
 
+
+/**
+ * Checks the number of channels on a certain ADC device
+ * @param[in] internal_adc_id handler to the device to check
+ * @return number of channels on the device.
+ */
+static uint8_t PIOS_INTERNAL_ADC_NumberOfChannels(uint32_t internal_adc_id)
+{
+        struct pios_internal_adc_dev * adc_dev = (struct pios_internal_adc_dev *) internal_adc_id;
+	if(!PIOS_INTERNAL_ADC_validate(adc_dev))
+		return 0;
+	return adc_dev->cfg->number_of_used_pins;
+
+}
 /**
  * @brief Gets the value of an ADC pinn
  * @param[in] pin number, acording to the order passed on the configuration
