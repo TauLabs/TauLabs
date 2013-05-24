@@ -69,6 +69,24 @@ const static struct filter_driver filters[] = {
 	[STATEESTIMATION_ATTITUDEFILTER_INSOUTDOOR] = insoutdoor_filter_driver,
 };
 
+// Wrapper for the types of filter classes
+struct filter_class_infrastrcture {
+	int32_t (*prepare)(struct filter_driver *);
+	int32_t (*process)(struct filter_driver *, uintptr_t id, float dt);
+}
+
+// Set of functions for calling filter various filter classes
+const static struct filter_class_infrastructure {
+	[FILTER_CLASS_S3] = {
+		.prepare = prepare_s3_infrastructure,
+		.process = process_filter_s3
+	},
+	[FILTER_CLASS_GENERIC] = {
+		.process = NULL,
+		.process = process_filter_generic
+	}
+} infrastructures;
+
 /**
  * Initialise the module.  Called before the start function
  * \returns 0 on success or -1 if initialisation failed
@@ -166,28 +184,17 @@ static void StateEstimationTask(void *parameters)
 		goto FAIL;
 
 	// Set up the filter class specific infrastructure
-	switch(requested_filter->class) {
-	case FILTER_CLASS_S3:
-		prepare_s3_infrastructure();
-		break;
-	default:
-		// other filters set up their own infrastructure
-	}
+	struct filter_class_infrastrcture *infrastructure = &infrastructures[requested_filter->class];
+	if (infrastructure->prepare)
+		infrastructure->prepare(requested_filter);
+
 
 	// Main task loop
 	while (1) {
-		// Compute update of the active filter
-		switch(requested_filter->class) {
-		case FILTER_CLASS_S3:
-			process_filter_s3(&requested_filter->driver_s3, running_filter_id, dT);
-			break;
-		case FILTER_CLASS_GENERIC:
-			process_filter_generic(&requested_filter->driver_generic, running_filter_id, dT);
-			break;
-		}
-
+		infrastructure->process(requested_filter, running_filter_id);
 		PIOS_WDG_UpdateFlag(PIOS_WDG_ATTITUDE);
 	}
+
 FAIL:
 	AlarmsSet(SYSTEMALARMS_ALARM_ATTITUDE, SYSTEMALARMS_ALARM_CRITICAL);
 	while(1) {
