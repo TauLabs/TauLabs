@@ -2,7 +2,7 @@
  ******************************************************************************
  * @addtogroup TauLabsModules Tau Labs Modules
  * @{
- * @file       filter_interface_insgps.h
+ * @file       insgps_interface.h
  * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
  * @brief      Interface from the SE(3)+ infrastructure to the INSGPS
  *

@@ -2,7 +2,7 @@
  ******************************************************************************
  * @addtogroup TauLabsModules Tau Labs Modules
  * @{
- * @file       filter_interface_insgps.c
+ * @file       insgps_interface.c
  * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
  * @brief      Interface from the SE(3)+ infrastructure to the INSGPS
  *
@@ -30,10 +30,9 @@
 
 static int32_t insgps_interface_init(uintptr_t id);
 static int32_t insgps_interface_reset(uintptr_t id);
-static int32_t insgps_interface_get_sensors(uintptr_t id, float gyros[3], float accels[3], 
+static int32_t insgps_interface_update(uintptr_t id, float gyros[3], float accels[3], 
 		float mag[3], float pos[3], float vel[3], float baro[1],
-		float airspeed[1]);
-static int32_t insgps_interface_update_filter(uintptr_t id, float dt);
+		float airspeed[1], float dt);
 static int32_t insgps_interface_get_state(uintptr_t id, float pos[3], float vel[3],
 		float attitude[4], float gyro_bias[3], float airspeed[1]);
 
@@ -48,16 +47,20 @@ struct filter_driver {
 	.reset = insgps_interface_reset,
 	.process = filter_infrastructure_se3_process,
 	.driver_s3 = {
-		.get_sensors = insgps_interface_get_sensors,
-		.update_filter = insgps_interface_update_filter,
+		.update_filter = insgps_interface_update,
 		.get_state = insgps_interface_get_state,
 		.magic = FILTER_S3_MAGIC,
 	}
 } insgps_filter_driver;
 
+
+enum insgps_interface_magic {
+	INSGPS_INTERFACE_MAGIC = 0x164BBE6C,
+}
+
 struct insgps_interface_data {
 	struct filter_infrastructure_se3_data *s3_data;
-	uint32_t magic;
+	enum insgps_interface_magic magic;
 };
 
 static struct insgps_interface_data * insgps_interface_alloc()
@@ -100,31 +103,21 @@ static int32_t insgps_interface_reset(uintptr_t id)
 }
 
 /**
- * get_sensors Get the sensor data from the core loop
- * @param[in]  id       the running filter handle
- * @params[in] gyros    new gyro data [deg/s] or NULL
- * @params[in] accels   new accel data [m/s^2] or NULL
- * @params[in] mag      new mag data [mGau] or NULL
- * @params[in] pos      new position measurement in NED [m] or NULL
- * @params[in] vel      new velocity meansurement in NED [m/s] or NULL
- * @params[in] baro     new baro data [m] or NULL
- * @params[in] airspeed new airspeed [m/s] or NULL
+ * get_sensors Update the filter one time step
+ * @param[in] id         the running filter handle
+ * @param[in] gyros      new gyro data [deg/s] or NULL
+ * @param[in] accels     new accel data [m/s^2] or NULL
+ * @param[in] mag        new mag data [mGau] or NULL
+ * @param[in] pos        new position measurement in NED [m] or NULL
+ * @param[in] vel        new velocity meansurement in NED [m/s] or NULL
+ * @param[in] baro       new baro data [m] or NULL
+ * @param[in] airspeed   estimate of the airspeed
+ * @param[in] dt         time step [s]
  * @returns 0 if sufficient data to run update
  */
-static int32_t insgps_interface_get_sensors(uintptr_t id, float gyros[3], float accels[3], 
+static int32_t insgps_interface_update(uintptr_t id, float gyros[3], float accels[3], 
 		float mag[3], float pos[3], float vel[3], float baro[1],
-		float airspeed[1])
-{
-
-}
-
-/**
- * update_filter Compute one time step of the filter
- * @param[in]  id        the running filter handle
- * @param[in]  dt        time step [s]
- * @return 0 if succesfully update, -1 if not
- */
-static int32_t insgps_interface_update_filter(uintptr_t id, float dt)
+		float airspeed[1], float dt)
 {
 
 }
