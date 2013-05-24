@@ -141,6 +141,9 @@
 #if defined(PIOS_INCLUDE_MPU6050)
 #include <pios_mpu6050.h>
 #endif
+#if defined(PIOS_INCLUDE_MPU9150)
+#include <pios_mpu9150.h>
+#endif
 #if defined(PIOS_INCLUDE_MPU6000)
 #include <pios_mpu6000.h>
 #endif
