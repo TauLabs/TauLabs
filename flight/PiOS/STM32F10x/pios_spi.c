@@ -282,6 +282,18 @@ int32_t PIOS_SPI_ClaimBusISR(uint32_t spi_id, bool *woken)
 		return -1;
 
 	*woken = *woken || (xHigherPriorityTaskWoken == pdTRUE);
+#else
+	struct pios_spi_dev * spi_dev = (struct pios_spi_dev *)spi_id;
+	uint32_t timeout = 0xffff;
+	while((PIOS_SPI_Busy(spi_id) || spi_dev->busy) && --timeout);
+	if(timeout == 0) //timed out
+		return -1;
+
+	PIOS_IRQ_Disable();
+	if(spi_dev->busy)
+		return -1;
+	spi_dev->busy = 1;
+	PIOS_IRQ_Enable();
 #endif
 	return 0;
 }
