@@ -29,7 +29,7 @@
 #include "fieldtreeitem.h"
 #include <math.h>
 
-QTime* HighLightManager::currentTime = NULL;
+QTime* HighLightManager::m_currentTime = NULL;
 
 /* Constructor */
 HighLightManager::HighLightManager(long checkingInterval, QTime *currentTime)
@@ -39,8 +39,8 @@ HighLightManager::HighLightManager(long checkingInterval, QTime *currentTime)
     connect(&m_expirationTimer, SIGNAL(timeout()), this, SLOT(checkItemsExpired()));
 
     if (currentTime == NULL)
-        this->currentTime = new QTime;
-    this->currentTime = currentTime;
+        m_currentTime = new QTime;
+    m_currentTime = currentTime;
 }
 
 /*
@@ -92,7 +92,7 @@ void HighLightManager::checkItemsExpired()
     while(iter.hasNext())
     {
         TreeItem* item = iter.next();
-        if(item->getHiglightExpires() < *currentTime)
+        if(item->getHiglightExpires() < *m_currentTime)
         {
             // If expired, call removeHighlight
             item->removeHighlight();
@@ -104,20 +104,7 @@ void HighLightManager::checkItemsExpired()
 }
 
 int TreeItem::m_highlightTimeMs = 500;
-QTime* TreeItem::currentTime = NULL;
-
-TreeItem::TreeItem(const QList<QVariant> &data, QTime *currentTime, TreeItem *parent) :
-        QObject(0),
-        m_data(data),
-        m_parent(parent),
-        m_highlight(false),
-        m_changed(false),
-        m_updated(false)
-{
-    if (currentTime == NULL)
-        this->currentTime = new QTime;
-    this->currentTime = currentTime;
-}
+QTime* TreeItem::m_currentTime = NULL;
 
 TreeItem::TreeItem(const QList<QVariant> &data, TreeItem *parent) :
         QObject(0),
@@ -127,8 +114,6 @@ TreeItem::TreeItem(const QList<QVariant> &data, TreeItem *parent) :
         m_changed(false),
         m_updated(false)
 {
-    if (currentTime == NULL)
-        currentTime = new QTime;
 }
 
 TreeItem::TreeItem(const QVariant &data, TreeItem *parent) :
@@ -139,8 +124,6 @@ TreeItem::TreeItem(const QVariant &data, TreeItem *parent) :
         m_updated(false)
 {
     m_data << data << "" << "";
-    if (currentTime == NULL)
-        currentTime = new QTime;
 }
 
 TreeItem::~TreeItem()
@@ -212,7 +195,10 @@ void TreeItem::setHighlight(bool highlight) {
     m_changed = false;
     if (highlight) {
         // Update the expires timestamp
-        m_highlightExpires = currentTime->addMSecs(m_highlightTimeMs);
+        if (m_currentTime != NULL)
+            m_highlightExpires = m_currentTime->addMSecs(m_highlightTimeMs);
+        else
+            m_highlightExpires = QTime::currentTime().addMSecs(m_highlightTimeMs);
 
         // Add to highlightmanager
         if(m_highlightManager->add(this))
@@ -276,6 +262,13 @@ void TreeItem::setHighlightManager(HighLightManager *mgr)
 QTime TreeItem::getHiglightExpires()
 {
     return m_highlightExpires;
+}
+
+void TreeItem::setCurrentTime(QTime *currentTime)
+{
+    if (m_currentTime == NULL)
+        m_currentTime = new QTime;
+    m_currentTime = currentTime;
 }
 
 QList<MetaObjectTreeItem *> TopTreeItem::getMetaObjectItems()

@@ -86,14 +86,13 @@ private:
     QMutex m_listMutex;
 
     // This is the timestamp to compare with
-    static QTime *currentTime;
+    static QTime *m_currentTime;
 };
 
 class TreeItem : public QObject
 {
 Q_OBJECT
 public:
-    TreeItem(const QList<QVariant> &data, QTime *currentTime, TreeItem *parent = 0);
     TreeItem(const QList<QVariant> &data, TreeItem *parent = 0);
     TreeItem(const QVariant &data, TreeItem *parent = 0);
     virtual ~TreeItem();
@@ -156,6 +155,8 @@ public:
         return 0;
     }
 
+    void setCurrentTime(QTime *currentTime);
+
 signals:
     void updateHighlight(TreeItem*);
 
@@ -175,7 +176,7 @@ private:
     static int m_highlightTimeMs;
 
     // This is the timestamp to compare with
-    static QTime *currentTime;
+    static QTime *m_currentTime;
 
 public:
     static const int dataColumn = 1;

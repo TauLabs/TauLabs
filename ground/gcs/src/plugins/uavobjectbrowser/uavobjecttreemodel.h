@@ -114,8 +114,8 @@ private:
     bool m_onlyHighlightChangedValues;
     bool m_useScientificFloatNotation;
 
-    QTimer currentTimeTimer;
-    QTime currentTime;
+    QTimer m_currentTimeTimer;
+    QTime m_currentTime;
 
     // Highlight manager to handle highlighting of tree items.
     HighLightManager *m_highlightManager;
