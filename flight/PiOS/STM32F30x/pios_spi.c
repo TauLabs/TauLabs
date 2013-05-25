@@ -279,8 +279,10 @@ int32_t PIOS_SPI_ClaimBus(uint32_t spi_id)
 		return -1;
 
 	PIOS_IRQ_Disable();
-	if (spi_dev->busy)
+	if (spi_dev->busy) {
+		PIOS_IRQ_Enable();
 		return -1;
+	}
 	spi_dev->busy = 1;
 	PIOS_IRQ_Enable();
 #endif
@@ -315,8 +317,10 @@ int32_t PIOS_SPI_ClaimBusISR(uint32_t spi_id, bool *woken)
 		return -1;
 
 	PIOS_IRQ_Disable();
-	if (spi_dev->busy)
+	if (spi_dev->busy) {
+		PIOS_IRQ_Enable();
 		return -1;
+	}
 	spi_dev->busy = 1;
 	PIOS_IRQ_Enable();
 #endif
