@@ -111,17 +111,33 @@ void GCSControlGadgetWidget::rightStickClicked(double X, double Y) {
 }
 
 /*!
-  \brief Called when the gcs control is toggled
+  \brief Called when the gcs control is toggled and enabled or disables flight write access to manual control command
   */
 void GCSControlGadgetWidget::toggleControl(int state)
 {
-    bool enable = state != 0;
+    ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
+    UAVObjectManager *objManager = pm->getObject<UAVObjectManager>();
+    UAVDataObject* obj = dynamic_cast<UAVDataObject*>( objManager->getObject(QString("ManualControlCommand")) );
 
-    if (!enable)
-        toggleUDPControl(enable);
-    m_gcscontrol->checkBoxUDPControl->setEnabled(enable);
+    UAVObject::Metadata mdata = obj->getMetadata();
+    if (state)
+    {
+        mccInitialData = mdata;
+        UAVObject::SetFlightAccess(mdata, UAVObject::ACCESS_READONLY);
+        UAVObject::SetFlightTelemetryUpdateMode(mdata, UAVObject::UPDATEMODE_ONCHANGE);
+        UAVObject::SetGcsTelemetryAcked(mdata, false);
+        UAVObject::SetGcsTelemetryUpdateMode(mdata, UAVObject::UPDATEMODE_ONCHANGE);
+        mdata.gcsTelemetryUpdatePeriod = 100;
+        m_gcscontrol->checkBoxUDPControl->setEnabled(true);
 
-    emit controlEnabled(enable);
+    }
+    else
+    {
+        mdata = mccInitialData;
+        toggleUDPControl(false);
+        m_gcscontrol->checkBoxUDPControl->setEnabled(false);
+    }
+    obj->setMetadata(mdata);
 }
 
 void GCSControlGadgetWidget::toggleArmed(int state)
