@@ -231,7 +231,11 @@ static void PIOS_INTERNAL_ADC_Converter_Config(uint32_t internal_adc_id)
         if (adc_dev->cfg->adc_dev_slave)
                 ADC_DeInit(adc_dev->cfg->adc_dev_slave);
 
-        RCC_ADCCLKConfig(RCC_ADC12PLLCLK_Div8);//TODO
+        if(adc_dev->cfg->adc_dev_master == ADC1 || adc_dev->cfg->adc_dev_master == ADC2)
+        	RCC_ADCCLKConfig(RCC_ADC12PLLCLK_Div16);
+        else
+        	RCC_ADCCLKConfig(RCC_ADC34PLLCLK_Div16);
+
         ADC_VoltageRegulatorCmd(adc_dev->cfg->adc_dev_master, ENABLE);
         PIOS_DELAY_WaituS(10);
         ADC_SelectCalibrationMode(adc_dev->cfg->adc_dev_master, ADC_CalibrationMode_Single);
