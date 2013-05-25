@@ -1,7 +1,7 @@
 /*
-    FreeRTOS V7.3.0 - Copyright (C) 2012 Real Time Engineers Ltd.
+    FreeRTOS V7.4.2 - Copyright (C) 2013 Real Time Engineers Ltd.
 
-    FEATURES AND PORTS ARE ADDED TO FREERTOS ALL THE TIME.  PLEASE VISIT 
+    FEATURES AND PORTS ARE ADDED TO FREERTOS ALL THE TIME.  PLEASE VISIT
     http://www.FreeRTOS.org TO ENSURE YOU ARE USING THE LATEST VERSION.
 
     ***************************************************************************
@@ -29,20 +29,23 @@
     FreeRTOS is free software; you can redistribute it and/or modify it under
     the terms of the GNU General Public License (version 2) as published by the
     Free Software Foundation AND MODIFIED BY the FreeRTOS exception.
-    >>>NOTE<<< The modification to the GPL is included to allow you to
+
+    >>>>>>NOTE<<<<<< The modification to the GPL is included to allow you to
     distribute a combined work that includes FreeRTOS without being obliged to
     provide the source code for proprietary components outside of the FreeRTOS
-    kernel.  FreeRTOS is distributed in the hope that it will be useful, but
-    WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
-    or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
-    more details. You should have received a copy of the GNU General Public
-    License and the FreeRTOS license exception along with FreeRTOS; if not it
-    can be viewed here: http://www.freertos.org/a00114.html and also obtained
-    by writing to Richard Barry, contact details for whom are available on the
-    FreeRTOS WEB site.
+    kernel.
+
+    FreeRTOS is distributed in the hope that it will be useful, but WITHOUT ANY
+    WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+    FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+    details. You should have received a copy of the GNU General Public License
+    and the FreeRTOS license exception along with FreeRTOS; if not it can be
+    viewed here: http://www.freertos.org/a00114.html and also obtained by
+    writing to Real Time Engineers Ltd., contact details for whom are available
+    on the FreeRTOS WEB site.
 
     1 tab == 4 spaces!
-    
+
     ***************************************************************************
      *                                                                       *
      *    Having a problem?  Start by reading the FAQ "My application does   *
@@ -52,18 +55,21 @@
      *                                                                       *
     ***************************************************************************
 
-    
-    http://www.FreeRTOS.org - Documentation, training, latest versions, license 
-    and contact details.  
-    
-    http://www.FreeRTOS.org/plus - A selection of FreeRTOS ecosystem products,
-    including FreeRTOS+Trace - an indispensable productivity tool.
 
-    Real Time Engineers ltd license FreeRTOS to High Integrity Systems, who sell 
-    the code with commercial support, indemnification, and middleware, under 
-    the OpenRTOS brand: http://www.OpenRTOS.com.  High Integrity Systems also
-    provide a safety engineered and independently SIL3 certified version under 
-    the SafeRTOS brand: http://www.SafeRTOS.com.
+    http://www.FreeRTOS.org - Documentation, books, training, latest versions,
+    license and Real Time Engineers Ltd. contact details.
+
+    http://www.FreeRTOS.org/plus - A selection of FreeRTOS ecosystem products,
+    including FreeRTOS+Trace - an indispensable productivity tool, and our new
+    fully thread aware and reentrant UDP/IP stack.
+
+    http://www.OpenRTOS.com - Real Time Engineers ltd license FreeRTOS to High
+    Integrity Systems, who sell the code with commercial support,
+    indemnification and middleware, under the OpenRTOS brand.
+
+    http://www.SafeRTOS.com - High Integrity Systems also provide a safety
+    engineered and independently SIL3 certified version for use in safety and
+    mission critical applications that require provable dependability.
 */
 
 /*-----------------------------------------------------------
@@ -116,7 +122,7 @@ static unsigned portBASE_TYPE uxCriticalNesting = 0xaaaaaaaa;
 
 /*
  * Setup the timer to generate the tick interrupts.  The implementation in this
- * file is weak to allow application writers to change the timer used to 
+ * file is weak to allow application writers to change the timer used to
  * generate the tick interrupt.
  */
 void vPortSetupTimerInterrupt( void );
@@ -249,10 +255,15 @@ void vPortEndScheduler( void )
 }
 /*-----------------------------------------------------------*/
 
-void vPortYieldFromISR( void )
+void vPortYield( void )
 {
 	/* Set a PendSV to request a context switch. */
 	portNVIC_INT_CTRL_REG = portNVIC_PENDSVSET_BIT;
+
+	/* Barriers are normally not required but do ensure the code is completely
+	within the specified behaviour for the architecture. */
+	__asm volatile( "dsb" );
+	__asm volatile( "isb" );
 }
 /*-----------------------------------------------------------*/
 
@@ -260,6 +271,8 @@ void vPortEnterCritical( void )
 {
 	portDISABLE_INTERRUPTS();
 	uxCriticalNesting++;
+	__asm volatile( "dsb" );
+	__asm volatile( "isb" );
 }
 /*-----------------------------------------------------------*/
 
@@ -298,7 +311,7 @@ __attribute__(( naked )) void vPortClearInterruptMask( unsigned long ulNewMaskVa
 		"	bx lr												\n" \
 		:::"r0"														\
 	);
-	
+
 	/* Just to avoid compiler warnings. */
 	( void ) ulNewMaskValue;
 }
@@ -347,7 +360,7 @@ void xPortSysTickHandler( void )
 	#endif
 
 	/* Only reset the systick load register if configUSE_TICKLESS_IDLE is set to
-	1.  If it is set to 0 tickless idle is not being used.  If it is set to a 
+	1.  If it is set to 0 tickless idle is not being used.  If it is set to a
 	value other than 0 or 1 then a timer other than the SysTick is being used
 	to generate the tick interrupt. */
 	#if configUSE_TICKLESS_IDLE == 1
@@ -367,6 +380,7 @@ void xPortSysTickHandler( void )
 	__attribute__((weak)) void vPortSuppressTicksAndSleep( portTickType xExpectedIdleTime )
 	{
 	unsigned long ulReloadValue, ulCompleteTickPeriods, ulCompletedSysTickIncrements;
+	portTickType xModifiableIdleTime;
 
 		/* Make sure the SysTick reload value does not overflow the counter. */
 		if( xExpectedIdleTime > xMaximumPossibleSuppressedTicks )
@@ -390,19 +404,28 @@ void xPortSysTickHandler( void )
 		kernel with respect to calendar time. */
 		portNVIC_SYSTICK_CTRL_REG = portNVIC_SYSTICK_CLK_BIT | portNVIC_SYSTICK_INT_BIT;
 
-		/* If a context switch is pending then abandon the low power entry as
-		the context switch might have been pended by an external interrupt that
-		requires processing. */
-		if( ( portNVIC_INT_CTRL_REG & portNVIC_PENDSVSET_BIT ) != 0 )
+		/* Adjust the reload value to take into account that the current time
+		slice is already partially complete. */
+		ulReloadValue += ( portNVIC_SYSTICK_LOAD_REG - ( portNVIC_SYSTICK_LOAD_REG - portNVIC_SYSTICK_CURRENT_VALUE_REG ) );
+
+		/* Enter a critical section but don't use the taskENTER_CRITICAL()
+		method as that will mask interrupts that should exit sleep mode. */
+		__asm volatile( "cpsid i" );
+
+		/* If a context switch is pending or a task is waiting for the scheduler
+		to be unsuspended then abandon the low power entry. */
+		if( eTaskConfirmSleepModeStatus() == eAbortSleep )
 		{
 			/* Restart SysTick. */
 			portNVIC_SYSTICK_CTRL_REG = portNVIC_SYSTICK_CLK_BIT | portNVIC_SYSTICK_INT_BIT | portNVIC_SYSTICK_ENABLE_BIT;
+
+			/* Re-enable interrupts - see comments above the cpsid instruction()
+			above. */
+			__asm volatile( "cpsie i" );
 		}
 		else
 		{
-			/* Adjust the reload value to take into account that the current
-			time slice is already partially complete. */
-			ulReloadValue += ( portNVIC_SYSTICK_LOAD_REG - ( portNVIC_SYSTICK_LOAD_REG - portNVIC_SYSTICK_CURRENT_VALUE_REG ) );
+			/* Set the new reload value. */
 			portNVIC_SYSTICK_LOAD_REG = ulReloadValue;
 
 			/* Clear the SysTick count flag and set the count value back to
@@ -412,11 +435,18 @@ void xPortSysTickHandler( void )
 			/* Restart SysTick. */
 			portNVIC_SYSTICK_CTRL_REG = portNVIC_SYSTICK_CLK_BIT | portNVIC_SYSTICK_INT_BIT | portNVIC_SYSTICK_ENABLE_BIT;
 
-			/* Sleep until something happens. */
-			configPRE_SLEEP_PROCESSING( xExpectedIdleTime );
-			if( xExpectedIdleTime > 0 )
+			/* Sleep until something happens.  configPRE_SLEEP_PROCESSING() can
+			set its parameter to 0 to indicate that its implementation contains
+			its own wait for interrupt or wait for event instruction, and so wfi
+			should not be executed again.  However, the original expected idle
+			time variable must remain unmodified, so a copy is taken. */
+			xModifiableIdleTime = xExpectedIdleTime;
+			configPRE_SLEEP_PROCESSING( xModifiableIdleTime );
+			if( xModifiableIdleTime > 0 )
 			{
 				__asm volatile( "wfi" );
+				__asm volatile( "dsb" );
+				__asm volatile( "isb" );
 			}
 			configPOST_SLEEP_PROCESSING( xExpectedIdleTime );
 
@@ -425,6 +455,10 @@ void xPortSysTickHandler( void )
 			inevitably result in some tiny drift of the time maintained by the
 			kernel with respect to calendar time. */
 			portNVIC_SYSTICK_CTRL_REG = portNVIC_SYSTICK_CLK_BIT | portNVIC_SYSTICK_INT_BIT;
+
+			/* Re-enable interrupts - see comments above the cpsid instruction()
+			above. */
+			__asm volatile( "cpsie i" );
 
 			if( ( portNVIC_SYSTICK_CTRL_REG & portNVIC_SYSTICK_COUNT_FLAG_BIT ) != 0 )
 			{
@@ -475,7 +509,7 @@ void xPortSysTickHandler( void )
  */
 __attribute__(( weak )) void vPortSetupTimerInterrupt( void )
 {
-	/* Calculate the constants required to configure the tick interrupt. */		
+	/* Calculate the constants required to configure the tick interrupt. */
 	#if configUSE_TICKLESS_IDLE == 1
 	{
 		ulTimerReloadValueForOneTick = ( configSYSTICK_CLOCK_HZ / configTICK_RATE_HZ ) - 1UL;
