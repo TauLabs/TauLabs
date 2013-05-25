@@ -46,10 +46,6 @@
 #define STATS_UPDATE_PERIOD_MS 4000
 #define CONNECTION_TIMEOUT_MS 8000
 
-// Using a locally defined bit within the event mask.  This is abusing
-// this storage a bit but this bit is free and prevents using more memory.
-#define THROTTLED_DIRTY 0x80
-
 // Private types
 
 // Private variables
@@ -233,10 +229,9 @@ static void updateObject(UAVObjHandle obj, int32_t eventType)
 			if (eventMask & EV_UPDATED_PERIODIC) {
 				// If periodic flag is already set then we have previously sent an update during
 				// the timeout period and this update would be missed, so set the dirty flag.
-				// Once setting THROTTLED_DIRTY, there is no need to listen for EV_UPDATED.
-				eventMask = EV_UPDATED_PERIODIC | EV_UPDATE_REQ | THROTTLED_DIRTY;
-			}
-			else { //If periodic is not set then we just received an object
+				// Once setting EV_UPDATED_THROTTLED_DIRTY, there is no need to listen for EV_UPDATED.
+				eventMask = EV_UPDATED_PERIODIC | EV_UPDATE_REQ | EV_UPDATED_THROTTLED_DIRTY;
+			} else { //If periodic is not set then we just received an object
 				// update so switch to periodic for the timeout period to prevent
 				// sending more updates.  Listen to the EV_UPDATED flag still to
 				// catch any updates that would overwise never get sent.
@@ -301,12 +296,11 @@ static void processObjEvent(UAVObjEvent * ev)
 			if (success == -1) {
 				++txErrors;
 			}
-		}
-		else if (ev->event == EV_UPDATED_PERIODIC && updateMode == UPDATEMODE_THROTTLED) {
+		} else if (ev->event == EV_UPDATED_PERIODIC && updateMode == UPDATEMODE_THROTTLED) {
 			// Get the event mask
 			int32_t eventMask = getEventMask(ev->obj, priorityQueue);
 
-			if (eventMask & THROTTLED_DIRTY) { // If THROTTLED_DIRTY flag is set then send the data like normal.
+			if (eventMask & EV_UPDATED_THROTTLED_DIRTY) { // If EV_UPDATED_THROTTLED_DIRTY flag is set then send the data like normal.
 				// Send update to GCS (with retries)
 				while (retries < MAX_RETRIES && success == -1) {
 					success = UAVTalkSendObject(uavTalkCon, ev->obj, ev->instId, UAVObjGetTelemetryAcked(&metadata), REQ_TIMEOUT_MS);	// call blocks until ack is received or timeout
