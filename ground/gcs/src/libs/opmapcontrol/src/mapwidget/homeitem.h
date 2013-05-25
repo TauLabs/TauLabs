@@ -38,7 +38,7 @@ namespace mapcontrol
         Q_OBJECT
         Q_INTERFACES(QGraphicsItem)
     public:
-                enum { Type = UserType + 4 };
+        enum { Type = UserType + TYPE_HOMEITEM };
         HomeItem(MapGraphicItem* map,OPMapWidget* parent);
         void paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
                     QWidget *widget);

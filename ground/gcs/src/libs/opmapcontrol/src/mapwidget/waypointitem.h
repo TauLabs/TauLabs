@@ -42,7 +42,7 @@ class WayPointItem:public MapPoint
     Q_OBJECT
     Q_INTERFACES(QGraphicsItem)
 public:
-    enum { Type = UserType + 1 };
+    enum { Type = UserType + TYPE_WAYPOINTITEM };
     enum wptype {absolute,relative};
     /**
     * @brief Constructer
