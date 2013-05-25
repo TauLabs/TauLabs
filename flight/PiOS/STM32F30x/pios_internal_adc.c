@@ -85,9 +85,11 @@ struct pios_internal_adc_dev {
         uint8_t regular_group_size;
         struct adc_accumulator **channel_map;
         struct adc_accumulator *accumulator;
-        uint8_t adc_oversample;
-        uint16_t dma_half_buffer_size;
-        uint16_t *raw_data_buffer;   // Double buffer that DMA just used
+        uint16_t dma_half_buffer_index;
+        uint16_t dma_transfer_size;
+        uint16_t *raw_data_buffer;
+        uint32_t accumulator_increment;
+        uint32_t accumulator_scan_size;
         enum pios_internal_adc_dev_magic magic;
 };
 static void PIOS_ADC_DMA_Handler(struct pios_internal_adc_dev *);
@@ -188,7 +190,7 @@ static void PIOS_INTERNAL_DMAConfig(uint32_t internal_adc_id)
         else
                 DMAInit.DMA_PeripheralBaseAddr = (uint32_t) &adc_dev->cfg->adc_dev_master->DR;
         DMAInit.DMA_MemoryBaseAddr = (uint32_t) adc_dev->raw_data_buffer;
-        DMAInit.DMA_BufferSize = adc_dev->dma_half_buffer_size;
+        DMAInit.DMA_BufferSize = adc_dev->dma_transfer_size;
         DMAInit.DMA_DIR = DMA_DIR_PeripheralSRC;
         DMAInit.DMA_PeripheralInc = DMA_PeripheralInc_Disable;
         DMAInit.DMA_MemoryInc = DMA_MemoryInc_Enable;
@@ -390,25 +392,33 @@ int32_t PIOS_INTERNAL_ADC_Init(uint32_t * internal_adc_id, const struct pios_int
         adc_dev->regular_group_size =
                         adc_dev->number_used_master_channels > adc_dev->number_used_slave_channels ?
                                         adc_dev->number_used_master_channels : adc_dev->number_used_slave_channels;
-        if (adc_dev->cfg->adc_dev_slave) {
+	if (adc_dev->cfg->adc_dev_slave) {
+		// DMA transfer size in units defined by DMA_PeripheralDataSize, 32bits for dual mode and 16bits for single mode
+		adc_dev->dma_transfer_size = 2 * adc_dev->cfg->oversampling * adc_dev->regular_group_size;
+		// DMA half buffer index (buffer is 16bit array),
+		// one should think that the half buffer index was half the transfer size but need to remember that the first is 16bit and the second 32bit
+		adc_dev->dma_half_buffer_index = adc_dev->dma_transfer_size;
+		adc_dev->accumulator_increment = 2;
+		adc_dev->accumulator_scan_size = adc_dev->regular_group_size * 2;
 #if !defined(PIOS_INCLUDE_FREERTOS)
-                adc_dev->raw_data_buffer = static_raw_data_buffer;
+		adc_dev->raw_data_buffer = static_raw_data_buffer;
 #else
-                adc_dev->raw_data_buffer = pvPortMalloc(
-                                2 * adc_dev->cfg->oversampling * adc_dev->regular_group_size * 2 * sizeof(uint16_t));
+		adc_dev->raw_data_buffer = pvPortMalloc(adc_dev->dma_transfer_size * sizeof(uint32_t));
 #endif
-                adc_dev->dma_half_buffer_size = adc_dev->cfg->oversampling * adc_dev->regular_group_size * 2;//TODO tirar o vezes dois e por na config do dma. na verdade isto nao e o half size mas sim o full size
-        }
+	}
         else {
+        	// DMA transfer size in units defined by DMA_PeripheralDataSize, 32bits for dual mode and 16bits for single mode
+		adc_dev->dma_transfer_size = 2 * adc_dev->cfg->oversampling * adc_dev->cfg->number_of_used_pins;
+		// DMA half buffer index (buffer is 16bit array),
+		// half buffer index is half the transfer size because they are both 16bit based here
+		adc_dev->dma_half_buffer_index = adc_dev->cfg->oversampling * adc_dev->cfg->number_of_used_pins;;
+		adc_dev->accumulator_increment = 1;
+		adc_dev->accumulator_scan_size = adc_dev->regular_group_size;
 #if !defined(PIOS_INCLUDE_FREERTOS)
                 adc_dev->raw_data_buffer = static_raw_data_buffer;
 #else
-                // 2 * because double buffering
-                adc_dev->raw_data_buffer = pvPortMalloc(
-                2 * adc_dev->cfg->oversampling * adc_dev->cfg->number_of_used_pins * sizeof(uint16_t));
+                adc_dev->raw_data_buffer = pvPortMalloc(adc_dev->dma_transfer_size * sizeof(uint16_t));
 #endif
-                adc_dev->dma_half_buffer_size = adc_dev->cfg->oversampling * adc_dev->cfg->number_of_used_pins
-                                * 2;
         }
         if (adc_dev->raw_data_buffer == NULL )
                 return -1;
@@ -496,19 +506,9 @@ static void accumulate(struct pios_internal_adc_dev *adc_dev, uint16_t *buffer)
         /*
          * Accumulate sampled values.
          */
-        uint32_t increment;
-        uint32_t scan_size;
-        if (adc_dev->cfg->adc_dev_slave) {
-                increment = 2;
-                scan_size = adc_dev->regular_group_size * 2;
-        }
-        else {
-                increment = 1;
-                scan_size = adc_dev->regular_group_size;
-        }
-        for (uint8_t i = 0; i < adc_dev->cfg->oversampling; ++i) {
-                sp = buffer + adc_dev->regular_group_size * i * increment;
-                for (uint8_t scan_index = 0; scan_index < scan_size; scan_index++) {
+        for (uint32_t i = 0; i < adc_dev->cfg->oversampling; ++i) {
+                sp = buffer + adc_dev->regular_group_size * i * adc_dev->accumulator_increment;
+                for (uint8_t scan_index = 0; scan_index < adc_dev->accumulator_scan_size; ++scan_index) {
                         adc_dev->channel_map[scan_index]->accumulator += *sp;
                         adc_dev->channel_map[scan_index]->count++;
                         sp++;
@@ -555,28 +555,19 @@ static void PIOS_INTERNAL_ADC_DMA_Handler4(void)
  */
 static void PIOS_ADC_DMA_Handler(struct pios_internal_adc_dev *adc_dev)
 {
-	if(!PIOS_INTERNAL_ADC_validate(adc_dev))
+	if (!PIOS_INTERNAL_ADC_validate(adc_dev))
 		PIOS_Assert(0);
-        /* terminal count, buffer has flipped */
-        if (DMA_GetFlagStatus(adc_dev->cfg->full_flag /*DMA1_IT_TC1*/)) {        // whole double buffer filled
-                if (adc_dev->cfg->adc_dev_slave)
-                {
-                        DMA_ClearFlag(adc_dev->cfg->full_flag);
-                        accumulate(adc_dev, adc_dev->raw_data_buffer + adc_dev->dma_half_buffer_size);
-                }
-                else {
-                        DMA_ClearFlag(adc_dev->cfg->full_flag);
-                        accumulate(adc_dev, adc_dev->raw_data_buffer+adc_dev->cfg->oversampling * adc_dev->cfg->number_of_used_pins);
-                }
-        }
-        else if (DMA_GetFlagStatus(adc_dev->cfg->half_flag /*DMA1_IT_HT1*/)) {
-                DMA_ClearFlag(adc_dev->cfg->half_flag);
-                accumulate(adc_dev, adc_dev->raw_data_buffer);
-        }
-        else {
-                // This should not happen, probably due to transfer errors
-                DMA_ClearFlag(adc_dev->cfg->dma.irq.flags /*DMA1_FLAG_GL1*/);
-        }
+	/* terminal count, buffer has flipped */
+	if (DMA_GetFlagStatus(adc_dev->cfg->full_flag)) { // whole double buffer filled
+		DMA_ClearFlag(adc_dev->cfg->full_flag);
+		accumulate(adc_dev, adc_dev->raw_data_buffer + adc_dev->dma_half_buffer_index);
+	} else if (DMA_GetFlagStatus(adc_dev->cfg->half_flag /*DMA1_IT_HT1*/)) {
+		DMA_ClearFlag(adc_dev->cfg->half_flag);
+		accumulate(adc_dev, adc_dev->raw_data_buffer);
+	} else {
+		// This should not happen, probably due to transfer errors
+		DMA_ClearFlag(adc_dev->cfg->dma.irq.flags /*DMA1_FLAG_GL1*/);
+	}
 }
 #endif /* PIOS_INCLUDE_ADC */
 /** 
