@@ -1108,7 +1108,7 @@ void PIOS_Board_Init(void) {
 	switch (flyingf3_shield) {
 	case HWFLYINGF3_SHIELD_RCFLYER:
 #if defined(PIOS_INCLUDE_ADC)
-		//Sanity check, this is to ensure that noone changes the adc_pins array without changing the defines
+		//Sanity check, this is to ensure that no one changes the adc_pins array without changing the defines
 		PIOS_Assert(internal_adc_cfg_rcflyer_shield.adc_pins[PIOS_ADC_RCFLYER_SHIELD_BARO_PIN].pin == GPIO_Pin_3);
 		PIOS_Assert(internal_adc_cfg_rcflyer_shield.adc_pins[PIOS_ADC_RCFLYER_SHIELD_BAT_VOLTAGE_PIN].pin == GPIO_Pin_4);
 		if (PIOS_INTERNAL_ADC_Init(&internal_adc_id, &internal_adc_cfg_rcflyer_shield) < 0)
