@@ -88,6 +88,7 @@ task.h is included from an application file. */
 /* Allocate the memory for the heap. */
 static unsigned char ucHeap[ configTOTAL_HEAP_SIZE ];
 static size_t xNextFreeByte = ( size_t ) 0;
+static size_t currentTOTAL_HEAP_SIZE = configTOTAL_HEAP_SIZE;
 
 /*-----------------------------------------------------------*/
 
@@ -114,7 +115,7 @@ static unsigned char *pucAlignedHeap = NULL;
 		}
 
 		/* Check there is enough room left for the allocation. */
-		if( ( ( xNextFreeByte + xWantedSize ) < configADJUSTED_HEAP_SIZE ) &&
+		if( ( ( xNextFreeByte + xWantedSize ) < currentTOTAL_HEAP_SIZE ) &&
 			( ( xNextFreeByte + xWantedSize ) > xNextFreeByte )	)/* Check for overflow. */
 		{
 			/* Return the next free byte then increment the index past this
@@ -160,8 +161,14 @@ void vPortInitialiseBlocks( void )
 
 size_t xPortGetFreeHeapSize( void )
 {
-	return ( configADJUSTED_HEAP_SIZE - xNextFreeByte );
+	return ( currentTOTAL_HEAP_SIZE - xNextFreeByte );
 }
+/*-----------------------------------------------------------*/
 
-
-
+void xPortIncreaseHeapSize( size_t bytes )
+{
+       vTaskSuspendAll();
+       currentTOTAL_HEAP_SIZE = configTOTAL_HEAP_SIZE + bytes;
+       xTaskResumeAll();
+}
+/*-----------------------------------------------------------*/
