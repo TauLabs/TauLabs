@@ -37,7 +37,7 @@
 GCSControlGadget::GCSControlGadget(QString classId, GCSControlGadgetWidget *widget, QWidget *parent, QObject *plugin) :
         IUAVGadget(classId, parent),
         m_widget(widget),
-        controlsMode(0)
+        controlsMode(0),gcsReceiverTimer(NULL)
 {
     connect(getManualControlCommand(),SIGNAL(objectUpdated(UAVObject*)),this,SLOT(manualControlCommandUpdated(UAVObject*)));
     connect(widget,SIGNAL(sticksChanged(double,double,double,double)),this,SLOT(sticksChangedLocally(double,double,double,double)));
