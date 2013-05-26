@@ -6,7 +6,6 @@
  * @{
  *
  * @file       attitudedrift.h
- * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2011.
  * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
  * @brief      Acquires sensor data and fuses it into attitude estimate for CC
  *
