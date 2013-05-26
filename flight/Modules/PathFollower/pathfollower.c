@@ -27,18 +27,10 @@
  */
 
 /**
- * Input object: PathDesired
- * Output object: StabilizationDesired
+ * Input object: @ref PathDesired and @ref PositionActual
+ * Output object: @ref StabilizationDesired
  *
- * This module will periodically update the value of the StabilizationDesired object.
- *
- * The module executes in its own thread in this example.
- *
- * Modules have no API, all communication to other modules is done through UAVObjects.
- * However modules may use the API exposed by shared libraries.
- * See the OpenPilot wiki for more details.
- * http://www.openpilot.org/OpenPilot_Application_Architecture
- *
+ * Calculate the value of @ref StabilizationDesired to get on the desired path.
  */
 
 #include "openpilot.h"

@@ -31,15 +31,8 @@
  * Input object: @ref PositionActual and @ref PathDesired
  * Output object: @ref StabilizationDesired
  *
- * This module will periodically update the value of the AttitudeDesired object.
- *
- * The module executes in its own thread in this example.
- *
- * Modules have no API, all communication to other modules is done through UAVObjects.
- * However modules may use the API exposed by shared libraries.
- * See the OpenPilot wiki for more details.
- * http://www.openpilot.org/OpenPilot_Application_Architecture
- *
+ * Computes the @ref StabilizationDesired that gets the UAV back on or keeps
+ * the UAV on the requested path
  */
 
 #include "openpilot.h"
