@@ -1,14 +1,16 @@
 /**
  ******************************************************************************
- * @addtogroup OpenPilotSystem OpenPilot System
+ * @addtogroup TauLabsTargets Tau Labs Targets
  * @{
- * @addtogroup OpenPilotCore OpenPilot Core
+ * @addtogroup Revolution OpenPilot Revolution support files
  * @{
- * @file       pios_board.h
- * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
- * @brief      Defines board hardware for the OpenPilot Version 1.1 hardware.
- * @see        The GNU Public License (GPL) Version 3
  *
+ * @file       STM32Fxx_Revolution.h
+ * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2011.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
+ * @brief      Board specific defines for Revolution
+ * @see        The GNU Public License (GPL) Version 3
+ * 
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify
@@ -262,6 +264,7 @@ extern uintptr_t pios_com_vcp_id;
 #define PIOS_ADC_SUB_DRIVER_MAX_INSTANCES       3
 
 #endif /* STM3210E_INS_H_ */
+
 /**
  * @}
  * @}
