@@ -2,7 +2,8 @@
  ******************************************************************************
  * @file       waypointeditorgadgetwidget.h
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
- * @addtogroup Waypoint Editor GCS Plugins
+ *
+ * @addtogroup GCSPlugins GCS Plugins
  * @{
  * @addtogroup WaypointEditorGadgetPlugin Waypoint Editor Gadget Plugin
  * @{
