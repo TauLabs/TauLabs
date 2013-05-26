@@ -1,13 +1,14 @@
 /**
  ******************************************************************************
+ * @addtogroup TauLabsModules Tau Labs Modules
+ * @{
+ * @addtogroup FirmwareIAPModule Read the firmware IAP values
+ * @{
+ *
  * @file       generic_i2c_sensor.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
  * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
- * @addtogroup I2C Sensor Module
- * @{
- * @addtogroup 
- * @{
- * @brief Runs the built-in or user defined program on the I2C Virtual Machine
+ * @brief      Runs the built-in or user defined program on the I2C Virtual Machine
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify
