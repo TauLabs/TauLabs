@@ -4,6 +4,13 @@
  * @{
  * @addtogroup AttitudeModule Attitude and state estimation module
  * @{
+ * @brief      Full attitude estimation method with selectable algorithms
+ *
+ * Based on the value of @ref StateEstimation this module will select between
+ * the complementary filter and the INSGPS to fuse data from @ref Gyros, @ref
+ * Accels, @ref Magnetometer, @ref GPSPosition, @ref GPSVelocity, and @ref
+ * BaroAltitude to estimation @ref PositionActual, @ref VelocityActual and 
+ * @ref AttitudeActual.
  *
  * @file       attitude.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
