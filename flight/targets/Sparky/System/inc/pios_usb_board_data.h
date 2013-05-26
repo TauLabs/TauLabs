@@ -1,12 +1,15 @@
 /**
  ******************************************************************************
- * @file       pios_usb_board_data.h
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
- * @addtogroup PIOS PIOS Core hardware abstraction layer
+ * @addtogroup TauLabsTargets Tau Labs Targets
  * @{
- * @addtogroup PIOS_USB_BOARD Board specific USB definitions
+ * @addtogroup Sparky Tau Labs Sparky support files
  * @{
- * @brief Board specific USB definitions
+ *
+ * @file       pios_usb_board_data.h 
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
+ * @brief      Defines for board specific usb information
+ * @see        The GNU Public License (GPL) Version 3
+ * 
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify

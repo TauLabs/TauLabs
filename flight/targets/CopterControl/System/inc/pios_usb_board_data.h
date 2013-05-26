@@ -1,16 +1,16 @@
 /**
  ******************************************************************************
- * @addtogroup PIOS PIOS Core hardware abstraction layer
+ * @addtogroup TauLabsTargets Tau Labs Targets
  * @{
- * @addtogroup PIOS_USB_BOARD Board specific USB definitions
- * @brief Board specific USB definitions
+ * @addtogroup CopterControl OpenPilot coptercontrol support files
  * @{
  *
- * @file       pios_usb_board_data.h
- * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
- * @brief      Board specific USB definitions
+ * @file       pios_usb_board_data.h 
+ * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2011.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
+ * @brief      Defines for board specific usb information
  * @see        The GNU Public License (GPL) Version 3
- *
+ * 
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify
