@@ -1,22 +1,13 @@
 /**
  ******************************************************************************
- * @addtogroup OpenPilotModules OpenPilot Modules
- * @brief The OpenPilot Modules do the majority of the control in OpenPilot.  The 
- * @ref SystemModule "System Module" starts all the other modules that then take care
- * of all the telemetry and control algorithms and such.  This is done through the @ref PIOS 
- * "PIOS Hardware abstraction layer" which then contains hardware specific implementations
- * (currently only STM32 supported)
- *
+ * @addtogroup TauLabsModules Tau Labs Modules
  * @{ 
  * @addtogroup SystemModule System Module
- * @brief Initializes PIOS and other modules runs monitoring
- * After initializing all the modules (currently selected by Makefile but in
- * future controlled by configuration on SD card) runs basic monitoring and
- * alarms.
  * @{ 
  *
  * @file       systemmod.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
  * @brief      System module
  *
  * @see        The GNU Public License (GPL) Version 3

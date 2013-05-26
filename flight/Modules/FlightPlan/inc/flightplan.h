@@ -1,9 +1,8 @@
 /**
  ******************************************************************************
- * @addtogroup OpenPilotModules OpenPilot Modules
+ * @addtogroup TauLabsModules Tau Labs Modules
  * @{
  * @addtogroup FlightPlan Flight Plan Module
- * @brief Executes flight plan scripts in Python
  * @{
  *
  * @file       flightplan.c
@@ -28,6 +27,7 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
+
 #ifndef FLIGHTPLAN_H
 #define FLIGHTPLAN_H
 

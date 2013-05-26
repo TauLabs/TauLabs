@@ -1,13 +1,14 @@
 /**
  ******************************************************************************
- * @addtogroup OpenPilotModules OpenPilot Modules
+ * @addtogroup TauLabsModules Tau Labs Modules
  * @{ 
  * @addtogroup PathFollower Module
  * @{ 
  *
  * @file       dubinscartpathfollower.h
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2011.
- * @brief      Acquires sensor data and fuses it into attitude estimate for CC
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
+ * @brief      Dubins cart path follower
  *
  * @see        The GNU Public License (GPL) Version 3
  *

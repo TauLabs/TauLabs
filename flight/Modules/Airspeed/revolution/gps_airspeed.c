@@ -1,15 +1,14 @@
 /**
  ******************************************************************************
- * @addtogroup OpenPilotModules OpenPilot Modules
+ * @addtogroup TauLabsModules Tau Labs Modules
  * @{ 
  * @addtogroup AirspeedModule Airspeed Module
- * @brief Use GPS data to estimate airspeed
  * @{ 
  *
  * @file       gps_airspeed.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
  * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
- * @brief      Airspeed module, handles temperature and pressure readings from BMP085
+ * @brief      Use GPS data to estimate airspeed
  *
  * @see        The GNU Public License (GPL) Version 3
  *

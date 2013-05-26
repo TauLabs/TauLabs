@@ -1,9 +1,8 @@
 /**
  ******************************************************************************
- * @addtogroup Modules Tau Labs Modules
+ * @addtogroup TauLabsModules Tau Labs Modules
  * @{
- * @addtogroup ControlModule Control Module
- * @brief Process the control sources and select the appropriate one.
+ * @addtogroup Control Control Module
  * @{
  *
  * @file       control.c

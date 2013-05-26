@@ -1,9 +1,8 @@
 /**
  ******************************************************************************
- * @addtogroup OpenPilotModules OpenPilot Modules
+ * @addtogroup TauLabsModules Tau Labs Modules
  * @{ 
  * @addtogroup AirspeedModule Airspeed Module
- * @brief Calculate airspeed from diverse sources and update @ref Airspeed "Airspeed UAV Object"
  * @{ 
  *
  * @file       airspeed.c

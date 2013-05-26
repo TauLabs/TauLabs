@@ -1,10 +1,9 @@
 /**
  ******************************************************************************
- * @addtogroup OpenPilotModules OpenPilot Modules
- * @{ 
- * @addtogroup AirspeedModule Airspeed Module
- * @brief Use GPS data to estimate airspeed
- * @{ 
+ * @addtogroup TauLabsModules Tau Labs Modules
+ * @{
+ * @addtogroup CCState Copter Control State Estimation
+ * @{
  *
  * @file       gps_airspeed.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
@@ -29,7 +28,6 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
-
 
 #include "openpilot.h"
 #include "physical_constants.h"

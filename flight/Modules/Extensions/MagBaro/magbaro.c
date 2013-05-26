@@ -1,14 +1,13 @@
 /**
  ******************************************************************************
- * @addtogroup OpenPilotModules OpenPilot Modules
+ * @addtogroup TauLabsModules Tau Labs Modules
  * @{ 
  * @addtogroup AltitudeModule Altitude Module
- * @brief Communicate with BMP085 and update @ref BaroAltitude "BaroAltitude UAV Object"
  * @{ 
  *
- * @file       altitude.c
+ * @file       magbaro.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
- * @brief      Altitude module, handles temperature and pressure readings from BMP085
+ * @brief      Read mag and baro sensor on CC
  *
  * @see        The GNU Public License (GPL) Version 3
  *

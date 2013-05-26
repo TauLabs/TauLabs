@@ -1,13 +1,13 @@
 /**
  ******************************************************************************
- * @addtogroup OpenPilotModules OpenPilot Modules
+ * @addtogroup TauLabsModules Tau Labs Modules
  * @{ 
  * @addtogroup ComUsbBridgeModule Com Port to USB VCP Bridge Module
- * @brief Bridge Com and USB VCP ports
  * @{ 
  *
  * @file       ComUsbBridge.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2011.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
  * @brief      Bridges selected Com Port to the USB VCP emulated serial port
  * @see        The GNU Public License (GPL) Version 3
  *

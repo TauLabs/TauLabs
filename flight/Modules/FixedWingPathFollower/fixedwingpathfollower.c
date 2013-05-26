@@ -39,9 +39,6 @@
  *
  * Modules have no API, all communication to other modules is done through UAVObjects.
  * However modules may use the API exposed by shared libraries.
- * See the OpenPilot wiki for more details.
- * http://www.openpilot.org/OpenPilot_Application_Architecture
- *
  */
 
 #include "openpilot.h"

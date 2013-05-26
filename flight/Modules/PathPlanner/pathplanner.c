@@ -1,14 +1,13 @@
 /**
  ******************************************************************************
+ * @addtogroup TauLabsModules Tau Labs Modules
+ * @{ 
+ * @addtogroup PathPlannerModule Path Planner Module
+ * @{ 
+ *
  * @file       pathplanner.c
- * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
  * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
- * @brief      Executes a series of waypoints
- * @addtogroup OpenPilotModules OpenPilot Modules
- * @{
- * @addtogroup PathPlanner Path Planner Module
- * @brief Executes a series of waypoints
- * @{
+ * @brief      Simple path planner which activates a sequence of waypoints
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify

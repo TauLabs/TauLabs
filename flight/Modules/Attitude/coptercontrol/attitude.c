@@ -1,16 +1,14 @@
 /**
  ******************************************************************************
- * @addtogroup OpenPilotModules OpenPilot Modules
+ * @addtogroup TauLabsModules Tau Labs Modules
  * @{
- * @addtogroup Attitude Copter Control Attitude Estimation
- * @brief Acquires sensor data and computes attitude estimate
- * Specifically updates the the @ref AttitudeActual "AttitudeActual" and @ref AttitudeRaw "AttitudeRaw" settings objects
+ * @addtogroup AttitudeModuleCC Copter Control Attitude Estimation
  * @{
  *
  * @file       attitude.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
  * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
- * @brief      Module to handle all comms to the AHRS on a periodic basis.
+ * @brief      Update attitude for CC(3D)
  *
  * @see        The GNU Public License (GPL) Version 3
  *
@@ -31,6 +29,7 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
+<<<<<<< Updated upstream
 /**
  * Input objects: None, takes sensor data via pios
  * Output objects: @ref AttitudeActual
@@ -38,6 +37,8 @@
  * This module computes an attitude estimate from the sensor data
  */
 
+=======
+>>>>>>> Stashed changes
 #include "pios.h"
 #include "openpilot.h"
 #include "physical_constants.h"

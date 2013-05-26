@@ -1,14 +1,13 @@
 /**
  ******************************************************************************
- * @addtogroup OpenPilotModules OpenPilot Modules
+ * @addtogroup TauLabsModules Tau Labs Modules
  * @{
  * @addtogroup StabilizationModule Stabilization Module
- * @brief Virtual flybar mode
- * @note This file implements the logic for a virtual flybar
  * @{
  *
  * @file       virtualflybar.h
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
  * @brief      Attitude stabilization module.
  *
  * @see        The GNU Public License (GPL) Version 3

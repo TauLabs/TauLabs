@@ -1,13 +1,13 @@
 /**
  ******************************************************************************
- * @addtogroup OpenPilotModules OpenPilot Modules
+ * @addtogroup TauLabsModules Tau Labs Modules
  * @{ 
  * @addtogroup RadioComBridgeModule Com Port to Radio Bridge Module
- * @brief Bridge Com and Radio ports
  * @{ 
  *
  * @file       RadioComBridge.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
  * @brief      Bridges selected Com Port to the COM VCP emulated serial port
  * @see        The GNU Public License (GPL) Version 3
  *

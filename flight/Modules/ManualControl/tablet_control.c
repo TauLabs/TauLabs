@@ -1,6 +1,6 @@
 /**
  ******************************************************************************
- * @addtogroup Modules Tau Labs Modules
+ * @addtogroup TauLabsModules Tau Labs Modules
  * @{
  * @addtogroup Control Control Module
  * @{

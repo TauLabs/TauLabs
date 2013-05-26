@@ -3,13 +3,10 @@
  * @file       vtolpathfollower.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
  * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
- * @brief      This module compared @ref PositionActual to @ref PathDesired 
- * and sets @ref Stabilization.  It only does this when the FlightMode field
- * of @ref FlightStatus is PathPlanner or RTH.
- * @addtogroup OpenPilotModules OpenPilot Modules
+ * @brief      Compute attitude to achieve a path for VTOL aircrafts
+ * @addtogroup TauLabsModules Tau Labs Modules
  * @{
- * @addtogroup VtolPathFollower Path follower for VTOL aircrafts
- * @brief Perform the flight segment requested by @ref PathDesired
+ * @addtogroup PathFollower Path followers
  * @{
  *****************************************************************************/
 /*
@@ -29,23 +26,16 @@
  */
 
 /**
- * Input object: FlightStatus
- * Input object: PathDesired
- * Input object: PositionActual
- * Output object: StabilizationDesired
+ * Input object: @ref FlightStatus
+ * Input object: @ref PathDesired
+ * Input object: @ref PositionActual
+ * Input object: @ref VelocityActual
+ * Output object: @ref StabilizationDesired
  *
  * This module will periodically update the value of the @ref StabilizationDesired object based on 
  * @ref PathDesired and @PositionActual when the Flight Mode selected in @FlightStatus is supported
  * by this module.  Otherwise another module (e.g. @ref ManualControlCommand) is expected to be
  * writing to @ref StabilizationDesired.
- *
- * The module executes in its own thread in this example.
- *
- * Modules have no API, all communication to other modules is done through UAVObjects.
- * However modules may use the API exposed by shared libraries.
- * See the OpenPilot wiki for more details.
- * http://www.openpilot.org/OpenPilot_Application_Architecture
- *
  */
 
 #include "openpilot.h"

@@ -1,13 +1,13 @@
 /**
  ******************************************************************************
- * @addtogroup OpenPilotModules OpenPilot Modules
- * @{ 
- * @addtogroup GPSModule GPS Module
- * @brief Calculate airspeed as a function of the difference between sequential GPS velocity and attitude measurements
- * @{ 
+ * @addtogroup TauLabsModules Tau Labs Modules
+ * @{
+ * @addtogroup CCState Copter Control State Estimation
+ * @{
  *
  * @file       gps_airspeed.h
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
  * @brief      GPS airspeed module
  *
  * @see        The GNU Public License (GPL) Version 3
@@ -28,6 +28,7 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
+
 #ifndef GPS_AIRSPEED_H
 #define GPS_AIRSPEED_H
 

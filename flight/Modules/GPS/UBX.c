@@ -1,14 +1,14 @@
 /**
  ******************************************************************************
- * @addtogroup OpenPilotModules OpenPilot Modules
+ * @addtogroup TauLabsModules Tau Labs Modules
  * @{
  * @addtogroup GSPModule GPS Module
- * @brief Process GPS information (UBX binary format)
  * @{
  *
  * @file       UBX.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
- * @brief      GPS module, handles GPS and NMEA stream
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
+ * @brief      Process UBX data
  * @see        The GNU Public License (GPL) Version 3
  *
  *****************************************************************************/
