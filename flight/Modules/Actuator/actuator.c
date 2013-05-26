@@ -4,6 +4,11 @@
  * @{
  * @addtogroup ActuatorModule Actuator Module
  * @{
+ * @brief      Take the values in @ref ActuatorDesired and mix to set the outputs
+ *
+ * This module ultimately controls the outputs.  The values from @ref ActuatorDesired
+ * are combined based on the values in @ref MixerSettings and then scaled by the
+ * values in @ref ActuatorSettings to create the output PWM times.
  *
  * @file       actuator.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
