@@ -230,8 +230,8 @@ extern uint32_t pios_ppm_rcvr_id;
 #define PIOS_ADC_SAMPLE_TIME			ADC_SampleTime_239Cycles5
 /* Sample time: */
 /* With an ADCCLK = 14 MHz and a sampling time of 239.5 cycles: */
-/* Tconv = 239.5 + 12.5 = 252 cycles = 18�s */
-/* (1 / (ADCCLK / CYCLES)) = Sample Time (�S) */
+/* Tconv = 239.5 + 12.5 = 252 cycles = 18us */
+/* (1 / (ADCCLK / CYCLES)) = Sample Time (uS) */
 #define PIOS_ADC_IRQ_PRIO			PIOS_IRQ_PRIO_LOW
 
 // Currently analog acquistion hard coded at 480 Hz
