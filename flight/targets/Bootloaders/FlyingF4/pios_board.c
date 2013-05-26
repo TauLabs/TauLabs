@@ -2,7 +2,7 @@
  ******************************************************************************
  * @addtogroup TauLabsBootloader Tau Labs Bootloaders
  * @{
- * @addtogroup FreedomBL Tau Labs Freedom bootloader
+ * @addtogroup FlyingF4BL FlyingF4 bootloader
  * @{
  *
  * @file       pios_board.c 

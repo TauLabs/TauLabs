@@ -3,7 +3,6 @@
  * @addtogroup PIOS PIOS Core hardware abstraction layer
  * @{
  * @addtogroup   PIOS_ADC ADC Functions
- * @brief PIOS Upper level interface for ADC devices
  * @{
  *
  * @file       pios_adc_priv.h
