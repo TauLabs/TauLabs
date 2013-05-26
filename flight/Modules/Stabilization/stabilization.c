@@ -4,6 +4,13 @@
  * @{
  * @addtogroup StabilizationModule Stabilization Module
  * @{
+ * @brief      Control the UAV attitude to @ref StabilizationDesired
+ *
+ * The main control code which keeps the UAV at the attitude requested by
+ * @ref StabilizationDesired.  This is done by comparing against 
+ * @ref AttitudeActual to compute the error in roll pitch and yaw then
+ * then based on the mode and values in @ref StabilizationSettings computing
+ * the desired outputs and placing them in @ref ActuatorDesired.
  *
  * @file       stabilization.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
