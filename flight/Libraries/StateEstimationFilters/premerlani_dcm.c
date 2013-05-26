@@ -5,7 +5,7 @@
  * @addtogroup StateEstimationFilters
  * @{
  *
- * @file       premelani_dcm.c
+ * @file       premerlani_dcm.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
  * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
  * @brief      DCM algorithm implementation used by @ref StateModule

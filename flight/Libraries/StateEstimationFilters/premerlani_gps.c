@@ -5,10 +5,10 @@
  * @addtogroup StateEstimationFilters
  * @{
  *
- * @file       premelani_gps.c
+ * @file       premerlani_gps.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
  * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
- * @brief      Premelani GPS algorithm implementation used by @ref StateModule
+ * @brief      premerlani GPS algorithm implementation used by @ref StateModule
  *
  * @see        The GNU Public License (GPL) Version 3
  *
