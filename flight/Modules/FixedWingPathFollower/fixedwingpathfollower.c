@@ -1,5 +1,9 @@
 /**
  ******************************************************************************
+ * @addtogroup TauLabsModules Tau Labs Modules
+ * @{
+ * @addtogroup FixedWingPathFollower Fixed wing path follower module
+ * @{
  *
  * @file       fixedwingpathfollower.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
@@ -614,3 +618,8 @@ static void airspeedActualUpdatedCb(UAVObjEvent * ev)
 	// however since airspeed is updated less often than groundspeed, we use sudden changes to groundspeed to offset the airspeed by the same measurement.
 
 }
+
+/**
+ * @}
+ * @}
+ */

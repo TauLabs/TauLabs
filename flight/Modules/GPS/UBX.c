@@ -342,3 +342,7 @@ static uint32_t parse_ubx_message (const struct UBXPacket *ubx, GPSPositionData 
 
 #endif // PIOS_INCLUDE_GPS_UBX_PARSER
 
+/**
+ * @}
+ * @}
+ */

@@ -768,3 +768,8 @@ static bool nmeaProcessGPGSA(GPSPositionData * GpsData, bool* gpsDataUpdated, ch
 }
 
 #endif // PIOS_INCLUDE_GPS_NMEA_PARSER
+
+/**
+ * @}
+ * @}
+ */

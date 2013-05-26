@@ -1,8 +1,8 @@
 /**
  ******************************************************************************
  * @addtogroup TauLabsModules Tau Labs Modules
- * @{ 
- * @addtogroup PathFollower Module
+ * @{
+ * @addtogroup PathFollowerModule Path Follower Module
  * @{ 
  *
  * @file       multirotorpathfollower.h
@@ -39,3 +39,9 @@ uint8_t updateMultirotorDesiredStabilization(uint8_t flightMode,
 					     fixedwingpathfollowerSettings);
 
 #endif /* MULTIROTORPATHFOLLOWER_H */
+
+/**
+ * @}
+ * @}
+ */
+ 

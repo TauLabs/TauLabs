@@ -89,3 +89,8 @@ const uint32_t vmprog_mathtest[] = {
 
 #define NELEMENTS(x) (sizeof(x) / sizeof(*(x)))
 const uint32_t vmprog_mathtest_len = NELEMENTS(vmprog_mathtest);
+
+/**
+ * @}
+ * @}
+ */

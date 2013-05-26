@@ -265,9 +265,6 @@ static void settings_updated_cb(UAVObjEvent * ev)
 }
 
 /**
-  * @}
-  */
-
-/**
+ * @}
  * @}
  */

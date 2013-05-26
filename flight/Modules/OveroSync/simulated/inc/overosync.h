@@ -2,7 +2,7 @@
  ******************************************************************************
  * @addtogroup TauLabsModules Tau Labs Modules
  * @{ 
- * @addtogroup OveroSyncModule Overo Sync Module
+ * @addtogroup OveroSyncModule OveroSync Module
  * @{ 
  *
  * @file       overosync.h

@@ -320,9 +320,6 @@ static uint8_t update(float *var, float val)
 }
 
 /**
-  * @}
-  */
-
-/**
+ * @}
  * @}
  */

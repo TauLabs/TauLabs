@@ -1,9 +1,13 @@
 /**
  ******************************************************************************
+ * @addtogroup TauLabsModules Tau Labs Modules
+ * @{
+ * @addtogroup VibrationAnalysisModule Vibration analysis module
+ * @{
  *
  * @file       vibrationanalysis.c
  * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
- * @brief      VibrationAnalysis module 
+ * @brief      Performs an FFT on the accels to estimation vibration
  *
  * @see        The GNU Public License (GPL) Version 3
  *
@@ -415,3 +419,8 @@ static void VibrationAnalysisTask(void *parameters)
 		}
 	}
 }
+
+/**
+ * @}
+ * @}
+ */

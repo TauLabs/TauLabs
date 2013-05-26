@@ -1,8 +1,8 @@
 /**
  ******************************************************************************
  * @addtogroup TauLabsModules Tau Labs Modules
- * @{ 
- * @addtogroup PathFollower Module
+ * @{
+ * @addtogroup PathFollowerModule Path Follower Module
  * @{ 
  *
  * @file       fixedwingpathfollower.h
@@ -36,3 +36,9 @@
 void initializeFixedWingPathFollower();
 uint8_t updateFixedWingDesiredStabilization(uint8_t flightMode, FixedWingPathFollowerSettingsCCData fixedwingpathfollowerSettingsCC);
 #endif /* FIXEDWINGPATHFOLLOWER_H */
+
+/**
+ * @}
+ * @}
+ */
+ 

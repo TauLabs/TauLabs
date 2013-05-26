@@ -1,13 +1,14 @@
 /**
  ******************************************************************************
+ * @addtogroup TauLabsModules Tau Labs Modules
+ * @{
+ * @addtogroup VtolPathFollower VTOL path follower module
+ * @{
+ *
  * @file       vtolpathfollower.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
  * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
  * @brief      Compute attitude to achieve a path for VTOL aircrafts
- * @addtogroup TauLabsModules Tau Labs Modules
- * @{
- * @addtogroup PathFollower Path followers
- * @{
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify

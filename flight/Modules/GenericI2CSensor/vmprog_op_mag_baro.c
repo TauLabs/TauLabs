@@ -116,3 +116,8 @@ const uint32_t vmprog_op_mag_baro[] = {
 };
 
 const uint32_t vmprog_op_mag_baro_len = NELEMENTS(vmprog_op_mag_baro);
+
+/**
+ * @}
+ * @}
+ */

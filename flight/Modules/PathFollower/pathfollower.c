@@ -1,5 +1,9 @@
 /**
  ******************************************************************************
+ * @addtogroup TauLabsModules Tau Labs Modules
+ * @{
+ * @addtogroup PathFollowerModule Path Follower Module
+ * @{ 
  *
  * @file       pathfollower.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
@@ -237,3 +241,8 @@ static void FlightStatusUpdatedCb(UAVObjEvent * ev)
 {
 	flightStatusUpdate = true;
 }
+
+/**
+ * @}
+ * @}
+ */

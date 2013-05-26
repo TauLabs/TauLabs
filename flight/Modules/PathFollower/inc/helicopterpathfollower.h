@@ -39,3 +39,9 @@ uint8_t updateHelicopterDesiredStabilization(uint8_t flightMode,
 					     fixedwingpathfollowerSettings);
 
 #endif /* HELICOPTERPATHFOLLOWER_H */
+
+/**
+ * @}
+ * @}
+ */
+ 

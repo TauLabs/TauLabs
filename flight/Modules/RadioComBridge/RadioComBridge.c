@@ -600,3 +600,8 @@ static void updateSettings()
 		break;
 	}
 }
+
+/**
+ * @}
+ * @}
+ */

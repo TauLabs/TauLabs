@@ -116,4 +116,9 @@ enum control_selection transmitter_control_selected_controller();
 //! Get any control events
 enum control_events transmitter_control_get_events();
 
- #endif /* TRANSMITTER_CONTROL_H */
+#endif /* TRANSMITTER_CONTROL_H */
+
+/**
+ * @}
+ * @}
+ */

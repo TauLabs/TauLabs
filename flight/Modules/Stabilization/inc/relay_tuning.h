@@ -34,4 +34,9 @@
 
 int stabilization_relay_rate(float err, float *output, int axis, bool reinit);
 
-#endif
+#endif /* RELAY_TUNING_H */
+
+/**
+ * @}
+ * @}
+ */

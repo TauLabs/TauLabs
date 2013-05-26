@@ -185,5 +185,6 @@ static void batteryTask(void * parameters)
 }
 
 /**
- * @}
- */
+  * @}
+  * @}
+  */

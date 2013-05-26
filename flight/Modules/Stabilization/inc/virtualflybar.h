@@ -29,8 +29,8 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
- #ifndef VIRTUALFLYBAR_H
- #define VIRTUALFLYBAR_H
+#ifndef VIRTUALFLYBAR_H
+#define VIRTUALFLYBAR_H
 
 #include "openpilot.h"
 #include "stabilizationsettings.h"
@@ -38,4 +38,9 @@
 int stabilization_virtual_flybar(float gyro, float command, float *output, float dT, bool reinit, uint32_t axis, StabilizationSettingsData *settings);
 int stabilization_virtual_flybar_pirocomp(float z_gyro, float dT);
 
- #endif /* VIRTUALFLYBAR_H */
+#endif /* VIRTUALFLYBAR_H */
+
+/**
+ * @}
+ * @}
+ */

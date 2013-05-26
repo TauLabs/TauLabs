@@ -43,4 +43,9 @@ enum control_events {
 	CONTROL_EVENTS_DISARM
 };
 
-#endif // CONTROL_H
+#endif /* CONTROL_H */
+
+/**
+ * @}
+ * @}
+ */

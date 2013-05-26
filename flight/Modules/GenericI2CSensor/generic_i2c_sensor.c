@@ -163,6 +163,6 @@ static void GenericI2CSensorTask(void *parameters)
 }
 
 /**
-  * @}
+ * @}
  * @}
  */

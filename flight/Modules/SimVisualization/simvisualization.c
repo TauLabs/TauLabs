@@ -1,13 +1,13 @@
 /**
  ******************************************************************************
- * @file       visualization.c
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
  * @addtogroup TauLabsModules Tau Labs Modules
  * @{
- * @addtogroup Visualization
+ * @addtogroup VisualizationModule Visualization module for simulation
  * @{
- * @brief Sends the state of the UAV out a UDP port to be visualized in a
- * standalone 
+ * @file       visualization.c
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
+ * @brief      Sends the state of the UAV out a UDP port to be visualized in a
+ *             standalone application
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify

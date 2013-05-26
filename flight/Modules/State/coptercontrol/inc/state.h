@@ -38,3 +38,8 @@
 #include "state_struct.h"
 
 #endif // STATE_H
+
+/**
+ * @}
+ * @}
+ */

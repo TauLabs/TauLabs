@@ -39,3 +39,8 @@ int8_t getSensorsCC(float * prelim_accels, float * prelim_gyros, xQueueHandle *g
 int8_t getSensorsCC3D(float * prelim_accels, float * prelim_gyros, GlobalAttitudeVariables *glblAtt, GyrosBiasData *gyrosBias, InertialSensorSettingsData *inertialSensorSettings);
 
 #endif // SENSORFETCH_H
+
+/**
+ * @}
+ * @}
+ */

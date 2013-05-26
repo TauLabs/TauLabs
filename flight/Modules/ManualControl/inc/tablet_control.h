@@ -45,4 +45,9 @@ int32_t tablet_control_select(bool reset_controller);
 //! Get any control events
 enum control_events tablet_control_get_events();
 
- #endif /* TABLET_CONTROL_H */
+#endif /* TABLET_CONTROL_H */
+
+/**
+ * @}
+ * @}
+ */

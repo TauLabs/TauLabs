@@ -42,3 +42,8 @@ extern bool NMEA_checksum(char *nmea_sentence);
 extern int parse_nmea_stream(uint8_t, char *, GPSPositionData *, struct GPS_RX_STATS *);
 
 #endif /* NMEA_H */
+
+/**
+ * @}
+ * @}
+ */

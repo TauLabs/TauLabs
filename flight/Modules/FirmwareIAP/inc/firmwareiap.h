@@ -1,5 +1,9 @@
 /**
  ******************************************************************************
+ * @addtogroup TauLabsModules Tau Labs Modules
+ * @{
+ * @addtogroup FirmwareIAPModule Read the firmware IAP values
+ * @{
  *
  * @file       firmwareiap.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
@@ -31,3 +35,7 @@ int32_t FirmwareIAPStart() {return 0;};
 
 #endif // FIRMWAREIAP_H
 
+/**
+ * @}
+ * @}
+ */

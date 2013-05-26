@@ -146,4 +146,7 @@ int stabilization_relay_rate(float error, float *output, int axis, bool reinit)
 	return 0;
 }
 
-
+/**
+ * @}
+ * @}
+ */

@@ -1,8 +1,8 @@
 /**
  ******************************************************************************
  * @addtogroup TauLabsModules Tau Labs Modules
- * @{ 
- * @addtogroup PathFollower Module
+ * @{
+ * @addtogroup PathFollowerModule Path Follower Module
  * @{ 
  *
  * @file       dubinscartpathfollower.h
@@ -38,3 +38,9 @@ uint8_t updateDubinsCartDesiredStabilization(uint8_t flightMode,
 					     fixedwingpathfollowerSettings);
 
 #endif				// DUBINSCARTPATHFOLLOWER_H
+
+/**
+ * @}
+ * @}
+ */
+ 

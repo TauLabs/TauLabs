@@ -116,3 +116,8 @@ static float bound(float val, float range)
 	}
 	return val;
 }
+
+/**
+ * @}
+ * @}
+ */

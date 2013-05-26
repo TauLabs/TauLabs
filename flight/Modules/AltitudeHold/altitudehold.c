@@ -1,12 +1,15 @@
 /**
  ******************************************************************************
+ * @addtogroup TauLabsModules Tau Labs Modules
+ * @{
+ * @addtogroup AltitudeHoldModule Altitude hold module
+ * @{
  *
- * @file       guidance.c
+ * @file       altitudehold.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
- * @brief      This module compared @ref PositionActuatl to @ref ActiveWaypoint
- * and sets @ref AttitudeDesired.  It only does this when the FlightMode field
- * of @ref ManualControlCommand is Auto.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
+ * @brief      This module runs an EKF to estimate altitude from just a barometric
+ *             sensor and controls throttle to hold a fixed altitude
  *
  * @see        The GNU Public License (GPL) Version 3
  *
@@ -28,12 +31,16 @@
  */
 
 /**
- * Input object: ActiveWaypoint
- * Input object: PositionActual
- * Input object: ManualControlCommand
- * Output object: AttitudeDesired
+ * Input object: @ref AltitudeHoldDesired
+ * Input object: @ref BaroAltitude
+ * Input object: @ref Accels
+ * Output object: @ref StabilizationDesired
+ * Output object: @ref AltHoldSmoothed
  *
- * This module will periodically update the value of the AttitudeDesired object.
+ * Runs an EKF on the @ref accels and @ref BaroAltitude to estimate altitude, velocity
+ * and acceleration which is output in @ref AltHoldSmoothed.  Then a control value is
+ * computed for @StabilizationDesired throttle.  Roll and pitch are set to Attitude
+ * mode and use the values from @AltHoldDesired.
  *
  * The module executes in its own thread in this example.
  */

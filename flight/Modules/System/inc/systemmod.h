@@ -33,4 +33,9 @@
 
 int32_t SystemModInitialize(void);
 
-#endif // SYSTEMMOD_H
+#endif /* SYSTEMMOD_H */
+
+/**
+ * @}
+ * @}
+ */

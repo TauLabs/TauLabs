@@ -2,7 +2,7 @@
  ******************************************************************************
  * @addtogroup TauLabsModules Tau Labs Modules
  * @{ 
- * @addtogroup OveroSyncModule Telemetry Module
+ * @addtogroup OveroSyncModule OveroSync Module
  * @{ 
  *
  * @file       overosync.c
@@ -68,7 +68,7 @@ struct overosync {
 struct overosync *overosync;
 
 /**
- * Initialise the telemetry module
+ * Initialise the overo sync module
  * \return -1 if initialisation failed
  * \return 0 on success
  */
@@ -101,7 +101,7 @@ int32_t OveroSyncInitialize(void)
 }
 
 /**
- * Initialise the telemetry module
+ * Start the overo sync module
  * \return -1 if initialisation failed
  * \return 0 on success
  */

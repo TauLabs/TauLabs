@@ -3,7 +3,6 @@
  * @addtogroup TauLabsModules TauLabs Modules
  * @{ 
  * @addtogroup UAVOMavlinkBridge UAVO to Mavlink Bridge Module
- * @brief Bridge UAVObjects with MavLink data
  * @{ 
  *
  * @file       UAVOMavlinkBridge.c
@@ -470,3 +469,8 @@ static bool stream_trigger(enum MAV_DATA_STREAM stream_num) {
 	stream_ticks[stream_num]--;
 	return false;
 }
+
+/**
+ * @}
+ * @}
+ */

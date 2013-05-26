@@ -220,3 +220,8 @@ struct UBXPacket {
 int  parse_ubx_stream(uint8_t, char *, GPSPositionData *, struct GPS_RX_STATS *);
 
 #endif /* UBX_H */
+
+/**
+ * @}
+ * @}
+ */

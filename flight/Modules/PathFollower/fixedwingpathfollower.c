@@ -1,5 +1,9 @@
 /**
  ******************************************************************************
+ * @addtogroup TauLabsModules Tau Labs Modules
+ * @{
+ * @addtogroup PathFollowerModule Path Follower Module
+ * @{ 
  *
  * @file       fixedwingpathfollower.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
@@ -578,3 +582,7 @@ static float bound(float val, float min, float max)
 	return val;
 }
 
+/**
+ * @}
+ * @}
+ */

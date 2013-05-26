@@ -54,3 +54,8 @@ const uint32_t vmprog_endiantest[] = {
 
 #define NELEMENTS(x) (sizeof(x) / sizeof(*(x)))
 const uint32_t vmprog_endiantest_len = NELEMENTS(vmprog_endiantest);
+
+/**
+ * @}
+ * @}
+ */
