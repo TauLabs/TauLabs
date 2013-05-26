@@ -1510,3 +1510,9 @@ void PIOS_ADC_DMA_irq_handler(void)
 	PIOS_INTERNAL_ADC_DMA_Handler();
 }
 #endif /* PIOS_INCLUDE_ADC */
+
+/**
+ * @}
+ * @}
+ */
+

@@ -1,8 +1,8 @@
 /**
  ******************************************************************************
  * @addtogroup TauLabsModules Tau Labs Modules
- * @{ 
- * @addtogroup PathFollower Module
+ * @{
+ * @addtogroup PathFollowerModule Path Follower Module
  * @{ 
  *
  * @file       helicopterpathfollower.h

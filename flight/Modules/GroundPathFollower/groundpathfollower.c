@@ -1,5 +1,6 @@
 /**
  ******************************************************************************
+ * @addtogroup TauLabsModules Tau Labs Modules
  * @{
  * @addtogroup GroundPathFollower Path follower for ground based vehicles
  * @{
@@ -33,7 +34,7 @@
  * Output object: StabilizationDesired
  *
  * This module will periodically update the value of the @ref StabilizationDesired object based on
- * @ref PathDesired and @PositionActual when the Flight Mode selected in @FlightStatus is supported
+ * @ref PathDesired and @ref PositionActual when the Flight Mode selected in @ref FlightStatus is supported
  * by this module.  Otherwise another module (e.g. @ref ManualControlCommand) is expected to be
  * writing to @ref StabilizationDesired.
  */

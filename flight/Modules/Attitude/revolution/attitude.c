@@ -2,7 +2,7 @@
  ******************************************************************************
  * @addtogroup TauLabsModules Tau Labs Modules
  * @{
- * @addtogroup Attitude Copter Control Attitude Estimation
+ * @addtogroup AttitudeModule Attitude and state estimation module
  * @{
  *
  * @file       attitude.c

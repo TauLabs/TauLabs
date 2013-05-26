@@ -2,7 +2,7 @@
  ******************************************************************************
  * @addtogroup TauLabsModules Tau Labs Modules
  * @{
- * @addtogroup FirmwareIAPModule Read the firmware IAP values
+ * @addtogroup GenericI2CSensor Generic I2C sensor interface
  * @{
  *
  * @file       generic_i2c_sensor.c

@@ -1504,3 +1504,8 @@ static void PIOS_ADC_DMA_irq_handler(void)
 }
 
 #endif /* PIOS_INCLUDE_ADC */
+
+/**
+ * @}
+ * @}
+ */

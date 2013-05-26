@@ -255,3 +255,8 @@ enum control_events tablet_control_get_events()
 }
 
 #endif
+
+/**
+ * @}
+ * @}
+ */

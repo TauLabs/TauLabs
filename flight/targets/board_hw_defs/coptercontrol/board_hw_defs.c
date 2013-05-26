@@ -1387,3 +1387,7 @@ const struct pios_usb_cdc_cfg pios_usb_cdc_cfg = {
 };
 #endif	/* PIOS_INCLUDE_USB_CDC */
 
+/**
+ * @}
+ * @}
+ */

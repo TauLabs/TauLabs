@@ -2,7 +2,7 @@
  ******************************************************************************
  * @addtogroup TauLabsBootloader Tau Labs Bootloaders
  * @{
- * @addtogroup FreedomBL Tau Labs Freedom bootloader
+ * @addtogroup CopterControlBL CopterControl bootloader
  * @{
  *
  * @file       pios_usb_board_data.c

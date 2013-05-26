@@ -2178,3 +2178,8 @@ const struct pios_usb_cdc_cfg pios_usb_cdc_cfg = {
 static const struct pios_internal_adc_cfg internal_adc_cfg = {};
 
 #endif //PIOS_INCLUDE_ADC
+
+/**
+ * @}
+ * @}
+ */

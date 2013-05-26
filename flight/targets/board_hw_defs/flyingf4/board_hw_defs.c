@@ -1570,3 +1570,9 @@ const struct pios_usb_hid_cfg pios_usb_hid_cfg = {
 	.data_tx_ep = 1,
 };
 #endif	/* PIOS_INCLUDE_USB_HID && PIOS_INCLUDE_USB_CDC */
+
+/**
+ * @}
+ * @}
+ */
+

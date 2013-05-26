@@ -1,9 +1,14 @@
 /**
  ******************************************************************************
+ * @addtogroup TauLabsBootloader Tau Labs Bootloaders
+ * @{
+ * @addtogroup FreedomBL Tau Labs Freedom bootloader
+ * @{
  *
- * @file       pios_board.c
+ * @file       pios_board.c 
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
- * @brief      Defines board specific static initializers for hardware for the AHRS board.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
+ * @brief      Board specific initialization for the bootloader
  * @see        The GNU Public License (GPL) Version 3
  *
  *****************************************************************************/

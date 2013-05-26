@@ -40,7 +40,7 @@
  * Runs an EKF on the @ref accels and @ref BaroAltitude to estimate altitude, velocity
  * and acceleration which is output in @ref AltHoldSmoothed.  Then a control value is
  * computed for @StabilizationDesired throttle.  Roll and pitch are set to Attitude
- * mode and use the values from @AltHoldDesired.
+ * mode and use the values from @AltHoldDesired.	
  *
  * The module executes in its own thread in this example.
  */
@@ -167,7 +167,7 @@ static void altitudeHoldTask(void *parameters)
 	// Main task loop
 	bool baro_updated = false;
 	while (1) {
-		// Wait until the AttitudeRaw object is updated, if a timeout then go to failsafe
+		// Wait until the sensors are updated, if a timeout then go to failsafe
 		if ( xQueueReceive(queue, &ev, 100 / portTICK_RATE_MS) != pdTRUE )
 		{
 			if(!running)

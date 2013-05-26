@@ -629,3 +629,8 @@ const struct pios_eeprom_cfg pios_eeprom_cfg = {
 #include <pios_rfm22b_priv.h>
 
 #endif /* PIOS_INCLUDE_RFM22B */
+
+/**
+ * @}
+ * @}
+ */
