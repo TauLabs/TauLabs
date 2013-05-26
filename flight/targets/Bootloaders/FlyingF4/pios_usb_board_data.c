@@ -2,7 +2,7 @@
  ******************************************************************************
  * @addtogroup TauLabsBootloader Tau Labs Bootloaders
  * @{
- * @addtogroup FlyingF4L FlyingF4 bootloader
+ * @addtogroup FlyingF4BL FlyingF4 bootloader
  * @{
  *
  * @file       pios_usb_board_data.c

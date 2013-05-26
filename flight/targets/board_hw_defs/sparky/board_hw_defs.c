@@ -1,12 +1,17 @@
 /**
  ******************************************************************************
- * @file       board_hw_defs.c
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
- * @addtogroup TauLabsSystem Tau Labs System
+ * @addtogroup TauLabsTargets Tau Labs Targets
  * @{
- * @addtogroup TauLabsCore Tau Labs Core
+ * @addtogroup Sparky Tau Labs Sparky support files
  * @{
- * @brief Defines board specific static initializers for hardware for Sparky.
+ *
+ * @file       board_hw_defs.c 
+ * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2011.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
+ * @brief      Defines board specific static initializers for hardware for the
+ *             Sparky board.
+ * @see        The GNU Public License (GPL) Version 3
+ * 
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify

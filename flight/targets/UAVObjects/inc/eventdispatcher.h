@@ -52,3 +52,8 @@ int32_t EventPeriodicQueueCreate(UAVObjEvent* ev, xQueueHandle queue, uint16_t p
 int32_t EventPeriodicQueueUpdate(UAVObjEvent* ev, xQueueHandle queue, uint16_t periodMs);
 
 #endif // EVENTDISPATCHER_H
+
+/**
+ * @}
+ * @}
+ */
