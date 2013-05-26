@@ -1,13 +1,16 @@
 /**
  ******************************************************************************
- * @file       pios_config.h
+ * @addtogroup TauLabsBootloader Tau Labs Bootloaders
+ * @{
+ * @addtogroup DiscoveryF4BL DiscoveryF4B bootloader
+ * @{
+ *
+ * @file       pios_config.h 
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
  * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
- * @addtogroup 
- * @{
- * @addtogroup 
- * @{
- * @brief      PiOS configuration header.  Central compile time config for the project.
+ * @brief      Board specific bootloader configuration file for PiOS
+ * @see        The GNU Public License (GPL) Version 3
+ *
  *****************************************************************************/
 /* 
  * This program is free software; you can redistribute it and/or modify 
