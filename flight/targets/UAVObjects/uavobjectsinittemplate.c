@@ -1,5 +1,9 @@
 /**
  ******************************************************************************
+ * @addtogroup TauLabsCore Tau Labs Core components
+ * @{
+ * @addtogroup UAVObjects UAVObject set for this firmware
+ * @{
  *
  * @file       uavobjectsinit.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
@@ -39,3 +43,8 @@ void UAVObjectsInitializeAll()
 {
 $(OBJINIT)
 }
+
+/**
+ * @}
+ * @}
+ */

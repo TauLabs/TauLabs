@@ -2,7 +2,7 @@
 ******************************************************************************
  * @addtogroup TauLabsCore Tau Labs Core components
  * @{
- * @addtogroup UAVObjects Core UAVObject handling code
+ * @addtogroup UAVObjectHandling UAVObject handling code
  * @{
  *
  * @file       uavobjectmanager.c
