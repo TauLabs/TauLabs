@@ -6,9 +6,12 @@
  * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
  * @brief
  * @see        The GNU Public License (GPL) Version 3
- * @defgroup   hitlplugin
- * @{
  *
+ * @addtogroup GCSPlugins GCS Plugins
+ * @{
+ * @addtogroup HITLPlugin HITL Plugin
+ * @{
+ * @brief The Hardware In The Loop plugin
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify
