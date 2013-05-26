@@ -4,6 +4,12 @@
  * @{
  * @addtogroup AttitudeModuleCC Copter Control Attitude Estimation
  * @{
+ * @brief      Minimal code for attitude estimation with integrated sensors
+ *
+ * This is a minimal implementation of the Complementary filter which integrates
+ * in the code to fetch the sensor values for @ref Accels and @ref Gyros and store
+ * them, and then updates a Complementary filter to estimate @ref AttitudeActual
+ * and sets that.
  *
  * @file       attitude.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
@@ -29,16 +35,6 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
-<<<<<<< Updated upstream
-/**
- * Input objects: None, takes sensor data via pios
- * Output objects: @ref AttitudeActual
- *
- * This module computes an attitude estimate from the sensor data
- */
-
-=======
->>>>>>> Stashed changes
 #include "pios.h"
 #include "openpilot.h"
 #include "physical_constants.h"
