@@ -51,7 +51,7 @@
 #include "gps_airspeed.h"
 #endif
 
-#include "CoordinateConversions.h"
+#include "coordinate_conversions.h"
 #include <pios_board_info.h>
 
 // Private constants

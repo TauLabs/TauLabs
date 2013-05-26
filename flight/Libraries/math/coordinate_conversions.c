@@ -2,8 +2,10 @@
  ******************************************************************************
  * @addtogroup TauLabsLibraries Tau Labs Libraries
  * @{
+ * @addtogroup TauLabsMath Tau Labs math support libraries
+ * @{
  *
- * @file       CoordinateConversions.c
+ * @file       coordinate_conversions.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
  * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
  * @brief      General conversions with different coordinate systems.
@@ -32,7 +34,7 @@
 
 #include <math.h>
 #include <stdint.h>
-#include "CoordinateConversions.h"
+#include "coordinate_conversions.h"
 #include "physical_constants.h"
 
 // ****** convert Lat,Lon,Alt to ECEF  ************
@@ -459,5 +461,6 @@ void rot_mult(float R[3][3], const float vec[3], float vec_out[3], bool transpos
 }
 
 /**
+ * @}
  * @}
  */

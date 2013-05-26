@@ -33,7 +33,7 @@
 #include "physical_constants.h"
 #include "premerlani_dcm.h"
 #include <pios_board_info.h>
-#include "CoordinateConversions.h"
+#include "coordinate_conversions.h"
 
 #include "gpsvelocity.h"
 #if defined (PIOS_INCLUDE_MAGNETOMETER)	//THIS PIOS DEFINE DOES NOT CURRENTLY EXIST, BUT WE SHOULD ADD IT IN ORDER TO SUPPORT ALL MAGS, NOT JUST THE HMC5883

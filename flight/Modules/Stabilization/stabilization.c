@@ -41,7 +41,7 @@
 #include "flightstatus.h"
 
 // Math libraries
-#include "CoordinateConversions.h"
+#include "coordinate_conversions.h"
 #include "pid.h"
 #include "sin_lookup.h"
 #include "misc_math.h"

@@ -45,7 +45,7 @@
 #include "inssettings.h"
 #include "magnetometer.h"
 #include "magbias.h"
-#include "CoordinateConversions.h"
+#include "coordinate_conversions.h"
 
 // Private constants
 #define STACK_SIZE_BYTES 1000

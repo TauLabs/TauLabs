@@ -60,7 +60,7 @@
 #include "positionactual.h"
 #include "stateestimation.h"
 #include "velocityactual.h"
-#include "CoordinateConversions.h"
+#include "coordinate_conversions.h"
 
 // Private constants
 #define STACK_SIZE_BYTES 2448

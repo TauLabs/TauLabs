@@ -33,7 +33,7 @@
 #include "physical_constants.h"
 #include "state.h"
 #include "sensorfetch.h"
-#include "CoordinateConversions.h"
+#include "coordinate_conversions.h"
 #include <pios_board_info.h>
 
 // Private constants

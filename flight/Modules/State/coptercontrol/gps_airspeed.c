@@ -34,7 +34,7 @@
 #include "gps_airspeed.h"
 #include "airspeedactual.h"
 #include "attitudeactual.h"
-#include "CoordinateConversions.h"
+#include "coordinate_conversions.h"
 
 
 // Private constants

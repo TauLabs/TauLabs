@@ -41,7 +41,7 @@
 #include "openpilot.h"
 #include "physical_constants.h"
 #include <math.h>
-#include "CoordinateConversions.h"
+#include "coordinate_conversions.h"
 #include "altholdsmoothed.h"
 #include "attitudeactual.h"
 #include "altitudeholdsettings.h"

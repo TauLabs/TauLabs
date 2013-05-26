@@ -133,8 +133,8 @@ SRC += $(DEBUG_CM3_DIR)/cm3_fault_handlers.c
 
 SRC += $(FLIGHTLIB)/fifo_buffer.c
 SRC += $(FLIGHTLIB)/taskmonitor.c
-SRC += $(FLIGHTLIB)/CoordinateConversions.c
 SRC += $(FLIGHTLIB)/WorldMagModel.c
+SRC += $(MATHLIB)/coordinate_conversions.c
 
 ## UAVOBJECTS
 #SRC += $(OPUAVSYNTHDIR)/accessorydesired.c

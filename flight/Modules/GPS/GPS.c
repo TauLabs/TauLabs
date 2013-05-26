@@ -40,7 +40,7 @@
 #include "gpssatellites.h"
 #include "gpsvelocity.h"
 #include "WorldMagModel.h"
-#include "CoordinateConversions.h"
+#include "coordinate_conversions.h"
 #include "modulesettings.h"
 
 #include "NMEA.h"

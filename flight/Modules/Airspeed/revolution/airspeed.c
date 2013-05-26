@@ -47,7 +47,7 @@
 #include "baroairspeed.h" // object that will be updated by the module
 #include "airspeedactual.h" // object that will be updated by the module
 #include "attitudeactual.h"
-#include "CoordinateConversions.h"
+#include "coordinate_conversions.h"
 #include "baro_airspeed_etasv3.h"
 #include "baro_airspeed_analog.h"
 

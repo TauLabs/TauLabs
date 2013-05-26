@@ -48,7 +48,7 @@
 #include "pathdesired.h"
 #include "systemsettings.h"
 
-#include "CoordinateConversions.h"
+#include "coordinate_conversions.h"
 
 // Private constants
 #define MAX_QUEUE_SIZE 4

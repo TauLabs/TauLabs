@@ -49,7 +49,7 @@
 #include "attitudesettings.h"
 #include "flightstatus.h"
 #include "manualcontrolcommand.h"
-#include "CoordinateConversions.h"
+#include "coordinate_conversions.h"
 #include <pios_board_info.h>
  
 // Private constants

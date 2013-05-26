@@ -32,7 +32,7 @@
 #include "pios.h"
 #include "ccc.h"
 #include <pios_board_info.h>
-#include "CoordinateConversions.h"
+#include "coordinate_conversions.h"
 
 #include "accels.h"
 #include "gyros.h"
