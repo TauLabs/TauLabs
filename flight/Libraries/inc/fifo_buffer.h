@@ -1,5 +1,7 @@
 /**
  ******************************************************************************
+ * @addtogroup TauLabsLibraries Tau Labs Libraries
+ * @{
  *
  * @file       fifo_buffer.h
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
@@ -60,6 +62,8 @@ uint16_t fifoBuf_putData(t_fifo_buffer *buf, const void *data, uint16_t len);
 
 void fifoBuf_init(t_fifo_buffer *buf, const void *buffer, const uint16_t buffer_size);
 
-// *********************
+#endif /* _FIFO_BUFFER_H_ */
 
-#endif
+/**
+ * @}
+ */

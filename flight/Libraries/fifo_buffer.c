@@ -1,9 +1,11 @@
 /**
  ******************************************************************************
+ * @addtogroup TauLabsLibraries Tau Labs Libraries
+ * @{
  *
  * @file       fifo_buffer.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
- * @brief      GPIO input functions
+ * @brief      Cicular fifo buffer
  * @see        The GNU Public License (GPL) Version 3
  *
  *****************************************************************************/
@@ -263,4 +265,6 @@ void fifoBuf_init(t_fifo_buffer *buf, const void *buffer, const uint16_t buffer_
     buf->buf_size = buffer_size;
 }
 
-// *****************************************************************************
+/**
+ * @}
+ */

@@ -1,5 +1,7 @@
 /**
  ******************************************************************************
+ * @addtogroup TauLabsLibraries Tau Labs Libraries
+ * @{
  *
  * @file       CoordinateConversions.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
@@ -455,3 +457,7 @@ void rot_mult(float R[3][3], const float vec[3], float vec_out[3], bool transpos
 	}
 
 }
+
+/**
+ * @}
+ */

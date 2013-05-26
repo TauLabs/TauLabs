@@ -1,12 +1,16 @@
 /**
  ******************************************************************************
+ * @addtogroup TauLabsLibraries Tau Labs Libraries
+ * @{
+ * @addtogroup TauLabsMath Tau Labs math support libraries
+ * @{
+ *
  * @file       math_misc.h
  * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
- * @addtogroup TauLabsMath Math Utilities
- * @{
- * @addtogroup MiscellaneousMath Math Various mathematical routines
- * @{
- * @brief Miscellaneous math support
+ * @brief      Miscellaneous math support
+ *
+ * @see        The GNU Public License (GPL) Version 3
+ *
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify
@@ -38,3 +42,8 @@ float circular_modulus_deg(float err);
 float circular_modulus_rad(float err);
 
 #endif /* MISC_MATH_H */
+
+/**
+ * @}
+ * @}
+ */

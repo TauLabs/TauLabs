@@ -1,10 +1,7 @@
 /**
  ******************************************************************************
- * @addtogroup Math 
+ * @addtogroup TauLabsLibraries Tau Labs Libraries
  * @{
- * @addtogroup INSGPS
- * @{
- * @brief INSGPS is a joint attitude and position estimation EKF
  *
  * @file       insgps.h
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
@@ -99,9 +96,9 @@ void VelBaroCorrection(const float Vel[3], float BaroAlt);
 
 uint16_t ins_get_num_states();
 
+#endif /* INSGPS_H_ */
+
 /**
  * @}
- * @}
  */
-
-#endif /* EKF_H_ */
+ 

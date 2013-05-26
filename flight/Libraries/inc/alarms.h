@@ -1,9 +1,8 @@
 /**
  ******************************************************************************
- * @addtogroup OpenPilotSystem OpenPilot System
+ * @addtogroup TauLabsLibraries Tau Labs Libraries
  * @{
- * @addtogroup OpenPilotLibraries OpenPilot System Libraries
- * @{
+ *
  * @file       alarms.h
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
  * @brief      Include file of the alarm library
@@ -45,6 +44,5 @@ int32_t AlarmsHasCritical();
 #endif // ALARMS_H
 
 /**
- * @}
  * @}
  */
