@@ -3,7 +3,7 @@
  * @file       waypointdialog.cpp
  * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
- * @addtogroup TauLabs GCS Plugins
+ * @addtogroup GCSPlugins GCS Plugins
  * @{
  * @addtogroup PathPlanner Map Plugin
  * @{
