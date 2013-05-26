@@ -2,7 +2,7 @@
  ******************************************************************************
  * @addtogroup TauLabsCore Tau Labs Core components
  * @{
- * @addtogroup UAVObjects UAVObject set for this firmware
+ * @addtogroup UAVObjectHandling UAVObject handling code
  * @{
  *
  * @file       uavobjectsinit.c

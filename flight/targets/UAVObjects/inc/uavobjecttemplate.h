@@ -1,9 +1,9 @@
 /**
  ******************************************************************************
- * @addtogroup TauLabsCore Tau Labs Core components
- * @{
  * @addtogroup UAVObjects UAVObject set for this firmware
  * @{
+ * @addtogroup $(NAME) $(NAME)
+ * @brief $(DESCRIPTION)
  *
  *
  * @file       $(NAMELC).h
