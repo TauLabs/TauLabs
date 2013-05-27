@@ -60,7 +60,7 @@ namespace mapcontrol
         connect(&mscene,SIGNAL(selectionChanged()),this,SLOT(OnSelectionChanged()));
         SetShowDiagnostics(showDiag);
         this->setMouseTracking(followmouse);
-        SetShowCompass(true);
+        SetShowCompassRose(true);
         QPixmapCache::setCacheLimit(64*1024);
     }
     void OPMapWidget::SetShowDiagnostics(bool const& value)
@@ -505,7 +505,11 @@ namespace mapcontrol
     }
 
     //////////////////////////////////////////////
-    void OPMapWidget::SetShowCompass(const bool &value)
+    /**
+     * @brief OPMapWidget::SetShowCompassRose Shows the compass rose on the map.
+     * @param value If true the compass is enabled. If false it is disabled.
+     */
+    void OPMapWidget::SetShowCompassRose(const bool &value)
     {
         if(value && !compass)
         {

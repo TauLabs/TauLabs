@@ -356,7 +356,7 @@ namespace mapcontrol
         */
         void WPRenumber(WayPointItem* item,int const& newnumber);
 
-        void SetShowCompass(bool const& value);
+        void SetShowCompassRose(bool const& value);
 
         void setOverlayOpacity(qreal value);
 

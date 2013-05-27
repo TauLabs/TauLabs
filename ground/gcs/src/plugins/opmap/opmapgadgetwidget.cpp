@@ -1558,7 +1558,7 @@ void OPMapGadgetWidget::onShowCompassAct_toggled(bool show)
 	if (!m_widget || !m_map)
 		return;
 
-    m_map->SetShowCompass(show);
+    m_map->SetShowCompassRose(show);
 }
 
 void OPMapGadgetWidget::onShowDiagnostics_toggled(bool show)
