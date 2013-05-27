@@ -57,7 +57,7 @@ class MapPoint:public QObject,public QGraphicsItem
     Q_OBJECT
     Q_INTERFACES(QGraphicsItem)
 public:
-    enum GraphicItemTypes {TYPE_WAYPOINTITEM = 1, TYPE_UAVITEM = 2, TYPE_HOMEITEM = 4};
+    enum GraphicItemTypes {TYPE_WAYPOINTITEM = 1, TYPE_UAVITEM = 2, TYPE_HOMEITEM = 4, TYPE_GPSITEM = 6};
 
     /**
     * @brief Returns the MapPoint description

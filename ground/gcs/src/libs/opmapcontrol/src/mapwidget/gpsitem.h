@@ -27,19 +27,14 @@
 #ifndef GPSITEM_H
 #define GPSITEM_H
 
-#include <QGraphicsItem>
-#include <QPainter>
-#include <QLabel>
-#include "../internals/pointlatlng.h"
-#include "mapgraphicitem.h"
-#include "waypointitem.h"
-#include <QObject>
+#include "mappoint.h"
+
 #include "uavmapfollowtype.h"
 #include "uavtrailtype.h"
 #include <QtSvg/QSvgRenderer>
-#include "opmapwidget.h"
 #include "trailitem.h"
 #include "traillineitem.h"
+
 namespace mapcontrol
 {
     class WayPointItem;
@@ -49,12 +44,13 @@ namespace mapcontrol
 *
 * @class UAVItem gpsitem.h "mapwidget/gpsitem.h"
 */
-    class GPSItem:public QObject,public QGraphicsItem
+    class GPSItem: public MapPoint
     {
         Q_OBJECT
         Q_INTERFACES(QGraphicsItem)
+
     public:
-                enum { Type = UserType + 6 };
+        enum { Type = UserType + TYPE_GPSITEM };
         GPSItem(MapGraphicItem* map,OPMapWidget* parent, QString uavPic=QString::fromUtf8(":/uavs/images/mapquad.png"));
         ~GPSItem();
         /**
@@ -70,12 +66,7 @@ namespace mapcontrol
         * @param value heading angle (north=0deg)
         */
         void SetUAVHeading(qreal const& value);
-        /**
-        * @brief Returns the UAV position
-        *
-        * @return internals::PointLatLng
-        */
-        internals::PointLatLng UAVPos()const{return coord;}
+
         /**
         * @brief Sets the Map follow type
         *
@@ -193,12 +184,8 @@ namespace mapcontrol
 
         void SetUavPic(QString UAVPic);
     private:
-        MapGraphicItem* map;
-
-        int altitude;
         UAVMapFollowType::Types mapfollowtype;
         UAVTrailType::Types trailtype;
-        internals::PointLatLng coord;
         internals::PointLatLng lastcoord;
         QPixmap pic;
         core::Point localposition;
@@ -214,7 +201,6 @@ namespace mapcontrol
         bool autosetreached;
         double Distance3D(internals::PointLatLng const& coord, int const& altitude);
         double autosetdistance;
-      //  QRectF rect;
 
     public slots:
         void RefreshPos();
