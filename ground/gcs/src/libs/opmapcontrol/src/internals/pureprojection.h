@@ -72,6 +72,7 @@ public:
     void FromGeodeticToCartesian(double Lat,double Lng,double Height,  double &X,  double &Y,  double &Z);
     void FromCartesianTGeodetic(const double &X,const double &Y,const double &Z,  double &Lat,  double &Lng);
     static double DistanceBetweenLatLng(PointLatLng const& p1,PointLatLng const& p2);
+    static double DistanceBetweenLatLngAlt(PointLatLng const& p1, double const& alt1, PointLatLng const& p2, double const& alt2);
 
     PointLatLng translate(PointLatLng p1, double distance, double bearing);
     double courseBetweenLatLng(const PointLatLng &p1, const PointLatLng &p2);
