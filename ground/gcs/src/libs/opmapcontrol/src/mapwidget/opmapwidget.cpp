@@ -35,7 +35,7 @@ namespace mapcontrol
 {
 
     OPMapWidget::OPMapWidget(QWidget *parent, Configuration *config):QGraphicsView(parent),configuration(config),UAV(0),GPS(0),Home(0)
-      ,followmouse(true),compassRose(0),showuav(false),showhome(false),diagTimer(0),diagGraphItem(0),showDiag(false),overlayOpacity(1)
+      ,followmouse(true),compassRose(0),windCompass(0),showuav(false),showhome(false),diagTimer(0),diagGraphItem(0),showDiag(false),overlayOpacity(1)
     {
         setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
         core=new internals::Core;
@@ -61,6 +61,7 @@ namespace mapcontrol
         SetShowDiagnostics(showDiag);
         this->setMouseTracking(followmouse);
         SetShowCompassRose(true);
+        SetShowWindCompass(true);
         QPixmapCache::setCacheLimit(64*1024);
     }
     void OPMapWidget::SetShowDiagnostics(bool const& value)
@@ -190,8 +191,11 @@ namespace mapcontrol
             scene()->setSceneRect(
                     QRect(QPoint(0, 0), event->size()));
         QGraphicsView::resizeEvent(event);
+
         if(compassRose)
             compassRose->setScale(0.1+0.05*(qreal)(event->size().width())/1000*(qreal)(event->size().height())/600);
+        if(windCompass)
+            windCompass->setScale(0.1+0.05*(qreal)(event->size().width())/1000*(qreal)(event->size().height())/600);
 
     }
     QSize OPMapWidget::sizeHint() const
@@ -530,6 +534,31 @@ namespace mapcontrol
         }
     }
 
+    /**
+     * @brief OPMapWidget::SetShowWindCompass Shows the compass rose on the map.
+     * @param value If true the compass is enabled. If false it is disabled.
+     */
+    void OPMapWidget::SetShowWindCompass(const bool &value)
+    {
+        if(value && !windCompass)
+        {
+            windCompass=new QGraphicsSvgItem(QString::fromUtf8(":/markers/images/compass.svg"));
+            windCompass->setScale(0.1+0.05*(qreal)(this->size().width())/1000*(qreal)(this->size().height())/600);
+            windCompass->setFlag(QGraphicsItem::ItemIsMovable,false);
+            windCompass->setFlag(QGraphicsItem::ItemIsSelectable,false);
+            mscene.addItem(windCompass);
+            windCompass->setTransformOriginPoint(windCompass->boundingRect().width()/2,windCompass->boundingRect().height()/2);
+            windCompass->setPos(55-windCompass->boundingRect().width()/2,55-windCompass->boundingRect().height()/2);
+            windCompass->setZValue(3);
+            windCompass->setOpacity(0.7);
+        }
+        if(!value && windCompass)
+        {
+            delete windCompass;
+            windCompass=0;
+        }
+    }
+
     void OPMapWidget::setOverlayOpacity(qreal value)
     {
         map->setOverlayOpacity(value);
@@ -540,6 +569,9 @@ namespace mapcontrol
         map->mapRotate(value);
         if(compassRose && (compassRose->rotation() != value)) {
             compassRose->setRotation(value);
+        }
+        if(windCompass && (windCompass->rotation() != value)) {
+            windCompass->setRotation(value);
         }
     }
     void OPMapWidget::RipMap()

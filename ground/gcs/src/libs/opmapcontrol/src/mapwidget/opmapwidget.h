@@ -357,6 +357,7 @@ namespace mapcontrol
         void WPRenumber(WayPointItem* item,int const& newnumber);
 
         void SetShowCompassRose(bool const& value);
+        void SetShowWindCompass(bool const& value);
 
         void setOverlayOpacity(qreal value);
 
@@ -400,6 +401,7 @@ namespace mapcontrol
         bool followmouse;
         void ConnectWP(WayPointItem* item);
         QGraphicsSvgItem *compassRose;
+        QGraphicsSvgItem *windCompass;
         bool showuav;
         bool showhome;
         QTimer * diagTimer;
