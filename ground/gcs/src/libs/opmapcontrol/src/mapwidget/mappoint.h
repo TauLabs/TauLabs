@@ -28,9 +28,9 @@
 #define MAPPOINT_H
 
 #include <QGraphicsItem>
-#include <QPainter>
 #include <QLabel>
 #include <QObject>
+#include <QPainter>
 #include <QPoint>
 
 #include "../internals/pointlatlng.h"
@@ -101,6 +101,7 @@ public:
     virtual void SetAltitude(const float &value);
     void setRelativeCoord(distBearingAltitude value);
     distBearingAltitude getRelativeCoord(){return relativeCoord;}
+
 protected:
     MapGraphicItem* map;
 
@@ -109,6 +110,8 @@ protected:
     distBearingAltitude relativeCoord;
     QString description;
 
+    double DistanceToPoint_2D(const internals::PointLatLng &coord);
+    double DistanceToPoint_3D(const internals::PointLatLng &coord, const int &altitude);
 private:
 
     QGraphicsSimpleTextItem* text;

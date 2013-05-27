@@ -62,4 +62,29 @@ namespace mapcontrol
         this->update();
     }
 
+
+    /**
+     * @brief MapPoint::DistanceToPoint_2D Calculates distance from this point to second point
+     * @param coord2 Coordinates, second point
+     * @return
+     */
+    double MapPoint::DistanceToPoint_2D(const internals::PointLatLng &coord2)
+    {
+       return internals::PureProjection::DistanceBetweenLatLng(coord, coord2);
+    }
+
+
+    /**
+     * @brief MapPoint::DistanceToPoint_3D Calculates distance from this point to second point
+     * @param coord2 Coordinates, second point
+     * @param altitude2 Altitude, second point
+     * @return
+     */
+    double MapPoint::DistanceToPoint_3D(const internals::PointLatLng &coord2, const int &altitude2)
+    {
+        return internals::PureProjection::DistanceBetweenLatLngAlt(coord, altitude, coord2, altitude2);
+    }
+
+
+
 }
