@@ -272,7 +272,7 @@ namespace mapcontrol
             }
             else if(trailtype==UAVTrailType::ByDistance)
             {
-                if(qAbs(internals::PureProjection::DistanceBetweenLatLng(lastcoord,position)*1000)>traildistance)
+                if(qAbs(internals::PureProjection::DistanceBetweenLatLng(lastcoord, position)) > traildistance)
                 {
                     TrailItem * ob=new TrailItem(position,altitude,Qt::green,map);
                     trail->addToGroup(ob);
@@ -406,8 +406,8 @@ namespace mapcontrol
     }
     double UAVItem::Distance3D(const internals::PointLatLng &coord, const int &altitude)
     {
-       return sqrt(pow(internals::PureProjection::DistanceBetweenLatLng(this->coord,coord)*1000,2)+
-       pow(this->altitude-altitude,2));
+       return sqrt(pow(internals::PureProjection::DistanceBetweenLatLng(this->coord,coord), 2) +
+                   pow(this->altitude-altitude, 2));
     }
     void UAVItem::SetUavPic(QString UAVPic)
     {

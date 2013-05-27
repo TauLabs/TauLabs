@@ -242,11 +242,11 @@ Point PureProjection::FromLatLngToPixel(const PointLatLng &p,const int &zoom)
      * @brief PureProjection::DistanceBetweenLatLng Returns distance between two geodetic points
      * @param p1 Latitude-longitude in WGS84 coordinates, first point
      * @param p2 Latitude-longitude in WGS84 coordinates, second point
-     * @return Distance in [km]
+     * @return Distance in [m]
      */
     double PureProjection::DistanceBetweenLatLng(PointLatLng const& p1,PointLatLng const& p2)
     {
-         double R = WGS84_RADIUS_EARTH_KM * 1000;
+         double R = WGS84_RADIUS_EARTH_KM;
          double lat1_R = p1.Lat() * DEG2RAD;
          double lat2_R = p2.Lat() * DEG2RAD;
          double lon1_R = p1.Lng() * DEG2RAD;
@@ -261,8 +261,8 @@ Point PureProjection::FromLatLngToPixel(const PointLatLng &p,const int &zoom)
 
     void PureProjection::offSetFromLatLngs(PointLatLng p1,PointLatLng p2,double &distance,double &bearing)
     {
-        distance=DistanceBetweenLatLng(p1,p2)*1000;
-        bearing=courseBetweenLatLng(p1,p2);
+        distance=DistanceBetweenLatLng(p1, p2);
+        bearing=courseBetweenLatLng(p1, p2);
       }
 
     double PureProjection::myfmod(double x,double y)

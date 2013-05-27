@@ -173,8 +173,8 @@ namespace mapcontrol
     }
     double GPSItem::Distance3D(const internals::PointLatLng &coord, const int &altitude)
     {
-       return sqrt(pow(internals::PureProjection::DistanceBetweenLatLng(this->coord,coord)*1000,2)+
-       pow(this->altitude-altitude,2));
+       return sqrt(pow(internals::PureProjection::DistanceBetweenLatLng(this->coord, coord), 2) +
+                   pow(this->altitude - altitude, 2));
 
     }
     void GPSItem::SetUavPic(QString UAVPic)
