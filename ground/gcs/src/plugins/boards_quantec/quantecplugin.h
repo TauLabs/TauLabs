@@ -6,9 +6,9 @@
  *
  * @addtogroup GCSPlugins GCS Plugins
  * @{
- * @addtogroup Boards_QuantecPlugin Quantec boards support Plugin
+ * @addtogroup Boards_Quantec Quantec boards support Plugin
  * @{
- * @brief Plugin to support boards by the OP project
+ * @brief Plugin to support boards by Quantec Networks GmbH
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify
