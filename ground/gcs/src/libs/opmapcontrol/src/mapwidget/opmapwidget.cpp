@@ -35,7 +35,7 @@ namespace mapcontrol
 {
 
     OPMapWidget::OPMapWidget(QWidget *parent, Configuration *config):QGraphicsView(parent),configuration(config),UAV(0),GPS(0),Home(0)
-      ,followmouse(true),compass(0),showuav(false),showhome(false),diagTimer(0),diagGraphItem(0),showDiag(false),overlayOpacity(1)
+      ,followmouse(true),compassRose(0),showuav(false),showhome(false),diagTimer(0),diagGraphItem(0),showDiag(false),overlayOpacity(1)
     {
         setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
         core=new internals::Core;
@@ -190,8 +190,8 @@ namespace mapcontrol
             scene()->setSceneRect(
                     QRect(QPoint(0, 0), event->size()));
         QGraphicsView::resizeEvent(event);
-        if(compass)
-            compass->setScale(0.1+0.05*(qreal)(event->size().width())/1000*(qreal)(event->size().height())/600);
+        if(compassRose)
+            compassRose->setScale(0.1+0.05*(qreal)(event->size().width())/1000*(qreal)(event->size().height())/600);
 
     }
     QSize OPMapWidget::sizeHint() const
@@ -507,27 +507,26 @@ namespace mapcontrol
     //////////////////////////////////////////////
     /**
      * @brief OPMapWidget::SetShowCompassRose Shows the compass rose on the map.
-     * @param value If true the compass is enabled. If false it is disabled.
+     * @param value If true the compass rose is enabled. If false it is disabled.
      */
     void OPMapWidget::SetShowCompassRose(const bool &value)
     {
-        if(value && !compass)
+        if(value && !compassRose)
         {
-            compass=new QGraphicsSvgItem(QString::fromUtf8(":/markers/images/compas.svg"));
-            compass->setScale(0.1+0.05*(qreal)(this->size().width())/1000*(qreal)(this->size().height())/600);
-            //    compass->setTransformOriginPoint(compass->boundingRect().width(),compass->boundingRect().height());
-            compass->setFlag(QGraphicsItem::ItemIsMovable,false);
-            compass->setFlag(QGraphicsItem::ItemIsSelectable,false);
-            mscene.addItem(compass);
-            compass->setTransformOriginPoint(compass->boundingRect().width()/2,compass->boundingRect().height()/2);            
-            compass->setPos(55-compass->boundingRect().width()/2,55-compass->boundingRect().height()/2);
-            compass->setZValue(3);
-            compass->setOpacity(0.7);
+            compassRose=new QGraphicsSvgItem(QString::fromUtf8(":/markers/images/compas.svg"));
+            compassRose->setScale(0.1+0.05*(qreal)(this->size().width())/1000*(qreal)(this->size().height())/600);
+            compassRose->setFlag(QGraphicsItem::ItemIsMovable,false);
+            compassRose->setFlag(QGraphicsItem::ItemIsSelectable,false);
+            mscene.addItem(compassRose);
+            compassRose->setTransformOriginPoint(compassRose->boundingRect().width()/2,compassRose->boundingRect().height()/2);
+            compassRose->setPos(55-compassRose->boundingRect().width()/2,55-compassRose->boundingRect().height()/2);
+            compassRose->setZValue(3);
+            compassRose->setOpacity(0.7);
         }
-        if(!value && compass)
+        if(!value && compassRose)
         {
-            delete compass;
-            compass=0;
+            delete compassRose;
+            compassRose=0;
         }
     }
 
@@ -539,8 +538,8 @@ namespace mapcontrol
     void OPMapWidget::SetRotate(qreal const& value)
     {
         map->mapRotate(value);
-        if(compass && (compass->rotation() != value)) {
-            compass->setRotation(value);
+        if(compassRose && (compassRose->rotation() != value)) {
+            compassRose->setRotation(value);
         }
     }
     void OPMapWidget::RipMap()

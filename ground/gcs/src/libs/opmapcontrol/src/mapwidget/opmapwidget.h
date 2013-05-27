@@ -399,7 +399,7 @@ namespace mapcontrol
         internals::PointLatLng currentmouseposition;
         bool followmouse;
         void ConnectWP(WayPointItem* item);
-        QGraphicsSvgItem *compass;
+        QGraphicsSvgItem *compassRose;
         bool showuav;
         bool showhome;
         QTimer * diagTimer;
