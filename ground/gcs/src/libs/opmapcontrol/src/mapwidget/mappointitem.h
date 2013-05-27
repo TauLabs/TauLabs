@@ -1,9 +1,9 @@
 /**
 ******************************************************************************
 *
-* @file       mappoint.h
+* @file       mappointitem.h
 * @author     Tau Labs, http://taulabs.org Copyright (C) 2013.
-* @brief      A graphicsItem representing a MapItem
+* @brief      A graphicsItem representing a MapPointItem
 * @see        The GNU Public License (GPL) Version 3
 * @defgroup   OPMapWidget
 * @{
@@ -24,8 +24,8 @@
 * with this program; if not, write to the Free Software Foundation, Inc.,
 * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 */
-#ifndef MAPPOINT_H
-#define MAPPOINT_H
+#ifndef MAPPOINTITEM_H
+#define MAPPOINTITEM_H
 
 #include <QGraphicsItem>
 #include <QLabel>
@@ -48,11 +48,11 @@ struct distBearingAltitude
 };
 
 /**
-* @brief A QGraphicsItem representing a MapPoint
+* @brief A QGraphicsItem representing a MapPointItem
 *
-* @class MapPoint mappoint.h "mappoint.h"
+* @class MapPointItem mappointitem.h "mappointitem.h"
 */
-class MapPoint:public QObject,public QGraphicsItem
+class MapPointItem: public QObject,public QGraphicsItem
 {
     Q_OBJECT
     Q_INTERFACES(QGraphicsItem)
@@ -60,41 +60,41 @@ public:
     enum GraphicItemTypes {TYPE_WAYPOINTITEM = 1, TYPE_UAVITEM = 2, TYPE_HOMEITEM = 4, TYPE_GPSITEM = 6};
 
     /**
-    * @brief Returns the MapPoint description
+    * @brief Returns the MapPointItem description
     *
     * @return QString
     */
     QString Description(){return description;}
 
     /**
-    * @brief Sets the MapPoint description
+    * @brief Sets the MapPointItem description
     *
     * @param value
     */
     void SetDescription(QString const& value);
 
     /**
-    * @brief Returns MapPoint LatLng coordinate
+    * @brief Returns MapPointItem LatLng coordinate
     *
     */
     internals::PointLatLng Coord(){return coord;}
 
     /**
-    * @brief  Sets MapPoint LatLng coordinate
+    * @brief  Sets MapPointItem LatLng coordinate
     *
     * @param value
     */
     virtual void SetCoord(internals::PointLatLng const& value);
 
     /**
-    * @brief Returns the MapPoint altitude
+    * @brief Returns the MapPointItem altitude
     *
     * @return int
     */
     float Altitude(){return altitude;}
 
     /**
-    * @brief Sets the MapPoint Altitude
+    * @brief Sets the MapPointItem Altitude
     *
     * @param value
     */
@@ -105,7 +105,7 @@ public:
 protected:
     MapGraphicItem* map;
 
-    internals::PointLatLng coord; //coordinates of this MapPoint
+    internals::PointLatLng coord; //coordinates of this MapPointItem
     float altitude;
     distBearingAltitude relativeCoord;
     QString description;
@@ -124,8 +124,8 @@ private:
 public slots:
 signals:
     void absolutePositionChanged(internals::PointLatLng coord, float altitude);
-    void relativePositionChanged(QPointF point, MapPoint* mappoint);
-    void aboutToBeDeleted(MapPoint *);
+    void relativePositionChanged(QPointF point, MapPointItem* mappoint);
+    void aboutToBeDeleted(MapPointItem *);
 };
 }
-#endif // MAPPOINT_H
+#endif // MAPPOINTITEM_H

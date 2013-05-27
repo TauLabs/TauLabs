@@ -7,7 +7,7 @@ include(../../../../taulabslibrary.pri)
 SOURCES += mapgraphicitem.cpp \
     opmapwidget.cpp \
     configuration.cpp \
-    mappoint.cpp \
+    mappointitem.cpp \
     waypointitem.cpp \
     uavitem.cpp \
     gpsitem.cpp \
@@ -34,7 +34,7 @@ POST_TARGETDEPS  += ../build/libinternals.a
 HEADERS += mapgraphicitem.h \
     opmapwidget.h \
     configuration.h \
-    mappoint.h \
+    mappointitem.h \
     waypointitem.h \
     uavitem.h \
     gpsitem.h \

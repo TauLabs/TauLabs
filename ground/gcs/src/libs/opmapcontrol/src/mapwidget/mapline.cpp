@@ -31,14 +31,14 @@
 
 namespace mapcontrol
 {
-MapLine::MapLine(MapPoint *from, MapPoint *to, MapGraphicItem *map, QColor color) :
+MapLine::MapLine(MapPointItem *from, MapPointItem *to, MapGraphicItem *map, QColor color) :
     QGraphicsLineItem(map), source(from), destination(to), my_map(map), myColor(color)
 {
     this->setLine(to->pos().x(),to->pos().y(),from->pos().x(),from->pos().y());
-    connect(from, SIGNAL(relativePositionChanged(QPointF, MapPoint*)), this, SLOT(refreshLocations()));
-    connect(to, SIGNAL(relativePositionChanged(QPointF, MapPoint*)), this, SLOT(refreshLocations()));
-    connect(from, SIGNAL(aboutToBeDeleted(MapPoint*)), this, SLOT(pointdeleted()));
-    connect(to, SIGNAL(aboutToBeDeleted(MapPoint*)), this, SLOT(pointdeleted()));
+    connect(from, SIGNAL(relativePositionChanged(QPointF, MapPointItem*)), this, SLOT(refreshLocations()));
+    connect(to, SIGNAL(relativePositionChanged(QPointF, MapPointItem*)), this, SLOT(refreshLocations()));
+    connect(from, SIGNAL(aboutToBeDeleted(MapPointItem*)), this, SLOT(pointdeleted()));
+    connect(to, SIGNAL(aboutToBeDeleted(MapPointItem*)), this, SLOT(pointdeleted()));
     if(myColor==Qt::green)
         this->setZValue(10);
     else if(myColor==Qt::yellow)
@@ -48,13 +48,13 @@ MapLine::MapLine(MapPoint *from, MapPoint *to, MapGraphicItem *map, QColor color
     connect(map,SIGNAL(childSetOpacity(qreal)),this,SLOT(setOpacitySlot(qreal)));
 }
 
-MapLine::MapLine(HomeItem *from, MapPoint *to, MapGraphicItem *map, QColor color) :
+MapLine::MapLine(HomeItem *from, MapPointItem *to, MapGraphicItem *map, QColor color) :
     QGraphicsLineItem(map), source(from), destination(to), my_map(map), myColor(color)
 {
     this->setLine(to->pos().x(),to->pos().y(),from->pos().x(),from->pos().y());
     connect(from, SIGNAL(absolutePositionChanged(internals::PointLatLng, float)), this, SLOT(refreshLocations()));
-    connect(to, SIGNAL(relativePositionChanged(QPointF, MapPoint*)), this, SLOT(refreshLocations()));
-    connect(to, SIGNAL(aboutToBeDeleted(MapPoint*)), this, SLOT(pointdeleted()));
+    connect(to, SIGNAL(relativePositionChanged(QPointF, MapPointItem*)), this, SLOT(refreshLocations()));
+    connect(to, SIGNAL(aboutToBeDeleted(MapPointItem*)), this, SLOT(pointdeleted()));
     if(myColor==Qt::green)
         this->setZValue(10);
     else if(myColor==Qt::yellow)

@@ -29,7 +29,7 @@
 #define MAPLINE_H
 
 #include "mapgraphicitem.h"
-#include "mappoint.h"
+#include "mappointitem.h"
 
 namespace mapcontrol
 {
@@ -41,8 +41,8 @@ class MapLine : public QObject, public QGraphicsLineItem
     Q_INTERFACES(QGraphicsItem)
 public:
     enum { Type = UserType + 8 };
-    MapLine(MapPoint *from, MapPoint *to, MapGraphicItem *map, QColor color=Qt::green);
-    MapLine(HomeItem *from, MapPoint *to, MapGraphicItem *map, QColor color=Qt::green);
+    MapLine(MapPointItem *from, MapPointItem *to, MapGraphicItem *map, QColor color=Qt::green);
+    MapLine(HomeItem *from, MapPointItem *to, MapGraphicItem *map, QColor color=Qt::green);
     int type() const;
     QPainterPath shape() const;
     void setColor(const QColor &color)

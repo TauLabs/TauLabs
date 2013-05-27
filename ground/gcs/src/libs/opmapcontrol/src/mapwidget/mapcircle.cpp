@@ -28,29 +28,29 @@
 #include "mapcircle.h"
 #include <math.h>
 #include "homeitem.h"
-#include "mappoint.h"
+#include "mappointitem.h"
 
 namespace mapcontrol
 {
-MapCircle::MapCircle(MapPoint *center, MapPoint *radius, bool clockwise, MapGraphicItem *map, QColor color) :
+MapCircle::MapCircle(MapPointItem *center, MapPointItem *radius, bool clockwise, MapGraphicItem *map, QColor color) :
     QGraphicsEllipseItem(map), my_center(center), my_radius(radius),
     my_map(map), myColor(color), myClockWise(clockwise)
 {
     connect(center, SIGNAL(relativePositionChanged(QPointF, WayPointItem*)), this, SLOT(refreshLocations()));
     connect(radius, SIGNAL(relativePositionChanged(QPointF, WayPointItem*)), this, SLOT(refreshLocations()));
-    connect(center, SIGNAL(aboutToBeDeleted(MapPoint*)), this, SLOT(pointdeleted()));
-    connect(radius, SIGNAL(aboutToBeDeleted(MapPoint*)), this, SLOT(pointdeleted()));
+    connect(center, SIGNAL(aboutToBeDeleted(MapPointItem*)), this, SLOT(pointdeleted()));
+    connect(radius, SIGNAL(aboutToBeDeleted(MapPointItem*)), this, SLOT(pointdeleted()));
     refreshLocations();
     connect(map,SIGNAL(childSetOpacity(qreal)),this,SLOT(setOpacitySlot(qreal)));
 }
 
-MapCircle::MapCircle(HomeItem *center, MapPoint *radius, bool clockwise, MapGraphicItem *map, QColor color) :
+MapCircle::MapCircle(HomeItem *center, MapPointItem *radius, bool clockwise, MapGraphicItem *map, QColor color) :
     QGraphicsEllipseItem(map), my_center(center), my_radius(radius),
     my_map(map), myColor(color), myClockWise(clockwise)
 {
     connect(center, SIGNAL(absolutePositionChanged(internals::PointLatLng, float)), this, SLOT(refreshLocations()));
     connect(radius, SIGNAL(relativePositionChanged(QPointF)), this, SLOT(refreshLocations()));
-    connect(radius, SIGNAL(aboutToBeDeleted(MapPoint*)), this, SLOT(pointdeleted()));
+    connect(radius, SIGNAL(aboutToBeDeleted(MapPointItem*)), this, SLOT(pointdeleted()));
     refreshLocations();
     connect(map,SIGNAL(childSetOpacity(qreal)),this,SLOT(setOpacitySlot(qreal)));
 }

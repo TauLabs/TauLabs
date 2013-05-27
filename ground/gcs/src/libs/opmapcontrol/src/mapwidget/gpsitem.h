@@ -27,7 +27,7 @@
 #ifndef GPSITEM_H
 #define GPSITEM_H
 
-#include "mappoint.h"
+#include "mappointitem.h"
 
 #include "uavmapfollowtype.h"
 #include "uavtrailtype.h"
@@ -44,7 +44,7 @@ namespace mapcontrol
 *
 * @class UAVItem gpsitem.h "mapwidget/gpsitem.h"
 */
-    class GPSItem: public MapPoint
+    class GPSItem: public MapPointItem
     {
         Q_OBJECT
         Q_INTERFACES(QGraphicsItem)

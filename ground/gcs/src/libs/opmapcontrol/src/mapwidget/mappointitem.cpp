@@ -24,11 +24,11 @@
 * with this program; if not, write to the Free Software Foundation, Inc.,
 * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 */
-#include "mappoint.h"
+#include "mappointitem.h"
 
 namespace mapcontrol
 {
-    void MapPoint::SetAltitude(const float &value)
+    void MapPointItem::SetAltitude(const float &value)
     {
         if(altitude==value)
             return;
@@ -36,13 +36,13 @@ namespace mapcontrol
         this->update();
     }
 
-    void MapPoint::setRelativeCoord(distBearingAltitude value)
+    void MapPointItem::setRelativeCoord(distBearingAltitude value)
     {
         relativeCoord=value;
         this->update();
     }
 
-    void MapPoint::SetCoord(const internals::PointLatLng &value)
+    void MapPointItem::SetCoord(const internals::PointLatLng &value)
     {
         if(coord == value)
             return;
@@ -54,7 +54,7 @@ namespace mapcontrol
         }
         this->update();
     }
-    void MapPoint::SetDescription(const QString &value)
+    void MapPointItem::SetDescription(const QString &value)
     {
         if(description==value)
             return;
@@ -64,23 +64,23 @@ namespace mapcontrol
 
 
     /**
-     * @brief MapPoint::DistanceToPoint_2D Calculates distance from this point to second point
+     * @brief MapPointItem::DistanceToPoint_2D Calculates distance from this point to second point
      * @param coord2 Coordinates, second point
      * @return
      */
-    double MapPoint::DistanceToPoint_2D(const internals::PointLatLng &coord2)
+    double MapPointItem::DistanceToPoint_2D(const internals::PointLatLng &coord2)
     {
        return internals::PureProjection::DistanceBetweenLatLng(coord, coord2);
     }
 
 
     /**
-     * @brief MapPoint::DistanceToPoint_3D Calculates distance from this point to second point
+     * @brief MapPointItem::DistanceToPoint_3D Calculates distance from this point to second point
      * @param coord2 Coordinates, second point
      * @param altitude2 Altitude, second point
      * @return
      */
-    double MapPoint::DistanceToPoint_3D(const internals::PointLatLng &coord2, const int &altitude2)
+    double MapPointItem::DistanceToPoint_3D(const internals::PointLatLng &coord2, const int &altitude2)
     {
         return internals::PureProjection::DistanceBetweenLatLngAlt(coord, altitude, coord2, altitude2);
     }

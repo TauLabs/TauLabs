@@ -29,7 +29,7 @@
 
 #include <QtSvg/QSvgRenderer>
 
-#include "mappoint.h"
+#include "mappointitem.h"
 #include "uavmapfollowtype.h"
 #include "uavtrailtype.h"
 #include "trailitem.h"
@@ -44,7 +44,7 @@ namespace mapcontrol
 *
 * @class UAVItem uavitem.h "mapwidget/uavitem.h"
 */
-    class UAVItem: public MapPoint
+    class UAVItem: public MapPointItem
     {
         Q_OBJECT
         Q_INTERFACES(QGraphicsItem)

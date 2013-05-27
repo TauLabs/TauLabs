@@ -27,7 +27,7 @@
 #ifndef WAYPOINTITEM_H
 #define WAYPOINTITEM_H
 
-#include "mappoint.h"
+#include "mappointitem.h"
 
 namespace mapcontrol
 {
@@ -37,7 +37,7 @@ class HomeItem;
 *
 * @class WayPointItem waypointitem.h "waypointitem.h"
 */
-class WayPointItem:public MapPoint
+class WayPointItem: public MapPointItem
 {
     Q_OBJECT
     Q_INTERFACES(QGraphicsItem)

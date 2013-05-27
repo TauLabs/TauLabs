@@ -28,7 +28,7 @@
 #ifndef MAPCIRCLE_H
 #define MAPCIRCLE_H
 
-#include "mappoint.h"
+#include "mappointitem.h"
 
 namespace mapcontrol
 {
@@ -41,8 +41,8 @@ class MapCircle: public QObject, public QGraphicsEllipseItem
     Q_INTERFACES(QGraphicsItem)
 public:
     enum { Type = UserType + 9 };
-    MapCircle(MapPoint *center, MapPoint *radius, bool clockwise, MapGraphicItem *map, QColor color=Qt::green);
-    MapCircle(HomeItem *center, MapPoint *radius, bool clockwise, MapGraphicItem *map, QColor color=Qt::green);
+    MapCircle(MapPointItem *center, MapPointItem *radius, bool clockwise, MapGraphicItem *map, QColor color=Qt::green);
+    MapCircle(HomeItem *center, MapPointItem *radius, bool clockwise, MapGraphicItem *map, QColor color=Qt::green);
     int type() const;
     void setColor(const QColor &color)
         { myColor = color; }

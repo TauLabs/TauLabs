@@ -28,12 +28,12 @@
 #define HOMEITEM_H
 
 
-#include "mappoint.h"
+#include "mappointitem.h"
 
 namespace mapcontrol
 {
 
-    class HomeItem:public MapPoint
+    class HomeItem:public MapPointItem
     {
         Q_OBJECT
         Q_INTERFACES(QGraphicsItem)
