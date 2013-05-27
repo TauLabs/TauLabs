@@ -78,6 +78,10 @@ static int32_t GenericI2CSensorInitialize(void)
 	}
 #endif
 
+#if !defined(PIOS_INCLUDE_I2C)
+	module_enabled = false;
+#endif
+
 	if (!module_enabled)
 		return -1;
 
@@ -144,6 +148,7 @@ MODULE_INITCALL(GenericI2CSensorInitialize, GenericI2CSensorStart)
 
 static void GenericI2CSensorTask(void *parameters)
 {
+#if defined(PIOS_INCLUDE_I2C)
 	// Main task loop
 	while (1) {
 		/* Run the selected program */
@@ -160,6 +165,11 @@ static void GenericI2CSensorTask(void *parameters)
 			vTaskDelay(100 / portTICK_RATE_MS);
 		}
 	}
+#else
+	while (1) {
+		vTaskDelay(100 / portTICK_RATE_MS);
+	}
+#endif
 }
 
 /**
