@@ -139,12 +139,6 @@ namespace mapcontrol
     }
 
 
-    int GPSItem::type()const
-    {
-        return Type;
-    }
-
-
     void GPSItem::RefreshPos()
     {
         localposition=map->FromLatLngToLocal(coord);

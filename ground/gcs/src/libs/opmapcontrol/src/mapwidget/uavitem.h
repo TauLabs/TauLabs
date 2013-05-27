@@ -205,8 +205,6 @@ namespace mapcontrol
         */
         void SetAutoSetDistance(double const& value){autosetdistance=value;}
 
-        int type() const;
-
         void SetUavPic(QString UAVPic);
         void SetShowUAVInfo(bool const& value);
         void updateTextOverlay();

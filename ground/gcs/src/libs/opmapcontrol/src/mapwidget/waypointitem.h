@@ -128,7 +128,6 @@ public:
     virtual void SetAltitude(const float &value);
     void setRelativeCoord(distBearingAltitude value);
     distBearingAltitude getRelativeCoord(){return relativeCoord;}
-    int type() const;
     QRectF boundingRect() const;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
                 QWidget *widget);
