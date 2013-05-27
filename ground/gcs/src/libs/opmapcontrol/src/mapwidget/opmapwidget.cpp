@@ -516,8 +516,8 @@ namespace mapcontrol
             compass=new QGraphicsSvgItem(QString::fromUtf8(":/markers/images/compas.svg"));
             compass->setScale(0.1+0.05*(qreal)(this->size().width())/1000*(qreal)(this->size().height())/600);
             //    compass->setTransformOriginPoint(compass->boundingRect().width(),compass->boundingRect().height());
-            compass->setFlag(QGraphicsItem::ItemIsMovable,true);
-            compass->setFlag(QGraphicsItem::ItemIsSelectable,true);
+            compass->setFlag(QGraphicsItem::ItemIsMovable,false);
+            compass->setFlag(QGraphicsItem::ItemIsSelectable,false);
             mscene.addItem(compass);
             compass->setTransformOriginPoint(compass->boundingRect().width()/2,compass->boundingRect().height()/2);            
             compass->setPos(55-compass->boundingRect().width()/2,55-compass->boundingRect().height()/2);
