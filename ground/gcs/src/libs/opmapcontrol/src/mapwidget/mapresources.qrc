@@ -2,7 +2,7 @@
     <qresource prefix="/markers">
         <file>images/bigMarkerGreen.png</file>
         <file>images/marker.png</file>
-        <file>images/compas.svg</file>
+        <file>images/compass.svg</file>
         <file>images/airplane.svg</file>
         <file>images/home.png</file>
         <file>images/home.svg</file>

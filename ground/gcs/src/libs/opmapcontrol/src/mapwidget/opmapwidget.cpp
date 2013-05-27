@@ -513,7 +513,7 @@ namespace mapcontrol
     {
         if(value && !compassRose)
         {
-            compassRose=new QGraphicsSvgItem(QString::fromUtf8(":/markers/images/compas.svg"));
+            compassRose=new QGraphicsSvgItem(QString::fromUtf8(":/markers/images/compass.svg"));
             compassRose->setScale(0.1+0.05*(qreal)(this->size().width())/1000*(qreal)(this->size().height())/600);
             compassRose->setFlag(QGraphicsItem::ItemIsMovable,false);
             compassRose->setFlag(QGraphicsItem::ItemIsSelectable,false);
