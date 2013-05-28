@@ -27,6 +27,8 @@
  */
 
 #include <pios.h>
+#if defined(PIOS_INCLUDE_I2C)
+
 #include <stdint.h>	      /* uint8_t, uint32_t, etc */
 #include <stdbool.h>	      /* bool */
 #include "uavobjectmanager.h" /* UAVO types */
@@ -802,7 +804,10 @@ bool i2c_vm_run (const uint32_t * code, uint8_t code_len, uintptr_t i2c_adapter)
 	return (!vm.fault);
 }
 
+#endif /* PIOS_INCLUDE_I2C */
+
 /**
  * @}
  * @}
  */
+
