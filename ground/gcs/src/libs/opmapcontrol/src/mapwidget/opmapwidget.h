@@ -389,6 +389,8 @@ namespace mapcontrol
         void WPDelete(int number);
         WayPointItem *WPFind(int number);
         void setSelectedWP(QList<WayPointItem *> list);
+
+        void setWindVelocity(double windVelocity_NED[3]);
       private:
         internals::Core *core;
         MapGraphicItem *map;
@@ -408,6 +410,9 @@ namespace mapcontrol
         QGraphicsTextItem * diagGraphItem;
         bool showDiag;
         qreal overlayOpacity;
+
+        QGraphicsTextItem *windspeedTxt;
+
     private slots:
         void diagRefresh();
         //   WayPointItem* item;//apagar

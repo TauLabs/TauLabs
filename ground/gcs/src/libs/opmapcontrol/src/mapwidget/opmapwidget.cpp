@@ -194,8 +194,10 @@ namespace mapcontrol
 
         if(compassRose)
             compassRose->setScale(0.1+0.05*(qreal)(event->size().width())/1000*(qreal)(event->size().height())/600);
-        if(windCompass)
-            windCompass->setScale(0.1+0.05*(qreal)(event->size().width())/1000*(qreal)(event->size().height())/600);
+        if(windCompass) {
+            windCompass->setPos(70 - windCompass->boundingRect().width()/2, this->size().height() - 70 - windCompass->boundingRect().height()/2);
+            windspeedTxt->setPos(73 - windCompass->boundingRect().width()/2 * windCompass->scale(), this->size().height() - windCompass->boundingRect().height()/2 * windCompass->scale() - 30);
+        }
 
     }
     QSize OPMapWidget::sizeHint() const
@@ -540,24 +542,49 @@ namespace mapcontrol
      */
     void OPMapWidget::SetShowWindCompass(const bool &value)
     {
-        if(value && !windCompass)
-        {
+        if (value && !windCompass) {
             windCompass=new QGraphicsSvgItem(QString::fromUtf8(":/markers/images/wind_compass.svg"));
-            windCompass->setScale(0.1+0.05*(qreal)(this->size().width())/1000*(qreal)(this->size().height())/600);
-            windCompass->setFlag(QGraphicsItem::ItemIsMovable,false);
-            windCompass->setFlag(QGraphicsItem::ItemIsSelectable,false);
+            windCompass->setScale(120/windCompass->boundingRect().width()); // A constant 120 pixels large
+            windCompass->setFlag(QGraphicsItem::ItemIsMovable, false);
+            windCompass->setFlag(QGraphicsItem::ItemIsSelectable, false);
+            windCompass->setTransformOriginPoint(windCompass->boundingRect().width()/2, windCompass->boundingRect().height()/2);
+            windCompass->setZValue(compassRose->zValue() + 1);
+            windCompass->setOpacity(0.70);
             mscene.addItem(windCompass);
-            windCompass->setTransformOriginPoint(windCompass->boundingRect().width()/2,windCompass->boundingRect().height()/2);
-            windCompass->setPos(55-windCompass->boundingRect().width()/2,55-windCompass->boundingRect().height()/2);
-            windCompass->setZValue(3);
-            windCompass->setOpacity(0.7);
+
+            // Add text
+            windspeedTxt = new QGraphicsTextItem();
+            windspeedTxt->setDefaultTextColor(QColor("Black"));
+            windspeedTxt->setZValue(compassRose->zValue() + 2);
+
+            mscene.addItem(windspeedTxt);
+
+            // Reset and position
+            double dummyWind[3] = {0,0,0};
+            setWindVelocity(dummyWind);
+            windCompass->setPos(70 - windCompass->boundingRect().width()/2, this->size().height() - 70 - windCompass->boundingRect().height()/2);
+            windspeedTxt->setPos(73 - windCompass->boundingRect().width()/2 * windCompass->scale(), this->size().height() - windCompass->boundingRect().height()/2 * windCompass->scale() - 30);
         }
-        if(!value && windCompass)
-        {
+
+        if (!value && windCompass) {
+            delete windspeedTxt;
             delete windCompass;
             windCompass=0;
         }
     }
+
+    void OPMapWidget::setWindVelocity(double windVelocity_NED[3])
+    {
+        double windAngle_D = atan2(windVelocity_NED[1], windVelocity_NED[0]) * RAD2DEG;
+        if (windAngle_D < 0) // Wrap to [0,360)
+            windAngle_D = windAngle_D + 360;
+
+        if (windspeedTxt != NULL)
+            windspeedTxt->setPlainText(QString("%1%2 @ %3m/s\nsink: %4m/s").arg(windAngle_D, 3, 'f', 0, QChar(0x30)).arg(QChar(0x00B0)).arg(sqrt(pow(windVelocity_NED[0], 2) + pow(windVelocity_NED[1], 2)), 3, 'f', 1).arg(windVelocity_NED[2], 0, 'f', 1)); // 0x00B0 is unicode for the degree symbol.
+
+        windCompass->setRotation(windAngle_D);
+    }
+
 
     void OPMapWidget::setOverlayOpacity(qreal value)
     {
