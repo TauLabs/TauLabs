@@ -1,12 +1,14 @@
 /**
  ******************************************************************************
- * @addtogroup OpenPilotBL OpenPilot BootLoader
- * @brief These files contain the code to the OpenPilot MB Bootloader.
- *
+ * @addtogroup TauLabsBootloader Tau Labs Bootloaders
  * @{
- * @file       main.c
+ * @addtogroup BootloaderUpdate Update the bootloader stored in a target
+ * @{
+ *
+ * @file       main.c 
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
- * @brief      This is the file with the main function of the OpenPilot BootLoader
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
+ * @brief      Starting point for the code
  * @see        The GNU Public License (GPL) Version 3
  * 
  *****************************************************************************/
@@ -153,3 +155,8 @@ void error(int led) {
 		PIOS_DELAY_WaitmS(500);
 	}
 }
+
+/**
+ * @}
+ * @}
+ */

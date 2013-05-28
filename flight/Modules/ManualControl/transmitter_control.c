@@ -1,9 +1,8 @@
 /**
  ******************************************************************************
- * @addtogroup Modules Tau Labs Modules
+ * @addtogroup TauLabsModules Tau Labs Modules
  * @{
- * @addtogroup ControlModule Control Module
- * @brief Provide manual control or allow it alter flight mode.
+ * @addtogroup Control Control Module
  * @{
  *
  * @file       transmitter_control.c

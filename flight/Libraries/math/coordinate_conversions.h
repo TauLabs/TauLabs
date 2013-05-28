@@ -1,9 +1,14 @@
 /**
  ******************************************************************************
+ * @addtogroup TauLabsLibraries Tau Labs Libraries
+ * @{
+ * @addtogroup TauLabsMath Tau Labs math support libraries
+ * @{
  *
- * @file       CoordinateConverions.h
+ * @file       coordinate_conversions.h
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
- * @brief      Header for Coordinate conversions library in CoordinateConversions.c
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
+ * @brief      Header for Coordinate conversions library in coordinate_conversions.c
  *             - all angles in deg
  *             - distances in meters
  *             - altitude above WGS-84 elipsoid
@@ -81,4 +86,9 @@ void quat_copy(const float q[4], float qnew[4]);
 void quat_mult(const float q1[4], const float q2[4], float qout[4]);
 void rot_mult(float R[3][3], const float vec[3], float vec_out[3], bool transpose);
 
-#endif // COORDINATECONVERSIONS_H_
+#endif /* COORDINATECONVERSIONS_H_ */
+
+/**
+ * @}
+ * @}
+ */

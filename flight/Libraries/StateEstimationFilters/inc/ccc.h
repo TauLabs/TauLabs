@@ -1,17 +1,18 @@
 /**
  ******************************************************************************
- * @addtogroup OpenPilotLibraries OpenPilot Libraries
- * @{ 
- * @addtogroup Attitude Attitude Library
- * @{ 
+ * @addtogroup TauLabsLibraries Tau Labs Libraries
+ * @{
+ * @addtogroup StateEstimationFilters
+ * @{
  *
  * @file       ccc.h
- * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2011.
- * @brief      Acquires sensor data and fuses it into attitude estimate for CC
+ * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
+ * @brief      Include file for CCC implementation used by @ref StateModule
  *
  * @see        The GNU Public License (GPL) Version 3
  *
- *****************************************************************************/
+ ******************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -27,6 +28,7 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
+
 #ifndef CCC_H
 #define CCC_H
 
@@ -35,4 +37,4 @@
 
 void CottonComplementaryCorrection(float *accels, float *gyros, const float delT, GlobalAttitudeVariables *glblAtt, float *omegaCorrP);
 
-#endif // CCC_H
+#endif /* CCC_H */

@@ -1,6 +1,6 @@
 /**
  ******************************************************************************
- * @addtogroup Modules Tau Labs Modules
+ * @addtogroup TauLabsModules Tau Labs Modules
  * @{
  * @addtogroup Control Control Module
  * @{
@@ -86,3 +86,9 @@ enum control_events failsafe_control_get_events()
 	// disarming.
 	return transmitter_control_get_events();
 }
+
+/**
+ * @}
+ * @}
+ */
+

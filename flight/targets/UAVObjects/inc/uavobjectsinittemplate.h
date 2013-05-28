@@ -1,10 +1,15 @@
 /**
  ******************************************************************************
+ * @addtogroup TauLabsCore Tau Labs Core components
+ * @{
+ * @addtogroup UAVObjects UAVObject set for this firmware
+ * @{
  *
  * @file       uavobjectsinit.h
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
- * @brief      Initialize all objects.
- * 	       This file is automatically updated by the parser.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
+ * @brief      Initialize all objects. This file is automatically updated by
+ *             the parser.
  * @see        The GNU Public License (GPL) Version 3
  *
  *****************************************************************************/
@@ -31,4 +36,9 @@ void UAVObjectsInitializeAll();
 
 #define UAVOBJECTS_LARGEST $(SIZECALCULATION)
 
-#endif // UAVOBJECTSINIT_H
+#endif /* UAVOBJECTSINIT_H */
+
+/**
+ * @}
+ * @}
+ */

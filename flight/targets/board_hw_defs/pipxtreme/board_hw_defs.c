@@ -1,3 +1,18 @@
+/**
+ ******************************************************************************
+ * @addtogroup TauLabsTargets Tau Labs Targets
+ * @{
+ * @addtogroup PipXtreme OpenPilot PipXtreme support files
+ * @{
+ *
+ * @file       board_hw_defs.c 
+ * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2011.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
+ * @brief      Defines board specific static initializers for PipXtreme
+ * @see        The GNU Public License (GPL) Version 3
+ * 
+ *****************************************************************************/
+
 #include <pios_config.h>
 #include <pios_board_info.h>
 
@@ -629,3 +644,8 @@ const struct pios_eeprom_cfg pios_eeprom_cfg = {
 #include <pios_rfm22b_priv.h>
 
 #endif /* PIOS_INCLUDE_RFM22B */
+
+/**
+ * @}
+ * @}
+ */

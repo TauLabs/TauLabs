@@ -1,16 +1,21 @@
 /**
  ******************************************************************************
- * @addtogroup OpenPilotModules OpenPilot Modules
+ * @addtogroup TauLabsModules Tau Labs Modules
  * @{
  * @addtogroup StabilizationModule Stabilization Module
- * @brief Stabilization PID loops in an airframe type independent manner
- * @note This object updates the @ref ActuatorDesired "Actuator Desired" based on the
- * PID loops on the @ref AttitudeDesired "Attitude Desired" and @ref AttitudeActual "Attitude Actual"
  * @{
+ * @brief      Control the UAV attitude to @ref StabilizationDesired
+ *
+ * The main control code which keeps the UAV at the attitude requested by
+ * @ref StabilizationDesired.  This is done by comparing against 
+ * @ref AttitudeActual to compute the error in roll pitch and yaw then
+ * then based on the mode and values in @ref StabilizationSettings computing
+ * the desired outputs and placing them in @ref ActuatorDesired.
  *
  * @file       stabilization.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
- * @brief      Attitude stabilization module.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
+ * @brief      Attitude stabilization.
  *
  * @see        The GNU Public License (GPL) Version 3
  *
@@ -43,7 +48,7 @@
 #include "flightstatus.h"
 
 // Math libraries
-#include "CoordinateConversions.h"
+#include "coordinate_conversions.h"
 #include "pid.h"
 #include "sin_lookup.h"
 #include "misc_math.h"

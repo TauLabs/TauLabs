@@ -1,11 +1,13 @@
 /**
  ******************************************************************************
- * @addtogroup OpenPilotSystem OpenPilot System
+ * @addtogroup TauLabsCore Tau Labs Core components
  * @{
- * @addtogroup OpenPilotLibraries OpenPilot System Libraries
+ * @addtogroup UAVTalk UAVTalk implementation
  * @{
+ *
  * @file       uavtalk.h
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
  * @brief      Include file of the UAVTalk library
  * @see        The GNU Public License (GPL) Version 3
  *
@@ -32,6 +34,7 @@
 // Public types
 typedef int32_t (*UAVTalkOutputStream)(uint8_t* data, int32_t length);
 
+//! Tracking statistics for a UAVTalk connection
 typedef struct {
     uint32_t txBytes;
     uint32_t rxBytes;

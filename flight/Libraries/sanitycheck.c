@@ -1,8 +1,6 @@
 /**
  ******************************************************************************
- * @addtogroup TauLabsSystem Tau Labs System
- * @{
- * @addtogroup TauLabsLibraries Tau Labs System Libraries
+ * @addtogroup TauLabsLibraries Tau Labs Libraries
  * @{
  * @file       sanitycheck.c
  * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
@@ -256,3 +254,7 @@ static void set_config_error(SystemAlarmsConfigErrorOptions error_code)
 	// AlarmSet checks only updates on toggle
 	AlarmsSet(SYSTEMALARMS_ALARM_SYSTEMCONFIGURATION, (uint8_t) severity);
 }
+
+/**
+ * @}
+ */

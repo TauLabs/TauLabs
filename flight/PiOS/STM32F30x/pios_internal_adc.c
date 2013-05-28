@@ -2,13 +2,12 @@
  ******************************************************************************
  * @addtogroup PIOS PIOS Core hardware abstraction layer
  * @{
- * @addtogroup   PIOS_ADC ADC Functions
- * @brief STM32F30x ADC PIOS interface
+ * @addtogroup PIOS_ADC ADC Functions
  * @{
  *
  * @file       pios_internal_adc.c
  * @author     The Tau Labs Team, http://www.taulabls.org Copyright (C) 2013.
- * @brief      Analog to Digital conversion routines
+ * @brief      STM32F30x internal ADC PIOS interface
  * @see        The GNU Public License (GPL) Version 3
  *****************************************************************************/
 /* 

@@ -1,17 +1,13 @@
 /**
  ******************************************************************************
- * @addtogroup TauLabsSystem Tau Labs System
- * @brief These files are the core system files of Tau Labs.
- * They are the ground layer just above PiOS. In practice, Tau Labs actually starts
- * in the main() function of sparky.c
+ * @addtogroup TauLabsTargets Tau Labs Targets
  * @{
- * @addtogroup TauLabsCore Tau Labs Core
- * @brief This is where the firmware starts. Those files also define the compile-time
- * options of the firmware.
+ * @addtogroup Sparky Tau Labs Sparky support files
  * @{
+ *
  * @file       sparky.c 
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
- * @brief      Sets up and runs main Sparky tasks.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
+ * @brief      Start FreeRTOS and the Modules.
  * @see        The GNU Public License (GPL) Version 3
  * 
  *****************************************************************************/

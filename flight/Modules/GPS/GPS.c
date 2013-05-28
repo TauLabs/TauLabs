@@ -1,14 +1,14 @@
 /**
  ******************************************************************************
- * @addtogroup OpenPilotModules OpenPilot Modules
+ * @addtogroup TauLabsModules Tau Labs Modules
  * @{ 
  * @addtogroup GSPModule GPS Module
- * @brief Process GPS information
  * @{ 
  *
  * @file       GPS.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
- * @brief      GPS module, handles GPS and NMEA stream
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
+ * @brief      GPS module, handles UBX and NMEA streams from GPS
  * @see        The GNU Public License (GPL) Version 3
  *
  *****************************************************************************/
@@ -40,7 +40,7 @@
 #include "gpssatellites.h"
 #include "gpsvelocity.h"
 #include "WorldMagModel.h"
-#include "CoordinateConversions.h"
+#include "coordinate_conversions.h"
 #include "modulesettings.h"
 
 #include "NMEA.h"

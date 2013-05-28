@@ -1,12 +1,19 @@
 /**
  ******************************************************************************
- * @addtogroup Modules Tau Labs Modules
+ * @addtogroup TauLabsModules Tau Labs Modules
  * @{
- * @addtogroup ControlModule Control Module
- * @brief Process the control sources and select the appropriate one.
+ * @addtogroup Control Control Module
  * @{
+ * @brief      Highest level control module which decides the control state
  *
- * @file       control.c
+ * This module users the values from the transmitter and its settings to
+ * to determine if the system is currently controlled by failsafe, transmitter,
+ * or a tablet.  The transmitter values are read out and stored in @ref
+ * ManualControlCommand.  The tablet sends values via @ref TabletInfo which
+ * may be used if the flight mode switch is in the appropriate position. The
+ * transmitter settings come from @ref ManualControlSettings.
+ *
+ * @file       manualcontrol.c
  * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
  * @brief      ManualControl module. Handles safety R/C link and flight mode.
  *

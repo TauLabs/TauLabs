@@ -1,6 +1,7 @@
 /**
  ******************************************************************************
- *
+ * @addtogroup TauLabsLibraries Tau Labs Libraries
+ * @{
  * @file       WorldMagModel.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
  * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
@@ -1234,3 +1235,7 @@ int WMM_GeodeticToSpherical(WMMtype_CoordGeodetic * CoordGeodetic, WMMtype_Coord
 
 	return 0;   // OK
 }
+
+/**
+ * @}
+ */

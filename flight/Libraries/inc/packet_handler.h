@@ -1,13 +1,15 @@
 /**
  ******************************************************************************
- * @addtogroup OpenPilotSystem OpenPilot System
- * @{
- * @addtogroup OpenPilotLibraries OpenPilot System Libraries
+ * @addtogroup TauLabsLibraries Tau Labs Libraries
  * @{
  *
  * @file       packet_handler.h
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
  * @brief      A packet handler for handeling radio packet transmission.
+ * 
+ * Used by the @ref RadioComBridgeModule and @ref PIOS_RFM22B 
+ *
  * @see        The GNU Public License (GPL) Version 3
  *
  *****************************************************************************/
@@ -103,6 +105,5 @@ typedef struct {
 #endif // __PACKET_HANDLER_H__
 
 /**
- * @}
  * @}
  */

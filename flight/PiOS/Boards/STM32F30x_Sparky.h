@@ -1,11 +1,15 @@
-/******************************************************************************
- * @file       STM32F30x_Sparky.c
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
- * @addtogroup TauLabsSystem Tau Labs System
+/**
+ ******************************************************************************
+ * @addtogroup TauLabsTargets Tau Labs Targets
  * @{
- * @addtogroup TauLabsCore Tau Labs Core
+ * @addtogroup Sparky Tau Labs Sparky support files
  * @{
- * @brief PiOS configuration header for flying f3 board.
+ *
+ * @file       STM32F30x_Sparky.c 
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
+ * @brief      Board header file for Sparky board.
+ * @see        The GNU Public License (GPL) Version 3
+ * 
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify
@@ -234,3 +238,9 @@ extern uintptr_t pios_com_debug_id;
 
 
 #endif /* STM32F30X_SPARKY_H_ */
+
+
+/**
+ * @}
+ * @}
+ */

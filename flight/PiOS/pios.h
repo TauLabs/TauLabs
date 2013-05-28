@@ -1,11 +1,13 @@
 /**
  ******************************************************************************
+ * @addtogroup PIOS PIOS Core hardware abstraction layer
+ * @{
  *
  * @file       pios.h  
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
  * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
- * @brief      Main PiOS header. 
- *                 - Central header for the project.
+ * @brief      Main PiOS header to include all the compiled in PiOS options 
+ *
  * @see        The GNU Public License (GPL) Version 3
  *
  *****************************************************************************/
@@ -197,3 +199,8 @@
 #define NELEMENTS(x) (sizeof(x) / sizeof(*(x)))
 
 #endif /* PIOS_H */
+
+/**
+ * @}
+ */
+ 

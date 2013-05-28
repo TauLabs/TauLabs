@@ -1,5 +1,7 @@
 /**
  ******************************************************************************
+ * @addtogroup TauLabsLibraries Tau Labs Libraries
+ * @{
  *
  * @file       WMMInternal.h
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
@@ -160,3 +162,7 @@ float WMM_get_secular_var_coeff_g(uint16_t index);
 float WMM_get_secular_var_coeff_h(uint16_t index);
 
 #endif /* WMMINTERNAL_H_ */
+
+/**
+ * @}
+ */

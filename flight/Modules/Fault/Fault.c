@@ -1,9 +1,8 @@
 /**
  ******************************************************************************
- * @addtogroup OpenPilotModules OpenPilot Modules
+ * @addtogroup TauLabsModules Tau Labs Modules
  * @{ 
  * @addtogroup FaultModule Fault Module
- * @brief Insert various fault conditions for testing
  * @{ 
  *
  * @file       Fault.c

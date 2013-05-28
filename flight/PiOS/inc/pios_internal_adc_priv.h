@@ -2,8 +2,7 @@
  ******************************************************************************
  * @addtogroup PIOS PIOS Core hardware abstraction layer
  * @{
- * @addtogroup   PIOS_INTERNAL_ADC ADC Functions
- * @brief PIOS interface for INTERNAL ADC port
+ * @addtogroup PIOS_INTERNAL_ADC Internal ADC Functions
  * @{
  *
  * @file       pios_internal_adc_priv.h

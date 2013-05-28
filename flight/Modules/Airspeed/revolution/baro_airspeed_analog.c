@@ -1,14 +1,14 @@
 /**
  ******************************************************************************
- * @addtogroup OpenPilotModules OpenPilot Modules
+ * @addtogroup TauLabsModules Tau Labs Modules
  * @{ 
  * @addtogroup AirspeedModule Airspeed Module
- * @brief Communicate with airspeed sensors and return values
  * @{ 
  *
  * @file       baro_airspeed.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
- * @brief      Airspeed module, handles temperature and pressure readings from BMP085
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
+ * @brief      Read airspeed from various modules
  *
  * @see        The GNU Public License (GPL) Version 3
  *

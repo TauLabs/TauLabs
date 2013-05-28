@@ -1,13 +1,14 @@
 /**
  ******************************************************************************
+ * @addtogroup TauLabsModules Tau Labs Modules
+ * @{
+ * @addtogroup GenericI2CSensor Generic I2C sensor interface
+ * @{
+ *
  * @file       i2c_vm.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
  * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
- * @addtogroup I2C VirtualMachines
- * @{
- * @addtogroup 
- * @{
- * @brief Generic Programmable I2C Virtual Machine
+ * @brief      The virtual machine for I2C sensors
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify

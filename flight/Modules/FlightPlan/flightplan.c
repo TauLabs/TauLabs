@@ -1,9 +1,8 @@
 /**
  ******************************************************************************
- * @addtogroup OpenPilotModules OpenPilot Modules
+ * @addtogroup TauLabsModules Tau Labs Modules
  * @{
  * @addtogroup FlightPlan Flight Plan Module
- * @brief Executes flight plan scripts in Python
  * @{
  *
  * @file       flightplan.c

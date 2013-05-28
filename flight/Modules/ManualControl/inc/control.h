@@ -1,6 +1,6 @@
 /**
  ******************************************************************************
- * @addtogroup Modules Tau Labs Modules
+ * @addtogroup TauLabsModules Tau Labs Modules
  * @{
  * @addtogroup Control Control Module
  * @{
@@ -43,4 +43,9 @@ enum control_events {
 	CONTROL_EVENTS_DISARM
 };
 
-#endif // CONTROL_H
+#endif /* CONTROL_H */
+
+/**
+ * @}
+ * @}
+ */

@@ -3,13 +3,13 @@
  * @addtogroup PIOS PIOS Core hardware abstraction layer
  * @{
  * @addtogroup   PIOS_ADC ADC Functions
- * @brief STM32F4xx ADC PIOS interface
  * @{
  *
  * @file       pios_adc.c  
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
  * @author     Michael Smith Copyright (C) 2011.
- * @brief      Analog to Digital converstion routines
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
+ * @brief      STM32F4xx Internal ADC PIOS interface
  * @see        The GNU Public License (GPL) Version 3
  *****************************************************************************/
 /* 

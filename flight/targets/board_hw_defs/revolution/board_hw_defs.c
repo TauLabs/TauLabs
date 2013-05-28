@@ -1,13 +1,17 @@
 /**
  ******************************************************************************
- * @file       board_hw_defs.c
- * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
+ * @addtogroup TauLabsTargets Tau Labs Targets
+ * @{
+ * @addtogroup Revolution OpenPilot Revolution support files
+ * @{
+ *
+ * @file       board_hw_defs.c 
+ * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2011.
  * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
- * @addtogroup TauLabsSystem Tau Labs System
- * @{
- * @addtogroup TauLabsCore Tau Labs Core
- * @{
- * @brief Defines board specific static initializers for hardware for the Revolution board.
+ * @brief      Defines board specific static initializers for hardware for the
+ *             Revolution board.
+ * @see        The GNU Public License (GPL) Version 3
+ * 
  *****************************************************************************/
 /* 
  * This program is free software; you can redistribute it and/or modify 
@@ -1953,3 +1957,8 @@ void PIOS_ADC_DMA_irq_handler(void)
         PIOS_INTERNAL_ADC_DMA_Handler();
 }
 #endif /* PIOS_INCLUDE_ADC */
+
+/**
+ * @}
+ * @}
+ */
