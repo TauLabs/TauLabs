@@ -144,7 +144,7 @@ static void StateEstimationTask(void *parameters)
 	while (1) {
 		float dt = 0.003f; // FIXME
 
-		current_filter->process(running_filter_id, dt);
+		current_filter->process(current_filter, running_filter_id, dt);
 		PIOS_WDG_UpdateFlag(PIOS_WDG_ATTITUDE);
 	}
 
