@@ -29,7 +29,6 @@
 #define DCM_INTERFACE_H
 
 #include "filter_interface.h"
-#include "filter_infrastructure_se3.h"
 
 extern struct filter_driver dcm_filter_driver;
 

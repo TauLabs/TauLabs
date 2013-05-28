@@ -22,6 +22,10 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
+// TODO: replace with stdbool.h / stdint.h once updated
+// CMSIS is merged
+#include "openpilot.h"
+
 #if !defined(FILTER_INTERFACE_H)
 #define FILTER_INTERFACE_H
 
