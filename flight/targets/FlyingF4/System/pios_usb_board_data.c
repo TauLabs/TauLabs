@@ -1,13 +1,15 @@
 /**
  ******************************************************************************
- * @file       pios_usb_board_data.c
- * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @addtogroup TauLabsTargets Tau Labs Targets
+ * @{
+ * @addtogroup FlyingF4 FlyingF4 support files
+ * @{
+ *
+ * @file       pios_usb_board_data.c 
  * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
- * @addtogroup PIOS PIOS Core hardware abstraction layer
- * @{
- * @addtogroup PIOS_USB_BOARD Board specific USB definitions
- * @{
- * @brief Board specific USB definitions
+ * @brief      Board specific USB specifications
+ * @see        The GNU Public License (GPL) Version 3
+ * 
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify

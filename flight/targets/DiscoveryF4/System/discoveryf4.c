@@ -1,13 +1,15 @@
 /**
  ******************************************************************************
- * @file       discoveryf4.c
- * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @addtogroup TauLabsTargets Tau Labs Targets
+ * @{
+ * @addtogroup DiscoveryF4 DiscoveryF4 support files
+ * @{
+ *
+ * @file       freedom.c 
  * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
- * @addtogroup 
- * @{
- * @addtogroup 
- * @{
- * @brief      This is where the firmware starts.
+ * @brief      Start FreeRTOS and the Modules.
+ * @see        The GNU Public License (GPL) Version 3
+ * 
  *****************************************************************************/
 /* 
  * This program is free software; you can redistribute it and/or modify 

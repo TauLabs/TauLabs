@@ -1,7 +1,7 @@
 #####
-# Project: OpenPilot
+# Project: Tau Labs
 #
-# Makefile for OpenPilot UAVObject code
+# Makefile for Tau Labs UAVObject code
 #
 # The OpenPilot Team, http://www.openpilot.org, Copyright (C) 2012.
 # 

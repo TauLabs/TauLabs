@@ -1,13 +1,16 @@
 /**
  ******************************************************************************
- * @file       main.c
+ * @addtogroup TauLabsBootloader Tau Labs Bootloaders
+ * @{
+ * @addtogroup DiscoveryF4BL DiscoveryF4B bootloader
+ * @{
+ *
+ * @file       main.c 
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
  * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
- * @addtogroup DiscoveryF4BL DiscoveryF4 BootLoader
- * @{
- * @addtogroup 
- * @{
- * @brief      This is the file with the main function of the DiscoveryF4 BootLoader
+ * @brief      Start PiOS and bootloader functions
+ * @see        The GNU Public License (GPL) Version 3
+ * 
  *****************************************************************************/
 /* 
  * This program is free software; you can redistribute it and/or modify 

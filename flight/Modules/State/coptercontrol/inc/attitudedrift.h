@@ -1,12 +1,12 @@
 /**
  ******************************************************************************
- * @addtogroup OpenPilotModules OpenPilot Modules
- * @{ 
- * @addtogroup Attitude Attitude Module
- * @{ 
+ * @addtogroup TauLabsModules Tau Labs Modules
+ * @{
+ * @addtogroup CCState Copter Control State Estimation
+ * @{
  *
  * @file       attitudedrift.h
- * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2011.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
  * @brief      Acquires sensor data and fuses it into attitude estimate for CC
  *
  * @see        The GNU Public License (GPL) Version 3
@@ -27,6 +27,7 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
+
 #ifndef SENSORDRIFT_H
 #define SENSORDRIFT_H
 
@@ -38,3 +39,8 @@
 void updateAttitudeDrift(AccelsData * accelsData, GyrosData * gyrosData, const float delT, GlobalAttitudeVariables *glblAtt, AttitudeSettingsData *attitudeSettings, SensorSettingsData *inertialSensorSettings);
 
 #endif // SENSORDRIFT_H
+
+/**
+ * @}
+ * @}
+ */

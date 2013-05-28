@@ -1,15 +1,18 @@
 /**
- *****************************************************************************
+ ******************************************************************************
+ * @addtogroup TauLabsTargets Tau Labs Targets
+ * @{
+ * @addtogroup Revolution OpenPilot revolution support files
+ * @{
+ *
  * @file       pios_board.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2011.
  * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
- * @addtogroup OpenPilotSystem OpenPilot System
- * @{
- * @addtogroup OpenPilotCore OpenPilot Core
- * @{
- * @brief Defines board specific static initializers for hardware for the revolution board.
+ * @brief      The board specific initialization routines
+ * @see        The GNU Public License (GPL) Version 3
+ * 
  *****************************************************************************/
-/* 
+ /* 
  * This program is free software; you can redistribute it and/or modify 
  * it under the terms of the GNU General Public License as published by 
  * the Free Software Foundation; either version 3 of the License, or 

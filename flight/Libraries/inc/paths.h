@@ -1,9 +1,12 @@
 /**
  ******************************************************************************
+ * @addtogroup TauLabsLibraries Tau Labs Libraries
+ * @{
  *
  * @file       paths.h
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
- * @brief      Header for path manipulation library 
+ * @brief      Path calculation library with common API
  *
  * @see        The GNU Public License (GPL) Version 3
  *
@@ -40,4 +43,8 @@ struct path_status {
 
 void path_progress(PathDesiredData *pathDesired, float * cur_point, struct path_status * status);
 
-#endif
+#endif /* PATHS_H_ */
+
+/**
+ * @}
+ */

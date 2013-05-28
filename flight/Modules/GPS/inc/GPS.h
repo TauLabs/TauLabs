@@ -1,17 +1,13 @@
 /**
  ******************************************************************************
- * @addtogroup OpenPilotModules OpenPilot Modules
+ * @addtogroup TauLabsModules Tau Labs Modules
  * @{ 
  * @addtogroup GSPModule GPS Module
- * @brief Process GPS information
  * @{ 
  *
  * @file       GPS.h
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
  * @brief      Include file of the GPS module.
- * 	       As with all modules only the initialize function is exposed all other
- * 	       interactions with the module take place through the event queue and
- *             objects.
  * @see        The GNU Public License (GPL) Version 3
  *
  *****************************************************************************/

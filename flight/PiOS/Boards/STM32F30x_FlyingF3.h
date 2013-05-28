@@ -1,12 +1,13 @@
 /******************************************************************************
- * @file       STM32F4xx_FlyingF3.c
+ * @addtogroup TauLabsTargets Tau Labs Targets
+ * @{
+ * @addtogroup FlyingF3 FlyingF3 support files
+ * @{
+ *
+ * @file       STM32F30x_FlyingF3.h
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
  * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
- * @addtogroup TauLabsSystem TauLabs System
- * @{
- * @addtogroup OpenPilotCore OpenPilot Core
- * @{
- * @brief PiOS configuration header for flying f3 board.
+ * @brief      PiOS configuration header for FlyingF3 board.
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify
@@ -25,8 +26,8 @@
  */
 
 
-#ifndef STM3210E_INS_H_
-#define STM3210E_INS_H_
+#ifndef STM32F30X_FLYINGF3_H_
+#define STM32F30X_FLYINGF3_H_
 
 #include <stdbool.h>
 
@@ -250,4 +251,10 @@ extern uintptr_t pios_com_debug_id;
 #define PIOS_DMA_MAX_CHANNELS                   12
 #define PIOS_DMA_MAX_HANDLERS_PER_CHANNEL       3
 #define PIOS_DMA_CHANNELS {DMA1_Channel1, DMA1_Channel2, DMA1_Channel3, DMA1_Channel4, DMA1_Channel5, DMA1_Channel6, DMA1_Channel7, DMA2_Channel1, DMA2_Channel2, DMA2_Channel3, DMA2_Channel4, DMA2_Channel5}
-#endif /* STM3210E_INS_H_ */
+
+#endif /* STM32F30X_FLYINGF3_H_ */
+
+/**
+ * @}
+ * @}
+ */

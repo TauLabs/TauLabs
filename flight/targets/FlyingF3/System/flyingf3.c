@@ -1,16 +1,13 @@
 /**
  ******************************************************************************
- * @addtogroup TauLabsSystem Tau Labs System
- * @brief These files are the core system files of Tau Labs.
+ * @addtogroup TauLabsTargets Tau Labs Targets
  * @{
- * @addtogroup TauLabsCore Tau Labs Core
- * @brief This is where the firmware starts. Those files also define the compile-time
- * options of the firmware.
+ * @addtogroup FlyingF3 FlyingF3 support files
  * @{
+ *
  * @file       flyingf3.c 
- * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
  * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
- * @brief      Sets up and runs main Tau Labs tasks.
+ * @brief      Start FreeRTOS and the Modules.
  * @see        The GNU Public License (GPL) Version 3
  * 
  *****************************************************************************/

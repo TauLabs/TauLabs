@@ -1,6 +1,6 @@
 /**
  ******************************************************************************
- * @addtogroup OpenPilotModules OpenPilot Modules
+ * @addtogroup TauLabsModules Tau Labs Modules
  * @{
  * @addtogroup OSDGENModule osdgen Module
  * @brief Process OSD information

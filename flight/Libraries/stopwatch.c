@@ -1,6 +1,8 @@
 /**
  ******************************************************************************
- * @addtogroup CopterControlBL CopterControl BootLoader
+ * @addtogroup TauLabsLibraries Tau Labs Libraries
+ * @{
+ * @addtogroup BootloaderSupport Support functions for the bootloader
  * @{
  *
  * @file       stopwatch.c
@@ -116,4 +118,9 @@ uint32_t STOPWATCH_ValueGet(TIM_TypeDef* TIM) {
 
 	return value;
 }
+
+/**
+ * @}
+ * @}
+ */
 

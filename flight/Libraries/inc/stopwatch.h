@@ -1,7 +1,9 @@
 /**
  ******************************************************************************
- * @addtogroup CopterControlBL CopterControl BootLoader
- * @brief These files contain the code to the CopterControl Bootloader.
+ * @addtogroup TauLabsLibraries Tau Labs Libraries
+ * @{
+ * @addtogroup BootloaderSupport Support functions for the bootloader
+ * @{
  *
  * @file       stopwatch.h
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
@@ -53,3 +55,8 @@ extern u32 STOPWATCH_ValueGet(TIM_TypeDef* TIM);
 
 
 #endif /* _STOPWATCH_H */
+
+/**
+ * @}
+ * @}
+ */

@@ -1,5 +1,9 @@
 /**
  ******************************************************************************
+ * @addtogroup TauLabsModules Tau Labs Modules
+ * @{
+ * @addtogroup FixedWingPathFollower Fixed wing path follower module
+ * @{
  *
  * @file       fixedwingpathfollower.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
@@ -39,9 +43,6 @@
  *
  * Modules have no API, all communication to other modules is done through UAVObjects.
  * However modules may use the API exposed by shared libraries.
- * See the OpenPilot wiki for more details.
- * http://www.openpilot.org/OpenPilot_Application_Architecture
- *
  */
 
 #include "openpilot.h"
@@ -68,7 +69,7 @@
 #include "systemsettings.h"
 #include "velocitydesired.h"
 #include "velocityactual.h"
-#include "CoordinateConversions.h"
+#include "coordinate_conversions.h"
 
 // Private constants
 #define MAX_QUEUE_SIZE 4
@@ -617,3 +618,8 @@ static void airspeedActualUpdatedCb(UAVObjEvent * ev)
 	// however since airspeed is updated less often than groundspeed, we use sudden changes to groundspeed to offset the airspeed by the same measurement.
 
 }
+
+/**
+ * @}
+ * @}
+ */

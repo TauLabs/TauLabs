@@ -1,13 +1,13 @@
 /**
  ******************************************************************************
+ * @addtogroup TauLabsModules Tau Labs Modules
+ * @{
+ * @addtogroup PathPlannerModule Path Planner Module
+ * @{ 
+ *
  * @file       path_saving.h
  * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
  * @brief      Functions for loading and saving paths
- * @addtogroup TauLabsModules Tau Labs Modules
- * @{
- * @addtogroup PathPlanner Path Planner Module
- * @brief Executes a series of waypoints
- * @{
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify
@@ -31,3 +31,8 @@ int32_t pathplanner_load_path(uint32_t path_id);
 
 //! Save a specified path id to flash
 int32_t pathplanner_save_path(uint32_t path_id);
+
+/**
+ * @}
+ * @}
+ */

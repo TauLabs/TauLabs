@@ -1,9 +1,15 @@
 /**
  ******************************************************************************
+ * @addtogroup TauLabsCore Tau Labs Core components
+ * @{
+ * @addtogroup UAVObjectHandling UAVObject handling code
+ * @{
  *
  * @file       eventdispatcher.h
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
- * @brief      Include files of the uavobjectlist library
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
+ * @brief      Event dispatcher, distributes object events as callbacks. Alternative
+ * 	           to using tasks and queues. All callbacks are invoked from the event task.
  * @see        The GNU Public License (GPL) Version 3
  *
  *****************************************************************************/
@@ -46,3 +52,8 @@ int32_t EventPeriodicQueueCreate(UAVObjEvent* ev, xQueueHandle queue, uint16_t p
 int32_t EventPeriodicQueueUpdate(UAVObjEvent* ev, xQueueHandle queue, uint16_t periodMs);
 
 #endif // EVENTDISPATCHER_H
+
+/**
+ * @}
+ * @}
+ */

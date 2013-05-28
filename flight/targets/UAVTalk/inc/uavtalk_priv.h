@@ -1,11 +1,13 @@
 /**
  ******************************************************************************
- * @addtogroup OpenPilotSystem OpenPilot System
+ * @addtogroup TauLabsCore Tau Labs Core components
  * @{
- * @addtogroup OpenPilotLibraries OpenPilot System Libraries
+ * @addtogroup UAVTalk UAVTalk implementation
  * @{
- * @file       uavtalk.h
+ *
+ * @file       uavtalk_priv.h
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
  * @brief      Private include file of the UAVTalk library
  * @see        The GNU Public License (GPL) Version 3
  *
@@ -32,6 +34,8 @@
 #include "uavobjectsinit.h"
 
 // Private types and constants
+
+//! Minimal UAVTalk header without an instance field
 typedef struct {
 	uint8_t  sync;
 	uint8_t	 type;
@@ -40,6 +44,7 @@ typedef struct {
 } uavtalk_min_header;
 #define UAVTALK_MIN_HEADER_LENGTH       sizeof(uavtalk_min_header)
 
+//! Full UAVTalk header with an instance and timestamp field
 typedef struct {
 	uint8_t  sync;
 	uint8_t	 type;
@@ -56,6 +61,7 @@ typedef uint8_t uavtalk_checksum;
 #define UAVTALK_MIN_PACKET_LENGTH       UAVTALK_MAX_HEADER_LENGTH + UAVTALK_CHECKSUM_LENGTH
 #define UAVTALK_MAX_PACKET_LENGTH       UAVTALK_MIN_PACKET_LENGTH + UAVTALK_MAX_PAYLOAD_LENGTH
 
+//! State information for the UAVTalk parser
 typedef struct {
     UAVObjHandle obj;
     uint8_t type;
@@ -72,6 +78,7 @@ typedef struct {
     uint16_t rxPacketLength;
 } UAVTalkInputProcessor;
 
+//! Information for the physical link
 typedef struct {
     uint8_t canari;
     UAVTalkOutputStream outStream;
@@ -109,7 +116,8 @@ typedef struct {
 		failcommand; \
 	}
 
-#endif // UAVTALK__PRIV_H
+#endif /* UAVTALK_PRIV_H */
+
 /**
  * @}
  * @}

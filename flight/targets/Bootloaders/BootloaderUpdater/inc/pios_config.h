@@ -1,15 +1,16 @@
 /**
  ******************************************************************************
- * @addtogroup OpenPilotBL OpenPilot BootLoader
+ * @addtogroup TauLabsBootloader Tau Labs Bootloaders
  * @{
- * @file       pios_config.h  
- * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
- * @brief      PiOS configuration header. 
- *             Central compile time config for the project.
- *             In particular, pios_config.h is where you define which PiOS libraries
- *             and features are included in the firmware.
- * @see        The GNU Public License (GPL) Version 3
+ * @addtogroup BootloaderUpdate Update the bootloader stored in a target
+ * @{
  *
+ * @file       pios_config.h
+ * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
+ * @brief      Non pinout-specific configuration of PiOS for bootloader updater
+ * @see        The GNU Public License (GPL) Version 3
+ * 
  *****************************************************************************/
 /* 
  * This program is free software; you can redistribute it and/or modify 

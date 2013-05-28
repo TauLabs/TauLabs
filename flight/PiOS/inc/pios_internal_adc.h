@@ -2,8 +2,7 @@
  ******************************************************************************
  * @addtogroup PIOS PIOS Core hardware abstraction layer
  * @{
- * @addtogroup   PIOS_INTERNAL_ADC ADC Functions
- * @brief STM32 ADC PIOS interface
+ * @addtogroup PIOS_INTERNAL_ADC Internal ADC Functions
  * @{
  *
  * @file       pios_internal_adc.h

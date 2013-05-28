@@ -1,10 +1,14 @@
 /**
  ******************************************************************************
+ * @addtogroup TauLabsModules Tau Labs Modules
+ * @{
+ * @addtogroup PathFollowerModule Path Follower Module
+ * @{ 
  *
  * @file       fixedwingpathfollower.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
  * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
- * @brief      This module compared @ref PositionActuatl to @ref ActiveWaypoint 
+ * @brief      This module compared @ref PositionActual to @ref ActiveWaypoint 
  * and sets @ref StabilizationDesired.  It only does this when the FlightMode field
  * of @ref ManualControlCommand is Auto.
  *
@@ -31,15 +35,8 @@
  * Input object: @ref PositionActual and @ref PathDesired
  * Output object: @ref StabilizationDesired
  *
- * This module will periodically update the value of the AttitudeDesired object.
- *
- * The module executes in its own thread in this example.
- *
- * Modules have no API, all communication to other modules is done through UAVObjects.
- * However modules may use the API exposed by shared libraries.
- * See the OpenPilot wiki for more details.
- * http://www.openpilot.org/OpenPilot_Application_Architecture
- *
+ * Computes the @ref StabilizationDesired that gets the UAV back on or keeps
+ * the UAV on the requested path
  */
 
 #include "openpilot.h"
@@ -55,7 +52,7 @@
 #include "pathdesired.h"
 #include "systemsettings.h"
 
-#include "CoordinateConversions.h"
+#include "coordinate_conversions.h"
 
 // Private constants
 #define MAX_QUEUE_SIZE 4
@@ -585,3 +582,7 @@ static float bound(float val, float min, float max)
 	return val;
 }
 
+/**
+ * @}
+ * @}
+ */

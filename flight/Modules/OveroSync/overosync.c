@@ -1,16 +1,14 @@
 /**
  ******************************************************************************
- * @addtogroup OpenPilotModules OpenPilot Modules
+ * @addtogroup TauLabsModules Tau Labs Modules
  * @{ 
- * @addtogroup TelemetryModule Telemetry Module
- * @brief Main telemetry module
- * Starts three tasks (RX, TX, and priority TX) that watch event queues
- * and handle all the telemetry of the UAVobjects
+ * @addtogroup OveroSyncModule OveroSync Module
  * @{ 
  *
- * @file       telemetry.c
+ * @file       overosync.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
- * @brief      Telemetry module, handles telemetry and UAVObject updates
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
+ * @brief      Communication with an Overo via SPI
  * @see        The GNU Public License (GPL) Version 3
  *
  *****************************************************************************/
@@ -70,7 +68,7 @@ struct overosync {
 struct overosync *overosync;
 
 /**
- * Initialise the telemetry module
+ * Initialise the overo sync module
  * \return -1 if initialisation failed
  * \return 0 on success
  */
@@ -103,7 +101,7 @@ int32_t OveroSyncInitialize(void)
 }
 
 /**
- * Initialise the telemetry module
+ * Start the overo sync module
  * \return -1 if initialisation failed
  * \return 0 on success
  */

@@ -1,6 +1,6 @@
 /**
  ******************************************************************************
- * @addtogroup Modules Tau Labs Modules
+ * @addtogroup TauLabsModules Tau Labs Modules
  * @{
  * @addtogroup Control Control Module
  * @{
@@ -44,3 +44,8 @@ int32_t failsafe_control_select(bool reset_controller);
 enum control_events failsafe_control_get_events();
 
  #endif /* FAILSAFE_CONTROL_H */
+
+/**
+ * @}
+ * @}
+ */
