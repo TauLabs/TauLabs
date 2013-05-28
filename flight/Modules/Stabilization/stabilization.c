@@ -152,13 +152,13 @@ static void stabilizationTask(void* parameters)
 	uint32_t timeval = PIOS_DELAY_GetRaw();
 	
 	ActuatorDesiredData actuatorDesired;
-	StabilizationDesiredData stabilizationDesired;
+	StabilizationDesiredData stabDesired;
 	RateDesiredData rateDesired;
 	AttitudeActualData attitudeActual;
 	GyrosData gyrosData;
 	FlightStatusData flightStatus;
 
-	float *stabDesiredAxis = &stabilizationDesired.Roll;
+	float *stabDesiredAxis = &stabDesired.Roll;
 	float *actuatorDesiredAxis = &actuatorDesired.Roll;
 	float *rateDesiredAxis = &rateDesired.Roll;
 
@@ -183,7 +183,7 @@ static void stabilizationTask(void* parameters)
 		timeval = PIOS_DELAY_GetRaw();
 		
 		FlightStatusGet(&flightStatus);
-		StabilizationDesiredGet(&stabilizationDesired);
+		StabilizationDesiredGet(&stabDesired);
 		AttitudeActualGet(&attitudeActual);
 		GyrosGet(&gyrosData);
 		ActuatorDesiredGet(&actuatorDesired);
@@ -198,9 +198,9 @@ static void stabilizationTask(void* parameters)
 		} trimmedAttitudeSetpoint;
 		
 		// Mux in level trim values, and saturate the trimmed attitude setpoint.
-		trimmedAttitudeSetpoint.Roll = bound_sym(stabilizationDesired.Roll + trimAngles.Roll, settings.RollMax);
-		trimmedAttitudeSetpoint.Pitch = bound_sym(stabilizationDesired.Pitch + trimAngles.Pitch, settings.PitchMax);
-		trimmedAttitudeSetpoint.Yaw = stabilizationDesired.Yaw;
+		trimmedAttitudeSetpoint.Roll = bound_sym(stabDesired.Roll + trimAngles.Roll, settings.RollMax);
+		trimmedAttitudeSetpoint.Pitch = bound_sym(stabDesired.Pitch + trimAngles.Pitch, settings.PitchMax);
+		trimmedAttitudeSetpoint.Yaw = stabDesired.Yaw;
 
 
 #if defined(PIOS_QUATERNION_STABILIZATION)
@@ -211,29 +211,29 @@ static void stabilizationTask(void* parameters)
 		float local_attitude_error[3];
 		
 		// Essentially zero errors for anything in rate or none
-		if(stabilizationDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_ROLL] == STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDE)
-			rpy_desired[0] = stabilizationDesired.Roll;
-		else if(stabilizationDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_ROLL] == STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDEPLUS)
+		if(stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_ROLL] == STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDE)
+			rpy_desired[0] = stabDesired.Roll;
+		else if(stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_ROLL] == STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDEPLUS)
 			rpy_desired[0] = trimmedAttitudeSetpoint.Roll;
-		else if(stabilizationDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_ROLL] == STABILIZATIONDESIRED_STABILIZATIONMODE_WEAKLEVELING)
+		else if(stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_ROLL] == STABILIZATIONDESIRED_STABILIZATIONMODE_WEAKLEVELING)
 			rpy_desired[0] = trimAngles.Roll;
 		else
 			rpy_desired[0] = attitudeActual.Roll;
 		
-		if(stabilizationDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_PITCH] == STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDE)
-			rpy_desired[1] = stabilizationDesired.Pitch;
-		else if(stabilizationDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_PITCH] == STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDEPLUS)
+		if(stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_PITCH] == STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDE)
+			rpy_desired[1] = stabDesired.Pitch;
+		else if(stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_PITCH] == STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDEPLUS)
 			rpy_desired[1] = trimmedAttitudeSetpoint.Pitch;
-		else if(stabilizationDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_PITCH] == STABILIZATIONDESIRED_STABILIZATIONMODE_WEAKLEVELING)
+		else if(stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_PITCH] == STABILIZATIONDESIRED_STABILIZATIONMODE_WEAKLEVELING)
 			rpy_desired[1] = trimAngles.Pitch;
 		else
 			rpy_desired[1] = attitudeActual.Pitch;
 		
-		if(stabilizationDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_YAW] == STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDE)
-			rpy_desired[2] = stabilizationDesired.Yaw;
-		else if(stabilizationDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_YAW] == STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDEPLUS)
+		if(stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_YAW] == STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDE)
+			rpy_desired[2] = stabDesired.Yaw;
+		else if(stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_YAW] == STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDEPLUS)
 			rpy_desired[2] = trimmedAttitudeSetpoint.Yaw;
-		else if(stabilizationDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_YAW] == STABILIZATIONDESIRED_STABILIZATIONMODE_WEAKLEVELING)
+		else if(stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_YAW] == STABILIZATIONDESIRED_STABILIZATIONMODE_WEAKLEVELING)
 			rpy_desired[2] = 0;
 		else
 			rpy_desired[2] = attitudeActual.Yaw;
@@ -247,29 +247,29 @@ static void stabilizationTask(void* parameters)
 #else
 		// Simpler algorithm for CC, less memory
 		float local_attitude_error[3];
-		if(stabilizationDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_ROLL] == STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDE)
-			local_attitude_error[0] = stabilizationDesired.Roll - attitudeActual.Roll;
-		else if(stabilizationDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_ROLL] == STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDEPLUS)
+		if(stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_ROLL] == STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDE)
+			local_attitude_error[0] = stabDesired.Roll - attitudeActual.Roll;
+		else if(stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_ROLL] == STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDEPLUS)
 			local_attitude_error[0] = trimmedAttitudeSetpoint.Roll - attitudeActual.Roll;
-		else if(stabilizationDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_ROLL] == STABILIZATIONDESIRED_STABILIZATIONMODE_WEAKLEVELING)
+		else if(stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_ROLL] == STABILIZATIONDESIRED_STABILIZATIONMODE_WEAKLEVELING)
 			local_attitude_error[0] = trimAngles.Roll - attitudeActual.Roll;
 		else
 			local_attitude_error[0] = 0;
 
-		if(stabilizationDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_PITCH] == STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDE)
-			local_attitude_error[1] = stabilizationDesired.Pitch - attitudeActual.Pitch;
-		else if(stabilizationDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_PITCH] == STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDEPLUS)
+		if(stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_PITCH] == STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDE)
+			local_attitude_error[1] = stabDesired.Pitch - attitudeActual.Pitch;
+		else if(stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_PITCH] == STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDEPLUS)
 			local_attitude_error[1] = trimmedAttitudeSetpoint.Pitch - attitudeActual.Pitch;
-		else if(stabilizationDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_PITCH] == STABILIZATIONDESIRED_STABILIZATIONMODE_WEAKLEVELING)
+		else if(stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_PITCH] == STABILIZATIONDESIRED_STABILIZATIONMODE_WEAKLEVELING)
 			local_attitude_error[1] = trimAngles.Pitch - attitudeActual.Pitch;
 		else
 			local_attitude_error[1] = 0;
 
-		if(stabilizationDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_YAW] == STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDE)
-			local_attitude_error[2] = stabilizationDesired.Yaw - attitudeActual.Yaw;
-		else if(stabilizationDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_YAW] == STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDEPLUS)
+		if(stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_YAW] == STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDE)
+			local_attitude_error[2] = stabDesired.Yaw - attitudeActual.Yaw;
+		else if(stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_YAW] == STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDEPLUS)
 			local_attitude_error[2] = trimmedAttitudeSetpoint.Yaw - attitudeActual.Yaw;
-		else if(stabilizationDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_YAW] == STABILIZATIONDESIRED_STABILIZATIONMODE_WEAKLEVELING)
+		else if(stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_YAW] == STABILIZATIONDESIRED_STABILIZATIONMODE_WEAKLEVELING)
 			local_attitude_error[2] = -attitudeActual.Yaw;
 		else
 			local_attitude_error[2] = 0;
@@ -291,11 +291,11 @@ static void stabilizationTask(void* parameters)
 		for(uint8_t i=0; i< MAX_AXES; i++)
 		{
 			// Check whether this axis mode needs to be reinitialized
-			bool reinit = (stabilizationDesired.StabilizationMode[i] != previous_mode[i]);
-			previous_mode[i] = stabilizationDesired.StabilizationMode[i];
+			bool reinit = (stabDesired.StabilizationMode[i] != previous_mode[i]);
+			previous_mode[i] = stabDesired.StabilizationMode[i];
 
 			// Apply the selected control law
-			switch(stabilizationDesired.StabilizationMode[i])
+			switch(stabDesired.StabilizationMode[i])
 			{
 				case STABILIZATIONDESIRED_STABILIZATIONMODE_RATE:
 					if(reinit)
@@ -399,15 +399,15 @@ static void stabilizationTask(void* parameters)
 				case STABILIZATIONDESIRED_STABILIZATIONMODE_COORDINATEDFLIGHT:
 					switch (i) {
 						case YAW:
-							if ( stabilizationDesired.StabilizationMode[ROLL]==STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDE && //If we are in roll attitude mode..
-								fabs(stabilizationDesired.Roll) > 3.0f && //...and we've requested more than 3 degrees of roll...
-								fabs(stabilizationDesired.Yaw) < 0.02) { //...and we currently have no yaw input within a 2% deadband
+							if ( stabDesired.StabilizationMode[ROLL]==STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDE && //If we are in roll attitude mode..
+								fabs(stabDesired.Roll) > 3.0f && //...and we've requested more than 3 degrees of roll...
+								fabs(stabDesired.Yaw) < 0.02) { //...and we currently have no yaw input within a 2% deadband
 								float accelsDataY;
 								AccelsyGet(&accelsDataY);
 								
 								//Reset integral if we have changed roll to opposite direction from rudder. This implies that we have changed desired turning direction.
-								if ((stabilizationDesired.Roll > 0 && actuatorDesiredAxis[i] < 0) ||
-										(stabilizationDesired.Roll < 0 && actuatorDesiredAxis[i] > 0)){
+								if ((stabDesired.Roll > 0 && actuatorDesiredAxis[i] < 0) ||
+										(stabDesired.Roll < 0 && actuatorDesiredAxis[i] > 0)){
 									pids[PID_RATE_YAW].iAccumulator = 0;
 								}
 								
@@ -494,7 +494,7 @@ static void stabilizationTask(void* parameters)
 
 		// Save dT
 		actuatorDesired.UpdateTime = dT * 1000;
-		actuatorDesired.Throttle = stabilizationDesired.Throttle;
+		actuatorDesired.Throttle = stabDesired.Throttle;
 
 		if(flightStatus.FlightMode != FLIGHTSTATUS_FLIGHTMODE_MANUAL) {
 			ActuatorDesiredSet(&actuatorDesired);
@@ -505,7 +505,7 @@ static void stabilizationTask(void* parameters)
 		}
 
 		if(flightStatus.Armed != FLIGHTSTATUS_ARMED_ARMED ||
-		   (lowThrottleZeroIntegral && stabilizationDesired.Throttle < 0))
+		   (lowThrottleZeroIntegral && stabDesired.Throttle < 0))
 		{
 			// Force all axes to reinitialize when engaged
 			for(uint8_t i=0; i< MAX_AXES; i++)
