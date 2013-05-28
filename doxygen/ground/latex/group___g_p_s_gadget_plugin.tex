@@ -1,0 +1,1345 @@
+\hypertarget{group___g_p_s_gadget_plugin}{\section{\-G\-P\-S \-Gadget \-Plugin}
+\label{group___g_p_s_gadget_plugin}\index{\-G\-P\-S Gadget Plugin@{\-G\-P\-S Gadget Plugin}}
+}
+
+
+\-A widget which displays the \-G\-P\-S constellation.  
+
+
+\subsection*{\-Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{class_gps_constellation_widget}{\-Gps\-Constellation\-Widget}
+\item 
+class \hyperlink{class_gps_display_gadget}{\-Gps\-Display\-Gadget}
+\item 
+class \hyperlink{class_gps_display_gadget_configuration}{\-Gps\-Display\-Gadget\-Configuration}
+\item 
+class \hyperlink{class_gps_display_gadget_factory}{\-Gps\-Display\-Gadget\-Factory}
+\item 
+class \hyperlink{class_gps_display_gadget_options_page}{\-Gps\-Display\-Gadget\-Options\-Page}
+\item 
+class \hyperlink{class_gps_display_plugin}{\-Gps\-Display\-Plugin}
+\item 
+class \hyperlink{class_gps_display_widget}{\-Gps\-Display\-Widget}
+\item 
+class \hyperlink{class_g_p_s_parser}{\-G\-P\-S\-Parser}
+\item 
+struct \hyperlink{structstruct___gps_data}{struct\-\_\-\-Gps\-Data}
+\item 
+class \hyperlink{class_n_m_e_a_parser}{\-N\-M\-E\-A\-Parser}
+\item 
+class \hyperlink{class_telemetry_parser}{\-Telemetry\-Parser}
+\end{DoxyCompactItemize}
+\subsection*{\-Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+namespace \hyperlink{namespace_core}{\-Core}
+\begin{DoxyCompactList}\small\item\em \-The \hyperlink{namespace_core}{\-Core} namespace contains all classes that make up the \hyperlink{namespace_core}{\-Core} plugin which constitute the basic functionality of the \-Tau \-Labs \-G\-C\-S. \end{DoxyCompactList}\item 
+namespace \hyperlink{namespace_ui}{\-Ui}
+\end{DoxyCompactItemize}
+\subsection*{\-Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef struct \hyperlink{structstruct___gps_data}{struct\-\_\-\-Gps\-Data} \hyperlink{group___g_p_s_gadget_plugin_ga4f1b5520a42a0033fb4d09fc7cbc2197}{\-Gps\-Data\-\_\-t}
+\end{DoxyCompactItemize}
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___g_p_s_gadget_plugin_gaa8d0d3435153893cbf167a1e5820d979}{\-Gps\-Constellation\-Widget\-::\-Gps\-Constellation\-Widget} (\-Q\-Widget $\ast$parent=0)
+\item 
+\hyperlink{group___g_p_s_gadget_plugin_gaa4c124f26c71bf318147e079011fe137}{\-Gps\-Constellation\-Widget\-::$\sim$\-Gps\-Constellation\-Widget} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___g_p_s_gadget_plugin_ga6b206d00a88aa90134aba5ca815355a9}{\-Gps\-Constellation\-Widget\-::show\-Event} (\-Q\-Show\-Event $\ast$event)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___g_p_s_gadget_plugin_ga33f2f0f0eba2737a2917b206fda14a11}{\-Gps\-Constellation\-Widget\-::resize\-Event} (\-Q\-Resize\-Event $\ast$event)
+\item 
+\hyperlink{group___g_p_s_gadget_plugin_ga748699eae5b29ee0958be37c23a348f8}{\-Gps\-Display\-Gadget\-::\-Gps\-Display\-Gadget} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} class\-Id, \hyperlink{class_gps_display_widget}{\-Gps\-Display\-Widget} $\ast$widget, \-Q\-Widget $\ast$parent=0)
+\item 
+\hyperlink{group___g_p_s_gadget_plugin_ga6ec785be3eefba596601b671573f6401}{\-Gps\-Display\-Gadget\-::$\sim$\-Gps\-Display\-Gadget} ()
+\item 
+\-Q\-Widget $\ast$ \hyperlink{group___g_p_s_gadget_plugin_ga343958b41e6a9deb4720c9b3098396c2}{\-Gps\-Display\-Gadget\-::widget} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___g_p_s_gadget_plugin_gace7e777ca2b6d35514b22ec3b8d9f7c5}{\-Gps\-Display\-Gadget\-::load\-Configuration} (\-I\-U\-A\-V\-Gadget\-Configuration $\ast$config)
+\item 
+\hyperlink{group___g_p_s_gadget_plugin_ga9ce38cb5c86c5783c8b96457d926f9c4}{\-Gps\-Display\-Gadget\-Configuration\-::\-Gps\-Display\-Gadget\-Configuration} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} class\-Id, \-Q\-Settings $\ast$q\-Settings=0, \-Q\-Object $\ast$parent=0)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___g_p_s_gadget_plugin_ga0025e5ae0ab4f8a16c2b69a4aef3a8be}{\-Gps\-Display\-Gadget\-Configuration\-::set\-Connection\-Mode} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} mode)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___g_p_s_gadget_plugin_ga77783cad102ac5a0338e0fe296402b23}{\-Gps\-Display\-Gadget\-Configuration\-::connection\-Mode} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___g_p_s_gadget_plugin_gaf15cd0543ca6d85d3593905f8e8b7301}{\-Gps\-Display\-Gadget\-Configuration\-::set\-Speed} (\-Baud\-Rate\-Type speed)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___g_p_s_gadget_plugin_ga30b358e2d5b28de7d18749cfb6dbf9cb}{\-Gps\-Display\-Gadget\-Configuration\-::set\-Data\-Bits} (\-Data\-Bits\-Type databits)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___g_p_s_gadget_plugin_ga56ec26969426f55eb39373779ba78ddb}{\-Gps\-Display\-Gadget\-Configuration\-::set\-Flow} (\-Flow\-Type flow)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___g_p_s_gadget_plugin_gaea8c500878652f4b518a990e0f6ee05a}{\-Gps\-Display\-Gadget\-Configuration\-::set\-Parity} (\-Parity\-Type parity)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___g_p_s_gadget_plugin_gae002581f291f9efae24ad5163c654909}{\-Gps\-Display\-Gadget\-Configuration\-::set\-Stop\-Bits} (\-Stop\-Bits\-Type stopbits)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___g_p_s_gadget_plugin_ga486451b6b46974085f14b206d4a69384}{\-Gps\-Display\-Gadget\-Configuration\-::set\-Port} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{classport}{port})
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___g_p_s_gadget_plugin_ga1b7ab91eef34f393bf53bb8f216e40df}{\-Gps\-Display\-Gadget\-Configuration\-::set\-Time\-Out} (long timeout)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___g_p_s_gadget_plugin_ga517cd55a15efad30e5b15a98de8c9767}{\-Gps\-Display\-Gadget\-Configuration\-::port} ()
+\item 
+\-Baud\-Rate\-Type \hyperlink{group___g_p_s_gadget_plugin_gae316339027f90f81c50cb8b1abffd2bd}{\-Gps\-Display\-Gadget\-Configuration\-::speed} ()
+\item 
+\-Flow\-Type \hyperlink{group___g_p_s_gadget_plugin_ga971f5af6d2fe2353c15f6b88550339ec}{\-Gps\-Display\-Gadget\-Configuration\-::flow} ()
+\item 
+\-Data\-Bits\-Type \hyperlink{group___g_p_s_gadget_plugin_gaee5d5b0ab0f7dced62f578c969dc3720}{\-Gps\-Display\-Gadget\-Configuration\-::data\-Bits} ()
+\item 
+\-Stop\-Bits\-Type \hyperlink{group___g_p_s_gadget_plugin_ga972b1ba46194e9dd5b85289822953a02}{\-Gps\-Display\-Gadget\-Configuration\-::stop\-Bits} ()
+\item 
+\-Parity\-Type \hyperlink{group___g_p_s_gadget_plugin_ga3a0d09e79d337c15dbc032ae237a8663}{\-Gps\-Display\-Gadget\-Configuration\-::parity} ()
+\item 
+long \hyperlink{group___g_p_s_gadget_plugin_gae72a22f5fda6f350e9ca08c913bade96}{\-Gps\-Display\-Gadget\-Configuration\-::time\-Out} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___g_p_s_gadget_plugin_gadeca7dfdc8f1da65123d50b9bb29072c}{\-Gps\-Display\-Gadget\-Configuration\-::save\-Config} (\-Q\-Settings $\ast$settings) const 
+\item 
+\-I\-U\-A\-V\-Gadget\-Configuration $\ast$ \hyperlink{group___g_p_s_gadget_plugin_ga547748a8ac6a8901cbf20143b3bd9a5d}{\-Gps\-Display\-Gadget\-Configuration\-::clone} ()
+\item 
+\hyperlink{group___g_p_s_gadget_plugin_ga5c7c8cda8cf65d39d9ae165194901eee}{\-Gps\-Display\-Gadget\-Factory\-::\-Gps\-Display\-Gadget\-Factory} (\-Q\-Object $\ast$parent=0)
+\item 
+\hyperlink{group___g_p_s_gadget_plugin_ga82537537ded6a09ef83bb5b8480dc521}{\-Gps\-Display\-Gadget\-Factory\-::$\sim$\-Gps\-Display\-Gadget\-Factory} ()
+\item 
+\hyperlink{class_core_1_1_i_u_a_v_gadget}{\-Core\-::\-I\-U\-A\-V\-Gadget} $\ast$ \hyperlink{group___g_p_s_gadget_plugin_gabda9dce6df1e2608e4450ae1573588df}{\-Gps\-Display\-Gadget\-Factory\-::create\-Gadget} (\-Q\-Widget $\ast$parent)
+\item 
+\-I\-U\-A\-V\-Gadget\-Configuration $\ast$ \hyperlink{group___g_p_s_gadget_plugin_gae66522a3ebff0d0efac6e71ddf729657}{\-Gps\-Display\-Gadget\-Factory\-::create\-Configuration} (\-Q\-Settings $\ast$q\-Settings)
+\item 
+\-I\-Options\-Page $\ast$ \hyperlink{group___g_p_s_gadget_plugin_gab72aeb74597d8373b64dce43943c9e75}{\-Gps\-Display\-Gadget\-Factory\-::create\-Options\-Page} (\-I\-U\-A\-V\-Gadget\-Configuration $\ast$config)
+\item 
+bool \hyperlink{group___g_p_s_gadget_plugin_ga6244f67dce3641a662a3c15f4eba081b}{sort\-Ports} (\-Qext\-Port\-Info const \&\hyperlink{_o_p_plots_8m_a2f07e0f444810cc4e54ee2be2ce0ac65}{s1}, \-Qext\-Port\-Info const \&\hyperlink{_o_p_plots_8m_a2e63e71737e8b6802b81f6a7c5ca6a0a}{s2})
+\item 
+\hyperlink{group___g_p_s_gadget_plugin_ga2cc5111e9489419740cbbfb61043fcd3}{\-Gps\-Display\-Gadget\-Options\-Page\-::\-Gps\-Display\-Gadget\-Options\-Page} (\hyperlink{class_gps_display_gadget_configuration}{\-Gps\-Display\-Gadget\-Configuration} $\ast$config, \-Q\-Object $\ast$parent=0)
+\item 
+\-Q\-Widget $\ast$ \hyperlink{group___g_p_s_gadget_plugin_gac8c534a784eaab5341c1baf07c5dec0b}{\-Gps\-Display\-Gadget\-Options\-Page\-::create\-Page} (\-Q\-Widget $\ast$parent)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___g_p_s_gadget_plugin_gae80bdcce5ad91f0ada2fcf74ee83242a}{\-Gps\-Display\-Gadget\-Options\-Page\-::apply} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___g_p_s_gadget_plugin_gaa513cdfb1866a8dec9976710811b48cb}{\-Gps\-Display\-Gadget\-Options\-Page\-::finish} ()
+\item 
+\hyperlink{group___g_p_s_gadget_plugin_ga48d06ebeae3e8a6acb71c7a3c1e8c6c0}{\-Gps\-Display\-Plugin\-::\-Gps\-Display\-Plugin} ()
+\item 
+\hyperlink{group___g_p_s_gadget_plugin_gaa42f8ee4562f96fdd5e4c384bf7ca1d6}{\-Gps\-Display\-Plugin\-::$\sim$\-Gps\-Display\-Plugin} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___g_p_s_gadget_plugin_gad0d01fd7addd024c1a5fad7002a7c358}{\-Gps\-Display\-Plugin\-::extensions\-Initialized} ()
+\item 
+bool \hyperlink{group___g_p_s_gadget_plugin_ga481b9c74a2e46d2e461d472ac2e10c8f}{\-Gps\-Display\-Plugin\-::initialize} (const \-Q\-String\-List \&arguments, \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} $\ast$error\-String)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___g_p_s_gadget_plugin_ga239f5aa443093c518b27a04e23d20b2e}{\-Gps\-Display\-Plugin\-::shutdown} ()
+\item 
+\hyperlink{group___g_p_s_gadget_plugin_gab1f79fecf5da3b9fde3b8c100406dfd8}{\-Gps\-Display\-Widget\-::\-Gps\-Display\-Widget} (\-Q\-Widget $\ast$parent=0)
+\item 
+\hyperlink{group___g_p_s_gadget_plugin_gaf71af26494c1e959b1b6b3eabd861e53}{\-Gps\-Display\-Widget\-::$\sim$\-Gps\-Display\-Widget} ()
+\item 
+\hyperlink{group___g_p_s_gadget_plugin_ga6773ae49e6fecc274191f0d0e29294d8}{\-G\-P\-S\-Parser\-::$\sim$\-G\-P\-S\-Parser} ()
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___g_p_s_gadget_plugin_gaeffbbe785fb02705aba8d3e2b0aee5e5}{\-G\-P\-S\-Parser\-::process\-Input\-Stream} (char c)
+\item 
+\hyperlink{group___g_p_s_gadget_plugin_ga15bb435154bfad7f732bc090c496915e}{\-G\-P\-S\-Parser\-::\-G\-P\-S\-Parser} (\-Q\-Object $\ast$parent=0)
+\item 
+\hyperlink{group___g_p_s_gadget_plugin_gababc72322cf2d939a88939cc9036d884}{\-N\-M\-E\-A\-Parser\-::\-N\-M\-E\-A\-Parser} (\-Q\-Object $\ast$parent=0)
+\item 
+\hyperlink{group___g_p_s_gadget_plugin_gaedf659d241eff03757c31f3b80697f89}{\-N\-M\-E\-A\-Parser\-::$\sim$\-N\-M\-E\-A\-Parser} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___g_p_s_gadget_plugin_gaf4983b5649be1ec2deb7dafcd4a3573c}{\-N\-M\-E\-A\-Parser\-::process\-Input\-Stream} (char c)
+\item 
+char $\ast$ \hyperlink{group___g_p_s_gadget_plugin_ga5c79371e20badd15d23705c63eaacfe1}{\-N\-M\-E\-A\-Parser\-::nmea\-Get\-Packet\-Buffer} (\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void})
+\item 
+char \hyperlink{group___g_p_s_gadget_plugin_gaba9a601d8ec049e7f398b5d42cd974a1}{\-N\-M\-E\-A\-Parser\-::nmea\-Checksum} (char $\ast$gps\-\_\-buffer)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___g_p_s_gadget_plugin_gab0b239f615ef146897cec5c020735a8e}{\-N\-M\-E\-A\-Parser\-::nmea\-Terminate\-At\-Checksum} (char $\ast$gps\-\_\-buffer)
+\item 
+uint8\-\_\-t \hyperlink{group___g_p_s_gadget_plugin_ga55718bf48b8a95492b1aa43a65490e64}{\-N\-M\-E\-A\-Parser\-::nmea\-Process} (\hyperlink{group__buffer_ga63b2a19263ed371e329776b34f3164eb}{c\-Buffer} $\ast$rx\-Buffer)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___g_p_s_gadget_plugin_ga0ac80dbcc0ad8bec03f026c3feb2c097}{\-N\-M\-E\-A\-Parser\-::nmea\-Process\-G\-P\-G\-G\-A} (char $\ast$packet)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___g_p_s_gadget_plugin_ga838f8b6c0bea66c17f82fec788a1a74f}{\-N\-M\-E\-A\-Parser\-::nmea\-Process\-G\-P\-R\-M\-C} (char $\ast$packet)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___g_p_s_gadget_plugin_ga10893234aff922433723153e6057386e}{\-N\-M\-E\-A\-Parser\-::nmea\-Process\-G\-P\-V\-T\-G} (char $\ast$packet)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___g_p_s_gadget_plugin_gad10ce6b495849dd4cf6e019d650a87f7}{\-N\-M\-E\-A\-Parser\-::nmea\-Process\-G\-P\-G\-S\-A} (char $\ast$packet)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___g_p_s_gadget_plugin_ga35b60b2a2f0643fd5202557a5aaace81}{\-N\-M\-E\-A\-Parser\-::nmea\-Process\-G\-P\-G\-S\-V} (char $\ast$packet)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___g_p_s_gadget_plugin_ga01e0952dc227b7f7d3cef2d36f684544}{\-N\-M\-E\-A\-Parser\-::nmea\-Process\-G\-P\-Z\-D\-A} (char $\ast$packet)
+\item 
+\hyperlink{group___g_p_s_gadget_plugin_ga0a989a67079a7e06f5034415c751b46c}{\-Telemetry\-Parser\-::\-Telemetry\-Parser} (\-Q\-Object $\ast$parent=0)
+\item 
+\hyperlink{group___g_p_s_gadget_plugin_ga9a05a4fb6f18cdc568bc4e8f52534977}{\-Telemetry\-Parser\-::$\sim$\-Telemetry\-Parser} ()
+\end{DoxyCompactItemize}
+\subsection*{\-Variables}
+\begin{DoxyCompactItemize}
+\item 
+double \hyperlink{group___g_p_s_gadget_plugin_ga22dd27dba6f143463f812eda429ca6ea}{struct\-\_\-\-Gps\-Data\-::\-Latitude}
+\item 
+double \hyperlink{group___g_p_s_gadget_plugin_ga63cb298938d490dd35e8a5dbd099f65e}{struct\-\_\-\-Gps\-Data\-::\-Longitude}
+\item 
+double \hyperlink{group___g_p_s_gadget_plugin_ga7114820c879b9cfa5c6511ee87fb7837}{struct\-\_\-\-Gps\-Data\-::\-Altitude}
+\item 
+double \hyperlink{group___g_p_s_gadget_plugin_ga96522460814507cd49570c6edbecdc4a}{struct\-\_\-\-Gps\-Data\-::\-Groundspeed}
+\item 
+double \hyperlink{group___g_p_s_gadget_plugin_ga11eede30f67268e28aac52350a2de20c}{struct\-\_\-\-Gps\-Data\-::\-Heading}
+\item 
+int \hyperlink{group___g_p_s_gadget_plugin_gad4c8228c92e708ffbf1205af7955a571}{struct\-\_\-\-Gps\-Data\-::\-S\-V}
+\item 
+int \hyperlink{group___g_p_s_gadget_plugin_gafecfb74415dbfe5f6bc3c950183eb3b2}{struct\-\_\-\-Gps\-Data\-::\-Status}
+\item 
+double \hyperlink{group___g_p_s_gadget_plugin_ga686c0fa6dc1d7aa494b494fe38bb8834}{struct\-\_\-\-Gps\-Data\-::\-P\-D\-O\-P}
+\item 
+double \hyperlink{group___g_p_s_gadget_plugin_ga7bea5e7cb8f6a97c8b2be703401218e3}{struct\-\_\-\-Gps\-Data\-::\-H\-D\-O\-P}
+\item 
+double \hyperlink{group___g_p_s_gadget_plugin_ga0c803c003d3d1261b1519a4b1f561ebe}{struct\-\_\-\-Gps\-Data\-::\-V\-D\-O\-P}
+\item 
+double \hyperlink{group___g_p_s_gadget_plugin_ga847e7e6776a9a2cdaf8c4cf0ce8e31ae}{struct\-\_\-\-Gps\-Data\-::\-Geoid\-Separation}
+\item 
+double \hyperlink{group___g_p_s_gadget_plugin_gaeedda11a0db9fe353ca149906deccb9f}{struct\-\_\-\-Gps\-Data\-::\-G\-P\-Stime}
+\item 
+double \hyperlink{group___g_p_s_gadget_plugin_ga5556ea2f7e4f0fb213a319e72a5961eb}{struct\-\_\-\-Gps\-Data\-::\-G\-P\-Sdate}
+\item 
+\hyperlink{group___g_p_s_gadget_plugin_ga4f1b5520a42a0033fb4d09fc7cbc2197}{\-Gps\-Data\-\_\-t} \hyperlink{group___g_p_s_gadget_plugin_ga5ed5a691ba188edd73dbfa5e6a72ee31}{\-N\-M\-E\-A\-Parser\-::\-Gps\-Data}
+\item 
+\hyperlink{group__buffer_ga63b2a19263ed371e329776b34f3164eb}{c\-Buffer} \hyperlink{group___g_p_s_gadget_plugin_gae55785b07246236cfe8d6c3139becff1}{\-N\-M\-E\-A\-Parser\-::gps\-Rx\-Buffer}
+\item 
+char \hyperlink{group___g_p_s_gadget_plugin_gaef781170a93672b3bbc887fcabdcb369}{\-N\-M\-E\-A\-Parser\-::gps\-Rx\-Data} \mbox{[}512\mbox{]}
+\item 
+char \hyperlink{group___g_p_s_gadget_plugin_ga3d1bdb9e4264f153e4537750bb8d7fd9}{\-N\-M\-E\-A\-Parser\-::\-Nmea\-Packet} \mbox{[}\-N\-M\-E\-A\-\_\-\-B\-U\-F\-F\-E\-R\-S\-I\-Z\-E\mbox{]}
+\item 
+uint32\-\_\-t \hyperlink{group___g_p_s_gadget_plugin_ga08ee9a94774bf6691a26d600e1ea51a9}{\-N\-M\-E\-A\-Parser\-::num\-Updates}
+\item 
+uint32\-\_\-t \hyperlink{group___g_p_s_gadget_plugin_gaef5bd2863b92f02db2ad4ef9e66e9437}{\-N\-M\-E\-A\-Parser\-::num\-Errors}
+\item 
+int32\-\_\-t \hyperlink{group___g_p_s_gadget_plugin_gaf0b70b48a4a5943f40dc14c11b8e0712}{\-N\-M\-E\-A\-Parser\-::gps\-Rx\-Overflow}
+\end{DoxyCompactItemize}
+\subsection*{\-Signals}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___g_p_s_gadget_plugin_ga5a65377c76fbafb57f377266034c7396}{\-G\-P\-S\-Parser\-::sv} (int)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___g_p_s_gadget_plugin_ga07f9008aa82b159a457c64d35fdaa3fc}{\-G\-P\-S\-Parser\-::position} (double, double, double)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___g_p_s_gadget_plugin_ga95a0ee3f47dc682adcdfd74c2d06c616}{\-G\-P\-S\-Parser\-::datetime} (double, double)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___g_p_s_gadget_plugin_gad43cce1299e39b4fd4f9c43eb2ebbf67}{\-G\-P\-S\-Parser\-::speedheading} (double, double)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___g_p_s_gadget_plugin_gaa52c8cc41458c01d411d550d1e3f3d96}{\-G\-P\-S\-Parser\-::packet} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String})
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___g_p_s_gadget_plugin_gace7bc390ce3acaaf985eafad1b4217b3}{\-G\-P\-S\-Parser\-::satellite} (int, int, int, int, int)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___g_p_s_gadget_plugin_ga145563ebabd7ea6b135bad3d05cb9085}{\-G\-P\-S\-Parser\-::fixmode} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String})
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___g_p_s_gadget_plugin_gadccc59d425cbc0c0f8da68a3438e4e22}{\-G\-P\-S\-Parser\-::fixtype} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String})
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___g_p_s_gadget_plugin_ga53672aaf2037c7a9b389c15e69bc4d80}{\-G\-P\-S\-Parser\-::dop} (double, double, double)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___g_p_s_gadget_plugin_gacd7414def0621beab61941370e0dc874}{\-G\-P\-S\-Parser\-::fix\-S\-Vs} (\-Q\-List$<$ int $>$)
+\end{DoxyCompactItemize}
+\subsection*{\-Public \-Slots}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___g_p_s_gadget_plugin_gaa995e2d09a888698ad0aae9ba0a91ebf}{\-Gps\-Constellation\-Widget\-::update\-Sat} (int index, int prn, int elevation, int azimuth, int snr)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___g_p_s_gadget_plugin_ga23030a328c534cd4b1eea152db173655}{\-Gps\-Display\-Gadget\-::on\-Connect} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___g_p_s_gadget_plugin_ga3f91bba10918be6c7bd99533e61883ac}{\-Gps\-Display\-Gadget\-::on\-Disconnect} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___g_p_s_gadget_plugin_ga9b1c1509701c154ad1c3cdeef0cb522b}{\-Telemetry\-Parser\-::update\-G\-P\-S} (\hyperlink{class_u_a_v_object}{\-U\-A\-V\-Object} $\ast$object1)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___g_p_s_gadget_plugin_gadc9bd95e3443207fbededb6a3fd014a7}{\-Telemetry\-Parser\-::update\-Time} (\hyperlink{class_u_a_v_object}{\-U\-A\-V\-Object} $\ast$object1)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___g_p_s_gadget_plugin_ga3bdc5591ff2751d19016d60668b18440}{\-Telemetry\-Parser\-::update\-Sats} (\hyperlink{class_u_a_v_object}{\-U\-A\-V\-Object} $\ast$object1)
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-A widget which displays the \-G\-P\-S constellation. \-A gadget that displays \-G\-P\-S status and enables basic configuration. 
+
+\subsection{\-Typedef \-Documentation}
+\hypertarget{group___g_p_s_gadget_plugin_ga4f1b5520a42a0033fb4d09fc7cbc2197}{\index{\-G\-P\-S Gadget Plugin@{\-G\-P\-S Gadget Plugin}!\-Gps\-Data\-\_\-t@{\-Gps\-Data\-\_\-t}}
+\index{\-Gps\-Data\-\_\-t@{\-Gps\-Data\-\_\-t}!GPS Gadget Plugin@{\-G\-P\-S Gadget Plugin}}
+\subsubsection[{\-Gps\-Data\-\_\-t}]{\setlength{\rightskip}{0pt plus 5cm}typedef struct {\bf struct\-\_\-\-Gps\-Data} {\bf \-Gps\-Data\-\_\-t}}}\label{group___g_p_s_gadget_plugin_ga4f1b5520a42a0033fb4d09fc7cbc2197}
+
+
+\subsection{\-Function \-Documentation}
+\hypertarget{group___g_p_s_gadget_plugin_gae80bdcce5ad91f0ada2fcf74ee83242a}{\index{\-G\-P\-S Gadget Plugin@{\-G\-P\-S Gadget Plugin}!apply@{apply}}
+\index{apply@{apply}!GPS Gadget Plugin@{\-G\-P\-S Gadget Plugin}}
+\subsubsection[{apply}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Gps\-Display\-Gadget\-Options\-Page\-::apply} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___g_p_s_gadget_plugin_gae80bdcce5ad91f0ada2fcf74ee83242a}
+\-Called when the user presses apply or \-O\-K.
+
+\-Saves the current values 
+
+\-Implements \hyperlink{group___core_plugin_ga05fa0c9b91da02a0f2fed11d2d6afed0}{\-Core\-::\-I\-Options\-Page}.
+
+
+
+\-Definition at line 249 of file gpsdisplaygadgetoptionspage.\-cpp.
+
+\hypertarget{group___g_p_s_gadget_plugin_ga547748a8ac6a8901cbf20143b3bd9a5d}{\index{\-G\-P\-S Gadget Plugin@{\-G\-P\-S Gadget Plugin}!clone@{clone}}
+\index{clone@{clone}!GPS Gadget Plugin@{\-G\-P\-S Gadget Plugin}}
+\subsubsection[{clone}]{\setlength{\rightskip}{0pt plus 5cm}\-I\-U\-A\-V\-Gadget\-Configuration $\ast$ {\bf \-Gps\-Display\-Gadget\-Configuration\-::clone} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___g_p_s_gadget_plugin_ga547748a8ac6a8901cbf20143b3bd9a5d}
+\-Clones a configuration. 
+
+\-Implements \hyperlink{group___core_plugin_ga35f72dc89919925fd591fa509ebbf7dc}{\-Core\-::\-I\-U\-A\-V\-Gadget\-Configuration}.
+
+
+
+\-Definition at line 82 of file gpsdisplaygadgetconfiguration.\-cpp.
+
+\hypertarget{group___g_p_s_gadget_plugin_ga77783cad102ac5a0338e0fe296402b23}{\index{\-G\-P\-S Gadget Plugin@{\-G\-P\-S Gadget Plugin}!connection\-Mode@{connection\-Mode}}
+\index{connection\-Mode@{connection\-Mode}!GPS Gadget Plugin@{\-G\-P\-S Gadget Plugin}}
+\subsubsection[{connection\-Mode}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Q\-String} {\bf \-Gps\-Display\-Gadget\-Configuration\-::connection\-Mode} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___g_p_s_gadget_plugin_ga77783cad102ac5a0338e0fe296402b23}
+
+
+\-Definition at line 43 of file gpsdisplaygadgetconfiguration.\-h.
+
+\hypertarget{group___g_p_s_gadget_plugin_gae66522a3ebff0d0efac6e71ddf729657}{\index{\-G\-P\-S Gadget Plugin@{\-G\-P\-S Gadget Plugin}!create\-Configuration@{create\-Configuration}}
+\index{create\-Configuration@{create\-Configuration}!GPS Gadget Plugin@{\-G\-P\-S Gadget Plugin}}
+\subsubsection[{create\-Configuration}]{\setlength{\rightskip}{0pt plus 5cm}\-I\-U\-A\-V\-Gadget\-Configuration $\ast$ {\bf \-Gps\-Display\-Gadget\-Factory\-::create\-Configuration} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Settings $\ast$}]{q\-Settings}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___g_p_s_gadget_plugin_gae66522a3ebff0d0efac6e71ddf729657}
+
+
+\-Reimplemented from \hyperlink{group___core_plugin_gae26104d7db90a65069c2bb654ecd5026}{\-Core\-::\-I\-U\-A\-V\-Gadget\-Factory}.
+
+
+
+\-Definition at line 51 of file gpsdisplaygadgetfactory.\-cpp.
+
+\hypertarget{group___g_p_s_gadget_plugin_gabda9dce6df1e2608e4450ae1573588df}{\index{\-G\-P\-S Gadget Plugin@{\-G\-P\-S Gadget Plugin}!create\-Gadget@{create\-Gadget}}
+\index{create\-Gadget@{create\-Gadget}!GPS Gadget Plugin@{\-G\-P\-S Gadget Plugin}}
+\subsubsection[{create\-Gadget}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Core\-::\-I\-U\-A\-V\-Gadget} $\ast$ {\bf \-Gps\-Display\-Gadget\-Factory\-::create\-Gadget} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Widget $\ast$}]{parent}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___g_p_s_gadget_plugin_gabda9dce6df1e2608e4450ae1573588df}
+
+
+\-Implements \hyperlink{group___core_plugin_ga72d6fe5bbef9f4fa2333028c7a324f66}{\-Core\-::\-I\-U\-A\-V\-Gadget\-Factory}.
+
+
+
+\-Definition at line 45 of file gpsdisplaygadgetfactory.\-cpp.
+
+\hypertarget{group___g_p_s_gadget_plugin_gab72aeb74597d8373b64dce43943c9e75}{\index{\-G\-P\-S Gadget Plugin@{\-G\-P\-S Gadget Plugin}!create\-Options\-Page@{create\-Options\-Page}}
+\index{create\-Options\-Page@{create\-Options\-Page}!GPS Gadget Plugin@{\-G\-P\-S Gadget Plugin}}
+\subsubsection[{create\-Options\-Page}]{\setlength{\rightskip}{0pt plus 5cm}\-I\-Options\-Page $\ast$ {\bf \-Gps\-Display\-Gadget\-Factory\-::create\-Options\-Page} (
+\begin{DoxyParamCaption}
+\item[{\-I\-U\-A\-V\-Gadget\-Configuration $\ast$}]{config}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___g_p_s_gadget_plugin_gab72aeb74597d8373b64dce43943c9e75}
+
+
+\-Reimplemented from \hyperlink{group___core_plugin_gaf11d34909f72b86882937f7a946ad0da}{\-Core\-::\-I\-U\-A\-V\-Gadget\-Factory}.
+
+
+
+\-Definition at line 56 of file gpsdisplaygadgetfactory.\-cpp.
+
+\hypertarget{group___g_p_s_gadget_plugin_gac8c534a784eaab5341c1baf07c5dec0b}{\index{\-G\-P\-S Gadget Plugin@{\-G\-P\-S Gadget Plugin}!create\-Page@{create\-Page}}
+\index{create\-Page@{create\-Page}!GPS Gadget Plugin@{\-G\-P\-S Gadget Plugin}}
+\subsubsection[{create\-Page}]{\setlength{\rightskip}{0pt plus 5cm}\-Q\-Widget $\ast$ {\bf \-Gps\-Display\-Gadget\-Options\-Page\-::create\-Page} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Widget $\ast$}]{parent}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___g_p_s_gadget_plugin_gac8c534a784eaab5341c1baf07c5dec0b}
+
+
+\-Implements \hyperlink{group___core_plugin_gac70a4473b3e086d0fa9849c431fb0672}{\-Core\-::\-I\-Options\-Page}.
+
+
+
+\-Definition at line 166 of file gpsdisplaygadgetoptionspage.\-cpp.
+
+\hypertarget{group___g_p_s_gadget_plugin_gaee5d5b0ab0f7dced62f578c969dc3720}{\index{\-G\-P\-S Gadget Plugin@{\-G\-P\-S Gadget Plugin}!data\-Bits@{data\-Bits}}
+\index{data\-Bits@{data\-Bits}!GPS Gadget Plugin@{\-G\-P\-S Gadget Plugin}}
+\subsubsection[{data\-Bits}]{\setlength{\rightskip}{0pt plus 5cm}\-Data\-Bits\-Type {\bf \-Gps\-Display\-Gadget\-Configuration\-::data\-Bits} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___g_p_s_gadget_plugin_gaee5d5b0ab0f7dced62f578c969dc3720}
+
+
+\-Definition at line 58 of file gpsdisplaygadgetconfiguration.\-h.
+
+\hypertarget{group___g_p_s_gadget_plugin_gad0d01fd7addd024c1a5fad7002a7c358}{\index{\-G\-P\-S Gadget Plugin@{\-G\-P\-S Gadget Plugin}!extensions\-Initialized@{extensions\-Initialized}}
+\index{extensions\-Initialized@{extensions\-Initialized}!GPS Gadget Plugin@{\-G\-P\-S Gadget Plugin}}
+\subsubsection[{extensions\-Initialized}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Gps\-Display\-Plugin\-::extensions\-Initialized} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___g_p_s_gadget_plugin_gad0d01fd7addd024c1a5fad7002a7c358}
+\-Called after the \-I\-Plugin\-::initialize() method has been called, and after both the \-I\-Plugin\-::initialize() and \-I\-Plugin\-::extensions\-Initialized() methods of plugins that depend on this plugin have been called. \-In this method, the plugin can assume that plugins that depend on this plugin are fully 'up and running'. \-It is a good place to look in the plugin manager's object pool for objects that have been provided by dependent plugins. \begin{DoxySeeAlso}{\-See also}
+\hyperlink{group___g_p_s_gadget_plugin_ga481b9c74a2e46d2e461d472ac2e10c8f}{initialize()} 
+\end{DoxySeeAlso}
+
+
+\-Implements \hyperlink{class_extension_system_1_1_i_plugin_a1db3a7fb242fca02229f9a3be4fd6610}{\-Extension\-System\-::\-I\-Plugin}.
+
+
+
+\-Definition at line 56 of file gpsdisplayplugin.\-cpp.
+
+\hypertarget{group___g_p_s_gadget_plugin_gaa513cdfb1866a8dec9976710811b48cb}{\index{\-G\-P\-S Gadget Plugin@{\-G\-P\-S Gadget Plugin}!finish@{finish}}
+\index{finish@{finish}!GPS Gadget Plugin@{\-G\-P\-S Gadget Plugin}}
+\subsubsection[{finish}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Gps\-Display\-Gadget\-Options\-Page\-::finish} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___g_p_s_gadget_plugin_gaa513cdfb1866a8dec9976710811b48cb}
+
+
+\-Implements \hyperlink{group___core_plugin_ga47cf2602b6ee72a4971b1f0a4e1d887e}{\-Core\-::\-I\-Options\-Page}.
+
+
+
+\-Definition at line 265 of file gpsdisplaygadgetoptionspage.\-cpp.
+
+\hypertarget{group___g_p_s_gadget_plugin_ga971f5af6d2fe2353c15f6b88550339ec}{\index{\-G\-P\-S Gadget Plugin@{\-G\-P\-S Gadget Plugin}!flow@{flow}}
+\index{flow@{flow}!GPS Gadget Plugin@{\-G\-P\-S Gadget Plugin}}
+\subsubsection[{flow}]{\setlength{\rightskip}{0pt plus 5cm}\-Flow\-Type {\bf \-Gps\-Display\-Gadget\-Configuration\-::flow} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___g_p_s_gadget_plugin_ga971f5af6d2fe2353c15f6b88550339ec}
+
+
+\-Definition at line 57 of file gpsdisplaygadgetconfiguration.\-h.
+
+\hypertarget{group___g_p_s_gadget_plugin_gaa8d0d3435153893cbf167a1e5820d979}{\index{\-G\-P\-S Gadget Plugin@{\-G\-P\-S Gadget Plugin}!\-Gps\-Constellation\-Widget@{\-Gps\-Constellation\-Widget}}
+\index{\-Gps\-Constellation\-Widget@{\-Gps\-Constellation\-Widget}!GPS Gadget Plugin@{\-G\-P\-S Gadget Plugin}}
+\subsubsection[{\-Gps\-Constellation\-Widget}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Gps\-Constellation\-Widget\-::\-Gps\-Constellation\-Widget} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Widget $\ast$}]{parent = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}explicit\mbox{]}}}}\label{group___g_p_s_gadget_plugin_gaa8d0d3435153893cbf167a1e5820d979}
+
+
+\-Definition at line 36 of file gpsconstellationwidget.\-cpp.
+
+\hypertarget{group___g_p_s_gadget_plugin_ga748699eae5b29ee0958be37c23a348f8}{\index{\-G\-P\-S Gadget Plugin@{\-G\-P\-S Gadget Plugin}!\-Gps\-Display\-Gadget@{\-Gps\-Display\-Gadget}}
+\index{\-Gps\-Display\-Gadget@{\-Gps\-Display\-Gadget}!GPS Gadget Plugin@{\-G\-P\-S Gadget Plugin}}
+\subsubsection[{\-Gps\-Display\-Gadget}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Gps\-Display\-Gadget\-::\-Gps\-Display\-Gadget} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Q\-String}}]{class\-Id, }
+\item[{{\bf \-Gps\-Display\-Widget} $\ast$}]{widget, }
+\item[{\-Q\-Widget $\ast$}]{parent = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)}}\label{group___g_p_s_gadget_plugin_ga748699eae5b29ee0958be37c23a348f8}
+
+
+\-Definition at line 32 of file gpsdisplaygadget.\-cpp.
+
+\hypertarget{group___g_p_s_gadget_plugin_ga9ce38cb5c86c5783c8b96457d926f9c4}{\index{\-G\-P\-S Gadget Plugin@{\-G\-P\-S Gadget Plugin}!\-Gps\-Display\-Gadget\-Configuration@{\-Gps\-Display\-Gadget\-Configuration}}
+\index{\-Gps\-Display\-Gadget\-Configuration@{\-Gps\-Display\-Gadget\-Configuration}!GPS Gadget Plugin@{\-G\-P\-S Gadget Plugin}}
+\subsubsection[{\-Gps\-Display\-Gadget\-Configuration}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Gps\-Display\-Gadget\-Configuration\-::\-Gps\-Display\-Gadget\-Configuration} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Q\-String}}]{class\-Id, }
+\item[{\-Q\-Settings $\ast$}]{q\-Settings = {\ttfamily 0}, }
+\item[{\-Q\-Object $\ast$}]{parent = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}explicit\mbox{]}}}}\label{group___g_p_s_gadget_plugin_ga9ce38cb5c86c5783c8b96457d926f9c4}
+\-Loads a saved configuration or defaults if non exist. 
+
+\-Definition at line 35 of file gpsdisplaygadgetconfiguration.\-cpp.
+
+\hypertarget{group___g_p_s_gadget_plugin_ga5c7c8cda8cf65d39d9ae165194901eee}{\index{\-G\-P\-S Gadget Plugin@{\-G\-P\-S Gadget Plugin}!\-Gps\-Display\-Gadget\-Factory@{\-Gps\-Display\-Gadget\-Factory}}
+\index{\-Gps\-Display\-Gadget\-Factory@{\-Gps\-Display\-Gadget\-Factory}!GPS Gadget Plugin@{\-G\-P\-S Gadget Plugin}}
+\subsubsection[{\-Gps\-Display\-Gadget\-Factory}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Gps\-Display\-Gadget\-Factory\-::\-Gps\-Display\-Gadget\-Factory} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Object $\ast$}]{parent = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)}}\label{group___g_p_s_gadget_plugin_ga5c7c8cda8cf65d39d9ae165194901eee}
+
+
+\-Definition at line 34 of file gpsdisplaygadgetfactory.\-cpp.
+
+\hypertarget{group___g_p_s_gadget_plugin_ga2cc5111e9489419740cbbfb61043fcd3}{\index{\-G\-P\-S Gadget Plugin@{\-G\-P\-S Gadget Plugin}!\-Gps\-Display\-Gadget\-Options\-Page@{\-Gps\-Display\-Gadget\-Options\-Page}}
+\index{\-Gps\-Display\-Gadget\-Options\-Page@{\-Gps\-Display\-Gadget\-Options\-Page}!GPS Gadget Plugin@{\-G\-P\-S Gadget Plugin}}
+\subsubsection[{\-Gps\-Display\-Gadget\-Options\-Page}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Gps\-Display\-Gadget\-Options\-Page\-::\-Gps\-Display\-Gadget\-Options\-Page} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Gps\-Display\-Gadget\-Configuration} $\ast$}]{config, }
+\item[{\-Q\-Object $\ast$}]{parent = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}explicit\mbox{]}}}}\label{group___g_p_s_gadget_plugin_ga2cc5111e9489419740cbbfb61043fcd3}
+
+
+\-Definition at line 36 of file gpsdisplaygadgetoptionspage.\-cpp.
+
+\hypertarget{group___g_p_s_gadget_plugin_ga48d06ebeae3e8a6acb71c7a3c1e8c6c0}{\index{\-G\-P\-S Gadget Plugin@{\-G\-P\-S Gadget Plugin}!\-Gps\-Display\-Plugin@{\-Gps\-Display\-Plugin}}
+\index{\-Gps\-Display\-Plugin@{\-Gps\-Display\-Plugin}!GPS Gadget Plugin@{\-G\-P\-S Gadget Plugin}}
+\subsubsection[{\-Gps\-Display\-Plugin}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Gps\-Display\-Plugin\-::\-Gps\-Display\-Plugin} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___g_p_s_gadget_plugin_ga48d06ebeae3e8a6acb71c7a3c1e8c6c0}
+
+
+\-Definition at line 36 of file gpsdisplayplugin.\-cpp.
+
+\hypertarget{group___g_p_s_gadget_plugin_gab1f79fecf5da3b9fde3b8c100406dfd8}{\index{\-G\-P\-S Gadget Plugin@{\-G\-P\-S Gadget Plugin}!\-Gps\-Display\-Widget@{\-Gps\-Display\-Widget}}
+\index{\-Gps\-Display\-Widget@{\-Gps\-Display\-Widget}!GPS Gadget Plugin@{\-G\-P\-S Gadget Plugin}}
+\subsubsection[{\-Gps\-Display\-Widget}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Gps\-Display\-Widget\-::\-Gps\-Display\-Widget} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Widget $\ast$}]{parent = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)}}\label{group___g_p_s_gadget_plugin_gab1f79fecf5da3b9fde3b8c100406dfd8}
+
+
+\-Definition at line 40 of file gpsdisplaywidget.\-cpp.
+
+\hypertarget{group___g_p_s_gadget_plugin_ga15bb435154bfad7f732bc090c496915e}{\index{\-G\-P\-S Gadget Plugin@{\-G\-P\-S Gadget Plugin}!\-G\-P\-S\-Parser@{\-G\-P\-S\-Parser}}
+\index{\-G\-P\-S\-Parser@{\-G\-P\-S\-Parser}!GPS Gadget Plugin@{\-G\-P\-S Gadget Plugin}}
+\subsubsection[{\-G\-P\-S\-Parser}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-G\-P\-S\-Parser\-::\-G\-P\-S\-Parser} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Object $\ast$}]{parent = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{group___g_p_s_gadget_plugin_ga15bb435154bfad7f732bc090c496915e}
+\hypertarget{group___g_p_s_gadget_plugin_ga481b9c74a2e46d2e461d472ac2e10c8f}{\index{\-G\-P\-S Gadget Plugin@{\-G\-P\-S Gadget Plugin}!initialize@{initialize}}
+\index{initialize@{initialize}!GPS Gadget Plugin@{\-G\-P\-S Gadget Plugin}}
+\subsubsection[{initialize}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-Gps\-Display\-Plugin\-::initialize} (
+\begin{DoxyParamCaption}
+\item[{const \-Q\-String\-List \&}]{arguments, }
+\item[{{\bf \-Q\-String} $\ast$}]{error\-String}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___g_p_s_gadget_plugin_ga481b9c74a2e46d2e461d472ac2e10c8f}
+\-Called after the plugin has been loaded and the \-I\-Plugin instance has been created. \-The initialize methods of plugins that depend on this plugin are called after the initialize method of this plugin has been called. \-Plugins should initialize their internal state in this method. \-Returns if initialization of successful. \-If it wasn't successful, the {\itshape error\-String\/} should be set to a user-\/readable message describing the reason. \begin{DoxySeeAlso}{\-See also}
+\hyperlink{group___g_p_s_gadget_plugin_gad0d01fd7addd024c1a5fad7002a7c358}{extensions\-Initialized()} 
+\end{DoxySeeAlso}
+
+
+\-Implements \hyperlink{class_extension_system_1_1_i_plugin_a9f3dc957317279daed393fdf4894e944}{\-Extension\-System\-::\-I\-Plugin}.
+
+
+
+\-Definition at line 46 of file gpsdisplayplugin.\-cpp.
+
+\hypertarget{group___g_p_s_gadget_plugin_gace7e777ca2b6d35514b22ec3b8d9f7c5}{\index{\-G\-P\-S Gadget Plugin@{\-G\-P\-S Gadget Plugin}!load\-Configuration@{load\-Configuration}}
+\index{load\-Configuration@{load\-Configuration}!GPS Gadget Plugin@{\-G\-P\-S Gadget Plugin}}
+\subsubsection[{load\-Configuration}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Gps\-Display\-Gadget\-::load\-Configuration} (
+\begin{DoxyParamCaption}
+\item[{\-I\-U\-A\-V\-Gadget\-Configuration $\ast$}]{config}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___g_p_s_gadget_plugin_gace7e777ca2b6d35514b22ec3b8d9f7c5}
+
+
+\-Reimplemented from \hyperlink{group___core_plugin_gaaf60a82b8643f54a42381600c52bbe8a}{\-Core\-::\-I\-U\-A\-V\-Gadget}.
+
+
+
+\-Definition at line 52 of file gpsdisplaygadget.\-cpp.
+
+\hypertarget{group___g_p_s_gadget_plugin_gaba9a601d8ec049e7f398b5d42cd974a1}{\index{\-G\-P\-S Gadget Plugin@{\-G\-P\-S Gadget Plugin}!nmea\-Checksum@{nmea\-Checksum}}
+\index{nmea\-Checksum@{nmea\-Checksum}!GPS Gadget Plugin@{\-G\-P\-S Gadget Plugin}}
+\subsubsection[{nmea\-Checksum}]{\setlength{\rightskip}{0pt plus 5cm}char {\bf \-N\-M\-E\-A\-Parser\-::nmea\-Checksum} (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{gps\-\_\-buffer}
+\end{DoxyParamCaption}
+)}}\label{group___g_p_s_gadget_plugin_gaba9a601d8ec049e7f398b5d42cd974a1}
+\-Prosesses \-N\-M\-E\-A sentence checksum 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em \-Buffer} & for parsed nmea sentence \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+0 checksum not valid 
+
+1 checksum valid 
+\end{DoxyReturn}
+
+
+\-Definition at line 101 of file nmeaparser.\-cpp.
+
+\hypertarget{group___g_p_s_gadget_plugin_ga5c79371e20badd15d23705c63eaacfe1}{\index{\-G\-P\-S Gadget Plugin@{\-G\-P\-S Gadget Plugin}!nmea\-Get\-Packet\-Buffer@{nmea\-Get\-Packet\-Buffer}}
+\index{nmea\-Get\-Packet\-Buffer@{nmea\-Get\-Packet\-Buffer}!GPS Gadget Plugin@{\-G\-P\-S Gadget Plugin}}
+\subsubsection[{nmea\-Get\-Packet\-Buffer}]{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ {\bf \-N\-M\-E\-A\-Parser\-::nmea\-Get\-Packet\-Buffer} (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+)}}\label{group___g_p_s_gadget_plugin_ga5c79371e20badd15d23705c63eaacfe1}
+\hypertarget{group___g_p_s_gadget_plugin_gababc72322cf2d939a88939cc9036d884}{\index{\-G\-P\-S Gadget Plugin@{\-G\-P\-S Gadget Plugin}!\-N\-M\-E\-A\-Parser@{\-N\-M\-E\-A\-Parser}}
+\index{\-N\-M\-E\-A\-Parser@{\-N\-M\-E\-A\-Parser}!GPS Gadget Plugin@{\-G\-P\-S Gadget Plugin}}
+\subsubsection[{\-N\-M\-E\-A\-Parser}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-N\-M\-E\-A\-Parser\-::\-N\-M\-E\-A\-Parser} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Object $\ast$}]{parent = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)}}\label{group___g_p_s_gadget_plugin_gababc72322cf2d939a88939cc9036d884}
+\-Initialize the parser 
+
+\-Definition at line 68 of file nmeaparser.\-cpp.
+
+\hypertarget{group___g_p_s_gadget_plugin_ga55718bf48b8a95492b1aa43a65490e64}{\index{\-G\-P\-S Gadget Plugin@{\-G\-P\-S Gadget Plugin}!nmea\-Process@{nmea\-Process}}
+\index{nmea\-Process@{nmea\-Process}!GPS Gadget Plugin@{\-G\-P\-S Gadget Plugin}}
+\subsubsection[{nmea\-Process}]{\setlength{\rightskip}{0pt plus 5cm}uint8\-\_\-t {\bf \-N\-M\-E\-A\-Parser\-::nmea\-Process} (
+\begin{DoxyParamCaption}
+\item[{{\bf c\-Buffer} $\ast$}]{rx\-Buffer}
+\end{DoxyParamCaption}
+)}}\label{group___g_p_s_gadget_plugin_ga55718bf48b8a95492b1aa43a65490e64}
+\-Prosesses \-N\-M\-E\-A sentences 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em c\-Buffer} & for prosessed nmea sentences \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+\-Message code for found packet 
+
+0x\-F\-F \-N\-O packet found 
+\end{DoxyReturn}
+
+
+\-Definition at line 151 of file nmeaparser.\-cpp.
+
+\hypertarget{group___g_p_s_gadget_plugin_ga0ac80dbcc0ad8bec03f026c3feb2c097}{\index{\-G\-P\-S Gadget Plugin@{\-G\-P\-S Gadget Plugin}!nmea\-Process\-G\-P\-G\-G\-A@{nmea\-Process\-G\-P\-G\-G\-A}}
+\index{nmea\-Process\-G\-P\-G\-G\-A@{nmea\-Process\-G\-P\-G\-G\-A}!GPS Gadget Plugin@{\-G\-P\-S Gadget Plugin}}
+\subsubsection[{nmea\-Process\-G\-P\-G\-G\-A}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-N\-M\-E\-A\-Parser\-::nmea\-Process\-G\-P\-G\-G\-A} (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{packet}
+\end{DoxyParamCaption}
+)}}\label{group___g_p_s_gadget_plugin_ga0ac80dbcc0ad8bec03f026c3feb2c097}
+\-Prosesses \-N\-M\-E\-A \-G\-P\-G\-G\-A sentences 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em \-Buffer} & for parsed nmea \-G\-P\-G\-G\-A sentence \\
+\hline
+\end{DoxyParams}
+
+
+\-Definition at line 330 of file nmeaparser.\-cpp.
+
+\hypertarget{group___g_p_s_gadget_plugin_gad10ce6b495849dd4cf6e019d650a87f7}{\index{\-G\-P\-S Gadget Plugin@{\-G\-P\-S Gadget Plugin}!nmea\-Process\-G\-P\-G\-S\-A@{nmea\-Process\-G\-P\-G\-S\-A}}
+\index{nmea\-Process\-G\-P\-G\-S\-A@{nmea\-Process\-G\-P\-G\-S\-A}!GPS Gadget Plugin@{\-G\-P\-S Gadget Plugin}}
+\subsubsection[{nmea\-Process\-G\-P\-G\-S\-A}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-N\-M\-E\-A\-Parser\-::nmea\-Process\-G\-P\-G\-S\-A} (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{packet}
+\end{DoxyParamCaption}
+)}}\label{group___g_p_s_gadget_plugin_gad10ce6b495849dd4cf6e019d650a87f7}
+\-Prosesses \-N\-M\-E\-A \-G\-P\-G\-S\-A sentences 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em \-Buffer} & for parsed nmea \-G\-P\-G\-S\-A sentence \\
+\hline
+\end{DoxyParams}
+
+
+\-Definition at line 434 of file nmeaparser.\-cpp.
+
+\hypertarget{group___g_p_s_gadget_plugin_ga35b60b2a2f0643fd5202557a5aaace81}{\index{\-G\-P\-S Gadget Plugin@{\-G\-P\-S Gadget Plugin}!nmea\-Process\-G\-P\-G\-S\-V@{nmea\-Process\-G\-P\-G\-S\-V}}
+\index{nmea\-Process\-G\-P\-G\-S\-V@{nmea\-Process\-G\-P\-G\-S\-V}!GPS Gadget Plugin@{\-G\-P\-S Gadget Plugin}}
+\subsubsection[{nmea\-Process\-G\-P\-G\-S\-V}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-N\-M\-E\-A\-Parser\-::nmea\-Process\-G\-P\-G\-S\-V} (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{packet}
+\end{DoxyParamCaption}
+)}}\label{group___g_p_s_gadget_plugin_ga35b60b2a2f0643fd5202557a5aaace81}
+\-Processes \-N\-M\-E\-A \-G\-S\-V sentences (satellites in view) 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em \-Buffer} & for parsed nmea \-G\-S\-V sentence \\
+\hline
+\end{DoxyParams}
+
+
+\-Definition at line 281 of file nmeaparser.\-cpp.
+
+\hypertarget{group___g_p_s_gadget_plugin_ga838f8b6c0bea66c17f82fec788a1a74f}{\index{\-G\-P\-S Gadget Plugin@{\-G\-P\-S Gadget Plugin}!nmea\-Process\-G\-P\-R\-M\-C@{nmea\-Process\-G\-P\-R\-M\-C}}
+\index{nmea\-Process\-G\-P\-R\-M\-C@{nmea\-Process\-G\-P\-R\-M\-C}!GPS Gadget Plugin@{\-G\-P\-S Gadget Plugin}}
+\subsubsection[{nmea\-Process\-G\-P\-R\-M\-C}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-N\-M\-E\-A\-Parser\-::nmea\-Process\-G\-P\-R\-M\-C} (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{packet}
+\end{DoxyParamCaption}
+)}}\label{group___g_p_s_gadget_plugin_ga838f8b6c0bea66c17f82fec788a1a74f}
+\-Prosesses \-N\-M\-E\-A \-G\-P\-R\-M\-C sentences 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em \-Buffer} & for parsed nmea \-G\-P\-R\-M\-C sentence \\
+\hline
+\end{DoxyParams}
+
+
+\-Definition at line 377 of file nmeaparser.\-cpp.
+
+\hypertarget{group___g_p_s_gadget_plugin_ga10893234aff922433723153e6057386e}{\index{\-G\-P\-S Gadget Plugin@{\-G\-P\-S Gadget Plugin}!nmea\-Process\-G\-P\-V\-T\-G@{nmea\-Process\-G\-P\-V\-T\-G}}
+\index{nmea\-Process\-G\-P\-V\-T\-G@{nmea\-Process\-G\-P\-V\-T\-G}!GPS Gadget Plugin@{\-G\-P\-S Gadget Plugin}}
+\subsubsection[{nmea\-Process\-G\-P\-V\-T\-G}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-N\-M\-E\-A\-Parser\-::nmea\-Process\-G\-P\-V\-T\-G} (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{packet}
+\end{DoxyParamCaption}
+)}}\label{group___g_p_s_gadget_plugin_ga10893234aff922433723153e6057386e}
+\-Prosesses \-N\-M\-E\-A \-G\-P\-V\-T\-G sentences 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em \-Buffer} & for parsed nmea \-G\-P\-V\-T\-G sentence \\
+\hline
+\end{DoxyParams}
+
+
+\-Definition at line 407 of file nmeaparser.\-cpp.
+
+\hypertarget{group___g_p_s_gadget_plugin_ga01e0952dc227b7f7d3cef2d36f684544}{\index{\-G\-P\-S Gadget Plugin@{\-G\-P\-S Gadget Plugin}!nmea\-Process\-G\-P\-Z\-D\-A@{nmea\-Process\-G\-P\-Z\-D\-A}}
+\index{nmea\-Process\-G\-P\-Z\-D\-A@{nmea\-Process\-G\-P\-Z\-D\-A}!GPS Gadget Plugin@{\-G\-P\-S Gadget Plugin}}
+\subsubsection[{nmea\-Process\-G\-P\-Z\-D\-A}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-N\-M\-E\-A\-Parser\-::nmea\-Process\-G\-P\-Z\-D\-A} (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{packet}
+\end{DoxyParamCaption}
+)}}\label{group___g_p_s_gadget_plugin_ga01e0952dc227b7f7d3cef2d36f684544}
+\-Prosesses \-N\-M\-E\-A \-G\-P\-Z\-D\-A sentences 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em \-Buffer} & for parsed nmea \-G\-P\-Z\-D\-A sentence \\
+\hline
+\end{DoxyParams}
+
+
+\-Definition at line 492 of file nmeaparser.\-cpp.
+
+\hypertarget{group___g_p_s_gadget_plugin_gab0b239f615ef146897cec5c020735a8e}{\index{\-G\-P\-S Gadget Plugin@{\-G\-P\-S Gadget Plugin}!nmea\-Terminate\-At\-Checksum@{nmea\-Terminate\-At\-Checksum}}
+\index{nmea\-Terminate\-At\-Checksum@{nmea\-Terminate\-At\-Checksum}!GPS Gadget Plugin@{\-G\-P\-S Gadget Plugin}}
+\subsubsection[{nmea\-Terminate\-At\-Checksum}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-N\-M\-E\-A\-Parser\-::nmea\-Terminate\-At\-Checksum} (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{gps\-\_\-buffer}
+\end{DoxyParamCaption}
+)}}\label{group___g_p_s_gadget_plugin_gab0b239f615ef146897cec5c020735a8e}
+
+
+\-Definition at line 133 of file nmeaparser.\-cpp.
+
+\hypertarget{group___g_p_s_gadget_plugin_ga3a0d09e79d337c15dbc032ae237a8663}{\index{\-G\-P\-S Gadget Plugin@{\-G\-P\-S Gadget Plugin}!parity@{parity}}
+\index{parity@{parity}!GPS Gadget Plugin@{\-G\-P\-S Gadget Plugin}}
+\subsubsection[{parity}]{\setlength{\rightskip}{0pt plus 5cm}\-Parity\-Type {\bf \-Gps\-Display\-Gadget\-Configuration\-::parity} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___g_p_s_gadget_plugin_ga3a0d09e79d337c15dbc032ae237a8663}
+
+
+\-Definition at line 60 of file gpsdisplaygadgetconfiguration.\-h.
+
+\hypertarget{group___g_p_s_gadget_plugin_ga517cd55a15efad30e5b15a98de8c9767}{\index{\-G\-P\-S Gadget Plugin@{\-G\-P\-S Gadget Plugin}!port@{port}}
+\index{port@{port}!GPS Gadget Plugin@{\-G\-P\-S Gadget Plugin}}
+\subsubsection[{port}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Q\-String} {\bf \-Gps\-Display\-Gadget\-Configuration\-::port} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___g_p_s_gadget_plugin_ga517cd55a15efad30e5b15a98de8c9767}
+
+
+\-Definition at line 55 of file gpsdisplaygadgetconfiguration.\-h.
+
+\hypertarget{group___g_p_s_gadget_plugin_gaeffbbe785fb02705aba8d3e2b0aee5e5}{\index{\-G\-P\-S Gadget Plugin@{\-G\-P\-S Gadget Plugin}!process\-Input\-Stream@{process\-Input\-Stream}}
+\index{process\-Input\-Stream@{process\-Input\-Stream}!GPS Gadget Plugin@{\-G\-P\-S Gadget Plugin}}
+\subsubsection[{process\-Input\-Stream}]{\setlength{\rightskip}{0pt plus 5cm}virtual {\bf void} {\bf \-G\-P\-S\-Parser\-::process\-Input\-Stream} (
+\begin{DoxyParamCaption}
+\item[{char}]{c}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___g_p_s_gadget_plugin_gaeffbbe785fb02705aba8d3e2b0aee5e5}
+
+
+\-Reimplemented in \hyperlink{group___g_p_s_gadget_plugin_gaf4983b5649be1ec2deb7dafcd4a3573c}{\-N\-M\-E\-A\-Parser}.
+
+\hypertarget{group___g_p_s_gadget_plugin_gaf4983b5649be1ec2deb7dafcd4a3573c}{\index{\-G\-P\-S Gadget Plugin@{\-G\-P\-S Gadget Plugin}!process\-Input\-Stream@{process\-Input\-Stream}}
+\index{process\-Input\-Stream@{process\-Input\-Stream}!GPS Gadget Plugin@{\-G\-P\-S Gadget Plugin}}
+\subsubsection[{process\-Input\-Stream}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-N\-M\-E\-A\-Parser\-::process\-Input\-Stream} (
+\begin{DoxyParamCaption}
+\item[{char}]{c}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___g_p_s_gadget_plugin_gaf4983b5649be1ec2deb7dafcd4a3573c}
+\-Called each time there are data in the input buffer 
+
+\-Reimplemented from \hyperlink{group___antenna_track_gadget_plugin_ga0d2ef23accd7d2cd3e098012f2f8e948}{\-G\-P\-S\-Parser}.
+
+
+
+\-Definition at line 82 of file nmeaparser.\-cpp.
+
+\hypertarget{group___g_p_s_gadget_plugin_ga33f2f0f0eba2737a2917b206fda14a11}{\index{\-G\-P\-S Gadget Plugin@{\-G\-P\-S Gadget Plugin}!resize\-Event@{resize\-Event}}
+\index{resize\-Event@{resize\-Event}!GPS Gadget Plugin@{\-G\-P\-S Gadget Plugin}}
+\subsubsection[{resize\-Event}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Gps\-Constellation\-Widget\-::resize\-Event} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Resize\-Event $\ast$}]{event}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{group___g_p_s_gadget_plugin_ga33f2f0f0eba2737a2917b206fda14a11}
+
+
+\-Definition at line 107 of file gpsconstellationwidget.\-cpp.
+
+\hypertarget{group___g_p_s_gadget_plugin_gadeca7dfdc8f1da65123d50b9bb29072c}{\index{\-G\-P\-S Gadget Plugin@{\-G\-P\-S Gadget Plugin}!save\-Config@{save\-Config}}
+\index{save\-Config@{save\-Config}!GPS Gadget Plugin@{\-G\-P\-S Gadget Plugin}}
+\subsubsection[{save\-Config}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Gps\-Display\-Gadget\-Configuration\-::save\-Config} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Settings $\ast$}]{settings}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___g_p_s_gadget_plugin_gadeca7dfdc8f1da65123d50b9bb29072c}
+\-Saves a configuration. 
+
+\-Reimplemented from \hyperlink{group___core_plugin_gadd755520091c21c0ce09973c5bbdb7a9}{\-Core\-::\-I\-U\-A\-V\-Gadget\-Configuration}.
+
+
+
+\-Definition at line 100 of file gpsdisplaygadgetconfiguration.\-cpp.
+
+\hypertarget{group___g_p_s_gadget_plugin_ga0025e5ae0ab4f8a16c2b69a4aef3a8be}{\index{\-G\-P\-S Gadget Plugin@{\-G\-P\-S Gadget Plugin}!set\-Connection\-Mode@{set\-Connection\-Mode}}
+\index{set\-Connection\-Mode@{set\-Connection\-Mode}!GPS Gadget Plugin@{\-G\-P\-S Gadget Plugin}}
+\subsubsection[{set\-Connection\-Mode}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Gps\-Display\-Gadget\-Configuration\-::set\-Connection\-Mode} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Q\-String}}]{mode}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___g_p_s_gadget_plugin_ga0025e5ae0ab4f8a16c2b69a4aef3a8be}
+
+
+\-Definition at line 42 of file gpsdisplaygadgetconfiguration.\-h.
+
+\hypertarget{group___g_p_s_gadget_plugin_ga30b358e2d5b28de7d18749cfb6dbf9cb}{\index{\-G\-P\-S Gadget Plugin@{\-G\-P\-S Gadget Plugin}!set\-Data\-Bits@{set\-Data\-Bits}}
+\index{set\-Data\-Bits@{set\-Data\-Bits}!GPS Gadget Plugin@{\-G\-P\-S Gadget Plugin}}
+\subsubsection[{set\-Data\-Bits}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Gps\-Display\-Gadget\-Configuration\-::set\-Data\-Bits} (
+\begin{DoxyParamCaption}
+\item[{\-Data\-Bits\-Type}]{databits}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___g_p_s_gadget_plugin_ga30b358e2d5b28de7d18749cfb6dbf9cb}
+
+
+\-Definition at line 47 of file gpsdisplaygadgetconfiguration.\-h.
+
+\hypertarget{group___g_p_s_gadget_plugin_ga56ec26969426f55eb39373779ba78ddb}{\index{\-G\-P\-S Gadget Plugin@{\-G\-P\-S Gadget Plugin}!set\-Flow@{set\-Flow}}
+\index{set\-Flow@{set\-Flow}!GPS Gadget Plugin@{\-G\-P\-S Gadget Plugin}}
+\subsubsection[{set\-Flow}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Gps\-Display\-Gadget\-Configuration\-::set\-Flow} (
+\begin{DoxyParamCaption}
+\item[{\-Flow\-Type}]{flow}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___g_p_s_gadget_plugin_ga56ec26969426f55eb39373779ba78ddb}
+
+
+\-Definition at line 48 of file gpsdisplaygadgetconfiguration.\-h.
+
+\hypertarget{group___g_p_s_gadget_plugin_gaea8c500878652f4b518a990e0f6ee05a}{\index{\-G\-P\-S Gadget Plugin@{\-G\-P\-S Gadget Plugin}!set\-Parity@{set\-Parity}}
+\index{set\-Parity@{set\-Parity}!GPS Gadget Plugin@{\-G\-P\-S Gadget Plugin}}
+\subsubsection[{set\-Parity}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Gps\-Display\-Gadget\-Configuration\-::set\-Parity} (
+\begin{DoxyParamCaption}
+\item[{\-Parity\-Type}]{parity}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___g_p_s_gadget_plugin_gaea8c500878652f4b518a990e0f6ee05a}
+
+
+\-Definition at line 49 of file gpsdisplaygadgetconfiguration.\-h.
+
+\hypertarget{group___g_p_s_gadget_plugin_ga486451b6b46974085f14b206d4a69384}{\index{\-G\-P\-S Gadget Plugin@{\-G\-P\-S Gadget Plugin}!set\-Port@{set\-Port}}
+\index{set\-Port@{set\-Port}!GPS Gadget Plugin@{\-G\-P\-S Gadget Plugin}}
+\subsubsection[{set\-Port}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Gps\-Display\-Gadget\-Configuration\-::set\-Port} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Q\-String}}]{port}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___g_p_s_gadget_plugin_ga486451b6b46974085f14b206d4a69384}
+
+
+\-Definition at line 51 of file gpsdisplaygadgetconfiguration.\-h.
+
+\hypertarget{group___g_p_s_gadget_plugin_gaf15cd0543ca6d85d3593905f8e8b7301}{\index{\-G\-P\-S Gadget Plugin@{\-G\-P\-S Gadget Plugin}!set\-Speed@{set\-Speed}}
+\index{set\-Speed@{set\-Speed}!GPS Gadget Plugin@{\-G\-P\-S Gadget Plugin}}
+\subsubsection[{set\-Speed}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Gps\-Display\-Gadget\-Configuration\-::set\-Speed} (
+\begin{DoxyParamCaption}
+\item[{\-Baud\-Rate\-Type}]{speed}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___g_p_s_gadget_plugin_gaf15cd0543ca6d85d3593905f8e8b7301}
+
+
+\-Definition at line 46 of file gpsdisplaygadgetconfiguration.\-h.
+
+\hypertarget{group___g_p_s_gadget_plugin_gae002581f291f9efae24ad5163c654909}{\index{\-G\-P\-S Gadget Plugin@{\-G\-P\-S Gadget Plugin}!set\-Stop\-Bits@{set\-Stop\-Bits}}
+\index{set\-Stop\-Bits@{set\-Stop\-Bits}!GPS Gadget Plugin@{\-G\-P\-S Gadget Plugin}}
+\subsubsection[{set\-Stop\-Bits}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Gps\-Display\-Gadget\-Configuration\-::set\-Stop\-Bits} (
+\begin{DoxyParamCaption}
+\item[{\-Stop\-Bits\-Type}]{stopbits}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___g_p_s_gadget_plugin_gae002581f291f9efae24ad5163c654909}
+
+
+\-Definition at line 50 of file gpsdisplaygadgetconfiguration.\-h.
+
+\hypertarget{group___g_p_s_gadget_plugin_ga1b7ab91eef34f393bf53bb8f216e40df}{\index{\-G\-P\-S Gadget Plugin@{\-G\-P\-S Gadget Plugin}!set\-Time\-Out@{set\-Time\-Out}}
+\index{set\-Time\-Out@{set\-Time\-Out}!GPS Gadget Plugin@{\-G\-P\-S Gadget Plugin}}
+\subsubsection[{set\-Time\-Out}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Gps\-Display\-Gadget\-Configuration\-::set\-Time\-Out} (
+\begin{DoxyParamCaption}
+\item[{long}]{timeout}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___g_p_s_gadget_plugin_ga1b7ab91eef34f393bf53bb8f216e40df}
+
+
+\-Definition at line 52 of file gpsdisplaygadgetconfiguration.\-h.
+
+\hypertarget{group___g_p_s_gadget_plugin_ga6b206d00a88aa90134aba5ca815355a9}{\index{\-G\-P\-S Gadget Plugin@{\-G\-P\-S Gadget Plugin}!show\-Event@{show\-Event}}
+\index{show\-Event@{show\-Event}!GPS Gadget Plugin@{\-G\-P\-S Gadget Plugin}}
+\subsubsection[{show\-Event}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Gps\-Constellation\-Widget\-::show\-Event} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Show\-Event $\ast$}]{event}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{group___g_p_s_gadget_plugin_ga6b206d00a88aa90134aba5ca815355a9}
+
+
+\-Definition at line 93 of file gpsconstellationwidget.\-cpp.
+
+\hypertarget{group___g_p_s_gadget_plugin_ga239f5aa443093c518b27a04e23d20b2e}{\index{\-G\-P\-S Gadget Plugin@{\-G\-P\-S Gadget Plugin}!shutdown@{shutdown}}
+\index{shutdown@{shutdown}!GPS Gadget Plugin@{\-G\-P\-S Gadget Plugin}}
+\subsubsection[{shutdown}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Gps\-Display\-Plugin\-::shutdown} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___g_p_s_gadget_plugin_ga239f5aa443093c518b27a04e23d20b2e}
+\-Called during a shutdown sequence in the same order as initialization before the plugins get deleted in reverse order. \-This method can be used to optimize the shutdown down, e.\-g. to disconnect from the \-Plugin\-Manager\-::about\-To\-Remove\-Object() signal if getting the signal (and probably doing lots of stuff to update the internal and visible state) doesn't make sense during shutdown. 
+
+\-Reimplemented from \hyperlink{class_extension_system_1_1_i_plugin_a65c16ebd3a6e89918a99af6515fe68cb}{\-Extension\-System\-::\-I\-Plugin}.
+
+
+
+\-Definition at line 61 of file gpsdisplayplugin.\-cpp.
+
+\hypertarget{group___g_p_s_gadget_plugin_ga6244f67dce3641a662a3c15f4eba081b}{\index{\-G\-P\-S Gadget Plugin@{\-G\-P\-S Gadget Plugin}!sort\-Ports@{sort\-Ports}}
+\index{sort\-Ports@{sort\-Ports}!GPS Gadget Plugin@{\-G\-P\-S Gadget Plugin}}
+\subsubsection[{sort\-Ports}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf sort\-Ports} (
+\begin{DoxyParamCaption}
+\item[{\-Qext\-Port\-Info const \&}]{s1, }
+\item[{\-Qext\-Port\-Info const \&}]{s2}
+\end{DoxyParamCaption}
+)}}\label{group___g_p_s_gadget_plugin_ga6244f67dce3641a662a3c15f4eba081b}
+
+
+\-Definition at line 159 of file gpsdisplaygadgetoptionspage.\-cpp.
+
+\hypertarget{group___g_p_s_gadget_plugin_gae316339027f90f81c50cb8b1abffd2bd}{\index{\-G\-P\-S Gadget Plugin@{\-G\-P\-S Gadget Plugin}!speed@{speed}}
+\index{speed@{speed}!GPS Gadget Plugin@{\-G\-P\-S Gadget Plugin}}
+\subsubsection[{speed}]{\setlength{\rightskip}{0pt plus 5cm}\-Baud\-Rate\-Type {\bf \-Gps\-Display\-Gadget\-Configuration\-::speed} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___g_p_s_gadget_plugin_gae316339027f90f81c50cb8b1abffd2bd}
+
+
+\-Definition at line 56 of file gpsdisplaygadgetconfiguration.\-h.
+
+\hypertarget{group___g_p_s_gadget_plugin_ga972b1ba46194e9dd5b85289822953a02}{\index{\-G\-P\-S Gadget Plugin@{\-G\-P\-S Gadget Plugin}!stop\-Bits@{stop\-Bits}}
+\index{stop\-Bits@{stop\-Bits}!GPS Gadget Plugin@{\-G\-P\-S Gadget Plugin}}
+\subsubsection[{stop\-Bits}]{\setlength{\rightskip}{0pt plus 5cm}\-Stop\-Bits\-Type {\bf \-Gps\-Display\-Gadget\-Configuration\-::stop\-Bits} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___g_p_s_gadget_plugin_ga972b1ba46194e9dd5b85289822953a02}
+
+
+\-Definition at line 59 of file gpsdisplaygadgetconfiguration.\-h.
+
+\hypertarget{group___g_p_s_gadget_plugin_ga0a989a67079a7e06f5034415c751b46c}{\index{\-G\-P\-S Gadget Plugin@{\-G\-P\-S Gadget Plugin}!\-Telemetry\-Parser@{\-Telemetry\-Parser}}
+\index{\-Telemetry\-Parser@{\-Telemetry\-Parser}!GPS Gadget Plugin@{\-G\-P\-S Gadget Plugin}}
+\subsubsection[{\-Telemetry\-Parser}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Telemetry\-Parser\-::\-Telemetry\-Parser} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Object $\ast$}]{parent = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)}}\label{group___g_p_s_gadget_plugin_ga0a989a67079a7e06f5034415c751b46c}
+\hypertarget{group___g_p_s_gadget_plugin_gae72a22f5fda6f350e9ca08c913bade96}{\index{\-G\-P\-S Gadget Plugin@{\-G\-P\-S Gadget Plugin}!time\-Out@{time\-Out}}
+\index{time\-Out@{time\-Out}!GPS Gadget Plugin@{\-G\-P\-S Gadget Plugin}}
+\subsubsection[{time\-Out}]{\setlength{\rightskip}{0pt plus 5cm}long {\bf \-Gps\-Display\-Gadget\-Configuration\-::time\-Out} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___g_p_s_gadget_plugin_gae72a22f5fda6f350e9ca08c913bade96}
+
+
+\-Definition at line 61 of file gpsdisplaygadgetconfiguration.\-h.
+
+\hypertarget{group___g_p_s_gadget_plugin_ga343958b41e6a9deb4720c9b3098396c2}{\index{\-G\-P\-S Gadget Plugin@{\-G\-P\-S Gadget Plugin}!widget@{widget}}
+\index{widget@{widget}!GPS Gadget Plugin@{\-G\-P\-S Gadget Plugin}}
+\subsubsection[{widget}]{\setlength{\rightskip}{0pt plus 5cm}\-Q\-Widget$\ast$ {\bf \-Gps\-Display\-Gadget\-::widget} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, virtual\mbox{]}}}}\label{group___g_p_s_gadget_plugin_ga343958b41e6a9deb4720c9b3098396c2}
+
+
+\-Implements \hyperlink{group___core_plugin_gac74c76eef51e24e62a333fe0fd940cf6}{\-Core\-::\-I\-U\-A\-V\-Gadget}.
+
+
+
+\-Definition at line 52 of file gpsdisplaygadget.\-h.
+
+\hypertarget{group___g_p_s_gadget_plugin_gaa4c124f26c71bf318147e079011fe137}{\index{\-G\-P\-S Gadget Plugin@{\-G\-P\-S Gadget Plugin}!$\sim$\-Gps\-Constellation\-Widget@{$\sim$\-Gps\-Constellation\-Widget}}
+\index{$\sim$\-Gps\-Constellation\-Widget@{$\sim$\-Gps\-Constellation\-Widget}!GPS Gadget Plugin@{\-G\-P\-S Gadget Plugin}}
+\subsubsection[{$\sim$\-Gps\-Constellation\-Widget}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Gps\-Constellation\-Widget\-::$\sim$\-Gps\-Constellation\-Widget} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___g_p_s_gadget_plugin_gaa4c124f26c71bf318147e079011fe137}
+
+
+\-Definition at line 84 of file gpsconstellationwidget.\-cpp.
+
+\hypertarget{group___g_p_s_gadget_plugin_ga6ec785be3eefba596601b671573f6401}{\index{\-G\-P\-S Gadget Plugin@{\-G\-P\-S Gadget Plugin}!$\sim$\-Gps\-Display\-Gadget@{$\sim$\-Gps\-Display\-Gadget}}
+\index{$\sim$\-Gps\-Display\-Gadget@{$\sim$\-Gps\-Display\-Gadget}!GPS Gadget Plugin@{\-G\-P\-S Gadget Plugin}}
+\subsubsection[{$\sim$\-Gps\-Display\-Gadget}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Gps\-Display\-Gadget\-::$\sim$\-Gps\-Display\-Gadget} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___g_p_s_gadget_plugin_ga6ec785be3eefba596601b671573f6401}
+
+
+\-Definition at line 41 of file gpsdisplaygadget.\-cpp.
+
+\hypertarget{group___g_p_s_gadget_plugin_ga82537537ded6a09ef83bb5b8480dc521}{\index{\-G\-P\-S Gadget Plugin@{\-G\-P\-S Gadget Plugin}!$\sim$\-Gps\-Display\-Gadget\-Factory@{$\sim$\-Gps\-Display\-Gadget\-Factory}}
+\index{$\sim$\-Gps\-Display\-Gadget\-Factory@{$\sim$\-Gps\-Display\-Gadget\-Factory}!GPS Gadget Plugin@{\-G\-P\-S Gadget Plugin}}
+\subsubsection[{$\sim$\-Gps\-Display\-Gadget\-Factory}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Gps\-Display\-Gadget\-Factory\-::$\sim$\-Gps\-Display\-Gadget\-Factory} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___g_p_s_gadget_plugin_ga82537537ded6a09ef83bb5b8480dc521}
+
+
+\-Definition at line 41 of file gpsdisplaygadgetfactory.\-cpp.
+
+\hypertarget{group___g_p_s_gadget_plugin_gaa42f8ee4562f96fdd5e4c384bf7ca1d6}{\index{\-G\-P\-S Gadget Plugin@{\-G\-P\-S Gadget Plugin}!$\sim$\-Gps\-Display\-Plugin@{$\sim$\-Gps\-Display\-Plugin}}
+\index{$\sim$\-Gps\-Display\-Plugin@{$\sim$\-Gps\-Display\-Plugin}!GPS Gadget Plugin@{\-G\-P\-S Gadget Plugin}}
+\subsubsection[{$\sim$\-Gps\-Display\-Plugin}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Gps\-Display\-Plugin\-::$\sim$\-Gps\-Display\-Plugin} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___g_p_s_gadget_plugin_gaa42f8ee4562f96fdd5e4c384bf7ca1d6}
+
+
+\-Definition at line 41 of file gpsdisplayplugin.\-cpp.
+
+\hypertarget{group___g_p_s_gadget_plugin_gaf71af26494c1e959b1b6b3eabd861e53}{\index{\-G\-P\-S Gadget Plugin@{\-G\-P\-S Gadget Plugin}!$\sim$\-Gps\-Display\-Widget@{$\sim$\-Gps\-Display\-Widget}}
+\index{$\sim$\-Gps\-Display\-Widget@{$\sim$\-Gps\-Display\-Widget}!GPS Gadget Plugin@{\-G\-P\-S Gadget Plugin}}
+\subsubsection[{$\sim$\-Gps\-Display\-Widget}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Gps\-Display\-Widget\-::$\sim$\-Gps\-Display\-Widget} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___g_p_s_gadget_plugin_gaf71af26494c1e959b1b6b3eabd861e53}
+
+
+\-Definition at line 58 of file gpsdisplaywidget.\-cpp.
+
+\hypertarget{group___g_p_s_gadget_plugin_ga6773ae49e6fecc274191f0d0e29294d8}{\index{\-G\-P\-S Gadget Plugin@{\-G\-P\-S Gadget Plugin}!$\sim$\-G\-P\-S\-Parser@{$\sim$\-G\-P\-S\-Parser}}
+\index{$\sim$\-G\-P\-S\-Parser@{$\sim$\-G\-P\-S\-Parser}!GPS Gadget Plugin@{\-G\-P\-S Gadget Plugin}}
+\subsubsection[{$\sim$\-G\-P\-S\-Parser}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-G\-P\-S\-Parser\-::$\sim$\-G\-P\-S\-Parser} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___g_p_s_gadget_plugin_ga6773ae49e6fecc274191f0d0e29294d8}
+\hypertarget{group___g_p_s_gadget_plugin_gaedf659d241eff03757c31f3b80697f89}{\index{\-G\-P\-S Gadget Plugin@{\-G\-P\-S Gadget Plugin}!$\sim$\-N\-M\-E\-A\-Parser@{$\sim$\-N\-M\-E\-A\-Parser}}
+\index{$\sim$\-N\-M\-E\-A\-Parser@{$\sim$\-N\-M\-E\-A\-Parser}!GPS Gadget Plugin@{\-G\-P\-S Gadget Plugin}}
+\subsubsection[{$\sim$\-N\-M\-E\-A\-Parser}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-N\-M\-E\-A\-Parser\-::$\sim$\-N\-M\-E\-A\-Parser} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___g_p_s_gadget_plugin_gaedf659d241eff03757c31f3b80697f89}
+
+
+\-Definition at line 74 of file nmeaparser.\-cpp.
+
+\hypertarget{group___g_p_s_gadget_plugin_ga9a05a4fb6f18cdc568bc4e8f52534977}{\index{\-G\-P\-S Gadget Plugin@{\-G\-P\-S Gadget Plugin}!$\sim$\-Telemetry\-Parser@{$\sim$\-Telemetry\-Parser}}
+\index{$\sim$\-Telemetry\-Parser@{$\sim$\-Telemetry\-Parser}!GPS Gadget Plugin@{\-G\-P\-S Gadget Plugin}}
+\subsubsection[{$\sim$\-Telemetry\-Parser}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Telemetry\-Parser\-::$\sim$\-Telemetry\-Parser} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___g_p_s_gadget_plugin_ga9a05a4fb6f18cdc568bc4e8f52534977}
+
+
+\subsection{\-Variable \-Documentation}
+\hypertarget{group___g_p_s_gadget_plugin_ga7114820c879b9cfa5c6511ee87fb7837}{\index{\-G\-P\-S Gadget Plugin@{\-G\-P\-S Gadget Plugin}!\-Altitude@{\-Altitude}}
+\index{\-Altitude@{\-Altitude}!GPS Gadget Plugin@{\-G\-P\-S Gadget Plugin}}
+\subsubsection[{\-Altitude}]{\setlength{\rightskip}{0pt plus 5cm}double {\bf struct\-\_\-\-Gps\-Data\-::\-Altitude}}}\label{group___g_p_s_gadget_plugin_ga7114820c879b9cfa5c6511ee87fb7837}
+
+
+\-Definition at line 44 of file nmeaparser.\-h.
+
+\hypertarget{group___g_p_s_gadget_plugin_ga847e7e6776a9a2cdaf8c4cf0ce8e31ae}{\index{\-G\-P\-S Gadget Plugin@{\-G\-P\-S Gadget Plugin}!\-Geoid\-Separation@{\-Geoid\-Separation}}
+\index{\-Geoid\-Separation@{\-Geoid\-Separation}!GPS Gadget Plugin@{\-G\-P\-S Gadget Plugin}}
+\subsubsection[{\-Geoid\-Separation}]{\setlength{\rightskip}{0pt plus 5cm}double {\bf struct\-\_\-\-Gps\-Data\-::\-Geoid\-Separation}}}\label{group___g_p_s_gadget_plugin_ga847e7e6776a9a2cdaf8c4cf0ce8e31ae}
+
+
+\-Definition at line 52 of file nmeaparser.\-h.
+
+\hypertarget{group___g_p_s_gadget_plugin_ga5ed5a691ba188edd73dbfa5e6a72ee31}{\index{\-G\-P\-S Gadget Plugin@{\-G\-P\-S Gadget Plugin}!\-Gps\-Data@{\-Gps\-Data}}
+\index{\-Gps\-Data@{\-Gps\-Data}!GPS Gadget Plugin@{\-G\-P\-S Gadget Plugin}}
+\subsubsection[{\-Gps\-Data}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Gps\-Data\-\_\-t} {\bf \-N\-M\-E\-A\-Parser\-::\-Gps\-Data}}}\label{group___g_p_s_gadget_plugin_ga5ed5a691ba188edd73dbfa5e6a72ee31}
+
+
+\-Definition at line 76 of file nmeaparser.\-h.
+
+\hypertarget{group___g_p_s_gadget_plugin_ga5556ea2f7e4f0fb213a319e72a5961eb}{\index{\-G\-P\-S Gadget Plugin@{\-G\-P\-S Gadget Plugin}!\-G\-P\-Sdate@{\-G\-P\-Sdate}}
+\index{\-G\-P\-Sdate@{\-G\-P\-Sdate}!GPS Gadget Plugin@{\-G\-P\-S Gadget Plugin}}
+\subsubsection[{\-G\-P\-Sdate}]{\setlength{\rightskip}{0pt plus 5cm}double {\bf struct\-\_\-\-Gps\-Data\-::\-G\-P\-Sdate}}}\label{group___g_p_s_gadget_plugin_ga5556ea2f7e4f0fb213a319e72a5961eb}
+
+
+\-Definition at line 54 of file nmeaparser.\-h.
+
+\hypertarget{group___g_p_s_gadget_plugin_gae55785b07246236cfe8d6c3139becff1}{\index{\-G\-P\-S Gadget Plugin@{\-G\-P\-S Gadget Plugin}!gps\-Rx\-Buffer@{gps\-Rx\-Buffer}}
+\index{gps\-Rx\-Buffer@{gps\-Rx\-Buffer}!GPS Gadget Plugin@{\-G\-P\-S Gadget Plugin}}
+\subsubsection[{gps\-Rx\-Buffer}]{\setlength{\rightskip}{0pt plus 5cm}{\bf c\-Buffer} {\bf \-N\-M\-E\-A\-Parser\-::gps\-Rx\-Buffer}}}\label{group___g_p_s_gadget_plugin_gae55785b07246236cfe8d6c3139becff1}
+
+
+\-Definition at line 77 of file nmeaparser.\-h.
+
+\hypertarget{group___g_p_s_gadget_plugin_gaef781170a93672b3bbc887fcabdcb369}{\index{\-G\-P\-S Gadget Plugin@{\-G\-P\-S Gadget Plugin}!gps\-Rx\-Data@{gps\-Rx\-Data}}
+\index{gps\-Rx\-Data@{gps\-Rx\-Data}!GPS Gadget Plugin@{\-G\-P\-S Gadget Plugin}}
+\subsubsection[{gps\-Rx\-Data}]{\setlength{\rightskip}{0pt plus 5cm}char {\bf \-N\-M\-E\-A\-Parser\-::gps\-Rx\-Data}\mbox{[}512\mbox{]}}}\label{group___g_p_s_gadget_plugin_gaef781170a93672b3bbc887fcabdcb369}
+
+
+\-Definition at line 78 of file nmeaparser.\-h.
+
+\hypertarget{group___g_p_s_gadget_plugin_gaf0b70b48a4a5943f40dc14c11b8e0712}{\index{\-G\-P\-S Gadget Plugin@{\-G\-P\-S Gadget Plugin}!gps\-Rx\-Overflow@{gps\-Rx\-Overflow}}
+\index{gps\-Rx\-Overflow@{gps\-Rx\-Overflow}!GPS Gadget Plugin@{\-G\-P\-S Gadget Plugin}}
+\subsubsection[{gps\-Rx\-Overflow}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-N\-M\-E\-A\-Parser\-::gps\-Rx\-Overflow}}}\label{group___g_p_s_gadget_plugin_gaf0b70b48a4a5943f40dc14c11b8e0712}
+
+
+\-Definition at line 82 of file nmeaparser.\-h.
+
+\hypertarget{group___g_p_s_gadget_plugin_gaeedda11a0db9fe353ca149906deccb9f}{\index{\-G\-P\-S Gadget Plugin@{\-G\-P\-S Gadget Plugin}!\-G\-P\-Stime@{\-G\-P\-Stime}}
+\index{\-G\-P\-Stime@{\-G\-P\-Stime}!GPS Gadget Plugin@{\-G\-P\-S Gadget Plugin}}
+\subsubsection[{\-G\-P\-Stime}]{\setlength{\rightskip}{0pt plus 5cm}double {\bf struct\-\_\-\-Gps\-Data\-::\-G\-P\-Stime}}}\label{group___g_p_s_gadget_plugin_gaeedda11a0db9fe353ca149906deccb9f}
+
+
+\-Definition at line 53 of file nmeaparser.\-h.
+
+\hypertarget{group___g_p_s_gadget_plugin_ga96522460814507cd49570c6edbecdc4a}{\index{\-G\-P\-S Gadget Plugin@{\-G\-P\-S Gadget Plugin}!\-Groundspeed@{\-Groundspeed}}
+\index{\-Groundspeed@{\-Groundspeed}!GPS Gadget Plugin@{\-G\-P\-S Gadget Plugin}}
+\subsubsection[{\-Groundspeed}]{\setlength{\rightskip}{0pt plus 5cm}double {\bf struct\-\_\-\-Gps\-Data\-::\-Groundspeed}}}\label{group___g_p_s_gadget_plugin_ga96522460814507cd49570c6edbecdc4a}
+
+
+\-Definition at line 45 of file nmeaparser.\-h.
+
+\hypertarget{group___g_p_s_gadget_plugin_ga7bea5e7cb8f6a97c8b2be703401218e3}{\index{\-G\-P\-S Gadget Plugin@{\-G\-P\-S Gadget Plugin}!\-H\-D\-O\-P@{\-H\-D\-O\-P}}
+\index{\-H\-D\-O\-P@{\-H\-D\-O\-P}!GPS Gadget Plugin@{\-G\-P\-S Gadget Plugin}}
+\subsubsection[{\-H\-D\-O\-P}]{\setlength{\rightskip}{0pt plus 5cm}double {\bf struct\-\_\-\-Gps\-Data\-::\-H\-D\-O\-P}}}\label{group___g_p_s_gadget_plugin_ga7bea5e7cb8f6a97c8b2be703401218e3}
+
+
+\-Definition at line 50 of file nmeaparser.\-h.
+
+\hypertarget{group___g_p_s_gadget_plugin_ga11eede30f67268e28aac52350a2de20c}{\index{\-G\-P\-S Gadget Plugin@{\-G\-P\-S Gadget Plugin}!\-Heading@{\-Heading}}
+\index{\-Heading@{\-Heading}!GPS Gadget Plugin@{\-G\-P\-S Gadget Plugin}}
+\subsubsection[{\-Heading}]{\setlength{\rightskip}{0pt plus 5cm}double {\bf struct\-\_\-\-Gps\-Data\-::\-Heading}}}\label{group___g_p_s_gadget_plugin_ga11eede30f67268e28aac52350a2de20c}
+
+
+\-Definition at line 46 of file nmeaparser.\-h.
+
+\hypertarget{group___g_p_s_gadget_plugin_ga22dd27dba6f143463f812eda429ca6ea}{\index{\-G\-P\-S Gadget Plugin@{\-G\-P\-S Gadget Plugin}!\-Latitude@{\-Latitude}}
+\index{\-Latitude@{\-Latitude}!GPS Gadget Plugin@{\-G\-P\-S Gadget Plugin}}
+\subsubsection[{\-Latitude}]{\setlength{\rightskip}{0pt plus 5cm}double {\bf struct\-\_\-\-Gps\-Data\-::\-Latitude}}}\label{group___g_p_s_gadget_plugin_ga22dd27dba6f143463f812eda429ca6ea}
+
+
+\-Definition at line 42 of file nmeaparser.\-h.
+
+\hypertarget{group___g_p_s_gadget_plugin_ga63cb298938d490dd35e8a5dbd099f65e}{\index{\-G\-P\-S Gadget Plugin@{\-G\-P\-S Gadget Plugin}!\-Longitude@{\-Longitude}}
+\index{\-Longitude@{\-Longitude}!GPS Gadget Plugin@{\-G\-P\-S Gadget Plugin}}
+\subsubsection[{\-Longitude}]{\setlength{\rightskip}{0pt plus 5cm}double {\bf struct\-\_\-\-Gps\-Data\-::\-Longitude}}}\label{group___g_p_s_gadget_plugin_ga63cb298938d490dd35e8a5dbd099f65e}
+
+
+\-Definition at line 43 of file nmeaparser.\-h.
+
+\hypertarget{group___g_p_s_gadget_plugin_ga3d1bdb9e4264f153e4537750bb8d7fd9}{\index{\-G\-P\-S Gadget Plugin@{\-G\-P\-S Gadget Plugin}!\-Nmea\-Packet@{\-Nmea\-Packet}}
+\index{\-Nmea\-Packet@{\-Nmea\-Packet}!GPS Gadget Plugin@{\-G\-P\-S Gadget Plugin}}
+\subsubsection[{\-Nmea\-Packet}]{\setlength{\rightskip}{0pt plus 5cm}char {\bf \-N\-M\-E\-A\-Parser\-::\-Nmea\-Packet}\mbox{[}\-N\-M\-E\-A\-\_\-\-B\-U\-F\-F\-E\-R\-S\-I\-Z\-E\mbox{]}}}\label{group___g_p_s_gadget_plugin_ga3d1bdb9e4264f153e4537750bb8d7fd9}
+
+
+\-Definition at line 79 of file nmeaparser.\-h.
+
+\hypertarget{group___g_p_s_gadget_plugin_gaef5bd2863b92f02db2ad4ef9e66e9437}{\index{\-G\-P\-S Gadget Plugin@{\-G\-P\-S Gadget Plugin}!num\-Errors@{num\-Errors}}
+\index{num\-Errors@{num\-Errors}!GPS Gadget Plugin@{\-G\-P\-S Gadget Plugin}}
+\subsubsection[{num\-Errors}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t {\bf \-N\-M\-E\-A\-Parser\-::num\-Errors}}}\label{group___g_p_s_gadget_plugin_gaef5bd2863b92f02db2ad4ef9e66e9437}
+
+
+\-Definition at line 81 of file nmeaparser.\-h.
+
+\hypertarget{group___g_p_s_gadget_plugin_ga08ee9a94774bf6691a26d600e1ea51a9}{\index{\-G\-P\-S Gadget Plugin@{\-G\-P\-S Gadget Plugin}!num\-Updates@{num\-Updates}}
+\index{num\-Updates@{num\-Updates}!GPS Gadget Plugin@{\-G\-P\-S Gadget Plugin}}
+\subsubsection[{num\-Updates}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t {\bf \-N\-M\-E\-A\-Parser\-::num\-Updates}}}\label{group___g_p_s_gadget_plugin_ga08ee9a94774bf6691a26d600e1ea51a9}
+
+
+\-Definition at line 80 of file nmeaparser.\-h.
+
+\hypertarget{group___g_p_s_gadget_plugin_ga686c0fa6dc1d7aa494b494fe38bb8834}{\index{\-G\-P\-S Gadget Plugin@{\-G\-P\-S Gadget Plugin}!\-P\-D\-O\-P@{\-P\-D\-O\-P}}
+\index{\-P\-D\-O\-P@{\-P\-D\-O\-P}!GPS Gadget Plugin@{\-G\-P\-S Gadget Plugin}}
+\subsubsection[{\-P\-D\-O\-P}]{\setlength{\rightskip}{0pt plus 5cm}double {\bf struct\-\_\-\-Gps\-Data\-::\-P\-D\-O\-P}}}\label{group___g_p_s_gadget_plugin_ga686c0fa6dc1d7aa494b494fe38bb8834}
+
+
+\-Definition at line 49 of file nmeaparser.\-h.
+
+\hypertarget{group___g_p_s_gadget_plugin_gafecfb74415dbfe5f6bc3c950183eb3b2}{\index{\-G\-P\-S Gadget Plugin@{\-G\-P\-S Gadget Plugin}!\-Status@{\-Status}}
+\index{\-Status@{\-Status}!GPS Gadget Plugin@{\-G\-P\-S Gadget Plugin}}
+\subsubsection[{\-Status}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf struct\-\_\-\-Gps\-Data\-::\-Status}}}\label{group___g_p_s_gadget_plugin_gafecfb74415dbfe5f6bc3c950183eb3b2}
+
+
+\-Definition at line 48 of file nmeaparser.\-h.
+
+\hypertarget{group___g_p_s_gadget_plugin_gad4c8228c92e708ffbf1205af7955a571}{\index{\-G\-P\-S Gadget Plugin@{\-G\-P\-S Gadget Plugin}!\-S\-V@{\-S\-V}}
+\index{\-S\-V@{\-S\-V}!GPS Gadget Plugin@{\-G\-P\-S Gadget Plugin}}
+\subsubsection[{\-S\-V}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf struct\-\_\-\-Gps\-Data\-::\-S\-V}}}\label{group___g_p_s_gadget_plugin_gad4c8228c92e708ffbf1205af7955a571}
+
+
+\-Definition at line 47 of file nmeaparser.\-h.
+
+\hypertarget{group___g_p_s_gadget_plugin_ga0c803c003d3d1261b1519a4b1f561ebe}{\index{\-G\-P\-S Gadget Plugin@{\-G\-P\-S Gadget Plugin}!\-V\-D\-O\-P@{\-V\-D\-O\-P}}
+\index{\-V\-D\-O\-P@{\-V\-D\-O\-P}!GPS Gadget Plugin@{\-G\-P\-S Gadget Plugin}}
+\subsubsection[{\-V\-D\-O\-P}]{\setlength{\rightskip}{0pt plus 5cm}double {\bf struct\-\_\-\-Gps\-Data\-::\-V\-D\-O\-P}}}\label{group___g_p_s_gadget_plugin_ga0c803c003d3d1261b1519a4b1f561ebe}
+
+
+\-Definition at line 51 of file nmeaparser.\-h.
+
+
+
+\subsection{\-Signals}
+\hypertarget{group___g_p_s_gadget_plugin_ga95a0ee3f47dc682adcdfd74c2d06c616}{\index{\-G\-P\-S Gadget Plugin@{\-G\-P\-S Gadget Plugin}!datetime@{datetime}}
+\index{datetime@{datetime}!GPS Gadget Plugin@{\-G\-P\-S Gadget Plugin}}
+\subsubsection[{datetime}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-G\-P\-S\-Parser\-::datetime} (
+\begin{DoxyParamCaption}
+\item[{double}]{, }
+\item[{double}]{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}signal\mbox{]}}}}\label{group___g_p_s_gadget_plugin_ga95a0ee3f47dc682adcdfd74c2d06c616}
+\hypertarget{group___g_p_s_gadget_plugin_ga53672aaf2037c7a9b389c15e69bc4d80}{\index{\-G\-P\-S Gadget Plugin@{\-G\-P\-S Gadget Plugin}!dop@{dop}}
+\index{dop@{dop}!GPS Gadget Plugin@{\-G\-P\-S Gadget Plugin}}
+\subsubsection[{dop}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-G\-P\-S\-Parser\-::dop} (
+\begin{DoxyParamCaption}
+\item[{double}]{, }
+\item[{double}]{, }
+\item[{double}]{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}signal\mbox{]}}}}\label{group___g_p_s_gadget_plugin_ga53672aaf2037c7a9b389c15e69bc4d80}
+\hypertarget{group___g_p_s_gadget_plugin_ga145563ebabd7ea6b135bad3d05cb9085}{\index{\-G\-P\-S Gadget Plugin@{\-G\-P\-S Gadget Plugin}!fixmode@{fixmode}}
+\index{fixmode@{fixmode}!GPS Gadget Plugin@{\-G\-P\-S Gadget Plugin}}
+\subsubsection[{fixmode}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-G\-P\-S\-Parser\-::fixmode} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Q\-String}}]{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}signal\mbox{]}}}}\label{group___g_p_s_gadget_plugin_ga145563ebabd7ea6b135bad3d05cb9085}
+\hypertarget{group___g_p_s_gadget_plugin_gacd7414def0621beab61941370e0dc874}{\index{\-G\-P\-S Gadget Plugin@{\-G\-P\-S Gadget Plugin}!fix\-S\-Vs@{fix\-S\-Vs}}
+\index{fix\-S\-Vs@{fix\-S\-Vs}!GPS Gadget Plugin@{\-G\-P\-S Gadget Plugin}}
+\subsubsection[{fix\-S\-Vs}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-G\-P\-S\-Parser\-::fix\-S\-Vs} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-List$<$ int $>$}]{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}signal\mbox{]}}}}\label{group___g_p_s_gadget_plugin_gacd7414def0621beab61941370e0dc874}
+\hypertarget{group___g_p_s_gadget_plugin_gadccc59d425cbc0c0f8da68a3438e4e22}{\index{\-G\-P\-S Gadget Plugin@{\-G\-P\-S Gadget Plugin}!fixtype@{fixtype}}
+\index{fixtype@{fixtype}!GPS Gadget Plugin@{\-G\-P\-S Gadget Plugin}}
+\subsubsection[{fixtype}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-G\-P\-S\-Parser\-::fixtype} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Q\-String}}]{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}signal\mbox{]}}}}\label{group___g_p_s_gadget_plugin_gadccc59d425cbc0c0f8da68a3438e4e22}
+\hypertarget{group___g_p_s_gadget_plugin_gaa52c8cc41458c01d411d550d1e3f3d96}{\index{\-G\-P\-S Gadget Plugin@{\-G\-P\-S Gadget Plugin}!packet@{packet}}
+\index{packet@{packet}!GPS Gadget Plugin@{\-G\-P\-S Gadget Plugin}}
+\subsubsection[{packet}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-G\-P\-S\-Parser\-::packet} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Q\-String}}]{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}signal\mbox{]}}}}\label{group___g_p_s_gadget_plugin_gaa52c8cc41458c01d411d550d1e3f3d96}
+\hypertarget{group___g_p_s_gadget_plugin_ga07f9008aa82b159a457c64d35fdaa3fc}{\index{\-G\-P\-S Gadget Plugin@{\-G\-P\-S Gadget Plugin}!position@{position}}
+\index{position@{position}!GPS Gadget Plugin@{\-G\-P\-S Gadget Plugin}}
+\subsubsection[{position}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-G\-P\-S\-Parser\-::position} (
+\begin{DoxyParamCaption}
+\item[{double}]{, }
+\item[{double}]{, }
+\item[{double}]{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}signal\mbox{]}}}}\label{group___g_p_s_gadget_plugin_ga07f9008aa82b159a457c64d35fdaa3fc}
+\hypertarget{group___g_p_s_gadget_plugin_gace7bc390ce3acaaf985eafad1b4217b3}{\index{\-G\-P\-S Gadget Plugin@{\-G\-P\-S Gadget Plugin}!satellite@{satellite}}
+\index{satellite@{satellite}!GPS Gadget Plugin@{\-G\-P\-S Gadget Plugin}}
+\subsubsection[{satellite}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-G\-P\-S\-Parser\-::satellite} (
+\begin{DoxyParamCaption}
+\item[{int}]{, }
+\item[{int}]{, }
+\item[{int}]{, }
+\item[{int}]{, }
+\item[{int}]{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}signal\mbox{]}}}}\label{group___g_p_s_gadget_plugin_gace7bc390ce3acaaf985eafad1b4217b3}
+\hypertarget{group___g_p_s_gadget_plugin_gad43cce1299e39b4fd4f9c43eb2ebbf67}{\index{\-G\-P\-S Gadget Plugin@{\-G\-P\-S Gadget Plugin}!speedheading@{speedheading}}
+\index{speedheading@{speedheading}!GPS Gadget Plugin@{\-G\-P\-S Gadget Plugin}}
+\subsubsection[{speedheading}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-G\-P\-S\-Parser\-::speedheading} (
+\begin{DoxyParamCaption}
+\item[{double}]{, }
+\item[{double}]{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}signal\mbox{]}}}}\label{group___g_p_s_gadget_plugin_gad43cce1299e39b4fd4f9c43eb2ebbf67}
+\hypertarget{group___g_p_s_gadget_plugin_ga5a65377c76fbafb57f377266034c7396}{\index{\-G\-P\-S Gadget Plugin@{\-G\-P\-S Gadget Plugin}!sv@{sv}}
+\index{sv@{sv}!GPS Gadget Plugin@{\-G\-P\-S Gadget Plugin}}
+\subsubsection[{sv}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-G\-P\-S\-Parser\-::sv} (
+\begin{DoxyParamCaption}
+\item[{int}]{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}signal\mbox{]}}}}\label{group___g_p_s_gadget_plugin_ga5a65377c76fbafb57f377266034c7396}
+
+
+\subsection{\-Public \-Slots}
+\hypertarget{group___g_p_s_gadget_plugin_ga23030a328c534cd4b1eea152db173655}{\index{\-G\-P\-S Gadget Plugin@{\-G\-P\-S Gadget Plugin}!on\-Connect@{on\-Connect}}
+\index{on\-Connect@{on\-Connect}!GPS Gadget Plugin@{\-G\-P\-S Gadget Plugin}}
+\subsubsection[{on\-Connect}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Gps\-Display\-Gadget\-::on\-Connect} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}slot\mbox{]}}}}\label{group___g_p_s_gadget_plugin_ga23030a328c534cd4b1eea152db173655}
+
+
+\-Definition at line 123 of file gpsdisplaygadget.\-cpp.
+
+\hypertarget{group___g_p_s_gadget_plugin_ga3f91bba10918be6c7bd99533e61883ac}{\index{\-G\-P\-S Gadget Plugin@{\-G\-P\-S Gadget Plugin}!on\-Disconnect@{on\-Disconnect}}
+\index{on\-Disconnect@{on\-Disconnect}!GPS Gadget Plugin@{\-G\-P\-S Gadget Plugin}}
+\subsubsection[{on\-Disconnect}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Gps\-Display\-Gadget\-::on\-Disconnect} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}slot\mbox{]}}}}\label{group___g_p_s_gadget_plugin_ga3f91bba10918be6c7bd99533e61883ac}
+
+
+\-Definition at line 141 of file gpsdisplaygadget.\-cpp.
+
+\hypertarget{group___g_p_s_gadget_plugin_ga9b1c1509701c154ad1c3cdeef0cb522b}{\index{\-G\-P\-S Gadget Plugin@{\-G\-P\-S Gadget Plugin}!update\-G\-P\-S@{update\-G\-P\-S}}
+\index{update\-G\-P\-S@{update\-G\-P\-S}!GPS Gadget Plugin@{\-G\-P\-S Gadget Plugin}}
+\subsubsection[{update\-G\-P\-S}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Telemetry\-Parser\-::update\-G\-P\-S} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-U\-A\-V\-Object} $\ast$}]{object1}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}slot\mbox{]}}}}\label{group___g_p_s_gadget_plugin_ga9b1c1509701c154ad1c3cdeef0cb522b}
+\hypertarget{group___g_p_s_gadget_plugin_gaa995e2d09a888698ad0aae9ba0a91ebf}{\index{\-G\-P\-S Gadget Plugin@{\-G\-P\-S Gadget Plugin}!update\-Sat@{update\-Sat}}
+\index{update\-Sat@{update\-Sat}!GPS Gadget Plugin@{\-G\-P\-S Gadget Plugin}}
+\subsubsection[{update\-Sat}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Gps\-Constellation\-Widget\-::update\-Sat} (
+\begin{DoxyParamCaption}
+\item[{int}]{index, }
+\item[{int}]{prn, }
+\item[{int}]{elevation, }
+\item[{int}]{azimuth, }
+\item[{int}]{snr}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}slot\mbox{]}}}}\label{group___g_p_s_gadget_plugin_gaa995e2d09a888698ad0aae9ba0a91ebf}
+
+
+\-Definition at line 113 of file gpsconstellationwidget.\-cpp.
+
+\hypertarget{group___g_p_s_gadget_plugin_ga3bdc5591ff2751d19016d60668b18440}{\index{\-G\-P\-S Gadget Plugin@{\-G\-P\-S Gadget Plugin}!update\-Sats@{update\-Sats}}
+\index{update\-Sats@{update\-Sats}!GPS Gadget Plugin@{\-G\-P\-S Gadget Plugin}}
+\subsubsection[{update\-Sats}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Telemetry\-Parser\-::update\-Sats} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-U\-A\-V\-Object} $\ast$}]{object1}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}slot\mbox{]}}}}\label{group___g_p_s_gadget_plugin_ga3bdc5591ff2751d19016d60668b18440}
+\-Updates the satellite constellation.
+
+\-Not really optimized for now, we should only send updates for the stas which have changed instead of updating everything... \-That said, \-Qt is supposed to be able to optimize redraws anyway. 
+
+\-Definition at line 114 of file telemetryparser.\-cpp.
+
+\hypertarget{group___g_p_s_gadget_plugin_gadc9bd95e3443207fbededb6a3fd014a7}{\index{\-G\-P\-S Gadget Plugin@{\-G\-P\-S Gadget Plugin}!update\-Time@{update\-Time}}
+\index{update\-Time@{update\-Time}!GPS Gadget Plugin@{\-G\-P\-S Gadget Plugin}}
+\subsubsection[{update\-Time}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Telemetry\-Parser\-::update\-Time} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-U\-A\-V\-Object} $\ast$}]{object1}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}slot\mbox{]}}}}\label{group___g_p_s_gadget_plugin_gadc9bd95e3443207fbededb6a3fd014a7}
+
+
+\-Definition at line 95 of file telemetryparser.\-cpp.
+

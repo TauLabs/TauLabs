@@ -1,0 +1,65 @@
+\hypertarget{class_p_f_d_gadget_widget}{\section{\-P\-F\-D\-Gadget\-Widget \-Class \-Reference}
+\label{class_p_f_d_gadget_widget}\index{\-P\-F\-D\-Gadget\-Widget@{\-P\-F\-D\-Gadget\-Widget}}
+}
+
+
+{\ttfamily \#include $<$pfdgadgetwidget.\-h$>$}
+
+\subsection*{\-Public \-Slots}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___p_f_d_plugin_ga3cedb8f54fcd0c4662e91b56c6043fc2}{update\-Attitude} (\hyperlink{class_u_a_v_object}{\-U\-A\-V\-Object} $\ast$object1)
+\begin{DoxyCompactList}\small\item\em \-Reads the updated attitude and computes the new display position. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___p_f_d_plugin_ga4d4bf76026c83f20e97e02adb4cf46f7}{update\-Heading} (\hyperlink{class_u_a_v_object}{\-U\-A\-V\-Object} $\ast$object1)
+\begin{DoxyCompactList}\small\item\em \-Updates the compass reading and speed dial. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_plugin_ga469cc6075704bce32507f7561422a3ff}{update\-G\-P\-S} (\hyperlink{class_u_a_v_object}{\-U\-A\-V\-Object} $\ast$object1)
+\begin{DoxyCompactList}\small\item\em \-Updates the \-G\-P\-S stats. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_plugin_gafcdd8249475fe6543b75829cdc19b279}{update\-Groundspeed} (\hyperlink{class_u_a_v_object}{\-U\-A\-V\-Object} $\ast$object1)
+\begin{DoxyCompactList}\small\item\em \-Called by updates to  to compute groundspeed from velocity. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_plugin_gac2bff4b3471fe9c088578d0d274716c6}{update\-Airspeed} (\hyperlink{class_u_a_v_object}{\-U\-A\-V\-Object} $\ast$object1)
+\begin{DoxyCompactList}\small\item\em \-Called by updates to . \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_plugin_ga2502b994bd991dec300fec210a41d06c}{update\-Altitude} (\hyperlink{class_u_a_v_object}{\-U\-A\-V\-Object} $\ast$object1)
+\begin{DoxyCompactList}\small\item\em \-Called by the \-Position\-Actual updates to show altitude. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_plugin_ga098f60a9fd8da31477dcba4496d0f322}{update\-Battery} (\hyperlink{class_u_a_v_object}{\-U\-A\-V\-Object} $\ast$object1)
+\begin{DoxyCompactList}\small\item\em \-Called by the \hyperlink{class_u_a_v_object}{\-U\-A\-V\-Object} which got updated. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_plugin_ga2ac4d982767aaefdeb40a4b506c57497}{update\-Link\-Status} (\hyperlink{class_u_a_v_object}{\-U\-A\-V\-Object} $\ast$object1)
+\begin{DoxyCompactList}\small\item\em \-Updates the link stats. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Public \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___o_p_map_plugin_ga17d40a36b34086eea9ceb1007e56ae57}{\-P\-F\-D\-Gadget\-Widget} (\-Q\-Widget $\ast$parent=0)
+\item 
+\hyperlink{group___o_p_map_plugin_ga6e0515cffb2a380be1ecec650da18f4d}{$\sim$\-P\-F\-D\-Gadget\-Widget} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___p_f_d_plugin_ga2de7c848eacd359fc56a4c2a8c2b6aaf}{set\-Dial\-File} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} dfn)
+\begin{DoxyCompactList}\small\item\em \-Sets up the \-P\-F\-D from the \-S\-V\-G master file. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_plugin_ga62f5dc20f4d0cbc357f70b0661484695}{paint} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___p_f_d_plugin_ga0fa94b6084a622184f38a1ef0d259792}{connect\-Needles} ()
+\begin{DoxyCompactList}\small\item\em \-Connects the widget to the relevant \-U\-A\-V\-Objects. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_plugin_gadbda4e66095d596d888dbbb05e4edbcd}{enable\-Open\-G\-L} (bool flag)
+\begin{DoxyCompactList}\small\item\em \-Enables/\-Disables \-Open\-G\-L. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_plugin_gab8b36af02b4938286d29131fbc633744}{set\-Hq\-Fonts} (bool flag)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_plugin_ga2c92de52a19bc7483773b7cb14c118f6}{enable\-Smooth\-Updates} (bool flag)
+\end{DoxyCompactItemize}
+\subsection*{\-Protected \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_plugin_gaf2685b40cf25a74f35cc9829ca64c774}{paint\-Event} (\-Q\-Paint\-Event $\ast$event)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_plugin_gabdb991171226a4eea59b92bc2daf7bc9}{resize\-Event} (\-Q\-Resize\-Event $\ast$event)
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+
+
+\-Definition at line 42 of file pfdgadgetwidget.\-h.
+
+
+
+\-The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/plugins/pfd/\hyperlink{pfdgadgetwidget_8h}{pfdgadgetwidget.\-h}\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/plugins/pfd/\hyperlink{pfdgadgetwidget_8cpp}{pfdgadgetwidget.\-cpp}\end{DoxyCompactItemize}

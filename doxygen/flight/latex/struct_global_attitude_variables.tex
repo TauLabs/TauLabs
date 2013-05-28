@@ -1,0 +1,48 @@
+\hypertarget{struct_global_attitude_variables}{\section{\-Global\-Attitude\-Variables \-Struct \-Reference}
+\label{struct_global_attitude_variables}\index{\-Global\-Attitude\-Variables@{\-Global\-Attitude\-Variables}}
+}
+
+
+{\ttfamily \#include $<$state\-\_\-struct.\-h$>$}
+
+\subsection*{\-Data \-Fields}
+\begin{DoxyCompactItemize}
+\item 
+float \hyperlink{group___state_estimation_filters_ga0a9a06d18d9d208192de6edeed98fbe8}{accel\-Ki}
+\begin{DoxyCompactList}\small\item\em \-How fast to estimate the gyro bias. \end{DoxyCompactList}\item 
+float \hyperlink{group___state_estimation_filters_gaf9246ddec8582b6b47b752019c29b2e4}{accel\-Kp}
+\begin{DoxyCompactList}\small\item\em \-How much to change the attitude based on accelerometer data. \end{DoxyCompactList}\item 
+float \hyperlink{group___state_estimation_filters_ga0c53c008608a5724b2d563fd5b560905}{yaw\-Bias\-Rate}
+\begin{DoxyCompactList}\small\item\em \-Sets the rate when assuming that average yaw is zero to null out yaw error. \end{DoxyCompactList}\item 
+float \hyperlink{group___state_estimation_filters_gac754011cf55a0c78cb770e48567802ba}{gyro\-\_\-correct\-\_\-int} \mbox{[}3\mbox{]}
+\begin{DoxyCompactList}\small\item\em \-Current etimate of the gyro bias. \end{DoxyCompactList}\item 
+float \hyperlink{group___state_estimation_filters_ga34a6662a3aea49780925afa629a917cf}{q} \mbox{[}4\mbox{]}
+\begin{DoxyCompactList}\small\item\em \-Local copy of current estimate of the attitude. \end{DoxyCompactList}\item 
+float \hyperlink{group___state_estimation_filters_ga45b3fda0427f0fab27b88df83ae9108d}{\-T} \mbox{[}3\mbox{]}
+\begin{DoxyCompactList}\small\item\em \-Transformation from \-L\-L\-A to \-N\-E\-D. \end{DoxyCompactList}\item 
+bool \hyperlink{group___state_estimation_filters_gad5da7bf77c18e9d5990d4b6d6f28477e}{rotate}
+\begin{DoxyCompactList}\small\item\em \-Whether to rotate data from the sensor board frame to the body frame (if the frames are different) \end{DoxyCompactList}\item 
+float \hyperlink{group___state_estimation_filters_ga6c34048525801ac0e7e26eb733c759d5}{\-Rbs} \mbox{[}3\mbox{]}\mbox{[}3\mbox{]}
+\begin{DoxyCompactList}\small\item\em \-Rotation matrix that transforms from the sensor board frame to the body frame. \end{DoxyCompactList}\item 
+bool \hyperlink{group___state_estimation_filters_gaa625401f5bc69c19b54b3171703f37f9}{zero\-\_\-during\-\_\-arming}
+\begin{DoxyCompactList}\small\item\em \-Indicates to estimate the gyro bias again while arming (faster convergence) \end{DoxyCompactList}\item 
+bool \hyperlink{group___state_estimation_filters_ga3df4e05bd900b439ad746cbadce667d5}{bias\-\_\-correct\-\_\-gyro}
+\begin{DoxyCompactList}\small\item\em \-Whether to apply the estimate of gyro bias to the data in the \-U\-A\-V\-O. \end{DoxyCompactList}\item 
+bool \hyperlink{group___state_estimation_filters_ga1b90881e0b0eb5aa9cf39d0ba8ef5e0d}{trim\-\_\-requested}
+\item 
+float \hyperlink{group___state_estimation_filters_ga8941c16a263cb020587ef58dd38f8281}{trim\-\_\-accels} \mbox{[}3\mbox{]}
+\begin{DoxyCompactList}\small\item\em \-Accumulator for the accel data during trimming. \end{DoxyCompactList}\item 
+int32\-\_\-t \hyperlink{group___state_estimation_filters_ga9e5b2790cd84db83278b3c8c289ea411}{trim\-\_\-samples}
+\begin{DoxyCompactList}\small\item\em \-Counter of how many accel samples have been accumulated. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+
+
+\-Definition at line 39 of file state\-\_\-struct.\-h.
+
+
+
+\-The documentation for this struct was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/home/jb/code/\-Tau\-Labs/flight/\-Libraries/\-State\-Estimation\-Filters/inc/\hyperlink{state__struct_8h}{state\-\_\-struct.\-h}\end{DoxyCompactItemize}

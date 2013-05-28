@@ -1,0 +1,407 @@
+\hypertarget{group___p_i_o_s___f_l_a_s_h_f_s}{\section{\-Flash \-Filesystem \-Function}
+\label{group___p_i_o_s___f_l_a_s_h_f_s}\index{\-Flash Filesystem Function@{\-Flash Filesystem Function}}
+}
+
+
+\-Log \-Structured \-Filesystem for internal or external \-N\-O\-R \-Flash.  
+
+
+\subsection*{\-Data \-Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structlogfs__state}{logfs\-\_\-state}
+\item 
+struct \hyperlink{structarena__header}{arena\-\_\-header}
+\item 
+struct \hyperlink{structslot__header}{slot\-\_\-header}
+\item 
+struct \hyperlink{structflashfs__logfs__cfg}{flashfs\-\_\-logfs\-\_\-cfg}
+\end{DoxyCompactItemize}
+\subsection*{\-Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{group___p_i_o_s___f_l_a_s_h_f_s_ga27472bb2a0fbfb6302378ef138c6a41f}{pios\-\_\-flashfs\-\_\-logfs\-\_\-dev\-\_\-magic} \{ \hyperlink{group___p_i_o_s___f_l_a_s_h_f_s_gga27472bb2a0fbfb6302378ef138c6a41fa48f1badb0700a4f00d8da2af591f701b}{\-P\-I\-O\-S\-\_\-\-F\-L\-A\-S\-H\-F\-S\-\_\-\-L\-O\-G\-F\-S\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C} =  0x94938201
+ \}
+\item 
+enum \hyperlink{group___p_i_o_s___f_l_a_s_h_f_s_gaa936149cfd5559190d20879c10e0fcee}{arena\-\_\-state} \{ \hyperlink{group___p_i_o_s___f_l_a_s_h_f_s_ggaa936149cfd5559190d20879c10e0fceea0868f5f69dae5f489f86f324fb2ec026}{\-A\-R\-E\-N\-A\-\_\-\-S\-T\-A\-T\-E\-\_\-\-E\-R\-A\-S\-E\-D} =  0x\-F\-F\-F\-F\-F\-F\-F\-F, 
+\hyperlink{group___p_i_o_s___f_l_a_s_h_f_s_ggaa936149cfd5559190d20879c10e0fceeac20424e4b3a3a918490e8c307996fe7c}{\-A\-R\-E\-N\-A\-\_\-\-S\-T\-A\-T\-E\-\_\-\-R\-E\-S\-E\-R\-V\-E\-D} =  0x\-E6\-E6\-F\-F\-F\-F, 
+\hyperlink{group___p_i_o_s___f_l_a_s_h_f_s_ggaa936149cfd5559190d20879c10e0fceea8bac821a323307ac4aa7b2de12f4896b}{\-A\-R\-E\-N\-A\-\_\-\-S\-T\-A\-T\-E\-\_\-\-A\-C\-T\-I\-V\-E} =  0x\-E6\-E66666, 
+\hyperlink{group___p_i_o_s___f_l_a_s_h_f_s_ggaa936149cfd5559190d20879c10e0fceea3943698e7097dd06c6b54f71548d426e}{\-A\-R\-E\-N\-A\-\_\-\-S\-T\-A\-T\-E\-\_\-\-O\-B\-S\-O\-L\-E\-T\-E} =  0x00000000
+ \}
+\item 
+enum \hyperlink{group___p_i_o_s___f_l_a_s_h_f_s_ga7df58e5fca7cec32767a0481da453e74}{slot\-\_\-state} \{ \hyperlink{group___p_i_o_s___f_l_a_s_h_f_s_gga7df58e5fca7cec32767a0481da453e74a3ec4030cfe6de3e15e9ce08f12c91734}{\-S\-L\-O\-T\-\_\-\-S\-T\-A\-T\-E\-\_\-\-E\-M\-P\-T\-Y} =  0x\-F\-F\-F\-F\-F\-F\-F\-F, 
+\hyperlink{group___p_i_o_s___f_l_a_s_h_f_s_gga7df58e5fca7cec32767a0481da453e74acf379d22c045f40511eab34f8aafba5e}{\-S\-L\-O\-T\-\_\-\-S\-T\-A\-T\-E\-\_\-\-R\-E\-S\-E\-R\-V\-E\-D} =  0x\-F\-A\-F\-A\-F\-F\-F\-F, 
+\hyperlink{group___p_i_o_s___f_l_a_s_h_f_s_gga7df58e5fca7cec32767a0481da453e74acf5fd7f439ede2b21808a3edc1acc4f4}{\-S\-L\-O\-T\-\_\-\-S\-T\-A\-T\-E\-\_\-\-A\-C\-T\-I\-V\-E} =  0x\-F\-A\-F\-A\-A\-A\-A\-A, 
+\hyperlink{group___p_i_o_s___f_l_a_s_h_f_s_gga7df58e5fca7cec32767a0481da453e74aff81f83249791cda333bde0850150ccc}{\-S\-L\-O\-T\-\_\-\-S\-T\-A\-T\-E\-\_\-\-O\-B\-S\-O\-L\-E\-T\-E} =  0x00000000
+ \}
+\end{DoxyCompactItemize}
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structarena__header}{arena\-\_\-header} \hyperlink{group___p_i_o_s___f_l_a_s_h_f_s_gaf0823c3e99bb9ab51cfc8a807339ad1b}{\-\_\-\-\_\-attribute\-\_\-\-\_\-} ((packed))
+\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___f_l_a_s_h_f_s_ga2597ca18b2f818f6b2aee1e29cc661e2}{\-P\-I\-O\-S\-\_\-\-F\-L\-A\-S\-H\-F\-S\-\_\-\-Logfs\-\_\-\-Init} (uintptr\-\_\-t $\ast$fs\-\_\-id, const struct \hyperlink{structflashfs__logfs__cfg}{flashfs\-\_\-logfs\-\_\-cfg} $\ast$cfg, const struct \hyperlink{structpios__flash__driver}{pios\-\_\-flash\-\_\-driver} $\ast$driver, uintptr\-\_\-t flash\-\_\-id)
+\begin{DoxyCompactList}\small\item\em \-Initialize the flash object setting \-F\-S. \end{DoxyCompactList}\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___f_l_a_s_h_f_s_ga2fdf3f16270fb9c7f85a4c7a9bfce2ce}{\-P\-I\-O\-S\-\_\-\-F\-L\-A\-S\-H\-F\-S\-\_\-\-Logfs\-\_\-\-Destroy} (uintptr\-\_\-t fs\-\_\-id)
+\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___f_l_a_s_h_f_s_ga2566e681162e422c1457f10146eda492}{\-P\-I\-O\-S\-\_\-\-F\-L\-A\-S\-H\-F\-S\-\_\-\-Obj\-Save} (uintptr\-\_\-t fs\-\_\-id, uint32\-\_\-t \hyperlink{pios__flashfs__logfs_8c_a4901f00431a2c948153bd4f187fce556}{obj\-\_\-id}, uint16\-\_\-t \hyperlink{pios__flashfs__logfs_8c_a7930e82075aa4e3326ad9615090b5d61}{obj\-\_\-inst\-\_\-id}, uint8\-\_\-t $\ast$obj\-\_\-data, uint16\-\_\-t \hyperlink{pios__flashfs__logfs_8c_acd6c9a9729f524a58be43afcb2d0782a}{obj\-\_\-size})
+\begin{DoxyCompactList}\small\item\em \-Saves one object instance to the filesystem. \end{DoxyCompactList}\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___f_l_a_s_h_f_s_ga159a3e2681cd03a6512dd59348c8a764}{\-P\-I\-O\-S\-\_\-\-F\-L\-A\-S\-H\-F\-S\-\_\-\-Obj\-Load} (uintptr\-\_\-t fs\-\_\-id, uint32\-\_\-t \hyperlink{pios__flashfs__logfs_8c_a4901f00431a2c948153bd4f187fce556}{obj\-\_\-id}, uint16\-\_\-t \hyperlink{pios__flashfs__logfs_8c_a7930e82075aa4e3326ad9615090b5d61}{obj\-\_\-inst\-\_\-id}, uint8\-\_\-t $\ast$obj\-\_\-data, uint16\-\_\-t \hyperlink{pios__flashfs__logfs_8c_acd6c9a9729f524a58be43afcb2d0782a}{obj\-\_\-size})
+\begin{DoxyCompactList}\small\item\em \-Load one object instance from the filesystem. \end{DoxyCompactList}\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___f_l_a_s_h_f_s_ga93a9e7b90c573b3784dd52781bf11e93}{\-P\-I\-O\-S\-\_\-\-F\-L\-A\-S\-H\-F\-S\-\_\-\-Obj\-Delete} (uintptr\-\_\-t fs\-\_\-id, uint32\-\_\-t \hyperlink{pios__flashfs__logfs_8c_a4901f00431a2c948153bd4f187fce556}{obj\-\_\-id}, uint16\-\_\-t \hyperlink{pios__flashfs__logfs_8c_a7930e82075aa4e3326ad9615090b5d61}{obj\-\_\-inst\-\_\-id})
+\begin{DoxyCompactList}\small\item\em \-Delete one instance of an object from the filesystem. \end{DoxyCompactList}\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___f_l_a_s_h_f_s_ga9dccc10d534e33e6b52df18f60d27a58}{\-P\-I\-O\-S\-\_\-\-F\-L\-A\-S\-H\-F\-S\-\_\-\-Format} (uintptr\-\_\-t fs\-\_\-id)
+\begin{DoxyCompactList}\small\item\em \-Erases all filesystem arenas and activate the first arena. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Variables}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{group___p_i_o_s___f_l_a_s_h_f_s_ga7df58e5fca7cec32767a0481da453e74}{slot\-\_\-state} \hyperlink{group___p_i_o_s___f_l_a_s_h_f_s_ga043afd6646bf00b1155399e12818f798}{\-\_\-\-\_\-attribute\-\_\-\-\_\-}
+\item 
+uint32\-\_\-t \hyperlink{group___p_i_o_s___f_l_a_s_h_f_s_ga1fe17f8582e422dfe871844653d7d6f9}{flashfs\-\_\-logfs\-\_\-cfg\-::fs\-\_\-magic}
+\item 
+uint32\-\_\-t \hyperlink{group___p_i_o_s___f_l_a_s_h_f_s_ga36ee534fa25bdd1bece22e997e3ba800}{flashfs\-\_\-logfs\-\_\-cfg\-::total\-\_\-fs\-\_\-size}
+\item 
+uint32\-\_\-t \hyperlink{group___p_i_o_s___f_l_a_s_h_f_s_ga838dc01d5c7c1796252597dbb2d1dc04}{flashfs\-\_\-logfs\-\_\-cfg\-::arena\-\_\-size}
+\item 
+uint32\-\_\-t \hyperlink{group___p_i_o_s___f_l_a_s_h_f_s_gac9f1463cfe49a3b517bf6c1e44bbb087}{flashfs\-\_\-logfs\-\_\-cfg\-::slot\-\_\-size}
+\item 
+uint32\-\_\-t \hyperlink{group___p_i_o_s___f_l_a_s_h_f_s_ga2a71336371b265bddac688b27ebcb94c}{flashfs\-\_\-logfs\-\_\-cfg\-::start\-\_\-offset}
+\item 
+uint32\-\_\-t \hyperlink{group___p_i_o_s___f_l_a_s_h_f_s_ga8251b6447774f97389ec08c71e1ed54b}{flashfs\-\_\-logfs\-\_\-cfg\-::sector\-\_\-size}
+\item 
+uint32\-\_\-t \hyperlink{group___p_i_o_s___f_l_a_s_h_f_s_ga28ddda808f37b1e0a2d6e8ea25c47c59}{flashfs\-\_\-logfs\-\_\-cfg\-::page\-\_\-size}
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-Log \-Structured \-Filesystem for internal or external \-N\-O\-R \-Flash. \-Flash \-Filesystem \-A\-P\-I \-Definition. 
+
+\subsection{\-Enumeration \-Type \-Documentation}
+\hypertarget{group___p_i_o_s___f_l_a_s_h_f_s_gaa936149cfd5559190d20879c10e0fcee}{\index{\-Flash Filesystem Function@{\-Flash Filesystem Function}!arena\-\_\-state@{arena\-\_\-state}}
+\index{arena\-\_\-state@{arena\-\_\-state}!Flash Filesystem Function@{\-Flash Filesystem Function}}
+\subsubsection[{arena\-\_\-state}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf arena\-\_\-state}}}\label{group___p_i_o_s___f_l_a_s_h_f_s_gaa936149cfd5559190d20879c10e0fcee}
+\begin{Desc}
+\item[\-Enumerator\-: ]\par
+\begin{description}
+\index{\-A\-R\-E\-N\-A\-\_\-\-S\-T\-A\-T\-E\-\_\-\-E\-R\-A\-S\-E\-D@{\-A\-R\-E\-N\-A\-\_\-\-S\-T\-A\-T\-E\-\_\-\-E\-R\-A\-S\-E\-D}!\-Flash Filesystem Function@{\-Flash Filesystem Function}}\index{\-Flash Filesystem Function@{\-Flash Filesystem Function}!\-A\-R\-E\-N\-A\-\_\-\-S\-T\-A\-T\-E\-\_\-\-E\-R\-A\-S\-E\-D@{\-A\-R\-E\-N\-A\-\_\-\-S\-T\-A\-T\-E\-\_\-\-E\-R\-A\-S\-E\-D}}\item[{\em 
+\hypertarget{group___p_i_o_s___f_l_a_s_h_f_s_ggaa936149cfd5559190d20879c10e0fceea0868f5f69dae5f489f86f324fb2ec026}{\-A\-R\-E\-N\-A\-\_\-\-S\-T\-A\-T\-E\-\_\-\-E\-R\-A\-S\-E\-D}\label{group___p_i_o_s___f_l_a_s_h_f_s_ggaa936149cfd5559190d20879c10e0fceea0868f5f69dae5f489f86f324fb2ec026}
+}]\index{\-A\-R\-E\-N\-A\-\_\-\-S\-T\-A\-T\-E\-\_\-\-R\-E\-S\-E\-R\-V\-E\-D@{\-A\-R\-E\-N\-A\-\_\-\-S\-T\-A\-T\-E\-\_\-\-R\-E\-S\-E\-R\-V\-E\-D}!\-Flash Filesystem Function@{\-Flash Filesystem Function}}\index{\-Flash Filesystem Function@{\-Flash Filesystem Function}!\-A\-R\-E\-N\-A\-\_\-\-S\-T\-A\-T\-E\-\_\-\-R\-E\-S\-E\-R\-V\-E\-D@{\-A\-R\-E\-N\-A\-\_\-\-S\-T\-A\-T\-E\-\_\-\-R\-E\-S\-E\-R\-V\-E\-D}}\item[{\em 
+\hypertarget{group___p_i_o_s___f_l_a_s_h_f_s_ggaa936149cfd5559190d20879c10e0fceeac20424e4b3a3a918490e8c307996fe7c}{\-A\-R\-E\-N\-A\-\_\-\-S\-T\-A\-T\-E\-\_\-\-R\-E\-S\-E\-R\-V\-E\-D}\label{group___p_i_o_s___f_l_a_s_h_f_s_ggaa936149cfd5559190d20879c10e0fceeac20424e4b3a3a918490e8c307996fe7c}
+}]\index{\-A\-R\-E\-N\-A\-\_\-\-S\-T\-A\-T\-E\-\_\-\-A\-C\-T\-I\-V\-E@{\-A\-R\-E\-N\-A\-\_\-\-S\-T\-A\-T\-E\-\_\-\-A\-C\-T\-I\-V\-E}!\-Flash Filesystem Function@{\-Flash Filesystem Function}}\index{\-Flash Filesystem Function@{\-Flash Filesystem Function}!\-A\-R\-E\-N\-A\-\_\-\-S\-T\-A\-T\-E\-\_\-\-A\-C\-T\-I\-V\-E@{\-A\-R\-E\-N\-A\-\_\-\-S\-T\-A\-T\-E\-\_\-\-A\-C\-T\-I\-V\-E}}\item[{\em 
+\hypertarget{group___p_i_o_s___f_l_a_s_h_f_s_ggaa936149cfd5559190d20879c10e0fceea8bac821a323307ac4aa7b2de12f4896b}{\-A\-R\-E\-N\-A\-\_\-\-S\-T\-A\-T\-E\-\_\-\-A\-C\-T\-I\-V\-E}\label{group___p_i_o_s___f_l_a_s_h_f_s_ggaa936149cfd5559190d20879c10e0fceea8bac821a323307ac4aa7b2de12f4896b}
+}]\index{\-A\-R\-E\-N\-A\-\_\-\-S\-T\-A\-T\-E\-\_\-\-O\-B\-S\-O\-L\-E\-T\-E@{\-A\-R\-E\-N\-A\-\_\-\-S\-T\-A\-T\-E\-\_\-\-O\-B\-S\-O\-L\-E\-T\-E}!\-Flash Filesystem Function@{\-Flash Filesystem Function}}\index{\-Flash Filesystem Function@{\-Flash Filesystem Function}!\-A\-R\-E\-N\-A\-\_\-\-S\-T\-A\-T\-E\-\_\-\-O\-B\-S\-O\-L\-E\-T\-E@{\-A\-R\-E\-N\-A\-\_\-\-S\-T\-A\-T\-E\-\_\-\-O\-B\-S\-O\-L\-E\-T\-E}}\item[{\em 
+\hypertarget{group___p_i_o_s___f_l_a_s_h_f_s_ggaa936149cfd5559190d20879c10e0fceea3943698e7097dd06c6b54f71548d426e}{\-A\-R\-E\-N\-A\-\_\-\-S\-T\-A\-T\-E\-\_\-\-O\-B\-S\-O\-L\-E\-T\-E}\label{group___p_i_o_s___f_l_a_s_h_f_s_ggaa936149cfd5559190d20879c10e0fceea3943698e7097dd06c6b54f71548d426e}
+}]\end{description}
+\end{Desc}
+
+
+
+\-Definition at line 88 of file pios\-\_\-flashfs\-\_\-logfs.\-c.
+
+\hypertarget{group___p_i_o_s___f_l_a_s_h_f_s_ga27472bb2a0fbfb6302378ef138c6a41f}{\index{\-Flash Filesystem Function@{\-Flash Filesystem Function}!pios\-\_\-flashfs\-\_\-logfs\-\_\-dev\-\_\-magic@{pios\-\_\-flashfs\-\_\-logfs\-\_\-dev\-\_\-magic}}
+\index{pios\-\_\-flashfs\-\_\-logfs\-\_\-dev\-\_\-magic@{pios\-\_\-flashfs\-\_\-logfs\-\_\-dev\-\_\-magic}!Flash Filesystem Function@{\-Flash Filesystem Function}}
+\subsubsection[{pios\-\_\-flashfs\-\_\-logfs\-\_\-dev\-\_\-magic}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf pios\-\_\-flashfs\-\_\-logfs\-\_\-dev\-\_\-magic}}}\label{group___p_i_o_s___f_l_a_s_h_f_s_ga27472bb2a0fbfb6302378ef138c6a41f}
+\begin{Desc}
+\item[\-Enumerator\-: ]\par
+\begin{description}
+\index{\-P\-I\-O\-S\-\_\-\-F\-L\-A\-S\-H\-F\-S\-\_\-\-L\-O\-G\-F\-S\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C@{\-P\-I\-O\-S\-\_\-\-F\-L\-A\-S\-H\-F\-S\-\_\-\-L\-O\-G\-F\-S\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}!\-Flash Filesystem Function@{\-Flash Filesystem Function}}\index{\-Flash Filesystem Function@{\-Flash Filesystem Function}!\-P\-I\-O\-S\-\_\-\-F\-L\-A\-S\-H\-F\-S\-\_\-\-L\-O\-G\-F\-S\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C@{\-P\-I\-O\-S\-\_\-\-F\-L\-A\-S\-H\-F\-S\-\_\-\-L\-O\-G\-F\-S\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}}\item[{\em 
+\hypertarget{group___p_i_o_s___f_l_a_s_h_f_s_gga27472bb2a0fbfb6302378ef138c6a41fa48f1badb0700a4f00d8da2af591f701b}{\-P\-I\-O\-S\-\_\-\-F\-L\-A\-S\-H\-F\-S\-\_\-\-L\-O\-G\-F\-S\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}\label{group___p_i_o_s___f_l_a_s_h_f_s_gga27472bb2a0fbfb6302378ef138c6a41fa48f1badb0700a4f00d8da2af591f701b}
+}]\end{description}
+\end{Desc}
+
+
+
+\-Definition at line 43 of file pios\-\_\-flashfs\-\_\-logfs.\-c.
+
+\hypertarget{group___p_i_o_s___f_l_a_s_h_f_s_ga7df58e5fca7cec32767a0481da453e74}{\index{\-Flash Filesystem Function@{\-Flash Filesystem Function}!slot\-\_\-state@{slot\-\_\-state}}
+\index{slot\-\_\-state@{slot\-\_\-state}!Flash Filesystem Function@{\-Flash Filesystem Function}}
+\subsubsection[{slot\-\_\-state}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf slot\-\_\-state}}}\label{group___p_i_o_s___f_l_a_s_h_f_s_ga7df58e5fca7cec32767a0481da453e74}
+\begin{Desc}
+\item[\-Enumerator\-: ]\par
+\begin{description}
+\index{\-S\-L\-O\-T\-\_\-\-S\-T\-A\-T\-E\-\_\-\-E\-M\-P\-T\-Y@{\-S\-L\-O\-T\-\_\-\-S\-T\-A\-T\-E\-\_\-\-E\-M\-P\-T\-Y}!\-Flash Filesystem Function@{\-Flash Filesystem Function}}\index{\-Flash Filesystem Function@{\-Flash Filesystem Function}!\-S\-L\-O\-T\-\_\-\-S\-T\-A\-T\-E\-\_\-\-E\-M\-P\-T\-Y@{\-S\-L\-O\-T\-\_\-\-S\-T\-A\-T\-E\-\_\-\-E\-M\-P\-T\-Y}}\item[{\em 
+\hypertarget{group___p_i_o_s___f_l_a_s_h_f_s_gga7df58e5fca7cec32767a0481da453e74a3ec4030cfe6de3e15e9ce08f12c91734}{\-S\-L\-O\-T\-\_\-\-S\-T\-A\-T\-E\-\_\-\-E\-M\-P\-T\-Y}\label{group___p_i_o_s___f_l_a_s_h_f_s_gga7df58e5fca7cec32767a0481da453e74a3ec4030cfe6de3e15e9ce08f12c91734}
+}]\index{\-S\-L\-O\-T\-\_\-\-S\-T\-A\-T\-E\-\_\-\-R\-E\-S\-E\-R\-V\-E\-D@{\-S\-L\-O\-T\-\_\-\-S\-T\-A\-T\-E\-\_\-\-R\-E\-S\-E\-R\-V\-E\-D}!\-Flash Filesystem Function@{\-Flash Filesystem Function}}\index{\-Flash Filesystem Function@{\-Flash Filesystem Function}!\-S\-L\-O\-T\-\_\-\-S\-T\-A\-T\-E\-\_\-\-R\-E\-S\-E\-R\-V\-E\-D@{\-S\-L\-O\-T\-\_\-\-S\-T\-A\-T\-E\-\_\-\-R\-E\-S\-E\-R\-V\-E\-D}}\item[{\em 
+\hypertarget{group___p_i_o_s___f_l_a_s_h_f_s_gga7df58e5fca7cec32767a0481da453e74acf379d22c045f40511eab34f8aafba5e}{\-S\-L\-O\-T\-\_\-\-S\-T\-A\-T\-E\-\_\-\-R\-E\-S\-E\-R\-V\-E\-D}\label{group___p_i_o_s___f_l_a_s_h_f_s_gga7df58e5fca7cec32767a0481da453e74acf379d22c045f40511eab34f8aafba5e}
+}]\index{\-S\-L\-O\-T\-\_\-\-S\-T\-A\-T\-E\-\_\-\-A\-C\-T\-I\-V\-E@{\-S\-L\-O\-T\-\_\-\-S\-T\-A\-T\-E\-\_\-\-A\-C\-T\-I\-V\-E}!\-Flash Filesystem Function@{\-Flash Filesystem Function}}\index{\-Flash Filesystem Function@{\-Flash Filesystem Function}!\-S\-L\-O\-T\-\_\-\-S\-T\-A\-T\-E\-\_\-\-A\-C\-T\-I\-V\-E@{\-S\-L\-O\-T\-\_\-\-S\-T\-A\-T\-E\-\_\-\-A\-C\-T\-I\-V\-E}}\item[{\em 
+\hypertarget{group___p_i_o_s___f_l_a_s_h_f_s_gga7df58e5fca7cec32767a0481da453e74acf5fd7f439ede2b21808a3edc1acc4f4}{\-S\-L\-O\-T\-\_\-\-S\-T\-A\-T\-E\-\_\-\-A\-C\-T\-I\-V\-E}\label{group___p_i_o_s___f_l_a_s_h_f_s_gga7df58e5fca7cec32767a0481da453e74acf5fd7f439ede2b21808a3edc1acc4f4}
+}]\index{\-S\-L\-O\-T\-\_\-\-S\-T\-A\-T\-E\-\_\-\-O\-B\-S\-O\-L\-E\-T\-E@{\-S\-L\-O\-T\-\_\-\-S\-T\-A\-T\-E\-\_\-\-O\-B\-S\-O\-L\-E\-T\-E}!\-Flash Filesystem Function@{\-Flash Filesystem Function}}\index{\-Flash Filesystem Function@{\-Flash Filesystem Function}!\-S\-L\-O\-T\-\_\-\-S\-T\-A\-T\-E\-\_\-\-O\-B\-S\-O\-L\-E\-T\-E@{\-S\-L\-O\-T\-\_\-\-S\-T\-A\-T\-E\-\_\-\-O\-B\-S\-O\-L\-E\-T\-E}}\item[{\em 
+\hypertarget{group___p_i_o_s___f_l_a_s_h_f_s_gga7df58e5fca7cec32767a0481da453e74aff81f83249791cda333bde0850150ccc}{\-S\-L\-O\-T\-\_\-\-S\-T\-A\-T\-E\-\_\-\-O\-B\-S\-O\-L\-E\-T\-E}\label{group___p_i_o_s___f_l_a_s_h_f_s_gga7df58e5fca7cec32767a0481da453e74aff81f83249791cda333bde0850150ccc}
+}]\end{description}
+\end{Desc}
+
+
+
+\-Definition at line 322 of file pios\-\_\-flashfs\-\_\-logfs.\-c.
+
+
+
+\subsection{\-Function \-Documentation}
+\hypertarget{group___p_i_o_s___f_l_a_s_h_f_s_gaf0823c3e99bb9ab51cfc8a807339ad1b}{\index{\-Flash Filesystem Function@{\-Flash Filesystem Function}!\-\_\-\-\_\-attribute\-\_\-\-\_\-@{\-\_\-\-\_\-attribute\-\_\-\-\_\-}}
+\index{\-\_\-\-\_\-attribute\-\_\-\-\_\-@{\-\_\-\-\_\-attribute\-\_\-\-\_\-}!Flash Filesystem Function@{\-Flash Filesystem Function}}
+\subsubsection[{\-\_\-\-\_\-attribute\-\_\-\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf arena\-\_\-header} {\bf \-\_\-\-\_\-attribute\-\_\-\-\_\-} (
+\begin{DoxyParamCaption}
+\item[{(packed)}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___f_l_a_s_h_f_s_gaf0823c3e99bb9ab51cfc8a807339ad1b}
+\hypertarget{group___p_i_o_s___f_l_a_s_h_f_s_ga9dccc10d534e33e6b52df18f60d27a58}{\index{\-Flash Filesystem Function@{\-Flash Filesystem Function}!\-P\-I\-O\-S\-\_\-\-F\-L\-A\-S\-H\-F\-S\-\_\-\-Format@{\-P\-I\-O\-S\-\_\-\-F\-L\-A\-S\-H\-F\-S\-\_\-\-Format}}
+\index{\-P\-I\-O\-S\-\_\-\-F\-L\-A\-S\-H\-F\-S\-\_\-\-Format@{\-P\-I\-O\-S\-\_\-\-F\-L\-A\-S\-H\-F\-S\-\_\-\-Format}!Flash Filesystem Function@{\-Flash Filesystem Function}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-F\-L\-A\-S\-H\-F\-S\-\_\-\-Format}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-P\-I\-O\-S\-\_\-\-F\-L\-A\-S\-H\-F\-S\-\_\-\-Format} (
+\begin{DoxyParamCaption}
+\item[{uintptr\-\_\-t}]{fs\-\_\-id}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___f_l_a_s_h_f_s_ga9dccc10d534e33e6b52df18f60d27a58}
+
+
+\-Erases all filesystem arenas and activate the first arena. 
+
+
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em fs\-\_\-id} & \-The filesystem to use for this action \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+0 if success or error code 
+\end{DoxyReturn}
+
+\begin{DoxyRetVals}{\-Return values}
+{\em -\/1} & if fs\-\_\-id is not a valid filesystem instance \\
+\hline
+{\em -\/2} & if failed to start transaction \\
+\hline
+{\em -\/3} & if failed to erase all arenas \\
+\hline
+{\em -\/4} & if failed to activate arena 0 \\
+\hline
+{\em -\/5} & if failed to mount arena 0 \\
+\hline
+\end{DoxyRetVals}
+
+
+\-Definition at line 1089 of file pios\-\_\-flashfs\-\_\-logfs.\-c.
+
+\hypertarget{group___p_i_o_s___f_l_a_s_h_f_s_ga2fdf3f16270fb9c7f85a4c7a9bfce2ce}{\index{\-Flash Filesystem Function@{\-Flash Filesystem Function}!\-P\-I\-O\-S\-\_\-\-F\-L\-A\-S\-H\-F\-S\-\_\-\-Logfs\-\_\-\-Destroy@{\-P\-I\-O\-S\-\_\-\-F\-L\-A\-S\-H\-F\-S\-\_\-\-Logfs\-\_\-\-Destroy}}
+\index{\-P\-I\-O\-S\-\_\-\-F\-L\-A\-S\-H\-F\-S\-\_\-\-Logfs\-\_\-\-Destroy@{\-P\-I\-O\-S\-\_\-\-F\-L\-A\-S\-H\-F\-S\-\_\-\-Logfs\-\_\-\-Destroy}!Flash Filesystem Function@{\-Flash Filesystem Function}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-F\-L\-A\-S\-H\-F\-S\-\_\-\-Logfs\-\_\-\-Destroy}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-P\-I\-O\-S\-\_\-\-F\-L\-A\-S\-H\-F\-S\-\_\-\-Logfs\-\_\-\-Destroy} (
+\begin{DoxyParamCaption}
+\item[{uintptr\-\_\-t}]{fs\-\_\-id}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___f_l_a_s_h_f_s_ga2fdf3f16270fb9c7f85a4c7a9bfce2ce}
+
+
+\-Definition at line 598 of file pios\-\_\-flashfs\-\_\-logfs.\-c.
+
+\hypertarget{group___p_i_o_s___f_l_a_s_h_f_s_ga2597ca18b2f818f6b2aee1e29cc661e2}{\index{\-Flash Filesystem Function@{\-Flash Filesystem Function}!\-P\-I\-O\-S\-\_\-\-F\-L\-A\-S\-H\-F\-S\-\_\-\-Logfs\-\_\-\-Init@{\-P\-I\-O\-S\-\_\-\-F\-L\-A\-S\-H\-F\-S\-\_\-\-Logfs\-\_\-\-Init}}
+\index{\-P\-I\-O\-S\-\_\-\-F\-L\-A\-S\-H\-F\-S\-\_\-\-Logfs\-\_\-\-Init@{\-P\-I\-O\-S\-\_\-\-F\-L\-A\-S\-H\-F\-S\-\_\-\-Logfs\-\_\-\-Init}!Flash Filesystem Function@{\-Flash Filesystem Function}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-F\-L\-A\-S\-H\-F\-S\-\_\-\-Logfs\-\_\-\-Init}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-P\-I\-O\-S\-\_\-\-F\-L\-A\-S\-H\-F\-S\-\_\-\-Logfs\-\_\-\-Init} (
+\begin{DoxyParamCaption}
+\item[{uintptr\-\_\-t $\ast$}]{fs\-\_\-id, }
+\item[{const struct {\bf flashfs\-\_\-logfs\-\_\-cfg} $\ast$}]{cfg, }
+\item[{const struct {\bf pios\-\_\-flash\-\_\-driver} $\ast$}]{driver, }
+\item[{uintptr\-\_\-t}]{flash\-\_\-id}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___f_l_a_s_h_f_s_ga2597ca18b2f818f6b2aee1e29cc661e2}
+
+
+\-Initialize the flash object setting \-F\-S. 
+
+\begin{DoxyReturn}{\-Returns}
+0 if success, -\/1 if failure 
+\end{DoxyReturn}
+
+
+\-Definition at line 518 of file pios\-\_\-flashfs\-\_\-logfs.\-c.
+
+\hypertarget{group___p_i_o_s___f_l_a_s_h_f_s_ga93a9e7b90c573b3784dd52781bf11e93}{\index{\-Flash Filesystem Function@{\-Flash Filesystem Function}!\-P\-I\-O\-S\-\_\-\-F\-L\-A\-S\-H\-F\-S\-\_\-\-Obj\-Delete@{\-P\-I\-O\-S\-\_\-\-F\-L\-A\-S\-H\-F\-S\-\_\-\-Obj\-Delete}}
+\index{\-P\-I\-O\-S\-\_\-\-F\-L\-A\-S\-H\-F\-S\-\_\-\-Obj\-Delete@{\-P\-I\-O\-S\-\_\-\-F\-L\-A\-S\-H\-F\-S\-\_\-\-Obj\-Delete}!Flash Filesystem Function@{\-Flash Filesystem Function}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-F\-L\-A\-S\-H\-F\-S\-\_\-\-Obj\-Delete}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-P\-I\-O\-S\-\_\-\-F\-L\-A\-S\-H\-F\-S\-\_\-\-Obj\-Delete} (
+\begin{DoxyParamCaption}
+\item[{uintptr\-\_\-t}]{fs\-\_\-id, }
+\item[{uint32\-\_\-t}]{obj\-\_\-id, }
+\item[{uint16\-\_\-t}]{obj\-\_\-inst\-\_\-id}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___f_l_a_s_h_f_s_ga93a9e7b90c573b3784dd52781bf11e93}
+
+
+\-Delete one instance of an object from the filesystem. 
+
+
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em fs\-\_\-id} & \-The filesystem to use for this action \\
+\hline
+\mbox{\tt in}  & {\em obj} & \-U\-A\-V\-Object \-I\-D of the object to delete \\
+\hline
+\mbox{\tt in}  & {\em obj\-\_\-inst\-\_\-id} & \-The instance of the object to delete \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+0 if success or error code 
+\end{DoxyReturn}
+
+\begin{DoxyRetVals}{\-Return values}
+{\em -\/1} & if fs\-\_\-id is not a valid filesystem instance \\
+\hline
+{\em -\/2} & if failed to start transaction \\
+\hline
+{\em -\/3} & if failed to delete the object from the filesystem \\
+\hline
+\end{DoxyRetVals}
+
+
+\-Definition at line 1048 of file pios\-\_\-flashfs\-\_\-logfs.\-c.
+
+\hypertarget{group___p_i_o_s___f_l_a_s_h_f_s_ga159a3e2681cd03a6512dd59348c8a764}{\index{\-Flash Filesystem Function@{\-Flash Filesystem Function}!\-P\-I\-O\-S\-\_\-\-F\-L\-A\-S\-H\-F\-S\-\_\-\-Obj\-Load@{\-P\-I\-O\-S\-\_\-\-F\-L\-A\-S\-H\-F\-S\-\_\-\-Obj\-Load}}
+\index{\-P\-I\-O\-S\-\_\-\-F\-L\-A\-S\-H\-F\-S\-\_\-\-Obj\-Load@{\-P\-I\-O\-S\-\_\-\-F\-L\-A\-S\-H\-F\-S\-\_\-\-Obj\-Load}!Flash Filesystem Function@{\-Flash Filesystem Function}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-F\-L\-A\-S\-H\-F\-S\-\_\-\-Obj\-Load}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-P\-I\-O\-S\-\_\-\-F\-L\-A\-S\-H\-F\-S\-\_\-\-Obj\-Load} (
+\begin{DoxyParamCaption}
+\item[{uintptr\-\_\-t}]{fs\-\_\-id, }
+\item[{uint32\-\_\-t}]{obj\-\_\-id, }
+\item[{uint16\-\_\-t}]{obj\-\_\-inst\-\_\-id, }
+\item[{uint8\-\_\-t $\ast$}]{obj\-\_\-data, }
+\item[{uint16\-\_\-t}]{obj\-\_\-size}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___f_l_a_s_h_f_s_ga159a3e2681cd03a6512dd59348c8a764}
+
+
+\-Load one object instance from the filesystem. 
+
+
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em fs\-\_\-id} & \-The filesystem to use for this action \\
+\hline
+\mbox{\tt in}  & {\em obj} & \-U\-A\-V\-Object \-I\-D of the object to load \\
+\hline
+\mbox{\tt in}  & {\em obj\-\_\-inst\-\_\-id} & \-The instance of the object to load \\
+\hline
+\mbox{\tt in}  & {\em obj\-\_\-data} & \-Buffer to hold the contents of the loaded object \\
+\hline
+\mbox{\tt in}  & {\em obj\-\_\-size} & \-Size of the object to be loaded \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+0 if success or error code 
+\end{DoxyReturn}
+
+\begin{DoxyRetVals}{\-Return values}
+{\em -\/1} & if fs\-\_\-id is not a valid filesystem instance \\
+\hline
+{\em -\/2} & if failed to start transaction \\
+\hline
+{\em -\/3} & if object not found in filesystem \\
+\hline
+{\em -\/4} & if object size in filesystem does not exactly match buffer size \\
+\hline
+{\em -\/5} & if reading the object data from flash fails \\
+\hline
+\end{DoxyRetVals}
+
+
+\-Definition at line 981 of file pios\-\_\-flashfs\-\_\-logfs.\-c.
+
+\hypertarget{group___p_i_o_s___f_l_a_s_h_f_s_ga2566e681162e422c1457f10146eda492}{\index{\-Flash Filesystem Function@{\-Flash Filesystem Function}!\-P\-I\-O\-S\-\_\-\-F\-L\-A\-S\-H\-F\-S\-\_\-\-Obj\-Save@{\-P\-I\-O\-S\-\_\-\-F\-L\-A\-S\-H\-F\-S\-\_\-\-Obj\-Save}}
+\index{\-P\-I\-O\-S\-\_\-\-F\-L\-A\-S\-H\-F\-S\-\_\-\-Obj\-Save@{\-P\-I\-O\-S\-\_\-\-F\-L\-A\-S\-H\-F\-S\-\_\-\-Obj\-Save}!Flash Filesystem Function@{\-Flash Filesystem Function}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-F\-L\-A\-S\-H\-F\-S\-\_\-\-Obj\-Save}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-P\-I\-O\-S\-\_\-\-F\-L\-A\-S\-H\-F\-S\-\_\-\-Obj\-Save} (
+\begin{DoxyParamCaption}
+\item[{uintptr\-\_\-t}]{fs\-\_\-id, }
+\item[{uint32\-\_\-t}]{obj\-\_\-id, }
+\item[{uint16\-\_\-t}]{obj\-\_\-inst\-\_\-id, }
+\item[{uint8\-\_\-t $\ast$}]{obj\-\_\-data, }
+\item[{uint16\-\_\-t}]{obj\-\_\-size}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___f_l_a_s_h_f_s_ga2566e681162e422c1457f10146eda492}
+
+
+\-Saves one object instance to the filesystem. 
+
+
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em fs\-\_\-id} & \-The filesystem to use for this action \\
+\hline
+\mbox{\tt in}  & {\em obj} & \-U\-A\-V\-Object \-I\-D of the object to save \\
+\hline
+\mbox{\tt in}  & {\em obj\-\_\-inst\-\_\-id} & \-The instance number of the object being saved \\
+\hline
+\mbox{\tt in}  & {\em obj\-\_\-data} & \-Contents of the object being saved \\
+\hline
+\mbox{\tt in}  & {\em obj\-\_\-size} & \-Size of the object being saved \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+0 if success or error code 
+\end{DoxyReturn}
+
+\begin{DoxyRetVals}{\-Return values}
+{\em -\/1} & if fs\-\_\-id is not a valid filesystem instance \\
+\hline
+{\em -\/2} & if failed to start transaction \\
+\hline
+{\em -\/3} & if failure to delete any previous versions of the object \\
+\hline
+{\em -\/4} & if filesystem is entirely full and garbage collection won't help \\
+\hline
+{\em -\/5} & if garbage collection failed \\
+\hline
+{\em -\/6} & if filesystem is full even after garbage collection should have freed space \\
+\hline
+{\em -\/7} & if writing the new object to the filesystem failed \\
+\hline
+\end{DoxyRetVals}
+
+
+\-Definition at line 895 of file pios\-\_\-flashfs\-\_\-logfs.\-c.
+
+
+
+\subsection{\-Variable \-Documentation}
+\hypertarget{group___p_i_o_s___f_l_a_s_h_f_s_ga043afd6646bf00b1155399e12818f798}{\index{\-Flash Filesystem Function@{\-Flash Filesystem Function}!\-\_\-\-\_\-attribute\-\_\-\-\_\-@{\-\_\-\-\_\-attribute\-\_\-\-\_\-}}
+\index{\-\_\-\-\_\-attribute\-\_\-\-\_\-@{\-\_\-\-\_\-attribute\-\_\-\-\_\-}!Flash Filesystem Function@{\-Flash Filesystem Function}}
+\subsubsection[{\-\_\-\-\_\-attribute\-\_\-\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf \-U\-A\-V\-O\-Multi} {\bf \-\_\-\-\_\-attribute\-\_\-\-\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}read\mbox{]}}}}\label{group___p_i_o_s___f_l_a_s_h_f_s_ga043afd6646bf00b1155399e12818f798}
+\hypertarget{group___p_i_o_s___f_l_a_s_h_f_s_ga838dc01d5c7c1796252597dbb2d1dc04}{\index{\-Flash Filesystem Function@{\-Flash Filesystem Function}!arena\-\_\-size@{arena\-\_\-size}}
+\index{arena\-\_\-size@{arena\-\_\-size}!Flash Filesystem Function@{\-Flash Filesystem Function}}
+\subsubsection[{arena\-\_\-size}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t {\bf flashfs\-\_\-logfs\-\_\-cfg\-::arena\-\_\-size}}}\label{group___p_i_o_s___f_l_a_s_h_f_s_ga838dc01d5c7c1796252597dbb2d1dc04}
+
+
+\-Definition at line 36 of file pios\-\_\-flashfs\-\_\-logfs\-\_\-priv.\-h.
+
+\hypertarget{group___p_i_o_s___f_l_a_s_h_f_s_ga1fe17f8582e422dfe871844653d7d6f9}{\index{\-Flash Filesystem Function@{\-Flash Filesystem Function}!fs\-\_\-magic@{fs\-\_\-magic}}
+\index{fs\-\_\-magic@{fs\-\_\-magic}!Flash Filesystem Function@{\-Flash Filesystem Function}}
+\subsubsection[{fs\-\_\-magic}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t {\bf flashfs\-\_\-logfs\-\_\-cfg\-::fs\-\_\-magic}}}\label{group___p_i_o_s___f_l_a_s_h_f_s_ga1fe17f8582e422dfe871844653d7d6f9}
+
+
+\-Definition at line 34 of file pios\-\_\-flashfs\-\_\-logfs\-\_\-priv.\-h.
+
+\hypertarget{group___p_i_o_s___f_l_a_s_h_f_s_ga28ddda808f37b1e0a2d6e8ea25c47c59}{\index{\-Flash Filesystem Function@{\-Flash Filesystem Function}!page\-\_\-size@{page\-\_\-size}}
+\index{page\-\_\-size@{page\-\_\-size}!Flash Filesystem Function@{\-Flash Filesystem Function}}
+\subsubsection[{page\-\_\-size}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t {\bf flashfs\-\_\-logfs\-\_\-cfg\-::page\-\_\-size}}}\label{group___p_i_o_s___f_l_a_s_h_f_s_ga28ddda808f37b1e0a2d6e8ea25c47c59}
+
+
+\-Definition at line 41 of file pios\-\_\-flashfs\-\_\-logfs\-\_\-priv.\-h.
+
+\hypertarget{group___p_i_o_s___f_l_a_s_h_f_s_ga8251b6447774f97389ec08c71e1ed54b}{\index{\-Flash Filesystem Function@{\-Flash Filesystem Function}!sector\-\_\-size@{sector\-\_\-size}}
+\index{sector\-\_\-size@{sector\-\_\-size}!Flash Filesystem Function@{\-Flash Filesystem Function}}
+\subsubsection[{sector\-\_\-size}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t {\bf flashfs\-\_\-logfs\-\_\-cfg\-::sector\-\_\-size}}}\label{group___p_i_o_s___f_l_a_s_h_f_s_ga8251b6447774f97389ec08c71e1ed54b}
+
+
+\-Definition at line 40 of file pios\-\_\-flashfs\-\_\-logfs\-\_\-priv.\-h.
+
+\hypertarget{group___p_i_o_s___f_l_a_s_h_f_s_gac9f1463cfe49a3b517bf6c1e44bbb087}{\index{\-Flash Filesystem Function@{\-Flash Filesystem Function}!slot\-\_\-size@{slot\-\_\-size}}
+\index{slot\-\_\-size@{slot\-\_\-size}!Flash Filesystem Function@{\-Flash Filesystem Function}}
+\subsubsection[{slot\-\_\-size}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t {\bf flashfs\-\_\-logfs\-\_\-cfg\-::slot\-\_\-size}}}\label{group___p_i_o_s___f_l_a_s_h_f_s_gac9f1463cfe49a3b517bf6c1e44bbb087}
+
+
+\-Definition at line 37 of file pios\-\_\-flashfs\-\_\-logfs\-\_\-priv.\-h.
+
+\hypertarget{group___p_i_o_s___f_l_a_s_h_f_s_ga2a71336371b265bddac688b27ebcb94c}{\index{\-Flash Filesystem Function@{\-Flash Filesystem Function}!start\-\_\-offset@{start\-\_\-offset}}
+\index{start\-\_\-offset@{start\-\_\-offset}!Flash Filesystem Function@{\-Flash Filesystem Function}}
+\subsubsection[{start\-\_\-offset}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t {\bf flashfs\-\_\-logfs\-\_\-cfg\-::start\-\_\-offset}}}\label{group___p_i_o_s___f_l_a_s_h_f_s_ga2a71336371b265bddac688b27ebcb94c}
+
+
+\-Definition at line 39 of file pios\-\_\-flashfs\-\_\-logfs\-\_\-priv.\-h.
+
+\hypertarget{group___p_i_o_s___f_l_a_s_h_f_s_ga36ee534fa25bdd1bece22e997e3ba800}{\index{\-Flash Filesystem Function@{\-Flash Filesystem Function}!total\-\_\-fs\-\_\-size@{total\-\_\-fs\-\_\-size}}
+\index{total\-\_\-fs\-\_\-size@{total\-\_\-fs\-\_\-size}!Flash Filesystem Function@{\-Flash Filesystem Function}}
+\subsubsection[{total\-\_\-fs\-\_\-size}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t {\bf flashfs\-\_\-logfs\-\_\-cfg\-::total\-\_\-fs\-\_\-size}}}\label{group___p_i_o_s___f_l_a_s_h_f_s_ga36ee534fa25bdd1bece22e997e3ba800}
+
+
+\-Definition at line 35 of file pios\-\_\-flashfs\-\_\-logfs\-\_\-priv.\-h.
+

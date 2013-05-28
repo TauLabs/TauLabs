@@ -1,0 +1,81 @@
+\hypertarget{class_fancy_tab_bar}{\section{\-Fancy\-Tab\-Bar \-Class \-Reference}
+\label{class_fancy_tab_bar}\index{\-Fancy\-Tab\-Bar@{\-Fancy\-Tab\-Bar}}
+}
+
+
+{\ttfamily \#include $<$fancytabwidget.\-h$>$}
+
+\subsection*{\-Public \-Slots}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___core_plugin_gaebba5e848c986c159a23e73619bb0fa8}{update\-Hover} ()
+\end{DoxyCompactItemize}
+\subsection*{\-Signals}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___core_plugin_gab01320f8d84813aa496591d543e25d22}{current\-Changed} (int)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___core_plugin_ga5f3214f2d2395c7aa4e95740fe71e711}{about\-To\-Change} (bool $\ast$)
+\end{DoxyCompactItemize}
+\subsection*{\-Public \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___core_plugin_gad575160a4e336a3039a99dc30bee15e3}{\-Fancy\-Tab\-Bar} (\-Q\-Widget $\ast$parent=0, bool is\-Vertical=false)
+\item 
+\hyperlink{group___core_plugin_ga5b40eca6caec361b4bc7f371468927dc}{$\sim$\-Fancy\-Tab\-Bar} ()
+\item 
+bool \hyperlink{group___core_plugin_ga61b546d0e4aa631e9b223a5da9358a31}{event} (\-Q\-Event $\ast$\hyperlink{group___core_plugin_ga61b546d0e4aa631e9b223a5da9358a31}{event})
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___core_plugin_gacffef3ad6d0b595db42d532043ba064c}{paint\-Event} (\-Q\-Paint\-Event $\ast$\hyperlink{group___core_plugin_ga61b546d0e4aa631e9b223a5da9358a31}{event})
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___core_plugin_gaf99f17cc16adc2741f28115358888282}{paint\-Tab} (\-Q\-Painter $\ast$painter, int tab\-Index) const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___core_plugin_ga233783eaace38242dab543caa3081f7f}{mouse\-Press\-Event} (\-Q\-Mouse\-Event $\ast$)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___core_plugin_ga62d3b78d5a2de6843a7ccaaf82928113}{mouse\-Move\-Event} (\-Q\-Mouse\-Event $\ast$)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___core_plugin_gacd1e12691b9857f46777d7fdfe6d5cb2}{enter\-Event} (\-Q\-Event $\ast$)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___core_plugin_gabbbfe787a32c59bd8cd36a165d6a665d}{leave\-Event} (\-Q\-Event $\ast$)
+\item 
+\-Q\-Size \hyperlink{group___core_plugin_gac7cd7091fc9e84d116935f64f510d3b3}{size\-Hint} () const 
+\item 
+\-Q\-Size \hyperlink{group___core_plugin_gaf8f470f82a3959c7bdc7a98340148bba}{minimum\-Size\-Hint} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___core_plugin_ga2be27a6b256583dba3135713105716d7}{insert\-Tab} (int index, const \-Q\-Icon \&icon, const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \&label)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___core_plugin_ga7d95a77577d78a5b71c4ef00a84f64e6}{remove\-Tab} (int index)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___core_plugin_ga2395ca4b2340f7f5e54d4fada4e0e929}{update\-Tab\-Name\-Icon} (int index, const \-Q\-Icon \&icon, const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \&label)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___core_plugin_gabf70f3132174e9d8c21315e2684150de}{set\-Current\-Index} (int index)
+\item 
+int \hyperlink{group___core_plugin_ga1c8e8bf3903f524c59131dcabb31a913}{current\-Index} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___core_plugin_gaeb89740bb137bced7ecb998d565ecc5f}{set\-Tab\-Tool\-Tip} (int index, \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} tool\-Tip)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___core_plugin_gad418288c9fa961c782d6bf2171180bec}{tab\-Tool\-Tip} (int index) const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___core_plugin_ga0a48234ad92fee352aaaef4796c49892}{set\-Icon\-Size} (int \hyperlink{uavobjecttemplate_8m_a3691308f2a4c2f6983f2880d32e29c84}{s})
+\item 
+\-Q\-Icon \hyperlink{group___core_plugin_ga9417afde2ee68f8fe8074235c10e8566}{tab\-Icon} (int index) const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___core_plugin_ga27be53a0b602c30ace273f7e3b10612a}{tab\-Text} (int index) const 
+\item 
+int \hyperlink{group___core_plugin_ga6d406edf7fec053848aeced489074d72}{count} () const 
+\item 
+\-Q\-Rect \hyperlink{group___core_plugin_ga73860a10ee1c7ab8ecc257d227287058}{tab\-Rect} (int index) const 
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+
+
+\-Definition at line 49 of file fancytabwidget.\-h.
+
+
+
+\-The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/plugins/config/\hyperlink{config_2fancytabwidget_8h}{fancytabwidget.\-h}\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/plugins/config/\hyperlink{config_2fancytabwidget_8cpp}{fancytabwidget.\-cpp}\end{DoxyCompactItemize}

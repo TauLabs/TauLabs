@@ -1,0 +1,82 @@
+\hypertarget{class_core_1_1_i_wizard}{\section{\-Core\-:\-:\-I\-Wizard \-Class \-Reference}
+\label{class_core_1_1_i_wizard}\index{\-Core\-::\-I\-Wizard@{\-Core\-::\-I\-Wizard}}
+}
+
+
+\-The class \hyperlink{class_core_1_1_i_wizard}{\-I\-Wizard} is the base class for all wizards (for example shown in  \{\-File $|$ \-New\}).  
+
+
+
+
+{\ttfamily \#include $<$iwizard.\-h$>$}
+
+\subsection*{\-Public \-Types}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{group___core_plugin_ga90d21d8ad72cb14ddb8486fdff7b51f4}{\-Kind} \{ \hyperlink{group___core_plugin_gga90d21d8ad72cb14ddb8486fdff7b51f4aa24018418bb2ddf6c02d2b792c5fabe8}{\-File\-Wizard}, 
+\hyperlink{group___core_plugin_gga90d21d8ad72cb14ddb8486fdff7b51f4ab0cb08b20b12fbf556268c165353035a}{\-Class\-Wizard}, 
+\hyperlink{group___core_plugin_gga90d21d8ad72cb14ddb8486fdff7b51f4a458498ed994138c90140befda7a20b58}{\-Project\-Wizard}
+ \}
+\end{DoxyCompactItemize}
+\subsection*{\-Public \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___core_plugin_ga0316d3bb75bea70865e85986aa4ed08e}{\-I\-Wizard} (\-Q\-Object $\ast$parent=0)
+\item 
+virtual \hyperlink{group___core_plugin_gac105c31c0637a11c0ae093f4045b920e}{$\sim$\-I\-Wizard} ()
+\item 
+virtual \hyperlink{group___core_plugin_ga90d21d8ad72cb14ddb8486fdff7b51f4}{\-Kind} \hyperlink{group___core_plugin_gaa6c10b903553ec4f5b93c74ebe8e76b9}{kind} () const =0
+\item 
+virtual \-Q\-Icon \hyperlink{group___core_plugin_gad0fdeb21587d720cb3d0d69b980610bd}{icon} () const =0
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___core_plugin_ga4f4ab96df11d7229b9c4513d38f0b09c}{description} () const =0
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___core_plugin_ga3b37cbe32b268315a5b2e8d4c061974c}{name} () const =0
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___core_plugin_ga36d083fbed01321396b7f13cabcf1e88}{category} () const =0
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___core_plugin_ga4d03cf7a4a46528d289eea825847593a}{tr\-Category} () const =0
+\item 
+virtual \-Q\-String\-List \hyperlink{group___core_plugin_ga40d63dbc6350512777b72c0b7a9faa38}{run\-Wizard} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \&path, \-Q\-Widget $\ast$parent)=0
+\end{DoxyCompactItemize}
+\subsection*{\-Static \-Public \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+static \-Q\-List$<$ \hyperlink{class_core_1_1_i_wizard}{\-I\-Wizard} $\ast$ $>$ \hyperlink{group___core_plugin_ga636617c07dc09f77edce01c7da28fd63}{all\-Wizards} ()
+\item 
+static \-Q\-List$<$ \hyperlink{class_core_1_1_i_wizard}{\-I\-Wizard} $\ast$ $>$ \hyperlink{group___core_plugin_ga40a38812ddc1fe7b881cd2a15665455e}{wizards\-Of\-Kind} (\hyperlink{group___core_plugin_ga90d21d8ad72cb14ddb8486fdff7b51f4}{\-Kind} \hyperlink{group___core_plugin_gaa6c10b903553ec4f5b93c74ebe8e76b9}{kind})
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-The class \hyperlink{class_core_1_1_i_wizard}{\-I\-Wizard} is the base class for all wizards (for example shown in  \{\-File $|$ \-New\}). 
+
+\-The wizard interface is a very thin abstraction for the \{\-New...\} wizards. \-Basically it defines what to show to the user in the wizard selection dialogs, and a hook that is called if the user selects the wizard.
+
+\-Wizards can then perform any operations they like, including showing dialogs and creating files. \-Often it is not necessary to create your own wizard from scratch, instead use one of the predefined wizards and adapt it to your needs.
+
+\-To make your wizard known to the system, add your \hyperlink{class_core_1_1_i_wizard}{\-I\-Wizard} instance to the plugin manager's object pool in your plugin's initialize method\-: 
+\begin{DoxyCode}
+        bool MyPlugin::initialize(const QStringList &arguments, QString *
+      errorString)
+        {
+            // ... do setup
+            addAutoReleasedObject(new MyWizard);
+            // ... do more setup
+        }
+\end{DoxyCode}
+ \begin{DoxySeeAlso}{\-See also}
+\-Core\-::\-Base\-File\-Wizard 
+
+\-Core\-::\-Standard\-File\-Wizard 
+\end{DoxySeeAlso}
+
+
+\-Definition at line 41 of file iwizard.\-h.
+
+
+
+\-The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/plugins/coreplugin/dialogs/\hyperlink{iwizard_8h}{iwizard.\-h}\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/plugins/coreplugin/dialogs/\hyperlink{iwizard_8cpp}{iwizard.\-cpp}\end{DoxyCompactItemize}

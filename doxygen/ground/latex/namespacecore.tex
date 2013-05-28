@@ -1,0 +1,63 @@
+\hypertarget{namespacecore}{\section{core \-Namespace \-Reference}
+\label{namespacecore}\index{core@{core}}
+}
+\subsection*{\-Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{classcore_1_1_access_mode}{\-Access\-Mode}
+\item 
+class \hyperlink{classcore_1_1_all_layers_of_type}{\-All\-Layers\-Of\-Type}
+\item 
+class \hyperlink{classcore_1_1_cache}{\-Cache}
+\item 
+class \hyperlink{classcore_1_1_cache_item_queue}{\-Cache\-Item\-Queue}
+\item 
+class \hyperlink{classcore_1_1_geo_coder_status_code}{\-Geo\-Coder\-Status\-Code}
+\item 
+class \hyperlink{classcore_1_1_kiber_tile_cache}{\-Kiber\-Tile\-Cache}
+\item 
+class \hyperlink{classcore_1_1_language_type}{\-Language\-Type}
+\item 
+class \hyperlink{classcore_1_1_map_type}{\-Map\-Type}
+\item 
+class \hyperlink{classcore_1_1_memory_cache}{\-Memory\-Cache}
+\item 
+class \hyperlink{classcore_1_1_o_p_maps}{\-O\-P\-Maps}
+\item 
+class \hyperlink{classcore_1_1_placemark}{\-Placemark}
+\item 
+struct \hyperlink{structcore_1_1_point}{\-Point}
+\item 
+class \hyperlink{classcore_1_1_provider_strings}{\-Provider\-Strings}
+\item 
+class \hyperlink{classcore_1_1_pure_image_proxy}{\-Pure\-Image\-Proxy}
+\item 
+class \hyperlink{classcore_1_1_pure_image_cache}{\-Pure\-Image\-Cache}
+\item 
+class \hyperlink{classcore_1_1_raw_tile}{\-Raw\-Tile}
+\item 
+struct \hyperlink{structcore_1_1_size}{\-Size}
+\item 
+class \hyperlink{classcore_1_1_tile_cache_queue}{\-Tile\-Cache\-Queue}
+\item 
+class \hyperlink{classcore_1_1_url_factory}{\-Url\-Factory}
+\end{DoxyCompactItemize}
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+quint64 \hyperlink{group___o_p_map_widget_ga684da93d6a34494be39f2a374429e7e7}{q\-Hash} (\hyperlink{structcore_1_1_point}{\-Point} const \&point)
+\item 
+bool \hyperlink{group___o_p_map_widget_ga652c57ec321fe6e8b42404776fb48e49}{operator==} (\hyperlink{structcore_1_1_point}{\-Point} const \&lhs, \hyperlink{structcore_1_1_point}{\-Point} const \&rhs)
+\item 
+bool \hyperlink{group___o_p_map_widget_ga9fd3fb077a6e407e4c5a477a8c6d73a0}{operator!=} (\hyperlink{structcore_1_1_point}{\-Point} const \&lhs, \hyperlink{structcore_1_1_point}{\-Point} const \&rhs)
+\item 
+uint \hyperlink{group___o_p_map_widget_ga45a81278b07bda2f00748b2eb7f10e01}{q\-Hash} (\hyperlink{classcore_1_1_raw_tile}{\-Raw\-Tile} const \&tile)
+\item 
+bool \hyperlink{group___o_p_map_widget_ga17ed512ed98b14303d6db91fc1624c5e}{operator==} (\hyperlink{classcore_1_1_raw_tile}{\-Raw\-Tile} const \&lhs, \hyperlink{classcore_1_1_raw_tile}{\-Raw\-Tile} const \&rhs)
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-For the most part, points are referenced in quadtiles. \-Due to integer overflow issues, the integers must be 64-\/bits in order to allow for proper operation of quadtile zoom levels greater than 22.
+
+\-For the most part, size is referenced in quadtiles. \-Due to integer overflow issues, the integers must be 64-\/bits in order to allow for proper operation of quadtile zoom levels greater than 22. 

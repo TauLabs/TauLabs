@@ -1,0 +1,139 @@
+\hypertarget{structoverosync}{\section{overosync \-Struct \-Reference}
+\label{structoverosync}\index{overosync@{overosync}}
+}
+\subsection*{\-Data \-Fields}
+\begin{DoxyCompactItemize}
+\item 
+uint32\-\_\-t \hyperlink{structoverosync_ae75efe9626e6cd54b7f51937d7ccc8bd}{sent\-\_\-bytes}
+\item 
+uint32\-\_\-t \hyperlink{structoverosync_ace6edc8026e30f605d99e5f01c6d66a9}{sent\-\_\-objects}
+\item 
+uint32\-\_\-t \hyperlink{structoverosync_aaa5dfd30a46b95fadb58527bc878b2a9}{failed\-\_\-objects}
+\item 
+uint32\-\_\-t \hyperlink{structoverosync_a44c38abb842382371674de5e2e1b55fe}{received\-\_\-objects}
+\item 
+bool \hyperlink{structoverosync_a7a7d310f38281bd01857a3a6e818f16e}{sending\-\_\-settings}
+\item 
+struct \hyperlink{structdma__transaction}{dma\-\_\-transaction} \hyperlink{structoverosync_afb53dc0407f8d5e956d83e78c3b15782}{transactions} \mbox{[}2\mbox{]}
+\item 
+uint32\-\_\-t \hyperlink{structoverosync_a1d7c514ddaae4ce9d2eb14242df38685}{active\-\_\-transaction\-\_\-id}
+\item 
+uint32\-\_\-t \hyperlink{structoverosync_a92326e8268b02ad216b020f15bac9342}{loading\-\_\-transaction\-\_\-id}
+\item 
+x\-Semaphore\-Handle \hyperlink{structoverosync_acca01c899cb020526ac2809ba6b27fc0}{transaction\-\_\-lock}
+\item 
+x\-Semaphore\-Handle \hyperlink{structoverosync_aa265838f8057c004fdb2e4ef40685434}{buffer\-\_\-lock}
+\item 
+volatile bool \hyperlink{structoverosync_a065e182f37469dcd89b3de4464d91267}{transaction\-\_\-done}
+\item 
+uint32\-\_\-t \hyperlink{structoverosync_a094836cef0f9cc8e8b45f8d6a58dc9ad}{write\-\_\-pointer}
+\item 
+uint32\-\_\-t \hyperlink{structoverosync_a628e392bbafa6a9bdac1085b68fc13bb}{framesync\-\_\-error}
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+
+
+\-Definition at line 60 of file overosync.\-c.
+
+
+
+\subsection{\-Field \-Documentation}
+\hypertarget{structoverosync_a1d7c514ddaae4ce9d2eb14242df38685}{\index{overosync@{overosync}!active\-\_\-transaction\-\_\-id@{active\-\_\-transaction\-\_\-id}}
+\index{active\-\_\-transaction\-\_\-id@{active\-\_\-transaction\-\_\-id}!overosync@{overosync}}
+\subsubsection[{active\-\_\-transaction\-\_\-id}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t {\bf overosync\-::active\-\_\-transaction\-\_\-id}}}\label{structoverosync_a1d7c514ddaae4ce9d2eb14242df38685}
+
+
+\-Definition at line 64 of file overosync.\-c.
+
+\hypertarget{structoverosync_aa265838f8057c004fdb2e4ef40685434}{\index{overosync@{overosync}!buffer\-\_\-lock@{buffer\-\_\-lock}}
+\index{buffer\-\_\-lock@{buffer\-\_\-lock}!overosync@{overosync}}
+\subsubsection[{buffer\-\_\-lock}]{\setlength{\rightskip}{0pt plus 5cm}x\-Semaphore\-Handle {\bf overosync\-::buffer\-\_\-lock}}}\label{structoverosync_aa265838f8057c004fdb2e4ef40685434}
+
+
+\-Definition at line 67 of file overosync.\-c.
+
+\hypertarget{structoverosync_aaa5dfd30a46b95fadb58527bc878b2a9}{\index{overosync@{overosync}!failed\-\_\-objects@{failed\-\_\-objects}}
+\index{failed\-\_\-objects@{failed\-\_\-objects}!overosync@{overosync}}
+\subsubsection[{failed\-\_\-objects}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t {\bf overosync\-::failed\-\_\-objects}}}\label{structoverosync_aaa5dfd30a46b95fadb58527bc878b2a9}
+
+
+\-Definition at line 63 of file overosync.\-c.
+
+\hypertarget{structoverosync_a628e392bbafa6a9bdac1085b68fc13bb}{\index{overosync@{overosync}!framesync\-\_\-error@{framesync\-\_\-error}}
+\index{framesync\-\_\-error@{framesync\-\_\-error}!overosync@{overosync}}
+\subsubsection[{framesync\-\_\-error}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t {\bf overosync\-::framesync\-\_\-error}}}\label{structoverosync_a628e392bbafa6a9bdac1085b68fc13bb}
+
+
+\-Definition at line 74 of file overosync.\-c.
+
+\hypertarget{structoverosync_a92326e8268b02ad216b020f15bac9342}{\index{overosync@{overosync}!loading\-\_\-transaction\-\_\-id@{loading\-\_\-transaction\-\_\-id}}
+\index{loading\-\_\-transaction\-\_\-id@{loading\-\_\-transaction\-\_\-id}!overosync@{overosync}}
+\subsubsection[{loading\-\_\-transaction\-\_\-id}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t {\bf overosync\-::loading\-\_\-transaction\-\_\-id}}}\label{structoverosync_a92326e8268b02ad216b020f15bac9342}
+
+
+\-Definition at line 65 of file overosync.\-c.
+
+\hypertarget{structoverosync_a44c38abb842382371674de5e2e1b55fe}{\index{overosync@{overosync}!received\-\_\-objects@{received\-\_\-objects}}
+\index{received\-\_\-objects@{received\-\_\-objects}!overosync@{overosync}}
+\subsubsection[{received\-\_\-objects}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t {\bf overosync\-::received\-\_\-objects}}}\label{structoverosync_a44c38abb842382371674de5e2e1b55fe}
+
+
+\-Definition at line 64 of file overosync.\-c.
+
+\hypertarget{structoverosync_a7a7d310f38281bd01857a3a6e818f16e}{\index{overosync@{overosync}!sending\-\_\-settings@{sending\-\_\-settings}}
+\index{sending\-\_\-settings@{sending\-\_\-settings}!overosync@{overosync}}
+\subsubsection[{sending\-\_\-settings}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf overosync\-::sending\-\_\-settings}}}\label{structoverosync_a7a7d310f38281bd01857a3a6e818f16e}
+
+
+\-Definition at line 65 of file overosync.\-c.
+
+\hypertarget{structoverosync_ae75efe9626e6cd54b7f51937d7ccc8bd}{\index{overosync@{overosync}!sent\-\_\-bytes@{sent\-\_\-bytes}}
+\index{sent\-\_\-bytes@{sent\-\_\-bytes}!overosync@{overosync}}
+\subsubsection[{sent\-\_\-bytes}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t {\bf overosync\-::sent\-\_\-bytes}}}\label{structoverosync_ae75efe9626e6cd54b7f51937d7ccc8bd}
+
+
+\-Definition at line 61 of file overosync.\-c.
+
+\hypertarget{structoverosync_ace6edc8026e30f605d99e5f01c6d66a9}{\index{overosync@{overosync}!sent\-\_\-objects@{sent\-\_\-objects}}
+\index{sent\-\_\-objects@{sent\-\_\-objects}!overosync@{overosync}}
+\subsubsection[{sent\-\_\-objects}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t {\bf overosync\-::sent\-\_\-objects}}}\label{structoverosync_ace6edc8026e30f605d99e5f01c6d66a9}
+
+
+\-Definition at line 62 of file overosync.\-c.
+
+\hypertarget{structoverosync_a065e182f37469dcd89b3de4464d91267}{\index{overosync@{overosync}!transaction\-\_\-done@{transaction\-\_\-done}}
+\index{transaction\-\_\-done@{transaction\-\_\-done}!overosync@{overosync}}
+\subsubsection[{transaction\-\_\-done}]{\setlength{\rightskip}{0pt plus 5cm}volatile bool {\bf overosync\-::transaction\-\_\-done}}}\label{structoverosync_a065e182f37469dcd89b3de4464d91267}
+
+
+\-Definition at line 68 of file overosync.\-c.
+
+\hypertarget{structoverosync_acca01c899cb020526ac2809ba6b27fc0}{\index{overosync@{overosync}!transaction\-\_\-lock@{transaction\-\_\-lock}}
+\index{transaction\-\_\-lock@{transaction\-\_\-lock}!overosync@{overosync}}
+\subsubsection[{transaction\-\_\-lock}]{\setlength{\rightskip}{0pt plus 5cm}x\-Semaphore\-Handle {\bf overosync\-::transaction\-\_\-lock}}}\label{structoverosync_acca01c899cb020526ac2809ba6b27fc0}
+
+
+\-Definition at line 66 of file overosync.\-c.
+
+\hypertarget{structoverosync_afb53dc0407f8d5e956d83e78c3b15782}{\index{overosync@{overosync}!transactions@{transactions}}
+\index{transactions@{transactions}!overosync@{overosync}}
+\subsubsection[{transactions}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf dma\-\_\-transaction} {\bf overosync\-::transactions}\mbox{[}2\mbox{]}}}\label{structoverosync_afb53dc0407f8d5e956d83e78c3b15782}
+
+
+\-Definition at line 63 of file overosync.\-c.
+
+\hypertarget{structoverosync_a094836cef0f9cc8e8b45f8d6a58dc9ad}{\index{overosync@{overosync}!write\-\_\-pointer@{write\-\_\-pointer}}
+\index{write\-\_\-pointer@{write\-\_\-pointer}!overosync@{overosync}}
+\subsubsection[{write\-\_\-pointer}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t {\bf overosync\-::write\-\_\-pointer}}}\label{structoverosync_a094836cef0f9cc8e8b45f8d6a58dc9ad}
+
+
+\-Definition at line 70 of file overosync.\-c.
+
+
+
+\-The documentation for this struct was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jb/code/\-Tau\-Labs/flight/\-Modules/\-Overo\-Sync/\hyperlink{overosync_8c}{overosync.\-c}\item 
+/home/jb/code/\-Tau\-Labs/flight/\-Modules/\-Overo\-Sync/simulated/\hyperlink{simulated_2overosync_8c}{overosync.\-c}\end{DoxyCompactItemize}

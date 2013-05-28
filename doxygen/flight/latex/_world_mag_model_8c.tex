@@ -1,0 +1,79 @@
+\hypertarget{_world_mag_model_8c}{\section{/home/jb/code/\-Tau\-Labs/flight/\-Libraries/\-World\-Mag\-Model.c \-File \-Reference}
+\label{_world_mag_model_8c}\index{/home/jb/code/\-Tau\-Labs/flight/\-Libraries/\-World\-Mag\-Model.\-c@{/home/jb/code/\-Tau\-Labs/flight/\-Libraries/\-World\-Mag\-Model.\-c}}
+}
+
+
+\-Source file for the \-World \-Magnetic \-Model \-This is a port of code available from the \-U\-S \-N\-O\-A\-A.  
+
+
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{group___tau_labs_libraries_ga03835b784549965af0e70b875e08cae1}{\-W\-M\-M\-\_\-\-Initialize} ()
+\item 
+int \hyperlink{group___tau_labs_libraries_ga241f797f133a9e48ef8c3e57f3d1106d}{\-W\-M\-M\-\_\-\-Get\-Mag\-Vector} (float \-Lat, float \-Lon, float \-Alt\-Ellipsoid, uint16\-\_\-t \-Month, uint16\-\_\-t \-Day, uint16\-\_\-t \-Year, float \-B\mbox{[}3\mbox{]})
+\item 
+int \hyperlink{group___tau_labs_libraries_ga81cea078875c7d7c71f3e8cabb8a9c7a}{\-W\-M\-M\-\_\-\-Geomag} (\hyperlink{struct_w_m_mtype___coord_spherical}{\-W\-M\-Mtype\-\_\-\-Coord\-Spherical} $\ast$\-Coord\-Spherical, \hyperlink{struct_w_m_mtype___coord_geodetic}{\-W\-M\-Mtype\-\_\-\-Coord\-Geodetic} $\ast$\-Coord\-Geodetic, \hyperlink{struct_w_m_mtype___geo_magnetic_elements}{\-W\-M\-Mtype\-\_\-\-Geo\-Magnetic\-Elements} $\ast$\-Geo\-Magnetic\-Elements)
+\item 
+int \hyperlink{group___tau_labs_libraries_gac26353c9c9e52c36b2d5ac18572b4699}{\-W\-M\-M\-\_\-\-Compute\-Spherical\-Harmonic\-Variables} (\hyperlink{struct_w_m_mtype___coord_spherical}{\-W\-M\-Mtype\-\_\-\-Coord\-Spherical} $\ast$\-Coord\-Spherical, uint16\-\_\-t n\-Max, \hyperlink{struct_w_m_mtype___spherical_harmonic_variables}{\-W\-M\-Mtype\-\_\-\-Spherical\-Harmonic\-Variables} $\ast$\-Sph\-Variables)
+\item 
+int \hyperlink{group___tau_labs_libraries_gaf0d6a6fcdbb7366c3b56e138852d13c1}{\-W\-M\-M\-\_\-\-Associated\-Legendre\-Function} (\hyperlink{struct_w_m_mtype___coord_spherical}{\-W\-M\-Mtype\-\_\-\-Coord\-Spherical} $\ast$\-Coord\-Spherical, uint16\-\_\-t n\-Max, \hyperlink{struct_w_m_mtype___legendre_function}{\-W\-M\-Mtype\-\_\-\-Legendre\-Function} $\ast$\-Legendre\-Function)
+\item 
+int \hyperlink{group___tau_labs_libraries_ga0ee76e9b4bd7c03fd01f84860e7d7dd3}{\-W\-M\-M\-\_\-\-Summation} (\hyperlink{struct_w_m_mtype___legendre_function}{\-W\-M\-Mtype\-\_\-\-Legendre\-Function} $\ast$\-Legendre\-Function, \hyperlink{struct_w_m_mtype___spherical_harmonic_variables}{\-W\-M\-Mtype\-\_\-\-Spherical\-Harmonic\-Variables} $\ast$\-Sph\-Variables, \hyperlink{struct_w_m_mtype___coord_spherical}{\-W\-M\-Mtype\-\_\-\-Coord\-Spherical} $\ast$\-Coord\-Spherical, \hyperlink{struct_w_m_mtype___magnetic_results}{\-W\-M\-Mtype\-\_\-\-Magnetic\-Results} $\ast$\-Magnetic\-Results)
+\item 
+int \hyperlink{group___tau_labs_libraries_gace15597d5b884053e2730413ab894f3e}{\-W\-M\-M\-\_\-\-Sec\-Var\-Summation} (\hyperlink{struct_w_m_mtype___legendre_function}{\-W\-M\-Mtype\-\_\-\-Legendre\-Function} $\ast$\-Legendre\-Function, \hyperlink{struct_w_m_mtype___spherical_harmonic_variables}{\-W\-M\-Mtype\-\_\-\-Spherical\-Harmonic\-Variables} $\ast$\-Sph\-Variables, \hyperlink{struct_w_m_mtype___coord_spherical}{\-W\-M\-Mtype\-\_\-\-Coord\-Spherical} $\ast$\-Coord\-Spherical, \hyperlink{struct_w_m_mtype___magnetic_results}{\-W\-M\-Mtype\-\_\-\-Magnetic\-Results} $\ast$\-Magnetic\-Results)
+\item 
+int \hyperlink{group___tau_labs_libraries_ga7ff64320e8368dafabb8ff6da6154c0c}{\-W\-M\-M\-\_\-\-Rotate\-Magnetic\-Vector} (\hyperlink{struct_w_m_mtype___coord_spherical}{\-W\-M\-Mtype\-\_\-\-Coord\-Spherical} $\ast$, \hyperlink{struct_w_m_mtype___coord_geodetic}{\-W\-M\-Mtype\-\_\-\-Coord\-Geodetic} $\ast$\-Coord\-Geodetic, \hyperlink{struct_w_m_mtype___magnetic_results}{\-W\-M\-Mtype\-\_\-\-Magnetic\-Results} $\ast$\-Magnetic\-Results\-Sph, \hyperlink{struct_w_m_mtype___magnetic_results}{\-W\-M\-Mtype\-\_\-\-Magnetic\-Results} $\ast$\-Magnetic\-Results\-Geo)
+\item 
+int \hyperlink{group___tau_labs_libraries_gaeac1e1535485855275f9a1cfb7deb7d5}{\-W\-M\-M\-\_\-\-Calculate\-Geo\-Magnetic\-Elements} (\hyperlink{struct_w_m_mtype___magnetic_results}{\-W\-M\-Mtype\-\_\-\-Magnetic\-Results} $\ast$\-Magnetic\-Results\-Geo, \hyperlink{struct_w_m_mtype___geo_magnetic_elements}{\-W\-M\-Mtype\-\_\-\-Geo\-Magnetic\-Elements} $\ast$\-Geo\-Magnetic\-Elements)
+\item 
+int \hyperlink{group___tau_labs_libraries_ga3eac4ba39252e5ad5f623facd6d57b5b}{\-W\-M\-M\-\_\-\-Calculate\-Secular\-Variation} (\hyperlink{struct_w_m_mtype___magnetic_results}{\-W\-M\-Mtype\-\_\-\-Magnetic\-Results} $\ast$\-Magnetic\-Variation, \hyperlink{struct_w_m_mtype___geo_magnetic_elements}{\-W\-M\-Mtype\-\_\-\-Geo\-Magnetic\-Elements} $\ast$\-Magnetic\-Elements)
+\item 
+int \hyperlink{group___tau_labs_libraries_ga3a649421022e87b47a631a7209a69b03}{\-W\-M\-M\-\_\-\-Pcup\-High} (float $\ast$\-Pcup, float $\ast$d\-Pcup, float x, uint16\-\_\-t n\-Max)
+\item 
+int \hyperlink{group___tau_labs_libraries_ga30ba4a7b9060ea46c8b97a151e1a672e}{\-W\-M\-M\-\_\-\-Pcup\-Low} (float $\ast$\-Pcup, float $\ast$d\-Pcup, float x, uint16\-\_\-t n\-Max)
+\item 
+int \hyperlink{group___tau_labs_libraries_gac7da42c5f969106eb3d552d2e616df94}{\-W\-M\-M\-\_\-\-Summation\-Special} (\hyperlink{struct_w_m_mtype___spherical_harmonic_variables}{\-W\-M\-Mtype\-\_\-\-Spherical\-Harmonic\-Variables} $\ast$\-Sph\-Variables, \hyperlink{struct_w_m_mtype___coord_spherical}{\-W\-M\-Mtype\-\_\-\-Coord\-Spherical} $\ast$\-Coord\-Spherical, \hyperlink{struct_w_m_mtype___magnetic_results}{\-W\-M\-Mtype\-\_\-\-Magnetic\-Results} $\ast$\-Magnetic\-Results)
+\item 
+int \hyperlink{group___tau_labs_libraries_gaa73c47622a2818fc3db051bd63060211}{\-W\-M\-M\-\_\-\-Sec\-Var\-Summation\-Special} (\hyperlink{struct_w_m_mtype___spherical_harmonic_variables}{\-W\-M\-Mtype\-\_\-\-Spherical\-Harmonic\-Variables} $\ast$\-Sph\-Variables, \hyperlink{struct_w_m_mtype___coord_spherical}{\-W\-M\-Mtype\-\_\-\-Coord\-Spherical} $\ast$\-Coord\-Spherical, \hyperlink{struct_w_m_mtype___magnetic_results}{\-W\-M\-Mtype\-\_\-\-Magnetic\-Results} $\ast$\-Magnetic\-Results)
+\item 
+float \hyperlink{group___tau_labs_libraries_ga751ca9b09519898686ec126761fe776a}{\-W\-M\-M\-\_\-get\-\_\-main\-\_\-field\-\_\-coeff\-\_\-g} (uint16\-\_\-t index)
+\begin{DoxyCompactList}\small\item\em \-Comput the \-Main\-Field\-Coeff\-H accounting for the date. \end{DoxyCompactList}\item 
+float \hyperlink{group___tau_labs_libraries_gae9cebe39726f1469ca14fb66311d266c}{\-W\-M\-M\-\_\-get\-\_\-main\-\_\-field\-\_\-coeff\-\_\-h} (uint16\-\_\-t index)
+\item 
+float \hyperlink{group___tau_labs_libraries_ga92c8dce6ab0d9bc670c2e62dd5494f95}{\-W\-M\-M\-\_\-get\-\_\-secular\-\_\-var\-\_\-coeff\-\_\-g} (uint16\-\_\-t index)
+\item 
+float \hyperlink{group___tau_labs_libraries_ga858aac8dd5a17c59d462a5f7ac5c0132}{\-W\-M\-M\-\_\-get\-\_\-secular\-\_\-var\-\_\-coeff\-\_\-h} (uint16\-\_\-t index)
+\item 
+int \hyperlink{group___tau_labs_libraries_ga3ab6215b460bc2cfebe9a87443ff173a}{\-W\-M\-M\-\_\-\-Date\-To\-Year} (uint16\-\_\-t month, uint16\-\_\-t day, uint16\-\_\-t year)
+\item 
+int \hyperlink{group___tau_labs_libraries_ga5971db1a3c1b41047a5794e322e6a3fc}{\-W\-M\-M\-\_\-\-Geodetic\-To\-Spherical} (\hyperlink{struct_w_m_mtype___coord_geodetic}{\-W\-M\-Mtype\-\_\-\-Coord\-Geodetic} $\ast$\-Coord\-Geodetic, \hyperlink{struct_w_m_mtype___coord_spherical}{\-W\-M\-Mtype\-\_\-\-Coord\-Spherical} $\ast$\-Coord\-Spherical)
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-Source file for the \-World \-Magnetic \-Model \-This is a port of code available from the \-U\-S \-N\-O\-A\-A. \begin{DoxyAuthor}{\-Author}
+\-The \-Open\-Pilot \-Team, \href{http://www.openpilot.org}{\tt http\-://www.\-openpilot.\-org} \-Copyright (\-C) 2010. 
+
+\-Tau \-Labs, \href{http://taulabs.org,}{\tt http\-://taulabs.\-org,} \-Copyright (\-C) 2013 \-The hard coded coefficients should be valid until 2015.
+\end{DoxyAuthor}
+\-Updated coeffs from .. \href{http://www.ngdc.noaa.gov/geomag/WMM/wmm_ddownload.shtml}{\tt http\-://www.\-ngdc.\-noaa.\-gov/geomag/\-W\-M\-M/wmm\-\_\-ddownload.\-shtml}
+
+\-N\-A\-S\-A \-C source code .. \href{http://www.ngdc.noaa.gov/geomag/WMM/wmm_wdownload.shtml}{\tt http\-://www.\-ngdc.\-noaa.\-gov/geomag/\-W\-M\-M/wmm\-\_\-wdownload.\-shtml}
+
+\-Major changes include\-:
+\begin{DoxyItemize}
+\item \-No geoid model (altitude must be geodetic \-W\-G\-S-\/84)
+\item \-Floating point calculation (not double precision)
+\item \-Hard coded coefficients for model
+\item \-Elimination of user interface
+\item \-Elimination of dynamic memory allocation
+\end{DoxyItemize}
+
+\begin{DoxySeeAlso}{\-See also}
+\-The \-G\-N\-U \-Public \-License (\-G\-P\-L) \-Version 3 
+\end{DoxySeeAlso}
+
+
+\-Definition in file \hyperlink{_world_mag_model_8c_source}{\-World\-Mag\-Model.\-c}.
+

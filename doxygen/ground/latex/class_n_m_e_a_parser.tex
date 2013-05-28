@@ -1,0 +1,72 @@
+\hypertarget{class_n_m_e_a_parser}{\section{\-N\-M\-E\-A\-Parser \-Class \-Reference}
+\label{class_n_m_e_a_parser}\index{\-N\-M\-E\-A\-Parser@{\-N\-M\-E\-A\-Parser}}
+}
+
+
+{\ttfamily \#include $<$nmeaparser.\-h$>$}
+
+\-Inheritance diagram for \-N\-M\-E\-A\-Parser\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_n_m_e_a_parser}
+\end{center}
+\end{figure}
+\subsection*{\-Public \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___g_p_s_gadget_plugin_gababc72322cf2d939a88939cc9036d884}{\-N\-M\-E\-A\-Parser} (\-Q\-Object $\ast$parent=0)
+\item 
+\hyperlink{group___g_p_s_gadget_plugin_gaedf659d241eff03757c31f3b80697f89}{$\sim$\-N\-M\-E\-A\-Parser} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___g_p_s_gadget_plugin_gaf4983b5649be1ec2deb7dafcd4a3573c}{process\-Input\-Stream} (char c)
+\item 
+char $\ast$ \hyperlink{group___g_p_s_gadget_plugin_ga5c79371e20badd15d23705c63eaacfe1}{nmea\-Get\-Packet\-Buffer} (\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void})
+\item 
+char \hyperlink{group___g_p_s_gadget_plugin_gaba9a601d8ec049e7f398b5d42cd974a1}{nmea\-Checksum} (char $\ast$gps\-\_\-buffer)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___g_p_s_gadget_plugin_gab0b239f615ef146897cec5c020735a8e}{nmea\-Terminate\-At\-Checksum} (char $\ast$gps\-\_\-buffer)
+\item 
+uint8\-\_\-t \hyperlink{group___g_p_s_gadget_plugin_ga55718bf48b8a95492b1aa43a65490e64}{nmea\-Process} (\hyperlink{group__buffer_ga63b2a19263ed371e329776b34f3164eb}{c\-Buffer} $\ast$rx\-Buffer)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___g_p_s_gadget_plugin_ga0ac80dbcc0ad8bec03f026c3feb2c097}{nmea\-Process\-G\-P\-G\-G\-A} (char $\ast$\hyperlink{group___antenna_track_gadget_plugin_gaa52c8cc41458c01d411d550d1e3f3d96}{packet})
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___g_p_s_gadget_plugin_ga838f8b6c0bea66c17f82fec788a1a74f}{nmea\-Process\-G\-P\-R\-M\-C} (char $\ast$\hyperlink{group___antenna_track_gadget_plugin_gaa52c8cc41458c01d411d550d1e3f3d96}{packet})
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___g_p_s_gadget_plugin_ga10893234aff922433723153e6057386e}{nmea\-Process\-G\-P\-V\-T\-G} (char $\ast$\hyperlink{group___antenna_track_gadget_plugin_gaa52c8cc41458c01d411d550d1e3f3d96}{packet})
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___g_p_s_gadget_plugin_gad10ce6b495849dd4cf6e019d650a87f7}{nmea\-Process\-G\-P\-G\-S\-A} (char $\ast$\hyperlink{group___antenna_track_gadget_plugin_gaa52c8cc41458c01d411d550d1e3f3d96}{packet})
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___g_p_s_gadget_plugin_ga35b60b2a2f0643fd5202557a5aaace81}{nmea\-Process\-G\-P\-G\-S\-V} (char $\ast$\hyperlink{group___antenna_track_gadget_plugin_gaa52c8cc41458c01d411d550d1e3f3d96}{packet})
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___g_p_s_gadget_plugin_ga01e0952dc227b7f7d3cef2d36f684544}{nmea\-Process\-G\-P\-Z\-D\-A} (char $\ast$\hyperlink{group___antenna_track_gadget_plugin_gaa52c8cc41458c01d411d550d1e3f3d96}{packet})
+\end{DoxyCompactItemize}
+\subsection*{\-Public \-Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___g_p_s_gadget_plugin_ga4f1b5520a42a0033fb4d09fc7cbc2197}{\-Gps\-Data\-\_\-t} \hyperlink{group___g_p_s_gadget_plugin_ga5ed5a691ba188edd73dbfa5e6a72ee31}{\-Gps\-Data}
+\item 
+\hyperlink{group__buffer_ga63b2a19263ed371e329776b34f3164eb}{c\-Buffer} \hyperlink{group___g_p_s_gadget_plugin_gae55785b07246236cfe8d6c3139becff1}{gps\-Rx\-Buffer}
+\item 
+char \hyperlink{group___g_p_s_gadget_plugin_gaef781170a93672b3bbc887fcabdcb369}{gps\-Rx\-Data} \mbox{[}512\mbox{]}
+\item 
+char \hyperlink{group___g_p_s_gadget_plugin_ga3d1bdb9e4264f153e4537750bb8d7fd9}{\-Nmea\-Packet} \mbox{[}\-N\-M\-E\-A\-\_\-\-B\-U\-F\-F\-E\-R\-S\-I\-Z\-E\mbox{]}
+\item 
+uint32\-\_\-t \hyperlink{group___g_p_s_gadget_plugin_ga08ee9a94774bf6691a26d600e1ea51a9}{num\-Updates}
+\item 
+uint32\-\_\-t \hyperlink{group___g_p_s_gadget_plugin_gaef5bd2863b92f02db2ad4ef9e66e9437}{num\-Errors}
+\item 
+int32\-\_\-t \hyperlink{group___g_p_s_gadget_plugin_gaf0b70b48a4a5943f40dc14c11b8e0712}{gps\-Rx\-Overflow}
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+
+
+\-Definition at line 58 of file nmeaparser.\-h.
+
+
+
+\-The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/plugins/gpsdisplay/\hyperlink{nmeaparser_8h}{nmeaparser.\-h}\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/plugins/gpsdisplay/\hyperlink{nmeaparser_8cpp}{nmeaparser.\-cpp}\end{DoxyCompactItemize}

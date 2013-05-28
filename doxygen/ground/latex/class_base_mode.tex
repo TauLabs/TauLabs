@@ -1,0 +1,35 @@
+\hypertarget{class_base_mode}{\section{\-Base\-Mode \-Class \-Reference}
+\label{class_base_mode}\index{\-Base\-Mode@{\-Base\-Mode}}
+}
+
+
+\-A base implementation of the mode interface \-I\-Mode.  
+
+
+
+
+\subsection{\-Detailed \-Description}
+\-A base implementation of the mode interface \-I\-Mode. 
+
+basemode.\-h \-The \hyperlink{class_base_mode}{\-Base\-Mode} class can be used directly for most \-I\-Mode implementations. \-It has setter functions for the mode properties and a convenience constructor.
+
+\-The ownership of the widget is given to the \hyperlink{class_base_mode}{\-Base\-Mode}, so when the \hyperlink{class_base_mode}{\-Base\-Mode} is destroyed it deletes its widget.
+
+\-A typical use case is to do the following in the init method of a plugin\-: 
+\begin{DoxyCode}
+    bool MyPlugin::init(QString *error_message)
+    {
+        [...]
+        addObject(new Core::BaseMode("mymode",
+            "MyPlugin.UniqueModeName",
+            icon,
+            50, // priority
+            new MyWidget));
+        [...]
+    }
+\end{DoxyCode}
+ 
+
+\-The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/plugins/coreplugin/\hyperlink{basemode_8cpp}{basemode.\-cpp}\end{DoxyCompactItemize}

@@ -1,0 +1,43 @@
+\hypertarget{pios__adxl345_8h}{\section{/home/jb/code/\-Tau\-Labs/flight/\-Pi\-O\-S/inc/pios\-\_\-adxl345.h \-File \-Reference}
+\label{pios__adxl345_8h}\index{/home/jb/code/\-Tau\-Labs/flight/\-Pi\-O\-S/inc/pios\-\_\-adxl345.\-h@{/home/jb/code/\-Tau\-Labs/flight/\-Pi\-O\-S/inc/pios\-\_\-adxl345.\-h}}
+}
+
+
+\-Pi\-O\-S \-A\-D\-X\-L345 digital accelerometer driver.  
+
+
+\subsection*{\-Data \-Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structpios__adxl345__data}{pios\-\_\-adxl345\-\_\-data}
+\end{DoxyCompactItemize}
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___a_d_x_l345_gaedeba8a50a27f4f4419dd30ba5466233}{\-P\-I\-O\-S\-\_\-\-A\-D\-X\-L345\-\_\-\-Select\-Rate} (uint8\-\_\-t rate)
+\begin{DoxyCompactList}\small\item\em \-Select the sampling rate of the chip. \end{DoxyCompactList}\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___a_d_x_l345_gad60a361fc357f7a08a7fc5586958e470}{\-P\-I\-O\-S\-\_\-\-A\-D\-X\-L345\-\_\-\-Set\-Range} (uint8\-\_\-t range)
+\begin{DoxyCompactList}\small\item\em \-Set the range of the accelerometer and set the data to be right justified with sign extension. \-Also keep device in 4 wire mode. \end{DoxyCompactList}\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___a_d_x_l345_ga1862ab6db103692d9564b3db867f7dd8}{\-P\-I\-O\-S\-\_\-\-A\-D\-X\-L345\-\_\-\-Init} (uint32\-\_\-t spi\-\_\-id, uint32\-\_\-t slave\-\_\-num)
+\begin{DoxyCompactList}\small\item\em \-Initialize with good default settings. \end{DoxyCompactList}\item 
+uint8\-\_\-t \hyperlink{group___p_i_o_s___a_d_x_l345_ga07397b4feb4e0b9dcb4d38f39bd6e432}{\-P\-I\-O\-S\-\_\-\-A\-D\-X\-L345\-\_\-\-Read} (struct \hyperlink{structpios__adxl345__data}{pios\-\_\-adxl345\-\_\-data} $\ast$data)
+\begin{DoxyCompactList}\small\item\em \-Read a single set of values from the x y z channels. \end{DoxyCompactList}\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___a_d_x_l345_ga9d29094128a0b4a9882fbf034017533b}{\-P\-I\-O\-S\-\_\-\-A\-D\-X\-L345\-\_\-\-Fifo\-Elements} ()
+\begin{DoxyCompactList}\small\item\em \-Return number of entries in the fifo. \end{DoxyCompactList}\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___a_d_x_l345_gae592086eb373986b98f2a5f865736151}{\-P\-I\-O\-S\-\_\-\-A\-D\-X\-L345\-\_\-\-Test} ()
+\begin{DoxyCompactList}\small\item\em \-Return number of entries in the fifo. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-Pi\-O\-S \-A\-D\-X\-L345 digital accelerometer driver. \-Pi\-O\-S \-S\-P\-I \-A\-D\-X\-L345.
+
+\begin{DoxyAuthor}{\-Author}
+\-The \-Open\-Pilot \-Team, \href{http://www.openpilot.org}{\tt http\-://www.\-openpilot.\-org} \-Copyright (\-C) 2012. 
+\end{DoxyAuthor}
+\begin{DoxySeeAlso}{\-See also}
+\-The \-G\-N\-U \-Public \-License (\-G\-P\-L) \-Version 3 
+\end{DoxySeeAlso}
+
+
+\-Definition in file \hyperlink{pios__adxl345_8h_source}{pios\-\_\-adxl345.\-h}.
+

@@ -1,0 +1,72 @@
+\hypertarget{struct_extension_system_1_1_plugin_dependency}{\section{\-Extension\-System\-:\-:\-Plugin\-Dependency \-Class \-Reference}
+\label{struct_extension_system_1_1_plugin_dependency}\index{\-Extension\-System\-::\-Plugin\-Dependency@{\-Extension\-System\-::\-Plugin\-Dependency}}
+}
+
+
+\-Struct that contains the name and required compatible version number of a plugin's dependency.  
+
+
+
+
+{\ttfamily \#include $<$pluginspec.\-h$>$}
+
+\subsection*{\-Public \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+bool \hyperlink{struct_extension_system_1_1_plugin_dependency_a241605ff225f90b4be7cd83dc9e30828}{operator==} (const \hyperlink{struct_extension_system_1_1_plugin_dependency}{\-Plugin\-Dependency} \&other)
+\end{DoxyCompactItemize}
+\subsection*{\-Public \-Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{struct_extension_system_1_1_plugin_dependency_acd2cf6b00e6408b5fe155340a8159183}{name}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{struct_extension_system_1_1_plugin_dependency_a2d00bf5564134af5cb2eeddf2074eee8}{version}
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-Struct that contains the name and required compatible version number of a plugin's dependency. 
+
+\-This reflects the data of a dependency tag in the plugin's xml description file. \-The name and version are used to resolve the dependency, i.\-e. a plugin with the given name and plugin {\ttfamily \{compatibility} version $<$= dependency version $<$= plugin version\} is searched for.
+
+\-See also \hyperlink{class_extension_system_1_1_i_plugin}{\-Extension\-System\-::\-I\-Plugin} for more information about plugin dependencies and version matching. 
+
+\-Definition at line 50 of file pluginspec.\-h.
+
+
+
+\subsection{\-Member \-Function \-Documentation}
+\hypertarget{struct_extension_system_1_1_plugin_dependency_a241605ff225f90b4be7cd83dc9e30828}{\index{\-Extension\-System\-::\-Plugin\-Dependency@{\-Extension\-System\-::\-Plugin\-Dependency}!operator==@{operator==}}
+\index{operator==@{operator==}!ExtensionSystem::PluginDependency@{\-Extension\-System\-::\-Plugin\-Dependency}}
+\subsubsection[{operator==}]{\setlength{\rightskip}{0pt plus 5cm}bool \-Plugin\-Dependency\-::operator== (
+\begin{DoxyParamCaption}
+\item[{const {\bf \-Plugin\-Dependency} \&}]{other}
+\end{DoxyParamCaption}
+)}}\label{struct_extension_system_1_1_plugin_dependency_a241605ff225f90b4be7cd83dc9e30828}
+
+
+\-Definition at line 131 of file pluginspec.\-cpp.
+
+
+
+\subsection{\-Member \-Data \-Documentation}
+\hypertarget{struct_extension_system_1_1_plugin_dependency_acd2cf6b00e6408b5fe155340a8159183}{\index{\-Extension\-System\-::\-Plugin\-Dependency@{\-Extension\-System\-::\-Plugin\-Dependency}!name@{name}}
+\index{name@{name}!ExtensionSystem::PluginDependency@{\-Extension\-System\-::\-Plugin\-Dependency}}
+\subsubsection[{name}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Q\-String} {\bf \-Extension\-System\-::\-Plugin\-Dependency\-::name}}}\label{struct_extension_system_1_1_plugin_dependency_acd2cf6b00e6408b5fe155340a8159183}
+
+
+\-Definition at line 52 of file pluginspec.\-h.
+
+\hypertarget{struct_extension_system_1_1_plugin_dependency_a2d00bf5564134af5cb2eeddf2074eee8}{\index{\-Extension\-System\-::\-Plugin\-Dependency@{\-Extension\-System\-::\-Plugin\-Dependency}!version@{version}}
+\index{version@{version}!ExtensionSystem::PluginDependency@{\-Extension\-System\-::\-Plugin\-Dependency}}
+\subsubsection[{version}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Q\-String} {\bf \-Extension\-System\-::\-Plugin\-Dependency\-::version}}}\label{struct_extension_system_1_1_plugin_dependency_a2d00bf5564134af5cb2eeddf2074eee8}
+
+
+\-Definition at line 53 of file pluginspec.\-h.
+
+
+
+\-The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/libs/extensionsystem/\hyperlink{pluginspec_8h}{pluginspec.\-h}\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/libs/extensionsystem/\hyperlink{pluginspec_8cpp}{pluginspec.\-cpp}\end{DoxyCompactItemize}

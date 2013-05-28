@@ -1,0 +1,358 @@
+\hypertarget{class_log_file}{\section{\-Log\-File \-Class \-Reference}
+\label{class_log_file}\index{\-Log\-File@{\-Log\-File}}
+}
+
+
+{\ttfamily \#include $<$logfile.\-h$>$}
+
+\subsection*{\-Public \-Slots}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_log_file_ab7a03016cf2c61cfe5cf7b477e9b3de5}{set\-Replay\-Speed} (double val)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_log_file_a1b02fa57111680a530d15abaa87e4d11}{set\-Replay\-Time} (double val)
+\begin{DoxyCompactList}\small\item\em \hyperlink{class_log_file_a1b02fa57111680a530d15abaa87e4d11}{\-Log\-File\-::set\-Replay\-Time}, sets the playback time. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_log_file_a148ec54d47b9dc4fec33058e4c849240}{pause\-Replay} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_log_file_a52d5f07ff960070107e6f19d0fb7a8f5}{resume\-Replay} ()
+\end{DoxyCompactItemize}
+\subsection*{\-Signals}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_log_file_a85878eac521376c7251e56fb9fd3a8ea}{read\-Ready} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_log_file_ac5942e468655732a7b3e6d0492c978b8}{replay\-Started} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_log_file_a2ec76a32cecae257dda0682cab448572}{replay\-Finished} ()
+\end{DoxyCompactItemize}
+\subsection*{\-Public \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_log_file_a7a1cbbcbd9207aff498200f43afc000b}{\-Log\-File} (\-Q\-Object $\ast$parent=0)
+\item 
+qint64 \hyperlink{class_log_file_a9b005cee5c39390f3bfd483169dd61fa}{bytes\-Available} () const 
+\item 
+qint64 \hyperlink{class_log_file_afcd2cad8d846a73b1f4a82115d7eacd4}{bytes\-To\-Write} ()
+\item 
+bool \hyperlink{class_log_file_ad517c5a30953ceec11b5eac1d83d4d3d}{open} (\-Open\-Mode mode)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_log_file_a7e1213202ce1993e0bf6685f03abb392}{set\-File\-Name} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} name)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_log_file_a562305d5cd6f15bbebf4c0ad29fb553c}{close} ()
+\item 
+qint64 \hyperlink{class_log_file_aeb63c036d0151089ac2fd8a8ce1596d9}{write\-Data} (const char $\ast$data, qint64 data\-Size)
+\item 
+qint64 \hyperlink{class_log_file_af7052808ae3c412bdcab996a8aca6b0a}{read\-Data} (char $\ast$data, qint64 maxlen)
+\item 
+bool \hyperlink{class_log_file_a831f8e55896d31e6bedd805a0d429dbf}{start\-Replay} ()
+\item 
+bool \hyperlink{class_log_file_a642df666429251c89899ddccc03d7525}{stop\-Replay} ()
+\end{DoxyCompactItemize}
+\subsection*{\-Protected \-Slots}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_log_file_a7e66e2f2b6fc330107d8a87e045cd1fd}{timer\-Fired} ()
+\end{DoxyCompactItemize}
+\subsection*{\-Protected \-Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\-Q\-Byte\-Array \hyperlink{class_log_file_ab722d4f0315c5d3cc71b6b5a8b722fa0}{data\-Buffer}
+\item 
+\-Q\-Timer \hyperlink{class_log_file_a0d87ba8e55632876b82a820c895ad549}{timer}
+\item 
+\-Q\-Time \hyperlink{class_log_file_ac0bbc6cc818c7e061a98b586f967d8da}{my\-Time}
+\item 
+\-Q\-File \hyperlink{class_log_file_a2082be2198b8903edeb0bfc83d69dbac}{file}
+\item 
+quint32 \hyperlink{class_log_file_aef839a3a5211389d9d302206012d4402}{last\-Time\-Stamp}
+\item 
+quint32 \hyperlink{class_log_file_a98c760fc9057395fcc4ac51557de91bb}{last\-Play\-Time}
+\item 
+\-Q\-Mutex \hyperlink{class_log_file_a879a7dd05d179c71f683f39106cb3c8f}{mutex}
+\item 
+int \hyperlink{class_log_file_aa035b77c73dbb55b3e37108f377ba657}{last\-Play\-Time\-Offset}
+\item 
+double \hyperlink{class_log_file_a353850a88290b049a84fc18783a99099}{playback\-Speed}
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+
+
+\-Definition at line 13 of file logfile.\-h.
+
+
+
+\subsection{\-Constructor \& \-Destructor \-Documentation}
+\hypertarget{class_log_file_a7a1cbbcbd9207aff498200f43afc000b}{\index{\-Log\-File@{\-Log\-File}!\-Log\-File@{\-Log\-File}}
+\index{\-Log\-File@{\-Log\-File}!LogFile@{\-Log\-File}}
+\subsubsection[{\-Log\-File}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Log\-File\-::\-Log\-File} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Object $\ast$}]{parent = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}explicit\mbox{]}}}}\label{class_log_file_a7a1cbbcbd9207aff498200f43afc000b}
+
+
+\-Definition at line 12 of file logfile.\-cpp.
+
+
+
+\subsection{\-Member \-Function \-Documentation}
+\hypertarget{class_log_file_a9b005cee5c39390f3bfd483169dd61fa}{\index{\-Log\-File@{\-Log\-File}!bytes\-Available@{bytes\-Available}}
+\index{bytes\-Available@{bytes\-Available}!LogFile@{\-Log\-File}}
+\subsubsection[{bytes\-Available}]{\setlength{\rightskip}{0pt plus 5cm}qint64 {\bf \-Log\-File\-::bytes\-Available} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_log_file_a9b005cee5c39390f3bfd483169dd61fa}
+
+
+\-Definition at line 148 of file logfile.\-cpp.
+
+\hypertarget{class_log_file_afcd2cad8d846a73b1f4a82115d7eacd4}{\index{\-Log\-File@{\-Log\-File}!bytes\-To\-Write@{bytes\-To\-Write}}
+\index{bytes\-To\-Write@{bytes\-To\-Write}!LogFile@{\-Log\-File}}
+\subsubsection[{bytes\-To\-Write}]{\setlength{\rightskip}{0pt plus 5cm}qint64 {\bf \-Log\-File\-::bytes\-To\-Write} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{class_log_file_afcd2cad8d846a73b1f4a82115d7eacd4}
+
+
+\-Definition at line 19 of file logfile.\-h.
+
+\hypertarget{class_log_file_a562305d5cd6f15bbebf4c0ad29fb553c}{\index{\-Log\-File@{\-Log\-File}!close@{close}}
+\index{close@{close}!LogFile@{\-Log\-File}}
+\subsubsection[{close}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Log\-File\-::close} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_log_file_a562305d5cd6f15bbebf4c0ad29fb553c}
+
+
+\-Definition at line 114 of file logfile.\-cpp.
+
+\hypertarget{class_log_file_ad517c5a30953ceec11b5eac1d83d4d3d}{\index{\-Log\-File@{\-Log\-File}!open@{open}}
+\index{open@{open}!LogFile@{\-Log\-File}}
+\subsubsection[{open}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-Log\-File\-::open} (
+\begin{DoxyParamCaption}
+\item[{\-Open\-Mode}]{mode}
+\end{DoxyParamCaption}
+)}}\label{class_log_file_ad517c5a30953ceec11b5eac1d83d4d3d}
+\-Opens the logfile \-Q\-I\-O\-Device and the underlying logfile. \-In case we want to save the logfile, we open in \-Write\-Only. \-In case we want to read the logfile, we open in \-Read\-Only. 
+
+\-Definition at line 24 of file logfile.\-cpp.
+
+\hypertarget{class_log_file_a148ec54d47b9dc4fec33058e4c849240}{\index{\-Log\-File@{\-Log\-File}!pause\-Replay@{pause\-Replay}}
+\index{pause\-Replay@{pause\-Replay}!LogFile@{\-Log\-File}}
+\subsubsection[{pause\-Replay}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Log\-File\-::pause\-Replay} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}slot\mbox{]}}}}\label{class_log_file_a148ec54d47b9dc4fec33058e4c849240}
+
+
+\-Definition at line 288 of file logfile.\-cpp.
+
+\hypertarget{class_log_file_af7052808ae3c412bdcab996a8aca6b0a}{\index{\-Log\-File@{\-Log\-File}!read\-Data@{read\-Data}}
+\index{read\-Data@{read\-Data}!LogFile@{\-Log\-File}}
+\subsubsection[{read\-Data}]{\setlength{\rightskip}{0pt plus 5cm}qint64 {\bf \-Log\-File\-::read\-Data} (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{data, }
+\item[{qint64}]{maxlen}
+\end{DoxyParamCaption}
+)}}\label{class_log_file_af7052808ae3c412bdcab996a8aca6b0a}
+
+
+\-Definition at line 140 of file logfile.\-cpp.
+
+\hypertarget{class_log_file_a85878eac521376c7251e56fb9fd3a8ea}{\index{\-Log\-File@{\-Log\-File}!read\-Ready@{read\-Ready}}
+\index{read\-Ready@{read\-Ready}!LogFile@{\-Log\-File}}
+\subsubsection[{read\-Ready}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Log\-File\-::read\-Ready} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}signal\mbox{]}}}}\label{class_log_file_a85878eac521376c7251e56fb9fd3a8ea}
+\hypertarget{class_log_file_a2ec76a32cecae257dda0682cab448572}{\index{\-Log\-File@{\-Log\-File}!replay\-Finished@{replay\-Finished}}
+\index{replay\-Finished@{replay\-Finished}!LogFile@{\-Log\-File}}
+\subsubsection[{replay\-Finished}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Log\-File\-::replay\-Finished} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}signal\mbox{]}}}}\label{class_log_file_a2ec76a32cecae257dda0682cab448572}
+\hypertarget{class_log_file_ac5942e468655732a7b3e6d0492c978b8}{\index{\-Log\-File@{\-Log\-File}!replay\-Started@{replay\-Started}}
+\index{replay\-Started@{replay\-Started}!LogFile@{\-Log\-File}}
+\subsubsection[{replay\-Started}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Log\-File\-::replay\-Started} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}signal\mbox{]}}}}\label{class_log_file_ac5942e468655732a7b3e6d0492c978b8}
+\hypertarget{class_log_file_a52d5f07ff960070107e6f19d0fb7a8f5}{\index{\-Log\-File@{\-Log\-File}!resume\-Replay@{resume\-Replay}}
+\index{resume\-Replay@{resume\-Replay}!LogFile@{\-Log\-File}}
+\subsubsection[{resume\-Replay}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Log\-File\-::resume\-Replay} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}slot\mbox{]}}}}\label{class_log_file_a52d5f07ff960070107e6f19d0fb7a8f5}
+
+
+\-Definition at line 293 of file logfile.\-cpp.
+
+\hypertarget{class_log_file_a7e1213202ce1993e0bf6685f03abb392}{\index{\-Log\-File@{\-Log\-File}!set\-File\-Name@{set\-File\-Name}}
+\index{set\-File\-Name@{set\-File\-Name}!LogFile@{\-Log\-File}}
+\subsubsection[{set\-File\-Name}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Log\-File\-::set\-File\-Name} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Q\-String}}]{name}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{class_log_file_a7e1213202ce1993e0bf6685f03abb392}
+
+
+\-Definition at line 21 of file logfile.\-h.
+
+\hypertarget{class_log_file_ab7a03016cf2c61cfe5cf7b477e9b3de5}{\index{\-Log\-File@{\-Log\-File}!set\-Replay\-Speed@{set\-Replay\-Speed}}
+\index{set\-Replay\-Speed@{set\-Replay\-Speed}!LogFile@{\-Log\-File}}
+\subsubsection[{set\-Replay\-Speed}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Log\-File\-::set\-Replay\-Speed} (
+\begin{DoxyParamCaption}
+\item[{double}]{val}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, slot\mbox{]}}}}\label{class_log_file_ab7a03016cf2c61cfe5cf7b477e9b3de5}
+
+
+\-Definition at line 30 of file logfile.\-h.
+
+\hypertarget{class_log_file_a1b02fa57111680a530d15abaa87e4d11}{\index{\-Log\-File@{\-Log\-File}!set\-Replay\-Time@{set\-Replay\-Time}}
+\index{set\-Replay\-Time@{set\-Replay\-Time}!LogFile@{\-Log\-File}}
+\subsubsection[{set\-Replay\-Time}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Log\-File\-::set\-Replay\-Time} (
+\begin{DoxyParamCaption}
+\item[{double}]{val}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}slot\mbox{]}}}}\label{class_log_file_a1b02fa57111680a530d15abaa87e4d11}
+
+
+\hyperlink{class_log_file_a1b02fa57111680a530d15abaa87e4d11}{\-Log\-File\-::set\-Replay\-Time}, sets the playback time. 
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em val,the} & time in \\
+\hline
+\end{DoxyParams}
+
+
+\-Definition at line 303 of file logfile.\-cpp.
+
+\hypertarget{class_log_file_a831f8e55896d31e6bedd805a0d429dbf}{\index{\-Log\-File@{\-Log\-File}!start\-Replay@{start\-Replay}}
+\index{start\-Replay@{start\-Replay}!LogFile@{\-Log\-File}}
+\subsubsection[{start\-Replay}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-Log\-File\-::start\-Replay} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_log_file_a831f8e55896d31e6bedd805a0d429dbf}
+
+
+\-Definition at line 210 of file logfile.\-cpp.
+
+\hypertarget{class_log_file_a642df666429251c89899ddccc03d7525}{\index{\-Log\-File@{\-Log\-File}!stop\-Replay@{stop\-Replay}}
+\index{stop\-Replay@{stop\-Replay}!LogFile@{\-Log\-File}}
+\subsubsection[{stop\-Replay}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-Log\-File\-::stop\-Replay} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_log_file_a642df666429251c89899ddccc03d7525}
+
+
+\-Definition at line 282 of file logfile.\-cpp.
+
+\hypertarget{class_log_file_a7e66e2f2b6fc330107d8a87e045cd1fd}{\index{\-Log\-File@{\-Log\-File}!timer\-Fired@{timer\-Fired}}
+\index{timer\-Fired@{timer\-Fired}!LogFile@{\-Log\-File}}
+\subsubsection[{timer\-Fired}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Log\-File\-::timer\-Fired} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}protected, slot\mbox{]}}}}\label{class_log_file_a7e66e2f2b6fc330107d8a87e045cd1fd}
+
+
+\-Definition at line 153 of file logfile.\-cpp.
+
+\hypertarget{class_log_file_aeb63c036d0151089ac2fd8a8ce1596d9}{\index{\-Log\-File@{\-Log\-File}!write\-Data@{write\-Data}}
+\index{write\-Data@{write\-Data}!LogFile@{\-Log\-File}}
+\subsubsection[{write\-Data}]{\setlength{\rightskip}{0pt plus 5cm}qint64 {\bf \-Log\-File\-::write\-Data} (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{data, }
+\item[{qint64}]{data\-Size}
+\end{DoxyParamCaption}
+)}}\label{class_log_file_aeb63c036d0151089ac2fd8a8ce1596d9}
+
+
+\-Definition at line 124 of file logfile.\-cpp.
+
+
+
+\subsection{\-Member \-Data \-Documentation}
+\hypertarget{class_log_file_ab722d4f0315c5d3cc71b6b5a8b722fa0}{\index{\-Log\-File@{\-Log\-File}!data\-Buffer@{data\-Buffer}}
+\index{data\-Buffer@{data\-Buffer}!LogFile@{\-Log\-File}}
+\subsubsection[{data\-Buffer}]{\setlength{\rightskip}{0pt plus 5cm}\-Q\-Byte\-Array {\bf \-Log\-File\-::data\-Buffer}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{class_log_file_ab722d4f0315c5d3cc71b6b5a8b722fa0}
+
+
+\-Definition at line 44 of file logfile.\-h.
+
+\hypertarget{class_log_file_a2082be2198b8903edeb0bfc83d69dbac}{\index{\-Log\-File@{\-Log\-File}!file@{file}}
+\index{file@{file}!LogFile@{\-Log\-File}}
+\subsubsection[{file}]{\setlength{\rightskip}{0pt plus 5cm}\-Q\-File {\bf \-Log\-File\-::file}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{class_log_file_a2082be2198b8903edeb0bfc83d69dbac}
+
+
+\-Definition at line 47 of file logfile.\-h.
+
+\hypertarget{class_log_file_a98c760fc9057395fcc4ac51557de91bb}{\index{\-Log\-File@{\-Log\-File}!last\-Play\-Time@{last\-Play\-Time}}
+\index{last\-Play\-Time@{last\-Play\-Time}!LogFile@{\-Log\-File}}
+\subsubsection[{last\-Play\-Time}]{\setlength{\rightskip}{0pt plus 5cm}quint32 {\bf \-Log\-File\-::last\-Play\-Time}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{class_log_file_a98c760fc9057395fcc4ac51557de91bb}
+
+
+\-Definition at line 49 of file logfile.\-h.
+
+\hypertarget{class_log_file_aa035b77c73dbb55b3e37108f377ba657}{\index{\-Log\-File@{\-Log\-File}!last\-Play\-Time\-Offset@{last\-Play\-Time\-Offset}}
+\index{last\-Play\-Time\-Offset@{last\-Play\-Time\-Offset}!LogFile@{\-Log\-File}}
+\subsubsection[{last\-Play\-Time\-Offset}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf \-Log\-File\-::last\-Play\-Time\-Offset}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{class_log_file_aa035b77c73dbb55b3e37108f377ba657}
+
+
+\-Definition at line 53 of file logfile.\-h.
+
+\hypertarget{class_log_file_aef839a3a5211389d9d302206012d4402}{\index{\-Log\-File@{\-Log\-File}!last\-Time\-Stamp@{last\-Time\-Stamp}}
+\index{last\-Time\-Stamp@{last\-Time\-Stamp}!LogFile@{\-Log\-File}}
+\subsubsection[{last\-Time\-Stamp}]{\setlength{\rightskip}{0pt plus 5cm}quint32 {\bf \-Log\-File\-::last\-Time\-Stamp}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{class_log_file_aef839a3a5211389d9d302206012d4402}
+
+
+\-Definition at line 48 of file logfile.\-h.
+
+\hypertarget{class_log_file_a879a7dd05d179c71f683f39106cb3c8f}{\index{\-Log\-File@{\-Log\-File}!mutex@{mutex}}
+\index{mutex@{mutex}!LogFile@{\-Log\-File}}
+\subsubsection[{mutex}]{\setlength{\rightskip}{0pt plus 5cm}\-Q\-Mutex {\bf \-Log\-File\-::mutex}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{class_log_file_a879a7dd05d179c71f683f39106cb3c8f}
+
+
+\-Definition at line 50 of file logfile.\-h.
+
+\hypertarget{class_log_file_ac0bbc6cc818c7e061a98b586f967d8da}{\index{\-Log\-File@{\-Log\-File}!my\-Time@{my\-Time}}
+\index{my\-Time@{my\-Time}!LogFile@{\-Log\-File}}
+\subsubsection[{my\-Time}]{\setlength{\rightskip}{0pt plus 5cm}\-Q\-Time {\bf \-Log\-File\-::my\-Time}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{class_log_file_ac0bbc6cc818c7e061a98b586f967d8da}
+
+
+\-Definition at line 46 of file logfile.\-h.
+
+\hypertarget{class_log_file_a353850a88290b049a84fc18783a99099}{\index{\-Log\-File@{\-Log\-File}!playback\-Speed@{playback\-Speed}}
+\index{playback\-Speed@{playback\-Speed}!LogFile@{\-Log\-File}}
+\subsubsection[{playback\-Speed}]{\setlength{\rightskip}{0pt plus 5cm}double {\bf \-Log\-File\-::playback\-Speed}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{class_log_file_a353850a88290b049a84fc18783a99099}
+
+
+\-Definition at line 54 of file logfile.\-h.
+
+\hypertarget{class_log_file_a0d87ba8e55632876b82a820c895ad549}{\index{\-Log\-File@{\-Log\-File}!timer@{timer}}
+\index{timer@{timer}!LogFile@{\-Log\-File}}
+\subsubsection[{timer}]{\setlength{\rightskip}{0pt plus 5cm}\-Q\-Timer {\bf \-Log\-File\-::timer}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{class_log_file_a0d87ba8e55632876b82a820c895ad549}
+
+
+\-Definition at line 45 of file logfile.\-h.
+
+
+
+\-The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/plugins/logging/\hyperlink{logfile_8h}{logfile.\-h}\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/plugins/logging/\hyperlink{logfile_8cpp}{logfile.\-cpp}\end{DoxyCompactItemize}

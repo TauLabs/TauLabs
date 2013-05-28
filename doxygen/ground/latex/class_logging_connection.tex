@@ -1,0 +1,94 @@
+\hypertarget{class_logging_connection}{\section{\-Logging\-Connection \-Class \-Reference}
+\label{class_logging_connection}\index{\-Logging\-Connection@{\-Logging\-Connection}}
+}
+
+
+{\ttfamily \#include $<$loggingplugin.\-h$>$}
+
+\-Inheritance diagram for \-Logging\-Connection\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_logging_connection}
+\end{center}
+\end{figure}
+\subsection*{\-Public \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___logging_ga4e4cd5c90f83710ae2807a8257db1c70}{\-Logging\-Connection} ()
+\item 
+virtual \hyperlink{group___logging_ga0d9d6cd072a5b35292b5e4ffeda50fcd}{$\sim$\-Logging\-Connection} ()
+\item 
+virtual \-Q\-List$<$ \hyperlink{class_core_1_1_i_device}{\-Core\-::\-I\-Device} $\ast$ $>$ \hyperlink{group___logging_ga0ed63dc5111dcd536bacc7655b878e8f}{available\-Devices} ()
+\item 
+virtual \-Q\-I\-O\-Device $\ast$ \hyperlink{group___logging_ga592075585208489ed59844d9d7175015}{open\-Device} (\hyperlink{class_core_1_1_i_device}{\-Core\-::\-I\-Device} $\ast$device\-Name)
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___logging_gaeb291639744d4248ab7422d57444ea0a}{close\-Device} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \&device\-Name)
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___logging_gaca41f5a7a58289c24cdf4975b9718091}{connection\-Name} ()
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___logging_gaf569eb0407d501102e1257c067a05295}{short\-Name} ()
+\item 
+bool \hyperlink{class_logging_connection_a93a0206c7700583ac02392c6b7f254a4}{device\-Opened} ()
+\item 
+\hyperlink{class_log_file}{\-Log\-File} $\ast$ \hyperlink{class_logging_connection_ae125e5d696178c272287548b0707f9ce}{get\-Logfile} ()
+\end{DoxyCompactItemize}
+\subsection*{\-Protected \-Slots}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___logging_ga996f0747e733af2177ff669a4311008e}{on\-Enumeration\-Changed} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___logging_ga3b3e0a7dac19231ef21518709df897c3}{start\-Replay} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{uavobjecttemplate_8m_a97c04efa65bcf0928abf9260bc5cbf46}{file})
+\end{DoxyCompactItemize}
+\subsection*{\-Protected \-Attributes}
+\begin{DoxyCompactItemize}
+\item 
+bool \hyperlink{class_logging_connection_a873e2300676dd61776092ba6e6d4e9e9}{m\-\_\-device\-Opened}
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-Define a connection via the \-I\-Connection interface \-Plugin will add a instance of this class to the pool, so the connection manager can use it. 
+
+\-Definition at line 53 of file loggingplugin.\-h.
+
+
+
+\subsection{\-Member \-Function \-Documentation}
+\hypertarget{class_logging_connection_a93a0206c7700583ac02392c6b7f254a4}{\index{\-Logging\-Connection@{\-Logging\-Connection}!device\-Opened@{device\-Opened}}
+\index{device\-Opened@{device\-Opened}!LoggingConnection@{\-Logging\-Connection}}
+\subsubsection[{device\-Opened}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-Logging\-Connection\-::device\-Opened} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{class_logging_connection_a93a0206c7700583ac02392c6b7f254a4}
+
+
+\-Definition at line 68 of file loggingplugin.\-h.
+
+\hypertarget{class_logging_connection_ae125e5d696178c272287548b0707f9ce}{\index{\-Logging\-Connection@{\-Logging\-Connection}!get\-Logfile@{get\-Logfile}}
+\index{get\-Logfile@{get\-Logfile}!LoggingConnection@{\-Logging\-Connection}}
+\subsubsection[{get\-Logfile}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Log\-File}$\ast$ {\bf \-Logging\-Connection\-::get\-Logfile} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{class_logging_connection_ae125e5d696178c272287548b0707f9ce}
+
+
+\-Definition at line 69 of file loggingplugin.\-h.
+
+
+
+\subsection{\-Member \-Data \-Documentation}
+\hypertarget{class_logging_connection_a873e2300676dd61776092ba6e6d4e9e9}{\index{\-Logging\-Connection@{\-Logging\-Connection}!m\-\_\-device\-Opened@{m\-\_\-device\-Opened}}
+\index{m\-\_\-device\-Opened@{m\-\_\-device\-Opened}!LoggingConnection@{\-Logging\-Connection}}
+\subsubsection[{m\-\_\-device\-Opened}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-Logging\-Connection\-::m\-\_\-device\-Opened}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{class_logging_connection_a873e2300676dd61776092ba6e6d4e9e9}
+
+
+\-Definition at line 81 of file loggingplugin.\-h.
+
+
+
+\-The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/plugins/logging/\hyperlink{loggingplugin_8h}{loggingplugin.\-h}\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/plugins/logging/\hyperlink{loggingplugin_8cpp}{loggingplugin.\-cpp}\end{DoxyCompactItemize}

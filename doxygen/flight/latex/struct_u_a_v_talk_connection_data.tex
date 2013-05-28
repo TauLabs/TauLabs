@@ -1,0 +1,138 @@
+\hypertarget{struct_u_a_v_talk_connection_data}{\section{\-U\-A\-V\-Talk\-Connection\-Data \-Struct \-Reference}
+\label{struct_u_a_v_talk_connection_data}\index{\-U\-A\-V\-Talk\-Connection\-Data@{\-U\-A\-V\-Talk\-Connection\-Data}}
+}
+
+
+\-Information for the physical link.  
+
+
+
+
+{\ttfamily \#include $<$uavtalk\-\_\-priv.\-h$>$}
+
+\subsection*{\-Data \-Fields}
+\begin{DoxyCompactItemize}
+\item 
+uint8\-\_\-t \hyperlink{struct_u_a_v_talk_connection_data_a7fcfd5eef5b464048953ae8a62995142}{canari}
+\item 
+\hyperlink{group___u_a_v_talk_ga0c67fb4d23157d56fe1982e4788938c7}{\-U\-A\-V\-Talk\-Output\-Stream} \hyperlink{struct_u_a_v_talk_connection_data_a9fbab27aee45e892087f580683fcec5f}{out\-Stream}
+\item 
+x\-Semaphore\-Handle \hyperlink{struct_u_a_v_talk_connection_data_ad1614e80f39f9dfbe062a5cb7375387b}{lock}
+\item 
+x\-Semaphore\-Handle \hyperlink{struct_u_a_v_talk_connection_data_aba8ea97fea7c1cbd1bf09b5706cfffeb}{trans\-Lock}
+\item 
+x\-Semaphore\-Handle \hyperlink{struct_u_a_v_talk_connection_data_a8ae2519b555461363d46f9b27a80d051}{resp\-Sema}
+\item 
+\hyperlink{targets_2_u_a_v_objects_2inc_2uavobjectmanager_8h_a279053e22be53ce9f895043aaeb91e3b}{\-U\-A\-V\-Obj\-Handle} \hyperlink{struct_u_a_v_talk_connection_data_af0a71495a3337b87b43dcfdda5424ade}{resp\-Obj}
+\item 
+uint16\-\_\-t \hyperlink{struct_u_a_v_talk_connection_data_a88e0af1586f91007f920afeb962b759f}{resp\-Inst\-Id}
+\item 
+\hyperlink{struct_u_a_v_talk_stats}{\-U\-A\-V\-Talk\-Stats} \hyperlink{struct_u_a_v_talk_connection_data_ac81dea7c4ec7ecc0fb400374796e4caf}{stats}
+\item 
+\hyperlink{struct_u_a_v_talk_input_processor}{\-U\-A\-V\-Talk\-Input\-Processor} \hyperlink{struct_u_a_v_talk_connection_data_aa032a7b051df7fcc53accec1d7ba602b}{iproc}
+\item 
+uint8\-\_\-t $\ast$ \hyperlink{struct_u_a_v_talk_connection_data_a183fa5adb153369530ac1ff53c4f3f8f}{rx\-Buffer}
+\item 
+uint32\-\_\-t \hyperlink{struct_u_a_v_talk_connection_data_a1cac6d157b4dbf6d91882833c7ce304c}{tx\-Size}
+\item 
+uint8\-\_\-t $\ast$ \hyperlink{struct_u_a_v_talk_connection_data_a63bb147699417c91ed5176745eb46211}{tx\-Buffer}
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-Information for the physical link. 
+
+\-Definition at line 82 of file uavtalk\-\_\-priv.\-h.
+
+
+
+\subsection{\-Field \-Documentation}
+\hypertarget{struct_u_a_v_talk_connection_data_a7fcfd5eef5b464048953ae8a62995142}{\index{\-U\-A\-V\-Talk\-Connection\-Data@{\-U\-A\-V\-Talk\-Connection\-Data}!canari@{canari}}
+\index{canari@{canari}!UAVTalkConnectionData@{\-U\-A\-V\-Talk\-Connection\-Data}}
+\subsubsection[{canari}]{\setlength{\rightskip}{0pt plus 5cm}uint8\-\_\-t {\bf \-U\-A\-V\-Talk\-Connection\-Data\-::canari}}}\label{struct_u_a_v_talk_connection_data_a7fcfd5eef5b464048953ae8a62995142}
+
+
+\-Definition at line 83 of file uavtalk\-\_\-priv.\-h.
+
+\hypertarget{struct_u_a_v_talk_connection_data_aa032a7b051df7fcc53accec1d7ba602b}{\index{\-U\-A\-V\-Talk\-Connection\-Data@{\-U\-A\-V\-Talk\-Connection\-Data}!iproc@{iproc}}
+\index{iproc@{iproc}!UAVTalkConnectionData@{\-U\-A\-V\-Talk\-Connection\-Data}}
+\subsubsection[{iproc}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-U\-A\-V\-Talk\-Input\-Processor} {\bf \-U\-A\-V\-Talk\-Connection\-Data\-::iproc}}}\label{struct_u_a_v_talk_connection_data_aa032a7b051df7fcc53accec1d7ba602b}
+
+
+\-Definition at line 91 of file uavtalk\-\_\-priv.\-h.
+
+\hypertarget{struct_u_a_v_talk_connection_data_ad1614e80f39f9dfbe062a5cb7375387b}{\index{\-U\-A\-V\-Talk\-Connection\-Data@{\-U\-A\-V\-Talk\-Connection\-Data}!lock@{lock}}
+\index{lock@{lock}!UAVTalkConnectionData@{\-U\-A\-V\-Talk\-Connection\-Data}}
+\subsubsection[{lock}]{\setlength{\rightskip}{0pt plus 5cm}x\-Semaphore\-Handle {\bf \-U\-A\-V\-Talk\-Connection\-Data\-::lock}}}\label{struct_u_a_v_talk_connection_data_ad1614e80f39f9dfbe062a5cb7375387b}
+
+
+\-Definition at line 85 of file uavtalk\-\_\-priv.\-h.
+
+\hypertarget{struct_u_a_v_talk_connection_data_a9fbab27aee45e892087f580683fcec5f}{\index{\-U\-A\-V\-Talk\-Connection\-Data@{\-U\-A\-V\-Talk\-Connection\-Data}!out\-Stream@{out\-Stream}}
+\index{out\-Stream@{out\-Stream}!UAVTalkConnectionData@{\-U\-A\-V\-Talk\-Connection\-Data}}
+\subsubsection[{out\-Stream}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-U\-A\-V\-Talk\-Output\-Stream} {\bf \-U\-A\-V\-Talk\-Connection\-Data\-::out\-Stream}}}\label{struct_u_a_v_talk_connection_data_a9fbab27aee45e892087f580683fcec5f}
+
+
+\-Definition at line 84 of file uavtalk\-\_\-priv.\-h.
+
+\hypertarget{struct_u_a_v_talk_connection_data_a88e0af1586f91007f920afeb962b759f}{\index{\-U\-A\-V\-Talk\-Connection\-Data@{\-U\-A\-V\-Talk\-Connection\-Data}!resp\-Inst\-Id@{resp\-Inst\-Id}}
+\index{resp\-Inst\-Id@{resp\-Inst\-Id}!UAVTalkConnectionData@{\-U\-A\-V\-Talk\-Connection\-Data}}
+\subsubsection[{resp\-Inst\-Id}]{\setlength{\rightskip}{0pt plus 5cm}uint16\-\_\-t {\bf \-U\-A\-V\-Talk\-Connection\-Data\-::resp\-Inst\-Id}}}\label{struct_u_a_v_talk_connection_data_a88e0af1586f91007f920afeb962b759f}
+
+
+\-Definition at line 89 of file uavtalk\-\_\-priv.\-h.
+
+\hypertarget{struct_u_a_v_talk_connection_data_af0a71495a3337b87b43dcfdda5424ade}{\index{\-U\-A\-V\-Talk\-Connection\-Data@{\-U\-A\-V\-Talk\-Connection\-Data}!resp\-Obj@{resp\-Obj}}
+\index{resp\-Obj@{resp\-Obj}!UAVTalkConnectionData@{\-U\-A\-V\-Talk\-Connection\-Data}}
+\subsubsection[{resp\-Obj}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-U\-A\-V\-Obj\-Handle} {\bf \-U\-A\-V\-Talk\-Connection\-Data\-::resp\-Obj}}}\label{struct_u_a_v_talk_connection_data_af0a71495a3337b87b43dcfdda5424ade}
+
+
+\-Definition at line 88 of file uavtalk\-\_\-priv.\-h.
+
+\hypertarget{struct_u_a_v_talk_connection_data_a8ae2519b555461363d46f9b27a80d051}{\index{\-U\-A\-V\-Talk\-Connection\-Data@{\-U\-A\-V\-Talk\-Connection\-Data}!resp\-Sema@{resp\-Sema}}
+\index{resp\-Sema@{resp\-Sema}!UAVTalkConnectionData@{\-U\-A\-V\-Talk\-Connection\-Data}}
+\subsubsection[{resp\-Sema}]{\setlength{\rightskip}{0pt plus 5cm}x\-Semaphore\-Handle {\bf \-U\-A\-V\-Talk\-Connection\-Data\-::resp\-Sema}}}\label{struct_u_a_v_talk_connection_data_a8ae2519b555461363d46f9b27a80d051}
+
+
+\-Definition at line 87 of file uavtalk\-\_\-priv.\-h.
+
+\hypertarget{struct_u_a_v_talk_connection_data_a183fa5adb153369530ac1ff53c4f3f8f}{\index{\-U\-A\-V\-Talk\-Connection\-Data@{\-U\-A\-V\-Talk\-Connection\-Data}!rx\-Buffer@{rx\-Buffer}}
+\index{rx\-Buffer@{rx\-Buffer}!UAVTalkConnectionData@{\-U\-A\-V\-Talk\-Connection\-Data}}
+\subsubsection[{rx\-Buffer}]{\setlength{\rightskip}{0pt plus 5cm}uint8\-\_\-t$\ast$ {\bf \-U\-A\-V\-Talk\-Connection\-Data\-::rx\-Buffer}}}\label{struct_u_a_v_talk_connection_data_a183fa5adb153369530ac1ff53c4f3f8f}
+
+
+\-Definition at line 92 of file uavtalk\-\_\-priv.\-h.
+
+\hypertarget{struct_u_a_v_talk_connection_data_ac81dea7c4ec7ecc0fb400374796e4caf}{\index{\-U\-A\-V\-Talk\-Connection\-Data@{\-U\-A\-V\-Talk\-Connection\-Data}!stats@{stats}}
+\index{stats@{stats}!UAVTalkConnectionData@{\-U\-A\-V\-Talk\-Connection\-Data}}
+\subsubsection[{stats}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-U\-A\-V\-Talk\-Stats} {\bf \-U\-A\-V\-Talk\-Connection\-Data\-::stats}}}\label{struct_u_a_v_talk_connection_data_ac81dea7c4ec7ecc0fb400374796e4caf}
+
+
+\-Definition at line 90 of file uavtalk\-\_\-priv.\-h.
+
+\hypertarget{struct_u_a_v_talk_connection_data_aba8ea97fea7c1cbd1bf09b5706cfffeb}{\index{\-U\-A\-V\-Talk\-Connection\-Data@{\-U\-A\-V\-Talk\-Connection\-Data}!trans\-Lock@{trans\-Lock}}
+\index{trans\-Lock@{trans\-Lock}!UAVTalkConnectionData@{\-U\-A\-V\-Talk\-Connection\-Data}}
+\subsubsection[{trans\-Lock}]{\setlength{\rightskip}{0pt plus 5cm}x\-Semaphore\-Handle {\bf \-U\-A\-V\-Talk\-Connection\-Data\-::trans\-Lock}}}\label{struct_u_a_v_talk_connection_data_aba8ea97fea7c1cbd1bf09b5706cfffeb}
+
+
+\-Definition at line 86 of file uavtalk\-\_\-priv.\-h.
+
+\hypertarget{struct_u_a_v_talk_connection_data_a63bb147699417c91ed5176745eb46211}{\index{\-U\-A\-V\-Talk\-Connection\-Data@{\-U\-A\-V\-Talk\-Connection\-Data}!tx\-Buffer@{tx\-Buffer}}
+\index{tx\-Buffer@{tx\-Buffer}!UAVTalkConnectionData@{\-U\-A\-V\-Talk\-Connection\-Data}}
+\subsubsection[{tx\-Buffer}]{\setlength{\rightskip}{0pt plus 5cm}uint8\-\_\-t$\ast$ {\bf \-U\-A\-V\-Talk\-Connection\-Data\-::tx\-Buffer}}}\label{struct_u_a_v_talk_connection_data_a63bb147699417c91ed5176745eb46211}
+
+
+\-Definition at line 94 of file uavtalk\-\_\-priv.\-h.
+
+\hypertarget{struct_u_a_v_talk_connection_data_a1cac6d157b4dbf6d91882833c7ce304c}{\index{\-U\-A\-V\-Talk\-Connection\-Data@{\-U\-A\-V\-Talk\-Connection\-Data}!tx\-Size@{tx\-Size}}
+\index{tx\-Size@{tx\-Size}!UAVTalkConnectionData@{\-U\-A\-V\-Talk\-Connection\-Data}}
+\subsubsection[{tx\-Size}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t {\bf \-U\-A\-V\-Talk\-Connection\-Data\-::tx\-Size}}}\label{struct_u_a_v_talk_connection_data_a1cac6d157b4dbf6d91882833c7ce304c}
+
+
+\-Definition at line 93 of file uavtalk\-\_\-priv.\-h.
+
+
+
+\-The documentation for this struct was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/home/jb/code/\-Tau\-Labs/flight/targets/\-U\-A\-V\-Talk/inc/\hyperlink{uavtalk__priv_8h}{uavtalk\-\_\-priv.\-h}\end{DoxyCompactItemize}

@@ -1,0 +1,120 @@
+\hypertarget{structpios__overo__dev}{\section{pios\-\_\-overo\-\_\-dev \-Struct \-Reference}
+\label{structpios__overo__dev}\index{pios\-\_\-overo\-\_\-dev@{pios\-\_\-overo\-\_\-dev}}
+}
+\subsection*{\-Data \-Fields}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{group___p_i_o_s___o_v_e_r_o_ga9b9fb7573bead7d69299823fb7f7a372}{pios\-\_\-overo\-\_\-dev\-\_\-magic} \hyperlink{structpios__overo__dev_a6d9be49c3c20b721ac63620ce90d30ae}{magic}
+\item 
+struct \hyperlink{structpios__overo__cfg}{pios\-\_\-overo\-\_\-cfg} $\ast$ \hyperlink{structpios__overo__dev_a8bb10a548957bcd5da841fcd655b14d2}{cfg}
+\item 
+int8\-\_\-t \hyperlink{structpios__overo__dev_a87dbb1f454559bb6df624368972b0cf6}{writing\-\_\-buffer}
+\item 
+uint32\-\_\-t \hyperlink{structpios__overo__dev_a8fc21eb0e95dfbe473205d659e4678f4}{writing\-\_\-offset}
+\item 
+uint32\-\_\-t \hyperlink{structpios__overo__dev_ad0b4a0ccb4fb05b14cc21805b5dbe9b9}{packets}
+\item 
+uint8\-\_\-t \hyperlink{structpios__overo__dev_a48dfcb09b1a3c648ab7d1e2c79f4094e}{tx\-\_\-buffer} \mbox{[}2\mbox{]}\mbox{[}\-P\-A\-C\-K\-E\-T\-\_\-\-S\-I\-Z\-E\mbox{]}
+\item 
+uint8\-\_\-t \hyperlink{structpios__overo__dev_a638ed3a9ebc43e2ce3477041a7f68a95}{rx\-\_\-buffer} \mbox{[}2\mbox{]}\mbox{[}\-P\-A\-C\-K\-E\-T\-\_\-\-S\-I\-Z\-E\mbox{]}
+\item 
+\hyperlink{group___p_i_o_s___c_o_m_ga23f1888821f1f74a50c02adc459df597}{pios\-\_\-com\-\_\-callback} \hyperlink{structpios__overo__dev_acba008cacb6d3478462b4c681b60a158}{rx\-\_\-in\-\_\-cb}
+\item 
+uint32\-\_\-t \hyperlink{structpios__overo__dev_acd9b0fbbf1587d730b3a91eaeee52253}{rx\-\_\-in\-\_\-context}
+\item 
+\hyperlink{group___p_i_o_s___c_o_m_ga23f1888821f1f74a50c02adc459df597}{pios\-\_\-com\-\_\-callback} \hyperlink{structpios__overo__dev_a6814eae0437a37c8b5319b0ef88b7459}{tx\-\_\-out\-\_\-cb}
+\item 
+uint32\-\_\-t \hyperlink{structpios__overo__dev_aae8b1053ce480f2829ac18c7a490c010}{tx\-\_\-out\-\_\-context}
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+
+
+\-Definition at line 66 of file pios\-\_\-overo.\-c.
+
+
+
+\subsection{\-Field \-Documentation}
+\hypertarget{structpios__overo__dev_a8bb10a548957bcd5da841fcd655b14d2}{\index{pios\-\_\-overo\-\_\-dev@{pios\-\_\-overo\-\_\-dev}!cfg@{cfg}}
+\index{cfg@{cfg}!pios_overo_dev@{pios\-\_\-overo\-\_\-dev}}
+\subsubsection[{cfg}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf pios\-\_\-overo\-\_\-cfg}$\ast$ {\bf pios\-\_\-overo\-\_\-dev\-::cfg}}}\label{structpios__overo__dev_a8bb10a548957bcd5da841fcd655b14d2}
+
+
+\-Definition at line 68 of file pios\-\_\-overo.\-c.
+
+\hypertarget{structpios__overo__dev_a6d9be49c3c20b721ac63620ce90d30ae}{\index{pios\-\_\-overo\-\_\-dev@{pios\-\_\-overo\-\_\-dev}!magic@{magic}}
+\index{magic@{magic}!pios_overo_dev@{pios\-\_\-overo\-\_\-dev}}
+\subsubsection[{magic}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf pios\-\_\-overo\-\_\-dev\-\_\-magic} {\bf pios\-\_\-overo\-\_\-dev\-::magic}}}\label{structpios__overo__dev_a6d9be49c3c20b721ac63620ce90d30ae}
+
+
+\-Definition at line 67 of file pios\-\_\-overo.\-c.
+
+\hypertarget{structpios__overo__dev_ad0b4a0ccb4fb05b14cc21805b5dbe9b9}{\index{pios\-\_\-overo\-\_\-dev@{pios\-\_\-overo\-\_\-dev}!packets@{packets}}
+\index{packets@{packets}!pios_overo_dev@{pios\-\_\-overo\-\_\-dev}}
+\subsubsection[{packets}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t {\bf pios\-\_\-overo\-\_\-dev\-::packets}}}\label{structpios__overo__dev_ad0b4a0ccb4fb05b14cc21805b5dbe9b9}
+
+
+\-Definition at line 73 of file pios\-\_\-overo.\-c.
+
+\hypertarget{structpios__overo__dev_a638ed3a9ebc43e2ce3477041a7f68a95}{\index{pios\-\_\-overo\-\_\-dev@{pios\-\_\-overo\-\_\-dev}!rx\-\_\-buffer@{rx\-\_\-buffer}}
+\index{rx\-\_\-buffer@{rx\-\_\-buffer}!pios_overo_dev@{pios\-\_\-overo\-\_\-dev}}
+\subsubsection[{rx\-\_\-buffer}]{\setlength{\rightskip}{0pt plus 5cm}uint8\-\_\-t {\bf pios\-\_\-overo\-\_\-dev\-::rx\-\_\-buffer}\mbox{[}2\mbox{]}\mbox{[}\-P\-A\-C\-K\-E\-T\-\_\-\-S\-I\-Z\-E\mbox{]}}}\label{structpios__overo__dev_a638ed3a9ebc43e2ce3477041a7f68a95}
+
+
+\-Definition at line 76 of file pios\-\_\-overo.\-c.
+
+\hypertarget{structpios__overo__dev_acba008cacb6d3478462b4c681b60a158}{\index{pios\-\_\-overo\-\_\-dev@{pios\-\_\-overo\-\_\-dev}!rx\-\_\-in\-\_\-cb@{rx\-\_\-in\-\_\-cb}}
+\index{rx\-\_\-in\-\_\-cb@{rx\-\_\-in\-\_\-cb}!pios_overo_dev@{pios\-\_\-overo\-\_\-dev}}
+\subsubsection[{rx\-\_\-in\-\_\-cb}]{\setlength{\rightskip}{0pt plus 5cm}{\bf pios\-\_\-com\-\_\-callback} {\bf pios\-\_\-overo\-\_\-dev\-::rx\-\_\-in\-\_\-cb}}}\label{structpios__overo__dev_acba008cacb6d3478462b4c681b60a158}
+
+
+\-Definition at line 78 of file pios\-\_\-overo.\-c.
+
+\hypertarget{structpios__overo__dev_acd9b0fbbf1587d730b3a91eaeee52253}{\index{pios\-\_\-overo\-\_\-dev@{pios\-\_\-overo\-\_\-dev}!rx\-\_\-in\-\_\-context@{rx\-\_\-in\-\_\-context}}
+\index{rx\-\_\-in\-\_\-context@{rx\-\_\-in\-\_\-context}!pios_overo_dev@{pios\-\_\-overo\-\_\-dev}}
+\subsubsection[{rx\-\_\-in\-\_\-context}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t {\bf pios\-\_\-overo\-\_\-dev\-::rx\-\_\-in\-\_\-context}}}\label{structpios__overo__dev_acd9b0fbbf1587d730b3a91eaeee52253}
+
+
+\-Definition at line 79 of file pios\-\_\-overo.\-c.
+
+\hypertarget{structpios__overo__dev_a48dfcb09b1a3c648ab7d1e2c79f4094e}{\index{pios\-\_\-overo\-\_\-dev@{pios\-\_\-overo\-\_\-dev}!tx\-\_\-buffer@{tx\-\_\-buffer}}
+\index{tx\-\_\-buffer@{tx\-\_\-buffer}!pios_overo_dev@{pios\-\_\-overo\-\_\-dev}}
+\subsubsection[{tx\-\_\-buffer}]{\setlength{\rightskip}{0pt plus 5cm}uint8\-\_\-t {\bf pios\-\_\-overo\-\_\-dev\-::tx\-\_\-buffer}\mbox{[}2\mbox{]}\mbox{[}\-P\-A\-C\-K\-E\-T\-\_\-\-S\-I\-Z\-E\mbox{]}}}\label{structpios__overo__dev_a48dfcb09b1a3c648ab7d1e2c79f4094e}
+
+
+\-Definition at line 75 of file pios\-\_\-overo.\-c.
+
+\hypertarget{structpios__overo__dev_a6814eae0437a37c8b5319b0ef88b7459}{\index{pios\-\_\-overo\-\_\-dev@{pios\-\_\-overo\-\_\-dev}!tx\-\_\-out\-\_\-cb@{tx\-\_\-out\-\_\-cb}}
+\index{tx\-\_\-out\-\_\-cb@{tx\-\_\-out\-\_\-cb}!pios_overo_dev@{pios\-\_\-overo\-\_\-dev}}
+\subsubsection[{tx\-\_\-out\-\_\-cb}]{\setlength{\rightskip}{0pt plus 5cm}{\bf pios\-\_\-com\-\_\-callback} {\bf pios\-\_\-overo\-\_\-dev\-::tx\-\_\-out\-\_\-cb}}}\label{structpios__overo__dev_a6814eae0437a37c8b5319b0ef88b7459}
+
+
+\-Definition at line 80 of file pios\-\_\-overo.\-c.
+
+\hypertarget{structpios__overo__dev_aae8b1053ce480f2829ac18c7a490c010}{\index{pios\-\_\-overo\-\_\-dev@{pios\-\_\-overo\-\_\-dev}!tx\-\_\-out\-\_\-context@{tx\-\_\-out\-\_\-context}}
+\index{tx\-\_\-out\-\_\-context@{tx\-\_\-out\-\_\-context}!pios_overo_dev@{pios\-\_\-overo\-\_\-dev}}
+\subsubsection[{tx\-\_\-out\-\_\-context}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t {\bf pios\-\_\-overo\-\_\-dev\-::tx\-\_\-out\-\_\-context}}}\label{structpios__overo__dev_aae8b1053ce480f2829ac18c7a490c010}
+
+
+\-Definition at line 81 of file pios\-\_\-overo.\-c.
+
+\hypertarget{structpios__overo__dev_a87dbb1f454559bb6df624368972b0cf6}{\index{pios\-\_\-overo\-\_\-dev@{pios\-\_\-overo\-\_\-dev}!writing\-\_\-buffer@{writing\-\_\-buffer}}
+\index{writing\-\_\-buffer@{writing\-\_\-buffer}!pios_overo_dev@{pios\-\_\-overo\-\_\-dev}}
+\subsubsection[{writing\-\_\-buffer}]{\setlength{\rightskip}{0pt plus 5cm}int8\-\_\-t {\bf pios\-\_\-overo\-\_\-dev\-::writing\-\_\-buffer}}}\label{structpios__overo__dev_a87dbb1f454559bb6df624368972b0cf6}
+
+
+\-Definition at line 70 of file pios\-\_\-overo.\-c.
+
+\hypertarget{structpios__overo__dev_a8fc21eb0e95dfbe473205d659e4678f4}{\index{pios\-\_\-overo\-\_\-dev@{pios\-\_\-overo\-\_\-dev}!writing\-\_\-offset@{writing\-\_\-offset}}
+\index{writing\-\_\-offset@{writing\-\_\-offset}!pios_overo_dev@{pios\-\_\-overo\-\_\-dev}}
+\subsubsection[{writing\-\_\-offset}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t {\bf pios\-\_\-overo\-\_\-dev\-::writing\-\_\-offset}}}\label{structpios__overo__dev_a8fc21eb0e95dfbe473205d659e4678f4}
+
+
+\-Definition at line 71 of file pios\-\_\-overo.\-c.
+
+
+
+\-The documentation for this struct was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/home/jb/code/\-Tau\-Labs/flight/\-Pi\-O\-S/\-S\-T\-M32\-F4xx/\hyperlink{pios__overo_8c}{pios\-\_\-overo.\-c}\end{DoxyCompactItemize}

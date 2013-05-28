@@ -1,0 +1,26 @@
+var gpsvelocity_8h =
+[
+    [ "GPSVelocityConnectCallback", "group___g_p_s_velocity.html#ga72ea4aff1d83c338945486b206ef4182", null ],
+    [ "GPSVelocityConnectQueue", "group___g_p_s_velocity.html#ga16896d52efd4b4dea66c363ae1261e8e", null ],
+    [ "GPSVelocityCreateInstance", "group___g_p_s_velocity.html#gaf95109088ecf57509c27fc8b32254142", null ],
+    [ "GPSVelocityDownGet", "group___g_p_s_velocity.html#ga860c0bfdb478ad9056fc9ce76ffa4468", null ],
+    [ "GPSVelocityDownSet", "group___g_p_s_velocity.html#gae492477feaad0ea10e5b960db827a736", null ],
+    [ "GPSVelocityEastGet", "group___g_p_s_velocity.html#ga387530bf3122cbc0659987b51fc1689f", null ],
+    [ "GPSVelocityEastSet", "group___g_p_s_velocity.html#ga4d94a286e84794b067e6d56d3a90f8e7", null ],
+    [ "GPSVelocityGet", "group___g_p_s_velocity.html#ga58f6f0161b79ab9dc11a9716e49e8a83", null ],
+    [ "GPSVelocityGetMetadata", "group___g_p_s_velocity.html#ga1d2646fb6c8b4ac2ce1841664c957762", null ],
+    [ "GPSVelocityHandle", "group___g_p_s_velocity.html#gab0ec9e4d0ddcea4e94ab96de90ece230", null ],
+    [ "GPSVelocityInitialize", "group___g_p_s_velocity.html#ga82dc28220c42f19c1aa0af3713a277d5", null ],
+    [ "GPSVelocityInstGet", "group___g_p_s_velocity.html#ga6b3dd5269f34dd63ac8d4bbb7d7d2ebb", null ],
+    [ "GPSVelocityInstSet", "group___g_p_s_velocity.html#gab7cc69793e6e795da577e84aa85ce234", null ],
+    [ "GPSVelocityInstUpdated", "group___g_p_s_velocity.html#gaeddaa2e05a31e0723ad1b943af91acba", null ],
+    [ "GPSVelocityNorthGet", "group___g_p_s_velocity.html#gab3156c0f94fedb68830db52bc9a62f10", null ],
+    [ "GPSVelocityNorthSet", "group___g_p_s_velocity.html#gad7f10f808633af0e48f2f85d4598b057", null ],
+    [ "GPSVelocityReadOnly", "group___g_p_s_velocity.html#ga8f0eb2fba3e2eca84a268c4967169607", null ],
+    [ "GPSVelocityRequestInstUpdate", "group___g_p_s_velocity.html#ga51fa9311085eab0c33fe3fe6562b21aa", null ],
+    [ "GPSVelocityRequestUpdate", "group___g_p_s_velocity.html#ga10e7f014e751fa651df934928be0ea70", null ],
+    [ "GPSVelocitySet", "group___g_p_s_velocity.html#gacd46cfdba6fd6c373ce392dd3c4c4276", null ],
+    [ "GPSVelocitySetDefaults", "group___g_p_s_velocity.html#ga6f7e8005f2d784eeffc919e8e59b945a", null ],
+    [ "GPSVelocitySetMetadata", "group___g_p_s_velocity.html#gae66e6656b25437f10134939a6b0bae0d", null ],
+    [ "GPSVelocityUpdated", "group___g_p_s_velocity.html#gaf3ea196eea91a7655cfc9224cbf87d8e", null ]
+];

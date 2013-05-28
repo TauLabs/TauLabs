@@ -1,0 +1,393 @@
+\hypertarget{group___p_i_o_s___b_m_a180}{\section{\-B\-M\-A180 \-Functions}
+\label{group___p_i_o_s___b_m_a180}\index{\-B\-M\-A180 Functions@{\-B\-M\-A180 Functions}}
+}
+
+
+\-Deals with the hardware interface to the \-B\-M\-A180 3-\/axis accelerometer.  
+
+
+\subsection*{\-Data \-Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structbma180__dev}{bma180\-\_\-dev}
+\item 
+struct \hyperlink{structpios__bma180__data}{pios\-\_\-bma180\-\_\-data}
+\item 
+struct \hyperlink{structpios__bma180__cfg}{pios\-\_\-bma180\-\_\-cfg}
+\end{DoxyCompactItemize}
+\subsection*{\-Files}
+\begin{DoxyCompactItemize}
+\item 
+file \hyperlink{pios__bma180_8h}{pios\-\_\-bma180.\-h}
+\begin{DoxyCompactList}\small\item\em \-Pi\-O\-S \-B\-M\-A180 digital accelerometer driver. \end{DoxyCompactList}\item 
+file \hyperlink{pios__bma180_8h}{pios\-\_\-bma180.\-h}
+\begin{DoxyCompactList}\small\item\em \-Pi\-O\-S \-B\-M\-A180 digital accelerometer driver. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{group___p_i_o_s___b_m_a180_ga019b2d5aa99a1a8e1b760c201899fa64}{pios\-\_\-bma180\-\_\-dev\-\_\-magic} \{ \hyperlink{group___p_i_o_s___b_m_a180_gga019b2d5aa99a1a8e1b760c201899fa64a7aec37002a2253d103974e52b5994e74}{\-P\-I\-O\-S\-\_\-\-B\-M\-A180\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C} =  0xcbb93755
+ \}
+\item 
+enum \hyperlink{group___p_i_o_s___b_m_a180_ga319b0b37d7184097d2ae4e7ba527a416}{bma180\-\_\-range} \{ \*
+\hyperlink{group___p_i_o_s___b_m_a180_gga319b0b37d7184097d2ae4e7ba527a416a7a0fa3f83070097604fa2c26cec0d197}{\-B\-M\-A\-\_\-\-R\-A\-N\-G\-E\-\_\-1\-G} =  0x00, 
+\hyperlink{group___p_i_o_s___b_m_a180_gga319b0b37d7184097d2ae4e7ba527a416aba39596e59ef5c1b698fd07fb70aeb59}{\-B\-M\-A\-\_\-\-R\-A\-N\-G\-E\-\_\-1\-\_\-5\-G} =  0x01, 
+\hyperlink{group___p_i_o_s___b_m_a180_gga319b0b37d7184097d2ae4e7ba527a416a3baba1647f1b31a0ca85c4b4b4460219}{\-B\-M\-A\-\_\-\-R\-A\-N\-G\-E\-\_\-2\-G} =  0x02, 
+\hyperlink{group___p_i_o_s___b_m_a180_gga319b0b37d7184097d2ae4e7ba527a416a689f60fc8cd363d6104d30fd2f7b653a}{\-B\-M\-A\-\_\-\-R\-A\-N\-G\-E\-\_\-3\-G} =  0x03, 
+\*
+\hyperlink{group___p_i_o_s___b_m_a180_gga319b0b37d7184097d2ae4e7ba527a416a88eeec78073940a1aaf2b96f9988dc39}{\-B\-M\-A\-\_\-\-R\-A\-N\-G\-E\-\_\-4\-G} =  0x04, 
+\hyperlink{group___p_i_o_s___b_m_a180_gga319b0b37d7184097d2ae4e7ba527a416a13d252a0a2ceb78c19757b6e1d69a4f7}{\-B\-M\-A\-\_\-\-R\-A\-N\-G\-E\-\_\-8\-G} =  0x05, 
+\hyperlink{group___p_i_o_s___b_m_a180_gga319b0b37d7184097d2ae4e7ba527a416a65bb98b2bfac0f9f4e57161b4f8cc7cc}{\-B\-M\-A\-\_\-\-R\-A\-N\-G\-E\-\_\-16\-G} =  0x06
+ \}
+\item 
+enum \hyperlink{group___p_i_o_s___b_m_a180_gacd6d3ecff286f705778973637b4d3d99}{bma180\-\_\-bandwidth} \{ \*
+\hyperlink{group___p_i_o_s___b_m_a180_ggacd6d3ecff286f705778973637b4d3d99ac9ccb62e227873e7408c0d394b9cbd04}{\-B\-M\-A\-\_\-\-B\-W\-\_\-10\-H\-Z} =  0x00, 
+\hyperlink{group___p_i_o_s___b_m_a180_ggacd6d3ecff286f705778973637b4d3d99a808875d1f84c211d3d1ec23adcfd3231}{\-B\-M\-A\-\_\-\-B\-W\-\_\-20\-H\-Z} =  0x01, 
+\hyperlink{group___p_i_o_s___b_m_a180_ggacd6d3ecff286f705778973637b4d3d99ad6870da0b3613eb59cf69292dee259d2}{\-B\-M\-A\-\_\-\-B\-W\-\_\-40\-H\-Z} =  0x02, 
+\hyperlink{group___p_i_o_s___b_m_a180_ggacd6d3ecff286f705778973637b4d3d99a58d67b94bdd2dc6e10e01f595fce37ed}{\-B\-M\-A\-\_\-\-B\-W\-\_\-75\-H\-Z} =  0x03, 
+\*
+\hyperlink{group___p_i_o_s___b_m_a180_ggacd6d3ecff286f705778973637b4d3d99afe6e5eaaed56c35c349035443724ad26}{\-B\-M\-A\-\_\-\-B\-W\-\_\-150\-H\-Z} =  0x04, 
+\hyperlink{group___p_i_o_s___b_m_a180_ggacd6d3ecff286f705778973637b4d3d99a6b02daed0b3e3918a57400726828ab15}{\-B\-M\-A\-\_\-\-B\-W\-\_\-300\-H\-Z} =  0x05, 
+\hyperlink{group___p_i_o_s___b_m_a180_ggacd6d3ecff286f705778973637b4d3d99a22544840a41046286164b09e754229c6}{\-B\-M\-A\-\_\-\-B\-W\-\_\-600\-H\-Z} =  0x06, 
+\hyperlink{group___p_i_o_s___b_m_a180_ggacd6d3ecff286f705778973637b4d3d99a57453a1a2ed7c2c1ebb89e81bb34ce0e}{\-B\-M\-A\-\_\-\-B\-W\-\_\-1200\-H\-Z} = 0x07, 
+\*
+\hyperlink{group___p_i_o_s___b_m_a180_ggacd6d3ecff286f705778973637b4d3d99af4f46eeded0ee9fdfee181c0dd056bf6}{\-B\-M\-A\-\_\-\-B\-W\-\_\-\-H\-P1\-H\-Z} =  0x08, 
+\hyperlink{group___p_i_o_s___b_m_a180_ggacd6d3ecff286f705778973637b4d3d99a5abc29a7422d6c60410396eda7d92b62}{\-B\-M\-A\-\_\-\-B\-W\-\_\-\-B\-P0\-\_\-300\-H\-Z} =  0x09
+ \}
+\end{DoxyCompactItemize}
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___b_m_a180_ga913e423478cf470fc5691ea8d62bca65}{\-P\-I\-O\-S\-\_\-\-B\-M\-A180\-\_\-\-Init} (uint32\-\_\-t spi\-\_\-id, uint32\-\_\-t slave\-\_\-num, const struct \hyperlink{structpios__bma180__cfg}{pios\-\_\-bma180\-\_\-cfg} $\ast$cfg)
+\begin{DoxyCompactList}\small\item\em \-Initialize with good default settings. \end{DoxyCompactList}\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___b_m_a180_ga6445f37d7393a3cf869f14425d4f8f60}{\-P\-I\-O\-S\-\_\-\-B\-M\-A180\-\_\-\-Claim\-Bus} ()
+\begin{DoxyCompactList}\small\item\em \-Claim the \-S\-P\-I bus for the accel communications and select this chip. \end{DoxyCompactList}\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___b_m_a180_gaa4ed3d63ee77fc3f34b4c307f5552d15}{\-P\-I\-O\-S\-\_\-\-B\-M\-A180\-\_\-\-Claim\-Bus\-I\-S\-R} (bool $\ast$woken)
+\begin{DoxyCompactList}\small\item\em \-Claim the \-S\-P\-I bus for the accel communications and select this chip. \end{DoxyCompactList}\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___b_m_a180_ga1027b4d7c9d37660697a5093f7077a42}{\-P\-I\-O\-S\-\_\-\-B\-M\-A180\-\_\-\-Release\-Bus} ()
+\begin{DoxyCompactList}\small\item\em \-Release the \-S\-P\-I bus for the accel communications and end the transaction. \end{DoxyCompactList}\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___b_m_a180_gac3df046a46bd9633ccb969436bb8d9ab}{\-P\-I\-O\-S\-\_\-\-B\-M\-A180\-\_\-\-Release\-Bus\-I\-S\-R} (bool $\ast$woken)
+\begin{DoxyCompactList}\small\item\em \-Release the \-S\-P\-I bus for the accel communications and end the transaction. \end{DoxyCompactList}\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___b_m_a180_ga7b56742fa09a8cb81b620c4ddb35e0a0}{\-P\-I\-O\-S\-\_\-\-B\-M\-A180\-\_\-\-Read\-Accels} (struct \hyperlink{structpios__bma180__data}{pios\-\_\-bma180\-\_\-data} $\ast$data)
+\begin{DoxyCompactList}\small\item\em \-Read a single set of values from the x y z channels. \end{DoxyCompactList}\item 
+float \hyperlink{group___p_i_o_s___b_m_a180_gac0b0ac69b4fecb73c72a5acf917471b4}{\-P\-I\-O\-S\-\_\-\-B\-M\-A180\-\_\-\-Get\-Scale} ()
+\begin{DoxyCompactList}\small\item\em \-Returns the scale the \-B\-M\-A180 chip is using. \end{DoxyCompactList}\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___b_m_a180_gaae90c39f1345aa38815791270aca39ae}{\-P\-I\-O\-S\-\_\-\-B\-M\-A180\-\_\-\-Read\-Fifo} (struct \hyperlink{structpios__bma180__data}{pios\-\_\-bma180\-\_\-data} $\ast$buffer)
+\begin{DoxyCompactList}\small\item\em \-Get data from fifo. \end{DoxyCompactList}\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___b_m_a180_ga581d274e0f804ba0c8ef0406a782aa8d}{\-P\-I\-O\-S\-\_\-\-B\-M\-A180\-\_\-\-Test} ()
+\begin{DoxyCompactList}\small\item\em \-Test \-S\-P\-I and chip functionality by reading chip \-I\-D register. \end{DoxyCompactList}\item 
+bool \hyperlink{group___p_i_o_s___b_m_a180_gaded704c5b366fadaac4efb9272a9414a}{\-P\-I\-O\-S\-\_\-\-B\-M\-A180\-\_\-\-I\-R\-Q\-Handler} (void)
+\item 
+void \hyperlink{group___p_i_o_s___b_m_a180_ga7630f96fe8305335e0f834bd7e594007}{\-P\-I\-O\-S\-\_\-\-B\-M\-A180\-\_\-\-Attach} (uint32\-\_\-t spi\-\_\-id)
+\end{DoxyCompactItemize}
+\subsection*{\-Variables}
+\begin{DoxyCompactItemize}
+\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___b_m_a180_gabbaf3c8a871b2c19d493446ad684c3dc}{bma180\-\_\-irqs} = 0
+\begin{DoxyCompactList}\small\item\em \-I\-R\-Q \-Handler. \-Read data from the \-B\-M\-A180 \-F\-I\-F\-O and push onto a local fifo. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-Deals with the hardware interface to the \-B\-M\-A180 3-\/axis accelerometer. 
+
+\subsection{\-Enumeration \-Type \-Documentation}
+\hypertarget{group___p_i_o_s___b_m_a180_gacd6d3ecff286f705778973637b4d3d99}{\index{\-B\-M\-A180 Functions@{\-B\-M\-A180 Functions}!bma180\-\_\-bandwidth@{bma180\-\_\-bandwidth}}
+\index{bma180\-\_\-bandwidth@{bma180\-\_\-bandwidth}!BMA180 Functions@{\-B\-M\-A180 Functions}}
+\subsubsection[{bma180\-\_\-bandwidth}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf bma180\-\_\-bandwidth}}}\label{group___p_i_o_s___b_m_a180_gacd6d3ecff286f705778973637b4d3d99}
+\begin{Desc}
+\item[\-Enumerator\-: ]\par
+\begin{description}
+\index{\-B\-M\-A\-\_\-\-B\-W\-\_\-10\-H\-Z@{\-B\-M\-A\-\_\-\-B\-W\-\_\-10\-H\-Z}!\-B\-M\-A180 Functions@{\-B\-M\-A180 Functions}}\index{\-B\-M\-A180 Functions@{\-B\-M\-A180 Functions}!\-B\-M\-A\-\_\-\-B\-W\-\_\-10\-H\-Z@{\-B\-M\-A\-\_\-\-B\-W\-\_\-10\-H\-Z}}\item[{\em 
+\hypertarget{group___p_i_o_s___b_m_a180_ggacd6d3ecff286f705778973637b4d3d99ac9ccb62e227873e7408c0d394b9cbd04}{\-B\-M\-A\-\_\-\-B\-W\-\_\-10\-H\-Z}\label{group___p_i_o_s___b_m_a180_ggacd6d3ecff286f705778973637b4d3d99ac9ccb62e227873e7408c0d394b9cbd04}
+}]\index{\-B\-M\-A\-\_\-\-B\-W\-\_\-20\-H\-Z@{\-B\-M\-A\-\_\-\-B\-W\-\_\-20\-H\-Z}!\-B\-M\-A180 Functions@{\-B\-M\-A180 Functions}}\index{\-B\-M\-A180 Functions@{\-B\-M\-A180 Functions}!\-B\-M\-A\-\_\-\-B\-W\-\_\-20\-H\-Z@{\-B\-M\-A\-\_\-\-B\-W\-\_\-20\-H\-Z}}\item[{\em 
+\hypertarget{group___p_i_o_s___b_m_a180_ggacd6d3ecff286f705778973637b4d3d99a808875d1f84c211d3d1ec23adcfd3231}{\-B\-M\-A\-\_\-\-B\-W\-\_\-20\-H\-Z}\label{group___p_i_o_s___b_m_a180_ggacd6d3ecff286f705778973637b4d3d99a808875d1f84c211d3d1ec23adcfd3231}
+}]\index{\-B\-M\-A\-\_\-\-B\-W\-\_\-40\-H\-Z@{\-B\-M\-A\-\_\-\-B\-W\-\_\-40\-H\-Z}!\-B\-M\-A180 Functions@{\-B\-M\-A180 Functions}}\index{\-B\-M\-A180 Functions@{\-B\-M\-A180 Functions}!\-B\-M\-A\-\_\-\-B\-W\-\_\-40\-H\-Z@{\-B\-M\-A\-\_\-\-B\-W\-\_\-40\-H\-Z}}\item[{\em 
+\hypertarget{group___p_i_o_s___b_m_a180_ggacd6d3ecff286f705778973637b4d3d99ad6870da0b3613eb59cf69292dee259d2}{\-B\-M\-A\-\_\-\-B\-W\-\_\-40\-H\-Z}\label{group___p_i_o_s___b_m_a180_ggacd6d3ecff286f705778973637b4d3d99ad6870da0b3613eb59cf69292dee259d2}
+}]\index{\-B\-M\-A\-\_\-\-B\-W\-\_\-75\-H\-Z@{\-B\-M\-A\-\_\-\-B\-W\-\_\-75\-H\-Z}!\-B\-M\-A180 Functions@{\-B\-M\-A180 Functions}}\index{\-B\-M\-A180 Functions@{\-B\-M\-A180 Functions}!\-B\-M\-A\-\_\-\-B\-W\-\_\-75\-H\-Z@{\-B\-M\-A\-\_\-\-B\-W\-\_\-75\-H\-Z}}\item[{\em 
+\hypertarget{group___p_i_o_s___b_m_a180_ggacd6d3ecff286f705778973637b4d3d99a58d67b94bdd2dc6e10e01f595fce37ed}{\-B\-M\-A\-\_\-\-B\-W\-\_\-75\-H\-Z}\label{group___p_i_o_s___b_m_a180_ggacd6d3ecff286f705778973637b4d3d99a58d67b94bdd2dc6e10e01f595fce37ed}
+}]\index{\-B\-M\-A\-\_\-\-B\-W\-\_\-150\-H\-Z@{\-B\-M\-A\-\_\-\-B\-W\-\_\-150\-H\-Z}!\-B\-M\-A180 Functions@{\-B\-M\-A180 Functions}}\index{\-B\-M\-A180 Functions@{\-B\-M\-A180 Functions}!\-B\-M\-A\-\_\-\-B\-W\-\_\-150\-H\-Z@{\-B\-M\-A\-\_\-\-B\-W\-\_\-150\-H\-Z}}\item[{\em 
+\hypertarget{group___p_i_o_s___b_m_a180_ggacd6d3ecff286f705778973637b4d3d99afe6e5eaaed56c35c349035443724ad26}{\-B\-M\-A\-\_\-\-B\-W\-\_\-150\-H\-Z}\label{group___p_i_o_s___b_m_a180_ggacd6d3ecff286f705778973637b4d3d99afe6e5eaaed56c35c349035443724ad26}
+}]\index{\-B\-M\-A\-\_\-\-B\-W\-\_\-300\-H\-Z@{\-B\-M\-A\-\_\-\-B\-W\-\_\-300\-H\-Z}!\-B\-M\-A180 Functions@{\-B\-M\-A180 Functions}}\index{\-B\-M\-A180 Functions@{\-B\-M\-A180 Functions}!\-B\-M\-A\-\_\-\-B\-W\-\_\-300\-H\-Z@{\-B\-M\-A\-\_\-\-B\-W\-\_\-300\-H\-Z}}\item[{\em 
+\hypertarget{group___p_i_o_s___b_m_a180_ggacd6d3ecff286f705778973637b4d3d99a6b02daed0b3e3918a57400726828ab15}{\-B\-M\-A\-\_\-\-B\-W\-\_\-300\-H\-Z}\label{group___p_i_o_s___b_m_a180_ggacd6d3ecff286f705778973637b4d3d99a6b02daed0b3e3918a57400726828ab15}
+}]\index{\-B\-M\-A\-\_\-\-B\-W\-\_\-600\-H\-Z@{\-B\-M\-A\-\_\-\-B\-W\-\_\-600\-H\-Z}!\-B\-M\-A180 Functions@{\-B\-M\-A180 Functions}}\index{\-B\-M\-A180 Functions@{\-B\-M\-A180 Functions}!\-B\-M\-A\-\_\-\-B\-W\-\_\-600\-H\-Z@{\-B\-M\-A\-\_\-\-B\-W\-\_\-600\-H\-Z}}\item[{\em 
+\hypertarget{group___p_i_o_s___b_m_a180_ggacd6d3ecff286f705778973637b4d3d99a22544840a41046286164b09e754229c6}{\-B\-M\-A\-\_\-\-B\-W\-\_\-600\-H\-Z}\label{group___p_i_o_s___b_m_a180_ggacd6d3ecff286f705778973637b4d3d99a22544840a41046286164b09e754229c6}
+}]\index{\-B\-M\-A\-\_\-\-B\-W\-\_\-1200\-H\-Z@{\-B\-M\-A\-\_\-\-B\-W\-\_\-1200\-H\-Z}!\-B\-M\-A180 Functions@{\-B\-M\-A180 Functions}}\index{\-B\-M\-A180 Functions@{\-B\-M\-A180 Functions}!\-B\-M\-A\-\_\-\-B\-W\-\_\-1200\-H\-Z@{\-B\-M\-A\-\_\-\-B\-W\-\_\-1200\-H\-Z}}\item[{\em 
+\hypertarget{group___p_i_o_s___b_m_a180_ggacd6d3ecff286f705778973637b4d3d99a57453a1a2ed7c2c1ebb89e81bb34ce0e}{\-B\-M\-A\-\_\-\-B\-W\-\_\-1200\-H\-Z}\label{group___p_i_o_s___b_m_a180_ggacd6d3ecff286f705778973637b4d3d99a57453a1a2ed7c2c1ebb89e81bb34ce0e}
+}]\index{\-B\-M\-A\-\_\-\-B\-W\-\_\-\-H\-P1\-H\-Z@{\-B\-M\-A\-\_\-\-B\-W\-\_\-\-H\-P1\-H\-Z}!\-B\-M\-A180 Functions@{\-B\-M\-A180 Functions}}\index{\-B\-M\-A180 Functions@{\-B\-M\-A180 Functions}!\-B\-M\-A\-\_\-\-B\-W\-\_\-\-H\-P1\-H\-Z@{\-B\-M\-A\-\_\-\-B\-W\-\_\-\-H\-P1\-H\-Z}}\item[{\em 
+\hypertarget{group___p_i_o_s___b_m_a180_ggacd6d3ecff286f705778973637b4d3d99af4f46eeded0ee9fdfee181c0dd056bf6}{\-B\-M\-A\-\_\-\-B\-W\-\_\-\-H\-P1\-H\-Z}\label{group___p_i_o_s___b_m_a180_ggacd6d3ecff286f705778973637b4d3d99af4f46eeded0ee9fdfee181c0dd056bf6}
+}]\index{\-B\-M\-A\-\_\-\-B\-W\-\_\-\-B\-P0\-\_\-300\-H\-Z@{\-B\-M\-A\-\_\-\-B\-W\-\_\-\-B\-P0\-\_\-300\-H\-Z}!\-B\-M\-A180 Functions@{\-B\-M\-A180 Functions}}\index{\-B\-M\-A180 Functions@{\-B\-M\-A180 Functions}!\-B\-M\-A\-\_\-\-B\-W\-\_\-\-B\-P0\-\_\-300\-H\-Z@{\-B\-M\-A\-\_\-\-B\-W\-\_\-\-B\-P0\-\_\-300\-H\-Z}}\item[{\em 
+\hypertarget{group___p_i_o_s___b_m_a180_ggacd6d3ecff286f705778973637b4d3d99a5abc29a7422d6c60410396eda7d92b62}{\-B\-M\-A\-\_\-\-B\-W\-\_\-\-B\-P0\-\_\-300\-H\-Z}\label{group___p_i_o_s___b_m_a180_ggacd6d3ecff286f705778973637b4d3d99a5abc29a7422d6c60410396eda7d92b62}
+}]\end{description}
+\end{Desc}
+
+
+
+\-Definition at line 71 of file pios\-\_\-bma180.\-h.
+
+\hypertarget{group___p_i_o_s___b_m_a180_ga319b0b37d7184097d2ae4e7ba527a416}{\index{\-B\-M\-A180 Functions@{\-B\-M\-A180 Functions}!bma180\-\_\-range@{bma180\-\_\-range}}
+\index{bma180\-\_\-range@{bma180\-\_\-range}!BMA180 Functions@{\-B\-M\-A180 Functions}}
+\subsubsection[{bma180\-\_\-range}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf bma180\-\_\-range}}}\label{group___p_i_o_s___b_m_a180_ga319b0b37d7184097d2ae4e7ba527a416}
+\begin{Desc}
+\item[\-Enumerator\-: ]\par
+\begin{description}
+\index{\-B\-M\-A\-\_\-\-R\-A\-N\-G\-E\-\_\-1\-G@{\-B\-M\-A\-\_\-\-R\-A\-N\-G\-E\-\_\-1\-G}!\-B\-M\-A180 Functions@{\-B\-M\-A180 Functions}}\index{\-B\-M\-A180 Functions@{\-B\-M\-A180 Functions}!\-B\-M\-A\-\_\-\-R\-A\-N\-G\-E\-\_\-1\-G@{\-B\-M\-A\-\_\-\-R\-A\-N\-G\-E\-\_\-1\-G}}\item[{\em 
+\hypertarget{group___p_i_o_s___b_m_a180_gga319b0b37d7184097d2ae4e7ba527a416a7a0fa3f83070097604fa2c26cec0d197}{\-B\-M\-A\-\_\-\-R\-A\-N\-G\-E\-\_\-1\-G}\label{group___p_i_o_s___b_m_a180_gga319b0b37d7184097d2ae4e7ba527a416a7a0fa3f83070097604fa2c26cec0d197}
+}]\index{\-B\-M\-A\-\_\-\-R\-A\-N\-G\-E\-\_\-1\-\_\-5\-G@{\-B\-M\-A\-\_\-\-R\-A\-N\-G\-E\-\_\-1\-\_\-5\-G}!\-B\-M\-A180 Functions@{\-B\-M\-A180 Functions}}\index{\-B\-M\-A180 Functions@{\-B\-M\-A180 Functions}!\-B\-M\-A\-\_\-\-R\-A\-N\-G\-E\-\_\-1\-\_\-5\-G@{\-B\-M\-A\-\_\-\-R\-A\-N\-G\-E\-\_\-1\-\_\-5\-G}}\item[{\em 
+\hypertarget{group___p_i_o_s___b_m_a180_gga319b0b37d7184097d2ae4e7ba527a416aba39596e59ef5c1b698fd07fb70aeb59}{\-B\-M\-A\-\_\-\-R\-A\-N\-G\-E\-\_\-1\-\_\-5\-G}\label{group___p_i_o_s___b_m_a180_gga319b0b37d7184097d2ae4e7ba527a416aba39596e59ef5c1b698fd07fb70aeb59}
+}]\index{\-B\-M\-A\-\_\-\-R\-A\-N\-G\-E\-\_\-2\-G@{\-B\-M\-A\-\_\-\-R\-A\-N\-G\-E\-\_\-2\-G}!\-B\-M\-A180 Functions@{\-B\-M\-A180 Functions}}\index{\-B\-M\-A180 Functions@{\-B\-M\-A180 Functions}!\-B\-M\-A\-\_\-\-R\-A\-N\-G\-E\-\_\-2\-G@{\-B\-M\-A\-\_\-\-R\-A\-N\-G\-E\-\_\-2\-G}}\item[{\em 
+\hypertarget{group___p_i_o_s___b_m_a180_gga319b0b37d7184097d2ae4e7ba527a416a3baba1647f1b31a0ca85c4b4b4460219}{\-B\-M\-A\-\_\-\-R\-A\-N\-G\-E\-\_\-2\-G}\label{group___p_i_o_s___b_m_a180_gga319b0b37d7184097d2ae4e7ba527a416a3baba1647f1b31a0ca85c4b4b4460219}
+}]\index{\-B\-M\-A\-\_\-\-R\-A\-N\-G\-E\-\_\-3\-G@{\-B\-M\-A\-\_\-\-R\-A\-N\-G\-E\-\_\-3\-G}!\-B\-M\-A180 Functions@{\-B\-M\-A180 Functions}}\index{\-B\-M\-A180 Functions@{\-B\-M\-A180 Functions}!\-B\-M\-A\-\_\-\-R\-A\-N\-G\-E\-\_\-3\-G@{\-B\-M\-A\-\_\-\-R\-A\-N\-G\-E\-\_\-3\-G}}\item[{\em 
+\hypertarget{group___p_i_o_s___b_m_a180_gga319b0b37d7184097d2ae4e7ba527a416a689f60fc8cd363d6104d30fd2f7b653a}{\-B\-M\-A\-\_\-\-R\-A\-N\-G\-E\-\_\-3\-G}\label{group___p_i_o_s___b_m_a180_gga319b0b37d7184097d2ae4e7ba527a416a689f60fc8cd363d6104d30fd2f7b653a}
+}]\index{\-B\-M\-A\-\_\-\-R\-A\-N\-G\-E\-\_\-4\-G@{\-B\-M\-A\-\_\-\-R\-A\-N\-G\-E\-\_\-4\-G}!\-B\-M\-A180 Functions@{\-B\-M\-A180 Functions}}\index{\-B\-M\-A180 Functions@{\-B\-M\-A180 Functions}!\-B\-M\-A\-\_\-\-R\-A\-N\-G\-E\-\_\-4\-G@{\-B\-M\-A\-\_\-\-R\-A\-N\-G\-E\-\_\-4\-G}}\item[{\em 
+\hypertarget{group___p_i_o_s___b_m_a180_gga319b0b37d7184097d2ae4e7ba527a416a88eeec78073940a1aaf2b96f9988dc39}{\-B\-M\-A\-\_\-\-R\-A\-N\-G\-E\-\_\-4\-G}\label{group___p_i_o_s___b_m_a180_gga319b0b37d7184097d2ae4e7ba527a416a88eeec78073940a1aaf2b96f9988dc39}
+}]\index{\-B\-M\-A\-\_\-\-R\-A\-N\-G\-E\-\_\-8\-G@{\-B\-M\-A\-\_\-\-R\-A\-N\-G\-E\-\_\-8\-G}!\-B\-M\-A180 Functions@{\-B\-M\-A180 Functions}}\index{\-B\-M\-A180 Functions@{\-B\-M\-A180 Functions}!\-B\-M\-A\-\_\-\-R\-A\-N\-G\-E\-\_\-8\-G@{\-B\-M\-A\-\_\-\-R\-A\-N\-G\-E\-\_\-8\-G}}\item[{\em 
+\hypertarget{group___p_i_o_s___b_m_a180_gga319b0b37d7184097d2ae4e7ba527a416a13d252a0a2ceb78c19757b6e1d69a4f7}{\-B\-M\-A\-\_\-\-R\-A\-N\-G\-E\-\_\-8\-G}\label{group___p_i_o_s___b_m_a180_gga319b0b37d7184097d2ae4e7ba527a416a13d252a0a2ceb78c19757b6e1d69a4f7}
+}]\index{\-B\-M\-A\-\_\-\-R\-A\-N\-G\-E\-\_\-16\-G@{\-B\-M\-A\-\_\-\-R\-A\-N\-G\-E\-\_\-16\-G}!\-B\-M\-A180 Functions@{\-B\-M\-A180 Functions}}\index{\-B\-M\-A180 Functions@{\-B\-M\-A180 Functions}!\-B\-M\-A\-\_\-\-R\-A\-N\-G\-E\-\_\-16\-G@{\-B\-M\-A\-\_\-\-R\-A\-N\-G\-E\-\_\-16\-G}}\item[{\em 
+\hypertarget{group___p_i_o_s___b_m_a180_gga319b0b37d7184097d2ae4e7ba527a416a65bb98b2bfac0f9f4e57161b4f8cc7cc}{\-B\-M\-A\-\_\-\-R\-A\-N\-G\-E\-\_\-16\-G}\label{group___p_i_o_s___b_m_a180_gga319b0b37d7184097d2ae4e7ba527a416a65bb98b2bfac0f9f4e57161b4f8cc7cc}
+}]\end{description}
+\end{Desc}
+
+
+
+\-Definition at line 59 of file pios\-\_\-bma180.\-h.
+
+\hypertarget{group___p_i_o_s___b_m_a180_ga019b2d5aa99a1a8e1b760c201899fa64}{\index{\-B\-M\-A180 Functions@{\-B\-M\-A180 Functions}!pios\-\_\-bma180\-\_\-dev\-\_\-magic@{pios\-\_\-bma180\-\_\-dev\-\_\-magic}}
+\index{pios\-\_\-bma180\-\_\-dev\-\_\-magic@{pios\-\_\-bma180\-\_\-dev\-\_\-magic}!BMA180 Functions@{\-B\-M\-A180 Functions}}
+\subsubsection[{pios\-\_\-bma180\-\_\-dev\-\_\-magic}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf pios\-\_\-bma180\-\_\-dev\-\_\-magic}}}\label{group___p_i_o_s___b_m_a180_ga019b2d5aa99a1a8e1b760c201899fa64}
+\begin{Desc}
+\item[\-Enumerator\-: ]\par
+\begin{description}
+\index{\-P\-I\-O\-S\-\_\-\-B\-M\-A180\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C@{\-P\-I\-O\-S\-\_\-\-B\-M\-A180\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}!\-B\-M\-A180 Functions@{\-B\-M\-A180 Functions}}\index{\-B\-M\-A180 Functions@{\-B\-M\-A180 Functions}!\-P\-I\-O\-S\-\_\-\-B\-M\-A180\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C@{\-P\-I\-O\-S\-\_\-\-B\-M\-A180\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}}\item[{\em 
+\hypertarget{group___p_i_o_s___b_m_a180_gga019b2d5aa99a1a8e1b760c201899fa64a7aec37002a2253d103974e52b5994e74}{\-P\-I\-O\-S\-\_\-\-B\-M\-A180\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}\label{group___p_i_o_s___b_m_a180_gga019b2d5aa99a1a8e1b760c201899fa64a7aec37002a2253d103974e52b5994e74}
+}]\end{description}
+\end{Desc}
+
+
+
+\-Definition at line 40 of file pios\-\_\-bma180.\-c.
+
+
+
+\subsection{\-Function \-Documentation}
+\hypertarget{group___p_i_o_s___b_m_a180_ga7630f96fe8305335e0f834bd7e594007}{\index{\-B\-M\-A180 Functions@{\-B\-M\-A180 Functions}!\-P\-I\-O\-S\-\_\-\-B\-M\-A180\-\_\-\-Attach@{\-P\-I\-O\-S\-\_\-\-B\-M\-A180\-\_\-\-Attach}}
+\index{\-P\-I\-O\-S\-\_\-\-B\-M\-A180\-\_\-\-Attach@{\-P\-I\-O\-S\-\_\-\-B\-M\-A180\-\_\-\-Attach}!BMA180 Functions@{\-B\-M\-A180 Functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-B\-M\-A180\-\_\-\-Attach}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-P\-I\-O\-S\-\_\-\-B\-M\-A180\-\_\-\-Attach} (
+\begin{DoxyParamCaption}
+\item[{uint32\-\_\-t}]{spi\-\_\-id}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___b_m_a180_ga7630f96fe8305335e0f834bd7e594007}
+\hypertarget{group___p_i_o_s___b_m_a180_ga6445f37d7393a3cf869f14425d4f8f60}{\index{\-B\-M\-A180 Functions@{\-B\-M\-A180 Functions}!\-P\-I\-O\-S\-\_\-\-B\-M\-A180\-\_\-\-Claim\-Bus@{\-P\-I\-O\-S\-\_\-\-B\-M\-A180\-\_\-\-Claim\-Bus}}
+\index{\-P\-I\-O\-S\-\_\-\-B\-M\-A180\-\_\-\-Claim\-Bus@{\-P\-I\-O\-S\-\_\-\-B\-M\-A180\-\_\-\-Claim\-Bus}!BMA180 Functions@{\-B\-M\-A180 Functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-B\-M\-A180\-\_\-\-Claim\-Bus}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-P\-I\-O\-S\-\_\-\-B\-M\-A180\-\_\-\-Claim\-Bus} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___b_m_a180_ga6445f37d7393a3cf869f14425d4f8f60}
+
+
+\-Claim the \-S\-P\-I bus for the accel communications and select this chip. 
+
+\begin{DoxyReturn}{\-Returns}
+0 if successful, -\/1 if unable to claim bus 
+\end{DoxyReturn}
+
+
+\-Definition at line 129 of file pios\-\_\-bma180.\-c.
+
+\hypertarget{group___p_i_o_s___b_m_a180_gaa4ed3d63ee77fc3f34b4c307f5552d15}{\index{\-B\-M\-A180 Functions@{\-B\-M\-A180 Functions}!\-P\-I\-O\-S\-\_\-\-B\-M\-A180\-\_\-\-Claim\-Bus\-I\-S\-R@{\-P\-I\-O\-S\-\_\-\-B\-M\-A180\-\_\-\-Claim\-Bus\-I\-S\-R}}
+\index{\-P\-I\-O\-S\-\_\-\-B\-M\-A180\-\_\-\-Claim\-Bus\-I\-S\-R@{\-P\-I\-O\-S\-\_\-\-B\-M\-A180\-\_\-\-Claim\-Bus\-I\-S\-R}!BMA180 Functions@{\-B\-M\-A180 Functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-B\-M\-A180\-\_\-\-Claim\-Bus\-I\-S\-R}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-P\-I\-O\-S\-\_\-\-B\-M\-A180\-\_\-\-Claim\-Bus\-I\-S\-R} (
+\begin{DoxyParamCaption}
+\item[{bool $\ast$}]{woken}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___b_m_a180_gaa4ed3d63ee77fc3f34b4c307f5552d15}
+
+
+\-Claim the \-S\-P\-I bus for the accel communications and select this chip. 
+
+
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em pointer} & which receives if a task has been woken \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+0 if successful, -\/1 if unable to claim bus 
+\end{DoxyReturn}
+
+
+\-Definition at line 148 of file pios\-\_\-bma180.\-c.
+
+\hypertarget{group___p_i_o_s___b_m_a180_gac0b0ac69b4fecb73c72a5acf917471b4}{\index{\-B\-M\-A180 Functions@{\-B\-M\-A180 Functions}!\-P\-I\-O\-S\-\_\-\-B\-M\-A180\-\_\-\-Get\-Scale@{\-P\-I\-O\-S\-\_\-\-B\-M\-A180\-\_\-\-Get\-Scale}}
+\index{\-P\-I\-O\-S\-\_\-\-B\-M\-A180\-\_\-\-Get\-Scale@{\-P\-I\-O\-S\-\_\-\-B\-M\-A180\-\_\-\-Get\-Scale}!BMA180 Functions@{\-B\-M\-A180 Functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-B\-M\-A180\-\_\-\-Get\-Scale}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf \-P\-I\-O\-S\-\_\-\-B\-M\-A180\-\_\-\-Get\-Scale} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___b_m_a180_gac0b0ac69b4fecb73c72a5acf917471b4}
+
+
+\-Returns the scale the \-B\-M\-A180 chip is using. 
+
+\begin{DoxyReturn}{\-Returns}
+\-Scale (m / s$^\wedge$2) / \-L\-S\-B 
+\end{DoxyReturn}
+
+
+\-Definition at line 373 of file pios\-\_\-bma180.\-c.
+
+\hypertarget{group___p_i_o_s___b_m_a180_ga913e423478cf470fc5691ea8d62bca65}{\index{\-B\-M\-A180 Functions@{\-B\-M\-A180 Functions}!\-P\-I\-O\-S\-\_\-\-B\-M\-A180\-\_\-\-Init@{\-P\-I\-O\-S\-\_\-\-B\-M\-A180\-\_\-\-Init}}
+\index{\-P\-I\-O\-S\-\_\-\-B\-M\-A180\-\_\-\-Init@{\-P\-I\-O\-S\-\_\-\-B\-M\-A180\-\_\-\-Init}!BMA180 Functions@{\-B\-M\-A180 Functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-B\-M\-A180\-\_\-\-Init}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-P\-I\-O\-S\-\_\-\-B\-M\-A180\-\_\-\-Init} (
+\begin{DoxyParamCaption}
+\item[{uint32\-\_\-t}]{spi\-\_\-id, }
+\item[{uint32\-\_\-t}]{slave\-\_\-num, }
+\item[{const struct {\bf pios\-\_\-bma180\-\_\-cfg} $\ast$}]{cfg}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___b_m_a180_ga913e423478cf470fc5691ea8d62bca65}
+
+
+\-Initialize with good default settings. 
+
+\begin{DoxyReturn}{\-Returns}
+0 for success, -\/1 for failure 
+\end{DoxyReturn}
+
+
+\-Definition at line 104 of file pios\-\_\-bma180.\-c.
+
+\hypertarget{group___p_i_o_s___b_m_a180_gaded704c5b366fadaac4efb9272a9414a}{\index{\-B\-M\-A180 Functions@{\-B\-M\-A180 Functions}!\-P\-I\-O\-S\-\_\-\-B\-M\-A180\-\_\-\-I\-R\-Q\-Handler@{\-P\-I\-O\-S\-\_\-\-B\-M\-A180\-\_\-\-I\-R\-Q\-Handler}}
+\index{\-P\-I\-O\-S\-\_\-\-B\-M\-A180\-\_\-\-I\-R\-Q\-Handler@{\-P\-I\-O\-S\-\_\-\-B\-M\-A180\-\_\-\-I\-R\-Q\-Handler}!BMA180 Functions@{\-B\-M\-A180 Functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-B\-M\-A180\-\_\-\-I\-R\-Q\-Handler}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-P\-I\-O\-S\-\_\-\-B\-M\-A180\-\_\-\-I\-R\-Q\-Handler} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___b_m_a180_gaded704c5b366fadaac4efb9272a9414a}
+
+
+\-Definition at line 453 of file pios\-\_\-bma180.\-c.
+
+\hypertarget{group___p_i_o_s___b_m_a180_ga7b56742fa09a8cb81b620c4ddb35e0a0}{\index{\-B\-M\-A180 Functions@{\-B\-M\-A180 Functions}!\-P\-I\-O\-S\-\_\-\-B\-M\-A180\-\_\-\-Read\-Accels@{\-P\-I\-O\-S\-\_\-\-B\-M\-A180\-\_\-\-Read\-Accels}}
+\index{\-P\-I\-O\-S\-\_\-\-B\-M\-A180\-\_\-\-Read\-Accels@{\-P\-I\-O\-S\-\_\-\-B\-M\-A180\-\_\-\-Read\-Accels}!BMA180 Functions@{\-B\-M\-A180 Functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-B\-M\-A180\-\_\-\-Read\-Accels}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-P\-I\-O\-S\-\_\-\-B\-M\-A180\-\_\-\-Read\-Accels} (
+\begin{DoxyParamCaption}
+\item[{struct {\bf pios\-\_\-bma180\-\_\-data} $\ast$}]{data}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___b_m_a180_ga7b56742fa09a8cb81b620c4ddb35e0a0}
+
+
+\-Read a single set of values from the x y z channels. 
+
+
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt out}  & {\em data} & \-Int16 array of (x,y,z) sensor values \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+0 if successful 
+\end{DoxyReturn}
+
+\begin{DoxyRetVals}{\-Return values}
+{\em -\/1} & unable to claim bus \\
+\hline
+{\em -\/2} & unable to transfer data \\
+\hline
+\end{DoxyRetVals}
+
+
+\-Definition at line 345 of file pios\-\_\-bma180.\-c.
+
+\hypertarget{group___p_i_o_s___b_m_a180_gaae90c39f1345aa38815791270aca39ae}{\index{\-B\-M\-A180 Functions@{\-B\-M\-A180 Functions}!\-P\-I\-O\-S\-\_\-\-B\-M\-A180\-\_\-\-Read\-Fifo@{\-P\-I\-O\-S\-\_\-\-B\-M\-A180\-\_\-\-Read\-Fifo}}
+\index{\-P\-I\-O\-S\-\_\-\-B\-M\-A180\-\_\-\-Read\-Fifo@{\-P\-I\-O\-S\-\_\-\-B\-M\-A180\-\_\-\-Read\-Fifo}!BMA180 Functions@{\-B\-M\-A180 Functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-B\-M\-A180\-\_\-\-Read\-Fifo}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-P\-I\-O\-S\-\_\-\-B\-M\-A180\-\_\-\-Read\-Fifo} (
+\begin{DoxyParamCaption}
+\item[{struct {\bf pios\-\_\-bma180\-\_\-data} $\ast$}]{buffer}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___b_m_a180_gaae90c39f1345aa38815791270aca39ae}
+
+
+\-Get data from fifo. 
+
+
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt out}  & {\em buffer} & pointer to a \hyperlink{structpios__bma180__data}{pios\-\_\-bma180\-\_\-data} structure to receive data \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+0 for success, -\/1 for failure (no data available) 
+\end{DoxyReturn}
+
+
+\-Definition at line 402 of file pios\-\_\-bma180.\-c.
+
+\hypertarget{group___p_i_o_s___b_m_a180_ga1027b4d7c9d37660697a5093f7077a42}{\index{\-B\-M\-A180 Functions@{\-B\-M\-A180 Functions}!\-P\-I\-O\-S\-\_\-\-B\-M\-A180\-\_\-\-Release\-Bus@{\-P\-I\-O\-S\-\_\-\-B\-M\-A180\-\_\-\-Release\-Bus}}
+\index{\-P\-I\-O\-S\-\_\-\-B\-M\-A180\-\_\-\-Release\-Bus@{\-P\-I\-O\-S\-\_\-\-B\-M\-A180\-\_\-\-Release\-Bus}!BMA180 Functions@{\-B\-M\-A180 Functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-B\-M\-A180\-\_\-\-Release\-Bus}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-P\-I\-O\-S\-\_\-\-B\-M\-A180\-\_\-\-Release\-Bus} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___b_m_a180_ga1027b4d7c9d37660697a5093f7077a42}
+
+
+\-Release the \-S\-P\-I bus for the accel communications and end the transaction. 
+
+\begin{DoxyReturn}{\-Returns}
+0 if successful 
+\end{DoxyReturn}
+
+
+\-Definition at line 165 of file pios\-\_\-bma180.\-c.
+
+\hypertarget{group___p_i_o_s___b_m_a180_gac3df046a46bd9633ccb969436bb8d9ab}{\index{\-B\-M\-A180 Functions@{\-B\-M\-A180 Functions}!\-P\-I\-O\-S\-\_\-\-B\-M\-A180\-\_\-\-Release\-Bus\-I\-S\-R@{\-P\-I\-O\-S\-\_\-\-B\-M\-A180\-\_\-\-Release\-Bus\-I\-S\-R}}
+\index{\-P\-I\-O\-S\-\_\-\-B\-M\-A180\-\_\-\-Release\-Bus\-I\-S\-R@{\-P\-I\-O\-S\-\_\-\-B\-M\-A180\-\_\-\-Release\-Bus\-I\-S\-R}!BMA180 Functions@{\-B\-M\-A180 Functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-B\-M\-A180\-\_\-\-Release\-Bus\-I\-S\-R}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-P\-I\-O\-S\-\_\-\-B\-M\-A180\-\_\-\-Release\-Bus\-I\-S\-R} (
+\begin{DoxyParamCaption}
+\item[{bool $\ast$}]{woken}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___b_m_a180_gac3df046a46bd9633ccb969436bb8d9ab}
+
+
+\-Release the \-S\-P\-I bus for the accel communications and end the transaction. 
+
+
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em pointer} & which receives if a task has been woken \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+0 if successful 
+\end{DoxyReturn}
+
+
+\-Definition at line 180 of file pios\-\_\-bma180.\-c.
+
+\hypertarget{group___p_i_o_s___b_m_a180_ga581d274e0f804ba0c8ef0406a782aa8d}{\index{\-B\-M\-A180 Functions@{\-B\-M\-A180 Functions}!\-P\-I\-O\-S\-\_\-\-B\-M\-A180\-\_\-\-Test@{\-P\-I\-O\-S\-\_\-\-B\-M\-A180\-\_\-\-Test}}
+\index{\-P\-I\-O\-S\-\_\-\-B\-M\-A180\-\_\-\-Test@{\-P\-I\-O\-S\-\_\-\-B\-M\-A180\-\_\-\-Test}!BMA180 Functions@{\-B\-M\-A180 Functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-B\-M\-A180\-\_\-\-Test}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-P\-I\-O\-S\-\_\-\-B\-M\-A180\-\_\-\-Test} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___b_m_a180_ga581d274e0f804ba0c8ef0406a782aa8d}
+
+
+\-Test \-S\-P\-I and chip functionality by reading chip \-I\-D register. 
+
+\begin{DoxyReturn}{\-Returns}
+0 if success, -\/1 if failure. 
+\end{DoxyReturn}
+
+
+\-Definition at line 421 of file pios\-\_\-bma180.\-c.
+
+
+
+\subsection{\-Variable \-Documentation}
+\hypertarget{group___p_i_o_s___b_m_a180_gabbaf3c8a871b2c19d493446ad684c3dc}{\index{\-B\-M\-A180 Functions@{\-B\-M\-A180 Functions}!bma180\-\_\-irqs@{bma180\-\_\-irqs}}
+\index{bma180\-\_\-irqs@{bma180\-\_\-irqs}!BMA180 Functions@{\-B\-M\-A180 Functions}}
+\subsubsection[{bma180\-\_\-irqs}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf bma180\-\_\-irqs} = 0}}\label{group___p_i_o_s___b_m_a180_gabbaf3c8a871b2c19d493446ad684c3dc}
+
+
+\-I\-R\-Q \-Handler. \-Read data from the \-B\-M\-A180 \-F\-I\-F\-O and push onto a local fifo. 
+
+
+
+\-Definition at line 452 of file pios\-\_\-bma180.\-c.
+

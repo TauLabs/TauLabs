@@ -1,0 +1,88 @@
+\hypertarget{class_raw_h_i_d}{\section{\-Raw\-H\-I\-D \-Class \-Reference}
+\label{class_raw_h_i_d}\index{\-Raw\-H\-I\-D@{\-Raw\-H\-I\-D}}
+}
+
+
+{\ttfamily \#include $<$rawhid.\-h$>$}
+
+\subsection*{\-Public \-Slots}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___raw_h_i_d_plugin_ga62bfd16ef26f8f8e8c52ce836b268c71}{on\-Device\-Unplugged} (int num)
+\end{DoxyCompactItemize}
+\subsection*{\-Signals}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___raw_h_i_d_plugin_ga4ababcef71544d260177e4957426598c}{closed} ()
+\end{DoxyCompactItemize}
+\subsection*{\-Public \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___raw_h_i_d_plugin_gab8670136473a97cded80dd1a4e785680}{\-Raw\-H\-I\-D} ()
+\item 
+\hyperlink{group___raw_h_i_d_plugin_gae7f570657448daa4890a0e38f693e6ed}{\-Raw\-H\-I\-D} (\hyperlink{class_u_s_b_device}{\-U\-S\-B\-Device} $\ast$device\-Name)
+\item 
+virtual \hyperlink{group___raw_h_i_d_plugin_gaa925a3d3cbb80dd61705cedd4a0d5167}{$\sim$\-Raw\-H\-I\-D} ()
+\item 
+virtual bool \hyperlink{group___raw_h_i_d_plugin_ga58a13b23858ae0b323802154fa2b93a8}{open} (\-Open\-Mode mode)
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___raw_h_i_d_plugin_gad109f6050214525dde9804f5a20bf53f}{close} ()
+\item 
+virtual bool \hyperlink{group___raw_h_i_d_plugin_gaf9b8ab547528829a7ef19c1d9a9e692a}{is\-Sequential} () const 
+\end{DoxyCompactItemize}
+\subsection*{\-Protected \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual qint64 \hyperlink{group___raw_h_i_d_plugin_gac4b532c2c57925141897d91434924e80}{read\-Data} (char $\ast$data, qint64 max\-Size)
+\item 
+virtual qint64 \hyperlink{group___raw_h_i_d_plugin_ga59184fec2a68eecf3e08e81303b8cdbe}{write\-Data} (const char $\ast$data, qint64 max\-Size)
+\item 
+virtual qint64 \hyperlink{group___raw_h_i_d_plugin_ga5bd4826624aa1689aedbfd1832c4ddb4}{bytes\-Available} () const 
+\item 
+virtual qint64 \hyperlink{group___raw_h_i_d_plugin_gaf0246fd49e7dc9cda82b983312f4a782}{bytes\-To\-Write} () const 
+\item 
+bool \hyperlink{group___raw_h_i_d_plugin_gafc323c516287e2e1e5e12b425cd28b4b}{open\-Device} ()
+\begin{DoxyCompactList}\small\item\em \-Callback from the read thread to open the device. \end{DoxyCompactList}\item 
+bool \hyperlink{group___raw_h_i_d_plugin_ga6cf706b44d1aaf58b4218b3cacbc6218}{close\-Device} ()
+\begin{DoxyCompactList}\small\item\em \-Callback from teh read thread to close the device. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Protected \-Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___raw_h_i_d_plugin_ga0b5d9bd4ac69612199afa5b59dfc3ed6}{serial\-Number}
+\item 
+\hyperlink{class_u_s_b_device}{\-U\-S\-B\-Device} $\ast$ \hyperlink{group___raw_h_i_d_plugin_gab9b0f096459d4bc5a220ac42e9465752}{device\-Info}
+\item 
+int \hyperlink{group___raw_h_i_d_plugin_ga0dde2d900a5f9cbd059e528de3f0c73b}{m\-\_\-device\-No}
+\item 
+\hyperlink{classpjrc__rawhid}{pjrc\-\_\-rawhid} \hyperlink{group___raw_h_i_d_plugin_ga4939588bf5bf31e39139a75ca4319884}{dev}
+\item 
+bool \hyperlink{group___raw_h_i_d_plugin_ga6ec3ad7c063679816e5aafed60f677c3}{device\-\_\-open}
+\item 
+\hyperlink{class_raw_h_i_d_read_thread}{\-Raw\-H\-I\-D\-Read\-Thread} $\ast$ \hyperlink{group___raw_h_i_d_plugin_gaecb703f979aac429ee3961f52c998b53}{m\-\_\-read\-Thread}
+\item 
+\hyperlink{class_raw_h_i_d_write_thread}{\-Raw\-H\-I\-D\-Write\-Thread} $\ast$ \hyperlink{group___raw_h_i_d_plugin_ga103f382a48fee4b9fe034b3d88f45d42}{m\-\_\-write\-Thread}
+\item 
+\-Q\-Mutex $\ast$ \hyperlink{group___raw_h_i_d_plugin_ga915d676c812135bc006e37a140a52365}{m\-\_\-mutex}
+\item 
+\-Q\-Mutex $\ast$ \hyperlink{group___raw_h_i_d_plugin_ga62ee841aa1de86d73cfd1b9bc7a5d719}{m\-\_\-started\-Mutex}
+\end{DoxyCompactItemize}
+\subsection*{\-Friends}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{group___raw_h_i_d_plugin_ga8ff6a2bdea09543bed5912710ec13dab}{\-Raw\-H\-I\-D\-Read\-Thread}
+\item 
+class \hyperlink{group___raw_h_i_d_plugin_ga2d3d87c46461ab8d3746b207989bb7f8}{\-Raw\-H\-I\-D\-Write\-Thread}
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-The actual \-I\-O device that will be used to communicate with the board. 
+
+\-Definition at line 51 of file rawhid.\-h.
+
+
+
+\-The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/plugins/rawhid/\hyperlink{rawhid_8h}{rawhid.\-h}\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/plugins/rawhid/\hyperlink{rawhid_8cpp}{rawhid.\-cpp}\end{DoxyCompactItemize}

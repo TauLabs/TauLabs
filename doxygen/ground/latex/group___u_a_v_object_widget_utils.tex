@@ -1,0 +1,2441 @@
+\hypertarget{group___u_a_v_object_widget_utils}{\section{\-Plugin}
+\label{group___u_a_v_object_widget_utils}\index{\-Plugin@{\-Plugin}}
+}
+
+
+\-Utility plugin for \hyperlink{class_u_a_v_object}{\-U\-A\-V\-Object} to \hyperlink{class_widget}{\-Widget} relation management.  
+
+
+\subsection*{\-Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{class_config_task_widget}{\-Config\-Task\-Widget}
+\item 
+struct \hyperlink{struct_config_task_widget_1_1shadow}{\-Config\-Task\-Widget\-::shadow}
+\item 
+struct \hyperlink{struct_config_task_widget_1_1object_to_widget}{\-Config\-Task\-Widget\-::object\-To\-Widget}
+\item 
+struct \hyperlink{struct_config_task_widget_1_1temphelper}{\-Config\-Task\-Widget\-::temphelper}
+\item 
+struct \hyperlink{struct_config_task_widget_1_1ui_relation_automation}{\-Config\-Task\-Widget\-::ui\-Relation\-Automation}
+\item 
+class \hyperlink{class_edge}{\-Edge}
+\item 
+class \hyperlink{class_mixer_node}{\-Mixer\-Node}
+\item 
+class \hyperlink{class_mixer_curve_widget}{\-Mixer\-Curve\-Widget}
+\item 
+class \hyperlink{classsmart_save_button}{smart\-Save\-Button}
+\item 
+class \hyperlink{class_u_a_v_object_widget_utils_plugin}{\-U\-A\-V\-Object\-Widget\-Utils\-Plugin}
+\end{DoxyCompactItemize}
+\subsection*{\-Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{group___u_a_v_object_widget_utils_gacf8aa6ed9da799d1973519df03d1ecfa}{\-Config\-Task\-Widget\-::button\-Type\-Enum} \{ \*
+\hyperlink{group___u_a_v_object_widget_utils_ggacf8aa6ed9da799d1973519df03d1ecfaa5ba945be96884ca1ea4e0019425b3fd1}{\-Config\-Task\-Widget\-::none}, 
+\hyperlink{group___u_a_v_object_widget_utils_ggacf8aa6ed9da799d1973519df03d1ecfaad57389b40e61729debc6f0e8fd4cbde2}{\-Config\-Task\-Widget\-::save\-\_\-button}, 
+\hyperlink{group___u_a_v_object_widget_utils_ggacf8aa6ed9da799d1973519df03d1ecfaaeebf9f5769535bd71cb2907073cf1492}{\-Config\-Task\-Widget\-::apply\-\_\-button}, 
+\hyperlink{group___u_a_v_object_widget_utils_ggacf8aa6ed9da799d1973519df03d1ecfaae3d77626c54b30f24b9342696d4155ee}{\-Config\-Task\-Widget\-::reload\-\_\-button}, 
+\*
+\hyperlink{group___u_a_v_object_widget_utils_ggacf8aa6ed9da799d1973519df03d1ecfaa8a58b5c21f9b09e20e74ab163d47f09a}{\-Config\-Task\-Widget\-::default\-\_\-button}, 
+\hyperlink{group___u_a_v_object_widget_utils_ggacf8aa6ed9da799d1973519df03d1ecfaad33ed1c1d7511f14ca49069b8166d04e}{\-Config\-Task\-Widget\-::help\-\_\-button}
+ \}
+\item 
+enum \hyperlink{group___u_a_v_object_widget_utils_gaf06dbd27444c4e9864e702d7c00b0a62}{\-Config\-Task\-Widget\-::metadata\-Set\-Enum} \{ \hyperlink{group___u_a_v_object_widget_utils_ggaf06dbd27444c4e9864e702d7c00b0a62ad6334ea913f7c2a28d32a16d52e1aecf}{\-Config\-Task\-Widget\-::\-A\-L\-L\-\_\-\-M\-E\-T\-A\-D\-A\-T\-A}, 
+\hyperlink{group___u_a_v_object_widget_utils_ggaf06dbd27444c4e9864e702d7c00b0a62ac3b6f184c1551bd23d264999d0330302}{\-Config\-Task\-Widget\-::\-S\-E\-T\-T\-I\-N\-G\-S\-\_\-\-M\-E\-T\-A\-D\-A\-T\-A\-\_\-\-O\-N\-L\-Y}, 
+\hyperlink{group___u_a_v_object_widget_utils_ggaf06dbd27444c4e9864e702d7c00b0a62a6ac1f4283fd36cd22e96b56756e26bbe}{\-Config\-Task\-Widget\-::\-N\-O\-N\-S\-E\-T\-T\-I\-N\-G\-S\-\_\-\-M\-E\-T\-A\-D\-A\-T\-A\-\_\-\-O\-N\-L\-Y}
+ \}
+\item 
+enum \{ \hyperlink{group___u_a_v_object_widget_utils_ggaa1ed12ae47b3b5c3b75c99c63986575da59a3ef5ffd963601ffda52bb7bf42b3c}{\-Edge\-::\-Type} =  \-User\-Type + 12
+ \}
+\item 
+enum \{ \hyperlink{group___u_a_v_object_widget_utils_ggacfcbe9e0a1b137ea0afeca0789e5e398ae34bb4f715b22e70e0a2182529bed883}{\-Mixer\-Node\-::\-Type} =  \-User\-Type + 10
+ \}
+\end{DoxyCompactItemize}
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+bool \hyperlink{group___u_a_v_object_widget_utils_gaf38e83f721ec231506c2aa0bd3268280}{\-Config\-Task\-Widget\-::temphelper\-::operator==} (const temphelper \&lhs)
+\item 
+\hyperlink{group___u_a_v_object_widget_utils_ga8164338f4928bd3afd984eeda276f276}{\-Config\-Task\-Widget\-::\-Config\-Task\-Widget} (\-Q\-Widget $\ast$parent=0)
+\item 
+virtual \hyperlink{group___u_a_v_object_widget_utils_ga40fc17c487f66c2cbcd9aa678c6f20dd}{\-Config\-Task\-Widget\-::$\sim$\-Config\-Task\-Widget} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_gaf42e971c9cd69919e3b05ed25643d516}{\-Config\-Task\-Widget\-::disable\-Mouse\-Wheel\-Events} ()
+\item 
+bool \hyperlink{group___u_a_v_object_widget_utils_gae5859445d40d8a43d5fd91927dd56ba9}{\-Config\-Task\-Widget\-::event\-Filter} (\-Q\-Object $\ast$obj, \-Q\-Event $\ast$evt)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_ga48cc77073a67c1e1945a0625f27d1519}{\-Config\-Task\-Widget\-::save\-Object\-To\-S\-D} (\hyperlink{class_u_a_v_object}{\-U\-A\-V\-Object} $\ast$obj)
+\item 
+\hyperlink{class_u_a_v_object_manager}{\-U\-A\-V\-Object\-Manager} $\ast$ \hyperlink{group___u_a_v_object_widget_utils_ga516ee05a73ac3c7c9e6132b0d7294b4a}{\-Config\-Task\-Widget\-::get\-Object\-Manager} ()
+\begin{DoxyCompactList}\small\item\em \hyperlink{group___u_a_v_object_widget_utils_ga516ee05a73ac3c7c9e6132b0d7294b4a}{\-Config\-Task\-Widget\-::get\-Object\-Manager} \-Utility function to get a pointer to the object manager. \end{DoxyCompactList}\item 
+\hyperlink{class_u_a_v_object_util_manager}{\-U\-A\-V\-Object\-Util\-Manager} $\ast$ \hyperlink{group___u_a_v_object_widget_utils_gadefdec77400ea7aaed02de03fa044b7a}{\-Config\-Task\-Widget\-::get\-Object\-Util\-Manager} ()
+\begin{DoxyCompactList}\small\item\em \hyperlink{group___u_a_v_object_widget_utils_gadefdec77400ea7aaed02de03fa044b7a}{\-Config\-Task\-Widget\-::get\-Object\-Util\-Manager} \-Utility function to get a pointer to the object manager utilities. \end{DoxyCompactList}\item 
+static double \hyperlink{group___u_a_v_object_widget_utils_ga134c15f52a4eccf9aeb9bbacdc296b80}{\-Config\-Task\-Widget\-::list\-Mean} (\-Q\-List$<$ double $>$ list)
+\item 
+static double \hyperlink{group___u_a_v_object_widget_utils_ga2f33179993858ca636461e78e3a7a3c8}{\-Config\-Task\-Widget\-::list\-Var} (\-Q\-List$<$ double $>$ list)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_ga82f371b1291826ec74341dddfe827c83}{\-Config\-Task\-Widget\-::add\-U\-A\-V\-Object} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} object\-Name, \-Q\-List$<$ int $>$ $\ast$reload\-Groups=\-N\-U\-L\-L)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_gac56e252ece21406583d59af2b70c2565}{\-Config\-Task\-Widget\-::add\-U\-A\-V\-Object} (\hyperlink{class_u_a_v_object}{\-U\-A\-V\-Object} $\ast$object\-Name, \-Q\-List$<$ int $>$ $\ast$reload\-Groups=\-N\-U\-L\-L)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_ga3edd7677e362be586b059c066e0a4e30}{\-Config\-Task\-Widget\-::add\-Widget} (\-Q\-Widget $\ast$widget)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_ga8f5d01ae74d161f7b85d123e66c49451}{\-Config\-Task\-Widget\-::add\-U\-A\-V\-Object\-To\-Widget\-Relation} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} object, \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} field, \-Q\-Widget $\ast$widget, int index=0, double scale=1, bool is\-Limited=false, \-Q\-List$<$ int $>$ $\ast$default\-Reload\-Groups=0, quint32 inst\-I\-D=0)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_ga9516761ea1de60250535bdebc9dd7fa9}{\-Config\-Task\-Widget\-::add\-U\-A\-V\-Object\-To\-Widget\-Relation} (\hyperlink{class_u_a_v_object}{\-U\-A\-V\-Object} $\ast$obj, \hyperlink{class_u_a_v_object_field}{\-U\-A\-V\-Object\-Field} $\ast$field, \-Q\-Widget $\ast$widget, int index=0, double scale=1, bool is\-Limited=false, \-Q\-List$<$ int $>$ $\ast$default\-Reload\-Groups=0, quint32 inst\-I\-D=0)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_ga929ce6a70bab7ab756f3d7df22ee4427}{\-Config\-Task\-Widget\-::add\-U\-A\-V\-Object\-To\-Widget\-Relation} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} object, \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} field, \-Q\-Widget $\ast$widget, \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} element, double scale, bool is\-Limited=false, \-Q\-List$<$ int $>$ $\ast$default\-Reload\-Groups=0, quint32 inst\-I\-D=0)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_ga70ea9dedfc9c692d10fd0c2223336ff6}{\-Config\-Task\-Widget\-::add\-U\-A\-V\-Object\-To\-Widget\-Relation} (\hyperlink{class_u_a_v_object}{\-U\-A\-V\-Object} $\ast$obj, \hyperlink{class_u_a_v_object_field}{\-U\-A\-V\-Object\-Field} $\ast$field, \-Q\-Widget $\ast$widget, \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} element, double scale, bool is\-Limited=false, \-Q\-List$<$ int $>$ $\ast$default\-Reload\-Groups=0, quint32 inst\-I\-D=0)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_gae3ae5288613fb8062c029d9a4da6c759}{\-Config\-Task\-Widget\-::add\-U\-A\-V\-Object\-To\-Widget\-Relation} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} object, \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} field, \-Q\-Widget $\ast$widget, \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} index)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_ga368867adfb58200a5f6af90141e8f1ae}{\-Config\-Task\-Widget\-::add\-U\-A\-V\-Object\-To\-Widget\-Relation} (\hyperlink{class_u_a_v_object}{\-U\-A\-V\-Object} $\ast$obj, \hyperlink{class_u_a_v_object_field}{\-U\-A\-V\-Object\-Field} $\ast$field, \-Q\-Widget $\ast$widget, \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} index)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_ga38c270f9a29f4e190e71414bdce82590}{\-Config\-Task\-Widget\-::add\-Apply\-Save\-Buttons} (\-Q\-Push\-Button $\ast$update, \-Q\-Push\-Button $\ast$\hyperlink{uavobjecttemplate_8m_a79178933c5b76091ca04178d14a5ba98}{save})
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_ga08a7e3f2686fdb1ef91db0843cb9414e}{\-Config\-Task\-Widget\-::add\-Reload\-Button} (\-Q\-Push\-Button $\ast$button, int button\-Group)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_gac0e04866c45a89a3f2c6f3241afa86d3}{\-Config\-Task\-Widget\-::add\-Default\-Button} (\-Q\-Push\-Button $\ast$button, int button\-Group)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_gabdd18a22aae23df220d48868ecbdf3a0}{\-Config\-Task\-Widget\-::add\-Widget\-To\-Default\-Reload\-Groups} (\-Q\-Widget $\ast$widget, \-Q\-List$<$ int $>$ $\ast$groups)
+\item 
+bool \hyperlink{group___u_a_v_object_widget_utils_ga726f8720d2d1bb52d38a6425fbfab448}{\-Config\-Task\-Widget\-::add\-Shadow\-Widget} (\-Q\-Widget $\ast$master\-Widget, \-Q\-Widget $\ast$shadow\-Widget, double shadow\-Scale=1, bool shadow\-Is\-Limited=false)
+\item 
+bool \hyperlink{group___u_a_v_object_widget_utils_ga285c7e48c6b730133169c0226cbc59c4}{\-Config\-Task\-Widget\-::add\-Shadow\-Widget} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} object, \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} field, \-Q\-Widget $\ast$widget, int index=0, double scale=1, bool is\-Limited=false, \-Q\-List$<$ int $>$ $\ast$default\-Reload\-Groups=\-N\-U\-L\-L, quint32 inst\-I\-D=0)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_ga945551d9d4d280fe2cd14bc2646d8fbf}{\-Config\-Task\-Widget\-::auto\-Load\-Widgets} ()
+\item 
+bool \hyperlink{group___u_a_v_object_widget_utils_gad61b70a01e85822c5838c2c5833c22fd}{\-Config\-Task\-Widget\-::is\-Autopilot\-Connected} ()
+\begin{DoxyCompactList}\small\item\em \hyperlink{group___u_a_v_object_widget_utils_gad61b70a01e85822c5838c2c5833c22fd}{\-Config\-Task\-Widget\-::is\-Autopilot\-Connected} \-Checks if the autopilot is connected. \end{DoxyCompactList}\item 
+bool \hyperlink{group___u_a_v_object_widget_utils_ga2d7e19cef57df7b30741b4901b5a190f}{\-Config\-Task\-Widget\-::is\-Dirty} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_gae75127fbfffe10458defc31a6a18c0f8}{\-Config\-Task\-Widget\-::set\-Dirty} (bool value)
+\item 
+bool \hyperlink{group___u_a_v_object_widget_utils_ga62e7277f3b8228d44da13a2355b96e9a}{\-Config\-Task\-Widget\-::all\-Objects\-Updated} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_gaefefd74c41c3c7655ae047ae80d6dba8}{\-Config\-Task\-Widget\-::set\-Out\-Of\-Limits\-Style} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} style)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_ga369a4d9a6a1eba7ba8e61e64f1d89b80}{\-Config\-Task\-Widget\-::add\-Help\-Button} (\-Q\-Push\-Button $\ast$button, \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} url)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_gaae2888fd71dce34ad0c33aed78952e23}{\-Config\-Task\-Widget\-::force\-Shadow\-Updates} ()
+\begin{DoxyCompactList}\small\item\em \hyperlink{group___u_a_v_object_widget_utils_gaae2888fd71dce34ad0c33aed78952e23}{\-Config\-Task\-Widget\-::force\-Shadow\-Updates}. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_gaef1ebd891852a741315a8b69975876e6}{\-Config\-Task\-Widget\-::force\-Connected\-State} ()
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_gaad59e4e96d1e4a59067aa44828ddaa3f}{\-Config\-Task\-Widget\-::enable\-Controls} (bool enable)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_ga087b6f8f17317793efa0d121fe42336a}{\-Config\-Task\-Widget\-::check\-Widgets\-Limits} (\-Q\-Widget $\ast$widget, \hyperlink{class_u_a_v_object_field}{\-U\-A\-V\-Object\-Field} $\ast$field, int index, bool has\-Limits, \-Q\-Variant value, double scale)
+\item 
+virtual \-Q\-Variant \hyperlink{group___u_a_v_object_widget_utils_ga0bc84dd39dc77fccf26bf3a708a11733}{\-Config\-Task\-Widget\-::get\-Variant\-From\-Widget} (\-Q\-Widget $\ast$widget, double scale)
+\item 
+virtual bool \hyperlink{group___u_a_v_object_widget_utils_gac37260311f36d40dcb9dce65e025c426}{\-Config\-Task\-Widget\-::set\-Widget\-From\-Variant} (\-Q\-Widget $\ast$widget, \-Q\-Variant value, double scale)
+\item 
+\hyperlink{group___u_a_v_object_widget_utils_gaaaf462ed746395725efc1ecc8ea00ec4}{\-Edge\-::\-Edge} (\hyperlink{class_mixer_node}{\-Mixer\-Node} $\ast$source\-Node, \hyperlink{class_mixer_node}{\-Mixer\-Node} $\ast$dest\-Node)
+\item 
+\hyperlink{group___u_a_v_object_widget_utils_ga2f37b72f044427961d6730943daf10e0}{\-Edge\-::$\sim$\-Edge} ()
+\item 
+\hyperlink{class_mixer_node}{\-Mixer\-Node} $\ast$ \hyperlink{group___u_a_v_object_widget_utils_ga9d06da5f40991dc21459764c5e3783b1}{\-Edge\-::source\-Node} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_gacc2025ad40fdd1225c77d3814bd356d2}{\-Edge\-::set\-Source\-Node} (\hyperlink{class_mixer_node}{\-Mixer\-Node} $\ast$node)
+\item 
+\hyperlink{class_mixer_node}{\-Mixer\-Node} $\ast$ \hyperlink{group___u_a_v_object_widget_utils_ga63800818ac0cf98ea9cff4ba44532c4d}{\-Edge\-::dest\-Node} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_gac291239456c76a2347f0d94e1aa8b14c}{\-Edge\-::set\-Dest\-Node} (\hyperlink{class_mixer_node}{\-Mixer\-Node} $\ast$node)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_gab554a765fd7a57fcdf289aa51b4df328}{\-Edge\-::adjust} ()
+\item 
+int \hyperlink{group___u_a_v_object_widget_utils_ga8ad60980ad4024691e462442f64eb7d2}{\-Edge\-::type} () const 
+\item 
+\-Q\-Rect\-F \hyperlink{group___u_a_v_object_widget_utils_ga1715832a609af81720fbed8340ddcd51}{\-Edge\-::bounding\-Rect} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_ga6fb73701d0e4739f569e1ea0eb4c36fa}{\-Edge\-::paint} (\-Q\-Painter $\ast$painter, const \-Q\-Style\-Option\-Graphics\-Item $\ast$option, \-Q\-Widget $\ast$widget)
+\item 
+\hyperlink{group___u_a_v_object_widget_utils_gad99e53701553bdb4852ccedd6362f5a2}{\-Mixer\-Node\-::\-Mixer\-Node} (\hyperlink{class_mixer_curve_widget}{\-Mixer\-Curve\-Widget} $\ast$graph\-Widget)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_gaf8a1ccdbffed70e2995e75d37c57851c}{\-Mixer\-Node\-::add\-Edge} (\hyperlink{class_edge}{\-Edge} $\ast$edge)
+\item 
+\-Q\-List$<$ \hyperlink{class_edge}{\-Edge} $\ast$ $>$ \hyperlink{group___u_a_v_object_widget_utils_ga40ed4006b807a83e49d061ed3d2660d2}{\-Mixer\-Node\-::edges} () const 
+\item 
+int \hyperlink{group___u_a_v_object_widget_utils_gab4486e1ba0c3c072c94654c3af32b0c6}{\-Mixer\-Node\-::type} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_gadfd7806c5496ba5afcd31e2965292feb}{\-Mixer\-Node\-::set\-Name} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} name)
+\item 
+const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \& \hyperlink{group___u_a_v_object_widget_utils_gade160748ca597706039a14036cf2cf49}{\-Mixer\-Node\-::get\-Name} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_ga611004aca7ff8a9568500f208f9e4dd8}{\-Mixer\-Node\-::vertical\-Move} (bool flag)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_ga3eb17fc4cf477877868bb1d9cc4baad9}{\-Mixer\-Node\-::command\-Node} (bool enable)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_ga549e0ca95a0402dfc301e141de9e269e}{\-Mixer\-Node\-::command\-Text} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} text)
+\item 
+int \hyperlink{group___u_a_v_object_widget_utils_ga9256f0cba8c457485bfc00b660076d2b}{\-Mixer\-Node\-::get\-Command\-Index} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_ga85c1946a33e5309ac2b9aa3675671935}{\-Mixer\-Node\-::set\-Command\-Index} (int \hyperlink{uavobjecttemplate_8m_a49654e4709f40aecccada266daa32fc6}{idx})
+\item 
+bool \hyperlink{group___u_a_v_object_widget_utils_ga63b0822569ce8326323c15159682c57e}{\-Mixer\-Node\-::get\-Command\-Active} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_ga224ddcb050b9008c2352ca9c1318159d}{\-Mixer\-Node\-::set\-Command\-Active} (bool enable)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_ga55f38aaacbac71e094d96baf3df429a4}{\-Mixer\-Node\-::set\-Toggle} (bool enable)
+\item 
+bool \hyperlink{group___u_a_v_object_widget_utils_gab63ea3448c47f2e65a056ec49b30e0d1}{\-Mixer\-Node\-::get\-Toggle} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_ga1318ec003e5b6d72bb03b061f6df3996}{\-Mixer\-Node\-::set\-Positive\-Color} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} color0=\char`\"{}\#00ff00\char`\"{}, Q\-String color1=\char`\"{}\#00ff00\char`\"{})
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_gaa22c8cab4fa7424caf1a9168f12365e3}{\-Mixer\-Node\-::set\-Negative\-Color} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} color0=\char`\"{}\#ff0000\char`\"{}, \-Q\-String color1=\char`\"{}\#ff0000\char`\"{})
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_ga85ed2c5bf8ae66f16496bd5fef25362b}{\-Mixer\-Node\-::set\-Image} (\-Q\-Image img)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_ga90b5c3c03fb1cca75ba471125d93b550}{\-Mixer\-Node\-::set\-Draw\-Node} (bool draw)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_gac7a63c8df4268991b6c48f6d528fe02c}{\-Mixer\-Node\-::set\-Draw\-Text} (bool draw)
+\item 
+\-Q\-Rect\-F \hyperlink{group___u_a_v_object_widget_utils_ga016954be92f06c8ef2007526890e030e}{\-Mixer\-Node\-::bounding\-Rect} () const 
+\item 
+\-Q\-Painter\-Path \hyperlink{group___u_a_v_object_widget_utils_gafbd32275c2089c42d00f43a0e17886ae}{\-Mixer\-Node\-::shape} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_gaa06d538612911f733082849ebbef3cb0}{\-Mixer\-Node\-::paint} (\-Q\-Painter $\ast$painter, const \-Q\-Style\-Option\-Graphics\-Item $\ast$option, \-Q\-Widget $\ast$widget)
+\item 
+double \hyperlink{group___u_a_v_object_widget_utils_ga74c57bb80930c775e055d2759acb92fe}{\-Mixer\-Node\-::value} ()
+\item 
+\-Q\-Variant \hyperlink{group___u_a_v_object_widget_utils_ga4e95b04348d98dedd3493d466fb5bdf5}{\-Mixer\-Node\-::item\-Change} (\-Graphics\-Item\-Change change, const \-Q\-Variant \&val)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_ga5b8710657e58b224928419c431d19fbc}{\-Mixer\-Node\-::mouse\-Press\-Event} (\-Q\-Graphics\-Scene\-Mouse\-Event $\ast$event)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_ga82dc38bf127547b87931a58561f02a27}{\-Mixer\-Node\-::mouse\-Release\-Event} (\-Q\-Graphics\-Scene\-Mouse\-Event $\ast$event)
+\item 
+\hyperlink{group___u_a_v_object_widget_utils_gafcc28d34cf4bf00ed61926b4cbdd5a7e}{\-Mixer\-Curve\-Widget\-::\-Mixer\-Curve\-Widget} (\-Q\-Widget $\ast$parent=0)
+\item 
+\hyperlink{group___u_a_v_object_widget_utils_ga95ab335915408821a081b9be9b837866}{\-Mixer\-Curve\-Widget\-::$\sim$\-Mixer\-Curve\-Widget} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_ga1a7a9e06137eef080091ca11b1bf0c05}{\-Mixer\-Curve\-Widget\-::item\-Moved} (double item\-Value)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_gaa776ac520f82de83862c18af0ff99ce3}{\-Mixer\-Curve\-Widget\-::init\-Curve} (const \-Q\-List$<$ double $>$ $\ast$points)
+\item 
+\-Q\-List$<$ double $>$ \hyperlink{group___u_a_v_object_widget_utils_gad97c9f7b189fc9097da50ab5b8f08f4d}{\-Mixer\-Curve\-Widget\-::get\-Curve} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_gad0a76288e7cbdf09fb112176d236dfde}{\-Mixer\-Curve\-Widget\-::init\-Linear\-Curve} (int num\-Points, double max\-Value=1, double min\-Value=0)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_ga0738fd8e0cf67713c6553da77c284a71}{\-Mixer\-Curve\-Widget\-::set\-Curve} (const \-Q\-List$<$ double $>$ $\ast$points)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_ga78338911bd3605c13be6672b2a94d346}{\-Mixer\-Curve\-Widget\-::set\-Min} (double value)
+\item 
+double \hyperlink{group___u_a_v_object_widget_utils_gac199a42260bf4a3ddd42f23bae109569}{\-Mixer\-Curve\-Widget\-::get\-Min} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_ga5575aabae9b71223eefe3e0a2ad39191}{\-Mixer\-Curve\-Widget\-::set\-Max} (double value)
+\item 
+double \hyperlink{group___u_a_v_object_widget_utils_ga34c76c8602acb8377ecaead69dd32bd0}{\-Mixer\-Curve\-Widget\-::get\-Max} ()
+\item 
+double \hyperlink{group___u_a_v_object_widget_utils_ga282a2d6417e079ff34450ffb620f9898}{\-Mixer\-Curve\-Widget\-::set\-Range} (double min, double max)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_ga1846362502f57645af53b826ee5537ad}{\-Mixer\-Curve\-Widget\-::cmd\-Activated} (\hyperlink{class_mixer_node}{\-Mixer\-Node} $\ast$node)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_gad39c4c8427b031af1e9042f750301ec8}{\-Mixer\-Curve\-Widget\-::activate\-Command} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \&name)
+\item 
+bool \hyperlink{group___u_a_v_object_widget_utils_ga3922cc5ec0cc7ce3937fbbd2199c1170}{\-Mixer\-Curve\-Widget\-::is\-Command\-Active} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \&name)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_gab84993af05bfcca9d61a15a48ff85a73}{\-Mixer\-Curve\-Widget\-::show\-Command} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \&name, bool show)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_ga29668291c080a26aa2631f3216755094}{\-Mixer\-Curve\-Widget\-::show\-Commands} (bool show)
+\item 
+\hyperlink{class_mixer_node}{\-Mixer\-Node} $\ast$ \hyperlink{group___u_a_v_object_widget_utils_ga2c1fc49cc5fe0c0b20163b8249d9fabf}{\-Mixer\-Curve\-Widget\-::get\-Cmd\-Node} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \&name)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_gaa3ea4c7117915989815218e35875c190}{\-Mixer\-Curve\-Widget\-::set\-Command\-Text} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \&name, const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \&text)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_gadd0a4729bbf94f44e38a0bcacb353583}{\-Mixer\-Curve\-Widget\-::show\-Event} (\-Q\-Show\-Event $\ast$event)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_gaa93b51b2d0662bf28c5040a7b7386eed}{\-Mixer\-Curve\-Widget\-::resize\-Event} (\-Q\-Resize\-Event $\ast$event)
+\item 
+\hyperlink{group___u_a_v_object_widget_utils_gaea82e458c940bce5635289974c09f02f}{smart\-Save\-Button\-::smart\-Save\-Button} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_gaf6869cfd1fefcbd90df4481101aedae0}{smart\-Save\-Button\-::add\-Buttons} (\-Q\-Push\-Button $\ast$\hyperlink{uavobjecttemplate_8m_a79178933c5b76091ca04178d14a5ba98}{save}, \-Q\-Push\-Button $\ast$apply)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_gabc52b717610cbaa7e592ca114e280a7a}{smart\-Save\-Button\-::set\-Objects} (\-Q\-List$<$ \hyperlink{class_u_a_v_data_object}{\-U\-A\-V\-Data\-Object} $\ast$ $>$)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_gac2164be4d041b63639a01ac473d95463}{smart\-Save\-Button\-::add\-Object} (\hyperlink{class_u_a_v_data_object}{\-U\-A\-V\-Data\-Object} $\ast$)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_ga0907c8e3ee212fbe30183359c0d8bc1a}{smart\-Save\-Button\-::clear\-Objects} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_ga3543686402e11b7eb8f0822c0a9bb4de}{smart\-Save\-Button\-::remove\-Object} (\hyperlink{class_u_a_v_data_object}{\-U\-A\-V\-Data\-Object} $\ast$obj)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_ga2e09103bceedaf1f2756c7a688da035c}{smart\-Save\-Button\-::remove\-All\-Objects} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_gab4059d84ec9c8e40beed303a7ad8550a}{smart\-Save\-Button\-::add\-Apply\-Button} (\-Q\-Push\-Button $\ast$apply)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_ga85e413cf895d8a514e748a8ebf6a67ec}{smart\-Save\-Button\-::add\-Save\-Button} (\-Q\-Push\-Button $\ast$\hyperlink{uavobjecttemplate_8m_a79178933c5b76091ca04178d14a5ba98}{save})
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_ga851955edd99204e2b209b7fa604129fe}{smart\-Save\-Button\-::reset\-Icons} ()
+\item 
+\hyperlink{group___u_a_v_object_widget_utils_ga71c193fdd4f73fd349dbb72db72a1d05}{\-U\-A\-V\-Object\-Widget\-Utils\-Plugin\-::\-U\-A\-V\-Object\-Widget\-Utils\-Plugin} ()
+\item 
+\hyperlink{group___u_a_v_object_widget_utils_ga2c7561526e629a5fcaa9bf2def2a4b8c}{\-U\-A\-V\-Object\-Widget\-Utils\-Plugin\-::$\sim$\-U\-A\-V\-Object\-Widget\-Utils\-Plugin} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_ga8538f7844616deeef2455da33bc8a9fe}{\-U\-A\-V\-Object\-Widget\-Utils\-Plugin\-::extensions\-Initialized} ()
+\item 
+bool \hyperlink{group___u_a_v_object_widget_utils_ga7a913580e5284f9291cab68f3bfed4a3}{\-U\-A\-V\-Object\-Widget\-Utils\-Plugin\-::initialize} (const \-Q\-String\-List \&arguments, \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} $\ast$error\-String)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_ga672bbb620f7be71610e6adc36d5ca0b9}{\-U\-A\-V\-Object\-Widget\-Utils\-Plugin\-::shutdown} ()
+\end{DoxyCompactItemize}
+\subsection*{\-Variables}
+\begin{DoxyCompactItemize}
+\item 
+\-Q\-Widget $\ast$ \hyperlink{group___u_a_v_object_widget_utils_ga06fc48ad3875446139f13fbb5b85cdcf}{\-Config\-Task\-Widget\-::shadow\-::widget}
+\item 
+double \hyperlink{group___u_a_v_object_widget_utils_ga06ad87fdaa5af70d7239dda785c76f76}{\-Config\-Task\-Widget\-::shadow\-::scale}
+\item 
+bool \hyperlink{group___u_a_v_object_widget_utils_ga712acd84a5850623406835776b1840b4}{\-Config\-Task\-Widget\-::shadow\-::is\-Limited}
+\item 
+\hyperlink{class_u_a_v_object}{\-U\-A\-V\-Object} $\ast$ \hyperlink{group___u_a_v_object_widget_utils_ga0a7a2adb310cdc6b0301dfad762a4f30}{\-Config\-Task\-Widget\-::object\-To\-Widget\-::object}
+\item 
+\hyperlink{class_u_a_v_object_field}{\-U\-A\-V\-Object\-Field} $\ast$ \hyperlink{group___u_a_v_object_widget_utils_ga36fdb22e759e0beae23ae99b03becb68}{\-Config\-Task\-Widget\-::object\-To\-Widget\-::field}
+\item 
+\-Q\-Widget $\ast$ \hyperlink{group___u_a_v_object_widget_utils_gac3c3016bdfda2c16ec8e356dd1a0882d}{\-Config\-Task\-Widget\-::object\-To\-Widget\-::widget}
+\item 
+int \hyperlink{group___u_a_v_object_widget_utils_ga32127d63078e835a69c50d20ea1a678b}{\-Config\-Task\-Widget\-::object\-To\-Widget\-::index}
+\item 
+double \hyperlink{group___u_a_v_object_widget_utils_ga7981e8bb575a90d2a1491fd792108efe}{\-Config\-Task\-Widget\-::object\-To\-Widget\-::scale}
+\item 
+bool \hyperlink{group___u_a_v_object_widget_utils_ga22163ec4275b9b06770d4caead750ee4}{\-Config\-Task\-Widget\-::object\-To\-Widget\-::is\-Limited}
+\item 
+\-Q\-List$<$ shadow $\ast$ $>$ \hyperlink{group___u_a_v_object_widget_utils_ga720684f6824db0612bacf1e3769c4ef3}{\-Config\-Task\-Widget\-::object\-To\-Widget\-::shadows\-List}
+\item 
+quint32 \hyperlink{group___u_a_v_object_widget_utils_ga4c750b1bce138cf6e002f73fca580c4d}{\-Config\-Task\-Widget\-::temphelper\-::objid}
+\item 
+quint32 \hyperlink{group___u_a_v_object_widget_utils_ga80a5419befd7432330b2ffb95368f4ed}{\-Config\-Task\-Widget\-::temphelper\-::objinstid}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___u_a_v_object_widget_utils_ga3a6899c9cfb56d74f0bf98300a156bc7}{\-Config\-Task\-Widget\-::ui\-Relation\-Automation\-::objname}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___u_a_v_object_widget_utils_ga727a26d7cef842f8e7cd274117a1153d}{\-Config\-Task\-Widget\-::ui\-Relation\-Automation\-::fieldname}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___u_a_v_object_widget_utils_gabe7df1fc4c590dc11cc6f80698fc125c}{\-Config\-Task\-Widget\-::ui\-Relation\-Automation\-::element}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___u_a_v_object_widget_utils_ga14b83b3a1113a21d03ee1b3e8967b7e7}{\-Config\-Task\-Widget\-::ui\-Relation\-Automation\-::url}
+\item 
+double \hyperlink{group___u_a_v_object_widget_utils_gafddb00770c074c3ce12d1699813a4d30}{\-Config\-Task\-Widget\-::ui\-Relation\-Automation\-::scale}
+\item 
+bool \hyperlink{group___u_a_v_object_widget_utils_ga73f9beb614502506b14c6b5d235b9d44}{\-Config\-Task\-Widget\-::ui\-Relation\-Automation\-::haslimits}
+\item 
+button\-Type\-Enum \hyperlink{group___u_a_v_object_widget_utils_gac8fcf738efe2855fbf1c7a810a20cffd}{\-Config\-Task\-Widget\-::ui\-Relation\-Automation\-::button\-Type}
+\item 
+\-Q\-List$<$ int $>$ \hyperlink{group___u_a_v_object_widget_utils_ga915cb6bdf9aff1b607f8917b6f665fbd}{\-Config\-Task\-Widget\-::ui\-Relation\-Automation\-::button\-Group}
+\item 
+static const int \hyperlink{group___u_a_v_object_widget_utils_ga359d5a2efb6966cba1d78bbdb2e7759d}{\-Mixer\-Curve\-Widget\-::\-N\-O\-D\-E\-\_\-\-N\-U\-M\-E\-L\-E\-M} = 5
+\end{DoxyCompactItemize}
+\subsection*{\-Signals}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_gaee198ff7978d5358a93395eb215fa767}{\-Config\-Task\-Widget\-::widget\-Contents\-Changed} (\-Q\-Widget $\ast$widget)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_gacc1be196d23d5e483f68a990d8ebfae6}{\-Config\-Task\-Widget\-::populate\-Widgets\-Requested} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_ga6d4f37af17f3990fd37e9eddbb8f3802}{\-Config\-Task\-Widget\-::refresh\-Widgets\-Values\-Requested} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_gae43eee3bcf829dcfc91b17c25bc5db95}{\-Config\-Task\-Widget\-::update\-Objects\-From\-Widgets\-Requested} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_ga6812138654a8b49e72c674cee7245781}{\-Config\-Task\-Widget\-::auto\-Pilot\-Connected} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_gab874b1ad732a19472dc1a9d29f23d7ae}{\-Config\-Task\-Widget\-::auto\-Pilot\-Disconnected} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_ga42fb0be146f76a7ce2ef34e655a3015a}{\-Config\-Task\-Widget\-::default\-Requested} (int group)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_ga942a3a9bcc32e276d18b155ef73298f1}{\-Mixer\-Node\-::command\-Activated} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} text)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_ga90255ec9acd8db01306ae5f9af229f39}{\-Mixer\-Curve\-Widget\-::curve\-Updated} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_gac254f263b61538dfab5f1f2a06a7bb12}{\-Mixer\-Curve\-Widget\-::curve\-Min\-Changed} (double value)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_gabf78aa6aaa393045db87deb6a481c3b1}{\-Mixer\-Curve\-Widget\-::curve\-Max\-Changed} (double value)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_ga967ede8f3f93e35d68361368d7ce8d49}{\-Mixer\-Curve\-Widget\-::command\-Activated} (\hyperlink{class_mixer_node}{\-Mixer\-Node} $\ast$node)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_ga986b48d4e0086adbba03b2da6178524b}{smart\-Save\-Button\-::pre\-Process\-Operations} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_gafe5d25f2387fdd74204dec872a062f3e}{smart\-Save\-Button\-::save\-Successfull} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_ga84a531cfeea77f9e892321017dbcd705}{smart\-Save\-Button\-::begin\-Op} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_ga2e135b9ad9a743cd1b8b358069ffaf3e}{smart\-Save\-Button\-::end\-Op} ()
+\end{DoxyCompactItemize}
+\subsection*{\-Public \-Slots}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_ga306b82fa3b114ce5c336dfda60ae479d}{\-Config\-Task\-Widget\-::on\-Autopilot\-Disconnect} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_gaf5b2ddc9de02820e89c8133f5625607d}{\-Config\-Task\-Widget\-::on\-Autopilot\-Connect} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_ga1505f6e22cf2e4167b03fca9417f91a5}{\-Config\-Task\-Widget\-::invalidate\-Objects} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_ga139dc5f372c46b8ad1614d637e762018}{\-Config\-Task\-Widget\-::apply} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_gabae71bcf9c71f99595c365fd49b342fc}{\-Config\-Task\-Widget\-::save} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_ga453b1bbd8b56fa6af4f362b00221b265}{smart\-Save\-Button\-::apply} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_gad0e6541ace97075634254ba3b1cc9bf9}{smart\-Save\-Button\-::save} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_ga56d88dfdb1b735dbaf2c957e32fca452}{smart\-Save\-Button\-::enable\-Controls} (bool value)
+\end{DoxyCompactItemize}
+\subsection*{\-Protected \-Slots}
+\begin{DoxyCompactItemize}
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_ga32ef249bc6ebe47b9fe60812e09476da}{\-Config\-Task\-Widget\-::disable\-Obj\-Updates} ()
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_gafff7f205068866010a484ee95730b65b}{\-Config\-Task\-Widget\-::enable\-Obj\-Updates} ()
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_gae4dd854e5d93e1b268ffc473a7392493}{\-Config\-Task\-Widget\-::clear\-Dirty} ()
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_ga6860b8b666afa5a3254fd84ab1f9119e}{\-Config\-Task\-Widget\-::widgets\-Contents\-Changed} ()
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_gaa3d55f7941db619b9872b0ffdc78ebde}{\-Config\-Task\-Widget\-::populate\-Widgets} ()
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_ga7682451eb1e003d337c679fc8a36c6e1}{\-Config\-Task\-Widget\-::refresh\-Widgets\-Values} (\hyperlink{class_u_a_v_object}{\-U\-A\-V\-Object} $\ast$obj=\-N\-U\-L\-L)
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_ga4e59f88c43451ae4282077f9a9214cea}{\-Config\-Task\-Widget\-::update\-Objects\-From\-Widgets} ()
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_ga63ae96f50a8ed78f60d382dede4676d7}{\-Config\-Task\-Widget\-::help\-Button\-Pressed} ()
+\end{DoxyCompactItemize}
+\subsection*{\-Friends}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{group___u_a_v_object_widget_utils_ga4dec7e6867bf4ed62c5309f7149f0dd0}{\-Mixer\-Curve\-Widget\-::\-Mixer\-Curve}
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-Utility plugin for \hyperlink{class_u_a_v_object}{\-U\-A\-V\-Object} to \hyperlink{class_widget}{\-Widget} relation management. 
+
+\subsection{\-Enumeration \-Type \-Documentation}
+\hypertarget{group___u_a_v_object_widget_utils_gaa1ed12ae47b3b5c3b75c99c63986575d}{\subsubsection[{anonymous enum}]{\setlength{\rightskip}{0pt plus 5cm}anonymous enum}}\label{group___u_a_v_object_widget_utils_gaa1ed12ae47b3b5c3b75c99c63986575d}
+\begin{Desc}
+\item[\-Enumerator\-: ]\par
+\begin{description}
+\index{\-Type@{\-Type}!\-Plugin@{\-Plugin}}\index{\-Plugin@{\-Plugin}!\-Type@{\-Type}}\item[{\em 
+\hypertarget{group___u_a_v_object_widget_utils_ggaa1ed12ae47b3b5c3b75c99c63986575da59a3ef5ffd963601ffda52bb7bf42b3c}{\-Type}\label{group___u_a_v_object_widget_utils_ggaa1ed12ae47b3b5c3b75c99c63986575da59a3ef5ffd963601ffda52bb7bf42b3c}
+}]\end{description}
+\end{Desc}
+
+
+
+\-Definition at line 55 of file mixercurveline.\-h.
+
+\hypertarget{group___u_a_v_object_widget_utils_gacfcbe9e0a1b137ea0afeca0789e5e398}{\subsubsection[{anonymous enum}]{\setlength{\rightskip}{0pt plus 5cm}anonymous enum}}\label{group___u_a_v_object_widget_utils_gacfcbe9e0a1b137ea0afeca0789e5e398}
+\begin{Desc}
+\item[\-Enumerator\-: ]\par
+\begin{description}
+\index{\-Type@{\-Type}!\-Plugin@{\-Plugin}}\index{\-Plugin@{\-Plugin}!\-Type@{\-Type}}\item[{\em 
+\hypertarget{group___u_a_v_object_widget_utils_ggacfcbe9e0a1b137ea0afeca0789e5e398ae34bb4f715b22e70e0a2182529bed883}{\-Type}\label{group___u_a_v_object_widget_utils_ggacfcbe9e0a1b137ea0afeca0789e5e398ae34bb4f715b22e70e0a2182529bed883}
+}]\end{description}
+\end{Desc}
+
+
+
+\-Definition at line 51 of file mixercurvepoint.\-h.
+
+\hypertarget{group___u_a_v_object_widget_utils_gacf8aa6ed9da799d1973519df03d1ecfa}{\index{\-Plugin@{\-Plugin}!button\-Type\-Enum@{button\-Type\-Enum}}
+\index{button\-Type\-Enum@{button\-Type\-Enum}!Plugin@{\-Plugin}}
+\subsubsection[{button\-Type\-Enum}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf \-Config\-Task\-Widget\-::button\-Type\-Enum}}}\label{group___u_a_v_object_widget_utils_gacf8aa6ed9da799d1973519df03d1ecfa}
+\begin{Desc}
+\item[\-Enumerator\-: ]\par
+\begin{description}
+\index{none@{none}!\-Plugin@{\-Plugin}}\index{\-Plugin@{\-Plugin}!none@{none}}\item[{\em 
+\hypertarget{group___u_a_v_object_widget_utils_ggacf8aa6ed9da799d1973519df03d1ecfaa5ba945be96884ca1ea4e0019425b3fd1}{none}\label{group___u_a_v_object_widget_utils_ggacf8aa6ed9da799d1973519df03d1ecfaa5ba945be96884ca1ea4e0019425b3fd1}
+}]\index{save\-\_\-button@{save\-\_\-button}!\-Plugin@{\-Plugin}}\index{\-Plugin@{\-Plugin}!save\-\_\-button@{save\-\_\-button}}\item[{\em 
+\hypertarget{group___u_a_v_object_widget_utils_ggacf8aa6ed9da799d1973519df03d1ecfaad57389b40e61729debc6f0e8fd4cbde2}{save\-\_\-button}\label{group___u_a_v_object_widget_utils_ggacf8aa6ed9da799d1973519df03d1ecfaad57389b40e61729debc6f0e8fd4cbde2}
+}]\index{apply\-\_\-button@{apply\-\_\-button}!\-Plugin@{\-Plugin}}\index{\-Plugin@{\-Plugin}!apply\-\_\-button@{apply\-\_\-button}}\item[{\em 
+\hypertarget{group___u_a_v_object_widget_utils_ggacf8aa6ed9da799d1973519df03d1ecfaaeebf9f5769535bd71cb2907073cf1492}{apply\-\_\-button}\label{group___u_a_v_object_widget_utils_ggacf8aa6ed9da799d1973519df03d1ecfaaeebf9f5769535bd71cb2907073cf1492}
+}]\index{reload\-\_\-button@{reload\-\_\-button}!\-Plugin@{\-Plugin}}\index{\-Plugin@{\-Plugin}!reload\-\_\-button@{reload\-\_\-button}}\item[{\em 
+\hypertarget{group___u_a_v_object_widget_utils_ggacf8aa6ed9da799d1973519df03d1ecfaae3d77626c54b30f24b9342696d4155ee}{reload\-\_\-button}\label{group___u_a_v_object_widget_utils_ggacf8aa6ed9da799d1973519df03d1ecfaae3d77626c54b30f24b9342696d4155ee}
+}]\index{default\-\_\-button@{default\-\_\-button}!\-Plugin@{\-Plugin}}\index{\-Plugin@{\-Plugin}!default\-\_\-button@{default\-\_\-button}}\item[{\em 
+\hypertarget{group___u_a_v_object_widget_utils_ggacf8aa6ed9da799d1973519df03d1ecfaa8a58b5c21f9b09e20e74ab163d47f09a}{default\-\_\-button}\label{group___u_a_v_object_widget_utils_ggacf8aa6ed9da799d1973519df03d1ecfaa8a58b5c21f9b09e20e74ab163d47f09a}
+}]\index{help\-\_\-button@{help\-\_\-button}!\-Plugin@{\-Plugin}}\index{\-Plugin@{\-Plugin}!help\-\_\-button@{help\-\_\-button}}\item[{\em 
+\hypertarget{group___u_a_v_object_widget_utils_ggacf8aa6ed9da799d1973519df03d1ecfaad33ed1c1d7511f14ca49069b8166d04e}{help\-\_\-button}\label{group___u_a_v_object_widget_utils_ggacf8aa6ed9da799d1973519df03d1ecfaad33ed1c1d7511f14ca49069b8166d04e}
+}]\end{description}
+\end{Desc}
+
+
+
+\-Definition at line 85 of file configtaskwidget.\-h.
+
+\hypertarget{group___u_a_v_object_widget_utils_gaf06dbd27444c4e9864e702d7c00b0a62}{\index{\-Plugin@{\-Plugin}!metadata\-Set\-Enum@{metadata\-Set\-Enum}}
+\index{metadata\-Set\-Enum@{metadata\-Set\-Enum}!Plugin@{\-Plugin}}
+\subsubsection[{metadata\-Set\-Enum}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf \-Config\-Task\-Widget\-::metadata\-Set\-Enum}}}\label{group___u_a_v_object_widget_utils_gaf06dbd27444c4e9864e702d7c00b0a62}
+\begin{Desc}
+\item[\-Enumerator\-: ]\par
+\begin{description}
+\index{\-A\-L\-L\-\_\-\-M\-E\-T\-A\-D\-A\-T\-A@{\-A\-L\-L\-\_\-\-M\-E\-T\-A\-D\-A\-T\-A}!\-Plugin@{\-Plugin}}\index{\-Plugin@{\-Plugin}!\-A\-L\-L\-\_\-\-M\-E\-T\-A\-D\-A\-T\-A@{\-A\-L\-L\-\_\-\-M\-E\-T\-A\-D\-A\-T\-A}}\item[{\em 
+\hypertarget{group___u_a_v_object_widget_utils_ggaf06dbd27444c4e9864e702d7c00b0a62ad6334ea913f7c2a28d32a16d52e1aecf}{\-A\-L\-L\-\_\-\-M\-E\-T\-A\-D\-A\-T\-A}\label{group___u_a_v_object_widget_utils_ggaf06dbd27444c4e9864e702d7c00b0a62ad6334ea913f7c2a28d32a16d52e1aecf}
+}]\index{\-S\-E\-T\-T\-I\-N\-G\-S\-\_\-\-M\-E\-T\-A\-D\-A\-T\-A\-\_\-\-O\-N\-L\-Y@{\-S\-E\-T\-T\-I\-N\-G\-S\-\_\-\-M\-E\-T\-A\-D\-A\-T\-A\-\_\-\-O\-N\-L\-Y}!\-Plugin@{\-Plugin}}\index{\-Plugin@{\-Plugin}!\-S\-E\-T\-T\-I\-N\-G\-S\-\_\-\-M\-E\-T\-A\-D\-A\-T\-A\-\_\-\-O\-N\-L\-Y@{\-S\-E\-T\-T\-I\-N\-G\-S\-\_\-\-M\-E\-T\-A\-D\-A\-T\-A\-\_\-\-O\-N\-L\-Y}}\item[{\em 
+\hypertarget{group___u_a_v_object_widget_utils_ggaf06dbd27444c4e9864e702d7c00b0a62ac3b6f184c1551bd23d264999d0330302}{\-S\-E\-T\-T\-I\-N\-G\-S\-\_\-\-M\-E\-T\-A\-D\-A\-T\-A\-\_\-\-O\-N\-L\-Y}\label{group___u_a_v_object_widget_utils_ggaf06dbd27444c4e9864e702d7c00b0a62ac3b6f184c1551bd23d264999d0330302}
+}]\index{\-N\-O\-N\-S\-E\-T\-T\-I\-N\-G\-S\-\_\-\-M\-E\-T\-A\-D\-A\-T\-A\-\_\-\-O\-N\-L\-Y@{\-N\-O\-N\-S\-E\-T\-T\-I\-N\-G\-S\-\_\-\-M\-E\-T\-A\-D\-A\-T\-A\-\_\-\-O\-N\-L\-Y}!\-Plugin@{\-Plugin}}\index{\-Plugin@{\-Plugin}!\-N\-O\-N\-S\-E\-T\-T\-I\-N\-G\-S\-\_\-\-M\-E\-T\-A\-D\-A\-T\-A\-\_\-\-O\-N\-L\-Y@{\-N\-O\-N\-S\-E\-T\-T\-I\-N\-G\-S\-\_\-\-M\-E\-T\-A\-D\-A\-T\-A\-\_\-\-O\-N\-L\-Y}}\item[{\em 
+\hypertarget{group___u_a_v_object_widget_utils_ggaf06dbd27444c4e9864e702d7c00b0a62a6ac1f4283fd36cd22e96b56756e26bbe}{\-N\-O\-N\-S\-E\-T\-T\-I\-N\-G\-S\-\_\-\-M\-E\-T\-A\-D\-A\-T\-A\-\_\-\-O\-N\-L\-Y}\label{group___u_a_v_object_widget_utils_ggaf06dbd27444c4e9864e702d7c00b0a62a6ac1f4283fd36cd22e96b56756e26bbe}
+}]\end{description}
+\end{Desc}
+
+
+
+\-Definition at line 86 of file configtaskwidget.\-h.
+
+
+
+\subsection{\-Function \-Documentation}
+\hypertarget{group___u_a_v_object_widget_utils_gad39c4c8427b031af1e9042f750301ec8}{\index{\-Plugin@{\-Plugin}!activate\-Command@{activate\-Command}}
+\index{activate\-Command@{activate\-Command}!Plugin@{\-Plugin}}
+\subsubsection[{activate\-Command}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Mixer\-Curve\-Widget\-::activate\-Command} (
+\begin{DoxyParamCaption}
+\item[{const {\bf \-Q\-String} \&}]{name}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_object_widget_utils_gad39c4c8427b031af1e9042f750301ec8}
+
+
+\-Definition at line 598 of file mixercurvewidget.\-cpp.
+
+\hypertarget{group___u_a_v_object_widget_utils_gab4059d84ec9c8e40beed303a7ad8550a}{\index{\-Plugin@{\-Plugin}!add\-Apply\-Button@{add\-Apply\-Button}}
+\index{add\-Apply\-Button@{add\-Apply\-Button}!Plugin@{\-Plugin}}
+\subsubsection[{add\-Apply\-Button}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf smart\-Save\-Button\-::add\-Apply\-Button} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Push\-Button $\ast$}]{apply}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_object_widget_utils_gab4059d84ec9c8e40beed303a7ad8550a}
+
+
+\-Definition at line 42 of file smartsavebutton.\-cpp.
+
+\hypertarget{group___u_a_v_object_widget_utils_ga38c270f9a29f4e190e71414bdce82590}{\index{\-Plugin@{\-Plugin}!add\-Apply\-Save\-Buttons@{add\-Apply\-Save\-Buttons}}
+\index{add\-Apply\-Save\-Buttons@{add\-Apply\-Save\-Buttons}!Plugin@{\-Plugin}}
+\subsubsection[{add\-Apply\-Save\-Buttons}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Config\-Task\-Widget\-::add\-Apply\-Save\-Buttons} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Push\-Button $\ast$}]{update, }
+\item[{\-Q\-Push\-Button $\ast$}]{save}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_object_widget_utils_ga38c270f9a29f4e190e71414bdce82590}
+\-Add update and save buttons to the form multiple buttons can be added for the same function 
+\begin{DoxyParams}{\-Parameters}
+{\em update} & pointer to the update button \\
+\hline
+{\em save} & pointer to the save button \\
+\hline
+\end{DoxyParams}
+
+
+\-Definition at line 426 of file configtaskwidget.\-cpp.
+
+\hypertarget{group___u_a_v_object_widget_utils_gaf6869cfd1fefcbd90df4481101aedae0}{\index{\-Plugin@{\-Plugin}!add\-Buttons@{add\-Buttons}}
+\index{add\-Buttons@{add\-Buttons}!Plugin@{\-Plugin}}
+\subsubsection[{add\-Buttons}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf smart\-Save\-Button\-::add\-Buttons} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Push\-Button $\ast$}]{save, }
+\item[{\-Q\-Push\-Button $\ast$}]{apply}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_object_widget_utils_gaf6869cfd1fefcbd90df4481101aedae0}
+
+
+\-Definition at line 35 of file smartsavebutton.\-cpp.
+
+\hypertarget{group___u_a_v_object_widget_utils_gac0e04866c45a89a3f2c6f3241afa86d3}{\index{\-Plugin@{\-Plugin}!add\-Default\-Button@{add\-Default\-Button}}
+\index{add\-Default\-Button@{add\-Default\-Button}!Plugin@{\-Plugin}}
+\subsubsection[{add\-Default\-Button}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Config\-Task\-Widget\-::add\-Default\-Button} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Push\-Button $\ast$}]{button, }
+\item[{int}]{button\-Group}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_object_widget_utils_gac0e04866c45a89a3f2c6f3241afa86d3}
+\-Adds a button to a default group 
+\begin{DoxyParams}{\-Parameters}
+{\em button} & pointer to the default button \\
+\hline
+{\em buttongroup} & number of the group \\
+\hline
+\end{DoxyParams}
+
+
+\-Definition at line 858 of file configtaskwidget.\-cpp.
+
+\hypertarget{group___u_a_v_object_widget_utils_gaf8a1ccdbffed70e2995e75d37c57851c}{\index{\-Plugin@{\-Plugin}!add\-Edge@{add\-Edge}}
+\index{add\-Edge@{add\-Edge}!Plugin@{\-Plugin}}
+\subsubsection[{add\-Edge}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Mixer\-Node\-::add\-Edge} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Edge} $\ast$}]{edge}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_object_widget_utils_gaf8a1ccdbffed70e2995e75d37c57851c}
+
+
+\-Definition at line 60 of file mixercurvepoint.\-cpp.
+
+\hypertarget{group___u_a_v_object_widget_utils_ga369a4d9a6a1eba7ba8e61e64f1d89b80}{\index{\-Plugin@{\-Plugin}!add\-Help\-Button@{add\-Help\-Button}}
+\index{add\-Help\-Button@{add\-Help\-Button}!Plugin@{\-Plugin}}
+\subsubsection[{add\-Help\-Button}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Config\-Task\-Widget\-::add\-Help\-Button} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Push\-Button $\ast$}]{button, }
+\item[{{\bf \-Q\-String}}]{url}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_object_widget_utils_ga369a4d9a6a1eba7ba8e61e64f1d89b80}
+\-Adds a new help button 
+\begin{DoxyParams}{\-Parameters}
+{\em button} & pointer to the help button \\
+\hline
+{\em url} & url to open in the browser when the help button is pressed \\
+\hline
+\end{DoxyParams}
+
+
+\-Definition at line 617 of file configtaskwidget.\-cpp.
+
+\hypertarget{group___u_a_v_object_widget_utils_gac2164be4d041b63639a01ac473d95463}{\index{\-Plugin@{\-Plugin}!add\-Object@{add\-Object}}
+\index{add\-Object@{add\-Object}!Plugin@{\-Plugin}}
+\subsubsection[{add\-Object}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf smart\-Save\-Button\-::add\-Object} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-U\-A\-V\-Data\-Object} $\ast$}]{obj}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_object_widget_utils_gac2164be4d041b63639a01ac473d95463}
+
+
+\-Definition at line 164 of file smartsavebutton.\-cpp.
+
+\hypertarget{group___u_a_v_object_widget_utils_ga08a7e3f2686fdb1ef91db0843cb9414e}{\index{\-Plugin@{\-Plugin}!add\-Reload\-Button@{add\-Reload\-Button}}
+\index{add\-Reload\-Button@{add\-Reload\-Button}!Plugin@{\-Plugin}}
+\subsubsection[{add\-Reload\-Button}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Config\-Task\-Widget\-::add\-Reload\-Button} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Push\-Button $\ast$}]{button, }
+\item[{int}]{button\-Group}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_object_widget_utils_ga08a7e3f2686fdb1ef91db0843cb9414e}
+\-Adds a button to a reload group 
+\begin{DoxyParams}{\-Parameters}
+{\em button} & pointer to the reload button \\
+\hline
+{\em buttongroup} & number of the group \\
+\hline
+\end{DoxyParams}
+
+
+\-Definition at line 868 of file configtaskwidget.\-cpp.
+
+\hypertarget{group___u_a_v_object_widget_utils_ga85e413cf895d8a514e748a8ebf6a67ec}{\index{\-Plugin@{\-Plugin}!add\-Save\-Button@{add\-Save\-Button}}
+\index{add\-Save\-Button@{add\-Save\-Button}!Plugin@{\-Plugin}}
+\subsubsection[{add\-Save\-Button}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf smart\-Save\-Button\-::add\-Save\-Button} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Push\-Button $\ast$}]{save}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_object_widget_utils_ga85e413cf895d8a514e748a8ebf6a67ec}
+
+
+\-Definition at line 47 of file smartsavebutton.\-cpp.
+
+\hypertarget{group___u_a_v_object_widget_utils_ga726f8720d2d1bb52d38a6425fbfab448}{\index{\-Plugin@{\-Plugin}!add\-Shadow\-Widget@{add\-Shadow\-Widget}}
+\index{add\-Shadow\-Widget@{add\-Shadow\-Widget}!Plugin@{\-Plugin}}
+\subsubsection[{add\-Shadow\-Widget}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-Config\-Task\-Widget\-::add\-Shadow\-Widget} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Widget $\ast$}]{master\-Widget, }
+\item[{\-Q\-Widget $\ast$}]{shadow\-Widget, }
+\item[{double}]{shadow\-Scale = {\ttfamily 1}, }
+\item[{bool}]{shadow\-Is\-Limited = {\ttfamily false}}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_object_widget_utils_ga726f8720d2d1bb52d38a6425fbfab448}
+\hypertarget{group___u_a_v_object_widget_utils_ga285c7e48c6b730133169c0226cbc59c4}{\index{\-Plugin@{\-Plugin}!add\-Shadow\-Widget@{add\-Shadow\-Widget}}
+\index{add\-Shadow\-Widget@{add\-Shadow\-Widget}!Plugin@{\-Plugin}}
+\subsubsection[{add\-Shadow\-Widget}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-Config\-Task\-Widget\-::add\-Shadow\-Widget} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Q\-String}}]{object, }
+\item[{{\bf \-Q\-String}}]{field, }
+\item[{\-Q\-Widget $\ast$}]{widget, }
+\item[{int}]{index = {\ttfamily 0}, }
+\item[{double}]{scale = {\ttfamily 1}, }
+\item[{bool}]{is\-Limited = {\ttfamily false}, }
+\item[{\-Q\-List$<$ int $>$ $\ast$}]{default\-Reload\-Groups = {\ttfamily \-N\-U\-L\-L}, }
+\item[{quint32}]{inst\-I\-D = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_object_widget_utils_ga285c7e48c6b730133169c0226cbc59c4}
+\-Adds a new shadow widget shadow widgets are widgets whitch have a relation to an object already present on the framework pool i.\-e. already added trough add\-U\-A\-V\-Object\-To\-Widget\-Relation \-This function doesn't have to be used directly, add\-U\-A\-V\-Object\-To\-Widget\-Relation will call it if a previous relation exhists. \begin{DoxyReturn}{\-Returns}
+returns false if the shadow widget relation failed to be added (no previous relation exhisted) 
+\end{DoxyReturn}
+
+
+\-Definition at line 655 of file configtaskwidget.\-cpp.
+
+\hypertarget{group___u_a_v_object_widget_utils_ga82f371b1291826ec74341dddfe827c83}{\index{\-Plugin@{\-Plugin}!add\-U\-A\-V\-Object@{add\-U\-A\-V\-Object}}
+\index{add\-U\-A\-V\-Object@{add\-U\-A\-V\-Object}!Plugin@{\-Plugin}}
+\subsubsection[{add\-U\-A\-V\-Object}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Config\-Task\-Widget\-::add\-U\-A\-V\-Object} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Q\-String}}]{object\-Name, }
+\item[{\-Q\-List$<$ int $>$ $\ast$}]{reload\-Groups = {\ttfamily \-N\-U\-L\-L}}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_object_widget_utils_ga82f371b1291826ec74341dddfe827c83}
+\-Add an object to the management system 
+\begin{DoxyParams}{\-Parameters}
+{\em object\-Name} & name of the object to add to the management system \\
+\hline
+\end{DoxyParams}
+
+
+\-Definition at line 62 of file configtaskwidget.\-cpp.
+
+\hypertarget{group___u_a_v_object_widget_utils_gac56e252ece21406583d59af2b70c2565}{\index{\-Plugin@{\-Plugin}!add\-U\-A\-V\-Object@{add\-U\-A\-V\-Object}}
+\index{add\-U\-A\-V\-Object@{add\-U\-A\-V\-Object}!Plugin@{\-Plugin}}
+\subsubsection[{add\-U\-A\-V\-Object}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Config\-Task\-Widget\-::add\-U\-A\-V\-Object} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-U\-A\-V\-Object} $\ast$}]{object\-Name, }
+\item[{\-Q\-List$<$ int $>$ $\ast$}]{reload\-Groups = {\ttfamily \-N\-U\-L\-L}}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_object_widget_utils_gac56e252ece21406583d59af2b70c2565}
+
+
+\-Definition at line 67 of file configtaskwidget.\-cpp.
+
+\hypertarget{group___u_a_v_object_widget_utils_ga8f5d01ae74d161f7b85d123e66c49451}{\index{\-Plugin@{\-Plugin}!add\-U\-A\-V\-Object\-To\-Widget\-Relation@{add\-U\-A\-V\-Object\-To\-Widget\-Relation}}
+\index{add\-U\-A\-V\-Object\-To\-Widget\-Relation@{add\-U\-A\-V\-Object\-To\-Widget\-Relation}!Plugin@{\-Plugin}}
+\subsubsection[{add\-U\-A\-V\-Object\-To\-Widget\-Relation}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Config\-Task\-Widget\-::add\-U\-A\-V\-Object\-To\-Widget\-Relation} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Q\-String}}]{object, }
+\item[{{\bf \-Q\-String}}]{field, }
+\item[{\-Q\-Widget $\ast$}]{widget, }
+\item[{int}]{index = {\ttfamily 0}, }
+\item[{double}]{scale = {\ttfamily 1}, }
+\item[{bool}]{is\-Limited = {\ttfamily false}, }
+\item[{\-Q\-List$<$ int $>$ $\ast$}]{default\-Reload\-Groups = {\ttfamily 0}, }
+\item[{quint32}]{inst\-I\-D = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_object_widget_utils_ga8f5d01ae74d161f7b85d123e66c49451}
+\-Add an \hyperlink{class_u_a_v_object}{\-U\-A\-V\-Object} field to widget relation to the management system 
+\begin{DoxyParams}{\-Parameters}
+{\em object} & name of the object to add \\
+\hline
+{\em field} & name of the field to add \\
+\hline
+{\em widget} & pointer to the widget whitch will display/define the field value \\
+\hline
+{\em index} & index of the element of the field to add to this relation \\
+\hline
+{\em scale} & scale value of this relation \\
+\hline
+{\em is\-Limited} & bool to signal if this widget contents is limited in value \\
+\hline
+{\em default\-Reload\-Groups} & default and reload groups this relation belongs to \\
+\hline
+{\em inst\-I\-D} & instance \-I\-D of the object used on this relation \\
+\hline
+\end{DoxyParams}
+
+
+\-Definition at line 161 of file configtaskwidget.\-cpp.
+
+\hypertarget{group___u_a_v_object_widget_utils_ga9516761ea1de60250535bdebc9dd7fa9}{\index{\-Plugin@{\-Plugin}!add\-U\-A\-V\-Object\-To\-Widget\-Relation@{add\-U\-A\-V\-Object\-To\-Widget\-Relation}}
+\index{add\-U\-A\-V\-Object\-To\-Widget\-Relation@{add\-U\-A\-V\-Object\-To\-Widget\-Relation}!Plugin@{\-Plugin}}
+\subsubsection[{add\-U\-A\-V\-Object\-To\-Widget\-Relation}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Config\-Task\-Widget\-::add\-U\-A\-V\-Object\-To\-Widget\-Relation} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-U\-A\-V\-Object} $\ast$}]{obj, }
+\item[{{\bf \-U\-A\-V\-Object\-Field} $\ast$}]{field, }
+\item[{\-Q\-Widget $\ast$}]{widget, }
+\item[{int}]{index = {\ttfamily 0}, }
+\item[{double}]{scale = {\ttfamily 1}, }
+\item[{bool}]{is\-Limited = {\ttfamily false}, }
+\item[{\-Q\-List$<$ int $>$ $\ast$}]{default\-Reload\-Groups = {\ttfamily 0}, }
+\item[{quint32}]{inst\-I\-D = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_object_widget_utils_ga9516761ea1de60250535bdebc9dd7fa9}
+
+
+\-Definition at line 139 of file configtaskwidget.\-cpp.
+
+\hypertarget{group___u_a_v_object_widget_utils_ga929ce6a70bab7ab756f3d7df22ee4427}{\index{\-Plugin@{\-Plugin}!add\-U\-A\-V\-Object\-To\-Widget\-Relation@{add\-U\-A\-V\-Object\-To\-Widget\-Relation}}
+\index{add\-U\-A\-V\-Object\-To\-Widget\-Relation@{add\-U\-A\-V\-Object\-To\-Widget\-Relation}!Plugin@{\-Plugin}}
+\subsubsection[{add\-U\-A\-V\-Object\-To\-Widget\-Relation}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Config\-Task\-Widget\-::add\-U\-A\-V\-Object\-To\-Widget\-Relation} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Q\-String}}]{object, }
+\item[{{\bf \-Q\-String}}]{field, }
+\item[{\-Q\-Widget $\ast$}]{widget, }
+\item[{{\bf \-Q\-String}}]{element, }
+\item[{double}]{scale, }
+\item[{bool}]{is\-Limited = {\ttfamily false}, }
+\item[{\-Q\-List$<$ int $>$ $\ast$}]{default\-Reload\-Groups = {\ttfamily 0}, }
+\item[{quint32}]{inst\-I\-D = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_object_widget_utils_ga929ce6a70bab7ab756f3d7df22ee4427}
+\-Add a \hyperlink{class_u_a_v_object}{\-U\-A\-V\-Object} field to widget relation to the management system 
+\begin{DoxyParams}{\-Parameters}
+{\em object} & name of the object to add \\
+\hline
+{\em field} & name of the field to add \\
+\hline
+{\em widget} & pointer to the widget whitch will display/define the field value \\
+\hline
+{\em element} & name of the element of the field element to add to this relation \\
+\hline
+{\em scale} & scale value of this relation \\
+\hline
+{\em is\-Limited} & bool to signal if this widget contents is limited in value \\
+\hline
+{\em default\-Reload\-Groups} & default and reload groups this relation belongs to \\
+\hline
+{\em inst\-I\-D} & instance \-I\-D of the object used on this relation \\
+\hline
+\end{DoxyParams}
+
+
+\-Definition at line 114 of file configtaskwidget.\-cpp.
+
+\hypertarget{group___u_a_v_object_widget_utils_ga70ea9dedfc9c692d10fd0c2223336ff6}{\index{\-Plugin@{\-Plugin}!add\-U\-A\-V\-Object\-To\-Widget\-Relation@{add\-U\-A\-V\-Object\-To\-Widget\-Relation}}
+\index{add\-U\-A\-V\-Object\-To\-Widget\-Relation@{add\-U\-A\-V\-Object\-To\-Widget\-Relation}!Plugin@{\-Plugin}}
+\subsubsection[{add\-U\-A\-V\-Object\-To\-Widget\-Relation}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Config\-Task\-Widget\-::add\-U\-A\-V\-Object\-To\-Widget\-Relation} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-U\-A\-V\-Object} $\ast$}]{obj, }
+\item[{{\bf \-U\-A\-V\-Object\-Field} $\ast$}]{field, }
+\item[{\-Q\-Widget $\ast$}]{widget, }
+\item[{{\bf \-Q\-String}}]{element, }
+\item[{double}]{scale, }
+\item[{bool}]{is\-Limited = {\ttfamily false}, }
+\item[{\-Q\-List$<$ int $>$ $\ast$}]{default\-Reload\-Groups = {\ttfamily 0}, }
+\item[{quint32}]{inst\-I\-D = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_object_widget_utils_ga70ea9dedfc9c692d10fd0c2223336ff6}
+
+
+\-Definition at line 129 of file configtaskwidget.\-cpp.
+
+\hypertarget{group___u_a_v_object_widget_utils_gae3ae5288613fb8062c029d9a4da6c759}{\index{\-Plugin@{\-Plugin}!add\-U\-A\-V\-Object\-To\-Widget\-Relation@{add\-U\-A\-V\-Object\-To\-Widget\-Relation}}
+\index{add\-U\-A\-V\-Object\-To\-Widget\-Relation@{add\-U\-A\-V\-Object\-To\-Widget\-Relation}!Plugin@{\-Plugin}}
+\subsubsection[{add\-U\-A\-V\-Object\-To\-Widget\-Relation}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Config\-Task\-Widget\-::add\-U\-A\-V\-Object\-To\-Widget\-Relation} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Q\-String}}]{object, }
+\item[{{\bf \-Q\-String}}]{field, }
+\item[{\-Q\-Widget $\ast$}]{widget, }
+\item[{{\bf \-Q\-String}}]{index}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_object_widget_utils_gae3ae5288613fb8062c029d9a4da6c759}
+\-Add an \hyperlink{class_u_a_v_object}{\-U\-A\-V\-Object} field to widget relation to the management system 
+\begin{DoxyParams}{\-Parameters}
+{\em object} & name of the object to add \\
+\hline
+{\em field} & name of the field to add \\
+\hline
+{\em widget} & pointer to the widget whitch will display/define the field value \\
+\hline
+{\em index} & index of the field element to add to this relation \\
+\hline
+\end{DoxyParams}
+
+
+\-Definition at line 82 of file configtaskwidget.\-cpp.
+
+\hypertarget{group___u_a_v_object_widget_utils_ga368867adfb58200a5f6af90141e8f1ae}{\index{\-Plugin@{\-Plugin}!add\-U\-A\-V\-Object\-To\-Widget\-Relation@{add\-U\-A\-V\-Object\-To\-Widget\-Relation}}
+\index{add\-U\-A\-V\-Object\-To\-Widget\-Relation@{add\-U\-A\-V\-Object\-To\-Widget\-Relation}!Plugin@{\-Plugin}}
+\subsubsection[{add\-U\-A\-V\-Object\-To\-Widget\-Relation}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Config\-Task\-Widget\-::add\-U\-A\-V\-Object\-To\-Widget\-Relation} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-U\-A\-V\-Object} $\ast$}]{obj, }
+\item[{{\bf \-U\-A\-V\-Object\-Field} $\ast$}]{field, }
+\item[{\-Q\-Widget $\ast$}]{widget, }
+\item[{{\bf \-Q\-String}}]{index}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_object_widget_utils_ga368867adfb58200a5f6af90141e8f1ae}
+
+
+\-Definition at line 93 of file configtaskwidget.\-cpp.
+
+\hypertarget{group___u_a_v_object_widget_utils_ga3edd7677e362be586b059c066e0a4e30}{\index{\-Plugin@{\-Plugin}!add\-Widget@{add\-Widget}}
+\index{add\-Widget@{add\-Widget}!Plugin@{\-Plugin}}
+\subsubsection[{add\-Widget}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Config\-Task\-Widget\-::add\-Widget} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Widget $\ast$}]{widget}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_object_widget_utils_ga3edd7677e362be586b059c066e0a4e30}
+\-Add a widget to the dirty detection pool 
+\begin{DoxyParams}{\-Parameters}
+{\em widget} & to add to the detection pool \\
+\hline
+\end{DoxyParams}
+
+
+\-Definition at line 54 of file configtaskwidget.\-cpp.
+
+\hypertarget{group___u_a_v_object_widget_utils_gabdd18a22aae23df220d48868ecbdf3a0}{\index{\-Plugin@{\-Plugin}!add\-Widget\-To\-Default\-Reload\-Groups@{add\-Widget\-To\-Default\-Reload\-Groups}}
+\index{add\-Widget\-To\-Default\-Reload\-Groups@{add\-Widget\-To\-Default\-Reload\-Groups}!Plugin@{\-Plugin}}
+\subsubsection[{add\-Widget\-To\-Default\-Reload\-Groups}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Config\-Task\-Widget\-::add\-Widget\-To\-Default\-Reload\-Groups} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Widget $\ast$}]{widget, }
+\item[{\-Q\-List$<$ int $>$ $\ast$}]{groups}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_object_widget_utils_gabdd18a22aae23df220d48868ecbdf3a0}
+\-Adds a widget to a list of default/reload groups default/reload groups are groups of widgets to be set with default or reloaded (values from persistent memory) when a defined button is pressed 
+\begin{DoxyParams}{\-Parameters}
+{\em widget} & pointer to the widget to be added to the groups \\
+\hline
+{\em groups} & list of the groups on which to add the widget \\
+\hline
+\end{DoxyParams}
+
+
+\-Definition at line 821 of file configtaskwidget.\-cpp.
+
+\hypertarget{group___u_a_v_object_widget_utils_gab554a765fd7a57fcdf289aa51b4df328}{\index{\-Plugin@{\-Plugin}!adjust@{adjust}}
+\index{adjust@{adjust}!Plugin@{\-Plugin}}
+\subsubsection[{adjust}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Edge\-::adjust} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_object_widget_utils_gab554a765fd7a57fcdf289aa51b4df328}
+
+
+\-Definition at line 74 of file mixercurveline.\-cpp.
+
+\hypertarget{group___u_a_v_object_widget_utils_ga62e7277f3b8228d44da13a2355b96e9a}{\index{\-Plugin@{\-Plugin}!all\-Objects\-Updated@{all\-Objects\-Updated}}
+\index{all\-Objects\-Updated@{all\-Objects\-Updated}!Plugin@{\-Plugin}}
+\subsubsection[{all\-Objects\-Updated}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-Config\-Task\-Widget\-::all\-Objects\-Updated} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_object_widget_utils_ga62e7277f3b8228d44da13a2355b96e9a}
+\-Checks if all objects added to the pool have already been updated \begin{DoxyReturn}{\-Returns}
+true if all objects added to the pool have already been updated 
+\end{DoxyReturn}
+
+
+\-Definition at line 603 of file configtaskwidget.\-cpp.
+
+\hypertarget{group___u_a_v_object_widget_utils_ga945551d9d4d280fe2cd14bc2646d8fbf}{\index{\-Plugin@{\-Plugin}!auto\-Load\-Widgets@{auto\-Load\-Widgets}}
+\index{auto\-Load\-Widgets@{auto\-Load\-Widgets}!Plugin@{\-Plugin}}
+\subsubsection[{auto\-Load\-Widgets}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Config\-Task\-Widget\-::auto\-Load\-Widgets} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_object_widget_utils_ga945551d9d4d280fe2cd14bc2646d8fbf}
+\-Auto loads widgets based on the \-Dynamic property named \char`\"{}objrelation\char`\"{} \-Check the wiki for more information 
+
+\-Definition at line 708 of file configtaskwidget.\-cpp.
+
+\hypertarget{group___u_a_v_object_widget_utils_ga1715832a609af81720fbed8340ddcd51}{\index{\-Plugin@{\-Plugin}!bounding\-Rect@{bounding\-Rect}}
+\index{bounding\-Rect@{bounding\-Rect}!Plugin@{\-Plugin}}
+\subsubsection[{bounding\-Rect}]{\setlength{\rightskip}{0pt plus 5cm}\-Q\-Rect\-F {\bf \-Edge\-::bounding\-Rect} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{group___u_a_v_object_widget_utils_ga1715832a609af81720fbed8340ddcd51}
+
+
+\-Definition at line 93 of file mixercurveline.\-cpp.
+
+\hypertarget{group___u_a_v_object_widget_utils_ga016954be92f06c8ef2007526890e030e}{\index{\-Plugin@{\-Plugin}!bounding\-Rect@{bounding\-Rect}}
+\index{bounding\-Rect@{bounding\-Rect}!Plugin@{\-Plugin}}
+\subsubsection[{bounding\-Rect}]{\setlength{\rightskip}{0pt plus 5cm}\-Q\-Rect\-F {\bf \-Mixer\-Node\-::bounding\-Rect} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{group___u_a_v_object_widget_utils_ga016954be92f06c8ef2007526890e030e}
+
+
+\-Definition at line 72 of file mixercurvepoint.\-cpp.
+
+\hypertarget{group___u_a_v_object_widget_utils_ga087b6f8f17317793efa0d121fe42336a}{\index{\-Plugin@{\-Plugin}!check\-Widgets\-Limits@{check\-Widgets\-Limits}}
+\index{check\-Widgets\-Limits@{check\-Widgets\-Limits}!Plugin@{\-Plugin}}
+\subsubsection[{check\-Widgets\-Limits}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Config\-Task\-Widget\-::check\-Widgets\-Limits} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Widget $\ast$}]{widget, }
+\item[{{\bf \-U\-A\-V\-Object\-Field} $\ast$}]{field, }
+\item[{int}]{index, }
+\item[{bool}]{has\-Limits, }
+\item[{\-Q\-Variant}]{value, }
+\item[{double}]{scale}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{group___u_a_v_object_widget_utils_ga087b6f8f17317793efa0d121fe42336a}
+
+
+\-Definition at line 1194 of file configtaskwidget.\-cpp.
+
+\hypertarget{group___u_a_v_object_widget_utils_ga0907c8e3ee212fbe30183359c0d8bc1a}{\index{\-Plugin@{\-Plugin}!clear\-Objects@{clear\-Objects}}
+\index{clear\-Objects@{clear\-Objects}!Plugin@{\-Plugin}}
+\subsubsection[{clear\-Objects}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf smart\-Save\-Button\-::clear\-Objects} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_object_widget_utils_ga0907c8e3ee212fbe30183359c0d8bc1a}
+
+
+\-Definition at line 179 of file smartsavebutton.\-cpp.
+
+\hypertarget{group___u_a_v_object_widget_utils_ga1846362502f57645af53b826ee5537ad}{\index{\-Plugin@{\-Plugin}!cmd\-Activated@{cmd\-Activated}}
+\index{cmd\-Activated@{cmd\-Activated}!Plugin@{\-Plugin}}
+\subsubsection[{cmd\-Activated}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Mixer\-Curve\-Widget\-::cmd\-Activated} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Mixer\-Node} $\ast$}]{node}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_object_widget_utils_ga1846362502f57645af53b826ee5537ad}
+
+
+\-Definition at line 639 of file mixercurvewidget.\-cpp.
+
+\hypertarget{group___u_a_v_object_widget_utils_ga3eb17fc4cf477877868bb1d9cc4baad9}{\index{\-Plugin@{\-Plugin}!command\-Node@{command\-Node}}
+\index{command\-Node@{command\-Node}!Plugin@{\-Plugin}}
+\subsubsection[{command\-Node}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Mixer\-Node\-::command\-Node} (
+\begin{DoxyParamCaption}
+\item[{bool}]{enable}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_object_widget_utils_ga3eb17fc4cf477877868bb1d9cc4baad9}
+
+
+\-Definition at line 135 of file mixercurvepoint.\-cpp.
+
+\hypertarget{group___u_a_v_object_widget_utils_ga549e0ca95a0402dfc301e141de9e269e}{\index{\-Plugin@{\-Plugin}!command\-Text@{command\-Text}}
+\index{command\-Text@{command\-Text}!Plugin@{\-Plugin}}
+\subsubsection[{command\-Text}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Mixer\-Node\-::command\-Text} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Q\-String}}]{text}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_object_widget_utils_ga549e0ca95a0402dfc301e141de9e269e}
+
+
+\-Definition at line 138 of file mixercurvepoint.\-cpp.
+
+\hypertarget{group___u_a_v_object_widget_utils_ga8164338f4928bd3afd984eeda276f276}{\index{\-Plugin@{\-Plugin}!\-Config\-Task\-Widget@{\-Config\-Task\-Widget}}
+\index{\-Config\-Task\-Widget@{\-Config\-Task\-Widget}!Plugin@{\-Plugin}}
+\subsubsection[{\-Config\-Task\-Widget}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Config\-Task\-Widget\-::\-Config\-Task\-Widget} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Widget $\ast$}]{parent = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_object_widget_utils_ga8164338f4928bd3afd984eeda276f276}
+\-Constructor 
+
+\-Definition at line 36 of file configtaskwidget.\-cpp.
+
+\hypertarget{group___u_a_v_object_widget_utils_ga63800818ac0cf98ea9cff4ba44532c4d}{\index{\-Plugin@{\-Plugin}!dest\-Node@{dest\-Node}}
+\index{dest\-Node@{dest\-Node}!Plugin@{\-Plugin}}
+\subsubsection[{dest\-Node}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Mixer\-Node} $\ast$ {\bf \-Edge\-::dest\-Node} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{group___u_a_v_object_widget_utils_ga63800818ac0cf98ea9cff4ba44532c4d}
+
+
+\-Definition at line 63 of file mixercurveline.\-cpp.
+
+\hypertarget{group___u_a_v_object_widget_utils_gaf42e971c9cd69919e3b05ed25643d516}{\index{\-Plugin@{\-Plugin}!disable\-Mouse\-Wheel\-Events@{disable\-Mouse\-Wheel\-Events}}
+\index{disable\-Mouse\-Wheel\-Events@{disable\-Mouse\-Wheel\-Events}!Plugin@{\-Plugin}}
+\subsubsection[{disable\-Mouse\-Wheel\-Events}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Config\-Task\-Widget\-::disable\-Mouse\-Wheel\-Events} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_object_widget_utils_gaf42e971c9cd69919e3b05ed25643d516}
+
+
+\-Definition at line 1316 of file configtaskwidget.\-cpp.
+
+\hypertarget{group___u_a_v_object_widget_utils_gaaaf462ed746395725efc1ecc8ea00ec4}{\index{\-Plugin@{\-Plugin}!\-Edge@{\-Edge}}
+\index{\-Edge@{\-Edge}!Plugin@{\-Plugin}}
+\subsubsection[{\-Edge}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Edge\-::\-Edge} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Mixer\-Node} $\ast$}]{source\-Node, }
+\item[{{\bf \-Mixer\-Node} $\ast$}]{dest\-Node}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_object_widget_utils_gaaaf462ed746395725efc1ecc8ea00ec4}
+
+
+\-Definition at line 37 of file mixercurveline.\-cpp.
+
+\hypertarget{group___u_a_v_object_widget_utils_ga40ed4006b807a83e49d061ed3d2660d2}{\index{\-Plugin@{\-Plugin}!edges@{edges}}
+\index{edges@{edges}!Plugin@{\-Plugin}}
+\subsubsection[{edges}]{\setlength{\rightskip}{0pt plus 5cm}\-Q\-List$<$ {\bf \-Edge} $\ast$ $>$ {\bf \-Mixer\-Node\-::edges} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{group___u_a_v_object_widget_utils_ga40ed4006b807a83e49d061ed3d2660d2}
+
+
+\-Definition at line 66 of file mixercurvepoint.\-cpp.
+
+\hypertarget{group___u_a_v_object_widget_utils_gaad59e4e96d1e4a59067aa44828ddaa3f}{\index{\-Plugin@{\-Plugin}!enable\-Controls@{enable\-Controls}}
+\index{enable\-Controls@{enable\-Controls}!Plugin@{\-Plugin}}
+\subsubsection[{enable\-Controls}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Config\-Task\-Widget\-::enable\-Controls} (
+\begin{DoxyParamCaption}
+\item[{bool}]{enable}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}protected, virtual\mbox{]}}}}\label{group___u_a_v_object_widget_utils_gaad59e4e96d1e4a59067aa44828ddaa3f}
+\-S\-L\-O\-T function used the enable or disable the \-S\-A\-V\-E, \-U\-P\-L\-O\-A\-D and \-R\-E\-L\-O\-A\-D buttons 
+\begin{DoxyParams}{\-Parameters}
+{\em enable} & set to true to enable the buttons or false to disable them \\
+\hline
+{\em field} & name of the field to add \\
+\hline
+\end{DoxyParams}
+
+
+\-Reimplemented in \hyperlink{group___config_plugin_ga39ced7c878bb56024b9bdd2bdb90d68f}{\-Config\-Input\-Widget}, and \hyperlink{group___config_plugin_ga8c6d4684111bd4a10d4940a803faf852}{\-Config\-Output\-Widget}.
+
+
+
+\-Definition at line 460 of file configtaskwidget.\-cpp.
+
+\hypertarget{group___u_a_v_object_widget_utils_gae5859445d40d8a43d5fd91927dd56ba9}{\index{\-Plugin@{\-Plugin}!event\-Filter@{event\-Filter}}
+\index{event\-Filter@{event\-Filter}!Plugin@{\-Plugin}}
+\subsubsection[{event\-Filter}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-Config\-Task\-Widget\-::event\-Filter} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Object $\ast$}]{obj, }
+\item[{\-Q\-Event $\ast$}]{evt}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_object_widget_utils_gae5859445d40d8a43d5fd91927dd56ba9}
+
+
+\-Definition at line 1333 of file configtaskwidget.\-cpp.
+
+\hypertarget{group___u_a_v_object_widget_utils_ga8538f7844616deeef2455da33bc8a9fe}{\index{\-Plugin@{\-Plugin}!extensions\-Initialized@{extensions\-Initialized}}
+\index{extensions\-Initialized@{extensions\-Initialized}!Plugin@{\-Plugin}}
+\subsubsection[{extensions\-Initialized}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-U\-A\-V\-Object\-Widget\-Utils\-Plugin\-::extensions\-Initialized} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___u_a_v_object_widget_utils_ga8538f7844616deeef2455da33bc8a9fe}
+\-Called after the \-I\-Plugin\-::initialize() method has been called, and after both the \-I\-Plugin\-::initialize() and \-I\-Plugin\-::extensions\-Initialized() methods of plugins that depend on this plugin have been called. \-In this method, the plugin can assume that plugins that depend on this plugin are fully 'up and running'. \-It is a good place to look in the plugin manager's object pool for objects that have been provided by dependent plugins. \begin{DoxySeeAlso}{\-See also}
+\hyperlink{group___u_a_v_object_widget_utils_ga7a913580e5284f9291cab68f3bfed4a3}{initialize()} 
+\end{DoxySeeAlso}
+
+
+\-Implements \hyperlink{class_extension_system_1_1_i_plugin_a1db3a7fb242fca02229f9a3be4fd6610}{\-Extension\-System\-::\-I\-Plugin}.
+
+
+
+\-Definition at line 39 of file uavobjectwidgetutilsplugin.\-cpp.
+
+\hypertarget{group___u_a_v_object_widget_utils_gaef1ebd891852a741315a8b69975876e6}{\index{\-Plugin@{\-Plugin}!force\-Connected\-State@{force\-Connected\-State}}
+\index{force\-Connected\-State@{force\-Connected\-State}!Plugin@{\-Plugin}}
+\subsubsection[{force\-Connected\-State}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Config\-Task\-Widget\-::force\-Connected\-State} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_object_widget_utils_gaef1ebd891852a741315a8b69975876e6}
+
+
+\-Definition at line 324 of file configtaskwidget.\-cpp.
+
+\hypertarget{group___u_a_v_object_widget_utils_gaae2888fd71dce34ad0c33aed78952e23}{\index{\-Plugin@{\-Plugin}!force\-Shadow\-Updates@{force\-Shadow\-Updates}}
+\index{force\-Shadow\-Updates@{force\-Shadow\-Updates}!Plugin@{\-Plugin}}
+\subsubsection[{force\-Shadow\-Updates}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Config\-Task\-Widget\-::force\-Shadow\-Updates} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_object_widget_utils_gaae2888fd71dce34ad0c33aed78952e23}
+
+
+\hyperlink{group___u_a_v_object_widget_utils_gaae2888fd71dce34ad0c33aed78952e23}{\-Config\-Task\-Widget\-::force\-Shadow\-Updates}. 
+
+
+
+\-Definition at line 471 of file configtaskwidget.\-cpp.
+
+\hypertarget{group___u_a_v_object_widget_utils_ga2c1fc49cc5fe0c0b20163b8249d9fabf}{\index{\-Plugin@{\-Plugin}!get\-Cmd\-Node@{get\-Cmd\-Node}}
+\index{get\-Cmd\-Node@{get\-Cmd\-Node}!Plugin@{\-Plugin}}
+\subsubsection[{get\-Cmd\-Node}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Mixer\-Node} $\ast$ {\bf \-Mixer\-Curve\-Widget\-::get\-Cmd\-Node} (
+\begin{DoxyParamCaption}
+\item[{const {\bf \-Q\-String} \&}]{name}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_object_widget_utils_ga2c1fc49cc5fe0c0b20163b8249d9fabf}
+
+
+\-Definition at line 577 of file mixercurvewidget.\-cpp.
+
+\hypertarget{group___u_a_v_object_widget_utils_ga63b0822569ce8326323c15159682c57e}{\index{\-Plugin@{\-Plugin}!get\-Command\-Active@{get\-Command\-Active}}
+\index{get\-Command\-Active@{get\-Command\-Active}!Plugin@{\-Plugin}}
+\subsubsection[{get\-Command\-Active}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-Mixer\-Node\-::get\-Command\-Active} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___u_a_v_object_widget_utils_ga63b0822569ce8326323c15159682c57e}
+
+
+\-Definition at line 63 of file mixercurvepoint.\-h.
+
+\hypertarget{group___u_a_v_object_widget_utils_ga9256f0cba8c457485bfc00b660076d2b}{\index{\-Plugin@{\-Plugin}!get\-Command\-Index@{get\-Command\-Index}}
+\index{get\-Command\-Index@{get\-Command\-Index}!Plugin@{\-Plugin}}
+\subsubsection[{get\-Command\-Index}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf \-Mixer\-Node\-::get\-Command\-Index} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___u_a_v_object_widget_utils_ga9256f0cba8c457485bfc00b660076d2b}
+
+
+\-Definition at line 60 of file mixercurvepoint.\-h.
+
+\hypertarget{group___u_a_v_object_widget_utils_gad97c9f7b189fc9097da50ab5b8f08f4d}{\index{\-Plugin@{\-Plugin}!get\-Curve@{get\-Curve}}
+\index{get\-Curve@{get\-Curve}!Plugin@{\-Plugin}}
+\subsubsection[{get\-Curve}]{\setlength{\rightskip}{0pt plus 5cm}\-Q\-List$<$ double $>$ {\bf \-Mixer\-Curve\-Widget\-::get\-Curve} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_object_widget_utils_gad97c9f7b189fc9097da50ab5b8f08f4d}
+\-Returns the current curve settings 
+
+\-Definition at line 402 of file mixercurvewidget.\-cpp.
+
+\hypertarget{group___u_a_v_object_widget_utils_ga34c76c8602acb8377ecaead69dd32bd0}{\index{\-Plugin@{\-Plugin}!get\-Max@{get\-Max}}
+\index{get\-Max@{get\-Max}!Plugin@{\-Plugin}}
+\subsubsection[{get\-Max}]{\setlength{\rightskip}{0pt plus 5cm}double {\bf \-Mixer\-Curve\-Widget\-::get\-Max} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_object_widget_utils_ga34c76c8602acb8377ecaead69dd32bd0}
+
+
+\-Definition at line 566 of file mixercurvewidget.\-cpp.
+
+\hypertarget{group___u_a_v_object_widget_utils_gac199a42260bf4a3ddd42f23bae109569}{\index{\-Plugin@{\-Plugin}!get\-Min@{get\-Min}}
+\index{get\-Min@{get\-Min}!Plugin@{\-Plugin}}
+\subsubsection[{get\-Min}]{\setlength{\rightskip}{0pt plus 5cm}double {\bf \-Mixer\-Curve\-Widget\-::get\-Min} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_object_widget_utils_gac199a42260bf4a3ddd42f23bae109569}
+
+
+\-Definition at line 562 of file mixercurvewidget.\-cpp.
+
+\hypertarget{group___u_a_v_object_widget_utils_gade160748ca597706039a14036cf2cf49}{\index{\-Plugin@{\-Plugin}!get\-Name@{get\-Name}}
+\index{get\-Name@{get\-Name}!Plugin@{\-Plugin}}
+\subsubsection[{get\-Name}]{\setlength{\rightskip}{0pt plus 5cm}const {\bf \-Q\-String}\& {\bf \-Mixer\-Node\-::get\-Name} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___u_a_v_object_widget_utils_gade160748ca597706039a14036cf2cf49}
+
+
+\-Definition at line 55 of file mixercurvepoint.\-h.
+
+\hypertarget{group___u_a_v_object_widget_utils_ga516ee05a73ac3c7c9e6132b0d7294b4a}{\index{\-Plugin@{\-Plugin}!get\-Object\-Manager@{get\-Object\-Manager}}
+\index{get\-Object\-Manager@{get\-Object\-Manager}!Plugin@{\-Plugin}}
+\subsubsection[{get\-Object\-Manager}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-U\-A\-V\-Object\-Manager} $\ast$ {\bf \-Config\-Task\-Widget\-::get\-Object\-Manager} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_object_widget_utils_ga516ee05a73ac3c7c9e6132b0d7294b4a}
+
+
+\hyperlink{group___u_a_v_object_widget_utils_ga516ee05a73ac3c7c9e6132b0d7294b4a}{\-Config\-Task\-Widget\-::get\-Object\-Manager} \-Utility function to get a pointer to the object manager. 
+
+\begin{DoxyReturn}{\-Returns}
+pointer to the \hyperlink{class_u_a_v_object_manager}{\-U\-A\-V\-Object\-Manager} 
+\end{DoxyReturn}
+
+
+\-Definition at line 258 of file configtaskwidget.\-cpp.
+
+\hypertarget{group___u_a_v_object_widget_utils_gadefdec77400ea7aaed02de03fa044b7a}{\index{\-Plugin@{\-Plugin}!get\-Object\-Util\-Manager@{get\-Object\-Util\-Manager}}
+\index{get\-Object\-Util\-Manager@{get\-Object\-Util\-Manager}!Plugin@{\-Plugin}}
+\subsubsection[{get\-Object\-Util\-Manager}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-U\-A\-V\-Object\-Util\-Manager} $\ast$ {\bf \-Config\-Task\-Widget\-::get\-Object\-Util\-Manager} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_object_widget_utils_gadefdec77400ea7aaed02de03fa044b7a}
+
+
+\hyperlink{group___u_a_v_object_widget_utils_gadefdec77400ea7aaed02de03fa044b7a}{\-Config\-Task\-Widget\-::get\-Object\-Util\-Manager} \-Utility function to get a pointer to the object manager utilities. 
+
+\begin{DoxyReturn}{\-Returns}
+pointer to the \hyperlink{class_u_a_v_object_util_manager}{\-U\-A\-V\-Object\-Util\-Manager} 
+\end{DoxyReturn}
+
+
+\-Definition at line 270 of file configtaskwidget.\-cpp.
+
+\hypertarget{group___u_a_v_object_widget_utils_gab63ea3448c47f2e65a056ec49b30e0d1}{\index{\-Plugin@{\-Plugin}!get\-Toggle@{get\-Toggle}}
+\index{get\-Toggle@{get\-Toggle}!Plugin@{\-Plugin}}
+\subsubsection[{get\-Toggle}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-Mixer\-Node\-::get\-Toggle} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___u_a_v_object_widget_utils_gab63ea3448c47f2e65a056ec49b30e0d1}
+
+
+\-Definition at line 66 of file mixercurvepoint.\-h.
+
+\hypertarget{group___u_a_v_object_widget_utils_ga0bc84dd39dc77fccf26bf3a708a11733}{\index{\-Plugin@{\-Plugin}!get\-Variant\-From\-Widget@{get\-Variant\-From\-Widget}}
+\index{get\-Variant\-From\-Widget@{get\-Variant\-From\-Widget}!Plugin@{\-Plugin}}
+\subsubsection[{get\-Variant\-From\-Widget}]{\setlength{\rightskip}{0pt plus 5cm}\-Q\-Variant {\bf \-Config\-Task\-Widget\-::get\-Variant\-From\-Widget} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Widget $\ast$}]{widget, }
+\item[{double}]{scale}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}protected, virtual\mbox{]}}}}\label{group___u_a_v_object_widget_utils_ga0bc84dd39dc77fccf26bf3a708a11733}
+\-Gets a variant from a widget 
+\begin{DoxyParams}{\-Parameters}
+{\em widget} & pointer to the widget from where to get the value \\
+\hline
+{\em scale} & scale to be used on the assignement \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+returns the value of the widget times the scale 
+\end{DoxyReturn}
+
+
+\-Definition at line 1072 of file configtaskwidget.\-cpp.
+
+\hypertarget{group___u_a_v_object_widget_utils_gaa776ac520f82de83862c18af0ff99ce3}{\index{\-Plugin@{\-Plugin}!init\-Curve@{init\-Curve}}
+\index{init\-Curve@{init\-Curve}!Plugin@{\-Plugin}}
+\subsubsection[{init\-Curve}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Mixer\-Curve\-Widget\-::init\-Curve} (
+\begin{DoxyParamCaption}
+\item[{const \-Q\-List$<$ double $>$ $\ast$}]{points}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_object_widget_utils_gaa776ac520f82de83862c18af0ff99ce3}
+\-Init curve\-: create a (flat) curve with a specified number of points.
+
+\-If a curve exists already, resets it. \-Points should be between 0 and 1. 
+
+\-Definition at line 355 of file mixercurvewidget.\-cpp.
+
+\hypertarget{group___u_a_v_object_widget_utils_ga7a913580e5284f9291cab68f3bfed4a3}{\index{\-Plugin@{\-Plugin}!initialize@{initialize}}
+\index{initialize@{initialize}!Plugin@{\-Plugin}}
+\subsubsection[{initialize}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-U\-A\-V\-Object\-Widget\-Utils\-Plugin\-::initialize} (
+\begin{DoxyParamCaption}
+\item[{const \-Q\-String\-List \&}]{arguments, }
+\item[{{\bf \-Q\-String} $\ast$}]{error\-String}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___u_a_v_object_widget_utils_ga7a913580e5284f9291cab68f3bfed4a3}
+\-Called after the plugin has been loaded and the \-I\-Plugin instance has been created. \-The initialize methods of plugins that depend on this plugin are called after the initialize method of this plugin has been called. \-Plugins should initialize their internal state in this method. \-Returns if initialization of successful. \-If it wasn't successful, the {\itshape error\-String\/} should be set to a user-\/readable message describing the reason. \begin{DoxySeeAlso}{\-See also}
+\hyperlink{group___u_a_v_object_widget_utils_ga8538f7844616deeef2455da33bc8a9fe}{extensions\-Initialized()} 
+\end{DoxySeeAlso}
+
+
+\-Implements \hyperlink{class_extension_system_1_1_i_plugin_a9f3dc957317279daed393fdf4894e944}{\-Extension\-System\-::\-I\-Plugin}.
+
+
+
+\-Definition at line 43 of file uavobjectwidgetutilsplugin.\-cpp.
+
+\hypertarget{group___u_a_v_object_widget_utils_gad0a76288e7cbdf09fb112176d236dfde}{\index{\-Plugin@{\-Plugin}!init\-Linear\-Curve@{init\-Linear\-Curve}}
+\index{init\-Linear\-Curve@{init\-Linear\-Curve}!Plugin@{\-Plugin}}
+\subsubsection[{init\-Linear\-Curve}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Mixer\-Curve\-Widget\-::init\-Linear\-Curve} (
+\begin{DoxyParamCaption}
+\item[{int}]{num\-Points, }
+\item[{double}]{max\-Value = {\ttfamily 1}, }
+\item[{double}]{min\-Value = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_object_widget_utils_gad0a76288e7cbdf09fb112176d236dfde}
+\-Sets a linear graph 
+
+\-Definition at line 415 of file mixercurvewidget.\-cpp.
+
+\hypertarget{group___u_a_v_object_widget_utils_gad61b70a01e85822c5838c2c5833c22fd}{\index{\-Plugin@{\-Plugin}!is\-Autopilot\-Connected@{is\-Autopilot\-Connected}}
+\index{is\-Autopilot\-Connected@{is\-Autopilot\-Connected}!Plugin@{\-Plugin}}
+\subsubsection[{is\-Autopilot\-Connected}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-Config\-Task\-Widget\-::is\-Autopilot\-Connected} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_object_widget_utils_gad61b70a01e85822c5838c2c5833c22fd}
+
+
+\hyperlink{group___u_a_v_object_widget_utils_gad61b70a01e85822c5838c2c5833c22fd}{\-Config\-Task\-Widget\-::is\-Autopilot\-Connected} \-Checks if the autopilot is connected. 
+
+\begin{DoxyReturn}{\-Returns}
+true if an autopilot is connected 
+\end{DoxyReturn}
+
+
+\-Definition at line 563 of file configtaskwidget.\-cpp.
+
+\hypertarget{group___u_a_v_object_widget_utils_ga3922cc5ec0cc7ce3937fbbd2199c1170}{\index{\-Plugin@{\-Plugin}!is\-Command\-Active@{is\-Command\-Active}}
+\index{is\-Command\-Active@{is\-Command\-Active}!Plugin@{\-Plugin}}
+\subsubsection[{is\-Command\-Active}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-Mixer\-Curve\-Widget\-::is\-Command\-Active} (
+\begin{DoxyParamCaption}
+\item[{const {\bf \-Q\-String} \&}]{name}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_object_widget_utils_ga3922cc5ec0cc7ce3937fbbd2199c1170}
+
+
+\-Definition at line 629 of file mixercurvewidget.\-cpp.
+
+\hypertarget{group___u_a_v_object_widget_utils_ga2d7e19cef57df7b30741b4901b5a190f}{\index{\-Plugin@{\-Plugin}!is\-Dirty@{is\-Dirty}}
+\index{is\-Dirty@{is\-Dirty}!Plugin@{\-Plugin}}
+\subsubsection[{is\-Dirty}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-Config\-Task\-Widget\-::is\-Dirty} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_object_widget_utils_ga2d7e19cef57df7b30741b4901b5a190f}
+\-Checks if the form is dirty (unsaved changes) \begin{DoxyReturn}{\-Returns}
+true if the form has unsaved changes 
+\end{DoxyReturn}
+
+
+\-Definition at line 555 of file configtaskwidget.\-cpp.
+
+\hypertarget{group___u_a_v_object_widget_utils_ga4e95b04348d98dedd3493d466fb5bdf5}{\index{\-Plugin@{\-Plugin}!item\-Change@{item\-Change}}
+\index{item\-Change@{item\-Change}!Plugin@{\-Plugin}}
+\subsubsection[{item\-Change}]{\setlength{\rightskip}{0pt plus 5cm}\-Q\-Variant {\bf \-Mixer\-Node\-::item\-Change} (
+\begin{DoxyParamCaption}
+\item[{\-Graphics\-Item\-Change}]{change, }
+\item[{const \-Q\-Variant \&}]{val}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{group___u_a_v_object_widget_utils_ga4e95b04348d98dedd3493d466fb5bdf5}
+
+
+\-Definition at line 149 of file mixercurvepoint.\-cpp.
+
+\hypertarget{group___u_a_v_object_widget_utils_ga1a7a9e06137eef080091ca11b1bf0c05}{\index{\-Plugin@{\-Plugin}!item\-Moved@{item\-Moved}}
+\index{item\-Moved@{item\-Moved}!Plugin@{\-Plugin}}
+\subsubsection[{item\-Moved}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Mixer\-Curve\-Widget\-::item\-Moved} (
+\begin{DoxyParamCaption}
+\item[{double}]{item\-Value}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_object_widget_utils_ga1a7a9e06137eef080091ca11b1bf0c05}
+
+
+\-Definition at line 537 of file mixercurvewidget.\-cpp.
+
+\hypertarget{group___u_a_v_object_widget_utils_ga134c15f52a4eccf9aeb9bbacdc296b80}{\index{\-Plugin@{\-Plugin}!list\-Mean@{list\-Mean}}
+\index{list\-Mean@{list\-Mean}!Plugin@{\-Plugin}}
+\subsubsection[{list\-Mean}]{\setlength{\rightskip}{0pt plus 5cm}double {\bf \-Config\-Task\-Widget\-::list\-Mean} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-List$<$ double $>$}]{list}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}\label{group___u_a_v_object_widget_utils_ga134c15f52a4eccf9aeb9bbacdc296b80}
+\-Utility function which calculates the \-Mean value of a list of values 
+\begin{DoxyParams}{\-Parameters}
+{\em list} & list of double values \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+\-Mean value of the list of parameter values 
+\end{DoxyReturn}
+
+
+\-Definition at line 283 of file configtaskwidget.\-cpp.
+
+\hypertarget{group___u_a_v_object_widget_utils_ga2f33179993858ca636461e78e3a7a3c8}{\index{\-Plugin@{\-Plugin}!list\-Var@{list\-Var}}
+\index{list\-Var@{list\-Var}!Plugin@{\-Plugin}}
+\subsubsection[{list\-Var}]{\setlength{\rightskip}{0pt plus 5cm}double {\bf \-Config\-Task\-Widget\-::list\-Var} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-List$<$ double $>$}]{list}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}\label{group___u_a_v_object_widget_utils_ga2f33179993858ca636461e78e3a7a3c8}
+\-Utility function which calculates the \-Variance value of a list of values 
+\begin{DoxyParams}{\-Parameters}
+{\em list} & list of double values \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+\-Variance of the list of parameter values 
+\end{DoxyReturn}
+
+
+\-Definition at line 296 of file configtaskwidget.\-cpp.
+
+\hypertarget{group___u_a_v_object_widget_utils_gafcc28d34cf4bf00ed61926b4cbdd5a7e}{\index{\-Plugin@{\-Plugin}!\-Mixer\-Curve\-Widget@{\-Mixer\-Curve\-Widget}}
+\index{\-Mixer\-Curve\-Widget@{\-Mixer\-Curve\-Widget}!Plugin@{\-Plugin}}
+\subsubsection[{\-Mixer\-Curve\-Widget}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Mixer\-Curve\-Widget\-::\-Mixer\-Curve\-Widget} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Widget $\ast$}]{parent = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_object_widget_utils_gafcc28d34cf4bf00ed61926b4cbdd5a7e}
+
+
+\-Definition at line 40 of file mixercurvewidget.\-cpp.
+
+\hypertarget{group___u_a_v_object_widget_utils_gad99e53701553bdb4852ccedd6362f5a2}{\index{\-Plugin@{\-Plugin}!\-Mixer\-Node@{\-Mixer\-Node}}
+\index{\-Mixer\-Node@{\-Mixer\-Node}!Plugin@{\-Plugin}}
+\subsubsection[{\-Mixer\-Node}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Mixer\-Node\-::\-Mixer\-Node} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Mixer\-Curve\-Widget} $\ast$}]{graph\-Widget}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_object_widget_utils_gad99e53701553bdb4852ccedd6362f5a2}
+
+
+\-Definition at line 40 of file mixercurvepoint.\-cpp.
+
+\hypertarget{group___u_a_v_object_widget_utils_ga5b8710657e58b224928419c431d19fbc}{\index{\-Plugin@{\-Plugin}!mouse\-Press\-Event@{mouse\-Press\-Event}}
+\index{mouse\-Press\-Event@{mouse\-Press\-Event}!Plugin@{\-Plugin}}
+\subsubsection[{mouse\-Press\-Event}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Mixer\-Node\-::mouse\-Press\-Event} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Graphics\-Scene\-Mouse\-Event $\ast$}]{event}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{group___u_a_v_object_widget_utils_ga5b8710657e58b224928419c431d19fbc}
+
+
+\-Definition at line 188 of file mixercurvepoint.\-cpp.
+
+\hypertarget{group___u_a_v_object_widget_utils_ga82dc38bf127547b87931a58561f02a27}{\index{\-Plugin@{\-Plugin}!mouse\-Release\-Event@{mouse\-Release\-Event}}
+\index{mouse\-Release\-Event@{mouse\-Release\-Event}!Plugin@{\-Plugin}}
+\subsubsection[{mouse\-Release\-Event}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Mixer\-Node\-::mouse\-Release\-Event} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Graphics\-Scene\-Mouse\-Event $\ast$}]{event}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{group___u_a_v_object_widget_utils_ga82dc38bf127547b87931a58561f02a27}
+
+
+\-Definition at line 198 of file mixercurvepoint.\-cpp.
+
+\hypertarget{group___u_a_v_object_widget_utils_gaf38e83f721ec231506c2aa0bd3268280}{\index{\-Plugin@{\-Plugin}!operator==@{operator==}}
+\index{operator==@{operator==}!Plugin@{\-Plugin}}
+\subsubsection[{operator==}]{\setlength{\rightskip}{0pt plus 5cm}bool \-Config\-Task\-Widget\-::temphelper\-::operator== (
+\begin{DoxyParamCaption}
+\item[{const {\bf temphelper} \&}]{lhs}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___u_a_v_object_widget_utils_gaf38e83f721ec231506c2aa0bd3268280}
+
+
+\-Definition at line 79 of file configtaskwidget.\-h.
+
+\hypertarget{group___u_a_v_object_widget_utils_ga6fb73701d0e4739f569e1ea0eb4c36fa}{\index{\-Plugin@{\-Plugin}!paint@{paint}}
+\index{paint@{paint}!Plugin@{\-Plugin}}
+\subsubsection[{paint}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Edge\-::paint} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Painter $\ast$}]{painter, }
+\item[{const \-Q\-Style\-Option\-Graphics\-Item $\ast$}]{option, }
+\item[{\-Q\-Widget $\ast$}]{widget}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{group___u_a_v_object_widget_utils_ga6fb73701d0e4739f569e1ea0eb4c36fa}
+
+
+\-Definition at line 107 of file mixercurveline.\-cpp.
+
+\hypertarget{group___u_a_v_object_widget_utils_gaa06d538612911f733082849ebbef3cb0}{\index{\-Plugin@{\-Plugin}!paint@{paint}}
+\index{paint@{paint}!Plugin@{\-Plugin}}
+\subsubsection[{paint}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Mixer\-Node\-::paint} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Painter $\ast$}]{painter, }
+\item[{const \-Q\-Style\-Option\-Graphics\-Item $\ast$}]{option, }
+\item[{\-Q\-Widget $\ast$}]{widget}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_object_widget_utils_gaa06d538612911f733082849ebbef3cb0}
+
+
+\-Definition at line 84 of file mixercurvepoint.\-cpp.
+
+\hypertarget{group___u_a_v_object_widget_utils_ga2e09103bceedaf1f2756c7a688da035c}{\index{\-Plugin@{\-Plugin}!remove\-All\-Objects@{remove\-All\-Objects}}
+\index{remove\-All\-Objects@{remove\-All\-Objects}!Plugin@{\-Plugin}}
+\subsubsection[{remove\-All\-Objects}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf smart\-Save\-Button\-::remove\-All\-Objects} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_object_widget_utils_ga2e09103bceedaf1f2756c7a688da035c}
+
+
+\-Definition at line 175 of file smartsavebutton.\-cpp.
+
+\hypertarget{group___u_a_v_object_widget_utils_ga3543686402e11b7eb8f0822c0a9bb4de}{\index{\-Plugin@{\-Plugin}!remove\-Object@{remove\-Object}}
+\index{remove\-Object@{remove\-Object}!Plugin@{\-Plugin}}
+\subsubsection[{remove\-Object}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf smart\-Save\-Button\-::remove\-Object} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-U\-A\-V\-Data\-Object} $\ast$}]{obj}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_object_widget_utils_ga3543686402e11b7eb8f0822c0a9bb4de}
+
+
+\-Definition at line 170 of file smartsavebutton.\-cpp.
+
+\hypertarget{group___u_a_v_object_widget_utils_ga851955edd99204e2b209b7fa604129fe}{\index{\-Plugin@{\-Plugin}!reset\-Icons@{reset\-Icons}}
+\index{reset\-Icons@{reset\-Icons}!Plugin@{\-Plugin}}
+\subsubsection[{reset\-Icons}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf smart\-Save\-Button\-::reset\-Icons} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_object_widget_utils_ga851955edd99204e2b209b7fa604129fe}
+
+
+\-Definition at line 208 of file smartsavebutton.\-cpp.
+
+\hypertarget{group___u_a_v_object_widget_utils_gaa93b51b2d0662bf28c5040a7b7386eed}{\index{\-Plugin@{\-Plugin}!resize\-Event@{resize\-Event}}
+\index{resize\-Event@{resize\-Event}!Plugin@{\-Plugin}}
+\subsubsection[{resize\-Event}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Mixer\-Curve\-Widget\-::resize\-Event} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Resize\-Event $\ast$}]{event}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{group___u_a_v_object_widget_utils_gaa93b51b2d0662bf28c5040a7b7386eed}
+
+
+\-Definition at line 475 of file mixercurvewidget.\-cpp.
+
+\hypertarget{group___u_a_v_object_widget_utils_ga48cc77073a67c1e1945a0625f27d1519}{\index{\-Plugin@{\-Plugin}!save\-Object\-To\-S\-D@{save\-Object\-To\-S\-D}}
+\index{save\-Object\-To\-S\-D@{save\-Object\-To\-S\-D}!Plugin@{\-Plugin}}
+\subsubsection[{save\-Object\-To\-S\-D}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Config\-Task\-Widget\-::save\-Object\-To\-S\-D} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-U\-A\-V\-Object} $\ast$}]{obj}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_object_widget_utils_ga48cc77073a67c1e1945a0625f27d1519}
+
+
+\-Definition at line 244 of file configtaskwidget.\-cpp.
+
+\hypertarget{group___u_a_v_object_widget_utils_ga224ddcb050b9008c2352ca9c1318159d}{\index{\-Plugin@{\-Plugin}!set\-Command\-Active@{set\-Command\-Active}}
+\index{set\-Command\-Active@{set\-Command\-Active}!Plugin@{\-Plugin}}
+\subsubsection[{set\-Command\-Active}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Mixer\-Node\-::set\-Command\-Active} (
+\begin{DoxyParamCaption}
+\item[{bool}]{enable}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___u_a_v_object_widget_utils_ga224ddcb050b9008c2352ca9c1318159d}
+
+
+\-Definition at line 64 of file mixercurvepoint.\-h.
+
+\hypertarget{group___u_a_v_object_widget_utils_ga85c1946a33e5309ac2b9aa3675671935}{\index{\-Plugin@{\-Plugin}!set\-Command\-Index@{set\-Command\-Index}}
+\index{set\-Command\-Index@{set\-Command\-Index}!Plugin@{\-Plugin}}
+\subsubsection[{set\-Command\-Index}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Mixer\-Node\-::set\-Command\-Index} (
+\begin{DoxyParamCaption}
+\item[{int}]{idx}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___u_a_v_object_widget_utils_ga85c1946a33e5309ac2b9aa3675671935}
+
+
+\-Definition at line 61 of file mixercurvepoint.\-h.
+
+\hypertarget{group___u_a_v_object_widget_utils_gaa3ea4c7117915989815218e35875c190}{\index{\-Plugin@{\-Plugin}!set\-Command\-Text@{set\-Command\-Text}}
+\index{set\-Command\-Text@{set\-Command\-Text}!Plugin@{\-Plugin}}
+\subsubsection[{set\-Command\-Text}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Mixer\-Curve\-Widget\-::set\-Command\-Text} (
+\begin{DoxyParamCaption}
+\item[{const {\bf \-Q\-String} \&}]{name, }
+\item[{const {\bf \-Q\-String} \&}]{text}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_object_widget_utils_gaa3ea4c7117915989815218e35875c190}
+
+
+\-Definition at line 588 of file mixercurvewidget.\-cpp.
+
+\hypertarget{group___u_a_v_object_widget_utils_ga0738fd8e0cf67713c6553da77c284a71}{\index{\-Plugin@{\-Plugin}!set\-Curve@{set\-Curve}}
+\index{set\-Curve@{set\-Curve}!Plugin@{\-Plugin}}
+\subsubsection[{set\-Curve}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Mixer\-Curve\-Widget\-::set\-Curve} (
+\begin{DoxyParamCaption}
+\item[{const \-Q\-List$<$ double $>$ $\ast$}]{points}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_object_widget_utils_ga0738fd8e0cf67713c6553da77c284a71}
+\-Setd the current curve settings 
+
+\-Definition at line 429 of file mixercurvewidget.\-cpp.
+
+\hypertarget{group___u_a_v_object_widget_utils_gac291239456c76a2347f0d94e1aa8b14c}{\index{\-Plugin@{\-Plugin}!set\-Dest\-Node@{set\-Dest\-Node}}
+\index{set\-Dest\-Node@{set\-Dest\-Node}!Plugin@{\-Plugin}}
+\subsubsection[{set\-Dest\-Node}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Edge\-::set\-Dest\-Node} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Mixer\-Node} $\ast$}]{node}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_object_widget_utils_gac291239456c76a2347f0d94e1aa8b14c}
+
+
+\-Definition at line 68 of file mixercurveline.\-cpp.
+
+\hypertarget{group___u_a_v_object_widget_utils_gae75127fbfffe10458defc31a6a18c0f8}{\index{\-Plugin@{\-Plugin}!set\-Dirty@{set\-Dirty}}
+\index{set\-Dirty@{set\-Dirty}!Plugin@{\-Plugin}}
+\subsubsection[{set\-Dirty}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Config\-Task\-Widget\-::set\-Dirty} (
+\begin{DoxyParamCaption}
+\item[{bool}]{value}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_object_widget_utils_gae75127fbfffe10458defc31a6a18c0f8}
+\-Sets the form's dirty status flag 
+\begin{DoxyParams}{\-Parameters}
+{\em value} & \\
+\hline
+\end{DoxyParams}
+
+
+\-Definition at line 547 of file configtaskwidget.\-cpp.
+
+\hypertarget{group___u_a_v_object_widget_utils_ga90b5c3c03fb1cca75ba471125d93b550}{\index{\-Plugin@{\-Plugin}!set\-Draw\-Node@{set\-Draw\-Node}}
+\index{set\-Draw\-Node@{set\-Draw\-Node}!Plugin@{\-Plugin}}
+\subsubsection[{set\-Draw\-Node}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Mixer\-Node\-::set\-Draw\-Node} (
+\begin{DoxyParamCaption}
+\item[{bool}]{draw}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___u_a_v_object_widget_utils_ga90b5c3c03fb1cca75ba471125d93b550}
+
+
+\-Definition at line 71 of file mixercurvepoint.\-h.
+
+\hypertarget{group___u_a_v_object_widget_utils_gac7a63c8df4268991b6c48f6d528fe02c}{\index{\-Plugin@{\-Plugin}!set\-Draw\-Text@{set\-Draw\-Text}}
+\index{set\-Draw\-Text@{set\-Draw\-Text}!Plugin@{\-Plugin}}
+\subsubsection[{set\-Draw\-Text}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Mixer\-Node\-::set\-Draw\-Text} (
+\begin{DoxyParamCaption}
+\item[{bool}]{draw}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___u_a_v_object_widget_utils_gac7a63c8df4268991b6c48f6d528fe02c}
+
+
+\-Definition at line 72 of file mixercurvepoint.\-h.
+
+\hypertarget{group___u_a_v_object_widget_utils_ga85ed2c5bf8ae66f16496bd5fef25362b}{\index{\-Plugin@{\-Plugin}!set\-Image@{set\-Image}}
+\index{set\-Image@{set\-Image}!Plugin@{\-Plugin}}
+\subsubsection[{set\-Image}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Mixer\-Node\-::set\-Image} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Image}]{img}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___u_a_v_object_widget_utils_ga85ed2c5bf8ae66f16496bd5fef25362b}
+
+
+\-Definition at line 70 of file mixercurvepoint.\-h.
+
+\hypertarget{group___u_a_v_object_widget_utils_ga5575aabae9b71223eefe3e0a2ad39191}{\index{\-Plugin@{\-Plugin}!set\-Max@{set\-Max}}
+\index{set\-Max@{set\-Max}!Plugin@{\-Plugin}}
+\subsubsection[{set\-Max}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Mixer\-Curve\-Widget\-::set\-Max} (
+\begin{DoxyParamCaption}
+\item[{double}]{value}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_object_widget_utils_ga5575aabae9b71223eefe3e0a2ad39191}
+
+
+\-Definition at line 554 of file mixercurvewidget.\-cpp.
+
+\hypertarget{group___u_a_v_object_widget_utils_ga78338911bd3605c13be6672b2a94d346}{\index{\-Plugin@{\-Plugin}!set\-Min@{set\-Min}}
+\index{set\-Min@{set\-Min}!Plugin@{\-Plugin}}
+\subsubsection[{set\-Min}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Mixer\-Curve\-Widget\-::set\-Min} (
+\begin{DoxyParamCaption}
+\item[{double}]{value}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_object_widget_utils_ga78338911bd3605c13be6672b2a94d346}
+
+
+\-Definition at line 546 of file mixercurvewidget.\-cpp.
+
+\hypertarget{group___u_a_v_object_widget_utils_gadfd7806c5496ba5afcd31e2965292feb}{\index{\-Plugin@{\-Plugin}!set\-Name@{set\-Name}}
+\index{set\-Name@{set\-Name}!Plugin@{\-Plugin}}
+\subsubsection[{set\-Name}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Mixer\-Node\-::set\-Name} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Q\-String}}]{name}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___u_a_v_object_widget_utils_gadfd7806c5496ba5afcd31e2965292feb}
+
+
+\-Definition at line 54 of file mixercurvepoint.\-h.
+
+\hypertarget{group___u_a_v_object_widget_utils_gaa22c8cab4fa7424caf1a9168f12365e3}{\index{\-Plugin@{\-Plugin}!set\-Negative\-Color@{set\-Negative\-Color}}
+\index{set\-Negative\-Color@{set\-Negative\-Color}!Plugin@{\-Plugin}}
+\subsubsection[{set\-Negative\-Color}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Mixer\-Node\-::set\-Negative\-Color} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Q\-String}}]{color0 = {\ttfamily \char`\"{}\#ff0000\char`\"{}}, }
+\item[{{\bf \-Q\-String}}]{color1 = {\ttfamily \char`\"{}\#ff0000\char`\"{}}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___u_a_v_object_widget_utils_gaa22c8cab4fa7424caf1a9168f12365e3}
+
+
+\-Definition at line 69 of file mixercurvepoint.\-h.
+
+\hypertarget{group___u_a_v_object_widget_utils_gabc52b717610cbaa7e592ca114e280a7a}{\index{\-Plugin@{\-Plugin}!set\-Objects@{set\-Objects}}
+\index{set\-Objects@{set\-Objects}!Plugin@{\-Plugin}}
+\subsubsection[{set\-Objects}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf smart\-Save\-Button\-::set\-Objects} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-List$<$ {\bf \-U\-A\-V\-Data\-Object} $\ast$ $>$}]{list}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_object_widget_utils_gabc52b717610cbaa7e592ca114e280a7a}
+
+
+\-Definition at line 159 of file smartsavebutton.\-cpp.
+
+\hypertarget{group___u_a_v_object_widget_utils_gaefefd74c41c3c7655ae047ae80d6dba8}{\index{\-Plugin@{\-Plugin}!set\-Out\-Of\-Limits\-Style@{set\-Out\-Of\-Limits\-Style}}
+\index{set\-Out\-Of\-Limits\-Style@{set\-Out\-Of\-Limits\-Style}!Plugin@{\-Plugin}}
+\subsubsection[{set\-Out\-Of\-Limits\-Style}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Config\-Task\-Widget\-::set\-Out\-Of\-Limits\-Style} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Q\-String}}]{style}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___u_a_v_object_widget_utils_gaefefd74c41c3c7655ae047ae80d6dba8}
+
+
+\-Definition at line 144 of file configtaskwidget.\-h.
+
+\hypertarget{group___u_a_v_object_widget_utils_ga1318ec003e5b6d72bb03b061f6df3996}{\index{\-Plugin@{\-Plugin}!set\-Positive\-Color@{set\-Positive\-Color}}
+\index{set\-Positive\-Color@{set\-Positive\-Color}!Plugin@{\-Plugin}}
+\subsubsection[{set\-Positive\-Color}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Mixer\-Node\-::set\-Positive\-Color} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Q\-String}}]{color0 = {\ttfamily \char`\"{}\#00ff00\char`\"{}}, }
+\item[{{\bf \-Q\-String}}]{color1 = {\ttfamily \char`\"{}\#00ff00\char`\"{}}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___u_a_v_object_widget_utils_ga1318ec003e5b6d72bb03b061f6df3996}
+
+
+\-Definition at line 68 of file mixercurvepoint.\-h.
+
+\hypertarget{group___u_a_v_object_widget_utils_ga282a2d6417e079ff34450ffb620f9898}{\index{\-Plugin@{\-Plugin}!set\-Range@{set\-Range}}
+\index{set\-Range@{set\-Range}!Plugin@{\-Plugin}}
+\subsubsection[{set\-Range}]{\setlength{\rightskip}{0pt plus 5cm}double {\bf \-Mixer\-Curve\-Widget\-::set\-Range} (
+\begin{DoxyParamCaption}
+\item[{double}]{min, }
+\item[{double}]{max}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_object_widget_utils_ga282a2d6417e079ff34450ffb620f9898}
+
+
+\-Definition at line 570 of file mixercurvewidget.\-cpp.
+
+\hypertarget{group___u_a_v_object_widget_utils_gacc2025ad40fdd1225c77d3814bd356d2}{\index{\-Plugin@{\-Plugin}!set\-Source\-Node@{set\-Source\-Node}}
+\index{set\-Source\-Node@{set\-Source\-Node}!Plugin@{\-Plugin}}
+\subsubsection[{set\-Source\-Node}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Edge\-::set\-Source\-Node} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Mixer\-Node} $\ast$}]{node}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_object_widget_utils_gacc2025ad40fdd1225c77d3814bd356d2}
+
+
+\-Definition at line 57 of file mixercurveline.\-cpp.
+
+\hypertarget{group___u_a_v_object_widget_utils_ga55f38aaacbac71e094d96baf3df429a4}{\index{\-Plugin@{\-Plugin}!set\-Toggle@{set\-Toggle}}
+\index{set\-Toggle@{set\-Toggle}!Plugin@{\-Plugin}}
+\subsubsection[{set\-Toggle}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Mixer\-Node\-::set\-Toggle} (
+\begin{DoxyParamCaption}
+\item[{bool}]{enable}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___u_a_v_object_widget_utils_ga55f38aaacbac71e094d96baf3df429a4}
+
+
+\-Definition at line 65 of file mixercurvepoint.\-h.
+
+\hypertarget{group___u_a_v_object_widget_utils_gac37260311f36d40dcb9dce65e025c426}{\index{\-Plugin@{\-Plugin}!set\-Widget\-From\-Variant@{set\-Widget\-From\-Variant}}
+\index{set\-Widget\-From\-Variant@{set\-Widget\-From\-Variant}!Plugin@{\-Plugin}}
+\subsubsection[{set\-Widget\-From\-Variant}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-Config\-Task\-Widget\-::set\-Widget\-From\-Variant} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Widget $\ast$}]{widget, }
+\item[{\-Q\-Variant}]{value, }
+\item[{double}]{scale}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}protected, virtual\mbox{]}}}}\label{group___u_a_v_object_widget_utils_gac37260311f36d40dcb9dce65e025c426}
+\-Sets a widget from a variant 
+\begin{DoxyParams}{\-Parameters}
+{\em widget} & pointer for the widget to set \\
+\hline
+{\em scale} & scale to be used on the assignement \\
+\hline
+{\em value} & value to be used on the assignement \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+returns true if the assignement was successfull 
+\end{DoxyReturn}
+
+
+\-Definition at line 1112 of file configtaskwidget.\-cpp.
+
+\hypertarget{group___u_a_v_object_widget_utils_gafbd32275c2089c42d00f43a0e17886ae}{\index{\-Plugin@{\-Plugin}!shape@{shape}}
+\index{shape@{shape}!Plugin@{\-Plugin}}
+\subsubsection[{shape}]{\setlength{\rightskip}{0pt plus 5cm}\-Q\-Painter\-Path {\bf \-Mixer\-Node\-::shape} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{group___u_a_v_object_widget_utils_gafbd32275c2089c42d00f43a0e17886ae}
+
+
+\-Definition at line 77 of file mixercurvepoint.\-cpp.
+
+\hypertarget{group___u_a_v_object_widget_utils_gab84993af05bfcca9d61a15a48ff85a73}{\index{\-Plugin@{\-Plugin}!show\-Command@{show\-Command}}
+\index{show\-Command@{show\-Command}!Plugin@{\-Plugin}}
+\subsubsection[{show\-Command}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Mixer\-Curve\-Widget\-::show\-Command} (
+\begin{DoxyParamCaption}
+\item[{const {\bf \-Q\-String} \&}]{name, }
+\item[{bool}]{show}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_object_widget_utils_gab84993af05bfcca9d61a15a48ff85a73}
+
+
+\-Definition at line 607 of file mixercurvewidget.\-cpp.
+
+\hypertarget{group___u_a_v_object_widget_utils_ga29668291c080a26aa2631f3216755094}{\index{\-Plugin@{\-Plugin}!show\-Commands@{show\-Commands}}
+\index{show\-Commands@{show\-Commands}!Plugin@{\-Plugin}}
+\subsubsection[{show\-Commands}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Mixer\-Curve\-Widget\-::show\-Commands} (
+\begin{DoxyParamCaption}
+\item[{bool}]{show}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_object_widget_utils_ga29668291c080a26aa2631f3216755094}
+
+
+\-Definition at line 617 of file mixercurvewidget.\-cpp.
+
+\hypertarget{group___u_a_v_object_widget_utils_gadd0a4729bbf94f44e38a0bcacb353583}{\index{\-Plugin@{\-Plugin}!show\-Event@{show\-Event}}
+\index{show\-Event@{show\-Event}!Plugin@{\-Plugin}}
+\subsubsection[{show\-Event}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Mixer\-Curve\-Widget\-::show\-Event} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Show\-Event $\ast$}]{event}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{group___u_a_v_object_widget_utils_gadd0a4729bbf94f44e38a0bcacb353583}
+
+
+\-Definition at line 463 of file mixercurvewidget.\-cpp.
+
+\hypertarget{group___u_a_v_object_widget_utils_ga672bbb620f7be71610e6adc36d5ca0b9}{\index{\-Plugin@{\-Plugin}!shutdown@{shutdown}}
+\index{shutdown@{shutdown}!Plugin@{\-Plugin}}
+\subsubsection[{shutdown}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-U\-A\-V\-Object\-Widget\-Utils\-Plugin\-::shutdown} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___u_a_v_object_widget_utils_ga672bbb620f7be71610e6adc36d5ca0b9}
+\-Called during a shutdown sequence in the same order as initialization before the plugins get deleted in reverse order. \-This method can be used to optimize the shutdown down, e.\-g. to disconnect from the \-Plugin\-Manager\-::about\-To\-Remove\-Object() signal if getting the signal (and probably doing lots of stuff to update the internal and visible state) doesn't make sense during shutdown. 
+
+\-Reimplemented from \hyperlink{class_extension_system_1_1_i_plugin_a65c16ebd3a6e89918a99af6515fe68cb}{\-Extension\-System\-::\-I\-Plugin}.
+
+
+
+\-Definition at line 51 of file uavobjectwidgetutilsplugin.\-cpp.
+
+\hypertarget{group___u_a_v_object_widget_utils_gaea82e458c940bce5635289974c09f02f}{\index{\-Plugin@{\-Plugin}!smart\-Save\-Button@{smart\-Save\-Button}}
+\index{smart\-Save\-Button@{smart\-Save\-Button}!Plugin@{\-Plugin}}
+\subsubsection[{smart\-Save\-Button}]{\setlength{\rightskip}{0pt plus 5cm}{\bf smart\-Save\-Button\-::smart\-Save\-Button} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_object_widget_utils_gaea82e458c940bce5635289974c09f02f}
+
+
+\-Definition at line 30 of file smartsavebutton.\-cpp.
+
+\hypertarget{group___u_a_v_object_widget_utils_ga9d06da5f40991dc21459764c5e3783b1}{\index{\-Plugin@{\-Plugin}!source\-Node@{source\-Node}}
+\index{source\-Node@{source\-Node}!Plugin@{\-Plugin}}
+\subsubsection[{source\-Node}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Mixer\-Node} $\ast$ {\bf \-Edge\-::source\-Node} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{group___u_a_v_object_widget_utils_ga9d06da5f40991dc21459764c5e3783b1}
+
+
+\-Definition at line 52 of file mixercurveline.\-cpp.
+
+\hypertarget{group___u_a_v_object_widget_utils_gab4486e1ba0c3c072c94654c3af32b0c6}{\index{\-Plugin@{\-Plugin}!type@{type}}
+\index{type@{type}!Plugin@{\-Plugin}}
+\subsubsection[{type}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf \-Mixer\-Node\-::type} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___u_a_v_object_widget_utils_gab4486e1ba0c3c072c94654c3af32b0c6}
+
+
+\-Definition at line 52 of file mixercurvepoint.\-h.
+
+\hypertarget{group___u_a_v_object_widget_utils_ga8ad60980ad4024691e462442f64eb7d2}{\index{\-Plugin@{\-Plugin}!type@{type}}
+\index{type@{type}!Plugin@{\-Plugin}}
+\subsubsection[{type}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf \-Edge\-::type} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___u_a_v_object_widget_utils_ga8ad60980ad4024691e462442f64eb7d2}
+
+
+\-Definition at line 56 of file mixercurveline.\-h.
+
+\hypertarget{group___u_a_v_object_widget_utils_ga71c193fdd4f73fd349dbb72db72a1d05}{\index{\-Plugin@{\-Plugin}!\-U\-A\-V\-Object\-Widget\-Utils\-Plugin@{\-U\-A\-V\-Object\-Widget\-Utils\-Plugin}}
+\index{\-U\-A\-V\-Object\-Widget\-Utils\-Plugin@{\-U\-A\-V\-Object\-Widget\-Utils\-Plugin}!Plugin@{\-Plugin}}
+\subsubsection[{\-U\-A\-V\-Object\-Widget\-Utils\-Plugin}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-U\-A\-V\-Object\-Widget\-Utils\-Plugin\-::\-U\-A\-V\-Object\-Widget\-Utils\-Plugin} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_object_widget_utils_ga71c193fdd4f73fd349dbb72db72a1d05}
+
+
+\-Definition at line 31 of file uavobjectwidgetutilsplugin.\-cpp.
+
+\hypertarget{group___u_a_v_object_widget_utils_ga74c57bb80930c775e055d2759acb92fe}{\index{\-Plugin@{\-Plugin}!value@{value}}
+\index{value@{value}!Plugin@{\-Plugin}}
+\subsubsection[{value}]{\setlength{\rightskip}{0pt plus 5cm}double {\bf \-Mixer\-Node\-::value} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_object_widget_utils_ga74c57bb80930c775e055d2759acb92fe}
+
+
+\-Definition at line 142 of file mixercurvepoint.\-cpp.
+
+\hypertarget{group___u_a_v_object_widget_utils_ga611004aca7ff8a9568500f208f9e4dd8}{\index{\-Plugin@{\-Plugin}!vertical\-Move@{vertical\-Move}}
+\index{vertical\-Move@{vertical\-Move}!Plugin@{\-Plugin}}
+\subsubsection[{vertical\-Move}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Mixer\-Node\-::vertical\-Move} (
+\begin{DoxyParamCaption}
+\item[{bool}]{flag}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_object_widget_utils_ga611004aca7ff8a9568500f208f9e4dd8}
+
+
+\-Definition at line 131 of file mixercurvepoint.\-cpp.
+
+\hypertarget{group___u_a_v_object_widget_utils_ga40fc17c487f66c2cbcd9aa678c6f20dd}{\index{\-Plugin@{\-Plugin}!$\sim$\-Config\-Task\-Widget@{$\sim$\-Config\-Task\-Widget}}
+\index{$\sim$\-Config\-Task\-Widget@{$\sim$\-Config\-Task\-Widget}!Plugin@{\-Plugin}}
+\subsubsection[{$\sim$\-Config\-Task\-Widget}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Config\-Task\-Widget\-::$\sim$\-Config\-Task\-Widget} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___u_a_v_object_widget_utils_ga40fc17c487f66c2cbcd9aa678c6f20dd}
+destructor 
+
+\-Definition at line 223 of file configtaskwidget.\-cpp.
+
+\hypertarget{group___u_a_v_object_widget_utils_ga2f37b72f044427961d6730943daf10e0}{\index{\-Plugin@{\-Plugin}!$\sim$\-Edge@{$\sim$\-Edge}}
+\index{$\sim$\-Edge@{$\sim$\-Edge}!Plugin@{\-Plugin}}
+\subsubsection[{$\sim$\-Edge}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Edge\-::$\sim$\-Edge} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_object_widget_utils_ga2f37b72f044427961d6730943daf10e0}
+
+
+\-Definition at line 48 of file mixercurveline.\-cpp.
+
+\hypertarget{group___u_a_v_object_widget_utils_ga95ab335915408821a081b9be9b837866}{\index{\-Plugin@{\-Plugin}!$\sim$\-Mixer\-Curve\-Widget@{$\sim$\-Mixer\-Curve\-Widget}}
+\index{$\sim$\-Mixer\-Curve\-Widget@{$\sim$\-Mixer\-Curve\-Widget}!Plugin@{\-Plugin}}
+\subsubsection[{$\sim$\-Mixer\-Curve\-Widget}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Mixer\-Curve\-Widget\-::$\sim$\-Mixer\-Curve\-Widget} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_object_widget_utils_ga95ab335915408821a081b9be9b837866}
+
+
+\-Definition at line 264 of file mixercurvewidget.\-cpp.
+
+\hypertarget{group___u_a_v_object_widget_utils_ga2c7561526e629a5fcaa9bf2def2a4b8c}{\index{\-Plugin@{\-Plugin}!$\sim$\-U\-A\-V\-Object\-Widget\-Utils\-Plugin@{$\sim$\-U\-A\-V\-Object\-Widget\-Utils\-Plugin}}
+\index{$\sim$\-U\-A\-V\-Object\-Widget\-Utils\-Plugin@{$\sim$\-U\-A\-V\-Object\-Widget\-Utils\-Plugin}!Plugin@{\-Plugin}}
+\subsubsection[{$\sim$\-U\-A\-V\-Object\-Widget\-Utils\-Plugin}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-U\-A\-V\-Object\-Widget\-Utils\-Plugin\-::$\sim$\-U\-A\-V\-Object\-Widget\-Utils\-Plugin} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_object_widget_utils_ga2c7561526e629a5fcaa9bf2def2a4b8c}
+
+
+\-Definition at line 35 of file uavobjectwidgetutilsplugin.\-cpp.
+
+
+
+\subsection{\-Variable \-Documentation}
+\hypertarget{group___u_a_v_object_widget_utils_ga915cb6bdf9aff1b607f8917b6f665fbd}{\index{\-Plugin@{\-Plugin}!button\-Group@{button\-Group}}
+\index{button\-Group@{button\-Group}!Plugin@{\-Plugin}}
+\subsubsection[{button\-Group}]{\setlength{\rightskip}{0pt plus 5cm}\-Q\-List$<$int$>$ {\bf \-Config\-Task\-Widget\-::ui\-Relation\-Automation\-::button\-Group}}}\label{group___u_a_v_object_widget_utils_ga915cb6bdf9aff1b607f8917b6f665fbd}
+
+
+\-Definition at line 97 of file configtaskwidget.\-h.
+
+\hypertarget{group___u_a_v_object_widget_utils_gac8fcf738efe2855fbf1c7a810a20cffd}{\index{\-Plugin@{\-Plugin}!button\-Type@{button\-Type}}
+\index{button\-Type@{button\-Type}!Plugin@{\-Plugin}}
+\subsubsection[{button\-Type}]{\setlength{\rightskip}{0pt plus 5cm}button\-Type\-Enum {\bf \-Config\-Task\-Widget\-::ui\-Relation\-Automation\-::button\-Type}}}\label{group___u_a_v_object_widget_utils_gac8fcf738efe2855fbf1c7a810a20cffd}
+
+
+\-Definition at line 96 of file configtaskwidget.\-h.
+
+\hypertarget{group___u_a_v_object_widget_utils_gabe7df1fc4c590dc11cc6f80698fc125c}{\index{\-Plugin@{\-Plugin}!element@{element}}
+\index{element@{element}!Plugin@{\-Plugin}}
+\subsubsection[{element}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Q\-String} {\bf \-Config\-Task\-Widget\-::ui\-Relation\-Automation\-::element}}}\label{group___u_a_v_object_widget_utils_gabe7df1fc4c590dc11cc6f80698fc125c}
+
+
+\-Definition at line 92 of file configtaskwidget.\-h.
+
+\hypertarget{group___u_a_v_object_widget_utils_ga36fdb22e759e0beae23ae99b03becb68}{\index{\-Plugin@{\-Plugin}!field@{field}}
+\index{field@{field}!Plugin@{\-Plugin}}
+\subsubsection[{field}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-U\-A\-V\-Object\-Field}$\ast$ {\bf \-Config\-Task\-Widget\-::object\-To\-Widget\-::field}}}\label{group___u_a_v_object_widget_utils_ga36fdb22e759e0beae23ae99b03becb68}
+
+
+\-Definition at line 67 of file configtaskwidget.\-h.
+
+\hypertarget{group___u_a_v_object_widget_utils_ga727a26d7cef842f8e7cd274117a1153d}{\index{\-Plugin@{\-Plugin}!fieldname@{fieldname}}
+\index{fieldname@{fieldname}!Plugin@{\-Plugin}}
+\subsubsection[{fieldname}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Q\-String} {\bf \-Config\-Task\-Widget\-::ui\-Relation\-Automation\-::fieldname}}}\label{group___u_a_v_object_widget_utils_ga727a26d7cef842f8e7cd274117a1153d}
+
+
+\-Definition at line 91 of file configtaskwidget.\-h.
+
+\hypertarget{group___u_a_v_object_widget_utils_ga73f9beb614502506b14c6b5d235b9d44}{\index{\-Plugin@{\-Plugin}!haslimits@{haslimits}}
+\index{haslimits@{haslimits}!Plugin@{\-Plugin}}
+\subsubsection[{haslimits}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-Config\-Task\-Widget\-::ui\-Relation\-Automation\-::haslimits}}}\label{group___u_a_v_object_widget_utils_ga73f9beb614502506b14c6b5d235b9d44}
+
+
+\-Definition at line 95 of file configtaskwidget.\-h.
+
+\hypertarget{group___u_a_v_object_widget_utils_ga32127d63078e835a69c50d20ea1a678b}{\index{\-Plugin@{\-Plugin}!index@{index}}
+\index{index@{index}!Plugin@{\-Plugin}}
+\subsubsection[{index}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf \-Config\-Task\-Widget\-::object\-To\-Widget\-::index}}}\label{group___u_a_v_object_widget_utils_ga32127d63078e835a69c50d20ea1a678b}
+
+
+\-Definition at line 69 of file configtaskwidget.\-h.
+
+\hypertarget{group___u_a_v_object_widget_utils_ga712acd84a5850623406835776b1840b4}{\index{\-Plugin@{\-Plugin}!is\-Limited@{is\-Limited}}
+\index{is\-Limited@{is\-Limited}!Plugin@{\-Plugin}}
+\subsubsection[{is\-Limited}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-Config\-Task\-Widget\-::shadow\-::is\-Limited}}}\label{group___u_a_v_object_widget_utils_ga712acd84a5850623406835776b1840b4}
+
+
+\-Definition at line 62 of file configtaskwidget.\-h.
+
+\hypertarget{group___u_a_v_object_widget_utils_ga22163ec4275b9b06770d4caead750ee4}{\index{\-Plugin@{\-Plugin}!is\-Limited@{is\-Limited}}
+\index{is\-Limited@{is\-Limited}!Plugin@{\-Plugin}}
+\subsubsection[{is\-Limited}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-Config\-Task\-Widget\-::object\-To\-Widget\-::is\-Limited}}}\label{group___u_a_v_object_widget_utils_ga22163ec4275b9b06770d4caead750ee4}
+
+
+\-Definition at line 71 of file configtaskwidget.\-h.
+
+\hypertarget{group___u_a_v_object_widget_utils_ga359d5a2efb6966cba1d78bbdb2e7759d}{\index{\-Plugin@{\-Plugin}!\-N\-O\-D\-E\-\_\-\-N\-U\-M\-E\-L\-E\-M@{\-N\-O\-D\-E\-\_\-\-N\-U\-M\-E\-L\-E\-M}}
+\index{\-N\-O\-D\-E\-\_\-\-N\-U\-M\-E\-L\-E\-M@{\-N\-O\-D\-E\-\_\-\-N\-U\-M\-E\-L\-E\-M}!Plugin@{\-Plugin}}
+\subsubsection[{\-N\-O\-D\-E\-\_\-\-N\-U\-M\-E\-L\-E\-M}]{\setlength{\rightskip}{0pt plus 5cm}const int {\bf \-Mixer\-Curve\-Widget\-::\-N\-O\-D\-E\-\_\-\-N\-U\-M\-E\-L\-E\-M} = 5\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}\label{group___u_a_v_object_widget_utils_ga359d5a2efb6966cba1d78bbdb2e7759d}
+
+
+\-Definition at line 71 of file mixercurvewidget.\-h.
+
+\hypertarget{group___u_a_v_object_widget_utils_ga0a7a2adb310cdc6b0301dfad762a4f30}{\index{\-Plugin@{\-Plugin}!object@{object}}
+\index{object@{object}!Plugin@{\-Plugin}}
+\subsubsection[{object}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-U\-A\-V\-Object}$\ast$ {\bf \-Config\-Task\-Widget\-::object\-To\-Widget\-::object}}}\label{group___u_a_v_object_widget_utils_ga0a7a2adb310cdc6b0301dfad762a4f30}
+
+
+\-Definition at line 66 of file configtaskwidget.\-h.
+
+\hypertarget{group___u_a_v_object_widget_utils_ga4c750b1bce138cf6e002f73fca580c4d}{\index{\-Plugin@{\-Plugin}!objid@{objid}}
+\index{objid@{objid}!Plugin@{\-Plugin}}
+\subsubsection[{objid}]{\setlength{\rightskip}{0pt plus 5cm}quint32 {\bf \-Config\-Task\-Widget\-::temphelper\-::objid}}}\label{group___u_a_v_object_widget_utils_ga4c750b1bce138cf6e002f73fca580c4d}
+
+
+\-Definition at line 77 of file configtaskwidget.\-h.
+
+\hypertarget{group___u_a_v_object_widget_utils_ga80a5419befd7432330b2ffb95368f4ed}{\index{\-Plugin@{\-Plugin}!objinstid@{objinstid}}
+\index{objinstid@{objinstid}!Plugin@{\-Plugin}}
+\subsubsection[{objinstid}]{\setlength{\rightskip}{0pt plus 5cm}quint32 {\bf \-Config\-Task\-Widget\-::temphelper\-::objinstid}}}\label{group___u_a_v_object_widget_utils_ga80a5419befd7432330b2ffb95368f4ed}
+
+
+\-Definition at line 78 of file configtaskwidget.\-h.
+
+\hypertarget{group___u_a_v_object_widget_utils_ga3a6899c9cfb56d74f0bf98300a156bc7}{\index{\-Plugin@{\-Plugin}!objname@{objname}}
+\index{objname@{objname}!Plugin@{\-Plugin}}
+\subsubsection[{objname}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Q\-String} {\bf \-Config\-Task\-Widget\-::ui\-Relation\-Automation\-::objname}}}\label{group___u_a_v_object_widget_utils_ga3a6899c9cfb56d74f0bf98300a156bc7}
+
+
+\-Definition at line 90 of file configtaskwidget.\-h.
+
+\hypertarget{group___u_a_v_object_widget_utils_ga06ad87fdaa5af70d7239dda785c76f76}{\index{\-Plugin@{\-Plugin}!scale@{scale}}
+\index{scale@{scale}!Plugin@{\-Plugin}}
+\subsubsection[{scale}]{\setlength{\rightskip}{0pt plus 5cm}double {\bf \-Config\-Task\-Widget\-::shadow\-::scale}}}\label{group___u_a_v_object_widget_utils_ga06ad87fdaa5af70d7239dda785c76f76}
+
+
+\-Definition at line 61 of file configtaskwidget.\-h.
+
+\hypertarget{group___u_a_v_object_widget_utils_ga7981e8bb575a90d2a1491fd792108efe}{\index{\-Plugin@{\-Plugin}!scale@{scale}}
+\index{scale@{scale}!Plugin@{\-Plugin}}
+\subsubsection[{scale}]{\setlength{\rightskip}{0pt plus 5cm}double {\bf \-Config\-Task\-Widget\-::object\-To\-Widget\-::scale}}}\label{group___u_a_v_object_widget_utils_ga7981e8bb575a90d2a1491fd792108efe}
+
+
+\-Definition at line 70 of file configtaskwidget.\-h.
+
+\hypertarget{group___u_a_v_object_widget_utils_gafddb00770c074c3ce12d1699813a4d30}{\index{\-Plugin@{\-Plugin}!scale@{scale}}
+\index{scale@{scale}!Plugin@{\-Plugin}}
+\subsubsection[{scale}]{\setlength{\rightskip}{0pt plus 5cm}double {\bf \-Config\-Task\-Widget\-::ui\-Relation\-Automation\-::scale}}}\label{group___u_a_v_object_widget_utils_gafddb00770c074c3ce12d1699813a4d30}
+
+
+\-Definition at line 94 of file configtaskwidget.\-h.
+
+\hypertarget{group___u_a_v_object_widget_utils_ga720684f6824db0612bacf1e3769c4ef3}{\index{\-Plugin@{\-Plugin}!shadows\-List@{shadows\-List}}
+\index{shadows\-List@{shadows\-List}!Plugin@{\-Plugin}}
+\subsubsection[{shadows\-List}]{\setlength{\rightskip}{0pt plus 5cm}\-Q\-List$<$shadow $\ast$$>$ {\bf \-Config\-Task\-Widget\-::object\-To\-Widget\-::shadows\-List}}}\label{group___u_a_v_object_widget_utils_ga720684f6824db0612bacf1e3769c4ef3}
+
+
+\-Definition at line 72 of file configtaskwidget.\-h.
+
+\hypertarget{group___u_a_v_object_widget_utils_ga14b83b3a1113a21d03ee1b3e8967b7e7}{\index{\-Plugin@{\-Plugin}!url@{url}}
+\index{url@{url}!Plugin@{\-Plugin}}
+\subsubsection[{url}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Q\-String} {\bf \-Config\-Task\-Widget\-::ui\-Relation\-Automation\-::url}}}\label{group___u_a_v_object_widget_utils_ga14b83b3a1113a21d03ee1b3e8967b7e7}
+
+
+\-Definition at line 93 of file configtaskwidget.\-h.
+
+\hypertarget{group___u_a_v_object_widget_utils_ga06fc48ad3875446139f13fbb5b85cdcf}{\index{\-Plugin@{\-Plugin}!widget@{widget}}
+\index{widget@{widget}!Plugin@{\-Plugin}}
+\subsubsection[{widget}]{\setlength{\rightskip}{0pt plus 5cm}\-Q\-Widget$\ast$ {\bf \-Config\-Task\-Widget\-::shadow\-::widget}}}\label{group___u_a_v_object_widget_utils_ga06fc48ad3875446139f13fbb5b85cdcf}
+
+
+\-Definition at line 60 of file configtaskwidget.\-h.
+
+\hypertarget{group___u_a_v_object_widget_utils_gac3c3016bdfda2c16ec8e356dd1a0882d}{\index{\-Plugin@{\-Plugin}!widget@{widget}}
+\index{widget@{widget}!Plugin@{\-Plugin}}
+\subsubsection[{widget}]{\setlength{\rightskip}{0pt plus 5cm}\-Q\-Widget$\ast$ {\bf \-Config\-Task\-Widget\-::object\-To\-Widget\-::widget}}}\label{group___u_a_v_object_widget_utils_gac3c3016bdfda2c16ec8e356dd1a0882d}
+
+
+\-Definition at line 68 of file configtaskwidget.\-h.
+
+
+
+\subsection{\-Signals}
+\hypertarget{group___u_a_v_object_widget_utils_ga6812138654a8b49e72c674cee7245781}{\index{\-Plugin@{\-Plugin}!auto\-Pilot\-Connected@{auto\-Pilot\-Connected}}
+\index{auto\-Pilot\-Connected@{auto\-Pilot\-Connected}!Plugin@{\-Plugin}}
+\subsubsection[{auto\-Pilot\-Connected}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Config\-Task\-Widget\-::auto\-Pilot\-Connected} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}signal\mbox{]}}}}\label{group___u_a_v_object_widget_utils_ga6812138654a8b49e72c674cee7245781}
+\hypertarget{group___u_a_v_object_widget_utils_gab874b1ad732a19472dc1a9d29f23d7ae}{\index{\-Plugin@{\-Plugin}!auto\-Pilot\-Disconnected@{auto\-Pilot\-Disconnected}}
+\index{auto\-Pilot\-Disconnected@{auto\-Pilot\-Disconnected}!Plugin@{\-Plugin}}
+\subsubsection[{auto\-Pilot\-Disconnected}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Config\-Task\-Widget\-::auto\-Pilot\-Disconnected} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}signal\mbox{]}}}}\label{group___u_a_v_object_widget_utils_gab874b1ad732a19472dc1a9d29f23d7ae}
+\hypertarget{group___u_a_v_object_widget_utils_ga84a531cfeea77f9e892321017dbcd705}{\index{\-Plugin@{\-Plugin}!begin\-Op@{begin\-Op}}
+\index{begin\-Op@{begin\-Op}!Plugin@{\-Plugin}}
+\subsubsection[{begin\-Op}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf smart\-Save\-Button\-::begin\-Op} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}signal\mbox{]}}}}\label{group___u_a_v_object_widget_utils_ga84a531cfeea77f9e892321017dbcd705}
+\hypertarget{group___u_a_v_object_widget_utils_ga967ede8f3f93e35d68361368d7ce8d49}{\index{\-Plugin@{\-Plugin}!command\-Activated@{command\-Activated}}
+\index{command\-Activated@{command\-Activated}!Plugin@{\-Plugin}}
+\subsubsection[{command\-Activated}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Mixer\-Curve\-Widget\-::command\-Activated} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Mixer\-Node} $\ast$}]{node}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}signal\mbox{]}}}}\label{group___u_a_v_object_widget_utils_ga967ede8f3f93e35d68361368d7ce8d49}
+\hypertarget{group___u_a_v_object_widget_utils_ga942a3a9bcc32e276d18b155ef73298f1}{\index{\-Plugin@{\-Plugin}!command\-Activated@{command\-Activated}}
+\index{command\-Activated@{command\-Activated}!Plugin@{\-Plugin}}
+\subsubsection[{command\-Activated}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Mixer\-Node\-::command\-Activated} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Q\-String}}]{text}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}signal\mbox{]}}}}\label{group___u_a_v_object_widget_utils_ga942a3a9bcc32e276d18b155ef73298f1}
+\hypertarget{group___u_a_v_object_widget_utils_gabf78aa6aaa393045db87deb6a481c3b1}{\index{\-Plugin@{\-Plugin}!curve\-Max\-Changed@{curve\-Max\-Changed}}
+\index{curve\-Max\-Changed@{curve\-Max\-Changed}!Plugin@{\-Plugin}}
+\subsubsection[{curve\-Max\-Changed}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Mixer\-Curve\-Widget\-::curve\-Max\-Changed} (
+\begin{DoxyParamCaption}
+\item[{double}]{value}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}signal\mbox{]}}}}\label{group___u_a_v_object_widget_utils_gabf78aa6aaa393045db87deb6a481c3b1}
+\hypertarget{group___u_a_v_object_widget_utils_gac254f263b61538dfab5f1f2a06a7bb12}{\index{\-Plugin@{\-Plugin}!curve\-Min\-Changed@{curve\-Min\-Changed}}
+\index{curve\-Min\-Changed@{curve\-Min\-Changed}!Plugin@{\-Plugin}}
+\subsubsection[{curve\-Min\-Changed}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Mixer\-Curve\-Widget\-::curve\-Min\-Changed} (
+\begin{DoxyParamCaption}
+\item[{double}]{value}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}signal\mbox{]}}}}\label{group___u_a_v_object_widget_utils_gac254f263b61538dfab5f1f2a06a7bb12}
+\hypertarget{group___u_a_v_object_widget_utils_ga90255ec9acd8db01306ae5f9af229f39}{\index{\-Plugin@{\-Plugin}!curve\-Updated@{curve\-Updated}}
+\index{curve\-Updated@{curve\-Updated}!Plugin@{\-Plugin}}
+\subsubsection[{curve\-Updated}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Mixer\-Curve\-Widget\-::curve\-Updated} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}signal\mbox{]}}}}\label{group___u_a_v_object_widget_utils_ga90255ec9acd8db01306ae5f9af229f39}
+\hypertarget{group___u_a_v_object_widget_utils_ga42fb0be146f76a7ce2ef34e655a3015a}{\index{\-Plugin@{\-Plugin}!default\-Requested@{default\-Requested}}
+\index{default\-Requested@{default\-Requested}!Plugin@{\-Plugin}}
+\subsubsection[{default\-Requested}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Config\-Task\-Widget\-::default\-Requested} (
+\begin{DoxyParamCaption}
+\item[{int}]{group}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}signal\mbox{]}}}}\label{group___u_a_v_object_widget_utils_ga42fb0be146f76a7ce2ef34e655a3015a}
+\hypertarget{group___u_a_v_object_widget_utils_ga2e135b9ad9a743cd1b8b358069ffaf3e}{\index{\-Plugin@{\-Plugin}!end\-Op@{end\-Op}}
+\index{end\-Op@{end\-Op}!Plugin@{\-Plugin}}
+\subsubsection[{end\-Op}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf smart\-Save\-Button\-::end\-Op} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}signal\mbox{]}}}}\label{group___u_a_v_object_widget_utils_ga2e135b9ad9a743cd1b8b358069ffaf3e}
+\hypertarget{group___u_a_v_object_widget_utils_gacc1be196d23d5e483f68a990d8ebfae6}{\index{\-Plugin@{\-Plugin}!populate\-Widgets\-Requested@{populate\-Widgets\-Requested}}
+\index{populate\-Widgets\-Requested@{populate\-Widgets\-Requested}!Plugin@{\-Plugin}}
+\subsubsection[{populate\-Widgets\-Requested}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Config\-Task\-Widget\-::populate\-Widgets\-Requested} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}signal\mbox{]}}}}\label{group___u_a_v_object_widget_utils_gacc1be196d23d5e483f68a990d8ebfae6}
+\hypertarget{group___u_a_v_object_widget_utils_ga986b48d4e0086adbba03b2da6178524b}{\index{\-Plugin@{\-Plugin}!pre\-Process\-Operations@{pre\-Process\-Operations}}
+\index{pre\-Process\-Operations@{pre\-Process\-Operations}!Plugin@{\-Plugin}}
+\subsubsection[{pre\-Process\-Operations}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf smart\-Save\-Button\-::pre\-Process\-Operations} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}signal\mbox{]}}}}\label{group___u_a_v_object_widget_utils_ga986b48d4e0086adbba03b2da6178524b}
+\hypertarget{group___u_a_v_object_widget_utils_ga6d4f37af17f3990fd37e9eddbb8f3802}{\index{\-Plugin@{\-Plugin}!refresh\-Widgets\-Values\-Requested@{refresh\-Widgets\-Values\-Requested}}
+\index{refresh\-Widgets\-Values\-Requested@{refresh\-Widgets\-Values\-Requested}!Plugin@{\-Plugin}}
+\subsubsection[{refresh\-Widgets\-Values\-Requested}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Config\-Task\-Widget\-::refresh\-Widgets\-Values\-Requested} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}signal\mbox{]}}}}\label{group___u_a_v_object_widget_utils_ga6d4f37af17f3990fd37e9eddbb8f3802}
+\hypertarget{group___u_a_v_object_widget_utils_gafe5d25f2387fdd74204dec872a062f3e}{\index{\-Plugin@{\-Plugin}!save\-Successfull@{save\-Successfull}}
+\index{save\-Successfull@{save\-Successfull}!Plugin@{\-Plugin}}
+\subsubsection[{save\-Successfull}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf smart\-Save\-Button\-::save\-Successfull} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}signal\mbox{]}}}}\label{group___u_a_v_object_widget_utils_gafe5d25f2387fdd74204dec872a062f3e}
+\hypertarget{group___u_a_v_object_widget_utils_gae43eee3bcf829dcfc91b17c25bc5db95}{\index{\-Plugin@{\-Plugin}!update\-Objects\-From\-Widgets\-Requested@{update\-Objects\-From\-Widgets\-Requested}}
+\index{update\-Objects\-From\-Widgets\-Requested@{update\-Objects\-From\-Widgets\-Requested}!Plugin@{\-Plugin}}
+\subsubsection[{update\-Objects\-From\-Widgets\-Requested}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Config\-Task\-Widget\-::update\-Objects\-From\-Widgets\-Requested} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}signal\mbox{]}}}}\label{group___u_a_v_object_widget_utils_gae43eee3bcf829dcfc91b17c25bc5db95}
+\hypertarget{group___u_a_v_object_widget_utils_gaee198ff7978d5358a93395eb215fa767}{\index{\-Plugin@{\-Plugin}!widget\-Contents\-Changed@{widget\-Contents\-Changed}}
+\index{widget\-Contents\-Changed@{widget\-Contents\-Changed}!Plugin@{\-Plugin}}
+\subsubsection[{widget\-Contents\-Changed}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Config\-Task\-Widget\-::widget\-Contents\-Changed} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Widget $\ast$}]{widget}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}signal\mbox{]}}}}\label{group___u_a_v_object_widget_utils_gaee198ff7978d5358a93395eb215fa767}
+
+
+\subsection{\-Public \-Slots}
+\hypertarget{group___u_a_v_object_widget_utils_ga453b1bbd8b56fa6af4f362b00221b265}{\index{\-Plugin@{\-Plugin}!apply@{apply}}
+\index{apply@{apply}!Plugin@{\-Plugin}}
+\subsubsection[{apply}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf smart\-Save\-Button\-::apply} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}slot\mbox{]}}}}\label{group___u_a_v_object_widget_utils_ga453b1bbd8b56fa6af4f362b00221b265}
+
+
+\-Definition at line 214 of file smartsavebutton.\-cpp.
+
+\hypertarget{group___u_a_v_object_widget_utils_ga139dc5f372c46b8ad1614d637e762018}{\index{\-Plugin@{\-Plugin}!apply@{apply}}
+\index{apply@{apply}!Plugin@{\-Plugin}}
+\subsubsection[{apply}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Config\-Task\-Widget\-::apply} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}slot\mbox{]}}}}\label{group___u_a_v_object_widget_utils_ga139dc5f372c46b8ad1614d637e762018}
+\-S\-L\-O\-T call this to apply changes to uav objects 
+
+\-Definition at line 636 of file configtaskwidget.\-cpp.
+
+\hypertarget{group___u_a_v_object_widget_utils_ga56d88dfdb1b735dbaf2c957e32fca452}{\index{\-Plugin@{\-Plugin}!enable\-Controls@{enable\-Controls}}
+\index{enable\-Controls@{enable\-Controls}!Plugin@{\-Plugin}}
+\subsubsection[{enable\-Controls}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf smart\-Save\-Button\-::enable\-Controls} (
+\begin{DoxyParamCaption}
+\item[{bool}]{value}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}slot\mbox{]}}}}\label{group___u_a_v_object_widget_utils_ga56d88dfdb1b735dbaf2c957e32fca452}
+
+
+\-Definition at line 202 of file smartsavebutton.\-cpp.
+
+\hypertarget{group___u_a_v_object_widget_utils_ga1505f6e22cf2e4167b03fca9417f91a5}{\index{\-Plugin@{\-Plugin}!invalidate\-Objects@{invalidate\-Objects}}
+\index{invalidate\-Objects@{invalidate\-Objects}!Plugin@{\-Plugin}}
+\subsubsection[{invalidate\-Objects}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Config\-Task\-Widget\-::invalidate\-Objects} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}slot\mbox{]}}}}\label{group___u_a_v_object_widget_utils_ga1505f6e22cf2e4167b03fca9417f91a5}
+\-Invalidates all the uav objects \char`\"{}is updated\char`\"{} flag 
+
+\-Definition at line 626 of file configtaskwidget.\-cpp.
+
+\hypertarget{group___u_a_v_object_widget_utils_gaf5b2ddc9de02820e89c8133f5625607d}{\index{\-Plugin@{\-Plugin}!on\-Autopilot\-Connect@{on\-Autopilot\-Connect}}
+\index{on\-Autopilot\-Connect@{on\-Autopilot\-Connect}!Plugin@{\-Plugin}}
+\subsubsection[{on\-Autopilot\-Connect}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Config\-Task\-Widget\-::on\-Autopilot\-Connect} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}slot\mbox{]}}}}\label{group___u_a_v_object_widget_utils_gaf5b2ddc9de02820e89c8133f5625607d}
+
+
+\-Definition at line 330 of file configtaskwidget.\-cpp.
+
+\hypertarget{group___u_a_v_object_widget_utils_ga306b82fa3b114ce5c336dfda60ae479d}{\index{\-Plugin@{\-Plugin}!on\-Autopilot\-Disconnect@{on\-Autopilot\-Disconnect}}
+\index{on\-Autopilot\-Disconnect@{on\-Autopilot\-Disconnect}!Plugin@{\-Plugin}}
+\subsubsection[{on\-Autopilot\-Disconnect}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Config\-Task\-Widget\-::on\-Autopilot\-Disconnect} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}slot\mbox{]}}}}\label{group___u_a_v_object_widget_utils_ga306b82fa3b114ce5c336dfda60ae479d}
+
+
+\-Definition at line 316 of file configtaskwidget.\-cpp.
+
+\hypertarget{group___u_a_v_object_widget_utils_gad0e6541ace97075634254ba3b1cc9bf9}{\index{\-Plugin@{\-Plugin}!save@{save}}
+\index{save@{save}!Plugin@{\-Plugin}}
+\subsubsection[{save}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf smart\-Save\-Button\-::save} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}slot\mbox{]}}}}\label{group___u_a_v_object_widget_utils_gad0e6541ace97075634254ba3b1cc9bf9}
+
+
+\-Definition at line 219 of file smartsavebutton.\-cpp.
+
+\hypertarget{group___u_a_v_object_widget_utils_gabae71bcf9c71f99595c365fd49b342fc}{\index{\-Plugin@{\-Plugin}!save@{save}}
+\index{save@{save}!Plugin@{\-Plugin}}
+\subsubsection[{save}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Config\-Task\-Widget\-::save} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}slot\mbox{]}}}}\label{group___u_a_v_object_widget_utils_gabae71bcf9c71f99595c365fd49b342fc}
+\-S\-L\-O\-T call this to save changes to uav objects 
+
+\-Definition at line 644 of file configtaskwidget.\-cpp.
+
+
+
+\subsection{\-Protected \-Slots}
+\hypertarget{group___u_a_v_object_widget_utils_gae4dd854e5d93e1b268ffc473a7392493}{\index{\-Plugin@{\-Plugin}!clear\-Dirty@{clear\-Dirty}}
+\index{clear\-Dirty@{clear\-Dirty}!Plugin@{\-Plugin}}
+\subsubsection[{clear\-Dirty}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Config\-Task\-Widget\-::clear\-Dirty} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}protected, virtual, slot\mbox{]}}}}\label{group___u_a_v_object_widget_utils_gae4dd854e5d93e1b268ffc473a7392493}
+\-S\-L\-O\-T function used clear the forms dirty status flag 
+
+\-Definition at line 539 of file configtaskwidget.\-cpp.
+
+\hypertarget{group___u_a_v_object_widget_utils_ga32ef249bc6ebe47b9fe60812e09476da}{\index{\-Plugin@{\-Plugin}!disable\-Obj\-Updates@{disable\-Obj\-Updates}}
+\index{disable\-Obj\-Updates@{disable\-Obj\-Updates}!Plugin@{\-Plugin}}
+\subsubsection[{disable\-Obj\-Updates}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Config\-Task\-Widget\-::disable\-Obj\-Updates} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}protected, virtual, slot\mbox{]}}}}\label{group___u_a_v_object_widget_utils_ga32ef249bc6ebe47b9fe60812e09476da}
+\-S\-L\-O\-T function used to disable widget contents changes when related object field changes 
+
+\-Definition at line 571 of file configtaskwidget.\-cpp.
+
+\hypertarget{group___u_a_v_object_widget_utils_gafff7f205068866010a484ee95730b65b}{\index{\-Plugin@{\-Plugin}!enable\-Obj\-Updates@{enable\-Obj\-Updates}}
+\index{enable\-Obj\-Updates@{enable\-Obj\-Updates}!Plugin@{\-Plugin}}
+\subsubsection[{enable\-Obj\-Updates}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Config\-Task\-Widget\-::enable\-Obj\-Updates} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}protected, virtual, slot\mbox{]}}}}\label{group___u_a_v_object_widget_utils_gafff7f205068866010a484ee95730b65b}
+\-S\-L\-O\-T function used to enable widget contents changes when related object field changes 
+
+\-Definition at line 582 of file configtaskwidget.\-cpp.
+
+\hypertarget{group___u_a_v_object_widget_utils_ga63ae96f50a8ed78f60d382dede4676d7}{\index{\-Plugin@{\-Plugin}!help\-Button\-Pressed@{help\-Button\-Pressed}}
+\index{help\-Button\-Pressed@{help\-Button\-Pressed}!Plugin@{\-Plugin}}
+\subsubsection[{help\-Button\-Pressed}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Config\-Task\-Widget\-::help\-Button\-Pressed} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}protected, virtual, slot\mbox{]}}}}\label{group___u_a_v_object_widget_utils_ga63ae96f50a8ed78f60d382dede4676d7}
+\-S\-L\-O\-T function used handle help button presses \-Overwrite this if you need to change the default behavior 
+
+\-Definition at line 414 of file configtaskwidget.\-cpp.
+
+\hypertarget{group___u_a_v_object_widget_utils_gaa3d55f7941db619b9872b0ffdc78ebde}{\index{\-Plugin@{\-Plugin}!populate\-Widgets@{populate\-Widgets}}
+\index{populate\-Widgets@{populate\-Widgets}!Plugin@{\-Plugin}}
+\subsubsection[{populate\-Widgets}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Config\-Task\-Widget\-::populate\-Widgets} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}protected, virtual, slot\mbox{]}}}}\label{group___u_a_v_object_widget_utils_gaa3d55f7941db619b9872b0ffdc78ebde}
+\-S\-L\-O\-T \-Function used to populate the widgets with the initial values \-Overwrite this if you need to change the default behavior 
+
+\-Definition at line 348 of file configtaskwidget.\-cpp.
+
+\hypertarget{group___u_a_v_object_widget_utils_ga7682451eb1e003d337c679fc8a36c6e1}{\index{\-Plugin@{\-Plugin}!refresh\-Widgets\-Values@{refresh\-Widgets\-Values}}
+\index{refresh\-Widgets\-Values@{refresh\-Widgets\-Values}!Plugin@{\-Plugin}}
+\subsubsection[{refresh\-Widgets\-Values}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Config\-Task\-Widget\-::refresh\-Widgets\-Values} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-U\-A\-V\-Object} $\ast$}]{obj = {\ttfamily \-N\-U\-L\-L}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}protected, virtual, slot\mbox{]}}}}\label{group___u_a_v_object_widget_utils_ga7682451eb1e003d337c679fc8a36c6e1}
+\-S\-L\-O\-T function used to refresh the widgets contents of the widgets with relation to object field added to the framework pool \-Overwrite this if you need to change the default behavior 
+
+\-Reimplemented in \hyperlink{group___config_plugin_ga7a345485561483fc0d3252acc34f65cd}{\-Config\-Autotune\-Widget}.
+
+
+
+\-Definition at line 368 of file configtaskwidget.\-cpp.
+
+\hypertarget{group___u_a_v_object_widget_utils_ga4e59f88c43451ae4282077f9a9214cea}{\index{\-Plugin@{\-Plugin}!update\-Objects\-From\-Widgets@{update\-Objects\-From\-Widgets}}
+\index{update\-Objects\-From\-Widgets@{update\-Objects\-From\-Widgets}!Plugin@{\-Plugin}}
+\subsubsection[{update\-Objects\-From\-Widgets}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Config\-Task\-Widget\-::update\-Objects\-From\-Widgets} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}protected, virtual, slot\mbox{]}}}}\label{group___u_a_v_object_widget_utils_ga4e59f88c43451ae4282077f9a9214cea}
+\-S\-L\-O\-T function used to update the uavobject fields from widgets with relation to object field added to the framework pool \-Overwrite this if you need to change the default behavior 
+
+\-Reimplemented in \hyperlink{group___config_plugin_ga20c0a1a9487c7f461a6ea095fac93098}{\-Config\-Autotune\-Widget}.
+
+
+
+\-Definition at line 396 of file configtaskwidget.\-cpp.
+
+\hypertarget{group___u_a_v_object_widget_utils_ga6860b8b666afa5a3254fd84ab1f9119e}{\index{\-Plugin@{\-Plugin}!widgets\-Contents\-Changed@{widgets\-Contents\-Changed}}
+\index{widgets\-Contents\-Changed@{widgets\-Contents\-Changed}!Plugin@{\-Plugin}}
+\subsubsection[{widgets\-Contents\-Changed}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Config\-Task\-Widget\-::widgets\-Contents\-Changed} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}protected, virtual, slot\mbox{]}}}}\label{group___u_a_v_object_widget_utils_ga6860b8b666afa5a3254fd84ab1f9119e}
+\-S\-L\-O\-T function called when one of the widgets contents added to the framework changes 
+
+\-Definition at line 489 of file configtaskwidget.\-cpp.
+
+
+
+\subsection{\-Friends}
+\hypertarget{group___u_a_v_object_widget_utils_ga4dec7e6867bf4ed62c5309f7149f0dd0}{\index{\-Plugin@{\-Plugin}!\-Mixer\-Curve@{\-Mixer\-Curve}}
+\index{\-Mixer\-Curve@{\-Mixer\-Curve}!Plugin@{\-Plugin}}
+\subsubsection[{\-Mixer\-Curve}]{\setlength{\rightskip}{0pt plus 5cm}friend class {\bf \-Mixer\-Curve}\hspace{0.3cm}{\ttfamily  \mbox{[}friend\mbox{]}}}}\label{group___u_a_v_object_widget_utils_ga4dec7e6867bf4ed62c5309f7149f0dd0}
+
+
+\-Definition at line 49 of file mixercurvewidget.\-h.
+

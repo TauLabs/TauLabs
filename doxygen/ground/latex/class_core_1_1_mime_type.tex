@@ -1,0 +1,94 @@
+\hypertarget{class_core_1_1_mime_type}{\section{\-Core\-:\-:\-Mime\-Type \-Class \-Reference}
+\label{class_core_1_1_mime_type}\index{\-Core\-::\-Mime\-Type@{\-Core\-::\-Mime\-Type}}
+}
+
+
+{\ttfamily \#include $<$mimedatabase.\-h$>$}
+
+\subsection*{\-Public \-Types}
+\begin{DoxyCompactItemize}
+\item 
+enum \{ \hyperlink{group___core_plugin_gga2d2c50f71e237a98c6c88d7dff43a802a3b3eb7b9aa0a00542cc996191befdcd6}{\-Glob\-Match\-Priority} =  101
+ \}
+\end{DoxyCompactItemize}
+\subsection*{\-Public \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___core_plugin_ga4afb222f16010df4252caff7ca264214}{\-Mime\-Type} ()
+\item 
+\hyperlink{group___core_plugin_gaf3eef4f7d35c3f1cbf9b6531ad29f3f5}{\-Mime\-Type} (const \hyperlink{class_core_1_1_mime_type}{\-Mime\-Type} \&)
+\item 
+\hyperlink{class_core_1_1_mime_type}{\-Mime\-Type} \& \hyperlink{group___core_plugin_ga885539378c7538653aa56bc48b16ca48}{operator=} (const \hyperlink{class_core_1_1_mime_type}{\-Mime\-Type} \&)
+\item 
+\hyperlink{group___core_plugin_ga81931045febeb757dcd1fd43fb21d5fc}{$\sim$\-Mime\-Type} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___core_plugin_gae127b4f4a3fe982f3823c5227dd8d490}{clear} ()
+\item 
+bool \hyperlink{group___core_plugin_ga3b4f946e2b24082d83336ca0ceb7423c}{is\-Null} () const 
+\item 
+\hyperlink{group___core_plugin_gae84530ba498b22ef7518b0cfa5ac877a}{operator bool} () const 
+\item 
+bool \hyperlink{group___core_plugin_ga778820a570e278d33abbabe00e3c703d}{is\-Top\-Level} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___core_plugin_ga4dc87bc5d4687aaa46b634677bdafea5}{type} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___core_plugin_ga74d2daccd4e5b7bce1409083a6e0a5f4}{set\-Type} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \&\hyperlink{group___core_plugin_ga4dc87bc5d4687aaa46b634677bdafea5}{type})
+\item 
+\-Q\-String\-List \hyperlink{group___core_plugin_gaa725def81555bf9742aa4f1de240e033}{aliases} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___core_plugin_ga160b1e636202fba5adfd24ad3925b8e2}{set\-Aliases} (const \-Q\-String\-List \&)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___core_plugin_ga79389186e4424fcc76067de828c59672}{comment} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___core_plugin_gaeb4813225c69cf8b6d4519ff37f86bb3}{set\-Comment} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \&\hyperlink{group___core_plugin_ga79389186e4424fcc76067de828c59672}{comment})
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___core_plugin_gacec6ccfecf75f30c7cecc08ba360a567}{locale\-Comment} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \&locale=\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String}()) const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___core_plugin_ga6d1b6c3bf83a61abcca664ffbe0b7817}{set\-Locale\-Comment} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \&locale, const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \&\hyperlink{group___core_plugin_ga79389186e4424fcc76067de828c59672}{comment})
+\item 
+\-Q\-List$<$ \-Q\-Reg\-Exp $>$ \hyperlink{group___core_plugin_ga5003d7a7007c7a14897a64179875f2e6}{glob\-Patterns} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___core_plugin_ga7634b7f467d1dbe58df833d12d160733}{set\-Glob\-Patterns} (const \-Q\-List$<$ \-Q\-Reg\-Exp $>$ \&)
+\item 
+\-Q\-String\-List \hyperlink{group___core_plugin_ga5cc67af21852909a1753c6a8caabed43}{sub\-Classes\-Of} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___core_plugin_gab0ed6090ea2741206e77162c0b61345b}{set\-Sub\-Classes\-Of} (const \-Q\-String\-List \&)
+\item 
+\-Q\-String\-List \hyperlink{group___core_plugin_ga7adb5769df4eda33d940128aef849580}{suffixes} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___core_plugin_ga37606c8c750409e81f32e8f168c846dd}{set\-Suffixes} (const \-Q\-String\-List \&)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___core_plugin_ga8951b896132754af79a17a9875d48aba}{preferred\-Suffix} () const 
+\item 
+bool \hyperlink{group___core_plugin_ga6bbf75571b9386bdef65e32b532bdf17}{set\-Preferred\-Suffix} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \&)
+\item 
+bool \hyperlink{group___core_plugin_gae6e8bb4b51c90fdbc1ff3a06feb608dd}{matches\-Type} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \&\hyperlink{group___core_plugin_ga4dc87bc5d4687aaa46b634677bdafea5}{type}) const 
+\item 
+unsigned \hyperlink{group___core_plugin_gad2a83cd6a3497a5250760912c4cf765d}{matches\-File} (const \-Q\-File\-Info \&\hyperlink{uavobjecttemplate_8m_a97c04efa65bcf0928abf9260bc5cbf46}{file}) const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___core_plugin_gaf9cafbc06029145ed37653154dc98322}{filter\-String} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___core_plugin_ga520da2732b236a8aa18784ae485668bc}{add\-Magic\-Matcher} (const \-Q\-Shared\-Pointer$<$ \hyperlink{class_core_1_1_i_magic_matcher}{\-I\-Magic\-Matcher} $>$ \&matcher)
+\end{DoxyCompactItemize}
+\subsection*{\-Friends}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{group___core_plugin_gaede3caef30fcd32e46c58bcee0316978}{\-Internal\-::\-Base\-Mime\-Type\-Parser}
+\item 
+class \hyperlink{group___core_plugin_gaed8cc5f0fa519bf8b2eb85b880f76d7c}{\-Mime\-Database\-Private}
+\item 
+\-Q\-Debug \hyperlink{group___core_plugin_ga0642e8bd073fde915ffb78e5b2245d8e}{operator$<$$<$} (\-Q\-Debug d, const \hyperlink{class_core_1_1_mime_type}{\-Mime\-Type} \&mt)
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+
+
+\-Definition at line 118 of file mimedatabase.\-h.
+
+
+
+\-The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/plugins/coreplugin/\hyperlink{mimedatabase_8h}{mimedatabase.\-h}\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/plugins/coreplugin/\hyperlink{mimedatabase_8cpp}{mimedatabase.\-cpp}\end{DoxyCompactItemize}

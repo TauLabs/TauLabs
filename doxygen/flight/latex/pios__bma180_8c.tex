@@ -1,0 +1,42 @@
+\hypertarget{pios__bma180_8c}{\section{/home/jb/code/\-Tau\-Labs/flight/\-Pi\-O\-S/\-Common/pios\-\_\-bma180.c \-File \-Reference}
+\label{pios__bma180_8c}\index{/home/jb/code/\-Tau\-Labs/flight/\-Pi\-O\-S/\-Common/pios\-\_\-bma180.\-c@{/home/jb/code/\-Tau\-Labs/flight/\-Pi\-O\-S/\-Common/pios\-\_\-bma180.\-c}}
+}
+\subsection*{\-Data \-Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structbma180__dev}{bma180\-\_\-dev}
+\end{DoxyCompactItemize}
+\subsection*{\-Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{group___p_i_o_s___b_m_a180_ga019b2d5aa99a1a8e1b760c201899fa64}{pios\-\_\-bma180\-\_\-dev\-\_\-magic} \{ \hyperlink{group___p_i_o_s___b_m_a180_gga019b2d5aa99a1a8e1b760c201899fa64a7aec37002a2253d103974e52b5994e74}{\-P\-I\-O\-S\-\_\-\-B\-M\-A180\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C} =  0xcbb93755
+ \}
+\end{DoxyCompactItemize}
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___b_m_a180_ga913e423478cf470fc5691ea8d62bca65}{\-P\-I\-O\-S\-\_\-\-B\-M\-A180\-\_\-\-Init} (uint32\-\_\-t spi\-\_\-id, uint32\-\_\-t slave\-\_\-num, const struct \hyperlink{structpios__bma180__cfg}{pios\-\_\-bma180\-\_\-cfg} $\ast$cfg)
+\begin{DoxyCompactList}\small\item\em \-Initialize with good default settings. \end{DoxyCompactList}\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___b_m_a180_ga6445f37d7393a3cf869f14425d4f8f60}{\-P\-I\-O\-S\-\_\-\-B\-M\-A180\-\_\-\-Claim\-Bus} ()
+\begin{DoxyCompactList}\small\item\em \-Claim the \-S\-P\-I bus for the accel communications and select this chip. \end{DoxyCompactList}\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___b_m_a180_gaa4ed3d63ee77fc3f34b4c307f5552d15}{\-P\-I\-O\-S\-\_\-\-B\-M\-A180\-\_\-\-Claim\-Bus\-I\-S\-R} (bool $\ast$woken)
+\begin{DoxyCompactList}\small\item\em \-Claim the \-S\-P\-I bus for the accel communications and select this chip. \end{DoxyCompactList}\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___b_m_a180_ga1027b4d7c9d37660697a5093f7077a42}{\-P\-I\-O\-S\-\_\-\-B\-M\-A180\-\_\-\-Release\-Bus} ()
+\begin{DoxyCompactList}\small\item\em \-Release the \-S\-P\-I bus for the accel communications and end the transaction. \end{DoxyCompactList}\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___b_m_a180_gac3df046a46bd9633ccb969436bb8d9ab}{\-P\-I\-O\-S\-\_\-\-B\-M\-A180\-\_\-\-Release\-Bus\-I\-S\-R} (bool $\ast$woken)
+\begin{DoxyCompactList}\small\item\em \-Release the \-S\-P\-I bus for the accel communications and end the transaction. \end{DoxyCompactList}\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___b_m_a180_ga7b56742fa09a8cb81b620c4ddb35e0a0}{\-P\-I\-O\-S\-\_\-\-B\-M\-A180\-\_\-\-Read\-Accels} (struct \hyperlink{structpios__bma180__data}{pios\-\_\-bma180\-\_\-data} $\ast$data)
+\begin{DoxyCompactList}\small\item\em \-Read a single set of values from the x y z channels. \end{DoxyCompactList}\item 
+float \hyperlink{group___p_i_o_s___b_m_a180_gac0b0ac69b4fecb73c72a5acf917471b4}{\-P\-I\-O\-S\-\_\-\-B\-M\-A180\-\_\-\-Get\-Scale} ()
+\begin{DoxyCompactList}\small\item\em \-Returns the scale the \-B\-M\-A180 chip is using. \end{DoxyCompactList}\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___b_m_a180_gaae90c39f1345aa38815791270aca39ae}{\-P\-I\-O\-S\-\_\-\-B\-M\-A180\-\_\-\-Read\-Fifo} (struct \hyperlink{structpios__bma180__data}{pios\-\_\-bma180\-\_\-data} $\ast$buffer)
+\begin{DoxyCompactList}\small\item\em \-Get data from fifo. \end{DoxyCompactList}\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___b_m_a180_ga581d274e0f804ba0c8ef0406a782aa8d}{\-P\-I\-O\-S\-\_\-\-B\-M\-A180\-\_\-\-Test} ()
+\begin{DoxyCompactList}\small\item\em \-Test \-S\-P\-I and chip functionality by reading chip \-I\-D register. \end{DoxyCompactList}\item 
+bool \hyperlink{group___p_i_o_s___b_m_a180_gaded704c5b366fadaac4efb9272a9414a}{\-P\-I\-O\-S\-\_\-\-B\-M\-A180\-\_\-\-I\-R\-Q\-Handler} (void)
+\end{DoxyCompactItemize}
+\subsection*{\-Variables}
+\begin{DoxyCompactItemize}
+\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___b_m_a180_gabbaf3c8a871b2c19d493446ad684c3dc}{bma180\-\_\-irqs} = 0
+\begin{DoxyCompactList}\small\item\em \-I\-R\-Q \-Handler. \-Read data from the \-B\-M\-A180 \-F\-I\-F\-O and push onto a local fifo. \end{DoxyCompactList}\end{DoxyCompactItemize}

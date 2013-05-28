@@ -1,0 +1,27 @@
+var class_core_1_1_global_messaging =
+[
+    [ "GlobalMessaging", "group___core_plugin.html#ga38edb7cbf48000dc01e7b3221af4f2e5", null ],
+    [ "addErrorMessage", "group___core_plugin.html#ga6a4a87e17bd2e18c6edfdcfcf2c8110f", null ],
+    [ "addInfoMessage", "group___core_plugin.html#gab22b7c8008fd1803cb7c9454e9b0b6ec", null ],
+    [ "addMessage", "group___core_plugin.html#ga84d8602d51725819aa01a780228ec680", null ],
+    [ "addWarningMessage", "group___core_plugin.html#ga57358d48eab5fd8fb7741daa9fa5244a", null ],
+    [ "changedError", "group___core_plugin.html#ga7e1fd178aaef0bf7c0fb72b930bb5688", null ],
+    [ "changedInfo", "group___core_plugin.html#gac5681319ca7c7d401046076ba35ef4e9", null ],
+    [ "changedMessage", "group___core_plugin.html#gaa77f436db1c83e7ca10866931728c867", null ],
+    [ "changedWarning", "group___core_plugin.html#ga118030a99b8372058060fd520a280df1", null ],
+    [ "deletedError", "group___core_plugin.html#gae1c36dd9dd0467e3ca267b646a995c6f", null ],
+    [ "deletedInfo", "group___core_plugin.html#ga70309ce7fad88a9fcf38589659e511eb", null ],
+    [ "deletedMessage", "group___core_plugin.html#gaa84fc5f470068a27355669ba7f8a3bf1", null ],
+    [ "deletedWarning", "group___core_plugin.html#gabee55cc28f8b283a56070361824df749", null ],
+    [ "getActiveErrors", "group___core_plugin.html#ga954e7a8f68b28e184a6a78d796fd1460", null ],
+    [ "getActiveInfos", "group___core_plugin.html#gae228917eca7ba668fa70bcda27ff3067", null ],
+    [ "getActiveWarnings", "group___core_plugin.html#ga5eb61031e9fe3f0b3dc6e9b4b56ec1a6", null ],
+    [ "getErrors", "group___core_plugin.html#gae1fc9548dca8947796b625256b217cf6", null ],
+    [ "getInfos", "group___core_plugin.html#ga80c83327d603cfb00595f59c7503c3d1", null ],
+    [ "getWarnings", "group___core_plugin.html#ga0ed7555de2d566e21edbb19af678a83e", null ],
+    [ "messageDeleted", "group___core_plugin.html#ga4f5538b2b5ae1c4b21a31fcb26b35f5d", null ],
+    [ "newError", "group___core_plugin.html#ga7751219b57595e24f8ff1af310744425", null ],
+    [ "newInfo", "group___core_plugin.html#gacc5fea586ae225511791d35f3c448db5", null ],
+    [ "newMessage", "group___core_plugin.html#ga01080b5808ab32b87bb4a1e6714ad713", null ],
+    [ "newWarning", "group___core_plugin.html#gad234081b52791d6e60ab9d31628f1dfa", null ]
+];

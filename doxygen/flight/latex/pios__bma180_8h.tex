@@ -1,0 +1,88 @@
+\hypertarget{pios__bma180_8h}{\section{/home/jb/code/\-Tau\-Labs/flight/\-Pi\-O\-S/inc/pios\-\_\-bma180.h \-File \-Reference}
+\label{pios__bma180_8h}\index{/home/jb/code/\-Tau\-Labs/flight/\-Pi\-O\-S/inc/pios\-\_\-bma180.\-h@{/home/jb/code/\-Tau\-Labs/flight/\-Pi\-O\-S/inc/pios\-\_\-bma180.\-h}}
+}
+
+
+\-Pi\-O\-S \-B\-M\-A180 digital accelerometer driver.  
+
+
+\subsection*{\-Data \-Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structpios__bma180__data}{pios\-\_\-bma180\-\_\-data}
+\item 
+struct \hyperlink{structpios__bma180__cfg}{pios\-\_\-bma180\-\_\-cfg}
+\end{DoxyCompactItemize}
+\subsection*{\-Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{group___p_i_o_s___b_m_a180_ga319b0b37d7184097d2ae4e7ba527a416}{bma180\-\_\-range} \{ \*
+\hyperlink{group___p_i_o_s___b_m_a180_gga319b0b37d7184097d2ae4e7ba527a416a7a0fa3f83070097604fa2c26cec0d197}{\-B\-M\-A\-\_\-\-R\-A\-N\-G\-E\-\_\-1\-G} =  0x00, 
+\hyperlink{group___p_i_o_s___b_m_a180_gga319b0b37d7184097d2ae4e7ba527a416aba39596e59ef5c1b698fd07fb70aeb59}{\-B\-M\-A\-\_\-\-R\-A\-N\-G\-E\-\_\-1\-\_\-5\-G} =  0x01, 
+\hyperlink{group___p_i_o_s___b_m_a180_gga319b0b37d7184097d2ae4e7ba527a416a3baba1647f1b31a0ca85c4b4b4460219}{\-B\-M\-A\-\_\-\-R\-A\-N\-G\-E\-\_\-2\-G} =  0x02, 
+\hyperlink{group___p_i_o_s___b_m_a180_gga319b0b37d7184097d2ae4e7ba527a416a689f60fc8cd363d6104d30fd2f7b653a}{\-B\-M\-A\-\_\-\-R\-A\-N\-G\-E\-\_\-3\-G} =  0x03, 
+\*
+\hyperlink{group___p_i_o_s___b_m_a180_gga319b0b37d7184097d2ae4e7ba527a416a88eeec78073940a1aaf2b96f9988dc39}{\-B\-M\-A\-\_\-\-R\-A\-N\-G\-E\-\_\-4\-G} =  0x04, 
+\hyperlink{group___p_i_o_s___b_m_a180_gga319b0b37d7184097d2ae4e7ba527a416a13d252a0a2ceb78c19757b6e1d69a4f7}{\-B\-M\-A\-\_\-\-R\-A\-N\-G\-E\-\_\-8\-G} =  0x05, 
+\hyperlink{group___p_i_o_s___b_m_a180_gga319b0b37d7184097d2ae4e7ba527a416a65bb98b2bfac0f9f4e57161b4f8cc7cc}{\-B\-M\-A\-\_\-\-R\-A\-N\-G\-E\-\_\-16\-G} =  0x06
+ \}
+\item 
+enum \hyperlink{group___p_i_o_s___b_m_a180_gacd6d3ecff286f705778973637b4d3d99}{bma180\-\_\-bandwidth} \{ \*
+\hyperlink{group___p_i_o_s___b_m_a180_ggacd6d3ecff286f705778973637b4d3d99ac9ccb62e227873e7408c0d394b9cbd04}{\-B\-M\-A\-\_\-\-B\-W\-\_\-10\-H\-Z} =  0x00, 
+\hyperlink{group___p_i_o_s___b_m_a180_ggacd6d3ecff286f705778973637b4d3d99a808875d1f84c211d3d1ec23adcfd3231}{\-B\-M\-A\-\_\-\-B\-W\-\_\-20\-H\-Z} =  0x01, 
+\hyperlink{group___p_i_o_s___b_m_a180_ggacd6d3ecff286f705778973637b4d3d99ad6870da0b3613eb59cf69292dee259d2}{\-B\-M\-A\-\_\-\-B\-W\-\_\-40\-H\-Z} =  0x02, 
+\hyperlink{group___p_i_o_s___b_m_a180_ggacd6d3ecff286f705778973637b4d3d99a58d67b94bdd2dc6e10e01f595fce37ed}{\-B\-M\-A\-\_\-\-B\-W\-\_\-75\-H\-Z} =  0x03, 
+\*
+\hyperlink{group___p_i_o_s___b_m_a180_ggacd6d3ecff286f705778973637b4d3d99afe6e5eaaed56c35c349035443724ad26}{\-B\-M\-A\-\_\-\-B\-W\-\_\-150\-H\-Z} =  0x04, 
+\hyperlink{group___p_i_o_s___b_m_a180_ggacd6d3ecff286f705778973637b4d3d99a6b02daed0b3e3918a57400726828ab15}{\-B\-M\-A\-\_\-\-B\-W\-\_\-300\-H\-Z} =  0x05, 
+\hyperlink{group___p_i_o_s___b_m_a180_ggacd6d3ecff286f705778973637b4d3d99a22544840a41046286164b09e754229c6}{\-B\-M\-A\-\_\-\-B\-W\-\_\-600\-H\-Z} =  0x06, 
+\hyperlink{group___p_i_o_s___b_m_a180_ggacd6d3ecff286f705778973637b4d3d99a57453a1a2ed7c2c1ebb89e81bb34ce0e}{\-B\-M\-A\-\_\-\-B\-W\-\_\-1200\-H\-Z} = 0x07, 
+\*
+\hyperlink{group___p_i_o_s___b_m_a180_ggacd6d3ecff286f705778973637b4d3d99af4f46eeded0ee9fdfee181c0dd056bf6}{\-B\-M\-A\-\_\-\-B\-W\-\_\-\-H\-P1\-H\-Z} =  0x08, 
+\hyperlink{group___p_i_o_s___b_m_a180_ggacd6d3ecff286f705778973637b4d3d99a5abc29a7422d6c60410396eda7d92b62}{\-B\-M\-A\-\_\-\-B\-W\-\_\-\-B\-P0\-\_\-300\-H\-Z} =  0x09
+ \}
+\end{DoxyCompactItemize}
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___b_m_a180_ga913e423478cf470fc5691ea8d62bca65}{\-P\-I\-O\-S\-\_\-\-B\-M\-A180\-\_\-\-Init} (uint32\-\_\-t spi\-\_\-id, uint32\-\_\-t slave\-\_\-num, const struct \hyperlink{structpios__bma180__cfg}{pios\-\_\-bma180\-\_\-cfg} $\ast$cfg)
+\begin{DoxyCompactList}\small\item\em \-Initialize with good default settings. \end{DoxyCompactList}\item 
+void \hyperlink{group___p_i_o_s___b_m_a180_ga7630f96fe8305335e0f834bd7e594007}{\-P\-I\-O\-S\-\_\-\-B\-M\-A180\-\_\-\-Attach} (uint32\-\_\-t spi\-\_\-id)
+\item 
+float \hyperlink{group___p_i_o_s___b_m_a180_gac0b0ac69b4fecb73c72a5acf917471b4}{\-P\-I\-O\-S\-\_\-\-B\-M\-A180\-\_\-\-Get\-Scale} ()
+\begin{DoxyCompactList}\small\item\em \-Returns the scale the \-B\-M\-A180 chip is using. \end{DoxyCompactList}\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___b_m_a180_gaae90c39f1345aa38815791270aca39ae}{\-P\-I\-O\-S\-\_\-\-B\-M\-A180\-\_\-\-Read\-Fifo} (struct \hyperlink{structpios__bma180__data}{pios\-\_\-bma180\-\_\-data} $\ast$buffer)
+\begin{DoxyCompactList}\small\item\em \-Get data from fifo. \end{DoxyCompactList}\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___b_m_a180_ga7b56742fa09a8cb81b620c4ddb35e0a0}{\-P\-I\-O\-S\-\_\-\-B\-M\-A180\-\_\-\-Read\-Accels} (struct \hyperlink{structpios__bma180__data}{pios\-\_\-bma180\-\_\-data} $\ast$data)
+\begin{DoxyCompactList}\small\item\em \-Read a single set of values from the x y z channels. \end{DoxyCompactList}\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___b_m_a180_ga581d274e0f804ba0c8ef0406a782aa8d}{\-P\-I\-O\-S\-\_\-\-B\-M\-A180\-\_\-\-Test} ()
+\begin{DoxyCompactList}\small\item\em \-Test \-S\-P\-I and chip functionality by reading chip \-I\-D register. \end{DoxyCompactList}\item 
+bool \hyperlink{group___p_i_o_s___b_m_a180_gaded704c5b366fadaac4efb9272a9414a}{\-P\-I\-O\-S\-\_\-\-B\-M\-A180\-\_\-\-I\-R\-Q\-Handler} (void)
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-Pi\-O\-S \-B\-M\-A180 digital accelerometer driver. \begin{DoxyAuthor}{\-Author}
+\-The \-Open\-Pilot \-Team, \href{http://www.openpilot.org}{\tt http\-://www.\-openpilot.\-org} \-Copyright (\-C) 2012. 
+
+\-Tau \-Labs, \href{http://taulabs.org,}{\tt http\-://taulabs.\-org,} \-Copyright (\-C) 2013
+\begin{DoxyItemize}
+\item \-Driver for the \-B\-M\-A180 digital accelerometer on the \-S\-P\-I bus. 
+\end{DoxyItemize}
+\end{DoxyAuthor}
+\begin{DoxySeeAlso}{\-See also}
+\-The \-G\-N\-U \-Public \-License (\-G\-P\-L) \-Version 3
+\end{DoxySeeAlso}
+\begin{DoxyAuthor}{\-Author}
+\-The \-Open\-Pilot \-Team, \href{http://www.openpilot.org}{\tt http\-://www.\-openpilot.\-org} \-Copyright (\-C) 2012.
+\begin{DoxyItemize}
+\item \-Driver for the \-B\-M\-A180 digital accelerometer on the \-S\-P\-I bus. 
+\end{DoxyItemize}
+\end{DoxyAuthor}
+\begin{DoxySeeAlso}{\-See also}
+\-The \-G\-N\-U \-Public \-License (\-G\-P\-L) \-Version 3 
+\end{DoxySeeAlso}
+
+
+\-Definition in file \hyperlink{pios__bma180_8h_source}{pios\-\_\-bma180.\-h}.
+

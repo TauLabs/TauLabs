@@ -1,0 +1,93 @@
+\hypertarget{structlogfs__state}{\section{logfs\-\_\-state \-Struct \-Reference}
+\label{structlogfs__state}\index{logfs\-\_\-state@{logfs\-\_\-state}}
+}
+\subsection*{\-Data \-Fields}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{group___p_i_o_s___f_l_a_s_h_f_s_ga27472bb2a0fbfb6302378ef138c6a41f}{pios\-\_\-flashfs\-\_\-logfs\-\_\-dev\-\_\-magic} \hyperlink{structlogfs__state_acbcddf457808c9af84d6441f4f34be1e}{magic}
+\item 
+struct \hyperlink{structflashfs__logfs__cfg}{flashfs\-\_\-logfs\-\_\-cfg} $\ast$ \hyperlink{structlogfs__state_a75d82104dc14290000c26f57140773e6}{cfg}
+\item 
+bool \hyperlink{structlogfs__state_a5d12393331e2e5d7d9141f4437e09ccf}{mounted}
+\item 
+uint8\-\_\-t \hyperlink{structlogfs__state_a5bcf852bc8ba378be9bf82a602070073}{active\-\_\-arena\-\_\-id}
+\item 
+uint16\-\_\-t \hyperlink{structlogfs__state_a3c61a652819a886351af3431c8fe2061}{num\-\_\-free\-\_\-slots}
+\item 
+uint16\-\_\-t \hyperlink{structlogfs__state_a9606319a5f23b1dee579106c84bf198b}{num\-\_\-active\-\_\-slots}
+\item 
+struct \hyperlink{structpios__flash__driver}{pios\-\_\-flash\-\_\-driver} $\ast$ \hyperlink{structlogfs__state_a4bbe3d2fb54bc597953a0cf979ac57f3}{driver}
+\item 
+uintptr\-\_\-t \hyperlink{structlogfs__state_a29a28723508e259cd39e4ce4bff7827d}{flash\-\_\-id}
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+
+
+\-Definition at line 47 of file pios\-\_\-flashfs\-\_\-logfs.\-c.
+
+
+
+\subsection{\-Field \-Documentation}
+\hypertarget{structlogfs__state_a5bcf852bc8ba378be9bf82a602070073}{\index{logfs\-\_\-state@{logfs\-\_\-state}!active\-\_\-arena\-\_\-id@{active\-\_\-arena\-\_\-id}}
+\index{active\-\_\-arena\-\_\-id@{active\-\_\-arena\-\_\-id}!logfs_state@{logfs\-\_\-state}}
+\subsubsection[{active\-\_\-arena\-\_\-id}]{\setlength{\rightskip}{0pt plus 5cm}uint8\-\_\-t {\bf logfs\-\_\-state\-::active\-\_\-arena\-\_\-id}}}\label{structlogfs__state_a5bcf852bc8ba378be9bf82a602070073}
+
+
+\-Definition at line 51 of file pios\-\_\-flashfs\-\_\-logfs.\-c.
+
+\hypertarget{structlogfs__state_a75d82104dc14290000c26f57140773e6}{\index{logfs\-\_\-state@{logfs\-\_\-state}!cfg@{cfg}}
+\index{cfg@{cfg}!logfs_state@{logfs\-\_\-state}}
+\subsubsection[{cfg}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf flashfs\-\_\-logfs\-\_\-cfg}$\ast$ {\bf logfs\-\_\-state\-::cfg}}}\label{structlogfs__state_a75d82104dc14290000c26f57140773e6}
+
+
+\-Definition at line 49 of file pios\-\_\-flashfs\-\_\-logfs.\-c.
+
+\hypertarget{structlogfs__state_a4bbe3d2fb54bc597953a0cf979ac57f3}{\index{logfs\-\_\-state@{logfs\-\_\-state}!driver@{driver}}
+\index{driver@{driver}!logfs_state@{logfs\-\_\-state}}
+\subsubsection[{driver}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf pios\-\_\-flash\-\_\-driver}$\ast$ {\bf logfs\-\_\-state\-::driver}}}\label{structlogfs__state_a4bbe3d2fb54bc597953a0cf979ac57f3}
+
+
+\-Definition at line 61 of file pios\-\_\-flashfs\-\_\-logfs.\-c.
+
+\hypertarget{structlogfs__state_a29a28723508e259cd39e4ce4bff7827d}{\index{logfs\-\_\-state@{logfs\-\_\-state}!flash\-\_\-id@{flash\-\_\-id}}
+\index{flash\-\_\-id@{flash\-\_\-id}!logfs_state@{logfs\-\_\-state}}
+\subsubsection[{flash\-\_\-id}]{\setlength{\rightskip}{0pt plus 5cm}uintptr\-\_\-t {\bf logfs\-\_\-state\-::flash\-\_\-id}}}\label{structlogfs__state_a29a28723508e259cd39e4ce4bff7827d}
+
+
+\-Definition at line 62 of file pios\-\_\-flashfs\-\_\-logfs.\-c.
+
+\hypertarget{structlogfs__state_acbcddf457808c9af84d6441f4f34be1e}{\index{logfs\-\_\-state@{logfs\-\_\-state}!magic@{magic}}
+\index{magic@{magic}!logfs_state@{logfs\-\_\-state}}
+\subsubsection[{magic}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf pios\-\_\-flashfs\-\_\-logfs\-\_\-dev\-\_\-magic} {\bf logfs\-\_\-state\-::magic}}}\label{structlogfs__state_acbcddf457808c9af84d6441f4f34be1e}
+
+
+\-Definition at line 48 of file pios\-\_\-flashfs\-\_\-logfs.\-c.
+
+\hypertarget{structlogfs__state_a5d12393331e2e5d7d9141f4437e09ccf}{\index{logfs\-\_\-state@{logfs\-\_\-state}!mounted@{mounted}}
+\index{mounted@{mounted}!logfs_state@{logfs\-\_\-state}}
+\subsubsection[{mounted}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf logfs\-\_\-state\-::mounted}}}\label{structlogfs__state_a5d12393331e2e5d7d9141f4437e09ccf}
+
+
+\-Definition at line 50 of file pios\-\_\-flashfs\-\_\-logfs.\-c.
+
+\hypertarget{structlogfs__state_a9606319a5f23b1dee579106c84bf198b}{\index{logfs\-\_\-state@{logfs\-\_\-state}!num\-\_\-active\-\_\-slots@{num\-\_\-active\-\_\-slots}}
+\index{num\-\_\-active\-\_\-slots@{num\-\_\-active\-\_\-slots}!logfs_state@{logfs\-\_\-state}}
+\subsubsection[{num\-\_\-active\-\_\-slots}]{\setlength{\rightskip}{0pt plus 5cm}uint16\-\_\-t {\bf logfs\-\_\-state\-::num\-\_\-active\-\_\-slots}}}\label{structlogfs__state_a9606319a5f23b1dee579106c84bf198b}
+
+
+\-Definition at line 58 of file pios\-\_\-flashfs\-\_\-logfs.\-c.
+
+\hypertarget{structlogfs__state_a3c61a652819a886351af3431c8fe2061}{\index{logfs\-\_\-state@{logfs\-\_\-state}!num\-\_\-free\-\_\-slots@{num\-\_\-free\-\_\-slots}}
+\index{num\-\_\-free\-\_\-slots@{num\-\_\-free\-\_\-slots}!logfs_state@{logfs\-\_\-state}}
+\subsubsection[{num\-\_\-free\-\_\-slots}]{\setlength{\rightskip}{0pt plus 5cm}uint16\-\_\-t {\bf logfs\-\_\-state\-::num\-\_\-free\-\_\-slots}}}\label{structlogfs__state_a3c61a652819a886351af3431c8fe2061}
+
+
+\-Definition at line 57 of file pios\-\_\-flashfs\-\_\-logfs.\-c.
+
+
+
+\-The documentation for this struct was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/home/jb/code/\-Tau\-Labs/flight/\-Pi\-O\-S/\-Common/\hyperlink{pios__flashfs__logfs_8c}{pios\-\_\-flashfs\-\_\-logfs.\-c}\end{DoxyCompactItemize}

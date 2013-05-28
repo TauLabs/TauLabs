@@ -1,0 +1,365 @@
+\hypertarget{class_utils_1_1_saved_action}{\section{\-Utils\-:\-:\-Saved\-Action \-Class \-Reference}
+\label{class_utils_1_1_saved_action}\index{\-Utils\-::\-Saved\-Action@{\-Utils\-::\-Saved\-Action}}
+}
+
+
+\-The \hyperlink{class_utils_1_1_saved_action}{\-Saved\-Action} class is a helper class for actions with persistent state.  
+
+
+
+
+{\ttfamily \#include $<$savedaction.\-h$>$}
+
+\subsection*{\-Signals}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_utils_1_1_saved_action_a7b6126c479043f004cc924df0fc5f8c5}{value\-Changed} (const \-Q\-Variant \&new\-Value)
+\end{DoxyCompactItemize}
+\subsection*{\-Public \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_utils_1_1_saved_action_ab15f15b12532741b7764d8fbee52562c}{\-Saved\-Action} (\-Q\-Object $\ast$parent=0)
+\item 
+virtual \-Q\-Variant \hyperlink{class_utils_1_1_saved_action_aed09984cf5a881b0988fb6702e968de3}{value} () const 
+\item 
+virtual \-Q\-\_\-\-S\-L\-O\-T \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_utils_1_1_saved_action_a0238473404fb4ac8ea3e934c0f188c5c}{set\-Value} (const \-Q\-Variant \&\hyperlink{class_utils_1_1_saved_action_aed09984cf5a881b0988fb6702e968de3}{value}, bool doemit=true)
+\item 
+virtual \-Q\-Variant \hyperlink{class_utils_1_1_saved_action_a46dfeb4d69f789f0bf09d18ed8d97497}{default\-Value} () const 
+\item 
+virtual \-Q\-\_\-\-S\-L\-O\-T \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_utils_1_1_saved_action_a1a746df3254216da19a2cd8a67f6966a}{set\-Default\-Value} (const \-Q\-Variant \&\hyperlink{class_utils_1_1_saved_action_aed09984cf5a881b0988fb6702e968de3}{value})
+\item 
+virtual \-Q\-Action $\ast$ \hyperlink{class_utils_1_1_saved_action_adb860d8816cd41a3236eaa1278e8a77b}{updated\-Action} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \&new\-Text)
+\item 
+virtual \-Q\-\_\-\-S\-L\-O\-T \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_utils_1_1_saved_action_a2973d3383b69e819d53c2a814db60edf}{trigger} (const \-Q\-Variant \&data)
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{class_utils_1_1_saved_action_a0a22791e8b32f9fe1c624d5e8c87c2aa}{settings\-Key} () const 
+\item 
+virtual \-Q\-\_\-\-S\-L\-O\-T \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_utils_1_1_saved_action_ae953c28561478e670ba3a15b4bdb5d2c}{set\-Settings\-Key} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \&key)
+\item 
+virtual \-Q\-\_\-\-S\-L\-O\-T \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_utils_1_1_saved_action_a105d85462675a59292570f6de41faf7d}{set\-Settings\-Key} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \&group, const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \&key)
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{class_utils_1_1_saved_action_afa3559d7166402cf75ba466f10f16140}{settings\-Group} () const 
+\item 
+virtual \-Q\-\_\-\-S\-L\-O\-T \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_utils_1_1_saved_action_acbc43194d58d458373ad8b4df4ef091d}{set\-Settings\-Group} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \&group)
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_utils_1_1_saved_action_a42f64ef2508f9baa33da4f0c37db670c}{read\-Settings} (\-Q\-Settings $\ast$settings)
+\item 
+virtual \-Q\-\_\-\-S\-L\-O\-T \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_utils_1_1_saved_action_abe287a9257381ac7fe3d08128380cd24}{write\-Settings} (\-Q\-Settings $\ast$settings)
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_utils_1_1_saved_action_a957c40a1ba916fd9f3073bfab6d22dd2}{connect\-Widget} (\-Q\-Widget $\ast$widget, \hyperlink{namespace_utils_ac2d001247aaff664db3acdb312344458}{\-Apply\-Mode} apply\-Mode=\hyperlink{namespace_utils_ac2d001247aaff664db3acdb312344458a6081d5dba39502dab03be7d2eb297166}{\-Defered\-Apply})
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_utils_1_1_saved_action_af7478eb16c4cbd16e49d303a13cb1c03}{disconnect\-Widget} ()
+\item 
+virtual \-Q\-\_\-\-S\-L\-O\-T \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_utils_1_1_saved_action_a55ba45bf726930f8ad0beac52ae4f831}{apply} (\-Q\-Settings $\ast$settings)
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{class_utils_1_1_saved_action_a814f8ad7cf6576f6b227226189a5787e}{text\-Pattern} () const 
+\item 
+virtual \-Q\-\_\-\-S\-L\-O\-T \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_utils_1_1_saved_action_a74883af07b4fbc3796a84561a4da14b8}{set\-Text\-Pattern} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \&\hyperlink{class_utils_1_1_saved_action_aed09984cf5a881b0988fb6702e968de3}{value})
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{class_utils_1_1_saved_action_af81b30af8c0bcceadccc6f970b568235}{to\-String} () const 
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-The \hyperlink{class_utils_1_1_saved_action}{\-Saved\-Action} class is a helper class for actions with persistent state. 
+
+\-Definition at line 48 of file savedaction.\-h.
+
+
+
+\subsection{\-Constructor \& \-Destructor \-Documentation}
+\hypertarget{class_utils_1_1_saved_action_ab15f15b12532741b7764d8fbee52562c}{\index{\-Utils\-::\-Saved\-Action@{\-Utils\-::\-Saved\-Action}!\-Saved\-Action@{\-Saved\-Action}}
+\index{\-Saved\-Action@{\-Saved\-Action}!Utils::SavedAction@{\-Utils\-::\-Saved\-Action}}
+\subsubsection[{\-Saved\-Action}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Saved\-Action\-::\-Saved\-Action} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Object $\ast$}]{parent = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)}}\label{class_utils_1_1_saved_action_ab15f15b12532741b7764d8fbee52562c}
+
+
+\-Definition at line 65 of file savedaction.\-cpp.
+
+
+
+\subsection{\-Member \-Function \-Documentation}
+\hypertarget{class_utils_1_1_saved_action_a55ba45bf726930f8ad0beac52ae4f831}{\index{\-Utils\-::\-Saved\-Action@{\-Utils\-::\-Saved\-Action}!apply@{apply}}
+\index{apply@{apply}!Utils::SavedAction@{\-Utils\-::\-Saved\-Action}}
+\subsubsection[{apply}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Saved\-Action\-::apply} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Settings $\ast$}]{settings}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{class_utils_1_1_saved_action_a55ba45bf726930f8ad0beac52ae4f831}
+
+
+\-Definition at line 338 of file savedaction.\-cpp.
+
+\hypertarget{class_utils_1_1_saved_action_a957c40a1ba916fd9f3073bfab6d22dd2}{\index{\-Utils\-::\-Saved\-Action@{\-Utils\-::\-Saved\-Action}!connect\-Widget@{connect\-Widget}}
+\index{connect\-Widget@{connect\-Widget}!Utils::SavedAction@{\-Utils\-::\-Saved\-Action}}
+\subsubsection[{connect\-Widget}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Saved\-Action\-::connect\-Widget} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Widget $\ast$}]{widget, }
+\item[{{\bf \-Apply\-Mode}}]{apply\-Mode = {\ttfamily {\bf \-Defered\-Apply}}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{class_utils_1_1_saved_action_a957c40a1ba916fd9f3073bfab6d22dd2}
+
+
+\-Definition at line 282 of file savedaction.\-cpp.
+
+\hypertarget{class_utils_1_1_saved_action_a46dfeb4d69f789f0bf09d18ed8d97497}{\index{\-Utils\-::\-Saved\-Action@{\-Utils\-::\-Saved\-Action}!default\-Value@{default\-Value}}
+\index{default\-Value@{default\-Value}!Utils::SavedAction@{\-Utils\-::\-Saved\-Action}}
+\subsubsection[{default\-Value}]{\setlength{\rightskip}{0pt plus 5cm}\-Q\-Variant {\bf \-Saved\-Action\-::default\-Value} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{class_utils_1_1_saved_action_a46dfeb4d69f789f0bf09d18ed8d97497}
+\-Returns the default value to be used when the item does not exist yet in the settings.
+
+\begin{DoxySeeAlso}{\-See also}
+\hyperlink{class_utils_1_1_saved_action_a1a746df3254216da19a2cd8a67f6966a}{set\-Default\-Value()} 
+\end{DoxySeeAlso}
+
+
+\-Definition at line 108 of file savedaction.\-cpp.
+
+\hypertarget{class_utils_1_1_saved_action_af7478eb16c4cbd16e49d303a13cb1c03}{\index{\-Utils\-::\-Saved\-Action@{\-Utils\-::\-Saved\-Action}!disconnect\-Widget@{disconnect\-Widget}}
+\index{disconnect\-Widget@{disconnect\-Widget}!Utils::SavedAction@{\-Utils\-::\-Saved\-Action}}
+\subsubsection[{disconnect\-Widget}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Saved\-Action\-::disconnect\-Widget} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{class_utils_1_1_saved_action_af7478eb16c4cbd16e49d303a13cb1c03}
+
+
+\-Definition at line 333 of file savedaction.\-cpp.
+
+\hypertarget{class_utils_1_1_saved_action_a42f64ef2508f9baa33da4f0c37db670c}{\index{\-Utils\-::\-Saved\-Action@{\-Utils\-::\-Saved\-Action}!read\-Settings@{read\-Settings}}
+\index{read\-Settings@{read\-Settings}!Utils::SavedAction@{\-Utils\-::\-Saved\-Action}}
+\subsubsection[{read\-Settings}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Saved\-Action\-::read\-Settings} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Settings $\ast$}]{settings}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{class_utils_1_1_saved_action_a42f64ef2508f9baa33da4f0c37db670c}
+
+
+\-Definition at line 240 of file savedaction.\-cpp.
+
+\hypertarget{class_utils_1_1_saved_action_a1a746df3254216da19a2cd8a67f6966a}{\index{\-Utils\-::\-Saved\-Action@{\-Utils\-::\-Saved\-Action}!set\-Default\-Value@{set\-Default\-Value}}
+\index{set\-Default\-Value@{set\-Default\-Value}!Utils::SavedAction@{\-Utils\-::\-Saved\-Action}}
+\subsubsection[{set\-Default\-Value}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Saved\-Action\-::set\-Default\-Value} (
+\begin{DoxyParamCaption}
+\item[{const \-Q\-Variant \&}]{value}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{class_utils_1_1_saved_action_a1a746df3254216da19a2cd8a67f6966a}
+\-Sets the default value to be used when the item does not exist yet in the settings.
+
+\begin{DoxySeeAlso}{\-See also}
+\hyperlink{class_utils_1_1_saved_action_a46dfeb4d69f789f0bf09d18ed8d97497}{default\-Value()} 
+\end{DoxySeeAlso}
+
+
+\-Definition at line 120 of file savedaction.\-cpp.
+
+\hypertarget{class_utils_1_1_saved_action_acbc43194d58d458373ad8b4df4ef091d}{\index{\-Utils\-::\-Saved\-Action@{\-Utils\-::\-Saved\-Action}!set\-Settings\-Group@{set\-Settings\-Group}}
+\index{set\-Settings\-Group@{set\-Settings\-Group}!Utils::SavedAction@{\-Utils\-::\-Saved\-Action}}
+\subsubsection[{set\-Settings\-Group}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Saved\-Action\-::set\-Settings\-Group} (
+\begin{DoxyParamCaption}
+\item[{const {\bf \-Q\-String} \&}]{group}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{class_utils_1_1_saved_action_acbc43194d58d458373ad8b4df4ef091d}
+\-Sets the group to be used when accessing the settings.
+
+\begin{DoxySeeAlso}{\-See also}
+\hyperlink{class_utils_1_1_saved_action_afa3559d7166402cf75ba466f10f16140}{settings\-Group()} 
+\end{DoxySeeAlso}
+
+
+\-Definition at line 175 of file savedaction.\-cpp.
+
+\hypertarget{class_utils_1_1_saved_action_ae953c28561478e670ba3a15b4bdb5d2c}{\index{\-Utils\-::\-Saved\-Action@{\-Utils\-::\-Saved\-Action}!set\-Settings\-Key@{set\-Settings\-Key}}
+\index{set\-Settings\-Key@{set\-Settings\-Key}!Utils::SavedAction@{\-Utils\-::\-Saved\-Action}}
+\subsubsection[{set\-Settings\-Key}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Saved\-Action\-::set\-Settings\-Key} (
+\begin{DoxyParamCaption}
+\item[{const {\bf \-Q\-String} \&}]{key}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{class_utils_1_1_saved_action_ae953c28561478e670ba3a15b4bdb5d2c}
+\-Sets the key to be used when accessing the settings.
+
+\begin{DoxySeeAlso}{\-See also}
+\hyperlink{class_utils_1_1_saved_action_a0a22791e8b32f9fe1c624d5e8c87c2aa}{settings\-Key()} 
+\end{DoxySeeAlso}
+
+
+\-Definition at line 142 of file savedaction.\-cpp.
+
+\hypertarget{class_utils_1_1_saved_action_a105d85462675a59292570f6de41faf7d}{\index{\-Utils\-::\-Saved\-Action@{\-Utils\-::\-Saved\-Action}!set\-Settings\-Key@{set\-Settings\-Key}}
+\index{set\-Settings\-Key@{set\-Settings\-Key}!Utils::SavedAction@{\-Utils\-::\-Saved\-Action}}
+\subsubsection[{set\-Settings\-Key}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Saved\-Action\-::set\-Settings\-Key} (
+\begin{DoxyParamCaption}
+\item[{const {\bf \-Q\-String} \&}]{group, }
+\item[{const {\bf \-Q\-String} \&}]{key}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{class_utils_1_1_saved_action_a105d85462675a59292570f6de41faf7d}
+\-Sets the key and group to be used when accessing the settings.
+
+\begin{DoxySeeAlso}{\-See also}
+\hyperlink{class_utils_1_1_saved_action_a0a22791e8b32f9fe1c624d5e8c87c2aa}{settings\-Key()} 
+\end{DoxySeeAlso}
+
+
+\-Definition at line 153 of file savedaction.\-cpp.
+
+\hypertarget{class_utils_1_1_saved_action_a74883af07b4fbc3796a84561a4da14b8}{\index{\-Utils\-::\-Saved\-Action@{\-Utils\-::\-Saved\-Action}!set\-Text\-Pattern@{set\-Text\-Pattern}}
+\index{set\-Text\-Pattern@{set\-Text\-Pattern}!Utils::SavedAction@{\-Utils\-::\-Saved\-Action}}
+\subsubsection[{set\-Text\-Pattern}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Saved\-Action\-::set\-Text\-Pattern} (
+\begin{DoxyParamCaption}
+\item[{const {\bf \-Q\-String} \&}]{value}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{class_utils_1_1_saved_action_a74883af07b4fbc3796a84561a4da14b8}
+
+
+\-Definition at line 185 of file savedaction.\-cpp.
+
+\hypertarget{class_utils_1_1_saved_action_afa3559d7166402cf75ba466f10f16140}{\index{\-Utils\-::\-Saved\-Action@{\-Utils\-::\-Saved\-Action}!settings\-Group@{settings\-Group}}
+\index{settings\-Group@{settings\-Group}!Utils::SavedAction@{\-Utils\-::\-Saved\-Action}}
+\subsubsection[{settings\-Group}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Q\-String} {\bf \-Saved\-Action\-::settings\-Group} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{class_utils_1_1_saved_action_afa3559d7166402cf75ba466f10f16140}
+\-Sets the key to be used when accessing the settings.
+
+\begin{DoxySeeAlso}{\-See also}
+\hyperlink{class_utils_1_1_saved_action_a0a22791e8b32f9fe1c624d5e8c87c2aa}{settings\-Key()} 
+\end{DoxySeeAlso}
+
+
+\-Definition at line 165 of file savedaction.\-cpp.
+
+\hypertarget{class_utils_1_1_saved_action_a0a22791e8b32f9fe1c624d5e8c87c2aa}{\index{\-Utils\-::\-Saved\-Action@{\-Utils\-::\-Saved\-Action}!settings\-Key@{settings\-Key}}
+\index{settings\-Key@{settings\-Key}!Utils::SavedAction@{\-Utils\-::\-Saved\-Action}}
+\subsubsection[{settings\-Key}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Q\-String} {\bf \-Saved\-Action\-::settings\-Key} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{class_utils_1_1_saved_action_a0a22791e8b32f9fe1c624d5e8c87c2aa}
+\-Returns the key to be used when accessing the settings.
+
+\begin{DoxySeeAlso}{\-See also}
+\hyperlink{class_utils_1_1_saved_action_a0a22791e8b32f9fe1c624d5e8c87c2aa}{settings\-Key()} 
+\end{DoxySeeAlso}
+
+
+\-Definition at line 131 of file savedaction.\-cpp.
+
+\hypertarget{class_utils_1_1_saved_action_a0238473404fb4ac8ea3e934c0f188c5c}{\index{\-Utils\-::\-Saved\-Action@{\-Utils\-::\-Saved\-Action}!set\-Value@{set\-Value}}
+\index{set\-Value@{set\-Value}!Utils::SavedAction@{\-Utils\-::\-Saved\-Action}}
+\subsubsection[{set\-Value}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Saved\-Action\-::set\-Value} (
+\begin{DoxyParamCaption}
+\item[{const \-Q\-Variant \&}]{value, }
+\item[{bool}]{doemit = {\ttfamily true}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{class_utils_1_1_saved_action_a0238473404fb4ac8ea3e934c0f188c5c}
+\-Sets the current value of the object. \-If the value changed and {\itshape doemit\/} is true, the {\ttfamily \hyperlink{class_utils_1_1_saved_action_a7b6126c479043f004cc924df0fc5f8c5}{value\-Changed()}} signal will be emitted.
+
+\begin{DoxySeeAlso}{\-See also}
+\hyperlink{class_utils_1_1_saved_action_aed09984cf5a881b0988fb6702e968de3}{value()} 
+\end{DoxySeeAlso}
+
+
+\-Definition at line 90 of file savedaction.\-cpp.
+
+\hypertarget{class_utils_1_1_saved_action_a814f8ad7cf6576f6b227226189a5787e}{\index{\-Utils\-::\-Saved\-Action@{\-Utils\-::\-Saved\-Action}!text\-Pattern@{text\-Pattern}}
+\index{text\-Pattern@{text\-Pattern}!Utils::SavedAction@{\-Utils\-::\-Saved\-Action}}
+\subsubsection[{text\-Pattern}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Q\-String} {\bf \-Saved\-Action\-::text\-Pattern} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{class_utils_1_1_saved_action_a814f8ad7cf6576f6b227226189a5787e}
+
+
+\-Definition at line 180 of file savedaction.\-cpp.
+
+\hypertarget{class_utils_1_1_saved_action_af81b30af8c0bcceadccc6f970b568235}{\index{\-Utils\-::\-Saved\-Action@{\-Utils\-::\-Saved\-Action}!to\-String@{to\-String}}
+\index{to\-String@{to\-String}!Utils::SavedAction@{\-Utils\-::\-Saved\-Action}}
+\subsubsection[{to\-String}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Q\-String} {\bf \-Saved\-Action\-::to\-String} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_utils_1_1_saved_action_af81b30af8c0bcceadccc6f970b568235}
+
+
+\-Definition at line 190 of file savedaction.\-cpp.
+
+\hypertarget{class_utils_1_1_saved_action_a2973d3383b69e819d53c2a814db60edf}{\index{\-Utils\-::\-Saved\-Action@{\-Utils\-::\-Saved\-Action}!trigger@{trigger}}
+\index{trigger@{trigger}!Utils::SavedAction@{\-Utils\-::\-Saved\-Action}}
+\subsubsection[{trigger}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Saved\-Action\-::trigger} (
+\begin{DoxyParamCaption}
+\item[{const \-Q\-Variant \&}]{data}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{class_utils_1_1_saved_action_a2973d3383b69e819d53c2a814db60edf}
+
+
+\-Definition at line 431 of file savedaction.\-cpp.
+
+\hypertarget{class_utils_1_1_saved_action_adb860d8816cd41a3236eaa1278e8a77b}{\index{\-Utils\-::\-Saved\-Action@{\-Utils\-::\-Saved\-Action}!updated\-Action@{updated\-Action}}
+\index{updated\-Action@{updated\-Action}!Utils::SavedAction@{\-Utils\-::\-Saved\-Action}}
+\subsubsection[{updated\-Action}]{\setlength{\rightskip}{0pt plus 5cm}\-Q\-Action $\ast$ {\bf \-Saved\-Action\-::updated\-Action} (
+\begin{DoxyParamCaption}
+\item[{const {\bf \-Q\-String} \&}]{text}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{class_utils_1_1_saved_action_adb860d8816cd41a3236eaa1278e8a77b}
+\-Adjust the {\ttfamily text()} of the underlying action.
+
+\-This can be used to update the item shortly before e.\-g. a menu is shown.
+
+\-If the item's {\ttfamily \hyperlink{class_utils_1_1_saved_action_a814f8ad7cf6576f6b227226189a5787e}{text\-Pattern()}} is empty the {\itshape text\/} will be used verbatim.
+
+\-Otherwise, the behaviour depends on {\itshape text\-:\/} if it is non-\/empty, {\ttfamily \-Q\-String}(\hyperlink{class_utils_1_1_saved_action_a814f8ad7cf6576f6b227226189a5787e}{text\-Pattern()}).arg(text), otherwise, {\ttfamily \hyperlink{class_utils_1_1_saved_action_a814f8ad7cf6576f6b227226189a5787e}{text\-Pattern()}} with the \char`\"{}\%1\char`\"{} placeholder removed will be used.
+
+\begin{DoxySeeAlso}{\-See also}
+\hyperlink{class_utils_1_1_saved_action_a814f8ad7cf6576f6b227226189a5787e}{text\-Pattern()}, \hyperlink{class_utils_1_1_saved_action_a74883af07b4fbc3796a84561a4da14b8}{set\-Text\-Pattern()} 
+\end{DoxySeeAlso}
+
+
+\-Definition at line 214 of file savedaction.\-cpp.
+
+\hypertarget{class_utils_1_1_saved_action_aed09984cf5a881b0988fb6702e968de3}{\index{\-Utils\-::\-Saved\-Action@{\-Utils\-::\-Saved\-Action}!value@{value}}
+\index{value@{value}!Utils::SavedAction@{\-Utils\-::\-Saved\-Action}}
+\subsubsection[{value}]{\setlength{\rightskip}{0pt plus 5cm}\-Q\-Variant {\bf \-Saved\-Action\-::value} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{class_utils_1_1_saved_action_aed09984cf5a881b0988fb6702e968de3}
+\-Returns the current value of the object.
+
+\begin{DoxySeeAlso}{\-See also}
+\hyperlink{class_utils_1_1_saved_action_a0238473404fb4ac8ea3e934c0f188c5c}{set\-Value()} 
+\end{DoxySeeAlso}
+
+
+\-Definition at line 78 of file savedaction.\-cpp.
+
+\hypertarget{class_utils_1_1_saved_action_a7b6126c479043f004cc924df0fc5f8c5}{\index{\-Utils\-::\-Saved\-Action@{\-Utils\-::\-Saved\-Action}!value\-Changed@{value\-Changed}}
+\index{value\-Changed@{value\-Changed}!Utils::SavedAction@{\-Utils\-::\-Saved\-Action}}
+\subsubsection[{value\-Changed}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Utils\-::\-Saved\-Action\-::value\-Changed} (
+\begin{DoxyParamCaption}
+\item[{const \-Q\-Variant \&}]{new\-Value}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}signal\mbox{]}}}}\label{class_utils_1_1_saved_action_a7b6126c479043f004cc924df0fc5f8c5}
+\hypertarget{class_utils_1_1_saved_action_abe287a9257381ac7fe3d08128380cd24}{\index{\-Utils\-::\-Saved\-Action@{\-Utils\-::\-Saved\-Action}!write\-Settings@{write\-Settings}}
+\index{write\-Settings@{write\-Settings}!Utils::SavedAction@{\-Utils\-::\-Saved\-Action}}
+\subsubsection[{write\-Settings}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Saved\-Action\-::write\-Settings} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Settings $\ast$}]{settings}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{class_utils_1_1_saved_action_abe287a9257381ac7fe3d08128380cd24}
+
+
+\-Definition at line 261 of file savedaction.\-cpp.
+
+
+
+\-The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/libs/utils/\hyperlink{savedaction_8h}{savedaction.\-h}\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/libs/utils/\hyperlink{savedaction_8cpp}{savedaction.\-cpp}\end{DoxyCompactItemize}

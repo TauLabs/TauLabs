@@ -1,0 +1,414 @@
+\hypertarget{group___u_a_v_object_util_plugin}{\section{\-U\-A\-V\-Object\-Util \-Plugin}
+\label{group___u_a_v_object_util_plugin}\index{\-U\-A\-V\-Object\-Util Plugin@{\-U\-A\-V\-Object\-Util Plugin}}
+}
+
+
+\-The \-U\-A\-V\-U\-Object\-Util \-G\-C\-S plugin.  
+
+
+\subsection*{\-Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{classdevice_descriptor_struct}{device\-Descriptor\-Struct}
+\item 
+class \hyperlink{class_u_a_v_object_util_plugin}{\-U\-A\-V\-Object\-Util\-Plugin}
+\end{DoxyCompactItemize}
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+static \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___u_a_v_object_util_plugin_ga7e79b308b3743586bbaed68286e694e6}{device\-Descriptor\-Struct\-::id\-To\-Board\-Name} (quint16 id)
+\begin{DoxyCompactList}\small\item\em \-Get the name for a board via the plugin system. \end{DoxyCompactList}\item 
+static \-Q\-Pixmap \hyperlink{group___u_a_v_object_util_plugin_ga445e8ccb97ef5d05ed372fbd13532042}{device\-Descriptor\-Struct\-::id\-To\-Board\-Picture} (quint16 id)
+\item 
+\hyperlink{group___u_a_v_object_util_plugin_ga09cd541275c17c51873b51573cacbb5d}{device\-Descriptor\-Struct\-::device\-Descriptor\-Struct} ()
+\item 
+\hyperlink{group___u_a_v_object_util_plugin_ga3b705535aeae994a52c3d401767492c8}{\-U\-A\-V\-Object\-Util\-Plugin\-::\-U\-A\-V\-Object\-Util\-Plugin} ()
+\item 
+\hyperlink{group___u_a_v_object_util_plugin_ga1818db06a0b7162d9b933a9418dee8d6}{\-U\-A\-V\-Object\-Util\-Plugin\-::$\sim$\-U\-A\-V\-Object\-Util\-Plugin} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_util_plugin_ga644ec0f06cf775004f4f5cd28a60080a}{\-U\-A\-V\-Object\-Util\-Plugin\-::extensions\-Initialized} ()
+\item 
+bool \hyperlink{group___u_a_v_object_util_plugin_ga21707781be0dfd017ec41e59ef8bf7af}{\-U\-A\-V\-Object\-Util\-Plugin\-::initialize} (const \-Q\-String\-List \&arguments, \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} $\ast$error\-String)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_util_plugin_ga14d874a44f94ae805fa0d683410ccfcb}{\-U\-A\-V\-Object\-Util\-Plugin\-::shutdown} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_util_plugin_ga007cecfcbf4a9d18c1f2c9ec13de4222}{\-U\-A\-V\-Object\-Util\-Manager\-::save\-Object\-To\-S\-D} (\hyperlink{class_u_a_v_object}{\-U\-A\-V\-Object} $\ast$obj)
+\begin{DoxyCompactList}\small\item\em \hyperlink{group___u_a_v_object_util_plugin_ga007cecfcbf4a9d18c1f2c9ec13de4222}{\-U\-A\-V\-Object\-Util\-Manager\-::save\-Object\-To\-S\-D} \-Add a new object to save in the queue. \end{DoxyCompactList}\item 
+\-Q\-Map$<$ \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String}, \*
+\-U\-A\-V\-Object\-::\-Metadata $>$ \hyperlink{group___u_a_v_object_util_plugin_ga1bc82b9cb256ba0c3974bab7489aba4a}{\-U\-A\-V\-Object\-Util\-Manager\-::read\-All\-Non\-Settings\-Metadata} ()
+\begin{DoxyCompactList}\small\item\em \hyperlink{group___u_a_v_object_util_plugin_ga1bc82b9cb256ba0c3974bab7489aba4a}{\-U\-A\-V\-Object\-Util\-Manager\-::read\-All\-Non\-Settings\-Metadata} \-Convenience function for calling read\-Metadata. \end{DoxyCompactList}\item 
+\-Q\-Map$<$ \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String}, \*
+\-U\-A\-V\-Object\-::\-Metadata $>$ \hyperlink{group___u_a_v_object_util_plugin_gac4fbb0efd0a309169dea095945710ed3}{\-U\-A\-V\-Object\-Util\-Manager\-::read\-Metadata} (metadata\-Set\-Enum metadata\-Read\-Type)
+\begin{DoxyCompactList}\small\item\em \hyperlink{group___u_a_v_object_util_plugin_gac4fbb0efd0a309169dea095945710ed3}{\-U\-A\-V\-Object\-Util\-Manager\-::read\-Metadata} \-Get metadata for \-U\-A\-V\-Os. \end{DoxyCompactList}\item 
+bool \hyperlink{group___u_a_v_object_util_plugin_gaaa6258eb268dae068887432d5efcfa6c}{\-U\-A\-V\-Object\-Util\-Manager\-::set\-All\-Non\-Settings\-Metadata} (\-Q\-Map$<$ \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String}, \-U\-A\-V\-Object\-::\-Metadata $>$)
+\begin{DoxyCompactList}\small\item\em \hyperlink{group___u_a_v_object_util_plugin_gaaa6258eb268dae068887432d5efcfa6c}{\-U\-A\-V\-Object\-Util\-Manager\-::set\-All\-Non\-Settings\-Metadata} \-Convenience function for calling set\-Metadata. \end{DoxyCompactList}\item 
+bool \hyperlink{group___u_a_v_object_util_plugin_gab813cc6401727303f0787527bbd29ad1}{\-U\-A\-V\-Object\-Util\-Manager\-::set\-Metadata} (\-Q\-Map$<$ \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String}, \-U\-A\-V\-Object\-::\-Metadata $>$, metadata\-Set\-Enum metadata\-Update\-Type)
+\begin{DoxyCompactList}\small\item\em \hyperlink{group___u_a_v_object_util_plugin_gab813cc6401727303f0787527bbd29ad1}{\-U\-A\-V\-Object\-Util\-Manager\-::set\-Metadata} \-Sets the metadata for all metadata in \-Q\-Map. \end{DoxyCompactList}\item 
+bool \hyperlink{group___u_a_v_object_util_plugin_ga8fadd2e0c6ed3b69a1f8059d2c98054c}{\-U\-A\-V\-Object\-Util\-Manager\-::reset\-Metadata\-To\-Defaults} ()
+\begin{DoxyCompactList}\small\item\em \-U\-A\-V\-Object\-Util\-Manager\-::reset\-Metadata \-Resets all metadata to defaults (from \-X\-M\-L definitions) \end{DoxyCompactList}\item 
+\-Firmware\-I\-A\-P\-Obj\-::\-Data\-Fields \hyperlink{group___u_a_v_object_util_plugin_gabd93ae6b2c3ecb8444184c8aaf2176bb}{\-U\-A\-V\-Object\-Util\-Manager\-::get\-Firmware\-Iap} ()
+\item 
+int \hyperlink{group___u_a_v_object_util_plugin_ga45c8f562def61c9273af2b243d981114}{\-U\-A\-V\-Object\-Util\-Manager\-::get\-Board\-Model} ()
+\item 
+\-Q\-Byte\-Array \hyperlink{group___u_a_v_object_util_plugin_ga11c8171d7e380e699b4edf9b6860a236}{\-U\-A\-V\-Object\-Util\-Manager\-::get\-Board\-C\-P\-U\-Serial} ()
+\item 
+\-Q\-Byte\-Array \hyperlink{group___u_a_v_object_util_plugin_ga1c07eaa903b38480c6eb46b1a312f66e}{\-U\-A\-V\-Object\-Util\-Manager\-::get\-Board\-Description} ()
+\end{DoxyCompactItemize}
+\subsection*{\-Variables}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___u_a_v_object_util_plugin_ga7c265729bc1bc959e63a3c8f0f1543e8}{device\-Descriptor\-Struct\-::git\-Hash}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___u_a_v_object_util_plugin_gaf7688dd9b2d5fe676da57bbca33e460d}{device\-Descriptor\-Struct\-::git\-Date}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___u_a_v_object_util_plugin_ga69f44ea76d04a61aac18e4393eba4e84}{device\-Descriptor\-Struct\-::git\-Tag}
+\item 
+\-Q\-Byte\-Array \hyperlink{group___u_a_v_object_util_plugin_ga95764afe0cb2f53538af8c885eed80aa}{device\-Descriptor\-Struct\-::fw\-Hash}
+\item 
+\-Q\-Byte\-Array \hyperlink{group___u_a_v_object_util_plugin_gaa4639a6c66d44d1f5e0bf6c22c5eec64}{device\-Descriptor\-Struct\-::uavo\-Hash}
+\item 
+int \hyperlink{group___u_a_v_object_util_plugin_gaca2d8de7c741004f32a16a6d69f6b377}{device\-Descriptor\-Struct\-::board\-Type}
+\item 
+int \hyperlink{group___u_a_v_object_util_plugin_ga14b177e8d629710371658edd0acc7b3a}{device\-Descriptor\-Struct\-::board\-Revision}
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-The \-U\-A\-V\-U\-Object\-Util \-G\-C\-S plugin. 
+
+\subsection{\-Function \-Documentation}
+\hypertarget{group___u_a_v_object_util_plugin_ga09cd541275c17c51873b51573cacbb5d}{\index{\-U\-A\-V\-Object\-Util Plugin@{\-U\-A\-V\-Object\-Util Plugin}!device\-Descriptor\-Struct@{device\-Descriptor\-Struct}}
+\index{device\-Descriptor\-Struct@{device\-Descriptor\-Struct}!UAVObjectUtil Plugin@{\-U\-A\-V\-Object\-Util Plugin}}
+\subsubsection[{device\-Descriptor\-Struct}]{\setlength{\rightskip}{0pt plus 5cm}{\bf device\-Descriptor\-Struct\-::device\-Descriptor\-Struct} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_object_util_plugin_ga09cd541275c17c51873b51573cacbb5d}
+
+
+\-Definition at line 34 of file devicedescriptorstruct.\-cpp.
+
+\hypertarget{group___u_a_v_object_util_plugin_ga644ec0f06cf775004f4f5cd28a60080a}{\index{\-U\-A\-V\-Object\-Util Plugin@{\-U\-A\-V\-Object\-Util Plugin}!extensions\-Initialized@{extensions\-Initialized}}
+\index{extensions\-Initialized@{extensions\-Initialized}!UAVObjectUtil Plugin@{\-U\-A\-V\-Object\-Util Plugin}}
+\subsubsection[{extensions\-Initialized}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-U\-A\-V\-Object\-Util\-Plugin\-::extensions\-Initialized} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___u_a_v_object_util_plugin_ga644ec0f06cf775004f4f5cd28a60080a}
+\-Called after the \-I\-Plugin\-::initialize() method has been called, and after both the \-I\-Plugin\-::initialize() and \-I\-Plugin\-::extensions\-Initialized() methods of plugins that depend on this plugin have been called. \-In this method, the plugin can assume that plugins that depend on this plugin are fully 'up and running'. \-It is a good place to look in the plugin manager's object pool for objects that have been provided by dependent plugins. \begin{DoxySeeAlso}{\-See also}
+\hyperlink{group___u_a_v_object_util_plugin_ga21707781be0dfd017ec41e59ef8bf7af}{initialize()} 
+\end{DoxySeeAlso}
+
+
+\-Implements \hyperlink{class_extension_system_1_1_i_plugin_a1db3a7fb242fca02229f9a3be4fd6610}{\-Extension\-System\-::\-I\-Plugin}.
+
+
+
+\-Definition at line 39 of file uavobjectutilplugin.\-cpp.
+
+\hypertarget{group___u_a_v_object_util_plugin_ga11c8171d7e380e699b4edf9b6860a236}{\index{\-U\-A\-V\-Object\-Util Plugin@{\-U\-A\-V\-Object\-Util Plugin}!get\-Board\-C\-P\-U\-Serial@{get\-Board\-C\-P\-U\-Serial}}
+\index{get\-Board\-C\-P\-U\-Serial@{get\-Board\-C\-P\-U\-Serial}!UAVObjectUtil Plugin@{\-U\-A\-V\-Object\-Util Plugin}}
+\subsubsection[{get\-Board\-C\-P\-U\-Serial}]{\setlength{\rightskip}{0pt plus 5cm}\-Q\-Byte\-Array {\bf \-U\-A\-V\-Object\-Util\-Manager\-::get\-Board\-C\-P\-U\-Serial} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_object_util_plugin_ga11c8171d7e380e699b4edf9b6860a236}
+\-Get the \-U\-A\-V \-Board \-C\-P\-U \-Serial \-Number, for anyone interested. \-Return format is a byte array 
+
+\-Definition at line 471 of file uavobjectutilmanager.\-cpp.
+
+\hypertarget{group___u_a_v_object_util_plugin_ga1c07eaa903b38480c6eb46b1a312f66e}{\index{\-U\-A\-V\-Object\-Util Plugin@{\-U\-A\-V\-Object\-Util Plugin}!get\-Board\-Description@{get\-Board\-Description}}
+\index{get\-Board\-Description@{get\-Board\-Description}!UAVObjectUtil Plugin@{\-U\-A\-V\-Object\-Util Plugin}}
+\subsubsection[{get\-Board\-Description}]{\setlength{\rightskip}{0pt plus 5cm}\-Q\-Byte\-Array {\bf \-U\-A\-V\-Object\-Util\-Manager\-::get\-Board\-Description} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_object_util_plugin_ga1c07eaa903b38480c6eb46b1a312f66e}
+\-Get the \-U\-A\-V \-Board \-Description, for anyone interested. 
+
+\-Definition at line 491 of file uavobjectutilmanager.\-cpp.
+
+\hypertarget{group___u_a_v_object_util_plugin_ga45c8f562def61c9273af2b243d981114}{\index{\-U\-A\-V\-Object\-Util Plugin@{\-U\-A\-V\-Object\-Util Plugin}!get\-Board\-Model@{get\-Board\-Model}}
+\index{get\-Board\-Model@{get\-Board\-Model}!UAVObjectUtil Plugin@{\-U\-A\-V\-Object\-Util Plugin}}
+\subsubsection[{get\-Board\-Model}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf \-U\-A\-V\-Object\-Util\-Manager\-::get\-Board\-Model} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_object_util_plugin_ga45c8f562def61c9273af2b243d981114}
+\-Get the \-U\-A\-V \-Board model, for anyone interested. \-Return format is\-: (\-Board \-Type $<$$<$ 8) + \-Board\-Revision. 
+
+\-Definition at line 448 of file uavobjectutilmanager.\-cpp.
+
+\hypertarget{group___u_a_v_object_util_plugin_gabd93ae6b2c3ecb8444184c8aaf2176bb}{\index{\-U\-A\-V\-Object\-Util Plugin@{\-U\-A\-V\-Object\-Util Plugin}!get\-Firmware\-Iap@{get\-Firmware\-Iap}}
+\index{get\-Firmware\-Iap@{get\-Firmware\-Iap}!UAVObjectUtil Plugin@{\-U\-A\-V\-Object\-Util Plugin}}
+\subsubsection[{get\-Firmware\-Iap}]{\setlength{\rightskip}{0pt plus 5cm}\-Firmware\-I\-A\-P\-Obj\-::\-Data\-Fields {\bf \-U\-A\-V\-Object\-Util\-Manager\-::get\-Firmware\-Iap} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{group___u_a_v_object_util_plugin_gabd93ae6b2c3ecb8444184c8aaf2176bb}
+\-Helper function that makes sure \-Firmware\-I\-A\-P is updated and then returns the data 
+
+\-Definition at line 432 of file uavobjectutilmanager.\-cpp.
+
+\hypertarget{group___u_a_v_object_util_plugin_ga7e79b308b3743586bbaed68286e694e6}{\index{\-U\-A\-V\-Object\-Util Plugin@{\-U\-A\-V\-Object\-Util Plugin}!id\-To\-Board\-Name@{id\-To\-Board\-Name}}
+\index{id\-To\-Board\-Name@{id\-To\-Board\-Name}!UAVObjectUtil Plugin@{\-U\-A\-V\-Object\-Util Plugin}}
+\subsubsection[{id\-To\-Board\-Name}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Q\-String} {\bf device\-Descriptor\-Struct\-::id\-To\-Board\-Name} (
+\begin{DoxyParamCaption}
+\item[{quint16}]{id}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}\label{group___u_a_v_object_util_plugin_ga7e79b308b3743586bbaed68286e694e6}
+
+
+\-Get the name for a board via the plugin system. 
+
+
+
+\-Definition at line 40 of file devicedescriptorstruct.\-cpp.
+
+\hypertarget{group___u_a_v_object_util_plugin_ga445e8ccb97ef5d05ed372fbd13532042}{\index{\-U\-A\-V\-Object\-Util Plugin@{\-U\-A\-V\-Object\-Util Plugin}!id\-To\-Board\-Picture@{id\-To\-Board\-Picture}}
+\index{id\-To\-Board\-Picture@{id\-To\-Board\-Picture}!UAVObjectUtil Plugin@{\-U\-A\-V\-Object\-Util Plugin}}
+\subsubsection[{id\-To\-Board\-Picture}]{\setlength{\rightskip}{0pt plus 5cm}\-Q\-Pixmap {\bf device\-Descriptor\-Struct\-::id\-To\-Board\-Picture} (
+\begin{DoxyParamCaption}
+\item[{quint16}]{id}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}\label{group___u_a_v_object_util_plugin_ga445e8ccb97ef5d05ed372fbd13532042}
+
+
+\-Definition at line 55 of file devicedescriptorstruct.\-cpp.
+
+\hypertarget{group___u_a_v_object_util_plugin_ga21707781be0dfd017ec41e59ef8bf7af}{\index{\-U\-A\-V\-Object\-Util Plugin@{\-U\-A\-V\-Object\-Util Plugin}!initialize@{initialize}}
+\index{initialize@{initialize}!UAVObjectUtil Plugin@{\-U\-A\-V\-Object\-Util Plugin}}
+\subsubsection[{initialize}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-U\-A\-V\-Object\-Util\-Plugin\-::initialize} (
+\begin{DoxyParamCaption}
+\item[{const \-Q\-String\-List \&}]{arguments, }
+\item[{{\bf \-Q\-String} $\ast$}]{error\-String}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___u_a_v_object_util_plugin_ga21707781be0dfd017ec41e59ef8bf7af}
+\-Called after the plugin has been loaded and the \-I\-Plugin instance has been created. \-The initialize methods of plugins that depend on this plugin are called after the initialize method of this plugin has been called. \-Plugins should initialize their internal state in this method. \-Returns if initialization of successful. \-If it wasn't successful, the {\itshape error\-String\/} should be set to a user-\/readable message describing the reason. \begin{DoxySeeAlso}{\-See also}
+\hyperlink{group___u_a_v_object_util_plugin_ga644ec0f06cf775004f4f5cd28a60080a}{extensions\-Initialized()} 
+\end{DoxySeeAlso}
+
+
+\-Implements \hyperlink{class_extension_system_1_1_i_plugin_a9f3dc957317279daed393fdf4894e944}{\-Extension\-System\-::\-I\-Plugin}.
+
+
+
+\-Definition at line 43 of file uavobjectutilplugin.\-cpp.
+
+\hypertarget{group___u_a_v_object_util_plugin_ga1bc82b9cb256ba0c3974bab7489aba4a}{\index{\-U\-A\-V\-Object\-Util Plugin@{\-U\-A\-V\-Object\-Util Plugin}!read\-All\-Non\-Settings\-Metadata@{read\-All\-Non\-Settings\-Metadata}}
+\index{read\-All\-Non\-Settings\-Metadata@{read\-All\-Non\-Settings\-Metadata}!UAVObjectUtil Plugin@{\-U\-A\-V\-Object\-Util Plugin}}
+\subsubsection[{read\-All\-Non\-Settings\-Metadata}]{\setlength{\rightskip}{0pt plus 5cm}\-Q\-Map$<$ {\bf \-Q\-String}, \-U\-A\-V\-Object\-::\-Metadata $>$ {\bf \-U\-A\-V\-Object\-Util\-Manager\-::read\-All\-Non\-Settings\-Metadata} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_object_util_plugin_ga1bc82b9cb256ba0c3974bab7489aba4a}
+
+
+\hyperlink{group___u_a_v_object_util_plugin_ga1bc82b9cb256ba0c3974bab7489aba4a}{\-U\-A\-V\-Object\-Util\-Manager\-::read\-All\-Non\-Settings\-Metadata} \-Convenience function for calling read\-Metadata. 
+
+\begin{DoxyReturn}{\-Returns}
+\-Q\-Map containing list of all requested \-U\-A\-V\-O metaadata 
+\end{DoxyReturn}
+
+
+\-Definition at line 256 of file uavobjectutilmanager.\-cpp.
+
+\hypertarget{group___u_a_v_object_util_plugin_gac4fbb0efd0a309169dea095945710ed3}{\index{\-U\-A\-V\-Object\-Util Plugin@{\-U\-A\-V\-Object\-Util Plugin}!read\-Metadata@{read\-Metadata}}
+\index{read\-Metadata@{read\-Metadata}!UAVObjectUtil Plugin@{\-U\-A\-V\-Object\-Util Plugin}}
+\subsubsection[{read\-Metadata}]{\setlength{\rightskip}{0pt plus 5cm}\-Q\-Map$<$ {\bf \-Q\-String}, \-U\-A\-V\-Object\-::\-Metadata $>$ {\bf \-U\-A\-V\-Object\-Util\-Manager\-::read\-Metadata} (
+\begin{DoxyParamCaption}
+\item[{{\bf metadata\-Set\-Enum}}]{metadata\-Read\-Type}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_object_util_plugin_gac4fbb0efd0a309169dea095945710ed3}
+
+
+\hyperlink{group___u_a_v_object_util_plugin_gac4fbb0efd0a309169dea095945710ed3}{\-U\-A\-V\-Object\-Util\-Manager\-::read\-Metadata} \-Get metadata for \-U\-A\-V\-Os. 
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em metadata\-Read\-Type} & \-Defines if all \-U\-A\-V\-Os are read, only settings, or only data types \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+\-Q\-Map containing list of all requested \-U\-A\-V\-O metaadata 
+\end{DoxyReturn}
+
+
+\-Definition at line 267 of file uavobjectutilmanager.\-cpp.
+
+\hypertarget{group___u_a_v_object_util_plugin_ga8fadd2e0c6ed3b69a1f8059d2c98054c}{\index{\-U\-A\-V\-Object\-Util Plugin@{\-U\-A\-V\-Object\-Util Plugin}!reset\-Metadata\-To\-Defaults@{reset\-Metadata\-To\-Defaults}}
+\index{reset\-Metadata\-To\-Defaults@{reset\-Metadata\-To\-Defaults}!UAVObjectUtil Plugin@{\-U\-A\-V\-Object\-Util Plugin}}
+\subsubsection[{reset\-Metadata\-To\-Defaults}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-U\-A\-V\-Object\-Util\-Manager\-::reset\-Metadata\-To\-Defaults} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_object_util_plugin_ga8fadd2e0c6ed3b69a1f8059d2c98054c}
+
+
+\-U\-A\-V\-Object\-Util\-Manager\-::reset\-Metadata \-Resets all metadata to defaults (from \-X\-M\-L definitions) 
+
+\begin{DoxyReturn}{\-Returns}
+
+\end{DoxyReturn}
+
+
+\-Definition at line 370 of file uavobjectutilmanager.\-cpp.
+
+\hypertarget{group___u_a_v_object_util_plugin_ga007cecfcbf4a9d18c1f2c9ec13de4222}{\index{\-U\-A\-V\-Object\-Util Plugin@{\-U\-A\-V\-Object\-Util Plugin}!save\-Object\-To\-S\-D@{save\-Object\-To\-S\-D}}
+\index{save\-Object\-To\-S\-D@{save\-Object\-To\-S\-D}!UAVObjectUtil Plugin@{\-U\-A\-V\-Object\-Util Plugin}}
+\subsubsection[{save\-Object\-To\-S\-D}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-U\-A\-V\-Object\-Util\-Manager\-::save\-Object\-To\-S\-D} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-U\-A\-V\-Object} $\ast$}]{obj}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_object_util_plugin_ga007cecfcbf4a9d18c1f2c9ec13de4222}
+
+
+\hyperlink{group___u_a_v_object_util_plugin_ga007cecfcbf4a9d18c1f2c9ec13de4222}{\-U\-A\-V\-Object\-Util\-Manager\-::save\-Object\-To\-S\-D} \-Add a new object to save in the queue. 
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em obj} & \\
+\hline
+\end{DoxyParams}
+
+
+\-Definition at line 100 of file uavobjectutilmanager.\-cpp.
+
+\hypertarget{group___u_a_v_object_util_plugin_gaaa6258eb268dae068887432d5efcfa6c}{\index{\-U\-A\-V\-Object\-Util Plugin@{\-U\-A\-V\-Object\-Util Plugin}!set\-All\-Non\-Settings\-Metadata@{set\-All\-Non\-Settings\-Metadata}}
+\index{set\-All\-Non\-Settings\-Metadata@{set\-All\-Non\-Settings\-Metadata}!UAVObjectUtil Plugin@{\-U\-A\-V\-Object\-Util Plugin}}
+\subsubsection[{set\-All\-Non\-Settings\-Metadata}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-U\-A\-V\-Object\-Util\-Manager\-::set\-All\-Non\-Settings\-Metadata} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Map$<$ {\bf \-Q\-String}, \-U\-A\-V\-Object\-::\-Metadata $>$}]{meta\-Data\-List}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_object_util_plugin_gaaa6258eb268dae068887432d5efcfa6c}
+
+
+\hyperlink{group___u_a_v_object_util_plugin_gaaa6258eb268dae068887432d5efcfa6c}{\-U\-A\-V\-Object\-Util\-Manager\-::set\-All\-Non\-Settings\-Metadata} \-Convenience function for calling set\-Metadata. 
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em meta\-Data\-List} & \-Q\-Map containing list of all \-U\-A\-V\-O metaadata to be updated \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+
+\end{DoxyReturn}
+
+
+\-Definition at line 308 of file uavobjectutilmanager.\-cpp.
+
+\hypertarget{group___u_a_v_object_util_plugin_gab813cc6401727303f0787527bbd29ad1}{\index{\-U\-A\-V\-Object\-Util Plugin@{\-U\-A\-V\-Object\-Util Plugin}!set\-Metadata@{set\-Metadata}}
+\index{set\-Metadata@{set\-Metadata}!UAVObjectUtil Plugin@{\-U\-A\-V\-Object\-Util Plugin}}
+\subsubsection[{set\-Metadata}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-U\-A\-V\-Object\-Util\-Manager\-::set\-Metadata} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Map$<$ {\bf \-Q\-String}, \-U\-A\-V\-Object\-::\-Metadata $>$}]{meta\-Data\-Set\-List, }
+\item[{{\bf metadata\-Set\-Enum}}]{metadata\-Set\-Type}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_object_util_plugin_gab813cc6401727303f0787527bbd29ad1}
+
+
+\hyperlink{group___u_a_v_object_util_plugin_gab813cc6401727303f0787527bbd29ad1}{\-U\-A\-V\-Object\-Util\-Manager\-::set\-Metadata} \-Sets the metadata for all metadata in \-Q\-Map. 
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em meta\-Data\-Set\-List} & \-Q\-Map containing list of all \-U\-A\-V\-O metaadata to be updated \\
+\hline
+{\em metadata\-Set\-Type} & \-Controls if all metadata is updated, only settings metadata, or only dynamic data metadata \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+
+\end{DoxyReturn}
+
+
+\-Definition at line 324 of file uavobjectutilmanager.\-cpp.
+
+\hypertarget{group___u_a_v_object_util_plugin_ga14d874a44f94ae805fa0d683410ccfcb}{\index{\-U\-A\-V\-Object\-Util Plugin@{\-U\-A\-V\-Object\-Util Plugin}!shutdown@{shutdown}}
+\index{shutdown@{shutdown}!UAVObjectUtil Plugin@{\-U\-A\-V\-Object\-Util Plugin}}
+\subsubsection[{shutdown}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-U\-A\-V\-Object\-Util\-Plugin\-::shutdown} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___u_a_v_object_util_plugin_ga14d874a44f94ae805fa0d683410ccfcb}
+\-Called during a shutdown sequence in the same order as initialization before the plugins get deleted in reverse order. \-This method can be used to optimize the shutdown down, e.\-g. to disconnect from the \-Plugin\-Manager\-::about\-To\-Remove\-Object() signal if getting the signal (and probably doing lots of stuff to update the internal and visible state) doesn't make sense during shutdown. 
+
+\-Reimplemented from \hyperlink{class_extension_system_1_1_i_plugin_a65c16ebd3a6e89918a99af6515fe68cb}{\-Extension\-System\-::\-I\-Plugin}.
+
+
+
+\-Definition at line 55 of file uavobjectutilplugin.\-cpp.
+
+\hypertarget{group___u_a_v_object_util_plugin_ga3b705535aeae994a52c3d401767492c8}{\index{\-U\-A\-V\-Object\-Util Plugin@{\-U\-A\-V\-Object\-Util Plugin}!\-U\-A\-V\-Object\-Util\-Plugin@{\-U\-A\-V\-Object\-Util\-Plugin}}
+\index{\-U\-A\-V\-Object\-Util\-Plugin@{\-U\-A\-V\-Object\-Util\-Plugin}!UAVObjectUtil Plugin@{\-U\-A\-V\-Object\-Util Plugin}}
+\subsubsection[{\-U\-A\-V\-Object\-Util\-Plugin}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-U\-A\-V\-Object\-Util\-Plugin\-::\-U\-A\-V\-Object\-Util\-Plugin} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_object_util_plugin_ga3b705535aeae994a52c3d401767492c8}
+
+
+\-Definition at line 31 of file uavobjectutilplugin.\-cpp.
+
+\hypertarget{group___u_a_v_object_util_plugin_ga1818db06a0b7162d9b933a9418dee8d6}{\index{\-U\-A\-V\-Object\-Util Plugin@{\-U\-A\-V\-Object\-Util Plugin}!$\sim$\-U\-A\-V\-Object\-Util\-Plugin@{$\sim$\-U\-A\-V\-Object\-Util\-Plugin}}
+\index{$\sim$\-U\-A\-V\-Object\-Util\-Plugin@{$\sim$\-U\-A\-V\-Object\-Util\-Plugin}!UAVObjectUtil Plugin@{\-U\-A\-V\-Object\-Util Plugin}}
+\subsubsection[{$\sim$\-U\-A\-V\-Object\-Util\-Plugin}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-U\-A\-V\-Object\-Util\-Plugin\-::$\sim$\-U\-A\-V\-Object\-Util\-Plugin} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_object_util_plugin_ga1818db06a0b7162d9b933a9418dee8d6}
+
+
+\-Definition at line 35 of file uavobjectutilplugin.\-cpp.
+
+
+
+\subsection{\-Variable \-Documentation}
+\hypertarget{group___u_a_v_object_util_plugin_ga14b177e8d629710371658edd0acc7b3a}{\index{\-U\-A\-V\-Object\-Util Plugin@{\-U\-A\-V\-Object\-Util Plugin}!board\-Revision@{board\-Revision}}
+\index{board\-Revision@{board\-Revision}!UAVObjectUtil Plugin@{\-U\-A\-V\-Object\-Util Plugin}}
+\subsubsection[{board\-Revision}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf device\-Descriptor\-Struct\-::board\-Revision}}}\label{group___u_a_v_object_util_plugin_ga14b177e8d629710371658edd0acc7b3a}
+
+
+\-Definition at line 44 of file devicedescriptorstruct.\-h.
+
+\hypertarget{group___u_a_v_object_util_plugin_gaca2d8de7c741004f32a16a6d69f6b377}{\index{\-U\-A\-V\-Object\-Util Plugin@{\-U\-A\-V\-Object\-Util Plugin}!board\-Type@{board\-Type}}
+\index{board\-Type@{board\-Type}!UAVObjectUtil Plugin@{\-U\-A\-V\-Object\-Util Plugin}}
+\subsubsection[{board\-Type}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf device\-Descriptor\-Struct\-::board\-Type}}}\label{group___u_a_v_object_util_plugin_gaca2d8de7c741004f32a16a6d69f6b377}
+
+
+\-Definition at line 43 of file devicedescriptorstruct.\-h.
+
+\hypertarget{group___u_a_v_object_util_plugin_ga95764afe0cb2f53538af8c885eed80aa}{\index{\-U\-A\-V\-Object\-Util Plugin@{\-U\-A\-V\-Object\-Util Plugin}!fw\-Hash@{fw\-Hash}}
+\index{fw\-Hash@{fw\-Hash}!UAVObjectUtil Plugin@{\-U\-A\-V\-Object\-Util Plugin}}
+\subsubsection[{fw\-Hash}]{\setlength{\rightskip}{0pt plus 5cm}\-Q\-Byte\-Array {\bf device\-Descriptor\-Struct\-::fw\-Hash}}}\label{group___u_a_v_object_util_plugin_ga95764afe0cb2f53538af8c885eed80aa}
+
+
+\-Definition at line 41 of file devicedescriptorstruct.\-h.
+
+\hypertarget{group___u_a_v_object_util_plugin_gaf7688dd9b2d5fe676da57bbca33e460d}{\index{\-U\-A\-V\-Object\-Util Plugin@{\-U\-A\-V\-Object\-Util Plugin}!git\-Date@{git\-Date}}
+\index{git\-Date@{git\-Date}!UAVObjectUtil Plugin@{\-U\-A\-V\-Object\-Util Plugin}}
+\subsubsection[{git\-Date}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Q\-String} {\bf device\-Descriptor\-Struct\-::git\-Date}}}\label{group___u_a_v_object_util_plugin_gaf7688dd9b2d5fe676da57bbca33e460d}
+
+
+\-Definition at line 39 of file devicedescriptorstruct.\-h.
+
+\hypertarget{group___u_a_v_object_util_plugin_ga7c265729bc1bc959e63a3c8f0f1543e8}{\index{\-U\-A\-V\-Object\-Util Plugin@{\-U\-A\-V\-Object\-Util Plugin}!git\-Hash@{git\-Hash}}
+\index{git\-Hash@{git\-Hash}!UAVObjectUtil Plugin@{\-U\-A\-V\-Object\-Util Plugin}}
+\subsubsection[{git\-Hash}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Q\-String} {\bf device\-Descriptor\-Struct\-::git\-Hash}}}\label{group___u_a_v_object_util_plugin_ga7c265729bc1bc959e63a3c8f0f1543e8}
+
+
+\-Definition at line 38 of file devicedescriptorstruct.\-h.
+
+\hypertarget{group___u_a_v_object_util_plugin_ga69f44ea76d04a61aac18e4393eba4e84}{\index{\-U\-A\-V\-Object\-Util Plugin@{\-U\-A\-V\-Object\-Util Plugin}!git\-Tag@{git\-Tag}}
+\index{git\-Tag@{git\-Tag}!UAVObjectUtil Plugin@{\-U\-A\-V\-Object\-Util Plugin}}
+\subsubsection[{git\-Tag}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Q\-String} {\bf device\-Descriptor\-Struct\-::git\-Tag}}}\label{group___u_a_v_object_util_plugin_ga69f44ea76d04a61aac18e4393eba4e84}
+
+
+\-Definition at line 40 of file devicedescriptorstruct.\-h.
+
+\hypertarget{group___u_a_v_object_util_plugin_gaa4639a6c66d44d1f5e0bf6c22c5eec64}{\index{\-U\-A\-V\-Object\-Util Plugin@{\-U\-A\-V\-Object\-Util Plugin}!uavo\-Hash@{uavo\-Hash}}
+\index{uavo\-Hash@{uavo\-Hash}!UAVObjectUtil Plugin@{\-U\-A\-V\-Object\-Util Plugin}}
+\subsubsection[{uavo\-Hash}]{\setlength{\rightskip}{0pt plus 5cm}\-Q\-Byte\-Array {\bf device\-Descriptor\-Struct\-::uavo\-Hash}}}\label{group___u_a_v_object_util_plugin_gaa4639a6c66d44d1f5e0bf6c22c5eec64}
+
+
+\-Definition at line 42 of file devicedescriptorstruct.\-h.
+

@@ -1,0 +1,65 @@
+\hypertarget{class_core_1_1_i_u_a_v_gadget}{\section{\-Core\-:\-:\-I\-U\-A\-V\-Gadget \-Class \-Reference}
+\label{class_core_1_1_i_u_a_v_gadget}\index{\-Core\-::\-I\-U\-A\-V\-Gadget@{\-Core\-::\-I\-U\-A\-V\-Gadget}}
+}
+
+
+{\ttfamily \#include $<$iuavgadget.\-h$>$}
+
+\-Inheritance diagram for \-Core\-:\-:\-I\-U\-A\-V\-Gadget\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=12.000000cm]{class_core_1_1_i_u_a_v_gadget}
+\end{center}
+\end{figure}
+\subsection*{\-Public \-Slots}
+\begin{DoxyCompactItemize}
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___core_plugin_ga4a76f276d67023d53ca8a5338af10634}{configuration\-Changed} (\hyperlink{class_core_1_1_i_u_a_v_gadget_configuration}{\-I\-U\-A\-V\-Gadget\-Configuration} $\ast$)
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___core_plugin_ga8234e97e94558cdd2ee137db82925693}{configuration\-Added} (\hyperlink{class_core_1_1_i_u_a_v_gadget_configuration}{\-I\-U\-A\-V\-Gadget\-Configuration} $\ast$)
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___core_plugin_ga7810dea18c37e2ec2588adfed05701f0}{configuration\-To\-Be\-Deleted} (\hyperlink{class_core_1_1_i_u_a_v_gadget_configuration}{\-I\-U\-A\-V\-Gadget\-Configuration} $\ast$)
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___core_plugin_ga9fa66647624ca42689597cac1716be5a}{configuration\-Name\-Changed} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String}, \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String})
+\end{DoxyCompactItemize}
+\subsection*{\-Public \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___core_plugin_gab05dd4230eb4f599db6c08439bc6216c}{\-I\-U\-A\-V\-Gadget} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___core_plugin_ga3878fde66a57220608960bcc3fbeef2c}{class\-Id}, \-Q\-Object $\ast$parent=0)
+\item 
+virtual \hyperlink{group___core_plugin_ga817ce9cba005f49f5da1d0e5daca2fa4}{$\sim$\-I\-U\-A\-V\-Gadget} ()
+\item 
+\-Q\-List$<$ int $>$ \hyperlink{group___core_plugin_gaaed028d1293022d86c3ccba4c1d3c4e7}{context} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___core_plugin_ga90502d49b96520b41d1f55429144cb74}{set\-Context} (\-Q\-List$<$ int $>$ \hyperlink{group___core_plugin_gaaed028d1293022d86c3ccba4c1d3c4e7}{context})
+\item 
+virtual \-Q\-Widget $\ast$ \hyperlink{group___core_plugin_gac74c76eef51e24e62a333fe0fd940cf6}{widget} ()=0
+\item 
+virtual \-Q\-Combo\-Box $\ast$ \hyperlink{group___core_plugin_ga96a26c85897a679529b1fc59d8c0edcd}{tool\-Bar} ()
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___core_plugin_ga27d0b6b967ad954602eb54eecc5dbdd1}{context\-Help\-Id} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___core_plugin_ga3878fde66a57220608960bcc3fbeef2c}{class\-Id} () const 
+\item 
+virtual \hyperlink{class_core_1_1_i_u_a_v_gadget_configuration}{\-I\-U\-A\-V\-Gadget\-Configuration} $\ast$ \hyperlink{group___core_plugin_gaae57a0547d1a44549001909d0f3d8ccc}{active\-Configuration} ()
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___core_plugin_gaaf60a82b8643f54a42381600c52bbe8a}{load\-Configuration} (\hyperlink{class_core_1_1_i_u_a_v_gadget_configuration}{\-I\-U\-A\-V\-Gadget\-Configuration} $\ast$)
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___core_plugin_ga9759b09853e66682145bff354bbc67a2}{save\-State} (\-Q\-Settings $\ast$)
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___core_plugin_ga5dd9e50dd4b774c9629db1253b996b40}{restore\-State} (\-Q\-Byte\-Array)
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___core_plugin_ga33f4d9ab2eb15e1a3f70729c67ebc6e2}{restore\-State} (\-Q\-Settings $\ast$)
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+
+
+\-Definition at line 46 of file iuavgadget.\-h.
+
+
+
+\-The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/plugins/coreplugin/\hyperlink{iuavgadget_8h}{iuavgadget.\-h}\end{DoxyCompactItemize}

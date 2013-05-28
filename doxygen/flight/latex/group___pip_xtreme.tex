@@ -1,0 +1,493 @@
+\hypertarget{group___pip_xtreme}{\section{\-Open\-Pilot \-Pip\-Xtreme support files}
+\label{group___pip_xtreme}\index{\-Open\-Pilot Pip\-Xtreme support files@{\-Open\-Pilot Pip\-Xtreme support files}}
+}
+\subsection*{\-Files}
+\begin{DoxyCompactItemize}
+\item 
+file \hyperlink{_s_t_m32103_c_b___p_i_p_x_t_r_e_m_e___rev1_8h}{\-S\-T\-M32103\-C\-B\-\_\-\-P\-I\-P\-X\-T\-R\-E\-M\-E\-\_\-\-Rev1.\-h}
+\begin{DoxyCompactList}\small\item\em \-Board header file for \-Pip\-Xtreme. \end{DoxyCompactList}\item 
+file \hyperlink{pipxtreme_8c}{pipxtreme.\-c}
+\begin{DoxyCompactList}\small\item\em \-Start \-Free\-R\-T\-O\-S and the \-Modules. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structpios__led__cfg}{pios\-\_\-led\-\_\-cfg} $\ast$ \hyperlink{group___pip_xtreme_gafb76ae90816003eabf1d90feff7b1a52}{\-P\-I\-O\-S\-\_\-\-B\-O\-A\-R\-D\-\_\-\-H\-W\-\_\-\-D\-E\-F\-S\-\_\-\-Get\-Led\-Cfg} (uint32\-\_\-t board\-\_\-revision)
+\item 
+void \hyperlink{group___pip_xtreme_gae574ff0c5047e27c39bc2ebc121ad77c}{\-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-port\-\_\-irq\-\_\-handler} (void)
+\item 
+void \hyperlink{group___pip_xtreme_ga8e3a6d7ba4b5da3ec8decb912bd80943}{\-D\-M\-A1\-\_\-\-Channel5\-\_\-\-I\-R\-Q\-Handler} ()
+\item 
+struct \hyperlink{structpios__rfm22b__cfg}{pios\-\_\-rfm22b\-\_\-cfg} $\ast$ \hyperlink{group___pip_xtreme_ga82ea8b6b6e602117e6fbadfe2d465de3}{\-P\-I\-O\-S\-\_\-\-B\-O\-A\-R\-D\-\_\-\-H\-W\-\_\-\-D\-E\-F\-S\-\_\-\-Get\-Rfm22\-Cfg} (uint32\-\_\-t board\-\_\-revision)
+\begin{DoxyCompactList}\small\item\em \-Compatibility layer for various hardware revisions. \end{DoxyCompactList}\item 
+void \hyperlink{group___pip_xtreme_gad6ef17a736d2c33cf82ce413c8a9b070}{\-P\-I\-O\-S\-\_\-\-A\-D\-C\-\_\-handler} (void)
+\item 
+void \hyperlink{group___pip_xtreme_gabd49de55f82b1a0be3edaaf34dbe4b14}{\-D\-M\-A1\-\_\-\-Channel1\-\_\-\-I\-R\-Q\-Handler} ()
+\item 
+void \hyperlink{group___pip_xtreme_gadc73bf2eccd9d9ff9d8efedd1e743704}{\-P\-I\-O\-S\-\_\-\-R\-T\-C\-\_\-\-I\-R\-Q\-\_\-\-Handler} (void)
+\item 
+void \hyperlink{group___pip_xtreme_ga97e62d710cac4e413791be18ac03bc88}{\-R\-T\-C\-\_\-\-I\-R\-Q\-Handler} ()
+\item 
+void \hyperlink{group___pip_xtreme_ga902009c5b1cb57d9f9d60092eb7cacfb}{\-P\-I\-O\-S\-\_\-\-Board\-\_\-\-Init} (void)
+\item 
+int32\-\_\-t \hyperlink{group___pip_xtreme_ga5efd94ab761f254827f38dba474cf642}{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-B\-O\-A\-R\-D\-\_\-\-D\-A\-T\-A\-\_\-\-Init} (void)
+\item 
+void \hyperlink{group___pip_xtreme_ga7a789e7b91612099a4a1f355b9e97c24}{\-Stack\-\_\-\-Change} (void)
+\item 
+int \hyperlink{group___pip_xtreme_gae66f6b31b5ad750f1fe042a706a4e3d4}{main} ()
+\end{DoxyCompactItemize}
+\subsection*{\-Variables}
+\begin{DoxyCompactItemize}
+\item 
+uint32\-\_\-t \hyperlink{group___pip_xtreme_ga00c59288b3ddcecb262b920ef5ae6ce1}{pios\-\_\-i2c\-\_\-flexi\-\_\-adapter\-\_\-id}
+\item 
+uintptr\-\_\-t \hyperlink{group___pip_xtreme_ga513cc36d72b76de2fcb75ff233a79a4a}{pios\-\_\-com\-\_\-telem\-\_\-usb\-\_\-id}
+\item 
+uintptr\-\_\-t \hyperlink{group___pip_xtreme_gaad17224bb36a5f3c73a716320de2b604}{pios\-\_\-com\-\_\-telem\-\_\-vcp\-\_\-id}
+\item 
+uintptr\-\_\-t \hyperlink{group___pip_xtreme_ga921f0eb0351c5bfb72fa30333cd8dbe1}{pios\-\_\-com\-\_\-telem\-\_\-uart\-\_\-telem\-\_\-id}
+\item 
+uintptr\-\_\-t \hyperlink{group___pip_xtreme_ga756d20d3ee409603f69b54c0bf4c5584}{pios\-\_\-com\-\_\-telem\-\_\-uart\-\_\-flexi\-\_\-id}
+\item 
+uintptr\-\_\-t \hyperlink{group___pip_xtreme_gac90e37dffee878bd2e1e9d2020b6a1de}{pios\-\_\-com\-\_\-telemetry\-\_\-id}
+\item 
+uintptr\-\_\-t \hyperlink{group___pip_xtreme_ga960a23c3c0c4fd41826d65e01651b737}{pios\-\_\-com\-\_\-rfm22b\-\_\-id}
+\item 
+uintptr\-\_\-t \hyperlink{group___pip_xtreme_ga7bf37c2a11a82f3cee715b9e09638dce}{pios\-\_\-com\-\_\-radio\-\_\-id}
+\item 
+uint32\-\_\-t \hyperlink{group___pip_xtreme_ga6338d4e922eaddddb7e8cb253a901907}{pios\-\_\-ppm\-\_\-rcvr\-\_\-id}
+\item 
+uint32\-\_\-t \hyperlink{group___pip_xtreme_ga32bd307cbb8a4dcde0609dbd263ef65f}{pios\-\_\-spi\-\_\-rfm22b\-\_\-id}
+\item 
+uint32\-\_\-t \hyperlink{group___pip_xtreme_ga1e0b7d2eb8b8640e07daa1f381780972}{pios\-\_\-rfm22b\-\_\-id}
+\item 
+uint32\-\_\-t \hyperlink{group___pip_xtreme_gab0199d5aedb7be35cb1d6880ee21f8ac}{pios\-\_\-packet\-\_\-handler}
+\item 
+uint32\-\_\-t \hyperlink{group___pip_xtreme_ga32bd307cbb8a4dcde0609dbd263ef65f}{pios\-\_\-spi\-\_\-rfm22b\-\_\-id}
+\item 
+struct \hyperlink{structpios__rfm22b__cfg}{pios\-\_\-rfm22b\-\_\-cfg} \hyperlink{group___pip_xtreme_ga8bfaf47f84e519c2b523c9029cd8d624}{pios\-\_\-rfm22b\-\_\-pipx\-\_\-cfg}
+\item 
+struct \hyperlink{structpios__adc__dev}{pios\-\_\-adc\-\_\-dev} \hyperlink{group___pip_xtreme_ga60479077e81beceb101d711cefa0dd04}{pios\-\_\-adc\-\_\-devs} \mbox{[}$\,$\mbox{]}
+\item 
+uint8\-\_\-t \hyperlink{group___pip_xtreme_ga28c65992d20cf6fca97cd69b271e47cf}{pios\-\_\-adc\-\_\-num\-\_\-devices} = \-N\-E\-L\-E\-M\-E\-N\-T\-S(\hyperlink{group___pip_xtreme_ga60479077e81beceb101d711cefa0dd04}{pios\-\_\-adc\-\_\-devs})
+\item 
+struct \hyperlink{structpios__ppm__cfg}{pios\-\_\-ppm\-\_\-cfg} \hyperlink{group___pip_xtreme_ga256c8c512691a72ee2ed15d1a9041810}{pios\-\_\-ppm\-\_\-cfg}
+\item 
+struct \hyperlink{structpios__usb__hid__cfg}{pios\-\_\-usb\-\_\-hid\-\_\-cfg} \hyperlink{group___pip_xtreme_ga3665f6d3a2cccc431b55b9432291e94c}{pios\-\_\-usb\-\_\-hid\-\_\-cfg}
+\item 
+struct \hyperlink{structpios__usb__cdc__cfg}{pios\-\_\-usb\-\_\-cdc\-\_\-cfg} \hyperlink{group___pip_xtreme_ga05cc3e449d417c7f9097d2659e6f5ca3}{pios\-\_\-usb\-\_\-cdc\-\_\-cfg}
+\item 
+struct \hyperlink{structpios__eeprom__cfg}{pios\-\_\-eeprom\-\_\-cfg} \hyperlink{group___pip_xtreme_ga067bf691b4323c59a3ee7228f35e462f}{pios\-\_\-eeprom\-\_\-cfg}
+\item 
+uintptr\-\_\-t \hyperlink{group___pip_xtreme_ga513cc36d72b76de2fcb75ff233a79a4a}{pios\-\_\-com\-\_\-telem\-\_\-usb\-\_\-id}
+\item 
+uintptr\-\_\-t \hyperlink{group___pip_xtreme_gaad17224bb36a5f3c73a716320de2b604}{pios\-\_\-com\-\_\-telem\-\_\-vcp\-\_\-id}
+\item 
+uintptr\-\_\-t \hyperlink{group___pip_xtreme_ga921f0eb0351c5bfb72fa30333cd8dbe1}{pios\-\_\-com\-\_\-telem\-\_\-uart\-\_\-telem\-\_\-id}
+\item 
+uintptr\-\_\-t \hyperlink{group___pip_xtreme_ga756d20d3ee409603f69b54c0bf4c5584}{pios\-\_\-com\-\_\-telem\-\_\-uart\-\_\-flexi\-\_\-id}
+\item 
+uintptr\-\_\-t \hyperlink{group___pip_xtreme_gac90e37dffee878bd2e1e9d2020b6a1de}{pios\-\_\-com\-\_\-telemetry\-\_\-id}
+\item 
+uint32\-\_\-t \hyperlink{group___pip_xtreme_ga6338d4e922eaddddb7e8cb253a901907}{pios\-\_\-ppm\-\_\-rcvr\-\_\-id}
+\item 
+uint32\-\_\-t \hyperlink{group___pip_xtreme_ga1e0b7d2eb8b8640e07daa1f381780972}{pios\-\_\-rfm22b\-\_\-id}
+\item 
+uintptr\-\_\-t \hyperlink{group___pip_xtreme_ga960a23c3c0c4fd41826d65e01651b737}{pios\-\_\-com\-\_\-rfm22b\-\_\-id}
+\item 
+uintptr\-\_\-t \hyperlink{group___pip_xtreme_ga7bf37c2a11a82f3cee715b9e09638dce}{pios\-\_\-com\-\_\-radio\-\_\-id}
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Function \-Documentation}
+\hypertarget{group___pip_xtreme_gabd49de55f82b1a0be3edaaf34dbe4b14}{\index{\-Open\-Pilot Pip\-Xtreme support files@{\-Open\-Pilot Pip\-Xtreme support files}!\-D\-M\-A1\-\_\-\-Channel1\-\_\-\-I\-R\-Q\-Handler@{\-D\-M\-A1\-\_\-\-Channel1\-\_\-\-I\-R\-Q\-Handler}}
+\index{\-D\-M\-A1\-\_\-\-Channel1\-\_\-\-I\-R\-Q\-Handler@{\-D\-M\-A1\-\_\-\-Channel1\-\_\-\-I\-R\-Q\-Handler}!OpenPilot PipXtreme support files@{\-Open\-Pilot Pip\-Xtreme support files}}
+\subsubsection[{\-D\-M\-A1\-\_\-\-Channel1\-\_\-\-I\-R\-Q\-Handler}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-D\-M\-A1\-\_\-\-Channel1\-\_\-\-I\-R\-Q\-Handler} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___pip_xtreme_gabd49de55f82b1a0be3edaaf34dbe4b14}
+
+
+\-Definition at line 302 of file board\-\_\-hw\-\_\-defs.\-c.
+
+\hypertarget{group___pip_xtreme_ga8e3a6d7ba4b5da3ec8decb912bd80943}{\index{\-Open\-Pilot Pip\-Xtreme support files@{\-Open\-Pilot Pip\-Xtreme support files}!\-D\-M\-A1\-\_\-\-Channel5\-\_\-\-I\-R\-Q\-Handler@{\-D\-M\-A1\-\_\-\-Channel5\-\_\-\-I\-R\-Q\-Handler}}
+\index{\-D\-M\-A1\-\_\-\-Channel5\-\_\-\-I\-R\-Q\-Handler@{\-D\-M\-A1\-\_\-\-Channel5\-\_\-\-I\-R\-Q\-Handler}!OpenPilot PipXtreme support files@{\-Open\-Pilot Pip\-Xtreme support files}}
+\subsubsection[{\-D\-M\-A1\-\_\-\-Channel5\-\_\-\-I\-R\-Q\-Handler}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-D\-M\-A1\-\_\-\-Channel5\-\_\-\-I\-R\-Q\-Handler} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___pip_xtreme_ga8e3a6d7ba4b5da3ec8decb912bd80943}
+
+
+\-Definition at line 129 of file board\-\_\-hw\-\_\-defs.\-c.
+
+\hypertarget{group___pip_xtreme_gae66f6b31b5ad750f1fe042a706a4e3d4}{\index{\-Open\-Pilot Pip\-Xtreme support files@{\-Open\-Pilot Pip\-Xtreme support files}!main@{main}}
+\index{main@{main}!OpenPilot PipXtreme support files@{\-Open\-Pilot Pip\-Xtreme support files}}
+\subsubsection[{main}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf main} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group___pip_xtreme_gae66f6b31b5ad750f1fe042a706a4e3d4}
+\-Open\-Pilot \-Main function\-:
+
+\-Initialize \-Pi\-O\-S\par
+ \-Create the \char`\"{}\-System\char`\"{} task (\-System\-Mod\-Initializein \hyperlink{systemmod_8c}{\-Modules/\-System/systemmod.\-c}) \par
+ \-Start \-Free\-R\-T\-O\-S \-Scheduler (v\-Task\-Start\-Scheduler) (\-Now handled by caller) \-If something goes wrong, blink \-L\-E\-D1 and \-L\-E\-D2 every 100ms 
+
+\-Definition at line 55 of file pipxtreme.\-c.
+
+\hypertarget{group___pip_xtreme_gad6ef17a736d2c33cf82ce413c8a9b070}{\index{\-Open\-Pilot Pip\-Xtreme support files@{\-Open\-Pilot Pip\-Xtreme support files}!\-P\-I\-O\-S\-\_\-\-A\-D\-C\-\_\-handler@{\-P\-I\-O\-S\-\_\-\-A\-D\-C\-\_\-handler}}
+\index{\-P\-I\-O\-S\-\_\-\-A\-D\-C\-\_\-handler@{\-P\-I\-O\-S\-\_\-\-A\-D\-C\-\_\-handler}!OpenPilot PipXtreme support files@{\-Open\-Pilot Pip\-Xtreme support files}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-A\-D\-C\-\_\-handler}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-P\-I\-O\-S\-\_\-\-A\-D\-C\-\_\-handler} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group___pip_xtreme_gad6ef17a736d2c33cf82ce413c8a9b070}
+\hypertarget{group___pip_xtreme_gafb76ae90816003eabf1d90feff7b1a52}{\index{\-Open\-Pilot Pip\-Xtreme support files@{\-Open\-Pilot Pip\-Xtreme support files}!\-P\-I\-O\-S\-\_\-\-B\-O\-A\-R\-D\-\_\-\-H\-W\-\_\-\-D\-E\-F\-S\-\_\-\-Get\-Led\-Cfg@{\-P\-I\-O\-S\-\_\-\-B\-O\-A\-R\-D\-\_\-\-H\-W\-\_\-\-D\-E\-F\-S\-\_\-\-Get\-Led\-Cfg}}
+\index{\-P\-I\-O\-S\-\_\-\-B\-O\-A\-R\-D\-\_\-\-H\-W\-\_\-\-D\-E\-F\-S\-\_\-\-Get\-Led\-Cfg@{\-P\-I\-O\-S\-\_\-\-B\-O\-A\-R\-D\-\_\-\-H\-W\-\_\-\-D\-E\-F\-S\-\_\-\-Get\-Led\-Cfg}!OpenPilot PipXtreme support files@{\-Open\-Pilot Pip\-Xtreme support files}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-B\-O\-A\-R\-D\-\_\-\-H\-W\-\_\-\-D\-E\-F\-S\-\_\-\-Get\-Led\-Cfg}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf pios\-\_\-led\-\_\-cfg}$\ast$ {\bf \-P\-I\-O\-S\-\_\-\-B\-O\-A\-R\-D\-\_\-\-H\-W\-\_\-\-D\-E\-F\-S\-\_\-\-Get\-Led\-Cfg} (
+\begin{DoxyParamCaption}
+\item[{uint32\-\_\-t}]{board\-\_\-revision}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}read\mbox{]}}}}\label{group___pip_xtreme_gafb76ae90816003eabf1d90feff7b1a52}
+
+
+\-Definition at line 112 of file board\-\_\-hw\-\_\-defs.\-c.
+
+\hypertarget{group___pip_xtreme_ga82ea8b6b6e602117e6fbadfe2d465de3}{\index{\-Open\-Pilot Pip\-Xtreme support files@{\-Open\-Pilot Pip\-Xtreme support files}!\-P\-I\-O\-S\-\_\-\-B\-O\-A\-R\-D\-\_\-\-H\-W\-\_\-\-D\-E\-F\-S\-\_\-\-Get\-Rfm22\-Cfg@{\-P\-I\-O\-S\-\_\-\-B\-O\-A\-R\-D\-\_\-\-H\-W\-\_\-\-D\-E\-F\-S\-\_\-\-Get\-Rfm22\-Cfg}}
+\index{\-P\-I\-O\-S\-\_\-\-B\-O\-A\-R\-D\-\_\-\-H\-W\-\_\-\-D\-E\-F\-S\-\_\-\-Get\-Rfm22\-Cfg@{\-P\-I\-O\-S\-\_\-\-B\-O\-A\-R\-D\-\_\-\-H\-W\-\_\-\-D\-E\-F\-S\-\_\-\-Get\-Rfm22\-Cfg}!OpenPilot PipXtreme support files@{\-Open\-Pilot Pip\-Xtreme support files}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-B\-O\-A\-R\-D\-\_\-\-H\-W\-\_\-\-D\-E\-F\-S\-\_\-\-Get\-Rfm22\-Cfg}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf pios\-\_\-rfm22b\-\_\-cfg}$\ast$ {\bf \-P\-I\-O\-S\-\_\-\-B\-O\-A\-R\-D\-\_\-\-H\-W\-\_\-\-D\-E\-F\-S\-\_\-\-Get\-Rfm22\-Cfg} (
+\begin{DoxyParamCaption}
+\item[{uint32\-\_\-t}]{board\-\_\-revision}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}read\mbox{]}}}}\label{group___pip_xtreme_ga82ea8b6b6e602117e6fbadfe2d465de3}
+
+
+\-Compatibility layer for various hardware revisions. 
+
+
+
+\-Definition at line 288 of file board\-\_\-hw\-\_\-defs.\-c.
+
+\hypertarget{group___pip_xtreme_ga902009c5b1cb57d9f9d60092eb7cacfb}{\index{\-Open\-Pilot Pip\-Xtreme support files@{\-Open\-Pilot Pip\-Xtreme support files}!\-P\-I\-O\-S\-\_\-\-Board\-\_\-\-Init@{\-P\-I\-O\-S\-\_\-\-Board\-\_\-\-Init}}
+\index{\-P\-I\-O\-S\-\_\-\-Board\-\_\-\-Init@{\-P\-I\-O\-S\-\_\-\-Board\-\_\-\-Init}!OpenPilot PipXtreme support files@{\-Open\-Pilot Pip\-Xtreme support files}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-Board\-\_\-\-Init}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-P\-I\-O\-S\-\_\-\-Board\-\_\-\-Init} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group___pip_xtreme_ga902009c5b1cb57d9f9d60092eb7cacfb}
+\hyperlink{group___bootloader_update_ga902009c5b1cb57d9f9d60092eb7cacfb}{\-P\-I\-O\-S\-\_\-\-Board\-\_\-\-Init()} initializes all the core subsystems on this specific hardware called from \-System/openpilot.\-c 
+
+\-Definition at line 70 of file pios\-\_\-board.\-c.
+
+\hypertarget{group___pip_xtreme_gadc73bf2eccd9d9ff9d8efedd1e743704}{\index{\-Open\-Pilot Pip\-Xtreme support files@{\-Open\-Pilot Pip\-Xtreme support files}!\-P\-I\-O\-S\-\_\-\-R\-T\-C\-\_\-\-I\-R\-Q\-\_\-\-Handler@{\-P\-I\-O\-S\-\_\-\-R\-T\-C\-\_\-\-I\-R\-Q\-\_\-\-Handler}}
+\index{\-P\-I\-O\-S\-\_\-\-R\-T\-C\-\_\-\-I\-R\-Q\-\_\-\-Handler@{\-P\-I\-O\-S\-\_\-\-R\-T\-C\-\_\-\-I\-R\-Q\-\_\-\-Handler}!OpenPilot PipXtreme support files@{\-Open\-Pilot Pip\-Xtreme support files}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-R\-T\-C\-\_\-\-I\-R\-Q\-\_\-\-Handler}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-P\-I\-O\-S\-\_\-\-R\-T\-C\-\_\-\-I\-R\-Q\-\_\-\-Handler} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group___pip_xtreme_gadc73bf2eccd9d9ff9d8efedd1e743704}
+\hypertarget{group___pip_xtreme_gae574ff0c5047e27c39bc2ebc121ad77c}{\index{\-Open\-Pilot Pip\-Xtreme support files@{\-Open\-Pilot Pip\-Xtreme support files}!\-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-port\-\_\-irq\-\_\-handler@{\-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-port\-\_\-irq\-\_\-handler}}
+\index{\-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-port\-\_\-irq\-\_\-handler@{\-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-port\-\_\-irq\-\_\-handler}!OpenPilot PipXtreme support files@{\-Open\-Pilot Pip\-Xtreme support files}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-port\-\_\-irq\-\_\-handler}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-port\-\_\-irq\-\_\-handler} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group___pip_xtreme_gae574ff0c5047e27c39bc2ebc121ad77c}
+
+
+\-Definition at line 237 of file board\-\_\-hw\-\_\-defs.\-c.
+
+\hypertarget{group___pip_xtreme_ga5efd94ab761f254827f38dba474cf642}{\index{\-Open\-Pilot Pip\-Xtreme support files@{\-Open\-Pilot Pip\-Xtreme support files}!\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-B\-O\-A\-R\-D\-\_\-\-D\-A\-T\-A\-\_\-\-Init@{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-B\-O\-A\-R\-D\-\_\-\-D\-A\-T\-A\-\_\-\-Init}}
+\index{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-B\-O\-A\-R\-D\-\_\-\-D\-A\-T\-A\-\_\-\-Init@{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-B\-O\-A\-R\-D\-\_\-\-D\-A\-T\-A\-\_\-\-Init}!OpenPilot PipXtreme support files@{\-Open\-Pilot Pip\-Xtreme support files}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-B\-O\-A\-R\-D\-\_\-\-D\-A\-T\-A\-\_\-\-Init}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-B\-O\-A\-R\-D\-\_\-\-D\-A\-T\-A\-\_\-\-Init} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group___pip_xtreme_ga5efd94ab761f254827f38dba474cf642}
+
+
+\-Definition at line 79 of file pios\-\_\-usb\-\_\-board\-\_\-data.\-c.
+
+\hypertarget{group___pip_xtreme_ga97e62d710cac4e413791be18ac03bc88}{\index{\-Open\-Pilot Pip\-Xtreme support files@{\-Open\-Pilot Pip\-Xtreme support files}!\-R\-T\-C\-\_\-\-I\-R\-Q\-Handler@{\-R\-T\-C\-\_\-\-I\-R\-Q\-Handler}}
+\index{\-R\-T\-C\-\_\-\-I\-R\-Q\-Handler@{\-R\-T\-C\-\_\-\-I\-R\-Q\-Handler}!OpenPilot PipXtreme support files@{\-Open\-Pilot Pip\-Xtreme support files}}
+\subsubsection[{\-R\-T\-C\-\_\-\-I\-R\-Q\-Handler}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-R\-T\-C\-\_\-\-I\-R\-Q\-Handler} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___pip_xtreme_ga97e62d710cac4e413791be18ac03bc88}
+
+
+\-Definition at line 532 of file board\-\_\-hw\-\_\-defs.\-c.
+
+\hypertarget{group___pip_xtreme_ga7a789e7b91612099a4a1f355b9e97c24}{\index{\-Open\-Pilot Pip\-Xtreme support files@{\-Open\-Pilot Pip\-Xtreme support files}!\-Stack\-\_\-\-Change@{\-Stack\-\_\-\-Change}}
+\index{\-Stack\-\_\-\-Change@{\-Stack\-\_\-\-Change}!OpenPilot PipXtreme support files@{\-Open\-Pilot Pip\-Xtreme support files}}
+\subsubsection[{\-Stack\-\_\-\-Change}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-Stack\-\_\-\-Change} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group___pip_xtreme_ga7a789e7b91612099a4a1f355b9e97c24}
+
+
+\-Definition at line 50 of file pios\-\_\-board\-\_\-sim.\-c.
+
+
+
+\subsection{\-Variable \-Documentation}
+\hypertarget{group___pip_xtreme_ga60479077e81beceb101d711cefa0dd04}{\index{\-Open\-Pilot Pip\-Xtreme support files@{\-Open\-Pilot Pip\-Xtreme support files}!pios\-\_\-adc\-\_\-devs@{pios\-\_\-adc\-\_\-devs}}
+\index{pios\-\_\-adc\-\_\-devs@{pios\-\_\-adc\-\_\-devs}!OpenPilot PipXtreme support files@{\-Open\-Pilot Pip\-Xtreme support files}}
+\subsubsection[{pios\-\_\-adc\-\_\-devs}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf pios\-\_\-adc\-\_\-dev} {\bf pios\-\_\-adc\-\_\-devs}\mbox{[}$\,$\mbox{]}}}\label{group___pip_xtreme_ga60479077e81beceb101d711cefa0dd04}
+{\bfseries \-Initial value\-:}
+\begin{DoxyCode}
+ {
+        {
+                .cfg = &pios_adc_cfg,
+                .callback_function = NULL,
+        },
+}
+\end{DoxyCode}
+
+
+\-Definition at line 335 of file board\-\_\-hw\-\_\-defs.\-c.
+
+\hypertarget{group___pip_xtreme_ga28c65992d20cf6fca97cd69b271e47cf}{\index{\-Open\-Pilot Pip\-Xtreme support files@{\-Open\-Pilot Pip\-Xtreme support files}!pios\-\_\-adc\-\_\-num\-\_\-devices@{pios\-\_\-adc\-\_\-num\-\_\-devices}}
+\index{pios\-\_\-adc\-\_\-num\-\_\-devices@{pios\-\_\-adc\-\_\-num\-\_\-devices}!OpenPilot PipXtreme support files@{\-Open\-Pilot Pip\-Xtreme support files}}
+\subsubsection[{pios\-\_\-adc\-\_\-num\-\_\-devices}]{\setlength{\rightskip}{0pt plus 5cm}uint8\-\_\-t {\bf pios\-\_\-adc\-\_\-num\-\_\-devices} = \-N\-E\-L\-E\-M\-E\-N\-T\-S({\bf pios\-\_\-adc\-\_\-devs})}}\label{group___pip_xtreme_ga28c65992d20cf6fca97cd69b271e47cf}
+
+
+\-Definition at line 342 of file board\-\_\-hw\-\_\-defs.\-c.
+
+\hypertarget{group___pip_xtreme_ga7bf37c2a11a82f3cee715b9e09638dce}{\index{\-Open\-Pilot Pip\-Xtreme support files@{\-Open\-Pilot Pip\-Xtreme support files}!pios\-\_\-com\-\_\-radio\-\_\-id@{pios\-\_\-com\-\_\-radio\-\_\-id}}
+\index{pios\-\_\-com\-\_\-radio\-\_\-id@{pios\-\_\-com\-\_\-radio\-\_\-id}!OpenPilot PipXtreme support files@{\-Open\-Pilot Pip\-Xtreme support files}}
+\subsubsection[{pios\-\_\-com\-\_\-radio\-\_\-id}]{\setlength{\rightskip}{0pt plus 5cm}uintptr\-\_\-t {\bf pios\-\_\-com\-\_\-radio\-\_\-id}}}\label{group___pip_xtreme_ga7bf37c2a11a82f3cee715b9e09638dce}
+
+
+\-Definition at line 62 of file pios\-\_\-board.\-c.
+
+\hypertarget{group___pip_xtreme_ga7bf37c2a11a82f3cee715b9e09638dce}{\index{\-Open\-Pilot Pip\-Xtreme support files@{\-Open\-Pilot Pip\-Xtreme support files}!pios\-\_\-com\-\_\-radio\-\_\-id@{pios\-\_\-com\-\_\-radio\-\_\-id}}
+\index{pios\-\_\-com\-\_\-radio\-\_\-id@{pios\-\_\-com\-\_\-radio\-\_\-id}!OpenPilot PipXtreme support files@{\-Open\-Pilot Pip\-Xtreme support files}}
+\subsubsection[{pios\-\_\-com\-\_\-radio\-\_\-id}]{\setlength{\rightskip}{0pt plus 5cm}uintptr\-\_\-t {\bf pios\-\_\-com\-\_\-radio\-\_\-id}}}\label{group___pip_xtreme_ga7bf37c2a11a82f3cee715b9e09638dce}
+
+
+\-Definition at line 62 of file pios\-\_\-board.\-c.
+
+\hypertarget{group___pip_xtreme_ga960a23c3c0c4fd41826d65e01651b737}{\index{\-Open\-Pilot Pip\-Xtreme support files@{\-Open\-Pilot Pip\-Xtreme support files}!pios\-\_\-com\-\_\-rfm22b\-\_\-id@{pios\-\_\-com\-\_\-rfm22b\-\_\-id}}
+\index{pios\-\_\-com\-\_\-rfm22b\-\_\-id@{pios\-\_\-com\-\_\-rfm22b\-\_\-id}!OpenPilot PipXtreme support files@{\-Open\-Pilot Pip\-Xtreme support files}}
+\subsubsection[{pios\-\_\-com\-\_\-rfm22b\-\_\-id}]{\setlength{\rightskip}{0pt plus 5cm}uintptr\-\_\-t {\bf pios\-\_\-com\-\_\-rfm22b\-\_\-id}}}\label{group___pip_xtreme_ga960a23c3c0c4fd41826d65e01651b737}
+
+
+\-Definition at line 61 of file pios\-\_\-board.\-c.
+
+\hypertarget{group___pip_xtreme_ga960a23c3c0c4fd41826d65e01651b737}{\index{\-Open\-Pilot Pip\-Xtreme support files@{\-Open\-Pilot Pip\-Xtreme support files}!pios\-\_\-com\-\_\-rfm22b\-\_\-id@{pios\-\_\-com\-\_\-rfm22b\-\_\-id}}
+\index{pios\-\_\-com\-\_\-rfm22b\-\_\-id@{pios\-\_\-com\-\_\-rfm22b\-\_\-id}!OpenPilot PipXtreme support files@{\-Open\-Pilot Pip\-Xtreme support files}}
+\subsubsection[{pios\-\_\-com\-\_\-rfm22b\-\_\-id}]{\setlength{\rightskip}{0pt plus 5cm}uintptr\-\_\-t {\bf pios\-\_\-com\-\_\-rfm22b\-\_\-id}}}\label{group___pip_xtreme_ga960a23c3c0c4fd41826d65e01651b737}
+
+
+\-Definition at line 61 of file pios\-\_\-board.\-c.
+
+\hypertarget{group___pip_xtreme_ga756d20d3ee409603f69b54c0bf4c5584}{\index{\-Open\-Pilot Pip\-Xtreme support files@{\-Open\-Pilot Pip\-Xtreme support files}!pios\-\_\-com\-\_\-telem\-\_\-uart\-\_\-flexi\-\_\-id@{pios\-\_\-com\-\_\-telem\-\_\-uart\-\_\-flexi\-\_\-id}}
+\index{pios\-\_\-com\-\_\-telem\-\_\-uart\-\_\-flexi\-\_\-id@{pios\-\_\-com\-\_\-telem\-\_\-uart\-\_\-flexi\-\_\-id}!OpenPilot PipXtreme support files@{\-Open\-Pilot Pip\-Xtreme support files}}
+\subsubsection[{pios\-\_\-com\-\_\-telem\-\_\-uart\-\_\-flexi\-\_\-id}]{\setlength{\rightskip}{0pt plus 5cm}uintptr\-\_\-t {\bf pios\-\_\-com\-\_\-telem\-\_\-uart\-\_\-flexi\-\_\-id}}}\label{group___pip_xtreme_ga756d20d3ee409603f69b54c0bf4c5584}
+
+
+\-Definition at line 54 of file pios\-\_\-board.\-c.
+
+\hypertarget{group___pip_xtreme_ga756d20d3ee409603f69b54c0bf4c5584}{\index{\-Open\-Pilot Pip\-Xtreme support files@{\-Open\-Pilot Pip\-Xtreme support files}!pios\-\_\-com\-\_\-telem\-\_\-uart\-\_\-flexi\-\_\-id@{pios\-\_\-com\-\_\-telem\-\_\-uart\-\_\-flexi\-\_\-id}}
+\index{pios\-\_\-com\-\_\-telem\-\_\-uart\-\_\-flexi\-\_\-id@{pios\-\_\-com\-\_\-telem\-\_\-uart\-\_\-flexi\-\_\-id}!OpenPilot PipXtreme support files@{\-Open\-Pilot Pip\-Xtreme support files}}
+\subsubsection[{pios\-\_\-com\-\_\-telem\-\_\-uart\-\_\-flexi\-\_\-id}]{\setlength{\rightskip}{0pt plus 5cm}uintptr\-\_\-t {\bf pios\-\_\-com\-\_\-telem\-\_\-uart\-\_\-flexi\-\_\-id}}}\label{group___pip_xtreme_ga756d20d3ee409603f69b54c0bf4c5584}
+
+
+\-Definition at line 54 of file pios\-\_\-board.\-c.
+
+\hypertarget{group___pip_xtreme_ga921f0eb0351c5bfb72fa30333cd8dbe1}{\index{\-Open\-Pilot Pip\-Xtreme support files@{\-Open\-Pilot Pip\-Xtreme support files}!pios\-\_\-com\-\_\-telem\-\_\-uart\-\_\-telem\-\_\-id@{pios\-\_\-com\-\_\-telem\-\_\-uart\-\_\-telem\-\_\-id}}
+\index{pios\-\_\-com\-\_\-telem\-\_\-uart\-\_\-telem\-\_\-id@{pios\-\_\-com\-\_\-telem\-\_\-uart\-\_\-telem\-\_\-id}!OpenPilot PipXtreme support files@{\-Open\-Pilot Pip\-Xtreme support files}}
+\subsubsection[{pios\-\_\-com\-\_\-telem\-\_\-uart\-\_\-telem\-\_\-id}]{\setlength{\rightskip}{0pt plus 5cm}uintptr\-\_\-t {\bf pios\-\_\-com\-\_\-telem\-\_\-uart\-\_\-telem\-\_\-id}}}\label{group___pip_xtreme_ga921f0eb0351c5bfb72fa30333cd8dbe1}
+
+
+\-Definition at line 53 of file pios\-\_\-board.\-c.
+
+\hypertarget{group___pip_xtreme_ga921f0eb0351c5bfb72fa30333cd8dbe1}{\index{\-Open\-Pilot Pip\-Xtreme support files@{\-Open\-Pilot Pip\-Xtreme support files}!pios\-\_\-com\-\_\-telem\-\_\-uart\-\_\-telem\-\_\-id@{pios\-\_\-com\-\_\-telem\-\_\-uart\-\_\-telem\-\_\-id}}
+\index{pios\-\_\-com\-\_\-telem\-\_\-uart\-\_\-telem\-\_\-id@{pios\-\_\-com\-\_\-telem\-\_\-uart\-\_\-telem\-\_\-id}!OpenPilot PipXtreme support files@{\-Open\-Pilot Pip\-Xtreme support files}}
+\subsubsection[{pios\-\_\-com\-\_\-telem\-\_\-uart\-\_\-telem\-\_\-id}]{\setlength{\rightskip}{0pt plus 5cm}uintptr\-\_\-t {\bf pios\-\_\-com\-\_\-telem\-\_\-uart\-\_\-telem\-\_\-id}}}\label{group___pip_xtreme_ga921f0eb0351c5bfb72fa30333cd8dbe1}
+
+
+\-Definition at line 53 of file pios\-\_\-board.\-c.
+
+\hypertarget{group___pip_xtreme_ga513cc36d72b76de2fcb75ff233a79a4a}{\index{\-Open\-Pilot Pip\-Xtreme support files@{\-Open\-Pilot Pip\-Xtreme support files}!pios\-\_\-com\-\_\-telem\-\_\-usb\-\_\-id@{pios\-\_\-com\-\_\-telem\-\_\-usb\-\_\-id}}
+\index{pios\-\_\-com\-\_\-telem\-\_\-usb\-\_\-id@{pios\-\_\-com\-\_\-telem\-\_\-usb\-\_\-id}!OpenPilot PipXtreme support files@{\-Open\-Pilot Pip\-Xtreme support files}}
+\subsubsection[{pios\-\_\-com\-\_\-telem\-\_\-usb\-\_\-id}]{\setlength{\rightskip}{0pt plus 5cm}uintptr\-\_\-t {\bf pios\-\_\-com\-\_\-telem\-\_\-usb\-\_\-id}}}\label{group___pip_xtreme_ga513cc36d72b76de2fcb75ff233a79a4a}
+
+
+\-Definition at line 51 of file pios\-\_\-board.\-c.
+
+\hypertarget{group___pip_xtreme_ga513cc36d72b76de2fcb75ff233a79a4a}{\index{\-Open\-Pilot Pip\-Xtreme support files@{\-Open\-Pilot Pip\-Xtreme support files}!pios\-\_\-com\-\_\-telem\-\_\-usb\-\_\-id@{pios\-\_\-com\-\_\-telem\-\_\-usb\-\_\-id}}
+\index{pios\-\_\-com\-\_\-telem\-\_\-usb\-\_\-id@{pios\-\_\-com\-\_\-telem\-\_\-usb\-\_\-id}!OpenPilot PipXtreme support files@{\-Open\-Pilot Pip\-Xtreme support files}}
+\subsubsection[{pios\-\_\-com\-\_\-telem\-\_\-usb\-\_\-id}]{\setlength{\rightskip}{0pt plus 5cm}uintptr\-\_\-t {\bf pios\-\_\-com\-\_\-telem\-\_\-usb\-\_\-id}}}\label{group___pip_xtreme_ga513cc36d72b76de2fcb75ff233a79a4a}
+
+
+\-Definition at line 42 of file pios\-\_\-board.\-c.
+
+\hypertarget{group___pip_xtreme_gaad17224bb36a5f3c73a716320de2b604}{\index{\-Open\-Pilot Pip\-Xtreme support files@{\-Open\-Pilot Pip\-Xtreme support files}!pios\-\_\-com\-\_\-telem\-\_\-vcp\-\_\-id@{pios\-\_\-com\-\_\-telem\-\_\-vcp\-\_\-id}}
+\index{pios\-\_\-com\-\_\-telem\-\_\-vcp\-\_\-id@{pios\-\_\-com\-\_\-telem\-\_\-vcp\-\_\-id}!OpenPilot PipXtreme support files@{\-Open\-Pilot Pip\-Xtreme support files}}
+\subsubsection[{pios\-\_\-com\-\_\-telem\-\_\-vcp\-\_\-id}]{\setlength{\rightskip}{0pt plus 5cm}uintptr\-\_\-t {\bf pios\-\_\-com\-\_\-telem\-\_\-vcp\-\_\-id}}}\label{group___pip_xtreme_gaad17224bb36a5f3c73a716320de2b604}
+
+
+\-Definition at line 52 of file pios\-\_\-board.\-c.
+
+\hypertarget{group___pip_xtreme_gaad17224bb36a5f3c73a716320de2b604}{\index{\-Open\-Pilot Pip\-Xtreme support files@{\-Open\-Pilot Pip\-Xtreme support files}!pios\-\_\-com\-\_\-telem\-\_\-vcp\-\_\-id@{pios\-\_\-com\-\_\-telem\-\_\-vcp\-\_\-id}}
+\index{pios\-\_\-com\-\_\-telem\-\_\-vcp\-\_\-id@{pios\-\_\-com\-\_\-telem\-\_\-vcp\-\_\-id}!OpenPilot PipXtreme support files@{\-Open\-Pilot Pip\-Xtreme support files}}
+\subsubsection[{pios\-\_\-com\-\_\-telem\-\_\-vcp\-\_\-id}]{\setlength{\rightskip}{0pt plus 5cm}uintptr\-\_\-t {\bf pios\-\_\-com\-\_\-telem\-\_\-vcp\-\_\-id}}}\label{group___pip_xtreme_gaad17224bb36a5f3c73a716320de2b604}
+
+
+\-Definition at line 52 of file pios\-\_\-board.\-c.
+
+\hypertarget{group___pip_xtreme_gac90e37dffee878bd2e1e9d2020b6a1de}{\index{\-Open\-Pilot Pip\-Xtreme support files@{\-Open\-Pilot Pip\-Xtreme support files}!pios\-\_\-com\-\_\-telemetry\-\_\-id@{pios\-\_\-com\-\_\-telemetry\-\_\-id}}
+\index{pios\-\_\-com\-\_\-telemetry\-\_\-id@{pios\-\_\-com\-\_\-telemetry\-\_\-id}!OpenPilot PipXtreme support files@{\-Open\-Pilot Pip\-Xtreme support files}}
+\subsubsection[{pios\-\_\-com\-\_\-telemetry\-\_\-id}]{\setlength{\rightskip}{0pt plus 5cm}uintptr\-\_\-t {\bf pios\-\_\-com\-\_\-telemetry\-\_\-id}}}\label{group___pip_xtreme_gac90e37dffee878bd2e1e9d2020b6a1de}
+
+
+\-Definition at line 55 of file pios\-\_\-board.\-c.
+
+\hypertarget{group___pip_xtreme_gac90e37dffee878bd2e1e9d2020b6a1de}{\index{\-Open\-Pilot Pip\-Xtreme support files@{\-Open\-Pilot Pip\-Xtreme support files}!pios\-\_\-com\-\_\-telemetry\-\_\-id@{pios\-\_\-com\-\_\-telemetry\-\_\-id}}
+\index{pios\-\_\-com\-\_\-telemetry\-\_\-id@{pios\-\_\-com\-\_\-telemetry\-\_\-id}!OpenPilot PipXtreme support files@{\-Open\-Pilot Pip\-Xtreme support files}}
+\subsubsection[{pios\-\_\-com\-\_\-telemetry\-\_\-id}]{\setlength{\rightskip}{0pt plus 5cm}uintptr\-\_\-t {\bf pios\-\_\-com\-\_\-telemetry\-\_\-id}}}\label{group___pip_xtreme_gac90e37dffee878bd2e1e9d2020b6a1de}
+
+
+\-Definition at line 55 of file pios\-\_\-board.\-c.
+
+\hypertarget{group___pip_xtreme_ga067bf691b4323c59a3ee7228f35e462f}{\index{\-Open\-Pilot Pip\-Xtreme support files@{\-Open\-Pilot Pip\-Xtreme support files}!pios\-\_\-eeprom\-\_\-cfg@{pios\-\_\-eeprom\-\_\-cfg}}
+\index{pios\-\_\-eeprom\-\_\-cfg@{pios\-\_\-eeprom\-\_\-cfg}!OpenPilot PipXtreme support files@{\-Open\-Pilot Pip\-Xtreme support files}}
+\subsubsection[{pios\-\_\-eeprom\-\_\-cfg}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf pios\-\_\-eeprom\-\_\-cfg} {\bf pios\-\_\-eeprom\-\_\-cfg}}}\label{group___pip_xtreme_ga067bf691b4323c59a3ee7228f35e462f}
+{\bfseries \-Initial value\-:}
+\begin{DoxyCode}
+ {
+        .base_address = PIOS_FLASH_EEPROM_ADDR,
+        .max_size = PIOS_FLASH_EEPROM_LEN,
+}
+\end{DoxyCode}
+
+
+\-Definition at line 637 of file board\-\_\-hw\-\_\-defs.\-c.
+
+\hypertarget{group___pip_xtreme_ga00c59288b3ddcecb262b920ef5ae6ce1}{\index{\-Open\-Pilot Pip\-Xtreme support files@{\-Open\-Pilot Pip\-Xtreme support files}!pios\-\_\-i2c\-\_\-flexi\-\_\-adapter\-\_\-id@{pios\-\_\-i2c\-\_\-flexi\-\_\-adapter\-\_\-id}}
+\index{pios\-\_\-i2c\-\_\-flexi\-\_\-adapter\-\_\-id@{pios\-\_\-i2c\-\_\-flexi\-\_\-adapter\-\_\-id}!OpenPilot PipXtreme support files@{\-Open\-Pilot Pip\-Xtreme support files}}
+\subsubsection[{pios\-\_\-i2c\-\_\-flexi\-\_\-adapter\-\_\-id}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t {\bf pios\-\_\-i2c\-\_\-flexi\-\_\-adapter\-\_\-id}}}\label{group___pip_xtreme_ga00c59288b3ddcecb262b920ef5ae6ce1}
+
+
+\-Definition at line 1281 of file board\-\_\-hw\-\_\-defs.\-c.
+
+\hypertarget{group___pip_xtreme_gab0199d5aedb7be35cb1d6880ee21f8ac}{\index{\-Open\-Pilot Pip\-Xtreme support files@{\-Open\-Pilot Pip\-Xtreme support files}!pios\-\_\-packet\-\_\-handler@{pios\-\_\-packet\-\_\-handler}}
+\index{pios\-\_\-packet\-\_\-handler@{pios\-\_\-packet\-\_\-handler}!OpenPilot PipXtreme support files@{\-Open\-Pilot Pip\-Xtreme support files}}
+\subsubsection[{pios\-\_\-packet\-\_\-handler}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t {\bf pios\-\_\-packet\-\_\-handler}}}\label{group___pip_xtreme_gab0199d5aedb7be35cb1d6880ee21f8ac}
+\hypertarget{group___pip_xtreme_ga256c8c512691a72ee2ed15d1a9041810}{\index{\-Open\-Pilot Pip\-Xtreme support files@{\-Open\-Pilot Pip\-Xtreme support files}!pios\-\_\-ppm\-\_\-cfg@{pios\-\_\-ppm\-\_\-cfg}}
+\index{pios\-\_\-ppm\-\_\-cfg@{pios\-\_\-ppm\-\_\-cfg}!OpenPilot PipXtreme support files@{\-Open\-Pilot Pip\-Xtreme support files}}
+\subsubsection[{pios\-\_\-ppm\-\_\-cfg}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf pios\-\_\-ppm\-\_\-cfg} {\bf pios\-\_\-ppm\-\_\-cfg}}}\label{group___pip_xtreme_ga256c8c512691a72ee2ed15d1a9041810}
+{\bfseries \-Initial value\-:}
+\begin{DoxyCode}
+ {
+        .tim_ic_init = {
+                .TIM_ICPolarity = TIM_ICPolarity_Rising,
+                .TIM_ICSelection = TIM_ICSelection_DirectTI,
+                .TIM_ICPrescaler = TIM_ICPSC_DIV1,
+                .TIM_ICFilter = 0x0,
+        },
+        .channels = &pios_tim_ppm_flexi_port,
+        .num_channels = 1,
+}
+\end{DoxyCode}
+
+
+\-Definition at line 559 of file board\-\_\-hw\-\_\-defs.\-c.
+
+\hypertarget{group___pip_xtreme_ga6338d4e922eaddddb7e8cb253a901907}{\index{\-Open\-Pilot Pip\-Xtreme support files@{\-Open\-Pilot Pip\-Xtreme support files}!pios\-\_\-ppm\-\_\-rcvr\-\_\-id@{pios\-\_\-ppm\-\_\-rcvr\-\_\-id}}
+\index{pios\-\_\-ppm\-\_\-rcvr\-\_\-id@{pios\-\_\-ppm\-\_\-rcvr\-\_\-id}!OpenPilot PipXtreme support files@{\-Open\-Pilot Pip\-Xtreme support files}}
+\subsubsection[{pios\-\_\-ppm\-\_\-rcvr\-\_\-id}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t {\bf pios\-\_\-ppm\-\_\-rcvr\-\_\-id}}}\label{group___pip_xtreme_ga6338d4e922eaddddb7e8cb253a901907}
+
+
+\-Definition at line 57 of file pios\-\_\-board.\-c.
+
+\hypertarget{group___pip_xtreme_ga6338d4e922eaddddb7e8cb253a901907}{\index{\-Open\-Pilot Pip\-Xtreme support files@{\-Open\-Pilot Pip\-Xtreme support files}!pios\-\_\-ppm\-\_\-rcvr\-\_\-id@{pios\-\_\-ppm\-\_\-rcvr\-\_\-id}}
+\index{pios\-\_\-ppm\-\_\-rcvr\-\_\-id@{pios\-\_\-ppm\-\_\-rcvr\-\_\-id}!OpenPilot PipXtreme support files@{\-Open\-Pilot Pip\-Xtreme support files}}
+\subsubsection[{pios\-\_\-ppm\-\_\-rcvr\-\_\-id}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t {\bf pios\-\_\-ppm\-\_\-rcvr\-\_\-id}}}\label{group___pip_xtreme_ga6338d4e922eaddddb7e8cb253a901907}
+
+
+\-Definition at line 57 of file pios\-\_\-board.\-c.
+
+\hypertarget{group___pip_xtreme_ga1e0b7d2eb8b8640e07daa1f381780972}{\index{\-Open\-Pilot Pip\-Xtreme support files@{\-Open\-Pilot Pip\-Xtreme support files}!pios\-\_\-rfm22b\-\_\-id@{pios\-\_\-rfm22b\-\_\-id}}
+\index{pios\-\_\-rfm22b\-\_\-id@{pios\-\_\-rfm22b\-\_\-id}!OpenPilot PipXtreme support files@{\-Open\-Pilot Pip\-Xtreme support files}}
+\subsubsection[{pios\-\_\-rfm22b\-\_\-id}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t {\bf pios\-\_\-rfm22b\-\_\-id}}}\label{group___pip_xtreme_ga1e0b7d2eb8b8640e07daa1f381780972}
+
+
+\-Definition at line 60 of file pios\-\_\-board.\-c.
+
+\hypertarget{group___pip_xtreme_ga1e0b7d2eb8b8640e07daa1f381780972}{\index{\-Open\-Pilot Pip\-Xtreme support files@{\-Open\-Pilot Pip\-Xtreme support files}!pios\-\_\-rfm22b\-\_\-id@{pios\-\_\-rfm22b\-\_\-id}}
+\index{pios\-\_\-rfm22b\-\_\-id@{pios\-\_\-rfm22b\-\_\-id}!OpenPilot PipXtreme support files@{\-Open\-Pilot Pip\-Xtreme support files}}
+\subsubsection[{pios\-\_\-rfm22b\-\_\-id}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t {\bf pios\-\_\-rfm22b\-\_\-id}}}\label{group___pip_xtreme_ga1e0b7d2eb8b8640e07daa1f381780972}
+
+
+\-Definition at line 188 of file pios\-\_\-board.\-c.
+
+\hypertarget{group___pip_xtreme_ga8bfaf47f84e519c2b523c9029cd8d624}{\index{\-Open\-Pilot Pip\-Xtreme support files@{\-Open\-Pilot Pip\-Xtreme support files}!pios\-\_\-rfm22b\-\_\-pipx\-\_\-cfg@{pios\-\_\-rfm22b\-\_\-pipx\-\_\-cfg}}
+\index{pios\-\_\-rfm22b\-\_\-pipx\-\_\-cfg@{pios\-\_\-rfm22b\-\_\-pipx\-\_\-cfg}!OpenPilot PipXtreme support files@{\-Open\-Pilot Pip\-Xtreme support files}}
+\subsubsection[{pios\-\_\-rfm22b\-\_\-pipx\-\_\-cfg}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf pios\-\_\-rfm22b\-\_\-cfg} {\bf pios\-\_\-rfm22b\-\_\-pipx\-\_\-cfg}}}\label{group___pip_xtreme_ga8bfaf47f84e519c2b523c9029cd8d624}
+{\bfseries \-Initial value\-:}
+\begin{DoxyCode}
+ {
+        .spi_cfg = &pios_spi_rfm22b_cfg,
+        .exti_cfg = &pios_exti_rfm22b_cfg,
+        .RFXtalCap = 0x7f,
+        .slave_num = 0,
+        .gpio_direction = GPIO0_TX_GPIO1_RX,
+}
+\end{DoxyCode}
+
+
+\-Definition at line 279 of file board\-\_\-hw\-\_\-defs.\-c.
+
+\hypertarget{group___pip_xtreme_ga32bd307cbb8a4dcde0609dbd263ef65f}{\index{\-Open\-Pilot Pip\-Xtreme support files@{\-Open\-Pilot Pip\-Xtreme support files}!pios\-\_\-spi\-\_\-rfm22b\-\_\-id@{pios\-\_\-spi\-\_\-rfm22b\-\_\-id}}
+\index{pios\-\_\-spi\-\_\-rfm22b\-\_\-id@{pios\-\_\-spi\-\_\-rfm22b\-\_\-id}!OpenPilot PipXtreme support files@{\-Open\-Pilot Pip\-Xtreme support files}}
+\subsubsection[{pios\-\_\-spi\-\_\-rfm22b\-\_\-id}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t {\bf pios\-\_\-spi\-\_\-rfm22b\-\_\-id}}}\label{group___pip_xtreme_ga32bd307cbb8a4dcde0609dbd263ef65f}
+
+
+\-Definition at line 234 of file board\-\_\-hw\-\_\-defs.\-c.
+
+\hypertarget{group___pip_xtreme_ga32bd307cbb8a4dcde0609dbd263ef65f}{\index{\-Open\-Pilot Pip\-Xtreme support files@{\-Open\-Pilot Pip\-Xtreme support files}!pios\-\_\-spi\-\_\-rfm22b\-\_\-id@{pios\-\_\-spi\-\_\-rfm22b\-\_\-id}}
+\index{pios\-\_\-spi\-\_\-rfm22b\-\_\-id@{pios\-\_\-spi\-\_\-rfm22b\-\_\-id}!OpenPilot PipXtreme support files@{\-Open\-Pilot Pip\-Xtreme support files}}
+\subsubsection[{pios\-\_\-spi\-\_\-rfm22b\-\_\-id}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t {\bf pios\-\_\-spi\-\_\-rfm22b\-\_\-id}}}\label{group___pip_xtreme_ga32bd307cbb8a4dcde0609dbd263ef65f}
+
+
+\-Definition at line 234 of file board\-\_\-hw\-\_\-defs.\-c.
+
+\hypertarget{group___pip_xtreme_ga05cc3e449d417c7f9097d2659e6f5ca3}{\index{\-Open\-Pilot Pip\-Xtreme support files@{\-Open\-Pilot Pip\-Xtreme support files}!pios\-\_\-usb\-\_\-cdc\-\_\-cfg@{pios\-\_\-usb\-\_\-cdc\-\_\-cfg}}
+\index{pios\-\_\-usb\-\_\-cdc\-\_\-cfg@{pios\-\_\-usb\-\_\-cdc\-\_\-cfg}!OpenPilot PipXtreme support files@{\-Open\-Pilot Pip\-Xtreme support files}}
+\subsubsection[{pios\-\_\-usb\-\_\-cdc\-\_\-cfg}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf pios\-\_\-usb\-\_\-cdc\-\_\-cfg} {\bf pios\-\_\-usb\-\_\-cdc\-\_\-cfg}}}\label{group___pip_xtreme_ga05cc3e449d417c7f9097d2659e6f5ca3}
+{\bfseries \-Initial value\-:}
+\begin{DoxyCode}
+ {
+        .ctrl_if = 0,
+        .ctrl_tx_ep = 2,
+
+        .data_if = 1,
+        .data_rx_ep = 3,
+        .data_tx_ep = 3,
+}
+\end{DoxyCode}
+
+
+\-Definition at line 624 of file board\-\_\-hw\-\_\-defs.\-c.
+
+\hypertarget{group___pip_xtreme_ga3665f6d3a2cccc431b55b9432291e94c}{\index{\-Open\-Pilot Pip\-Xtreme support files@{\-Open\-Pilot Pip\-Xtreme support files}!pios\-\_\-usb\-\_\-hid\-\_\-cfg@{pios\-\_\-usb\-\_\-hid\-\_\-cfg}}
+\index{pios\-\_\-usb\-\_\-hid\-\_\-cfg@{pios\-\_\-usb\-\_\-hid\-\_\-cfg}!OpenPilot PipXtreme support files@{\-Open\-Pilot Pip\-Xtreme support files}}
+\subsubsection[{pios\-\_\-usb\-\_\-hid\-\_\-cfg}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf pios\-\_\-usb\-\_\-hid\-\_\-cfg} {\bf pios\-\_\-usb\-\_\-hid\-\_\-cfg}}}\label{group___pip_xtreme_ga3665f6d3a2cccc431b55b9432291e94c}
+{\bfseries \-Initial value\-:}
+\begin{DoxyCode}
+ {
+        .data_if = 2,
+        .data_rx_ep = 1,
+        .data_tx_ep = 1,
+}
+\end{DoxyCode}
+
+
+\-Definition at line 614 of file board\-\_\-hw\-\_\-defs.\-c.
+

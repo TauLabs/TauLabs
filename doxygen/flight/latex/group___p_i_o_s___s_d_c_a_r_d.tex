@@ -1,0 +1,878 @@
+\hypertarget{group___p_i_o_s___s_d_c_a_r_d}{\section{\-S\-D\-Card \-Functions}
+\label{group___p_i_o_s___s_d_c_a_r_d}\index{\-S\-D\-Card Functions@{\-S\-D\-Card Functions}}
+}
+
+
+\-Code to deal with reading and writing to flash cards.  
+
+
+\subsection*{\-Data \-Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{struct_s_d_c_a_r_d_csd_type_def}{\-S\-D\-C\-A\-R\-D\-Csd\-Type\-Def}
+\item 
+struct \hyperlink{struct_s_d_c_a_r_d_cid_type_def}{\-S\-D\-C\-A\-R\-D\-Cid\-Type\-Def}
+\end{DoxyCompactItemize}
+\subsection*{\-Files}
+\begin{DoxyCompactItemize}
+\item 
+file \hyperlink{pios__sdcard_8c}{pios\-\_\-sdcard.\-c}
+\begin{DoxyCompactList}\small\item\em \-Sets up basic system hardware, functions are called from \-Main. \end{DoxyCompactList}\item 
+file \hyperlink{pios__sdcard_8h}{pios\-\_\-sdcard.\-h}
+\begin{DoxyCompactList}\small\item\em \-System and hardware \-Init functions header. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___s_d_c_a_r_d_gafcf19e938cb1102c075e231a0422361d}{\-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-Init} (uint32\-\_\-t spi\-\_\-id)
+\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___s_d_c_a_r_d_ga23ea31da97543b106a04b4bf33d844e5}{\-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-Power\-On} (void)
+\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___s_d_c_a_r_d_gaac93bac78ab965688f0dde791eb1c048}{\-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-Power\-Off} (void)
+\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___s_d_c_a_r_d_gada5c80d2151f7b9a68c35861cc5d2923}{\-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-Check\-Available} (uint8\-\_\-t was\-\_\-available)
+\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___s_d_c_a_r_d_ga06575fc4cc50c8f4856d5fd5bde3450b}{\-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-Send\-S\-D\-C\-Cmd} (uint8\-\_\-t cmd, uint32\-\_\-t addr, uint8\-\_\-t crc)
+\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___s_d_c_a_r_d_gaf68bf693b2b96af5862f021bbd0753d3}{\-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-Sector\-Read} (uint32\-\_\-t sector, uint8\-\_\-t $\ast$buffer)
+\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___s_d_c_a_r_d_ga403eed1235aab15c3f4dffd530359a41}{\-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-Sector\-Write} (uint32\-\_\-t sector, uint8\-\_\-t $\ast$buffer)
+\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___s_d_c_a_r_d_gac315de3fafd3370f39b241ec5b7a62ca}{\-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-C\-I\-D\-Read} (\hyperlink{struct_s_d_c_a_r_d_cid_type_def}{\-S\-D\-C\-A\-R\-D\-Cid\-Type\-Def} $\ast$cid)
+\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___s_d_c_a_r_d_gaee8853b1431664b014c45d438c4fb094}{\-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-C\-S\-D\-Read} (\hyperlink{struct_s_d_c_a_r_d_csd_type_def}{\-S\-D\-C\-A\-R\-D\-Csd\-Type\-Def} $\ast$csd)
+\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___s_d_c_a_r_d_ga2a97c001315383e1e5bee1beb6bd9b93}{\-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-Startup\-Log} (void)
+\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___s_d_c_a_r_d_gaeccd9489675f220997e2cd1bb825ab11}{\-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-Is\-Mounted} ()
+\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___s_d_c_a_r_d_ga72165efe2dd7fd31025395961c6d78f7}{\-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-Mount\-F\-S} (uint32\-\_\-t \-Create\-Startup\-Log)
+\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___s_d_c_a_r_d_gacb11ba0cff19017b7a01c2afc3c1d3cf}{\-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-Get\-Free} (void)
+\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___s_d_c_a_r_d_ga51efc027e8fdf9478c3fc7f0a33e4d7b}{\-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-Read\-Buffer} (\-P\-F\-I\-L\-E\-I\-N\-F\-O fileinfo, uint8\-\_\-t $\ast$buffer, uint32\-\_\-t len)
+\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___s_d_c_a_r_d_ga62d56f09b8671dcc6e51e5a917af7a5e}{\-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-Read\-Line} (\-P\-F\-I\-L\-E\-I\-N\-F\-O fileinfo, uint8\-\_\-t $\ast$buffer, uint32\-\_\-t max\-\_\-len)
+\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___s_d_c_a_r_d_ga8e032d776f07a10dd65fe1809087f1f6}{\-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-File\-Copy} (char $\ast$\-Source, char $\ast$\-Destination)
+\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___s_d_c_a_r_d_ga4a5ddda9425e947f6087000ab3161440}{\-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-File\-Delete} (char $\ast$\-Filename)
+\end{DoxyCompactItemize}
+\subsection*{\-Variables}
+\begin{DoxyCompactItemize}
+\item 
+\-V\-O\-L\-I\-N\-F\-O \hyperlink{group___p_i_o_s___s_d_c_a_r_d_gaeb82765ef4d7741f373422b30dba4f32}{\-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-Vol\-Info}
+\item 
+uint8\-\_\-t \hyperlink{group___p_i_o_s___s_d_c_a_r_d_ga51dd7d1ab7b2ae3878345834e20546a6}{\-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-Sector} \mbox{[}\-S\-E\-C\-T\-O\-R\-\_\-\-S\-I\-Z\-E\mbox{]}
+\item 
+uint8\-\_\-t \hyperlink{group___p_i_o_s___s_d_c_a_r_d_ga49354de313b96595043a78940055d651}{\-S\-D\-C\-A\-R\-D\-Csd\-Type\-Def\-::\-C\-S\-D\-Struct}
+\item 
+uint8\-\_\-t \hyperlink{group___p_i_o_s___s_d_c_a_r_d_ga68ba16a5f115dc00b88d70d6912a1c45}{\-S\-D\-C\-A\-R\-D\-Csd\-Type\-Def\-::\-Sys\-Spec\-Version}
+\item 
+uint8\-\_\-t \hyperlink{group___p_i_o_s___s_d_c_a_r_d_ga8d15c8c3b9e293b1b62efea47010180d}{\-S\-D\-C\-A\-R\-D\-Csd\-Type\-Def\-::\-Reserved1}
+\item 
+uint8\-\_\-t \hyperlink{group___p_i_o_s___s_d_c_a_r_d_gaec29af38b2fc16f147533e11c61e2787}{\-S\-D\-C\-A\-R\-D\-Csd\-Type\-Def\-::\-T\-A\-A\-C}
+\item 
+uint8\-\_\-t \hyperlink{group___p_i_o_s___s_d_c_a_r_d_ga8573c74ea99da2cfb8f4848fa4350491}{\-S\-D\-C\-A\-R\-D\-Csd\-Type\-Def\-::\-N\-S\-A\-C}
+\item 
+uint8\-\_\-t \hyperlink{group___p_i_o_s___s_d_c_a_r_d_ga9413a0371dfa0c4bf305c922b10392f1}{\-S\-D\-C\-A\-R\-D\-Csd\-Type\-Def\-::\-Max\-Bus\-Clk\-Frec}
+\item 
+uint16\-\_\-t \hyperlink{group___p_i_o_s___s_d_c_a_r_d_ga6684006d87c1e8fda9008685fd83698b}{\-S\-D\-C\-A\-R\-D\-Csd\-Type\-Def\-::\-Card\-Comd\-Classes}
+\item 
+uint8\-\_\-t \hyperlink{group___p_i_o_s___s_d_c_a_r_d_gab4a98c4b27e0e4cbb4ace4d6ff93c056}{\-S\-D\-C\-A\-R\-D\-Csd\-Type\-Def\-::\-Rd\-Block\-Len}
+\item 
+uint8\-\_\-t \hyperlink{group___p_i_o_s___s_d_c_a_r_d_gab165bf6b064166e0bf54f2a6c7d85a9a}{\-S\-D\-C\-A\-R\-D\-Csd\-Type\-Def\-::\-Part\-Block\-Read}
+\item 
+uint8\-\_\-t \hyperlink{group___p_i_o_s___s_d_c_a_r_d_gac79fcdd1037496c353ac1570fb9a58a5}{\-S\-D\-C\-A\-R\-D\-Csd\-Type\-Def\-::\-Wr\-Block\-Misalign}
+\item 
+uint8\-\_\-t \hyperlink{group___p_i_o_s___s_d_c_a_r_d_ga959156fe53645cd48d715f89c3407618}{\-S\-D\-C\-A\-R\-D\-Csd\-Type\-Def\-::\-Rd\-Block\-Misalign}
+\item 
+uint8\-\_\-t \hyperlink{group___p_i_o_s___s_d_c_a_r_d_ga650841d99b60792a21a853a6a2c541d9}{\-S\-D\-C\-A\-R\-D\-Csd\-Type\-Def\-::\-D\-S\-R\-Impl}
+\item 
+uint8\-\_\-t \hyperlink{group___p_i_o_s___s_d_c_a_r_d_ga2580f84971aaa12e06b546fd8b884dad}{\-S\-D\-C\-A\-R\-D\-Csd\-Type\-Def\-::\-Reserved2}
+\item 
+uint16\-\_\-t \hyperlink{group___p_i_o_s___s_d_c_a_r_d_ga32e9f1203e96670adc0e71599231da0f}{\-S\-D\-C\-A\-R\-D\-Csd\-Type\-Def\-::\-Device\-Size}
+\item 
+uint8\-\_\-t \hyperlink{group___p_i_o_s___s_d_c_a_r_d_ga44848558ce422fd005494fcb94656fa8}{\-S\-D\-C\-A\-R\-D\-Csd\-Type\-Def\-::\-Max\-Rd\-Current\-V\-D\-D\-Min}
+\item 
+uint8\-\_\-t \hyperlink{group___p_i_o_s___s_d_c_a_r_d_ga3ba17f2a67a38414d67aaad8d7cc99be}{\-S\-D\-C\-A\-R\-D\-Csd\-Type\-Def\-::\-Max\-Rd\-Current\-V\-D\-D\-Max}
+\item 
+uint8\-\_\-t \hyperlink{group___p_i_o_s___s_d_c_a_r_d_ga592f9aec07e72eed97e1f28155f23ab4}{\-S\-D\-C\-A\-R\-D\-Csd\-Type\-Def\-::\-Max\-Wr\-Current\-V\-D\-D\-Min}
+\item 
+uint8\-\_\-t \hyperlink{group___p_i_o_s___s_d_c_a_r_d_gab98289ea1b8bc4b5e7fee1820487c07c}{\-S\-D\-C\-A\-R\-D\-Csd\-Type\-Def\-::\-Max\-Wr\-Current\-V\-D\-D\-Max}
+\item 
+uint8\-\_\-t \hyperlink{group___p_i_o_s___s_d_c_a_r_d_gafcf009add5954b88bd7b13630179acd1}{\-S\-D\-C\-A\-R\-D\-Csd\-Type\-Def\-::\-Device\-Size\-Mul}
+\item 
+uint8\-\_\-t \hyperlink{group___p_i_o_s___s_d_c_a_r_d_ga23248a27a48bd1603990d88bc6e6825b}{\-S\-D\-C\-A\-R\-D\-Csd\-Type\-Def\-::\-Erase\-Gr\-Size}
+\item 
+uint8\-\_\-t \hyperlink{group___p_i_o_s___s_d_c_a_r_d_gaaba9c6de9483b08af94542e59c76107e}{\-S\-D\-C\-A\-R\-D\-Csd\-Type\-Def\-::\-Erase\-Gr\-Mul}
+\item 
+uint8\-\_\-t \hyperlink{group___p_i_o_s___s_d_c_a_r_d_ga6976b49fb75de7273c9ae54e5b4df865}{\-S\-D\-C\-A\-R\-D\-Csd\-Type\-Def\-::\-Wr\-Protect\-Gr\-Size}
+\item 
+uint8\-\_\-t \hyperlink{group___p_i_o_s___s_d_c_a_r_d_ga40ddea3e9a913588c57a8f922e929407}{\-S\-D\-C\-A\-R\-D\-Csd\-Type\-Def\-::\-Wr\-Protect\-Gr\-Enable}
+\item 
+uint8\-\_\-t \hyperlink{group___p_i_o_s___s_d_c_a_r_d_ga638d0d0306f38092eba2d405639c2099}{\-S\-D\-C\-A\-R\-D\-Csd\-Type\-Def\-::\-Man\-Defl\-E\-C\-C}
+\item 
+uint8\-\_\-t \hyperlink{group___p_i_o_s___s_d_c_a_r_d_gad518a80289b8949800c8f7e50fc4b21f}{\-S\-D\-C\-A\-R\-D\-Csd\-Type\-Def\-::\-Wr\-Speed\-Fact}
+\item 
+uint8\-\_\-t \hyperlink{group___p_i_o_s___s_d_c_a_r_d_gac00127b98cb9a3a0e1a0bc7960570992}{\-S\-D\-C\-A\-R\-D\-Csd\-Type\-Def\-::\-Max\-Wr\-Block\-Len}
+\item 
+uint8\-\_\-t \hyperlink{group___p_i_o_s___s_d_c_a_r_d_gaa2d30b075bc701aef9e50397db088180}{\-S\-D\-C\-A\-R\-D\-Csd\-Type\-Def\-::\-Write\-Block\-Pa\-Partial}
+\item 
+uint8\-\_\-t \hyperlink{group___p_i_o_s___s_d_c_a_r_d_ga2912ee762425a05b026c2c66039b859b}{\-S\-D\-C\-A\-R\-D\-Csd\-Type\-Def\-::\-Reserved3}
+\item 
+uint8\-\_\-t \hyperlink{group___p_i_o_s___s_d_c_a_r_d_ga0ff4eb4714ed988bfe5d6418f553dee3}{\-S\-D\-C\-A\-R\-D\-Csd\-Type\-Def\-::\-Content\-Protect\-Appli}
+\item 
+uint8\-\_\-t \hyperlink{group___p_i_o_s___s_d_c_a_r_d_ga19785f76dae23ac16c7af85cc6c88460}{\-S\-D\-C\-A\-R\-D\-Csd\-Type\-Def\-::\-File\-Format\-Grouop}
+\item 
+uint8\-\_\-t \hyperlink{group___p_i_o_s___s_d_c_a_r_d_ga24efbbd2c557f214a8bfcec06ce30d19}{\-S\-D\-C\-A\-R\-D\-Csd\-Type\-Def\-::\-Copy\-Flag}
+\item 
+uint8\-\_\-t \hyperlink{group___p_i_o_s___s_d_c_a_r_d_ga191082389493442ce0b103f97282b952}{\-S\-D\-C\-A\-R\-D\-Csd\-Type\-Def\-::\-Perm\-Wr\-Protect}
+\item 
+uint8\-\_\-t \hyperlink{group___p_i_o_s___s_d_c_a_r_d_ga3a9535629b4573d3dbe39dabd51b341a}{\-S\-D\-C\-A\-R\-D\-Csd\-Type\-Def\-::\-Temp\-Wr\-Protect}
+\item 
+uint8\-\_\-t \hyperlink{group___p_i_o_s___s_d_c_a_r_d_gaf227b9cb873b11bbee9ce41d8bcaa3d1}{\-S\-D\-C\-A\-R\-D\-Csd\-Type\-Def\-::\-File\-Format}
+\item 
+uint8\-\_\-t \hyperlink{group___p_i_o_s___s_d_c_a_r_d_ga5e147c22c2995b291b7a5ea1a600c5a0}{\-S\-D\-C\-A\-R\-D\-Csd\-Type\-Def\-::\-E\-C\-C}
+\item 
+uint8\-\_\-t \hyperlink{group___p_i_o_s___s_d_c_a_r_d_ga653812c0595db0ef3eddae3dbf409b87}{\-S\-D\-C\-A\-R\-D\-Csd\-Type\-Def\-::msd\-\_\-\-C\-R\-C}
+\item 
+uint8\-\_\-t \hyperlink{group___p_i_o_s___s_d_c_a_r_d_ga2154190e5c6f32ce3b67bdc4a9aa3982}{\-S\-D\-C\-A\-R\-D\-Csd\-Type\-Def\-::\-Reserved4}
+\item 
+uint8\-\_\-t \hyperlink{group___p_i_o_s___s_d_c_a_r_d_ga083dff8fb19fcec5bf79ab18c105b6c3}{\-S\-D\-C\-A\-R\-D\-Cid\-Type\-Def\-::\-Manufacturer\-I\-D}
+\item 
+uint16\-\_\-t \hyperlink{group___p_i_o_s___s_d_c_a_r_d_gaba70fef7b702c2d5dc086c3cc997d4bc}{\-S\-D\-C\-A\-R\-D\-Cid\-Type\-Def\-::\-O\-E\-M\-\_\-\-Appli\-I\-D}
+\item 
+char \hyperlink{group___p_i_o_s___s_d_c_a_r_d_gad17afffd675a78059aa60101165d709d}{\-S\-D\-C\-A\-R\-D\-Cid\-Type\-Def\-::\-Prod\-Name} \mbox{[}6\mbox{]}
+\item 
+uint8\-\_\-t \hyperlink{group___p_i_o_s___s_d_c_a_r_d_ga8307b63b043ed01d0fa11493c9508dac}{\-S\-D\-C\-A\-R\-D\-Cid\-Type\-Def\-::\-Prod\-Rev}
+\item 
+u32 \hyperlink{group___p_i_o_s___s_d_c_a_r_d_ga243ea864815caa90de7e151c8d8a7195}{\-S\-D\-C\-A\-R\-D\-Cid\-Type\-Def\-::\-Prod\-S\-N}
+\item 
+uint8\-\_\-t \hyperlink{group___p_i_o_s___s_d_c_a_r_d_gaa6d5ceee00ac588d04a7d1e913746732}{\-S\-D\-C\-A\-R\-D\-Cid\-Type\-Def\-::\-Reserved1}
+\item 
+uint16\-\_\-t \hyperlink{group___p_i_o_s___s_d_c_a_r_d_gae7c9d488577977c2c5c2baca30ca6cec}{\-S\-D\-C\-A\-R\-D\-Cid\-Type\-Def\-::\-Manufact\-Date}
+\item 
+uint8\-\_\-t \hyperlink{group___p_i_o_s___s_d_c_a_r_d_gaeafc9f7dae979dcf639b88246bbe29b6}{\-S\-D\-C\-A\-R\-D\-Cid\-Type\-Def\-::msd\-\_\-\-C\-R\-C}
+\item 
+uint8\-\_\-t \hyperlink{group___p_i_o_s___s_d_c_a_r_d_gab50b795387215c00e5d9b5feb7e9aefb}{\-S\-D\-C\-A\-R\-D\-Cid\-Type\-Def\-::\-Reserved2}
+\item 
+\-V\-O\-L\-I\-N\-F\-O \hyperlink{group___p_i_o_s___s_d_c_a_r_d_gaeb82765ef4d7741f373422b30dba4f32}{\-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-Vol\-Info}
+\item 
+uint8\-\_\-t \hyperlink{group___p_i_o_s___s_d_c_a_r_d_ga51dd7d1ab7b2ae3878345834e20546a6}{\-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-Sector} \mbox{[}\-S\-E\-C\-T\-O\-R\-\_\-\-S\-I\-Z\-E\mbox{]}
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-Code to deal with reading and writing to flash cards. 
+
+\subsection{\-Function \-Documentation}
+\hypertarget{group___p_i_o_s___s_d_c_a_r_d_gada5c80d2151f7b9a68c35861cc5d2923}{\index{\-S\-D\-Card Functions@{\-S\-D\-Card Functions}!\-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-Check\-Available@{\-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-Check\-Available}}
+\index{\-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-Check\-Available@{\-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-Check\-Available}!SDCard Functions@{\-S\-D\-Card Functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-Check\-Available}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-Check\-Available} (
+\begin{DoxyParamCaption}
+\item[{uint8\-\_\-t}]{was\-\_\-available}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___s_d_c_a_r_d_gada5c80d2151f7b9a68c35861cc5d2923}
+\-If \-S\-D card was previously available\-: \-Checks if the \-S\-D \-Card is still available by sending the \-S\-T\-A\-T\-U\-S command.\par
+ \-This takes ca. 10 u\-S
+
+\-If \-S\-D card was previously not available\-: \-Checks if the \-S\-D \-Card is available by sending the \-I\-D\-L\-E command at low speed.\par
+ \-This takes ca. 500 u\-S!\par
+ \-Once we got a positive response, \-S\-D\-C\-A\-R\-D\-\_\-\-Power\-On() will be called by this function to initialize the card completely.
+
+\-Example for \-Connection/\-Disconnection detection\-: 
+\begin{DoxyCode}
+ // this function is called each second from a low-priority task
+ // If multiple tasks are accessing the SD card, add a semaphore/mutex
+ //  to avoid IO access collisions with other tasks!
+ u8 sdcard_available;
+ int32_t CheckSDCard(void)
+ {
+   // check if SD card is available
+   // High speed access if the card was previously available
+   u8 prev_sdcard_available = sdcard_available;
+   sdcard_available = PIOS_SDCARD_CheckAvailable(prev_sdcard_available);
+
+   if(sdcard_available && !prev_sdcard_available) {
+     // SD Card has been connected
+
+     // now it's possible to read/write sectors
+
+   } else if( !sdcard_available && prev_sdcard_available ) {
+     // SD Card has been disconnected
+
+     // here you can notify your application about this state
+   }
+
+   return 0; // no error
+ }
+\end{DoxyCode}
+ 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em was\-\_\-available} & should only be set if the \-S\-D card was previously available \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+0 if no response from \-S\-D \-Card 
+
+1 if \-S\-D card is accessible 
+\end{DoxyReturn}
+
+
+\-Definition at line 264 of file pios\-\_\-sdcard.\-c.
+
+\hypertarget{group___p_i_o_s___s_d_c_a_r_d_gac315de3fafd3370f39b241ec5b7a62ca}{\index{\-S\-D\-Card Functions@{\-S\-D\-Card Functions}!\-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-C\-I\-D\-Read@{\-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-C\-I\-D\-Read}}
+\index{\-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-C\-I\-D\-Read@{\-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-C\-I\-D\-Read}!SDCard Functions@{\-S\-D\-Card Functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-C\-I\-D\-Read}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-C\-I\-D\-Read} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-S\-D\-C\-A\-R\-D\-Cid\-Type\-Def} $\ast$}]{cid}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___s_d_c_a_r_d_gac315de3fafd3370f39b241ec5b7a62ca}
+\-Reads the \-C\-I\-D informations from \-S\-D \-Card 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em $\ast$cid} & pointer to buffer which holds the \-C\-I\-D informations \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+0 if the informations haven been successfully read 
+
+-\/error if error occured during read operation 
+
+-\/256 if timeout during command has been sent 
+
+-\/257 if timeout while waiting for start token 
+\end{DoxyReturn}
+
+
+\-Definition at line 560 of file pios\-\_\-sdcard.\-c.
+
+\hypertarget{group___p_i_o_s___s_d_c_a_r_d_gaee8853b1431664b014c45d438c4fb094}{\index{\-S\-D\-Card Functions@{\-S\-D\-Card Functions}!\-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-C\-S\-D\-Read@{\-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-C\-S\-D\-Read}}
+\index{\-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-C\-S\-D\-Read@{\-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-C\-S\-D\-Read}!SDCard Functions@{\-S\-D\-Card Functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-C\-S\-D\-Read}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-C\-S\-D\-Read} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-S\-D\-C\-A\-R\-D\-Csd\-Type\-Def} $\ast$}]{csd}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___s_d_c_a_r_d_gaee8853b1431664b014c45d438c4fb094}
+\-Reads the \-C\-S\-D informations from \-S\-D \-Card 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em $\ast$csd} & pointer to buffer which holds the \-C\-S\-D informations \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+0 if the informations haven been successfully read 
+
+-\/error if error occured during read operation 
+
+-\/256 if timeout during command has been sent 
+
+-\/257 if timeout while waiting for start token 
+\end{DoxyReturn}
+
+
+\-Definition at line 648 of file pios\-\_\-sdcard.\-c.
+
+\hypertarget{group___p_i_o_s___s_d_c_a_r_d_ga8e032d776f07a10dd65fe1809087f1f6}{\index{\-S\-D\-Card Functions@{\-S\-D\-Card Functions}!\-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-File\-Copy@{\-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-File\-Copy}}
+\index{\-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-File\-Copy@{\-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-File\-Copy}!SDCard Functions@{\-S\-D\-Card Functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-File\-Copy}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-File\-Copy} (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{\-Source, }
+\item[{char $\ast$}]{\-Destination}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___s_d_c_a_r_d_ga8e032d776f07a10dd65fe1809087f1f6}
+\-Copy a file \-W\-A\-R\-N\-I\-N\-G\-: \-This will overwrite the destination file even if it exists param\mbox{[}in\mbox{]} $\ast$\-Source \-Path to file to copy param\mbox{[}in\mbox{]} $\ast$\-Destination \-Path to destination file return 0 \-No errors return -\/1 \-Source file doesn't exist return -\/2 \-Failed to create destination file return -\/3 \-D\-F\-S\-\_\-\-Read\-File failed return -\/4 \-D\-F\-S\-\_\-\-Write\-File failed 
+
+\-Definition at line 948 of file pios\-\_\-sdcard.\-c.
+
+\hypertarget{group___p_i_o_s___s_d_c_a_r_d_ga4a5ddda9425e947f6087000ab3161440}{\index{\-S\-D\-Card Functions@{\-S\-D\-Card Functions}!\-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-File\-Delete@{\-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-File\-Delete}}
+\index{\-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-File\-Delete@{\-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-File\-Delete}!SDCard Functions@{\-S\-D\-Card Functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-File\-Delete}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-File\-Delete} (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{\-Filename}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___s_d_c_a_r_d_ga4a5ddda9425e947f6087000ab3161440}
+\-Delete a file param\mbox{[}in\mbox{]} $\ast$\-Filename \-File to delete return 0 \-No errors return -\/1 \-Error deleting file 
+
+\-Definition at line 992 of file pios\-\_\-sdcard.\-c.
+
+\hypertarget{group___p_i_o_s___s_d_c_a_r_d_gacb11ba0cff19017b7a01c2afc3c1d3cf}{\index{\-S\-D\-Card Functions@{\-S\-D\-Card Functions}!\-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-Get\-Free@{\-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-Get\-Free}}
+\index{\-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-Get\-Free@{\-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-Get\-Free}!SDCard Functions@{\-S\-D\-Card Functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-Get\-Free}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-Get\-Free} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___s_d_c_a_r_d_gacb11ba0cff19017b7a01c2afc3c1d3cf}
+\-Mounts the file system return \-Amount of free bytes 
+
+\-Definition at line 863 of file pios\-\_\-sdcard.\-c.
+
+\hypertarget{group___p_i_o_s___s_d_c_a_r_d_gafcf19e938cb1102c075e231a0422361d}{\index{\-S\-D\-Card Functions@{\-S\-D\-Card Functions}!\-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-Init@{\-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-Init}}
+\index{\-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-Init@{\-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-Init}!SDCard Functions@{\-S\-D\-Card Functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-Init}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-Init} (
+\begin{DoxyParamCaption}
+\item[{uint32\-\_\-t}]{spi\-\_\-id}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___s_d_c_a_r_d_gafcf19e938cb1102c075e231a0422361d}
+\-Initialises \-S\-P\-I pins and peripheral to access \-M\-M\-C/\-S\-D \-Card 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em mode} & currently only mode 0 supported \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+$<$ 0 if initialisation failed 
+\end{DoxyReturn}
+
+
+\-Definition at line 100 of file pios\-\_\-sdcard.\-c.
+
+\hypertarget{group___p_i_o_s___s_d_c_a_r_d_gaeccd9489675f220997e2cd1bb825ab11}{\index{\-S\-D\-Card Functions@{\-S\-D\-Card Functions}!\-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-Is\-Mounted@{\-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-Is\-Mounted}}
+\index{\-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-Is\-Mounted@{\-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-Is\-Mounted}!SDCard Functions@{\-S\-D\-Card Functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-Is\-Mounted}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-Is\-Mounted} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___s_d_c_a_r_d_gaeccd9489675f220997e2cd1bb825ab11}
+\-Check if the \-S\-D card has been mounted \begin{DoxyReturn}{\-Returns}
+0 if no 
+
+1 if yes 
+\end{DoxyReturn}
+
+
+\-Definition at line 809 of file pios\-\_\-sdcard.\-c.
+
+\hypertarget{group___p_i_o_s___s_d_c_a_r_d_ga72165efe2dd7fd31025395961c6d78f7}{\index{\-S\-D\-Card Functions@{\-S\-D\-Card Functions}!\-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-Mount\-F\-S@{\-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-Mount\-F\-S}}
+\index{\-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-Mount\-F\-S@{\-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-Mount\-F\-S}!SDCard Functions@{\-S\-D\-Card Functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-Mount\-F\-S}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-Mount\-F\-S} (
+\begin{DoxyParamCaption}
+\item[{uint32\-\_\-t}]{\-Create\-Startup\-Log}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___s_d_c_a_r_d_ga72165efe2dd7fd31025395961c6d78f7}
+\-Mounts the file system param\mbox{[}in\mbox{]} \-Create\-Startup\-Log 1 = \-True, 0 = \-False return 0 \-No errors return -\/1 \-S\-D\-Card not available return -\/2 \-Cannot find first partition return -\/3 \-No volume information return -\/4 \-Error writing startup log file 
+
+\-Definition at line 823 of file pios\-\_\-sdcard.\-c.
+
+\hypertarget{group___p_i_o_s___s_d_c_a_r_d_gaac93bac78ab965688f0dde791eb1c048}{\index{\-S\-D\-Card Functions@{\-S\-D\-Card Functions}!\-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-Power\-Off@{\-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-Power\-Off}}
+\index{\-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-Power\-Off@{\-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-Power\-Off}!SDCard Functions@{\-S\-D\-Card Functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-Power\-Off}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-Power\-Off} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___s_d_c_a_r_d_gaac93bac78ab965688f0dde791eb1c048}
+\-Disconnects from \-S\-D \-Card \begin{DoxyReturn}{\-Returns}
+$<$ 0 on errors 
+\end{DoxyReturn}
+
+
+\-Definition at line 217 of file pios\-\_\-sdcard.\-c.
+
+\hypertarget{group___p_i_o_s___s_d_c_a_r_d_ga23ea31da97543b106a04b4bf33d844e5}{\index{\-S\-D\-Card Functions@{\-S\-D\-Card Functions}!\-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-Power\-On@{\-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-Power\-On}}
+\index{\-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-Power\-On@{\-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-Power\-On}!SDCard Functions@{\-S\-D\-Card Functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-Power\-On}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-Power\-On} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___s_d_c_a_r_d_ga23ea31da97543b106a04b4bf33d844e5}
+\-Connects to \-S\-D \-Card \begin{DoxyReturn}{\-Returns}
+$<$ 0 if initialisation sequence failed 
+\end{DoxyReturn}
+
+
+\-Definition at line 122 of file pios\-\_\-sdcard.\-c.
+
+\hypertarget{group___p_i_o_s___s_d_c_a_r_d_ga51efc027e8fdf9478c3fc7f0a33e4d7b}{\index{\-S\-D\-Card Functions@{\-S\-D\-Card Functions}!\-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-Read\-Buffer@{\-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-Read\-Buffer}}
+\index{\-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-Read\-Buffer@{\-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-Read\-Buffer}!SDCard Functions@{\-S\-D\-Card Functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-Read\-Buffer}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-Read\-Buffer} (
+\begin{DoxyParamCaption}
+\item[{\-P\-F\-I\-L\-E\-I\-N\-F\-O}]{fileinfo, }
+\item[{uint8\-\_\-t $\ast$}]{buffer, }
+\item[{uint32\-\_\-t}]{len}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___s_d_c_a_r_d_ga51efc027e8fdf9478c3fc7f0a33e4d7b}
+\-Read from file return 0 \-No error return -\/1 \-D\-F\-S\-\_\-\-Read\-File failed return -\/2 \-Less bytes read than expected 
+
+\-Definition at line 887 of file pios\-\_\-sdcard.\-c.
+
+\hypertarget{group___p_i_o_s___s_d_c_a_r_d_ga62d56f09b8671dcc6e51e5a917af7a5e}{\index{\-S\-D\-Card Functions@{\-S\-D\-Card Functions}!\-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-Read\-Line@{\-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-Read\-Line}}
+\index{\-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-Read\-Line@{\-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-Read\-Line}!SDCard Functions@{\-S\-D\-Card Functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-Read\-Line}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-Read\-Line} (
+\begin{DoxyParamCaption}
+\item[{\-P\-F\-I\-L\-E\-I\-N\-F\-O}]{fileinfo, }
+\item[{uint8\-\_\-t $\ast$}]{buffer, }
+\item[{uint32\-\_\-t}]{max\-\_\-len}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___s_d_c_a_r_d_ga62d56f09b8671dcc6e51e5a917af7a5e}
+\-Read a line from file returns \-Number of bytes read 
+
+\-Definition at line 908 of file pios\-\_\-sdcard.\-c.
+
+\hypertarget{group___p_i_o_s___s_d_c_a_r_d_gaf68bf693b2b96af5862f021bbd0753d3}{\index{\-S\-D\-Card Functions@{\-S\-D\-Card Functions}!\-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-Sector\-Read@{\-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-Sector\-Read}}
+\index{\-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-Sector\-Read@{\-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-Sector\-Read}!SDCard Functions@{\-S\-D\-Card Functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-Sector\-Read}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-Sector\-Read} (
+\begin{DoxyParamCaption}
+\item[{uint32\-\_\-t}]{sector, }
+\item[{uint8\-\_\-t $\ast$}]{buffer}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___s_d_c_a_r_d_gaf68bf693b2b96af5862f021bbd0753d3}
+\-Reads 512 bytes from selected sector 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em sector} & 32bit sector \\
+\hline
+\mbox{\tt in}  & {\em $\ast$buffer} & pointer to 512 byte buffer \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+0 if whole sector has been successfully read 
+
+-\/error if error occured during read operation\-:\par
+ 
+\begin{DoxyItemize}
+\item \-Bit 0 -\/ \-In idle state if 1 
+\item \-Bit 1 -\/ \-Erase \-Reset if 1 
+\item \-Bit 2 -\/ \-Illgal \-Command if 1 
+\item \-Bit 3 -\/ \-Com \-C\-R\-C \-Error if 1 
+\item \-Bit 4 -\/ \-Erase \-Sequence \-Error if 1 
+\item \-Bit 5 -\/ \-Address \-Error if 1 
+\item \-Bit 6 -\/ \-Parameter \-Error if 1 
+\item \-Bit 7 -\/ \-Not used, always '0' 
+\end{DoxyItemize}
+
+-\/256 if timeout during command has been sent 
+
+-\/257 if timeout while waiting for start token 
+\end{DoxyReturn}
+
+
+\-Definition at line 418 of file pios\-\_\-sdcard.\-c.
+
+\hypertarget{group___p_i_o_s___s_d_c_a_r_d_ga403eed1235aab15c3f4dffd530359a41}{\index{\-S\-D\-Card Functions@{\-S\-D\-Card Functions}!\-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-Sector\-Write@{\-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-Sector\-Write}}
+\index{\-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-Sector\-Write@{\-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-Sector\-Write}!SDCard Functions@{\-S\-D\-Card Functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-Sector\-Write}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-Sector\-Write} (
+\begin{DoxyParamCaption}
+\item[{uint32\-\_\-t}]{sector, }
+\item[{uint8\-\_\-t $\ast$}]{buffer}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___s_d_c_a_r_d_ga403eed1235aab15c3f4dffd530359a41}
+\-Writes 512 bytes into selected sector 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em sector} & 32bit sector \\
+\hline
+\mbox{\tt in}  & {\em $\ast$buffer} & pointer to 512 byte buffer \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+0 if whole sector has been successfully read 
+
+-\/error if error occured during read operation\-:\par
+ 
+\begin{DoxyItemize}
+\item \-Bit 0 -\/ \-In idle state if 1 
+\item \-Bit 1 -\/ \-Erase \-Reset if 1 
+\item \-Bit 2 -\/ \-Illgal \-Command if 1 
+\item \-Bit 3 -\/ \-Com \-C\-R\-C \-Error if 1 
+\item \-Bit 4 -\/ \-Erase \-Sequence \-Error if 1 
+\item \-Bit 5 -\/ \-Address \-Error if 1 
+\item \-Bit 6 -\/ \-Parameter \-Error if 1 
+\item \-Bit 7 -\/ \-Not used, always '0' 
+\end{DoxyItemize}
+
+-\/256 if timeout during command has been sent 
+
+-\/257 if write operation not accepted 
+
+-\/258 if timeout during write operation 
+\end{DoxyReturn}
+
+
+\-Definition at line 489 of file pios\-\_\-sdcard.\-c.
+
+\hypertarget{group___p_i_o_s___s_d_c_a_r_d_ga06575fc4cc50c8f4856d5fd5bde3450b}{\index{\-S\-D\-Card Functions@{\-S\-D\-Card Functions}!\-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-Send\-S\-D\-C\-Cmd@{\-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-Send\-S\-D\-C\-Cmd}}
+\index{\-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-Send\-S\-D\-C\-Cmd@{\-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-Send\-S\-D\-C\-Cmd}!SDCard Functions@{\-S\-D\-Card Functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-Send\-S\-D\-C\-Cmd}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-Send\-S\-D\-C\-Cmd} (
+\begin{DoxyParamCaption}
+\item[{uint8\-\_\-t}]{cmd, }
+\item[{uint32\-\_\-t}]{addr, }
+\item[{uint8\-\_\-t}]{crc}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___s_d_c_a_r_d_ga06575fc4cc50c8f4856d5fd5bde3450b}
+\-Sends command to \-S\-D card 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em cmd} & \-S\-D card command \\
+\hline
+\mbox{\tt in}  & {\em addr} & 32bit address \\
+\hline
+\mbox{\tt in}  & {\em crc} & precalculated \-C\-R\-C \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+$>$= 0x00 if command has been sent successfully (contains received byte) 
+
+-\/1 if no response from \-S\-D \-Card (timeout) 
+\end{DoxyReturn}
+
+
+\-Definition at line 325 of file pios\-\_\-sdcard.\-c.
+
+\hypertarget{group___p_i_o_s___s_d_c_a_r_d_ga2a97c001315383e1e5bee1beb6bd9b93}{\index{\-S\-D\-Card Functions@{\-S\-D\-Card Functions}!\-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-Startup\-Log@{\-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-Startup\-Log}}
+\index{\-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-Startup\-Log@{\-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-Startup\-Log}!SDCard Functions@{\-S\-D\-Card Functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-Startup\-Log}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-Startup\-Log} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___s_d_c_a_r_d_ga2a97c001315383e1e5bee1beb6bd9b93}
+\-Attempts to write a startup log to the \-S\-D\-Card return 0 \-No errors return -\/1 \-Error deleting file return -\/2 \-Error opening file return -\/3 \-Error writing file 
+
+\-Definition at line 765 of file pios\-\_\-sdcard.\-c.
+
+
+
+\subsection{\-Variable \-Documentation}
+\hypertarget{group___p_i_o_s___s_d_c_a_r_d_ga6684006d87c1e8fda9008685fd83698b}{\index{\-S\-D\-Card Functions@{\-S\-D\-Card Functions}!\-Card\-Comd\-Classes@{\-Card\-Comd\-Classes}}
+\index{\-Card\-Comd\-Classes@{\-Card\-Comd\-Classes}!SDCard Functions@{\-S\-D\-Card Functions}}
+\subsubsection[{\-Card\-Comd\-Classes}]{\setlength{\rightskip}{0pt plus 5cm}uint16\-\_\-t {\bf \-S\-D\-C\-A\-R\-D\-Csd\-Type\-Def\-::\-Card\-Comd\-Classes}}}\label{group___p_i_o_s___s_d_c_a_r_d_ga6684006d87c1e8fda9008685fd83698b}
+
+
+\-Definition at line 44 of file pios\-\_\-sdcard.\-h.
+
+\hypertarget{group___p_i_o_s___s_d_c_a_r_d_ga0ff4eb4714ed988bfe5d6418f553dee3}{\index{\-S\-D\-Card Functions@{\-S\-D\-Card Functions}!\-Content\-Protect\-Appli@{\-Content\-Protect\-Appli}}
+\index{\-Content\-Protect\-Appli@{\-Content\-Protect\-Appli}!SDCard Functions@{\-S\-D\-Card Functions}}
+\subsubsection[{\-Content\-Protect\-Appli}]{\setlength{\rightskip}{0pt plus 5cm}uint8\-\_\-t {\bf \-S\-D\-C\-A\-R\-D\-Csd\-Type\-Def\-::\-Content\-Protect\-Appli}}}\label{group___p_i_o_s___s_d_c_a_r_d_ga0ff4eb4714ed988bfe5d6418f553dee3}
+
+
+\-Definition at line 66 of file pios\-\_\-sdcard.\-h.
+
+\hypertarget{group___p_i_o_s___s_d_c_a_r_d_ga24efbbd2c557f214a8bfcec06ce30d19}{\index{\-S\-D\-Card Functions@{\-S\-D\-Card Functions}!\-Copy\-Flag@{\-Copy\-Flag}}
+\index{\-Copy\-Flag@{\-Copy\-Flag}!SDCard Functions@{\-S\-D\-Card Functions}}
+\subsubsection[{\-Copy\-Flag}]{\setlength{\rightskip}{0pt plus 5cm}uint8\-\_\-t {\bf \-S\-D\-C\-A\-R\-D\-Csd\-Type\-Def\-::\-Copy\-Flag}}}\label{group___p_i_o_s___s_d_c_a_r_d_ga24efbbd2c557f214a8bfcec06ce30d19}
+
+
+\-Definition at line 68 of file pios\-\_\-sdcard.\-h.
+
+\hypertarget{group___p_i_o_s___s_d_c_a_r_d_ga49354de313b96595043a78940055d651}{\index{\-S\-D\-Card Functions@{\-S\-D\-Card Functions}!\-C\-S\-D\-Struct@{\-C\-S\-D\-Struct}}
+\index{\-C\-S\-D\-Struct@{\-C\-S\-D\-Struct}!SDCard Functions@{\-S\-D\-Card Functions}}
+\subsubsection[{\-C\-S\-D\-Struct}]{\setlength{\rightskip}{0pt plus 5cm}uint8\-\_\-t {\bf \-S\-D\-C\-A\-R\-D\-Csd\-Type\-Def\-::\-C\-S\-D\-Struct}}}\label{group___p_i_o_s___s_d_c_a_r_d_ga49354de313b96595043a78940055d651}
+
+
+\-Definition at line 38 of file pios\-\_\-sdcard.\-h.
+
+\hypertarget{group___p_i_o_s___s_d_c_a_r_d_ga32e9f1203e96670adc0e71599231da0f}{\index{\-S\-D\-Card Functions@{\-S\-D\-Card Functions}!\-Device\-Size@{\-Device\-Size}}
+\index{\-Device\-Size@{\-Device\-Size}!SDCard Functions@{\-S\-D\-Card Functions}}
+\subsubsection[{\-Device\-Size}]{\setlength{\rightskip}{0pt plus 5cm}uint16\-\_\-t {\bf \-S\-D\-C\-A\-R\-D\-Csd\-Type\-Def\-::\-Device\-Size}}}\label{group___p_i_o_s___s_d_c_a_r_d_ga32e9f1203e96670adc0e71599231da0f}
+
+
+\-Definition at line 51 of file pios\-\_\-sdcard.\-h.
+
+\hypertarget{group___p_i_o_s___s_d_c_a_r_d_gafcf009add5954b88bd7b13630179acd1}{\index{\-S\-D\-Card Functions@{\-S\-D\-Card Functions}!\-Device\-Size\-Mul@{\-Device\-Size\-Mul}}
+\index{\-Device\-Size\-Mul@{\-Device\-Size\-Mul}!SDCard Functions@{\-S\-D\-Card Functions}}
+\subsubsection[{\-Device\-Size\-Mul}]{\setlength{\rightskip}{0pt plus 5cm}uint8\-\_\-t {\bf \-S\-D\-C\-A\-R\-D\-Csd\-Type\-Def\-::\-Device\-Size\-Mul}}}\label{group___p_i_o_s___s_d_c_a_r_d_gafcf009add5954b88bd7b13630179acd1}
+
+
+\-Definition at line 56 of file pios\-\_\-sdcard.\-h.
+
+\hypertarget{group___p_i_o_s___s_d_c_a_r_d_ga650841d99b60792a21a853a6a2c541d9}{\index{\-S\-D\-Card Functions@{\-S\-D\-Card Functions}!\-D\-S\-R\-Impl@{\-D\-S\-R\-Impl}}
+\index{\-D\-S\-R\-Impl@{\-D\-S\-R\-Impl}!SDCard Functions@{\-S\-D\-Card Functions}}
+\subsubsection[{\-D\-S\-R\-Impl}]{\setlength{\rightskip}{0pt plus 5cm}uint8\-\_\-t {\bf \-S\-D\-C\-A\-R\-D\-Csd\-Type\-Def\-::\-D\-S\-R\-Impl}}}\label{group___p_i_o_s___s_d_c_a_r_d_ga650841d99b60792a21a853a6a2c541d9}
+
+
+\-Definition at line 49 of file pios\-\_\-sdcard.\-h.
+
+\hypertarget{group___p_i_o_s___s_d_c_a_r_d_ga5e147c22c2995b291b7a5ea1a600c5a0}{\index{\-S\-D\-Card Functions@{\-S\-D\-Card Functions}!\-E\-C\-C@{\-E\-C\-C}}
+\index{\-E\-C\-C@{\-E\-C\-C}!SDCard Functions@{\-S\-D\-Card Functions}}
+\subsubsection[{\-E\-C\-C}]{\setlength{\rightskip}{0pt plus 5cm}uint8\-\_\-t {\bf \-S\-D\-C\-A\-R\-D\-Csd\-Type\-Def\-::\-E\-C\-C}}}\label{group___p_i_o_s___s_d_c_a_r_d_ga5e147c22c2995b291b7a5ea1a600c5a0}
+
+
+\-Definition at line 72 of file pios\-\_\-sdcard.\-h.
+
+\hypertarget{group___p_i_o_s___s_d_c_a_r_d_gaaba9c6de9483b08af94542e59c76107e}{\index{\-S\-D\-Card Functions@{\-S\-D\-Card Functions}!\-Erase\-Gr\-Mul@{\-Erase\-Gr\-Mul}}
+\index{\-Erase\-Gr\-Mul@{\-Erase\-Gr\-Mul}!SDCard Functions@{\-S\-D\-Card Functions}}
+\subsubsection[{\-Erase\-Gr\-Mul}]{\setlength{\rightskip}{0pt plus 5cm}uint8\-\_\-t {\bf \-S\-D\-C\-A\-R\-D\-Csd\-Type\-Def\-::\-Erase\-Gr\-Mul}}}\label{group___p_i_o_s___s_d_c_a_r_d_gaaba9c6de9483b08af94542e59c76107e}
+
+
+\-Definition at line 58 of file pios\-\_\-sdcard.\-h.
+
+\hypertarget{group___p_i_o_s___s_d_c_a_r_d_ga23248a27a48bd1603990d88bc6e6825b}{\index{\-S\-D\-Card Functions@{\-S\-D\-Card Functions}!\-Erase\-Gr\-Size@{\-Erase\-Gr\-Size}}
+\index{\-Erase\-Gr\-Size@{\-Erase\-Gr\-Size}!SDCard Functions@{\-S\-D\-Card Functions}}
+\subsubsection[{\-Erase\-Gr\-Size}]{\setlength{\rightskip}{0pt plus 5cm}uint8\-\_\-t {\bf \-S\-D\-C\-A\-R\-D\-Csd\-Type\-Def\-::\-Erase\-Gr\-Size}}}\label{group___p_i_o_s___s_d_c_a_r_d_ga23248a27a48bd1603990d88bc6e6825b}
+
+
+\-Definition at line 57 of file pios\-\_\-sdcard.\-h.
+
+\hypertarget{group___p_i_o_s___s_d_c_a_r_d_gaf227b9cb873b11bbee9ce41d8bcaa3d1}{\index{\-S\-D\-Card Functions@{\-S\-D\-Card Functions}!\-File\-Format@{\-File\-Format}}
+\index{\-File\-Format@{\-File\-Format}!SDCard Functions@{\-S\-D\-Card Functions}}
+\subsubsection[{\-File\-Format}]{\setlength{\rightskip}{0pt plus 5cm}uint8\-\_\-t {\bf \-S\-D\-C\-A\-R\-D\-Csd\-Type\-Def\-::\-File\-Format}}}\label{group___p_i_o_s___s_d_c_a_r_d_gaf227b9cb873b11bbee9ce41d8bcaa3d1}
+
+
+\-Definition at line 71 of file pios\-\_\-sdcard.\-h.
+
+\hypertarget{group___p_i_o_s___s_d_c_a_r_d_ga19785f76dae23ac16c7af85cc6c88460}{\index{\-S\-D\-Card Functions@{\-S\-D\-Card Functions}!\-File\-Format\-Grouop@{\-File\-Format\-Grouop}}
+\index{\-File\-Format\-Grouop@{\-File\-Format\-Grouop}!SDCard Functions@{\-S\-D\-Card Functions}}
+\subsubsection[{\-File\-Format\-Grouop}]{\setlength{\rightskip}{0pt plus 5cm}uint8\-\_\-t {\bf \-S\-D\-C\-A\-R\-D\-Csd\-Type\-Def\-::\-File\-Format\-Grouop}}}\label{group___p_i_o_s___s_d_c_a_r_d_ga19785f76dae23ac16c7af85cc6c88460}
+
+
+\-Definition at line 67 of file pios\-\_\-sdcard.\-h.
+
+\hypertarget{group___p_i_o_s___s_d_c_a_r_d_ga638d0d0306f38092eba2d405639c2099}{\index{\-S\-D\-Card Functions@{\-S\-D\-Card Functions}!\-Man\-Defl\-E\-C\-C@{\-Man\-Defl\-E\-C\-C}}
+\index{\-Man\-Defl\-E\-C\-C@{\-Man\-Defl\-E\-C\-C}!SDCard Functions@{\-S\-D\-Card Functions}}
+\subsubsection[{\-Man\-Defl\-E\-C\-C}]{\setlength{\rightskip}{0pt plus 5cm}uint8\-\_\-t {\bf \-S\-D\-C\-A\-R\-D\-Csd\-Type\-Def\-::\-Man\-Defl\-E\-C\-C}}}\label{group___p_i_o_s___s_d_c_a_r_d_ga638d0d0306f38092eba2d405639c2099}
+
+
+\-Definition at line 61 of file pios\-\_\-sdcard.\-h.
+
+\hypertarget{group___p_i_o_s___s_d_c_a_r_d_gae7c9d488577977c2c5c2baca30ca6cec}{\index{\-S\-D\-Card Functions@{\-S\-D\-Card Functions}!\-Manufact\-Date@{\-Manufact\-Date}}
+\index{\-Manufact\-Date@{\-Manufact\-Date}!SDCard Functions@{\-S\-D\-Card Functions}}
+\subsubsection[{\-Manufact\-Date}]{\setlength{\rightskip}{0pt plus 5cm}uint16\-\_\-t {\bf \-S\-D\-C\-A\-R\-D\-Cid\-Type\-Def\-::\-Manufact\-Date}}}\label{group___p_i_o_s___s_d_c_a_r_d_gae7c9d488577977c2c5c2baca30ca6cec}
+
+
+\-Definition at line 85 of file pios\-\_\-sdcard.\-h.
+
+\hypertarget{group___p_i_o_s___s_d_c_a_r_d_ga083dff8fb19fcec5bf79ab18c105b6c3}{\index{\-S\-D\-Card Functions@{\-S\-D\-Card Functions}!\-Manufacturer\-I\-D@{\-Manufacturer\-I\-D}}
+\index{\-Manufacturer\-I\-D@{\-Manufacturer\-I\-D}!SDCard Functions@{\-S\-D\-Card Functions}}
+\subsubsection[{\-Manufacturer\-I\-D}]{\setlength{\rightskip}{0pt plus 5cm}uint8\-\_\-t {\bf \-S\-D\-C\-A\-R\-D\-Cid\-Type\-Def\-::\-Manufacturer\-I\-D}}}\label{group___p_i_o_s___s_d_c_a_r_d_ga083dff8fb19fcec5bf79ab18c105b6c3}
+
+
+\-Definition at line 79 of file pios\-\_\-sdcard.\-h.
+
+\hypertarget{group___p_i_o_s___s_d_c_a_r_d_ga9413a0371dfa0c4bf305c922b10392f1}{\index{\-S\-D\-Card Functions@{\-S\-D\-Card Functions}!\-Max\-Bus\-Clk\-Frec@{\-Max\-Bus\-Clk\-Frec}}
+\index{\-Max\-Bus\-Clk\-Frec@{\-Max\-Bus\-Clk\-Frec}!SDCard Functions@{\-S\-D\-Card Functions}}
+\subsubsection[{\-Max\-Bus\-Clk\-Frec}]{\setlength{\rightskip}{0pt plus 5cm}uint8\-\_\-t {\bf \-S\-D\-C\-A\-R\-D\-Csd\-Type\-Def\-::\-Max\-Bus\-Clk\-Frec}}}\label{group___p_i_o_s___s_d_c_a_r_d_ga9413a0371dfa0c4bf305c922b10392f1}
+
+
+\-Definition at line 43 of file pios\-\_\-sdcard.\-h.
+
+\hypertarget{group___p_i_o_s___s_d_c_a_r_d_ga3ba17f2a67a38414d67aaad8d7cc99be}{\index{\-S\-D\-Card Functions@{\-S\-D\-Card Functions}!\-Max\-Rd\-Current\-V\-D\-D\-Max@{\-Max\-Rd\-Current\-V\-D\-D\-Max}}
+\index{\-Max\-Rd\-Current\-V\-D\-D\-Max@{\-Max\-Rd\-Current\-V\-D\-D\-Max}!SDCard Functions@{\-S\-D\-Card Functions}}
+\subsubsection[{\-Max\-Rd\-Current\-V\-D\-D\-Max}]{\setlength{\rightskip}{0pt plus 5cm}uint8\-\_\-t {\bf \-S\-D\-C\-A\-R\-D\-Csd\-Type\-Def\-::\-Max\-Rd\-Current\-V\-D\-D\-Max}}}\label{group___p_i_o_s___s_d_c_a_r_d_ga3ba17f2a67a38414d67aaad8d7cc99be}
+
+
+\-Definition at line 53 of file pios\-\_\-sdcard.\-h.
+
+\hypertarget{group___p_i_o_s___s_d_c_a_r_d_ga44848558ce422fd005494fcb94656fa8}{\index{\-S\-D\-Card Functions@{\-S\-D\-Card Functions}!\-Max\-Rd\-Current\-V\-D\-D\-Min@{\-Max\-Rd\-Current\-V\-D\-D\-Min}}
+\index{\-Max\-Rd\-Current\-V\-D\-D\-Min@{\-Max\-Rd\-Current\-V\-D\-D\-Min}!SDCard Functions@{\-S\-D\-Card Functions}}
+\subsubsection[{\-Max\-Rd\-Current\-V\-D\-D\-Min}]{\setlength{\rightskip}{0pt plus 5cm}uint8\-\_\-t {\bf \-S\-D\-C\-A\-R\-D\-Csd\-Type\-Def\-::\-Max\-Rd\-Current\-V\-D\-D\-Min}}}\label{group___p_i_o_s___s_d_c_a_r_d_ga44848558ce422fd005494fcb94656fa8}
+
+
+\-Definition at line 52 of file pios\-\_\-sdcard.\-h.
+
+\hypertarget{group___p_i_o_s___s_d_c_a_r_d_gac00127b98cb9a3a0e1a0bc7960570992}{\index{\-S\-D\-Card Functions@{\-S\-D\-Card Functions}!\-Max\-Wr\-Block\-Len@{\-Max\-Wr\-Block\-Len}}
+\index{\-Max\-Wr\-Block\-Len@{\-Max\-Wr\-Block\-Len}!SDCard Functions@{\-S\-D\-Card Functions}}
+\subsubsection[{\-Max\-Wr\-Block\-Len}]{\setlength{\rightskip}{0pt plus 5cm}uint8\-\_\-t {\bf \-S\-D\-C\-A\-R\-D\-Csd\-Type\-Def\-::\-Max\-Wr\-Block\-Len}}}\label{group___p_i_o_s___s_d_c_a_r_d_gac00127b98cb9a3a0e1a0bc7960570992}
+
+
+\-Definition at line 63 of file pios\-\_\-sdcard.\-h.
+
+\hypertarget{group___p_i_o_s___s_d_c_a_r_d_gab98289ea1b8bc4b5e7fee1820487c07c}{\index{\-S\-D\-Card Functions@{\-S\-D\-Card Functions}!\-Max\-Wr\-Current\-V\-D\-D\-Max@{\-Max\-Wr\-Current\-V\-D\-D\-Max}}
+\index{\-Max\-Wr\-Current\-V\-D\-D\-Max@{\-Max\-Wr\-Current\-V\-D\-D\-Max}!SDCard Functions@{\-S\-D\-Card Functions}}
+\subsubsection[{\-Max\-Wr\-Current\-V\-D\-D\-Max}]{\setlength{\rightskip}{0pt plus 5cm}uint8\-\_\-t {\bf \-S\-D\-C\-A\-R\-D\-Csd\-Type\-Def\-::\-Max\-Wr\-Current\-V\-D\-D\-Max}}}\label{group___p_i_o_s___s_d_c_a_r_d_gab98289ea1b8bc4b5e7fee1820487c07c}
+
+
+\-Definition at line 55 of file pios\-\_\-sdcard.\-h.
+
+\hypertarget{group___p_i_o_s___s_d_c_a_r_d_ga592f9aec07e72eed97e1f28155f23ab4}{\index{\-S\-D\-Card Functions@{\-S\-D\-Card Functions}!\-Max\-Wr\-Current\-V\-D\-D\-Min@{\-Max\-Wr\-Current\-V\-D\-D\-Min}}
+\index{\-Max\-Wr\-Current\-V\-D\-D\-Min@{\-Max\-Wr\-Current\-V\-D\-D\-Min}!SDCard Functions@{\-S\-D\-Card Functions}}
+\subsubsection[{\-Max\-Wr\-Current\-V\-D\-D\-Min}]{\setlength{\rightskip}{0pt plus 5cm}uint8\-\_\-t {\bf \-S\-D\-C\-A\-R\-D\-Csd\-Type\-Def\-::\-Max\-Wr\-Current\-V\-D\-D\-Min}}}\label{group___p_i_o_s___s_d_c_a_r_d_ga592f9aec07e72eed97e1f28155f23ab4}
+
+
+\-Definition at line 54 of file pios\-\_\-sdcard.\-h.
+
+\hypertarget{group___p_i_o_s___s_d_c_a_r_d_ga653812c0595db0ef3eddae3dbf409b87}{\index{\-S\-D\-Card Functions@{\-S\-D\-Card Functions}!msd\-\_\-\-C\-R\-C@{msd\-\_\-\-C\-R\-C}}
+\index{msd\-\_\-\-C\-R\-C@{msd\-\_\-\-C\-R\-C}!SDCard Functions@{\-S\-D\-Card Functions}}
+\subsubsection[{msd\-\_\-\-C\-R\-C}]{\setlength{\rightskip}{0pt plus 5cm}uint8\-\_\-t {\bf \-S\-D\-C\-A\-R\-D\-Csd\-Type\-Def\-::msd\-\_\-\-C\-R\-C}}}\label{group___p_i_o_s___s_d_c_a_r_d_ga653812c0595db0ef3eddae3dbf409b87}
+
+
+\-Definition at line 73 of file pios\-\_\-sdcard.\-h.
+
+\hypertarget{group___p_i_o_s___s_d_c_a_r_d_gaeafc9f7dae979dcf639b88246bbe29b6}{\index{\-S\-D\-Card Functions@{\-S\-D\-Card Functions}!msd\-\_\-\-C\-R\-C@{msd\-\_\-\-C\-R\-C}}
+\index{msd\-\_\-\-C\-R\-C@{msd\-\_\-\-C\-R\-C}!SDCard Functions@{\-S\-D\-Card Functions}}
+\subsubsection[{msd\-\_\-\-C\-R\-C}]{\setlength{\rightskip}{0pt plus 5cm}uint8\-\_\-t {\bf \-S\-D\-C\-A\-R\-D\-Cid\-Type\-Def\-::msd\-\_\-\-C\-R\-C}}}\label{group___p_i_o_s___s_d_c_a_r_d_gaeafc9f7dae979dcf639b88246bbe29b6}
+
+
+\-Definition at line 86 of file pios\-\_\-sdcard.\-h.
+
+\hypertarget{group___p_i_o_s___s_d_c_a_r_d_ga8573c74ea99da2cfb8f4848fa4350491}{\index{\-S\-D\-Card Functions@{\-S\-D\-Card Functions}!\-N\-S\-A\-C@{\-N\-S\-A\-C}}
+\index{\-N\-S\-A\-C@{\-N\-S\-A\-C}!SDCard Functions@{\-S\-D\-Card Functions}}
+\subsubsection[{\-N\-S\-A\-C}]{\setlength{\rightskip}{0pt plus 5cm}uint8\-\_\-t {\bf \-S\-D\-C\-A\-R\-D\-Csd\-Type\-Def\-::\-N\-S\-A\-C}}}\label{group___p_i_o_s___s_d_c_a_r_d_ga8573c74ea99da2cfb8f4848fa4350491}
+
+
+\-Definition at line 42 of file pios\-\_\-sdcard.\-h.
+
+\hypertarget{group___p_i_o_s___s_d_c_a_r_d_gaba70fef7b702c2d5dc086c3cc997d4bc}{\index{\-S\-D\-Card Functions@{\-S\-D\-Card Functions}!\-O\-E\-M\-\_\-\-Appli\-I\-D@{\-O\-E\-M\-\_\-\-Appli\-I\-D}}
+\index{\-O\-E\-M\-\_\-\-Appli\-I\-D@{\-O\-E\-M\-\_\-\-Appli\-I\-D}!SDCard Functions@{\-S\-D\-Card Functions}}
+\subsubsection[{\-O\-E\-M\-\_\-\-Appli\-I\-D}]{\setlength{\rightskip}{0pt plus 5cm}uint16\-\_\-t {\bf \-S\-D\-C\-A\-R\-D\-Cid\-Type\-Def\-::\-O\-E\-M\-\_\-\-Appli\-I\-D}}}\label{group___p_i_o_s___s_d_c_a_r_d_gaba70fef7b702c2d5dc086c3cc997d4bc}
+
+
+\-Definition at line 80 of file pios\-\_\-sdcard.\-h.
+
+\hypertarget{group___p_i_o_s___s_d_c_a_r_d_gab165bf6b064166e0bf54f2a6c7d85a9a}{\index{\-S\-D\-Card Functions@{\-S\-D\-Card Functions}!\-Part\-Block\-Read@{\-Part\-Block\-Read}}
+\index{\-Part\-Block\-Read@{\-Part\-Block\-Read}!SDCard Functions@{\-S\-D\-Card Functions}}
+\subsubsection[{\-Part\-Block\-Read}]{\setlength{\rightskip}{0pt plus 5cm}uint8\-\_\-t {\bf \-S\-D\-C\-A\-R\-D\-Csd\-Type\-Def\-::\-Part\-Block\-Read}}}\label{group___p_i_o_s___s_d_c_a_r_d_gab165bf6b064166e0bf54f2a6c7d85a9a}
+
+
+\-Definition at line 46 of file pios\-\_\-sdcard.\-h.
+
+\hypertarget{group___p_i_o_s___s_d_c_a_r_d_ga191082389493442ce0b103f97282b952}{\index{\-S\-D\-Card Functions@{\-S\-D\-Card Functions}!\-Perm\-Wr\-Protect@{\-Perm\-Wr\-Protect}}
+\index{\-Perm\-Wr\-Protect@{\-Perm\-Wr\-Protect}!SDCard Functions@{\-S\-D\-Card Functions}}
+\subsubsection[{\-Perm\-Wr\-Protect}]{\setlength{\rightskip}{0pt plus 5cm}uint8\-\_\-t {\bf \-S\-D\-C\-A\-R\-D\-Csd\-Type\-Def\-::\-Perm\-Wr\-Protect}}}\label{group___p_i_o_s___s_d_c_a_r_d_ga191082389493442ce0b103f97282b952}
+
+
+\-Definition at line 69 of file pios\-\_\-sdcard.\-h.
+
+\hypertarget{group___p_i_o_s___s_d_c_a_r_d_ga51dd7d1ab7b2ae3878345834e20546a6}{\index{\-S\-D\-Card Functions@{\-S\-D\-Card Functions}!\-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-Sector@{\-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-Sector}}
+\index{\-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-Sector@{\-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-Sector}!SDCard Functions@{\-S\-D\-Card Functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-Sector}]{\setlength{\rightskip}{0pt plus 5cm}uint8\-\_\-t {\bf \-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-Sector}\mbox{[}\-S\-E\-C\-T\-O\-R\-\_\-\-S\-I\-Z\-E\mbox{]}}}\label{group___p_i_o_s___s_d_c_a_r_d_ga51dd7d1ab7b2ae3878345834e20546a6}
+
+
+\-Definition at line 39 of file pios\-\_\-sdcard.\-c.
+
+\hypertarget{group___p_i_o_s___s_d_c_a_r_d_ga51dd7d1ab7b2ae3878345834e20546a6}{\index{\-S\-D\-Card Functions@{\-S\-D\-Card Functions}!\-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-Sector@{\-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-Sector}}
+\index{\-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-Sector@{\-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-Sector}!SDCard Functions@{\-S\-D\-Card Functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-Sector}]{\setlength{\rightskip}{0pt plus 5cm}uint8\-\_\-t {\bf \-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-Sector}\mbox{[}\-S\-E\-C\-T\-O\-R\-\_\-\-S\-I\-Z\-E\mbox{]}}}\label{group___p_i_o_s___s_d_c_a_r_d_ga51dd7d1ab7b2ae3878345834e20546a6}
+
+
+\-Definition at line 39 of file pios\-\_\-sdcard.\-c.
+
+\hypertarget{group___p_i_o_s___s_d_c_a_r_d_gaeb82765ef4d7741f373422b30dba4f32}{\index{\-S\-D\-Card Functions@{\-S\-D\-Card Functions}!\-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-Vol\-Info@{\-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-Vol\-Info}}
+\index{\-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-Vol\-Info@{\-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-Vol\-Info}!SDCard Functions@{\-S\-D\-Card Functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-Vol\-Info}]{\setlength{\rightskip}{0pt plus 5cm}\-V\-O\-L\-I\-N\-F\-O {\bf \-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-Vol\-Info}}}\label{group___p_i_o_s___s_d_c_a_r_d_gaeb82765ef4d7741f373422b30dba4f32}
+
+
+\-Definition at line 38 of file pios\-\_\-sdcard.\-c.
+
+\hypertarget{group___p_i_o_s___s_d_c_a_r_d_gaeb82765ef4d7741f373422b30dba4f32}{\index{\-S\-D\-Card Functions@{\-S\-D\-Card Functions}!\-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-Vol\-Info@{\-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-Vol\-Info}}
+\index{\-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-Vol\-Info@{\-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-Vol\-Info}!SDCard Functions@{\-S\-D\-Card Functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-Vol\-Info}]{\setlength{\rightskip}{0pt plus 5cm}\-V\-O\-L\-I\-N\-F\-O {\bf \-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-Vol\-Info}}}\label{group___p_i_o_s___s_d_c_a_r_d_gaeb82765ef4d7741f373422b30dba4f32}
+
+
+\-Definition at line 38 of file pios\-\_\-sdcard.\-c.
+
+\hypertarget{group___p_i_o_s___s_d_c_a_r_d_gad17afffd675a78059aa60101165d709d}{\index{\-S\-D\-Card Functions@{\-S\-D\-Card Functions}!\-Prod\-Name@{\-Prod\-Name}}
+\index{\-Prod\-Name@{\-Prod\-Name}!SDCard Functions@{\-S\-D\-Card Functions}}
+\subsubsection[{\-Prod\-Name}]{\setlength{\rightskip}{0pt plus 5cm}char {\bf \-S\-D\-C\-A\-R\-D\-Cid\-Type\-Def\-::\-Prod\-Name}\mbox{[}6\mbox{]}}}\label{group___p_i_o_s___s_d_c_a_r_d_gad17afffd675a78059aa60101165d709d}
+
+
+\-Definition at line 81 of file pios\-\_\-sdcard.\-h.
+
+\hypertarget{group___p_i_o_s___s_d_c_a_r_d_ga8307b63b043ed01d0fa11493c9508dac}{\index{\-S\-D\-Card Functions@{\-S\-D\-Card Functions}!\-Prod\-Rev@{\-Prod\-Rev}}
+\index{\-Prod\-Rev@{\-Prod\-Rev}!SDCard Functions@{\-S\-D\-Card Functions}}
+\subsubsection[{\-Prod\-Rev}]{\setlength{\rightskip}{0pt plus 5cm}uint8\-\_\-t {\bf \-S\-D\-C\-A\-R\-D\-Cid\-Type\-Def\-::\-Prod\-Rev}}}\label{group___p_i_o_s___s_d_c_a_r_d_ga8307b63b043ed01d0fa11493c9508dac}
+
+
+\-Definition at line 82 of file pios\-\_\-sdcard.\-h.
+
+\hypertarget{group___p_i_o_s___s_d_c_a_r_d_ga243ea864815caa90de7e151c8d8a7195}{\index{\-S\-D\-Card Functions@{\-S\-D\-Card Functions}!\-Prod\-S\-N@{\-Prod\-S\-N}}
+\index{\-Prod\-S\-N@{\-Prod\-S\-N}!SDCard Functions@{\-S\-D\-Card Functions}}
+\subsubsection[{\-Prod\-S\-N}]{\setlength{\rightskip}{0pt plus 5cm}u32 {\bf \-S\-D\-C\-A\-R\-D\-Cid\-Type\-Def\-::\-Prod\-S\-N}}}\label{group___p_i_o_s___s_d_c_a_r_d_ga243ea864815caa90de7e151c8d8a7195}
+
+
+\-Definition at line 83 of file pios\-\_\-sdcard.\-h.
+
+\hypertarget{group___p_i_o_s___s_d_c_a_r_d_gab4a98c4b27e0e4cbb4ace4d6ff93c056}{\index{\-S\-D\-Card Functions@{\-S\-D\-Card Functions}!\-Rd\-Block\-Len@{\-Rd\-Block\-Len}}
+\index{\-Rd\-Block\-Len@{\-Rd\-Block\-Len}!SDCard Functions@{\-S\-D\-Card Functions}}
+\subsubsection[{\-Rd\-Block\-Len}]{\setlength{\rightskip}{0pt plus 5cm}uint8\-\_\-t {\bf \-S\-D\-C\-A\-R\-D\-Csd\-Type\-Def\-::\-Rd\-Block\-Len}}}\label{group___p_i_o_s___s_d_c_a_r_d_gab4a98c4b27e0e4cbb4ace4d6ff93c056}
+
+
+\-Definition at line 45 of file pios\-\_\-sdcard.\-h.
+
+\hypertarget{group___p_i_o_s___s_d_c_a_r_d_ga959156fe53645cd48d715f89c3407618}{\index{\-S\-D\-Card Functions@{\-S\-D\-Card Functions}!\-Rd\-Block\-Misalign@{\-Rd\-Block\-Misalign}}
+\index{\-Rd\-Block\-Misalign@{\-Rd\-Block\-Misalign}!SDCard Functions@{\-S\-D\-Card Functions}}
+\subsubsection[{\-Rd\-Block\-Misalign}]{\setlength{\rightskip}{0pt plus 5cm}uint8\-\_\-t {\bf \-S\-D\-C\-A\-R\-D\-Csd\-Type\-Def\-::\-Rd\-Block\-Misalign}}}\label{group___p_i_o_s___s_d_c_a_r_d_ga959156fe53645cd48d715f89c3407618}
+
+
+\-Definition at line 48 of file pios\-\_\-sdcard.\-h.
+
+\hypertarget{group___p_i_o_s___s_d_c_a_r_d_ga8d15c8c3b9e293b1b62efea47010180d}{\index{\-S\-D\-Card Functions@{\-S\-D\-Card Functions}!\-Reserved1@{\-Reserved1}}
+\index{\-Reserved1@{\-Reserved1}!SDCard Functions@{\-S\-D\-Card Functions}}
+\subsubsection[{\-Reserved1}]{\setlength{\rightskip}{0pt plus 5cm}uint8\-\_\-t {\bf \-S\-D\-C\-A\-R\-D\-Csd\-Type\-Def\-::\-Reserved1}}}\label{group___p_i_o_s___s_d_c_a_r_d_ga8d15c8c3b9e293b1b62efea47010180d}
+
+
+\-Definition at line 40 of file pios\-\_\-sdcard.\-h.
+
+\hypertarget{group___p_i_o_s___s_d_c_a_r_d_gaa6d5ceee00ac588d04a7d1e913746732}{\index{\-S\-D\-Card Functions@{\-S\-D\-Card Functions}!\-Reserved1@{\-Reserved1}}
+\index{\-Reserved1@{\-Reserved1}!SDCard Functions@{\-S\-D\-Card Functions}}
+\subsubsection[{\-Reserved1}]{\setlength{\rightskip}{0pt plus 5cm}uint8\-\_\-t {\bf \-S\-D\-C\-A\-R\-D\-Cid\-Type\-Def\-::\-Reserved1}}}\label{group___p_i_o_s___s_d_c_a_r_d_gaa6d5ceee00ac588d04a7d1e913746732}
+
+
+\-Definition at line 84 of file pios\-\_\-sdcard.\-h.
+
+\hypertarget{group___p_i_o_s___s_d_c_a_r_d_ga2580f84971aaa12e06b546fd8b884dad}{\index{\-S\-D\-Card Functions@{\-S\-D\-Card Functions}!\-Reserved2@{\-Reserved2}}
+\index{\-Reserved2@{\-Reserved2}!SDCard Functions@{\-S\-D\-Card Functions}}
+\subsubsection[{\-Reserved2}]{\setlength{\rightskip}{0pt plus 5cm}uint8\-\_\-t {\bf \-S\-D\-C\-A\-R\-D\-Csd\-Type\-Def\-::\-Reserved2}}}\label{group___p_i_o_s___s_d_c_a_r_d_ga2580f84971aaa12e06b546fd8b884dad}
+
+
+\-Definition at line 50 of file pios\-\_\-sdcard.\-h.
+
+\hypertarget{group___p_i_o_s___s_d_c_a_r_d_gab50b795387215c00e5d9b5feb7e9aefb}{\index{\-S\-D\-Card Functions@{\-S\-D\-Card Functions}!\-Reserved2@{\-Reserved2}}
+\index{\-Reserved2@{\-Reserved2}!SDCard Functions@{\-S\-D\-Card Functions}}
+\subsubsection[{\-Reserved2}]{\setlength{\rightskip}{0pt plus 5cm}uint8\-\_\-t {\bf \-S\-D\-C\-A\-R\-D\-Cid\-Type\-Def\-::\-Reserved2}}}\label{group___p_i_o_s___s_d_c_a_r_d_gab50b795387215c00e5d9b5feb7e9aefb}
+
+
+\-Definition at line 87 of file pios\-\_\-sdcard.\-h.
+
+\hypertarget{group___p_i_o_s___s_d_c_a_r_d_ga2912ee762425a05b026c2c66039b859b}{\index{\-S\-D\-Card Functions@{\-S\-D\-Card Functions}!\-Reserved3@{\-Reserved3}}
+\index{\-Reserved3@{\-Reserved3}!SDCard Functions@{\-S\-D\-Card Functions}}
+\subsubsection[{\-Reserved3}]{\setlength{\rightskip}{0pt plus 5cm}uint8\-\_\-t {\bf \-S\-D\-C\-A\-R\-D\-Csd\-Type\-Def\-::\-Reserved3}}}\label{group___p_i_o_s___s_d_c_a_r_d_ga2912ee762425a05b026c2c66039b859b}
+
+
+\-Definition at line 65 of file pios\-\_\-sdcard.\-h.
+
+\hypertarget{group___p_i_o_s___s_d_c_a_r_d_ga2154190e5c6f32ce3b67bdc4a9aa3982}{\index{\-S\-D\-Card Functions@{\-S\-D\-Card Functions}!\-Reserved4@{\-Reserved4}}
+\index{\-Reserved4@{\-Reserved4}!SDCard Functions@{\-S\-D\-Card Functions}}
+\subsubsection[{\-Reserved4}]{\setlength{\rightskip}{0pt plus 5cm}uint8\-\_\-t {\bf \-S\-D\-C\-A\-R\-D\-Csd\-Type\-Def\-::\-Reserved4}}}\label{group___p_i_o_s___s_d_c_a_r_d_ga2154190e5c6f32ce3b67bdc4a9aa3982}
+
+
+\-Definition at line 74 of file pios\-\_\-sdcard.\-h.
+
+\hypertarget{group___p_i_o_s___s_d_c_a_r_d_ga68ba16a5f115dc00b88d70d6912a1c45}{\index{\-S\-D\-Card Functions@{\-S\-D\-Card Functions}!\-Sys\-Spec\-Version@{\-Sys\-Spec\-Version}}
+\index{\-Sys\-Spec\-Version@{\-Sys\-Spec\-Version}!SDCard Functions@{\-S\-D\-Card Functions}}
+\subsubsection[{\-Sys\-Spec\-Version}]{\setlength{\rightskip}{0pt plus 5cm}uint8\-\_\-t {\bf \-S\-D\-C\-A\-R\-D\-Csd\-Type\-Def\-::\-Sys\-Spec\-Version}}}\label{group___p_i_o_s___s_d_c_a_r_d_ga68ba16a5f115dc00b88d70d6912a1c45}
+
+
+\-Definition at line 39 of file pios\-\_\-sdcard.\-h.
+
+\hypertarget{group___p_i_o_s___s_d_c_a_r_d_gaec29af38b2fc16f147533e11c61e2787}{\index{\-S\-D\-Card Functions@{\-S\-D\-Card Functions}!\-T\-A\-A\-C@{\-T\-A\-A\-C}}
+\index{\-T\-A\-A\-C@{\-T\-A\-A\-C}!SDCard Functions@{\-S\-D\-Card Functions}}
+\subsubsection[{\-T\-A\-A\-C}]{\setlength{\rightskip}{0pt plus 5cm}uint8\-\_\-t {\bf \-S\-D\-C\-A\-R\-D\-Csd\-Type\-Def\-::\-T\-A\-A\-C}}}\label{group___p_i_o_s___s_d_c_a_r_d_gaec29af38b2fc16f147533e11c61e2787}
+
+
+\-Definition at line 41 of file pios\-\_\-sdcard.\-h.
+
+\hypertarget{group___p_i_o_s___s_d_c_a_r_d_ga3a9535629b4573d3dbe39dabd51b341a}{\index{\-S\-D\-Card Functions@{\-S\-D\-Card Functions}!\-Temp\-Wr\-Protect@{\-Temp\-Wr\-Protect}}
+\index{\-Temp\-Wr\-Protect@{\-Temp\-Wr\-Protect}!SDCard Functions@{\-S\-D\-Card Functions}}
+\subsubsection[{\-Temp\-Wr\-Protect}]{\setlength{\rightskip}{0pt plus 5cm}uint8\-\_\-t {\bf \-S\-D\-C\-A\-R\-D\-Csd\-Type\-Def\-::\-Temp\-Wr\-Protect}}}\label{group___p_i_o_s___s_d_c_a_r_d_ga3a9535629b4573d3dbe39dabd51b341a}
+
+
+\-Definition at line 70 of file pios\-\_\-sdcard.\-h.
+
+\hypertarget{group___p_i_o_s___s_d_c_a_r_d_gac79fcdd1037496c353ac1570fb9a58a5}{\index{\-S\-D\-Card Functions@{\-S\-D\-Card Functions}!\-Wr\-Block\-Misalign@{\-Wr\-Block\-Misalign}}
+\index{\-Wr\-Block\-Misalign@{\-Wr\-Block\-Misalign}!SDCard Functions@{\-S\-D\-Card Functions}}
+\subsubsection[{\-Wr\-Block\-Misalign}]{\setlength{\rightskip}{0pt plus 5cm}uint8\-\_\-t {\bf \-S\-D\-C\-A\-R\-D\-Csd\-Type\-Def\-::\-Wr\-Block\-Misalign}}}\label{group___p_i_o_s___s_d_c_a_r_d_gac79fcdd1037496c353ac1570fb9a58a5}
+
+
+\-Definition at line 47 of file pios\-\_\-sdcard.\-h.
+
+\hypertarget{group___p_i_o_s___s_d_c_a_r_d_gaa2d30b075bc701aef9e50397db088180}{\index{\-S\-D\-Card Functions@{\-S\-D\-Card Functions}!\-Write\-Block\-Pa\-Partial@{\-Write\-Block\-Pa\-Partial}}
+\index{\-Write\-Block\-Pa\-Partial@{\-Write\-Block\-Pa\-Partial}!SDCard Functions@{\-S\-D\-Card Functions}}
+\subsubsection[{\-Write\-Block\-Pa\-Partial}]{\setlength{\rightskip}{0pt plus 5cm}uint8\-\_\-t {\bf \-S\-D\-C\-A\-R\-D\-Csd\-Type\-Def\-::\-Write\-Block\-Pa\-Partial}}}\label{group___p_i_o_s___s_d_c_a_r_d_gaa2d30b075bc701aef9e50397db088180}
+
+
+\-Definition at line 64 of file pios\-\_\-sdcard.\-h.
+
+\hypertarget{group___p_i_o_s___s_d_c_a_r_d_ga40ddea3e9a913588c57a8f922e929407}{\index{\-S\-D\-Card Functions@{\-S\-D\-Card Functions}!\-Wr\-Protect\-Gr\-Enable@{\-Wr\-Protect\-Gr\-Enable}}
+\index{\-Wr\-Protect\-Gr\-Enable@{\-Wr\-Protect\-Gr\-Enable}!SDCard Functions@{\-S\-D\-Card Functions}}
+\subsubsection[{\-Wr\-Protect\-Gr\-Enable}]{\setlength{\rightskip}{0pt plus 5cm}uint8\-\_\-t {\bf \-S\-D\-C\-A\-R\-D\-Csd\-Type\-Def\-::\-Wr\-Protect\-Gr\-Enable}}}\label{group___p_i_o_s___s_d_c_a_r_d_ga40ddea3e9a913588c57a8f922e929407}
+
+
+\-Definition at line 60 of file pios\-\_\-sdcard.\-h.
+
+\hypertarget{group___p_i_o_s___s_d_c_a_r_d_ga6976b49fb75de7273c9ae54e5b4df865}{\index{\-S\-D\-Card Functions@{\-S\-D\-Card Functions}!\-Wr\-Protect\-Gr\-Size@{\-Wr\-Protect\-Gr\-Size}}
+\index{\-Wr\-Protect\-Gr\-Size@{\-Wr\-Protect\-Gr\-Size}!SDCard Functions@{\-S\-D\-Card Functions}}
+\subsubsection[{\-Wr\-Protect\-Gr\-Size}]{\setlength{\rightskip}{0pt plus 5cm}uint8\-\_\-t {\bf \-S\-D\-C\-A\-R\-D\-Csd\-Type\-Def\-::\-Wr\-Protect\-Gr\-Size}}}\label{group___p_i_o_s___s_d_c_a_r_d_ga6976b49fb75de7273c9ae54e5b4df865}
+
+
+\-Definition at line 59 of file pios\-\_\-sdcard.\-h.
+
+\hypertarget{group___p_i_o_s___s_d_c_a_r_d_gad518a80289b8949800c8f7e50fc4b21f}{\index{\-S\-D\-Card Functions@{\-S\-D\-Card Functions}!\-Wr\-Speed\-Fact@{\-Wr\-Speed\-Fact}}
+\index{\-Wr\-Speed\-Fact@{\-Wr\-Speed\-Fact}!SDCard Functions@{\-S\-D\-Card Functions}}
+\subsubsection[{\-Wr\-Speed\-Fact}]{\setlength{\rightskip}{0pt plus 5cm}uint8\-\_\-t {\bf \-S\-D\-C\-A\-R\-D\-Csd\-Type\-Def\-::\-Wr\-Speed\-Fact}}}\label{group___p_i_o_s___s_d_c_a_r_d_gad518a80289b8949800c8f7e50fc4b21f}
+
+
+\-Definition at line 62 of file pios\-\_\-sdcard.\-h.
+

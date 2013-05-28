@@ -1,0 +1,275 @@
+\hypertarget{uavobjectmanager_8c}{\section{/home/jb/code/\-Tau\-Labs/flight/targets/\-U\-A\-V\-Objects/uavobjectmanager.c \-File \-Reference}
+\label{uavobjectmanager_8c}\index{/home/jb/code/\-Tau\-Labs/flight/targets/\-U\-A\-V\-Objects/uavobjectmanager.\-c@{/home/jb/code/\-Tau\-Labs/flight/targets/\-U\-A\-V\-Objects/uavobjectmanager.\-c}}
+}
+
+
+\-Object manager library. \-This library holds a collection of all objects. \-It can be used by all modules/libraries to find an object reference.  
+
+
+\subsection*{\-Data \-Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{struct_object_event_entry}{\-Object\-Event\-Entry}
+\item 
+struct \hyperlink{struct_u_a_v_o_base}{\-U\-A\-V\-O\-Base}
+\item 
+struct \hyperlink{struct_u_a_v_o_base_1_1_u_a_v_o_info}{\-U\-A\-V\-O\-Base\-::\-U\-A\-V\-O\-Info}
+\item 
+struct \hyperlink{struct_u_a_v_o_info}{\-U\-A\-V\-O\-Info}
+\item 
+struct \hyperlink{struct_u_a_v_o_meta}{\-U\-A\-V\-O\-Meta}
+\item 
+struct \hyperlink{struct_u_a_v_o_data}{\-U\-A\-V\-O\-Data}
+\item 
+struct \hyperlink{struct_u_a_v_o_single}{\-U\-A\-V\-O\-Single}
+\item 
+struct \hyperlink{struct_u_a_v_o_multi_inst}{\-U\-A\-V\-O\-Multi\-Inst}
+\item 
+struct \hyperlink{struct_u_a_v_o_multi}{\-U\-A\-V\-O\-Multi}
+\end{DoxyCompactItemize}
+\subsection*{\-Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef void $\ast$ \hyperlink{group___u_a_v_object_handling_gabd5387dedf4d32f408b532b19fcdc1da}{\-Instance\-Handle}
+\end{DoxyCompactItemize}
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{struct_u_a_v_o_base}{\-U\-A\-V\-O\-Base} \hyperlink{group___u_a_v_object_handling_ga4b0485179787b019d9da516583780bdf}{\-\_\-\-\_\-attribute\-\_\-\-\_\-} ((packed))
+\item 
+int32\-\_\-t \hyperlink{group___u_a_v_object_handling_ga07599909613c0729f06c1b4b8a2296af}{\-U\-A\-V\-Obj\-Initialize} ()
+\item 
+void \hyperlink{group___u_a_v_object_handling_ga6ff4107796c9693e8034e7c77a26f066}{\-U\-A\-V\-Obj\-Get\-Stats} (\hyperlink{struct_u_a_v_obj_stats}{\-U\-A\-V\-Obj\-Stats} $\ast$stats\-Out)
+\item 
+void \hyperlink{group___u_a_v_object_handling_gae604f34af94a200b96787f24abb32ce1}{\-U\-A\-V\-Obj\-Clear\-Stats} ()
+\item 
+\hyperlink{targets_2_u_a_v_objects_2inc_2uavobjectmanager_8h_a279053e22be53ce9f895043aaeb91e3b}{\-U\-A\-V\-Obj\-Handle} \hyperlink{group___u_a_v_object_handling_ga88eab3d936394b3dffd65db8a148b9b1}{\-U\-A\-V\-Obj\-Register} (uint32\-\_\-t \hyperlink{uavobjectmanager_8c_abaabdc509cdaba7df9f56c6c76f3ae19}{id}, int32\-\_\-t is\-Single\-Instance, int32\-\_\-t is\-Settings, uint32\-\_\-t num\-\_\-bytes, \hyperlink{targets_2_u_a_v_objects_2inc_2uavobjectmanager_8h_a16def10911b9b7e8626c2d1e3fec6e67}{\-U\-A\-V\-Obj\-Initialize\-Callback} init\-Cb)
+\item 
+\hyperlink{targets_2_u_a_v_objects_2inc_2uavobjectmanager_8h_a279053e22be53ce9f895043aaeb91e3b}{\-U\-A\-V\-Obj\-Handle} \hyperlink{group___u_a_v_object_handling_ga17a9665c830f577232ad694ab4baaea6}{\-U\-A\-V\-Obj\-Get\-By\-I\-D} (uint32\-\_\-t \hyperlink{uavobjectmanager_8c_abaabdc509cdaba7df9f56c6c76f3ae19}{id})
+\item 
+uint32\-\_\-t \hyperlink{group___u_a_v_object_handling_ga197049afa1062802ec0dc2c7c971d89e}{\-U\-A\-V\-Obj\-Get\-I\-D} (\hyperlink{targets_2_u_a_v_objects_2inc_2uavobjectmanager_8h_a279053e22be53ce9f895043aaeb91e3b}{\-U\-A\-V\-Obj\-Handle} obj\-\_\-handle)
+\item 
+uint32\-\_\-t \hyperlink{group___u_a_v_object_handling_ga08b602bb9381c3c2806140ed32a5af74}{\-U\-A\-V\-Obj\-Get\-Num\-Bytes} (\hyperlink{targets_2_u_a_v_objects_2inc_2uavobjectmanager_8h_a279053e22be53ce9f895043aaeb91e3b}{\-U\-A\-V\-Obj\-Handle} obj)
+\item 
+\hyperlink{targets_2_u_a_v_objects_2inc_2uavobjectmanager_8h_a279053e22be53ce9f895043aaeb91e3b}{\-U\-A\-V\-Obj\-Handle} \hyperlink{group___u_a_v_object_handling_ga9b6a21cc5abcfe4af811f65a3744d4f3}{\-U\-A\-V\-Obj\-Get\-Linked\-Obj} (\hyperlink{targets_2_u_a_v_objects_2inc_2uavobjectmanager_8h_a279053e22be53ce9f895043aaeb91e3b}{\-U\-A\-V\-Obj\-Handle} obj\-\_\-handle)
+\item 
+uint16\-\_\-t \hyperlink{group___u_a_v_object_handling_ga264590c39739a19082e2c32d91f6e3ce}{\-U\-A\-V\-Obj\-Get\-Num\-Instances} (\hyperlink{targets_2_u_a_v_objects_2inc_2uavobjectmanager_8h_a279053e22be53ce9f895043aaeb91e3b}{\-U\-A\-V\-Obj\-Handle} obj\-\_\-handle)
+\item 
+uint16\-\_\-t \hyperlink{group___u_a_v_object_handling_gac892e6dac1fb6de05ed730aa15b65a65}{\-U\-A\-V\-Obj\-Create\-Instance} (\hyperlink{targets_2_u_a_v_objects_2inc_2uavobjectmanager_8h_a279053e22be53ce9f895043aaeb91e3b}{\-U\-A\-V\-Obj\-Handle} obj\-\_\-handle, \hyperlink{targets_2_u_a_v_objects_2inc_2uavobjectmanager_8h_a16def10911b9b7e8626c2d1e3fec6e67}{\-U\-A\-V\-Obj\-Initialize\-Callback} init\-Cb)
+\item 
+bool \hyperlink{group___u_a_v_object_handling_gadd4119ec326e9718543908e796bf46b2}{\-U\-A\-V\-Obj\-Is\-Single\-Instance} (\hyperlink{targets_2_u_a_v_objects_2inc_2uavobjectmanager_8h_a279053e22be53ce9f895043aaeb91e3b}{\-U\-A\-V\-Obj\-Handle} obj\-\_\-handle)
+\item 
+bool \hyperlink{group___u_a_v_object_handling_ga52c0794e99c2ae401c5ed7f25a67e51a}{\-U\-A\-V\-Obj\-Is\-Metaobject} (\hyperlink{targets_2_u_a_v_objects_2inc_2uavobjectmanager_8h_a279053e22be53ce9f895043aaeb91e3b}{\-U\-A\-V\-Obj\-Handle} obj\-\_\-handle)
+\item 
+bool \hyperlink{group___u_a_v_object_handling_ga78e3c762f51cb6b295c7b8f787fa2ba1}{\-U\-A\-V\-Obj\-Is\-Settings} (\hyperlink{targets_2_u_a_v_objects_2inc_2uavobjectmanager_8h_a279053e22be53ce9f895043aaeb91e3b}{\-U\-A\-V\-Obj\-Handle} obj\-\_\-handle)
+\item 
+int32\-\_\-t \hyperlink{group___u_a_v_object_handling_gae54216880f0d6f603497b8fad60d0c95}{\-U\-A\-V\-Obj\-Unpack} (\hyperlink{targets_2_u_a_v_objects_2inc_2uavobjectmanager_8h_a279053e22be53ce9f895043aaeb91e3b}{\-U\-A\-V\-Obj\-Handle} obj\-\_\-handle, uint16\-\_\-t inst\-Id, const uint8\-\_\-t $\ast$data\-In)
+\item 
+int32\-\_\-t \hyperlink{group___u_a_v_object_handling_gaeced79a2ea987ec860ba7468df886ecd}{\-U\-A\-V\-Obj\-Pack} (\hyperlink{targets_2_u_a_v_objects_2inc_2uavobjectmanager_8h_a279053e22be53ce9f895043aaeb91e3b}{\-U\-A\-V\-Obj\-Handle} obj\-\_\-handle, uint16\-\_\-t inst\-Id, uint8\-\_\-t $\ast$data\-Out)
+\item 
+int32\-\_\-t \hyperlink{group___u_a_v_object_handling_ga417bd4dd0d0c7b33938e2351b0bba8b2}{\-U\-A\-V\-Obj\-Save\-To\-File} (\hyperlink{targets_2_u_a_v_objects_2inc_2uavobjectmanager_8h_a279053e22be53ce9f895043aaeb91e3b}{\-U\-A\-V\-Obj\-Handle} obj\-\_\-handle, uint16\-\_\-t inst\-Id, \-F\-I\-L\-E\-I\-N\-F\-O $\ast$\hyperlink{group___w_a_v_e_p_l_a_y_e_r___private___variables_ga48b699d30a027a1d6326588c99d716e1}{file})
+\item 
+int32\-\_\-t \hyperlink{group___u_a_v_object_handling_gab06b41f74db97895f2de3ec8772ddcd9}{\-U\-A\-V\-Obj\-Save} (\hyperlink{targets_2_u_a_v_objects_2inc_2uavobjectmanager_8h_a279053e22be53ce9f895043aaeb91e3b}{\-U\-A\-V\-Obj\-Handle} obj\-\_\-handle, uint16\-\_\-t inst\-Id)
+\item 
+\hyperlink{targets_2_u_a_v_objects_2inc_2uavobjectmanager_8h_a279053e22be53ce9f895043aaeb91e3b}{\-U\-A\-V\-Obj\-Handle} \hyperlink{group___u_a_v_object_handling_ga851caa15c5807d5affbd6095d3cdaca7}{\-U\-A\-V\-Obj\-Load\-From\-File} (\-F\-I\-L\-E\-I\-N\-F\-O $\ast$\hyperlink{group___w_a_v_e_p_l_a_y_e_r___private___variables_ga48b699d30a027a1d6326588c99d716e1}{file})
+\item 
+int32\-\_\-t \hyperlink{group___u_a_v_object_handling_gaf028fed8e3025656c7436ce6a7340e44}{\-U\-A\-V\-Obj\-Load} (\hyperlink{targets_2_u_a_v_objects_2inc_2uavobjectmanager_8h_a279053e22be53ce9f895043aaeb91e3b}{\-U\-A\-V\-Obj\-Handle} obj\-\_\-handle, uint16\-\_\-t inst\-Id)
+\item 
+int32\-\_\-t \hyperlink{group___u_a_v_object_handling_gad00323c86e457fbe63ec177cd55c2864}{\-U\-A\-V\-Obj\-Delete\-By\-Id} (uint32\-\_\-t \hyperlink{pios__flashfs__logfs_8c_a4901f00431a2c948153bd4f187fce556}{obj\-\_\-id}, uint16\-\_\-t inst\-\_\-id)
+\item 
+int32\-\_\-t \hyperlink{group___u_a_v_object_handling_ga6282540dd888720334943f3b3ad5f301}{\-U\-A\-V\-Obj\-Save\-Settings} ()
+\item 
+int32\-\_\-t \hyperlink{group___u_a_v_object_handling_ga961f3df74e4106ee108a10b57536302f}{\-U\-A\-V\-Obj\-Load\-Settings} ()
+\item 
+int32\-\_\-t \hyperlink{group___u_a_v_object_handling_ga5f40e35848fe223463778b90e8035cbd}{\-U\-A\-V\-Obj\-Delete\-Settings} ()
+\item 
+int32\-\_\-t \hyperlink{group___u_a_v_object_handling_ga203ebba7c25227245b1ae5abd38492c4}{\-U\-A\-V\-Obj\-Save\-Metaobjects} ()
+\item 
+int32\-\_\-t \hyperlink{group___u_a_v_object_handling_ga014c904f7cc34d6bb5a5a1f23ebe3364}{\-U\-A\-V\-Obj\-Load\-Metaobjects} ()
+\item 
+int32\-\_\-t \hyperlink{group___u_a_v_object_handling_ga74aba825a99924f3c8e3f7c209409ab6}{\-U\-A\-V\-Obj\-Delete\-Metaobjects} ()
+\item 
+int32\-\_\-t \hyperlink{group___u_a_v_object_handling_gaca346cc577b81ba51cde8f793cdaf969}{\-U\-A\-V\-Obj\-Set\-Data} (\hyperlink{targets_2_u_a_v_objects_2inc_2uavobjectmanager_8h_a279053e22be53ce9f895043aaeb91e3b}{\-U\-A\-V\-Obj\-Handle} obj\-\_\-handle, const void $\ast$data\-In)
+\item 
+int32\-\_\-t \hyperlink{group___u_a_v_object_handling_gab4d774a4a829bc754878021d3bcb195f}{\-U\-A\-V\-Obj\-Set\-Data\-Field} (\hyperlink{targets_2_u_a_v_objects_2inc_2uavobjectmanager_8h_a279053e22be53ce9f895043aaeb91e3b}{\-U\-A\-V\-Obj\-Handle} obj\-\_\-handle, const void $\ast$data\-In, uint32\-\_\-t \hyperlink{group___sparky_b_l_gaa9fff43968831437a312428836cab362}{offset}, uint32\-\_\-t size)
+\item 
+int32\-\_\-t \hyperlink{group___u_a_v_object_handling_ga580decfc7a47e5f28215f1f940e3799e}{\-U\-A\-V\-Obj\-Get\-Data} (\hyperlink{targets_2_u_a_v_objects_2inc_2uavobjectmanager_8h_a279053e22be53ce9f895043aaeb91e3b}{\-U\-A\-V\-Obj\-Handle} obj\-\_\-handle, void $\ast$data\-Out)
+\item 
+int32\-\_\-t \hyperlink{group___u_a_v_object_handling_ga532ccb2e759fca49c89e425b872eed1c}{\-U\-A\-V\-Obj\-Get\-Data\-Field} (\hyperlink{targets_2_u_a_v_objects_2inc_2uavobjectmanager_8h_a279053e22be53ce9f895043aaeb91e3b}{\-U\-A\-V\-Obj\-Handle} obj\-\_\-handle, void $\ast$data\-Out, uint32\-\_\-t \hyperlink{group___sparky_b_l_gaa9fff43968831437a312428836cab362}{offset}, uint32\-\_\-t size)
+\item 
+int32\-\_\-t \hyperlink{group___u_a_v_object_handling_gaa9c916d3a8cabfc6d7a0f3d488d10803}{\-U\-A\-V\-Obj\-Set\-Instance\-Data} (\hyperlink{targets_2_u_a_v_objects_2inc_2uavobjectmanager_8h_a279053e22be53ce9f895043aaeb91e3b}{\-U\-A\-V\-Obj\-Handle} obj\-\_\-handle, uint16\-\_\-t inst\-Id, const void $\ast$data\-In)
+\item 
+int32\-\_\-t \hyperlink{group___u_a_v_object_handling_ga087c34a94f310e0b73ffa8d9e3dd02c6}{\-U\-A\-V\-Obj\-Set\-Instance\-Data\-Field} (\hyperlink{targets_2_u_a_v_objects_2inc_2uavobjectmanager_8h_a279053e22be53ce9f895043aaeb91e3b}{\-U\-A\-V\-Obj\-Handle} obj\-\_\-handle, uint16\-\_\-t inst\-Id, const void $\ast$data\-In, uint32\-\_\-t \hyperlink{group___sparky_b_l_gaa9fff43968831437a312428836cab362}{offset}, uint32\-\_\-t size)
+\item 
+int32\-\_\-t \hyperlink{group___u_a_v_object_handling_ga955799ae236e66aef4070f79d530d73c}{\-U\-A\-V\-Obj\-Get\-Instance\-Data} (\hyperlink{targets_2_u_a_v_objects_2inc_2uavobjectmanager_8h_a279053e22be53ce9f895043aaeb91e3b}{\-U\-A\-V\-Obj\-Handle} obj\-\_\-handle, uint16\-\_\-t inst\-Id, void $\ast$data\-Out)
+\item 
+int32\-\_\-t \hyperlink{group___u_a_v_object_handling_gadc17f6e4b8121257308645c34c5e48c8}{\-U\-A\-V\-Obj\-Get\-Instance\-Data\-Field} (\hyperlink{targets_2_u_a_v_objects_2inc_2uavobjectmanager_8h_a279053e22be53ce9f895043aaeb91e3b}{\-U\-A\-V\-Obj\-Handle} obj\-\_\-handle, uint16\-\_\-t inst\-Id, void $\ast$data\-Out, uint32\-\_\-t \hyperlink{group___sparky_b_l_gaa9fff43968831437a312428836cab362}{offset}, uint32\-\_\-t size)
+\item 
+int32\-\_\-t \hyperlink{group___u_a_v_object_handling_ga0e590d06148882b63affa37888f043df}{\-U\-A\-V\-Obj\-Set\-Metadata} (\hyperlink{targets_2_u_a_v_objects_2inc_2uavobjectmanager_8h_a279053e22be53ce9f895043aaeb91e3b}{\-U\-A\-V\-Obj\-Handle} obj\-\_\-handle, const \-U\-A\-V\-Obj\-Metadata $\ast$data\-In)
+\item 
+int32\-\_\-t \hyperlink{group___u_a_v_object_handling_gac4ddbaf9ae7938badae8552d4ef88b20}{\-U\-A\-V\-Obj\-Get\-Metadata} (\hyperlink{targets_2_u_a_v_objects_2inc_2uavobjectmanager_8h_a279053e22be53ce9f895043aaeb91e3b}{\-U\-A\-V\-Obj\-Handle} obj\-\_\-handle, \-U\-A\-V\-Obj\-Metadata $\ast$data\-Out)
+\item 
+\hyperlink{targets_2_u_a_v_objects_2inc_2uavobjectmanager_8h_a04b37fd239d7727a21668d35d11ad7df}{\-U\-A\-V\-Obj\-Access\-Type} \hyperlink{group___u_a_v_object_handling_gacfa1b9a76f44f743c6e44302670af480}{\-U\-A\-V\-Obj\-Get\-Access} (const \-U\-A\-V\-Obj\-Metadata $\ast$metadata)
+\item 
+void \hyperlink{group___u_a_v_object_handling_ga54607c2130bc133553b18ece1c4d1540}{\-U\-A\-V\-Obj\-Set\-Access} (\-U\-A\-V\-Obj\-Metadata $\ast$metadata, \hyperlink{targets_2_u_a_v_objects_2inc_2uavobjectmanager_8h_a04b37fd239d7727a21668d35d11ad7df}{\-U\-A\-V\-Obj\-Access\-Type} mode)
+\item 
+\hyperlink{targets_2_u_a_v_objects_2inc_2uavobjectmanager_8h_a04b37fd239d7727a21668d35d11ad7df}{\-U\-A\-V\-Obj\-Access\-Type} \hyperlink{group___u_a_v_object_handling_gad5fdcf98dae5cb90223f849df2bda08b}{\-U\-A\-V\-Obj\-Get\-Gcs\-Access} (const \-U\-A\-V\-Obj\-Metadata $\ast$metadata)
+\item 
+void \hyperlink{group___u_a_v_object_handling_ga1ac1d4a25c3ca9025ff3dec90fa6ee91}{\-U\-A\-V\-Obj\-Set\-Gcs\-Access} (\-U\-A\-V\-Obj\-Metadata $\ast$metadata, \hyperlink{targets_2_u_a_v_objects_2inc_2uavobjectmanager_8h_a04b37fd239d7727a21668d35d11ad7df}{\-U\-A\-V\-Obj\-Access\-Type} mode)
+\item 
+uint8\-\_\-t \hyperlink{group___u_a_v_object_handling_gaed561ee171e8da056b47750e8f7a9cb1}{\-U\-A\-V\-Obj\-Get\-Telemetry\-Acked} (const \-U\-A\-V\-Obj\-Metadata $\ast$metadata)
+\item 
+void \hyperlink{group___u_a_v_object_handling_ga43e002d9dd75b34a4392308763d6bb35}{\-U\-A\-V\-Obj\-Set\-Telemetry\-Acked} (\-U\-A\-V\-Obj\-Metadata $\ast$metadata, uint8\-\_\-t \hyperlink{group___p_i_o_s___t_i_m_ga757344f09097232d715d55cbf9d61a43}{val})
+\item 
+uint8\-\_\-t \hyperlink{group___u_a_v_object_handling_gaf7923732ed9e6eb1e367180cb339ca3d}{\-U\-A\-V\-Obj\-Get\-Gcs\-Telemetry\-Acked} (const \-U\-A\-V\-Obj\-Metadata $\ast$metadata)
+\item 
+void \hyperlink{group___u_a_v_object_handling_ga2a530de3ecfe1d8010eeb98f6e4eb037}{\-U\-A\-V\-Obj\-Set\-Gcs\-Telemetry\-Acked} (\-U\-A\-V\-Obj\-Metadata $\ast$metadata, uint8\-\_\-t \hyperlink{group___p_i_o_s___t_i_m_ga757344f09097232d715d55cbf9d61a43}{val})
+\item 
+\hyperlink{targets_2_u_a_v_objects_2inc_2uavobjectmanager_8h_afd571f69747daf7681eb869270e27208}{\-U\-A\-V\-Obj\-Update\-Mode} \hyperlink{group___u_a_v_object_handling_gaf40b4374b42f418959ac186ae2e2ec40}{\-U\-A\-V\-Obj\-Get\-Telemetry\-Update\-Mode} (const \-U\-A\-V\-Obj\-Metadata $\ast$metadata)
+\item 
+void \hyperlink{group___u_a_v_object_handling_ga383e4286d101cd29646b5e4b0e4b6199}{\-U\-A\-V\-Obj\-Set\-Telemetry\-Update\-Mode} (\-U\-A\-V\-Obj\-Metadata $\ast$metadata, \hyperlink{targets_2_u_a_v_objects_2inc_2uavobjectmanager_8h_afd571f69747daf7681eb869270e27208}{\-U\-A\-V\-Obj\-Update\-Mode} \hyperlink{group___p_i_o_s___t_i_m_ga757344f09097232d715d55cbf9d61a43}{val})
+\item 
+\hyperlink{targets_2_u_a_v_objects_2inc_2uavobjectmanager_8h_afd571f69747daf7681eb869270e27208}{\-U\-A\-V\-Obj\-Update\-Mode} \hyperlink{group___u_a_v_object_handling_gad0cb8d70597ac74cdbe8923c66f1c5f1}{\-U\-A\-V\-Obj\-Get\-Gcs\-Telemetry\-Update\-Mode} (const \-U\-A\-V\-Obj\-Metadata $\ast$metadata)
+\item 
+void \hyperlink{group___u_a_v_object_handling_gaf23cc9b03d0eaa4dbf1aec969180f712}{\-U\-A\-V\-Obj\-Set\-Gcs\-Telemetry\-Update\-Mode} (\-U\-A\-V\-Obj\-Metadata $\ast$metadata, \hyperlink{targets_2_u_a_v_objects_2inc_2uavobjectmanager_8h_afd571f69747daf7681eb869270e27208}{\-U\-A\-V\-Obj\-Update\-Mode} \hyperlink{group___p_i_o_s___t_i_m_ga757344f09097232d715d55cbf9d61a43}{val})
+\item 
+int8\-\_\-t \hyperlink{group___u_a_v_object_handling_gac4c6b71eb37b913f642f528ce4627996}{\-U\-A\-V\-Obj\-Read\-Only} (\hyperlink{targets_2_u_a_v_objects_2inc_2uavobjectmanager_8h_a279053e22be53ce9f895043aaeb91e3b}{\-U\-A\-V\-Obj\-Handle} obj\-\_\-handle)
+\item 
+int32\-\_\-t \hyperlink{group___u_a_v_object_handling_ga0ee2030a00c48317b268e82dac8be146}{\-U\-A\-V\-Obj\-Connect\-Queue} (\hyperlink{targets_2_u_a_v_objects_2inc_2uavobjectmanager_8h_a279053e22be53ce9f895043aaeb91e3b}{\-U\-A\-V\-Obj\-Handle} obj\-\_\-handle, x\-Queue\-Handle queue, uint8\-\_\-t event\-Mask)
+\item 
+int32\-\_\-t \hyperlink{group___u_a_v_object_handling_ga42fd51da437a13e22879d922fd771070}{\-U\-A\-V\-Obj\-Disconnect\-Queue} (\hyperlink{targets_2_u_a_v_objects_2inc_2uavobjectmanager_8h_a279053e22be53ce9f895043aaeb91e3b}{\-U\-A\-V\-Obj\-Handle} obj\-\_\-handle, x\-Queue\-Handle queue)
+\item 
+int32\-\_\-t \hyperlink{group___u_a_v_object_handling_gaf37f8752f1cde59a9b77d9ed7709c365}{\-U\-A\-V\-Obj\-Connect\-Callback} (\hyperlink{targets_2_u_a_v_objects_2inc_2uavobjectmanager_8h_a279053e22be53ce9f895043aaeb91e3b}{\-U\-A\-V\-Obj\-Handle} obj\-\_\-handle, \hyperlink{targets_2_u_a_v_objects_2inc_2uavobjectmanager_8h_a33d11560e38b56dc904220fb0f785c28}{\-U\-A\-V\-Obj\-Event\-Callback} cb, uint8\-\_\-t event\-Mask)
+\item 
+int32\-\_\-t \hyperlink{group___u_a_v_object_handling_gadfa431fdf460097d8a6aa13f0a722ac0}{\-U\-A\-V\-Obj\-Disconnect\-Callback} (\hyperlink{targets_2_u_a_v_objects_2inc_2uavobjectmanager_8h_a279053e22be53ce9f895043aaeb91e3b}{\-U\-A\-V\-Obj\-Handle} obj\-\_\-handle, \hyperlink{targets_2_u_a_v_objects_2inc_2uavobjectmanager_8h_a33d11560e38b56dc904220fb0f785c28}{\-U\-A\-V\-Obj\-Event\-Callback} cb)
+\item 
+void \hyperlink{group___u_a_v_object_handling_gaef845ac7a3065b37998fa12f85856cc3}{\-U\-A\-V\-Obj\-Request\-Update} (\hyperlink{targets_2_u_a_v_objects_2inc_2uavobjectmanager_8h_a279053e22be53ce9f895043aaeb91e3b}{\-U\-A\-V\-Obj\-Handle} obj\-\_\-handle)
+\item 
+void \hyperlink{group___u_a_v_object_handling_ga178c0681bdf228a409bcd12d8a10a260}{\-U\-A\-V\-Obj\-Request\-Instance\-Update} (\hyperlink{targets_2_u_a_v_objects_2inc_2uavobjectmanager_8h_a279053e22be53ce9f895043aaeb91e3b}{\-U\-A\-V\-Obj\-Handle} obj\-\_\-handle, uint16\-\_\-t inst\-Id)
+\item 
+void \hyperlink{group___u_a_v_object_handling_gaadcab3b60f3004ccba0c5efa5c5bfb57}{\-U\-A\-V\-Obj\-Updated} (\hyperlink{targets_2_u_a_v_objects_2inc_2uavobjectmanager_8h_a279053e22be53ce9f895043aaeb91e3b}{\-U\-A\-V\-Obj\-Handle} obj\-\_\-handle)
+\item 
+void \hyperlink{group___u_a_v_object_handling_ga90b88ba1823a707558d3056663d0c0c9}{\-U\-A\-V\-Obj\-Instance\-Updated} (\hyperlink{targets_2_u_a_v_objects_2inc_2uavobjectmanager_8h_a279053e22be53ce9f895043aaeb91e3b}{\-U\-A\-V\-Obj\-Handle} obj\-\_\-handle, uint16\-\_\-t inst\-Id)
+\item 
+void \hyperlink{group___u_a_v_object_handling_ga207c169e5af27b411cb6a08608369bdb}{\-U\-A\-V\-Obj\-Iterate} (void($\ast$iterator)(\hyperlink{targets_2_u_a_v_objects_2inc_2uavobjectmanager_8h_a279053e22be53ce9f895043aaeb91e3b}{\-U\-A\-V\-Obj\-Handle} obj))
+\item 
+int32\-\_\-t \hyperlink{group___u_a_v_object_handling_gae4645220de84508ec16b5b028a52f325}{get\-Event\-Mask} (\hyperlink{targets_2_u_a_v_objects_2inc_2uavobjectmanager_8h_a279053e22be53ce9f895043aaeb91e3b}{\-U\-A\-V\-Obj\-Handle} obj\-\_\-handle, x\-Queue\-Handle queue)
+\end{DoxyCompactItemize}
+\subsection*{\-Variables}
+\begin{DoxyCompactItemize}
+\item 
+uintptr\-\_\-t \hyperlink{group___u_a_v_object_handling_gab060f441dd600b08386c0ca1b487217a}{pios\-\_\-uavo\-\_\-settings\-\_\-fs\-\_\-id}
+\item 
+struct \hyperlink{struct_object_event_entry}{\-Object\-Event\-Entry} $\ast$ \hyperlink{uavobjectmanager_8c_a198dfe31641d68ac23d11a5f98b07ac1}{next\-\_\-event}
+\item 
+struct \hyperlink{struct_u_a_v_o_info}{\-U\-A\-V\-O\-Info} \hyperlink{uavobjectmanager_8c_a89997860157be94711355010fc2a337d}{flags}
+\item 
+struct \hyperlink{struct_u_a_v_o_base}{\-U\-A\-V\-O\-Base} \hyperlink{uavobjectmanager_8c_af41894f299b7a692a649d63f02c30e35}{base}
+\item 
+\-U\-A\-V\-Obj\-Metadata \hyperlink{uavobjectmanager_8c_a7ae46078929ae4d2ce2e2d74a4d6bfa9}{instance0}
+\item 
+uint32\-\_\-t \hyperlink{uavobjectmanager_8c_abaabdc509cdaba7df9f56c6c76f3ae19}{id}
+\item 
+struct \hyperlink{struct_u_a_v_o_meta}{\-U\-A\-V\-O\-Meta} \hyperlink{uavobjectmanager_8c_a901520d72fd09e2e09ca22e17fd95b63}{meta\-Obj}
+\item 
+struct \hyperlink{struct_u_a_v_o_data}{\-U\-A\-V\-O\-Data} $\ast$ \hyperlink{uavobjectmanager_8c_a0463912be4bb882cee5d3d70c664b698}{next}
+\item 
+uint16\-\_\-t \hyperlink{uavobjectmanager_8c_ae673ed9d3b1b0cb5109c647692581785}{instance\-\_\-size}
+\item 
+struct \hyperlink{struct_u_a_v_o_data}{\-U\-A\-V\-O\-Data} \hyperlink{uavobjectmanager_8c_ae867d32faead3f589ab1ceb9ecf3e3fd}{uavo}
+\item 
+uint8\-\_\-t \hyperlink{uavobjectmanager_8c_a9eba2b5756444f64b374ac6725a8f120}{instance} \mbox{[}$\,$\mbox{]}
+\item 
+uint16\-\_\-t \hyperlink{uavobjectmanager_8c_a05eb394d494b0c5d3a579c1d9e5081d2}{num\-\_\-instances}
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-Object manager library. \-This library holds a collection of all objects. \-It can be used by all modules/libraries to find an object reference. \begin{DoxyAuthor}{\-Author}
+\-The \-Open\-Pilot \-Team, \href{http://www.openpilot.org}{\tt http\-://www.\-openpilot.\-org} \-Copyright (\-C) 2010. 
+
+\-Tau \-Labs, \href{http://taulabs.org,}{\tt http\-://taulabs.\-org,} \-Copyright (\-C) 2012-\/2013 
+\end{DoxyAuthor}
+\begin{DoxySeeAlso}{\-See also}
+\-The \-G\-N\-U \-Public \-License (\-G\-P\-L) \-Version 3 
+\end{DoxySeeAlso}
+
+
+\-Definition in file \hyperlink{uavobjectmanager_8c_source}{uavobjectmanager.\-c}.
+
+
+
+\subsection{\-Variable \-Documentation}
+\hypertarget{uavobjectmanager_8c_af41894f299b7a692a649d63f02c30e35}{\index{uavobjectmanager.\-c@{uavobjectmanager.\-c}!base@{base}}
+\index{base@{base}!uavobjectmanager.c@{uavobjectmanager.\-c}}
+\subsubsection[{base}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf \-U\-A\-V\-O\-Base} {\bf base}}}\label{uavobjectmanager_8c_af41894f299b7a692a649d63f02c30e35}
+
+
+\-Definition at line 91 of file uavobjectmanager.\-c.
+
+\hypertarget{uavobjectmanager_8c_a89997860157be94711355010fc2a337d}{\index{uavobjectmanager.\-c@{uavobjectmanager.\-c}!flags@{flags}}
+\index{flags@{flags}!uavobjectmanager.c@{uavobjectmanager.\-c}}
+\subsubsection[{flags}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf \-U\-A\-V\-O\-Info}  {\bf flags}}}\label{uavobjectmanager_8c_a89997860157be94711355010fc2a337d}
+\hypertarget{uavobjectmanager_8c_abaabdc509cdaba7df9f56c6c76f3ae19}{\index{uavobjectmanager.\-c@{uavobjectmanager.\-c}!id@{id}}
+\index{id@{id}!uavobjectmanager.c@{uavobjectmanager.\-c}}
+\subsubsection[{id}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t {\bf id}}}\label{uavobjectmanager_8c_abaabdc509cdaba7df9f56c6c76f3ae19}
+
+
+\-Definition at line 105 of file uavobjectmanager.\-c.
+
+\hypertarget{uavobjectmanager_8c_a9eba2b5756444f64b374ac6725a8f120}{\index{uavobjectmanager.\-c@{uavobjectmanager.\-c}!instance@{instance}}
+\index{instance@{instance}!uavobjectmanager.c@{uavobjectmanager.\-c}}
+\subsubsection[{instance}]{\setlength{\rightskip}{0pt plus 5cm}uint8\-\_\-t {\bf instance}\mbox{[}$\,$\mbox{]}}}\label{uavobjectmanager_8c_a9eba2b5756444f64b374ac6725a8f120}
+
+
+\-Definition at line 126 of file uavobjectmanager.\-c.
+
+\hypertarget{uavobjectmanager_8c_a7ae46078929ae4d2ce2e2d74a4d6bfa9}{\index{uavobjectmanager.\-c@{uavobjectmanager.\-c}!instance0@{instance0}}
+\index{instance0@{instance0}!uavobjectmanager.c@{uavobjectmanager.\-c}}
+\subsubsection[{instance0}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf \-U\-A\-V\-O\-Multi\-Inst} {\bf instance0}}}\label{uavobjectmanager_8c_a7ae46078929ae4d2ce2e2d74a4d6bfa9}
+
+
+\-Definition at line 92 of file uavobjectmanager.\-c.
+
+\hypertarget{uavobjectmanager_8c_ae673ed9d3b1b0cb5109c647692581785}{\index{uavobjectmanager.\-c@{uavobjectmanager.\-c}!instance\-\_\-size@{instance\-\_\-size}}
+\index{instance\-\_\-size@{instance\-\_\-size}!uavobjectmanager.c@{uavobjectmanager.\-c}}
+\subsubsection[{instance\-\_\-size}]{\setlength{\rightskip}{0pt plus 5cm}uint16\-\_\-t {\bf instance\-\_\-size}}}\label{uavobjectmanager_8c_ae673ed9d3b1b0cb5109c647692581785}
+
+
+\-Definition at line 112 of file uavobjectmanager.\-c.
+
+\hypertarget{uavobjectmanager_8c_a901520d72fd09e2e09ca22e17fd95b63}{\index{uavobjectmanager.\-c@{uavobjectmanager.\-c}!meta\-Obj@{meta\-Obj}}
+\index{meta\-Obj@{meta\-Obj}!uavobjectmanager.c@{uavobjectmanager.\-c}}
+\subsubsection[{meta\-Obj}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf \-U\-A\-V\-O\-Meta} {\bf meta\-Obj}}}\label{uavobjectmanager_8c_a901520d72fd09e2e09ca22e17fd95b63}
+
+
+\-Definition at line 110 of file uavobjectmanager.\-c.
+
+\hypertarget{uavobjectmanager_8c_a0463912be4bb882cee5d3d70c664b698}{\index{uavobjectmanager.\-c@{uavobjectmanager.\-c}!next@{next}}
+\index{next@{next}!uavobjectmanager.c@{uavobjectmanager.\-c}}
+\subsubsection[{next}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf \-U\-A\-V\-O\-Multi\-Inst} $\ast$ {\bf next}}}\label{uavobjectmanager_8c_a0463912be4bb882cee5d3d70c664b698}
+
+
+\-Definition at line 111 of file uavobjectmanager.\-c.
+
+\hypertarget{uavobjectmanager_8c_a198dfe31641d68ac23d11a5f98b07ac1}{\index{uavobjectmanager.\-c@{uavobjectmanager.\-c}!next\-\_\-event@{next\-\_\-event}}
+\index{next\-\_\-event@{next\-\_\-event}!uavobjectmanager.c@{uavobjectmanager.\-c}}
+\subsubsection[{next\-\_\-event}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf \-Object\-Event\-Entry}$\ast$ {\bf next\-\_\-event}}}\label{uavobjectmanager_8c_a198dfe31641d68ac23d11a5f98b07ac1}
+
+
+\-Definition at line 86 of file uavobjectmanager.\-c.
+
+\hypertarget{uavobjectmanager_8c_a05eb394d494b0c5d3a579c1d9e5081d2}{\index{uavobjectmanager.\-c@{uavobjectmanager.\-c}!num\-\_\-instances@{num\-\_\-instances}}
+\index{num\-\_\-instances@{num\-\_\-instances}!uavobjectmanager.c@{uavobjectmanager.\-c}}
+\subsubsection[{num\-\_\-instances}]{\setlength{\rightskip}{0pt plus 5cm}uint16\-\_\-t {\bf num\-\_\-instances}}}\label{uavobjectmanager_8c_a05eb394d494b0c5d3a579c1d9e5081d2}
+
+
+\-Definition at line 139 of file uavobjectmanager.\-c.
+
+\hypertarget{uavobjectmanager_8c_ae867d32faead3f589ab1ceb9ecf3e3fd}{\index{uavobjectmanager.\-c@{uavobjectmanager.\-c}!uavo@{uavo}}
+\index{uavo@{uavo}!uavobjectmanager.c@{uavobjectmanager.\-c}}
+\subsubsection[{uavo}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf \-U\-A\-V\-O\-Data} {\bf uavo}}}\label{uavobjectmanager_8c_ae867d32faead3f589ab1ceb9ecf3e3fd}
+
+
+\-Definition at line 115 of file uavobjectmanager.\-c.
+

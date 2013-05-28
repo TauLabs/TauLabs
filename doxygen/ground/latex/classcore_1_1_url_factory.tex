@@ -1,0 +1,73 @@
+\hypertarget{classcore_1_1_url_factory}{\section{core\-:\-:\-Url\-Factory \-Class \-Reference}
+\label{classcore_1_1_url_factory}\index{core\-::\-Url\-Factory@{core\-::\-Url\-Factory}}
+}
+
+
+{\ttfamily \#include $<$urlfactory.\-h$>$}
+
+\-Inheritance diagram for core\-:\-:\-Url\-Factory\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{classcore_1_1_url_factory}
+\end{center}
+\end{figure}
+\subsection*{\-Public \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___o_p_map_widget_gabc044615454cf1ce949b090b45a3b20d}{\-Url\-Factory} ()
+\item 
+\hyperlink{group___o_p_map_widget_ga67b13bc9e7c21c4fcc4471ddce351805}{$\sim$\-Url\-Factory} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___o_p_map_widget_ga7339895a709cbc83dfac87ec5e1a42ff}{\-Make\-Image\-Url} (const \-Map\-Type\-::\-Types \&type, const \hyperlink{structcore_1_1_point}{core\-::\-Point} \&pos, const int \&zoom, const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \&language)
+\begin{DoxyCompactList}\small\item\em \hyperlink{group___o_p_map_widget_ga7339895a709cbc83dfac87ec5e1a42ff}{\-Url\-Factory\-::\-Make\-Image\-Url} \-Make the requesting \-U\-R\-L for the desired quadtile. \end{DoxyCompactList}\item 
+\hyperlink{structinternals_1_1_point_lat_lng}{internals\-::\-Point\-Lat\-Lng} \hyperlink{group___o_p_map_widget_ga39ab1784711725813c6e90f8be8557b5}{\-Get\-Lat\-Lng\-From\-Geodecoder} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \&keywords, \-Geo\-Coder\-Status\-Code\-::\-Types \&status)
+\item 
+\hyperlink{classcore_1_1_placemark}{\-Placemark} \hyperlink{group___o_p_map_widget_ga3490a9f0d7fad2058ec2e9a04e7c7f4e}{\-Get\-Placemark\-From\-Geocoder} (\hyperlink{structinternals_1_1_point_lat_lng}{internals\-::\-Point\-Lat\-Lng} location)
+\end{DoxyCompactItemize}
+\subsection*{\-Public \-Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\-Q\-Byte\-Array \hyperlink{group___o_p_map_widget_ga9dbf3d049cf1947db76a0c87dd0821fc}{\-User\-Agent}
+\begin{DoxyCompactList}\small\item\em \-Gets or sets the value of the \-User-\/agent \-H\-T\-T\-P header. \end{DoxyCompactList}\item 
+\-Q\-Network\-Proxy \hyperlink{group___o_p_map_widget_ga4851a6205d1885048a3417f736ec8679}{\-Proxy}
+\item 
+int \hyperlink{group___o_p_map_widget_gaee21c04663fde2b41c6d471456dc7325}{\-Timeout}
+\end{DoxyCompactItemize}
+\subsection*{\-Protected \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+bool \hyperlink{group___o_p_map_widget_ga5ccccf5ffb4b44422b6ca9596d0972f9}{\-Is\-Correct\-Google\-Versions} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_widget_ga7770edaf0b058ba1317da2a627219fb1}{set\-Is\-Correct\-Google\-Versions} (bool value)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___o_p_map_widget_ga972a8b02da4bbabc676cf8c0aecff2da}{\-Make\-Geocoder\-Url} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} keywords)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___o_p_map_widget_gad12026ac0e1b17ce9cdbd8da9b4521db}{\-Make\-Reverse\-Geocoder\-Url} (\hyperlink{structinternals_1_1_point_lat_lng}{internals\-::\-Point\-Lat\-Lng} \&pt, const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \&language)
+\item 
+\hyperlink{structinternals_1_1_point_lat_lng}{internals\-::\-Point\-Lat\-Lng} \hyperlink{group___o_p_map_widget_ga5fcebca86495c19cd0feda82e7bb756d}{\-Get\-Lat\-Lng\-From\-Geocoder\-Url} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \&url, const bool \&use\-Cache, \-Geo\-Coder\-Status\-Code\-::\-Types \&status)
+\item 
+\hyperlink{classcore_1_1_placemark}{\-Placemark} \hyperlink{group___o_p_map_widget_ga6f4535cb1c90494c811786af2dbac194}{\-Get\-Placemark\-From\-Reverse\-Geocoder\-Url} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \&url, const bool \&use\-Cache)
+\end{DoxyCompactItemize}
+\subsection*{\-Protected \-Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___o_p_map_widget_ga5d9399e074794da8ad0593e87e554228}{\-Language\-Str}
+\end{DoxyCompactItemize}
+\subsection*{\-Static \-Protected \-Attributes}
+\begin{DoxyCompactItemize}
+\item 
+static short \hyperlink{group___o_p_map_widget_ga5dba09925e03ae10c70290f9a2e9cc61}{timelapse}
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+
+
+\-Definition at line 48 of file urlfactory.\-h.
+
+
+
+\-The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/libs/opmapcontrol/src/core/\hyperlink{urlfactory_8h}{urlfactory.\-h}\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/libs/opmapcontrol/src/core/\hyperlink{urlfactory_8cpp}{urlfactory.\-cpp}\end{DoxyCompactItemize}

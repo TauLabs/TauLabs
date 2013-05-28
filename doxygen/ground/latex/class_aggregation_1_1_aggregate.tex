@@ -1,0 +1,246 @@
+\hypertarget{class_aggregation_1_1_aggregate}{\section{\-Aggregation\-:\-:\-Aggregate \-Class \-Reference}
+\label{class_aggregation_1_1_aggregate}\index{\-Aggregation\-::\-Aggregate@{\-Aggregation\-::\-Aggregate}}
+}
+
+
+\-Defines a collection of related components that can be viewed as a unit.  
+
+
+
+
+{\ttfamily \#include $<$aggregate.\-h$>$}
+
+\subsection*{\-Public \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_aggregation_1_1_aggregate_a5579d6da6c4cf165eead1a744e2f6061}{\-Aggregate} (\-Q\-Object $\ast$parent=0)
+\item 
+virtual \hyperlink{class_aggregation_1_1_aggregate_abb1a5795372eb1118c1cc82ac47a2783}{$\sim$\-Aggregate} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_aggregation_1_1_aggregate_ab6c5e73d1c128d819d57fe4e53596356}{add} (\-Q\-Object $\ast$\hyperlink{class_aggregation_1_1_aggregate_a6509e7e80142e406ffa24363bb457b59}{component})
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_aggregation_1_1_aggregate_a83f9cd3aa5d70ce541280d6366c6459b}{remove} (\-Q\-Object $\ast$\hyperlink{class_aggregation_1_1_aggregate_a6509e7e80142e406ffa24363bb457b59}{component})
+\item 
+{\footnotesize template$<$typename T $>$ }\\\-T $\ast$ \hyperlink{class_aggregation_1_1_aggregate_a6509e7e80142e406ffa24363bb457b59}{component} ()
+\item 
+{\footnotesize template$<$typename T $>$ }\\\-Q\-List$<$ \-T $\ast$ $>$ \hyperlink{class_aggregation_1_1_aggregate_ad2189eec2b5f725c0a0db81d5fbf3e25}{components} ()
+\end{DoxyCompactItemize}
+\subsection*{\-Static \-Public \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+static \hyperlink{class_aggregation_1_1_aggregate}{\-Aggregate} $\ast$ \hyperlink{class_aggregation_1_1_aggregate_a0aa7a223205e78e49b6294bb0d165fc8}{parent\-Aggregate} (\-Q\-Object $\ast$obj)
+\item 
+static \-Q\-Read\-Write\-Lock \& \hyperlink{class_aggregation_1_1_aggregate_add1e8a0af97e3413dbabb4410a46593c}{lock} ()
+\end{DoxyCompactItemize}
+\subsection*{\-Related \-Functions}
+(\-Note that these are not member functions.) \begin{DoxyCompactItemize}
+\item 
+\-T $\ast$ \hyperlink{class_aggregation_1_1_aggregate_aa1790a8adba80f3a75ddb6e1a73c5246}{query} (\-Q\-Object $\ast$obj)
+\item 
+\-Q\-List$<$ \-T $\ast$ $>$ \hyperlink{class_aggregation_1_1_aggregate_a0528ea547017028ab58e315f88b58aa1}{query\-\_\-all} (\-Q\-Object $\ast$obj)
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-Defines a collection of related components that can be viewed as a unit. 
+
+\-An \hyperlink{class_aggregation_1_1_aggregate}{\-Aggregate} is a collection of components that are handled as a unit, such that each component exposes the properties and behavior of the other components in the \hyperlink{class_aggregation_1_1_aggregate}{\-Aggregate} to the outside. \-Specifically that means\-:   \-They can be \char`\"{}cast\char`\"{} to each other (using query and query\-\_\-all methods).  \-Their life cycle is coupled, i.\-e. whenever one is deleted all of them are.  \-Components can be of any \-Q\-Object derived type.
+
+\-You can use an \hyperlink{class_aggregation_1_1_aggregate}{\-Aggregate} to simulate multiple inheritance by aggregation. \-Assume we have 
+\begin{DoxyCode}
+        using namespace Aggregation;
+        class MyInterface : public QObject { ........ };
+        class MyInterfaceEx : public QObject { ........ };
+        [...]
+        MyInterface *object = new MyInterface; // this is single inheritance
+\end{DoxyCode}
+ \-The query method works like a qobject\-\_\-cast with normal objects\-: 
+\begin{DoxyCode}
+        Q_ASSERT(query<MyInterface>(object) == object);
+        Q_ASSERT(query<MyInterfaceEx>(object) == 0);
+\end{DoxyCode}
+ \-If we want 'object' to also implement the class \-My\-Interface\-Ex, but don't want to or cannot use multiple inheritance, we can do it at any point using an \hyperlink{class_aggregation_1_1_aggregate}{\-Aggregate}\-: 
+\begin{DoxyCode}
+        MyInterfaceEx *objectEx = new MyInterfaceEx;
+        Aggregate *aggregate = new Aggregate;
+        aggregate->add(object);
+        aggregate->add(objectEx);
+\end{DoxyCode}
+ \-The \hyperlink{class_aggregation_1_1_aggregate}{\-Aggregate} bundles the two objects together. \-If we have any part of the collection we get all parts\-: 
+\begin{DoxyCode}
+        Q_ASSERT(query<MyInterface>(object) == object);
+        Q_ASSERT(query<MyInterfaceEx>(object) == objectEx);
+        Q_ASSERT(query<MyInterface>(objectEx) == object);
+        Q_ASSERT(query<MyInterfaceEx>(objectEx) == objectEx);
+\end{DoxyCode}
+ \-The following deletes all three\-: object, object\-Ex and aggregate\-: 
+\begin{DoxyCode}
+        delete objectEx;
+        // or delete object;
+        // or delete aggregate;
+\end{DoxyCode}
+
+
+\hyperlink{namespace_aggregation}{\-Aggregation} aware code never uses qobject\-\_\-cast, but always uses \hyperlink{namespace_aggregation_a1b5f85f4af221459c037427c41e18d98}{\-Aggregation\-::query} which behaves like a qobject\-\_\-cast as a fallback. 
+
+\-Definition at line 42 of file aggregate.\-h.
+
+
+
+\subsection{\-Constructor \& \-Destructor \-Documentation}
+\hypertarget{class_aggregation_1_1_aggregate_a5579d6da6c4cf165eead1a744e2f6061}{\index{\-Aggregation\-::\-Aggregate@{\-Aggregation\-::\-Aggregate}!\-Aggregate@{\-Aggregate}}
+\index{\-Aggregate@{\-Aggregate}!Aggregation::Aggregate@{\-Aggregation\-::\-Aggregate}}
+\subsubsection[{\-Aggregate}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Aggregate\-::\-Aggregate} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Object $\ast$}]{parent = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)}}\label{class_aggregation_1_1_aggregate_a5579d6da6c4cf165eead1a744e2f6061}
+\-Creates a new \hyperlink{class_aggregation_1_1_aggregate}{\-Aggregate} with the given {\itshape parent\/}. \-The {\itshape parent\/} is passed directly passed to the \-Q\-Object part of the class and is not used beside that. 
+
+\-Definition at line 189 of file aggregate.\-cpp.
+
+\hypertarget{class_aggregation_1_1_aggregate_abb1a5795372eb1118c1cc82ac47a2783}{\index{\-Aggregation\-::\-Aggregate@{\-Aggregation\-::\-Aggregate}!$\sim$\-Aggregate@{$\sim$\-Aggregate}}
+\index{$\sim$\-Aggregate@{$\sim$\-Aggregate}!Aggregation::Aggregate@{\-Aggregation\-::\-Aggregate}}
+\subsubsection[{$\sim$\-Aggregate}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Aggregate\-::$\sim$\-Aggregate} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{class_aggregation_1_1_aggregate_abb1a5795372eb1118c1cc82ac47a2783}
+\-Deleting the aggregate automatically deletes all its components. 
+
+\-Definition at line 201 of file aggregate.\-cpp.
+
+
+
+\subsection{\-Member \-Function \-Documentation}
+\hypertarget{class_aggregation_1_1_aggregate_ab6c5e73d1c128d819d57fe4e53596356}{\index{\-Aggregation\-::\-Aggregate@{\-Aggregation\-::\-Aggregate}!add@{add}}
+\index{add@{add}!Aggregation::Aggregate@{\-Aggregation\-::\-Aggregate}}
+\subsubsection[{add}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Aggregate\-::add} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Object $\ast$}]{component}
+\end{DoxyParamCaption}
+)}}\label{class_aggregation_1_1_aggregate_ab6c5e73d1c128d819d57fe4e53596356}
+\-Adds the {\itshape component\/} to the aggregate.
+
+\begin{DoxySeeAlso}{\-See also}
+\hyperlink{class_aggregation_1_1_aggregate_a83f9cd3aa5d70ce541280d6366c6459b}{\-Aggregate\-::remove()} 
+\end{DoxySeeAlso}
+
+
+\-Definition at line 230 of file aggregate.\-cpp.
+
+\hypertarget{class_aggregation_1_1_aggregate_a6509e7e80142e406ffa24363bb457b59}{\index{\-Aggregation\-::\-Aggregate@{\-Aggregation\-::\-Aggregate}!component@{component}}
+\index{component@{component}!Aggregation::Aggregate@{\-Aggregation\-::\-Aggregate}}
+\subsubsection[{component}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T $>$ \-T $\ast$ {\bf \-Aggregate\-::component} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{class_aggregation_1_1_aggregate_a6509e7e80142e406ffa24363bb457b59}
+\-Template method that returns the component with the given type, if there is one. \-If there are multiple components with that type a random one is returned.
+
+\begin{DoxySeeAlso}{\-See also}
+\hyperlink{class_aggregation_1_1_aggregate_ad2189eec2b5f725c0a0db81d5fbf3e25}{\-Aggregate\-::components()} 
+
+\hyperlink{class_aggregation_1_1_aggregate_ab6c5e73d1c128d819d57fe4e53596356}{\-Aggregate\-::add()} 
+\end{DoxySeeAlso}
+
+
+\-Definition at line 53 of file aggregate.\-h.
+
+\hypertarget{class_aggregation_1_1_aggregate_ad2189eec2b5f725c0a0db81d5fbf3e25}{\index{\-Aggregation\-::\-Aggregate@{\-Aggregation\-::\-Aggregate}!components@{components}}
+\index{components@{components}!Aggregation::Aggregate@{\-Aggregation\-::\-Aggregate}}
+\subsubsection[{components}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T $>$ \-Q\-List$<$ \-T $\ast$ $>$ {\bf \-Aggregate\-::components} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{class_aggregation_1_1_aggregate_ad2189eec2b5f725c0a0db81d5fbf3e25}
+\-Template method that returns all components with the given type, if there are any.
+
+\begin{DoxySeeAlso}{\-See also}
+\hyperlink{class_aggregation_1_1_aggregate_a6509e7e80142e406ffa24363bb457b59}{\-Aggregate\-::component()} 
+
+\hyperlink{class_aggregation_1_1_aggregate_ab6c5e73d1c128d819d57fe4e53596356}{\-Aggregate\-::add()} 
+\end{DoxySeeAlso}
+
+
+\-Definition at line 62 of file aggregate.\-h.
+
+\hypertarget{class_aggregation_1_1_aggregate_add1e8a0af97e3413dbabb4410a46593c}{\index{\-Aggregation\-::\-Aggregate@{\-Aggregation\-::\-Aggregate}!lock@{lock}}
+\index{lock@{lock}!Aggregation::Aggregate@{\-Aggregation\-::\-Aggregate}}
+\subsubsection[{lock}]{\setlength{\rightskip}{0pt plus 5cm}\-Q\-Read\-Write\-Lock \& {\bf \-Aggregate\-::lock} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}\label{class_aggregation_1_1_aggregate_add1e8a0af97e3413dbabb4410a46593c}
+
+
+\-Definition at line 176 of file aggregate.\-cpp.
+
+\hypertarget{class_aggregation_1_1_aggregate_a0aa7a223205e78e49b6294bb0d165fc8}{\index{\-Aggregation\-::\-Aggregate@{\-Aggregation\-::\-Aggregate}!parent\-Aggregate@{parent\-Aggregate}}
+\index{parent\-Aggregate@{parent\-Aggregate}!Aggregation::Aggregate@{\-Aggregation\-::\-Aggregate}}
+\subsubsection[{parent\-Aggregate}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Aggregate} $\ast$ {\bf \-Aggregate\-::parent\-Aggregate} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Object $\ast$}]{obj}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}\label{class_aggregation_1_1_aggregate_a0aa7a223205e78e49b6294bb0d165fc8}
+\-Returns the \hyperlink{class_aggregation_1_1_aggregate}{\-Aggregate} object of {\itshape obj\/} if there is one. \-Otherwise returns 0. 
+
+\-Definition at line 160 of file aggregate.\-cpp.
+
+\hypertarget{class_aggregation_1_1_aggregate_a83f9cd3aa5d70ce541280d6366c6459b}{\index{\-Aggregation\-::\-Aggregate@{\-Aggregation\-::\-Aggregate}!remove@{remove}}
+\index{remove@{remove}!Aggregation::Aggregate@{\-Aggregation\-::\-Aggregate}}
+\subsubsection[{remove}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Aggregate\-::remove} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Object $\ast$}]{component}
+\end{DoxyParamCaption}
+)}}\label{class_aggregation_1_1_aggregate_a83f9cd3aa5d70ce541280d6366c6459b}
+\-Removes the {\itshape component\/} from the aggregate.
+
+\begin{DoxySeeAlso}{\-See also}
+\hyperlink{class_aggregation_1_1_aggregate_ab6c5e73d1c128d819d57fe4e53596356}{\-Aggregate\-::add()} 
+\end{DoxySeeAlso}
+
+
+\-Definition at line 252 of file aggregate.\-cpp.
+
+
+
+\subsection{\-Friends \-And \-Related \-Function \-Documentation}
+\hypertarget{class_aggregation_1_1_aggregate_aa1790a8adba80f3a75ddb6e1a73c5246}{\index{\-Aggregation\-::\-Aggregate@{\-Aggregation\-::\-Aggregate}!query@{query}}
+\index{query@{query}!Aggregation::Aggregate@{\-Aggregation\-::\-Aggregate}}
+\subsubsection[{query}]{\setlength{\rightskip}{0pt plus 5cm}\-T $\ast$ {\bf query}$<$ \-T $\ast$ $>$ (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Object $\ast$}]{obj}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}related\mbox{]}}}}\label{class_aggregation_1_1_aggregate_aa1790a8adba80f3a75ddb6e1a73c5246}
+\-Performs a dynamic cast that is aware of a possible \hyperlink{class_aggregation_1_1_aggregate}{\-Aggregate} that {\itshape obj\/} might belong to. \-If {\itshape obj\/} itself is of the requested type then it is simply cast and returned. \-Otherwise, if {\itshape obj\/} belongs to an \hyperlink{class_aggregation_1_1_aggregate}{\-Aggregate} all its components are checked, or if it doesn't belong to an \hyperlink{class_aggregation_1_1_aggregate}{\-Aggregate} null is returned.
+
+\begin{DoxySeeAlso}{\-See also}
+\hyperlink{class_aggregation_1_1_aggregate_a6509e7e80142e406ffa24363bb457b59}{\-Aggregate\-::component()} 
+\end{DoxySeeAlso}
+
+
+\-Definition at line 93 of file aggregate.\-h.
+
+\hypertarget{class_aggregation_1_1_aggregate_a0528ea547017028ab58e315f88b58aa1}{\index{\-Aggregation\-::\-Aggregate@{\-Aggregation\-::\-Aggregate}!query\-\_\-all@{query\-\_\-all}}
+\index{query\-\_\-all@{query\-\_\-all}!Aggregation::Aggregate@{\-Aggregation\-::\-Aggregate}}
+\subsubsection[{query\-\_\-all}]{\setlength{\rightskip}{0pt plus 5cm}\-Q\-List$<$ \-T $\ast$ $>$ {\bf query\-\_\-all}$<$ \-T $\ast$ $>$ (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Object $\ast$}]{obj}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}related\mbox{]}}}}\label{class_aggregation_1_1_aggregate_a0528ea547017028ab58e315f88b58aa1}
+\-If {\itshape obj\/} belongs to an \hyperlink{class_aggregation_1_1_aggregate}{\-Aggregate}, all components that can be cast to the given type are returned. \-Otherwise, {\itshape obj\/} is returned if it is of the requested type.
+
+\begin{DoxySeeAlso}{\-See also}
+\hyperlink{class_aggregation_1_1_aggregate_ad2189eec2b5f725c0a0db81d5fbf3e25}{\-Aggregate\-::components()} 
+\end{DoxySeeAlso}
+
+
+\-Definition at line 114 of file aggregate.\-h.
+
+
+
+\-The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/libs/aggregation/\hyperlink{aggregate_8h}{aggregate.\-h}\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/libs/aggregation/\hyperlink{aggregate_8cpp}{aggregate.\-cpp}\end{DoxyCompactItemize}

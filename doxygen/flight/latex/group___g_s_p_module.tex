@@ -1,0 +1,206 @@
+\hypertarget{group___g_s_p_module}{\section{\-G\-P\-S \-Module}
+\label{group___g_s_p_module}\index{\-G\-P\-S Module@{\-G\-P\-S Module}}
+}
+
+
+\-Process \-G\-P\-S information.  
+
+
+\subsection*{\-Data \-Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{struct_g_p_s___r_x___s_t_a_t_s}{\-G\-P\-S\-\_\-\-R\-X\-\_\-\-S\-T\-A\-T\-S}
+\item 
+struct \hyperlink{struct_u_b_x___n_a_v___p_o_s_l_l_h}{\-U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-P\-O\-S\-L\-L\-H}
+\item 
+struct \hyperlink{struct_u_b_x___n_a_v___s_t_a_t_u_s}{\-U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-S\-T\-A\-T\-U\-S}
+\item 
+struct \hyperlink{struct_u_b_x___n_a_v___d_o_p}{\-U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-D\-O\-P}
+\item 
+struct \hyperlink{struct_u_b_x___n_a_v___s_o_l}{\-U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-S\-O\-L}
+\item 
+struct \hyperlink{struct_u_b_x___n_a_v___v_e_l_n_e_d}{\-U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-V\-E\-L\-N\-E\-D}
+\item 
+struct \hyperlink{struct_u_b_x___n_a_v___t_i_m_e_u_t_c}{\-U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-T\-I\-M\-E\-U\-T\-C}
+\item 
+struct \hyperlink{struct_u_b_x___n_a_v___s_v_i_n_f_o___s_v}{\-U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-S\-V\-I\-N\-F\-O\-\_\-\-S\-V}
+\item 
+struct \hyperlink{struct_u_b_x___n_a_v___s_v_i_n_f_o}{\-U\-B\-X\-\_\-\-N\-A\-V\-\_\-\-S\-V\-I\-N\-F\-O}
+\item 
+union \hyperlink{union_u_b_x_payload}{\-U\-B\-X\-Payload}
+\item 
+struct \hyperlink{struct_u_b_x_header}{\-U\-B\-X\-Header}
+\item 
+struct \hyperlink{struct_u_b_x_packet}{\-U\-B\-X\-Packet}
+\item 
+struct \hyperlink{structnmea__parser}{nmea\-\_\-parser}
+\item 
+struct {\bfseries msgtracker}
+\end{DoxyCompactItemize}
+\subsection*{\-Files}
+\begin{DoxyCompactItemize}
+\item 
+file \hyperlink{_g_p_s_8c}{\-G\-P\-S.\-c}
+\begin{DoxyCompactList}\small\item\em \-G\-P\-S module, handles \-U\-B\-X and \-N\-M\-E\-A streams from \-G\-P\-S. \end{DoxyCompactList}\item 
+file \hyperlink{_g_p_s_8h}{\-G\-P\-S.\-h}
+\begin{DoxyCompactList}\small\item\em \-Include file of the \-G\-P\-S module. \end{DoxyCompactList}\item 
+file \hyperlink{_n_m_e_a_8h}{\-N\-M\-E\-A.\-h}
+\begin{DoxyCompactList}\small\item\em \-Include file to process \-N\-M\-E\-A data. \end{DoxyCompactList}\item 
+file \hyperlink{_u_b_x_8h}{\-U\-B\-X.\-h}
+\begin{DoxyCompactList}\small\item\em \-Include file for \-U\-B\-X processing. \end{DoxyCompactList}\item 
+file \hyperlink{_n_m_e_a_8c}{\-N\-M\-E\-A.\-c}
+\begin{DoxyCompactList}\small\item\em \-N\-M\-E\-A parser. \end{DoxyCompactList}\item 
+file \hyperlink{_u_b_x_8c}{\-U\-B\-X.\-c}
+\begin{DoxyCompactList}\small\item\em \-Process \-U\-B\-X data. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+int32\-\_\-t \hyperlink{group___g_s_p_module_ga8050cbef253d91ff25e0df5f1633a96f}{\-G\-P\-S\-Start} (void)
+\item 
+int32\-\_\-t \hyperlink{group___g_s_p_module_gaaa9e652434fef66adb2ea7721f3ad640}{\-G\-P\-S\-Initialize} (void)
+\item 
+\hyperlink{group___g_s_p_module_ga26eba01dd90e72f58587731e20e8dc57}{\-M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L} (\hyperlink{group___g_s_p_module_gaaa9e652434fef66adb2ea7721f3ad640}{\-G\-P\-S\-Initialize}, \hyperlink{group___g_s_p_module_ga8050cbef253d91ff25e0df5f1633a96f}{\-G\-P\-S\-Start})
+\item 
+bool \hyperlink{group___g_s_p_module_gafb07ad2b755c0395ac8d7f6e86965c44}{\-N\-M\-E\-A\-\_\-update\-\_\-position} (char $\ast$nmea\-\_\-sentence, \-G\-P\-S\-Position\-Data $\ast$\-Gps\-Data)
+\item 
+bool \hyperlink{group___g_s_p_module_ga5f520a9c350e8e1d1425e655b651cf14}{\-N\-M\-E\-A\-\_\-checksum} (char $\ast$nmea\-\_\-sentence)
+\item 
+int \hyperlink{group___g_s_p_module_ga0e248cf833b5f3723e388822f1552aa5}{parse\-\_\-nmea\-\_\-stream} (uint8\-\_\-t, char $\ast$, \-G\-P\-S\-Position\-Data $\ast$, struct \hyperlink{struct_g_p_s___r_x___s_t_a_t_s}{\-G\-P\-S\-\_\-\-R\-X\-\_\-\-S\-T\-A\-T\-S} $\ast$)
+\item 
+int \hyperlink{group___g_s_p_module_ga88dff12629e2c3266f00a05836b67758}{parse\-\_\-ubx\-\_\-stream} (uint8\-\_\-t, char $\ast$, \-G\-P\-S\-Position\-Data $\ast$, struct \hyperlink{struct_g_p_s___r_x___s_t_a_t_s}{\-G\-P\-S\-\_\-\-R\-X\-\_\-\-S\-T\-A\-T\-S} $\ast$)
+\item 
+bool \hyperlink{group___g_s_p_module_gae7fdef747a5bfe514633f6925b6ffedf}{check\-\_\-msgtracker} (uint32\-\_\-t tow, uint8\-\_\-t msg\-\_\-flag)
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-Process \-G\-P\-S information. 
+
+\subsection{\-Function \-Documentation}
+\hypertarget{group___g_s_p_module_gae7fdef747a5bfe514633f6925b6ffedf}{\index{\-G\-P\-S Module@{\-G\-P\-S Module}!check\-\_\-msgtracker@{check\-\_\-msgtracker}}
+\index{check\-\_\-msgtracker@{check\-\_\-msgtracker}!GPS Module@{\-G\-P\-S Module}}
+\subsubsection[{check\-\_\-msgtracker}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf check\-\_\-msgtracker} (
+\begin{DoxyParamCaption}
+\item[{uint32\-\_\-t}]{tow, }
+\item[{uint8\-\_\-t}]{msg\-\_\-flag}
+\end{DoxyParamCaption}
+)}}\label{group___g_s_p_module_gae7fdef747a5bfe514633f6925b6ffedf}
+
+
+\-Definition at line 152 of file \-U\-B\-X.\-c.
+
+\hypertarget{group___g_s_p_module_gaaa9e652434fef66adb2ea7721f3ad640}{\index{\-G\-P\-S Module@{\-G\-P\-S Module}!\-G\-P\-S\-Initialize@{\-G\-P\-S\-Initialize}}
+\index{\-G\-P\-S\-Initialize@{\-G\-P\-S\-Initialize}!GPS Module@{\-G\-P\-S Module}}
+\subsubsection[{\-G\-P\-S\-Initialize}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-G\-P\-S\-Initialize} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group___g_s_p_module_gaaa9e652434fef66adb2ea7721f3ad640}
+\-Initialise the gps module \begin{DoxyReturn}{\-Returns}
+-\/1 if initialisation failed 
+
+0 on success 
+\end{DoxyReturn}
+
+
+\-Definition at line 125 of file \-G\-P\-S.\-c.
+
+\hypertarget{group___g_s_p_module_ga8050cbef253d91ff25e0df5f1633a96f}{\index{\-G\-P\-S Module@{\-G\-P\-S Module}!\-G\-P\-S\-Start@{\-G\-P\-S\-Start}}
+\index{\-G\-P\-S\-Start@{\-G\-P\-S\-Start}!GPS Module@{\-G\-P\-S Module}}
+\subsubsection[{\-G\-P\-S\-Start}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-G\-P\-S\-Start} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group___g_s_p_module_ga8050cbef253d91ff25e0df5f1633a96f}
+\-Initialise the gps module \begin{DoxyReturn}{\-Returns}
+-\/1 if initialisation failed 
+
+0 on success 
+\end{DoxyReturn}
+
+
+\-Definition at line 105 of file \-G\-P\-S.\-c.
+
+\hypertarget{group___g_s_p_module_ga26eba01dd90e72f58587731e20e8dc57}{\index{\-G\-P\-S Module@{\-G\-P\-S Module}!\-M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L@{\-M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L}}
+\index{\-M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L@{\-M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L}!GPS Module@{\-G\-P\-S Module}}
+\subsubsection[{\-M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-G\-P\-S\-Initialize}}]{, }
+\item[{{\bf \-G\-P\-S\-Start}}]{}
+\end{DoxyParamCaption}
+)}}\label{group___g_s_p_module_ga26eba01dd90e72f58587731e20e8dc57}
+\-Main gps task. \-It does not return. 
+
+\-Definition at line 191 of file \-G\-P\-S.\-c.
+
+\hypertarget{group___g_s_p_module_ga5f520a9c350e8e1d1425e655b651cf14}{\index{\-G\-P\-S Module@{\-G\-P\-S Module}!\-N\-M\-E\-A\-\_\-checksum@{\-N\-M\-E\-A\-\_\-checksum}}
+\index{\-N\-M\-E\-A\-\_\-checksum@{\-N\-M\-E\-A\-\_\-checksum}!GPS Module@{\-G\-P\-S Module}}
+\subsubsection[{\-N\-M\-E\-A\-\_\-checksum}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-N\-M\-E\-A\-\_\-checksum} (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{nmea\-\_\-sentence}
+\end{DoxyParamCaption}
+)}}\label{group___g_s_p_module_ga5f520a9c350e8e1d1425e655b651cf14}
+\-Computes \-N\-M\-E\-A sentence checksum 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em \-Buffer} & for parsed nmea sentence \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+false checksum not valid 
+
+true checksum valid 
+\end{DoxyReturn}
+
+
+\-Definition at line 218 of file \-N\-M\-E\-A.\-c.
+
+\hypertarget{group___g_s_p_module_gafb07ad2b755c0395ac8d7f6e86965c44}{\index{\-G\-P\-S Module@{\-G\-P\-S Module}!\-N\-M\-E\-A\-\_\-update\-\_\-position@{\-N\-M\-E\-A\-\_\-update\-\_\-position}}
+\index{\-N\-M\-E\-A\-\_\-update\-\_\-position@{\-N\-M\-E\-A\-\_\-update\-\_\-position}!GPS Module@{\-G\-P\-S Module}}
+\subsubsection[{\-N\-M\-E\-A\-\_\-update\-\_\-position}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-N\-M\-E\-A\-\_\-update\-\_\-position} (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{nmea\-\_\-sentence, }
+\item[{\-G\-P\-S\-Position\-Data $\ast$}]{\-Gps\-Data}
+\end{DoxyParamCaption}
+)}}\label{group___g_s_p_module_gafb07ad2b755c0395ac8d7f6e86965c44}
+\-Parses a complete \-N\-M\-E\-A sentence and updates the \-G\-P\-S\-Position \-U\-A\-V\-Object 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em \-An} & \-N\-M\-E\-A sentence with a valid checksum \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+true if the sentence was successfully parsed 
+
+false if any errors were encountered with the parsing 
+\end{DoxyReturn}
+
+
+\-Definition at line 370 of file \-N\-M\-E\-A.\-c.
+
+\hypertarget{group___g_s_p_module_ga0e248cf833b5f3723e388822f1552aa5}{\index{\-G\-P\-S Module@{\-G\-P\-S Module}!parse\-\_\-nmea\-\_\-stream@{parse\-\_\-nmea\-\_\-stream}}
+\index{parse\-\_\-nmea\-\_\-stream@{parse\-\_\-nmea\-\_\-stream}!GPS Module@{\-G\-P\-S Module}}
+\subsubsection[{parse\-\_\-nmea\-\_\-stream}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf parse\-\_\-nmea\-\_\-stream} (
+\begin{DoxyParamCaption}
+\item[{uint8\-\_\-t}]{c, }
+\item[{char $\ast$}]{gps\-\_\-rx\-\_\-buffer, }
+\item[{\-G\-P\-S\-Position\-Data $\ast$}]{\-Gps\-Data, }
+\item[{struct {\bf \-G\-P\-S\-\_\-\-R\-X\-\_\-\-S\-T\-A\-T\-S} $\ast$}]{gps\-Rx\-Stats}
+\end{DoxyParamCaption}
+)}}\label{group___g_s_p_module_ga0e248cf833b5f3723e388822f1552aa5}
+
+
+\-Definition at line 110 of file \-N\-M\-E\-A.\-c.
+
+\hypertarget{group___g_s_p_module_ga88dff12629e2c3266f00a05836b67758}{\index{\-G\-P\-S Module@{\-G\-P\-S Module}!parse\-\_\-ubx\-\_\-stream@{parse\-\_\-ubx\-\_\-stream}}
+\index{parse\-\_\-ubx\-\_\-stream@{parse\-\_\-ubx\-\_\-stream}!GPS Module@{\-G\-P\-S Module}}
+\subsubsection[{parse\-\_\-ubx\-\_\-stream}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf parse\-\_\-ubx\-\_\-stream} (
+\begin{DoxyParamCaption}
+\item[{uint8\-\_\-t}]{c, }
+\item[{char $\ast$}]{gps\-\_\-rx\-\_\-buffer, }
+\item[{\-G\-P\-S\-Position\-Data $\ast$}]{\-Gps\-Data, }
+\item[{struct {\bf \-G\-P\-S\-\_\-\-R\-X\-\_\-\-S\-T\-A\-T\-S} $\ast$}]{gps\-Rx\-Stats}
+\end{DoxyParamCaption}
+)}}\label{group___g_s_p_module_ga88dff12629e2c3266f00a05836b67758}
+
+
+\-Definition at line 44 of file \-U\-B\-X.\-c.
+

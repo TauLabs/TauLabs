@@ -1,0 +1,2564 @@
+\hypertarget{group___h_i_t_l_plugin}{\section{\-H\-I\-T\-L \-Plugin}
+\label{group___h_i_t_l_plugin}\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}}
+}
+
+
+\-The \-Hardware \-In \-The \-Loop plugin.  
+
+
+\subsection*{\-Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{class_aero_sim_r_c_simulator}{\-Aero\-Sim\-R\-C\-Simulator}
+\item 
+class \hyperlink{class_aero_sim_r_c_simulator_creator}{\-Aero\-Sim\-R\-C\-Simulator\-Creator}
+\item 
+class \hyperlink{class_f_g_simulator}{\-F\-G\-Simulator}
+\item 
+class \hyperlink{class_f_g_simulator_creator}{\-F\-G\-Simulator\-Creator}
+\item 
+class \hyperlink{class_h_i_t_l_configuration}{\-H\-I\-T\-L\-Configuration}
+\item 
+class \hyperlink{class_h_i_t_l_factory}{\-H\-I\-T\-L\-Factory}
+\item 
+class \hyperlink{class_h_i_t_l_gadget}{\-H\-I\-T\-L\-Gadget}
+\item 
+struct \hyperlink{struct_noise}{\-Noise}
+\item 
+class \hyperlink{class_hitl_noise_generation}{\-Hitl\-Noise\-Generation}
+\item 
+class \hyperlink{class_h_i_t_l_options_page}{\-H\-I\-T\-L\-Options\-Page}
+\item 
+class \hyperlink{class_h_i_t_l_plugin}{\-H\-I\-T\-L\-Plugin}
+\item 
+class \hyperlink{class_h_i_t_l_widget}{\-H\-I\-T\-L\-Widget}
+\item 
+class \hyperlink{class_i_l2_simulator}{\-I\-L2\-Simulator}
+\item 
+class \hyperlink{class_i_l2_simulator_creator}{\-I\-L2\-Simulator\-Creator}
+\item 
+struct \hyperlink{struct___f_l_i_g_h_t___p_a_r_a_m}{\-\_\-\-F\-L\-I\-G\-H\-T\-\_\-\-P\-A\-R\-A\-M}
+\item 
+struct \hyperlink{struct_air_parameters}{\-Air\-Parameters}
+\item 
+struct \hyperlink{struct___c_o_n_n_e_c_t_i_o_n}{\-\_\-\-C\-O\-N\-N\-E\-C\-T\-I\-O\-N}
+\item 
+struct \hyperlink{struct_output2_hardware}{\-Output2\-Hardware}
+\item 
+class \hyperlink{class_simulator}{\-Simulator}
+\item 
+class \hyperlink{class_simulator_creator}{\-Simulator\-Creator}
+\item 
+class \hyperlink{class_xplane_simulator}{\-Xplane\-Simulator}
+\item 
+class \hyperlink{class_xplane_simulator_creator}{\-Xplane\-Simulator\-Creator}
+\end{DoxyCompactItemize}
+\subsection*{\-Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+namespace \hyperlink{namespace_core}{\-Core}
+\begin{DoxyCompactList}\small\item\em \-The \hyperlink{namespace_core}{\-Core} namespace contains all classes that make up the \hyperlink{namespace_core}{\-Core} plugin which constitute the basic functionality of the \-Tau \-Labs \-G\-C\-S. \end{DoxyCompactList}\item 
+namespace \hyperlink{namespace_ui}{\-Ui}
+\end{DoxyCompactItemize}
+\subsection*{\-Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef struct \hyperlink{struct___f_l_i_g_h_t___p_a_r_a_m}{\-\_\-\-F\-L\-I\-G\-H\-T\-\_\-\-P\-A\-R\-A\-M} \hyperlink{group___h_i_t_l_plugin_ga7bda7a22b899fe8dff0ba9a0cae99da6}{\-F\-L\-I\-G\-H\-T\-\_\-\-P\-A\-R\-A\-M}
+\item 
+typedef struct \hyperlink{struct___c_o_n_n_e_c_t_i_o_n}{\-\_\-\-C\-O\-N\-N\-E\-C\-T\-I\-O\-N} \hyperlink{group___h_i_t_l_plugin_ga052199f1328d3002bce3e45345aa7f4e}{\-Simulator\-Settings}
+\end{DoxyCompactItemize}
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___h_i_t_l_plugin_ga0f5306deb22a08981f652dbb154f3e55}{\-Aero\-Sim\-R\-C\-Simulator\-::\-Aero\-Sim\-R\-C\-Simulator} (const \hyperlink{group___h_i_t_l_plugin_ga052199f1328d3002bce3e45345aa7f4e}{\-Simulator\-Settings} \&params)
+\item 
+\hyperlink{group___h_i_t_l_plugin_ga8627049b9a905adb162384c682255bd3}{\-Aero\-Sim\-R\-C\-Simulator\-::$\sim$\-Aero\-Sim\-R\-C\-Simulator} ()
+\item 
+bool \hyperlink{group___h_i_t_l_plugin_gae47d5533f13e5ad9a6095ba2bc61bade}{\-Aero\-Sim\-R\-C\-Simulator\-::setup\-Process} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___h_i_t_l_plugin_ga593e2c3f1a4b5e541f32668be73ece6d}{\-Aero\-Sim\-R\-C\-Simulator\-::setup\-Udp\-Ports} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \&host, int in\-Port, int out\-Port)
+\item 
+\hyperlink{group___h_i_t_l_plugin_ga7e85a0e376c9dcd7dae84a4f2cf14d10}{\-Aero\-Sim\-R\-C\-Simulator\-Creator\-::\-Aero\-Sim\-R\-C\-Simulator\-Creator} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \&class\-Id, const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \&description)
+\item 
+\hyperlink{class_simulator}{\-Simulator} $\ast$ \hyperlink{group___h_i_t_l_plugin_ga25c808a48fec179504d84ef28fe8e762}{\-Aero\-Sim\-R\-C\-Simulator\-Creator\-::create\-Simulator} (const \hyperlink{group___h_i_t_l_plugin_ga052199f1328d3002bce3e45345aa7f4e}{\-Simulator\-Settings} \&params)
+\item 
+\hyperlink{group___h_i_t_l_plugin_gac56390412d899fc09748d050d06a7fab}{\-F\-G\-Simulator\-::\-F\-G\-Simulator} (const \hyperlink{group___h_i_t_l_plugin_ga052199f1328d3002bce3e45345aa7f4e}{\-Simulator\-Settings} \&params)
+\item 
+\hyperlink{group___h_i_t_l_plugin_ga379c8b16215b0b40514c3b522fabf816}{\-F\-G\-Simulator\-::$\sim$\-F\-G\-Simulator} ()
+\item 
+bool \hyperlink{group___h_i_t_l_plugin_ga704da6f44b2b3538b2e1c3239cb2a76c}{\-F\-G\-Simulator\-::setup\-Process} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___h_i_t_l_plugin_ga806877c20e5dc15efd67bb1c5e4f0710}{\-F\-G\-Simulator\-::setup\-Udp\-Ports} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \&host, int in\-Port, int out\-Port)
+\item 
+\hyperlink{group___h_i_t_l_plugin_ga5a9c061b4c449fceecb71b3e00412cd3}{\-F\-G\-Simulator\-Creator\-::\-F\-G\-Simulator\-Creator} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \&class\-Id, const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \&description)
+\item 
+\hyperlink{class_simulator}{\-Simulator} $\ast$ \hyperlink{group___h_i_t_l_plugin_gae7287ea22cde35ce9042e313d9d7c14f}{\-F\-G\-Simulator\-Creator\-::create\-Simulator} (const \hyperlink{group___h_i_t_l_plugin_ga052199f1328d3002bce3e45345aa7f4e}{\-Simulator\-Settings} \&params)
+\item 
+\hyperlink{group___h_i_t_l_plugin_ga7d0ecee89fe45b55113d77ae668a7777}{\-H\-I\-T\-L\-Configuration\-::\-H\-I\-T\-L\-Configuration} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} class\-Id, \-Q\-Settings $\ast$q\-Settings=0, \-Q\-Object $\ast$parent=0)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___h_i_t_l_plugin_ga8ae31be95aaf6385511e9387aa0a49b3}{\-H\-I\-T\-L\-Configuration\-::save\-Config} (\-Q\-Settings $\ast$settings) const 
+\item 
+\-I\-U\-A\-V\-Gadget\-Configuration $\ast$ \hyperlink{group___h_i_t_l_plugin_gaf448a961e8785490a4dcc5187d7edbe6}{\-H\-I\-T\-L\-Configuration\-::clone} ()
+\item 
+\hyperlink{group___h_i_t_l_plugin_ga052199f1328d3002bce3e45345aa7f4e}{\-Simulator\-Settings} \hyperlink{group___h_i_t_l_plugin_ga993f772c2a086edf053d851849caa984}{\-H\-I\-T\-L\-Configuration\-::\-Settings} () const 
+\item 
+\hyperlink{group___h_i_t_l_plugin_ga855bda20fa1058c99d4d1aa499fe694e}{\-H\-I\-T\-L\-Factory\-::\-H\-I\-T\-L\-Factory} (\-Q\-Object $\ast$parent=0)
+\item 
+\hyperlink{group___h_i_t_l_plugin_ga823205c59cff49942e94bc11bb2c4050}{\-H\-I\-T\-L\-Factory\-::$\sim$\-H\-I\-T\-L\-Factory} ()
+\item 
+\-I\-U\-A\-V\-Gadget $\ast$ \hyperlink{group___h_i_t_l_plugin_ga9a06cbbd0b0cd343e48b0386f1ebe45e}{\-H\-I\-T\-L\-Factory\-::create\-Gadget} (\-Q\-Widget $\ast$parent)
+\item 
+\-I\-U\-A\-V\-Gadget\-Configuration $\ast$ \hyperlink{group___h_i_t_l_plugin_ga68fed3efae6281089db53d6ea596e331}{\-H\-I\-T\-L\-Factory\-::create\-Configuration} (\-Q\-Settings $\ast$q\-Settings)
+\item 
+\-I\-Options\-Page $\ast$ \hyperlink{group___h_i_t_l_plugin_ga3064ddee76385734787a3a04e203bac2}{\-H\-I\-T\-L\-Factory\-::create\-Options\-Page} (\-I\-U\-A\-V\-Gadget\-Configuration $\ast$config)
+\item 
+\hyperlink{group___h_i_t_l_plugin_ga2d1233acc508f6fcd25061c0584d1bab}{\-H\-I\-T\-L\-Gadget\-::\-H\-I\-T\-L\-Gadget} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} class\-Id, \hyperlink{class_h_i_t_l_widget}{\-H\-I\-T\-L\-Widget} $\ast$widget, \-Q\-Widget $\ast$parent=0)
+\item 
+\hyperlink{group___h_i_t_l_plugin_ga92376558188a3a1fdff609f2641758e7}{\-H\-I\-T\-L\-Gadget\-::$\sim$\-H\-I\-T\-L\-Gadget} ()
+\item 
+\-Q\-Widget $\ast$ \hyperlink{group___h_i_t_l_plugin_ga98f16ca8c766c1cd037af671c7f843be}{\-H\-I\-T\-L\-Gadget\-::widget} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___h_i_t_l_plugin_gad490d49033c38f3e197628890c342634}{\-H\-I\-T\-L\-Gadget\-::load\-Configuration} (\-I\-U\-A\-V\-Gadget\-Configuration $\ast$config)
+\item 
+\hyperlink{group___h_i_t_l_plugin_ga1dab19a6599c296ffb839d1449789da2}{\-Hitl\-Noise\-Generation\-::\-Hitl\-Noise\-Generation} ()
+\item 
+\hyperlink{group___h_i_t_l_plugin_ga86eb1b28193cc2594ee5bd38658eb06a}{\-Hitl\-Noise\-Generation\-::$\sim$\-Hitl\-Noise\-Generation} ()
+\item 
+\hyperlink{struct_noise}{\-Noise} \hyperlink{group___h_i_t_l_plugin_ga48da3a2284408957fb754e0e4488ab16}{\-Hitl\-Noise\-Generation\-::get\-Noise} ()
+\item 
+\hyperlink{struct_noise}{\-Noise} \hyperlink{group___h_i_t_l_plugin_ga1492fee962eb0c1d6b48d8a4167d6d67}{\-Hitl\-Noise\-Generation\-::generate\-Noise} ()
+\item 
+\hyperlink{group___h_i_t_l_plugin_ga6f316a1c3e3ee76ad5d8931dbc861194}{\-H\-I\-T\-L\-Options\-Page\-::\-H\-I\-T\-L\-Options\-Page} (\hyperlink{class_h_i_t_l_configuration}{\-H\-I\-T\-L\-Configuration} $\ast$conf, \-Q\-Object $\ast$parent=0)
+\item 
+\-Q\-Widget $\ast$ \hyperlink{group___h_i_t_l_plugin_ga82b1534b1cdc2ad63d8849636f64b8c9}{\-H\-I\-T\-L\-Options\-Page\-::create\-Page} (\-Q\-Widget $\ast$parent)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___h_i_t_l_plugin_ga6554b77636be9ff76148c91411929d4a}{\-H\-I\-T\-L\-Options\-Page\-::apply} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___h_i_t_l_plugin_ga2a1b2e14f1c4d4cd1c5f63c1c906f06d}{\-H\-I\-T\-L\-Options\-Page\-::finish} ()
+\item 
+bool \hyperlink{group___h_i_t_l_plugin_ga0f6209b81c7a24419e848b6740d72f24}{\-H\-I\-T\-L\-Options\-Page\-::is\-Decorated} () const 
+\item 
+\hyperlink{group___h_i_t_l_plugin_ga0f1bfd313d4d0d404f51e34d8dbaacc5}{\-H\-I\-T\-L\-Plugin\-::\-H\-I\-T\-L\-Plugin} ()
+\item 
+\hyperlink{group___h_i_t_l_plugin_ga371454242ad0b7e52024243ec91c7d13}{\-H\-I\-T\-L\-Plugin\-::$\sim$\-H\-I\-T\-L\-Plugin} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___h_i_t_l_plugin_ga30d63de205d36f5e637e17ae3efb35cd}{\-H\-I\-T\-L\-Plugin\-::extensions\-Initialized} ()
+\item 
+bool \hyperlink{group___h_i_t_l_plugin_ga113a69fc6f312ce4658d3c6266e3545f}{\-H\-I\-T\-L\-Plugin\-::initialize} (const \-Q\-String\-List \&arguments, \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} $\ast$error\-String)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___h_i_t_l_plugin_gadc35670ca57c30770f97bf6e95e9297b}{\-H\-I\-T\-L\-Plugin\-::shutdown} ()
+\item 
+static \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___h_i_t_l_plugin_ga54ec8bdd017e6c77dc8f88009474d78e}{\-H\-I\-T\-L\-Plugin\-::add\-Simulator} (\hyperlink{class_simulator_creator}{\-Simulator\-Creator} $\ast$creator)
+\item 
+static \hyperlink{class_simulator_creator}{\-Simulator\-Creator} $\ast$ \hyperlink{group___h_i_t_l_plugin_gad74c7b21a8be7419684135b3f0498b01}{\-H\-I\-T\-L\-Plugin\-::get\-Simulator\-Creator} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} class\-Id)
+\item 
+\hyperlink{group___h_i_t_l_plugin_ga87da797826b0d587d7ed590e61741ca6}{\-H\-I\-T\-L\-Widget\-::\-H\-I\-T\-L\-Widget} (\-Q\-Widget $\ast$parent=0)
+\item 
+\hyperlink{group___h_i_t_l_plugin_gad53ecce8b7088bb11049d62819ff96f4}{\-H\-I\-T\-L\-Widget\-::$\sim$\-H\-I\-T\-L\-Widget} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___h_i_t_l_plugin_ga31d53f47fdb03b2ef1c879fa4e55ba53}{\-H\-I\-T\-L\-Widget\-::set\-Setting\-Parameters} (const \hyperlink{group___h_i_t_l_plugin_ga052199f1328d3002bce3e45345aa7f4e}{\-Simulator\-Settings} \&params)
+\item 
+\hyperlink{group___h_i_t_l_plugin_gae9b990b18a524ff0201db3bbd5608950}{\-I\-L2\-Simulator\-::\-I\-L2\-Simulator} (const \hyperlink{group___h_i_t_l_plugin_ga052199f1328d3002bce3e45345aa7f4e}{\-Simulator\-Settings} \&params)
+\item 
+\hyperlink{group___h_i_t_l_plugin_gaa5f298fa31201781813a733316fc02e4}{\-I\-L2\-Simulator\-::$\sim$\-I\-L2\-Simulator} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___h_i_t_l_plugin_ga26c1964cdb6c16877509250d1ba197c7}{\-I\-L2\-Simulator\-::setup\-Udp\-Ports} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \&host, int in\-Port, int out\-Port)
+\item 
+\hyperlink{group___h_i_t_l_plugin_ga48d82430e3d3b6b0cc8fb1ed921a5ad0}{\-I\-L2\-Simulator\-Creator\-::\-I\-L2\-Simulator\-Creator} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \&class\-Id, const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \&description)
+\item 
+\hyperlink{class_simulator}{\-Simulator} $\ast$ \hyperlink{group___h_i_t_l_plugin_gaea21540d2b8699f845b5a6969e5254ba}{\-I\-L2\-Simulator\-Creator\-::create\-Simulator} (const \hyperlink{group___h_i_t_l_plugin_ga052199f1328d3002bce3e45345aa7f4e}{\-Simulator\-Settings} \&params)
+\item 
+\hyperlink{group___h_i_t_l_plugin_ga8599e13b1f45081a08b7dd1f8c2a988b}{\-Simulator\-::\-Simulator} (const \hyperlink{group___h_i_t_l_plugin_ga052199f1328d3002bce3e45345aa7f4e}{\-Simulator\-Settings} \&params)
+\item 
+virtual \hyperlink{group___h_i_t_l_plugin_ga0f49aa04f42060a785adf77346b9de9f}{\-Simulator\-::$\sim$\-Simulator} ()
+\item 
+bool \hyperlink{group___h_i_t_l_plugin_gae38ae2b9870e2eb3888b406ef069b0ac}{\-Simulator\-::is\-Autopilot\-Connected} () const 
+\item 
+bool \hyperlink{group___h_i_t_l_plugin_ga4736ea66352f66d9977879364f3c3c0a}{\-Simulator\-::is\-Simulator\-Connected} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___h_i_t_l_plugin_ga40c6b40efb10e456ccedfdcd88d5988d}{\-Simulator\-::\-Name} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___h_i_t_l_plugin_ga11bc3ca9ef98431bcb82d8b72ad127b8}{\-Simulator\-::set\-Name} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} str)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___h_i_t_l_plugin_gac518ebc236c9f36b629c1145408315aa}{\-Simulator\-::\-Simulator\-Id} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___h_i_t_l_plugin_ga7c1b69b9900d1cb7e5b849f98adf0f9c}{\-Simulator\-::set\-Simulator\-Id} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} str)
+\item 
+float \hyperlink{group___h_i_t_l_plugin_ga20d3be9c0283514b5e2ca35280a86665}{\-Simulator\-::air\-Density\-From\-Altitude} (float alt, \hyperlink{struct_air_parameters}{\-Air\-Parameters} air, float gravity)
+\item 
+float \hyperlink{group___h_i_t_l_plugin_gab5a7232560191dad8ff19517ed4a327a}{\-Simulator\-::air\-Pressure\-From\-Altitude} (float alt, \hyperlink{struct_air_parameters}{\-Air\-Parameters} air, float gravity)
+\begin{DoxyCompactList}\small\item\em \hyperlink{group___h_i_t_l_plugin_gab5a7232560191dad8ff19517ed4a327a}{\-Simulator\-::air\-Pressure\-From\-Altitude} \-Get air pressure from altitude and atmospheric conditions. \end{DoxyCompactList}\item 
+float \hyperlink{group___h_i_t_l_plugin_ga86d7635f63f32cf0ef08e21a7e2874ea}{\-Simulator\-::cas2tas} (float \-C\-A\-S, float alt, \hyperlink{struct_air_parameters}{\-Air\-Parameters} air, float gravity)
+\begin{DoxyCompactList}\small\item\em \hyperlink{group___h_i_t_l_plugin_ga86d7635f63f32cf0ef08e21a7e2874ea}{\-Simulator\-::cas2tas} calculate \-T\-A\-S from \-C\-A\-S and altitude. \href{http://en.wikipedia.org/wiki/Airspeed}{\tt http\-://en.\-wikipedia.\-org/wiki/\-Airspeed}. \end{DoxyCompactList}\item 
+float \hyperlink{group___h_i_t_l_plugin_gaf6d17454fad82383037d44ed3cb93a12}{\-Simulator\-::tas2cas} (float \-T\-A\-S, float alt, \hyperlink{struct_air_parameters}{\-Air\-Parameters} air, float gravity)
+\begin{DoxyCompactList}\small\item\em \hyperlink{group___h_i_t_l_plugin_gaf6d17454fad82383037d44ed3cb93a12}{\-Simulator\-::tas2cas} calculate \-C\-A\-S from \-T\-A\-S and altitude. \href{http://en.wikipedia.org/wiki/Airspeed}{\tt http\-://en.\-wikipedia.\-org/wiki/\-Airspeed}. \end{DoxyCompactList}\item 
+static bool \hyperlink{group___h_i_t_l_plugin_gab258fc4b0cfb2d1fc7cfc2e39f12295f}{\-Simulator\-::\-Is\-Started} ()
+\item 
+static \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___h_i_t_l_plugin_ga077a3be12724a8b465c5ed557abbca33}{\-Simulator\-::set\-Started} (bool val)
+\item 
+static \-Q\-String\-List \& \hyperlink{group___h_i_t_l_plugin_ga7a56fe71f90b375de179eea6369025c9}{\-Simulator\-::\-Instances} ()
+\item 
+static \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___h_i_t_l_plugin_ga8f691dedcee72e956c36f52009718cad}{\-Simulator\-::set\-Instance} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \&str)
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___h_i_t_l_plugin_ga12b351ec9ec8410a28d4f0f3d04ef9b6}{\-Simulator\-::stop\-Process} ()
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___h_i_t_l_plugin_ga106e46211d3a00bd4a7b3b3918b23f63}{\-Simulator\-::setup\-Udp\-Ports} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \&host, int in\-Port, int out\-Port)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___h_i_t_l_plugin_ga23bcac84c193a077fca82e61e250b99f}{\-Simulator\-::reset\-Initial\-Home\-Position} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___h_i_t_l_plugin_gad1625bf27fadfc6a51218ad76d9926a6}{\-Simulator\-::update\-U\-A\-V\-Os} (\hyperlink{struct_output2_hardware}{\-Output2\-Hardware} \hyperlink{uavobjecttemplate_8m_a2a89187d8e8e8fba509ef9ab5f815d88}{out})
+\item 
+\hyperlink{struct_air_parameters}{\-Air\-Parameters} \hyperlink{group___h_i_t_l_plugin_ga68df0005072e39f3a7208aa63944f4dd}{\-Simulator\-::get\-Air\-Parameters} ()
+\begin{DoxyCompactList}\small\item\em \hyperlink{group___h_i_t_l_plugin_ga68df0005072e39f3a7208aa63944f4dd}{\-Simulator\-::get\-Air\-Parameters} get air parameters. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___h_i_t_l_plugin_ga2425318c670bb0ddcba4dcf35f891bee}{\-Simulator\-::set\-Air\-Parameters} (\hyperlink{struct_air_parameters}{\-Air\-Parameters} air\-Parameters)
+\begin{DoxyCompactList}\small\item\em \hyperlink{group___h_i_t_l_plugin_ga2425318c670bb0ddcba4dcf35f891bee}{\-Simulator\-::set\-Air\-Parameters} set air parameters. \end{DoxyCompactList}\item 
+\hyperlink{group___h_i_t_l_plugin_gad78ac7b6a64456e259fcb9aba94f4947}{\-Simulator\-Creator\-::\-Simulator\-Creator} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} id, \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} descr)
+\item 
+virtual \hyperlink{group___h_i_t_l_plugin_ga07d44da289771bf1bc8cf9dd01d5cb13}{\-Simulator\-Creator\-::$\sim$\-Simulator\-Creator} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___h_i_t_l_plugin_ga4195682a513bc0ddf6818ff4058d2619}{\-Simulator\-Creator\-::\-Class\-Id} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___h_i_t_l_plugin_ga1ace675dc4a400f644b7e6f7506f65e9}{\-Simulator\-Creator\-::\-Description} () const 
+\item 
+virtual \hyperlink{class_simulator}{\-Simulator} $\ast$ \hyperlink{group___h_i_t_l_plugin_ga2511a02773cadaf9c503a89172622837}{\-Simulator\-Creator\-::create\-Simulator} (const \hyperlink{group___h_i_t_l_plugin_ga052199f1328d3002bce3e45345aa7f4e}{\-Simulator\-Settings} \&params)=0
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___h_i_t_l_plugin_ga5b9f24733c0869a10f3ff9ccd27fc6d2}{\-Trace\-Buf} (const char $\ast$buf, int len)
+\item 
+\hyperlink{group___h_i_t_l_plugin_ga5832264c593dd9f80ac14145b83c28c9}{\-Xplane\-Simulator\-::\-Xplane\-Simulator} (const \hyperlink{group___h_i_t_l_plugin_ga052199f1328d3002bce3e45345aa7f4e}{\-Simulator\-Settings} \&params)
+\item 
+\hyperlink{group___h_i_t_l_plugin_ga0254db12886ca7e399e2d27fef9e185a}{\-Xplane\-Simulator\-::$\sim$\-Xplane\-Simulator} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___h_i_t_l_plugin_ga84ae33286060d1b0d834fa2b5f20e2fe}{\-Xplane\-Simulator\-::setup\-Udp\-Ports} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \&host, int in\-Port, int out\-Port)
+\item 
+bool \hyperlink{group___h_i_t_l_plugin_ga3818193fd63bfaf004e3aab25491f28c}{\-Xplane\-Simulator\-::setup\-Process} ()
+\end{DoxyCompactItemize}
+\subsection*{\-Variables}
+\begin{DoxyCompactItemize}
+\item 
+\-Accels\-::\-Data\-Fields \hyperlink{group___h_i_t_l_plugin_ga20a9e1e87d0a44b532c7e8c44555bdde}{\-Noise\-::accel\-Data}
+\item 
+\-Attitude\-Actual\-::\-Data\-Fields \hyperlink{group___h_i_t_l_plugin_ga689a709ae944673ff6edd54ab6ca4d7d}{\-Noise\-::att\-Actual\-Data}
+\item 
+\-Baro\-Altitude\-::\-Data\-Fields \hyperlink{group___h_i_t_l_plugin_gab586e8f2c72c1e42c715debf0bd202b1}{\-Noise\-::baro\-Alt\-Data}
+\item 
+\-Airspeed\-Actual\-::\-Data\-Fields \hyperlink{group___h_i_t_l_plugin_ga6481423a6f6cc57475e660281ba3d77d}{\-Noise\-::airspeed\-Actual}
+\item 
+\-G\-P\-S\-Position\-::\-Data\-Fields \hyperlink{group___h_i_t_l_plugin_ga9ec5e3f5256aa25ca8a8556643eb355d}{\-Noise\-::gps\-Pos\-Data}
+\item 
+\-G\-P\-S\-Velocity\-::\-Data\-Fields \hyperlink{group___h_i_t_l_plugin_gafefa36e4fa6d8da826bbfcf9f604119c}{\-Noise\-::gps\-Vel\-Data}
+\item 
+\-Gyros\-::\-Data\-Fields \hyperlink{group___h_i_t_l_plugin_gaf3fae05e7092b987f81f25ff7709ffb9}{\-Noise\-::gyro\-Data}
+\item 
+\-Home\-Location\-::\-Data\-Fields \hyperlink{group___h_i_t_l_plugin_ga3138fe65ade5af4ff6ff614c0956fc0a}{\-Noise\-::home\-Data}
+\item 
+\-Position\-Actual\-::\-Data\-Fields \hyperlink{group___h_i_t_l_plugin_ga54f9e7005f571fdacf23a67005004b0a}{\-Noise\-::position\-Actual\-Data}
+\item 
+\-Velocity\-Actual\-::\-Data\-Fields \hyperlink{group___h_i_t_l_plugin_ga45f843b87142396306b05148bf19b766}{\-Noise\-::velocity\-Actual\-Data}
+\item 
+static \-Q\-List$<$ \hyperlink{class_simulator_creator}{\-Simulator\-Creator} $\ast$ $>$ \hyperlink{group___h_i_t_l_plugin_ga0400c2f74f4a0c3cd840f95c99b1b601}{\-H\-I\-T\-L\-Plugin\-::type\-Simulators}
+\item 
+float \hyperlink{group___h_i_t_l_plugin_ga6c3abbd8306a5eb69384ca36f338991b}{\-\_\-\-F\-L\-I\-G\-H\-T\-\_\-\-P\-A\-R\-A\-M\-::\-T}
+\item 
+float \hyperlink{group___h_i_t_l_plugin_gabba6faff155324d93353abc952708700}{\-\_\-\-F\-L\-I\-G\-H\-T\-\_\-\-P\-A\-R\-A\-M\-::d\-T}
+\item 
+unsigned int \hyperlink{group___h_i_t_l_plugin_gafd95bf6c88f8e93baff6c5e27a5508a4}{\-\_\-\-F\-L\-I\-G\-H\-T\-\_\-\-P\-A\-R\-A\-M\-::i}
+\item 
+float \hyperlink{group___h_i_t_l_plugin_ga2fbe36224e421144a3822791ccd78c7b}{\-\_\-\-F\-L\-I\-G\-H\-T\-\_\-\-P\-A\-R\-A\-M\-::cas}
+\item 
+float \hyperlink{group___h_i_t_l_plugin_gad3fafd24c05ec4da9b2b230dfe6eec23}{\-\_\-\-F\-L\-I\-G\-H\-T\-\_\-\-P\-A\-R\-A\-M\-::tas}
+\item 
+float \hyperlink{group___h_i_t_l_plugin_ga2a4535a23a5ca83f655298d2494556d5}{\-\_\-\-F\-L\-I\-G\-H\-T\-\_\-\-P\-A\-R\-A\-M\-::groundspeed}
+\item 
+float \hyperlink{group___h_i_t_l_plugin_ga55a42deedc5785d55c570ae908bcc46a}{\-\_\-\-F\-L\-I\-G\-H\-T\-\_\-\-P\-A\-R\-A\-M\-::\-X}
+\item 
+float \hyperlink{group___h_i_t_l_plugin_gafb4f835313c27ac7b01fe3eb77b6bacc}{\-\_\-\-F\-L\-I\-G\-H\-T\-\_\-\-P\-A\-R\-A\-M\-::\-Y}
+\item 
+float \hyperlink{group___h_i_t_l_plugin_gacb21381efc860b328d0be136ef53f98c}{\-\_\-\-F\-L\-I\-G\-H\-T\-\_\-\-P\-A\-R\-A\-M\-::\-Z}
+\item 
+float \hyperlink{group___h_i_t_l_plugin_gaa09582d7507d6bc84817aad1828e79a6}{\-\_\-\-F\-L\-I\-G\-H\-T\-\_\-\-P\-A\-R\-A\-M\-::d\-X}
+\item 
+float \hyperlink{group___h_i_t_l_plugin_ga759dc6a87e18b4ee9e44c2ab66ba767f}{\-\_\-\-F\-L\-I\-G\-H\-T\-\_\-\-P\-A\-R\-A\-M\-::d\-Y}
+\item 
+float \hyperlink{group___h_i_t_l_plugin_gade2afe2cbfb8e8fe0f8d7d97e0e62076}{\-\_\-\-F\-L\-I\-G\-H\-T\-\_\-\-P\-A\-R\-A\-M\-::d\-Z}
+\item 
+float \hyperlink{group___h_i_t_l_plugin_gabb56dcac3d6e652f79e4a2fd79322e66}{\-\_\-\-F\-L\-I\-G\-H\-T\-\_\-\-P\-A\-R\-A\-M\-::dd\-X}
+\item 
+float \hyperlink{group___h_i_t_l_plugin_ga076f6e2f6b3ce2a8f01d26b3a7dac1bd}{\-\_\-\-F\-L\-I\-G\-H\-T\-\_\-\-P\-A\-R\-A\-M\-::dd\-Y}
+\item 
+float \hyperlink{group___h_i_t_l_plugin_ga7961abcc14db01ab5ba42c426e2160c5}{\-\_\-\-F\-L\-I\-G\-H\-T\-\_\-\-P\-A\-R\-A\-M\-::dd\-Z}
+\item 
+float \hyperlink{group___h_i_t_l_plugin_ga849192344fdd21a6a53e00920b89bbdc}{\-\_\-\-F\-L\-I\-G\-H\-T\-\_\-\-P\-A\-R\-A\-M\-::azimuth}
+\item 
+float \hyperlink{group___h_i_t_l_plugin_gaff7712b3622dba7f5178549057fdac4e}{\-\_\-\-F\-L\-I\-G\-H\-T\-\_\-\-P\-A\-R\-A\-M\-::pitch}
+\item 
+float \hyperlink{group___h_i_t_l_plugin_ga1e4f51848f0c33a0264bc1fc9acb63db}{\-\_\-\-F\-L\-I\-G\-H\-T\-\_\-\-P\-A\-R\-A\-M\-::roll}
+\item 
+float \hyperlink{group___h_i_t_l_plugin_gaeb046a092ad0f1b208a0341f7e6fd520}{\-\_\-\-F\-L\-I\-G\-H\-T\-\_\-\-P\-A\-R\-A\-M\-::d\-Azimuth}
+\item 
+float \hyperlink{group___h_i_t_l_plugin_gaff13db0c35d76e6eda91b623fb0fef8b}{\-\_\-\-F\-L\-I\-G\-H\-T\-\_\-\-P\-A\-R\-A\-M\-::d\-Pitch}
+\item 
+float \hyperlink{group___h_i_t_l_plugin_gad9c4016b0ff06d6f0c8208ad1a94b281}{\-\_\-\-F\-L\-I\-G\-H\-T\-\_\-\-P\-A\-R\-A\-M\-::d\-Roll}
+\item 
+float \hyperlink{group___h_i_t_l_plugin_ga450ddae855377cbc0ce591c7703bcf3f}{\-Air\-Parameters\-::ground\-Density}
+\item 
+float \hyperlink{group___h_i_t_l_plugin_gab28b8a30520fdf84e924254a8e7f0167}{\-Air\-Parameters\-::ground\-Temp}
+\item 
+float \hyperlink{group___h_i_t_l_plugin_gad886dc623ba9dd1cb06beeb950791c7a}{\-Air\-Parameters\-::sea\-Level\-Press}
+\item 
+float \hyperlink{group___h_i_t_l_plugin_gae5608554d84c53cb81499d63b9381f9f}{\-Air\-Parameters\-::temp\-Lapse\-Rate}
+\item 
+float \hyperlink{group___h_i_t_l_plugin_gaf6cf658bcff6f341c341ba3f6194761c}{\-Air\-Parameters\-::univ\-Gas\-Constant}
+\item 
+float \hyperlink{group___h_i_t_l_plugin_ga343d7519080c3b70a59e554bfc2ed57d}{\-Air\-Parameters\-::dry\-Air\-Constant}
+\item 
+float \hyperlink{group___h_i_t_l_plugin_ga259002c03d3dec62e3af14ded35e5bfd}{\-Air\-Parameters\-::relative\-Humidity}
+\item 
+float \hyperlink{group___h_i_t_l_plugin_gaa24db2a922b9f638fdaacad6e3f4fb91}{\-Air\-Parameters\-::\-M}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___h_i_t_l_plugin_gae2769b70fdfc601ee4d7fc19c08bfe59}{\-\_\-\-C\-O\-N\-N\-E\-C\-T\-I\-O\-N\-::simulator\-Id}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___h_i_t_l_plugin_ga7bd6d35f193af2ec2365db4a4faaf7e7}{\-\_\-\-C\-O\-N\-N\-E\-C\-T\-I\-O\-N\-::bin\-Path}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___h_i_t_l_plugin_ga4505c573ba399fc3e915fec6842c3bcb}{\-\_\-\-C\-O\-N\-N\-E\-C\-T\-I\-O\-N\-::data\-Path}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___h_i_t_l_plugin_ga21da3bd31909fdf7fd5116c2a91a1176}{\-\_\-\-C\-O\-N\-N\-E\-C\-T\-I\-O\-N\-::host\-Address}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___h_i_t_l_plugin_ga72b83e685c950b6c36c9eed28c775ec4}{\-\_\-\-C\-O\-N\-N\-E\-C\-T\-I\-O\-N\-::remote\-Address}
+\item 
+int \hyperlink{group___h_i_t_l_plugin_gaaba6cf28320e1105f7320ea8a21df15b}{\-\_\-\-C\-O\-N\-N\-E\-C\-T\-I\-O\-N\-::out\-Port}
+\item 
+int \hyperlink{group___h_i_t_l_plugin_gabf3d6472bdcac5895a53143e1f84fb09}{\-\_\-\-C\-O\-N\-N\-E\-C\-T\-I\-O\-N\-::in\-Port}
+\item 
+bool \hyperlink{group___h_i_t_l_plugin_ga17c6b00bf3f43c686cca76b3286ba75c}{\-\_\-\-C\-O\-N\-N\-E\-C\-T\-I\-O\-N\-::start\-Sim}
+\item 
+bool \hyperlink{group___h_i_t_l_plugin_ga0d3c230504eb051a77593129ea6cd79f}{\-\_\-\-C\-O\-N\-N\-E\-C\-T\-I\-O\-N\-::add\-Noise}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___h_i_t_l_plugin_gac06d25b8e020f633a60fadb7e7eedfa9}{\-\_\-\-C\-O\-N\-N\-E\-C\-T\-I\-O\-N\-::latitude}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___h_i_t_l_plugin_gac60d13c120d3dd97309688a1d7f3d6d7}{\-\_\-\-C\-O\-N\-N\-E\-C\-T\-I\-O\-N\-::longitude}
+\item 
+bool \hyperlink{group___h_i_t_l_plugin_ga003958320fd5c963c5d2ddff60ffd28b}{\-\_\-\-C\-O\-N\-N\-E\-C\-T\-I\-O\-N\-::att\-Raw\-Enabled}
+\item 
+quint8 \hyperlink{group___h_i_t_l_plugin_ga70d4f6a60b23f4545d46ff7dfe4c710e}{\-\_\-\-C\-O\-N\-N\-E\-C\-T\-I\-O\-N\-::att\-Raw\-Rate}
+\item 
+bool \hyperlink{group___h_i_t_l_plugin_ga9b02793b3d0effcdb43df1d5e20012fd}{\-\_\-\-C\-O\-N\-N\-E\-C\-T\-I\-O\-N\-::att\-Actual\-Enabled}
+\item 
+bool \hyperlink{group___h_i_t_l_plugin_ga4e0f8f54388f25df1142b8f895a4b445}{\-\_\-\-C\-O\-N\-N\-E\-C\-T\-I\-O\-N\-::att\-Act\-H\-W}
+\item 
+bool \hyperlink{group___h_i_t_l_plugin_ga8620f5c9256ac5988861939a70fde264}{\-\_\-\-C\-O\-N\-N\-E\-C\-T\-I\-O\-N\-::att\-Act\-Sim}
+\item 
+bool \hyperlink{group___h_i_t_l_plugin_gab40adc150ae79f115f2680cdf131b41d}{\-\_\-\-C\-O\-N\-N\-E\-C\-T\-I\-O\-N\-::att\-Act\-Calc}
+\item 
+bool \hyperlink{group___h_i_t_l_plugin_ga6700d3be0f4ef9211d6f34569034b7a8}{\-\_\-\-C\-O\-N\-N\-E\-C\-T\-I\-O\-N\-::baro\-Altitude\-Enabled}
+\item 
+quint16 \hyperlink{group___h_i_t_l_plugin_gab5b66abe21b9a0f00b2dc2bbb28cac6c}{\-\_\-\-C\-O\-N\-N\-E\-C\-T\-I\-O\-N\-::baro\-Alt\-Rate}
+\item 
+bool \hyperlink{group___h_i_t_l_plugin_ga7da92539dd2e9e4aeb94b848dc464b11}{\-\_\-\-C\-O\-N\-N\-E\-C\-T\-I\-O\-N\-::ground\-Truth\-Enabled}
+\item 
+quint16 \hyperlink{group___h_i_t_l_plugin_ga46aa73f7e222771afe3b547bca31eacb}{\-\_\-\-C\-O\-N\-N\-E\-C\-T\-I\-O\-N\-::ground\-Truth\-Rate}
+\item 
+bool \hyperlink{group___h_i_t_l_plugin_gaec1f5b5cc3ce18186907fde4c9c990b3}{\-\_\-\-C\-O\-N\-N\-E\-C\-T\-I\-O\-N\-::gps\-Position\-Enabled}
+\item 
+quint16 \hyperlink{group___h_i_t_l_plugin_ga2904afd635e416ec6fca4b3b6bb8679f}{\-\_\-\-C\-O\-N\-N\-E\-C\-T\-I\-O\-N\-::gps\-Pos\-Rate}
+\item 
+bool \hyperlink{group___h_i_t_l_plugin_gaef59cc30b3dc3c996cfba35065d250bd}{\-\_\-\-C\-O\-N\-N\-E\-C\-T\-I\-O\-N\-::input\-Command}
+\item 
+bool \hyperlink{group___h_i_t_l_plugin_ga2e4de2a270dafeeadda687a7fc6fb817}{\-\_\-\-C\-O\-N\-N\-E\-C\-T\-I\-O\-N\-::gcs\-Receiver\-Enabled}
+\item 
+bool \hyperlink{group___h_i_t_l_plugin_gac67de1b6ac74a48c592f55fd17e06ad8}{\-\_\-\-C\-O\-N\-N\-E\-C\-T\-I\-O\-N\-::manual\-Control\-Enabled}
+\item 
+quint16 \hyperlink{group___h_i_t_l_plugin_ga11d8608f07438f05d1950aa62f774d0c}{\-\_\-\-C\-O\-N\-N\-E\-C\-T\-I\-O\-N\-::min\-Output\-Period}
+\item 
+bool \hyperlink{group___h_i_t_l_plugin_ga8fc341e96193fe41625a04a534a16387}{\-\_\-\-C\-O\-N\-N\-E\-C\-T\-I\-O\-N\-::airspeed\-Actual\-Enabled}
+\item 
+quint16 \hyperlink{group___h_i_t_l_plugin_gacb3c852192e75845b2a17679c94a10c1}{\-\_\-\-C\-O\-N\-N\-E\-C\-T\-I\-O\-N\-::airspeed\-Actual\-Rate}
+\item 
+float \hyperlink{group___h_i_t_l_plugin_ga3f453b19b12f4264ebffe76a1e8ee93d}{\-Output2\-Hardware\-::latitude}
+\item 
+float \hyperlink{group___h_i_t_l_plugin_gacf92ed715333315d33a77f42aa1ed71e}{\-Output2\-Hardware\-::longitude}
+\item 
+float \hyperlink{group___h_i_t_l_plugin_gafbb52a0b15f16cac6f1efbcae3702e96}{\-Output2\-Hardware\-::altitude}
+\item 
+float \hyperlink{group___h_i_t_l_plugin_ga40e8c62b6079618b6541408ce3dafe0c}{\-Output2\-Hardware\-::agl}
+\item 
+float \hyperlink{group___h_i_t_l_plugin_ga061c55e7f046212595dae9123b2589d8}{\-Output2\-Hardware\-::heading}
+\item 
+float \hyperlink{group___h_i_t_l_plugin_ga6cab485f36b93a2e86e248bcc6b240f1}{\-Output2\-Hardware\-::groundspeed}
+\item 
+float \hyperlink{group___h_i_t_l_plugin_gaa6ec37dae61764737236528ba5a2445c}{\-Output2\-Hardware\-::calibrated\-Airspeed}
+\item 
+float \hyperlink{group___h_i_t_l_plugin_gaca71e282fd00490c801905254e99ef54}{\-Output2\-Hardware\-::true\-Airspeed}
+\item 
+float \hyperlink{group___h_i_t_l_plugin_gaa698baa5c5eb08252558e7821e3d48dd}{\-Output2\-Hardware\-::angle\-Of\-Attack}
+\item 
+float \hyperlink{group___h_i_t_l_plugin_ga03a3c3371749ca83551e6f29e804a205}{\-Output2\-Hardware\-::angle\-Of\-Slip}
+\item 
+float \hyperlink{group___h_i_t_l_plugin_ga8f2327775c3342e13799a4ed6392f23f}{\-Output2\-Hardware\-::roll}
+\item 
+float \hyperlink{group___h_i_t_l_plugin_gaf92e2c90046782813af0a2fdd6e48bf4}{\-Output2\-Hardware\-::pitch}
+\item 
+float \hyperlink{group___h_i_t_l_plugin_ga9c1fdbe8d01c5346b54b71beff806a7e}{\-Output2\-Hardware\-::pressure}
+\item 
+float \hyperlink{group___h_i_t_l_plugin_ga925c7971d40c91b63e480e5f89096747}{\-Output2\-Hardware\-::temperature}
+\item 
+float \hyperlink{group___h_i_t_l_plugin_gaa20e34957a2badaea5d07a49ab029182}{\-Output2\-Hardware\-::vel\-North}
+\item 
+float \hyperlink{group___h_i_t_l_plugin_gae7889fb60f991558b83af5aef685a35f}{\-Output2\-Hardware\-::vel\-East}
+\item 
+float \hyperlink{group___h_i_t_l_plugin_ga9d5ac871d0c0845dcd9363069268c2d3}{\-Output2\-Hardware\-::vel\-Down}
+\item 
+float \hyperlink{group___h_i_t_l_plugin_gad276a9a114b2d57a5c4536e9ef0a9a12}{\-Output2\-Hardware\-::dst\-N}
+\item 
+float \hyperlink{group___h_i_t_l_plugin_ga5d4746c1f8dd9251dd5b37ced82d4a93}{\-Output2\-Hardware\-::dst\-E}
+\item 
+float \hyperlink{group___h_i_t_l_plugin_gaf1362ebbee3efc97a9c205aaffdeb98a}{\-Output2\-Hardware\-::dst\-D}
+\item 
+float \hyperlink{group___h_i_t_l_plugin_gaf15a299d1ff6f64a04c72d9ef5bf3860}{\-Output2\-Hardware\-::acc\-X}
+\item 
+float \hyperlink{group___h_i_t_l_plugin_ga3ce16295c4d5bfc0a4938f0120d946c4}{\-Output2\-Hardware\-::acc\-Y}
+\item 
+float \hyperlink{group___h_i_t_l_plugin_ga8565b780814dd8fddf28e4018256356a}{\-Output2\-Hardware\-::acc\-Z}
+\item 
+float \hyperlink{group___h_i_t_l_plugin_ga81680dc2663395de5b3f4aeaeb9f35f9}{\-Output2\-Hardware\-::roll\-Rate}
+\item 
+float \hyperlink{group___h_i_t_l_plugin_ga9d3248d73390ba0b13ca165ee1f1fef0}{\-Output2\-Hardware\-::pitch\-Rate}
+\item 
+float \hyperlink{group___h_i_t_l_plugin_gab54300de73ca6f11f519068435673210}{\-Output2\-Hardware\-::yaw\-Rate}
+\item 
+float \hyperlink{group___h_i_t_l_plugin_gadbdb09f62a5ce0e914e8551ce3bd0bbd}{\-Output2\-Hardware\-::del\-T}
+\item 
+float \hyperlink{group___h_i_t_l_plugin_gadf58977eef899196280267ae39cc6f65}{\-Output2\-Hardware\-::rc\-\_\-channel} \mbox{[}\-G\-C\-S\-Receiver\-::\-C\-H\-A\-N\-N\-E\-L\-\_\-\-N\-U\-M\-E\-L\-E\-M\mbox{]}
+\item 
+float \hyperlink{group___h_i_t_l_plugin_ga56fde0222228b19a5ed9e89efd765da0}{\-Output2\-Hardware\-::roll\-Desired}
+\item 
+float \hyperlink{group___h_i_t_l_plugin_ga29bbb9f720db0b7039f92a3afcb785a3}{\-Output2\-Hardware\-::pitch\-Desired}
+\item 
+float \hyperlink{group___h_i_t_l_plugin_gaf01c33ffb5c7695348739d0070122bd7}{\-Output2\-Hardware\-::yaw\-Desired}
+\item 
+float \hyperlink{group___h_i_t_l_plugin_gab6902f4f38e771b9d499521d861661f2}{\-Output2\-Hardware\-::throttle\-Desired}
+\item 
+\-Q\-Process $\ast$ \hyperlink{group___h_i_t_l_plugin_ga28f5833f779eb659394e6c6cfe6f2331}{\-Simulator\-::sim\-Process}
+\item 
+\-Q\-Time $\ast$ \hyperlink{group___h_i_t_l_plugin_ga162228fbfec7737c989bfe0b340e8617}{\-Simulator\-::time}
+\item 
+\-Actuator\-Command $\ast$ \hyperlink{group___h_i_t_l_plugin_ga9362d7e2619934460d6f8070496d336f}{\-Simulator\-::act\-Command}
+\item 
+\-Manual\-Control\-Command $\ast$ \hyperlink{group___h_i_t_l_plugin_ga1af06e35c7befb4f3ffd0bfee9a6efc2}{\-Simulator\-::man\-Ctrl\-Command}
+\item 
+\-Flight\-Status $\ast$ \hyperlink{group___h_i_t_l_plugin_ga2c3a29dc6471574d7182db7691e69a56}{\-Simulator\-::flight\-Status}
+\item 
+\-Baro\-Altitude $\ast$ \hyperlink{group___h_i_t_l_plugin_ga107f3bf3d4cc0c45cc8677742d4445eb}{\-Simulator\-::baro\-Alt}
+\item 
+\-Airspeed\-Actual $\ast$ \hyperlink{group___h_i_t_l_plugin_gadba0d3a66c5a15e0027b7d95fc9498b4}{\-Simulator\-::airspeed\-Actual}
+\item 
+\-Attitude\-Settings $\ast$ \hyperlink{group___h_i_t_l_plugin_ga4430b724d2151ce662d6b82a3b8ba74a}{\-Simulator\-::attitude\-Settings}
+\item 
+\-G\-P\-S\-Position $\ast$ \hyperlink{group___h_i_t_l_plugin_gae4d6ea654494f0de351686d9c35037ca}{\-Simulator\-::gps\-Pos}
+\item 
+\-G\-P\-S\-Velocity $\ast$ \hyperlink{group___h_i_t_l_plugin_ga649eab8811fb3f1e6596e48eac2d47c7}{\-Simulator\-::gps\-Vel}
+\item 
+\-Home\-Location $\ast$ \hyperlink{group___h_i_t_l_plugin_ga9fcd56565e3cb4d64bc0c71c0a6151c1}{\-Simulator\-::pos\-Home}
+\item 
+\-Accels $\ast$ \hyperlink{group___h_i_t_l_plugin_ga35cb24cdab1cfc0d1720b5b58fd0254f}{\-Simulator\-::accels}
+\item 
+\-Gyros $\ast$ \hyperlink{group___h_i_t_l_plugin_ga0f9daef3b0fe0731e035f2bff3d9df19}{\-Simulator\-::gyros}
+\item 
+\-G\-C\-S\-Receiver $\ast$ \hyperlink{group___h_i_t_l_plugin_gac63d17091bc4377e1b49696355a0ae19}{\-Simulator\-::gcs\-Receiver}
+\item 
+\-Ground\-Truth $\ast$ \hyperlink{group___h_i_t_l_plugin_ga6c62059f6d424f96ad1142bfe8885e3a}{\-Simulator\-::ground\-Truth}
+\item 
+\hyperlink{group___h_i_t_l_plugin_ga052199f1328d3002bce3e45345aa7f4e}{\-Simulator\-Settings} \hyperlink{group___h_i_t_l_plugin_ga61775246e91fbe43ce9d79c03bfde19f}{\-Simulator\-::settings}
+\item 
+\hyperlink{group___h_i_t_l_plugin_ga7bda7a22b899fe8dff0ba9a0cae99da6}{\-F\-L\-I\-G\-H\-T\-\_\-\-P\-A\-R\-A\-M} \hyperlink{group___h_i_t_l_plugin_gaa4ad7484ddab07936a31a63fab4be22e}{\-Simulator\-::current}
+\item 
+\hyperlink{group___h_i_t_l_plugin_ga7bda7a22b899fe8dff0ba9a0cae99da6}{\-F\-L\-I\-G\-H\-T\-\_\-\-P\-A\-R\-A\-M} \hyperlink{group___h_i_t_l_plugin_gadb185afa7e72d63655cb097e1c1d8200}{\-Simulator\-::old}
+\item 
+\-Q\-Mutex \hyperlink{group___h_i_t_l_plugin_ga807f372f1fd1876041ae159adca0514b}{\-Simulator\-::lock}
+\end{DoxyCompactItemize}
+\subsection*{\-Signals}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___h_i_t_l_plugin_ga13e1705f62c6f94853cd64d477b213ef}{\-H\-I\-T\-L\-Gadget\-::change\-Configuration} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___h_i_t_l_plugin_gac7a4b06b939b52699df392d65a575285}{\-Simulator\-::autopilot\-Connected} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___h_i_t_l_plugin_ga24f5c82338e62ddaa39f3ea0624f71da}{\-Simulator\-::autopilot\-Disconnected} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___h_i_t_l_plugin_gaa228d07fc331cb9526ea7e35657c762c}{\-Simulator\-::simulator\-Connected} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___h_i_t_l_plugin_gad742612caa0cecd4258bd9bdccf38336}{\-Simulator\-::simulator\-Disconnected} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___h_i_t_l_plugin_ga2442aac38c69150f1089c874f766793e}{\-Simulator\-::process\-Output} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} str)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___h_i_t_l_plugin_ga04206cd250313cf8c8e4db8a19f88479}{\-Simulator\-::delete\-Sim\-Process} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___h_i_t_l_plugin_gaf7e8415c98faa84030b51013ef49fa4e}{\-Simulator\-::my\-Start} ()
+\end{DoxyCompactItemize}
+\subsection*{\-Public \-Slots}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___h_i_t_l_plugin_gacd597e5682d8dbe29504ed7c45245695}{\-H\-I\-T\-L\-Configuration\-::set\-Simulator\-Settings} (const \hyperlink{group___h_i_t_l_plugin_ga052199f1328d3002bce3e45345aa7f4e}{\-Simulator\-Settings} \&params)
+\item 
+virtual \-Q\-\_\-\-I\-N\-V\-O\-K\-A\-B\-L\-E bool \hyperlink{group___h_i_t_l_plugin_ga25516220ab21d874ae00dd9a21c3e313}{\-Simulator\-::setup\-Process} ()
+\end{DoxyCompactItemize}
+\subsection*{\-Properties}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___h_i_t_l_plugin_ga052199f1328d3002bce3e45345aa7f4e}{\-Simulator\-Settings} \hyperlink{group___h_i_t_l_plugin_ga961f33f3db5f79daaf792a4999ac5c06}{\-H\-I\-T\-L\-Configuration\-::settings}
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-The \-Hardware \-In \-The \-Loop plugin. 
+
+\subsection{\-Typedef \-Documentation}
+\hypertarget{group___h_i_t_l_plugin_ga7bda7a22b899fe8dff0ba9a0cae99da6}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!\-F\-L\-I\-G\-H\-T\-\_\-\-P\-A\-R\-A\-M@{\-F\-L\-I\-G\-H\-T\-\_\-\-P\-A\-R\-A\-M}}
+\index{\-F\-L\-I\-G\-H\-T\-\_\-\-P\-A\-R\-A\-M@{\-F\-L\-I\-G\-H\-T\-\_\-\-P\-A\-R\-A\-M}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{\-F\-L\-I\-G\-H\-T\-\_\-\-P\-A\-R\-A\-M}]{\setlength{\rightskip}{0pt plus 5cm}typedef struct {\bf \-\_\-\-F\-L\-I\-G\-H\-T\-\_\-\-P\-A\-R\-A\-M}  {\bf \-F\-L\-I\-G\-H\-T\-\_\-\-P\-A\-R\-A\-M}}}\label{group___h_i_t_l_plugin_ga7bda7a22b899fe8dff0ba9a0cae99da6}
+just imagine this was a class without methods and all public properties \hypertarget{group___h_i_t_l_plugin_ga052199f1328d3002bce3e45345aa7f4e}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!\-Simulator\-Settings@{\-Simulator\-Settings}}
+\index{\-Simulator\-Settings@{\-Simulator\-Settings}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{\-Simulator\-Settings}]{\setlength{\rightskip}{0pt plus 5cm}typedef struct {\bf \-\_\-\-C\-O\-N\-N\-E\-C\-T\-I\-O\-N}  {\bf \-Simulator\-Settings}}}\label{group___h_i_t_l_plugin_ga052199f1328d3002bce3e45345aa7f4e}
+
+
+\subsection{\-Function \-Documentation}
+\hypertarget{group___h_i_t_l_plugin_ga54ec8bdd017e6c77dc8f88009474d78e}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!add\-Simulator@{add\-Simulator}}
+\index{add\-Simulator@{add\-Simulator}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{add\-Simulator}]{\setlength{\rightskip}{0pt plus 5cm}static {\bf void} {\bf \-H\-I\-T\-L\-Plugin\-::add\-Simulator} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Simulator\-Creator} $\ast$}]{creator}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, static\mbox{]}}}}\label{group___h_i_t_l_plugin_ga54ec8bdd017e6c77dc8f88009474d78e}
+
+
+\-Definition at line 50 of file hitlplugin.\-h.
+
+\hypertarget{group___h_i_t_l_plugin_ga0f5306deb22a08981f652dbb154f3e55}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!\-Aero\-Sim\-R\-C\-Simulator@{\-Aero\-Sim\-R\-C\-Simulator}}
+\index{\-Aero\-Sim\-R\-C\-Simulator@{\-Aero\-Sim\-R\-C\-Simulator}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{\-Aero\-Sim\-R\-C\-Simulator}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Aero\-Sim\-R\-C\-Simulator\-::\-Aero\-Sim\-R\-C\-Simulator} (
+\begin{DoxyParamCaption}
+\item[{const {\bf \-Simulator\-Settings} \&}]{params}
+\end{DoxyParamCaption}
+)}}\label{group___h_i_t_l_plugin_ga0f5306deb22a08981f652dbb154f3e55}
+
+
+\-Definition at line 35 of file aerosimrcsimulator.\-cpp.
+
+\hypertarget{group___h_i_t_l_plugin_ga7e85a0e376c9dcd7dae84a4f2cf14d10}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!\-Aero\-Sim\-R\-C\-Simulator\-Creator@{\-Aero\-Sim\-R\-C\-Simulator\-Creator}}
+\index{\-Aero\-Sim\-R\-C\-Simulator\-Creator@{\-Aero\-Sim\-R\-C\-Simulator\-Creator}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{\-Aero\-Sim\-R\-C\-Simulator\-Creator}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Aero\-Sim\-R\-C\-Simulator\-Creator\-::\-Aero\-Sim\-R\-C\-Simulator\-Creator} (
+\begin{DoxyParamCaption}
+\item[{const {\bf \-Q\-String} \&}]{class\-Id, }
+\item[{const {\bf \-Q\-String} \&}]{description}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___h_i_t_l_plugin_ga7e85a0e376c9dcd7dae84a4f2cf14d10}
+
+
+\-Definition at line 64 of file aerosimrcsimulator.\-h.
+
+\hypertarget{group___h_i_t_l_plugin_ga20d3be9c0283514b5e2ca35280a86665}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!air\-Density\-From\-Altitude@{air\-Density\-From\-Altitude}}
+\index{air\-Density\-From\-Altitude@{air\-Density\-From\-Altitude}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{air\-Density\-From\-Altitude}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf \-Simulator\-::air\-Density\-From\-Altitude} (
+\begin{DoxyParamCaption}
+\item[{float}]{alt, }
+\item[{{\bf \-Air\-Parameters}}]{air, }
+\item[{float}]{gravity}
+\end{DoxyParamCaption}
+)}}\label{group___h_i_t_l_plugin_ga20d3be9c0283514b5e2ca35280a86665}
+calculate air density from altitude. \href{http://en.wikipedia.org/wiki/Density_of_air}{\tt http\-://en.\-wikipedia.\-org/wiki/\-Density\-\_\-of\-\_\-air} 
+
+\-Definition at line 791 of file simulator.\-cpp.
+
+\hypertarget{group___h_i_t_l_plugin_gab5a7232560191dad8ff19517ed4a327a}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!air\-Pressure\-From\-Altitude@{air\-Pressure\-From\-Altitude}}
+\index{air\-Pressure\-From\-Altitude@{air\-Pressure\-From\-Altitude}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{air\-Pressure\-From\-Altitude}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf \-Simulator\-::air\-Pressure\-From\-Altitude} (
+\begin{DoxyParamCaption}
+\item[{float}]{alt, }
+\item[{{\bf \-Air\-Parameters}}]{air, }
+\item[{float}]{gravity}
+\end{DoxyParamCaption}
+)}}\label{group___h_i_t_l_plugin_gab5a7232560191dad8ff19517ed4a327a}
+
+
+\hyperlink{group___h_i_t_l_plugin_gab5a7232560191dad8ff19517ed4a327a}{\-Simulator\-::air\-Pressure\-From\-Altitude} \-Get air pressure from altitude and atmospheric conditions. 
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em alt} & altitude \\
+\hline
+{\em air} & atmospheric conditions \\
+\hline
+{\em gravity} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+
+\end{DoxyReturn}
+
+
+\-Definition at line 805 of file simulator.\-cpp.
+
+\hypertarget{group___h_i_t_l_plugin_ga6554b77636be9ff76148c91411929d4a}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!apply@{apply}}
+\index{apply@{apply}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{apply}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-H\-I\-T\-L\-Options\-Page\-::apply} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___h_i_t_l_plugin_ga6554b77636be9ff76148c91411929d4a}
+
+
+\-Implements \hyperlink{group___core_plugin_ga05fa0c9b91da02a0f2fed11d2d6afed0}{\-Core\-::\-I\-Options\-Page}.
+
+
+
+\-Definition at line 124 of file hitloptionspage.\-cpp.
+
+\hypertarget{group___h_i_t_l_plugin_ga86d7635f63f32cf0ef08e21a7e2874ea}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!cas2tas@{cas2tas}}
+\index{cas2tas@{cas2tas}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{cas2tas}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf \-Simulator\-::cas2tas} (
+\begin{DoxyParamCaption}
+\item[{float}]{\-C\-A\-S, }
+\item[{float}]{alt, }
+\item[{{\bf \-Air\-Parameters}}]{air, }
+\item[{float}]{gravity}
+\end{DoxyParamCaption}
+)}}\label{group___h_i_t_l_plugin_ga86d7635f63f32cf0ef08e21a7e2874ea}
+
+
+\hyperlink{group___h_i_t_l_plugin_ga86d7635f63f32cf0ef08e21a7e2874ea}{\-Simulator\-::cas2tas} calculate \-T\-A\-S from \-C\-A\-S and altitude. \href{http://en.wikipedia.org/wiki/Airspeed}{\tt http\-://en.\-wikipedia.\-org/wiki/\-Airspeed}. 
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em \-C\-A\-S} & \-Calibrated airspeed \\
+\hline
+{\em alt} & altitude \\
+\hline
+{\em air} & atmospheric conditions \\
+\hline
+{\em gravity} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+\-True airspeed 
+\end{DoxyReturn}
+
+
+\-Definition at line 817 of file simulator.\-cpp.
+
+\hypertarget{group___h_i_t_l_plugin_ga4195682a513bc0ddf6818ff4058d2619}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!\-Class\-Id@{\-Class\-Id}}
+\index{\-Class\-Id@{\-Class\-Id}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{\-Class\-Id}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Q\-String} {\bf \-Simulator\-Creator\-::\-Class\-Id} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___h_i_t_l_plugin_ga4195682a513bc0ddf6818ff4058d2619}
+
+
+\-Definition at line 354 of file simulator.\-h.
+
+\hypertarget{group___h_i_t_l_plugin_gaf448a961e8785490a4dcc5187d7edbe6}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!clone@{clone}}
+\index{clone@{clone}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{clone}]{\setlength{\rightskip}{0pt plus 5cm}\-I\-U\-A\-V\-Gadget\-Configuration $\ast$ {\bf \-H\-I\-T\-L\-Configuration\-::clone} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___h_i_t_l_plugin_gaf448a961e8785490a4dcc5187d7edbe6}
+
+
+\-Implements \hyperlink{group___core_plugin_ga35f72dc89919925fd591fa509ebbf7dc}{\-Core\-::\-I\-U\-A\-V\-Gadget\-Configuration}.
+
+
+
+\-Definition at line 130 of file hitlconfiguration.\-cpp.
+
+\hypertarget{group___h_i_t_l_plugin_ga68fed3efae6281089db53d6ea596e331}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!create\-Configuration@{create\-Configuration}}
+\index{create\-Configuration@{create\-Configuration}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{create\-Configuration}]{\setlength{\rightskip}{0pt plus 5cm}\-I\-U\-A\-V\-Gadget\-Configuration $\ast$ {\bf \-H\-I\-T\-L\-Factory\-::create\-Configuration} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Settings $\ast$}]{q\-Settings}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___h_i_t_l_plugin_ga68fed3efae6281089db53d6ea596e331}
+
+
+\-Reimplemented from \hyperlink{group___core_plugin_gae26104d7db90a65069c2bb654ecd5026}{\-Core\-::\-I\-U\-A\-V\-Gadget\-Factory}.
+
+
+
+\-Definition at line 53 of file hitlfactory.\-cpp.
+
+\hypertarget{group___h_i_t_l_plugin_ga9a06cbbd0b0cd343e48b0386f1ebe45e}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!create\-Gadget@{create\-Gadget}}
+\index{create\-Gadget@{create\-Gadget}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{create\-Gadget}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Core\-::\-I\-U\-A\-V\-Gadget} $\ast$ {\bf \-H\-I\-T\-L\-Factory\-::create\-Gadget} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Widget $\ast$}]{parent}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___h_i_t_l_plugin_ga9a06cbbd0b0cd343e48b0386f1ebe45e}
+
+
+\-Implements \hyperlink{group___core_plugin_ga72d6fe5bbef9f4fa2333028c7a324f66}{\-Core\-::\-I\-U\-A\-V\-Gadget\-Factory}.
+
+
+
+\-Definition at line 45 of file hitlfactory.\-cpp.
+
+\hypertarget{group___h_i_t_l_plugin_ga3064ddee76385734787a3a04e203bac2}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!create\-Options\-Page@{create\-Options\-Page}}
+\index{create\-Options\-Page@{create\-Options\-Page}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{create\-Options\-Page}]{\setlength{\rightskip}{0pt plus 5cm}\-I\-Options\-Page $\ast$ {\bf \-H\-I\-T\-L\-Factory\-::create\-Options\-Page} (
+\begin{DoxyParamCaption}
+\item[{\-I\-U\-A\-V\-Gadget\-Configuration $\ast$}]{config}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___h_i_t_l_plugin_ga3064ddee76385734787a3a04e203bac2}
+
+
+\-Reimplemented from \hyperlink{group___core_plugin_gaf11d34909f72b86882937f7a946ad0da}{\-Core\-::\-I\-U\-A\-V\-Gadget\-Factory}.
+
+
+
+\-Definition at line 58 of file hitlfactory.\-cpp.
+
+\hypertarget{group___h_i_t_l_plugin_ga82b1534b1cdc2ad63d8849636f64b8c9}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!create\-Page@{create\-Page}}
+\index{create\-Page@{create\-Page}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{create\-Page}]{\setlength{\rightskip}{0pt plus 5cm}\-Q\-Widget $\ast$ {\bf \-H\-I\-T\-L\-Options\-Page\-::create\-Page} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Widget $\ast$}]{parent}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___h_i_t_l_plugin_ga82b1534b1cdc2ad63d8849636f64b8c9}
+
+
+\-Implements \hyperlink{group___core_plugin_gac70a4473b3e086d0fa9849c431fb0672}{\-Core\-::\-I\-Options\-Page}.
+
+
+
+\-Definition at line 47 of file hitloptionspage.\-cpp.
+
+\hypertarget{group___h_i_t_l_plugin_gaea21540d2b8699f845b5a6969e5254ba}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!create\-Simulator@{create\-Simulator}}
+\index{create\-Simulator@{create\-Simulator}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{create\-Simulator}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Simulator}$\ast$ {\bf \-I\-L2\-Simulator\-Creator\-::create\-Simulator} (
+\begin{DoxyParamCaption}
+\item[{const {\bf \-Simulator\-Settings} \&}]{params}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, virtual\mbox{]}}}}\label{group___h_i_t_l_plugin_gaea21540d2b8699f845b5a6969e5254ba}
+
+
+\-Implements \hyperlink{group___h_i_t_l_plugin_ga2511a02773cadaf9c503a89172622837}{\-Simulator\-Creator}.
+
+
+
+\-Definition at line 64 of file il2simulator.\-h.
+
+\hypertarget{group___h_i_t_l_plugin_gae7287ea22cde35ce9042e313d9d7c14f}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!create\-Simulator@{create\-Simulator}}
+\index{create\-Simulator@{create\-Simulator}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{create\-Simulator}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Simulator}$\ast$ {\bf \-F\-G\-Simulator\-Creator\-::create\-Simulator} (
+\begin{DoxyParamCaption}
+\item[{const {\bf \-Simulator\-Settings} \&}]{params}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, virtual\mbox{]}}}}\label{group___h_i_t_l_plugin_gae7287ea22cde35ce9042e313d9d7c14f}
+
+
+\-Implements \hyperlink{group___h_i_t_l_plugin_ga2511a02773cadaf9c503a89172622837}{\-Simulator\-Creator}.
+
+
+
+\-Definition at line 65 of file fgsimulator.\-h.
+
+\hypertarget{group___h_i_t_l_plugin_ga25c808a48fec179504d84ef28fe8e762}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!create\-Simulator@{create\-Simulator}}
+\index{create\-Simulator@{create\-Simulator}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{create\-Simulator}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Simulator}$\ast$ {\bf \-Aero\-Sim\-R\-C\-Simulator\-Creator\-::create\-Simulator} (
+\begin{DoxyParamCaption}
+\item[{const {\bf \-Simulator\-Settings} \&}]{params}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, virtual\mbox{]}}}}\label{group___h_i_t_l_plugin_ga25c808a48fec179504d84ef28fe8e762}
+
+
+\-Implements \hyperlink{group___h_i_t_l_plugin_ga2511a02773cadaf9c503a89172622837}{\-Simulator\-Creator}.
+
+
+
+\-Definition at line 68 of file aerosimrcsimulator.\-h.
+
+\hypertarget{group___h_i_t_l_plugin_ga2511a02773cadaf9c503a89172622837}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!create\-Simulator@{create\-Simulator}}
+\index{create\-Simulator@{create\-Simulator}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{create\-Simulator}]{\setlength{\rightskip}{0pt plus 5cm}virtual {\bf \-Simulator}$\ast$ {\bf \-Simulator\-Creator\-::create\-Simulator} (
+\begin{DoxyParamCaption}
+\item[{const {\bf \-Simulator\-Settings} \&}]{params}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}pure virtual\mbox{]}}}}\label{group___h_i_t_l_plugin_ga2511a02773cadaf9c503a89172622837}
+
+
+\-Implemented in \hyperlink{class_xplane_simulator_creator_af7cd7c69acb5effb7d06e7e9236b4a95}{\-Xplane\-Simulator\-Creator}, \hyperlink{group___h_i_t_l_plugin_ga25c808a48fec179504d84ef28fe8e762}{\-Aero\-Sim\-R\-C\-Simulator\-Creator}, \hyperlink{group___h_i_t_l_plugin_gae7287ea22cde35ce9042e313d9d7c14f}{\-F\-G\-Simulator\-Creator}, and \hyperlink{group___h_i_t_l_plugin_gaea21540d2b8699f845b5a6969e5254ba}{\-I\-L2\-Simulator\-Creator}.
+
+\hypertarget{group___h_i_t_l_plugin_ga1ace675dc4a400f644b7e6f7506f65e9}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!\-Description@{\-Description}}
+\index{\-Description@{\-Description}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{\-Description}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Q\-String} {\bf \-Simulator\-Creator\-::\-Description} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___h_i_t_l_plugin_ga1ace675dc4a400f644b7e6f7506f65e9}
+
+
+\-Definition at line 355 of file simulator.\-h.
+
+\hypertarget{group___h_i_t_l_plugin_ga30d63de205d36f5e637e17ae3efb35cd}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!extensions\-Initialized@{extensions\-Initialized}}
+\index{extensions\-Initialized@{extensions\-Initialized}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{extensions\-Initialized}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-H\-I\-T\-L\-Plugin\-::extensions\-Initialized} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___h_i_t_l_plugin_ga30d63de205d36f5e637e17ae3efb35cd}
+\-Called after the \-I\-Plugin\-::initialize() method has been called, and after both the \-I\-Plugin\-::initialize() and \-I\-Plugin\-::extensions\-Initialized() methods of plugins that depend on this plugin have been called. \-In this method, the plugin can assume that plugins that depend on this plugin are fully 'up and running'. \-It is a good place to look in the plugin manager's object pool for objects that have been provided by dependent plugins. \begin{DoxySeeAlso}{\-See also}
+\hyperlink{group___h_i_t_l_plugin_ga113a69fc6f312ce4658d3c6266e3545f}{initialize()} 
+\end{DoxySeeAlso}
+
+
+\-Implements \hyperlink{class_extension_system_1_1_i_plugin_a1db3a7fb242fca02229f9a3be4fd6610}{\-Extension\-System\-::\-I\-Plugin}.
+
+
+
+\-Definition at line 66 of file hitlplugin.\-cpp.
+
+\hypertarget{group___h_i_t_l_plugin_gac56390412d899fc09748d050d06a7fab}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!\-F\-G\-Simulator@{\-F\-G\-Simulator}}
+\index{\-F\-G\-Simulator@{\-F\-G\-Simulator}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{\-F\-G\-Simulator}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-F\-G\-Simulator\-::\-F\-G\-Simulator} (
+\begin{DoxyParamCaption}
+\item[{const {\bf \-Simulator\-Settings} \&}]{params}
+\end{DoxyParamCaption}
+)}}\label{group___h_i_t_l_plugin_gac56390412d899fc09748d050d06a7fab}
+
+
+\-Definition at line 47 of file fgsimulator.\-cpp.
+
+\hypertarget{group___h_i_t_l_plugin_ga5a9c061b4c449fceecb71b3e00412cd3}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!\-F\-G\-Simulator\-Creator@{\-F\-G\-Simulator\-Creator}}
+\index{\-F\-G\-Simulator\-Creator@{\-F\-G\-Simulator\-Creator}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{\-F\-G\-Simulator\-Creator}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-F\-G\-Simulator\-Creator\-::\-F\-G\-Simulator\-Creator} (
+\begin{DoxyParamCaption}
+\item[{const {\bf \-Q\-String} \&}]{class\-Id, }
+\item[{const {\bf \-Q\-String} \&}]{description}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___h_i_t_l_plugin_ga5a9c061b4c449fceecb71b3e00412cd3}
+
+
+\-Definition at line 61 of file fgsimulator.\-h.
+
+\hypertarget{group___h_i_t_l_plugin_ga2a1b2e14f1c4d4cd1c5f63c1c906f06d}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!finish@{finish}}
+\index{finish@{finish}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{finish}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-H\-I\-T\-L\-Options\-Page\-::finish} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___h_i_t_l_plugin_ga2a1b2e14f1c4d4cd1c5f63c1c906f06d}
+
+
+\-Implements \hyperlink{group___core_plugin_ga47cf2602b6ee72a4971b1f0a4e1d887e}{\-Core\-::\-I\-Options\-Page}.
+
+
+
+\-Definition at line 175 of file hitloptionspage.\-cpp.
+
+\hypertarget{group___h_i_t_l_plugin_ga1492fee962eb0c1d6b48d8a4167d6d67}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!generate\-Noise@{generate\-Noise}}
+\index{generate\-Noise@{generate\-Noise}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{generate\-Noise}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Noise} {\bf \-Hitl\-Noise\-Generation\-::generate\-Noise} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___h_i_t_l_plugin_ga1492fee962eb0c1d6b48d8a4167d6d67}
+
+
+\-Definition at line 48 of file hitlnoisegeneration.\-cpp.
+
+\hypertarget{group___h_i_t_l_plugin_ga68df0005072e39f3a7208aa63944f4dd}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!get\-Air\-Parameters@{get\-Air\-Parameters}}
+\index{get\-Air\-Parameters@{get\-Air\-Parameters}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{get\-Air\-Parameters}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Air\-Parameters} {\bf \-Simulator\-::get\-Air\-Parameters} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___h_i_t_l_plugin_ga68df0005072e39f3a7208aa63944f4dd}
+
+
+\hyperlink{group___h_i_t_l_plugin_ga68df0005072e39f3a7208aa63944f4dd}{\-Simulator\-::get\-Air\-Parameters} get air parameters. 
+
+\begin{DoxyReturn}{\-Returns}
+air\-Parameters 
+\end{DoxyReturn}
+
+
+\-Definition at line 841 of file simulator.\-cpp.
+
+\hypertarget{group___h_i_t_l_plugin_ga48da3a2284408957fb754e0e4488ab16}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!get\-Noise@{get\-Noise}}
+\index{get\-Noise@{get\-Noise}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{get\-Noise}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Noise} {\bf \-Hitl\-Noise\-Generation\-::get\-Noise} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___h_i_t_l_plugin_ga48da3a2284408957fb754e0e4488ab16}
+
+
+\-Definition at line 44 of file hitlnoisegeneration.\-cpp.
+
+\hypertarget{group___h_i_t_l_plugin_gad74c7b21a8be7419684135b3f0498b01}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!get\-Simulator\-Creator@{get\-Simulator\-Creator}}
+\index{get\-Simulator\-Creator@{get\-Simulator\-Creator}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{get\-Simulator\-Creator}]{\setlength{\rightskip}{0pt plus 5cm}static {\bf \-Simulator\-Creator}$\ast$ {\bf \-H\-I\-T\-L\-Plugin\-::get\-Simulator\-Creator} (
+\begin{DoxyParamCaption}
+\item[{const {\bf \-Q\-String}}]{class\-Id}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, static\mbox{]}}}}\label{group___h_i_t_l_plugin_gad74c7b21a8be7419684135b3f0498b01}
+
+
+\-Definition at line 55 of file hitlplugin.\-h.
+
+\hypertarget{group___h_i_t_l_plugin_ga7d0ecee89fe45b55113d77ae668a7777}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!\-H\-I\-T\-L\-Configuration@{\-H\-I\-T\-L\-Configuration}}
+\index{\-H\-I\-T\-L\-Configuration@{\-H\-I\-T\-L\-Configuration}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{\-H\-I\-T\-L\-Configuration}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-H\-I\-T\-L\-Configuration\-::\-H\-I\-T\-L\-Configuration} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Q\-String}}]{class\-Id, }
+\item[{\-Q\-Settings $\ast$}]{q\-Settings = {\ttfamily 0}, }
+\item[{\-Q\-Object $\ast$}]{parent = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}explicit\mbox{]}}}}\label{group___h_i_t_l_plugin_ga7d0ecee89fe45b55113d77ae668a7777}
+
+
+\-Definition at line 31 of file hitlconfiguration.\-cpp.
+
+\hypertarget{group___h_i_t_l_plugin_ga855bda20fa1058c99d4d1aa499fe694e}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!\-H\-I\-T\-L\-Factory@{\-H\-I\-T\-L\-Factory}}
+\index{\-H\-I\-T\-L\-Factory@{\-H\-I\-T\-L\-Factory}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{\-H\-I\-T\-L\-Factory}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-H\-I\-T\-L\-Factory\-::\-H\-I\-T\-L\-Factory} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Object $\ast$}]{parent = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)}}\label{group___h_i_t_l_plugin_ga855bda20fa1058c99d4d1aa499fe694e}
+
+
+\-Definition at line 35 of file hitlfactory.\-cpp.
+
+\hypertarget{group___h_i_t_l_plugin_ga2d1233acc508f6fcd25061c0584d1bab}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!\-H\-I\-T\-L\-Gadget@{\-H\-I\-T\-L\-Gadget}}
+\index{\-H\-I\-T\-L\-Gadget@{\-H\-I\-T\-L\-Gadget}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{\-H\-I\-T\-L\-Gadget}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-H\-I\-T\-L\-Gadget\-::\-H\-I\-T\-L\-Gadget} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Q\-String}}]{class\-Id, }
+\item[{{\bf \-H\-I\-T\-L\-Widget} $\ast$}]{widget, }
+\item[{\-Q\-Widget $\ast$}]{parent = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)}}\label{group___h_i_t_l_plugin_ga2d1233acc508f6fcd25061c0584d1bab}
+
+
+\-Definition at line 33 of file hitlgadget.\-cpp.
+
+\hypertarget{group___h_i_t_l_plugin_ga1dab19a6599c296ffb839d1449789da2}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!\-Hitl\-Noise\-Generation@{\-Hitl\-Noise\-Generation}}
+\index{\-Hitl\-Noise\-Generation@{\-Hitl\-Noise\-Generation}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{\-Hitl\-Noise\-Generation}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Hitl\-Noise\-Generation\-::\-Hitl\-Noise\-Generation} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___h_i_t_l_plugin_ga1dab19a6599c296ffb839d1449789da2}
+
+
+\-Definition at line 34 of file hitlnoisegeneration.\-cpp.
+
+\hypertarget{group___h_i_t_l_plugin_ga6f316a1c3e3ee76ad5d8931dbc861194}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!\-H\-I\-T\-L\-Options\-Page@{\-H\-I\-T\-L\-Options\-Page}}
+\index{\-H\-I\-T\-L\-Options\-Page@{\-H\-I\-T\-L\-Options\-Page}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{\-H\-I\-T\-L\-Options\-Page}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-H\-I\-T\-L\-Options\-Page\-::\-H\-I\-T\-L\-Options\-Page} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-H\-I\-T\-L\-Configuration} $\ast$}]{conf, }
+\item[{\-Q\-Object $\ast$}]{parent = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}explicit\mbox{]}}}}\label{group___h_i_t_l_plugin_ga6f316a1c3e3ee76ad5d8931dbc861194}
+
+
+\-Definition at line 41 of file hitloptionspage.\-cpp.
+
+\hypertarget{group___h_i_t_l_plugin_ga0f1bfd313d4d0d404f51e34d8dbaacc5}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!\-H\-I\-T\-L\-Plugin@{\-H\-I\-T\-L\-Plugin}}
+\index{\-H\-I\-T\-L\-Plugin@{\-H\-I\-T\-L\-Plugin}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{\-H\-I\-T\-L\-Plugin}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-H\-I\-T\-L\-Plugin\-::\-H\-I\-T\-L\-Plugin} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___h_i_t_l_plugin_ga0f1bfd313d4d0d404f51e34d8dbaacc5}
+
+
+\-Definition at line 40 of file hitlplugin.\-cpp.
+
+\hypertarget{group___h_i_t_l_plugin_ga87da797826b0d587d7ed590e61741ca6}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!\-H\-I\-T\-L\-Widget@{\-H\-I\-T\-L\-Widget}}
+\index{\-H\-I\-T\-L\-Widget@{\-H\-I\-T\-L\-Widget}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{\-H\-I\-T\-L\-Widget}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-H\-I\-T\-L\-Widget\-::\-H\-I\-T\-L\-Widget} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Widget $\ast$}]{parent = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)}}\label{group___h_i_t_l_plugin_ga87da797826b0d587d7ed590e61741ca6}
+
+
+\-Definition at line 46 of file hitlwidget.\-cpp.
+
+\hypertarget{group___h_i_t_l_plugin_gae9b990b18a524ff0201db3bbd5608950}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!\-I\-L2\-Simulator@{\-I\-L2\-Simulator}}
+\index{\-I\-L2\-Simulator@{\-I\-L2\-Simulator}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{\-I\-L2\-Simulator}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-I\-L2\-Simulator\-::\-I\-L2\-Simulator} (
+\begin{DoxyParamCaption}
+\item[{const {\bf \-Simulator\-Settings} \&}]{params}
+\end{DoxyParamCaption}
+)}}\label{group___h_i_t_l_plugin_gae9b990b18a524ff0201db3bbd5608950}
+
+
+\-Definition at line 75 of file il2simulator.\-cpp.
+
+\hypertarget{group___h_i_t_l_plugin_ga48d82430e3d3b6b0cc8fb1ed921a5ad0}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!\-I\-L2\-Simulator\-Creator@{\-I\-L2\-Simulator\-Creator}}
+\index{\-I\-L2\-Simulator\-Creator@{\-I\-L2\-Simulator\-Creator}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{\-I\-L2\-Simulator\-Creator}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-I\-L2\-Simulator\-Creator\-::\-I\-L2\-Simulator\-Creator} (
+\begin{DoxyParamCaption}
+\item[{const {\bf \-Q\-String} \&}]{class\-Id, }
+\item[{const {\bf \-Q\-String} \&}]{description}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___h_i_t_l_plugin_ga48d82430e3d3b6b0cc8fb1ed921a5ad0}
+
+
+\-Definition at line 60 of file il2simulator.\-h.
+
+\hypertarget{group___h_i_t_l_plugin_ga113a69fc6f312ce4658d3c6266e3545f}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!initialize@{initialize}}
+\index{initialize@{initialize}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{initialize}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-H\-I\-T\-L\-Plugin\-::initialize} (
+\begin{DoxyParamCaption}
+\item[{const \-Q\-String\-List \&}]{arguments, }
+\item[{{\bf \-Q\-String} $\ast$}]{error\-String}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___h_i_t_l_plugin_ga113a69fc6f312ce4658d3c6266e3545f}
+\-Called after the plugin has been loaded and the \-I\-Plugin instance has been created. \-The initialize methods of plugins that depend on this plugin are called after the initialize method of this plugin has been called. \-Plugins should initialize their internal state in this method. \-Returns if initialization of successful. \-If it wasn't successful, the {\itshape error\-String\/} should be set to a user-\/readable message describing the reason. \begin{DoxySeeAlso}{\-See also}
+\hyperlink{group___h_i_t_l_plugin_ga30d63de205d36f5e637e17ae3efb35cd}{extensions\-Initialized()} 
+\end{DoxySeeAlso}
+
+
+\-Implements \hyperlink{class_extension_system_1_1_i_plugin_a9f3dc957317279daed393fdf4894e944}{\-Extension\-System\-::\-I\-Plugin}.
+
+
+
+\-Definition at line 50 of file hitlplugin.\-cpp.
+
+\hypertarget{group___h_i_t_l_plugin_ga7a56fe71f90b375de179eea6369025c9}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!\-Instances@{\-Instances}}
+\index{\-Instances@{\-Instances}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{\-Instances}]{\setlength{\rightskip}{0pt plus 5cm}static \-Q\-String\-List\& {\bf \-Simulator\-::\-Instances} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, static\mbox{]}}}}\label{group___h_i_t_l_plugin_ga7a56fe71f90b375de179eea6369025c9}
+
+
+\-Definition at line 241 of file simulator.\-h.
+
+\hypertarget{group___h_i_t_l_plugin_gae38ae2b9870e2eb3888b406ef069b0ac}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!is\-Autopilot\-Connected@{is\-Autopilot\-Connected}}
+\index{is\-Autopilot\-Connected@{is\-Autopilot\-Connected}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{is\-Autopilot\-Connected}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-Simulator\-::is\-Autopilot\-Connected} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___h_i_t_l_plugin_gae38ae2b9870e2eb3888b406ef069b0ac}
+
+
+\-Definition at line 225 of file simulator.\-h.
+
+\hypertarget{group___h_i_t_l_plugin_ga0f6209b81c7a24419e848b6740d72f24}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!is\-Decorated@{is\-Decorated}}
+\index{is\-Decorated@{is\-Decorated}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{is\-Decorated}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-H\-I\-T\-L\-Options\-Page\-::is\-Decorated} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___h_i_t_l_plugin_ga0f6209b81c7a24419e848b6740d72f24}
+
+
+\-Definition at line 55 of file hitloptionspage.\-h.
+
+\hypertarget{group___h_i_t_l_plugin_ga4736ea66352f66d9977879364f3c3c0a}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!is\-Simulator\-Connected@{is\-Simulator\-Connected}}
+\index{is\-Simulator\-Connected@{is\-Simulator\-Connected}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{is\-Simulator\-Connected}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-Simulator\-::is\-Simulator\-Connected} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___h_i_t_l_plugin_ga4736ea66352f66d9977879364f3c3c0a}
+
+
+\-Definition at line 226 of file simulator.\-h.
+
+\hypertarget{group___h_i_t_l_plugin_gab258fc4b0cfb2d1fc7cfc2e39f12295f}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!\-Is\-Started@{\-Is\-Started}}
+\index{\-Is\-Started@{\-Is\-Started}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{\-Is\-Started}]{\setlength{\rightskip}{0pt plus 5cm}static bool {\bf \-Simulator\-::\-Is\-Started} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, static\mbox{]}}}}\label{group___h_i_t_l_plugin_gab258fc4b0cfb2d1fc7cfc2e39f12295f}
+
+
+\-Definition at line 239 of file simulator.\-h.
+
+\hypertarget{group___h_i_t_l_plugin_gad490d49033c38f3e197628890c342634}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!load\-Configuration@{load\-Configuration}}
+\index{load\-Configuration@{load\-Configuration}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{load\-Configuration}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-H\-I\-T\-L\-Gadget\-::load\-Configuration} (
+\begin{DoxyParamCaption}
+\item[{\-I\-U\-A\-V\-Gadget\-Configuration $\ast$}]{config}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___h_i_t_l_plugin_gad490d49033c38f3e197628890c342634}
+
+
+\-Reimplemented from \hyperlink{group___core_plugin_gaaf60a82b8643f54a42381600c52bbe8a}{\-Core\-::\-I\-U\-A\-V\-Gadget}.
+
+
+
+\-Definition at line 45 of file hitlgadget.\-cpp.
+
+\hypertarget{group___h_i_t_l_plugin_ga40c6b40efb10e456ccedfdcd88d5988d}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!\-Name@{\-Name}}
+\index{\-Name@{\-Name}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{\-Name}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Q\-String} {\bf \-Simulator\-::\-Name} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___h_i_t_l_plugin_ga40c6b40efb10e456ccedfdcd88d5988d}
+
+
+\-Definition at line 227 of file simulator.\-h.
+
+\hypertarget{group___h_i_t_l_plugin_ga23bcac84c193a077fca82e61e250b99f}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!reset\-Initial\-Home\-Position@{reset\-Initial\-Home\-Position}}
+\index{reset\-Initial\-Home\-Position@{reset\-Initial\-Home\-Position}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{reset\-Initial\-Home\-Position}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Simulator\-::reset\-Initial\-Home\-Position} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___h_i_t_l_plugin_ga23bcac84c193a077fca82e61e250b99f}
+
+
+\-Definition at line 405 of file simulator.\-cpp.
+
+\hypertarget{group___h_i_t_l_plugin_ga8ae31be95aaf6385511e9387aa0a49b3}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!save\-Config@{save\-Config}}
+\index{save\-Config@{save\-Config}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{save\-Config}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-H\-I\-T\-L\-Configuration\-::save\-Config} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Settings $\ast$}]{q\-Settings}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___h_i_t_l_plugin_ga8ae31be95aaf6385511e9387aa0a49b3}
+\-Saves a configuration. 
+
+\-Reimplemented from \hyperlink{group___core_plugin_gadd755520091c21c0ce09973c5bbdb7a9}{\-Core\-::\-I\-U\-A\-V\-Gadget\-Configuration}.
+
+
+
+\-Definition at line 142 of file hitlconfiguration.\-cpp.
+
+\hypertarget{group___h_i_t_l_plugin_ga2425318c670bb0ddcba4dcf35f891bee}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!set\-Air\-Parameters@{set\-Air\-Parameters}}
+\index{set\-Air\-Parameters@{set\-Air\-Parameters}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{set\-Air\-Parameters}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Simulator\-::set\-Air\-Parameters} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Air\-Parameters}}]{air\-Parameters}
+\end{DoxyParamCaption}
+)}}\label{group___h_i_t_l_plugin_ga2425318c670bb0ddcba4dcf35f891bee}
+
+
+\hyperlink{group___h_i_t_l_plugin_ga2425318c670bb0ddcba4dcf35f891bee}{\-Simulator\-::set\-Air\-Parameters} set air parameters. 
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em air\-Parameters} & \\
+\hline
+\end{DoxyParams}
+
+
+\-Definition at line 849 of file simulator.\-cpp.
+
+\hypertarget{group___h_i_t_l_plugin_ga8f691dedcee72e956c36f52009718cad}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!set\-Instance@{set\-Instance}}
+\index{set\-Instance@{set\-Instance}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{set\-Instance}]{\setlength{\rightskip}{0pt plus 5cm}static {\bf void} {\bf \-Simulator\-::set\-Instance} (
+\begin{DoxyParamCaption}
+\item[{const {\bf \-Q\-String} \&}]{str}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, static\mbox{]}}}}\label{group___h_i_t_l_plugin_ga8f691dedcee72e956c36f52009718cad}
+
+
+\-Definition at line 242 of file simulator.\-h.
+
+\hypertarget{group___h_i_t_l_plugin_ga11bc3ca9ef98431bcb82d8b72ad127b8}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!set\-Name@{set\-Name}}
+\index{set\-Name@{set\-Name}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{set\-Name}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Simulator\-::set\-Name} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Q\-String}}]{str}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___h_i_t_l_plugin_ga11bc3ca9ef98431bcb82d8b72ad127b8}
+
+
+\-Definition at line 228 of file simulator.\-h.
+
+\hypertarget{group___h_i_t_l_plugin_ga31d53f47fdb03b2ef1c879fa4e55ba53}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!set\-Setting\-Parameters@{set\-Setting\-Parameters}}
+\index{set\-Setting\-Parameters@{set\-Setting\-Parameters}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{set\-Setting\-Parameters}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-H\-I\-T\-L\-Widget\-::set\-Setting\-Parameters} (
+\begin{DoxyParamCaption}
+\item[{const {\bf \-Simulator\-Settings} \&}]{params}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___h_i_t_l_plugin_ga31d53f47fdb03b2ef1c879fa4e55ba53}
+
+
+\-Definition at line 46 of file hitlwidget.\-h.
+
+\hypertarget{group___h_i_t_l_plugin_ga7c1b69b9900d1cb7e5b849f98adf0f9c}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!set\-Simulator\-Id@{set\-Simulator\-Id}}
+\index{set\-Simulator\-Id@{set\-Simulator\-Id}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{set\-Simulator\-Id}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Simulator\-::set\-Simulator\-Id} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Q\-String}}]{str}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___h_i_t_l_plugin_ga7c1b69b9900d1cb7e5b849f98adf0f9c}
+
+
+\-Definition at line 231 of file simulator.\-h.
+
+\hypertarget{group___h_i_t_l_plugin_ga077a3be12724a8b465c5ed557abbca33}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!set\-Started@{set\-Started}}
+\index{set\-Started@{set\-Started}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{set\-Started}]{\setlength{\rightskip}{0pt plus 5cm}static {\bf void} {\bf \-Simulator\-::set\-Started} (
+\begin{DoxyParamCaption}
+\item[{bool}]{val}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, static\mbox{]}}}}\label{group___h_i_t_l_plugin_ga077a3be12724a8b465c5ed557abbca33}
+
+
+\-Definition at line 240 of file simulator.\-h.
+
+\hypertarget{group___h_i_t_l_plugin_ga993f772c2a086edf053d851849caa984}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!\-Settings@{\-Settings}}
+\index{\-Settings@{\-Settings}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{\-Settings}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Simulator\-Settings} {\bf \-H\-I\-T\-L\-Configuration\-::\-Settings} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___h_i_t_l_plugin_ga993f772c2a086edf053d851849caa984}
+
+
+\-Definition at line 53 of file hitlconfiguration.\-h.
+
+\hypertarget{group___h_i_t_l_plugin_ga704da6f44b2b3538b2e1c3239cb2a76c}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!setup\-Process@{setup\-Process}}
+\index{setup\-Process@{setup\-Process}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{setup\-Process}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-F\-G\-Simulator\-::setup\-Process} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___h_i_t_l_plugin_ga704da6f44b2b3538b2e1c3239cb2a76c}
+
+
+\-Reimplemented from \hyperlink{group___h_i_t_l_plugin_ga25516220ab21d874ae00dd9a21c3e313}{\-Simulator}.
+
+
+
+\-Definition at line 69 of file fgsimulator.\-cpp.
+
+\hypertarget{group___h_i_t_l_plugin_ga3818193fd63bfaf004e3aab25491f28c}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!setup\-Process@{setup\-Process}}
+\index{setup\-Process@{setup\-Process}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{setup\-Process}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-Xplane\-Simulator\-::setup\-Process} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___h_i_t_l_plugin_ga3818193fd63bfaf004e3aab25491f28c}
+
+
+\-Reimplemented from \hyperlink{group___h_i_t_l_plugin_ga25516220ab21d874ae00dd9a21c3e313}{\-Simulator}.
+
+
+
+\-Definition at line 93 of file xplanesimulator.\-cpp.
+
+\hypertarget{group___h_i_t_l_plugin_gae47d5533f13e5ad9a6095ba2bc61bade}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!setup\-Process@{setup\-Process}}
+\index{setup\-Process@{setup\-Process}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{setup\-Process}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-Aero\-Sim\-R\-C\-Simulator\-::setup\-Process} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___h_i_t_l_plugin_gae47d5533f13e5ad9a6095ba2bc61bade}
+
+
+\-Reimplemented from \hyperlink{group___h_i_t_l_plugin_ga25516220ab21d874ae00dd9a21c3e313}{\-Simulator}.
+
+
+
+\-Definition at line 45 of file aerosimrcsimulator.\-cpp.
+
+\hypertarget{group___h_i_t_l_plugin_ga806877c20e5dc15efd67bb1c5e4f0710}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!setup\-Udp\-Ports@{setup\-Udp\-Ports}}
+\index{setup\-Udp\-Ports@{setup\-Udp\-Ports}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{setup\-Udp\-Ports}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-F\-G\-Simulator\-::setup\-Udp\-Ports} (
+\begin{DoxyParamCaption}
+\item[{const {\bf \-Q\-String} \&}]{host, }
+\item[{int}]{in\-Port, }
+\item[{int}]{out\-Port}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___h_i_t_l_plugin_ga806877c20e5dc15efd67bb1c5e4f0710}
+
+
+\-Reimplemented from \hyperlink{group___h_i_t_l_plugin_ga106e46211d3a00bd4a7b3b3918b23f63}{\-Simulator}.
+
+
+
+\-Definition at line 59 of file fgsimulator.\-cpp.
+
+\hypertarget{group___h_i_t_l_plugin_ga84ae33286060d1b0d834fa2b5f20e2fe}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!setup\-Udp\-Ports@{setup\-Udp\-Ports}}
+\index{setup\-Udp\-Ports@{setup\-Udp\-Ports}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{setup\-Udp\-Ports}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Xplane\-Simulator\-::setup\-Udp\-Ports} (
+\begin{DoxyParamCaption}
+\item[{const {\bf \-Q\-String} \&}]{host, }
+\item[{int}]{in\-Port, }
+\item[{int}]{out\-Port}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___h_i_t_l_plugin_ga84ae33286060d1b0d834fa2b5f20e2fe}
+
+
+\-Reimplemented from \hyperlink{group___h_i_t_l_plugin_ga106e46211d3a00bd4a7b3b3918b23f63}{\-Simulator}.
+
+
+
+\-Definition at line 83 of file xplanesimulator.\-cpp.
+
+\hypertarget{group___h_i_t_l_plugin_ga26c1964cdb6c16877509250d1ba197c7}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!setup\-Udp\-Ports@{setup\-Udp\-Ports}}
+\index{setup\-Udp\-Ports@{setup\-Udp\-Ports}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{setup\-Udp\-Ports}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-I\-L2\-Simulator\-::setup\-Udp\-Ports} (
+\begin{DoxyParamCaption}
+\item[{const {\bf \-Q\-String} \&}]{host, }
+\item[{int}]{in\-Port, }
+\item[{int}]{out\-Port}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___h_i_t_l_plugin_ga26c1964cdb6c16877509250d1ba197c7}
+
+
+\-Reimplemented from \hyperlink{group___h_i_t_l_plugin_ga106e46211d3a00bd4a7b3b3918b23f63}{\-Simulator}.
+
+
+
+\-Definition at line 86 of file il2simulator.\-cpp.
+
+\hypertarget{group___h_i_t_l_plugin_ga593e2c3f1a4b5e541f32668be73ece6d}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!setup\-Udp\-Ports@{setup\-Udp\-Ports}}
+\index{setup\-Udp\-Ports@{setup\-Udp\-Ports}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{setup\-Udp\-Ports}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Aero\-Sim\-R\-C\-Simulator\-::setup\-Udp\-Ports} (
+\begin{DoxyParamCaption}
+\item[{const {\bf \-Q\-String} \&}]{host, }
+\item[{int}]{in\-Port, }
+\item[{int}]{out\-Port}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___h_i_t_l_plugin_ga593e2c3f1a4b5e541f32668be73ece6d}
+
+
+\-Reimplemented from \hyperlink{group___h_i_t_l_plugin_ga106e46211d3a00bd4a7b3b3918b23f63}{\-Simulator}.
+
+
+
+\-Definition at line 51 of file aerosimrcsimulator.\-cpp.
+
+\hypertarget{group___h_i_t_l_plugin_ga106e46211d3a00bd4a7b3b3918b23f63}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!setup\-Udp\-Ports@{setup\-Udp\-Ports}}
+\index{setup\-Udp\-Ports@{setup\-Udp\-Ports}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{setup\-Udp\-Ports}]{\setlength{\rightskip}{0pt plus 5cm}virtual {\bf void} {\bf \-Simulator\-::setup\-Udp\-Ports} (
+\begin{DoxyParamCaption}
+\item[{const {\bf \-Q\-String} \&}]{host, }
+\item[{int}]{in\-Port, }
+\item[{int}]{out\-Port}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, virtual\mbox{]}}}}\label{group___h_i_t_l_plugin_ga106e46211d3a00bd4a7b3b3918b23f63}
+
+
+\-Reimplemented in \hyperlink{group___h_i_t_l_plugin_ga593e2c3f1a4b5e541f32668be73ece6d}{\-Aero\-Sim\-R\-C\-Simulator}, \hyperlink{group___h_i_t_l_plugin_ga26c1964cdb6c16877509250d1ba197c7}{\-I\-L2\-Simulator}, \hyperlink{group___h_i_t_l_plugin_ga84ae33286060d1b0d834fa2b5f20e2fe}{\-Xplane\-Simulator}, and \hyperlink{group___h_i_t_l_plugin_ga806877c20e5dc15efd67bb1c5e4f0710}{\-F\-G\-Simulator}.
+
+
+
+\-Definition at line 245 of file simulator.\-h.
+
+\hypertarget{group___h_i_t_l_plugin_gadc35670ca57c30770f97bf6e95e9297b}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!shutdown@{shutdown}}
+\index{shutdown@{shutdown}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{shutdown}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-H\-I\-T\-L\-Plugin\-::shutdown} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___h_i_t_l_plugin_gadc35670ca57c30770f97bf6e95e9297b}
+\-Called during a shutdown sequence in the same order as initialization before the plugins get deleted in reverse order. \-This method can be used to optimize the shutdown down, e.\-g. to disconnect from the \-Plugin\-Manager\-::about\-To\-Remove\-Object() signal if getting the signal (and probably doing lots of stuff to update the internal and visible state) doesn't make sense during shutdown. 
+
+\-Reimplemented from \hyperlink{class_extension_system_1_1_i_plugin_a65c16ebd3a6e89918a99af6515fe68cb}{\-Extension\-System\-::\-I\-Plugin}.
+
+
+
+\-Definition at line 71 of file hitlplugin.\-cpp.
+
+\hypertarget{group___h_i_t_l_plugin_ga8599e13b1f45081a08b7dd1f8c2a988b}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!\-Simulator@{\-Simulator}}
+\index{\-Simulator@{\-Simulator}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{\-Simulator}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Simulator\-::\-Simulator} (
+\begin{DoxyParamCaption}
+\item[{const {\bf \-Simulator\-Settings} \&}]{params}
+\end{DoxyParamCaption}
+)}}\label{group___h_i_t_l_plugin_ga8599e13b1f45081a08b7dd1f8c2a988b}
+
+
+\-Definition at line 41 of file simulator.\-cpp.
+
+\hypertarget{group___h_i_t_l_plugin_gad78ac7b6a64456e259fcb9aba94f4947}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!\-Simulator\-Creator@{\-Simulator\-Creator}}
+\index{\-Simulator\-Creator@{\-Simulator\-Creator}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{\-Simulator\-Creator}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Simulator\-Creator\-::\-Simulator\-Creator} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Q\-String}}]{id, }
+\item[{{\bf \-Q\-String}}]{descr}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___h_i_t_l_plugin_gad78ac7b6a64456e259fcb9aba94f4947}
+
+
+\-Definition at line 348 of file simulator.\-h.
+
+\hypertarget{group___h_i_t_l_plugin_gac518ebc236c9f36b629c1145408315aa}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!\-Simulator\-Id@{\-Simulator\-Id}}
+\index{\-Simulator\-Id@{\-Simulator\-Id}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{\-Simulator\-Id}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Q\-String} {\bf \-Simulator\-::\-Simulator\-Id} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___h_i_t_l_plugin_gac518ebc236c9f36b629c1145408315aa}
+
+
+\-Definition at line 230 of file simulator.\-h.
+
+\hypertarget{group___h_i_t_l_plugin_ga12b351ec9ec8410a28d4f0f3d04ef9b6}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!stop\-Process@{stop\-Process}}
+\index{stop\-Process@{stop\-Process}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{stop\-Process}]{\setlength{\rightskip}{0pt plus 5cm}virtual {\bf void} {\bf \-Simulator\-::stop\-Process} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, virtual\mbox{]}}}}\label{group___h_i_t_l_plugin_ga12b351ec9ec8410a28d4f0f3d04ef9b6}
+
+
+\-Definition at line 244 of file simulator.\-h.
+
+\hypertarget{group___h_i_t_l_plugin_gaf6d17454fad82383037d44ed3cb93a12}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!tas2cas@{tas2cas}}
+\index{tas2cas@{tas2cas}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{tas2cas}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf \-Simulator\-::tas2cas} (
+\begin{DoxyParamCaption}
+\item[{float}]{\-T\-A\-S, }
+\item[{float}]{alt, }
+\item[{{\bf \-Air\-Parameters}}]{air, }
+\item[{float}]{gravity}
+\end{DoxyParamCaption}
+)}}\label{group___h_i_t_l_plugin_gaf6d17454fad82383037d44ed3cb93a12}
+
+
+\hyperlink{group___h_i_t_l_plugin_gaf6d17454fad82383037d44ed3cb93a12}{\-Simulator\-::tas2cas} calculate \-C\-A\-S from \-T\-A\-S and altitude. \href{http://en.wikipedia.org/wiki/Airspeed}{\tt http\-://en.\-wikipedia.\-org/wiki/\-Airspeed}. 
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em \-T\-A\-S} & \-True airspeed \\
+\hline
+{\em alt} & altitude \\
+\hline
+{\em air} & atmospheric conditions \\
+\hline
+{\em gravity} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+\-Calibrated airspeed 
+\end{DoxyReturn}
+
+
+\-Definition at line 831 of file simulator.\-cpp.
+
+\hypertarget{group___h_i_t_l_plugin_ga5b9f24733c0869a10f3ff9ccd27fc6d2}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!\-Trace\-Buf@{\-Trace\-Buf}}
+\index{\-Trace\-Buf@{\-Trace\-Buf}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{\-Trace\-Buf}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Trace\-Buf} (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{buf, }
+\item[{int}]{len}
+\end{DoxyParamCaption}
+)}}\label{group___h_i_t_l_plugin_ga5b9f24733c0869a10f3ff9ccd27fc6d2}
+\-Description of \-X-\/\-Plane \-Protocol\-:
+
+\-To see what data can be sended/recieved to/from \-X-\/\-Plane, launch \-X-\/\-Plane -\/$>$ goto main menu (cursor at top of main \-X-\/\-Plane window) -\/$>$ \hyperlink{class_settings}{\-Settings} -\/$>$ \-Data \-Input and \-Output -\/$>$ \-Data \-Set. \-Data \-Set shown all \-X-\/\-Plane params, each row has four checkbox\-: 1st check -\/ out to \-U\-D\-P; 4 check -\/ show on screen \-All the \-U\-D\-P messages for \-X-\/\-Plane have the same format, which is\-: 5-\/character \-M\-E\-S\-S\-A\-G\-E \-P\-R\-O\-L\-O\-U\-G\-E (to indicate the type of message) and then a \-D\-A\-T\-A \-I\-N\-P\-U\-T \-S\-T\-R\-U\-C\-T\-U\-R\-E (containing the message data that you want to send or receive)
+
+\-D\-A\-T\-A \-I\-N\-P\-U\-T/\-O\-U\-T\-P\-U\-T \-S\-T\-R\-U\-C\-T\-U\-R\-E is the following stuct\-:
+
+struct data\-\_\-struct \{ int index; // data index, the index into the list of variables you can output from the \-Data \-Output screen in \-X-\/\-Plane. float data\mbox{[}8\mbox{]}; // the up to 8 numbers you see in the data output screen associated with that selection.. many outputs do not use all 8, though. \};
+
+\-For \-Example, update of aileron/elevon/rudder in \-X-\/\-Plane (11 row in \-Data \-Set) bytes value description \mbox{[}0-\/3\mbox{]} \-D\-A\-T\-A message type \mbox{[}4\mbox{]} none no matter \mbox{[}5-\/8\mbox{]} 11 code of setting param(row in Data Set) \mbox{[}9-\/41\mbox{]} data message data (8 float values) total size\-: 41 byte 
+
+\-Definition at line 370 of file xplanesimulator.\-cpp.
+
+\hypertarget{group___h_i_t_l_plugin_gad1625bf27fadfc6a51218ad76d9926a6}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!update\-U\-A\-V\-Os@{update\-U\-A\-V\-Os}}
+\index{update\-U\-A\-V\-Os@{update\-U\-A\-V\-Os}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{update\-U\-A\-V\-Os}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Simulator\-::update\-U\-A\-V\-Os} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Output2\-Hardware}}]{out}
+\end{DoxyParamCaption}
+)}}\label{group___h_i_t_l_plugin_gad1625bf27fadfc6a51218ad76d9926a6}
+
+
+\-Definition at line 410 of file simulator.\-cpp.
+
+\hypertarget{group___h_i_t_l_plugin_ga98f16ca8c766c1cd037af671c7f843be}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!widget@{widget}}
+\index{widget@{widget}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{widget}]{\setlength{\rightskip}{0pt plus 5cm}\-Q\-Widget$\ast$ {\bf \-H\-I\-T\-L\-Gadget\-::widget} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, virtual\mbox{]}}}}\label{group___h_i_t_l_plugin_ga98f16ca8c766c1cd037af671c7f843be}
+
+
+\-Implements \hyperlink{group___core_plugin_gac74c76eef51e24e62a333fe0fd940cf6}{\-Core\-::\-I\-U\-A\-V\-Gadget}.
+
+
+
+\-Definition at line 48 of file hitlgadget.\-h.
+
+\hypertarget{group___h_i_t_l_plugin_ga5832264c593dd9f80ac14145b83c28c9}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!\-Xplane\-Simulator@{\-Xplane\-Simulator}}
+\index{\-Xplane\-Simulator@{\-Xplane\-Simulator}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{\-Xplane\-Simulator}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Xplane\-Simulator\-::\-Xplane\-Simulator} (
+\begin{DoxyParamCaption}
+\item[{const {\bf \-Simulator\-Settings} \&}]{params}
+\end{DoxyParamCaption}
+)}}\label{group___h_i_t_l_plugin_ga5832264c593dd9f80ac14145b83c28c9}
+
+
+\-Definition at line 72 of file xplanesimulator.\-cpp.
+
+\hypertarget{group___h_i_t_l_plugin_ga8627049b9a905adb162384c682255bd3}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!$\sim$\-Aero\-Sim\-R\-C\-Simulator@{$\sim$\-Aero\-Sim\-R\-C\-Simulator}}
+\index{$\sim$\-Aero\-Sim\-R\-C\-Simulator@{$\sim$\-Aero\-Sim\-R\-C\-Simulator}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{$\sim$\-Aero\-Sim\-R\-C\-Simulator}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Aero\-Sim\-R\-C\-Simulator\-::$\sim$\-Aero\-Sim\-R\-C\-Simulator} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___h_i_t_l_plugin_ga8627049b9a905adb162384c682255bd3}
+
+
+\-Definition at line 41 of file aerosimrcsimulator.\-cpp.
+
+\hypertarget{group___h_i_t_l_plugin_ga379c8b16215b0b40514c3b522fabf816}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!$\sim$\-F\-G\-Simulator@{$\sim$\-F\-G\-Simulator}}
+\index{$\sim$\-F\-G\-Simulator@{$\sim$\-F\-G\-Simulator}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{$\sim$\-F\-G\-Simulator}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-F\-G\-Simulator\-::$\sim$\-F\-G\-Simulator} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___h_i_t_l_plugin_ga379c8b16215b0b40514c3b522fabf816}
+
+
+\-Definition at line 54 of file fgsimulator.\-cpp.
+
+\hypertarget{group___h_i_t_l_plugin_ga823205c59cff49942e94bc11bb2c4050}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!$\sim$\-H\-I\-T\-L\-Factory@{$\sim$\-H\-I\-T\-L\-Factory}}
+\index{$\sim$\-H\-I\-T\-L\-Factory@{$\sim$\-H\-I\-T\-L\-Factory}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{$\sim$\-H\-I\-T\-L\-Factory}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-H\-I\-T\-L\-Factory\-::$\sim$\-H\-I\-T\-L\-Factory} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___h_i_t_l_plugin_ga823205c59cff49942e94bc11bb2c4050}
+
+
+\-Definition at line 41 of file hitlfactory.\-cpp.
+
+\hypertarget{group___h_i_t_l_plugin_ga92376558188a3a1fdff609f2641758e7}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!$\sim$\-H\-I\-T\-L\-Gadget@{$\sim$\-H\-I\-T\-L\-Gadget}}
+\index{$\sim$\-H\-I\-T\-L\-Gadget@{$\sim$\-H\-I\-T\-L\-Gadget}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{$\sim$\-H\-I\-T\-L\-Gadget}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-H\-I\-T\-L\-Gadget\-::$\sim$\-H\-I\-T\-L\-Gadget} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___h_i_t_l_plugin_ga92376558188a3a1fdff609f2641758e7}
+
+
+\-Definition at line 40 of file hitlgadget.\-cpp.
+
+\hypertarget{group___h_i_t_l_plugin_ga86eb1b28193cc2594ee5bd38658eb06a}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!$\sim$\-Hitl\-Noise\-Generation@{$\sim$\-Hitl\-Noise\-Generation}}
+\index{$\sim$\-Hitl\-Noise\-Generation@{$\sim$\-Hitl\-Noise\-Generation}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{$\sim$\-Hitl\-Noise\-Generation}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Hitl\-Noise\-Generation\-::$\sim$\-Hitl\-Noise\-Generation} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___h_i_t_l_plugin_ga86eb1b28193cc2594ee5bd38658eb06a}
+
+
+\-Definition at line 40 of file hitlnoisegeneration.\-cpp.
+
+\hypertarget{group___h_i_t_l_plugin_ga371454242ad0b7e52024243ec91c7d13}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!$\sim$\-H\-I\-T\-L\-Plugin@{$\sim$\-H\-I\-T\-L\-Plugin}}
+\index{$\sim$\-H\-I\-T\-L\-Plugin@{$\sim$\-H\-I\-T\-L\-Plugin}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{$\sim$\-H\-I\-T\-L\-Plugin}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-H\-I\-T\-L\-Plugin\-::$\sim$\-H\-I\-T\-L\-Plugin} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___h_i_t_l_plugin_ga371454242ad0b7e52024243ec91c7d13}
+
+
+\-Definition at line 45 of file hitlplugin.\-cpp.
+
+\hypertarget{group___h_i_t_l_plugin_gad53ecce8b7088bb11049d62819ff96f4}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!$\sim$\-H\-I\-T\-L\-Widget@{$\sim$\-H\-I\-T\-L\-Widget}}
+\index{$\sim$\-H\-I\-T\-L\-Widget@{$\sim$\-H\-I\-T\-L\-Widget}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{$\sim$\-H\-I\-T\-L\-Widget}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-H\-I\-T\-L\-Widget\-::$\sim$\-H\-I\-T\-L\-Widget} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___h_i_t_l_plugin_gad53ecce8b7088bb11049d62819ff96f4}
+
+
+\-Definition at line 71 of file hitlwidget.\-cpp.
+
+\hypertarget{group___h_i_t_l_plugin_gaa5f298fa31201781813a733316fc02e4}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!$\sim$\-I\-L2\-Simulator@{$\sim$\-I\-L2\-Simulator}}
+\index{$\sim$\-I\-L2\-Simulator@{$\sim$\-I\-L2\-Simulator}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{$\sim$\-I\-L2\-Simulator}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-I\-L2\-Simulator\-::$\sim$\-I\-L2\-Simulator} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___h_i_t_l_plugin_gaa5f298fa31201781813a733316fc02e4}
+
+
+\-Definition at line 82 of file il2simulator.\-cpp.
+
+\hypertarget{group___h_i_t_l_plugin_ga0f49aa04f42060a785adf77346b9de9f}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!$\sim$\-Simulator@{$\sim$\-Simulator}}
+\index{$\sim$\-Simulator@{$\sim$\-Simulator}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{$\sim$\-Simulator}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Simulator\-::$\sim$\-Simulator} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___h_i_t_l_plugin_ga0f49aa04f42060a785adf77346b9de9f}
+
+
+\-Definition at line 79 of file simulator.\-cpp.
+
+\hypertarget{group___h_i_t_l_plugin_ga07d44da289771bf1bc8cf9dd01d5cb13}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!$\sim$\-Simulator\-Creator@{$\sim$\-Simulator\-Creator}}
+\index{$\sim$\-Simulator\-Creator@{$\sim$\-Simulator\-Creator}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{$\sim$\-Simulator\-Creator}]{\setlength{\rightskip}{0pt plus 5cm}virtual {\bf \-Simulator\-Creator\-::$\sim$\-Simulator\-Creator} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, virtual\mbox{]}}}}\label{group___h_i_t_l_plugin_ga07d44da289771bf1bc8cf9dd01d5cb13}
+
+
+\-Definition at line 352 of file simulator.\-h.
+
+\hypertarget{group___h_i_t_l_plugin_ga0254db12886ca7e399e2d27fef9e185a}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!$\sim$\-Xplane\-Simulator@{$\sim$\-Xplane\-Simulator}}
+\index{$\sim$\-Xplane\-Simulator@{$\sim$\-Xplane\-Simulator}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{$\sim$\-Xplane\-Simulator}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Xplane\-Simulator\-::$\sim$\-Xplane\-Simulator} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___h_i_t_l_plugin_ga0254db12886ca7e399e2d27fef9e185a}
+
+
+\-Definition at line 79 of file xplanesimulator.\-cpp.
+
+
+
+\subsection{\-Variable \-Documentation}
+\hypertarget{group___h_i_t_l_plugin_ga20a9e1e87d0a44b532c7e8c44555bdde}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!accel\-Data@{accel\-Data}}
+\index{accel\-Data@{accel\-Data}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{accel\-Data}]{\setlength{\rightskip}{0pt plus 5cm}\-Accels\-::\-Data\-Fields {\bf \-Noise\-::accel\-Data}}}\label{group___h_i_t_l_plugin_ga20a9e1e87d0a44b532c7e8c44555bdde}
+
+
+\-Definition at line 41 of file hitlnoisegeneration.\-h.
+
+\hypertarget{group___h_i_t_l_plugin_ga35cb24cdab1cfc0d1720b5b58fd0254f}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!accels@{accels}}
+\index{accels@{accels}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{accels}]{\setlength{\rightskip}{0pt plus 5cm}\-Accels$\ast$ {\bf \-Simulator\-::accels}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{group___h_i_t_l_plugin_ga35cb24cdab1cfc0d1720b5b58fd0254f}
+
+
+\-Definition at line 294 of file simulator.\-h.
+
+\hypertarget{group___h_i_t_l_plugin_gaf15a299d1ff6f64a04c72d9ef5bf3860}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!acc\-X@{acc\-X}}
+\index{acc\-X@{acc\-X}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{acc\-X}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf \-Output2\-Hardware\-::acc\-X}}}\label{group___h_i_t_l_plugin_gaf15a299d1ff6f64a04c72d9ef5bf3860}
+
+
+\-Definition at line 188 of file simulator.\-h.
+
+\hypertarget{group___h_i_t_l_plugin_ga3ce16295c4d5bfc0a4938f0120d946c4}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!acc\-Y@{acc\-Y}}
+\index{acc\-Y@{acc\-Y}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{acc\-Y}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf \-Output2\-Hardware\-::acc\-Y}}}\label{group___h_i_t_l_plugin_ga3ce16295c4d5bfc0a4938f0120d946c4}
+
+
+\-Definition at line 189 of file simulator.\-h.
+
+\hypertarget{group___h_i_t_l_plugin_ga8565b780814dd8fddf28e4018256356a}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!acc\-Z@{acc\-Z}}
+\index{acc\-Z@{acc\-Z}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{acc\-Z}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf \-Output2\-Hardware\-::acc\-Z}}}\label{group___h_i_t_l_plugin_ga8565b780814dd8fddf28e4018256356a}
+
+
+\-Definition at line 190 of file simulator.\-h.
+
+\hypertarget{group___h_i_t_l_plugin_ga9362d7e2619934460d6f8070496d336f}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!act\-Command@{act\-Command}}
+\index{act\-Command@{act\-Command}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{act\-Command}]{\setlength{\rightskip}{0pt plus 5cm}\-Actuator\-Command$\ast$ {\bf \-Simulator\-::act\-Command}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{group___h_i_t_l_plugin_ga9362d7e2619934460d6f8070496d336f}
+
+
+\-Definition at line 281 of file simulator.\-h.
+
+\hypertarget{group___h_i_t_l_plugin_ga0d3c230504eb051a77593129ea6cd79f}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!add\-Noise@{add\-Noise}}
+\index{add\-Noise@{add\-Noise}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{add\-Noise}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-\_\-\-C\-O\-N\-N\-E\-C\-T\-I\-O\-N\-::add\-Noise}}}\label{group___h_i_t_l_plugin_ga0d3c230504eb051a77593129ea6cd79f}
+
+
+\-Definition at line 133 of file simulator.\-h.
+
+\hypertarget{group___h_i_t_l_plugin_ga40e8c62b6079618b6541408ce3dafe0c}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!agl@{agl}}
+\index{agl@{agl}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{agl}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf \-Output2\-Hardware\-::agl}}}\label{group___h_i_t_l_plugin_ga40e8c62b6079618b6541408ce3dafe0c}
+
+
+\-Definition at line 171 of file simulator.\-h.
+
+\hypertarget{group___h_i_t_l_plugin_ga6481423a6f6cc57475e660281ba3d77d}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!airspeed\-Actual@{airspeed\-Actual}}
+\index{airspeed\-Actual@{airspeed\-Actual}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{airspeed\-Actual}]{\setlength{\rightskip}{0pt plus 5cm}\-Airspeed\-Actual\-::\-Data\-Fields {\bf \-Noise\-::airspeed\-Actual}}}\label{group___h_i_t_l_plugin_ga6481423a6f6cc57475e660281ba3d77d}
+
+
+\-Definition at line 44 of file hitlnoisegeneration.\-h.
+
+\hypertarget{group___h_i_t_l_plugin_gadba0d3a66c5a15e0027b7d95fc9498b4}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!airspeed\-Actual@{airspeed\-Actual}}
+\index{airspeed\-Actual@{airspeed\-Actual}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{airspeed\-Actual}]{\setlength{\rightskip}{0pt plus 5cm}\-Airspeed\-Actual$\ast$ {\bf \-Simulator\-::airspeed\-Actual}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{group___h_i_t_l_plugin_gadba0d3a66c5a15e0027b7d95fc9498b4}
+
+
+\-Definition at line 286 of file simulator.\-h.
+
+\hypertarget{group___h_i_t_l_plugin_ga8fc341e96193fe41625a04a534a16387}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!airspeed\-Actual\-Enabled@{airspeed\-Actual\-Enabled}}
+\index{airspeed\-Actual\-Enabled@{airspeed\-Actual\-Enabled}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{airspeed\-Actual\-Enabled}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-\_\-\-C\-O\-N\-N\-E\-C\-T\-I\-O\-N\-::airspeed\-Actual\-Enabled}}}\label{group___h_i_t_l_plugin_ga8fc341e96193fe41625a04a534a16387}
+
+
+\-Definition at line 161 of file simulator.\-h.
+
+\hypertarget{group___h_i_t_l_plugin_gacb3c852192e75845b2a17679c94a10c1}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!airspeed\-Actual\-Rate@{airspeed\-Actual\-Rate}}
+\index{airspeed\-Actual\-Rate@{airspeed\-Actual\-Rate}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{airspeed\-Actual\-Rate}]{\setlength{\rightskip}{0pt plus 5cm}quint16 {\bf \-\_\-\-C\-O\-N\-N\-E\-C\-T\-I\-O\-N\-::airspeed\-Actual\-Rate}}}\label{group___h_i_t_l_plugin_gacb3c852192e75845b2a17679c94a10c1}
+
+
+\-Definition at line 162 of file simulator.\-h.
+
+\hypertarget{group___h_i_t_l_plugin_gafbb52a0b15f16cac6f1efbcae3702e96}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!altitude@{altitude}}
+\index{altitude@{altitude}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{altitude}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf \-Output2\-Hardware\-::altitude}}}\label{group___h_i_t_l_plugin_gafbb52a0b15f16cac6f1efbcae3702e96}
+
+
+\-Definition at line 170 of file simulator.\-h.
+
+\hypertarget{group___h_i_t_l_plugin_gaa698baa5c5eb08252558e7821e3d48dd}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!angle\-Of\-Attack@{angle\-Of\-Attack}}
+\index{angle\-Of\-Attack@{angle\-Of\-Attack}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{angle\-Of\-Attack}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf \-Output2\-Hardware\-::angle\-Of\-Attack}}}\label{group___h_i_t_l_plugin_gaa698baa5c5eb08252558e7821e3d48dd}
+
+
+\-Definition at line 176 of file simulator.\-h.
+
+\hypertarget{group___h_i_t_l_plugin_ga03a3c3371749ca83551e6f29e804a205}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!angle\-Of\-Slip@{angle\-Of\-Slip}}
+\index{angle\-Of\-Slip@{angle\-Of\-Slip}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{angle\-Of\-Slip}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf \-Output2\-Hardware\-::angle\-Of\-Slip}}}\label{group___h_i_t_l_plugin_ga03a3c3371749ca83551e6f29e804a205}
+
+
+\-Definition at line 177 of file simulator.\-h.
+
+\hypertarget{group___h_i_t_l_plugin_gab40adc150ae79f115f2680cdf131b41d}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!att\-Act\-Calc@{att\-Act\-Calc}}
+\index{att\-Act\-Calc@{att\-Act\-Calc}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{att\-Act\-Calc}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-\_\-\-C\-O\-N\-N\-E\-C\-T\-I\-O\-N\-::att\-Act\-Calc}}}\label{group___h_i_t_l_plugin_gab40adc150ae79f115f2680cdf131b41d}
+
+
+\-Definition at line 145 of file simulator.\-h.
+
+\hypertarget{group___h_i_t_l_plugin_ga4e0f8f54388f25df1142b8f895a4b445}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!att\-Act\-H\-W@{att\-Act\-H\-W}}
+\index{att\-Act\-H\-W@{att\-Act\-H\-W}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{att\-Act\-H\-W}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-\_\-\-C\-O\-N\-N\-E\-C\-T\-I\-O\-N\-::att\-Act\-H\-W}}}\label{group___h_i_t_l_plugin_ga4e0f8f54388f25df1142b8f895a4b445}
+
+
+\-Definition at line 143 of file simulator.\-h.
+
+\hypertarget{group___h_i_t_l_plugin_ga8620f5c9256ac5988861939a70fde264}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!att\-Act\-Sim@{att\-Act\-Sim}}
+\index{att\-Act\-Sim@{att\-Act\-Sim}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{att\-Act\-Sim}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-\_\-\-C\-O\-N\-N\-E\-C\-T\-I\-O\-N\-::att\-Act\-Sim}}}\label{group___h_i_t_l_plugin_ga8620f5c9256ac5988861939a70fde264}
+
+
+\-Definition at line 144 of file simulator.\-h.
+
+\hypertarget{group___h_i_t_l_plugin_ga689a709ae944673ff6edd54ab6ca4d7d}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!att\-Actual\-Data@{att\-Actual\-Data}}
+\index{att\-Actual\-Data@{att\-Actual\-Data}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{att\-Actual\-Data}]{\setlength{\rightskip}{0pt plus 5cm}\-Attitude\-Actual\-::\-Data\-Fields {\bf \-Noise\-::att\-Actual\-Data}}}\label{group___h_i_t_l_plugin_ga689a709ae944673ff6edd54ab6ca4d7d}
+
+
+\-Definition at line 42 of file hitlnoisegeneration.\-h.
+
+\hypertarget{group___h_i_t_l_plugin_ga9b02793b3d0effcdb43df1d5e20012fd}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!att\-Actual\-Enabled@{att\-Actual\-Enabled}}
+\index{att\-Actual\-Enabled@{att\-Actual\-Enabled}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{att\-Actual\-Enabled}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-\_\-\-C\-O\-N\-N\-E\-C\-T\-I\-O\-N\-::att\-Actual\-Enabled}}}\label{group___h_i_t_l_plugin_ga9b02793b3d0effcdb43df1d5e20012fd}
+
+
+\-Definition at line 142 of file simulator.\-h.
+
+\hypertarget{group___h_i_t_l_plugin_ga4430b724d2151ce662d6b82a3b8ba74a}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!attitude\-Settings@{attitude\-Settings}}
+\index{attitude\-Settings@{attitude\-Settings}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{attitude\-Settings}]{\setlength{\rightskip}{0pt plus 5cm}\-Attitude\-Settings$\ast$ {\bf \-Simulator\-::attitude\-Settings}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{group___h_i_t_l_plugin_ga4430b724d2151ce662d6b82a3b8ba74a}
+
+
+\-Definition at line 288 of file simulator.\-h.
+
+\hypertarget{group___h_i_t_l_plugin_ga003958320fd5c963c5d2ddff60ffd28b}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!att\-Raw\-Enabled@{att\-Raw\-Enabled}}
+\index{att\-Raw\-Enabled@{att\-Raw\-Enabled}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{att\-Raw\-Enabled}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-\_\-\-C\-O\-N\-N\-E\-C\-T\-I\-O\-N\-::att\-Raw\-Enabled}}}\label{group___h_i_t_l_plugin_ga003958320fd5c963c5d2ddff60ffd28b}
+
+
+\-Definition at line 139 of file simulator.\-h.
+
+\hypertarget{group___h_i_t_l_plugin_ga70d4f6a60b23f4545d46ff7dfe4c710e}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!att\-Raw\-Rate@{att\-Raw\-Rate}}
+\index{att\-Raw\-Rate@{att\-Raw\-Rate}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{att\-Raw\-Rate}]{\setlength{\rightskip}{0pt plus 5cm}quint8 {\bf \-\_\-\-C\-O\-N\-N\-E\-C\-T\-I\-O\-N\-::att\-Raw\-Rate}}}\label{group___h_i_t_l_plugin_ga70d4f6a60b23f4545d46ff7dfe4c710e}
+
+
+\-Definition at line 140 of file simulator.\-h.
+
+\hypertarget{group___h_i_t_l_plugin_ga849192344fdd21a6a53e00920b89bbdc}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!azimuth@{azimuth}}
+\index{azimuth@{azimuth}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{azimuth}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf \-\_\-\-F\-L\-I\-G\-H\-T\-\_\-\-P\-A\-R\-A\-M\-::azimuth}}}\label{group___h_i_t_l_plugin_ga849192344fdd21a6a53e00920b89bbdc}
+
+
+\-Definition at line 100 of file simulator.\-h.
+
+\hypertarget{group___h_i_t_l_plugin_ga107f3bf3d4cc0c45cc8677742d4445eb}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!baro\-Alt@{baro\-Alt}}
+\index{baro\-Alt@{baro\-Alt}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{baro\-Alt}]{\setlength{\rightskip}{0pt plus 5cm}\-Baro\-Altitude$\ast$ {\bf \-Simulator\-::baro\-Alt}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{group___h_i_t_l_plugin_ga107f3bf3d4cc0c45cc8677742d4445eb}
+
+
+\-Definition at line 285 of file simulator.\-h.
+
+\hypertarget{group___h_i_t_l_plugin_gab586e8f2c72c1e42c715debf0bd202b1}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!baro\-Alt\-Data@{baro\-Alt\-Data}}
+\index{baro\-Alt\-Data@{baro\-Alt\-Data}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{baro\-Alt\-Data}]{\setlength{\rightskip}{0pt plus 5cm}\-Baro\-Altitude\-::\-Data\-Fields {\bf \-Noise\-::baro\-Alt\-Data}}}\label{group___h_i_t_l_plugin_gab586e8f2c72c1e42c715debf0bd202b1}
+
+
+\-Definition at line 43 of file hitlnoisegeneration.\-h.
+
+\hypertarget{group___h_i_t_l_plugin_ga6700d3be0f4ef9211d6f34569034b7a8}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!baro\-Altitude\-Enabled@{baro\-Altitude\-Enabled}}
+\index{baro\-Altitude\-Enabled@{baro\-Altitude\-Enabled}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{baro\-Altitude\-Enabled}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-\_\-\-C\-O\-N\-N\-E\-C\-T\-I\-O\-N\-::baro\-Altitude\-Enabled}}}\label{group___h_i_t_l_plugin_ga6700d3be0f4ef9211d6f34569034b7a8}
+
+
+\-Definition at line 147 of file simulator.\-h.
+
+\hypertarget{group___h_i_t_l_plugin_gab5b66abe21b9a0f00b2dc2bbb28cac6c}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!baro\-Alt\-Rate@{baro\-Alt\-Rate}}
+\index{baro\-Alt\-Rate@{baro\-Alt\-Rate}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{baro\-Alt\-Rate}]{\setlength{\rightskip}{0pt plus 5cm}quint16 {\bf \-\_\-\-C\-O\-N\-N\-E\-C\-T\-I\-O\-N\-::baro\-Alt\-Rate}}}\label{group___h_i_t_l_plugin_gab5b66abe21b9a0f00b2dc2bbb28cac6c}
+
+
+\-Definition at line 148 of file simulator.\-h.
+
+\hypertarget{group___h_i_t_l_plugin_ga7bd6d35f193af2ec2365db4a4faaf7e7}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!bin\-Path@{bin\-Path}}
+\index{bin\-Path@{bin\-Path}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{bin\-Path}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Q\-String} {\bf \-\_\-\-C\-O\-N\-N\-E\-C\-T\-I\-O\-N\-::bin\-Path}}}\label{group___h_i_t_l_plugin_ga7bd6d35f193af2ec2365db4a4faaf7e7}
+
+
+\-Definition at line 126 of file simulator.\-h.
+
+\hypertarget{group___h_i_t_l_plugin_gaa6ec37dae61764737236528ba5a2445c}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!calibrated\-Airspeed@{calibrated\-Airspeed}}
+\index{calibrated\-Airspeed@{calibrated\-Airspeed}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{calibrated\-Airspeed}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf \-Output2\-Hardware\-::calibrated\-Airspeed}}}\label{group___h_i_t_l_plugin_gaa6ec37dae61764737236528ba5a2445c}
+
+
+\-Definition at line 174 of file simulator.\-h.
+
+\hypertarget{group___h_i_t_l_plugin_ga2fbe36224e421144a3822791ccd78c7b}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!cas@{cas}}
+\index{cas@{cas}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{cas}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf \-\_\-\-F\-L\-I\-G\-H\-T\-\_\-\-P\-A\-R\-A\-M\-::cas}}}\label{group___h_i_t_l_plugin_ga2fbe36224e421144a3822791ccd78c7b}
+
+
+\-Definition at line 80 of file simulator.\-h.
+
+\hypertarget{group___h_i_t_l_plugin_gaa4ad7484ddab07936a31a63fab4be22e}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!current@{current}}
+\index{current@{current}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{current}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-F\-L\-I\-G\-H\-T\-\_\-\-P\-A\-R\-A\-M} {\bf \-Simulator\-::current}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{group___h_i_t_l_plugin_gaa4ad7484ddab07936a31a63fab4be22e}
+
+
+\-Definition at line 302 of file simulator.\-h.
+
+\hypertarget{group___h_i_t_l_plugin_ga4505c573ba399fc3e915fec6842c3bcb}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!data\-Path@{data\-Path}}
+\index{data\-Path@{data\-Path}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{data\-Path}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Q\-String} {\bf \-\_\-\-C\-O\-N\-N\-E\-C\-T\-I\-O\-N\-::data\-Path}}}\label{group___h_i_t_l_plugin_ga4505c573ba399fc3e915fec6842c3bcb}
+
+
+\-Definition at line 127 of file simulator.\-h.
+
+\hypertarget{group___h_i_t_l_plugin_gaeb046a092ad0f1b208a0341f7e6fd520}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!d\-Azimuth@{d\-Azimuth}}
+\index{d\-Azimuth@{d\-Azimuth}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{d\-Azimuth}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf \-\_\-\-F\-L\-I\-G\-H\-T\-\_\-\-P\-A\-R\-A\-M\-::d\-Azimuth}}}\label{group___h_i_t_l_plugin_gaeb046a092ad0f1b208a0341f7e6fd520}
+
+
+\-Definition at line 105 of file simulator.\-h.
+
+\hypertarget{group___h_i_t_l_plugin_gabb56dcac3d6e652f79e4a2fd79322e66}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!dd\-X@{dd\-X}}
+\index{dd\-X@{dd\-X}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{dd\-X}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf \-\_\-\-F\-L\-I\-G\-H\-T\-\_\-\-P\-A\-R\-A\-M\-::dd\-X}}}\label{group___h_i_t_l_plugin_gabb56dcac3d6e652f79e4a2fd79322e66}
+
+
+\-Definition at line 95 of file simulator.\-h.
+
+\hypertarget{group___h_i_t_l_plugin_ga076f6e2f6b3ce2a8f01d26b3a7dac1bd}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!dd\-Y@{dd\-Y}}
+\index{dd\-Y@{dd\-Y}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{dd\-Y}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf \-\_\-\-F\-L\-I\-G\-H\-T\-\_\-\-P\-A\-R\-A\-M\-::dd\-Y}}}\label{group___h_i_t_l_plugin_ga076f6e2f6b3ce2a8f01d26b3a7dac1bd}
+
+
+\-Definition at line 96 of file simulator.\-h.
+
+\hypertarget{group___h_i_t_l_plugin_ga7961abcc14db01ab5ba42c426e2160c5}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!dd\-Z@{dd\-Z}}
+\index{dd\-Z@{dd\-Z}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{dd\-Z}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf \-\_\-\-F\-L\-I\-G\-H\-T\-\_\-\-P\-A\-R\-A\-M\-::dd\-Z}}}\label{group___h_i_t_l_plugin_ga7961abcc14db01ab5ba42c426e2160c5}
+
+
+\-Definition at line 97 of file simulator.\-h.
+
+\hypertarget{group___h_i_t_l_plugin_gadbdb09f62a5ce0e914e8551ce3bd0bbd}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!del\-T@{del\-T}}
+\index{del\-T@{del\-T}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{del\-T}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf \-Output2\-Hardware\-::del\-T}}}\label{group___h_i_t_l_plugin_gadbdb09f62a5ce0e914e8551ce3bd0bbd}
+
+
+\-Definition at line 194 of file simulator.\-h.
+
+\hypertarget{group___h_i_t_l_plugin_gaff13db0c35d76e6eda91b623fb0fef8b}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!d\-Pitch@{d\-Pitch}}
+\index{d\-Pitch@{d\-Pitch}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{d\-Pitch}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf \-\_\-\-F\-L\-I\-G\-H\-T\-\_\-\-P\-A\-R\-A\-M\-::d\-Pitch}}}\label{group___h_i_t_l_plugin_gaff13db0c35d76e6eda91b623fb0fef8b}
+
+
+\-Definition at line 106 of file simulator.\-h.
+
+\hypertarget{group___h_i_t_l_plugin_gad9c4016b0ff06d6f0c8208ad1a94b281}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!d\-Roll@{d\-Roll}}
+\index{d\-Roll@{d\-Roll}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{d\-Roll}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf \-\_\-\-F\-L\-I\-G\-H\-T\-\_\-\-P\-A\-R\-A\-M\-::d\-Roll}}}\label{group___h_i_t_l_plugin_gad9c4016b0ff06d6f0c8208ad1a94b281}
+
+
+\-Definition at line 107 of file simulator.\-h.
+
+\hypertarget{group___h_i_t_l_plugin_ga343d7519080c3b70a59e554bfc2ed57d}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!dry\-Air\-Constant@{dry\-Air\-Constant}}
+\index{dry\-Air\-Constant@{dry\-Air\-Constant}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{dry\-Air\-Constant}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf \-Air\-Parameters\-::dry\-Air\-Constant}}}\label{group___h_i_t_l_plugin_ga343d7519080c3b70a59e554bfc2ed57d}
+
+
+\-Definition at line 118 of file simulator.\-h.
+
+\hypertarget{group___h_i_t_l_plugin_gaf1362ebbee3efc97a9c205aaffdeb98a}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!dst\-D@{dst\-D}}
+\index{dst\-D@{dst\-D}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{dst\-D}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf \-Output2\-Hardware\-::dst\-D}}}\label{group___h_i_t_l_plugin_gaf1362ebbee3efc97a9c205aaffdeb98a}
+
+
+\-Definition at line 187 of file simulator.\-h.
+
+\hypertarget{group___h_i_t_l_plugin_ga5d4746c1f8dd9251dd5b37ced82d4a93}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!dst\-E@{dst\-E}}
+\index{dst\-E@{dst\-E}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{dst\-E}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf \-Output2\-Hardware\-::dst\-E}}}\label{group___h_i_t_l_plugin_ga5d4746c1f8dd9251dd5b37ced82d4a93}
+
+
+\-Definition at line 186 of file simulator.\-h.
+
+\hypertarget{group___h_i_t_l_plugin_gad276a9a114b2d57a5c4536e9ef0a9a12}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!dst\-N@{dst\-N}}
+\index{dst\-N@{dst\-N}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{dst\-N}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf \-Output2\-Hardware\-::dst\-N}}}\label{group___h_i_t_l_plugin_gad276a9a114b2d57a5c4536e9ef0a9a12}
+
+
+\-Definition at line 185 of file simulator.\-h.
+
+\hypertarget{group___h_i_t_l_plugin_gabba6faff155324d93353abc952708700}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!d\-T@{d\-T}}
+\index{d\-T@{d\-T}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{d\-T}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf \-\_\-\-F\-L\-I\-G\-H\-T\-\_\-\-P\-A\-R\-A\-M\-::d\-T}}}\label{group___h_i_t_l_plugin_gabba6faff155324d93353abc952708700}
+
+
+\-Definition at line 76 of file simulator.\-h.
+
+\hypertarget{group___h_i_t_l_plugin_gaa09582d7507d6bc84817aad1828e79a6}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!d\-X@{d\-X}}
+\index{d\-X@{d\-X}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{d\-X}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf \-\_\-\-F\-L\-I\-G\-H\-T\-\_\-\-P\-A\-R\-A\-M\-::d\-X}}}\label{group___h_i_t_l_plugin_gaa09582d7507d6bc84817aad1828e79a6}
+
+
+\-Definition at line 90 of file simulator.\-h.
+
+\hypertarget{group___h_i_t_l_plugin_ga759dc6a87e18b4ee9e44c2ab66ba767f}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!d\-Y@{d\-Y}}
+\index{d\-Y@{d\-Y}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{d\-Y}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf \-\_\-\-F\-L\-I\-G\-H\-T\-\_\-\-P\-A\-R\-A\-M\-::d\-Y}}}\label{group___h_i_t_l_plugin_ga759dc6a87e18b4ee9e44c2ab66ba767f}
+
+
+\-Definition at line 91 of file simulator.\-h.
+
+\hypertarget{group___h_i_t_l_plugin_gade2afe2cbfb8e8fe0f8d7d97e0e62076}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!d\-Z@{d\-Z}}
+\index{d\-Z@{d\-Z}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{d\-Z}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf \-\_\-\-F\-L\-I\-G\-H\-T\-\_\-\-P\-A\-R\-A\-M\-::d\-Z}}}\label{group___h_i_t_l_plugin_gade2afe2cbfb8e8fe0f8d7d97e0e62076}
+
+
+\-Definition at line 92 of file simulator.\-h.
+
+\hypertarget{group___h_i_t_l_plugin_ga2c3a29dc6471574d7182db7691e69a56}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!flight\-Status@{flight\-Status}}
+\index{flight\-Status@{flight\-Status}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{flight\-Status}]{\setlength{\rightskip}{0pt plus 5cm}\-Flight\-Status$\ast$ {\bf \-Simulator\-::flight\-Status}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{group___h_i_t_l_plugin_ga2c3a29dc6471574d7182db7691e69a56}
+
+
+\-Definition at line 284 of file simulator.\-h.
+
+\hypertarget{group___h_i_t_l_plugin_gac63d17091bc4377e1b49696355a0ae19}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!gcs\-Receiver@{gcs\-Receiver}}
+\index{gcs\-Receiver@{gcs\-Receiver}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{gcs\-Receiver}]{\setlength{\rightskip}{0pt plus 5cm}\-G\-C\-S\-Receiver$\ast$ {\bf \-Simulator\-::gcs\-Receiver}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{group___h_i_t_l_plugin_gac63d17091bc4377e1b49696355a0ae19}
+
+
+\-Definition at line 297 of file simulator.\-h.
+
+\hypertarget{group___h_i_t_l_plugin_ga2e4de2a270dafeeadda687a7fc6fb817}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!gcs\-Receiver\-Enabled@{gcs\-Receiver\-Enabled}}
+\index{gcs\-Receiver\-Enabled@{gcs\-Receiver\-Enabled}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{gcs\-Receiver\-Enabled}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-\_\-\-C\-O\-N\-N\-E\-C\-T\-I\-O\-N\-::gcs\-Receiver\-Enabled}}}\label{group___h_i_t_l_plugin_ga2e4de2a270dafeeadda687a7fc6fb817}
+
+
+\-Definition at line 157 of file simulator.\-h.
+
+\hypertarget{group___h_i_t_l_plugin_gae4d6ea654494f0de351686d9c35037ca}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!gps\-Pos@{gps\-Pos}}
+\index{gps\-Pos@{gps\-Pos}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{gps\-Pos}]{\setlength{\rightskip}{0pt plus 5cm}\-G\-P\-S\-Position$\ast$ {\bf \-Simulator\-::gps\-Pos}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{group___h_i_t_l_plugin_gae4d6ea654494f0de351686d9c35037ca}
+
+
+\-Definition at line 290 of file simulator.\-h.
+
+\hypertarget{group___h_i_t_l_plugin_ga9ec5e3f5256aa25ca8a8556643eb355d}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!gps\-Pos\-Data@{gps\-Pos\-Data}}
+\index{gps\-Pos\-Data@{gps\-Pos\-Data}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{gps\-Pos\-Data}]{\setlength{\rightskip}{0pt plus 5cm}\-G\-P\-S\-Position\-::\-Data\-Fields {\bf \-Noise\-::gps\-Pos\-Data}}}\label{group___h_i_t_l_plugin_ga9ec5e3f5256aa25ca8a8556643eb355d}
+
+
+\-Definition at line 45 of file hitlnoisegeneration.\-h.
+
+\hypertarget{group___h_i_t_l_plugin_gaec1f5b5cc3ce18186907fde4c9c990b3}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!gps\-Position\-Enabled@{gps\-Position\-Enabled}}
+\index{gps\-Position\-Enabled@{gps\-Position\-Enabled}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{gps\-Position\-Enabled}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-\_\-\-C\-O\-N\-N\-E\-C\-T\-I\-O\-N\-::gps\-Position\-Enabled}}}\label{group___h_i_t_l_plugin_gaec1f5b5cc3ce18186907fde4c9c990b3}
+
+
+\-Definition at line 153 of file simulator.\-h.
+
+\hypertarget{group___h_i_t_l_plugin_ga2904afd635e416ec6fca4b3b6bb8679f}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!gps\-Pos\-Rate@{gps\-Pos\-Rate}}
+\index{gps\-Pos\-Rate@{gps\-Pos\-Rate}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{gps\-Pos\-Rate}]{\setlength{\rightskip}{0pt plus 5cm}quint16 {\bf \-\_\-\-C\-O\-N\-N\-E\-C\-T\-I\-O\-N\-::gps\-Pos\-Rate}}}\label{group___h_i_t_l_plugin_ga2904afd635e416ec6fca4b3b6bb8679f}
+
+
+\-Definition at line 154 of file simulator.\-h.
+
+\hypertarget{group___h_i_t_l_plugin_ga649eab8811fb3f1e6596e48eac2d47c7}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!gps\-Vel@{gps\-Vel}}
+\index{gps\-Vel@{gps\-Vel}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{gps\-Vel}]{\setlength{\rightskip}{0pt plus 5cm}\-G\-P\-S\-Velocity$\ast$ {\bf \-Simulator\-::gps\-Vel}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{group___h_i_t_l_plugin_ga649eab8811fb3f1e6596e48eac2d47c7}
+
+
+\-Definition at line 291 of file simulator.\-h.
+
+\hypertarget{group___h_i_t_l_plugin_gafefa36e4fa6d8da826bbfcf9f604119c}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!gps\-Vel\-Data@{gps\-Vel\-Data}}
+\index{gps\-Vel\-Data@{gps\-Vel\-Data}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{gps\-Vel\-Data}]{\setlength{\rightskip}{0pt plus 5cm}\-G\-P\-S\-Velocity\-::\-Data\-Fields {\bf \-Noise\-::gps\-Vel\-Data}}}\label{group___h_i_t_l_plugin_gafefa36e4fa6d8da826bbfcf9f604119c}
+
+
+\-Definition at line 46 of file hitlnoisegeneration.\-h.
+
+\hypertarget{group___h_i_t_l_plugin_ga450ddae855377cbc0ce591c7703bcf3f}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!ground\-Density@{ground\-Density}}
+\index{ground\-Density@{ground\-Density}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{ground\-Density}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf \-Air\-Parameters\-::ground\-Density}}}\label{group___h_i_t_l_plugin_ga450ddae855377cbc0ce591c7703bcf3f}
+
+
+\-Definition at line 113 of file simulator.\-h.
+
+\hypertarget{group___h_i_t_l_plugin_ga2a4535a23a5ca83f655298d2494556d5}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!groundspeed@{groundspeed}}
+\index{groundspeed@{groundspeed}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{groundspeed}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf \-\_\-\-F\-L\-I\-G\-H\-T\-\_\-\-P\-A\-R\-A\-M\-::groundspeed}}}\label{group___h_i_t_l_plugin_ga2a4535a23a5ca83f655298d2494556d5}
+
+
+\-Definition at line 82 of file simulator.\-h.
+
+\hypertarget{group___h_i_t_l_plugin_ga6cab485f36b93a2e86e248bcc6b240f1}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!groundspeed@{groundspeed}}
+\index{groundspeed@{groundspeed}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{groundspeed}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf \-Output2\-Hardware\-::groundspeed}}}\label{group___h_i_t_l_plugin_ga6cab485f36b93a2e86e248bcc6b240f1}
+
+
+\-Definition at line 173 of file simulator.\-h.
+
+\hypertarget{group___h_i_t_l_plugin_gab28b8a30520fdf84e924254a8e7f0167}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!ground\-Temp@{ground\-Temp}}
+\index{ground\-Temp@{ground\-Temp}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{ground\-Temp}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf \-Air\-Parameters\-::ground\-Temp}}}\label{group___h_i_t_l_plugin_gab28b8a30520fdf84e924254a8e7f0167}
+
+
+\-Definition at line 114 of file simulator.\-h.
+
+\hypertarget{group___h_i_t_l_plugin_ga6c62059f6d424f96ad1142bfe8885e3a}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!ground\-Truth@{ground\-Truth}}
+\index{ground\-Truth@{ground\-Truth}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{ground\-Truth}]{\setlength{\rightskip}{0pt plus 5cm}\-Ground\-Truth$\ast$ {\bf \-Simulator\-::ground\-Truth}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{group___h_i_t_l_plugin_ga6c62059f6d424f96ad1142bfe8885e3a}
+
+
+\-Definition at line 298 of file simulator.\-h.
+
+\hypertarget{group___h_i_t_l_plugin_ga7da92539dd2e9e4aeb94b848dc464b11}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!ground\-Truth\-Enabled@{ground\-Truth\-Enabled}}
+\index{ground\-Truth\-Enabled@{ground\-Truth\-Enabled}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{ground\-Truth\-Enabled}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-\_\-\-C\-O\-N\-N\-E\-C\-T\-I\-O\-N\-::ground\-Truth\-Enabled}}}\label{group___h_i_t_l_plugin_ga7da92539dd2e9e4aeb94b848dc464b11}
+
+
+\-Definition at line 150 of file simulator.\-h.
+
+\hypertarget{group___h_i_t_l_plugin_ga46aa73f7e222771afe3b547bca31eacb}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!ground\-Truth\-Rate@{ground\-Truth\-Rate}}
+\index{ground\-Truth\-Rate@{ground\-Truth\-Rate}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{ground\-Truth\-Rate}]{\setlength{\rightskip}{0pt plus 5cm}quint16 {\bf \-\_\-\-C\-O\-N\-N\-E\-C\-T\-I\-O\-N\-::ground\-Truth\-Rate}}}\label{group___h_i_t_l_plugin_ga46aa73f7e222771afe3b547bca31eacb}
+
+
+\-Definition at line 151 of file simulator.\-h.
+
+\hypertarget{group___h_i_t_l_plugin_gaf3fae05e7092b987f81f25ff7709ffb9}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!gyro\-Data@{gyro\-Data}}
+\index{gyro\-Data@{gyro\-Data}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{gyro\-Data}]{\setlength{\rightskip}{0pt plus 5cm}\-Gyros\-::\-Data\-Fields {\bf \-Noise\-::gyro\-Data}}}\label{group___h_i_t_l_plugin_gaf3fae05e7092b987f81f25ff7709ffb9}
+
+
+\-Definition at line 47 of file hitlnoisegeneration.\-h.
+
+\hypertarget{group___h_i_t_l_plugin_ga0f9daef3b0fe0731e035f2bff3d9df19}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!gyros@{gyros}}
+\index{gyros@{gyros}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{gyros}]{\setlength{\rightskip}{0pt plus 5cm}\-Gyros$\ast$ {\bf \-Simulator\-::gyros}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{group___h_i_t_l_plugin_ga0f9daef3b0fe0731e035f2bff3d9df19}
+
+
+\-Definition at line 295 of file simulator.\-h.
+
+\hypertarget{group___h_i_t_l_plugin_ga061c55e7f046212595dae9123b2589d8}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!heading@{heading}}
+\index{heading@{heading}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{heading}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf \-Output2\-Hardware\-::heading}}}\label{group___h_i_t_l_plugin_ga061c55e7f046212595dae9123b2589d8}
+
+
+\-Definition at line 172 of file simulator.\-h.
+
+\hypertarget{group___h_i_t_l_plugin_ga3138fe65ade5af4ff6ff614c0956fc0a}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!home\-Data@{home\-Data}}
+\index{home\-Data@{home\-Data}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{home\-Data}]{\setlength{\rightskip}{0pt plus 5cm}\-Home\-Location\-::\-Data\-Fields {\bf \-Noise\-::home\-Data}}}\label{group___h_i_t_l_plugin_ga3138fe65ade5af4ff6ff614c0956fc0a}
+
+
+\-Definition at line 48 of file hitlnoisegeneration.\-h.
+
+\hypertarget{group___h_i_t_l_plugin_ga21da3bd31909fdf7fd5116c2a91a1176}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!host\-Address@{host\-Address}}
+\index{host\-Address@{host\-Address}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{host\-Address}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Q\-String} {\bf \-\_\-\-C\-O\-N\-N\-E\-C\-T\-I\-O\-N\-::host\-Address}}}\label{group___h_i_t_l_plugin_ga21da3bd31909fdf7fd5116c2a91a1176}
+
+
+\-Definition at line 128 of file simulator.\-h.
+
+\hypertarget{group___h_i_t_l_plugin_gafd95bf6c88f8e93baff6c5e27a5508a4}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!i@{i}}
+\index{i@{i}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{i}]{\setlength{\rightskip}{0pt plus 5cm}unsigned int {\bf \-\_\-\-F\-L\-I\-G\-H\-T\-\_\-\-P\-A\-R\-A\-M\-::i}}}\label{group___h_i_t_l_plugin_gafd95bf6c88f8e93baff6c5e27a5508a4}
+
+
+\-Definition at line 77 of file simulator.\-h.
+
+\hypertarget{group___h_i_t_l_plugin_gabf3d6472bdcac5895a53143e1f84fb09}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!in\-Port@{in\-Port}}
+\index{in\-Port@{in\-Port}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{in\-Port}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf \-\_\-\-C\-O\-N\-N\-E\-C\-T\-I\-O\-N\-::in\-Port}}}\label{group___h_i_t_l_plugin_gabf3d6472bdcac5895a53143e1f84fb09}
+
+
+\-Definition at line 131 of file simulator.\-h.
+
+\hypertarget{group___h_i_t_l_plugin_gaef59cc30b3dc3c996cfba35065d250bd}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!input\-Command@{input\-Command}}
+\index{input\-Command@{input\-Command}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{input\-Command}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-\_\-\-C\-O\-N\-N\-E\-C\-T\-I\-O\-N\-::input\-Command}}}\label{group___h_i_t_l_plugin_gaef59cc30b3dc3c996cfba35065d250bd}
+
+
+\-Definition at line 156 of file simulator.\-h.
+
+\hypertarget{group___h_i_t_l_plugin_gac06d25b8e020f633a60fadb7e7eedfa9}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!latitude@{latitude}}
+\index{latitude@{latitude}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{latitude}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Q\-String} {\bf \-\_\-\-C\-O\-N\-N\-E\-C\-T\-I\-O\-N\-::latitude}}}\label{group___h_i_t_l_plugin_gac06d25b8e020f633a60fadb7e7eedfa9}
+
+
+\-Definition at line 134 of file simulator.\-h.
+
+\hypertarget{group___h_i_t_l_plugin_ga3f453b19b12f4264ebffe76a1e8ee93d}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!latitude@{latitude}}
+\index{latitude@{latitude}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{latitude}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf \-Output2\-Hardware\-::latitude}}}\label{group___h_i_t_l_plugin_ga3f453b19b12f4264ebffe76a1e8ee93d}
+
+
+\-Definition at line 168 of file simulator.\-h.
+
+\hypertarget{group___h_i_t_l_plugin_ga807f372f1fd1876041ae159adca0514b}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!lock@{lock}}
+\index{lock@{lock}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{lock}]{\setlength{\rightskip}{0pt plus 5cm}\-Q\-Mutex {\bf \-Simulator\-::lock}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{group___h_i_t_l_plugin_ga807f372f1fd1876041ae159adca0514b}
+
+
+\-Definition at line 304 of file simulator.\-h.
+
+\hypertarget{group___h_i_t_l_plugin_gac60d13c120d3dd97309688a1d7f3d6d7}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!longitude@{longitude}}
+\index{longitude@{longitude}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{longitude}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Q\-String} {\bf \-\_\-\-C\-O\-N\-N\-E\-C\-T\-I\-O\-N\-::longitude}}}\label{group___h_i_t_l_plugin_gac60d13c120d3dd97309688a1d7f3d6d7}
+
+
+\-Definition at line 135 of file simulator.\-h.
+
+\hypertarget{group___h_i_t_l_plugin_gacf92ed715333315d33a77f42aa1ed71e}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!longitude@{longitude}}
+\index{longitude@{longitude}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{longitude}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf \-Output2\-Hardware\-::longitude}}}\label{group___h_i_t_l_plugin_gacf92ed715333315d33a77f42aa1ed71e}
+
+
+\-Definition at line 169 of file simulator.\-h.
+
+\hypertarget{group___h_i_t_l_plugin_gaa24db2a922b9f638fdaacad6e3f4fb91}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!\-M@{\-M}}
+\index{\-M@{\-M}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{\-M}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf \-Air\-Parameters\-::\-M}}}\label{group___h_i_t_l_plugin_gaa24db2a922b9f638fdaacad6e3f4fb91}
+
+
+\-Definition at line 120 of file simulator.\-h.
+
+\hypertarget{group___h_i_t_l_plugin_ga1af06e35c7befb4f3ffd0bfee9a6efc2}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!man\-Ctrl\-Command@{man\-Ctrl\-Command}}
+\index{man\-Ctrl\-Command@{man\-Ctrl\-Command}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{man\-Ctrl\-Command}]{\setlength{\rightskip}{0pt plus 5cm}\-Manual\-Control\-Command$\ast$ {\bf \-Simulator\-::man\-Ctrl\-Command}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{group___h_i_t_l_plugin_ga1af06e35c7befb4f3ffd0bfee9a6efc2}
+
+
+\-Definition at line 283 of file simulator.\-h.
+
+\hypertarget{group___h_i_t_l_plugin_gac67de1b6ac74a48c592f55fd17e06ad8}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!manual\-Control\-Enabled@{manual\-Control\-Enabled}}
+\index{manual\-Control\-Enabled@{manual\-Control\-Enabled}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{manual\-Control\-Enabled}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-\_\-\-C\-O\-N\-N\-E\-C\-T\-I\-O\-N\-::manual\-Control\-Enabled}}}\label{group___h_i_t_l_plugin_gac67de1b6ac74a48c592f55fd17e06ad8}
+
+
+\-Definition at line 158 of file simulator.\-h.
+
+\hypertarget{group___h_i_t_l_plugin_ga11d8608f07438f05d1950aa62f774d0c}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!min\-Output\-Period@{min\-Output\-Period}}
+\index{min\-Output\-Period@{min\-Output\-Period}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{min\-Output\-Period}]{\setlength{\rightskip}{0pt plus 5cm}quint16 {\bf \-\_\-\-C\-O\-N\-N\-E\-C\-T\-I\-O\-N\-::min\-Output\-Period}}}\label{group___h_i_t_l_plugin_ga11d8608f07438f05d1950aa62f774d0c}
+
+
+\-Definition at line 159 of file simulator.\-h.
+
+\hypertarget{group___h_i_t_l_plugin_gadb185afa7e72d63655cb097e1c1d8200}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!old@{old}}
+\index{old@{old}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{old}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-F\-L\-I\-G\-H\-T\-\_\-\-P\-A\-R\-A\-M} {\bf \-Simulator\-::old}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{group___h_i_t_l_plugin_gadb185afa7e72d63655cb097e1c1d8200}
+
+
+\-Definition at line 303 of file simulator.\-h.
+
+\hypertarget{group___h_i_t_l_plugin_gaaba6cf28320e1105f7320ea8a21df15b}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!out\-Port@{out\-Port}}
+\index{out\-Port@{out\-Port}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{out\-Port}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf \-\_\-\-C\-O\-N\-N\-E\-C\-T\-I\-O\-N\-::out\-Port}}}\label{group___h_i_t_l_plugin_gaaba6cf28320e1105f7320ea8a21df15b}
+
+
+\-Definition at line 130 of file simulator.\-h.
+
+\hypertarget{group___h_i_t_l_plugin_gaff7712b3622dba7f5178549057fdac4e}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!pitch@{pitch}}
+\index{pitch@{pitch}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{pitch}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf \-\_\-\-F\-L\-I\-G\-H\-T\-\_\-\-P\-A\-R\-A\-M\-::pitch}}}\label{group___h_i_t_l_plugin_gaff7712b3622dba7f5178549057fdac4e}
+
+
+\-Definition at line 101 of file simulator.\-h.
+
+\hypertarget{group___h_i_t_l_plugin_gaf92e2c90046782813af0a2fdd6e48bf4}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!pitch@{pitch}}
+\index{pitch@{pitch}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{pitch}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf \-Output2\-Hardware\-::pitch}}}\label{group___h_i_t_l_plugin_gaf92e2c90046782813af0a2fdd6e48bf4}
+
+
+\-Definition at line 179 of file simulator.\-h.
+
+\hypertarget{group___h_i_t_l_plugin_ga29bbb9f720db0b7039f92a3afcb785a3}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!pitch\-Desired@{pitch\-Desired}}
+\index{pitch\-Desired@{pitch\-Desired}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{pitch\-Desired}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf \-Output2\-Hardware\-::pitch\-Desired}}}\label{group___h_i_t_l_plugin_ga29bbb9f720db0b7039f92a3afcb785a3}
+
+
+\-Definition at line 200 of file simulator.\-h.
+
+\hypertarget{group___h_i_t_l_plugin_ga9d3248d73390ba0b13ca165ee1f1fef0}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!pitch\-Rate@{pitch\-Rate}}
+\index{pitch\-Rate@{pitch\-Rate}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{pitch\-Rate}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf \-Output2\-Hardware\-::pitch\-Rate}}}\label{group___h_i_t_l_plugin_ga9d3248d73390ba0b13ca165ee1f1fef0}
+
+
+\-Definition at line 192 of file simulator.\-h.
+
+\hypertarget{group___h_i_t_l_plugin_ga9fcd56565e3cb4d64bc0c71c0a6151c1}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!pos\-Home@{pos\-Home}}
+\index{pos\-Home@{pos\-Home}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{pos\-Home}]{\setlength{\rightskip}{0pt plus 5cm}\-Home\-Location$\ast$ {\bf \-Simulator\-::pos\-Home}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{group___h_i_t_l_plugin_ga9fcd56565e3cb4d64bc0c71c0a6151c1}
+
+
+\-Definition at line 293 of file simulator.\-h.
+
+\hypertarget{group___h_i_t_l_plugin_ga54f9e7005f571fdacf23a67005004b0a}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!position\-Actual\-Data@{position\-Actual\-Data}}
+\index{position\-Actual\-Data@{position\-Actual\-Data}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{position\-Actual\-Data}]{\setlength{\rightskip}{0pt plus 5cm}\-Position\-Actual\-::\-Data\-Fields {\bf \-Noise\-::position\-Actual\-Data}}}\label{group___h_i_t_l_plugin_ga54f9e7005f571fdacf23a67005004b0a}
+
+
+\-Definition at line 49 of file hitlnoisegeneration.\-h.
+
+\hypertarget{group___h_i_t_l_plugin_ga9c1fdbe8d01c5346b54b71beff806a7e}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!pressure@{pressure}}
+\index{pressure@{pressure}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{pressure}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf \-Output2\-Hardware\-::pressure}}}\label{group___h_i_t_l_plugin_ga9c1fdbe8d01c5346b54b71beff806a7e}
+
+
+\-Definition at line 180 of file simulator.\-h.
+
+\hypertarget{group___h_i_t_l_plugin_gadf58977eef899196280267ae39cc6f65}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!rc\-\_\-channel@{rc\-\_\-channel}}
+\index{rc\-\_\-channel@{rc\-\_\-channel}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{rc\-\_\-channel}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf \-Output2\-Hardware\-::rc\-\_\-channel}\mbox{[}\-G\-C\-S\-Receiver\-::\-C\-H\-A\-N\-N\-E\-L\-\_\-\-N\-U\-M\-E\-L\-E\-M\mbox{]}}}\label{group___h_i_t_l_plugin_gadf58977eef899196280267ae39cc6f65}
+
+
+\-Definition at line 196 of file simulator.\-h.
+
+\hypertarget{group___h_i_t_l_plugin_ga259002c03d3dec62e3af14ded35e5bfd}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!relative\-Humidity@{relative\-Humidity}}
+\index{relative\-Humidity@{relative\-Humidity}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{relative\-Humidity}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf \-Air\-Parameters\-::relative\-Humidity}}}\label{group___h_i_t_l_plugin_ga259002c03d3dec62e3af14ded35e5bfd}
+
+
+\-Definition at line 119 of file simulator.\-h.
+
+\hypertarget{group___h_i_t_l_plugin_ga72b83e685c950b6c36c9eed28c775ec4}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!remote\-Address@{remote\-Address}}
+\index{remote\-Address@{remote\-Address}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{remote\-Address}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Q\-String} {\bf \-\_\-\-C\-O\-N\-N\-E\-C\-T\-I\-O\-N\-::remote\-Address}}}\label{group___h_i_t_l_plugin_ga72b83e685c950b6c36c9eed28c775ec4}
+
+
+\-Definition at line 129 of file simulator.\-h.
+
+\hypertarget{group___h_i_t_l_plugin_ga1e4f51848f0c33a0264bc1fc9acb63db}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!roll@{roll}}
+\index{roll@{roll}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{roll}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf \-\_\-\-F\-L\-I\-G\-H\-T\-\_\-\-P\-A\-R\-A\-M\-::roll}}}\label{group___h_i_t_l_plugin_ga1e4f51848f0c33a0264bc1fc9acb63db}
+
+
+\-Definition at line 102 of file simulator.\-h.
+
+\hypertarget{group___h_i_t_l_plugin_ga8f2327775c3342e13799a4ed6392f23f}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!roll@{roll}}
+\index{roll@{roll}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{roll}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf \-Output2\-Hardware\-::roll}}}\label{group___h_i_t_l_plugin_ga8f2327775c3342e13799a4ed6392f23f}
+
+
+\-Definition at line 178 of file simulator.\-h.
+
+\hypertarget{group___h_i_t_l_plugin_ga56fde0222228b19a5ed9e89efd765da0}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!roll\-Desired@{roll\-Desired}}
+\index{roll\-Desired@{roll\-Desired}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{roll\-Desired}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf \-Output2\-Hardware\-::roll\-Desired}}}\label{group___h_i_t_l_plugin_ga56fde0222228b19a5ed9e89efd765da0}
+
+
+\-Definition at line 199 of file simulator.\-h.
+
+\hypertarget{group___h_i_t_l_plugin_ga81680dc2663395de5b3f4aeaeb9f35f9}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!roll\-Rate@{roll\-Rate}}
+\index{roll\-Rate@{roll\-Rate}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{roll\-Rate}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf \-Output2\-Hardware\-::roll\-Rate}}}\label{group___h_i_t_l_plugin_ga81680dc2663395de5b3f4aeaeb9f35f9}
+
+
+\-Definition at line 191 of file simulator.\-h.
+
+\hypertarget{group___h_i_t_l_plugin_gad886dc623ba9dd1cb06beeb950791c7a}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!sea\-Level\-Press@{sea\-Level\-Press}}
+\index{sea\-Level\-Press@{sea\-Level\-Press}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{sea\-Level\-Press}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf \-Air\-Parameters\-::sea\-Level\-Press}}}\label{group___h_i_t_l_plugin_gad886dc623ba9dd1cb06beeb950791c7a}
+
+
+\-Definition at line 115 of file simulator.\-h.
+
+\hypertarget{group___h_i_t_l_plugin_ga61775246e91fbe43ce9d79c03bfde19f}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!settings@{settings}}
+\index{settings@{settings}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{settings}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Simulator\-Settings} {\bf \-Simulator\-::settings}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{group___h_i_t_l_plugin_ga61775246e91fbe43ce9d79c03bfde19f}
+
+
+\-Definition at line 300 of file simulator.\-h.
+
+\hypertarget{group___h_i_t_l_plugin_ga28f5833f779eb659394e6c6cfe6f2331}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!sim\-Process@{sim\-Process}}
+\index{sim\-Process@{sim\-Process}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{sim\-Process}]{\setlength{\rightskip}{0pt plus 5cm}\-Q\-Process$\ast$ {\bf \-Simulator\-::sim\-Process}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{group___h_i_t_l_plugin_ga28f5833f779eb659394e6c6cfe6f2331}
+
+
+\-Definition at line 276 of file simulator.\-h.
+
+\hypertarget{group___h_i_t_l_plugin_gae2769b70fdfc601ee4d7fc19c08bfe59}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!simulator\-Id@{simulator\-Id}}
+\index{simulator\-Id@{simulator\-Id}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{simulator\-Id}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Q\-String} {\bf \-\_\-\-C\-O\-N\-N\-E\-C\-T\-I\-O\-N\-::simulator\-Id}}}\label{group___h_i_t_l_plugin_gae2769b70fdfc601ee4d7fc19c08bfe59}
+
+
+\-Definition at line 125 of file simulator.\-h.
+
+\hypertarget{group___h_i_t_l_plugin_ga17c6b00bf3f43c686cca76b3286ba75c}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!start\-Sim@{start\-Sim}}
+\index{start\-Sim@{start\-Sim}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{start\-Sim}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-\_\-\-C\-O\-N\-N\-E\-C\-T\-I\-O\-N\-::start\-Sim}}}\label{group___h_i_t_l_plugin_ga17c6b00bf3f43c686cca76b3286ba75c}
+
+
+\-Definition at line 132 of file simulator.\-h.
+
+\hypertarget{group___h_i_t_l_plugin_ga6c3abbd8306a5eb69384ca36f338991b}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!\-T@{\-T}}
+\index{\-T@{\-T}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{\-T}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf \-\_\-\-F\-L\-I\-G\-H\-T\-\_\-\-P\-A\-R\-A\-M\-::\-T}}}\label{group___h_i_t_l_plugin_ga6c3abbd8306a5eb69384ca36f338991b}
+
+
+\-Definition at line 75 of file simulator.\-h.
+
+\hypertarget{group___h_i_t_l_plugin_gad3fafd24c05ec4da9b2b230dfe6eec23}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!tas@{tas}}
+\index{tas@{tas}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{tas}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf \-\_\-\-F\-L\-I\-G\-H\-T\-\_\-\-P\-A\-R\-A\-M\-::tas}}}\label{group___h_i_t_l_plugin_gad3fafd24c05ec4da9b2b230dfe6eec23}
+
+
+\-Definition at line 81 of file simulator.\-h.
+
+\hypertarget{group___h_i_t_l_plugin_ga925c7971d40c91b63e480e5f89096747}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!temperature@{temperature}}
+\index{temperature@{temperature}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{temperature}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf \-Output2\-Hardware\-::temperature}}}\label{group___h_i_t_l_plugin_ga925c7971d40c91b63e480e5f89096747}
+
+
+\-Definition at line 181 of file simulator.\-h.
+
+\hypertarget{group___h_i_t_l_plugin_gae5608554d84c53cb81499d63b9381f9f}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!temp\-Lapse\-Rate@{temp\-Lapse\-Rate}}
+\index{temp\-Lapse\-Rate@{temp\-Lapse\-Rate}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{temp\-Lapse\-Rate}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf \-Air\-Parameters\-::temp\-Lapse\-Rate}}}\label{group___h_i_t_l_plugin_gae5608554d84c53cb81499d63b9381f9f}
+
+
+\-Definition at line 116 of file simulator.\-h.
+
+\hypertarget{group___h_i_t_l_plugin_gab6902f4f38e771b9d499521d861661f2}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!throttle\-Desired@{throttle\-Desired}}
+\index{throttle\-Desired@{throttle\-Desired}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{throttle\-Desired}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf \-Output2\-Hardware\-::throttle\-Desired}}}\label{group___h_i_t_l_plugin_gab6902f4f38e771b9d499521d861661f2}
+
+
+\-Definition at line 202 of file simulator.\-h.
+
+\hypertarget{group___h_i_t_l_plugin_ga162228fbfec7737c989bfe0b340e8617}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!time@{time}}
+\index{time@{time}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{time}]{\setlength{\rightskip}{0pt plus 5cm}\-Q\-Time$\ast$ {\bf \-Simulator\-::time}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{group___h_i_t_l_plugin_ga162228fbfec7737c989bfe0b340e8617}
+
+
+\-Definition at line 277 of file simulator.\-h.
+
+\hypertarget{group___h_i_t_l_plugin_gaca71e282fd00490c801905254e99ef54}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!true\-Airspeed@{true\-Airspeed}}
+\index{true\-Airspeed@{true\-Airspeed}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{true\-Airspeed}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf \-Output2\-Hardware\-::true\-Airspeed}}}\label{group___h_i_t_l_plugin_gaca71e282fd00490c801905254e99ef54}
+
+
+\-Definition at line 175 of file simulator.\-h.
+
+\hypertarget{group___h_i_t_l_plugin_ga0400c2f74f4a0c3cd840f95c99b1b601}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!type\-Simulators@{type\-Simulators}}
+\index{type\-Simulators@{type\-Simulators}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{type\-Simulators}]{\setlength{\rightskip}{0pt plus 5cm}\-Q\-List$<$ {\bf \-Simulator\-Creator} $\ast$ $>$ {\bf \-H\-I\-T\-L\-Plugin\-::type\-Simulators}\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}\label{group___h_i_t_l_plugin_ga0400c2f74f4a0c3cd840f95c99b1b601}
+
+
+\-Definition at line 65 of file hitlplugin.\-h.
+
+\hypertarget{group___h_i_t_l_plugin_gaf6cf658bcff6f341c341ba3f6194761c}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!univ\-Gas\-Constant@{univ\-Gas\-Constant}}
+\index{univ\-Gas\-Constant@{univ\-Gas\-Constant}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{univ\-Gas\-Constant}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf \-Air\-Parameters\-::univ\-Gas\-Constant}}}\label{group___h_i_t_l_plugin_gaf6cf658bcff6f341c341ba3f6194761c}
+
+
+\-Definition at line 117 of file simulator.\-h.
+
+\hypertarget{group___h_i_t_l_plugin_ga9d5ac871d0c0845dcd9363069268c2d3}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!vel\-Down@{vel\-Down}}
+\index{vel\-Down@{vel\-Down}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{vel\-Down}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf \-Output2\-Hardware\-::vel\-Down}}}\label{group___h_i_t_l_plugin_ga9d5ac871d0c0845dcd9363069268c2d3}
+
+
+\-Definition at line 184 of file simulator.\-h.
+
+\hypertarget{group___h_i_t_l_plugin_gae7889fb60f991558b83af5aef685a35f}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!vel\-East@{vel\-East}}
+\index{vel\-East@{vel\-East}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{vel\-East}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf \-Output2\-Hardware\-::vel\-East}}}\label{group___h_i_t_l_plugin_gae7889fb60f991558b83af5aef685a35f}
+
+
+\-Definition at line 183 of file simulator.\-h.
+
+\hypertarget{group___h_i_t_l_plugin_gaa20e34957a2badaea5d07a49ab029182}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!vel\-North@{vel\-North}}
+\index{vel\-North@{vel\-North}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{vel\-North}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf \-Output2\-Hardware\-::vel\-North}}}\label{group___h_i_t_l_plugin_gaa20e34957a2badaea5d07a49ab029182}
+
+
+\-Definition at line 182 of file simulator.\-h.
+
+\hypertarget{group___h_i_t_l_plugin_ga45f843b87142396306b05148bf19b766}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!velocity\-Actual\-Data@{velocity\-Actual\-Data}}
+\index{velocity\-Actual\-Data@{velocity\-Actual\-Data}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{velocity\-Actual\-Data}]{\setlength{\rightskip}{0pt plus 5cm}\-Velocity\-Actual\-::\-Data\-Fields {\bf \-Noise\-::velocity\-Actual\-Data}}}\label{group___h_i_t_l_plugin_ga45f843b87142396306b05148bf19b766}
+
+
+\-Definition at line 50 of file hitlnoisegeneration.\-h.
+
+\hypertarget{group___h_i_t_l_plugin_ga55a42deedc5785d55c570ae908bcc46a}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!\-X@{\-X}}
+\index{\-X@{\-X}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{\-X}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf \-\_\-\-F\-L\-I\-G\-H\-T\-\_\-\-P\-A\-R\-A\-M\-::\-X}}}\label{group___h_i_t_l_plugin_ga55a42deedc5785d55c570ae908bcc46a}
+
+
+\-Definition at line 85 of file simulator.\-h.
+
+\hypertarget{group___h_i_t_l_plugin_gafb4f835313c27ac7b01fe3eb77b6bacc}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!\-Y@{\-Y}}
+\index{\-Y@{\-Y}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{\-Y}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf \-\_\-\-F\-L\-I\-G\-H\-T\-\_\-\-P\-A\-R\-A\-M\-::\-Y}}}\label{group___h_i_t_l_plugin_gafb4f835313c27ac7b01fe3eb77b6bacc}
+
+
+\-Definition at line 86 of file simulator.\-h.
+
+\hypertarget{group___h_i_t_l_plugin_gaf01c33ffb5c7695348739d0070122bd7}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!yaw\-Desired@{yaw\-Desired}}
+\index{yaw\-Desired@{yaw\-Desired}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{yaw\-Desired}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf \-Output2\-Hardware\-::yaw\-Desired}}}\label{group___h_i_t_l_plugin_gaf01c33ffb5c7695348739d0070122bd7}
+
+
+\-Definition at line 201 of file simulator.\-h.
+
+\hypertarget{group___h_i_t_l_plugin_gab54300de73ca6f11f519068435673210}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!yaw\-Rate@{yaw\-Rate}}
+\index{yaw\-Rate@{yaw\-Rate}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{yaw\-Rate}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf \-Output2\-Hardware\-::yaw\-Rate}}}\label{group___h_i_t_l_plugin_gab54300de73ca6f11f519068435673210}
+
+
+\-Definition at line 193 of file simulator.\-h.
+
+\hypertarget{group___h_i_t_l_plugin_gacb21381efc860b328d0be136ef53f98c}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!\-Z@{\-Z}}
+\index{\-Z@{\-Z}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{\-Z}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf \-\_\-\-F\-L\-I\-G\-H\-T\-\_\-\-P\-A\-R\-A\-M\-::\-Z}}}\label{group___h_i_t_l_plugin_gacb21381efc860b328d0be136ef53f98c}
+
+
+\-Definition at line 87 of file simulator.\-h.
+
+
+
+\subsection{\-Signals}
+\hypertarget{group___h_i_t_l_plugin_gac7a4b06b939b52699df392d65a575285}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!autopilot\-Connected@{autopilot\-Connected}}
+\index{autopilot\-Connected@{autopilot\-Connected}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{autopilot\-Connected}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Simulator\-::autopilot\-Connected} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}signal\mbox{]}}}}\label{group___h_i_t_l_plugin_gac7a4b06b939b52699df392d65a575285}
+\hypertarget{group___h_i_t_l_plugin_ga24f5c82338e62ddaa39f3ea0624f71da}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!autopilot\-Disconnected@{autopilot\-Disconnected}}
+\index{autopilot\-Disconnected@{autopilot\-Disconnected}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{autopilot\-Disconnected}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Simulator\-::autopilot\-Disconnected} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}signal\mbox{]}}}}\label{group___h_i_t_l_plugin_ga24f5c82338e62ddaa39f3ea0624f71da}
+\hypertarget{group___h_i_t_l_plugin_ga13e1705f62c6f94853cd64d477b213ef}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!change\-Configuration@{change\-Configuration}}
+\index{change\-Configuration@{change\-Configuration}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{change\-Configuration}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-H\-I\-T\-L\-Gadget\-::change\-Configuration} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}signal\mbox{]}}}}\label{group___h_i_t_l_plugin_ga13e1705f62c6f94853cd64d477b213ef}
+\hypertarget{group___h_i_t_l_plugin_ga04206cd250313cf8c8e4db8a19f88479}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!delete\-Sim\-Process@{delete\-Sim\-Process}}
+\index{delete\-Sim\-Process@{delete\-Sim\-Process}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{delete\-Sim\-Process}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Simulator\-::delete\-Sim\-Process} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}signal\mbox{]}}}}\label{group___h_i_t_l_plugin_ga04206cd250313cf8c8e4db8a19f88479}
+\hypertarget{group___h_i_t_l_plugin_gaf7e8415c98faa84030b51013ef49fa4e}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!my\-Start@{my\-Start}}
+\index{my\-Start@{my\-Start}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{my\-Start}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Simulator\-::my\-Start} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}signal\mbox{]}}}}\label{group___h_i_t_l_plugin_gaf7e8415c98faa84030b51013ef49fa4e}
+\hypertarget{group___h_i_t_l_plugin_ga2442aac38c69150f1089c874f766793e}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!process\-Output@{process\-Output}}
+\index{process\-Output@{process\-Output}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{process\-Output}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Simulator\-::process\-Output} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Q\-String}}]{str}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}signal\mbox{]}}}}\label{group___h_i_t_l_plugin_ga2442aac38c69150f1089c874f766793e}
+\hypertarget{group___h_i_t_l_plugin_gaa228d07fc331cb9526ea7e35657c762c}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!simulator\-Connected@{simulator\-Connected}}
+\index{simulator\-Connected@{simulator\-Connected}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{simulator\-Connected}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Simulator\-::simulator\-Connected} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}signal\mbox{]}}}}\label{group___h_i_t_l_plugin_gaa228d07fc331cb9526ea7e35657c762c}
+\hypertarget{group___h_i_t_l_plugin_gad742612caa0cecd4258bd9bdccf38336}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!simulator\-Disconnected@{simulator\-Disconnected}}
+\index{simulator\-Disconnected@{simulator\-Disconnected}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{simulator\-Disconnected}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Simulator\-::simulator\-Disconnected} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}signal\mbox{]}}}}\label{group___h_i_t_l_plugin_gad742612caa0cecd4258bd9bdccf38336}
+
+
+\subsection{\-Public \-Slots}
+\hypertarget{group___h_i_t_l_plugin_gacd597e5682d8dbe29504ed7c45245695}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!set\-Simulator\-Settings@{set\-Simulator\-Settings}}
+\index{set\-Simulator\-Settings@{set\-Simulator\-Settings}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{set\-Simulator\-Settings}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-H\-I\-T\-L\-Configuration\-::set\-Simulator\-Settings} (
+\begin{DoxyParamCaption}
+\item[{const {\bf \-Simulator\-Settings} \&}]{params}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, slot\mbox{]}}}}\label{group___h_i_t_l_plugin_gacd597e5682d8dbe29504ed7c45245695}
+
+
+\-Definition at line 56 of file hitlconfiguration.\-h.
+
+\hypertarget{group___h_i_t_l_plugin_ga25516220ab21d874ae00dd9a21c3e313}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!setup\-Process@{setup\-Process}}
+\index{setup\-Process@{setup\-Process}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{setup\-Process}]{\setlength{\rightskip}{0pt plus 5cm}virtual \-Q\-\_\-\-I\-N\-V\-O\-K\-A\-B\-L\-E bool {\bf \-Simulator\-::setup\-Process} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, virtual, slot\mbox{]}}}}\label{group___h_i_t_l_plugin_ga25516220ab21d874ae00dd9a21c3e313}
+
+
+\-Reimplemented in \hyperlink{group___h_i_t_l_plugin_gae47d5533f13e5ad9a6095ba2bc61bade}{\-Aero\-Sim\-R\-C\-Simulator}, \hyperlink{group___h_i_t_l_plugin_ga704da6f44b2b3538b2e1c3239cb2a76c}{\-F\-G\-Simulator}, and \hyperlink{group___h_i_t_l_plugin_ga3818193fd63bfaf004e3aab25491f28c}{\-Xplane\-Simulator}.
+
+
+
+\-Definition at line 262 of file simulator.\-h.
+
+
+
+\subsection{\-Properties}
+\hypertarget{group___h_i_t_l_plugin_ga961f33f3db5f79daaf792a4999ac5c06}{\index{\-H\-I\-T\-L Plugin@{\-H\-I\-T\-L Plugin}!settings@{settings}}
+\index{settings@{settings}!HITL Plugin@{\-H\-I\-T\-L Plugin}}
+\subsubsection[{settings}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Simulator\-Settings} {\bf \-H\-I\-T\-L\-Configuration\-::settings}\hspace{0.3cm}{\ttfamily  \mbox{[}read, write\mbox{]}}}}\label{group___h_i_t_l_plugin_ga961f33f3db5f79daaf792a4999ac5c06}
+
+
+\-Definition at line 45 of file hitlconfiguration.\-h.
+

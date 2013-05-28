@@ -1,0 +1,119 @@
+\hypertarget{class_pfd_qml_plugin}{\section{\-Pfd\-Qml\-Plugin \-Class \-Reference}
+\label{class_pfd_qml_plugin}\index{\-Pfd\-Qml\-Plugin@{\-Pfd\-Qml\-Plugin}}
+}
+
+
+{\ttfamily \#include $<$pfdqmlplugin.\-h$>$}
+
+\-Inheritance diagram for \-Pfd\-Qml\-Plugin\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_pfd_qml_plugin}
+\end{center}
+\end{figure}
+\subsection*{\-Public \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_pfd_qml_plugin_a9955332218a872bfa18350ec1b73c03c}{\-Pfd\-Qml\-Plugin} ()
+\item 
+\hyperlink{class_pfd_qml_plugin_a374958f01b874394eeb1beca385e7598}{$\sim$\-Pfd\-Qml\-Plugin} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_pfd_qml_plugin_a6c95a7f2f165134d33ef84acdf6a96f8}{extensions\-Initialized} ()
+\item 
+bool \hyperlink{class_pfd_qml_plugin_a5829e5ecd64024c4d9962550c0beffcb}{initialize} (const \-Q\-String\-List \&arguments, \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} $\ast$error\-String)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_pfd_qml_plugin_a39d4ab7d539a9a77adc57b8ecf33e781}{shutdown} ()
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+
+
+\-Definition at line 24 of file pfdqmlplugin.\-h.
+
+
+
+\subsection{\-Constructor \& \-Destructor \-Documentation}
+\hypertarget{class_pfd_qml_plugin_a9955332218a872bfa18350ec1b73c03c}{\index{\-Pfd\-Qml\-Plugin@{\-Pfd\-Qml\-Plugin}!\-Pfd\-Qml\-Plugin@{\-Pfd\-Qml\-Plugin}}
+\index{\-Pfd\-Qml\-Plugin@{\-Pfd\-Qml\-Plugin}!PfdQmlPlugin@{\-Pfd\-Qml\-Plugin}}
+\subsubsection[{\-Pfd\-Qml\-Plugin}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Pfd\-Qml\-Plugin\-::\-Pfd\-Qml\-Plugin} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_pfd_qml_plugin_a9955332218a872bfa18350ec1b73c03c}
+
+
+\-Definition at line 25 of file pfdqmlplugin.\-cpp.
+
+\hypertarget{class_pfd_qml_plugin_a374958f01b874394eeb1beca385e7598}{\index{\-Pfd\-Qml\-Plugin@{\-Pfd\-Qml\-Plugin}!$\sim$\-Pfd\-Qml\-Plugin@{$\sim$\-Pfd\-Qml\-Plugin}}
+\index{$\sim$\-Pfd\-Qml\-Plugin@{$\sim$\-Pfd\-Qml\-Plugin}!PfdQmlPlugin@{\-Pfd\-Qml\-Plugin}}
+\subsubsection[{$\sim$\-Pfd\-Qml\-Plugin}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Pfd\-Qml\-Plugin\-::$\sim$\-Pfd\-Qml\-Plugin} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_pfd_qml_plugin_a374958f01b874394eeb1beca385e7598}
+
+
+\-Definition at line 30 of file pfdqmlplugin.\-cpp.
+
+
+
+\subsection{\-Member \-Function \-Documentation}
+\hypertarget{class_pfd_qml_plugin_a6c95a7f2f165134d33ef84acdf6a96f8}{\index{\-Pfd\-Qml\-Plugin@{\-Pfd\-Qml\-Plugin}!extensions\-Initialized@{extensions\-Initialized}}
+\index{extensions\-Initialized@{extensions\-Initialized}!PfdQmlPlugin@{\-Pfd\-Qml\-Plugin}}
+\subsubsection[{extensions\-Initialized}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Pfd\-Qml\-Plugin\-::extensions\-Initialized} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{class_pfd_qml_plugin_a6c95a7f2f165134d33ef84acdf6a96f8}
+\-Called after the \-I\-Plugin\-::initialize() method has been called, and after both the \-I\-Plugin\-::initialize() and \-I\-Plugin\-::extensions\-Initialized() methods of plugins that depend on this plugin have been called. \-In this method, the plugin can assume that plugins that depend on this plugin are fully 'up and running'. \-It is a good place to look in the plugin manager's object pool for objects that have been provided by dependent plugins. \begin{DoxySeeAlso}{\-See also}
+\hyperlink{class_pfd_qml_plugin_a5829e5ecd64024c4d9962550c0beffcb}{initialize()} 
+\end{DoxySeeAlso}
+
+
+\-Implements \hyperlink{class_extension_system_1_1_i_plugin_a1db3a7fb242fca02229f9a3be4fd6610}{\-Extension\-System\-::\-I\-Plugin}.
+
+
+
+\-Definition at line 45 of file pfdqmlplugin.\-cpp.
+
+\hypertarget{class_pfd_qml_plugin_a5829e5ecd64024c4d9962550c0beffcb}{\index{\-Pfd\-Qml\-Plugin@{\-Pfd\-Qml\-Plugin}!initialize@{initialize}}
+\index{initialize@{initialize}!PfdQmlPlugin@{\-Pfd\-Qml\-Plugin}}
+\subsubsection[{initialize}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-Pfd\-Qml\-Plugin\-::initialize} (
+\begin{DoxyParamCaption}
+\item[{const \-Q\-String\-List \&}]{arguments, }
+\item[{{\bf \-Q\-String} $\ast$}]{error\-String}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{class_pfd_qml_plugin_a5829e5ecd64024c4d9962550c0beffcb}
+\-Called after the plugin has been loaded and the \-I\-Plugin instance has been created. \-The initialize methods of plugins that depend on this plugin are called after the initialize method of this plugin has been called. \-Plugins should initialize their internal state in this method. \-Returns if initialization of successful. \-If it wasn't successful, the {\itshape error\-String\/} should be set to a user-\/readable message describing the reason. \begin{DoxySeeAlso}{\-See also}
+\hyperlink{class_pfd_qml_plugin_a6c95a7f2f165134d33ef84acdf6a96f8}{extensions\-Initialized()} 
+\end{DoxySeeAlso}
+
+
+\-Implements \hyperlink{class_extension_system_1_1_i_plugin_a9f3dc957317279daed393fdf4894e944}{\-Extension\-System\-::\-I\-Plugin}.
+
+
+
+\-Definition at line 35 of file pfdqmlplugin.\-cpp.
+
+\hypertarget{class_pfd_qml_plugin_a39d4ab7d539a9a77adc57b8ecf33e781}{\index{\-Pfd\-Qml\-Plugin@{\-Pfd\-Qml\-Plugin}!shutdown@{shutdown}}
+\index{shutdown@{shutdown}!PfdQmlPlugin@{\-Pfd\-Qml\-Plugin}}
+\subsubsection[{shutdown}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Pfd\-Qml\-Plugin\-::shutdown} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{class_pfd_qml_plugin_a39d4ab7d539a9a77adc57b8ecf33e781}
+\-Called during a shutdown sequence in the same order as initialization before the plugins get deleted in reverse order. \-This method can be used to optimize the shutdown down, e.\-g. to disconnect from the \-Plugin\-Manager\-::about\-To\-Remove\-Object() signal if getting the signal (and probably doing lots of stuff to update the internal and visible state) doesn't make sense during shutdown. 
+
+\-Reimplemented from \hyperlink{class_extension_system_1_1_i_plugin_a65c16ebd3a6e89918a99af6515fe68cb}{\-Extension\-System\-::\-I\-Plugin}.
+
+
+
+\-Definition at line 50 of file pfdqmlplugin.\-cpp.
+
+
+
+\-The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/plugins/pfdqml/\hyperlink{pfdqmlplugin_8h}{pfdqmlplugin.\-h}\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/plugins/pfdqml/\hyperlink{pfdqmlplugin_8cpp}{pfdqmlplugin.\-cpp}\end{DoxyCompactItemize}

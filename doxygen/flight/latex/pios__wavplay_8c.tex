@@ -1,0 +1,89 @@
+\hypertarget{pios__wavplay_8c}{\section{/home/jb/code/\-Tau\-Labs/flight/\-Pi\-O\-S/\-Common/pios\-\_\-wavplay.c \-File \-Reference}
+\label{pios__wavplay_8c}\index{/home/jb/code/\-Tau\-Labs/flight/\-Pi\-O\-S/\-Common/pios\-\_\-wavplay.\-c@{/home/jb/code/\-Tau\-Labs/flight/\-Pi\-O\-S/\-Common/pios\-\_\-wavplay.\-c}}
+}
+
+
+audio generator  
+
+
+\subsection*{\-Data \-Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{struct_w_a_v_e___format_type_def}{\-W\-A\-V\-E\-\_\-\-Format\-Type\-Def}
+\item 
+struct \hyperlink{structwave__format}{wave\-\_\-format}
+\end{DoxyCompactItemize}
+\subsection*{\-Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{group___p_i_o_s___w_a_v_p_l_a_y_ga4f3ee12da30a1e47c52dc137b4627cab}{\-Endianness} \{ \hyperlink{group___p_i_o_s___w_a_v_p_l_a_y_gga4f3ee12da30a1e47c52dc137b4627caba66c163903fb08aef1735714dbb818cc7}{\-Little\-Endian}, 
+\hyperlink{group___p_i_o_s___w_a_v_p_l_a_y_gga4f3ee12da30a1e47c52dc137b4627cabab90b00401d08d0ecc6b6c2c54db50d6b}{\-Big\-Endian}
+ \}
+\item 
+enum \hyperlink{group___w_a_v_e_p_l_a_y_e_r___private___defines_ga59e56af19e754a6aa26a612ebf91d05f}{\-Error\-Code} \{ \*
+\hyperlink{group___w_a_v_e_p_l_a_y_e_r___private___defines_gga59e56af19e754a6aa26a612ebf91d05fa1fabd873712e53cf11eb22b34ccb33e4}{\-Valid\-\_\-\-W\-A\-V\-E\-\_\-\-File} =  0, 
+\hyperlink{group___w_a_v_e_p_l_a_y_e_r___private___defines_gga59e56af19e754a6aa26a612ebf91d05fad667e766ef27c3362677153089ddbe21}{\-Unvalid\-\_\-\-R\-I\-F\-F\-\_\-\-I\-D}, 
+\hyperlink{group___w_a_v_e_p_l_a_y_e_r___private___defines_gga59e56af19e754a6aa26a612ebf91d05fa20c358c2802e18284ae87cc4e7df9f14}{\-Unvalid\-\_\-\-W\-A\-V\-E\-\_\-\-Format}, 
+\hyperlink{group___w_a_v_e_p_l_a_y_e_r___private___defines_gga59e56af19e754a6aa26a612ebf91d05faac0f69147a76390f1da102e6cf220a60}{\-Unvalid\-\_\-\-Format\-Chunk\-\_\-\-I\-D}, 
+\*
+\hyperlink{group___w_a_v_e_p_l_a_y_e_r___private___defines_gga59e56af19e754a6aa26a612ebf91d05fa5b51107e731ee731773f39d17598c84e}{\-Unsupporetd\-\_\-\-Format\-Tag}, 
+\hyperlink{group___w_a_v_e_p_l_a_y_e_r___private___defines_gga59e56af19e754a6aa26a612ebf91d05fa1dfc5f21b062f80a3f2708938b36770b}{\-Unsupporetd\-\_\-\-Number\-\_\-\-Of\-\_\-\-Channel}, 
+\hyperlink{group___w_a_v_e_p_l_a_y_e_r___private___defines_gga59e56af19e754a6aa26a612ebf91d05fa024dc78af1fa8d2db4361d40da325462}{\-Unsupporetd\-\_\-\-Sample\-\_\-\-Rate}, 
+\hyperlink{group___w_a_v_e_p_l_a_y_e_r___private___defines_gga59e56af19e754a6aa26a612ebf91d05fac3a0a25a660be15d1eb6b8aa793735b1}{\-Unsupporetd\-\_\-\-Bits\-\_\-\-Per\-\_\-\-Sample}, 
+\*
+\hyperlink{group___w_a_v_e_p_l_a_y_e_r___private___defines_gga59e56af19e754a6aa26a612ebf91d05faa4e11aeb87ed5450e21ca46356b812de}{\-Unvalid\-\_\-\-Data\-Chunk\-\_\-\-I\-D}, 
+\hyperlink{group___w_a_v_e_p_l_a_y_e_r___private___defines_gga59e56af19e754a6aa26a612ebf91d05fa006514c8e831d8591a7df3b1ebe9a292}{\-Unsupporetd\-\_\-\-Extra\-Format\-Bytes}, 
+\hyperlink{group___w_a_v_e_p_l_a_y_e_r___private___defines_gga59e56af19e754a6aa26a612ebf91d05fa61a139e96b76edecfa33c5c6ec113072}{\-Unvalid\-\_\-\-Fact\-Chunk\-\_\-\-I\-D}
+ \}
+\end{DoxyCompactItemize}
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+uint32\-\_\-t \hyperlink{group___w_a_v_e_p_l_a_y_e_r___private___variables_ga320f95ce300a40d4d6ac9330571b69f5}{\-Decrement\-\_\-\-Wave\-Data\-Length} (void)
+\begin{DoxyCompactList}\small\item\em \-Decrements the played wave data length. \end{DoxyCompactList}\item 
+void \hyperlink{group___w_a_v_e_p_l_a_y_e_r___private___variables_ga06d4df1b9aa3d4d9b1917165d566fa6e}{\-Set\-\_\-\-Wave\-Data\-Length} (uint32\-\_\-t value)
+\begin{DoxyCompactList}\small\item\em \-Decrements the played wave data length. \end{DoxyCompactList}\item 
+uint8\-\_\-t \hyperlink{group___w_a_v_e_p_l_a_y_e_r___private___variables_gad653a67ad3415d1d9d9c91e13904fb06}{\-Wave\-Player\-\_\-\-Start} (void)
+\item 
+void \hyperlink{group___w_a_v_e_p_l_a_y_e_r___private___variables_ga833570d033bad7d2098b024caec552be}{\-P\-I\-O\-S\-\_\-\-Wav\-Play\-\_\-\-Init} (const struct \hyperlink{structpios__dac__cfg}{pios\-\_\-dac\-\_\-cfg} $\ast$cfg)
+\item 
+void \hyperlink{group___w_a_v_e_p_l_a_y_e_r___private___variables_ga29135d928d42113c2b530dbb74b16ecb}{\-Wave\-Player\-\_\-\-Stop} (void)
+\item 
+void \hyperlink{group___w_a_v_e_p_l_a_y_e_r___private___variables_gaea75313b54903975f2fdc7544db2be56}{\-D\-A\-C\-\_\-\-T\-I\-M\-\_\-\-Handler} (void)
+\item 
+void \hyperlink{group___w_a_v_e_p_l_a_y_e_r___private___variables_ga0839a45f331c4c067939b9c4533bbf4d}{\-T\-I\-M6\-\_\-\-D\-A\-C\-\_\-\-I\-R\-Q\-Handler} (void)
+\begin{DoxyCompactList}\small\item\em \-This function handles \-T\-I\-M6 global interrupt request. \end{DoxyCompactList}\item 
+void \hyperlink{group___w_a_v_e_p_l_a_y_e_r___private___variables_gacd70b474635a5b775308867bd730d64d}{\-D\-A\-C\-\_\-\-D\-M\-A\-\_\-\-Handler} (void)
+\item 
+void \hyperlink{group___w_a_v_e_p_l_a_y_e_r___private___variables_gac201b60d58b0eba2ce0b55710eb3c4d0}{\-D\-M\-A1\-\_\-\-Stream5\-\_\-\-I\-R\-Q\-Handler} (void)
+\begin{DoxyCompactList}\small\item\em \-Interrupt for half and full buffer transfer. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Variables}
+\begin{DoxyCompactItemize}
+\item 
+uint32\-\_\-t \hyperlink{group___w_a_v_e_p_l_a_y_e_r___private___variables_gaed5f7e51bea110d2f608278ffe6c48a3}{\-Wave\-Data\-Length} = 0
+\item 
+\-F\-I\-L\-E\-I\-N\-F\-O \hyperlink{group___w_a_v_e_p_l_a_y_e_r___private___variables_gac9bc5ab0452e6a4f10de109bc847d6d5}{fiwave}
+\item 
+\-F\-I\-L\-E\-I\-N\-F\-O \hyperlink{group___w_a_v_e_p_l_a_y_e_r___private___variables_ga48b699d30a027a1d6326588c99d716e1}{file}
+\item 
+uint32\-\_\-t \hyperlink{group___w_a_v_e_p_l_a_y_e_r___private___variables_ga39e802dfcf3592a17543c656dba18064}{wavecounter}
+\item 
+\hyperlink{structwave__format}{wave\-\_\-format} \hyperlink{group___w_a_v_e_p_l_a_y_e_r___private___variables_ga174829d299c4713257749f20bfc996f4}{wave\-\_\-info}
+\item 
+int \hyperlink{group___w_a_v_e_p_l_a_y_e_r___private___variables_ga9fe4a9e502dfc977283819847ecc2351}{wavfile} = 0
+\begin{DoxyCompactList}\small\item\em \-Start wave playing. \end{DoxyCompactList}\item 
+const uint8\-\_\-t \hyperlink{group___w_a_v_e_p_l_a_y_e_r___private___variables_gacad7ec90c8f694c87a4695350cb98d5d}{table} \mbox{[}5\mbox{]}\mbox{[}20\mbox{]} = \{\char`\"{}openpilo.\-wav\char`\"{},\char`\"{}uav.\-wav\char`\"{},\char`\"{}beepsoun.\-wav\char`\"{}, \char`\"{}warning.\-wav\char`\"{}, \char`\"{}lowaltit.\-wav\char`\"{}\}
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+audio generator \begin{DoxyAuthor}{\-Author}
+\-The \-Open\-Pilot \-Team, \href{http://www.openpilot.org}{\tt http\-://www.\-openpilot.\-org} \-Copyright (\-C) 2012. 
+\end{DoxyAuthor}
+\begin{DoxySeeAlso}{\-See also}
+\-The \-G\-N\-U \-Public \-License (\-G\-P\-L) \-Version 3 
+\end{DoxySeeAlso}
+
+
+\-Definition in file \hyperlink{pios__wavplay_8c_source}{pios\-\_\-wavplay.\-c}.
+

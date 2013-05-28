@@ -1,0 +1,88 @@
+\hypertarget{structpios__com__driver}{\section{pios\-\_\-com\-\_\-driver \-Struct \-Reference}
+\label{structpios__com__driver}\index{pios\-\_\-com\-\_\-driver@{pios\-\_\-com\-\_\-driver}}
+}
+
+
+{\ttfamily \#include $<$pios\-\_\-com.\-h$>$}
+
+\subsection*{\-Data \-Fields}
+\begin{DoxyCompactItemize}
+\item 
+void($\ast$ \hyperlink{structpios__com__driver_a99b7480f64d07211d74f522059e33672}{init} )(uint32\-\_\-t \hyperlink{uavobjectmanager_8c_abaabdc509cdaba7df9f56c6c76f3ae19}{id})
+\item 
+void($\ast$ \hyperlink{structpios__com__driver_a904e9142a63c6aa2ada8e7b66855ff4a}{set\-\_\-baud} )(uint32\-\_\-t \hyperlink{uavobjectmanager_8c_abaabdc509cdaba7df9f56c6c76f3ae19}{id}, uint32\-\_\-t baud)
+\item 
+void($\ast$ \hyperlink{structpios__com__driver_a54751423be66aa5eeef4655f56ae656d}{tx\-\_\-start} )(uint32\-\_\-t \hyperlink{uavobjectmanager_8c_abaabdc509cdaba7df9f56c6c76f3ae19}{id}, uint16\-\_\-t tx\-\_\-bytes\-\_\-avail)
+\item 
+void($\ast$ \hyperlink{structpios__com__driver_a0c6384ecc39e1e638dddb2570602f7ff}{rx\-\_\-start} )(uint32\-\_\-t \hyperlink{uavobjectmanager_8c_abaabdc509cdaba7df9f56c6c76f3ae19}{id}, uint16\-\_\-t rx\-\_\-bytes\-\_\-avail)
+\item 
+void($\ast$ \hyperlink{structpios__com__driver_aed9041fdd757cf95e57c9d523e30fd57}{bind\-\_\-rx\-\_\-cb} )(uint32\-\_\-t \hyperlink{uavobjectmanager_8c_abaabdc509cdaba7df9f56c6c76f3ae19}{id}, \hyperlink{group___p_i_o_s___c_o_m_ga23f1888821f1f74a50c02adc459df597}{pios\-\_\-com\-\_\-callback} rx\-\_\-in\-\_\-cb, uint32\-\_\-t context)
+\item 
+void($\ast$ \hyperlink{structpios__com__driver_a94f7de4245688ab695cca1564be28cd6}{bind\-\_\-tx\-\_\-cb} )(uint32\-\_\-t \hyperlink{uavobjectmanager_8c_abaabdc509cdaba7df9f56c6c76f3ae19}{id}, \hyperlink{group___p_i_o_s___c_o_m_ga23f1888821f1f74a50c02adc459df597}{pios\-\_\-com\-\_\-callback} tx\-\_\-out\-\_\-cb, uint32\-\_\-t context)
+\item 
+bool($\ast$ \hyperlink{structpios__com__driver_ad9a0f07f6ebff7536ed37a97d4c41608}{available} )(uint32\-\_\-t \hyperlink{uavobjectmanager_8c_abaabdc509cdaba7df9f56c6c76f3ae19}{id})
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+
+
+\-Definition at line 39 of file pios\-\_\-com.\-h.
+
+
+
+\subsection{\-Field \-Documentation}
+\hypertarget{structpios__com__driver_ad9a0f07f6ebff7536ed37a97d4c41608}{\index{pios\-\_\-com\-\_\-driver@{pios\-\_\-com\-\_\-driver}!available@{available}}
+\index{available@{available}!pios_com_driver@{pios\-\_\-com\-\_\-driver}}
+\subsubsection[{available}]{\setlength{\rightskip}{0pt plus 5cm}bool($\ast$ {\bf pios\-\_\-com\-\_\-driver\-::available})(uint32\-\_\-t {\bf id})}}\label{structpios__com__driver_ad9a0f07f6ebff7536ed37a97d4c41608}
+
+
+\-Definition at line 46 of file pios\-\_\-com.\-h.
+
+\hypertarget{structpios__com__driver_aed9041fdd757cf95e57c9d523e30fd57}{\index{pios\-\_\-com\-\_\-driver@{pios\-\_\-com\-\_\-driver}!bind\-\_\-rx\-\_\-cb@{bind\-\_\-rx\-\_\-cb}}
+\index{bind\-\_\-rx\-\_\-cb@{bind\-\_\-rx\-\_\-cb}!pios_com_driver@{pios\-\_\-com\-\_\-driver}}
+\subsubsection[{bind\-\_\-rx\-\_\-cb}]{\setlength{\rightskip}{0pt plus 5cm}void($\ast$ {\bf pios\-\_\-com\-\_\-driver\-::bind\-\_\-rx\-\_\-cb})(uint32\-\_\-t {\bf id}, {\bf pios\-\_\-com\-\_\-callback} rx\-\_\-in\-\_\-cb, uint32\-\_\-t context)}}\label{structpios__com__driver_aed9041fdd757cf95e57c9d523e30fd57}
+
+
+\-Definition at line 44 of file pios\-\_\-com.\-h.
+
+\hypertarget{structpios__com__driver_a94f7de4245688ab695cca1564be28cd6}{\index{pios\-\_\-com\-\_\-driver@{pios\-\_\-com\-\_\-driver}!bind\-\_\-tx\-\_\-cb@{bind\-\_\-tx\-\_\-cb}}
+\index{bind\-\_\-tx\-\_\-cb@{bind\-\_\-tx\-\_\-cb}!pios_com_driver@{pios\-\_\-com\-\_\-driver}}
+\subsubsection[{bind\-\_\-tx\-\_\-cb}]{\setlength{\rightskip}{0pt plus 5cm}void($\ast$ {\bf pios\-\_\-com\-\_\-driver\-::bind\-\_\-tx\-\_\-cb})(uint32\-\_\-t {\bf id}, {\bf pios\-\_\-com\-\_\-callback} tx\-\_\-out\-\_\-cb, uint32\-\_\-t context)}}\label{structpios__com__driver_a94f7de4245688ab695cca1564be28cd6}
+
+
+\-Definition at line 45 of file pios\-\_\-com.\-h.
+
+\hypertarget{structpios__com__driver_a99b7480f64d07211d74f522059e33672}{\index{pios\-\_\-com\-\_\-driver@{pios\-\_\-com\-\_\-driver}!init@{init}}
+\index{init@{init}!pios_com_driver@{pios\-\_\-com\-\_\-driver}}
+\subsubsection[{init}]{\setlength{\rightskip}{0pt plus 5cm}void($\ast$ {\bf pios\-\_\-com\-\_\-driver\-::init})(uint32\-\_\-t {\bf id})}}\label{structpios__com__driver_a99b7480f64d07211d74f522059e33672}
+
+
+\-Definition at line 40 of file pios\-\_\-com.\-h.
+
+\hypertarget{structpios__com__driver_a0c6384ecc39e1e638dddb2570602f7ff}{\index{pios\-\_\-com\-\_\-driver@{pios\-\_\-com\-\_\-driver}!rx\-\_\-start@{rx\-\_\-start}}
+\index{rx\-\_\-start@{rx\-\_\-start}!pios_com_driver@{pios\-\_\-com\-\_\-driver}}
+\subsubsection[{rx\-\_\-start}]{\setlength{\rightskip}{0pt plus 5cm}void($\ast$ {\bf pios\-\_\-com\-\_\-driver\-::rx\-\_\-start})(uint32\-\_\-t {\bf id}, uint16\-\_\-t rx\-\_\-bytes\-\_\-avail)}}\label{structpios__com__driver_a0c6384ecc39e1e638dddb2570602f7ff}
+
+
+\-Definition at line 43 of file pios\-\_\-com.\-h.
+
+\hypertarget{structpios__com__driver_a904e9142a63c6aa2ada8e7b66855ff4a}{\index{pios\-\_\-com\-\_\-driver@{pios\-\_\-com\-\_\-driver}!set\-\_\-baud@{set\-\_\-baud}}
+\index{set\-\_\-baud@{set\-\_\-baud}!pios_com_driver@{pios\-\_\-com\-\_\-driver}}
+\subsubsection[{set\-\_\-baud}]{\setlength{\rightskip}{0pt plus 5cm}void($\ast$ {\bf pios\-\_\-com\-\_\-driver\-::set\-\_\-baud})(uint32\-\_\-t {\bf id}, uint32\-\_\-t baud)}}\label{structpios__com__driver_a904e9142a63c6aa2ada8e7b66855ff4a}
+
+
+\-Definition at line 41 of file pios\-\_\-com.\-h.
+
+\hypertarget{structpios__com__driver_a54751423be66aa5eeef4655f56ae656d}{\index{pios\-\_\-com\-\_\-driver@{pios\-\_\-com\-\_\-driver}!tx\-\_\-start@{tx\-\_\-start}}
+\index{tx\-\_\-start@{tx\-\_\-start}!pios_com_driver@{pios\-\_\-com\-\_\-driver}}
+\subsubsection[{tx\-\_\-start}]{\setlength{\rightskip}{0pt plus 5cm}void($\ast$ {\bf pios\-\_\-com\-\_\-driver\-::tx\-\_\-start})(uint32\-\_\-t {\bf id}, uint16\-\_\-t tx\-\_\-bytes\-\_\-avail)}}\label{structpios__com__driver_a54751423be66aa5eeef4655f56ae656d}
+
+
+\-Definition at line 42 of file pios\-\_\-com.\-h.
+
+
+
+\-The documentation for this struct was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/home/jb/code/\-Tau\-Labs/flight/\-Pi\-O\-S/inc/\hyperlink{pios__com_8h}{pios\-\_\-com.\-h}\end{DoxyCompactItemize}

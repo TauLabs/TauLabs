@@ -1,0 +1,110 @@
+\hypertarget{class_core_1_1_u_a_v_config_info}{\section{\-Core\-:\-:\-U\-A\-V\-Config\-Info \-Class \-Reference}
+\label{class_core_1_1_u_a_v_config_info}\index{\-Core\-::\-U\-A\-V\-Config\-Info@{\-Core\-::\-U\-A\-V\-Config\-Info}}
+}
+
+
+\-The \-Config \-Info is a helper-\/class to handle version changes in \-G\-C\-S configuration files.  
+
+
+
+
+{\ttfamily \#include $<$uavconfiginfo.\-h$>$}
+
+\subsection*{\-Public \-Types}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{group___core_plugin_ga568d6a6f7dd5f6d9b7ec976ff7c2284f}{\-Compatibility} \{ \*
+\hyperlink{group___core_plugin_gga568d6a6f7dd5f6d9b7ec976ff7c2284fa85ba54a790d9dbd1745c0a4ee00b78b2}{\-Fully\-Compatible}, 
+\hyperlink{group___core_plugin_gga568d6a6f7dd5f6d9b7ec976ff7c2284faf84f7dc0a0a0fa25beb58f473f081ff8}{\-Minor\-Loss\-Of\-Configuration}, 
+\hyperlink{group___core_plugin_gga568d6a6f7dd5f6d9b7ec976ff7c2284fa1a847c37ce622aaa288dcd65a29131de}{\-Missing\-Configuration}, 
+\hyperlink{group___core_plugin_gga568d6a6f7dd5f6d9b7ec976ff7c2284fab2dcca46e2c0d231f1ab7250bfd3dca9}{\-Major\-Loss\-Of\-Configuration}, 
+\*
+\hyperlink{group___core_plugin_gga568d6a6f7dd5f6d9b7ec976ff7c2284fa7174782f2d7d3709a890186f36e3480c}{\-Not\-Compatible}
+ \}
+\end{DoxyCompactItemize}
+\subsection*{\-Public \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___core_plugin_gacf5020eb455875fe2ce543b2e8d24315}{\-U\-A\-V\-Config\-Info} (\-Q\-Object $\ast$parent=0)
+\item 
+\hyperlink{group___core_plugin_ga933409bece83e4aed5c3efac0079f7c4}{\-U\-A\-V\-Config\-Info} (\-Q\-Settings $\ast$qs, \-Q\-Object $\ast$parent=0)
+\item 
+\hyperlink{group___core_plugin_ga293738c41bbf0024336c21246611d365}{\-U\-A\-V\-Config\-Info} (\hyperlink{class_core_1_1_i_u_a_v_gadget_configuration}{\-I\-U\-A\-V\-Gadget\-Configuration} $\ast$config, \-Q\-Object $\ast$parent=0)
+\item 
+\hyperlink{group___core_plugin_ga877152eb896ac34a5ad81d03fe104712}{\-U\-A\-V\-Config\-Info} (\hyperlink{class_core_1_1_u_a_v_config_version}{\-U\-A\-V\-Config\-Version} \hyperlink{group___core_plugin_ga445d72afa775caf72f6d61884a36e7aa}{version}, \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} name\-Of\-Configurable, \-Q\-Object $\ast$parent=0)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___core_plugin_ga448ae0ec57eeaf4fafc1323489437506}{set\-Name\-Of\-Configurable} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} name\-Of\-Configurable)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___core_plugin_ga285242175c9cff69e9370fa285744b28}{save} (\-Q\-Settings $\ast$qs)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___core_plugin_ga62813f8316e5bdf825f049c85e1d210d}{read} (\-Q\-Settings $\ast$qs)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___core_plugin_ga3ea89d37d0ba1f4c972006e6b761c922}{set\-Version} (int major, int minor, int patch)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___core_plugin_gabca8cfe88b7b3320fb60709744be4822}{set\-Version} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___core_plugin_ga445d72afa775caf72f6d61884a36e7aa}{version})
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___core_plugin_ga10f4af0da477f5dc204e90f098536f8e}{set\-Version} (const \hyperlink{class_core_1_1_u_a_v_config_version}{\-U\-A\-V\-Config\-Version} \hyperlink{group___core_plugin_ga445d72afa775caf72f6d61884a36e7aa}{version})
+\item 
+\hyperlink{class_core_1_1_u_a_v_config_version}{\-U\-A\-V\-Config\-Version} \hyperlink{group___core_plugin_ga445d72afa775caf72f6d61884a36e7aa}{version} ()
+\item 
+bool \hyperlink{group___core_plugin_gae8a23766a2405c85a6ac7515dc1e5e9d}{locked} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___core_plugin_gaf37f5f245b67fb9dcf0ae19779ec8a73}{set\-Locked} (bool \hyperlink{group___core_plugin_gae8a23766a2405c85a6ac7515dc1e5e9d}{locked})
+\item 
+int \hyperlink{group___core_plugin_gab48536a30f7d945c7016ab7494f601b5}{check\-Compatibility\-With} (\hyperlink{class_core_1_1_u_a_v_config_version}{\-U\-A\-V\-Config\-Version} program\-Version)
+\item 
+bool \hyperlink{group___core_plugin_ga1648c527c920c77b7ba0c74881b5879a}{ask\-To\-Abort} (int compat, \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} message)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___core_plugin_ga63c43e21f82a123395715f520bdb27ad}{notify} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} message)
+\item 
+bool \hyperlink{group___core_plugin_ga930044c2182f030e9e7dbae1ced5d69e}{standard\-Version\-Handling\-O\-K} (\hyperlink{class_core_1_1_u_a_v_config_version}{\-U\-A\-V\-Config\-Version} program\-Version)
+\begin{DoxyCompactList}\small\item\em \-Default version handling. \end{DoxyCompactList}\item 
+bool \hyperlink{group___core_plugin_ga0a9befeee7c88114d44c760860926608}{standard\-Version\-Handling\-O\-K} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} program\-Version)
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-The \-Config \-Info is a helper-\/class to handle version changes in \-G\-C\-S configuration files. 
+
+\-The \hyperlink{class_core_1_1_u_a_v_config_info}{\-U\-A\-V\-Config\-Info} provides version-\/information for the configuration-\/data and callback functions to ask the user how to handle incompatble (old or newer) configurations.
+
+\-When the config is created from a \{\-Q\-Settings\} instance, an \hyperlink{class_core_1_1_u_a_v_config_info}{\-U\-A\-V\-Config\-Info} object is passed to the factory-\/method. \-With the version-\/data it can decide whether the presented config-\/data is compatible to the current implementation. \-It may migrate old data to the current format or abort the import.
+
+\-When the config is written to the \{\-Q\-Settings\} instance, an \hyperlink{class_core_1_1_u_a_v_config_info}{\-U\-A\-V\-Config\-Info} object is passed to the writer-\/function. \-The version of the config-\/format should be written to the \hyperlink{class_core_1_1_u_a_v_config_info}{\-U\-A\-V\-Config\-Info} object. \-This version will be passed to factory-\/method when creating the config-\/object from this configuration.
+
+\-Typically a plugin can handle version-\/changes like this\-: 
+\begin{DoxyCode}
+    MyGadgetConfiguration::MyGadgetConfiguration(QString classId, QSettings* 
+      qSettings, UAVConfigInfo *configInfo, QObject *parent) :
+        IUAVGadgetConfiguration(classId, parent)
+    {
+        if ( ! qSettings )
+            return;
+
+        if ( configInfo->version() == UAVConfigVersion() )
+            configInfo->setVersion("1.0.0");
+
+        if ( !configInfo->standardVersionHandlingOK(CURRENT_VERSION))
+            return;
+
+        ... read the config ...
+    }
+
+    void MyGadgetConfiguration::saveConfig(QSettings* qSettings, 
+      Core::UAVConfigInfo *configInfo) const {
+
+        configInfo->setVersion(CURRENT_VERSION);
+
+        ... write the config ...
+    }
+\end{DoxyCode}
+
+
+\-Definition at line 54 of file uavconfiginfo.\-h.
+
+
+
+\-The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/plugins/coreplugin/\hyperlink{uavconfiginfo_8h}{uavconfiginfo.\-h}\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/plugins/coreplugin/\hyperlink{uavconfiginfo_8cpp}{uavconfiginfo.\-cpp}\end{DoxyCompactItemize}

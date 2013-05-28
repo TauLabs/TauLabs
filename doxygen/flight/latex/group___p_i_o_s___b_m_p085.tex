@@ -1,0 +1,266 @@
+\hypertarget{group___p_i_o_s___b_m_p085}{\section{\-B\-M\-P085 \-Functions}
+\label{group___p_i_o_s___b_m_p085}\index{\-B\-M\-P085 Functions@{\-B\-M\-P085 Functions}}
+}
+
+
+\-Hardware functions to deal with the altitude pressure sensor.  
+
+
+\subsection*{\-Data \-Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{struct_b_m_p085_calib_data_type_def}{\-B\-M\-P085\-Calib\-Data\-Type\-Def}
+\end{DoxyCompactItemize}
+\subsection*{\-Files}
+\begin{DoxyCompactItemize}
+\item 
+file \hyperlink{pios__bmp085_8c}{pios\-\_\-bmp085.\-c}
+\begin{DoxyCompactList}\small\item\em \-B\-M\-P085 \-Pressure \-Sensor \-Routines. \end{DoxyCompactList}\item 
+file \hyperlink{pios__bmp085_8h}{pios\-\_\-bmp085.\-h}
+\begin{DoxyCompactList}\small\item\em \-B\-M\-P085 functions header. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{group___p_i_o_s___b_m_p085_ga9cea215e6c64f123b3561819d5219785}{\-Conversion\-Type\-Type\-Def} \{ \hyperlink{group___p_i_o_s___b_m_p085_gga9cea215e6c64f123b3561819d5219785a6c9b0031c635c5a250f3a723965c4afd}{\-Pressure\-Conv}, 
+\hyperlink{group___p_i_o_s___b_m_p085_gga9cea215e6c64f123b3561819d5219785addc6f7404843f7109baf6db614596ed0}{\-Temperature\-Conv}
+ \}
+\end{DoxyCompactItemize}
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{group___p_i_o_s___b_m_p085_ga10dbc872cbdcc5069ec1b54bd08c8bba}{\-P\-I\-O\-S\-\_\-\-B\-M\-P085\-\_\-\-End\-Of\-Conversion} (void)
+\item 
+void \hyperlink{group___p_i_o_s___b_m_p085_gadf378990e49a77f5d07c537d6421d4b3}{\-P\-I\-O\-S\-\_\-\-B\-M\-P085\-\_\-\-Init} (void)
+\item 
+void \hyperlink{group___p_i_o_s___b_m_p085_gac2f3a7e293bc2263af4dad0a1ca21d51}{\-P\-I\-O\-S\-\_\-\-B\-M\-P085\-\_\-\-Start\-A\-D\-C} (\hyperlink{group___p_i_o_s___b_m_p085_ga9cea215e6c64f123b3561819d5219785}{\-Conversion\-Type\-Type\-Def} \-Type)
+\item 
+void \hyperlink{group___p_i_o_s___b_m_p085_gae4ba8dc8cb3bda6b4ca92c4c70049e4e}{\-P\-I\-O\-S\-\_\-\-B\-M\-P085\-\_\-\-Read\-A\-D\-C} (void)
+\item 
+int16\-\_\-t \hyperlink{group___p_i_o_s___b_m_p085_ga5f409188609c693a05e083aeb468907f}{\-P\-I\-O\-S\-\_\-\-B\-M\-P085\-\_\-\-Get\-Temperature} (void)
+\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___b_m_p085_ga7aab68a5108a124046196c3f737f1c98}{\-P\-I\-O\-S\-\_\-\-B\-M\-P085\-\_\-\-Get\-Pressure} (void)
+\item 
+bool \hyperlink{group___p_i_o_s___b_m_p085_ga3bc6ca92960659541d0879b831b6585c}{\-P\-I\-O\-S\-\_\-\-B\-M\-P085\-\_\-\-Read} (uint8\-\_\-t address, uint8\-\_\-t $\ast$buffer, uint8\-\_\-t len)
+\item 
+bool \hyperlink{group___p_i_o_s___b_m_p085_ga370cd53ce7074cb090f5231ba1644914}{\-P\-I\-O\-S\-\_\-\-B\-M\-P085\-\_\-\-Write} (uint8\-\_\-t address, uint8\-\_\-t buffer)
+\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___b_m_p085_ga63112f7f2415c114d2c9042c1b3e8441}{\-P\-I\-O\-S\-\_\-\-B\-M\-P085\-\_\-\-Test} ()
+\begin{DoxyCompactList}\small\item\em \-Run self-\/test operation. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Variables}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___p_i_o_s___b_m_p085_ga9cea215e6c64f123b3561819d5219785}{\-Conversion\-Type\-Type\-Def} \hyperlink{group___p_i_o_s___b_m_p085_ga1dd45e20832bd6d56c5bcc1b1773a204}{\-Current\-Read}
+\item 
+x\-Semaphore\-Handle \hyperlink{group___p_i_o_s___b_m_p085_ga4dd7fe8ef562b12c78ad0cfc1bf1fd8e}{\-P\-I\-O\-S\-\_\-\-B\-M\-P085\-\_\-\-E\-O\-C}
+\item 
+x\-Semaphore\-Handle \hyperlink{group___p_i_o_s___b_m_p085_ga4dd7fe8ef562b12c78ad0cfc1bf1fd8e}{\-P\-I\-O\-S\-\_\-\-B\-M\-P085\-\_\-\-E\-O\-C}
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-Hardware functions to deal with the altitude pressure sensor. 
+
+\subsection{\-Enumeration \-Type \-Documentation}
+\hypertarget{group___p_i_o_s___b_m_p085_ga9cea215e6c64f123b3561819d5219785}{\index{\-B\-M\-P085 Functions@{\-B\-M\-P085 Functions}!\-Conversion\-Type\-Type\-Def@{\-Conversion\-Type\-Type\-Def}}
+\index{\-Conversion\-Type\-Type\-Def@{\-Conversion\-Type\-Type\-Def}!BMP085 Functions@{\-B\-M\-P085 Functions}}
+\subsubsection[{\-Conversion\-Type\-Type\-Def}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf \-Conversion\-Type\-Type\-Def}}}\label{group___p_i_o_s___b_m_p085_ga9cea215e6c64f123b3561819d5219785}
+\begin{Desc}
+\item[\-Enumerator\-: ]\par
+\begin{description}
+\index{\-Pressure\-Conv@{\-Pressure\-Conv}!\-B\-M\-P085 Functions@{\-B\-M\-P085 Functions}}\index{\-B\-M\-P085 Functions@{\-B\-M\-P085 Functions}!\-Pressure\-Conv@{\-Pressure\-Conv}}\item[{\em 
+\hypertarget{group___p_i_o_s___b_m_p085_gga9cea215e6c64f123b3561819d5219785a6c9b0031c635c5a250f3a723965c4afd}{\-Pressure\-Conv}\label{group___p_i_o_s___b_m_p085_gga9cea215e6c64f123b3561819d5219785a6c9b0031c635c5a250f3a723965c4afd}
+}]\index{\-Temperature\-Conv@{\-Temperature\-Conv}!\-B\-M\-P085 Functions@{\-B\-M\-P085 Functions}}\index{\-B\-M\-P085 Functions@{\-B\-M\-P085 Functions}!\-Temperature\-Conv@{\-Temperature\-Conv}}\item[{\em 
+\hypertarget{group___p_i_o_s___b_m_p085_gga9cea215e6c64f123b3561819d5219785addc6f7404843f7109baf6db614596ed0}{\-Temperature\-Conv}\label{group___p_i_o_s___b_m_p085_gga9cea215e6c64f123b3561819d5219785addc6f7404843f7109baf6db614596ed0}
+}]\end{description}
+\end{Desc}
+
+
+
+\-Definition at line 60 of file pios\-\_\-bmp085.\-h.
+
+
+
+\subsection{\-Function \-Documentation}
+\hypertarget{group___p_i_o_s___b_m_p085_ga10dbc872cbdcc5069ec1b54bd08c8bba}{\index{\-B\-M\-P085 Functions@{\-B\-M\-P085 Functions}!\-P\-I\-O\-S\-\_\-\-B\-M\-P085\-\_\-\-End\-Of\-Conversion@{\-P\-I\-O\-S\-\_\-\-B\-M\-P085\-\_\-\-End\-Of\-Conversion}}
+\index{\-P\-I\-O\-S\-\_\-\-B\-M\-P085\-\_\-\-End\-Of\-Conversion@{\-P\-I\-O\-S\-\_\-\-B\-M\-P085\-\_\-\-End\-Of\-Conversion}!BMP085 Functions@{\-B\-M\-P085 Functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-B\-M\-P085\-\_\-\-End\-Of\-Conversion}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-P\-I\-O\-S\-\_\-\-B\-M\-P085\-\_\-\-End\-Of\-Conversion} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___b_m_p085_ga10dbc872cbdcc5069ec1b54bd08c8bba}
+
+
+\-Definition at line 63 of file pios\-\_\-bmp085.\-c.
+
+\hypertarget{group___p_i_o_s___b_m_p085_ga7aab68a5108a124046196c3f737f1c98}{\index{\-B\-M\-P085 Functions@{\-B\-M\-P085 Functions}!\-P\-I\-O\-S\-\_\-\-B\-M\-P085\-\_\-\-Get\-Pressure@{\-P\-I\-O\-S\-\_\-\-B\-M\-P085\-\_\-\-Get\-Pressure}}
+\index{\-P\-I\-O\-S\-\_\-\-B\-M\-P085\-\_\-\-Get\-Pressure@{\-P\-I\-O\-S\-\_\-\-B\-M\-P085\-\_\-\-Get\-Pressure}!BMP085 Functions@{\-B\-M\-P085 Functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-B\-M\-P085\-\_\-\-Get\-Pressure}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-P\-I\-O\-S\-\_\-\-B\-M\-P085\-\_\-\-Get\-Pressure} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___b_m_p085_ga7aab68a5108a124046196c3f737f1c98}
+
+
+\-Definition at line 237 of file pios\-\_\-bmp085.\-c.
+
+\hypertarget{group___p_i_o_s___b_m_p085_ga5f409188609c693a05e083aeb468907f}{\index{\-B\-M\-P085 Functions@{\-B\-M\-P085 Functions}!\-P\-I\-O\-S\-\_\-\-B\-M\-P085\-\_\-\-Get\-Temperature@{\-P\-I\-O\-S\-\_\-\-B\-M\-P085\-\_\-\-Get\-Temperature}}
+\index{\-P\-I\-O\-S\-\_\-\-B\-M\-P085\-\_\-\-Get\-Temperature@{\-P\-I\-O\-S\-\_\-\-B\-M\-P085\-\_\-\-Get\-Temperature}!BMP085 Functions@{\-B\-M\-P085 Functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-B\-M\-P085\-\_\-\-Get\-Temperature}]{\setlength{\rightskip}{0pt plus 5cm}int16\-\_\-t {\bf \-P\-I\-O\-S\-\_\-\-B\-M\-P085\-\_\-\-Get\-Temperature} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___b_m_p085_ga5f409188609c693a05e083aeb468907f}
+
+
+\-Definition at line 232 of file pios\-\_\-bmp085.\-c.
+
+\hypertarget{group___p_i_o_s___b_m_p085_gadf378990e49a77f5d07c537d6421d4b3}{\index{\-B\-M\-P085 Functions@{\-B\-M\-P085 Functions}!\-P\-I\-O\-S\-\_\-\-B\-M\-P085\-\_\-\-Init@{\-P\-I\-O\-S\-\_\-\-B\-M\-P085\-\_\-\-Init}}
+\index{\-P\-I\-O\-S\-\_\-\-B\-M\-P085\-\_\-\-Init@{\-P\-I\-O\-S\-\_\-\-B\-M\-P085\-\_\-\-Init}!BMP085 Functions@{\-B\-M\-P085 Functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-B\-M\-P085\-\_\-\-Init}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-P\-I\-O\-S\-\_\-\-B\-M\-P085\-\_\-\-Init} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___b_m_p085_gadf378990e49a77f5d07c537d6421d4b3}
+\-Initialise the \-B\-M\-P085 sensor 
+
+\-Definition at line 114 of file pios\-\_\-bmp085.\-c.
+
+\hypertarget{group___p_i_o_s___b_m_p085_ga3bc6ca92960659541d0879b831b6585c}{\index{\-B\-M\-P085 Functions@{\-B\-M\-P085 Functions}!\-P\-I\-O\-S\-\_\-\-B\-M\-P085\-\_\-\-Read@{\-P\-I\-O\-S\-\_\-\-B\-M\-P085\-\_\-\-Read}}
+\index{\-P\-I\-O\-S\-\_\-\-B\-M\-P085\-\_\-\-Read@{\-P\-I\-O\-S\-\_\-\-B\-M\-P085\-\_\-\-Read}!BMP085 Functions@{\-B\-M\-P085 Functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-B\-M\-P085\-\_\-\-Read}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-P\-I\-O\-S\-\_\-\-B\-M\-P085\-\_\-\-Read} (
+\begin{DoxyParamCaption}
+\item[{uint8\-\_\-t}]{address, }
+\item[{uint8\-\_\-t $\ast$}]{buffer, }
+\item[{uint8\-\_\-t}]{len}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___b_m_p085_ga3bc6ca92960659541d0879b831b6585c}
+\-Reads one or more bytes into a buffer 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em address} & \-B\-M\-P085 register address (depends on size) \\
+\hline
+\mbox{\tt out}  & {\em buffer} & destination buffer \\
+\hline
+\mbox{\tt in}  & {\em len} & number of bytes which should be read \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+0 if operation was successful 
+
+-\/1 if error during \-I2\-C transfer 
+
+-\/2 if \-B\-M\-P085 blocked by another task (retry it!) 
+
+-\/4 if invalid length 
+\end{DoxyReturn}
+
+
+\-Definition at line 252 of file pios\-\_\-bmp085.\-c.
+
+\hypertarget{group___p_i_o_s___b_m_p085_gae4ba8dc8cb3bda6b4ca92c4c70049e4e}{\index{\-B\-M\-P085 Functions@{\-B\-M\-P085 Functions}!\-P\-I\-O\-S\-\_\-\-B\-M\-P085\-\_\-\-Read\-A\-D\-C@{\-P\-I\-O\-S\-\_\-\-B\-M\-P085\-\_\-\-Read\-A\-D\-C}}
+\index{\-P\-I\-O\-S\-\_\-\-B\-M\-P085\-\_\-\-Read\-A\-D\-C@{\-P\-I\-O\-S\-\_\-\-B\-M\-P085\-\_\-\-Read\-A\-D\-C}!BMP085 Functions@{\-B\-M\-P085 Functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-B\-M\-P085\-\_\-\-Read\-A\-D\-C}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-P\-I\-O\-S\-\_\-\-B\-M\-P085\-\_\-\-Read\-A\-D\-C} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___b_m_p085_gae4ba8dc8cb3bda6b4ca92c4c70049e4e}
+\-Read the \-A\-D\-C conversion value (once \-A\-D\-C conversion has completed) 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em \-Pres\-Or\-Temp} & \-B\-M\-P085\-\_\-\-P\-R\-E\-S\-\_\-\-A\-D\-D\-R or \-B\-M\-P085\-\_\-\-T\-E\-M\-P\-\_\-\-A\-D\-D\-R \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+\-Raw \-A\-D\-C value 
+\end{DoxyReturn}
+
+
+\-Definition at line 189 of file pios\-\_\-bmp085.\-c.
+
+\hypertarget{group___p_i_o_s___b_m_p085_gac2f3a7e293bc2263af4dad0a1ca21d51}{\index{\-B\-M\-P085 Functions@{\-B\-M\-P085 Functions}!\-P\-I\-O\-S\-\_\-\-B\-M\-P085\-\_\-\-Start\-A\-D\-C@{\-P\-I\-O\-S\-\_\-\-B\-M\-P085\-\_\-\-Start\-A\-D\-C}}
+\index{\-P\-I\-O\-S\-\_\-\-B\-M\-P085\-\_\-\-Start\-A\-D\-C@{\-P\-I\-O\-S\-\_\-\-B\-M\-P085\-\_\-\-Start\-A\-D\-C}!BMP085 Functions@{\-B\-M\-P085 Functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-B\-M\-P085\-\_\-\-Start\-A\-D\-C}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-P\-I\-O\-S\-\_\-\-B\-M\-P085\-\_\-\-Start\-A\-D\-C} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Conversion\-Type\-Type\-Def}}]{\-Type}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___b_m_p085_gac2f3a7e293bc2263af4dad0a1ca21d51}
+\-Start the \-A\-D\-C conversion 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em \-Pres\-Or\-Temp} & \-B\-M\-P085\-\_\-\-P\-R\-E\-S\-\_\-\-A\-D\-D\-R or \-B\-M\-P085\-\_\-\-T\-E\-M\-P\-\_\-\-A\-D\-D\-R \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+\-Raw \-A\-D\-C value 
+\end{DoxyReturn}
+
+
+\-Definition at line 170 of file pios\-\_\-bmp085.\-c.
+
+\hypertarget{group___p_i_o_s___b_m_p085_ga63112f7f2415c114d2c9042c1b3e8441}{\index{\-B\-M\-P085 Functions@{\-B\-M\-P085 Functions}!\-P\-I\-O\-S\-\_\-\-B\-M\-P085\-\_\-\-Test@{\-P\-I\-O\-S\-\_\-\-B\-M\-P085\-\_\-\-Test}}
+\index{\-P\-I\-O\-S\-\_\-\-B\-M\-P085\-\_\-\-Test@{\-P\-I\-O\-S\-\_\-\-B\-M\-P085\-\_\-\-Test}!BMP085 Functions@{\-B\-M\-P085 Functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-B\-M\-P085\-\_\-\-Test}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-P\-I\-O\-S\-\_\-\-B\-M\-P085\-\_\-\-Test} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___b_m_p085_ga63112f7f2415c114d2c9042c1b3e8441}
+
+
+\-Run self-\/test operation. 
+
+\begin{DoxyReturn}{\-Returns}
+0 if self-\/test failed 
+
+any non-\/0 number if test passed 
+\end{DoxyReturn}
+
+
+\-Definition at line 313 of file pios\-\_\-bmp085.\-c.
+
+\hypertarget{group___p_i_o_s___b_m_p085_ga370cd53ce7074cb090f5231ba1644914}{\index{\-B\-M\-P085 Functions@{\-B\-M\-P085 Functions}!\-P\-I\-O\-S\-\_\-\-B\-M\-P085\-\_\-\-Write@{\-P\-I\-O\-S\-\_\-\-B\-M\-P085\-\_\-\-Write}}
+\index{\-P\-I\-O\-S\-\_\-\-B\-M\-P085\-\_\-\-Write@{\-P\-I\-O\-S\-\_\-\-B\-M\-P085\-\_\-\-Write}!BMP085 Functions@{\-B\-M\-P085 Functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-B\-M\-P085\-\_\-\-Write}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-P\-I\-O\-S\-\_\-\-B\-M\-P085\-\_\-\-Write} (
+\begin{DoxyParamCaption}
+\item[{uint8\-\_\-t}]{address, }
+\item[{uint8\-\_\-t}]{buffer}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___b_m_p085_ga370cd53ce7074cb090f5231ba1644914}
+\-Writes one or more bytes to the \-B\-M\-P085 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em address} & \-Register address \\
+\hline
+\mbox{\tt in}  & {\em buffer} & source buffer \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+0 if operation was successful 
+
+-\/1 if error during \-I2\-C transfer 
+
+-\/2 if \-B\-M\-P085 blocked by another task (retry it!) 
+\end{DoxyReturn}
+
+
+\-Definition at line 287 of file pios\-\_\-bmp085.\-c.
+
+
+
+\subsection{\-Variable \-Documentation}
+\hypertarget{group___p_i_o_s___b_m_p085_ga1dd45e20832bd6d56c5bcc1b1773a204}{\index{\-B\-M\-P085 Functions@{\-B\-M\-P085 Functions}!\-Current\-Read@{\-Current\-Read}}
+\index{\-Current\-Read@{\-Current\-Read}!BMP085 Functions@{\-B\-M\-P085 Functions}}
+\subsubsection[{\-Current\-Read}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Conversion\-Type\-Type\-Def} {\bf \-Current\-Read}}}\label{group___p_i_o_s___b_m_p085_ga1dd45e20832bd6d56c5bcc1b1773a204}
+
+
+\-Definition at line 42 of file pios\-\_\-bmp085.\-c.
+
+\hypertarget{group___p_i_o_s___b_m_p085_ga4dd7fe8ef562b12c78ad0cfc1bf1fd8e}{\index{\-B\-M\-P085 Functions@{\-B\-M\-P085 Functions}!\-P\-I\-O\-S\-\_\-\-B\-M\-P085\-\_\-\-E\-O\-C@{\-P\-I\-O\-S\-\_\-\-B\-M\-P085\-\_\-\-E\-O\-C}}
+\index{\-P\-I\-O\-S\-\_\-\-B\-M\-P085\-\_\-\-E\-O\-C@{\-P\-I\-O\-S\-\_\-\-B\-M\-P085\-\_\-\-E\-O\-C}!BMP085 Functions@{\-B\-M\-P085 Functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-B\-M\-P085\-\_\-\-E\-O\-C}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-P\-I\-O\-S\-\_\-\-B\-M\-P085\-\_\-\-E\-O\-C}}}\label{group___p_i_o_s___b_m_p085_ga4dd7fe8ef562b12c78ad0cfc1bf1fd8e}
+
+
+\-Definition at line 58 of file pios\-\_\-bmp085.\-c.
+
+\hypertarget{group___p_i_o_s___b_m_p085_ga4dd7fe8ef562b12c78ad0cfc1bf1fd8e}{\index{\-B\-M\-P085 Functions@{\-B\-M\-P085 Functions}!\-P\-I\-O\-S\-\_\-\-B\-M\-P085\-\_\-\-E\-O\-C@{\-P\-I\-O\-S\-\_\-\-B\-M\-P085\-\_\-\-E\-O\-C}}
+\index{\-P\-I\-O\-S\-\_\-\-B\-M\-P085\-\_\-\-E\-O\-C@{\-P\-I\-O\-S\-\_\-\-B\-M\-P085\-\_\-\-E\-O\-C}!BMP085 Functions@{\-B\-M\-P085 Functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-B\-M\-P085\-\_\-\-E\-O\-C}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-P\-I\-O\-S\-\_\-\-B\-M\-P085\-\_\-\-E\-O\-C}}}\label{group___p_i_o_s___b_m_p085_ga4dd7fe8ef562b12c78ad0cfc1bf1fd8e}
+
+
+\-Definition at line 69 of file pios\-\_\-bmp085.\-h.
+

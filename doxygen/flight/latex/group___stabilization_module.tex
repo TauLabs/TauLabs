@@ -1,0 +1,284 @@
+\hypertarget{group___stabilization_module}{\section{\-Stabilization \-Module}
+\label{group___stabilization_module}\index{\-Stabilization Module@{\-Stabilization Module}}
+}
+
+
+\-Control the \-U\-A\-V attitude to \hyperlink{group___stabilization_desired}{\-Stabilization\-Desired}.  
+
+
+\subsection*{\-Files}
+\begin{DoxyCompactItemize}
+\item 
+file \hyperlink{relay__tuning_8h}{relay\-\_\-tuning.\-h}
+\begin{DoxyCompactList}\small\item\em \-Perform relay tuning control (and estimation). \end{DoxyCompactList}\item 
+file \hyperlink{stabilization_8h}{stabilization.\-h}
+\begin{DoxyCompactList}\small\item\em \-Attitude stabilization module. \end{DoxyCompactList}\item 
+file \hyperlink{virtualflybar_8h}{virtualflybar.\-h}
+\begin{DoxyCompactList}\small\item\em \-Attitude stabilization module. \end{DoxyCompactList}\item 
+file \hyperlink{relay__tuning_8c}{relay\-\_\-tuning.\-c}
+\begin{DoxyCompactList}\small\item\em \-Perform relay tuning control (and estimation) \end{DoxyCompactList}\item 
+file \hyperlink{stabilization_8c}{stabilization.\-c}
+\begin{DoxyCompactList}\small\item\em \-Attitude stabilization. \end{DoxyCompactList}\item 
+file \hyperlink{virtualflybar_8c}{virtualflybar.\-c}
+\begin{DoxyCompactList}\small\item\em \-Virtual flybar control mode. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \{ \hyperlink{group___stabilization_module_ggadf764cbdea00d65edcd07bb9953ad2b7a2eeb9fef8a6a516fa6437a44a6efbd52}{\-R\-O\-L\-L}, 
+\hyperlink{group___stabilization_module_ggadf764cbdea00d65edcd07bb9953ad2b7aa4ed247aa19723caf868d2b2dd5cf4ff}{\-P\-I\-T\-C\-H}, 
+\hyperlink{group___stabilization_module_ggadf764cbdea00d65edcd07bb9953ad2b7a60ae774ecd1cf97a0e91f76970d64491}{\-Y\-A\-W}, 
+\hyperlink{group___stabilization_module_ggadf764cbdea00d65edcd07bb9953ad2b7aaacb851954fab4e8ccf0d09acc8ef697}{\-M\-A\-X\-\_\-\-A\-X\-E\-S}
+ \}
+\item 
+enum \{ \*
+\hyperlink{group___stabilization_module_gga99fb83031ce9923c84392b4e92f956b5a72ce5e299bef48d82c7df12b830f4362}{\-P\-I\-D\-\_\-\-R\-A\-T\-E\-\_\-\-R\-O\-L\-L}, 
+\hyperlink{group___stabilization_module_gga99fb83031ce9923c84392b4e92f956b5ac06016a8c64f1a65c3e50fbf8e130d40}{\-P\-I\-D\-\_\-\-R\-A\-T\-E\-\_\-\-P\-I\-T\-C\-H}, 
+\hyperlink{group___stabilization_module_gga99fb83031ce9923c84392b4e92f956b5a0c6a71c56e424e9e8dbece3cc8b6e247}{\-P\-I\-D\-\_\-\-R\-A\-T\-E\-\_\-\-Y\-A\-W}, 
+\hyperlink{group___stabilization_module_gga99fb83031ce9923c84392b4e92f956b5a5f8120c562708e146803407541f87dbb}{\-P\-I\-D\-\_\-\-A\-T\-T\-\_\-\-R\-O\-L\-L}, 
+\*
+\hyperlink{group___stabilization_module_gga99fb83031ce9923c84392b4e92f956b5ab1e5a0050d3a9b6ac04aa9f2283ab6cb}{\-P\-I\-D\-\_\-\-A\-T\-T\-\_\-\-P\-I\-T\-C\-H}, 
+\hyperlink{group___stabilization_module_gga99fb83031ce9923c84392b4e92f956b5ac81ceeecde5376af34dd127b8143ec3b}{\-P\-I\-D\-\_\-\-A\-T\-T\-\_\-\-Y\-A\-W}, 
+\hyperlink{group___stabilization_module_gga99fb83031ce9923c84392b4e92f956b5aa9ba8c316889eca7f244f9e458323e1c}{\-P\-I\-D\-\_\-\-M\-A\-X}
+ \}
+\end{DoxyCompactItemize}
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{group___stabilization_module_gae98f3dcccca3bf2f6978a8f44529c14a}{stabilization\-\_\-relay\-\_\-rate} (float err, float $\ast$output, int axis, bool reinit)
+\item 
+int32\-\_\-t \hyperlink{group___stabilization_module_ga0271ad4d56816c408814d99db9d15b8b}{\-Stabilization\-Initialize} ()
+\item 
+int \hyperlink{group___stabilization_module_ga59f8ecdbf84bddb7072618a7de6e817e}{stabilization\-\_\-virtual\-\_\-flybar} (float gyro, float command, float $\ast$output, float d\-T, bool reinit, uint32\-\_\-t axis, \-Stabilization\-Settings\-Data $\ast$settings)
+\item 
+int \hyperlink{group___stabilization_module_ga286dd4b805297b12acd0aa9a69780a75}{stabilization\-\_\-virtual\-\_\-flybar\-\_\-pirocomp} (float z\-\_\-gyro, float d\-T)
+\item 
+int32\-\_\-t \hyperlink{group___stabilization_module_ga6190a7e200476bf20da7b47ac4107973}{\-Stabilization\-Start} ()
+\item 
+\hyperlink{group___stabilization_module_ga2ed12a01187d2c1f1659b1e9ee957d93}{\-M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L} (\hyperlink{group___stabilization_module_ga0271ad4d56816c408814d99db9d15b8b}{\-Stabilization\-Initialize}, \hyperlink{group___stabilization_module_ga6190a7e200476bf20da7b47ac4107973}{\-Stabilization\-Start})
+\end{DoxyCompactItemize}
+\subsection*{\-Variables}
+\begin{DoxyCompactItemize}
+\item 
+float \hyperlink{group___stabilization_module_gaf51ebd613903cfff91be0878961b04cf}{gyro\-\_\-alpha} = 0
+\item 
+float \hyperlink{group___stabilization_module_ga1b6fc01b4acff35c8b4875e91fb63bce}{axis\-\_\-lock\-\_\-accum} \mbox{[}3\mbox{]} = \{0,0,0\}
+\item 
+uint8\-\_\-t \hyperlink{group___stabilization_module_ga9d12f9314c47dcc57be19ca03b5ac09a}{max\-\_\-axis\-\_\-lock} = 0
+\item 
+uint8\-\_\-t \hyperlink{group___stabilization_module_ga94dd677918bcbe2c1ee026d1c1f95fd1}{max\-\_\-axislock\-\_\-rate} = 0
+\item 
+float \hyperlink{group___stabilization_module_ga0ed1377fcc1a59ba76172e76b113704d}{weak\-\_\-leveling\-\_\-kp} = 0
+\item 
+uint8\-\_\-t \hyperlink{group___stabilization_module_gac1659053cf18ba9ead672d2795fb6941}{weak\-\_\-leveling\-\_\-max} = 0
+\item 
+bool \hyperlink{group___stabilization_module_gaf67afab9d5822cab800d87ee04512e53}{low\-Throttle\-Zero\-Integral}
+\item 
+float \hyperlink{group___stabilization_module_ga953d14b1e6e45afc361e0898296bf346}{vbar\-\_\-decay} = 0.\-991f
+\item 
+struct \hyperlink{structpid}{pid} \hyperlink{group___stabilization_module_ga1b7c75ff9222444babfe603f25b91233}{pids} \mbox{[}\hyperlink{group___stabilization_module_gga99fb83031ce9923c84392b4e92f956b5aa9ba8c316889eca7f244f9e458323e1c}{\-P\-I\-D\-\_\-\-M\-A\-X}\mbox{]}
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-Control the \-U\-A\-V attitude to \hyperlink{group___stabilization_desired}{\-Stabilization\-Desired}. \-The main control code which keeps the \-U\-A\-V at the attitude requested by \hyperlink{group___stabilization_desired}{\-Stabilization\-Desired}. \-This is done by comparing against \hyperlink{group___attitude_actual}{\-Attitude\-Actual} to compute the error in roll pitch and yaw then then based on the mode and values in \hyperlink{group___stabilization_settings}{\-Stabilization\-Settings} computing the desired outputs and placing them in \hyperlink{group___actuator_desired}{\-Actuator\-Desired}. 
+
+\subsection{\-Enumeration \-Type \-Documentation}
+\hypertarget{group___stabilization_module_gadf764cbdea00d65edcd07bb9953ad2b7}{\subsubsection[{anonymous enum}]{\setlength{\rightskip}{0pt plus 5cm}anonymous enum}}\label{group___stabilization_module_gadf764cbdea00d65edcd07bb9953ad2b7}
+\begin{Desc}
+\item[\-Enumerator\-: ]\par
+\begin{description}
+\index{\-R\-O\-L\-L@{\-R\-O\-L\-L}!\-Stabilization Module@{\-Stabilization Module}}\index{\-Stabilization Module@{\-Stabilization Module}!\-R\-O\-L\-L@{\-R\-O\-L\-L}}\item[{\em 
+\hypertarget{group___stabilization_module_ggadf764cbdea00d65edcd07bb9953ad2b7a2eeb9fef8a6a516fa6437a44a6efbd52}{\-R\-O\-L\-L}\label{group___stabilization_module_ggadf764cbdea00d65edcd07bb9953ad2b7a2eeb9fef8a6a516fa6437a44a6efbd52}
+}]\index{\-P\-I\-T\-C\-H@{\-P\-I\-T\-C\-H}!\-Stabilization Module@{\-Stabilization Module}}\index{\-Stabilization Module@{\-Stabilization Module}!\-P\-I\-T\-C\-H@{\-P\-I\-T\-C\-H}}\item[{\em 
+\hypertarget{group___stabilization_module_ggadf764cbdea00d65edcd07bb9953ad2b7aa4ed247aa19723caf868d2b2dd5cf4ff}{\-P\-I\-T\-C\-H}\label{group___stabilization_module_ggadf764cbdea00d65edcd07bb9953ad2b7aa4ed247aa19723caf868d2b2dd5cf4ff}
+}]\index{\-Y\-A\-W@{\-Y\-A\-W}!\-Stabilization Module@{\-Stabilization Module}}\index{\-Stabilization Module@{\-Stabilization Module}!\-Y\-A\-W@{\-Y\-A\-W}}\item[{\em 
+\hypertarget{group___stabilization_module_ggadf764cbdea00d65edcd07bb9953ad2b7a60ae774ecd1cf97a0e91f76970d64491}{\-Y\-A\-W}\label{group___stabilization_module_ggadf764cbdea00d65edcd07bb9953ad2b7a60ae774ecd1cf97a0e91f76970d64491}
+}]\index{\-M\-A\-X\-\_\-\-A\-X\-E\-S@{\-M\-A\-X\-\_\-\-A\-X\-E\-S}!\-Stabilization Module@{\-Stabilization Module}}\index{\-Stabilization Module@{\-Stabilization Module}!\-M\-A\-X\-\_\-\-A\-X\-E\-S@{\-M\-A\-X\-\_\-\-A\-X\-E\-S}}\item[{\em 
+\hypertarget{group___stabilization_module_ggadf764cbdea00d65edcd07bb9953ad2b7aaacb851954fab4e8ccf0d09acc8ef697}{\-M\-A\-X\-\_\-\-A\-X\-E\-S}\label{group___stabilization_module_ggadf764cbdea00d65edcd07bb9953ad2b7aaacb851954fab4e8ccf0d09acc8ef697}
+}]\end{description}
+\end{Desc}
+
+
+
+\-Definition at line 36 of file stabilization.\-h.
+
+\hypertarget{group___stabilization_module_ga99fb83031ce9923c84392b4e92f956b5}{\subsubsection[{anonymous enum}]{\setlength{\rightskip}{0pt plus 5cm}anonymous enum}}\label{group___stabilization_module_ga99fb83031ce9923c84392b4e92f956b5}
+\begin{Desc}
+\item[\-Enumerator\-: ]\par
+\begin{description}
+\index{\-P\-I\-D\-\_\-\-R\-A\-T\-E\-\_\-\-R\-O\-L\-L@{\-P\-I\-D\-\_\-\-R\-A\-T\-E\-\_\-\-R\-O\-L\-L}!\-Stabilization Module@{\-Stabilization Module}}\index{\-Stabilization Module@{\-Stabilization Module}!\-P\-I\-D\-\_\-\-R\-A\-T\-E\-\_\-\-R\-O\-L\-L@{\-P\-I\-D\-\_\-\-R\-A\-T\-E\-\_\-\-R\-O\-L\-L}}\item[{\em 
+\hypertarget{group___stabilization_module_gga99fb83031ce9923c84392b4e92f956b5a72ce5e299bef48d82c7df12b830f4362}{\-P\-I\-D\-\_\-\-R\-A\-T\-E\-\_\-\-R\-O\-L\-L}\label{group___stabilization_module_gga99fb83031ce9923c84392b4e92f956b5a72ce5e299bef48d82c7df12b830f4362}
+}]\index{\-P\-I\-D\-\_\-\-R\-A\-T\-E\-\_\-\-P\-I\-T\-C\-H@{\-P\-I\-D\-\_\-\-R\-A\-T\-E\-\_\-\-P\-I\-T\-C\-H}!\-Stabilization Module@{\-Stabilization Module}}\index{\-Stabilization Module@{\-Stabilization Module}!\-P\-I\-D\-\_\-\-R\-A\-T\-E\-\_\-\-P\-I\-T\-C\-H@{\-P\-I\-D\-\_\-\-R\-A\-T\-E\-\_\-\-P\-I\-T\-C\-H}}\item[{\em 
+\hypertarget{group___stabilization_module_gga99fb83031ce9923c84392b4e92f956b5ac06016a8c64f1a65c3e50fbf8e130d40}{\-P\-I\-D\-\_\-\-R\-A\-T\-E\-\_\-\-P\-I\-T\-C\-H}\label{group___stabilization_module_gga99fb83031ce9923c84392b4e92f956b5ac06016a8c64f1a65c3e50fbf8e130d40}
+}]\index{\-P\-I\-D\-\_\-\-R\-A\-T\-E\-\_\-\-Y\-A\-W@{\-P\-I\-D\-\_\-\-R\-A\-T\-E\-\_\-\-Y\-A\-W}!\-Stabilization Module@{\-Stabilization Module}}\index{\-Stabilization Module@{\-Stabilization Module}!\-P\-I\-D\-\_\-\-R\-A\-T\-E\-\_\-\-Y\-A\-W@{\-P\-I\-D\-\_\-\-R\-A\-T\-E\-\_\-\-Y\-A\-W}}\item[{\em 
+\hypertarget{group___stabilization_module_gga99fb83031ce9923c84392b4e92f956b5a0c6a71c56e424e9e8dbece3cc8b6e247}{\-P\-I\-D\-\_\-\-R\-A\-T\-E\-\_\-\-Y\-A\-W}\label{group___stabilization_module_gga99fb83031ce9923c84392b4e92f956b5a0c6a71c56e424e9e8dbece3cc8b6e247}
+}]\index{\-P\-I\-D\-\_\-\-A\-T\-T\-\_\-\-R\-O\-L\-L@{\-P\-I\-D\-\_\-\-A\-T\-T\-\_\-\-R\-O\-L\-L}!\-Stabilization Module@{\-Stabilization Module}}\index{\-Stabilization Module@{\-Stabilization Module}!\-P\-I\-D\-\_\-\-A\-T\-T\-\_\-\-R\-O\-L\-L@{\-P\-I\-D\-\_\-\-A\-T\-T\-\_\-\-R\-O\-L\-L}}\item[{\em 
+\hypertarget{group___stabilization_module_gga99fb83031ce9923c84392b4e92f956b5a5f8120c562708e146803407541f87dbb}{\-P\-I\-D\-\_\-\-A\-T\-T\-\_\-\-R\-O\-L\-L}\label{group___stabilization_module_gga99fb83031ce9923c84392b4e92f956b5a5f8120c562708e146803407541f87dbb}
+}]\index{\-P\-I\-D\-\_\-\-A\-T\-T\-\_\-\-P\-I\-T\-C\-H@{\-P\-I\-D\-\_\-\-A\-T\-T\-\_\-\-P\-I\-T\-C\-H}!\-Stabilization Module@{\-Stabilization Module}}\index{\-Stabilization Module@{\-Stabilization Module}!\-P\-I\-D\-\_\-\-A\-T\-T\-\_\-\-P\-I\-T\-C\-H@{\-P\-I\-D\-\_\-\-A\-T\-T\-\_\-\-P\-I\-T\-C\-H}}\item[{\em 
+\hypertarget{group___stabilization_module_gga99fb83031ce9923c84392b4e92f956b5ab1e5a0050d3a9b6ac04aa9f2283ab6cb}{\-P\-I\-D\-\_\-\-A\-T\-T\-\_\-\-P\-I\-T\-C\-H}\label{group___stabilization_module_gga99fb83031ce9923c84392b4e92f956b5ab1e5a0050d3a9b6ac04aa9f2283ab6cb}
+}]\index{\-P\-I\-D\-\_\-\-A\-T\-T\-\_\-\-Y\-A\-W@{\-P\-I\-D\-\_\-\-A\-T\-T\-\_\-\-Y\-A\-W}!\-Stabilization Module@{\-Stabilization Module}}\index{\-Stabilization Module@{\-Stabilization Module}!\-P\-I\-D\-\_\-\-A\-T\-T\-\_\-\-Y\-A\-W@{\-P\-I\-D\-\_\-\-A\-T\-T\-\_\-\-Y\-A\-W}}\item[{\em 
+\hypertarget{group___stabilization_module_gga99fb83031ce9923c84392b4e92f956b5ac81ceeecde5376af34dd127b8143ec3b}{\-P\-I\-D\-\_\-\-A\-T\-T\-\_\-\-Y\-A\-W}\label{group___stabilization_module_gga99fb83031ce9923c84392b4e92f956b5ac81ceeecde5376af34dd127b8143ec3b}
+}]\index{\-P\-I\-D\-\_\-\-M\-A\-X@{\-P\-I\-D\-\_\-\-M\-A\-X}!\-Stabilization Module@{\-Stabilization Module}}\index{\-Stabilization Module@{\-Stabilization Module}!\-P\-I\-D\-\_\-\-M\-A\-X@{\-P\-I\-D\-\_\-\-M\-A\-X}}\item[{\em 
+\hypertarget{group___stabilization_module_gga99fb83031ce9923c84392b4e92f956b5aa9ba8c316889eca7f244f9e458323e1c}{\-P\-I\-D\-\_\-\-M\-A\-X}\label{group___stabilization_module_gga99fb83031ce9923c84392b4e92f956b5aa9ba8c316889eca7f244f9e458323e1c}
+}]\end{description}
+\end{Desc}
+
+
+
+\-Definition at line 72 of file stabilization.\-c.
+
+
+
+\subsection{\-Function \-Documentation}
+\hypertarget{group___stabilization_module_ga2ed12a01187d2c1f1659b1e9ee957d93}{\index{\-Stabilization Module@{\-Stabilization Module}!\-M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L@{\-M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L}}
+\index{\-M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L@{\-M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L}!Stabilization Module@{\-Stabilization Module}}
+\subsubsection[{\-M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Stabilization\-Initialize}}]{, }
+\item[{{\bf \-Stabilization\-Start}}]{}
+\end{DoxyParamCaption}
+)}}\label{group___stabilization_module_ga2ed12a01187d2c1f1659b1e9ee957d93}
+\-Module task 
+
+\-Definition at line 136 of file stabilization.\-c.
+
+\hypertarget{group___stabilization_module_gae98f3dcccca3bf2f6978a8f44529c14a}{\index{\-Stabilization Module@{\-Stabilization Module}!stabilization\-\_\-relay\-\_\-rate@{stabilization\-\_\-relay\-\_\-rate}}
+\index{stabilization\-\_\-relay\-\_\-rate@{stabilization\-\_\-relay\-\_\-rate}!Stabilization Module@{\-Stabilization Module}}
+\subsubsection[{stabilization\-\_\-relay\-\_\-rate}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf stabilization\-\_\-relay\-\_\-rate} (
+\begin{DoxyParamCaption}
+\item[{float}]{error, }
+\item[{float $\ast$}]{output, }
+\item[{int}]{axis, }
+\item[{bool}]{reinit}
+\end{DoxyParamCaption}
+)}}\label{group___stabilization_module_gae98f3dcccca3bf2f6978a8f44529c14a}
+\-Apply a step function for the stabilization controller and monitor the result
+
+\-Used to \-Replace the rate \-P\-I\-D with a relay to measure the critical properties of this axis i.\-e. period and gain 
+
+\-Definition at line 49 of file relay\-\_\-tuning.\-c.
+
+\hypertarget{group___stabilization_module_ga59f8ecdbf84bddb7072618a7de6e817e}{\index{\-Stabilization Module@{\-Stabilization Module}!stabilization\-\_\-virtual\-\_\-flybar@{stabilization\-\_\-virtual\-\_\-flybar}}
+\index{stabilization\-\_\-virtual\-\_\-flybar@{stabilization\-\_\-virtual\-\_\-flybar}!Stabilization Module@{\-Stabilization Module}}
+\subsubsection[{stabilization\-\_\-virtual\-\_\-flybar}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf stabilization\-\_\-virtual\-\_\-flybar} (
+\begin{DoxyParamCaption}
+\item[{float}]{gyro, }
+\item[{float}]{command, }
+\item[{float $\ast$}]{output, }
+\item[{float}]{d\-T, }
+\item[{bool}]{reinit, }
+\item[{uint32\-\_\-t}]{axis, }
+\item[{\-Stabilization\-Settings\-Data $\ast$}]{settings}
+\end{DoxyParamCaption}
+)}}\label{group___stabilization_module_ga59f8ecdbf84bddb7072618a7de6e817e}
+
+
+\-Definition at line 44 of file virtualflybar.\-c.
+
+\hypertarget{group___stabilization_module_ga286dd4b805297b12acd0aa9a69780a75}{\index{\-Stabilization Module@{\-Stabilization Module}!stabilization\-\_\-virtual\-\_\-flybar\-\_\-pirocomp@{stabilization\-\_\-virtual\-\_\-flybar\-\_\-pirocomp}}
+\index{stabilization\-\_\-virtual\-\_\-flybar\-\_\-pirocomp@{stabilization\-\_\-virtual\-\_\-flybar\-\_\-pirocomp}!Stabilization Module@{\-Stabilization Module}}
+\subsubsection[{stabilization\-\_\-virtual\-\_\-flybar\-\_\-pirocomp}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf stabilization\-\_\-virtual\-\_\-flybar\-\_\-pirocomp} (
+\begin{DoxyParamCaption}
+\item[{float}]{z\-\_\-gyro, }
+\item[{float}]{d\-T}
+\end{DoxyParamCaption}
+)}}\label{group___stabilization_module_ga286dd4b805297b12acd0aa9a69780a75}
+\-Want to keep the virtual flybar fixed in world coordinates as we pirouette 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em z\-\_\-gyro} & \-The deg/s of rotation along the z axis \\
+\hline
+\mbox{\tt in}  & {\em d\-T} & \-The time since last sample \\
+\hline
+\end{DoxyParams}
+
+
+\-Definition at line 93 of file virtualflybar.\-c.
+
+\hypertarget{group___stabilization_module_ga0271ad4d56816c408814d99db9d15b8b}{\index{\-Stabilization Module@{\-Stabilization Module}!\-Stabilization\-Initialize@{\-Stabilization\-Initialize}}
+\index{\-Stabilization\-Initialize@{\-Stabilization\-Initialize}!Stabilization Module@{\-Stabilization Module}}
+\subsubsection[{\-Stabilization\-Initialize}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-Stabilization\-Initialize} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___stabilization_module_ga0271ad4d56816c408814d99db9d15b8b}
+\-Module initialization 
+
+\-Definition at line 121 of file stabilization.\-c.
+
+\hypertarget{group___stabilization_module_ga6190a7e200476bf20da7b47ac4107973}{\index{\-Stabilization Module@{\-Stabilization Module}!\-Stabilization\-Start@{\-Stabilization\-Start}}
+\index{\-Stabilization\-Start@{\-Stabilization\-Start}!Stabilization Module@{\-Stabilization Module}}
+\subsubsection[{\-Stabilization\-Start}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-Stabilization\-Start} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___stabilization_module_ga6190a7e200476bf20da7b47ac4107973}
+\-Module initialization 
+
+\-Definition at line 98 of file stabilization.\-c.
+
+
+
+\subsection{\-Variable \-Documentation}
+\hypertarget{group___stabilization_module_ga1b6fc01b4acff35c8b4875e91fb63bce}{\index{\-Stabilization Module@{\-Stabilization Module}!axis\-\_\-lock\-\_\-accum@{axis\-\_\-lock\-\_\-accum}}
+\index{axis\-\_\-lock\-\_\-accum@{axis\-\_\-lock\-\_\-accum}!Stabilization Module@{\-Stabilization Module}}
+\subsubsection[{axis\-\_\-lock\-\_\-accum}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf axis\-\_\-lock\-\_\-accum}\mbox{[}3\mbox{]} = \{0,0,0\}}}\label{group___stabilization_module_ga1b6fc01b4acff35c8b4875e91fb63bce}
+
+
+\-Definition at line 80 of file stabilization.\-c.
+
+\hypertarget{group___stabilization_module_gaf51ebd613903cfff91be0878961b04cf}{\index{\-Stabilization Module@{\-Stabilization Module}!gyro\-\_\-alpha@{gyro\-\_\-alpha}}
+\index{gyro\-\_\-alpha@{gyro\-\_\-alpha}!Stabilization Module@{\-Stabilization Module}}
+\subsubsection[{gyro\-\_\-alpha}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf gyro\-\_\-alpha} = 0}}\label{group___stabilization_module_gaf51ebd613903cfff91be0878961b04cf}
+
+
+\-Definition at line 79 of file stabilization.\-c.
+
+\hypertarget{group___stabilization_module_gaf67afab9d5822cab800d87ee04512e53}{\index{\-Stabilization Module@{\-Stabilization Module}!low\-Throttle\-Zero\-Integral@{low\-Throttle\-Zero\-Integral}}
+\index{low\-Throttle\-Zero\-Integral@{low\-Throttle\-Zero\-Integral}!Stabilization Module@{\-Stabilization Module}}
+\subsubsection[{low\-Throttle\-Zero\-Integral}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf low\-Throttle\-Zero\-Integral}}}\label{group___stabilization_module_gaf67afab9d5822cab800d87ee04512e53}
+
+
+\-Definition at line 85 of file stabilization.\-c.
+
+\hypertarget{group___stabilization_module_ga9d12f9314c47dcc57be19ca03b5ac09a}{\index{\-Stabilization Module@{\-Stabilization Module}!max\-\_\-axis\-\_\-lock@{max\-\_\-axis\-\_\-lock}}
+\index{max\-\_\-axis\-\_\-lock@{max\-\_\-axis\-\_\-lock}!Stabilization Module@{\-Stabilization Module}}
+\subsubsection[{max\-\_\-axis\-\_\-lock}]{\setlength{\rightskip}{0pt plus 5cm}uint8\-\_\-t {\bf max\-\_\-axis\-\_\-lock} = 0}}\label{group___stabilization_module_ga9d12f9314c47dcc57be19ca03b5ac09a}
+
+
+\-Definition at line 81 of file stabilization.\-c.
+
+\hypertarget{group___stabilization_module_ga94dd677918bcbe2c1ee026d1c1f95fd1}{\index{\-Stabilization Module@{\-Stabilization Module}!max\-\_\-axislock\-\_\-rate@{max\-\_\-axislock\-\_\-rate}}
+\index{max\-\_\-axislock\-\_\-rate@{max\-\_\-axislock\-\_\-rate}!Stabilization Module@{\-Stabilization Module}}
+\subsubsection[{max\-\_\-axislock\-\_\-rate}]{\setlength{\rightskip}{0pt plus 5cm}uint8\-\_\-t {\bf max\-\_\-axislock\-\_\-rate} = 0}}\label{group___stabilization_module_ga94dd677918bcbe2c1ee026d1c1f95fd1}
+
+
+\-Definition at line 82 of file stabilization.\-c.
+
+\hypertarget{group___stabilization_module_ga1b7c75ff9222444babfe603f25b91233}{\index{\-Stabilization Module@{\-Stabilization Module}!pids@{pids}}
+\index{pids@{pids}!Stabilization Module@{\-Stabilization Module}}
+\subsubsection[{pids}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf pid} {\bf pids}\mbox{[}{\bf \-P\-I\-D\-\_\-\-M\-A\-X}\mbox{]}}}\label{group___stabilization_module_ga1b7c75ff9222444babfe603f25b91233}
+
+
+\-Definition at line 87 of file stabilization.\-c.
+
+\hypertarget{group___stabilization_module_ga953d14b1e6e45afc361e0898296bf346}{\index{\-Stabilization Module@{\-Stabilization Module}!vbar\-\_\-decay@{vbar\-\_\-decay}}
+\index{vbar\-\_\-decay@{vbar\-\_\-decay}!Stabilization Module@{\-Stabilization Module}}
+\subsubsection[{vbar\-\_\-decay}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf vbar\-\_\-decay} = 0.\-991f}}\label{group___stabilization_module_ga953d14b1e6e45afc361e0898296bf346}
+
+
+\-Definition at line 86 of file stabilization.\-c.
+
+\hypertarget{group___stabilization_module_ga0ed1377fcc1a59ba76172e76b113704d}{\index{\-Stabilization Module@{\-Stabilization Module}!weak\-\_\-leveling\-\_\-kp@{weak\-\_\-leveling\-\_\-kp}}
+\index{weak\-\_\-leveling\-\_\-kp@{weak\-\_\-leveling\-\_\-kp}!Stabilization Module@{\-Stabilization Module}}
+\subsubsection[{weak\-\_\-leveling\-\_\-kp}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf weak\-\_\-leveling\-\_\-kp} = 0}}\label{group___stabilization_module_ga0ed1377fcc1a59ba76172e76b113704d}
+
+
+\-Definition at line 83 of file stabilization.\-c.
+
+\hypertarget{group___stabilization_module_gac1659053cf18ba9ead672d2795fb6941}{\index{\-Stabilization Module@{\-Stabilization Module}!weak\-\_\-leveling\-\_\-max@{weak\-\_\-leveling\-\_\-max}}
+\index{weak\-\_\-leveling\-\_\-max@{weak\-\_\-leveling\-\_\-max}!Stabilization Module@{\-Stabilization Module}}
+\subsubsection[{weak\-\_\-leveling\-\_\-max}]{\setlength{\rightskip}{0pt plus 5cm}uint8\-\_\-t {\bf weak\-\_\-leveling\-\_\-max} = 0}}\label{group___stabilization_module_gac1659053cf18ba9ead672d2795fb6941}
+
+
+\-Definition at line 84 of file stabilization.\-c.
+

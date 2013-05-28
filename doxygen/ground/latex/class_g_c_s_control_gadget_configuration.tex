@@ -1,0 +1,65 @@
+\hypertarget{class_g_c_s_control_gadget_configuration}{\section{\-G\-C\-S\-Control\-Gadget\-Configuration \-Class \-Reference}
+\label{class_g_c_s_control_gadget_configuration}\index{\-G\-C\-S\-Control\-Gadget\-Configuration@{\-G\-C\-S\-Control\-Gadget\-Configuration}}
+}
+
+
+{\ttfamily \#include $<$gcscontrolgadgetconfiguration.\-h$>$}
+
+\-Inheritance diagram for \-G\-C\-S\-Control\-Gadget\-Configuration\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_g_c_s_control_gadget_configuration}
+\end{center}
+\end{figure}
+\subsection*{\-Public \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___g_c_s_control_gadget_plugin_ga564a596fece84d06f7a2ff0f9151d140}{\-G\-C\-S\-Control\-Gadget\-Configuration} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___core_plugin_gac953657221ba7fda967ada0408332641}{class\-Id}, \-Q\-Settings $\ast$q\-Settings=0, \-Q\-Object $\ast$parent=0)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___g_c_s_control_gadget_plugin_gaa1642ff7af92b8b9805e2f4ec1e55e05}{set\-Controls\-Mode} (int mode)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___g_c_s_control_gadget_plugin_ga60a55663d33c0fa8ede8a318f08fc639}{set\-R\-P\-Y\-Tchannels} (int roll, int pitch, int yaw, int throttle)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___g_c_s_control_gadget_plugin_ga3bcc78712b1d750a1426bd1342f0897a}{set\-U\-D\-P\-Control\-Settings} (int \hyperlink{classport}{port}, \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} host)
+\item 
+int \hyperlink{group___g_c_s_control_gadget_plugin_gab4759362f125b28eca65edb170d6d179}{get\-U\-D\-P\-Control\-Port} ()
+\item 
+\-Q\-Host\-Address \hyperlink{group___g_c_s_control_gadget_plugin_ga3d756308c4f352759b919076507be2de}{get\-U\-D\-P\-Control\-Host} ()
+\item 
+int \hyperlink{group___g_c_s_control_gadget_plugin_ga4604101049b278a5e919fa1bcbba4a74}{get\-Controls\-Mode} ()
+\item 
+\-Q\-List$<$ int $>$ \hyperlink{group___g_c_s_control_gadget_plugin_gad8ea955332edf856259dc191fdca5473}{get\-Channels\-Mapping} ()
+\item 
+\-Q\-List$<$ bool $>$ \hyperlink{group___g_c_s_control_gadget_plugin_ga643521630f66ed868de507d649278971}{get\-Channels\-Reverse} ()
+\item 
+\hyperlink{structbutton_settings_struct}{button\-Settings\-Struct} \hyperlink{group___g_c_s_control_gadget_plugin_ga024292274c2307cd9e45e6a7fbbba208}{getbutton\-Settings} (int \hyperlink{uavobjecttemplate_8m_a6f6ccfcf58b31cb6412107d9d5281426}{i})
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___g_c_s_control_gadget_plugin_ga59dbcf37f9417c485b9c8a021563a530}{setbutton\-Settings\-Action} (int \hyperlink{uavobjecttemplate_8m_a6f6ccfcf58b31cb6412107d9d5281426}{i}, int \-Action\-I\-D)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___g_c_s_control_gadget_plugin_ga67d36d085e0ada006406d7cd2569e226}{setbutton\-Settings\-Function} (int \hyperlink{uavobjecttemplate_8m_a6f6ccfcf58b31cb6412107d9d5281426}{i}, int \-Function\-I\-D)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___g_c_s_control_gadget_plugin_ga1f4c5dc258f49bb185227cb603dbd088}{setbutton\-Settings\-Amount} (int \hyperlink{uavobjecttemplate_8m_a6f6ccfcf58b31cb6412107d9d5281426}{i}, double \-Amount)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___g_c_s_control_gadget_plugin_gae6d33c4f9082a7cee4223f5793c82a45}{set\-Channel\-Reverse} (int \hyperlink{uavobjecttemplate_8m_a6f6ccfcf58b31cb6412107d9d5281426}{i}, bool \-Reverse)
+\item 
+bool \hyperlink{group___g_c_s_control_gadget_plugin_ga0b4cab5db5d6ffe6b93d7cb9be5de2c8}{get\-Gcs\-Receiver\-Mode} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___g_c_s_control_gadget_plugin_gac753abb3d8930e2296c8e9c056a4ee1f}{set\-Gcs\-Receiver\-Mode} (bool enable)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___g_c_s_control_gadget_plugin_ga5b7df7d2f0deddc5241efd65f199fb05}{save\-Config} (\-Q\-Settings $\ast$settings) const 
+\item 
+\hyperlink{group___core_plugin_gacdfdf0b1e39b5002472b76b6564ce51f}{\-I\-U\-A\-V\-Gadget\-Configuration} $\ast$ \hyperlink{group___g_c_s_control_gadget_plugin_ga2fcb5b20028b10d2b13fcebe34b82f0f}{clone} ()
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+
+
+\-Definition at line 50 of file gcscontrolgadgetconfiguration.\-h.
+
+
+
+\-The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/plugins/gcscontrol/\hyperlink{gcscontrolgadgetconfiguration_8h}{gcscontrolgadgetconfiguration.\-h}\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/plugins/gcscontrol/\hyperlink{gcscontrolgadgetconfiguration_8cpp}{gcscontrolgadgetconfiguration.\-cpp}\end{DoxyCompactItemize}

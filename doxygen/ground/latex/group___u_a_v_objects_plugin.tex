@@ -1,0 +1,2429 @@
+\hypertarget{group___u_a_v_objects_plugin}{\section{\-U\-A\-V\-Objects \-Plugin}
+\label{group___u_a_v_objects_plugin}\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}}
+}
+
+
+\-The \-U\-A\-V\-U\-Objects \-G\-C\-S plugin.  
+
+
+\subsection*{\-Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{class_u_a_v_data_object}{\-U\-A\-V\-Data\-Object}
+\item 
+class \hyperlink{class_u_a_v_meta_object}{\-U\-A\-V\-Meta\-Object}
+\item 
+class \hyperlink{class_u_a_v_object}{\-U\-A\-V\-Object}
+\item 
+struct \hyperlink{struct_u_a_v_object_1_1____attribute____}{\-U\-A\-V\-Object\-::\-\_\-\-\_\-attribute\-\_\-\-\_\-}
+\item 
+class \hyperlink{class_u_a_v_object_field}{\-U\-A\-V\-Object\-Field}
+\item 
+struct \hyperlink{struct_u_a_v_object_field_1_1_limit_struct}{\-U\-A\-V\-Object\-Field\-::\-Limit\-Struct}
+\item 
+class \hyperlink{class_u_a_v_object_manager}{\-U\-A\-V\-Object\-Manager}
+\item 
+class \hyperlink{class_u_a_v_objects_plugin}{\-U\-A\-V\-Objects\-Plugin}
+\item 
+class \hyperlink{class_u_a_v_object_util_manager}{\-U\-A\-V\-Object\-Util\-Manager}
+\end{DoxyCompactItemize}
+\subsection*{\-Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{group___u_a_v_objects_plugin_ga08c0580992fcd51c2b44734e2d24cac6}{\-U\-A\-V\-Object\-::\-Update\-Mode} \{ \hyperlink{group___u_a_v_objects_plugin_gga08c0580992fcd51c2b44734e2d24cac6a7e761571cc6ee4432fa664f23fcb7032}{\-U\-A\-V\-Object\-::\-U\-P\-D\-A\-T\-E\-M\-O\-D\-E\-\_\-\-M\-A\-N\-U\-A\-L} =  0, 
+\hyperlink{group___u_a_v_objects_plugin_gga08c0580992fcd51c2b44734e2d24cac6a6057e8a8af67f00940fad6f62499b843}{\-U\-A\-V\-Object\-::\-U\-P\-D\-A\-T\-E\-M\-O\-D\-E\-\_\-\-P\-E\-R\-I\-O\-D\-I\-C} =  1, 
+\hyperlink{group___u_a_v_objects_plugin_gga08c0580992fcd51c2b44734e2d24cac6a118268aa016a1f371149d6180bd9a366}{\-U\-A\-V\-Object\-::\-U\-P\-D\-A\-T\-E\-M\-O\-D\-E\-\_\-\-O\-N\-C\-H\-A\-N\-G\-E} =  2, 
+\hyperlink{group___u_a_v_objects_plugin_gga08c0580992fcd51c2b44734e2d24cac6aea4380a186f544bd364259d2e436fb75}{\-U\-A\-V\-Object\-::\-U\-P\-D\-A\-T\-E\-M\-O\-D\-E\-\_\-\-T\-H\-R\-O\-T\-T\-L\-E\-D} =  3
+ \}
+\item 
+enum \hyperlink{group___u_a_v_objects_plugin_ga80357a2f38fa4be23200de86614c3d77}{\-U\-A\-V\-Object\-::\-Access\-Mode} \{ \hyperlink{group___u_a_v_objects_plugin_gga80357a2f38fa4be23200de86614c3d77ad710c074e7e275da805bf900c9917d47}{\-U\-A\-V\-Object\-::\-A\-C\-C\-E\-S\-S\-\_\-\-R\-E\-A\-D\-W\-R\-I\-T\-E} =  0, 
+\hyperlink{group___u_a_v_objects_plugin_gga80357a2f38fa4be23200de86614c3d77a97e59f527995175cc60e103001470e49}{\-U\-A\-V\-Object\-::\-A\-C\-C\-E\-S\-S\-\_\-\-R\-E\-A\-D\-O\-N\-L\-Y} =  1
+ \}
+\item 
+enum \hyperlink{group___u_a_v_objects_plugin_ga74498368bc91f3ed74beacb096744cf3}{\-U\-A\-V\-Object\-Field\-::\-Field\-Type} \{ \*
+\hyperlink{group___u_a_v_objects_plugin_gga74498368bc91f3ed74beacb096744cf3a19e2840fa94a77e0e4d6bcf7fb40e734}{\-U\-A\-V\-Object\-Field\-::\-I\-N\-T8} =  0, 
+\hyperlink{group___u_a_v_objects_plugin_gga74498368bc91f3ed74beacb096744cf3a449ba7536fca8720c9608dd26c74182a}{\-U\-A\-V\-Object\-Field\-::\-I\-N\-T16}, 
+\hyperlink{group___u_a_v_objects_plugin_gga74498368bc91f3ed74beacb096744cf3ad47a62cf1ae89582cb875a6bc59662ec}{\-U\-A\-V\-Object\-Field\-::\-I\-N\-T32}, 
+\hyperlink{group___u_a_v_objects_plugin_gga74498368bc91f3ed74beacb096744cf3a6546a8ed8b8449d2829291856d3f8e5d}{\-U\-A\-V\-Object\-Field\-::\-U\-I\-N\-T8}, 
+\*
+\hyperlink{group___u_a_v_objects_plugin_gga74498368bc91f3ed74beacb096744cf3ac2f59f65ccf56a9b5ab9537f243d8ebb}{\-U\-A\-V\-Object\-Field\-::\-U\-I\-N\-T16}, 
+\hyperlink{group___u_a_v_objects_plugin_gga74498368bc91f3ed74beacb096744cf3a9e78f4bc590d0a313c2fbdd157a82837}{\-U\-A\-V\-Object\-Field\-::\-U\-I\-N\-T32}, 
+\hyperlink{group___u_a_v_objects_plugin_gga74498368bc91f3ed74beacb096744cf3ade54d949f5105c9e1177f6ce38a7e7ba}{\-U\-A\-V\-Object\-Field\-::\-F\-L\-O\-A\-T32}, 
+\hyperlink{group___u_a_v_objects_plugin_gga74498368bc91f3ed74beacb096744cf3a6b66856b80e5733eb7b8b08f3d870871}{\-U\-A\-V\-Object\-Field\-::\-E\-N\-U\-M}, 
+\*
+\hyperlink{group___u_a_v_objects_plugin_gga74498368bc91f3ed74beacb096744cf3a1a5788021526d853b18af9b5fd11f46d}{\-U\-A\-V\-Object\-Field\-::\-B\-I\-T\-F\-I\-E\-L\-D}, 
+\hyperlink{group___u_a_v_objects_plugin_gga74498368bc91f3ed74beacb096744cf3a263153e4740f4e16ffdc57eb00d37774}{\-U\-A\-V\-Object\-Field\-::\-S\-T\-R\-I\-N\-G}
+ \}
+\item 
+enum \hyperlink{group___u_a_v_objects_plugin_gab90b52ee80a0622d280a4c2fc8e601cb}{\-U\-A\-V\-Object\-Field\-::\-Limit\-Type} \{ \*
+\hyperlink{group___u_a_v_objects_plugin_ggab90b52ee80a0622d280a4c2fc8e601cba8dbddc7d32139967375f2aadc9611f92}{\-U\-A\-V\-Object\-Field\-::\-E\-Q\-U\-A\-L}, 
+\hyperlink{group___u_a_v_objects_plugin_ggab90b52ee80a0622d280a4c2fc8e601cba9a661c176c884fa21ed1f0d451a63472}{\-U\-A\-V\-Object\-Field\-::\-N\-O\-T\-\_\-\-E\-Q\-U\-A\-L}, 
+\hyperlink{group___u_a_v_objects_plugin_ggab90b52ee80a0622d280a4c2fc8e601cbaabc95b31ce0e072b3e30a5ef80063568}{\-U\-A\-V\-Object\-Field\-::\-B\-E\-T\-W\-E\-E\-N}, 
+\hyperlink{group___u_a_v_objects_plugin_ggab90b52ee80a0622d280a4c2fc8e601cba8bf45653fc3846d52b51b1bad7ca342e}{\-U\-A\-V\-Object\-Field\-::\-B\-I\-G\-G\-E\-R}, 
+\*
+\hyperlink{group___u_a_v_objects_plugin_ggab90b52ee80a0622d280a4c2fc8e601cba5903966788353f79fdfa23cef3c141bf}{\-U\-A\-V\-Object\-Field\-::\-S\-M\-A\-L\-L\-E\-R}
+ \}
+\item 
+enum \hyperlink{group___u_a_v_objects_plugin_ga3f0971e47d6ebe87f97939435cd03da3}{\-U\-A\-V\-Object\-Util\-Manager\-::metadata\-Set\-Enum} \{ \hyperlink{group___u_a_v_objects_plugin_gga3f0971e47d6ebe87f97939435cd03da3ac18452db1ea15afd4d64e97a407429cd}{\-U\-A\-V\-Object\-Util\-Manager\-::\-A\-L\-L\-\_\-\-M\-E\-T\-A\-D\-A\-T\-A}, 
+\hyperlink{group___u_a_v_objects_plugin_gga3f0971e47d6ebe87f97939435cd03da3a80d58d5e87824282131d8df8b346cf46}{\-U\-A\-V\-Object\-Util\-Manager\-::\-S\-E\-T\-T\-I\-N\-G\-S\-\_\-\-M\-E\-T\-A\-D\-A\-T\-A\-\_\-\-O\-N\-L\-Y}, 
+\hyperlink{group___u_a_v_objects_plugin_gga3f0971e47d6ebe87f97939435cd03da3a2629c57c3e595b842a552395cedd97c9}{\-U\-A\-V\-Object\-Util\-Manager\-::\-N\-O\-N\-S\-E\-T\-T\-I\-N\-G\-S\-\_\-\-M\-E\-T\-A\-D\-A\-T\-A\-\_\-\-O\-N\-L\-Y}
+ \}
+\end{DoxyCompactItemize}
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga98ff6f0f25a431f4efce59fcbe9176e5}{\-U\-A\-V\-Data\-Object\-::\-U\-A\-V\-Data\-Object} (quint32 obj\-I\-D, bool is\-Single\-Inst, bool is\-Set, const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \&name)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_objects_plugin_ga9f3e150d973455c643bc5f582433cd51}{\-U\-A\-V\-Data\-Object\-::initialize} (quint32 inst\-I\-D, \hyperlink{class_u_a_v_meta_object}{\-U\-A\-V\-Meta\-Object} $\ast$mobj)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_objects_plugin_ga15063ab51e35069afd31709cc2f43276}{\-U\-A\-V\-Data\-Object\-::initialize} (\hyperlink{class_u_a_v_meta_object}{\-U\-A\-V\-Meta\-Object} $\ast$mobj)
+\item 
+bool \hyperlink{group___u_a_v_objects_plugin_ga77932d3af8bd55182bbc39af1f01f447}{\-U\-A\-V\-Data\-Object\-::is\-Settings} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_objects_plugin_ga968c4e54cd5088bed83546338e44de6b}{\-U\-A\-V\-Data\-Object\-::set\-Metadata} (const \-Metadata \&mdata)
+\item 
+\-Metadata \hyperlink{group___u_a_v_objects_plugin_ga8c0434ba77ed0cfbcc2306bdc6b0248c}{\-U\-A\-V\-Data\-Object\-::get\-Metadata} ()
+\item 
+\hyperlink{class_u_a_v_meta_object}{\-U\-A\-V\-Meta\-Object} $\ast$ \hyperlink{group___u_a_v_objects_plugin_gae14c5b7e20f137db436d3c1e7d1949ec}{\-U\-A\-V\-Data\-Object\-::get\-Meta\-Object} ()
+\item 
+virtual \hyperlink{class_u_a_v_data_object}{\-U\-A\-V\-Data\-Object} $\ast$ \hyperlink{group___u_a_v_objects_plugin_ga9c113847ecf6bd99cf7efe3535620e66}{\-U\-A\-V\-Data\-Object\-::clone} (quint32 inst\-I\-D=0)=0
+\item 
+virtual \hyperlink{class_u_a_v_data_object}{\-U\-A\-V\-Data\-Object} $\ast$ \hyperlink{group___u_a_v_objects_plugin_gae075ec1715d23e8bff81e913bc1dd303}{\-U\-A\-V\-Data\-Object\-::dirty\-Clone} ()=0
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga82e8ae42383522ae0507b881d11abba5}{\-U\-A\-V\-Meta\-Object\-::\-U\-A\-V\-Meta\-Object} (quint32 obj\-I\-D, const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \&name, \hyperlink{class_u_a_v_object}{\-U\-A\-V\-Object} $\ast$parent)
+\item 
+\hyperlink{class_u_a_v_object}{\-U\-A\-V\-Object} $\ast$ \hyperlink{group___u_a_v_objects_plugin_gabfdc167657f1b0eae61e412313785e7b}{\-U\-A\-V\-Meta\-Object\-::get\-Parent\-Object} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_objects_plugin_ga714e256632f9fbd0aba5c6a9aaae422a}{\-U\-A\-V\-Meta\-Object\-::set\-Metadata} (const \-Metadata \&mdata)
+\item 
+\-Metadata \hyperlink{group___u_a_v_objects_plugin_ga3830028095cc0fceed15e72baae231d9}{\-U\-A\-V\-Meta\-Object\-::get\-Metadata} ()
+\item 
+\-Metadata \hyperlink{group___u_a_v_objects_plugin_ga151811823619af6a7231118c8e64f843}{\-U\-A\-V\-Meta\-Object\-::get\-Default\-Metadata} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_objects_plugin_ga442400ff0a37c73b50d6e5ad9533ace4}{\-U\-A\-V\-Meta\-Object\-::set\-Data} (const \-Metadata \&mdata)
+\item 
+\-Metadata \hyperlink{group___u_a_v_objects_plugin_gaa60fd952fa89a624b43ba3dcf4a7c953}{\-U\-A\-V\-Meta\-Object\-::get\-Data} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gafee3b68612b44afbe6dd82f663126f09}{\-U\-A\-V\-Object\-::\-U\-A\-V\-Object} (quint32 obj\-I\-D, bool is\-Single\-Inst, const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \&name)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_objects_plugin_ga1ed2d21fdcea1cc31ebc6c669ba49720}{\-U\-A\-V\-Object\-::initialize} (quint32 inst\-I\-D)
+\item 
+quint32 \hyperlink{group___u_a_v_objects_plugin_gaad45ab83a511083bfe60df0c244e9b88}{\-U\-A\-V\-Object\-::get\-Obj\-I\-D} ()
+\item 
+quint32 \hyperlink{group___u_a_v_objects_plugin_gaf465e2bde7a1e41ba94c19eac2ba9b80}{\-U\-A\-V\-Object\-::get\-Inst\-I\-D} ()
+\item 
+bool \hyperlink{group___u_a_v_objects_plugin_gac05d3c2bd0fd07947707562f66ddfc18}{\-U\-A\-V\-Object\-::is\-Single\-Instance} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___u_a_v_objects_plugin_ga92eb502fc16ba82b924a430acaa55f46}{\-U\-A\-V\-Object\-::get\-Name} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___u_a_v_objects_plugin_gae829aa2dbab661a65f9f805caa8c67d1}{\-U\-A\-V\-Object\-::get\-Category} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___u_a_v_objects_plugin_ga319c487a42b628a2e83274c89fa77625}{\-U\-A\-V\-Object\-::get\-Description} ()
+\item 
+quint32 \hyperlink{group___u_a_v_objects_plugin_gafa1288a7ab0b65c3f81c4312d7cfee78}{\-U\-A\-V\-Object\-::get\-Num\-Bytes} ()
+\item 
+qint32 \hyperlink{group___u_a_v_objects_plugin_ga4afcaf928b2868be5a57d96a2b251318}{\-U\-A\-V\-Object\-::pack} (quint8 $\ast$data\-Out)
+\item 
+qint32 \hyperlink{group___u_a_v_objects_plugin_ga4ec5169680d4a03161752e98fd98a3b6}{\-U\-A\-V\-Object\-::unpack} (const quint8 $\ast$data\-In)
+\item 
+bool \hyperlink{group___u_a_v_objects_plugin_ga7c5e9973653217674183bfa3ba10e217}{\-U\-A\-V\-Object\-::save} ()
+\item 
+bool \hyperlink{group___u_a_v_objects_plugin_ga6b936966d89fb80b1138100edcd3e4cc}{\-U\-A\-V\-Object\-::save} (\-Q\-File \&\hyperlink{uavobjecttemplate_8m_a97c04efa65bcf0928abf9260bc5cbf46}{file})
+\item 
+bool \hyperlink{group___u_a_v_objects_plugin_ga8e49ecfdebf22f4834d1fc22d3effae7}{\-U\-A\-V\-Object\-::load} ()
+\item 
+bool \hyperlink{group___u_a_v_objects_plugin_ga0c4bcaec65373c03a2dbf22beae1e8a3}{\-U\-A\-V\-Object\-::load} (\-Q\-File \&\hyperlink{uavobjecttemplate_8m_a97c04efa65bcf0928abf9260bc5cbf46}{file})
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_objects_plugin_ga6cca5e5bf5d4f7ecfb03ef7cc9a93a95}{\-U\-A\-V\-Object\-::set\-Metadata} (const \-Metadata \&mdata)=0
+\item 
+virtual \-Metadata \hyperlink{group___u_a_v_objects_plugin_gaadeb5af3a70679bcb2b6360274e9c7de}{\-U\-A\-V\-Object\-::get\-Metadata} ()=0
+\item 
+virtual \-Metadata \hyperlink{group___u_a_v_objects_plugin_ga565410bc4fc71be87c359024f6cc8f3c}{\-U\-A\-V\-Object\-::get\-Default\-Metadata} ()=0
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_objects_plugin_ga02661eea30150b9d24bc3a16423850b8}{\-U\-A\-V\-Object\-::lock} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_objects_plugin_ga17770eb02bf711b734a041622dccf889}{\-U\-A\-V\-Object\-::lock} (int timeout\-Ms)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_objects_plugin_ga2729ba3111341341127946ff1b9bb377}{\-U\-A\-V\-Object\-::unlock} ()
+\item 
+\-Q\-Mutex $\ast$ \hyperlink{group___u_a_v_objects_plugin_ga07e3fbd0f6a85b23e03afc165456a0ef}{\-U\-A\-V\-Object\-::get\-Mutex} ()
+\item 
+qint32 \hyperlink{group___u_a_v_objects_plugin_gab9b1f7925306319ea21f599bba0d227f}{\-U\-A\-V\-Object\-::get\-Num\-Fields} ()
+\item 
+\-Q\-List$<$ \hyperlink{class_u_a_v_object_field}{\-U\-A\-V\-Object\-Field} $\ast$ $>$ \hyperlink{group___u_a_v_objects_plugin_ga043de5085e6ade44abfb005e320d10ca}{\-U\-A\-V\-Object\-::get\-Fields} ()
+\item 
+\hyperlink{class_u_a_v_object_field}{\-U\-A\-V\-Object\-Field} $\ast$ \hyperlink{group___u_a_v_objects_plugin_ga0c8a0350ce2c49430124b59842fff131}{\-U\-A\-V\-Object\-::get\-Field} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \&name)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___u_a_v_objects_plugin_ga35168dca4d7a9e25bd117d52a66a2253}{\-U\-A\-V\-Object\-::to\-String} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___u_a_v_objects_plugin_gadc4ce5f3b6b9ea7b5d0792bba38cd865}{\-U\-A\-V\-Object\-::to\-String\-Brief} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___u_a_v_objects_plugin_gaba674d61ed55f37ab245564c6d05ec72}{\-U\-A\-V\-Object\-::to\-String\-Data} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_objects_plugin_ga30c0ae6383f58843feca4919232f0478}{\-U\-A\-V\-Object\-::emit\-Transaction\-Completed} (bool success)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_objects_plugin_ga6085b5c08522017f9a59a087f7ccc073}{\-U\-A\-V\-Object\-::emit\-New\-Instance} (\hyperlink{class_u_a_v_object}{\-U\-A\-V\-Object} $\ast$)
+\item 
+static \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_objects_plugin_ga0e0e6753710634f75bf5f27e0c3e073a}{\-U\-A\-V\-Object\-::\-Metadata\-Initialize} (\-Metadata \&meta)
+\item 
+static \-Access\-Mode \hyperlink{group___u_a_v_objects_plugin_ga98889e5102c4c2d2c9f1a47c03633218}{\-U\-A\-V\-Object\-::\-Get\-Flight\-Access} (const \-Metadata \&meta)
+\item 
+static \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_objects_plugin_gaa660f23e03de07c425e5162e2dc42c4f}{\-U\-A\-V\-Object\-::\-Set\-Flight\-Access} (\-Metadata \&meta, \-Access\-Mode mode)
+\item 
+static \-Access\-Mode \hyperlink{group___u_a_v_objects_plugin_ga7efd83f9d2ce75464022ed2e05c33920}{\-U\-A\-V\-Object\-::\-Get\-Gcs\-Access} (const \-Metadata \&meta)
+\item 
+static \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_objects_plugin_ga55ae4b0f44dc39c52da3d4173345c19b}{\-U\-A\-V\-Object\-::\-Set\-Gcs\-Access} (\-Metadata \&meta, \-Access\-Mode mode)
+\item 
+static quint8 \hyperlink{group___u_a_v_objects_plugin_ga98522650b206f948c9141115c15d1d13}{\-U\-A\-V\-Object\-::\-Get\-Flight\-Telemetry\-Acked} (const \-Metadata \&meta)
+\item 
+static \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_objects_plugin_ga92f2e8fef7adb87575582d52a4d90519}{\-U\-A\-V\-Object\-::\-Set\-Flight\-Telemetry\-Acked} (\-Metadata \&meta, quint8 val)
+\item 
+static quint8 \hyperlink{group___u_a_v_objects_plugin_ga3bfcc38f5830eeea1369a6e7c3aa3214}{\-U\-A\-V\-Object\-::\-Get\-Gcs\-Telemetry\-Acked} (const \-Metadata \&meta)
+\item 
+static \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_objects_plugin_ga190e264f603dd8ade6b6f9e84debfb4c}{\-U\-A\-V\-Object\-::\-Set\-Gcs\-Telemetry\-Acked} (\-Metadata \&meta, quint8 val)
+\item 
+static \-Update\-Mode \hyperlink{group___u_a_v_objects_plugin_ga6cd43aaa339c4bd8beead8988bb9f1a6}{\-U\-A\-V\-Object\-::\-Get\-Flight\-Telemetry\-Update\-Mode} (const \-Metadata \&meta)
+\item 
+static \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_objects_plugin_gaa9fa161b9a5607e4ee1086b72f1b70e5}{\-U\-A\-V\-Object\-::\-Set\-Flight\-Telemetry\-Update\-Mode} (\-Metadata \&meta, \-Update\-Mode val)
+\item 
+static \-Update\-Mode \hyperlink{group___u_a_v_objects_plugin_ga81651b86ef2cf0b05483152c6728b742}{\-U\-A\-V\-Object\-::\-Get\-Gcs\-Telemetry\-Update\-Mode} (const \-Metadata \&meta)
+\item 
+static \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_objects_plugin_ga8fdb0f35b52c8dea0a512fd411d2346e}{\-U\-A\-V\-Object\-::\-Set\-Gcs\-Telemetry\-Update\-Mode} (\-Metadata \&meta, \-Update\-Mode val)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_objects_plugin_ga7aa3a71a68a9190731f720ad0eb1c772}{\-U\-A\-V\-Object\-::initialize\-Fields} (\-Q\-List$<$ \hyperlink{class_u_a_v_object_field}{\-U\-A\-V\-Object\-Field} $\ast$ $>$ \&fields, quint8 $\ast$data, quint32 num\-Bytes)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_objects_plugin_ga9310ee9c9869110219a7fcd311aaaf28}{\-U\-A\-V\-Object\-::set\-Description} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \&description)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_objects_plugin_gac1d47f2428a0939dbe9544b6c6add6b5}{\-U\-A\-V\-Object\-::set\-Category} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \&category)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga6ebca8c11d33d2984ef111420988e11d}{\-U\-A\-V\-Object\-Field\-::\-U\-A\-V\-Object\-Field} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \&name, const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \&units, \-Field\-Type type, quint32 \hyperlink{uavobjecttemplate_8m_a5091f26d230c839edecd7245ab426bd6}{num\-Elements}, const \-Q\-String\-List \&options, const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \&limits=\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String}())
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga9e178e25087b21a817679f18f3be1fa0}{\-U\-A\-V\-Object\-Field\-::\-U\-A\-V\-Object\-Field} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \&name, const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \&units, \-Field\-Type type, const \-Q\-String\-List \&element\-Names, const \-Q\-String\-List \&options, const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \&limits=\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String}())
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_objects_plugin_ga76826ee85ebb06f48a3afb3cc7a1c839}{\-U\-A\-V\-Object\-Field\-::initialize} (quint8 $\ast$data, quint32 data\-Offset, \hyperlink{class_u_a_v_object}{\-U\-A\-V\-Object} $\ast$obj)
+\item 
+\hyperlink{class_u_a_v_object}{\-U\-A\-V\-Object} $\ast$ \hyperlink{group___u_a_v_objects_plugin_ga9a3e58eb1d96fbb375c9e28f870ae1d3}{\-U\-A\-V\-Object\-Field\-::get\-Object} ()
+\item 
+\-Field\-Type \hyperlink{group___u_a_v_objects_plugin_gad306893ea1f5623eaa970e35ffa7d901}{\-U\-A\-V\-Object\-Field\-::get\-Type} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___u_a_v_objects_plugin_ga53cf1cae78bc619ca91faffedacfc61f}{\-U\-A\-V\-Object\-Field\-::get\-Type\-As\-String} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___u_a_v_objects_plugin_ga86c7c87ecda0ed11b8a2f125b0741bab}{\-U\-A\-V\-Object\-Field\-::get\-Name} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___u_a_v_objects_plugin_gabb1e371d4c3d91f70a172d7827db2da8}{\-U\-A\-V\-Object\-Field\-::get\-Units} ()
+\item 
+quint32 \hyperlink{group___u_a_v_objects_plugin_ga6c929356a6e66fd7c56e9d547e67ef7c}{\-U\-A\-V\-Object\-Field\-::get\-Num\-Elements} ()
+\item 
+\-Q\-String\-List \hyperlink{group___u_a_v_objects_plugin_ga5686a3cb18234741a84666023acf4e8e}{\-U\-A\-V\-Object\-Field\-::get\-Element\-Names} ()
+\item 
+\-Q\-String\-List \hyperlink{group___u_a_v_objects_plugin_ga23e324a921bdf20972f940b4497a2c21}{\-U\-A\-V\-Object\-Field\-::get\-Options} ()
+\item 
+qint32 \hyperlink{group___u_a_v_objects_plugin_gabfadd471718e9a6bdb5e106fb99574d9}{\-U\-A\-V\-Object\-Field\-::pack} (quint8 $\ast$data\-Out)
+\item 
+qint32 \hyperlink{group___u_a_v_objects_plugin_ga8223d7b605648a98c12d00ae43febd5c}{\-U\-A\-V\-Object\-Field\-::unpack} (const quint8 $\ast$data\-In)
+\item 
+\-Q\-Variant \hyperlink{group___u_a_v_objects_plugin_ga60a1c56703ea2c28f76d1eaf05554f5e}{\-U\-A\-V\-Object\-Field\-::get\-Value} (quint32 index=0)
+\item 
+bool \hyperlink{group___u_a_v_objects_plugin_ga8aed4e68eb0697d4776a103bfe5aa059}{\-U\-A\-V\-Object\-Field\-::check\-Value} (const \-Q\-Variant \&data, quint32 index=0)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_objects_plugin_gab647538e1956252e12841c42a54106c7}{\-U\-A\-V\-Object\-Field\-::set\-Value} (const \-Q\-Variant \&data, quint32 index=0)
+\item 
+double \hyperlink{group___u_a_v_objects_plugin_gac189fe8172d3c25a937b7d0106025dfe}{\-U\-A\-V\-Object\-Field\-::get\-Double} (quint32 index=0)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_objects_plugin_ga6c5e6a55d16226d0cfef0d2f512e243e}{\-U\-A\-V\-Object\-Field\-::set\-Double} (double value, quint32 index=0)
+\item 
+quint32 \hyperlink{group___u_a_v_objects_plugin_gaacffb4e86c637986046b656bb1e8219a}{\-U\-A\-V\-Object\-Field\-::get\-Data\-Offset} ()
+\item 
+quint32 \hyperlink{group___u_a_v_objects_plugin_ga872f22445800243679ca0860c3b8b7f1}{\-U\-A\-V\-Object\-Field\-::get\-Num\-Bytes} ()
+\item 
+bool \hyperlink{group___u_a_v_objects_plugin_ga5e1a07c1bc278bd1d8f1460ca08d13c7}{\-U\-A\-V\-Object\-Field\-::is\-Numeric} ()
+\item 
+bool \hyperlink{group___u_a_v_objects_plugin_ga6ad4eb36bd160d16bccdc494caf60938}{\-U\-A\-V\-Object\-Field\-::is\-Text} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___u_a_v_objects_plugin_ga149341e646b59250818f980dce9fd601}{\-U\-A\-V\-Object\-Field\-::to\-String} ()
+\item 
+bool \hyperlink{group___u_a_v_objects_plugin_gaab4e295f61848873ab0e45b3546a0035}{\-U\-A\-V\-Object\-Field\-::is\-Within\-Limits} (\-Q\-Variant var, quint32 index, int board=0)
+\item 
+\-Q\-Variant \hyperlink{group___u_a_v_objects_plugin_gafbe9b468da7decca7c6ff46202b938ba}{\-U\-A\-V\-Object\-Field\-::get\-Max\-Limit} (quint32 index, int board=0)
+\item 
+\-Q\-Variant \hyperlink{group___u_a_v_objects_plugin_ga3f6a930205ce76977ac96ffcfb864a8d}{\-U\-A\-V\-Object\-Field\-::get\-Min\-Limit} (quint32 index, int board=0)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_objects_plugin_ga3d25ad42d17576d9c6218bd1c65345a9}{\-U\-A\-V\-Object\-Field\-::clear} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_objects_plugin_ga8c808af230791ca079eca575c6c6c1ae}{\-U\-A\-V\-Object\-Field\-::constructor\-Initialize} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \&name, const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \&units, \-Field\-Type type, const \-Q\-String\-List \&element\-Names, const \-Q\-String\-List \&options, const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \&limits)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_objects_plugin_ga7ceda7a3dfdcca81d80ed887485c4b76}{\-U\-A\-V\-Object\-Field\-::limits\-Initialize} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \&limits)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga407e523ca4304b00cc600c49f110e60a}{\-U\-A\-V\-Object\-Manager\-::\-U\-A\-V\-Object\-Manager} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga0b1af95f366fc372f94307f59513933d}{\-U\-A\-V\-Object\-Manager\-::$\sim$\-U\-A\-V\-Object\-Manager} ()
+\item 
+bool \hyperlink{group___u_a_v_objects_plugin_gad71bd0967de227335d5fec0b599a54e3}{\-U\-A\-V\-Object\-Manager\-::register\-Object} (\hyperlink{class_u_a_v_data_object}{\-U\-A\-V\-Data\-Object} $\ast$obj)
+\item 
+\-Q\-Vector$<$ \-Q\-Vector$<$ \hyperlink{class_u_a_v_object}{\-U\-A\-V\-Object} $\ast$ $>$ $>$ \hyperlink{group___u_a_v_objects_plugin_ga90cc8567b44fd696df9fffa8a3f24f0c}{\-U\-A\-V\-Object\-Manager\-::get\-Objects} ()
+\item 
+\-Q\-Vector$<$ \-Q\-Vector\*
+$<$ \hyperlink{class_u_a_v_data_object}{\-U\-A\-V\-Data\-Object} $\ast$ $>$ $>$ \hyperlink{group___u_a_v_objects_plugin_gaddd03a2027eb1ac4f3208d3fda7e76c9}{\-U\-A\-V\-Object\-Manager\-::get\-Data\-Objects} ()
+\item 
+\-Q\-Vector$<$ \-Q\-Vector\*
+$<$ \hyperlink{class_u_a_v_meta_object}{\-U\-A\-V\-Meta\-Object} $\ast$ $>$ $>$ \hyperlink{group___u_a_v_objects_plugin_ga8c25b065c3e4f456b2e3a7913f6d764f}{\-U\-A\-V\-Object\-Manager\-::get\-Meta\-Objects} ()
+\item 
+\hyperlink{class_u_a_v_object}{\-U\-A\-V\-Object} $\ast$ \hyperlink{group___u_a_v_objects_plugin_gada44cdbfa55a281b78d41abcc6834dc0}{\-U\-A\-V\-Object\-Manager\-::get\-Object} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \&name, quint32 inst\-Id=0)
+\item 
+\hyperlink{class_u_a_v_object}{\-U\-A\-V\-Object} $\ast$ \hyperlink{group___u_a_v_objects_plugin_ga6d299736b20c625d2553f80123e71e7a}{\-U\-A\-V\-Object\-Manager\-::get\-Object} (quint32 obj\-Id, quint32 inst\-Id=0)
+\item 
+\-Q\-Vector$<$ \hyperlink{class_u_a_v_object}{\-U\-A\-V\-Object} $\ast$ $>$ \hyperlink{group___u_a_v_objects_plugin_ga575678dce0852cc3843610477ea587ff}{\-U\-A\-V\-Object\-Manager\-::get\-Object\-Instances} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \&name)
+\item 
+\-Q\-Vector$<$ \hyperlink{class_u_a_v_object}{\-U\-A\-V\-Object} $\ast$ $>$ \hyperlink{group___u_a_v_objects_plugin_gaa1134c6f38b27868f8f61c6e2aaae4f5}{\-U\-A\-V\-Object\-Manager\-::get\-Object\-Instances} (quint32 obj\-Id)
+\item 
+qint32 \hyperlink{group___u_a_v_objects_plugin_gab285ecd0299f701264d624cad6e51ef1}{\-U\-A\-V\-Object\-Manager\-::get\-Num\-Instances} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \&name)
+\item 
+qint32 \hyperlink{group___u_a_v_objects_plugin_ga22601fef22bd4c4ba1c48e07b70e8ddb}{\-U\-A\-V\-Object\-Manager\-::get\-Num\-Instances} (quint32 obj\-Id)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_objects_plugin_gaa5848573445b2e80691402f8bd9d2257}{\-U\-A\-V\-Objects\-Initialize} (\hyperlink{class_u_a_v_object_manager}{\-U\-A\-V\-Object\-Manager} $\ast$obj\-Mngr)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga2345b6b23fc30557f18422344213a64d}{\-U\-A\-V\-Objects\-Plugin\-::\-U\-A\-V\-Objects\-Plugin} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga34b24d065eef797812c717bde15e7252}{\-U\-A\-V\-Objects\-Plugin\-::$\sim$\-U\-A\-V\-Objects\-Plugin} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_objects_plugin_ga01c0cfcad9946436827836ba293f07b0}{\-U\-A\-V\-Objects\-Plugin\-::extensions\-Initialized} ()
+\item 
+bool \hyperlink{group___u_a_v_objects_plugin_ga782e9362e4a727e032c97865d0841820}{\-U\-A\-V\-Objects\-Plugin\-::initialize} (const \-Q\-String\-List \&arguments, \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} $\ast$error\-String)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_objects_plugin_gab62f36eaf3f542f980ef1d88c29bd05a}{\-U\-A\-V\-Objects\-Plugin\-::shutdown} ()
+\item 
+const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String}(\-N\-A\-M\-E) const \*
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String}(\-N\-A\-M\-E) const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} (\-N\-A\-M\-E)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} (\-N\-A\-M\-E)
+\item 
+class \hyperlink{group___u_a_v_objects_plugin_ga8e1338dbe9b6e321c7255a704c4a2968}{\-U\-A\-V\-O\-B\-J\-E\-C\-T\-S\-\_\-\-E\-X\-P\-O\-R\-T} (\-N\-A\-M\-E)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gaa646568941e8ce857e188b39c90cef6d}{\-U\-A\-V\-Object\-Util\-Manager\-::\-U\-A\-V\-Object\-Util\-Manager} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gaffdcd54a6b9ce6a7dcf10beb881f71a7}{\-U\-A\-V\-Object\-Util\-Manager\-::$\sim$\-U\-A\-V\-Object\-Util\-Manager} ()
+\item 
+int \hyperlink{group___u_a_v_objects_plugin_gafcfa22c5812ed36ca7a2d6e442ba1710}{\-U\-A\-V\-Object\-Util\-Manager\-::set\-Home\-Location} (double \hyperlink{_o_p_plots_8m_ac4d07718b2724e836be86fbe0c8c5704}{\-L\-L\-A}\mbox{[}3\mbox{]}, bool save\-\_\-to\-\_\-sdcard)
+\item 
+int \hyperlink{group___u_a_v_objects_plugin_gac5e7b38a473a50f709fb6312ef511e59}{\-U\-A\-V\-Object\-Util\-Manager\-::get\-Home\-Location} (bool \&set, double \hyperlink{_o_p_plots_8m_ac4d07718b2724e836be86fbe0c8c5704}{\-L\-L\-A}\mbox{[}3\mbox{]})
+\item 
+int \hyperlink{group___u_a_v_objects_plugin_gade02e26d0bb8afe69edff8a076882dcd}{\-U\-A\-V\-Object\-Util\-Manager\-::get\-G\-P\-S\-Position} (double \hyperlink{_o_p_plots_8m_ac4d07718b2724e836be86fbe0c8c5704}{\-L\-L\-A}\mbox{[}3\mbox{]})
+\item 
+\hyperlink{class_core_1_1_i_board_type}{\-Core\-::\-I\-Board\-Type} $\ast$ \hyperlink{group___u_a_v_objects_plugin_gac3a1293716fa3eb310ed257ade7f6722}{\-U\-A\-V\-Object\-Util\-Manager\-::get\-Board\-Type} ()
+\begin{DoxyCompactList}\small\item\em \-Get the \-I\-Board\-Type corresponding to the connected board. \end{DoxyCompactList}\item 
+quint32 \hyperlink{group___u_a_v_objects_plugin_ga2aa3a13d1eb39329f28842887c6d7db6}{\-U\-A\-V\-Object\-Util\-Manager\-::get\-Firmware\-C\-R\-C} ()
+\item 
+\hyperlink{classdevice_descriptor_struct}{device\-Descriptor\-Struct} \hyperlink{group___u_a_v_objects_plugin_ga37ed95a95ca8906a45b06bb7174b1158}{\-U\-A\-V\-Object\-Util\-Manager\-::get\-Board\-Description\-Struct} ()
+\item 
+static bool \hyperlink{group___u_a_v_objects_plugin_ga31c6b739ad7f06472a3f3386e4bebd8a}{\-U\-A\-V\-Object\-Util\-Manager\-::description\-To\-Structure} (\-Q\-Byte\-Array desc, \hyperlink{classdevice_descriptor_struct}{device\-Descriptor\-Struct} \&struc)
+\item 
+\hyperlink{class_u_a_v_object_manager}{\-U\-A\-V\-Object\-Manager} $\ast$ \hyperlink{group___u_a_v_objects_plugin_ga9a99c93b8210149fd59246e2648a9c59}{\-U\-A\-V\-Object\-Util\-Manager\-::get\-Object\-Manager} ()
+\end{DoxyCompactItemize}
+\subsection*{\-Variables}
+\begin{DoxyCompactItemize}
+\item 
+quint8 \hyperlink{group___u_a_v_objects_plugin_gaf5421bbd1e8748b9f0f12ba5b6722bdd}{\-U\-A\-V\-Object\-::\-\_\-\-\_\-attribute\-\_\-\-\_\-\-::flags}
+\item 
+quint16 \hyperlink{group___u_a_v_objects_plugin_gaa29a38fd35ce73e9e4afd2698de44797}{\-U\-A\-V\-Object\-::\-\_\-\-\_\-attribute\-\_\-\-\_\-\-::flight\-Telemetry\-Update\-Period}
+\item 
+quint16 \hyperlink{group___u_a_v_objects_plugin_ga3698244bb0c29537b3d26442624ee03b}{\-U\-A\-V\-Object\-::\-\_\-\-\_\-attribute\-\_\-\-\_\-\-::gcs\-Telemetry\-Update\-Period}
+\item 
+quint16 \hyperlink{group___u_a_v_objects_plugin_gad4c54f8af5beeb9dc2bbe402c9f01299}{\-U\-A\-V\-Object\-::\-\_\-\-\_\-attribute\-\_\-\-\_\-\-::logging\-Update\-Period}
+\item 
+quint32 \hyperlink{group___u_a_v_objects_plugin_gafc50acdaa311c9fd9aaddf90fd578c14}{\-U\-A\-V\-Object\-::obj\-I\-D}
+\item 
+quint32 \hyperlink{group___u_a_v_objects_plugin_gad8d656542a04e9fbef607ff178f6d9d3}{\-U\-A\-V\-Object\-::inst\-I\-D}
+\item 
+bool \hyperlink{group___u_a_v_objects_plugin_gaa279cad3a000cc930e7f386672426bcb}{\-U\-A\-V\-Object\-::is\-Single\-Inst}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___u_a_v_objects_plugin_gadf898ed0961464f4a3f8e05fb28019f5}{\-U\-A\-V\-Object\-::name}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___u_a_v_objects_plugin_gaeeb0e865791ad6b21d83ef571d1ce48b}{\-U\-A\-V\-Object\-::description}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___u_a_v_objects_plugin_gae96da3f59e51fb5c3ca43056bda4a63e}{\-U\-A\-V\-Object\-::category}
+\item 
+quint32 \hyperlink{group___u_a_v_objects_plugin_ga260cfb19e663f64d51ba1258e760a207}{\-U\-A\-V\-Object\-::num\-Bytes}
+\item 
+\-Q\-Mutex $\ast$ \hyperlink{group___u_a_v_objects_plugin_gacf8a1ff5bac6d34fc1d7192a86194361}{\-U\-A\-V\-Object\-::mutex}
+\item 
+quint8 $\ast$ \hyperlink{group___u_a_v_objects_plugin_gadb2f4800bd3b6fb89c0f7c9fb67e49ff}{\-U\-A\-V\-Object\-::data}
+\item 
+\-Q\-List$<$ \hyperlink{class_u_a_v_object_field}{\-U\-A\-V\-Object\-Field} $\ast$ $>$ \hyperlink{group___u_a_v_objects_plugin_gaafc65699167bc5cedfd058400e484df6}{\-U\-A\-V\-Object\-::fields}
+\item 
+\-Limit\-Type \hyperlink{group___u_a_v_objects_plugin_ga7f346cc2754bc63a0a0ae587b183b3ff}{\-U\-A\-V\-Object\-Field\-::\-Limit\-Struct\-::type}
+\item 
+\-Q\-List$<$ \-Q\-Variant $>$ \hyperlink{group___u_a_v_objects_plugin_ga27188ffa94eb6c560765dd56b0471561}{\-U\-A\-V\-Object\-Field\-::\-Limit\-Struct\-::values}
+\item 
+int \hyperlink{group___u_a_v_objects_plugin_gae5d5e0653c652c0e50c62526f8fbee72}{\-U\-A\-V\-Object\-Field\-::\-Limit\-Struct\-::board}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___u_a_v_objects_plugin_ga9909de3b60e1a954d7356cfc61357b30}{\-U\-A\-V\-Object\-Field\-::name}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___u_a_v_objects_plugin_ga1ecf5fdaab2ac408b67623d5d75368c5}{\-U\-A\-V\-Object\-Field\-::units}
+\item 
+\-Field\-Type \hyperlink{group___u_a_v_objects_plugin_gad84e6c3a333d2c62b5159936e42fb737}{\-U\-A\-V\-Object\-Field\-::type}
+\item 
+\-Q\-String\-List \hyperlink{group___u_a_v_objects_plugin_ga5849334da3325c4cac8625bb5910d57d}{\-U\-A\-V\-Object\-Field\-::element\-Names}
+\item 
+\-Q\-String\-List \hyperlink{group___u_a_v_objects_plugin_ga97fe1c3ed2d74eb06ea7e24abf4ce09c}{\-U\-A\-V\-Object\-Field\-::options}
+\item 
+quint32 \hyperlink{group___u_a_v_objects_plugin_gaa82f6e1f5deca501c58b45d902be0ef4}{\-U\-A\-V\-Object\-Field\-::num\-Elements}
+\item 
+quint32 \hyperlink{group___u_a_v_objects_plugin_gaed675e1711f18b1ab737f9e8e55dca35}{\-U\-A\-V\-Object\-Field\-::num\-Bytes\-Per\-Element}
+\item 
+quint32 \hyperlink{group___u_a_v_objects_plugin_ga8d473734be71fe3a3dbcd1a854b497f2}{\-U\-A\-V\-Object\-Field\-::offset}
+\item 
+quint8 $\ast$ \hyperlink{group___u_a_v_objects_plugin_gae6a068d71cfd70f70c7e6fb10f217ca5}{\-U\-A\-V\-Object\-Field\-::data}
+\item 
+\hyperlink{class_u_a_v_object}{\-U\-A\-V\-Object} $\ast$ \hyperlink{group___u_a_v_objects_plugin_ga750b9ade4270026bd2d02d37468597b5}{\-U\-A\-V\-Object\-Field\-::obj}
+\item 
+\-Q\-Map$<$ quint32, \-Q\-List\*
+$<$ \-Limit\-Struct $>$ $>$ \hyperlink{group___u_a_v_objects_plugin_ga16abb7c1b891411815fe34473448b9ce}{\-U\-A\-V\-Object\-Field\-::element\-Limits}
+\end{DoxyCompactItemize}
+\subsection*{\-Signals}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_objects_plugin_ga9aac3ae5395f63249cd821e0e5be5bf2}{\-U\-A\-V\-Object\-::object\-Updated} (\hyperlink{class_u_a_v_object}{\-U\-A\-V\-Object} $\ast$obj)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_objects_plugin_ga568cdde04946e82d60a3707fefdd2572}{\-U\-A\-V\-Object\-::object\-Updated\-Auto} (\hyperlink{class_u_a_v_object}{\-U\-A\-V\-Object} $\ast$obj)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_objects_plugin_ga347d21d00c26e23b58dae5510bdc3a7d}{\-U\-A\-V\-Object\-::object\-Updated\-Manual} (\hyperlink{class_u_a_v_object}{\-U\-A\-V\-Object} $\ast$obj)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_objects_plugin_ga1ba37e7a5eafe1d5a598b2dfb877d2f0}{\-U\-A\-V\-Object\-::object\-Updated\-Periodic} (\hyperlink{class_u_a_v_object}{\-U\-A\-V\-Object} $\ast$obj)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_objects_plugin_ga2b9ae613f54e59b358dbf2e31d32d9ad}{\-U\-A\-V\-Object\-::object\-Unpacked} (\hyperlink{class_u_a_v_object}{\-U\-A\-V\-Object} $\ast$obj)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_objects_plugin_ga13ce31a6262476db602eec857d9b40c1}{\-U\-A\-V\-Object\-::update\-Requested} (\hyperlink{class_u_a_v_object}{\-U\-A\-V\-Object} $\ast$obj)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_objects_plugin_gafac716c4828b4506f6982f79fc7827c2}{\-U\-A\-V\-Object\-::transaction\-Completed} (\hyperlink{class_u_a_v_object}{\-U\-A\-V\-Object} $\ast$obj, bool success)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_objects_plugin_gadf709e4ec60d0dfc3cc4a12012c400f3}{\-U\-A\-V\-Object\-::new\-Instance} (\hyperlink{class_u_a_v_object}{\-U\-A\-V\-Object} $\ast$obj)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_objects_plugin_ga03a1f1534e4c805d091fc17e9ab5ad14}{\-U\-A\-V\-Object\-Field\-::field\-Updated} (\hyperlink{class_u_a_v_object_field}{\-U\-A\-V\-Object\-Field} $\ast$field)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_objects_plugin_gaf8c983e30ce7ebac3d4ef742d427b8fe}{\-U\-A\-V\-Object\-Manager\-::new\-Object} (\hyperlink{class_u_a_v_object}{\-U\-A\-V\-Object} $\ast$obj)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_objects_plugin_ga7787ebe5de616d95116d5a4b360b6773}{\-U\-A\-V\-Object\-Manager\-::new\-Instance} (\hyperlink{class_u_a_v_object}{\-U\-A\-V\-Object} $\ast$obj)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_objects_plugin_ga34993cd463a734315dd04903a4e2de24}{\-U\-A\-V\-Object\-Util\-Manager\-::save\-Completed} (int object\-I\-D, bool status)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_objects_plugin_gaf343ab5f4e4710c85cd7977ae7563ca1}{\-U\-A\-V\-Object\-Util\-Manager\-::completed\-Metadata\-Write} ()
+\end{DoxyCompactItemize}
+\subsection*{\-Public \-Slots}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_objects_plugin_ga6018820b37db308fb1ee1b3c3ff4f9a0}{\-U\-A\-V\-Object\-::request\-Update} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_objects_plugin_ga295ff9d6b0c01a6a8809a4cf9eb027cc}{\-U\-A\-V\-Object\-::updated} ()
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-The \-U\-A\-V\-U\-Objects \-G\-C\-S plugin. \begin{DoxyNote}{\-Note}
+\-This is an automatically generated file. \-D\-O \-N\-O\-T modify manually.
+
+\-Object definition file\-: . \-This is an automatically generated file. \-D\-O \-N\-O\-T modify manually. 
+\end{DoxyNote}
+
+
+\subsection{\-Enumeration \-Type \-Documentation}
+\hypertarget{group___u_a_v_objects_plugin_ga80357a2f38fa4be23200de86614c3d77}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!\-Access\-Mode@{\-Access\-Mode}}
+\index{\-Access\-Mode@{\-Access\-Mode}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{\-Access\-Mode}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf \-U\-A\-V\-Object\-::\-Access\-Mode}}}\label{group___u_a_v_objects_plugin_ga80357a2f38fa4be23200de86614c3d77}
+\-Access mode \begin{Desc}
+\item[\-Enumerator\-: ]\par
+\begin{description}
+\index{\-A\-C\-C\-E\-S\-S\-\_\-\-R\-E\-A\-D\-W\-R\-I\-T\-E@{\-A\-C\-C\-E\-S\-S\-\_\-\-R\-E\-A\-D\-W\-R\-I\-T\-E}!\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}}\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!\-A\-C\-C\-E\-S\-S\-\_\-\-R\-E\-A\-D\-W\-R\-I\-T\-E@{\-A\-C\-C\-E\-S\-S\-\_\-\-R\-E\-A\-D\-W\-R\-I\-T\-E}}\item[{\em 
+\hypertarget{group___u_a_v_objects_plugin_gga80357a2f38fa4be23200de86614c3d77ad710c074e7e275da805bf900c9917d47}{\-A\-C\-C\-E\-S\-S\-\_\-\-R\-E\-A\-D\-W\-R\-I\-T\-E}\label{group___u_a_v_objects_plugin_gga80357a2f38fa4be23200de86614c3d77ad710c074e7e275da805bf900c9917d47}
+}]\index{\-A\-C\-C\-E\-S\-S\-\_\-\-R\-E\-A\-D\-O\-N\-L\-Y@{\-A\-C\-C\-E\-S\-S\-\_\-\-R\-E\-A\-D\-O\-N\-L\-Y}!\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}}\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!\-A\-C\-C\-E\-S\-S\-\_\-\-R\-E\-A\-D\-O\-N\-L\-Y@{\-A\-C\-C\-E\-S\-S\-\_\-\-R\-E\-A\-D\-O\-N\-L\-Y}}\item[{\em 
+\hypertarget{group___u_a_v_objects_plugin_gga80357a2f38fa4be23200de86614c3d77a97e59f527995175cc60e103001470e49}{\-A\-C\-C\-E\-S\-S\-\_\-\-R\-E\-A\-D\-O\-N\-L\-Y}\label{group___u_a_v_objects_plugin_gga80357a2f38fa4be23200de86614c3d77a97e59f527995175cc60e103001470e49}
+}]\end{description}
+\end{Desc}
+
+
+
+\-Definition at line 71 of file uavobject.\-h.
+
+\hypertarget{group___u_a_v_objects_plugin_ga74498368bc91f3ed74beacb096744cf3}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!\-Field\-Type@{\-Field\-Type}}
+\index{\-Field\-Type@{\-Field\-Type}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{\-Field\-Type}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf \-U\-A\-V\-Object\-Field\-::\-Field\-Type}}}\label{group___u_a_v_objects_plugin_ga74498368bc91f3ed74beacb096744cf3}
+\begin{Desc}
+\item[\-Enumerator\-: ]\par
+\begin{description}
+\index{\-I\-N\-T8@{\-I\-N\-T8}!\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}}\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!\-I\-N\-T8@{\-I\-N\-T8}}\item[{\em 
+\hypertarget{group___u_a_v_objects_plugin_gga74498368bc91f3ed74beacb096744cf3a19e2840fa94a77e0e4d6bcf7fb40e734}{\-I\-N\-T8}\label{group___u_a_v_objects_plugin_gga74498368bc91f3ed74beacb096744cf3a19e2840fa94a77e0e4d6bcf7fb40e734}
+}]\index{\-I\-N\-T16@{\-I\-N\-T16}!\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}}\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!\-I\-N\-T16@{\-I\-N\-T16}}\item[{\em 
+\hypertarget{group___u_a_v_objects_plugin_gga74498368bc91f3ed74beacb096744cf3a449ba7536fca8720c9608dd26c74182a}{\-I\-N\-T16}\label{group___u_a_v_objects_plugin_gga74498368bc91f3ed74beacb096744cf3a449ba7536fca8720c9608dd26c74182a}
+}]\index{\-I\-N\-T32@{\-I\-N\-T32}!\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}}\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!\-I\-N\-T32@{\-I\-N\-T32}}\item[{\em 
+\hypertarget{group___u_a_v_objects_plugin_gga74498368bc91f3ed74beacb096744cf3ad47a62cf1ae89582cb875a6bc59662ec}{\-I\-N\-T32}\label{group___u_a_v_objects_plugin_gga74498368bc91f3ed74beacb096744cf3ad47a62cf1ae89582cb875a6bc59662ec}
+}]\index{\-U\-I\-N\-T8@{\-U\-I\-N\-T8}!\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}}\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!\-U\-I\-N\-T8@{\-U\-I\-N\-T8}}\item[{\em 
+\hypertarget{group___u_a_v_objects_plugin_gga74498368bc91f3ed74beacb096744cf3a6546a8ed8b8449d2829291856d3f8e5d}{\-U\-I\-N\-T8}\label{group___u_a_v_objects_plugin_gga74498368bc91f3ed74beacb096744cf3a6546a8ed8b8449d2829291856d3f8e5d}
+}]\index{\-U\-I\-N\-T16@{\-U\-I\-N\-T16}!\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}}\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!\-U\-I\-N\-T16@{\-U\-I\-N\-T16}}\item[{\em 
+\hypertarget{group___u_a_v_objects_plugin_gga74498368bc91f3ed74beacb096744cf3ac2f59f65ccf56a9b5ab9537f243d8ebb}{\-U\-I\-N\-T16}\label{group___u_a_v_objects_plugin_gga74498368bc91f3ed74beacb096744cf3ac2f59f65ccf56a9b5ab9537f243d8ebb}
+}]\index{\-U\-I\-N\-T32@{\-U\-I\-N\-T32}!\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}}\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!\-U\-I\-N\-T32@{\-U\-I\-N\-T32}}\item[{\em 
+\hypertarget{group___u_a_v_objects_plugin_gga74498368bc91f3ed74beacb096744cf3a9e78f4bc590d0a313c2fbdd157a82837}{\-U\-I\-N\-T32}\label{group___u_a_v_objects_plugin_gga74498368bc91f3ed74beacb096744cf3a9e78f4bc590d0a313c2fbdd157a82837}
+}]\index{\-F\-L\-O\-A\-T32@{\-F\-L\-O\-A\-T32}!\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}}\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!\-F\-L\-O\-A\-T32@{\-F\-L\-O\-A\-T32}}\item[{\em 
+\hypertarget{group___u_a_v_objects_plugin_gga74498368bc91f3ed74beacb096744cf3ade54d949f5105c9e1177f6ce38a7e7ba}{\-F\-L\-O\-A\-T32}\label{group___u_a_v_objects_plugin_gga74498368bc91f3ed74beacb096744cf3ade54d949f5105c9e1177f6ce38a7e7ba}
+}]\index{\-E\-N\-U\-M@{\-E\-N\-U\-M}!\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}}\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!\-E\-N\-U\-M@{\-E\-N\-U\-M}}\item[{\em 
+\hypertarget{group___u_a_v_objects_plugin_gga74498368bc91f3ed74beacb096744cf3a6b66856b80e5733eb7b8b08f3d870871}{\-E\-N\-U\-M}\label{group___u_a_v_objects_plugin_gga74498368bc91f3ed74beacb096744cf3a6b66856b80e5733eb7b8b08f3d870871}
+}]\index{\-B\-I\-T\-F\-I\-E\-L\-D@{\-B\-I\-T\-F\-I\-E\-L\-D}!\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}}\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!\-B\-I\-T\-F\-I\-E\-L\-D@{\-B\-I\-T\-F\-I\-E\-L\-D}}\item[{\em 
+\hypertarget{group___u_a_v_objects_plugin_gga74498368bc91f3ed74beacb096744cf3a1a5788021526d853b18af9b5fd11f46d}{\-B\-I\-T\-F\-I\-E\-L\-D}\label{group___u_a_v_objects_plugin_gga74498368bc91f3ed74beacb096744cf3a1a5788021526d853b18af9b5fd11f46d}
+}]\index{\-S\-T\-R\-I\-N\-G@{\-S\-T\-R\-I\-N\-G}!\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}}\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!\-S\-T\-R\-I\-N\-G@{\-S\-T\-R\-I\-N\-G}}\item[{\em 
+\hypertarget{group___u_a_v_objects_plugin_gga74498368bc91f3ed74beacb096744cf3a263153e4740f4e16ffdc57eb00d37774}{\-S\-T\-R\-I\-N\-G}\label{group___u_a_v_objects_plugin_gga74498368bc91f3ed74beacb096744cf3a263153e4740f4e16ffdc57eb00d37774}
+}]\end{description}
+\end{Desc}
+
+
+
+\-Definition at line 45 of file uavobjectfield.\-h.
+
+\hypertarget{group___u_a_v_objects_plugin_gab90b52ee80a0622d280a4c2fc8e601cb}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!\-Limit\-Type@{\-Limit\-Type}}
+\index{\-Limit\-Type@{\-Limit\-Type}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{\-Limit\-Type}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf \-U\-A\-V\-Object\-Field\-::\-Limit\-Type}}}\label{group___u_a_v_objects_plugin_gab90b52ee80a0622d280a4c2fc8e601cb}
+\begin{Desc}
+\item[\-Enumerator\-: ]\par
+\begin{description}
+\index{\-E\-Q\-U\-A\-L@{\-E\-Q\-U\-A\-L}!\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}}\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!\-E\-Q\-U\-A\-L@{\-E\-Q\-U\-A\-L}}\item[{\em 
+\hypertarget{group___u_a_v_objects_plugin_ggab90b52ee80a0622d280a4c2fc8e601cba8dbddc7d32139967375f2aadc9611f92}{\-E\-Q\-U\-A\-L}\label{group___u_a_v_objects_plugin_ggab90b52ee80a0622d280a4c2fc8e601cba8dbddc7d32139967375f2aadc9611f92}
+}]\index{\-N\-O\-T\-\_\-\-E\-Q\-U\-A\-L@{\-N\-O\-T\-\_\-\-E\-Q\-U\-A\-L}!\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}}\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!\-N\-O\-T\-\_\-\-E\-Q\-U\-A\-L@{\-N\-O\-T\-\_\-\-E\-Q\-U\-A\-L}}\item[{\em 
+\hypertarget{group___u_a_v_objects_plugin_ggab90b52ee80a0622d280a4c2fc8e601cba9a661c176c884fa21ed1f0d451a63472}{\-N\-O\-T\-\_\-\-E\-Q\-U\-A\-L}\label{group___u_a_v_objects_plugin_ggab90b52ee80a0622d280a4c2fc8e601cba9a661c176c884fa21ed1f0d451a63472}
+}]\index{\-B\-E\-T\-W\-E\-E\-N@{\-B\-E\-T\-W\-E\-E\-N}!\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}}\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!\-B\-E\-T\-W\-E\-E\-N@{\-B\-E\-T\-W\-E\-E\-N}}\item[{\em 
+\hypertarget{group___u_a_v_objects_plugin_ggab90b52ee80a0622d280a4c2fc8e601cbaabc95b31ce0e072b3e30a5ef80063568}{\-B\-E\-T\-W\-E\-E\-N}\label{group___u_a_v_objects_plugin_ggab90b52ee80a0622d280a4c2fc8e601cbaabc95b31ce0e072b3e30a5ef80063568}
+}]\index{\-B\-I\-G\-G\-E\-R@{\-B\-I\-G\-G\-E\-R}!\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}}\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!\-B\-I\-G\-G\-E\-R@{\-B\-I\-G\-G\-E\-R}}\item[{\em 
+\hypertarget{group___u_a_v_objects_plugin_ggab90b52ee80a0622d280a4c2fc8e601cba8bf45653fc3846d52b51b1bad7ca342e}{\-B\-I\-G\-G\-E\-R}\label{group___u_a_v_objects_plugin_ggab90b52ee80a0622d280a4c2fc8e601cba8bf45653fc3846d52b51b1bad7ca342e}
+}]\index{\-S\-M\-A\-L\-L\-E\-R@{\-S\-M\-A\-L\-L\-E\-R}!\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}}\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!\-S\-M\-A\-L\-L\-E\-R@{\-S\-M\-A\-L\-L\-E\-R}}\item[{\em 
+\hypertarget{group___u_a_v_objects_plugin_ggab90b52ee80a0622d280a4c2fc8e601cba5903966788353f79fdfa23cef3c141bf}{\-S\-M\-A\-L\-L\-E\-R}\label{group___u_a_v_objects_plugin_ggab90b52ee80a0622d280a4c2fc8e601cba5903966788353f79fdfa23cef3c141bf}
+}]\end{description}
+\end{Desc}
+
+
+
+\-Definition at line 46 of file uavobjectfield.\-h.
+
+\hypertarget{group___u_a_v_objects_plugin_ga3f0971e47d6ebe87f97939435cd03da3}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!metadata\-Set\-Enum@{metadata\-Set\-Enum}}
+\index{metadata\-Set\-Enum@{metadata\-Set\-Enum}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{metadata\-Set\-Enum}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf \-U\-A\-V\-Object\-Util\-Manager\-::metadata\-Set\-Enum}}}\label{group___u_a_v_objects_plugin_ga3f0971e47d6ebe87f97939435cd03da3}
+\begin{Desc}
+\item[\-Enumerator\-: ]\par
+\begin{description}
+\index{\-A\-L\-L\-\_\-\-M\-E\-T\-A\-D\-A\-T\-A@{\-A\-L\-L\-\_\-\-M\-E\-T\-A\-D\-A\-T\-A}!\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}}\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!\-A\-L\-L\-\_\-\-M\-E\-T\-A\-D\-A\-T\-A@{\-A\-L\-L\-\_\-\-M\-E\-T\-A\-D\-A\-T\-A}}\item[{\em 
+\hypertarget{group___u_a_v_objects_plugin_gga3f0971e47d6ebe87f97939435cd03da3ac18452db1ea15afd4d64e97a407429cd}{\-A\-L\-L\-\_\-\-M\-E\-T\-A\-D\-A\-T\-A}\label{group___u_a_v_objects_plugin_gga3f0971e47d6ebe87f97939435cd03da3ac18452db1ea15afd4d64e97a407429cd}
+}]\index{\-S\-E\-T\-T\-I\-N\-G\-S\-\_\-\-M\-E\-T\-A\-D\-A\-T\-A\-\_\-\-O\-N\-L\-Y@{\-S\-E\-T\-T\-I\-N\-G\-S\-\_\-\-M\-E\-T\-A\-D\-A\-T\-A\-\_\-\-O\-N\-L\-Y}!\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}}\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!\-S\-E\-T\-T\-I\-N\-G\-S\-\_\-\-M\-E\-T\-A\-D\-A\-T\-A\-\_\-\-O\-N\-L\-Y@{\-S\-E\-T\-T\-I\-N\-G\-S\-\_\-\-M\-E\-T\-A\-D\-A\-T\-A\-\_\-\-O\-N\-L\-Y}}\item[{\em 
+\hypertarget{group___u_a_v_objects_plugin_gga3f0971e47d6ebe87f97939435cd03da3a80d58d5e87824282131d8df8b346cf46}{\-S\-E\-T\-T\-I\-N\-G\-S\-\_\-\-M\-E\-T\-A\-D\-A\-T\-A\-\_\-\-O\-N\-L\-Y}\label{group___u_a_v_objects_plugin_gga3f0971e47d6ebe87f97939435cd03da3a80d58d5e87824282131d8df8b346cf46}
+}]\index{\-N\-O\-N\-S\-E\-T\-T\-I\-N\-G\-S\-\_\-\-M\-E\-T\-A\-D\-A\-T\-A\-\_\-\-O\-N\-L\-Y@{\-N\-O\-N\-S\-E\-T\-T\-I\-N\-G\-S\-\_\-\-M\-E\-T\-A\-D\-A\-T\-A\-\_\-\-O\-N\-L\-Y}!\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}}\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!\-N\-O\-N\-S\-E\-T\-T\-I\-N\-G\-S\-\_\-\-M\-E\-T\-A\-D\-A\-T\-A\-\_\-\-O\-N\-L\-Y@{\-N\-O\-N\-S\-E\-T\-T\-I\-N\-G\-S\-\_\-\-M\-E\-T\-A\-D\-A\-T\-A\-\_\-\-O\-N\-L\-Y}}\item[{\em 
+\hypertarget{group___u_a_v_objects_plugin_gga3f0971e47d6ebe87f97939435cd03da3a2629c57c3e595b842a552395cedd97c9}{\-N\-O\-N\-S\-E\-T\-T\-I\-N\-G\-S\-\_\-\-M\-E\-T\-A\-D\-A\-T\-A\-\_\-\-O\-N\-L\-Y}\label{group___u_a_v_objects_plugin_gga3f0971e47d6ebe87f97939435cd03da3a2629c57c3e595b842a552395cedd97c9}
+}]\end{description}
+\end{Desc}
+
+
+
+\-Definition at line 57 of file uavobjectutilmanager.\-h.
+
+\hypertarget{group___u_a_v_objects_plugin_ga08c0580992fcd51c2b44734e2d24cac6}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!\-Update\-Mode@{\-Update\-Mode}}
+\index{\-Update\-Mode@{\-Update\-Mode}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{\-Update\-Mode}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf \-U\-A\-V\-Object\-::\-Update\-Mode}}}\label{group___u_a_v_objects_plugin_ga08c0580992fcd51c2b44734e2d24cac6}
+\-Object update mode \begin{Desc}
+\item[\-Enumerator\-: ]\par
+\begin{description}
+\index{\-U\-P\-D\-A\-T\-E\-M\-O\-D\-E\-\_\-\-M\-A\-N\-U\-A\-L@{\-U\-P\-D\-A\-T\-E\-M\-O\-D\-E\-\_\-\-M\-A\-N\-U\-A\-L}!\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}}\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!\-U\-P\-D\-A\-T\-E\-M\-O\-D\-E\-\_\-\-M\-A\-N\-U\-A\-L@{\-U\-P\-D\-A\-T\-E\-M\-O\-D\-E\-\_\-\-M\-A\-N\-U\-A\-L}}\item[{\em 
+\hypertarget{group___u_a_v_objects_plugin_gga08c0580992fcd51c2b44734e2d24cac6a7e761571cc6ee4432fa664f23fcb7032}{\-U\-P\-D\-A\-T\-E\-M\-O\-D\-E\-\_\-\-M\-A\-N\-U\-A\-L}\label{group___u_a_v_objects_plugin_gga08c0580992fcd51c2b44734e2d24cac6a7e761571cc6ee4432fa664f23fcb7032}
+}]\index{\-U\-P\-D\-A\-T\-E\-M\-O\-D\-E\-\_\-\-P\-E\-R\-I\-O\-D\-I\-C@{\-U\-P\-D\-A\-T\-E\-M\-O\-D\-E\-\_\-\-P\-E\-R\-I\-O\-D\-I\-C}!\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}}\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!\-U\-P\-D\-A\-T\-E\-M\-O\-D\-E\-\_\-\-P\-E\-R\-I\-O\-D\-I\-C@{\-U\-P\-D\-A\-T\-E\-M\-O\-D\-E\-\_\-\-P\-E\-R\-I\-O\-D\-I\-C}}\item[{\em 
+\hypertarget{group___u_a_v_objects_plugin_gga08c0580992fcd51c2b44734e2d24cac6a6057e8a8af67f00940fad6f62499b843}{\-U\-P\-D\-A\-T\-E\-M\-O\-D\-E\-\_\-\-P\-E\-R\-I\-O\-D\-I\-C}\label{group___u_a_v_objects_plugin_gga08c0580992fcd51c2b44734e2d24cac6a6057e8a8af67f00940fad6f62499b843}
+}]\-Manually update object, by calling the \hyperlink{group___u_a_v_objects_plugin_ga295ff9d6b0c01a6a8809a4cf9eb027cc}{updated()} function \index{\-U\-P\-D\-A\-T\-E\-M\-O\-D\-E\-\_\-\-O\-N\-C\-H\-A\-N\-G\-E@{\-U\-P\-D\-A\-T\-E\-M\-O\-D\-E\-\_\-\-O\-N\-C\-H\-A\-N\-G\-E}!\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}}\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!\-U\-P\-D\-A\-T\-E\-M\-O\-D\-E\-\_\-\-O\-N\-C\-H\-A\-N\-G\-E@{\-U\-P\-D\-A\-T\-E\-M\-O\-D\-E\-\_\-\-O\-N\-C\-H\-A\-N\-G\-E}}\item[{\em 
+\hypertarget{group___u_a_v_objects_plugin_gga08c0580992fcd51c2b44734e2d24cac6a118268aa016a1f371149d6180bd9a366}{\-U\-P\-D\-A\-T\-E\-M\-O\-D\-E\-\_\-\-O\-N\-C\-H\-A\-N\-G\-E}\label{group___u_a_v_objects_plugin_gga08c0580992fcd51c2b44734e2d24cac6a118268aa016a1f371149d6180bd9a366}
+}]\-Automatically update object at periodic intervals \index{\-U\-P\-D\-A\-T\-E\-M\-O\-D\-E\-\_\-\-T\-H\-R\-O\-T\-T\-L\-E\-D@{\-U\-P\-D\-A\-T\-E\-M\-O\-D\-E\-\_\-\-T\-H\-R\-O\-T\-T\-L\-E\-D}!\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}}\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!\-U\-P\-D\-A\-T\-E\-M\-O\-D\-E\-\_\-\-T\-H\-R\-O\-T\-T\-L\-E\-D@{\-U\-P\-D\-A\-T\-E\-M\-O\-D\-E\-\_\-\-T\-H\-R\-O\-T\-T\-L\-E\-D}}\item[{\em 
+\hypertarget{group___u_a_v_objects_plugin_gga08c0580992fcd51c2b44734e2d24cac6aea4380a186f544bd364259d2e436fb75}{\-U\-P\-D\-A\-T\-E\-M\-O\-D\-E\-\_\-\-T\-H\-R\-O\-T\-T\-L\-E\-D}\label{group___u_a_v_objects_plugin_gga08c0580992fcd51c2b44734e2d24cac6aea4380a186f544bd364259d2e436fb75}
+}]\-Only update object when its data changes \end{description}
+\end{Desc}
+
+
+
+\-Definition at line 61 of file uavobject.\-h.
+
+
+
+\subsection{\-Function \-Documentation}
+\hypertarget{group___u_a_v_objects_plugin_ga8aed4e68eb0697d4776a103bfe5aa059}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!check\-Value@{check\-Value}}
+\index{check\-Value@{check\-Value}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{check\-Value}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-U\-A\-V\-Object\-Field\-::check\-Value} (
+\begin{DoxyParamCaption}
+\item[{const \-Q\-Variant \&}]{data, }
+\item[{quint32}]{index = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_objects_plugin_ga8aed4e68eb0697d4776a103bfe5aa059}
+
+
+\-Definition at line 908 of file uavobjectfield.\-cpp.
+
+\hypertarget{group___u_a_v_objects_plugin_ga3d25ad42d17576d9c6218bd1c65345a9}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!clear@{clear}}
+\index{clear@{clear}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{clear}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-U\-A\-V\-Object\-Field\-::clear} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{group___u_a_v_objects_plugin_ga3d25ad42d17576d9c6218bd1c65345a9}
+
+
+\-Definition at line 523 of file uavobjectfield.\-cpp.
+
+\hypertarget{group___u_a_v_objects_plugin_ga9c113847ecf6bd99cf7efe3535620e66}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!clone@{clone}}
+\index{clone@{clone}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{clone}]{\setlength{\rightskip}{0pt plus 5cm}virtual {\bf \-U\-A\-V\-Data\-Object}$\ast$ {\bf \-U\-A\-V\-Data\-Object\-::clone} (
+\begin{DoxyParamCaption}
+\item[{quint32}]{inst\-I\-D = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}pure virtual\mbox{]}}}}\label{group___u_a_v_objects_plugin_ga9c113847ecf6bd99cf7efe3535620e66}
+\hypertarget{group___u_a_v_objects_plugin_ga8c808af230791ca079eca575c6c6c1ae}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!constructor\-Initialize@{constructor\-Initialize}}
+\index{constructor\-Initialize@{constructor\-Initialize}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{constructor\-Initialize}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-U\-A\-V\-Object\-Field\-::constructor\-Initialize} (
+\begin{DoxyParamCaption}
+\item[{const {\bf \-Q\-String} \&}]{name, }
+\item[{const {\bf \-Q\-String} \&}]{units, }
+\item[{{\bf \-Field\-Type}}]{type, }
+\item[{const \-Q\-String\-List \&}]{element\-Names, }
+\item[{const \-Q\-String\-List \&}]{options, }
+\item[{const {\bf \-Q\-String} \&}]{limits}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{group___u_a_v_objects_plugin_ga8c808af230791ca079eca575c6c6c1ae}
+
+
+\-Definition at line 50 of file uavobjectfield.\-cpp.
+
+\hypertarget{group___u_a_v_objects_plugin_ga31c6b739ad7f06472a3f3386e4bebd8a}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!description\-To\-Structure@{description\-To\-Structure}}
+\index{description\-To\-Structure@{description\-To\-Structure}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{description\-To\-Structure}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-U\-A\-V\-Object\-Util\-Manager\-::description\-To\-Structure} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Byte\-Array}]{desc, }
+\item[{{\bf device\-Descriptor\-Struct} \&}]{struc}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}\label{group___u_a_v_objects_plugin_ga31c6b739ad7f06472a3f3386e4bebd8a}
+
+
+\-Definition at line 611 of file uavobjectutilmanager.\-cpp.
+
+\hypertarget{group___u_a_v_objects_plugin_gae075ec1715d23e8bff81e913bc1dd303}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!dirty\-Clone@{dirty\-Clone}}
+\index{dirty\-Clone@{dirty\-Clone}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{dirty\-Clone}]{\setlength{\rightskip}{0pt plus 5cm}virtual {\bf \-U\-A\-V\-Data\-Object}$\ast$ {\bf \-U\-A\-V\-Data\-Object\-::dirty\-Clone} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}pure virtual\mbox{]}}}}\label{group___u_a_v_objects_plugin_gae075ec1715d23e8bff81e913bc1dd303}
+\hypertarget{group___u_a_v_objects_plugin_ga6085b5c08522017f9a59a087f7ccc073}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!emit\-New\-Instance@{emit\-New\-Instance}}
+\index{emit\-New\-Instance@{emit\-New\-Instance}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{emit\-New\-Instance}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-U\-A\-V\-Object\-::emit\-New\-Instance} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-U\-A\-V\-Object} $\ast$}]{obj}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_objects_plugin_ga6085b5c08522017f9a59a087f7ccc073}
+\-Emit the new\-Instance event 
+
+\-Definition at line 494 of file uavobject.\-cpp.
+
+\hypertarget{group___u_a_v_objects_plugin_ga30c0ae6383f58843feca4919232f0478}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!emit\-Transaction\-Completed@{emit\-Transaction\-Completed}}
+\index{emit\-Transaction\-Completed@{emit\-Transaction\-Completed}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{emit\-Transaction\-Completed}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-U\-A\-V\-Object\-::emit\-Transaction\-Completed} (
+\begin{DoxyParamCaption}
+\item[{bool}]{success}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_objects_plugin_ga30c0ae6383f58843feca4919232f0478}
+\-Emit the transaction\-Completed event (used by the \hyperlink{class_u_a_v_talk}{\-U\-A\-V\-Talk} plugin) 
+
+\-Definition at line 486 of file uavobject.\-cpp.
+
+\hypertarget{group___u_a_v_objects_plugin_ga01c0cfcad9946436827836ba293f07b0}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!extensions\-Initialized@{extensions\-Initialized}}
+\index{extensions\-Initialized@{extensions\-Initialized}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{extensions\-Initialized}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-U\-A\-V\-Objects\-Plugin\-::extensions\-Initialized} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___u_a_v_objects_plugin_ga01c0cfcad9946436827836ba293f07b0}
+\-Called after the \-I\-Plugin\-::initialize() method has been called, and after both the \-I\-Plugin\-::initialize() and \-I\-Plugin\-::extensions\-Initialized() methods of plugins that depend on this plugin have been called. \-In this method, the plugin can assume that plugins that depend on this plugin are fully 'up and running'. \-It is a good place to look in the plugin manager's object pool for objects that have been provided by dependent plugins. \begin{DoxySeeAlso}{\-See also}
+\hyperlink{group___u_a_v_objects_plugin_ga782e9362e4a727e032c97865d0841820}{initialize()} 
+\end{DoxySeeAlso}
+
+
+\-Implements \hyperlink{class_extension_system_1_1_i_plugin_a1db3a7fb242fca02229f9a3be4fd6610}{\-Extension\-System\-::\-I\-Plugin}.
+
+
+
+\-Definition at line 41 of file uavobjectsplugin.\-cpp.
+
+\hypertarget{group___u_a_v_objects_plugin_ga37ed95a95ca8906a45b06bb7174b1158}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!get\-Board\-Description\-Struct@{get\-Board\-Description\-Struct}}
+\index{get\-Board\-Description\-Struct@{get\-Board\-Description\-Struct}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{get\-Board\-Description\-Struct}]{\setlength{\rightskip}{0pt plus 5cm}{\bf device\-Descriptor\-Struct} {\bf \-U\-A\-V\-Object\-Util\-Manager\-::get\-Board\-Description\-Struct} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_objects_plugin_ga37ed95a95ca8906a45b06bb7174b1158}
+
+
+\-Definition at line 604 of file uavobjectutilmanager.\-cpp.
+
+\hypertarget{group___u_a_v_objects_plugin_gac3a1293716fa3eb310ed257ade7f6722}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!get\-Board\-Type@{get\-Board\-Type}}
+\index{get\-Board\-Type@{get\-Board\-Type}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{get\-Board\-Type}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Core\-::\-I\-Board\-Type} $\ast$ {\bf \-U\-A\-V\-Object\-Util\-Manager\-::get\-Board\-Type} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_objects_plugin_gac3a1293716fa3eb310ed257ade7f6722}
+
+
+\-Get the \-I\-Board\-Type corresponding to the connected board. 
+
+
+
+\-Definition at line 457 of file uavobjectutilmanager.\-cpp.
+
+\hypertarget{group___u_a_v_objects_plugin_gae829aa2dbab661a65f9f805caa8c67d1}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!get\-Category@{get\-Category}}
+\index{get\-Category@{get\-Category}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{get\-Category}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Q\-String} {\bf \-U\-A\-V\-Object\-::get\-Category} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_objects_plugin_gae829aa2dbab661a65f9f805caa8c67d1}
+\-Get the category of the object 
+
+\-Definition at line 151 of file uavobject.\-cpp.
+
+\hypertarget{group___u_a_v_objects_plugin_gaa60fd952fa89a624b43ba3dcf4a7c953}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!get\-Data@{get\-Data}}
+\index{get\-Data@{get\-Data}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{get\-Data}]{\setlength{\rightskip}{0pt plus 5cm}\-U\-A\-V\-Object\-::\-Metadata {\bf \-U\-A\-V\-Meta\-Object\-::get\-Data} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_objects_plugin_gaa60fd952fa89a624b43ba3dcf4a7c953}
+\-Get the metadata held by the metaobject 
+
+\-Definition at line 103 of file uavmetaobject.\-cpp.
+
+\hypertarget{group___u_a_v_objects_plugin_gaddd03a2027eb1ac4f3208d3fda7e76c9}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!get\-Data\-Objects@{get\-Data\-Objects}}
+\index{get\-Data\-Objects@{get\-Data\-Objects}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{get\-Data\-Objects}]{\setlength{\rightskip}{0pt plus 5cm}\-Q\-Vector$<$ \-Q\-Vector$<$ {\bf \-U\-A\-V\-Data\-Object} $\ast$ $>$ $>$ {\bf \-U\-A\-V\-Object\-Manager\-::get\-Data\-Objects} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_objects_plugin_gaddd03a2027eb1ac4f3208d3fda7e76c9}
+\-Same as \hyperlink{group___u_a_v_objects_plugin_ga90cc8567b44fd696df9fffa8a3f24f0c}{get\-Objects()} but will only return \-Data\-Objects. 
+
+\-Definition at line 151 of file uavobjectmanager.\-cpp.
+
+\hypertarget{group___u_a_v_objects_plugin_gaacffb4e86c637986046b656bb1e8219a}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!get\-Data\-Offset@{get\-Data\-Offset}}
+\index{get\-Data\-Offset@{get\-Data\-Offset}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{get\-Data\-Offset}]{\setlength{\rightskip}{0pt plus 5cm}quint32 {\bf \-U\-A\-V\-Object\-Field\-::get\-Data\-Offset} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_objects_plugin_gaacffb4e86c637986046b656bb1e8219a}
+
+
+\-Definition at line 557 of file uavobjectfield.\-cpp.
+
+\hypertarget{group___u_a_v_objects_plugin_ga151811823619af6a7231118c8e64f843}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!get\-Default\-Metadata@{get\-Default\-Metadata}}
+\index{get\-Default\-Metadata@{get\-Default\-Metadata}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{get\-Default\-Metadata}]{\setlength{\rightskip}{0pt plus 5cm}\-U\-A\-V\-Object\-::\-Metadata {\bf \-U\-A\-V\-Meta\-Object\-::get\-Default\-Metadata} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___u_a_v_objects_plugin_ga151811823619af6a7231118c8e64f843}
+\-Get the default metadata 
+
+\-Implements \hyperlink{group___u_a_v_objects_plugin_ga565410bc4fc71be87c359024f6cc8f3c}{\-U\-A\-V\-Object}.
+
+
+
+\-Definition at line 84 of file uavmetaobject.\-cpp.
+
+\hypertarget{group___u_a_v_objects_plugin_ga565410bc4fc71be87c359024f6cc8f3c}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!get\-Default\-Metadata@{get\-Default\-Metadata}}
+\index{get\-Default\-Metadata@{get\-Default\-Metadata}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{get\-Default\-Metadata}]{\setlength{\rightskip}{0pt plus 5cm}virtual \-Metadata {\bf \-U\-A\-V\-Object\-::get\-Default\-Metadata} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}pure virtual\mbox{]}}}}\label{group___u_a_v_objects_plugin_ga565410bc4fc71be87c359024f6cc8f3c}
+
+
+\-Implemented in \hyperlink{group___u_a_v_objects_plugin_ga151811823619af6a7231118c8e64f843}{\-U\-A\-V\-Meta\-Object}.
+
+\hypertarget{group___u_a_v_objects_plugin_ga319c487a42b628a2e83274c89fa77625}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!get\-Description@{get\-Description}}
+\index{get\-Description@{get\-Description}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{get\-Description}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Q\-String} {\bf \-U\-A\-V\-Object\-::get\-Description} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_objects_plugin_ga319c487a42b628a2e83274c89fa77625}
+\-Get the description of the object 
+
+\-Definition at line 135 of file uavobject.\-cpp.
+
+\hypertarget{group___u_a_v_objects_plugin_gac189fe8172d3c25a937b7d0106025dfe}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!get\-Double@{get\-Double}}
+\index{get\-Double@{get\-Double}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{get\-Double}]{\setlength{\rightskip}{0pt plus 5cm}double {\bf \-U\-A\-V\-Object\-Field\-::get\-Double} (
+\begin{DoxyParamCaption}
+\item[{quint32}]{index = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_objects_plugin_gac189fe8172d3c25a937b7d0106025dfe}
+
+
+\-Definition at line 1037 of file uavobjectfield.\-cpp.
+
+\hypertarget{group___u_a_v_objects_plugin_ga5686a3cb18234741a84666023acf4e8e}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!get\-Element\-Names@{get\-Element\-Names}}
+\index{get\-Element\-Names@{get\-Element\-Names}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{get\-Element\-Names}]{\setlength{\rightskip}{0pt plus 5cm}\-Q\-String\-List {\bf \-U\-A\-V\-Object\-Field\-::get\-Element\-Names} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_objects_plugin_ga5686a3cb18234741a84666023acf4e8e}
+
+
+\-Definition at line 513 of file uavobjectfield.\-cpp.
+
+\hypertarget{group___u_a_v_objects_plugin_ga0c8a0350ce2c49430124b59842fff131}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!get\-Field@{get\-Field}}
+\index{get\-Field@{get\-Field}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{get\-Field}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-U\-A\-V\-Object\-Field} $\ast$ {\bf \-U\-A\-V\-Object\-::get\-Field} (
+\begin{DoxyParamCaption}
+\item[{const {\bf \-Q\-String} \&}]{name}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_objects_plugin_ga0c8a0350ce2c49430124b59842fff131}
+\-Get a specific field \begin{DoxyReturn}{\-Returns}
+\-The field or \-N\-U\-L\-L if not found 
+\end{DoxyReturn}
+
+
+\-Definition at line 244 of file uavobject.\-cpp.
+
+\hypertarget{group___u_a_v_objects_plugin_ga043de5085e6ade44abfb005e320d10ca}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!get\-Fields@{get\-Fields}}
+\index{get\-Fields@{get\-Fields}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{get\-Fields}]{\setlength{\rightskip}{0pt plus 5cm}\-Q\-List$<$ {\bf \-U\-A\-V\-Object\-Field} $\ast$ $>$ {\bf \-U\-A\-V\-Object\-::get\-Fields} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_objects_plugin_ga043de5085e6ade44abfb005e320d10ca}
+\-Get the object's fields 
+
+\-Definition at line 234 of file uavobject.\-cpp.
+
+\hypertarget{group___u_a_v_objects_plugin_ga2aa3a13d1eb39329f28842887c6d7db6}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!get\-Firmware\-C\-R\-C@{get\-Firmware\-C\-R\-C}}
+\index{get\-Firmware\-C\-R\-C@{get\-Firmware\-C\-R\-C}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{get\-Firmware\-C\-R\-C}]{\setlength{\rightskip}{0pt plus 5cm}quint32 {\bf \-U\-A\-V\-Object\-Util\-Manager\-::get\-Firmware\-C\-R\-C} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_objects_plugin_ga2aa3a13d1eb39329f28842887c6d7db6}
+
+
+\-Definition at line 482 of file uavobjectutilmanager.\-cpp.
+
+\hypertarget{group___u_a_v_objects_plugin_ga98889e5102c4c2d2c9f1a47c03633218}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!\-Get\-Flight\-Access@{\-Get\-Flight\-Access}}
+\index{\-Get\-Flight\-Access@{\-Get\-Flight\-Access}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{\-Get\-Flight\-Access}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-U\-A\-V\-Object\-::\-Access\-Mode} {\bf \-U\-A\-V\-Object\-::\-Get\-Flight\-Access} (
+\begin{DoxyParamCaption}
+\item[{const \-Metadata \&}]{meta}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}\label{group___u_a_v_objects_plugin_ga98889e5102c4c2d2c9f1a47c03633218}
+\-Get the \hyperlink{class_u_a_v_object}{\-U\-A\-V\-Object} metadata access member 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em metadata} & \-The metadata object \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+the access type 
+\end{DoxyReturn}
+
+
+\-Definition at line 522 of file uavobject.\-cpp.
+
+\hypertarget{group___u_a_v_objects_plugin_ga98522650b206f948c9141115c15d1d13}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!\-Get\-Flight\-Telemetry\-Acked@{\-Get\-Flight\-Telemetry\-Acked}}
+\index{\-Get\-Flight\-Telemetry\-Acked@{\-Get\-Flight\-Telemetry\-Acked}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{\-Get\-Flight\-Telemetry\-Acked}]{\setlength{\rightskip}{0pt plus 5cm}quint8 {\bf \-U\-A\-V\-Object\-::\-Get\-Flight\-Telemetry\-Acked} (
+\begin{DoxyParamCaption}
+\item[{const \-Metadata \&}]{meta}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}\label{group___u_a_v_objects_plugin_ga98522650b206f948c9141115c15d1d13}
+\-Get the \hyperlink{class_u_a_v_object}{\-U\-A\-V\-Object} metadata telemetry acked member 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em metadata} & \-The metadata object \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+the telemetry acked boolean 
+\end{DoxyReturn}
+
+
+\-Definition at line 561 of file uavobject.\-cpp.
+
+\hypertarget{group___u_a_v_objects_plugin_ga6cd43aaa339c4bd8beead8988bb9f1a6}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!\-Get\-Flight\-Telemetry\-Update\-Mode@{\-Get\-Flight\-Telemetry\-Update\-Mode}}
+\index{\-Get\-Flight\-Telemetry\-Update\-Mode@{\-Get\-Flight\-Telemetry\-Update\-Mode}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{\-Get\-Flight\-Telemetry\-Update\-Mode}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-U\-A\-V\-Object\-::\-Update\-Mode} {\bf \-U\-A\-V\-Object\-::\-Get\-Flight\-Telemetry\-Update\-Mode} (
+\begin{DoxyParamCaption}
+\item[{const \-Metadata \&}]{meta}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}\label{group___u_a_v_objects_plugin_ga6cd43aaa339c4bd8beead8988bb9f1a6}
+\-Get the \hyperlink{class_u_a_v_object}{\-U\-A\-V\-Object} metadata telemetry update mode 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em metadata} & \-The metadata object \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+the telemetry update mode 
+\end{DoxyReturn}
+
+
+\-Definition at line 597 of file uavobject.\-cpp.
+
+\hypertarget{group___u_a_v_objects_plugin_ga7efd83f9d2ce75464022ed2e05c33920}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!\-Get\-Gcs\-Access@{\-Get\-Gcs\-Access}}
+\index{\-Get\-Gcs\-Access@{\-Get\-Gcs\-Access}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{\-Get\-Gcs\-Access}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-U\-A\-V\-Object\-::\-Access\-Mode} {\bf \-U\-A\-V\-Object\-::\-Get\-Gcs\-Access} (
+\begin{DoxyParamCaption}
+\item[{const \-Metadata \&}]{meta}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}\label{group___u_a_v_objects_plugin_ga7efd83f9d2ce75464022ed2e05c33920}
+\-Get the \hyperlink{class_u_a_v_object}{\-U\-A\-V\-Object} metadata \-G\-C\-S access member 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em metadata} & \-The metadata object \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+the \-G\-C\-S access type 
+\end{DoxyReturn}
+
+
+\-Definition at line 542 of file uavobject.\-cpp.
+
+\hypertarget{group___u_a_v_objects_plugin_ga3bfcc38f5830eeea1369a6e7c3aa3214}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!\-Get\-Gcs\-Telemetry\-Acked@{\-Get\-Gcs\-Telemetry\-Acked}}
+\index{\-Get\-Gcs\-Telemetry\-Acked@{\-Get\-Gcs\-Telemetry\-Acked}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{\-Get\-Gcs\-Telemetry\-Acked}]{\setlength{\rightskip}{0pt plus 5cm}quint8 {\bf \-U\-A\-V\-Object\-::\-Get\-Gcs\-Telemetry\-Acked} (
+\begin{DoxyParamCaption}
+\item[{const \-Metadata \&}]{meta}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}\label{group___u_a_v_objects_plugin_ga3bfcc38f5830eeea1369a6e7c3aa3214}
+\-Get the \hyperlink{class_u_a_v_object}{\-U\-A\-V\-Object} metadata \-G\-C\-S telemetry acked member 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em metadata} & \-The metadata object \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+the telemetry acked boolean 
+\end{DoxyReturn}
+
+
+\-Definition at line 579 of file uavobject.\-cpp.
+
+\hypertarget{group___u_a_v_objects_plugin_ga81651b86ef2cf0b05483152c6728b742}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!\-Get\-Gcs\-Telemetry\-Update\-Mode@{\-Get\-Gcs\-Telemetry\-Update\-Mode}}
+\index{\-Get\-Gcs\-Telemetry\-Update\-Mode@{\-Get\-Gcs\-Telemetry\-Update\-Mode}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{\-Get\-Gcs\-Telemetry\-Update\-Mode}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-U\-A\-V\-Object\-::\-Update\-Mode} {\bf \-U\-A\-V\-Object\-::\-Get\-Gcs\-Telemetry\-Update\-Mode} (
+\begin{DoxyParamCaption}
+\item[{const \-Metadata \&}]{meta}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}\label{group___u_a_v_objects_plugin_ga81651b86ef2cf0b05483152c6728b742}
+\-Get the \hyperlink{class_u_a_v_object}{\-U\-A\-V\-Object} metadata \-G\-C\-S telemetry update mode 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em metadata} & \-The metadata object \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+the \-G\-C\-S telemetry update mode 
+\end{DoxyReturn}
+
+
+\-Definition at line 615 of file uavobject.\-cpp.
+
+\hypertarget{group___u_a_v_objects_plugin_gade02e26d0bb8afe69edff8a076882dcd}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!get\-G\-P\-S\-Position@{get\-G\-P\-S\-Position}}
+\index{get\-G\-P\-S\-Position@{get\-G\-P\-S\-Position}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{get\-G\-P\-S\-Position}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf \-U\-A\-V\-Object\-Util\-Manager\-::get\-G\-P\-S\-Position} (
+\begin{DoxyParamCaption}
+\item[{double}]{\-L\-L\-A\mbox{[}3\mbox{]}}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_objects_plugin_gade02e26d0bb8afe69edff8a076882dcd}
+
+
+\-Definition at line 576 of file uavobjectutilmanager.\-cpp.
+
+\hypertarget{group___u_a_v_objects_plugin_gac5e7b38a473a50f709fb6312ef511e59}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!get\-Home\-Location@{get\-Home\-Location}}
+\index{get\-Home\-Location@{get\-Home\-Location}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{get\-Home\-Location}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf \-U\-A\-V\-Object\-Util\-Manager\-::get\-Home\-Location} (
+\begin{DoxyParamCaption}
+\item[{bool \&}]{set, }
+\item[{double}]{\-L\-L\-A\mbox{[}3\mbox{]}}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_objects_plugin_gac5e7b38a473a50f709fb6312ef511e59}
+
+
+\-Definition at line 542 of file uavobjectutilmanager.\-cpp.
+
+\hypertarget{group___u_a_v_objects_plugin_gaf465e2bde7a1e41ba94c19eac2ba9b80}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!get\-Inst\-I\-D@{get\-Inst\-I\-D}}
+\index{get\-Inst\-I\-D@{get\-Inst\-I\-D}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{get\-Inst\-I\-D}]{\setlength{\rightskip}{0pt plus 5cm}quint32 {\bf \-U\-A\-V\-Object\-::get\-Inst\-I\-D} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_objects_plugin_gaf465e2bde7a1e41ba94c19eac2ba9b80}
+\-Get the instance \-I\-D 
+
+\-Definition at line 111 of file uavobject.\-cpp.
+
+\hypertarget{group___u_a_v_objects_plugin_gafbe9b468da7decca7c6ff46202b938ba}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!get\-Max\-Limit@{get\-Max\-Limit}}
+\index{get\-Max\-Limit@{get\-Max\-Limit}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{get\-Max\-Limit}]{\setlength{\rightskip}{0pt plus 5cm}\-Q\-Variant {\bf \-U\-A\-V\-Object\-Field\-::get\-Max\-Limit} (
+\begin{DoxyParamCaption}
+\item[{quint32}]{index, }
+\item[{int}]{board = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_objects_plugin_gafbe9b468da7decca7c6ff46202b938ba}
+
+
+\-Definition at line 413 of file uavobjectfield.\-cpp.
+
+\hypertarget{group___u_a_v_objects_plugin_ga3830028095cc0fceed15e72baae231d9}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!get\-Metadata@{get\-Metadata}}
+\index{get\-Metadata@{get\-Metadata}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{get\-Metadata}]{\setlength{\rightskip}{0pt plus 5cm}\-U\-A\-V\-Object\-::\-Metadata {\bf \-U\-A\-V\-Meta\-Object\-::get\-Metadata} (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___u_a_v_objects_plugin_ga3830028095cc0fceed15e72baae231d9}
+\-Get the metadata of the metaobject 
+
+\-Implements \hyperlink{group___u_a_v_objects_plugin_gaadeb5af3a70679bcb2b6360274e9c7de}{\-U\-A\-V\-Object}.
+
+
+
+\-Definition at line 76 of file uavmetaobject.\-cpp.
+
+\hypertarget{group___u_a_v_objects_plugin_ga8c0434ba77ed0cfbcc2306bdc6b0248c}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!get\-Metadata@{get\-Metadata}}
+\index{get\-Metadata@{get\-Metadata}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{get\-Metadata}]{\setlength{\rightskip}{0pt plus 5cm}\-U\-A\-V\-Object\-::\-Metadata {\bf \-U\-A\-V\-Data\-Object\-::get\-Metadata} (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___u_a_v_objects_plugin_ga8c0434ba77ed0cfbcc2306bdc6b0248c}
+\-Get the object's metadata 
+
+\-Implements \hyperlink{group___u_a_v_objects_plugin_gaadeb5af3a70679bcb2b6360274e9c7de}{\-U\-A\-V\-Object}.
+
+
+
+\-Definition at line 81 of file uavdataobject.\-cpp.
+
+\hypertarget{group___u_a_v_objects_plugin_gaadeb5af3a70679bcb2b6360274e9c7de}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!get\-Metadata@{get\-Metadata}}
+\index{get\-Metadata@{get\-Metadata}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{get\-Metadata}]{\setlength{\rightskip}{0pt plus 5cm}virtual \-Metadata {\bf \-U\-A\-V\-Object\-::get\-Metadata} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}pure virtual\mbox{]}}}}\label{group___u_a_v_objects_plugin_gaadeb5af3a70679bcb2b6360274e9c7de}
+
+
+\-Implemented in \hyperlink{group___u_a_v_objects_plugin_ga8c0434ba77ed0cfbcc2306bdc6b0248c}{\-U\-A\-V\-Data\-Object}, and \hyperlink{group___u_a_v_objects_plugin_ga3830028095cc0fceed15e72baae231d9}{\-U\-A\-V\-Meta\-Object}.
+
+\hypertarget{group___u_a_v_objects_plugin_gae14c5b7e20f137db436d3c1e7d1949ec}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!get\-Meta\-Object@{get\-Meta\-Object}}
+\index{get\-Meta\-Object@{get\-Meta\-Object}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{get\-Meta\-Object}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-U\-A\-V\-Meta\-Object} $\ast$ {\bf \-U\-A\-V\-Data\-Object\-::get\-Meta\-Object} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_objects_plugin_gae14c5b7e20f137db436d3c1e7d1949ec}
+\-Get the metaobject 
+
+\-Definition at line 96 of file uavdataobject.\-cpp.
+
+\hypertarget{group___u_a_v_objects_plugin_ga8c25b065c3e4f456b2e3a7913f6d764f}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!get\-Meta\-Objects@{get\-Meta\-Objects}}
+\index{get\-Meta\-Objects@{get\-Meta\-Objects}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{get\-Meta\-Objects}]{\setlength{\rightskip}{0pt plus 5cm}\-Q\-Vector$<$ \-Q\-Vector$<$ {\bf \-U\-A\-V\-Meta\-Object} $\ast$ $>$ $>$ {\bf \-U\-A\-V\-Object\-Manager\-::get\-Meta\-Objects} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_objects_plugin_ga8c25b065c3e4f456b2e3a7913f6d764f}
+\-Same as \hyperlink{group___u_a_v_objects_plugin_ga90cc8567b44fd696df9fffa8a3f24f0c}{get\-Objects()} but will only return \-Meta\-Objects. 
+
+\-Definition at line 188 of file uavobjectmanager.\-cpp.
+
+\hypertarget{group___u_a_v_objects_plugin_ga3f6a930205ce76977ac96ffcfb864a8d}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!get\-Min\-Limit@{get\-Min\-Limit}}
+\index{get\-Min\-Limit@{get\-Min\-Limit}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{get\-Min\-Limit}]{\setlength{\rightskip}{0pt plus 5cm}\-Q\-Variant {\bf \-U\-A\-V\-Object\-Field\-::get\-Min\-Limit} (
+\begin{DoxyParamCaption}
+\item[{quint32}]{index, }
+\item[{int}]{board = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_objects_plugin_ga3f6a930205ce76977ac96ffcfb864a8d}
+
+
+\-Definition at line 442 of file uavobjectfield.\-cpp.
+
+\hypertarget{group___u_a_v_objects_plugin_ga07e3fbd0f6a85b23e03afc165456a0ef}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!get\-Mutex@{get\-Mutex}}
+\index{get\-Mutex@{get\-Mutex}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{get\-Mutex}]{\setlength{\rightskip}{0pt plus 5cm}\-Q\-Mutex $\ast$ {\bf \-U\-A\-V\-Object\-::get\-Mutex} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_objects_plugin_ga07e3fbd0f6a85b23e03afc165456a0ef}
+\-Get object's mutex 
+
+\-Definition at line 217 of file uavobject.\-cpp.
+
+\hypertarget{group___u_a_v_objects_plugin_ga86c7c87ecda0ed11b8a2f125b0741bab}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!get\-Name@{get\-Name}}
+\index{get\-Name@{get\-Name}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{get\-Name}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Q\-String} {\bf \-U\-A\-V\-Object\-Field\-::get\-Name} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_objects_plugin_ga86c7c87ecda0ed11b8a2f125b0741bab}
+
+
+\-Definition at line 537 of file uavobjectfield.\-cpp.
+
+\hypertarget{group___u_a_v_objects_plugin_ga92eb502fc16ba82b924a430acaa55f46}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!get\-Name@{get\-Name}}
+\index{get\-Name@{get\-Name}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{get\-Name}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Q\-String} {\bf \-U\-A\-V\-Object\-::get\-Name} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_objects_plugin_ga92eb502fc16ba82b924a430acaa55f46}
+\-Get the name of the object 
+
+\-Definition at line 127 of file uavobject.\-cpp.
+
+\hypertarget{group___u_a_v_objects_plugin_ga872f22445800243679ca0860c3b8b7f1}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!get\-Num\-Bytes@{get\-Num\-Bytes}}
+\index{get\-Num\-Bytes@{get\-Num\-Bytes}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{get\-Num\-Bytes}]{\setlength{\rightskip}{0pt plus 5cm}quint32 {\bf \-U\-A\-V\-Object\-Field\-::get\-Num\-Bytes} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_objects_plugin_ga872f22445800243679ca0860c3b8b7f1}
+
+
+\-Definition at line 562 of file uavobjectfield.\-cpp.
+
+\hypertarget{group___u_a_v_objects_plugin_gafa1288a7ab0b65c3f81c4312d7cfee78}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!get\-Num\-Bytes@{get\-Num\-Bytes}}
+\index{get\-Num\-Bytes@{get\-Num\-Bytes}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{get\-Num\-Bytes}]{\setlength{\rightskip}{0pt plus 5cm}quint32 {\bf \-U\-A\-V\-Object\-::get\-Num\-Bytes} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_objects_plugin_gafa1288a7ab0b65c3f81c4312d7cfee78}
+\-Get the total number of bytes of the object's data 
+
+\-Definition at line 168 of file uavobject.\-cpp.
+
+\hypertarget{group___u_a_v_objects_plugin_ga6c929356a6e66fd7c56e9d547e67ef7c}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!get\-Num\-Elements@{get\-Num\-Elements}}
+\index{get\-Num\-Elements@{get\-Num\-Elements}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{get\-Num\-Elements}]{\setlength{\rightskip}{0pt plus 5cm}quint32 {\bf \-U\-A\-V\-Object\-Field\-::get\-Num\-Elements} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_objects_plugin_ga6c929356a6e66fd7c56e9d547e67ef7c}
+
+
+\-Definition at line 552 of file uavobjectfield.\-cpp.
+
+\hypertarget{group___u_a_v_objects_plugin_gab9b1f7925306319ea21f599bba0d227f}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!get\-Num\-Fields@{get\-Num\-Fields}}
+\index{get\-Num\-Fields@{get\-Num\-Fields}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{get\-Num\-Fields}]{\setlength{\rightskip}{0pt plus 5cm}qint32 {\bf \-U\-A\-V\-Object\-::get\-Num\-Fields} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_objects_plugin_gab9b1f7925306319ea21f599bba0d227f}
+\-Get the number of fields held by this object 
+
+\-Definition at line 225 of file uavobject.\-cpp.
+
+\hypertarget{group___u_a_v_objects_plugin_gab285ecd0299f701264d624cad6e51ef1}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!get\-Num\-Instances@{get\-Num\-Instances}}
+\index{get\-Num\-Instances@{get\-Num\-Instances}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{get\-Num\-Instances}]{\setlength{\rightskip}{0pt plus 5cm}qint32 {\bf \-U\-A\-V\-Object\-Manager\-::get\-Num\-Instances} (
+\begin{DoxyParamCaption}
+\item[{const {\bf \-Q\-String} \&}]{name}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_objects_plugin_gab285ecd0299f701264d624cad6e51ef1}
+\-Get the number of instances for an object given its name 
+
+\-Definition at line 312 of file uavobjectmanager.\-cpp.
+
+\hypertarget{group___u_a_v_objects_plugin_ga22601fef22bd4c4ba1c48e07b70e8ddb}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!get\-Num\-Instances@{get\-Num\-Instances}}
+\index{get\-Num\-Instances@{get\-Num\-Instances}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{get\-Num\-Instances}]{\setlength{\rightskip}{0pt plus 5cm}qint32 {\bf \-U\-A\-V\-Object\-Manager\-::get\-Num\-Instances} (
+\begin{DoxyParamCaption}
+\item[{quint32}]{obj\-Id}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_objects_plugin_ga22601fef22bd4c4ba1c48e07b70e8ddb}
+\-Get the number of instances for an object given its \-I\-D 
+
+\-Definition at line 320 of file uavobjectmanager.\-cpp.
+
+\hypertarget{group___u_a_v_objects_plugin_gada44cdbfa55a281b78d41abcc6834dc0}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!get\-Object@{get\-Object}}
+\index{get\-Object@{get\-Object}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{get\-Object}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-U\-A\-V\-Object} $\ast$ {\bf \-U\-A\-V\-Object\-Manager\-::get\-Object} (
+\begin{DoxyParamCaption}
+\item[{const {\bf \-Q\-String} \&}]{name, }
+\item[{quint32}]{inst\-Id = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_objects_plugin_gada44cdbfa55a281b78d41abcc6834dc0}
+\-Get a specific object given its name and instance \-I\-D \begin{DoxyReturn}{\-Returns}
+\-The object is found or \-N\-U\-L\-L if not 
+\end{DoxyReturn}
+
+
+\-Definition at line 226 of file uavobjectmanager.\-cpp.
+
+\hypertarget{group___u_a_v_objects_plugin_ga6d299736b20c625d2553f80123e71e7a}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!get\-Object@{get\-Object}}
+\index{get\-Object@{get\-Object}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{get\-Object}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-U\-A\-V\-Object} $\ast$ {\bf \-U\-A\-V\-Object\-Manager\-::get\-Object} (
+\begin{DoxyParamCaption}
+\item[{quint32}]{obj\-Id, }
+\item[{quint32}]{inst\-Id = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_objects_plugin_ga6d299736b20c625d2553f80123e71e7a}
+\-Get a specific object given its object and instance \-I\-D \begin{DoxyReturn}{\-Returns}
+\-The object is found or \-N\-U\-L\-L if not 
+\end{DoxyReturn}
+
+
+\-Definition at line 235 of file uavobjectmanager.\-cpp.
+
+\hypertarget{group___u_a_v_objects_plugin_ga9a3e58eb1d96fbb375c9e28f870ae1d3}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!get\-Object@{get\-Object}}
+\index{get\-Object@{get\-Object}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{get\-Object}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-U\-A\-V\-Object} $\ast$ {\bf \-U\-A\-V\-Object\-Field\-::get\-Object} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_objects_plugin_ga9a3e58eb1d96fbb375c9e28f870ae1d3}
+
+
+\-Definition at line 518 of file uavobjectfield.\-cpp.
+
+\hypertarget{group___u_a_v_objects_plugin_ga575678dce0852cc3843610477ea587ff}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!get\-Object\-Instances@{get\-Object\-Instances}}
+\index{get\-Object\-Instances@{get\-Object\-Instances}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{get\-Object\-Instances}]{\setlength{\rightskip}{0pt plus 5cm}\-Q\-Vector$<$ {\bf \-U\-A\-V\-Object} $\ast$ $>$ {\bf \-U\-A\-V\-Object\-Manager\-::get\-Object\-Instances} (
+\begin{DoxyParamCaption}
+\item[{const {\bf \-Q\-String} \&}]{name}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_objects_plugin_ga575678dce0852cc3843610477ea587ff}
+\-Get all the instances of the object specified by name 
+
+\-Definition at line 273 of file uavobjectmanager.\-cpp.
+
+\hypertarget{group___u_a_v_objects_plugin_gaa1134c6f38b27868f8f61c6e2aaae4f5}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!get\-Object\-Instances@{get\-Object\-Instances}}
+\index{get\-Object\-Instances@{get\-Object\-Instances}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{get\-Object\-Instances}]{\setlength{\rightskip}{0pt plus 5cm}\-Q\-Vector$<$ {\bf \-U\-A\-V\-Object} $\ast$ $>$ {\bf \-U\-A\-V\-Object\-Manager\-::get\-Object\-Instances} (
+\begin{DoxyParamCaption}
+\item[{quint32}]{obj\-Id}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_objects_plugin_gaa1134c6f38b27868f8f61c6e2aaae4f5}
+\-Get all the instances of the object specified by its \-I\-D 
+
+\-Definition at line 281 of file uavobjectmanager.\-cpp.
+
+\hypertarget{group___u_a_v_objects_plugin_ga9a99c93b8210149fd59246e2648a9c59}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!get\-Object\-Manager@{get\-Object\-Manager}}
+\index{get\-Object\-Manager@{get\-Object\-Manager}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{get\-Object\-Manager}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-U\-A\-V\-Object\-Manager} $\ast$ {\bf \-U\-A\-V\-Object\-Util\-Manager\-::get\-Object\-Manager} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_objects_plugin_ga9a99c93b8210149fd59246e2648a9c59}
+
+
+\-Definition at line 86 of file uavobjectutilmanager.\-cpp.
+
+\hypertarget{group___u_a_v_objects_plugin_ga90cc8567b44fd696df9fffa8a3f24f0c}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!get\-Objects@{get\-Objects}}
+\index{get\-Objects@{get\-Objects}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{get\-Objects}]{\setlength{\rightskip}{0pt plus 5cm}\-Q\-Vector$<$ \-Q\-Vector$<$ {\bf \-U\-A\-V\-Object} $\ast$ $>$ $>$ {\bf \-U\-A\-V\-Object\-Manager\-::get\-Objects} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_objects_plugin_ga90cc8567b44fd696df9fffa8a3f24f0c}
+\-Get all objects. \-A two dimentional \-Q\-Vector is returned. \-Objects are grouped by instances of the same object type. 
+
+\-Definition at line 142 of file uavobjectmanager.\-cpp.
+
+\hypertarget{group___u_a_v_objects_plugin_gaad45ab83a511083bfe60df0c244e9b88}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!get\-Obj\-I\-D@{get\-Obj\-I\-D}}
+\index{get\-Obj\-I\-D@{get\-Obj\-I\-D}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{get\-Obj\-I\-D}]{\setlength{\rightskip}{0pt plus 5cm}quint32 {\bf \-U\-A\-V\-Object\-::get\-Obj\-I\-D} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_objects_plugin_gaad45ab83a511083bfe60df0c244e9b88}
+\-Get the object \-I\-D 
+
+\-Definition at line 103 of file uavobject.\-cpp.
+
+\hypertarget{group___u_a_v_objects_plugin_ga23e324a921bdf20972f940b4497a2c21}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!get\-Options@{get\-Options}}
+\index{get\-Options@{get\-Options}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{get\-Options}]{\setlength{\rightskip}{0pt plus 5cm}\-Q\-String\-List {\bf \-U\-A\-V\-Object\-Field\-::get\-Options} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_objects_plugin_ga23e324a921bdf20972f940b4497a2c21}
+
+
+\-Definition at line 547 of file uavobjectfield.\-cpp.
+
+\hypertarget{group___u_a_v_objects_plugin_gabfdc167657f1b0eae61e412313785e7b}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!get\-Parent\-Object@{get\-Parent\-Object}}
+\index{get\-Parent\-Object@{get\-Parent\-Object}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{get\-Parent\-Object}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-U\-A\-V\-Object} $\ast$ {\bf \-U\-A\-V\-Meta\-Object\-::get\-Parent\-Object} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_objects_plugin_gabfdc167657f1b0eae61e412313785e7b}
+\-Get the parent object 
+
+\-Definition at line 58 of file uavmetaobject.\-cpp.
+
+\hypertarget{group___u_a_v_objects_plugin_gad306893ea1f5623eaa970e35ffa7d901}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!get\-Type@{get\-Type}}
+\index{get\-Type@{get\-Type}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{get\-Type}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-U\-A\-V\-Object\-Field\-::\-Field\-Type} {\bf \-U\-A\-V\-Object\-Field\-::get\-Type} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_objects_plugin_gad306893ea1f5623eaa970e35ffa7d901}
+
+
+\-Definition at line 479 of file uavobjectfield.\-cpp.
+
+\hypertarget{group___u_a_v_objects_plugin_ga53cf1cae78bc619ca91faffedacfc61f}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!get\-Type\-As\-String@{get\-Type\-As\-String}}
+\index{get\-Type\-As\-String@{get\-Type\-As\-String}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{get\-Type\-As\-String}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Q\-String} {\bf \-U\-A\-V\-Object\-Field\-::get\-Type\-As\-String} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_objects_plugin_ga53cf1cae78bc619ca91faffedacfc61f}
+
+
+\-Definition at line 484 of file uavobjectfield.\-cpp.
+
+\hypertarget{group___u_a_v_objects_plugin_gabb1e371d4c3d91f70a172d7827db2da8}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!get\-Units@{get\-Units}}
+\index{get\-Units@{get\-Units}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{get\-Units}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Q\-String} {\bf \-U\-A\-V\-Object\-Field\-::get\-Units} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_objects_plugin_gabb1e371d4c3d91f70a172d7827db2da8}
+
+
+\-Definition at line 542 of file uavobjectfield.\-cpp.
+
+\hypertarget{group___u_a_v_objects_plugin_ga60a1c56703ea2c28f76d1eaf05554f5e}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!get\-Value@{get\-Value}}
+\index{get\-Value@{get\-Value}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{get\-Value}]{\setlength{\rightskip}{0pt plus 5cm}\-Q\-Variant {\bf \-U\-A\-V\-Object\-Field\-::get\-Value} (
+\begin{DoxyParamCaption}
+\item[{quint32}]{index = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_objects_plugin_ga60a1c56703ea2c28f76d1eaf05554f5e}
+
+
+\-Definition at line 816 of file uavobjectfield.\-cpp.
+
+\hypertarget{group___u_a_v_objects_plugin_ga9f3e150d973455c643bc5f582433cd51}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!initialize@{initialize}}
+\index{initialize@{initialize}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{initialize}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-U\-A\-V\-Data\-Object\-::initialize} (
+\begin{DoxyParamCaption}
+\item[{quint32}]{inst\-I\-D, }
+\item[{{\bf \-U\-A\-V\-Meta\-Object} $\ast$}]{mobj}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_objects_plugin_ga9f3e150d973455c643bc5f582433cd51}
+\-Initialize instance \-I\-D and assign a metaobject 
+
+\-Definition at line 43 of file uavdataobject.\-cpp.
+
+\hypertarget{group___u_a_v_objects_plugin_ga15063ab51e35069afd31709cc2f43276}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!initialize@{initialize}}
+\index{initialize@{initialize}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{initialize}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-U\-A\-V\-Data\-Object\-::initialize} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-U\-A\-V\-Meta\-Object} $\ast$}]{mobj}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_objects_plugin_ga15063ab51e35069afd31709cc2f43276}
+\-Assign a metaobject 
+
+\-Definition at line 53 of file uavdataobject.\-cpp.
+
+\hypertarget{group___u_a_v_objects_plugin_ga782e9362e4a727e032c97865d0841820}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!initialize@{initialize}}
+\index{initialize@{initialize}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{initialize}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-U\-A\-V\-Objects\-Plugin\-::initialize} (
+\begin{DoxyParamCaption}
+\item[{const \-Q\-String\-List \&}]{arguments, }
+\item[{{\bf \-Q\-String} $\ast$}]{error\-String}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___u_a_v_objects_plugin_ga782e9362e4a727e032c97865d0841820}
+\-Called after the plugin has been loaded and the \-I\-Plugin instance has been created. \-The initialize methods of plugins that depend on this plugin are called after the initialize method of this plugin has been called. \-Plugins should initialize their internal state in this method. \-Returns if initialization of successful. \-If it wasn't successful, the {\itshape error\-String\/} should be set to a user-\/readable message describing the reason. \begin{DoxySeeAlso}{\-See also}
+\hyperlink{group___u_a_v_objects_plugin_ga01c0cfcad9946436827836ba293f07b0}{extensions\-Initialized()} 
+\end{DoxySeeAlso}
+
+
+\-Implements \hyperlink{class_extension_system_1_1_i_plugin_a9f3dc957317279daed393fdf4894e944}{\-Extension\-System\-::\-I\-Plugin}.
+
+
+
+\-Definition at line 46 of file uavobjectsplugin.\-cpp.
+
+\hypertarget{group___u_a_v_objects_plugin_ga76826ee85ebb06f48a3afb3cc7a1c839}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!initialize@{initialize}}
+\index{initialize@{initialize}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{initialize}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-U\-A\-V\-Object\-Field\-::initialize} (
+\begin{DoxyParamCaption}
+\item[{quint8 $\ast$}]{data, }
+\item[{quint32}]{data\-Offset, }
+\item[{{\bf \-U\-A\-V\-Object} $\ast$}]{obj}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_objects_plugin_ga76826ee85ebb06f48a3afb3cc7a1c839}
+
+
+\-Definition at line 471 of file uavobjectfield.\-cpp.
+
+\hypertarget{group___u_a_v_objects_plugin_ga1ed2d21fdcea1cc31ebc6c669ba49720}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!initialize@{initialize}}
+\index{initialize@{initialize}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{initialize}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-U\-A\-V\-Object\-::initialize} (
+\begin{DoxyParamCaption}
+\item[{quint32}]{inst\-I\-D}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_objects_plugin_ga1ed2d21fdcea1cc31ebc6c669ba49720}
+\-Initialize object with its instance \-I\-D 
+
+\-Definition at line 62 of file uavobject.\-cpp.
+
+\hypertarget{group___u_a_v_objects_plugin_ga7aa3a71a68a9190731f720ad0eb1c772}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!initialize\-Fields@{initialize\-Fields}}
+\index{initialize\-Fields@{initialize\-Fields}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{initialize\-Fields}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-U\-A\-V\-Object\-::initialize\-Fields} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-List$<$ {\bf \-U\-A\-V\-Object\-Field} $\ast$ $>$ \&}]{fields, }
+\item[{quint8 $\ast$}]{data, }
+\item[{quint32}]{num\-Bytes}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{group___u_a_v_objects_plugin_ga7aa3a71a68a9190731f720ad0eb1c772}
+\-Initialize objects' data fields 
+\begin{DoxyParams}{\-Parameters}
+{\em fields} & \-List of fields held by the object \\
+\hline
+{\em data} & \-Pointer to that actual object data, this is needed by the fields to access the data \\
+\hline
+{\em num\-Bytes} & \-Number of bytes in the object (total, including all fields) \\
+\hline
+\end{DoxyParams}
+
+
+\-Definition at line 74 of file uavobject.\-cpp.
+
+\hypertarget{group___u_a_v_objects_plugin_ga5e1a07c1bc278bd1d8f1460ca08d13c7}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!is\-Numeric@{is\-Numeric}}
+\index{is\-Numeric@{is\-Numeric}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{is\-Numeric}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-U\-A\-V\-Object\-Field\-::is\-Numeric} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_objects_plugin_ga5e1a07c1bc278bd1d8f1460ca08d13c7}
+
+
+\-Definition at line 738 of file uavobjectfield.\-cpp.
+
+\hypertarget{group___u_a_v_objects_plugin_ga77932d3af8bd55182bbc39af1f01f447}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!is\-Settings@{is\-Settings}}
+\index{is\-Settings@{is\-Settings}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{is\-Settings}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-U\-A\-V\-Data\-Object\-::is\-Settings} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_objects_plugin_ga77932d3af8bd55182bbc39af1f01f447}
+\-Returns true if this is a data object holding module settings 
+
+\-Definition at line 62 of file uavdataobject.\-cpp.
+
+\hypertarget{group___u_a_v_objects_plugin_gac05d3c2bd0fd07947707562f66ddfc18}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!is\-Single\-Instance@{is\-Single\-Instance}}
+\index{is\-Single\-Instance@{is\-Single\-Instance}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{is\-Single\-Instance}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-U\-A\-V\-Object\-::is\-Single\-Instance} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_objects_plugin_gac05d3c2bd0fd07947707562f66ddfc18}
+\-Returns true if this is a single instance object 
+
+\-Definition at line 119 of file uavobject.\-cpp.
+
+\hypertarget{group___u_a_v_objects_plugin_ga6ad4eb36bd160d16bccdc494caf60938}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!is\-Text@{is\-Text}}
+\index{is\-Text@{is\-Text}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{is\-Text}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-U\-A\-V\-Object\-Field\-::is\-Text} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_objects_plugin_ga6ad4eb36bd160d16bccdc494caf60938}
+
+
+\-Definition at line 777 of file uavobjectfield.\-cpp.
+
+\hypertarget{group___u_a_v_objects_plugin_gaab4e295f61848873ab0e45b3546a0035}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!is\-Within\-Limits@{is\-Within\-Limits}}
+\index{is\-Within\-Limits@{is\-Within\-Limits}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{is\-Within\-Limits}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-U\-A\-V\-Object\-Field\-::is\-Within\-Limits} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Variant}]{var, }
+\item[{quint32}]{index, }
+\item[{int}]{board = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_objects_plugin_gaab4e295f61848873ab0e45b3546a0035}
+
+
+\-Definition at line 197 of file uavobjectfield.\-cpp.
+
+\hypertarget{group___u_a_v_objects_plugin_ga7ceda7a3dfdcca81d80ed887485c4b76}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!limits\-Initialize@{limits\-Initialize}}
+\index{limits\-Initialize@{limits\-Initialize}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{limits\-Initialize}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-U\-A\-V\-Object\-Field\-::limits\-Initialize} (
+\begin{DoxyParamCaption}
+\item[{const {\bf \-Q\-String} \&}]{limits}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{group___u_a_v_objects_plugin_ga7ceda7a3dfdcca81d80ed887485c4b76}
+format (\-T\-Y)-\/$>$type (\-E\-Q-\/equal;\-N\-E-\/not equal;\-B\-E-\/between;\-B\-I-\/bigger;\-S\-M-\/smaller) (\-V\-A\-L\-X)-\/$>$value \-T\-Y\-:\-V\-A\-L1\-:\-V\-A\-L2\-:\-V\-A\-L3,\-T\-Y,\-V\-A\-L1,\-V\-A\-L2,\-V\-A\-L3 example\-: first element bigger than 3 and second element inside \mbox{[}2.\-3,5\mbox{]} \char`\"{}\%\-B\-I\-:3,\%\-B\-E\-:2.\-3\-:5\char`\"{} 
+
+\-Definition at line 102 of file uavobjectfield.\-cpp.
+
+\hypertarget{group___u_a_v_objects_plugin_ga8e49ecfdebf22f4834d1fc22d3effae7}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!load@{load}}
+\index{load@{load}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{load}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-U\-A\-V\-Object\-::load} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_objects_plugin_ga8e49ecfdebf22f4834d1fc22d3effae7}
+\-Load the object data from a file. \-The file will be openned in the current directory and its name will be the same as the object with the .uavobj extension. \begin{DoxyReturn}{\-Returns}
+\-True on success, false on failure 
+\end{DoxyReturn}
+
+
+\-Definition at line 373 of file uavobject.\-cpp.
+
+\hypertarget{group___u_a_v_objects_plugin_ga0c4bcaec65373c03a2dbf22beae1e8a3}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!load@{load}}
+\index{load@{load}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{load}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-U\-A\-V\-Object\-::load} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-File \&}]{file}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_objects_plugin_ga0c4bcaec65373c03a2dbf22beae1e8a3}
+\-Load the object data from file. \-The file is expected to be already open for reading. \-The data will be read and the file will not be closed. \begin{DoxyReturn}{\-Returns}
+\-True on success, false on failure 
+\end{DoxyReturn}
+
+
+\-Definition at line 401 of file uavobject.\-cpp.
+
+\hypertarget{group___u_a_v_objects_plugin_ga02661eea30150b9d24bc3a16423850b8}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!lock@{lock}}
+\index{lock@{lock}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{lock}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-U\-A\-V\-Object\-::lock} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_objects_plugin_ga02661eea30150b9d24bc3a16423850b8}
+\-Lock mutex of this object 
+
+\-Definition at line 193 of file uavobject.\-cpp.
+
+\hypertarget{group___u_a_v_objects_plugin_ga17770eb02bf711b734a041622dccf889}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!lock@{lock}}
+\index{lock@{lock}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{lock}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-U\-A\-V\-Object\-::lock} (
+\begin{DoxyParamCaption}
+\item[{int}]{timeout\-Ms}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_objects_plugin_ga17770eb02bf711b734a041622dccf889}
+\-Lock mutex of this object 
+
+\-Definition at line 201 of file uavobject.\-cpp.
+
+\hypertarget{group___u_a_v_objects_plugin_ga0e0e6753710634f75bf5f27e0c3e073a}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!\-Metadata\-Initialize@{\-Metadata\-Initialize}}
+\index{\-Metadata\-Initialize@{\-Metadata\-Initialize}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{\-Metadata\-Initialize}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-U\-A\-V\-Object\-::\-Metadata\-Initialize} (
+\begin{DoxyParamCaption}
+\item[{\-Metadata \&}]{meta}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}\label{group___u_a_v_objects_plugin_ga0e0e6753710634f75bf5f27e0c3e073a}
+\-Initialize a default \-U\-A\-V\-Obj\-Metadata object. 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em metadata} & \-The metadata object \\
+\hline
+\end{DoxyParams}
+
+
+\-Definition at line 503 of file uavobject.\-cpp.
+
+\hypertarget{group___u_a_v_objects_plugin_gabfadd471718e9a6bdb5e106fb99574d9}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!pack@{pack}}
+\index{pack@{pack}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{pack}]{\setlength{\rightskip}{0pt plus 5cm}qint32 {\bf \-U\-A\-V\-Object\-Field\-::pack} (
+\begin{DoxyParamCaption}
+\item[{quint8 $\ast$}]{data\-Out}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_objects_plugin_gabfadd471718e9a6bdb5e106fb99574d9}
+
+
+\-Definition at line 588 of file uavobjectfield.\-cpp.
+
+\hypertarget{group___u_a_v_objects_plugin_ga4afcaf928b2868be5a57d96a2b251318}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!pack@{pack}}
+\index{pack@{pack}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{pack}]{\setlength{\rightskip}{0pt plus 5cm}qint32 {\bf \-U\-A\-V\-Object\-::pack} (
+\begin{DoxyParamCaption}
+\item[{quint8 $\ast$}]{data\-Out}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_objects_plugin_ga4afcaf928b2868be5a57d96a2b251318}
+\-Pack the object data into a byte array \begin{DoxyReturn}{\-Returns}
+\-The number of bytes copied 
+\end{DoxyReturn}
+
+
+\-Definition at line 264 of file uavobject.\-cpp.
+
+\hypertarget{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!\-Q\-String@{\-Q\-String}}
+\index{\-Q\-String@{\-Q\-String}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{\-Q\-String}]{\setlength{\rightskip}{0pt plus 5cm}const {\bf \-Q\-String} (\-N\-A\-M\-E) const {\bf \-Q\-String} (\-N\-A\-M\-E) const {\bf \-Q\-String} (
+\begin{DoxyParamCaption}
+\item[{\-N\-A\-M\-E}]{, }
+\item[{\-N\-A\-M\-E}]{}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}
+\-Constructor 
+
+\-Definition at line 43 of file uavobjecttemplate.\-cpp.
+
+\hypertarget{group___u_a_v_objects_plugin_gad71bd0967de227335d5fec0b599a54e3}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!register\-Object@{register\-Object}}
+\index{register\-Object@{register\-Object}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{register\-Object}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-U\-A\-V\-Object\-Manager\-::register\-Object} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-U\-A\-V\-Data\-Object} $\ast$}]{obj}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_objects_plugin_gad71bd0967de227335d5fec0b599a54e3}
+\-Register an object with the manager. \-This function must be called for all newly created instances. \-A new instance can be created directly by instantiating a new object or by calling clone() of an existing object. \-The object will be registered and will be properly initialized so that it can accept updates. 
+
+\-Definition at line 49 of file uavobjectmanager.\-cpp.
+
+\hypertarget{group___u_a_v_objects_plugin_ga7c5e9973653217674183bfa3ba10e217}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!save@{save}}
+\index{save@{save}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{save}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-U\-A\-V\-Object\-::save} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_objects_plugin_ga7c5e9973653217674183bfa3ba10e217}
+\-Save the object data to the file. \-The file will be created in the current directory and its name will be the same as the object with the .uavobj extension. \begin{DoxyReturn}{\-Returns}
+\-True on success, false on failure 
+\end{DoxyReturn}
+
+
+\-Definition at line 304 of file uavobject.\-cpp.
+
+\hypertarget{group___u_a_v_objects_plugin_ga6b936966d89fb80b1138100edcd3e4cc}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!save@{save}}
+\index{save@{save}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{save}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-U\-A\-V\-Object\-::save} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-File \&}]{file}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_objects_plugin_ga6b936966d89fb80b1138100edcd3e4cc}
+\-Save the object data to the file. \-The file is expected to be already open for writting. \-The data will be appended and the file will not be closed. \begin{DoxyReturn}{\-Returns}
+\-True on success, false on failure 
+\end{DoxyReturn}
+
+
+\-Definition at line 332 of file uavobject.\-cpp.
+
+\hypertarget{group___u_a_v_objects_plugin_gac1d47f2428a0939dbe9544b6c6add6b5}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!set\-Category@{set\-Category}}
+\index{set\-Category@{set\-Category}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{set\-Category}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-U\-A\-V\-Object\-::set\-Category} (
+\begin{DoxyParamCaption}
+\item[{const {\bf \-Q\-String} \&}]{category}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{group___u_a_v_objects_plugin_gac1d47f2428a0939dbe9544b6c6add6b5}
+\-Set the category of the object 
+
+\-Definition at line 159 of file uavobject.\-cpp.
+
+\hypertarget{group___u_a_v_objects_plugin_ga442400ff0a37c73b50d6e5ad9533ace4}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!set\-Data@{set\-Data}}
+\index{set\-Data@{set\-Data}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{set\-Data}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-U\-A\-V\-Meta\-Object\-::set\-Data} (
+\begin{DoxyParamCaption}
+\item[{const \-Metadata \&}]{mdata}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_objects_plugin_ga442400ff0a37c73b50d6e5ad9533ace4}
+\-Set the metadata held by the metaobject 
+
+\-Definition at line 92 of file uavmetaobject.\-cpp.
+
+\hypertarget{group___u_a_v_objects_plugin_ga9310ee9c9869110219a7fcd311aaaf28}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!set\-Description@{set\-Description}}
+\index{set\-Description@{set\-Description}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{set\-Description}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-U\-A\-V\-Object\-::set\-Description} (
+\begin{DoxyParamCaption}
+\item[{const {\bf \-Q\-String} \&}]{description}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{group___u_a_v_objects_plugin_ga9310ee9c9869110219a7fcd311aaaf28}
+\-Set the description of the object 
+
+\-Definition at line 143 of file uavobject.\-cpp.
+
+\hypertarget{group___u_a_v_objects_plugin_ga6c5e6a55d16226d0cfef0d2f512e243e}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!set\-Double@{set\-Double}}
+\index{set\-Double@{set\-Double}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{set\-Double}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-U\-A\-V\-Object\-Field\-::set\-Double} (
+\begin{DoxyParamCaption}
+\item[{double}]{value, }
+\item[{quint32}]{index = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_objects_plugin_ga6c5e6a55d16226d0cfef0d2f512e243e}
+
+
+\-Definition at line 1042 of file uavobjectfield.\-cpp.
+
+\hypertarget{group___u_a_v_objects_plugin_gaa660f23e03de07c425e5162e2dc42c4f}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!\-Set\-Flight\-Access@{\-Set\-Flight\-Access}}
+\index{\-Set\-Flight\-Access@{\-Set\-Flight\-Access}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{\-Set\-Flight\-Access}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-U\-A\-V\-Object\-::\-Set\-Flight\-Access} (
+\begin{DoxyParamCaption}
+\item[{\-Metadata \&}]{meta, }
+\item[{{\bf \-Access\-Mode}}]{mode}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}\label{group___u_a_v_objects_plugin_gaa660f23e03de07c425e5162e2dc42c4f}
+\-Set the \hyperlink{class_u_a_v_object}{\-U\-A\-V\-Object} metadata access member 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em metadata} & \-The metadata object \\
+\hline
+\mbox{\tt in}  & {\em mode} & \-The access mode \\
+\hline
+\end{DoxyParams}
+
+
+\-Definition at line 532 of file uavobject.\-cpp.
+
+\hypertarget{group___u_a_v_objects_plugin_ga92f2e8fef7adb87575582d52a4d90519}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!\-Set\-Flight\-Telemetry\-Acked@{\-Set\-Flight\-Telemetry\-Acked}}
+\index{\-Set\-Flight\-Telemetry\-Acked@{\-Set\-Flight\-Telemetry\-Acked}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{\-Set\-Flight\-Telemetry\-Acked}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-U\-A\-V\-Object\-::\-Set\-Flight\-Telemetry\-Acked} (
+\begin{DoxyParamCaption}
+\item[{\-Metadata \&}]{meta, }
+\item[{quint8}]{val}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}\label{group___u_a_v_objects_plugin_ga92f2e8fef7adb87575582d52a4d90519}
+\-Set the \hyperlink{class_u_a_v_object}{\-U\-A\-V\-Object} metadata telemetry acked member 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em metadata} & \-The metadata object \\
+\hline
+\mbox{\tt in}  & {\em val} & \-The telemetry acked boolean \\
+\hline
+\end{DoxyParams}
+
+
+\-Definition at line 570 of file uavobject.\-cpp.
+
+\hypertarget{group___u_a_v_objects_plugin_gaa9fa161b9a5607e4ee1086b72f1b70e5}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!\-Set\-Flight\-Telemetry\-Update\-Mode@{\-Set\-Flight\-Telemetry\-Update\-Mode}}
+\index{\-Set\-Flight\-Telemetry\-Update\-Mode@{\-Set\-Flight\-Telemetry\-Update\-Mode}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{\-Set\-Flight\-Telemetry\-Update\-Mode}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-U\-A\-V\-Object\-::\-Set\-Flight\-Telemetry\-Update\-Mode} (
+\begin{DoxyParamCaption}
+\item[{\-Metadata \&}]{meta, }
+\item[{{\bf \-Update\-Mode}}]{val}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}\label{group___u_a_v_objects_plugin_gaa9fa161b9a5607e4ee1086b72f1b70e5}
+\-Set the \hyperlink{class_u_a_v_object}{\-U\-A\-V\-Object} metadata telemetry update mode member 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em metadata} & \-The metadata object \\
+\hline
+\mbox{\tt in}  & {\em val} & \-The telemetry update mode \\
+\hline
+\end{DoxyParams}
+
+
+\-Definition at line 606 of file uavobject.\-cpp.
+
+\hypertarget{group___u_a_v_objects_plugin_ga55ae4b0f44dc39c52da3d4173345c19b}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!\-Set\-Gcs\-Access@{\-Set\-Gcs\-Access}}
+\index{\-Set\-Gcs\-Access@{\-Set\-Gcs\-Access}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{\-Set\-Gcs\-Access}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-U\-A\-V\-Object\-::\-Set\-Gcs\-Access} (
+\begin{DoxyParamCaption}
+\item[{\-Metadata \&}]{meta, }
+\item[{{\bf \-Access\-Mode}}]{mode}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}\label{group___u_a_v_objects_plugin_ga55ae4b0f44dc39c52da3d4173345c19b}
+\-Set the \hyperlink{class_u_a_v_object}{\-U\-A\-V\-Object} metadata \-G\-C\-S access member 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em metadata} & \-The metadata object \\
+\hline
+\mbox{\tt in}  & {\em mode} & \-The access mode \\
+\hline
+\end{DoxyParams}
+
+
+\-Definition at line 552 of file uavobject.\-cpp.
+
+\hypertarget{group___u_a_v_objects_plugin_ga190e264f603dd8ade6b6f9e84debfb4c}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!\-Set\-Gcs\-Telemetry\-Acked@{\-Set\-Gcs\-Telemetry\-Acked}}
+\index{\-Set\-Gcs\-Telemetry\-Acked@{\-Set\-Gcs\-Telemetry\-Acked}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{\-Set\-Gcs\-Telemetry\-Acked}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-U\-A\-V\-Object\-::\-Set\-Gcs\-Telemetry\-Acked} (
+\begin{DoxyParamCaption}
+\item[{\-Metadata \&}]{meta, }
+\item[{quint8}]{val}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}\label{group___u_a_v_objects_plugin_ga190e264f603dd8ade6b6f9e84debfb4c}
+\-Set the \hyperlink{class_u_a_v_object}{\-U\-A\-V\-Object} metadata \-G\-C\-S telemetry acked member 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em metadata} & \-The metadata object \\
+\hline
+\mbox{\tt in}  & {\em val} & \-The \-G\-C\-S telemetry acked boolean \\
+\hline
+\end{DoxyParams}
+
+
+\-Definition at line 588 of file uavobject.\-cpp.
+
+\hypertarget{group___u_a_v_objects_plugin_ga8fdb0f35b52c8dea0a512fd411d2346e}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!\-Set\-Gcs\-Telemetry\-Update\-Mode@{\-Set\-Gcs\-Telemetry\-Update\-Mode}}
+\index{\-Set\-Gcs\-Telemetry\-Update\-Mode@{\-Set\-Gcs\-Telemetry\-Update\-Mode}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{\-Set\-Gcs\-Telemetry\-Update\-Mode}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-U\-A\-V\-Object\-::\-Set\-Gcs\-Telemetry\-Update\-Mode} (
+\begin{DoxyParamCaption}
+\item[{\-Metadata \&}]{meta, }
+\item[{{\bf \-Update\-Mode}}]{val}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}\label{group___u_a_v_objects_plugin_ga8fdb0f35b52c8dea0a512fd411d2346e}
+\-Set the \hyperlink{class_u_a_v_object}{\-U\-A\-V\-Object} metadata \-G\-C\-S telemetry update mode member 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em metadata} & \-The metadata object \\
+\hline
+\mbox{\tt in}  & {\em val} & \-The \-G\-C\-S telemetry update mode \\
+\hline
+\end{DoxyParams}
+
+
+\-Definition at line 624 of file uavobject.\-cpp.
+
+\hypertarget{group___u_a_v_objects_plugin_gafcfa22c5812ed36ca7a2d6e442ba1710}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!set\-Home\-Location@{set\-Home\-Location}}
+\index{set\-Home\-Location@{set\-Home\-Location}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{set\-Home\-Location}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf \-U\-A\-V\-Object\-Util\-Manager\-::set\-Home\-Location} (
+\begin{DoxyParamCaption}
+\item[{double}]{\-L\-L\-A\mbox{[}3\mbox{]}, }
+\item[{bool}]{save\-\_\-to\-\_\-sdcard}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_objects_plugin_gafcfa22c5812ed36ca7a2d6e442ba1710}
+
+
+\-Definition at line 507 of file uavobjectutilmanager.\-cpp.
+
+\hypertarget{group___u_a_v_objects_plugin_ga714e256632f9fbd0aba5c6a9aaae422a}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!set\-Metadata@{set\-Metadata}}
+\index{set\-Metadata@{set\-Metadata}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{set\-Metadata}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-U\-A\-V\-Meta\-Object\-::set\-Metadata} (
+\begin{DoxyParamCaption}
+\item[{const \-Metadata \&}]{mdata}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___u_a_v_objects_plugin_ga714e256632f9fbd0aba5c6a9aaae422a}
+\-Set the metadata of the metaobject, this function will do nothing since metaobjects have read-\/only metadata. 
+
+\-Implements \hyperlink{group___u_a_v_objects_plugin_ga6cca5e5bf5d4f7ecfb03ef7cc9a93a95}{\-U\-A\-V\-Object}.
+
+
+
+\-Definition at line 67 of file uavmetaobject.\-cpp.
+
+\hypertarget{group___u_a_v_objects_plugin_ga968c4e54cd5088bed83546338e44de6b}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!set\-Metadata@{set\-Metadata}}
+\index{set\-Metadata@{set\-Metadata}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{set\-Metadata}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-U\-A\-V\-Data\-Object\-::set\-Metadata} (
+\begin{DoxyParamCaption}
+\item[{const \-Metadata \&}]{mdata}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___u_a_v_objects_plugin_ga968c4e54cd5088bed83546338e44de6b}
+\-Set the object's metadata 
+
+\-Implements \hyperlink{group___u_a_v_objects_plugin_ga6cca5e5bf5d4f7ecfb03ef7cc9a93a95}{\-U\-A\-V\-Object}.
+
+
+
+\-Definition at line 70 of file uavdataobject.\-cpp.
+
+\hypertarget{group___u_a_v_objects_plugin_ga6cca5e5bf5d4f7ecfb03ef7cc9a93a95}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!set\-Metadata@{set\-Metadata}}
+\index{set\-Metadata@{set\-Metadata}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{set\-Metadata}]{\setlength{\rightskip}{0pt plus 5cm}virtual {\bf void} {\bf \-U\-A\-V\-Object\-::set\-Metadata} (
+\begin{DoxyParamCaption}
+\item[{const \-Metadata \&}]{mdata}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}pure virtual\mbox{]}}}}\label{group___u_a_v_objects_plugin_ga6cca5e5bf5d4f7ecfb03ef7cc9a93a95}
+
+
+\-Implemented in \hyperlink{group___u_a_v_objects_plugin_ga968c4e54cd5088bed83546338e44de6b}{\-U\-A\-V\-Data\-Object}, and \hyperlink{group___u_a_v_objects_plugin_ga714e256632f9fbd0aba5c6a9aaae422a}{\-U\-A\-V\-Meta\-Object}.
+
+\hypertarget{group___u_a_v_objects_plugin_gab647538e1956252e12841c42a54106c7}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!set\-Value@{set\-Value}}
+\index{set\-Value@{set\-Value}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{set\-Value}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-U\-A\-V\-Object\-Field\-::set\-Value} (
+\begin{DoxyParamCaption}
+\item[{const \-Q\-Variant \&}]{data, }
+\item[{quint32}]{index = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_objects_plugin_gab647538e1956252e12841c42a54106c7}
+
+
+\-Definition at line 949 of file uavobjectfield.\-cpp.
+
+\hypertarget{group___u_a_v_objects_plugin_gab62f36eaf3f542f980ef1d88c29bd05a}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!shutdown@{shutdown}}
+\index{shutdown@{shutdown}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{shutdown}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-U\-A\-V\-Objects\-Plugin\-::shutdown} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___u_a_v_objects_plugin_gab62f36eaf3f542f980ef1d88c29bd05a}
+\-Called during a shutdown sequence in the same order as initialization before the plugins get deleted in reverse order. \-This method can be used to optimize the shutdown down, e.\-g. to disconnect from the \-Plugin\-Manager\-::about\-To\-Remove\-Object() signal if getting the signal (and probably doing lots of stuff to update the internal and visible state) doesn't make sense during shutdown. 
+
+\-Reimplemented from \hyperlink{class_extension_system_1_1_i_plugin_a65c16ebd3a6e89918a99af6515fe68cb}{\-Extension\-System\-::\-I\-Plugin}.
+
+
+
+\-Definition at line 59 of file uavobjectsplugin.\-cpp.
+
+\hypertarget{group___u_a_v_objects_plugin_ga149341e646b59250818f980dce9fd601}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!to\-String@{to\-String}}
+\index{to\-String@{to\-String}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{to\-String}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Q\-String} {\bf \-U\-A\-V\-Object\-Field\-::to\-String} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_objects_plugin_ga149341e646b59250818f980dce9fd601}
+
+
+\-Definition at line 575 of file uavobjectfield.\-cpp.
+
+\hypertarget{group___u_a_v_objects_plugin_ga35168dca4d7a9e25bd117d52a66a2253}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!to\-String@{to\-String}}
+\index{to\-String@{to\-String}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{to\-String}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Q\-String} {\bf \-U\-A\-V\-Object\-::to\-String} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_objects_plugin_ga35168dca4d7a9e25bd117d52a66a2253}
+\-Return a string with the object information 
+
+\-Definition at line 445 of file uavobject.\-cpp.
+
+\hypertarget{group___u_a_v_objects_plugin_gadc4ce5f3b6b9ea7b5d0792bba38cd865}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!to\-String\-Brief@{to\-String\-Brief}}
+\index{to\-String\-Brief@{to\-String\-Brief}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{to\-String\-Brief}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Q\-String} {\bf \-U\-A\-V\-Object\-::to\-String\-Brief} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_objects_plugin_gadc4ce5f3b6b9ea7b5d0792bba38cd865}
+\-Return a string with the object information (only the header) 
+
+\-Definition at line 456 of file uavobject.\-cpp.
+
+\hypertarget{group___u_a_v_objects_plugin_gaba674d61ed55f37ab245564c6d05ec72}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!to\-String\-Data@{to\-String\-Data}}
+\index{to\-String\-Data@{to\-String\-Data}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{to\-String\-Data}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Q\-String} {\bf \-U\-A\-V\-Object\-::to\-String\-Data} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_objects_plugin_gaba674d61ed55f37ab245564c6d05ec72}
+\-Return a string with the object information (only the data) 
+
+\-Definition at line 471 of file uavobject.\-cpp.
+
+\hypertarget{group___u_a_v_objects_plugin_ga98ff6f0f25a431f4efce59fcbe9176e5}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!\-U\-A\-V\-Data\-Object@{\-U\-A\-V\-Data\-Object}}
+\index{\-U\-A\-V\-Data\-Object@{\-U\-A\-V\-Data\-Object}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{\-U\-A\-V\-Data\-Object}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-U\-A\-V\-Data\-Object\-::\-U\-A\-V\-Data\-Object} (
+\begin{DoxyParamCaption}
+\item[{quint32}]{obj\-I\-D, }
+\item[{bool}]{is\-Single\-Inst, }
+\item[{bool}]{is\-Set, }
+\item[{const {\bf \-Q\-String} \&}]{name}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_objects_plugin_ga98ff6f0f25a431f4efce59fcbe9176e5}
+\-Constructor 
+
+\-Definition at line 33 of file uavdataobject.\-cpp.
+
+\hypertarget{group___u_a_v_objects_plugin_ga82e8ae42383522ae0507b881d11abba5}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!\-U\-A\-V\-Meta\-Object@{\-U\-A\-V\-Meta\-Object}}
+\index{\-U\-A\-V\-Meta\-Object@{\-U\-A\-V\-Meta\-Object}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{\-U\-A\-V\-Meta\-Object}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-U\-A\-V\-Meta\-Object\-::\-U\-A\-V\-Meta\-Object} (
+\begin{DoxyParamCaption}
+\item[{quint32}]{obj\-I\-D, }
+\item[{const {\bf \-Q\-String} \&}]{name, }
+\item[{{\bf \-U\-A\-V\-Object} $\ast$}]{parent}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_objects_plugin_ga82e8ae42383522ae0507b881d11abba5}
+\-Constructor 
+
+\-Definition at line 34 of file uavmetaobject.\-cpp.
+
+\hypertarget{group___u_a_v_objects_plugin_gafee3b68612b44afbe6dd82f663126f09}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!\-U\-A\-V\-Object@{\-U\-A\-V\-Object}}
+\index{\-U\-A\-V\-Object@{\-U\-A\-V\-Object}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{\-U\-A\-V\-Object}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-U\-A\-V\-Object\-::\-U\-A\-V\-Object} (
+\begin{DoxyParamCaption}
+\item[{quint32}]{obj\-I\-D, }
+\item[{bool}]{is\-Single\-Inst, }
+\item[{const {\bf \-Q\-String} \&}]{name}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_objects_plugin_gafee3b68612b44afbe6dd82f663126f09}
+\-Constructor 
+\begin{DoxyParams}{\-Parameters}
+{\em obj\-I\-D} & \-The object \-I\-D \\
+\hline
+{\em is\-Single\-Inst} & \-True if this object can only have a single instance \\
+\hline
+{\em name} & \-Object name \\
+\hline
+\end{DoxyParams}
+
+
+\-Definition at line 50 of file uavobject.\-cpp.
+
+\hypertarget{group___u_a_v_objects_plugin_ga6ebca8c11d33d2984ef111420988e11d}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!\-U\-A\-V\-Object\-Field@{\-U\-A\-V\-Object\-Field}}
+\index{\-U\-A\-V\-Object\-Field@{\-U\-A\-V\-Object\-Field}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{\-U\-A\-V\-Object\-Field}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-U\-A\-V\-Object\-Field\-::\-U\-A\-V\-Object\-Field} (
+\begin{DoxyParamCaption}
+\item[{const {\bf \-Q\-String} \&}]{name, }
+\item[{const {\bf \-Q\-String} \&}]{units, }
+\item[{{\bf \-Field\-Type}}]{type, }
+\item[{quint32}]{num\-Elements, }
+\item[{const \-Q\-String\-List \&}]{options, }
+\item[{const {\bf \-Q\-String} \&}]{limits = {\ttfamily {\bf \-Q\-String}()}}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_objects_plugin_ga6ebca8c11d33d2984ef111420988e11d}
+
+
+\-Definition at line 32 of file uavobjectfield.\-cpp.
+
+\hypertarget{group___u_a_v_objects_plugin_ga9e178e25087b21a817679f18f3be1fa0}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!\-U\-A\-V\-Object\-Field@{\-U\-A\-V\-Object\-Field}}
+\index{\-U\-A\-V\-Object\-Field@{\-U\-A\-V\-Object\-Field}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{\-U\-A\-V\-Object\-Field}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-U\-A\-V\-Object\-Field\-::\-U\-A\-V\-Object\-Field} (
+\begin{DoxyParamCaption}
+\item[{const {\bf \-Q\-String} \&}]{name, }
+\item[{const {\bf \-Q\-String} \&}]{units, }
+\item[{{\bf \-Field\-Type}}]{type, }
+\item[{const \-Q\-String\-List \&}]{element\-Names, }
+\item[{const \-Q\-String\-List \&}]{options, }
+\item[{const {\bf \-Q\-String} \&}]{limits = {\ttfamily {\bf \-Q\-String}()}}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_objects_plugin_ga9e178e25087b21a817679f18f3be1fa0}
+
+
+\-Definition at line 45 of file uavobjectfield.\-cpp.
+
+\hypertarget{group___u_a_v_objects_plugin_ga407e523ca4304b00cc600c49f110e60a}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!\-U\-A\-V\-Object\-Manager@{\-U\-A\-V\-Object\-Manager}}
+\index{\-U\-A\-V\-Object\-Manager@{\-U\-A\-V\-Object\-Manager}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{\-U\-A\-V\-Object\-Manager}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-U\-A\-V\-Object\-Manager\-::\-U\-A\-V\-Object\-Manager} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_objects_plugin_ga407e523ca4304b00cc600c49f110e60a}
+\-Constructor 
+
+\-Definition at line 33 of file uavobjectmanager.\-cpp.
+
+\hypertarget{group___u_a_v_objects_plugin_ga8e1338dbe9b6e321c7255a704c4a2968}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!\-U\-A\-V\-O\-B\-J\-E\-C\-T\-S\-\_\-\-E\-X\-P\-O\-R\-T@{\-U\-A\-V\-O\-B\-J\-E\-C\-T\-S\-\_\-\-E\-X\-P\-O\-R\-T}}
+\index{\-U\-A\-V\-O\-B\-J\-E\-C\-T\-S\-\_\-\-E\-X\-P\-O\-R\-T@{\-U\-A\-V\-O\-B\-J\-E\-C\-T\-S\-\_\-\-E\-X\-P\-O\-R\-T}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{\-U\-A\-V\-O\-B\-J\-E\-C\-T\-S\-\_\-\-E\-X\-P\-O\-R\-T}]{\setlength{\rightskip}{0pt plus 5cm}class {\bf \-U\-A\-V\-O\-B\-J\-E\-C\-T\-S\-\_\-\-E\-X\-P\-O\-R\-T} (
+\begin{DoxyParamCaption}
+\item[{\-N\-A\-M\-E}]{}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_objects_plugin_ga8e1338dbe9b6e321c7255a704c4a2968}
+
+
+\-Definition at line 39 of file uavobjecttemplate.\-h.
+
+\hypertarget{group___u_a_v_objects_plugin_gaa5848573445b2e80691402f8bd9d2257}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!\-U\-A\-V\-Objects\-Initialize@{\-U\-A\-V\-Objects\-Initialize}}
+\index{\-U\-A\-V\-Objects\-Initialize@{\-U\-A\-V\-Objects\-Initialize}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{\-U\-A\-V\-Objects\-Initialize}]{\setlength{\rightskip}{0pt plus 5cm}\-O\-B\-J\-I\-N\-C {\bf void} {\bf \-U\-A\-V\-Objects\-Initialize} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-U\-A\-V\-Object\-Manager} $\ast$}]{obj\-Mngr}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_objects_plugin_gaa5848573445b2e80691402f8bd9d2257}
+\-Function used to initialize the first instance of each object. \-This file is automatically updated by the \-U\-A\-V\-Object\-Generator. 
+
+\-Definition at line 39 of file uavobjectsinittemplate.\-cpp.
+
+\hypertarget{group___u_a_v_objects_plugin_ga2345b6b23fc30557f18422344213a64d}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!\-U\-A\-V\-Objects\-Plugin@{\-U\-A\-V\-Objects\-Plugin}}
+\index{\-U\-A\-V\-Objects\-Plugin@{\-U\-A\-V\-Objects\-Plugin}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{\-U\-A\-V\-Objects\-Plugin}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-U\-A\-V\-Objects\-Plugin\-::\-U\-A\-V\-Objects\-Plugin} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_objects_plugin_ga2345b6b23fc30557f18422344213a64d}
+
+
+\-Definition at line 31 of file uavobjectsplugin.\-cpp.
+
+\hypertarget{group___u_a_v_objects_plugin_gaa646568941e8ce857e188b39c90cef6d}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!\-U\-A\-V\-Object\-Util\-Manager@{\-U\-A\-V\-Object\-Util\-Manager}}
+\index{\-U\-A\-V\-Object\-Util\-Manager@{\-U\-A\-V\-Object\-Util\-Manager}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{\-U\-A\-V\-Object\-Util\-Manager}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-U\-A\-V\-Object\-Util\-Manager\-::\-U\-A\-V\-Object\-Util\-Manager} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_objects_plugin_gaa646568941e8ce857e188b39c90cef6d}
+
+
+\-Definition at line 48 of file uavobjectutilmanager.\-cpp.
+
+\hypertarget{group___u_a_v_objects_plugin_ga2729ba3111341341127946ff1b9bb377}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!unlock@{unlock}}
+\index{unlock@{unlock}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{unlock}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-U\-A\-V\-Object\-::unlock} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_objects_plugin_ga2729ba3111341341127946ff1b9bb377}
+\-Unlock mutex of this object 
+
+\-Definition at line 209 of file uavobject.\-cpp.
+
+\hypertarget{group___u_a_v_objects_plugin_ga8223d7b605648a98c12d00ae43febd5c}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!unpack@{unpack}}
+\index{unpack@{unpack}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{unpack}]{\setlength{\rightskip}{0pt plus 5cm}qint32 {\bf \-U\-A\-V\-Object\-Field\-::unpack} (
+\begin{DoxyParamCaption}
+\item[{const quint8 $\ast$}]{data\-In}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_objects_plugin_ga8223d7b605648a98c12d00ae43febd5c}
+
+
+\-Definition at line 663 of file uavobjectfield.\-cpp.
+
+\hypertarget{group___u_a_v_objects_plugin_ga4ec5169680d4a03161752e98fd98a3b6}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!unpack@{unpack}}
+\index{unpack@{unpack}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{unpack}]{\setlength{\rightskip}{0pt plus 5cm}qint32 {\bf \-U\-A\-V\-Object\-::unpack} (
+\begin{DoxyParamCaption}
+\item[{const quint8 $\ast$}]{data\-In}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_objects_plugin_ga4ec5169680d4a03161752e98fd98a3b6}
+\-Unpack the object data from a byte array \begin{DoxyReturn}{\-Returns}
+\-The number of bytes copied 
+\end{DoxyReturn}
+
+
+\-Definition at line 281 of file uavobject.\-cpp.
+
+\hypertarget{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!void@{void}}
+\index{void@{void}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{void}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} (
+\begin{DoxyParamCaption}
+\item[{\-N\-A\-M\-E}]{}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}
+\-Initialize object fields with the default values. \-If a default value is not specified the object fields will be initialized to zero.
+
+\-Set the object data fields 
+
+\-Definition at line 86 of file uavobjecttemplate.\-cpp.
+
+\hypertarget{group___u_a_v_objects_plugin_ga0b1af95f366fc372f94307f59513933d}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!$\sim$\-U\-A\-V\-Object\-Manager@{$\sim$\-U\-A\-V\-Object\-Manager}}
+\index{$\sim$\-U\-A\-V\-Object\-Manager@{$\sim$\-U\-A\-V\-Object\-Manager}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{$\sim$\-U\-A\-V\-Object\-Manager}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-U\-A\-V\-Object\-Manager\-::$\sim$\-U\-A\-V\-Object\-Manager} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_objects_plugin_ga0b1af95f366fc372f94307f59513933d}
+
+
+\-Definition at line 38 of file uavobjectmanager.\-cpp.
+
+\hypertarget{group___u_a_v_objects_plugin_ga34b24d065eef797812c717bde15e7252}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!$\sim$\-U\-A\-V\-Objects\-Plugin@{$\sim$\-U\-A\-V\-Objects\-Plugin}}
+\index{$\sim$\-U\-A\-V\-Objects\-Plugin@{$\sim$\-U\-A\-V\-Objects\-Plugin}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{$\sim$\-U\-A\-V\-Objects\-Plugin}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-U\-A\-V\-Objects\-Plugin\-::$\sim$\-U\-A\-V\-Objects\-Plugin} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_objects_plugin_ga34b24d065eef797812c717bde15e7252}
+
+
+\-Definition at line 36 of file uavobjectsplugin.\-cpp.
+
+\hypertarget{group___u_a_v_objects_plugin_gaffdcd54a6b9ce6a7dcf10beb881f71a7}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!$\sim$\-U\-A\-V\-Object\-Util\-Manager@{$\sim$\-U\-A\-V\-Object\-Util\-Manager}}
+\index{$\sim$\-U\-A\-V\-Object\-Util\-Manager@{$\sim$\-U\-A\-V\-Object\-Util\-Manager}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{$\sim$\-U\-A\-V\-Object\-Util\-Manager}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-U\-A\-V\-Object\-Util\-Manager\-::$\sim$\-U\-A\-V\-Object\-Util\-Manager} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_objects_plugin_gaffdcd54a6b9ce6a7dcf10beb881f71a7}
+
+
+\-Definition at line 70 of file uavobjectutilmanager.\-cpp.
+
+
+
+\subsection{\-Variable \-Documentation}
+\hypertarget{group___u_a_v_objects_plugin_gae5d5e0653c652c0e50c62526f8fbee72}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!board@{board}}
+\index{board@{board}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{board}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf \-U\-A\-V\-Object\-Field\-::\-Limit\-Struct\-::board}}}\label{group___u_a_v_objects_plugin_gae5d5e0653c652c0e50c62526f8fbee72}
+
+
+\-Definition at line 51 of file uavobjectfield.\-h.
+
+\hypertarget{group___u_a_v_objects_plugin_gae96da3f59e51fb5c3ca43056bda4a63e}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!category@{category}}
+\index{category@{category}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{category}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Q\-String} {\bf \-U\-A\-V\-Object\-::category}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{group___u_a_v_objects_plugin_gae96da3f59e51fb5c3ca43056bda4a63e}
+
+
+\-Definition at line 169 of file uavobject.\-h.
+
+\hypertarget{group___u_a_v_objects_plugin_gae6a068d71cfd70f70c7e6fb10f217ca5}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!data@{data}}
+\index{data@{data}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{data}]{\setlength{\rightskip}{0pt plus 5cm}quint8$\ast$ {\bf \-U\-A\-V\-Object\-Field\-::data}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{group___u_a_v_objects_plugin_gae6a068d71cfd70f70c7e6fb10f217ca5}
+
+
+\-Definition at line 93 of file uavobjectfield.\-h.
+
+\hypertarget{group___u_a_v_objects_plugin_gadb2f4800bd3b6fb89c0f7c9fb67e49ff}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!data@{data}}
+\index{data@{data}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{data}]{\setlength{\rightskip}{0pt plus 5cm}quint8$\ast$ {\bf \-U\-A\-V\-Object\-::data}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{group___u_a_v_objects_plugin_gadb2f4800bd3b6fb89c0f7c9fb67e49ff}
+
+
+\-Definition at line 172 of file uavobject.\-h.
+
+\hypertarget{group___u_a_v_objects_plugin_gaeeb0e865791ad6b21d83ef571d1ce48b}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!description@{description}}
+\index{description@{description}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{description}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Q\-String} {\bf \-U\-A\-V\-Object\-::description}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{group___u_a_v_objects_plugin_gaeeb0e865791ad6b21d83ef571d1ce48b}
+
+
+\-Definition at line 168 of file uavobject.\-h.
+
+\hypertarget{group___u_a_v_objects_plugin_ga16abb7c1b891411815fe34473448b9ce}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!element\-Limits@{element\-Limits}}
+\index{element\-Limits@{element\-Limits}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{element\-Limits}]{\setlength{\rightskip}{0pt plus 5cm}\-Q\-Map$<$quint32, \-Q\-List$<$\-Limit\-Struct$>$ $>$ {\bf \-U\-A\-V\-Object\-Field\-::element\-Limits}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{group___u_a_v_objects_plugin_ga16abb7c1b891411815fe34473448b9ce}
+
+
+\-Definition at line 95 of file uavobjectfield.\-h.
+
+\hypertarget{group___u_a_v_objects_plugin_ga5849334da3325c4cac8625bb5910d57d}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!element\-Names@{element\-Names}}
+\index{element\-Names@{element\-Names}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{element\-Names}]{\setlength{\rightskip}{0pt plus 5cm}\-Q\-String\-List {\bf \-U\-A\-V\-Object\-Field\-::element\-Names}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{group___u_a_v_objects_plugin_ga5849334da3325c4cac8625bb5910d57d}
+
+
+\-Definition at line 88 of file uavobjectfield.\-h.
+
+\hypertarget{group___u_a_v_objects_plugin_gaafc65699167bc5cedfd058400e484df6}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!fields@{fields}}
+\index{fields@{fields}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{fields}]{\setlength{\rightskip}{0pt plus 5cm}\-Q\-List$<${\bf \-U\-A\-V\-Object\-Field}$\ast$$>$ {\bf \-U\-A\-V\-Object\-::fields}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{group___u_a_v_objects_plugin_gaafc65699167bc5cedfd058400e484df6}
+
+
+\-Definition at line 173 of file uavobject.\-h.
+
+\hypertarget{group___u_a_v_objects_plugin_gaf5421bbd1e8748b9f0f12ba5b6722bdd}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!flags@{flags}}
+\index{flags@{flags}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{flags}]{\setlength{\rightskip}{0pt plus 5cm}quint8 {\bf \-U\-A\-V\-Object\-::\-\_\-\-\_\-attribute\-\_\-\-\_\-\-::flags}}}\label{group___u_a_v_objects_plugin_gaf5421bbd1e8748b9f0f12ba5b6722bdd}
+
+
+\-Definition at line 93 of file uavobject.\-h.
+
+\hypertarget{group___u_a_v_objects_plugin_gaa29a38fd35ce73e9e4afd2698de44797}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!flight\-Telemetry\-Update\-Period@{flight\-Telemetry\-Update\-Period}}
+\index{flight\-Telemetry\-Update\-Period@{flight\-Telemetry\-Update\-Period}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{flight\-Telemetry\-Update\-Period}]{\setlength{\rightskip}{0pt plus 5cm}quint16 {\bf \-U\-A\-V\-Object\-::\-\_\-\-\_\-attribute\-\_\-\-\_\-\-::flight\-Telemetry\-Update\-Period}}}\label{group___u_a_v_objects_plugin_gaa29a38fd35ce73e9e4afd2698de44797}
+\-Defines flags for update and logging modes and whether an update should be \-A\-C\-K'd (bits defined above) 
+
+\-Definition at line 94 of file uavobject.\-h.
+
+\hypertarget{group___u_a_v_objects_plugin_ga3698244bb0c29537b3d26442624ee03b}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!gcs\-Telemetry\-Update\-Period@{gcs\-Telemetry\-Update\-Period}}
+\index{gcs\-Telemetry\-Update\-Period@{gcs\-Telemetry\-Update\-Period}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{gcs\-Telemetry\-Update\-Period}]{\setlength{\rightskip}{0pt plus 5cm}quint16 {\bf \-U\-A\-V\-Object\-::\-\_\-\-\_\-attribute\-\_\-\-\_\-\-::gcs\-Telemetry\-Update\-Period}}}\label{group___u_a_v_objects_plugin_ga3698244bb0c29537b3d26442624ee03b}
+\-Update period used by the telemetry module (only if telemetry mode is \-P\-E\-R\-I\-O\-D\-I\-C) 
+
+\-Definition at line 95 of file uavobject.\-h.
+
+\hypertarget{group___u_a_v_objects_plugin_gad8d656542a04e9fbef607ff178f6d9d3}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!inst\-I\-D@{inst\-I\-D}}
+\index{inst\-I\-D@{inst\-I\-D}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{inst\-I\-D}]{\setlength{\rightskip}{0pt plus 5cm}quint32 {\bf \-U\-A\-V\-Object\-::inst\-I\-D}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{group___u_a_v_objects_plugin_gad8d656542a04e9fbef607ff178f6d9d3}
+
+
+\-Definition at line 165 of file uavobject.\-h.
+
+\hypertarget{group___u_a_v_objects_plugin_gaa279cad3a000cc930e7f386672426bcb}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!is\-Single\-Inst@{is\-Single\-Inst}}
+\index{is\-Single\-Inst@{is\-Single\-Inst}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{is\-Single\-Inst}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-U\-A\-V\-Object\-::is\-Single\-Inst}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{group___u_a_v_objects_plugin_gaa279cad3a000cc930e7f386672426bcb}
+
+
+\-Definition at line 166 of file uavobject.\-h.
+
+\hypertarget{group___u_a_v_objects_plugin_gad4c54f8af5beeb9dc2bbe402c9f01299}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!logging\-Update\-Period@{logging\-Update\-Period}}
+\index{logging\-Update\-Period@{logging\-Update\-Period}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{logging\-Update\-Period}]{\setlength{\rightskip}{0pt plus 5cm}quint16 {\bf \-U\-A\-V\-Object\-::\-\_\-\-\_\-attribute\-\_\-\-\_\-\-::logging\-Update\-Period}}}\label{group___u_a_v_objects_plugin_gad4c54f8af5beeb9dc2bbe402c9f01299}
+\-Update period used by the \-G\-C\-S (only if telemetry mode is \-P\-E\-R\-I\-O\-D\-I\-C) 
+
+\-Definition at line 96 of file uavobject.\-h.
+
+\hypertarget{group___u_a_v_objects_plugin_gacf8a1ff5bac6d34fc1d7192a86194361}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!mutex@{mutex}}
+\index{mutex@{mutex}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{mutex}]{\setlength{\rightskip}{0pt plus 5cm}\-Q\-Mutex$\ast$ {\bf \-U\-A\-V\-Object\-::mutex}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{group___u_a_v_objects_plugin_gacf8a1ff5bac6d34fc1d7192a86194361}
+
+
+\-Definition at line 171 of file uavobject.\-h.
+
+\hypertarget{group___u_a_v_objects_plugin_ga9909de3b60e1a954d7356cfc61357b30}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!name@{name}}
+\index{name@{name}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{name}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Q\-String} {\bf \-U\-A\-V\-Object\-Field\-::name}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{group___u_a_v_objects_plugin_ga9909de3b60e1a954d7356cfc61357b30}
+
+
+\-Definition at line 85 of file uavobjectfield.\-h.
+
+\hypertarget{group___u_a_v_objects_plugin_gadf898ed0961464f4a3f8e05fb28019f5}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!name@{name}}
+\index{name@{name}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{name}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Q\-String} {\bf \-U\-A\-V\-Object\-::name}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{group___u_a_v_objects_plugin_gadf898ed0961464f4a3f8e05fb28019f5}
+
+
+\-Definition at line 167 of file uavobject.\-h.
+
+\hypertarget{group___u_a_v_objects_plugin_ga260cfb19e663f64d51ba1258e760a207}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!num\-Bytes@{num\-Bytes}}
+\index{num\-Bytes@{num\-Bytes}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{num\-Bytes}]{\setlength{\rightskip}{0pt plus 5cm}quint32 {\bf \-U\-A\-V\-Object\-::num\-Bytes}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{group___u_a_v_objects_plugin_ga260cfb19e663f64d51ba1258e760a207}
+
+
+\-Definition at line 170 of file uavobject.\-h.
+
+\hypertarget{group___u_a_v_objects_plugin_gaed675e1711f18b1ab737f9e8e55dca35}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!num\-Bytes\-Per\-Element@{num\-Bytes\-Per\-Element}}
+\index{num\-Bytes\-Per\-Element@{num\-Bytes\-Per\-Element}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{num\-Bytes\-Per\-Element}]{\setlength{\rightskip}{0pt plus 5cm}quint32 {\bf \-U\-A\-V\-Object\-Field\-::num\-Bytes\-Per\-Element}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{group___u_a_v_objects_plugin_gaed675e1711f18b1ab737f9e8e55dca35}
+
+
+\-Definition at line 91 of file uavobjectfield.\-h.
+
+\hypertarget{group___u_a_v_objects_plugin_gaa82f6e1f5deca501c58b45d902be0ef4}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!num\-Elements@{num\-Elements}}
+\index{num\-Elements@{num\-Elements}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{num\-Elements}]{\setlength{\rightskip}{0pt plus 5cm}quint32 {\bf \-U\-A\-V\-Object\-Field\-::num\-Elements}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{group___u_a_v_objects_plugin_gaa82f6e1f5deca501c58b45d902be0ef4}
+
+
+\-Definition at line 90 of file uavobjectfield.\-h.
+
+\hypertarget{group___u_a_v_objects_plugin_ga750b9ade4270026bd2d02d37468597b5}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!obj@{obj}}
+\index{obj@{obj}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{obj}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-U\-A\-V\-Object}$\ast$ {\bf \-U\-A\-V\-Object\-Field\-::obj}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{group___u_a_v_objects_plugin_ga750b9ade4270026bd2d02d37468597b5}
+
+
+\-Definition at line 94 of file uavobjectfield.\-h.
+
+\hypertarget{group___u_a_v_objects_plugin_gafc50acdaa311c9fd9aaddf90fd578c14}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!obj\-I\-D@{obj\-I\-D}}
+\index{obj\-I\-D@{obj\-I\-D}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{obj\-I\-D}]{\setlength{\rightskip}{0pt plus 5cm}quint32 {\bf \-U\-A\-V\-Object\-::obj\-I\-D}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{group___u_a_v_objects_plugin_gafc50acdaa311c9fd9aaddf90fd578c14}
+
+
+\-Definition at line 164 of file uavobject.\-h.
+
+\hypertarget{group___u_a_v_objects_plugin_ga8d473734be71fe3a3dbcd1a854b497f2}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!offset@{offset}}
+\index{offset@{offset}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{offset}]{\setlength{\rightskip}{0pt plus 5cm}quint32 {\bf \-U\-A\-V\-Object\-Field\-::offset}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{group___u_a_v_objects_plugin_ga8d473734be71fe3a3dbcd1a854b497f2}
+
+
+\-Definition at line 92 of file uavobjectfield.\-h.
+
+\hypertarget{group___u_a_v_objects_plugin_ga97fe1c3ed2d74eb06ea7e24abf4ce09c}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!options@{options}}
+\index{options@{options}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{options}]{\setlength{\rightskip}{0pt plus 5cm}\-Q\-String\-List {\bf \-U\-A\-V\-Object\-Field\-::options}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{group___u_a_v_objects_plugin_ga97fe1c3ed2d74eb06ea7e24abf4ce09c}
+
+
+\-Definition at line 89 of file uavobjectfield.\-h.
+
+\hypertarget{group___u_a_v_objects_plugin_ga7f346cc2754bc63a0a0ae587b183b3ff}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!type@{type}}
+\index{type@{type}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{type}]{\setlength{\rightskip}{0pt plus 5cm}\-Limit\-Type {\bf \-U\-A\-V\-Object\-Field\-::\-Limit\-Struct\-::type}}}\label{group___u_a_v_objects_plugin_ga7f346cc2754bc63a0a0ae587b183b3ff}
+
+
+\-Definition at line 49 of file uavobjectfield.\-h.
+
+\hypertarget{group___u_a_v_objects_plugin_gad84e6c3a333d2c62b5159936e42fb737}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!type@{type}}
+\index{type@{type}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{type}]{\setlength{\rightskip}{0pt plus 5cm}\-Field\-Type {\bf \-U\-A\-V\-Object\-Field\-::type}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{group___u_a_v_objects_plugin_gad84e6c3a333d2c62b5159936e42fb737}
+
+
+\-Definition at line 87 of file uavobjectfield.\-h.
+
+\hypertarget{group___u_a_v_objects_plugin_ga1ecf5fdaab2ac408b67623d5d75368c5}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!units@{units}}
+\index{units@{units}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{units}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Q\-String} {\bf \-U\-A\-V\-Object\-Field\-::units}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{group___u_a_v_objects_plugin_ga1ecf5fdaab2ac408b67623d5d75368c5}
+
+
+\-Definition at line 86 of file uavobjectfield.\-h.
+
+\hypertarget{group___u_a_v_objects_plugin_ga27188ffa94eb6c560765dd56b0471561}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!values@{values}}
+\index{values@{values}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{values}]{\setlength{\rightskip}{0pt plus 5cm}\-Q\-List$<$\-Q\-Variant$>$ {\bf \-U\-A\-V\-Object\-Field\-::\-Limit\-Struct\-::values}}}\label{group___u_a_v_objects_plugin_ga27188ffa94eb6c560765dd56b0471561}
+
+
+\-Definition at line 50 of file uavobjectfield.\-h.
+
+
+
+\subsection{\-Signals}
+\hypertarget{group___u_a_v_objects_plugin_gaf343ab5f4e4710c85cd7977ae7563ca1}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!completed\-Metadata\-Write@{completed\-Metadata\-Write}}
+\index{completed\-Metadata\-Write@{completed\-Metadata\-Write}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{completed\-Metadata\-Write}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-U\-A\-V\-Object\-Util\-Manager\-::completed\-Metadata\-Write} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}signal\mbox{]}}}}\label{group___u_a_v_objects_plugin_gaf343ab5f4e4710c85cd7977ae7563ca1}
+\hypertarget{group___u_a_v_objects_plugin_ga03a1f1534e4c805d091fc17e9ab5ad14}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!field\-Updated@{field\-Updated}}
+\index{field\-Updated@{field\-Updated}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{field\-Updated}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-U\-A\-V\-Object\-Field\-::field\-Updated} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-U\-A\-V\-Object\-Field} $\ast$}]{field}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}signal\mbox{]}}}}\label{group___u_a_v_objects_plugin_ga03a1f1534e4c805d091fc17e9ab5ad14}
+\hypertarget{group___u_a_v_objects_plugin_ga7787ebe5de616d95116d5a4b360b6773}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!new\-Instance@{new\-Instance}}
+\index{new\-Instance@{new\-Instance}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{new\-Instance}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-U\-A\-V\-Object\-Manager\-::new\-Instance} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-U\-A\-V\-Object} $\ast$}]{obj}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}signal\mbox{]}}}}\label{group___u_a_v_objects_plugin_ga7787ebe5de616d95116d5a4b360b6773}
+\hypertarget{group___u_a_v_objects_plugin_gadf709e4ec60d0dfc3cc4a12012c400f3}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!new\-Instance@{new\-Instance}}
+\index{new\-Instance@{new\-Instance}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{new\-Instance}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-U\-A\-V\-Object\-::new\-Instance} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-U\-A\-V\-Object} $\ast$}]{obj}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}signal\mbox{]}}}}\label{group___u_a_v_objects_plugin_gadf709e4ec60d0dfc3cc4a12012c400f3}
+\hypertarget{group___u_a_v_objects_plugin_gaf8c983e30ce7ebac3d4ef742d427b8fe}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!new\-Object@{new\-Object}}
+\index{new\-Object@{new\-Object}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{new\-Object}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-U\-A\-V\-Object\-Manager\-::new\-Object} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-U\-A\-V\-Object} $\ast$}]{obj}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}signal\mbox{]}}}}\label{group___u_a_v_objects_plugin_gaf8c983e30ce7ebac3d4ef742d427b8fe}
+\hypertarget{group___u_a_v_objects_plugin_ga2b9ae613f54e59b358dbf2e31d32d9ad}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!object\-Unpacked@{object\-Unpacked}}
+\index{object\-Unpacked@{object\-Unpacked}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{object\-Unpacked}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-U\-A\-V\-Object\-::object\-Unpacked} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-U\-A\-V\-Object} $\ast$}]{obj}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}signal\mbox{]}}}}\label{group___u_a_v_objects_plugin_ga2b9ae613f54e59b358dbf2e31d32d9ad}
+\hypertarget{group___u_a_v_objects_plugin_ga9aac3ae5395f63249cd821e0e5be5bf2}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!object\-Updated@{object\-Updated}}
+\index{object\-Updated@{object\-Updated}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{object\-Updated}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-U\-A\-V\-Object\-::object\-Updated} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-U\-A\-V\-Object} $\ast$}]{obj}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}signal\mbox{]}}}}\label{group___u_a_v_objects_plugin_ga9aac3ae5395f63249cd821e0e5be5bf2}
+\hypertarget{group___u_a_v_objects_plugin_ga568cdde04946e82d60a3707fefdd2572}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!object\-Updated\-Auto@{object\-Updated\-Auto}}
+\index{object\-Updated\-Auto@{object\-Updated\-Auto}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{object\-Updated\-Auto}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-U\-A\-V\-Object\-::object\-Updated\-Auto} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-U\-A\-V\-Object} $\ast$}]{obj}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}signal\mbox{]}}}}\label{group___u_a_v_objects_plugin_ga568cdde04946e82d60a3707fefdd2572}
+\hypertarget{group___u_a_v_objects_plugin_ga347d21d00c26e23b58dae5510bdc3a7d}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!object\-Updated\-Manual@{object\-Updated\-Manual}}
+\index{object\-Updated\-Manual@{object\-Updated\-Manual}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{object\-Updated\-Manual}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-U\-A\-V\-Object\-::object\-Updated\-Manual} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-U\-A\-V\-Object} $\ast$}]{obj}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}signal\mbox{]}}}}\label{group___u_a_v_objects_plugin_ga347d21d00c26e23b58dae5510bdc3a7d}
+\hypertarget{group___u_a_v_objects_plugin_ga1ba37e7a5eafe1d5a598b2dfb877d2f0}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!object\-Updated\-Periodic@{object\-Updated\-Periodic}}
+\index{object\-Updated\-Periodic@{object\-Updated\-Periodic}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{object\-Updated\-Periodic}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-U\-A\-V\-Object\-::object\-Updated\-Periodic} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-U\-A\-V\-Object} $\ast$}]{obj}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}signal\mbox{]}}}}\label{group___u_a_v_objects_plugin_ga1ba37e7a5eafe1d5a598b2dfb877d2f0}
+\hypertarget{group___u_a_v_objects_plugin_ga34993cd463a734315dd04903a4e2de24}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!save\-Completed@{save\-Completed}}
+\index{save\-Completed@{save\-Completed}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{save\-Completed}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-U\-A\-V\-Object\-Util\-Manager\-::save\-Completed} (
+\begin{DoxyParamCaption}
+\item[{int}]{object\-I\-D, }
+\item[{bool}]{status}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}signal\mbox{]}}}}\label{group___u_a_v_objects_plugin_ga34993cd463a734315dd04903a4e2de24}
+\hypertarget{group___u_a_v_objects_plugin_gafac716c4828b4506f6982f79fc7827c2}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!transaction\-Completed@{transaction\-Completed}}
+\index{transaction\-Completed@{transaction\-Completed}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{transaction\-Completed}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-U\-A\-V\-Object\-::transaction\-Completed} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-U\-A\-V\-Object} $\ast$}]{obj, }
+\item[{bool}]{success}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}signal\mbox{]}}}}\label{group___u_a_v_objects_plugin_gafac716c4828b4506f6982f79fc7827c2}
+\hypertarget{group___u_a_v_objects_plugin_ga13ce31a6262476db602eec857d9b40c1}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!update\-Requested@{update\-Requested}}
+\index{update\-Requested@{update\-Requested}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{update\-Requested}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-U\-A\-V\-Object\-::update\-Requested} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-U\-A\-V\-Object} $\ast$}]{obj}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}signal\mbox{]}}}}\label{group___u_a_v_objects_plugin_ga13ce31a6262476db602eec857d9b40c1}
+
+
+\subsection{\-Public \-Slots}
+\hypertarget{group___u_a_v_objects_plugin_ga6018820b37db308fb1ee1b3c3ff4f9a0}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!request\-Update@{request\-Update}}
+\index{request\-Update@{request\-Update}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{request\-Update}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-U\-A\-V\-Object\-::request\-Update} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}slot\mbox{]}}}}\label{group___u_a_v_objects_plugin_ga6018820b37db308fb1ee1b3c3ff4f9a0}
+\-Request that this object is updated with the latest values from the autopilot 
+
+\-Definition at line 176 of file uavobject.\-cpp.
+
+\hypertarget{group___u_a_v_objects_plugin_ga295ff9d6b0c01a6a8809a4cf9eb027cc}{\index{\-U\-A\-V\-Objects Plugin@{\-U\-A\-V\-Objects Plugin}!updated@{updated}}
+\index{updated@{updated}!UAVObjects Plugin@{\-U\-A\-V\-Objects Plugin}}
+\subsubsection[{updated}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-U\-A\-V\-Object\-::updated} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}slot\mbox{]}}}}\label{group___u_a_v_objects_plugin_ga295ff9d6b0c01a6a8809a4cf9eb027cc}
+\-Signal that the object has been updated 
+
+\-Definition at line 184 of file uavobject.\-cpp.
+

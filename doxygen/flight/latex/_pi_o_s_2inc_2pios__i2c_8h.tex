@@ -1,0 +1,37 @@
+\hypertarget{_pi_o_s_2inc_2pios__i2c_8h}{\section{/home/jb/code/\-Tau\-Labs/flight/\-Pi\-O\-S/inc/pios\-\_\-i2c.h \-File \-Reference}
+\label{_pi_o_s_2inc_2pios__i2c_8h}\index{/home/jb/code/\-Tau\-Labs/flight/\-Pi\-O\-S/inc/pios\-\_\-i2c.\-h@{/home/jb/code/\-Tau\-Labs/flight/\-Pi\-O\-S/inc/pios\-\_\-i2c.\-h}}
+}
+\subsection*{\-Data \-Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structpios__i2c__txn}{pios\-\_\-i2c\-\_\-txn}
+\item 
+struct \hyperlink{structpios__i2c__fault__history}{pios\-\_\-i2c\-\_\-fault\-\_\-history}
+\end{DoxyCompactItemize}
+\subsection*{\-Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{group___p_i_o_s___i2_c_ga317e7ea68e21f759a0326df96f278a2b}{pios\-\_\-i2c\-\_\-txn\-\_\-direction} \{ \hyperlink{group___p_i_o_s___i2_c_gga317e7ea68e21f759a0326df96f278a2bad792429208f1a6cfeccea519a221c4c2}{\-P\-I\-O\-S\-\_\-\-I2\-C\-\_\-\-T\-X\-N\-\_\-\-R\-E\-A\-D}, 
+\hyperlink{group___p_i_o_s___i2_c_gga317e7ea68e21f759a0326df96f278a2ba46f0bf6cbe98473562192f85efa6dfca}{\-P\-I\-O\-S\-\_\-\-I2\-C\-\_\-\-T\-X\-N\-\_\-\-W\-R\-I\-T\-E}
+ \}
+\item 
+enum \hyperlink{group___p_i_o_s___i2_c_gace4c564ee87e97a12bf76c69b113b230}{pios\-\_\-i2c\-\_\-error\-\_\-type} \{ \hyperlink{group___p_i_o_s___i2_c_ggace4c564ee87e97a12bf76c69b113b230a7652a614c638dd5c4118f5fed79f5891}{\-P\-I\-O\-S\-\_\-\-I2\-C\-\_\-\-E\-R\-R\-O\-R\-\_\-\-E\-V\-E\-N\-T}, 
+\hyperlink{group___p_i_o_s___i2_c_ggace4c564ee87e97a12bf76c69b113b230ad118dc6496d40c8ab841a5552d1e8502}{\-P\-I\-O\-S\-\_\-\-I2\-C\-\_\-\-E\-R\-R\-O\-R\-\_\-\-F\-S\-M}, 
+\hyperlink{group___p_i_o_s___i2_c_ggace4c564ee87e97a12bf76c69b113b230a5c7272b41a6bc0595c2e7408233eefda}{\-P\-I\-O\-S\-\_\-\-I2\-C\-\_\-\-E\-R\-R\-O\-R\-\_\-\-I\-N\-T\-E\-R\-R\-U\-P\-T}
+ \}
+\end{DoxyCompactItemize}
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___i2_c_gaaabd7d33d122ee5c6b33779b1302a84f}{\-P\-I\-O\-S\-\_\-\-I2\-C\-\_\-\-Check\-Clear} (uint32\-\_\-t i2c\-\_\-id)
+\begin{DoxyCompactList}\small\item\em \-Check the \-I2\-C bus is clear and in a properly reset state. \end{DoxyCompactList}\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___i2_c_ga82be0a46a98ad8ed6609e4f2dd27ae46}{\-P\-I\-O\-S\-\_\-\-I2\-C\-\_\-\-Transfer} (uint32\-\_\-t i2c\-\_\-id, const struct \hyperlink{structpios__i2c__txn}{pios\-\_\-i2c\-\_\-txn} txn\-\_\-list\mbox{[}$\,$\mbox{]}, uint32\-\_\-t num\-\_\-txns)
+\begin{DoxyCompactList}\small\item\em \-Perform a series of \-I2\-C transactions. \end{DoxyCompactList}\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___i2_c_ga29a3d795901b2ad013a11454cd587e57}{\-P\-I\-O\-S\-\_\-\-I2\-C\-\_\-\-Transfer\-\_\-\-Callback} (uint32\-\_\-t i2c\-\_\-id, const struct \hyperlink{structpios__i2c__txn}{pios\-\_\-i2c\-\_\-txn} txn\-\_\-list\mbox{[}$\,$\mbox{]}, uint32\-\_\-t num\-\_\-txns, void $\ast$callback)
+\item 
+void \hyperlink{group___p_i_o_s___i2_c_ga779ac2da156f2d9720d8e526bf05edb4}{\-P\-I\-O\-S\-\_\-\-I2\-C\-\_\-\-E\-V\-\_\-\-I\-R\-Q\-\_\-\-Handler} (uint32\-\_\-t i2c\-\_\-id)
+\item 
+void \hyperlink{group___p_i_o_s___i2_c_ga3039907b5945c06d4c27e756647fa75c}{\-P\-I\-O\-S\-\_\-\-I2\-C\-\_\-\-E\-R\-\_\-\-I\-R\-Q\-\_\-\-Handler} (uint32\-\_\-t i2c\-\_\-id)
+\item 
+void \hyperlink{group___p_i_o_s___i2_c_ga6a77173f087765671ea1e440471637a5}{\-P\-I\-O\-S\-\_\-\-I2\-C\-\_\-\-Get\-Diagnostics} (struct \hyperlink{structpios__i2c__fault__history}{pios\-\_\-i2c\-\_\-fault\-\_\-history} $\ast$data, uint8\-\_\-t $\ast$error\-\_\-counts)
+\end{DoxyCompactItemize}

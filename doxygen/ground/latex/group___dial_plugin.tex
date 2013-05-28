@@ -1,0 +1,1444 @@
+\hypertarget{group___dial_plugin}{\section{\-Dial \-Plugin}
+\label{group___dial_plugin}\index{\-Dial Plugin@{\-Dial Plugin}}
+}
+
+
+\-Plots flight information rotary style dials.  
+
+
+\subsection*{\-Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{class_dial_gadget}{\-Dial\-Gadget}
+\item 
+class \hyperlink{class_dial_gadget_configuration}{\-Dial\-Gadget\-Configuration}
+\item 
+class \hyperlink{class_dial_gadget_factory}{\-Dial\-Gadget\-Factory}
+\item 
+class \hyperlink{class_dial_gadget_options_page}{\-Dial\-Gadget\-Options\-Page}
+\item 
+class \hyperlink{class_dial_gadget_widget}{\-Dial\-Gadget\-Widget}
+\item 
+class \hyperlink{class_dial_plugin}{\-Dial\-Plugin}
+\end{DoxyCompactItemize}
+\subsection*{\-Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+namespace \hyperlink{namespace_core}{\-Core}
+\begin{DoxyCompactList}\small\item\em \-The \hyperlink{namespace_core}{\-Core} namespace contains all classes that make up the \hyperlink{namespace_core}{\-Core} plugin which constitute the basic functionality of the \-Tau \-Labs \-G\-C\-S. \end{DoxyCompactList}\item 
+namespace \hyperlink{namespace_ui}{\-Ui}
+\end{DoxyCompactItemize}
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___dial_plugin_gaef5c9e1077a9a230622054bcc5337958}{\-Dial\-Gadget\-::\-Dial\-Gadget} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} class\-Id, \hyperlink{class_dial_gadget_widget}{\-Dial\-Gadget\-Widget} $\ast$widget, \-Q\-Widget $\ast$parent=0)
+\item 
+\hyperlink{group___dial_plugin_ga9fc6ec1cdb4ac0de853c9b35950c4d11}{\-Dial\-Gadget\-::$\sim$\-Dial\-Gadget} ()
+\item 
+\-Q\-Widget $\ast$ \hyperlink{group___dial_plugin_ga1afd77bac7b60ceae978b7e74f9eddee}{\-Dial\-Gadget\-::widget} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___dial_plugin_ga571fd73249a763cfe4850be854e3dbc6}{\-Dial\-Gadget\-::load\-Configuration} (\-I\-U\-A\-V\-Gadget\-Configuration $\ast$config)
+\item 
+\hyperlink{group___dial_plugin_ga5818a8a26f5b9e63b9bc37f459ca6594}{\-Dial\-Gadget\-Configuration\-::\-Dial\-Gadget\-Configuration} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} class\-Id, \-Q\-Settings $\ast$q\-Settings=0, \-Q\-Object $\ast$parent=0)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___dial_plugin_ga7172a5e20f324dd2e11a31167ee87a9a}{\-Dial\-Gadget\-Configuration\-::set\-Dial\-File} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} dial\-File)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___dial_plugin_gaed251d96de4cea86a69a9b52529c5c69}{\-Dial\-Gadget\-Configuration\-::set\-Dial\-Background\-I\-D} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} element\-I\-D)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___dial_plugin_gae2dfdc5ebf459904a68d37b1401bf723}{\-Dial\-Gadget\-Configuration\-::set\-Dial\-Foreground\-I\-D} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} element\-I\-D)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___dial_plugin_ga348ba33a6676d7777a8fb313029f71a0}{\-Dial\-Gadget\-Configuration\-::set\-Dial\-Needle\-I\-D1} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} element\-I\-D)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___dial_plugin_ga10bf865d3762437b52c122ca25827bf1}{\-Dial\-Gadget\-Configuration\-::set\-Dial\-Needle\-I\-D2} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} element\-I\-D)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___dial_plugin_gaa9309c52e9b730a340f1c28ec1dc8a51}{\-Dial\-Gadget\-Configuration\-::set\-Dial\-Needle\-I\-D3} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} element\-I\-D)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___dial_plugin_ga012a4909a3cf65e08b6b5891fa2ccf4a}{\-Dial\-Gadget\-Configuration\-::set\-N1\-Min} (double val)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___dial_plugin_ga554dde8a86360b5dc635b42a4cf2ae9d}{\-Dial\-Gadget\-Configuration\-::set\-N2\-Min} (double val)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___dial_plugin_ga91592b4ed5f14cfe3a86cd4aca76772e}{\-Dial\-Gadget\-Configuration\-::set\-N3\-Min} (double val)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___dial_plugin_ga33eb2b4ead9a0ca8a72912fa67dd8c30}{\-Dial\-Gadget\-Configuration\-::set\-N1\-Max} (double val)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___dial_plugin_gaff758445779de3b3d7830a3fb88b7bd9}{\-Dial\-Gadget\-Configuration\-::set\-N2\-Max} (double val)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___dial_plugin_ga56e1a76d56367c9fcbeb323249e2f312}{\-Dial\-Gadget\-Configuration\-::set\-N3\-Max} (double val)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___dial_plugin_ga78b0923ff5842e3ed9ae978c3f8b6e59}{\-Dial\-Gadget\-Configuration\-::set\-N1\-Factor} (double val)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___dial_plugin_ga19e6a70f832cf38dc0a2c23afb913d46}{\-Dial\-Gadget\-Configuration\-::set\-N2\-Factor} (double val)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___dial_plugin_ga69893e122abbca6ece29cd03599ad835}{\-Dial\-Gadget\-Configuration\-::set\-N3\-Factor} (double val)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___dial_plugin_gad90ade71a9ef68f26845bfcbbcc3ab88}{\-Dial\-Gadget\-Configuration\-::set\-N1\-Data\-Object} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} text)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___dial_plugin_gabdb2265759ad99baafa28269fb905b38}{\-Dial\-Gadget\-Configuration\-::set\-N2\-Data\-Object} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} text)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___dial_plugin_ga23d0f11456823786d98a8112a0bc0120}{\-Dial\-Gadget\-Configuration\-::set\-N3\-Data\-Object} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} text)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___dial_plugin_gaecfcaa8536ab2e38ca7a6af12a227156}{\-Dial\-Gadget\-Configuration\-::set\-N1\-Obj\-Field} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} text)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___dial_plugin_gac0387a18967fde0687fd8d2f831fdd7c}{\-Dial\-Gadget\-Configuration\-::set\-N2\-Obj\-Field} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} text)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___dial_plugin_ga7704e9b8d322543225f40ea1f3ae3334}{\-Dial\-Gadget\-Configuration\-::set\-N3\-Obj\-Field} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} text)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___dial_plugin_ga3b18986c8923f654c2d96264c83680ab}{\-Dial\-Gadget\-Configuration\-::set\-N1\-Move} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} move)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___dial_plugin_ga8911ebe0b8060adf4367ee83e60e6be0}{\-Dial\-Gadget\-Configuration\-::set\-N2\-Move} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} move)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___dial_plugin_gab3b13cd0273de0927111f2b4c9015acf}{\-Dial\-Gadget\-Configuration\-::set\-N3\-Move} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} move)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___dial_plugin_gac7f0dd4dde127d6f25a890857043ee35}{\-Dial\-Gadget\-Configuration\-::set\-Font} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} text)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___dial_plugin_ga79a2b263eb6aa6c3508f4192d8b7a7b4}{\-Dial\-Gadget\-Configuration\-::set\-Use\-Open\-G\-L} (bool flag)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___dial_plugin_ga958d33239455e1f84b248fb6ca6210df}{\-Dial\-Gadget\-Configuration\-::set\-Be\-Smooth} (bool flag)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___dial_plugin_ga620e44289c1d546a4fdd1c604d889eaa}{\-Dial\-Gadget\-Configuration\-::dial\-File} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___dial_plugin_ga42da3303d7a4c92c6123be6942435f47}{\-Dial\-Gadget\-Configuration\-::dial\-Background} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___dial_plugin_ga516d8434f4958c9501f14624621908b8}{\-Dial\-Gadget\-Configuration\-::dial\-Foreground} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___dial_plugin_ga30ac2e08e3864b71a35da761cfdcfc5e}{\-Dial\-Gadget\-Configuration\-::dial\-Needle1} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___dial_plugin_ga08a35848cfbe48ecdb7c63f3a3f461b8}{\-Dial\-Gadget\-Configuration\-::dial\-Needle2} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___dial_plugin_gacca23f23b817f81e3956ef1bb758dcd7}{\-Dial\-Gadget\-Configuration\-::dial\-Needle3} ()
+\item 
+double \hyperlink{group___dial_plugin_ga09c2b5e2f5c5666cb9f0a0fde52dbb8f}{\-Dial\-Gadget\-Configuration\-::get\-N1\-Min} ()
+\item 
+double \hyperlink{group___dial_plugin_ga0d4493d4a59c40439e7d22de908b5f81}{\-Dial\-Gadget\-Configuration\-::get\-N2\-Min} ()
+\item 
+double \hyperlink{group___dial_plugin_ga4006135115987335ad060540e13b84c6}{\-Dial\-Gadget\-Configuration\-::get\-N3\-Min} ()
+\item 
+double \hyperlink{group___dial_plugin_ga8a4ca5378ff9f7cbbbaa8606d12969b9}{\-Dial\-Gadget\-Configuration\-::get\-N1\-Max} ()
+\item 
+double \hyperlink{group___dial_plugin_ga555504dee11630dd0129fbac45ede1b7}{\-Dial\-Gadget\-Configuration\-::get\-N2\-Max} ()
+\item 
+double \hyperlink{group___dial_plugin_ga3f7e435241bf176b23d3fa49ca1c18ee}{\-Dial\-Gadget\-Configuration\-::get\-N3\-Max} ()
+\item 
+double \hyperlink{group___dial_plugin_ga760d22b7741ef7b0a7796ccf47779137}{\-Dial\-Gadget\-Configuration\-::get\-N1\-Factor} ()
+\item 
+double \hyperlink{group___dial_plugin_ga89ad791b4b244008b6dfde880dd325bf}{\-Dial\-Gadget\-Configuration\-::get\-N2\-Factor} ()
+\item 
+double \hyperlink{group___dial_plugin_gad5c42344ef84fcb60ca310ba8480a141}{\-Dial\-Gadget\-Configuration\-::get\-N3\-Factor} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___dial_plugin_ga47479787c12078cbe5a51eed6ce29254}{\-Dial\-Gadget\-Configuration\-::get\-N1\-Data\-Object} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___dial_plugin_gad43052a508249d44990774c7ec443715}{\-Dial\-Gadget\-Configuration\-::get\-N2\-Data\-Object} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___dial_plugin_gaecd0eec0153c2fbc4ee5715e8f4eb343}{\-Dial\-Gadget\-Configuration\-::get\-N3\-Data\-Object} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___dial_plugin_gaf4bf508f606e67bd5355ed00af142027}{\-Dial\-Gadget\-Configuration\-::get\-N1\-Obj\-Field} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___dial_plugin_ga4a2ae0e302559adb0a0c9e46d885165d}{\-Dial\-Gadget\-Configuration\-::get\-N2\-Obj\-Field} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___dial_plugin_gaa6a05e10dd1da379ed964050e753d1cf}{\-Dial\-Gadget\-Configuration\-::get\-N3\-Obj\-Field} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___dial_plugin_ga694808f332bd385339fa07b6aa6ad67b}{\-Dial\-Gadget\-Configuration\-::get\-N1\-Move} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___dial_plugin_gaa268e84615e3dfe79b2ea85a21015c0f}{\-Dial\-Gadget\-Configuration\-::get\-N2\-Move} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___dial_plugin_ga8b12211d47ec10eb85af4daeecd76cff}{\-Dial\-Gadget\-Configuration\-::get\-N3\-Move} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___dial_plugin_ga2b36383d1efea1dc3848e79d6b73ab32}{\-Dial\-Gadget\-Configuration\-::get\-Font} ()
+\item 
+bool \hyperlink{group___dial_plugin_ga71692739b0299dea2c880fc33df5817f}{\-Dial\-Gadget\-Configuration\-::use\-Open\-G\-L} ()
+\item 
+bool \hyperlink{group___dial_plugin_ga47cfbeb46101ecdebf8073f133bbbbc1}{\-Dial\-Gadget\-Configuration\-::get\-Be\-Smooth} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___dial_plugin_ga77e000666d924bfc77a05a04b30d00f8}{\-Dial\-Gadget\-Configuration\-::save\-Config} (\-Q\-Settings $\ast$settings) const 
+\item 
+\-I\-U\-A\-V\-Gadget\-Configuration $\ast$ \hyperlink{group___dial_plugin_ga4cb0aa67ea10afa557dbf083d67f2510}{\-Dial\-Gadget\-Configuration\-::clone} ()
+\item 
+\hyperlink{group___dial_plugin_ga96aa76f96e82147d1054198b8e5baccc}{\-Dial\-Gadget\-Factory\-::\-Dial\-Gadget\-Factory} (\-Q\-Object $\ast$parent=0)
+\item 
+\hyperlink{group___dial_plugin_gaa1a6c5c829367397107f9bf058d3838f}{\-Dial\-Gadget\-Factory\-::$\sim$\-Dial\-Gadget\-Factory} ()
+\item 
+\hyperlink{class_core_1_1_i_u_a_v_gadget}{\-Core\-::\-I\-U\-A\-V\-Gadget} $\ast$ \hyperlink{group___dial_plugin_gaa66ae505f320ed3092d13c52533951fb}{\-Dial\-Gadget\-Factory\-::create\-Gadget} (\-Q\-Widget $\ast$parent)
+\item 
+\-I\-U\-A\-V\-Gadget\-Configuration $\ast$ \hyperlink{group___dial_plugin_ga19fedc047658860b63df440fcd9d58c0}{\-Dial\-Gadget\-Factory\-::create\-Configuration} (\-Q\-Settings $\ast$q\-Settings)
+\item 
+\-I\-Options\-Page $\ast$ \hyperlink{group___dial_plugin_gabea23502f0a1a7c8b37131c0a24faeb8}{\-Dial\-Gadget\-Factory\-::create\-Options\-Page} (\-I\-U\-A\-V\-Gadget\-Configuration $\ast$config)
+\item 
+\hyperlink{group___dial_plugin_gaeac54ffbddafca4f7d4b61d9d8af758a}{\-Dial\-Gadget\-Options\-Page\-::\-Dial\-Gadget\-Options\-Page} (\hyperlink{class_dial_gadget_configuration}{\-Dial\-Gadget\-Configuration} $\ast$config, \-Q\-Object $\ast$parent=0)
+\item 
+\-Q\-Widget $\ast$ \hyperlink{group___dial_plugin_gac2ea2636090b7981bddc06307c640fbb}{\-Dial\-Gadget\-Options\-Page\-::create\-Page} (\-Q\-Widget $\ast$parent)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___dial_plugin_gaacfb7eb82dfc96795090f651e40bd640}{\-Dial\-Gadget\-Options\-Page\-::apply} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___dial_plugin_gacc0c745076376c99081b3c52d916e209}{\-Dial\-Gadget\-Options\-Page\-::finish} ()
+\item 
+\hyperlink{group___dial_plugin_gac5397a4cc992266439aa3e8b1513c209}{\-Dial\-Gadget\-Widget\-::\-Dial\-Gadget\-Widget} (\-Q\-Widget $\ast$parent=0)
+\item 
+\hyperlink{group___dial_plugin_ga3e34cc3b776a627597b4c4823b358741}{\-Dial\-Gadget\-Widget\-::$\sim$\-Dial\-Gadget\-Widget} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___dial_plugin_gaad3e246709ada936d97644f6e87fba59}{\-Dial\-Gadget\-Widget\-::enable\-Open\-G\-L} (bool flag)
+\begin{DoxyCompactList}\small\item\em \-Enables/\-Disables \-Open\-G\-L. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___dial_plugin_ga6b6e527e9c2516f6dec2f6332a288a9f}{\-Dial\-Gadget\-Widget\-::enable\-Smooth\-Updates} (bool flag)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___dial_plugin_ga00bc4e8b1988a13cf8d1fff889444684}{\-Dial\-Gadget\-Widget\-::set\-Dial\-File} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} dfn, \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} bg, \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} fg, \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} n1, \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} n2, \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} n3, \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} n1\-Move, \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} n2\-Move, \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} n3\-Move)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___dial_plugin_gab6b769564974c0549228d13820ced8e7}{\-Dial\-Gadget\-Widget\-::paint} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___dial_plugin_gaab89c42817209c3b41a9f407138b2c2f}{\-Dial\-Gadget\-Widget\-::set\-Needle1} (double value)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___dial_plugin_gaeabf2ea71c12b9ce01fcc94833468297}{\-Dial\-Gadget\-Widget\-::set\-Needle2} (double value)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___dial_plugin_ga7d752a6892e2e93299793b455723fe7e}{\-Dial\-Gadget\-Widget\-::set\-Needle3} (double value)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___dial_plugin_ga9e1d1e6690a126b564e4058c5c9a1757}{\-Dial\-Gadget\-Widget\-::set\-N1\-Min} (double value)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___dial_plugin_ga1686d1c9510998c11ce174fb20a785e1}{\-Dial\-Gadget\-Widget\-::set\-N1\-Max} (double value)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___dial_plugin_ga8b964189b1a31516fd976319be2c820c}{\-Dial\-Gadget\-Widget\-::set\-N1\-Factor} (double value)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___dial_plugin_gacbefbb82b1a0a45dd4ac2b96888680d8}{\-Dial\-Gadget\-Widget\-::set\-N2\-Min} (double value)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___dial_plugin_ga137f9d887b4877446af21bc388fea524}{\-Dial\-Gadget\-Widget\-::set\-N2\-Max} (double value)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___dial_plugin_gacd0d92d28bdad1d9142edc01753adc0f}{\-Dial\-Gadget\-Widget\-::set\-N2\-Factor} (double value)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___dial_plugin_ga0b4a5fbf9c6dcd1f01bd6efff7cc3c26}{\-Dial\-Gadget\-Widget\-::set\-N3\-Min} (double value)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___dial_plugin_gaa3a290185da85f7cd228c785ca2b6cc1}{\-Dial\-Gadget\-Widget\-::set\-N3\-Max} (double value)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___dial_plugin_gad8af67c2847f49c9c2dce641d7105f18}{\-Dial\-Gadget\-Widget\-::set\-N3\-Factor} (double value)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___dial_plugin_ga4b039739f70d00651a6ca39cf5a1997a}{\-Dial\-Gadget\-Widget\-::connect\-Needles} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} object1, \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} field1, \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} object2, \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} field2, \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} object3, \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} field3)
+\begin{DoxyCompactList}\small\item\em \-Connects the widget to the relevant \-U\-A\-V\-Objects. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___dial_plugin_ga47e399b79845057cc9f7eab02fef380a}{\-Dial\-Gadget\-Widget\-::set\-Dial\-Font} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} font\-Props)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___dial_plugin_ga35b76a1088cc50996f66ef23da926785}{\-Dial\-Gadget\-Widget\-::paint\-Event} (\-Q\-Paint\-Event $\ast$event)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___dial_plugin_ga4ce19a0118b1518cf0469e2fc69dc86b}{\-Dial\-Gadget\-Widget\-::resize\-Event} (\-Q\-Resize\-Event $\ast$event)
+\item 
+\hyperlink{group___dial_plugin_ga414d0b2d29e6c9d41df85ac25e1899fa}{\-Dial\-Plugin\-::\-Dial\-Plugin} ()
+\item 
+\hyperlink{group___dial_plugin_gaea6ec646d171578f8a22d63b9b28016c}{\-Dial\-Plugin\-::$\sim$\-Dial\-Plugin} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___dial_plugin_gac703254d72e140e8ff7b4c23ddb46020}{\-Dial\-Plugin\-::extensions\-Initialized} ()
+\item 
+bool \hyperlink{group___dial_plugin_ga59561e7e0f5635938f8b83931c025b67}{\-Dial\-Plugin\-::initialize} (const \-Q\-String\-List \&arguments, \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} $\ast$error\-String)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___dial_plugin_ga096efc39bed83964551f3a4a8bd1a29d}{\-Dial\-Plugin\-::shutdown} ()
+\end{DoxyCompactItemize}
+\subsection*{\-Public \-Slots}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___dial_plugin_ga20f0bcc550ca92ec3bd40b4cf0b2a38e}{\-Dial\-Gadget\-Widget\-::update\-Needle1} (\hyperlink{class_u_a_v_object}{\-U\-A\-V\-Object} $\ast$object1)
+\begin{DoxyCompactList}\small\item\em \-Called by the \hyperlink{class_u_a_v_object}{\-U\-A\-V\-Object} which got updated. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___dial_plugin_gaf88f5db2a7b289050e6dc6a8cda27e0f}{\-Dial\-Gadget\-Widget\-::update\-Needle2} (\hyperlink{class_u_a_v_object}{\-U\-A\-V\-Object} $\ast$object2)
+\begin{DoxyCompactList}\small\item\em \-Called by the \hyperlink{class_u_a_v_object}{\-U\-A\-V\-Object} which got updated. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___dial_plugin_gad0f863a46778ffadd8bf6dbdc01c4c81}{\-Dial\-Gadget\-Widget\-::update\-Needle3} (\hyperlink{class_u_a_v_object}{\-U\-A\-V\-Object} $\ast$object3)
+\begin{DoxyCompactList}\small\item\em \-Called by the \hyperlink{class_u_a_v_object}{\-U\-A\-V\-Object} which got updated. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-Plots flight information rotary style dials. 
+
+\subsection{\-Function \-Documentation}
+\hypertarget{group___dial_plugin_gaacfb7eb82dfc96795090f651e40bd640}{\index{\-Dial Plugin@{\-Dial Plugin}!apply@{apply}}
+\index{apply@{apply}!Dial Plugin@{\-Dial Plugin}}
+\subsubsection[{apply}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Dial\-Gadget\-Options\-Page\-::apply} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___dial_plugin_gaacfb7eb82dfc96795090f651e40bd640}
+\-Called when the user presses apply or \-O\-K.
+
+\-Saves the current values 
+
+\-Implements \hyperlink{group___core_plugin_ga05fa0c9b91da02a0f2fed11d2d6afed0}{\-Core\-::\-I\-Options\-Page}.
+
+
+
+\-Definition at line 157 of file dialgadgetoptionspage.\-cpp.
+
+\hypertarget{group___dial_plugin_ga4cb0aa67ea10afa557dbf083d67f2510}{\index{\-Dial Plugin@{\-Dial Plugin}!clone@{clone}}
+\index{clone@{clone}!Dial Plugin@{\-Dial Plugin}}
+\subsubsection[{clone}]{\setlength{\rightskip}{0pt plus 5cm}\-I\-U\-A\-V\-Gadget\-Configuration $\ast$ {\bf \-Dial\-Gadget\-Configuration\-::clone} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___dial_plugin_ga4cb0aa67ea10afa557dbf083d67f2510}
+\-Clones a configuration. 
+
+\-Implements \hyperlink{group___core_plugin_ga35f72dc89919925fd591fa509ebbf7dc}{\-Core\-::\-I\-U\-A\-V\-Gadget\-Configuration}.
+
+
+
+\-Definition at line 97 of file dialgadgetconfiguration.\-cpp.
+
+\hypertarget{group___dial_plugin_ga4b039739f70d00651a6ca39cf5a1997a}{\index{\-Dial Plugin@{\-Dial Plugin}!connect\-Needles@{connect\-Needles}}
+\index{connect\-Needles@{connect\-Needles}!Dial Plugin@{\-Dial Plugin}}
+\subsubsection[{connect\-Needles}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Dial\-Gadget\-Widget\-::connect\-Needles} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Q\-String}}]{object1, }
+\item[{{\bf \-Q\-String}}]{field1, }
+\item[{{\bf \-Q\-String}}]{object2, }
+\item[{{\bf \-Q\-String}}]{field2, }
+\item[{{\bf \-Q\-String}}]{object3, }
+\item[{{\bf \-Q\-String}}]{field3}
+\end{DoxyParamCaption}
+)}}\label{group___dial_plugin_ga4b039739f70d00651a6ca39cf5a1997a}
+
+
+\-Connects the widget to the relevant \-U\-A\-V\-Objects. 
+
+
+
+\-Definition at line 85 of file dialgadgetwidget.\-cpp.
+
+\hypertarget{group___dial_plugin_ga19fedc047658860b63df440fcd9d58c0}{\index{\-Dial Plugin@{\-Dial Plugin}!create\-Configuration@{create\-Configuration}}
+\index{create\-Configuration@{create\-Configuration}!Dial Plugin@{\-Dial Plugin}}
+\subsubsection[{create\-Configuration}]{\setlength{\rightskip}{0pt plus 5cm}\-I\-U\-A\-V\-Gadget\-Configuration $\ast$ {\bf \-Dial\-Gadget\-Factory\-::create\-Configuration} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Settings $\ast$}]{q\-Settings}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___dial_plugin_ga19fedc047658860b63df440fcd9d58c0}
+
+
+\-Reimplemented from \hyperlink{group___core_plugin_gae26104d7db90a65069c2bb654ecd5026}{\-Core\-::\-I\-U\-A\-V\-Gadget\-Factory}.
+
+
+
+\-Definition at line 52 of file dialgadgetfactory.\-cpp.
+
+\hypertarget{group___dial_plugin_gaa66ae505f320ed3092d13c52533951fb}{\index{\-Dial Plugin@{\-Dial Plugin}!create\-Gadget@{create\-Gadget}}
+\index{create\-Gadget@{create\-Gadget}!Dial Plugin@{\-Dial Plugin}}
+\subsubsection[{create\-Gadget}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Core\-::\-I\-U\-A\-V\-Gadget} $\ast$ {\bf \-Dial\-Gadget\-Factory\-::create\-Gadget} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Widget $\ast$}]{parent}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___dial_plugin_gaa66ae505f320ed3092d13c52533951fb}
+
+
+\-Implements \hyperlink{group___core_plugin_ga72d6fe5bbef9f4fa2333028c7a324f66}{\-Core\-::\-I\-U\-A\-V\-Gadget\-Factory}.
+
+
+
+\-Definition at line 46 of file dialgadgetfactory.\-cpp.
+
+\hypertarget{group___dial_plugin_gabea23502f0a1a7c8b37131c0a24faeb8}{\index{\-Dial Plugin@{\-Dial Plugin}!create\-Options\-Page@{create\-Options\-Page}}
+\index{create\-Options\-Page@{create\-Options\-Page}!Dial Plugin@{\-Dial Plugin}}
+\subsubsection[{create\-Options\-Page}]{\setlength{\rightskip}{0pt plus 5cm}\-I\-Options\-Page $\ast$ {\bf \-Dial\-Gadget\-Factory\-::create\-Options\-Page} (
+\begin{DoxyParamCaption}
+\item[{\-I\-U\-A\-V\-Gadget\-Configuration $\ast$}]{config}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___dial_plugin_gabea23502f0a1a7c8b37131c0a24faeb8}
+
+
+\-Reimplemented from \hyperlink{group___core_plugin_gaf11d34909f72b86882937f7a946ad0da}{\-Core\-::\-I\-U\-A\-V\-Gadget\-Factory}.
+
+
+
+\-Definition at line 57 of file dialgadgetfactory.\-cpp.
+
+\hypertarget{group___dial_plugin_gac2ea2636090b7981bddc06307c640fbb}{\index{\-Dial Plugin@{\-Dial Plugin}!create\-Page@{create\-Page}}
+\index{create\-Page@{create\-Page}!Dial Plugin@{\-Dial Plugin}}
+\subsubsection[{create\-Page}]{\setlength{\rightskip}{0pt plus 5cm}\-Q\-Widget $\ast$ {\bf \-Dial\-Gadget\-Options\-Page\-::create\-Page} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Widget $\ast$}]{parent}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___dial_plugin_gac2ea2636090b7981bddc06307c640fbb}
+
+
+\-Implements \hyperlink{group___core_plugin_gac70a4473b3e086d0fa9849c431fb0672}{\-Core\-::\-I\-Options\-Page}.
+
+
+
+\-Definition at line 48 of file dialgadgetoptionspage.\-cpp.
+
+\hypertarget{group___dial_plugin_ga42da3303d7a4c92c6123be6942435f47}{\index{\-Dial Plugin@{\-Dial Plugin}!dial\-Background@{dial\-Background}}
+\index{dial\-Background@{dial\-Background}!Dial Plugin@{\-Dial Plugin}}
+\subsubsection[{dial\-Background}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Q\-String} {\bf \-Dial\-Gadget\-Configuration\-::dial\-Background} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___dial_plugin_ga42da3303d7a4c92c6123be6942435f47}
+
+
+\-Definition at line 78 of file dialgadgetconfiguration.\-h.
+
+\hypertarget{group___dial_plugin_ga620e44289c1d546a4fdd1c604d889eaa}{\index{\-Dial Plugin@{\-Dial Plugin}!dial\-File@{dial\-File}}
+\index{dial\-File@{dial\-File}!Dial Plugin@{\-Dial Plugin}}
+\subsubsection[{dial\-File}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Q\-String} {\bf \-Dial\-Gadget\-Configuration\-::dial\-File} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___dial_plugin_ga620e44289c1d546a4fdd1c604d889eaa}
+
+
+\-Definition at line 77 of file dialgadgetconfiguration.\-h.
+
+\hypertarget{group___dial_plugin_ga516d8434f4958c9501f14624621908b8}{\index{\-Dial Plugin@{\-Dial Plugin}!dial\-Foreground@{dial\-Foreground}}
+\index{dial\-Foreground@{dial\-Foreground}!Dial Plugin@{\-Dial Plugin}}
+\subsubsection[{dial\-Foreground}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Q\-String} {\bf \-Dial\-Gadget\-Configuration\-::dial\-Foreground} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___dial_plugin_ga516d8434f4958c9501f14624621908b8}
+
+
+\-Definition at line 79 of file dialgadgetconfiguration.\-h.
+
+\hypertarget{group___dial_plugin_gaef5c9e1077a9a230622054bcc5337958}{\index{\-Dial Plugin@{\-Dial Plugin}!\-Dial\-Gadget@{\-Dial\-Gadget}}
+\index{\-Dial\-Gadget@{\-Dial\-Gadget}!Dial Plugin@{\-Dial Plugin}}
+\subsubsection[{\-Dial\-Gadget}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Dial\-Gadget\-::\-Dial\-Gadget} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Q\-String}}]{class\-Id, }
+\item[{{\bf \-Dial\-Gadget\-Widget} $\ast$}]{widget, }
+\item[{\-Q\-Widget $\ast$}]{parent = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)}}\label{group___dial_plugin_gaef5c9e1077a9a230622054bcc5337958}
+
+
+\-Definition at line 33 of file dialgadget.\-cpp.
+
+\hypertarget{group___dial_plugin_ga5818a8a26f5b9e63b9bc37f459ca6594}{\index{\-Dial Plugin@{\-Dial Plugin}!\-Dial\-Gadget\-Configuration@{\-Dial\-Gadget\-Configuration}}
+\index{\-Dial\-Gadget\-Configuration@{\-Dial\-Gadget\-Configuration}!Dial Plugin@{\-Dial Plugin}}
+\subsubsection[{\-Dial\-Gadget\-Configuration}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Dial\-Gadget\-Configuration\-::\-Dial\-Gadget\-Configuration} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Q\-String}}]{class\-Id, }
+\item[{\-Q\-Settings $\ast$}]{q\-Settings = {\ttfamily 0}, }
+\item[{\-Q\-Object $\ast$}]{parent = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}explicit\mbox{]}}}}\label{group___dial_plugin_ga5818a8a26f5b9e63b9bc37f459ca6594}
+\-Loads a saved configuration or defaults if non exist. 
+
+\-Definition at line 36 of file dialgadgetconfiguration.\-cpp.
+
+\hypertarget{group___dial_plugin_ga96aa76f96e82147d1054198b8e5baccc}{\index{\-Dial Plugin@{\-Dial Plugin}!\-Dial\-Gadget\-Factory@{\-Dial\-Gadget\-Factory}}
+\index{\-Dial\-Gadget\-Factory@{\-Dial\-Gadget\-Factory}!Dial Plugin@{\-Dial Plugin}}
+\subsubsection[{\-Dial\-Gadget\-Factory}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Dial\-Gadget\-Factory\-::\-Dial\-Gadget\-Factory} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Object $\ast$}]{parent = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)}}\label{group___dial_plugin_ga96aa76f96e82147d1054198b8e5baccc}
+
+
+\-Definition at line 35 of file dialgadgetfactory.\-cpp.
+
+\hypertarget{group___dial_plugin_gaeac54ffbddafca4f7d4b61d9d8af758a}{\index{\-Dial Plugin@{\-Dial Plugin}!\-Dial\-Gadget\-Options\-Page@{\-Dial\-Gadget\-Options\-Page}}
+\index{\-Dial\-Gadget\-Options\-Page@{\-Dial\-Gadget\-Options\-Page}!Dial Plugin@{\-Dial Plugin}}
+\subsubsection[{\-Dial\-Gadget\-Options\-Page}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Dial\-Gadget\-Options\-Page\-::\-Dial\-Gadget\-Options\-Page} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Dial\-Gadget\-Configuration} $\ast$}]{config, }
+\item[{\-Q\-Object $\ast$}]{parent = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}explicit\mbox{]}}}}\label{group___dial_plugin_gaeac54ffbddafca4f7d4b61d9d8af758a}
+
+
+\-Definition at line 41 of file dialgadgetoptionspage.\-cpp.
+
+\hypertarget{group___dial_plugin_gac5397a4cc992266439aa3e8b1513c209}{\index{\-Dial Plugin@{\-Dial Plugin}!\-Dial\-Gadget\-Widget@{\-Dial\-Gadget\-Widget}}
+\index{\-Dial\-Gadget\-Widget@{\-Dial\-Gadget\-Widget}!Dial Plugin@{\-Dial Plugin}}
+\subsubsection[{\-Dial\-Gadget\-Widget}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Dial\-Gadget\-Widget\-::\-Dial\-Gadget\-Widget} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Widget $\ast$}]{parent = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)}}\label{group___dial_plugin_gac5397a4cc992266439aa3e8b1513c209}
+
+
+\-Definition at line 35 of file dialgadgetwidget.\-cpp.
+
+\hypertarget{group___dial_plugin_ga30ac2e08e3864b71a35da761cfdcfc5e}{\index{\-Dial Plugin@{\-Dial Plugin}!dial\-Needle1@{dial\-Needle1}}
+\index{dial\-Needle1@{dial\-Needle1}!Dial Plugin@{\-Dial Plugin}}
+\subsubsection[{dial\-Needle1}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Q\-String} {\bf \-Dial\-Gadget\-Configuration\-::dial\-Needle1} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___dial_plugin_ga30ac2e08e3864b71a35da761cfdcfc5e}
+
+
+\-Definition at line 80 of file dialgadgetconfiguration.\-h.
+
+\hypertarget{group___dial_plugin_ga08a35848cfbe48ecdb7c63f3a3f461b8}{\index{\-Dial Plugin@{\-Dial Plugin}!dial\-Needle2@{dial\-Needle2}}
+\index{dial\-Needle2@{dial\-Needle2}!Dial Plugin@{\-Dial Plugin}}
+\subsubsection[{dial\-Needle2}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Q\-String} {\bf \-Dial\-Gadget\-Configuration\-::dial\-Needle2} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___dial_plugin_ga08a35848cfbe48ecdb7c63f3a3f461b8}
+
+
+\-Definition at line 81 of file dialgadgetconfiguration.\-h.
+
+\hypertarget{group___dial_plugin_gacca23f23b817f81e3956ef1bb758dcd7}{\index{\-Dial Plugin@{\-Dial Plugin}!dial\-Needle3@{dial\-Needle3}}
+\index{dial\-Needle3@{dial\-Needle3}!Dial Plugin@{\-Dial Plugin}}
+\subsubsection[{dial\-Needle3}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Q\-String} {\bf \-Dial\-Gadget\-Configuration\-::dial\-Needle3} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___dial_plugin_gacca23f23b817f81e3956ef1bb758dcd7}
+
+
+\-Definition at line 82 of file dialgadgetconfiguration.\-h.
+
+\hypertarget{group___dial_plugin_ga414d0b2d29e6c9d41df85ac25e1899fa}{\index{\-Dial Plugin@{\-Dial Plugin}!\-Dial\-Plugin@{\-Dial\-Plugin}}
+\index{\-Dial\-Plugin@{\-Dial\-Plugin}!Dial Plugin@{\-Dial Plugin}}
+\subsubsection[{\-Dial\-Plugin}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Dial\-Plugin\-::\-Dial\-Plugin} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___dial_plugin_ga414d0b2d29e6c9d41df85ac25e1899fa}
+
+
+\-Definition at line 37 of file dialplugin.\-cpp.
+
+\hypertarget{group___dial_plugin_gaad3e246709ada936d97644f6e87fba59}{\index{\-Dial Plugin@{\-Dial Plugin}!enable\-Open\-G\-L@{enable\-Open\-G\-L}}
+\index{enable\-Open\-G\-L@{enable\-Open\-G\-L}!Dial Plugin@{\-Dial Plugin}}
+\subsubsection[{enable\-Open\-G\-L}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Dial\-Gadget\-Widget\-::enable\-Open\-G\-L} (
+\begin{DoxyParamCaption}
+\item[{bool}]{flag}
+\end{DoxyParamCaption}
+)}}\label{group___dial_plugin_gaad3e246709ada936d97644f6e87fba59}
+
+
+\-Enables/\-Disables \-Open\-G\-L. 
+
+
+
+\-Definition at line 74 of file dialgadgetwidget.\-cpp.
+
+\hypertarget{group___dial_plugin_ga6b6e527e9c2516f6dec2f6332a288a9f}{\index{\-Dial Plugin@{\-Dial Plugin}!enable\-Smooth\-Updates@{enable\-Smooth\-Updates}}
+\index{enable\-Smooth\-Updates@{enable\-Smooth\-Updates}!Dial Plugin@{\-Dial Plugin}}
+\subsubsection[{enable\-Smooth\-Updates}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Dial\-Gadget\-Widget\-::enable\-Smooth\-Updates} (
+\begin{DoxyParamCaption}
+\item[{bool}]{flag}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___dial_plugin_ga6b6e527e9c2516f6dec2f6332a288a9f}
+
+
+\-Definition at line 51 of file dialgadgetwidget.\-h.
+
+\hypertarget{group___dial_plugin_gac703254d72e140e8ff7b4c23ddb46020}{\index{\-Dial Plugin@{\-Dial Plugin}!extensions\-Initialized@{extensions\-Initialized}}
+\index{extensions\-Initialized@{extensions\-Initialized}!Dial Plugin@{\-Dial Plugin}}
+\subsubsection[{extensions\-Initialized}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Dial\-Plugin\-::extensions\-Initialized} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___dial_plugin_gac703254d72e140e8ff7b4c23ddb46020}
+\-Called after the \-I\-Plugin\-::initialize() method has been called, and after both the \-I\-Plugin\-::initialize() and \-I\-Plugin\-::extensions\-Initialized() methods of plugins that depend on this plugin have been called. \-In this method, the plugin can assume that plugins that depend on this plugin are fully 'up and running'. \-It is a good place to look in the plugin manager's object pool for objects that have been provided by dependent plugins. \begin{DoxySeeAlso}{\-See also}
+\hyperlink{group___dial_plugin_ga59561e7e0f5635938f8b83931c025b67}{initialize()} 
+\end{DoxySeeAlso}
+
+
+\-Implements \hyperlink{class_extension_system_1_1_i_plugin_a1db3a7fb242fca02229f9a3be4fd6610}{\-Extension\-System\-::\-I\-Plugin}.
+
+
+
+\-Definition at line 57 of file dialplugin.\-cpp.
+
+\hypertarget{group___dial_plugin_gacc0c745076376c99081b3c52d916e209}{\index{\-Dial Plugin@{\-Dial Plugin}!finish@{finish}}
+\index{finish@{finish}!Dial Plugin@{\-Dial Plugin}}
+\subsubsection[{finish}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Dial\-Gadget\-Options\-Page\-::finish} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___dial_plugin_gacc0c745076376c99081b3c52d916e209}
+
+
+\-Implements \hyperlink{group___core_plugin_ga47cf2602b6ee72a4971b1f0a4e1d887e}{\-Core\-::\-I\-Options\-Page}.
+
+
+
+\-Definition at line 275 of file dialgadgetoptionspage.\-cpp.
+
+\hypertarget{group___dial_plugin_ga47cfbeb46101ecdebf8073f133bbbbc1}{\index{\-Dial Plugin@{\-Dial Plugin}!get\-Be\-Smooth@{get\-Be\-Smooth}}
+\index{get\-Be\-Smooth@{get\-Be\-Smooth}!Dial Plugin@{\-Dial Plugin}}
+\subsubsection[{get\-Be\-Smooth}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-Dial\-Gadget\-Configuration\-::get\-Be\-Smooth} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___dial_plugin_ga47cfbeb46101ecdebf8073f133bbbbc1}
+
+
+\-Definition at line 103 of file dialgadgetconfiguration.\-h.
+
+\hypertarget{group___dial_plugin_ga2b36383d1efea1dc3848e79d6b73ab32}{\index{\-Dial Plugin@{\-Dial Plugin}!get\-Font@{get\-Font}}
+\index{get\-Font@{get\-Font}!Dial Plugin@{\-Dial Plugin}}
+\subsubsection[{get\-Font}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Q\-String} {\bf \-Dial\-Gadget\-Configuration\-::get\-Font} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___dial_plugin_ga2b36383d1efea1dc3848e79d6b73ab32}
+
+
+\-Definition at line 101 of file dialgadgetconfiguration.\-h.
+
+\hypertarget{group___dial_plugin_ga47479787c12078cbe5a51eed6ce29254}{\index{\-Dial Plugin@{\-Dial Plugin}!get\-N1\-Data\-Object@{get\-N1\-Data\-Object}}
+\index{get\-N1\-Data\-Object@{get\-N1\-Data\-Object}!Dial Plugin@{\-Dial Plugin}}
+\subsubsection[{get\-N1\-Data\-Object}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Q\-String} {\bf \-Dial\-Gadget\-Configuration\-::get\-N1\-Data\-Object} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___dial_plugin_ga47479787c12078cbe5a51eed6ce29254}
+
+
+\-Definition at line 92 of file dialgadgetconfiguration.\-h.
+
+\hypertarget{group___dial_plugin_ga760d22b7741ef7b0a7796ccf47779137}{\index{\-Dial Plugin@{\-Dial Plugin}!get\-N1\-Factor@{get\-N1\-Factor}}
+\index{get\-N1\-Factor@{get\-N1\-Factor}!Dial Plugin@{\-Dial Plugin}}
+\subsubsection[{get\-N1\-Factor}]{\setlength{\rightskip}{0pt plus 5cm}double {\bf \-Dial\-Gadget\-Configuration\-::get\-N1\-Factor} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___dial_plugin_ga760d22b7741ef7b0a7796ccf47779137}
+
+
+\-Definition at line 89 of file dialgadgetconfiguration.\-h.
+
+\hypertarget{group___dial_plugin_ga8a4ca5378ff9f7cbbbaa8606d12969b9}{\index{\-Dial Plugin@{\-Dial Plugin}!get\-N1\-Max@{get\-N1\-Max}}
+\index{get\-N1\-Max@{get\-N1\-Max}!Dial Plugin@{\-Dial Plugin}}
+\subsubsection[{get\-N1\-Max}]{\setlength{\rightskip}{0pt plus 5cm}double {\bf \-Dial\-Gadget\-Configuration\-::get\-N1\-Max} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___dial_plugin_ga8a4ca5378ff9f7cbbbaa8606d12969b9}
+
+
+\-Definition at line 86 of file dialgadgetconfiguration.\-h.
+
+\hypertarget{group___dial_plugin_ga09c2b5e2f5c5666cb9f0a0fde52dbb8f}{\index{\-Dial Plugin@{\-Dial Plugin}!get\-N1\-Min@{get\-N1\-Min}}
+\index{get\-N1\-Min@{get\-N1\-Min}!Dial Plugin@{\-Dial Plugin}}
+\subsubsection[{get\-N1\-Min}]{\setlength{\rightskip}{0pt plus 5cm}double {\bf \-Dial\-Gadget\-Configuration\-::get\-N1\-Min} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___dial_plugin_ga09c2b5e2f5c5666cb9f0a0fde52dbb8f}
+
+
+\-Definition at line 83 of file dialgadgetconfiguration.\-h.
+
+\hypertarget{group___dial_plugin_ga694808f332bd385339fa07b6aa6ad67b}{\index{\-Dial Plugin@{\-Dial Plugin}!get\-N1\-Move@{get\-N1\-Move}}
+\index{get\-N1\-Move@{get\-N1\-Move}!Dial Plugin@{\-Dial Plugin}}
+\subsubsection[{get\-N1\-Move}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Q\-String} {\bf \-Dial\-Gadget\-Configuration\-::get\-N1\-Move} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___dial_plugin_ga694808f332bd385339fa07b6aa6ad67b}
+
+
+\-Definition at line 98 of file dialgadgetconfiguration.\-h.
+
+\hypertarget{group___dial_plugin_gaf4bf508f606e67bd5355ed00af142027}{\index{\-Dial Plugin@{\-Dial Plugin}!get\-N1\-Obj\-Field@{get\-N1\-Obj\-Field}}
+\index{get\-N1\-Obj\-Field@{get\-N1\-Obj\-Field}!Dial Plugin@{\-Dial Plugin}}
+\subsubsection[{get\-N1\-Obj\-Field}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Q\-String} {\bf \-Dial\-Gadget\-Configuration\-::get\-N1\-Obj\-Field} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___dial_plugin_gaf4bf508f606e67bd5355ed00af142027}
+
+
+\-Definition at line 95 of file dialgadgetconfiguration.\-h.
+
+\hypertarget{group___dial_plugin_gad43052a508249d44990774c7ec443715}{\index{\-Dial Plugin@{\-Dial Plugin}!get\-N2\-Data\-Object@{get\-N2\-Data\-Object}}
+\index{get\-N2\-Data\-Object@{get\-N2\-Data\-Object}!Dial Plugin@{\-Dial Plugin}}
+\subsubsection[{get\-N2\-Data\-Object}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Q\-String} {\bf \-Dial\-Gadget\-Configuration\-::get\-N2\-Data\-Object} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___dial_plugin_gad43052a508249d44990774c7ec443715}
+
+
+\-Definition at line 93 of file dialgadgetconfiguration.\-h.
+
+\hypertarget{group___dial_plugin_ga89ad791b4b244008b6dfde880dd325bf}{\index{\-Dial Plugin@{\-Dial Plugin}!get\-N2\-Factor@{get\-N2\-Factor}}
+\index{get\-N2\-Factor@{get\-N2\-Factor}!Dial Plugin@{\-Dial Plugin}}
+\subsubsection[{get\-N2\-Factor}]{\setlength{\rightskip}{0pt plus 5cm}double {\bf \-Dial\-Gadget\-Configuration\-::get\-N2\-Factor} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___dial_plugin_ga89ad791b4b244008b6dfde880dd325bf}
+
+
+\-Definition at line 90 of file dialgadgetconfiguration.\-h.
+
+\hypertarget{group___dial_plugin_ga555504dee11630dd0129fbac45ede1b7}{\index{\-Dial Plugin@{\-Dial Plugin}!get\-N2\-Max@{get\-N2\-Max}}
+\index{get\-N2\-Max@{get\-N2\-Max}!Dial Plugin@{\-Dial Plugin}}
+\subsubsection[{get\-N2\-Max}]{\setlength{\rightskip}{0pt plus 5cm}double {\bf \-Dial\-Gadget\-Configuration\-::get\-N2\-Max} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___dial_plugin_ga555504dee11630dd0129fbac45ede1b7}
+
+
+\-Definition at line 87 of file dialgadgetconfiguration.\-h.
+
+\hypertarget{group___dial_plugin_ga0d4493d4a59c40439e7d22de908b5f81}{\index{\-Dial Plugin@{\-Dial Plugin}!get\-N2\-Min@{get\-N2\-Min}}
+\index{get\-N2\-Min@{get\-N2\-Min}!Dial Plugin@{\-Dial Plugin}}
+\subsubsection[{get\-N2\-Min}]{\setlength{\rightskip}{0pt plus 5cm}double {\bf \-Dial\-Gadget\-Configuration\-::get\-N2\-Min} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___dial_plugin_ga0d4493d4a59c40439e7d22de908b5f81}
+
+
+\-Definition at line 84 of file dialgadgetconfiguration.\-h.
+
+\hypertarget{group___dial_plugin_gaa268e84615e3dfe79b2ea85a21015c0f}{\index{\-Dial Plugin@{\-Dial Plugin}!get\-N2\-Move@{get\-N2\-Move}}
+\index{get\-N2\-Move@{get\-N2\-Move}!Dial Plugin@{\-Dial Plugin}}
+\subsubsection[{get\-N2\-Move}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Q\-String} {\bf \-Dial\-Gadget\-Configuration\-::get\-N2\-Move} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___dial_plugin_gaa268e84615e3dfe79b2ea85a21015c0f}
+
+
+\-Definition at line 99 of file dialgadgetconfiguration.\-h.
+
+\hypertarget{group___dial_plugin_ga4a2ae0e302559adb0a0c9e46d885165d}{\index{\-Dial Plugin@{\-Dial Plugin}!get\-N2\-Obj\-Field@{get\-N2\-Obj\-Field}}
+\index{get\-N2\-Obj\-Field@{get\-N2\-Obj\-Field}!Dial Plugin@{\-Dial Plugin}}
+\subsubsection[{get\-N2\-Obj\-Field}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Q\-String} {\bf \-Dial\-Gadget\-Configuration\-::get\-N2\-Obj\-Field} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___dial_plugin_ga4a2ae0e302559adb0a0c9e46d885165d}
+
+
+\-Definition at line 96 of file dialgadgetconfiguration.\-h.
+
+\hypertarget{group___dial_plugin_gaecd0eec0153c2fbc4ee5715e8f4eb343}{\index{\-Dial Plugin@{\-Dial Plugin}!get\-N3\-Data\-Object@{get\-N3\-Data\-Object}}
+\index{get\-N3\-Data\-Object@{get\-N3\-Data\-Object}!Dial Plugin@{\-Dial Plugin}}
+\subsubsection[{get\-N3\-Data\-Object}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Q\-String} {\bf \-Dial\-Gadget\-Configuration\-::get\-N3\-Data\-Object} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___dial_plugin_gaecd0eec0153c2fbc4ee5715e8f4eb343}
+
+
+\-Definition at line 94 of file dialgadgetconfiguration.\-h.
+
+\hypertarget{group___dial_plugin_gad5c42344ef84fcb60ca310ba8480a141}{\index{\-Dial Plugin@{\-Dial Plugin}!get\-N3\-Factor@{get\-N3\-Factor}}
+\index{get\-N3\-Factor@{get\-N3\-Factor}!Dial Plugin@{\-Dial Plugin}}
+\subsubsection[{get\-N3\-Factor}]{\setlength{\rightskip}{0pt plus 5cm}double {\bf \-Dial\-Gadget\-Configuration\-::get\-N3\-Factor} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___dial_plugin_gad5c42344ef84fcb60ca310ba8480a141}
+
+
+\-Definition at line 91 of file dialgadgetconfiguration.\-h.
+
+\hypertarget{group___dial_plugin_ga3f7e435241bf176b23d3fa49ca1c18ee}{\index{\-Dial Plugin@{\-Dial Plugin}!get\-N3\-Max@{get\-N3\-Max}}
+\index{get\-N3\-Max@{get\-N3\-Max}!Dial Plugin@{\-Dial Plugin}}
+\subsubsection[{get\-N3\-Max}]{\setlength{\rightskip}{0pt plus 5cm}double {\bf \-Dial\-Gadget\-Configuration\-::get\-N3\-Max} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___dial_plugin_ga3f7e435241bf176b23d3fa49ca1c18ee}
+
+
+\-Definition at line 88 of file dialgadgetconfiguration.\-h.
+
+\hypertarget{group___dial_plugin_ga4006135115987335ad060540e13b84c6}{\index{\-Dial Plugin@{\-Dial Plugin}!get\-N3\-Min@{get\-N3\-Min}}
+\index{get\-N3\-Min@{get\-N3\-Min}!Dial Plugin@{\-Dial Plugin}}
+\subsubsection[{get\-N3\-Min}]{\setlength{\rightskip}{0pt plus 5cm}double {\bf \-Dial\-Gadget\-Configuration\-::get\-N3\-Min} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___dial_plugin_ga4006135115987335ad060540e13b84c6}
+
+
+\-Definition at line 85 of file dialgadgetconfiguration.\-h.
+
+\hypertarget{group___dial_plugin_ga8b12211d47ec10eb85af4daeecd76cff}{\index{\-Dial Plugin@{\-Dial Plugin}!get\-N3\-Move@{get\-N3\-Move}}
+\index{get\-N3\-Move@{get\-N3\-Move}!Dial Plugin@{\-Dial Plugin}}
+\subsubsection[{get\-N3\-Move}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Q\-String} {\bf \-Dial\-Gadget\-Configuration\-::get\-N3\-Move} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___dial_plugin_ga8b12211d47ec10eb85af4daeecd76cff}
+
+
+\-Definition at line 100 of file dialgadgetconfiguration.\-h.
+
+\hypertarget{group___dial_plugin_gaa6a05e10dd1da379ed964050e753d1cf}{\index{\-Dial Plugin@{\-Dial Plugin}!get\-N3\-Obj\-Field@{get\-N3\-Obj\-Field}}
+\index{get\-N3\-Obj\-Field@{get\-N3\-Obj\-Field}!Dial Plugin@{\-Dial Plugin}}
+\subsubsection[{get\-N3\-Obj\-Field}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Q\-String} {\bf \-Dial\-Gadget\-Configuration\-::get\-N3\-Obj\-Field} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___dial_plugin_gaa6a05e10dd1da379ed964050e753d1cf}
+
+
+\-Definition at line 97 of file dialgadgetconfiguration.\-h.
+
+\hypertarget{group___dial_plugin_ga59561e7e0f5635938f8b83931c025b67}{\index{\-Dial Plugin@{\-Dial Plugin}!initialize@{initialize}}
+\index{initialize@{initialize}!Dial Plugin@{\-Dial Plugin}}
+\subsubsection[{initialize}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-Dial\-Plugin\-::initialize} (
+\begin{DoxyParamCaption}
+\item[{const \-Q\-String\-List \&}]{arguments, }
+\item[{{\bf \-Q\-String} $\ast$}]{error\-String}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___dial_plugin_ga59561e7e0f5635938f8b83931c025b67}
+\-Called after the plugin has been loaded and the \-I\-Plugin instance has been created. \-The initialize methods of plugins that depend on this plugin are called after the initialize method of this plugin has been called. \-Plugins should initialize their internal state in this method. \-Returns if initialization of successful. \-If it wasn't successful, the {\itshape error\-String\/} should be set to a user-\/readable message describing the reason. \begin{DoxySeeAlso}{\-See also}
+\hyperlink{group___dial_plugin_gac703254d72e140e8ff7b4c23ddb46020}{extensions\-Initialized()} 
+\end{DoxySeeAlso}
+
+
+\-Implements \hyperlink{class_extension_system_1_1_i_plugin_a9f3dc957317279daed393fdf4894e944}{\-Extension\-System\-::\-I\-Plugin}.
+
+
+
+\-Definition at line 47 of file dialplugin.\-cpp.
+
+\hypertarget{group___dial_plugin_ga571fd73249a763cfe4850be854e3dbc6}{\index{\-Dial Plugin@{\-Dial Plugin}!load\-Configuration@{load\-Configuration}}
+\index{load\-Configuration@{load\-Configuration}!Dial Plugin@{\-Dial Plugin}}
+\subsubsection[{load\-Configuration}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Dial\-Gadget\-::load\-Configuration} (
+\begin{DoxyParamCaption}
+\item[{\-I\-U\-A\-V\-Gadget\-Configuration $\ast$}]{config}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___dial_plugin_ga571fd73249a763cfe4850be854e3dbc6}
+
+
+\-Reimplemented from \hyperlink{group___core_plugin_gaaf60a82b8643f54a42381600c52bbe8a}{\-Core\-::\-I\-U\-A\-V\-Gadget}.
+
+
+
+\-Definition at line 50 of file dialgadget.\-cpp.
+
+\hypertarget{group___dial_plugin_gab6b769564974c0549228d13820ced8e7}{\index{\-Dial Plugin@{\-Dial Plugin}!paint@{paint}}
+\index{paint@{paint}!Dial Plugin@{\-Dial Plugin}}
+\subsubsection[{paint}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Dial\-Gadget\-Widget\-::paint} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___dial_plugin_gab6b769564974c0549228d13820ced8e7}
+
+
+\-Definition at line 443 of file dialgadgetwidget.\-cpp.
+
+\hypertarget{group___dial_plugin_ga35b76a1088cc50996f66ef23da926785}{\index{\-Dial Plugin@{\-Dial Plugin}!paint\-Event@{paint\-Event}}
+\index{paint\-Event@{paint\-Event}!Dial Plugin@{\-Dial Plugin}}
+\subsubsection[{paint\-Event}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Dial\-Gadget\-Widget\-::paint\-Event} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Paint\-Event $\ast$}]{event}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{group___dial_plugin_ga35b76a1088cc50996f66ef23da926785}
+
+
+\-Definition at line 448 of file dialgadgetwidget.\-cpp.
+
+\hypertarget{group___dial_plugin_ga4ce19a0118b1518cf0469e2fc69dc86b}{\index{\-Dial Plugin@{\-Dial Plugin}!resize\-Event@{resize\-Event}}
+\index{resize\-Event@{resize\-Event}!Dial Plugin@{\-Dial Plugin}}
+\subsubsection[{resize\-Event}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Dial\-Gadget\-Widget\-::resize\-Event} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Resize\-Event $\ast$}]{event}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{group___dial_plugin_ga4ce19a0118b1518cf0469e2fc69dc86b}
+
+
+\-Definition at line 461 of file dialgadgetwidget.\-cpp.
+
+\hypertarget{group___dial_plugin_ga77e000666d924bfc77a05a04b30d00f8}{\index{\-Dial Plugin@{\-Dial Plugin}!save\-Config@{save\-Config}}
+\index{save\-Config@{save\-Config}!Dial Plugin@{\-Dial Plugin}}
+\subsubsection[{save\-Config}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Dial\-Gadget\-Configuration\-::save\-Config} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Settings $\ast$}]{settings}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___dial_plugin_ga77e000666d924bfc77a05a04b30d00f8}
+\-Saves a configuration. 
+
+\-Reimplemented from \hyperlink{group___core_plugin_gadd755520091c21c0ce09973c5bbdb7a9}{\-Core\-::\-I\-U\-A\-V\-Gadget\-Configuration}.
+
+
+
+\-Definition at line 135 of file dialgadgetconfiguration.\-cpp.
+
+\hypertarget{group___dial_plugin_ga958d33239455e1f84b248fb6ca6210df}{\index{\-Dial Plugin@{\-Dial Plugin}!set\-Be\-Smooth@{set\-Be\-Smooth}}
+\index{set\-Be\-Smooth@{set\-Be\-Smooth}!Dial Plugin@{\-Dial Plugin}}
+\subsubsection[{set\-Be\-Smooth}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Dial\-Gadget\-Configuration\-::set\-Be\-Smooth} (
+\begin{DoxyParamCaption}
+\item[{bool}]{flag}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___dial_plugin_ga958d33239455e1f84b248fb6ca6210df}
+
+
+\-Definition at line 73 of file dialgadgetconfiguration.\-h.
+
+\hypertarget{group___dial_plugin_gaed251d96de4cea86a69a9b52529c5c69}{\index{\-Dial Plugin@{\-Dial Plugin}!set\-Dial\-Background\-I\-D@{set\-Dial\-Background\-I\-D}}
+\index{set\-Dial\-Background\-I\-D@{set\-Dial\-Background\-I\-D}!Dial Plugin@{\-Dial Plugin}}
+\subsubsection[{set\-Dial\-Background\-I\-D}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Dial\-Gadget\-Configuration\-::set\-Dial\-Background\-I\-D} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Q\-String}}]{element\-I\-D}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___dial_plugin_gaed251d96de4cea86a69a9b52529c5c69}
+
+
+\-Definition at line 48 of file dialgadgetconfiguration.\-h.
+
+\hypertarget{group___dial_plugin_ga7172a5e20f324dd2e11a31167ee87a9a}{\index{\-Dial Plugin@{\-Dial Plugin}!set\-Dial\-File@{set\-Dial\-File}}
+\index{set\-Dial\-File@{set\-Dial\-File}!Dial Plugin@{\-Dial Plugin}}
+\subsubsection[{set\-Dial\-File}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Dial\-Gadget\-Configuration\-::set\-Dial\-File} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Q\-String}}]{dial\-File}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___dial_plugin_ga7172a5e20f324dd2e11a31167ee87a9a}
+
+
+\-Definition at line 47 of file dialgadgetconfiguration.\-h.
+
+\hypertarget{group___dial_plugin_ga00bc4e8b1988a13cf8d1fff889444684}{\index{\-Dial Plugin@{\-Dial Plugin}!set\-Dial\-File@{set\-Dial\-File}}
+\index{set\-Dial\-File@{set\-Dial\-File}!Dial Plugin@{\-Dial Plugin}}
+\subsubsection[{set\-Dial\-File}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Dial\-Gadget\-Widget\-::set\-Dial\-File} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Q\-String}}]{dfn, }
+\item[{{\bf \-Q\-String}}]{bg, }
+\item[{{\bf \-Q\-String}}]{fg, }
+\item[{{\bf \-Q\-String}}]{n1, }
+\item[{{\bf \-Q\-String}}]{n2, }
+\item[{{\bf \-Q\-String}}]{n3, }
+\item[{{\bf \-Q\-String}}]{n1\-Move, }
+\item[{{\bf \-Q\-String}}]{n2\-Move, }
+\item[{{\bf \-Q\-String}}]{n3\-Move}
+\end{DoxyParamCaption}
+)}}\label{group___dial_plugin_ga00bc4e8b1988a13cf8d1fff889444684}
+
+
+\-Definition at line 239 of file dialgadgetwidget.\-cpp.
+
+\hypertarget{group___dial_plugin_ga47e399b79845057cc9f7eab02fef380a}{\index{\-Dial Plugin@{\-Dial Plugin}!set\-Dial\-Font@{set\-Dial\-Font}}
+\index{set\-Dial\-Font@{set\-Dial\-Font}!Dial Plugin@{\-Dial Plugin}}
+\subsubsection[{set\-Dial\-Font}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Dial\-Gadget\-Widget\-::set\-Dial\-Font} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Q\-String}}]{font\-Props}
+\end{DoxyParamCaption}
+)}}\label{group___dial_plugin_ga47e399b79845057cc9f7eab02fef380a}
+
+
+\-Definition at line 467 of file dialgadgetwidget.\-cpp.
+
+\hypertarget{group___dial_plugin_gae2dfdc5ebf459904a68d37b1401bf723}{\index{\-Dial Plugin@{\-Dial Plugin}!set\-Dial\-Foreground\-I\-D@{set\-Dial\-Foreground\-I\-D}}
+\index{set\-Dial\-Foreground\-I\-D@{set\-Dial\-Foreground\-I\-D}!Dial Plugin@{\-Dial Plugin}}
+\subsubsection[{set\-Dial\-Foreground\-I\-D}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Dial\-Gadget\-Configuration\-::set\-Dial\-Foreground\-I\-D} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Q\-String}}]{element\-I\-D}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___dial_plugin_gae2dfdc5ebf459904a68d37b1401bf723}
+
+
+\-Definition at line 49 of file dialgadgetconfiguration.\-h.
+
+\hypertarget{group___dial_plugin_ga348ba33a6676d7777a8fb313029f71a0}{\index{\-Dial Plugin@{\-Dial Plugin}!set\-Dial\-Needle\-I\-D1@{set\-Dial\-Needle\-I\-D1}}
+\index{set\-Dial\-Needle\-I\-D1@{set\-Dial\-Needle\-I\-D1}!Dial Plugin@{\-Dial Plugin}}
+\subsubsection[{set\-Dial\-Needle\-I\-D1}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Dial\-Gadget\-Configuration\-::set\-Dial\-Needle\-I\-D1} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Q\-String}}]{element\-I\-D}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___dial_plugin_ga348ba33a6676d7777a8fb313029f71a0}
+
+
+\-Definition at line 50 of file dialgadgetconfiguration.\-h.
+
+\hypertarget{group___dial_plugin_ga10bf865d3762437b52c122ca25827bf1}{\index{\-Dial Plugin@{\-Dial Plugin}!set\-Dial\-Needle\-I\-D2@{set\-Dial\-Needle\-I\-D2}}
+\index{set\-Dial\-Needle\-I\-D2@{set\-Dial\-Needle\-I\-D2}!Dial Plugin@{\-Dial Plugin}}
+\subsubsection[{set\-Dial\-Needle\-I\-D2}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Dial\-Gadget\-Configuration\-::set\-Dial\-Needle\-I\-D2} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Q\-String}}]{element\-I\-D}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___dial_plugin_ga10bf865d3762437b52c122ca25827bf1}
+
+
+\-Definition at line 51 of file dialgadgetconfiguration.\-h.
+
+\hypertarget{group___dial_plugin_gaa9309c52e9b730a340f1c28ec1dc8a51}{\index{\-Dial Plugin@{\-Dial Plugin}!set\-Dial\-Needle\-I\-D3@{set\-Dial\-Needle\-I\-D3}}
+\index{set\-Dial\-Needle\-I\-D3@{set\-Dial\-Needle\-I\-D3}!Dial Plugin@{\-Dial Plugin}}
+\subsubsection[{set\-Dial\-Needle\-I\-D3}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Dial\-Gadget\-Configuration\-::set\-Dial\-Needle\-I\-D3} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Q\-String}}]{element\-I\-D}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___dial_plugin_gaa9309c52e9b730a340f1c28ec1dc8a51}
+
+
+\-Definition at line 52 of file dialgadgetconfiguration.\-h.
+
+\hypertarget{group___dial_plugin_gac7f0dd4dde127d6f25a890857043ee35}{\index{\-Dial Plugin@{\-Dial Plugin}!set\-Font@{set\-Font}}
+\index{set\-Font@{set\-Font}!Dial Plugin@{\-Dial Plugin}}
+\subsubsection[{set\-Font}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Dial\-Gadget\-Configuration\-::set\-Font} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Q\-String}}]{text}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___dial_plugin_gac7f0dd4dde127d6f25a890857043ee35}
+
+
+\-Definition at line 71 of file dialgadgetconfiguration.\-h.
+
+\hypertarget{group___dial_plugin_gad90ade71a9ef68f26845bfcbbcc3ab88}{\index{\-Dial Plugin@{\-Dial Plugin}!set\-N1\-Data\-Object@{set\-N1\-Data\-Object}}
+\index{set\-N1\-Data\-Object@{set\-N1\-Data\-Object}!Dial Plugin@{\-Dial Plugin}}
+\subsubsection[{set\-N1\-Data\-Object}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Dial\-Gadget\-Configuration\-::set\-N1\-Data\-Object} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Q\-String}}]{text}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___dial_plugin_gad90ade71a9ef68f26845bfcbbcc3ab88}
+
+
+\-Definition at line 62 of file dialgadgetconfiguration.\-h.
+
+\hypertarget{group___dial_plugin_ga78b0923ff5842e3ed9ae978c3f8b6e59}{\index{\-Dial Plugin@{\-Dial Plugin}!set\-N1\-Factor@{set\-N1\-Factor}}
+\index{set\-N1\-Factor@{set\-N1\-Factor}!Dial Plugin@{\-Dial Plugin}}
+\subsubsection[{set\-N1\-Factor}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Dial\-Gadget\-Configuration\-::set\-N1\-Factor} (
+\begin{DoxyParamCaption}
+\item[{double}]{val}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___dial_plugin_ga78b0923ff5842e3ed9ae978c3f8b6e59}
+
+
+\-Definition at line 59 of file dialgadgetconfiguration.\-h.
+
+\hypertarget{group___dial_plugin_ga8b964189b1a31516fd976319be2c820c}{\index{\-Dial Plugin@{\-Dial Plugin}!set\-N1\-Factor@{set\-N1\-Factor}}
+\index{set\-N1\-Factor@{set\-N1\-Factor}!Dial Plugin@{\-Dial Plugin}}
+\subsubsection[{set\-N1\-Factor}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Dial\-Gadget\-Widget\-::set\-N1\-Factor} (
+\begin{DoxyParamCaption}
+\item[{double}]{value}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___dial_plugin_ga8b964189b1a31516fd976319be2c820c}
+
+
+\-Definition at line 62 of file dialgadgetwidget.\-h.
+
+\hypertarget{group___dial_plugin_ga33eb2b4ead9a0ca8a72912fa67dd8c30}{\index{\-Dial Plugin@{\-Dial Plugin}!set\-N1\-Max@{set\-N1\-Max}}
+\index{set\-N1\-Max@{set\-N1\-Max}!Dial Plugin@{\-Dial Plugin}}
+\subsubsection[{set\-N1\-Max}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Dial\-Gadget\-Configuration\-::set\-N1\-Max} (
+\begin{DoxyParamCaption}
+\item[{double}]{val}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___dial_plugin_ga33eb2b4ead9a0ca8a72912fa67dd8c30}
+
+
+\-Definition at line 56 of file dialgadgetconfiguration.\-h.
+
+\hypertarget{group___dial_plugin_ga1686d1c9510998c11ce174fb20a785e1}{\index{\-Dial Plugin@{\-Dial Plugin}!set\-N1\-Max@{set\-N1\-Max}}
+\index{set\-N1\-Max@{set\-N1\-Max}!Dial Plugin@{\-Dial Plugin}}
+\subsubsection[{set\-N1\-Max}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Dial\-Gadget\-Widget\-::set\-N1\-Max} (
+\begin{DoxyParamCaption}
+\item[{double}]{value}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___dial_plugin_ga1686d1c9510998c11ce174fb20a785e1}
+
+
+\-Definition at line 61 of file dialgadgetwidget.\-h.
+
+\hypertarget{group___dial_plugin_ga012a4909a3cf65e08b6b5891fa2ccf4a}{\index{\-Dial Plugin@{\-Dial Plugin}!set\-N1\-Min@{set\-N1\-Min}}
+\index{set\-N1\-Min@{set\-N1\-Min}!Dial Plugin@{\-Dial Plugin}}
+\subsubsection[{set\-N1\-Min}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Dial\-Gadget\-Configuration\-::set\-N1\-Min} (
+\begin{DoxyParamCaption}
+\item[{double}]{val}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___dial_plugin_ga012a4909a3cf65e08b6b5891fa2ccf4a}
+
+
+\-Definition at line 53 of file dialgadgetconfiguration.\-h.
+
+\hypertarget{group___dial_plugin_ga9e1d1e6690a126b564e4058c5c9a1757}{\index{\-Dial Plugin@{\-Dial Plugin}!set\-N1\-Min@{set\-N1\-Min}}
+\index{set\-N1\-Min@{set\-N1\-Min}!Dial Plugin@{\-Dial Plugin}}
+\subsubsection[{set\-N1\-Min}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Dial\-Gadget\-Widget\-::set\-N1\-Min} (
+\begin{DoxyParamCaption}
+\item[{double}]{value}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___dial_plugin_ga9e1d1e6690a126b564e4058c5c9a1757}
+
+
+\-Definition at line 60 of file dialgadgetwidget.\-h.
+
+\hypertarget{group___dial_plugin_ga3b18986c8923f654c2d96264c83680ab}{\index{\-Dial Plugin@{\-Dial Plugin}!set\-N1\-Move@{set\-N1\-Move}}
+\index{set\-N1\-Move@{set\-N1\-Move}!Dial Plugin@{\-Dial Plugin}}
+\subsubsection[{set\-N1\-Move}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Dial\-Gadget\-Configuration\-::set\-N1\-Move} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Q\-String}}]{move}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___dial_plugin_ga3b18986c8923f654c2d96264c83680ab}
+
+
+\-Definition at line 68 of file dialgadgetconfiguration.\-h.
+
+\hypertarget{group___dial_plugin_gaecfcaa8536ab2e38ca7a6af12a227156}{\index{\-Dial Plugin@{\-Dial Plugin}!set\-N1\-Obj\-Field@{set\-N1\-Obj\-Field}}
+\index{set\-N1\-Obj\-Field@{set\-N1\-Obj\-Field}!Dial Plugin@{\-Dial Plugin}}
+\subsubsection[{set\-N1\-Obj\-Field}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Dial\-Gadget\-Configuration\-::set\-N1\-Obj\-Field} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Q\-String}}]{text}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___dial_plugin_gaecfcaa8536ab2e38ca7a6af12a227156}
+
+
+\-Definition at line 65 of file dialgadgetconfiguration.\-h.
+
+\hypertarget{group___dial_plugin_gabdb2265759ad99baafa28269fb905b38}{\index{\-Dial Plugin@{\-Dial Plugin}!set\-N2\-Data\-Object@{set\-N2\-Data\-Object}}
+\index{set\-N2\-Data\-Object@{set\-N2\-Data\-Object}!Dial Plugin@{\-Dial Plugin}}
+\subsubsection[{set\-N2\-Data\-Object}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Dial\-Gadget\-Configuration\-::set\-N2\-Data\-Object} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Q\-String}}]{text}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___dial_plugin_gabdb2265759ad99baafa28269fb905b38}
+
+
+\-Definition at line 63 of file dialgadgetconfiguration.\-h.
+
+\hypertarget{group___dial_plugin_ga19e6a70f832cf38dc0a2c23afb913d46}{\index{\-Dial Plugin@{\-Dial Plugin}!set\-N2\-Factor@{set\-N2\-Factor}}
+\index{set\-N2\-Factor@{set\-N2\-Factor}!Dial Plugin@{\-Dial Plugin}}
+\subsubsection[{set\-N2\-Factor}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Dial\-Gadget\-Configuration\-::set\-N2\-Factor} (
+\begin{DoxyParamCaption}
+\item[{double}]{val}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___dial_plugin_ga19e6a70f832cf38dc0a2c23afb913d46}
+
+
+\-Definition at line 60 of file dialgadgetconfiguration.\-h.
+
+\hypertarget{group___dial_plugin_gacd0d92d28bdad1d9142edc01753adc0f}{\index{\-Dial Plugin@{\-Dial Plugin}!set\-N2\-Factor@{set\-N2\-Factor}}
+\index{set\-N2\-Factor@{set\-N2\-Factor}!Dial Plugin@{\-Dial Plugin}}
+\subsubsection[{set\-N2\-Factor}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Dial\-Gadget\-Widget\-::set\-N2\-Factor} (
+\begin{DoxyParamCaption}
+\item[{double}]{value}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___dial_plugin_gacd0d92d28bdad1d9142edc01753adc0f}
+
+
+\-Definition at line 65 of file dialgadgetwidget.\-h.
+
+\hypertarget{group___dial_plugin_gaff758445779de3b3d7830a3fb88b7bd9}{\index{\-Dial Plugin@{\-Dial Plugin}!set\-N2\-Max@{set\-N2\-Max}}
+\index{set\-N2\-Max@{set\-N2\-Max}!Dial Plugin@{\-Dial Plugin}}
+\subsubsection[{set\-N2\-Max}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Dial\-Gadget\-Configuration\-::set\-N2\-Max} (
+\begin{DoxyParamCaption}
+\item[{double}]{val}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___dial_plugin_gaff758445779de3b3d7830a3fb88b7bd9}
+
+
+\-Definition at line 57 of file dialgadgetconfiguration.\-h.
+
+\hypertarget{group___dial_plugin_ga137f9d887b4877446af21bc388fea524}{\index{\-Dial Plugin@{\-Dial Plugin}!set\-N2\-Max@{set\-N2\-Max}}
+\index{set\-N2\-Max@{set\-N2\-Max}!Dial Plugin@{\-Dial Plugin}}
+\subsubsection[{set\-N2\-Max}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Dial\-Gadget\-Widget\-::set\-N2\-Max} (
+\begin{DoxyParamCaption}
+\item[{double}]{value}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___dial_plugin_ga137f9d887b4877446af21bc388fea524}
+
+
+\-Definition at line 64 of file dialgadgetwidget.\-h.
+
+\hypertarget{group___dial_plugin_ga554dde8a86360b5dc635b42a4cf2ae9d}{\index{\-Dial Plugin@{\-Dial Plugin}!set\-N2\-Min@{set\-N2\-Min}}
+\index{set\-N2\-Min@{set\-N2\-Min}!Dial Plugin@{\-Dial Plugin}}
+\subsubsection[{set\-N2\-Min}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Dial\-Gadget\-Configuration\-::set\-N2\-Min} (
+\begin{DoxyParamCaption}
+\item[{double}]{val}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___dial_plugin_ga554dde8a86360b5dc635b42a4cf2ae9d}
+
+
+\-Definition at line 54 of file dialgadgetconfiguration.\-h.
+
+\hypertarget{group___dial_plugin_gacbefbb82b1a0a45dd4ac2b96888680d8}{\index{\-Dial Plugin@{\-Dial Plugin}!set\-N2\-Min@{set\-N2\-Min}}
+\index{set\-N2\-Min@{set\-N2\-Min}!Dial Plugin@{\-Dial Plugin}}
+\subsubsection[{set\-N2\-Min}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Dial\-Gadget\-Widget\-::set\-N2\-Min} (
+\begin{DoxyParamCaption}
+\item[{double}]{value}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___dial_plugin_gacbefbb82b1a0a45dd4ac2b96888680d8}
+
+
+\-Definition at line 63 of file dialgadgetwidget.\-h.
+
+\hypertarget{group___dial_plugin_ga8911ebe0b8060adf4367ee83e60e6be0}{\index{\-Dial Plugin@{\-Dial Plugin}!set\-N2\-Move@{set\-N2\-Move}}
+\index{set\-N2\-Move@{set\-N2\-Move}!Dial Plugin@{\-Dial Plugin}}
+\subsubsection[{set\-N2\-Move}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Dial\-Gadget\-Configuration\-::set\-N2\-Move} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Q\-String}}]{move}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___dial_plugin_ga8911ebe0b8060adf4367ee83e60e6be0}
+
+
+\-Definition at line 69 of file dialgadgetconfiguration.\-h.
+
+\hypertarget{group___dial_plugin_gac0387a18967fde0687fd8d2f831fdd7c}{\index{\-Dial Plugin@{\-Dial Plugin}!set\-N2\-Obj\-Field@{set\-N2\-Obj\-Field}}
+\index{set\-N2\-Obj\-Field@{set\-N2\-Obj\-Field}!Dial Plugin@{\-Dial Plugin}}
+\subsubsection[{set\-N2\-Obj\-Field}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Dial\-Gadget\-Configuration\-::set\-N2\-Obj\-Field} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Q\-String}}]{text}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___dial_plugin_gac0387a18967fde0687fd8d2f831fdd7c}
+
+
+\-Definition at line 66 of file dialgadgetconfiguration.\-h.
+
+\hypertarget{group___dial_plugin_ga23d0f11456823786d98a8112a0bc0120}{\index{\-Dial Plugin@{\-Dial Plugin}!set\-N3\-Data\-Object@{set\-N3\-Data\-Object}}
+\index{set\-N3\-Data\-Object@{set\-N3\-Data\-Object}!Dial Plugin@{\-Dial Plugin}}
+\subsubsection[{set\-N3\-Data\-Object}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Dial\-Gadget\-Configuration\-::set\-N3\-Data\-Object} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Q\-String}}]{text}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___dial_plugin_ga23d0f11456823786d98a8112a0bc0120}
+
+
+\-Definition at line 64 of file dialgadgetconfiguration.\-h.
+
+\hypertarget{group___dial_plugin_ga69893e122abbca6ece29cd03599ad835}{\index{\-Dial Plugin@{\-Dial Plugin}!set\-N3\-Factor@{set\-N3\-Factor}}
+\index{set\-N3\-Factor@{set\-N3\-Factor}!Dial Plugin@{\-Dial Plugin}}
+\subsubsection[{set\-N3\-Factor}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Dial\-Gadget\-Configuration\-::set\-N3\-Factor} (
+\begin{DoxyParamCaption}
+\item[{double}]{val}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___dial_plugin_ga69893e122abbca6ece29cd03599ad835}
+
+
+\-Definition at line 61 of file dialgadgetconfiguration.\-h.
+
+\hypertarget{group___dial_plugin_gad8af67c2847f49c9c2dce641d7105f18}{\index{\-Dial Plugin@{\-Dial Plugin}!set\-N3\-Factor@{set\-N3\-Factor}}
+\index{set\-N3\-Factor@{set\-N3\-Factor}!Dial Plugin@{\-Dial Plugin}}
+\subsubsection[{set\-N3\-Factor}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Dial\-Gadget\-Widget\-::set\-N3\-Factor} (
+\begin{DoxyParamCaption}
+\item[{double}]{value}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___dial_plugin_gad8af67c2847f49c9c2dce641d7105f18}
+
+
+\-Definition at line 68 of file dialgadgetwidget.\-h.
+
+\hypertarget{group___dial_plugin_ga56e1a76d56367c9fcbeb323249e2f312}{\index{\-Dial Plugin@{\-Dial Plugin}!set\-N3\-Max@{set\-N3\-Max}}
+\index{set\-N3\-Max@{set\-N3\-Max}!Dial Plugin@{\-Dial Plugin}}
+\subsubsection[{set\-N3\-Max}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Dial\-Gadget\-Configuration\-::set\-N3\-Max} (
+\begin{DoxyParamCaption}
+\item[{double}]{val}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___dial_plugin_ga56e1a76d56367c9fcbeb323249e2f312}
+
+
+\-Definition at line 58 of file dialgadgetconfiguration.\-h.
+
+\hypertarget{group___dial_plugin_gaa3a290185da85f7cd228c785ca2b6cc1}{\index{\-Dial Plugin@{\-Dial Plugin}!set\-N3\-Max@{set\-N3\-Max}}
+\index{set\-N3\-Max@{set\-N3\-Max}!Dial Plugin@{\-Dial Plugin}}
+\subsubsection[{set\-N3\-Max}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Dial\-Gadget\-Widget\-::set\-N3\-Max} (
+\begin{DoxyParamCaption}
+\item[{double}]{value}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___dial_plugin_gaa3a290185da85f7cd228c785ca2b6cc1}
+
+
+\-Definition at line 67 of file dialgadgetwidget.\-h.
+
+\hypertarget{group___dial_plugin_ga91592b4ed5f14cfe3a86cd4aca76772e}{\index{\-Dial Plugin@{\-Dial Plugin}!set\-N3\-Min@{set\-N3\-Min}}
+\index{set\-N3\-Min@{set\-N3\-Min}!Dial Plugin@{\-Dial Plugin}}
+\subsubsection[{set\-N3\-Min}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Dial\-Gadget\-Configuration\-::set\-N3\-Min} (
+\begin{DoxyParamCaption}
+\item[{double}]{val}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___dial_plugin_ga91592b4ed5f14cfe3a86cd4aca76772e}
+
+
+\-Definition at line 55 of file dialgadgetconfiguration.\-h.
+
+\hypertarget{group___dial_plugin_ga0b4a5fbf9c6dcd1f01bd6efff7cc3c26}{\index{\-Dial Plugin@{\-Dial Plugin}!set\-N3\-Min@{set\-N3\-Min}}
+\index{set\-N3\-Min@{set\-N3\-Min}!Dial Plugin@{\-Dial Plugin}}
+\subsubsection[{set\-N3\-Min}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Dial\-Gadget\-Widget\-::set\-N3\-Min} (
+\begin{DoxyParamCaption}
+\item[{double}]{value}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___dial_plugin_ga0b4a5fbf9c6dcd1f01bd6efff7cc3c26}
+
+
+\-Definition at line 66 of file dialgadgetwidget.\-h.
+
+\hypertarget{group___dial_plugin_gab3b13cd0273de0927111f2b4c9015acf}{\index{\-Dial Plugin@{\-Dial Plugin}!set\-N3\-Move@{set\-N3\-Move}}
+\index{set\-N3\-Move@{set\-N3\-Move}!Dial Plugin@{\-Dial Plugin}}
+\subsubsection[{set\-N3\-Move}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Dial\-Gadget\-Configuration\-::set\-N3\-Move} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Q\-String}}]{move}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___dial_plugin_gab3b13cd0273de0927111f2b4c9015acf}
+
+
+\-Definition at line 70 of file dialgadgetconfiguration.\-h.
+
+\hypertarget{group___dial_plugin_ga7704e9b8d322543225f40ea1f3ae3334}{\index{\-Dial Plugin@{\-Dial Plugin}!set\-N3\-Obj\-Field@{set\-N3\-Obj\-Field}}
+\index{set\-N3\-Obj\-Field@{set\-N3\-Obj\-Field}!Dial Plugin@{\-Dial Plugin}}
+\subsubsection[{set\-N3\-Obj\-Field}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Dial\-Gadget\-Configuration\-::set\-N3\-Obj\-Field} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Q\-String}}]{text}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___dial_plugin_ga7704e9b8d322543225f40ea1f3ae3334}
+
+
+\-Definition at line 67 of file dialgadgetconfiguration.\-h.
+
+\hypertarget{group___dial_plugin_gaab89c42817209c3b41a9f407138b2c2f}{\index{\-Dial Plugin@{\-Dial Plugin}!set\-Needle1@{set\-Needle1}}
+\index{set\-Needle1@{set\-Needle1}!Dial Plugin@{\-Dial Plugin}}
+\subsubsection[{set\-Needle1}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Dial\-Gadget\-Widget\-::set\-Needle1} (
+\begin{DoxyParamCaption}
+\item[{double}]{value}
+\end{DoxyParamCaption}
+)}}\label{group___dial_plugin_gaab89c42817209c3b41a9f407138b2c2f}
+
+
+\-Definition at line 479 of file dialgadgetwidget.\-cpp.
+
+\hypertarget{group___dial_plugin_gaeabf2ea71c12b9ce01fcc94833468297}{\index{\-Dial Plugin@{\-Dial Plugin}!set\-Needle2@{set\-Needle2}}
+\index{set\-Needle2@{set\-Needle2}!Dial Plugin@{\-Dial Plugin}}
+\subsubsection[{set\-Needle2}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Dial\-Gadget\-Widget\-::set\-Needle2} (
+\begin{DoxyParamCaption}
+\item[{double}]{value}
+\end{DoxyParamCaption}
+)}}\label{group___dial_plugin_gaeabf2ea71c12b9ce01fcc94833468297}
+
+
+\-Definition at line 498 of file dialgadgetwidget.\-cpp.
+
+\hypertarget{group___dial_plugin_ga7d752a6892e2e93299793b455723fe7e}{\index{\-Dial Plugin@{\-Dial Plugin}!set\-Needle3@{set\-Needle3}}
+\index{set\-Needle3@{set\-Needle3}!Dial Plugin@{\-Dial Plugin}}
+\subsubsection[{set\-Needle3}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Dial\-Gadget\-Widget\-::set\-Needle3} (
+\begin{DoxyParamCaption}
+\item[{double}]{value}
+\end{DoxyParamCaption}
+)}}\label{group___dial_plugin_ga7d752a6892e2e93299793b455723fe7e}
+
+
+\-Definition at line 518 of file dialgadgetwidget.\-cpp.
+
+\hypertarget{group___dial_plugin_ga79a2b263eb6aa6c3508f4192d8b7a7b4}{\index{\-Dial Plugin@{\-Dial Plugin}!set\-Use\-Open\-G\-L@{set\-Use\-Open\-G\-L}}
+\index{set\-Use\-Open\-G\-L@{set\-Use\-Open\-G\-L}!Dial Plugin@{\-Dial Plugin}}
+\subsubsection[{set\-Use\-Open\-G\-L}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Dial\-Gadget\-Configuration\-::set\-Use\-Open\-G\-L} (
+\begin{DoxyParamCaption}
+\item[{bool}]{flag}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___dial_plugin_ga79a2b263eb6aa6c3508f4192d8b7a7b4}
+
+
+\-Definition at line 72 of file dialgadgetconfiguration.\-h.
+
+\hypertarget{group___dial_plugin_ga096efc39bed83964551f3a4a8bd1a29d}{\index{\-Dial Plugin@{\-Dial Plugin}!shutdown@{shutdown}}
+\index{shutdown@{shutdown}!Dial Plugin@{\-Dial Plugin}}
+\subsubsection[{shutdown}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Dial\-Plugin\-::shutdown} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___dial_plugin_ga096efc39bed83964551f3a4a8bd1a29d}
+\-Called during a shutdown sequence in the same order as initialization before the plugins get deleted in reverse order. \-This method can be used to optimize the shutdown down, e.\-g. to disconnect from the \-Plugin\-Manager\-::about\-To\-Remove\-Object() signal if getting the signal (and probably doing lots of stuff to update the internal and visible state) doesn't make sense during shutdown. 
+
+\-Reimplemented from \hyperlink{class_extension_system_1_1_i_plugin_a65c16ebd3a6e89918a99af6515fe68cb}{\-Extension\-System\-::\-I\-Plugin}.
+
+
+
+\-Definition at line 62 of file dialplugin.\-cpp.
+
+\hypertarget{group___dial_plugin_ga71692739b0299dea2c880fc33df5817f}{\index{\-Dial Plugin@{\-Dial Plugin}!use\-Open\-G\-L@{use\-Open\-G\-L}}
+\index{use\-Open\-G\-L@{use\-Open\-G\-L}!Dial Plugin@{\-Dial Plugin}}
+\subsubsection[{use\-Open\-G\-L}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-Dial\-Gadget\-Configuration\-::use\-Open\-G\-L} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___dial_plugin_ga71692739b0299dea2c880fc33df5817f}
+
+
+\-Definition at line 102 of file dialgadgetconfiguration.\-h.
+
+\hypertarget{group___dial_plugin_ga1afd77bac7b60ceae978b7e74f9eddee}{\index{\-Dial Plugin@{\-Dial Plugin}!widget@{widget}}
+\index{widget@{widget}!Dial Plugin@{\-Dial Plugin}}
+\subsubsection[{widget}]{\setlength{\rightskip}{0pt plus 5cm}\-Q\-Widget$\ast$ {\bf \-Dial\-Gadget\-::widget} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, virtual\mbox{]}}}}\label{group___dial_plugin_ga1afd77bac7b60ceae978b7e74f9eddee}
+
+
+\-Implements \hyperlink{group___core_plugin_gac74c76eef51e24e62a333fe0fd940cf6}{\-Core\-::\-I\-U\-A\-V\-Gadget}.
+
+
+
+\-Definition at line 49 of file dialgadget.\-h.
+
+\hypertarget{group___dial_plugin_ga9fc6ec1cdb4ac0de853c9b35950c4d11}{\index{\-Dial Plugin@{\-Dial Plugin}!$\sim$\-Dial\-Gadget@{$\sim$\-Dial\-Gadget}}
+\index{$\sim$\-Dial\-Gadget@{$\sim$\-Dial\-Gadget}!Dial Plugin@{\-Dial Plugin}}
+\subsubsection[{$\sim$\-Dial\-Gadget}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Dial\-Gadget\-::$\sim$\-Dial\-Gadget} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___dial_plugin_ga9fc6ec1cdb4ac0de853c9b35950c4d11}
+
+
+\-Definition at line 39 of file dialgadget.\-cpp.
+
+\hypertarget{group___dial_plugin_gaa1a6c5c829367397107f9bf058d3838f}{\index{\-Dial Plugin@{\-Dial Plugin}!$\sim$\-Dial\-Gadget\-Factory@{$\sim$\-Dial\-Gadget\-Factory}}
+\index{$\sim$\-Dial\-Gadget\-Factory@{$\sim$\-Dial\-Gadget\-Factory}!Dial Plugin@{\-Dial Plugin}}
+\subsubsection[{$\sim$\-Dial\-Gadget\-Factory}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Dial\-Gadget\-Factory\-::$\sim$\-Dial\-Gadget\-Factory} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___dial_plugin_gaa1a6c5c829367397107f9bf058d3838f}
+
+
+\-Definition at line 42 of file dialgadgetfactory.\-cpp.
+
+\hypertarget{group___dial_plugin_ga3e34cc3b776a627597b4c4823b358741}{\index{\-Dial Plugin@{\-Dial Plugin}!$\sim$\-Dial\-Gadget\-Widget@{$\sim$\-Dial\-Gadget\-Widget}}
+\index{$\sim$\-Dial\-Gadget\-Widget@{$\sim$\-Dial\-Gadget\-Widget}!Dial Plugin@{\-Dial Plugin}}
+\subsubsection[{$\sim$\-Dial\-Gadget\-Widget}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Dial\-Gadget\-Widget\-::$\sim$\-Dial\-Gadget\-Widget} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___dial_plugin_ga3e34cc3b776a627597b4c4823b358741}
+
+
+\-Definition at line 66 of file dialgadgetwidget.\-cpp.
+
+\hypertarget{group___dial_plugin_gaea6ec646d171578f8a22d63b9b28016c}{\index{\-Dial Plugin@{\-Dial Plugin}!$\sim$\-Dial\-Plugin@{$\sim$\-Dial\-Plugin}}
+\index{$\sim$\-Dial\-Plugin@{$\sim$\-Dial\-Plugin}!Dial Plugin@{\-Dial Plugin}}
+\subsubsection[{$\sim$\-Dial\-Plugin}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Dial\-Plugin\-::$\sim$\-Dial\-Plugin} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___dial_plugin_gaea6ec646d171578f8a22d63b9b28016c}
+
+
+\-Definition at line 42 of file dialplugin.\-cpp.
+
+
+
+\subsection{\-Public \-Slots}
+\hypertarget{group___dial_plugin_ga20f0bcc550ca92ec3bd40b4cf0b2a38e}{\index{\-Dial Plugin@{\-Dial Plugin}!update\-Needle1@{update\-Needle1}}
+\index{update\-Needle1@{update\-Needle1}!Dial Plugin@{\-Dial Plugin}}
+\subsubsection[{update\-Needle1}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Dial\-Gadget\-Widget\-::update\-Needle1} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-U\-A\-V\-Object} $\ast$}]{object1}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}slot\mbox{]}}}}\label{group___dial_plugin_ga20f0bcc550ca92ec3bd40b4cf0b2a38e}
+
+
+\-Called by the \hyperlink{class_u_a_v_object}{\-U\-A\-V\-Object} which got updated. 
+
+
+
+\-Definition at line 171 of file dialgadgetwidget.\-cpp.
+
+\hypertarget{group___dial_plugin_gaf88f5db2a7b289050e6dc6a8cda27e0f}{\index{\-Dial Plugin@{\-Dial Plugin}!update\-Needle2@{update\-Needle2}}
+\index{update\-Needle2@{update\-Needle2}!Dial Plugin@{\-Dial Plugin}}
+\subsubsection[{update\-Needle2}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Dial\-Gadget\-Widget\-::update\-Needle2} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-U\-A\-V\-Object} $\ast$}]{object2}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}slot\mbox{]}}}}\label{group___dial_plugin_gaf88f5db2a7b289050e6dc6a8cda27e0f}
+
+
+\-Called by the \hyperlink{class_u_a_v_object}{\-U\-A\-V\-Object} which got updated. 
+
+
+
+\-Definition at line 194 of file dialgadgetwidget.\-cpp.
+
+\hypertarget{group___dial_plugin_gad0f863a46778ffadd8bf6dbdc01c4c81}{\index{\-Dial Plugin@{\-Dial Plugin}!update\-Needle3@{update\-Needle3}}
+\index{update\-Needle3@{update\-Needle3}!Dial Plugin@{\-Dial Plugin}}
+\subsubsection[{update\-Needle3}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Dial\-Gadget\-Widget\-::update\-Needle3} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-U\-A\-V\-Object} $\ast$}]{object3}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}slot\mbox{]}}}}\label{group___dial_plugin_gad0f863a46778ffadd8bf6dbdc01c4c81}
+
+
+\-Called by the \hyperlink{class_u_a_v_object}{\-U\-A\-V\-Object} which got updated. 
+
+
+
+\-Definition at line 216 of file dialgadgetwidget.\-cpp.
+

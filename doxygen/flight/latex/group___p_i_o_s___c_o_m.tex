@@ -1,0 +1,478 @@
+\hypertarget{group___p_i_o_s___c_o_m}{\section{\-C\-O\-M layer functions}
+\label{group___p_i_o_s___c_o_m}\index{\-C\-O\-M layer functions@{\-C\-O\-M layer functions}}
+}
+
+
+\-Hardware communication layer.  
+
+
+\subsection*{\-Data \-Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structpios__com__dev}{pios\-\_\-com\-\_\-dev}
+\item 
+struct \hyperlink{structpios__com__msg__dev}{pios\-\_\-com\-\_\-msg\-\_\-dev}
+\item 
+struct \hyperlink{structpios__com__driver}{pios\-\_\-com\-\_\-driver}
+\end{DoxyCompactItemize}
+\subsection*{\-Files}
+\begin{DoxyCompactItemize}
+\item 
+file \hyperlink{pios__com_8c}{pios\-\_\-com.\-c}
+\begin{DoxyCompactList}\small\item\em \-C\-O\-M layer functions. \end{DoxyCompactList}\item 
+file \hyperlink{pios__com__msg_8c}{pios\-\_\-com\-\_\-msg.\-c}
+\begin{DoxyCompactList}\small\item\em \-C\-O\-M \-M\-S\-G layer functions. \end{DoxyCompactList}\item 
+file \hyperlink{pios__com_8h}{pios\-\_\-com.\-h}
+\begin{DoxyCompactList}\small\item\em \-C\-O\-M layer functions header. \end{DoxyCompactList}\item 
+file \hyperlink{pios__com__msg_8h}{pios\-\_\-com\-\_\-msg.\-h}
+\begin{DoxyCompactList}\small\item\em \-C\-O\-M \-M\-S\-G layer functions header. \end{DoxyCompactList}\item 
+file \hyperlink{pios__com__msg__priv_8h}{pios\-\_\-com\-\_\-msg\-\_\-priv.\-h}
+\begin{DoxyCompactList}\small\item\em \-C\-O\-M \-M\-S\-G private definitions. \end{DoxyCompactList}\item 
+file \hyperlink{pios__com__priv_8h}{pios\-\_\-com\-\_\-priv.\-h}
+\begin{DoxyCompactList}\small\item\em \-C\-O\-M private definitions. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef uint16\-\_\-t($\ast$ \hyperlink{group___p_i_o_s___c_o_m_ga23f1888821f1f74a50c02adc459df597}{pios\-\_\-com\-\_\-callback} )(uint32\-\_\-t context, uint8\-\_\-t $\ast$buf, uint16\-\_\-t buf\-\_\-len, uint16\-\_\-t $\ast$headroom, bool $\ast$task\-\_\-woken)
+\end{DoxyCompactItemize}
+\subsection*{\-Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{group___p_i_o_s___c_o_m_ga57d90f793d1e8323599fd11e929c945d}{pios\-\_\-com\-\_\-dev\-\_\-magic} \{ \hyperlink{group___p_i_o_s___c_o_m_gga57d90f793d1e8323599fd11e929c945dad53a3c0754f6da5d578fcd99184abc84}{\-P\-I\-O\-S\-\_\-\-C\-O\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C} =  0xaa55aa55
+ \}
+\end{DoxyCompactItemize}
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___c_o_m_gae5f5c6d4dd82ce508ba42da9c90a7166}{\-P\-I\-O\-S\-\_\-\-C\-O\-M\-\_\-\-Init} (uintptr\-\_\-t $\ast$com\-\_\-id, const struct \hyperlink{structpios__com__driver}{pios\-\_\-com\-\_\-driver} $\ast$driver, uint32\-\_\-t lower\-\_\-id, uint8\-\_\-t $\ast$rx\-\_\-buffer, uint16\-\_\-t rx\-\_\-buffer\-\_\-len, uint8\-\_\-t $\ast$tx\-\_\-buffer, uint16\-\_\-t tx\-\_\-buffer\-\_\-len)
+\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___c_o_m_gaa370cb6fb2677b6260ae4204ba26b2b3}{\-P\-I\-O\-S\-\_\-\-C\-O\-M\-\_\-\-Change\-Baud} (uintptr\-\_\-t com\-\_\-id, uint32\-\_\-t baud)
+\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___c_o_m_ga60982fe515c4938f64fd872b8992a55b}{\-P\-I\-O\-S\-\_\-\-C\-O\-M\-\_\-\-Send\-Buffer\-Non\-Blocking} (uintptr\-\_\-t com\-\_\-id, const uint8\-\_\-t $\ast$buffer, uint16\-\_\-t len)
+\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___c_o_m_ga06a9a4136683f78051b9e72e5edb32f8}{\-P\-I\-O\-S\-\_\-\-C\-O\-M\-\_\-\-Send\-Buffer} (uintptr\-\_\-t com\-\_\-id, const uint8\-\_\-t $\ast$buffer, uint16\-\_\-t len)
+\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___c_o_m_gaf31c3839043db5312b9b9429102964bd}{\-P\-I\-O\-S\-\_\-\-C\-O\-M\-\_\-\-Send\-Char\-Non\-Blocking} (uintptr\-\_\-t com\-\_\-id, char c)
+\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___c_o_m_ga7b6113a05ea60bcd661bbc5e10a5fe0e}{\-P\-I\-O\-S\-\_\-\-C\-O\-M\-\_\-\-Send\-Char} (uintptr\-\_\-t com\-\_\-id, char c)
+\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___c_o_m_gaff37e41578d22e06d0f29394340e1762}{\-P\-I\-O\-S\-\_\-\-C\-O\-M\-\_\-\-Send\-String\-Non\-Blocking} (uintptr\-\_\-t com\-\_\-id, const char $\ast$str)
+\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___c_o_m_gae03e4cae94285f9551800750e0974a84}{\-P\-I\-O\-S\-\_\-\-C\-O\-M\-\_\-\-Send\-String} (uintptr\-\_\-t com\-\_\-id, const char $\ast$str)
+\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___c_o_m_gaf4608e2b544b62a5130238c2534e19f8}{\-P\-I\-O\-S\-\_\-\-C\-O\-M\-\_\-\-Send\-Formatted\-String\-Non\-Blocking} (uintptr\-\_\-t com\-\_\-id, const char $\ast$format,...)
+\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___c_o_m_ga1e351c526477c605ee404318ba3c0b79}{\-P\-I\-O\-S\-\_\-\-C\-O\-M\-\_\-\-Send\-Formatted\-String} (uintptr\-\_\-t com\-\_\-id, const char $\ast$format,...)
+\item 
+uint16\-\_\-t \hyperlink{group___p_i_o_s___c_o_m_ga5e15e044cb0abca89b5655a359d1ef03}{\-P\-I\-O\-S\-\_\-\-C\-O\-M\-\_\-\-Receive\-Buffer} (uintptr\-\_\-t com\-\_\-id, uint8\-\_\-t $\ast$buf, uint16\-\_\-t buf\-\_\-len, uint32\-\_\-t timeout\-\_\-ms)
+\item 
+bool \hyperlink{group___p_i_o_s___c_o_m_ga5af0bd94df12381d390fae8925f99a03}{\-P\-I\-O\-S\-\_\-\-C\-O\-M\-\_\-\-Available} (uintptr\-\_\-t com\-\_\-id)
+\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___c_o_m_ga187560edfa4a2c937b78a0655cbfe8d4}{\-P\-I\-O\-S\-\_\-\-C\-O\-M\-\_\-\-M\-S\-G\-\_\-\-Init} (uintptr\-\_\-t $\ast$com\-\_\-id, const struct \hyperlink{structpios__com__driver}{pios\-\_\-com\-\_\-driver} $\ast$driver, uint32\-\_\-t lower\-\_\-id)
+\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___c_o_m_ga219314be39648cc0388a74f42aa55655}{\-P\-I\-O\-S\-\_\-\-C\-O\-M\-\_\-\-M\-S\-G\-\_\-\-Send} (uintptr\-\_\-t com\-\_\-id, const uint8\-\_\-t $\ast$\hyperlink{_libraries_2rscode_2example_8c_a6248cb5c33683ab9f937d2a954646849}{msg}, uint16\-\_\-t msg\-\_\-len)
+\item 
+uint16\-\_\-t \hyperlink{group___p_i_o_s___c_o_m_ga3944f281a0f407a0e76b1bb3ac325e64}{\-P\-I\-O\-S\-\_\-\-C\-O\-M\-\_\-\-M\-S\-G\-\_\-\-Receive} (uintptr\-\_\-t com\-\_\-id, uint8\-\_\-t $\ast$\hyperlink{_libraries_2rscode_2example_8c_a6248cb5c33683ab9f937d2a954646849}{msg}, uint16\-\_\-t msg\-\_\-len)
+\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___c_o_m_ga6f9d0b6877a3c996aab0aff76a32819d}{\-P\-I\-O\-S\-\_\-\-C\-O\-M\-\_\-\-M\-S\-G\-\_\-\-Send} (uint32\-\_\-t com\-\_\-id, const uint8\-\_\-t $\ast$\hyperlink{_libraries_2rscode_2example_8c_a6248cb5c33683ab9f937d2a954646849}{msg}, uint16\-\_\-t msg\-\_\-len)
+\item 
+uint16\-\_\-t \hyperlink{group___p_i_o_s___c_o_m_gae5a107b30db7282de1e3cfbb2c1622e8}{\-P\-I\-O\-S\-\_\-\-C\-O\-M\-\_\-\-M\-S\-G\-\_\-\-Receive} (uint32\-\_\-t com\-\_\-id, uint8\-\_\-t $\ast$buf, uint16\-\_\-t buf\-\_\-len)
+\end{DoxyCompactItemize}
+\subsection*{\-Variables}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structpios__com__driver}{pios\-\_\-com\-\_\-driver} \hyperlink{group___p_i_o_s___c_o_m_ga96488b3664325a6ced2f450ae40fb296}{\-\_\-\-\_\-attribute\-\_\-\-\_\-}
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-Hardware communication layer. 
+
+\subsection{\-Typedef \-Documentation}
+\hypertarget{group___p_i_o_s___c_o_m_ga23f1888821f1f74a50c02adc459df597}{\index{\-C\-O\-M layer functions@{\-C\-O\-M layer functions}!pios\-\_\-com\-\_\-callback@{pios\-\_\-com\-\_\-callback}}
+\index{pios\-\_\-com\-\_\-callback@{pios\-\_\-com\-\_\-callback}!COM layer functions@{\-C\-O\-M layer functions}}
+\subsubsection[{pios\-\_\-com\-\_\-callback}]{\setlength{\rightskip}{0pt plus 5cm}typedef uint16\-\_\-t($\ast$ {\bf pios\-\_\-com\-\_\-callback})(uint32\-\_\-t context, uint8\-\_\-t $\ast$buf, uint16\-\_\-t buf\-\_\-len, uint16\-\_\-t $\ast$headroom, bool $\ast$task\-\_\-woken)}}\label{group___p_i_o_s___c_o_m_ga23f1888821f1f74a50c02adc459df597}
+
+
+\-Definition at line 37 of file pios\-\_\-com.\-h.
+
+
+
+\subsection{\-Enumeration \-Type \-Documentation}
+\hypertarget{group___p_i_o_s___c_o_m_ga57d90f793d1e8323599fd11e929c945d}{\index{\-C\-O\-M layer functions@{\-C\-O\-M layer functions}!pios\-\_\-com\-\_\-dev\-\_\-magic@{pios\-\_\-com\-\_\-dev\-\_\-magic}}
+\index{pios\-\_\-com\-\_\-dev\-\_\-magic@{pios\-\_\-com\-\_\-dev\-\_\-magic}!COM layer functions@{\-C\-O\-M layer functions}}
+\subsubsection[{pios\-\_\-com\-\_\-dev\-\_\-magic}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf pios\-\_\-com\-\_\-dev\-\_\-magic}}}\label{group___p_i_o_s___c_o_m_ga57d90f793d1e8323599fd11e929c945d}
+\begin{Desc}
+\item[\-Enumerator\-: ]\par
+\begin{description}
+\index{\-P\-I\-O\-S\-\_\-\-C\-O\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C@{\-P\-I\-O\-S\-\_\-\-C\-O\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}!\-C\-O\-M layer functions@{\-C\-O\-M layer functions}}\index{\-C\-O\-M layer functions@{\-C\-O\-M layer functions}!\-P\-I\-O\-S\-\_\-\-C\-O\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C@{\-P\-I\-O\-S\-\_\-\-C\-O\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}}\item[{\em 
+\hypertarget{group___p_i_o_s___c_o_m_gga57d90f793d1e8323599fd11e929c945dad53a3c0754f6da5d578fcd99184abc84}{\-P\-I\-O\-S\-\_\-\-C\-O\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}\label{group___p_i_o_s___c_o_m_gga57d90f793d1e8323599fd11e929c945dad53a3c0754f6da5d578fcd99184abc84}
+}]\end{description}
+\end{Desc}
+
+
+
+\-Definition at line 44 of file pios\-\_\-com.\-c.
+
+
+
+\subsection{\-Function \-Documentation}
+\hypertarget{group___p_i_o_s___c_o_m_ga5af0bd94df12381d390fae8925f99a03}{\index{\-C\-O\-M layer functions@{\-C\-O\-M layer functions}!\-P\-I\-O\-S\-\_\-\-C\-O\-M\-\_\-\-Available@{\-P\-I\-O\-S\-\_\-\-C\-O\-M\-\_\-\-Available}}
+\index{\-P\-I\-O\-S\-\_\-\-C\-O\-M\-\_\-\-Available@{\-P\-I\-O\-S\-\_\-\-C\-O\-M\-\_\-\-Available}!COM layer functions@{\-C\-O\-M layer functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-C\-O\-M\-\_\-\-Available}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-P\-I\-O\-S\-\_\-\-C\-O\-M\-\_\-\-Available} (
+\begin{DoxyParamCaption}
+\item[{uintptr\-\_\-t}]{com\-\_\-id}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___c_o_m_ga5af0bd94df12381d390fae8925f99a03}
+\-Query if a com port is available for use. \-That can be used to check a link is established even if the device is valid. 
+
+\-Definition at line 527 of file pios\-\_\-com.\-c.
+
+\hypertarget{group___p_i_o_s___c_o_m_gaa370cb6fb2677b6260ae4204ba26b2b3}{\index{\-C\-O\-M layer functions@{\-C\-O\-M layer functions}!\-P\-I\-O\-S\-\_\-\-C\-O\-M\-\_\-\-Change\-Baud@{\-P\-I\-O\-S\-\_\-\-C\-O\-M\-\_\-\-Change\-Baud}}
+\index{\-P\-I\-O\-S\-\_\-\-C\-O\-M\-\_\-\-Change\-Baud@{\-P\-I\-O\-S\-\_\-\-C\-O\-M\-\_\-\-Change\-Baud}!COM layer functions@{\-C\-O\-M layer functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-C\-O\-M\-\_\-\-Change\-Baud}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-P\-I\-O\-S\-\_\-\-C\-O\-M\-\_\-\-Change\-Baud} (
+\begin{DoxyParamCaption}
+\item[{uintptr\-\_\-t}]{com\-\_\-id, }
+\item[{uint32\-\_\-t}]{baud}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___c_o_m_gaa370cb6fb2677b6260ae4204ba26b2b3}
+\-Change the port speed without re-\/initializing 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em port} & \-C\-O\-M port \\
+\hline
+\mbox{\tt in}  & {\em baud} & \-Requested baud rate \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+-\/1 if port not available 
+
+0 on success 
+\end{DoxyReturn}
+
+
+\-Definition at line 249 of file pios\-\_\-com.\-c.
+
+\hypertarget{group___p_i_o_s___c_o_m_gae5f5c6d4dd82ce508ba42da9c90a7166}{\index{\-C\-O\-M layer functions@{\-C\-O\-M layer functions}!\-P\-I\-O\-S\-\_\-\-C\-O\-M\-\_\-\-Init@{\-P\-I\-O\-S\-\_\-\-C\-O\-M\-\_\-\-Init}}
+\index{\-P\-I\-O\-S\-\_\-\-C\-O\-M\-\_\-\-Init@{\-P\-I\-O\-S\-\_\-\-C\-O\-M\-\_\-\-Init}!COM layer functions@{\-C\-O\-M layer functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-C\-O\-M\-\_\-\-Init}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-P\-I\-O\-S\-\_\-\-C\-O\-M\-\_\-\-Init} (
+\begin{DoxyParamCaption}
+\item[{uintptr\-\_\-t $\ast$}]{com\-\_\-id, }
+\item[{const struct {\bf pios\-\_\-com\-\_\-driver} $\ast$}]{driver, }
+\item[{uint32\-\_\-t}]{lower\-\_\-id, }
+\item[{uint8\-\_\-t $\ast$}]{rx\-\_\-buffer, }
+\item[{uint16\-\_\-t}]{rx\-\_\-buffer\-\_\-len, }
+\item[{uint8\-\_\-t $\ast$}]{tx\-\_\-buffer, }
+\item[{uint16\-\_\-t}]{tx\-\_\-buffer\-\_\-len}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___c_o_m_gae5f5c6d4dd82ce508ba42da9c90a7166}
+\-Initialises \-C\-O\-M layer 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt out}  & {\em handle} & \\
+\hline
+\mbox{\tt in}  & {\em driver} & \\
+\hline
+\mbox{\tt in}  & {\em id} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+$<$ 0 if initialisation failed 
+\end{DoxyReturn}
+
+
+\-Definition at line 114 of file pios\-\_\-com.\-c.
+
+\hypertarget{group___p_i_o_s___c_o_m_ga187560edfa4a2c937b78a0655cbfe8d4}{\index{\-C\-O\-M layer functions@{\-C\-O\-M layer functions}!\-P\-I\-O\-S\-\_\-\-C\-O\-M\-\_\-\-M\-S\-G\-\_\-\-Init@{\-P\-I\-O\-S\-\_\-\-C\-O\-M\-\_\-\-M\-S\-G\-\_\-\-Init}}
+\index{\-P\-I\-O\-S\-\_\-\-C\-O\-M\-\_\-\-M\-S\-G\-\_\-\-Init@{\-P\-I\-O\-S\-\_\-\-C\-O\-M\-\_\-\-M\-S\-G\-\_\-\-Init}!COM layer functions@{\-C\-O\-M layer functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-C\-O\-M\-\_\-\-M\-S\-G\-\_\-\-Init}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-P\-I\-O\-S\-\_\-\-C\-O\-M\-\_\-\-M\-S\-G\-\_\-\-Init} (
+\begin{DoxyParamCaption}
+\item[{uintptr\-\_\-t $\ast$}]{com\-\_\-id, }
+\item[{const struct {\bf pios\-\_\-com\-\_\-driver} $\ast$}]{driver, }
+\item[{uint32\-\_\-t}]{lower\-\_\-id}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___c_o_m_ga187560edfa4a2c937b78a0655cbfe8d4}
+
+
+\-Definition at line 56 of file pios\-\_\-com\-\_\-msg.\-c.
+
+\hypertarget{group___p_i_o_s___c_o_m_gae5a107b30db7282de1e3cfbb2c1622e8}{\index{\-C\-O\-M layer functions@{\-C\-O\-M layer functions}!\-P\-I\-O\-S\-\_\-\-C\-O\-M\-\_\-\-M\-S\-G\-\_\-\-Receive@{\-P\-I\-O\-S\-\_\-\-C\-O\-M\-\_\-\-M\-S\-G\-\_\-\-Receive}}
+\index{\-P\-I\-O\-S\-\_\-\-C\-O\-M\-\_\-\-M\-S\-G\-\_\-\-Receive@{\-P\-I\-O\-S\-\_\-\-C\-O\-M\-\_\-\-M\-S\-G\-\_\-\-Receive}!COM layer functions@{\-C\-O\-M layer functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-C\-O\-M\-\_\-\-M\-S\-G\-\_\-\-Receive}]{\setlength{\rightskip}{0pt plus 5cm}uint16\-\_\-t {\bf \-P\-I\-O\-S\-\_\-\-C\-O\-M\-\_\-\-M\-S\-G\-\_\-\-Receive} (
+\begin{DoxyParamCaption}
+\item[{uint32\-\_\-t}]{com\-\_\-id, }
+\item[{uint8\-\_\-t $\ast$}]{buf, }
+\item[{uint16\-\_\-t}]{buf\-\_\-len}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___c_o_m_gae5a107b30db7282de1e3cfbb2c1622e8}
+\hypertarget{group___p_i_o_s___c_o_m_ga3944f281a0f407a0e76b1bb3ac325e64}{\index{\-C\-O\-M layer functions@{\-C\-O\-M layer functions}!\-P\-I\-O\-S\-\_\-\-C\-O\-M\-\_\-\-M\-S\-G\-\_\-\-Receive@{\-P\-I\-O\-S\-\_\-\-C\-O\-M\-\_\-\-M\-S\-G\-\_\-\-Receive}}
+\index{\-P\-I\-O\-S\-\_\-\-C\-O\-M\-\_\-\-M\-S\-G\-\_\-\-Receive@{\-P\-I\-O\-S\-\_\-\-C\-O\-M\-\_\-\-M\-S\-G\-\_\-\-Receive}!COM layer functions@{\-C\-O\-M layer functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-C\-O\-M\-\_\-\-M\-S\-G\-\_\-\-Receive}]{\setlength{\rightskip}{0pt plus 5cm}uint16\-\_\-t {\bf \-P\-I\-O\-S\-\_\-\-C\-O\-M\-\_\-\-M\-S\-G\-\_\-\-Receive} (
+\begin{DoxyParamCaption}
+\item[{uintptr\-\_\-t}]{com\-\_\-id, }
+\item[{uint8\-\_\-t $\ast$}]{msg, }
+\item[{uint16\-\_\-t}]{msg\-\_\-len}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___c_o_m_ga3944f281a0f407a0e76b1bb3ac325e64}
+
+
+\-Definition at line 158 of file pios\-\_\-com\-\_\-msg.\-c.
+
+\hypertarget{group___p_i_o_s___c_o_m_ga6f9d0b6877a3c996aab0aff76a32819d}{\index{\-C\-O\-M layer functions@{\-C\-O\-M layer functions}!\-P\-I\-O\-S\-\_\-\-C\-O\-M\-\_\-\-M\-S\-G\-\_\-\-Send@{\-P\-I\-O\-S\-\_\-\-C\-O\-M\-\_\-\-M\-S\-G\-\_\-\-Send}}
+\index{\-P\-I\-O\-S\-\_\-\-C\-O\-M\-\_\-\-M\-S\-G\-\_\-\-Send@{\-P\-I\-O\-S\-\_\-\-C\-O\-M\-\_\-\-M\-S\-G\-\_\-\-Send}!COM layer functions@{\-C\-O\-M layer functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-C\-O\-M\-\_\-\-M\-S\-G\-\_\-\-Send}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-P\-I\-O\-S\-\_\-\-C\-O\-M\-\_\-\-M\-S\-G\-\_\-\-Send} (
+\begin{DoxyParamCaption}
+\item[{uint32\-\_\-t}]{com\-\_\-id, }
+\item[{const uint8\-\_\-t $\ast$}]{msg, }
+\item[{uint16\-\_\-t}]{msg\-\_\-len}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___c_o_m_ga6f9d0b6877a3c996aab0aff76a32819d}
+\hypertarget{group___p_i_o_s___c_o_m_ga219314be39648cc0388a74f42aa55655}{\index{\-C\-O\-M layer functions@{\-C\-O\-M layer functions}!\-P\-I\-O\-S\-\_\-\-C\-O\-M\-\_\-\-M\-S\-G\-\_\-\-Send@{\-P\-I\-O\-S\-\_\-\-C\-O\-M\-\_\-\-M\-S\-G\-\_\-\-Send}}
+\index{\-P\-I\-O\-S\-\_\-\-C\-O\-M\-\_\-\-M\-S\-G\-\_\-\-Send@{\-P\-I\-O\-S\-\_\-\-C\-O\-M\-\_\-\-M\-S\-G\-\_\-\-Send}!COM layer functions@{\-C\-O\-M layer functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-C\-O\-M\-\_\-\-M\-S\-G\-\_\-\-Send}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-P\-I\-O\-S\-\_\-\-C\-O\-M\-\_\-\-M\-S\-G\-\_\-\-Send} (
+\begin{DoxyParamCaption}
+\item[{uintptr\-\_\-t}]{com\-\_\-id, }
+\item[{const uint8\-\_\-t $\ast$}]{msg, }
+\item[{uint16\-\_\-t}]{msg\-\_\-len}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___c_o_m_ga219314be39648cc0388a74f42aa55655}
+
+
+\-Definition at line 130 of file pios\-\_\-com\-\_\-msg.\-c.
+
+\hypertarget{group___p_i_o_s___c_o_m_ga5e15e044cb0abca89b5655a359d1ef03}{\index{\-C\-O\-M layer functions@{\-C\-O\-M layer functions}!\-P\-I\-O\-S\-\_\-\-C\-O\-M\-\_\-\-Receive\-Buffer@{\-P\-I\-O\-S\-\_\-\-C\-O\-M\-\_\-\-Receive\-Buffer}}
+\index{\-P\-I\-O\-S\-\_\-\-C\-O\-M\-\_\-\-Receive\-Buffer@{\-P\-I\-O\-S\-\_\-\-C\-O\-M\-\_\-\-Receive\-Buffer}!COM layer functions@{\-C\-O\-M layer functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-C\-O\-M\-\_\-\-Receive\-Buffer}]{\setlength{\rightskip}{0pt plus 5cm}uint16\-\_\-t {\bf \-P\-I\-O\-S\-\_\-\-C\-O\-M\-\_\-\-Receive\-Buffer} (
+\begin{DoxyParamCaption}
+\item[{uintptr\-\_\-t}]{com\-\_\-id, }
+\item[{uint8\-\_\-t $\ast$}]{buf, }
+\item[{uint16\-\_\-t}]{buf\-\_\-len, }
+\item[{uint32\-\_\-t}]{timeout\-\_\-ms}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___c_o_m_ga5e15e044cb0abca89b5655a359d1ef03}
+\-Transfer bytes from port buffers into another buffer 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em port} & \-C\-O\-M port \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+\-Byte from buffer 
+\end{DoxyReturn}
+
+
+\-Definition at line 478 of file pios\-\_\-com.\-c.
+
+\hypertarget{group___p_i_o_s___c_o_m_ga06a9a4136683f78051b9e72e5edb32f8}{\index{\-C\-O\-M layer functions@{\-C\-O\-M layer functions}!\-P\-I\-O\-S\-\_\-\-C\-O\-M\-\_\-\-Send\-Buffer@{\-P\-I\-O\-S\-\_\-\-C\-O\-M\-\_\-\-Send\-Buffer}}
+\index{\-P\-I\-O\-S\-\_\-\-C\-O\-M\-\_\-\-Send\-Buffer@{\-P\-I\-O\-S\-\_\-\-C\-O\-M\-\_\-\-Send\-Buffer}!COM layer functions@{\-C\-O\-M layer functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-C\-O\-M\-\_\-\-Send\-Buffer}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-P\-I\-O\-S\-\_\-\-C\-O\-M\-\_\-\-Send\-Buffer} (
+\begin{DoxyParamCaption}
+\item[{uintptr\-\_\-t}]{com\-\_\-id, }
+\item[{const uint8\-\_\-t $\ast$}]{buffer, }
+\item[{uint16\-\_\-t}]{len}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___c_o_m_ga06a9a4136683f78051b9e72e5edb32f8}
+\-Sends a package over given port (blocking function) 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em port} & \-C\-O\-M port \\
+\hline
+\mbox{\tt in}  & {\em buffer} & character buffer \\
+\hline
+\mbox{\tt in}  & {\em len} & buffer length \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+-\/1 if port not available 
+
+number of bytes transmitted on success 
+\end{DoxyReturn}
+
+
+\-Definition at line 326 of file pios\-\_\-com.\-c.
+
+\hypertarget{group___p_i_o_s___c_o_m_ga60982fe515c4938f64fd872b8992a55b}{\index{\-C\-O\-M layer functions@{\-C\-O\-M layer functions}!\-P\-I\-O\-S\-\_\-\-C\-O\-M\-\_\-\-Send\-Buffer\-Non\-Blocking@{\-P\-I\-O\-S\-\_\-\-C\-O\-M\-\_\-\-Send\-Buffer\-Non\-Blocking}}
+\index{\-P\-I\-O\-S\-\_\-\-C\-O\-M\-\_\-\-Send\-Buffer\-Non\-Blocking@{\-P\-I\-O\-S\-\_\-\-C\-O\-M\-\_\-\-Send\-Buffer\-Non\-Blocking}!COM layer functions@{\-C\-O\-M layer functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-C\-O\-M\-\_\-\-Send\-Buffer\-Non\-Blocking}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-P\-I\-O\-S\-\_\-\-C\-O\-M\-\_\-\-Send\-Buffer\-Non\-Blocking} (
+\begin{DoxyParamCaption}
+\item[{uintptr\-\_\-t}]{com\-\_\-id, }
+\item[{const uint8\-\_\-t $\ast$}]{buffer, }
+\item[{uint16\-\_\-t}]{len}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___c_o_m_ga60982fe515c4938f64fd872b8992a55b}
+\-Sends a package over given port 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em port} & \-C\-O\-M port \\
+\hline
+\mbox{\tt in}  & {\em buffer} & character buffer \\
+\hline
+\mbox{\tt in}  & {\em len} & buffer length \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+-\/1 if port not available 
+
+-\/2 if non-\/blocking mode activated\-: buffer is full caller should retry until buffer is free again 
+
+number of bytes transmitted on success 
+\end{DoxyReturn}
+
+
+\-Definition at line 276 of file pios\-\_\-com.\-c.
+
+\hypertarget{group___p_i_o_s___c_o_m_ga7b6113a05ea60bcd661bbc5e10a5fe0e}{\index{\-C\-O\-M layer functions@{\-C\-O\-M layer functions}!\-P\-I\-O\-S\-\_\-\-C\-O\-M\-\_\-\-Send\-Char@{\-P\-I\-O\-S\-\_\-\-C\-O\-M\-\_\-\-Send\-Char}}
+\index{\-P\-I\-O\-S\-\_\-\-C\-O\-M\-\_\-\-Send\-Char@{\-P\-I\-O\-S\-\_\-\-C\-O\-M\-\_\-\-Send\-Char}!COM layer functions@{\-C\-O\-M layer functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-C\-O\-M\-\_\-\-Send\-Char}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-P\-I\-O\-S\-\_\-\-C\-O\-M\-\_\-\-Send\-Char} (
+\begin{DoxyParamCaption}
+\item[{uintptr\-\_\-t}]{com\-\_\-id, }
+\item[{char}]{c}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___c_o_m_ga7b6113a05ea60bcd661bbc5e10a5fe0e}
+\-Sends a single character over given port (blocking function) 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em port} & \-C\-O\-M port \\
+\hline
+\mbox{\tt in}  & {\em c} & character \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+-\/1 if port not available 
+
+0 on success 
+\end{DoxyReturn}
+
+
+\-Definition at line 401 of file pios\-\_\-com.\-c.
+
+\hypertarget{group___p_i_o_s___c_o_m_gaf31c3839043db5312b9b9429102964bd}{\index{\-C\-O\-M layer functions@{\-C\-O\-M layer functions}!\-P\-I\-O\-S\-\_\-\-C\-O\-M\-\_\-\-Send\-Char\-Non\-Blocking@{\-P\-I\-O\-S\-\_\-\-C\-O\-M\-\_\-\-Send\-Char\-Non\-Blocking}}
+\index{\-P\-I\-O\-S\-\_\-\-C\-O\-M\-\_\-\-Send\-Char\-Non\-Blocking@{\-P\-I\-O\-S\-\_\-\-C\-O\-M\-\_\-\-Send\-Char\-Non\-Blocking}!COM layer functions@{\-C\-O\-M layer functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-C\-O\-M\-\_\-\-Send\-Char\-Non\-Blocking}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-P\-I\-O\-S\-\_\-\-C\-O\-M\-\_\-\-Send\-Char\-Non\-Blocking} (
+\begin{DoxyParamCaption}
+\item[{uintptr\-\_\-t}]{com\-\_\-id, }
+\item[{char}]{c}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___c_o_m_gaf31c3839043db5312b9b9429102964bd}
+\-Sends a single character over given port 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em port} & \-C\-O\-M port \\
+\hline
+\mbox{\tt in}  & {\em c} & character \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+-\/1 if port not available 
+
+-\/2 buffer is full caller should retry until buffer is free again 
+
+0 on success 
+\end{DoxyReturn}
+
+
+\-Definition at line 388 of file pios\-\_\-com.\-c.
+
+\hypertarget{group___p_i_o_s___c_o_m_ga1e351c526477c605ee404318ba3c0b79}{\index{\-C\-O\-M layer functions@{\-C\-O\-M layer functions}!\-P\-I\-O\-S\-\_\-\-C\-O\-M\-\_\-\-Send\-Formatted\-String@{\-P\-I\-O\-S\-\_\-\-C\-O\-M\-\_\-\-Send\-Formatted\-String}}
+\index{\-P\-I\-O\-S\-\_\-\-C\-O\-M\-\_\-\-Send\-Formatted\-String@{\-P\-I\-O\-S\-\_\-\-C\-O\-M\-\_\-\-Send\-Formatted\-String}!COM layer functions@{\-C\-O\-M layer functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-C\-O\-M\-\_\-\-Send\-Formatted\-String}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-P\-I\-O\-S\-\_\-\-C\-O\-M\-\_\-\-Send\-Formatted\-String} (
+\begin{DoxyParamCaption}
+\item[{uintptr\-\_\-t}]{com\-\_\-id, }
+\item[{const char $\ast$}]{format, }
+\item[{}]{...}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___c_o_m_ga1e351c526477c605ee404318ba3c0b79}
+\-Sends a formatted string (-\/$>$ printf) over given port (blocking function) 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em port} & \-C\-O\-M port \\
+\hline
+\mbox{\tt in}  & {\em $\ast$format} & zero-\/terminated format string -\/ 128 characters supported maximum! \\
+\hline
+\mbox{\tt in}  & {\em ...} & optional arguments, \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+-\/1 if port not available 
+
+0 on success 
+\end{DoxyReturn}
+
+
+\-Definition at line 463 of file pios\-\_\-com.\-c.
+
+\hypertarget{group___p_i_o_s___c_o_m_gaf4608e2b544b62a5130238c2534e19f8}{\index{\-C\-O\-M layer functions@{\-C\-O\-M layer functions}!\-P\-I\-O\-S\-\_\-\-C\-O\-M\-\_\-\-Send\-Formatted\-String\-Non\-Blocking@{\-P\-I\-O\-S\-\_\-\-C\-O\-M\-\_\-\-Send\-Formatted\-String\-Non\-Blocking}}
+\index{\-P\-I\-O\-S\-\_\-\-C\-O\-M\-\_\-\-Send\-Formatted\-String\-Non\-Blocking@{\-P\-I\-O\-S\-\_\-\-C\-O\-M\-\_\-\-Send\-Formatted\-String\-Non\-Blocking}!COM layer functions@{\-C\-O\-M layer functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-C\-O\-M\-\_\-\-Send\-Formatted\-String\-Non\-Blocking}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-P\-I\-O\-S\-\_\-\-C\-O\-M\-\_\-\-Send\-Formatted\-String\-Non\-Blocking} (
+\begin{DoxyParamCaption}
+\item[{uintptr\-\_\-t}]{com\-\_\-id, }
+\item[{const char $\ast$}]{format, }
+\item[{}]{...}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___c_o_m_gaf4608e2b544b62a5130238c2534e19f8}
+\-Sends a formatted string (-\/$>$ printf) over given port 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em port} & \-C\-O\-M port \\
+\hline
+\mbox{\tt in}  & {\em $\ast$format} & zero-\/terminated format string -\/ 128 characters supported maximum! \\
+\hline
+\mbox{\tt in}  & {\em ...} & optional arguments, 128 characters supported maximum! \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+-\/2 if non-\/blocking mode activated\-: buffer is full caller should retry until buffer is free again 
+
+0 on success 
+\end{DoxyReturn}
+
+
+\-Definition at line 443 of file pios\-\_\-com.\-c.
+
+\hypertarget{group___p_i_o_s___c_o_m_gae03e4cae94285f9551800750e0974a84}{\index{\-C\-O\-M layer functions@{\-C\-O\-M layer functions}!\-P\-I\-O\-S\-\_\-\-C\-O\-M\-\_\-\-Send\-String@{\-P\-I\-O\-S\-\_\-\-C\-O\-M\-\_\-\-Send\-String}}
+\index{\-P\-I\-O\-S\-\_\-\-C\-O\-M\-\_\-\-Send\-String@{\-P\-I\-O\-S\-\_\-\-C\-O\-M\-\_\-\-Send\-String}!COM layer functions@{\-C\-O\-M layer functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-C\-O\-M\-\_\-\-Send\-String}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-P\-I\-O\-S\-\_\-\-C\-O\-M\-\_\-\-Send\-String} (
+\begin{DoxyParamCaption}
+\item[{uintptr\-\_\-t}]{com\-\_\-id, }
+\item[{const char $\ast$}]{str}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___c_o_m_gae03e4cae94285f9551800750e0974a84}
+\-Sends a string over given port (blocking function) 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em port} & \-C\-O\-M port \\
+\hline
+\mbox{\tt in}  & {\em str} & zero-\/terminated string \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+-\/1 if port not available 
+
+0 on success 
+\end{DoxyReturn}
+
+
+\-Definition at line 428 of file pios\-\_\-com.\-c.
+
+\hypertarget{group___p_i_o_s___c_o_m_gaff37e41578d22e06d0f29394340e1762}{\index{\-C\-O\-M layer functions@{\-C\-O\-M layer functions}!\-P\-I\-O\-S\-\_\-\-C\-O\-M\-\_\-\-Send\-String\-Non\-Blocking@{\-P\-I\-O\-S\-\_\-\-C\-O\-M\-\_\-\-Send\-String\-Non\-Blocking}}
+\index{\-P\-I\-O\-S\-\_\-\-C\-O\-M\-\_\-\-Send\-String\-Non\-Blocking@{\-P\-I\-O\-S\-\_\-\-C\-O\-M\-\_\-\-Send\-String\-Non\-Blocking}!COM layer functions@{\-C\-O\-M layer functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-C\-O\-M\-\_\-\-Send\-String\-Non\-Blocking}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-P\-I\-O\-S\-\_\-\-C\-O\-M\-\_\-\-Send\-String\-Non\-Blocking} (
+\begin{DoxyParamCaption}
+\item[{uintptr\-\_\-t}]{com\-\_\-id, }
+\item[{const char $\ast$}]{str}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___c_o_m_gaff37e41578d22e06d0f29394340e1762}
+\-Sends a string over given port 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em port} & \-C\-O\-M port \\
+\hline
+\mbox{\tt in}  & {\em str} & zero-\/terminated string \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+-\/1 if port not available 
+
+-\/2 buffer is full caller should retry until buffer is free again 
+
+0 on success 
+\end{DoxyReturn}
+
+
+\-Definition at line 415 of file pios\-\_\-com.\-c.
+
+
+
+\subsection{\-Variable \-Documentation}
+\hypertarget{group___p_i_o_s___c_o_m_ga96488b3664325a6ced2f450ae40fb296}{\index{\-C\-O\-M layer functions@{\-C\-O\-M layer functions}!\-\_\-\-\_\-attribute\-\_\-\-\_\-@{\-\_\-\-\_\-attribute\-\_\-\-\_\-}}
+\index{\-\_\-\-\_\-attribute\-\_\-\-\_\-@{\-\_\-\-\_\-attribute\-\_\-\-\_\-}!COM layer functions@{\-C\-O\-M layer functions}}
+\subsubsection[{\-\_\-\-\_\-attribute\-\_\-\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf pios\-\_\-com\-\_\-driver}  {\bf \-\_\-\-\_\-attribute\-\_\-\-\_\-}}}\label{group___p_i_o_s___c_o_m_ga96488b3664325a6ced2f450ae40fb296}

@@ -1,0 +1,72 @@
+\hypertarget{class_core_1_1_internal_1_1_action_container_private}{\section{\-Core\-:\-:\-Internal\-:\-:\-Action\-Container\-Private \-Class \-Reference}
+\label{class_core_1_1_internal_1_1_action_container_private}\index{\-Core\-::\-Internal\-::\-Action\-Container\-Private@{\-Core\-::\-Internal\-::\-Action\-Container\-Private}}
+}
+
+
+{\ttfamily \#include $<$actioncontainer\-\_\-p.\-h$>$}
+
+\-Inheritance diagram for \-Core\-:\-:\-Internal\-:\-:\-Action\-Container\-Private\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{class_core_1_1_internal_1_1_action_container_private}
+\end{center}
+\end{figure}
+\subsection*{\-Public \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___core_plugin_ga52f85042d81d941ff4ac9b051f397eeb}{\-Action\-Container\-Private} (int \hyperlink{group___core_plugin_ga394d3161befa5e1f84cf07253b21a536}{id})
+\item 
+virtual \hyperlink{group___core_plugin_ga34f1b550ba50b544b5a9b8c55ab7d9d1}{$\sim$\-Action\-Container\-Private} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___core_plugin_gaa38318117b2644daea6897b102055a8f}{set\-Empty\-Action} (\hyperlink{group___core_plugin_ga25957afb898f645827d8e7949c831327}{\-Empty\-Action} ea)
+\item 
+bool \hyperlink{group___core_plugin_ga16fba98ce7f8879392e66d2091e2b67e}{has\-Empty\-Action} (\hyperlink{group___core_plugin_ga25957afb898f645827d8e7949c831327}{\-Empty\-Action} ea) const 
+\item 
+\-Q\-Action $\ast$ \hyperlink{group___core_plugin_ga7f3d7f6e914a516890183d6135161cec}{insert\-Location} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \&group) const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___core_plugin_ga3bc2b8884a63451e9e7bfc1556cb78fd}{append\-Group} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \&group)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___core_plugin_ga9ca5ea32ad53e24a2086f781e5677f1c}{add\-Action} (\hyperlink{class_core_1_1_command}{\-Command} $\ast$action, const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \&group=\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String}())
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___core_plugin_ga90d26d7f9b3ba4fe2e1bf088b861c0e0}{add\-Menu} (\hyperlink{class_core_1_1_action_container}{\-Action\-Container} $\ast$\hyperlink{group___core_plugin_ga243949a2b2abff30862e34f6313f28c0}{menu}, const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \&group=\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String}())
+\item 
+int \hyperlink{group___core_plugin_ga394d3161befa5e1f84cf07253b21a536}{id} () const 
+\item 
+\-Q\-Menu $\ast$ \hyperlink{group___core_plugin_ga243949a2b2abff30862e34f6313f28c0}{menu} () const 
+\item 
+\-Q\-Menu\-Bar $\ast$ \hyperlink{group___core_plugin_gaf2d8e7b9ed6b98c22dd1eea1443737ce}{menu\-Bar} () const 
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___core_plugin_gac4252ea9deafe98c0e98946dfff78b4d}{insert\-Action} (\-Q\-Action $\ast$before, \-Q\-Action $\ast$action)=0
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___core_plugin_gacc8f86cfc70affa3f17dd0998c9e893b}{insert\-Menu} (\-Q\-Action $\ast$before, \-Q\-Menu $\ast$\hyperlink{group___core_plugin_ga243949a2b2abff30862e34f6313f28c0}{menu})=0
+\item 
+\-Q\-List$<$ \hyperlink{class_core_1_1_command}{\-Command} $\ast$ $>$ \hyperlink{group___core_plugin_gab3e0ff04d294ddefd25b8762d3e2f008}{commands} () const 
+\item 
+\-Q\-List$<$ \hyperlink{class_core_1_1_action_container}{\-Action\-Container} $\ast$ $>$ \hyperlink{group___core_plugin_ga63f59fe25c7e6fa20891fca2ee620f16}{sub\-Containers} () const 
+\end{DoxyCompactItemize}
+\subsection*{\-Protected \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+bool \hyperlink{group___core_plugin_ga506d6f367240b15d691c878fa0e9935d}{can\-Add\-Action} (\hyperlink{class_core_1_1_command}{\-Command} $\ast$action) const 
+\item 
+bool \hyperlink{group___core_plugin_gadbde4aa31f9950d994f21baf55bea0ae}{can\-Add\-Menu} (\hyperlink{class_core_1_1_action_container}{\-Action\-Container} $\ast$\hyperlink{group___core_plugin_ga243949a2b2abff30862e34f6313f28c0}{menu}) const 
+\item 
+virtual bool \hyperlink{group___core_plugin_gad94e8e4c0fa2c17d3de9edb24be32b17}{can\-Be\-Added\-To\-Menu} () const =0
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___core_plugin_ga7fa37dae076bbf750250911084354f3c}{add\-Action} (\hyperlink{class_core_1_1_command}{\-Command} $\ast$action, int pos, bool setpos)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___core_plugin_ga8b0bc3351ea9c87b7e95bac15c82eb52}{add\-Menu} (\hyperlink{class_core_1_1_action_container}{\-Action\-Container} $\ast$\hyperlink{group___core_plugin_ga243949a2b2abff30862e34f6313f28c0}{menu}, int pos, bool setpos)
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+
+
+\-Definition at line 40 of file actioncontainer\-\_\-p.\-h.
+
+
+
+\-The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/plugins/coreplugin/actionmanager/\hyperlink{actioncontainer__p_8h}{actioncontainer\-\_\-p.\-h}\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/plugins/coreplugin/actionmanager/\hyperlink{actioncontainer_8cpp}{actioncontainer.\-cpp}\end{DoxyCompactItemize}

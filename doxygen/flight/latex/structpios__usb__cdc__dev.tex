@@ -1,0 +1,78 @@
+\hypertarget{structpios__usb__cdc__dev}{\section{pios\-\_\-usb\-\_\-cdc\-\_\-dev \-Struct \-Reference}
+\label{structpios__usb__cdc__dev}\index{pios\-\_\-usb\-\_\-cdc\-\_\-dev@{pios\-\_\-usb\-\_\-cdc\-\_\-dev}}
+}
+\subsection*{\-Public \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+uint8\-\_\-t \hyperlink{group___p_i_o_s___u_s_b___c_o_m_ga82f6a571f9bf92fae2d7368be2407a27}{rx\-\_\-packet\-\_\-buffer}\mbox{[}\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-B\-O\-A\-R\-D\-\_\-\-C\-D\-C\-\_\-\-D\-A\-T\-A\-\_\-\-L\-E\-N\-G\-T\-H\mbox{]} \hyperlink{group___p_i_o_s___u_s_b___c_o_m_gab58a69ef6ffba4b36cf99ba5dfd9798c}{\-\_\-\-\_\-attribute\-\_\-\-\_\-} ((aligned(4)))
+\item 
+uint8\-\_\-t \hyperlink{group___p_i_o_s___u_s_b___c_o_m_ga1b086465e042517001948516cfa908d1}{tx\-\_\-packet\-\_\-buffer}\mbox{[}\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-B\-O\-A\-R\-D\-\_\-\-C\-D\-C\-\_\-\-D\-A\-T\-A\-\_\-\-L\-E\-N\-G\-T\-H-\/1\mbox{]} \hyperlink{structpios__usb__cdc__dev_gab58a69ef6ffba4b36cf99ba5dfd9798c}{\-\_\-\-\_\-attribute\-\_\-\-\_\-} ((aligned(4)))
+\item 
+uint8\-\_\-t ctrl\-\_\-tx\-\_\-packet\-\_\-buffer\mbox{[}\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-B\-O\-A\-R\-D\-\_\-\-C\-D\-C\-\_\-\-M\-G\-M\-T\-\_\-\-L\-E\-N\-G\-T\-H\mbox{]} \hyperlink{structpios__usb__cdc__dev_gab58a69ef6ffba4b36cf99ba5dfd9798c}{\-\_\-\-\_\-attribute\-\_\-\-\_\-} ((aligned(4)))
+\end{DoxyCompactItemize}
+\subsection*{\-Data \-Fields}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{group___p_i_o_s___u_s_b___c_o_m_gab4c476b0e464c59dcf6eadec015a87b8}{pios\-\_\-usb\-\_\-cdc\-\_\-dev\-\_\-magic} \hyperlink{group___p_i_o_s___u_s_b___c_o_m_gaf1f80b904c24c3a9d91aa7c8d9f0e0f7}{magic}
+\item 
+struct \hyperlink{structpios__usb__cdc__cfg}{pios\-\_\-usb\-\_\-cdc\-\_\-cfg} $\ast$ \hyperlink{group___p_i_o_s___u_s_b___c_o_m_gac129f3ba21ca6cb9ff92da45033acbbb}{cfg}
+\item 
+uint32\-\_\-t \hyperlink{group___p_i_o_s___u_s_b___c_o_m_ga5431d5544be717a197964da5a3b08d2a}{lower\-\_\-id}
+\item 
+\hyperlink{group___p_i_o_s___c_o_m_ga23f1888821f1f74a50c02adc459df597}{pios\-\_\-com\-\_\-callback} \hyperlink{group___p_i_o_s___u_s_b___c_o_m_gaf3cf777f785d8b2a117c736064e859de}{rx\-\_\-in\-\_\-cb}
+\item 
+uint32\-\_\-t \hyperlink{group___p_i_o_s___u_s_b___c_o_m_gae98fcbb800c5655c05106c1e73a1de01}{rx\-\_\-in\-\_\-context}
+\item 
+\hyperlink{group___p_i_o_s___c_o_m_ga23f1888821f1f74a50c02adc459df597}{pios\-\_\-com\-\_\-callback} \hyperlink{group___p_i_o_s___u_s_b___c_o_m_ga1e9a79d782c5671d5e35aafe776632f3}{tx\-\_\-out\-\_\-cb}
+\item 
+uint32\-\_\-t \hyperlink{group___p_i_o_s___u_s_b___c_o_m_ga81d00c55fe107bb853a8629706b0acb4}{tx\-\_\-out\-\_\-context}
+\item 
+uint8\-\_\-t \hyperlink{group___p_i_o_s___u_s_b___c_o_m_ga82f6a571f9bf92fae2d7368be2407a27}{rx\-\_\-packet\-\_\-buffer} \mbox{[}\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-B\-O\-A\-R\-D\-\_\-\-C\-D\-C\-\_\-\-D\-A\-T\-A\-\_\-\-L\-E\-N\-G\-T\-H\mbox{]}
+\item 
+uint8\-\_\-t \hyperlink{group___p_i_o_s___u_s_b___c_o_m_ga1b086465e042517001948516cfa908d1}{tx\-\_\-packet\-\_\-buffer} \mbox{[}\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-B\-O\-A\-R\-D\-\_\-\-C\-D\-C\-\_\-\-D\-A\-T\-A\-\_\-\-L\-E\-N\-G\-T\-H-\/1\mbox{]}
+\item 
+uint32\-\_\-t \hyperlink{group___p_i_o_s___u_s_b___c_o_m_gaf423c6fd8c8e8d95b5dc5d9242df40da}{rx\-\_\-dropped}
+\item 
+uint32\-\_\-t \hyperlink{group___p_i_o_s___u_s_b___c_o_m_ga88576a84665e4d9b17001b7cb5efebc6}{rx\-\_\-oversize}
+\item 
+bool \hyperlink{group___p_i_o_s___u_s_b___c_o_m_ga27ad044c09bb6b13874d1d1281aa397f}{usb\-\_\-ctrl\-\_\-if\-\_\-enabled}
+\item 
+bool \hyperlink{group___p_i_o_s___u_s_b___c_o_m_gaa0a4b4afa2a6f6c20709f878b026ecc5}{usb\-\_\-data\-\_\-if\-\_\-enabled}
+\item 
+volatile bool \hyperlink{group___p_i_o_s___u_s_b___c_o_m_gad41e79606da14368c2716f4bc3c84618}{rx\-\_\-active}
+\item 
+volatile bool \hyperlink{group___p_i_o_s___u_s_b___c_o_m_ga5ebf71c716fc76c564cf8217adeb956c}{tx\-\_\-active}
+\item 
+volatile uint16\-\_\-t \hyperlink{group___p_i_o_s___u_s_b___c_o_m_ga945dfed2223e17061cb6e4257c2b2624}{prev\-\_\-uart\-\_\-state}
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+
+
+\-Definition at line 63 of file pios\-\_\-usb\-\_\-cdc.\-c.
+
+
+
+\subsection{\-Member \-Function \-Documentation}
+\hypertarget{structpios__usb__cdc__dev_gab58a69ef6ffba4b36cf99ba5dfd9798c}{\index{pios\-\_\-usb\-\_\-cdc\-\_\-dev@{pios\-\_\-usb\-\_\-cdc\-\_\-dev}!\-\_\-\-\_\-attribute\-\_\-\-\_\-@{\-\_\-\-\_\-attribute\-\_\-\-\_\-}}
+\index{\-\_\-\-\_\-attribute\-\_\-\-\_\-@{\-\_\-\-\_\-attribute\-\_\-\-\_\-}!pios_usb_cdc_dev@{pios\-\_\-usb\-\_\-cdc\-\_\-dev}}
+\subsubsection[{\-\_\-\-\_\-attribute\-\_\-\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}uint8\-\_\-t {\bf tx\-\_\-packet\-\_\-buffer} \mbox{[}\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-B\-O\-A\-R\-D\-\_\-\-C\-D\-C\-\_\-\-D\-A\-T\-A\-\_\-\-L\-E\-N\-G\-T\-H -\/ 1\mbox{]} {\bf pios\-\_\-usb\-\_\-cdc\-\_\-dev\-::\-\_\-\-\_\-attribute\-\_\-\-\_\-} (
+\begin{DoxyParamCaption}
+\item[{(aligned(4))}]{}
+\end{DoxyParamCaption}
+)}}\label{structpios__usb__cdc__dev_gab58a69ef6ffba4b36cf99ba5dfd9798c}
+\hypertarget{structpios__usb__cdc__dev_gab58a69ef6ffba4b36cf99ba5dfd9798c}{\index{pios\-\_\-usb\-\_\-cdc\-\_\-dev@{pios\-\_\-usb\-\_\-cdc\-\_\-dev}!\-\_\-\-\_\-attribute\-\_\-\-\_\-@{\-\_\-\-\_\-attribute\-\_\-\-\_\-}}
+\index{\-\_\-\-\_\-attribute\-\_\-\-\_\-@{\-\_\-\-\_\-attribute\-\_\-\-\_\-}!pios_usb_cdc_dev@{pios\-\_\-usb\-\_\-cdc\-\_\-dev}}
+\subsubsection[{\-\_\-\-\_\-attribute\-\_\-\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}uint8\-\_\-t ctrl\-\_\-tx\-\_\-packet\-\_\-buffer \mbox{[}\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-B\-O\-A\-R\-D\-\_\-\-C\-D\-C\-\_\-\-M\-G\-M\-T\-\_\-\-L\-E\-N\-G\-T\-H\mbox{]} {\bf pios\-\_\-usb\-\_\-cdc\-\_\-dev\-::\-\_\-\-\_\-attribute\-\_\-\-\_\-} (
+\begin{DoxyParamCaption}
+\item[{(aligned(4))}]{}
+\end{DoxyParamCaption}
+)}}\label{structpios__usb__cdc__dev_gab58a69ef6ffba4b36cf99ba5dfd9798c}
+
+
+\-The documentation for this struct was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jb/code/\-Tau\-Labs/flight/\-Pi\-O\-S/\-S\-T\-M32\-F10x/\hyperlink{_s_t_m32_f10x_2pios__usb__cdc_8c}{pios\-\_\-usb\-\_\-cdc.\-c}\item 
+/home/jb/code/\-Tau\-Labs/flight/\-Pi\-O\-S/\-S\-T\-M32\-F30x/\hyperlink{_s_t_m32_f30x_2pios__usb__cdc_8c}{pios\-\_\-usb\-\_\-cdc.\-c}\item 
+/home/jb/code/\-Tau\-Labs/flight/\-Pi\-O\-S/\-S\-T\-M32\-F4xx/\hyperlink{_s_t_m32_f4xx_2pios__usb__cdc_8c}{pios\-\_\-usb\-\_\-cdc.\-c}\end{DoxyCompactItemize}

@@ -1,0 +1,94 @@
+\hypertarget{class_o_p_map_gadget_widget}{\section{\-O\-P\-Map\-Gadget\-Widget \-Class \-Reference}
+\label{class_o_p_map_gadget_widget}\index{\-O\-P\-Map\-Gadget\-Widget@{\-O\-P\-Map\-Gadget\-Widget}}
+}
+
+
+{\ttfamily \#include $<$opmapgadgetwidget.\-h$>$}
+
+\subsection*{\-Public \-Slots}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_plugin_gae67526d9495209b93360c1fae84e3d47}{home\-Position\-Updated} (\hyperlink{class_u_a_v_object}{\-U\-A\-V\-Object} $\ast$)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_plugin_gad7068b438d89bb8f2a9e31ef5ca2d708}{on\-Telemetry\-Connect} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_plugin_ga723918dc2ebb03ce17180228e4233d06}{on\-Telemetry\-Disconnect} ()
+\end{DoxyCompactItemize}
+\subsection*{\-Signals}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_plugin_ga1e2bbe9f774b6c505ba7645a868f1c52}{default\-Location\-And\-Zoom\-Changed} (double lng, double lat, double zoom)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_plugin_gaa3099fde3c8867538207ed89067345eb}{overlay\-Opacity\-Changed} (qreal)
+\end{DoxyCompactItemize}
+\subsection*{\-Public \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___o_p_map_plugin_ga7fe62a2d1a8b920f3e44900dee8d9d5a}{\-O\-P\-Map\-Gadget\-Widget} (\-Q\-Widget $\ast$parent=0)
+\item 
+\hyperlink{group___o_p_map_plugin_ga7c7775d0011bd9d0f8ca0219f48bc193}{$\sim$\-O\-P\-Map\-Gadget\-Widget} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_plugin_gaea4b659a9476e351373fc6df96026327}{set\-Home} (\-Q\-Point\-F pos)
+\begin{DoxyCompactList}\small\item\em public functions \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_plugin_ga7eaa4b0e19be1df614f49d7b86393a19}{set\-Home} (\hyperlink{structinternals_1_1_point_lat_lng}{internals\-::\-Point\-Lat\-Lng} pos\-\_\-lat\-\_\-lon, double altitude)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_plugin_gab81157189920148cb4178548aeef4b92}{go\-Home} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_plugin_gaa2731b7fb965c417860b30ac354437ca}{set\-Zoom} (int zoom)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_plugin_ga4c9793fea42fd12ba9f7f27c25f98523}{set\-Position} (\-Q\-Point\-F pos)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_plugin_gab677b7feb42a6edd833e63325d2a928b}{set\-Map\-Provider} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} provider)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_plugin_ga98807be867cfbdd8a0eeb05835b63a75}{set\-Use\-Open\-G\-L} (bool use\-Open\-G\-L)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_plugin_ga30af002abadbc8e420a9fe75f5042765}{set\-Show\-Tile\-Grid\-Lines} (bool show\-Tile\-Grid\-Lines)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_plugin_ga5187482d55aa0753cb6395bef5c402dd}{set\-Access\-Mode} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} access\-Mode)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_plugin_gad5bce7bba1964ba7d8303ec72e107dd8}{set\-Use\-Memory\-Cache} (bool use\-Memory\-Cache)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_plugin_gab99ed3caf53adec86782ef89c0e8f47a}{set\-Cache\-Location} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} cache\-Location)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_plugin_gafe9c5443c9ed4947f2072bf8feba9673}{set\-Map\-Mode} (\hyperlink{group___o_p_map_plugin_ga10cb3e7dfbac87e40e00c1a8c76c16e5}{op\-Map\-Mode\-Type} mode)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_plugin_gaada757b80b86bdf8e272319a861e2f73}{\-Set\-Uav\-Pic} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \-U\-A\-V\-Pic)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_plugin_ga865f22d42c30a2446539f03df486e64e}{set\-Max\-Update\-Rate} (int update\-\_\-rate)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_plugin_ga44a752ab2b6f6b6212e39316b4050683}{set\-Home\-Position} (\-Q\-Point\-F pos)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_plugin_ga7d642e3ea7bf1e5cd0cc8be6dafc7ba8}{set\-Overlay\-Opacity} (qreal value)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_plugin_ga7afda7ed24be3606e25a6005fcc881da}{set\-User\-Image\-Location} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} user\-Image\-Location)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_plugin_gab57277e52834ff73fe190391e3b2aa40}{set\-User\-Image\-Horizontal\-Scale} (double user\-Image\-Horizontal\-Scale)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_plugin_gab9a1ad0c6a406ed144ba3ec120d94d28}{set\-User\-Image\-Vertical\-Scale} (double user\-Image\-Vertical\-Scale)
+\item 
+bool \hyperlink{group___o_p_map_plugin_ga9d583efd0d407c4f509e812d454b41e0}{get\-G\-P\-S\-Position} (double \&latitude, double \&longitude, double \&altitude)
+\end{DoxyCompactItemize}
+\subsection*{\-Protected \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_plugin_ga5364db038789e0e4ad94ae0606391100}{resize\-Event} (\-Q\-Resize\-Event $\ast$event)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_plugin_gac0a4e19ec058721095f125dfba28ea79}{mouse\-Move\-Event} (\-Q\-Mouse\-Event $\ast$event)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_plugin_gab4575b0db17580cc1a575aafa2fc5710}{context\-Menu\-Event} (\-Q\-Context\-Menu\-Event $\ast$event)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_plugin_ga07f947001ed1fdf9d099f170e5116aa2}{close\-Event} (\-Q\-Close\-Event $\ast$)
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+
+
+\-Definition at line 89 of file opmapgadgetwidget.\-h.
+
+
+
+\-The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/plugins/opmap/\hyperlink{opmapgadgetwidget_8h}{opmapgadgetwidget.\-h}\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/plugins/opmap/\hyperlink{opmapgadgetwidget_8cpp}{opmapgadgetwidget.\-cpp}\end{DoxyCompactItemize}

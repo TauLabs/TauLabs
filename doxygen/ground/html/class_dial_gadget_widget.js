@@ -1,0 +1,28 @@
+var class_dial_gadget_widget =
+[
+    [ "DialGadgetWidget", "group___dial_plugin.html#gac5397a4cc992266439aa3e8b1513c209", null ],
+    [ "~DialGadgetWidget", "group___dial_plugin.html#ga3e34cc3b776a627597b4c4823b358741", null ],
+    [ "connectNeedles", "group___dial_plugin.html#ga4b039739f70d00651a6ca39cf5a1997a", null ],
+    [ "enableOpenGL", "group___dial_plugin.html#gaad3e246709ada936d97644f6e87fba59", null ],
+    [ "enableSmoothUpdates", "group___dial_plugin.html#ga6b6e527e9c2516f6dec2f6332a288a9f", null ],
+    [ "paint", "group___dial_plugin.html#gab6b769564974c0549228d13820ced8e7", null ],
+    [ "paintEvent", "group___dial_plugin.html#ga35b76a1088cc50996f66ef23da926785", null ],
+    [ "resizeEvent", "group___dial_plugin.html#ga4ce19a0118b1518cf0469e2fc69dc86b", null ],
+    [ "setDialFile", "group___dial_plugin.html#ga00bc4e8b1988a13cf8d1fff889444684", null ],
+    [ "setDialFont", "group___dial_plugin.html#ga47e399b79845057cc9f7eab02fef380a", null ],
+    [ "setN1Factor", "group___dial_plugin.html#ga8b964189b1a31516fd976319be2c820c", null ],
+    [ "setN1Max", "group___dial_plugin.html#ga1686d1c9510998c11ce174fb20a785e1", null ],
+    [ "setN1Min", "group___dial_plugin.html#ga9e1d1e6690a126b564e4058c5c9a1757", null ],
+    [ "setN2Factor", "group___dial_plugin.html#gacd0d92d28bdad1d9142edc01753adc0f", null ],
+    [ "setN2Max", "group___dial_plugin.html#ga137f9d887b4877446af21bc388fea524", null ],
+    [ "setN2Min", "group___dial_plugin.html#gacbefbb82b1a0a45dd4ac2b96888680d8", null ],
+    [ "setN3Factor", "group___dial_plugin.html#gad8af67c2847f49c9c2dce641d7105f18", null ],
+    [ "setN3Max", "group___dial_plugin.html#gaa3a290185da85f7cd228c785ca2b6cc1", null ],
+    [ "setN3Min", "group___dial_plugin.html#ga0b4a5fbf9c6dcd1f01bd6efff7cc3c26", null ],
+    [ "setNeedle1", "group___dial_plugin.html#gaab89c42817209c3b41a9f407138b2c2f", null ],
+    [ "setNeedle2", "group___dial_plugin.html#gaeabf2ea71c12b9ce01fcc94833468297", null ],
+    [ "setNeedle3", "group___dial_plugin.html#ga7d752a6892e2e93299793b455723fe7e", null ],
+    [ "updateNeedle1", "group___dial_plugin.html#ga20f0bcc550ca92ec3bd40b4cf0b2a38e", null ],
+    [ "updateNeedle2", "group___dial_plugin.html#gaf88f5db2a7b289050e6dc6a8cda27e0f", null ],
+    [ "updateNeedle3", "group___dial_plugin.html#gad0f863a46778ffadd8bf6dbdc01c4c81", null ]
+];

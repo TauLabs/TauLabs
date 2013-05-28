@@ -1,0 +1,26 @@
+var pios__bma180_8c =
+[
+    [ "pios_bma180_dev_magic", "group___p_i_o_s___b_m_a180.html#ga019b2d5aa99a1a8e1b760c201899fa64", null ],
+    [ "PIOS_BMA180_alloc", "group___p_i_o_s___b_m_a180.html#gaf678d2ec394d7fd68fe5af5f524a9580", null ],
+    [ "PIOS_BMA180_ClaimBus", "group___p_i_o_s___b_m_a180.html#ga6445f37d7393a3cf869f14425d4f8f60", null ],
+    [ "PIOS_BMA180_ClaimBusISR", "group___p_i_o_s___b_m_a180.html#gaa4ed3d63ee77fc3f34b4c307f5552d15", null ],
+    [ "PIOS_BMA180_Config", "group___p_i_o_s___b_m_a180.html#ga30fe40e1b223ecd4216e29f92337e1bb", null ],
+    [ "PIOS_BMA180_DisableEeprom", "group___p_i_o_s___b_m_a180.html#gaca6dd3b016b551b775145bce35cafc19", null ],
+    [ "PIOS_BMA180_EnableEeprom", "group___p_i_o_s___b_m_a180.html#gaade9c8e811c41a64e5c158433bb388a1", null ],
+    [ "PIOS_BMA180_EnableIrq", "group___p_i_o_s___b_m_a180.html#gae82c40d82425a9eeff6ce0f09cd2956e", null ],
+    [ "PIOS_BMA180_GetReg", "group___p_i_o_s___b_m_a180.html#ga1e15968405a6b6294ea33bca1c34fa4b", null ],
+    [ "PIOS_BMA180_GetScale", "group___p_i_o_s___b_m_a180.html#gac0b0ac69b4fecb73c72a5acf917471b4", null ],
+    [ "PIOS_BMA180_Init", "group___p_i_o_s___b_m_a180.html#ga913e423478cf470fc5691ea8d62bca65", null ],
+    [ "PIOS_BMA180_IRQHandler", "group___p_i_o_s___b_m_a180.html#gaded704c5b366fadaac4efb9272a9414a", null ],
+    [ "PIOS_BMA180_ReadAccels", "group___p_i_o_s___b_m_a180.html#ga7b56742fa09a8cb81b620c4ddb35e0a0", null ],
+    [ "PIOS_BMA180_ReadFifo", "group___p_i_o_s___b_m_a180.html#gaae90c39f1345aa38815791270aca39ae", null ],
+    [ "PIOS_BMA180_ReleaseBus", "group___p_i_o_s___b_m_a180.html#ga1027b4d7c9d37660697a5093f7077a42", null ],
+    [ "PIOS_BMA180_ReleaseBusISR", "group___p_i_o_s___b_m_a180.html#gac3df046a46bd9633ccb969436bb8d9ab", null ],
+    [ "PIOS_BMA180_SelectBW", "group___p_i_o_s___b_m_a180.html#ga99ae7ab74e94796f1c06eea09253ec99", null ],
+    [ "PIOS_BMA180_SetRange", "group___p_i_o_s___b_m_a180.html#ga869729e03e789513161b0c57357ec92e", null ],
+    [ "PIOS_BMA180_SetReg", "group___p_i_o_s___b_m_a180.html#gab85fd5543080a82cb8a32c27a06a288a", null ],
+    [ "PIOS_BMA180_Test", "group___p_i_o_s___b_m_a180.html#ga581d274e0f804ba0c8ef0406a782aa8d", null ],
+    [ "PIOS_BMA180_Validate", "group___p_i_o_s___b_m_a180.html#ga4f3099dc3d5cac7c78fd7ef6f26f9789", null ],
+    [ "bma180_irqs", "group___p_i_o_s___b_m_a180.html#gabbaf3c8a871b2c19d493446ad684c3dc", null ],
+    [ "dev", "group___p_i_o_s___b_m_a180.html#ga4a000acd5b19d6683cfa028fbbaa60f1", null ]
+];

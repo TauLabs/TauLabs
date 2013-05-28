@@ -1,0 +1,28 @@
+var class_extension_system_1_1_plugin_spec =
+[
+    [ "PluginArgumentDescriptions", "class_extension_system_1_1_plugin_spec.html#acf81cc5fcc20b047203f9da886cbbdee", null ],
+    [ "State", "class_extension_system_1_1_plugin_spec.html#a3d40e1bd1f17eb32b314bcd282b3e3b9", null ],
+    [ "~PluginSpec", "class_extension_system_1_1_plugin_spec.html#a36fc0d85c9607b850b79415a6588c496", null ],
+    [ "addArgument", "class_extension_system_1_1_plugin_spec.html#a648a51e79049f3a3e0b67596befc8639", null ],
+    [ "argumentDescriptions", "class_extension_system_1_1_plugin_spec.html#a5591aa7a260c6f74fd5abee3382658af", null ],
+    [ "arguments", "class_extension_system_1_1_plugin_spec.html#a1d67bb71bc40bb5c90eb197503e103b7", null ],
+    [ "compatVersion", "class_extension_system_1_1_plugin_spec.html#a45b8cc109ac512b48cf3781d9189959e", null ],
+    [ "copyright", "class_extension_system_1_1_plugin_spec.html#aedb8b15a0ecdf0d8b2ac27911594d585", null ],
+    [ "dependencies", "class_extension_system_1_1_plugin_spec.html#aea2dc5245d57466a867e7f59a11a6af5", null ],
+    [ "dependencySpecs", "class_extension_system_1_1_plugin_spec.html#aea749392b5e9b90bf580fae85b956e12", null ],
+    [ "description", "class_extension_system_1_1_plugin_spec.html#a971d59d3293bca9fc1f312542d380a57", null ],
+    [ "errorString", "class_extension_system_1_1_plugin_spec.html#a5c7e05df1ab79d1c67140f72237e92e5", null ],
+    [ "filePath", "class_extension_system_1_1_plugin_spec.html#a9acb85e370ec9ee96c27860dc1ceccd6", null ],
+    [ "hasError", "class_extension_system_1_1_plugin_spec.html#a4f81e50b4662bbe22fe207d66963b712", null ],
+    [ "license", "class_extension_system_1_1_plugin_spec.html#aa0aea3276267028b56289d0f594089dd", null ],
+    [ "location", "class_extension_system_1_1_plugin_spec.html#afa870ca9c67d8e09aa87dc74a5de0ba8", null ],
+    [ "name", "class_extension_system_1_1_plugin_spec.html#a822492851bc8d91f2e82960fbf6303ff", null ],
+    [ "plugin", "class_extension_system_1_1_plugin_spec.html#ae6e82e9c2548b309eafbadfffffd4cc6", null ],
+    [ "provides", "class_extension_system_1_1_plugin_spec.html#a1bc08643fc8637379344949ac8062773", null ],
+    [ "setArguments", "class_extension_system_1_1_plugin_spec.html#a27d7c6644d5757da46391cc82803e42d", null ],
+    [ "state", "class_extension_system_1_1_plugin_spec.html#a2ce7fae71669e79fc1e4a227afee2c78", null ],
+    [ "url", "class_extension_system_1_1_plugin_spec.html#a567faa06e5f2f469ff34a53cc45cc6eb", null ],
+    [ "vendor", "class_extension_system_1_1_plugin_spec.html#a192dfd0c30392c994303743b8ad76d83", null ],
+    [ "version", "class_extension_system_1_1_plugin_spec.html#aa4e3f800e656d5c849a91247fa4a5b71", null ],
+    [ "Internal::PluginManagerPrivate", "class_extension_system_1_1_plugin_spec.html#ac886620628a69def5b6d57fa12c39179", null ]
+];

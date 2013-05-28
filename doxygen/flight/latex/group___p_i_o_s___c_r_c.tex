@@ -1,0 +1,189 @@
+\hypertarget{group___p_i_o_s___c_r_c}{\section{\-C\-R\-C \-Functions}
+\label{group___p_i_o_s___c_r_c}\index{\-C\-R\-C Functions@{\-C\-R\-C Functions}}
+}
+\subsection*{\-Files}
+\begin{DoxyCompactItemize}
+\item 
+file \hyperlink{pios__crc_8h}{pios\-\_\-crc.\-h}
+\begin{DoxyCompactList}\small\item\em \-C\-R\-C functions header. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+uint8\-\_\-t \hyperlink{group___p_i_o_s___c_r_c_ga7a3781ede0c0bbd4c15f6513597e09f8}{\-P\-I\-O\-S\-\_\-\-C\-R\-C\-\_\-update\-Byte} (uint8\-\_\-t crc, const uint8\-\_\-t data)
+\item 
+uint8\-\_\-t \hyperlink{group___p_i_o_s___c_r_c_ga76c5afc1db85ddf9511c4d993714d094}{\-P\-I\-O\-S\-\_\-\-C\-R\-C\-\_\-update\-C\-R\-C} (uint8\-\_\-t crc, const uint8\-\_\-t $\ast$data, int32\-\_\-t length)
+\begin{DoxyCompactList}\small\item\em \-Update a \-C\-R\-C with a data buffer. \end{DoxyCompactList}\item 
+uint16\-\_\-t \hyperlink{group___p_i_o_s___c_r_c_gaa0719ccb53a4a29e7123ff950364e2b5}{\-P\-I\-O\-S\-\_\-\-C\-R\-C16\-\_\-update\-Byte} (uint16\-\_\-t crc, const uint8\-\_\-t data)
+\item 
+uint16\-\_\-t \hyperlink{group___p_i_o_s___c_r_c_ga26ddbe84d2b3c7c295d740bed0a7bc08}{\-P\-I\-O\-S\-\_\-\-C\-R\-C16\-\_\-update\-C\-R\-C} (uint16\-\_\-t crc, const uint8\-\_\-t $\ast$data, int32\-\_\-t length)
+\begin{DoxyCompactList}\small\item\em \-Update a \-C\-R\-C with a data buffer. \end{DoxyCompactList}\item 
+uint32\-\_\-t \hyperlink{group___p_i_o_s___c_r_c_ga3ee1918a6a3be58dc0554a7c99529f7b}{\-P\-I\-O\-S\-\_\-\-C\-R\-C32\-\_\-update\-Byte} (uint32\-\_\-t crc, const uint8\-\_\-t data)
+\item 
+uint32\-\_\-t \hyperlink{group___p_i_o_s___c_r_c_ga377c7e542bd4d088e213ca5376afaf9b}{\-P\-I\-O\-S\-\_\-\-C\-R\-C32\-\_\-update\-C\-R\-C} (uint32\-\_\-t crc, const uint8\-\_\-t $\ast$data, int32\-\_\-t length)
+\begin{DoxyCompactList}\small\item\em \-Update a \-C\-R\-C with a data buffer. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{\-Function \-Documentation}
+\hypertarget{group___p_i_o_s___c_r_c_gaa0719ccb53a4a29e7123ff950364e2b5}{\index{\-C\-R\-C Functions@{\-C\-R\-C Functions}!\-P\-I\-O\-S\-\_\-\-C\-R\-C16\-\_\-update\-Byte@{\-P\-I\-O\-S\-\_\-\-C\-R\-C16\-\_\-update\-Byte}}
+\index{\-P\-I\-O\-S\-\_\-\-C\-R\-C16\-\_\-update\-Byte@{\-P\-I\-O\-S\-\_\-\-C\-R\-C16\-\_\-update\-Byte}!CRC Functions@{\-C\-R\-C Functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-C\-R\-C16\-\_\-update\-Byte}]{\setlength{\rightskip}{0pt plus 5cm}uint16\-\_\-t {\bf \-P\-I\-O\-S\-\_\-\-C\-R\-C16\-\_\-update\-Byte} (
+\begin{DoxyParamCaption}
+\item[{uint16\-\_\-t}]{crc, }
+\item[{const uint8\-\_\-t}]{data}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___c_r_c_gaa0719ccb53a4a29e7123ff950364e2b5}
+\-Update the crc value with new data. 
+\begin{DoxyParams}{\-Parameters}
+{\em crc} & \-The current crc value. \\
+\hline
+{\em data} & \-Pointer to a buffer of {\itshape data\-\_\-len\/} bytes. \\
+\hline
+{\em length} & \-Number of bytes in the {\itshape data\/} buffer. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+\-The updated crc value. 
+\end{DoxyReturn}
+
+
+\-Definition at line 152 of file pios\-\_\-crc.\-c.
+
+\hypertarget{group___p_i_o_s___c_r_c_ga26ddbe84d2b3c7c295d740bed0a7bc08}{\index{\-C\-R\-C Functions@{\-C\-R\-C Functions}!\-P\-I\-O\-S\-\_\-\-C\-R\-C16\-\_\-update\-C\-R\-C@{\-P\-I\-O\-S\-\_\-\-C\-R\-C16\-\_\-update\-C\-R\-C}}
+\index{\-P\-I\-O\-S\-\_\-\-C\-R\-C16\-\_\-update\-C\-R\-C@{\-P\-I\-O\-S\-\_\-\-C\-R\-C16\-\_\-update\-C\-R\-C}!CRC Functions@{\-C\-R\-C Functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-C\-R\-C16\-\_\-update\-C\-R\-C}]{\setlength{\rightskip}{0pt plus 5cm}uint16\-\_\-t {\bf \-P\-I\-O\-S\-\_\-\-C\-R\-C16\-\_\-update\-C\-R\-C} (
+\begin{DoxyParamCaption}
+\item[{uint16\-\_\-t}]{crc, }
+\item[{const uint8\-\_\-t $\ast$}]{data, }
+\item[{int32\-\_\-t}]{length}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___c_r_c_ga26ddbe84d2b3c7c295d740bed0a7bc08}
+
+
+\-Update a \-C\-R\-C with a data buffer. 
+
+
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em crc} & \-Starting \-C\-R\-C value \\
+\hline
+\mbox{\tt in}  & {\em data} & \-Data buffer \\
+\hline
+\mbox{\tt in}  & {\em length} & \-Number of bytes to process \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+\-Updated \-C\-R\-C 
+\end{DoxyReturn}
+
+
+\-Definition at line 164 of file pios\-\_\-crc.\-c.
+
+\hypertarget{group___p_i_o_s___c_r_c_ga3ee1918a6a3be58dc0554a7c99529f7b}{\index{\-C\-R\-C Functions@{\-C\-R\-C Functions}!\-P\-I\-O\-S\-\_\-\-C\-R\-C32\-\_\-update\-Byte@{\-P\-I\-O\-S\-\_\-\-C\-R\-C32\-\_\-update\-Byte}}
+\index{\-P\-I\-O\-S\-\_\-\-C\-R\-C32\-\_\-update\-Byte@{\-P\-I\-O\-S\-\_\-\-C\-R\-C32\-\_\-update\-Byte}!CRC Functions@{\-C\-R\-C Functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-C\-R\-C32\-\_\-update\-Byte}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t {\bf \-P\-I\-O\-S\-\_\-\-C\-R\-C32\-\_\-update\-Byte} (
+\begin{DoxyParamCaption}
+\item[{uint32\-\_\-t}]{crc, }
+\item[{const uint8\-\_\-t}]{data}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___c_r_c_ga3ee1918a6a3be58dc0554a7c99529f7b}
+\-Update the crc value with new data. 
+\begin{DoxyParams}{\-Parameters}
+{\em crc} & \-The current crc value. \\
+\hline
+{\em data} & \-Pointer to a buffer of {\itshape data\-\_\-len\/} bytes. \\
+\hline
+{\em length} & \-Number of bytes in the {\itshape data\/} buffer. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+\-The updated crc value. 
+\end{DoxyReturn}
+
+
+\-Definition at line 180 of file pios\-\_\-crc.\-c.
+
+\hypertarget{group___p_i_o_s___c_r_c_ga377c7e542bd4d088e213ca5376afaf9b}{\index{\-C\-R\-C Functions@{\-C\-R\-C Functions}!\-P\-I\-O\-S\-\_\-\-C\-R\-C32\-\_\-update\-C\-R\-C@{\-P\-I\-O\-S\-\_\-\-C\-R\-C32\-\_\-update\-C\-R\-C}}
+\index{\-P\-I\-O\-S\-\_\-\-C\-R\-C32\-\_\-update\-C\-R\-C@{\-P\-I\-O\-S\-\_\-\-C\-R\-C32\-\_\-update\-C\-R\-C}!CRC Functions@{\-C\-R\-C Functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-C\-R\-C32\-\_\-update\-C\-R\-C}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t {\bf \-P\-I\-O\-S\-\_\-\-C\-R\-C32\-\_\-update\-C\-R\-C} (
+\begin{DoxyParamCaption}
+\item[{uint32\-\_\-t}]{crc, }
+\item[{const uint8\-\_\-t $\ast$}]{data, }
+\item[{int32\-\_\-t}]{length}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___c_r_c_ga377c7e542bd4d088e213ca5376afaf9b}
+
+
+\-Update a \-C\-R\-C with a data buffer. 
+
+
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em crc} & \-Starting \-C\-R\-C value \\
+\hline
+\mbox{\tt in}  & {\em data} & \-Data buffer \\
+\hline
+\mbox{\tt in}  & {\em length} & \-Number of bytes to process \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+\-Updated \-C\-R\-C 
+\end{DoxyReturn}
+
+
+\-Definition at line 192 of file pios\-\_\-crc.\-c.
+
+\hypertarget{group___p_i_o_s___c_r_c_ga7a3781ede0c0bbd4c15f6513597e09f8}{\index{\-C\-R\-C Functions@{\-C\-R\-C Functions}!\-P\-I\-O\-S\-\_\-\-C\-R\-C\-\_\-update\-Byte@{\-P\-I\-O\-S\-\_\-\-C\-R\-C\-\_\-update\-Byte}}
+\index{\-P\-I\-O\-S\-\_\-\-C\-R\-C\-\_\-update\-Byte@{\-P\-I\-O\-S\-\_\-\-C\-R\-C\-\_\-update\-Byte}!CRC Functions@{\-C\-R\-C Functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-C\-R\-C\-\_\-update\-Byte}]{\setlength{\rightskip}{0pt plus 5cm}uint8\-\_\-t {\bf \-P\-I\-O\-S\-\_\-\-C\-R\-C\-\_\-update\-Byte} (
+\begin{DoxyParamCaption}
+\item[{uint8\-\_\-t}]{crc, }
+\item[{const uint8\-\_\-t}]{data}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___c_r_c_ga7a3781ede0c0bbd4c15f6513597e09f8}
+\-Update the crc value with new data.
+
+\-Generated by pycrc v0.\-7.\-5, \href{http://www.tty1.net/pycrc/}{\tt http\-://www.\-tty1.\-net/pycrc/} using the configuration\-: \-Width = 8 \-Poly = 0x07 \-Xor\-In = 0x00 \-Reflect\-In = \-False \-Xor\-Out = 0x00 \-Reflect\-Out = \-False \-Algorithm = table-\/driven
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em crc} & \-The current crc value. \\
+\hline
+{\em data} & \-Pointer to a buffer of {\itshape data\-\_\-len\/} bytes. \\
+\hline
+{\em length} & \-Number of bytes in the {\itshape data\/} buffer. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+\-The updated crc value. 
+\end{DoxyReturn}
+
+
+\-Definition at line 120 of file pios\-\_\-crc.\-c.
+
+\hypertarget{group___p_i_o_s___c_r_c_ga76c5afc1db85ddf9511c4d993714d094}{\index{\-C\-R\-C Functions@{\-C\-R\-C Functions}!\-P\-I\-O\-S\-\_\-\-C\-R\-C\-\_\-update\-C\-R\-C@{\-P\-I\-O\-S\-\_\-\-C\-R\-C\-\_\-update\-C\-R\-C}}
+\index{\-P\-I\-O\-S\-\_\-\-C\-R\-C\-\_\-update\-C\-R\-C@{\-P\-I\-O\-S\-\_\-\-C\-R\-C\-\_\-update\-C\-R\-C}!CRC Functions@{\-C\-R\-C Functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-C\-R\-C\-\_\-update\-C\-R\-C}]{\setlength{\rightskip}{0pt plus 5cm}uint8\-\_\-t {\bf \-P\-I\-O\-S\-\_\-\-C\-R\-C\-\_\-update\-C\-R\-C} (
+\begin{DoxyParamCaption}
+\item[{uint8\-\_\-t}]{crc, }
+\item[{const uint8\-\_\-t $\ast$}]{data, }
+\item[{int32\-\_\-t}]{length}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___c_r_c_ga76c5afc1db85ddf9511c4d993714d094}
+
+
+\-Update a \-C\-R\-C with a data buffer. 
+
+
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em crc} & \-Starting \-C\-R\-C value \\
+\hline
+\mbox{\tt in}  & {\em data} & \-Data buffer \\
+\hline
+\mbox{\tt in}  & {\em length} & \-Number of bytes to process \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+\-Updated \-C\-R\-C 
+\end{DoxyReturn}
+
+
+\-Definition at line 132 of file pios\-\_\-crc.\-c.
+

@@ -1,0 +1,310 @@
+\hypertarget{group___c_c_state}{\section{\-Copter \-Control \-State \-Estimation}
+\label{group___c_c_state}\index{\-Copter Control State Estimation@{\-Copter Control State Estimation}}
+}
+\subsection*{\-Data \-Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{struct_global_dcm_drift_variables}{\-Global\-Dcm\-Drift\-Variables}
+\item 
+struct \hyperlink{struct_g_p_s_globals}{\-G\-P\-S\-Globals}
+\end{DoxyCompactItemize}
+\subsection*{\-Files}
+\begin{DoxyCompactItemize}
+\item 
+file \hyperlink{attitudedrift_8c}{attitudedrift.\-c}
+\begin{DoxyCompactList}\small\item\em \-Various filters for handling gyroscope drift. \end{DoxyCompactList}\item 
+file \hyperlink{attitudedrift_8h}{attitudedrift.\-h}
+\begin{DoxyCompactList}\small\item\em \-Acquires sensor data and fuses it into attitude estimate for \-C\-C. \end{DoxyCompactList}\item 
+file \hyperlink{sensorfetch_8h}{sensorfetch.\-h}
+\begin{DoxyCompactList}\small\item\em \-Acquires sensor data and fuses it into attitude estimate for \-C\-C. \end{DoxyCompactList}\item 
+file \hyperlink{state_8h}{state.\-h}
+\begin{DoxyCompactList}\small\item\em \-Acquires sensor data and fuses it into attitude estimate for \-C\-C. \end{DoxyCompactList}\item 
+file \hyperlink{sensorfetch_8c}{sensorfetch.\-c}
+\begin{DoxyCompactList}\small\item\em \-Fetch the sensor data. \end{DoxyCompactList}\item 
+file \hyperlink{state_8c}{state.\-c}
+\begin{DoxyCompactList}\small\item\em \-State estimation for \-C\-C(3\-D) \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{group___c_c_state_ga0c4491990a84594e2c930826b64b725c}{\-D\-R\-I\-F\-T\-\_\-\-C\-O\-R\-R\-E\-C\-T\-I\-O\-N\-\_\-\-A\-L\-G\-O\-S} \{ \*
+\hyperlink{group___c_c_state_gga0c4491990a84594e2c930826b64b725ca34fecf46a591d355d8d76d32e4b5d469}{\-C\-C\-C}, 
+\hyperlink{group___c_c_state_gga0c4491990a84594e2c930826b64b725ca7f012e6cc49436cc18a3204777eb9834}{\-P\-R\-E\-M\-E\-R\-L\-A\-N\-I}, 
+\hyperlink{group___c_c_state_gga0c4491990a84594e2c930826b64b725ca34fecf46a591d355d8d76d32e4b5d469}{\-C\-C\-C}, 
+\hyperlink{group___c_c_state_gga0c4491990a84594e2c930826b64b725ca7f012e6cc49436cc18a3204777eb9834}{\-P\-R\-E\-M\-E\-R\-L\-A\-N\-I}, 
+\*
+\hyperlink{group___c_c_state_gga0c4491990a84594e2c930826b64b725ca34fecf46a591d355d8d76d32e4b5d469}{\-C\-C\-C}, 
+\hyperlink{group___c_c_state_gga0c4491990a84594e2c930826b64b725ca7f012e6cc49436cc18a3204777eb9834}{\-P\-R\-E\-M\-E\-R\-L\-A\-N\-I}
+ \}
+\end{DoxyCompactItemize}
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{group___c_c_state_gacf73f90ae39bfb7e42e688376f9cf5ef}{update\-Attitude\-Drift} (\-Accels\-Data $\ast$accels\-Data, \-Gyros\-Data $\ast$gyros\-Data, const float del\-T, \hyperlink{struct_global_attitude_variables}{\-Global\-Attitude\-Variables} $\ast$\hyperlink{group___c_c_state_ga76682d72011dc0109f1d5cf25a6c6da0}{glbl\-Att}, \-Attitude\-Settings\-Data $\ast$\hyperlink{group___c_c_state_ga8f6543ab52bafea6c0858baeeae8db59}{attitude\-Settings}, \-Sensor\-Settings\-Data $\ast$inertial\-Sensor\-Settings)
+\item 
+void \hyperlink{group___c_c_state_gaaedab067f447c531ce7d8339c7f06e54}{gps\-\_\-airspeed\-\_\-initialize} (void)
+\item 
+void \hyperlink{group___c_c_state_gaf9e1d79b501c8669dc10e519ec0930a2}{gps\-\_\-airspeed\-\_\-update} (const \-G\-P\-S\-Velocity\-Data $\ast$gps\-Vel\-Data, float static\-Air\-Density)
+\item 
+int8\-\_\-t \hyperlink{group___c_c_state_ga7b51e65077e182551c02a9906849c8d8}{get\-Sensors\-C\-C} (float $\ast$prelim\-\_\-accels, float $\ast$prelim\-\_\-gyros, x\-Queue\-Handle $\ast$gyro\-\_\-queue, \hyperlink{struct_global_attitude_variables}{\-Global\-Attitude\-Variables} $\ast$\hyperlink{group___c_c_state_ga76682d72011dc0109f1d5cf25a6c6da0}{glbl\-Att}, \-Gyros\-Bias\-Data $\ast$\hyperlink{group___c_c_state_ga233a2d6850e9c466f80ae6bb2ebd98e8}{gyros\-Bias}, \-Inertial\-Sensor\-Settings\-Data $\ast$inertial\-Sensor\-Settings)
+\item 
+int8\-\_\-t \hyperlink{group___c_c_state_ga13859f6d28a13807ea66fa653165ba0e}{get\-Sensors\-C\-C3\-D} (float $\ast$prelim\-\_\-accels, float $\ast$prelim\-\_\-gyros, \hyperlink{struct_global_attitude_variables}{\-Global\-Attitude\-Variables} $\ast$\hyperlink{group___c_c_state_ga76682d72011dc0109f1d5cf25a6c6da0}{glbl\-Att}, \-Gyros\-Bias\-Data $\ast$\hyperlink{group___c_c_state_ga233a2d6850e9c466f80ae6bb2ebd98e8}{gyros\-Bias}, \-Inertial\-Sensor\-Settings\-Data $\ast$inertial\-Sensor\-Settings)
+\item 
+int8\-\_\-t \hyperlink{group___c_c_state_ga525bb97712e9393c390475f4b14ad6ac}{get\-Sensors\-C\-C} (float $\ast$prelim\-\_\-accels, float $\ast$prelim\-\_\-gyros, x\-Queue\-Handle $\ast$gyro\-\_\-queue, \hyperlink{struct_global_attitude_variables}{\-Global\-Attitude\-Variables} $\ast$\hyperlink{group___c_c_state_ga76682d72011dc0109f1d5cf25a6c6da0}{glbl\-Att}, \-Gyros\-Bias\-Data $\ast$\hyperlink{group___c_c_state_ga233a2d6850e9c466f80ae6bb2ebd98e8}{gyros\-Bias}, \-Sensor\-Settings\-Data $\ast$inertial\-Sensor\-Settings)
+\item 
+int8\-\_\-t \hyperlink{group___c_c_state_gaefea6b47a03faf8d9d5af8093ccbc686}{get\-Sensors\-C\-C3\-D} (float $\ast$prelim\-\_\-accels, float $\ast$prelim\-\_\-gyros, \hyperlink{struct_global_attitude_variables}{\-Global\-Attitude\-Variables} $\ast$\hyperlink{group___c_c_state_ga76682d72011dc0109f1d5cf25a6c6da0}{glbl\-Att}, \-Gyros\-Bias\-Data $\ast$\hyperlink{group___c_c_state_ga233a2d6850e9c466f80ae6bb2ebd98e8}{gyros\-Bias}, \-Sensor\-Settings\-Data $\ast$inertial\-Sensor\-Settings)
+\item 
+int32\-\_\-t \hyperlink{group___c_c_state_ga9b5b60f1575dfa72f03b42b503e9095c}{\-State\-Start} (void)
+\item 
+int32\-\_\-t \hyperlink{group___c_c_state_gad59daafb348cfa8a33ce1d08eb2f8e5b}{\-State\-Initialize} (void)
+\item 
+\hyperlink{group___c_c_state_gac687f4ea48d6390c8854b0a5a1250752}{\-M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L} (\hyperlink{group___c_c_state_gad59daafb348cfa8a33ce1d08eb2f8e5b}{\-State\-Initialize}, \hyperlink{group___c_c_state_ga9b5b60f1575dfa72f03b42b503e9095c}{\-State\-Start})
+\end{DoxyCompactItemize}
+\subsection*{\-Variables}
+\begin{DoxyCompactItemize}
+\item 
+bool \hyperlink{group___c_c_state_ga82c3e02e8def62d93a337dc338c4d6cd}{firstpass\-\_\-flag} = true
+\item 
+struct \hyperlink{struct_global_dcm_drift_variables}{\-Global\-Dcm\-Drift\-Variables} $\ast$ \hyperlink{group___c_c_state_ga89657be5e41cdb8b74d42e587333115a}{drft}
+\item 
+struct \hyperlink{struct_global_attitude_variables}{\-Global\-Attitude\-Variables} $\ast$ \hyperlink{group___c_c_state_ga76682d72011dc0109f1d5cf25a6c6da0}{glbl\-Att}
+\item 
+\-Sensor\-Settings\-Data \hyperlink{group___c_c_state_ga7e2b26cdc0322ab9457559aa2b94f8fc}{sensor\-Settings}
+\item 
+\-Attitude\-Settings\-Data \hyperlink{group___c_c_state_ga8f6543ab52bafea6c0858baeeae8db59}{attitude\-Settings}
+\item 
+\-Gyros\-Bias\-Data \hyperlink{group___c_c_state_ga233a2d6850e9c466f80ae6bb2ebd98e8}{gyros\-Bias}
+\item 
+uint16\-\_\-t const \hyperlink{group___c_c_state_ga6faaeb7ea10f4d232ea751bdcebb3aef}{\-M\-A\-X\-\_\-\-T\-R\-I\-M\-\_\-\-F\-L\-I\-G\-H\-T\-\_\-\-S\-A\-M\-P\-L\-E\-S} = 65535
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Enumeration \-Type \-Documentation}
+\hypertarget{group___c_c_state_ga0c4491990a84594e2c930826b64b725c}{\index{\-Copter Control State Estimation@{\-Copter Control State Estimation}!\-D\-R\-I\-F\-T\-\_\-\-C\-O\-R\-R\-E\-C\-T\-I\-O\-N\-\_\-\-A\-L\-G\-O\-S@{\-D\-R\-I\-F\-T\-\_\-\-C\-O\-R\-R\-E\-C\-T\-I\-O\-N\-\_\-\-A\-L\-G\-O\-S}}
+\index{\-D\-R\-I\-F\-T\-\_\-\-C\-O\-R\-R\-E\-C\-T\-I\-O\-N\-\_\-\-A\-L\-G\-O\-S@{\-D\-R\-I\-F\-T\-\_\-\-C\-O\-R\-R\-E\-C\-T\-I\-O\-N\-\_\-\-A\-L\-G\-O\-S}!Copter Control State Estimation@{\-Copter Control State Estimation}}
+\subsubsection[{\-D\-R\-I\-F\-T\-\_\-\-C\-O\-R\-R\-E\-C\-T\-I\-O\-N\-\_\-\-A\-L\-G\-O\-S}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf \-D\-R\-I\-F\-T\-\_\-\-C\-O\-R\-R\-E\-C\-T\-I\-O\-N\-\_\-\-A\-L\-G\-O\-S}}}\label{group___c_c_state_ga0c4491990a84594e2c930826b64b725c}
+\begin{Desc}
+\item[\-Enumerator\-: ]\par
+\begin{description}
+\index{\-C\-C\-C@{\-C\-C\-C}!\-Copter Control State Estimation@{\-Copter Control State Estimation}}\index{\-Copter Control State Estimation@{\-Copter Control State Estimation}!\-C\-C\-C@{\-C\-C\-C}}\item[{\em 
+\hypertarget{group___c_c_state_gga0c4491990a84594e2c930826b64b725ca34fecf46a591d355d8d76d32e4b5d469}{\-C\-C\-C}\label{group___c_c_state_gga0c4491990a84594e2c930826b64b725ca34fecf46a591d355d8d76d32e4b5d469}
+}]\index{\-P\-R\-E\-M\-E\-R\-L\-A\-N\-I@{\-P\-R\-E\-M\-E\-R\-L\-A\-N\-I}!\-Copter Control State Estimation@{\-Copter Control State Estimation}}\index{\-Copter Control State Estimation@{\-Copter Control State Estimation}!\-P\-R\-E\-M\-E\-R\-L\-A\-N\-I@{\-P\-R\-E\-M\-E\-R\-L\-A\-N\-I}}\item[{\em 
+\hypertarget{group___c_c_state_gga0c4491990a84594e2c930826b64b725ca7f012e6cc49436cc18a3204777eb9834}{\-P\-R\-E\-M\-E\-R\-L\-A\-N\-I}\label{group___c_c_state_gga0c4491990a84594e2c930826b64b725ca7f012e6cc49436cc18a3204777eb9834}
+}]\index{\-C\-C\-C@{\-C\-C\-C}!\-Copter Control State Estimation@{\-Copter Control State Estimation}}\index{\-Copter Control State Estimation@{\-Copter Control State Estimation}!\-C\-C\-C@{\-C\-C\-C}}\item[{\em 
+\hypertarget{group___c_c_state_gga0c4491990a84594e2c930826b64b725ca34fecf46a591d355d8d76d32e4b5d469}{\-C\-C\-C}\label{group___c_c_state_gga0c4491990a84594e2c930826b64b725ca34fecf46a591d355d8d76d32e4b5d469}
+}]\index{\-P\-R\-E\-M\-E\-R\-L\-A\-N\-I@{\-P\-R\-E\-M\-E\-R\-L\-A\-N\-I}!\-Copter Control State Estimation@{\-Copter Control State Estimation}}\index{\-Copter Control State Estimation@{\-Copter Control State Estimation}!\-P\-R\-E\-M\-E\-R\-L\-A\-N\-I@{\-P\-R\-E\-M\-E\-R\-L\-A\-N\-I}}\item[{\em 
+\hypertarget{group___c_c_state_gga0c4491990a84594e2c930826b64b725ca7f012e6cc49436cc18a3204777eb9834}{\-P\-R\-E\-M\-E\-R\-L\-A\-N\-I}\label{group___c_c_state_gga0c4491990a84594e2c930826b64b725ca7f012e6cc49436cc18a3204777eb9834}
+}]\index{\-C\-C\-C@{\-C\-C\-C}!\-Copter Control State Estimation@{\-Copter Control State Estimation}}\index{\-Copter Control State Estimation@{\-Copter Control State Estimation}!\-C\-C\-C@{\-C\-C\-C}}\item[{\em 
+\hypertarget{group___c_c_state_gga0c4491990a84594e2c930826b64b725ca34fecf46a591d355d8d76d32e4b5d469}{\-C\-C\-C}\label{group___c_c_state_gga0c4491990a84594e2c930826b64b725ca34fecf46a591d355d8d76d32e4b5d469}
+}]\index{\-P\-R\-E\-M\-E\-R\-L\-A\-N\-I@{\-P\-R\-E\-M\-E\-R\-L\-A\-N\-I}!\-Copter Control State Estimation@{\-Copter Control State Estimation}}\index{\-Copter Control State Estimation@{\-Copter Control State Estimation}!\-P\-R\-E\-M\-E\-R\-L\-A\-N\-I@{\-P\-R\-E\-M\-E\-R\-L\-A\-N\-I}}\item[{\em 
+\hypertarget{group___c_c_state_gga0c4491990a84594e2c930826b64b725ca7f012e6cc49436cc18a3204777eb9834}{\-P\-R\-E\-M\-E\-R\-L\-A\-N\-I}\label{group___c_c_state_gga0c4491990a84594e2c930826b64b725ca7f012e6cc49436cc18a3204777eb9834}
+}]\end{description}
+\end{Desc}
+
+
+
+\-Definition at line 90 of file attitudedrift.\-c.
+
+
+
+\subsection{\-Function \-Documentation}
+\hypertarget{group___c_c_state_ga7b51e65077e182551c02a9906849c8d8}{\index{\-Copter Control State Estimation@{\-Copter Control State Estimation}!get\-Sensors\-C\-C@{get\-Sensors\-C\-C}}
+\index{get\-Sensors\-C\-C@{get\-Sensors\-C\-C}!Copter Control State Estimation@{\-Copter Control State Estimation}}
+\subsubsection[{get\-Sensors\-C\-C}]{\setlength{\rightskip}{0pt plus 5cm}int8\-\_\-t {\bf get\-Sensors\-C\-C} (
+\begin{DoxyParamCaption}
+\item[{float $\ast$}]{prelim\-\_\-accels, }
+\item[{float $\ast$}]{prelim\-\_\-gyros, }
+\item[{x\-Queue\-Handle $\ast$}]{gyro\-\_\-queue, }
+\item[{{\bf \-Global\-Attitude\-Variables} $\ast$}]{glbl\-Att, }
+\item[{\-Gyros\-Bias\-Data $\ast$}]{gyros\-Bias, }
+\item[{\-Inertial\-Sensor\-Settings\-Data $\ast$}]{inertial\-Sensor\-Settings}
+\end{DoxyParamCaption}
+)}}\label{group___c_c_state_ga7b51e65077e182551c02a9906849c8d8}
+\hypertarget{group___c_c_state_ga525bb97712e9393c390475f4b14ad6ac}{\index{\-Copter Control State Estimation@{\-Copter Control State Estimation}!get\-Sensors\-C\-C@{get\-Sensors\-C\-C}}
+\index{get\-Sensors\-C\-C@{get\-Sensors\-C\-C}!Copter Control State Estimation@{\-Copter Control State Estimation}}
+\subsubsection[{get\-Sensors\-C\-C}]{\setlength{\rightskip}{0pt plus 5cm}int8\-\_\-t {\bf get\-Sensors\-C\-C} (
+\begin{DoxyParamCaption}
+\item[{float $\ast$}]{prelim\-\_\-accels, }
+\item[{float $\ast$}]{prelim\-\_\-gyros, }
+\item[{x\-Queue\-Handle $\ast$}]{gyro\-\_\-queue, }
+\item[{{\bf \-Global\-Attitude\-Variables} $\ast$}]{glbl\-Att, }
+\item[{\-Gyros\-Bias\-Data $\ast$}]{gyros\-Bias, }
+\item[{\-Sensor\-Settings\-Data $\ast$}]{inertial\-Sensor\-Settings}
+\end{DoxyParamCaption}
+)}}\label{group___c_c_state_ga525bb97712e9393c390475f4b14ad6ac}
+\-Get an update from the sensors 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em attitude\-Raw} & \-Populate the \-U\-A\-V\-O instead of saving right here \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+0 if successfull, -\/1 if not 
+\end{DoxyReturn}
+
+
+\-Definition at line 56 of file sensorfetch.\-c.
+
+\hypertarget{group___c_c_state_ga13859f6d28a13807ea66fa653165ba0e}{\index{\-Copter Control State Estimation@{\-Copter Control State Estimation}!get\-Sensors\-C\-C3\-D@{get\-Sensors\-C\-C3\-D}}
+\index{get\-Sensors\-C\-C3\-D@{get\-Sensors\-C\-C3\-D}!Copter Control State Estimation@{\-Copter Control State Estimation}}
+\subsubsection[{get\-Sensors\-C\-C3\-D}]{\setlength{\rightskip}{0pt plus 5cm}int8\-\_\-t {\bf get\-Sensors\-C\-C3\-D} (
+\begin{DoxyParamCaption}
+\item[{float $\ast$}]{prelim\-\_\-accels, }
+\item[{float $\ast$}]{prelim\-\_\-gyros, }
+\item[{{\bf \-Global\-Attitude\-Variables} $\ast$}]{glbl\-Att, }
+\item[{\-Gyros\-Bias\-Data $\ast$}]{gyros\-Bias, }
+\item[{\-Inertial\-Sensor\-Settings\-Data $\ast$}]{inertial\-Sensor\-Settings}
+\end{DoxyParamCaption}
+)}}\label{group___c_c_state_ga13859f6d28a13807ea66fa653165ba0e}
+\hypertarget{group___c_c_state_gaefea6b47a03faf8d9d5af8093ccbc686}{\index{\-Copter Control State Estimation@{\-Copter Control State Estimation}!get\-Sensors\-C\-C3\-D@{get\-Sensors\-C\-C3\-D}}
+\index{get\-Sensors\-C\-C3\-D@{get\-Sensors\-C\-C3\-D}!Copter Control State Estimation@{\-Copter Control State Estimation}}
+\subsubsection[{get\-Sensors\-C\-C3\-D}]{\setlength{\rightskip}{0pt plus 5cm}int8\-\_\-t {\bf get\-Sensors\-C\-C3\-D} (
+\begin{DoxyParamCaption}
+\item[{float $\ast$}]{prelim\-\_\-accels, }
+\item[{float $\ast$}]{prelim\-\_\-gyros, }
+\item[{{\bf \-Global\-Attitude\-Variables} $\ast$}]{glbl\-Att, }
+\item[{\-Gyros\-Bias\-Data $\ast$}]{gyros\-Bias, }
+\item[{\-Sensor\-Settings\-Data $\ast$}]{inertial\-Sensor\-Settings}
+\end{DoxyParamCaption}
+)}}\label{group___c_c_state_gaefea6b47a03faf8d9d5af8093ccbc686}
+\-Get an update from the sensors 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em attitude\-Raw} & \-Populate the \-U\-A\-V\-O instead of saving right here \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+0 if successfull, -\/1 if not 
+\end{DoxyReturn}
+
+
+\-Definition at line 118 of file sensorfetch.\-c.
+
+\hypertarget{group___c_c_state_gaaedab067f447c531ce7d8339c7f06e54}{\index{\-Copter Control State Estimation@{\-Copter Control State Estimation}!gps\-\_\-airspeed\-\_\-initialize@{gps\-\_\-airspeed\-\_\-initialize}}
+\index{gps\-\_\-airspeed\-\_\-initialize@{gps\-\_\-airspeed\-\_\-initialize}!Copter Control State Estimation@{\-Copter Control State Estimation}}
+\subsubsection[{gps\-\_\-airspeed\-\_\-initialize}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf gps\-\_\-airspeed\-\_\-initialize} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group___c_c_state_gaaedab067f447c531ce7d8339c7f06e54}
+
+
+\-Definition at line 77 of file gps\-\_\-airspeed.\-c.
+
+\hypertarget{group___c_c_state_gaf9e1d79b501c8669dc10e519ec0930a2}{\index{\-Copter Control State Estimation@{\-Copter Control State Estimation}!gps\-\_\-airspeed\-\_\-update@{gps\-\_\-airspeed\-\_\-update}}
+\index{gps\-\_\-airspeed\-\_\-update@{gps\-\_\-airspeed\-\_\-update}!Copter Control State Estimation@{\-Copter Control State Estimation}}
+\subsubsection[{gps\-\_\-airspeed\-\_\-update}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf gps\-\_\-airspeed\-\_\-update} (
+\begin{DoxyParamCaption}
+\item[{const \-G\-P\-S\-Velocity\-Data $\ast$}]{gps\-Vel\-Data, }
+\item[{float}]{static\-Air\-Density}
+\end{DoxyParamCaption}
+)}}\label{group___c_c_state_gaf9e1d79b501c8669dc10e519ec0930a2}
+
+
+\-Definition at line 103 of file gps\-\_\-airspeed.\-c.
+
+\hypertarget{group___c_c_state_gac687f4ea48d6390c8854b0a5a1250752}{\index{\-Copter Control State Estimation@{\-Copter Control State Estimation}!\-M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L@{\-M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L}}
+\index{\-M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L@{\-M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L}!Copter Control State Estimation@{\-Copter Control State Estimation}}
+\subsubsection[{\-M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-State\-Initialize}}]{, }
+\item[{{\bf \-State\-Start}}]{}
+\end{DoxyParamCaption}
+)}}\label{group___c_c_state_gac687f4ea48d6390c8854b0a5a1250752}
+
+
+\-Definition at line 182 of file state.\-c.
+
+\hypertarget{group___c_c_state_gad59daafb348cfa8a33ce1d08eb2f8e5b}{\index{\-Copter Control State Estimation@{\-Copter Control State Estimation}!\-State\-Initialize@{\-State\-Initialize}}
+\index{\-State\-Initialize@{\-State\-Initialize}!Copter Control State Estimation@{\-Copter Control State Estimation}}
+\subsubsection[{\-State\-Initialize}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-State\-Initialize} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group___c_c_state_gad59daafb348cfa8a33ce1d08eb2f8e5b}
+\-Initialise the module, called on startup \begin{DoxyReturn}{\-Returns}
+0 on success or -\/1 if initialisation failed 
+\end{DoxyReturn}
+
+
+\-Definition at line 124 of file state.\-c.
+
+\hypertarget{group___c_c_state_ga9b5b60f1575dfa72f03b42b503e9095c}{\index{\-Copter Control State Estimation@{\-Copter Control State Estimation}!\-State\-Start@{\-State\-Start}}
+\index{\-State\-Start@{\-State\-Start}!Copter Control State Estimation@{\-Copter Control State Estimation}}
+\subsubsection[{\-State\-Start}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-State\-Start} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group___c_c_state_ga9b5b60f1575dfa72f03b42b503e9095c}
+\-Initialise the module, called on startup \begin{DoxyReturn}{\-Returns}
+0 on success or -\/1 if initialisation failed 
+\end{DoxyReturn}
+
+
+\-Definition at line 108 of file state.\-c.
+
+\hypertarget{group___c_c_state_gacf73f90ae39bfb7e42e688376f9cf5ef}{\index{\-Copter Control State Estimation@{\-Copter Control State Estimation}!update\-Attitude\-Drift@{update\-Attitude\-Drift}}
+\index{update\-Attitude\-Drift@{update\-Attitude\-Drift}!Copter Control State Estimation@{\-Copter Control State Estimation}}
+\subsubsection[{update\-Attitude\-Drift}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf update\-Attitude\-Drift} (
+\begin{DoxyParamCaption}
+\item[{\-Accels\-Data $\ast$}]{accels\-Data, }
+\item[{\-Gyros\-Data $\ast$}]{gyros\-Data, }
+\item[{const float}]{del\-T, }
+\item[{{\bf \-Global\-Attitude\-Variables} $\ast$}]{glbl\-Att, }
+\item[{\-Attitude\-Settings\-Data $\ast$}]{attitude\-Settings, }
+\item[{\-Sensor\-Settings\-Data $\ast$}]{inertial\-Sensor\-Settings}
+\end{DoxyParamCaption}
+)}}\label{group___c_c_state_gacf73f90ae39bfb7e42e688376f9cf5ef}
+\-Correct attitude drift. \-Choose from any of the following algorithms 
+
+\-Definition at line 105 of file attitudedrift.\-c.
+
+
+
+\subsection{\-Variable \-Documentation}
+\hypertarget{group___c_c_state_ga8f6543ab52bafea6c0858baeeae8db59}{\index{\-Copter Control State Estimation@{\-Copter Control State Estimation}!attitude\-Settings@{attitude\-Settings}}
+\index{attitude\-Settings@{attitude\-Settings}!Copter Control State Estimation@{\-Copter Control State Estimation}}
+\subsubsection[{attitude\-Settings}]{\setlength{\rightskip}{0pt plus 5cm}\-Attitude\-Settings\-Data {\bf attitude\-Settings}}}\label{group___c_c_state_ga8f6543ab52bafea6c0858baeeae8db59}
+
+
+\-Definition at line 73 of file state.\-c.
+
+\hypertarget{group___c_c_state_ga89657be5e41cdb8b74d42e587333115a}{\index{\-Copter Control State Estimation@{\-Copter Control State Estimation}!drft@{drft}}
+\index{drft@{drft}!Copter Control State Estimation@{\-Copter Control State Estimation}}
+\subsubsection[{drft}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf \-Global\-Dcm\-Drift\-Variables}$\ast$ {\bf drft}}}\label{group___c_c_state_ga89657be5e41cdb8b74d42e587333115a}
+
+
+\-Definition at line 81 of file attitudedrift.\-c.
+
+\hypertarget{group___c_c_state_ga82c3e02e8def62d93a337dc338c4d6cd}{\index{\-Copter Control State Estimation@{\-Copter Control State Estimation}!firstpass\-\_\-flag@{firstpass\-\_\-flag}}
+\index{firstpass\-\_\-flag@{firstpass\-\_\-flag}!Copter Control State Estimation@{\-Copter Control State Estimation}}
+\subsubsection[{firstpass\-\_\-flag}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf firstpass\-\_\-flag} = true}}\label{group___c_c_state_ga82c3e02e8def62d93a337dc338c4d6cd}
+
+
+\-Definition at line 53 of file attitudedrift.\-c.
+
+\hypertarget{group___c_c_state_ga76682d72011dc0109f1d5cf25a6c6da0}{\index{\-Copter Control State Estimation@{\-Copter Control State Estimation}!glbl\-Att@{glbl\-Att}}
+\index{glbl\-Att@{glbl\-Att}!Copter Control State Estimation@{\-Copter Control State Estimation}}
+\subsubsection[{glbl\-Att}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf \-Global\-Attitude\-Variables}$\ast$ {\bf glbl\-Att}}}\label{group___c_c_state_ga76682d72011dc0109f1d5cf25a6c6da0}
+
+
+\-Definition at line 71 of file state.\-c.
+
+\hypertarget{group___c_c_state_ga233a2d6850e9c466f80ae6bb2ebd98e8}{\index{\-Copter Control State Estimation@{\-Copter Control State Estimation}!gyros\-Bias@{gyros\-Bias}}
+\index{gyros\-Bias@{gyros\-Bias}!Copter Control State Estimation@{\-Copter Control State Estimation}}
+\subsubsection[{gyros\-Bias}]{\setlength{\rightskip}{0pt plus 5cm}\-Gyros\-Bias\-Data {\bf gyros\-Bias}}}\label{group___c_c_state_ga233a2d6850e9c466f80ae6bb2ebd98e8}
+
+
+\-Definition at line 74 of file state.\-c.
+
+\hypertarget{group___c_c_state_ga6faaeb7ea10f4d232ea751bdcebb3aef}{\index{\-Copter Control State Estimation@{\-Copter Control State Estimation}!\-M\-A\-X\-\_\-\-T\-R\-I\-M\-\_\-\-F\-L\-I\-G\-H\-T\-\_\-\-S\-A\-M\-P\-L\-E\-S@{\-M\-A\-X\-\_\-\-T\-R\-I\-M\-\_\-\-F\-L\-I\-G\-H\-T\-\_\-\-S\-A\-M\-P\-L\-E\-S}}
+\index{\-M\-A\-X\-\_\-\-T\-R\-I\-M\-\_\-\-F\-L\-I\-G\-H\-T\-\_\-\-S\-A\-M\-P\-L\-E\-S@{\-M\-A\-X\-\_\-\-T\-R\-I\-M\-\_\-\-F\-L\-I\-G\-H\-T\-\_\-\-S\-A\-M\-P\-L\-E\-S}!Copter Control State Estimation@{\-Copter Control State Estimation}}
+\subsubsection[{\-M\-A\-X\-\_\-\-T\-R\-I\-M\-\_\-\-F\-L\-I\-G\-H\-T\-\_\-\-S\-A\-M\-P\-L\-E\-S}]{\setlength{\rightskip}{0pt plus 5cm}uint16\-\_\-t const {\bf \-M\-A\-X\-\_\-\-T\-R\-I\-M\-\_\-\-F\-L\-I\-G\-H\-T\-\_\-\-S\-A\-M\-P\-L\-E\-S} = 65535}}\label{group___c_c_state_ga6faaeb7ea10f4d232ea751bdcebb3aef}
+
+
+\-Definition at line 77 of file state.\-c.
+
+\hypertarget{group___c_c_state_ga7e2b26cdc0322ab9457559aa2b94f8fc}{\index{\-Copter Control State Estimation@{\-Copter Control State Estimation}!sensor\-Settings@{sensor\-Settings}}
+\index{sensor\-Settings@{sensor\-Settings}!Copter Control State Estimation@{\-Copter Control State Estimation}}
+\subsubsection[{sensor\-Settings}]{\setlength{\rightskip}{0pt plus 5cm}\-Sensor\-Settings\-Data {\bf sensor\-Settings}}}\label{group___c_c_state_ga7e2b26cdc0322ab9457559aa2b94f8fc}
+
+
+\-Definition at line 72 of file state.\-c.
+

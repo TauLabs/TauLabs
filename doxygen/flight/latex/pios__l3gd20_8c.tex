@@ -1,0 +1,49 @@
+\hypertarget{pios__l3gd20_8c}{\section{/home/jb/code/\-Tau\-Labs/flight/\-Pi\-O\-S/\-Common/pios\-\_\-l3gd20.c \-File \-Reference}
+\label{pios__l3gd20_8c}\index{/home/jb/code/\-Tau\-Labs/flight/\-Pi\-O\-S/\-Common/pios\-\_\-l3gd20.\-c@{/home/jb/code/\-Tau\-Labs/flight/\-Pi\-O\-S/\-Common/pios\-\_\-l3gd20.\-c}}
+}
+
+
+\-L3\-G\-D20 3-\/axis gyro chip.  
+
+
+\subsection*{\-Data \-Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structl3gd20__dev}{l3gd20\-\_\-dev}
+\begin{DoxyCompactList}\small\item\em \-Local types. \end{DoxyCompactList}\item 
+struct \hyperlink{structpios__l3gd20__data}{pios\-\_\-l3gd20\-\_\-data}
+\end{DoxyCompactItemize}
+\subsection*{\-Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{group___p_i_o_s___l3_g_d20_ga34e70adc9970e3e83c4d39e720087df3}{pios\-\_\-l3gd20\-\_\-dev\-\_\-magic} \{ \hyperlink{group___p_i_o_s___l3_g_d20_gga34e70adc9970e3e83c4d39e720087df3a8ff24655b5a2966b5bdf02704790f7c1}{\-P\-I\-O\-S\-\_\-\-L3\-G\-D20\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C} =  0x9d39bced
+ \}
+\end{DoxyCompactItemize}
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___l3_g_d20_gac5608ef1d6d1c639969449e9613ed814}{\-P\-I\-O\-S\-\_\-\-L3\-G\-D20\-\_\-\-Init} (uint32\-\_\-t spi\-\_\-id, uint32\-\_\-t slave\-\_\-num, const struct \hyperlink{structpios__l3gd20__cfg}{pios\-\_\-l3gd20\-\_\-cfg} $\ast$cfg)
+\begin{DoxyCompactList}\small\item\em \-Initialize the \-L3\-G\-D20 3-\/axis gyro sensor. \end{DoxyCompactList}\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___l3_g_d20_ga26819f3aff62932a133ff618c3f25ee3}{\-P\-I\-O\-S\-\_\-\-L3\-G\-D20\-\_\-\-Set\-Range} (enum \hyperlink{group___p_i_o_s___l3_g_d20_ga704696d385abb591516d2e31301dad66}{pios\-\_\-l3gd20\-\_\-range} range)
+\begin{DoxyCompactList}\small\item\em \-Sets the maximum range of the \-L3\-G\-D20. \end{DoxyCompactList}\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___l3_g_d20_gacbb45ecd0888306f970c7a719cb372c2}{\-P\-I\-O\-S\-\_\-\-L3\-G\-D20\-\_\-\-Read\-I\-D} ()
+\begin{DoxyCompactList}\small\item\em \-Read the identification bytes from the \-L3\-G\-D20 sensor. \end{DoxyCompactList}\item 
+uint8\-\_\-t \hyperlink{group___p_i_o_s___l3_g_d20_ga9951dd9f920e6734bbce9117a983fed5}{\-P\-I\-O\-S\-\_\-\-L3\-G\-D20\-\_\-\-Test} (void)
+\begin{DoxyCompactList}\small\item\em \-Run self-\/test operation. \end{DoxyCompactList}\item 
+bool \hyperlink{group___p_i_o_s___l3_g_d20_ga27629f4a3a69cd7202e7effff4d9a2d2}{\-P\-I\-O\-S\-\_\-\-L3\-G\-D20\-\_\-\-I\-R\-Q\-Handler} (void)
+\begin{DoxyCompactList}\small\item\em \-I\-R\-Q \-Handler. \-Read all the data from onboard buffer. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-L3\-G\-D20 3-\/axis gyro chip. \begin{DoxyAuthor}{\-Author}
+\-The \-Open\-Pilot \-Team, \href{http://www.openpilot.org}{\tt http\-://www.\-openpilot.\-org} \-Copyright (\-C) 2012. 
+
+\-Tau \-Labs, \href{http://taulabs.org,}{\tt http\-://taulabs.\-org,} \-Copyright (\-C) 2013 
+\end{DoxyAuthor}
+\begin{DoxySeeAlso}{\-See also}
+\-The \-G\-N\-U \-Public \-License (\-G\-P\-L) \-Version 3 
+\end{DoxySeeAlso}
+
+
+\-Definition in file \hyperlink{pios__l3gd20_8c_source}{pios\-\_\-l3gd20.\-c}.
+

@@ -1,0 +1,101 @@
+\hypertarget{group___p_i_o_s___g_c_s_r_c_v_r}{\section{\-G\-C\-S \-Receiver \-Input \-Functions}
+\label{group___p_i_o_s___g_c_s_r_c_v_r}\index{\-G\-C\-S Receiver Input Functions@{\-G\-C\-S Receiver Input Functions}}
+}
+
+
+\-Code to read the channels within the \-G\-C\-S \-Receiver \-U\-A\-V\-Object.  
+
+
+\subsection*{\-Data \-Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structpios__gcsrcvr__dev}{pios\-\_\-gcsrcvr\-\_\-dev}
+\end{DoxyCompactItemize}
+\subsection*{\-Files}
+\begin{DoxyCompactItemize}
+\item 
+file \hyperlink{pios__gcsrcvr_8c}{pios\-\_\-gcsrcvr.\-c}
+\begin{DoxyCompactList}\small\item\em \-G\-C\-S \-Input functions (\-S\-T\-M32 dependent) \end{DoxyCompactList}\item 
+file \hyperlink{pios__gcsrcvr__priv_8h}{pios\-\_\-gcsrcvr\-\_\-priv.\-h}
+\begin{DoxyCompactList}\small\item\em \-G\-C\-S receiver private functions. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{group___p_i_o_s___g_c_s_r_c_v_r_ga88de96a8f2cf14a06395b79f0996c923}{pios\-\_\-gcsrcvr\-\_\-dev\-\_\-magic} \{ \hyperlink{group___p_i_o_s___g_c_s_r_c_v_r_gga88de96a8f2cf14a06395b79f0996c923a88da7c25cec48e88113746c212106823}{\-P\-I\-O\-S\-\_\-\-G\-C\-S\-R\-C\-V\-R\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C} =  0xe9da5c56
+ \}
+\end{DoxyCompactItemize}
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___g_c_s_r_c_v_r_ga58dd7d9c9bc500b52d54bc7bb5e9fd01}{\-P\-I\-O\-S\-\_\-\-G\-C\-S\-R\-C\-V\-R\-\_\-\-Init} (uint32\-\_\-t $\ast$gcsrcvr\-\_\-id)
+\end{DoxyCompactItemize}
+\subsection*{\-Variables}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structpios__rcvr__driver}{pios\-\_\-rcvr\-\_\-driver} \hyperlink{group___p_i_o_s___g_c_s_r_c_v_r_ga6405e16bd59aa95205a0d825e3f0b31d}{pios\-\_\-gcsrcvr\-\_\-rcvr\-\_\-driver}
+\item 
+enum \hyperlink{group___p_i_o_s___g_c_s_r_c_v_r_ga88de96a8f2cf14a06395b79f0996c923}{pios\-\_\-gcsrcvr\-\_\-dev\-\_\-magic} \hyperlink{group___p_i_o_s___g_c_s_r_c_v_r_gac9a40b3462b5b1cedc9c9525b2c1f278}{\-\_\-\-\_\-attribute\-\_\-\-\_\-}
+\item 
+struct \hyperlink{structpios__rcvr__driver}{pios\-\_\-rcvr\-\_\-driver} \hyperlink{group___p_i_o_s___g_c_s_r_c_v_r_ga6405e16bd59aa95205a0d825e3f0b31d}{pios\-\_\-gcsrcvr\-\_\-rcvr\-\_\-driver}
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-Code to read the channels within the \-G\-C\-S \-Receiver \-U\-A\-V\-Object. \-P\-I\-O\-S interface to read from \-G\-C\-S receiver port. 
+
+\subsection{\-Enumeration \-Type \-Documentation}
+\hypertarget{group___p_i_o_s___g_c_s_r_c_v_r_ga88de96a8f2cf14a06395b79f0996c923}{\index{\-G\-C\-S Receiver Input Functions@{\-G\-C\-S Receiver Input Functions}!pios\-\_\-gcsrcvr\-\_\-dev\-\_\-magic@{pios\-\_\-gcsrcvr\-\_\-dev\-\_\-magic}}
+\index{pios\-\_\-gcsrcvr\-\_\-dev\-\_\-magic@{pios\-\_\-gcsrcvr\-\_\-dev\-\_\-magic}!GCS Receiver Input Functions@{\-G\-C\-S Receiver Input Functions}}
+\subsubsection[{pios\-\_\-gcsrcvr\-\_\-dev\-\_\-magic}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf pios\-\_\-gcsrcvr\-\_\-dev\-\_\-magic}}}\label{group___p_i_o_s___g_c_s_r_c_v_r_ga88de96a8f2cf14a06395b79f0996c923}
+\begin{Desc}
+\item[\-Enumerator\-: ]\par
+\begin{description}
+\index{\-P\-I\-O\-S\-\_\-\-G\-C\-S\-R\-C\-V\-R\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C@{\-P\-I\-O\-S\-\_\-\-G\-C\-S\-R\-C\-V\-R\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}!\-G\-C\-S Receiver Input Functions@{\-G\-C\-S Receiver Input Functions}}\index{\-G\-C\-S Receiver Input Functions@{\-G\-C\-S Receiver Input Functions}!\-P\-I\-O\-S\-\_\-\-G\-C\-S\-R\-C\-V\-R\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C@{\-P\-I\-O\-S\-\_\-\-G\-C\-S\-R\-C\-V\-R\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}}\item[{\em 
+\hypertarget{group___p_i_o_s___g_c_s_r_c_v_r_gga88de96a8f2cf14a06395b79f0996c923a88da7c25cec48e88113746c212106823}{\-P\-I\-O\-S\-\_\-\-G\-C\-S\-R\-C\-V\-R\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}\label{group___p_i_o_s___g_c_s_r_c_v_r_gga88de96a8f2cf14a06395b79f0996c923a88da7c25cec48e88113746c212106823}
+}]\end{description}
+\end{Desc}
+
+
+
+\-Definition at line 49 of file pios\-\_\-gcsrcvr.\-c.
+
+
+
+\subsection{\-Function \-Documentation}
+\hypertarget{group___p_i_o_s___g_c_s_r_c_v_r_ga58dd7d9c9bc500b52d54bc7bb5e9fd01}{\index{\-G\-C\-S Receiver Input Functions@{\-G\-C\-S Receiver Input Functions}!\-P\-I\-O\-S\-\_\-\-G\-C\-S\-R\-C\-V\-R\-\_\-\-Init@{\-P\-I\-O\-S\-\_\-\-G\-C\-S\-R\-C\-V\-R\-\_\-\-Init}}
+\index{\-P\-I\-O\-S\-\_\-\-G\-C\-S\-R\-C\-V\-R\-\_\-\-Init@{\-P\-I\-O\-S\-\_\-\-G\-C\-S\-R\-C\-V\-R\-\_\-\-Init}!GCS Receiver Input Functions@{\-G\-C\-S Receiver Input Functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-G\-C\-S\-R\-C\-V\-R\-\_\-\-Init}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-P\-I\-O\-S\-\_\-\-G\-C\-S\-R\-C\-V\-R\-\_\-\-Init} (
+\begin{DoxyParamCaption}
+\item[{uint32\-\_\-t $\ast$}]{gcsrcvr\-\_\-id}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___g_c_s_r_c_v_r_ga58dd7d9c9bc500b52d54bc7bb5e9fd01}
+
+
+\-Definition at line 115 of file pios\-\_\-gcsrcvr.\-c.
+
+
+
+\subsection{\-Variable \-Documentation}
+\hypertarget{group___p_i_o_s___g_c_s_r_c_v_r_gac9a40b3462b5b1cedc9c9525b2c1f278}{\index{\-G\-C\-S Receiver Input Functions@{\-G\-C\-S Receiver Input Functions}!\-\_\-\-\_\-attribute\-\_\-\-\_\-@{\-\_\-\-\_\-attribute\-\_\-\-\_\-}}
+\index{\-\_\-\-\_\-attribute\-\_\-\-\_\-@{\-\_\-\-\_\-attribute\-\_\-\-\_\-}!GCS Receiver Input Functions@{\-G\-C\-S Receiver Input Functions}}
+\subsubsection[{\-\_\-\-\_\-attribute\-\_\-\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf pios\-\_\-gcsrcvr\-\_\-dev\-\_\-magic}  {\bf \-\_\-\-\_\-attribute\-\_\-\-\_\-}}}\label{group___p_i_o_s___g_c_s_r_c_v_r_gac9a40b3462b5b1cedc9c9525b2c1f278}
+\hypertarget{group___p_i_o_s___g_c_s_r_c_v_r_ga6405e16bd59aa95205a0d825e3f0b31d}{\index{\-G\-C\-S Receiver Input Functions@{\-G\-C\-S Receiver Input Functions}!pios\-\_\-gcsrcvr\-\_\-rcvr\-\_\-driver@{pios\-\_\-gcsrcvr\-\_\-rcvr\-\_\-driver}}
+\index{pios\-\_\-gcsrcvr\-\_\-rcvr\-\_\-driver@{pios\-\_\-gcsrcvr\-\_\-rcvr\-\_\-driver}!GCS Receiver Input Functions@{\-G\-C\-S Receiver Input Functions}}
+\subsubsection[{pios\-\_\-gcsrcvr\-\_\-rcvr\-\_\-driver}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf pios\-\_\-rcvr\-\_\-driver} {\bf pios\-\_\-gcsrcvr\-\_\-rcvr\-\_\-driver}}}\label{group___p_i_o_s___g_c_s_r_c_v_r_ga6405e16bd59aa95205a0d825e3f0b31d}
+
+
+\-Definition at line 44 of file pios\-\_\-gcsrcvr.\-c.
+
+\hypertarget{group___p_i_o_s___g_c_s_r_c_v_r_ga6405e16bd59aa95205a0d825e3f0b31d}{\index{\-G\-C\-S Receiver Input Functions@{\-G\-C\-S Receiver Input Functions}!pios\-\_\-gcsrcvr\-\_\-rcvr\-\_\-driver@{pios\-\_\-gcsrcvr\-\_\-rcvr\-\_\-driver}}
+\index{pios\-\_\-gcsrcvr\-\_\-rcvr\-\_\-driver@{pios\-\_\-gcsrcvr\-\_\-rcvr\-\_\-driver}!GCS Receiver Input Functions@{\-G\-C\-S Receiver Input Functions}}
+\subsubsection[{pios\-\_\-gcsrcvr\-\_\-rcvr\-\_\-driver}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf pios\-\_\-rcvr\-\_\-driver} {\bf pios\-\_\-gcsrcvr\-\_\-rcvr\-\_\-driver}}}\label{group___p_i_o_s___g_c_s_r_c_v_r_ga6405e16bd59aa95205a0d825e3f0b31d}
+{\bfseries \-Initial value\-:}
+\begin{DoxyCode}
+ {
+        .read = PIOS_GCSRCVR_Get,
+}
+\end{DoxyCode}
+
+
+\-Definition at line 44 of file pios\-\_\-gcsrcvr.\-c.
+

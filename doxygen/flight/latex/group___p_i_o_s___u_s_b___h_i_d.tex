@@ -1,0 +1,429 @@
+\hypertarget{group___p_i_o_s___u_s_b___h_i_d}{\section{\-U\-S\-B \-H\-I\-D \-Functions}
+\label{group___p_i_o_s___u_s_b___h_i_d}\index{\-U\-S\-B H\-I\-D Functions@{\-U\-S\-B H\-I\-D Functions}}
+}
+
+
+\-P\-I\-O\-S \-U\-S\-B \-C\-O\-M implementation for \-H\-I\-D interfaces  \-This implements serial emulation over \-H\-I\-D reports.  
+
+
+\subsection*{\-Data \-Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structpios__usb__hid__dev}{pios\-\_\-usb\-\_\-hid\-\_\-dev}
+\item 
+struct \hyperlink{structhid__idle__msg}{hid\-\_\-idle\-\_\-msg}
+\end{DoxyCompactItemize}
+\subsection*{\-Files}
+\begin{DoxyCompactItemize}
+\item 
+file \hyperlink{pios__usb__hid_8h}{pios\-\_\-usb\-\_\-hid.\-h}
+\begin{DoxyCompactList}\small\item\em \-U\-S\-B \-H\-I\-D layer functions header. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{group___p_i_o_s___u_s_b___h_i_d_ga7769ddfbb58cbf13d0e0662f4d441899}{pios\-\_\-usb\-\_\-hid\-\_\-dev\-\_\-magic} \{ \hyperlink{group___p_i_o_s___u_s_b___h_i_d_gga7769ddfbb58cbf13d0e0662f4d441899a5e6367f95628a33741ecc295bcaed279}{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-H\-I\-D\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C} =  0x\-A\-A00\-B\-B00, 
+\hyperlink{group___p_i_o_s___u_s_b___h_i_d_gga7769ddfbb58cbf13d0e0662f4d441899a5e6367f95628a33741ecc295bcaed279}{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-H\-I\-D\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C} =  0x\-A\-A00\-B\-B00, 
+\hyperlink{group___p_i_o_s___u_s_b___h_i_d_gga7769ddfbb58cbf13d0e0662f4d441899a5e6367f95628a33741ecc295bcaed279}{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-H\-I\-D\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C} =  0x\-A\-A00\-B\-B00
+ \}
+\item 
+enum \hyperlink{group___p_i_o_s___u_s_b___h_i_d_ga7769ddfbb58cbf13d0e0662f4d441899}{pios\-\_\-usb\-\_\-hid\-\_\-dev\-\_\-magic} \{ \hyperlink{group___p_i_o_s___u_s_b___h_i_d_gga7769ddfbb58cbf13d0e0662f4d441899a5e6367f95628a33741ecc295bcaed279}{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-H\-I\-D\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C} =  0x\-A\-A00\-B\-B00, 
+\hyperlink{group___p_i_o_s___u_s_b___h_i_d_gga7769ddfbb58cbf13d0e0662f4d441899a5e6367f95628a33741ecc295bcaed279}{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-H\-I\-D\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C} =  0x\-A\-A00\-B\-B00, 
+\hyperlink{group___p_i_o_s___u_s_b___h_i_d_gga7769ddfbb58cbf13d0e0662f4d441899a5e6367f95628a33741ecc295bcaed279}{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-H\-I\-D\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C} =  0x\-A\-A00\-B\-B00
+ \}
+\item 
+enum \hyperlink{group___p_i_o_s___u_s_b___h_i_d_ga7769ddfbb58cbf13d0e0662f4d441899}{pios\-\_\-usb\-\_\-hid\-\_\-dev\-\_\-magic} \{ \hyperlink{group___p_i_o_s___u_s_b___h_i_d_gga7769ddfbb58cbf13d0e0662f4d441899a5e6367f95628a33741ecc295bcaed279}{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-H\-I\-D\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C} =  0x\-A\-A00\-B\-B00, 
+\hyperlink{group___p_i_o_s___u_s_b___h_i_d_gga7769ddfbb58cbf13d0e0662f4d441899a5e6367f95628a33741ecc295bcaed279}{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-H\-I\-D\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C} =  0x\-A\-A00\-B\-B00, 
+\hyperlink{group___p_i_o_s___u_s_b___h_i_d_gga7769ddfbb58cbf13d0e0662f4d441899a5e6367f95628a33741ecc295bcaed279}{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-H\-I\-D\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C} =  0x\-A\-A00\-B\-B00
+ \}
+\end{DoxyCompactItemize}
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___u_s_b___h_i_d_ga4f30a843d1680813d9ae2784e63ba6ff}{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-H\-I\-D\-\_\-\-Reenumerate} (void)
+\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___u_s_b___h_i_d_ga7bc7de75840613b8ba148d493d12598b}{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-H\-I\-D\-\_\-\-Change\-Connection\-State} (uint32\-\_\-t \-Connected)
+\item 
+bool \hyperlink{group___p_i_o_s___u_s_b___h_i_d_ga2d215927e0302a88603e843e9975277e}{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-H\-I\-D\-\_\-\-Check\-Available} (uint8\-\_\-t \hyperlink{uavobjectmanager_8c_abaabdc509cdaba7df9f56c6c76f3ae19}{id})
+\item 
+void \hyperlink{group___p_i_o_s___u_s_b___h_i_d_gab90f1c47b587196a2db9f82b0893c12b}{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-H\-I\-D\-\_\-\-Register\-Hid\-Descriptor} (const uint8\-\_\-t $\ast$desc, uint16\-\_\-t length)
+\item 
+void \hyperlink{group___p_i_o_s___u_s_b___h_i_d_ga24ffa70cf0e157835a2e6ea2dfb7f916}{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-H\-I\-D\-\_\-\-Register\-Hid\-Report} (const uint8\-\_\-t $\ast$desc, uint16\-\_\-t length)
+\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___u_s_b___h_i_d_ga4ea302beb0afbb7a83ff9ff1b20eb9cc}{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-H\-I\-D\-\_\-\-Init} (uint32\-\_\-t $\ast$usbhid\-\_\-id, const struct \hyperlink{structpios__usb__hid__cfg}{pios\-\_\-usb\-\_\-hid\-\_\-cfg} $\ast$cfg, uint32\-\_\-t lower\-\_\-id)
+\item 
+uint8\-\_\-t rx\-\_\-packet\-\_\-buffer\mbox{[}\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-B\-O\-A\-R\-D\-\_\-\-H\-I\-D\-\_\-\-D\-A\-T\-A\-\_\-\-L\-E\-N\-G\-T\-H\mbox{]} \hyperlink{group___p_i_o_s___u_s_b___h_i_d_ga078ed58bf52ceaf8ee4248216c518445}{pios\-\_\-usb\-\_\-hid\-\_\-dev\-::\-\_\-\-\_\-attribute\-\_\-\-\_\-} ((aligned(4)))
+\end{DoxyCompactItemize}
+\subsection*{\-Variables}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structpios__com__driver}{pios\-\_\-com\-\_\-driver} \hyperlink{group___p_i_o_s___u_s_b___h_i_d_ga7bc5f832e095cad60f463436e377bb5d}{pios\-\_\-usb\-\_\-hid\-\_\-com\-\_\-driver}
+\item 
+enum \hyperlink{group___p_i_o_s___u_s_b___h_i_d_ga7769ddfbb58cbf13d0e0662f4d441899}{pios\-\_\-usb\-\_\-hid\-\_\-dev\-\_\-magic} \hyperlink{group___p_i_o_s___u_s_b___h_i_d_ga31a2e7a6eac13138808d37592a55be4e}{pios\-\_\-usb\-\_\-hid\-\_\-dev\-::magic}
+\item 
+struct \hyperlink{structpios__usb__hid__cfg}{pios\-\_\-usb\-\_\-hid\-\_\-cfg} $\ast$ \hyperlink{group___p_i_o_s___u_s_b___h_i_d_gaed58572b60b7d6cfa67fd0c4d66e882c}{pios\-\_\-usb\-\_\-hid\-\_\-dev\-::cfg}
+\item 
+uint32\-\_\-t \hyperlink{group___p_i_o_s___u_s_b___h_i_d_ga088a37cd66d7047583d47a16a3381e4f}{pios\-\_\-usb\-\_\-hid\-\_\-dev\-::lower\-\_\-id}
+\item 
+\hyperlink{group___p_i_o_s___c_o_m_ga23f1888821f1f74a50c02adc459df597}{pios\-\_\-com\-\_\-callback} \hyperlink{group___p_i_o_s___u_s_b___h_i_d_ga0d491f712337fdf9d08be6c72ac81094}{pios\-\_\-usb\-\_\-hid\-\_\-dev\-::rx\-\_\-in\-\_\-cb}
+\item 
+uint32\-\_\-t \hyperlink{group___p_i_o_s___u_s_b___h_i_d_ga2ce875c5efa2b6b450f143818872513a}{pios\-\_\-usb\-\_\-hid\-\_\-dev\-::rx\-\_\-in\-\_\-context}
+\item 
+\hyperlink{group___p_i_o_s___c_o_m_ga23f1888821f1f74a50c02adc459df597}{pios\-\_\-com\-\_\-callback} \hyperlink{group___p_i_o_s___u_s_b___h_i_d_ga04c76a0e0e88338371d2f12cd9749309}{pios\-\_\-usb\-\_\-hid\-\_\-dev\-::tx\-\_\-out\-\_\-cb}
+\item 
+uint32\-\_\-t \hyperlink{group___p_i_o_s___u_s_b___h_i_d_ga1a95563a3fb1aee312d7793c77f81bf2}{pios\-\_\-usb\-\_\-hid\-\_\-dev\-::tx\-\_\-out\-\_\-context}
+\item 
+uint8\-\_\-t \hyperlink{group___p_i_o_s___u_s_b___h_i_d_ga20fb92cd6b239abc72cb0ac8b93b11b4}{pios\-\_\-usb\-\_\-hid\-\_\-dev\-::rx\-\_\-packet\-\_\-buffer} \mbox{[}\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-B\-O\-A\-R\-D\-\_\-\-H\-I\-D\-\_\-\-D\-A\-T\-A\-\_\-\-L\-E\-N\-G\-T\-H\mbox{]}
+\item 
+uint8\-\_\-t \hyperlink{group___p_i_o_s___u_s_b___h_i_d_gad6c7b8ecc0fe215e9d18d6d3281977c6}{pios\-\_\-usb\-\_\-hid\-\_\-dev\-::tx\-\_\-packet\-\_\-buffer} \mbox{[}\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-B\-O\-A\-R\-D\-\_\-\-H\-I\-D\-\_\-\-D\-A\-T\-A\-\_\-\-L\-E\-N\-G\-T\-H\mbox{]}
+\item 
+uint32\-\_\-t \hyperlink{group___p_i_o_s___u_s_b___h_i_d_ga4ecf07921bfe18b2457b8d0c4c874990}{pios\-\_\-usb\-\_\-hid\-\_\-dev\-::rx\-\_\-dropped}
+\item 
+uint32\-\_\-t \hyperlink{group___p_i_o_s___u_s_b___h_i_d_gaddc9bf1640b3a06aff88c4adaa6d3601}{pios\-\_\-usb\-\_\-hid\-\_\-dev\-::rx\-\_\-oversize}
+\item 
+void($\ast$ \hyperlink{group___p_i_o_s___u_s_b___h_i_d_ga0992c19a0f2e317fcd93f755d316a0fd}{p\-Ep\-Int\-\_\-\-I\-N} \mbox{[}7\mbox{]})(void)
+\item 
+void($\ast$ \hyperlink{group___p_i_o_s___u_s_b___h_i_d_ga549396ff4348c565f52117dd27ad52ca}{p\-Ep\-Int\-\_\-\-O\-U\-T} \mbox{[}7\mbox{]})(void)
+\item 
+struct \hyperlink{structpios__com__driver}{pios\-\_\-com\-\_\-driver} \hyperlink{group___p_i_o_s___u_s_b___h_i_d_ga7bc5f832e095cad60f463436e377bb5d}{pios\-\_\-usb\-\_\-hid\-\_\-com\-\_\-driver}
+\item 
+void($\ast$ \hyperlink{group___p_i_o_s___u_s_b___h_i_d_ga0992c19a0f2e317fcd93f755d316a0fd}{p\-Ep\-Int\-\_\-\-I\-N} \mbox{[}7\mbox{]})(void)
+\item 
+void($\ast$ \hyperlink{group___p_i_o_s___u_s_b___h_i_d_ga549396ff4348c565f52117dd27ad52ca}{p\-Ep\-Int\-\_\-\-O\-U\-T} \mbox{[}7\mbox{]})(void)
+\item 
+struct \hyperlink{structpios__com__driver}{pios\-\_\-com\-\_\-driver} \hyperlink{group___p_i_o_s___u_s_b___h_i_d_ga7bc5f832e095cad60f463436e377bb5d}{pios\-\_\-usb\-\_\-hid\-\_\-com\-\_\-driver}
+\item 
+bool \hyperlink{group___p_i_o_s___u_s_b___h_i_d_ga545cdf4f2c93727b458fa26bf4426311}{pios\-\_\-usb\-\_\-hid\-\_\-dev\-::usb\-\_\-if\-\_\-enabled}
+\item 
+bool \hyperlink{group___p_i_o_s___u_s_b___h_i_d_gaf4ed0035b90313acf78fada97b2ff2f5}{pios\-\_\-usb\-\_\-hid\-\_\-dev\-::rx\-\_\-active}
+\item 
+bool \hyperlink{group___p_i_o_s___u_s_b___h_i_d_ga3c0deaac64c0f63bdb4a5cd41379bc23}{pios\-\_\-usb\-\_\-hid\-\_\-dev\-::tx\-\_\-active}
+\item 
+uint8\-\_\-t \hyperlink{group___p_i_o_s___u_s_b___h_i_d_ga6f939e967dc4622730a02a7d467edf7a}{hid\-\_\-idle\-\_\-msg\-::idle\-\_\-period}
+\item 
+uint8\-\_\-t \hyperlink{group___p_i_o_s___u_s_b___h_i_d_gae36ecdd57567fb6f4ee28b3130b3c8ee}{hid\-\_\-idle\-\_\-msg\-::report\-\_\-id}
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-P\-I\-O\-S \-U\-S\-B \-C\-O\-M implementation for \-H\-I\-D interfaces  \-This implements serial emulation over \-H\-I\-D reports. 
+
+\subsection{\-Enumeration \-Type \-Documentation}
+\hypertarget{group___p_i_o_s___u_s_b___h_i_d_ga7769ddfbb58cbf13d0e0662f4d441899}{\index{\-U\-S\-B H\-I\-D Functions@{\-U\-S\-B H\-I\-D Functions}!pios\-\_\-usb\-\_\-hid\-\_\-dev\-\_\-magic@{pios\-\_\-usb\-\_\-hid\-\_\-dev\-\_\-magic}}
+\index{pios\-\_\-usb\-\_\-hid\-\_\-dev\-\_\-magic@{pios\-\_\-usb\-\_\-hid\-\_\-dev\-\_\-magic}!USB HID Functions@{\-U\-S\-B H\-I\-D Functions}}
+\subsubsection[{pios\-\_\-usb\-\_\-hid\-\_\-dev\-\_\-magic}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf pios\-\_\-usb\-\_\-hid\-\_\-dev\-\_\-magic}}}\label{group___p_i_o_s___u_s_b___h_i_d_ga7769ddfbb58cbf13d0e0662f4d441899}
+\begin{Desc}
+\item[\-Enumerator\-: ]\par
+\begin{description}
+\index{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-H\-I\-D\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C@{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-H\-I\-D\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}!\-U\-S\-B H\-I\-D Functions@{\-U\-S\-B H\-I\-D Functions}}\index{\-U\-S\-B H\-I\-D Functions@{\-U\-S\-B H\-I\-D Functions}!\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-H\-I\-D\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C@{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-H\-I\-D\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}}\item[{\em 
+\hypertarget{group___p_i_o_s___u_s_b___h_i_d_gga7769ddfbb58cbf13d0e0662f4d441899a5e6367f95628a33741ecc295bcaed279}{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-H\-I\-D\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}\label{group___p_i_o_s___u_s_b___h_i_d_gga7769ddfbb58cbf13d0e0662f4d441899a5e6367f95628a33741ecc295bcaed279}
+}]\index{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-H\-I\-D\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C@{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-H\-I\-D\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}!\-U\-S\-B H\-I\-D Functions@{\-U\-S\-B H\-I\-D Functions}}\index{\-U\-S\-B H\-I\-D Functions@{\-U\-S\-B H\-I\-D Functions}!\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-H\-I\-D\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C@{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-H\-I\-D\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}}\item[{\em 
+\hypertarget{group___p_i_o_s___u_s_b___h_i_d_gga7769ddfbb58cbf13d0e0662f4d441899a5e6367f95628a33741ecc295bcaed279}{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-H\-I\-D\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}\label{group___p_i_o_s___u_s_b___h_i_d_gga7769ddfbb58cbf13d0e0662f4d441899a5e6367f95628a33741ecc295bcaed279}
+}]\index{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-H\-I\-D\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C@{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-H\-I\-D\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}!\-U\-S\-B H\-I\-D Functions@{\-U\-S\-B H\-I\-D Functions}}\index{\-U\-S\-B H\-I\-D Functions@{\-U\-S\-B H\-I\-D Functions}!\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-H\-I\-D\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C@{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-H\-I\-D\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}}\item[{\em 
+\hypertarget{group___p_i_o_s___u_s_b___h_i_d_gga7769ddfbb58cbf13d0e0662f4d441899a5e6367f95628a33741ecc295bcaed279}{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-H\-I\-D\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}\label{group___p_i_o_s___u_s_b___h_i_d_gga7769ddfbb58cbf13d0e0662f4d441899a5e6367f95628a33741ecc295bcaed279}
+}]\end{description}
+\end{Desc}
+
+
+
+\-Definition at line 58 of file pios\-\_\-usb\-\_\-hid.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_b___h_i_d_ga7769ddfbb58cbf13d0e0662f4d441899}{\index{\-U\-S\-B H\-I\-D Functions@{\-U\-S\-B H\-I\-D Functions}!pios\-\_\-usb\-\_\-hid\-\_\-dev\-\_\-magic@{pios\-\_\-usb\-\_\-hid\-\_\-dev\-\_\-magic}}
+\index{pios\-\_\-usb\-\_\-hid\-\_\-dev\-\_\-magic@{pios\-\_\-usb\-\_\-hid\-\_\-dev\-\_\-magic}!USB HID Functions@{\-U\-S\-B H\-I\-D Functions}}
+\subsubsection[{pios\-\_\-usb\-\_\-hid\-\_\-dev\-\_\-magic}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf pios\-\_\-usb\-\_\-hid\-\_\-dev\-\_\-magic}}}\label{group___p_i_o_s___u_s_b___h_i_d_ga7769ddfbb58cbf13d0e0662f4d441899}
+\begin{Desc}
+\item[\-Enumerator\-: ]\par
+\begin{description}
+\index{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-H\-I\-D\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C@{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-H\-I\-D\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}!\-U\-S\-B H\-I\-D Functions@{\-U\-S\-B H\-I\-D Functions}}\index{\-U\-S\-B H\-I\-D Functions@{\-U\-S\-B H\-I\-D Functions}!\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-H\-I\-D\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C@{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-H\-I\-D\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}}\item[{\em 
+\hypertarget{group___p_i_o_s___u_s_b___h_i_d_gga7769ddfbb58cbf13d0e0662f4d441899a5e6367f95628a33741ecc295bcaed279}{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-H\-I\-D\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}\label{group___p_i_o_s___u_s_b___h_i_d_gga7769ddfbb58cbf13d0e0662f4d441899a5e6367f95628a33741ecc295bcaed279}
+}]\index{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-H\-I\-D\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C@{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-H\-I\-D\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}!\-U\-S\-B H\-I\-D Functions@{\-U\-S\-B H\-I\-D Functions}}\index{\-U\-S\-B H\-I\-D Functions@{\-U\-S\-B H\-I\-D Functions}!\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-H\-I\-D\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C@{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-H\-I\-D\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}}\item[{\em 
+\hypertarget{group___p_i_o_s___u_s_b___h_i_d_gga7769ddfbb58cbf13d0e0662f4d441899a5e6367f95628a33741ecc295bcaed279}{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-H\-I\-D\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}\label{group___p_i_o_s___u_s_b___h_i_d_gga7769ddfbb58cbf13d0e0662f4d441899a5e6367f95628a33741ecc295bcaed279}
+}]\index{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-H\-I\-D\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C@{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-H\-I\-D\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}!\-U\-S\-B H\-I\-D Functions@{\-U\-S\-B H\-I\-D Functions}}\index{\-U\-S\-B H\-I\-D Functions@{\-U\-S\-B H\-I\-D Functions}!\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-H\-I\-D\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C@{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-H\-I\-D\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}}\item[{\em 
+\hypertarget{group___p_i_o_s___u_s_b___h_i_d_gga7769ddfbb58cbf13d0e0662f4d441899a5e6367f95628a33741ecc295bcaed279}{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-H\-I\-D\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}\label{group___p_i_o_s___u_s_b___h_i_d_gga7769ddfbb58cbf13d0e0662f4d441899a5e6367f95628a33741ecc295bcaed279}
+}]\end{description}
+\end{Desc}
+
+
+
+\-Definition at line 58 of file pios\-\_\-usb\-\_\-hid.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_b___h_i_d_ga7769ddfbb58cbf13d0e0662f4d441899}{\index{\-U\-S\-B H\-I\-D Functions@{\-U\-S\-B H\-I\-D Functions}!pios\-\_\-usb\-\_\-hid\-\_\-dev\-\_\-magic@{pios\-\_\-usb\-\_\-hid\-\_\-dev\-\_\-magic}}
+\index{pios\-\_\-usb\-\_\-hid\-\_\-dev\-\_\-magic@{pios\-\_\-usb\-\_\-hid\-\_\-dev\-\_\-magic}!USB HID Functions@{\-U\-S\-B H\-I\-D Functions}}
+\subsubsection[{pios\-\_\-usb\-\_\-hid\-\_\-dev\-\_\-magic}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf pios\-\_\-usb\-\_\-hid\-\_\-dev\-\_\-magic}}}\label{group___p_i_o_s___u_s_b___h_i_d_ga7769ddfbb58cbf13d0e0662f4d441899}
+\begin{Desc}
+\item[\-Enumerator\-: ]\par
+\begin{description}
+\index{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-H\-I\-D\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C@{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-H\-I\-D\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}!\-U\-S\-B H\-I\-D Functions@{\-U\-S\-B H\-I\-D Functions}}\index{\-U\-S\-B H\-I\-D Functions@{\-U\-S\-B H\-I\-D Functions}!\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-H\-I\-D\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C@{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-H\-I\-D\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}}\item[{\em 
+\hypertarget{group___p_i_o_s___u_s_b___h_i_d_gga7769ddfbb58cbf13d0e0662f4d441899a5e6367f95628a33741ecc295bcaed279}{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-H\-I\-D\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}\label{group___p_i_o_s___u_s_b___h_i_d_gga7769ddfbb58cbf13d0e0662f4d441899a5e6367f95628a33741ecc295bcaed279}
+}]\index{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-H\-I\-D\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C@{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-H\-I\-D\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}!\-U\-S\-B H\-I\-D Functions@{\-U\-S\-B H\-I\-D Functions}}\index{\-U\-S\-B H\-I\-D Functions@{\-U\-S\-B H\-I\-D Functions}!\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-H\-I\-D\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C@{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-H\-I\-D\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}}\item[{\em 
+\hypertarget{group___p_i_o_s___u_s_b___h_i_d_gga7769ddfbb58cbf13d0e0662f4d441899a5e6367f95628a33741ecc295bcaed279}{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-H\-I\-D\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}\label{group___p_i_o_s___u_s_b___h_i_d_gga7769ddfbb58cbf13d0e0662f4d441899a5e6367f95628a33741ecc295bcaed279}
+}]\index{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-H\-I\-D\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C@{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-H\-I\-D\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}!\-U\-S\-B H\-I\-D Functions@{\-U\-S\-B H\-I\-D Functions}}\index{\-U\-S\-B H\-I\-D Functions@{\-U\-S\-B H\-I\-D Functions}!\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-H\-I\-D\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C@{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-H\-I\-D\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}}\item[{\em 
+\hypertarget{group___p_i_o_s___u_s_b___h_i_d_gga7769ddfbb58cbf13d0e0662f4d441899a5e6367f95628a33741ecc295bcaed279}{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-H\-I\-D\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}\label{group___p_i_o_s___u_s_b___h_i_d_gga7769ddfbb58cbf13d0e0662f4d441899a5e6367f95628a33741ecc295bcaed279}
+}]\end{description}
+\end{Desc}
+
+
+
+\-Definition at line 59 of file pios\-\_\-usb\-\_\-hid.\-c.
+
+
+
+\subsection{\-Function \-Documentation}
+\hypertarget{group___p_i_o_s___u_s_b___h_i_d_ga078ed58bf52ceaf8ee4248216c518445}{\index{\-U\-S\-B H\-I\-D Functions@{\-U\-S\-B H\-I\-D Functions}!\-\_\-\-\_\-attribute\-\_\-\-\_\-@{\-\_\-\-\_\-attribute\-\_\-\-\_\-}}
+\index{\-\_\-\-\_\-attribute\-\_\-\-\_\-@{\-\_\-\-\_\-attribute\-\_\-\-\_\-}!USB HID Functions@{\-U\-S\-B H\-I\-D Functions}}
+\subsubsection[{\-\_\-\-\_\-attribute\-\_\-\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}uint8\-\_\-t rx\-\_\-packet\-\_\-buffer \mbox{[}\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-B\-O\-A\-R\-D\-\_\-\-H\-I\-D\-\_\-\-D\-A\-T\-A\-\_\-\-L\-E\-N\-G\-T\-H\mbox{]} {\bf pios\-\_\-usb\-\_\-hid\-\_\-dev\-::\-\_\-\-\_\-attribute\-\_\-\-\_\-} (
+\begin{DoxyParamCaption}
+\item[{(aligned(4))}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___u_s_b___h_i_d_ga078ed58bf52ceaf8ee4248216c518445}
+\hypertarget{group___p_i_o_s___u_s_b___h_i_d_ga7bc7de75840613b8ba148d493d12598b}{\index{\-U\-S\-B H\-I\-D Functions@{\-U\-S\-B H\-I\-D Functions}!\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-H\-I\-D\-\_\-\-Change\-Connection\-State@{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-H\-I\-D\-\_\-\-Change\-Connection\-State}}
+\index{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-H\-I\-D\-\_\-\-Change\-Connection\-State@{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-H\-I\-D\-\_\-\-Change\-Connection\-State}!USB HID Functions@{\-U\-S\-B H\-I\-D Functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-H\-I\-D\-\_\-\-Change\-Connection\-State}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-H\-I\-D\-\_\-\-Change\-Connection\-State} (
+\begin{DoxyParamCaption}
+\item[{uint32\-\_\-t}]{\-Connected}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___u_s_b___h_i_d_ga7bc7de75840613b8ba148d493d12598b}
+\hypertarget{group___p_i_o_s___u_s_b___h_i_d_ga2d215927e0302a88603e843e9975277e}{\index{\-U\-S\-B H\-I\-D Functions@{\-U\-S\-B H\-I\-D Functions}!\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-H\-I\-D\-\_\-\-Check\-Available@{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-H\-I\-D\-\_\-\-Check\-Available}}
+\index{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-H\-I\-D\-\_\-\-Check\-Available@{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-H\-I\-D\-\_\-\-Check\-Available}!USB HID Functions@{\-U\-S\-B H\-I\-D Functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-H\-I\-D\-\_\-\-Check\-Available}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-H\-I\-D\-\_\-\-Check\-Available} (
+\begin{DoxyParamCaption}
+\item[{uint8\-\_\-t}]{id}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___u_s_b___h_i_d_ga2d215927e0302a88603e843e9975277e}
+\hypertarget{group___p_i_o_s___u_s_b___h_i_d_ga4ea302beb0afbb7a83ff9ff1b20eb9cc}{\index{\-U\-S\-B H\-I\-D Functions@{\-U\-S\-B H\-I\-D Functions}!\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-H\-I\-D\-\_\-\-Init@{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-H\-I\-D\-\_\-\-Init}}
+\index{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-H\-I\-D\-\_\-\-Init@{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-H\-I\-D\-\_\-\-Init}!USB HID Functions@{\-U\-S\-B H\-I\-D Functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-H\-I\-D\-\_\-\-Init}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-H\-I\-D\-\_\-\-Init} (
+\begin{DoxyParamCaption}
+\item[{uint32\-\_\-t $\ast$}]{usbhid\-\_\-id, }
+\item[{const struct {\bf pios\-\_\-usb\-\_\-hid\-\_\-cfg} $\ast$}]{cfg, }
+\item[{uint32\-\_\-t}]{lower\-\_\-id}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___u_s_b___h_i_d_ga4ea302beb0afbb7a83ff9ff1b20eb9cc}
+
+
+\-Definition at line 126 of file pios\-\_\-usb\-\_\-hid.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_b___h_i_d_ga4f30a843d1680813d9ae2784e63ba6ff}{\index{\-U\-S\-B H\-I\-D Functions@{\-U\-S\-B H\-I\-D Functions}!\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-H\-I\-D\-\_\-\-Reenumerate@{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-H\-I\-D\-\_\-\-Reenumerate}}
+\index{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-H\-I\-D\-\_\-\-Reenumerate@{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-H\-I\-D\-\_\-\-Reenumerate}!USB HID Functions@{\-U\-S\-B H\-I\-D Functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-H\-I\-D\-\_\-\-Reenumerate}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-H\-I\-D\-\_\-\-Reenumerate} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___u_s_b___h_i_d_ga4f30a843d1680813d9ae2784e63ba6ff}
+\hypertarget{group___p_i_o_s___u_s_b___h_i_d_gab90f1c47b587196a2db9f82b0893c12b}{\index{\-U\-S\-B H\-I\-D Functions@{\-U\-S\-B H\-I\-D Functions}!\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-H\-I\-D\-\_\-\-Register\-Hid\-Descriptor@{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-H\-I\-D\-\_\-\-Register\-Hid\-Descriptor}}
+\index{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-H\-I\-D\-\_\-\-Register\-Hid\-Descriptor@{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-H\-I\-D\-\_\-\-Register\-Hid\-Descriptor}!USB HID Functions@{\-U\-S\-B H\-I\-D Functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-H\-I\-D\-\_\-\-Register\-Hid\-Descriptor}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-H\-I\-D\-\_\-\-Register\-Hid\-Descriptor} (
+\begin{DoxyParamCaption}
+\item[{const uint8\-\_\-t $\ast$}]{desc, }
+\item[{uint16\-\_\-t}]{length}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___u_s_b___h_i_d_gab90f1c47b587196a2db9f82b0893c12b}
+
+
+\-Definition at line 71 of file pios\-\_\-usbhook.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_b___h_i_d_ga24ffa70cf0e157835a2e6ea2dfb7f916}{\index{\-U\-S\-B H\-I\-D Functions@{\-U\-S\-B H\-I\-D Functions}!\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-H\-I\-D\-\_\-\-Register\-Hid\-Report@{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-H\-I\-D\-\_\-\-Register\-Hid\-Report}}
+\index{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-H\-I\-D\-\_\-\-Register\-Hid\-Report@{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-H\-I\-D\-\_\-\-Register\-Hid\-Report}!USB HID Functions@{\-U\-S\-B H\-I\-D Functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-H\-I\-D\-\_\-\-Register\-Hid\-Report}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-H\-I\-D\-\_\-\-Register\-Hid\-Report} (
+\begin{DoxyParamCaption}
+\item[{const uint8\-\_\-t $\ast$}]{desc, }
+\item[{uint16\-\_\-t}]{length}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___u_s_b___h_i_d_ga24ffa70cf0e157835a2e6ea2dfb7f916}
+
+
+\-Definition at line 79 of file pios\-\_\-usbhook.\-c.
+
+
+
+\subsection{\-Variable \-Documentation}
+\hypertarget{group___p_i_o_s___u_s_b___h_i_d_gaed58572b60b7d6cfa67fd0c4d66e882c}{\index{\-U\-S\-B H\-I\-D Functions@{\-U\-S\-B H\-I\-D Functions}!cfg@{cfg}}
+\index{cfg@{cfg}!USB HID Functions@{\-U\-S\-B H\-I\-D Functions}}
+\subsubsection[{cfg}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf pios\-\_\-usb\-\_\-hid\-\_\-cfg} $\ast$ {\bf pios\-\_\-usb\-\_\-hid\-\_\-dev\-::cfg}}}\label{group___p_i_o_s___u_s_b___h_i_d_gaed58572b60b7d6cfa67fd0c4d66e882c}
+
+
+\-Definition at line 64 of file pios\-\_\-usb\-\_\-hid.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_b___h_i_d_ga6f939e967dc4622730a02a7d467edf7a}{\index{\-U\-S\-B H\-I\-D Functions@{\-U\-S\-B H\-I\-D Functions}!idle\-\_\-period@{idle\-\_\-period}}
+\index{idle\-\_\-period@{idle\-\_\-period}!USB HID Functions@{\-U\-S\-B H\-I\-D Functions}}
+\subsubsection[{idle\-\_\-period}]{\setlength{\rightskip}{0pt plus 5cm}uint8\-\_\-t {\bf hid\-\_\-idle\-\_\-msg\-::idle\-\_\-period}}}\label{group___p_i_o_s___u_s_b___h_i_d_ga6f939e967dc4622730a02a7d467edf7a}
+
+
+\-Definition at line 359 of file pios\-\_\-usb\-\_\-hid.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_b___h_i_d_ga088a37cd66d7047583d47a16a3381e4f}{\index{\-U\-S\-B H\-I\-D Functions@{\-U\-S\-B H\-I\-D Functions}!lower\-\_\-id@{lower\-\_\-id}}
+\index{lower\-\_\-id@{lower\-\_\-id}!USB HID Functions@{\-U\-S\-B H\-I\-D Functions}}
+\subsubsection[{lower\-\_\-id}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t {\bf pios\-\_\-usb\-\_\-hid\-\_\-dev\-::lower\-\_\-id}}}\label{group___p_i_o_s___u_s_b___h_i_d_ga088a37cd66d7047583d47a16a3381e4f}
+
+
+\-Definition at line 66 of file pios\-\_\-usb\-\_\-hid.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_b___h_i_d_ga31a2e7a6eac13138808d37592a55be4e}{\index{\-U\-S\-B H\-I\-D Functions@{\-U\-S\-B H\-I\-D Functions}!magic@{magic}}
+\index{magic@{magic}!USB HID Functions@{\-U\-S\-B H\-I\-D Functions}}
+\subsubsection[{magic}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf pios\-\_\-usb\-\_\-hid\-\_\-dev\-\_\-magic} {\bf pios\-\_\-usb\-\_\-hid\-\_\-dev\-::magic}}}\label{group___p_i_o_s___u_s_b___h_i_d_ga31a2e7a6eac13138808d37592a55be4e}
+
+
+\-Definition at line 63 of file pios\-\_\-usb\-\_\-hid.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_b___h_i_d_ga0992c19a0f2e317fcd93f755d316a0fd}{\index{\-U\-S\-B H\-I\-D Functions@{\-U\-S\-B H\-I\-D Functions}!p\-Ep\-Int\-\_\-\-I\-N@{p\-Ep\-Int\-\_\-\-I\-N}}
+\index{p\-Ep\-Int\-\_\-\-I\-N@{p\-Ep\-Int\-\_\-\-I\-N}!USB HID Functions@{\-U\-S\-B H\-I\-D Functions}}
+\subsubsection[{p\-Ep\-Int\-\_\-\-I\-N}]{\setlength{\rightskip}{0pt plus 5cm}void($\ast$ {\bf p\-Ep\-Int\-\_\-\-I\-N}\mbox{[}7\mbox{]})(void)}}\label{group___p_i_o_s___u_s_b___h_i_d_ga0992c19a0f2e317fcd93f755d316a0fd}
+
+
+\-Definition at line 34 of file pios\-\_\-usb\-\_\-hid\-\_\-istr.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_b___h_i_d_ga0992c19a0f2e317fcd93f755d316a0fd}{\index{\-U\-S\-B H\-I\-D Functions@{\-U\-S\-B H\-I\-D Functions}!p\-Ep\-Int\-\_\-\-I\-N@{p\-Ep\-Int\-\_\-\-I\-N}}
+\index{p\-Ep\-Int\-\_\-\-I\-N@{p\-Ep\-Int\-\_\-\-I\-N}!USB HID Functions@{\-U\-S\-B H\-I\-D Functions}}
+\subsubsection[{p\-Ep\-Int\-\_\-\-I\-N}]{\setlength{\rightskip}{0pt plus 5cm}void($\ast$ {\bf p\-Ep\-Int\-\_\-\-I\-N}\mbox{[}7\mbox{]})(void)}}\label{group___p_i_o_s___u_s_b___h_i_d_ga0992c19a0f2e317fcd93f755d316a0fd}
+
+
+\-Definition at line 34 of file pios\-\_\-usb\-\_\-hid\-\_\-istr.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_b___h_i_d_ga549396ff4348c565f52117dd27ad52ca}{\index{\-U\-S\-B H\-I\-D Functions@{\-U\-S\-B H\-I\-D Functions}!p\-Ep\-Int\-\_\-\-O\-U\-T@{p\-Ep\-Int\-\_\-\-O\-U\-T}}
+\index{p\-Ep\-Int\-\_\-\-O\-U\-T@{p\-Ep\-Int\-\_\-\-O\-U\-T}!USB HID Functions@{\-U\-S\-B H\-I\-D Functions}}
+\subsubsection[{p\-Ep\-Int\-\_\-\-O\-U\-T}]{\setlength{\rightskip}{0pt plus 5cm}void($\ast$ {\bf p\-Ep\-Int\-\_\-\-O\-U\-T}\mbox{[}7\mbox{]})(void)}}\label{group___p_i_o_s___u_s_b___h_i_d_ga549396ff4348c565f52117dd27ad52ca}
+
+
+\-Definition at line 37 of file pios\-\_\-usb\-\_\-hid\-\_\-istr.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_b___h_i_d_ga549396ff4348c565f52117dd27ad52ca}{\index{\-U\-S\-B H\-I\-D Functions@{\-U\-S\-B H\-I\-D Functions}!p\-Ep\-Int\-\_\-\-O\-U\-T@{p\-Ep\-Int\-\_\-\-O\-U\-T}}
+\index{p\-Ep\-Int\-\_\-\-O\-U\-T@{p\-Ep\-Int\-\_\-\-O\-U\-T}!USB HID Functions@{\-U\-S\-B H\-I\-D Functions}}
+\subsubsection[{p\-Ep\-Int\-\_\-\-O\-U\-T}]{\setlength{\rightskip}{0pt plus 5cm}void($\ast$ {\bf p\-Ep\-Int\-\_\-\-O\-U\-T}\mbox{[}7\mbox{]})(void)}}\label{group___p_i_o_s___u_s_b___h_i_d_ga549396ff4348c565f52117dd27ad52ca}
+
+
+\-Definition at line 37 of file pios\-\_\-usb\-\_\-hid\-\_\-istr.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_b___h_i_d_ga7bc5f832e095cad60f463436e377bb5d}{\index{\-U\-S\-B H\-I\-D Functions@{\-U\-S\-B H\-I\-D Functions}!pios\-\_\-usb\-\_\-hid\-\_\-com\-\_\-driver@{pios\-\_\-usb\-\_\-hid\-\_\-com\-\_\-driver}}
+\index{pios\-\_\-usb\-\_\-hid\-\_\-com\-\_\-driver@{pios\-\_\-usb\-\_\-hid\-\_\-com\-\_\-driver}!USB HID Functions@{\-U\-S\-B H\-I\-D Functions}}
+\subsubsection[{pios\-\_\-usb\-\_\-hid\-\_\-com\-\_\-driver}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf pios\-\_\-com\-\_\-driver} {\bf pios\-\_\-usb\-\_\-hid\-\_\-com\-\_\-driver}}}\label{group___p_i_o_s___u_s_b___h_i_d_ga7bc5f832e095cad60f463436e377bb5d}
+{\bfseries \-Initial value\-:}
+\begin{DoxyCode}
+ {
+        .tx_start    = PIOS_USB_HID_TxStart,
+        .rx_start    = PIOS_USB_HID_RxStart,
+        .bind_tx_cb  = PIOS_USB_HID_RegisterTxCallback,
+        .bind_rx_cb  = PIOS_USB_HID_RegisterRxCallback,
+        .available   = PIOS_USB_CheckAvailable,
+}
+\end{DoxyCode}
+
+
+\-Definition at line 50 of file pios\-\_\-usb\-\_\-hid.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_b___h_i_d_ga7bc5f832e095cad60f463436e377bb5d}{\index{\-U\-S\-B H\-I\-D Functions@{\-U\-S\-B H\-I\-D Functions}!pios\-\_\-usb\-\_\-hid\-\_\-com\-\_\-driver@{pios\-\_\-usb\-\_\-hid\-\_\-com\-\_\-driver}}
+\index{pios\-\_\-usb\-\_\-hid\-\_\-com\-\_\-driver@{pios\-\_\-usb\-\_\-hid\-\_\-com\-\_\-driver}!USB HID Functions@{\-U\-S\-B H\-I\-D Functions}}
+\subsubsection[{pios\-\_\-usb\-\_\-hid\-\_\-com\-\_\-driver}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf pios\-\_\-com\-\_\-driver} {\bf pios\-\_\-usb\-\_\-hid\-\_\-com\-\_\-driver}}}\label{group___p_i_o_s___u_s_b___h_i_d_ga7bc5f832e095cad60f463436e377bb5d}
+{\bfseries \-Initial value\-:}
+\begin{DoxyCode}
+ {
+        .tx_start    = PIOS_USB_HID_TxStart,
+        .rx_start    = PIOS_USB_HID_RxStart,
+        .bind_tx_cb  = PIOS_USB_HID_RegisterTxCallback,
+        .bind_rx_cb  = PIOS_USB_HID_RegisterRxCallback,
+        .available   = PIOS_USB_CheckAvailable,
+}
+\end{DoxyCode}
+
+
+\-Definition at line 50 of file pios\-\_\-usb\-\_\-hid.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_b___h_i_d_ga7bc5f832e095cad60f463436e377bb5d}{\index{\-U\-S\-B H\-I\-D Functions@{\-U\-S\-B H\-I\-D Functions}!pios\-\_\-usb\-\_\-hid\-\_\-com\-\_\-driver@{pios\-\_\-usb\-\_\-hid\-\_\-com\-\_\-driver}}
+\index{pios\-\_\-usb\-\_\-hid\-\_\-com\-\_\-driver@{pios\-\_\-usb\-\_\-hid\-\_\-com\-\_\-driver}!USB HID Functions@{\-U\-S\-B H\-I\-D Functions}}
+\subsubsection[{pios\-\_\-usb\-\_\-hid\-\_\-com\-\_\-driver}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf pios\-\_\-com\-\_\-driver} {\bf pios\-\_\-usb\-\_\-hid\-\_\-com\-\_\-driver}}}\label{group___p_i_o_s___u_s_b___h_i_d_ga7bc5f832e095cad60f463436e377bb5d}
+{\bfseries \-Initial value\-:}
+\begin{DoxyCode}
+ {
+        .tx_start    = PIOS_USB_HID_TxStart,
+        .rx_start    = PIOS_USB_HID_RxStart,
+        .bind_tx_cb  = PIOS_USB_HID_RegisterTxCallback,
+        .bind_rx_cb  = PIOS_USB_HID_RegisterRxCallback,
+        .available   = PIOS_USB_CheckAvailable, 
+}
+\end{DoxyCode}
+
+
+\-Definition at line 51 of file pios\-\_\-usb\-\_\-hid.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_b___h_i_d_gae36ecdd57567fb6f4ee28b3130b3c8ee}{\index{\-U\-S\-B H\-I\-D Functions@{\-U\-S\-B H\-I\-D Functions}!report\-\_\-id@{report\-\_\-id}}
+\index{report\-\_\-id@{report\-\_\-id}!USB HID Functions@{\-U\-S\-B H\-I\-D Functions}}
+\subsubsection[{report\-\_\-id}]{\setlength{\rightskip}{0pt plus 5cm}uint8\-\_\-t {\bf hid\-\_\-idle\-\_\-msg\-::report\-\_\-id}}}\label{group___p_i_o_s___u_s_b___h_i_d_gae36ecdd57567fb6f4ee28b3130b3c8ee}
+
+
+\-Definition at line 360 of file pios\-\_\-usb\-\_\-hid.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_b___h_i_d_gaf4ed0035b90313acf78fada97b2ff2f5}{\index{\-U\-S\-B H\-I\-D Functions@{\-U\-S\-B H\-I\-D Functions}!rx\-\_\-active@{rx\-\_\-active}}
+\index{rx\-\_\-active@{rx\-\_\-active}!USB HID Functions@{\-U\-S\-B H\-I\-D Functions}}
+\subsubsection[{rx\-\_\-active}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf pios\-\_\-usb\-\_\-hid\-\_\-dev\-::rx\-\_\-active}}}\label{group___p_i_o_s___u_s_b___h_i_d_gaf4ed0035b90313acf78fada97b2ff2f5}
+
+
+\-Definition at line 77 of file pios\-\_\-usb\-\_\-hid.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_b___h_i_d_ga4ecf07921bfe18b2457b8d0c4c874990}{\index{\-U\-S\-B H\-I\-D Functions@{\-U\-S\-B H\-I\-D Functions}!rx\-\_\-dropped@{rx\-\_\-dropped}}
+\index{rx\-\_\-dropped@{rx\-\_\-dropped}!USB HID Functions@{\-U\-S\-B H\-I\-D Functions}}
+\subsubsection[{rx\-\_\-dropped}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t {\bf pios\-\_\-usb\-\_\-hid\-\_\-dev\-::rx\-\_\-dropped}}}\label{group___p_i_o_s___u_s_b___h_i_d_ga4ecf07921bfe18b2457b8d0c4c874990}
+
+
+\-Definition at line 76 of file pios\-\_\-usb\-\_\-hid.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_b___h_i_d_ga0d491f712337fdf9d08be6c72ac81094}{\index{\-U\-S\-B H\-I\-D Functions@{\-U\-S\-B H\-I\-D Functions}!rx\-\_\-in\-\_\-cb@{rx\-\_\-in\-\_\-cb}}
+\index{rx\-\_\-in\-\_\-cb@{rx\-\_\-in\-\_\-cb}!USB HID Functions@{\-U\-S\-B H\-I\-D Functions}}
+\subsubsection[{rx\-\_\-in\-\_\-cb}]{\setlength{\rightskip}{0pt plus 5cm}{\bf pios\-\_\-com\-\_\-callback} {\bf pios\-\_\-usb\-\_\-hid\-\_\-dev\-::rx\-\_\-in\-\_\-cb}}}\label{group___p_i_o_s___u_s_b___h_i_d_ga0d491f712337fdf9d08be6c72ac81094}
+
+
+\-Definition at line 68 of file pios\-\_\-usb\-\_\-hid.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_b___h_i_d_ga2ce875c5efa2b6b450f143818872513a}{\index{\-U\-S\-B H\-I\-D Functions@{\-U\-S\-B H\-I\-D Functions}!rx\-\_\-in\-\_\-context@{rx\-\_\-in\-\_\-context}}
+\index{rx\-\_\-in\-\_\-context@{rx\-\_\-in\-\_\-context}!USB HID Functions@{\-U\-S\-B H\-I\-D Functions}}
+\subsubsection[{rx\-\_\-in\-\_\-context}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t {\bf pios\-\_\-usb\-\_\-hid\-\_\-dev\-::rx\-\_\-in\-\_\-context}}}\label{group___p_i_o_s___u_s_b___h_i_d_ga2ce875c5efa2b6b450f143818872513a}
+
+
+\-Definition at line 69 of file pios\-\_\-usb\-\_\-hid.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_b___h_i_d_gaddc9bf1640b3a06aff88c4adaa6d3601}{\index{\-U\-S\-B H\-I\-D Functions@{\-U\-S\-B H\-I\-D Functions}!rx\-\_\-oversize@{rx\-\_\-oversize}}
+\index{rx\-\_\-oversize@{rx\-\_\-oversize}!USB HID Functions@{\-U\-S\-B H\-I\-D Functions}}
+\subsubsection[{rx\-\_\-oversize}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t {\bf pios\-\_\-usb\-\_\-hid\-\_\-dev\-::rx\-\_\-oversize}}}\label{group___p_i_o_s___u_s_b___h_i_d_gaddc9bf1640b3a06aff88c4adaa6d3601}
+
+
+\-Definition at line 77 of file pios\-\_\-usb\-\_\-hid.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_b___h_i_d_ga20fb92cd6b239abc72cb0ac8b93b11b4}{\index{\-U\-S\-B H\-I\-D Functions@{\-U\-S\-B H\-I\-D Functions}!rx\-\_\-packet\-\_\-buffer@{rx\-\_\-packet\-\_\-buffer}}
+\index{rx\-\_\-packet\-\_\-buffer@{rx\-\_\-packet\-\_\-buffer}!USB HID Functions@{\-U\-S\-B H\-I\-D Functions}}
+\subsubsection[{rx\-\_\-packet\-\_\-buffer}]{\setlength{\rightskip}{0pt plus 5cm}uint8\-\_\-t {\bf pios\-\_\-usb\-\_\-hid\-\_\-dev\-::rx\-\_\-packet\-\_\-buffer}}}\label{group___p_i_o_s___u_s_b___h_i_d_ga20fb92cd6b239abc72cb0ac8b93b11b4}
+
+
+\-Definition at line 73 of file pios\-\_\-usb\-\_\-hid.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_b___h_i_d_ga3c0deaac64c0f63bdb4a5cd41379bc23}{\index{\-U\-S\-B H\-I\-D Functions@{\-U\-S\-B H\-I\-D Functions}!tx\-\_\-active@{tx\-\_\-active}}
+\index{tx\-\_\-active@{tx\-\_\-active}!USB HID Functions@{\-U\-S\-B H\-I\-D Functions}}
+\subsubsection[{tx\-\_\-active}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf pios\-\_\-usb\-\_\-hid\-\_\-dev\-::tx\-\_\-active}}}\label{group___p_i_o_s___u_s_b___h_i_d_ga3c0deaac64c0f63bdb4a5cd41379bc23}
+
+
+\-Definition at line 80 of file pios\-\_\-usb\-\_\-hid.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_b___h_i_d_ga04c76a0e0e88338371d2f12cd9749309}{\index{\-U\-S\-B H\-I\-D Functions@{\-U\-S\-B H\-I\-D Functions}!tx\-\_\-out\-\_\-cb@{tx\-\_\-out\-\_\-cb}}
+\index{tx\-\_\-out\-\_\-cb@{tx\-\_\-out\-\_\-cb}!USB HID Functions@{\-U\-S\-B H\-I\-D Functions}}
+\subsubsection[{tx\-\_\-out\-\_\-cb}]{\setlength{\rightskip}{0pt plus 5cm}{\bf pios\-\_\-com\-\_\-callback} {\bf pios\-\_\-usb\-\_\-hid\-\_\-dev\-::tx\-\_\-out\-\_\-cb}}}\label{group___p_i_o_s___u_s_b___h_i_d_ga04c76a0e0e88338371d2f12cd9749309}
+
+
+\-Definition at line 70 of file pios\-\_\-usb\-\_\-hid.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_b___h_i_d_ga1a95563a3fb1aee312d7793c77f81bf2}{\index{\-U\-S\-B H\-I\-D Functions@{\-U\-S\-B H\-I\-D Functions}!tx\-\_\-out\-\_\-context@{tx\-\_\-out\-\_\-context}}
+\index{tx\-\_\-out\-\_\-context@{tx\-\_\-out\-\_\-context}!USB HID Functions@{\-U\-S\-B H\-I\-D Functions}}
+\subsubsection[{tx\-\_\-out\-\_\-context}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t {\bf pios\-\_\-usb\-\_\-hid\-\_\-dev\-::tx\-\_\-out\-\_\-context}}}\label{group___p_i_o_s___u_s_b___h_i_d_ga1a95563a3fb1aee312d7793c77f81bf2}
+
+
+\-Definition at line 71 of file pios\-\_\-usb\-\_\-hid.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_b___h_i_d_gad6c7b8ecc0fe215e9d18d6d3281977c6}{\index{\-U\-S\-B H\-I\-D Functions@{\-U\-S\-B H\-I\-D Functions}!tx\-\_\-packet\-\_\-buffer@{tx\-\_\-packet\-\_\-buffer}}
+\index{tx\-\_\-packet\-\_\-buffer@{tx\-\_\-packet\-\_\-buffer}!USB HID Functions@{\-U\-S\-B H\-I\-D Functions}}
+\subsubsection[{tx\-\_\-packet\-\_\-buffer}]{\setlength{\rightskip}{0pt plus 5cm}uint8\-\_\-t {\bf pios\-\_\-usb\-\_\-hid\-\_\-dev\-::tx\-\_\-packet\-\_\-buffer}}}\label{group___p_i_o_s___u_s_b___h_i_d_gad6c7b8ecc0fe215e9d18d6d3281977c6}
+
+
+\-Definition at line 74 of file pios\-\_\-usb\-\_\-hid.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_b___h_i_d_ga545cdf4f2c93727b458fa26bf4426311}{\index{\-U\-S\-B H\-I\-D Functions@{\-U\-S\-B H\-I\-D Functions}!usb\-\_\-if\-\_\-enabled@{usb\-\_\-if\-\_\-enabled}}
+\index{usb\-\_\-if\-\_\-enabled@{usb\-\_\-if\-\_\-enabled}!USB HID Functions@{\-U\-S\-B H\-I\-D Functions}}
+\subsubsection[{usb\-\_\-if\-\_\-enabled}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf pios\-\_\-usb\-\_\-hid\-\_\-dev\-::usb\-\_\-if\-\_\-enabled}}}\label{group___p_i_o_s___u_s_b___h_i_d_ga545cdf4f2c93727b458fa26bf4426311}
+
+
+\-Definition at line 74 of file pios\-\_\-usb\-\_\-hid.\-c.
+

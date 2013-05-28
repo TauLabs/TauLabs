@@ -1,0 +1,120 @@
+\hypertarget{structlsm303__dev}{\section{lsm303\-\_\-dev \-Struct \-Reference}
+\label{structlsm303__dev}\index{lsm303\-\_\-dev@{lsm303\-\_\-dev}}
+}
+\subsection*{\-Data \-Fields}
+\begin{DoxyCompactItemize}
+\item 
+uint32\-\_\-t \hyperlink{structlsm303__dev_a30d3092e0b3541399e2901bf71a0e6c2}{i2c\-\_\-id}
+\item 
+uint8\-\_\-t \hyperlink{structlsm303__dev_a43a431687ad3d1280504751dd67b99ad}{i2c\-\_\-addr\-\_\-accel}
+\item 
+uint8\-\_\-t \hyperlink{structlsm303__dev_a43b3cb1f2405df34e8542d968e9eb321}{i2c\-\_\-addr\-\_\-mag}
+\item 
+enum \hyperlink{group___p_i_o_s___l_s_m303_gafbb0e59427f40a8d9b0e901af02bb7b3}{pios\-\_\-lsm303\-\_\-accel\-\_\-range} \hyperlink{structlsm303__dev_a925acad41a5880d09927a1d63130e055}{accel\-\_\-range}
+\item 
+enum \hyperlink{group___p_i_o_s___l_s_m303_ga24737af5b503329ca628b921e32ec8d8}{pios\-\_\-lsm303\-\_\-mag\-\_\-range} \hyperlink{structlsm303__dev_a9c4089c3f5674a6fc5d51d06d90501cc}{mag\-\_\-range}
+\item 
+x\-Queue\-Handle \hyperlink{structlsm303__dev_aadc09417d06ef07b4f4eb39b74f947a0}{queue\-\_\-accel}
+\item 
+x\-Queue\-Handle \hyperlink{structlsm303__dev_a4801df95b04cdb58185c818dca8ae4ef}{queue\-\_\-mag}
+\item 
+x\-Task\-Handle \hyperlink{structlsm303__dev_aa53f45353583c54556c8fd920144726a}{\-Task\-Handle}
+\item 
+x\-Semaphore\-Handle \hyperlink{structlsm303__dev_ab14a7b6518eb1699835c6d284425a6bb}{data\-\_\-ready\-\_\-sema}
+\item 
+struct \hyperlink{structpios__lsm303__cfg}{pios\-\_\-lsm303\-\_\-cfg} $\ast$ \hyperlink{structlsm303__dev_ad5dc8f3a8d9729f36b59e641a907c232}{cfg}
+\item 
+enum \hyperlink{group___p_i_o_s___l_s_m303_ga541e751cf6c930fc56ab31e10b857a74}{pios\-\_\-lsm303\-\_\-dev\-\_\-magic} \hyperlink{structlsm303__dev_a70f59374a7f9e9a6297167795f5b8bdf}{magic}
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+
+
+\-Definition at line 47 of file pios\-\_\-lsm303.\-c.
+
+
+
+\subsection{\-Field \-Documentation}
+\hypertarget{structlsm303__dev_a925acad41a5880d09927a1d63130e055}{\index{lsm303\-\_\-dev@{lsm303\-\_\-dev}!accel\-\_\-range@{accel\-\_\-range}}
+\index{accel\-\_\-range@{accel\-\_\-range}!lsm303_dev@{lsm303\-\_\-dev}}
+\subsubsection[{accel\-\_\-range}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf pios\-\_\-lsm303\-\_\-accel\-\_\-range} {\bf lsm303\-\_\-dev\-::accel\-\_\-range}}}\label{structlsm303__dev_a925acad41a5880d09927a1d63130e055}
+
+
+\-Definition at line 51 of file pios\-\_\-lsm303.\-c.
+
+\hypertarget{structlsm303__dev_ad5dc8f3a8d9729f36b59e641a907c232}{\index{lsm303\-\_\-dev@{lsm303\-\_\-dev}!cfg@{cfg}}
+\index{cfg@{cfg}!lsm303_dev@{lsm303\-\_\-dev}}
+\subsubsection[{cfg}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf pios\-\_\-lsm303\-\_\-cfg}$\ast$ {\bf lsm303\-\_\-dev\-::cfg}}}\label{structlsm303__dev_ad5dc8f3a8d9729f36b59e641a907c232}
+
+
+\-Definition at line 57 of file pios\-\_\-lsm303.\-c.
+
+\hypertarget{structlsm303__dev_ab14a7b6518eb1699835c6d284425a6bb}{\index{lsm303\-\_\-dev@{lsm303\-\_\-dev}!data\-\_\-ready\-\_\-sema@{data\-\_\-ready\-\_\-sema}}
+\index{data\-\_\-ready\-\_\-sema@{data\-\_\-ready\-\_\-sema}!lsm303_dev@{lsm303\-\_\-dev}}
+\subsubsection[{data\-\_\-ready\-\_\-sema}]{\setlength{\rightskip}{0pt plus 5cm}x\-Semaphore\-Handle {\bf lsm303\-\_\-dev\-::data\-\_\-ready\-\_\-sema}}}\label{structlsm303__dev_ab14a7b6518eb1699835c6d284425a6bb}
+
+
+\-Definition at line 56 of file pios\-\_\-lsm303.\-c.
+
+\hypertarget{structlsm303__dev_a43a431687ad3d1280504751dd67b99ad}{\index{lsm303\-\_\-dev@{lsm303\-\_\-dev}!i2c\-\_\-addr\-\_\-accel@{i2c\-\_\-addr\-\_\-accel}}
+\index{i2c\-\_\-addr\-\_\-accel@{i2c\-\_\-addr\-\_\-accel}!lsm303_dev@{lsm303\-\_\-dev}}
+\subsubsection[{i2c\-\_\-addr\-\_\-accel}]{\setlength{\rightskip}{0pt plus 5cm}uint8\-\_\-t {\bf lsm303\-\_\-dev\-::i2c\-\_\-addr\-\_\-accel}}}\label{structlsm303__dev_a43a431687ad3d1280504751dd67b99ad}
+
+
+\-Definition at line 49 of file pios\-\_\-lsm303.\-c.
+
+\hypertarget{structlsm303__dev_a43b3cb1f2405df34e8542d968e9eb321}{\index{lsm303\-\_\-dev@{lsm303\-\_\-dev}!i2c\-\_\-addr\-\_\-mag@{i2c\-\_\-addr\-\_\-mag}}
+\index{i2c\-\_\-addr\-\_\-mag@{i2c\-\_\-addr\-\_\-mag}!lsm303_dev@{lsm303\-\_\-dev}}
+\subsubsection[{i2c\-\_\-addr\-\_\-mag}]{\setlength{\rightskip}{0pt plus 5cm}uint8\-\_\-t {\bf lsm303\-\_\-dev\-::i2c\-\_\-addr\-\_\-mag}}}\label{structlsm303__dev_a43b3cb1f2405df34e8542d968e9eb321}
+
+
+\-Definition at line 50 of file pios\-\_\-lsm303.\-c.
+
+\hypertarget{structlsm303__dev_a30d3092e0b3541399e2901bf71a0e6c2}{\index{lsm303\-\_\-dev@{lsm303\-\_\-dev}!i2c\-\_\-id@{i2c\-\_\-id}}
+\index{i2c\-\_\-id@{i2c\-\_\-id}!lsm303_dev@{lsm303\-\_\-dev}}
+\subsubsection[{i2c\-\_\-id}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t {\bf lsm303\-\_\-dev\-::i2c\-\_\-id}}}\label{structlsm303__dev_a30d3092e0b3541399e2901bf71a0e6c2}
+
+
+\-Definition at line 48 of file pios\-\_\-lsm303.\-c.
+
+\hypertarget{structlsm303__dev_a9c4089c3f5674a6fc5d51d06d90501cc}{\index{lsm303\-\_\-dev@{lsm303\-\_\-dev}!mag\-\_\-range@{mag\-\_\-range}}
+\index{mag\-\_\-range@{mag\-\_\-range}!lsm303_dev@{lsm303\-\_\-dev}}
+\subsubsection[{mag\-\_\-range}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf pios\-\_\-lsm303\-\_\-mag\-\_\-range} {\bf lsm303\-\_\-dev\-::mag\-\_\-range}}}\label{structlsm303__dev_a9c4089c3f5674a6fc5d51d06d90501cc}
+
+
+\-Definition at line 52 of file pios\-\_\-lsm303.\-c.
+
+\hypertarget{structlsm303__dev_a70f59374a7f9e9a6297167795f5b8bdf}{\index{lsm303\-\_\-dev@{lsm303\-\_\-dev}!magic@{magic}}
+\index{magic@{magic}!lsm303_dev@{lsm303\-\_\-dev}}
+\subsubsection[{magic}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf pios\-\_\-lsm303\-\_\-dev\-\_\-magic} {\bf lsm303\-\_\-dev\-::magic}}}\label{structlsm303__dev_a70f59374a7f9e9a6297167795f5b8bdf}
+
+
+\-Definition at line 58 of file pios\-\_\-lsm303.\-c.
+
+\hypertarget{structlsm303__dev_aadc09417d06ef07b4f4eb39b74f947a0}{\index{lsm303\-\_\-dev@{lsm303\-\_\-dev}!queue\-\_\-accel@{queue\-\_\-accel}}
+\index{queue\-\_\-accel@{queue\-\_\-accel}!lsm303_dev@{lsm303\-\_\-dev}}
+\subsubsection[{queue\-\_\-accel}]{\setlength{\rightskip}{0pt plus 5cm}x\-Queue\-Handle {\bf lsm303\-\_\-dev\-::queue\-\_\-accel}}}\label{structlsm303__dev_aadc09417d06ef07b4f4eb39b74f947a0}
+
+
+\-Definition at line 53 of file pios\-\_\-lsm303.\-c.
+
+\hypertarget{structlsm303__dev_a4801df95b04cdb58185c818dca8ae4ef}{\index{lsm303\-\_\-dev@{lsm303\-\_\-dev}!queue\-\_\-mag@{queue\-\_\-mag}}
+\index{queue\-\_\-mag@{queue\-\_\-mag}!lsm303_dev@{lsm303\-\_\-dev}}
+\subsubsection[{queue\-\_\-mag}]{\setlength{\rightskip}{0pt plus 5cm}x\-Queue\-Handle {\bf lsm303\-\_\-dev\-::queue\-\_\-mag}}}\label{structlsm303__dev_a4801df95b04cdb58185c818dca8ae4ef}
+
+
+\-Definition at line 54 of file pios\-\_\-lsm303.\-c.
+
+\hypertarget{structlsm303__dev_aa53f45353583c54556c8fd920144726a}{\index{lsm303\-\_\-dev@{lsm303\-\_\-dev}!\-Task\-Handle@{\-Task\-Handle}}
+\index{\-Task\-Handle@{\-Task\-Handle}!lsm303_dev@{lsm303\-\_\-dev}}
+\subsubsection[{\-Task\-Handle}]{\setlength{\rightskip}{0pt plus 5cm}x\-Task\-Handle {\bf lsm303\-\_\-dev\-::\-Task\-Handle}}}\label{structlsm303__dev_aa53f45353583c54556c8fd920144726a}
+
+
+\-Definition at line 55 of file pios\-\_\-lsm303.\-c.
+
+
+
+\-The documentation for this struct was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/home/jb/code/\-Tau\-Labs/flight/\-Pi\-O\-S/\-Common/\hyperlink{pios__lsm303_8c}{pios\-\_\-lsm303.\-c}\end{DoxyCompactItemize}

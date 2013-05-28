@@ -1,0 +1,194 @@
+\hypertarget{group___p_i_o_s___a_d_x_l345}{\section{\-A\-D\-X\-L345 \-Functions}
+\label{group___p_i_o_s___a_d_x_l345}\index{\-A\-D\-X\-L345 Functions@{\-A\-D\-X\-L345 Functions}}
+}
+
+
+\-Deals with the hardware interface to the \-B\-M\-A180 3-\/axis accelerometer.  
+
+
+\subsection*{\-Data \-Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structadxl345__dev}{adxl345\-\_\-dev}
+\item 
+struct \hyperlink{structpios__adxl345__data}{pios\-\_\-adxl345\-\_\-data}
+\end{DoxyCompactItemize}
+\subsection*{\-Files}
+\begin{DoxyCompactItemize}
+\item 
+file \hyperlink{pios__adxl345_8h}{pios\-\_\-adxl345.\-h}
+\begin{DoxyCompactList}\small\item\em \-Pi\-O\-S \-A\-D\-X\-L345 digital accelerometer driver. \end{DoxyCompactList}\item 
+file \hyperlink{pios__adxl345_8h}{pios\-\_\-adxl345.\-h}
+\begin{DoxyCompactList}\small\item\em \-Pi\-O\-S \-A\-D\-X\-L345 digital accelerometer driver. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{group___p_i_o_s___a_d_x_l345_ga2f1fd1a4af16c722d816221da8924b5c}{pios\-\_\-adxl345\-\_\-dev\-\_\-magic} \{ \hyperlink{group___p_i_o_s___a_d_x_l345_gga2f1fd1a4af16c722d816221da8924b5cab73bd0af0ffc1314313bd59dbcfefaeb}{\-P\-I\-O\-S\-\_\-\-A\-D\-X\-L345\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C} =  0xcb55aa55
+ \}
+\end{DoxyCompactItemize}
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___a_d_x_l345_gaedeba8a50a27f4f4419dd30ba5466233}{\-P\-I\-O\-S\-\_\-\-A\-D\-X\-L345\-\_\-\-Select\-Rate} (uint8\-\_\-t rate)
+\begin{DoxyCompactList}\small\item\em \-Select the sampling rate of the chip. \end{DoxyCompactList}\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___a_d_x_l345_gad60a361fc357f7a08a7fc5586958e470}{\-P\-I\-O\-S\-\_\-\-A\-D\-X\-L345\-\_\-\-Set\-Range} (uint8\-\_\-t range)
+\begin{DoxyCompactList}\small\item\em \-Set the range of the accelerometer and set the data to be right justified with sign extension. \-Also keep device in 4 wire mode. \end{DoxyCompactList}\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___a_d_x_l345_ga1862ab6db103692d9564b3db867f7dd8}{\-P\-I\-O\-S\-\_\-\-A\-D\-X\-L345\-\_\-\-Init} (uint32\-\_\-t spi\-\_\-id, uint32\-\_\-t slave\-\_\-num)
+\begin{DoxyCompactList}\small\item\em \-Initialize with good default settings. \end{DoxyCompactList}\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___a_d_x_l345_gae592086eb373986b98f2a5f865736151}{\-P\-I\-O\-S\-\_\-\-A\-D\-X\-L345\-\_\-\-Test} ()
+\begin{DoxyCompactList}\small\item\em \-Return number of entries in the fifo. \end{DoxyCompactList}\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___a_d_x_l345_ga9d29094128a0b4a9882fbf034017533b}{\-P\-I\-O\-S\-\_\-\-A\-D\-X\-L345\-\_\-\-Fifo\-Elements} ()
+\begin{DoxyCompactList}\small\item\em \-Return number of entries in the fifo. \end{DoxyCompactList}\item 
+uint8\-\_\-t \hyperlink{group___p_i_o_s___a_d_x_l345_ga07397b4feb4e0b9dcb4d38f39bd6e432}{\-P\-I\-O\-S\-\_\-\-A\-D\-X\-L345\-\_\-\-Read} (struct \hyperlink{structpios__adxl345__data}{pios\-\_\-adxl345\-\_\-data} $\ast$data)
+\begin{DoxyCompactList}\small\item\em \-Read a single set of values from the x y z channels. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Variables}
+\begin{DoxyCompactItemize}
+\item 
+uint32\-\_\-t \hyperlink{group___p_i_o_s___a_d_x_l345_ga2681cf2ea08ddf51ce6cea962e6ea9a7}{adxl345\-\_\-dev\-::spi\-\_\-id}
+\item 
+uint32\-\_\-t \hyperlink{group___p_i_o_s___a_d_x_l345_ga0955d4176a279516aa3b7dcbea03965c}{adxl345\-\_\-dev\-::slave\-\_\-num}
+\item 
+enum \hyperlink{group___p_i_o_s___a_d_x_l345_ga2f1fd1a4af16c722d816221da8924b5c}{pios\-\_\-adxl345\-\_\-dev\-\_\-magic} \hyperlink{group___p_i_o_s___a_d_x_l345_ga71c28fb64e7d683548f06eb171dc5cde}{adxl345\-\_\-dev\-::magic}
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-Deals with the hardware interface to the \-B\-M\-A180 3-\/axis accelerometer. \-Data from the \-A\-D\-X\-L345 sensors. 
+
+\subsection{\-Enumeration \-Type \-Documentation}
+\hypertarget{group___p_i_o_s___a_d_x_l345_ga2f1fd1a4af16c722d816221da8924b5c}{\index{\-A\-D\-X\-L345 Functions@{\-A\-D\-X\-L345 Functions}!pios\-\_\-adxl345\-\_\-dev\-\_\-magic@{pios\-\_\-adxl345\-\_\-dev\-\_\-magic}}
+\index{pios\-\_\-adxl345\-\_\-dev\-\_\-magic@{pios\-\_\-adxl345\-\_\-dev\-\_\-magic}!ADXL345 Functions@{\-A\-D\-X\-L345 Functions}}
+\subsubsection[{pios\-\_\-adxl345\-\_\-dev\-\_\-magic}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf pios\-\_\-adxl345\-\_\-dev\-\_\-magic}}}\label{group___p_i_o_s___a_d_x_l345_ga2f1fd1a4af16c722d816221da8924b5c}
+\begin{Desc}
+\item[\-Enumerator\-: ]\par
+\begin{description}
+\index{\-P\-I\-O\-S\-\_\-\-A\-D\-X\-L345\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C@{\-P\-I\-O\-S\-\_\-\-A\-D\-X\-L345\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}!\-A\-D\-X\-L345 Functions@{\-A\-D\-X\-L345 Functions}}\index{\-A\-D\-X\-L345 Functions@{\-A\-D\-X\-L345 Functions}!\-P\-I\-O\-S\-\_\-\-A\-D\-X\-L345\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C@{\-P\-I\-O\-S\-\_\-\-A\-D\-X\-L345\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}}\item[{\em 
+\hypertarget{group___p_i_o_s___a_d_x_l345_gga2f1fd1a4af16c722d816221da8924b5cab73bd0af0ffc1314313bd59dbcfefaeb}{\-P\-I\-O\-S\-\_\-\-A\-D\-X\-L345\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}\label{group___p_i_o_s___a_d_x_l345_gga2f1fd1a4af16c722d816221da8924b5cab73bd0af0ffc1314313bd59dbcfefaeb}
+}]\end{description}
+\end{Desc}
+
+
+
+\-Definition at line 33 of file pios\-\_\-adxl345.\-c.
+
+
+
+\subsection{\-Function \-Documentation}
+\hypertarget{group___p_i_o_s___a_d_x_l345_ga9d29094128a0b4a9882fbf034017533b}{\index{\-A\-D\-X\-L345 Functions@{\-A\-D\-X\-L345 Functions}!\-P\-I\-O\-S\-\_\-\-A\-D\-X\-L345\-\_\-\-Fifo\-Elements@{\-P\-I\-O\-S\-\_\-\-A\-D\-X\-L345\-\_\-\-Fifo\-Elements}}
+\index{\-P\-I\-O\-S\-\_\-\-A\-D\-X\-L345\-\_\-\-Fifo\-Elements@{\-P\-I\-O\-S\-\_\-\-A\-D\-X\-L345\-\_\-\-Fifo\-Elements}!ADXL345 Functions@{\-A\-D\-X\-L345 Functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-A\-D\-X\-L345\-\_\-\-Fifo\-Elements}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-P\-I\-O\-S\-\_\-\-A\-D\-X\-L345\-\_\-\-Fifo\-Elements} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___a_d_x_l345_ga9d29094128a0b4a9882fbf034017533b}
+
+
+\-Return number of entries in the fifo. 
+
+
+
+\-Definition at line 256 of file pios\-\_\-adxl345.\-c.
+
+\hypertarget{group___p_i_o_s___a_d_x_l345_ga1862ab6db103692d9564b3db867f7dd8}{\index{\-A\-D\-X\-L345 Functions@{\-A\-D\-X\-L345 Functions}!\-P\-I\-O\-S\-\_\-\-A\-D\-X\-L345\-\_\-\-Init@{\-P\-I\-O\-S\-\_\-\-A\-D\-X\-L345\-\_\-\-Init}}
+\index{\-P\-I\-O\-S\-\_\-\-A\-D\-X\-L345\-\_\-\-Init@{\-P\-I\-O\-S\-\_\-\-A\-D\-X\-L345\-\_\-\-Init}!ADXL345 Functions@{\-A\-D\-X\-L345 Functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-A\-D\-X\-L345\-\_\-\-Init}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-P\-I\-O\-S\-\_\-\-A\-D\-X\-L345\-\_\-\-Init} (
+\begin{DoxyParamCaption}
+\item[{uint32\-\_\-t}]{spi\-\_\-id, }
+\item[{uint32\-\_\-t}]{slave\-\_\-num}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___a_d_x_l345_ga1862ab6db103692d9564b3db867f7dd8}
+
+
+\-Initialize with good default settings. 
+
+
+
+\-Definition at line 210 of file pios\-\_\-adxl345.\-c.
+
+\hypertarget{group___p_i_o_s___a_d_x_l345_ga07397b4feb4e0b9dcb4d38f39bd6e432}{\index{\-A\-D\-X\-L345 Functions@{\-A\-D\-X\-L345 Functions}!\-P\-I\-O\-S\-\_\-\-A\-D\-X\-L345\-\_\-\-Read@{\-P\-I\-O\-S\-\_\-\-A\-D\-X\-L345\-\_\-\-Read}}
+\index{\-P\-I\-O\-S\-\_\-\-A\-D\-X\-L345\-\_\-\-Read@{\-P\-I\-O\-S\-\_\-\-A\-D\-X\-L345\-\_\-\-Read}!ADXL345 Functions@{\-A\-D\-X\-L345 Functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-A\-D\-X\-L345\-\_\-\-Read}]{\setlength{\rightskip}{0pt plus 5cm}uint8\-\_\-t {\bf \-P\-I\-O\-S\-\_\-\-A\-D\-X\-L345\-\_\-\-Read} (
+\begin{DoxyParamCaption}
+\item[{struct {\bf pios\-\_\-adxl345\-\_\-data} $\ast$}]{data}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___a_d_x_l345_ga07397b4feb4e0b9dcb4d38f39bd6e432}
+
+
+\-Read a single set of values from the x y z channels. 
+
+\begin{DoxyReturn}{\-Returns}
+\-The number of samples remaining in the fifo 
+\end{DoxyReturn}
+
+
+\-Definition at line 282 of file pios\-\_\-adxl345.\-c.
+
+\hypertarget{group___p_i_o_s___a_d_x_l345_gaedeba8a50a27f4f4419dd30ba5466233}{\index{\-A\-D\-X\-L345 Functions@{\-A\-D\-X\-L345 Functions}!\-P\-I\-O\-S\-\_\-\-A\-D\-X\-L345\-\_\-\-Select\-Rate@{\-P\-I\-O\-S\-\_\-\-A\-D\-X\-L345\-\_\-\-Select\-Rate}}
+\index{\-P\-I\-O\-S\-\_\-\-A\-D\-X\-L345\-\_\-\-Select\-Rate@{\-P\-I\-O\-S\-\_\-\-A\-D\-X\-L345\-\_\-\-Select\-Rate}!ADXL345 Functions@{\-A\-D\-X\-L345 Functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-A\-D\-X\-L345\-\_\-\-Select\-Rate}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-P\-I\-O\-S\-\_\-\-A\-D\-X\-L345\-\_\-\-Select\-Rate} (
+\begin{DoxyParamCaption}
+\item[{uint8\-\_\-t}]{rate}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___a_d_x_l345_gaedeba8a50a27f4f4419dd30ba5466233}
+
+
+\-Select the sampling rate of the chip. 
+
+\-This also puts it into high power mode 
+
+\-Definition at line 121 of file pios\-\_\-adxl345.\-c.
+
+\hypertarget{group___p_i_o_s___a_d_x_l345_gad60a361fc357f7a08a7fc5586958e470}{\index{\-A\-D\-X\-L345 Functions@{\-A\-D\-X\-L345 Functions}!\-P\-I\-O\-S\-\_\-\-A\-D\-X\-L345\-\_\-\-Set\-Range@{\-P\-I\-O\-S\-\_\-\-A\-D\-X\-L345\-\_\-\-Set\-Range}}
+\index{\-P\-I\-O\-S\-\_\-\-A\-D\-X\-L345\-\_\-\-Set\-Range@{\-P\-I\-O\-S\-\_\-\-A\-D\-X\-L345\-\_\-\-Set\-Range}!ADXL345 Functions@{\-A\-D\-X\-L345 Functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-A\-D\-X\-L345\-\_\-\-Set\-Range}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-P\-I\-O\-S\-\_\-\-A\-D\-X\-L345\-\_\-\-Set\-Range} (
+\begin{DoxyParamCaption}
+\item[{uint8\-\_\-t}]{range}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___a_d_x_l345_gad60a361fc357f7a08a7fc5586958e470}
+
+
+\-Set the range of the accelerometer and set the data to be right justified with sign extension. \-Also keep device in 4 wire mode. 
+
+
+
+\-Definition at line 144 of file pios\-\_\-adxl345.\-c.
+
+\hypertarget{group___p_i_o_s___a_d_x_l345_gae592086eb373986b98f2a5f865736151}{\index{\-A\-D\-X\-L345 Functions@{\-A\-D\-X\-L345 Functions}!\-P\-I\-O\-S\-\_\-\-A\-D\-X\-L345\-\_\-\-Test@{\-P\-I\-O\-S\-\_\-\-A\-D\-X\-L345\-\_\-\-Test}}
+\index{\-P\-I\-O\-S\-\_\-\-A\-D\-X\-L345\-\_\-\-Test@{\-P\-I\-O\-S\-\_\-\-A\-D\-X\-L345\-\_\-\-Test}!ADXL345 Functions@{\-A\-D\-X\-L345 Functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-A\-D\-X\-L345\-\_\-\-Test}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-P\-I\-O\-S\-\_\-\-A\-D\-X\-L345\-\_\-\-Test} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___a_d_x_l345_gae592086eb373986b98f2a5f865736151}
+
+
+\-Return number of entries in the fifo. 
+
+
+
+\-Definition at line 231 of file pios\-\_\-adxl345.\-c.
+
+
+
+\subsection{\-Variable \-Documentation}
+\hypertarget{group___p_i_o_s___a_d_x_l345_ga71c28fb64e7d683548f06eb171dc5cde}{\index{\-A\-D\-X\-L345 Functions@{\-A\-D\-X\-L345 Functions}!magic@{magic}}
+\index{magic@{magic}!ADXL345 Functions@{\-A\-D\-X\-L345 Functions}}
+\subsubsection[{magic}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf pios\-\_\-adxl345\-\_\-dev\-\_\-magic} {\bf adxl345\-\_\-dev\-::magic}}}\label{group___p_i_o_s___a_d_x_l345_ga71c28fb64e7d683548f06eb171dc5cde}
+
+
+\-Definition at line 40 of file pios\-\_\-adxl345.\-c.
+
+\hypertarget{group___p_i_o_s___a_d_x_l345_ga0955d4176a279516aa3b7dcbea03965c}{\index{\-A\-D\-X\-L345 Functions@{\-A\-D\-X\-L345 Functions}!slave\-\_\-num@{slave\-\_\-num}}
+\index{slave\-\_\-num@{slave\-\_\-num}!ADXL345 Functions@{\-A\-D\-X\-L345 Functions}}
+\subsubsection[{slave\-\_\-num}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t {\bf adxl345\-\_\-dev\-::slave\-\_\-num}}}\label{group___p_i_o_s___a_d_x_l345_ga0955d4176a279516aa3b7dcbea03965c}
+
+
+\-Definition at line 39 of file pios\-\_\-adxl345.\-c.
+
+\hypertarget{group___p_i_o_s___a_d_x_l345_ga2681cf2ea08ddf51ce6cea962e6ea9a7}{\index{\-A\-D\-X\-L345 Functions@{\-A\-D\-X\-L345 Functions}!spi\-\_\-id@{spi\-\_\-id}}
+\index{spi\-\_\-id@{spi\-\_\-id}!ADXL345 Functions@{\-A\-D\-X\-L345 Functions}}
+\subsubsection[{spi\-\_\-id}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t {\bf adxl345\-\_\-dev\-::spi\-\_\-id}}}\label{group___p_i_o_s___a_d_x_l345_ga2681cf2ea08ddf51ce6cea962e6ea9a7}
+
+
+\-Definition at line 38 of file pios\-\_\-adxl345.\-c.
+

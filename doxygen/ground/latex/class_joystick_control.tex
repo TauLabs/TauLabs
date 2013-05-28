@@ -1,0 +1,63 @@
+\hypertarget{class_joystick_control}{\section{\-Joystick\-Control \-Class \-Reference}
+\label{class_joystick_control}\index{\-Joystick\-Control@{\-Joystick\-Control}}
+}
+
+
+{\ttfamily \#include $<$joystickcontrol.\-h$>$}
+
+\subsection*{\-Public \-Slots}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___g_c_s_control_gadget_plugin_ga38032aee1ab31edefa56c0274624604c}{change\-Position} (double \hyperlink{_o_p_plots_8m_a9336ebf25087d91c818ee6e9ec29f8c1}{x}, double \hyperlink{_o_p_plots_8m_a2fb1c5cf58867b5bbc9a1b145a86f3a0}{y})
+\begin{DoxyCompactList}\small\item\em \-Update the displayed position based on an \-M\-C\-C update. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Signals}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_joystick_control_aaafa394863c435c5d4c82f85cdd16b89}{position\-Clicked} (double \hyperlink{_o_p_plots_8m_a9336ebf25087d91c818ee6e9ec29f8c1}{x}, double \hyperlink{_o_p_plots_8m_a2fb1c5cf58867b5bbc9a1b145a86f3a0}{y})
+\end{DoxyCompactItemize}
+\subsection*{\-Public \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___g_c_s_control_gadget_plugin_ga77373f65ad7f3da249f63ebd5d64a736}{\-Joystick\-Control} (\-Q\-Widget $\ast$parent=0)
+\begin{DoxyCompactList}\small\item\em \-Constructor for \hyperlink{class_joystick_control}{\-Joystick\-Control} widget. \-Sets up the image of a joystick. \end{DoxyCompactList}\item 
+\hyperlink{group___g_c_s_control_gadget_plugin_gafb2a1d3ac608e7378bba52d774b825d0}{$\sim$\-Joystick\-Control} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___g_c_s_control_gadget_plugin_ga4737e633732c138c5ad259f7fe0a0e04}{enable\-Open\-G\-L} (bool flag)
+\begin{DoxyCompactList}\small\item\em \-Enables/\-Disables \-Open\-G\-L. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___g_c_s_control_gadget_plugin_gaf79331833d41cf9af3b151a0f18663e0}{paint} ()
+\end{DoxyCompactItemize}
+\subsection*{\-Protected \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___g_c_s_control_gadget_plugin_ga4522aafc5f2b7dae7d64ac4368189272}{mouse\-Move\-Event} (\-Q\-Mouse\-Event $\ast$event)
+\begin{DoxyCompactList}\small\item\em \-Redirect mouse move events to control position. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___g_c_s_control_gadget_plugin_ga8d3df6f8f57869a8e862f3844766ad72}{mouse\-Press\-Event} (\-Q\-Mouse\-Event $\ast$event)
+\begin{DoxyCompactList}\small\item\em \-Redirect mouse move clicks to control position. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___g_c_s_control_gadget_plugin_ga10ed4b7da97f80c638a3eec5a81344c8}{paint\-Event} (\-Q\-Paint\-Event $\ast$event)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___g_c_s_control_gadget_plugin_gaae12f9fa1f0456ecc47b044a2b2db9da}{resize\-Event} (\-Q\-Resize\-Event $\ast$event)
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+
+
+\-Definition at line 41 of file joystickcontrol.\-h.
+
+
+
+\subsection{\-Member \-Function \-Documentation}
+\hypertarget{class_joystick_control_aaafa394863c435c5d4c82f85cdd16b89}{\index{\-Joystick\-Control@{\-Joystick\-Control}!position\-Clicked@{position\-Clicked}}
+\index{position\-Clicked@{position\-Clicked}!JoystickControl@{\-Joystick\-Control}}
+\subsubsection[{position\-Clicked}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Joystick\-Control\-::position\-Clicked} (
+\begin{DoxyParamCaption}
+\item[{double}]{x, }
+\item[{double}]{y}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}signal\mbox{]}}}}\label{class_joystick_control_aaafa394863c435c5d4c82f85cdd16b89}
+
+
+\-The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/plugins/gcscontrol/\hyperlink{joystickcontrol_8h}{joystickcontrol.\-h}\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/plugins/gcscontrol/\hyperlink{joystickcontrol_8cpp}{joystickcontrol.\-cpp}\end{DoxyCompactItemize}

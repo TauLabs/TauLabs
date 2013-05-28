@@ -1,0 +1,168 @@
+\hypertarget{class_u_a_v_talk}{\section{\-U\-A\-V\-Talk \-Class \-Reference}
+\label{class_u_a_v_talk}\index{\-U\-A\-V\-Talk@{\-U\-A\-V\-Talk}}
+}
+
+
+{\ttfamily \#include $<$uavtalk.\-h$>$}
+
+\-Inheritance diagram for \-U\-A\-V\-Talk\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_u_a_v_talk}
+\end{center}
+\end{figure}
+\subsection*{\-Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{struct_u_a_v_talk_1_1_com_stats}{\-Com\-Stats}
+\end{DoxyCompactItemize}
+\subsection*{\-Signals}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_talk_plugin_ga2d657cf81a725bce5e859eb6828cf80c}{ack\-Received} (\hyperlink{class_u_a_v_object}{\-U\-A\-V\-Object} $\ast$obj)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_talk_plugin_gac0268d5005ed3241192bae731c362f7e}{nack\-Received} (\hyperlink{class_u_a_v_object}{\-U\-A\-V\-Object} $\ast$obj)
+\end{DoxyCompactItemize}
+\subsection*{\-Public \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_talk_plugin_ga53c36c64288a62b44a285dfb40cee946}{\-U\-A\-V\-Talk} (\-Q\-I\-O\-Device $\ast$iodev, \hyperlink{class_u_a_v_object_manager}{\-U\-A\-V\-Object\-Manager} $\ast$\hyperlink{group___u_a_v_talk_plugin_ga096422f1ff46ea45de07a92c41827aa5}{obj\-Mngr})
+\item 
+\hyperlink{group___u_a_v_talk_plugin_ga1c6de05403ed728008c21592d142375e}{$\sim$\-U\-A\-V\-Talk} ()
+\item 
+bool \hyperlink{group___u_a_v_talk_plugin_gafb99b5df957808785013366dfd5bc636}{send\-Object} (\hyperlink{class_u_a_v_object}{\-U\-A\-V\-Object} $\ast$obj, bool acked, bool all\-Instances)
+\item 
+bool \hyperlink{group___u_a_v_talk_plugin_ga884c8680ea2c95bef75fca2c4c95867d}{send\-Object\-Request} (\hyperlink{class_u_a_v_object}{\-U\-A\-V\-Object} $\ast$obj, bool all\-Instances)
+\item 
+\hyperlink{struct_u_a_v_talk_1_1_com_stats}{\-Com\-Stats} \hyperlink{group___u_a_v_talk_plugin_gac9f7d49b556190b1b7d4b845b8b23a34}{get\-Stats} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_talk_plugin_gaba16247e0963a29b16a6177e685f1321}{reset\-Stats} ()
+\end{DoxyCompactItemize}
+\subsection*{\-Protected \-Types}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{group___u_a_v_talk_plugin_ga7f7ca2a64b0ea5ec26fb64d06bf9e09b}{\-Rx\-State\-Type} \{ \*
+\hyperlink{group___u_a_v_talk_plugin_gga7f7ca2a64b0ea5ec26fb64d06bf9e09baf774a734f7889e634d5b363fa3f3c793}{\-S\-T\-A\-T\-E\-\_\-\-S\-Y\-N\-C}, 
+\hyperlink{group___u_a_v_talk_plugin_gga7f7ca2a64b0ea5ec26fb64d06bf9e09baa1450012a1828440751fcb6f17ac250f}{\-S\-T\-A\-T\-E\-\_\-\-T\-Y\-P\-E}, 
+\hyperlink{group___u_a_v_talk_plugin_gga7f7ca2a64b0ea5ec26fb64d06bf9e09ba3257c8699631219b720e0661955ef1f6}{\-S\-T\-A\-T\-E\-\_\-\-S\-I\-Z\-E}, 
+\hyperlink{group___u_a_v_talk_plugin_gga7f7ca2a64b0ea5ec26fb64d06bf9e09ba14ae245b4bee65b20ff1be4e31396df4}{\-S\-T\-A\-T\-E\-\_\-\-O\-B\-J\-I\-D}, 
+\*
+\hyperlink{group___u_a_v_talk_plugin_gga7f7ca2a64b0ea5ec26fb64d06bf9e09baadc60771fcd506f0b9714cdb478ecb08}{\-S\-T\-A\-T\-E\-\_\-\-I\-N\-S\-T\-I\-D}, 
+\hyperlink{group___u_a_v_talk_plugin_gga7f7ca2a64b0ea5ec26fb64d06bf9e09ba38e65dcea6f1e7c9e74726f3e2f0654b}{\-S\-T\-A\-T\-E\-\_\-\-D\-A\-T\-A}, 
+\hyperlink{group___u_a_v_talk_plugin_gga7f7ca2a64b0ea5ec26fb64d06bf9e09baed576d42fef7f3e2488c61b3f64402d7}{\-S\-T\-A\-T\-E\-\_\-\-C\-S}
+ \}
+\end{DoxyCompactItemize}
+\subsection*{\-Protected \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+bool \hyperlink{group___u_a_v_talk_plugin_gaf41ae2b1b8730f18bc3992d6777c0627}{object\-Transaction} (\hyperlink{class_u_a_v_object}{\-U\-A\-V\-Object} $\ast$obj, quint8 type, bool all\-Instances)
+\item 
+bool \hyperlink{group___u_a_v_talk_plugin_ga39bcb007900ed377097079d21ffe3a68}{process\-Input\-Byte} (quint8 rxbyte)
+\item 
+virtual bool \hyperlink{group___u_a_v_talk_plugin_gaa95319b62b2b1a92e3f0ef753a1c04a3}{receive\-Object} (quint8 type, quint32 obj\-Id, quint16 inst\-Id, quint8 $\ast$data, qint32 \hyperlink{uavobjecttemplate_8m_a076bf56c9bafa07f3dbda4901a40d84c}{length})
+\item 
+\hyperlink{class_u_a_v_object}{\-U\-A\-V\-Object} $\ast$ \hyperlink{group___u_a_v_talk_plugin_ga06d53e41c45734baa38c0eb08d684af8}{update\-Object} (quint32 obj\-Id, quint16 inst\-Id, quint8 $\ast$data)
+\item 
+bool \hyperlink{group___u_a_v_talk_plugin_ga1ea574fb7b47dc949201d4c29b834208}{transmit\-Nack} (quint32 obj\-Id)
+\item 
+bool \hyperlink{group___u_a_v_talk_plugin_ga81519c2c45745383850ccec92be1eb6a}{transmit\-Object} (\hyperlink{class_u_a_v_object}{\-U\-A\-V\-Object} $\ast$obj, quint8 type, bool all\-Instances)
+\item 
+bool \hyperlink{group___u_a_v_talk_plugin_ga474ec2f43670acca29d18ad9965b0440}{transmit\-Single\-Object} (\hyperlink{class_u_a_v_object}{\-U\-A\-V\-Object} $\ast$obj, quint8 type, bool all\-Instances)
+\item 
+quint8 \hyperlink{group___u_a_v_talk_plugin_gae15db61cd3e3604aad8fbd52ddc68fff}{update\-C\-R\-C} (quint8 \hyperlink{uavobjecttemplate_8m_a6a3730e10b2455e9a8b6599785809fce}{crc}, const quint8 data)
+\item 
+quint8 \hyperlink{group___u_a_v_talk_plugin_gadefd185fb8609e37990694d45282ecd4}{update\-C\-R\-C} (quint8 \hyperlink{uavobjecttemplate_8m_a6a3730e10b2455e9a8b6599785809fce}{crc}, const quint8 $\ast$data, qint32 \hyperlink{uavobjecttemplate_8m_a076bf56c9bafa07f3dbda4901a40d84c}{length})
+\end{DoxyCompactItemize}
+\subsection*{\-Protected \-Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\-Q\-Pointer$<$ \-Q\-I\-O\-Device $>$ \hyperlink{group___u_a_v_talk_plugin_ga0047f38af98ba4de8e38500e10b73046}{io}
+\item 
+\hyperlink{class_u_a_v_object_manager}{\-U\-A\-V\-Object\-Manager} $\ast$ \hyperlink{group___u_a_v_talk_plugin_ga096422f1ff46ea45de07a92c41827aa5}{obj\-Mngr}
+\item 
+\-Q\-Mutex $\ast$ \hyperlink{group___u_a_v_talk_plugin_ga2dea39cdabf26ef85d0b26583e21e60b}{mutex}
+\item 
+quint8 \hyperlink{group___u_a_v_talk_plugin_ga612e1b395a61ee81d90d8199ba789a86}{rx\-Buffer} \mbox{[}\hyperlink{group___u_a_v_talk_plugin_gab5a37286c5e8b676d49e134f26444a0c}{\-M\-A\-X\-\_\-\-P\-A\-C\-K\-E\-T\-\_\-\-L\-E\-N\-G\-T\-H}\mbox{]}
+\item 
+quint8 \hyperlink{group___u_a_v_talk_plugin_ga7f0eb8c42215b435a77b84d7ffdbbfc3}{tx\-Buffer} \mbox{[}\hyperlink{group___u_a_v_talk_plugin_gab5a37286c5e8b676d49e134f26444a0c}{\-M\-A\-X\-\_\-\-P\-A\-C\-K\-E\-T\-\_\-\-L\-E\-N\-G\-T\-H}\mbox{]}
+\item 
+quint8 \hyperlink{group___u_a_v_talk_plugin_ga94d59693bfbe92bf000ee85b559693e0}{rx\-Tmp\-Buffer} \mbox{[}4\mbox{]}
+\item 
+quint8 \hyperlink{group___u_a_v_talk_plugin_ga59962a309157ed27efad61d5bf85f650}{rx\-Type}
+\item 
+quint32 \hyperlink{group___u_a_v_talk_plugin_ga922e3ea36927c84023cfb0cf719c9aa0}{rx\-Obj\-Id}
+\item 
+quint16 \hyperlink{group___u_a_v_talk_plugin_ga72761110b9b683dad5615619c9323674}{rx\-Inst\-Id}
+\item 
+quint16 \hyperlink{group___u_a_v_talk_plugin_ga52cc4d0f063a520fcf7fc2a10254118b}{rx\-Length}
+\item 
+quint16 \hyperlink{group___u_a_v_talk_plugin_ga8ce408e2fe258de7a15c77540055a81d}{rx\-Packet\-Length}
+\item 
+quint8 \hyperlink{group___u_a_v_talk_plugin_gab6dc6fd77ce7d02c121d7c197dfdebd2}{rx\-C\-S\-Packet}
+\item 
+quint8 \hyperlink{group___u_a_v_talk_plugin_gabfde70d24df43bcff2ab3c3da3f2444f}{rx\-C\-S}
+\item 
+qint32 \hyperlink{group___u_a_v_talk_plugin_ga380dea6ca845f80612070ed17ea65655}{rx\-Count}
+\item 
+qint32 \hyperlink{group___u_a_v_talk_plugin_gaa014be97504e5d24ac39f2808976685e}{packet\-Size}
+\item 
+\hyperlink{group___u_a_v_talk_plugin_ga7f7ca2a64b0ea5ec26fb64d06bf9e09b}{\-Rx\-State\-Type} \hyperlink{group___u_a_v_talk_plugin_gacce7e3b2035887b09dce0fdbba0f1b58}{rx\-State}
+\item 
+\hyperlink{struct_u_a_v_talk_1_1_com_stats}{\-Com\-Stats} \hyperlink{group___u_a_v_talk_plugin_ga35edebb70765f832afb1174152d4e20c}{stats}
+\item 
+bool \hyperlink{group___u_a_v_talk_plugin_ga5198259bc34e6f215c111d731b822e3f}{use\-U\-D\-P\-Mirror}
+\item 
+\-Q\-Udp\-Socket $\ast$ \hyperlink{group___u_a_v_talk_plugin_ga02f40e7ac97a6778928a5e9869ea5bc8}{udp\-Socket\-Tx}
+\item 
+\-Q\-Udp\-Socket $\ast$ \hyperlink{group___u_a_v_talk_plugin_ga3fe3d99135440f58cb74fb73a4055ef4}{udp\-Socket\-Rx}
+\item 
+\-Q\-Byte\-Array \hyperlink{group___u_a_v_talk_plugin_ga053813b68171430545f1bc1d69d450a0}{rx\-Data\-Array}
+\end{DoxyCompactItemize}
+\subsection*{\-Static \-Protected \-Attributes}
+\begin{DoxyCompactItemize}
+\item 
+static const int \hyperlink{group___u_a_v_talk_plugin_gadad9ea7937a0ef8cf1a162fc2265e9c4}{\-T\-Y\-P\-E\-\_\-\-M\-A\-S\-K} = 0x\-F8
+\item 
+static const int \hyperlink{group___u_a_v_talk_plugin_gad838c235ec5ef5e1389791d518faa6e7}{\-T\-Y\-P\-E\-\_\-\-V\-E\-R} = 0x20
+\item 
+static const int \hyperlink{group___u_a_v_talk_plugin_ga160fa827bdb9b5114b132cf644f76d4c}{\-T\-Y\-P\-E\-\_\-\-O\-B\-J} = (\hyperlink{group___u_a_v_talk_plugin_gad838c235ec5ef5e1389791d518faa6e7}{\-T\-Y\-P\-E\-\_\-\-V\-E\-R} $|$ 0x00)
+\item 
+static const int \hyperlink{group___u_a_v_talk_plugin_ga5e1cb8e2b0aa00f08a16af9c858079e9}{\-T\-Y\-P\-E\-\_\-\-O\-B\-J\-\_\-\-R\-E\-Q} = (\hyperlink{group___u_a_v_talk_plugin_gad838c235ec5ef5e1389791d518faa6e7}{\-T\-Y\-P\-E\-\_\-\-V\-E\-R} $|$ 0x01)
+\item 
+static const int \hyperlink{group___u_a_v_talk_plugin_gafc2b2ad8c68063a80d64666d0e812572}{\-T\-Y\-P\-E\-\_\-\-O\-B\-J\-\_\-\-A\-C\-K} = (\hyperlink{group___u_a_v_talk_plugin_gad838c235ec5ef5e1389791d518faa6e7}{\-T\-Y\-P\-E\-\_\-\-V\-E\-R} $|$ 0x02)
+\item 
+static const int \hyperlink{group___u_a_v_talk_plugin_gaec2c5c58b05deb71a40e1248ff82aa52}{\-T\-Y\-P\-E\-\_\-\-A\-C\-K} = (\hyperlink{group___u_a_v_talk_plugin_gad838c235ec5ef5e1389791d518faa6e7}{\-T\-Y\-P\-E\-\_\-\-V\-E\-R} $|$ 0x03)
+\item 
+static const int \hyperlink{group___u_a_v_talk_plugin_ga809ec3528886e43e38072e2d16787668}{\-T\-Y\-P\-E\-\_\-\-N\-A\-C\-K} = (\hyperlink{group___u_a_v_talk_plugin_gad838c235ec5ef5e1389791d518faa6e7}{\-T\-Y\-P\-E\-\_\-\-V\-E\-R} $|$ 0x04)
+\item 
+static const int \hyperlink{group___u_a_v_talk_plugin_ga0d20c7ff6e0eedb2ab1243c6bf957fd3}{\-M\-I\-N\-\_\-\-H\-E\-A\-D\-E\-R\-\_\-\-L\-E\-N\-G\-T\-H} = 8
+\item 
+static const int \hyperlink{group___u_a_v_talk_plugin_ga279763a8abdcb2fae7cb36916b36c1a8}{\-M\-A\-X\-\_\-\-H\-E\-A\-D\-E\-R\-\_\-\-L\-E\-N\-G\-T\-H} = 10
+\item 
+static const int \hyperlink{group___u_a_v_talk_plugin_ga094abac2d747f187a4b22bea1dd28ec0}{\-C\-H\-E\-C\-K\-S\-U\-M\-\_\-\-L\-E\-N\-G\-T\-H} = 1
+\item 
+static const int \hyperlink{group___u_a_v_talk_plugin_gac89ca6073b8cf1479a5e2468b3691db9}{\-M\-A\-X\-\_\-\-P\-A\-Y\-L\-O\-A\-D\-\_\-\-L\-E\-N\-G\-T\-H} = 256
+\item 
+static const int \hyperlink{group___u_a_v_talk_plugin_gab5a37286c5e8b676d49e134f26444a0c}{\-M\-A\-X\-\_\-\-P\-A\-C\-K\-E\-T\-\_\-\-L\-E\-N\-G\-T\-H} = (\hyperlink{group___u_a_v_talk_plugin_ga279763a8abdcb2fae7cb36916b36c1a8}{\-M\-A\-X\-\_\-\-H\-E\-A\-D\-E\-R\-\_\-\-L\-E\-N\-G\-T\-H} + \hyperlink{group___u_a_v_talk_plugin_gac89ca6073b8cf1479a5e2468b3691db9}{\-M\-A\-X\-\_\-\-P\-A\-Y\-L\-O\-A\-D\-\_\-\-L\-E\-N\-G\-T\-H} + \hyperlink{group___u_a_v_talk_plugin_ga094abac2d747f187a4b22bea1dd28ec0}{\-C\-H\-E\-C\-K\-S\-U\-M\-\_\-\-L\-E\-N\-G\-T\-H})
+\item 
+static const quint16 \hyperlink{group___u_a_v_talk_plugin_ga71e922ea4fa7f9e0a9fe89ebdd2fe75c}{\-A\-L\-L\-\_\-\-I\-N\-S\-T\-A\-N\-C\-E\-S} = 0x\-F\-F\-F\-F
+\item 
+static const quint16 \hyperlink{group___u_a_v_talk_plugin_gaa627c86aec4d382c9744541688fb66ef}{\-O\-B\-J\-I\-D\-\_\-\-N\-O\-T\-F\-O\-U\-N\-D} = 0x0000
+\item 
+static const int \hyperlink{group___u_a_v_talk_plugin_gaa84c0f2f2a83872a6f82f00969d9ddff}{\-T\-X\-\_\-\-B\-U\-F\-F\-E\-R\-\_\-\-S\-I\-Z\-E} = 2$\ast$1024
+\item 
+static const quint8 \hyperlink{group___u_a_v_talk_plugin_gac5c5c810a2edb31ed325bf2d54e1b289}{crc\-\_\-table} \mbox{[}256\mbox{]}
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+
+
+\-Definition at line 41 of file uavtalk.\-h.
+
+
+
+\-The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/plugins/uavtalk/\hyperlink{uavtalk_8h}{uavtalk.\-h}\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/plugins/uavtalk/\hyperlink{uavtalk_8cpp}{uavtalk.\-cpp}\end{DoxyCompactItemize}

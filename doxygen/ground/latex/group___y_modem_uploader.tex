@@ -1,0 +1,978 @@
+\hypertarget{group___y_modem_uploader}{\section{\-Y\-Modem \-Serial \-Uploader \-Plugin}
+\label{group___y_modem_uploader}\index{\-Y\-Modem Serial Uploader Plugin@{\-Y\-Modem Serial Uploader Plugin}}
+}
+
+
+\-The \-Y\-Modem protocol serial uploader plugin.  
+
+
+\subsection*{\-Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{classdevice_widget}{device\-Widget}
+\item 
+class \hyperlink{classrunning_device_widget}{running\-Device\-Widget}
+\item 
+class \hyperlink{class_uploader_gadget}{\-Uploader\-Gadget}
+\item 
+class \hyperlink{class_uploader_gadget_configuration}{\-Uploader\-Gadget\-Configuration}
+\item 
+class \hyperlink{class_uploader_gadget_factory}{\-Uploader\-Gadget\-Factory}
+\item 
+class \hyperlink{class_uploader_gadget_options_page}{\-Uploader\-Gadget\-Options\-Page}
+\item 
+class \hyperlink{class_uploader_gadget_widget}{\-Uploader\-Gadget\-Widget}
+\item 
+class \hyperlink{class_uploader_plugin}{\-Uploader\-Plugin}
+\end{DoxyCompactItemize}
+\subsection*{\-Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+namespace \hyperlink{namespace_core}{\-Core}
+\begin{DoxyCompactList}\small\item\em \-The \hyperlink{namespace_core}{\-Core} namespace contains all classes that make up the \hyperlink{namespace_core}{\-Core} plugin which constitute the basic functionality of the \-Tau \-Labs \-G\-C\-S. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{group___y_modem_uploader_ga788236c4f7d8fe7586489a183528d657}{device\-Widget\-::\-Status\-Icon} \{ \hyperlink{group___y_modem_uploader_gga788236c4f7d8fe7586489a183528d657a8bca9ffd7e0d28d471e8b3f6aa52120c}{device\-Widget\-::\-S\-T\-A\-T\-U\-S\-I\-C\-O\-N\-\_\-\-O\-K}, 
+\hyperlink{group___y_modem_uploader_gga788236c4f7d8fe7586489a183528d657a9930ae1923857bf1f78907ee4bb3baaa}{device\-Widget\-::\-S\-T\-A\-T\-U\-S\-I\-C\-O\-N\-\_\-\-R\-U\-N\-N\-I\-N\-G}, 
+\hyperlink{group___y_modem_uploader_gga788236c4f7d8fe7586489a183528d657a72975044b2bc8aa1b97b1bd730059025}{device\-Widget\-::\-S\-T\-A\-T\-U\-S\-I\-C\-O\-N\-\_\-\-F\-A\-I\-L}, 
+\hyperlink{group___y_modem_uploader_gga788236c4f7d8fe7586489a183528d657a7e4049feafb5e7f932619e41afda5257}{device\-Widget\-::\-S\-T\-A\-T\-U\-S\-I\-C\-O\-N\-\_\-\-I\-N\-F\-O}
+ \}
+\item 
+enum \hyperlink{group___y_modem_uploader_ga2544534d93816d92882b9351db3e3832}{running\-Device\-Widget\-::\-Status\-Icon} \{ \hyperlink{group___y_modem_uploader_gga2544534d93816d92882b9351db3e3832a9ee79f7fd0f08c1c300815f7dda5f034}{running\-Device\-Widget\-::\-S\-T\-A\-T\-U\-S\-I\-C\-O\-N\-\_\-\-O\-K}, 
+\hyperlink{group___y_modem_uploader_gga2544534d93816d92882b9351db3e3832a2dfa2228c471d23502656be472cfea8a}{running\-Device\-Widget\-::\-S\-T\-A\-T\-U\-S\-I\-C\-O\-N\-\_\-\-R\-U\-N\-N\-I\-N\-G}, 
+\hyperlink{group___y_modem_uploader_gga2544534d93816d92882b9351db3e3832acbb5494d2fd96bb7d0b706e0125e0089}{running\-Device\-Widget\-::\-S\-T\-A\-T\-U\-S\-I\-C\-O\-N\-\_\-\-F\-A\-I\-L}, 
+\hyperlink{group___y_modem_uploader_gga2544534d93816d92882b9351db3e3832acfa9666424709e360d9f9e7d9af00ab4}{running\-Device\-Widget\-::\-S\-T\-A\-T\-U\-S\-I\-C\-O\-N\-\_\-\-I\-N\-F\-O}
+ \}
+\end{DoxyCompactItemize}
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___y_modem_uploader_gafcee9273f2b8216d324c235d5e164899}{device\-Widget\-::device\-Widget} (\-Q\-Widget $\ast$parent=0)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___y_modem_uploader_ga9b64e94e398f8362d8dcae0b9ec4275f}{device\-Widget\-::set\-Device\-I\-D} (int dev\-I\-D)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___y_modem_uploader_gadc475267f79d2e50ec5eac4f043aa058}{device\-Widget\-::set\-Dfu} (\-D\-F\-U\-Object $\ast$dfu)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___y_modem_uploader_gae8c02916851ec8e041d9e2fb1be90a91}{device\-Widget\-::show\-Event} (\-Q\-Show\-Event $\ast$event)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___y_modem_uploader_ga732d883048a75c6bac92c02fe90f2184}{device\-Widget\-::resize\-Event} (\-Q\-Resize\-Event $\ast$event)
+\item 
+\hyperlink{group___y_modem_uploader_ga768545e1c1edb88b0a2b2d87b8c02202}{running\-Device\-Widget\-::running\-Device\-Widget} (\-Q\-Widget $\ast$parent=0)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___y_modem_uploader_gabdf38e4bfbb45785ce938043aed76fc9}{running\-Device\-Widget\-::freeze} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___y_modem_uploader_gafa1350e74a2173b31997cb6662dc4fee}{running\-Device\-Widget\-::set\-Open\-File\-Name} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___y_modem_uploader_ga47452d9426396c22a0c0734f2c7a9f51}{running\-Device\-Widget\-::set\-Save\-File\-Name} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___y_modem_uploader_ga11be8942ae8b277f63d85dcb7c1449a4}{running\-Device\-Widget\-::show\-Event} (\-Q\-Show\-Event $\ast$event)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___y_modem_uploader_ga66507a40f24abba397ae6ea6407a8d2c}{running\-Device\-Widget\-::resize\-Event} (\-Q\-Resize\-Event $\ast$event)
+\item 
+\hyperlink{group___y_modem_uploader_ga900f8a9e862c018370d1fa4331b55b12}{\-Uploader\-Gadget\-::\-Uploader\-Gadget} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} class\-Id, \hyperlink{class_uploader_gadget_widget}{\-Uploader\-Gadget\-Widget} $\ast$widget, \-Q\-Widget $\ast$parent=0)
+\item 
+\hyperlink{group___y_modem_uploader_ga8337b51a0e1630ae11e7ce9f5a9394b9}{\-Uploader\-Gadget\-::$\sim$\-Uploader\-Gadget} ()
+\item 
+\-Q\-Widget $\ast$ \hyperlink{group___y_modem_uploader_gac00d0fe0b9af2cb55ca33b6f0b3ab181}{\-Uploader\-Gadget\-::widget} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___y_modem_uploader_gada75c57a2323cdfbb4d0e349d223b1a3}{\-Uploader\-Gadget\-::load\-Configuration} (\-I\-U\-A\-V\-Gadget\-Configuration $\ast$config)
+\item 
+\hyperlink{group___y_modem_uploader_ga1c78df01d106cba6d5b3cb6103df5588}{\-Uploader\-Gadget\-Configuration\-::\-Uploader\-Gadget\-Configuration} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} class\-Id, \-Q\-Settings $\ast$q\-Settings=0, \-Q\-Object $\ast$parent=0)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___y_modem_uploader_ga44c9e2b2f4fc691f67440a125a0d3466}{\-Uploader\-Gadget\-Configuration\-::set\-Speed} (\-Baud\-Rate\-Type speed)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___y_modem_uploader_ga1da0d34ca3a5840687f53cdb4da50992}{\-Uploader\-Gadget\-Configuration\-::set\-Data\-Bits} (\-Data\-Bits\-Type databits)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___y_modem_uploader_ga69e8d13e1ed2fc41872ecf7c5447aa8b}{\-Uploader\-Gadget\-Configuration\-::set\-Flow} (\-Flow\-Type flow)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___y_modem_uploader_ga842e10f0bd593c16293486664f0892bd}{\-Uploader\-Gadget\-Configuration\-::set\-Parity} (\-Parity\-Type parity)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___y_modem_uploader_ga4207c9c91330ae30a22867c428ade5e5}{\-Uploader\-Gadget\-Configuration\-::set\-Stop\-Bits} (\-Stop\-Bits\-Type stopbits)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___y_modem_uploader_gae74e20b5d71cdb225b581729bda7ef38}{\-Uploader\-Gadget\-Configuration\-::set\-Port} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{classport}{port})
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___y_modem_uploader_ga4d3805496006d3cfdd8d1665d2b11654}{\-Uploader\-Gadget\-Configuration\-::set\-Time\-Out} (long timeout)
+\item 
+\-Baud\-Rate\-Type \hyperlink{group___y_modem_uploader_ga3cd2d8faf40a9fcb60022843bf36171d}{\-Uploader\-Gadget\-Configuration\-::\-Speed} ()
+\item 
+\-Data\-Bits\-Type \hyperlink{group___y_modem_uploader_ga3bf92d26250fea27e32f58eaf761c9d7}{\-Uploader\-Gadget\-Configuration\-::\-Data\-Bits} ()
+\item 
+\-Flow\-Type \hyperlink{group___y_modem_uploader_gac453b5e5875eeb4c1ded9a780608a188}{\-Uploader\-Gadget\-Configuration\-::\-Flow} ()
+\item 
+\-Parity\-Type \hyperlink{group___y_modem_uploader_gabdb93d527f297834e083e424edf4843c}{\-Uploader\-Gadget\-Configuration\-::\-Parity} ()
+\item 
+\-Stop\-Bits\-Type \hyperlink{group___y_modem_uploader_ga8f7d119b9f954ce05995540ca957568c}{\-Uploader\-Gadget\-Configuration\-::\-Stop\-Bits} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___y_modem_uploader_gabf25c5e3dabcb3c129987a2d266b73dc}{\-Uploader\-Gadget\-Configuration\-::\-Port} ()
+\item 
+long \hyperlink{group___y_modem_uploader_ga39f15ea85bd2c5de6f4a1a6d71f21032}{\-Uploader\-Gadget\-Configuration\-::\-Time\-Out} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___y_modem_uploader_gade32c98be91417bbf87148f4629b5c18}{\-Uploader\-Gadget\-Configuration\-::save\-Config} (\-Q\-Settings $\ast$settings) const 
+\item 
+\-I\-U\-A\-V\-Gadget\-Configuration $\ast$ \hyperlink{group___y_modem_uploader_gaf15392453c1ff2489f6e03d39d6338e8}{\-Uploader\-Gadget\-Configuration\-::clone} ()
+\item 
+\hyperlink{group___y_modem_uploader_ga33e544ad20fa638bbf34e7a461d3306e}{\-Uploader\-Gadget\-Factory\-::\-Uploader\-Gadget\-Factory} (\-Q\-Object $\ast$parent=0)
+\item 
+\hyperlink{group___y_modem_uploader_ga7509287bf0bfbf3b364591ac90155886}{\-Uploader\-Gadget\-Factory\-::$\sim$\-Uploader\-Gadget\-Factory} ()
+\item 
+\hyperlink{class_core_1_1_i_u_a_v_gadget}{\-Core\-::\-I\-U\-A\-V\-Gadget} $\ast$ \hyperlink{group___y_modem_uploader_gaec0b67dc3c2b6c12df29c01be93457fb}{\-Uploader\-Gadget\-Factory\-::create\-Gadget} (\-Q\-Widget $\ast$parent)
+\item 
+\-I\-U\-A\-V\-Gadget\-Configuration $\ast$ \hyperlink{group___y_modem_uploader_gada950b4297da08d576452a67d7c42f59}{\-Uploader\-Gadget\-Factory\-::create\-Configuration} (\-Q\-Settings $\ast$q\-Settings)
+\item 
+bool \hyperlink{group___y_modem_uploader_ga1c32bfa644ec01ae5f98410b24c7f6fd}{\-Uploader\-Gadget\-Factory\-::is\-Auto\-Update\-Capable} ()
+\item 
+\hyperlink{group___y_modem_uploader_gae4988774405776fb8a06744eb25e596a}{\-Uploader\-Gadget\-Options\-Page\-::\-Uploader\-Gadget\-Options\-Page} (\hyperlink{class_uploader_gadget_configuration}{\-Uploader\-Gadget\-Configuration} $\ast$config, \-Q\-Object $\ast$parent=0)
+\item 
+\-Q\-Widget $\ast$ \hyperlink{group___y_modem_uploader_ga8f7e89743cc3fc8f9e866c4ebe859a9f}{\-Uploader\-Gadget\-Options\-Page\-::create\-Page} (\-Q\-Widget $\ast$parent)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___y_modem_uploader_gaf95a5398d31a86f095fc23d1e7fa878f}{\-Uploader\-Gadget\-Options\-Page\-::apply} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___y_modem_uploader_ga85b693be9a5e923d0d5bd7f1c0c50fe9}{\-Uploader\-Gadget\-Options\-Page\-::finish} ()
+\item 
+bool \hyperlink{group___y_modem_uploader_gad78f86e2b854b6285de51dbf32711129}{sort\-Ports} (const \-Qext\-Port\-Info \&\hyperlink{_o_p_plots_8m_a2f07e0f444810cc4e54ee2be2ce0ac65}{s1}, const \-Qext\-Port\-Info \&\hyperlink{_o_p_plots_8m_a2e63e71737e8b6802b81f6a7c5ca6a0a}{s2})
+\item 
+\hyperlink{group___y_modem_uploader_ga7065a066176fac2b996efaea8fc29a36}{\-Uploader\-Gadget\-Widget\-::\-Uploader\-Gadget\-Widget} (\-Q\-Widget $\ast$parent=0)
+\item 
+\hyperlink{group___y_modem_uploader_ga81ab4c8e328f917680b38093e9c69e6c}{\-Uploader\-Gadget\-Widget\-::$\sim$\-Uploader\-Gadget\-Widget} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___y_modem_uploader_ga9927716b91171f296e3a3210e372e702}{\-Uploader\-Gadget\-Widget\-::log} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} str)
+\item 
+bool \hyperlink{group___y_modem_uploader_gab177e7f52b6bfc0de4547c2e37ca9c56}{\-Uploader\-Gadget\-Widget\-::auto\-Update\-Capable} ()
+\item 
+\hyperlink{group___y_modem_uploader_ga5dbbc19d5b4c070d0326c2e8695b2a9b}{\-Uploader\-Plugin\-::\-Uploader\-Plugin} ()
+\item 
+\hyperlink{group___y_modem_uploader_gab9ab9e0558901e7f3ca2e24750ded4e2}{\-Uploader\-Plugin\-::$\sim$\-Uploader\-Plugin} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___y_modem_uploader_ga1e319fd52ea2d055faae5cfcc9b38041}{\-Uploader\-Plugin\-::extensions\-Initialized} ()
+\item 
+bool \hyperlink{group___y_modem_uploader_gaed3cc44adfc0c7107aa35f52e5265da2}{\-Uploader\-Plugin\-::initialize} (const \-Q\-String\-List \&arguments, \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} $\ast$error\-String)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___y_modem_uploader_gac966b3a48b2c1de74e802f0092479ab2}{\-Uploader\-Plugin\-::shutdown} ()
+\end{DoxyCompactItemize}
+\subsection*{\-Signals}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___y_modem_uploader_ga237b72fb1450126236fb690941ce7cf0}{device\-Widget\-::upload\-Started} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___y_modem_uploader_ga80c1daefa8adc8af10178e3ad8c52307}{device\-Widget\-::upload\-Ended} (bool success)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___y_modem_uploader_ga1db019129aec5db54cea977a3628092e}{\-Uploader\-Gadget\-Factory\-::auto\-Update\-Signal} (\hyperlink{namespaceuploader_adb90c08cc33a348c2363c1d7a9626422}{uploader\-::\-Auto\-Update\-Step}, \-Q\-Variant)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___y_modem_uploader_gaf1635d4877cd9ffd1933c45884278845}{\-Uploader\-Gadget\-Factory\-::auto\-Update} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___y_modem_uploader_ga87ead7222452d2bbbbde0f0450ed8c11}{\-Uploader\-Gadget\-Widget\-::auto\-Update\-Signal} (\hyperlink{namespaceuploader_adb90c08cc33a348c2363c1d7a9626422}{uploader\-::\-Auto\-Update\-Step}, \-Q\-Variant)
+\end{DoxyCompactItemize}
+\subsection*{\-Public \-Slots}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___y_modem_uploader_gafbf692fdd482b85feb6510193a242a87}{device\-Widget\-::load\-Firmware} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___y_modem_uploader_ga116ecb3aed92f7f793ea4769a7e0572d}{device\-Widget\-::confirm\-C\-B} (int)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___y_modem_uploader_gaea63c2ee4a2337a9c75b7e6908a07f68}{\-Uploader\-Gadget\-Widget\-::on\-Autopilot\-Connect} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___y_modem_uploader_ga1b05eaf13f62105422817f202a60d4c5}{\-Uploader\-Gadget\-Widget\-::on\-Autopilot\-Disconnect} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___y_modem_uploader_ga5c67435d0108ea6ee60ef37fd1ad3298}{\-Uploader\-Gadget\-Widget\-::populate} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___y_modem_uploader_ga49b9f0a5fc35f08fc0ee463dedcfe341}{\-Uploader\-Gadget\-Widget\-::open\-Help} ()
+\item 
+bool \hyperlink{group___y_modem_uploader_gae4f6b196112377e3983e45e785c14242}{\-Uploader\-Gadget\-Widget\-::auto\-Update} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___y_modem_uploader_gaa59bd4196108e1a79e22ee1d10cf4a92}{\-Uploader\-Gadget\-Widget\-::auto\-Update\-Progress} (int)
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-The \-Y\-Modem protocol serial uploader plugin. 
+
+\subsection{\-Enumeration \-Type \-Documentation}
+\hypertarget{group___y_modem_uploader_ga2544534d93816d92882b9351db3e3832}{\index{\-Y\-Modem Serial Uploader Plugin@{\-Y\-Modem Serial Uploader Plugin}!\-Status\-Icon@{\-Status\-Icon}}
+\index{\-Status\-Icon@{\-Status\-Icon}!YModem Serial Uploader Plugin@{\-Y\-Modem Serial Uploader Plugin}}
+\subsubsection[{\-Status\-Icon}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf running\-Device\-Widget\-::\-Status\-Icon}}}\label{group___y_modem_uploader_ga2544534d93816d92882b9351db3e3832}
+\begin{Desc}
+\item[\-Enumerator\-: ]\par
+\begin{description}
+\index{\-S\-T\-A\-T\-U\-S\-I\-C\-O\-N\-\_\-\-O\-K@{\-S\-T\-A\-T\-U\-S\-I\-C\-O\-N\-\_\-\-O\-K}!\-Y\-Modem Serial Uploader Plugin@{\-Y\-Modem Serial Uploader Plugin}}\index{\-Y\-Modem Serial Uploader Plugin@{\-Y\-Modem Serial Uploader Plugin}!\-S\-T\-A\-T\-U\-S\-I\-C\-O\-N\-\_\-\-O\-K@{\-S\-T\-A\-T\-U\-S\-I\-C\-O\-N\-\_\-\-O\-K}}\item[{\em 
+\hypertarget{group___y_modem_uploader_gga2544534d93816d92882b9351db3e3832a9ee79f7fd0f08c1c300815f7dda5f034}{\-S\-T\-A\-T\-U\-S\-I\-C\-O\-N\-\_\-\-O\-K}\label{group___y_modem_uploader_gga2544534d93816d92882b9351db3e3832a9ee79f7fd0f08c1c300815f7dda5f034}
+}]\index{\-S\-T\-A\-T\-U\-S\-I\-C\-O\-N\-\_\-\-R\-U\-N\-N\-I\-N\-G@{\-S\-T\-A\-T\-U\-S\-I\-C\-O\-N\-\_\-\-R\-U\-N\-N\-I\-N\-G}!\-Y\-Modem Serial Uploader Plugin@{\-Y\-Modem Serial Uploader Plugin}}\index{\-Y\-Modem Serial Uploader Plugin@{\-Y\-Modem Serial Uploader Plugin}!\-S\-T\-A\-T\-U\-S\-I\-C\-O\-N\-\_\-\-R\-U\-N\-N\-I\-N\-G@{\-S\-T\-A\-T\-U\-S\-I\-C\-O\-N\-\_\-\-R\-U\-N\-N\-I\-N\-G}}\item[{\em 
+\hypertarget{group___y_modem_uploader_gga2544534d93816d92882b9351db3e3832a2dfa2228c471d23502656be472cfea8a}{\-S\-T\-A\-T\-U\-S\-I\-C\-O\-N\-\_\-\-R\-U\-N\-N\-I\-N\-G}\label{group___y_modem_uploader_gga2544534d93816d92882b9351db3e3832a2dfa2228c471d23502656be472cfea8a}
+}]\index{\-S\-T\-A\-T\-U\-S\-I\-C\-O\-N\-\_\-\-F\-A\-I\-L@{\-S\-T\-A\-T\-U\-S\-I\-C\-O\-N\-\_\-\-F\-A\-I\-L}!\-Y\-Modem Serial Uploader Plugin@{\-Y\-Modem Serial Uploader Plugin}}\index{\-Y\-Modem Serial Uploader Plugin@{\-Y\-Modem Serial Uploader Plugin}!\-S\-T\-A\-T\-U\-S\-I\-C\-O\-N\-\_\-\-F\-A\-I\-L@{\-S\-T\-A\-T\-U\-S\-I\-C\-O\-N\-\_\-\-F\-A\-I\-L}}\item[{\em 
+\hypertarget{group___y_modem_uploader_gga2544534d93816d92882b9351db3e3832acbb5494d2fd96bb7d0b706e0125e0089}{\-S\-T\-A\-T\-U\-S\-I\-C\-O\-N\-\_\-\-F\-A\-I\-L}\label{group___y_modem_uploader_gga2544534d93816d92882b9351db3e3832acbb5494d2fd96bb7d0b706e0125e0089}
+}]\index{\-S\-T\-A\-T\-U\-S\-I\-C\-O\-N\-\_\-\-I\-N\-F\-O@{\-S\-T\-A\-T\-U\-S\-I\-C\-O\-N\-\_\-\-I\-N\-F\-O}!\-Y\-Modem Serial Uploader Plugin@{\-Y\-Modem Serial Uploader Plugin}}\index{\-Y\-Modem Serial Uploader Plugin@{\-Y\-Modem Serial Uploader Plugin}!\-S\-T\-A\-T\-U\-S\-I\-C\-O\-N\-\_\-\-I\-N\-F\-O@{\-S\-T\-A\-T\-U\-S\-I\-C\-O\-N\-\_\-\-I\-N\-F\-O}}\item[{\em 
+\hypertarget{group___y_modem_uploader_gga2544534d93816d92882b9351db3e3832acfa9666424709e360d9f9e7d9af00ab4}{\-S\-T\-A\-T\-U\-S\-I\-C\-O\-N\-\_\-\-I\-N\-F\-O}\label{group___y_modem_uploader_gga2544534d93816d92882b9351db3e3832acfa9666424709e360d9f9e7d9af00ab4}
+}]\end{description}
+\end{Desc}
+
+
+
+\-Definition at line 53 of file runningdevicewidget.\-h.
+
+\hypertarget{group___y_modem_uploader_ga788236c4f7d8fe7586489a183528d657}{\index{\-Y\-Modem Serial Uploader Plugin@{\-Y\-Modem Serial Uploader Plugin}!\-Status\-Icon@{\-Status\-Icon}}
+\index{\-Status\-Icon@{\-Status\-Icon}!YModem Serial Uploader Plugin@{\-Y\-Modem Serial Uploader Plugin}}
+\subsubsection[{\-Status\-Icon}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf device\-Widget\-::\-Status\-Icon}}}\label{group___y_modem_uploader_ga788236c4f7d8fe7586489a183528d657}
+\begin{Desc}
+\item[\-Enumerator\-: ]\par
+\begin{description}
+\index{\-S\-T\-A\-T\-U\-S\-I\-C\-O\-N\-\_\-\-O\-K@{\-S\-T\-A\-T\-U\-S\-I\-C\-O\-N\-\_\-\-O\-K}!\-Y\-Modem Serial Uploader Plugin@{\-Y\-Modem Serial Uploader Plugin}}\index{\-Y\-Modem Serial Uploader Plugin@{\-Y\-Modem Serial Uploader Plugin}!\-S\-T\-A\-T\-U\-S\-I\-C\-O\-N\-\_\-\-O\-K@{\-S\-T\-A\-T\-U\-S\-I\-C\-O\-N\-\_\-\-O\-K}}\item[{\em 
+\hypertarget{group___y_modem_uploader_gga788236c4f7d8fe7586489a183528d657a8bca9ffd7e0d28d471e8b3f6aa52120c}{\-S\-T\-A\-T\-U\-S\-I\-C\-O\-N\-\_\-\-O\-K}\label{group___y_modem_uploader_gga788236c4f7d8fe7586489a183528d657a8bca9ffd7e0d28d471e8b3f6aa52120c}
+}]\index{\-S\-T\-A\-T\-U\-S\-I\-C\-O\-N\-\_\-\-R\-U\-N\-N\-I\-N\-G@{\-S\-T\-A\-T\-U\-S\-I\-C\-O\-N\-\_\-\-R\-U\-N\-N\-I\-N\-G}!\-Y\-Modem Serial Uploader Plugin@{\-Y\-Modem Serial Uploader Plugin}}\index{\-Y\-Modem Serial Uploader Plugin@{\-Y\-Modem Serial Uploader Plugin}!\-S\-T\-A\-T\-U\-S\-I\-C\-O\-N\-\_\-\-R\-U\-N\-N\-I\-N\-G@{\-S\-T\-A\-T\-U\-S\-I\-C\-O\-N\-\_\-\-R\-U\-N\-N\-I\-N\-G}}\item[{\em 
+\hypertarget{group___y_modem_uploader_gga788236c4f7d8fe7586489a183528d657a9930ae1923857bf1f78907ee4bb3baaa}{\-S\-T\-A\-T\-U\-S\-I\-C\-O\-N\-\_\-\-R\-U\-N\-N\-I\-N\-G}\label{group___y_modem_uploader_gga788236c4f7d8fe7586489a183528d657a9930ae1923857bf1f78907ee4bb3baaa}
+}]\index{\-S\-T\-A\-T\-U\-S\-I\-C\-O\-N\-\_\-\-F\-A\-I\-L@{\-S\-T\-A\-T\-U\-S\-I\-C\-O\-N\-\_\-\-F\-A\-I\-L}!\-Y\-Modem Serial Uploader Plugin@{\-Y\-Modem Serial Uploader Plugin}}\index{\-Y\-Modem Serial Uploader Plugin@{\-Y\-Modem Serial Uploader Plugin}!\-S\-T\-A\-T\-U\-S\-I\-C\-O\-N\-\_\-\-F\-A\-I\-L@{\-S\-T\-A\-T\-U\-S\-I\-C\-O\-N\-\_\-\-F\-A\-I\-L}}\item[{\em 
+\hypertarget{group___y_modem_uploader_gga788236c4f7d8fe7586489a183528d657a72975044b2bc8aa1b97b1bd730059025}{\-S\-T\-A\-T\-U\-S\-I\-C\-O\-N\-\_\-\-F\-A\-I\-L}\label{group___y_modem_uploader_gga788236c4f7d8fe7586489a183528d657a72975044b2bc8aa1b97b1bd730059025}
+}]\index{\-S\-T\-A\-T\-U\-S\-I\-C\-O\-N\-\_\-\-I\-N\-F\-O@{\-S\-T\-A\-T\-U\-S\-I\-C\-O\-N\-\_\-\-I\-N\-F\-O}!\-Y\-Modem Serial Uploader Plugin@{\-Y\-Modem Serial Uploader Plugin}}\index{\-Y\-Modem Serial Uploader Plugin@{\-Y\-Modem Serial Uploader Plugin}!\-S\-T\-A\-T\-U\-S\-I\-C\-O\-N\-\_\-\-I\-N\-F\-O@{\-S\-T\-A\-T\-U\-S\-I\-C\-O\-N\-\_\-\-I\-N\-F\-O}}\item[{\em 
+\hypertarget{group___y_modem_uploader_gga788236c4f7d8fe7586489a183528d657a7e4049feafb5e7f932619e41afda5257}{\-S\-T\-A\-T\-U\-S\-I\-C\-O\-N\-\_\-\-I\-N\-F\-O}\label{group___y_modem_uploader_gga788236c4f7d8fe7586489a183528d657a7e4049feafb5e7f932619e41afda5257}
+}]\end{description}
+\end{Desc}
+
+
+
+\-Definition at line 58 of file devicewidget.\-h.
+
+
+
+\subsection{\-Function \-Documentation}
+\hypertarget{group___y_modem_uploader_gaf95a5398d31a86f095fc23d1e7fa878f}{\index{\-Y\-Modem Serial Uploader Plugin@{\-Y\-Modem Serial Uploader Plugin}!apply@{apply}}
+\index{apply@{apply}!YModem Serial Uploader Plugin@{\-Y\-Modem Serial Uploader Plugin}}
+\subsubsection[{apply}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Uploader\-Gadget\-Options\-Page\-::apply} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___y_modem_uploader_gaf95a5398d31a86f095fc23d1e7fa878f}
+\-Called when the user presses apply or \-O\-K.
+
+\-Saves the current values 
+
+\-Implements \hyperlink{group___core_plugin_ga05fa0c9b91da02a0f2fed11d2d6afed0}{\-Core\-::\-I\-Options\-Page}.
+
+
+
+\-Definition at line 63 of file uploadergadgetoptionspage.\-cpp.
+
+\hypertarget{group___y_modem_uploader_gab177e7f52b6bfc0de4547c2e37ca9c56}{\index{\-Y\-Modem Serial Uploader Plugin@{\-Y\-Modem Serial Uploader Plugin}!auto\-Update\-Capable@{auto\-Update\-Capable}}
+\index{auto\-Update\-Capable@{auto\-Update\-Capable}!YModem Serial Uploader Plugin@{\-Y\-Modem Serial Uploader Plugin}}
+\subsubsection[{auto\-Update\-Capable}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-Uploader\-Gadget\-Widget\-::auto\-Update\-Capable} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___y_modem_uploader_gab177e7f52b6bfc0de4547c2e37ca9c56}
+
+
+\-Definition at line 435 of file uploadergadgetwidget.\-cpp.
+
+\hypertarget{group___y_modem_uploader_gaf15392453c1ff2489f6e03d39d6338e8}{\index{\-Y\-Modem Serial Uploader Plugin@{\-Y\-Modem Serial Uploader Plugin}!clone@{clone}}
+\index{clone@{clone}!YModem Serial Uploader Plugin@{\-Y\-Modem Serial Uploader Plugin}}
+\subsubsection[{clone}]{\setlength{\rightskip}{0pt plus 5cm}\-I\-U\-A\-V\-Gadget\-Configuration $\ast$ {\bf \-Uploader\-Gadget\-Configuration\-::clone} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___y_modem_uploader_gaf15392453c1ff2489f6e03d39d6338e8}
+\-Clones a configuration. 
+
+\-Implements \hyperlink{group___core_plugin_ga35f72dc89919925fd591fa509ebbf7dc}{\-Core\-::\-I\-U\-A\-V\-Gadget\-Configuration}.
+
+
+
+\-Definition at line 81 of file uploadergadgetconfiguration.\-cpp.
+
+\hypertarget{group___y_modem_uploader_gada950b4297da08d576452a67d7c42f59}{\index{\-Y\-Modem Serial Uploader Plugin@{\-Y\-Modem Serial Uploader Plugin}!create\-Configuration@{create\-Configuration}}
+\index{create\-Configuration@{create\-Configuration}!YModem Serial Uploader Plugin@{\-Y\-Modem Serial Uploader Plugin}}
+\subsubsection[{create\-Configuration}]{\setlength{\rightskip}{0pt plus 5cm}\-I\-U\-A\-V\-Gadget\-Configuration $\ast$ {\bf \-Uploader\-Gadget\-Factory\-::create\-Configuration} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Settings $\ast$}]{q\-Settings}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___y_modem_uploader_gada950b4297da08d576452a67d7c42f59}
+
+
+\-Reimplemented from \hyperlink{group___core_plugin_gae26104d7db90a65069c2bb654ecd5026}{\-Core\-::\-I\-U\-A\-V\-Gadget\-Factory}.
+
+
+
+\-Definition at line 53 of file uploadergadgetfactory.\-cpp.
+
+\hypertarget{group___y_modem_uploader_gaec0b67dc3c2b6c12df29c01be93457fb}{\index{\-Y\-Modem Serial Uploader Plugin@{\-Y\-Modem Serial Uploader Plugin}!create\-Gadget@{create\-Gadget}}
+\index{create\-Gadget@{create\-Gadget}!YModem Serial Uploader Plugin@{\-Y\-Modem Serial Uploader Plugin}}
+\subsubsection[{create\-Gadget}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Core\-::\-I\-U\-A\-V\-Gadget} $\ast$ {\bf \-Uploader\-Gadget\-Factory\-::create\-Gadget} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Widget $\ast$}]{parent}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___y_modem_uploader_gaec0b67dc3c2b6c12df29c01be93457fb}
+
+
+\-Implements \hyperlink{group___core_plugin_ga72d6fe5bbef9f4fa2333028c7a324f66}{\-Core\-::\-I\-U\-A\-V\-Gadget\-Factory}.
+
+
+
+\-Definition at line 44 of file uploadergadgetfactory.\-cpp.
+
+\hypertarget{group___y_modem_uploader_ga8f7e89743cc3fc8f9e866c4ebe859a9f}{\index{\-Y\-Modem Serial Uploader Plugin@{\-Y\-Modem Serial Uploader Plugin}!create\-Page@{create\-Page}}
+\index{create\-Page@{create\-Page}!YModem Serial Uploader Plugin@{\-Y\-Modem Serial Uploader Plugin}}
+\subsubsection[{create\-Page}]{\setlength{\rightskip}{0pt plus 5cm}\-Q\-Widget $\ast$ {\bf \-Uploader\-Gadget\-Options\-Page\-::create\-Page} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Widget $\ast$}]{parent}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___y_modem_uploader_ga8f7e89743cc3fc8f9e866c4ebe859a9f}
+
+
+\-Implements \hyperlink{group___core_plugin_gac70a4473b3e086d0fa9849c431fb0672}{\-Core\-::\-I\-Options\-Page}.
+
+
+
+\-Definition at line 48 of file uploadergadgetoptionspage.\-cpp.
+
+\hypertarget{group___y_modem_uploader_ga3bf92d26250fea27e32f58eaf761c9d7}{\index{\-Y\-Modem Serial Uploader Plugin@{\-Y\-Modem Serial Uploader Plugin}!\-Data\-Bits@{\-Data\-Bits}}
+\index{\-Data\-Bits@{\-Data\-Bits}!YModem Serial Uploader Plugin@{\-Y\-Modem Serial Uploader Plugin}}
+\subsubsection[{\-Data\-Bits}]{\setlength{\rightskip}{0pt plus 5cm}\-Data\-Bits\-Type {\bf \-Uploader\-Gadget\-Configuration\-::\-Data\-Bits} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___y_modem_uploader_ga3bf92d26250fea27e32f58eaf761c9d7}
+
+
+\-Definition at line 54 of file uploadergadgetconfiguration.\-h.
+
+\hypertarget{group___y_modem_uploader_gafcee9273f2b8216d324c235d5e164899}{\index{\-Y\-Modem Serial Uploader Plugin@{\-Y\-Modem Serial Uploader Plugin}!device\-Widget@{device\-Widget}}
+\index{device\-Widget@{device\-Widget}!YModem Serial Uploader Plugin@{\-Y\-Modem Serial Uploader Plugin}}
+\subsubsection[{device\-Widget}]{\setlength{\rightskip}{0pt plus 5cm}{\bf device\-Widget\-::device\-Widget} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Widget $\ast$}]{parent = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)}}\label{group___y_modem_uploader_gafcee9273f2b8216d324c235d5e164899}
+
+
+\-Definition at line 29 of file devicewidget.\-cpp.
+
+\hypertarget{group___y_modem_uploader_ga1e319fd52ea2d055faae5cfcc9b38041}{\index{\-Y\-Modem Serial Uploader Plugin@{\-Y\-Modem Serial Uploader Plugin}!extensions\-Initialized@{extensions\-Initialized}}
+\index{extensions\-Initialized@{extensions\-Initialized}!YModem Serial Uploader Plugin@{\-Y\-Modem Serial Uploader Plugin}}
+\subsubsection[{extensions\-Initialized}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Uploader\-Plugin\-::extensions\-Initialized} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___y_modem_uploader_ga1e319fd52ea2d055faae5cfcc9b38041}
+\-Called after the \-I\-Plugin\-::initialize() method has been called, and after both the \-I\-Plugin\-::initialize() and \-I\-Plugin\-::extensions\-Initialized() methods of plugins that depend on this plugin have been called. \-In this method, the plugin can assume that plugins that depend on this plugin are fully 'up and running'. \-It is a good place to look in the plugin manager's object pool for objects that have been provided by dependent plugins. \begin{DoxySeeAlso}{\-See also}
+\hyperlink{group___y_modem_uploader_gaed3cc44adfc0c7107aa35f52e5265da2}{initialize()} 
+\end{DoxySeeAlso}
+
+
+\-Implements \hyperlink{class_extension_system_1_1_i_plugin_a1db3a7fb242fca02229f9a3be4fd6610}{\-Extension\-System\-::\-I\-Plugin}.
+
+
+
+\-Definition at line 53 of file uploaderplugin.\-cpp.
+
+\hypertarget{group___y_modem_uploader_ga85b693be9a5e923d0d5bd7f1c0c50fe9}{\index{\-Y\-Modem Serial Uploader Plugin@{\-Y\-Modem Serial Uploader Plugin}!finish@{finish}}
+\index{finish@{finish}!YModem Serial Uploader Plugin@{\-Y\-Modem Serial Uploader Plugin}}
+\subsubsection[{finish}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Uploader\-Gadget\-Options\-Page\-::finish} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___y_modem_uploader_ga85b693be9a5e923d0d5bd7f1c0c50fe9}
+
+
+\-Implements \hyperlink{group___core_plugin_ga47cf2602b6ee72a4971b1f0a4e1d887e}{\-Core\-::\-I\-Options\-Page}.
+
+
+
+\-Definition at line 68 of file uploadergadgetoptionspage.\-cpp.
+
+\hypertarget{group___y_modem_uploader_gac453b5e5875eeb4c1ded9a780608a188}{\index{\-Y\-Modem Serial Uploader Plugin@{\-Y\-Modem Serial Uploader Plugin}!\-Flow@{\-Flow}}
+\index{\-Flow@{\-Flow}!YModem Serial Uploader Plugin@{\-Y\-Modem Serial Uploader Plugin}}
+\subsubsection[{\-Flow}]{\setlength{\rightskip}{0pt plus 5cm}\-Flow\-Type {\bf \-Uploader\-Gadget\-Configuration\-::\-Flow} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___y_modem_uploader_gac453b5e5875eeb4c1ded9a780608a188}
+
+
+\-Definition at line 55 of file uploadergadgetconfiguration.\-h.
+
+\hypertarget{group___y_modem_uploader_gabdf38e4bfbb45785ce938043aed76fc9}{\index{\-Y\-Modem Serial Uploader Plugin@{\-Y\-Modem Serial Uploader Plugin}!freeze@{freeze}}
+\index{freeze@{freeze}!YModem Serial Uploader Plugin@{\-Y\-Modem Serial Uploader Plugin}}
+\subsubsection[{freeze}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf running\-Device\-Widget\-::freeze} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___y_modem_uploader_gabdf38e4bfbb45785ce938043aed76fc9}
+\hypertarget{group___y_modem_uploader_gaed3cc44adfc0c7107aa35f52e5265da2}{\index{\-Y\-Modem Serial Uploader Plugin@{\-Y\-Modem Serial Uploader Plugin}!initialize@{initialize}}
+\index{initialize@{initialize}!YModem Serial Uploader Plugin@{\-Y\-Modem Serial Uploader Plugin}}
+\subsubsection[{initialize}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-Uploader\-Plugin\-::initialize} (
+\begin{DoxyParamCaption}
+\item[{const \-Q\-String\-List \&}]{arguments, }
+\item[{{\bf \-Q\-String} $\ast$}]{error\-String}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___y_modem_uploader_gaed3cc44adfc0c7107aa35f52e5265da2}
+\-Called after the plugin has been loaded and the \-I\-Plugin instance has been created. \-The initialize methods of plugins that depend on this plugin are called after the initialize method of this plugin has been called. \-Plugins should initialize their internal state in this method. \-Returns if initialization of successful. \-If it wasn't successful, the {\itshape error\-String\/} should be set to a user-\/readable message describing the reason. \begin{DoxySeeAlso}{\-See also}
+\hyperlink{group___y_modem_uploader_ga1e319fd52ea2d055faae5cfcc9b38041}{extensions\-Initialized()} 
+\end{DoxySeeAlso}
+
+
+\-Implements \hyperlink{class_extension_system_1_1_i_plugin_a9f3dc957317279daed393fdf4894e944}{\-Extension\-System\-::\-I\-Plugin}.
+
+
+
+\-Definition at line 44 of file uploaderplugin.\-cpp.
+
+\hypertarget{group___y_modem_uploader_ga1c32bfa644ec01ae5f98410b24c7f6fd}{\index{\-Y\-Modem Serial Uploader Plugin@{\-Y\-Modem Serial Uploader Plugin}!is\-Auto\-Update\-Capable@{is\-Auto\-Update\-Capable}}
+\index{is\-Auto\-Update\-Capable@{is\-Auto\-Update\-Capable}!YModem Serial Uploader Plugin@{\-Y\-Modem Serial Uploader Plugin}}
+\subsubsection[{is\-Auto\-Update\-Capable}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-Uploader\-Gadget\-Factory\-::is\-Auto\-Update\-Capable} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___y_modem_uploader_ga1c32bfa644ec01ae5f98410b24c7f6fd}
+
+
+\-Definition at line 57 of file uploadergadgetfactory.\-cpp.
+
+\hypertarget{group___y_modem_uploader_gada75c57a2323cdfbb4d0e349d223b1a3}{\index{\-Y\-Modem Serial Uploader Plugin@{\-Y\-Modem Serial Uploader Plugin}!load\-Configuration@{load\-Configuration}}
+\index{load\-Configuration@{load\-Configuration}!YModem Serial Uploader Plugin@{\-Y\-Modem Serial Uploader Plugin}}
+\subsubsection[{load\-Configuration}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Uploader\-Gadget\-::load\-Configuration} (
+\begin{DoxyParamCaption}
+\item[{\-I\-U\-A\-V\-Gadget\-Configuration $\ast$}]{config}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___y_modem_uploader_gada75c57a2323cdfbb4d0e349d223b1a3}
+\-Loads a configuration. 
+
+\-Reimplemented from \hyperlink{group___core_plugin_gaaf60a82b8643f54a42381600c52bbe8a}{\-Core\-::\-I\-U\-A\-V\-Gadget}.
+
+
+
+\-Definition at line 45 of file uploadergadget.\-cpp.
+
+\hypertarget{group___y_modem_uploader_ga9927716b91171f296e3a3210e372e702}{\index{\-Y\-Modem Serial Uploader Plugin@{\-Y\-Modem Serial Uploader Plugin}!log@{log}}
+\index{log@{log}!YModem Serial Uploader Plugin@{\-Y\-Modem Serial Uploader Plugin}}
+\subsubsection[{log}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Uploader\-Gadget\-Widget\-::log} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Q\-String}}]{str}
+\end{DoxyParamCaption}
+)}}\label{group___y_modem_uploader_ga9927716b91171f296e3a3210e372e702}
+\-Update log entry 
+
+\-Definition at line 734 of file uploadergadgetwidget.\-cpp.
+
+\hypertarget{group___y_modem_uploader_gabdb93d527f297834e083e424edf4843c}{\index{\-Y\-Modem Serial Uploader Plugin@{\-Y\-Modem Serial Uploader Plugin}!\-Parity@{\-Parity}}
+\index{\-Parity@{\-Parity}!YModem Serial Uploader Plugin@{\-Y\-Modem Serial Uploader Plugin}}
+\subsubsection[{\-Parity}]{\setlength{\rightskip}{0pt plus 5cm}\-Parity\-Type {\bf \-Uploader\-Gadget\-Configuration\-::\-Parity} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___y_modem_uploader_gabdb93d527f297834e083e424edf4843c}
+
+
+\-Definition at line 56 of file uploadergadgetconfiguration.\-h.
+
+\hypertarget{group___y_modem_uploader_gabf25c5e3dabcb3c129987a2d266b73dc}{\index{\-Y\-Modem Serial Uploader Plugin@{\-Y\-Modem Serial Uploader Plugin}!\-Port@{\-Port}}
+\index{\-Port@{\-Port}!YModem Serial Uploader Plugin@{\-Y\-Modem Serial Uploader Plugin}}
+\subsubsection[{\-Port}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Q\-String} {\bf \-Uploader\-Gadget\-Configuration\-::\-Port} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___y_modem_uploader_gabf25c5e3dabcb3c129987a2d266b73dc}
+
+
+\-Definition at line 58 of file uploadergadgetconfiguration.\-h.
+
+\hypertarget{group___y_modem_uploader_ga66507a40f24abba397ae6ea6407a8d2c}{\index{\-Y\-Modem Serial Uploader Plugin@{\-Y\-Modem Serial Uploader Plugin}!resize\-Event@{resize\-Event}}
+\index{resize\-Event@{resize\-Event}!YModem Serial Uploader Plugin@{\-Y\-Modem Serial Uploader Plugin}}
+\subsubsection[{resize\-Event}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf running\-Device\-Widget\-::resize\-Event} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Resize\-Event $\ast$}]{event}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{group___y_modem_uploader_ga66507a40f24abba397ae6ea6407a8d2c}
+
+
+\-Definition at line 51 of file runningdevicewidget.\-cpp.
+
+\hypertarget{group___y_modem_uploader_ga732d883048a75c6bac92c02fe90f2184}{\index{\-Y\-Modem Serial Uploader Plugin@{\-Y\-Modem Serial Uploader Plugin}!resize\-Event@{resize\-Event}}
+\index{resize\-Event@{resize\-Event}!YModem Serial Uploader Plugin@{\-Y\-Modem Serial Uploader Plugin}}
+\subsubsection[{resize\-Event}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf device\-Widget\-::resize\-Event} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Resize\-Event $\ast$}]{event}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{group___y_modem_uploader_ga732d883048a75c6bac92c02fe90f2184}
+
+
+\-Definition at line 60 of file devicewidget.\-cpp.
+
+\hypertarget{group___y_modem_uploader_ga768545e1c1edb88b0a2b2d87b8c02202}{\index{\-Y\-Modem Serial Uploader Plugin@{\-Y\-Modem Serial Uploader Plugin}!running\-Device\-Widget@{running\-Device\-Widget}}
+\index{running\-Device\-Widget@{running\-Device\-Widget}!YModem Serial Uploader Plugin@{\-Y\-Modem Serial Uploader Plugin}}
+\subsubsection[{running\-Device\-Widget}]{\setlength{\rightskip}{0pt plus 5cm}{\bf running\-Device\-Widget\-::running\-Device\-Widget} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Widget $\ast$}]{parent = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)}}\label{group___y_modem_uploader_ga768545e1c1edb88b0a2b2d87b8c02202}
+
+
+\-Definition at line 30 of file runningdevicewidget.\-cpp.
+
+\hypertarget{group___y_modem_uploader_gade32c98be91417bbf87148f4629b5c18}{\index{\-Y\-Modem Serial Uploader Plugin@{\-Y\-Modem Serial Uploader Plugin}!save\-Config@{save\-Config}}
+\index{save\-Config@{save\-Config}!YModem Serial Uploader Plugin@{\-Y\-Modem Serial Uploader Plugin}}
+\subsubsection[{save\-Config}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Uploader\-Gadget\-Configuration\-::save\-Config} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Settings $\ast$}]{q\-Settings}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___y_modem_uploader_gade32c98be91417bbf87148f4629b5c18}
+\-Saves a configuration. 
+
+\-Reimplemented from \hyperlink{group___core_plugin_gadd755520091c21c0ce09973c5bbdb7a9}{\-Core\-::\-I\-U\-A\-V\-Gadget\-Configuration}.
+
+
+
+\-Definition at line 98 of file uploadergadgetconfiguration.\-cpp.
+
+\hypertarget{group___y_modem_uploader_ga1da0d34ca3a5840687f53cdb4da50992}{\index{\-Y\-Modem Serial Uploader Plugin@{\-Y\-Modem Serial Uploader Plugin}!set\-Data\-Bits@{set\-Data\-Bits}}
+\index{set\-Data\-Bits@{set\-Data\-Bits}!YModem Serial Uploader Plugin@{\-Y\-Modem Serial Uploader Plugin}}
+\subsubsection[{set\-Data\-Bits}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Uploader\-Gadget\-Configuration\-::set\-Data\-Bits} (
+\begin{DoxyParamCaption}
+\item[{\-Data\-Bits\-Type}]{databits}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___y_modem_uploader_ga1da0d34ca3a5840687f53cdb4da50992}
+
+
+\-Definition at line 45 of file uploadergadgetconfiguration.\-h.
+
+\hypertarget{group___y_modem_uploader_ga9b64e94e398f8362d8dcae0b9ec4275f}{\index{\-Y\-Modem Serial Uploader Plugin@{\-Y\-Modem Serial Uploader Plugin}!set\-Device\-I\-D@{set\-Device\-I\-D}}
+\index{set\-Device\-I\-D@{set\-Device\-I\-D}!YModem Serial Uploader Plugin@{\-Y\-Modem Serial Uploader Plugin}}
+\subsubsection[{set\-Device\-I\-D}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf device\-Widget\-::set\-Device\-I\-D} (
+\begin{DoxyParamCaption}
+\item[{int}]{dev\-I\-D}
+\end{DoxyParamCaption}
+)}}\label{group___y_modem_uploader_ga9b64e94e398f8362d8dcae0b9ec4275f}
+
+
+\-Definition at line 67 of file devicewidget.\-cpp.
+
+\hypertarget{group___y_modem_uploader_gadc475267f79d2e50ec5eac4f043aa058}{\index{\-Y\-Modem Serial Uploader Plugin@{\-Y\-Modem Serial Uploader Plugin}!set\-Dfu@{set\-Dfu}}
+\index{set\-Dfu@{set\-Dfu}!YModem Serial Uploader Plugin@{\-Y\-Modem Serial Uploader Plugin}}
+\subsubsection[{set\-Dfu}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf device\-Widget\-::set\-Dfu} (
+\begin{DoxyParamCaption}
+\item[{\-D\-F\-U\-Object $\ast$}]{dfu}
+\end{DoxyParamCaption}
+)}}\label{group___y_modem_uploader_gadc475267f79d2e50ec5eac4f043aa058}
+
+
+\-Definition at line 71 of file devicewidget.\-cpp.
+
+\hypertarget{group___y_modem_uploader_ga69e8d13e1ed2fc41872ecf7c5447aa8b}{\index{\-Y\-Modem Serial Uploader Plugin@{\-Y\-Modem Serial Uploader Plugin}!set\-Flow@{set\-Flow}}
+\index{set\-Flow@{set\-Flow}!YModem Serial Uploader Plugin@{\-Y\-Modem Serial Uploader Plugin}}
+\subsubsection[{set\-Flow}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Uploader\-Gadget\-Configuration\-::set\-Flow} (
+\begin{DoxyParamCaption}
+\item[{\-Flow\-Type}]{flow}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___y_modem_uploader_ga69e8d13e1ed2fc41872ecf7c5447aa8b}
+
+
+\-Definition at line 46 of file uploadergadgetconfiguration.\-h.
+
+\hypertarget{group___y_modem_uploader_gafa1350e74a2173b31997cb6662dc4fee}{\index{\-Y\-Modem Serial Uploader Plugin@{\-Y\-Modem Serial Uploader Plugin}!set\-Open\-File\-Name@{set\-Open\-File\-Name}}
+\index{set\-Open\-File\-Name@{set\-Open\-File\-Name}!YModem Serial Uploader Plugin@{\-Y\-Modem Serial Uploader Plugin}}
+\subsubsection[{set\-Open\-File\-Name}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Q\-String} {\bf running\-Device\-Widget\-::set\-Open\-File\-Name} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___y_modem_uploader_gafa1350e74a2173b31997cb6662dc4fee}
+\hypertarget{group___y_modem_uploader_ga842e10f0bd593c16293486664f0892bd}{\index{\-Y\-Modem Serial Uploader Plugin@{\-Y\-Modem Serial Uploader Plugin}!set\-Parity@{set\-Parity}}
+\index{set\-Parity@{set\-Parity}!YModem Serial Uploader Plugin@{\-Y\-Modem Serial Uploader Plugin}}
+\subsubsection[{set\-Parity}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Uploader\-Gadget\-Configuration\-::set\-Parity} (
+\begin{DoxyParamCaption}
+\item[{\-Parity\-Type}]{parity}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___y_modem_uploader_ga842e10f0bd593c16293486664f0892bd}
+
+
+\-Definition at line 47 of file uploadergadgetconfiguration.\-h.
+
+\hypertarget{group___y_modem_uploader_gae74e20b5d71cdb225b581729bda7ef38}{\index{\-Y\-Modem Serial Uploader Plugin@{\-Y\-Modem Serial Uploader Plugin}!set\-Port@{set\-Port}}
+\index{set\-Port@{set\-Port}!YModem Serial Uploader Plugin@{\-Y\-Modem Serial Uploader Plugin}}
+\subsubsection[{set\-Port}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Uploader\-Gadget\-Configuration\-::set\-Port} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Q\-String}}]{port}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___y_modem_uploader_gae74e20b5d71cdb225b581729bda7ef38}
+
+
+\-Definition at line 49 of file uploadergadgetconfiguration.\-h.
+
+\hypertarget{group___y_modem_uploader_ga47452d9426396c22a0c0734f2c7a9f51}{\index{\-Y\-Modem Serial Uploader Plugin@{\-Y\-Modem Serial Uploader Plugin}!set\-Save\-File\-Name@{set\-Save\-File\-Name}}
+\index{set\-Save\-File\-Name@{set\-Save\-File\-Name}!YModem Serial Uploader Plugin@{\-Y\-Modem Serial Uploader Plugin}}
+\subsubsection[{set\-Save\-File\-Name}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Q\-String} {\bf running\-Device\-Widget\-::set\-Save\-File\-Name} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___y_modem_uploader_ga47452d9426396c22a0c0734f2c7a9f51}
+\hypertarget{group___y_modem_uploader_ga44c9e2b2f4fc691f67440a125a0d3466}{\index{\-Y\-Modem Serial Uploader Plugin@{\-Y\-Modem Serial Uploader Plugin}!set\-Speed@{set\-Speed}}
+\index{set\-Speed@{set\-Speed}!YModem Serial Uploader Plugin@{\-Y\-Modem Serial Uploader Plugin}}
+\subsubsection[{set\-Speed}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Uploader\-Gadget\-Configuration\-::set\-Speed} (
+\begin{DoxyParamCaption}
+\item[{\-Baud\-Rate\-Type}]{speed}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___y_modem_uploader_ga44c9e2b2f4fc691f67440a125a0d3466}
+
+
+\-Definition at line 44 of file uploadergadgetconfiguration.\-h.
+
+\hypertarget{group___y_modem_uploader_ga4207c9c91330ae30a22867c428ade5e5}{\index{\-Y\-Modem Serial Uploader Plugin@{\-Y\-Modem Serial Uploader Plugin}!set\-Stop\-Bits@{set\-Stop\-Bits}}
+\index{set\-Stop\-Bits@{set\-Stop\-Bits}!YModem Serial Uploader Plugin@{\-Y\-Modem Serial Uploader Plugin}}
+\subsubsection[{set\-Stop\-Bits}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Uploader\-Gadget\-Configuration\-::set\-Stop\-Bits} (
+\begin{DoxyParamCaption}
+\item[{\-Stop\-Bits\-Type}]{stopbits}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___y_modem_uploader_ga4207c9c91330ae30a22867c428ade5e5}
+
+
+\-Definition at line 48 of file uploadergadgetconfiguration.\-h.
+
+\hypertarget{group___y_modem_uploader_ga4d3805496006d3cfdd8d1665d2b11654}{\index{\-Y\-Modem Serial Uploader Plugin@{\-Y\-Modem Serial Uploader Plugin}!set\-Time\-Out@{set\-Time\-Out}}
+\index{set\-Time\-Out@{set\-Time\-Out}!YModem Serial Uploader Plugin@{\-Y\-Modem Serial Uploader Plugin}}
+\subsubsection[{set\-Time\-Out}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Uploader\-Gadget\-Configuration\-::set\-Time\-Out} (
+\begin{DoxyParamCaption}
+\item[{long}]{timeout}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___y_modem_uploader_ga4d3805496006d3cfdd8d1665d2b11654}
+
+
+\-Definition at line 50 of file uploadergadgetconfiguration.\-h.
+
+\hypertarget{group___y_modem_uploader_ga11be8942ae8b277f63d85dcb7c1449a4}{\index{\-Y\-Modem Serial Uploader Plugin@{\-Y\-Modem Serial Uploader Plugin}!show\-Event@{show\-Event}}
+\index{show\-Event@{show\-Event}!YModem Serial Uploader Plugin@{\-Y\-Modem Serial Uploader Plugin}}
+\subsubsection[{show\-Event}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf running\-Device\-Widget\-::show\-Event} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Show\-Event $\ast$}]{event}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{group___y_modem_uploader_ga11be8942ae8b277f63d85dcb7c1449a4}
+
+
+\-Definition at line 42 of file runningdevicewidget.\-cpp.
+
+\hypertarget{group___y_modem_uploader_gae8c02916851ec8e041d9e2fb1be90a91}{\index{\-Y\-Modem Serial Uploader Plugin@{\-Y\-Modem Serial Uploader Plugin}!show\-Event@{show\-Event}}
+\index{show\-Event@{show\-Event}!YModem Serial Uploader Plugin@{\-Y\-Modem Serial Uploader Plugin}}
+\subsubsection[{show\-Event}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf device\-Widget\-::show\-Event} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Show\-Event $\ast$}]{event}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{group___y_modem_uploader_gae8c02916851ec8e041d9e2fb1be90a91}
+
+
+\-Definition at line 51 of file devicewidget.\-cpp.
+
+\hypertarget{group___y_modem_uploader_gac966b3a48b2c1de74e802f0092479ab2}{\index{\-Y\-Modem Serial Uploader Plugin@{\-Y\-Modem Serial Uploader Plugin}!shutdown@{shutdown}}
+\index{shutdown@{shutdown}!YModem Serial Uploader Plugin@{\-Y\-Modem Serial Uploader Plugin}}
+\subsubsection[{shutdown}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Uploader\-Plugin\-::shutdown} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___y_modem_uploader_gac966b3a48b2c1de74e802f0092479ab2}
+\-Called during a shutdown sequence in the same order as initialization before the plugins get deleted in reverse order. \-This method can be used to optimize the shutdown down, e.\-g. to disconnect from the \-Plugin\-Manager\-::about\-To\-Remove\-Object() signal if getting the signal (and probably doing lots of stuff to update the internal and visible state) doesn't make sense during shutdown. 
+
+\-Reimplemented from \hyperlink{class_extension_system_1_1_i_plugin_a65c16ebd3a6e89918a99af6515fe68cb}{\-Extension\-System\-::\-I\-Plugin}.
+
+
+
+\-Definition at line 58 of file uploaderplugin.\-cpp.
+
+\hypertarget{group___y_modem_uploader_gad78f86e2b854b6285de51dbf32711129}{\index{\-Y\-Modem Serial Uploader Plugin@{\-Y\-Modem Serial Uploader Plugin}!sort\-Ports@{sort\-Ports}}
+\index{sort\-Ports@{sort\-Ports}!YModem Serial Uploader Plugin@{\-Y\-Modem Serial Uploader Plugin}}
+\subsubsection[{sort\-Ports}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf sort\-Ports} (
+\begin{DoxyParamCaption}
+\item[{const \-Qext\-Port\-Info \&}]{s1, }
+\item[{const \-Qext\-Port\-Info \&}]{s2}
+\end{DoxyParamCaption}
+)}}\label{group___y_modem_uploader_gad78f86e2b854b6285de51dbf32711129}
+
+
+\-Definition at line 77 of file uploadergadgetwidget.\-cpp.
+
+\hypertarget{group___y_modem_uploader_ga3cd2d8faf40a9fcb60022843bf36171d}{\index{\-Y\-Modem Serial Uploader Plugin@{\-Y\-Modem Serial Uploader Plugin}!\-Speed@{\-Speed}}
+\index{\-Speed@{\-Speed}!YModem Serial Uploader Plugin@{\-Y\-Modem Serial Uploader Plugin}}
+\subsubsection[{\-Speed}]{\setlength{\rightskip}{0pt plus 5cm}\-Baud\-Rate\-Type {\bf \-Uploader\-Gadget\-Configuration\-::\-Speed} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___y_modem_uploader_ga3cd2d8faf40a9fcb60022843bf36171d}
+
+
+\-Definition at line 53 of file uploadergadgetconfiguration.\-h.
+
+\hypertarget{group___y_modem_uploader_ga8f7d119b9f954ce05995540ca957568c}{\index{\-Y\-Modem Serial Uploader Plugin@{\-Y\-Modem Serial Uploader Plugin}!\-Stop\-Bits@{\-Stop\-Bits}}
+\index{\-Stop\-Bits@{\-Stop\-Bits}!YModem Serial Uploader Plugin@{\-Y\-Modem Serial Uploader Plugin}}
+\subsubsection[{\-Stop\-Bits}]{\setlength{\rightskip}{0pt plus 5cm}\-Stop\-Bits\-Type {\bf \-Uploader\-Gadget\-Configuration\-::\-Stop\-Bits} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___y_modem_uploader_ga8f7d119b9f954ce05995540ca957568c}
+
+
+\-Definition at line 57 of file uploadergadgetconfiguration.\-h.
+
+\hypertarget{group___y_modem_uploader_ga39f15ea85bd2c5de6f4a1a6d71f21032}{\index{\-Y\-Modem Serial Uploader Plugin@{\-Y\-Modem Serial Uploader Plugin}!\-Time\-Out@{\-Time\-Out}}
+\index{\-Time\-Out@{\-Time\-Out}!YModem Serial Uploader Plugin@{\-Y\-Modem Serial Uploader Plugin}}
+\subsubsection[{\-Time\-Out}]{\setlength{\rightskip}{0pt plus 5cm}long {\bf \-Uploader\-Gadget\-Configuration\-::\-Time\-Out} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___y_modem_uploader_ga39f15ea85bd2c5de6f4a1a6d71f21032}
+
+
+\-Definition at line 59 of file uploadergadgetconfiguration.\-h.
+
+\hypertarget{group___y_modem_uploader_ga900f8a9e862c018370d1fa4331b55b12}{\index{\-Y\-Modem Serial Uploader Plugin@{\-Y\-Modem Serial Uploader Plugin}!\-Uploader\-Gadget@{\-Uploader\-Gadget}}
+\index{\-Uploader\-Gadget@{\-Uploader\-Gadget}!YModem Serial Uploader Plugin@{\-Y\-Modem Serial Uploader Plugin}}
+\subsubsection[{\-Uploader\-Gadget}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Uploader\-Gadget\-::\-Uploader\-Gadget} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Q\-String}}]{class\-Id, }
+\item[{{\bf \-Uploader\-Gadget\-Widget} $\ast$}]{widget, }
+\item[{\-Q\-Widget $\ast$}]{parent = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)}}\label{group___y_modem_uploader_ga900f8a9e862c018370d1fa4331b55b12}
+
+
+\-Definition at line 31 of file uploadergadget.\-cpp.
+
+\hypertarget{group___y_modem_uploader_ga1c78df01d106cba6d5b3cb6103df5588}{\index{\-Y\-Modem Serial Uploader Plugin@{\-Y\-Modem Serial Uploader Plugin}!\-Uploader\-Gadget\-Configuration@{\-Uploader\-Gadget\-Configuration}}
+\index{\-Uploader\-Gadget\-Configuration@{\-Uploader\-Gadget\-Configuration}!YModem Serial Uploader Plugin@{\-Y\-Modem Serial Uploader Plugin}}
+\subsubsection[{\-Uploader\-Gadget\-Configuration}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Uploader\-Gadget\-Configuration\-::\-Uploader\-Gadget\-Configuration} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Q\-String}}]{class\-Id, }
+\item[{\-Q\-Settings $\ast$}]{q\-Settings = {\ttfamily 0}, }
+\item[{\-Q\-Object $\ast$}]{parent = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}explicit\mbox{]}}}}\label{group___y_modem_uploader_ga1c78df01d106cba6d5b3cb6103df5588}
+\-Loads a saved configuration or defaults if non exist. 
+
+\-Definition at line 35 of file uploadergadgetconfiguration.\-cpp.
+
+\hypertarget{group___y_modem_uploader_ga33e544ad20fa638bbf34e7a461d3306e}{\index{\-Y\-Modem Serial Uploader Plugin@{\-Y\-Modem Serial Uploader Plugin}!\-Uploader\-Gadget\-Factory@{\-Uploader\-Gadget\-Factory}}
+\index{\-Uploader\-Gadget\-Factory@{\-Uploader\-Gadget\-Factory}!YModem Serial Uploader Plugin@{\-Y\-Modem Serial Uploader Plugin}}
+\subsubsection[{\-Uploader\-Gadget\-Factory}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Uploader\-Gadget\-Factory\-::\-Uploader\-Gadget\-Factory} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Object $\ast$}]{parent = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)}}\label{group___y_modem_uploader_ga33e544ad20fa638bbf34e7a461d3306e}
+
+
+\-Definition at line 35 of file uploadergadgetfactory.\-cpp.
+
+\hypertarget{group___y_modem_uploader_gae4988774405776fb8a06744eb25e596a}{\index{\-Y\-Modem Serial Uploader Plugin@{\-Y\-Modem Serial Uploader Plugin}!\-Uploader\-Gadget\-Options\-Page@{\-Uploader\-Gadget\-Options\-Page}}
+\index{\-Uploader\-Gadget\-Options\-Page@{\-Uploader\-Gadget\-Options\-Page}!YModem Serial Uploader Plugin@{\-Y\-Modem Serial Uploader Plugin}}
+\subsubsection[{\-Uploader\-Gadget\-Options\-Page}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Uploader\-Gadget\-Options\-Page\-::\-Uploader\-Gadget\-Options\-Page} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Uploader\-Gadget\-Configuration} $\ast$}]{config, }
+\item[{\-Q\-Object $\ast$}]{parent = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}explicit\mbox{]}}}}\label{group___y_modem_uploader_gae4988774405776fb8a06744eb25e596a}
+
+
+\-Definition at line 41 of file uploadergadgetoptionspage.\-cpp.
+
+\hypertarget{group___y_modem_uploader_ga7065a066176fac2b996efaea8fc29a36}{\index{\-Y\-Modem Serial Uploader Plugin@{\-Y\-Modem Serial Uploader Plugin}!\-Uploader\-Gadget\-Widget@{\-Uploader\-Gadget\-Widget}}
+\index{\-Uploader\-Gadget\-Widget@{\-Uploader\-Gadget\-Widget}!YModem Serial Uploader Plugin@{\-Y\-Modem Serial Uploader Plugin}}
+\subsubsection[{\-Uploader\-Gadget\-Widget}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Uploader\-Gadget\-Widget\-::\-Uploader\-Gadget\-Widget} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Widget $\ast$}]{parent = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)}}\label{group___y_modem_uploader_ga7065a066176fac2b996efaea8fc29a36}
+
+
+\-Definition at line 34 of file uploadergadgetwidget.\-cpp.
+
+\hypertarget{group___y_modem_uploader_ga5dbbc19d5b4c070d0326c2e8695b2a9b}{\index{\-Y\-Modem Serial Uploader Plugin@{\-Y\-Modem Serial Uploader Plugin}!\-Uploader\-Plugin@{\-Uploader\-Plugin}}
+\index{\-Uploader\-Plugin@{\-Uploader\-Plugin}!YModem Serial Uploader Plugin@{\-Y\-Modem Serial Uploader Plugin}}
+\subsubsection[{\-Uploader\-Plugin}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Uploader\-Plugin\-::\-Uploader\-Plugin} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___y_modem_uploader_ga5dbbc19d5b4c070d0326c2e8695b2a9b}
+
+
+\-Definition at line 34 of file uploaderplugin.\-cpp.
+
+\hypertarget{group___y_modem_uploader_gac00d0fe0b9af2cb55ca33b6f0b3ab181}{\index{\-Y\-Modem Serial Uploader Plugin@{\-Y\-Modem Serial Uploader Plugin}!widget@{widget}}
+\index{widget@{widget}!YModem Serial Uploader Plugin@{\-Y\-Modem Serial Uploader Plugin}}
+\subsubsection[{widget}]{\setlength{\rightskip}{0pt plus 5cm}\-Q\-Widget$\ast$ {\bf \-Uploader\-Gadget\-::widget} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, virtual\mbox{]}}}}\label{group___y_modem_uploader_gac00d0fe0b9af2cb55ca33b6f0b3ab181}
+
+
+\-Implements \hyperlink{group___core_plugin_gac74c76eef51e24e62a333fe0fd940cf6}{\-Core\-::\-I\-U\-A\-V\-Gadget}.
+
+
+
+\-Definition at line 49 of file uploadergadget.\-h.
+
+\hypertarget{group___y_modem_uploader_ga8337b51a0e1630ae11e7ce9f5a9394b9}{\index{\-Y\-Modem Serial Uploader Plugin@{\-Y\-Modem Serial Uploader Plugin}!$\sim$\-Uploader\-Gadget@{$\sim$\-Uploader\-Gadget}}
+\index{$\sim$\-Uploader\-Gadget@{$\sim$\-Uploader\-Gadget}!YModem Serial Uploader Plugin@{\-Y\-Modem Serial Uploader Plugin}}
+\subsubsection[{$\sim$\-Uploader\-Gadget}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Uploader\-Gadget\-::$\sim$\-Uploader\-Gadget} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___y_modem_uploader_ga8337b51a0e1630ae11e7ce9f5a9394b9}
+
+
+\-Definition at line 37 of file uploadergadget.\-cpp.
+
+\hypertarget{group___y_modem_uploader_ga7509287bf0bfbf3b364591ac90155886}{\index{\-Y\-Modem Serial Uploader Plugin@{\-Y\-Modem Serial Uploader Plugin}!$\sim$\-Uploader\-Gadget\-Factory@{$\sim$\-Uploader\-Gadget\-Factory}}
+\index{$\sim$\-Uploader\-Gadget\-Factory@{$\sim$\-Uploader\-Gadget\-Factory}!YModem Serial Uploader Plugin@{\-Y\-Modem Serial Uploader Plugin}}
+\subsubsection[{$\sim$\-Uploader\-Gadget\-Factory}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Uploader\-Gadget\-Factory\-::$\sim$\-Uploader\-Gadget\-Factory} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___y_modem_uploader_ga7509287bf0bfbf3b364591ac90155886}
+
+
+\-Definition at line 40 of file uploadergadgetfactory.\-cpp.
+
+\hypertarget{group___y_modem_uploader_ga81ab4c8e328f917680b38093e9c69e6c}{\index{\-Y\-Modem Serial Uploader Plugin@{\-Y\-Modem Serial Uploader Plugin}!$\sim$\-Uploader\-Gadget\-Widget@{$\sim$\-Uploader\-Gadget\-Widget}}
+\index{$\sim$\-Uploader\-Gadget\-Widget@{$\sim$\-Uploader\-Gadget\-Widget}!YModem Serial Uploader Plugin@{\-Y\-Modem Serial Uploader Plugin}}
+\subsubsection[{$\sim$\-Uploader\-Gadget\-Widget}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Uploader\-Gadget\-Widget\-::$\sim$\-Uploader\-Gadget\-Widget} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___y_modem_uploader_ga81ab4c8e328f917680b38093e9c69e6c}
+\-Remove all the device widgets... 
+
+\-Definition at line 749 of file uploadergadgetwidget.\-cpp.
+
+\hypertarget{group___y_modem_uploader_gab9ab9e0558901e7f3ca2e24750ded4e2}{\index{\-Y\-Modem Serial Uploader Plugin@{\-Y\-Modem Serial Uploader Plugin}!$\sim$\-Uploader\-Plugin@{$\sim$\-Uploader\-Plugin}}
+\index{$\sim$\-Uploader\-Plugin@{$\sim$\-Uploader\-Plugin}!YModem Serial Uploader Plugin@{\-Y\-Modem Serial Uploader Plugin}}
+\subsubsection[{$\sim$\-Uploader\-Plugin}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Uploader\-Plugin\-::$\sim$\-Uploader\-Plugin} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___y_modem_uploader_gab9ab9e0558901e7f3ca2e24750ded4e2}
+
+
+\-Definition at line 39 of file uploaderplugin.\-cpp.
+
+
+
+\subsection{\-Signals}
+\hypertarget{group___y_modem_uploader_gaf1635d4877cd9ffd1933c45884278845}{\index{\-Y\-Modem Serial Uploader Plugin@{\-Y\-Modem Serial Uploader Plugin}!auto\-Update@{auto\-Update}}
+\index{auto\-Update@{auto\-Update}!YModem Serial Uploader Plugin@{\-Y\-Modem Serial Uploader Plugin}}
+\subsubsection[{auto\-Update}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Uploader\-Gadget\-Factory\-::auto\-Update} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}signal\mbox{]}}}}\label{group___y_modem_uploader_gaf1635d4877cd9ffd1933c45884278845}
+\hypertarget{group___y_modem_uploader_ga1db019129aec5db54cea977a3628092e}{\index{\-Y\-Modem Serial Uploader Plugin@{\-Y\-Modem Serial Uploader Plugin}!auto\-Update\-Signal@{auto\-Update\-Signal}}
+\index{auto\-Update\-Signal@{auto\-Update\-Signal}!YModem Serial Uploader Plugin@{\-Y\-Modem Serial Uploader Plugin}}
+\subsubsection[{auto\-Update\-Signal}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Uploader\-Gadget\-Factory\-::auto\-Update\-Signal} (
+\begin{DoxyParamCaption}
+\item[{{\bf uploader\-::\-Auto\-Update\-Step}}]{, }
+\item[{\-Q\-Variant}]{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}signal\mbox{]}}}}\label{group___y_modem_uploader_ga1db019129aec5db54cea977a3628092e}
+\hypertarget{group___y_modem_uploader_ga87ead7222452d2bbbbde0f0450ed8c11}{\index{\-Y\-Modem Serial Uploader Plugin@{\-Y\-Modem Serial Uploader Plugin}!auto\-Update\-Signal@{auto\-Update\-Signal}}
+\index{auto\-Update\-Signal@{auto\-Update\-Signal}!YModem Serial Uploader Plugin@{\-Y\-Modem Serial Uploader Plugin}}
+\subsubsection[{auto\-Update\-Signal}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Uploader\-Gadget\-Widget\-::auto\-Update\-Signal} (
+\begin{DoxyParamCaption}
+\item[{{\bf uploader\-::\-Auto\-Update\-Step}}]{, }
+\item[{\-Q\-Variant}]{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}signal\mbox{]}}}}\label{group___y_modem_uploader_ga87ead7222452d2bbbbde0f0450ed8c11}
+\hypertarget{group___y_modem_uploader_ga80c1daefa8adc8af10178e3ad8c52307}{\index{\-Y\-Modem Serial Uploader Plugin@{\-Y\-Modem Serial Uploader Plugin}!upload\-Ended@{upload\-Ended}}
+\index{upload\-Ended@{upload\-Ended}!YModem Serial Uploader Plugin@{\-Y\-Modem Serial Uploader Plugin}}
+\subsubsection[{upload\-Ended}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf device\-Widget\-::upload\-Ended} (
+\begin{DoxyParamCaption}
+\item[{bool}]{success}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}signal\mbox{]}}}}\label{group___y_modem_uploader_ga80c1daefa8adc8af10178e3ad8c52307}
+\hypertarget{group___y_modem_uploader_ga237b72fb1450126236fb690941ce7cf0}{\index{\-Y\-Modem Serial Uploader Plugin@{\-Y\-Modem Serial Uploader Plugin}!upload\-Started@{upload\-Started}}
+\index{upload\-Started@{upload\-Started}!YModem Serial Uploader Plugin@{\-Y\-Modem Serial Uploader Plugin}}
+\subsubsection[{upload\-Started}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf device\-Widget\-::upload\-Started} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}signal\mbox{]}}}}\label{group___y_modem_uploader_ga237b72fb1450126236fb690941ce7cf0}
+
+
+\subsection{\-Public \-Slots}
+\hypertarget{group___y_modem_uploader_gae4f6b196112377e3983e45e785c14242}{\index{\-Y\-Modem Serial Uploader Plugin@{\-Y\-Modem Serial Uploader Plugin}!auto\-Update@{auto\-Update}}
+\index{auto\-Update@{auto\-Update}!YModem Serial Uploader Plugin@{\-Y\-Modem Serial Uploader Plugin}}
+\subsubsection[{auto\-Update}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-Uploader\-Gadget\-Widget\-::auto\-Update} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}slot\mbox{]}}}}\label{group___y_modem_uploader_gae4f6b196112377e3983e45e785c14242}
+
+
+\-Definition at line 440 of file uploadergadgetwidget.\-cpp.
+
+\hypertarget{group___y_modem_uploader_gaa59bd4196108e1a79e22ee1d10cf4a92}{\index{\-Y\-Modem Serial Uploader Plugin@{\-Y\-Modem Serial Uploader Plugin}!auto\-Update\-Progress@{auto\-Update\-Progress}}
+\index{auto\-Update\-Progress@{auto\-Update\-Progress}!YModem Serial Uploader Plugin@{\-Y\-Modem Serial Uploader Plugin}}
+\subsubsection[{auto\-Update\-Progress}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Uploader\-Gadget\-Widget\-::auto\-Update\-Progress} (
+\begin{DoxyParamCaption}
+\item[{int}]{value}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}slot\mbox{]}}}}\label{group___y_modem_uploader_gaa59bd4196108e1a79e22ee1d10cf4a92}
+
+
+\-Definition at line 567 of file uploadergadgetwidget.\-cpp.
+
+\hypertarget{group___y_modem_uploader_ga116ecb3aed92f7f793ea4769a7e0572d}{\index{\-Y\-Modem Serial Uploader Plugin@{\-Y\-Modem Serial Uploader Plugin}!confirm\-C\-B@{confirm\-C\-B}}
+\index{confirm\-C\-B@{confirm\-C\-B}!YModem Serial Uploader Plugin@{\-Y\-Modem Serial Uploader Plugin}}
+\subsubsection[{confirm\-C\-B}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf device\-Widget\-::confirm\-C\-B} (
+\begin{DoxyParamCaption}
+\item[{int}]{value}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}slot\mbox{]}}}}\label{group___y_modem_uploader_ga116ecb3aed92f7f793ea4769a7e0572d}
+
+
+\-Definition at line 217 of file devicewidget.\-cpp.
+
+\hypertarget{group___y_modem_uploader_gafbf692fdd482b85feb6510193a242a87}{\index{\-Y\-Modem Serial Uploader Plugin@{\-Y\-Modem Serial Uploader Plugin}!load\-Firmware@{load\-Firmware}}
+\index{load\-Firmware@{load\-Firmware}!YModem Serial Uploader Plugin@{\-Y\-Modem Serial Uploader Plugin}}
+\subsubsection[{load\-Firmware}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf device\-Widget\-::load\-Firmware} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}slot\mbox{]}}}}\label{group___y_modem_uploader_gafbf692fdd482b85feb6510193a242a87}
+
+
+\-Definition at line 251 of file devicewidget.\-cpp.
+
+\hypertarget{group___y_modem_uploader_gaea63c2ee4a2337a9c75b7e6908a07f68}{\index{\-Y\-Modem Serial Uploader Plugin@{\-Y\-Modem Serial Uploader Plugin}!on\-Autopilot\-Connect@{on\-Autopilot\-Connect}}
+\index{on\-Autopilot\-Connect@{on\-Autopilot\-Connect}!YModem Serial Uploader Plugin@{\-Y\-Modem Serial Uploader Plugin}}
+\subsubsection[{on\-Autopilot\-Connect}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Uploader\-Gadget\-Widget\-::on\-Autopilot\-Connect} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}slot\mbox{]}}}}\label{group___y_modem_uploader_gaea63c2ee4a2337a9c75b7e6908a07f68}
+\-Enables widget buttons if autopilot connected 
+
+\-Definition at line 134 of file uploadergadgetwidget.\-cpp.
+
+\hypertarget{group___y_modem_uploader_ga1b05eaf13f62105422817f202a60d4c5}{\index{\-Y\-Modem Serial Uploader Plugin@{\-Y\-Modem Serial Uploader Plugin}!on\-Autopilot\-Disconnect@{on\-Autopilot\-Disconnect}}
+\index{on\-Autopilot\-Disconnect@{on\-Autopilot\-Disconnect}!YModem Serial Uploader Plugin@{\-Y\-Modem Serial Uploader Plugin}}
+\subsubsection[{on\-Autopilot\-Disconnect}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Uploader\-Gadget\-Widget\-::on\-Autopilot\-Disconnect} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}slot\mbox{]}}}}\label{group___y_modem_uploader_ga1b05eaf13f62105422817f202a60d4c5}
+\-Enables widget buttons if autopilot disconnected 
+
+\-Definition at line 162 of file uploadergadgetwidget.\-cpp.
+
+\hypertarget{group___y_modem_uploader_ga49b9f0a5fc35f08fc0ee463dedcfe341}{\index{\-Y\-Modem Serial Uploader Plugin@{\-Y\-Modem Serial Uploader Plugin}!open\-Help@{open\-Help}}
+\index{open\-Help@{open\-Help}!YModem Serial Uploader Plugin@{\-Y\-Modem Serial Uploader Plugin}}
+\subsubsection[{open\-Help}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Uploader\-Gadget\-Widget\-::open\-Help} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}slot\mbox{]}}}}\label{group___y_modem_uploader_ga49b9f0a5fc35f08fc0ee463dedcfe341}
+
+
+\-Definition at line 843 of file uploadergadgetwidget.\-cpp.
+
+\hypertarget{group___y_modem_uploader_ga5c67435d0108ea6ee60ef37fd1ad3298}{\index{\-Y\-Modem Serial Uploader Plugin@{\-Y\-Modem Serial Uploader Plugin}!populate@{populate}}
+\index{populate@{populate}!YModem Serial Uploader Plugin@{\-Y\-Modem Serial Uploader Plugin}}
+\subsubsection[{populate}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Uploader\-Gadget\-Widget\-::populate} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}slot\mbox{]}}}}\label{group___y_modem_uploader_ga5c67435d0108ea6ee60ef37fd1ad3298}
+
+
+\-Definition at line 138 of file uploadergadgetwidget.\-cpp.
+

@@ -1,0 +1,69 @@
+\hypertarget{group___telemetry_module}{\section{\-Telemetry \-Module}
+\label{group___telemetry_module}\index{\-Telemetry Module@{\-Telemetry Module}}
+}
+\subsection*{\-Files}
+\begin{DoxyCompactItemize}
+\item 
+file \hyperlink{telemetry_8c}{telemetry.\-c}
+\begin{DoxyCompactList}\small\item\em \-Telemetry module, handles telemetry and \-U\-A\-V\-Object updates. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+int32\-\_\-t \hyperlink{group___telemetry_module_ga251dc0181b1a02544cdee5e599bfc240}{\-Telemetry\-Start} (void)
+\item 
+int32\-\_\-t \hyperlink{group___telemetry_module_ga058925ecc8ea2cd938fb3e9d21edb2ac}{\-Telemetry\-Initialize} (void)
+\item 
+\hyperlink{group___telemetry_module_ga76c4e3aa3c280b8fe0a71d2aa8d6ffd3}{\-M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L} (\hyperlink{group___telemetry_module_ga058925ecc8ea2cd938fb3e9d21edb2ac}{\-Telemetry\-Initialize}, \hyperlink{group___telemetry_module_ga251dc0181b1a02544cdee5e599bfc240}{\-Telemetry\-Start})
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Function \-Documentation}
+\hypertarget{group___telemetry_module_ga76c4e3aa3c280b8fe0a71d2aa8d6ffd3}{\index{\-Telemetry Module@{\-Telemetry Module}!\-M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L@{\-M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L}}
+\index{\-M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L@{\-M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L}!Telemetry Module@{\-Telemetry Module}}
+\subsubsection[{\-M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Telemetry\-Initialize}}]{, }
+\item[{{\bf \-Telemetry\-Start}}]{}
+\end{DoxyParamCaption}
+)}}\label{group___telemetry_module_ga76c4e3aa3c280b8fe0a71d2aa8d6ffd3}
+\-Register a new object, adds object to local list and connects the queue depending on the object's telemetry settings. 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em obj} & \-Object to connect \\
+\hline
+\end{DoxyParams}
+
+
+\-Definition at line 144 of file telemetry.\-c.
+
+\hypertarget{group___telemetry_module_ga058925ecc8ea2cd938fb3e9d21edb2ac}{\index{\-Telemetry Module@{\-Telemetry Module}!\-Telemetry\-Initialize@{\-Telemetry\-Initialize}}
+\index{\-Telemetry\-Initialize@{\-Telemetry\-Initialize}!Telemetry Module@{\-Telemetry Module}}
+\subsubsection[{\-Telemetry\-Initialize}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-Telemetry\-Initialize} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group___telemetry_module_ga058925ecc8ea2cd938fb3e9d21edb2ac}
+\-Initialise the telemetry module \begin{DoxyReturn}{\-Returns}
+-\/1 if initialisation failed 
+
+0 on success 
+\end{DoxyReturn}
+
+
+\-Definition at line 113 of file telemetry.\-c.
+
+\hypertarget{group___telemetry_module_ga251dc0181b1a02544cdee5e599bfc240}{\index{\-Telemetry Module@{\-Telemetry Module}!\-Telemetry\-Start@{\-Telemetry\-Start}}
+\index{\-Telemetry\-Start@{\-Telemetry\-Start}!Telemetry Module@{\-Telemetry Module}}
+\subsubsection[{\-Telemetry\-Start}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-Telemetry\-Start} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group___telemetry_module_ga251dc0181b1a02544cdee5e599bfc240}
+\-Initialise the telemetry module \begin{DoxyReturn}{\-Returns}
+-\/1 if initialisation failed 
+
+0 on success 
+\end{DoxyReturn}
+
+
+\-Definition at line 86 of file telemetry.\-c.
+

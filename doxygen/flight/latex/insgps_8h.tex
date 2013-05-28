@@ -1,0 +1,72 @@
+\hypertarget{insgps_8h}{\section{/home/jb/code/\-Tau\-Labs/flight/\-Libraries/inc/insgps.h \-File \-Reference}
+\label{insgps_8h}\index{/home/jb/code/\-Tau\-Labs/flight/\-Libraries/inc/insgps.\-h@{/home/jb/code/\-Tau\-Labs/flight/\-Libraries/inc/insgps.\-h}}
+}
+
+
+\-Include file of the \-I\-N\-S\-G\-P\-S exposed functionality.  
+
+
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{group___tau_labs_libraries_ga37848fdaaf6ee155638ba5bb1521fffe}{\-I\-N\-S\-G\-P\-S\-Init} ()
+\begin{DoxyCompactList}\small\item\em \-Reset the internal state variables and variances. \end{DoxyCompactList}\item 
+void \hyperlink{group___tau_labs_libraries_ga57adeb4fc2f14e36f70531b52bd28193}{\-I\-N\-S\-State\-Prediction} (const float gyro\-\_\-data\mbox{[}3\mbox{]}, const float accel\-\_\-data\mbox{[}3\mbox{]}, float d\-T)
+\begin{DoxyCompactList}\small\item\em \-Compute an update of the state estimate. \end{DoxyCompactList}\item 
+void \hyperlink{group___tau_labs_libraries_gab680361c7bb4c9f7a0c06d189dc9d4a1}{\-I\-N\-S\-Covariance\-Prediction} (float d\-T)
+\begin{DoxyCompactList}\small\item\em \-Compute an update of the state covariance. \end{DoxyCompactList}\item 
+void \hyperlink{group___tau_labs_libraries_gaade300e6df3b427d5bde882fa2f7c93f}{\-I\-N\-S\-Correction} (const float mag\-\_\-data\mbox{[}3\mbox{]}, const float \-Pos\mbox{[}3\mbox{]}, const float \-Vel\mbox{[}3\mbox{]}, float \-Baro\-Alt, uint16\-\_\-t \-Sensors\-Used)
+\begin{DoxyCompactList}\small\item\em \-Correct the state and covariance estimate based on the sensors that were updated. \end{DoxyCompactList}\item 
+void \hyperlink{group___tau_labs_libraries_ga6713f5d490059531f10283aff19c8f04}{\-I\-N\-S\-Get\-State} (float $\ast$pos, float $\ast$vel, float $\ast$attitude, float $\ast$bias)
+\begin{DoxyCompactList}\small\item\em \-Get the current state estimate. \end{DoxyCompactList}\item 
+void \hyperlink{group___tau_labs_libraries_ga9afce3083f9ab90a40d620dde634f901}{\-I\-N\-S\-Reset\-P} (const float \-P\-Diag\mbox{[}13\mbox{]})
+\item 
+void \hyperlink{group___tau_labs_libraries_ga33be75afa533a464a8571e241a6caa10}{\-I\-N\-S\-Set\-State} (const float pos\mbox{[}3\mbox{]}, const float vel\mbox{[}3\mbox{]}, const float q\mbox{[}4\mbox{]}, const float gyro\-\_\-bias\mbox{[}3\mbox{]}, const float accel\-\_\-bias\mbox{[}3\mbox{]})
+\item 
+void \hyperlink{group___tau_labs_libraries_ga8894e5945148a0520cd3e4c27f44cdac}{\-I\-N\-S\-Set\-Pos\-Vel\-Var} (float \-Pos\-Var, float \-Vel\-Var, float \-Vert\-Pos\-Var)
+\item 
+void \hyperlink{group___tau_labs_libraries_gad385ddb89b431a68df14e4de88be3329}{\-I\-N\-S\-Set\-Gyro\-Bias} (const float gyro\-\_\-bias\mbox{[}3\mbox{]})
+\item 
+void \hyperlink{group___tau_labs_libraries_ga97a7efb6d46aefde3ad20c9b8c44fc60}{\-I\-N\-S\-Set\-Accel\-Var} (const float accel\-\_\-var\mbox{[}3\mbox{]})
+\item 
+void \hyperlink{group___tau_labs_libraries_gab34cb0f1a9700d0bbf8c0c864311e0e3}{\-I\-N\-S\-Set\-Gyro\-Var} (const float gyro\-\_\-var\mbox{[}3\mbox{]})
+\item 
+void \hyperlink{group___tau_labs_libraries_gaff5e5ac00ae43701b4dae7eeb9cdfea8}{\-I\-N\-S\-Set\-Mag\-North} (const float \-B\mbox{[}3\mbox{]})
+\item 
+void \hyperlink{group___tau_labs_libraries_ga0e46db3033f2daeb533de25cb92bbfd9}{\-I\-N\-S\-Set\-Mag\-Var} (const float scaled\-\_\-mag\-\_\-var\mbox{[}3\mbox{]})
+\item 
+void \hyperlink{group___tau_labs_libraries_ga5316ca3b2372588b1d2340297e976452}{\-I\-N\-S\-Set\-Baro\-Var} (float baro\-\_\-var)
+\item 
+void \hyperlink{group___tau_labs_libraries_gad01d410c07ad8c74fe875b16246a265c}{\-I\-N\-S\-Pos\-Vel\-Reset} (const float pos\mbox{[}3\mbox{]}, const float vel\mbox{[}3\mbox{]})
+\item 
+void \hyperlink{group___tau_labs_libraries_ga9e72deeb194e12de4258e48413bfb8f9}{\-I\-N\-S\-Get\-Variance} (float $\ast$p)
+\item 
+void \hyperlink{group___tau_labs_libraries_ga2b676563f0f8b93d971159b5b9320a5d}{\-Mag\-Correction} (const float mag\-\_\-data\mbox{[}3\mbox{]})
+\item 
+void \hyperlink{group___tau_labs_libraries_ga2d37f6670dad8a68c1c96282f02f208a}{\-Mag\-Vel\-Baro\-Correction} (const float mag\-\_\-data\mbox{[}3\mbox{]}, const float \-Vel\mbox{[}3\mbox{]}, float \-Baro\-Alt)
+\item 
+void \hyperlink{group___tau_labs_libraries_gac4dc3ac7ec074007dd65c472a2176c54}{\-Full\-Correction} (const float mag\-\_\-data\mbox{[}3\mbox{]}, const float \-Pos\mbox{[}3\mbox{]}, const float \-Vel\mbox{[}3\mbox{]}, float \-Baro\-Alt)
+\item 
+void \hyperlink{group___tau_labs_libraries_ga6b469a6d3b312867b0b87c2c70c0749e}{\-Gps\-Baro\-Correction} (const float \-Pos\mbox{[}3\mbox{]}, const float \-Vel\mbox{[}3\mbox{]}, float \-Baro\-Alt)
+\item 
+void \hyperlink{group___tau_labs_libraries_ga7f60c28dd78eddbe08102c2d905261b8}{\-Gps\-Mag\-Correction} (const float mag\-\_\-data\mbox{[}3\mbox{]}, const float \-Pos\mbox{[}3\mbox{]}, const float \-Vel\mbox{[}2\mbox{]})
+\item 
+void \hyperlink{group___tau_labs_libraries_ga3babc960a16e4ab48bf08da4a9153637}{\-Vel\-Baro\-Correction} (const float \-Vel\mbox{[}3\mbox{]}, float \-Baro\-Alt)
+\item 
+uint16\-\_\-t \hyperlink{group___tau_labs_libraries_ga62f40f528dea50baf8d414d1f55469af}{ins\-\_\-get\-\_\-num\-\_\-states} ()
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-Include file of the \-I\-N\-S\-G\-P\-S exposed functionality. \begin{DoxyAuthor}{\-Author}
+\-The \-Open\-Pilot \-Team, \href{http://www.openpilot.org}{\tt http\-://www.\-openpilot.\-org} \-Copyright (\-C) 2010. 
+
+\-Tau \-Labs, \href{http://taulabs.org,}{\tt http\-://taulabs.\-org,} \-Copyright (\-C) 2012-\/2013 
+\end{DoxyAuthor}
+\begin{DoxySeeAlso}{\-See also}
+\-The \-G\-N\-U \-Public \-License (\-G\-P\-L) \-Version 3 
+\end{DoxySeeAlso}
+
+
+\-Definition in file \hyperlink{insgps_8h_source}{insgps.\-h}.
+

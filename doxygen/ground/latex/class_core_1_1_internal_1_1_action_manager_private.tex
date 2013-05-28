@@ -1,0 +1,68 @@
+\hypertarget{class_core_1_1_internal_1_1_action_manager_private}{\section{\-Core\-:\-:\-Internal\-:\-:\-Action\-Manager\-Private \-Class \-Reference}
+\label{class_core_1_1_internal_1_1_action_manager_private}\index{\-Core\-::\-Internal\-::\-Action\-Manager\-Private@{\-Core\-::\-Internal\-::\-Action\-Manager\-Private}}
+}
+
+
+{\ttfamily \#include $<$actionmanager\-\_\-p.\-h$>$}
+
+\-Inheritance diagram for \-Core\-:\-:\-Internal\-:\-:\-Action\-Manager\-Private\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_core_1_1_internal_1_1_action_manager_private}
+\end{center}
+\end{figure}
+\subsection*{\-Public \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___core_plugin_ga12aef0a3b78b0e37f3db4a05e4e89615}{\-Action\-Manager\-Private} (\hyperlink{class_core_1_1_internal_1_1_main_window}{\-Main\-Window} $\ast$main\-Wnd)
+\item 
+\hyperlink{group___core_plugin_ga05b7f5a2c3f9b034d08ac45e5096a854}{$\sim$\-Action\-Manager\-Private} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___core_plugin_gaf1c3a6da903b910e7bf3b042d75f4f6d}{set\-Context} (const \-Q\-List$<$ int $>$ \&context)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___core_plugin_ga14b0ae1450cbbeb3a20d57f42414cb40}{save\-Settings} (\-Q\-Settings $\ast$settings)
+\item 
+\-Q\-List$<$ int $>$ \hyperlink{group___core_plugin_ga83364e44abe77408ac169e851f7d998f}{default\-Groups} () const 
+\item 
+\-Q\-List$<$ \hyperlink{class_core_1_1_internal_1_1_command_private}{\-Command\-Private} $\ast$ $>$ \hyperlink{group___core_plugin_ga91b9907f02df212989f82a7af1d544e9}{commands} () const 
+\item 
+\-Q\-List$<$ \hyperlink{class_core_1_1_internal_1_1_action_container_private}{\-Action\-Container\-Private} $\ast$ $>$ \hyperlink{group___core_plugin_ga984362f3bdf006ac121c1e3e7a10f49e}{containers} () const 
+\item 
+bool \hyperlink{group___core_plugin_ga6b861e343876351edf5d2fae24a5f0cb}{has\-Context} (int context) const 
+\item 
+\hyperlink{class_core_1_1_command}{\-Command} $\ast$ \hyperlink{group___core_plugin_ga5a55bb1c0b2a8c78afc2ba6dbaf2427d}{command} (int uid) const 
+\item 
+\hyperlink{class_core_1_1_action_container}{\-Action\-Container} $\ast$ \hyperlink{group___core_plugin_ga3ec130bab28be18162ff49816e062c07}{action\-Container} (int uid) const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___core_plugin_ga097c433a1e3ae316de47ded726e0f639}{read\-Settings} (\-Q\-Settings $\ast$settings)
+\item 
+\hyperlink{class_core_1_1_action_container}{\-Action\-Container} $\ast$ \hyperlink{group___core_plugin_ga1a2a9935fbe66257754f6cf21e596c01}{create\-Menu} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \&id)
+\begin{DoxyCompactList}\small\item\em \-Creates a new menu with the given string {\itshape id\/}. \end{DoxyCompactList}\item 
+\hyperlink{class_core_1_1_action_container}{\-Action\-Container} $\ast$ \hyperlink{group___core_plugin_gaef1eb51454ecf1c2d3989db8b3a4e127}{create\-Menu\-Bar} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \&id)
+\begin{DoxyCompactList}\small\item\em \-Creates a new menu bar with the given string {\itshape id\/}. \end{DoxyCompactList}\item 
+\hyperlink{class_core_1_1_command}{\-Command} $\ast$ \hyperlink{group___core_plugin_ga85856b30617fb3861bb25b1745e88ab1}{register\-Action} (\-Q\-Action $\ast$action, const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \&id, const \-Q\-List$<$ int $>$ \&context)
+\begin{DoxyCompactList}\small\item\em \-Makes an {\itshape action\/} known to the system under the specified string {\itshape id\/}. \end{DoxyCompactList}\item 
+\hyperlink{class_core_1_1_command}{\-Command} $\ast$ \hyperlink{group___core_plugin_ga887455dd80ccba90125634d83982950d}{register\-Shortcut} (\-Q\-Shortcut $\ast$shortcut, const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \&id, const \-Q\-List$<$ int $>$ \&context)
+\begin{DoxyCompactList}\small\item\em \-Makes a {\itshape shortcut\/} known to the system under the specified string {\itshape id\/}. \end{DoxyCompactList}\item 
+\hyperlink{class_core_1_1_command}{\-Core\-::\-Command} $\ast$ \hyperlink{group___core_plugin_gacd785934e8130fefdd7b0c396d6f5ede}{command} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \&id) const 
+\begin{DoxyCompactList}\small\item\em \-Returns the \hyperlink{class_core_1_1_command}{\-Command} object that is known to the system under the given string {\itshape id\/}. \end{DoxyCompactList}\item 
+\hyperlink{class_core_1_1_action_container}{\-Core\-::\-Action\-Container} $\ast$ \hyperlink{group___core_plugin_gae0f296ea10c2a2f3f8c4b9595c10e8d0}{action\-Container} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \&id) const 
+\begin{DoxyCompactList}\small\item\em \-Returns the \-I\-Action\-Containter object that is know to the system under the given string {\itshape id\/}. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Static \-Public \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+static \hyperlink{class_core_1_1_internal_1_1_action_manager_private}{\-Action\-Manager\-Private} $\ast$ \hyperlink{group___core_plugin_ga2faf640c44a7165ba476bf75170af584}{instance} ()
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+
+
+\-Definition at line 58 of file actionmanager\-\_\-p.\-h.
+
+
+
+\-The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/plugins/coreplugin/actionmanager/\hyperlink{actionmanager__p_8h}{actionmanager\-\_\-p.\-h}\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/plugins/coreplugin/actionmanager/\hyperlink{actionmanager_8cpp}{actionmanager.\-cpp}\end{DoxyCompactItemize}

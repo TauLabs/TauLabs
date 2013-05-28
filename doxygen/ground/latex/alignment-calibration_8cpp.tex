@@ -1,0 +1,44 @@
+\hypertarget{alignment-calibration_8cpp}{\section{/home/jb/code/\-Tau\-Labs/ground/gcs/src/plugins/config/alignment-\/calibration.cpp \-File \-Reference}
+\label{alignment-calibration_8cpp}\index{/home/jb/code/\-Tau\-Labs/ground/gcs/src/plugins/config/alignment-\/calibration.\-cpp@{/home/jb/code/\-Tau\-Labs/ground/gcs/src/plugins/config/alignment-\/calibration.\-cpp}}
+}
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{alignment-calibration_8cpp_a480455bf97a856dc35e668762201a560}{calibration\-\_\-misalignment} (\-Vector3f \&rotation\-Vector, const \-Vector3f samples0\mbox{[}$\,$\mbox{]}, const \-Vector3f \&reference0, const \-Vector3f samples1\mbox{[}$\,$\mbox{]}, const \-Vector3f \&reference1, size\-\_\-t n\-\_\-samples)
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Function \-Documentation}
+\hypertarget{alignment-calibration_8cpp_a480455bf97a856dc35e668762201a560}{\index{alignment-\/calibration.\-cpp@{alignment-\/calibration.\-cpp}!calibration\-\_\-misalignment@{calibration\-\_\-misalignment}}
+\index{calibration\-\_\-misalignment@{calibration\-\_\-misalignment}!alignment-calibration.cpp@{alignment-\/calibration.\-cpp}}
+\subsubsection[{calibration\-\_\-misalignment}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf calibration\-\_\-misalignment} (
+\begin{DoxyParamCaption}
+\item[{\-Vector3f \&}]{rotation\-Vector, }
+\item[{const \-Vector3f}]{samples0\mbox{[}$\,$\mbox{]}, }
+\item[{const \-Vector3f \&}]{reference0, }
+\item[{const \-Vector3f}]{samples1\mbox{[}$\,$\mbox{]}, }
+\item[{const \-Vector3f \&}]{reference1, }
+\item[{size\-\_\-t}]{n\-\_\-samples}
+\end{DoxyParamCaption}
+)}}\label{alignment-calibration_8cpp_a480455bf97a856dc35e668762201a560}
+\-Calibrate the angular misalignment of one field sensor relative to another.
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em rotation\-Vector\mbox{[}out\mbox{]}} & \-The rotation vector that rotates sensor 1 such that its principle axes are colinear with the axes of sensor 0. \\
+\hline
+{\em samples0\mbox{[}in\mbox{]}} & \-A list of samples of the field observed by the reference sensor. \\
+\hline
+{\em reference0\mbox{[}in\mbox{]}} & \-The common value of the reference field in the inertial reference frame. \\
+\hline
+{\em samples1\mbox{[}in\mbox{]}} & \-The list of samples taken by the sensor to be aligned to the reference. \-The attitude of the sensor head as a whole must be identical between samples0\mbox{[}i\mbox{]} and samples1\mbox{[}i\mbox{]} for all i. \\
+\hline
+{\em reference1\mbox{[}in\mbox{]}} & \-The actual value of the second field in the inertial reference frame. \\
+\hline
+{\em n\-\_\-samples} & \-The number of samples. \\
+\hline
+\end{DoxyParams}
+
+
+\-Definition at line 24 of file alignment-\/calibration.\-cpp.
+

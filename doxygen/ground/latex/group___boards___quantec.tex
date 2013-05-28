@@ -1,0 +1,260 @@
+\hypertarget{group___boards___quantec}{\section{\-Quantec boards support \-Plugin}
+\label{group___boards___quantec}\index{\-Quantec boards support Plugin@{\-Quantec boards support Plugin}}
+}
+
+
+\-Plugin to support boards by \-Quantec.  
+
+
+\subsection*{\-Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{class_quantec_plugin}{\-Quantec\-Plugin}
+\item 
+class \hyperlink{class_quanton}{\-Quanton}
+\end{DoxyCompactItemize}
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___boards___quantec_ga7e395a732723522846429499416b6660}{\-Quantec\-Plugin\-::\-Quantec\-Plugin} ()
+\item 
+\hyperlink{group___boards___quantec_ga479a3e531eb28d6b2933cba448e348ba}{\-Quantec\-Plugin\-::$\sim$\-Quantec\-Plugin} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___boards___quantec_ga947364f26b2004a6f8706e053e9200c9}{\-Quantec\-Plugin\-::extensions\-Initialized} ()
+\item 
+bool \hyperlink{group___boards___quantec_ga74803b604ba599f20ee7a45dddbd7ead}{\-Quantec\-Plugin\-::initialize} (const \-Q\-String\-List \&arguments, \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} $\ast$error\-String)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___boards___quantec_ga775ecc021e3638b3652f5e49edd2f748}{\-Quantec\-Plugin\-::shutdown} ()
+\item 
+\hyperlink{group___boards___quantec_ga39ce601b1744d463fc4a56681c46135f}{\-Quanton\-::\-Quanton} ()
+\begin{DoxyCompactList}\small\item\em \hyperlink{group___boards___quantec_ga39ce601b1744d463fc4a56681c46135f}{\-Quanton\-::\-Quanton} \-This is the \hyperlink{class_quanton}{\-Quanton} board definition. \end{DoxyCompactList}\item 
+virtual \hyperlink{group___boards___quantec_ga8fdeca3eefac72603d963569a4ef7a5d}{\-Quanton\-::$\sim$\-Quanton} ()
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___boards___quantec_gab687582af9051f5955c3c797244dcb64}{\-Quanton\-::short\-Name} ()
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___boards___quantec_gae3241fa8f27da1d6e9e01e92be744d71}{\-Quanton\-::board\-Description} ()
+\item 
+virtual bool \hyperlink{group___boards___quantec_gafceea1eeec5e241c7526b8217b6d9ff9}{\-Quanton\-::query\-Capabilities} (\-Board\-Capabilities capability)
+\begin{DoxyCompactList}\small\item\em \-Return which capabilities this board has. \end{DoxyCompactList}\item 
+virtual \-Q\-String\-List \hyperlink{group___boards___quantec_ga8e7000bd17a41b004dbb8e9639387eb1}{\-Quanton\-::get\-Supported\-Protocols} ()
+\begin{DoxyCompactList}\small\item\em \hyperlink{group___boards___quantec_ga8e7000bd17a41b004dbb8e9639387eb1}{\-Quanton\-::get\-Supported\-Protocols} \-T\-O\-D\-O\-: this is just a stub, we'll need to extend this a lot with multi protocol support. \end{DoxyCompactList}\item 
+virtual \-Q\-Pixmap \hyperlink{group___boards___quantec_gabf4519ffd0e2aaa2c692d9ec58b3bfd1}{\-Quanton\-::get\-Board\-Picture} ()
+\begin{DoxyCompactList}\small\item\em get\-Board\-Picture \end{DoxyCompactList}\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___boards___quantec_gaf97ebd024db824870ba29203fd6d0bb6}{\-Quanton\-::get\-Hw\-U\-A\-V\-O} ()
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-Plugin to support boards by \-Quantec. \-Plugin to support boards by \-Quantec \-Networks \-Gmb\-H. 
+
+\subsection{\-Function \-Documentation}
+\hypertarget{group___boards___quantec_gae3241fa8f27da1d6e9e01e92be744d71}{\index{\-Quantec boards support Plugin@{\-Quantec boards support Plugin}!board\-Description@{board\-Description}}
+\index{board\-Description@{board\-Description}!Quantec boards support Plugin@{\-Quantec boards support Plugin}}
+\subsubsection[{board\-Description}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Q\-String} {\bf \-Quanton\-::board\-Description} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___boards___quantec_gae3241fa8f27da1d6e9e01e92be744d71}
+\-Long description of the board 
+
+\-Implements \hyperlink{group___core_plugin_gad4ab160d20fd133acd9df87eaa398e8f}{\-Core\-::\-I\-Board\-Type}.
+
+
+
+\-Definition at line 57 of file quanton.\-cpp.
+
+\hypertarget{group___boards___quantec_ga947364f26b2004a6f8706e053e9200c9}{\index{\-Quantec boards support Plugin@{\-Quantec boards support Plugin}!extensions\-Initialized@{extensions\-Initialized}}
+\index{extensions\-Initialized@{extensions\-Initialized}!Quantec boards support Plugin@{\-Quantec boards support Plugin}}
+\subsubsection[{extensions\-Initialized}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Quantec\-Plugin\-::extensions\-Initialized} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___boards___quantec_ga947364f26b2004a6f8706e053e9200c9}
+\-Called after the \-I\-Plugin\-::initialize() method has been called, and after both the \-I\-Plugin\-::initialize() and \-I\-Plugin\-::extensions\-Initialized() methods of plugins that depend on this plugin have been called. \-In this method, the plugin can assume that plugins that depend on this plugin are fully 'up and running'. \-It is a good place to look in the plugin manager's object pool for objects that have been provided by dependent plugins. \begin{DoxySeeAlso}{\-See also}
+\hyperlink{group___boards___quantec_ga74803b604ba599f20ee7a45dddbd7ead}{initialize()} 
+\end{DoxySeeAlso}
+\-Create the board objects here.
+
+\-Implements \hyperlink{class_extension_system_1_1_i_plugin_a1db3a7fb242fca02229f9a3be4fd6610}{\-Extension\-System\-::\-I\-Plugin}.
+
+
+
+\-Definition at line 51 of file quantecplugin.\-cpp.
+
+\hypertarget{group___boards___quantec_gabf4519ffd0e2aaa2c692d9ec58b3bfd1}{\index{\-Quantec boards support Plugin@{\-Quantec boards support Plugin}!get\-Board\-Picture@{get\-Board\-Picture}}
+\index{get\-Board\-Picture@{get\-Board\-Picture}!Quantec boards support Plugin@{\-Quantec boards support Plugin}}
+\subsubsection[{get\-Board\-Picture}]{\setlength{\rightskip}{0pt plus 5cm}\-Q\-Pixmap {\bf \-Quanton\-::get\-Board\-Picture} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___boards___quantec_gabf4519ffd0e2aaa2c692d9ec58b3bfd1}
+
+
+get\-Board\-Picture 
+
+\begin{DoxyReturn}{\-Returns}
+provides a picture for the board. \-Uploader gadget or configuration plugin can use this, for instance.
+\end{DoxyReturn}
+\-T\-O\-D\-O\-: this \-A\-P\-I is not stable yet. 
+
+\-Implements \hyperlink{group___core_plugin_gaf2965319c1d15dcb3563dd224add7858}{\-Core\-::\-I\-Board\-Type}.
+
+
+
+\-Definition at line 91 of file quanton.\-cpp.
+
+\hypertarget{group___boards___quantec_gaf97ebd024db824870ba29203fd6d0bb6}{\index{\-Quantec boards support Plugin@{\-Quantec boards support Plugin}!get\-Hw\-U\-A\-V\-O@{get\-Hw\-U\-A\-V\-O}}
+\index{get\-Hw\-U\-A\-V\-O@{get\-Hw\-U\-A\-V\-O}!Quantec boards support Plugin@{\-Quantec boards support Plugin}}
+\subsubsection[{get\-Hw\-U\-A\-V\-O}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Q\-String} {\bf \-Quanton\-::get\-Hw\-U\-A\-V\-O} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___boards___quantec_gaf97ebd024db824870ba29203fd6d0bb6}
+\-Get supported protocol(s) for this board
+
+\-T\-O\-D\-O\-: extend \-G\-C\-S to support multiple protocol types. 
+
+\-Implements \hyperlink{group___core_plugin_ga265636c3ae87d360bcddaa13cf4d2ce4}{\-Core\-::\-I\-Board\-Type}.
+
+
+
+\-Definition at line 96 of file quanton.\-cpp.
+
+\hypertarget{group___boards___quantec_ga8e7000bd17a41b004dbb8e9639387eb1}{\index{\-Quantec boards support Plugin@{\-Quantec boards support Plugin}!get\-Supported\-Protocols@{get\-Supported\-Protocols}}
+\index{get\-Supported\-Protocols@{get\-Supported\-Protocols}!Quantec boards support Plugin@{\-Quantec boards support Plugin}}
+\subsubsection[{get\-Supported\-Protocols}]{\setlength{\rightskip}{0pt plus 5cm}\-Q\-String\-List {\bf \-Quanton\-::get\-Supported\-Protocols} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___boards___quantec_ga8e7000bd17a41b004dbb8e9639387eb1}
+
+
+\hyperlink{group___boards___quantec_ga8e7000bd17a41b004dbb8e9639387eb1}{\-Quanton\-::get\-Supported\-Protocols} \-T\-O\-D\-O\-: this is just a stub, we'll need to extend this a lot with multi protocol support. 
+
+\begin{DoxyReturn}{\-Returns}
+
+\end{DoxyReturn}
+
+
+\-Implements \hyperlink{group___core_plugin_ga01b18f940069cc5cdc9bfc42fef2854a}{\-Core\-::\-I\-Board\-Type}.
+
+
+
+\-Definition at line 85 of file quanton.\-cpp.
+
+\hypertarget{group___boards___quantec_ga74803b604ba599f20ee7a45dddbd7ead}{\index{\-Quantec boards support Plugin@{\-Quantec boards support Plugin}!initialize@{initialize}}
+\index{initialize@{initialize}!Quantec boards support Plugin@{\-Quantec boards support Plugin}}
+\subsubsection[{initialize}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-Quantec\-Plugin\-::initialize} (
+\begin{DoxyParamCaption}
+\item[{const \-Q\-String\-List \&}]{arguments, }
+\item[{{\bf \-Q\-String} $\ast$}]{error\-String}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___boards___quantec_ga74803b604ba599f20ee7a45dddbd7ead}
+\-Called after the plugin has been loaded and the \-I\-Plugin instance has been created. \-The initialize methods of plugins that depend on this plugin are called after the initialize method of this plugin has been called. \-Plugins should initialize their internal state in this method. \-Returns if initialization of successful. \-If it wasn't successful, the {\itshape error\-String\/} should be set to a user-\/readable message describing the reason. \begin{DoxySeeAlso}{\-See also}
+\hyperlink{group___boards___quantec_ga947364f26b2004a6f8706e053e9200c9}{extensions\-Initialized()} 
+\end{DoxySeeAlso}
+
+
+\-Implements \hyperlink{class_extension_system_1_1_i_plugin_a9f3dc957317279daed393fdf4894e944}{\-Extension\-System\-::\-I\-Plugin}.
+
+
+
+\-Definition at line 44 of file quantecplugin.\-cpp.
+
+\hypertarget{group___boards___quantec_ga7e395a732723522846429499416b6660}{\index{\-Quantec boards support Plugin@{\-Quantec boards support Plugin}!\-Quantec\-Plugin@{\-Quantec\-Plugin}}
+\index{\-Quantec\-Plugin@{\-Quantec\-Plugin}!Quantec boards support Plugin@{\-Quantec boards support Plugin}}
+\subsubsection[{\-Quantec\-Plugin}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Quantec\-Plugin\-::\-Quantec\-Plugin} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___boards___quantec_ga7e395a732723522846429499416b6660}
+
+
+\-Definition at line 34 of file quantecplugin.\-cpp.
+
+\hypertarget{group___boards___quantec_ga39ce601b1744d463fc4a56681c46135f}{\index{\-Quantec boards support Plugin@{\-Quantec boards support Plugin}!\-Quanton@{\-Quanton}}
+\index{\-Quanton@{\-Quanton}!Quantec boards support Plugin@{\-Quantec boards support Plugin}}
+\subsubsection[{\-Quanton}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Quanton\-::\-Quanton} (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+)}}\label{group___boards___quantec_ga39ce601b1744d463fc4a56681c46135f}
+
+
+\hyperlink{group___boards___quantec_ga39ce601b1744d463fc4a56681c46135f}{\-Quanton\-::\-Quanton} \-This is the \hyperlink{class_quanton}{\-Quanton} board definition. 
+
+
+
+\-Definition at line 35 of file quanton.\-cpp.
+
+\hypertarget{group___boards___quantec_gafceea1eeec5e241c7526b8217b6d9ff9}{\index{\-Quantec boards support Plugin@{\-Quantec boards support Plugin}!query\-Capabilities@{query\-Capabilities}}
+\index{query\-Capabilities@{query\-Capabilities}!Quantec boards support Plugin@{\-Quantec boards support Plugin}}
+\subsubsection[{query\-Capabilities}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-Quanton\-::query\-Capabilities} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Board\-Capabilities}}]{capability}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___boards___quantec_gafceea1eeec5e241c7526b8217b6d9ff9}
+
+
+\-Return which capabilities this board has. 
+
+
+
+\-Implements \hyperlink{group___core_plugin_gac4aef79d19d7ee487afee6655808e722}{\-Core\-::\-I\-Board\-Type}.
+
+
+
+\-Definition at line 63 of file quanton.\-cpp.
+
+\hypertarget{group___boards___quantec_gab687582af9051f5955c3c797244dcb64}{\index{\-Quantec boards support Plugin@{\-Quantec boards support Plugin}!short\-Name@{short\-Name}}
+\index{short\-Name@{short\-Name}!Quantec boards support Plugin@{\-Quantec boards support Plugin}}
+\subsubsection[{short\-Name}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Q\-String} {\bf \-Quanton\-::short\-Name} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___boards___quantec_gab687582af9051f5955c3c797244dcb64}
+\-Short description of the board / friendly name 
+
+\-Implements \hyperlink{group___core_plugin_gab7a5ac1921113d9ab3a8181acb704c08}{\-Core\-::\-I\-Board\-Type}.
+
+
+
+\-Definition at line 52 of file quanton.\-cpp.
+
+\hypertarget{group___boards___quantec_ga775ecc021e3638b3652f5e49edd2f748}{\index{\-Quantec boards support Plugin@{\-Quantec boards support Plugin}!shutdown@{shutdown}}
+\index{shutdown@{shutdown}!Quantec boards support Plugin@{\-Quantec boards support Plugin}}
+\subsubsection[{shutdown}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Quantec\-Plugin\-::shutdown} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___boards___quantec_ga775ecc021e3638b3652f5e49edd2f748}
+\-Called during a shutdown sequence in the same order as initialization before the plugins get deleted in reverse order. \-This method can be used to optimize the shutdown down, e.\-g. to disconnect from the \-Plugin\-Manager\-::about\-To\-Remove\-Object() signal if getting the signal (and probably doing lots of stuff to update the internal and visible state) doesn't make sense during shutdown. 
+
+\-Reimplemented from \hyperlink{class_extension_system_1_1_i_plugin_a65c16ebd3a6e89918a99af6515fe68cb}{\-Extension\-System\-::\-I\-Plugin}.
+
+
+
+\-Definition at line 62 of file quantecplugin.\-cpp.
+
+\hypertarget{group___boards___quantec_ga479a3e531eb28d6b2933cba448e348ba}{\index{\-Quantec boards support Plugin@{\-Quantec boards support Plugin}!$\sim$\-Quantec\-Plugin@{$\sim$\-Quantec\-Plugin}}
+\index{$\sim$\-Quantec\-Plugin@{$\sim$\-Quantec\-Plugin}!Quantec boards support Plugin@{\-Quantec boards support Plugin}}
+\subsubsection[{$\sim$\-Quantec\-Plugin}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Quantec\-Plugin\-::$\sim$\-Quantec\-Plugin} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___boards___quantec_ga479a3e531eb28d6b2933cba448e348ba}
+
+
+\-Definition at line 39 of file quantecplugin.\-cpp.
+
+\hypertarget{group___boards___quantec_ga8fdeca3eefac72603d963569a4ef7a5d}{\index{\-Quantec boards support Plugin@{\-Quantec boards support Plugin}!$\sim$\-Quanton@{$\sim$\-Quanton}}
+\index{$\sim$\-Quanton@{$\sim$\-Quanton}!Quantec boards support Plugin@{\-Quantec boards support Plugin}}
+\subsubsection[{$\sim$\-Quanton}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Quanton\-::$\sim$\-Quanton} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___boards___quantec_ga8fdeca3eefac72603d963569a4ef7a5d}
+
+
+\-Definition at line 47 of file quanton.\-cpp.
+

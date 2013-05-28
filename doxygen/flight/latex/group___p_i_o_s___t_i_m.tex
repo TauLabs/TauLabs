@@ -1,0 +1,403 @@
+\hypertarget{group___p_i_o_s___t_i_m}{\section{\-Timer \-Functions}
+\label{group___p_i_o_s___t_i_m}\index{\-Timer Functions@{\-Timer Functions}}
+}
+
+
+\-P\-I\-O\-S \-Timer control code.  
+
+
+\subsection*{\-Data \-Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structpios__tim__dev}{pios\-\_\-tim\-\_\-dev}
+\end{DoxyCompactItemize}
+\subsection*{\-Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{group___p_i_o_s___t_i_m_ga7d425167804fd43bc76fe29c11386a6c}{pios\-\_\-tim\-\_\-dev\-\_\-magic} \{ \hyperlink{group___p_i_o_s___t_i_m_gga7d425167804fd43bc76fe29c11386a6ca0c5dc16440e893937250b8ab7e88f777}{\-P\-I\-O\-S\-\_\-\-T\-I\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C} =  0x87654098, 
+\hyperlink{group___p_i_o_s___t_i_m_gga7d425167804fd43bc76fe29c11386a6ca0c5dc16440e893937250b8ab7e88f777}{\-P\-I\-O\-S\-\_\-\-T\-I\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C} =  0x87654098, 
+\hyperlink{group___p_i_o_s___t_i_m_gga7d425167804fd43bc76fe29c11386a6ca0c5dc16440e893937250b8ab7e88f777}{\-P\-I\-O\-S\-\_\-\-T\-I\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C} =  0x87654098
+ \}
+\item 
+enum \hyperlink{group___p_i_o_s___t_i_m_ga7d425167804fd43bc76fe29c11386a6c}{pios\-\_\-tim\-\_\-dev\-\_\-magic} \{ \hyperlink{group___p_i_o_s___t_i_m_gga7d425167804fd43bc76fe29c11386a6ca0c5dc16440e893937250b8ab7e88f777}{\-P\-I\-O\-S\-\_\-\-T\-I\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C} =  0x87654098, 
+\hyperlink{group___p_i_o_s___t_i_m_gga7d425167804fd43bc76fe29c11386a6ca0c5dc16440e893937250b8ab7e88f777}{\-P\-I\-O\-S\-\_\-\-T\-I\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C} =  0x87654098, 
+\hyperlink{group___p_i_o_s___t_i_m_gga7d425167804fd43bc76fe29c11386a6ca0c5dc16440e893937250b8ab7e88f777}{\-P\-I\-O\-S\-\_\-\-T\-I\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C} =  0x87654098
+ \}
+\end{DoxyCompactItemize}
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___t_i_m_ga091c161ba7b19b91067616f0cbd768fc}{\-P\-I\-O\-S\-\_\-\-T\-I\-M\-\_\-\-Init\-Clock} (const struct \hyperlink{structpios__tim__clock__cfg}{pios\-\_\-tim\-\_\-clock\-\_\-cfg} $\ast$cfg)
+\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___t_i_m_ga7f5717527aad92ccdff6c7a1841754f7}{\-P\-I\-O\-S\-\_\-\-T\-I\-M\-\_\-\-Init\-Channels} (uint32\-\_\-t $\ast$tim\-\_\-id, const struct \hyperlink{structpios__tim__channel}{pios\-\_\-tim\-\_\-channel} $\ast$channels, uint8\-\_\-t num\-\_\-channels, const struct \hyperlink{structpios__tim__callbacks}{pios\-\_\-tim\-\_\-callbacks} $\ast$callbacks, uint32\-\_\-t context)
+\item 
+\hyperlink{group___p_i_o_s___t_i_m_ga354d20ebcb9396fb9b160590fcef9cee}{for} (uint8\-\_\-t i=0;i$<$ \hyperlink{structpios__pwm__cfg_acf9d41bfa9ce5ee489fcb27a98605e5c}{pios\-\_\-pwm\-\_\-cfg.\-num\-\_\-channels};i++)
+\item 
+void \hyperlink{group___p_i_o_s___t_i_m_gae8a61b27afdb07c70d6b863c44284ca6}{\-T\-I\-M1\-\_\-\-C\-C\-\_\-\-I\-R\-Q\-Handler} (void)
+\item 
+void \hyperlink{group___p_i_o_s___t_i_m_ga37c3c8d5fe4f0106410dea2c1147b8a9}{\-T\-I\-M1\-\_\-\-B\-R\-K\-\_\-\-T\-I\-M15\-\_\-\-I\-R\-Q\-Handler} (void)
+\item 
+void \hyperlink{group___p_i_o_s___t_i_m_gab19e96bc9fe4483b9fdf25047c61238e}{\-T\-I\-M1\-\_\-\-U\-P\-\_\-\-T\-I\-M16\-\_\-\-I\-R\-Q\-Handler} (void)
+\item 
+void \hyperlink{group___p_i_o_s___t_i_m_gaa96795d8fb4793f60135fad74ecb1d70}{\-T\-I\-M1\-\_\-\-T\-R\-G\-\_\-\-C\-O\-M\-\_\-\-T\-I\-M17\-\_\-\-I\-R\-Q\-Handler} (void)
+\item 
+void \hyperlink{group___p_i_o_s___t_i_m_ga38ad4725462bdc5e86c4ead4f04b9fc2}{\-T\-I\-M2\-\_\-\-I\-R\-Q\-Handler} (void)
+\item 
+void \hyperlink{group___p_i_o_s___t_i_m_gac8e51d2183b5230cbd5481f8867adce9}{\-T\-I\-M3\-\_\-\-I\-R\-Q\-Handler} (void)
+\item 
+void \hyperlink{group___p_i_o_s___t_i_m_ga7133f3f78767503641d307386e68bd28}{\-T\-I\-M4\-\_\-\-I\-R\-Q\-Handler} (void)
+\item 
+void \hyperlink{group___p_i_o_s___t_i_m_ga0839a45f331c4c067939b9c4533bbf4d}{\-T\-I\-M6\-\_\-\-D\-A\-C\-\_\-\-I\-R\-Q\-Handler} (void)
+\item 
+void \hyperlink{group___p_i_o_s___t_i_m_ga98cff83252098363b2dbca9608df964e}{\-T\-I\-M7\-\_\-\-I\-R\-Q\-Handler} (void)
+\item 
+void \hyperlink{group___p_i_o_s___t_i_m_ga96e44d6fe80524f038da6254514316a4}{\-T\-I\-M8\-\_\-\-C\-C\-\_\-\-I\-R\-Q\-Handler} (void)
+\item 
+void \hyperlink{group___p_i_o_s___t_i_m_gaa2754c1d099a614d954b4b449fd5ea19}{\-T\-I\-M8\-\_\-\-B\-R\-K\-\_\-\-I\-R\-Q\-Handler} (void)
+\item 
+void \hyperlink{group___p_i_o_s___t_i_m_ga255e5267ee3275b665940ed1a61ae3ce}{\-T\-I\-M8\-\_\-\-U\-P\-\_\-\-I\-R\-Q\-Handler} (void)
+\item 
+void \hyperlink{group___p_i_o_s___t_i_m_ga5e1addc9f7d3e0ffa4ed6ca284123043}{\-T\-I\-M8\-\_\-\-T\-R\-G\-\_\-\-C\-O\-M\-\_\-\-I\-R\-Q\-Handler} (void)
+\item 
+void \hyperlink{group___p_i_o_s___t_i_m_ga3b60f6118cdd3449f4ed29fde4704236}{\-T\-I\-M1\-\_\-\-B\-R\-K\-\_\-\-T\-I\-M9\-\_\-\-I\-R\-Q\-Handler} (void)
+\item 
+void \hyperlink{group___p_i_o_s___t_i_m_gad1fd361bc5ad89facee67c76d1ff8dc0}{\-T\-I\-M1\-\_\-\-U\-P\-\_\-\-T\-I\-M10\-\_\-\-I\-R\-Q\-Handler} (void)
+\item 
+void \hyperlink{group___p_i_o_s___t_i_m_ga098245bf4e2f8844b22692b034a266fb}{\-T\-I\-M1\-\_\-\-T\-R\-G\-\_\-\-C\-O\-M\-\_\-\-T\-I\-M11\-\_\-\-I\-R\-Q\-Handler} (void)
+\item 
+void \hyperlink{group___p_i_o_s___t_i_m_ga5e66446caf21dd90191dc07a13ce2378}{\-T\-I\-M5\-\_\-\-I\-R\-Q\-Handler} (void)
+\item 
+void \hyperlink{group___p_i_o_s___t_i_m_ga301e0d3520f05f672ce047976f75ff6a}{\-T\-I\-M8\-\_\-\-B\-R\-K\-\_\-\-T\-I\-M12\-\_\-\-I\-R\-Q\-Handler} (void)
+\item 
+void \hyperlink{group___p_i_o_s___t_i_m_ga7fb516f8826d882ac91cfc093884fcf5}{\-T\-I\-M8\-\_\-\-U\-P\-\_\-\-T\-I\-M13\-\_\-\-I\-R\-Q\-Handler} (void)
+\item 
+void \hyperlink{group___p_i_o_s___t_i_m_ga4c8359a023f7ede4a9d9f94ea6fb92da}{\-T\-I\-M8\-\_\-\-T\-R\-G\-\_\-\-C\-O\-M\-\_\-\-T\-I\-M14\-\_\-\-I\-R\-Q\-Handler} (void)
+\end{DoxyCompactItemize}
+\subsection*{\-Variables}
+\begin{DoxyCompactItemize}
+\item 
+uint16\-\_\-t \hyperlink{group___p_i_o_s___t_i_m_ga757344f09097232d715d55cbf9d61a43}{val} = 0
+\item 
+uint16\-\_\-t \hyperlink{group___p_i_o_s___t_i_m_ga757344f09097232d715d55cbf9d61a43}{val} = 0
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-P\-I\-O\-S \-Timer control code. 
+
+\subsection{\-Enumeration \-Type \-Documentation}
+\hypertarget{group___p_i_o_s___t_i_m_ga7d425167804fd43bc76fe29c11386a6c}{\index{\-Timer Functions@{\-Timer Functions}!pios\-\_\-tim\-\_\-dev\-\_\-magic@{pios\-\_\-tim\-\_\-dev\-\_\-magic}}
+\index{pios\-\_\-tim\-\_\-dev\-\_\-magic@{pios\-\_\-tim\-\_\-dev\-\_\-magic}!Timer Functions@{\-Timer Functions}}
+\subsubsection[{pios\-\_\-tim\-\_\-dev\-\_\-magic}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf pios\-\_\-tim\-\_\-dev\-\_\-magic}}}\label{group___p_i_o_s___t_i_m_ga7d425167804fd43bc76fe29c11386a6c}
+\begin{Desc}
+\item[\-Enumerator\-: ]\par
+\begin{description}
+\index{\-P\-I\-O\-S\-\_\-\-T\-I\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C@{\-P\-I\-O\-S\-\_\-\-T\-I\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}!\-Timer Functions@{\-Timer Functions}}\index{\-Timer Functions@{\-Timer Functions}!\-P\-I\-O\-S\-\_\-\-T\-I\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C@{\-P\-I\-O\-S\-\_\-\-T\-I\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}}\item[{\em 
+\hypertarget{group___p_i_o_s___t_i_m_gga7d425167804fd43bc76fe29c11386a6ca0c5dc16440e893937250b8ab7e88f777}{\-P\-I\-O\-S\-\_\-\-T\-I\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}\label{group___p_i_o_s___t_i_m_gga7d425167804fd43bc76fe29c11386a6ca0c5dc16440e893937250b8ab7e88f777}
+}]\index{\-P\-I\-O\-S\-\_\-\-T\-I\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C@{\-P\-I\-O\-S\-\_\-\-T\-I\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}!\-Timer Functions@{\-Timer Functions}}\index{\-Timer Functions@{\-Timer Functions}!\-P\-I\-O\-S\-\_\-\-T\-I\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C@{\-P\-I\-O\-S\-\_\-\-T\-I\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}}\item[{\em 
+\hypertarget{group___p_i_o_s___t_i_m_gga7d425167804fd43bc76fe29c11386a6ca0c5dc16440e893937250b8ab7e88f777}{\-P\-I\-O\-S\-\_\-\-T\-I\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}\label{group___p_i_o_s___t_i_m_gga7d425167804fd43bc76fe29c11386a6ca0c5dc16440e893937250b8ab7e88f777}
+}]\index{\-P\-I\-O\-S\-\_\-\-T\-I\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C@{\-P\-I\-O\-S\-\_\-\-T\-I\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}!\-Timer Functions@{\-Timer Functions}}\index{\-Timer Functions@{\-Timer Functions}!\-P\-I\-O\-S\-\_\-\-T\-I\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C@{\-P\-I\-O\-S\-\_\-\-T\-I\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}}\item[{\em 
+\hypertarget{group___p_i_o_s___t_i_m_gga7d425167804fd43bc76fe29c11386a6ca0c5dc16440e893937250b8ab7e88f777}{\-P\-I\-O\-S\-\_\-\-T\-I\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}\label{group___p_i_o_s___t_i_m_gga7d425167804fd43bc76fe29c11386a6ca0c5dc16440e893937250b8ab7e88f777}
+}]\end{description}
+\end{Desc}
+
+
+
+\-Definition at line 37 of file pios\-\_\-tim.\-c.
+
+\hypertarget{group___p_i_o_s___t_i_m_ga7d425167804fd43bc76fe29c11386a6c}{\index{\-Timer Functions@{\-Timer Functions}!pios\-\_\-tim\-\_\-dev\-\_\-magic@{pios\-\_\-tim\-\_\-dev\-\_\-magic}}
+\index{pios\-\_\-tim\-\_\-dev\-\_\-magic@{pios\-\_\-tim\-\_\-dev\-\_\-magic}!Timer Functions@{\-Timer Functions}}
+\subsubsection[{pios\-\_\-tim\-\_\-dev\-\_\-magic}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf pios\-\_\-tim\-\_\-dev\-\_\-magic}}}\label{group___p_i_o_s___t_i_m_ga7d425167804fd43bc76fe29c11386a6c}
+\begin{Desc}
+\item[\-Enumerator\-: ]\par
+\begin{description}
+\index{\-P\-I\-O\-S\-\_\-\-T\-I\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C@{\-P\-I\-O\-S\-\_\-\-T\-I\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}!\-Timer Functions@{\-Timer Functions}}\index{\-Timer Functions@{\-Timer Functions}!\-P\-I\-O\-S\-\_\-\-T\-I\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C@{\-P\-I\-O\-S\-\_\-\-T\-I\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}}\item[{\em 
+\hypertarget{group___p_i_o_s___t_i_m_gga7d425167804fd43bc76fe29c11386a6ca0c5dc16440e893937250b8ab7e88f777}{\-P\-I\-O\-S\-\_\-\-T\-I\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}\label{group___p_i_o_s___t_i_m_gga7d425167804fd43bc76fe29c11386a6ca0c5dc16440e893937250b8ab7e88f777}
+}]\index{\-P\-I\-O\-S\-\_\-\-T\-I\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C@{\-P\-I\-O\-S\-\_\-\-T\-I\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}!\-Timer Functions@{\-Timer Functions}}\index{\-Timer Functions@{\-Timer Functions}!\-P\-I\-O\-S\-\_\-\-T\-I\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C@{\-P\-I\-O\-S\-\_\-\-T\-I\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}}\item[{\em 
+\hypertarget{group___p_i_o_s___t_i_m_gga7d425167804fd43bc76fe29c11386a6ca0c5dc16440e893937250b8ab7e88f777}{\-P\-I\-O\-S\-\_\-\-T\-I\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}\label{group___p_i_o_s___t_i_m_gga7d425167804fd43bc76fe29c11386a6ca0c5dc16440e893937250b8ab7e88f777}
+}]\index{\-P\-I\-O\-S\-\_\-\-T\-I\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C@{\-P\-I\-O\-S\-\_\-\-T\-I\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}!\-Timer Functions@{\-Timer Functions}}\index{\-Timer Functions@{\-Timer Functions}!\-P\-I\-O\-S\-\_\-\-T\-I\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C@{\-P\-I\-O\-S\-\_\-\-T\-I\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}}\item[{\em 
+\hypertarget{group___p_i_o_s___t_i_m_gga7d425167804fd43bc76fe29c11386a6ca0c5dc16440e893937250b8ab7e88f777}{\-P\-I\-O\-S\-\_\-\-T\-I\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}\label{group___p_i_o_s___t_i_m_gga7d425167804fd43bc76fe29c11386a6ca0c5dc16440e893937250b8ab7e88f777}
+}]\end{description}
+\end{Desc}
+
+
+
+\-Definition at line 38 of file pios\-\_\-tim.\-c.
+
+
+
+\subsection{\-Function \-Documentation}
+\hypertarget{group___p_i_o_s___t_i_m_ga354d20ebcb9396fb9b160590fcef9cee}{\index{\-Timer Functions@{\-Timer Functions}!for@{for}}
+\index{for@{for}!Timer Functions@{\-Timer Functions}}
+\subsubsection[{for}]{\setlength{\rightskip}{0pt plus 5cm}{\bf for} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___t_i_m_ga354d20ebcb9396fb9b160590fcef9cee}
+
+
+\-Definition at line 297 of file pios\-\_\-tim.\-c.
+
+\hypertarget{group___p_i_o_s___t_i_m_ga7f5717527aad92ccdff6c7a1841754f7}{\index{\-Timer Functions@{\-Timer Functions}!\-P\-I\-O\-S\-\_\-\-T\-I\-M\-\_\-\-Init\-Channels@{\-P\-I\-O\-S\-\_\-\-T\-I\-M\-\_\-\-Init\-Channels}}
+\index{\-P\-I\-O\-S\-\_\-\-T\-I\-M\-\_\-\-Init\-Channels@{\-P\-I\-O\-S\-\_\-\-T\-I\-M\-\_\-\-Init\-Channels}!Timer Functions@{\-Timer Functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-T\-I\-M\-\_\-\-Init\-Channels}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-P\-I\-O\-S\-\_\-\-T\-I\-M\-\_\-\-Init\-Channels} (
+\begin{DoxyParamCaption}
+\item[{uint32\-\_\-t $\ast$}]{tim\-\_\-id, }
+\item[{const struct {\bf pios\-\_\-tim\-\_\-channel} $\ast$}]{channels, }
+\item[{uint8\-\_\-t}]{num\-\_\-channels, }
+\item[{const struct {\bf pios\-\_\-tim\-\_\-callbacks} $\ast$}]{callbacks, }
+\item[{uint32\-\_\-t}]{context}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___t_i_m_ga7f5717527aad92ccdff6c7a1841754f7}
+
+
+\-Definition at line 117 of file pios\-\_\-tim.\-c.
+
+\hypertarget{group___p_i_o_s___t_i_m_ga091c161ba7b19b91067616f0cbd768fc}{\index{\-Timer Functions@{\-Timer Functions}!\-P\-I\-O\-S\-\_\-\-T\-I\-M\-\_\-\-Init\-Clock@{\-P\-I\-O\-S\-\_\-\-T\-I\-M\-\_\-\-Init\-Clock}}
+\index{\-P\-I\-O\-S\-\_\-\-T\-I\-M\-\_\-\-Init\-Clock@{\-P\-I\-O\-S\-\_\-\-T\-I\-M\-\_\-\-Init\-Clock}!Timer Functions@{\-Timer Functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-T\-I\-M\-\_\-\-Init\-Clock}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-P\-I\-O\-S\-\_\-\-T\-I\-M\-\_\-\-Init\-Clock} (
+\begin{DoxyParamCaption}
+\item[{const struct {\bf pios\-\_\-tim\-\_\-clock\-\_\-cfg} $\ast$}]{cfg}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___t_i_m_ga091c161ba7b19b91067616f0cbd768fc}
+
+
+\-Definition at line 91 of file pios\-\_\-tim.\-c.
+
+\hypertarget{group___p_i_o_s___t_i_m_ga37c3c8d5fe4f0106410dea2c1147b8a9}{\index{\-Timer Functions@{\-Timer Functions}!\-T\-I\-M1\-\_\-\-B\-R\-K\-\_\-\-T\-I\-M15\-\_\-\-I\-R\-Q\-Handler@{\-T\-I\-M1\-\_\-\-B\-R\-K\-\_\-\-T\-I\-M15\-\_\-\-I\-R\-Q\-Handler}}
+\index{\-T\-I\-M1\-\_\-\-B\-R\-K\-\_\-\-T\-I\-M15\-\_\-\-I\-R\-Q\-Handler@{\-T\-I\-M1\-\_\-\-B\-R\-K\-\_\-\-T\-I\-M15\-\_\-\-I\-R\-Q\-Handler}!Timer Functions@{\-Timer Functions}}
+\subsubsection[{\-T\-I\-M1\-\_\-\-B\-R\-K\-\_\-\-T\-I\-M15\-\_\-\-I\-R\-Q\-Handler}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-T\-I\-M1\-\_\-\-B\-R\-K\-\_\-\-T\-I\-M15\-\_\-\-I\-R\-Q\-Handler} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___t_i_m_ga37c3c8d5fe4f0106410dea2c1147b8a9}
+
+
+\-Definition at line 370 of file pios\-\_\-tim.\-c.
+
+\hypertarget{group___p_i_o_s___t_i_m_ga3b60f6118cdd3449f4ed29fde4704236}{\index{\-Timer Functions@{\-Timer Functions}!\-T\-I\-M1\-\_\-\-B\-R\-K\-\_\-\-T\-I\-M9\-\_\-\-I\-R\-Q\-Handler@{\-T\-I\-M1\-\_\-\-B\-R\-K\-\_\-\-T\-I\-M9\-\_\-\-I\-R\-Q\-Handler}}
+\index{\-T\-I\-M1\-\_\-\-B\-R\-K\-\_\-\-T\-I\-M9\-\_\-\-I\-R\-Q\-Handler@{\-T\-I\-M1\-\_\-\-B\-R\-K\-\_\-\-T\-I\-M9\-\_\-\-I\-R\-Q\-Handler}!Timer Functions@{\-Timer Functions}}
+\subsubsection[{\-T\-I\-M1\-\_\-\-B\-R\-K\-\_\-\-T\-I\-M9\-\_\-\-I\-R\-Q\-Handler}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-T\-I\-M1\-\_\-\-B\-R\-K\-\_\-\-T\-I\-M9\-\_\-\-I\-R\-Q\-Handler} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___t_i_m_ga3b60f6118cdd3449f4ed29fde4704236}
+
+
+\-Definition at line 369 of file pios\-\_\-tim.\-c.
+
+\hypertarget{group___p_i_o_s___t_i_m_gae8a61b27afdb07c70d6b863c44284ca6}{\index{\-Timer Functions@{\-Timer Functions}!\-T\-I\-M1\-\_\-\-C\-C\-\_\-\-I\-R\-Q\-Handler@{\-T\-I\-M1\-\_\-\-C\-C\-\_\-\-I\-R\-Q\-Handler}}
+\index{\-T\-I\-M1\-\_\-\-C\-C\-\_\-\-I\-R\-Q\-Handler@{\-T\-I\-M1\-\_\-\-C\-C\-\_\-\-I\-R\-Q\-Handler}!Timer Functions@{\-Timer Functions}}
+\subsubsection[{\-T\-I\-M1\-\_\-\-C\-C\-\_\-\-I\-R\-Q\-Handler}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-T\-I\-M1\-\_\-\-C\-C\-\_\-\-I\-R\-Q\-Handler} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___t_i_m_gae8a61b27afdb07c70d6b863c44284ca6}
+
+
+\-Definition at line 363 of file pios\-\_\-tim.\-c.
+
+\hypertarget{group___p_i_o_s___t_i_m_ga098245bf4e2f8844b22692b034a266fb}{\index{\-Timer Functions@{\-Timer Functions}!\-T\-I\-M1\-\_\-\-T\-R\-G\-\_\-\-C\-O\-M\-\_\-\-T\-I\-M11\-\_\-\-I\-R\-Q\-Handler@{\-T\-I\-M1\-\_\-\-T\-R\-G\-\_\-\-C\-O\-M\-\_\-\-T\-I\-M11\-\_\-\-I\-R\-Q\-Handler}}
+\index{\-T\-I\-M1\-\_\-\-T\-R\-G\-\_\-\-C\-O\-M\-\_\-\-T\-I\-M11\-\_\-\-I\-R\-Q\-Handler@{\-T\-I\-M1\-\_\-\-T\-R\-G\-\_\-\-C\-O\-M\-\_\-\-T\-I\-M11\-\_\-\-I\-R\-Q\-Handler}!Timer Functions@{\-Timer Functions}}
+\subsubsection[{\-T\-I\-M1\-\_\-\-T\-R\-G\-\_\-\-C\-O\-M\-\_\-\-T\-I\-M11\-\_\-\-I\-R\-Q\-Handler}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-T\-I\-M1\-\_\-\-T\-R\-G\-\_\-\-C\-O\-M\-\_\-\-T\-I\-M11\-\_\-\-I\-R\-Q\-Handler} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___t_i_m_ga098245bf4e2f8844b22692b034a266fb}
+
+
+\-Definition at line 388 of file pios\-\_\-tim.\-c.
+
+\hypertarget{group___p_i_o_s___t_i_m_gaa96795d8fb4793f60135fad74ecb1d70}{\index{\-Timer Functions@{\-Timer Functions}!\-T\-I\-M1\-\_\-\-T\-R\-G\-\_\-\-C\-O\-M\-\_\-\-T\-I\-M17\-\_\-\-I\-R\-Q\-Handler@{\-T\-I\-M1\-\_\-\-T\-R\-G\-\_\-\-C\-O\-M\-\_\-\-T\-I\-M17\-\_\-\-I\-R\-Q\-Handler}}
+\index{\-T\-I\-M1\-\_\-\-T\-R\-G\-\_\-\-C\-O\-M\-\_\-\-T\-I\-M17\-\_\-\-I\-R\-Q\-Handler@{\-T\-I\-M1\-\_\-\-T\-R\-G\-\_\-\-C\-O\-M\-\_\-\-T\-I\-M17\-\_\-\-I\-R\-Q\-Handler}!Timer Functions@{\-Timer Functions}}
+\subsubsection[{\-T\-I\-M1\-\_\-\-T\-R\-G\-\_\-\-C\-O\-M\-\_\-\-T\-I\-M17\-\_\-\-I\-R\-Q\-Handler}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-T\-I\-M1\-\_\-\-T\-R\-G\-\_\-\-C\-O\-M\-\_\-\-T\-I\-M17\-\_\-\-I\-R\-Q\-Handler} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___t_i_m_gaa96795d8fb4793f60135fad74ecb1d70}
+
+
+\-Definition at line 389 of file pios\-\_\-tim.\-c.
+
+\hypertarget{group___p_i_o_s___t_i_m_gad1fd361bc5ad89facee67c76d1ff8dc0}{\index{\-Timer Functions@{\-Timer Functions}!\-T\-I\-M1\-\_\-\-U\-P\-\_\-\-T\-I\-M10\-\_\-\-I\-R\-Q\-Handler@{\-T\-I\-M1\-\_\-\-U\-P\-\_\-\-T\-I\-M10\-\_\-\-I\-R\-Q\-Handler}}
+\index{\-T\-I\-M1\-\_\-\-U\-P\-\_\-\-T\-I\-M10\-\_\-\-I\-R\-Q\-Handler@{\-T\-I\-M1\-\_\-\-U\-P\-\_\-\-T\-I\-M10\-\_\-\-I\-R\-Q\-Handler}!Timer Functions@{\-Timer Functions}}
+\subsubsection[{\-T\-I\-M1\-\_\-\-U\-P\-\_\-\-T\-I\-M10\-\_\-\-I\-R\-Q\-Handler}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-T\-I\-M1\-\_\-\-U\-P\-\_\-\-T\-I\-M10\-\_\-\-I\-R\-Q\-Handler} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___t_i_m_gad1fd361bc5ad89facee67c76d1ff8dc0}
+
+
+\-Definition at line 379 of file pios\-\_\-tim.\-c.
+
+\hypertarget{group___p_i_o_s___t_i_m_gab19e96bc9fe4483b9fdf25047c61238e}{\index{\-Timer Functions@{\-Timer Functions}!\-T\-I\-M1\-\_\-\-U\-P\-\_\-\-T\-I\-M16\-\_\-\-I\-R\-Q\-Handler@{\-T\-I\-M1\-\_\-\-U\-P\-\_\-\-T\-I\-M16\-\_\-\-I\-R\-Q\-Handler}}
+\index{\-T\-I\-M1\-\_\-\-U\-P\-\_\-\-T\-I\-M16\-\_\-\-I\-R\-Q\-Handler@{\-T\-I\-M1\-\_\-\-U\-P\-\_\-\-T\-I\-M16\-\_\-\-I\-R\-Q\-Handler}!Timer Functions@{\-Timer Functions}}
+\subsubsection[{\-T\-I\-M1\-\_\-\-U\-P\-\_\-\-T\-I\-M16\-\_\-\-I\-R\-Q\-Handler}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-T\-I\-M1\-\_\-\-U\-P\-\_\-\-T\-I\-M16\-\_\-\-I\-R\-Q\-Handler} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___t_i_m_gab19e96bc9fe4483b9fdf25047c61238e}
+
+
+\-Definition at line 380 of file pios\-\_\-tim.\-c.
+
+\hypertarget{group___p_i_o_s___t_i_m_ga38ad4725462bdc5e86c4ead4f04b9fc2}{\index{\-Timer Functions@{\-Timer Functions}!\-T\-I\-M2\-\_\-\-I\-R\-Q\-Handler@{\-T\-I\-M2\-\_\-\-I\-R\-Q\-Handler}}
+\index{\-T\-I\-M2\-\_\-\-I\-R\-Q\-Handler@{\-T\-I\-M2\-\_\-\-I\-R\-Q\-Handler}!Timer Functions@{\-Timer Functions}}
+\subsubsection[{\-T\-I\-M2\-\_\-\-I\-R\-Q\-Handler}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-T\-I\-M2\-\_\-\-I\-R\-Q\-Handler} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___t_i_m_ga38ad4725462bdc5e86c4ead4f04b9fc2}
+
+
+\-Definition at line 399 of file pios\-\_\-tim.\-c.
+
+\hypertarget{group___p_i_o_s___t_i_m_gac8e51d2183b5230cbd5481f8867adce9}{\index{\-Timer Functions@{\-Timer Functions}!\-T\-I\-M3\-\_\-\-I\-R\-Q\-Handler@{\-T\-I\-M3\-\_\-\-I\-R\-Q\-Handler}}
+\index{\-T\-I\-M3\-\_\-\-I\-R\-Q\-Handler@{\-T\-I\-M3\-\_\-\-I\-R\-Q\-Handler}!Timer Functions@{\-Timer Functions}}
+\subsubsection[{\-T\-I\-M3\-\_\-\-I\-R\-Q\-Handler}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-T\-I\-M3\-\_\-\-I\-R\-Q\-Handler} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___t_i_m_gac8e51d2183b5230cbd5481f8867adce9}
+
+
+\-Definition at line 405 of file pios\-\_\-tim.\-c.
+
+\hypertarget{group___p_i_o_s___t_i_m_ga7133f3f78767503641d307386e68bd28}{\index{\-Timer Functions@{\-Timer Functions}!\-T\-I\-M4\-\_\-\-I\-R\-Q\-Handler@{\-T\-I\-M4\-\_\-\-I\-R\-Q\-Handler}}
+\index{\-T\-I\-M4\-\_\-\-I\-R\-Q\-Handler@{\-T\-I\-M4\-\_\-\-I\-R\-Q\-Handler}!Timer Functions@{\-Timer Functions}}
+\subsubsection[{\-T\-I\-M4\-\_\-\-I\-R\-Q\-Handler}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-T\-I\-M4\-\_\-\-I\-R\-Q\-Handler} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___t_i_m_ga7133f3f78767503641d307386e68bd28}
+
+
+\-Definition at line 411 of file pios\-\_\-tim.\-c.
+
+\hypertarget{group___p_i_o_s___t_i_m_ga5e66446caf21dd90191dc07a13ce2378}{\index{\-Timer Functions@{\-Timer Functions}!\-T\-I\-M5\-\_\-\-I\-R\-Q\-Handler@{\-T\-I\-M5\-\_\-\-I\-R\-Q\-Handler}}
+\index{\-T\-I\-M5\-\_\-\-I\-R\-Q\-Handler@{\-T\-I\-M5\-\_\-\-I\-R\-Q\-Handler}!Timer Functions@{\-Timer Functions}}
+\subsubsection[{\-T\-I\-M5\-\_\-\-I\-R\-Q\-Handler}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-T\-I\-M5\-\_\-\-I\-R\-Q\-Handler} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___t_i_m_ga5e66446caf21dd90191dc07a13ce2378}
+
+
+\-Definition at line 416 of file pios\-\_\-tim.\-c.
+
+\hypertarget{group___p_i_o_s___t_i_m_ga0839a45f331c4c067939b9c4533bbf4d}{\index{\-Timer Functions@{\-Timer Functions}!\-T\-I\-M6\-\_\-\-D\-A\-C\-\_\-\-I\-R\-Q\-Handler@{\-T\-I\-M6\-\_\-\-D\-A\-C\-\_\-\-I\-R\-Q\-Handler}}
+\index{\-T\-I\-M6\-\_\-\-D\-A\-C\-\_\-\-I\-R\-Q\-Handler@{\-T\-I\-M6\-\_\-\-D\-A\-C\-\_\-\-I\-R\-Q\-Handler}!Timer Functions@{\-Timer Functions}}
+\subsubsection[{\-T\-I\-M6\-\_\-\-D\-A\-C\-\_\-\-I\-R\-Q\-Handler}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-T\-I\-M6\-\_\-\-D\-A\-C\-\_\-\-I\-R\-Q\-Handler} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___t_i_m_ga0839a45f331c4c067939b9c4533bbf4d}
+
+
+\-Definition at line 417 of file pios\-\_\-tim.\-c.
+
+\hypertarget{group___p_i_o_s___t_i_m_ga98cff83252098363b2dbca9608df964e}{\index{\-Timer Functions@{\-Timer Functions}!\-T\-I\-M7\-\_\-\-I\-R\-Q\-Handler@{\-T\-I\-M7\-\_\-\-I\-R\-Q\-Handler}}
+\index{\-T\-I\-M7\-\_\-\-I\-R\-Q\-Handler@{\-T\-I\-M7\-\_\-\-I\-R\-Q\-Handler}!Timer Functions@{\-Timer Functions}}
+\subsubsection[{\-T\-I\-M7\-\_\-\-I\-R\-Q\-Handler}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-T\-I\-M7\-\_\-\-I\-R\-Q\-Handler} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___t_i_m_ga98cff83252098363b2dbca9608df964e}
+
+
+\-Definition at line 424 of file pios\-\_\-tim.\-c.
+
+\hypertarget{group___p_i_o_s___t_i_m_gaa2754c1d099a614d954b4b449fd5ea19}{\index{\-Timer Functions@{\-Timer Functions}!\-T\-I\-M8\-\_\-\-B\-R\-K\-\_\-\-I\-R\-Q\-Handler@{\-T\-I\-M8\-\_\-\-B\-R\-K\-\_\-\-I\-R\-Q\-Handler}}
+\index{\-T\-I\-M8\-\_\-\-B\-R\-K\-\_\-\-I\-R\-Q\-Handler@{\-T\-I\-M8\-\_\-\-B\-R\-K\-\_\-\-I\-R\-Q\-Handler}!Timer Functions@{\-Timer Functions}}
+\subsubsection[{\-T\-I\-M8\-\_\-\-B\-R\-K\-\_\-\-I\-R\-Q\-Handler}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-T\-I\-M8\-\_\-\-B\-R\-K\-\_\-\-I\-R\-Q\-Handler} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___t_i_m_gaa2754c1d099a614d954b4b449fd5ea19}
+
+
+\-Definition at line 436 of file pios\-\_\-tim.\-c.
+
+\hypertarget{group___p_i_o_s___t_i_m_ga301e0d3520f05f672ce047976f75ff6a}{\index{\-Timer Functions@{\-Timer Functions}!\-T\-I\-M8\-\_\-\-B\-R\-K\-\_\-\-T\-I\-M12\-\_\-\-I\-R\-Q\-Handler@{\-T\-I\-M8\-\_\-\-B\-R\-K\-\_\-\-T\-I\-M12\-\_\-\-I\-R\-Q\-Handler}}
+\index{\-T\-I\-M8\-\_\-\-B\-R\-K\-\_\-\-T\-I\-M12\-\_\-\-I\-R\-Q\-Handler@{\-T\-I\-M8\-\_\-\-B\-R\-K\-\_\-\-T\-I\-M12\-\_\-\-I\-R\-Q\-Handler}!Timer Functions@{\-Timer Functions}}
+\subsubsection[{\-T\-I\-M8\-\_\-\-B\-R\-K\-\_\-\-T\-I\-M12\-\_\-\-I\-R\-Q\-Handler}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-T\-I\-M8\-\_\-\-B\-R\-K\-\_\-\-T\-I\-M12\-\_\-\-I\-R\-Q\-Handler} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___t_i_m_ga301e0d3520f05f672ce047976f75ff6a}
+
+
+\-Definition at line 442 of file pios\-\_\-tim.\-c.
+
+\hypertarget{group___p_i_o_s___t_i_m_ga96e44d6fe80524f038da6254514316a4}{\index{\-Timer Functions@{\-Timer Functions}!\-T\-I\-M8\-\_\-\-C\-C\-\_\-\-I\-R\-Q\-Handler@{\-T\-I\-M8\-\_\-\-C\-C\-\_\-\-I\-R\-Q\-Handler}}
+\index{\-T\-I\-M8\-\_\-\-C\-C\-\_\-\-I\-R\-Q\-Handler@{\-T\-I\-M8\-\_\-\-C\-C\-\_\-\-I\-R\-Q\-Handler}!Timer Functions@{\-Timer Functions}}
+\subsubsection[{\-T\-I\-M8\-\_\-\-C\-C\-\_\-\-I\-R\-Q\-Handler}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-T\-I\-M8\-\_\-\-C\-C\-\_\-\-I\-R\-Q\-Handler} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___t_i_m_ga96e44d6fe80524f038da6254514316a4}
+
+
+\-Definition at line 430 of file pios\-\_\-tim.\-c.
+
+\hypertarget{group___p_i_o_s___t_i_m_ga5e1addc9f7d3e0ffa4ed6ca284123043}{\index{\-Timer Functions@{\-Timer Functions}!\-T\-I\-M8\-\_\-\-T\-R\-G\-\_\-\-C\-O\-M\-\_\-\-I\-R\-Q\-Handler@{\-T\-I\-M8\-\_\-\-T\-R\-G\-\_\-\-C\-O\-M\-\_\-\-I\-R\-Q\-Handler}}
+\index{\-T\-I\-M8\-\_\-\-T\-R\-G\-\_\-\-C\-O\-M\-\_\-\-I\-R\-Q\-Handler@{\-T\-I\-M8\-\_\-\-T\-R\-G\-\_\-\-C\-O\-M\-\_\-\-I\-R\-Q\-Handler}!Timer Functions@{\-Timer Functions}}
+\subsubsection[{\-T\-I\-M8\-\_\-\-T\-R\-G\-\_\-\-C\-O\-M\-\_\-\-I\-R\-Q\-Handler}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-T\-I\-M8\-\_\-\-T\-R\-G\-\_\-\-C\-O\-M\-\_\-\-I\-R\-Q\-Handler} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___t_i_m_ga5e1addc9f7d3e0ffa4ed6ca284123043}
+
+
+\-Definition at line 448 of file pios\-\_\-tim.\-c.
+
+\hypertarget{group___p_i_o_s___t_i_m_ga4c8359a023f7ede4a9d9f94ea6fb92da}{\index{\-Timer Functions@{\-Timer Functions}!\-T\-I\-M8\-\_\-\-T\-R\-G\-\_\-\-C\-O\-M\-\_\-\-T\-I\-M14\-\_\-\-I\-R\-Q\-Handler@{\-T\-I\-M8\-\_\-\-T\-R\-G\-\_\-\-C\-O\-M\-\_\-\-T\-I\-M14\-\_\-\-I\-R\-Q\-Handler}}
+\index{\-T\-I\-M8\-\_\-\-T\-R\-G\-\_\-\-C\-O\-M\-\_\-\-T\-I\-M14\-\_\-\-I\-R\-Q\-Handler@{\-T\-I\-M8\-\_\-\-T\-R\-G\-\_\-\-C\-O\-M\-\_\-\-T\-I\-M14\-\_\-\-I\-R\-Q\-Handler}!Timer Functions@{\-Timer Functions}}
+\subsubsection[{\-T\-I\-M8\-\_\-\-T\-R\-G\-\_\-\-C\-O\-M\-\_\-\-T\-I\-M14\-\_\-\-I\-R\-Q\-Handler}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-T\-I\-M8\-\_\-\-T\-R\-G\-\_\-\-C\-O\-M\-\_\-\-T\-I\-M14\-\_\-\-I\-R\-Q\-Handler} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___t_i_m_ga4c8359a023f7ede4a9d9f94ea6fb92da}
+
+
+\-Definition at line 462 of file pios\-\_\-tim.\-c.
+
+\hypertarget{group___p_i_o_s___t_i_m_ga255e5267ee3275b665940ed1a61ae3ce}{\index{\-Timer Functions@{\-Timer Functions}!\-T\-I\-M8\-\_\-\-U\-P\-\_\-\-I\-R\-Q\-Handler@{\-T\-I\-M8\-\_\-\-U\-P\-\_\-\-I\-R\-Q\-Handler}}
+\index{\-T\-I\-M8\-\_\-\-U\-P\-\_\-\-I\-R\-Q\-Handler@{\-T\-I\-M8\-\_\-\-U\-P\-\_\-\-I\-R\-Q\-Handler}!Timer Functions@{\-Timer Functions}}
+\subsubsection[{\-T\-I\-M8\-\_\-\-U\-P\-\_\-\-I\-R\-Q\-Handler}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-T\-I\-M8\-\_\-\-U\-P\-\_\-\-I\-R\-Q\-Handler} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___t_i_m_ga255e5267ee3275b665940ed1a61ae3ce}
+
+
+\-Definition at line 442 of file pios\-\_\-tim.\-c.
+
+\hypertarget{group___p_i_o_s___t_i_m_ga7fb516f8826d882ac91cfc093884fcf5}{\index{\-Timer Functions@{\-Timer Functions}!\-T\-I\-M8\-\_\-\-U\-P\-\_\-\-T\-I\-M13\-\_\-\-I\-R\-Q\-Handler@{\-T\-I\-M8\-\_\-\-U\-P\-\_\-\-T\-I\-M13\-\_\-\-I\-R\-Q\-Handler}}
+\index{\-T\-I\-M8\-\_\-\-U\-P\-\_\-\-T\-I\-M13\-\_\-\-I\-R\-Q\-Handler@{\-T\-I\-M8\-\_\-\-U\-P\-\_\-\-T\-I\-M13\-\_\-\-I\-R\-Q\-Handler}!Timer Functions@{\-Timer Functions}}
+\subsubsection[{\-T\-I\-M8\-\_\-\-U\-P\-\_\-\-T\-I\-M13\-\_\-\-I\-R\-Q\-Handler}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-T\-I\-M8\-\_\-\-U\-P\-\_\-\-T\-I\-M13\-\_\-\-I\-R\-Q\-Handler} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___t_i_m_ga7fb516f8826d882ac91cfc093884fcf5}
+
+
+\-Definition at line 452 of file pios\-\_\-tim.\-c.
+
+
+
+\subsection{\-Variable \-Documentation}
+\hypertarget{group___p_i_o_s___t_i_m_ga757344f09097232d715d55cbf9d61a43}{\index{\-Timer Functions@{\-Timer Functions}!val@{val}}
+\index{val@{val}!Timer Functions@{\-Timer Functions}}
+\subsubsection[{val}]{\setlength{\rightskip}{0pt plus 5cm}uint16\-\_\-t {\bf val} = 0}}\label{group___p_i_o_s___t_i_m_ga757344f09097232d715d55cbf9d61a43}
+
+
+\-Definition at line 295 of file pios\-\_\-tim.\-c.
+
+\hypertarget{group___p_i_o_s___t_i_m_ga757344f09097232d715d55cbf9d61a43}{\index{\-Timer Functions@{\-Timer Functions}!val@{val}}
+\index{val@{val}!Timer Functions@{\-Timer Functions}}
+\subsubsection[{val}]{\setlength{\rightskip}{0pt plus 5cm}uint16\-\_\-t {\bf val} = 0}}\label{group___p_i_o_s___t_i_m_ga757344f09097232d715d55cbf9d61a43}
+
+
+\-Definition at line 296 of file pios\-\_\-tim.\-c.
+

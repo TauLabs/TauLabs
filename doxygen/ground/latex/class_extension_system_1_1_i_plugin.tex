@@ -1,0 +1,188 @@
+\hypertarget{class_extension_system_1_1_i_plugin}{\section{\-Extension\-System\-:\-:\-I\-Plugin \-Class \-Reference}
+\label{class_extension_system_1_1_i_plugin}\index{\-Extension\-System\-::\-I\-Plugin@{\-Extension\-System\-::\-I\-Plugin}}
+}
+
+
+\-Base class for all plugins.  
+
+
+
+
+{\ttfamily \#include $<$iplugin.\-h$>$}
+
+\-Inheritance diagram for \-Extension\-System\-:\-:\-I\-Plugin\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=12.000000cm]{class_extension_system_1_1_i_plugin}
+\end{center}
+\end{figure}
+\subsection*{\-Public \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_extension_system_1_1_i_plugin_a5c43c107b8a3109755cc0e5a26fb5642}{\-I\-Plugin} ()
+\item 
+virtual \hyperlink{class_extension_system_1_1_i_plugin_a92763c9985354dc46cae781e3873a6b2}{$\sim$\-I\-Plugin} ()
+\item 
+virtual bool \hyperlink{class_extension_system_1_1_i_plugin_a9f3dc957317279daed393fdf4894e944}{initialize} (const \-Q\-String\-List \&arguments, \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} $\ast$error\-String)=0
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_extension_system_1_1_i_plugin_a1db3a7fb242fca02229f9a3be4fd6610}{extensions\-Initialized} ()=0
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_extension_system_1_1_i_plugin_a65c16ebd3a6e89918a99af6515fe68cb}{shutdown} ()
+\item 
+\hyperlink{class_extension_system_1_1_plugin_spec}{\-Plugin\-Spec} $\ast$ \hyperlink{class_extension_system_1_1_i_plugin_a0406aee58b1b6f47d046a00e8a3968a8}{plugin\-Spec} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_extension_system_1_1_i_plugin_a839e08a78deb150b1148ce10d099067b}{add\-Object} (\-Q\-Object $\ast$obj)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_extension_system_1_1_i_plugin_af2782659463bdc328aef58f896ae3921}{add\-Auto\-Released\-Object} (\-Q\-Object $\ast$obj)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_extension_system_1_1_i_plugin_a7f5bee6ed07af7f475b8b2c55c0d8ed4}{remove\-Object} (\-Q\-Object $\ast$obj)
+\end{DoxyCompactItemize}
+\subsection*{\-Friends}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{class_extension_system_1_1_i_plugin_ab527aa6637a3541a3260928aef682007}{\-Internal\-::\-Plugin\-Spec\-Private}
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-Base class for all plugins. 
+
+\-The \hyperlink{class_extension_system_1_1_i_plugin}{\-I\-Plugin} class is an abstract class that must be implemented once for each plugin. \-A plugin consists of two parts\-: \-A description file, and a library that at least contains the \hyperlink{class_extension_system_1_1_i_plugin}{\-I\-Plugin} implementation.
+
+\-Definition at line 46 of file iplugin.\-h.
+
+
+
+\subsection{\-Constructor \& \-Destructor \-Documentation}
+\hypertarget{class_extension_system_1_1_i_plugin_a5c43c107b8a3109755cc0e5a26fb5642}{\index{\-Extension\-System\-::\-I\-Plugin@{\-Extension\-System\-::\-I\-Plugin}!\-I\-Plugin@{\-I\-Plugin}}
+\index{\-I\-Plugin@{\-I\-Plugin}!ExtensionSystem::IPlugin@{\-Extension\-System\-::\-I\-Plugin}}
+\subsubsection[{\-I\-Plugin}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-I\-Plugin\-::\-I\-Plugin} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_extension_system_1_1_i_plugin_a5c43c107b8a3109755cc0e5a26fb5642}
+
+
+\-Definition at line 257 of file iplugin.\-cpp.
+
+\hypertarget{class_extension_system_1_1_i_plugin_a92763c9985354dc46cae781e3873a6b2}{\index{\-Extension\-System\-::\-I\-Plugin@{\-Extension\-System\-::\-I\-Plugin}!$\sim$\-I\-Plugin@{$\sim$\-I\-Plugin}}
+\index{$\sim$\-I\-Plugin@{$\sim$\-I\-Plugin}!ExtensionSystem::IPlugin@{\-Extension\-System\-::\-I\-Plugin}}
+\subsubsection[{$\sim$\-I\-Plugin}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-I\-Plugin\-::$\sim$\-I\-Plugin} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{class_extension_system_1_1_i_plugin_a92763c9985354dc46cae781e3873a6b2}
+
+
+\-Definition at line 266 of file iplugin.\-cpp.
+
+
+
+\subsection{\-Member \-Function \-Documentation}
+\hypertarget{class_extension_system_1_1_i_plugin_af2782659463bdc328aef58f896ae3921}{\index{\-Extension\-System\-::\-I\-Plugin@{\-Extension\-System\-::\-I\-Plugin}!add\-Auto\-Released\-Object@{add\-Auto\-Released\-Object}}
+\index{add\-Auto\-Released\-Object@{add\-Auto\-Released\-Object}!ExtensionSystem::IPlugin@{\-Extension\-System\-::\-I\-Plugin}}
+\subsubsection[{add\-Auto\-Released\-Object}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-I\-Plugin\-::add\-Auto\-Released\-Object} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Object $\ast$}]{obj}
+\end{DoxyParamCaption}
+)}}\label{class_extension_system_1_1_i_plugin_af2782659463bdc328aef58f896ae3921}
+\-Convenience method for registering {\itshape obj\/} in the plugin manager's plugin pool. \-Usually, registered objects must be removed from the object pool and deleted by hand. \-Objects added to the pool via add\-Auto\-Released\-Object are automatically removed and deleted in reverse order of registration when the \hyperlink{class_extension_system_1_1_i_plugin}{\-I\-Plugin} instance is destroyed. \begin{DoxySeeAlso}{\-See also}
+\-Plugin\-Manager\-::add\-Object() 
+\end{DoxySeeAlso}
+
+
+\-Definition at line 307 of file iplugin.\-cpp.
+
+\hypertarget{class_extension_system_1_1_i_plugin_a839e08a78deb150b1148ce10d099067b}{\index{\-Extension\-System\-::\-I\-Plugin@{\-Extension\-System\-::\-I\-Plugin}!add\-Object@{add\-Object}}
+\index{add\-Object@{add\-Object}!ExtensionSystem::IPlugin@{\-Extension\-System\-::\-I\-Plugin}}
+\subsubsection[{add\-Object}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-I\-Plugin\-::add\-Object} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Object $\ast$}]{obj}
+\end{DoxyParamCaption}
+)}}\label{class_extension_system_1_1_i_plugin_a839e08a78deb150b1148ce10d099067b}
+\-Convenience method that registers {\itshape obj\/} in the plugin manager's plugin pool by just calling \-Plugin\-Manager\-::add\-Object(). 
+
+\-Definition at line 292 of file iplugin.\-cpp.
+
+\hypertarget{class_extension_system_1_1_i_plugin_a1db3a7fb242fca02229f9a3be4fd6610}{\index{\-Extension\-System\-::\-I\-Plugin@{\-Extension\-System\-::\-I\-Plugin}!extensions\-Initialized@{extensions\-Initialized}}
+\index{extensions\-Initialized@{extensions\-Initialized}!ExtensionSystem::IPlugin@{\-Extension\-System\-::\-I\-Plugin}}
+\subsubsection[{extensions\-Initialized}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-I\-Plugin\-::extensions\-Initialized} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}pure virtual\mbox{]}}}}\label{class_extension_system_1_1_i_plugin_a1db3a7fb242fca02229f9a3be4fd6610}
+\-Called after the \hyperlink{class_extension_system_1_1_i_plugin_a9f3dc957317279daed393fdf4894e944}{\-I\-Plugin\-::initialize()} method has been called, and after both the \hyperlink{class_extension_system_1_1_i_plugin_a9f3dc957317279daed393fdf4894e944}{\-I\-Plugin\-::initialize()} and \hyperlink{class_extension_system_1_1_i_plugin_a1db3a7fb242fca02229f9a3be4fd6610}{\-I\-Plugin\-::extensions\-Initialized()} methods of plugins that depend on this plugin have been called. \-In this method, the plugin can assume that plugins that depend on this plugin are fully 'up and running'. \-It is a good place to look in the plugin manager's object pool for objects that have been provided by dependent plugins. \begin{DoxySeeAlso}{\-See also}
+\hyperlink{class_extension_system_1_1_i_plugin_a9f3dc957317279daed393fdf4894e944}{initialize()} 
+\end{DoxySeeAlso}
+
+
+\-Implemented in \hyperlink{group___serial_plugin_ga513ef44cd1747f6859255f102fc9f845}{\-Serial\-Plugin}, \hyperlink{group___logging_gafefd3e10b5da148d3f936cc3631e4792}{\-Logging\-Plugin}, \hyperlink{group___power_log_gabdc836ec2b2a95cfe56fabe4d8c8e629}{\-Powerlog\-Plugin}, \hyperlink{group___i_p_conn_plugin_ga61e1d618e2d1914fd8190687cf0017a5}{\-I\-Pconnection\-Plugin}, \hyperlink{group___raw_h_i_d_plugin_ga59b1e6d264de04d48bb83b823f91a5fe}{\-Raw\-H\-I\-D\-Plugin}, \hyperlink{group___notify_plugin_gad704ab0c43392e54f01882f7883f689f}{\-Sound\-Notify\-Plugin}, \hyperlink{group___system_gafbeee237df9ed93b1f831cf2f8770055}{\-Sys\-Alarms\-Messaging\-Plugin}, \hyperlink{group___config_plugin_gabbca0b710aa7b4870df57f979e248833}{\-Config\-Plugin}, \hyperlink{group___welcome_plugin_gac1e50ee0aacda1d9e1b3bc829d0d4014}{\-Welcome\-::\-Internal\-::\-Welcome\-Plugin}, \hyperlink{group___core_plugin_ga55b0e03148abe8106f161d21fe097dcb}{\-Core\-::\-Internal\-::\-Core\-Plugin}, \hyperlink{group___u_a_v_talk_ga23c510f5254ca286083d1b3e4a732582}{\-Uav\-Talk\-Relay\-Plugin}, \hyperlink{class_my_plugin_1_1_my_plugin_impl_a4ad1abbd9f078e73814e7e49232a9b6b}{\-My\-Plugin\-::\-My\-Plugin\-Impl}, \hyperlink{class_plugin1_1_1_my_plugin1_a363f7c72c9d3236f00808af931058527}{\-Plugin1\-::\-My\-Plugin1}, \hyperlink{class_plugin2_1_1_my_plugin2_a9c07bb7d949169532e7a1ba2cdccdf49}{\-Plugin2\-::\-My\-Plugin2}, \hyperlink{class_plugin3_1_1_my_plugin3_a44cb56ba99bb1aadd5f6d30825dd6f5a}{\-Plugin3\-::\-My\-Plugin3}, \hyperlink{group___u_a_v_talk_plugin_ga2b7202eb07a1d037f8e92eeedbc1621e}{\-U\-A\-V\-Talk\-Plugin}, \hyperlink{class_plugin1_1_1_my_plugin1_ab68d9707ac743bacd4bf109e788e28ea}{\-Plugin1\-::\-My\-Plugin1}, \hyperlink{class_plugin2_1_1_my_plugin2_af7d34ae6f055b086ad23af98ffedc641}{\-Plugin2\-::\-My\-Plugin2}, \hyperlink{class_plugin3_1_1_my_plugin3_a23ad78659a9ca692f5fcdeebaa5a6ffb}{\-Plugin3\-::\-My\-Plugin3}, \hyperlink{class_plugin1_1_1_my_plugin1_a363f7c72c9d3236f00808af931058527}{\-Plugin1\-::\-My\-Plugin1}, \hyperlink{class_plugin2_1_1_my_plugin2_a9c07bb7d949169532e7a1ba2cdccdf49}{\-Plugin2\-::\-My\-Plugin2}, \hyperlink{group___path_planner_gadget_plugin_ga21fa3c1e21372d56ddf70b6fe5973897}{\-Path\-Planner\-Plugin}, \hyperlink{class_plugin3_1_1_my_plugin3_a44cb56ba99bb1aadd5f6d30825dd6f5a}{\-Plugin3\-::\-My\-Plugin3}, \hyperlink{group___g_c_s_control_gadget_plugin_gad526ae3249e30303394221453d4483a2}{\-G\-C\-S\-Control\-Plugin}, \hyperlink{group___h_i_t_l_plugin_ga30d63de205d36f5e637e17ae3efb35cd}{\-H\-I\-T\-L\-Plugin}, \hyperlink{group___mo_cap_plugin_ga44d4c75032b9cb5698f876ff3cee5e09}{\-Mo\-Cap\-Plugin}, \hyperlink{group___u_a_v_objects_plugin_ga01c0cfcad9946436827836ba293f07b0}{\-U\-A\-V\-Objects\-Plugin}, \hyperlink{group___u_a_v_object_util_plugin_ga644ec0f06cf775004f4f5cd28a60080a}{\-U\-A\-V\-Object\-Util\-Plugin}, \hyperlink{group___u_a_v_object_widget_utils_ga8538f7844616deeef2455da33bc8a9fe}{\-U\-A\-V\-Object\-Widget\-Utils\-Plugin}, \hyperlink{group___u_a_v_settings_import_export_ga8cbd9cce7f1b58c44d6dfdef36b50f81}{\-U\-A\-V\-Settings\-Import\-Export\-Plugin}, \hyperlink{group___dial_plugin_gac703254d72e140e8ff7b4c23ddb46020}{\-Dial\-Plugin}, \hyperlink{group___o_p_map_plugin_ga4698621f6178bff1aad1d856fbcc3e08}{\-O\-P\-Map\-Plugin}, \hyperlink{group___o_s_g_earth_view_pluging_ga67c92e6b50be6d0152700ea331726933}{\-Osg\-Earthview\-Plugin}, \hyperlink{group___p_f_d_plugin_ga4db36e2e23e4ade00fcf37bf863c4232}{\-P\-F\-D\-Plugin}, \hyperlink{group___y_modem_uploader_ga1e319fd52ea2d055faae5cfcc9b38041}{\-Uploader\-Plugin}, \hyperlink{group___console_plugin_ga85a6a6c06db877c20f7a07d780d8b475}{\-Console\-Plugin}, \hyperlink{group___debug_gadget_plugin_ga33da71812af948fb7295673fedc11e76}{\-Debug\-Plugin}, \hyperlink{group___empty_gadget_plugin_ga492a22cdbf38d6fbb6b42e959e880d86}{\-Empty\-Plugin}, \hyperlink{group___g_p_s_gadget_plugin_gad0d01fd7addd024c1a5fad7002a7c358}{\-Gps\-Display\-Plugin}, \hyperlink{group__importexportplugin_ga3ed58e4917d076228fd3020bbcb58dfa}{\-Import\-Export\-Plugin}, \hyperlink{group___linear_dial_plugin_ga383081754a198481bde0fce79b7c01a9}{\-Lineardial\-Plugin}, \hyperlink{group___g_c_s_control_gadget_plugin_gaf45230b46b95ad6f1a8f74dc1023b94a}{\-Magic\-Waypoint\-Plugin}, \hyperlink{group___model_view_plugin_gaf0ae0222c081f943759de1e0697df04e}{\-Model\-View\-Plugin}, \hyperlink{group___o_p_map_plugin_ga36fa5cb525a31c9b6877a3da80262f69}{\-Qml\-View\-Plugin}, \hyperlink{group___scope_plugin_ga92b5617116c8cbaa97c2f26bb2863ab3}{\-Scope\-Plugin}, \hyperlink{group___setup_wizard_plugin_gaa612baf865ac69fa057ec64987c86ff4}{\-Setup\-Wizard\-Plugin}, \hyperlink{group___system_health_plugin_gac8ab8add53079a86d3ab978ac8c41438}{\-System\-Health\-Plugin}, \hyperlink{group___u_a_v_object_browser_plugin_gabd7f5c6dac73c173cebd4e59dbc99182}{\-Browser\-Plugin}, \hyperlink{group___waypoint_editor_gadget_plugin_ga2df66419e41be573431fc273f596cc71}{\-Waypoint\-Editor\-Plugin}, \hyperlink{group___telemetry_scheduler_gadget_plugin_gad80aeab0cc4afe123338ae4aaac7d9f8}{\-Telemetry\-Scheduler\-Plugin}, \hyperlink{group___boards___open_pilot_plugin_gab3fcd8373403dc09fc4d868fdb8f5d23}{\-Open\-Pilot\-Plugin}, \hyperlink{group___boards___quantec_ga947364f26b2004a6f8706e053e9200c9}{\-Quantec\-Plugin}, \hyperlink{group___boards___stm_ga5269accdd6abc59b3b45cdf2f944d205}{\-Stm\-Plugin}, \hyperlink{group___boards___tau_labs_plugin_gae657bb027ed736aeb4e371bdb9a6bff7}{\-Tau\-Labs\-Plugin}, \hyperlink{group___do_nothing_plugin_ga82d133252a7e9bba0308a0a2674541f3}{\-Do\-Nothing\-Plugin}, \hyperlink{class_pfd_qml_plugin_a6c95a7f2f165134d33ef84acdf6a96f8}{\-Pfd\-Qml\-Plugin}, and \hyperlink{class_antenna_track_plugin_a370afea2fcc519ae07e072bf227f096c}{\-Antenna\-Track\-Plugin}.
+
+\hypertarget{class_extension_system_1_1_i_plugin_a9f3dc957317279daed393fdf4894e944}{\index{\-Extension\-System\-::\-I\-Plugin@{\-Extension\-System\-::\-I\-Plugin}!initialize@{initialize}}
+\index{initialize@{initialize}!ExtensionSystem::IPlugin@{\-Extension\-System\-::\-I\-Plugin}}
+\subsubsection[{initialize}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-I\-Plugin\-::initialize} (
+\begin{DoxyParamCaption}
+\item[{const \-Q\-String\-List \&}]{arguments, }
+\item[{{\bf \-Q\-String} $\ast$}]{error\-String}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}pure virtual\mbox{]}}}}\label{class_extension_system_1_1_i_plugin_a9f3dc957317279daed393fdf4894e944}
+\-Called after the plugin has been loaded and the \hyperlink{class_extension_system_1_1_i_plugin}{\-I\-Plugin} instance has been created. \-The initialize methods of plugins that depend on this plugin are called after the initialize method of this plugin has been called. \-Plugins should initialize their internal state in this method. \-Returns if initialization of successful. \-If it wasn't successful, the {\itshape error\-String\/} should be set to a user-\/readable message describing the reason. \begin{DoxySeeAlso}{\-See also}
+\hyperlink{class_extension_system_1_1_i_plugin_a1db3a7fb242fca02229f9a3be4fd6610}{extensions\-Initialized()} 
+\end{DoxySeeAlso}
+
+
+\-Implemented in \hyperlink{group___serial_plugin_ga06e1847534162b254c0790b2221e2836}{\-Serial\-Plugin}, \hyperlink{group___logging_ga35b6ec31ee1c4118f1b15d8fb425e013}{\-Logging\-Plugin}, \hyperlink{group___power_log_gadc5a5af4c3942d0ec384cad6f677cef3}{\-Powerlog\-Plugin}, \hyperlink{group___i_p_conn_plugin_ga66ca8127b859071b5c905aa9d0c22c55}{\-I\-Pconnection\-Plugin}, \hyperlink{group___raw_h_i_d_plugin_ga52bbfe9d4f2cd93a959bdd723438e522}{\-Raw\-H\-I\-D\-Plugin}, \hyperlink{group___notify_plugin_ga5c84bbeb8237b65ecce93f518a26384d}{\-Sound\-Notify\-Plugin}, \hyperlink{group___system_gaee946a3db8f69ee44247462593349d71}{\-Sys\-Alarms\-Messaging\-Plugin}, \hyperlink{group___config_plugin_ga6caac2a6d708537fbabed44ad35e694f}{\-Config\-Plugin}, \hyperlink{group___u_a_v_talk_gacb02c97b971babafb922150887825934}{\-Uav\-Talk\-Relay\-Plugin}, \hyperlink{group___welcome_plugin_gaf4200dea591acb8135c4f4e8e6b42c52}{\-Welcome\-::\-Internal\-::\-Welcome\-Plugin}, \hyperlink{group___u_a_v_talk_plugin_ga311f58f272717ad544a6ca019a42f821}{\-U\-A\-V\-Talk\-Plugin}, \hyperlink{group___core_plugin_ga2ff3446eb96ef85ad12d4ad20da5ad15}{\-Core\-::\-Internal\-::\-Core\-Plugin}, \hyperlink{group___path_planner_gadget_plugin_ga08ada1f91b2f37c282cbabdcdb7af6d8}{\-Path\-Planner\-Plugin}, \hyperlink{class_my_plugin_1_1_my_plugin_impl_a917bc0c4caf9ab591971b7b7d45fbaa8}{\-My\-Plugin\-::\-My\-Plugin\-Impl}, \hyperlink{class_plugin1_1_1_my_plugin1_a4919abec6b960bd7548c4c912bece22c}{\-Plugin1\-::\-My\-Plugin1}, \hyperlink{class_plugin2_1_1_my_plugin2_a916f4fbb7e5464477ce2dcdaa416d286}{\-Plugin2\-::\-My\-Plugin2}, \hyperlink{class_plugin3_1_1_my_plugin3_a0cb093f6917e25c3f7df1578a2620ef9}{\-Plugin3\-::\-My\-Plugin3}, \hyperlink{group___g_c_s_control_gadget_plugin_ga57b8a6ede4344b5a2e3e9460b158dde8}{\-G\-C\-S\-Control\-Plugin}, \hyperlink{group___h_i_t_l_plugin_ga113a69fc6f312ce4658d3c6266e3545f}{\-H\-I\-T\-L\-Plugin}, \hyperlink{group___mo_cap_plugin_ga91a5975a6eb4f0771b265669e68b9732}{\-Mo\-Cap\-Plugin}, \hyperlink{group___u_a_v_objects_plugin_ga782e9362e4a727e032c97865d0841820}{\-U\-A\-V\-Objects\-Plugin}, \hyperlink{class_plugin1_1_1_my_plugin1_abe68963937d1889611b4e3693e585db5}{\-Plugin1\-::\-My\-Plugin1}, \hyperlink{class_plugin2_1_1_my_plugin2_a07363358acc9f69b85d01098a5651001}{\-Plugin2\-::\-My\-Plugin2}, \hyperlink{class_plugin3_1_1_my_plugin3_adccf646390950e6541ccc0a626c49394}{\-Plugin3\-::\-My\-Plugin3}, \hyperlink{class_plugin1_1_1_my_plugin1_a4919abec6b960bd7548c4c912bece22c}{\-Plugin1\-::\-My\-Plugin1}, \hyperlink{class_plugin2_1_1_my_plugin2_a916f4fbb7e5464477ce2dcdaa416d286}{\-Plugin2\-::\-My\-Plugin2}, \hyperlink{group___u_a_v_object_util_plugin_ga21707781be0dfd017ec41e59ef8bf7af}{\-U\-A\-V\-Object\-Util\-Plugin}, \hyperlink{class_plugin3_1_1_my_plugin3_a0cb093f6917e25c3f7df1578a2620ef9}{\-Plugin3\-::\-My\-Plugin3}, \hyperlink{group___u_a_v_object_widget_utils_ga7a913580e5284f9291cab68f3bfed4a3}{\-U\-A\-V\-Object\-Widget\-Utils\-Plugin}, \hyperlink{group___u_a_v_settings_import_export_ga78fbb80d8d70b2e76652a80594215faf}{\-U\-A\-V\-Settings\-Import\-Export\-Plugin}, \hyperlink{group___dial_plugin_ga59561e7e0f5635938f8b83931c025b67}{\-Dial\-Plugin}, \hyperlink{group___o_p_map_plugin_gac6a236b2b4276677428bd2305710a2d7}{\-O\-P\-Map\-Plugin}, \hyperlink{group___o_s_g_earth_view_pluging_gad25998380d6a05042f2a787e6ea00cee}{\-Osg\-Earthview\-Plugin}, \hyperlink{group___p_f_d_plugin_ga9494fd7b5f521ffd086c63287ad01a18}{\-P\-F\-D\-Plugin}, \hyperlink{group___y_modem_uploader_gaed3cc44adfc0c7107aa35f52e5265da2}{\-Uploader\-Plugin}, \hyperlink{group___console_plugin_ga16272a47e2f07a68477d2c8c949dd1a7}{\-Console\-Plugin}, \hyperlink{group___debug_gadget_plugin_gac924db212f19bc55d62f1a821a234437}{\-Debug\-Plugin}, \hyperlink{group___empty_gadget_plugin_gafe72f3b00f1dfd2dc2acf021ab2e77b2}{\-Empty\-Plugin}, \hyperlink{group___g_p_s_gadget_plugin_ga481b9c74a2e46d2e461d472ac2e10c8f}{\-Gps\-Display\-Plugin}, \hyperlink{group__importexportplugin_ga933c5c69e64d5980240a5a301043eb52}{\-Import\-Export\-Plugin}, \hyperlink{group___linear_dial_plugin_gab9c622169ddf91a97d6bd560b4f24f6f}{\-Lineardial\-Plugin}, \hyperlink{group___g_c_s_control_gadget_plugin_ga2c2d28520438e765c6e3ba288777e894}{\-Magic\-Waypoint\-Plugin}, \hyperlink{group___model_view_plugin_ga6f9214b4e1b72063475d8351046df6bb}{\-Model\-View\-Plugin}, \hyperlink{group___o_p_map_plugin_ga07810591116e8f592fca15a0fe4e3b1d}{\-Qml\-View\-Plugin}, \hyperlink{group___scope_plugin_gad49bcc2c25eda45814189ba82b8a1a5b}{\-Scope\-Plugin}, \hyperlink{group___setup_wizard_plugin_ga2ea2069466d237ee561815a5a00f7a4e}{\-Setup\-Wizard\-Plugin}, \hyperlink{group___system_health_plugin_ga0b4b0272fcc0fd567c889344ee5f68d5}{\-System\-Health\-Plugin}, \hyperlink{group___u_a_v_object_browser_plugin_gac452314c7c28ab0c1fb1bb935bed5d0d}{\-Browser\-Plugin}, \hyperlink{group___waypoint_editor_gadget_plugin_gaaea9c5cb6306b4ee7b48412c09660111}{\-Waypoint\-Editor\-Plugin}, \hyperlink{group___telemetry_scheduler_gadget_plugin_gad16a098ff87e686359d43016bba3eed2}{\-Telemetry\-Scheduler\-Plugin}, \hyperlink{group___boards___open_pilot_plugin_ga542bd2673508b0755f349632da3bd145}{\-Open\-Pilot\-Plugin}, \hyperlink{group___boards___quantec_ga74803b604ba599f20ee7a45dddbd7ead}{\-Quantec\-Plugin}, \hyperlink{group___boards___stm_ga9cf15e32e77519654896a82f0b301710}{\-Stm\-Plugin}, \hyperlink{group___boards___tau_labs_plugin_ga1f025f9260a3a6745cbe0d35f3ecd563}{\-Tau\-Labs\-Plugin}, \hyperlink{group___do_nothing_plugin_ga5038a5ac3f0abbd6c99a369d6d2ee9f4}{\-Do\-Nothing\-Plugin}, \hyperlink{class_pfd_qml_plugin_a5829e5ecd64024c4d9962550c0beffcb}{\-Pfd\-Qml\-Plugin}, and \hyperlink{class_antenna_track_plugin_a8bcbdaaf5cd20fa3a61f6c7bd9b5d514}{\-Antenna\-Track\-Plugin}.
+
+\hypertarget{class_extension_system_1_1_i_plugin_a0406aee58b1b6f47d046a00e8a3968a8}{\index{\-Extension\-System\-::\-I\-Plugin@{\-Extension\-System\-::\-I\-Plugin}!plugin\-Spec@{plugin\-Spec}}
+\index{plugin\-Spec@{plugin\-Spec}!ExtensionSystem::IPlugin@{\-Extension\-System\-::\-I\-Plugin}}
+\subsubsection[{plugin\-Spec}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Plugin\-Spec} $\ast$ {\bf \-I\-Plugin\-::plugin\-Spec} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_extension_system_1_1_i_plugin_a0406aee58b1b6f47d046a00e8a3968a8}
+\-Returns the \hyperlink{class_extension_system_1_1_plugin_spec}{\-Plugin\-Spec} corresponding to this plugin. \-This is not available in the constructor. 
+
+\-Definition at line 282 of file iplugin.\-cpp.
+
+\hypertarget{class_extension_system_1_1_i_plugin_a7f5bee6ed07af7f475b8b2c55c0d8ed4}{\index{\-Extension\-System\-::\-I\-Plugin@{\-Extension\-System\-::\-I\-Plugin}!remove\-Object@{remove\-Object}}
+\index{remove\-Object@{remove\-Object}!ExtensionSystem::IPlugin@{\-Extension\-System\-::\-I\-Plugin}}
+\subsubsection[{remove\-Object}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-I\-Plugin\-::remove\-Object} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Object $\ast$}]{obj}
+\end{DoxyParamCaption}
+)}}\label{class_extension_system_1_1_i_plugin_a7f5bee6ed07af7f475b8b2c55c0d8ed4}
+\-Convenience method that unregisters {\itshape obj\/} from the plugin manager's plugin pool by just calling \-Plugin\-Manager\-::remove\-Object(). 
+
+\-Definition at line 318 of file iplugin.\-cpp.
+
+\hypertarget{class_extension_system_1_1_i_plugin_a65c16ebd3a6e89918a99af6515fe68cb}{\index{\-Extension\-System\-::\-I\-Plugin@{\-Extension\-System\-::\-I\-Plugin}!shutdown@{shutdown}}
+\index{shutdown@{shutdown}!ExtensionSystem::IPlugin@{\-Extension\-System\-::\-I\-Plugin}}
+\subsubsection[{shutdown}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-I\-Plugin\-::shutdown} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, virtual\mbox{]}}}}\label{class_extension_system_1_1_i_plugin_a65c16ebd3a6e89918a99af6515fe68cb}
+\-Called during a shutdown sequence in the same order as initialization before the plugins get deleted in reverse order. \-This method can be used to optimize the shutdown down, e.\-g. to disconnect from the \hyperlink{class_extension_system_1_1_plugin_manager_ad8bb981cb3c0d59af87244cdc5807d35}{\-Plugin\-Manager\-::about\-To\-Remove\-Object()} signal if getting the signal (and probably doing lots of stuff to update the internal and visible state) doesn't make sense during shutdown. 
+
+\-Reimplemented in \hyperlink{group___logging_ga15f368e20b8953eb38b932e59462c779}{\-Logging\-Plugin}, \hyperlink{group___power_log_gabcda6ddff409dc11244b3df09276d0cc}{\-Powerlog\-Plugin}, \hyperlink{group___notify_plugin_ga2f91d9771233415fa6d23a8087331df9}{\-Sound\-Notify\-Plugin}, \hyperlink{group___config_plugin_gaf7af8833b63795f7bb96fd43bf74fb3e}{\-Config\-Plugin}, \hyperlink{group___u_a_v_talk_ga2a3c3d63a751ae8931cfbd8cf30792ba}{\-Uav\-Talk\-Relay\-Plugin}, \hyperlink{group___core_plugin_ga792f6f751294fccbc48bb39e266e48b8}{\-Core\-::\-Internal\-::\-Core\-Plugin}, \hyperlink{group___u_a_v_talk_plugin_ga67b3b23618210b3dfbf43dc1b0fa03b1}{\-U\-A\-V\-Talk\-Plugin}, \hyperlink{group___path_planner_gadget_plugin_ga86bbf998d72f805f00576608baf627ba}{\-Path\-Planner\-Plugin}, \hyperlink{group___g_c_s_control_gadget_plugin_ga4c6e2d64333994bacf7db3c918057799}{\-G\-C\-S\-Control\-Plugin}, \hyperlink{group___h_i_t_l_plugin_gadc35670ca57c30770f97bf6e95e9297b}{\-H\-I\-T\-L\-Plugin}, \hyperlink{group___mo_cap_plugin_ga6ceccf865e672ec6799046772bb33346}{\-Mo\-Cap\-Plugin}, \hyperlink{group___u_a_v_objects_plugin_gab62f36eaf3f542f980ef1d88c29bd05a}{\-U\-A\-V\-Objects\-Plugin}, \hyperlink{group___u_a_v_object_util_plugin_ga14d874a44f94ae805fa0d683410ccfcb}{\-U\-A\-V\-Object\-Util\-Plugin}, \hyperlink{group___u_a_v_object_widget_utils_ga672bbb620f7be71610e6adc36d5ca0b9}{\-U\-A\-V\-Object\-Widget\-Utils\-Plugin}, \hyperlink{group___u_a_v_settings_import_export_ga5e2dd335427148df64c9b2b3b9a16e8d}{\-U\-A\-V\-Settings\-Import\-Export\-Plugin}, \hyperlink{group___dial_plugin_ga096efc39bed83964551f3a4a8bd1a29d}{\-Dial\-Plugin}, \hyperlink{group___o_p_map_plugin_ga76c3d81f95369b3c96c26739bc07e506}{\-O\-P\-Map\-Plugin}, \hyperlink{group___o_s_g_earth_view_pluging_gac453d0b59f26d74b1a48cf92c59b9d8e}{\-Osg\-Earthview\-Plugin}, \hyperlink{group___p_f_d_plugin_ga378193e80b5473898ab8a75bbfe0d4bb}{\-P\-F\-D\-Plugin}, \hyperlink{group___y_modem_uploader_gac966b3a48b2c1de74e802f0092479ab2}{\-Uploader\-Plugin}, \hyperlink{group___console_plugin_gaa3ff74c08dc36f2a1ba79357ab45319a}{\-Console\-Plugin}, \hyperlink{group___debug_gadget_plugin_ga7239f7418bd69dfa8977fc1015656370}{\-Debug\-Plugin}, \hyperlink{group___empty_gadget_plugin_ga01fcca3c81851cf81fdb21b97632ea0a}{\-Empty\-Plugin}, \hyperlink{group___g_p_s_gadget_plugin_ga239f5aa443093c518b27a04e23d20b2e}{\-Gps\-Display\-Plugin}, \hyperlink{group__importexportplugin_ga140c1b62a5f39af6adb314e220eeb996}{\-Import\-Export\-Plugin}, \hyperlink{group___linear_dial_plugin_ga7a47ee89aef6192202148d71bf6a98a3}{\-Lineardial\-Plugin}, \hyperlink{group___g_c_s_control_gadget_plugin_gaa9be91fd32c41e37bfdbd77c2420373f}{\-Magic\-Waypoint\-Plugin}, \hyperlink{group___model_view_plugin_gad3a367fabe72d1e3a0063267d0170df9}{\-Model\-View\-Plugin}, \hyperlink{group___o_p_map_plugin_ga181dc94c5cc23521ffde448715c6ad8e}{\-Qml\-View\-Plugin}, \hyperlink{group___scope_plugin_ga13799130d5adbbdc55c06e4597df6a08}{\-Scope\-Plugin}, \hyperlink{group___setup_wizard_plugin_ga982d4e38aff329d0dfc32506a4eb5539}{\-Setup\-Wizard\-Plugin}, \hyperlink{group___system_health_plugin_gacf43a9878cbe82c0cf68216d045bc158}{\-System\-Health\-Plugin}, \hyperlink{group___u_a_v_object_browser_plugin_ga8d7b6113315a8625ce56679504594fa3}{\-Browser\-Plugin}, \hyperlink{group___waypoint_editor_gadget_plugin_ga4fdf75a1aea39e6e89f5fe83b8b812f9}{\-Waypoint\-Editor\-Plugin}, \hyperlink{group___telemetry_scheduler_gadget_plugin_gaee2ae6611062688d3b9c1a883057d399}{\-Telemetry\-Scheduler\-Plugin}, \hyperlink{group___boards___open_pilot_plugin_gab41fd915d672acefc699cd2185ac1037}{\-Open\-Pilot\-Plugin}, \hyperlink{group___boards___quantec_ga775ecc021e3638b3652f5e49edd2f748}{\-Quantec\-Plugin}, \hyperlink{group___boards___stm_ga0f818aaaedbf072833aef3d3ac944593}{\-Stm\-Plugin}, \hyperlink{group___boards___tau_labs_plugin_ga7c69e7ef31a4c5b510b1aa88de11dda9}{\-Tau\-Labs\-Plugin}, \hyperlink{group___do_nothing_plugin_gaa91993d8fa19262963650daf59993688}{\-Do\-Nothing\-Plugin}, \hyperlink{class_pfd_qml_plugin_a39d4ab7d539a9a77adc57b8ecf33e781}{\-Pfd\-Qml\-Plugin}, and \hyperlink{class_antenna_track_plugin_a3628ddddb3154268c34dfd1f69c6e8f4}{\-Antenna\-Track\-Plugin}.
+
+
+
+\-Definition at line 56 of file iplugin.\-h.
+
+
+
+\subsection{\-Friends \-And \-Related \-Function \-Documentation}
+\hypertarget{class_extension_system_1_1_i_plugin_ab527aa6637a3541a3260928aef682007}{\index{\-Extension\-System\-::\-I\-Plugin@{\-Extension\-System\-::\-I\-Plugin}!\-Internal\-::\-Plugin\-Spec\-Private@{\-Internal\-::\-Plugin\-Spec\-Private}}
+\index{\-Internal\-::\-Plugin\-Spec\-Private@{\-Internal\-::\-Plugin\-Spec\-Private}!ExtensionSystem::IPlugin@{\-Extension\-System\-::\-I\-Plugin}}
+\subsubsection[{\-Internal\-::\-Plugin\-Spec\-Private}]{\setlength{\rightskip}{0pt plus 5cm}friend class {\bf \-Internal\-::\-Plugin\-Spec\-Private}\hspace{0.3cm}{\ttfamily  \mbox{[}friend\mbox{]}}}}\label{class_extension_system_1_1_i_plugin_ab527aa6637a3541a3260928aef682007}
+
+
+\-Definition at line 67 of file iplugin.\-h.
+
+
+
+\-The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/libs/extensionsystem/\hyperlink{iplugin_8h}{iplugin.\-h}\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/libs/extensionsystem/\hyperlink{iplugin_8cpp}{iplugin.\-cpp}\end{DoxyCompactItemize}

@@ -1,0 +1,745 @@
+\hypertarget{group___i_p_conn_plugin}{\section{\-I\-P \-Telemetry \-Plugin}
+\label{group___i_p_conn_plugin}\index{\-I\-P Telemetry Plugin@{\-I\-P Telemetry Plugin}}
+}
+
+
+\-I\-P \-Connection \-Plugin impliment telemetry over \-T\-C\-P/\-I\-P and \-U\-D\-P/\-I\-P.  
+
+
+\subsection*{\-Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{class_i_pconnection_configuration}{\-I\-Pconnection\-Configuration}
+\item 
+class \hyperlink{class_i_pconnection_options_page}{\-I\-Pconnection\-Options\-Page}
+\item 
+class \hyperlink{class_i_pconnection_connection}{\-I\-Pconnection\-Connection}
+\item 
+class \hyperlink{class_i_pconnection_plugin}{\-I\-Pconnection\-Plugin}
+\end{DoxyCompactItemize}
+\subsection*{\-Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+namespace \hyperlink{namespace_core}{\-Core}
+\begin{DoxyCompactList}\small\item\em \-The \hyperlink{namespace_core}{\-Core} namespace contains all classes that make up the \hyperlink{namespace_core}{\-Core} plugin which constitute the basic functionality of the \-Tau \-Labs \-G\-C\-S. \end{DoxyCompactList}\item 
+namespace \hyperlink{namespace_ui}{\-Ui}
+\end{DoxyCompactItemize}
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___i_p_conn_plugin_ga0ace87181ef54adf63c246bcfa013840}{\-I\-Pconnection\-Configuration\-::\-I\-Pconnection\-Configuration} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} class\-Id, \-Q\-Settings $\ast$q\-Settings=0, \-Q\-Object $\ast$parent=0)
+\item 
+virtual \hyperlink{group___i_p_conn_plugin_ga9c8548dfb0fd37208686bb5d037dfce4}{\-I\-Pconnection\-Configuration\-::$\sim$\-I\-Pconnection\-Configuration} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___i_p_conn_plugin_ga65bf62eee71070aef5ce1f9fe1f24322}{\-I\-Pconnection\-Configuration\-::save\-Config} (\-Q\-Settings $\ast$settings) const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___i_p_conn_plugin_ga6e5d554b42d69fd06e4817ec4bece987}{\-I\-Pconnection\-Configuration\-::savesettings} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___i_p_conn_plugin_gabd3e5ffc6975c4ef5389faaf21fb55c0}{\-I\-Pconnection\-Configuration\-::restoresettings} ()
+\item 
+\-I\-U\-A\-V\-Gadget\-Configuration $\ast$ \hyperlink{group___i_p_conn_plugin_gaf970300a500acc18095f6d50a3926529}{\-I\-Pconnection\-Configuration\-::clone} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___i_p_conn_plugin_gad855d70f2d3eee8910ee94c261e9f3cb}{\-I\-Pconnection\-Configuration\-::\-Host\-Name} () const 
+\item 
+int \hyperlink{group___i_p_conn_plugin_gaaa57ca41a00de517e859afa3c339099a}{\-I\-Pconnection\-Configuration\-::\-Port} () const 
+\item 
+int \hyperlink{group___i_p_conn_plugin_ga584108a558af4b69e0494772eb273f94}{\-I\-Pconnection\-Configuration\-::\-Use\-T\-C\-P} () const 
+\item 
+\hyperlink{group___i_p_conn_plugin_ga00a24fd6df6f9866d5b8e5eb76cd9c93}{\-I\-Pconnection\-Options\-Page\-::\-I\-Pconnection\-Options\-Page} (\hyperlink{class_i_pconnection_configuration}{\-I\-Pconnection\-Configuration} $\ast$config, \-Q\-Object $\ast$parent=0)
+\item 
+virtual \hyperlink{group___i_p_conn_plugin_ga3b3b7d2dfd99db070bc9e3bebfaee3aa}{\-I\-Pconnection\-Options\-Page\-::$\sim$\-I\-Pconnection\-Options\-Page} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___i_p_conn_plugin_ga4e312ba72e8ed237e148f6f2fd3bfd3f}{\-I\-Pconnection\-Options\-Page\-::id} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___i_p_conn_plugin_gaf5ef5d6b22e3098d76849cf94feeb35c}{\-I\-Pconnection\-Options\-Page\-::tr\-Name} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___i_p_conn_plugin_ga74c9ab9f46cce418606d0ee3fc3491a0}{\-I\-Pconnection\-Options\-Page\-::category} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___i_p_conn_plugin_gace8ed46c336f3ee28ed2afeae6088da2}{\-I\-Pconnection\-Options\-Page\-::tr\-Category} () const 
+\item 
+\-Q\-Widget $\ast$ \hyperlink{group___i_p_conn_plugin_gabfa6c9961024b87e52e12a8e7145e4f6}{\-I\-Pconnection\-Options\-Page\-::create\-Page} (\-Q\-Widget $\ast$parent)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___i_p_conn_plugin_gab7a01d955726b8a348fd5b7ee7ed1406}{\-I\-Pconnection\-Options\-Page\-::apply} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___i_p_conn_plugin_gad905bf02420acad58a684461d456bd09}{\-I\-Pconnection\-Options\-Page\-::finish} ()
+\item 
+\hyperlink{group___i_p_conn_plugin_ga5eedabe97b32eaee1617cc040476a4b9}{\-I\-Pconnection\-Connection\-::\-I\-Pconnection\-Connection} ()
+\item 
+virtual \hyperlink{group___i_p_conn_plugin_ga003fc5feae8a88f8a1ad994b5b688f6e}{\-I\-Pconnection\-Connection\-::$\sim$\-I\-Pconnection\-Connection} ()
+\item 
+virtual \-Q\-List$<$ \hyperlink{class_core_1_1_i_device}{\-Core\-::\-I\-Device} $\ast$ $>$ \hyperlink{group___i_p_conn_plugin_ga046ba69036aa4661e97da3c8fbb13850}{\-I\-Pconnection\-Connection\-::available\-Devices} ()
+\item 
+virtual \-Q\-I\-O\-Device $\ast$ \hyperlink{group___i_p_conn_plugin_ga111b86b5f5905dee93d220a847614bed}{\-I\-Pconnection\-Connection\-::open\-Device} (\hyperlink{class_core_1_1_i_device}{\-Core\-::\-I\-Device} $\ast$device\-Name)
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___i_p_conn_plugin_gab576cdaa8af931b52cafea033a9c7350}{\-I\-Pconnection\-Connection\-::close\-Device} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \&device\-Name)
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___i_p_conn_plugin_ga8709e871725c0d119edddd54db4c505c}{\-I\-Pconnection\-Connection\-::connection\-Name} ()
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___i_p_conn_plugin_gae18fe74813c61e299c3492ea3ac616c5}{\-I\-Pconnection\-Connection\-::short\-Name} ()
+\item 
+\hyperlink{class_i_pconnection_configuration}{\-I\-Pconnection\-Configuration} $\ast$ \hyperlink{group___i_p_conn_plugin_ga0e41970926f79a5f86cd89fe61075e03}{\-I\-Pconnection\-Connection\-::\-Config} () const 
+\item 
+\hyperlink{class_i_pconnection_options_page}{\-I\-Pconnection\-Options\-Page} $\ast$ \hyperlink{group___i_p_conn_plugin_ga8d119fd704cfcdca9ae8dc6c3a3c237b}{\-I\-Pconnection\-Connection\-::\-Optionspage} () const 
+\item 
+\hyperlink{group___i_p_conn_plugin_ga49199ecbe02c9b8fec0c2e0b1003d8ef}{\-I\-Pconnection\-Plugin\-::\-I\-Pconnection\-Plugin} ()
+\item 
+\hyperlink{group___i_p_conn_plugin_gad46085821e644ad2a37cf2b6f79d0883}{\-I\-Pconnection\-Plugin\-::$\sim$\-I\-Pconnection\-Plugin} ()
+\item 
+virtual bool \hyperlink{group___i_p_conn_plugin_ga66ca8127b859071b5c905aa9d0c22c55}{\-I\-Pconnection\-Plugin\-::initialize} (const \-Q\-String\-List \&arguments, \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} $\ast$error\-\_\-message)
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___i_p_conn_plugin_ga61e1d618e2d1914fd8190687cf0017a5}{\-I\-Pconnection\-Plugin\-::extensions\-Initialized} ()
+\item 
+\hyperlink{group___i_p_conn_plugin_gac181aa5d3b59b0fab84380bea813691c}{\-I\-P\-Connection\-::\-I\-P\-Connection} (\hyperlink{class_i_pconnection_connection}{\-I\-Pconnection\-Connection} $\ast$\hyperlink{group___i_p_conn_plugin_ga75cb9b33b52928c030806876f2c2f439}{connection})
+\end{DoxyCompactItemize}
+\subsection*{\-Variables}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___i_p_conn_plugin_ga2146099b9930944186a7ecc208950d22}{error\-Msg}
+\item 
+\-Q\-Wait\-Condition \hyperlink{group___i_p_conn_plugin_ga1724de889bbf979017a390aae2554bbd}{open\-Device\-Wait}
+\item 
+\-Q\-Wait\-Condition \hyperlink{group___i_p_conn_plugin_gaaa3820e584b5def7970dfed0b248a6f1}{close\-Device\-Wait}
+\item 
+\-Q\-Mutex \hyperlink{group___i_p_conn_plugin_gae78cf6a3d1073c22be5cc8054ae1e8d6}{ip\-Con\-Mutex}
+\item 
+\-Q\-Abstract\-Socket $\ast$ \hyperlink{group___i_p_conn_plugin_gabc99fe6afec1a75ccff1092e47375a40}{ret}
+\item 
+\hyperlink{class_i_p_connection}{\-I\-P\-Connection} $\ast$ \hyperlink{group___i_p_conn_plugin_ga75cb9b33b52928c030806876f2c2f439}{connection} = 0
+\end{DoxyCompactItemize}
+\subsection*{\-Signals}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___i_p_conn_plugin_ga1fa25251ff83374c3d8c41d161406b3a}{\-I\-Pconnection\-Options\-Page\-::available\-Dev\-Changed} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___i_p_conn_plugin_gae512a545bf7714b3a085d0a9ffec49e5}{\-I\-Pconnection\-Connection\-::\-Create\-Socket} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \-Host\-Name, int \-Port, bool \-Use\-T\-C\-P)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___i_p_conn_plugin_ga382e928a679913b5d226abbd10a08167}{\-I\-Pconnection\-Connection\-::\-Close\-Socket} (\-Q\-Abstract\-Socket $\ast$socket)
+\end{DoxyCompactItemize}
+\subsection*{\-Public \-Slots}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___i_p_conn_plugin_ga88855a0ecb5df4caaf47450815ff761a}{\-I\-Pconnection\-Configuration\-::set\-Host\-Name} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \-Host\-Name)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___i_p_conn_plugin_gacce8d065ea6dd85639e0e1aea893ce9c}{\-I\-Pconnection\-Configuration\-::set\-Port} (int \-Port)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___i_p_conn_plugin_ga58320607e7ef94199aa35fd7b7b4df21}{\-I\-Pconnection\-Configuration\-::set\-Use\-T\-C\-P} (int \-Use\-T\-C\-P)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___i_p_conn_plugin_ga2620fdde71bd8399a44eeec513197962}{\-I\-P\-Connection\-::on\-Open\-Device} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \-Host\-Name, int \-Port, bool \-Use\-T\-C\-P)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___i_p_conn_plugin_gac260d56bd7a0226cc1c047062b705314}{\-I\-P\-Connection\-::on\-Close\-Device} (\-Q\-Abstract\-Socket $\ast$ip\-Socket)
+\end{DoxyCompactItemize}
+\subsection*{\-Protected \-Slots}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___i_p_conn_plugin_ga1163b3efc22084c70e47aa84ac84c612}{\-I\-Pconnection\-Connection\-::on\-Enumeration\-Changed} ()
+\end{DoxyCompactItemize}
+\subsection*{\-Properties}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___i_p_conn_plugin_gaa540a20af79b7ec845405fb81a75dd82}{\-I\-Pconnection\-Configuration\-::\-Host\-Name}
+\item 
+int \hyperlink{group___i_p_conn_plugin_ga016b44f60ba95951cdf428d88a119a97}{\-I\-Pconnection\-Configuration\-::\-Port}
+\item 
+int \hyperlink{group___i_p_conn_plugin_ga40b7a131ca4ee4e1c315a0fc12281da8}{\-I\-Pconnection\-Configuration\-::\-Use\-T\-C\-P}
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-I\-P \-Connection \-Plugin impliment telemetry over \-T\-C\-P/\-I\-P and \-U\-D\-P/\-I\-P. 
+
+\subsection{\-Function \-Documentation}
+\hypertarget{group___i_p_conn_plugin_gab7a01d955726b8a348fd5b7ee7ed1406}{\index{\-I\-P Telemetry Plugin@{\-I\-P Telemetry Plugin}!apply@{apply}}
+\index{apply@{apply}!IP Telemetry Plugin@{\-I\-P Telemetry Plugin}}
+\subsubsection[{apply}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-I\-Pconnection\-Options\-Page\-::apply} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___i_p_conn_plugin_gab7a01d955726b8a348fd5b7ee7ed1406}
+
+
+\-Implements \hyperlink{group___core_plugin_ga05fa0c9b91da02a0f2fed11d2d6afed0}{\-Core\-::\-I\-Options\-Page}.
+
+
+
+\-Definition at line 65 of file ipconnectionoptionspage.\-cpp.
+
+\hypertarget{group___i_p_conn_plugin_ga046ba69036aa4661e97da3c8fbb13850}{\index{\-I\-P Telemetry Plugin@{\-I\-P Telemetry Plugin}!available\-Devices@{available\-Devices}}
+\index{available\-Devices@{available\-Devices}!IP Telemetry Plugin@{\-I\-P Telemetry Plugin}}
+\subsubsection[{available\-Devices}]{\setlength{\rightskip}{0pt plus 5cm}\-Q\-List$<$ \-I\-Device $\ast$ $>$ {\bf \-I\-Pconnection\-Connection\-::available\-Devices} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___i_p_conn_plugin_ga046ba69036aa4661e97da3c8fbb13850}
+\-Return the list of devices found on the system 
+
+\-Implements \hyperlink{group___core_plugin_ga2766d577d1343dfbd7f41859363cad29}{\-Core\-::\-I\-Connection}.
+
+
+
+\-Definition at line 162 of file ipconnectionplugin.\-cpp.
+
+\hypertarget{group___i_p_conn_plugin_ga74c9ab9f46cce418606d0ee3fc3491a0}{\index{\-I\-P Telemetry Plugin@{\-I\-P Telemetry Plugin}!category@{category}}
+\index{category@{category}!IP Telemetry Plugin@{\-I\-P Telemetry Plugin}}
+\subsubsection[{category}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Q\-String} {\bf \-I\-Pconnection\-Options\-Page\-::category} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}inline, virtual\mbox{]}}}}\label{group___i_p_conn_plugin_ga74c9ab9f46cce418606d0ee3fc3491a0}
+
+
+\-Reimplemented from \hyperlink{group___core_plugin_ga03767437394cdfbfc9e253638a71b132}{\-Core\-::\-I\-Options\-Page}.
+
+
+
+\-Definition at line 54 of file ipconnectionoptionspage.\-h.
+
+\hypertarget{group___i_p_conn_plugin_gaf970300a500acc18095f6d50a3926529}{\index{\-I\-P Telemetry Plugin@{\-I\-P Telemetry Plugin}!clone@{clone}}
+\index{clone@{clone}!IP Telemetry Plugin@{\-I\-P Telemetry Plugin}}
+\subsubsection[{clone}]{\setlength{\rightskip}{0pt plus 5cm}\-I\-U\-A\-V\-Gadget\-Configuration $\ast$ {\bf \-I\-Pconnection\-Configuration\-::clone} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___i_p_conn_plugin_gaf970300a500acc18095f6d50a3926529}
+
+
+\-Implements \hyperlink{group___core_plugin_ga35f72dc89919925fd591fa509ebbf7dc}{\-Core\-::\-I\-U\-A\-V\-Gadget\-Configuration}.
+
+
+
+\-Definition at line 46 of file ipconnectionconfiguration.\-cpp.
+
+\hypertarget{group___i_p_conn_plugin_gab576cdaa8af931b52cafea033a9c7350}{\index{\-I\-P Telemetry Plugin@{\-I\-P Telemetry Plugin}!close\-Device@{close\-Device}}
+\index{close\-Device@{close\-Device}!IP Telemetry Plugin@{\-I\-P Telemetry Plugin}}
+\subsubsection[{close\-Device}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-I\-Pconnection\-Connection\-::close\-Device} (
+\begin{DoxyParamCaption}
+\item[{const {\bf \-Q\-String} \&}]{device\-Name}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___i_p_conn_plugin_gab576cdaa8af931b52cafea033a9c7350}
+
+
+\-Reimplemented from \hyperlink{group___core_plugin_ga5264be67cf0d9ca62aae564737389b1d}{\-Core\-::\-I\-Connection}.
+
+
+
+\-Definition at line 212 of file ipconnectionplugin.\-cpp.
+
+\hypertarget{group___i_p_conn_plugin_ga0e41970926f79a5f86cd89fe61075e03}{\index{\-I\-P Telemetry Plugin@{\-I\-P Telemetry Plugin}!\-Config@{\-Config}}
+\index{\-Config@{\-Config}!IP Telemetry Plugin@{\-I\-P Telemetry Plugin}}
+\subsubsection[{\-Config}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-I\-Pconnection\-Configuration}$\ast$ {\bf \-I\-Pconnection\-Connection\-::\-Config} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___i_p_conn_plugin_ga0e41970926f79a5f86cd89fe61075e03}
+
+
+\-Definition at line 65 of file ipconnectionplugin.\-h.
+
+\hypertarget{group___i_p_conn_plugin_ga8709e871725c0d119edddd54db4c505c}{\index{\-I\-P Telemetry Plugin@{\-I\-P Telemetry Plugin}!connection\-Name@{connection\-Name}}
+\index{connection\-Name@{connection\-Name}!IP Telemetry Plugin@{\-I\-P Telemetry Plugin}}
+\subsubsection[{connection\-Name}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Q\-String} {\bf \-I\-Pconnection\-Connection\-::connection\-Name} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___i_p_conn_plugin_ga8709e871725c0d119edddd54db4c505c}
+\-Connection type name \char`\"{}\-U\-S\-B H\-I\-D\char`\"{} 
+
+\-Implements \hyperlink{group___core_plugin_ga65bb74489e016d9863f42f0bb87afd8c}{\-Core\-::\-I\-Connection}.
+
+
+
+\-Definition at line 224 of file ipconnectionplugin.\-cpp.
+
+\hypertarget{group___i_p_conn_plugin_gabfa6c9961024b87e52e12a8e7145e4f6}{\index{\-I\-P Telemetry Plugin@{\-I\-P Telemetry Plugin}!create\-Page@{create\-Page}}
+\index{create\-Page@{create\-Page}!IP Telemetry Plugin@{\-I\-P Telemetry Plugin}}
+\subsubsection[{create\-Page}]{\setlength{\rightskip}{0pt plus 5cm}\-Q\-Widget $\ast$ {\bf \-I\-Pconnection\-Options\-Page\-::create\-Page} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Widget $\ast$}]{parent}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___i_p_conn_plugin_gabfa6c9961024b87e52e12a8e7145e4f6}
+
+
+\-Implements \hyperlink{group___core_plugin_gac70a4473b3e086d0fa9849c431fb0672}{\-Core\-::\-I\-Options\-Page}.
+
+
+
+\-Definition at line 50 of file ipconnectionoptionspage.\-cpp.
+
+\hypertarget{group___i_p_conn_plugin_ga61e1d618e2d1914fd8190687cf0017a5}{\index{\-I\-P Telemetry Plugin@{\-I\-P Telemetry Plugin}!extensions\-Initialized@{extensions\-Initialized}}
+\index{extensions\-Initialized@{extensions\-Initialized}!IP Telemetry Plugin@{\-I\-P Telemetry Plugin}}
+\subsubsection[{extensions\-Initialized}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-I\-Pconnection\-Plugin\-::extensions\-Initialized} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___i_p_conn_plugin_ga61e1d618e2d1914fd8190687cf0017a5}
+\-Called after the \-I\-Plugin\-::initialize() method has been called, and after both the \-I\-Plugin\-::initialize() and \-I\-Plugin\-::extensions\-Initialized() methods of plugins that depend on this plugin have been called. \-In this method, the plugin can assume that plugins that depend on this plugin are fully 'up and running'. \-It is a good place to look in the plugin manager's object pool for objects that have been provided by dependent plugins. \begin{DoxySeeAlso}{\-See also}
+\hyperlink{group___i_p_conn_plugin_ga66ca8127b859071b5c905aa9d0c22c55}{initialize()} 
+\end{DoxySeeAlso}
+
+
+\-Implements \hyperlink{class_extension_system_1_1_i_plugin_a1db3a7fb242fca02229f9a3be4fd6610}{\-Extension\-System\-::\-I\-Plugin}.
+
+
+
+\-Definition at line 248 of file ipconnectionplugin.\-cpp.
+
+\hypertarget{group___i_p_conn_plugin_gad905bf02420acad58a684461d456bd09}{\index{\-I\-P Telemetry Plugin@{\-I\-P Telemetry Plugin}!finish@{finish}}
+\index{finish@{finish}!IP Telemetry Plugin@{\-I\-P Telemetry Plugin}}
+\subsubsection[{finish}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-I\-Pconnection\-Options\-Page\-::finish} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___i_p_conn_plugin_gad905bf02420acad58a684461d456bd09}
+
+
+\-Implements \hyperlink{group___core_plugin_ga47cf2602b6ee72a4971b1f0a4e1d887e}{\-Core\-::\-I\-Options\-Page}.
+
+
+
+\-Definition at line 78 of file ipconnectionoptionspage.\-cpp.
+
+\hypertarget{group___i_p_conn_plugin_gad855d70f2d3eee8910ee94c261e9f3cb}{\index{\-I\-P Telemetry Plugin@{\-I\-P Telemetry Plugin}!\-Host\-Name@{\-Host\-Name}}
+\index{\-Host\-Name@{\-Host\-Name}!IP Telemetry Plugin@{\-I\-P Telemetry Plugin}}
+\subsubsection[{\-Host\-Name}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Q\-String} {\bf \-I\-Pconnection\-Configuration\-::\-Host\-Name} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___i_p_conn_plugin_gad855d70f2d3eee8910ee94c261e9f3cb}
+
+
+\-Definition at line 55 of file ipconnectionconfiguration.\-h.
+
+\hypertarget{group___i_p_conn_plugin_ga4e312ba72e8ed237e148f6f2fd3bfd3f}{\index{\-I\-P Telemetry Plugin@{\-I\-P Telemetry Plugin}!id@{id}}
+\index{id@{id}!IP Telemetry Plugin@{\-I\-P Telemetry Plugin}}
+\subsubsection[{id}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Q\-String} {\bf \-I\-Pconnection\-Options\-Page\-::id} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}inline, virtual\mbox{]}}}}\label{group___i_p_conn_plugin_ga4e312ba72e8ed237e148f6f2fd3bfd3f}
+
+
+\-Reimplemented from \hyperlink{group___core_plugin_ga2984fb6ab0e3b502783dfee7ba596268}{\-Core\-::\-I\-Options\-Page}.
+
+
+
+\-Definition at line 52 of file ipconnectionoptionspage.\-h.
+
+\hypertarget{group___i_p_conn_plugin_ga66ca8127b859071b5c905aa9d0c22c55}{\index{\-I\-P Telemetry Plugin@{\-I\-P Telemetry Plugin}!initialize@{initialize}}
+\index{initialize@{initialize}!IP Telemetry Plugin@{\-I\-P Telemetry Plugin}}
+\subsubsection[{initialize}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-I\-Pconnection\-Plugin\-::initialize} (
+\begin{DoxyParamCaption}
+\item[{const \-Q\-String\-List \&}]{arguments, }
+\item[{{\bf \-Q\-String} $\ast$}]{error\-String}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___i_p_conn_plugin_ga66ca8127b859071b5c905aa9d0c22c55}
+\-Called after the plugin has been loaded and the \-I\-Plugin instance has been created. \-The initialize methods of plugins that depend on this plugin are called after the initialize method of this plugin has been called. \-Plugins should initialize their internal state in this method. \-Returns if initialization of successful. \-If it wasn't successful, the {\itshape error\-String\/} should be set to a user-\/readable message describing the reason. \begin{DoxySeeAlso}{\-See also}
+\hyperlink{group___i_p_conn_plugin_ga61e1d618e2d1914fd8190687cf0017a5}{extensions\-Initialized()} 
+\end{DoxySeeAlso}
+
+
+\-Implements \hyperlink{class_extension_system_1_1_i_plugin_a9f3dc957317279daed393fdf4894e944}{\-Extension\-System\-::\-I\-Plugin}.
+
+
+
+\-Definition at line 253 of file ipconnectionplugin.\-cpp.
+
+\hypertarget{group___i_p_conn_plugin_gac181aa5d3b59b0fab84380bea813691c}{\index{\-I\-P Telemetry Plugin@{\-I\-P Telemetry Plugin}!\-I\-P\-Connection@{\-I\-P\-Connection}}
+\index{\-I\-P\-Connection@{\-I\-P\-Connection}!IP Telemetry Plugin@{\-I\-P Telemetry Plugin}}
+\subsubsection[{\-I\-P\-Connection}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-I\-P\-Connection\-::\-I\-P\-Connection} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-I\-Pconnection\-Connection} $\ast$}]{connection}
+\end{DoxyParamCaption}
+)}}\label{group___i_p_conn_plugin_gac181aa5d3b59b0fab84380bea813691c}
+
+
+\-Definition at line 57 of file ipconnectionplugin.\-cpp.
+
+\hypertarget{group___i_p_conn_plugin_ga0ace87181ef54adf63c246bcfa013840}{\index{\-I\-P Telemetry Plugin@{\-I\-P Telemetry Plugin}!\-I\-Pconnection\-Configuration@{\-I\-Pconnection\-Configuration}}
+\index{\-I\-Pconnection\-Configuration@{\-I\-Pconnection\-Configuration}!IP Telemetry Plugin@{\-I\-P Telemetry Plugin}}
+\subsubsection[{\-I\-Pconnection\-Configuration}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-I\-Pconnection\-Configuration\-::\-I\-Pconnection\-Configuration} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Q\-String}}]{class\-Id, }
+\item[{\-Q\-Settings $\ast$}]{q\-Settings = {\ttfamily 0}, }
+\item[{\-Q\-Object $\ast$}]{parent = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}explicit\mbox{]}}}}\label{group___i_p_conn_plugin_ga0ace87181ef54adf63c246bcfa013840}
+
+
+\-Definition at line 31 of file ipconnectionconfiguration.\-cpp.
+
+\hypertarget{group___i_p_conn_plugin_ga5eedabe97b32eaee1617cc040476a4b9}{\index{\-I\-P Telemetry Plugin@{\-I\-P Telemetry Plugin}!\-I\-Pconnection\-Connection@{\-I\-Pconnection\-Connection}}
+\index{\-I\-Pconnection\-Connection@{\-I\-Pconnection\-Connection}!IP Telemetry Plugin@{\-I\-P Telemetry Plugin}}
+\subsubsection[{\-I\-Pconnection\-Connection}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-I\-Pconnection\-Connection\-::\-I\-Pconnection\-Connection} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___i_p_conn_plugin_ga5eedabe97b32eaee1617cc040476a4b9}
+
+
+\-Definition at line 122 of file ipconnectionplugin.\-cpp.
+
+\hypertarget{group___i_p_conn_plugin_ga00a24fd6df6f9866d5b8e5eb76cd9c93}{\index{\-I\-P Telemetry Plugin@{\-I\-P Telemetry Plugin}!\-I\-Pconnection\-Options\-Page@{\-I\-Pconnection\-Options\-Page}}
+\index{\-I\-Pconnection\-Options\-Page@{\-I\-Pconnection\-Options\-Page}!IP Telemetry Plugin@{\-I\-P Telemetry Plugin}}
+\subsubsection[{\-I\-Pconnection\-Options\-Page}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-I\-Pconnection\-Options\-Page\-::\-I\-Pconnection\-Options\-Page} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-I\-Pconnection\-Configuration} $\ast$}]{config, }
+\item[{\-Q\-Object $\ast$}]{parent = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}explicit\mbox{]}}}}\label{group___i_p_conn_plugin_ga00a24fd6df6f9866d5b8e5eb76cd9c93}
+
+
+\-Definition at line 41 of file ipconnectionoptionspage.\-cpp.
+
+\hypertarget{group___i_p_conn_plugin_ga49199ecbe02c9b8fec0c2e0b1003d8ef}{\index{\-I\-P Telemetry Plugin@{\-I\-P Telemetry Plugin}!\-I\-Pconnection\-Plugin@{\-I\-Pconnection\-Plugin}}
+\index{\-I\-Pconnection\-Plugin@{\-I\-Pconnection\-Plugin}!IP Telemetry Plugin@{\-I\-P Telemetry Plugin}}
+\subsubsection[{\-I\-Pconnection\-Plugin}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-I\-Pconnection\-Plugin\-::\-I\-Pconnection\-Plugin} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___i_p_conn_plugin_ga49199ecbe02c9b8fec0c2e0b1003d8ef}
+
+
+\-Definition at line 239 of file ipconnectionplugin.\-cpp.
+
+\hypertarget{group___i_p_conn_plugin_ga111b86b5f5905dee93d220a847614bed}{\index{\-I\-P Telemetry Plugin@{\-I\-P Telemetry Plugin}!open\-Device@{open\-Device}}
+\index{open\-Device@{open\-Device}!IP Telemetry Plugin@{\-I\-P Telemetry Plugin}}
+\subsubsection[{open\-Device}]{\setlength{\rightskip}{0pt plus 5cm}\-Q\-I\-O\-Device $\ast$ {\bf \-I\-Pconnection\-Connection\-::open\-Device} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Core\-::\-I\-Device} $\ast$}]{device}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___i_p_conn_plugin_ga111b86b5f5905dee93d220a847614bed}
+\-Open a device, and return a \-Q\-I\-O\-Device interface from it \-It should be a dynamically created object as it will be deleted by the connection manager. 
+
+\-Implements \hyperlink{group___core_plugin_ga9fa3de80c2899c62813961082ad48e95}{\-Core\-::\-I\-Connection}.
+
+
+
+\-Definition at line 176 of file ipconnectionplugin.\-cpp.
+
+\hypertarget{group___i_p_conn_plugin_ga8d119fd704cfcdca9ae8dc6c3a3c237b}{\index{\-I\-P Telemetry Plugin@{\-I\-P Telemetry Plugin}!\-Optionspage@{\-Optionspage}}
+\index{\-Optionspage@{\-Optionspage}!IP Telemetry Plugin@{\-I\-P Telemetry Plugin}}
+\subsubsection[{\-Optionspage}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-I\-Pconnection\-Options\-Page}$\ast$ {\bf \-I\-Pconnection\-Connection\-::\-Optionspage} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___i_p_conn_plugin_ga8d119fd704cfcdca9ae8dc6c3a3c237b}
+
+
+\-Definition at line 66 of file ipconnectionplugin.\-h.
+
+\hypertarget{group___i_p_conn_plugin_gaaa57ca41a00de517e859afa3c339099a}{\index{\-I\-P Telemetry Plugin@{\-I\-P Telemetry Plugin}!\-Port@{\-Port}}
+\index{\-Port@{\-Port}!IP Telemetry Plugin@{\-I\-P Telemetry Plugin}}
+\subsubsection[{\-Port}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf \-I\-Pconnection\-Configuration\-::\-Port} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___i_p_conn_plugin_gaaa57ca41a00de517e859afa3c339099a}
+
+
+\-Definition at line 56 of file ipconnectionconfiguration.\-h.
+
+\hypertarget{group___i_p_conn_plugin_gabd3e5ffc6975c4ef5389faaf21fb55c0}{\index{\-I\-P Telemetry Plugin@{\-I\-P Telemetry Plugin}!restoresettings@{restoresettings}}
+\index{restoresettings@{restoresettings}!IP Telemetry Plugin@{\-I\-P Telemetry Plugin}}
+\subsubsection[{restoresettings}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-I\-Pconnection\-Configuration\-::restoresettings} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___i_p_conn_plugin_gabd3e5ffc6975c4ef5389faaf21fb55c0}
+
+
+\-Definition at line 79 of file ipconnectionconfiguration.\-cpp.
+
+\hypertarget{group___i_p_conn_plugin_ga65bf62eee71070aef5ce1f9fe1f24322}{\index{\-I\-P Telemetry Plugin@{\-I\-P Telemetry Plugin}!save\-Config@{save\-Config}}
+\index{save\-Config@{save\-Config}!IP Telemetry Plugin@{\-I\-P Telemetry Plugin}}
+\subsubsection[{save\-Config}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-I\-Pconnection\-Configuration\-::save\-Config} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Settings $\ast$}]{q\-Settings}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___i_p_conn_plugin_ga65bf62eee71070aef5ce1f9fe1f24322}
+\-Saves a configuration. 
+
+\-Reimplemented from \hyperlink{group___core_plugin_gadd755520091c21c0ce09973c5bbdb7a9}{\-Core\-::\-I\-U\-A\-V\-Gadget\-Configuration}.
+
+
+
+\-Definition at line 59 of file ipconnectionconfiguration.\-cpp.
+
+\hypertarget{group___i_p_conn_plugin_ga6e5d554b42d69fd06e4817ec4bece987}{\index{\-I\-P Telemetry Plugin@{\-I\-P Telemetry Plugin}!savesettings@{savesettings}}
+\index{savesettings@{savesettings}!IP Telemetry Plugin@{\-I\-P Telemetry Plugin}}
+\subsubsection[{savesettings}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-I\-Pconnection\-Configuration\-::savesettings} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{group___i_p_conn_plugin_ga6e5d554b42d69fd06e4817ec4bece987}
+
+
+\-Definition at line 65 of file ipconnectionconfiguration.\-cpp.
+
+\hypertarget{group___i_p_conn_plugin_gae18fe74813c61e299c3492ea3ac616c5}{\index{\-I\-P Telemetry Plugin@{\-I\-P Telemetry Plugin}!short\-Name@{short\-Name}}
+\index{short\-Name@{short\-Name}!IP Telemetry Plugin@{\-I\-P Telemetry Plugin}}
+\subsubsection[{short\-Name}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Q\-String} {\bf \-I\-Pconnection\-Connection\-::short\-Name} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___i_p_conn_plugin_gae18fe74813c61e299c3492ea3ac616c5}
+\-Short name to display in a combo box 
+
+\-Reimplemented from \hyperlink{group___core_plugin_gad436df0a83378128cb8034d83e6734f0}{\-Core\-::\-I\-Connection}.
+
+
+
+\-Definition at line 229 of file ipconnectionplugin.\-cpp.
+
+\hypertarget{group___i_p_conn_plugin_gace8ed46c336f3ee28ed2afeae6088da2}{\index{\-I\-P Telemetry Plugin@{\-I\-P Telemetry Plugin}!tr\-Category@{tr\-Category}}
+\index{tr\-Category@{tr\-Category}!IP Telemetry Plugin@{\-I\-P Telemetry Plugin}}
+\subsubsection[{tr\-Category}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Q\-String} {\bf \-I\-Pconnection\-Options\-Page\-::tr\-Category} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}inline, virtual\mbox{]}}}}\label{group___i_p_conn_plugin_gace8ed46c336f3ee28ed2afeae6088da2}
+
+
+\-Reimplemented from \hyperlink{group___core_plugin_gac5538fc040c826784167edb4fc359b68}{\-Core\-::\-I\-Options\-Page}.
+
+
+
+\-Definition at line 55 of file ipconnectionoptionspage.\-h.
+
+\hypertarget{group___i_p_conn_plugin_gaf5ef5d6b22e3098d76849cf94feeb35c}{\index{\-I\-P Telemetry Plugin@{\-I\-P Telemetry Plugin}!tr\-Name@{tr\-Name}}
+\index{tr\-Name@{tr\-Name}!IP Telemetry Plugin@{\-I\-P Telemetry Plugin}}
+\subsubsection[{tr\-Name}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Q\-String} {\bf \-I\-Pconnection\-Options\-Page\-::tr\-Name} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}inline, virtual\mbox{]}}}}\label{group___i_p_conn_plugin_gaf5ef5d6b22e3098d76849cf94feeb35c}
+
+
+\-Reimplemented from \hyperlink{group___core_plugin_ga9bda94026b37720a30f4294560c79244}{\-Core\-::\-I\-Options\-Page}.
+
+
+
+\-Definition at line 53 of file ipconnectionoptionspage.\-h.
+
+\hypertarget{group___i_p_conn_plugin_ga584108a558af4b69e0494772eb273f94}{\index{\-I\-P Telemetry Plugin@{\-I\-P Telemetry Plugin}!\-Use\-T\-C\-P@{\-Use\-T\-C\-P}}
+\index{\-Use\-T\-C\-P@{\-Use\-T\-C\-P}!IP Telemetry Plugin@{\-I\-P Telemetry Plugin}}
+\subsubsection[{\-Use\-T\-C\-P}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf \-I\-Pconnection\-Configuration\-::\-Use\-T\-C\-P} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___i_p_conn_plugin_ga584108a558af4b69e0494772eb273f94}
+
+
+\-Definition at line 57 of file ipconnectionconfiguration.\-h.
+
+\hypertarget{group___i_p_conn_plugin_ga9c8548dfb0fd37208686bb5d037dfce4}{\index{\-I\-P Telemetry Plugin@{\-I\-P Telemetry Plugin}!$\sim$\-I\-Pconnection\-Configuration@{$\sim$\-I\-Pconnection\-Configuration}}
+\index{$\sim$\-I\-Pconnection\-Configuration@{$\sim$\-I\-Pconnection\-Configuration}!IP Telemetry Plugin@{\-I\-P Telemetry Plugin}}
+\subsubsection[{$\sim$\-I\-Pconnection\-Configuration}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-I\-Pconnection\-Configuration\-::$\sim$\-I\-Pconnection\-Configuration} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___i_p_conn_plugin_ga9c8548dfb0fd37208686bb5d037dfce4}
+
+
+\-Definition at line 42 of file ipconnectionconfiguration.\-cpp.
+
+\hypertarget{group___i_p_conn_plugin_ga003fc5feae8a88f8a1ad994b5b688f6e}{\index{\-I\-P Telemetry Plugin@{\-I\-P Telemetry Plugin}!$\sim$\-I\-Pconnection\-Connection@{$\sim$\-I\-Pconnection\-Connection}}
+\index{$\sim$\-I\-Pconnection\-Connection@{$\sim$\-I\-Pconnection\-Connection}!IP Telemetry Plugin@{\-I\-P Telemetry Plugin}}
+\subsubsection[{$\sim$\-I\-Pconnection\-Connection}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-I\-Pconnection\-Connection\-::$\sim$\-I\-Pconnection\-Connection} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___i_p_conn_plugin_ga003fc5feae8a88f8a1ad994b5b688f6e}
+
+
+\-Definition at line 142 of file ipconnectionplugin.\-cpp.
+
+\hypertarget{group___i_p_conn_plugin_ga3b3b7d2dfd99db070bc9e3bebfaee3aa}{\index{\-I\-P Telemetry Plugin@{\-I\-P Telemetry Plugin}!$\sim$\-I\-Pconnection\-Options\-Page@{$\sim$\-I\-Pconnection\-Options\-Page}}
+\index{$\sim$\-I\-Pconnection\-Options\-Page@{$\sim$\-I\-Pconnection\-Options\-Page}!IP Telemetry Plugin@{\-I\-P Telemetry Plugin}}
+\subsubsection[{$\sim$\-I\-Pconnection\-Options\-Page}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-I\-Pconnection\-Options\-Page\-::$\sim$\-I\-Pconnection\-Options\-Page} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___i_p_conn_plugin_ga3b3b7d2dfd99db070bc9e3bebfaee3aa}
+
+
+\-Definition at line 47 of file ipconnectionoptionspage.\-cpp.
+
+\hypertarget{group___i_p_conn_plugin_gad46085821e644ad2a37cf2b6f79d0883}{\index{\-I\-P Telemetry Plugin@{\-I\-P Telemetry Plugin}!$\sim$\-I\-Pconnection\-Plugin@{$\sim$\-I\-Pconnection\-Plugin}}
+\index{$\sim$\-I\-Pconnection\-Plugin@{$\sim$\-I\-Pconnection\-Plugin}!IP Telemetry Plugin@{\-I\-P Telemetry Plugin}}
+\subsubsection[{$\sim$\-I\-Pconnection\-Plugin}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-I\-Pconnection\-Plugin\-::$\sim$\-I\-Pconnection\-Plugin} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___i_p_conn_plugin_gad46085821e644ad2a37cf2b6f79d0883}
+
+
+\-Definition at line 243 of file ipconnectionplugin.\-cpp.
+
+
+
+\subsection{\-Variable \-Documentation}
+\hypertarget{group___i_p_conn_plugin_gaaa3820e584b5def7970dfed0b248a6f1}{\index{\-I\-P Telemetry Plugin@{\-I\-P Telemetry Plugin}!close\-Device\-Wait@{close\-Device\-Wait}}
+\index{close\-Device\-Wait@{close\-Device\-Wait}!IP Telemetry Plugin@{\-I\-P Telemetry Plugin}}
+\subsubsection[{close\-Device\-Wait}]{\setlength{\rightskip}{0pt plus 5cm}\-Q\-Wait\-Condition {\bf close\-Device\-Wait}}}\label{group___i_p_conn_plugin_gaaa3820e584b5def7970dfed0b248a6f1}
+
+
+\-Definition at line 52 of file ipconnectionplugin.\-cpp.
+
+\hypertarget{group___i_p_conn_plugin_ga75cb9b33b52928c030806876f2c2f439}{\index{\-I\-P Telemetry Plugin@{\-I\-P Telemetry Plugin}!connection@{connection}}
+\index{connection@{connection}!IP Telemetry Plugin@{\-I\-P Telemetry Plugin}}
+\subsubsection[{connection}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-I\-P\-Connection}$\ast$ {\bf connection} = 0}}\label{group___i_p_conn_plugin_ga75cb9b33b52928c030806876f2c2f439}
+
+
+\-Definition at line 120 of file ipconnectionplugin.\-cpp.
+
+\hypertarget{group___i_p_conn_plugin_ga2146099b9930944186a7ecc208950d22}{\index{\-I\-P Telemetry Plugin@{\-I\-P Telemetry Plugin}!error\-Msg@{error\-Msg}}
+\index{error\-Msg@{error\-Msg}!IP Telemetry Plugin@{\-I\-P Telemetry Plugin}}
+\subsubsection[{error\-Msg}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Q\-String} {\bf error\-Msg}}}\label{group___i_p_conn_plugin_ga2146099b9930944186a7ecc208950d22}
+
+
+\-Definition at line 50 of file ipconnectionplugin.\-cpp.
+
+\hypertarget{group___i_p_conn_plugin_gae78cf6a3d1073c22be5cc8054ae1e8d6}{\index{\-I\-P Telemetry Plugin@{\-I\-P Telemetry Plugin}!ip\-Con\-Mutex@{ip\-Con\-Mutex}}
+\index{ip\-Con\-Mutex@{ip\-Con\-Mutex}!IP Telemetry Plugin@{\-I\-P Telemetry Plugin}}
+\subsubsection[{ip\-Con\-Mutex}]{\setlength{\rightskip}{0pt plus 5cm}\-Q\-Mutex {\bf ip\-Con\-Mutex}}}\label{group___i_p_conn_plugin_gae78cf6a3d1073c22be5cc8054ae1e8d6}
+
+
+\-Definition at line 54 of file ipconnectionplugin.\-cpp.
+
+\hypertarget{group___i_p_conn_plugin_ga1724de889bbf979017a390aae2554bbd}{\index{\-I\-P Telemetry Plugin@{\-I\-P Telemetry Plugin}!open\-Device\-Wait@{open\-Device\-Wait}}
+\index{open\-Device\-Wait@{open\-Device\-Wait}!IP Telemetry Plugin@{\-I\-P Telemetry Plugin}}
+\subsubsection[{open\-Device\-Wait}]{\setlength{\rightskip}{0pt plus 5cm}\-Q\-Wait\-Condition {\bf open\-Device\-Wait}}}\label{group___i_p_conn_plugin_ga1724de889bbf979017a390aae2554bbd}
+
+
+\-Definition at line 51 of file ipconnectionplugin.\-cpp.
+
+\hypertarget{group___i_p_conn_plugin_gabc99fe6afec1a75ccff1092e47375a40}{\index{\-I\-P Telemetry Plugin@{\-I\-P Telemetry Plugin}!ret@{ret}}
+\index{ret@{ret}!IP Telemetry Plugin@{\-I\-P Telemetry Plugin}}
+\subsubsection[{ret}]{\setlength{\rightskip}{0pt plus 5cm}\-Q\-Abstract\-Socket$\ast$ {\bf ret}}}\label{group___i_p_conn_plugin_gabc99fe6afec1a75ccff1092e47375a40}
+
+
+\-Definition at line 55 of file ipconnectionplugin.\-cpp.
+
+
+
+\subsection{\-Signals}
+\hypertarget{group___i_p_conn_plugin_ga1fa25251ff83374c3d8c41d161406b3a}{\index{\-I\-P Telemetry Plugin@{\-I\-P Telemetry Plugin}!available\-Dev\-Changed@{available\-Dev\-Changed}}
+\index{available\-Dev\-Changed@{available\-Dev\-Changed}!IP Telemetry Plugin@{\-I\-P Telemetry Plugin}}
+\subsubsection[{available\-Dev\-Changed}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-I\-Pconnection\-Options\-Page\-::available\-Dev\-Changed} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}signal\mbox{]}}}}\label{group___i_p_conn_plugin_ga1fa25251ff83374c3d8c41d161406b3a}
+\hypertarget{group___i_p_conn_plugin_ga382e928a679913b5d226abbd10a08167}{\index{\-I\-P Telemetry Plugin@{\-I\-P Telemetry Plugin}!\-Close\-Socket@{\-Close\-Socket}}
+\index{\-Close\-Socket@{\-Close\-Socket}!IP Telemetry Plugin@{\-I\-P Telemetry Plugin}}
+\subsubsection[{\-Close\-Socket}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-I\-Pconnection\-Connection\-::\-Close\-Socket} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Abstract\-Socket $\ast$}]{socket}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}signal\mbox{]}}}}\label{group___i_p_conn_plugin_ga382e928a679913b5d226abbd10a08167}
+\hypertarget{group___i_p_conn_plugin_gae512a545bf7714b3a085d0a9ffec49e5}{\index{\-I\-P Telemetry Plugin@{\-I\-P Telemetry Plugin}!\-Create\-Socket@{\-Create\-Socket}}
+\index{\-Create\-Socket@{\-Create\-Socket}!IP Telemetry Plugin@{\-I\-P Telemetry Plugin}}
+\subsubsection[{\-Create\-Socket}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-I\-Pconnection\-Connection\-::\-Create\-Socket} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Q\-String}}]{\-Host\-Name, }
+\item[{int}]{\-Port, }
+\item[{bool}]{\-Use\-T\-C\-P}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}signal\mbox{]}}}}\label{group___i_p_conn_plugin_gae512a545bf7714b3a085d0a9ffec49e5}
+
+
+\subsection{\-Public \-Slots}
+\hypertarget{group___i_p_conn_plugin_gac260d56bd7a0226cc1c047062b705314}{\index{\-I\-P Telemetry Plugin@{\-I\-P Telemetry Plugin}!on\-Close\-Device@{on\-Close\-Device}}
+\index{on\-Close\-Device@{on\-Close\-Device}!IP Telemetry Plugin@{\-I\-P Telemetry Plugin}}
+\subsubsection[{on\-Close\-Device}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-I\-P\-Connection\-::on\-Close\-Device} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Abstract\-Socket $\ast$}]{ip\-Socket}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}slot\mbox{]}}}}\label{group___i_p_conn_plugin_gac260d56bd7a0226cc1c047062b705314}
+
+
+\-Definition at line 110 of file ipconnectionplugin.\-cpp.
+
+\hypertarget{group___i_p_conn_plugin_ga2620fdde71bd8399a44eeec513197962}{\index{\-I\-P Telemetry Plugin@{\-I\-P Telemetry Plugin}!on\-Open\-Device@{on\-Open\-Device}}
+\index{on\-Open\-Device@{on\-Open\-Device}!IP Telemetry Plugin@{\-I\-P Telemetry Plugin}}
+\subsubsection[{on\-Open\-Device}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-I\-P\-Connection\-::on\-Open\-Device} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Q\-String}}]{\-Host\-Name, }
+\item[{int}]{\-Port, }
+\item[{bool}]{\-Use\-T\-C\-P}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}slot\mbox{]}}}}\label{group___i_p_conn_plugin_ga2620fdde71bd8399a44eeec513197962}
+
+
+\-Definition at line 72 of file ipconnectionplugin.\-cpp.
+
+\hypertarget{group___i_p_conn_plugin_ga88855a0ecb5df4caaf47450815ff761a}{\index{\-I\-P Telemetry Plugin@{\-I\-P Telemetry Plugin}!set\-Host\-Name@{set\-Host\-Name}}
+\index{set\-Host\-Name@{set\-Host\-Name}!IP Telemetry Plugin@{\-I\-P Telemetry Plugin}}
+\subsubsection[{set\-Host\-Name}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-I\-Pconnection\-Configuration\-::set\-Host\-Name} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Q\-String}}]{\-Host\-Name}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, slot\mbox{]}}}}\label{group___i_p_conn_plugin_ga88855a0ecb5df4caaf47450815ff761a}
+
+
+\-Definition at line 61 of file ipconnectionconfiguration.\-h.
+
+\hypertarget{group___i_p_conn_plugin_gacce8d065ea6dd85639e0e1aea893ce9c}{\index{\-I\-P Telemetry Plugin@{\-I\-P Telemetry Plugin}!set\-Port@{set\-Port}}
+\index{set\-Port@{set\-Port}!IP Telemetry Plugin@{\-I\-P Telemetry Plugin}}
+\subsubsection[{set\-Port}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-I\-Pconnection\-Configuration\-::set\-Port} (
+\begin{DoxyParamCaption}
+\item[{int}]{\-Port}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, slot\mbox{]}}}}\label{group___i_p_conn_plugin_gacce8d065ea6dd85639e0e1aea893ce9c}
+
+
+\-Definition at line 62 of file ipconnectionconfiguration.\-h.
+
+\hypertarget{group___i_p_conn_plugin_ga58320607e7ef94199aa35fd7b7b4df21}{\index{\-I\-P Telemetry Plugin@{\-I\-P Telemetry Plugin}!set\-Use\-T\-C\-P@{set\-Use\-T\-C\-P}}
+\index{set\-Use\-T\-C\-P@{set\-Use\-T\-C\-P}!IP Telemetry Plugin@{\-I\-P Telemetry Plugin}}
+\subsubsection[{set\-Use\-T\-C\-P}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-I\-Pconnection\-Configuration\-::set\-Use\-T\-C\-P} (
+\begin{DoxyParamCaption}
+\item[{int}]{\-Use\-T\-C\-P}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, slot\mbox{]}}}}\label{group___i_p_conn_plugin_ga58320607e7ef94199aa35fd7b7b4df21}
+
+
+\-Definition at line 63 of file ipconnectionconfiguration.\-h.
+
+
+
+\subsection{\-Protected \-Slots}
+\hypertarget{group___i_p_conn_plugin_ga1163b3efc22084c70e47aa84ac84c612}{\index{\-I\-P Telemetry Plugin@{\-I\-P Telemetry Plugin}!on\-Enumeration\-Changed@{on\-Enumeration\-Changed}}
+\index{on\-Enumeration\-Changed@{on\-Enumeration\-Changed}!IP Telemetry Plugin@{\-I\-P Telemetry Plugin}}
+\subsubsection[{on\-Enumeration\-Changed}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-I\-Pconnection\-Connection\-::on\-Enumeration\-Changed} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}protected, slot\mbox{]}}}}\label{group___i_p_conn_plugin_ga1163b3efc22084c70e47aa84ac84c612}
+
+
+\-Definition at line 155 of file ipconnectionplugin.\-cpp.
+
+
+
+\subsection{\-Properties}
+\hypertarget{group___i_p_conn_plugin_gaa540a20af79b7ec845405fb81a75dd82}{\index{\-I\-P Telemetry Plugin@{\-I\-P Telemetry Plugin}!\-Host\-Name@{\-Host\-Name}}
+\index{\-Host\-Name@{\-Host\-Name}!IP Telemetry Plugin@{\-I\-P Telemetry Plugin}}
+\subsubsection[{\-Host\-Name}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Q\-String} {\bf \-I\-Pconnection\-Configuration\-::\-Host\-Name}\hspace{0.3cm}{\ttfamily  \mbox{[}read, write\mbox{]}}}}\label{group___i_p_conn_plugin_gaa540a20af79b7ec845405fb81a75dd82}
+
+
+\-Definition at line 40 of file ipconnectionconfiguration.\-h.
+
+\hypertarget{group___i_p_conn_plugin_ga016b44f60ba95951cdf428d88a119a97}{\index{\-I\-P Telemetry Plugin@{\-I\-P Telemetry Plugin}!\-Port@{\-Port}}
+\index{\-Port@{\-Port}!IP Telemetry Plugin@{\-I\-P Telemetry Plugin}}
+\subsubsection[{\-Port}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf \-I\-Pconnection\-Configuration\-::\-Port}\hspace{0.3cm}{\ttfamily  \mbox{[}read, write\mbox{]}}}}\label{group___i_p_conn_plugin_ga016b44f60ba95951cdf428d88a119a97}
+
+
+\-Definition at line 41 of file ipconnectionconfiguration.\-h.
+
+\hypertarget{group___i_p_conn_plugin_ga40b7a131ca4ee4e1c315a0fc12281da8}{\index{\-I\-P Telemetry Plugin@{\-I\-P Telemetry Plugin}!\-Use\-T\-C\-P@{\-Use\-T\-C\-P}}
+\index{\-Use\-T\-C\-P@{\-Use\-T\-C\-P}!IP Telemetry Plugin@{\-I\-P Telemetry Plugin}}
+\subsubsection[{\-Use\-T\-C\-P}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf \-I\-Pconnection\-Configuration\-::\-Use\-T\-C\-P}\hspace{0.3cm}{\ttfamily  \mbox{[}read, write\mbox{]}}}}\label{group___i_p_conn_plugin_ga40b7a131ca4ee4e1c315a0fc12281da8}
+
+
+\-Definition at line 42 of file ipconnectionconfiguration.\-h.
+

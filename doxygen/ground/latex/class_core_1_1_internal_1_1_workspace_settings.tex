@@ -1,0 +1,77 @@
+\hypertarget{class_core_1_1_internal_1_1_workspace_settings}{\section{\-Core\-:\-:\-Internal\-:\-:\-Workspace\-Settings \-Class \-Reference}
+\label{class_core_1_1_internal_1_1_workspace_settings}\index{\-Core\-::\-Internal\-::\-Workspace\-Settings@{\-Core\-::\-Internal\-::\-Workspace\-Settings}}
+}
+
+
+{\ttfamily \#include $<$workspacesettings.\-h$>$}
+
+\-Inheritance diagram for \-Core\-:\-:\-Internal\-:\-:\-Workspace\-Settings\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_core_1_1_internal_1_1_workspace_settings}
+\end{center}
+\end{figure}
+\subsection*{\-Public \-Slots}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___core_plugin_ga8421af99280f278e01011e47fcb1a386}{select\-Workspace} (int index, bool store=false)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___core_plugin_ga1575cedbcfaf5b3074eec04fbfc5b9a8}{number\-Of\-Workspaces\-Changed} (int value)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___core_plugin_gadd1f5f6b07432b1f0ce05a0f32d2e167}{text\-Edited} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} string)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___core_plugin_ga5325701713e8d0b8f192ceb394317831}{icon\-Changed} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___core_plugin_ga5c72de6d843864da76c1725b05bd7382}{new\-Mode\-Order} (\-Q\-Vector$<$ \hyperlink{class_core_1_1_i_mode}{\-I\-Mode} $\ast$ $>$ modes)
+\end{DoxyCompactItemize}
+\subsection*{\-Signals}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___core_plugin_ga7fbca5cfb84fd54afed52b4ca319f887}{tab\-Bar\-Settings\-Applied} (\-Q\-Tab\-Widget\-::\-Tab\-Position pos, bool movable)
+\end{DoxyCompactItemize}
+\subsection*{\-Public \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___core_plugin_ga17c90a13ced98ccf424faf0ffe0a9b83}{\-Workspace\-Settings} (\-Q\-Object $\ast$parent=0)
+\item 
+\hyperlink{group___core_plugin_ga52cc2565aaed4f3542cdeba23e41648f}{$\sim$\-Workspace\-Settings} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___core_plugin_ga71ed1ecbadd60bd6d4bb544942aede25}{id} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___core_plugin_gab9597c172a3c0a1ae683edb4c4a3d8c2}{tr\-Name} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___core_plugin_ga09ec0904c7d7ef400eb3251043b2520e}{category} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___core_plugin_ga8ecc36dbd81d6713a27af883d0ae089d}{tr\-Category} () const 
+\item 
+\-Q\-Widget $\ast$ \hyperlink{group___core_plugin_gabe793109d2a56ccf3f1b1b818f4ae7e3}{create\-Page} (\-Q\-Widget $\ast$parent)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___core_plugin_gabfff6f413d139681a9bc4b6d750b2746}{apply} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___core_plugin_ga3bd655424af374ce67e8c9d36a2fef4c}{finish} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___core_plugin_ga0079ab041ae768fb765979fa21b4f492}{read\-Settings} (\-Q\-Settings $\ast$qs)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___core_plugin_ga1b31a14b266c4c7510783a9cf8e7fc8c}{save\-Settings} (\-Q\-Settings $\ast$qs)
+\item 
+int \hyperlink{group___core_plugin_ga46a6c14d88c85a5ef0b125638b90141e}{number\-Of\-Workspaces} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___core_plugin_ga192b99d6e0131b46373653b9062fc396}{icon\-Name} (int \hyperlink{uavobjecttemplate_8m_a6f6ccfcf58b31cb6412107d9d5281426}{i}) const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___core_plugin_gaca9adc4c2ff0dc7f6537d248d9ed99c1}{name} (int \hyperlink{uavobjecttemplate_8m_a6f6ccfcf58b31cb6412107d9d5281426}{i}) const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___core_plugin_gac647d36361c035d0534bf2a6f52bbcdd}{mode\-Name} (int \hyperlink{uavobjecttemplate_8m_a6f6ccfcf58b31cb6412107d9d5281426}{i}) const 
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+
+
+\-Definition at line 49 of file workspacesettings.\-h.
+
+
+
+\-The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/plugins/coreplugin/\hyperlink{workspacesettings_8h}{workspacesettings.\-h}\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/plugins/coreplugin/\hyperlink{workspacesettings_8cpp}{workspacesettings.\-cpp}\end{DoxyCompactItemize}

@@ -1,0 +1,194 @@
+\hypertarget{group___p_i_o_s___d_e_l_a_y}{\section{\-Delay \-Functions}
+\label{group___p_i_o_s___d_e_l_a_y}\index{\-Delay Functions@{\-Delay Functions}}
+}
+
+
+\-Pi\-O\-S \-Delay functionality.  
+
+
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___d_e_l_a_y_ga0d086bac039cb8236edb457b7d4da0fa}{\-P\-I\-O\-S\-\_\-\-D\-E\-L\-A\-Y\-\_\-\-Init} (void)
+\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___d_e_l_a_y_ga70d41fcf58bbbd18a9b6cd365d0f2dab}{\-P\-I\-O\-S\-\_\-\-D\-E\-L\-A\-Y\-\_\-\-Waitu\-S} (uint32\-\_\-t u\-S)
+\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___d_e_l_a_y_gacde17b263c115e410008da1357dd4ff8}{\-P\-I\-O\-S\-\_\-\-D\-E\-L\-A\-Y\-\_\-\-Waitm\-S} (uint32\-\_\-t m\-S)
+\item 
+uint32\-\_\-t \hyperlink{group___p_i_o_s___d_e_l_a_y_ga2bf95c0ee53ebb01adb2a57c0c25a061}{\-P\-I\-O\-S\-\_\-\-D\-E\-L\-A\-Y\-\_\-\-Getu\-S} (void)
+\begin{DoxyCompactList}\small\item\em \-Query the \-Delay timer for the current u\-S. \end{DoxyCompactList}\item 
+uint32\-\_\-t \hyperlink{group___p_i_o_s___d_e_l_a_y_gaf474339ea05285a6a4fe90ff4328893b}{\-P\-I\-O\-S\-\_\-\-D\-E\-L\-A\-Y\-\_\-\-Getu\-S\-Since} (uint32\-\_\-t t)
+\begin{DoxyCompactList}\small\item\em \-Calculate time in microseconds since a previous time. \end{DoxyCompactList}\item 
+uint32\-\_\-t \hyperlink{group___p_i_o_s___d_e_l_a_y_gafcf436aa29b4693c87e33843959edd80}{\-P\-I\-O\-S\-\_\-\-D\-E\-L\-A\-Y\-\_\-\-Get\-Raw} ()
+\begin{DoxyCompactList}\small\item\em \-Get the raw delay timer, useful for timing. \end{DoxyCompactList}\item 
+uint32\-\_\-t \hyperlink{group___p_i_o_s___d_e_l_a_y_gad0eb20f09635f32f75dcb6c5430b8764}{\-P\-I\-O\-S\-\_\-\-D\-E\-L\-A\-Y\-\_\-\-Diffu\-S} (uint32\-\_\-t raw)
+\begin{DoxyCompactList}\small\item\em \-Compare to raw times to and convert to us. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-Pi\-O\-S \-Delay functionality. 
+
+\subsection{\-Function \-Documentation}
+\hypertarget{group___p_i_o_s___d_e_l_a_y_gad0eb20f09635f32f75dcb6c5430b8764}{\index{\-Delay Functions@{\-Delay Functions}!\-P\-I\-O\-S\-\_\-\-D\-E\-L\-A\-Y\-\_\-\-Diffu\-S@{\-P\-I\-O\-S\-\_\-\-D\-E\-L\-A\-Y\-\_\-\-Diffu\-S}}
+\index{\-P\-I\-O\-S\-\_\-\-D\-E\-L\-A\-Y\-\_\-\-Diffu\-S@{\-P\-I\-O\-S\-\_\-\-D\-E\-L\-A\-Y\-\_\-\-Diffu\-S}!Delay Functions@{\-Delay Functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-D\-E\-L\-A\-Y\-\_\-\-Diffu\-S}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t {\bf \-P\-I\-O\-S\-\_\-\-D\-E\-L\-A\-Y\-\_\-\-Diffu\-S} (
+\begin{DoxyParamCaption}
+\item[{uint32\-\_\-t}]{raw}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___d_e_l_a_y_gad0eb20f09635f32f75dcb6c5430b8764}
+
+
+\-Compare to raw times to and convert to us. 
+
+\begin{DoxyReturn}{\-Returns}
+\-A microsecond value 
+\end{DoxyReturn}
+
+
+\-Definition at line 164 of file pios\-\_\-delay.\-c.
+
+\hypertarget{group___p_i_o_s___d_e_l_a_y_gafcf436aa29b4693c87e33843959edd80}{\index{\-Delay Functions@{\-Delay Functions}!\-P\-I\-O\-S\-\_\-\-D\-E\-L\-A\-Y\-\_\-\-Get\-Raw@{\-P\-I\-O\-S\-\_\-\-D\-E\-L\-A\-Y\-\_\-\-Get\-Raw}}
+\index{\-P\-I\-O\-S\-\_\-\-D\-E\-L\-A\-Y\-\_\-\-Get\-Raw@{\-P\-I\-O\-S\-\_\-\-D\-E\-L\-A\-Y\-\_\-\-Get\-Raw}!Delay Functions@{\-Delay Functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-D\-E\-L\-A\-Y\-\_\-\-Get\-Raw}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t {\bf \-P\-I\-O\-S\-\_\-\-D\-E\-L\-A\-Y\-\_\-\-Get\-Raw} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___d_e_l_a_y_gafcf436aa29b4693c87e33843959edd80}
+
+
+\-Get the raw delay timer, useful for timing. 
+
+\begin{DoxyReturn}{\-Returns}
+\-Unitless value (uint32 wrap around) 
+\end{DoxyReturn}
+
+
+\-Definition at line 155 of file pios\-\_\-delay.\-c.
+
+\hypertarget{group___p_i_o_s___d_e_l_a_y_ga2bf95c0ee53ebb01adb2a57c0c25a061}{\index{\-Delay Functions@{\-Delay Functions}!\-P\-I\-O\-S\-\_\-\-D\-E\-L\-A\-Y\-\_\-\-Getu\-S@{\-P\-I\-O\-S\-\_\-\-D\-E\-L\-A\-Y\-\_\-\-Getu\-S}}
+\index{\-P\-I\-O\-S\-\_\-\-D\-E\-L\-A\-Y\-\_\-\-Getu\-S@{\-P\-I\-O\-S\-\_\-\-D\-E\-L\-A\-Y\-\_\-\-Getu\-S}!Delay Functions@{\-Delay Functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-D\-E\-L\-A\-Y\-\_\-\-Getu\-S}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t {\bf \-P\-I\-O\-S\-\_\-\-D\-E\-L\-A\-Y\-\_\-\-Getu\-S} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___d_e_l_a_y_ga2bf95c0ee53ebb01adb2a57c0c25a061}
+
+
+\-Query the \-Delay timer for the current u\-S. 
+
+\begin{DoxyReturn}{\-Returns}
+\-A microsecond value 
+\end{DoxyReturn}
+
+
+\-Definition at line 136 of file pios\-\_\-delay.\-c.
+
+\hypertarget{group___p_i_o_s___d_e_l_a_y_gaf474339ea05285a6a4fe90ff4328893b}{\index{\-Delay Functions@{\-Delay Functions}!\-P\-I\-O\-S\-\_\-\-D\-E\-L\-A\-Y\-\_\-\-Getu\-S\-Since@{\-P\-I\-O\-S\-\_\-\-D\-E\-L\-A\-Y\-\_\-\-Getu\-S\-Since}}
+\index{\-P\-I\-O\-S\-\_\-\-D\-E\-L\-A\-Y\-\_\-\-Getu\-S\-Since@{\-P\-I\-O\-S\-\_\-\-D\-E\-L\-A\-Y\-\_\-\-Getu\-S\-Since}!Delay Functions@{\-Delay Functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-D\-E\-L\-A\-Y\-\_\-\-Getu\-S\-Since}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t {\bf \-P\-I\-O\-S\-\_\-\-D\-E\-L\-A\-Y\-\_\-\-Getu\-S\-Since} (
+\begin{DoxyParamCaption}
+\item[{uint32\-\_\-t}]{t}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___d_e_l_a_y_gaf474339ea05285a6a4fe90ff4328893b}
+
+
+\-Calculate time in microseconds since a previous time. 
+
+
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em t} & previous time \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+time in us since previous time t. 
+\end{DoxyReturn}
+
+
+\-Definition at line 146 of file pios\-\_\-delay.\-c.
+
+\hypertarget{group___p_i_o_s___d_e_l_a_y_ga0d086bac039cb8236edb457b7d4da0fa}{\index{\-Delay Functions@{\-Delay Functions}!\-P\-I\-O\-S\-\_\-\-D\-E\-L\-A\-Y\-\_\-\-Init@{\-P\-I\-O\-S\-\_\-\-D\-E\-L\-A\-Y\-\_\-\-Init}}
+\index{\-P\-I\-O\-S\-\_\-\-D\-E\-L\-A\-Y\-\_\-\-Init@{\-P\-I\-O\-S\-\_\-\-D\-E\-L\-A\-Y\-\_\-\-Init}!Delay Functions@{\-Delay Functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-D\-E\-L\-A\-Y\-\_\-\-Init}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-P\-I\-O\-S\-\_\-\-D\-E\-L\-A\-Y\-\_\-\-Init} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___d_e_l_a_y_ga0d086bac039cb8236edb457b7d4da0fa}
+\-Initialises the \-Timer used by \-P\-I\-O\-S\-\_\-\-D\-E\-L\-A\-Y functions.
+
+\begin{DoxyReturn}{\-Returns}
+always zero (success) 
+\end{DoxyReturn}
+
+
+\-Definition at line 53 of file pios\-\_\-delay.\-c.
+
+\hypertarget{group___p_i_o_s___d_e_l_a_y_gacde17b263c115e410008da1357dd4ff8}{\index{\-Delay Functions@{\-Delay Functions}!\-P\-I\-O\-S\-\_\-\-D\-E\-L\-A\-Y\-\_\-\-Waitm\-S@{\-P\-I\-O\-S\-\_\-\-D\-E\-L\-A\-Y\-\_\-\-Waitm\-S}}
+\index{\-P\-I\-O\-S\-\_\-\-D\-E\-L\-A\-Y\-\_\-\-Waitm\-S@{\-P\-I\-O\-S\-\_\-\-D\-E\-L\-A\-Y\-\_\-\-Waitm\-S}!Delay Functions@{\-Delay Functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-D\-E\-L\-A\-Y\-\_\-\-Waitm\-S}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-P\-I\-O\-S\-\_\-\-D\-E\-L\-A\-Y\-\_\-\-Waitm\-S} (
+\begin{DoxyParamCaption}
+\item[{uint32\-\_\-t}]{m\-S}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___d_e_l_a_y_gacde17b263c115e410008da1357dd4ff8}
+\-Waits for a specific number of m\-S
+
+\-Example\-:\par
+ 
+\begin{DoxyCode}
+   // Wait for 500 mS
+   PIOS_DELAY_Wait_mS(500);
+\end{DoxyCode}
+ 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em m\-S} & delay \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+$<$ 0 on errors
+\end{DoxyReturn}
+\-Waits for a specific number of m\-S
+
+\-Example\-:\par
+ 
+\begin{DoxyCode}
+   // Wait for 500 mS
+   PIOS_DELAY_Wait_mS(500);
+\end{DoxyCode}
+ 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em m\-S} & delay (1..65535 milliseconds) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+$<$ 0 on errors 
+\end{DoxyReturn}
+
+
+\-Definition at line 122 of file pios\-\_\-delay.\-c.
+
+\hypertarget{group___p_i_o_s___d_e_l_a_y_ga70d41fcf58bbbd18a9b6cd365d0f2dab}{\index{\-Delay Functions@{\-Delay Functions}!\-P\-I\-O\-S\-\_\-\-D\-E\-L\-A\-Y\-\_\-\-Waitu\-S@{\-P\-I\-O\-S\-\_\-\-D\-E\-L\-A\-Y\-\_\-\-Waitu\-S}}
+\index{\-P\-I\-O\-S\-\_\-\-D\-E\-L\-A\-Y\-\_\-\-Waitu\-S@{\-P\-I\-O\-S\-\_\-\-D\-E\-L\-A\-Y\-\_\-\-Waitu\-S}!Delay Functions@{\-Delay Functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-D\-E\-L\-A\-Y\-\_\-\-Waitu\-S}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-P\-I\-O\-S\-\_\-\-D\-E\-L\-A\-Y\-\_\-\-Waitu\-S} (
+\begin{DoxyParamCaption}
+\item[{uint32\-\_\-t}]{u\-S}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___d_e_l_a_y_ga70d41fcf58bbbd18a9b6cd365d0f2dab}
+\-Waits for a specific number of u\-S
+
+\-Example\-:\par
+ 
+\begin{DoxyCode}
+   // Wait for 500 uS
+   PIOS_DELAY_Wait_uS(500);
+\end{DoxyCode}
+ 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em u\-S} & delay \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+$<$ 0 on errors 
+\end{DoxyReturn}
+
+
+\-Definition at line 82 of file pios\-\_\-delay.\-c.
+

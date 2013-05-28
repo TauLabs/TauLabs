@@ -1,0 +1,200 @@
+\hypertarget{group___u_a_v_objects}{\section{\-Open\-Pilot \-U\-A\-V\-Objects}
+\label{group___u_a_v_objects}\index{\-Open\-Pilot U\-A\-V\-Objects@{\-Open\-Pilot U\-A\-V\-Objects}}
+}
+\subsection*{\-Modules}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___accels}{\-Accels}
+\begin{DoxyCompactList}\small\item\em \-The accelerometer sensor data, rotated into body frame. \end{DoxyCompactList}\item 
+\hyperlink{group___accessory_desired}{\-Accessory\-Desired}
+\begin{DoxyCompactList}\small\item\em \-Desired \-Auxillary actuator settings. \-Comes from \-Manual\-Control\-Module. \end{DoxyCompactList}\item 
+\hyperlink{group___actuator_command}{\-Actuator\-Command}
+\begin{DoxyCompactList}\small\item\em \-Contains the pulse duration sent to each of the channels. \-Set by \hyperlink{group___actuator_module}{\-Actuator \-Module}. \end{DoxyCompactList}\item 
+\hyperlink{group___actuator_desired}{\-Actuator\-Desired}
+\begin{DoxyCompactList}\small\item\em \-Desired raw, pitch and yaw actuator settings. \-Comes from either \hyperlink{group___stabilization_module}{\-Stabilization \-Module} or \-Manual\-Control\-Module depending on \-Flight\-Mode. \end{DoxyCompactList}\item 
+\hyperlink{group___actuator_settings}{\-Actuator\-Settings}
+\begin{DoxyCompactList}\small\item\em \-Settings for the \hyperlink{group___actuator_module}{\-Actuator \-Module} that controls the channel assignments for the mixer based on \-Aircraft\-Type. \end{DoxyCompactList}\item 
+\hyperlink{group___a_d_c_routing}{\-A\-D\-C\-Routing}
+\begin{DoxyCompactList}\small\item\em \-Selection of optional hardware configurations. \end{DoxyCompactList}\item 
+\hyperlink{group___airspeed_actual}{\-Airspeed\-Actual}
+\begin{DoxyCompactList}\small\item\em \-U\-A\-V\-O for true airspeed, calibrated airspeed, angle of attack, and angle of slip. \end{DoxyCompactList}\item 
+\hyperlink{group___airspeed_settings}{\-Airspeed\-Settings}
+\begin{DoxyCompactList}\small\item\em \-Settings for the \hyperlink{group___baro_airspeed}{\-Baro\-Airspeed} module used on \-Copter\-Control or \-Revolution. \end{DoxyCompactList}\item 
+\hyperlink{group___alt_hold_smoothed}{\-Alt\-Hold\-Smoothed}
+\begin{DoxyCompactList}\small\item\em \-The output on the kalman filter on altitude. \end{DoxyCompactList}\item 
+\hyperlink{group___altitude_hold_desired}{\-Altitude\-Hold\-Desired}
+\begin{DoxyCompactList}\small\item\em \-Holds the desired altitude (from manual control) as well as the desired attitude to pass through. \end{DoxyCompactList}\item 
+\hyperlink{group___altitude_hold_settings}{\-Altitude\-Hold\-Settings}
+\begin{DoxyCompactList}\small\item\em \-Settings for the \-Altitude\-Hold module. \end{DoxyCompactList}\item 
+\hyperlink{group___attitude_actual}{\-Attitude\-Actual}
+\begin{DoxyCompactList}\small\item\em \-The updated \-Attitude estimation from \-A\-H\-R\-S\-Comms\-Module. \end{DoxyCompactList}\item 
+\hyperlink{group___attitude_settings}{\-Attitude\-Settings}
+\begin{DoxyCompactList}\small\item\em \-Settings for the \-Attitude module used on \-Copter\-Control. \end{DoxyCompactList}\item 
+\hyperlink{group___attitude_simulated}{\-Attitude\-Simulated}
+\begin{DoxyCompactList}\small\item\em \-The simulated \-Attitude estimation from \hyperlink{group___sensors}{\-Sensor acquisition module}. \end{DoxyCompactList}\item 
+\hyperlink{group___baro_airspeed}{\-Baro\-Airspeed}
+\begin{DoxyCompactList}\small\item\em \-The raw data from the dynamic pressure sensor with pressure, temperature and airspeed. \end{DoxyCompactList}\item 
+\hyperlink{group___baro_altitude}{\-Baro\-Altitude}
+\begin{DoxyCompactList}\small\item\em \-The raw data from the barometric sensor with pressure, temperature and altitude estimate. \end{DoxyCompactList}\item 
+\hyperlink{group___camera_desired}{\-Camera\-Desired}
+\begin{DoxyCompactList}\small\item\em \-Desired camera outputs. \-Comes from \-Camera\-Stabilization module. \end{DoxyCompactList}\item 
+\hyperlink{group___camera_stab_settings}{\-Camera\-Stab\-Settings}
+\begin{DoxyCompactList}\small\item\em \-Settings for the \hyperlink{group___camera_stab}{\-Camera \-Stabilization \-Module} mmodule. \end{DoxyCompactList}\item 
+\hyperlink{group___fault_settings}{\-Fault\-Settings}
+\begin{DoxyCompactList}\small\item\em \-Allows testers to simulate various fault scenarios. \end{DoxyCompactList}\item 
+\hyperlink{group___firmware_i_a_p_obj}{\-Firmware\-I\-A\-P\-Obj}
+\begin{DoxyCompactList}\small\item\em \-Queries board for \-S\-N, model, revision, and sends reset command. \end{DoxyCompactList}\item 
+\hyperlink{group___fixed_wing_airspeeds}{\-Fixed\-Wing\-Airspeeds}
+\begin{DoxyCompactList}\small\item\em \-Settings for the \-Fixed\-Wing\-Path\-Follower\-Module. \end{DoxyCompactList}\item 
+\hyperlink{group___fixed_wing_path_follower_settings}{\-Fixed\-Wing\-Path\-Follower\-Settings}
+\begin{DoxyCompactList}\small\item\em \-Settings for the \-Fixed\-Wing\-Path\-Follower\-Module. \end{DoxyCompactList}\item 
+\hyperlink{group___fixed_wing_path_follower_settings_c_c}{\-Fixed\-Wing\-Path\-Follower\-Settings\-C\-C}
+\begin{DoxyCompactList}\small\item\em \-Settings for the \-Fixed\-Wing\-Path\-Follower\-Module. \end{DoxyCompactList}\item 
+\hyperlink{group___fixed_wing_path_follower_status}{\-Fixed\-Wing\-Path\-Follower\-Status}
+\begin{DoxyCompactList}\small\item\em \-Object \-Storing \-Debugging \-Information on \-P\-I\-D internals. \end{DoxyCompactList}\item 
+\hyperlink{group___flight_battery_settings}{\-Flight\-Battery\-Settings}
+\begin{DoxyCompactList}\small\item\em \-Flight \-Battery configuration. \end{DoxyCompactList}\item 
+\hyperlink{group___flight_battery_state}{\-Flight\-Battery\-State}
+\begin{DoxyCompactList}\small\item\em \-Battery status information. \end{DoxyCompactList}\item 
+\hyperlink{group___flight_plan_control}{\-Flight\-Plan\-Control}
+\begin{DoxyCompactList}\small\item\em \-Control the flight plan script. \end{DoxyCompactList}\item 
+\hyperlink{group___flight_plan_settings}{\-Flight\-Plan\-Settings}
+\begin{DoxyCompactList}\small\item\em \-Settings for the flight plan module, control the execution of the script. \end{DoxyCompactList}\item 
+\hyperlink{group___flight_plan_status}{\-Flight\-Plan\-Status}
+\begin{DoxyCompactList}\small\item\em \-Status of the flight plan script. \end{DoxyCompactList}\item 
+\hyperlink{group___flight_status}{\-Flight\-Status}
+\begin{DoxyCompactList}\small\item\em \-Contains major flight status information for other modules. \end{DoxyCompactList}\item 
+\hyperlink{group___flight_telemetry_stats}{\-Flight\-Telemetry\-Stats}
+\begin{DoxyCompactList}\small\item\em \-Maintains the telemetry statistics from the \-Open\-Pilot flight computer. \end{DoxyCompactList}\item 
+\hyperlink{group___g_c_s_receiver}{\-G\-C\-S\-Receiver}
+\begin{DoxyCompactList}\small\item\em \-A receiver channel group carried over the telemetry link. \end{DoxyCompactList}\item 
+\hyperlink{group___g_c_s_telemetry_stats}{\-G\-C\-S\-Telemetry\-Stats}
+\begin{DoxyCompactList}\small\item\em \-The telemetry statistics from the ground computer. \end{DoxyCompactList}\item 
+\hyperlink{group___g_p_s_position}{\-G\-P\-S\-Position}
+\begin{DoxyCompactList}\small\item\em \-Raw \-G\-P\-S data from \-G\-P\-S\-Module. \-Should only be used by \-A\-H\-R\-S\-Comms\-Module. \end{DoxyCompactList}\item 
+\hyperlink{group___g_p_s_satellites}{\-G\-P\-S\-Satellites}
+\begin{DoxyCompactList}\small\item\em \-Contains information about the \-G\-P\-S satellites in view from \-G\-P\-S\-Module. \end{DoxyCompactList}\item 
+\hyperlink{group___g_p_s_time}{\-G\-P\-S\-Time}
+\begin{DoxyCompactList}\small\item\em \-Contains the \-G\-P\-S time from \-G\-P\-S\-Module. \-Required to compute the world magnetic model correctly when setting the home location. \end{DoxyCompactList}\item 
+\hyperlink{group___g_p_s_velocity}{\-G\-P\-S\-Velocity}
+\begin{DoxyCompactList}\small\item\em \-Raw \-G\-P\-S data from \-G\-P\-S\-Module. \end{DoxyCompactList}\item 
+\hyperlink{group___ground_truth}{\-Ground\-Truth}
+\begin{DoxyCompactList}\small\item\em \-Ground truth data output by a simulator. \end{DoxyCompactList}\item 
+\hyperlink{group___gyros}{\-Gyros}
+\begin{DoxyCompactList}\small\item\em \-The rate gyroscope sensor data, in body frame. \end{DoxyCompactList}\item 
+\hyperlink{group___gyros_bias}{\-Gyros\-Bias}
+\begin{DoxyCompactList}\small\item\em \-The online-\/estimate of gyro bias. \end{DoxyCompactList}\item 
+\hyperlink{group___home_location}{\-Home\-Location}
+\begin{DoxyCompactList}\small\item\em \-Home\-Location setting which contains the constants to tranlate from longitutde and latitude to \-N\-E\-D reference frame. \-Automatically set by \-G\-P\-S\-Module after acquiring a 3\-D lock. \-Used by \-A\-H\-R\-S\-Comms\-Module. \end{DoxyCompactList}\item 
+\hyperlink{group___hw_copter_control}{\-Hw\-Copter\-Control}
+\begin{DoxyCompactList}\small\item\em \-Selection of optional hardware configurations. \end{DoxyCompactList}\item 
+\hyperlink{group___hw_discovery_f4}{\-Hw\-Discovery\-F4}
+\begin{DoxyCompactList}\small\item\em \-Selection of optional hardware configurations. \end{DoxyCompactList}\item 
+\hyperlink{group___hw_flying_f3}{\-Hw\-Flying\-F3}
+\begin{DoxyCompactList}\small\item\em \-Selection of optional hardware configurations. \end{DoxyCompactList}\item 
+\hyperlink{group___hw_flying_f4}{\-Hw\-Flying\-F4}
+\begin{DoxyCompactList}\small\item\em \-Selection of optional hardware configurations. \end{DoxyCompactList}\item 
+\hyperlink{group___hw_freedom}{\-Hw\-Freedom}
+\begin{DoxyCompactList}\small\item\em \-Selection of optional hardware configurations. \end{DoxyCompactList}\item 
+\hyperlink{group___hw_o_s_d}{\-Hw\-O\-S\-D}
+\begin{DoxyCompactList}\small\item\em \-Selection of optional hardware configurations. \end{DoxyCompactList}\item 
+\hyperlink{group___hw_quanton}{\-Hw\-Quanton}
+\begin{DoxyCompactList}\small\item\em \-Selection of optional hardware configurations. \end{DoxyCompactList}\item 
+\hyperlink{group___hw_revolution}{\-Hw\-Revolution}
+\begin{DoxyCompactList}\small\item\em \-Selection of optional hardware configurations. \end{DoxyCompactList}\item 
+\hyperlink{group___hw_revo_mini}{\-Hw\-Revo\-Mini}
+\begin{DoxyCompactList}\small\item\em \-Selection of optional hardware configurations. \end{DoxyCompactList}\item 
+\hyperlink{group___i2_c_stats}{\-I2\-C\-Stats}
+\begin{DoxyCompactList}\small\item\em \-Tracks statistics on the \-I2\-C bus. \end{DoxyCompactList}\item 
+\hyperlink{group___i2_c_v_m}{\-I2\-C\-V\-M}
+\begin{DoxyCompactList}\small\item\em \-Snapshot of the register and \-R\-A\-M state of the \-I2\-C \-Virtual \-Machine. \end{DoxyCompactList}\item 
+\hyperlink{group___i2_c_v_m_user_program}{\-I2\-C\-V\-M\-User\-Program}
+\begin{DoxyCompactList}\small\item\em \-Allows \-G\-C\-S to provide a user-\/defined program to the \-I2\-C \-Virtual \-Machine. \end{DoxyCompactList}\item 
+\hyperlink{group___inertial_sensor_settings}{\-Inertial\-Sensor\-Settings}
+\begin{DoxyCompactList}\small\item\em \-Settings for the \-Attitude module. \end{DoxyCompactList}\item 
+\hyperlink{group___i_n_s_settings}{\-I\-N\-S\-Settings}
+\begin{DoxyCompactList}\small\item\em \-Settings for the \-I\-N\-S to control the algorithm and what is updated. \end{DoxyCompactList}\item 
+\hyperlink{group___mag_bias}{\-Mag\-Bias}
+\begin{DoxyCompactList}\small\item\em \-The gyro data. \end{DoxyCompactList}\item 
+\hyperlink{group___magnetometer}{\-Magnetometer}
+\begin{DoxyCompactList}\small\item\em \-The mag data. \end{DoxyCompactList}\item 
+\hyperlink{group___manual_control_command}{\-Manual\-Control\-Command}
+\begin{DoxyCompactList}\small\item\em \-The output from the \-Manual\-Control\-Module which descodes the receiver inputs. \-Overriden by \-G\-C\-S for fly-\/by-\/wire control. \end{DoxyCompactList}\item 
+\hyperlink{group___manual_control_settings}{\-Manual\-Control\-Settings}
+\begin{DoxyCompactList}\small\item\em \-Settings to indicate how to decode receiver input by \-Manual\-Control\-Module. \end{DoxyCompactList}\item 
+\hyperlink{group___mixer_settings}{\-Mixer\-Settings}
+\begin{DoxyCompactList}\small\item\em \-Settings for the \hyperlink{group___actuator_module}{\-Actuator \-Module} that controls the channel assignments for the mixer based on \-Aircraft\-Type. \end{DoxyCompactList}\item 
+\hyperlink{group___mixer_status}{\-Mixer\-Status}
+\begin{DoxyCompactList}\small\item\em \-Status for the matrix mixer showing the output of each mixer after all scaling. \end{DoxyCompactList}\item 
+\hyperlink{group___module_settings}{\-Module\-Settings}
+\begin{DoxyCompactList}\small\item\em \-Optional module enable/disable configuration. \end{DoxyCompactList}\item 
+\hyperlink{group___ned_accel}{\-Ned\-Accel}
+\begin{DoxyCompactList}\small\item\em \-The projection of acceleration in the \-N\-E\-D reference frame used by \-Guidance. \end{DoxyCompactList}\item 
+\hyperlink{group___n_e_d_position}{\-N\-E\-D\-Position}
+\begin{DoxyCompactList}\small\item\em \-Contains the current position relative to \hyperlink{group___home_location}{\-Home\-Location}. \end{DoxyCompactList}\item 
+\hyperlink{group___object_persistence}{\-Object\-Persistence}
+\begin{DoxyCompactList}\small\item\em \-Someone who knows please enter this. \end{DoxyCompactList}\item 
+\hyperlink{group___o_p_link_settings}{\-O\-P\-Link\-Settings}
+\begin{DoxyCompactList}\small\item\em \-O\-P\-Link configurations options. \end{DoxyCompactList}\item 
+\hyperlink{group___o_p_link_status}{\-O\-P\-Link\-Status}
+\begin{DoxyCompactList}\small\item\em \-O\-P\-Link device status. \end{DoxyCompactList}\item 
+\hyperlink{group___osd_settings}{\-Osd\-Settings}
+\begin{DoxyCompactList}\small\item\em \-O\-S\-D settings used by the \-O\-S\-Dgen module. \end{DoxyCompactList}\item 
+\hyperlink{group___overo_sync_settings}{\-Overo\-Sync\-Settings}
+\begin{DoxyCompactList}\small\item\em \-Settings to control the behavior of the overo sync module. \end{DoxyCompactList}\item 
+\hyperlink{group___overo_sync_stats}{\-Overo\-Sync\-Stats}
+\begin{DoxyCompactList}\small\item\em \-Maintains statistics on transfer rate to and from over. \end{DoxyCompactList}\item 
+\hyperlink{group___path_desired}{\-Path\-Desired}
+\begin{DoxyCompactList}\small\item\em \-The endpoint or path the craft is trying to achieve. \-Can come from \-Manual\-Control or \-Path\-Planner. \end{DoxyCompactList}\item 
+\hyperlink{group___path_planner_settings}{\-Path\-Planner\-Settings}
+\begin{DoxyCompactList}\small\item\em \-Settings for the \-Path\-Planner \-Module. \end{DoxyCompactList}\item 
+\hyperlink{group___path_status}{\-Path\-Status}
+\begin{DoxyCompactList}\small\item\em \-Status of the current path mode \-Can come from any \-Path\-Follower module. \end{DoxyCompactList}\item 
+\hyperlink{group___position_actual}{\-Position\-Actual}
+\begin{DoxyCompactList}\small\item\em \-Contains the current position relative to \hyperlink{group___home_location}{\-Home\-Location}. \end{DoxyCompactList}\item 
+\hyperlink{group___rate_desired}{\-Rate\-Desired}
+\begin{DoxyCompactList}\small\item\em \-Status for the matrix mixer showing the output of each mixer after all scaling. \end{DoxyCompactList}\item 
+\hyperlink{group___receiver_activity}{\-Receiver\-Activity}
+\begin{DoxyCompactList}\small\item\em \-Monitors which receiver channels have been active within the last second. \end{DoxyCompactList}\item 
+\hyperlink{group___relay_tuning}{\-Relay\-Tuning}
+\begin{DoxyCompactList}\small\item\em \-The input to the relay tuning. \end{DoxyCompactList}\item 
+\hyperlink{group___relay_tuning_settings}{\-Relay\-Tuning\-Settings}
+\begin{DoxyCompactList}\small\item\em \-Setting to run a relay tuning algorithm. \end{DoxyCompactList}\item 
+\hyperlink{group___revo_calibration}{\-Revo\-Calibration}
+\begin{DoxyCompactList}\small\item\em \-Leftover settings for \-Revo. \end{DoxyCompactList}\item 
+\hyperlink{group___revo_settings}{\-Revo\-Settings}
+\begin{DoxyCompactList}\small\item\em \-Settings for the revo to control the algorithm and what is updated. \end{DoxyCompactList}\item 
+\hyperlink{group___sensor_settings}{\-Sensor\-Settings}
+\begin{DoxyCompactList}\small\item\em \-Settings for the \-Attitude module. \end{DoxyCompactList}\item 
+\hyperlink{group___sonar_altitude}{\-Sonar\-Altitude}
+\begin{DoxyCompactList}\small\item\em \-The raw data from the ultrasound sonar sensor with altitude estimate. \end{DoxyCompactList}\item 
+\hyperlink{group___stabilization_desired}{\-Stabilization\-Desired}
+\begin{DoxyCompactList}\small\item\em \-The desired attitude that \hyperlink{group___stabilization_module}{\-Stabilization \-Module} will try and achieve if \-Flight\-Mode is \-Stabilized. \-Comes from \-Manaul\-Control\-Module. \end{DoxyCompactList}\item 
+\hyperlink{group___stabilization_settings}{\-Stabilization\-Settings}
+\begin{DoxyCompactList}\small\item\em \-P\-I\-D settings used by the \-Stabilization module to combine the \hyperlink{group___attitude_actual}{\-Attitude\-Actual} and \-Attitude\-Desired to compute \hyperlink{group___actuator_desired}{\-Actuator\-Desired}. \end{DoxyCompactList}\item 
+\hyperlink{group___system_alarms}{\-System\-Alarms}
+\begin{DoxyCompactList}\small\item\em \-Alarms from \-Open\-Pilot to indicate failure conditions or warnings. \-Set by various modules. \end{DoxyCompactList}\item 
+\hyperlink{group___system_settings}{\-System\-Settings}
+\begin{DoxyCompactList}\small\item\em \-Select airframe type. \-Currently used by \hyperlink{group___actuator_module}{\-Actuator \-Module} to choose mixing from \hyperlink{group___actuator_desired}{\-Actuator\-Desired} to \hyperlink{group___actuator_command}{\-Actuator\-Command}. \end{DoxyCompactList}\item 
+\hyperlink{group___system_stats}{\-System\-Stats}
+\begin{DoxyCompactList}\small\item\em \-C\-P\-U and memory usage from \-Open\-Pilot computer. \end{DoxyCompactList}\item 
+\hyperlink{group___task_info}{\-Task\-Info}
+\begin{DoxyCompactList}\small\item\em \-Task information. \end{DoxyCompactList}\item 
+\hyperlink{group___tx_p_i_d_settings}{\-Tx\-P\-I\-D\-Settings}
+\begin{DoxyCompactList}\small\item\em \-Settings used by \-Tx\-P\-I\-D optional module to tune \-P\-I\-D settings using \-R/\-C transmitter. \end{DoxyCompactList}\item 
+\hyperlink{group___velocity_actual}{\-Velocity\-Actual}
+\begin{DoxyCompactList}\small\item\em \-Updated by \-A\-H\-R\-S\-Comms\-Module and used within \-Guidance\-Module for velocity control. \end{DoxyCompactList}\item 
+\hyperlink{group___velocity_desired}{\-Velocity\-Desired}
+\begin{DoxyCompactList}\small\item\em \-Used within \-Guidance\-Module to communicate between the task computing the desired velocity and the \-P\-I\-D loop to achieve it (running at different rates). \end{DoxyCompactList}\item 
+\hyperlink{group___vibration_analysis_output}{\-Vibration\-Analysis\-Output}
+\begin{DoxyCompactList}\small\item\em \-F\-F\-T output from  module. \end{DoxyCompactList}\item 
+\hyperlink{group___vibration_analysis_settings}{\-Vibration\-Analysis\-Settings}
+\begin{DoxyCompactList}\small\item\em \-Settings for the \-Vibration\-Test \-Module. \end{DoxyCompactList}\item 
+\hyperlink{group___vtol_path_follower_settings}{\-Vtol\-Path\-Follower\-Settings}
+\begin{DoxyCompactList}\small\item\em \-Settings for the \-Vtol\-Path\-Follower\-Module. \end{DoxyCompactList}\item 
+\hyperlink{group___watchdog_status}{\-Watchdog\-Status}
+\begin{DoxyCompactList}\small\item\em \-For monitoring the flags in the watchdog and especially the bootup flags. \end{DoxyCompactList}\item 
+\hyperlink{group___waypoint}{\-Waypoint}
+\begin{DoxyCompactList}\small\item\em \-A waypoint the aircraft can try and hit. \-Used by the \-Path\-Planner module. \end{DoxyCompactList}\item 
+\hyperlink{group___waypoint_active}{\-Waypoint\-Active}
+\begin{DoxyCompactList}\small\item\em \-Indicates the currently active waypoint. \end{DoxyCompactList}\end{DoxyCompactItemize}

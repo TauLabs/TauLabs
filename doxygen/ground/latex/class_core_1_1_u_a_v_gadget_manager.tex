@@ -1,0 +1,96 @@
+\hypertarget{class_core_1_1_u_a_v_gadget_manager}{\section{\-Core\-:\-:\-U\-A\-V\-Gadget\-Manager \-Class \-Reference}
+\label{class_core_1_1_u_a_v_gadget_manager}\index{\-Core\-::\-U\-A\-V\-Gadget\-Manager@{\-Core\-::\-U\-A\-V\-Gadget\-Manager}}
+}
+
+
+{\ttfamily \#include $<$uavgadgetmanager.\-h$>$}
+
+\-Inheritance diagram for \-Core\-:\-:\-U\-A\-V\-Gadget\-Manager\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{class_core_1_1_u_a_v_gadget_manager}
+\end{center}
+\end{figure}
+\subsection*{\-Public \-Slots}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___core_plugin_gaeccb858176046a9efd6e76d0af690e6e}{split} (\-Qt\-::\-Orientation orientation)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___core_plugin_gabcf94b780cce894a494827a231c8cfa0}{split} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___core_plugin_ga65f8524b1999c58d5305b0f8c3cc84ee}{split\-Side\-By\-Side} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___core_plugin_ga189fbe44cfc2b4df765a10f7d37a83de}{remove\-Current\-Split} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___core_plugin_gac19293d686a36bafedf7bc2d0b27cb5f}{remove\-All\-Splits} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___core_plugin_gadc47479bc2f304826deef399d7c6d648}{goto\-Other\-Split} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___core_plugin_ga590e40dadf41f290707043f35457a196}{show\-Toolbars} (bool show)
+\end{DoxyCompactItemize}
+\subsection*{\-Signals}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___core_plugin_ga449b6a03dd8f841eb0c2affb355c3222}{current\-Gadget\-Changed} (\hyperlink{class_core_1_1_i_u_a_v_gadget}{\-I\-U\-A\-V\-Gadget} $\ast$gadget)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___core_plugin_gada32375a929c149e998d237f69fb80c3}{show\-Uav\-Gadget\-Menus} (bool show, bool has\-Splitter)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___core_plugin_ga8ebf1483f2a75640eba7aff245feb214}{update\-Split\-Menus} (bool has\-Splitter)
+\end{DoxyCompactItemize}
+\subsection*{\-Public \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___core_plugin_gaafe1ad3bbbc0f406d14529f20d61b981}{\-U\-A\-V\-Gadget\-Manager} (\hyperlink{class_core_1_1_i_core}{\-I\-Core} $\ast$core, \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___core_plugin_ga1e4c1ea0c0876c989d6c62545d239837}{name}, \-Q\-Icon \hyperlink{group___core_plugin_gaa78801714eacd4be88c94f7ae90aae7a}{icon}, int \hyperlink{group___core_plugin_ga912a165a46888c9dafb5ba50b05e62e2}{priority}, \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} unique\-Name, \-Q\-Widget $\ast$parent)
+\item 
+virtual \hyperlink{group___core_plugin_ga1b25440353864a36dd0f1d9a62e434ac}{$\sim$\-U\-A\-V\-Gadget\-Manager} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___core_plugin_ga1e4c1ea0c0876c989d6c62545d239837}{name} () const 
+\item 
+\-Q\-Icon \hyperlink{group___core_plugin_gaa78801714eacd4be88c94f7ae90aae7a}{icon} () const 
+\item 
+int \hyperlink{group___core_plugin_ga912a165a46888c9dafb5ba50b05e62e2}{priority} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___core_plugin_gac0180544ce53efc69e7e9f4d45269463}{set\-Priority} (int \hyperlink{group___core_plugin_ga912a165a46888c9dafb5ba50b05e62e2}{priority})
+\item 
+const char $\ast$ \hyperlink{group___core_plugin_gafb097fcb2b5b3aca65315305bc09872d}{unique\-Mode\-Name} () const 
+\item 
+\-Q\-List$<$ int $>$ \hyperlink{group___core_plugin_gaeef334ae2d88e0490cea760db1c90684}{context} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___core_plugin_ga478da8486a7df4755e4623c70251e17c}{init} ()
+\item 
+\-Q\-Widget $\ast$ \hyperlink{group___core_plugin_ga25fccbeabcca631b76af421f136114db}{widget} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___core_plugin_ga8c12c4c05d96b0f0b5015971c8501ed7}{ensure\-U\-A\-V\-Gadget\-Manager\-Visible} ()
+\item 
+\hyperlink{class_core_1_1_i_u_a_v_gadget}{\-I\-U\-A\-V\-Gadget} $\ast$ \hyperlink{group___core_plugin_gae3f5fe2cc834973db82aa3df3400b297}{current\-Gadget} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___core_plugin_ga3ac2a36a18132cd5997fc77934910eb4}{save\-State} (\-Q\-Settings $\ast$) const 
+\item 
+bool \hyperlink{group___core_plugin_gae6d15e0e2e171db06945917f6f330488}{restore\-State} (\-Q\-Settings $\ast$q\-Settings)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___core_plugin_gae098f8fd57c1689becd25fe77165ba58}{save\-Settings} (\-Q\-Settings $\ast$qs)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___core_plugin_gadd58657a986d6952a7916697c6d776bf}{read\-Settings} (\-Q\-Settings $\ast$qs)
+\item 
+bool \hyperlink{group___core_plugin_gac0cf41fa8cd010a9d8df7de3a54a7987}{toolbars\-Shown} ()
+\end{DoxyCompactItemize}
+\subsection*{\-Friends}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{group___core_plugin_ga60e1336d12b6e13453f7f00503a94d6c}{\-Core\-::\-Internal\-::\-Splitter\-Or\-View}
+\item 
+class \hyperlink{group___core_plugin_ga30a55036c55042e1e256be357df9b612}{\-Core\-::\-Internal\-::\-U\-A\-V\-Gadget\-View}
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+
+
+\-Definition at line 60 of file uavgadgetmanager.\-h.
+
+
+
+\-The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/plugins/coreplugin/uavgadgetmanager/\hyperlink{uavgadgetmanager_8h}{uavgadgetmanager.\-h}\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/plugins/coreplugin/uavgadgetmanager/\hyperlink{uavgadgetmanager_8cpp}{uavgadgetmanager.\-cpp}\end{DoxyCompactItemize}

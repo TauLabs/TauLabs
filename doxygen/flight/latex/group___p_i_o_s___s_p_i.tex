@@ -1,0 +1,395 @@
+\hypertarget{group___p_i_o_s___s_p_i}{\section{\-S\-P\-I \-Functions}
+\label{group___p_i_o_s___s_p_i}\index{\-S\-P\-I Functions@{\-S\-P\-I Functions}}
+}
+
+
+\-P\-I\-O\-S interface to read and write from \-S\-P\-I ports.  
+
+
+\subsection*{\-Data \-Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structpios__spi__cfg}{pios\-\_\-spi\-\_\-cfg}
+\item 
+struct \hyperlink{structpios__spi__dev}{pios\-\_\-spi\-\_\-dev}
+\end{DoxyCompactItemize}
+\subsection*{\-Files}
+\begin{DoxyCompactItemize}
+\item 
+file \hyperlink{pios__spi_8h}{pios\-\_\-spi.\-h}
+\begin{DoxyCompactList}\small\item\em \-S\-P\-I functions header. \end{DoxyCompactList}\item 
+file \hyperlink{pios__spi__priv_8h}{pios\-\_\-spi\-\_\-priv.\-h}
+\begin{DoxyCompactList}\small\item\em \-S\-P\-I private definitions. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{group___p_i_o_s___s_p_i_gacc2b1ca1c7cd8aeef04fee955ef7ffd2}{\-S\-P\-I\-Prescaler\-Type\-Def} \{ \*
+\hyperlink{group___p_i_o_s___s_p_i_ggacc2b1ca1c7cd8aeef04fee955ef7ffd2af5940d5cceea232a53c7dbebd624ffec}{\-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-P\-R\-E\-S\-C\-A\-L\-E\-R\-\_\-2} =  0, 
+\hyperlink{group___p_i_o_s___s_p_i_ggacc2b1ca1c7cd8aeef04fee955ef7ffd2a822cfd241709e888d44d62f34893cc47}{\-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-P\-R\-E\-S\-C\-A\-L\-E\-R\-\_\-4} =  1, 
+\hyperlink{group___p_i_o_s___s_p_i_ggacc2b1ca1c7cd8aeef04fee955ef7ffd2a92b2d129b53b4f5c083b6da2d8f57356}{\-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-P\-R\-E\-S\-C\-A\-L\-E\-R\-\_\-8} =  2, 
+\hyperlink{group___p_i_o_s___s_p_i_ggacc2b1ca1c7cd8aeef04fee955ef7ffd2a434915bc04c78a929a5a3184e71f1f38}{\-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-P\-R\-E\-S\-C\-A\-L\-E\-R\-\_\-16} =  3, 
+\*
+\hyperlink{group___p_i_o_s___s_p_i_ggacc2b1ca1c7cd8aeef04fee955ef7ffd2a101388bb1fc6d066e8b297f45426c45e}{\-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-P\-R\-E\-S\-C\-A\-L\-E\-R\-\_\-32} =  4, 
+\hyperlink{group___p_i_o_s___s_p_i_ggacc2b1ca1c7cd8aeef04fee955ef7ffd2a9c71c6dec8a4a411d9d2fc8838f8f2d6}{\-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-P\-R\-E\-S\-C\-A\-L\-E\-R\-\_\-64} =  5, 
+\hyperlink{group___p_i_o_s___s_p_i_ggacc2b1ca1c7cd8aeef04fee955ef7ffd2aed1958e920936add1e9c66d4132e437a}{\-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-P\-R\-E\-S\-C\-A\-L\-E\-R\-\_\-128} =  6, 
+\hyperlink{group___p_i_o_s___s_p_i_ggacc2b1ca1c7cd8aeef04fee955ef7ffd2abda35a0964776633862f5b99f1bb6be2}{\-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-P\-R\-E\-S\-C\-A\-L\-E\-R\-\_\-256} =  7
+ \}
+\end{DoxyCompactItemize}
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___s_p_i_ga5e8329c2d8543fe240f50571bf87eb22}{\-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-Set\-Clock\-Speed} (uint32\-\_\-t spi\-\_\-id, \hyperlink{group___p_i_o_s___s_p_i_gacc2b1ca1c7cd8aeef04fee955ef7ffd2}{\-S\-P\-I\-Prescaler\-Type\-Def} spi\-\_\-prescaler)
+\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___s_p_i_gaae1c8b2fa4574c575994c1fd591233a6}{\-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-R\-C\-\_\-\-Pin\-Set} (uint32\-\_\-t spi\-\_\-id, uint32\-\_\-t slave\-\_\-id, uint8\-\_\-t pin\-\_\-value)
+\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___s_p_i_gaa65b0b0a89e87c3e8f13c00ee0b91563}{\-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-Transfer\-Byte} (uint32\-\_\-t spi\-\_\-id, uint8\-\_\-t b)
+\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___s_p_i_ga7dc994b4889415502021540ebbd2fce3}{\-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-Transfer\-Block} (uint32\-\_\-t spi\-\_\-id, const uint8\-\_\-t $\ast$send\-\_\-buffer, uint8\-\_\-t $\ast$receive\-\_\-buffer, uint16\-\_\-t len, void $\ast$callback)
+\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___s_p_i_ga2c561c9f63706d774c1b5ed7df2e17f5}{\-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-Busy} (uint32\-\_\-t spi\-\_\-id)
+\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___s_p_i_ga307f60532c61b56c285ce5d680cb14c5}{\-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-Claim\-Bus} (uint32\-\_\-t spi\-\_\-id)
+\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___s_p_i_gaa42e1b9f8f8628cf28c3612fc1f7f9d1}{\-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-Claim\-Bus\-I\-S\-R} (uint32\-\_\-t spi\-\_\-id, bool $\ast$woken)
+\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___s_p_i_ga117fbed6d00c5404e9414ab72175e1c8}{\-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-Release\-Bus} (uint32\-\_\-t spi\-\_\-id)
+\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___s_p_i_ga9b61d0c23476fd3a67c887c13c666a67}{\-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-Release\-Bus\-I\-S\-R} (uint32\-\_\-t spi\-\_\-id, bool $\ast$woken)
+\item 
+void \hyperlink{group___p_i_o_s___s_p_i_ga018ed8c0b8d0c9a22faf6faca9b5a895}{\-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-I\-R\-Q\-\_\-\-Handler} (uint32\-\_\-t spi\-\_\-id)
+\item 
+void \hyperlink{group___p_i_o_s___s_p_i_ga8d8a9bc28c1c30e41e662da188d12cd7}{\-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-Set\-Prescalar} (uint32\-\_\-t spi\-\_\-id, uint32\-\_\-t prescalar)
+\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___s_p_i_ga8bbe024685ab860a8e5880b2ed2b11e6}{\-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-Init} (uint32\-\_\-t $\ast$spi\-\_\-id, const struct \hyperlink{structpios__spi__cfg}{pios\-\_\-spi\-\_\-cfg} $\ast$cfg)
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-P\-I\-O\-S interface to read and write from \-S\-P\-I ports. 
+
+\subsection{\-Enumeration \-Type \-Documentation}
+\hypertarget{group___p_i_o_s___s_p_i_gacc2b1ca1c7cd8aeef04fee955ef7ffd2}{\index{\-S\-P\-I Functions@{\-S\-P\-I Functions}!\-S\-P\-I\-Prescaler\-Type\-Def@{\-S\-P\-I\-Prescaler\-Type\-Def}}
+\index{\-S\-P\-I\-Prescaler\-Type\-Def@{\-S\-P\-I\-Prescaler\-Type\-Def}!SPI Functions@{\-S\-P\-I Functions}}
+\subsubsection[{\-S\-P\-I\-Prescaler\-Type\-Def}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf \-S\-P\-I\-Prescaler\-Type\-Def}}}\label{group___p_i_o_s___s_p_i_gacc2b1ca1c7cd8aeef04fee955ef7ffd2}
+\begin{Desc}
+\item[\-Enumerator\-: ]\par
+\begin{description}
+\index{\-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-P\-R\-E\-S\-C\-A\-L\-E\-R\-\_\-2@{\-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-P\-R\-E\-S\-C\-A\-L\-E\-R\-\_\-2}!\-S\-P\-I Functions@{\-S\-P\-I Functions}}\index{\-S\-P\-I Functions@{\-S\-P\-I Functions}!\-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-P\-R\-E\-S\-C\-A\-L\-E\-R\-\_\-2@{\-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-P\-R\-E\-S\-C\-A\-L\-E\-R\-\_\-2}}\item[{\em 
+\hypertarget{group___p_i_o_s___s_p_i_ggacc2b1ca1c7cd8aeef04fee955ef7ffd2af5940d5cceea232a53c7dbebd624ffec}{\-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-P\-R\-E\-S\-C\-A\-L\-E\-R\-\_\-2}\label{group___p_i_o_s___s_p_i_ggacc2b1ca1c7cd8aeef04fee955ef7ffd2af5940d5cceea232a53c7dbebd624ffec}
+}]\index{\-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-P\-R\-E\-S\-C\-A\-L\-E\-R\-\_\-4@{\-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-P\-R\-E\-S\-C\-A\-L\-E\-R\-\_\-4}!\-S\-P\-I Functions@{\-S\-P\-I Functions}}\index{\-S\-P\-I Functions@{\-S\-P\-I Functions}!\-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-P\-R\-E\-S\-C\-A\-L\-E\-R\-\_\-4@{\-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-P\-R\-E\-S\-C\-A\-L\-E\-R\-\_\-4}}\item[{\em 
+\hypertarget{group___p_i_o_s___s_p_i_ggacc2b1ca1c7cd8aeef04fee955ef7ffd2a822cfd241709e888d44d62f34893cc47}{\-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-P\-R\-E\-S\-C\-A\-L\-E\-R\-\_\-4}\label{group___p_i_o_s___s_p_i_ggacc2b1ca1c7cd8aeef04fee955ef7ffd2a822cfd241709e888d44d62f34893cc47}
+}]\index{\-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-P\-R\-E\-S\-C\-A\-L\-E\-R\-\_\-8@{\-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-P\-R\-E\-S\-C\-A\-L\-E\-R\-\_\-8}!\-S\-P\-I Functions@{\-S\-P\-I Functions}}\index{\-S\-P\-I Functions@{\-S\-P\-I Functions}!\-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-P\-R\-E\-S\-C\-A\-L\-E\-R\-\_\-8@{\-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-P\-R\-E\-S\-C\-A\-L\-E\-R\-\_\-8}}\item[{\em 
+\hypertarget{group___p_i_o_s___s_p_i_ggacc2b1ca1c7cd8aeef04fee955ef7ffd2a92b2d129b53b4f5c083b6da2d8f57356}{\-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-P\-R\-E\-S\-C\-A\-L\-E\-R\-\_\-8}\label{group___p_i_o_s___s_p_i_ggacc2b1ca1c7cd8aeef04fee955ef7ffd2a92b2d129b53b4f5c083b6da2d8f57356}
+}]\index{\-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-P\-R\-E\-S\-C\-A\-L\-E\-R\-\_\-16@{\-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-P\-R\-E\-S\-C\-A\-L\-E\-R\-\_\-16}!\-S\-P\-I Functions@{\-S\-P\-I Functions}}\index{\-S\-P\-I Functions@{\-S\-P\-I Functions}!\-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-P\-R\-E\-S\-C\-A\-L\-E\-R\-\_\-16@{\-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-P\-R\-E\-S\-C\-A\-L\-E\-R\-\_\-16}}\item[{\em 
+\hypertarget{group___p_i_o_s___s_p_i_ggacc2b1ca1c7cd8aeef04fee955ef7ffd2a434915bc04c78a929a5a3184e71f1f38}{\-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-P\-R\-E\-S\-C\-A\-L\-E\-R\-\_\-16}\label{group___p_i_o_s___s_p_i_ggacc2b1ca1c7cd8aeef04fee955ef7ffd2a434915bc04c78a929a5a3184e71f1f38}
+}]\index{\-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-P\-R\-E\-S\-C\-A\-L\-E\-R\-\_\-32@{\-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-P\-R\-E\-S\-C\-A\-L\-E\-R\-\_\-32}!\-S\-P\-I Functions@{\-S\-P\-I Functions}}\index{\-S\-P\-I Functions@{\-S\-P\-I Functions}!\-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-P\-R\-E\-S\-C\-A\-L\-E\-R\-\_\-32@{\-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-P\-R\-E\-S\-C\-A\-L\-E\-R\-\_\-32}}\item[{\em 
+\hypertarget{group___p_i_o_s___s_p_i_ggacc2b1ca1c7cd8aeef04fee955ef7ffd2a101388bb1fc6d066e8b297f45426c45e}{\-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-P\-R\-E\-S\-C\-A\-L\-E\-R\-\_\-32}\label{group___p_i_o_s___s_p_i_ggacc2b1ca1c7cd8aeef04fee955ef7ffd2a101388bb1fc6d066e8b297f45426c45e}
+}]\index{\-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-P\-R\-E\-S\-C\-A\-L\-E\-R\-\_\-64@{\-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-P\-R\-E\-S\-C\-A\-L\-E\-R\-\_\-64}!\-S\-P\-I Functions@{\-S\-P\-I Functions}}\index{\-S\-P\-I Functions@{\-S\-P\-I Functions}!\-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-P\-R\-E\-S\-C\-A\-L\-E\-R\-\_\-64@{\-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-P\-R\-E\-S\-C\-A\-L\-E\-R\-\_\-64}}\item[{\em 
+\hypertarget{group___p_i_o_s___s_p_i_ggacc2b1ca1c7cd8aeef04fee955ef7ffd2a9c71c6dec8a4a411d9d2fc8838f8f2d6}{\-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-P\-R\-E\-S\-C\-A\-L\-E\-R\-\_\-64}\label{group___p_i_o_s___s_p_i_ggacc2b1ca1c7cd8aeef04fee955ef7ffd2a9c71c6dec8a4a411d9d2fc8838f8f2d6}
+}]\index{\-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-P\-R\-E\-S\-C\-A\-L\-E\-R\-\_\-128@{\-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-P\-R\-E\-S\-C\-A\-L\-E\-R\-\_\-128}!\-S\-P\-I Functions@{\-S\-P\-I Functions}}\index{\-S\-P\-I Functions@{\-S\-P\-I Functions}!\-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-P\-R\-E\-S\-C\-A\-L\-E\-R\-\_\-128@{\-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-P\-R\-E\-S\-C\-A\-L\-E\-R\-\_\-128}}\item[{\em 
+\hypertarget{group___p_i_o_s___s_p_i_ggacc2b1ca1c7cd8aeef04fee955ef7ffd2aed1958e920936add1e9c66d4132e437a}{\-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-P\-R\-E\-S\-C\-A\-L\-E\-R\-\_\-128}\label{group___p_i_o_s___s_p_i_ggacc2b1ca1c7cd8aeef04fee955ef7ffd2aed1958e920936add1e9c66d4132e437a}
+}]\index{\-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-P\-R\-E\-S\-C\-A\-L\-E\-R\-\_\-256@{\-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-P\-R\-E\-S\-C\-A\-L\-E\-R\-\_\-256}!\-S\-P\-I Functions@{\-S\-P\-I Functions}}\index{\-S\-P\-I Functions@{\-S\-P\-I Functions}!\-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-P\-R\-E\-S\-C\-A\-L\-E\-R\-\_\-256@{\-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-P\-R\-E\-S\-C\-A\-L\-E\-R\-\_\-256}}\item[{\em 
+\hypertarget{group___p_i_o_s___s_p_i_ggacc2b1ca1c7cd8aeef04fee955ef7ffd2abda35a0964776633862f5b99f1bb6be2}{\-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-P\-R\-E\-S\-C\-A\-L\-E\-R\-\_\-256}\label{group___p_i_o_s___s_p_i_ggacc2b1ca1c7cd8aeef04fee955ef7ffd2abda35a0964776633862f5b99f1bb6be2}
+}]\end{description}
+\end{Desc}
+
+
+
+\-Definition at line 34 of file pios\-\_\-spi.\-h.
+
+
+
+\subsection{\-Function \-Documentation}
+\hypertarget{group___p_i_o_s___s_p_i_ga2c561c9f63706d774c1b5ed7df2e17f5}{\index{\-S\-P\-I Functions@{\-S\-P\-I Functions}!\-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-Busy@{\-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-Busy}}
+\index{\-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-Busy@{\-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-Busy}!SPI Functions@{\-S\-P\-I Functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-Busy}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-Busy} (
+\begin{DoxyParamCaption}
+\item[{uint32\-\_\-t}]{spi\-\_\-id}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___s_p_i_ga2c561c9f63706d774c1b5ed7df2e17f5}
+\-Check if a transfer is in progress 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em spi} & \-S\-P\-I number (0 or 1) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+$>$= 0 if no transfer is in progress 
+
+-\/1 if disabled \-S\-P\-I port selected 
+
+-\/2 if unsupported \-S\-P\-I port selected 
+
+-\/3 if function has been called during an ongoing \-D\-M\-A transfer 
+\end{DoxyReturn}
+
+
+\-Definition at line 569 of file pios\-\_\-spi.\-c.
+
+\hypertarget{group___p_i_o_s___s_p_i_ga307f60532c61b56c285ce5d680cb14c5}{\index{\-S\-P\-I Functions@{\-S\-P\-I Functions}!\-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-Claim\-Bus@{\-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-Claim\-Bus}}
+\index{\-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-Claim\-Bus@{\-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-Claim\-Bus}!SPI Functions@{\-S\-P\-I Functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-Claim\-Bus}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-Claim\-Bus} (
+\begin{DoxyParamCaption}
+\item[{uint32\-\_\-t}]{spi\-\_\-id}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___s_p_i_ga307f60532c61b56c285ce5d680cb14c5}
+\-Claim the \-S\-P\-I bus semaphore. \-Calling the \-S\-P\-I functions does not require this 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em spi} & \-S\-P\-I number (0 or 1) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+0 if no error 
+
+-\/1 if timeout before claiming semaphore 
+\end{DoxyReturn}
+
+
+\-Definition at line 239 of file pios\-\_\-spi.\-c.
+
+\hypertarget{group___p_i_o_s___s_p_i_gaa42e1b9f8f8628cf28c3612fc1f7f9d1}{\index{\-S\-P\-I Functions@{\-S\-P\-I Functions}!\-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-Claim\-Bus\-I\-S\-R@{\-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-Claim\-Bus\-I\-S\-R}}
+\index{\-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-Claim\-Bus\-I\-S\-R@{\-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-Claim\-Bus\-I\-S\-R}!SPI Functions@{\-S\-P\-I Functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-Claim\-Bus\-I\-S\-R}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-Claim\-Bus\-I\-S\-R} (
+\begin{DoxyParamCaption}
+\item[{uint32\-\_\-t}]{spi\-\_\-id, }
+\item[{bool $\ast$}]{woken}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___s_p_i_gaa42e1b9f8f8628cf28c3612fc1f7f9d1}
+\-Claim the \-S\-P\-I bus semaphore from an \-I\-S\-R. \-Has no timeout. 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em spi} & \-S\-P\-I number (0 or 1) \\
+\hline
+\mbox{\tt in}  & {\em pointer} & which receives if a task has been woken \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+0 if no error 
+
+-\/1 if timeout before claiming semaphore 
+\end{DoxyReturn}
+
+
+\-Definition at line 274 of file pios\-\_\-spi.\-c.
+
+\hypertarget{group___p_i_o_s___s_p_i_ga8bbe024685ab860a8e5880b2ed2b11e6}{\index{\-S\-P\-I Functions@{\-S\-P\-I Functions}!\-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-Init@{\-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-Init}}
+\index{\-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-Init@{\-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-Init}!SPI Functions@{\-S\-P\-I Functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-Init}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-Init} (
+\begin{DoxyParamCaption}
+\item[{uint32\-\_\-t $\ast$}]{spi\-\_\-id, }
+\item[{const struct {\bf pios\-\_\-spi\-\_\-cfg} $\ast$}]{cfg}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___s_p_i_ga8bbe024685ab860a8e5880b2ed2b11e6}
+\-Initialises \-S\-P\-I pins 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em mode} & currently only mode 0 supported \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+$<$ 0 if initialisation failed 
+\end{DoxyReturn}
+
+
+\-Definition at line 71 of file pios\-\_\-spi.\-c.
+
+\hypertarget{group___p_i_o_s___s_p_i_ga018ed8c0b8d0c9a22faf6faca9b5a895}{\index{\-S\-P\-I Functions@{\-S\-P\-I Functions}!\-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-I\-R\-Q\-\_\-\-Handler@{\-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-I\-R\-Q\-\_\-\-Handler}}
+\index{\-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-I\-R\-Q\-\_\-\-Handler@{\-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-I\-R\-Q\-\_\-\-Handler}!SPI Functions@{\-S\-P\-I Functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-I\-R\-Q\-\_\-\-Handler}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-I\-R\-Q\-\_\-\-Handler} (
+\begin{DoxyParamCaption}
+\item[{uint32\-\_\-t}]{spi\-\_\-id}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___s_p_i_ga018ed8c0b8d0c9a22faf6faca9b5a895}
+
+
+\-Definition at line 597 of file pios\-\_\-spi.\-c.
+
+\hypertarget{group___p_i_o_s___s_p_i_gaae1c8b2fa4574c575994c1fd591233a6}{\index{\-S\-P\-I Functions@{\-S\-P\-I Functions}!\-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-R\-C\-\_\-\-Pin\-Set@{\-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-R\-C\-\_\-\-Pin\-Set}}
+\index{\-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-R\-C\-\_\-\-Pin\-Set@{\-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-R\-C\-\_\-\-Pin\-Set}!SPI Functions@{\-S\-P\-I Functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-R\-C\-\_\-\-Pin\-Set}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-R\-C\-\_\-\-Pin\-Set} (
+\begin{DoxyParamCaption}
+\item[{uint32\-\_\-t}]{spi\-\_\-id, }
+\item[{uint32\-\_\-t}]{slave\-\_\-id, }
+\item[{uint8\-\_\-t}]{pin\-\_\-value}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___s_p_i_gaae1c8b2fa4574c575994c1fd591233a6}
+\-Controls the \-R\-C (\-Register \-Clock alias \-Chip \-Select) pin of a \-S\-P\-I port 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em spi} & \-S\-P\-I number (0 or 1) \\
+\hline
+\mbox{\tt in}  & {\em pin\-\_\-value} & 0 or 1 \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+0 if no error 
+\end{DoxyReturn}
+
+
+\-Definition at line 361 of file pios\-\_\-spi.\-c.
+
+\hypertarget{group___p_i_o_s___s_p_i_ga117fbed6d00c5404e9414ab72175e1c8}{\index{\-S\-P\-I Functions@{\-S\-P\-I Functions}!\-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-Release\-Bus@{\-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-Release\-Bus}}
+\index{\-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-Release\-Bus@{\-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-Release\-Bus}!SPI Functions@{\-S\-P\-I Functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-Release\-Bus}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-Release\-Bus} (
+\begin{DoxyParamCaption}
+\item[{uint32\-\_\-t}]{spi\-\_\-id}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___s_p_i_ga117fbed6d00c5404e9414ab72175e1c8}
+\-Release the \-S\-P\-I bus semaphore. \-Calling the \-S\-P\-I functions does not require this 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em spi} & \-S\-P\-I number (0 or 1) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+0 if no error 
+\end{DoxyReturn}
+
+
+\-Definition at line 310 of file pios\-\_\-spi.\-c.
+
+\hypertarget{group___p_i_o_s___s_p_i_ga9b61d0c23476fd3a67c887c13c666a67}{\index{\-S\-P\-I Functions@{\-S\-P\-I Functions}!\-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-Release\-Bus\-I\-S\-R@{\-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-Release\-Bus\-I\-S\-R}}
+\index{\-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-Release\-Bus\-I\-S\-R@{\-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-Release\-Bus\-I\-S\-R}!SPI Functions@{\-S\-P\-I Functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-Release\-Bus\-I\-S\-R}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-Release\-Bus\-I\-S\-R} (
+\begin{DoxyParamCaption}
+\item[{uint32\-\_\-t}]{spi\-\_\-id, }
+\item[{bool $\ast$}]{woken}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___s_p_i_ga9b61d0c23476fd3a67c887c13c666a67}
+\-Release the \-S\-P\-I bus from an \-I\-S\-R. 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em spi} & \-S\-P\-I number (0 or 1) \\
+\hline
+\mbox{\tt in}  & {\em pointer} & which receives if a task has been woken \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+0 if no error 
+\end{DoxyReturn}
+
+
+\-Definition at line 334 of file pios\-\_\-spi.\-c.
+
+\hypertarget{group___p_i_o_s___s_p_i_ga5e8329c2d8543fe240f50571bf87eb22}{\index{\-S\-P\-I Functions@{\-S\-P\-I Functions}!\-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-Set\-Clock\-Speed@{\-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-Set\-Clock\-Speed}}
+\index{\-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-Set\-Clock\-Speed@{\-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-Set\-Clock\-Speed}!SPI Functions@{\-S\-P\-I Functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-Set\-Clock\-Speed}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-Set\-Clock\-Speed} (
+\begin{DoxyParamCaption}
+\item[{uint32\-\_\-t}]{spi\-\_\-id, }
+\item[{{\bf \-S\-P\-I\-Prescaler\-Type\-Def}}]{spi\-\_\-prescaler}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___s_p_i_ga5e8329c2d8543fe240f50571bf87eb22}
+(\-Re-\/)initialises \-S\-P\-I peripheral clock rate
+
+
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em spi} & \-S\-P\-I number (0 or 1) \\
+\hline
+\mbox{\tt in}  & {\em spi\-\_\-prescaler} & configures the \-S\-P\-I speed\-: 
+\begin{DoxyItemize}
+\item \-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-P\-R\-E\-S\-C\-A\-L\-E\-R\-\_\-2\-: sets clock rate 27.\-7$\sim$ n\-S @ 72 \-M\-Hz (36 \-M\-Bit/s) (only supported for spi==0, spi1 uses 4 instead) 
+\item \-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-P\-R\-E\-S\-C\-A\-L\-E\-R\-\_\-4\-: sets clock rate 55.\-5$\sim$ n\-S @ 72 \-M\-Hz (18 \-M\-Bit/s) 
+\item \-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-P\-R\-E\-S\-C\-A\-L\-E\-R\-\_\-8\-: sets clock rate 111.\-1$\sim$ n\-S @ 72 \-M\-Hz (9 \-M\-Bit/s) 
+\item \-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-P\-R\-E\-S\-C\-A\-L\-E\-R\-\_\-16\-: sets clock rate 222.\-2$\sim$ n\-S @ 72 \-M\-Hz (4.\-5 \-M\-Bit/s) 
+\item \-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-P\-R\-E\-S\-C\-A\-L\-E\-R\-\_\-32\-: sets clock rate 444.\-4$\sim$ n\-S @ 72 \-M\-Hz (2.\-25 \-M\-Bit/s) 
+\item \-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-P\-R\-E\-S\-C\-A\-L\-E\-R\-\_\-64\-: sets clock rate 888.\-8$\sim$ n\-S @ 72 \-M\-Hz (1.\-125 \-M\-Bit/s) 
+\item \-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-P\-R\-E\-S\-C\-A\-L\-E\-R\-\_\-128\-: sets clock rate 1.\-7$\sim$ n\-S @ 72 \-M\-Hz (0.\-562 \-M\-Bit/s) 
+\item \-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-P\-R\-E\-S\-C\-A\-L\-E\-R\-\_\-256\-: sets clock rate 3.\-5$\sim$ n\-S @ 72 \-M\-Hz (0.\-281 \-M\-Bit/s) 
+\end{DoxyItemize}\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+0 if no error 
+
+-\/1 if disabled \-S\-P\-I port selected 
+
+-\/3 if invalid spi\-\_\-prescaler selected 
+\end{DoxyReturn}
+
+
+\-Definition at line 206 of file pios\-\_\-spi.\-c.
+
+\hypertarget{group___p_i_o_s___s_p_i_ga8d8a9bc28c1c30e41e662da188d12cd7}{\index{\-S\-P\-I Functions@{\-S\-P\-I Functions}!\-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-Set\-Prescalar@{\-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-Set\-Prescalar}}
+\index{\-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-Set\-Prescalar@{\-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-Set\-Prescalar}!SPI Functions@{\-S\-P\-I Functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-Set\-Prescalar}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-Set\-Prescalar} (
+\begin{DoxyParamCaption}
+\item[{uint32\-\_\-t}]{spi\-\_\-id, }
+\item[{uint32\-\_\-t}]{prescalar}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___s_p_i_ga8d8a9bc28c1c30e41e662da188d12cd7}
+
+
+\-Definition at line 586 of file pios\-\_\-spi.\-c.
+
+\hypertarget{group___p_i_o_s___s_p_i_ga7dc994b4889415502021540ebbd2fce3}{\index{\-S\-P\-I Functions@{\-S\-P\-I Functions}!\-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-Transfer\-Block@{\-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-Transfer\-Block}}
+\index{\-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-Transfer\-Block@{\-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-Transfer\-Block}!SPI Functions@{\-S\-P\-I Functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-Transfer\-Block}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-Transfer\-Block} (
+\begin{DoxyParamCaption}
+\item[{uint32\-\_\-t}]{spi\-\_\-id, }
+\item[{const uint8\-\_\-t $\ast$}]{send\-\_\-buffer, }
+\item[{uint8\-\_\-t $\ast$}]{receive\-\_\-buffer, }
+\item[{uint16\-\_\-t}]{len, }
+\item[{void $\ast$}]{callback}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___s_p_i_ga7dc994b4889415502021540ebbd2fce3}
+\-Transfers a block of bytes via \-D\-M\-A. 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em spi} & \-S\-P\-I number (0 or 1) \\
+\hline
+\mbox{\tt in}  & {\em send\-\_\-buffer} & pointer to buffer which should be sent.\par
+ \-If \-N\-U\-L\-L, 0xff (all-\/one) will be sent. \\
+\hline
+\mbox{\tt in}  & {\em receive\-\_\-buffer} & pointer to buffer which should get the received values.\par
+ \-If \-N\-U\-L\-L, received bytes will be discarded. \\
+\hline
+\mbox{\tt in}  & {\em len} & number of bytes which should be transfered \\
+\hline
+\mbox{\tt in}  & {\em callback} & pointer to callback function which will be executed from \-D\-M\-A channel interrupt once the transfer is finished. \-If \-N\-U\-L\-L, no callback function will be used, and \hyperlink{group___p_i_o_s___s_p_i_ga7dc994b4889415502021540ebbd2fce3}{\-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-Transfer\-Block()} will block until the transfer is finished. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+$>$= 0 if no error during transfer 
+
+-\/1 if disabled \-S\-P\-I port selected 
+
+-\/3 if function has been called during an ongoing \-D\-M\-A transfer
+\end{DoxyReturn}
+\-Transfers a block of bytes via \-P\-I\-O or \-D\-M\-A. 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em spi\-\_\-id} & \-S\-P\-I device handle \\
+\hline
+\mbox{\tt in}  & {\em send\-\_\-buffer} & pointer to buffer which should be sent.\par
+ \-If \-N\-U\-L\-L, 0xff (all-\/one) will be sent. \\
+\hline
+\mbox{\tt in}  & {\em receive\-\_\-buffer} & pointer to buffer which should get the received values.\par
+ \-If \-N\-U\-L\-L, received bytes will be discarded. \\
+\hline
+\mbox{\tt in}  & {\em len} & number of bytes which should be transfered \\
+\hline
+\mbox{\tt in}  & {\em callback} & pointer to callback function which will be executed from \-D\-M\-A channel interrupt once the transfer is finished. \-If \-N\-U\-L\-L, no callback function will be used, and \hyperlink{group___p_i_o_s___s_p_i_ga7dc994b4889415502021540ebbd2fce3}{\-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-Transfer\-Block()} will block until the transfer is finished. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+$>$= 0 if no error during transfer 
+
+-\/1 if disabled \-S\-P\-I port selected 
+
+-\/3 if function has been called during an ongoing \-D\-M\-A transfer 
+\end{DoxyReturn}
+
+
+\-Definition at line 436 of file pios\-\_\-spi.\-c.
+
+\hypertarget{group___p_i_o_s___s_p_i_gaa65b0b0a89e87c3e8f13c00ee0b91563}{\index{\-S\-P\-I Functions@{\-S\-P\-I Functions}!\-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-Transfer\-Byte@{\-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-Transfer\-Byte}}
+\index{\-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-Transfer\-Byte@{\-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-Transfer\-Byte}!SPI Functions@{\-S\-P\-I Functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-Transfer\-Byte}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-Transfer\-Byte} (
+\begin{DoxyParamCaption}
+\item[{uint32\-\_\-t}]{spi\-\_\-id, }
+\item[{uint8\-\_\-t}]{b}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___s_p_i_gaa65b0b0a89e87c3e8f13c00ee0b91563}
+\-Transfers a byte to \-S\-P\-I output and reads back the return value from \-S\-P\-I input 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em spi} & \-S\-P\-I number (0 or 1) \\
+\hline
+\mbox{\tt in}  & {\em b} & the byte which should be transfered \\
+\hline
+\end{DoxyParams}
+
+
+\-Definition at line 385 of file pios\-\_\-spi.\-c.
+

@@ -1,0 +1,66 @@
+\hypertarget{class_plot3d_data}{\section{\-Plot3d\-Data \-Class \-Reference}
+\label{class_plot3d_data}\index{\-Plot3d\-Data@{\-Plot3d\-Data}}
+}
+
+
+\-The \hyperlink{class_plot3d_data}{\-Plot3d\-Data} class \-Base class that keeps the data for each curve in the plot.  
+
+
+
+
+{\ttfamily \#include $<$plotdata3d.\-h$>$}
+
+\-Inheritance diagram for \-Plot3d\-Data\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{class_plot3d_data}
+\end{center}
+\end{figure}
+\subsection*{\-Public \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___scope_plugin_ga1f2325d51b8163d0c535e07fda3ff043}{\-Plot3d\-Data} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} uav\-Object, \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} uav\-Field)
+\begin{DoxyCompactList}\small\item\em \hyperlink{group___scope_plugin_ga1f2325d51b8163d0c535e07fda3ff043}{\-Plot3d\-Data\-::\-Plot3d\-Data} \-Default 3d constructor. \end{DoxyCompactList}\item 
+\hyperlink{group___scope_plugin_gaba0a6fcc762d6818f231df0e8a975089}{$\sim$\-Plot3d\-Data} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___scope_plugin_gaa8457325b9ed2d7199e882002d9cb64f}{set\-Z\-Minimum} (double val)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___scope_plugin_gad2d6739b5faacba8f73c88fbc9b6592d}{set\-Z\-Maximum} (double val)
+\item 
+double \hyperlink{group___scope_plugin_ga1b7cd5b46f3d8a13bcdba217cc7fe392}{get\-Z\-Minimum} ()
+\item 
+double \hyperlink{group___scope_plugin_ga9d0722b373e8cf2ea23d29cc8717f8ef}{get\-Z\-Maximum} ()
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___scope_plugin_ga08cc07e86d20dc6dad41488e34bb196c}{set\-Updated\-Flag\-To\-True} ()
+\item 
+virtual bool \hyperlink{group___scope_plugin_ga3d0789d96a38bc51e7e1be13754ba43e}{read\-And\-Reset\-Updated\-Flag} ()
+\end{DoxyCompactItemize}
+\subsection*{\-Public \-Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\-Q\-Vector$<$ double $>$ $\ast$ \hyperlink{group___scope_plugin_gad5607d9145f51871817c4094cd1ba250}{z\-Data}
+\item 
+\-Q\-Vector$<$ double $>$ $\ast$ \hyperlink{group___scope_plugin_gab1e0ead20c4c64f78a8dafc2ae101710}{z\-Data\-History}
+\item 
+\-Q\-Vector$<$ double $>$ $\ast$ \hyperlink{group___scope_plugin_ga92914eba20188371aeb3ad365c01acc4}{time\-Data\-History}
+\end{DoxyCompactItemize}
+\subsection*{\-Protected \-Attributes}
+\begin{DoxyCompactItemize}
+\item 
+double \hyperlink{group___scope_plugin_ga0938aa53ec304cabf25b8294dde0a5b0}{z\-Minimum}
+\item 
+double \hyperlink{group___scope_plugin_ga1ad4417e8b0fb7035d1f4c85191812a0}{z\-Maximum}
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-The \hyperlink{class_plot3d_data}{\-Plot3d\-Data} class \-Base class that keeps the data for each curve in the plot. 
+
+\-Definition at line 41 of file plotdata3d.\-h.
+
+
+
+\-The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/plugins/scope/scopes3d/\hyperlink{plotdata3d_8h}{plotdata3d.\-h}\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/plugins/scope/\hyperlink{plotdata_8cpp}{plotdata.\-cpp}\end{DoxyCompactItemize}

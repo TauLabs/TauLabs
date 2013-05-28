@@ -1,0 +1,106 @@
+\hypertarget{group___setup_wizard_plugin}{\section{\-Setup\-Wizard\-Plugin}
+\label{group___setup_wizard_plugin}\index{\-Setup\-Wizard\-Plugin@{\-Setup\-Wizard\-Plugin}}
+}
+
+
+\-A \-Setup \-Wizard \-Plugin.  
+
+
+\subsection*{\-Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{class_setup_wizard_plugin}{\-Setup\-Wizard\-Plugin}
+\end{DoxyCompactItemize}
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___setup_wizard_plugin_ga3aa7966c2f38a762e4669751ccdf470a}{\-Setup\-Wizard\-Plugin\-::\-Setup\-Wizard\-Plugin} ()
+\item 
+\hyperlink{group___setup_wizard_plugin_ga57537cb52f05ade3a3fbe59ca00d187b}{\-Setup\-Wizard\-Plugin\-::$\sim$\-Setup\-Wizard\-Plugin} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___setup_wizard_plugin_gaa612baf865ac69fa057ec64987c86ff4}{\-Setup\-Wizard\-Plugin\-::extensions\-Initialized} ()
+\item 
+bool \hyperlink{group___setup_wizard_plugin_ga2ea2069466d237ee561815a5a00f7a4e}{\-Setup\-Wizard\-Plugin\-::initialize} (const \-Q\-String\-List \&arguments, \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} $\ast$error\-String)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___setup_wizard_plugin_ga982d4e38aff329d0dfc32506a4eb5539}{\-Setup\-Wizard\-Plugin\-::shutdown} ()
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-A \-Setup \-Wizard \-Plugin. 
+
+\subsection{\-Function \-Documentation}
+\hypertarget{group___setup_wizard_plugin_gaa612baf865ac69fa057ec64987c86ff4}{\index{\-Setup\-Wizard\-Plugin@{\-Setup\-Wizard\-Plugin}!extensions\-Initialized@{extensions\-Initialized}}
+\index{extensions\-Initialized@{extensions\-Initialized}!SetupWizardPlugin@{\-Setup\-Wizard\-Plugin}}
+\subsubsection[{extensions\-Initialized}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Setup\-Wizard\-Plugin\-::extensions\-Initialized} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___setup_wizard_plugin_gaa612baf865ac69fa057ec64987c86ff4}
+\-Called after the \-I\-Plugin\-::initialize() method has been called, and after both the \-I\-Plugin\-::initialize() and \-I\-Plugin\-::extensions\-Initialized() methods of plugins that depend on this plugin have been called. \-In this method, the plugin can assume that plugins that depend on this plugin are fully 'up and running'. \-It is a good place to look in the plugin manager's object pool for objects that have been provided by dependent plugins. \begin{DoxySeeAlso}{\-See also}
+\hyperlink{group___setup_wizard_plugin_ga2ea2069466d237ee561815a5a00f7a4e}{initialize()} 
+\end{DoxySeeAlso}
+
+
+\-Implements \hyperlink{class_extension_system_1_1_i_plugin_a1db3a7fb242fca02229f9a3be4fd6610}{\-Extension\-System\-::\-I\-Plugin}.
+
+
+
+\-Definition at line 74 of file setupwizardplugin.\-cpp.
+
+\hypertarget{group___setup_wizard_plugin_ga2ea2069466d237ee561815a5a00f7a4e}{\index{\-Setup\-Wizard\-Plugin@{\-Setup\-Wizard\-Plugin}!initialize@{initialize}}
+\index{initialize@{initialize}!SetupWizardPlugin@{\-Setup\-Wizard\-Plugin}}
+\subsubsection[{initialize}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-Setup\-Wizard\-Plugin\-::initialize} (
+\begin{DoxyParamCaption}
+\item[{const \-Q\-String\-List \&}]{arguments, }
+\item[{{\bf \-Q\-String} $\ast$}]{error\-String}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___setup_wizard_plugin_ga2ea2069466d237ee561815a5a00f7a4e}
+\-Called after the plugin has been loaded and the \-I\-Plugin instance has been created. \-The initialize methods of plugins that depend on this plugin are called after the initialize method of this plugin has been called. \-Plugins should initialize their internal state in this method. \-Returns if initialization of successful. \-If it wasn't successful, the {\itshape error\-String\/} should be set to a user-\/readable message describing the reason. \begin{DoxySeeAlso}{\-See also}
+\hyperlink{group___setup_wizard_plugin_gaa612baf865ac69fa057ec64987c86ff4}{extensions\-Initialized()} 
+\end{DoxySeeAlso}
+
+
+\-Implements \hyperlink{class_extension_system_1_1_i_plugin_a9f3dc957317279daed393fdf4894e944}{\-Extension\-System\-::\-I\-Plugin}.
+
+
+
+\-Definition at line 48 of file setupwizardplugin.\-cpp.
+
+\hypertarget{group___setup_wizard_plugin_ga3aa7966c2f38a762e4669751ccdf470a}{\index{\-Setup\-Wizard\-Plugin@{\-Setup\-Wizard\-Plugin}!\-Setup\-Wizard\-Plugin@{\-Setup\-Wizard\-Plugin}}
+\index{\-Setup\-Wizard\-Plugin@{\-Setup\-Wizard\-Plugin}!SetupWizardPlugin@{\-Setup\-Wizard\-Plugin}}
+\subsubsection[{\-Setup\-Wizard\-Plugin}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Setup\-Wizard\-Plugin\-::\-Setup\-Wizard\-Plugin} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___setup_wizard_plugin_ga3aa7966c2f38a762e4669751ccdf470a}
+
+
+\-Definition at line 40 of file setupwizardplugin.\-cpp.
+
+\hypertarget{group___setup_wizard_plugin_ga982d4e38aff329d0dfc32506a4eb5539}{\index{\-Setup\-Wizard\-Plugin@{\-Setup\-Wizard\-Plugin}!shutdown@{shutdown}}
+\index{shutdown@{shutdown}!SetupWizardPlugin@{\-Setup\-Wizard\-Plugin}}
+\subsubsection[{shutdown}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Setup\-Wizard\-Plugin\-::shutdown} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___setup_wizard_plugin_ga982d4e38aff329d0dfc32506a4eb5539}
+\-Called during a shutdown sequence in the same order as initialization before the plugins get deleted in reverse order. \-This method can be used to optimize the shutdown down, e.\-g. to disconnect from the \-Plugin\-Manager\-::about\-To\-Remove\-Object() signal if getting the signal (and probably doing lots of stuff to update the internal and visible state) doesn't make sense during shutdown. 
+
+\-Reimplemented from \hyperlink{class_extension_system_1_1_i_plugin_a65c16ebd3a6e89918a99af6515fe68cb}{\-Extension\-System\-::\-I\-Plugin}.
+
+
+
+\-Definition at line 78 of file setupwizardplugin.\-cpp.
+
+\hypertarget{group___setup_wizard_plugin_ga57537cb52f05ade3a3fbe59ca00d187b}{\index{\-Setup\-Wizard\-Plugin@{\-Setup\-Wizard\-Plugin}!$\sim$\-Setup\-Wizard\-Plugin@{$\sim$\-Setup\-Wizard\-Plugin}}
+\index{$\sim$\-Setup\-Wizard\-Plugin@{$\sim$\-Setup\-Wizard\-Plugin}!SetupWizardPlugin@{\-Setup\-Wizard\-Plugin}}
+\subsubsection[{$\sim$\-Setup\-Wizard\-Plugin}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Setup\-Wizard\-Plugin\-::$\sim$\-Setup\-Wizard\-Plugin} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___setup_wizard_plugin_ga57537cb52f05ade3a3fbe59ca00d187b}
+
+
+\-Definition at line 44 of file setupwizardplugin.\-cpp.
+

@@ -1,0 +1,47 @@
+\hypertarget{eventdispatcher_8h}{\section{/home/jb/code/\-Tau\-Labs/flight/targets/\-U\-A\-V\-Objects/inc/eventdispatcher.h \-File \-Reference}
+\label{eventdispatcher_8h}\index{/home/jb/code/\-Tau\-Labs/flight/targets/\-U\-A\-V\-Objects/inc/eventdispatcher.\-h@{/home/jb/code/\-Tau\-Labs/flight/targets/\-U\-A\-V\-Objects/inc/eventdispatcher.\-h}}
+}
+
+
+\-Event dispatcher, distributes object events as callbacks. \-Alternative to using tasks and queues. \-All callbacks are invoked from the event task.  
+
+
+\subsection*{\-Data \-Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{struct_event_stats}{\-Event\-Stats}
+\end{DoxyCompactItemize}
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+int32\-\_\-t \hyperlink{group___u_a_v_object_handling_gabfbe02253807a718d938d5f14d264645}{\-Event\-Dispatcher\-Initialize} ()
+\item 
+void \hyperlink{group___u_a_v_object_handling_ga938822e7233dbbb444a5bdde8f626fae}{\-Event\-Get\-Stats} (\hyperlink{struct_event_stats}{\-Event\-Stats} $\ast$stats\-Out)
+\item 
+void \hyperlink{group___u_a_v_object_handling_ga17f7c06410e7f0c04e1d1df6beee93d4}{\-Event\-Clear\-Stats} ()
+\item 
+int32\-\_\-t \hyperlink{group___u_a_v_object_handling_gaff090284e03d5655f766c9c6dd27f555}{\-Event\-Callback\-Dispatch} (\hyperlink{struct_u_a_v_obj_event}{\-U\-A\-V\-Obj\-Event} $\ast$ev, \hyperlink{targets_2_u_a_v_objects_2inc_2uavobjectmanager_8h_a33d11560e38b56dc904220fb0f785c28}{\-U\-A\-V\-Obj\-Event\-Callback} cb)
+\item 
+int32\-\_\-t \hyperlink{group___u_a_v_object_handling_ga34e9f120ad77feee68d20f0a22adeb51}{\-Event\-Periodic\-Callback\-Create} (\hyperlink{struct_u_a_v_obj_event}{\-U\-A\-V\-Obj\-Event} $\ast$ev, \hyperlink{targets_2_u_a_v_objects_2inc_2uavobjectmanager_8h_a33d11560e38b56dc904220fb0f785c28}{\-U\-A\-V\-Obj\-Event\-Callback} cb, uint16\-\_\-t period\-Ms)
+\item 
+int32\-\_\-t \hyperlink{group___u_a_v_object_handling_ga10f109820071bea9b310dce65a46d784}{\-Event\-Periodic\-Callback\-Update} (\hyperlink{struct_u_a_v_obj_event}{\-U\-A\-V\-Obj\-Event} $\ast$ev, \hyperlink{targets_2_u_a_v_objects_2inc_2uavobjectmanager_8h_a33d11560e38b56dc904220fb0f785c28}{\-U\-A\-V\-Obj\-Event\-Callback} cb, uint16\-\_\-t period\-Ms)
+\item 
+int32\-\_\-t \hyperlink{group___u_a_v_object_handling_gae4d288e110cd074d66fcd5ab8825cf10}{\-Event\-Periodic\-Queue\-Create} (\hyperlink{struct_u_a_v_obj_event}{\-U\-A\-V\-Obj\-Event} $\ast$ev, x\-Queue\-Handle queue, uint16\-\_\-t period\-Ms)
+\item 
+int32\-\_\-t \hyperlink{group___u_a_v_object_handling_ga5d68f0ec012a592f38691e782b636f8a}{\-Event\-Periodic\-Queue\-Update} (\hyperlink{struct_u_a_v_obj_event}{\-U\-A\-V\-Obj\-Event} $\ast$ev, x\-Queue\-Handle queue, uint16\-\_\-t period\-Ms)
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-Event dispatcher, distributes object events as callbacks. \-Alternative to using tasks and queues. \-All callbacks are invoked from the event task. \begin{DoxyAuthor}{\-Author}
+\-The \-Open\-Pilot \-Team, \href{http://www.openpilot.org}{\tt http\-://www.\-openpilot.\-org} \-Copyright (\-C) 2010. 
+
+\-Tau \-Labs, \href{http://taulabs.org,}{\tt http\-://taulabs.\-org,} \-Copyright (\-C) 2012-\/2013 
+\end{DoxyAuthor}
+\begin{DoxySeeAlso}{\-See also}
+\-The \-G\-N\-U \-Public \-License (\-G\-P\-L) \-Version 3 
+\end{DoxySeeAlso}
+
+
+\-Definition in file \hyperlink{eventdispatcher_8h_source}{eventdispatcher.\-h}.
+

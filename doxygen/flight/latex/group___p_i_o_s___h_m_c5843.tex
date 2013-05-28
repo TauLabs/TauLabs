@@ -1,0 +1,113 @@
+\hypertarget{group___p_i_o_s___h_m_c5843}{\section{\-H\-M\-C5843 \-Functions}
+\label{group___p_i_o_s___h_m_c5843}\index{\-H\-M\-C5843 Functions@{\-H\-M\-C5843 Functions}}
+}
+
+
+\-Deals with the hardware interface to the magnetometers.  
+
+
+\subsection*{\-Data \-Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{struct_p_i_o_s___h_m_c5843___config_type_def}{\-P\-I\-O\-S\-\_\-\-H\-M\-C5843\-\_\-\-Config\-Type\-Def}
+\end{DoxyCompactItemize}
+\subsection*{\-Files}
+\begin{DoxyCompactItemize}
+\item 
+file \hyperlink{pios__hmc5843_8c}{pios\-\_\-hmc5843.\-c}
+\begin{DoxyCompactList}\small\item\em \-H\-M\-C5843 \-Magnetic \-Sensor \-Functions from \-A\-H\-R\-S. \end{DoxyCompactList}\item 
+file \hyperlink{pios__hmc5843_8h}{pios\-\_\-hmc5843.\-h}
+\begin{DoxyCompactList}\small\item\em \-H\-M\-C5843 functions header. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{group___p_i_o_s___h_m_c5843_gac016f8f6dfcacc6663a7802760513dfe}{\-P\-I\-O\-S\-\_\-\-H\-M\-C5843\-\_\-\-End\-Of\-Conversion} (void)
+\item 
+void \hyperlink{group___p_i_o_s___h_m_c5843_gafd99d34d6d59ae4b38f66bfa43321c91}{\-P\-I\-O\-S\-\_\-\-H\-M\-C5843\-\_\-\-Init} (void)
+\begin{DoxyCompactList}\small\item\em \-Initialise the \-H\-M\-C5843 sensor. \end{DoxyCompactList}\item 
+void \hyperlink{group___p_i_o_s___h_m_c5843_gae47b960756eb5e51acb4f30c4a0158e4}{\-P\-I\-O\-S\-\_\-\-H\-M\-C5843\-\_\-\-Read\-Mag} (int16\-\_\-t out\mbox{[}3\mbox{]})
+\item 
+void \hyperlink{group___p_i_o_s___h_m_c5843_ga957c354cdb5c4fa92ea39d26536813cb}{\-P\-I\-O\-S\-\_\-\-H\-M\-C5843\-\_\-\-Read\-I\-D} (uint8\-\_\-t out\mbox{[}4\mbox{]})
+\item 
+bool \hyperlink{group___p_i_o_s___h_m_c5843_ga24a7367bbf88f9e9d7508ee3248cdfeb}{\-P\-I\-O\-S\-\_\-\-H\-M\-C5843\-\_\-\-New\-Data\-Available} (void)
+\end{DoxyCompactItemize}
+\subsection*{\-Variables}
+\begin{DoxyCompactItemize}
+\item 
+volatile bool \hyperlink{group___p_i_o_s___h_m_c5843_ga1291044661f010eff5b969133a2e905b}{pios\-\_\-hmc5843\-\_\-data\-\_\-ready}
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-Deals with the hardware interface to the magnetometers. 
+
+\subsection{\-Function \-Documentation}
+\hypertarget{group___p_i_o_s___h_m_c5843_gac016f8f6dfcacc6663a7802760513dfe}{\index{\-H\-M\-C5843 Functions@{\-H\-M\-C5843 Functions}!\-P\-I\-O\-S\-\_\-\-H\-M\-C5843\-\_\-\-End\-Of\-Conversion@{\-P\-I\-O\-S\-\_\-\-H\-M\-C5843\-\_\-\-End\-Of\-Conversion}}
+\index{\-P\-I\-O\-S\-\_\-\-H\-M\-C5843\-\_\-\-End\-Of\-Conversion@{\-P\-I\-O\-S\-\_\-\-H\-M\-C5843\-\_\-\-End\-Of\-Conversion}!HMC5843 Functions@{\-H\-M\-C5843 Functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-H\-M\-C5843\-\_\-\-End\-Of\-Conversion}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-P\-I\-O\-S\-\_\-\-H\-M\-C5843\-\_\-\-End\-Of\-Conversion} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___h_m_c5843_gac016f8f6dfcacc6663a7802760513dfe}
+
+
+\-Definition at line 112 of file pios\-\_\-hmc5843.\-c.
+
+\hypertarget{group___p_i_o_s___h_m_c5843_gafd99d34d6d59ae4b38f66bfa43321c91}{\index{\-H\-M\-C5843 Functions@{\-H\-M\-C5843 Functions}!\-P\-I\-O\-S\-\_\-\-H\-M\-C5843\-\_\-\-Init@{\-P\-I\-O\-S\-\_\-\-H\-M\-C5843\-\_\-\-Init}}
+\index{\-P\-I\-O\-S\-\_\-\-H\-M\-C5843\-\_\-\-Init@{\-P\-I\-O\-S\-\_\-\-H\-M\-C5843\-\_\-\-Init}!HMC5843 Functions@{\-H\-M\-C5843 Functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-H\-M\-C5843\-\_\-\-Init}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-P\-I\-O\-S\-\_\-\-H\-M\-C5843\-\_\-\-Init} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___h_m_c5843_gafd99d34d6d59ae4b38f66bfa43321c91}
+
+
+\-Initialise the \-H\-M\-C5843 sensor. 
+
+
+
+\-Definition at line 148 of file pios\-\_\-hmc5843.\-c.
+
+\hypertarget{group___p_i_o_s___h_m_c5843_ga24a7367bbf88f9e9d7508ee3248cdfeb}{\index{\-H\-M\-C5843 Functions@{\-H\-M\-C5843 Functions}!\-P\-I\-O\-S\-\_\-\-H\-M\-C5843\-\_\-\-New\-Data\-Available@{\-P\-I\-O\-S\-\_\-\-H\-M\-C5843\-\_\-\-New\-Data\-Available}}
+\index{\-P\-I\-O\-S\-\_\-\-H\-M\-C5843\-\_\-\-New\-Data\-Available@{\-P\-I\-O\-S\-\_\-\-H\-M\-C5843\-\_\-\-New\-Data\-Available}!HMC5843 Functions@{\-H\-M\-C5843 Functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-H\-M\-C5843\-\_\-\-New\-Data\-Available}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-P\-I\-O\-S\-\_\-\-H\-M\-C5843\-\_\-\-New\-Data\-Available} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___h_m_c5843_ga24a7367bbf88f9e9d7508ee3248cdfeb}
+
+
+\-Definition at line 309 of file pios\-\_\-hmc5843.\-c.
+
+\hypertarget{group___p_i_o_s___h_m_c5843_ga957c354cdb5c4fa92ea39d26536813cb}{\index{\-H\-M\-C5843 Functions@{\-H\-M\-C5843 Functions}!\-P\-I\-O\-S\-\_\-\-H\-M\-C5843\-\_\-\-Read\-I\-D@{\-P\-I\-O\-S\-\_\-\-H\-M\-C5843\-\_\-\-Read\-I\-D}}
+\index{\-P\-I\-O\-S\-\_\-\-H\-M\-C5843\-\_\-\-Read\-I\-D@{\-P\-I\-O\-S\-\_\-\-H\-M\-C5843\-\_\-\-Read\-I\-D}!HMC5843 Functions@{\-H\-M\-C5843 Functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-H\-M\-C5843\-\_\-\-Read\-I\-D}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-P\-I\-O\-S\-\_\-\-H\-M\-C5843\-\_\-\-Read\-I\-D} (
+\begin{DoxyParamCaption}
+\item[{uint8\-\_\-t}]{out\mbox{[}4\mbox{]}}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___h_m_c5843_ga957c354cdb5c4fa92ea39d26536813cb}
+\-Read the identification bytes from the sensor 
+
+\-Definition at line 303 of file pios\-\_\-hmc5843.\-c.
+
+\hypertarget{group___p_i_o_s___h_m_c5843_gae47b960756eb5e51acb4f30c4a0158e4}{\index{\-H\-M\-C5843 Functions@{\-H\-M\-C5843 Functions}!\-P\-I\-O\-S\-\_\-\-H\-M\-C5843\-\_\-\-Read\-Mag@{\-P\-I\-O\-S\-\_\-\-H\-M\-C5843\-\_\-\-Read\-Mag}}
+\index{\-P\-I\-O\-S\-\_\-\-H\-M\-C5843\-\_\-\-Read\-Mag@{\-P\-I\-O\-S\-\_\-\-H\-M\-C5843\-\_\-\-Read\-Mag}!HMC5843 Functions@{\-H\-M\-C5843 Functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-H\-M\-C5843\-\_\-\-Read\-Mag}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-P\-I\-O\-S\-\_\-\-H\-M\-C5843\-\_\-\-Read\-Mag} (
+\begin{DoxyParamCaption}
+\item[{int16\-\_\-t}]{out\mbox{[}3\mbox{]}}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___h_m_c5843_gae47b960756eb5e51acb4f30c4a0158e4}
+\-Read the magnetic readings from the sensor 
+
+\-Definition at line 246 of file pios\-\_\-hmc5843.\-c.
+
+
+
+\subsection{\-Variable \-Documentation}
+\hypertarget{group___p_i_o_s___h_m_c5843_ga1291044661f010eff5b969133a2e905b}{\index{\-H\-M\-C5843 Functions@{\-H\-M\-C5843 Functions}!pios\-\_\-hmc5843\-\_\-data\-\_\-ready@{pios\-\_\-hmc5843\-\_\-data\-\_\-ready}}
+\index{pios\-\_\-hmc5843\-\_\-data\-\_\-ready@{pios\-\_\-hmc5843\-\_\-data\-\_\-ready}!HMC5843 Functions@{\-H\-M\-C5843 Functions}}
+\subsubsection[{pios\-\_\-hmc5843\-\_\-data\-\_\-ready}]{\setlength{\rightskip}{0pt plus 5cm}volatile bool {\bf pios\-\_\-hmc5843\-\_\-data\-\_\-ready}}}\label{group___p_i_o_s___h_m_c5843_ga1291044661f010eff5b969133a2e905b}
+
+
+\-Definition at line 106 of file pios\-\_\-hmc5843.\-c.
+

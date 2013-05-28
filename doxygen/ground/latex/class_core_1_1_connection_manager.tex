@@ -1,0 +1,95 @@
+\hypertarget{class_core_1_1_connection_manager}{\section{\-Core\-:\-:\-Connection\-Manager \-Class \-Reference}
+\label{class_core_1_1_connection_manager}\index{\-Core\-::\-Connection\-Manager@{\-Core\-::\-Connection\-Manager}}
+}
+
+
+{\ttfamily \#include $<$connectionmanager.\-h$>$}
+
+\subsection*{\-Public \-Slots}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___core_plugin_ga4de138b49205db93c52a0b23f9147099}{telemetry\-Connected} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___core_plugin_ga4ab94ed9731bab394302b0d9e86712d4}{telemetry\-Disconnected} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___core_plugin_ga71e85da70aaddce0e037f95505cbc054}{telemetry\-Updated} (double tx\-Rate, double rx\-Rate)
+\end{DoxyCompactItemize}
+\subsection*{\-Signals}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___core_plugin_gaba707f1aa2a0ecd087c4918a4840257b}{device\-Connected} (\-Q\-I\-O\-Device $\ast$device)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___core_plugin_gaa4ac1fd6464703c0215cf028f42beac5}{device\-About\-To\-Disconnect} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___core_plugin_ga8978f471105c4f9a5525a175db4b3f29}{device\-Disconnected} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___core_plugin_ga3b0173c58f1af7e9d1140fcbdd3afd18}{available\-Devices\-Changed} (const \-Q\-Linked\-List$<$ \hyperlink{class_core_1_1_dev_list_item}{\-Core\-::\-Dev\-List\-Item} $>$ devices)
+\end{DoxyCompactItemize}
+\subsection*{\-Public \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___core_plugin_ga45c9149d071d17532d5887d3a64f9cd1}{\-Connection\-Manager} (\hyperlink{class_core_1_1_internal_1_1_main_window}{\-Internal\-::\-Main\-Window} $\ast$main\-Window, \-Q\-Tab\-Widget $\ast$mode\-Stack)
+\item 
+virtual \hyperlink{group___core_plugin_ga44b4646ef623b71c4a789f3f4213ccbf}{$\sim$\-Connection\-Manager} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___core_plugin_gab896af0a853749c60a450bf14ce00400}{init} ()
+\item 
+\-Q\-I\-O\-Device $\ast$ \hyperlink{group___core_plugin_ga85cbf1f53f7086545a446ec224a3143f}{get\-Current\-Connection} ()
+\item 
+\hyperlink{class_core_1_1_dev_list_item}{\-Dev\-List\-Item} \hyperlink{group___core_plugin_ga93568acf4b301c44a1d9bf243066f3ff}{get\-Current\-Device} ()
+\item 
+\hyperlink{class_core_1_1_dev_list_item}{\-Dev\-List\-Item} \hyperlink{group___core_plugin_ga7b6178bc28a6457e18586c215a53256b}{find\-Device} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \&dev\-Name)
+\item 
+\-Q\-Linked\-List$<$ \hyperlink{class_core_1_1_dev_list_item}{\-Dev\-List\-Item} $>$ \hyperlink{group___core_plugin_ga7527fd84dd3f5fc73130480ab1e45c86}{get\-Available\-Devices} ()
+\item 
+bool \hyperlink{group___core_plugin_gaa260057af9b250ed953ba1dbe455d71b}{is\-Connected} ()
+\item 
+bool \hyperlink{group___core_plugin_gae4e29b41f3deb1349c8f21bfe6f6e597}{connect\-Device} (\hyperlink{class_core_1_1_dev_list_item}{\-Dev\-List\-Item} device)
+\item 
+bool \hyperlink{group___core_plugin_ga679b06064b497205af5453783acff419}{disconnect\-Device} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___core_plugin_gad4e7e06b9cc1c4720a0bb9202c5dca19}{suspend\-Polling} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___core_plugin_gaffc78d62ba1226c3d690158e30db4dee}{resume\-Polling} ()
+\item 
+\hyperlink{class_telemetry_monitor_widget}{\-Telemetry\-Monitor\-Widget} $\ast$ \hyperlink{group___core_plugin_ga161596a57af98c968d8adc57fef40a4b}{get\-Telemetry\-Monitor\-Widget} ()
+\end{DoxyCompactItemize}
+\subsection*{\-Protected \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___core_plugin_ga68a1ceabeebd789c2e750636ac621dd3}{update\-Connection\-List} (\hyperlink{class_core_1_1_i_connection}{\-I\-Connection} $\ast$\hyperlink{group___i_p_conn_plugin_ga75cb9b33b52928c030806876f2c2f439}{connection})
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___core_plugin_ga385cde399fab0cd3df254656dfe99179}{register\-Device} (\hyperlink{class_core_1_1_i_connection}{\-I\-Connection} $\ast$conn, \hyperlink{class_core_1_1_i_device}{\-I\-Device} $\ast$device)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___core_plugin_ga822df7d9f4473a60eec505d04a52a4b6}{update\-Connection\-Dropdown} ()
+\end{DoxyCompactItemize}
+\subsection*{\-Protected \-Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\-Q\-Combo\-Box $\ast$ \hyperlink{group___core_plugin_ga41f481dd82dd9c22a44f9f8c3fb67b13}{m\-\_\-available\-Dev\-List}
+\item 
+\-Q\-Push\-Button $\ast$ \hyperlink{group___core_plugin_gae7f2456d42992a7c1979e22333ef8c8c}{m\-\_\-connect\-Btn}
+\item 
+\-Q\-Linked\-List$<$ \hyperlink{class_core_1_1_dev_list_item}{\-Dev\-List\-Item} $>$ \hyperlink{group___core_plugin_ga59dba38b0aaf7818a55f5324e04cbfb4}{m\-\_\-dev\-List}
+\item 
+\-Q\-List$<$ \hyperlink{class_core_1_1_i_connection}{\-I\-Connection} $\ast$ $>$ \hyperlink{group___core_plugin_ga3fc983f808dffe4688e191179b08008b}{m\-\_\-connections\-List}
+\item 
+\hyperlink{class_telemetry_monitor_widget}{\-Telemetry\-Monitor\-Widget} $\ast$ \hyperlink{group___core_plugin_ga1c7867a16d4a6ee88c874f5e39e0dae8}{m\-\_\-monitor\-Widget}
+\item 
+\hyperlink{class_core_1_1_dev_list_item}{\-Dev\-List\-Item} \hyperlink{group___core_plugin_ga37d57c467eac74260d1ca5c4ec46c149}{m\-\_\-connection\-Device}
+\item 
+\-Q\-I\-O\-Device $\ast$ \hyperlink{group___core_plugin_gae83fe34fd2dab9f0c6459abbfcd6be27}{m\-\_\-io\-Dev}
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+
+
+\-Definition at line 85 of file connectionmanager.\-h.
+
+
+
+\-The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/plugins/coreplugin/\hyperlink{connectionmanager_8h}{connectionmanager.\-h}\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/plugins/coreplugin/\hyperlink{connectionmanager_8cpp}{connectionmanager.\-cpp}\end{DoxyCompactItemize}

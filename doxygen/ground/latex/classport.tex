@@ -1,0 +1,88 @@
+\hypertarget{classport}{\section{port \-Class \-Reference}
+\label{classport}\index{port@{port}}
+}
+
+
+{\ttfamily \#include $<$port.\-h$>$}
+
+\subsection*{\-Public \-Types}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{group___uploader_ga2f8ecb3d9778a986988296b474912ad3}{portstatus} \{ \hyperlink{group___uploader_gga2f8ecb3d9778a986988296b474912ad3aa27283d847e32c8004f5f4793f0a9704}{open}, 
+\hyperlink{group___uploader_gga2f8ecb3d9778a986988296b474912ad3a5d09f03f25366db4d621110f6d3e48fa}{closed}, 
+\hyperlink{group___uploader_gga2f8ecb3d9778a986988296b474912ad3a5a170de7334d016eb4a494cb60943a46}{error}
+ \}
+\end{DoxyCompactItemize}
+\subsection*{\-Public \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual int16\-\_\-t \hyperlink{group___uploader_gae97ecc8aa7bff549fc95c2fe0c922279}{pf\-Serial\-Read} (\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void})
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___uploader_ga30e501e90b5d17c51d6f26ff169cf03d}{pf\-Serial\-Write} (uint8\-\_\-t)
+\item 
+virtual uint32\-\_\-t \hyperlink{group___uploader_ga175fa612d12b3411709d60fef9c26cc2}{pf\-Get\-Time} (\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void})
+\item 
+\hyperlink{group___uploader_ga07c31ea30e7226e74f05a64bf51e89c8}{port} (\-Port\-Settings settings, \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} name)
+\item 
+\hyperlink{group___uploader_gacd903c84068e3b7829d0688ae4aad58e}{$\sim$port} ()
+\item 
+\hyperlink{group___uploader_ga2f8ecb3d9778a986988296b474912ad3}{portstatus} \hyperlink{group___uploader_ga047435f44b40228c4e544c28bd77f03b}{status} ()
+\end{DoxyCompactItemize}
+\subsection*{\-Public \-Attributes}
+\begin{DoxyCompactItemize}
+\item 
+uint8\-\_\-t \hyperlink{group___uploader_gaa59e48abe3c6ec88333502c7abd9c309}{retry\-Count}
+\item 
+uint8\-\_\-t \hyperlink{group___uploader_ga39fea4d573ab6d52b3b2df145d6d3f7a}{max\-Retry\-Count}
+\item 
+uint16\-\_\-t \hyperlink{group___uploader_ga6a20c78337e965260038e132527ba852}{max\-\_\-retry}
+\item 
+int32\-\_\-t \hyperlink{group___uploader_gacad18aa8d7e13c6500409da966437d3d}{timeout\-Len}
+\item 
+uint32\-\_\-t \hyperlink{group___uploader_gac5f404a47ec2583f83bd610d5f184308}{timeout}
+\item 
+uint8\-\_\-t \hyperlink{group___uploader_ga9add555476b07ac554ed3371358848bb}{tx\-Seq\-No}
+\item 
+uint16\-\_\-t \hyperlink{group___uploader_ga75073512a14d809c8ed03df447815d09}{rx\-Buf\-Pos}
+\item 
+uint16\-\_\-t \hyperlink{group___uploader_ga1de477395cd5f7c06623860c2d8017e4}{rx\-Buf\-Len}
+\item 
+uint8\-\_\-t \hyperlink{group___uploader_ga82ee05e7b1de6f1b55b375364ce5bc83}{rx\-Seq\-No}
+\item 
+uint16\-\_\-t \hyperlink{group___uploader_ga640561a803c92539943ec445afba5e72}{rx\-Buf\-Size}
+\item 
+uint16\-\_\-t \hyperlink{group___uploader_ga108da44374d16b8153824a65fec5a7ae}{tx\-Buf\-Size}
+\item 
+uint8\-\_\-t $\ast$ \hyperlink{group___uploader_gaf025f7e1a7f2a73bbc14602b9a5f1ee0}{tx\-Buf}
+\item 
+uint8\-\_\-t $\ast$ \hyperlink{group___uploader_ga934f922079e3cc67b83f3b27d377a1e4}{rx\-Buf}
+\item 
+uint16\-\_\-t \hyperlink{group___uploader_gafc6af17b7bd943cd40a0223eed26a0c3}{send\-Synch}
+\item 
+\hyperlink{group___uploader_gab10fc109fdda19fca8e7faf999d5a342}{\-Receive\-State} \hyperlink{group___uploader_ga4e66fb46404301e2985093c34ae57379}{\-Input\-State}
+\item 
+\hyperlink{group___uploader_gaca51c380bc924bd9e5d794ce37ec7194}{decode\-State\-\_\-} \hyperlink{group___uploader_gac689b116d4d7c80713d964bd631e9511}{\-Decode\-State}
+\item 
+uint16\-\_\-t \hyperlink{group___uploader_ga9eaf6bf50865d1b4f8470110523b9f6b}{\-Send\-State}
+\item 
+uint16\-\_\-t \hyperlink{group___uploader_ga6ad77d0d0cc02d7ce86e13041ef33c5e}{crc}
+\item 
+uint32\-\_\-t \hyperlink{group___uploader_ga6d92cd4c24b14264e16528a599123db4}{\-Rx\-Error}
+\item 
+uint32\-\_\-t \hyperlink{group___uploader_ga9b23351e935a17b3a216b903dabac29c}{\-Tx\-Error}
+\item 
+uint16\-\_\-t \hyperlink{group___uploader_gae9ceccbaac142c00a4699e9020d27f4b}{flags}
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+
+
+\-Definition at line 35 of file port.\-h.
+
+
+
+\-The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/plugins/uploader/\-S\-S\-P/\hyperlink{port_8h}{port.\-h}\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/plugins/uploader/\-S\-S\-P/\hyperlink{port_8cpp}{port.\-cpp}\end{DoxyCompactItemize}

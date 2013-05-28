@@ -1,0 +1,43 @@
+\hypertarget{class_filtered_uav_talk}{\section{\-Filtered\-Uav\-Talk \-Class \-Reference}
+\label{class_filtered_uav_talk}\index{\-Filtered\-Uav\-Talk@{\-Filtered\-Uav\-Talk}}
+}
+
+
+\-The \hyperlink{class_filtered_uav_talk}{\-Filtered\-Uav\-Talk} class \-An extension of the \hyperlink{class_u_a_v_talk}{\-U\-A\-V\-Talk} class to be run on the master \-G\-C\-S (the one which also has a connection to the \-U\-A\-V) which will relay object updates to a slave \-G\-C\-S subject to certain filtering rules which this class enforces.  
+
+
+
+
+{\ttfamily \#include $<$filtereduavtalk.\-h$>$}
+
+\-Inheritance diagram for \-Filtered\-Uav\-Talk\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_filtered_uav_talk}
+\end{center}
+\end{figure}
+\subsection*{\-Public \-Slots}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_talk_ga41ca9188bbbc0be7e458f94ef49117df}{send\-Object\-Slot} (\hyperlink{class_u_a_v_object}{\-U\-A\-V\-Object} $\ast$obj)
+\begin{DoxyCompactList}\small\item\em \hyperlink{group___u_a_v_talk_ga41ca9188bbbc0be7e458f94ef49117df}{\-Filtered\-Uav\-Talk\-::send\-Object\-Slot} \-Called whenever an object is updated by the local \-G\-C\-S and sends it to the remote \-G\-C\-S is the rules allow it. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Public \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_talk_ga618403abe72042a54b38faa22c1c5e5f}{\-Filtered\-Uav\-Talk} (\-Q\-I\-O\-Device $\ast$iodev, \hyperlink{class_u_a_v_object_manager}{\-U\-A\-V\-Object\-Manager} $\ast$\hyperlink{group___u_a_v_talk_plugin_ga096422f1ff46ea45de07a92c41827aa5}{obj\-Mngr}, \-Q\-Hash$<$ quint32, \hyperlink{group___u_a_v_talk_plugin_gae73e1677650d617d825cf2224fa0626a}{\-Uav\-Talk\-Relay\-Comon\-::access\-Type} $>$ rules, \hyperlink{group___u_a_v_talk_plugin_gae73e1677650d617d825cf2224fa0626a}{\-Uav\-Talk\-Relay\-Comon\-::access\-Type} default\-Rule)
+\begin{DoxyCompactList}\small\item\em \-Construct a filtered uavtalk class. \end{DoxyCompactList}\item 
+bool \hyperlink{group___u_a_v_talk_gae0a55c71a396a0577dd48dad6188a7a0}{receive\-Object} (quint8 type, quint32 obj\-Id, quint16 inst\-Id, quint8 $\ast$data, qint32 \hyperlink{uavobjecttemplate_8m_a076bf56c9bafa07f3dbda4901a40d84c}{length})
+\begin{DoxyCompactList}\small\item\em \-Called when an uavtalk packet is received from the slave. \-Updates master based on filtering rules. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-The \hyperlink{class_filtered_uav_talk}{\-Filtered\-Uav\-Talk} class \-An extension of the \hyperlink{class_u_a_v_talk}{\-U\-A\-V\-Talk} class to be run on the master \-G\-C\-S (the one which also has a connection to the \-U\-A\-V) which will relay object updates to a slave \-G\-C\-S subject to certain filtering rules which this class enforces. 
+
+\-Definition at line 39 of file filtereduavtalk.\-h.
+
+
+
+\-The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/plugins/uavtalkrelay/\hyperlink{filtereduavtalk_8h}{filtereduavtalk.\-h}\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/plugins/uavtalkrelay/\hyperlink{filtereduavtalk_8cpp}{filtereduavtalk.\-cpp}\end{DoxyCompactItemize}

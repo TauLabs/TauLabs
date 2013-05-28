@@ -1,0 +1,2187 @@
+\hypertarget{group___aero_sim_r_c}{\section{\-Aero\-Sim\-R\-C proxy plugin}
+\label{group___aero_sim_r_c}\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+}
+
+
+\-Aero\-Sim\-R\-C simulator to \-H\-I\-T\-L proxy plugin.  
+
+
+\subsection*{\-Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structsim_to_plugin}{sim\-To\-Plugin}
+\item 
+struct \hyperlink{structplugin_to_sim}{plugin\-To\-Sim}
+\item 
+struct \hyperlink{struct_t_plugin_menu_item}{\-T\-Plugin\-Menu\-Item}
+\item 
+struct \hyperlink{structplugin_init}{plugin\-Init}
+\item 
+class \hyperlink{class_settings}{\-Settings}
+\item 
+class \hyperlink{class_udp_sender}{\-Udp\-Sender}
+\item 
+class \hyperlink{class_udp_receiver}{\-Udp\-Receiver}
+\item 
+class \hyperlink{class_widget}{\-Widget}
+\end{DoxyCompactItemize}
+\subsection*{\-Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+namespace \hyperlink{namespace_ui}{\-Ui}
+\end{DoxyCompactItemize}
+\subsection*{\-Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{group___aero_sim_r_c_ga32699aad93298e22cc4b036b666b286c}{\-Menu\-Masks} \{ \*
+\hyperlink{group___aero_sim_r_c_gga32699aad93298e22cc4b036b666b286cab50d95f3a435766fe9b26f5e29268192}{\-Menu\-Enable} =  (1 $<$$<$ 0), 
+\hyperlink{group___aero_sim_r_c_gga32699aad93298e22cc4b036b666b286cac65bf61777efbb25c693c61e1e15f8ee}{\-Menu\-Tx} =  (1 $<$$<$ 1), 
+\hyperlink{group___aero_sim_r_c_gga32699aad93298e22cc4b036b666b286cab104e61c43e82a883282864db332faa7}{\-Menu\-Rx} =  (1 $<$$<$ 2), 
+\hyperlink{group___aero_sim_r_c_gga32699aad93298e22cc4b036b666b286ca5acf4fd0f1095d55cf5ef95ba9e1d343}{\-Menu\-Screen} =  (1 $<$$<$ 3), 
+\*
+\hyperlink{group___aero_sim_r_c_gga32699aad93298e22cc4b036b666b286ca1d4c50f87301f42f7115d64f05898796}{\-Menu\-Next\-Wpt} =  (1 $<$$<$ 4), 
+\hyperlink{group___aero_sim_r_c_gga32699aad93298e22cc4b036b666b286cabaf0d1cc3d420c7d4ce1a24b24982d0b}{\-Menu\-Cmd\-Reset} =  (1 $<$$<$ 5), 
+\hyperlink{group___aero_sim_r_c_gga32699aad93298e22cc4b036b666b286cac209851ef711b8f020b765b06235e03b}{\-Menu\-Led\-Blue} =  (1 $<$$<$ 6), 
+\hyperlink{group___aero_sim_r_c_gga32699aad93298e22cc4b036b666b286ca8ec14791dc6d73e7371546dff18d3503}{\-Menu\-Led\-Green} =  (1 $<$$<$ 7), 
+\*
+\hyperlink{group___aero_sim_r_c_gga32699aad93298e22cc4b036b666b286caec0a3149d458625f8fd926cabbdc458d}{\-Menu\-F\-Mode1} =  (1 $<$$<$ 8), 
+\hyperlink{group___aero_sim_r_c_gga32699aad93298e22cc4b036b666b286ca31275b1f310192cb75efe8917e7b9062}{\-Menu\-F\-Mode2} =  (1 $<$$<$ 9), 
+\hyperlink{group___aero_sim_r_c_gga32699aad93298e22cc4b036b666b286caf0bec956817a01c8b03b2c1f7ddcdde5}{\-Menu\-F\-Mode3} =  (1 $<$$<$ 10)
+ \}
+\item 
+enum \hyperlink{group___aero_sim_r_c_ga98eae8f226a6c44ff070e68cbc49f757}{\-E\-Override\-Flags} \{ \*
+\hyperlink{group___aero_sim_r_c_gga98eae8f226a6c44ff070e68cbc49f757ac5b5b2cf4c10db1a69b11b0cc410f0c3}{\-O\-V\-R\-\_\-\-P\-O\-S} =  (1 $<$$<$ 0), 
+\hyperlink{group___aero_sim_r_c_gga98eae8f226a6c44ff070e68cbc49f757a2b201eb2961652842393f14a97f20dea}{\-O\-V\-R\-\_\-\-V\-E\-L} =  (1 $<$$<$ 1), 
+\hyperlink{group___aero_sim_r_c_gga98eae8f226a6c44ff070e68cbc49f757aeca82b94cbac4c94431e590f9c4bf98f}{\-O\-V\-R\-\_\-\-A\-N\-G\-\_\-\-V\-E\-L} =  (1 $<$$<$ 2), 
+\hyperlink{group___aero_sim_r_c_gga98eae8f226a6c44ff070e68cbc49f757aaadbeb07de3595a41c5ae226654222c7}{\-O\-V\-R\-\_\-\-H\-P\-R} =  (1 $<$$<$ 3), 
+\*
+\hyperlink{group___aero_sim_r_c_gga98eae8f226a6c44ff070e68cbc49f757a09cf59a20393176449bbb1ada0851842}{\-O\-V\-R\-\_\-\-W\-I\-N\-D\-\_\-\-V\-E\-L} =  (1 $<$$<$ 4), 
+\hyperlink{group___aero_sim_r_c_gga98eae8f226a6c44ff070e68cbc49f757a1ac7bb07b6834d10f7b8296d0a14d125}{\-O\-V\-R\-\_\-\-E\-N\-G\-I\-N\-E\-\_\-\-R\-P\-M} =  (1 $<$$<$ 5), 
+\hyperlink{group___aero_sim_r_c_gga98eae8f226a6c44ff070e68cbc49f757a0c4877fdd99836823e1f53610baefac5}{\-O\-V\-R\-\_\-\-B\-A\-T\-\_\-\-V\-O\-L\-T} =  (1 $<$$<$ 6), 
+\hyperlink{group___aero_sim_r_c_gga98eae8f226a6c44ff070e68cbc49f757a5ae44a881ba0a3efa4443b6f8a69723d}{\-O\-V\-R\-\_\-\-B\-A\-T\-\_\-\-A\-M\-P} =  (1 $<$$<$ 7), 
+\*
+\hyperlink{group___aero_sim_r_c_gga98eae8f226a6c44ff070e68cbc49f757a77ed181237c19cad07d0c66ec657e263}{\-O\-V\-R\-\_\-\-B\-A\-T\-\_\-\-A\-H\-\_\-\-C\-O\-N\-S\-U\-M\-E\-D} =  (1 $<$$<$ 8), 
+\hyperlink{group___aero_sim_r_c_gga98eae8f226a6c44ff070e68cbc49f757a5da3bc21e6ea4211a61c5545631ce808}{\-O\-V\-R\-\_\-\-F\-U\-E\-L\-\_\-\-C\-O\-N\-S\-U\-M\-E\-D} =  (1 $<$$<$ 9)
+ \}
+\item 
+enum \hyperlink{group___aero_sim_r_c_gaac481ffc101eae8d9d9be9b734bdc79d}{\-Channels} \{ \*
+\hyperlink{group___aero_sim_r_c_ggaac481ffc101eae8d9d9be9b734bdc79da2df1d74553a9741a3374ae3cdef4b81d}{\-Ch1\-Aileron}, 
+\hyperlink{group___aero_sim_r_c_ggaac481ffc101eae8d9d9be9b734bdc79da109ac87ae4946c5416d0d78f1b75affe}{\-Ch2\-Elevator}, 
+\hyperlink{group___aero_sim_r_c_ggaac481ffc101eae8d9d9be9b734bdc79da256b78dc519ed5de1603474d8337373d}{\-Ch3\-Throttle}, 
+\hyperlink{group___aero_sim_r_c_ggaac481ffc101eae8d9d9be9b734bdc79daa9a1749a0aa9adc9f7758d391ac7d9a2}{\-Ch4\-Rudder}, 
+\*
+\hyperlink{group___aero_sim_r_c_ggaac481ffc101eae8d9d9be9b734bdc79dab000af5f4659e5f9c7591c2f2edcb90e}{\-Ch5}, 
+\hyperlink{group___aero_sim_r_c_ggaac481ffc101eae8d9d9be9b734bdc79da3726e845b91f7f6bb36eb285c661e432}{\-Ch6}, 
+\hyperlink{group___aero_sim_r_c_ggaac481ffc101eae8d9d9be9b734bdc79daba069c786a9a0709235fd6e7fbb11719}{\-Ch7}, 
+\hyperlink{group___aero_sim_r_c_ggaac481ffc101eae8d9d9be9b734bdc79da135e650af9b3c88183db4d1e82ba1814}{\-Ch8}, 
+\*
+\hyperlink{group___aero_sim_r_c_ggaac481ffc101eae8d9d9be9b734bdc79da7bcf9c442423efb6c3f65c889c180a87}{\-Ch9}, 
+\hyperlink{group___aero_sim_r_c_ggaac481ffc101eae8d9d9be9b734bdc79da9de712e6df1c41415b7b8895787144dc}{\-Ch10\-Retracts}, 
+\hyperlink{group___aero_sim_r_c_ggaac481ffc101eae8d9d9be9b734bdc79dad5dfce4bb7f09c148dfc9ba087ae57c8}{\-Ch11\-Flaps}, 
+\hyperlink{group___aero_sim_r_c_ggaac481ffc101eae8d9d9be9b734bdc79da9755aa9c44882df08755169706adb61b}{\-Ch12\-F\-P\-V\-Cam\-Pan}, 
+\*
+\hyperlink{group___aero_sim_r_c_ggaac481ffc101eae8d9d9be9b734bdc79da38a60389c1af9734d2a99a45abcd9167}{\-Ch13\-F\-P\-V\-Cam\-Tilt}, 
+\hyperlink{group___aero_sim_r_c_ggaac481ffc101eae8d9d9be9b734bdc79da7dd4de8d12d1bf092ac2e5a523cd9a46}{\-Ch14\-Brakes}, 
+\hyperlink{group___aero_sim_r_c_ggaac481ffc101eae8d9d9be9b734bdc79daa01cc1c49c1e72966ffb73c25dd98512}{\-Ch15\-Spoilers}, 
+\hyperlink{group___aero_sim_r_c_ggaac481ffc101eae8d9d9be9b734bdc79da6d813892bcc44ef3043ed1a4f4c59ba3}{\-Ch16\-Smoke}, 
+\*
+\hyperlink{group___aero_sim_r_c_ggaac481ffc101eae8d9d9be9b734bdc79daaa7eb8b9eceeaa749e66c134036d285a}{\-Ch17\-Fire}, 
+\hyperlink{group___aero_sim_r_c_ggaac481ffc101eae8d9d9be9b734bdc79da44030ec8a353c98238405398e3cdbe0c}{\-Ch18\-Flight\-Mode}, 
+\hyperlink{group___aero_sim_r_c_ggaac481ffc101eae8d9d9be9b734bdc79da8c6cb1bb6b247edda8fbc34269aefcd8}{\-Ch19\-A\-L\-T\-Hold}, 
+\hyperlink{group___aero_sim_r_c_ggaac481ffc101eae8d9d9be9b734bdc79da241ed38717a8746164b5b6c53e71af48}{\-Ch20\-F\-P\-V\-Tilt\-Hold}, 
+\*
+\hyperlink{group___aero_sim_r_c_ggaac481ffc101eae8d9d9be9b734bdc79daa850b56a702f06c1cafcea2dfbb7cfda}{\-Ch21\-Reset\-Model}, 
+\hyperlink{group___aero_sim_r_c_ggaac481ffc101eae8d9d9be9b734bdc79da8bb0a149514e0d53fb8ee584a2f35767}{\-Ch22\-Mouse\-T\-X}, 
+\hyperlink{group___aero_sim_r_c_ggaac481ffc101eae8d9d9be9b734bdc79da3407ceb314d18a567bc1530d09992ad7}{\-Ch23\-Plugin1}, 
+\hyperlink{group___aero_sim_r_c_ggaac481ffc101eae8d9d9be9b734bdc79da2d81133267c5c15e4ebac26d078a8efe}{\-Ch24\-Plugin2}, 
+\*
+\hyperlink{group___aero_sim_r_c_ggaac481ffc101eae8d9d9be9b734bdc79dae06771aefe9478a74b26445fa1227e01}{\-Ch25\-Throttle\-Hold}, 
+\hyperlink{group___aero_sim_r_c_ggaac481ffc101eae8d9d9be9b734bdc79da9be0c68561678e9e4da2af9fc1199b24}{\-Ch26\-Care\-Free}, 
+\hyperlink{group___aero_sim_r_c_ggaac481ffc101eae8d9d9be9b734bdc79da740a02e72a2add66963f06c9c400759f}{\-Ch27\-F\-P\-V\-Cam\-Roll}, 
+\hyperlink{group___aero_sim_r_c_ggaac481ffc101eae8d9d9be9b734bdc79da4797e93a02ee282039529f32306157cc}{\-Ch28\-L\-Motor\-Dual}, 
+\*
+\hyperlink{group___aero_sim_r_c_ggaac481ffc101eae8d9d9be9b734bdc79da926bffcb73ed8e8846d47c62dfea6e91}{\-Ch29\-R\-Motor\-Dual}, 
+\hyperlink{group___aero_sim_r_c_ggaac481ffc101eae8d9d9be9b734bdc79dae9cf927d389bf7b050669bb3b643049e}{\-Ch30\-Mix}, 
+\hyperlink{group___aero_sim_r_c_ggaac481ffc101eae8d9d9be9b734bdc79da85dbdbf3e01fb7c9120493d4230bf9ce}{\-Ch31\-Mix}, 
+\hyperlink{group___aero_sim_r_c_ggaac481ffc101eae8d9d9be9b734bdc79da300ba78751bbfd422fe4e8a58baf978f}{\-Ch32\-Mix}, 
+\*
+\hyperlink{group___aero_sim_r_c_ggaac481ffc101eae8d9d9be9b734bdc79dac085292cc26185934ddb71115e0978fa}{\-Ch33\-Mix}, 
+\hyperlink{group___aero_sim_r_c_ggaac481ffc101eae8d9d9be9b734bdc79da48eb02764dadf5794394b35b9fac4c28}{\-Ch34\-Mix}, 
+\hyperlink{group___aero_sim_r_c_ggaac481ffc101eae8d9d9be9b734bdc79dadd28486b60a8f3f8bece8e0ee5aedb3d}{\-Ch35\-Mix}, 
+\hyperlink{group___aero_sim_r_c_ggaac481ffc101eae8d9d9be9b734bdc79dadb3546c9fd8b571a8ecdbf7a432e311d}{\-Ch36\-Mix}, 
+\*
+\hyperlink{group___aero_sim_r_c_ggaac481ffc101eae8d9d9be9b734bdc79da9c5913d2f725afa5f0c7f1cffe804054}{\-Ch37\-Mix}, 
+\hyperlink{group___aero_sim_r_c_ggaac481ffc101eae8d9d9be9b734bdc79dabc88828ef4f1d11bfd9c93d9aacfcb20}{\-Ch38\-Mix}, 
+\hyperlink{group___aero_sim_r_c_ggaac481ffc101eae8d9d9be9b734bdc79daadaf167f4540d7024153cf0a414fd519}{\-Ch39\-Mix}
+ \}
+\end{DoxyCompactItemize}
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___aero_sim_r_c_gab7aaf0bccb3e8d4ab785a824e303a420}{debug\-Info} (\hyperlink{group___aero_sim_r_c_ga4ac56108ad3d382deff679f792d02874}{\-D\-B\-G\-\_\-\-B\-U\-F\-F\-E\-R\-\_\-\-M\-A\-X\-\_\-\-S\-I\-Z\-E}, ' ')
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___aero_sim_r_c_ga776b2762b88960a5d487d6d6a5bc18a4}{plugin\-Folder} (\-M\-A\-X\-\_\-\-P\-A\-T\-H, ' ')
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___aero_sim_r_c_ga3e2272a7391bd317e2e58cb38a251e4c}{output\-Folder} (\-M\-A\-X\-\_\-\-P\-A\-T\-H, ' ')
+\item 
+int \-\_\-\-\_\-stdcall \hyperlink{group___aero_sim_r_c_gac93a6e2f9d37b2fe831961496317bffe}{\-Dll\-Main} (\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} $\ast$, quint32 fdw\-Reason, \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} $\ast$)
+\item 
+\-S\-I\-M\-\_\-\-D\-L\-L\-\_\-\-E\-X\-P\-O\-R\-T \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___aero_sim_r_c_ga8ef52f40ca9cf8fb9a0c10021b420e4d}{\-Aero\-S\-I\-M\-R\-C\-\_\-\-Plugin\-\_\-\-Report\-Struct\-Sizes} (quint32 $\ast$size\-Sim\-To\-Plugin, quint32 $\ast$size\-Plugin\-To\-Sim, quint32 $\ast$size\-Plugin\-Init)
+\item 
+\-S\-I\-M\-\_\-\-D\-L\-L\-\_\-\-E\-X\-P\-O\-R\-T \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___aero_sim_r_c_ga98e72d84a109612a93351aed8683c42f}{\-Aero\-S\-I\-M\-R\-C\-\_\-\-Plugin\-\_\-\-Init} (\hyperlink{structplugin_init}{plugin\-Init} $\ast$p)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___aero_sim_r_c_gacd4d7dbcd8b4676d00471827b255b7ff}{\-Run\-\_\-\-Command\-\_\-\-Reset} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___aero_sim_r_c_ga80a7533068c803af865f6e2af76e050d}{\-Run\-\_\-\-Command\-\_\-\-Window\-Size\-And\-Pos} (const \hyperlink{structsim_to_plugin}{sim\-To\-Plugin} $\ast$stp, \hyperlink{structplugin_to_sim}{plugin\-To\-Sim} $\ast$pts)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___aero_sim_r_c_gaddb6627411fb8bfecba79d9eb336638e}{\-Run\-\_\-\-Command\-\_\-\-Move\-To\-Next\-Waypoint} (const \hyperlink{structsim_to_plugin}{sim\-To\-Plugin} $\ast$stp, \hyperlink{structplugin_to_sim}{plugin\-To\-Sim} $\ast$pts)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___aero_sim_r_c_ga857614faa8daba5d5f4fede066c51132}{\-Run\-\_\-\-Blink\-L\-E\-Ds} (const \hyperlink{structsim_to_plugin}{sim\-To\-Plugin} $\ast$stp, \hyperlink{structplugin_to_sim}{plugin\-To\-Sim} $\ast$pts)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___aero_sim_r_c_gae510a372f225654c1363040357ba2c55}{\-Info\-Text} (const \hyperlink{structsim_to_plugin}{sim\-To\-Plugin} $\ast$stp, \hyperlink{structplugin_to_sim}{plugin\-To\-Sim} $\ast$pts)
+\item 
+\-S\-I\-M\-\_\-\-D\-L\-L\-\_\-\-E\-X\-P\-O\-R\-T \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___aero_sim_r_c_ga90f7f2f84473fc876d3189d4659dcf1a}{\-Aero\-S\-I\-M\-R\-C\-\_\-\-Plugin\-\_\-\-Run} (const \hyperlink{structsim_to_plugin}{sim\-To\-Plugin} $\ast$stp, \hyperlink{structplugin_to_sim}{plugin\-To\-Sim} $\ast$pts)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___aero_sim_r_c_ga7b01eb4372b4aee0f4d26504cfcd02a7}{my\-Q\-Debug\-Handler} (\-Qt\-Msg\-Type type, const char $\ast$msg)
+\item 
+\hyperlink{group___aero_sim_r_c_ga93af04323b9db4a809d0376a1ea6a7ae}{\-Settings\-::\-Settings} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} settings\-Path, \-Q\-Object $\ast$parent=0)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___aero_sim_r_c_gac0f3ec889ab03b807e937580704a3ee9}{\-Settings\-::read} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___aero_sim_r_c_ga488c7f5a87b95d6b3e0b8d8c0647f984}{\-Settings\-::remote\-Host} ()
+\item 
+quint16 \hyperlink{group___aero_sim_r_c_gafd3c776de1db18a53414fc9ff7d5f656}{\-Settings\-::remote\-Port} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___aero_sim_r_c_gaf2ca84445d77cc2649ac0aa4958051f0}{\-Settings\-::local\-Host} ()
+\item 
+quint16 \hyperlink{group___aero_sim_r_c_gadb246f8a0f4976071e8e302b553df863}{\-Settings\-::local\-Port} ()
+\item 
+\-Q\-List$<$ quint8 $>$ \hyperlink{group___aero_sim_r_c_ga6607c28a72f6470cd410ac7baf8fba49}{\-Settings\-::get\-Input\-Map} ()
+\item 
+\-Q\-List$<$ quint8 $>$ \hyperlink{group___aero_sim_r_c_ga9c382b0fc01ca068ccf9f0226d707bc9}{\-Settings\-::get\-Output\-Map} ()
+\item 
+bool \hyperlink{group___aero_sim_r_c_ga80495f779a8152a0c16eed12fcfd69e4}{\-Settings\-::is\-To\-R\-X} ()
+\item 
+bool \hyperlink{group___aero_sim_r_c_gaa18f01bc8cd2c71856c0b13cc9fc3745}{\-Settings\-::is\-From\-T\-X} ()
+\item 
+\-Q\-List$<$ quint16 $>$ \hyperlink{group___aero_sim_r_c_ga885d740d0bc91afd8207ef878147e0d7}{\-Settings\-::get\-Video\-Modes} ()
+\item 
+\hyperlink{group___aero_sim_r_c_ga33d974a790381e7266d6d4c57ca40f1f}{\-Udp\-Sender\-::\-Udp\-Sender} (const \-Q\-List$<$ quint8 $>$ map, bool is\-T\-X, \-Q\-Object $\ast$parent=0)
+\item 
+\hyperlink{group___aero_sim_r_c_gaa3cfe219b7bfa771b77b85dacc5d5e50}{\-Udp\-Sender\-::$\sim$\-Udp\-Sender} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___aero_sim_r_c_ga14593f9c2d83a4feb7c05639f521cd58}{\-Udp\-Sender\-::init} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \&remote\-Host, quint16 remote\-Port)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___aero_sim_r_c_ga1c5e2d6839935b0860fc2bb6912ec125}{\-Udp\-Sender\-::send\-Datagram} (const \hyperlink{structsim_to_plugin}{sim\-To\-Plugin} $\ast$stp)
+\item 
+quint32 \hyperlink{group___aero_sim_r_c_gaa06c6b62e9498dee34b35c225479a52a}{\-Udp\-Sender\-::pcks} ()
+\item 
+\hyperlink{group___aero_sim_r_c_ga1a7699c1e29a1d7ee129c5aeecc515c5}{\-Udp\-Receiver\-::\-Udp\-Receiver} (const \-Q\-List$<$ quint8 $>$ map, bool is\-R\-X, \-Q\-Object $\ast$parent=0)
+\item 
+\hyperlink{group___aero_sim_r_c_ga7125fcfef5ec56da34e1f3f2afc21c57}{\-Udp\-Receiver\-::$\sim$\-Udp\-Receiver} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___aero_sim_r_c_gad45fd7a1310445a52d17f2fe3ec7ab4b}{\-Udp\-Receiver\-::init} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \&local\-Host, quint16 local\-Port)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___aero_sim_r_c_gaa4efe37e6d2da77ba95eb22705c1f1e2}{\-Udp\-Receiver\-::run} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___aero_sim_r_c_ga6269b9d1dd9625c71d9749c343e6be17}{\-Udp\-Receiver\-::stop} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___aero_sim_r_c_gab9cfcf389004c47e3af049bcef67fed9}{\-Udp\-Receiver\-::set\-Channels} (\hyperlink{structplugin_to_sim}{plugin\-To\-Sim} $\ast$pts)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___aero_sim_r_c_ga7aa237515699baba97a4c3e76a55d401}{\-Udp\-Receiver\-::get\-Fligh\-Status} (quint8 \&arm, quint8 \&mod)
+\item 
+quint8 \hyperlink{group___aero_sim_r_c_gaf0d473076876c13ba7df05e9ba6fd322}{\-Udp\-Receiver\-::get\-Armed} ()
+\item 
+quint8 \hyperlink{group___aero_sim_r_c_gaf1ad345905414c2c6c8883cdba472aae}{\-Udp\-Receiver\-::get\-Mode} ()
+\item 
+quint32 \hyperlink{group___aero_sim_r_c_ga4b48a3aa9531a445286790d5859da129}{\-Udp\-Receiver\-::pcks} ()
+\item 
+int \hyperlink{group___aero_sim_r_c_ga0ddf1224851353fc92bfbff6f499fa97}{main} (int argc, char $\ast$argv\mbox{[}$\,$\mbox{]})
+\item 
+\hyperlink{group___aero_sim_r_c_ga29531c7f141e461322981b3b579d4590}{\-Widget\-::\-Widget} (\-Q\-Widget $\ast$parent=0)
+\item 
+\hyperlink{group___aero_sim_r_c_gaa24f66bcbaaec6d458b0980e8c8eae65}{\-Widget\-::$\sim$\-Widget} ()
+\end{DoxyCompactItemize}
+\subsection*{\-Variables}
+\begin{DoxyCompactItemize}
+\item 
+const quint8 \hyperlink{group___aero_sim_r_c_ga63f989ac10cdcbfefadc5e65055d3c7d}{\-A\-E\-R\-O\-S\-I\-M\-R\-C\-\_\-\-M\-A\-X\-\_\-\-C\-H\-A\-N\-N\-E\-L\-S} = 39
+\item 
+const quint16 \hyperlink{group___aero_sim_r_c_ga4ac56108ad3d382deff679f792d02874}{\-D\-B\-G\-\_\-\-B\-U\-F\-F\-E\-R\-\_\-\-M\-A\-X\-\_\-\-S\-I\-Z\-E} = 4096
+\item 
+quint16 \hyperlink{group___aero_sim_r_c_gab277fde5232c4a8c41adcdcc1dc7199f}{sim\-To\-Plugin\-::struct\-Size}
+\item 
+float \hyperlink{group___aero_sim_r_c_ga58a610591c7eb9b7e1f32208e4cb343c}{sim\-To\-Plugin\-::sim\-Time\-Step}
+\item 
+float \hyperlink{group___aero_sim_r_c_gae5ff2433affe60bce670d0c6bf66ee06}{sim\-To\-Plugin\-::ch\-Sim\-T\-X} \mbox{[}\hyperlink{group___aero_sim_r_c_ga63f989ac10cdcbfefadc5e65055d3c7d}{\-A\-E\-R\-O\-S\-I\-M\-R\-C\-\_\-\-M\-A\-X\-\_\-\-C\-H\-A\-N\-N\-E\-L\-S}\mbox{]}
+\item 
+float \hyperlink{group___aero_sim_r_c_gadefc3aa551adb807da0171a7a92f73ee}{sim\-To\-Plugin\-::ch\-Sim\-R\-X} \mbox{[}\hyperlink{group___aero_sim_r_c_ga63f989ac10cdcbfefadc5e65055d3c7d}{\-A\-E\-R\-O\-S\-I\-M\-R\-C\-\_\-\-M\-A\-X\-\_\-\-C\-H\-A\-N\-N\-E\-L\-S}\mbox{]}
+\item 
+uchar $\ast$ \hyperlink{group___aero_sim_r_c_gadc2b5a377a36c5f5d2dfae169880bb1c}{sim\-To\-Plugin\-::\-O\-S\-D\-Video\-Buf}
+\item 
+quint32 \hyperlink{group___aero_sim_r_c_ga1cc3af651b3f3382357e9a882abc64d4}{sim\-To\-Plugin\-::sim\-Menu\-Status}
+\item 
+float \hyperlink{group___aero_sim_r_c_ga23ae6e8ef17ad84cc500793e730df894}{sim\-To\-Plugin\-::init\-Pos\-X}
+\item 
+float \hyperlink{group___aero_sim_r_c_gacb4ac6e2ad9d5f215153b9fea05b66bf}{sim\-To\-Plugin\-::init\-Pos\-Y}
+\item 
+float \hyperlink{group___aero_sim_r_c_ga020dda7446e3217a8c779458a74feec8}{sim\-To\-Plugin\-::init\-Pos\-Z}
+\item 
+float \hyperlink{group___aero_sim_r_c_gaab0124b4fd93c132aacdb2cb2a755770}{sim\-To\-Plugin\-::init\-Heading}
+\item 
+float \hyperlink{group___aero_sim_r_c_gacc022659d5c4b32c0a878bdc6eea0f53}{sim\-To\-Plugin\-::init\-Pitch}
+\item 
+float \hyperlink{group___aero_sim_r_c_ga26c1191f08e580c1cdbd02791eabe60e}{sim\-To\-Plugin\-::init\-Roll}
+\item 
+float \hyperlink{group___aero_sim_r_c_gac7fe47d860d72f33b075d84a1794f039}{sim\-To\-Plugin\-::wp\-Home\-X}
+\item 
+float \hyperlink{group___aero_sim_r_c_ga943c9583ab5e36a5c4b4eb92b34c3aa2}{sim\-To\-Plugin\-::wp\-Home\-Y}
+\item 
+float \hyperlink{group___aero_sim_r_c_ga5364e2cce6429762b9597145fc144130}{sim\-To\-Plugin\-::wp\-Home\-Lat}
+\item 
+float \hyperlink{group___aero_sim_r_c_ga1a595cb81efdafe9ec21ef40211ad74e}{sim\-To\-Plugin\-::wp\-Home\-Long}
+\item 
+const char $\ast$ \hyperlink{group___aero_sim_r_c_ga8662d58603fa2a33c7959677b0ec7783}{sim\-To\-Plugin\-::wp\-Home\-Desc}
+\item 
+float \hyperlink{group___aero_sim_r_c_gaeee88b74290e9df5d3c70d111c9375cc}{sim\-To\-Plugin\-::wp\-A\-X}
+\item 
+float \hyperlink{group___aero_sim_r_c_gaf5e140b64d5e9eae533fd3c0195c0fa8}{sim\-To\-Plugin\-::wp\-A\-Y}
+\item 
+float \hyperlink{group___aero_sim_r_c_ga1eb50174e2e2f438f0b1aef4dca0744f}{sim\-To\-Plugin\-::wp\-A\-Lat}
+\item 
+float \hyperlink{group___aero_sim_r_c_gacda15282e441109ecba7a4709e9b8a0c}{sim\-To\-Plugin\-::wp\-A\-Long}
+\item 
+const char $\ast$ \hyperlink{group___aero_sim_r_c_ga527aaa5fbbb0b3108b4ccace20e252d2}{sim\-To\-Plugin\-::wp\-A\-Desc}
+\item 
+float \hyperlink{group___aero_sim_r_c_gaf7735ebc4b357abc63f8b409da005e65}{sim\-To\-Plugin\-::wp\-B\-X}
+\item 
+float \hyperlink{group___aero_sim_r_c_ga940744eca5513d5b45725bad868231e5}{sim\-To\-Plugin\-::wp\-B\-Y}
+\item 
+float \hyperlink{group___aero_sim_r_c_gad362dcc92c44981f1062410b4d0105d8}{sim\-To\-Plugin\-::wp\-B\-Lat}
+\item 
+float \hyperlink{group___aero_sim_r_c_ga00083d7085ddb6c0cd1b432f5338d7d5}{sim\-To\-Plugin\-::wp\-B\-Long}
+\item 
+const char $\ast$ \hyperlink{group___aero_sim_r_c_ga847521c9c396ca010d434dde9d9c33ee}{sim\-To\-Plugin\-::wp\-B\-Desc}
+\item 
+float \hyperlink{group___aero_sim_r_c_ga0a8e805aa99027c87923b25db32173ab}{sim\-To\-Plugin\-::wp\-C\-X}
+\item 
+float \hyperlink{group___aero_sim_r_c_ga3dd39df83926569f9d180ced28377a4f}{sim\-To\-Plugin\-::wp\-C\-Y}
+\item 
+float \hyperlink{group___aero_sim_r_c_ga478358c452d4087d066f487fab4f0fe4}{sim\-To\-Plugin\-::wp\-C\-Lat}
+\item 
+float \hyperlink{group___aero_sim_r_c_gafe8c244799a4b6767955285ea1ab4ed9}{sim\-To\-Plugin\-::wp\-C\-Long}
+\item 
+const char $\ast$ \hyperlink{group___aero_sim_r_c_gaac6ce2f906c7743fd06d88ed1e63f8d1}{sim\-To\-Plugin\-::wp\-C\-Desc}
+\item 
+float \hyperlink{group___aero_sim_r_c_ga152da5c47fb8ddaa28e0e18015292750}{sim\-To\-Plugin\-::wp\-D\-X}
+\item 
+float \hyperlink{group___aero_sim_r_c_ga04968f40e2545a32b4e052fe9e632504}{sim\-To\-Plugin\-::wp\-D\-Y}
+\item 
+float \hyperlink{group___aero_sim_r_c_ga39ee4024f6f29cf4c19531ccf9f8122a}{sim\-To\-Plugin\-::wp\-D\-Lat}
+\item 
+float \hyperlink{group___aero_sim_r_c_gad90f5c9d9b7ad07bee47b18838d0ddd8}{sim\-To\-Plugin\-::wp\-D\-Long}
+\item 
+const char $\ast$ \hyperlink{group___aero_sim_r_c_ga65acd288880e17514c40557035b74fe3}{sim\-To\-Plugin\-::wp\-D\-Desc}
+\item 
+float \hyperlink{group___aero_sim_r_c_gadc6f34115ac3890af669c35382d62882}{sim\-To\-Plugin\-::pos\-X}
+\item 
+float \hyperlink{group___aero_sim_r_c_ga55c533e8057bdcc0bb7e95440eb82ff5}{sim\-To\-Plugin\-::pos\-Y}
+\item 
+float \hyperlink{group___aero_sim_r_c_gab66796c7082a7d42685f8c8c3b282c43}{sim\-To\-Plugin\-::pos\-Z}
+\item 
+float \hyperlink{group___aero_sim_r_c_gad7b2d0364e0e774256fc64c187a8c336}{sim\-To\-Plugin\-::vel\-X}
+\item 
+float \hyperlink{group___aero_sim_r_c_gae4f260f3786184d15cd8f674860f8866}{sim\-To\-Plugin\-::vel\-Y}
+\item 
+float \hyperlink{group___aero_sim_r_c_ga2703ca3343da97af3ee57b5e6f36cbb9}{sim\-To\-Plugin\-::vel\-Z}
+\item 
+float \hyperlink{group___aero_sim_r_c_ga3332a8f491a5197d28d85241d32d6f81}{sim\-To\-Plugin\-::ang\-Vel\-X}
+\item 
+float \hyperlink{group___aero_sim_r_c_ga6e7df4d87006342b893db0452de1d4db}{sim\-To\-Plugin\-::ang\-Vel\-Y}
+\item 
+float \hyperlink{group___aero_sim_r_c_gaaabca3226ef304ba1333129c54a8c777}{sim\-To\-Plugin\-::ang\-Vel\-Z}
+\item 
+float \hyperlink{group___aero_sim_r_c_gad96840cb6cfc38f4c4f8d5a907bf7a0a}{sim\-To\-Plugin\-::accel\-X}
+\item 
+float \hyperlink{group___aero_sim_r_c_gacbcac5da9b87bf7eb091f7a83b3d2fda}{sim\-To\-Plugin\-::accel\-Y}
+\item 
+float \hyperlink{group___aero_sim_r_c_ga757616fff3384f894b594e9681d39f90}{sim\-To\-Plugin\-::accel\-Z}
+\item 
+qreal \hyperlink{group___aero_sim_r_c_ga53209d2be245073a24064614cb7c2ce2}{sim\-To\-Plugin\-::latitude}
+\item 
+qreal \hyperlink{group___aero_sim_r_c_ga3b47af6ee67e1149980bd672fce0f91d}{sim\-To\-Plugin\-::longitude}
+\item 
+float \hyperlink{group___aero_sim_r_c_gadaa747e1f33381fce539ba3df9915281}{sim\-To\-Plugin\-::\-A\-G\-L}
+\item 
+float \hyperlink{group___aero_sim_r_c_ga62f831b287508b68a2b0ad45a9d2dc18}{sim\-To\-Plugin\-::heading}
+\item 
+float \hyperlink{group___aero_sim_r_c_ga2ae727a3d4523188e3b7e5c664c22637}{sim\-To\-Plugin\-::pitch}
+\item 
+float \hyperlink{group___aero_sim_r_c_ga5ae77c3d47014ab64ef930314843a0fe}{sim\-To\-Plugin\-::roll}
+\item 
+float \hyperlink{group___aero_sim_r_c_ga28ae11206edb7d479d61f42edfe59a6a}{sim\-To\-Plugin\-::wind\-Vel\-X}
+\item 
+float \hyperlink{group___aero_sim_r_c_ga4a4ed34bd3c1e67d51b1d5b2272cbf3f}{sim\-To\-Plugin\-::wind\-Vel\-Y}
+\item 
+float \hyperlink{group___aero_sim_r_c_ga28ceecb62e11bce71b44c63ea4af67aa}{sim\-To\-Plugin\-::wind\-Vel\-Z}
+\item 
+float \hyperlink{group___aero_sim_r_c_ga92a2016c6887c978c9179cf3bf117c5a}{sim\-To\-Plugin\-::eng1\-R\-P\-M}
+\item 
+float \hyperlink{group___aero_sim_r_c_ga2fa372d547f9f33642415f454bccf402}{sim\-To\-Plugin\-::eng2\-R\-P\-M}
+\item 
+float \hyperlink{group___aero_sim_r_c_ga12d0b07a1f43644fa7b16c0b53409ef9}{sim\-To\-Plugin\-::eng3\-R\-P\-M}
+\item 
+float \hyperlink{group___aero_sim_r_c_gac7d5d72d3237905c99ee5b63859e7df3}{sim\-To\-Plugin\-::eng4\-R\-P\-M}
+\item 
+float \hyperlink{group___aero_sim_r_c_ga598e987b250d694aeaced9fb921e03bd}{sim\-To\-Plugin\-::voltage}
+\item 
+float \hyperlink{group___aero_sim_r_c_ga67b8bd84d98afe25c5300ecaa1e3b1ac}{sim\-To\-Plugin\-::current}
+\item 
+float \hyperlink{group___aero_sim_r_c_ga408ab8a806126f8c39a224202f7784c9}{sim\-To\-Plugin\-::consumed\-Charge}
+\item 
+float \hyperlink{group___aero_sim_r_c_ga735a5ea26beaee930a4bd7e2d8e18398}{sim\-To\-Plugin\-::capacity}
+\item 
+float \hyperlink{group___aero_sim_r_c_gae96b24ccedba1107673cdc5889815f58}{sim\-To\-Plugin\-::fuel\-Consumed}
+\item 
+float \hyperlink{group___aero_sim_r_c_ga9d9432e29718f1a2d3e3bb4445bb3705}{sim\-To\-Plugin\-::fuel\-Tank\-Capacity}
+\item 
+qint16 \hyperlink{group___aero_sim_r_c_ga0e82f7a599641d119734afe4a0f4403c}{sim\-To\-Plugin\-::screen\-W}
+\item 
+qint16 \hyperlink{group___aero_sim_r_c_gaf9235fc17924379e9bdd0826d1111e2c}{sim\-To\-Plugin\-::screen\-H}
+\item 
+float \hyperlink{group___aero_sim_r_c_ga693a3fedba573cb60ae2ced78f2f55e8}{sim\-To\-Plugin\-::axis\-Xx}
+\item 
+float \hyperlink{group___aero_sim_r_c_gaf149495ae6cb0a4b55f124b645e0cc8d}{sim\-To\-Plugin\-::axis\-Xy}
+\item 
+float \hyperlink{group___aero_sim_r_c_gaf6a11ab25129a46c7195678d223f8cba}{sim\-To\-Plugin\-::axis\-Xz}
+\item 
+float \hyperlink{group___aero_sim_r_c_gab46b6cb491df61bb0808c6a2942f5f26}{sim\-To\-Plugin\-::axis\-Yx}
+\item 
+float \hyperlink{group___aero_sim_r_c_gab1c3f18d56d396a6dd95411539ffc0e8}{sim\-To\-Plugin\-::axis\-Yy}
+\item 
+float \hyperlink{group___aero_sim_r_c_ga7c0f6efcd45a801369e92067bc85a5ca}{sim\-To\-Plugin\-::axis\-Yz}
+\item 
+float \hyperlink{group___aero_sim_r_c_gac74b099d24d55ff1692b855313489324}{sim\-To\-Plugin\-::axis\-Zx}
+\item 
+float \hyperlink{group___aero_sim_r_c_ga28db280f796bbada439e147a61037c0f}{sim\-To\-Plugin\-::axis\-Zy}
+\item 
+float \hyperlink{group___aero_sim_r_c_ga62dda20d79d63155064a31a27d06e930}{sim\-To\-Plugin\-::axis\-Zz}
+\item 
+float \hyperlink{group___aero_sim_r_c_ga5b8ca52e6b6fcba33660c4164ff14b21}{sim\-To\-Plugin\-::vel\-Xm}
+\item 
+float \hyperlink{group___aero_sim_r_c_ga78ba6a4d5b2134bed1c2396ff9212df0}{sim\-To\-Plugin\-::vel\-Ym}
+\item 
+float \hyperlink{group___aero_sim_r_c_ga35865106b3179109ebbec06aed189fad}{sim\-To\-Plugin\-::vel\-Zm}
+\item 
+float \hyperlink{group___aero_sim_r_c_gac5161f5332b6bc49ca097e2c27be8a22}{sim\-To\-Plugin\-::ang\-Vel\-Xm}
+\item 
+float \hyperlink{group___aero_sim_r_c_ga1cdf55eb78da8c312e32d9d5be75afef}{sim\-To\-Plugin\-::ang\-Vel\-Ym}
+\item 
+float \hyperlink{group___aero_sim_r_c_ga4387cb264fd400cd98815e6145b8114c}{sim\-To\-Plugin\-::ang\-Vel\-Zm}
+\item 
+float \hyperlink{group___aero_sim_r_c_ga8e87f9c4846725309216b66cf48a4fdd}{sim\-To\-Plugin\-::accel\-Xm}
+\item 
+float \hyperlink{group___aero_sim_r_c_gafb442cc82353fedd9b1a4b1f841a780a}{sim\-To\-Plugin\-::accel\-Ym}
+\item 
+float \hyperlink{group___aero_sim_r_c_ga15b5242cd24b1253d8fa5a12d07e3b76}{sim\-To\-Plugin\-::accel\-Zm}
+\item 
+quint32 \hyperlink{group___aero_sim_r_c_ga9c59c8c051c445f8f8b17ed8b42a2820}{sim\-To\-Plugin\-::\-O\-S\-D\-Video\-Buf\-Size}
+\item 
+struct \hyperlink{structsim_to_plugin}{sim\-To\-Plugin} \hyperlink{group___aero_sim_r_c_gacc1a47760066283f765895e6100c5d81}{\-P\-A\-C\-K\-\_\-\-S\-T\-R\-U\-C\-T}
+\item 
+quint16 \hyperlink{group___aero_sim_r_c_ga785b39329b27020e1525b4999a10d230}{plugin\-To\-Sim\-::struct\-Size}
+\item 
+const char $\ast$ \hyperlink{group___aero_sim_r_c_ga8d1dec1f6592d85b15941b3ce658f44a}{plugin\-To\-Sim\-::dbg\-Info\-Text}
+\item 
+uchar \hyperlink{group___aero_sim_r_c_ga77e9265e0ad99dcc6a7c5cc35da0481d}{plugin\-To\-Sim\-::ch\-Over\-T\-X} \mbox{[}\hyperlink{group___aero_sim_r_c_ga63f989ac10cdcbfefadc5e65055d3c7d}{\-A\-E\-R\-O\-S\-I\-M\-R\-C\-\_\-\-M\-A\-X\-\_\-\-C\-H\-A\-N\-N\-E\-L\-S}\mbox{]}
+\item 
+float \hyperlink{group___aero_sim_r_c_ga69be322d9251f2d0881402e3bb8b79cc}{plugin\-To\-Sim\-::ch\-New\-T\-X} \mbox{[}\hyperlink{group___aero_sim_r_c_ga63f989ac10cdcbfefadc5e65055d3c7d}{\-A\-E\-R\-O\-S\-I\-M\-R\-C\-\_\-\-M\-A\-X\-\_\-\-C\-H\-A\-N\-N\-E\-L\-S}\mbox{]}
+\item 
+uchar \hyperlink{group___aero_sim_r_c_ga3fe5834da184407de8227a046d5a7de7}{plugin\-To\-Sim\-::ch\-Over\-R\-X} \mbox{[}\hyperlink{group___aero_sim_r_c_ga63f989ac10cdcbfefadc5e65055d3c7d}{\-A\-E\-R\-O\-S\-I\-M\-R\-C\-\_\-\-M\-A\-X\-\_\-\-C\-H\-A\-N\-N\-E\-L\-S}\mbox{]}
+\item 
+float \hyperlink{group___aero_sim_r_c_gaa465d9eaa30d7a906bd3672768e5b380}{plugin\-To\-Sim\-::ch\-New\-R\-X} \mbox{[}\hyperlink{group___aero_sim_r_c_ga63f989ac10cdcbfefadc5e65055d3c7d}{\-A\-E\-R\-O\-S\-I\-M\-R\-C\-\_\-\-M\-A\-X\-\_\-\-C\-H\-A\-N\-N\-E\-L\-S}\mbox{]}
+\item 
+float \hyperlink{group___aero_sim_r_c_ga2067141174f8fa27f36b9831b73b5668}{plugin\-To\-Sim\-::new\-Pos\-X}
+\item 
+float \hyperlink{group___aero_sim_r_c_gab0bd49c25f923d60f12c350160c63f4f}{plugin\-To\-Sim\-::new\-Pos\-Y}
+\item 
+float \hyperlink{group___aero_sim_r_c_ga85e01d3ec1ec3924a0482565262ccd80}{plugin\-To\-Sim\-::new\-Pos\-Z}
+\item 
+float \hyperlink{group___aero_sim_r_c_ga963869a7b3f6432a6b42f9f239de0ca8}{plugin\-To\-Sim\-::new\-Vel\-X}
+\item 
+float \hyperlink{group___aero_sim_r_c_ga4ef77620e6e374b2af2bbd4e0d88fcfe}{plugin\-To\-Sim\-::new\-Vel\-Y}
+\item 
+float \hyperlink{group___aero_sim_r_c_ga09bc17352168fa2e9b782170e27c7c2b}{plugin\-To\-Sim\-::new\-Vel\-Z}
+\item 
+float \hyperlink{group___aero_sim_r_c_gafd7e1d21996abb68824a65505d845744}{plugin\-To\-Sim\-::new\-Ang\-Vel\-X}
+\item 
+float \hyperlink{group___aero_sim_r_c_gafe0593ec5f2487320a352c0f8bcb2f2d}{plugin\-To\-Sim\-::new\-Ang\-Vel\-Y}
+\item 
+float \hyperlink{group___aero_sim_r_c_ga6e895029ebb998be74c53cea057e83cf}{plugin\-To\-Sim\-::new\-Ang\-Vel\-Z}
+\item 
+float \hyperlink{group___aero_sim_r_c_ga11677816070d9ac5bc78d2c45338c0ec}{plugin\-To\-Sim\-::new\-Heading}
+\item 
+float \hyperlink{group___aero_sim_r_c_gae5174be9526399eb834a21d1d1e996d1}{plugin\-To\-Sim\-::new\-Pitch}
+\item 
+float \hyperlink{group___aero_sim_r_c_ga83b167dd0c9161f47923432618fac9c4}{plugin\-To\-Sim\-::new\-Roll}
+\item 
+quint32 \hyperlink{group___aero_sim_r_c_ga0fc062ffe3e17dd8ae14a181fbb50c1f}{plugin\-To\-Sim\-::model\-Override\-Flags}
+\item 
+quint32 \hyperlink{group___aero_sim_r_c_ga17602d21cacd40328f97406fb577e7a7}{plugin\-To\-Sim\-::new\-Menu\-Status}
+\item 
+quint8 \hyperlink{group___aero_sim_r_c_ga35a2acc4730f500b87b19630f57c14ed}{plugin\-To\-Sim\-::is\-O\-S\-D\-Show}
+\item 
+quint8 \hyperlink{group___aero_sim_r_c_gaa416deb314c63406b7320311d1cf71d7}{plugin\-To\-Sim\-::is\-O\-S\-D\-Changed}
+\item 
+quint16 \hyperlink{group___aero_sim_r_c_gafd433a8e475af009c6214cddba668878}{plugin\-To\-Sim\-::\-O\-S\-D\-Window\-\_\-\-D\-X}
+\item 
+quint16 \hyperlink{group___aero_sim_r_c_gab8199d2a82d29980a0ec47ad7fced1e1}{plugin\-To\-Sim\-::\-O\-S\-D\-Window\-\_\-\-D\-Y}
+\item 
+float \hyperlink{group___aero_sim_r_c_ga96db301b2cf97e19ccd774f1b93dad21}{plugin\-To\-Sim\-::\-O\-S\-D\-Scale}
+\item 
+float \hyperlink{group___aero_sim_r_c_ga894c4529647383039436d227ab09ea6d}{plugin\-To\-Sim\-::new\-Wind\-Vel\-X}
+\item 
+float \hyperlink{group___aero_sim_r_c_gaf7648b2c6048cddf0ba9fb68dfb55492}{plugin\-To\-Sim\-::new\-Wind\-Vel\-Y}
+\item 
+float \hyperlink{group___aero_sim_r_c_gaa84a637360a4648e08d41632fb8f38c0}{plugin\-To\-Sim\-::new\-Wind\-Vel\-Z}
+\item 
+float \hyperlink{group___aero_sim_r_c_ga8e41974881d85220a22aa7b1e10a6c8b}{plugin\-To\-Sim\-::new\-Eng1\-R\-P\-M}
+\item 
+float \hyperlink{group___aero_sim_r_c_gaf9f1bbadaada97aec5a72a47799dbb69}{plugin\-To\-Sim\-::new\-Eng2\-R\-P\-M}
+\item 
+float \hyperlink{group___aero_sim_r_c_ga1c7f49c14ce7325e93375b1973f36b91}{plugin\-To\-Sim\-::new\-Eng3\-R\-P\-M}
+\item 
+float \hyperlink{group___aero_sim_r_c_ga474540a6a0a35ece5e87974e07c99c87}{plugin\-To\-Sim\-::new\-Eng4\-R\-P\-M}
+\item 
+float \hyperlink{group___aero_sim_r_c_ga6a11d71df14bc0a5867c993a47da8f0f}{plugin\-To\-Sim\-::new\-Voltage}
+\item 
+float \hyperlink{group___aero_sim_r_c_ga7fd515830d601c3785dadd02ed64dcc0}{plugin\-To\-Sim\-::new\-Current}
+\item 
+float \hyperlink{group___aero_sim_r_c_gabb6455cde42e82e713838307779ab4f7}{plugin\-To\-Sim\-::new\-Consumed\-Charge}
+\item 
+float \hyperlink{group___aero_sim_r_c_ga8a8341d7559a5dfa620a7c486f2dc023}{plugin\-To\-Sim\-::new\-Fuel\-Consumed}
+\item 
+quint8 \hyperlink{group___aero_sim_r_c_gac766c17be7565d11f169ec43dac2113d}{plugin\-To\-Sim\-::model\-Crash\-Inhibit}
+\item 
+qint16 \hyperlink{group___aero_sim_r_c_ga73893f1a06af3481486ee34ef91001c0}{plugin\-To\-Sim\-::new\-Screen\-W}
+\item 
+qint16 \hyperlink{group___aero_sim_r_c_ga6ac6931958ba1a74ff06dbfe7dba5676}{plugin\-To\-Sim\-::new\-Screen\-H}
+\item 
+qint16 \hyperlink{group___aero_sim_r_c_gacb23e684331322adcce5771dc717ea18}{plugin\-To\-Sim\-::new\-Screen\-X}
+\item 
+qint16 \hyperlink{group___aero_sim_r_c_gad5aa10f7542e0fcf3d4ac3981efc93a2}{plugin\-To\-Sim\-::new\-Screen\-Y}
+\item 
+quint32 \hyperlink{group___aero_sim_r_c_ga3182cdcc989c86e02f89dfc950a2d11e}{\-T\-Plugin\-Menu\-Item\-::\-O\-B\-S\-O\-L\-E\-T\-E\-\_\-e\-Type}
+\item 
+char $\ast$ \hyperlink{group___aero_sim_r_c_ga99ed050ca0dfe8088a93046f72c044e7}{\-T\-Plugin\-Menu\-Item\-::\-O\-B\-S\-O\-L\-E\-T\-E\-\_\-str\-Name}
+\item 
+quint32 \hyperlink{group___aero_sim_r_c_ga52e8965004a5543170823fdb54bee470}{plugin\-Init\-::n\-Struct\-Size}
+\item 
+char $\ast$ \hyperlink{group___aero_sim_r_c_ga03438bb42beb3367394a89c5f8b0d721}{plugin\-Init\-::\-O\-B\-S\-O\-L\-E\-T\-E\-\_\-str\-Menu\-Title}
+\item 
+\hyperlink{struct_t_plugin_menu_item}{\-T\-Plugin\-Menu\-Item} \hyperlink{group___aero_sim_r_c_ga587ecda1e1922299d622d31bf15c9f78}{plugin\-Init\-::\-O\-B\-S\-O\-L\-E\-T\-E\-\_\-at\-Menu\-Item} \mbox{[}\-M\-A\-X\-\_\-\-D\-L\-L\-\_\-\-U\-S\-E\-R\-\_\-\-M\-E\-N\-U\-\_\-\-I\-T\-E\-M\-S\mbox{]}
+\item 
+const char $\ast$ \hyperlink{group___aero_sim_r_c_ga1ea4ae7485e88859f164a5e904600834}{plugin\-Init\-::str\-Plugin\-Folder}
+\item 
+const char $\ast$ \hyperlink{group___aero_sim_r_c_ga9149810daf40b3b4e5f706faaa8dcc8f}{plugin\-Init\-::str\-Output\-Folder}
+\item 
+bool \hyperlink{group___aero_sim_r_c_gae612ff4fcd9d86f5ce097c2583d2bfee}{is\-First\-Run} = true
+\item 
+\-Q\-List$<$ quint16 $>$ \hyperlink{group___aero_sim_r_c_ga56a26014d5fb746423472ca6301beff3}{video\-Modes}
+\item 
+\-Q\-Time \hyperlink{group___aero_sim_r_c_ga56b5b977fe04df5bdb2e4ea63b385692}{led\-Timer}
+\item 
+\hyperlink{class_udp_sender}{\-Udp\-Sender} $\ast$ \hyperlink{group___aero_sim_r_c_ga74a874f84e60aa753bdb56cd47d55d8b}{sndr}
+\item 
+\hyperlink{class_udp_receiver}{\-Udp\-Receiver} $\ast$ \hyperlink{group___aero_sim_r_c_gaad1d57ea59d2f9fca3e53c6fb20ac134}{rcvr}
+\item 
+const float \hyperlink{group___aero_sim_r_c_gabb429aecc5bba8de3564e19ded7ef104}{\-R\-A\-D2\-D\-E\-G} = (float)(180.\-0 / \-M\-\_\-\-P\-I)
+\item 
+const float \hyperlink{group___aero_sim_r_c_gacbfd2fc3314cc3762ea0c3720979f8bc}{\-D\-E\-G2\-R\-A\-D} = (float)(\-M\-\_\-\-P\-I / 180.\-0)
+\item 
+const float \hyperlink{group___aero_sim_r_c_gabb429aecc5bba8de3564e19ded7ef104}{\-R\-A\-D2\-D\-E\-G} = (float)(180.\-0/\-M\-\_\-\-P\-I)
+\item 
+const float \hyperlink{group___aero_sim_r_c_gacbfd2fc3314cc3762ea0c3720979f8bc}{\-D\-E\-G2\-R\-A\-D} = (float)(\-M\-\_\-\-P\-I/180.\-0)
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-Aero\-Sim\-R\-C simulator to \-H\-I\-T\-L proxy plugin. \-Aero\-Sim\-R\-C simulator to \-H\-I\-T\-L proxy plugin test utility. 
+
+\subsection{\-Enumeration \-Type \-Documentation}
+\hypertarget{group___aero_sim_r_c_gaac481ffc101eae8d9d9be9b734bdc79d}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!\-Channels@{\-Channels}}
+\index{\-Channels@{\-Channels}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{\-Channels}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf \-Channels}}}\label{group___aero_sim_r_c_gaac481ffc101eae8d9d9be9b734bdc79d}
+\begin{Desc}
+\item[\-Enumerator\-: ]\par
+\begin{description}
+\index{\-Ch1\-Aileron@{\-Ch1\-Aileron}!\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!\-Ch1\-Aileron@{\-Ch1\-Aileron}}\item[{\em 
+\hypertarget{group___aero_sim_r_c_ggaac481ffc101eae8d9d9be9b734bdc79da2df1d74553a9741a3374ae3cdef4b81d}{\-Ch1\-Aileron}\label{group___aero_sim_r_c_ggaac481ffc101eae8d9d9be9b734bdc79da2df1d74553a9741a3374ae3cdef4b81d}
+}]\index{\-Ch2\-Elevator@{\-Ch2\-Elevator}!\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!\-Ch2\-Elevator@{\-Ch2\-Elevator}}\item[{\em 
+\hypertarget{group___aero_sim_r_c_ggaac481ffc101eae8d9d9be9b734bdc79da109ac87ae4946c5416d0d78f1b75affe}{\-Ch2\-Elevator}\label{group___aero_sim_r_c_ggaac481ffc101eae8d9d9be9b734bdc79da109ac87ae4946c5416d0d78f1b75affe}
+}]\index{\-Ch3\-Throttle@{\-Ch3\-Throttle}!\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!\-Ch3\-Throttle@{\-Ch3\-Throttle}}\item[{\em 
+\hypertarget{group___aero_sim_r_c_ggaac481ffc101eae8d9d9be9b734bdc79da256b78dc519ed5de1603474d8337373d}{\-Ch3\-Throttle}\label{group___aero_sim_r_c_ggaac481ffc101eae8d9d9be9b734bdc79da256b78dc519ed5de1603474d8337373d}
+}]\index{\-Ch4\-Rudder@{\-Ch4\-Rudder}!\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!\-Ch4\-Rudder@{\-Ch4\-Rudder}}\item[{\em 
+\hypertarget{group___aero_sim_r_c_ggaac481ffc101eae8d9d9be9b734bdc79daa9a1749a0aa9adc9f7758d391ac7d9a2}{\-Ch4\-Rudder}\label{group___aero_sim_r_c_ggaac481ffc101eae8d9d9be9b734bdc79daa9a1749a0aa9adc9f7758d391ac7d9a2}
+}]\index{\-Ch5@{\-Ch5}!\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!\-Ch5@{\-Ch5}}\item[{\em 
+\hypertarget{group___aero_sim_r_c_ggaac481ffc101eae8d9d9be9b734bdc79dab000af5f4659e5f9c7591c2f2edcb90e}{\-Ch5}\label{group___aero_sim_r_c_ggaac481ffc101eae8d9d9be9b734bdc79dab000af5f4659e5f9c7591c2f2edcb90e}
+}]\index{\-Ch6@{\-Ch6}!\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!\-Ch6@{\-Ch6}}\item[{\em 
+\hypertarget{group___aero_sim_r_c_ggaac481ffc101eae8d9d9be9b734bdc79da3726e845b91f7f6bb36eb285c661e432}{\-Ch6}\label{group___aero_sim_r_c_ggaac481ffc101eae8d9d9be9b734bdc79da3726e845b91f7f6bb36eb285c661e432}
+}]\index{\-Ch7@{\-Ch7}!\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!\-Ch7@{\-Ch7}}\item[{\em 
+\hypertarget{group___aero_sim_r_c_ggaac481ffc101eae8d9d9be9b734bdc79daba069c786a9a0709235fd6e7fbb11719}{\-Ch7}\label{group___aero_sim_r_c_ggaac481ffc101eae8d9d9be9b734bdc79daba069c786a9a0709235fd6e7fbb11719}
+}]\index{\-Ch8@{\-Ch8}!\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!\-Ch8@{\-Ch8}}\item[{\em 
+\hypertarget{group___aero_sim_r_c_ggaac481ffc101eae8d9d9be9b734bdc79da135e650af9b3c88183db4d1e82ba1814}{\-Ch8}\label{group___aero_sim_r_c_ggaac481ffc101eae8d9d9be9b734bdc79da135e650af9b3c88183db4d1e82ba1814}
+}]\index{\-Ch9@{\-Ch9}!\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!\-Ch9@{\-Ch9}}\item[{\em 
+\hypertarget{group___aero_sim_r_c_ggaac481ffc101eae8d9d9be9b734bdc79da7bcf9c442423efb6c3f65c889c180a87}{\-Ch9}\label{group___aero_sim_r_c_ggaac481ffc101eae8d9d9be9b734bdc79da7bcf9c442423efb6c3f65c889c180a87}
+}]\index{\-Ch10\-Retracts@{\-Ch10\-Retracts}!\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!\-Ch10\-Retracts@{\-Ch10\-Retracts}}\item[{\em 
+\hypertarget{group___aero_sim_r_c_ggaac481ffc101eae8d9d9be9b734bdc79da9de712e6df1c41415b7b8895787144dc}{\-Ch10\-Retracts}\label{group___aero_sim_r_c_ggaac481ffc101eae8d9d9be9b734bdc79da9de712e6df1c41415b7b8895787144dc}
+}]\index{\-Ch11\-Flaps@{\-Ch11\-Flaps}!\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!\-Ch11\-Flaps@{\-Ch11\-Flaps}}\item[{\em 
+\hypertarget{group___aero_sim_r_c_ggaac481ffc101eae8d9d9be9b734bdc79dad5dfce4bb7f09c148dfc9ba087ae57c8}{\-Ch11\-Flaps}\label{group___aero_sim_r_c_ggaac481ffc101eae8d9d9be9b734bdc79dad5dfce4bb7f09c148dfc9ba087ae57c8}
+}]\index{\-Ch12\-F\-P\-V\-Cam\-Pan@{\-Ch12\-F\-P\-V\-Cam\-Pan}!\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!\-Ch12\-F\-P\-V\-Cam\-Pan@{\-Ch12\-F\-P\-V\-Cam\-Pan}}\item[{\em 
+\hypertarget{group___aero_sim_r_c_ggaac481ffc101eae8d9d9be9b734bdc79da9755aa9c44882df08755169706adb61b}{\-Ch12\-F\-P\-V\-Cam\-Pan}\label{group___aero_sim_r_c_ggaac481ffc101eae8d9d9be9b734bdc79da9755aa9c44882df08755169706adb61b}
+}]\index{\-Ch13\-F\-P\-V\-Cam\-Tilt@{\-Ch13\-F\-P\-V\-Cam\-Tilt}!\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!\-Ch13\-F\-P\-V\-Cam\-Tilt@{\-Ch13\-F\-P\-V\-Cam\-Tilt}}\item[{\em 
+\hypertarget{group___aero_sim_r_c_ggaac481ffc101eae8d9d9be9b734bdc79da38a60389c1af9734d2a99a45abcd9167}{\-Ch13\-F\-P\-V\-Cam\-Tilt}\label{group___aero_sim_r_c_ggaac481ffc101eae8d9d9be9b734bdc79da38a60389c1af9734d2a99a45abcd9167}
+}]\index{\-Ch14\-Brakes@{\-Ch14\-Brakes}!\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!\-Ch14\-Brakes@{\-Ch14\-Brakes}}\item[{\em 
+\hypertarget{group___aero_sim_r_c_ggaac481ffc101eae8d9d9be9b734bdc79da7dd4de8d12d1bf092ac2e5a523cd9a46}{\-Ch14\-Brakes}\label{group___aero_sim_r_c_ggaac481ffc101eae8d9d9be9b734bdc79da7dd4de8d12d1bf092ac2e5a523cd9a46}
+}]\index{\-Ch15\-Spoilers@{\-Ch15\-Spoilers}!\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!\-Ch15\-Spoilers@{\-Ch15\-Spoilers}}\item[{\em 
+\hypertarget{group___aero_sim_r_c_ggaac481ffc101eae8d9d9be9b734bdc79daa01cc1c49c1e72966ffb73c25dd98512}{\-Ch15\-Spoilers}\label{group___aero_sim_r_c_ggaac481ffc101eae8d9d9be9b734bdc79daa01cc1c49c1e72966ffb73c25dd98512}
+}]\index{\-Ch16\-Smoke@{\-Ch16\-Smoke}!\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!\-Ch16\-Smoke@{\-Ch16\-Smoke}}\item[{\em 
+\hypertarget{group___aero_sim_r_c_ggaac481ffc101eae8d9d9be9b734bdc79da6d813892bcc44ef3043ed1a4f4c59ba3}{\-Ch16\-Smoke}\label{group___aero_sim_r_c_ggaac481ffc101eae8d9d9be9b734bdc79da6d813892bcc44ef3043ed1a4f4c59ba3}
+}]\index{\-Ch17\-Fire@{\-Ch17\-Fire}!\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!\-Ch17\-Fire@{\-Ch17\-Fire}}\item[{\em 
+\hypertarget{group___aero_sim_r_c_ggaac481ffc101eae8d9d9be9b734bdc79daaa7eb8b9eceeaa749e66c134036d285a}{\-Ch17\-Fire}\label{group___aero_sim_r_c_ggaac481ffc101eae8d9d9be9b734bdc79daaa7eb8b9eceeaa749e66c134036d285a}
+}]\index{\-Ch18\-Flight\-Mode@{\-Ch18\-Flight\-Mode}!\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!\-Ch18\-Flight\-Mode@{\-Ch18\-Flight\-Mode}}\item[{\em 
+\hypertarget{group___aero_sim_r_c_ggaac481ffc101eae8d9d9be9b734bdc79da44030ec8a353c98238405398e3cdbe0c}{\-Ch18\-Flight\-Mode}\label{group___aero_sim_r_c_ggaac481ffc101eae8d9d9be9b734bdc79da44030ec8a353c98238405398e3cdbe0c}
+}]\index{\-Ch19\-A\-L\-T\-Hold@{\-Ch19\-A\-L\-T\-Hold}!\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!\-Ch19\-A\-L\-T\-Hold@{\-Ch19\-A\-L\-T\-Hold}}\item[{\em 
+\hypertarget{group___aero_sim_r_c_ggaac481ffc101eae8d9d9be9b734bdc79da8c6cb1bb6b247edda8fbc34269aefcd8}{\-Ch19\-A\-L\-T\-Hold}\label{group___aero_sim_r_c_ggaac481ffc101eae8d9d9be9b734bdc79da8c6cb1bb6b247edda8fbc34269aefcd8}
+}]\index{\-Ch20\-F\-P\-V\-Tilt\-Hold@{\-Ch20\-F\-P\-V\-Tilt\-Hold}!\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!\-Ch20\-F\-P\-V\-Tilt\-Hold@{\-Ch20\-F\-P\-V\-Tilt\-Hold}}\item[{\em 
+\hypertarget{group___aero_sim_r_c_ggaac481ffc101eae8d9d9be9b734bdc79da241ed38717a8746164b5b6c53e71af48}{\-Ch20\-F\-P\-V\-Tilt\-Hold}\label{group___aero_sim_r_c_ggaac481ffc101eae8d9d9be9b734bdc79da241ed38717a8746164b5b6c53e71af48}
+}]\index{\-Ch21\-Reset\-Model@{\-Ch21\-Reset\-Model}!\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!\-Ch21\-Reset\-Model@{\-Ch21\-Reset\-Model}}\item[{\em 
+\hypertarget{group___aero_sim_r_c_ggaac481ffc101eae8d9d9be9b734bdc79daa850b56a702f06c1cafcea2dfbb7cfda}{\-Ch21\-Reset\-Model}\label{group___aero_sim_r_c_ggaac481ffc101eae8d9d9be9b734bdc79daa850b56a702f06c1cafcea2dfbb7cfda}
+}]\index{\-Ch22\-Mouse\-T\-X@{\-Ch22\-Mouse\-T\-X}!\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!\-Ch22\-Mouse\-T\-X@{\-Ch22\-Mouse\-T\-X}}\item[{\em 
+\hypertarget{group___aero_sim_r_c_ggaac481ffc101eae8d9d9be9b734bdc79da8bb0a149514e0d53fb8ee584a2f35767}{\-Ch22\-Mouse\-T\-X}\label{group___aero_sim_r_c_ggaac481ffc101eae8d9d9be9b734bdc79da8bb0a149514e0d53fb8ee584a2f35767}
+}]\index{\-Ch23\-Plugin1@{\-Ch23\-Plugin1}!\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!\-Ch23\-Plugin1@{\-Ch23\-Plugin1}}\item[{\em 
+\hypertarget{group___aero_sim_r_c_ggaac481ffc101eae8d9d9be9b734bdc79da3407ceb314d18a567bc1530d09992ad7}{\-Ch23\-Plugin1}\label{group___aero_sim_r_c_ggaac481ffc101eae8d9d9be9b734bdc79da3407ceb314d18a567bc1530d09992ad7}
+}]\index{\-Ch24\-Plugin2@{\-Ch24\-Plugin2}!\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!\-Ch24\-Plugin2@{\-Ch24\-Plugin2}}\item[{\em 
+\hypertarget{group___aero_sim_r_c_ggaac481ffc101eae8d9d9be9b734bdc79da2d81133267c5c15e4ebac26d078a8efe}{\-Ch24\-Plugin2}\label{group___aero_sim_r_c_ggaac481ffc101eae8d9d9be9b734bdc79da2d81133267c5c15e4ebac26d078a8efe}
+}]\index{\-Ch25\-Throttle\-Hold@{\-Ch25\-Throttle\-Hold}!\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!\-Ch25\-Throttle\-Hold@{\-Ch25\-Throttle\-Hold}}\item[{\em 
+\hypertarget{group___aero_sim_r_c_ggaac481ffc101eae8d9d9be9b734bdc79dae06771aefe9478a74b26445fa1227e01}{\-Ch25\-Throttle\-Hold}\label{group___aero_sim_r_c_ggaac481ffc101eae8d9d9be9b734bdc79dae06771aefe9478a74b26445fa1227e01}
+}]\index{\-Ch26\-Care\-Free@{\-Ch26\-Care\-Free}!\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!\-Ch26\-Care\-Free@{\-Ch26\-Care\-Free}}\item[{\em 
+\hypertarget{group___aero_sim_r_c_ggaac481ffc101eae8d9d9be9b734bdc79da9be0c68561678e9e4da2af9fc1199b24}{\-Ch26\-Care\-Free}\label{group___aero_sim_r_c_ggaac481ffc101eae8d9d9be9b734bdc79da9be0c68561678e9e4da2af9fc1199b24}
+}]\index{\-Ch27\-F\-P\-V\-Cam\-Roll@{\-Ch27\-F\-P\-V\-Cam\-Roll}!\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!\-Ch27\-F\-P\-V\-Cam\-Roll@{\-Ch27\-F\-P\-V\-Cam\-Roll}}\item[{\em 
+\hypertarget{group___aero_sim_r_c_ggaac481ffc101eae8d9d9be9b734bdc79da740a02e72a2add66963f06c9c400759f}{\-Ch27\-F\-P\-V\-Cam\-Roll}\label{group___aero_sim_r_c_ggaac481ffc101eae8d9d9be9b734bdc79da740a02e72a2add66963f06c9c400759f}
+}]\index{\-Ch28\-L\-Motor\-Dual@{\-Ch28\-L\-Motor\-Dual}!\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!\-Ch28\-L\-Motor\-Dual@{\-Ch28\-L\-Motor\-Dual}}\item[{\em 
+\hypertarget{group___aero_sim_r_c_ggaac481ffc101eae8d9d9be9b734bdc79da4797e93a02ee282039529f32306157cc}{\-Ch28\-L\-Motor\-Dual}\label{group___aero_sim_r_c_ggaac481ffc101eae8d9d9be9b734bdc79da4797e93a02ee282039529f32306157cc}
+}]\index{\-Ch29\-R\-Motor\-Dual@{\-Ch29\-R\-Motor\-Dual}!\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!\-Ch29\-R\-Motor\-Dual@{\-Ch29\-R\-Motor\-Dual}}\item[{\em 
+\hypertarget{group___aero_sim_r_c_ggaac481ffc101eae8d9d9be9b734bdc79da926bffcb73ed8e8846d47c62dfea6e91}{\-Ch29\-R\-Motor\-Dual}\label{group___aero_sim_r_c_ggaac481ffc101eae8d9d9be9b734bdc79da926bffcb73ed8e8846d47c62dfea6e91}
+}]\index{\-Ch30\-Mix@{\-Ch30\-Mix}!\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!\-Ch30\-Mix@{\-Ch30\-Mix}}\item[{\em 
+\hypertarget{group___aero_sim_r_c_ggaac481ffc101eae8d9d9be9b734bdc79dae9cf927d389bf7b050669bb3b643049e}{\-Ch30\-Mix}\label{group___aero_sim_r_c_ggaac481ffc101eae8d9d9be9b734bdc79dae9cf927d389bf7b050669bb3b643049e}
+}]\index{\-Ch31\-Mix@{\-Ch31\-Mix}!\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!\-Ch31\-Mix@{\-Ch31\-Mix}}\item[{\em 
+\hypertarget{group___aero_sim_r_c_ggaac481ffc101eae8d9d9be9b734bdc79da85dbdbf3e01fb7c9120493d4230bf9ce}{\-Ch31\-Mix}\label{group___aero_sim_r_c_ggaac481ffc101eae8d9d9be9b734bdc79da85dbdbf3e01fb7c9120493d4230bf9ce}
+}]\index{\-Ch32\-Mix@{\-Ch32\-Mix}!\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!\-Ch32\-Mix@{\-Ch32\-Mix}}\item[{\em 
+\hypertarget{group___aero_sim_r_c_ggaac481ffc101eae8d9d9be9b734bdc79da300ba78751bbfd422fe4e8a58baf978f}{\-Ch32\-Mix}\label{group___aero_sim_r_c_ggaac481ffc101eae8d9d9be9b734bdc79da300ba78751bbfd422fe4e8a58baf978f}
+}]\index{\-Ch33\-Mix@{\-Ch33\-Mix}!\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!\-Ch33\-Mix@{\-Ch33\-Mix}}\item[{\em 
+\hypertarget{group___aero_sim_r_c_ggaac481ffc101eae8d9d9be9b734bdc79dac085292cc26185934ddb71115e0978fa}{\-Ch33\-Mix}\label{group___aero_sim_r_c_ggaac481ffc101eae8d9d9be9b734bdc79dac085292cc26185934ddb71115e0978fa}
+}]\index{\-Ch34\-Mix@{\-Ch34\-Mix}!\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!\-Ch34\-Mix@{\-Ch34\-Mix}}\item[{\em 
+\hypertarget{group___aero_sim_r_c_ggaac481ffc101eae8d9d9be9b734bdc79da48eb02764dadf5794394b35b9fac4c28}{\-Ch34\-Mix}\label{group___aero_sim_r_c_ggaac481ffc101eae8d9d9be9b734bdc79da48eb02764dadf5794394b35b9fac4c28}
+}]\index{\-Ch35\-Mix@{\-Ch35\-Mix}!\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!\-Ch35\-Mix@{\-Ch35\-Mix}}\item[{\em 
+\hypertarget{group___aero_sim_r_c_ggaac481ffc101eae8d9d9be9b734bdc79dadd28486b60a8f3f8bece8e0ee5aedb3d}{\-Ch35\-Mix}\label{group___aero_sim_r_c_ggaac481ffc101eae8d9d9be9b734bdc79dadd28486b60a8f3f8bece8e0ee5aedb3d}
+}]\index{\-Ch36\-Mix@{\-Ch36\-Mix}!\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!\-Ch36\-Mix@{\-Ch36\-Mix}}\item[{\em 
+\hypertarget{group___aero_sim_r_c_ggaac481ffc101eae8d9d9be9b734bdc79dadb3546c9fd8b571a8ecdbf7a432e311d}{\-Ch36\-Mix}\label{group___aero_sim_r_c_ggaac481ffc101eae8d9d9be9b734bdc79dadb3546c9fd8b571a8ecdbf7a432e311d}
+}]\index{\-Ch37\-Mix@{\-Ch37\-Mix}!\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!\-Ch37\-Mix@{\-Ch37\-Mix}}\item[{\em 
+\hypertarget{group___aero_sim_r_c_ggaac481ffc101eae8d9d9be9b734bdc79da9c5913d2f725afa5f0c7f1cffe804054}{\-Ch37\-Mix}\label{group___aero_sim_r_c_ggaac481ffc101eae8d9d9be9b734bdc79da9c5913d2f725afa5f0c7f1cffe804054}
+}]\index{\-Ch38\-Mix@{\-Ch38\-Mix}!\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!\-Ch38\-Mix@{\-Ch38\-Mix}}\item[{\em 
+\hypertarget{group___aero_sim_r_c_ggaac481ffc101eae8d9d9be9b734bdc79dabc88828ef4f1d11bfd9c93d9aacfcb20}{\-Ch38\-Mix}\label{group___aero_sim_r_c_ggaac481ffc101eae8d9d9be9b734bdc79dabc88828ef4f1d11bfd9c93d9aacfcb20}
+}]\index{\-Ch39\-Mix@{\-Ch39\-Mix}!\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!\-Ch39\-Mix@{\-Ch39\-Mix}}\item[{\em 
+\hypertarget{group___aero_sim_r_c_ggaac481ffc101eae8d9d9be9b734bdc79daadaf167f4540d7024153cf0a414fd519}{\-Ch39\-Mix}\label{group___aero_sim_r_c_ggaac481ffc101eae8d9d9be9b734bdc79daadaf167f4540d7024153cf0a414fd519}
+}]\end{description}
+\end{Desc}
+
+
+
+\-Definition at line 60 of file enums.\-h.
+
+\hypertarget{group___aero_sim_r_c_ga98eae8f226a6c44ff070e68cbc49f757}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!\-E\-Override\-Flags@{\-E\-Override\-Flags}}
+\index{\-E\-Override\-Flags@{\-E\-Override\-Flags}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{\-E\-Override\-Flags}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf \-E\-Override\-Flags}}}\label{group___aero_sim_r_c_ga98eae8f226a6c44ff070e68cbc49f757}
+\begin{Desc}
+\item[\-Enumerator\-: ]\par
+\begin{description}
+\index{\-O\-V\-R\-\_\-\-P\-O\-S@{\-O\-V\-R\-\_\-\-P\-O\-S}!\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!\-O\-V\-R\-\_\-\-P\-O\-S@{\-O\-V\-R\-\_\-\-P\-O\-S}}\item[{\em 
+\hypertarget{group___aero_sim_r_c_gga98eae8f226a6c44ff070e68cbc49f757ac5b5b2cf4c10db1a69b11b0cc410f0c3}{\-O\-V\-R\-\_\-\-P\-O\-S}\label{group___aero_sim_r_c_gga98eae8f226a6c44ff070e68cbc49f757ac5b5b2cf4c10db1a69b11b0cc410f0c3}
+}]\index{\-O\-V\-R\-\_\-\-V\-E\-L@{\-O\-V\-R\-\_\-\-V\-E\-L}!\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!\-O\-V\-R\-\_\-\-V\-E\-L@{\-O\-V\-R\-\_\-\-V\-E\-L}}\item[{\em 
+\hypertarget{group___aero_sim_r_c_gga98eae8f226a6c44ff070e68cbc49f757a2b201eb2961652842393f14a97f20dea}{\-O\-V\-R\-\_\-\-V\-E\-L}\label{group___aero_sim_r_c_gga98eae8f226a6c44ff070e68cbc49f757a2b201eb2961652842393f14a97f20dea}
+}]\index{\-O\-V\-R\-\_\-\-A\-N\-G\-\_\-\-V\-E\-L@{\-O\-V\-R\-\_\-\-A\-N\-G\-\_\-\-V\-E\-L}!\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!\-O\-V\-R\-\_\-\-A\-N\-G\-\_\-\-V\-E\-L@{\-O\-V\-R\-\_\-\-A\-N\-G\-\_\-\-V\-E\-L}}\item[{\em 
+\hypertarget{group___aero_sim_r_c_gga98eae8f226a6c44ff070e68cbc49f757aeca82b94cbac4c94431e590f9c4bf98f}{\-O\-V\-R\-\_\-\-A\-N\-G\-\_\-\-V\-E\-L}\label{group___aero_sim_r_c_gga98eae8f226a6c44ff070e68cbc49f757aeca82b94cbac4c94431e590f9c4bf98f}
+}]\index{\-O\-V\-R\-\_\-\-H\-P\-R@{\-O\-V\-R\-\_\-\-H\-P\-R}!\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!\-O\-V\-R\-\_\-\-H\-P\-R@{\-O\-V\-R\-\_\-\-H\-P\-R}}\item[{\em 
+\hypertarget{group___aero_sim_r_c_gga98eae8f226a6c44ff070e68cbc49f757aaadbeb07de3595a41c5ae226654222c7}{\-O\-V\-R\-\_\-\-H\-P\-R}\label{group___aero_sim_r_c_gga98eae8f226a6c44ff070e68cbc49f757aaadbeb07de3595a41c5ae226654222c7}
+}]\index{\-O\-V\-R\-\_\-\-W\-I\-N\-D\-\_\-\-V\-E\-L@{\-O\-V\-R\-\_\-\-W\-I\-N\-D\-\_\-\-V\-E\-L}!\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!\-O\-V\-R\-\_\-\-W\-I\-N\-D\-\_\-\-V\-E\-L@{\-O\-V\-R\-\_\-\-W\-I\-N\-D\-\_\-\-V\-E\-L}}\item[{\em 
+\hypertarget{group___aero_sim_r_c_gga98eae8f226a6c44ff070e68cbc49f757a09cf59a20393176449bbb1ada0851842}{\-O\-V\-R\-\_\-\-W\-I\-N\-D\-\_\-\-V\-E\-L}\label{group___aero_sim_r_c_gga98eae8f226a6c44ff070e68cbc49f757a09cf59a20393176449bbb1ada0851842}
+}]\index{\-O\-V\-R\-\_\-\-E\-N\-G\-I\-N\-E\-\_\-\-R\-P\-M@{\-O\-V\-R\-\_\-\-E\-N\-G\-I\-N\-E\-\_\-\-R\-P\-M}!\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!\-O\-V\-R\-\_\-\-E\-N\-G\-I\-N\-E\-\_\-\-R\-P\-M@{\-O\-V\-R\-\_\-\-E\-N\-G\-I\-N\-E\-\_\-\-R\-P\-M}}\item[{\em 
+\hypertarget{group___aero_sim_r_c_gga98eae8f226a6c44ff070e68cbc49f757a1ac7bb07b6834d10f7b8296d0a14d125}{\-O\-V\-R\-\_\-\-E\-N\-G\-I\-N\-E\-\_\-\-R\-P\-M}\label{group___aero_sim_r_c_gga98eae8f226a6c44ff070e68cbc49f757a1ac7bb07b6834d10f7b8296d0a14d125}
+}]\index{\-O\-V\-R\-\_\-\-B\-A\-T\-\_\-\-V\-O\-L\-T@{\-O\-V\-R\-\_\-\-B\-A\-T\-\_\-\-V\-O\-L\-T}!\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!\-O\-V\-R\-\_\-\-B\-A\-T\-\_\-\-V\-O\-L\-T@{\-O\-V\-R\-\_\-\-B\-A\-T\-\_\-\-V\-O\-L\-T}}\item[{\em 
+\hypertarget{group___aero_sim_r_c_gga98eae8f226a6c44ff070e68cbc49f757a0c4877fdd99836823e1f53610baefac5}{\-O\-V\-R\-\_\-\-B\-A\-T\-\_\-\-V\-O\-L\-T}\label{group___aero_sim_r_c_gga98eae8f226a6c44ff070e68cbc49f757a0c4877fdd99836823e1f53610baefac5}
+}]\index{\-O\-V\-R\-\_\-\-B\-A\-T\-\_\-\-A\-M\-P@{\-O\-V\-R\-\_\-\-B\-A\-T\-\_\-\-A\-M\-P}!\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!\-O\-V\-R\-\_\-\-B\-A\-T\-\_\-\-A\-M\-P@{\-O\-V\-R\-\_\-\-B\-A\-T\-\_\-\-A\-M\-P}}\item[{\em 
+\hypertarget{group___aero_sim_r_c_gga98eae8f226a6c44ff070e68cbc49f757a5ae44a881ba0a3efa4443b6f8a69723d}{\-O\-V\-R\-\_\-\-B\-A\-T\-\_\-\-A\-M\-P}\label{group___aero_sim_r_c_gga98eae8f226a6c44ff070e68cbc49f757a5ae44a881ba0a3efa4443b6f8a69723d}
+}]\index{\-O\-V\-R\-\_\-\-B\-A\-T\-\_\-\-A\-H\-\_\-\-C\-O\-N\-S\-U\-M\-E\-D@{\-O\-V\-R\-\_\-\-B\-A\-T\-\_\-\-A\-H\-\_\-\-C\-O\-N\-S\-U\-M\-E\-D}!\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!\-O\-V\-R\-\_\-\-B\-A\-T\-\_\-\-A\-H\-\_\-\-C\-O\-N\-S\-U\-M\-E\-D@{\-O\-V\-R\-\_\-\-B\-A\-T\-\_\-\-A\-H\-\_\-\-C\-O\-N\-S\-U\-M\-E\-D}}\item[{\em 
+\hypertarget{group___aero_sim_r_c_gga98eae8f226a6c44ff070e68cbc49f757a77ed181237c19cad07d0c66ec657e263}{\-O\-V\-R\-\_\-\-B\-A\-T\-\_\-\-A\-H\-\_\-\-C\-O\-N\-S\-U\-M\-E\-D}\label{group___aero_sim_r_c_gga98eae8f226a6c44ff070e68cbc49f757a77ed181237c19cad07d0c66ec657e263}
+}]\index{\-O\-V\-R\-\_\-\-F\-U\-E\-L\-\_\-\-C\-O\-N\-S\-U\-M\-E\-D@{\-O\-V\-R\-\_\-\-F\-U\-E\-L\-\_\-\-C\-O\-N\-S\-U\-M\-E\-D}!\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!\-O\-V\-R\-\_\-\-F\-U\-E\-L\-\_\-\-C\-O\-N\-S\-U\-M\-E\-D@{\-O\-V\-R\-\_\-\-F\-U\-E\-L\-\_\-\-C\-O\-N\-S\-U\-M\-E\-D}}\item[{\em 
+\hypertarget{group___aero_sim_r_c_gga98eae8f226a6c44ff070e68cbc49f757a5da3bc21e6ea4211a61c5545631ce808}{\-O\-V\-R\-\_\-\-F\-U\-E\-L\-\_\-\-C\-O\-N\-S\-U\-M\-E\-D}\label{group___aero_sim_r_c_gga98eae8f226a6c44ff070e68cbc49f757a5da3bc21e6ea4211a61c5545631ce808}
+}]\end{description}
+\end{Desc}
+
+
+
+\-Definition at line 46 of file enums.\-h.
+
+\hypertarget{group___aero_sim_r_c_ga32699aad93298e22cc4b036b666b286c}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!\-Menu\-Masks@{\-Menu\-Masks}}
+\index{\-Menu\-Masks@{\-Menu\-Masks}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{\-Menu\-Masks}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf \-Menu\-Masks}}}\label{group___aero_sim_r_c_ga32699aad93298e22cc4b036b666b286c}
+\begin{Desc}
+\item[\-Enumerator\-: ]\par
+\begin{description}
+\index{\-Menu\-Enable@{\-Menu\-Enable}!\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!\-Menu\-Enable@{\-Menu\-Enable}}\item[{\em 
+\hypertarget{group___aero_sim_r_c_gga32699aad93298e22cc4b036b666b286cab50d95f3a435766fe9b26f5e29268192}{\-Menu\-Enable}\label{group___aero_sim_r_c_gga32699aad93298e22cc4b036b666b286cab50d95f3a435766fe9b26f5e29268192}
+}]\index{\-Menu\-Tx@{\-Menu\-Tx}!\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!\-Menu\-Tx@{\-Menu\-Tx}}\item[{\em 
+\hypertarget{group___aero_sim_r_c_gga32699aad93298e22cc4b036b666b286cac65bf61777efbb25c693c61e1e15f8ee}{\-Menu\-Tx}\label{group___aero_sim_r_c_gga32699aad93298e22cc4b036b666b286cac65bf61777efbb25c693c61e1e15f8ee}
+}]\index{\-Menu\-Rx@{\-Menu\-Rx}!\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!\-Menu\-Rx@{\-Menu\-Rx}}\item[{\em 
+\hypertarget{group___aero_sim_r_c_gga32699aad93298e22cc4b036b666b286cab104e61c43e82a883282864db332faa7}{\-Menu\-Rx}\label{group___aero_sim_r_c_gga32699aad93298e22cc4b036b666b286cab104e61c43e82a883282864db332faa7}
+}]\index{\-Menu\-Screen@{\-Menu\-Screen}!\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!\-Menu\-Screen@{\-Menu\-Screen}}\item[{\em 
+\hypertarget{group___aero_sim_r_c_gga32699aad93298e22cc4b036b666b286ca5acf4fd0f1095d55cf5ef95ba9e1d343}{\-Menu\-Screen}\label{group___aero_sim_r_c_gga32699aad93298e22cc4b036b666b286ca5acf4fd0f1095d55cf5ef95ba9e1d343}
+}]\index{\-Menu\-Next\-Wpt@{\-Menu\-Next\-Wpt}!\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!\-Menu\-Next\-Wpt@{\-Menu\-Next\-Wpt}}\item[{\em 
+\hypertarget{group___aero_sim_r_c_gga32699aad93298e22cc4b036b666b286ca1d4c50f87301f42f7115d64f05898796}{\-Menu\-Next\-Wpt}\label{group___aero_sim_r_c_gga32699aad93298e22cc4b036b666b286ca1d4c50f87301f42f7115d64f05898796}
+}]\index{\-Menu\-Cmd\-Reset@{\-Menu\-Cmd\-Reset}!\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!\-Menu\-Cmd\-Reset@{\-Menu\-Cmd\-Reset}}\item[{\em 
+\hypertarget{group___aero_sim_r_c_gga32699aad93298e22cc4b036b666b286cabaf0d1cc3d420c7d4ce1a24b24982d0b}{\-Menu\-Cmd\-Reset}\label{group___aero_sim_r_c_gga32699aad93298e22cc4b036b666b286cabaf0d1cc3d420c7d4ce1a24b24982d0b}
+}]\index{\-Menu\-Led\-Blue@{\-Menu\-Led\-Blue}!\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!\-Menu\-Led\-Blue@{\-Menu\-Led\-Blue}}\item[{\em 
+\hypertarget{group___aero_sim_r_c_gga32699aad93298e22cc4b036b666b286cac209851ef711b8f020b765b06235e03b}{\-Menu\-Led\-Blue}\label{group___aero_sim_r_c_gga32699aad93298e22cc4b036b666b286cac209851ef711b8f020b765b06235e03b}
+}]\index{\-Menu\-Led\-Green@{\-Menu\-Led\-Green}!\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!\-Menu\-Led\-Green@{\-Menu\-Led\-Green}}\item[{\em 
+\hypertarget{group___aero_sim_r_c_gga32699aad93298e22cc4b036b666b286ca8ec14791dc6d73e7371546dff18d3503}{\-Menu\-Led\-Green}\label{group___aero_sim_r_c_gga32699aad93298e22cc4b036b666b286ca8ec14791dc6d73e7371546dff18d3503}
+}]\index{\-Menu\-F\-Mode1@{\-Menu\-F\-Mode1}!\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!\-Menu\-F\-Mode1@{\-Menu\-F\-Mode1}}\item[{\em 
+\hypertarget{group___aero_sim_r_c_gga32699aad93298e22cc4b036b666b286caec0a3149d458625f8fd926cabbdc458d}{\-Menu\-F\-Mode1}\label{group___aero_sim_r_c_gga32699aad93298e22cc4b036b666b286caec0a3149d458625f8fd926cabbdc458d}
+}]\index{\-Menu\-F\-Mode2@{\-Menu\-F\-Mode2}!\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!\-Menu\-F\-Mode2@{\-Menu\-F\-Mode2}}\item[{\em 
+\hypertarget{group___aero_sim_r_c_gga32699aad93298e22cc4b036b666b286ca31275b1f310192cb75efe8917e7b9062}{\-Menu\-F\-Mode2}\label{group___aero_sim_r_c_gga32699aad93298e22cc4b036b666b286ca31275b1f310192cb75efe8917e7b9062}
+}]\index{\-Menu\-F\-Mode3@{\-Menu\-F\-Mode3}!\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!\-Menu\-F\-Mode3@{\-Menu\-F\-Mode3}}\item[{\em 
+\hypertarget{group___aero_sim_r_c_gga32699aad93298e22cc4b036b666b286caf0bec956817a01c8b03b2c1f7ddcdde5}{\-Menu\-F\-Mode3}\label{group___aero_sim_r_c_gga32699aad93298e22cc4b036b666b286caf0bec956817a01c8b03b2c1f7ddcdde5}
+}]\end{description}
+\end{Desc}
+
+
+
+\-Definition at line 32 of file enums.\-h.
+
+
+
+\subsection{\-Function \-Documentation}
+\hypertarget{group___aero_sim_r_c_ga98e72d84a109612a93351aed8683c42f}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!\-Aero\-S\-I\-M\-R\-C\-\_\-\-Plugin\-\_\-\-Init@{\-Aero\-S\-I\-M\-R\-C\-\_\-\-Plugin\-\_\-\-Init}}
+\index{\-Aero\-S\-I\-M\-R\-C\-\_\-\-Plugin\-\_\-\-Init@{\-Aero\-S\-I\-M\-R\-C\-\_\-\-Plugin\-\_\-\-Init}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{\-Aero\-S\-I\-M\-R\-C\-\_\-\-Plugin\-\_\-\-Init}]{\setlength{\rightskip}{0pt plus 5cm}\-S\-I\-M\-\_\-\-D\-L\-L\-\_\-\-E\-X\-P\-O\-R\-T {\bf void} {\bf \-Aero\-S\-I\-M\-R\-C\-\_\-\-Plugin\-\_\-\-Init} (
+\begin{DoxyParamCaption}
+\item[{{\bf plugin\-Init} $\ast$}]{p}
+\end{DoxyParamCaption}
+)}}\label{group___aero_sim_r_c_ga98e72d84a109612a93351aed8683c42f}
+
+
+\-Definition at line 90 of file plugin.\-cpp.
+
+\hypertarget{group___aero_sim_r_c_ga8ef52f40ca9cf8fb9a0c10021b420e4d}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!\-Aero\-S\-I\-M\-R\-C\-\_\-\-Plugin\-\_\-\-Report\-Struct\-Sizes@{\-Aero\-S\-I\-M\-R\-C\-\_\-\-Plugin\-\_\-\-Report\-Struct\-Sizes}}
+\index{\-Aero\-S\-I\-M\-R\-C\-\_\-\-Plugin\-\_\-\-Report\-Struct\-Sizes@{\-Aero\-S\-I\-M\-R\-C\-\_\-\-Plugin\-\_\-\-Report\-Struct\-Sizes}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{\-Aero\-S\-I\-M\-R\-C\-\_\-\-Plugin\-\_\-\-Report\-Struct\-Sizes}]{\setlength{\rightskip}{0pt plus 5cm}\-S\-I\-M\-\_\-\-D\-L\-L\-\_\-\-E\-X\-P\-O\-R\-T {\bf void} {\bf \-Aero\-S\-I\-M\-R\-C\-\_\-\-Plugin\-\_\-\-Report\-Struct\-Sizes} (
+\begin{DoxyParamCaption}
+\item[{quint32 $\ast$}]{size\-Sim\-To\-Plugin, }
+\item[{quint32 $\ast$}]{size\-Plugin\-To\-Sim, }
+\item[{quint32 $\ast$}]{size\-Plugin\-Init}
+\end{DoxyParamCaption}
+)}}\label{group___aero_sim_r_c_ga8ef52f40ca9cf8fb9a0c10021b420e4d}
+
+
+\-Definition at line 74 of file plugin.\-cpp.
+
+\hypertarget{group___aero_sim_r_c_ga90f7f2f84473fc876d3189d4659dcf1a}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!\-Aero\-S\-I\-M\-R\-C\-\_\-\-Plugin\-\_\-\-Run@{\-Aero\-S\-I\-M\-R\-C\-\_\-\-Plugin\-\_\-\-Run}}
+\index{\-Aero\-S\-I\-M\-R\-C\-\_\-\-Plugin\-\_\-\-Run@{\-Aero\-S\-I\-M\-R\-C\-\_\-\-Plugin\-\_\-\-Run}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{\-Aero\-S\-I\-M\-R\-C\-\_\-\-Plugin\-\_\-\-Run}]{\setlength{\rightskip}{0pt plus 5cm}\-S\-I\-M\-\_\-\-D\-L\-L\-\_\-\-E\-X\-P\-O\-R\-T {\bf void} {\bf \-Aero\-S\-I\-M\-R\-C\-\_\-\-Plugin\-\_\-\-Run} (
+\begin{DoxyParamCaption}
+\item[{const {\bf sim\-To\-Plugin} $\ast$}]{stp, }
+\item[{{\bf plugin\-To\-Sim} $\ast$}]{pts}
+\end{DoxyParamCaption}
+)}}\label{group___aero_sim_r_c_ga90f7f2f84473fc876d3189d4659dcf1a}
+
+
+\-Definition at line 353 of file plugin.\-cpp.
+
+\hypertarget{group___aero_sim_r_c_gab7aaf0bccb3e8d4ab785a824e303a420}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!debug\-Info@{debug\-Info}}
+\index{debug\-Info@{debug\-Info}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{debug\-Info}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Q\-String} {\bf debug\-Info} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-D\-B\-G\-\_\-\-B\-U\-F\-F\-E\-R\-\_\-\-M\-A\-X\-\_\-\-S\-I\-Z\-E}}]{, }
+\item[{' '}]{}
+\end{DoxyParamCaption}
+)}}\label{group___aero_sim_r_c_gab7aaf0bccb3e8d4ab785a824e303a420}
+\hypertarget{group___aero_sim_r_c_gac93a6e2f9d37b2fe831961496317bffe}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!\-Dll\-Main@{\-Dll\-Main}}
+\index{\-Dll\-Main@{\-Dll\-Main}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{\-Dll\-Main}]{\setlength{\rightskip}{0pt plus 5cm}int \-\_\-\-\_\-stdcall {\bf \-Dll\-Main} (
+\begin{DoxyParamCaption}
+\item[{{\bf void} $\ast$}]{, }
+\item[{quint32}]{fdw\-Reason, }
+\item[{{\bf void} $\ast$}]{}
+\end{DoxyParamCaption}
+)}}\label{group___aero_sim_r_c_gac93a6e2f9d37b2fe831961496317bffe}
+
+
+\-Definition at line 49 of file plugin.\-cpp.
+
+\hypertarget{group___aero_sim_r_c_gaf0d473076876c13ba7df05e9ba6fd322}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!get\-Armed@{get\-Armed}}
+\index{get\-Armed@{get\-Armed}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{get\-Armed}]{\setlength{\rightskip}{0pt plus 5cm}quint8 {\bf \-Udp\-Receiver\-::get\-Armed} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___aero_sim_r_c_gaf0d473076876c13ba7df05e9ba6fd322}
+
+
+\-Definition at line 72 of file udpconnect.\-h.
+
+\hypertarget{group___aero_sim_r_c_ga7aa237515699baba97a4c3e76a55d401}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!get\-Fligh\-Status@{get\-Fligh\-Status}}
+\index{get\-Fligh\-Status@{get\-Fligh\-Status}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{get\-Fligh\-Status}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Udp\-Receiver\-::get\-Fligh\-Status} (
+\begin{DoxyParamCaption}
+\item[{quint8 \&}]{arm, }
+\item[{quint8 \&}]{mod}
+\end{DoxyParamCaption}
+)}}\label{group___aero_sim_r_c_ga7aa237515699baba97a4c3e76a55d401}
+
+
+\-Definition at line 186 of file udpconnect.\-cpp.
+
+\hypertarget{group___aero_sim_r_c_ga6607c28a72f6470cd410ac7baf8fba49}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!get\-Input\-Map@{get\-Input\-Map}}
+\index{get\-Input\-Map@{get\-Input\-Map}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{get\-Input\-Map}]{\setlength{\rightskip}{0pt plus 5cm}\-Q\-List$<$quint8$>$ {\bf \-Settings\-::get\-Input\-Map} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___aero_sim_r_c_ga6607c28a72f6470cd410ac7baf8fba49}
+
+
+\-Definition at line 47 of file settings.\-h.
+
+\hypertarget{group___aero_sim_r_c_gaf1ad345905414c2c6c8883cdba472aae}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!get\-Mode@{get\-Mode}}
+\index{get\-Mode@{get\-Mode}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{get\-Mode}]{\setlength{\rightskip}{0pt plus 5cm}quint8 {\bf \-Udp\-Receiver\-::get\-Mode} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___aero_sim_r_c_gaf1ad345905414c2c6c8883cdba472aae}
+
+
+\-Definition at line 73 of file udpconnect.\-h.
+
+\hypertarget{group___aero_sim_r_c_ga9c382b0fc01ca068ccf9f0226d707bc9}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!get\-Output\-Map@{get\-Output\-Map}}
+\index{get\-Output\-Map@{get\-Output\-Map}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{get\-Output\-Map}]{\setlength{\rightskip}{0pt plus 5cm}\-Q\-List$<$quint8$>$ {\bf \-Settings\-::get\-Output\-Map} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___aero_sim_r_c_ga9c382b0fc01ca068ccf9f0226d707bc9}
+
+
+\-Definition at line 48 of file settings.\-h.
+
+\hypertarget{group___aero_sim_r_c_ga885d740d0bc91afd8207ef878147e0d7}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!get\-Video\-Modes@{get\-Video\-Modes}}
+\index{get\-Video\-Modes@{get\-Video\-Modes}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{get\-Video\-Modes}]{\setlength{\rightskip}{0pt plus 5cm}\-Q\-List$<$quint16$>$ {\bf \-Settings\-::get\-Video\-Modes} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___aero_sim_r_c_ga885d740d0bc91afd8207ef878147e0d7}
+
+
+\-Definition at line 51 of file settings.\-h.
+
+\hypertarget{group___aero_sim_r_c_gae510a372f225654c1363040357ba2c55}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!\-Info\-Text@{\-Info\-Text}}
+\index{\-Info\-Text@{\-Info\-Text}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{\-Info\-Text}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Info\-Text} (
+\begin{DoxyParamCaption}
+\item[{const {\bf sim\-To\-Plugin} $\ast$}]{stp, }
+\item[{{\bf plugin\-To\-Sim} $\ast$}]{pts}
+\end{DoxyParamCaption}
+)}}\label{group___aero_sim_r_c_gae510a372f225654c1363040357ba2c55}
+
+
+\-Definition at line 248 of file plugin.\-cpp.
+
+\hypertarget{group___aero_sim_r_c_ga14593f9c2d83a4feb7c05639f521cd58}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!init@{init}}
+\index{init@{init}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{init}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Udp\-Sender\-::init} (
+\begin{DoxyParamCaption}
+\item[{const {\bf \-Q\-String} \&}]{remote\-Host, }
+\item[{quint16}]{remote\-Port}
+\end{DoxyParamCaption}
+)}}\label{group___aero_sim_r_c_ga14593f9c2d83a4feb7c05639f521cd58}
+
+
+\-Definition at line 53 of file udpconnect.\-cpp.
+
+\hypertarget{group___aero_sim_r_c_gad45fd7a1310445a52d17f2fe3ec7ab4b}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!init@{init}}
+\index{init@{init}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{init}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Udp\-Receiver\-::init} (
+\begin{DoxyParamCaption}
+\item[{const {\bf \-Q\-String} \&}]{local\-Host, }
+\item[{quint16}]{local\-Port}
+\end{DoxyParamCaption}
+)}}\label{group___aero_sim_r_c_gad45fd7a1310445a52d17f2fe3ec7ab4b}
+
+
+\-Definition at line 141 of file udpconnect.\-cpp.
+
+\hypertarget{group___aero_sim_r_c_gaa18f01bc8cd2c71856c0b13cc9fc3745}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!is\-From\-T\-X@{is\-From\-T\-X}}
+\index{is\-From\-T\-X@{is\-From\-T\-X}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{is\-From\-T\-X}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-Settings\-::is\-From\-T\-X} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___aero_sim_r_c_gaa18f01bc8cd2c71856c0b13cc9fc3745}
+
+
+\-Definition at line 50 of file settings.\-h.
+
+\hypertarget{group___aero_sim_r_c_ga80495f779a8152a0c16eed12fcfd69e4}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!is\-To\-R\-X@{is\-To\-R\-X}}
+\index{is\-To\-R\-X@{is\-To\-R\-X}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{is\-To\-R\-X}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-Settings\-::is\-To\-R\-X} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___aero_sim_r_c_ga80495f779a8152a0c16eed12fcfd69e4}
+
+
+\-Definition at line 49 of file settings.\-h.
+
+\hypertarget{group___aero_sim_r_c_gaf2ca84445d77cc2649ac0aa4958051f0}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!local\-Host@{local\-Host}}
+\index{local\-Host@{local\-Host}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{local\-Host}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Q\-String} {\bf \-Settings\-::local\-Host} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___aero_sim_r_c_gaf2ca84445d77cc2649ac0aa4958051f0}
+
+
+\-Definition at line 45 of file settings.\-h.
+
+\hypertarget{group___aero_sim_r_c_gadb246f8a0f4976071e8e302b553df863}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!local\-Port@{local\-Port}}
+\index{local\-Port@{local\-Port}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{local\-Port}]{\setlength{\rightskip}{0pt plus 5cm}quint16 {\bf \-Settings\-::local\-Port} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___aero_sim_r_c_gadb246f8a0f4976071e8e302b553df863}
+
+
+\-Definition at line 46 of file settings.\-h.
+
+\hypertarget{group___aero_sim_r_c_ga0ddf1224851353fc92bfbff6f499fa97}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!main@{main}}
+\index{main@{main}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{main}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf main} (
+\begin{DoxyParamCaption}
+\item[{int}]{argc, }
+\item[{char $\ast$}]{argv\mbox{[}$\,$\mbox{]}}
+\end{DoxyParamCaption}
+)}}\label{group___aero_sim_r_c_ga0ddf1224851353fc92bfbff6f499fa97}
+
+
+\-Definition at line 31 of file udptestmain.\-cpp.
+
+\hypertarget{group___aero_sim_r_c_ga7b01eb4372b4aee0f4d26504cfcd02a7}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!my\-Q\-Debug\-Handler@{my\-Q\-Debug\-Handler}}
+\index{my\-Q\-Debug\-Handler@{my\-Q\-Debug\-Handler}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{my\-Q\-Debug\-Handler}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf my\-Q\-Debug\-Handler} (
+\begin{DoxyParamCaption}
+\item[{\-Qt\-Msg\-Type}]{type, }
+\item[{const char $\ast$}]{msg}
+\end{DoxyParamCaption}
+)}}\label{group___aero_sim_r_c_ga7b01eb4372b4aee0f4d26504cfcd02a7}
+
+
+\-Definition at line 30 of file qdebughandler.\-cpp.
+
+\hypertarget{group___aero_sim_r_c_ga3e2272a7391bd317e2e58cb38a251e4c}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!output\-Folder@{output\-Folder}}
+\index{output\-Folder@{output\-Folder}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{output\-Folder}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Q\-String} {\bf output\-Folder} (
+\begin{DoxyParamCaption}
+\item[{\-M\-A\-X\-\_\-\-P\-A\-T\-H}]{, }
+\item[{' '}]{}
+\end{DoxyParamCaption}
+)}}\label{group___aero_sim_r_c_ga3e2272a7391bd317e2e58cb38a251e4c}
+\hypertarget{group___aero_sim_r_c_gaa06c6b62e9498dee34b35c225479a52a}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!pcks@{pcks}}
+\index{pcks@{pcks}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{pcks}]{\setlength{\rightskip}{0pt plus 5cm}quint32 {\bf \-Udp\-Sender\-::pcks} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___aero_sim_r_c_gaa06c6b62e9498dee34b35c225479a52a}
+
+
+\-Definition at line 47 of file udpconnect.\-h.
+
+\hypertarget{group___aero_sim_r_c_ga4b48a3aa9531a445286790d5859da129}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!pcks@{pcks}}
+\index{pcks@{pcks}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{pcks}]{\setlength{\rightskip}{0pt plus 5cm}quint32 {\bf \-Udp\-Receiver\-::pcks} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___aero_sim_r_c_ga4b48a3aa9531a445286790d5859da129}
+
+
+\-Definition at line 74 of file udpconnect.\-h.
+
+\hypertarget{group___aero_sim_r_c_ga776b2762b88960a5d487d6d6a5bc18a4}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!plugin\-Folder@{plugin\-Folder}}
+\index{plugin\-Folder@{plugin\-Folder}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{plugin\-Folder}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Q\-String} {\bf plugin\-Folder} (
+\begin{DoxyParamCaption}
+\item[{\-M\-A\-X\-\_\-\-P\-A\-T\-H}]{, }
+\item[{' '}]{}
+\end{DoxyParamCaption}
+)}}\label{group___aero_sim_r_c_ga776b2762b88960a5d487d6d6a5bc18a4}
+\hypertarget{group___aero_sim_r_c_gac0f3ec889ab03b807e937580704a3ee9}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!read@{read}}
+\index{read@{read}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{read}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Settings\-::read} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___aero_sim_r_c_gac0f3ec889ab03b807e937580704a3ee9}
+
+
+\-Definition at line 49 of file settings.\-cpp.
+
+\hypertarget{group___aero_sim_r_c_ga488c7f5a87b95d6b3e0b8d8c0647f984}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!remote\-Host@{remote\-Host}}
+\index{remote\-Host@{remote\-Host}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{remote\-Host}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Q\-String} {\bf \-Settings\-::remote\-Host} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___aero_sim_r_c_ga488c7f5a87b95d6b3e0b8d8c0647f984}
+
+
+\-Definition at line 43 of file settings.\-h.
+
+\hypertarget{group___aero_sim_r_c_gafd3c776de1db18a53414fc9ff7d5f656}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!remote\-Port@{remote\-Port}}
+\index{remote\-Port@{remote\-Port}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{remote\-Port}]{\setlength{\rightskip}{0pt plus 5cm}quint16 {\bf \-Settings\-::remote\-Port} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___aero_sim_r_c_gafd3c776de1db18a53414fc9ff7d5f656}
+
+
+\-Definition at line 44 of file settings.\-h.
+
+\hypertarget{group___aero_sim_r_c_gaa4efe37e6d2da77ba95eb22705c1f1e2}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!run@{run}}
+\index{run@{run}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{run}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Udp\-Receiver\-::run} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___aero_sim_r_c_gaa4efe37e6d2da77ba95eb22705c1f1e2}
+
+
+\-Definition at line 151 of file udpconnect.\-cpp.
+
+\hypertarget{group___aero_sim_r_c_ga857614faa8daba5d5f4fede066c51132}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!\-Run\-\_\-\-Blink\-L\-E\-Ds@{\-Run\-\_\-\-Blink\-L\-E\-Ds}}
+\index{\-Run\-\_\-\-Blink\-L\-E\-Ds@{\-Run\-\_\-\-Blink\-L\-E\-Ds}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{\-Run\-\_\-\-Blink\-L\-E\-Ds}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Run\-\_\-\-Blink\-L\-E\-Ds} (
+\begin{DoxyParamCaption}
+\item[{const {\bf sim\-To\-Plugin} $\ast$}]{stp, }
+\item[{{\bf plugin\-To\-Sim} $\ast$}]{pts}
+\end{DoxyParamCaption}
+)}}\label{group___aero_sim_r_c_ga857614faa8daba5d5f4fede066c51132}
+
+
+\-Definition at line 190 of file plugin.\-cpp.
+
+\hypertarget{group___aero_sim_r_c_gaddb6627411fb8bfecba79d9eb336638e}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!\-Run\-\_\-\-Command\-\_\-\-Move\-To\-Next\-Waypoint@{\-Run\-\_\-\-Command\-\_\-\-Move\-To\-Next\-Waypoint}}
+\index{\-Run\-\_\-\-Command\-\_\-\-Move\-To\-Next\-Waypoint@{\-Run\-\_\-\-Command\-\_\-\-Move\-To\-Next\-Waypoint}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{\-Run\-\_\-\-Command\-\_\-\-Move\-To\-Next\-Waypoint}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Run\-\_\-\-Command\-\_\-\-Move\-To\-Next\-Waypoint} (
+\begin{DoxyParamCaption}
+\item[{const {\bf sim\-To\-Plugin} $\ast$}]{stp, }
+\item[{{\bf plugin\-To\-Sim} $\ast$}]{pts}
+\end{DoxyParamCaption}
+)}}\label{group___aero_sim_r_c_gaddb6627411fb8bfecba79d9eb336638e}
+
+
+\-Definition at line 148 of file plugin.\-cpp.
+
+\hypertarget{group___aero_sim_r_c_gacd4d7dbcd8b4676d00471827b255b7ff}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!\-Run\-\_\-\-Command\-\_\-\-Reset@{\-Run\-\_\-\-Command\-\_\-\-Reset}}
+\index{\-Run\-\_\-\-Command\-\_\-\-Reset@{\-Run\-\_\-\-Command\-\_\-\-Reset}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{\-Run\-\_\-\-Command\-\_\-\-Reset}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Run\-\_\-\-Command\-\_\-\-Reset} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___aero_sim_r_c_gacd4d7dbcd8b4676d00471827b255b7ff}
+
+
+\-Definition at line 120 of file plugin.\-cpp.
+
+\hypertarget{group___aero_sim_r_c_ga80a7533068c803af865f6e2af76e050d}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!\-Run\-\_\-\-Command\-\_\-\-Window\-Size\-And\-Pos@{\-Run\-\_\-\-Command\-\_\-\-Window\-Size\-And\-Pos}}
+\index{\-Run\-\_\-\-Command\-\_\-\-Window\-Size\-And\-Pos@{\-Run\-\_\-\-Command\-\_\-\-Window\-Size\-And\-Pos}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{\-Run\-\_\-\-Command\-\_\-\-Window\-Size\-And\-Pos}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Run\-\_\-\-Command\-\_\-\-Window\-Size\-And\-Pos} (
+\begin{DoxyParamCaption}
+\item[{const {\bf sim\-To\-Plugin} $\ast$}]{stp, }
+\item[{{\bf plugin\-To\-Sim} $\ast$}]{pts}
+\end{DoxyParamCaption}
+)}}\label{group___aero_sim_r_c_ga80a7533068c803af865f6e2af76e050d}
+
+
+\-Definition at line 127 of file plugin.\-cpp.
+
+\hypertarget{group___aero_sim_r_c_ga1c5e2d6839935b0860fc2bb6912ec125}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!send\-Datagram@{send\-Datagram}}
+\index{send\-Datagram@{send\-Datagram}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{send\-Datagram}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Udp\-Sender\-::send\-Datagram} (
+\begin{DoxyParamCaption}
+\item[{const {\bf sim\-To\-Plugin} $\ast$}]{stp}
+\end{DoxyParamCaption}
+)}}\label{group___aero_sim_r_c_ga1c5e2d6839935b0860fc2bb6912ec125}
+
+
+\-Definition at line 61 of file udpconnect.\-cpp.
+
+\hypertarget{group___aero_sim_r_c_gab9cfcf389004c47e3af049bcef67fed9}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!set\-Channels@{set\-Channels}}
+\index{set\-Channels@{set\-Channels}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{set\-Channels}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Udp\-Receiver\-::set\-Channels} (
+\begin{DoxyParamCaption}
+\item[{{\bf plugin\-To\-Sim} $\ast$}]{pts}
+\end{DoxyParamCaption}
+)}}\label{group___aero_sim_r_c_gab9cfcf389004c47e3af049bcef67fed9}
+
+
+\-Definition at line 165 of file udpconnect.\-cpp.
+
+\hypertarget{group___aero_sim_r_c_ga93af04323b9db4a809d0376a1ea6a7ae}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!\-Settings@{\-Settings}}
+\index{\-Settings@{\-Settings}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{\-Settings}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Settings\-::\-Settings} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Q\-String}}]{settings\-Path, }
+\item[{\-Q\-Object $\ast$}]{parent = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}explicit\mbox{]}}}}\label{group___aero_sim_r_c_ga93af04323b9db4a809d0376a1ea6a7ae}
+
+
+\-Definition at line 30 of file settings.\-cpp.
+
+\hypertarget{group___aero_sim_r_c_ga6269b9d1dd9625c71d9749c343e6be17}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!stop@{stop}}
+\index{stop@{stop}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{stop}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Udp\-Receiver\-::stop} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___aero_sim_r_c_ga6269b9d1dd9625c71d9749c343e6be17}
+
+
+\-Definition at line 159 of file udpconnect.\-cpp.
+
+\hypertarget{group___aero_sim_r_c_ga1a7699c1e29a1d7ee129c5aeecc515c5}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!\-Udp\-Receiver@{\-Udp\-Receiver}}
+\index{\-Udp\-Receiver@{\-Udp\-Receiver}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{\-Udp\-Receiver}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Udp\-Receiver\-::\-Udp\-Receiver} (
+\begin{DoxyParamCaption}
+\item[{const \-Q\-List$<$ quint8 $>$}]{map, }
+\item[{bool}]{is\-R\-X, }
+\item[{\-Q\-Object $\ast$}]{parent = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}explicit\mbox{]}}}}\label{group___aero_sim_r_c_ga1a7699c1e29a1d7ee129c5aeecc515c5}
+
+
+\-Definition at line 115 of file udpconnect.\-cpp.
+
+\hypertarget{group___aero_sim_r_c_ga33d974a790381e7266d6d4c57ca40f1f}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!\-Udp\-Sender@{\-Udp\-Sender}}
+\index{\-Udp\-Sender@{\-Udp\-Sender}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{\-Udp\-Sender}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Udp\-Sender\-::\-Udp\-Sender} (
+\begin{DoxyParamCaption}
+\item[{const \-Q\-List$<$ quint8 $>$}]{map, }
+\item[{bool}]{is\-T\-X, }
+\item[{\-Q\-Object $\ast$}]{parent = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}explicit\mbox{]}}}}\label{group___aero_sim_r_c_ga33d974a790381e7266d6d4c57ca40f1f}
+
+
+\-Definition at line 31 of file udpconnect.\-cpp.
+
+\hypertarget{group___aero_sim_r_c_ga29531c7f141e461322981b3b579d4590}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!\-Widget@{\-Widget}}
+\index{\-Widget@{\-Widget}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{\-Widget}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Widget\-::\-Widget} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Widget $\ast$}]{parent = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}explicit\mbox{]}}}}\label{group___aero_sim_r_c_ga29531c7f141e461322981b3b579d4590}
+
+
+\-Definition at line 31 of file udptestwidget.\-cpp.
+
+\hypertarget{group___aero_sim_r_c_ga7125fcfef5ec56da34e1f3f2afc21c57}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!$\sim$\-Udp\-Receiver@{$\sim$\-Udp\-Receiver}}
+\index{$\sim$\-Udp\-Receiver@{$\sim$\-Udp\-Receiver}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{$\sim$\-Udp\-Receiver}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Udp\-Receiver\-::$\sim$\-Udp\-Receiver} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___aero_sim_r_c_ga7125fcfef5ec56da34e1f3f2afc21c57}
+
+
+\-Definition at line 133 of file udpconnect.\-cpp.
+
+\hypertarget{group___aero_sim_r_c_gaa3cfe219b7bfa771b77b85dacc5d5e50}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!$\sim$\-Udp\-Sender@{$\sim$\-Udp\-Sender}}
+\index{$\sim$\-Udp\-Sender@{$\sim$\-Udp\-Sender}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{$\sim$\-Udp\-Sender}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Udp\-Sender\-::$\sim$\-Udp\-Sender} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___aero_sim_r_c_gaa3cfe219b7bfa771b77b85dacc5d5e50}
+
+
+\-Definition at line 45 of file udpconnect.\-cpp.
+
+\hypertarget{group___aero_sim_r_c_gaa24f66bcbaaec6d458b0980e8c8eae65}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!$\sim$\-Widget@{$\sim$\-Widget}}
+\index{$\sim$\-Widget@{$\sim$\-Widget}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{$\sim$\-Widget}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Widget\-::$\sim$\-Widget} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___aero_sim_r_c_gaa24f66bcbaaec6d458b0980e8c8eae65}
+
+
+\-Definition at line 46 of file udptestwidget.\-cpp.
+
+
+
+\subsection{\-Variable \-Documentation}
+\hypertarget{group___aero_sim_r_c_gad96840cb6cfc38f4c4f8d5a907bf7a0a}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!accel\-X@{accel\-X}}
+\index{accel\-X@{accel\-X}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{accel\-X}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf sim\-To\-Plugin\-::accel\-X}}}\label{group___aero_sim_r_c_gad96840cb6cfc38f4c4f8d5a907bf7a0a}
+
+
+\-Definition at line 91 of file aerosimrcdatastruct.\-h.
+
+\hypertarget{group___aero_sim_r_c_ga8e87f9c4846725309216b66cf48a4fdd}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!accel\-Xm@{accel\-Xm}}
+\index{accel\-Xm@{accel\-Xm}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{accel\-Xm}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf sim\-To\-Plugin\-::accel\-Xm}}}\label{group___aero_sim_r_c_ga8e87f9c4846725309216b66cf48a4fdd}
+
+
+\-Definition at line 133 of file aerosimrcdatastruct.\-h.
+
+\hypertarget{group___aero_sim_r_c_gacbcac5da9b87bf7eb091f7a83b3d2fda}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!accel\-Y@{accel\-Y}}
+\index{accel\-Y@{accel\-Y}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{accel\-Y}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf sim\-To\-Plugin\-::accel\-Y}}}\label{group___aero_sim_r_c_gacbcac5da9b87bf7eb091f7a83b3d2fda}
+
+
+\-Definition at line 92 of file aerosimrcdatastruct.\-h.
+
+\hypertarget{group___aero_sim_r_c_gafb442cc82353fedd9b1a4b1f841a780a}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!accel\-Ym@{accel\-Ym}}
+\index{accel\-Ym@{accel\-Ym}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{accel\-Ym}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf sim\-To\-Plugin\-::accel\-Ym}}}\label{group___aero_sim_r_c_gafb442cc82353fedd9b1a4b1f841a780a}
+
+
+\-Definition at line 134 of file aerosimrcdatastruct.\-h.
+
+\hypertarget{group___aero_sim_r_c_ga757616fff3384f894b594e9681d39f90}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!accel\-Z@{accel\-Z}}
+\index{accel\-Z@{accel\-Z}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{accel\-Z}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf sim\-To\-Plugin\-::accel\-Z}}}\label{group___aero_sim_r_c_ga757616fff3384f894b594e9681d39f90}
+
+
+\-Definition at line 93 of file aerosimrcdatastruct.\-h.
+
+\hypertarget{group___aero_sim_r_c_ga15b5242cd24b1253d8fa5a12d07e3b76}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!accel\-Zm@{accel\-Zm}}
+\index{accel\-Zm@{accel\-Zm}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{accel\-Zm}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf sim\-To\-Plugin\-::accel\-Zm}}}\label{group___aero_sim_r_c_ga15b5242cd24b1253d8fa5a12d07e3b76}
+
+
+\-Definition at line 135 of file aerosimrcdatastruct.\-h.
+
+\hypertarget{group___aero_sim_r_c_ga63f989ac10cdcbfefadc5e65055d3c7d}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!\-A\-E\-R\-O\-S\-I\-M\-R\-C\-\_\-\-M\-A\-X\-\_\-\-C\-H\-A\-N\-N\-E\-L\-S@{\-A\-E\-R\-O\-S\-I\-M\-R\-C\-\_\-\-M\-A\-X\-\_\-\-C\-H\-A\-N\-N\-E\-L\-S}}
+\index{\-A\-E\-R\-O\-S\-I\-M\-R\-C\-\_\-\-M\-A\-X\-\_\-\-C\-H\-A\-N\-N\-E\-L\-S@{\-A\-E\-R\-O\-S\-I\-M\-R\-C\-\_\-\-M\-A\-X\-\_\-\-C\-H\-A\-N\-N\-E\-L\-S}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{\-A\-E\-R\-O\-S\-I\-M\-R\-C\-\_\-\-M\-A\-X\-\_\-\-C\-H\-A\-N\-N\-E\-L\-S}]{\setlength{\rightskip}{0pt plus 5cm}const quint8 {\bf \-A\-E\-R\-O\-S\-I\-M\-R\-C\-\_\-\-M\-A\-X\-\_\-\-C\-H\-A\-N\-N\-E\-L\-S} = 39}}\label{group___aero_sim_r_c_ga63f989ac10cdcbfefadc5e65055d3c7d}
+
+
+\-Definition at line 33 of file aerosimrcdatastruct.\-h.
+
+\hypertarget{group___aero_sim_r_c_gadaa747e1f33381fce539ba3df9915281}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!\-A\-G\-L@{\-A\-G\-L}}
+\index{\-A\-G\-L@{\-A\-G\-L}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{\-A\-G\-L}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf sim\-To\-Plugin\-::\-A\-G\-L}}}\label{group___aero_sim_r_c_gadaa747e1f33381fce539ba3df9915281}
+
+
+\-Definition at line 96 of file aerosimrcdatastruct.\-h.
+
+\hypertarget{group___aero_sim_r_c_ga3332a8f491a5197d28d85241d32d6f81}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!ang\-Vel\-X@{ang\-Vel\-X}}
+\index{ang\-Vel\-X@{ang\-Vel\-X}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{ang\-Vel\-X}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf sim\-To\-Plugin\-::ang\-Vel\-X}}}\label{group___aero_sim_r_c_ga3332a8f491a5197d28d85241d32d6f81}
+
+
+\-Definition at line 88 of file aerosimrcdatastruct.\-h.
+
+\hypertarget{group___aero_sim_r_c_gac5161f5332b6bc49ca097e2c27be8a22}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!ang\-Vel\-Xm@{ang\-Vel\-Xm}}
+\index{ang\-Vel\-Xm@{ang\-Vel\-Xm}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{ang\-Vel\-Xm}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf sim\-To\-Plugin\-::ang\-Vel\-Xm}}}\label{group___aero_sim_r_c_gac5161f5332b6bc49ca097e2c27be8a22}
+
+
+\-Definition at line 130 of file aerosimrcdatastruct.\-h.
+
+\hypertarget{group___aero_sim_r_c_ga6e7df4d87006342b893db0452de1d4db}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!ang\-Vel\-Y@{ang\-Vel\-Y}}
+\index{ang\-Vel\-Y@{ang\-Vel\-Y}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{ang\-Vel\-Y}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf sim\-To\-Plugin\-::ang\-Vel\-Y}}}\label{group___aero_sim_r_c_ga6e7df4d87006342b893db0452de1d4db}
+
+
+\-Definition at line 89 of file aerosimrcdatastruct.\-h.
+
+\hypertarget{group___aero_sim_r_c_ga1cdf55eb78da8c312e32d9d5be75afef}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!ang\-Vel\-Ym@{ang\-Vel\-Ym}}
+\index{ang\-Vel\-Ym@{ang\-Vel\-Ym}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{ang\-Vel\-Ym}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf sim\-To\-Plugin\-::ang\-Vel\-Ym}}}\label{group___aero_sim_r_c_ga1cdf55eb78da8c312e32d9d5be75afef}
+
+
+\-Definition at line 131 of file aerosimrcdatastruct.\-h.
+
+\hypertarget{group___aero_sim_r_c_gaaabca3226ef304ba1333129c54a8c777}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!ang\-Vel\-Z@{ang\-Vel\-Z}}
+\index{ang\-Vel\-Z@{ang\-Vel\-Z}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{ang\-Vel\-Z}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf sim\-To\-Plugin\-::ang\-Vel\-Z}}}\label{group___aero_sim_r_c_gaaabca3226ef304ba1333129c54a8c777}
+
+
+\-Definition at line 90 of file aerosimrcdatastruct.\-h.
+
+\hypertarget{group___aero_sim_r_c_ga4387cb264fd400cd98815e6145b8114c}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!ang\-Vel\-Zm@{ang\-Vel\-Zm}}
+\index{ang\-Vel\-Zm@{ang\-Vel\-Zm}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{ang\-Vel\-Zm}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf sim\-To\-Plugin\-::ang\-Vel\-Zm}}}\label{group___aero_sim_r_c_ga4387cb264fd400cd98815e6145b8114c}
+
+
+\-Definition at line 132 of file aerosimrcdatastruct.\-h.
+
+\hypertarget{group___aero_sim_r_c_ga693a3fedba573cb60ae2ced78f2f55e8}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!axis\-Xx@{axis\-Xx}}
+\index{axis\-Xx@{axis\-Xx}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{axis\-Xx}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf sim\-To\-Plugin\-::axis\-Xx}}}\label{group___aero_sim_r_c_ga693a3fedba573cb60ae2ced78f2f55e8}
+
+
+\-Definition at line 117 of file aerosimrcdatastruct.\-h.
+
+\hypertarget{group___aero_sim_r_c_gaf149495ae6cb0a4b55f124b645e0cc8d}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!axis\-Xy@{axis\-Xy}}
+\index{axis\-Xy@{axis\-Xy}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{axis\-Xy}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf sim\-To\-Plugin\-::axis\-Xy}}}\label{group___aero_sim_r_c_gaf149495ae6cb0a4b55f124b645e0cc8d}
+
+
+\-Definition at line 118 of file aerosimrcdatastruct.\-h.
+
+\hypertarget{group___aero_sim_r_c_gaf6a11ab25129a46c7195678d223f8cba}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!axis\-Xz@{axis\-Xz}}
+\index{axis\-Xz@{axis\-Xz}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{axis\-Xz}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf sim\-To\-Plugin\-::axis\-Xz}}}\label{group___aero_sim_r_c_gaf6a11ab25129a46c7195678d223f8cba}
+
+
+\-Definition at line 119 of file aerosimrcdatastruct.\-h.
+
+\hypertarget{group___aero_sim_r_c_gab46b6cb491df61bb0808c6a2942f5f26}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!axis\-Yx@{axis\-Yx}}
+\index{axis\-Yx@{axis\-Yx}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{axis\-Yx}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf sim\-To\-Plugin\-::axis\-Yx}}}\label{group___aero_sim_r_c_gab46b6cb491df61bb0808c6a2942f5f26}
+
+
+\-Definition at line 120 of file aerosimrcdatastruct.\-h.
+
+\hypertarget{group___aero_sim_r_c_gab1c3f18d56d396a6dd95411539ffc0e8}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!axis\-Yy@{axis\-Yy}}
+\index{axis\-Yy@{axis\-Yy}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{axis\-Yy}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf sim\-To\-Plugin\-::axis\-Yy}}}\label{group___aero_sim_r_c_gab1c3f18d56d396a6dd95411539ffc0e8}
+
+
+\-Definition at line 121 of file aerosimrcdatastruct.\-h.
+
+\hypertarget{group___aero_sim_r_c_ga7c0f6efcd45a801369e92067bc85a5ca}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!axis\-Yz@{axis\-Yz}}
+\index{axis\-Yz@{axis\-Yz}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{axis\-Yz}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf sim\-To\-Plugin\-::axis\-Yz}}}\label{group___aero_sim_r_c_ga7c0f6efcd45a801369e92067bc85a5ca}
+
+
+\-Definition at line 122 of file aerosimrcdatastruct.\-h.
+
+\hypertarget{group___aero_sim_r_c_gac74b099d24d55ff1692b855313489324}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!axis\-Zx@{axis\-Zx}}
+\index{axis\-Zx@{axis\-Zx}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{axis\-Zx}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf sim\-To\-Plugin\-::axis\-Zx}}}\label{group___aero_sim_r_c_gac74b099d24d55ff1692b855313489324}
+
+
+\-Definition at line 123 of file aerosimrcdatastruct.\-h.
+
+\hypertarget{group___aero_sim_r_c_ga28db280f796bbada439e147a61037c0f}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!axis\-Zy@{axis\-Zy}}
+\index{axis\-Zy@{axis\-Zy}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{axis\-Zy}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf sim\-To\-Plugin\-::axis\-Zy}}}\label{group___aero_sim_r_c_ga28db280f796bbada439e147a61037c0f}
+
+
+\-Definition at line 124 of file aerosimrcdatastruct.\-h.
+
+\hypertarget{group___aero_sim_r_c_ga62dda20d79d63155064a31a27d06e930}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!axis\-Zz@{axis\-Zz}}
+\index{axis\-Zz@{axis\-Zz}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{axis\-Zz}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf sim\-To\-Plugin\-::axis\-Zz}}}\label{group___aero_sim_r_c_ga62dda20d79d63155064a31a27d06e930}
+
+
+\-Definition at line 125 of file aerosimrcdatastruct.\-h.
+
+\hypertarget{group___aero_sim_r_c_ga735a5ea26beaee930a4bd7e2d8e18398}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!capacity@{capacity}}
+\index{capacity@{capacity}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{capacity}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf sim\-To\-Plugin\-::capacity}}}\label{group___aero_sim_r_c_ga735a5ea26beaee930a4bd7e2d8e18398}
+
+
+\-Definition at line 110 of file aerosimrcdatastruct.\-h.
+
+\hypertarget{group___aero_sim_r_c_gaa465d9eaa30d7a906bd3672768e5b380}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!ch\-New\-R\-X@{ch\-New\-R\-X}}
+\index{ch\-New\-R\-X@{ch\-New\-R\-X}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{ch\-New\-R\-X}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf plugin\-To\-Sim\-::ch\-New\-R\-X}\mbox{[}{\bf \-A\-E\-R\-O\-S\-I\-M\-R\-C\-\_\-\-M\-A\-X\-\_\-\-C\-H\-A\-N\-N\-E\-L\-S}\mbox{]}}}\label{group___aero_sim_r_c_gaa465d9eaa30d7a906bd3672768e5b380}
+
+
+\-Definition at line 149 of file aerosimrcdatastruct.\-h.
+
+\hypertarget{group___aero_sim_r_c_ga69be322d9251f2d0881402e3bb8b79cc}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!ch\-New\-T\-X@{ch\-New\-T\-X}}
+\index{ch\-New\-T\-X@{ch\-New\-T\-X}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{ch\-New\-T\-X}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf plugin\-To\-Sim\-::ch\-New\-T\-X}\mbox{[}{\bf \-A\-E\-R\-O\-S\-I\-M\-R\-C\-\_\-\-M\-A\-X\-\_\-\-C\-H\-A\-N\-N\-E\-L\-S}\mbox{]}}}\label{group___aero_sim_r_c_ga69be322d9251f2d0881402e3bb8b79cc}
+
+
+\-Definition at line 147 of file aerosimrcdatastruct.\-h.
+
+\hypertarget{group___aero_sim_r_c_ga3fe5834da184407de8227a046d5a7de7}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!ch\-Over\-R\-X@{ch\-Over\-R\-X}}
+\index{ch\-Over\-R\-X@{ch\-Over\-R\-X}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{ch\-Over\-R\-X}]{\setlength{\rightskip}{0pt plus 5cm}uchar {\bf plugin\-To\-Sim\-::ch\-Over\-R\-X}\mbox{[}{\bf \-A\-E\-R\-O\-S\-I\-M\-R\-C\-\_\-\-M\-A\-X\-\_\-\-C\-H\-A\-N\-N\-E\-L\-S}\mbox{]}}}\label{group___aero_sim_r_c_ga3fe5834da184407de8227a046d5a7de7}
+
+
+\-Definition at line 148 of file aerosimrcdatastruct.\-h.
+
+\hypertarget{group___aero_sim_r_c_ga77e9265e0ad99dcc6a7c5cc35da0481d}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!ch\-Over\-T\-X@{ch\-Over\-T\-X}}
+\index{ch\-Over\-T\-X@{ch\-Over\-T\-X}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{ch\-Over\-T\-X}]{\setlength{\rightskip}{0pt plus 5cm}uchar {\bf plugin\-To\-Sim\-::ch\-Over\-T\-X}\mbox{[}{\bf \-A\-E\-R\-O\-S\-I\-M\-R\-C\-\_\-\-M\-A\-X\-\_\-\-C\-H\-A\-N\-N\-E\-L\-S}\mbox{]}}}\label{group___aero_sim_r_c_ga77e9265e0ad99dcc6a7c5cc35da0481d}
+
+
+\-Definition at line 146 of file aerosimrcdatastruct.\-h.
+
+\hypertarget{group___aero_sim_r_c_gadefc3aa551adb807da0171a7a92f73ee}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!ch\-Sim\-R\-X@{ch\-Sim\-R\-X}}
+\index{ch\-Sim\-R\-X@{ch\-Sim\-R\-X}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{ch\-Sim\-R\-X}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf sim\-To\-Plugin\-::ch\-Sim\-R\-X}\mbox{[}{\bf \-A\-E\-R\-O\-S\-I\-M\-R\-C\-\_\-\-M\-A\-X\-\_\-\-C\-H\-A\-N\-N\-E\-L\-S}\mbox{]}}}\label{group___aero_sim_r_c_gadefc3aa551adb807da0171a7a92f73ee}
+
+
+\-Definition at line 48 of file aerosimrcdatastruct.\-h.
+
+\hypertarget{group___aero_sim_r_c_gae5ff2433affe60bce670d0c6bf66ee06}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!ch\-Sim\-T\-X@{ch\-Sim\-T\-X}}
+\index{ch\-Sim\-T\-X@{ch\-Sim\-T\-X}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{ch\-Sim\-T\-X}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf sim\-To\-Plugin\-::ch\-Sim\-T\-X}\mbox{[}{\bf \-A\-E\-R\-O\-S\-I\-M\-R\-C\-\_\-\-M\-A\-X\-\_\-\-C\-H\-A\-N\-N\-E\-L\-S}\mbox{]}}}\label{group___aero_sim_r_c_gae5ff2433affe60bce670d0c6bf66ee06}
+
+
+\-Definition at line 47 of file aerosimrcdatastruct.\-h.
+
+\hypertarget{group___aero_sim_r_c_ga408ab8a806126f8c39a224202f7784c9}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!consumed\-Charge@{consumed\-Charge}}
+\index{consumed\-Charge@{consumed\-Charge}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{consumed\-Charge}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf sim\-To\-Plugin\-::consumed\-Charge}}}\label{group___aero_sim_r_c_ga408ab8a806126f8c39a224202f7784c9}
+
+
+\-Definition at line 109 of file aerosimrcdatastruct.\-h.
+
+\hypertarget{group___aero_sim_r_c_ga67b8bd84d98afe25c5300ecaa1e3b1ac}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!current@{current}}
+\index{current@{current}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{current}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf sim\-To\-Plugin\-::current}}}\label{group___aero_sim_r_c_ga67b8bd84d98afe25c5300ecaa1e3b1ac}
+
+
+\-Definition at line 108 of file aerosimrcdatastruct.\-h.
+
+\hypertarget{group___aero_sim_r_c_ga4ac56108ad3d382deff679f792d02874}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!\-D\-B\-G\-\_\-\-B\-U\-F\-F\-E\-R\-\_\-\-M\-A\-X\-\_\-\-S\-I\-Z\-E@{\-D\-B\-G\-\_\-\-B\-U\-F\-F\-E\-R\-\_\-\-M\-A\-X\-\_\-\-S\-I\-Z\-E}}
+\index{\-D\-B\-G\-\_\-\-B\-U\-F\-F\-E\-R\-\_\-\-M\-A\-X\-\_\-\-S\-I\-Z\-E@{\-D\-B\-G\-\_\-\-B\-U\-F\-F\-E\-R\-\_\-\-M\-A\-X\-\_\-\-S\-I\-Z\-E}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{\-D\-B\-G\-\_\-\-B\-U\-F\-F\-E\-R\-\_\-\-M\-A\-X\-\_\-\-S\-I\-Z\-E}]{\setlength{\rightskip}{0pt plus 5cm}const quint16 {\bf \-D\-B\-G\-\_\-\-B\-U\-F\-F\-E\-R\-\_\-\-M\-A\-X\-\_\-\-S\-I\-Z\-E} = 4096}}\label{group___aero_sim_r_c_ga4ac56108ad3d382deff679f792d02874}
+
+
+\-Definition at line 34 of file aerosimrcdatastruct.\-h.
+
+\hypertarget{group___aero_sim_r_c_ga8d1dec1f6592d85b15941b3ce658f44a}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!dbg\-Info\-Text@{dbg\-Info\-Text}}
+\index{dbg\-Info\-Text@{dbg\-Info\-Text}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{dbg\-Info\-Text}]{\setlength{\rightskip}{0pt plus 5cm}const char$\ast$ {\bf plugin\-To\-Sim\-::dbg\-Info\-Text}}}\label{group___aero_sim_r_c_ga8d1dec1f6592d85b15941b3ce658f44a}
+
+
+\-Definition at line 145 of file aerosimrcdatastruct.\-h.
+
+\hypertarget{group___aero_sim_r_c_gacbfd2fc3314cc3762ea0c3720979f8bc}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!\-D\-E\-G2\-R\-A\-D@{\-D\-E\-G2\-R\-A\-D}}
+\index{\-D\-E\-G2\-R\-A\-D@{\-D\-E\-G2\-R\-A\-D}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{\-D\-E\-G2\-R\-A\-D}]{\setlength{\rightskip}{0pt plus 5cm}const float {\bf \-D\-E\-G2\-R\-A\-D} = (float)(\-M\-\_\-\-P\-I/180.\-0)}}\label{group___aero_sim_r_c_gacbfd2fc3314cc3762ea0c3720979f8bc}
+
+
+\-Definition at line 45 of file udptestwidget.\-h.
+
+\hypertarget{group___aero_sim_r_c_gacbfd2fc3314cc3762ea0c3720979f8bc}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!\-D\-E\-G2\-R\-A\-D@{\-D\-E\-G2\-R\-A\-D}}
+\index{\-D\-E\-G2\-R\-A\-D@{\-D\-E\-G2\-R\-A\-D}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{\-D\-E\-G2\-R\-A\-D}]{\setlength{\rightskip}{0pt plus 5cm}const float {\bf \-D\-E\-G2\-R\-A\-D} = (float)(\-M\-\_\-\-P\-I / 180.\-0)}}\label{group___aero_sim_r_c_gacbfd2fc3314cc3762ea0c3720979f8bc}
+
+
+\-Definition at line 46 of file plugin.\-cpp.
+
+\hypertarget{group___aero_sim_r_c_ga92a2016c6887c978c9179cf3bf117c5a}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!eng1\-R\-P\-M@{eng1\-R\-P\-M}}
+\index{eng1\-R\-P\-M@{eng1\-R\-P\-M}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{eng1\-R\-P\-M}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf sim\-To\-Plugin\-::eng1\-R\-P\-M}}}\label{group___aero_sim_r_c_ga92a2016c6887c978c9179cf3bf117c5a}
+
+
+\-Definition at line 103 of file aerosimrcdatastruct.\-h.
+
+\hypertarget{group___aero_sim_r_c_ga2fa372d547f9f33642415f454bccf402}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!eng2\-R\-P\-M@{eng2\-R\-P\-M}}
+\index{eng2\-R\-P\-M@{eng2\-R\-P\-M}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{eng2\-R\-P\-M}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf sim\-To\-Plugin\-::eng2\-R\-P\-M}}}\label{group___aero_sim_r_c_ga2fa372d547f9f33642415f454bccf402}
+
+
+\-Definition at line 104 of file aerosimrcdatastruct.\-h.
+
+\hypertarget{group___aero_sim_r_c_ga12d0b07a1f43644fa7b16c0b53409ef9}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!eng3\-R\-P\-M@{eng3\-R\-P\-M}}
+\index{eng3\-R\-P\-M@{eng3\-R\-P\-M}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{eng3\-R\-P\-M}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf sim\-To\-Plugin\-::eng3\-R\-P\-M}}}\label{group___aero_sim_r_c_ga12d0b07a1f43644fa7b16c0b53409ef9}
+
+
+\-Definition at line 105 of file aerosimrcdatastruct.\-h.
+
+\hypertarget{group___aero_sim_r_c_gac7d5d72d3237905c99ee5b63859e7df3}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!eng4\-R\-P\-M@{eng4\-R\-P\-M}}
+\index{eng4\-R\-P\-M@{eng4\-R\-P\-M}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{eng4\-R\-P\-M}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf sim\-To\-Plugin\-::eng4\-R\-P\-M}}}\label{group___aero_sim_r_c_gac7d5d72d3237905c99ee5b63859e7df3}
+
+
+\-Definition at line 106 of file aerosimrcdatastruct.\-h.
+
+\hypertarget{group___aero_sim_r_c_gae96b24ccedba1107673cdc5889815f58}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!fuel\-Consumed@{fuel\-Consumed}}
+\index{fuel\-Consumed@{fuel\-Consumed}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{fuel\-Consumed}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf sim\-To\-Plugin\-::fuel\-Consumed}}}\label{group___aero_sim_r_c_gae96b24ccedba1107673cdc5889815f58}
+
+
+\-Definition at line 111 of file aerosimrcdatastruct.\-h.
+
+\hypertarget{group___aero_sim_r_c_ga9d9432e29718f1a2d3e3bb4445bb3705}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!fuel\-Tank\-Capacity@{fuel\-Tank\-Capacity}}
+\index{fuel\-Tank\-Capacity@{fuel\-Tank\-Capacity}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{fuel\-Tank\-Capacity}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf sim\-To\-Plugin\-::fuel\-Tank\-Capacity}}}\label{group___aero_sim_r_c_ga9d9432e29718f1a2d3e3bb4445bb3705}
+
+
+\-Definition at line 112 of file aerosimrcdatastruct.\-h.
+
+\hypertarget{group___aero_sim_r_c_ga62f831b287508b68a2b0ad45a9d2dc18}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!heading@{heading}}
+\index{heading@{heading}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{heading}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf sim\-To\-Plugin\-::heading}}}\label{group___aero_sim_r_c_ga62f831b287508b68a2b0ad45a9d2dc18}
+
+
+\-Definition at line 97 of file aerosimrcdatastruct.\-h.
+
+\hypertarget{group___aero_sim_r_c_gaab0124b4fd93c132aacdb2cb2a755770}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!init\-Heading@{init\-Heading}}
+\index{init\-Heading@{init\-Heading}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{init\-Heading}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf sim\-To\-Plugin\-::init\-Heading}}}\label{group___aero_sim_r_c_gaab0124b4fd93c132aacdb2cb2a755770}
+
+
+\-Definition at line 54 of file aerosimrcdatastruct.\-h.
+
+\hypertarget{group___aero_sim_r_c_gacc022659d5c4b32c0a878bdc6eea0f53}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!init\-Pitch@{init\-Pitch}}
+\index{init\-Pitch@{init\-Pitch}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{init\-Pitch}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf sim\-To\-Plugin\-::init\-Pitch}}}\label{group___aero_sim_r_c_gacc022659d5c4b32c0a878bdc6eea0f53}
+
+
+\-Definition at line 55 of file aerosimrcdatastruct.\-h.
+
+\hypertarget{group___aero_sim_r_c_ga23ae6e8ef17ad84cc500793e730df894}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!init\-Pos\-X@{init\-Pos\-X}}
+\index{init\-Pos\-X@{init\-Pos\-X}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{init\-Pos\-X}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf sim\-To\-Plugin\-::init\-Pos\-X}}}\label{group___aero_sim_r_c_ga23ae6e8ef17ad84cc500793e730df894}
+
+
+\-Definition at line 51 of file aerosimrcdatastruct.\-h.
+
+\hypertarget{group___aero_sim_r_c_gacb4ac6e2ad9d5f215153b9fea05b66bf}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!init\-Pos\-Y@{init\-Pos\-Y}}
+\index{init\-Pos\-Y@{init\-Pos\-Y}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{init\-Pos\-Y}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf sim\-To\-Plugin\-::init\-Pos\-Y}}}\label{group___aero_sim_r_c_gacb4ac6e2ad9d5f215153b9fea05b66bf}
+
+
+\-Definition at line 52 of file aerosimrcdatastruct.\-h.
+
+\hypertarget{group___aero_sim_r_c_ga020dda7446e3217a8c779458a74feec8}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!init\-Pos\-Z@{init\-Pos\-Z}}
+\index{init\-Pos\-Z@{init\-Pos\-Z}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{init\-Pos\-Z}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf sim\-To\-Plugin\-::init\-Pos\-Z}}}\label{group___aero_sim_r_c_ga020dda7446e3217a8c779458a74feec8}
+
+
+\-Definition at line 53 of file aerosimrcdatastruct.\-h.
+
+\hypertarget{group___aero_sim_r_c_ga26c1191f08e580c1cdbd02791eabe60e}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!init\-Roll@{init\-Roll}}
+\index{init\-Roll@{init\-Roll}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{init\-Roll}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf sim\-To\-Plugin\-::init\-Roll}}}\label{group___aero_sim_r_c_ga26c1191f08e580c1cdbd02791eabe60e}
+
+
+\-Definition at line 56 of file aerosimrcdatastruct.\-h.
+
+\hypertarget{group___aero_sim_r_c_gae612ff4fcd9d86f5ce097c2583d2bfee}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!is\-First\-Run@{is\-First\-Run}}
+\index{is\-First\-Run@{is\-First\-Run}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{is\-First\-Run}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf is\-First\-Run} = true}}\label{group___aero_sim_r_c_gae612ff4fcd9d86f5ce097c2583d2bfee}
+
+
+\-Definition at line 34 of file plugin.\-cpp.
+
+\hypertarget{group___aero_sim_r_c_gaa416deb314c63406b7320311d1cf71d7}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!is\-O\-S\-D\-Changed@{is\-O\-S\-D\-Changed}}
+\index{is\-O\-S\-D\-Changed@{is\-O\-S\-D\-Changed}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{is\-O\-S\-D\-Changed}]{\setlength{\rightskip}{0pt plus 5cm}quint8 {\bf plugin\-To\-Sim\-::is\-O\-S\-D\-Changed}}}\label{group___aero_sim_r_c_gaa416deb314c63406b7320311d1cf71d7}
+
+
+\-Definition at line 165 of file aerosimrcdatastruct.\-h.
+
+\hypertarget{group___aero_sim_r_c_ga35a2acc4730f500b87b19630f57c14ed}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!is\-O\-S\-D\-Show@{is\-O\-S\-D\-Show}}
+\index{is\-O\-S\-D\-Show@{is\-O\-S\-D\-Show}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{is\-O\-S\-D\-Show}]{\setlength{\rightskip}{0pt plus 5cm}quint8 {\bf plugin\-To\-Sim\-::is\-O\-S\-D\-Show}}}\label{group___aero_sim_r_c_ga35a2acc4730f500b87b19630f57c14ed}
+
+
+\-Definition at line 164 of file aerosimrcdatastruct.\-h.
+
+\hypertarget{group___aero_sim_r_c_ga53209d2be245073a24064614cb7c2ce2}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!latitude@{latitude}}
+\index{latitude@{latitude}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{latitude}]{\setlength{\rightskip}{0pt plus 5cm}qreal {\bf sim\-To\-Plugin\-::latitude}}}\label{group___aero_sim_r_c_ga53209d2be245073a24064614cb7c2ce2}
+
+
+\-Definition at line 94 of file aerosimrcdatastruct.\-h.
+
+\hypertarget{group___aero_sim_r_c_ga56b5b977fe04df5bdb2e4ea63b385692}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!led\-Timer@{led\-Timer}}
+\index{led\-Timer@{led\-Timer}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{led\-Timer}]{\setlength{\rightskip}{0pt plus 5cm}\-Q\-Time {\bf led\-Timer}}}\label{group___aero_sim_r_c_ga56b5b977fe04df5bdb2e4ea63b385692}
+
+
+\-Definition at line 40 of file plugin.\-cpp.
+
+\hypertarget{group___aero_sim_r_c_ga3b47af6ee67e1149980bd672fce0f91d}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!longitude@{longitude}}
+\index{longitude@{longitude}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{longitude}]{\setlength{\rightskip}{0pt plus 5cm}qreal {\bf sim\-To\-Plugin\-::longitude}}}\label{group___aero_sim_r_c_ga3b47af6ee67e1149980bd672fce0f91d}
+
+
+\-Definition at line 95 of file aerosimrcdatastruct.\-h.
+
+\hypertarget{group___aero_sim_r_c_gac766c17be7565d11f169ec43dac2113d}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!model\-Crash\-Inhibit@{model\-Crash\-Inhibit}}
+\index{model\-Crash\-Inhibit@{model\-Crash\-Inhibit}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{model\-Crash\-Inhibit}]{\setlength{\rightskip}{0pt plus 5cm}quint8 {\bf plugin\-To\-Sim\-::model\-Crash\-Inhibit}}}\label{group___aero_sim_r_c_gac766c17be7565d11f169ec43dac2113d}
+
+
+\-Definition at line 180 of file aerosimrcdatastruct.\-h.
+
+\hypertarget{group___aero_sim_r_c_ga0fc062ffe3e17dd8ae14a181fbb50c1f}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!model\-Override\-Flags@{model\-Override\-Flags}}
+\index{model\-Override\-Flags@{model\-Override\-Flags}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{model\-Override\-Flags}]{\setlength{\rightskip}{0pt plus 5cm}quint32 {\bf plugin\-To\-Sim\-::model\-Override\-Flags}}}\label{group___aero_sim_r_c_ga0fc062ffe3e17dd8ae14a181fbb50c1f}
+
+
+\-Definition at line 162 of file aerosimrcdatastruct.\-h.
+
+\hypertarget{group___aero_sim_r_c_gafd7e1d21996abb68824a65505d845744}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!new\-Ang\-Vel\-X@{new\-Ang\-Vel\-X}}
+\index{new\-Ang\-Vel\-X@{new\-Ang\-Vel\-X}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{new\-Ang\-Vel\-X}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf plugin\-To\-Sim\-::new\-Ang\-Vel\-X}}}\label{group___aero_sim_r_c_gafd7e1d21996abb68824a65505d845744}
+
+
+\-Definition at line 156 of file aerosimrcdatastruct.\-h.
+
+\hypertarget{group___aero_sim_r_c_gafe0593ec5f2487320a352c0f8bcb2f2d}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!new\-Ang\-Vel\-Y@{new\-Ang\-Vel\-Y}}
+\index{new\-Ang\-Vel\-Y@{new\-Ang\-Vel\-Y}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{new\-Ang\-Vel\-Y}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf plugin\-To\-Sim\-::new\-Ang\-Vel\-Y}}}\label{group___aero_sim_r_c_gafe0593ec5f2487320a352c0f8bcb2f2d}
+
+
+\-Definition at line 157 of file aerosimrcdatastruct.\-h.
+
+\hypertarget{group___aero_sim_r_c_ga6e895029ebb998be74c53cea057e83cf}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!new\-Ang\-Vel\-Z@{new\-Ang\-Vel\-Z}}
+\index{new\-Ang\-Vel\-Z@{new\-Ang\-Vel\-Z}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{new\-Ang\-Vel\-Z}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf plugin\-To\-Sim\-::new\-Ang\-Vel\-Z}}}\label{group___aero_sim_r_c_ga6e895029ebb998be74c53cea057e83cf}
+
+
+\-Definition at line 158 of file aerosimrcdatastruct.\-h.
+
+\hypertarget{group___aero_sim_r_c_gabb6455cde42e82e713838307779ab4f7}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!new\-Consumed\-Charge@{new\-Consumed\-Charge}}
+\index{new\-Consumed\-Charge@{new\-Consumed\-Charge}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{new\-Consumed\-Charge}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf plugin\-To\-Sim\-::new\-Consumed\-Charge}}}\label{group___aero_sim_r_c_gabb6455cde42e82e713838307779ab4f7}
+
+
+\-Definition at line 178 of file aerosimrcdatastruct.\-h.
+
+\hypertarget{group___aero_sim_r_c_ga7fd515830d601c3785dadd02ed64dcc0}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!new\-Current@{new\-Current}}
+\index{new\-Current@{new\-Current}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{new\-Current}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf plugin\-To\-Sim\-::new\-Current}}}\label{group___aero_sim_r_c_ga7fd515830d601c3785dadd02ed64dcc0}
+
+
+\-Definition at line 177 of file aerosimrcdatastruct.\-h.
+
+\hypertarget{group___aero_sim_r_c_ga8e41974881d85220a22aa7b1e10a6c8b}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!new\-Eng1\-R\-P\-M@{new\-Eng1\-R\-P\-M}}
+\index{new\-Eng1\-R\-P\-M@{new\-Eng1\-R\-P\-M}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{new\-Eng1\-R\-P\-M}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf plugin\-To\-Sim\-::new\-Eng1\-R\-P\-M}}}\label{group___aero_sim_r_c_ga8e41974881d85220a22aa7b1e10a6c8b}
+
+
+\-Definition at line 172 of file aerosimrcdatastruct.\-h.
+
+\hypertarget{group___aero_sim_r_c_gaf9f1bbadaada97aec5a72a47799dbb69}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!new\-Eng2\-R\-P\-M@{new\-Eng2\-R\-P\-M}}
+\index{new\-Eng2\-R\-P\-M@{new\-Eng2\-R\-P\-M}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{new\-Eng2\-R\-P\-M}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf plugin\-To\-Sim\-::new\-Eng2\-R\-P\-M}}}\label{group___aero_sim_r_c_gaf9f1bbadaada97aec5a72a47799dbb69}
+
+
+\-Definition at line 173 of file aerosimrcdatastruct.\-h.
+
+\hypertarget{group___aero_sim_r_c_ga1c7f49c14ce7325e93375b1973f36b91}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!new\-Eng3\-R\-P\-M@{new\-Eng3\-R\-P\-M}}
+\index{new\-Eng3\-R\-P\-M@{new\-Eng3\-R\-P\-M}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{new\-Eng3\-R\-P\-M}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf plugin\-To\-Sim\-::new\-Eng3\-R\-P\-M}}}\label{group___aero_sim_r_c_ga1c7f49c14ce7325e93375b1973f36b91}
+
+
+\-Definition at line 174 of file aerosimrcdatastruct.\-h.
+
+\hypertarget{group___aero_sim_r_c_ga474540a6a0a35ece5e87974e07c99c87}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!new\-Eng4\-R\-P\-M@{new\-Eng4\-R\-P\-M}}
+\index{new\-Eng4\-R\-P\-M@{new\-Eng4\-R\-P\-M}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{new\-Eng4\-R\-P\-M}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf plugin\-To\-Sim\-::new\-Eng4\-R\-P\-M}}}\label{group___aero_sim_r_c_ga474540a6a0a35ece5e87974e07c99c87}
+
+
+\-Definition at line 175 of file aerosimrcdatastruct.\-h.
+
+\hypertarget{group___aero_sim_r_c_ga8a8341d7559a5dfa620a7c486f2dc023}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!new\-Fuel\-Consumed@{new\-Fuel\-Consumed}}
+\index{new\-Fuel\-Consumed@{new\-Fuel\-Consumed}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{new\-Fuel\-Consumed}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf plugin\-To\-Sim\-::new\-Fuel\-Consumed}}}\label{group___aero_sim_r_c_ga8a8341d7559a5dfa620a7c486f2dc023}
+
+
+\-Definition at line 179 of file aerosimrcdatastruct.\-h.
+
+\hypertarget{group___aero_sim_r_c_ga11677816070d9ac5bc78d2c45338c0ec}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!new\-Heading@{new\-Heading}}
+\index{new\-Heading@{new\-Heading}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{new\-Heading}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf plugin\-To\-Sim\-::new\-Heading}}}\label{group___aero_sim_r_c_ga11677816070d9ac5bc78d2c45338c0ec}
+
+
+\-Definition at line 159 of file aerosimrcdatastruct.\-h.
+
+\hypertarget{group___aero_sim_r_c_ga17602d21cacd40328f97406fb577e7a7}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!new\-Menu\-Status@{new\-Menu\-Status}}
+\index{new\-Menu\-Status@{new\-Menu\-Status}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{new\-Menu\-Status}]{\setlength{\rightskip}{0pt plus 5cm}quint32 {\bf plugin\-To\-Sim\-::new\-Menu\-Status}}}\label{group___aero_sim_r_c_ga17602d21cacd40328f97406fb577e7a7}
+
+
+\-Definition at line 163 of file aerosimrcdatastruct.\-h.
+
+\hypertarget{group___aero_sim_r_c_gae5174be9526399eb834a21d1d1e996d1}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!new\-Pitch@{new\-Pitch}}
+\index{new\-Pitch@{new\-Pitch}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{new\-Pitch}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf plugin\-To\-Sim\-::new\-Pitch}}}\label{group___aero_sim_r_c_gae5174be9526399eb834a21d1d1e996d1}
+
+
+\-Definition at line 160 of file aerosimrcdatastruct.\-h.
+
+\hypertarget{group___aero_sim_r_c_ga2067141174f8fa27f36b9831b73b5668}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!new\-Pos\-X@{new\-Pos\-X}}
+\index{new\-Pos\-X@{new\-Pos\-X}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{new\-Pos\-X}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf plugin\-To\-Sim\-::new\-Pos\-X}}}\label{group___aero_sim_r_c_ga2067141174f8fa27f36b9831b73b5668}
+
+
+\-Definition at line 150 of file aerosimrcdatastruct.\-h.
+
+\hypertarget{group___aero_sim_r_c_gab0bd49c25f923d60f12c350160c63f4f}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!new\-Pos\-Y@{new\-Pos\-Y}}
+\index{new\-Pos\-Y@{new\-Pos\-Y}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{new\-Pos\-Y}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf plugin\-To\-Sim\-::new\-Pos\-Y}}}\label{group___aero_sim_r_c_gab0bd49c25f923d60f12c350160c63f4f}
+
+
+\-Definition at line 151 of file aerosimrcdatastruct.\-h.
+
+\hypertarget{group___aero_sim_r_c_ga85e01d3ec1ec3924a0482565262ccd80}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!new\-Pos\-Z@{new\-Pos\-Z}}
+\index{new\-Pos\-Z@{new\-Pos\-Z}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{new\-Pos\-Z}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf plugin\-To\-Sim\-::new\-Pos\-Z}}}\label{group___aero_sim_r_c_ga85e01d3ec1ec3924a0482565262ccd80}
+
+
+\-Definition at line 152 of file aerosimrcdatastruct.\-h.
+
+\hypertarget{group___aero_sim_r_c_ga83b167dd0c9161f47923432618fac9c4}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!new\-Roll@{new\-Roll}}
+\index{new\-Roll@{new\-Roll}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{new\-Roll}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf plugin\-To\-Sim\-::new\-Roll}}}\label{group___aero_sim_r_c_ga83b167dd0c9161f47923432618fac9c4}
+
+
+\-Definition at line 161 of file aerosimrcdatastruct.\-h.
+
+\hypertarget{group___aero_sim_r_c_ga6ac6931958ba1a74ff06dbfe7dba5676}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!new\-Screen\-H@{new\-Screen\-H}}
+\index{new\-Screen\-H@{new\-Screen\-H}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{new\-Screen\-H}]{\setlength{\rightskip}{0pt plus 5cm}qint16 {\bf plugin\-To\-Sim\-::new\-Screen\-H}}}\label{group___aero_sim_r_c_ga6ac6931958ba1a74ff06dbfe7dba5676}
+
+
+\-Definition at line 183 of file aerosimrcdatastruct.\-h.
+
+\hypertarget{group___aero_sim_r_c_ga73893f1a06af3481486ee34ef91001c0}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!new\-Screen\-W@{new\-Screen\-W}}
+\index{new\-Screen\-W@{new\-Screen\-W}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{new\-Screen\-W}]{\setlength{\rightskip}{0pt plus 5cm}qint16 {\bf plugin\-To\-Sim\-::new\-Screen\-W}}}\label{group___aero_sim_r_c_ga73893f1a06af3481486ee34ef91001c0}
+
+
+\-Definition at line 182 of file aerosimrcdatastruct.\-h.
+
+\hypertarget{group___aero_sim_r_c_gacb23e684331322adcce5771dc717ea18}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!new\-Screen\-X@{new\-Screen\-X}}
+\index{new\-Screen\-X@{new\-Screen\-X}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{new\-Screen\-X}]{\setlength{\rightskip}{0pt plus 5cm}qint16 {\bf plugin\-To\-Sim\-::new\-Screen\-X}}}\label{group___aero_sim_r_c_gacb23e684331322adcce5771dc717ea18}
+
+
+\-Definition at line 184 of file aerosimrcdatastruct.\-h.
+
+\hypertarget{group___aero_sim_r_c_gad5aa10f7542e0fcf3d4ac3981efc93a2}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!new\-Screen\-Y@{new\-Screen\-Y}}
+\index{new\-Screen\-Y@{new\-Screen\-Y}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{new\-Screen\-Y}]{\setlength{\rightskip}{0pt plus 5cm}qint16 {\bf plugin\-To\-Sim\-::new\-Screen\-Y}}}\label{group___aero_sim_r_c_gad5aa10f7542e0fcf3d4ac3981efc93a2}
+
+
+\-Definition at line 185 of file aerosimrcdatastruct.\-h.
+
+\hypertarget{group___aero_sim_r_c_ga963869a7b3f6432a6b42f9f239de0ca8}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!new\-Vel\-X@{new\-Vel\-X}}
+\index{new\-Vel\-X@{new\-Vel\-X}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{new\-Vel\-X}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf plugin\-To\-Sim\-::new\-Vel\-X}}}\label{group___aero_sim_r_c_ga963869a7b3f6432a6b42f9f239de0ca8}
+
+
+\-Definition at line 153 of file aerosimrcdatastruct.\-h.
+
+\hypertarget{group___aero_sim_r_c_ga4ef77620e6e374b2af2bbd4e0d88fcfe}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!new\-Vel\-Y@{new\-Vel\-Y}}
+\index{new\-Vel\-Y@{new\-Vel\-Y}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{new\-Vel\-Y}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf plugin\-To\-Sim\-::new\-Vel\-Y}}}\label{group___aero_sim_r_c_ga4ef77620e6e374b2af2bbd4e0d88fcfe}
+
+
+\-Definition at line 154 of file aerosimrcdatastruct.\-h.
+
+\hypertarget{group___aero_sim_r_c_ga09bc17352168fa2e9b782170e27c7c2b}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!new\-Vel\-Z@{new\-Vel\-Z}}
+\index{new\-Vel\-Z@{new\-Vel\-Z}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{new\-Vel\-Z}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf plugin\-To\-Sim\-::new\-Vel\-Z}}}\label{group___aero_sim_r_c_ga09bc17352168fa2e9b782170e27c7c2b}
+
+
+\-Definition at line 155 of file aerosimrcdatastruct.\-h.
+
+\hypertarget{group___aero_sim_r_c_ga6a11d71df14bc0a5867c993a47da8f0f}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!new\-Voltage@{new\-Voltage}}
+\index{new\-Voltage@{new\-Voltage}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{new\-Voltage}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf plugin\-To\-Sim\-::new\-Voltage}}}\label{group___aero_sim_r_c_ga6a11d71df14bc0a5867c993a47da8f0f}
+
+
+\-Definition at line 176 of file aerosimrcdatastruct.\-h.
+
+\hypertarget{group___aero_sim_r_c_ga894c4529647383039436d227ab09ea6d}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!new\-Wind\-Vel\-X@{new\-Wind\-Vel\-X}}
+\index{new\-Wind\-Vel\-X@{new\-Wind\-Vel\-X}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{new\-Wind\-Vel\-X}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf plugin\-To\-Sim\-::new\-Wind\-Vel\-X}}}\label{group___aero_sim_r_c_ga894c4529647383039436d227ab09ea6d}
+
+
+\-Definition at line 169 of file aerosimrcdatastruct.\-h.
+
+\hypertarget{group___aero_sim_r_c_gaf7648b2c6048cddf0ba9fb68dfb55492}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!new\-Wind\-Vel\-Y@{new\-Wind\-Vel\-Y}}
+\index{new\-Wind\-Vel\-Y@{new\-Wind\-Vel\-Y}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{new\-Wind\-Vel\-Y}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf plugin\-To\-Sim\-::new\-Wind\-Vel\-Y}}}\label{group___aero_sim_r_c_gaf7648b2c6048cddf0ba9fb68dfb55492}
+
+
+\-Definition at line 170 of file aerosimrcdatastruct.\-h.
+
+\hypertarget{group___aero_sim_r_c_gaa84a637360a4648e08d41632fb8f38c0}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!new\-Wind\-Vel\-Z@{new\-Wind\-Vel\-Z}}
+\index{new\-Wind\-Vel\-Z@{new\-Wind\-Vel\-Z}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{new\-Wind\-Vel\-Z}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf plugin\-To\-Sim\-::new\-Wind\-Vel\-Z}}}\label{group___aero_sim_r_c_gaa84a637360a4648e08d41632fb8f38c0}
+
+
+\-Definition at line 171 of file aerosimrcdatastruct.\-h.
+
+\hypertarget{group___aero_sim_r_c_ga52e8965004a5543170823fdb54bee470}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!n\-Struct\-Size@{n\-Struct\-Size}}
+\index{n\-Struct\-Size@{n\-Struct\-Size}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{n\-Struct\-Size}]{\setlength{\rightskip}{0pt plus 5cm}quint32 {\bf plugin\-Init\-::n\-Struct\-Size}}}\label{group___aero_sim_r_c_ga52e8965004a5543170823fdb54bee470}
+
+
+\-Definition at line 197 of file aerosimrcdatastruct.\-h.
+
+\hypertarget{group___aero_sim_r_c_ga587ecda1e1922299d622d31bf15c9f78}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!\-O\-B\-S\-O\-L\-E\-T\-E\-\_\-at\-Menu\-Item@{\-O\-B\-S\-O\-L\-E\-T\-E\-\_\-at\-Menu\-Item}}
+\index{\-O\-B\-S\-O\-L\-E\-T\-E\-\_\-at\-Menu\-Item@{\-O\-B\-S\-O\-L\-E\-T\-E\-\_\-at\-Menu\-Item}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{\-O\-B\-S\-O\-L\-E\-T\-E\-\_\-at\-Menu\-Item}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-T\-Plugin\-Menu\-Item} {\bf plugin\-Init\-::\-O\-B\-S\-O\-L\-E\-T\-E\-\_\-at\-Menu\-Item}\mbox{[}\-M\-A\-X\-\_\-\-D\-L\-L\-\_\-\-U\-S\-E\-R\-\_\-\-M\-E\-N\-U\-\_\-\-I\-T\-E\-M\-S\mbox{]}}}\label{group___aero_sim_r_c_ga587ecda1e1922299d622d31bf15c9f78}
+
+
+\-Definition at line 199 of file aerosimrcdatastruct.\-h.
+
+\hypertarget{group___aero_sim_r_c_ga3182cdcc989c86e02f89dfc950a2d11e}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!\-O\-B\-S\-O\-L\-E\-T\-E\-\_\-e\-Type@{\-O\-B\-S\-O\-L\-E\-T\-E\-\_\-e\-Type}}
+\index{\-O\-B\-S\-O\-L\-E\-T\-E\-\_\-e\-Type@{\-O\-B\-S\-O\-L\-E\-T\-E\-\_\-e\-Type}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{\-O\-B\-S\-O\-L\-E\-T\-E\-\_\-e\-Type}]{\setlength{\rightskip}{0pt plus 5cm}quint32 {\bf \-T\-Plugin\-Menu\-Item\-::\-O\-B\-S\-O\-L\-E\-T\-E\-\_\-e\-Type}}}\label{group___aero_sim_r_c_ga3182cdcc989c86e02f89dfc950a2d11e}
+
+
+\-Definition at line 191 of file aerosimrcdatastruct.\-h.
+
+\hypertarget{group___aero_sim_r_c_ga03438bb42beb3367394a89c5f8b0d721}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!\-O\-B\-S\-O\-L\-E\-T\-E\-\_\-str\-Menu\-Title@{\-O\-B\-S\-O\-L\-E\-T\-E\-\_\-str\-Menu\-Title}}
+\index{\-O\-B\-S\-O\-L\-E\-T\-E\-\_\-str\-Menu\-Title@{\-O\-B\-S\-O\-L\-E\-T\-E\-\_\-str\-Menu\-Title}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{\-O\-B\-S\-O\-L\-E\-T\-E\-\_\-str\-Menu\-Title}]{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ {\bf plugin\-Init\-::\-O\-B\-S\-O\-L\-E\-T\-E\-\_\-str\-Menu\-Title}}}\label{group___aero_sim_r_c_ga03438bb42beb3367394a89c5f8b0d721}
+
+
+\-Definition at line 198 of file aerosimrcdatastruct.\-h.
+
+\hypertarget{group___aero_sim_r_c_ga99ed050ca0dfe8088a93046f72c044e7}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!\-O\-B\-S\-O\-L\-E\-T\-E\-\_\-str\-Name@{\-O\-B\-S\-O\-L\-E\-T\-E\-\_\-str\-Name}}
+\index{\-O\-B\-S\-O\-L\-E\-T\-E\-\_\-str\-Name@{\-O\-B\-S\-O\-L\-E\-T\-E\-\_\-str\-Name}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{\-O\-B\-S\-O\-L\-E\-T\-E\-\_\-str\-Name}]{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ {\bf \-T\-Plugin\-Menu\-Item\-::\-O\-B\-S\-O\-L\-E\-T\-E\-\_\-str\-Name}}}\label{group___aero_sim_r_c_ga99ed050ca0dfe8088a93046f72c044e7}
+
+
+\-Definition at line 192 of file aerosimrcdatastruct.\-h.
+
+\hypertarget{group___aero_sim_r_c_ga96db301b2cf97e19ccd774f1b93dad21}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!\-O\-S\-D\-Scale@{\-O\-S\-D\-Scale}}
+\index{\-O\-S\-D\-Scale@{\-O\-S\-D\-Scale}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{\-O\-S\-D\-Scale}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf plugin\-To\-Sim\-::\-O\-S\-D\-Scale}}}\label{group___aero_sim_r_c_ga96db301b2cf97e19ccd774f1b93dad21}
+
+
+\-Definition at line 168 of file aerosimrcdatastruct.\-h.
+
+\hypertarget{group___aero_sim_r_c_gadc2b5a377a36c5f5d2dfae169880bb1c}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!\-O\-S\-D\-Video\-Buf@{\-O\-S\-D\-Video\-Buf}}
+\index{\-O\-S\-D\-Video\-Buf@{\-O\-S\-D\-Video\-Buf}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{\-O\-S\-D\-Video\-Buf}]{\setlength{\rightskip}{0pt plus 5cm}uchar$\ast$ {\bf sim\-To\-Plugin\-::\-O\-S\-D\-Video\-Buf}}}\label{group___aero_sim_r_c_gadc2b5a377a36c5f5d2dfae169880bb1c}
+
+
+\-Definition at line 49 of file aerosimrcdatastruct.\-h.
+
+\hypertarget{group___aero_sim_r_c_ga9c59c8c051c445f8f8b17ed8b42a2820}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!\-O\-S\-D\-Video\-Buf\-Size@{\-O\-S\-D\-Video\-Buf\-Size}}
+\index{\-O\-S\-D\-Video\-Buf\-Size@{\-O\-S\-D\-Video\-Buf\-Size}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{\-O\-S\-D\-Video\-Buf\-Size}]{\setlength{\rightskip}{0pt plus 5cm}quint32 {\bf sim\-To\-Plugin\-::\-O\-S\-D\-Video\-Buf\-Size}}}\label{group___aero_sim_r_c_ga9c59c8c051c445f8f8b17ed8b42a2820}
+
+
+\-Definition at line 137 of file aerosimrcdatastruct.\-h.
+
+\hypertarget{group___aero_sim_r_c_gafd433a8e475af009c6214cddba668878}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!\-O\-S\-D\-Window\-\_\-\-D\-X@{\-O\-S\-D\-Window\-\_\-\-D\-X}}
+\index{\-O\-S\-D\-Window\-\_\-\-D\-X@{\-O\-S\-D\-Window\-\_\-\-D\-X}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{\-O\-S\-D\-Window\-\_\-\-D\-X}]{\setlength{\rightskip}{0pt plus 5cm}quint16 {\bf plugin\-To\-Sim\-::\-O\-S\-D\-Window\-\_\-\-D\-X}}}\label{group___aero_sim_r_c_gafd433a8e475af009c6214cddba668878}
+
+
+\-Definition at line 166 of file aerosimrcdatastruct.\-h.
+
+\hypertarget{group___aero_sim_r_c_gab8199d2a82d29980a0ec47ad7fced1e1}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!\-O\-S\-D\-Window\-\_\-\-D\-Y@{\-O\-S\-D\-Window\-\_\-\-D\-Y}}
+\index{\-O\-S\-D\-Window\-\_\-\-D\-Y@{\-O\-S\-D\-Window\-\_\-\-D\-Y}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{\-O\-S\-D\-Window\-\_\-\-D\-Y}]{\setlength{\rightskip}{0pt plus 5cm}quint16 {\bf plugin\-To\-Sim\-::\-O\-S\-D\-Window\-\_\-\-D\-Y}}}\label{group___aero_sim_r_c_gab8199d2a82d29980a0ec47ad7fced1e1}
+
+
+\-Definition at line 167 of file aerosimrcdatastruct.\-h.
+
+\hypertarget{group___aero_sim_r_c_gacc1a47760066283f765895e6100c5d81}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!\-P\-A\-C\-K\-\_\-\-S\-T\-R\-U\-C\-T@{\-P\-A\-C\-K\-\_\-\-S\-T\-R\-U\-C\-T}}
+\index{\-P\-A\-C\-K\-\_\-\-S\-T\-R\-U\-C\-T@{\-P\-A\-C\-K\-\_\-\-S\-T\-R\-U\-C\-T}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{\-P\-A\-C\-K\-\_\-\-S\-T\-R\-U\-C\-T}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf plugin\-Init} {\bf \-P\-A\-C\-K\-\_\-\-S\-T\-R\-U\-C\-T}}}\label{group___aero_sim_r_c_gacc1a47760066283f765895e6100c5d81}
+\hypertarget{group___aero_sim_r_c_ga2ae727a3d4523188e3b7e5c664c22637}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!pitch@{pitch}}
+\index{pitch@{pitch}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{pitch}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf sim\-To\-Plugin\-::pitch}}}\label{group___aero_sim_r_c_ga2ae727a3d4523188e3b7e5c664c22637}
+
+
+\-Definition at line 98 of file aerosimrcdatastruct.\-h.
+
+\hypertarget{group___aero_sim_r_c_gadc6f34115ac3890af669c35382d62882}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!pos\-X@{pos\-X}}
+\index{pos\-X@{pos\-X}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{pos\-X}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf sim\-To\-Plugin\-::pos\-X}}}\label{group___aero_sim_r_c_gadc6f34115ac3890af669c35382d62882}
+
+
+\-Definition at line 82 of file aerosimrcdatastruct.\-h.
+
+\hypertarget{group___aero_sim_r_c_ga55c533e8057bdcc0bb7e95440eb82ff5}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!pos\-Y@{pos\-Y}}
+\index{pos\-Y@{pos\-Y}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{pos\-Y}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf sim\-To\-Plugin\-::pos\-Y}}}\label{group___aero_sim_r_c_ga55c533e8057bdcc0bb7e95440eb82ff5}
+
+
+\-Definition at line 83 of file aerosimrcdatastruct.\-h.
+
+\hypertarget{group___aero_sim_r_c_gab66796c7082a7d42685f8c8c3b282c43}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!pos\-Z@{pos\-Z}}
+\index{pos\-Z@{pos\-Z}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{pos\-Z}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf sim\-To\-Plugin\-::pos\-Z}}}\label{group___aero_sim_r_c_gab66796c7082a7d42685f8c8c3b282c43}
+
+
+\-Definition at line 84 of file aerosimrcdatastruct.\-h.
+
+\hypertarget{group___aero_sim_r_c_gabb429aecc5bba8de3564e19ded7ef104}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!\-R\-A\-D2\-D\-E\-G@{\-R\-A\-D2\-D\-E\-G}}
+\index{\-R\-A\-D2\-D\-E\-G@{\-R\-A\-D2\-D\-E\-G}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{\-R\-A\-D2\-D\-E\-G}]{\setlength{\rightskip}{0pt plus 5cm}const float {\bf \-R\-A\-D2\-D\-E\-G} = (float)(180.\-0/\-M\-\_\-\-P\-I)}}\label{group___aero_sim_r_c_gabb429aecc5bba8de3564e19ded7ef104}
+
+
+\-Definition at line 44 of file udptestwidget.\-h.
+
+\hypertarget{group___aero_sim_r_c_gabb429aecc5bba8de3564e19ded7ef104}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!\-R\-A\-D2\-D\-E\-G@{\-R\-A\-D2\-D\-E\-G}}
+\index{\-R\-A\-D2\-D\-E\-G@{\-R\-A\-D2\-D\-E\-G}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{\-R\-A\-D2\-D\-E\-G}]{\setlength{\rightskip}{0pt plus 5cm}const float {\bf \-R\-A\-D2\-D\-E\-G} = (float)(180.\-0 / \-M\-\_\-\-P\-I)}}\label{group___aero_sim_r_c_gabb429aecc5bba8de3564e19ded7ef104}
+
+
+\-Definition at line 45 of file plugin.\-cpp.
+
+\hypertarget{group___aero_sim_r_c_gaad1d57ea59d2f9fca3e53c6fb20ac134}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!rcvr@{rcvr}}
+\index{rcvr@{rcvr}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{rcvr}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Udp\-Receiver}$\ast$ {\bf rcvr}}}\label{group___aero_sim_r_c_gaad1d57ea59d2f9fca3e53c6fb20ac134}
+
+
+\-Definition at line 43 of file plugin.\-cpp.
+
+\hypertarget{group___aero_sim_r_c_ga5ae77c3d47014ab64ef930314843a0fe}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!roll@{roll}}
+\index{roll@{roll}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{roll}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf sim\-To\-Plugin\-::roll}}}\label{group___aero_sim_r_c_ga5ae77c3d47014ab64ef930314843a0fe}
+
+
+\-Definition at line 99 of file aerosimrcdatastruct.\-h.
+
+\hypertarget{group___aero_sim_r_c_gaf9235fc17924379e9bdd0826d1111e2c}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!screen\-H@{screen\-H}}
+\index{screen\-H@{screen\-H}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{screen\-H}]{\setlength{\rightskip}{0pt plus 5cm}qint16 {\bf sim\-To\-Plugin\-::screen\-H}}}\label{group___aero_sim_r_c_gaf9235fc17924379e9bdd0826d1111e2c}
+
+
+\-Definition at line 115 of file aerosimrcdatastruct.\-h.
+
+\hypertarget{group___aero_sim_r_c_ga0e82f7a599641d119734afe4a0f4403c}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!screen\-W@{screen\-W}}
+\index{screen\-W@{screen\-W}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{screen\-W}]{\setlength{\rightskip}{0pt plus 5cm}qint16 {\bf sim\-To\-Plugin\-::screen\-W}}}\label{group___aero_sim_r_c_ga0e82f7a599641d119734afe4a0f4403c}
+
+
+\-Definition at line 114 of file aerosimrcdatastruct.\-h.
+
+\hypertarget{group___aero_sim_r_c_ga1cc3af651b3f3382357e9a882abc64d4}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!sim\-Menu\-Status@{sim\-Menu\-Status}}
+\index{sim\-Menu\-Status@{sim\-Menu\-Status}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{sim\-Menu\-Status}]{\setlength{\rightskip}{0pt plus 5cm}quint32 {\bf sim\-To\-Plugin\-::sim\-Menu\-Status}}}\label{group___aero_sim_r_c_ga1cc3af651b3f3382357e9a882abc64d4}
+
+
+\-Definition at line 50 of file aerosimrcdatastruct.\-h.
+
+\hypertarget{group___aero_sim_r_c_ga58a610591c7eb9b7e1f32208e4cb343c}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!sim\-Time\-Step@{sim\-Time\-Step}}
+\index{sim\-Time\-Step@{sim\-Time\-Step}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{sim\-Time\-Step}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf sim\-To\-Plugin\-::sim\-Time\-Step}}}\label{group___aero_sim_r_c_ga58a610591c7eb9b7e1f32208e4cb343c}
+
+
+\-Definition at line 46 of file aerosimrcdatastruct.\-h.
+
+\hypertarget{group___aero_sim_r_c_ga74a874f84e60aa753bdb56cd47d55d8b}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!sndr@{sndr}}
+\index{sndr@{sndr}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{sndr}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Udp\-Sender}$\ast$ {\bf sndr}}}\label{group___aero_sim_r_c_ga74a874f84e60aa753bdb56cd47d55d8b}
+
+
+\-Definition at line 42 of file plugin.\-cpp.
+
+\hypertarget{group___aero_sim_r_c_ga9149810daf40b3b4e5f706faaa8dcc8f}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!str\-Output\-Folder@{str\-Output\-Folder}}
+\index{str\-Output\-Folder@{str\-Output\-Folder}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{str\-Output\-Folder}]{\setlength{\rightskip}{0pt plus 5cm}const char$\ast$ {\bf plugin\-Init\-::str\-Output\-Folder}}}\label{group___aero_sim_r_c_ga9149810daf40b3b4e5f706faaa8dcc8f}
+
+
+\-Definition at line 201 of file aerosimrcdatastruct.\-h.
+
+\hypertarget{group___aero_sim_r_c_ga1ea4ae7485e88859f164a5e904600834}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!str\-Plugin\-Folder@{str\-Plugin\-Folder}}
+\index{str\-Plugin\-Folder@{str\-Plugin\-Folder}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{str\-Plugin\-Folder}]{\setlength{\rightskip}{0pt plus 5cm}const char$\ast$ {\bf plugin\-Init\-::str\-Plugin\-Folder}}}\label{group___aero_sim_r_c_ga1ea4ae7485e88859f164a5e904600834}
+
+
+\-Definition at line 200 of file aerosimrcdatastruct.\-h.
+
+\hypertarget{group___aero_sim_r_c_gab277fde5232c4a8c41adcdcc1dc7199f}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!struct\-Size@{struct\-Size}}
+\index{struct\-Size@{struct\-Size}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{struct\-Size}]{\setlength{\rightskip}{0pt plus 5cm}quint16 {\bf sim\-To\-Plugin\-::struct\-Size}}}\label{group___aero_sim_r_c_gab277fde5232c4a8c41adcdcc1dc7199f}
+
+
+\-Definition at line 45 of file aerosimrcdatastruct.\-h.
+
+\hypertarget{group___aero_sim_r_c_ga785b39329b27020e1525b4999a10d230}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!struct\-Size@{struct\-Size}}
+\index{struct\-Size@{struct\-Size}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{struct\-Size}]{\setlength{\rightskip}{0pt plus 5cm}quint16 {\bf plugin\-To\-Sim\-::struct\-Size}}}\label{group___aero_sim_r_c_ga785b39329b27020e1525b4999a10d230}
+
+
+\-Definition at line 144 of file aerosimrcdatastruct.\-h.
+
+\hypertarget{group___aero_sim_r_c_gad7b2d0364e0e774256fc64c187a8c336}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!vel\-X@{vel\-X}}
+\index{vel\-X@{vel\-X}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{vel\-X}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf sim\-To\-Plugin\-::vel\-X}}}\label{group___aero_sim_r_c_gad7b2d0364e0e774256fc64c187a8c336}
+
+
+\-Definition at line 85 of file aerosimrcdatastruct.\-h.
+
+\hypertarget{group___aero_sim_r_c_ga5b8ca52e6b6fcba33660c4164ff14b21}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!vel\-Xm@{vel\-Xm}}
+\index{vel\-Xm@{vel\-Xm}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{vel\-Xm}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf sim\-To\-Plugin\-::vel\-Xm}}}\label{group___aero_sim_r_c_ga5b8ca52e6b6fcba33660c4164ff14b21}
+
+
+\-Definition at line 127 of file aerosimrcdatastruct.\-h.
+
+\hypertarget{group___aero_sim_r_c_gae4f260f3786184d15cd8f674860f8866}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!vel\-Y@{vel\-Y}}
+\index{vel\-Y@{vel\-Y}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{vel\-Y}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf sim\-To\-Plugin\-::vel\-Y}}}\label{group___aero_sim_r_c_gae4f260f3786184d15cd8f674860f8866}
+
+
+\-Definition at line 86 of file aerosimrcdatastruct.\-h.
+
+\hypertarget{group___aero_sim_r_c_ga78ba6a4d5b2134bed1c2396ff9212df0}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!vel\-Ym@{vel\-Ym}}
+\index{vel\-Ym@{vel\-Ym}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{vel\-Ym}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf sim\-To\-Plugin\-::vel\-Ym}}}\label{group___aero_sim_r_c_ga78ba6a4d5b2134bed1c2396ff9212df0}
+
+
+\-Definition at line 128 of file aerosimrcdatastruct.\-h.
+
+\hypertarget{group___aero_sim_r_c_ga2703ca3343da97af3ee57b5e6f36cbb9}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!vel\-Z@{vel\-Z}}
+\index{vel\-Z@{vel\-Z}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{vel\-Z}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf sim\-To\-Plugin\-::vel\-Z}}}\label{group___aero_sim_r_c_ga2703ca3343da97af3ee57b5e6f36cbb9}
+
+
+\-Definition at line 87 of file aerosimrcdatastruct.\-h.
+
+\hypertarget{group___aero_sim_r_c_ga35865106b3179109ebbec06aed189fad}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!vel\-Zm@{vel\-Zm}}
+\index{vel\-Zm@{vel\-Zm}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{vel\-Zm}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf sim\-To\-Plugin\-::vel\-Zm}}}\label{group___aero_sim_r_c_ga35865106b3179109ebbec06aed189fad}
+
+
+\-Definition at line 129 of file aerosimrcdatastruct.\-h.
+
+\hypertarget{group___aero_sim_r_c_ga56a26014d5fb746423472ca6301beff3}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!video\-Modes@{video\-Modes}}
+\index{video\-Modes@{video\-Modes}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{video\-Modes}]{\setlength{\rightskip}{0pt plus 5cm}\-Q\-List$<$quint16$>$ {\bf video\-Modes}}}\label{group___aero_sim_r_c_ga56a26014d5fb746423472ca6301beff3}
+
+
+\-Definition at line 39 of file plugin.\-cpp.
+
+\hypertarget{group___aero_sim_r_c_ga598e987b250d694aeaced9fb921e03bd}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!voltage@{voltage}}
+\index{voltage@{voltage}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{voltage}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf sim\-To\-Plugin\-::voltage}}}\label{group___aero_sim_r_c_ga598e987b250d694aeaced9fb921e03bd}
+
+
+\-Definition at line 107 of file aerosimrcdatastruct.\-h.
+
+\hypertarget{group___aero_sim_r_c_ga28ae11206edb7d479d61f42edfe59a6a}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!wind\-Vel\-X@{wind\-Vel\-X}}
+\index{wind\-Vel\-X@{wind\-Vel\-X}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{wind\-Vel\-X}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf sim\-To\-Plugin\-::wind\-Vel\-X}}}\label{group___aero_sim_r_c_ga28ae11206edb7d479d61f42edfe59a6a}
+
+
+\-Definition at line 100 of file aerosimrcdatastruct.\-h.
+
+\hypertarget{group___aero_sim_r_c_ga4a4ed34bd3c1e67d51b1d5b2272cbf3f}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!wind\-Vel\-Y@{wind\-Vel\-Y}}
+\index{wind\-Vel\-Y@{wind\-Vel\-Y}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{wind\-Vel\-Y}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf sim\-To\-Plugin\-::wind\-Vel\-Y}}}\label{group___aero_sim_r_c_ga4a4ed34bd3c1e67d51b1d5b2272cbf3f}
+
+
+\-Definition at line 101 of file aerosimrcdatastruct.\-h.
+
+\hypertarget{group___aero_sim_r_c_ga28ceecb62e11bce71b44c63ea4af67aa}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!wind\-Vel\-Z@{wind\-Vel\-Z}}
+\index{wind\-Vel\-Z@{wind\-Vel\-Z}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{wind\-Vel\-Z}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf sim\-To\-Plugin\-::wind\-Vel\-Z}}}\label{group___aero_sim_r_c_ga28ceecb62e11bce71b44c63ea4af67aa}
+
+
+\-Definition at line 102 of file aerosimrcdatastruct.\-h.
+
+\hypertarget{group___aero_sim_r_c_ga527aaa5fbbb0b3108b4ccace20e252d2}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!wp\-A\-Desc@{wp\-A\-Desc}}
+\index{wp\-A\-Desc@{wp\-A\-Desc}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{wp\-A\-Desc}]{\setlength{\rightskip}{0pt plus 5cm}const char$\ast$ {\bf sim\-To\-Plugin\-::wp\-A\-Desc}}}\label{group___aero_sim_r_c_ga527aaa5fbbb0b3108b4ccace20e252d2}
+
+
+\-Definition at line 66 of file aerosimrcdatastruct.\-h.
+
+\hypertarget{group___aero_sim_r_c_ga1eb50174e2e2f438f0b1aef4dca0744f}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!wp\-A\-Lat@{wp\-A\-Lat}}
+\index{wp\-A\-Lat@{wp\-A\-Lat}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{wp\-A\-Lat}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf sim\-To\-Plugin\-::wp\-A\-Lat}}}\label{group___aero_sim_r_c_ga1eb50174e2e2f438f0b1aef4dca0744f}
+
+
+\-Definition at line 64 of file aerosimrcdatastruct.\-h.
+
+\hypertarget{group___aero_sim_r_c_gacda15282e441109ecba7a4709e9b8a0c}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!wp\-A\-Long@{wp\-A\-Long}}
+\index{wp\-A\-Long@{wp\-A\-Long}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{wp\-A\-Long}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf sim\-To\-Plugin\-::wp\-A\-Long}}}\label{group___aero_sim_r_c_gacda15282e441109ecba7a4709e9b8a0c}
+
+
+\-Definition at line 65 of file aerosimrcdatastruct.\-h.
+
+\hypertarget{group___aero_sim_r_c_gaeee88b74290e9df5d3c70d111c9375cc}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!wp\-A\-X@{wp\-A\-X}}
+\index{wp\-A\-X@{wp\-A\-X}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{wp\-A\-X}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf sim\-To\-Plugin\-::wp\-A\-X}}}\label{group___aero_sim_r_c_gaeee88b74290e9df5d3c70d111c9375cc}
+
+
+\-Definition at line 62 of file aerosimrcdatastruct.\-h.
+
+\hypertarget{group___aero_sim_r_c_gaf5e140b64d5e9eae533fd3c0195c0fa8}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!wp\-A\-Y@{wp\-A\-Y}}
+\index{wp\-A\-Y@{wp\-A\-Y}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{wp\-A\-Y}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf sim\-To\-Plugin\-::wp\-A\-Y}}}\label{group___aero_sim_r_c_gaf5e140b64d5e9eae533fd3c0195c0fa8}
+
+
+\-Definition at line 63 of file aerosimrcdatastruct.\-h.
+
+\hypertarget{group___aero_sim_r_c_ga847521c9c396ca010d434dde9d9c33ee}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!wp\-B\-Desc@{wp\-B\-Desc}}
+\index{wp\-B\-Desc@{wp\-B\-Desc}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{wp\-B\-Desc}]{\setlength{\rightskip}{0pt plus 5cm}const char$\ast$ {\bf sim\-To\-Plugin\-::wp\-B\-Desc}}}\label{group___aero_sim_r_c_ga847521c9c396ca010d434dde9d9c33ee}
+
+
+\-Definition at line 71 of file aerosimrcdatastruct.\-h.
+
+\hypertarget{group___aero_sim_r_c_gad362dcc92c44981f1062410b4d0105d8}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!wp\-B\-Lat@{wp\-B\-Lat}}
+\index{wp\-B\-Lat@{wp\-B\-Lat}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{wp\-B\-Lat}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf sim\-To\-Plugin\-::wp\-B\-Lat}}}\label{group___aero_sim_r_c_gad362dcc92c44981f1062410b4d0105d8}
+
+
+\-Definition at line 69 of file aerosimrcdatastruct.\-h.
+
+\hypertarget{group___aero_sim_r_c_ga00083d7085ddb6c0cd1b432f5338d7d5}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!wp\-B\-Long@{wp\-B\-Long}}
+\index{wp\-B\-Long@{wp\-B\-Long}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{wp\-B\-Long}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf sim\-To\-Plugin\-::wp\-B\-Long}}}\label{group___aero_sim_r_c_ga00083d7085ddb6c0cd1b432f5338d7d5}
+
+
+\-Definition at line 70 of file aerosimrcdatastruct.\-h.
+
+\hypertarget{group___aero_sim_r_c_gaf7735ebc4b357abc63f8b409da005e65}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!wp\-B\-X@{wp\-B\-X}}
+\index{wp\-B\-X@{wp\-B\-X}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{wp\-B\-X}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf sim\-To\-Plugin\-::wp\-B\-X}}}\label{group___aero_sim_r_c_gaf7735ebc4b357abc63f8b409da005e65}
+
+
+\-Definition at line 67 of file aerosimrcdatastruct.\-h.
+
+\hypertarget{group___aero_sim_r_c_ga940744eca5513d5b45725bad868231e5}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!wp\-B\-Y@{wp\-B\-Y}}
+\index{wp\-B\-Y@{wp\-B\-Y}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{wp\-B\-Y}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf sim\-To\-Plugin\-::wp\-B\-Y}}}\label{group___aero_sim_r_c_ga940744eca5513d5b45725bad868231e5}
+
+
+\-Definition at line 68 of file aerosimrcdatastruct.\-h.
+
+\hypertarget{group___aero_sim_r_c_gaac6ce2f906c7743fd06d88ed1e63f8d1}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!wp\-C\-Desc@{wp\-C\-Desc}}
+\index{wp\-C\-Desc@{wp\-C\-Desc}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{wp\-C\-Desc}]{\setlength{\rightskip}{0pt plus 5cm}const char$\ast$ {\bf sim\-To\-Plugin\-::wp\-C\-Desc}}}\label{group___aero_sim_r_c_gaac6ce2f906c7743fd06d88ed1e63f8d1}
+
+
+\-Definition at line 76 of file aerosimrcdatastruct.\-h.
+
+\hypertarget{group___aero_sim_r_c_ga478358c452d4087d066f487fab4f0fe4}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!wp\-C\-Lat@{wp\-C\-Lat}}
+\index{wp\-C\-Lat@{wp\-C\-Lat}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{wp\-C\-Lat}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf sim\-To\-Plugin\-::wp\-C\-Lat}}}\label{group___aero_sim_r_c_ga478358c452d4087d066f487fab4f0fe4}
+
+
+\-Definition at line 74 of file aerosimrcdatastruct.\-h.
+
+\hypertarget{group___aero_sim_r_c_gafe8c244799a4b6767955285ea1ab4ed9}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!wp\-C\-Long@{wp\-C\-Long}}
+\index{wp\-C\-Long@{wp\-C\-Long}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{wp\-C\-Long}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf sim\-To\-Plugin\-::wp\-C\-Long}}}\label{group___aero_sim_r_c_gafe8c244799a4b6767955285ea1ab4ed9}
+
+
+\-Definition at line 75 of file aerosimrcdatastruct.\-h.
+
+\hypertarget{group___aero_sim_r_c_ga0a8e805aa99027c87923b25db32173ab}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!wp\-C\-X@{wp\-C\-X}}
+\index{wp\-C\-X@{wp\-C\-X}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{wp\-C\-X}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf sim\-To\-Plugin\-::wp\-C\-X}}}\label{group___aero_sim_r_c_ga0a8e805aa99027c87923b25db32173ab}
+
+
+\-Definition at line 72 of file aerosimrcdatastruct.\-h.
+
+\hypertarget{group___aero_sim_r_c_ga3dd39df83926569f9d180ced28377a4f}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!wp\-C\-Y@{wp\-C\-Y}}
+\index{wp\-C\-Y@{wp\-C\-Y}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{wp\-C\-Y}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf sim\-To\-Plugin\-::wp\-C\-Y}}}\label{group___aero_sim_r_c_ga3dd39df83926569f9d180ced28377a4f}
+
+
+\-Definition at line 73 of file aerosimrcdatastruct.\-h.
+
+\hypertarget{group___aero_sim_r_c_ga65acd288880e17514c40557035b74fe3}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!wp\-D\-Desc@{wp\-D\-Desc}}
+\index{wp\-D\-Desc@{wp\-D\-Desc}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{wp\-D\-Desc}]{\setlength{\rightskip}{0pt plus 5cm}const char$\ast$ {\bf sim\-To\-Plugin\-::wp\-D\-Desc}}}\label{group___aero_sim_r_c_ga65acd288880e17514c40557035b74fe3}
+
+
+\-Definition at line 81 of file aerosimrcdatastruct.\-h.
+
+\hypertarget{group___aero_sim_r_c_ga39ee4024f6f29cf4c19531ccf9f8122a}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!wp\-D\-Lat@{wp\-D\-Lat}}
+\index{wp\-D\-Lat@{wp\-D\-Lat}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{wp\-D\-Lat}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf sim\-To\-Plugin\-::wp\-D\-Lat}}}\label{group___aero_sim_r_c_ga39ee4024f6f29cf4c19531ccf9f8122a}
+
+
+\-Definition at line 79 of file aerosimrcdatastruct.\-h.
+
+\hypertarget{group___aero_sim_r_c_gad90f5c9d9b7ad07bee47b18838d0ddd8}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!wp\-D\-Long@{wp\-D\-Long}}
+\index{wp\-D\-Long@{wp\-D\-Long}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{wp\-D\-Long}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf sim\-To\-Plugin\-::wp\-D\-Long}}}\label{group___aero_sim_r_c_gad90f5c9d9b7ad07bee47b18838d0ddd8}
+
+
+\-Definition at line 80 of file aerosimrcdatastruct.\-h.
+
+\hypertarget{group___aero_sim_r_c_ga152da5c47fb8ddaa28e0e18015292750}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!wp\-D\-X@{wp\-D\-X}}
+\index{wp\-D\-X@{wp\-D\-X}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{wp\-D\-X}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf sim\-To\-Plugin\-::wp\-D\-X}}}\label{group___aero_sim_r_c_ga152da5c47fb8ddaa28e0e18015292750}
+
+
+\-Definition at line 77 of file aerosimrcdatastruct.\-h.
+
+\hypertarget{group___aero_sim_r_c_ga04968f40e2545a32b4e052fe9e632504}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!wp\-D\-Y@{wp\-D\-Y}}
+\index{wp\-D\-Y@{wp\-D\-Y}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{wp\-D\-Y}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf sim\-To\-Plugin\-::wp\-D\-Y}}}\label{group___aero_sim_r_c_ga04968f40e2545a32b4e052fe9e632504}
+
+
+\-Definition at line 78 of file aerosimrcdatastruct.\-h.
+
+\hypertarget{group___aero_sim_r_c_ga8662d58603fa2a33c7959677b0ec7783}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!wp\-Home\-Desc@{wp\-Home\-Desc}}
+\index{wp\-Home\-Desc@{wp\-Home\-Desc}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{wp\-Home\-Desc}]{\setlength{\rightskip}{0pt plus 5cm}const char$\ast$ {\bf sim\-To\-Plugin\-::wp\-Home\-Desc}}}\label{group___aero_sim_r_c_ga8662d58603fa2a33c7959677b0ec7783}
+
+
+\-Definition at line 61 of file aerosimrcdatastruct.\-h.
+
+\hypertarget{group___aero_sim_r_c_ga5364e2cce6429762b9597145fc144130}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!wp\-Home\-Lat@{wp\-Home\-Lat}}
+\index{wp\-Home\-Lat@{wp\-Home\-Lat}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{wp\-Home\-Lat}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf sim\-To\-Plugin\-::wp\-Home\-Lat}}}\label{group___aero_sim_r_c_ga5364e2cce6429762b9597145fc144130}
+
+
+\-Definition at line 59 of file aerosimrcdatastruct.\-h.
+
+\hypertarget{group___aero_sim_r_c_ga1a595cb81efdafe9ec21ef40211ad74e}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!wp\-Home\-Long@{wp\-Home\-Long}}
+\index{wp\-Home\-Long@{wp\-Home\-Long}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{wp\-Home\-Long}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf sim\-To\-Plugin\-::wp\-Home\-Long}}}\label{group___aero_sim_r_c_ga1a595cb81efdafe9ec21ef40211ad74e}
+
+
+\-Definition at line 60 of file aerosimrcdatastruct.\-h.
+
+\hypertarget{group___aero_sim_r_c_gac7fe47d860d72f33b075d84a1794f039}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!wp\-Home\-X@{wp\-Home\-X}}
+\index{wp\-Home\-X@{wp\-Home\-X}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{wp\-Home\-X}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf sim\-To\-Plugin\-::wp\-Home\-X}}}\label{group___aero_sim_r_c_gac7fe47d860d72f33b075d84a1794f039}
+
+
+\-Definition at line 57 of file aerosimrcdatastruct.\-h.
+
+\hypertarget{group___aero_sim_r_c_ga943c9583ab5e36a5c4b4eb92b34c3aa2}{\index{\-Aero\-Sim\-R\-C proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}!wp\-Home\-Y@{wp\-Home\-Y}}
+\index{wp\-Home\-Y@{wp\-Home\-Y}!AeroSimRC proxy plugin@{\-Aero\-Sim\-R\-C proxy plugin}}
+\subsubsection[{wp\-Home\-Y}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf sim\-To\-Plugin\-::wp\-Home\-Y}}}\label{group___aero_sim_r_c_ga943c9583ab5e36a5c4b4eb92b34c3aa2}
+
+
+\-Definition at line 58 of file aerosimrcdatastruct.\-h.
+

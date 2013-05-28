@@ -1,0 +1,499 @@
+\hypertarget{group___u_a_v_talk}{\section{\-U\-A\-V\-Talk implementation}
+\label{group___u_a_v_talk}\index{\-U\-A\-V\-Talk implementation@{\-U\-A\-V\-Talk implementation}}
+}
+\subsection*{\-Data \-Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{struct_u_a_v_talk_stats}{\-U\-A\-V\-Talk\-Stats}
+\begin{DoxyCompactList}\small\item\em \-Tracking statistics for a \-U\-A\-V\-Talk connection. \end{DoxyCompactList}\item 
+struct \hyperlink{structuavtalk__min__header}{uavtalk\-\_\-min\-\_\-header}
+\begin{DoxyCompactList}\small\item\em \-Minimal \-U\-A\-V\-Talk header without an instance field. \end{DoxyCompactList}\item 
+struct \hyperlink{structuavtalk__max__header}{uavtalk\-\_\-max\-\_\-header}
+\begin{DoxyCompactList}\small\item\em \-Full \-U\-A\-V\-Talk header with an instance and timestamp field. \end{DoxyCompactList}\item 
+struct \hyperlink{struct_u_a_v_talk_input_processor}{\-U\-A\-V\-Talk\-Input\-Processor}
+\begin{DoxyCompactList}\small\item\em \-State information for the \-U\-A\-V\-Talk parser. \end{DoxyCompactList}\item 
+struct \hyperlink{struct_u_a_v_talk_connection_data}{\-U\-A\-V\-Talk\-Connection\-Data}
+\begin{DoxyCompactList}\small\item\em \-Information for the physical link. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Files}
+\begin{DoxyCompactItemize}
+\item 
+file \hyperlink{uavtalk_8h}{uavtalk.\-h}
+\begin{DoxyCompactList}\small\item\em \-Include file of the \-U\-A\-V\-Talk library. \end{DoxyCompactList}\item 
+file \hyperlink{uavtalk__priv_8h}{uavtalk\-\_\-priv.\-h}
+\begin{DoxyCompactList}\small\item\em \-Private include file of the \-U\-A\-V\-Talk library. \end{DoxyCompactList}\item 
+file \hyperlink{uavtalk_8c}{uavtalk.\-c}
+\begin{DoxyCompactList}\small\item\em \-U\-A\-V\-Talk library, implements to telemetry protocol. \-See the wiki for more details. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef int32\-\_\-t($\ast$ \hyperlink{group___u_a_v_talk_ga0c67fb4d23157d56fe1982e4788938c7}{\-U\-A\-V\-Talk\-Output\-Stream} )(uint8\-\_\-t $\ast$data, int32\-\_\-t length)
+\item 
+typedef void $\ast$ \hyperlink{group___u_a_v_talk_gaeff1721eaebd4ab306057b4017f23f36}{\-U\-A\-V\-Talk\-Connection}
+\item 
+typedef uint8\-\_\-t \hyperlink{group___u_a_v_talk_gad5ae4f5e5aa19ffb6f8e688a448e9618}{uavtalk\-\_\-checksum}
+\end{DoxyCompactItemize}
+\subsection*{\-Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{group___u_a_v_talk_ga8a49dc52ac01b5d0782811f284df691c}{\-U\-A\-V\-Talk\-Rx\-State} \{ \*
+\hyperlink{group___u_a_v_talk_gga8a49dc52ac01b5d0782811f284df691caebd1fa1a1b027dbc4ef710dc07af67c3}{\-U\-A\-V\-T\-A\-L\-K\-\_\-\-S\-T\-A\-T\-E\-\_\-\-E\-R\-R\-O\-R} = 0, 
+\hyperlink{group___u_a_v_talk_gga8a49dc52ac01b5d0782811f284df691caae4d844e674556f502e53c92bb96c6c7}{\-U\-A\-V\-T\-A\-L\-K\-\_\-\-S\-T\-A\-T\-E\-\_\-\-S\-Y\-N\-C}, 
+\hyperlink{group___u_a_v_talk_gga8a49dc52ac01b5d0782811f284df691ca1ecd6ed2028baaae08701be647d70702}{\-U\-A\-V\-T\-A\-L\-K\-\_\-\-S\-T\-A\-T\-E\-\_\-\-T\-Y\-P\-E}, 
+\hyperlink{group___u_a_v_talk_gga8a49dc52ac01b5d0782811f284df691ca9aa933eedaeac2cc5d5552cf9becf16c}{\-U\-A\-V\-T\-A\-L\-K\-\_\-\-S\-T\-A\-T\-E\-\_\-\-S\-I\-Z\-E}, 
+\*
+\hyperlink{group___u_a_v_talk_gga8a49dc52ac01b5d0782811f284df691cab98212ea6a045429c1ca8a085116dfb3}{\-U\-A\-V\-T\-A\-L\-K\-\_\-\-S\-T\-A\-T\-E\-\_\-\-O\-B\-J\-I\-D}, 
+\hyperlink{group___u_a_v_talk_gga8a49dc52ac01b5d0782811f284df691caae164f1909f4dfe3f72b6787482f0964}{\-U\-A\-V\-T\-A\-L\-K\-\_\-\-S\-T\-A\-T\-E\-\_\-\-I\-N\-S\-T\-I\-D}, 
+\hyperlink{group___u_a_v_talk_gga8a49dc52ac01b5d0782811f284df691ca1785b6e3aaaa285b9585f38fae2826f1}{\-U\-A\-V\-T\-A\-L\-K\-\_\-\-S\-T\-A\-T\-E\-\_\-\-T\-I\-M\-E\-S\-T\-A\-M\-P}, 
+\hyperlink{group___u_a_v_talk_gga8a49dc52ac01b5d0782811f284df691ca48c5974336aae492175d58113ca410ec}{\-U\-A\-V\-T\-A\-L\-K\-\_\-\-S\-T\-A\-T\-E\-\_\-\-D\-A\-T\-A}, 
+\*
+\hyperlink{group___u_a_v_talk_gga8a49dc52ac01b5d0782811f284df691ca366f9ba94ea7dd19bfe5d7cf572d8cf9}{\-U\-A\-V\-T\-A\-L\-K\-\_\-\-S\-T\-A\-T\-E\-\_\-\-C\-S}, 
+\hyperlink{group___u_a_v_talk_gga8a49dc52ac01b5d0782811f284df691ca561921fc000ac7610e879f9b1f63e54a}{\-U\-A\-V\-T\-A\-L\-K\-\_\-\-S\-T\-A\-T\-E\-\_\-\-C\-O\-M\-P\-L\-E\-T\-E}
+ \}
+\end{DoxyCompactItemize}
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_talk_gaeff1721eaebd4ab306057b4017f23f36}{\-U\-A\-V\-Talk\-Connection} \hyperlink{group___u_a_v_talk_ga91e20b57ed132bab36c9ca723d9bdac4}{\-U\-A\-V\-Talk\-Initialize} (\hyperlink{group___u_a_v_talk_ga0c67fb4d23157d56fe1982e4788938c7}{\-U\-A\-V\-Talk\-Output\-Stream} output\-Stream)
+\item 
+int32\-\_\-t \hyperlink{group___u_a_v_talk_ga33f8221bbddbf94c7379c3230eac1501}{\-U\-A\-V\-Talk\-Set\-Output\-Stream} (\hyperlink{group___u_a_v_talk_gaeff1721eaebd4ab306057b4017f23f36}{\-U\-A\-V\-Talk\-Connection} connection, \hyperlink{group___u_a_v_talk_ga0c67fb4d23157d56fe1982e4788938c7}{\-U\-A\-V\-Talk\-Output\-Stream} output\-Stream)
+\item 
+\hyperlink{group___u_a_v_talk_ga0c67fb4d23157d56fe1982e4788938c7}{\-U\-A\-V\-Talk\-Output\-Stream} \hyperlink{group___u_a_v_talk_ga2f8c8d67e642f7df90500f38273baa61}{\-U\-A\-V\-Talk\-Get\-Output\-Stream} (\hyperlink{group___u_a_v_talk_gaeff1721eaebd4ab306057b4017f23f36}{\-U\-A\-V\-Talk\-Connection} connection)
+\item 
+int32\-\_\-t \hyperlink{group___u_a_v_talk_gab4fe52d9c33088b7ebbac9ad4e11b9de}{\-U\-A\-V\-Talk\-Send\-Object} (\hyperlink{group___u_a_v_talk_gaeff1721eaebd4ab306057b4017f23f36}{\-U\-A\-V\-Talk\-Connection} connection, \hyperlink{targets_2_u_a_v_objects_2inc_2uavobjectmanager_8h_a279053e22be53ce9f895043aaeb91e3b}{\-U\-A\-V\-Obj\-Handle} obj, uint16\-\_\-t inst\-Id, uint8\-\_\-t acked, int32\-\_\-t timeout\-Ms)
+\item 
+int32\-\_\-t \hyperlink{group___u_a_v_talk_gad5aea81015d8dd5ed7d474ac87fe58fc}{\-U\-A\-V\-Talk\-Send\-Object\-Timestamped} (\hyperlink{group___u_a_v_talk_gaeff1721eaebd4ab306057b4017f23f36}{\-U\-A\-V\-Talk\-Connection} connection\-Handle, \hyperlink{targets_2_u_a_v_objects_2inc_2uavobjectmanager_8h_a279053e22be53ce9f895043aaeb91e3b}{\-U\-A\-V\-Obj\-Handle} obj, uint16\-\_\-t inst\-Id, uint8\-\_\-t acked, int32\-\_\-t timeout\-Ms)
+\item 
+int32\-\_\-t \hyperlink{group___u_a_v_talk_gaa69251603e3426610051dc19b3a68494}{\-U\-A\-V\-Talk\-Send\-Object\-Request} (\hyperlink{group___u_a_v_talk_gaeff1721eaebd4ab306057b4017f23f36}{\-U\-A\-V\-Talk\-Connection} connection, \hyperlink{targets_2_u_a_v_objects_2inc_2uavobjectmanager_8h_a279053e22be53ce9f895043aaeb91e3b}{\-U\-A\-V\-Obj\-Handle} obj, uint16\-\_\-t inst\-Id, int32\-\_\-t timeout\-Ms)
+\item 
+int32\-\_\-t \hyperlink{group___u_a_v_talk_gab995cc19b4024b1a6303c963e139f522}{\-U\-A\-V\-Talk\-Send\-Ack} (\hyperlink{group___u_a_v_talk_gaeff1721eaebd4ab306057b4017f23f36}{\-U\-A\-V\-Talk\-Connection} connection\-Handle, \hyperlink{targets_2_u_a_v_objects_2inc_2uavobjectmanager_8h_a279053e22be53ce9f895043aaeb91e3b}{\-U\-A\-V\-Obj\-Handle} obj, uint16\-\_\-t inst\-Id)
+\item 
+int32\-\_\-t \hyperlink{group___u_a_v_talk_ga2ef859d444a819ed3e3bb4ea36761c69}{\-U\-A\-V\-Talk\-Send\-Nack} (\hyperlink{group___u_a_v_talk_gaeff1721eaebd4ab306057b4017f23f36}{\-U\-A\-V\-Talk\-Connection} connection\-Handle, uint32\-\_\-t obj\-Id)
+\item 
+int32\-\_\-t \hyperlink{group___u_a_v_talk_ga75dcc116d1af9cb73a58c233a2d95bed}{\-U\-A\-V\-Talk\-Send\-Buf} (\hyperlink{group___u_a_v_talk_gaeff1721eaebd4ab306057b4017f23f36}{\-U\-A\-V\-Talk\-Connection} connection\-Handle, uint8\-\_\-t $\ast$buf, uint16\-\_\-t len)
+\item 
+\hyperlink{group___u_a_v_talk_ga8a49dc52ac01b5d0782811f284df691c}{\-U\-A\-V\-Talk\-Rx\-State} \hyperlink{group___u_a_v_talk_ga1a738a506f26790d1b9c9fac5b6e1d92}{\-U\-A\-V\-Talk\-Process\-Input\-Stream} (\hyperlink{group___u_a_v_talk_gaeff1721eaebd4ab306057b4017f23f36}{\-U\-A\-V\-Talk\-Connection} connection, uint8\-\_\-t rxbyte)
+\item 
+\hyperlink{group___u_a_v_talk_ga8a49dc52ac01b5d0782811f284df691c}{\-U\-A\-V\-Talk\-Rx\-State} \hyperlink{group___u_a_v_talk_ga174ffb688889f75507fc022eaf33d52e}{\-U\-A\-V\-Talk\-Process\-Input\-Stream\-Quiet} (\hyperlink{group___u_a_v_talk_gaeff1721eaebd4ab306057b4017f23f36}{\-U\-A\-V\-Talk\-Connection} connection, uint8\-\_\-t rxbyte)
+\item 
+\hyperlink{group___u_a_v_talk_ga8a49dc52ac01b5d0782811f284df691c}{\-U\-A\-V\-Talk\-Rx\-State} \hyperlink{group___u_a_v_talk_ga11bfbe431f2e79f43a4321b942dc94c8}{\-U\-A\-V\-Talk\-Relay\-Input\-Stream} (\hyperlink{group___u_a_v_talk_gaeff1721eaebd4ab306057b4017f23f36}{\-U\-A\-V\-Talk\-Connection} connection\-Handle, uint8\-\_\-t rxbyte)
+\item 
+void \hyperlink{group___u_a_v_talk_gaeccb32b1562a98d5586bb3d4d25715ee}{\-U\-A\-V\-Talk\-Get\-Stats} (\hyperlink{group___u_a_v_talk_gaeff1721eaebd4ab306057b4017f23f36}{\-U\-A\-V\-Talk\-Connection} connection, \hyperlink{struct_u_a_v_talk_stats}{\-U\-A\-V\-Talk\-Stats} $\ast$stats)
+\item 
+void \hyperlink{group___u_a_v_talk_gafea32b2e3331f9e81f48979b0e6c0a0b}{\-U\-A\-V\-Talk\-Reset\-Stats} (\hyperlink{group___u_a_v_talk_gaeff1721eaebd4ab306057b4017f23f36}{\-U\-A\-V\-Talk\-Connection} connection)
+\item 
+void \hyperlink{group___u_a_v_talk_ga4134f84aca917fe6e3eca1eaacf0664e}{\-U\-A\-V\-Talk\-Get\-Last\-Timestamp} (\hyperlink{group___u_a_v_talk_gaeff1721eaebd4ab306057b4017f23f36}{\-U\-A\-V\-Talk\-Connection} connection, uint16\-\_\-t $\ast$timestamp)
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Typedef \-Documentation}
+\hypertarget{group___u_a_v_talk_gad5ae4f5e5aa19ffb6f8e688a448e9618}{\index{\-U\-A\-V\-Talk implementation@{\-U\-A\-V\-Talk implementation}!uavtalk\-\_\-checksum@{uavtalk\-\_\-checksum}}
+\index{uavtalk\-\_\-checksum@{uavtalk\-\_\-checksum}!UAVTalk implementation@{\-U\-A\-V\-Talk implementation}}
+\subsubsection[{uavtalk\-\_\-checksum}]{\setlength{\rightskip}{0pt plus 5cm}typedef uint8\-\_\-t {\bf uavtalk\-\_\-checksum}}}\label{group___u_a_v_talk_gad5ae4f5e5aa19ffb6f8e688a448e9618}
+
+
+\-Definition at line 58 of file uavtalk\-\_\-priv.\-h.
+
+\hypertarget{group___u_a_v_talk_gaeff1721eaebd4ab306057b4017f23f36}{\index{\-U\-A\-V\-Talk implementation@{\-U\-A\-V\-Talk implementation}!\-U\-A\-V\-Talk\-Connection@{\-U\-A\-V\-Talk\-Connection}}
+\index{\-U\-A\-V\-Talk\-Connection@{\-U\-A\-V\-Talk\-Connection}!UAVTalk implementation@{\-U\-A\-V\-Talk implementation}}
+\subsubsection[{\-U\-A\-V\-Talk\-Connection}]{\setlength{\rightskip}{0pt plus 5cm}typedef void$\ast$ {\bf \-U\-A\-V\-Talk\-Connection}}}\label{group___u_a_v_talk_gaeff1721eaebd4ab306057b4017f23f36}
+
+
+\-Definition at line 49 of file uavtalk.\-h.
+
+\hypertarget{group___u_a_v_talk_ga0c67fb4d23157d56fe1982e4788938c7}{\index{\-U\-A\-V\-Talk implementation@{\-U\-A\-V\-Talk implementation}!\-U\-A\-V\-Talk\-Output\-Stream@{\-U\-A\-V\-Talk\-Output\-Stream}}
+\index{\-U\-A\-V\-Talk\-Output\-Stream@{\-U\-A\-V\-Talk\-Output\-Stream}!UAVTalk implementation@{\-U\-A\-V\-Talk implementation}}
+\subsubsection[{\-U\-A\-V\-Talk\-Output\-Stream}]{\setlength{\rightskip}{0pt plus 5cm}typedef int32\-\_\-t($\ast$ {\bf \-U\-A\-V\-Talk\-Output\-Stream})(uint8\-\_\-t $\ast$data, int32\-\_\-t length)}}\label{group___u_a_v_talk_ga0c67fb4d23157d56fe1982e4788938c7}
+
+
+\-Definition at line 35 of file uavtalk.\-h.
+
+
+
+\subsection{\-Enumeration \-Type \-Documentation}
+\hypertarget{group___u_a_v_talk_ga8a49dc52ac01b5d0782811f284df691c}{\index{\-U\-A\-V\-Talk implementation@{\-U\-A\-V\-Talk implementation}!\-U\-A\-V\-Talk\-Rx\-State@{\-U\-A\-V\-Talk\-Rx\-State}}
+\index{\-U\-A\-V\-Talk\-Rx\-State@{\-U\-A\-V\-Talk\-Rx\-State}!UAVTalk implementation@{\-U\-A\-V\-Talk implementation}}
+\subsubsection[{\-U\-A\-V\-Talk\-Rx\-State}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf \-U\-A\-V\-Talk\-Rx\-State}}}\label{group___u_a_v_talk_ga8a49dc52ac01b5d0782811f284df691c}
+\begin{Desc}
+\item[\-Enumerator\-: ]\par
+\begin{description}
+\index{\-U\-A\-V\-T\-A\-L\-K\-\_\-\-S\-T\-A\-T\-E\-\_\-\-E\-R\-R\-O\-R@{\-U\-A\-V\-T\-A\-L\-K\-\_\-\-S\-T\-A\-T\-E\-\_\-\-E\-R\-R\-O\-R}!\-U\-A\-V\-Talk implementation@{\-U\-A\-V\-Talk implementation}}\index{\-U\-A\-V\-Talk implementation@{\-U\-A\-V\-Talk implementation}!\-U\-A\-V\-T\-A\-L\-K\-\_\-\-S\-T\-A\-T\-E\-\_\-\-E\-R\-R\-O\-R@{\-U\-A\-V\-T\-A\-L\-K\-\_\-\-S\-T\-A\-T\-E\-\_\-\-E\-R\-R\-O\-R}}\item[{\em 
+\hypertarget{group___u_a_v_talk_gga8a49dc52ac01b5d0782811f284df691caebd1fa1a1b027dbc4ef710dc07af67c3}{\-U\-A\-V\-T\-A\-L\-K\-\_\-\-S\-T\-A\-T\-E\-\_\-\-E\-R\-R\-O\-R}\label{group___u_a_v_talk_gga8a49dc52ac01b5d0782811f284df691caebd1fa1a1b027dbc4ef710dc07af67c3}
+}]\index{\-U\-A\-V\-T\-A\-L\-K\-\_\-\-S\-T\-A\-T\-E\-\_\-\-S\-Y\-N\-C@{\-U\-A\-V\-T\-A\-L\-K\-\_\-\-S\-T\-A\-T\-E\-\_\-\-S\-Y\-N\-C}!\-U\-A\-V\-Talk implementation@{\-U\-A\-V\-Talk implementation}}\index{\-U\-A\-V\-Talk implementation@{\-U\-A\-V\-Talk implementation}!\-U\-A\-V\-T\-A\-L\-K\-\_\-\-S\-T\-A\-T\-E\-\_\-\-S\-Y\-N\-C@{\-U\-A\-V\-T\-A\-L\-K\-\_\-\-S\-T\-A\-T\-E\-\_\-\-S\-Y\-N\-C}}\item[{\em 
+\hypertarget{group___u_a_v_talk_gga8a49dc52ac01b5d0782811f284df691caae4d844e674556f502e53c92bb96c6c7}{\-U\-A\-V\-T\-A\-L\-K\-\_\-\-S\-T\-A\-T\-E\-\_\-\-S\-Y\-N\-C}\label{group___u_a_v_talk_gga8a49dc52ac01b5d0782811f284df691caae4d844e674556f502e53c92bb96c6c7}
+}]\index{\-U\-A\-V\-T\-A\-L\-K\-\_\-\-S\-T\-A\-T\-E\-\_\-\-T\-Y\-P\-E@{\-U\-A\-V\-T\-A\-L\-K\-\_\-\-S\-T\-A\-T\-E\-\_\-\-T\-Y\-P\-E}!\-U\-A\-V\-Talk implementation@{\-U\-A\-V\-Talk implementation}}\index{\-U\-A\-V\-Talk implementation@{\-U\-A\-V\-Talk implementation}!\-U\-A\-V\-T\-A\-L\-K\-\_\-\-S\-T\-A\-T\-E\-\_\-\-T\-Y\-P\-E@{\-U\-A\-V\-T\-A\-L\-K\-\_\-\-S\-T\-A\-T\-E\-\_\-\-T\-Y\-P\-E}}\item[{\em 
+\hypertarget{group___u_a_v_talk_gga8a49dc52ac01b5d0782811f284df691ca1ecd6ed2028baaae08701be647d70702}{\-U\-A\-V\-T\-A\-L\-K\-\_\-\-S\-T\-A\-T\-E\-\_\-\-T\-Y\-P\-E}\label{group___u_a_v_talk_gga8a49dc52ac01b5d0782811f284df691ca1ecd6ed2028baaae08701be647d70702}
+}]\index{\-U\-A\-V\-T\-A\-L\-K\-\_\-\-S\-T\-A\-T\-E\-\_\-\-S\-I\-Z\-E@{\-U\-A\-V\-T\-A\-L\-K\-\_\-\-S\-T\-A\-T\-E\-\_\-\-S\-I\-Z\-E}!\-U\-A\-V\-Talk implementation@{\-U\-A\-V\-Talk implementation}}\index{\-U\-A\-V\-Talk implementation@{\-U\-A\-V\-Talk implementation}!\-U\-A\-V\-T\-A\-L\-K\-\_\-\-S\-T\-A\-T\-E\-\_\-\-S\-I\-Z\-E@{\-U\-A\-V\-T\-A\-L\-K\-\_\-\-S\-T\-A\-T\-E\-\_\-\-S\-I\-Z\-E}}\item[{\em 
+\hypertarget{group___u_a_v_talk_gga8a49dc52ac01b5d0782811f284df691ca9aa933eedaeac2cc5d5552cf9becf16c}{\-U\-A\-V\-T\-A\-L\-K\-\_\-\-S\-T\-A\-T\-E\-\_\-\-S\-I\-Z\-E}\label{group___u_a_v_talk_gga8a49dc52ac01b5d0782811f284df691ca9aa933eedaeac2cc5d5552cf9becf16c}
+}]\index{\-U\-A\-V\-T\-A\-L\-K\-\_\-\-S\-T\-A\-T\-E\-\_\-\-O\-B\-J\-I\-D@{\-U\-A\-V\-T\-A\-L\-K\-\_\-\-S\-T\-A\-T\-E\-\_\-\-O\-B\-J\-I\-D}!\-U\-A\-V\-Talk implementation@{\-U\-A\-V\-Talk implementation}}\index{\-U\-A\-V\-Talk implementation@{\-U\-A\-V\-Talk implementation}!\-U\-A\-V\-T\-A\-L\-K\-\_\-\-S\-T\-A\-T\-E\-\_\-\-O\-B\-J\-I\-D@{\-U\-A\-V\-T\-A\-L\-K\-\_\-\-S\-T\-A\-T\-E\-\_\-\-O\-B\-J\-I\-D}}\item[{\em 
+\hypertarget{group___u_a_v_talk_gga8a49dc52ac01b5d0782811f284df691cab98212ea6a045429c1ca8a085116dfb3}{\-U\-A\-V\-T\-A\-L\-K\-\_\-\-S\-T\-A\-T\-E\-\_\-\-O\-B\-J\-I\-D}\label{group___u_a_v_talk_gga8a49dc52ac01b5d0782811f284df691cab98212ea6a045429c1ca8a085116dfb3}
+}]\index{\-U\-A\-V\-T\-A\-L\-K\-\_\-\-S\-T\-A\-T\-E\-\_\-\-I\-N\-S\-T\-I\-D@{\-U\-A\-V\-T\-A\-L\-K\-\_\-\-S\-T\-A\-T\-E\-\_\-\-I\-N\-S\-T\-I\-D}!\-U\-A\-V\-Talk implementation@{\-U\-A\-V\-Talk implementation}}\index{\-U\-A\-V\-Talk implementation@{\-U\-A\-V\-Talk implementation}!\-U\-A\-V\-T\-A\-L\-K\-\_\-\-S\-T\-A\-T\-E\-\_\-\-I\-N\-S\-T\-I\-D@{\-U\-A\-V\-T\-A\-L\-K\-\_\-\-S\-T\-A\-T\-E\-\_\-\-I\-N\-S\-T\-I\-D}}\item[{\em 
+\hypertarget{group___u_a_v_talk_gga8a49dc52ac01b5d0782811f284df691caae164f1909f4dfe3f72b6787482f0964}{\-U\-A\-V\-T\-A\-L\-K\-\_\-\-S\-T\-A\-T\-E\-\_\-\-I\-N\-S\-T\-I\-D}\label{group___u_a_v_talk_gga8a49dc52ac01b5d0782811f284df691caae164f1909f4dfe3f72b6787482f0964}
+}]\index{\-U\-A\-V\-T\-A\-L\-K\-\_\-\-S\-T\-A\-T\-E\-\_\-\-T\-I\-M\-E\-S\-T\-A\-M\-P@{\-U\-A\-V\-T\-A\-L\-K\-\_\-\-S\-T\-A\-T\-E\-\_\-\-T\-I\-M\-E\-S\-T\-A\-M\-P}!\-U\-A\-V\-Talk implementation@{\-U\-A\-V\-Talk implementation}}\index{\-U\-A\-V\-Talk implementation@{\-U\-A\-V\-Talk implementation}!\-U\-A\-V\-T\-A\-L\-K\-\_\-\-S\-T\-A\-T\-E\-\_\-\-T\-I\-M\-E\-S\-T\-A\-M\-P@{\-U\-A\-V\-T\-A\-L\-K\-\_\-\-S\-T\-A\-T\-E\-\_\-\-T\-I\-M\-E\-S\-T\-A\-M\-P}}\item[{\em 
+\hypertarget{group___u_a_v_talk_gga8a49dc52ac01b5d0782811f284df691ca1785b6e3aaaa285b9585f38fae2826f1}{\-U\-A\-V\-T\-A\-L\-K\-\_\-\-S\-T\-A\-T\-E\-\_\-\-T\-I\-M\-E\-S\-T\-A\-M\-P}\label{group___u_a_v_talk_gga8a49dc52ac01b5d0782811f284df691ca1785b6e3aaaa285b9585f38fae2826f1}
+}]\index{\-U\-A\-V\-T\-A\-L\-K\-\_\-\-S\-T\-A\-T\-E\-\_\-\-D\-A\-T\-A@{\-U\-A\-V\-T\-A\-L\-K\-\_\-\-S\-T\-A\-T\-E\-\_\-\-D\-A\-T\-A}!\-U\-A\-V\-Talk implementation@{\-U\-A\-V\-Talk implementation}}\index{\-U\-A\-V\-Talk implementation@{\-U\-A\-V\-Talk implementation}!\-U\-A\-V\-T\-A\-L\-K\-\_\-\-S\-T\-A\-T\-E\-\_\-\-D\-A\-T\-A@{\-U\-A\-V\-T\-A\-L\-K\-\_\-\-S\-T\-A\-T\-E\-\_\-\-D\-A\-T\-A}}\item[{\em 
+\hypertarget{group___u_a_v_talk_gga8a49dc52ac01b5d0782811f284df691ca48c5974336aae492175d58113ca410ec}{\-U\-A\-V\-T\-A\-L\-K\-\_\-\-S\-T\-A\-T\-E\-\_\-\-D\-A\-T\-A}\label{group___u_a_v_talk_gga8a49dc52ac01b5d0782811f284df691ca48c5974336aae492175d58113ca410ec}
+}]\index{\-U\-A\-V\-T\-A\-L\-K\-\_\-\-S\-T\-A\-T\-E\-\_\-\-C\-S@{\-U\-A\-V\-T\-A\-L\-K\-\_\-\-S\-T\-A\-T\-E\-\_\-\-C\-S}!\-U\-A\-V\-Talk implementation@{\-U\-A\-V\-Talk implementation}}\index{\-U\-A\-V\-Talk implementation@{\-U\-A\-V\-Talk implementation}!\-U\-A\-V\-T\-A\-L\-K\-\_\-\-S\-T\-A\-T\-E\-\_\-\-C\-S@{\-U\-A\-V\-T\-A\-L\-K\-\_\-\-S\-T\-A\-T\-E\-\_\-\-C\-S}}\item[{\em 
+\hypertarget{group___u_a_v_talk_gga8a49dc52ac01b5d0782811f284df691ca366f9ba94ea7dd19bfe5d7cf572d8cf9}{\-U\-A\-V\-T\-A\-L\-K\-\_\-\-S\-T\-A\-T\-E\-\_\-\-C\-S}\label{group___u_a_v_talk_gga8a49dc52ac01b5d0782811f284df691ca366f9ba94ea7dd19bfe5d7cf572d8cf9}
+}]\index{\-U\-A\-V\-T\-A\-L\-K\-\_\-\-S\-T\-A\-T\-E\-\_\-\-C\-O\-M\-P\-L\-E\-T\-E@{\-U\-A\-V\-T\-A\-L\-K\-\_\-\-S\-T\-A\-T\-E\-\_\-\-C\-O\-M\-P\-L\-E\-T\-E}!\-U\-A\-V\-Talk implementation@{\-U\-A\-V\-Talk implementation}}\index{\-U\-A\-V\-Talk implementation@{\-U\-A\-V\-Talk implementation}!\-U\-A\-V\-T\-A\-L\-K\-\_\-\-S\-T\-A\-T\-E\-\_\-\-C\-O\-M\-P\-L\-E\-T\-E@{\-U\-A\-V\-T\-A\-L\-K\-\_\-\-S\-T\-A\-T\-E\-\_\-\-C\-O\-M\-P\-L\-E\-T\-E}}\item[{\em 
+\hypertarget{group___u_a_v_talk_gga8a49dc52ac01b5d0782811f284df691ca561921fc000ac7610e879f9b1f63e54a}{\-U\-A\-V\-T\-A\-L\-K\-\_\-\-S\-T\-A\-T\-E\-\_\-\-C\-O\-M\-P\-L\-E\-T\-E}\label{group___u_a_v_talk_gga8a49dc52ac01b5d0782811f284df691ca561921fc000ac7610e879f9b1f63e54a}
+}]\end{description}
+\end{Desc}
+
+
+
+\-Definition at line 51 of file uavtalk.\-h.
+
+
+
+\subsection{\-Function \-Documentation}
+\hypertarget{group___u_a_v_talk_ga4134f84aca917fe6e3eca1eaacf0664e}{\index{\-U\-A\-V\-Talk implementation@{\-U\-A\-V\-Talk implementation}!\-U\-A\-V\-Talk\-Get\-Last\-Timestamp@{\-U\-A\-V\-Talk\-Get\-Last\-Timestamp}}
+\index{\-U\-A\-V\-Talk\-Get\-Last\-Timestamp@{\-U\-A\-V\-Talk\-Get\-Last\-Timestamp}!UAVTalk implementation@{\-U\-A\-V\-Talk implementation}}
+\subsubsection[{\-U\-A\-V\-Talk\-Get\-Last\-Timestamp}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-U\-A\-V\-Talk\-Get\-Last\-Timestamp} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-U\-A\-V\-Talk\-Connection}}]{connection\-Handle, }
+\item[{uint16\-\_\-t $\ast$}]{timestamp}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_talk_ga4134f84aca917fe6e3eca1eaacf0664e}
+\-Accessor method to get the timestamp from the last \-U\-A\-V\-Talk message 
+
+\-Definition at line 156 of file uavtalk.\-c.
+
+\hypertarget{group___u_a_v_talk_ga2f8c8d67e642f7df90500f38273baa61}{\index{\-U\-A\-V\-Talk implementation@{\-U\-A\-V\-Talk implementation}!\-U\-A\-V\-Talk\-Get\-Output\-Stream@{\-U\-A\-V\-Talk\-Get\-Output\-Stream}}
+\index{\-U\-A\-V\-Talk\-Get\-Output\-Stream@{\-U\-A\-V\-Talk\-Get\-Output\-Stream}!UAVTalk implementation@{\-U\-A\-V\-Talk implementation}}
+\subsubsection[{\-U\-A\-V\-Talk\-Get\-Output\-Stream}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-U\-A\-V\-Talk\-Output\-Stream} {\bf \-U\-A\-V\-Talk\-Get\-Output\-Stream} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-U\-A\-V\-Talk\-Connection}}]{connection\-Handle}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_talk_ga2f8c8d67e642f7df90500f38273baa61}
+\-Get current output stream 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em connection} & \-U\-A\-V\-Talk\-Connection to be used \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+\-U\-A\-V\-Tarlk\-Output\-Stream the output stream used 
+\end{DoxyReturn}
+
+
+\-Definition at line 107 of file uavtalk.\-c.
+
+\hypertarget{group___u_a_v_talk_gaeccb32b1562a98d5586bb3d4d25715ee}{\index{\-U\-A\-V\-Talk implementation@{\-U\-A\-V\-Talk implementation}!\-U\-A\-V\-Talk\-Get\-Stats@{\-U\-A\-V\-Talk\-Get\-Stats}}
+\index{\-U\-A\-V\-Talk\-Get\-Stats@{\-U\-A\-V\-Talk\-Get\-Stats}!UAVTalk implementation@{\-U\-A\-V\-Talk implementation}}
+\subsubsection[{\-U\-A\-V\-Talk\-Get\-Stats}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-U\-A\-V\-Talk\-Get\-Stats} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-U\-A\-V\-Talk\-Connection}}]{connection\-Handle, }
+\item[{{\bf \-U\-A\-V\-Talk\-Stats} $\ast$}]{stats\-Out}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_talk_gaeccb32b1562a98d5586bb3d4d25715ee}
+\-Get communication statistics counters 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em connection} & \-U\-A\-V\-Talk\-Connection to be used \\
+\hline
+\mbox{\tt out}  & {\em stats\-Out} & \-Statistics counters \\
+\hline
+\end{DoxyParams}
+
+
+\-Definition at line 119 of file uavtalk.\-c.
+
+\hypertarget{group___u_a_v_talk_ga91e20b57ed132bab36c9ca723d9bdac4}{\index{\-U\-A\-V\-Talk implementation@{\-U\-A\-V\-Talk implementation}!\-U\-A\-V\-Talk\-Initialize@{\-U\-A\-V\-Talk\-Initialize}}
+\index{\-U\-A\-V\-Talk\-Initialize@{\-U\-A\-V\-Talk\-Initialize}!UAVTalk implementation@{\-U\-A\-V\-Talk implementation}}
+\subsubsection[{\-U\-A\-V\-Talk\-Initialize}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-U\-A\-V\-Talk\-Connection} {\bf \-U\-A\-V\-Talk\-Initialize} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-U\-A\-V\-Talk\-Output\-Stream}}]{output\-Stream}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_talk_ga91e20b57ed132bab36c9ca723d9bdac4}
+\-Initialize the \-U\-A\-V\-Talk library 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em connection} & \-U\-A\-V\-Talk\-Connection to be used \\
+\hline
+\mbox{\tt in}  & {\em output\-Stream} & \-Function pointer that is called to send a data buffer \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+0 \-Success 
+
+-\/1 \-Failure 
+\end{DoxyReturn}
+
+
+\-Definition at line 54 of file uavtalk.\-c.
+
+\hypertarget{group___u_a_v_talk_ga1a738a506f26790d1b9c9fac5b6e1d92}{\index{\-U\-A\-V\-Talk implementation@{\-U\-A\-V\-Talk implementation}!\-U\-A\-V\-Talk\-Process\-Input\-Stream@{\-U\-A\-V\-Talk\-Process\-Input\-Stream}}
+\index{\-U\-A\-V\-Talk\-Process\-Input\-Stream@{\-U\-A\-V\-Talk\-Process\-Input\-Stream}!UAVTalk implementation@{\-U\-A\-V\-Talk implementation}}
+\subsubsection[{\-U\-A\-V\-Talk\-Process\-Input\-Stream}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-U\-A\-V\-Talk\-Rx\-State} {\bf \-U\-A\-V\-Talk\-Process\-Input\-Stream} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-U\-A\-V\-Talk\-Connection}}]{connection\-Handle, }
+\item[{uint8\-\_\-t}]{rxbyte}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_talk_ga1a738a506f26790d1b9c9fac5b6e1d92}
+\-Process an byte from the telemetry stream. 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em connection} & \-U\-A\-V\-Talk\-Connection to be used \\
+\hline
+\mbox{\tt in}  & {\em rxbyte} & \-Received byte \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+\-U\-A\-V\-Talk\-Rx\-State 
+\end{DoxyReturn}
+
+
+\-Definition at line 546 of file uavtalk.\-c.
+
+\hypertarget{group___u_a_v_talk_ga174ffb688889f75507fc022eaf33d52e}{\index{\-U\-A\-V\-Talk implementation@{\-U\-A\-V\-Talk implementation}!\-U\-A\-V\-Talk\-Process\-Input\-Stream\-Quiet@{\-U\-A\-V\-Talk\-Process\-Input\-Stream\-Quiet}}
+\index{\-U\-A\-V\-Talk\-Process\-Input\-Stream\-Quiet@{\-U\-A\-V\-Talk\-Process\-Input\-Stream\-Quiet}!UAVTalk implementation@{\-U\-A\-V\-Talk implementation}}
+\subsubsection[{\-U\-A\-V\-Talk\-Process\-Input\-Stream\-Quiet}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-U\-A\-V\-Talk\-Rx\-State} {\bf \-U\-A\-V\-Talk\-Process\-Input\-Stream\-Quiet} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-U\-A\-V\-Talk\-Connection}}]{connection\-Handle, }
+\item[{uint8\-\_\-t}]{rxbyte}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_talk_ga174ffb688889f75507fc022eaf33d52e}
+\-Process an byte from the telemetry stream. 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em connection} & \-U\-A\-V\-Talk\-Connection to be used \\
+\hline
+\mbox{\tt in}  & {\em rxbyte} & \-Received byte \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+\-U\-A\-V\-Talk\-Rx\-State 
+\end{DoxyReturn}
+
+
+\-Definition at line 298 of file uavtalk.\-c.
+
+\hypertarget{group___u_a_v_talk_ga11bfbe431f2e79f43a4321b942dc94c8}{\index{\-U\-A\-V\-Talk implementation@{\-U\-A\-V\-Talk implementation}!\-U\-A\-V\-Talk\-Relay\-Input\-Stream@{\-U\-A\-V\-Talk\-Relay\-Input\-Stream}}
+\index{\-U\-A\-V\-Talk\-Relay\-Input\-Stream@{\-U\-A\-V\-Talk\-Relay\-Input\-Stream}!UAVTalk implementation@{\-U\-A\-V\-Talk implementation}}
+\subsubsection[{\-U\-A\-V\-Talk\-Relay\-Input\-Stream}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-U\-A\-V\-Talk\-Rx\-State} {\bf \-U\-A\-V\-Talk\-Relay\-Input\-Stream} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-U\-A\-V\-Talk\-Connection}}]{connection\-Handle, }
+\item[{uint8\-\_\-t}]{rxbyte}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_talk_ga11bfbe431f2e79f43a4321b942dc94c8}
+\-Process an byte from the telemetry stream, sending the packet out the output stream when it's complete \-This allows the interlieving of packets on an output \-U\-A\-V\-Talk stream, and is used by the \-O\-P\-Link device to relay packets from an input com port to a different output com port without sending one packet in the middle of another packet. \-Because this uses both the receive buffer and transmit buffer, it should only be used for relaying a packet, not for the standard sending and receiving of packets. 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em connection} & \-U\-A\-V\-Talk\-Connection to be used \\
+\hline
+\mbox{\tt in}  & {\em rxbyte} & \-Received byte \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+\-U\-A\-V\-Talk\-Rx\-State 
+\end{DoxyReturn}
+
+
+\-Definition at line 574 of file uavtalk.\-c.
+
+\hypertarget{group___u_a_v_talk_gafea32b2e3331f9e81f48979b0e6c0a0b}{\index{\-U\-A\-V\-Talk implementation@{\-U\-A\-V\-Talk implementation}!\-U\-A\-V\-Talk\-Reset\-Stats@{\-U\-A\-V\-Talk\-Reset\-Stats}}
+\index{\-U\-A\-V\-Talk\-Reset\-Stats@{\-U\-A\-V\-Talk\-Reset\-Stats}!UAVTalk implementation@{\-U\-A\-V\-Talk implementation}}
+\subsubsection[{\-U\-A\-V\-Talk\-Reset\-Stats}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-U\-A\-V\-Talk\-Reset\-Stats} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-U\-A\-V\-Talk\-Connection}}]{connection\-Handle}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_talk_gafea32b2e3331f9e81f48979b0e6c0a0b}
+\-Reset the statistics counters. 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em connection} & \-U\-A\-V\-Talk\-Connection to be used \\
+\hline
+\end{DoxyParams}
+
+
+\-Definition at line 138 of file uavtalk.\-c.
+
+\hypertarget{group___u_a_v_talk_gab995cc19b4024b1a6303c963e139f522}{\index{\-U\-A\-V\-Talk implementation@{\-U\-A\-V\-Talk implementation}!\-U\-A\-V\-Talk\-Send\-Ack@{\-U\-A\-V\-Talk\-Send\-Ack}}
+\index{\-U\-A\-V\-Talk\-Send\-Ack@{\-U\-A\-V\-Talk\-Send\-Ack}!UAVTalk implementation@{\-U\-A\-V\-Talk implementation}}
+\subsubsection[{\-U\-A\-V\-Talk\-Send\-Ack}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-U\-A\-V\-Talk\-Send\-Ack} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-U\-A\-V\-Talk\-Connection}}]{connection\-Handle, }
+\item[{{\bf \-U\-A\-V\-Obj\-Handle}}]{obj, }
+\item[{uint16\-\_\-t}]{inst\-Id}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_talk_gab995cc19b4024b1a6303c963e139f522}
+\-Send a \-A\-C\-K through the telemetry link. 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em connection\-Handle} & \-U\-A\-V\-Talk\-Connection to be used \\
+\hline
+\mbox{\tt in}  & {\em obj\-Id} & \-Object \-I\-D to send a \-N\-A\-C\-K for \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+0 \-Success 
+
+-\/1 \-Failure 
+\end{DoxyReturn}
+
+
+\-Definition at line 638 of file uavtalk.\-c.
+
+\hypertarget{group___u_a_v_talk_ga75dcc116d1af9cb73a58c233a2d95bed}{\index{\-U\-A\-V\-Talk implementation@{\-U\-A\-V\-Talk implementation}!\-U\-A\-V\-Talk\-Send\-Buf@{\-U\-A\-V\-Talk\-Send\-Buf}}
+\index{\-U\-A\-V\-Talk\-Send\-Buf@{\-U\-A\-V\-Talk\-Send\-Buf}!UAVTalk implementation@{\-U\-A\-V\-Talk implementation}}
+\subsubsection[{\-U\-A\-V\-Talk\-Send\-Buf}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-U\-A\-V\-Talk\-Send\-Buf} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-U\-A\-V\-Talk\-Connection}}]{connection\-Handle, }
+\item[{uint8\-\_\-t $\ast$}]{buf, }
+\item[{uint16\-\_\-t}]{len}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_talk_ga75dcc116d1af9cb73a58c233a2d95bed}
+\-Send a buffer containing a \-U\-A\-V\-Talk message through the telemetry link. \-This function locks the connection prior to sending. 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em connection} & \-U\-A\-V\-Talk\-Connection to be used \\
+\hline
+\mbox{\tt in}  & {\em buf} & \-The data buffer containing the \-U\-A\-V\-Talk message \\
+\hline
+\mbox{\tt in}  & {\em len} & \-The number of bytes to send from the data buffer \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+0 \-Success 
+
+-\/1 \-Failure 
+\end{DoxyReturn}
+
+
+\-Definition at line 686 of file uavtalk.\-c.
+
+\hypertarget{group___u_a_v_talk_ga2ef859d444a819ed3e3bb4ea36761c69}{\index{\-U\-A\-V\-Talk implementation@{\-U\-A\-V\-Talk implementation}!\-U\-A\-V\-Talk\-Send\-Nack@{\-U\-A\-V\-Talk\-Send\-Nack}}
+\index{\-U\-A\-V\-Talk\-Send\-Nack@{\-U\-A\-V\-Talk\-Send\-Nack}!UAVTalk implementation@{\-U\-A\-V\-Talk implementation}}
+\subsubsection[{\-U\-A\-V\-Talk\-Send\-Nack}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-U\-A\-V\-Talk\-Send\-Nack} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-U\-A\-V\-Talk\-Connection}}]{connection\-Handle, }
+\item[{uint32\-\_\-t}]{obj\-Id}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_talk_ga2ef859d444a819ed3e3bb4ea36761c69}
+\-Send a \-N\-A\-C\-K through the telemetry link. 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em connection\-Handle} & \-U\-A\-V\-Talk\-Connection to be used \\
+\hline
+\mbox{\tt in}  & {\em obj\-Id} & \-Object \-I\-D to send a \-N\-A\-C\-K for \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+0 \-Success 
+
+-\/1 \-Failure 
+\end{DoxyReturn}
+
+
+\-Definition at line 661 of file uavtalk.\-c.
+
+\hypertarget{group___u_a_v_talk_gab4fe52d9c33088b7ebbac9ad4e11b9de}{\index{\-U\-A\-V\-Talk implementation@{\-U\-A\-V\-Talk implementation}!\-U\-A\-V\-Talk\-Send\-Object@{\-U\-A\-V\-Talk\-Send\-Object}}
+\index{\-U\-A\-V\-Talk\-Send\-Object@{\-U\-A\-V\-Talk\-Send\-Object}!UAVTalk implementation@{\-U\-A\-V\-Talk implementation}}
+\subsubsection[{\-U\-A\-V\-Talk\-Send\-Object}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-U\-A\-V\-Talk\-Send\-Object} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-U\-A\-V\-Talk\-Connection}}]{connection\-Handle, }
+\item[{{\bf \-U\-A\-V\-Obj\-Handle}}]{obj, }
+\item[{uint16\-\_\-t}]{inst\-Id, }
+\item[{uint8\-\_\-t}]{acked, }
+\item[{int32\-\_\-t}]{timeout\-Ms}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_talk_gab4fe52d9c33088b7ebbac9ad4e11b9de}
+\-Send the specified object through the telemetry link. 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em connection} & \-U\-A\-V\-Talk\-Connection to be used \\
+\hline
+\mbox{\tt in}  & {\em obj} & \-Object to send \\
+\hline
+\mbox{\tt in}  & {\em inst\-Id} & \-The instance \-I\-D or \-U\-A\-V\-O\-B\-J\-\_\-\-A\-L\-L\-\_\-\-I\-N\-S\-T\-A\-N\-C\-E\-S for all instances. \\
+\hline
+\mbox{\tt in}  & {\em acked} & \-Selects if an ack is required (1\-:ack required, 0\-: ack not required) \\
+\hline
+\mbox{\tt in}  & {\em timeout\-Ms} & \-Time to wait for the ack, when zero it will return immediately \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+0 \-Success 
+
+-\/1 \-Failure 
+\end{DoxyReturn}
+
+
+\-Definition at line 193 of file uavtalk.\-c.
+
+\hypertarget{group___u_a_v_talk_gaa69251603e3426610051dc19b3a68494}{\index{\-U\-A\-V\-Talk implementation@{\-U\-A\-V\-Talk implementation}!\-U\-A\-V\-Talk\-Send\-Object\-Request@{\-U\-A\-V\-Talk\-Send\-Object\-Request}}
+\index{\-U\-A\-V\-Talk\-Send\-Object\-Request@{\-U\-A\-V\-Talk\-Send\-Object\-Request}!UAVTalk implementation@{\-U\-A\-V\-Talk implementation}}
+\subsubsection[{\-U\-A\-V\-Talk\-Send\-Object\-Request}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-U\-A\-V\-Talk\-Send\-Object\-Request} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-U\-A\-V\-Talk\-Connection}}]{connection\-Handle, }
+\item[{{\bf \-U\-A\-V\-Obj\-Handle}}]{obj, }
+\item[{uint16\-\_\-t}]{inst\-Id, }
+\item[{int32\-\_\-t}]{timeout}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_talk_gaa69251603e3426610051dc19b3a68494}
+\-Request an update for the specified object, on success the object data would have been updated by the \-G\-C\-S. 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em connection} & \-U\-A\-V\-Talk\-Connection to be used \\
+\hline
+\mbox{\tt in}  & {\em obj} & \-Object to update \\
+\hline
+\mbox{\tt in}  & {\em inst\-Id} & \-The instance \-I\-D or \-U\-A\-V\-O\-B\-J\-\_\-\-A\-L\-L\-\_\-\-I\-N\-S\-T\-A\-N\-C\-E\-S for all instances. \\
+\hline
+\mbox{\tt in}  & {\em timeout} & \-Time to wait for the response, when zero it will return immediately \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+0 \-Success 
+
+-\/1 \-Failure 
+\end{DoxyReturn}
+
+
+\-Definition at line 176 of file uavtalk.\-c.
+
+\hypertarget{group___u_a_v_talk_gad5aea81015d8dd5ed7d474ac87fe58fc}{\index{\-U\-A\-V\-Talk implementation@{\-U\-A\-V\-Talk implementation}!\-U\-A\-V\-Talk\-Send\-Object\-Timestamped@{\-U\-A\-V\-Talk\-Send\-Object\-Timestamped}}
+\index{\-U\-A\-V\-Talk\-Send\-Object\-Timestamped@{\-U\-A\-V\-Talk\-Send\-Object\-Timestamped}!UAVTalk implementation@{\-U\-A\-V\-Talk implementation}}
+\subsubsection[{\-U\-A\-V\-Talk\-Send\-Object\-Timestamped}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-U\-A\-V\-Talk\-Send\-Object\-Timestamped} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-U\-A\-V\-Talk\-Connection}}]{connection\-Handle, }
+\item[{{\bf \-U\-A\-V\-Obj\-Handle}}]{obj, }
+\item[{uint16\-\_\-t}]{inst\-Id, }
+\item[{uint8\-\_\-t}]{acked, }
+\item[{int32\-\_\-t}]{timeout\-Ms}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_talk_gad5aea81015d8dd5ed7d474ac87fe58fc}
+\-Send the specified object through the telemetry link with a timestamp. 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em connection} & \-U\-A\-V\-Talk\-Connection to be used \\
+\hline
+\mbox{\tt in}  & {\em obj} & \-Object to send \\
+\hline
+\mbox{\tt in}  & {\em inst\-Id} & \-The instance \-I\-D or \-U\-A\-V\-O\-B\-J\-\_\-\-A\-L\-L\-\_\-\-I\-N\-S\-T\-A\-N\-C\-E\-S for all instances. \\
+\hline
+\mbox{\tt in}  & {\em acked} & \-Selects if an ack is required (1\-:ack required, 0\-: ack not required) \\
+\hline
+\mbox{\tt in}  & {\em timeout\-Ms} & \-Time to wait for the ack, when zero it will return immediately \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+0 \-Success 
+
+-\/1 \-Failure 
+\end{DoxyReturn}
+
+
+\-Definition at line 218 of file uavtalk.\-c.
+
+\hypertarget{group___u_a_v_talk_ga33f8221bbddbf94c7379c3230eac1501}{\index{\-U\-A\-V\-Talk implementation@{\-U\-A\-V\-Talk implementation}!\-U\-A\-V\-Talk\-Set\-Output\-Stream@{\-U\-A\-V\-Talk\-Set\-Output\-Stream}}
+\index{\-U\-A\-V\-Talk\-Set\-Output\-Stream@{\-U\-A\-V\-Talk\-Set\-Output\-Stream}!UAVTalk implementation@{\-U\-A\-V\-Talk implementation}}
+\subsubsection[{\-U\-A\-V\-Talk\-Set\-Output\-Stream}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-U\-A\-V\-Talk\-Set\-Output\-Stream} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-U\-A\-V\-Talk\-Connection}}]{connection\-Handle, }
+\item[{{\bf \-U\-A\-V\-Talk\-Output\-Stream}}]{output\-Stream}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_talk_ga33f8221bbddbf94c7379c3230eac1501}
+\-Set the communication output stream 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em connection} & \-U\-A\-V\-Talk\-Connection to be used \\
+\hline
+\mbox{\tt in}  & {\em output\-Stream} & \-Function pointer that is called to send a data buffer \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+0 \-Success 
+
+-\/1 \-Failure 
+\end{DoxyReturn}
+
+
+\-Definition at line 83 of file uavtalk.\-c.
+

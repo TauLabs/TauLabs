@@ -1,0 +1,25 @@
+var class_utils_1_1_new_class_widget =
+[
+    [ "activated", "class_utils_1_1_new_class_widget.html#afdf63ac05df1b4688fbf3b2999a4c524", null ],
+    [ "setAllowDirectories", "class_utils_1_1_new_class_widget.html#a1ee3c36285e62823f7c08bb30b8ffbc3", null ],
+    [ "setBaseClassChoices", "class_utils_1_1_new_class_widget.html#a14f6492e9cc61f611fd0b21d175d9ba2", null ],
+    [ "setBaseClassEditable", "class_utils_1_1_new_class_widget.html#ac2276990adb49b7b81eb2d22a202b246", null ],
+    [ "setBaseClassInputVisible", "class_utils_1_1_new_class_widget.html#aaaf28bf82d98ad50f6232ee76fbaa285", null ],
+    [ "setBaseClassName", "class_utils_1_1_new_class_widget.html#a5daea6c14d2e6da5ba171622ec69718d", null ],
+    [ "setClassName", "class_utils_1_1_new_class_widget.html#ac83a1c443d3c883fd63cb8869617b6bc", null ],
+    [ "setClassType", "class_utils_1_1_new_class_widget.html#a9aeaee196b94c58267ff4b2622a8d1a5", null ],
+    [ "setClassTypeComboVisible", "class_utils_1_1_new_class_widget.html#aad6a1f983a3d59926fb6e4b720b04dab", null ],
+    [ "setFormExtension", "class_utils_1_1_new_class_widget.html#ae51ac4c19ef0643be9075a76b7f8962f", null ],
+    [ "setFormInputCheckable", "class_utils_1_1_new_class_widget.html#a5b42419017941a3fb8927c408ac899da", null ],
+    [ "setFormInputChecked", "class_utils_1_1_new_class_widget.html#af61268ef168692b168778e9b5dc44220", null ],
+    [ "setFormInputVisible", "class_utils_1_1_new_class_widget.html#aef1b140a9e382e7e540a8572e3699bef", null ],
+    [ "setHeaderExtension", "class_utils_1_1_new_class_widget.html#a812d3b93ff576bf4c2e55683ca3beadf", null ],
+    [ "setLowerCaseFiles", "class_utils_1_1_new_class_widget.html#a3c987641a3750555468a021945bfc2f3", null ],
+    [ "setNamespacesEnabled", "class_utils_1_1_new_class_widget.html#a5c89fb1e9a2f9e8816579e26d01b5bc2", null ],
+    [ "setPath", "class_utils_1_1_new_class_widget.html#a4b9fd082bcc982a3192cc7af67b554b5", null ],
+    [ "setPathInputVisible", "class_utils_1_1_new_class_widget.html#a074da3c815cded546c6725519d60d710", null ],
+    [ "setSourceExtension", "class_utils_1_1_new_class_widget.html#aef343f46d2b226800f9640e5b742bb88", null ],
+    [ "suggestClassNameFromBase", "class_utils_1_1_new_class_widget.html#ad48d60f3a08cd63f585d70459c168bbe", null ],
+    [ "triggerUpdateFileNames", "class_utils_1_1_new_class_widget.html#a362e135893f1c158324cf654ae8e59ee", null ],
+    [ "validChanged", "class_utils_1_1_new_class_widget.html#a603d6f317cf4d6bea477ae93a153ce2f", null ]
+];

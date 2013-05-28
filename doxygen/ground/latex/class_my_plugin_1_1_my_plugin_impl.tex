@@ -1,0 +1,115 @@
+\hypertarget{class_my_plugin_1_1_my_plugin_impl}{\section{\-My\-Plugin\-:\-:\-My\-Plugin\-Impl \-Class \-Reference}
+\label{class_my_plugin_1_1_my_plugin_impl}\index{\-My\-Plugin\-::\-My\-Plugin\-Impl@{\-My\-Plugin\-::\-My\-Plugin\-Impl}}
+}
+
+
+{\ttfamily \#include $<$testplugin.\-h$>$}
+
+\-Inheritance diagram for \-My\-Plugin\-:\-:\-My\-Plugin\-Impl\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_my_plugin_1_1_my_plugin_impl}
+\end{center}
+\end{figure}
+\subsection*{\-Public \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_my_plugin_1_1_my_plugin_impl_a9c5dc5a0442c15477dafda27aaaa4dca}{\-My\-Plugin\-Impl} ()
+\item 
+bool \hyperlink{class_my_plugin_1_1_my_plugin_impl_a917bc0c4caf9ab591971b7b7d45fbaa8}{initialize} (const \-Q\-String\-List \&arguments, \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} $\ast$error\-String)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_my_plugin_1_1_my_plugin_impl_a4ad1abbd9f078e73814e7e49232a9b6b}{extensions\-Initialized} ()
+\item 
+bool \hyperlink{class_my_plugin_1_1_my_plugin_impl_a3bd4c7c640ec6db82acc7ca660288a7a}{is\-Initialized} ()
+\item 
+bool \hyperlink{class_my_plugin_1_1_my_plugin_impl_a0128f76dfe36041c70eecd9ecb7a5aa8}{is\-Extensions\-Initialized} ()
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+
+
+\-Definition at line 39 of file testplugin.\-h.
+
+
+
+\subsection{\-Constructor \& \-Destructor \-Documentation}
+\hypertarget{class_my_plugin_1_1_my_plugin_impl_a9c5dc5a0442c15477dafda27aaaa4dca}{\index{\-My\-Plugin\-::\-My\-Plugin\-Impl@{\-My\-Plugin\-::\-My\-Plugin\-Impl}!\-My\-Plugin\-Impl@{\-My\-Plugin\-Impl}}
+\index{\-My\-Plugin\-Impl@{\-My\-Plugin\-Impl}!MyPlugin::MyPluginImpl@{\-My\-Plugin\-::\-My\-Plugin\-Impl}}
+\subsubsection[{\-My\-Plugin\-Impl}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-My\-Plugin\-Impl\-::\-My\-Plugin\-Impl} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_my_plugin_1_1_my_plugin_impl_a9c5dc5a0442c15477dafda27aaaa4dca}
+
+
+\-Definition at line 35 of file testplugin.\-cpp.
+
+
+
+\subsection{\-Member \-Function \-Documentation}
+\hypertarget{class_my_plugin_1_1_my_plugin_impl_a4ad1abbd9f078e73814e7e49232a9b6b}{\index{\-My\-Plugin\-::\-My\-Plugin\-Impl@{\-My\-Plugin\-::\-My\-Plugin\-Impl}!extensions\-Initialized@{extensions\-Initialized}}
+\index{extensions\-Initialized@{extensions\-Initialized}!MyPlugin::MyPluginImpl@{\-My\-Plugin\-::\-My\-Plugin\-Impl}}
+\subsubsection[{extensions\-Initialized}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-My\-Plugin\-Impl\-::extensions\-Initialized} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{class_my_plugin_1_1_my_plugin_impl_a4ad1abbd9f078e73814e7e49232a9b6b}
+\-Called after the \-I\-Plugin\-::initialize() method has been called, and after both the \-I\-Plugin\-::initialize() and \-I\-Plugin\-::extensions\-Initialized() methods of plugins that depend on this plugin have been called. \-In this method, the plugin can assume that plugins that depend on this plugin are fully 'up and running'. \-It is a good place to look in the plugin manager's object pool for objects that have been provided by dependent plugins. \begin{DoxySeeAlso}{\-See also}
+\hyperlink{class_my_plugin_1_1_my_plugin_impl_a917bc0c4caf9ab591971b7b7d45fbaa8}{initialize()} 
+\end{DoxySeeAlso}
+
+
+\-Implements \hyperlink{class_extension_system_1_1_i_plugin_a1db3a7fb242fca02229f9a3be4fd6610}{\-Extension\-System\-::\-I\-Plugin}.
+
+
+
+\-Definition at line 46 of file testplugin.\-cpp.
+
+\hypertarget{class_my_plugin_1_1_my_plugin_impl_a917bc0c4caf9ab591971b7b7d45fbaa8}{\index{\-My\-Plugin\-::\-My\-Plugin\-Impl@{\-My\-Plugin\-::\-My\-Plugin\-Impl}!initialize@{initialize}}
+\index{initialize@{initialize}!MyPlugin::MyPluginImpl@{\-My\-Plugin\-::\-My\-Plugin\-Impl}}
+\subsubsection[{initialize}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-My\-Plugin\-Impl\-::initialize} (
+\begin{DoxyParamCaption}
+\item[{const \-Q\-String\-List \&}]{arguments, }
+\item[{{\bf \-Q\-String} $\ast$}]{error\-String}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{class_my_plugin_1_1_my_plugin_impl_a917bc0c4caf9ab591971b7b7d45fbaa8}
+\-Called after the plugin has been loaded and the \-I\-Plugin instance has been created. \-The initialize methods of plugins that depend on this plugin are called after the initialize method of this plugin has been called. \-Plugins should initialize their internal state in this method. \-Returns if initialization of successful. \-If it wasn't successful, the {\itshape error\-String\/} should be set to a user-\/readable message describing the reason. \begin{DoxySeeAlso}{\-See also}
+\hyperlink{class_my_plugin_1_1_my_plugin_impl_a4ad1abbd9f078e73814e7e49232a9b6b}{extensions\-Initialized()} 
+\end{DoxySeeAlso}
+
+
+\-Implements \hyperlink{class_extension_system_1_1_i_plugin_a9f3dc957317279daed393fdf4894e944}{\-Extension\-System\-::\-I\-Plugin}.
+
+
+
+\-Definition at line 40 of file testplugin.\-cpp.
+
+\hypertarget{class_my_plugin_1_1_my_plugin_impl_a0128f76dfe36041c70eecd9ecb7a5aa8}{\index{\-My\-Plugin\-::\-My\-Plugin\-Impl@{\-My\-Plugin\-::\-My\-Plugin\-Impl}!is\-Extensions\-Initialized@{is\-Extensions\-Initialized}}
+\index{is\-Extensions\-Initialized@{is\-Extensions\-Initialized}!MyPlugin::MyPluginImpl@{\-My\-Plugin\-::\-My\-Plugin\-Impl}}
+\subsubsection[{is\-Extensions\-Initialized}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-My\-Plugin\-::\-My\-Plugin\-Impl\-::is\-Extensions\-Initialized} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{class_my_plugin_1_1_my_plugin_impl_a0128f76dfe36041c70eecd9ecb7a5aa8}
+
+
+\-Definition at line 50 of file testplugin.\-h.
+
+\hypertarget{class_my_plugin_1_1_my_plugin_impl_a3bd4c7c640ec6db82acc7ca660288a7a}{\index{\-My\-Plugin\-::\-My\-Plugin\-Impl@{\-My\-Plugin\-::\-My\-Plugin\-Impl}!is\-Initialized@{is\-Initialized}}
+\index{is\-Initialized@{is\-Initialized}!MyPlugin::MyPluginImpl@{\-My\-Plugin\-::\-My\-Plugin\-Impl}}
+\subsubsection[{is\-Initialized}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-My\-Plugin\-::\-My\-Plugin\-Impl\-::is\-Initialized} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{class_my_plugin_1_1_my_plugin_impl_a3bd4c7c640ec6db82acc7ca660288a7a}
+
+
+\-Definition at line 49 of file testplugin.\-h.
+
+
+
+\-The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/libs/extensionsystem/test/auto/pluginspec/testplugin/\hyperlink{testplugin_8h}{testplugin.\-h}\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/libs/extensionsystem/test/auto/pluginspec/testplugin/\hyperlink{testplugin_8cpp}{testplugin.\-cpp}\end{DoxyCompactItemize}

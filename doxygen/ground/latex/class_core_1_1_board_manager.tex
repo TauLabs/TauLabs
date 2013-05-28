@@ -1,0 +1,40 @@
+\hypertarget{class_core_1_1_board_manager}{\section{\-Core\-:\-:\-Board\-Manager \-Class \-Reference}
+\label{class_core_1_1_board_manager}\index{\-Core\-::\-Board\-Manager@{\-Core\-::\-Board\-Manager}}
+}
+
+
+{\ttfamily \#include $<$boardmanager.\-h$>$}
+
+\subsection*{\-Public \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___core_plugin_ga4f2c52bc9064410a9ea3b15de6b3b172}{\-Board\-Manager} ()
+\item 
+virtual \hyperlink{group___core_plugin_gaceb91bd6e1ee469d9043e6295ad404fa}{$\sim$\-Board\-Manager} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___core_plugin_gabd392f7c64fd19944b464465e3ed3ecd}{init} ()
+\item 
+\-Q\-List$<$ \hyperlink{class_core_1_1_i_board_type}{\-I\-Board\-Type} $\ast$ $>$ \hyperlink{group___core_plugin_ga4278ca31ed4ae32d6da4c5ccd43ceb4a}{get\-Available\-Board\-Types} ()
+\item 
+\-Q\-List$<$ int $>$ \hyperlink{group___core_plugin_gaa37a0c8c804e3623c622cf8243bc7ef3}{get\-Known\-Vendor\-I\-Ds} ()
+\begin{DoxyCompactList}\small\item\em get\-Known\-Vendor\-I\-Ds \-Get all \-U\-S\-B \-Vendor\-I\-Ds known by the board manager. \-This can be used by any plugin which uses \-U\-S\-B and needs to know what boards are ours. \-The list is deduplicated. \end{DoxyCompactList}\item 
+\-Q\-List$<$ \hyperlink{struct_core_1_1_i_board_type_1_1_u_s_b_info}{\-I\-Board\-Type\-::\-U\-S\-B\-Info} $\ast$ $>$ \hyperlink{group___core_plugin_ga37e132b8ad41b05157fcd29b679ce713}{get\-Known\-U\-S\-B\-Info} ()
+\begin{DoxyCompactList}\small\item\em get\-Known\-U\-S\-B\-Info \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Protected \-Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\-Q\-List$<$ \hyperlink{class_core_1_1_i_board_type}{\-I\-Board\-Type} $\ast$ $>$ \hyperlink{group___core_plugin_ga0a7a3ac9ac181c79d4eb14940fe8bd4f}{m\-\_\-board\-Types\-List}
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+
+
+\-Definition at line 39 of file boardmanager.\-h.
+
+
+
+\-The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/plugins/coreplugin/\hyperlink{boardmanager_8h}{boardmanager.\-h}\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/plugins/coreplugin/\hyperlink{boardmanager_8cpp}{boardmanager.\-cpp}\end{DoxyCompactItemize}

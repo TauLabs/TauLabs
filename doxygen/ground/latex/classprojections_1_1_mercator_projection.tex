@@ -1,0 +1,47 @@
+\hypertarget{classprojections_1_1_mercator_projection}{\section{projections\-:\-:\-Mercator\-Projection \-Class \-Reference}
+\label{classprojections_1_1_mercator_projection}\index{projections\-::\-Mercator\-Projection@{projections\-::\-Mercator\-Projection}}
+}
+
+
+{\ttfamily \#include $<$mercatorprojection.\-h$>$}
+
+\-Inheritance diagram for projections\-:\-:\-Mercator\-Projection\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classprojections_1_1_mercator_projection}
+\end{center}
+\end{figure}
+\subsection*{\-Public \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___o_p_map_widget_gacccd26328cbdd182922e0a0b2e265529}{\-Mercator\-Projection} ()
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___o_p_map_widget_gaefd6d064dd9c4c6cfc431ead163f706a}{\-Type} ()
+\item 
+virtual \-Size \hyperlink{group___o_p_map_widget_gab8dee05993ebd618b81c24cb3548076a}{\-Tile\-Size} () const 
+\item 
+virtual double \hyperlink{group___o_p_map_widget_ga982d1100874717420bf3ab65e74c9c9d}{\-Axis} () const 
+\item 
+virtual double \hyperlink{group___o_p_map_widget_ga85c35978f6b64944591d25a095fc8e4d}{\-Flattening} () const 
+\item 
+virtual \hyperlink{structcore_1_1_point}{core\-::\-Point} \hyperlink{group___o_p_map_widget_ga4e5e9d139c245de8a1278e83746ed240}{\-From\-Lat\-Lng\-To\-Pixel} (double lat, double lng, int const \&zoom)
+\item 
+virtual \hyperlink{structinternals_1_1_point_lat_lng}{internals\-::\-Point\-Lat\-Lng} \hyperlink{group___o_p_map_widget_gaaa80928cf51f4c3a7e860678a7bf51ee}{\-From\-Pixel\-To\-Lat\-Lng} (const qint64 \&\hyperlink{_o_p_plots_8m_a9336ebf25087d91c818ee6e9ec29f8c1}{x}, const qint64 \&\hyperlink{_o_p_plots_8m_a2fb1c5cf58867b5bbc9a1b145a86f3a0}{y}, const int \&zoom)
+\begin{DoxyCompactList}\small\item\em \hyperlink{group___o_p_map_widget_gaaa80928cf51f4c3a7e860678a7bf51ee}{\-Mercator\-Projection\-::\-From\-Pixel\-To\-Lat\-Lng} \-Referenced from top-\/left of globe, so the lat-\/lon (0,0), i.\-e. the intersection of the equator and prime meridian, would be \mbox{[}1$<$$<$(zoom-\/1), 1$<$$<$(zoom-\/1)\mbox{]}. \end{DoxyCompactList}\item 
+virtual \-Size \hyperlink{group___o_p_map_widget_ga9596b6c85652a05e732147c5e6e299ee}{\-Get\-Tile\-Matrix\-Min\-X\-Y} (const int \&zoom)
+\begin{DoxyCompactList}\small\item\em \hyperlink{group___o_p_map_widget_ga9596b6c85652a05e732147c5e6e299ee}{\-Mercator\-Projection\-::\-Get\-Tile\-Matrix\-Min\-X\-Y}. \end{DoxyCompactList}\item 
+virtual \-Size \hyperlink{group___o_p_map_widget_ga4c7d16ae190aea2fd84e2e046b14c39e}{\-Get\-Tile\-Matrix\-Max\-X\-Y} (const int \&zoom)
+\begin{DoxyCompactList}\small\item\em \hyperlink{group___o_p_map_widget_ga4c7d16ae190aea2fd84e2e046b14c39e}{\-Mercator\-Projection\-::\-Get\-Tile\-Matrix\-Max\-X\-Y}. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+
+
+\-Definition at line 33 of file mercatorprojection.\-h.
+
+
+
+\-The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/libs/opmapcontrol/src/internals/projections/\hyperlink{mercatorprojection_8h}{mercatorprojection.\-h}\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/libs/opmapcontrol/src/internals/projections/\hyperlink{mercatorprojection_8cpp}{mercatorprojection.\-cpp}\end{DoxyCompactItemize}

@@ -1,0 +1,142 @@
+\hypertarget{group___p_i_o_s___h_m_c5883}{\section{\-H\-M\-C5883 \-Functions}
+\label{group___p_i_o_s___h_m_c5883}\index{\-H\-M\-C5883 Functions@{\-H\-M\-C5883 Functions}}
+}
+
+
+\-Deals with the hardware interface to the magnetometers.  
+
+
+\subsection*{\-Data \-Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structhmc5883__dev}{hmc5883\-\_\-dev}
+\item 
+struct \hyperlink{structpios__hmc5883__cfg}{pios\-\_\-hmc5883\-\_\-cfg}
+\item 
+struct \hyperlink{structpios__hmc5883__data}{pios\-\_\-hmc5883\-\_\-data}
+\end{DoxyCompactItemize}
+\subsection*{\-Files}
+\begin{DoxyCompactItemize}
+\item 
+file \hyperlink{pios__hmc5883_8c}{pios\-\_\-hmc5883.\-c}
+\begin{DoxyCompactList}\small\item\em \-H\-M\-C5883 \-Magnetic \-Sensor \-Functions from \-A\-H\-R\-S. \end{DoxyCompactList}\item 
+file \hyperlink{pios__hmc5883_8h}{pios\-\_\-hmc5883.\-h}
+\begin{DoxyCompactList}\small\item\em \-H\-M\-C5883 functions header. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{group___p_i_o_s___h_m_c5883_ga694f4a1224c19ea7205e8865132bc4c8}{pios\-\_\-hmc5883\-\_\-dev\-\_\-magic} \{ \hyperlink{group___p_i_o_s___h_m_c5883_gga694f4a1224c19ea7205e8865132bc4c8a8a6521f0bc2fd12e7b8b34562bfa845c}{\-P\-I\-O\-S\-\_\-\-H\-M\-C5883\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C} =  0x3d8e17ab
+ \}
+\item 
+enum \hyperlink{group___p_i_o_s___h_m_c5883_ga9b5f48f8223effbfd7dbb15297957119}{pios\-\_\-hmc5883\-\_\-orientation} \{ \hyperlink{group___p_i_o_s___h_m_c5883_gga9b5f48f8223effbfd7dbb15297957119a6453f9d33a17899b4d4f764ee3db4edb}{\-P\-I\-O\-S\-\_\-\-H\-M\-C5883\-\_\-\-T\-O\-P\-\_\-0\-D\-E\-G} =  0x00, 
+\hyperlink{group___p_i_o_s___h_m_c5883_gga9b5f48f8223effbfd7dbb15297957119ac6e8b95b0acf44c225caf2898d1cb353}{\-P\-I\-O\-S\-\_\-\-H\-M\-C5883\-\_\-\-T\-O\-P\-\_\-90\-D\-E\-G} =  0x01, 
+\hyperlink{group___p_i_o_s___h_m_c5883_gga9b5f48f8223effbfd7dbb15297957119a0ff7330505c4d6f75c01c41dfdaf4400}{\-P\-I\-O\-S\-\_\-\-H\-M\-C5883\-\_\-\-T\-O\-P\-\_\-180\-D\-E\-G} =  0x02, 
+\hyperlink{group___p_i_o_s___h_m_c5883_gga9b5f48f8223effbfd7dbb15297957119af9a84c032f0ee432f8969eacd4fff3bf}{\-P\-I\-O\-S\-\_\-\-H\-M\-C5883\-\_\-\-T\-O\-P\-\_\-270\-D\-E\-G} =  0x03
+ \}
+\end{DoxyCompactItemize}
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___h_m_c5883_ga2de33c0ac02b42cb114d9af689101498}{\-P\-I\-O\-S\-\_\-\-H\-M\-C5883\-\_\-\-Init} (uint32\-\_\-t i2c\-\_\-id, const struct \hyperlink{structpios__hmc5883__cfg}{pios\-\_\-hmc5883\-\_\-cfg} $\ast$cfg)
+\begin{DoxyCompactList}\small\item\em \-Initialize the \-H\-M\-C5883 magnetometer sensor. \end{DoxyCompactList}\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___h_m_c5883_gacea6145300c5c975b46bca1acfe800bf}{\-P\-I\-O\-S\-\_\-\-H\-M\-C5883\-\_\-\-Test} (void)
+\begin{DoxyCompactList}\small\item\em \-Run self-\/test operation. \-Do not call this during operational use!! \end{DoxyCompactList}\item 
+bool \hyperlink{group___p_i_o_s___h_m_c5883_ga418c7eecd061766bac016b522b593fc2}{\-P\-I\-O\-S\-\_\-\-H\-M\-C5883\-\_\-\-I\-R\-Q\-Handler} (void)
+\begin{DoxyCompactList}\small\item\em \-I\-R\-Q \-Handler. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-Deals with the hardware interface to the magnetometers. 
+
+\subsection{\-Enumeration \-Type \-Documentation}
+\hypertarget{group___p_i_o_s___h_m_c5883_ga694f4a1224c19ea7205e8865132bc4c8}{\index{\-H\-M\-C5883 Functions@{\-H\-M\-C5883 Functions}!pios\-\_\-hmc5883\-\_\-dev\-\_\-magic@{pios\-\_\-hmc5883\-\_\-dev\-\_\-magic}}
+\index{pios\-\_\-hmc5883\-\_\-dev\-\_\-magic@{pios\-\_\-hmc5883\-\_\-dev\-\_\-magic}!HMC5883 Functions@{\-H\-M\-C5883 Functions}}
+\subsubsection[{pios\-\_\-hmc5883\-\_\-dev\-\_\-magic}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf pios\-\_\-hmc5883\-\_\-dev\-\_\-magic}}}\label{group___p_i_o_s___h_m_c5883_ga694f4a1224c19ea7205e8865132bc4c8}
+\begin{Desc}
+\item[\-Enumerator\-: ]\par
+\begin{description}
+\index{\-P\-I\-O\-S\-\_\-\-H\-M\-C5883\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C@{\-P\-I\-O\-S\-\_\-\-H\-M\-C5883\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}!\-H\-M\-C5883 Functions@{\-H\-M\-C5883 Functions}}\index{\-H\-M\-C5883 Functions@{\-H\-M\-C5883 Functions}!\-P\-I\-O\-S\-\_\-\-H\-M\-C5883\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C@{\-P\-I\-O\-S\-\_\-\-H\-M\-C5883\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}}\item[{\em 
+\hypertarget{group___p_i_o_s___h_m_c5883_gga694f4a1224c19ea7205e8865132bc4c8a8a6521f0bc2fd12e7b8b34562bfa845c}{\-P\-I\-O\-S\-\_\-\-H\-M\-C5883\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}\label{group___p_i_o_s___h_m_c5883_gga694f4a1224c19ea7205e8865132bc4c8a8a6521f0bc2fd12e7b8b34562bfa845c}
+}]\end{description}
+\end{Desc}
+
+
+
+\-Definition at line 45 of file pios\-\_\-hmc5883.\-c.
+
+\hypertarget{group___p_i_o_s___h_m_c5883_ga9b5f48f8223effbfd7dbb15297957119}{\index{\-H\-M\-C5883 Functions@{\-H\-M\-C5883 Functions}!pios\-\_\-hmc5883\-\_\-orientation@{pios\-\_\-hmc5883\-\_\-orientation}}
+\index{pios\-\_\-hmc5883\-\_\-orientation@{pios\-\_\-hmc5883\-\_\-orientation}!HMC5883 Functions@{\-H\-M\-C5883 Functions}}
+\subsubsection[{pios\-\_\-hmc5883\-\_\-orientation}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf pios\-\_\-hmc5883\-\_\-orientation}}}\label{group___p_i_o_s___h_m_c5883_ga9b5f48f8223effbfd7dbb15297957119}
+\begin{Desc}
+\item[\-Enumerator\-: ]\par
+\begin{description}
+\index{\-P\-I\-O\-S\-\_\-\-H\-M\-C5883\-\_\-\-T\-O\-P\-\_\-0\-D\-E\-G@{\-P\-I\-O\-S\-\_\-\-H\-M\-C5883\-\_\-\-T\-O\-P\-\_\-0\-D\-E\-G}!\-H\-M\-C5883 Functions@{\-H\-M\-C5883 Functions}}\index{\-H\-M\-C5883 Functions@{\-H\-M\-C5883 Functions}!\-P\-I\-O\-S\-\_\-\-H\-M\-C5883\-\_\-\-T\-O\-P\-\_\-0\-D\-E\-G@{\-P\-I\-O\-S\-\_\-\-H\-M\-C5883\-\_\-\-T\-O\-P\-\_\-0\-D\-E\-G}}\item[{\em 
+\hypertarget{group___p_i_o_s___h_m_c5883_gga9b5f48f8223effbfd7dbb15297957119a6453f9d33a17899b4d4f764ee3db4edb}{\-P\-I\-O\-S\-\_\-\-H\-M\-C5883\-\_\-\-T\-O\-P\-\_\-0\-D\-E\-G}\label{group___p_i_o_s___h_m_c5883_gga9b5f48f8223effbfd7dbb15297957119a6453f9d33a17899b4d4f764ee3db4edb}
+}]\index{\-P\-I\-O\-S\-\_\-\-H\-M\-C5883\-\_\-\-T\-O\-P\-\_\-90\-D\-E\-G@{\-P\-I\-O\-S\-\_\-\-H\-M\-C5883\-\_\-\-T\-O\-P\-\_\-90\-D\-E\-G}!\-H\-M\-C5883 Functions@{\-H\-M\-C5883 Functions}}\index{\-H\-M\-C5883 Functions@{\-H\-M\-C5883 Functions}!\-P\-I\-O\-S\-\_\-\-H\-M\-C5883\-\_\-\-T\-O\-P\-\_\-90\-D\-E\-G@{\-P\-I\-O\-S\-\_\-\-H\-M\-C5883\-\_\-\-T\-O\-P\-\_\-90\-D\-E\-G}}\item[{\em 
+\hypertarget{group___p_i_o_s___h_m_c5883_gga9b5f48f8223effbfd7dbb15297957119ac6e8b95b0acf44c225caf2898d1cb353}{\-P\-I\-O\-S\-\_\-\-H\-M\-C5883\-\_\-\-T\-O\-P\-\_\-90\-D\-E\-G}\label{group___p_i_o_s___h_m_c5883_gga9b5f48f8223effbfd7dbb15297957119ac6e8b95b0acf44c225caf2898d1cb353}
+}]\index{\-P\-I\-O\-S\-\_\-\-H\-M\-C5883\-\_\-\-T\-O\-P\-\_\-180\-D\-E\-G@{\-P\-I\-O\-S\-\_\-\-H\-M\-C5883\-\_\-\-T\-O\-P\-\_\-180\-D\-E\-G}!\-H\-M\-C5883 Functions@{\-H\-M\-C5883 Functions}}\index{\-H\-M\-C5883 Functions@{\-H\-M\-C5883 Functions}!\-P\-I\-O\-S\-\_\-\-H\-M\-C5883\-\_\-\-T\-O\-P\-\_\-180\-D\-E\-G@{\-P\-I\-O\-S\-\_\-\-H\-M\-C5883\-\_\-\-T\-O\-P\-\_\-180\-D\-E\-G}}\item[{\em 
+\hypertarget{group___p_i_o_s___h_m_c5883_gga9b5f48f8223effbfd7dbb15297957119a0ff7330505c4d6f75c01c41dfdaf4400}{\-P\-I\-O\-S\-\_\-\-H\-M\-C5883\-\_\-\-T\-O\-P\-\_\-180\-D\-E\-G}\label{group___p_i_o_s___h_m_c5883_gga9b5f48f8223effbfd7dbb15297957119a0ff7330505c4d6f75c01c41dfdaf4400}
+}]\index{\-P\-I\-O\-S\-\_\-\-H\-M\-C5883\-\_\-\-T\-O\-P\-\_\-270\-D\-E\-G@{\-P\-I\-O\-S\-\_\-\-H\-M\-C5883\-\_\-\-T\-O\-P\-\_\-270\-D\-E\-G}!\-H\-M\-C5883 Functions@{\-H\-M\-C5883 Functions}}\index{\-H\-M\-C5883 Functions@{\-H\-M\-C5883 Functions}!\-P\-I\-O\-S\-\_\-\-H\-M\-C5883\-\_\-\-T\-O\-P\-\_\-270\-D\-E\-G@{\-P\-I\-O\-S\-\_\-\-H\-M\-C5883\-\_\-\-T\-O\-P\-\_\-270\-D\-E\-G}}\item[{\em 
+\hypertarget{group___p_i_o_s___h_m_c5883_gga9b5f48f8223effbfd7dbb15297957119af9a84c032f0ee432f8969eacd4fff3bf}{\-P\-I\-O\-S\-\_\-\-H\-M\-C5883\-\_\-\-T\-O\-P\-\_\-270\-D\-E\-G}\label{group___p_i_o_s___h_m_c5883_gga9b5f48f8223effbfd7dbb15297957119af9a84c032f0ee432f8969eacd4fff3bf}
+}]\end{description}
+\end{Desc}
+
+
+
+\-Definition at line 95 of file pios\-\_\-hmc5883.\-h.
+
+
+
+\subsection{\-Function \-Documentation}
+\hypertarget{group___p_i_o_s___h_m_c5883_ga2de33c0ac02b42cb114d9af689101498}{\index{\-H\-M\-C5883 Functions@{\-H\-M\-C5883 Functions}!\-P\-I\-O\-S\-\_\-\-H\-M\-C5883\-\_\-\-Init@{\-P\-I\-O\-S\-\_\-\-H\-M\-C5883\-\_\-\-Init}}
+\index{\-P\-I\-O\-S\-\_\-\-H\-M\-C5883\-\_\-\-Init@{\-P\-I\-O\-S\-\_\-\-H\-M\-C5883\-\_\-\-Init}!HMC5883 Functions@{\-H\-M\-C5883 Functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-H\-M\-C5883\-\_\-\-Init}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-P\-I\-O\-S\-\_\-\-H\-M\-C5883\-\_\-\-Init} (
+\begin{DoxyParamCaption}
+\item[{uint32\-\_\-t}]{i2c\-\_\-id, }
+\item[{const struct {\bf pios\-\_\-hmc5883\-\_\-cfg} $\ast$}]{cfg}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___h_m_c5883_ga2de33c0ac02b42cb114d9af689101498}
+
+
+\-Initialize the \-H\-M\-C5883 magnetometer sensor. 
+
+\begin{DoxyReturn}{\-Returns}
+none 
+\end{DoxyReturn}
+
+
+\-Definition at line 112 of file pios\-\_\-hmc5883.\-c.
+
+\hypertarget{group___p_i_o_s___h_m_c5883_ga418c7eecd061766bac016b522b593fc2}{\index{\-H\-M\-C5883 Functions@{\-H\-M\-C5883 Functions}!\-P\-I\-O\-S\-\_\-\-H\-M\-C5883\-\_\-\-I\-R\-Q\-Handler@{\-P\-I\-O\-S\-\_\-\-H\-M\-C5883\-\_\-\-I\-R\-Q\-Handler}}
+\index{\-P\-I\-O\-S\-\_\-\-H\-M\-C5883\-\_\-\-I\-R\-Q\-Handler@{\-P\-I\-O\-S\-\_\-\-H\-M\-C5883\-\_\-\-I\-R\-Q\-Handler}!HMC5883 Functions@{\-H\-M\-C5883 Functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-H\-M\-C5883\-\_\-\-I\-R\-Q\-Handler}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-P\-I\-O\-S\-\_\-\-H\-M\-C5883\-\_\-\-I\-R\-Q\-Handler} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___h_m_c5883_ga418c7eecd061766bac016b522b593fc2}
+
+
+\-I\-R\-Q \-Handler. 
+
+
+
+\-Definition at line 474 of file pios\-\_\-hmc5883.\-c.
+
+\hypertarget{group___p_i_o_s___h_m_c5883_gacea6145300c5c975b46bca1acfe800bf}{\index{\-H\-M\-C5883 Functions@{\-H\-M\-C5883 Functions}!\-P\-I\-O\-S\-\_\-\-H\-M\-C5883\-\_\-\-Test@{\-P\-I\-O\-S\-\_\-\-H\-M\-C5883\-\_\-\-Test}}
+\index{\-P\-I\-O\-S\-\_\-\-H\-M\-C5883\-\_\-\-Test@{\-P\-I\-O\-S\-\_\-\-H\-M\-C5883\-\_\-\-Test}!HMC5883 Functions@{\-H\-M\-C5883 Functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-H\-M\-C5883\-\_\-\-Test}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-P\-I\-O\-S\-\_\-\-H\-M\-C5883\-\_\-\-Test} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___h_m_c5883_gacea6145300c5c975b46bca1acfe800bf}
+
+
+\-Run self-\/test operation. \-Do not call this during operational use!! 
+
+\begin{DoxyReturn}{\-Returns}
+0 if success, -\/1 if test failed 
+\end{DoxyReturn}
+
+
+\-Definition at line 396 of file pios\-\_\-hmc5883.\-c.
+

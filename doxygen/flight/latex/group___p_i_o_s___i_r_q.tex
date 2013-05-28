@@ -1,0 +1,56 @@
+\hypertarget{group___p_i_o_s___i_r_q}{\section{\-I\-R\-Q \-Setup \-Functions}
+\label{group___p_i_o_s___i_r_q}\index{\-I\-R\-Q Setup Functions@{\-I\-R\-Q Setup Functions}}
+}
+
+
+\-S\-T\-M32 \-Hardware code to enable and disable interrupts.  
+
+
+\subsection*{\-Files}
+\begin{DoxyCompactItemize}
+\item 
+file \hyperlink{pios__irq_8h}{pios\-\_\-irq.\-h}
+\begin{DoxyCompactList}\small\item\em \-I\-R\-Q functions header. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___i_r_q_ga3282c57027468fb75bf7026c186e2906}{\-P\-I\-O\-S\-\_\-\-I\-R\-Q\-\_\-\-Disable} (void)
+\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___i_r_q_ga5662158f04cd1f3772b35899a6eb21bb}{\-P\-I\-O\-S\-\_\-\-I\-R\-Q\-\_\-\-Enable} (void)
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-S\-T\-M32 \-Hardware code to enable and disable interrupts. 
+
+\subsection{\-Function \-Documentation}
+\hypertarget{group___p_i_o_s___i_r_q_ga3282c57027468fb75bf7026c186e2906}{\index{\-I\-R\-Q Setup Functions@{\-I\-R\-Q Setup Functions}!\-P\-I\-O\-S\-\_\-\-I\-R\-Q\-\_\-\-Disable@{\-P\-I\-O\-S\-\_\-\-I\-R\-Q\-\_\-\-Disable}}
+\index{\-P\-I\-O\-S\-\_\-\-I\-R\-Q\-\_\-\-Disable@{\-P\-I\-O\-S\-\_\-\-I\-R\-Q\-\_\-\-Disable}!IRQ Setup Functions@{\-I\-R\-Q Setup Functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-I\-R\-Q\-\_\-\-Disable}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-P\-I\-O\-S\-\_\-\-I\-R\-Q\-\_\-\-Disable} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___i_r_q_ga3282c57027468fb75bf7026c186e2906}
+\-Disables all interrupts (nested) \begin{DoxyReturn}{\-Returns}
+$<$ 0 \-On errors 
+\end{DoxyReturn}
+
+
+\-Definition at line 50 of file pios\-\_\-irq.\-c.
+
+\hypertarget{group___p_i_o_s___i_r_q_ga5662158f04cd1f3772b35899a6eb21bb}{\index{\-I\-R\-Q Setup Functions@{\-I\-R\-Q Setup Functions}!\-P\-I\-O\-S\-\_\-\-I\-R\-Q\-\_\-\-Enable@{\-P\-I\-O\-S\-\_\-\-I\-R\-Q\-\_\-\-Enable}}
+\index{\-P\-I\-O\-S\-\_\-\-I\-R\-Q\-\_\-\-Enable@{\-P\-I\-O\-S\-\_\-\-I\-R\-Q\-\_\-\-Enable}!IRQ Setup Functions@{\-I\-R\-Q Setup Functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-I\-R\-Q\-\_\-\-Enable}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-P\-I\-O\-S\-\_\-\-I\-R\-Q\-\_\-\-Enable} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___i_r_q_ga5662158f04cd1f3772b35899a6eb21bb}
+\-Enables all interrupts (nested) \begin{DoxyReturn}{\-Returns}
+$<$ 0 on errors 
+
+-\/1 on nesting errors (\hyperlink{group___p_i_o_s___i_r_q_ga3282c57027468fb75bf7026c186e2906}{\-P\-I\-O\-S\-\_\-\-I\-R\-Q\-\_\-\-Disable()} hasn't been called before) 
+\end{DoxyReturn}
+
+
+\-Definition at line 72 of file pios\-\_\-irq.\-c.
+

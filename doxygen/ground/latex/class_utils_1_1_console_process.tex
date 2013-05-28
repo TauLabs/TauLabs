@@ -1,0 +1,326 @@
+\hypertarget{class_utils_1_1_console_process}{\section{\-Utils\-:\-:\-Console\-Process \-Class \-Reference}
+\label{class_utils_1_1_console_process}\index{\-Utils\-::\-Console\-Process@{\-Utils\-::\-Console\-Process}}
+}
+
+
+{\ttfamily \#include $<$consoleprocess.\-h$>$}
+
+\-Inheritance diagram for \-Utils\-:\-:\-Console\-Process\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_utils_1_1_console_process}
+\end{center}
+\end{figure}
+\subsection*{\-Public \-Types}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{class_utils_1_1_console_process_a6c86a313e133158cd77772a207426e41}{\-Mode} \{ \hyperlink{class_utils_1_1_console_process_a6c86a313e133158cd77772a207426e41a14b3f49a287137fd8ef08013e02fc674}{\-Run}, 
+\hyperlink{class_utils_1_1_console_process_a6c86a313e133158cd77772a207426e41a231b80c70550ea74c6c61d7fe701db68}{\-Debug}, 
+\hyperlink{class_utils_1_1_console_process_a6c86a313e133158cd77772a207426e41a41487da85390b78d6a83eb3ddd0d0625}{\-Suspend}
+ \}
+\end{DoxyCompactItemize}
+\subsection*{\-Signals}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_utils_1_1_console_process_a1830df461a763ffdb80132c294a67b79}{process\-Error} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \&\hyperlink{uavobjecttemplate_8m_ae37d8f40ba76a59d04a674d824e8721f}{error})
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_utils_1_1_console_process_a5b44c51c7ed12084328cd658129f7e52}{process\-Started} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_utils_1_1_console_process_a32a7b6e6d48dc66084a57ecfd4439eed}{process\-Stopped} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_utils_1_1_console_process_ae01fd7dec890ea2779a3c3b718600141}{wrapper\-Started} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_utils_1_1_console_process_ac7872882083e24d4e07ec079ce409500}{wrapper\-Stopped} ()
+\end{DoxyCompactItemize}
+\subsection*{\-Public \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_utils_1_1_console_process_af12bb9d4a8da527e9af245c4bac14e01}{\-Console\-Process} (\-Q\-Object $\ast$parent=0)
+\item 
+\hyperlink{class_utils_1_1_console_process_aa05892f0066ec865160ea3a4944151c7}{$\sim$\-Console\-Process} ()
+\item 
+bool \hyperlink{class_utils_1_1_console_process_a882d1caae03faaa2b9e2ad7edab2d68a}{start} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \&program, const \-Q\-String\-List \&args)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_utils_1_1_console_process_a15dd3ed04029a5899bdbc84e64a9bb09}{stop} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_utils_1_1_console_process_af221c5c6a26a6286ae5a0bbfcf094b1b}{set\-Mode} (\hyperlink{class_utils_1_1_console_process_a6c86a313e133158cd77772a207426e41}{\-Mode} \hyperlink{uavobjecttemplate_8m_ab3cd915d758008bd19d0f2428fbb354a}{m})
+\item 
+\hyperlink{class_utils_1_1_console_process_a6c86a313e133158cd77772a207426e41}{\-Mode} \hyperlink{class_utils_1_1_console_process_a697ed590a6d3fad5eca1258b7e9fd56b}{mode} () const 
+\item 
+bool \hyperlink{class_utils_1_1_console_process_ab3a478c30db598118ce83987d79c0cac}{is\-Running} () const 
+\item 
+qint64 \hyperlink{class_utils_1_1_console_process_a8b7e361cd1605e2127ca63d1d9fa6118}{application\-P\-I\-D} () const 
+\item 
+int \hyperlink{class_utils_1_1_console_process_abce142102a6c34221a78b1909edbdfa1}{exit\-Code} () const 
+\item 
+\-Q\-Process\-::\-Exit\-Status \hyperlink{class_utils_1_1_console_process_a6f7c21885bbae03bc2f4e315a31f8cce}{exit\-Status} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_utils_1_1_console_process_a6450617efe1483c142de24f60fabc523}{set\-Settings} (\-Q\-Settings $\ast$settings)
+\end{DoxyCompactItemize}
+\subsection*{\-Static \-Public \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+static \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{class_utils_1_1_console_process_ac1c6c784e1cc19c6842cec0f5bc00162}{default\-Terminal\-Emulator} ()
+\item 
+static \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{class_utils_1_1_console_process_a157017d2d631838fd521c9c69efd04d2}{terminal\-Emulator} (const \-Q\-Settings $\ast$settings)
+\item 
+static \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_utils_1_1_console_process_a38d5ca0fa3b66525512debc37e538c9c}{set\-Terminal\-Emulator} (\-Q\-Settings $\ast$settings, const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \&term)
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+
+
+\-Definition at line 55 of file consoleprocess.\-h.
+
+
+
+\subsection{\-Member \-Enumeration \-Documentation}
+\hypertarget{class_utils_1_1_console_process_a6c86a313e133158cd77772a207426e41}{\index{\-Utils\-::\-Console\-Process@{\-Utils\-::\-Console\-Process}!\-Mode@{\-Mode}}
+\index{\-Mode@{\-Mode}!Utils::ConsoleProcess@{\-Utils\-::\-Console\-Process}}
+\subsubsection[{\-Mode}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf \-Utils\-::\-Console\-Process\-::\-Mode}}}\label{class_utils_1_1_console_process_a6c86a313e133158cd77772a207426e41}
+\begin{Desc}
+\item[\-Enumerator\-: ]\par
+\begin{description}
+\index{\-Run@{\-Run}!\-Utils\-::\-Console\-Process@{\-Utils\-::\-Console\-Process}}\index{\-Utils\-::\-Console\-Process@{\-Utils\-::\-Console\-Process}!\-Run@{\-Run}}\item[{\em 
+\hypertarget{class_utils_1_1_console_process_a6c86a313e133158cd77772a207426e41a14b3f49a287137fd8ef08013e02fc674}{\-Run}\label{class_utils_1_1_console_process_a6c86a313e133158cd77772a207426e41a14b3f49a287137fd8ef08013e02fc674}
+}]\index{\-Debug@{\-Debug}!\-Utils\-::\-Console\-Process@{\-Utils\-::\-Console\-Process}}\index{\-Utils\-::\-Console\-Process@{\-Utils\-::\-Console\-Process}!\-Debug@{\-Debug}}\item[{\em 
+\hypertarget{class_utils_1_1_console_process_a6c86a313e133158cd77772a207426e41a231b80c70550ea74c6c61d7fe701db68}{\-Debug}\label{class_utils_1_1_console_process_a6c86a313e133158cd77772a207426e41a231b80c70550ea74c6c61d7fe701db68}
+}]\index{\-Suspend@{\-Suspend}!\-Utils\-::\-Console\-Process@{\-Utils\-::\-Console\-Process}}\index{\-Utils\-::\-Console\-Process@{\-Utils\-::\-Console\-Process}!\-Suspend@{\-Suspend}}\item[{\em 
+\hypertarget{class_utils_1_1_console_process_a6c86a313e133158cd77772a207426e41a41487da85390b78d6a83eb3ddd0d0625}{\-Suspend}\label{class_utils_1_1_console_process_a6c86a313e133158cd77772a207426e41a41487da85390b78d6a83eb3ddd0d0625}
+}]\end{description}
+\end{Desc}
+
+
+
+\-Definition at line 60 of file consoleprocess.\-h.
+
+
+
+\subsection{\-Constructor \& \-Destructor \-Documentation}
+\hypertarget{class_utils_1_1_console_process_af12bb9d4a8da527e9af245c4bac14e01}{\index{\-Utils\-::\-Console\-Process@{\-Utils\-::\-Console\-Process}!\-Console\-Process@{\-Console\-Process}}
+\index{\-Console\-Process@{\-Console\-Process}!Utils::ConsoleProcess@{\-Utils\-::\-Console\-Process}}
+\subsubsection[{\-Console\-Process}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Console\-Process\-::\-Console\-Process} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Object $\ast$}]{parent = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)}}\label{class_utils_1_1_console_process_af12bb9d4a8da527e9af245c4bac14e01}
+
+
+\-Definition at line 46 of file consoleprocess\-\_\-unix.\-cpp.
+
+\hypertarget{class_utils_1_1_console_process_aa05892f0066ec865160ea3a4944151c7}{\index{\-Utils\-::\-Console\-Process@{\-Utils\-::\-Console\-Process}!$\sim$\-Console\-Process@{$\sim$\-Console\-Process}}
+\index{$\sim$\-Console\-Process@{$\sim$\-Console\-Process}!Utils::ConsoleProcess@{\-Utils\-::\-Console\-Process}}
+\subsubsection[{$\sim$\-Console\-Process}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Console\-Process\-::$\sim$\-Console\-Process} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_utils_1_1_console_process_aa05892f0066ec865160ea3a4944151c7}
+
+
+\-Definition at line 60 of file consoleprocess\-\_\-unix.\-cpp.
+
+
+
+\subsection{\-Member \-Function \-Documentation}
+\hypertarget{class_utils_1_1_console_process_a8b7e361cd1605e2127ca63d1d9fa6118}{\index{\-Utils\-::\-Console\-Process@{\-Utils\-::\-Console\-Process}!application\-P\-I\-D@{application\-P\-I\-D}}
+\index{application\-P\-I\-D@{application\-P\-I\-D}!Utils::ConsoleProcess@{\-Utils\-::\-Console\-Process}}
+\subsubsection[{application\-P\-I\-D}]{\setlength{\rightskip}{0pt plus 5cm}qint64 {\bf \-Utils\-::\-Console\-Process\-::application\-P\-I\-D} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}inline, virtual\mbox{]}}}}\label{class_utils_1_1_console_process_a8b7e361cd1605e2127ca63d1d9fa6118}
+
+
+\-Implements \hyperlink{class_utils_1_1_abstract_process_a436803fdf47816df0198d446ff1331ac}{\-Utils\-::\-Abstract\-Process}.
+
+
+
+\-Definition at line 71 of file consoleprocess.\-h.
+
+\hypertarget{class_utils_1_1_console_process_ac1c6c784e1cc19c6842cec0f5bc00162}{\index{\-Utils\-::\-Console\-Process@{\-Utils\-::\-Console\-Process}!default\-Terminal\-Emulator@{default\-Terminal\-Emulator}}
+\index{default\-Terminal\-Emulator@{default\-Terminal\-Emulator}!Utils::ConsoleProcess@{\-Utils\-::\-Console\-Process}}
+\subsubsection[{default\-Terminal\-Emulator}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Q\-String} {\bf \-Console\-Process\-::default\-Terminal\-Emulator} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}\label{class_utils_1_1_console_process_ac1c6c784e1cc19c6842cec0f5bc00162}
+
+
+\-Definition at line 236 of file consoleprocess\-\_\-unix.\-cpp.
+
+\hypertarget{class_utils_1_1_console_process_abce142102a6c34221a78b1909edbdfa1}{\index{\-Utils\-::\-Console\-Process@{\-Utils\-::\-Console\-Process}!exit\-Code@{exit\-Code}}
+\index{exit\-Code@{exit\-Code}!Utils::ConsoleProcess@{\-Utils\-::\-Console\-Process}}
+\subsubsection[{exit\-Code}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf \-Utils\-::\-Console\-Process\-::exit\-Code} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}inline, virtual\mbox{]}}}}\label{class_utils_1_1_console_process_abce142102a6c34221a78b1909edbdfa1}
+
+
+\-Implements \hyperlink{class_utils_1_1_abstract_process_af2d4da0de5edcb38eac2c483188bcafb}{\-Utils\-::\-Abstract\-Process}.
+
+
+
+\-Definition at line 72 of file consoleprocess.\-h.
+
+\hypertarget{class_utils_1_1_console_process_a6f7c21885bbae03bc2f4e315a31f8cce}{\index{\-Utils\-::\-Console\-Process@{\-Utils\-::\-Console\-Process}!exit\-Status@{exit\-Status}}
+\index{exit\-Status@{exit\-Status}!Utils::ConsoleProcess@{\-Utils\-::\-Console\-Process}}
+\subsubsection[{exit\-Status}]{\setlength{\rightskip}{0pt plus 5cm}\-Q\-Process\-::\-Exit\-Status {\bf \-Utils\-::\-Console\-Process\-::exit\-Status} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{class_utils_1_1_console_process_a6f7c21885bbae03bc2f4e315a31f8cce}
+
+
+\-Definition at line 73 of file consoleprocess.\-h.
+
+\hypertarget{class_utils_1_1_console_process_ab3a478c30db598118ce83987d79c0cac}{\index{\-Utils\-::\-Console\-Process@{\-Utils\-::\-Console\-Process}!is\-Running@{is\-Running}}
+\index{is\-Running@{is\-Running}!Utils::ConsoleProcess@{\-Utils\-::\-Console\-Process}}
+\subsubsection[{is\-Running}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-Console\-Process\-::is\-Running} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{class_utils_1_1_console_process_ab3a478c30db598118ce83987d79c0cac}
+
+
+\-Implements \hyperlink{class_utils_1_1_abstract_process_a9c1a33eec47d4f5620792cb72ec9ef1d}{\-Utils\-::\-Abstract\-Process}.
+
+
+
+\-Definition at line 132 of file consoleprocess\-\_\-unix.\-cpp.
+
+\hypertarget{class_utils_1_1_console_process_a697ed590a6d3fad5eca1258b7e9fd56b}{\index{\-Utils\-::\-Console\-Process@{\-Utils\-::\-Console\-Process}!mode@{mode}}
+\index{mode@{mode}!Utils::ConsoleProcess@{\-Utils\-::\-Console\-Process}}
+\subsubsection[{mode}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Mode} {\bf \-Utils\-::\-Console\-Process\-::mode} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{class_utils_1_1_console_process_a697ed590a6d3fad5eca1258b7e9fd56b}
+
+
+\-Definition at line 68 of file consoleprocess.\-h.
+
+\hypertarget{class_utils_1_1_console_process_a1830df461a763ffdb80132c294a67b79}{\index{\-Utils\-::\-Console\-Process@{\-Utils\-::\-Console\-Process}!process\-Error@{process\-Error}}
+\index{process\-Error@{process\-Error}!Utils::ConsoleProcess@{\-Utils\-::\-Console\-Process}}
+\subsubsection[{process\-Error}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Utils\-::\-Console\-Process\-::process\-Error} (
+\begin{DoxyParamCaption}
+\item[{const {\bf \-Q\-String} \&}]{error}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual, signal\mbox{]}}}}\label{class_utils_1_1_console_process_a1830df461a763ffdb80132c294a67b79}
+
+
+\-Implements \hyperlink{class_utils_1_1_abstract_process_ab07e7c39b59327b2d9f4843e56fb8f57}{\-Utils\-::\-Abstract\-Process}.
+
+\hypertarget{class_utils_1_1_console_process_a5b44c51c7ed12084328cd658129f7e52}{\index{\-Utils\-::\-Console\-Process@{\-Utils\-::\-Console\-Process}!process\-Started@{process\-Started}}
+\index{process\-Started@{process\-Started}!Utils::ConsoleProcess@{\-Utils\-::\-Console\-Process}}
+\subsubsection[{process\-Started}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Utils\-::\-Console\-Process\-::process\-Started} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}signal\mbox{]}}}}\label{class_utils_1_1_console_process_a5b44c51c7ed12084328cd658129f7e52}
+\hypertarget{class_utils_1_1_console_process_a32a7b6e6d48dc66084a57ecfd4439eed}{\index{\-Utils\-::\-Console\-Process@{\-Utils\-::\-Console\-Process}!process\-Stopped@{process\-Stopped}}
+\index{process\-Stopped@{process\-Stopped}!Utils::ConsoleProcess@{\-Utils\-::\-Console\-Process}}
+\subsubsection[{process\-Stopped}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Utils\-::\-Console\-Process\-::process\-Stopped} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}signal\mbox{]}}}}\label{class_utils_1_1_console_process_a32a7b6e6d48dc66084a57ecfd4439eed}
+\hypertarget{class_utils_1_1_console_process_af221c5c6a26a6286ae5a0bbfcf094b1b}{\index{\-Utils\-::\-Console\-Process@{\-Utils\-::\-Console\-Process}!set\-Mode@{set\-Mode}}
+\index{set\-Mode@{set\-Mode}!Utils::ConsoleProcess@{\-Utils\-::\-Console\-Process}}
+\subsubsection[{set\-Mode}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Utils\-::\-Console\-Process\-::set\-Mode} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Mode}}]{m}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{class_utils_1_1_console_process_af221c5c6a26a6286ae5a0bbfcf094b1b}
+
+
+\-Definition at line 67 of file consoleprocess.\-h.
+
+\hypertarget{class_utils_1_1_console_process_a6450617efe1483c142de24f60fabc523}{\index{\-Utils\-::\-Console\-Process@{\-Utils\-::\-Console\-Process}!set\-Settings@{set\-Settings}}
+\index{set\-Settings@{set\-Settings}!Utils::ConsoleProcess@{\-Utils\-::\-Console\-Process}}
+\subsubsection[{set\-Settings}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Utils\-::\-Console\-Process\-::set\-Settings} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Settings $\ast$}]{settings}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{class_utils_1_1_console_process_a6450617efe1483c142de24f60fabc523}
+
+
+\-Definition at line 76 of file consoleprocess.\-h.
+
+\hypertarget{class_utils_1_1_console_process_a38d5ca0fa3b66525512debc37e538c9c}{\index{\-Utils\-::\-Console\-Process@{\-Utils\-::\-Console\-Process}!set\-Terminal\-Emulator@{set\-Terminal\-Emulator}}
+\index{set\-Terminal\-Emulator@{set\-Terminal\-Emulator}!Utils::ConsoleProcess@{\-Utils\-::\-Console\-Process}}
+\subsubsection[{set\-Terminal\-Emulator}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Console\-Process\-::set\-Terminal\-Emulator} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Settings $\ast$}]{settings, }
+\item[{const {\bf \-Q\-String} \&}]{term}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}\label{class_utils_1_1_console_process_a38d5ca0fa3b66525512debc37e538c9c}
+
+
+\-Definition at line 255 of file consoleprocess\-\_\-unix.\-cpp.
+
+\hypertarget{class_utils_1_1_console_process_a882d1caae03faaa2b9e2ad7edab2d68a}{\index{\-Utils\-::\-Console\-Process@{\-Utils\-::\-Console\-Process}!start@{start}}
+\index{start@{start}!Utils::ConsoleProcess@{\-Utils\-::\-Console\-Process}}
+\subsubsection[{start}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-Console\-Process\-::start} (
+\begin{DoxyParamCaption}
+\item[{const {\bf \-Q\-String} \&}]{program, }
+\item[{const \-Q\-String\-List \&}]{args}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{class_utils_1_1_console_process_a882d1caae03faaa2b9e2ad7edab2d68a}
+
+
+\-Implements \hyperlink{class_utils_1_1_abstract_process_a34a319d7ea11064e1f595e765cdfbe63}{\-Utils\-::\-Abstract\-Process}.
+
+
+
+\-Definition at line 65 of file consoleprocess\-\_\-unix.\-cpp.
+
+\hypertarget{class_utils_1_1_console_process_a15dd3ed04029a5899bdbc84e64a9bb09}{\index{\-Utils\-::\-Console\-Process@{\-Utils\-::\-Console\-Process}!stop@{stop}}
+\index{stop@{stop}!Utils::ConsoleProcess@{\-Utils\-::\-Console\-Process}}
+\subsubsection[{stop}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Console\-Process\-::stop} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{class_utils_1_1_console_process_a15dd3ed04029a5899bdbc84e64a9bb09}
+
+
+\-Implements \hyperlink{class_utils_1_1_abstract_process_aa1d7135cf34e1fc0c33b439a84249a14}{\-Utils\-::\-Abstract\-Process}.
+
+
+
+\-Definition at line 120 of file consoleprocess\-\_\-unix.\-cpp.
+
+\hypertarget{class_utils_1_1_console_process_a157017d2d631838fd521c9c69efd04d2}{\index{\-Utils\-::\-Console\-Process@{\-Utils\-::\-Console\-Process}!terminal\-Emulator@{terminal\-Emulator}}
+\index{terminal\-Emulator@{terminal\-Emulator}!Utils::ConsoleProcess@{\-Utils\-::\-Console\-Process}}
+\subsubsection[{terminal\-Emulator}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Q\-String} {\bf \-Console\-Process\-::terminal\-Emulator} (
+\begin{DoxyParamCaption}
+\item[{const \-Q\-Settings $\ast$}]{settings}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}\label{class_utils_1_1_console_process_a157017d2d631838fd521c9c69efd04d2}
+
+
+\-Definition at line 247 of file consoleprocess\-\_\-unix.\-cpp.
+
+\hypertarget{class_utils_1_1_console_process_ae01fd7dec890ea2779a3c3b718600141}{\index{\-Utils\-::\-Console\-Process@{\-Utils\-::\-Console\-Process}!wrapper\-Started@{wrapper\-Started}}
+\index{wrapper\-Started@{wrapper\-Started}!Utils::ConsoleProcess@{\-Utils\-::\-Console\-Process}}
+\subsubsection[{wrapper\-Started}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Utils\-::\-Console\-Process\-::wrapper\-Started} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}signal\mbox{]}}}}\label{class_utils_1_1_console_process_ae01fd7dec890ea2779a3c3b718600141}
+\hypertarget{class_utils_1_1_console_process_ac7872882083e24d4e07ec079ce409500}{\index{\-Utils\-::\-Console\-Process@{\-Utils\-::\-Console\-Process}!wrapper\-Stopped@{wrapper\-Stopped}}
+\index{wrapper\-Stopped@{wrapper\-Stopped}!Utils::ConsoleProcess@{\-Utils\-::\-Console\-Process}}
+\subsubsection[{wrapper\-Stopped}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Utils\-::\-Console\-Process\-::wrapper\-Stopped} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}signal\mbox{]}}}}\label{class_utils_1_1_console_process_ac7872882083e24d4e07ec079ce409500}
+
+
+\-The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/libs/utils/\hyperlink{consoleprocess_8h}{consoleprocess.\-h}\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/libs/utils/\hyperlink{consoleprocess_8cpp}{consoleprocess.\-cpp}\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/libs/utils/\hyperlink{consoleprocess__unix_8cpp}{consoleprocess\-\_\-unix.\-cpp}\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/libs/utils/\hyperlink{consoleprocess__win_8cpp}{consoleprocess\-\_\-win.\-cpp}\end{DoxyCompactItemize}

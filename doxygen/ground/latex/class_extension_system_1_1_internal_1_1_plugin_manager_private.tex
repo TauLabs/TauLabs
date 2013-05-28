@@ -1,0 +1,263 @@
+\hypertarget{class_extension_system_1_1_internal_1_1_plugin_manager_private}{\section{\-Extension\-System\-:\-:\-Internal\-:\-:\-Plugin\-Manager\-Private \-Class \-Reference}
+\label{class_extension_system_1_1_internal_1_1_plugin_manager_private}\index{\-Extension\-System\-::\-Internal\-::\-Plugin\-Manager\-Private@{\-Extension\-System\-::\-Internal\-::\-Plugin\-Manager\-Private}}
+}
+
+
+{\ttfamily \#include $<$pluginmanager\-\_\-p.\-h$>$}
+
+\subsection*{\-Public \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_extension_system_1_1_internal_1_1_plugin_manager_private_aa9b980c8b4d4f99bc52edcd02c22a933}{\-Plugin\-Manager\-Private} (\hyperlink{class_extension_system_1_1_plugin_manager}{\-Plugin\-Manager} $\ast$plugin\-Manager)
+\item 
+virtual \hyperlink{class_extension_system_1_1_internal_1_1_plugin_manager_private_a434ba94470f7507ea1c65b6b7f7b58a8}{$\sim$\-Plugin\-Manager\-Private} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_extension_system_1_1_internal_1_1_plugin_manager_private_a4d9a60e36e831bdafbe905ae247b3cf3}{add\-Object} (\-Q\-Object $\ast$obj)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_extension_system_1_1_internal_1_1_plugin_manager_private_abc89590fec7337cbde0b99711da09329}{remove\-Object} (\-Q\-Object $\ast$obj)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_extension_system_1_1_internal_1_1_plugin_manager_private_a5097be47257a455a1c7347b67982b600}{load\-Plugins} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_extension_system_1_1_internal_1_1_plugin_manager_private_a38c08e6dbab3c28d6b00dac7e1e6f976}{set\-Plugin\-Paths} (const \-Q\-String\-List \&paths)
+\item 
+\-Q\-List$<$ \hyperlink{class_extension_system_1_1_plugin_spec}{\-Plugin\-Spec} $\ast$ $>$ \hyperlink{class_extension_system_1_1_internal_1_1_plugin_manager_private_a9317db01cb0daa7ca5c3d2629af8c2b3}{load\-Queue} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_extension_system_1_1_internal_1_1_plugin_manager_private_a9da5a8705edf11abe810d001af6af5e6}{load\-Plugin} (\hyperlink{class_extension_system_1_1_plugin_spec}{\-Plugin\-Spec} $\ast$spec, \hyperlink{class_extension_system_1_1_plugin_spec_a3d40e1bd1f17eb32b314bcd282b3e3b9}{\-Plugin\-Spec\-::\-State} dest\-State)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_extension_system_1_1_internal_1_1_plugin_manager_private_aeafdcf8c4ecb2d7311ce9d2e9246e664}{resolve\-Dependencies} ()
+\item 
+\hyperlink{class_extension_system_1_1_plugin_spec}{\-Plugin\-Spec} $\ast$ \hyperlink{class_extension_system_1_1_internal_1_1_plugin_manager_private_aed5d2239cf54d612a3e668de2538fdf0}{plugin\-For\-Option} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \&option, bool $\ast$requires\-Argument) const 
+\item 
+\hyperlink{class_extension_system_1_1_plugin_spec}{\-Plugin\-Spec} $\ast$ \hyperlink{class_extension_system_1_1_internal_1_1_plugin_manager_private_a30a333d4d21ef402dbaca5f3142ac666}{plugin\-By\-Name} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \&name) const 
+\end{DoxyCompactItemize}
+\subsection*{\-Static \-Public \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+static \hyperlink{class_extension_system_1_1_plugin_spec}{\-Plugin\-Spec} $\ast$ \hyperlink{class_extension_system_1_1_internal_1_1_plugin_manager_private_a3776fd72434a1cb33fe10b1e92e2d0f7}{create\-Spec} ()
+\item 
+static \hyperlink{class_extension_system_1_1_internal_1_1_plugin_spec_private}{\-Plugin\-Spec\-Private} $\ast$ \hyperlink{class_extension_system_1_1_internal_1_1_plugin_manager_private_af14a993bfe1543afed5de3bec610d1bc}{private\-Spec} (\hyperlink{class_extension_system_1_1_plugin_spec}{\-Plugin\-Spec} $\ast$spec)
+\end{DoxyCompactItemize}
+\subsection*{\-Public \-Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\-Q\-List$<$ \hyperlink{class_extension_system_1_1_plugin_spec}{\-Plugin\-Spec} $\ast$ $>$ \hyperlink{class_extension_system_1_1_internal_1_1_plugin_manager_private_a1654aed9c8c9d015cc3ef398f405613e}{plugin\-Specs}
+\item 
+\-Q\-List$<$ \hyperlink{class_extension_system_1_1_plugin_spec}{\-Plugin\-Spec} $\ast$ $>$ \hyperlink{class_extension_system_1_1_internal_1_1_plugin_manager_private_a25ce55fe8bc3538c6fe2c5ac18be1f66}{test\-Specs}
+\item 
+\-Q\-String\-List \hyperlink{class_extension_system_1_1_internal_1_1_plugin_manager_private_aab8385c194dea0ca7100ace14cd9ce29}{plugin\-Paths}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{class_extension_system_1_1_internal_1_1_plugin_manager_private_ac92959afcbee3882ac4df6bf9d00d6b2}{extension}
+\item 
+\-Q\-List$<$ \-Q\-Object $\ast$ $>$ \hyperlink{class_extension_system_1_1_internal_1_1_plugin_manager_private_a33d08f94e70bb4ecf53a00ed840f02a1}{all\-Objects}
+\item 
+\-Q\-String\-List \hyperlink{class_extension_system_1_1_internal_1_1_plugin_manager_private_ae4cd1bb87340f771e64431172280191c}{arguments}
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+
+
+\-Definition at line 47 of file pluginmanager\-\_\-p.\-h.
+
+
+
+\subsection{\-Constructor \& \-Destructor \-Documentation}
+\hypertarget{class_extension_system_1_1_internal_1_1_plugin_manager_private_aa9b980c8b4d4f99bc52edcd02c22a933}{\index{\-Extension\-System\-::\-Internal\-::\-Plugin\-Manager\-Private@{\-Extension\-System\-::\-Internal\-::\-Plugin\-Manager\-Private}!\-Plugin\-Manager\-Private@{\-Plugin\-Manager\-Private}}
+\index{\-Plugin\-Manager\-Private@{\-Plugin\-Manager\-Private}!ExtensionSystem::Internal::PluginManagerPrivate@{\-Extension\-System\-::\-Internal\-::\-Plugin\-Manager\-Private}}
+\subsubsection[{\-Plugin\-Manager\-Private}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Plugin\-Manager\-Private\-::\-Plugin\-Manager\-Private} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Plugin\-Manager} $\ast$}]{plugin\-Manager}
+\end{DoxyParamCaption}
+)}}\label{class_extension_system_1_1_internal_1_1_plugin_manager_private_aa9b980c8b4d4f99bc52edcd02c22a933}
+
+
+\-Definition at line 490 of file pluginmanager.\-cpp.
+
+\hypertarget{class_extension_system_1_1_internal_1_1_plugin_manager_private_a434ba94470f7507ea1c65b6b7f7b58a8}{\index{\-Extension\-System\-::\-Internal\-::\-Plugin\-Manager\-Private@{\-Extension\-System\-::\-Internal\-::\-Plugin\-Manager\-Private}!$\sim$\-Plugin\-Manager\-Private@{$\sim$\-Plugin\-Manager\-Private}}
+\index{$\sim$\-Plugin\-Manager\-Private@{$\sim$\-Plugin\-Manager\-Private}!ExtensionSystem::Internal::PluginManagerPrivate@{\-Extension\-System\-::\-Internal\-::\-Plugin\-Manager\-Private}}
+\subsubsection[{$\sim$\-Plugin\-Manager\-Private}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Plugin\-Manager\-Private\-::$\sim$\-Plugin\-Manager\-Private} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{class_extension_system_1_1_internal_1_1_plugin_manager_private_a434ba94470f7507ea1c65b6b7f7b58a8}
+
+
+\-Definition at line 499 of file pluginmanager.\-cpp.
+
+
+
+\subsection{\-Member \-Function \-Documentation}
+\hypertarget{class_extension_system_1_1_internal_1_1_plugin_manager_private_a4d9a60e36e831bdafbe905ae247b3cf3}{\index{\-Extension\-System\-::\-Internal\-::\-Plugin\-Manager\-Private@{\-Extension\-System\-::\-Internal\-::\-Plugin\-Manager\-Private}!add\-Object@{add\-Object}}
+\index{add\-Object@{add\-Object}!ExtensionSystem::Internal::PluginManagerPrivate@{\-Extension\-System\-::\-Internal\-::\-Plugin\-Manager\-Private}}
+\subsubsection[{add\-Object}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Plugin\-Manager\-Private\-::add\-Object} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Object $\ast$}]{obj}
+\end{DoxyParamCaption}
+)}}\label{class_extension_system_1_1_internal_1_1_plugin_manager_private_a4d9a60e36e831bdafbe905ae247b3cf3}
+
+
+\-Definition at line 525 of file pluginmanager.\-cpp.
+
+\hypertarget{class_extension_system_1_1_internal_1_1_plugin_manager_private_a3776fd72434a1cb33fe10b1e92e2d0f7}{\index{\-Extension\-System\-::\-Internal\-::\-Plugin\-Manager\-Private@{\-Extension\-System\-::\-Internal\-::\-Plugin\-Manager\-Private}!create\-Spec@{create\-Spec}}
+\index{create\-Spec@{create\-Spec}!ExtensionSystem::Internal::PluginManagerPrivate@{\-Extension\-System\-::\-Internal\-::\-Plugin\-Manager\-Private}}
+\subsubsection[{create\-Spec}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Plugin\-Spec} $\ast$ {\bf \-Plugin\-Manager\-Private\-::create\-Spec} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}\label{class_extension_system_1_1_internal_1_1_plugin_manager_private_a3776fd72434a1cb33fe10b1e92e2d0f7}
+
+
+\-Definition at line 472 of file pluginmanager.\-cpp.
+
+\hypertarget{class_extension_system_1_1_internal_1_1_plugin_manager_private_a9da5a8705edf11abe810d001af6af5e6}{\index{\-Extension\-System\-::\-Internal\-::\-Plugin\-Manager\-Private@{\-Extension\-System\-::\-Internal\-::\-Plugin\-Manager\-Private}!load\-Plugin@{load\-Plugin}}
+\index{load\-Plugin@{load\-Plugin}!ExtensionSystem::Internal::PluginManagerPrivate@{\-Extension\-System\-::\-Internal\-::\-Plugin\-Manager\-Private}}
+\subsubsection[{load\-Plugin}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Plugin\-Manager\-Private\-::load\-Plugin} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Plugin\-Spec} $\ast$}]{spec, }
+\item[{{\bf \-Plugin\-Spec\-::\-State}}]{dest\-State}
+\end{DoxyParamCaption}
+)}}\label{class_extension_system_1_1_internal_1_1_plugin_manager_private_a9da5a8705edf11abe810d001af6af5e6}
+
+
+\-Definition at line 655 of file pluginmanager.\-cpp.
+
+\hypertarget{class_extension_system_1_1_internal_1_1_plugin_manager_private_a5097be47257a455a1c7347b67982b600}{\index{\-Extension\-System\-::\-Internal\-::\-Plugin\-Manager\-Private@{\-Extension\-System\-::\-Internal\-::\-Plugin\-Manager\-Private}!load\-Plugins@{load\-Plugins}}
+\index{load\-Plugins@{load\-Plugins}!ExtensionSystem::Internal::PluginManagerPrivate@{\-Extension\-System\-::\-Internal\-::\-Plugin\-Manager\-Private}}
+\subsubsection[{load\-Plugins}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Plugin\-Manager\-Private\-::load\-Plugins} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_extension_system_1_1_internal_1_1_plugin_manager_private_a5097be47257a455a1c7347b67982b600}
+
+
+\-Definition at line 574 of file pluginmanager.\-cpp.
+
+\hypertarget{class_extension_system_1_1_internal_1_1_plugin_manager_private_a9317db01cb0daa7ca5c3d2629af8c2b3}{\index{\-Extension\-System\-::\-Internal\-::\-Plugin\-Manager\-Private@{\-Extension\-System\-::\-Internal\-::\-Plugin\-Manager\-Private}!load\-Queue@{load\-Queue}}
+\index{load\-Queue@{load\-Queue}!ExtensionSystem::Internal::PluginManagerPrivate@{\-Extension\-System\-::\-Internal\-::\-Plugin\-Manager\-Private}}
+\subsubsection[{load\-Queue}]{\setlength{\rightskip}{0pt plus 5cm}\-Q\-List$<$ {\bf \-Plugin\-Spec} $\ast$ $>$ {\bf \-Plugin\-Manager\-Private\-::load\-Queue} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_extension_system_1_1_internal_1_1_plugin_manager_private_a9317db01cb0daa7ca5c3d2629af8c2b3}
+
+
+\-Definition at line 597 of file pluginmanager.\-cpp.
+
+\hypertarget{class_extension_system_1_1_internal_1_1_plugin_manager_private_a30a333d4d21ef402dbaca5f3142ac666}{\index{\-Extension\-System\-::\-Internal\-::\-Plugin\-Manager\-Private@{\-Extension\-System\-::\-Internal\-::\-Plugin\-Manager\-Private}!plugin\-By\-Name@{plugin\-By\-Name}}
+\index{plugin\-By\-Name@{plugin\-By\-Name}!ExtensionSystem::Internal::PluginManagerPrivate@{\-Extension\-System\-::\-Internal\-::\-Plugin\-Manager\-Private}}
+\subsubsection[{plugin\-By\-Name}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Plugin\-Spec} $\ast$ {\bf \-Plugin\-Manager\-Private\-::plugin\-By\-Name} (
+\begin{DoxyParamCaption}
+\item[{const {\bf \-Q\-String} \&}]{name}
+\end{DoxyParamCaption}
+) const}}\label{class_extension_system_1_1_internal_1_1_plugin_manager_private_a30a333d4d21ef402dbaca5f3142ac666}
+
+
+\-Definition at line 755 of file pluginmanager.\-cpp.
+
+\hypertarget{class_extension_system_1_1_internal_1_1_plugin_manager_private_aed5d2239cf54d612a3e668de2538fdf0}{\index{\-Extension\-System\-::\-Internal\-::\-Plugin\-Manager\-Private@{\-Extension\-System\-::\-Internal\-::\-Plugin\-Manager\-Private}!plugin\-For\-Option@{plugin\-For\-Option}}
+\index{plugin\-For\-Option@{plugin\-For\-Option}!ExtensionSystem::Internal::PluginManagerPrivate@{\-Extension\-System\-::\-Internal\-::\-Plugin\-Manager\-Private}}
+\subsubsection[{plugin\-For\-Option}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Plugin\-Spec} $\ast$ {\bf \-Plugin\-Manager\-Private\-::plugin\-For\-Option} (
+\begin{DoxyParamCaption}
+\item[{const {\bf \-Q\-String} \&}]{option, }
+\item[{bool $\ast$}]{requires\-Argument}
+\end{DoxyParamCaption}
+) const}}\label{class_extension_system_1_1_internal_1_1_plugin_manager_private_aed5d2239cf54d612a3e668de2538fdf0}
+
+
+\-Definition at line 732 of file pluginmanager.\-cpp.
+
+\hypertarget{class_extension_system_1_1_internal_1_1_plugin_manager_private_af14a993bfe1543afed5de3bec610d1bc}{\index{\-Extension\-System\-::\-Internal\-::\-Plugin\-Manager\-Private@{\-Extension\-System\-::\-Internal\-::\-Plugin\-Manager\-Private}!private\-Spec@{private\-Spec}}
+\index{private\-Spec@{private\-Spec}!ExtensionSystem::Internal::PluginManagerPrivate@{\-Extension\-System\-::\-Internal\-::\-Plugin\-Manager\-Private}}
+\subsubsection[{private\-Spec}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Plugin\-Spec\-Private} $\ast$ {\bf \-Plugin\-Manager\-Private\-::private\-Spec} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Plugin\-Spec} $\ast$}]{spec}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}\label{class_extension_system_1_1_internal_1_1_plugin_manager_private_af14a993bfe1543afed5de3bec610d1bc}
+
+
+\-Definition at line 481 of file pluginmanager.\-cpp.
+
+\hypertarget{class_extension_system_1_1_internal_1_1_plugin_manager_private_abc89590fec7337cbde0b99711da09329}{\index{\-Extension\-System\-::\-Internal\-::\-Plugin\-Manager\-Private@{\-Extension\-System\-::\-Internal\-::\-Plugin\-Manager\-Private}!remove\-Object@{remove\-Object}}
+\index{remove\-Object@{remove\-Object}!ExtensionSystem::Internal::PluginManagerPrivate@{\-Extension\-System\-::\-Internal\-::\-Plugin\-Manager\-Private}}
+\subsubsection[{remove\-Object}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Plugin\-Manager\-Private\-::remove\-Object} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Object $\ast$}]{obj}
+\end{DoxyParamCaption}
+)}}\label{class_extension_system_1_1_internal_1_1_plugin_manager_private_abc89590fec7337cbde0b99711da09329}
+
+
+\-Definition at line 550 of file pluginmanager.\-cpp.
+
+\hypertarget{class_extension_system_1_1_internal_1_1_plugin_manager_private_aeafdcf8c4ecb2d7311ce9d2e9246e664}{\index{\-Extension\-System\-::\-Internal\-::\-Plugin\-Manager\-Private@{\-Extension\-System\-::\-Internal\-::\-Plugin\-Manager\-Private}!resolve\-Dependencies@{resolve\-Dependencies}}
+\index{resolve\-Dependencies@{resolve\-Dependencies}!ExtensionSystem::Internal::PluginManagerPrivate@{\-Extension\-System\-::\-Internal\-::\-Plugin\-Manager\-Private}}
+\subsubsection[{resolve\-Dependencies}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Plugin\-Manager\-Private\-::resolve\-Dependencies} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_extension_system_1_1_internal_1_1_plugin_manager_private_aeafdcf8c4ecb2d7311ce9d2e9246e664}
+
+
+\-Definition at line 724 of file pluginmanager.\-cpp.
+
+\hypertarget{class_extension_system_1_1_internal_1_1_plugin_manager_private_a38c08e6dbab3c28d6b00dac7e1e6f976}{\index{\-Extension\-System\-::\-Internal\-::\-Plugin\-Manager\-Private@{\-Extension\-System\-::\-Internal\-::\-Plugin\-Manager\-Private}!set\-Plugin\-Paths@{set\-Plugin\-Paths}}
+\index{set\-Plugin\-Paths@{set\-Plugin\-Paths}!ExtensionSystem::Internal::PluginManagerPrivate@{\-Extension\-System\-::\-Internal\-::\-Plugin\-Manager\-Private}}
+\subsubsection[{set\-Plugin\-Paths}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Plugin\-Manager\-Private\-::set\-Plugin\-Paths} (
+\begin{DoxyParamCaption}
+\item[{const \-Q\-String\-List \&}]{paths}
+\end{DoxyParamCaption}
+)}}\label{class_extension_system_1_1_internal_1_1_plugin_manager_private_a38c08e6dbab3c28d6b00dac7e1e6f976}
+
+
+\-Definition at line 687 of file pluginmanager.\-cpp.
+
+
+
+\subsection{\-Member \-Data \-Documentation}
+\hypertarget{class_extension_system_1_1_internal_1_1_plugin_manager_private_a33d08f94e70bb4ecf53a00ed840f02a1}{\index{\-Extension\-System\-::\-Internal\-::\-Plugin\-Manager\-Private@{\-Extension\-System\-::\-Internal\-::\-Plugin\-Manager\-Private}!all\-Objects@{all\-Objects}}
+\index{all\-Objects@{all\-Objects}!ExtensionSystem::Internal::PluginManagerPrivate@{\-Extension\-System\-::\-Internal\-::\-Plugin\-Manager\-Private}}
+\subsubsection[{all\-Objects}]{\setlength{\rightskip}{0pt plus 5cm}\-Q\-List$<$\-Q\-Object $\ast$$>$ {\bf \-Extension\-System\-::\-Internal\-::\-Plugin\-Manager\-Private\-::all\-Objects}}}\label{class_extension_system_1_1_internal_1_1_plugin_manager_private_a33d08f94e70bb4ecf53a00ed840f02a1}
+
+
+\-Definition at line 68 of file pluginmanager\-\_\-p.\-h.
+
+\hypertarget{class_extension_system_1_1_internal_1_1_plugin_manager_private_ae4cd1bb87340f771e64431172280191c}{\index{\-Extension\-System\-::\-Internal\-::\-Plugin\-Manager\-Private@{\-Extension\-System\-::\-Internal\-::\-Plugin\-Manager\-Private}!arguments@{arguments}}
+\index{arguments@{arguments}!ExtensionSystem::Internal::PluginManagerPrivate@{\-Extension\-System\-::\-Internal\-::\-Plugin\-Manager\-Private}}
+\subsubsection[{arguments}]{\setlength{\rightskip}{0pt plus 5cm}\-Q\-String\-List {\bf \-Extension\-System\-::\-Internal\-::\-Plugin\-Manager\-Private\-::arguments}}}\label{class_extension_system_1_1_internal_1_1_plugin_manager_private_ae4cd1bb87340f771e64431172280191c}
+
+
+\-Definition at line 70 of file pluginmanager\-\_\-p.\-h.
+
+\hypertarget{class_extension_system_1_1_internal_1_1_plugin_manager_private_ac92959afcbee3882ac4df6bf9d00d6b2}{\index{\-Extension\-System\-::\-Internal\-::\-Plugin\-Manager\-Private@{\-Extension\-System\-::\-Internal\-::\-Plugin\-Manager\-Private}!extension@{extension}}
+\index{extension@{extension}!ExtensionSystem::Internal::PluginManagerPrivate@{\-Extension\-System\-::\-Internal\-::\-Plugin\-Manager\-Private}}
+\subsubsection[{extension}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Q\-String} {\bf \-Extension\-System\-::\-Internal\-::\-Plugin\-Manager\-Private\-::extension}}}\label{class_extension_system_1_1_internal_1_1_plugin_manager_private_ac92959afcbee3882ac4df6bf9d00d6b2}
+
+
+\-Definition at line 67 of file pluginmanager\-\_\-p.\-h.
+
+\hypertarget{class_extension_system_1_1_internal_1_1_plugin_manager_private_aab8385c194dea0ca7100ace14cd9ce29}{\index{\-Extension\-System\-::\-Internal\-::\-Plugin\-Manager\-Private@{\-Extension\-System\-::\-Internal\-::\-Plugin\-Manager\-Private}!plugin\-Paths@{plugin\-Paths}}
+\index{plugin\-Paths@{plugin\-Paths}!ExtensionSystem::Internal::PluginManagerPrivate@{\-Extension\-System\-::\-Internal\-::\-Plugin\-Manager\-Private}}
+\subsubsection[{plugin\-Paths}]{\setlength{\rightskip}{0pt plus 5cm}\-Q\-String\-List {\bf \-Extension\-System\-::\-Internal\-::\-Plugin\-Manager\-Private\-::plugin\-Paths}}}\label{class_extension_system_1_1_internal_1_1_plugin_manager_private_aab8385c194dea0ca7100ace14cd9ce29}
+
+
+\-Definition at line 66 of file pluginmanager\-\_\-p.\-h.
+
+\hypertarget{class_extension_system_1_1_internal_1_1_plugin_manager_private_a1654aed9c8c9d015cc3ef398f405613e}{\index{\-Extension\-System\-::\-Internal\-::\-Plugin\-Manager\-Private@{\-Extension\-System\-::\-Internal\-::\-Plugin\-Manager\-Private}!plugin\-Specs@{plugin\-Specs}}
+\index{plugin\-Specs@{plugin\-Specs}!ExtensionSystem::Internal::PluginManagerPrivate@{\-Extension\-System\-::\-Internal\-::\-Plugin\-Manager\-Private}}
+\subsubsection[{plugin\-Specs}]{\setlength{\rightskip}{0pt plus 5cm}\-Q\-List$<${\bf \-Plugin\-Spec} $\ast$$>$ {\bf \-Extension\-System\-::\-Internal\-::\-Plugin\-Manager\-Private\-::plugin\-Specs}}}\label{class_extension_system_1_1_internal_1_1_plugin_manager_private_a1654aed9c8c9d015cc3ef398f405613e}
+
+
+\-Definition at line 64 of file pluginmanager\-\_\-p.\-h.
+
+\hypertarget{class_extension_system_1_1_internal_1_1_plugin_manager_private_a25ce55fe8bc3538c6fe2c5ac18be1f66}{\index{\-Extension\-System\-::\-Internal\-::\-Plugin\-Manager\-Private@{\-Extension\-System\-::\-Internal\-::\-Plugin\-Manager\-Private}!test\-Specs@{test\-Specs}}
+\index{test\-Specs@{test\-Specs}!ExtensionSystem::Internal::PluginManagerPrivate@{\-Extension\-System\-::\-Internal\-::\-Plugin\-Manager\-Private}}
+\subsubsection[{test\-Specs}]{\setlength{\rightskip}{0pt plus 5cm}\-Q\-List$<${\bf \-Plugin\-Spec} $\ast$$>$ {\bf \-Extension\-System\-::\-Internal\-::\-Plugin\-Manager\-Private\-::test\-Specs}}}\label{class_extension_system_1_1_internal_1_1_plugin_manager_private_a25ce55fe8bc3538c6fe2c5ac18be1f66}
+
+
+\-Definition at line 65 of file pluginmanager\-\_\-p.\-h.
+
+
+
+\-The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/libs/extensionsystem/\hyperlink{pluginmanager__p_8h}{pluginmanager\-\_\-p.\-h}\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/libs/extensionsystem/\hyperlink{pluginmanager_8cpp}{pluginmanager.\-cpp}\end{DoxyCompactItemize}

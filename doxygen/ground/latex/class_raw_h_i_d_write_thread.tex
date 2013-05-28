@@ -1,0 +1,51 @@
+\hypertarget{class_raw_h_i_d_write_thread}{\section{\-Raw\-H\-I\-D\-Write\-Thread \-Class \-Reference}
+\label{class_raw_h_i_d_write_thread}\index{\-Raw\-H\-I\-D\-Write\-Thread@{\-Raw\-H\-I\-D\-Write\-Thread}}
+}
+\subsection*{\-Public \-Slots}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___raw_h_i_d_plugin_gaf92ea93cbc5d6c7672f8853d3e761122}{terminate} ()
+\end{DoxyCompactItemize}
+\subsection*{\-Public \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___raw_h_i_d_plugin_gac9c8ee05f180a569c664780b9760849e}{\-Raw\-H\-I\-D\-Write\-Thread} (\hyperlink{class_raw_h_i_d}{\-Raw\-H\-I\-D} $\ast$hid)
+\item 
+virtual \hyperlink{group___raw_h_i_d_plugin_gaf760c0fa4d7799e982c74e1b6aaba378}{$\sim$\-Raw\-H\-I\-D\-Write\-Thread} ()
+\item 
+int \hyperlink{group___raw_h_i_d_plugin_ga563f2214706aafbf75b158b6ca2ed73e}{push\-Data\-To\-Write} (const char $\ast$data, int size)
+\item 
+qint64 \hyperlink{group___raw_h_i_d_plugin_ga33316914e9994a7ee878bffe07175781}{get\-Bytes\-To\-Write} ()
+\end{DoxyCompactItemize}
+\subsection*{\-Protected \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___raw_h_i_d_plugin_gaac9f3dfe020b10edc1c5677e07b36d04}{run} ()
+\end{DoxyCompactItemize}
+\subsection*{\-Protected \-Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\-Q\-Byte\-Array \hyperlink{group___raw_h_i_d_plugin_ga4b0316d5c6599d45686fc5066a246e7e}{m\-\_\-write\-Buffer}
+\item 
+\-Q\-Mutex \hyperlink{group___raw_h_i_d_plugin_gaa53a045dd368b7ad82ac5853679019e0}{m\-\_\-write\-Buf\-Mtx}
+\item 
+\-Q\-Wait\-Condition \hyperlink{group___raw_h_i_d_plugin_ga1554ff98394a7da1f15042ff26061348}{m\-\_\-new\-Data\-To\-Write}
+\item 
+\hyperlink{class_raw_h_i_d}{\-Raw\-H\-I\-D} $\ast$ \hyperlink{group___raw_h_i_d_plugin_ga753f0d79e5633e60df867fe7c35dd6e4}{m\-\_\-hid}
+\item 
+\hyperlink{classpjrc__rawhid}{pjrc\-\_\-rawhid} $\ast$ \hyperlink{group___raw_h_i_d_plugin_ga7ce382fd2ebb17e10007aed01dea1d6f}{hiddev}
+\item 
+bool \hyperlink{group___raw_h_i_d_plugin_gaf4f4725b8f0b6ed4b9b5c751397d0abe}{m\-\_\-running}
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-This class is nearly the same than \hyperlink{class_raw_h_i_d_read_thread}{\-Raw\-H\-I\-D\-Read\-Thread} but for writing 
+
+\-Definition at line 95 of file rawhid.\-cpp.
+
+
+
+\-The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/plugins/rawhid/\hyperlink{rawhid_8cpp}{rawhid.\-cpp}\end{DoxyCompactItemize}

@@ -1,0 +1,115 @@
+\hypertarget{group___p_i_o_s___i2_c___e_s_c}{\section{\-Code for controlling \-I2\-C based \-E\-S\-Cs}
+\label{group___p_i_o_s___i2_c___e_s_c}\index{\-Code for controlling I2\-C based E\-S\-Cs@{\-Code for controlling I2\-C based E\-S\-Cs}}
+}
+
+
+\-Deals with the hardware interface to the magnetometers.  
+
+
+\subsection*{\-Files}
+\begin{DoxyCompactItemize}
+\item 
+file \hyperlink{pios__i2c__esc_8c}{pios\-\_\-i2c\-\_\-esc.\-c}
+\begin{DoxyCompactList}\small\item\em \-H\-M\-C5843 \-Magnetic \-Sensor \-Functions from \-A\-H\-R\-S. \end{DoxyCompactList}\item 
+file \hyperlink{pios__i2c__esc_8h}{pios\-\_\-i2c\-\_\-esc.\-h}
+\begin{DoxyCompactList}\small\item\em \-H\-M\-C5843 \-Magnetic \-Sensor \-Functions from \-A\-H\-R\-S. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+bool \hyperlink{group___p_i_o_s___i2_c___e_s_c_ga2ac90c7dcac4c65027b9c5ecf404b6fb}{\-P\-I\-O\-S\-\_\-\-Set\-M\-K\-Speed} (uint8\-\_\-t motornum, uint8\-\_\-t speed)
+\item 
+bool \hyperlink{group___p_i_o_s___i2_c___e_s_c_ga492a26bc0f2ba6af15d1a7fe404a5218}{\-P\-I\-O\-S\-\_\-\-I2\-C\-\_\-\-E\-S\-C\-\_\-\-Config} ()
+\item 
+bool \hyperlink{group___p_i_o_s___i2_c___e_s_c_gae4ba1cbbf75c95f2613cf0bcbd977294}{\-P\-I\-O\-S\-\_\-\-I2\-C\-\_\-\-E\-S\-C\-\_\-\-Set\-Speed} (uint8\-\_\-t speed\mbox{[}4\mbox{]})
+\item 
+bool \hyperlink{group___p_i_o_s___i2_c___e_s_c_gaa3e804f2b7422fe94d7ffb0574db230b}{\-P\-I\-O\-S\-\_\-\-Set\-Astec4\-Address} (uint8\-\_\-t new\-\_\-address)
+\item 
+bool \hyperlink{group___p_i_o_s___i2_c___e_s_c_ga8c4dfebce118f053c3dbbbcfdafed2f6}{\-P\-I\-O\-S\-\_\-\-Set\-Astec4\-Speed} (uint8\-\_\-t motornum, uint8\-\_\-t speed)
+\end{DoxyCompactItemize}
+\subsection*{\-Variables}
+\begin{DoxyCompactItemize}
+\item 
+uint8\-\_\-t \hyperlink{group___p_i_o_s___i2_c___e_s_c_ga0c4e3e06d8215d52b552ef6c4a1d0994}{base\-\_\-address} = \-M\-K\-\_\-\-I2\-C\-\_\-\-A\-D\-D\-R
+\item 
+uint8\-\_\-t \hyperlink{group___p_i_o_s___i2_c___e_s_c_gaea8017c294a3f74ac70b9bae773d7c0d}{valid\-\_\-motors} = 0
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-Deals with the hardware interface to the magnetometers. 
+
+\subsection{\-Function \-Documentation}
+\hypertarget{group___p_i_o_s___i2_c___e_s_c_ga492a26bc0f2ba6af15d1a7fe404a5218}{\index{\-Code for controlling I2\-C based E\-S\-Cs@{\-Code for controlling I2\-C based E\-S\-Cs}!\-P\-I\-O\-S\-\_\-\-I2\-C\-\_\-\-E\-S\-C\-\_\-\-Config@{\-P\-I\-O\-S\-\_\-\-I2\-C\-\_\-\-E\-S\-C\-\_\-\-Config}}
+\index{\-P\-I\-O\-S\-\_\-\-I2\-C\-\_\-\-E\-S\-C\-\_\-\-Config@{\-P\-I\-O\-S\-\_\-\-I2\-C\-\_\-\-E\-S\-C\-\_\-\-Config}!Code for controlling I2C based ESCs@{\-Code for controlling I2\-C based E\-S\-Cs}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-I2\-C\-\_\-\-E\-S\-C\-\_\-\-Config}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-P\-I\-O\-S\-\_\-\-I2\-C\-\_\-\-E\-S\-C\-\_\-\-Config} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___i2_c___e_s_c_ga492a26bc0f2ba6af15d1a7fe404a5218}
+
+
+\-Definition at line 45 of file pios\-\_\-i2c\-\_\-esc.\-c.
+
+\hypertarget{group___p_i_o_s___i2_c___e_s_c_gae4ba1cbbf75c95f2613cf0bcbd977294}{\index{\-Code for controlling I2\-C based E\-S\-Cs@{\-Code for controlling I2\-C based E\-S\-Cs}!\-P\-I\-O\-S\-\_\-\-I2\-C\-\_\-\-E\-S\-C\-\_\-\-Set\-Speed@{\-P\-I\-O\-S\-\_\-\-I2\-C\-\_\-\-E\-S\-C\-\_\-\-Set\-Speed}}
+\index{\-P\-I\-O\-S\-\_\-\-I2\-C\-\_\-\-E\-S\-C\-\_\-\-Set\-Speed@{\-P\-I\-O\-S\-\_\-\-I2\-C\-\_\-\-E\-S\-C\-\_\-\-Set\-Speed}!Code for controlling I2C based ESCs@{\-Code for controlling I2\-C based E\-S\-Cs}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-I2\-C\-\_\-\-E\-S\-C\-\_\-\-Set\-Speed}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-P\-I\-O\-S\-\_\-\-I2\-C\-\_\-\-E\-S\-C\-\_\-\-Set\-Speed} (
+\begin{DoxyParamCaption}
+\item[{uint8\-\_\-t}]{speed\mbox{[}4\mbox{]}}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___i2_c___e_s_c_gae4ba1cbbf75c95f2613cf0bcbd977294}
+
+
+\-Definition at line 56 of file pios\-\_\-i2c\-\_\-esc.\-c.
+
+\hypertarget{group___p_i_o_s___i2_c___e_s_c_gaa3e804f2b7422fe94d7ffb0574db230b}{\index{\-Code for controlling I2\-C based E\-S\-Cs@{\-Code for controlling I2\-C based E\-S\-Cs}!\-P\-I\-O\-S\-\_\-\-Set\-Astec4\-Address@{\-P\-I\-O\-S\-\_\-\-Set\-Astec4\-Address}}
+\index{\-P\-I\-O\-S\-\_\-\-Set\-Astec4\-Address@{\-P\-I\-O\-S\-\_\-\-Set\-Astec4\-Address}!Code for controlling I2C based ESCs@{\-Code for controlling I2\-C based E\-S\-Cs}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-Set\-Astec4\-Address}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-P\-I\-O\-S\-\_\-\-Set\-Astec4\-Address} (
+\begin{DoxyParamCaption}
+\item[{uint8\-\_\-t}]{new\-\_\-address}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___i2_c___e_s_c_gaa3e804f2b7422fe94d7ffb0574db230b}
+
+
+\-Definition at line 121 of file pios\-\_\-i2c\-\_\-esc.\-c.
+
+\hypertarget{group___p_i_o_s___i2_c___e_s_c_ga8c4dfebce118f053c3dbbbcfdafed2f6}{\index{\-Code for controlling I2\-C based E\-S\-Cs@{\-Code for controlling I2\-C based E\-S\-Cs}!\-P\-I\-O\-S\-\_\-\-Set\-Astec4\-Speed@{\-P\-I\-O\-S\-\_\-\-Set\-Astec4\-Speed}}
+\index{\-P\-I\-O\-S\-\_\-\-Set\-Astec4\-Speed@{\-P\-I\-O\-S\-\_\-\-Set\-Astec4\-Speed}!Code for controlling I2C based ESCs@{\-Code for controlling I2\-C based E\-S\-Cs}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-Set\-Astec4\-Speed}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-P\-I\-O\-S\-\_\-\-Set\-Astec4\-Speed} (
+\begin{DoxyParamCaption}
+\item[{uint8\-\_\-t}]{motornum, }
+\item[{uint8\-\_\-t}]{speed}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___i2_c___e_s_c_ga8c4dfebce118f053c3dbbbcfdafed2f6}
+
+
+\-Definition at line 140 of file pios\-\_\-i2c\-\_\-esc.\-c.
+
+\hypertarget{group___p_i_o_s___i2_c___e_s_c_ga2ac90c7dcac4c65027b9c5ecf404b6fb}{\index{\-Code for controlling I2\-C based E\-S\-Cs@{\-Code for controlling I2\-C based E\-S\-Cs}!\-P\-I\-O\-S\-\_\-\-Set\-M\-K\-Speed@{\-P\-I\-O\-S\-\_\-\-Set\-M\-K\-Speed}}
+\index{\-P\-I\-O\-S\-\_\-\-Set\-M\-K\-Speed@{\-P\-I\-O\-S\-\_\-\-Set\-M\-K\-Speed}!Code for controlling I2C based ESCs@{\-Code for controlling I2\-C based E\-S\-Cs}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-Set\-M\-K\-Speed}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-P\-I\-O\-S\-\_\-\-Set\-M\-K\-Speed} (
+\begin{DoxyParamCaption}
+\item[{uint8\-\_\-t}]{motornum, }
+\item[{uint8\-\_\-t}]{speed}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___i2_c___e_s_c_ga2ac90c7dcac4c65027b9c5ecf404b6fb}
+
+
+\-Definition at line 99 of file pios\-\_\-i2c\-\_\-esc.\-c.
+
+
+
+\subsection{\-Variable \-Documentation}
+\hypertarget{group___p_i_o_s___i2_c___e_s_c_ga0c4e3e06d8215d52b552ef6c4a1d0994}{\index{\-Code for controlling I2\-C based E\-S\-Cs@{\-Code for controlling I2\-C based E\-S\-Cs}!base\-\_\-address@{base\-\_\-address}}
+\index{base\-\_\-address@{base\-\_\-address}!Code for controlling I2C based ESCs@{\-Code for controlling I2\-C based E\-S\-Cs}}
+\subsubsection[{base\-\_\-address}]{\setlength{\rightskip}{0pt plus 5cm}uint8\-\_\-t {\bf base\-\_\-address} = \-M\-K\-\_\-\-I2\-C\-\_\-\-A\-D\-D\-R}}\label{group___p_i_o_s___i2_c___e_s_c_ga0c4e3e06d8215d52b552ef6c4a1d0994}
+
+
+\-Definition at line 43 of file pios\-\_\-i2c\-\_\-esc.\-c.
+
+\hypertarget{group___p_i_o_s___i2_c___e_s_c_gaea8017c294a3f74ac70b9bae773d7c0d}{\index{\-Code for controlling I2\-C based E\-S\-Cs@{\-Code for controlling I2\-C based E\-S\-Cs}!valid\-\_\-motors@{valid\-\_\-motors}}
+\index{valid\-\_\-motors@{valid\-\_\-motors}!Code for controlling I2C based ESCs@{\-Code for controlling I2\-C based E\-S\-Cs}}
+\subsubsection[{valid\-\_\-motors}]{\setlength{\rightskip}{0pt plus 5cm}uint8\-\_\-t {\bf valid\-\_\-motors} = 0}}\label{group___p_i_o_s___i2_c___e_s_c_gaea8017c294a3f74ac70b9bae773d7c0d}
+
+
+\-Definition at line 44 of file pios\-\_\-i2c\-\_\-esc.\-c.
+

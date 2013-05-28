@@ -1,0 +1,844 @@
+\hypertarget{uavobjecttemplate_8m}{\section{/home/jb/code/\-Tau\-Labs/ground/gcs/src/plugins/uavobjects/uavobjecttemplate.m \-File \-Reference}
+\label{uavobjecttemplate_8m}\index{/home/jb/code/\-Tau\-Labs/ground/gcs/src/plugins/uavobjects/uavobjecttemplate.\-m@{/home/jb/code/\-Tau\-Labs/ground/gcs/src/plugins/uavobjects/uavobjecttemplate.\-m}}
+}
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{uavobjecttemplate_8m_ad4af0b6010fa95d1a7a5b15b76cabe9e}{fprintf} ('$\backslash$\hyperlink{_o_p_plots_8m_a1ee0621678c54afffb4b6e50f10c9ab8}{n}$\backslash$\hyperlink{_o_p_plots_8m_a1ee0621678c54afffb4b6e50f10c9ab8}{n} $\ast$$\ast$$\ast$\-Tau \-Labs log parser $\ast$$\ast$$\ast$$\backslash$\hyperlink{_o_p_plots_8m_a1ee0621678c54afffb4b6e50f10c9ab8}{n}$\backslash$\hyperlink{_o_p_plots_8m_a1ee0621678c54afffb4b6e50f10c9ab8}{n}')
+\item 
+\hyperlink{uavobjecttemplate_8m_a8a6f3c552a6f8f07d85da9f0cff0459e}{else} \hyperlink{uavobjecttemplate_8m_a8760c7f0db08dc03416f4c8c3fc08f02}{error} ('\-Your technical computing program does \hyperlink{uavobjecttemplate_8m_acf8758da9d0019183b0d213755711ee7}{not} support \hyperlink{uavobjecttemplate_8m_a97c04efa65bcf0928abf9260bc5cbf46}{file} choosers.\-Please input the \hyperlink{uavobjecttemplate_8m_a97c04efa65bcf0928abf9260bc5cbf46}{file} name in the argument. ') \hyperlink{uavobjecttemplate_8m_a770a3d65665549f29ddb8ee060c43cbc}{end} elseif \hyperlink{uavobjecttemplate_8m_aafbb9d50e573e4009d0650c645566ddd}{nargin} $>$0 \hyperlink{uavobjecttemplate_8m_ad5dc54ad31adc60ebf4dd2ba4348a8a2}{logfile}
+\item 
+if \hyperlink{uavobjecttemplate_8m_aafbb9d50e573e4009d0650c645566ddd}{nargin} \&\& \hyperlink{uavobjecttemplate_8m_adfc1d6b03bdfaf09a2797670efa5c696}{strcmp} (class(varargin\{2\}),'char')
+\item 
+elseif \hyperlink{uavobjecttemplate_8m_aafbb9d50e573e4009d0650c645566ddd}{nargin} \&\& \hyperlink{uavobjecttemplate_8m_a99fa2380aca0e2b2af5106b406042309}{strcmp} (class(varargin\{2\}),'logical')
+\item 
+\hyperlink{uavobjecttemplate_8m_a770a3d65665549f29ddb8ee060c43cbc}{end} \hyperlink{uavobjecttemplate_8m_a770a3d65665549f29ddb8ee060c43cbc}{end} if \hyperlink{uavobjecttemplate_8m_aefe91cd29a8e10e33597631347fd401c}{$\sim$strcmpi} (\hyperlink{uavobjecttemplate_8m_adc72d03b0853feb6cb18a149e7937be9}{output\-Type},'\hyperlink{uavobjecttemplate_8m_a16a51e808b16c46bbfd36da2e37cd123}{mat}')\&\&$\sim$strcmpi(\hyperlink{uavobjecttemplate_8m_adc72d03b0853feb6cb18a149e7937be9}{output\-Type}
+\item 
+\hyperlink{uavobjecttemplate_8m_a770a3d65665549f29ddb8ee060c43cbc}{end} \hyperlink{uavobjecttemplate_8m_a770a3d65665549f29ddb8ee060c43cbc}{end} if \hyperlink{uavobjecttemplate_8m_a70527ee1c468ecb0c36f5a50686d5614}{csv} \hyperlink{uavobjecttemplate_8m_ae37d8f40ba76a59d04a674d824e8721f}{error} ('\-Incorrect \hyperlink{uavobjecttemplate_8m_a97c04efa65bcf0928abf9260bc5cbf46}{file} format specified.\-Second argument must be ''\hyperlink{uavobjecttemplate_8m_a16a51e808b16c46bbfd36da2e37cd123}{mat}''or ''\hyperlink{uavobjecttemplate_8m_a70527ee1c468ecb0c36f5a50686d5614}{csv}''.')
+\item 
+\hyperlink{uavobjecttemplate_8m_a770a3d65665549f29ddb8ee060c43cbc}{end} (\-I\-N\-S\-T\-A\-N\-T\-I\-A\-T\-I\-O\-N\-C\-O\-D\-E) fid
+\item 
+\hyperlink{uavobjecttemplate_8m_a8baabb94ca31201bfb1cf71bf883668e}{fgetl} (fid)
+\item 
+\-Read third line if \hyperlink{uavobjecttemplate_8m_a5a187172ec19a6a62d3f6965b71939f4}{strcmp} (\hyperlink{uavobjecttemplate_8m_adb9dc2bc213138ae1bf12b68cf62bf56}{git\-Logfile\-Hash}, uavo\-Importer\-Hash)
+\item 
+\hyperlink{uavobjecttemplate_8m_a770a3d65665549f29ddb8ee060c43cbc}{end} if \hyperlink{uavobjecttemplate_8m_ac98a82ad5c92726c118a7fd1ce1d2ae1}{strcmp} (\hyperlink{uavobjecttemplate_8m_a6219c46730d06d3988d873698318eada}{uavo\-Logfile\-Hash}, \hyperlink{uavobjecttemplate_8m_a68fc75536e7a45155ef9f2214915c628}{\-U\-A\-V\-O\-\_\-\-H\-A\-S\-H})
+\item 
+\hyperlink{uavobjecttemplate_8m_aef47ea75a29979ee7f91f1e679592a14}{fprintf} (\mbox{[}\hyperlink{uavobjecttemplate_8m_a879fc3585ccb07eba075553b21960f45}{str1} \hyperlink{uavobjecttemplate_8m_adb74f228c4c77ea5a6be40d6b8ca03ab}{str2} \hyperlink{uavobjecttemplate_8m_adae762842e4f9cef969be5c36459cad2}{str3} \hyperlink{uavobjecttemplate_8m_af1ff2b3c536aeeef7f638664bab25cbb}{str4} \hyperlink{uavobjecttemplate_8m_af809e0aa98a3cf1766020241a1b82436}{str5}\mbox{]})
+\item 
+\hyperlink{uavobjecttemplate_8m_a770a3d65665549f29ddb8ee060c43cbc}{end} for as it was simply \hyperlink{_o_p_plots_8m_ab6991d210d93a78cdbdf6de1889c1259}{a} \*
+dummy placeholder \hyperlink{uavobjecttemplate_8m_a1c2423418c8e367fca746156bb6d3232}{disp} (\mbox{[}'\-Unknown object \-I\-D\-:0x'dec2hex(\hyperlink{uavobjecttemplate_8m_a87d64e1f4a03744d89ab122c222a0f31}{unknown\-Obj\-I\-D\-List}(\hyperlink{uavobjecttemplate_8m_a6f6ccfcf58b31cb6412107d9d5281426}{i}, 1), 8) 'appeared 'int2str(\hyperlink{uavobjecttemplate_8m_a87d64e1f4a03744d89ab122c222a0f31}{unknown\-Obj\-I\-D\-List}(\hyperlink{uavobjecttemplate_8m_a6f6ccfcf58b31cb6412107d9d5281426}{i}, 2)) 'times.'\mbox{]})
+\item 
+\hyperlink{uavobjecttemplate_8m_a770a3d65665549f29ddb8ee060c43cbc}{end} \-Clean \-Up and \-Save \hyperlink{uavobjecttemplate_8m_a16a51e808b16c46bbfd36da2e37cd123}{mat} \hyperlink{uavobjecttemplate_8m_a97c04efa65bcf0928abf9260bc5cbf46}{file} \hyperlink{uavobjecttemplate_8m_acf81bfb24dbf138d8b4f8373bd66b23a}{fclose} (fid)
+\item 
+\-Prune \hyperlink{uavobjecttemplate_8m_a81a6b3bb0d87a9f13a703c4526596362}{vectors} (\-C\-L\-E\-A\-N\-U\-P\-C\-O\-D\-E)\%\%\-Perform typecasting on \hyperlink{uavobjecttemplate_8m_a81a6b3bb0d87a9f13a703c4526596362}{vectors} \$(\-A\-L\-L\-O\-C\-A\-T\-I\-O\-N\-C\-O\-D\-E)\%\%\-Save data to \hyperlink{uavobjecttemplate_8m_a97c04efa65bcf0928abf9260bc5cbf46}{file} if strcmpi(\hyperlink{uavobjecttemplate_8m_adc72d03b0853feb6cb18a149e7937be9}{output\-Type}
+\item 
+\hyperlink{uavobjecttemplate_8m_a79178933c5b76091ca04178d14a5ba98}{save} (\hyperlink{uavobjecttemplate_8m_aba69459d5095ae56cf63e6a66b89648b}{matfile} \$(\-S\-A\-V\-E\-O\-B\-J\-E\-C\-T\-S\-C\-O\-D\-E))
+\item 
+\hyperlink{uavobjecttemplate_8m_a8a6f3c552a6f8f07d85da9f0cff0459e}{else} (\-E\-X\-P\-O\-R\-T\-C\-S\-V\-C\-O\-D\-E) \hyperlink{uavobjecttemplate_8m_a770a3d65665549f29ddb8ee060c43cbc}{end} \hyperlink{uavobjecttemplate_8m_aef47ea75a29979ee7f91f1e679592a14}{fprintf}('\%d records in\%0.\-2f seconds.$\backslash$n'
+\item 
+\hyperlink{uavobjecttemplate_8m_a076bf56c9bafa07f3dbda4901a40d84c}{length} (\hyperlink{uavobjecttemplate_8m_a9295f53f891e8db64c56d4df48cbb933}{buffer})
+\item 
+\hyperlink{uavobjecttemplate_8m_acd1e6295fb7eff6549cd33fe0730fc7e}{etime} (clock, \hyperlink{uavobjecttemplate_8m_a9927793f1f69327ecd9ebf938e0deb92}{start\-Time}))
+\item 
+\hyperlink{uavobjecttemplate_8m_a2420833d971716e9bab41cc9fb3abba1}{function} \hyperlink{uavobjecttemplate_8m_abc41a21d2e73ba5155e1138b2dd2a819}{\-O\-P\-Log2csv} (struct\-In, struct\-Name, \hyperlink{uavobjecttemplate_8m_ad5dc54ad31adc60ebf4dd2ba4348a8a2}{logfile})\%\-Get each field name from the structure field\-Names
+\item 
+if \hyperlink{uavobjecttemplate_8m_ab286bde790d8a8eb7b81391a85f4562b}{isempty} (struct\-In.(field\-Names\{1\}))
+\item 
+\-Write to \hyperlink{uavobjecttemplate_8m_a70527ee1c468ecb0c36f5a50686d5614}{csv} \hyperlink{uavobjecttemplate_8m_ae637335a06d64882ebc90483e39759d5}{dlmwrite} (\hyperlink{uavobjecttemplate_8m_ace96426774cd0a55ead4146bc21c0a22}{csvfile}, \hyperlink{uavobjecttemplate_8m_a7c4c8356cf27a7aade3cb3016b8ffaa7}{header\-Out}, '')
+\item 
+\hyperlink{uavobjecttemplate_8m_a57beaa96718bd8adf411aff9f04d717c}{dlmwrite} (\hyperlink{uavobjecttemplate_8m_ace96426774cd0a55ead4146bc21c0a22}{csvfile}, \hyperlink{uavobjecttemplate_8m_ad3acc5b1fa419f640f3ab7e9dbcd3675}{mat\-Out}, '-\/append')
+\item 
+'\-Inputs must be \hyperlink{uavobjecttemplate_8m_a81a6b3bb0d87a9f13a703c4526596362}{vectors}, \hyperlink{_o_p_plots_8m_a9425be9aab51621e317ba7ade564b570}{i.\-e} \*
+just one column wide.' \hyperlink{uavobjecttemplate_8m_a642db902c10b284834220079d223b0e0}{in\-Start} ()
+\end{DoxyCompactItemize}
+\subsection*{\-Variables}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{uavobjecttemplate_8m_a2420833d971716e9bab41cc9fb3abba1}{function} \mbox{[}$\,$\mbox{]}
+\item 
+\hyperlink{uavobjecttemplate_8m_a68fc75536e7a45155ef9f2214915c628}{\-U\-A\-V\-O\-\_\-\-H\-A\-S\-H} = '\$\{\-U\-A\-V\-O\-S\-H\-A1\-T\-X\-T\}'
+\item 
+\hyperlink{uavobjecttemplate_8m_adc72d03b0853feb6cb18a149e7937be9}{output\-Type} = '\hyperlink{uavobjecttemplate_8m_a16a51e808b16c46bbfd36da2e37cd123}{mat}'
+\item 
+\-Default output is \hyperlink{_o_p_plots_8m_ab6991d210d93a78cdbdf6de1889c1259}{a} \hyperlink{uavobjecttemplate_8m_a16a51e808b16c46bbfd36da2e37cd123}{mat} \hyperlink{uavobjecttemplate_8m_a97c04efa65bcf0928abf9260bc5cbf46}{file} \hyperlink{uavobjecttemplate_8m_acded908c7c5310b63233ecc84e36d430}{check\-C\-R\-C} = false
+\item 
+\hyperlink{uavobjecttemplate_8m_aa5edb0d2e3cd623fe2b2fd3bf1d8308f}{wrong\-Sync\-Byte} = 0
+\item 
+\hyperlink{uavobjecttemplate_8m_a93f5af3df07eac5f87e53d1b032209b7}{wrong\-Message\-Byte} = 0
+\item 
+\hyperlink{uavobjecttemplate_8m_ad4990b4e4858434e44e6ba1eb527137d}{last\-Wrong\-Sync\-Byte} = 0
+\item 
+\hyperlink{uavobjecttemplate_8m_afcba47e7d6aa09d2a69cf2fca50f586e}{last\-Wrong\-Message\-Byte} = 0
+\item 
+\hyperlink{uavobjecttemplate_8m_a879fc3585ccb07eba075553b21960f45}{str1} = \mbox{[}$\,$\mbox{]}
+\item 
+\hyperlink{uavobjecttemplate_8m_adb74f228c4c77ea5a6be40d6b8ca03ab}{str2} = \mbox{[}$\,$\mbox{]}
+\item 
+\hyperlink{uavobjecttemplate_8m_adae762842e4f9cef969be5c36459cad2}{str3} = \mbox{[}$\,$\mbox{]}
+\item 
+\hyperlink{uavobjecttemplate_8m_af1ff2b3c536aeeef7f638664bab25cbb}{str4} = \mbox{[}$\,$\mbox{]}
+\item 
+\hyperlink{uavobjecttemplate_8m_af809e0aa98a3cf1766020241a1b82436}{str5} = \mbox{[}$\,$\mbox{]}
+\item 
+\hyperlink{uavobjecttemplate_8m_abf777c788ebf3511902c69bbcbcb6c91}{multiple\-Instance\-Lookup} = zeros(0,2)
+\item 
+\hyperlink{uavobjecttemplate_8m_acd1c98e6f16d6d3c76047cb4a43291be}{overo} = false
+\item 
+global \hyperlink{uavobjecttemplate_8m_a0b39b2580ea3ed8f16fb86c2d99cc9db}{crc\-\_\-table}
+\item 
+if \hyperlink{uavobjecttemplate_8m_aafbb9d50e573e4009d0650c645566ddd}{nargin}
+\item 
+\hyperlink{uavobjecttemplate_8m_ad5dc54ad31adc60ebf4dd2ba4348a8a2}{logfile} = fullfile(\hyperlink{_o_p_plots_8m_a33c6b187b4cb2d60ccdb31260e72b8e7}{\-Path\-Name}, \-File\-Name)
+\item 
+\-Read first line \hyperlink{uavobjecttemplate_8m_adb9dc2bc213138ae1bf12b68cf62bf56}{git\-Logfile\-Hash} = \hyperlink{uavobjecttemplate_8m_a8baabb94ca31201bfb1cf71bf883668e}{fgetl}(fid)
+\item 
+\-Read second line \hyperlink{uavobjecttemplate_8m_a6219c46730d06d3988d873698318eada}{uavo\-Logfile\-Hash} = \hyperlink{uavobjecttemplate_8m_a8baabb94ca31201bfb1cf71bf883668e}{fgetl}(fid)
+\item 
+\hyperlink{uavobjecttemplate_8m_a770a3d65665549f29ddb8ee060c43cbc}{end} \hyperlink{uavobjecttemplate_8m_a9295f53f891e8db64c56d4df48cbb933}{buffer} = fread(fid,\-Inf,'uchar=$>$uchar')
+\item 
+\hyperlink{uavobjecttemplate_8m_ae7e33b6114ff5eb16d6c4a6919b1c978}{buffer\-Idx} = 1
+\item 
+\hyperlink{uavobjecttemplate_8m_a038ee0a048af0ff39824cfbfecd0a3d8}{correct\-Msg\-Byte} = hex2dec('20')
+\item 
+\hyperlink{uavobjecttemplate_8m_aa0e419c18b2c9a7cf4dd7515144005a1}{correct\-Sync\-Byte} = hex2dec('3\-C')
+\item 
+\hyperlink{uavobjecttemplate_8m_a87d64e1f4a03744d89ab122c222a0f31}{unknown\-Obj\-I\-D\-List} = zeros(1,2)
+\item 
+\-Parse log \hyperlink{uavobjecttemplate_8m_a97c04efa65bcf0928abf9260bc5cbf46}{file}
+\item 
+\-Parse log entry by entry \hyperlink{uavobjecttemplate_8m_a801097d8e760cb705b4f1cc11d3f62fa}{prebuf} = \hyperlink{uavobjecttemplate_8m_a9295f53f891e8db64c56d4df48cbb933}{buffer}(1\-:12)
+\item 
+\hyperlink{uavobjecttemplate_8m_a030dd534c8b9453d1d41e5822fa4462d}{last\-\_\-print} = -\/1e10
+\item 
+\hyperlink{uavobjecttemplate_8m_a9927793f1f69327ecd9ebf938e0deb92}{start\-Time} = clock
+\item 
+if \hyperlink{uavobjecttemplate_8m_acd1c98e6f16d6d3c76047cb4a43291be}{overo} \hyperlink{uavobjecttemplate_8m_a150ac7d868460ca5c2b91ff9b4c6c053}{instance\-Id\-Offset} = -\/2
+\item 
+\hyperlink{uavobjecttemplate_8m_a54631ff9c816ef5c6808a0f753050640}{timestamp\-Wraparound} = 2$^\wedge$16
+\item 
+\hyperlink{uavobjecttemplate_8m_a770a3d65665549f29ddb8ee060c43cbc}{end} \hyperlink{uavobjecttemplate_8m_ac91353f62ea7d2013f153aa0632f52b1}{timestamp\-Accumulator} = 0
+\item 
+\hyperlink{uavobjecttemplate_8m_a26a6fe95d2c08ac810e25d922bad20b7}{last\-Timestamp} = 0
+\item 
+\hyperlink{_o_p_plots_8m_a4b39dd8fd4db93ff3e5ed4f6230e041a}{while} \hyperlink{uavobjecttemplate_8m_ae7e33b6114ff5eb16d6c4a6919b1c978}{buffer\-Idx}$<$ (\hyperlink{uavobjecttemplate_8m_a076bf56c9bafa07f3dbda4901a40d84c}{length}(\hyperlink{uavobjecttemplate_8m_a9295f53f891e8db64c56d4df48cbb933}{buffer})-\/20)\%\%\-Read \*
+message header\%get sync field(0x3\-C, 1 byte) if$\sim$overo sync=buffer(buffer\-Idx+12);else sync=buffer(buffer\-Idx);end if sync$\sim$=correct\-Sync\-Byte buffer\-Idx=buffer\-Idx+1;if$\sim$overo$|$$|$sync$\sim$=255 wrong\-Sync\-Byte=wrong\-Sync\-Byte+1;end continue end if$\sim$overo\%\-For G\-C\-S logging the format is as follows\%4 bytes timestamp(milliseconds)\%8 bytes data size\%\-U\-A\-V\-Talk packet(always without timestamped packets)\%\-Sync val(0x3c)\%\-Message type(1 byte)\%\-Length(2 bytes)\%\-Object I\-D(4 bytes)\%\-Instance I\-D(optional, 2 bytes)\%\-Data(variable length)\%\-Checksum(1 byte)\%\-Process header, if we are aligned datasize\-Buffer\-Idx=buffer\-Idx;\%\-Just grab the index.\-We'll do a typecast later, if necessary datasize\-Length=4;msg\-Type=buffer(buffer\-Idx+13);\%get msg type(quint8 1 byte) should be 0x20, ignore the rest?obj\-I\-D=typecast(buffer(buffer\-Idx+16\-:buffer\-Idx+16+4-\/1), 'uint32');\%get obj id(quint32 4 bytes) timestamp=double(typecast(buffer(buffer\-Idx\-:buffer\-Idx+4-\/1),'uint32'));\%\-Advance buffer past header to where data is(or instance I\-D) buffer\-Idx=buffer\-Idx+20;else\%\-For Overo logging the format is\%\-U\-A\-V\-Talk packet(with timestamped packet)\%\-Sync val(0x3c)\%\-Message type(1 byte, adds 0x80)\%\-Length(2 bytes)\%\-Object I\-D(4 bytes)\%\-Instance I\-D(optional, 2 bytes)\%\-Timestamp(2 bytes)\%\-Data(variable length)\%\-Checksum(1 byte)\%\-Process header for overo datasize\-Buffer\-Idx=buffer\-Idx+2;datasize\-Length=2;msg\-Type=buffer(buffer\-Idx+1)-\/128;obj\-I\-D=typecast(buffer(buffer\-Idx+4\-:buffer\-Idx+4+4-\/1), 'uint32');single\-Instance=multiple\-Instance\-Lookup(multiple\-Instance\-Lookup(\-:, 1)==obj\-I\-D, 2);if single\-Instance timestamp=double(typecast(buffer(buffer\-Idx+8\-:buffer\-Idx+10-\/1),'uint16'));else timestamp=double(typecast(buffer(buffer\-Idx+12\-:buffer\-Idx+14-\/1),'uint16'));end\%\-Advance buffer past header to where data is.\-In the case of a\%multiple instance object this will be where the timstamp is but\%the parsing code will advance by two more.\-buffer\-Idx=buffer\-Idx+10;end if timestamp$<$ last\-Timestamp timestamp\-Accumulator=timestamp\-Accumulator+timestamp\-Wraparound;end last\-Timestamp=timestamp;timestamp=timestamp+timestamp\-Accumulator;\%\-Check that message type is correct if msg\-Type$\sim$=correct\-Msg\-Byte wrong\-Message\-Byte=wrong\-Message\-Byte+1;continue end if(isempty(obj\-I\-D))\%\-End of file break;end\%\%\-Read object try switch obj\-I\-D \$(\-S\-W\-I\-T\-C\-H\-C\-O\-D\-E) otherwise unknown\-Obj\-I\-D\-List\-Idx=find(unknown\-Obj\-I\-D\-List(\-:, 1)==obj\-I\-D, 1, 'first');if isempty(unknown\-Obj\-I\-D\-List\-Idx) unknown\-Obj\-I\-D\-List=\mbox{[}unknown\-Obj\-I\-D\-List;uint32(obj\-I\-D) 1\mbox{]};\%\#ok$<$ A\-G\-R\-O\-W $>$ else unknown\-Obj\-I\-D\-List(unknown\-Obj\-I\-D\-List\-Idx, 2)=unknown\-Obj\-I\-D\-List(unknown\-Obj\-I\-D\-List\-Idx, 2)+1;end datasize=typecast(buffer(datasize\-Buffer\-Idx+4\-:datasize\-Buffer\-Idx+12-\/1), 'uint64');msg\-Bytes\-Left=datasize-\/1-\/1-\/2-\/4;if msg\-Bytes\-Left $>$ 255 msg\-Bytes\-Left=0;end buffer\-Idx=buffer\-Idx+double(msg\-Bytes\-Left);end catch\%\-One of the reads failed-\/indicates E\-O\-F break;end if(wrong\-Sync\-Byte$\sim$=last\-Wrong\-Sync\-Byte$|$$|$wrong\-Message\-Byte$\sim$=last\-Wrong\-Message\-Byte)$|$$|$...\-buffer\-Idx-\/last\-\_\-print $>$ \hyperlink{uavobjecttemplate_8m_a4004e54fac6a1dbab990c0d76cf82a6e}{\-Every}
+\item 
+for \hyperlink{uavobjecttemplate_8m_a6f6ccfcf58b31cb6412107d9d5281426}{i} = 1\-:\hyperlink{uavobjecttemplate_8m_a076bf56c9bafa07f3dbda4901a40d84c}{length}(\mbox{[}\hyperlink{uavobjecttemplate_8m_adb74f228c4c77ea5a6be40d6b8ca03ab}{str2} \hyperlink{uavobjecttemplate_8m_adae762842e4f9cef969be5c36459cad2}{str3} \hyperlink{uavobjecttemplate_8m_af1ff2b3c536aeeef7f638664bab25cbb}{str4} \hyperlink{uavobjecttemplate_8m_af809e0aa98a3cf1766020241a1b82436}{str5}\mbox{]})
+\item 
+\-Arbitrary times two so that it \*
+is at least as long \hyperlink{uavobjecttemplate_8m_a9d747b37fc6287c5b668e057e1936779}{est\-Time\-Remaining} = (\hyperlink{uavobjecttemplate_8m_a076bf56c9bafa07f3dbda4901a40d84c}{length}(\hyperlink{uavobjecttemplate_8m_a9295f53f891e8db64c56d4df48cbb933}{buffer})-\/\hyperlink{uavobjecttemplate_8m_ae7e33b6114ff5eb16d6c4a6919b1c978}{buffer\-Idx})/(\hyperlink{uavobjecttemplate_8m_ae7e33b6114ff5eb16d6c4a6919b1c978}{buffer\-Idx}/\hyperlink{uavobjecttemplate_8m_acd1e6295fb7eff6549cd33fe0730fc7e}{etime}(clock,\hyperlink{uavobjecttemplate_8m_a9927793f1f69327ecd9ebf938e0deb92}{start\-Time})) $\ast$ 2
+\item 
+\hyperlink{uavobjecttemplate_8m_a5e36941b3d856737e81516acd45edc50}{h} = floor(\hyperlink{uavobjecttemplate_8m_a9d747b37fc6287c5b668e057e1936779}{est\-Time\-Remaining}/3600)
+\item 
+\hyperlink{uavobjecttemplate_8m_ab3cd915d758008bd19d0f2428fbb354a}{m} = floor((\hyperlink{uavobjecttemplate_8m_a9d747b37fc6287c5b668e057e1936779}{est\-Time\-Remaining}-\/\hyperlink{uavobjecttemplate_8m_a5e36941b3d856737e81516acd45edc50}{h}$\ast$3600)/60)
+\item 
+\hyperlink{uavobjecttemplate_8m_a3691308f2a4c2f6983f2880d32e29c84}{s} = ceil(\hyperlink{uavobjecttemplate_8m_a9d747b37fc6287c5b668e057e1936779}{est\-Time\-Remaining}-\/\hyperlink{uavobjecttemplate_8m_a5e36941b3d856737e81516acd45edc50}{h}$\ast$3600-\/\hyperlink{uavobjecttemplate_8m_ab3cd915d758008bd19d0f2428fbb354a}{m}$\ast$60)
+\item 
+\hyperlink{uavobjecttemplate_8m_a770a3d65665549f29ddb8ee060c43cbc}{end} \-Check if at \hyperlink{uavobjecttemplate_8m_a770a3d65665549f29ddb8ee060c43cbc}{end} of \hyperlink{uavobjecttemplate_8m_a97c04efa65bcf0928abf9260bc5cbf46}{file} \-If \hyperlink{uavobjecttemplate_8m_acf8758da9d0019183b0d213755711ee7}{not}
+\item 
+\-Prune \hyperlink{uavobjecttemplate_8m_a16a51e808b16c46bbfd36da2e37cd123}{mat} \mbox{[}path, name\mbox{]} = fileparts(\hyperlink{uavobjecttemplate_8m_ad5dc54ad31adc60ebf4dd2ba4348a8a2}{logfile})
+\item 
+\hyperlink{uavobjecttemplate_8m_aba69459d5095ae56cf63e6a66b89648b}{matfile} = fullfile(path,\mbox{[}name '.\hyperlink{uavobjecttemplate_8m_a16a51e808b16c46bbfd36da2e37cd123}{mat}'\mbox{]})
+\item 
+\-Create \hyperlink{_o_p_plots_8m_ab6991d210d93a78cdbdf6de1889c1259}{a} text string with the \*
+field names \hyperlink{uavobjecttemplate_8m_a7c4c8356cf27a7aade3cb3016b8ffaa7}{header\-Out} = sprintf('\%\hyperlink{uavobjecttemplate_8m_a3691308f2a4c2f6983f2880d32e29c84}{s},',field\-Names\{\-:\})
+\item 
+\-Trim off \hyperlink{uavobjecttemplate_8m_a941fe92761b5f8a1adb7534ed9410993}{last}
+\item 
+\-Trim off and t \-Assign the \*
+structure arrays to \hyperlink{_o_p_plots_8m_ab6991d210d93a78cdbdf6de1889c1259}{a} matrix \hyperlink{uavobjecttemplate_8m_ad3acc5b1fa419f640f3ab7e9dbcd3675}{mat\-Out} = zeros(max(size(struct\-In.(field\-Names\{1\}))), \hyperlink{uavobjecttemplate_8m_a076bf56c9bafa07f3dbda4901a40d84c}{length}(field\-Names))
+\item 
+\hyperlink{uavobjecttemplate_8m_a770a3d65665549f29ddb8ee060c43cbc}{end} \hyperlink{uavobjecttemplate_8m_a770a3d65665549f29ddb8ee060c43cbc}{end} \-Create filename by \*
+replacing opl by \hyperlink{uavobjecttemplate_8m_a70527ee1c468ecb0c36f5a50686d5614}{csv} \mbox{[}path, name\mbox{]} = fileparts(\hyperlink{uavobjecttemplate_8m_ad5dc54ad31adc60ebf4dd2ba4348a8a2}{logfile})
+\item 
+\hyperlink{uavobjecttemplate_8m_ad9b5b68bc1c7e71e539ed1246785e2a2}{csv\-Dir\-Name} = \mbox{[}name '\-\_\-csv'\mbox{]}
+\item 
+\-Dummy outputs so the program \*
+doens t throw warnings about \*
+\-Directory already exists \hyperlink{uavobjecttemplate_8m_ace96426774cd0a55ead4146bc21c0a22}{csvfile} = mkdir(fullfile(path, \hyperlink{uavobjecttemplate_8m_ad9b5b68bc1c7e71e539ed1246785e2a2}{csv\-Dir\-Name}))fullfile(path, \hyperlink{uavobjecttemplate_8m_ad9b5b68bc1c7e71e539ed1246785e2a2}{csv\-Dir\-Name} , \mbox{[}name '.\hyperlink{uavobjecttemplate_8m_a70527ee1c468ecb0c36f5a50686d5614}{csv}'\mbox{]})
+\item 
+\hyperlink{uavobjecttemplate_8m_a2420833d971716e9bab41cc9fb3abba1}{function} \hyperlink{uavobjecttemplate_8m_a6a3730e10b2455e9a8b6599785809fce}{crc}
+\item 
+\hyperlink{uavobjecttemplate_8m_a770a3d65665549f29ddb8ee060c43cbc}{end} \hyperlink{uavobjecttemplate_8m_a2420833d971716e9bab41cc9fb3abba1}{function} \hyperlink{uavobjecttemplate_8m_a2a89187d8e8e8fba509ef9ab5f815d88}{out}
+\item 
+\hyperlink{uavobjecttemplate_8m_a770a3d65665549f29ddb8ee060c43cbc}{end} \hyperlink{uavobjecttemplate_8m_a2420833d971716e9bab41cc9fb3abba1}{function} found on \-Matlab \hyperlink{uavobjecttemplate_8m_a3691308f2a4c2f6983f2880d32e29c84}{s} \*
+\hyperlink{uavobjecttemplate_8m_a97c04efa65bcf0928abf9260bc5cbf46}{file} exchange \-The two \*
+functions return identical \hyperlink{uavobjecttemplate_8m_aed0c453101ec0c9c4e8c0c888bab7b15}{results}
+\item 
+\hyperlink{uavobjecttemplate_8m_a770a3d65665549f29ddb8ee060c43cbc}{end} \hyperlink{uavobjecttemplate_8m_a2420833d971716e9bab41cc9fb3abba1}{function} found on \-Matlab \hyperlink{uavobjecttemplate_8m_a3691308f2a4c2f6983f2880d32e29c84}{s} \*
+\hyperlink{uavobjecttemplate_8m_a97c04efa65bcf0928abf9260bc5cbf46}{file} exchange \-The two \*
+functions return identical \*
+although his is much faster \hyperlink{uavobjecttemplate_8m_a19514c4629c4f7641a38a76ccfca112f}{\-Unfortunately}
+\item 
+\hyperlink{uavobjecttemplate_8m_a51491c0411ee034f8a512492e56f2d89}{in\-Finish} = \hyperlink{uavobjecttemplate_8m_a51491c0411ee034f8a512492e56f2d89}{in\-Finish}'
+\item 
+\hyperlink{uavobjecttemplate_8m_a770a3d65665549f29ddb8ee060c43cbc}{end} \hyperlink{uavobjecttemplate_8m_a770a3d65665549f29ddb8ee060c43cbc}{end} \hyperlink{uavobjecttemplate_8m_af5f553c3c82baca9d871b91adc7be757}{diff\-In} = \hyperlink{_o_p_plots_8m_acbb9d2dc78b59ac8322ba303b960b44b}{diff}(\mbox{[}\hyperlink{uavobjecttemplate_8m_a642db902c10b284834220079d223b0e0}{in\-Start}; \hyperlink{uavobjecttemplate_8m_a51491c0411ee034f8a512492e56f2d89}{in\-Finish}\mbox{]})
+\item 
+\hyperlink{uavobjecttemplate_8m_a5091f26d230c839edecd7245ab426bd6}{num\-Elements} = sum(\hyperlink{uavobjecttemplate_8m_af5f553c3c82baca9d871b91adc7be757}{diff\-In})+\hyperlink{uavobjecttemplate_8m_a076bf56c9bafa07f3dbda4901a40d84c}{length}(\hyperlink{uavobjecttemplate_8m_a642db902c10b284834220079d223b0e0}{in\-Start})
+\item 
+\hyperlink{uavobjecttemplate_8m_a49654e4709f40aecccada266daa32fc6}{idx} = 1
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Function \-Documentation}
+\hypertarget{uavobjecttemplate_8m_a1c2423418c8e367fca746156bb6d3232}{\index{uavobjecttemplate.\-m@{uavobjecttemplate.\-m}!disp@{disp}}
+\index{disp@{disp}!uavobjecttemplate.m@{uavobjecttemplate.\-m}}
+\subsubsection[{disp}]{\setlength{\rightskip}{0pt plus 5cm}{\bf end} for as it was simply {\bf a} dummy placeholder {\bf disp} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{uavobjecttemplate_8m_a1c2423418c8e367fca746156bb6d3232}
+\hypertarget{uavobjecttemplate_8m_ae637335a06d64882ebc90483e39759d5}{\index{uavobjecttemplate.\-m@{uavobjecttemplate.\-m}!dlmwrite@{dlmwrite}}
+\index{dlmwrite@{dlmwrite}!uavobjecttemplate.m@{uavobjecttemplate.\-m}}
+\subsubsection[{dlmwrite}]{\setlength{\rightskip}{0pt plus 5cm}\-Write to {\bf csv} {\bf dlmwrite} (
+\begin{DoxyParamCaption}
+\item[{{\bf csvfile}}]{, }
+\item[{{\bf header\-Out}}]{, }
+\item[{''}]{}
+\end{DoxyParamCaption}
+)}}\label{uavobjecttemplate_8m_ae637335a06d64882ebc90483e39759d5}
+\hypertarget{uavobjecttemplate_8m_a57beaa96718bd8adf411aff9f04d717c}{\index{uavobjecttemplate.\-m@{uavobjecttemplate.\-m}!dlmwrite@{dlmwrite}}
+\index{dlmwrite@{dlmwrite}!uavobjecttemplate.m@{uavobjecttemplate.\-m}}
+\subsubsection[{dlmwrite}]{\setlength{\rightskip}{0pt plus 5cm}{\bf dlmwrite} (
+\begin{DoxyParamCaption}
+\item[{{\bf csvfile}}]{, }
+\item[{{\bf mat\-Out}}]{, }
+\item[{'-\/append'}]{}
+\end{DoxyParamCaption}
+)}}\label{uavobjecttemplate_8m_a57beaa96718bd8adf411aff9f04d717c}
+\hypertarget{uavobjecttemplate_8m_a8a6f3c552a6f8f07d85da9f0cff0459e}{\index{uavobjecttemplate.\-m@{uavobjecttemplate.\-m}!else@{else}}
+\index{else@{else}!uavobjecttemplate.m@{uavobjecttemplate.\-m}}
+\subsubsection[{else}]{\setlength{\rightskip}{0pt plus 5cm}{\bf else} (
+\begin{DoxyParamCaption}
+\item[{\-E\-X\-P\-O\-R\-T\-C\-S\-V\-C\-O\-D\-E}]{}
+\end{DoxyParamCaption}
+)}}\label{uavobjecttemplate_8m_a8a6f3c552a6f8f07d85da9f0cff0459e}
+\hypertarget{uavobjecttemplate_8m_a770a3d65665549f29ddb8ee060c43cbc}{\index{uavobjecttemplate.\-m@{uavobjecttemplate.\-m}!end@{end}}
+\index{end@{end}!uavobjecttemplate.m@{uavobjecttemplate.\-m}}
+\subsubsection[{end}]{\setlength{\rightskip}{0pt plus 5cm}{\bf end} (
+\begin{DoxyParamCaption}
+\item[{\-I\-N\-S\-T\-A\-N\-T\-I\-A\-T\-I\-O\-N\-C\-O\-D\-E}]{}
+\end{DoxyParamCaption}
+)}}\label{uavobjecttemplate_8m_a770a3d65665549f29ddb8ee060c43cbc}
+\hypertarget{uavobjecttemplate_8m_a8760c7f0db08dc03416f4c8c3fc08f02}{\index{uavobjecttemplate.\-m@{uavobjecttemplate.\-m}!error@{error}}
+\index{error@{error}!uavobjecttemplate.m@{uavobjecttemplate.\-m}}
+\subsubsection[{error}]{\setlength{\rightskip}{0pt plus 5cm}{\bf else} {\bf error} (
+\begin{DoxyParamCaption}
+\item[{'\-Your technical computing program does {\bf not} support {\bf file} choosers.\-Please input the {\bf file} name in the argument. '}]{}
+\end{DoxyParamCaption}
+)}}\label{uavobjecttemplate_8m_a8760c7f0db08dc03416f4c8c3fc08f02}
+\hypertarget{uavobjecttemplate_8m_ae37d8f40ba76a59d04a674d824e8721f}{\index{uavobjecttemplate.\-m@{uavobjecttemplate.\-m}!error@{error}}
+\index{error@{error}!uavobjecttemplate.m@{uavobjecttemplate.\-m}}
+\subsubsection[{error}]{\setlength{\rightskip}{0pt plus 5cm}{\bf end} {\bf end} if {\bf csv} {\bf error} (
+\begin{DoxyParamCaption}
+\item[{'\-Incorrect {\bf file} format specified.\-Second argument must be ''{\bf mat}''or ''{\bf csv}''.'}]{}
+\end{DoxyParamCaption}
+)}}\label{uavobjecttemplate_8m_ae37d8f40ba76a59d04a674d824e8721f}
+\hypertarget{uavobjecttemplate_8m_acd1e6295fb7eff6549cd33fe0730fc7e}{\index{uavobjecttemplate.\-m@{uavobjecttemplate.\-m}!etime@{etime}}
+\index{etime@{etime}!uavobjecttemplate.m@{uavobjecttemplate.\-m}}
+\subsubsection[{etime}]{\setlength{\rightskip}{0pt plus 5cm}{\bf etime} (
+\begin{DoxyParamCaption}
+\item[{clock}]{, }
+\item[{{\bf start\-Time}}]{}
+\end{DoxyParamCaption}
+)}}\label{uavobjecttemplate_8m_acd1e6295fb7eff6549cd33fe0730fc7e}
+\hypertarget{uavobjecttemplate_8m_acf81bfb24dbf138d8b4f8373bd66b23a}{\index{uavobjecttemplate.\-m@{uavobjecttemplate.\-m}!fclose@{fclose}}
+\index{fclose@{fclose}!uavobjecttemplate.m@{uavobjecttemplate.\-m}}
+\subsubsection[{fclose}]{\setlength{\rightskip}{0pt plus 5cm}{\bf end} \-Clean \-Up and \-Save {\bf mat} {\bf file} {\bf fclose} (
+\begin{DoxyParamCaption}
+\item[{fid}]{}
+\end{DoxyParamCaption}
+)}}\label{uavobjecttemplate_8m_acf81bfb24dbf138d8b4f8373bd66b23a}
+\hypertarget{uavobjecttemplate_8m_a8baabb94ca31201bfb1cf71bf883668e}{\index{uavobjecttemplate.\-m@{uavobjecttemplate.\-m}!fgetl@{fgetl}}
+\index{fgetl@{fgetl}!uavobjecttemplate.m@{uavobjecttemplate.\-m}}
+\subsubsection[{fgetl}]{\setlength{\rightskip}{0pt plus 5cm}{\bf fgetl} (
+\begin{DoxyParamCaption}
+\item[{fid}]{}
+\end{DoxyParamCaption}
+)}}\label{uavobjecttemplate_8m_a8baabb94ca31201bfb1cf71bf883668e}
+\hypertarget{uavobjecttemplate_8m_ad4af0b6010fa95d1a7a5b15b76cabe9e}{\index{uavobjecttemplate.\-m@{uavobjecttemplate.\-m}!fprintf@{fprintf}}
+\index{fprintf@{fprintf}!uavobjecttemplate.m@{uavobjecttemplate.\-m}}
+\subsubsection[{fprintf}]{\setlength{\rightskip}{0pt plus 5cm}{\bf fprintf} (
+\begin{DoxyParamCaption}
+\item[{'$\backslash${\bf n}$\backslash${\bf n} $\ast$$\ast$$\ast$\-Tau \-Labs log parser $\ast$$\ast$$\ast$$\backslash${\bf n}$\backslash${\bf n}'}]{}
+\end{DoxyParamCaption}
+)}}\label{uavobjecttemplate_8m_ad4af0b6010fa95d1a7a5b15b76cabe9e}
+\hypertarget{uavobjecttemplate_8m_aef47ea75a29979ee7f91f1e679592a14}{\index{uavobjecttemplate.\-m@{uavobjecttemplate.\-m}!fprintf@{fprintf}}
+\index{fprintf@{fprintf}!uavobjecttemplate.m@{uavobjecttemplate.\-m}}
+\subsubsection[{fprintf}]{\setlength{\rightskip}{0pt plus 5cm}{\bf fprintf} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{uavobjecttemplate_8m_aef47ea75a29979ee7f91f1e679592a14}
+\hypertarget{uavobjecttemplate_8m_a642db902c10b284834220079d223b0e0}{\index{uavobjecttemplate.\-m@{uavobjecttemplate.\-m}!in\-Start@{in\-Start}}
+\index{in\-Start@{in\-Start}!uavobjecttemplate.m@{uavobjecttemplate.\-m}}
+\subsubsection[{in\-Start}]{\setlength{\rightskip}{0pt plus 5cm}'\-Inputs must be {\bf vectors}, {\bf i.\-e} just one column wide.' {\bf in\-Start} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{uavobjecttemplate_8m_a642db902c10b284834220079d223b0e0}
+\hypertarget{uavobjecttemplate_8m_ab286bde790d8a8eb7b81391a85f4562b}{\index{uavobjecttemplate.\-m@{uavobjecttemplate.\-m}!isempty@{isempty}}
+\index{isempty@{isempty}!uavobjecttemplate.m@{uavobjecttemplate.\-m}}
+\subsubsection[{isempty}]{\setlength{\rightskip}{0pt plus 5cm}if {\bf isempty} (
+\begin{DoxyParamCaption}
+\item[{struct\-In.}]{field\-Names\{1\}}
+\end{DoxyParamCaption}
+)}}\label{uavobjecttemplate_8m_ab286bde790d8a8eb7b81391a85f4562b}
+\hypertarget{uavobjecttemplate_8m_a076bf56c9bafa07f3dbda4901a40d84c}{\index{uavobjecttemplate.\-m@{uavobjecttemplate.\-m}!length@{length}}
+\index{length@{length}!uavobjecttemplate.m@{uavobjecttemplate.\-m}}
+\subsubsection[{length}]{\setlength{\rightskip}{0pt plus 5cm}{\bf length} (
+\begin{DoxyParamCaption}
+\item[{{\bf buffer}}]{}
+\end{DoxyParamCaption}
+)}}\label{uavobjecttemplate_8m_a076bf56c9bafa07f3dbda4901a40d84c}
+\hypertarget{uavobjecttemplate_8m_abc41a21d2e73ba5155e1138b2dd2a819}{\index{uavobjecttemplate.\-m@{uavobjecttemplate.\-m}!\-O\-P\-Log2csv@{\-O\-P\-Log2csv}}
+\index{\-O\-P\-Log2csv@{\-O\-P\-Log2csv}!uavobjecttemplate.m@{uavobjecttemplate.\-m}}
+\subsubsection[{\-O\-P\-Log2csv}]{\setlength{\rightskip}{0pt plus 5cm}{\bf function} {\bf \-O\-P\-Log2csv} (
+\begin{DoxyParamCaption}
+\item[{struct\-In}]{, }
+\item[{struct\-Name}]{, }
+\item[{{\bf logfile}}]{}
+\end{DoxyParamCaption}
+)}}\label{uavobjecttemplate_8m_abc41a21d2e73ba5155e1138b2dd2a819}
+\hypertarget{uavobjecttemplate_8m_a79178933c5b76091ca04178d14a5ba98}{\index{uavobjecttemplate.\-m@{uavobjecttemplate.\-m}!save@{save}}
+\index{save@{save}!uavobjecttemplate.m@{uavobjecttemplate.\-m}}
+\subsubsection[{save}]{\setlength{\rightskip}{0pt plus 5cm}{\bf save} (
+\begin{DoxyParamCaption}
+\item[{{\bf matfile} \$}]{\-S\-A\-V\-E\-O\-B\-J\-E\-C\-T\-S\-C\-O\-D\-E}
+\end{DoxyParamCaption}
+)}}\label{uavobjecttemplate_8m_a79178933c5b76091ca04178d14a5ba98}
+\hypertarget{uavobjecttemplate_8m_adfc1d6b03bdfaf09a2797670efa5c696}{\index{uavobjecttemplate.\-m@{uavobjecttemplate.\-m}!strcmp@{strcmp}}
+\index{strcmp@{strcmp}!uavobjecttemplate.m@{uavobjecttemplate.\-m}}
+\subsubsection[{strcmp}]{\setlength{\rightskip}{0pt plus 5cm}if {\bf nargin}\&\& {\bf strcmp} (
+\begin{DoxyParamCaption}
+\item[{class(varargin\{2\})}]{, }
+\item[{'char'}]{}
+\end{DoxyParamCaption}
+)}}\label{uavobjecttemplate_8m_adfc1d6b03bdfaf09a2797670efa5c696}
+\hypertarget{uavobjecttemplate_8m_a99fa2380aca0e2b2af5106b406042309}{\index{uavobjecttemplate.\-m@{uavobjecttemplate.\-m}!strcmp@{strcmp}}
+\index{strcmp@{strcmp}!uavobjecttemplate.m@{uavobjecttemplate.\-m}}
+\subsubsection[{strcmp}]{\setlength{\rightskip}{0pt plus 5cm}elseif {\bf nargin}\&\& {\bf strcmp} (
+\begin{DoxyParamCaption}
+\item[{class(varargin\{2\})}]{, }
+\item[{'logical'}]{}
+\end{DoxyParamCaption}
+)}}\label{uavobjecttemplate_8m_a99fa2380aca0e2b2af5106b406042309}
+\hypertarget{uavobjecttemplate_8m_a5a187172ec19a6a62d3f6965b71939f4}{\index{uavobjecttemplate.\-m@{uavobjecttemplate.\-m}!strcmp@{strcmp}}
+\index{strcmp@{strcmp}!uavobjecttemplate.m@{uavobjecttemplate.\-m}}
+\subsubsection[{strcmp}]{\setlength{\rightskip}{0pt plus 5cm}\-Read third line if {\bf strcmp} (
+\begin{DoxyParamCaption}
+\item[{{\bf git\-Logfile\-Hash}}]{, }
+\item[{uavo\-Importer\-Hash}]{}
+\end{DoxyParamCaption}
+)}}\label{uavobjecttemplate_8m_a5a187172ec19a6a62d3f6965b71939f4}
+\hypertarget{uavobjecttemplate_8m_ac98a82ad5c92726c118a7fd1ce1d2ae1}{\index{uavobjecttemplate.\-m@{uavobjecttemplate.\-m}!strcmp@{strcmp}}
+\index{strcmp@{strcmp}!uavobjecttemplate.m@{uavobjecttemplate.\-m}}
+\subsubsection[{strcmp}]{\setlength{\rightskip}{0pt plus 5cm}{\bf end} if {\bf strcmp} (
+\begin{DoxyParamCaption}
+\item[{{\bf uavo\-Logfile\-Hash}}]{, }
+\item[{{\bf \-U\-A\-V\-O\-\_\-\-H\-A\-S\-H}}]{}
+\end{DoxyParamCaption}
+)}}\label{uavobjecttemplate_8m_ac98a82ad5c92726c118a7fd1ce1d2ae1}
+\hypertarget{uavobjecttemplate_8m_a81a6b3bb0d87a9f13a703c4526596362}{\index{uavobjecttemplate.\-m@{uavobjecttemplate.\-m}!vectors@{vectors}}
+\index{vectors@{vectors}!uavobjecttemplate.m@{uavobjecttemplate.\-m}}
+\subsubsection[{vectors}]{\setlength{\rightskip}{0pt plus 5cm}\-Prune {\bf vectors} (
+\begin{DoxyParamCaption}
+\item[{\-C\-L\-E\-A\-N\-U\-P\-C\-O\-D\-E}]{}
+\end{DoxyParamCaption}
+)}}\label{uavobjecttemplate_8m_a81a6b3bb0d87a9f13a703c4526596362}
+\hypertarget{uavobjecttemplate_8m_aefe91cd29a8e10e33597631347fd401c}{\index{uavobjecttemplate.\-m@{uavobjecttemplate.\-m}!$\sim$strcmpi@{$\sim$strcmpi}}
+\index{$\sim$strcmpi@{$\sim$strcmpi}!uavobjecttemplate.m@{uavobjecttemplate.\-m}}
+\subsubsection[{$\sim$strcmpi}]{\setlength{\rightskip}{0pt plus 5cm}{\bf end} {\bf end} if $\sim$strcmpi (
+\begin{DoxyParamCaption}
+\item[{{\bf output\-Type}}]{, }
+\item[{'{\bf mat}'}]{}
+\end{DoxyParamCaption}
+)}}\label{uavobjecttemplate_8m_aefe91cd29a8e10e33597631347fd401c}
+
+
+\subsection{\-Variable \-Documentation}
+\hypertarget{uavobjecttemplate_8m_a9295f53f891e8db64c56d4df48cbb933}{\index{uavobjecttemplate.\-m@{uavobjecttemplate.\-m}!buffer@{buffer}}
+\index{buffer@{buffer}!uavobjecttemplate.m@{uavobjecttemplate.\-m}}
+\subsubsection[{buffer}]{\setlength{\rightskip}{0pt plus 5cm}{\bf end} {\bf buffer} = fread(fid,\-Inf,'uchar=$>$uchar')}}\label{uavobjecttemplate_8m_a9295f53f891e8db64c56d4df48cbb933}
+
+
+\-Definition at line 97 of file uavobjecttemplate.\-m.
+
+\hypertarget{uavobjecttemplate_8m_ae7e33b6114ff5eb16d6c4a6919b1c978}{\index{uavobjecttemplate.\-m@{uavobjecttemplate.\-m}!buffer\-Idx@{buffer\-Idx}}
+\index{buffer\-Idx@{buffer\-Idx}!uavobjecttemplate.m@{uavobjecttemplate.\-m}}
+\subsubsection[{buffer\-Idx}]{\setlength{\rightskip}{0pt plus 5cm}{\bf end} {\bf buffer\-Idx} = 1}}\label{uavobjecttemplate_8m_ae7e33b6114ff5eb16d6c4a6919b1c978}
+
+
+\-Definition at line 100 of file uavobjecttemplate.\-m.
+
+\hypertarget{uavobjecttemplate_8m_acded908c7c5310b63233ecc84e36d430}{\index{uavobjecttemplate.\-m@{uavobjecttemplate.\-m}!check\-C\-R\-C@{check\-C\-R\-C}}
+\index{check\-C\-R\-C@{check\-C\-R\-C}!uavobjecttemplate.m@{uavobjecttemplate.\-m}}
+\subsubsection[{check\-C\-R\-C}]{\setlength{\rightskip}{0pt plus 5cm}\-Default output is {\bf a} {\bf mat} {\bf file} {\bf check\-C\-R\-C} = false}}\label{uavobjecttemplate_8m_acded908c7c5310b63233ecc84e36d430}
+
+
+\-Definition at line 21 of file uavobjecttemplate.\-m.
+
+\hypertarget{uavobjecttemplate_8m_a038ee0a048af0ff39824cfbfecd0a3d8}{\index{uavobjecttemplate.\-m@{uavobjecttemplate.\-m}!correct\-Msg\-Byte@{correct\-Msg\-Byte}}
+\index{correct\-Msg\-Byte@{correct\-Msg\-Byte}!uavobjecttemplate.m@{uavobjecttemplate.\-m}}
+\subsubsection[{correct\-Msg\-Byte}]{\setlength{\rightskip}{0pt plus 5cm}{\bf correct\-Msg\-Byte} = hex2dec('20')}}\label{uavobjecttemplate_8m_a038ee0a048af0ff39824cfbfecd0a3d8}
+
+
+\-Definition at line 102 of file uavobjecttemplate.\-m.
+
+\hypertarget{uavobjecttemplate_8m_aa0e419c18b2c9a7cf4dd7515144005a1}{\index{uavobjecttemplate.\-m@{uavobjecttemplate.\-m}!correct\-Sync\-Byte@{correct\-Sync\-Byte}}
+\index{correct\-Sync\-Byte@{correct\-Sync\-Byte}!uavobjecttemplate.m@{uavobjecttemplate.\-m}}
+\subsubsection[{correct\-Sync\-Byte}]{\setlength{\rightskip}{0pt plus 5cm}{\bf correct\-Sync\-Byte} = hex2dec('3\-C')}}\label{uavobjecttemplate_8m_aa0e419c18b2c9a7cf4dd7515144005a1}
+
+
+\-Definition at line 103 of file uavobjecttemplate.\-m.
+
+\hypertarget{uavobjecttemplate_8m_a6a3730e10b2455e9a8b6599785809fce}{\index{uavobjecttemplate.\-m@{uavobjecttemplate.\-m}!crc@{crc}}
+\index{crc@{crc}!uavobjecttemplate.m@{uavobjecttemplate.\-m}}
+\subsubsection[{crc}]{\setlength{\rightskip}{0pt plus 5cm}{\bf crc}}}\label{uavobjecttemplate_8m_a6a3730e10b2455e9a8b6599785809fce}
+{\bfseries \-Initial value\-:}
+\begin{DoxyCode}
+ compute_crc(data)
+    global crc_table
+\end{DoxyCode}
+
+
+\-Definition at line 329 of file uavobjecttemplate.\-m.
+
+\hypertarget{uavobjecttemplate_8m_a0b39b2580ea3ed8f16fb86c2d99cc9db}{\index{uavobjecttemplate.\-m@{uavobjecttemplate.\-m}!crc\-\_\-table@{crc\-\_\-table}}
+\index{crc\-\_\-table@{crc\-\_\-table}!uavobjecttemplate.m@{uavobjecttemplate.\-m}}
+\subsubsection[{crc\-\_\-table}]{\setlength{\rightskip}{0pt plus 5cm}{\bf crc\-\_\-table}}}\label{uavobjecttemplate_8m_a0b39b2580ea3ed8f16fb86c2d99cc9db}
+{\bfseries \-Initial value\-:}
+\begin{DoxyCode}
+ [ ...
+    hex2dec('00'),hex2dec('07'),hex2dec('0e'),hex2dec('09'),hex2dec('1c'),
+      hex2dec('1b'),hex2dec('12'),hex2dec('15'),hex2dec('38'),hex2dec('3f'),hex2dec('36'),
+      hex2dec('31'),hex2dec('24'),hex2dec('23'),hex2dec('2a'),hex2dec('2d'), ...
+    hex2dec('70'),hex2dec('77'),hex2dec('7e'),hex2dec('79'),hex2dec('6c'),
+      hex2dec('6b'),hex2dec('62'),hex2dec('65'),hex2dec('48'),hex2dec('4f'),hex2dec('46'),
+      hex2dec('41'),hex2dec('54'),hex2dec('53'),hex2dec('5a'),hex2dec('5d'), ...
+    hex2dec('e0'),hex2dec('e7'),hex2dec('ee'),hex2dec('e9'),hex2dec('fc'),
+      hex2dec('fb'),hex2dec('f2'),hex2dec('f5'),hex2dec('d8'),hex2dec('df'),hex2dec('d6'),
+      hex2dec('d1'),hex2dec('c4'),hex2dec('c3'),hex2dec('ca'),hex2dec('cd'), ...
+    hex2dec('90'),hex2dec('97'),hex2dec('9e'),hex2dec('99'),hex2dec('8c'),
+      hex2dec('8b'),hex2dec('82'),hex2dec('85'),hex2dec('a8'),hex2dec('af'),hex2dec('a6'),
+      hex2dec('a1'),hex2dec('b4'),hex2dec('b3'),hex2dec('ba'),hex2dec('bd'), ...
+    hex2dec('c7'),hex2dec('c0'),hex2dec('c9'),hex2dec('ce'),hex2dec('db'),
+      hex2dec('dc'),hex2dec('d5'),hex2dec('d2'),hex2dec('ff'),hex2dec('f8'),hex2dec('f1'),
+      hex2dec('f6'),hex2dec('e3'),hex2dec('e4'),hex2dec('ed'),hex2dec('ea'), ...
+    hex2dec('b7'),hex2dec('b0'),hex2dec('b9'),hex2dec('be'),hex2dec('ab'),
+      hex2dec('ac'),hex2dec('a5'),hex2dec('a2'),hex2dec('8f'),hex2dec('88'),hex2dec('81'),
+      hex2dec('86'),hex2dec('93'),hex2dec('94'),hex2dec('9d'),hex2dec('9a'), ...
+    hex2dec('27'),hex2dec('20'),hex2dec('29'),hex2dec('2e'),hex2dec('3b'),
+      hex2dec('3c'),hex2dec('35'),hex2dec('32'),hex2dec('1f'),hex2dec('18'),hex2dec('11'),
+      hex2dec('16'),hex2dec('03'),hex2dec('04'),hex2dec('0d'),hex2dec('0a'), ...
+    hex2dec('57'),hex2dec('50'),hex2dec('59'),hex2dec('5e'),hex2dec('4b'),
+      hex2dec('4c'),hex2dec('45'),hex2dec('42'),hex2dec('6f'),hex2dec('68'),hex2dec('61'),
+      hex2dec('66'),hex2dec('73'),hex2dec('74'),hex2dec('7d'),hex2dec('7a'), ...
+    hex2dec('89'),hex2dec('8e'),hex2dec('87'),hex2dec('80'),hex2dec('95'),
+      hex2dec('92'),hex2dec('9b'),hex2dec('9c'),hex2dec('b1'),hex2dec('b6'),hex2dec('bf'),
+      hex2dec('b8'),hex2dec('ad'),hex2dec('aa'),hex2dec('a3'),hex2dec('a4'), ...
+    hex2dec('f9'),hex2dec('fe'),hex2dec('f7'),hex2dec('f0'),hex2dec('e5'),
+      hex2dec('e2'),hex2dec('eb'),hex2dec('ec'),hex2dec('c1'),hex2dec('c6'),hex2dec('cf'),
+      hex2dec('c8'),hex2dec('dd'),hex2dec('da'),hex2dec('d3'),hex2dec('d4'), ...
+    hex2dec('69'),hex2dec('6e'),hex2dec('67'),hex2dec('60'),hex2dec('75'),
+      hex2dec('72'),hex2dec('7b'),hex2dec('7c'),hex2dec('51'),hex2dec('56'),hex2dec('5f'),
+      hex2dec('58'),hex2dec('4d'),hex2dec('4a'),hex2dec('43'),hex2dec('44'), ...
+    hex2dec('19'),hex2dec('1e'),hex2dec('17'),hex2dec('10'),hex2dec('05'),
+      hex2dec('02'),hex2dec('0b'),hex2dec('0c'),hex2dec('21'),hex2dec('26'),hex2dec('2f'),
+      hex2dec('28'),hex2dec('3d'),hex2dec('3a'),hex2dec('33'),hex2dec('34'), ...
+    hex2dec('4e'),hex2dec('49'),hex2dec('40'),hex2dec('47'),hex2dec('52'),
+      hex2dec('55'),hex2dec('5c'),hex2dec('5b'),hex2dec('76'),hex2dec('71'),hex2dec('78'),
+      hex2dec('7f'),hex2dec('6a'),hex2dec('6d'),hex2dec('64'),hex2dec('63'), ...
+    hex2dec('3e'),hex2dec('39'),hex2dec('30'),hex2dec('37'),hex2dec('22'),
+      hex2dec('25'),hex2dec('2c'),hex2dec('2b'),hex2dec('06'),hex2dec('01'),hex2dec('08'),
+      hex2dec('0f'),hex2dec('1a'),hex2dec('1d'),hex2dec('14'),hex2dec('13'), ...
+    hex2dec('ae'),hex2dec('a9'),hex2dec('a0'),hex2dec('a7'),hex2dec('b2'),
+      hex2dec('b5'),hex2dec('bc'),hex2dec('bb'),hex2dec('96'),hex2dec('91'),hex2dec('98'),
+      hex2dec('9f'),hex2dec('8a'),hex2dec('8d'),hex2dec('84'),hex2dec('83'), ...
+    hex2dec('de'),hex2dec('d9'),hex2dec('d0'),hex2dec('d7'),hex2dec('c2'),
+      hex2dec('c5'),hex2dec('cc'),hex2dec('cb'),hex2dec('e6'),hex2dec('e1'),hex2dec('e8'),
+      hex2dec('ef'),hex2dec('fa'),hex2dec('fd'),hex2dec('f4'),hex2dec('f3')  ...
+    ]
+\end{DoxyCode}
+
+
+\-Definition at line 35 of file uavobjecttemplate.\-m.
+
+\hypertarget{uavobjecttemplate_8m_a70527ee1c468ecb0c36f5a50686d5614}{\index{uavobjecttemplate.\-m@{uavobjecttemplate.\-m}!csv@{csv}}
+\index{csv@{csv}!uavobjecttemplate.m@{uavobjecttemplate.\-m}}
+\subsubsection[{csv}]{\setlength{\rightskip}{0pt plus 5cm}{\bf end} {\bf end} \-Create filename by replacing opl by {\bf csv}\mbox{[}path, name\mbox{]} = fileparts({\bf logfile})}}\label{uavobjecttemplate_8m_a70527ee1c468ecb0c36f5a50686d5614}
+
+
+\-Definition at line 320 of file uavobjecttemplate.\-m.
+
+\hypertarget{uavobjecttemplate_8m_ad9b5b68bc1c7e71e539ed1246785e2a2}{\index{uavobjecttemplate.\-m@{uavobjecttemplate.\-m}!csv\-Dir\-Name@{csv\-Dir\-Name}}
+\index{csv\-Dir\-Name@{csv\-Dir\-Name}!uavobjecttemplate.m@{uavobjecttemplate.\-m}}
+\subsubsection[{csv\-Dir\-Name}]{\setlength{\rightskip}{0pt plus 5cm}{\bf csv\-Dir\-Name} = \mbox{[}name '\-\_\-csv'\mbox{]}}}\label{uavobjecttemplate_8m_ad9b5b68bc1c7e71e539ed1246785e2a2}
+
+
+\-Definition at line 321 of file uavobjecttemplate.\-m.
+
+\hypertarget{uavobjecttemplate_8m_ace96426774cd0a55ead4146bc21c0a22}{\index{uavobjecttemplate.\-m@{uavobjecttemplate.\-m}!csvfile@{csvfile}}
+\index{csvfile@{csvfile}!uavobjecttemplate.m@{uavobjecttemplate.\-m}}
+\subsubsection[{csvfile}]{\setlength{\rightskip}{0pt plus 5cm}\-Dummy outputs so the program doens t throw warnings about \-Directory already exists {\bf csvfile} = mkdir(fullfile(path, {\bf csv\-Dir\-Name}))fullfile(path, {\bf csv\-Dir\-Name} , \mbox{[}name '.{\bf csv}'\mbox{]})}}\label{uavobjecttemplate_8m_ace96426774cd0a55ead4146bc21c0a22}
+
+
+\-Definition at line 323 of file uavobjecttemplate.\-m.
+
+\hypertarget{uavobjecttemplate_8m_af5f553c3c82baca9d871b91adc7be757}{\index{uavobjecttemplate.\-m@{uavobjecttemplate.\-m}!diff\-In@{diff\-In}}
+\index{diff\-In@{diff\-In}!uavobjecttemplate.m@{uavobjecttemplate.\-m}}
+\subsubsection[{diff\-In}]{\setlength{\rightskip}{0pt plus 5cm}{\bf end} {\bf end} {\bf diff\-In} = {\bf diff}(\mbox{[}{\bf in\-Start}; {\bf in\-Finish}\mbox{]})}}\label{uavobjecttemplate_8m_af5f553c3c82baca9d871b91adc7be757}
+
+
+\-Definition at line 351 of file uavobjecttemplate.\-m.
+
+\hypertarget{uavobjecttemplate_8m_a9d747b37fc6287c5b668e057e1936779}{\index{uavobjecttemplate.\-m@{uavobjecttemplate.\-m}!est\-Time\-Remaining@{est\-Time\-Remaining}}
+\index{est\-Time\-Remaining@{est\-Time\-Remaining}!uavobjecttemplate.m@{uavobjecttemplate.\-m}}
+\subsubsection[{est\-Time\-Remaining}]{\setlength{\rightskip}{0pt plus 5cm}\-Arbitrary times two so that it is at least as long {\bf est\-Time\-Remaining} = ({\bf length}({\bf buffer})-\/{\bf buffer\-Idx})/({\bf buffer\-Idx}/{\bf etime}(clock,{\bf start\-Time})) $\ast$ 2}}\label{uavobjecttemplate_8m_a9d747b37fc6287c5b668e057e1936779}
+
+
+\-Definition at line 252 of file uavobjecttemplate.\-m.
+
+\hypertarget{uavobjecttemplate_8m_a4004e54fac6a1dbab990c0d76cf82a6e}{\index{uavobjecttemplate.\-m@{uavobjecttemplate.\-m}!\-Every@{\-Every}}
+\index{\-Every@{\-Every}!uavobjecttemplate.m@{uavobjecttemplate.\-m}}
+\subsubsection[{\-Every}]{\setlength{\rightskip}{0pt plus 5cm}{\bf while} {\bf buffer\-Idx}$<$ ({\bf length}({\bf buffer}) -\/ 20) \%\% \-Read message header \% get sync field (0x3\-C, 1 byte) if $\sim$overo sync = buffer(buffer\-Idx+12); else sync = buffer(buffer\-Idx); end if sync $\sim$= correct\-Sync\-Byte buffer\-Idx=buffer\-Idx+1; if $\sim$overo $|$$|$ sync $\sim$= 255 wrong\-Sync\-Byte = wrong\-Sync\-Byte + 1; end continue end if $\sim$overo \% For G\-C\-S logging the format is as follows \% 4 bytes timestamp (milliseconds) \% 8 bytes data size \% U\-A\-V\-Talk packet (always without timestamped packets) \% Sync val (0x3c) \% Message type (1 byte) \% Length (2 bytes) \% Object I\-D (4 bytes) \% Instance I\-D (optional, 2 bytes) \% Data (variable length) \% Checksum (1 byte) \% Process header, if we are aligned datasize\-Buffer\-Idx = buffer\-Idx; \%\-Just grab the index. We'll do a typecast later, if necessary datasize\-Length = 4; msg\-Type = buffer(buffer\-Idx+13); \% get msg type (quint8 1 byte ) should be 0x20, ignore the rest? obj\-I\-D = typecast(buffer(buffer\-Idx+16\-:buffer\-Idx+ 16+4-\/1), 'uint32'); \% get obj id (quint32 4 bytes) timestamp = double(typecast(buffer(buffer\-Idx\-:buffer\-Idx+4-\/1),'uint32')); \% Advance buffer past header to where data is (or instance I\-D) buffer\-Idx=buffer\-Idx + 20; else \% For Overo logging the format is \% U\-A\-V\-Talk packet (with timestamped packet) \% Sync val (0x3c) \% Message type (1 byte, adds 0x80) \% Length (2 bytes) \% Object I\-D (4 bytes) \% Instance I\-D (optional, 2 bytes) \% Timestamp (2 bytes) \% Data (variable length) \% Checksum (1 byte) \% Process header for overo datasize\-Buffer\-Idx = buffer\-Idx + 2; datasize\-Length = 2; msg\-Type = buffer(buffer\-Idx+1) -\/ 128; obj\-I\-D = typecast(buffer(buffer\-Idx+4\-:buffer\-Idx+ 4+4-\/1), 'uint32'); single\-Instance = multiple\-Instance\-Lookup(multiple\-Instance\-Lookup(\-:,1) == obj\-I\-D, 2); if single\-Instance timestamp = double(typecast(buffer(buffer\-Idx+8\-:buffer\-Idx+10-\/1),'uint16')); else timestamp = double(typecast(buffer(buffer\-Idx+12\-:buffer\-Idx+14-\/1),'uint16')); end \% Advance buffer past header to where data is. In the case of a \% multiple instance object this will be where the timstamp is but \% the parsing code will advance by two more. buffer\-Idx = buffer\-Idx + 10; end if timestamp $<$ last\-Timestamp timestamp\-Accumulator = timestamp\-Accumulator + timestamp\-Wraparound; end last\-Timestamp = timestamp; timestamp = timestamp + timestamp\-Accumulator; \%\-Check that message type is correct if msg\-Type $\sim$= correct\-Msg\-Byte wrong\-Message\-Byte = wrong\-Message\-Byte + 1; continue end if (isempty(obj\-I\-D)) \%\-End of file break; end \%\% Read object try switch obj\-I\-D\$(\-S\-W\-I\-T\-C\-H\-C\-O\-D\-E) otherwise unknown\-Obj\-I\-D\-List\-Idx=find(unknown\-Obj\-I\-D\-List(\-:,1)==obj\-I\-D, 1, 'first'); if isempty(unknown\-Obj\-I\-D\-List\-Idx) unknown\-Obj\-I\-D\-List=\mbox{[}unknown\-Obj\-I\-D\-List; uint32(obj\-I\-D) 1\mbox{]}; \%\#ok$<$\-A\-G\-R\-O\-W$>$ else unknown\-Obj\-I\-D\-List(unknown\-Obj\-I\-D\-List\-Idx,2)=unknown\-Obj\-I\-D\-List(unknown\-Obj\-I\-D\-List\-Idx,2)+1; end datasize = typecast(buffer(datasize\-Buffer\-Idx + 4\-:datasize\-Buffer\-Idx + 12-\/1), 'uint64'); msg\-Bytes\-Left = datasize -\/ 1 -\/ 1 -\/ 2 -\/ 4; if msg\-Bytes\-Left $>$ 255 msg\-Bytes\-Left = 0; end buffer\-Idx=buffer\-Idx+double(msg\-Bytes\-Left); end catch \% One of the reads failed -\/ indicates E\-O\-F break; end if (wrong\-Sync\-Byte $\sim$= last\-Wrong\-Sync\-Byte $|$$|$ wrong\-Message\-Byte$\sim$=last\-Wrong\-Message\-Byte ) $|$$|$... buffer\-Idx -\/ last\-\_\-print $>$ Every}}\label{uavobjecttemplate_8m_a4004e54fac6a1dbab990c0d76cf82a6e}
+
+
+\-Definition at line 237 of file uavobjecttemplate.\-m.
+
+\hypertarget{uavobjecttemplate_8m_a97c04efa65bcf0928abf9260bc5cbf46}{\index{uavobjecttemplate.\-m@{uavobjecttemplate.\-m}!file@{file}}
+\index{file@{file}!uavobjecttemplate.m@{uavobjecttemplate.\-m}}
+\subsubsection[{file}]{\setlength{\rightskip}{0pt plus 5cm}\-Parse log {\bf file}}}\label{uavobjecttemplate_8m_a97c04efa65bcf0928abf9260bc5cbf46}
+
+
+\-Definition at line 106 of file uavobjecttemplate.\-m.
+
+\hypertarget{uavobjecttemplate_8m_a2420833d971716e9bab41cc9fb3abba1}{\index{uavobjecttemplate.\-m@{uavobjecttemplate.\-m}!function@{function}}
+\index{function@{function}!uavobjecttemplate.m@{uavobjecttemplate.\-m}}
+\subsubsection[{function}]{\setlength{\rightskip}{0pt plus 5cm}{\bf function}\mbox{[}$\,$\mbox{]}}}\label{uavobjecttemplate_8m_a2420833d971716e9bab41cc9fb3abba1}
+{\bfseries \-Initial value\-:}
+\begin{DoxyCode}
+ LogConvert(varargin)
+% Convert log files into matlab structures
+%
+% If called with no arguements this function will present a
+% file chooser.  If called with a string arguement it will
+% process that file name.
+%
+% To process Overo files call with
+% LogConvert(path_to_file, true)
+%
+% Tau Labs (C) 2012-2013
+
+%% Define indices and arrays of structures to hold data
+% THIS FILE IS AUTOMATICALLY GENERATED.
+
+% Tau Labs git branch: 
+uavoImporterHash= '${TAG_OR_BRANCH}:${HASH8}${DIRTY} ${DATETIME}'
+\end{DoxyCode}
+
+
+\-Definition at line 1 of file uavobjecttemplate.\-m.
+
+\hypertarget{uavobjecttemplate_8m_adb9dc2bc213138ae1bf12b68cf62bf56}{\index{uavobjecttemplate.\-m@{uavobjecttemplate.\-m}!git\-Logfile\-Hash@{git\-Logfile\-Hash}}
+\index{git\-Logfile\-Hash@{git\-Logfile\-Hash}!uavobjecttemplate.m@{uavobjecttemplate.\-m}}
+\subsubsection[{git\-Logfile\-Hash}]{\setlength{\rightskip}{0pt plus 5cm}\-Read first line {\bf git\-Logfile\-Hash} = {\bf fgetl}(fid)}}\label{uavobjecttemplate_8m_adb9dc2bc213138ae1bf12b68cf62bf56}
+
+
+\-Definition at line 83 of file uavobjecttemplate.\-m.
+
+\hypertarget{uavobjecttemplate_8m_a5e36941b3d856737e81516acd45edc50}{\index{uavobjecttemplate.\-m@{uavobjecttemplate.\-m}!h@{h}}
+\index{h@{h}!uavobjecttemplate.m@{uavobjecttemplate.\-m}}
+\subsubsection[{h}]{\setlength{\rightskip}{0pt plus 5cm}{\bf h} = floor({\bf est\-Time\-Remaining}/3600)}}\label{uavobjecttemplate_8m_a5e36941b3d856737e81516acd45edc50}
+
+
+\-Definition at line 253 of file uavobjecttemplate.\-m.
+
+\hypertarget{uavobjecttemplate_8m_a7c4c8356cf27a7aade3cb3016b8ffaa7}{\index{uavobjecttemplate.\-m@{uavobjecttemplate.\-m}!header\-Out@{header\-Out}}
+\index{header\-Out@{header\-Out}!uavobjecttemplate.m@{uavobjecttemplate.\-m}}
+\subsubsection[{header\-Out}]{\setlength{\rightskip}{0pt plus 5cm}{\bf header\-Out} = sprintf('\%{\bf s},',field\-Names\{\-:\})}}\label{uavobjecttemplate_8m_a7c4c8356cf27a7aade3cb3016b8ffaa7}
+
+
+\-Definition at line 306 of file uavobjecttemplate.\-m.
+
+\hypertarget{uavobjecttemplate_8m_a6f6ccfcf58b31cb6412107d9d5281426}{\index{uavobjecttemplate.\-m@{uavobjecttemplate.\-m}!i@{i}}
+\index{i@{i}!uavobjecttemplate.m@{uavobjecttemplate.\-m}}
+\subsubsection[{i}]{\setlength{\rightskip}{0pt plus 5cm}for {\bf i} = 1\-:{\bf length}(\mbox{[}{\bf str2} {\bf str3} {\bf str4} {\bf str5}\mbox{]})}}\label{uavobjecttemplate_8m_a6f6ccfcf58b31cb6412107d9d5281426}
+
+
+\-Definition at line 243 of file uavobjecttemplate.\-m.
+
+\hypertarget{uavobjecttemplate_8m_a49654e4709f40aecccada266daa32fc6}{\index{uavobjecttemplate.\-m@{uavobjecttemplate.\-m}!idx@{idx}}
+\index{idx@{idx}!uavobjecttemplate.m@{uavobjecttemplate.\-m}}
+\subsubsection[{idx}]{\setlength{\rightskip}{0pt plus 5cm}{\bf idx} = 1}}\label{uavobjecttemplate_8m_a49654e4709f40aecccada266daa32fc6}
+
+
+\-Definition at line 356 of file uavobjecttemplate.\-m.
+
+\hypertarget{uavobjecttemplate_8m_a51491c0411ee034f8a512492e56f2d89}{\index{uavobjecttemplate.\-m@{uavobjecttemplate.\-m}!in\-Finish@{in\-Finish}}
+\index{in\-Finish@{in\-Finish}!uavobjecttemplate.m@{uavobjecttemplate.\-m}}
+\subsubsection[{in\-Finish}]{\setlength{\rightskip}{0pt plus 5cm}{\bf in\-Finish} = {\bf in\-Finish}'}}\label{uavobjecttemplate_8m_a51491c0411ee034f8a512492e56f2d89}
+
+
+\-Definition at line 347 of file uavobjecttemplate.\-m.
+
+\hypertarget{uavobjecttemplate_8m_a150ac7d868460ca5c2b91ff9b4c6c053}{\index{uavobjecttemplate.\-m@{uavobjecttemplate.\-m}!instance\-Id\-Offset@{instance\-Id\-Offset}}
+\index{instance\-Id\-Offset@{instance\-Id\-Offset}!uavobjecttemplate.m@{uavobjecttemplate.\-m}}
+\subsubsection[{instance\-Id\-Offset}]{\setlength{\rightskip}{0pt plus 5cm}{\bf else} {\bf instance\-Id\-Offset} = -\/2}}\label{uavobjecttemplate_8m_a150ac7d868460ca5c2b91ff9b4c6c053}
+
+
+\-Definition at line 114 of file uavobjecttemplate.\-m.
+
+\hypertarget{uavobjecttemplate_8m_a941fe92761b5f8a1adb7534ed9410993}{\index{uavobjecttemplate.\-m@{uavobjecttemplate.\-m}!last@{last}}
+\index{last@{last}!uavobjecttemplate.m@{uavobjecttemplate.\-m}}
+\subsubsection[{last}]{\setlength{\rightskip}{0pt plus 5cm}\-Trim off {\bf last}}}\label{uavobjecttemplate_8m_a941fe92761b5f8a1adb7534ed9410993}
+
+
+\-Definition at line 307 of file uavobjecttemplate.\-m.
+
+\hypertarget{uavobjecttemplate_8m_a030dd534c8b9453d1d41e5822fa4462d}{\index{uavobjecttemplate.\-m@{uavobjecttemplate.\-m}!last\-\_\-print@{last\-\_\-print}}
+\index{last\-\_\-print@{last\-\_\-print}!uavobjecttemplate.m@{uavobjecttemplate.\-m}}
+\subsubsection[{last\-\_\-print}]{\setlength{\rightskip}{0pt plus 5cm}{\bf last\-\_\-print} = -\/1e10}}\label{uavobjecttemplate_8m_a030dd534c8b9453d1d41e5822fa4462d}
+
+
+\-Definition at line 109 of file uavobjecttemplate.\-m.
+
+\hypertarget{uavobjecttemplate_8m_a26a6fe95d2c08ac810e25d922bad20b7}{\index{uavobjecttemplate.\-m@{uavobjecttemplate.\-m}!last\-Timestamp@{last\-Timestamp}}
+\index{last\-Timestamp@{last\-Timestamp}!uavobjecttemplate.m@{uavobjecttemplate.\-m}}
+\subsubsection[{last\-Timestamp}]{\setlength{\rightskip}{0pt plus 5cm}{\bf last\-Timestamp} = 0}}\label{uavobjecttemplate_8m_a26a6fe95d2c08ac810e25d922bad20b7}
+
+
+\-Definition at line 122 of file uavobjecttemplate.\-m.
+
+\hypertarget{uavobjecttemplate_8m_afcba47e7d6aa09d2a69cf2fca50f586e}{\index{uavobjecttemplate.\-m@{uavobjecttemplate.\-m}!last\-Wrong\-Message\-Byte@{last\-Wrong\-Message\-Byte}}
+\index{last\-Wrong\-Message\-Byte@{last\-Wrong\-Message\-Byte}!uavobjecttemplate.m@{uavobjecttemplate.\-m}}
+\subsubsection[{last\-Wrong\-Message\-Byte}]{\setlength{\rightskip}{0pt plus 5cm}{\bf last\-Wrong\-Message\-Byte} = 0}}\label{uavobjecttemplate_8m_afcba47e7d6aa09d2a69cf2fca50f586e}
+
+
+\-Definition at line 25 of file uavobjecttemplate.\-m.
+
+\hypertarget{uavobjecttemplate_8m_ad4990b4e4858434e44e6ba1eb527137d}{\index{uavobjecttemplate.\-m@{uavobjecttemplate.\-m}!last\-Wrong\-Sync\-Byte@{last\-Wrong\-Sync\-Byte}}
+\index{last\-Wrong\-Sync\-Byte@{last\-Wrong\-Sync\-Byte}!uavobjecttemplate.m@{uavobjecttemplate.\-m}}
+\subsubsection[{last\-Wrong\-Sync\-Byte}]{\setlength{\rightskip}{0pt plus 5cm}{\bf while} {\bf buffer\-Idx}$<$ ({\bf length}({\bf buffer})-\/20)\%\%\-Read message header\%get sync field(0x3\-C, 1 byte) if$\sim$overo sync=buffer(buffer\-Idx+12) else sync=buffer(buffer\-Idx) end if sync$\sim$=correct\-Sync\-Byte buffer\-Idx=buffer\-Idx+1 if$\sim$overo$|$$|$sync$\sim$=255 wrong\-Sync\-Byte=wrong\-Sync\-Byte+1 end continue end if$\sim$overo\%\-For G\-C\-S logging the format is as follows\%4 bytes timestamp(milliseconds)\%8 bytes data size\%\-U\-A\-V\-Talk packet(always without timestamped packets)\%\-Sync val(0x3c)\%\-Message type(1 byte)\%\-Length(2 bytes)\%\-Object I\-D(4 bytes)\%\-Instance I\-D(optional, 2 bytes)\%\-Data(variable length)\%\-Checksum(1 byte)\%\-Process header, if we are aligned datasize\-Buffer\-Idx=buffer\-Idx\%\-Just grab the index.\-We'll do a typecast later, if necessary datasize\-Length=4 msg\-Type=buffer(buffer\-Idx+13)\%get msg type(quint8 1 byte) should be 0x20, ignore the rest?obj\-I\-D=typecast(buffer(buffer\-Idx+16\-:buffer\-Idx+16+4-\/1), 'uint32')\%get obj id(quint32 4 bytes) timestamp=double(typecast(buffer(buffer\-Idx\-:buffer\-Idx+4-\/1),'uint32'))\%\-Advance buffer past header to where data is(or instance I\-D) buffer\-Idx=buffer\-Idx+20 else\%\-For Overo logging the format is\%\-U\-A\-V\-Talk packet(with timestamped packet)\%\-Sync val(0x3c)\%\-Message type(1 byte, adds 0x80)\%\-Length(2 bytes)\%\-Object I\-D(4 bytes)\%\-Instance I\-D(optional, 2 bytes)\%\-Timestamp(2 bytes)\%\-Data(variable length)\%\-Checksum(1 byte)\%\-Process header for overo datasize\-Buffer\-Idx=buffer\-Idx+2 datasize\-Length=2 msg\-Type=buffer(buffer\-Idx+1)-\/128 obj\-I\-D=typecast(buffer(buffer\-Idx+4\-:buffer\-Idx+4+4-\/1), 'uint32') single\-Instance=multiple\-Instance\-Lookup(multiple\-Instance\-Lookup(\-:, 1)==obj\-I\-D, 2) if single\-Instance timestamp=double(typecast(buffer(buffer\-Idx+8\-:buffer\-Idx+10-\/1),'uint16')) else timestamp=double(typecast(buffer(buffer\-Idx+12\-:buffer\-Idx+14-\/1),'uint16')) end\%\-Advance buffer past header to where data is.\-In the case of a\%multiple instance object this will be where the timstamp is but\%the parsing code will advance by two more.\-buffer\-Idx=buffer\-Idx+10 end if timestamp$<$ last\-Timestamp timestamp\-Accumulator=timestamp\-Accumulator+timestamp\-Wraparound end last\-Timestamp=timestamp timestamp=timestamp+timestamp\-Accumulator\%\-Check that message type is correct if msg\-Type$\sim$=correct\-Msg\-Byte wrong\-Message\-Byte=wrong\-Message\-Byte+1 continue end if(isempty(obj\-I\-D))\%\-End of file break end\%\%\-Read object try switch obj\-I\-D \$(\-S\-W\-I\-T\-C\-H\-C\-O\-D\-E) otherwise unknown\-Obj\-I\-D\-List\-Idx=find(unknown\-Obj\-I\-D\-List(\-:, 1)==obj\-I\-D, 1, 'first') if isempty(unknown\-Obj\-I\-D\-List\-Idx) unknown\-Obj\-I\-D\-List=\mbox{[}unknown\-Obj\-I\-D\-List uint32(obj\-I\-D) 1\mbox{]}\%\#ok$<$ A\-G\-R\-O\-W $>$ else unknown\-Obj\-I\-D\-List(unknown\-Obj\-I\-D\-List\-Idx, 2)=unknown\-Obj\-I\-D\-List(unknown\-Obj\-I\-D\-List\-Idx, 2)+1 end datasize=typecast(buffer(datasize\-Buffer\-Idx+4\-:datasize\-Buffer\-Idx+12-\/1), 'uint64') msg\-Bytes\-Left=datasize-\/1-\/1-\/2-\/4 if msg\-Bytes\-Left $>$ 255 msg\-Bytes\-Left=0 end buffer\-Idx=buffer\-Idx+double(msg\-Bytes\-Left) end catch\%\-One of the reads failed-\/indicates E\-O\-F break end if(wrong\-Sync\-Byte$\sim$=last\-Wrong\-Sync\-Byte$|$$|$wrong\-Message\-Byte$\sim$=last\-Wrong\-Message\-Byte)$|$$|$...\-buffer\-Idx-\/last\-\_\-print $>$ bytes show the status update last\-Wrong\-Sync\-Byte = 0}}\label{uavobjecttemplate_8m_ad4990b4e4858434e44e6ba1eb527137d}
+
+
+\-Definition at line 24 of file uavobjecttemplate.\-m.
+
+\hypertarget{uavobjecttemplate_8m_ad5dc54ad31adc60ebf4dd2ba4348a8a2}{\index{uavobjecttemplate.\-m@{uavobjecttemplate.\-m}!logfile@{logfile}}
+\index{logfile@{logfile}!uavobjecttemplate.m@{uavobjecttemplate.\-m}}
+\subsubsection[{logfile}]{\setlength{\rightskip}{0pt plus 5cm}{\bf logfile} = fullfile({\bf \-Path\-Name}, \-File\-Name)}}\label{uavobjecttemplate_8m_ad5dc54ad31adc60ebf4dd2ba4348a8a2}
+
+
+\-Definition at line 59 of file uavobjecttemplate.\-m.
+
+\hypertarget{uavobjecttemplate_8m_ab3cd915d758008bd19d0f2428fbb354a}{\index{uavobjecttemplate.\-m@{uavobjecttemplate.\-m}!m@{m}}
+\index{m@{m}!uavobjecttemplate.m@{uavobjecttemplate.\-m}}
+\subsubsection[{m}]{\setlength{\rightskip}{0pt plus 5cm}{\bf m} = floor(({\bf est\-Time\-Remaining}-\/{\bf h}$\ast$3600)/60)}}\label{uavobjecttemplate_8m_ab3cd915d758008bd19d0f2428fbb354a}
+
+
+\-Definition at line 254 of file uavobjecttemplate.\-m.
+
+\hypertarget{uavobjecttemplate_8m_a16a51e808b16c46bbfd36da2e37cd123}{\index{uavobjecttemplate.\-m@{uavobjecttemplate.\-m}!mat@{mat}}
+\index{mat@{mat}!uavobjecttemplate.m@{uavobjecttemplate.\-m}}
+\subsubsection[{mat}]{\setlength{\rightskip}{0pt plus 5cm}\-Prune {\bf mat}\mbox{[}path, name\mbox{]} = fileparts({\bf logfile})}}\label{uavobjecttemplate_8m_a16a51e808b16c46bbfd36da2e37cd123}
+
+
+\-Definition at line 289 of file uavobjecttemplate.\-m.
+
+\hypertarget{uavobjecttemplate_8m_aba69459d5095ae56cf63e6a66b89648b}{\index{uavobjecttemplate.\-m@{uavobjecttemplate.\-m}!matfile@{matfile}}
+\index{matfile@{matfile}!uavobjecttemplate.m@{uavobjecttemplate.\-m}}
+\subsubsection[{matfile}]{\setlength{\rightskip}{0pt plus 5cm}{\bf matfile} = fullfile(path,\mbox{[}name '.{\bf mat}'\mbox{]})}}\label{uavobjecttemplate_8m_aba69459d5095ae56cf63e6a66b89648b}
+
+
+\-Definition at line 290 of file uavobjecttemplate.\-m.
+
+\hypertarget{uavobjecttemplate_8m_ad3acc5b1fa419f640f3ab7e9dbcd3675}{\index{uavobjecttemplate.\-m@{uavobjecttemplate.\-m}!mat\-Out@{mat\-Out}}
+\index{mat\-Out@{mat\-Out}!uavobjecttemplate.m@{uavobjecttemplate.\-m}}
+\subsubsection[{mat\-Out}]{\setlength{\rightskip}{0pt plus 5cm}{\bf mat\-Out} = zeros(max(size(struct\-In.(field\-Names\{1\}))), {\bf length}(field\-Names))}}\label{uavobjecttemplate_8m_ad3acc5b1fa419f640f3ab7e9dbcd3675}
+
+
+\-Definition at line 310 of file uavobjecttemplate.\-m.
+
+\hypertarget{uavobjecttemplate_8m_abf777c788ebf3511902c69bbcbcb6c91}{\index{uavobjecttemplate.\-m@{uavobjecttemplate.\-m}!multiple\-Instance\-Lookup@{multiple\-Instance\-Lookup}}
+\index{multiple\-Instance\-Lookup@{multiple\-Instance\-Lookup}!uavobjecttemplate.m@{uavobjecttemplate.\-m}}
+\subsubsection[{multiple\-Instance\-Lookup}]{\setlength{\rightskip}{0pt plus 5cm}{\bf multiple\-Instance\-Lookup} = zeros(0,2)}}\label{uavobjecttemplate_8m_abf777c788ebf3511902c69bbcbcb6c91}
+
+
+\-Definition at line 31 of file uavobjecttemplate.\-m.
+
+\hypertarget{uavobjecttemplate_8m_aafbb9d50e573e4009d0650c645566ddd}{\index{uavobjecttemplate.\-m@{uavobjecttemplate.\-m}!nargin@{nargin}}
+\index{nargin@{nargin}!uavobjecttemplate.m@{uavobjecttemplate.\-m}}
+\subsubsection[{nargin}]{\setlength{\rightskip}{0pt plus 5cm}if {\bf nargin}}}\label{uavobjecttemplate_8m_aafbb9d50e573e4009d0650c645566ddd}
+{\bfseries \-Initial value\-:}
+\begin{DoxyCode}
+=0
+        %%
+        if (exist('uigetfile')) %#ok<EXIST>
+                [FileName, PathName]=uigetfile('*.tll')
+\end{DoxyCode}
+
+
+\-Definition at line 55 of file uavobjecttemplate.\-m.
+
+\hypertarget{uavobjecttemplate_8m_acf8758da9d0019183b0d213755711ee7}{\index{uavobjecttemplate.\-m@{uavobjecttemplate.\-m}!not@{not}}
+\index{not@{not}!uavobjecttemplate.m@{uavobjecttemplate.\-m}}
+\subsubsection[{not}]{\setlength{\rightskip}{0pt plus 5cm}{\bf end} \-Check if at {\bf end} of {\bf file} \-If {\bf not}}}\label{uavobjecttemplate_8m_acf8758da9d0019183b0d213755711ee7}
+
+
+\-Definition at line 264 of file uavobjecttemplate.\-m.
+
+\hypertarget{uavobjecttemplate_8m_a5091f26d230c839edecd7245ab426bd6}{\index{uavobjecttemplate.\-m@{uavobjecttemplate.\-m}!num\-Elements@{num\-Elements}}
+\index{num\-Elements@{num\-Elements}!uavobjecttemplate.m@{uavobjecttemplate.\-m}}
+\subsubsection[{num\-Elements}]{\setlength{\rightskip}{0pt plus 5cm}{\bf num\-Elements} = sum({\bf diff\-In})+{\bf length}({\bf in\-Start})}}\label{uavobjecttemplate_8m_a5091f26d230c839edecd7245ab426bd6}
+
+
+\-Definition at line 352 of file uavobjecttemplate.\-m.
+
+\hypertarget{uavobjecttemplate_8m_a2a89187d8e8e8fba509ef9ab5f815d88}{\index{uavobjecttemplate.\-m@{uavobjecttemplate.\-m}!out@{out}}
+\index{out@{out}!uavobjecttemplate.m@{uavobjecttemplate.\-m}}
+\subsubsection[{out}]{\setlength{\rightskip}{0pt plus 5cm}{\bf out}}}\label{uavobjecttemplate_8m_a2a89187d8e8e8fba509ef9ab5f815d88}
+{\bfseries \-Initial value\-:}
+\begin{DoxyCode}
+mcolon(inStart, inFinish)
+%% This function was inspired by Bruno Luong's 'mcolon'. The name is kept the
+       same as his 'mcolon'
+% function
+\end{DoxyCode}
+
+
+\-Definition at line 336 of file uavobjecttemplate.\-m.
+
+\hypertarget{uavobjecttemplate_8m_adc72d03b0853feb6cb18a149e7937be9}{\index{uavobjecttemplate.\-m@{uavobjecttemplate.\-m}!output\-Type@{output\-Type}}
+\index{output\-Type@{output\-Type}!uavobjecttemplate.m@{uavobjecttemplate.\-m}}
+\subsubsection[{output\-Type}]{\setlength{\rightskip}{0pt plus 5cm}{\bf output\-Type} = '{\bf mat}'}}\label{uavobjecttemplate_8m_adc72d03b0853feb6cb18a149e7937be9}
+
+
+\-Definition at line 20 of file uavobjecttemplate.\-m.
+
+\hypertarget{uavobjecttemplate_8m_acd1c98e6f16d6d3c76047cb4a43291be}{\index{uavobjecttemplate.\-m@{uavobjecttemplate.\-m}!overo@{overo}}
+\index{overo@{overo}!uavobjecttemplate.m@{uavobjecttemplate.\-m}}
+\subsubsection[{overo}]{\setlength{\rightskip}{0pt plus 5cm}{\bf overo} = false}}\label{uavobjecttemplate_8m_acd1c98e6f16d6d3c76047cb4a43291be}
+
+
+\-Definition at line 32 of file uavobjecttemplate.\-m.
+
+\hypertarget{uavobjecttemplate_8m_a801097d8e760cb705b4f1cc11d3f62fa}{\index{uavobjecttemplate.\-m@{uavobjecttemplate.\-m}!prebuf@{prebuf}}
+\index{prebuf@{prebuf}!uavobjecttemplate.m@{uavobjecttemplate.\-m}}
+\subsubsection[{prebuf}]{\setlength{\rightskip}{0pt plus 5cm}\-Parse log entry by entry {\bf prebuf} = {\bf buffer}(1\-:12)}}\label{uavobjecttemplate_8m_a801097d8e760cb705b4f1cc11d3f62fa}
+
+
+\-Definition at line 107 of file uavobjecttemplate.\-m.
+
+\hypertarget{uavobjecttemplate_8m_aed0c453101ec0c9c4e8c0c888bab7b15}{\index{uavobjecttemplate.\-m@{uavobjecttemplate.\-m}!results@{results}}
+\index{results@{results}!uavobjecttemplate.m@{uavobjecttemplate.\-m}}
+\subsubsection[{results}]{\setlength{\rightskip}{0pt plus 5cm}{\bf end} {\bf function} found on \-Matlab {\bf s} {\bf file} exchange \-The two functions return identical {\bf results}}}\label{uavobjecttemplate_8m_aed0c453101ec0c9c4e8c0c888bab7b15}
+
+
+\-Definition at line 336 of file uavobjecttemplate.\-m.
+
+\hypertarget{uavobjecttemplate_8m_a3691308f2a4c2f6983f2880d32e29c84}{\index{uavobjecttemplate.\-m@{uavobjecttemplate.\-m}!s@{s}}
+\index{s@{s}!uavobjecttemplate.m@{uavobjecttemplate.\-m}}
+\subsubsection[{s}]{\setlength{\rightskip}{0pt plus 5cm}{\bf s} = ceil({\bf est\-Time\-Remaining}-\/{\bf h}$\ast$3600-\/{\bf m}$\ast$60)}}\label{uavobjecttemplate_8m_a3691308f2a4c2f6983f2880d32e29c84}
+
+
+\-Definition at line 255 of file uavobjecttemplate.\-m.
+
+\hypertarget{uavobjecttemplate_8m_a9927793f1f69327ecd9ebf938e0deb92}{\index{uavobjecttemplate.\-m@{uavobjecttemplate.\-m}!start\-Time@{start\-Time}}
+\index{start\-Time@{start\-Time}!uavobjecttemplate.m@{uavobjecttemplate.\-m}}
+\subsubsection[{start\-Time}]{\setlength{\rightskip}{0pt plus 5cm}{\bf start\-Time} = clock}}\label{uavobjecttemplate_8m_a9927793f1f69327ecd9ebf938e0deb92}
+
+
+\-Definition at line 111 of file uavobjecttemplate.\-m.
+
+\hypertarget{uavobjecttemplate_8m_a879fc3585ccb07eba075553b21960f45}{\index{uavobjecttemplate.\-m@{uavobjecttemplate.\-m}!str1@{str1}}
+\index{str1@{str1}!uavobjecttemplate.m@{uavobjecttemplate.\-m}}
+\subsubsection[{str1}]{\setlength{\rightskip}{0pt plus 5cm}{\bf str1} = \mbox{[}$\,$\mbox{]}}}\label{uavobjecttemplate_8m_a879fc3585ccb07eba075553b21960f45}
+
+
+\-Definition at line 26 of file uavobjecttemplate.\-m.
+
+\hypertarget{uavobjecttemplate_8m_adb74f228c4c77ea5a6be40d6b8ca03ab}{\index{uavobjecttemplate.\-m@{uavobjecttemplate.\-m}!str2@{str2}}
+\index{str2@{str2}!uavobjecttemplate.m@{uavobjecttemplate.\-m}}
+\subsubsection[{str2}]{\setlength{\rightskip}{0pt plus 5cm}{\bf end} {\bf str2} = \mbox{[}$\,$\mbox{]}}}\label{uavobjecttemplate_8m_adb74f228c4c77ea5a6be40d6b8ca03ab}
+
+
+\-Definition at line 27 of file uavobjecttemplate.\-m.
+
+\hypertarget{uavobjecttemplate_8m_adae762842e4f9cef969be5c36459cad2}{\index{uavobjecttemplate.\-m@{uavobjecttemplate.\-m}!str3@{str3}}
+\index{str3@{str3}!uavobjecttemplate.m@{uavobjecttemplate.\-m}}
+\subsubsection[{str3}]{\setlength{\rightskip}{0pt plus 5cm}{\bf str3} = \mbox{[}$\,$\mbox{]}}}\label{uavobjecttemplate_8m_adae762842e4f9cef969be5c36459cad2}
+
+
+\-Definition at line 28 of file uavobjecttemplate.\-m.
+
+\hypertarget{uavobjecttemplate_8m_af1ff2b3c536aeeef7f638664bab25cbb}{\index{uavobjecttemplate.\-m@{uavobjecttemplate.\-m}!str4@{str4}}
+\index{str4@{str4}!uavobjecttemplate.m@{uavobjecttemplate.\-m}}
+\subsubsection[{str4}]{\setlength{\rightskip}{0pt plus 5cm}{\bf str4} = \mbox{[}$\,$\mbox{]}}}\label{uavobjecttemplate_8m_af1ff2b3c536aeeef7f638664bab25cbb}
+
+
+\-Definition at line 29 of file uavobjecttemplate.\-m.
+
+\hypertarget{uavobjecttemplate_8m_af809e0aa98a3cf1766020241a1b82436}{\index{uavobjecttemplate.\-m@{uavobjecttemplate.\-m}!str5@{str5}}
+\index{str5@{str5}!uavobjecttemplate.m@{uavobjecttemplate.\-m}}
+\subsubsection[{str5}]{\setlength{\rightskip}{0pt plus 5cm}{\bf str5} = \mbox{[}$\,$\mbox{]}}}\label{uavobjecttemplate_8m_af809e0aa98a3cf1766020241a1b82436}
+
+
+\-Definition at line 30 of file uavobjecttemplate.\-m.
+
+\hypertarget{uavobjecttemplate_8m_ac91353f62ea7d2013f153aa0632f52b1}{\index{uavobjecttemplate.\-m@{uavobjecttemplate.\-m}!timestamp\-Accumulator@{timestamp\-Accumulator}}
+\index{timestamp\-Accumulator@{timestamp\-Accumulator}!uavobjecttemplate.m@{uavobjecttemplate.\-m}}
+\subsubsection[{timestamp\-Accumulator}]{\setlength{\rightskip}{0pt plus 5cm}{\bf end} {\bf timestamp\-Accumulator} = 0}}\label{uavobjecttemplate_8m_ac91353f62ea7d2013f153aa0632f52b1}
+
+
+\-Definition at line 121 of file uavobjecttemplate.\-m.
+
+\hypertarget{uavobjecttemplate_8m_a54631ff9c816ef5c6808a0f753050640}{\index{uavobjecttemplate.\-m@{uavobjecttemplate.\-m}!timestamp\-Wraparound@{timestamp\-Wraparound}}
+\index{timestamp\-Wraparound@{timestamp\-Wraparound}!uavobjecttemplate.m@{uavobjecttemplate.\-m}}
+\subsubsection[{timestamp\-Wraparound}]{\setlength{\rightskip}{0pt plus 5cm}{\bf timestamp\-Wraparound} = 2$^\wedge$16}}\label{uavobjecttemplate_8m_a54631ff9c816ef5c6808a0f753050640}
+
+
+\-Definition at line 115 of file uavobjecttemplate.\-m.
+
+\hypertarget{uavobjecttemplate_8m_a68fc75536e7a45155ef9f2214915c628}{\index{uavobjecttemplate.\-m@{uavobjecttemplate.\-m}!\-U\-A\-V\-O\-\_\-\-H\-A\-S\-H@{\-U\-A\-V\-O\-\_\-\-H\-A\-S\-H}}
+\index{\-U\-A\-V\-O\-\_\-\-H\-A\-S\-H@{\-U\-A\-V\-O\-\_\-\-H\-A\-S\-H}!uavobjecttemplate.m@{uavobjecttemplate.\-m}}
+\subsubsection[{\-U\-A\-V\-O\-\_\-\-H\-A\-S\-H}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-U\-A\-V\-O\-\_\-\-H\-A\-S\-H} = '\$\{\-U\-A\-V\-O\-S\-H\-A1\-T\-X\-T\}'}}\label{uavobjecttemplate_8m_a68fc75536e7a45155ef9f2214915c628}
+
+
+\-Definition at line 18 of file uavobjecttemplate.\-m.
+
+\hypertarget{uavobjecttemplate_8m_a6219c46730d06d3988d873698318eada}{\index{uavobjecttemplate.\-m@{uavobjecttemplate.\-m}!uavo\-Logfile\-Hash@{uavo\-Logfile\-Hash}}
+\index{uavo\-Logfile\-Hash@{uavo\-Logfile\-Hash}!uavobjecttemplate.m@{uavobjecttemplate.\-m}}
+\subsubsection[{uavo\-Logfile\-Hash}]{\setlength{\rightskip}{0pt plus 5cm}\-Read second line {\bf uavo\-Logfile\-Hash} = {\bf fgetl}(fid)}}\label{uavobjecttemplate_8m_a6219c46730d06d3988d873698318eada}
+
+
+\-Definition at line 84 of file uavobjecttemplate.\-m.
+
+\hypertarget{uavobjecttemplate_8m_a19514c4629c4f7641a38a76ccfca112f}{\index{uavobjecttemplate.\-m@{uavobjecttemplate.\-m}!\-Unfortunately@{\-Unfortunately}}
+\index{\-Unfortunately@{\-Unfortunately}!uavobjecttemplate.m@{uavobjecttemplate.\-m}}
+\subsubsection[{\-Unfortunately}]{\setlength{\rightskip}{0pt plus 5cm}{\bf end} {\bf function} found on \-Matlab {\bf s} {\bf file} exchange \-The two functions return identical although his is much faster {\bf \-Unfortunately}}}\label{uavobjecttemplate_8m_a19514c4629c4f7641a38a76ccfca112f}
+
+
+\-Definition at line 336 of file uavobjecttemplate.\-m.
+
+\hypertarget{uavobjecttemplate_8m_a87d64e1f4a03744d89ab122c222a0f31}{\index{uavobjecttemplate.\-m@{uavobjecttemplate.\-m}!unknown\-Obj\-I\-D\-List@{unknown\-Obj\-I\-D\-List}}
+\index{unknown\-Obj\-I\-D\-List@{unknown\-Obj\-I\-D\-List}!uavobjecttemplate.m@{uavobjecttemplate.\-m}}
+\subsubsection[{unknown\-Obj\-I\-D\-List}]{\setlength{\rightskip}{0pt plus 5cm}{\bf unknown\-Obj\-I\-D\-List} = zeros(1,2)}}\label{uavobjecttemplate_8m_a87d64e1f4a03744d89ab122c222a0f31}
+
+
+\-Definition at line 104 of file uavobjecttemplate.\-m.
+
+\hypertarget{uavobjecttemplate_8m_a93f5af3df07eac5f87e53d1b032209b7}{\index{uavobjecttemplate.\-m@{uavobjecttemplate.\-m}!wrong\-Message\-Byte@{wrong\-Message\-Byte}}
+\index{wrong\-Message\-Byte@{wrong\-Message\-Byte}!uavobjecttemplate.m@{uavobjecttemplate.\-m}}
+\subsubsection[{wrong\-Message\-Byte}]{\setlength{\rightskip}{0pt plus 5cm}{\bf wrong\-Message\-Byte} = 0}}\label{uavobjecttemplate_8m_a93f5af3df07eac5f87e53d1b032209b7}
+
+
+\-Definition at line 23 of file uavobjecttemplate.\-m.
+
+\hypertarget{uavobjecttemplate_8m_aa5edb0d2e3cd623fe2b2fd3bf1d8308f}{\index{uavobjecttemplate.\-m@{uavobjecttemplate.\-m}!wrong\-Sync\-Byte@{wrong\-Sync\-Byte}}
+\index{wrong\-Sync\-Byte@{wrong\-Sync\-Byte}!uavobjecttemplate.m@{uavobjecttemplate.\-m}}
+\subsubsection[{wrong\-Sync\-Byte}]{\setlength{\rightskip}{0pt plus 5cm}{\bf wrong\-Sync\-Byte} = 0}}\label{uavobjecttemplate_8m_aa5edb0d2e3cd623fe2b2fd3bf1d8308f}
+
+
+\-Definition at line 22 of file uavobjecttemplate.\-m.
+

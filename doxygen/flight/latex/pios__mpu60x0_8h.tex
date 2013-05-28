@@ -1,0 +1,42 @@
+\hypertarget{pios__mpu60x0_8h}{\section{/home/jb/code/\-Tau\-Labs/flight/\-Pi\-O\-S/inc/pios\-\_\-mpu60x0.h \-File \-Reference}
+\label{pios__mpu60x0_8h}\index{/home/jb/code/\-Tau\-Labs/flight/\-Pi\-O\-S/inc/pios\-\_\-mpu60x0.\-h@{/home/jb/code/\-Tau\-Labs/flight/\-Pi\-O\-S/inc/pios\-\_\-mpu60x0.\-h}}
+}
+\subsection*{\-Data \-Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structpios__mpu60x0__data}{pios\-\_\-mpu60x0\-\_\-data}
+\item 
+struct \hyperlink{structpios__mpu60x0__cfg}{pios\-\_\-mpu60x0\-\_\-cfg}
+\end{DoxyCompactItemize}
+\subsection*{\-Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{group___p_i_o_s___m_p_u60_x0_ga56700b0154a14cf67c9f8f44a86ad9c0}{pios\-\_\-mpu60x0\-\_\-range} \{ \hyperlink{group___p_i_o_s___m_p_u60_x0_gga56700b0154a14cf67c9f8f44a86ad9c0a844b5fe3b7c4340fd6b1f787e3562074}{\-P\-I\-O\-S\-\_\-\-M\-P\-U60\-X0\-\_\-\-S\-C\-A\-L\-E\-\_\-250\-\_\-\-D\-E\-G} =  0x00, 
+\hyperlink{group___p_i_o_s___m_p_u60_x0_gga56700b0154a14cf67c9f8f44a86ad9c0aab19279d4ea821210807574a79ea9848}{\-P\-I\-O\-S\-\_\-\-M\-P\-U60\-X0\-\_\-\-S\-C\-A\-L\-E\-\_\-500\-\_\-\-D\-E\-G} =  0x08, 
+\hyperlink{group___p_i_o_s___m_p_u60_x0_gga56700b0154a14cf67c9f8f44a86ad9c0a458ad026c28a005119fa0be6b3cb598b}{\-P\-I\-O\-S\-\_\-\-M\-P\-U60\-X0\-\_\-\-S\-C\-A\-L\-E\-\_\-1000\-\_\-\-D\-E\-G} =  0x10, 
+\hyperlink{group___p_i_o_s___m_p_u60_x0_gga56700b0154a14cf67c9f8f44a86ad9c0aee36f45d405393cfda0e34ae3343e82d}{\-P\-I\-O\-S\-\_\-\-M\-P\-U60\-X0\-\_\-\-S\-C\-A\-L\-E\-\_\-2000\-\_\-\-D\-E\-G} =  0x18
+ \}
+\item 
+enum \hyperlink{group___p_i_o_s___m_p_u60_x0_gacce1988bc994f5ade6ac748c2bf0b924}{pios\-\_\-mpu60x0\-\_\-filter} \{ \*
+\hyperlink{group___p_i_o_s___m_p_u60_x0_ggacce1988bc994f5ade6ac748c2bf0b924ae157a08db065baba4dccbcde493815ab}{\-P\-I\-O\-S\-\_\-\-M\-P\-U60\-X0\-\_\-\-L\-O\-W\-P\-A\-S\-S\-\_\-256\-\_\-\-H\-Z} =  0x00, 
+\hyperlink{group___p_i_o_s___m_p_u60_x0_ggacce1988bc994f5ade6ac748c2bf0b924a81f76791864eef8d46b7ed7275f44e43}{\-P\-I\-O\-S\-\_\-\-M\-P\-U60\-X0\-\_\-\-L\-O\-W\-P\-A\-S\-S\-\_\-188\-\_\-\-H\-Z} =  0x01, 
+\hyperlink{group___p_i_o_s___m_p_u60_x0_ggacce1988bc994f5ade6ac748c2bf0b924af6aeb4aea577abd59ca43fad9b3a3ec7}{\-P\-I\-O\-S\-\_\-\-M\-P\-U60\-X0\-\_\-\-L\-O\-W\-P\-A\-S\-S\-\_\-98\-\_\-\-H\-Z} =  0x02, 
+\hyperlink{group___p_i_o_s___m_p_u60_x0_ggacce1988bc994f5ade6ac748c2bf0b924a67da1f1072d9faf4131fa9a75199fc9a}{\-P\-I\-O\-S\-\_\-\-M\-P\-U60\-X0\-\_\-\-L\-O\-W\-P\-A\-S\-S\-\_\-42\-\_\-\-H\-Z} =  0x03, 
+\*
+\hyperlink{group___p_i_o_s___m_p_u60_x0_ggacce1988bc994f5ade6ac748c2bf0b924a062161a90f5707cb119593aea0f93b70}{\-P\-I\-O\-S\-\_\-\-M\-P\-U60\-X0\-\_\-\-L\-O\-W\-P\-A\-S\-S\-\_\-20\-\_\-\-H\-Z} =  0x04, 
+\hyperlink{group___p_i_o_s___m_p_u60_x0_ggacce1988bc994f5ade6ac748c2bf0b924a2723be4d8be35f6f275d9fdf0f395e01}{\-P\-I\-O\-S\-\_\-\-M\-P\-U60\-X0\-\_\-\-L\-O\-W\-P\-A\-S\-S\-\_\-10\-\_\-\-H\-Z} =  0x05, 
+\hyperlink{group___p_i_o_s___m_p_u60_x0_ggacce1988bc994f5ade6ac748c2bf0b924a9cc1d8543b5451c433287b70d5265185}{\-P\-I\-O\-S\-\_\-\-M\-P\-U60\-X0\-\_\-\-L\-O\-W\-P\-A\-S\-S\-\_\-5\-\_\-\-H\-Z} =  0x06
+ \}
+\item 
+enum \hyperlink{group___p_i_o_s___m_p_u60_x0_ga8f297bddae3eb43bbf7b54abc6494992}{pios\-\_\-mpu60x0\-\_\-accel\-\_\-range} \{ \hyperlink{group___p_i_o_s___m_p_u60_x0_gga8f297bddae3eb43bbf7b54abc6494992aa0e4d3e7983359d6a4be9b8da4a3975c}{\-P\-I\-O\-S\-\_\-\-M\-P\-U60\-X0\-\_\-\-A\-C\-C\-E\-L\-\_\-2\-G} =  0x00, 
+\hyperlink{group___p_i_o_s___m_p_u60_x0_gga8f297bddae3eb43bbf7b54abc6494992a32c252c9136cb59df2e5da3b985d564f}{\-P\-I\-O\-S\-\_\-\-M\-P\-U60\-X0\-\_\-\-A\-C\-C\-E\-L\-\_\-4\-G} =  0x08, 
+\hyperlink{group___p_i_o_s___m_p_u60_x0_gga8f297bddae3eb43bbf7b54abc6494992ae5f9e992191f97f3c9281cebf7678db1}{\-P\-I\-O\-S\-\_\-\-M\-P\-U60\-X0\-\_\-\-A\-C\-C\-E\-L\-\_\-8\-G} =  0x10, 
+\hyperlink{group___p_i_o_s___m_p_u60_x0_gga8f297bddae3eb43bbf7b54abc6494992acd0d4a72a2500f3189ac87feba6e1751}{\-P\-I\-O\-S\-\_\-\-M\-P\-U60\-X0\-\_\-\-A\-C\-C\-E\-L\-\_\-16\-G} =  0x18
+ \}
+\item 
+enum \hyperlink{group___p_i_o_s___m_p_u60_x0_ga0b97f6902b1564a6eedf92c8937a2a67}{pios\-\_\-mpu60x0\-\_\-orientation} \{ \hyperlink{group___p_i_o_s___m_p_u60_x0_gga0b97f6902b1564a6eedf92c8937a2a67ae79874b7b06bf988c95f1a74fc600b15}{\-P\-I\-O\-S\-\_\-\-M\-P\-U60\-X0\-\_\-\-T\-O\-P\-\_\-0\-D\-E\-G} =  0x00, 
+\hyperlink{group___p_i_o_s___m_p_u60_x0_gga0b97f6902b1564a6eedf92c8937a2a67a39bf2dfcfd16651787388e2c1012ce51}{\-P\-I\-O\-S\-\_\-\-M\-P\-U60\-X0\-\_\-\-T\-O\-P\-\_\-90\-D\-E\-G} =  0x01, 
+\hyperlink{group___p_i_o_s___m_p_u60_x0_gga0b97f6902b1564a6eedf92c8937a2a67a78ca15e13573b517c5d9e062bbda76a0}{\-P\-I\-O\-S\-\_\-\-M\-P\-U60\-X0\-\_\-\-T\-O\-P\-\_\-180\-D\-E\-G} =  0x02, 
+\hyperlink{group___p_i_o_s___m_p_u60_x0_gga0b97f6902b1564a6eedf92c8937a2a67a39826b1efa17eeae681cd584f5713e0c}{\-P\-I\-O\-S\-\_\-\-M\-P\-U60\-X0\-\_\-\-T\-O\-P\-\_\-270\-D\-E\-G} =  0x03
+ \}
+\end{DoxyCompactItemize}

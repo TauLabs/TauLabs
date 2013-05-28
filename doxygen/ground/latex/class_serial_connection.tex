@@ -1,0 +1,65 @@
+\hypertarget{class_serial_connection}{\section{\-Serial\-Connection \-Class \-Reference}
+\label{class_serial_connection}\index{\-Serial\-Connection@{\-Serial\-Connection}}
+}
+
+
+{\ttfamily \#include $<$serialplugin.\-h$>$}
+
+\-Inheritance diagram for \-Serial\-Connection\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_serial_connection}
+\end{center}
+\end{figure}
+\subsection*{\-Public \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___serial_plugin_gaad6479d49b3483b42c19868c9efcef01}{\-Serial\-Connection} ()
+\item 
+virtual \hyperlink{group___serial_plugin_gae73749bb08c2f53f467809cb6c0a3fc8}{$\sim$\-Serial\-Connection} ()
+\item 
+virtual \-Q\-List$<$ \hyperlink{class_core_1_1_i_device}{\-Core\-::\-I\-Device} $\ast$ $>$ \hyperlink{group___serial_plugin_ga35f8b088eb3166e3e81cc71809806085}{available\-Devices} ()
+\item 
+virtual \-Q\-I\-O\-Device $\ast$ \hyperlink{group___serial_plugin_gacbed38aeba722578f369ad9b4ef2b822}{open\-Device} (\hyperlink{class_core_1_1_i_device}{\-Core\-::\-I\-Device} $\ast$device\-Name)
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___serial_plugin_gaa5933c2426d549fd1621d1e29529e517}{close\-Device} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \&device\-Name)
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___serial_plugin_ga4b91aa098a25069f0590a25687bdf25b}{connection\-Name} ()
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___serial_plugin_ga6783c4f6c9faa91aeb0b91fef726a2d4}{short\-Name} ()
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___serial_plugin_ga9616a4134ceba88c6ae5820e29a783c4}{suspend\-Polling} ()
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___serial_plugin_gac4a001507836025006728ab1771116f0}{resume\-Polling} ()
+\item 
+bool \hyperlink{group___serial_plugin_gaa9616a7f264a903a0a5b13ae05d40375}{device\-Opened} ()
+\item 
+\hyperlink{class_serial_plugin_configuration}{\-Serial\-Plugin\-Configuration} $\ast$ \hyperlink{group___serial_plugin_gad054f24566a90754595ad08e00756bfc}{\-Config} () const 
+\item 
+\hyperlink{class_serial_plugin_options_page}{\-Serial\-Plugin\-Options\-Page} $\ast$ \hyperlink{group___serial_plugin_gaf86b9d4296b2b9e6429dd643fd113861}{\-Optionspage} () const 
+\end{DoxyCompactItemize}
+\subsection*{\-Protected \-Slots}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___serial_plugin_gaa86538693d05fa3051ffebb2821d40fd}{on\-Enumeration\-Changed} ()
+\end{DoxyCompactItemize}
+\subsection*{\-Protected \-Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_serial_enumeration_thread}{\-Serial\-Enumeration\-Thread} \hyperlink{group___serial_plugin_ga5895d83033636cc3832bd9478f4415f7}{m\-\_\-enumerate\-Thread}
+\item 
+bool \hyperlink{group___serial_plugin_gac430f3139892f313e094560f5e2e72d1}{m\-\_\-device\-Opened}
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-Define a connection via the \-I\-Connection interface \-Plugin will add a instance of this class to the pool, so the connection manager can use it. 
+
+\-Definition at line 74 of file serialplugin.\-h.
+
+
+
+\-The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/plugins/serialconnection/\hyperlink{serialplugin_8h}{serialplugin.\-h}\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/plugins/serialconnection/\hyperlink{serialplugin_8cpp}{serialplugin.\-cpp}\end{DoxyCompactItemize}

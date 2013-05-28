@@ -1,0 +1,67 @@
+\hypertarget{class_scope_gadget_widget}{\section{\-Scope\-Gadget\-Widget \-Class \-Reference}
+\label{class_scope_gadget_widget}\index{\-Scope\-Gadget\-Widget@{\-Scope\-Gadget\-Widget}}
+}
+
+
+{\ttfamily \#include $<$scopegadgetwidget.\-h$>$}
+
+\subsection*{\-Public \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___scope_plugin_ga2810fbb794c4531b885259a5100bcf79}{\-Scope\-Gadget\-Widget} (\-Q\-Widget $\ast$parent=0)
+\item 
+\hyperlink{group___scope_plugin_gaa4f8465d4475c6035056db0bb194b9fa}{$\sim$\-Scope\-Gadget\-Widget} ()
+\begin{DoxyCompactList}\small\item\em \hyperlink{group___scope_plugin_gaa4f8465d4475c6035056db0bb194b9fa}{\-Scope\-Gadget\-Widget\-::$\sim$\-Scope\-Gadget\-Widget} \-Destructor. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___scope_plugin_ga4fc130c09e788ead2fe9da284efb780b}{get\-Uav\-Object\-Field\-Units} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} uav\-Object\-Name, \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} uav\-Object\-Field\-Name)
+\begin{DoxyCompactList}\small\item\em \hyperlink{group___scope_plugin_ga4fc130c09e788ead2fe9da284efb780b}{\-Scope\-Gadget\-Widget\-::get\-Uav\-Object\-Field\-Units} \-Gets the \-U\-A\-V\-Os units, as defined in the \-X\-M\-L. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___scope_plugin_gae48ddd25c6bea599893a60ab02c375bf}{connect\-U\-A\-V\-O} (\hyperlink{class_u_a_v_data_object}{\-U\-A\-V\-Data\-Object} $\ast$obj)
+\begin{DoxyCompactList}\small\item\em \hyperlink{group___scope_plugin_gae48ddd25c6bea599893a60ab02c375bf}{\-Scope\-Gadget\-Widget\-::connect\-U\-A\-V\-O} \-Connects \-U\-A\-V\-O update signal, but only if it hasn't yet been connected. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___scope_plugin_gaf7086ffcc7a7a1bbcaac30108908ea19}{set\-Scope} (\hyperlink{class_scope_config}{\-Scope\-Config} $\ast$val)
+\item 
+\-Q\-Map$<$ \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String}, \hyperlink{class_plot_data}{\-Plot\-Data} $\ast$ $>$ \hyperlink{group___scope_plugin_gae23ab8c7b7852bc2ac59639923fb8cfc}{get\-Data\-Sources} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___scope_plugin_ga4682e74303bf7b117006e3d61a6827ce}{insert\-Data\-Sources} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} string\-Val, \hyperlink{class_plot_data}{\-Plot\-Data} $\ast$data\-Val)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___scope_plugin_ga3f88f383dc322a2516c1e6b874e341a0}{add\-Legend} ()
+\begin{DoxyCompactList}\small\item\em \hyperlink{group___scope_plugin_ga3f88f383dc322a2516c1e6b874e341a0}{\-Scope\-Gadget\-Widget\-::add\-Legend} \-Add legend to plot. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___scope_plugin_ga16702effa3e6ad5ddf0f94a77e9c430a}{delete\-Legend} ()
+\begin{DoxyCompactList}\small\item\em \hyperlink{group___scope_plugin_ga16702effa3e6ad5ddf0f94a77e9c430a}{\-Scope\-Gadget\-Widget\-::delete\-Legend} \-Delete legend from plot. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___scope_plugin_ga9a19de9754adbab7df27b7db75348346}{clear\-Plot\-Widget} ()
+\begin{DoxyCompactList}\small\item\em \hyperlink{group___scope_plugin_ga9a19de9754adbab7df27b7db75348346}{\-Scope\-Gadget\-Widget\-::clear\-Plot\-Widget}. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___scope_plugin_gaf8b41e32e96d357706a0c2a04d63e40c}{start\-Timer} (int)
+\begin{DoxyCompactList}\small\item\em \hyperlink{group___scope_plugin_gaf8b41e32e96d357706a0c2a04d63e40c}{\-Scope\-Gadget\-Widget\-::start\-Timer} \-Starts timer. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Public \-Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\-Qwt\-Plot\-Grid $\ast$ \hyperlink{group___scope_plugin_gaccb00d0e9720797980ac9f03c545e756}{m\-\_\-grid}
+\item 
+\-Qwt\-Legend $\ast$ \hyperlink{group___scope_plugin_ga2ee6ef41538d48a8d6f653765bcb80a6}{m\-\_\-legend}
+\end{DoxyCompactItemize}
+\subsection*{\-Protected \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___scope_plugin_ga11281413c7e13a020d557822db2eaae2}{mouse\-Press\-Event} (\-Q\-Mouse\-Event $\ast$\hyperlink{_o_p_plots_8m_a9425be9aab51621e317ba7ade564b570}{e})
+\begin{DoxyCompactList}\small\item\em \hyperlink{group___scope_plugin_ga11281413c7e13a020d557822db2eaae2}{\-Scope\-Gadget\-Widget\-::mouse\-Press\-Event} \-Pass mouse press event to \-Qwt\-Plot. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___scope_plugin_ga079408e64c98a63ff0459120988360e7}{mouse\-Release\-Event} (\-Q\-Mouse\-Event $\ast$\hyperlink{_o_p_plots_8m_a9425be9aab51621e317ba7ade564b570}{e})
+\begin{DoxyCompactList}\small\item\em \hyperlink{group___scope_plugin_ga079408e64c98a63ff0459120988360e7}{\-Scope\-Gadget\-Widget\-::mouse\-Release\-Event} \-Pass mouse release event to \-Qwt\-Plot. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___scope_plugin_ga6b657bc6aec409845f48f29bb6fb508d}{mouse\-Double\-Click\-Event} (\-Q\-Mouse\-Event $\ast$\hyperlink{_o_p_plots_8m_a9425be9aab51621e317ba7ade564b570}{e})
+\begin{DoxyCompactList}\small\item\em \hyperlink{group___scope_plugin_ga6b657bc6aec409845f48f29bb6fb508d}{\-Scope\-Gadget\-Widget\-::mouse\-Double\-Click\-Event} \-Turn legend on and off, then pass double-\/click even to \-Qwt\-Plot. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___scope_plugin_ga3a4b3097cd04ab00ad3bbdd290186696}{mouse\-Move\-Event} (\-Q\-Mouse\-Event $\ast$\hyperlink{_o_p_plots_8m_a9425be9aab51621e317ba7ade564b570}{e})
+\begin{DoxyCompactList}\small\item\em \hyperlink{group___scope_plugin_ga3a4b3097cd04ab00ad3bbdd290186696}{\-Scope\-Gadget\-Widget\-::mouse\-Move\-Event} \-Pass mouse move event to \-Qwt\-Plot. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___scope_plugin_ga1cf4485edf803c91fec9d29e6f33dfd8}{wheel\-Event} (\-Q\-Wheel\-Event $\ast$\hyperlink{_o_p_plots_8m_a9425be9aab51621e317ba7ade564b570}{e})
+\begin{DoxyCompactList}\small\item\em \hyperlink{group___scope_plugin_ga1cf4485edf803c91fec9d29e6f33dfd8}{\-Scope\-Gadget\-Widget\-::wheel\-Event} \-Zoom in or out, then pass mouse wheel event to \-Qwt\-Plot. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___scope_plugin_ga323510a973ec27e6c976ec2748cfcaa6}{show\-Event} (\-Q\-Show\-Event $\ast$event)
+\begin{DoxyCompactList}\small\item\em \hyperlink{group___scope_plugin_ga323510a973ec27e6c976ec2748cfcaa6}{\-Scope\-Gadget\-Widget\-::show\-Event} \-Reimplemented from \-Qwt\-Plot. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+
+
+\-Definition at line 74 of file scopegadgetwidget.\-h.
+
+
+
+\-The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/plugins/scope/\hyperlink{scopegadgetwidget_8h}{scopegadgetwidget.\-h}\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/plugins/scope/\hyperlink{scopegadgetwidget_8cpp}{scopegadgetwidget.\-cpp}\end{DoxyCompactItemize}

@@ -1,0 +1,447 @@
+\hypertarget{group___p_i_o_s___u_s_b___d_e_s_c}{\section{\-U\-S\-B \-Descriptor definitions}
+\label{group___p_i_o_s___u_s_b___d_e_s_c}\index{\-U\-S\-B Descriptor definitions@{\-U\-S\-B Descriptor definitions}}
+}
+
+
+\-U\-S\-B \-Descriptor definitions for \-H\-I\-D and \-C\-D\-C.  
+
+
+\subsection*{\-Data \-Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structusb__config__hid__cdc}{usb\-\_\-config\-\_\-hid\-\_\-cdc}
+\item 
+struct \hyperlink{structusb__config__hid__only}{usb\-\_\-config\-\_\-hid\-\_\-only}
+\end{DoxyCompactItemize}
+\subsection*{\-Files}
+\begin{DoxyCompactItemize}
+\item 
+file \hyperlink{pios__usb__desc__hid__cdc_8c}{pios\-\_\-usb\-\_\-desc\-\_\-hid\-\_\-cdc.\-c}
+\begin{DoxyCompactList}\small\item\em \-U\-S\-B \-Descriptor definitions for \-H\-I\-D and \-C\-D\-C. \end{DoxyCompactList}\item 
+file \hyperlink{pios__usb__desc__hid__only_8c}{pios\-\_\-usb\-\_\-desc\-\_\-hid\-\_\-only.\-c}
+\begin{DoxyCompactList}\small\item\em \-U\-S\-B \-Descriptor definitions for \-H\-I\-D only. \end{DoxyCompactList}\item 
+file \hyperlink{pios__usb__desc__hid__cdc__priv_8h}{pios\-\_\-usb\-\_\-desc\-\_\-hid\-\_\-cdc\-\_\-priv.\-h}
+\begin{DoxyCompactList}\small\item\em \-Defines the \-A\-P\-I to set up the \-H\-I\-D + \-C\-D\-C \-U\-S\-B descriptor config. \end{DoxyCompactList}\item 
+file \hyperlink{pios__usb__desc__hid__only__priv_8h}{pios\-\_\-usb\-\_\-desc\-\_\-hid\-\_\-only\-\_\-priv.\-h}
+\begin{DoxyCompactList}\small\item\em \-Defines the \-A\-P\-I to set up the \-H\-I\-D-\/only \-U\-S\-B descriptor config. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structusb__config__hid__cdc}{usb\-\_\-config\-\_\-hid\-\_\-cdc} \hyperlink{group___p_i_o_s___u_s_b___d_e_s_c_ga6fb0c6d6cc5e1170eef958ceaf306a50}{\-\_\-\-\_\-attribute\-\_\-\-\_\-} ((packed))
+\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___u_s_b___d_e_s_c_ga15a9a7a662d2bce8263b132b33753d75}{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-D\-E\-S\-C\-\_\-\-H\-I\-D\-\_\-\-C\-D\-C\-\_\-\-Init} (void)
+\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___u_s_b___d_e_s_c_ga92ea05b354edae76dd1315a1e389d506}{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-D\-E\-S\-C\-\_\-\-H\-I\-D\-\_\-\-O\-N\-L\-Y\-\_\-\-Init} (void)
+\end{DoxyCompactItemize}
+\subsection*{\-Variables}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structusb__configuration__desc}{usb\-\_\-configuration\-\_\-desc} \hyperlink{group___p_i_o_s___u_s_b___d_e_s_c_ga41025645591a4ff38c6bfb3bf799cdf1}{usb\-\_\-config\-\_\-hid\-\_\-cdc\-::config}
+\item 
+struct \*
+\hyperlink{structusb__interface__association__desc}{usb\-\_\-interface\-\_\-association\-\_\-desc} \hyperlink{group___p_i_o_s___u_s_b___d_e_s_c_ga0dc1bab4cabd04ace89b858ba3f7b259}{usb\-\_\-config\-\_\-hid\-\_\-cdc\-::iad}
+\item 
+struct \hyperlink{structusb__interface__desc}{usb\-\_\-interface\-\_\-desc} \hyperlink{group___p_i_o_s___u_s_b___d_e_s_c_ga9cc4f55f507f420505ac9114cf7b9df3}{usb\-\_\-config\-\_\-hid\-\_\-cdc\-::cdc\-\_\-control\-\_\-if}
+\item 
+struct \hyperlink{structusb__cdc__header__func__desc}{usb\-\_\-cdc\-\_\-header\-\_\-func\-\_\-desc} \hyperlink{group___p_i_o_s___u_s_b___d_e_s_c_gaedeb1a14bf5f0cfea7d70e97389205c8}{usb\-\_\-config\-\_\-hid\-\_\-cdc\-::cdc\-\_\-header}
+\item 
+struct \hyperlink{structusb__cdc__callmgmt__func__desc}{usb\-\_\-cdc\-\_\-callmgmt\-\_\-func\-\_\-desc} \hyperlink{group___p_i_o_s___u_s_b___d_e_s_c_ga1463830a390b3358935b4b39260c5762}{usb\-\_\-config\-\_\-hid\-\_\-cdc\-::cdc\-\_\-callmgmt}
+\item 
+struct \hyperlink{structusb__cdc__acm__func__desc}{usb\-\_\-cdc\-\_\-acm\-\_\-func\-\_\-desc} \hyperlink{group___p_i_o_s___u_s_b___d_e_s_c_gafafcc283fdd68e1f1f71b102c226fc23}{usb\-\_\-config\-\_\-hid\-\_\-cdc\-::cdc\-\_\-acm}
+\item 
+struct \hyperlink{structusb__cdc__union__func__desc}{usb\-\_\-cdc\-\_\-union\-\_\-func\-\_\-desc} \hyperlink{group___p_i_o_s___u_s_b___d_e_s_c_gafdccd743e5f58edeace549e15f512d44}{usb\-\_\-config\-\_\-hid\-\_\-cdc\-::cdc\-\_\-union}
+\item 
+struct \hyperlink{structusb__endpoint__desc}{usb\-\_\-endpoint\-\_\-desc} \hyperlink{group___p_i_o_s___u_s_b___d_e_s_c_gae83909d6ab80cf2e1ce3ecd22d1dc9ec}{usb\-\_\-config\-\_\-hid\-\_\-cdc\-::cdc\-\_\-mgmt\-\_\-in}
+\item 
+struct \hyperlink{structusb__interface__desc}{usb\-\_\-interface\-\_\-desc} \hyperlink{group___p_i_o_s___u_s_b___d_e_s_c_ga80b1d19d38b5379618c5e66f0da9dcb2}{usb\-\_\-config\-\_\-hid\-\_\-cdc\-::cdc\-\_\-data\-\_\-if}
+\item 
+struct \hyperlink{structusb__endpoint__desc}{usb\-\_\-endpoint\-\_\-desc} \hyperlink{group___p_i_o_s___u_s_b___d_e_s_c_ga599b79ff75341552732decb7763cc6c8}{usb\-\_\-config\-\_\-hid\-\_\-cdc\-::cdc\-\_\-in}
+\item 
+struct \hyperlink{structusb__endpoint__desc}{usb\-\_\-endpoint\-\_\-desc} \hyperlink{group___p_i_o_s___u_s_b___d_e_s_c_ga38856efc6dd6e0466e9bfb7533992dc3}{usb\-\_\-config\-\_\-hid\-\_\-cdc\-::cdc\-\_\-out}
+\item 
+struct \hyperlink{structusb__interface__desc}{usb\-\_\-interface\-\_\-desc} \hyperlink{group___p_i_o_s___u_s_b___d_e_s_c_gadeb93743c31b647e20653e4423233982}{usb\-\_\-config\-\_\-hid\-\_\-cdc\-::hid\-\_\-if}
+\item 
+struct \hyperlink{structusb__hid__desc}{usb\-\_\-hid\-\_\-desc} \hyperlink{group___p_i_o_s___u_s_b___d_e_s_c_ga8b4c52ed5995d3193869596bc47a4e58}{usb\-\_\-config\-\_\-hid\-\_\-cdc\-::hid}
+\item 
+struct \hyperlink{structusb__endpoint__desc}{usb\-\_\-endpoint\-\_\-desc} \hyperlink{group___p_i_o_s___u_s_b___d_e_s_c_gaf6d4567d3dfbf3397c5842bdef4e13c8}{usb\-\_\-config\-\_\-hid\-\_\-cdc\-::hid\-\_\-in}
+\item 
+struct \hyperlink{structusb__endpoint__desc}{usb\-\_\-endpoint\-\_\-desc} \hyperlink{group___p_i_o_s___u_s_b___d_e_s_c_gad76c86a5c7e42e823404bf0e7ddff4f2}{usb\-\_\-config\-\_\-hid\-\_\-cdc\-::hid\-\_\-out}
+\item 
+struct \hyperlink{structusb__configuration__desc}{usb\-\_\-configuration\-\_\-desc} \hyperlink{group___p_i_o_s___u_s_b___d_e_s_c_ga6517677dcb9452a3759e7ec7e360e690}{config}
+\item 
+struct \*
+\hyperlink{structusb__interface__association__desc}{usb\-\_\-interface\-\_\-association\-\_\-desc} \hyperlink{group___p_i_o_s___u_s_b___d_e_s_c_gac7a66f23a9fc26df56f67aa5cc34dc5b}{iad}
+\item 
+struct \hyperlink{structusb__interface__desc}{usb\-\_\-interface\-\_\-desc} \hyperlink{group___p_i_o_s___u_s_b___d_e_s_c_ga9ca646cc7183c87c14d220ac2ccaba38}{cdc\-\_\-control\-\_\-if}
+\item 
+struct \hyperlink{structusb__cdc__header__func__desc}{usb\-\_\-cdc\-\_\-header\-\_\-func\-\_\-desc} \hyperlink{group___p_i_o_s___u_s_b___d_e_s_c_gaf41f2d1d7fbf8850ddc7ca678ca183aa}{cdc\-\_\-header}
+\item 
+struct \hyperlink{structusb__cdc__callmgmt__func__desc}{usb\-\_\-cdc\-\_\-callmgmt\-\_\-func\-\_\-desc} \hyperlink{group___p_i_o_s___u_s_b___d_e_s_c_ga97d1e106c41e1670bffdc7505b67eaef}{cdc\-\_\-callmgmt}
+\item 
+struct \hyperlink{structusb__cdc__acm__func__desc}{usb\-\_\-cdc\-\_\-acm\-\_\-func\-\_\-desc} \hyperlink{group___p_i_o_s___u_s_b___d_e_s_c_ga01dd695368c912334b2f36175515ba62}{cdc\-\_\-acm}
+\item 
+struct \hyperlink{structusb__cdc__union__func__desc}{usb\-\_\-cdc\-\_\-union\-\_\-func\-\_\-desc} \hyperlink{group___p_i_o_s___u_s_b___d_e_s_c_ga18f1bcfd867862a7b68cf2307ff2df6d}{cdc\-\_\-union}
+\item 
+struct \hyperlink{structusb__endpoint__desc}{usb\-\_\-endpoint\-\_\-desc} \hyperlink{group___p_i_o_s___u_s_b___d_e_s_c_ga712d76be7f3a64d87d05fabc10e2686e}{cdc\-\_\-mgmt\-\_\-in}
+\item 
+struct \hyperlink{structusb__interface__desc}{usb\-\_\-interface\-\_\-desc} \hyperlink{group___p_i_o_s___u_s_b___d_e_s_c_gab685a3142df1c86fb19d69d84a296989}{cdc\-\_\-data\-\_\-if}
+\item 
+struct \hyperlink{structusb__endpoint__desc}{usb\-\_\-endpoint\-\_\-desc} \hyperlink{group___p_i_o_s___u_s_b___d_e_s_c_ga45cebf693381151be1d05f36c5ef2555}{cdc\-\_\-in}
+\item 
+struct \hyperlink{structusb__endpoint__desc}{usb\-\_\-endpoint\-\_\-desc} \hyperlink{group___p_i_o_s___u_s_b___d_e_s_c_ga9c39f39e6301c0d93317b2027a769a5a}{cdc\-\_\-out}
+\item 
+struct \hyperlink{structusb__interface__desc}{usb\-\_\-interface\-\_\-desc} \hyperlink{group___p_i_o_s___u_s_b___d_e_s_c_ga66dd41530dc7e219cf377870362857ce}{hid\-\_\-if}
+\item 
+struct \hyperlink{structusb__hid__desc}{usb\-\_\-hid\-\_\-desc} \hyperlink{group___p_i_o_s___u_s_b___d_e_s_c_ga6eb333cd7c6d156f25fa827aa085579c}{hid}
+\item 
+struct \hyperlink{structusb__endpoint__desc}{usb\-\_\-endpoint\-\_\-desc} \hyperlink{group___p_i_o_s___u_s_b___d_e_s_c_gad74809997499537622da0aaac4d1c3da}{hid\-\_\-in}
+\item 
+struct \hyperlink{structusb__endpoint__desc}{usb\-\_\-endpoint\-\_\-desc} \hyperlink{group___p_i_o_s___u_s_b___d_e_s_c_ga0e5a30c27a737b9c3e117e4e8b755b8d}{hid\-\_\-out}
+\item 
+struct \hyperlink{structusb__configuration__desc}{usb\-\_\-configuration\-\_\-desc} \hyperlink{group___p_i_o_s___u_s_b___d_e_s_c_gae5e25501e424468c229df0d1e09423a8}{usb\-\_\-config\-\_\-hid\-\_\-only\-::config}
+\item 
+struct \hyperlink{structusb__interface__desc}{usb\-\_\-interface\-\_\-desc} \hyperlink{group___p_i_o_s___u_s_b___d_e_s_c_gab8d4a603dbaaacc357e4beb426cfd094}{usb\-\_\-config\-\_\-hid\-\_\-only\-::hid\-\_\-if}
+\item 
+struct \hyperlink{structusb__hid__desc}{usb\-\_\-hid\-\_\-desc} \hyperlink{group___p_i_o_s___u_s_b___d_e_s_c_ga279cdc579474d229bf1bb7963f423423}{usb\-\_\-config\-\_\-hid\-\_\-only\-::hid}
+\item 
+struct \hyperlink{structusb__endpoint__desc}{usb\-\_\-endpoint\-\_\-desc} \hyperlink{group___p_i_o_s___u_s_b___d_e_s_c_gac0401b402235f315c995eb13de1425ec}{usb\-\_\-config\-\_\-hid\-\_\-only\-::hid\-\_\-in}
+\item 
+struct \hyperlink{structusb__endpoint__desc}{usb\-\_\-endpoint\-\_\-desc} \hyperlink{group___p_i_o_s___u_s_b___d_e_s_c_ga0bdaf8c80f7739bea621a6d5aa272641}{usb\-\_\-config\-\_\-hid\-\_\-only\-::hid\-\_\-out}
+\item 
+struct \hyperlink{structusb__configuration__desc}{usb\-\_\-configuration\-\_\-desc} \hyperlink{group___p_i_o_s___u_s_b___d_e_s_c_ga6517677dcb9452a3759e7ec7e360e690}{config}
+\item 
+struct \hyperlink{structusb__interface__desc}{usb\-\_\-interface\-\_\-desc} \hyperlink{group___p_i_o_s___u_s_b___d_e_s_c_ga66dd41530dc7e219cf377870362857ce}{hid\-\_\-if}
+\item 
+struct \hyperlink{structusb__hid__desc}{usb\-\_\-hid\-\_\-desc} \hyperlink{group___p_i_o_s___u_s_b___d_e_s_c_ga6eb333cd7c6d156f25fa827aa085579c}{hid}
+\item 
+struct \hyperlink{structusb__endpoint__desc}{usb\-\_\-endpoint\-\_\-desc} \hyperlink{group___p_i_o_s___u_s_b___d_e_s_c_gad74809997499537622da0aaac4d1c3da}{hid\-\_\-in}
+\item 
+struct \hyperlink{structusb__endpoint__desc}{usb\-\_\-endpoint\-\_\-desc} \hyperlink{group___p_i_o_s___u_s_b___d_e_s_c_ga0e5a30c27a737b9c3e117e4e8b755b8d}{hid\-\_\-out}
+\item 
+struct \hyperlink{structusb__config__hid__only}{usb\-\_\-config\-\_\-hid\-\_\-only} \hyperlink{group___p_i_o_s___u_s_b___d_e_s_c_ga4729f56193bb7fb5a7c5115995ec85db}{config\-\_\-hid\-\_\-only}
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-U\-S\-B \-Descriptor definitions for \-H\-I\-D and \-C\-D\-C. \-U\-S\-B \-Descriptor definitions for \-H\-I\-D only. 
+
+\subsection{\-Function \-Documentation}
+\hypertarget{group___p_i_o_s___u_s_b___d_e_s_c_ga6fb0c6d6cc5e1170eef958ceaf306a50}{\index{\-U\-S\-B Descriptor definitions@{\-U\-S\-B Descriptor definitions}!\-\_\-\-\_\-attribute\-\_\-\-\_\-@{\-\_\-\-\_\-attribute\-\_\-\-\_\-}}
+\index{\-\_\-\-\_\-attribute\-\_\-\-\_\-@{\-\_\-\-\_\-attribute\-\_\-\-\_\-}!USB Descriptor definitions@{\-U\-S\-B Descriptor definitions}}
+\subsubsection[{\-\_\-\-\_\-attribute\-\_\-\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf usb\-\_\-config\-\_\-hid\-\_\-cdc} {\bf \-\_\-\-\_\-attribute\-\_\-\-\_\-} (
+\begin{DoxyParamCaption}
+\item[{(packed)}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___u_s_b___d_e_s_c_ga6fb0c6d6cc5e1170eef958ceaf306a50}
+\hypertarget{group___p_i_o_s___u_s_b___d_e_s_c_ga15a9a7a662d2bce8263b132b33753d75}{\index{\-U\-S\-B Descriptor definitions@{\-U\-S\-B Descriptor definitions}!\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-D\-E\-S\-C\-\_\-\-H\-I\-D\-\_\-\-C\-D\-C\-\_\-\-Init@{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-D\-E\-S\-C\-\_\-\-H\-I\-D\-\_\-\-C\-D\-C\-\_\-\-Init}}
+\index{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-D\-E\-S\-C\-\_\-\-H\-I\-D\-\_\-\-C\-D\-C\-\_\-\-Init@{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-D\-E\-S\-C\-\_\-\-H\-I\-D\-\_\-\-C\-D\-C\-\_\-\-Init}!USB Descriptor definitions@{\-U\-S\-B Descriptor definitions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-D\-E\-S\-C\-\_\-\-H\-I\-D\-\_\-\-C\-D\-C\-\_\-\-Init}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-D\-E\-S\-C\-\_\-\-H\-I\-D\-\_\-\-C\-D\-C\-\_\-\-Init} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___u_s_b___d_e_s_c_ga15a9a7a662d2bce8263b132b33753d75}
+
+
+\-Definition at line 317 of file pios\-\_\-usb\-\_\-desc\-\_\-hid\-\_\-cdc.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_b___d_e_s_c_ga92ea05b354edae76dd1315a1e389d506}{\index{\-U\-S\-B Descriptor definitions@{\-U\-S\-B Descriptor definitions}!\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-D\-E\-S\-C\-\_\-\-H\-I\-D\-\_\-\-O\-N\-L\-Y\-\_\-\-Init@{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-D\-E\-S\-C\-\_\-\-H\-I\-D\-\_\-\-O\-N\-L\-Y\-\_\-\-Init}}
+\index{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-D\-E\-S\-C\-\_\-\-H\-I\-D\-\_\-\-O\-N\-L\-Y\-\_\-\-Init@{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-D\-E\-S\-C\-\_\-\-H\-I\-D\-\_\-\-O\-N\-L\-Y\-\_\-\-Init}!USB Descriptor definitions@{\-U\-S\-B Descriptor definitions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-D\-E\-S\-C\-\_\-\-H\-I\-D\-\_\-\-O\-N\-L\-Y\-\_\-\-Init}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-D\-E\-S\-C\-\_\-\-H\-I\-D\-\_\-\-O\-N\-L\-Y\-\_\-\-Init} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___u_s_b___d_e_s_c_ga92ea05b354edae76dd1315a1e389d506}
+
+
+\-Definition at line 155 of file pios\-\_\-usb\-\_\-desc\-\_\-hid\-\_\-only.\-c.
+
+
+
+\subsection{\-Variable \-Documentation}
+\hypertarget{group___p_i_o_s___u_s_b___d_e_s_c_gafafcc283fdd68e1f1f71b102c226fc23}{\index{\-U\-S\-B Descriptor definitions@{\-U\-S\-B Descriptor definitions}!cdc\-\_\-acm@{cdc\-\_\-acm}}
+\index{cdc\-\_\-acm@{cdc\-\_\-acm}!USB Descriptor definitions@{\-U\-S\-B Descriptor definitions}}
+\subsubsection[{cdc\-\_\-acm}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf usb\-\_\-cdc\-\_\-acm\-\_\-func\-\_\-desc} {\bf usb\-\_\-config\-\_\-hid\-\_\-cdc\-::cdc\-\_\-acm}}}\label{group___p_i_o_s___u_s_b___d_e_s_c_gafafcc283fdd68e1f1f71b102c226fc23}
+
+
+\-Definition at line 174 of file pios\-\_\-usb\-\_\-desc\-\_\-hid\-\_\-cdc.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_b___d_e_s_c_ga01dd695368c912334b2f36175515ba62}{\index{\-U\-S\-B Descriptor definitions@{\-U\-S\-B Descriptor definitions}!cdc\-\_\-acm@{cdc\-\_\-acm}}
+\index{cdc\-\_\-acm@{cdc\-\_\-acm}!USB Descriptor definitions@{\-U\-S\-B Descriptor definitions}}
+\subsubsection[{cdc\-\_\-acm}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf usb\-\_\-cdc\-\_\-acm\-\_\-func\-\_\-desc} {\bf cdc\-\_\-acm}}}\label{group___p_i_o_s___u_s_b___d_e_s_c_ga01dd695368c912334b2f36175515ba62}
+
+
+\-Definition at line 190 of file pios\-\_\-usb\-\_\-desc\-\_\-hid\-\_\-cdc.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_b___d_e_s_c_ga1463830a390b3358935b4b39260c5762}{\index{\-U\-S\-B Descriptor definitions@{\-U\-S\-B Descriptor definitions}!cdc\-\_\-callmgmt@{cdc\-\_\-callmgmt}}
+\index{cdc\-\_\-callmgmt@{cdc\-\_\-callmgmt}!USB Descriptor definitions@{\-U\-S\-B Descriptor definitions}}
+\subsubsection[{cdc\-\_\-callmgmt}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf usb\-\_\-cdc\-\_\-callmgmt\-\_\-func\-\_\-desc} {\bf usb\-\_\-config\-\_\-hid\-\_\-cdc\-::cdc\-\_\-callmgmt}}}\label{group___p_i_o_s___u_s_b___d_e_s_c_ga1463830a390b3358935b4b39260c5762}
+
+
+\-Definition at line 173 of file pios\-\_\-usb\-\_\-desc\-\_\-hid\-\_\-cdc.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_b___d_e_s_c_ga97d1e106c41e1670bffdc7505b67eaef}{\index{\-U\-S\-B Descriptor definitions@{\-U\-S\-B Descriptor definitions}!cdc\-\_\-callmgmt@{cdc\-\_\-callmgmt}}
+\index{cdc\-\_\-callmgmt@{cdc\-\_\-callmgmt}!USB Descriptor definitions@{\-U\-S\-B Descriptor definitions}}
+\subsubsection[{cdc\-\_\-callmgmt}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf usb\-\_\-cdc\-\_\-callmgmt\-\_\-func\-\_\-desc} {\bf cdc\-\_\-callmgmt}}}\label{group___p_i_o_s___u_s_b___d_e_s_c_ga97d1e106c41e1670bffdc7505b67eaef}
+
+
+\-Definition at line 189 of file pios\-\_\-usb\-\_\-desc\-\_\-hid\-\_\-cdc.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_b___d_e_s_c_ga9cc4f55f507f420505ac9114cf7b9df3}{\index{\-U\-S\-B Descriptor definitions@{\-U\-S\-B Descriptor definitions}!cdc\-\_\-control\-\_\-if@{cdc\-\_\-control\-\_\-if}}
+\index{cdc\-\_\-control\-\_\-if@{cdc\-\_\-control\-\_\-if}!USB Descriptor definitions@{\-U\-S\-B Descriptor definitions}}
+\subsubsection[{cdc\-\_\-control\-\_\-if}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf usb\-\_\-interface\-\_\-desc} {\bf usb\-\_\-config\-\_\-hid\-\_\-cdc\-::cdc\-\_\-control\-\_\-if}}}\label{group___p_i_o_s___u_s_b___d_e_s_c_ga9cc4f55f507f420505ac9114cf7b9df3}
+
+
+\-Definition at line 171 of file pios\-\_\-usb\-\_\-desc\-\_\-hid\-\_\-cdc.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_b___d_e_s_c_ga9ca646cc7183c87c14d220ac2ccaba38}{\index{\-U\-S\-B Descriptor definitions@{\-U\-S\-B Descriptor definitions}!cdc\-\_\-control\-\_\-if@{cdc\-\_\-control\-\_\-if}}
+\index{cdc\-\_\-control\-\_\-if@{cdc\-\_\-control\-\_\-if}!USB Descriptor definitions@{\-U\-S\-B Descriptor definitions}}
+\subsubsection[{cdc\-\_\-control\-\_\-if}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf usb\-\_\-interface\-\_\-desc} {\bf cdc\-\_\-control\-\_\-if}}}\label{group___p_i_o_s___u_s_b___d_e_s_c_ga9ca646cc7183c87c14d220ac2ccaba38}
+
+
+\-Definition at line 187 of file pios\-\_\-usb\-\_\-desc\-\_\-hid\-\_\-cdc.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_b___d_e_s_c_ga80b1d19d38b5379618c5e66f0da9dcb2}{\index{\-U\-S\-B Descriptor definitions@{\-U\-S\-B Descriptor definitions}!cdc\-\_\-data\-\_\-if@{cdc\-\_\-data\-\_\-if}}
+\index{cdc\-\_\-data\-\_\-if@{cdc\-\_\-data\-\_\-if}!USB Descriptor definitions@{\-U\-S\-B Descriptor definitions}}
+\subsubsection[{cdc\-\_\-data\-\_\-if}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf usb\-\_\-interface\-\_\-desc} {\bf usb\-\_\-config\-\_\-hid\-\_\-cdc\-::cdc\-\_\-data\-\_\-if}}}\label{group___p_i_o_s___u_s_b___d_e_s_c_ga80b1d19d38b5379618c5e66f0da9dcb2}
+
+
+\-Definition at line 177 of file pios\-\_\-usb\-\_\-desc\-\_\-hid\-\_\-cdc.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_b___d_e_s_c_gab685a3142df1c86fb19d69d84a296989}{\index{\-U\-S\-B Descriptor definitions@{\-U\-S\-B Descriptor definitions}!cdc\-\_\-data\-\_\-if@{cdc\-\_\-data\-\_\-if}}
+\index{cdc\-\_\-data\-\_\-if@{cdc\-\_\-data\-\_\-if}!USB Descriptor definitions@{\-U\-S\-B Descriptor definitions}}
+\subsubsection[{cdc\-\_\-data\-\_\-if}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf usb\-\_\-interface\-\_\-desc} {\bf cdc\-\_\-data\-\_\-if}}}\label{group___p_i_o_s___u_s_b___d_e_s_c_gab685a3142df1c86fb19d69d84a296989}
+
+
+\-Definition at line 193 of file pios\-\_\-usb\-\_\-desc\-\_\-hid\-\_\-cdc.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_b___d_e_s_c_gaedeb1a14bf5f0cfea7d70e97389205c8}{\index{\-U\-S\-B Descriptor definitions@{\-U\-S\-B Descriptor definitions}!cdc\-\_\-header@{cdc\-\_\-header}}
+\index{cdc\-\_\-header@{cdc\-\_\-header}!USB Descriptor definitions@{\-U\-S\-B Descriptor definitions}}
+\subsubsection[{cdc\-\_\-header}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf usb\-\_\-cdc\-\_\-header\-\_\-func\-\_\-desc} {\bf usb\-\_\-config\-\_\-hid\-\_\-cdc\-::cdc\-\_\-header}}}\label{group___p_i_o_s___u_s_b___d_e_s_c_gaedeb1a14bf5f0cfea7d70e97389205c8}
+
+
+\-Definition at line 172 of file pios\-\_\-usb\-\_\-desc\-\_\-hid\-\_\-cdc.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_b___d_e_s_c_gaf41f2d1d7fbf8850ddc7ca678ca183aa}{\index{\-U\-S\-B Descriptor definitions@{\-U\-S\-B Descriptor definitions}!cdc\-\_\-header@{cdc\-\_\-header}}
+\index{cdc\-\_\-header@{cdc\-\_\-header}!USB Descriptor definitions@{\-U\-S\-B Descriptor definitions}}
+\subsubsection[{cdc\-\_\-header}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf usb\-\_\-cdc\-\_\-header\-\_\-func\-\_\-desc} {\bf cdc\-\_\-header}}}\label{group___p_i_o_s___u_s_b___d_e_s_c_gaf41f2d1d7fbf8850ddc7ca678ca183aa}
+
+
+\-Definition at line 188 of file pios\-\_\-usb\-\_\-desc\-\_\-hid\-\_\-cdc.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_b___d_e_s_c_ga599b79ff75341552732decb7763cc6c8}{\index{\-U\-S\-B Descriptor definitions@{\-U\-S\-B Descriptor definitions}!cdc\-\_\-in@{cdc\-\_\-in}}
+\index{cdc\-\_\-in@{cdc\-\_\-in}!USB Descriptor definitions@{\-U\-S\-B Descriptor definitions}}
+\subsubsection[{cdc\-\_\-in}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf usb\-\_\-endpoint\-\_\-desc} {\bf usb\-\_\-config\-\_\-hid\-\_\-cdc\-::cdc\-\_\-in}}}\label{group___p_i_o_s___u_s_b___d_e_s_c_ga599b79ff75341552732decb7763cc6c8}
+
+
+\-Definition at line 178 of file pios\-\_\-usb\-\_\-desc\-\_\-hid\-\_\-cdc.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_b___d_e_s_c_ga45cebf693381151be1d05f36c5ef2555}{\index{\-U\-S\-B Descriptor definitions@{\-U\-S\-B Descriptor definitions}!cdc\-\_\-in@{cdc\-\_\-in}}
+\index{cdc\-\_\-in@{cdc\-\_\-in}!USB Descriptor definitions@{\-U\-S\-B Descriptor definitions}}
+\subsubsection[{cdc\-\_\-in}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf usb\-\_\-endpoint\-\_\-desc} {\bf cdc\-\_\-in}}}\label{group___p_i_o_s___u_s_b___d_e_s_c_ga45cebf693381151be1d05f36c5ef2555}
+
+
+\-Definition at line 194 of file pios\-\_\-usb\-\_\-desc\-\_\-hid\-\_\-cdc.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_b___d_e_s_c_gae83909d6ab80cf2e1ce3ecd22d1dc9ec}{\index{\-U\-S\-B Descriptor definitions@{\-U\-S\-B Descriptor definitions}!cdc\-\_\-mgmt\-\_\-in@{cdc\-\_\-mgmt\-\_\-in}}
+\index{cdc\-\_\-mgmt\-\_\-in@{cdc\-\_\-mgmt\-\_\-in}!USB Descriptor definitions@{\-U\-S\-B Descriptor definitions}}
+\subsubsection[{cdc\-\_\-mgmt\-\_\-in}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf usb\-\_\-endpoint\-\_\-desc} {\bf usb\-\_\-config\-\_\-hid\-\_\-cdc\-::cdc\-\_\-mgmt\-\_\-in}}}\label{group___p_i_o_s___u_s_b___d_e_s_c_gae83909d6ab80cf2e1ce3ecd22d1dc9ec}
+
+
+\-Definition at line 176 of file pios\-\_\-usb\-\_\-desc\-\_\-hid\-\_\-cdc.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_b___d_e_s_c_ga712d76be7f3a64d87d05fabc10e2686e}{\index{\-U\-S\-B Descriptor definitions@{\-U\-S\-B Descriptor definitions}!cdc\-\_\-mgmt\-\_\-in@{cdc\-\_\-mgmt\-\_\-in}}
+\index{cdc\-\_\-mgmt\-\_\-in@{cdc\-\_\-mgmt\-\_\-in}!USB Descriptor definitions@{\-U\-S\-B Descriptor definitions}}
+\subsubsection[{cdc\-\_\-mgmt\-\_\-in}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf usb\-\_\-endpoint\-\_\-desc} {\bf cdc\-\_\-mgmt\-\_\-in}}}\label{group___p_i_o_s___u_s_b___d_e_s_c_ga712d76be7f3a64d87d05fabc10e2686e}
+
+
+\-Definition at line 192 of file pios\-\_\-usb\-\_\-desc\-\_\-hid\-\_\-cdc.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_b___d_e_s_c_ga38856efc6dd6e0466e9bfb7533992dc3}{\index{\-U\-S\-B Descriptor definitions@{\-U\-S\-B Descriptor definitions}!cdc\-\_\-out@{cdc\-\_\-out}}
+\index{cdc\-\_\-out@{cdc\-\_\-out}!USB Descriptor definitions@{\-U\-S\-B Descriptor definitions}}
+\subsubsection[{cdc\-\_\-out}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf usb\-\_\-endpoint\-\_\-desc} {\bf usb\-\_\-config\-\_\-hid\-\_\-cdc\-::cdc\-\_\-out}}}\label{group___p_i_o_s___u_s_b___d_e_s_c_ga38856efc6dd6e0466e9bfb7533992dc3}
+
+
+\-Definition at line 179 of file pios\-\_\-usb\-\_\-desc\-\_\-hid\-\_\-cdc.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_b___d_e_s_c_ga9c39f39e6301c0d93317b2027a769a5a}{\index{\-U\-S\-B Descriptor definitions@{\-U\-S\-B Descriptor definitions}!cdc\-\_\-out@{cdc\-\_\-out}}
+\index{cdc\-\_\-out@{cdc\-\_\-out}!USB Descriptor definitions@{\-U\-S\-B Descriptor definitions}}
+\subsubsection[{cdc\-\_\-out}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf usb\-\_\-endpoint\-\_\-desc} {\bf cdc\-\_\-out}}}\label{group___p_i_o_s___u_s_b___d_e_s_c_ga9c39f39e6301c0d93317b2027a769a5a}
+
+
+\-Definition at line 195 of file pios\-\_\-usb\-\_\-desc\-\_\-hid\-\_\-cdc.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_b___d_e_s_c_gafdccd743e5f58edeace549e15f512d44}{\index{\-U\-S\-B Descriptor definitions@{\-U\-S\-B Descriptor definitions}!cdc\-\_\-union@{cdc\-\_\-union}}
+\index{cdc\-\_\-union@{cdc\-\_\-union}!USB Descriptor definitions@{\-U\-S\-B Descriptor definitions}}
+\subsubsection[{cdc\-\_\-union}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf usb\-\_\-cdc\-\_\-union\-\_\-func\-\_\-desc} {\bf usb\-\_\-config\-\_\-hid\-\_\-cdc\-::cdc\-\_\-union}}}\label{group___p_i_o_s___u_s_b___d_e_s_c_gafdccd743e5f58edeace549e15f512d44}
+
+
+\-Definition at line 175 of file pios\-\_\-usb\-\_\-desc\-\_\-hid\-\_\-cdc.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_b___d_e_s_c_ga18f1bcfd867862a7b68cf2307ff2df6d}{\index{\-U\-S\-B Descriptor definitions@{\-U\-S\-B Descriptor definitions}!cdc\-\_\-union@{cdc\-\_\-union}}
+\index{cdc\-\_\-union@{cdc\-\_\-union}!USB Descriptor definitions@{\-U\-S\-B Descriptor definitions}}
+\subsubsection[{cdc\-\_\-union}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf usb\-\_\-cdc\-\_\-union\-\_\-func\-\_\-desc} {\bf cdc\-\_\-union}}}\label{group___p_i_o_s___u_s_b___d_e_s_c_ga18f1bcfd867862a7b68cf2307ff2df6d}
+
+
+\-Definition at line 191 of file pios\-\_\-usb\-\_\-desc\-\_\-hid\-\_\-cdc.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_b___d_e_s_c_gae5e25501e424468c229df0d1e09423a8}{\index{\-U\-S\-B Descriptor definitions@{\-U\-S\-B Descriptor definitions}!config@{config}}
+\index{config@{config}!USB Descriptor definitions@{\-U\-S\-B Descriptor definitions}}
+\subsubsection[{config}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf usb\-\_\-configuration\-\_\-desc} {\bf usb\-\_\-config\-\_\-hid\-\_\-only\-::config}}}\label{group___p_i_o_s___u_s_b___d_e_s_c_gae5e25501e424468c229df0d1e09423a8}
+
+
+\-Definition at line 99 of file pios\-\_\-usb\-\_\-desc\-\_\-hid\-\_\-only.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_b___d_e_s_c_ga6517677dcb9452a3759e7ec7e360e690}{\index{\-U\-S\-B Descriptor definitions@{\-U\-S\-B Descriptor definitions}!config@{config}}
+\index{config@{config}!USB Descriptor definitions@{\-U\-S\-B Descriptor definitions}}
+\subsubsection[{config}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf usb\-\_\-configuration\-\_\-desc} {\bf config}}}\label{group___p_i_o_s___u_s_b___d_e_s_c_ga6517677dcb9452a3759e7ec7e360e690}
+
+
+\-Definition at line 105 of file pios\-\_\-usb\-\_\-desc\-\_\-hid\-\_\-only.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_b___d_e_s_c_ga41025645591a4ff38c6bfb3bf799cdf1}{\index{\-U\-S\-B Descriptor definitions@{\-U\-S\-B Descriptor definitions}!config@{config}}
+\index{config@{config}!USB Descriptor definitions@{\-U\-S\-B Descriptor definitions}}
+\subsubsection[{config}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf usb\-\_\-configuration\-\_\-desc} {\bf usb\-\_\-config\-\_\-hid\-\_\-cdc\-::config}}}\label{group___p_i_o_s___u_s_b___d_e_s_c_ga41025645591a4ff38c6bfb3bf799cdf1}
+
+
+\-Definition at line 169 of file pios\-\_\-usb\-\_\-desc\-\_\-hid\-\_\-cdc.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_b___d_e_s_c_ga6517677dcb9452a3759e7ec7e360e690}{\index{\-U\-S\-B Descriptor definitions@{\-U\-S\-B Descriptor definitions}!config@{config}}
+\index{config@{config}!USB Descriptor definitions@{\-U\-S\-B Descriptor definitions}}
+\subsubsection[{config}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf usb\-\_\-configuration\-\_\-desc} {\bf config}}}\label{group___p_i_o_s___u_s_b___d_e_s_c_ga6517677dcb9452a3759e7ec7e360e690}
+
+
+\-Definition at line 185 of file pios\-\_\-usb\-\_\-desc\-\_\-hid\-\_\-cdc.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_b___d_e_s_c_ga4729f56193bb7fb5a7c5115995ec85db}{\index{\-U\-S\-B Descriptor definitions@{\-U\-S\-B Descriptor definitions}!config\-\_\-hid\-\_\-only@{config\-\_\-hid\-\_\-only}}
+\index{config\-\_\-hid\-\_\-only@{config\-\_\-hid\-\_\-only}!USB Descriptor definitions@{\-U\-S\-B Descriptor definitions}}
+\subsubsection[{config\-\_\-hid\-\_\-only}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf usb\-\_\-config\-\_\-hid\-\_\-only} {\bf config\-\_\-hid\-\_\-only}}}\label{group___p_i_o_s___u_s_b___d_e_s_c_ga4729f56193bb7fb5a7c5115995ec85db}
+
+
+\-Definition at line 106 of file pios\-\_\-usb\-\_\-desc\-\_\-hid\-\_\-only.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_b___d_e_s_c_ga279cdc579474d229bf1bb7963f423423}{\index{\-U\-S\-B Descriptor definitions@{\-U\-S\-B Descriptor definitions}!hid@{hid}}
+\index{hid@{hid}!USB Descriptor definitions@{\-U\-S\-B Descriptor definitions}}
+\subsubsection[{hid}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf usb\-\_\-hid\-\_\-desc} {\bf usb\-\_\-config\-\_\-hid\-\_\-only\-::hid}}}\label{group___p_i_o_s___u_s_b___d_e_s_c_ga279cdc579474d229bf1bb7963f423423}
+
+
+\-Definition at line 101 of file pios\-\_\-usb\-\_\-desc\-\_\-hid\-\_\-only.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_b___d_e_s_c_ga6eb333cd7c6d156f25fa827aa085579c}{\index{\-U\-S\-B Descriptor definitions@{\-U\-S\-B Descriptor definitions}!hid@{hid}}
+\index{hid@{hid}!USB Descriptor definitions@{\-U\-S\-B Descriptor definitions}}
+\subsubsection[{hid}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf usb\-\_\-hid\-\_\-desc} {\bf hid}}}\label{group___p_i_o_s___u_s_b___d_e_s_c_ga6eb333cd7c6d156f25fa827aa085579c}
+
+
+\-Definition at line 107 of file pios\-\_\-usb\-\_\-desc\-\_\-hid\-\_\-only.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_b___d_e_s_c_ga8b4c52ed5995d3193869596bc47a4e58}{\index{\-U\-S\-B Descriptor definitions@{\-U\-S\-B Descriptor definitions}!hid@{hid}}
+\index{hid@{hid}!USB Descriptor definitions@{\-U\-S\-B Descriptor definitions}}
+\subsubsection[{hid}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf usb\-\_\-hid\-\_\-desc} {\bf usb\-\_\-config\-\_\-hid\-\_\-cdc\-::hid}}}\label{group___p_i_o_s___u_s_b___d_e_s_c_ga8b4c52ed5995d3193869596bc47a4e58}
+
+
+\-Definition at line 181 of file pios\-\_\-usb\-\_\-desc\-\_\-hid\-\_\-cdc.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_b___d_e_s_c_ga6eb333cd7c6d156f25fa827aa085579c}{\index{\-U\-S\-B Descriptor definitions@{\-U\-S\-B Descriptor definitions}!hid@{hid}}
+\index{hid@{hid}!USB Descriptor definitions@{\-U\-S\-B Descriptor definitions}}
+\subsubsection[{hid}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf usb\-\_\-hid\-\_\-desc} {\bf hid}}}\label{group___p_i_o_s___u_s_b___d_e_s_c_ga6eb333cd7c6d156f25fa827aa085579c}
+
+
+\-Definition at line 197 of file pios\-\_\-usb\-\_\-desc\-\_\-hid\-\_\-cdc.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_b___d_e_s_c_gab8d4a603dbaaacc357e4beb426cfd094}{\index{\-U\-S\-B Descriptor definitions@{\-U\-S\-B Descriptor definitions}!hid\-\_\-if@{hid\-\_\-if}}
+\index{hid\-\_\-if@{hid\-\_\-if}!USB Descriptor definitions@{\-U\-S\-B Descriptor definitions}}
+\subsubsection[{hid\-\_\-if}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf usb\-\_\-interface\-\_\-desc} {\bf usb\-\_\-config\-\_\-hid\-\_\-only\-::hid\-\_\-if}}}\label{group___p_i_o_s___u_s_b___d_e_s_c_gab8d4a603dbaaacc357e4beb426cfd094}
+
+
+\-Definition at line 100 of file pios\-\_\-usb\-\_\-desc\-\_\-hid\-\_\-only.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_b___d_e_s_c_ga66dd41530dc7e219cf377870362857ce}{\index{\-U\-S\-B Descriptor definitions@{\-U\-S\-B Descriptor definitions}!hid\-\_\-if@{hid\-\_\-if}}
+\index{hid\-\_\-if@{hid\-\_\-if}!USB Descriptor definitions@{\-U\-S\-B Descriptor definitions}}
+\subsubsection[{hid\-\_\-if}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf usb\-\_\-interface\-\_\-desc} {\bf hid\-\_\-if}}}\label{group___p_i_o_s___u_s_b___d_e_s_c_ga66dd41530dc7e219cf377870362857ce}
+
+
+\-Definition at line 106 of file pios\-\_\-usb\-\_\-desc\-\_\-hid\-\_\-only.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_b___d_e_s_c_gadeb93743c31b647e20653e4423233982}{\index{\-U\-S\-B Descriptor definitions@{\-U\-S\-B Descriptor definitions}!hid\-\_\-if@{hid\-\_\-if}}
+\index{hid\-\_\-if@{hid\-\_\-if}!USB Descriptor definitions@{\-U\-S\-B Descriptor definitions}}
+\subsubsection[{hid\-\_\-if}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf usb\-\_\-interface\-\_\-desc} {\bf usb\-\_\-config\-\_\-hid\-\_\-cdc\-::hid\-\_\-if}}}\label{group___p_i_o_s___u_s_b___d_e_s_c_gadeb93743c31b647e20653e4423233982}
+
+
+\-Definition at line 180 of file pios\-\_\-usb\-\_\-desc\-\_\-hid\-\_\-cdc.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_b___d_e_s_c_ga66dd41530dc7e219cf377870362857ce}{\index{\-U\-S\-B Descriptor definitions@{\-U\-S\-B Descriptor definitions}!hid\-\_\-if@{hid\-\_\-if}}
+\index{hid\-\_\-if@{hid\-\_\-if}!USB Descriptor definitions@{\-U\-S\-B Descriptor definitions}}
+\subsubsection[{hid\-\_\-if}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf usb\-\_\-interface\-\_\-desc} {\bf hid\-\_\-if}}}\label{group___p_i_o_s___u_s_b___d_e_s_c_ga66dd41530dc7e219cf377870362857ce}
+
+
+\-Definition at line 196 of file pios\-\_\-usb\-\_\-desc\-\_\-hid\-\_\-cdc.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_b___d_e_s_c_gac0401b402235f315c995eb13de1425ec}{\index{\-U\-S\-B Descriptor definitions@{\-U\-S\-B Descriptor definitions}!hid\-\_\-in@{hid\-\_\-in}}
+\index{hid\-\_\-in@{hid\-\_\-in}!USB Descriptor definitions@{\-U\-S\-B Descriptor definitions}}
+\subsubsection[{hid\-\_\-in}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf usb\-\_\-endpoint\-\_\-desc} {\bf usb\-\_\-config\-\_\-hid\-\_\-only\-::hid\-\_\-in}}}\label{group___p_i_o_s___u_s_b___d_e_s_c_gac0401b402235f315c995eb13de1425ec}
+
+
+\-Definition at line 102 of file pios\-\_\-usb\-\_\-desc\-\_\-hid\-\_\-only.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_b___d_e_s_c_gad74809997499537622da0aaac4d1c3da}{\index{\-U\-S\-B Descriptor definitions@{\-U\-S\-B Descriptor definitions}!hid\-\_\-in@{hid\-\_\-in}}
+\index{hid\-\_\-in@{hid\-\_\-in}!USB Descriptor definitions@{\-U\-S\-B Descriptor definitions}}
+\subsubsection[{hid\-\_\-in}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf usb\-\_\-endpoint\-\_\-desc} {\bf hid\-\_\-in}}}\label{group___p_i_o_s___u_s_b___d_e_s_c_gad74809997499537622da0aaac4d1c3da}
+
+
+\-Definition at line 108 of file pios\-\_\-usb\-\_\-desc\-\_\-hid\-\_\-only.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_b___d_e_s_c_gaf6d4567d3dfbf3397c5842bdef4e13c8}{\index{\-U\-S\-B Descriptor definitions@{\-U\-S\-B Descriptor definitions}!hid\-\_\-in@{hid\-\_\-in}}
+\index{hid\-\_\-in@{hid\-\_\-in}!USB Descriptor definitions@{\-U\-S\-B Descriptor definitions}}
+\subsubsection[{hid\-\_\-in}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf usb\-\_\-endpoint\-\_\-desc} {\bf usb\-\_\-config\-\_\-hid\-\_\-cdc\-::hid\-\_\-in}}}\label{group___p_i_o_s___u_s_b___d_e_s_c_gaf6d4567d3dfbf3397c5842bdef4e13c8}
+
+
+\-Definition at line 182 of file pios\-\_\-usb\-\_\-desc\-\_\-hid\-\_\-cdc.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_b___d_e_s_c_gad74809997499537622da0aaac4d1c3da}{\index{\-U\-S\-B Descriptor definitions@{\-U\-S\-B Descriptor definitions}!hid\-\_\-in@{hid\-\_\-in}}
+\index{hid\-\_\-in@{hid\-\_\-in}!USB Descriptor definitions@{\-U\-S\-B Descriptor definitions}}
+\subsubsection[{hid\-\_\-in}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf usb\-\_\-endpoint\-\_\-desc} {\bf hid\-\_\-in}}}\label{group___p_i_o_s___u_s_b___d_e_s_c_gad74809997499537622da0aaac4d1c3da}
+
+
+\-Definition at line 198 of file pios\-\_\-usb\-\_\-desc\-\_\-hid\-\_\-cdc.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_b___d_e_s_c_ga0bdaf8c80f7739bea621a6d5aa272641}{\index{\-U\-S\-B Descriptor definitions@{\-U\-S\-B Descriptor definitions}!hid\-\_\-out@{hid\-\_\-out}}
+\index{hid\-\_\-out@{hid\-\_\-out}!USB Descriptor definitions@{\-U\-S\-B Descriptor definitions}}
+\subsubsection[{hid\-\_\-out}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf usb\-\_\-endpoint\-\_\-desc} {\bf usb\-\_\-config\-\_\-hid\-\_\-only\-::hid\-\_\-out}}}\label{group___p_i_o_s___u_s_b___d_e_s_c_ga0bdaf8c80f7739bea621a6d5aa272641}
+
+
+\-Definition at line 103 of file pios\-\_\-usb\-\_\-desc\-\_\-hid\-\_\-only.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_b___d_e_s_c_ga0e5a30c27a737b9c3e117e4e8b755b8d}{\index{\-U\-S\-B Descriptor definitions@{\-U\-S\-B Descriptor definitions}!hid\-\_\-out@{hid\-\_\-out}}
+\index{hid\-\_\-out@{hid\-\_\-out}!USB Descriptor definitions@{\-U\-S\-B Descriptor definitions}}
+\subsubsection[{hid\-\_\-out}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf usb\-\_\-endpoint\-\_\-desc} {\bf hid\-\_\-out}}}\label{group___p_i_o_s___u_s_b___d_e_s_c_ga0e5a30c27a737b9c3e117e4e8b755b8d}
+
+
+\-Definition at line 109 of file pios\-\_\-usb\-\_\-desc\-\_\-hid\-\_\-only.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_b___d_e_s_c_gad76c86a5c7e42e823404bf0e7ddff4f2}{\index{\-U\-S\-B Descriptor definitions@{\-U\-S\-B Descriptor definitions}!hid\-\_\-out@{hid\-\_\-out}}
+\index{hid\-\_\-out@{hid\-\_\-out}!USB Descriptor definitions@{\-U\-S\-B Descriptor definitions}}
+\subsubsection[{hid\-\_\-out}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf usb\-\_\-endpoint\-\_\-desc} {\bf usb\-\_\-config\-\_\-hid\-\_\-cdc\-::hid\-\_\-out}}}\label{group___p_i_o_s___u_s_b___d_e_s_c_gad76c86a5c7e42e823404bf0e7ddff4f2}
+
+
+\-Definition at line 183 of file pios\-\_\-usb\-\_\-desc\-\_\-hid\-\_\-cdc.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_b___d_e_s_c_ga0e5a30c27a737b9c3e117e4e8b755b8d}{\index{\-U\-S\-B Descriptor definitions@{\-U\-S\-B Descriptor definitions}!hid\-\_\-out@{hid\-\_\-out}}
+\index{hid\-\_\-out@{hid\-\_\-out}!USB Descriptor definitions@{\-U\-S\-B Descriptor definitions}}
+\subsubsection[{hid\-\_\-out}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf usb\-\_\-endpoint\-\_\-desc} {\bf hid\-\_\-out}}}\label{group___p_i_o_s___u_s_b___d_e_s_c_ga0e5a30c27a737b9c3e117e4e8b755b8d}
+
+
+\-Definition at line 199 of file pios\-\_\-usb\-\_\-desc\-\_\-hid\-\_\-cdc.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_b___d_e_s_c_ga0dc1bab4cabd04ace89b858ba3f7b259}{\index{\-U\-S\-B Descriptor definitions@{\-U\-S\-B Descriptor definitions}!iad@{iad}}
+\index{iad@{iad}!USB Descriptor definitions@{\-U\-S\-B Descriptor definitions}}
+\subsubsection[{iad}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf usb\-\_\-interface\-\_\-association\-\_\-desc} {\bf usb\-\_\-config\-\_\-hid\-\_\-cdc\-::iad}}}\label{group___p_i_o_s___u_s_b___d_e_s_c_ga0dc1bab4cabd04ace89b858ba3f7b259}
+
+
+\-Definition at line 170 of file pios\-\_\-usb\-\_\-desc\-\_\-hid\-\_\-cdc.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_b___d_e_s_c_gac7a66f23a9fc26df56f67aa5cc34dc5b}{\index{\-U\-S\-B Descriptor definitions@{\-U\-S\-B Descriptor definitions}!iad@{iad}}
+\index{iad@{iad}!USB Descriptor definitions@{\-U\-S\-B Descriptor definitions}}
+\subsubsection[{iad}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf usb\-\_\-interface\-\_\-association\-\_\-desc} {\bf iad}}}\label{group___p_i_o_s___u_s_b___d_e_s_c_gac7a66f23a9fc26df56f67aa5cc34dc5b}
+
+
+\-Definition at line 186 of file pios\-\_\-usb\-\_\-desc\-\_\-hid\-\_\-cdc.\-c.
+

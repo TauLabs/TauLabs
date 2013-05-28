@@ -1,0 +1,278 @@
+\hypertarget{group___p_i_o_s___p_w_m}{\section{\-P\-W\-M \-Input \-Functions}
+\label{group___p_i_o_s___p_w_m}\index{\-P\-W\-M Input Functions@{\-P\-W\-M Input Functions}}
+}
+
+
+\-Code to measure with \-P\-W\-M input.  
+
+
+\subsection*{\-Data \-Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structpios__pwm__dev}{pios\-\_\-pwm\-\_\-dev}
+\item 
+struct \hyperlink{structrtc__callback__entry}{rtc\-\_\-callback\-\_\-entry}
+\end{DoxyCompactItemize}
+\subsection*{\-Files}
+\begin{DoxyCompactItemize}
+\item 
+file \hyperlink{pios__pwm_8h}{pios\-\_\-pwm.\-h}
+\begin{DoxyCompactList}\small\item\em \-P\-W\-M \-Input functions header. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{group___p_i_o_s___p_w_m_ga42d376e6bd816a93a35efb03226d676e}{pios\-\_\-pwm\-\_\-dev\-\_\-magic} \{ \hyperlink{group___p_i_o_s___p_w_m_gga42d376e6bd816a93a35efb03226d676ea80a6eff8dafc5fcd440b4cb8282fc26e}{\-P\-I\-O\-S\-\_\-\-P\-W\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C} =  0xab30293c, 
+\hyperlink{group___p_i_o_s___p_w_m_gga42d376e6bd816a93a35efb03226d676ea80a6eff8dafc5fcd440b4cb8282fc26e}{\-P\-I\-O\-S\-\_\-\-P\-W\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C} =  0xab30293c, 
+\hyperlink{group___p_i_o_s___p_w_m_gga42d376e6bd816a93a35efb03226d676ea80a6eff8dafc5fcd440b4cb8282fc26e}{\-P\-I\-O\-S\-\_\-\-P\-W\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C} =  0xab30293c
+ \}
+\item 
+enum \hyperlink{group___p_i_o_s___p_w_m_ga42d376e6bd816a93a35efb03226d676e}{pios\-\_\-pwm\-\_\-dev\-\_\-magic} \{ \hyperlink{group___p_i_o_s___p_w_m_gga42d376e6bd816a93a35efb03226d676ea80a6eff8dafc5fcd440b4cb8282fc26e}{\-P\-I\-O\-S\-\_\-\-P\-W\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C} =  0xab30293c, 
+\hyperlink{group___p_i_o_s___p_w_m_gga42d376e6bd816a93a35efb03226d676ea80a6eff8dafc5fcd440b4cb8282fc26e}{\-P\-I\-O\-S\-\_\-\-P\-W\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C} =  0xab30293c, 
+\hyperlink{group___p_i_o_s___p_w_m_gga42d376e6bd816a93a35efb03226d676ea80a6eff8dafc5fcd440b4cb8282fc26e}{\-P\-I\-O\-S\-\_\-\-P\-W\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C} =  0xab30293c
+ \}
+\item 
+enum \hyperlink{group___p_i_o_s___p_w_m_ga42d376e6bd816a93a35efb03226d676e}{pios\-\_\-pwm\-\_\-dev\-\_\-magic} \{ \hyperlink{group___p_i_o_s___p_w_m_gga42d376e6bd816a93a35efb03226d676ea80a6eff8dafc5fcd440b4cb8282fc26e}{\-P\-I\-O\-S\-\_\-\-P\-W\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C} =  0xab30293c, 
+\hyperlink{group___p_i_o_s___p_w_m_gga42d376e6bd816a93a35efb03226d676ea80a6eff8dafc5fcd440b4cb8282fc26e}{\-P\-I\-O\-S\-\_\-\-P\-W\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C} =  0xab30293c, 
+\hyperlink{group___p_i_o_s___p_w_m_gga42d376e6bd816a93a35efb03226d676ea80a6eff8dafc5fcd440b4cb8282fc26e}{\-P\-I\-O\-S\-\_\-\-P\-W\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C} =  0xab30293c
+ \}
+\end{DoxyCompactItemize}
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___p_w_m_ga710b446b9a2b2d27624571eb968ae09f}{\-P\-I\-O\-S\-\_\-\-P\-W\-M\-\_\-\-Init} (uint32\-\_\-t $\ast$pwm\-\_\-id, const struct \hyperlink{structpios__pwm__cfg}{pios\-\_\-pwm\-\_\-cfg} $\ast$cfg)
+\item 
+void \hyperlink{group___p_i_o_s___p_w_m_ga0edcdea74daf967c3ebbf09d14f21f95}{\-P\-I\-O\-S\-\_\-\-R\-T\-C\-\_\-\-Init} (const struct \hyperlink{structpios__rtc__cfg}{pios\-\_\-rtc\-\_\-cfg} $\ast$cfg)
+\item 
+uint32\-\_\-t \hyperlink{group___p_i_o_s___p_w_m_ga9d01d1ac8ca6944639f49eeb358a5283}{\-P\-I\-O\-S\-\_\-\-R\-T\-C\-\_\-\-Counter} ()
+\item 
+float \hyperlink{group___p_i_o_s___p_w_m_ga67f1e1979b94ff871968e14497974af1}{\-P\-I\-O\-S\-\_\-\-R\-T\-C\-\_\-\-Rate} ()
+\item 
+float \hyperlink{group___p_i_o_s___p_w_m_gad34cae8cd02b5e6de39366292722edba}{\-P\-I\-O\-S\-\_\-\-R\-T\-C\-\_\-\-Ms\-Per\-Tick} ()
+\item 
+bool \hyperlink{group___p_i_o_s___p_w_m_gaedab634636153fb8507f2fd1667c6f39}{\-P\-I\-O\-S\-\_\-\-R\-T\-C\-\_\-\-Register\-Tick\-Callback} (void($\ast$fn)(uint32\-\_\-t \hyperlink{uavobjectmanager_8c_abaabdc509cdaba7df9f56c6c76f3ae19}{id}), uint32\-\_\-t data)
+\item 
+void \hyperlink{group___p_i_o_s___p_w_m_ga882b48b1e7ce218715dbcc6268387eb7}{\-P\-I\-O\-S\-\_\-\-R\-T\-C\-\_\-irq\-\_\-handler} (void)
+\end{DoxyCompactItemize}
+\subsection*{\-Variables}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structpios__rcvr__driver}{pios\-\_\-rcvr\-\_\-driver} \hyperlink{group___p_i_o_s___p_w_m_ga767a19a3a54afa71399b7467963690df}{pios\-\_\-pwm\-\_\-rcvr\-\_\-driver}
+\item 
+struct \hyperlink{structrtc__callback__entry}{rtc\-\_\-callback\-\_\-entry} \hyperlink{group___p_i_o_s___p_w_m_ga4cb0707cdd245f2578d3f444bd852fd7}{rtc\-\_\-callback\-\_\-list} \mbox{[}\-P\-I\-O\-S\-\_\-\-R\-T\-C\-\_\-\-M\-A\-X\-\_\-\-C\-A\-L\-L\-B\-A\-C\-K\-S\mbox{]}
+\item 
+struct \hyperlink{structpios__rcvr__driver}{pios\-\_\-rcvr\-\_\-driver} \hyperlink{group___p_i_o_s___p_w_m_ga767a19a3a54afa71399b7467963690df}{pios\-\_\-pwm\-\_\-rcvr\-\_\-driver}
+\item 
+struct \hyperlink{structrtc__callback__entry}{rtc\-\_\-callback\-\_\-entry} \hyperlink{group___p_i_o_s___p_w_m_ga4cb0707cdd245f2578d3f444bd852fd7}{rtc\-\_\-callback\-\_\-list} \mbox{[}\-P\-I\-O\-S\-\_\-\-R\-T\-C\-\_\-\-M\-A\-X\-\_\-\-C\-A\-L\-L\-B\-A\-C\-K\-S\mbox{]}
+\item 
+struct \hyperlink{structpios__rcvr__driver}{pios\-\_\-rcvr\-\_\-driver} \hyperlink{group___p_i_o_s___p_w_m_ga767a19a3a54afa71399b7467963690df}{pios\-\_\-pwm\-\_\-rcvr\-\_\-driver}
+\item 
+struct \hyperlink{structrtc__callback__entry}{rtc\-\_\-callback\-\_\-entry} \hyperlink{group___p_i_o_s___p_w_m_ga4cb0707cdd245f2578d3f444bd852fd7}{rtc\-\_\-callback\-\_\-list} \mbox{[}\-P\-I\-O\-S\-\_\-\-R\-T\-C\-\_\-\-M\-A\-X\-\_\-\-C\-A\-L\-L\-B\-A\-C\-K\-S\mbox{]}
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-Code to measure with \-P\-W\-M input. 
+
+\subsection{\-Enumeration \-Type \-Documentation}
+\hypertarget{group___p_i_o_s___p_w_m_ga42d376e6bd816a93a35efb03226d676e}{\index{\-P\-W\-M Input Functions@{\-P\-W\-M Input Functions}!pios\-\_\-pwm\-\_\-dev\-\_\-magic@{pios\-\_\-pwm\-\_\-dev\-\_\-magic}}
+\index{pios\-\_\-pwm\-\_\-dev\-\_\-magic@{pios\-\_\-pwm\-\_\-dev\-\_\-magic}!PWM Input Functions@{\-P\-W\-M Input Functions}}
+\subsubsection[{pios\-\_\-pwm\-\_\-dev\-\_\-magic}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf pios\-\_\-pwm\-\_\-dev\-\_\-magic}}}\label{group___p_i_o_s___p_w_m_ga42d376e6bd816a93a35efb03226d676e}
+\begin{Desc}
+\item[\-Enumerator\-: ]\par
+\begin{description}
+\index{\-P\-I\-O\-S\-\_\-\-P\-W\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C@{\-P\-I\-O\-S\-\_\-\-P\-W\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}!\-P\-W\-M Input Functions@{\-P\-W\-M Input Functions}}\index{\-P\-W\-M Input Functions@{\-P\-W\-M Input Functions}!\-P\-I\-O\-S\-\_\-\-P\-W\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C@{\-P\-I\-O\-S\-\_\-\-P\-W\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}}\item[{\em 
+\hypertarget{group___p_i_o_s___p_w_m_gga42d376e6bd816a93a35efb03226d676ea80a6eff8dafc5fcd440b4cb8282fc26e}{\-P\-I\-O\-S\-\_\-\-P\-W\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}\label{group___p_i_o_s___p_w_m_gga42d376e6bd816a93a35efb03226d676ea80a6eff8dafc5fcd440b4cb8282fc26e}
+}]\index{\-P\-I\-O\-S\-\_\-\-P\-W\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C@{\-P\-I\-O\-S\-\_\-\-P\-W\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}!\-P\-W\-M Input Functions@{\-P\-W\-M Input Functions}}\index{\-P\-W\-M Input Functions@{\-P\-W\-M Input Functions}!\-P\-I\-O\-S\-\_\-\-P\-W\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C@{\-P\-I\-O\-S\-\_\-\-P\-W\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}}\item[{\em 
+\hypertarget{group___p_i_o_s___p_w_m_gga42d376e6bd816a93a35efb03226d676ea80a6eff8dafc5fcd440b4cb8282fc26e}{\-P\-I\-O\-S\-\_\-\-P\-W\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}\label{group___p_i_o_s___p_w_m_gga42d376e6bd816a93a35efb03226d676ea80a6eff8dafc5fcd440b4cb8282fc26e}
+}]\index{\-P\-I\-O\-S\-\_\-\-P\-W\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C@{\-P\-I\-O\-S\-\_\-\-P\-W\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}!\-P\-W\-M Input Functions@{\-P\-W\-M Input Functions}}\index{\-P\-W\-M Input Functions@{\-P\-W\-M Input Functions}!\-P\-I\-O\-S\-\_\-\-P\-W\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C@{\-P\-I\-O\-S\-\_\-\-P\-W\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}}\item[{\em 
+\hypertarget{group___p_i_o_s___p_w_m_gga42d376e6bd816a93a35efb03226d676ea80a6eff8dafc5fcd440b4cb8282fc26e}{\-P\-I\-O\-S\-\_\-\-P\-W\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}\label{group___p_i_o_s___p_w_m_gga42d376e6bd816a93a35efb03226d676ea80a6eff8dafc5fcd440b4cb8282fc26e}
+}]\end{description}
+\end{Desc}
+
+
+
+\-Definition at line 48 of file pios\-\_\-pwm.\-c.
+
+\hypertarget{group___p_i_o_s___p_w_m_ga42d376e6bd816a93a35efb03226d676e}{\index{\-P\-W\-M Input Functions@{\-P\-W\-M Input Functions}!pios\-\_\-pwm\-\_\-dev\-\_\-magic@{pios\-\_\-pwm\-\_\-dev\-\_\-magic}}
+\index{pios\-\_\-pwm\-\_\-dev\-\_\-magic@{pios\-\_\-pwm\-\_\-dev\-\_\-magic}!PWM Input Functions@{\-P\-W\-M Input Functions}}
+\subsubsection[{pios\-\_\-pwm\-\_\-dev\-\_\-magic}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf pios\-\_\-pwm\-\_\-dev\-\_\-magic}}}\label{group___p_i_o_s___p_w_m_ga42d376e6bd816a93a35efb03226d676e}
+\begin{Desc}
+\item[\-Enumerator\-: ]\par
+\begin{description}
+\index{\-P\-I\-O\-S\-\_\-\-P\-W\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C@{\-P\-I\-O\-S\-\_\-\-P\-W\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}!\-P\-W\-M Input Functions@{\-P\-W\-M Input Functions}}\index{\-P\-W\-M Input Functions@{\-P\-W\-M Input Functions}!\-P\-I\-O\-S\-\_\-\-P\-W\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C@{\-P\-I\-O\-S\-\_\-\-P\-W\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}}\item[{\em 
+\hypertarget{group___p_i_o_s___p_w_m_gga42d376e6bd816a93a35efb03226d676ea80a6eff8dafc5fcd440b4cb8282fc26e}{\-P\-I\-O\-S\-\_\-\-P\-W\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}\label{group___p_i_o_s___p_w_m_gga42d376e6bd816a93a35efb03226d676ea80a6eff8dafc5fcd440b4cb8282fc26e}
+}]\index{\-P\-I\-O\-S\-\_\-\-P\-W\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C@{\-P\-I\-O\-S\-\_\-\-P\-W\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}!\-P\-W\-M Input Functions@{\-P\-W\-M Input Functions}}\index{\-P\-W\-M Input Functions@{\-P\-W\-M Input Functions}!\-P\-I\-O\-S\-\_\-\-P\-W\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C@{\-P\-I\-O\-S\-\_\-\-P\-W\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}}\item[{\em 
+\hypertarget{group___p_i_o_s___p_w_m_gga42d376e6bd816a93a35efb03226d676ea80a6eff8dafc5fcd440b4cb8282fc26e}{\-P\-I\-O\-S\-\_\-\-P\-W\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}\label{group___p_i_o_s___p_w_m_gga42d376e6bd816a93a35efb03226d676ea80a6eff8dafc5fcd440b4cb8282fc26e}
+}]\index{\-P\-I\-O\-S\-\_\-\-P\-W\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C@{\-P\-I\-O\-S\-\_\-\-P\-W\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}!\-P\-W\-M Input Functions@{\-P\-W\-M Input Functions}}\index{\-P\-W\-M Input Functions@{\-P\-W\-M Input Functions}!\-P\-I\-O\-S\-\_\-\-P\-W\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C@{\-P\-I\-O\-S\-\_\-\-P\-W\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}}\item[{\em 
+\hypertarget{group___p_i_o_s___p_w_m_gga42d376e6bd816a93a35efb03226d676ea80a6eff8dafc5fcd440b4cb8282fc26e}{\-P\-I\-O\-S\-\_\-\-P\-W\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}\label{group___p_i_o_s___p_w_m_gga42d376e6bd816a93a35efb03226d676ea80a6eff8dafc5fcd440b4cb8282fc26e}
+}]\end{description}
+\end{Desc}
+
+
+
+\-Definition at line 48 of file pios\-\_\-pwm.\-c.
+
+\hypertarget{group___p_i_o_s___p_w_m_ga42d376e6bd816a93a35efb03226d676e}{\index{\-P\-W\-M Input Functions@{\-P\-W\-M Input Functions}!pios\-\_\-pwm\-\_\-dev\-\_\-magic@{pios\-\_\-pwm\-\_\-dev\-\_\-magic}}
+\index{pios\-\_\-pwm\-\_\-dev\-\_\-magic@{pios\-\_\-pwm\-\_\-dev\-\_\-magic}!PWM Input Functions@{\-P\-W\-M Input Functions}}
+\subsubsection[{pios\-\_\-pwm\-\_\-dev\-\_\-magic}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf pios\-\_\-pwm\-\_\-dev\-\_\-magic}}}\label{group___p_i_o_s___p_w_m_ga42d376e6bd816a93a35efb03226d676e}
+\begin{Desc}
+\item[\-Enumerator\-: ]\par
+\begin{description}
+\index{\-P\-I\-O\-S\-\_\-\-P\-W\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C@{\-P\-I\-O\-S\-\_\-\-P\-W\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}!\-P\-W\-M Input Functions@{\-P\-W\-M Input Functions}}\index{\-P\-W\-M Input Functions@{\-P\-W\-M Input Functions}!\-P\-I\-O\-S\-\_\-\-P\-W\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C@{\-P\-I\-O\-S\-\_\-\-P\-W\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}}\item[{\em 
+\hypertarget{group___p_i_o_s___p_w_m_gga42d376e6bd816a93a35efb03226d676ea80a6eff8dafc5fcd440b4cb8282fc26e}{\-P\-I\-O\-S\-\_\-\-P\-W\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}\label{group___p_i_o_s___p_w_m_gga42d376e6bd816a93a35efb03226d676ea80a6eff8dafc5fcd440b4cb8282fc26e}
+}]\index{\-P\-I\-O\-S\-\_\-\-P\-W\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C@{\-P\-I\-O\-S\-\_\-\-P\-W\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}!\-P\-W\-M Input Functions@{\-P\-W\-M Input Functions}}\index{\-P\-W\-M Input Functions@{\-P\-W\-M Input Functions}!\-P\-I\-O\-S\-\_\-\-P\-W\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C@{\-P\-I\-O\-S\-\_\-\-P\-W\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}}\item[{\em 
+\hypertarget{group___p_i_o_s___p_w_m_gga42d376e6bd816a93a35efb03226d676ea80a6eff8dafc5fcd440b4cb8282fc26e}{\-P\-I\-O\-S\-\_\-\-P\-W\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}\label{group___p_i_o_s___p_w_m_gga42d376e6bd816a93a35efb03226d676ea80a6eff8dafc5fcd440b4cb8282fc26e}
+}]\index{\-P\-I\-O\-S\-\_\-\-P\-W\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C@{\-P\-I\-O\-S\-\_\-\-P\-W\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}!\-P\-W\-M Input Functions@{\-P\-W\-M Input Functions}}\index{\-P\-W\-M Input Functions@{\-P\-W\-M Input Functions}!\-P\-I\-O\-S\-\_\-\-P\-W\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C@{\-P\-I\-O\-S\-\_\-\-P\-W\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}}\item[{\em 
+\hypertarget{group___p_i_o_s___p_w_m_gga42d376e6bd816a93a35efb03226d676ea80a6eff8dafc5fcd440b4cb8282fc26e}{\-P\-I\-O\-S\-\_\-\-P\-W\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}\label{group___p_i_o_s___p_w_m_gga42d376e6bd816a93a35efb03226d676ea80a6eff8dafc5fcd440b4cb8282fc26e}
+}]\end{description}
+\end{Desc}
+
+
+
+\-Definition at line 49 of file pios\-\_\-pwm.\-c.
+
+
+
+\subsection{\-Function \-Documentation}
+\hypertarget{group___p_i_o_s___p_w_m_ga710b446b9a2b2d27624571eb968ae09f}{\index{\-P\-W\-M Input Functions@{\-P\-W\-M Input Functions}!\-P\-I\-O\-S\-\_\-\-P\-W\-M\-\_\-\-Init@{\-P\-I\-O\-S\-\_\-\-P\-W\-M\-\_\-\-Init}}
+\index{\-P\-I\-O\-S\-\_\-\-P\-W\-M\-\_\-\-Init@{\-P\-I\-O\-S\-\_\-\-P\-W\-M\-\_\-\-Init}!PWM Input Functions@{\-P\-W\-M Input Functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-P\-W\-M\-\_\-\-Init}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-P\-I\-O\-S\-\_\-\-P\-W\-M\-\_\-\-Init} (
+\begin{DoxyParamCaption}
+\item[{uint32\-\_\-t $\ast$}]{pwm\-\_\-id, }
+\item[{const struct {\bf pios\-\_\-pwm\-\_\-cfg} $\ast$}]{cfg}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___p_w_m_ga710b446b9a2b2d27624571eb968ae09f}
+\-Initialises all the pins 
+
+\-Definition at line 108 of file pios\-\_\-pwm.\-c.
+
+\hypertarget{group___p_i_o_s___p_w_m_ga9d01d1ac8ca6944639f49eeb358a5283}{\index{\-P\-W\-M Input Functions@{\-P\-W\-M Input Functions}!\-P\-I\-O\-S\-\_\-\-R\-T\-C\-\_\-\-Counter@{\-P\-I\-O\-S\-\_\-\-R\-T\-C\-\_\-\-Counter}}
+\index{\-P\-I\-O\-S\-\_\-\-R\-T\-C\-\_\-\-Counter@{\-P\-I\-O\-S\-\_\-\-R\-T\-C\-\_\-\-Counter}!PWM Input Functions@{\-P\-W\-M Input Functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-R\-T\-C\-\_\-\-Counter}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t {\bf \-P\-I\-O\-S\-\_\-\-R\-T\-C\-\_\-\-Counter} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___p_w_m_ga9d01d1ac8ca6944639f49eeb358a5283}
+
+
+\-Definition at line 73 of file pios\-\_\-rtc.\-c.
+
+\hypertarget{group___p_i_o_s___p_w_m_ga0edcdea74daf967c3ebbf09d14f21f95}{\index{\-P\-W\-M Input Functions@{\-P\-W\-M Input Functions}!\-P\-I\-O\-S\-\_\-\-R\-T\-C\-\_\-\-Init@{\-P\-I\-O\-S\-\_\-\-R\-T\-C\-\_\-\-Init}}
+\index{\-P\-I\-O\-S\-\_\-\-R\-T\-C\-\_\-\-Init@{\-P\-I\-O\-S\-\_\-\-R\-T\-C\-\_\-\-Init}!PWM Input Functions@{\-P\-W\-M Input Functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-R\-T\-C\-\_\-\-Init}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-P\-I\-O\-S\-\_\-\-R\-T\-C\-\_\-\-Init} (
+\begin{DoxyParamCaption}
+\item[{const struct {\bf pios\-\_\-rtc\-\_\-cfg} $\ast$}]{cfg}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___p_w_m_ga0edcdea74daf967c3ebbf09d14f21f95}
+
+
+\-Definition at line 50 of file pios\-\_\-rtc.\-c.
+
+\hypertarget{group___p_i_o_s___p_w_m_ga882b48b1e7ce218715dbcc6268387eb7}{\index{\-P\-W\-M Input Functions@{\-P\-W\-M Input Functions}!\-P\-I\-O\-S\-\_\-\-R\-T\-C\-\_\-irq\-\_\-handler@{\-P\-I\-O\-S\-\_\-\-R\-T\-C\-\_\-irq\-\_\-handler}}
+\index{\-P\-I\-O\-S\-\_\-\-R\-T\-C\-\_\-irq\-\_\-handler@{\-P\-I\-O\-S\-\_\-\-R\-T\-C\-\_\-irq\-\_\-handler}!PWM Input Functions@{\-P\-W\-M Input Functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-R\-T\-C\-\_\-irq\-\_\-handler}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-P\-I\-O\-S\-\_\-\-R\-T\-C\-\_\-irq\-\_\-handler} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___p_w_m_ga882b48b1e7ce218715dbcc6268387eb7}
+
+
+\-Definition at line 106 of file pios\-\_\-rtc.\-c.
+
+\hypertarget{group___p_i_o_s___p_w_m_gad34cae8cd02b5e6de39366292722edba}{\index{\-P\-W\-M Input Functions@{\-P\-W\-M Input Functions}!\-P\-I\-O\-S\-\_\-\-R\-T\-C\-\_\-\-Ms\-Per\-Tick@{\-P\-I\-O\-S\-\_\-\-R\-T\-C\-\_\-\-Ms\-Per\-Tick}}
+\index{\-P\-I\-O\-S\-\_\-\-R\-T\-C\-\_\-\-Ms\-Per\-Tick@{\-P\-I\-O\-S\-\_\-\-R\-T\-C\-\_\-\-Ms\-Per\-Tick}!PWM Input Functions@{\-P\-W\-M Input Functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-R\-T\-C\-\_\-\-Ms\-Per\-Tick}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf \-P\-I\-O\-S\-\_\-\-R\-T\-C\-\_\-\-Ms\-Per\-Tick} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___p_w_m_gad34cae8cd02b5e6de39366292722edba}
+
+
+\-Definition at line 86 of file pios\-\_\-rtc.\-c.
+
+\hypertarget{group___p_i_o_s___p_w_m_ga67f1e1979b94ff871968e14497974af1}{\index{\-P\-W\-M Input Functions@{\-P\-W\-M Input Functions}!\-P\-I\-O\-S\-\_\-\-R\-T\-C\-\_\-\-Rate@{\-P\-I\-O\-S\-\_\-\-R\-T\-C\-\_\-\-Rate}}
+\index{\-P\-I\-O\-S\-\_\-\-R\-T\-C\-\_\-\-Rate@{\-P\-I\-O\-S\-\_\-\-R\-T\-C\-\_\-\-Rate}!PWM Input Functions@{\-P\-W\-M Input Functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-R\-T\-C\-\_\-\-Rate}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf \-P\-I\-O\-S\-\_\-\-R\-T\-C\-\_\-\-Rate} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___p_w_m_ga67f1e1979b94ff871968e14497974af1}
+
+
+\-Definition at line 81 of file pios\-\_\-rtc.\-c.
+
+\hypertarget{group___p_i_o_s___p_w_m_gaedab634636153fb8507f2fd1667c6f39}{\index{\-P\-W\-M Input Functions@{\-P\-W\-M Input Functions}!\-P\-I\-O\-S\-\_\-\-R\-T\-C\-\_\-\-Register\-Tick\-Callback@{\-P\-I\-O\-S\-\_\-\-R\-T\-C\-\_\-\-Register\-Tick\-Callback}}
+\index{\-P\-I\-O\-S\-\_\-\-R\-T\-C\-\_\-\-Register\-Tick\-Callback@{\-P\-I\-O\-S\-\_\-\-R\-T\-C\-\_\-\-Register\-Tick\-Callback}!PWM Input Functions@{\-P\-W\-M Input Functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-R\-T\-C\-\_\-\-Register\-Tick\-Callback}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-P\-I\-O\-S\-\_\-\-R\-T\-C\-\_\-\-Register\-Tick\-Callback} (
+\begin{DoxyParamCaption}
+\item[{void($\ast$)(uint32\-\_\-t {\bf id})}]{fn, }
+\item[{uint32\-\_\-t}]{data}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___p_w_m_gaedab634636153fb8507f2fd1667c6f39}
+
+
+\-Definition at line 92 of file pios\-\_\-rtc.\-c.
+
+
+
+\subsection{\-Variable \-Documentation}
+\hypertarget{group___p_i_o_s___p_w_m_ga767a19a3a54afa71399b7467963690df}{\index{\-P\-W\-M Input Functions@{\-P\-W\-M Input Functions}!pios\-\_\-pwm\-\_\-rcvr\-\_\-driver@{pios\-\_\-pwm\-\_\-rcvr\-\_\-driver}}
+\index{pios\-\_\-pwm\-\_\-rcvr\-\_\-driver@{pios\-\_\-pwm\-\_\-rcvr\-\_\-driver}!PWM Input Functions@{\-P\-W\-M Input Functions}}
+\subsubsection[{pios\-\_\-pwm\-\_\-rcvr\-\_\-driver}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf pios\-\_\-rcvr\-\_\-driver} {\bf pios\-\_\-pwm\-\_\-rcvr\-\_\-driver}}}\label{group___p_i_o_s___p_w_m_ga767a19a3a54afa71399b7467963690df}
+{\bfseries \-Initial value\-:}
+\begin{DoxyCode}
+ {
+        .read = PIOS_PWM_Get,
+}
+\end{DoxyCode}
+
+
+\-Definition at line 40 of file pios\-\_\-pwm.\-c.
+
+\hypertarget{group___p_i_o_s___p_w_m_ga767a19a3a54afa71399b7467963690df}{\index{\-P\-W\-M Input Functions@{\-P\-W\-M Input Functions}!pios\-\_\-pwm\-\_\-rcvr\-\_\-driver@{pios\-\_\-pwm\-\_\-rcvr\-\_\-driver}}
+\index{pios\-\_\-pwm\-\_\-rcvr\-\_\-driver@{pios\-\_\-pwm\-\_\-rcvr\-\_\-driver}!PWM Input Functions@{\-P\-W\-M Input Functions}}
+\subsubsection[{pios\-\_\-pwm\-\_\-rcvr\-\_\-driver}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf pios\-\_\-rcvr\-\_\-driver} {\bf pios\-\_\-pwm\-\_\-rcvr\-\_\-driver}}}\label{group___p_i_o_s___p_w_m_ga767a19a3a54afa71399b7467963690df}
+{\bfseries \-Initial value\-:}
+\begin{DoxyCode}
+ {
+        .read = PIOS_PWM_Get,
+}
+\end{DoxyCode}
+
+
+\-Definition at line 40 of file pios\-\_\-pwm.\-c.
+
+\hypertarget{group___p_i_o_s___p_w_m_ga767a19a3a54afa71399b7467963690df}{\index{\-P\-W\-M Input Functions@{\-P\-W\-M Input Functions}!pios\-\_\-pwm\-\_\-rcvr\-\_\-driver@{pios\-\_\-pwm\-\_\-rcvr\-\_\-driver}}
+\index{pios\-\_\-pwm\-\_\-rcvr\-\_\-driver@{pios\-\_\-pwm\-\_\-rcvr\-\_\-driver}!PWM Input Functions@{\-P\-W\-M Input Functions}}
+\subsubsection[{pios\-\_\-pwm\-\_\-rcvr\-\_\-driver}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf pios\-\_\-rcvr\-\_\-driver} {\bf pios\-\_\-pwm\-\_\-rcvr\-\_\-driver}}}\label{group___p_i_o_s___p_w_m_ga767a19a3a54afa71399b7467963690df}
+{\bfseries \-Initial value\-:}
+\begin{DoxyCode}
+ {
+        .read = PIOS_PWM_Get,
+}
+\end{DoxyCode}
+
+
+\-Definition at line 41 of file pios\-\_\-pwm.\-c.
+
+\hypertarget{group___p_i_o_s___p_w_m_ga4cb0707cdd245f2578d3f444bd852fd7}{\index{\-P\-W\-M Input Functions@{\-P\-W\-M Input Functions}!rtc\-\_\-callback\-\_\-list@{rtc\-\_\-callback\-\_\-list}}
+\index{rtc\-\_\-callback\-\_\-list@{rtc\-\_\-callback\-\_\-list}!PWM Input Functions@{\-P\-W\-M Input Functions}}
+\subsubsection[{rtc\-\_\-callback\-\_\-list}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf rtc\-\_\-callback\-\_\-entry} {\bf rtc\-\_\-callback\-\_\-list}\mbox{[}\-P\-I\-O\-S\-\_\-\-R\-T\-C\-\_\-\-M\-A\-X\-\_\-\-C\-A\-L\-L\-B\-A\-C\-K\-S\mbox{]}}}\label{group___p_i_o_s___p_w_m_ga4cb0707cdd245f2578d3f444bd852fd7}
+
+
+\-Definition at line 47 of file pios\-\_\-rtc.\-c.
+
+\hypertarget{group___p_i_o_s___p_w_m_ga4cb0707cdd245f2578d3f444bd852fd7}{\index{\-P\-W\-M Input Functions@{\-P\-W\-M Input Functions}!rtc\-\_\-callback\-\_\-list@{rtc\-\_\-callback\-\_\-list}}
+\index{rtc\-\_\-callback\-\_\-list@{rtc\-\_\-callback\-\_\-list}!PWM Input Functions@{\-P\-W\-M Input Functions}}
+\subsubsection[{rtc\-\_\-callback\-\_\-list}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf rtc\-\_\-callback\-\_\-entry} {\bf rtc\-\_\-callback\-\_\-list}\mbox{[}\-P\-I\-O\-S\-\_\-\-R\-T\-C\-\_\-\-M\-A\-X\-\_\-\-C\-A\-L\-L\-B\-A\-C\-K\-S\mbox{]}}}\label{group___p_i_o_s___p_w_m_ga4cb0707cdd245f2578d3f444bd852fd7}
+
+
+\-Definition at line 47 of file pios\-\_\-rtc.\-c.
+
+\hypertarget{group___p_i_o_s___p_w_m_ga4cb0707cdd245f2578d3f444bd852fd7}{\index{\-P\-W\-M Input Functions@{\-P\-W\-M Input Functions}!rtc\-\_\-callback\-\_\-list@{rtc\-\_\-callback\-\_\-list}}
+\index{rtc\-\_\-callback\-\_\-list@{rtc\-\_\-callback\-\_\-list}!PWM Input Functions@{\-P\-W\-M Input Functions}}
+\subsubsection[{rtc\-\_\-callback\-\_\-list}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf rtc\-\_\-callback\-\_\-entry} {\bf rtc\-\_\-callback\-\_\-list}\mbox{[}\-P\-I\-O\-S\-\_\-\-R\-T\-C\-\_\-\-M\-A\-X\-\_\-\-C\-A\-L\-L\-B\-A\-C\-K\-S\mbox{]}}}\label{group___p_i_o_s___p_w_m_ga4cb0707cdd245f2578d3f444bd852fd7}
+
+
+\-Definition at line 48 of file pios\-\_\-rtc.\-c.
+

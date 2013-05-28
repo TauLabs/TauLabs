@@ -1,0 +1,412 @@
+\hypertarget{group___state_estimation_filters}{\section{\-State\-Estimation\-Filters}
+\label{group___state_estimation_filters}\index{\-State\-Estimation\-Filters@{\-State\-Estimation\-Filters}}
+}
+\subsection*{\-Data \-Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{struct_global_attitude_variables}{\-Global\-Attitude\-Variables}
+\item 
+struct \hyperlink{struct_global_dcm_drift_variables}{\-Global\-Dcm\-Drift\-Variables}
+\end{DoxyCompactItemize}
+\subsection*{\-Files}
+\begin{DoxyCompactItemize}
+\item 
+file \hyperlink{ccc_8c}{ccc.\-c}
+\begin{DoxyCompactList}\small\item\em \-Complementary filter implementation used by \-State\-Module. \end{DoxyCompactList}\item 
+file \hyperlink{ccc_8h}{ccc.\-h}
+\begin{DoxyCompactList}\small\item\em \-Include file for \-C\-C\-C implementation used by \-State\-Module. \end{DoxyCompactList}\item 
+file \hyperlink{premerlani__dcm_8h}{premerlani\-\_\-dcm.\-h}
+\begin{DoxyCompactList}\small\item\em \-D\-C\-M algorithm implementation used by \-State\-Module. \end{DoxyCompactList}\item 
+file \hyperlink{premerlani__gps_8c}{premerlani\-\_\-gps.\-c}
+\begin{DoxyCompactList}\small\item\em premerlani \-G\-P\-S algorithm implementation used by \-State\-Module \end{DoxyCompactList}\item 
+file \hyperlink{state__struct_8h}{state\-\_\-struct.\-h}
+\begin{DoxyCompactList}\small\item\em \-Common state structure used by \-State\-Module. \end{DoxyCompactList}\item 
+file \hyperlink{premerlani__dcm_8c}{premerlani\-\_\-dcm.\-c}
+\begin{DoxyCompactList}\small\item\em \-D\-C\-M algorithm implementation used by \-State\-Module. \end{DoxyCompactList}\item 
+file \hyperlink{premerlani__gps_8c}{premerlani\-\_\-gps.\-c}
+\begin{DoxyCompactList}\small\item\em premerlani \-G\-P\-S algorithm implementation used by \-State\-Module \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef struct \*
+\hyperlink{struct_global_attitude_variables}{\-Global\-Attitude\-Variables} \hyperlink{group___state_estimation_filters_ga02f6c6dfdf0ff8ff2b30b24205c6b1f8}{\-Global\-Attitude\-Variables}
+\end{DoxyCompactItemize}
+\subsection*{\-Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{group___state_estimation_filters_ga0c4491990a84594e2c930826b64b725c}{\-D\-R\-I\-F\-T\-\_\-\-C\-O\-R\-R\-E\-C\-T\-I\-O\-N\-\_\-\-A\-L\-G\-O\-S} \{ \*
+\hyperlink{group___c_c_state_gga0c4491990a84594e2c930826b64b725ca34fecf46a591d355d8d76d32e4b5d469}{\-C\-C\-C}, 
+\hyperlink{group___c_c_state_gga0c4491990a84594e2c930826b64b725ca7f012e6cc49436cc18a3204777eb9834}{\-P\-R\-E\-M\-E\-R\-L\-A\-N\-I}, 
+\hyperlink{group___c_c_state_gga0c4491990a84594e2c930826b64b725ca34fecf46a591d355d8d76d32e4b5d469}{\-C\-C\-C}, 
+\hyperlink{group___c_c_state_gga0c4491990a84594e2c930826b64b725ca7f012e6cc49436cc18a3204777eb9834}{\-P\-R\-E\-M\-E\-R\-L\-A\-N\-I}, 
+\*
+\hyperlink{group___c_c_state_gga0c4491990a84594e2c930826b64b725ca34fecf46a591d355d8d76d32e4b5d469}{\-C\-C\-C}, 
+\hyperlink{group___c_c_state_gga0c4491990a84594e2c930826b64b725ca7f012e6cc49436cc18a3204777eb9834}{\-P\-R\-E\-M\-E\-R\-L\-A\-N\-I}
+ \}
+\item 
+enum \hyperlink{group___state_estimation_filters_ga0c4491990a84594e2c930826b64b725c}{\-D\-R\-I\-F\-T\-\_\-\-C\-O\-R\-R\-E\-C\-T\-I\-O\-N\-\_\-\-A\-L\-G\-O\-S} \{ \*
+\hyperlink{group___c_c_state_gga0c4491990a84594e2c930826b64b725ca34fecf46a591d355d8d76d32e4b5d469}{\-C\-C\-C}, 
+\hyperlink{group___c_c_state_gga0c4491990a84594e2c930826b64b725ca7f012e6cc49436cc18a3204777eb9834}{\-P\-R\-E\-M\-E\-R\-L\-A\-N\-I}, 
+\hyperlink{group___c_c_state_gga0c4491990a84594e2c930826b64b725ca34fecf46a591d355d8d76d32e4b5d469}{\-C\-C\-C}, 
+\hyperlink{group___c_c_state_gga0c4491990a84594e2c930826b64b725ca7f012e6cc49436cc18a3204777eb9834}{\-P\-R\-E\-M\-E\-R\-L\-A\-N\-I}, 
+\*
+\hyperlink{group___c_c_state_gga0c4491990a84594e2c930826b64b725ca34fecf46a591d355d8d76d32e4b5d469}{\-C\-C\-C}, 
+\hyperlink{group___c_c_state_gga0c4491990a84594e2c930826b64b725ca7f012e6cc49436cc18a3204777eb9834}{\-P\-R\-E\-M\-E\-R\-L\-A\-N\-I}
+ \}
+\end{DoxyCompactItemize}
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{group___state_estimation_filters_ga91405b9ba2764857427c8d2d8d8a3226}{\-Cotton\-Complementary\-Correction} (float $\ast$accels, float $\ast$gyros, const float del\-T, \hyperlink{struct_global_attitude_variables}{\-Global\-Attitude\-Variables} $\ast$\hyperlink{group___c_c_state_ga76682d72011dc0109f1d5cf25a6c6da0}{glbl\-Att}, float $\ast$accel\-\_\-err\-\_\-b)
+\item 
+void \hyperlink{group___state_estimation_filters_gafac439746843ae2cfb6a4a053a66dc7e}{\-Premerlani\-\_\-\-D\-C\-M} (float $\ast$accels, float $\ast$gyros, float \-Rbe\mbox{[}3\mbox{]}\mbox{[}3\mbox{]}, const float del\-T, bool \-G\-P\-S\-\_\-\-Drift\-\_\-\-Compensation, \hyperlink{struct_global_attitude_variables}{\-Global\-Attitude\-Variables} $\ast$\hyperlink{group___c_c_state_ga76682d72011dc0109f1d5cf25a6c6da0}{glbl\-Att}, float $\ast$omega\-Corr\-P)
+\item 
+void \hyperlink{group___state_estimation_filters_ga688e0cf65377d9e7f81f303a1d5b96c7}{\-Premerlani\-\_\-\-G\-P\-S} (float $\ast$accels, float $\ast$gyros, float \-Rbe\mbox{[}3\mbox{]}\mbox{[}3\mbox{]}, const float del\-T, bool \-G\-P\-S\-\_\-\-Drift\-\_\-\-Compensation, \hyperlink{struct_global_attitude_variables}{\-Global\-Attitude\-Variables} $\ast$\hyperlink{group___c_c_state_ga76682d72011dc0109f1d5cf25a6c6da0}{glbl\-Att}, float $\ast$omega\-Corr\-P)
+\item 
+void \hyperlink{group___state_estimation_filters_ga81766afbca58a5d4fc811c0727f3bdf2}{yaw\-\_\-drift\-\_\-\-Mag\-G\-P\-S} (float \-Rbe\mbox{[}3\mbox{]}\mbox{[}3\mbox{]}, bool gps\-New\-Data\-\_\-flag, bool mag\-New\-Data\-\_\-flag, float $\ast$err\-Yaw\-\_\-b)
+\end{DoxyCompactItemize}
+\subsection*{\-Variables}
+\begin{DoxyCompactItemize}
+\item 
+float \hyperlink{group___state_estimation_filters_ga0a9a06d18d9d208192de6edeed98fbe8}{\-Global\-Attitude\-Variables\-::accel\-Ki}
+\begin{DoxyCompactList}\small\item\em \-How fast to estimate the gyro bias. \end{DoxyCompactList}\item 
+float \hyperlink{group___state_estimation_filters_gaf9246ddec8582b6b47b752019c29b2e4}{\-Global\-Attitude\-Variables\-::accel\-Kp}
+\begin{DoxyCompactList}\small\item\em \-How much to change the attitude based on accelerometer data. \end{DoxyCompactList}\item 
+float \hyperlink{group___state_estimation_filters_ga0c53c008608a5724b2d563fd5b560905}{\-Global\-Attitude\-Variables\-::yaw\-Bias\-Rate}
+\begin{DoxyCompactList}\small\item\em \-Sets the rate when assuming that average yaw is zero to null out yaw error. \end{DoxyCompactList}\item 
+float \hyperlink{group___state_estimation_filters_gac754011cf55a0c78cb770e48567802ba}{\-Global\-Attitude\-Variables\-::gyro\-\_\-correct\-\_\-int} \mbox{[}3\mbox{]}
+\begin{DoxyCompactList}\small\item\em \-Current etimate of the gyro bias. \end{DoxyCompactList}\item 
+float \hyperlink{group___state_estimation_filters_ga34a6662a3aea49780925afa629a917cf}{\-Global\-Attitude\-Variables\-::q} \mbox{[}4\mbox{]}
+\begin{DoxyCompactList}\small\item\em \-Local copy of current estimate of the attitude. \end{DoxyCompactList}\item 
+float \hyperlink{group___state_estimation_filters_ga45b3fda0427f0fab27b88df83ae9108d}{\-Global\-Attitude\-Variables\-::\-T} \mbox{[}3\mbox{]}
+\begin{DoxyCompactList}\small\item\em \-Transformation from \-L\-L\-A to \-N\-E\-D. \end{DoxyCompactList}\item 
+bool \hyperlink{group___state_estimation_filters_gad5da7bf77c18e9d5990d4b6d6f28477e}{\-Global\-Attitude\-Variables\-::rotate}
+\begin{DoxyCompactList}\small\item\em \-Whether to rotate data from the sensor board frame to the body frame (if the frames are different) \end{DoxyCompactList}\item 
+float \hyperlink{group___state_estimation_filters_ga6c34048525801ac0e7e26eb733c759d5}{\-Global\-Attitude\-Variables\-::\-Rbs} \mbox{[}3\mbox{]}\mbox{[}3\mbox{]}
+\begin{DoxyCompactList}\small\item\em \-Rotation matrix that transforms from the sensor board frame to the body frame. \end{DoxyCompactList}\item 
+bool \hyperlink{group___state_estimation_filters_gaa625401f5bc69c19b54b3171703f37f9}{\-Global\-Attitude\-Variables\-::zero\-\_\-during\-\_\-arming}
+\begin{DoxyCompactList}\small\item\em \-Indicates to estimate the gyro bias again while arming (faster convergence) \end{DoxyCompactList}\item 
+bool \hyperlink{group___state_estimation_filters_ga3df4e05bd900b439ad746cbadce667d5}{\-Global\-Attitude\-Variables\-::bias\-\_\-correct\-\_\-gyro}
+\begin{DoxyCompactList}\small\item\em \-Whether to apply the estimate of gyro bias to the data in the \-U\-A\-V\-O. \end{DoxyCompactList}\item 
+bool \hyperlink{group___state_estimation_filters_ga1b90881e0b0eb5aa9cf39d0ba8ef5e0d}{\-Global\-Attitude\-Variables\-::trim\-\_\-requested}
+\item 
+float \hyperlink{group___state_estimation_filters_ga8941c16a263cb020587ef58dd38f8281}{\-Global\-Attitude\-Variables\-::trim\-\_\-accels} \mbox{[}3\mbox{]}
+\begin{DoxyCompactList}\small\item\em \-Accumulator for the accel data during trimming. \end{DoxyCompactList}\item 
+int32\-\_\-t \hyperlink{group___state_estimation_filters_ga9e5b2790cd84db83278b3c8c289ea411}{\-Global\-Attitude\-Variables\-::trim\-\_\-samples}
+\begin{DoxyCompactList}\small\item\em \-Counter of how many accel samples have been accumulated. \end{DoxyCompactList}\item 
+\-Attitude\-Settings\-Data \hyperlink{group___state_estimation_filters_ga8f6543ab52bafea6c0858baeeae8db59}{attitude\-Settings}
+\item 
+\-Sensor\-Settings\-Data \hyperlink{group___state_estimation_filters_ga7e2b26cdc0322ab9457559aa2b94f8fc}{sensor\-Settings}
+\item 
+\-Gyros\-Bias\-Data \hyperlink{group___state_estimation_filters_ga233a2d6850e9c466f80ae6bb2ebd98e8}{gyros\-Bias}
+\item 
+struct \hyperlink{struct_global_dcm_drift_variables}{\-Global\-Dcm\-Drift\-Variables} $\ast$ \hyperlink{group___state_estimation_filters_ga89657be5e41cdb8b74d42e587333115a}{drft}
+\item 
+struct \hyperlink{struct_global_dcm_drift_variables}{\-Global\-Dcm\-Drift\-Variables} $\ast$ \hyperlink{group___state_estimation_filters_ga89657be5e41cdb8b74d42e587333115a}{drft}
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Typedef \-Documentation}
+\hypertarget{group___state_estimation_filters_ga02f6c6dfdf0ff8ff2b30b24205c6b1f8}{\index{\-State\-Estimation\-Filters@{\-State\-Estimation\-Filters}!\-Global\-Attitude\-Variables@{\-Global\-Attitude\-Variables}}
+\index{\-Global\-Attitude\-Variables@{\-Global\-Attitude\-Variables}!StateEstimationFilters@{\-State\-Estimation\-Filters}}
+\subsubsection[{\-Global\-Attitude\-Variables}]{\setlength{\rightskip}{0pt plus 5cm}typedef struct {\bf \-Global\-Attitude\-Variables} {\bf \-Global\-Attitude\-Variables}}}\label{group___state_estimation_filters_ga02f6c6dfdf0ff8ff2b30b24205c6b1f8}
+
+
+\-Definition at line 69 of file state\-\_\-struct.\-h.
+
+
+
+\subsection{\-Enumeration \-Type \-Documentation}
+\hypertarget{group___state_estimation_filters_ga0c4491990a84594e2c930826b64b725c}{\index{\-State\-Estimation\-Filters@{\-State\-Estimation\-Filters}!\-D\-R\-I\-F\-T\-\_\-\-C\-O\-R\-R\-E\-C\-T\-I\-O\-N\-\_\-\-A\-L\-G\-O\-S@{\-D\-R\-I\-F\-T\-\_\-\-C\-O\-R\-R\-E\-C\-T\-I\-O\-N\-\_\-\-A\-L\-G\-O\-S}}
+\index{\-D\-R\-I\-F\-T\-\_\-\-C\-O\-R\-R\-E\-C\-T\-I\-O\-N\-\_\-\-A\-L\-G\-O\-S@{\-D\-R\-I\-F\-T\-\_\-\-C\-O\-R\-R\-E\-C\-T\-I\-O\-N\-\_\-\-A\-L\-G\-O\-S}!StateEstimationFilters@{\-State\-Estimation\-Filters}}
+\subsubsection[{\-D\-R\-I\-F\-T\-\_\-\-C\-O\-R\-R\-E\-C\-T\-I\-O\-N\-\_\-\-A\-L\-G\-O\-S}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf \-D\-R\-I\-F\-T\-\_\-\-C\-O\-R\-R\-E\-C\-T\-I\-O\-N\-\_\-\-A\-L\-G\-O\-S}}}\label{group___state_estimation_filters_ga0c4491990a84594e2c930826b64b725c}
+\begin{Desc}
+\item[\-Enumerator\-: ]\par
+\begin{description}
+\index{\-C\-C\-C@{\-C\-C\-C}!\-State\-Estimation\-Filters@{\-State\-Estimation\-Filters}}\index{\-State\-Estimation\-Filters@{\-State\-Estimation\-Filters}!\-C\-C\-C@{\-C\-C\-C}}\item[{\em 
+\hypertarget{group___state_estimation_filters_gga0c4491990a84594e2c930826b64b725ca34fecf46a591d355d8d76d32e4b5d469}{\-C\-C\-C}\label{group___state_estimation_filters_gga0c4491990a84594e2c930826b64b725ca34fecf46a591d355d8d76d32e4b5d469}
+}]\index{\-P\-R\-E\-M\-E\-R\-L\-A\-N\-I@{\-P\-R\-E\-M\-E\-R\-L\-A\-N\-I}!\-State\-Estimation\-Filters@{\-State\-Estimation\-Filters}}\index{\-State\-Estimation\-Filters@{\-State\-Estimation\-Filters}!\-P\-R\-E\-M\-E\-R\-L\-A\-N\-I@{\-P\-R\-E\-M\-E\-R\-L\-A\-N\-I}}\item[{\em 
+\hypertarget{group___state_estimation_filters_gga0c4491990a84594e2c930826b64b725ca7f012e6cc49436cc18a3204777eb9834}{\-P\-R\-E\-M\-E\-R\-L\-A\-N\-I}\label{group___state_estimation_filters_gga0c4491990a84594e2c930826b64b725ca7f012e6cc49436cc18a3204777eb9834}
+}]\index{\-C\-C\-C@{\-C\-C\-C}!\-State\-Estimation\-Filters@{\-State\-Estimation\-Filters}}\index{\-State\-Estimation\-Filters@{\-State\-Estimation\-Filters}!\-C\-C\-C@{\-C\-C\-C}}\item[{\em 
+\hypertarget{group___state_estimation_filters_gga0c4491990a84594e2c930826b64b725ca34fecf46a591d355d8d76d32e4b5d469}{\-C\-C\-C}\label{group___state_estimation_filters_gga0c4491990a84594e2c930826b64b725ca34fecf46a591d355d8d76d32e4b5d469}
+}]\index{\-P\-R\-E\-M\-E\-R\-L\-A\-N\-I@{\-P\-R\-E\-M\-E\-R\-L\-A\-N\-I}!\-State\-Estimation\-Filters@{\-State\-Estimation\-Filters}}\index{\-State\-Estimation\-Filters@{\-State\-Estimation\-Filters}!\-P\-R\-E\-M\-E\-R\-L\-A\-N\-I@{\-P\-R\-E\-M\-E\-R\-L\-A\-N\-I}}\item[{\em 
+\hypertarget{group___state_estimation_filters_gga0c4491990a84594e2c930826b64b725ca7f012e6cc49436cc18a3204777eb9834}{\-P\-R\-E\-M\-E\-R\-L\-A\-N\-I}\label{group___state_estimation_filters_gga0c4491990a84594e2c930826b64b725ca7f012e6cc49436cc18a3204777eb9834}
+}]\index{\-C\-C\-C@{\-C\-C\-C}!\-State\-Estimation\-Filters@{\-State\-Estimation\-Filters}}\index{\-State\-Estimation\-Filters@{\-State\-Estimation\-Filters}!\-C\-C\-C@{\-C\-C\-C}}\item[{\em 
+\hypertarget{group___state_estimation_filters_gga0c4491990a84594e2c930826b64b725ca34fecf46a591d355d8d76d32e4b5d469}{\-C\-C\-C}\label{group___state_estimation_filters_gga0c4491990a84594e2c930826b64b725ca34fecf46a591d355d8d76d32e4b5d469}
+}]\index{\-P\-R\-E\-M\-E\-R\-L\-A\-N\-I@{\-P\-R\-E\-M\-E\-R\-L\-A\-N\-I}!\-State\-Estimation\-Filters@{\-State\-Estimation\-Filters}}\index{\-State\-Estimation\-Filters@{\-State\-Estimation\-Filters}!\-P\-R\-E\-M\-E\-R\-L\-A\-N\-I@{\-P\-R\-E\-M\-E\-R\-L\-A\-N\-I}}\item[{\em 
+\hypertarget{group___state_estimation_filters_gga0c4491990a84594e2c930826b64b725ca7f012e6cc49436cc18a3204777eb9834}{\-P\-R\-E\-M\-E\-R\-L\-A\-N\-I}\label{group___state_estimation_filters_gga0c4491990a84594e2c930826b64b725ca7f012e6cc49436cc18a3204777eb9834}
+}]\end{description}
+\end{Desc}
+
+
+
+\-Definition at line 83 of file premerlani\-\_\-gps.\-c.
+
+\hypertarget{group___state_estimation_filters_ga0c4491990a84594e2c930826b64b725c}{\index{\-State\-Estimation\-Filters@{\-State\-Estimation\-Filters}!\-D\-R\-I\-F\-T\-\_\-\-C\-O\-R\-R\-E\-C\-T\-I\-O\-N\-\_\-\-A\-L\-G\-O\-S@{\-D\-R\-I\-F\-T\-\_\-\-C\-O\-R\-R\-E\-C\-T\-I\-O\-N\-\_\-\-A\-L\-G\-O\-S}}
+\index{\-D\-R\-I\-F\-T\-\_\-\-C\-O\-R\-R\-E\-C\-T\-I\-O\-N\-\_\-\-A\-L\-G\-O\-S@{\-D\-R\-I\-F\-T\-\_\-\-C\-O\-R\-R\-E\-C\-T\-I\-O\-N\-\_\-\-A\-L\-G\-O\-S}!StateEstimationFilters@{\-State\-Estimation\-Filters}}
+\subsubsection[{\-D\-R\-I\-F\-T\-\_\-\-C\-O\-R\-R\-E\-C\-T\-I\-O\-N\-\_\-\-A\-L\-G\-O\-S}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf \-D\-R\-I\-F\-T\-\_\-\-C\-O\-R\-R\-E\-C\-T\-I\-O\-N\-\_\-\-A\-L\-G\-O\-S}}}\label{group___state_estimation_filters_ga0c4491990a84594e2c930826b64b725c}
+\begin{Desc}
+\item[\-Enumerator\-: ]\par
+\begin{description}
+\index{\-C\-C\-C@{\-C\-C\-C}!\-State\-Estimation\-Filters@{\-State\-Estimation\-Filters}}\index{\-State\-Estimation\-Filters@{\-State\-Estimation\-Filters}!\-C\-C\-C@{\-C\-C\-C}}\item[{\em 
+\hypertarget{group___state_estimation_filters_gga0c4491990a84594e2c930826b64b725ca34fecf46a591d355d8d76d32e4b5d469}{\-C\-C\-C}\label{group___state_estimation_filters_gga0c4491990a84594e2c930826b64b725ca34fecf46a591d355d8d76d32e4b5d469}
+}]\index{\-P\-R\-E\-M\-E\-R\-L\-A\-N\-I@{\-P\-R\-E\-M\-E\-R\-L\-A\-N\-I}!\-State\-Estimation\-Filters@{\-State\-Estimation\-Filters}}\index{\-State\-Estimation\-Filters@{\-State\-Estimation\-Filters}!\-P\-R\-E\-M\-E\-R\-L\-A\-N\-I@{\-P\-R\-E\-M\-E\-R\-L\-A\-N\-I}}\item[{\em 
+\hypertarget{group___state_estimation_filters_gga0c4491990a84594e2c930826b64b725ca7f012e6cc49436cc18a3204777eb9834}{\-P\-R\-E\-M\-E\-R\-L\-A\-N\-I}\label{group___state_estimation_filters_gga0c4491990a84594e2c930826b64b725ca7f012e6cc49436cc18a3204777eb9834}
+}]\index{\-C\-C\-C@{\-C\-C\-C}!\-State\-Estimation\-Filters@{\-State\-Estimation\-Filters}}\index{\-State\-Estimation\-Filters@{\-State\-Estimation\-Filters}!\-C\-C\-C@{\-C\-C\-C}}\item[{\em 
+\hypertarget{group___state_estimation_filters_gga0c4491990a84594e2c930826b64b725ca34fecf46a591d355d8d76d32e4b5d469}{\-C\-C\-C}\label{group___state_estimation_filters_gga0c4491990a84594e2c930826b64b725ca34fecf46a591d355d8d76d32e4b5d469}
+}]\index{\-P\-R\-E\-M\-E\-R\-L\-A\-N\-I@{\-P\-R\-E\-M\-E\-R\-L\-A\-N\-I}!\-State\-Estimation\-Filters@{\-State\-Estimation\-Filters}}\index{\-State\-Estimation\-Filters@{\-State\-Estimation\-Filters}!\-P\-R\-E\-M\-E\-R\-L\-A\-N\-I@{\-P\-R\-E\-M\-E\-R\-L\-A\-N\-I}}\item[{\em 
+\hypertarget{group___state_estimation_filters_gga0c4491990a84594e2c930826b64b725ca7f012e6cc49436cc18a3204777eb9834}{\-P\-R\-E\-M\-E\-R\-L\-A\-N\-I}\label{group___state_estimation_filters_gga0c4491990a84594e2c930826b64b725ca7f012e6cc49436cc18a3204777eb9834}
+}]\index{\-C\-C\-C@{\-C\-C\-C}!\-State\-Estimation\-Filters@{\-State\-Estimation\-Filters}}\index{\-State\-Estimation\-Filters@{\-State\-Estimation\-Filters}!\-C\-C\-C@{\-C\-C\-C}}\item[{\em 
+\hypertarget{group___state_estimation_filters_gga0c4491990a84594e2c930826b64b725ca34fecf46a591d355d8d76d32e4b5d469}{\-C\-C\-C}\label{group___state_estimation_filters_gga0c4491990a84594e2c930826b64b725ca34fecf46a591d355d8d76d32e4b5d469}
+}]\index{\-P\-R\-E\-M\-E\-R\-L\-A\-N\-I@{\-P\-R\-E\-M\-E\-R\-L\-A\-N\-I}!\-State\-Estimation\-Filters@{\-State\-Estimation\-Filters}}\index{\-State\-Estimation\-Filters@{\-State\-Estimation\-Filters}!\-P\-R\-E\-M\-E\-R\-L\-A\-N\-I@{\-P\-R\-E\-M\-E\-R\-L\-A\-N\-I}}\item[{\em 
+\hypertarget{group___state_estimation_filters_gga0c4491990a84594e2c930826b64b725ca7f012e6cc49436cc18a3204777eb9834}{\-P\-R\-E\-M\-E\-R\-L\-A\-N\-I}\label{group___state_estimation_filters_gga0c4491990a84594e2c930826b64b725ca7f012e6cc49436cc18a3204777eb9834}
+}]\end{description}
+\end{Desc}
+
+
+
+\-Definition at line 86 of file premerlani\-\_\-dcm.\-c.
+
+
+
+\subsection{\-Function \-Documentation}
+\hypertarget{group___state_estimation_filters_ga91405b9ba2764857427c8d2d8d8a3226}{\index{\-State\-Estimation\-Filters@{\-State\-Estimation\-Filters}!\-Cotton\-Complementary\-Correction@{\-Cotton\-Complementary\-Correction}}
+\index{\-Cotton\-Complementary\-Correction@{\-Cotton\-Complementary\-Correction}!StateEstimationFilters@{\-State\-Estimation\-Filters}}
+\subsubsection[{\-Cotton\-Complementary\-Correction}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-Cotton\-Complementary\-Correction} (
+\begin{DoxyParamCaption}
+\item[{float $\ast$}]{accels, }
+\item[{float $\ast$}]{gyros, }
+\item[{const float}]{del\-T, }
+\item[{{\bf \-Global\-Attitude\-Variables} $\ast$}]{glbl\-Att, }
+\item[{float $\ast$}]{accel\-\_\-err\-\_\-b}
+\end{DoxyParamCaption}
+)}}\label{group___state_estimation_filters_ga91405b9ba2764857427c8d2d8d8a3226}
+
+
+\-Definition at line 53 of file ccc.\-c.
+
+\hypertarget{group___state_estimation_filters_gafac439746843ae2cfb6a4a053a66dc7e}{\index{\-State\-Estimation\-Filters@{\-State\-Estimation\-Filters}!\-Premerlani\-\_\-\-D\-C\-M@{\-Premerlani\-\_\-\-D\-C\-M}}
+\index{\-Premerlani\-\_\-\-D\-C\-M@{\-Premerlani\-\_\-\-D\-C\-M}!StateEstimationFilters@{\-State\-Estimation\-Filters}}
+\subsubsection[{\-Premerlani\-\_\-\-D\-C\-M}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-Premerlani\-\_\-\-D\-C\-M} (
+\begin{DoxyParamCaption}
+\item[{float $\ast$}]{accels, }
+\item[{float $\ast$}]{gyros, }
+\item[{float}]{\-Rbe\mbox{[}3\mbox{]}\mbox{[}3\mbox{]}, }
+\item[{const float}]{del\-T, }
+\item[{bool}]{\-G\-P\-S\-\_\-\-Drift\-\_\-\-Compensation, }
+\item[{{\bf \-Global\-Attitude\-Variables} $\ast$}]{glbl\-Att, }
+\item[{float $\ast$}]{omega\-Corr\-P}
+\end{DoxyParamCaption}
+)}}\label{group___state_estimation_filters_gafac439746843ae2cfb6a4a053a66dc7e}
+
+
+\-Definition at line 111 of file premerlani\-\_\-dcm.\-c.
+
+\hypertarget{group___state_estimation_filters_ga688e0cf65377d9e7f81f303a1d5b96c7}{\index{\-State\-Estimation\-Filters@{\-State\-Estimation\-Filters}!\-Premerlani\-\_\-\-G\-P\-S@{\-Premerlani\-\_\-\-G\-P\-S}}
+\index{\-Premerlani\-\_\-\-G\-P\-S@{\-Premerlani\-\_\-\-G\-P\-S}!StateEstimationFilters@{\-State\-Estimation\-Filters}}
+\subsubsection[{\-Premerlani\-\_\-\-G\-P\-S}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-Premerlani\-\_\-\-G\-P\-S} (
+\begin{DoxyParamCaption}
+\item[{float $\ast$}]{accels, }
+\item[{float $\ast$}]{gyros, }
+\item[{float}]{\-Rbe\mbox{[}3\mbox{]}\mbox{[}3\mbox{]}, }
+\item[{const float}]{del\-T, }
+\item[{bool}]{\-G\-P\-S\-\_\-\-Drift\-\_\-\-Compensation, }
+\item[{{\bf \-Global\-Attitude\-Variables} $\ast$}]{glbl\-Att, }
+\item[{float $\ast$}]{omega\-Corr\-P}
+\end{DoxyParamCaption}
+)}}\label{group___state_estimation_filters_ga688e0cf65377d9e7f81f303a1d5b96c7}
+
+
+\-Definition at line 104 of file premerlani\-\_\-gps.\-c.
+
+\hypertarget{group___state_estimation_filters_ga81766afbca58a5d4fc811c0727f3bdf2}{\index{\-State\-Estimation\-Filters@{\-State\-Estimation\-Filters}!yaw\-\_\-drift\-\_\-\-Mag\-G\-P\-S@{yaw\-\_\-drift\-\_\-\-Mag\-G\-P\-S}}
+\index{yaw\-\_\-drift\-\_\-\-Mag\-G\-P\-S@{yaw\-\_\-drift\-\_\-\-Mag\-G\-P\-S}!StateEstimationFilters@{\-State\-Estimation\-Filters}}
+\subsubsection[{yaw\-\_\-drift\-\_\-\-Mag\-G\-P\-S}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf yaw\-\_\-drift\-\_\-\-Mag\-G\-P\-S} (
+\begin{DoxyParamCaption}
+\item[{float}]{\-Rbe\mbox{[}3\mbox{]}\mbox{[}3\mbox{]}, }
+\item[{bool}]{gps\-New\-Data\-\_\-flag, }
+\item[{bool}]{mag\-New\-Data\-\_\-flag, }
+\item[{float $\ast$}]{err\-Yaw\-\_\-b}
+\end{DoxyParamCaption}
+)}}\label{group___state_estimation_filters_ga81766afbca58a5d4fc811c0727f3bdf2}
+
+
+\-Definition at line 312 of file premerlani\-\_\-gps.\-c.
+
+
+
+\subsection{\-Variable \-Documentation}
+\hypertarget{group___state_estimation_filters_ga0a9a06d18d9d208192de6edeed98fbe8}{\index{\-State\-Estimation\-Filters@{\-State\-Estimation\-Filters}!accel\-Ki@{accel\-Ki}}
+\index{accel\-Ki@{accel\-Ki}!StateEstimationFilters@{\-State\-Estimation\-Filters}}
+\subsubsection[{accel\-Ki}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf \-Global\-Attitude\-Variables\-::accel\-Ki}}}\label{group___state_estimation_filters_ga0a9a06d18d9d208192de6edeed98fbe8}
+
+
+\-How fast to estimate the gyro bias. 
+
+
+
+\-Definition at line 41 of file state\-\_\-struct.\-h.
+
+\hypertarget{group___state_estimation_filters_gaf9246ddec8582b6b47b752019c29b2e4}{\index{\-State\-Estimation\-Filters@{\-State\-Estimation\-Filters}!accel\-Kp@{accel\-Kp}}
+\index{accel\-Kp@{accel\-Kp}!StateEstimationFilters@{\-State\-Estimation\-Filters}}
+\subsubsection[{accel\-Kp}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf \-Global\-Attitude\-Variables\-::accel\-Kp}}}\label{group___state_estimation_filters_gaf9246ddec8582b6b47b752019c29b2e4}
+
+
+\-How much to change the attitude based on accelerometer data. 
+
+
+
+\-Definition at line 43 of file state\-\_\-struct.\-h.
+
+\hypertarget{group___state_estimation_filters_ga8f6543ab52bafea6c0858baeeae8db59}{\index{\-State\-Estimation\-Filters@{\-State\-Estimation\-Filters}!attitude\-Settings@{attitude\-Settings}}
+\index{attitude\-Settings@{attitude\-Settings}!StateEstimationFilters@{\-State\-Estimation\-Filters}}
+\subsubsection[{attitude\-Settings}]{\setlength{\rightskip}{0pt plus 5cm}\-Attitude\-Settings\-Data {\bf attitude\-Settings}}}\label{group___state_estimation_filters_ga8f6543ab52bafea6c0858baeeae8db59}
+
+
+\-Definition at line 73 of file state.\-c.
+
+\hypertarget{group___state_estimation_filters_ga3df4e05bd900b439ad746cbadce667d5}{\index{\-State\-Estimation\-Filters@{\-State\-Estimation\-Filters}!bias\-\_\-correct\-\_\-gyro@{bias\-\_\-correct\-\_\-gyro}}
+\index{bias\-\_\-correct\-\_\-gyro@{bias\-\_\-correct\-\_\-gyro}!StateEstimationFilters@{\-State\-Estimation\-Filters}}
+\subsubsection[{bias\-\_\-correct\-\_\-gyro}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-Global\-Attitude\-Variables\-::bias\-\_\-correct\-\_\-gyro}}}\label{group___state_estimation_filters_ga3df4e05bd900b439ad746cbadce667d5}
+
+
+\-Whether to apply the estimate of gyro bias to the data in the \-U\-A\-V\-O. 
+
+
+
+\-Definition at line 59 of file state\-\_\-struct.\-h.
+
+\hypertarget{group___state_estimation_filters_ga89657be5e41cdb8b74d42e587333115a}{\index{\-State\-Estimation\-Filters@{\-State\-Estimation\-Filters}!drft@{drft}}
+\index{drft@{drft}!StateEstimationFilters@{\-State\-Estimation\-Filters}}
+\subsubsection[{drft}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf \-Global\-Dcm\-Drift\-Variables}$\ast$ {\bf drft}}}\label{group___state_estimation_filters_ga89657be5e41cdb8b74d42e587333115a}
+
+
+\-Definition at line 81 of file attitudedrift.\-c.
+
+\hypertarget{group___state_estimation_filters_ga89657be5e41cdb8b74d42e587333115a}{\index{\-State\-Estimation\-Filters@{\-State\-Estimation\-Filters}!drft@{drft}}
+\index{drft@{drft}!StateEstimationFilters@{\-State\-Estimation\-Filters}}
+\subsubsection[{drft}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf \-Global\-Dcm\-Drift\-Variables}$\ast$ {\bf drft}}}\label{group___state_estimation_filters_ga89657be5e41cdb8b74d42e587333115a}
+
+
+\-Definition at line 81 of file attitudedrift.\-c.
+
+\hypertarget{group___state_estimation_filters_gac754011cf55a0c78cb770e48567802ba}{\index{\-State\-Estimation\-Filters@{\-State\-Estimation\-Filters}!gyro\-\_\-correct\-\_\-int@{gyro\-\_\-correct\-\_\-int}}
+\index{gyro\-\_\-correct\-\_\-int@{gyro\-\_\-correct\-\_\-int}!StateEstimationFilters@{\-State\-Estimation\-Filters}}
+\subsubsection[{gyro\-\_\-correct\-\_\-int}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf \-Global\-Attitude\-Variables\-::gyro\-\_\-correct\-\_\-int}\mbox{[}3\mbox{]}}}\label{group___state_estimation_filters_gac754011cf55a0c78cb770e48567802ba}
+
+
+\-Current etimate of the gyro bias. 
+
+
+
+\-Definition at line 47 of file state\-\_\-struct.\-h.
+
+\hypertarget{group___state_estimation_filters_ga233a2d6850e9c466f80ae6bb2ebd98e8}{\index{\-State\-Estimation\-Filters@{\-State\-Estimation\-Filters}!gyros\-Bias@{gyros\-Bias}}
+\index{gyros\-Bias@{gyros\-Bias}!StateEstimationFilters@{\-State\-Estimation\-Filters}}
+\subsubsection[{gyros\-Bias}]{\setlength{\rightskip}{0pt plus 5cm}\-Gyros\-Bias\-Data {\bf gyros\-Bias}}}\label{group___state_estimation_filters_ga233a2d6850e9c466f80ae6bb2ebd98e8}
+
+
+\-Definition at line 74 of file state.\-c.
+
+\hypertarget{group___state_estimation_filters_ga34a6662a3aea49780925afa629a917cf}{\index{\-State\-Estimation\-Filters@{\-State\-Estimation\-Filters}!q@{q}}
+\index{q@{q}!StateEstimationFilters@{\-State\-Estimation\-Filters}}
+\subsubsection[{q}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf \-Global\-Attitude\-Variables\-::q}\mbox{[}4\mbox{]}}}\label{group___state_estimation_filters_ga34a6662a3aea49780925afa629a917cf}
+
+
+\-Local copy of current estimate of the attitude. 
+
+
+
+\-Definition at line 49 of file state\-\_\-struct.\-h.
+
+\hypertarget{group___state_estimation_filters_ga6c34048525801ac0e7e26eb733c759d5}{\index{\-State\-Estimation\-Filters@{\-State\-Estimation\-Filters}!\-Rbs@{\-Rbs}}
+\index{\-Rbs@{\-Rbs}!StateEstimationFilters@{\-State\-Estimation\-Filters}}
+\subsubsection[{\-Rbs}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf \-Global\-Attitude\-Variables\-::\-Rbs}\mbox{[}3\mbox{]}\mbox{[}3\mbox{]}}}\label{group___state_estimation_filters_ga6c34048525801ac0e7e26eb733c759d5}
+
+
+\-Rotation matrix that transforms from the sensor board frame to the body frame. 
+
+
+
+\-Definition at line 55 of file state\-\_\-struct.\-h.
+
+\hypertarget{group___state_estimation_filters_gad5da7bf77c18e9d5990d4b6d6f28477e}{\index{\-State\-Estimation\-Filters@{\-State\-Estimation\-Filters}!rotate@{rotate}}
+\index{rotate@{rotate}!StateEstimationFilters@{\-State\-Estimation\-Filters}}
+\subsubsection[{rotate}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-Global\-Attitude\-Variables\-::rotate}}}\label{group___state_estimation_filters_gad5da7bf77c18e9d5990d4b6d6f28477e}
+
+
+\-Whether to rotate data from the sensor board frame to the body frame (if the frames are different) 
+
+
+
+\-Definition at line 53 of file state\-\_\-struct.\-h.
+
+\hypertarget{group___state_estimation_filters_ga7e2b26cdc0322ab9457559aa2b94f8fc}{\index{\-State\-Estimation\-Filters@{\-State\-Estimation\-Filters}!sensor\-Settings@{sensor\-Settings}}
+\index{sensor\-Settings@{sensor\-Settings}!StateEstimationFilters@{\-State\-Estimation\-Filters}}
+\subsubsection[{sensor\-Settings}]{\setlength{\rightskip}{0pt plus 5cm}\-Sensor\-Settings\-Data {\bf sensor\-Settings}}}\label{group___state_estimation_filters_ga7e2b26cdc0322ab9457559aa2b94f8fc}
+
+
+\-Definition at line 72 of file state.\-c.
+
+\hypertarget{group___state_estimation_filters_ga45b3fda0427f0fab27b88df83ae9108d}{\index{\-State\-Estimation\-Filters@{\-State\-Estimation\-Filters}!\-T@{\-T}}
+\index{\-T@{\-T}!StateEstimationFilters@{\-State\-Estimation\-Filters}}
+\subsubsection[{\-T}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf \-Global\-Attitude\-Variables\-::\-T}\mbox{[}3\mbox{]}}}\label{group___state_estimation_filters_ga45b3fda0427f0fab27b88df83ae9108d}
+
+
+\-Transformation from \-L\-L\-A to \-N\-E\-D. 
+
+
+
+\-Definition at line 51 of file state\-\_\-struct.\-h.
+
+\hypertarget{group___state_estimation_filters_ga8941c16a263cb020587ef58dd38f8281}{\index{\-State\-Estimation\-Filters@{\-State\-Estimation\-Filters}!trim\-\_\-accels@{trim\-\_\-accels}}
+\index{trim\-\_\-accels@{trim\-\_\-accels}!StateEstimationFilters@{\-State\-Estimation\-Filters}}
+\subsubsection[{trim\-\_\-accels}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf \-Global\-Attitude\-Variables\-::trim\-\_\-accels}\mbox{[}3\mbox{]}}}\label{group___state_estimation_filters_ga8941c16a263cb020587ef58dd38f8281}
+
+
+\-Accumulator for the accel data during trimming. 
+
+
+
+\-Definition at line 64 of file state\-\_\-struct.\-h.
+
+\hypertarget{group___state_estimation_filters_ga1b90881e0b0eb5aa9cf39d0ba8ef5e0d}{\index{\-State\-Estimation\-Filters@{\-State\-Estimation\-Filters}!trim\-\_\-requested@{trim\-\_\-requested}}
+\index{trim\-\_\-requested@{trim\-\_\-requested}!StateEstimationFilters@{\-State\-Estimation\-Filters}}
+\subsubsection[{trim\-\_\-requested}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-Global\-Attitude\-Variables\-::trim\-\_\-requested}}}\label{group___state_estimation_filters_ga1b90881e0b0eb5aa9cf39d0ba8ef5e0d}
+\-The currently active attitude estimator \-Indicates trimming is in progress and data is being accumulated 
+
+\-Definition at line 62 of file state\-\_\-struct.\-h.
+
+\hypertarget{group___state_estimation_filters_ga9e5b2790cd84db83278b3c8c289ea411}{\index{\-State\-Estimation\-Filters@{\-State\-Estimation\-Filters}!trim\-\_\-samples@{trim\-\_\-samples}}
+\index{trim\-\_\-samples@{trim\-\_\-samples}!StateEstimationFilters@{\-State\-Estimation\-Filters}}
+\subsubsection[{trim\-\_\-samples}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-Global\-Attitude\-Variables\-::trim\-\_\-samples}}}\label{group___state_estimation_filters_ga9e5b2790cd84db83278b3c8c289ea411}
+
+
+\-Counter of how many accel samples have been accumulated. 
+
+
+
+\-Definition at line 66 of file state\-\_\-struct.\-h.
+
+\hypertarget{group___state_estimation_filters_ga0c53c008608a5724b2d563fd5b560905}{\index{\-State\-Estimation\-Filters@{\-State\-Estimation\-Filters}!yaw\-Bias\-Rate@{yaw\-Bias\-Rate}}
+\index{yaw\-Bias\-Rate@{yaw\-Bias\-Rate}!StateEstimationFilters@{\-State\-Estimation\-Filters}}
+\subsubsection[{yaw\-Bias\-Rate}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf \-Global\-Attitude\-Variables\-::yaw\-Bias\-Rate}}}\label{group___state_estimation_filters_ga0c53c008608a5724b2d563fd5b560905}
+
+
+\-Sets the rate when assuming that average yaw is zero to null out yaw error. 
+
+
+
+\-Definition at line 45 of file state\-\_\-struct.\-h.
+
+\hypertarget{group___state_estimation_filters_gaa625401f5bc69c19b54b3171703f37f9}{\index{\-State\-Estimation\-Filters@{\-State\-Estimation\-Filters}!zero\-\_\-during\-\_\-arming@{zero\-\_\-during\-\_\-arming}}
+\index{zero\-\_\-during\-\_\-arming@{zero\-\_\-during\-\_\-arming}!StateEstimationFilters@{\-State\-Estimation\-Filters}}
+\subsubsection[{zero\-\_\-during\-\_\-arming}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-Global\-Attitude\-Variables\-::zero\-\_\-during\-\_\-arming}}}\label{group___state_estimation_filters_gaa625401f5bc69c19b54b3171703f37f9}
+
+
+\-Indicates to estimate the gyro bias again while arming (faster convergence) 
+
+
+
+\-Definition at line 57 of file state\-\_\-struct.\-h.
+

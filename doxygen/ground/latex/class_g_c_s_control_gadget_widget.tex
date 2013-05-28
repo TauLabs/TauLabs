@@ -1,0 +1,62 @@
+\hypertarget{class_g_c_s_control_gadget_widget}{\section{\-G\-C\-S\-Control\-Gadget\-Widget \-Class \-Reference}
+\label{class_g_c_s_control_gadget_widget}\index{\-G\-C\-S\-Control\-Gadget\-Widget@{\-G\-C\-S\-Control\-Gadget\-Widget}}
+}
+
+
+{\ttfamily \#include $<$gcscontrolgadgetwidget.\-h$>$}
+
+\subsection*{\-Public \-Slots}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___g_c_s_control_gadget_plugin_ga279299922ac5990f798325ad238ae58a}{update\-Sticks} (double left\-X, double left\-Y, double right\-X, double right\-Y)
+\begin{DoxyCompactList}\small\item\em \-Signals from parent gadget indicating change from the remote system. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___g_c_s_control_gadget_plugin_ga04d9e7c1a62eff3012500caccbde66d8}{left\-Stick\-Clicked} (double \-X, double \-Y)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___g_c_s_control_gadget_plugin_gab69d624dde0231e33d3a5bb6d4d769fa}{right\-Stick\-Clicked} (double \-X, double \-Y)
+\end{DoxyCompactItemize}
+\subsection*{\-Signals}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___g_c_s_control_gadget_plugin_gacad03ad4b99da2390b6a712a475b4987}{sticks\-Changed} (double left\-X, double left\-Y, double right\-X, double right\-Y)
+\begin{DoxyCompactList}\small\item\em \-Emitted whenever the \-U\-I is clicked on to indicate the new stick positions. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Public \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___g_c_s_control_gadget_plugin_ga631488a05f2911312aa2701deafc099e}{\-G\-C\-S\-Control\-Gadget\-Widget} (\-Q\-Widget $\ast$parent=0)
+\item 
+\hyperlink{group___g_c_s_control_gadget_plugin_gac531923c2dca3888a8ff072acf4949f6}{$\sim$\-G\-C\-S\-Control\-Gadget\-Widget} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___g_c_s_control_gadget_plugin_gaa7bf374aeebdf1e677885605644c508c}{set\-G\-C\-S\-Control} (bool new\-State)
+\item 
+bool \hyperlink{group___g_c_s_control_gadget_plugin_ga4802bb05a27e5b7b98fba727aa298cbf}{get\-G\-C\-S\-Control} (\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void})
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___g_c_s_control_gadget_plugin_ga8e3fea7e5b4e9a7811faccbbe646ad37}{set\-U\-D\-P\-Control} (bool new\-State)
+\item 
+bool \hyperlink{group___g_c_s_control_gadget_plugin_ga0354d422f9780a2e5fb610c0decf3e13}{get\-U\-D\-P\-Control} (\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void})
+\end{DoxyCompactItemize}
+\subsection*{\-Protected \-Slots}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___g_c_s_control_gadget_plugin_gafe60b9408fffe8389ea6b994b3d5c84e}{toggle\-Control} (int state)
+\begin{DoxyCompactList}\small\item\em \-Called when the gcs control is toggled and enabled or disables flight write access to manual control command. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___g_c_s_control_gadget_plugin_ga77dc1ed2344ac4440aa6348ee32d3104}{toggle\-Armed} (int state)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___g_c_s_control_gadget_plugin_gab1ae0cb7fd085ad31a9a7b5d6923f8d4}{select\-Flight\-Mode} (int state)
+\begin{DoxyCompactList}\small\item\em \-Called when the flight mode drop down is changed and sets the \-Manual\-Control\-Command-\/$>$\-Flight\-Mode accordingly. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___g_c_s_control_gadget_plugin_gabdcd9baf431d953b9e2c5f8f2c3d485c}{mcc\-Changed} (\hyperlink{class_u_a_v_object}{\-U\-A\-V\-Object} $\ast$)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___g_c_s_control_gadget_plugin_gaaaa6db9417f6f94567e477ed6b5bd099}{toggle\-U\-D\-P\-Control} (int state)
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+
+
+\-Definition at line 38 of file gcscontrolgadgetwidget.\-h.
+
+
+
+\-The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/plugins/gcscontrol/\hyperlink{gcscontrolgadgetwidget_8h}{gcscontrolgadgetwidget.\-h}\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/plugins/gcscontrol/\hyperlink{gcscontrolgadgetwidget_8cpp}{gcscontrolgadgetwidget.\-cpp}\end{DoxyCompactItemize}

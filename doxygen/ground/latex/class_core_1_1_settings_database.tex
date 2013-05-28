@@ -1,0 +1,54 @@
+\hypertarget{class_core_1_1_settings_database}{\section{\-Core\-:\-:\-Settings\-Database \-Class \-Reference}
+\label{class_core_1_1_settings_database}\index{\-Core\-::\-Settings\-Database@{\-Core\-::\-Settings\-Database}}
+}
+
+
+\-An alternative to the application-\/wide \-Q\-Settings that is more suitable for storing large amounts of data.  
+
+
+
+
+{\ttfamily \#include $<$settingsdatabase.\-h$>$}
+
+\subsection*{\-Public \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___core_plugin_gadfd6819d980e975d9c04d62a1a976854}{\-Settings\-Database} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \&path, const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \&application, \-Q\-Object $\ast$parent=0)
+\item 
+\hyperlink{group___core_plugin_ga6e94a52341d1acd5855ecafae93bafe1}{$\sim$\-Settings\-Database} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___core_plugin_ga6421733fa988f0cbf777c9883cf740bf}{set\-Value} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \&key, const \-Q\-Variant \&\hyperlink{group___core_plugin_ga2403d7e483878cc96312961989a4f313}{value})
+\item 
+\-Q\-Variant \hyperlink{group___core_plugin_ga2403d7e483878cc96312961989a4f313}{value} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \&key, const \-Q\-Variant \&default\-Value=\-Q\-Variant()) const 
+\item 
+bool \hyperlink{group___core_plugin_gaedd7b13a933a752c6a8504cae60b0c14}{contains} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \&key) const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___core_plugin_gaa8fd610cbfc6d75228f34b6ffebb90f6}{remove} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \&key)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___core_plugin_gacc3d6f9f4d789e95e35d7191270b785e}{begin\-Group} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \&prefix)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___core_plugin_ga25d3e7eec0f9a284ab71b851d89787d8}{end\-Group} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___core_plugin_ga30e9f4775fc7a818bbb4222fe8765f39}{group} () const 
+\item 
+\-Q\-String\-List \hyperlink{group___core_plugin_gac6824b67c3779827e7e190b0ec57cac1}{child\-Keys} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___core_plugin_ga812eb28c2f1d174b967b3e5b020f25c5}{sync} ()
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-An alternative to the application-\/wide \-Q\-Settings that is more suitable for storing large amounts of data. 
+
+\-The settings database is \-S\-Q\-Lite based, and lazily retrieves data when it is asked for. \-It also does incremental updates of the database rather than rewriting the whole file each time one of the settings change.
+
+\-The \hyperlink{class_core_1_1_settings_database}{\-Settings\-Database} \-A\-P\-I mimics that of \-Q\-Settings. 
+
+\-Definition at line 45 of file settingsdatabase.\-h.
+
+
+
+\-The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/plugins/coreplugin/\hyperlink{settingsdatabase_8h}{settingsdatabase.\-h}\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/plugins/coreplugin/\hyperlink{settingsdatabase_8cpp}{settingsdatabase.\-cpp}\end{DoxyCompactItemize}

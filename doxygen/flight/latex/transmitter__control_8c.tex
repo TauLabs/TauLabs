@@ -1,0 +1,53 @@
+\hypertarget{transmitter__control_8c}{\section{/home/jb/code/\-Tau\-Labs/flight/\-Modules/\-Manual\-Control/transmitter\-\_\-control.c \-File \-Reference}
+\label{transmitter__control_8c}\index{/home/jb/code/\-Tau\-Labs/flight/\-Modules/\-Manual\-Control/transmitter\-\_\-control.\-c@{/home/jb/code/\-Tau\-Labs/flight/\-Modules/\-Manual\-Control/transmitter\-\_\-control.\-c}}
+}
+
+
+\-Handles \-R/\-C link and flight mode.  
+
+
+\subsection*{\-Data \-Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structrcvr__activity__fsm}{rcvr\-\_\-activity\-\_\-fsm}
+\end{DoxyCompactItemize}
+\subsection*{\-Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{group___control_gabc93537d93556a29eb5f2bcaaeaddb34}{arm\-\_\-state} \{ \*
+\hyperlink{group___control_ggabc93537d93556a29eb5f2bcaaeaddb34a2f34987e2e81245760bad38d871bd766}{\-A\-R\-M\-\_\-\-S\-T\-A\-T\-E\-\_\-\-D\-I\-S\-A\-R\-M\-E\-D}, 
+\hyperlink{group___control_ggabc93537d93556a29eb5f2bcaaeaddb34a70d0897e1119601f5e6fd4176e701603}{\-A\-R\-M\-\_\-\-S\-T\-A\-T\-E\-\_\-\-A\-R\-M\-I\-N\-G\-\_\-\-M\-A\-N\-U\-A\-L}, 
+\hyperlink{group___control_ggabc93537d93556a29eb5f2bcaaeaddb34a5703b08b4383be1fc1f688336caa647c}{\-A\-R\-M\-\_\-\-S\-T\-A\-T\-E\-\_\-\-A\-R\-M\-E\-D}, 
+\hyperlink{group___control_ggabc93537d93556a29eb5f2bcaaeaddb34ab917b0801c1092957516518b59fc7e60}{\-A\-R\-M\-\_\-\-S\-T\-A\-T\-E\-\_\-\-D\-I\-S\-A\-R\-M\-I\-N\-G\-\_\-\-M\-A\-N\-U\-A\-L}, 
+\*
+\hyperlink{group___control_ggabc93537d93556a29eb5f2bcaaeaddb34ad5488ade89f8d979f76bbccb7bbd5993}{\-A\-R\-M\-\_\-\-S\-T\-A\-T\-E\-\_\-\-D\-I\-S\-A\-R\-M\-I\-N\-G\-\_\-\-T\-I\-M\-E\-O\-U\-T}
+ \}
+\end{DoxyCompactItemize}
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+int32\-\_\-t \hyperlink{group___control_ga27653bb9e2abe9498b31e9f748f158d8}{transmitter\-\_\-control\-\_\-initialize} ()
+\begin{DoxyCompactList}\small\item\em \-Initialize the transmitter control mode. \end{DoxyCompactList}\item 
+int32\-\_\-t \hyperlink{group___control_gad28dba2f07e1f4fe872ccf01941c3c84}{transmitter\-\_\-control\-\_\-update} ()
+\begin{DoxyCompactList}\small\item\em \-Process inputs and arming. \end{DoxyCompactList}\item 
+int32\-\_\-t \hyperlink{group___control_ga6ffb050d1f10ab7aa441ce65629e26bd}{transmitter\-\_\-control\-\_\-select} (bool reset\-\_\-controller)
+\begin{DoxyCompactList}\small\item\em \-Select and use transmitter control. \end{DoxyCompactList}\item 
+enum \hyperlink{group___control_ga61438f5375f5e08187c7e12f13723afd}{control\-\_\-selection} \hyperlink{group___control_gacf816af6b4ab2c23707b55eb6b3281a0}{transmitter\-\_\-control\-\_\-selected\-\_\-controller} ()
+\begin{DoxyCompactList}\small\item\em \-Choose the control source based on transmitter status. \end{DoxyCompactList}\item 
+enum \hyperlink{group___control_ga6db279174b366abaad3f5de70b10655c}{control\-\_\-events} \hyperlink{group___control_ga51dc43f87515d8de90aebb1465578212}{transmitter\-\_\-control\-\_\-get\-\_\-events} ()
+\begin{DoxyCompactList}\small\item\em \-Get any control events. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-Handles \-R/\-C link and flight mode. \begin{DoxyAuthor}{\-Author}
+\-Tau \-Labs, \href{http://taulabs.org,}{\tt http\-://taulabs.\-org,} \-Copyright (\-C) 2012-\/2013 
+
+\-The \-Open\-Pilot \-Team, \href{http://www.openpilot.org}{\tt http\-://www.\-openpilot.\-org} \-Copyright (\-C) 2010. 
+\end{DoxyAuthor}
+\begin{DoxySeeAlso}{\-See also}
+\-The \-G\-N\-U \-Public \-License (\-G\-P\-L) \-Version 3 
+\end{DoxySeeAlso}
+
+
+\-Definition in file \hyperlink{transmitter__control_8c_source}{transmitter\-\_\-control.\-c}.
+

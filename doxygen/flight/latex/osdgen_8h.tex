@@ -1,0 +1,129 @@
+\hypertarget{osdgen_8h}{\section{/home/jb/code/\-Tau\-Labs/flight/\-Modules/\-Osd/osdgen/inc/osdgen.h \-File \-Reference}
+\label{osdgen_8h}\index{/home/jb/code/\-Tau\-Labs/flight/\-Modules/\-Osd/osdgen/inc/osdgen.\-h@{/home/jb/code/\-Tau\-Labs/flight/\-Modules/\-Osd/osdgen/inc/osdgen.\-h}}
+}
+\subsection*{\-Data \-Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{struct_font_dimensions}{\-Font\-Dimensions}
+\end{DoxyCompactItemize}
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+int32\-\_\-t \hyperlink{group___o_s_d_g_e_n_module_gad5c99924576b5d8a3922949f6bc6643c}{osdgen\-Initialize} (void)
+\item 
+uint8\-\_\-t \hyperlink{osdgen_8h_aaaa2338db8b6efea2ee6e94e96845647}{get\-Char\-Data} (uint16\-\_\-t char\-Pos)
+\item 
+void \hyperlink{group___o_s_d_g_e_n_module_ga637c8a1ae3f761c2724cebbe6f92cce6}{intro\-Text} ()
+\item 
+void \hyperlink{group___o_s_d_g_e_n_module_gaef4730e1cc093c1b98a70d8e9241c3de}{clear\-Graphics} ()
+\item 
+uint8\-\_\-t \hyperlink{group___o_s_d_g_e_n_module_ga2f47e18d66eab4b942c583d519b122d8}{valid\-Pos} (uint16\-\_\-t x, uint16\-\_\-t y)
+\item 
+void \hyperlink{osdgen_8h_a8f4b976034fc96155fa72551ff069cb8}{set\-Pixel} (uint16\-\_\-t x, uint16\-\_\-t y, uint8\-\_\-t \hyperlink{pios__flashfs__logfs_8c_a13a6109e91ad12705df96a0f2743c630}{state})
+\item 
+void \hyperlink{group___o_s_d_g_e_n_module_ga62264c6d524275901f3a3f4d43a13353}{draw\-Circle} (uint16\-\_\-t x0, uint16\-\_\-t y0, uint16\-\_\-t radius)
+\item 
+void \hyperlink{group___o_s_d_g_e_n_module_ga6079548d874cda431d71e15174ff375c}{swap} (uint16\-\_\-t $\ast$a, uint16\-\_\-t $\ast$b)
+\item 
+void \hyperlink{osdgen_8h_a7eb7a4a97f924bbd048e6dd94cd395c0}{draw\-Line} (uint16\-\_\-t x0, uint16\-\_\-t y0, uint16\-\_\-t x1, uint16\-\_\-t y1)
+\item 
+void \hyperlink{group___o_s_d_g_e_n_module_gae399f433b1adebe10b6108074e73ee59}{draw\-Box} (uint16\-\_\-t x1, uint16\-\_\-t y1, uint16\-\_\-t x2, uint16\-\_\-t y2)
+\item 
+void \hyperlink{group___o_s_d_g_e_n_module_ga6b10ec15d9b155e3ecdd6bac85c227a9}{draw\-Arrow} (uint16\-\_\-t x, uint16\-\_\-t y, uint16\-\_\-t angle, uint16\-\_\-t size)
+\item 
+void \hyperlink{group___o_s_d_g_e_n_module_gab6cd6692726c21ca6a7da8b8acf01de3}{draw\-Attitude} (uint16\-\_\-t x, uint16\-\_\-t y, int16\-\_\-t pitch, int16\-\_\-t roll, uint16\-\_\-t size)
+\item 
+void \hyperlink{group___o_s_d_g_e_n_module_gadb49e780d11eb6b7ca55b1a555b55d21}{intro\-Graphics} ()
+\item 
+void \hyperlink{group___o_s_d_g_e_n_module_ga2a784a5e5cba20bd454de8c32e2dcfde}{update\-Graphics} ()
+\item 
+void \hyperlink{osdgen_8h_aabb972c0b7a7693cda7982c57db68eea}{draw\-Graphics\-Line} ()
+\item 
+void \hyperlink{group___o_s_d_g_e_n_module_gaa298c555d34c7e1929c065b647c0f2c8}{write\-\_\-char16} (char ch, unsigned int x, unsigned int y, int font)
+\item 
+void \hyperlink{group___o_s_d_g_e_n_module_gabbd31ecda0c72dedfc2f0455d7dedf3e}{write\-\_\-pixel} (uint8\-\_\-t $\ast$buff, unsigned int x, unsigned int y, int mode)
+\item 
+void \hyperlink{group___o_s_d_g_e_n_module_gac1761b4fcfac704692e9a6cb6b263c70}{write\-\_\-pixel\-\_\-lm} (unsigned int x, unsigned int y, int mmode, int lmode)
+\item 
+void \hyperlink{group___o_s_d_g_e_n_module_ga1918951dd8566c5eef5ecfd7dcd7c685}{write\-\_\-hline} (uint8\-\_\-t $\ast$buff, unsigned int x0, unsigned int x1, unsigned int y, int mode)
+\item 
+void \hyperlink{group___o_s_d_g_e_n_module_gacf5cb2507be8b860675b466d19fa4aa8}{write\-\_\-hline\-\_\-lm} (unsigned int x0, unsigned int x1, unsigned int y, int lmode, int mmode)
+\item 
+void \hyperlink{group___o_s_d_g_e_n_module_ga093e7b26837226a19a69ea698d6db954}{write\-\_\-hline\-\_\-outlined} (unsigned int x0, unsigned int x1, unsigned int y, int endcap0, int endcap1, int mode, int mmode)
+\item 
+void \hyperlink{group___o_s_d_g_e_n_module_ga34c98ce736d5146c81ef3b167780031f}{write\-\_\-vline} (uint8\-\_\-t $\ast$buff, unsigned int x, unsigned int y0, unsigned int y1, int mode)
+\item 
+void \hyperlink{group___o_s_d_g_e_n_module_ga4ab8daa08074c7ccb69b2f8a1d834979}{write\-\_\-vline\-\_\-lm} (unsigned int x, unsigned int y0, unsigned int y1, int lmode, int mmode)
+\item 
+void \hyperlink{group___o_s_d_g_e_n_module_ga0587de2636d0acd501858f056b6ad4da}{write\-\_\-vline\-\_\-outlined} (unsigned int x, unsigned int y0, unsigned int y1, int endcap0, int endcap1, int mode, int mmode)
+\item 
+void \hyperlink{group___o_s_d_g_e_n_module_ga66c619079158f1694d8cc86f109ba91e}{write\-\_\-filled\-\_\-rectangle} (uint8\-\_\-t $\ast$buff, unsigned int x, unsigned int y, unsigned int width, unsigned int height, int mode)
+\item 
+void \hyperlink{group___o_s_d_g_e_n_module_gafdf87d4c22a0fcb603bdfba416768248}{write\-\_\-filled\-\_\-rectangle\-\_\-lm} (unsigned int x, unsigned int y, unsigned int width, unsigned int height, int lmode, int mmode)
+\item 
+void \hyperlink{group___o_s_d_g_e_n_module_ga761aea940799fbd6d4f6bafe83ea2032}{write\-\_\-rectangle\-\_\-outlined} (unsigned int x, unsigned int y, int width, int height, int mode, int mmode)
+\item 
+void \hyperlink{group___o_s_d_g_e_n_module_ga634e8149f811d4bb090d50b25064907c}{write\-\_\-circle} (uint8\-\_\-t $\ast$buff, unsigned int cx, unsigned int cy, unsigned int r, unsigned int dashp, int mode)
+\item 
+void \hyperlink{group___o_s_d_g_e_n_module_gaa58af239ed159652cb196f745c79d9a6}{write\-\_\-circle\-\_\-outlined} (unsigned int cx, unsigned int cy, unsigned int r, unsigned int dashp, int bmode, int mode, int mmode)
+\item 
+void \hyperlink{group___o_s_d_g_e_n_module_gaf369bd7c0a15859e4a35ac7a6bf77263}{write\-\_\-circle\-\_\-filled} (uint8\-\_\-t $\ast$buff, unsigned int cx, unsigned int cy, unsigned int r, int mode)
+\item 
+void \hyperlink{group___o_s_d_g_e_n_module_ga2fe2ee0f0ff8e34091a5357658c686c1}{write\-\_\-line} (uint8\-\_\-t $\ast$buff, unsigned int x0, unsigned int y0, unsigned int x1, unsigned int y1, int mode)
+\item 
+void \hyperlink{group___o_s_d_g_e_n_module_ga1b12386d924769809d25c0151ca7d47f}{write\-\_\-line\-\_\-lm} (unsigned int x0, unsigned int y0, unsigned int x1, unsigned int y1, int mmode, int lmode)
+\item 
+void \hyperlink{group___o_s_d_g_e_n_module_ga27afef3cac2fe7bd07005b4cfdab1297}{write\-\_\-line\-\_\-outlined} (unsigned int x0, unsigned int y0, unsigned int x1, unsigned int y1, int endcap0, int endcap1, int mode, int mmode)
+\item 
+void \hyperlink{group___o_s_d_g_e_n_module_ga609b93e9b64ad8b92c1c555d3cdb80c5}{write\-\_\-word\-\_\-misaligned} (uint8\-\_\-t $\ast$buff, uint16\-\_\-t word, unsigned int addr, unsigned int xoff, int mode)
+\item 
+void \hyperlink{group___o_s_d_g_e_n_module_gac311d0b8a75e018101c2f7de25468bce}{write\-\_\-word\-\_\-misaligned\-\_\-\-N\-A\-N\-D} (uint8\-\_\-t $\ast$buff, uint16\-\_\-t word, unsigned int addr, unsigned int xoff)
+\item 
+void \hyperlink{group___o_s_d_g_e_n_module_ga17f327de483285ee88a844c5b617d1ed}{write\-\_\-word\-\_\-misaligned\-\_\-\-O\-R} (uint8\-\_\-t $\ast$buff, uint16\-\_\-t word, unsigned int addr, unsigned int xoff)
+\item 
+void \hyperlink{group___o_s_d_g_e_n_module_gaf7b6f5e5e2980741c80f92a24c27d470}{write\-\_\-word\-\_\-misaligned\-\_\-lm} (uint16\-\_\-t wordl, uint16\-\_\-t wordm, unsigned int addr, unsigned int xoff, int lmode, int mmode)
+\item 
+void \hyperlink{group___o_s_d_g_e_n_module_ga790a5ed0b4f266fd6699d69102a632f4}{write\-\_\-char} (char ch, unsigned int x, unsigned int y, int \hyperlink{uavobjectmanager_8c_a89997860157be94711355010fc2a337d}{flags}, int font)
+\item 
+void \hyperlink{group___o_s_d_g_e_n_module_ga9202b1bd055f9fa88d46cec7ed412763}{write\-\_\-string} (char $\ast$str, unsigned int x, unsigned int y, unsigned int xs, unsigned int ys, int va, int ha, int \hyperlink{uavobjectmanager_8c_a89997860157be94711355010fc2a337d}{flags}, int font)
+\item 
+void \hyperlink{group___o_s_d_g_e_n_module_gab49221eead66b5e8af2b4e3104fa8456}{write\-\_\-string\-\_\-formatted} (char $\ast$str, unsigned int x, unsigned int y, unsigned int xs, unsigned int ys, int va, int ha, int \hyperlink{uavobjectmanager_8c_a89997860157be94711355010fc2a337d}{flags})
+\item 
+void \hyperlink{group___o_s_d_g_e_n_module_ga368bd7bc79f8c2f6999dee52aabd7b19}{update\-Once\-Every\-Frame} ()
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Function \-Documentation}
+\hypertarget{osdgen_8h_aabb972c0b7a7693cda7982c57db68eea}{\index{osdgen.\-h@{osdgen.\-h}!draw\-Graphics\-Line@{draw\-Graphics\-Line}}
+\index{draw\-Graphics\-Line@{draw\-Graphics\-Line}!osdgen.h@{osdgen.\-h}}
+\subsubsection[{draw\-Graphics\-Line}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf draw\-Graphics\-Line} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{osdgen_8h_aabb972c0b7a7693cda7982c57db68eea}
+\hypertarget{osdgen_8h_a7eb7a4a97f924bbd048e6dd94cd395c0}{\index{osdgen.\-h@{osdgen.\-h}!draw\-Line@{draw\-Line}}
+\index{draw\-Line@{draw\-Line}!osdgen.h@{osdgen.\-h}}
+\subsubsection[{draw\-Line}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf draw\-Line} (
+\begin{DoxyParamCaption}
+\item[{uint16\-\_\-t}]{x0, }
+\item[{uint16\-\_\-t}]{y0, }
+\item[{uint16\-\_\-t}]{x1, }
+\item[{uint16\-\_\-t}]{y1}
+\end{DoxyParamCaption}
+)}}\label{osdgen_8h_a7eb7a4a97f924bbd048e6dd94cd395c0}
+\hypertarget{osdgen_8h_aaaa2338db8b6efea2ee6e94e96845647}{\index{osdgen.\-h@{osdgen.\-h}!get\-Char\-Data@{get\-Char\-Data}}
+\index{get\-Char\-Data@{get\-Char\-Data}!osdgen.h@{osdgen.\-h}}
+\subsubsection[{get\-Char\-Data}]{\setlength{\rightskip}{0pt plus 5cm}uint8\-\_\-t {\bf get\-Char\-Data} (
+\begin{DoxyParamCaption}
+\item[{uint16\-\_\-t}]{char\-Pos}
+\end{DoxyParamCaption}
+)}}\label{osdgen_8h_aaaa2338db8b6efea2ee6e94e96845647}
+\hypertarget{osdgen_8h_a8f4b976034fc96155fa72551ff069cb8}{\index{osdgen.\-h@{osdgen.\-h}!set\-Pixel@{set\-Pixel}}
+\index{set\-Pixel@{set\-Pixel}!osdgen.h@{osdgen.\-h}}
+\subsubsection[{set\-Pixel}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf set\-Pixel} (
+\begin{DoxyParamCaption}
+\item[{uint16\-\_\-t}]{x, }
+\item[{uint16\-\_\-t}]{y, }
+\item[{uint8\-\_\-t}]{state}
+\end{DoxyParamCaption}
+)}}\label{osdgen_8h_a8f4b976034fc96155fa72551ff069cb8}

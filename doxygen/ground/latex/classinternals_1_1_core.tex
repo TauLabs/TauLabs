@@ -1,0 +1,226 @@
+\hypertarget{classinternals_1_1_core}{\section{internals\-:\-:\-Core \-Class \-Reference}
+\label{classinternals_1_1_core}\index{internals\-::\-Core@{internals\-::\-Core}}
+}
+
+
+{\ttfamily \#include $<$core.\-h$>$}
+
+\subsection*{\-Signals}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_widget_ga2491a90fa3143792bc6f14153750d5d2}{\-On\-Current\-Position\-Changed} (\hyperlink{structinternals_1_1_point_lat_lng}{internals\-::\-Point\-Lat\-Lng} point)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_widget_gac03cc68ae31948f87512df9b4b25a104}{\-On\-Tile\-Load\-Complete} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_widget_ga8fbc5fa54e3d35c3008d0117c998638e}{\-On\-Tiles\-Still\-To\-Load} (int number)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_widget_gae5debcd025be8ef286b44c846bcf307d}{\-On\-Tile\-Load\-Start} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_widget_ga86c23f03f213d9cdd416259faa5e1835}{\-On\-Map\-Drag} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_widget_ga79ea52272693c681261bee7f02cdd9a4}{\-On\-Map\-Zoom\-Changed} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_widget_ga9be685397ee72f5e1ecc2694b61d0819}{\-On\-Map\-Type\-Changed} (\-Map\-Type\-::\-Types type)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_widget_ga0b750ffa3c184237b9625bdb9fa8c2c8}{\-On\-Empty\-Tile\-Error} (int zoom, \hyperlink{structcore_1_1_point}{core\-::\-Point} pos)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_widget_gaa550210d61bf033b3dd3d73fbfd7d8f9}{\-On\-Need\-Invalidation} ()
+\end{DoxyCompactItemize}
+\subsection*{\-Public \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___o_p_map_widget_ga7ec14a145f0d7ff3036d68814659e27d}{\-Core} ()
+\item 
+\hyperlink{group___o_p_map_widget_ga6ad5ec431c303aa0ea029c86fc7a5728}{$\sim$\-Core} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_widget_ga0d0ab90f1256808e363cd35dd5f2fa7f}{run} ()
+\item 
+\hyperlink{structinternals_1_1_point_lat_lng}{\-Point\-Lat\-Lng} \hyperlink{group___o_p_map_widget_ga44a14bf2d358ec5f93c7a99416e20732}{\-Current\-Position} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_widget_ga4e5d816fef373048f1109beac294521c}{\-Set\-Current\-Position} (const \hyperlink{structinternals_1_1_point_lat_lng}{\-Point\-Lat\-Lng} \&value)
+\item 
+\hyperlink{structcore_1_1_point}{core\-::\-Point} \hyperlink{group___o_p_map_widget_ga705325edd0aba942d5a67990c7d07136}{\-Getcurrent\-Position\-G\-Pixel} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_widget_ga68af707707e7a27c72969b84ffcdc206}{\-Setcurrent\-Position\-G\-Pixel} (const \hyperlink{structcore_1_1_point}{core\-::\-Point} \&value)
+\item 
+\hyperlink{structcore_1_1_point}{core\-::\-Point} \hyperlink{group___o_p_map_widget_gae32df0621adec51500130103787bf6a0}{\-Getrender\-Offset} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_widget_ga78c39b61dd28bb05639737d0e72576fe}{\-Setrender\-Offset} (const \hyperlink{structcore_1_1_point}{core\-::\-Point} \&value)
+\item 
+\hyperlink{structcore_1_1_point}{core\-::\-Point} \hyperlink{group___o_p_map_widget_gad81fc0035925c351630e24e790d7df2d}{\-Getcenter\-Tile\-X\-Y\-Location} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_widget_gac19546f7c53493b741f4ffccdeb42214}{\-Setcenter\-Tile\-X\-Y\-Location} (const \hyperlink{structcore_1_1_point}{core\-::\-Point} \&value)
+\item 
+\hyperlink{structcore_1_1_point}{core\-::\-Point} \hyperlink{group___o_p_map_widget_ga616220d474720ed46411357fb48ce323}{\-Getcenter\-Tile\-X\-Y\-Location\-Last} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_widget_ga3e20d2d38fb1001ab294401f10798932}{\-Setcenter\-Tile\-X\-Y\-Location\-Last} (const \hyperlink{structcore_1_1_point}{core\-::\-Point} \&value)
+\item 
+\hyperlink{structcore_1_1_point}{core\-::\-Point} \hyperlink{group___o_p_map_widget_ga3e7f3a15092c88e62abd7ae055b83ca9}{\-Getdrag\-Point} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_widget_ga26fe0b642c132f54f8b89fcca245559d}{\-Setdrag\-Point} (const \hyperlink{structcore_1_1_point}{core\-::\-Point} \&value)
+\item 
+\hyperlink{structcore_1_1_point}{core\-::\-Point} \hyperlink{group___o_p_map_widget_ga876eaa6494c4f0ca0a57b04aca2b63a7}{\-Getmouse\-Down} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_widget_ga393d5a89d61e2207a9cf54cd7a7e86db}{\-Setmouse\-Down} (const \hyperlink{structcore_1_1_point}{core\-::\-Point} \&value)
+\item 
+\hyperlink{structcore_1_1_point}{core\-::\-Point} \hyperlink{group___o_p_map_widget_ga4d84ca5c68011460943e7cb0a2d9ecaa}{\-Getmouse\-Current} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_widget_ga5e6d344e7c74efe498222b7a343e4a80}{\-Setmouse\-Current} (const \hyperlink{structcore_1_1_point}{core\-::\-Point} \&value)
+\item 
+\hyperlink{structcore_1_1_point}{core\-::\-Point} \hyperlink{group___o_p_map_widget_gac8e4aec0ad2357d32955a5cd6896d330}{\-Getmouse\-Last\-Zoom} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_widget_ga04c566589849ca7f9b3357accf403a55}{\-Setmouse\-Last\-Zoom} (const \hyperlink{structcore_1_1_point}{core\-::\-Point} \&value)
+\item 
+\-Mouse\-Wheel\-Zoom\-Type\-::\-Types \hyperlink{group___o_p_map_widget_gaaf45ca5113dc967072f68d3785b6089b}{\-Get\-Mouse\-Wheel\-Zoom\-Type} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_widget_ga605f19f8d878c649a0c0fe7aefde25c7}{\-Set\-Mouse\-Wheel\-Zoom\-Type} (const \-Mouse\-Wheel\-Zoom\-Type\-::\-Types \&value)
+\item 
+\hyperlink{structinternals_1_1_point_lat_lng}{\-Point\-Lat\-Lng} \hyperlink{group___o_p_map_widget_ga9869340265138d874099cdffed04d95a}{\-Get\-Last\-Location\-In\-Bounds} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_widget_ga49e6ed17c97e596b9fb3103b63816212}{\-Set\-Last\-Location\-In\-Bounds} (const \hyperlink{structinternals_1_1_point_lat_lng}{\-Point\-Lat\-Lng} \&value)
+\item 
+\-Size \hyperlink{group___o_p_map_widget_gafbcd83a2c5548f22c6cbb52a09ff402d}{\-Getsize\-Of\-Map\-Area} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_widget_ga2e491fd5e0849b99f2d9d180c71cb68d}{\-Setsize\-Of\-Map\-Area} (const \-Size \&value)
+\item 
+\-Size \hyperlink{group___o_p_map_widget_gaa4181b7edf2df8de57265234f1068b67}{\-Getmin\-Of\-Tiles} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_widget_gaf34f47548612f5dcf275002aa9b3466c}{\-Setmin\-Of\-Tiles} (const \-Size \&value)
+\item 
+\-Size \hyperlink{group___o_p_map_widget_gaa2cd678b4016f6334bfef3c1c8ac3b03}{\-Getmax\-Of\-Tiles} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_widget_gab059331f4276245f3415728687b72659}{\-Setmax\-Of\-Tiles} (const \-Size \&value)
+\item 
+\hyperlink{structinternals_1_1_rectangle}{\-Rectangle} \hyperlink{group___o_p_map_widget_gaff36128b86944502f81b27d0d9ca418b}{\-Get\-Tile\-Rect} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_widget_ga6305b3465177838582206b9911561cf9}{\-Settile\-Rect} (const \hyperlink{structinternals_1_1_rectangle}{\-Rectangle} \&value)
+\item 
+\hyperlink{structcore_1_1_point}{core\-::\-Point} \hyperlink{group___o_p_map_widget_ga917de66816feaf3dfde7727bbb8ed6e2}{\-Gettile\-Point} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_widget_ga9d04a0fb020c49a8280b7368f41594a2}{\-Settile\-Point} (const \hyperlink{structcore_1_1_point}{core\-::\-Point} \&value)
+\item 
+\hyperlink{structinternals_1_1_rectangle}{\-Rectangle} \hyperlink{group___o_p_map_widget_ga00bfe5203c4a1a950f4699bf6fe59293}{\-Get\-Current\-Region} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_widget_gaddaa2d4fdadeb35b3d6e5c36414ad438}{\-Set\-Current\-Region} (const \hyperlink{structinternals_1_1_rectangle}{\-Rectangle} \&value)
+\item 
+\hyperlink{classinternals_1_1_pure_projection}{\-Pure\-Projection} $\ast$ \hyperlink{group___o_p_map_widget_ga9c5fee7624bff404ca2529858e9a444a}{\-Projection} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_widget_gae73f665340d21d819b8309c1d39d44bb}{\-Set\-Projection} (\hyperlink{classinternals_1_1_pure_projection}{\-Pure\-Projection} $\ast$value)
+\item 
+bool \hyperlink{group___o_p_map_widget_gad8a3ada83240ab83169d589af8486058}{\-Is\-Dragging} () const 
+\item 
+int \hyperlink{group___o_p_map_widget_ga5cf2de6f702a137c1c43767aad11b160}{\-Zoom} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_widget_ga5cdc1bd7abb72b74bb3cf85d3aec9e3d}{\-Set\-Zoom} (int const \&value)
+\item 
+int \hyperlink{group___o_p_map_widget_ga50e3825136212baafad997c35bf606ef}{\-Max\-Zoom} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_widget_gacbeb6f00e71443854ec421841d9bc431}{\-Update\-Bounds} ()
+\item 
+\-Map\-Type\-::\-Types \hyperlink{group___o_p_map_widget_gad38d6a52a014cb9b52c6df7d47f3e3fe}{\-Get\-Map\-Type} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_widget_ga5d71e20762c9714191db9f74f3dd3b6a}{\-Set\-Map\-Type} (\-Map\-Type\-::\-Types const \&value)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_widget_ga597dd716558e9c45baa91de591f4ce07}{\-Set\-User\-Image\-Horizontal\-Scale} (double h\-Scale)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_widget_gae296cd09fb96cfeadbe202f9cba7e1fd}{\-Set\-User\-Image\-Vertical\-Scale} (double v\-Scale)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_widget_gafe136669e790fac1607a72f7bfca9510}{\-Set\-User\-Image\-Location} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} map\-Location)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_widget_gacc5971a73e9ba3ed87d97bf76e2c2e51}{\-Start\-System} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_widget_ga1c516d5c141339ebb623bd521e20edb6}{\-Update\-Center\-Tile\-X\-Y\-Location} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_widget_ga32b946b66a00213f725727696df9d9b4}{\-On\-Map\-Size\-Changed} (int const \&width, int const \&height)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_widget_ga10820264fc94dee4c279f60f6ed02309}{\-On\-Map\-Close} ()
+\item 
+\-Geo\-Coder\-Status\-Code\-::\-Types \hyperlink{group___o_p_map_widget_ga6fbdb5c07fae2a4400184e0c621ad750}{\-Set\-Current\-Position\-By\-Keywords} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} const \&keys)
+\item 
+\hyperlink{structinternals_1_1_rect_lat_lng}{\-Rect\-Lat\-Lng} \hyperlink{group___o_p_map_widget_ga228af41d307f46e0d759a52f0305d39a}{\-Current\-View\-Area} ()
+\item 
+\hyperlink{structinternals_1_1_point_lat_lng}{\-Point\-Lat\-Lng} \hyperlink{group___o_p_map_widget_gad6344ac56cefc8976c5bdf521b337a2f}{\-From\-Local\-To\-Lat\-Lng} (qint64 const \&\hyperlink{_o_p_plots_8m_a9336ebf25087d91c818ee6e9ec29f8c1}{x}, qint64 const \&\hyperlink{_o_p_plots_8m_a2fb1c5cf58867b5bbc9a1b145a86f3a0}{y})
+\item 
+\-Point \hyperlink{group___o_p_map_widget_ga8a2cc04c6bd69c306eaebe3df205f919}{\-From\-Lat\-Lng\-To\-Local} (\hyperlink{structinternals_1_1_point_lat_lng}{\-Point\-Lat\-Lng} const \&latlng)
+\item 
+int \hyperlink{group___o_p_map_widget_gaa75d239e869570eef0224e4e5654bd75}{\-Get\-Max\-Zoom\-To\-Fit\-Rect} (\hyperlink{structinternals_1_1_rect_lat_lng}{\-Rect\-Lat\-Lng} const \&rect)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_widget_ga1255054a69438d905b49b903627aef03}{\-Begin\-Drag} (\hyperlink{structcore_1_1_point}{core\-::\-Point} const \&pt)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_widget_ga47086f4344e201cc216384fb3acec854}{\-End\-Drag} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_widget_ga0ca3f365c1668226a6788084d56a6c1d}{\-Reload\-Map} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_widget_ga868496601dff669c0a6844a27f41e5c7}{\-Go\-To\-Current\-Position} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_widget_ga87303856077d440b36aa4b53a5103d64}{\-Drag\-Offset} (\hyperlink{structcore_1_1_point}{core\-::\-Point} const \&offset)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_widget_gaf302579c11ad5c2448be76ada0b19bf5}{\-Drag} (\hyperlink{structcore_1_1_point}{core\-::\-Point} const \&pt)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_widget_gab37e2ea3b3bb0c794bb9abdf84ac5b5d}{\-Cancel\-Async\-Tasks} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_widget_ga862fd51a3d103dc955ca08f20abe57b0}{\-Find\-Tiles\-Around} (\-Q\-List$<$ \hyperlink{structcore_1_1_point}{core\-::\-Point} $>$ \&list)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_widget_gaafdb82148ca58b162ba477a8e1d520c1}{\-Update\-Ground\-Resolution} ()
+\item 
+bool \hyperlink{group___o_p_map_widget_ga19e259470609023b204a70c4345ff54c}{is\-Started} ()
+\item 
+\hyperlink{structdiagnostics}{diagnostics} \hyperlink{group___o_p_map_widget_ga32889efb3fd780403d2005980b0a7dfc}{\-Get\-Diagnostics} ()
+\end{DoxyCompactItemize}
+\subsection*{\-Public \-Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\-Q\-List$<$ \hyperlink{structcore_1_1_point}{core\-::\-Point} $>$ \hyperlink{group___o_p_map_widget_gaef8eae2b290cfd062061e8baaebe51d6}{tile\-Drawing\-List}
+\item 
+bool \hyperlink{group___o_p_map_widget_ga051b1520271b875b55fa1023041a16e6}{\-Mouse\-Wheel\-Zooming}
+\item 
+\hyperlink{classinternals_1_1_tile_matrix}{\-Tile\-Matrix} \hyperlink{group___o_p_map_widget_ga4ac91c5f728a51e821a9cec0abf347fd}{\-Matrix}
+\end{DoxyCompactItemize}
+\subsection*{\-Protected \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_widget_ga8d0da9c286137deb71b187c5b003d968}{\-Set\-Current\-Position\-G\-Pixel} (\hyperlink{structcore_1_1_point}{core\-::\-Point} const \&value)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_widget_ga65f1168da5561bfccb2ac0053f031027}{\-Go\-To\-Current\-Position\-On\-Zoom} ()
+\end{DoxyCompactItemize}
+\subsection*{\-Protected \-Attributes}
+\begin{DoxyCompactItemize}
+\item 
+bool \hyperlink{group___o_p_map_widget_ga797e80c1349c656593de207aa74935de}{started}
+\item 
+qint64 \hyperlink{group___o_p_map_widget_ga3d5e76b481e1832dff58d33176b6a158}{\-Width}
+\item 
+qint64 \hyperlink{group___o_p_map_widget_ga9a5a3c48699aba8ef9582514fca243f0}{\-Height}
+\item 
+int \hyperlink{group___o_p_map_widget_ga0f93533bcdd67093c6da41e069997291}{px\-Res100m}
+\item 
+int \hyperlink{group___o_p_map_widget_gaa0947582a08d181d668db653fa4ed991}{px\-Res1000m}
+\item 
+int \hyperlink{group___o_p_map_widget_gaff97208acbd79e92f35d678a5651d063}{px\-Res10km}
+\item 
+int \hyperlink{group___o_p_map_widget_gab81b3e64348e0d02e67bd4f7350656cc}{px\-Res100km}
+\item 
+int \hyperlink{group___o_p_map_widget_ga5abde0bbaaa9517978da18398333e69b}{px\-Res1000km}
+\item 
+int \hyperlink{group___o_p_map_widget_gaed5c41c8c2b585074948d5918ae1a480}{px\-Res5000km}
+\end{DoxyCompactItemize}
+\subsection*{\-Friends}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{group___o_p_map_widget_ga88abf786b489e97fc16ff6c07da3626e}{mapcontrol\-::\-O\-P\-Map\-Control}
+\item 
+class \hyperlink{group___o_p_map_widget_ga4fb537bcd209fc77cf5b8c9e38360c07}{mapcontrol\-::\-Map\-Graphic\-Item}
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+
+
+\-Definition at line 68 of file core.\-h.
+
+
+
+\-The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/libs/opmapcontrol/src/internals/\hyperlink{core_8h}{core.\-h}\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/libs/opmapcontrol/src/internals/\hyperlink{core_8cpp}{core.\-cpp}\end{DoxyCompactItemize}

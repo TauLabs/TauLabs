@@ -1,0 +1,82 @@
+\hypertarget{_s_t_m32_f4xx_2pios__flash__internal_8c}{\section{/home/jb/code/\-Tau\-Labs/flight/\-Pi\-O\-S/\-S\-T\-M32\-F4xx/pios\-\_\-flash\-\_\-internal.c \-File \-Reference}
+\label{_s_t_m32_f4xx_2pios__flash__internal_8c}\index{/home/jb/code/\-Tau\-Labs/flight/\-Pi\-O\-S/\-S\-T\-M32\-F4xx/pios\-\_\-flash\-\_\-internal.\-c@{/home/jb/code/\-Tau\-Labs/flight/\-Pi\-O\-S/\-S\-T\-M32\-F4xx/pios\-\_\-flash\-\_\-internal.\-c}}
+}
+\subsection*{\-Data \-Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structdevice__flash__sector}{device\-\_\-flash\-\_\-sector}
+\item 
+struct \hyperlink{structpios__internal__flash__dev}{pios\-\_\-internal\-\_\-flash\-\_\-dev}
+\end{DoxyCompactItemize}
+\subsection*{\-Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{_s_t_m32_f4xx_2pios__flash__internal_8c_a0eb1120efd5b8655fe38c410b3eebd5c}{pios\-\_\-internal\-\_\-flash\-\_\-dev\-\_\-magic} \{ \hyperlink{_s_t_m32_f30x_2pios__flash__internal_8c_a0eb1120efd5b8655fe38c410b3eebd5caa62adfe7ee4402cc0fea7dd9497d5f4c}{\-P\-I\-O\-S\-\_\-\-I\-N\-T\-E\-R\-N\-A\-L\-\_\-\-F\-L\-A\-S\-H\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C} =  0xae82c65d, 
+\hyperlink{_s_t_m32_f4xx_2pios__flash__internal_8c_a0eb1120efd5b8655fe38c410b3eebd5caa62adfe7ee4402cc0fea7dd9497d5f4c}{\-P\-I\-O\-S\-\_\-\-I\-N\-T\-E\-R\-N\-A\-L\-\_\-\-F\-L\-A\-S\-H\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C} =  0x33445902
+ \}
+\end{DoxyCompactItemize}
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+int32\-\_\-t \hyperlink{_s_t_m32_f4xx_2pios__flash__internal_8c_a3d5cb37f9b8a2d915e2a51d0b9c9f587}{\-P\-I\-O\-S\-\_\-\-Flash\-\_\-\-Internal\-\_\-\-Init} (uintptr\-\_\-t $\ast$flash\-\_\-id, const struct \hyperlink{structpios__flash__internal__cfg}{pios\-\_\-flash\-\_\-internal\-\_\-cfg} $\ast$cfg)
+\end{DoxyCompactItemize}
+\subsection*{\-Variables}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structpios__flash__driver}{pios\-\_\-flash\-\_\-driver} \hyperlink{_s_t_m32_f4xx_2pios__flash__internal_8c_a8aff8a4857819424bfeccbc235411a8b}{pios\-\_\-internal\-\_\-flash\-\_\-driver}
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Enumeration \-Type \-Documentation}
+\hypertarget{_s_t_m32_f4xx_2pios__flash__internal_8c_a0eb1120efd5b8655fe38c410b3eebd5c}{\index{\-S\-T\-M32\-F4xx/pios\-\_\-flash\-\_\-internal.\-c@{\-S\-T\-M32\-F4xx/pios\-\_\-flash\-\_\-internal.\-c}!pios\-\_\-internal\-\_\-flash\-\_\-dev\-\_\-magic@{pios\-\_\-internal\-\_\-flash\-\_\-dev\-\_\-magic}}
+\index{pios\-\_\-internal\-\_\-flash\-\_\-dev\-\_\-magic@{pios\-\_\-internal\-\_\-flash\-\_\-dev\-\_\-magic}!STM32F4xx/pios_flash_internal.c@{\-S\-T\-M32\-F4xx/pios\-\_\-flash\-\_\-internal.\-c}}
+\subsubsection[{pios\-\_\-internal\-\_\-flash\-\_\-dev\-\_\-magic}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf pios\-\_\-internal\-\_\-flash\-\_\-dev\-\_\-magic}}}\label{_s_t_m32_f4xx_2pios__flash__internal_8c_a0eb1120efd5b8655fe38c410b3eebd5c}
+\begin{Desc}
+\item[\-Enumerator\-: ]\par
+\begin{description}
+\index{\-P\-I\-O\-S\-\_\-\-I\-N\-T\-E\-R\-N\-A\-L\-\_\-\-F\-L\-A\-S\-H\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C@{\-P\-I\-O\-S\-\_\-\-I\-N\-T\-E\-R\-N\-A\-L\-\_\-\-F\-L\-A\-S\-H\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}!\-S\-T\-M32\-F4xx/pios\-\_\-flash\-\_\-internal.\-c@{\-S\-T\-M32\-F4xx/pios\-\_\-flash\-\_\-internal.\-c}}\index{\-S\-T\-M32\-F4xx/pios\-\_\-flash\-\_\-internal.\-c@{\-S\-T\-M32\-F4xx/pios\-\_\-flash\-\_\-internal.\-c}!\-P\-I\-O\-S\-\_\-\-I\-N\-T\-E\-R\-N\-A\-L\-\_\-\-F\-L\-A\-S\-H\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C@{\-P\-I\-O\-S\-\_\-\-I\-N\-T\-E\-R\-N\-A\-L\-\_\-\-F\-L\-A\-S\-H\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}}\item[{\em 
+\hypertarget{_s_t_m32_f4xx_2pios__flash__internal_8c_a0eb1120efd5b8655fe38c410b3eebd5caa62adfe7ee4402cc0fea7dd9497d5f4c}{\-P\-I\-O\-S\-\_\-\-I\-N\-T\-E\-R\-N\-A\-L\-\_\-\-F\-L\-A\-S\-H\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}\label{_s_t_m32_f4xx_2pios__flash__internal_8c_a0eb1120efd5b8655fe38c410b3eebd5caa62adfe7ee4402cc0fea7dd9497d5f4c}
+}]\index{\-P\-I\-O\-S\-\_\-\-I\-N\-T\-E\-R\-N\-A\-L\-\_\-\-F\-L\-A\-S\-H\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C@{\-P\-I\-O\-S\-\_\-\-I\-N\-T\-E\-R\-N\-A\-L\-\_\-\-F\-L\-A\-S\-H\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}!\-S\-T\-M32\-F4xx/pios\-\_\-flash\-\_\-internal.\-c@{\-S\-T\-M32\-F4xx/pios\-\_\-flash\-\_\-internal.\-c}}\index{\-S\-T\-M32\-F4xx/pios\-\_\-flash\-\_\-internal.\-c@{\-S\-T\-M32\-F4xx/pios\-\_\-flash\-\_\-internal.\-c}!\-P\-I\-O\-S\-\_\-\-I\-N\-T\-E\-R\-N\-A\-L\-\_\-\-F\-L\-A\-S\-H\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C@{\-P\-I\-O\-S\-\_\-\-I\-N\-T\-E\-R\-N\-A\-L\-\_\-\-F\-L\-A\-S\-H\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}}\item[{\em 
+\hypertarget{_s_t_m32_f4xx_2pios__flash__internal_8c_a0eb1120efd5b8655fe38c410b3eebd5caa62adfe7ee4402cc0fea7dd9497d5f4c}{\-P\-I\-O\-S\-\_\-\-I\-N\-T\-E\-R\-N\-A\-L\-\_\-\-F\-L\-A\-S\-H\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}\label{_s_t_m32_f4xx_2pios__flash__internal_8c_a0eb1120efd5b8655fe38c410b3eebd5caa62adfe7ee4402cc0fea7dd9497d5f4c}
+}]\end{description}
+\end{Desc}
+
+
+
+\-Definition at line 123 of file pios\-\_\-flash\-\_\-internal.\-c.
+
+
+
+\subsection{\-Function \-Documentation}
+\hypertarget{_s_t_m32_f4xx_2pios__flash__internal_8c_a3d5cb37f9b8a2d915e2a51d0b9c9f587}{\index{\-S\-T\-M32\-F4xx/pios\-\_\-flash\-\_\-internal.\-c@{\-S\-T\-M32\-F4xx/pios\-\_\-flash\-\_\-internal.\-c}!\-P\-I\-O\-S\-\_\-\-Flash\-\_\-\-Internal\-\_\-\-Init@{\-P\-I\-O\-S\-\_\-\-Flash\-\_\-\-Internal\-\_\-\-Init}}
+\index{\-P\-I\-O\-S\-\_\-\-Flash\-\_\-\-Internal\-\_\-\-Init@{\-P\-I\-O\-S\-\_\-\-Flash\-\_\-\-Internal\-\_\-\-Init}!STM32F4xx/pios_flash_internal.c@{\-S\-T\-M32\-F4xx/pios\-\_\-flash\-\_\-internal.\-c}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-Flash\-\_\-\-Internal\-\_\-\-Init}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-P\-I\-O\-S\-\_\-\-Flash\-\_\-\-Internal\-\_\-\-Init} (
+\begin{DoxyParamCaption}
+\item[{uintptr\-\_\-t $\ast$}]{flash\-\_\-id, }
+\item[{const struct {\bf pios\-\_\-flash\-\_\-internal\-\_\-cfg} $\ast$}]{cfg}
+\end{DoxyParamCaption}
+)}}\label{_s_t_m32_f4xx_2pios__flash__internal_8c_a3d5cb37f9b8a2d915e2a51d0b9c9f587}
+
+
+\-Definition at line 170 of file pios\-\_\-flash\-\_\-internal.\-c.
+
+
+
+\subsection{\-Variable \-Documentation}
+\hypertarget{_s_t_m32_f4xx_2pios__flash__internal_8c_a8aff8a4857819424bfeccbc235411a8b}{\index{\-S\-T\-M32\-F4xx/pios\-\_\-flash\-\_\-internal.\-c@{\-S\-T\-M32\-F4xx/pios\-\_\-flash\-\_\-internal.\-c}!pios\-\_\-internal\-\_\-flash\-\_\-driver@{pios\-\_\-internal\-\_\-flash\-\_\-driver}}
+\index{pios\-\_\-internal\-\_\-flash\-\_\-driver@{pios\-\_\-internal\-\_\-flash\-\_\-driver}!STM32F4xx/pios_flash_internal.c@{\-S\-T\-M32\-F4xx/pios\-\_\-flash\-\_\-internal.\-c}}
+\subsubsection[{pios\-\_\-internal\-\_\-flash\-\_\-driver}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf pios\-\_\-flash\-\_\-driver} {\bf pios\-\_\-internal\-\_\-flash\-\_\-driver}}}\label{_s_t_m32_f4xx_2pios__flash__internal_8c_a8aff8a4857819424bfeccbc235411a8b}
+{\bfseries \-Initial value\-:}
+\begin{DoxyCode}
+ {
+        .start_transaction = PIOS_Flash_Internal_StartTransaction,
+        .end_transaction   = PIOS_Flash_Internal_EndTransaction,
+        .erase_sector      = PIOS_Flash_Internal_EraseSector,
+        .write_data        = PIOS_Flash_Internal_WriteData,
+        .read_data         = PIOS_Flash_Internal_ReadData,
+}
+\end{DoxyCode}
+
+
+\-Definition at line 334 of file pios\-\_\-flash\-\_\-internal.\-c.
+

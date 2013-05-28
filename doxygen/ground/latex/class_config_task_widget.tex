@@ -1,0 +1,187 @@
+\hypertarget{class_config_task_widget}{\section{\-Config\-Task\-Widget \-Class \-Reference}
+\label{class_config_task_widget}\index{\-Config\-Task\-Widget@{\-Config\-Task\-Widget}}
+}
+
+
+{\ttfamily \#include $<$configtaskwidget.\-h$>$}
+
+\-Inheritance diagram for \-Config\-Task\-Widget\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=12.000000cm]{class_config_task_widget}
+\end{center}
+\end{figure}
+\subsection*{\-Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{struct_config_task_widget_1_1object_to_widget}{object\-To\-Widget}
+\item 
+struct \hyperlink{struct_config_task_widget_1_1shadow}{shadow}
+\item 
+struct \hyperlink{struct_config_task_widget_1_1temphelper}{temphelper}
+\item 
+struct \hyperlink{struct_config_task_widget_1_1ui_relation_automation}{ui\-Relation\-Automation}
+\end{DoxyCompactItemize}
+\subsection*{\-Public \-Types}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{group___u_a_v_object_widget_utils_gacf8aa6ed9da799d1973519df03d1ecfa}{button\-Type\-Enum} \{ \*
+\hyperlink{group___u_a_v_object_widget_utils_ggacf8aa6ed9da799d1973519df03d1ecfaa5ba945be96884ca1ea4e0019425b3fd1}{none}, 
+\hyperlink{group___u_a_v_object_widget_utils_ggacf8aa6ed9da799d1973519df03d1ecfaad57389b40e61729debc6f0e8fd4cbde2}{save\-\_\-button}, 
+\hyperlink{group___u_a_v_object_widget_utils_ggacf8aa6ed9da799d1973519df03d1ecfaaeebf9f5769535bd71cb2907073cf1492}{apply\-\_\-button}, 
+\hyperlink{group___u_a_v_object_widget_utils_ggacf8aa6ed9da799d1973519df03d1ecfaae3d77626c54b30f24b9342696d4155ee}{reload\-\_\-button}, 
+\*
+\hyperlink{group___u_a_v_object_widget_utils_ggacf8aa6ed9da799d1973519df03d1ecfaa8a58b5c21f9b09e20e74ab163d47f09a}{default\-\_\-button}, 
+\hyperlink{group___u_a_v_object_widget_utils_ggacf8aa6ed9da799d1973519df03d1ecfaad33ed1c1d7511f14ca49069b8166d04e}{help\-\_\-button}
+ \}
+\item 
+enum \hyperlink{group___u_a_v_object_widget_utils_gaf06dbd27444c4e9864e702d7c00b0a62}{metadata\-Set\-Enum} \{ \hyperlink{group___u_a_v_object_widget_utils_ggaf06dbd27444c4e9864e702d7c00b0a62ad6334ea913f7c2a28d32a16d52e1aecf}{\-A\-L\-L\-\_\-\-M\-E\-T\-A\-D\-A\-T\-A}, 
+\hyperlink{group___u_a_v_object_widget_utils_ggaf06dbd27444c4e9864e702d7c00b0a62ac3b6f184c1551bd23d264999d0330302}{\-S\-E\-T\-T\-I\-N\-G\-S\-\_\-\-M\-E\-T\-A\-D\-A\-T\-A\-\_\-\-O\-N\-L\-Y}, 
+\hyperlink{group___u_a_v_object_widget_utils_ggaf06dbd27444c4e9864e702d7c00b0a62a6ac1f4283fd36cd22e96b56756e26bbe}{\-N\-O\-N\-S\-E\-T\-T\-I\-N\-G\-S\-\_\-\-M\-E\-T\-A\-D\-A\-T\-A\-\_\-\-O\-N\-L\-Y}
+ \}
+\end{DoxyCompactItemize}
+\subsection*{\-Public \-Slots}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_ga306b82fa3b114ce5c336dfda60ae479d}{on\-Autopilot\-Disconnect} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_gaf5b2ddc9de02820e89c8133f5625607d}{on\-Autopilot\-Connect} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_ga1505f6e22cf2e4167b03fca9417f91a5}{invalidate\-Objects} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_ga139dc5f372c46b8ad1614d637e762018}{apply} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_gabae71bcf9c71f99595c365fd49b342fc}{save} ()
+\end{DoxyCompactItemize}
+\subsection*{\-Signals}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_gaee198ff7978d5358a93395eb215fa767}{widget\-Contents\-Changed} (\-Q\-Widget $\ast$widget)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_gacc1be196d23d5e483f68a990d8ebfae6}{populate\-Widgets\-Requested} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_ga6d4f37af17f3990fd37e9eddbb8f3802}{refresh\-Widgets\-Values\-Requested} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_gae43eee3bcf829dcfc91b17c25bc5db95}{update\-Objects\-From\-Widgets\-Requested} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_ga6812138654a8b49e72c674cee7245781}{auto\-Pilot\-Connected} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_gab874b1ad732a19472dc1a9d29f23d7ae}{auto\-Pilot\-Disconnected} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_ga42fb0be146f76a7ce2ef34e655a3015a}{default\-Requested} (int group)
+\end{DoxyCompactItemize}
+\subsection*{\-Public \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_object_widget_utils_ga8164338f4928bd3afd984eeda276f276}{\-Config\-Task\-Widget} (\-Q\-Widget $\ast$parent=0)
+\item 
+virtual \hyperlink{group___u_a_v_object_widget_utils_ga40fc17c487f66c2cbcd9aa678c6f20dd}{$\sim$\-Config\-Task\-Widget} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_gaf42e971c9cd69919e3b05ed25643d516}{disable\-Mouse\-Wheel\-Events} ()
+\item 
+bool \hyperlink{group___u_a_v_object_widget_utils_gae5859445d40d8a43d5fd91927dd56ba9}{event\-Filter} (\-Q\-Object $\ast$obj, \-Q\-Event $\ast$evt)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_ga48cc77073a67c1e1945a0625f27d1519}{save\-Object\-To\-S\-D} (\hyperlink{class_u_a_v_object}{\-U\-A\-V\-Object} $\ast$obj)
+\item 
+\hyperlink{class_u_a_v_object_manager}{\-U\-A\-V\-Object\-Manager} $\ast$ \hyperlink{group___u_a_v_object_widget_utils_ga516ee05a73ac3c7c9e6132b0d7294b4a}{get\-Object\-Manager} ()
+\begin{DoxyCompactList}\small\item\em \hyperlink{group___u_a_v_object_widget_utils_ga516ee05a73ac3c7c9e6132b0d7294b4a}{\-Config\-Task\-Widget\-::get\-Object\-Manager} \-Utility function to get a pointer to the object manager. \end{DoxyCompactList}\item 
+\hyperlink{class_u_a_v_object_util_manager}{\-U\-A\-V\-Object\-Util\-Manager} $\ast$ \hyperlink{group___u_a_v_object_widget_utils_gadefdec77400ea7aaed02de03fa044b7a}{get\-Object\-Util\-Manager} ()
+\begin{DoxyCompactList}\small\item\em \hyperlink{group___u_a_v_object_widget_utils_gadefdec77400ea7aaed02de03fa044b7a}{\-Config\-Task\-Widget\-::get\-Object\-Util\-Manager} \-Utility function to get a pointer to the object manager utilities. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_ga82f371b1291826ec74341dddfe827c83}{add\-U\-A\-V\-Object} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} object\-Name, \-Q\-List$<$ int $>$ $\ast$reload\-Groups=\-N\-U\-L\-L)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_gac56e252ece21406583d59af2b70c2565}{add\-U\-A\-V\-Object} (\hyperlink{class_u_a_v_object}{\-U\-A\-V\-Object} $\ast$object\-Name, \-Q\-List$<$ int $>$ $\ast$reload\-Groups=\-N\-U\-L\-L)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_ga3edd7677e362be586b059c066e0a4e30}{add\-Widget} (\-Q\-Widget $\ast$widget)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_ga8f5d01ae74d161f7b85d123e66c49451}{add\-U\-A\-V\-Object\-To\-Widget\-Relation} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} object, \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} field, \-Q\-Widget $\ast$widget, int index=0, double scale=1, bool is\-Limited=false, \-Q\-List$<$ int $>$ $\ast$default\-Reload\-Groups=0, quint32 inst\-I\-D=0)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_ga9516761ea1de60250535bdebc9dd7fa9}{add\-U\-A\-V\-Object\-To\-Widget\-Relation} (\hyperlink{class_u_a_v_object}{\-U\-A\-V\-Object} $\ast$obj, \hyperlink{class_u_a_v_object_field}{\-U\-A\-V\-Object\-Field} $\ast$field, \-Q\-Widget $\ast$widget, int index=0, double scale=1, bool is\-Limited=false, \-Q\-List$<$ int $>$ $\ast$default\-Reload\-Groups=0, quint32 inst\-I\-D=0)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_ga929ce6a70bab7ab756f3d7df22ee4427}{add\-U\-A\-V\-Object\-To\-Widget\-Relation} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} object, \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} field, \-Q\-Widget $\ast$widget, \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} element, double scale, bool is\-Limited=false, \-Q\-List$<$ int $>$ $\ast$default\-Reload\-Groups=0, quint32 inst\-I\-D=0)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_ga70ea9dedfc9c692d10fd0c2223336ff6}{add\-U\-A\-V\-Object\-To\-Widget\-Relation} (\hyperlink{class_u_a_v_object}{\-U\-A\-V\-Object} $\ast$obj, \hyperlink{class_u_a_v_object_field}{\-U\-A\-V\-Object\-Field} $\ast$field, \-Q\-Widget $\ast$widget, \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} element, double scale, bool is\-Limited=false, \-Q\-List$<$ int $>$ $\ast$default\-Reload\-Groups=0, quint32 inst\-I\-D=0)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_gae3ae5288613fb8062c029d9a4da6c759}{add\-U\-A\-V\-Object\-To\-Widget\-Relation} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} object, \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} field, \-Q\-Widget $\ast$widget, \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} index)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_ga368867adfb58200a5f6af90141e8f1ae}{add\-U\-A\-V\-Object\-To\-Widget\-Relation} (\hyperlink{class_u_a_v_object}{\-U\-A\-V\-Object} $\ast$obj, \hyperlink{class_u_a_v_object_field}{\-U\-A\-V\-Object\-Field} $\ast$field, \-Q\-Widget $\ast$widget, \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} index)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_ga38c270f9a29f4e190e71414bdce82590}{add\-Apply\-Save\-Buttons} (\-Q\-Push\-Button $\ast$update, \-Q\-Push\-Button $\ast$\hyperlink{group___u_a_v_object_widget_utils_gabae71bcf9c71f99595c365fd49b342fc}{save})
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_ga08a7e3f2686fdb1ef91db0843cb9414e}{add\-Reload\-Button} (\-Q\-Push\-Button $\ast$button, int button\-Group)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_gac0e04866c45a89a3f2c6f3241afa86d3}{add\-Default\-Button} (\-Q\-Push\-Button $\ast$button, int button\-Group)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_gabdd18a22aae23df220d48868ecbdf3a0}{add\-Widget\-To\-Default\-Reload\-Groups} (\-Q\-Widget $\ast$widget, \-Q\-List$<$ int $>$ $\ast$groups)
+\item 
+bool \hyperlink{group___u_a_v_object_widget_utils_ga726f8720d2d1bb52d38a6425fbfab448}{add\-Shadow\-Widget} (\-Q\-Widget $\ast$master\-Widget, \-Q\-Widget $\ast$shadow\-Widget, double shadow\-Scale=1, bool shadow\-Is\-Limited=false)
+\item 
+bool \hyperlink{group___u_a_v_object_widget_utils_ga285c7e48c6b730133169c0226cbc59c4}{add\-Shadow\-Widget} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} object, \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} field, \-Q\-Widget $\ast$widget, int index=0, double scale=1, bool is\-Limited=false, \-Q\-List$<$ int $>$ $\ast$default\-Reload\-Groups=\-N\-U\-L\-L, quint32 inst\-I\-D=0)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_ga945551d9d4d280fe2cd14bc2646d8fbf}{auto\-Load\-Widgets} ()
+\item 
+bool \hyperlink{group___u_a_v_object_widget_utils_gad61b70a01e85822c5838c2c5833c22fd}{is\-Autopilot\-Connected} ()
+\begin{DoxyCompactList}\small\item\em \hyperlink{group___u_a_v_object_widget_utils_gad61b70a01e85822c5838c2c5833c22fd}{\-Config\-Task\-Widget\-::is\-Autopilot\-Connected} \-Checks if the autopilot is connected. \end{DoxyCompactList}\item 
+bool \hyperlink{group___u_a_v_object_widget_utils_ga2d7e19cef57df7b30741b4901b5a190f}{is\-Dirty} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_gae75127fbfffe10458defc31a6a18c0f8}{set\-Dirty} (bool value)
+\item 
+bool \hyperlink{group___u_a_v_object_widget_utils_ga62e7277f3b8228d44da13a2355b96e9a}{all\-Objects\-Updated} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_gaefefd74c41c3c7655ae047ae80d6dba8}{set\-Out\-Of\-Limits\-Style} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} style)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_ga369a4d9a6a1eba7ba8e61e64f1d89b80}{add\-Help\-Button} (\-Q\-Push\-Button $\ast$button, \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} url)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_gaae2888fd71dce34ad0c33aed78952e23}{force\-Shadow\-Updates} ()
+\begin{DoxyCompactList}\small\item\em \hyperlink{group___u_a_v_object_widget_utils_gaae2888fd71dce34ad0c33aed78952e23}{\-Config\-Task\-Widget\-::force\-Shadow\-Updates}. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_gaef1ebd891852a741315a8b69975876e6}{force\-Connected\-State} ()
+\end{DoxyCompactItemize}
+\subsection*{\-Static \-Public \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+static double \hyperlink{group___u_a_v_object_widget_utils_ga134c15f52a4eccf9aeb9bbacdc296b80}{list\-Mean} (\-Q\-List$<$ double $>$ list)
+\item 
+static double \hyperlink{group___u_a_v_object_widget_utils_ga2f33179993858ca636461e78e3a7a3c8}{list\-Var} (\-Q\-List$<$ double $>$ list)
+\end{DoxyCompactItemize}
+\subsection*{\-Protected \-Slots}
+\begin{DoxyCompactItemize}
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_ga32ef249bc6ebe47b9fe60812e09476da}{disable\-Obj\-Updates} ()
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_gafff7f205068866010a484ee95730b65b}{enable\-Obj\-Updates} ()
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_gae4dd854e5d93e1b268ffc473a7392493}{clear\-Dirty} ()
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_ga6860b8b666afa5a3254fd84ab1f9119e}{widgets\-Contents\-Changed} ()
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_gaa3d55f7941db619b9872b0ffdc78ebde}{populate\-Widgets} ()
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_ga7682451eb1e003d337c679fc8a36c6e1}{refresh\-Widgets\-Values} (\hyperlink{class_u_a_v_object}{\-U\-A\-V\-Object} $\ast$obj=\-N\-U\-L\-L)
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_ga4e59f88c43451ae4282077f9a9214cea}{update\-Objects\-From\-Widgets} ()
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_ga63ae96f50a8ed78f60d382dede4676d7}{help\-Button\-Pressed} ()
+\end{DoxyCompactItemize}
+\subsection*{\-Protected \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_gaad59e4e96d1e4a59067aa44828ddaa3f}{enable\-Controls} (bool enable)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_ga087b6f8f17317793efa0d121fe42336a}{check\-Widgets\-Limits} (\-Q\-Widget $\ast$widget, \hyperlink{class_u_a_v_object_field}{\-U\-A\-V\-Object\-Field} $\ast$field, int index, bool has\-Limits, \-Q\-Variant value, double scale)
+\item 
+virtual \-Q\-Variant \hyperlink{group___u_a_v_object_widget_utils_ga0bc84dd39dc77fccf26bf3a708a11733}{get\-Variant\-From\-Widget} (\-Q\-Widget $\ast$widget, double scale)
+\item 
+virtual bool \hyperlink{group___u_a_v_object_widget_utils_gac37260311f36d40dcb9dce65e025c426}{set\-Widget\-From\-Variant} (\-Q\-Widget $\ast$widget, \-Q\-Variant value, double scale)
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+
+
+\-Definition at line 53 of file configtaskwidget.\-h.
+
+
+
+\-The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/plugins/uavobjectwidgetutils/\hyperlink{configtaskwidget_8h}{configtaskwidget.\-h}\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/plugins/uavobjectwidgetutils/\hyperlink{configtaskwidget_8cpp}{configtaskwidget.\-cpp}\end{DoxyCompactItemize}

@@ -1,0 +1,151 @@
+\hypertarget{structcomplementary__filter__state}{\section{complementary\-\_\-filter\-\_\-state \-Struct \-Reference}
+\label{structcomplementary__filter__state}\index{complementary\-\_\-filter\-\_\-state@{complementary\-\_\-filter\-\_\-state}}
+}
+\subsection*{\-Data \-Fields}
+\begin{DoxyCompactItemize}
+\item 
+uint32\-\_\-t \hyperlink{structcomplementary__filter__state_a25592bc35eb34062d082854dd0dbce44}{arming\-\_\-count}
+\begin{DoxyCompactList}\small\item\em \-Track how many cycles the system has been arming to accelerate convergence. \end{DoxyCompactList}\item 
+float \hyperlink{structcomplementary__filter__state_a2a0dfc57428cafd19006fe7cd1dee0ce}{accel\-\_\-alpha}
+\begin{DoxyCompactList}\small\item\em \-Coefficient for the accelerometer \-L\-P\-F. \end{DoxyCompactList}\item 
+float \hyperlink{structcomplementary__filter__state_a88a370dd8e3f412f189e5a585b9d1a52}{accels\-\_\-filtered} \mbox{[}3\mbox{]}
+\begin{DoxyCompactList}\small\item\em \-Store the low pass filtered accelerometer. \end{DoxyCompactList}\item 
+float \hyperlink{structcomplementary__filter__state_a91176df07de5e650a8afe8bec74d3ce1}{grot\-\_\-filtered} \mbox{[}3\mbox{]}
+\begin{DoxyCompactList}\small\item\em \-Low pass filtered gravity vector. \end{DoxyCompactList}\item 
+bool \hyperlink{structcomplementary__filter__state_a7d259f4954fc2a3ed14353faa41f6414}{accel\-\_\-filter\-\_\-enabled}
+\begin{DoxyCompactList}\small\item\em \-If the accelerometer \-L\-P\-F is enabled. \end{DoxyCompactList}\item 
+float \hyperlink{structcomplementary__filter__state_ada568dc8edca423fd6744e58049272e9}{accumulated\-\_\-gyro} \mbox{[}3\mbox{]}
+\begin{DoxyCompactList}\small\item\em \-The accumulator of gyros during arming. \end{DoxyCompactList}\item 
+uint32\-\_\-t \hyperlink{structcomplementary__filter__state_ae32da25bd01d785b59379dea487222dc}{accumulated\-\_\-gyro\-\_\-samples}
+\begin{DoxyCompactList}\small\item\em \-How many gyro samples were acquired. \end{DoxyCompactList}\item 
+bool \hyperlink{structcomplementary__filter__state_a0a5740a2b1f2c69d56ee1c5d4ace3d20}{accumulating\-\_\-gyro}
+\begin{DoxyCompactList}\small\item\em \-Indicate if currently acquiring gyro samples. \end{DoxyCompactList}\item 
+uint32\-\_\-t \hyperlink{structcomplementary__filter__state_a5b8422bb68fa412d1ff92c82331c18ec}{reset\-\_\-timeval}
+\begin{DoxyCompactList}\small\item\em \-Store when the function is initialized to time arming and convergence. \end{DoxyCompactList}\item 
+enum \hyperlink{group___attitude_module_ga2a3dfab57b52ff023f9197d9afe06ff4}{complementary\-\_\-filter\-\_\-status} \hyperlink{structcomplementary__filter__state_a28dd748e22efb34aa6dddf4873b1c445}{initialization}
+\begin{DoxyCompactList}\small\item\em \-Tracks the initialization state of the complementary filter. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+
+
+\-Definition at line 94 of file attitude.\-c.
+
+
+
+\subsection{\-Field \-Documentation}
+\hypertarget{structcomplementary__filter__state_a2a0dfc57428cafd19006fe7cd1dee0ce}{\index{complementary\-\_\-filter\-\_\-state@{complementary\-\_\-filter\-\_\-state}!accel\-\_\-alpha@{accel\-\_\-alpha}}
+\index{accel\-\_\-alpha@{accel\-\_\-alpha}!complementary_filter_state@{complementary\-\_\-filter\-\_\-state}}
+\subsubsection[{accel\-\_\-alpha}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf complementary\-\_\-filter\-\_\-state\-::accel\-\_\-alpha}}}\label{structcomplementary__filter__state_a2a0dfc57428cafd19006fe7cd1dee0ce}
+
+
+\-Coefficient for the accelerometer \-L\-P\-F. 
+
+
+
+\-Definition at line 99 of file attitude.\-c.
+
+\hypertarget{structcomplementary__filter__state_a7d259f4954fc2a3ed14353faa41f6414}{\index{complementary\-\_\-filter\-\_\-state@{complementary\-\_\-filter\-\_\-state}!accel\-\_\-filter\-\_\-enabled@{accel\-\_\-filter\-\_\-enabled}}
+\index{accel\-\_\-filter\-\_\-enabled@{accel\-\_\-filter\-\_\-enabled}!complementary_filter_state@{complementary\-\_\-filter\-\_\-state}}
+\subsubsection[{accel\-\_\-filter\-\_\-enabled}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf complementary\-\_\-filter\-\_\-state\-::accel\-\_\-filter\-\_\-enabled}}}\label{structcomplementary__filter__state_a7d259f4954fc2a3ed14353faa41f6414}
+
+
+\-If the accelerometer \-L\-P\-F is enabled. 
+
+
+
+\-Definition at line 105 of file attitude.\-c.
+
+\hypertarget{structcomplementary__filter__state_a88a370dd8e3f412f189e5a585b9d1a52}{\index{complementary\-\_\-filter\-\_\-state@{complementary\-\_\-filter\-\_\-state}!accels\-\_\-filtered@{accels\-\_\-filtered}}
+\index{accels\-\_\-filtered@{accels\-\_\-filtered}!complementary_filter_state@{complementary\-\_\-filter\-\_\-state}}
+\subsubsection[{accels\-\_\-filtered}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf complementary\-\_\-filter\-\_\-state\-::accels\-\_\-filtered}\mbox{[}3\mbox{]}}}\label{structcomplementary__filter__state_a88a370dd8e3f412f189e5a585b9d1a52}
+
+
+\-Store the low pass filtered accelerometer. 
+
+
+
+\-Definition at line 101 of file attitude.\-c.
+
+\hypertarget{structcomplementary__filter__state_ada568dc8edca423fd6744e58049272e9}{\index{complementary\-\_\-filter\-\_\-state@{complementary\-\_\-filter\-\_\-state}!accumulated\-\_\-gyro@{accumulated\-\_\-gyro}}
+\index{accumulated\-\_\-gyro@{accumulated\-\_\-gyro}!complementary_filter_state@{complementary\-\_\-filter\-\_\-state}}
+\subsubsection[{accumulated\-\_\-gyro}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf complementary\-\_\-filter\-\_\-state\-::accumulated\-\_\-gyro}\mbox{[}3\mbox{]}}}\label{structcomplementary__filter__state_ada568dc8edca423fd6744e58049272e9}
+
+
+\-The accumulator of gyros during arming. 
+
+
+
+\-Definition at line 108 of file attitude.\-c.
+
+\hypertarget{structcomplementary__filter__state_ae32da25bd01d785b59379dea487222dc}{\index{complementary\-\_\-filter\-\_\-state@{complementary\-\_\-filter\-\_\-state}!accumulated\-\_\-gyro\-\_\-samples@{accumulated\-\_\-gyro\-\_\-samples}}
+\index{accumulated\-\_\-gyro\-\_\-samples@{accumulated\-\_\-gyro\-\_\-samples}!complementary_filter_state@{complementary\-\_\-filter\-\_\-state}}
+\subsubsection[{accumulated\-\_\-gyro\-\_\-samples}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t {\bf complementary\-\_\-filter\-\_\-state\-::accumulated\-\_\-gyro\-\_\-samples}}}\label{structcomplementary__filter__state_ae32da25bd01d785b59379dea487222dc}
+
+
+\-How many gyro samples were acquired. 
+
+
+
+\-Definition at line 110 of file attitude.\-c.
+
+\hypertarget{structcomplementary__filter__state_a0a5740a2b1f2c69d56ee1c5d4ace3d20}{\index{complementary\-\_\-filter\-\_\-state@{complementary\-\_\-filter\-\_\-state}!accumulating\-\_\-gyro@{accumulating\-\_\-gyro}}
+\index{accumulating\-\_\-gyro@{accumulating\-\_\-gyro}!complementary_filter_state@{complementary\-\_\-filter\-\_\-state}}
+\subsubsection[{accumulating\-\_\-gyro}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf complementary\-\_\-filter\-\_\-state\-::accumulating\-\_\-gyro}}}\label{structcomplementary__filter__state_a0a5740a2b1f2c69d56ee1c5d4ace3d20}
+
+
+\-Indicate if currently acquiring gyro samples. 
+
+
+
+\-Definition at line 112 of file attitude.\-c.
+
+\hypertarget{structcomplementary__filter__state_a25592bc35eb34062d082854dd0dbce44}{\index{complementary\-\_\-filter\-\_\-state@{complementary\-\_\-filter\-\_\-state}!arming\-\_\-count@{arming\-\_\-count}}
+\index{arming\-\_\-count@{arming\-\_\-count}!complementary_filter_state@{complementary\-\_\-filter\-\_\-state}}
+\subsubsection[{arming\-\_\-count}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t {\bf complementary\-\_\-filter\-\_\-state\-::arming\-\_\-count}}}\label{structcomplementary__filter__state_a25592bc35eb34062d082854dd0dbce44}
+
+
+\-Track how many cycles the system has been arming to accelerate convergence. 
+
+
+
+\-Definition at line 96 of file attitude.\-c.
+
+\hypertarget{structcomplementary__filter__state_a91176df07de5e650a8afe8bec74d3ce1}{\index{complementary\-\_\-filter\-\_\-state@{complementary\-\_\-filter\-\_\-state}!grot\-\_\-filtered@{grot\-\_\-filtered}}
+\index{grot\-\_\-filtered@{grot\-\_\-filtered}!complementary_filter_state@{complementary\-\_\-filter\-\_\-state}}
+\subsubsection[{grot\-\_\-filtered}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf complementary\-\_\-filter\-\_\-state\-::grot\-\_\-filtered}\mbox{[}3\mbox{]}}}\label{structcomplementary__filter__state_a91176df07de5e650a8afe8bec74d3ce1}
+
+
+\-Low pass filtered gravity vector. 
+
+
+
+\-Definition at line 103 of file attitude.\-c.
+
+\hypertarget{structcomplementary__filter__state_a28dd748e22efb34aa6dddf4873b1c445}{\index{complementary\-\_\-filter\-\_\-state@{complementary\-\_\-filter\-\_\-state}!initialization@{initialization}}
+\index{initialization@{initialization}!complementary_filter_state@{complementary\-\_\-filter\-\_\-state}}
+\subsubsection[{initialization}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf complementary\-\_\-filter\-\_\-status} {\bf complementary\-\_\-filter\-\_\-state\-::initialization}}}\label{structcomplementary__filter__state_a28dd748e22efb34aa6dddf4873b1c445}
+
+
+\-Tracks the initialization state of the complementary filter. 
+
+
+
+\-Definition at line 118 of file attitude.\-c.
+
+\hypertarget{structcomplementary__filter__state_a5b8422bb68fa412d1ff92c82331c18ec}{\index{complementary\-\_\-filter\-\_\-state@{complementary\-\_\-filter\-\_\-state}!reset\-\_\-timeval@{reset\-\_\-timeval}}
+\index{reset\-\_\-timeval@{reset\-\_\-timeval}!complementary_filter_state@{complementary\-\_\-filter\-\_\-state}}
+\subsubsection[{reset\-\_\-timeval}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t {\bf complementary\-\_\-filter\-\_\-state\-::reset\-\_\-timeval}}}\label{structcomplementary__filter__state_a5b8422bb68fa412d1ff92c82331c18ec}
+
+
+\-Store when the function is initialized to time arming and convergence. 
+
+
+
+\-Definition at line 115 of file attitude.\-c.
+
+
+
+\-The documentation for this struct was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/home/jb/code/\-Tau\-Labs/flight/\-Modules/\-Attitude/revolution/\hyperlink{revolution_2attitude_8c}{attitude.\-c}\end{DoxyCompactItemize}

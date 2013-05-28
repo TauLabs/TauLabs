@@ -1,0 +1,1237 @@
+\hypertarget{group___uploader}{\section{\-Serial and \-U\-S\-B \-Uploader \-Plugin}
+\label{group___uploader}\index{\-Serial and U\-S\-B Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}}
+}
+
+
+\-The \-U\-S\-B and \-Serial protocol uploader plugin.  
+
+
+\subsection*{\-Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{classport}{port}
+\item 
+struct \hyperlink{struct_packet__t}{\-Packet\-\_\-t}
+\item 
+struct \hyperlink{struct_port_config__t}{\-Port\-Config\-\_\-t}
+\item 
+class \hyperlink{classqssp}{qssp}
+\item 
+class \hyperlink{classqsspt}{qsspt}
+\end{DoxyCompactItemize}
+\subsection*{\-Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+namespace \hyperlink{namespacedevice}{device}
+\end{DoxyCompactItemize}
+\subsection*{\-Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{group___uploader_gaca51c380bc924bd9e5d794ce37ec7194}{decode\-State\-\_\-} \{ \*
+\hyperlink{group___uploader_ggaca51c380bc924bd9e5d794ce37ec7194ac738efa240b452a9f28a1d74b3b1e577}{decode\-\_\-len1\-\_\-e} =  0, 
+\hyperlink{group___uploader_ggaca51c380bc924bd9e5d794ce37ec7194a8948184bb37f2d5b059098b995324008}{decode\-\_\-seq\-No\-\_\-e}, 
+\hyperlink{group___uploader_ggaca51c380bc924bd9e5d794ce37ec7194a91931af694b0871e719a59f1c25c352b}{decode\-\_\-data\-\_\-e}, 
+\hyperlink{group___uploader_ggaca51c380bc924bd9e5d794ce37ec7194afa9ba876432b572e8e33d9e3dbcbf08b}{decode\-\_\-crc1\-\_\-e}, 
+\*
+\hyperlink{group___uploader_ggaca51c380bc924bd9e5d794ce37ec7194aa6af9fe6c0ab0063f14e51d6918d4200}{decode\-\_\-crc2\-\_\-e}, 
+\hyperlink{group___uploader_ggaca51c380bc924bd9e5d794ce37ec7194ac64fcf93e639a47e18038aa68ba5212d}{decode\-\_\-idle\-\_\-e}
+ \}
+\item 
+enum \hyperlink{group___uploader_gab10fc109fdda19fca8e7faf999d5a342}{\-Receive\-State} \{ \hyperlink{group___uploader_ggab10fc109fdda19fca8e7faf999d5a342ac75bd6be510b577858578d577ee4e7fa}{state\-\_\-escaped\-\_\-e} =  0, 
+\hyperlink{group___uploader_ggab10fc109fdda19fca8e7faf999d5a342acdcef956e1916566a6e6c081948de7bf}{state\-\_\-unescaped\-\_\-e}
+ \}
+\item 
+enum \hyperlink{group___uploader_ga2f8ecb3d9778a986988296b474912ad3}{port\-::portstatus} \{ \hyperlink{group___uploader_gga2f8ecb3d9778a986988296b474912ad3aa27283d847e32c8004f5f4793f0a9704}{port\-::open}, 
+\hyperlink{group___uploader_gga2f8ecb3d9778a986988296b474912ad3a5d09f03f25366db4d621110f6d3e48fa}{port\-::closed}, 
+\hyperlink{group___uploader_gga2f8ecb3d9778a986988296b474912ad3a5a170de7334d016eb4a494cb60943a46}{port\-::error}
+ \}
+\end{DoxyCompactItemize}
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual int16\-\_\-t \hyperlink{group___uploader_gae97ecc8aa7bff549fc95c2fe0c922279}{port\-::pf\-Serial\-Read} (\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void})
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___uploader_ga30e501e90b5d17c51d6f26ff169cf03d}{port\-::pf\-Serial\-Write} (uint8\-\_\-t)
+\item 
+virtual uint32\-\_\-t \hyperlink{group___uploader_ga175fa612d12b3411709d60fef9c26cc2}{port\-::pf\-Get\-Time} (\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void})
+\item 
+\hyperlink{group___uploader_ga07c31ea30e7226e74f05a64bf51e89c8}{port\-::port} (\-Port\-Settings settings, \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} name)
+\item 
+\hyperlink{group___uploader_gacd903c84068e3b7829d0688ae4aad58e}{port\-::$\sim$port} ()
+\item 
+portstatus \hyperlink{group___uploader_ga047435f44b40228c4e544c28bd77f03b}{port\-::status} ()
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___uploader_ga78a7ba52d304ce0352e013e99e98820d}{qssp\-::pf\-Call\-Back} (uint8\-\_\-t $\ast$, uint16\-\_\-t)
+\item 
+int16\-\_\-t \hyperlink{group___uploader_ga11e7402dcc0d8efde83d13592279f122}{qssp\-::ssp\-\_\-\-Receive\-Process} ()
+\begin{DoxyCompactList}\small\item\em \-Runs the receive process. fetches a byte at a time and runs the byte through the protocol receive state machine. \end{DoxyCompactList}\item 
+int16\-\_\-t \hyperlink{group___uploader_gaa1b44e385ddf057c81585809dc71e4ba}{qssp\-::ssp\-\_\-\-Send\-Process} ()
+\begin{DoxyCompactList}\small\item\em \-Runs the send process, checks for receipt of ack, timeouts and resends if needed. \end{DoxyCompactList}\item 
+uint16\-\_\-t \hyperlink{group___uploader_ga53a085c64c9a0e54a10cefe2ce660714}{qssp\-::ssp\-\_\-\-Send\-String} (char $\ast$str)
+\item 
+int16\-\_\-t \hyperlink{group___uploader_gae129d1cdf9ba386b6cd8002176a35a3b}{qssp\-::ssp\-\_\-\-Send\-Data} (const uint8\-\_\-t $\ast$data, const uint16\-\_\-t \hyperlink{uavobjecttemplate_8m_a076bf56c9bafa07f3dbda4901a40d84c}{length})
+\begin{DoxyCompactList}\small\item\em sends a chunk of data and does not block \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___uploader_gaa7efad31d36502cca3aab3e4eed10d12}{qssp\-::ssp\-\_\-\-Init} (const \hyperlink{struct_port_config__t}{\-Port\-Config\-\_\-t} $\ast$const info)
+\begin{DoxyCompactList}\small\item\em \-Initializes the communication port for use. \end{DoxyCompactList}\item 
+int16\-\_\-t \hyperlink{group___uploader_gae06a33d9cc36f1b95bb0bc0a5ab8ca3a}{qssp\-::ssp\-\_\-\-Receive\-Byte} ()
+\begin{DoxyCompactList}\small\item\em processes a single byte through the receive state machine. \end{DoxyCompactList}\item 
+uint16\-\_\-t \hyperlink{group___uploader_ga6f47e7cf74215ceeaf3d6234ef0c37b7}{qssp\-::ssp\-\_\-\-Synchronise} ()
+\begin{DoxyCompactList}\small\item\em \-Attempts to synchronize the sequence numbers with the other end of the connectin. \end{DoxyCompactList}\item 
+\hyperlink{group___uploader_ga6b7f70326e497709fc513c3d122379cb}{qssp\-::qssp} (\hyperlink{classport}{port} $\ast$info, bool \hyperlink{synchronousprocess_8cpp_abed82baf7f470b522273a3e37c24c600a5be0fd270d9cbf6a0b7445db855089da}{debug})
+\item 
+\hyperlink{group___uploader_gaa7e3f69818d5f701e1c7191059b332ae}{qsspt\-::qsspt} (\hyperlink{classport}{port} $\ast$info, bool \hyperlink{synchronousprocess_8cpp_abed82baf7f470b522273a3e37c24c600a5be0fd270d9cbf6a0b7445db855089da}{debug})
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___uploader_gac7b338eecc56ca930c6078162b168c83}{qsspt\-::run} ()
+\item 
+int \hyperlink{group___uploader_ga4fd481f6796cd770176f43ddc097ebe8}{qsspt\-::packets\-\_\-\-Available} ()
+\item 
+int \hyperlink{group___uploader_gab8eb0ccb0806be7a169c335cab1e4d0c}{qsspt\-::read\-\_\-\-Packet} (\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} $\ast$)
+\item 
+\hyperlink{group___uploader_ga05f94a4538efa2bacd837e2b0684d6b3}{qsspt\-::$\sim$qsspt} ()
+\item 
+bool \hyperlink{group___uploader_ga7711ea10887bffa2d338e45bfdd564a2}{qsspt\-::send\-Data} (uint8\-\_\-t $\ast$buf, uint16\-\_\-t size)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___uploader_gaf56d7d5fb2715ab7213ea4193df3b373}{device\-Widget\-::populate} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___uploader_gac5513bd475a701ede81cde9432e8ddf2}{device\-Widget\-::freeze} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___uploader_ga6273e94cd08759c019fbb9a1063cbd26}{device\-Widget\-::unfreeze} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___uploader_ga6ad26364234edf8c743b0b08885050b1}{device\-Widget\-::set\-Open\-File\-Name} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___uploader_ga1c33b640cfaca086fcfd5574eecec8ef}{device\-Widget\-::set\-Save\-File\-Name} ()
+\item 
+\hyperlink{group___uploader_gacb8ee3e1b1358ae25813e37f08b6d510}{\-O\-P\-\_\-\-D\-F\-U\-::\-D\-F\-U\-Object\-::\-D\-F\-U\-Object} (bool \hyperlink{synchronousprocess_8cpp_abed82baf7f470b522273a3e37c24c600a5be0fd270d9cbf6a0b7445db855089da}{debug}, bool use\-\_\-serial, \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{classport}{port})
+\item 
+\hyperlink{group___uploader_gad3eb7cce298c72c456a84eb04cc9c0fe}{\-O\-P\-\_\-\-D\-F\-U\-::\-D\-F\-U\-Object\-::$\sim$\-D\-F\-U\-Object} ()
+\item 
+bool \hyperlink{group___uploader_ga1422e01836cfff2d47cd09bfbbdde774}{\-O\-P\-\_\-\-D\-F\-U\-::\-D\-F\-U\-Object\-::\-Save\-Byte\-Array\-To\-File} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} const \&\hyperlink{uavobjecttemplate_8m_a97c04efa65bcf0928abf9260bc5cbf46}{file}, \-Q\-Byte\-Array const \&array)
+\item 
+bool \hyperlink{group___uploader_ga64ed24565b35c4530dd2614cc98f38cd}{\-O\-P\-\_\-\-D\-F\-U\-::\-D\-F\-U\-Object\-::enter\-D\-F\-U} (int const \&dev\-Number)
+\item 
+\-O\-P\-\_\-\-D\-F\-U\-::\-Status \hyperlink{group___uploader_ga6513c6ff0fee1f11aebd6312296e6ed6}{\-O\-P\-\_\-\-D\-F\-U\-::\-D\-F\-U\-Object\-::\-Upload\-Description} (\-Q\-Variant description)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___uploader_ga5c3ae32c69bac4c663f6be430da1db3d}{\-O\-P\-\_\-\-D\-F\-U\-::\-D\-F\-U\-Object\-::\-Download\-Description} (int const \&number\-Of\-Chars)
+\item 
+\-Q\-Byte\-Array \hyperlink{group___uploader_gaa0f76d47015fa313a0bcf555bb0e690b}{\-O\-P\-\_\-\-D\-F\-U\-::\-D\-F\-U\-Object\-::\-Download\-Description\-As\-B\-A} (int const \&number\-Of\-Chars)
+\item 
+bool \hyperlink{group___uploader_ga8b88c71b81cbe00fe29938ac9b8a6dcf}{\-O\-P\-\_\-\-D\-F\-U\-::\-D\-F\-U\-Object\-::\-Download\-Firmware} (\-Q\-Byte\-Array $\ast$byte\-Array, int \hyperlink{struct_o_p___d_f_u_1_1device}{device})
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___uploader_gadb19927303aa24b5505dce3adbb532a2}{\-O\-P\-\_\-\-D\-F\-U\-::\-D\-F\-U\-Object\-::run} ()
+\item 
+int \hyperlink{group___uploader_gafbdc3dede843764690ebd5bc074ff5dd}{\-O\-P\-\_\-\-D\-F\-U\-::\-D\-F\-U\-Object\-::\-Reset\-Device} (\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void})
+\item 
+int \hyperlink{group___uploader_gaa448917a297dd634c2ab4d760a6c402d}{\-O\-P\-\_\-\-D\-F\-U\-::\-D\-F\-U\-Object\-::\-Abort\-Operation} (\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void})
+\item 
+int \hyperlink{group___uploader_gad6165621f503c5767306199a8606edaf}{\-O\-P\-\_\-\-D\-F\-U\-::\-D\-F\-U\-Object\-::\-Jump\-To\-App} (bool)
+\item 
+\-O\-P\-\_\-\-D\-F\-U\-::\-Status \hyperlink{group___uploader_gadd798371bcb5c155ef215f5a77316471}{\-O\-P\-\_\-\-D\-F\-U\-::\-D\-F\-U\-Object\-::\-Status\-Request} ()
+\item 
+bool \hyperlink{group___uploader_ga09f55b9de769e32ad728223294a8a500}{\-O\-P\-\_\-\-D\-F\-U\-::\-D\-F\-U\-Object\-::find\-Devices} ()
+\item 
+bool \hyperlink{group___uploader_ga16f60a8d921f01aca803178398ccdf45}{\-O\-P\-\_\-\-D\-F\-U\-::\-D\-F\-U\-Object\-::\-End\-Operation} ()
+\item 
+bool \hyperlink{group___uploader_gacccdb64a8aa1c8ff0f90296fcb935fef}{\-O\-P\-\_\-\-D\-F\-U\-::\-D\-F\-U\-Object\-::\-Upload\-Firmware} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \&sfile, const bool \&verify, int \hyperlink{struct_o_p___d_f_u_1_1device}{device})
+\item 
+\-O\-P\-\_\-\-D\-F\-U\-::\-Status \hyperlink{group___uploader_ga3c9852f8106d7177b5e27087f6e28764}{\-O\-P\-\_\-\-D\-F\-U\-::\-D\-F\-U\-Object\-::\-Compare\-Firmware} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \&sfile, const \hyperlink{namespace_o_p___d_f_u_a687d96e45447775c09aced0f06db435b}{\-Compare\-Type} \&type, int \hyperlink{struct_o_p___d_f_u_1_1device}{device})
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___uploader_gae048f84f5abd2be97bbe40fcf6e193c4}{\-O\-P\-\_\-\-D\-F\-U\-::\-D\-F\-U\-Object\-::\-Status\-To\-String} (\-O\-P\-\_\-\-D\-F\-U\-::\-Status const \&status)
+\item 
+static quint32 \hyperlink{group___uploader_gae755106568ea0611498e45e43bfa9e4d}{\-O\-P\-\_\-\-D\-F\-U\-::\-D\-F\-U\-Object\-::\-C\-R\-C32\-Wide\-Fast} (quint32 \-Crc, quint32 \-Size, quint32 $\ast$\-Buffer)
+\item 
+static quint32 \hyperlink{group___uploader_ga8b3213586813e0e852bd8e8460f02fc0}{\-O\-P\-\_\-\-D\-F\-U\-::\-D\-F\-U\-Object\-::\-C\-R\-C\-From\-Q\-B\-Array} (\-Q\-Byte\-Array array, quint32 \-Size)
+\item 
+\hyperlink{namespace_o_p___d_f_u_a7226d41298447c34a2c489cb47c470bd}{\-O\-P\-\_\-\-D\-F\-U\-::e\-Board\-Type} \hyperlink{group___uploader_ga9376138780f2860b37c7b9ae8af3f799}{\-O\-P\-\_\-\-D\-F\-U\-::\-D\-F\-U\-Object\-::\-Get\-Board\-Type} (int board\-Num)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___uploader_ga361969437ae7c23ebaa3d646e742dbc5}{running\-Device\-Widget\-::populate} ()
+\end{DoxyCompactItemize}
+\subsection*{\-Variables}
+\begin{DoxyCompactItemize}
+\item 
+uint8\-\_\-t \hyperlink{group___uploader_gaa59e48abe3c6ec88333502c7abd9c309}{port\-::retry\-Count}
+\item 
+uint8\-\_\-t \hyperlink{group___uploader_ga39fea4d573ab6d52b3b2df145d6d3f7a}{port\-::max\-Retry\-Count}
+\item 
+uint16\-\_\-t \hyperlink{group___uploader_ga6a20c78337e965260038e132527ba852}{port\-::max\-\_\-retry}
+\item 
+int32\-\_\-t \hyperlink{group___uploader_gacad18aa8d7e13c6500409da966437d3d}{port\-::timeout\-Len}
+\item 
+uint32\-\_\-t \hyperlink{group___uploader_gac5f404a47ec2583f83bd610d5f184308}{port\-::timeout}
+\item 
+uint8\-\_\-t \hyperlink{group___uploader_ga9add555476b07ac554ed3371358848bb}{port\-::tx\-Seq\-No}
+\item 
+uint16\-\_\-t \hyperlink{group___uploader_ga75073512a14d809c8ed03df447815d09}{port\-::rx\-Buf\-Pos}
+\item 
+uint16\-\_\-t \hyperlink{group___uploader_ga1de477395cd5f7c06623860c2d8017e4}{port\-::rx\-Buf\-Len}
+\item 
+uint8\-\_\-t \hyperlink{group___uploader_ga82ee05e7b1de6f1b55b375364ce5bc83}{port\-::rx\-Seq\-No}
+\item 
+uint16\-\_\-t \hyperlink{group___uploader_ga640561a803c92539943ec445afba5e72}{port\-::rx\-Buf\-Size}
+\item 
+uint16\-\_\-t \hyperlink{group___uploader_ga108da44374d16b8153824a65fec5a7ae}{port\-::tx\-Buf\-Size}
+\item 
+uint8\-\_\-t $\ast$ \hyperlink{group___uploader_gaf025f7e1a7f2a73bbc14602b9a5f1ee0}{port\-::tx\-Buf}
+\item 
+uint8\-\_\-t $\ast$ \hyperlink{group___uploader_ga934f922079e3cc67b83f3b27d377a1e4}{port\-::rx\-Buf}
+\item 
+uint16\-\_\-t \hyperlink{group___uploader_gafc6af17b7bd943cd40a0223eed26a0c3}{port\-::send\-Synch}
+\item 
+\hyperlink{group___uploader_gab10fc109fdda19fca8e7faf999d5a342}{\-Receive\-State} \hyperlink{group___uploader_ga4e66fb46404301e2985093c34ae57379}{port\-::\-Input\-State}
+\item 
+\hyperlink{group___uploader_gaca51c380bc924bd9e5d794ce37ec7194}{decode\-State\-\_\-} \hyperlink{group___uploader_gac689b116d4d7c80713d964bd631e9511}{port\-::\-Decode\-State}
+\item 
+uint16\-\_\-t \hyperlink{group___uploader_ga9eaf6bf50865d1b4f8470110523b9f6b}{port\-::\-Send\-State}
+\item 
+uint16\-\_\-t \hyperlink{group___uploader_ga6ad77d0d0cc02d7ce86e13041ef33c5e}{port\-::crc}
+\item 
+uint32\-\_\-t \hyperlink{group___uploader_ga6d92cd4c24b14264e16528a599123db4}{port\-::\-Rx\-Error}
+\item 
+uint32\-\_\-t \hyperlink{group___uploader_ga9b23351e935a17b3a216b903dabac29c}{port\-::\-Tx\-Error}
+\item 
+uint16\-\_\-t \hyperlink{group___uploader_gae9ceccbaac142c00a4699e9020d27f4b}{port\-::flags}
+\item 
+uint8\-\_\-t $\ast$ \hyperlink{group___uploader_ga9e944ebc8efdc543601a3ba9ed2fa36d}{\-Packet\-\_\-t\-::pbuff}
+\item 
+uint16\-\_\-t \hyperlink{group___uploader_ga0913fea37a151d66203855de5adfe013}{\-Packet\-\_\-t\-::length}
+\item 
+uint16\-\_\-t \hyperlink{group___uploader_gacdbb361acbb12c670984915ffd83f70e}{\-Packet\-\_\-t\-::crc}
+\item 
+uint8\-\_\-t \hyperlink{group___uploader_ga9f51d41b7233025b207d9a47188a684b}{\-Packet\-\_\-t\-::seq\-No}
+\item 
+uint8\-\_\-t $\ast$ \hyperlink{group___uploader_ga351151bd718bd34e6b4acc0c33a315a1}{\-Port\-Config\-\_\-t\-::rx\-Buf}
+\item 
+uint16\-\_\-t \hyperlink{group___uploader_ga2f1cf7a3eabee4b4fa51aeedb4e7f708}{\-Port\-Config\-\_\-t\-::rx\-Buf\-Size}
+\item 
+uint8\-\_\-t $\ast$ \hyperlink{group___uploader_ga45f87f2e2a856d459c590f5a1a0ffeb4}{\-Port\-Config\-\_\-t\-::tx\-Buf}
+\item 
+uint16\-\_\-t \hyperlink{group___uploader_gacc8a53158605f7a72f895d2a80036137}{\-Port\-Config\-\_\-t\-::tx\-Buf\-Size}
+\item 
+uint16\-\_\-t \hyperlink{group___uploader_ga780cb1cf13c87035b0715a39dec4981b}{\-Port\-Config\-\_\-t\-::max\-\_\-retry}
+\item 
+int32\-\_\-t \hyperlink{group___uploader_ga13c21abf5c985cf8f33e4a6ccc45310f}{\-Port\-Config\-\_\-t\-::timeout\-Len}
+\end{DoxyCompactItemize}
+\subsection*{\-Public \-Slots}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___uploader_gac421d53cac355c47f763a62eab7675c1}{device\-Widget\-::dfu\-Status} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String})
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___uploader_ga51b53782cd70711b9ca91f81ef02565b}{device\-Widget\-::upload\-Firmware} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___uploader_ga988f01d143265ee96b4255b07b63fbf6}{device\-Widget\-::download\-Firmware} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___uploader_ga0809fb3c0a799a12c92704a36d3abf16}{device\-Widget\-::download\-Finished} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___uploader_ga671fb25fd918e7eeac5c16bd1f1dfe86}{device\-Widget\-::upload\-Finished} (\-O\-P\-\_\-\-D\-F\-U\-::\-Status)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___uploader_ga8ac75c9483f273ed59faa116fe5699ee}{device\-Widget\-::set\-Progress} (int)
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-The \-U\-S\-B and \-Serial protocol uploader plugin. \-The uploader plugin. 
+
+\subsection{\-Enumeration \-Type \-Documentation}
+\hypertarget{group___uploader_gaca51c380bc924bd9e5d794ce37ec7194}{\index{\-Serial and U\-S\-B Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}!decode\-State\-\_\-@{decode\-State\-\_\-}}
+\index{decode\-State\-\_\-@{decode\-State\-\_\-}!Serial and USB Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}}
+\subsubsection[{decode\-State\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf decode\-State\-\_\-}}}\label{group___uploader_gaca51c380bc924bd9e5d794ce37ec7194}
+\begin{Desc}
+\item[\-Enumerator\-: ]\par
+\begin{description}
+\index{decode\-\_\-len1\-\_\-e@{decode\-\_\-len1\-\_\-e}!\-Serial and U\-S\-B Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}}\index{\-Serial and U\-S\-B Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}!decode\-\_\-len1\-\_\-e@{decode\-\_\-len1\-\_\-e}}\item[{\em 
+\hypertarget{group___uploader_ggaca51c380bc924bd9e5d794ce37ec7194ac738efa240b452a9f28a1d74b3b1e577}{decode\-\_\-len1\-\_\-e}\label{group___uploader_ggaca51c380bc924bd9e5d794ce37ec7194ac738efa240b452a9f28a1d74b3b1e577}
+}]\index{decode\-\_\-seq\-No\-\_\-e@{decode\-\_\-seq\-No\-\_\-e}!\-Serial and U\-S\-B Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}}\index{\-Serial and U\-S\-B Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}!decode\-\_\-seq\-No\-\_\-e@{decode\-\_\-seq\-No\-\_\-e}}\item[{\em 
+\hypertarget{group___uploader_ggaca51c380bc924bd9e5d794ce37ec7194a8948184bb37f2d5b059098b995324008}{decode\-\_\-seq\-No\-\_\-e}\label{group___uploader_ggaca51c380bc924bd9e5d794ce37ec7194a8948184bb37f2d5b059098b995324008}
+}]\index{decode\-\_\-data\-\_\-e@{decode\-\_\-data\-\_\-e}!\-Serial and U\-S\-B Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}}\index{\-Serial and U\-S\-B Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}!decode\-\_\-data\-\_\-e@{decode\-\_\-data\-\_\-e}}\item[{\em 
+\hypertarget{group___uploader_ggaca51c380bc924bd9e5d794ce37ec7194a91931af694b0871e719a59f1c25c352b}{decode\-\_\-data\-\_\-e}\label{group___uploader_ggaca51c380bc924bd9e5d794ce37ec7194a91931af694b0871e719a59f1c25c352b}
+}]\index{decode\-\_\-crc1\-\_\-e@{decode\-\_\-crc1\-\_\-e}!\-Serial and U\-S\-B Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}}\index{\-Serial and U\-S\-B Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}!decode\-\_\-crc1\-\_\-e@{decode\-\_\-crc1\-\_\-e}}\item[{\em 
+\hypertarget{group___uploader_ggaca51c380bc924bd9e5d794ce37ec7194afa9ba876432b572e8e33d9e3dbcbf08b}{decode\-\_\-crc1\-\_\-e}\label{group___uploader_ggaca51c380bc924bd9e5d794ce37ec7194afa9ba876432b572e8e33d9e3dbcbf08b}
+}]\index{decode\-\_\-crc2\-\_\-e@{decode\-\_\-crc2\-\_\-e}!\-Serial and U\-S\-B Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}}\index{\-Serial and U\-S\-B Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}!decode\-\_\-crc2\-\_\-e@{decode\-\_\-crc2\-\_\-e}}\item[{\em 
+\hypertarget{group___uploader_ggaca51c380bc924bd9e5d794ce37ec7194aa6af9fe6c0ab0063f14e51d6918d4200}{decode\-\_\-crc2\-\_\-e}\label{group___uploader_ggaca51c380bc924bd9e5d794ce37ec7194aa6af9fe6c0ab0063f14e51d6918d4200}
+}]\index{decode\-\_\-idle\-\_\-e@{decode\-\_\-idle\-\_\-e}!\-Serial and U\-S\-B Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}}\index{\-Serial and U\-S\-B Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}!decode\-\_\-idle\-\_\-e@{decode\-\_\-idle\-\_\-e}}\item[{\em 
+\hypertarget{group___uploader_ggaca51c380bc924bd9e5d794ce37ec7194ac64fcf93e639a47e18038aa68ba5212d}{decode\-\_\-idle\-\_\-e}\label{group___uploader_ggaca51c380bc924bd9e5d794ce37ec7194ac64fcf93e639a47e18038aa68ba5212d}
+}]\end{description}
+\end{Desc}
+
+
+
+\-Definition at line 29 of file common.\-h.
+
+\hypertarget{group___uploader_ga2f8ecb3d9778a986988296b474912ad3}{\index{\-Serial and U\-S\-B Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}!portstatus@{portstatus}}
+\index{portstatus@{portstatus}!Serial and USB Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}}
+\subsubsection[{portstatus}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf port\-::portstatus}}}\label{group___uploader_ga2f8ecb3d9778a986988296b474912ad3}
+\begin{Desc}
+\item[\-Enumerator\-: ]\par
+\begin{description}
+\index{open@{open}!\-Serial and U\-S\-B Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}}\index{\-Serial and U\-S\-B Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}!open@{open}}\item[{\em 
+\hypertarget{group___uploader_gga2f8ecb3d9778a986988296b474912ad3aa27283d847e32c8004f5f4793f0a9704}{open}\label{group___uploader_gga2f8ecb3d9778a986988296b474912ad3aa27283d847e32c8004f5f4793f0a9704}
+}]\index{closed@{closed}!\-Serial and U\-S\-B Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}}\index{\-Serial and U\-S\-B Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}!closed@{closed}}\item[{\em 
+\hypertarget{group___uploader_gga2f8ecb3d9778a986988296b474912ad3a5d09f03f25366db4d621110f6d3e48fa}{closed}\label{group___uploader_gga2f8ecb3d9778a986988296b474912ad3a5d09f03f25366db4d621110f6d3e48fa}
+}]\index{error@{error}!\-Serial and U\-S\-B Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}}\index{\-Serial and U\-S\-B Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}!error@{error}}\item[{\em 
+\hypertarget{group___uploader_gga2f8ecb3d9778a986988296b474912ad3a5a170de7334d016eb4a494cb60943a46}{error}\label{group___uploader_gga2f8ecb3d9778a986988296b474912ad3a5a170de7334d016eb4a494cb60943a46}
+}]\end{description}
+\end{Desc}
+
+
+
+\-Definition at line 38 of file port.\-h.
+
+\hypertarget{group___uploader_gab10fc109fdda19fca8e7faf999d5a342}{\index{\-Serial and U\-S\-B Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}!\-Receive\-State@{\-Receive\-State}}
+\index{\-Receive\-State@{\-Receive\-State}!Serial and USB Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}}
+\subsubsection[{\-Receive\-State}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf \-Receive\-State}}}\label{group___uploader_gab10fc109fdda19fca8e7faf999d5a342}
+\begin{Desc}
+\item[\-Enumerator\-: ]\par
+\begin{description}
+\index{state\-\_\-escaped\-\_\-e@{state\-\_\-escaped\-\_\-e}!\-Serial and U\-S\-B Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}}\index{\-Serial and U\-S\-B Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}!state\-\_\-escaped\-\_\-e@{state\-\_\-escaped\-\_\-e}}\item[{\em 
+\hypertarget{group___uploader_ggab10fc109fdda19fca8e7faf999d5a342ac75bd6be510b577858578d577ee4e7fa}{state\-\_\-escaped\-\_\-e}\label{group___uploader_ggab10fc109fdda19fca8e7faf999d5a342ac75bd6be510b577858578d577ee4e7fa}
+}]\index{state\-\_\-unescaped\-\_\-e@{state\-\_\-unescaped\-\_\-e}!\-Serial and U\-S\-B Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}}\index{\-Serial and U\-S\-B Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}!state\-\_\-unescaped\-\_\-e@{state\-\_\-unescaped\-\_\-e}}\item[{\em 
+\hypertarget{group___uploader_ggab10fc109fdda19fca8e7faf999d5a342acdcef956e1916566a6e6c081948de7bf}{state\-\_\-unescaped\-\_\-e}\label{group___uploader_ggab10fc109fdda19fca8e7faf999d5a342acdcef956e1916566a6e6c081948de7bf}
+}]\end{description}
+\end{Desc}
+
+
+
+\-Definition at line 37 of file common.\-h.
+
+
+
+\subsection{\-Function \-Documentation}
+\hypertarget{group___uploader_gaa448917a297dd634c2ab4d760a6c402d}{\index{\-Serial and U\-S\-B Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}!\-Abort\-Operation@{\-Abort\-Operation}}
+\index{\-Abort\-Operation@{\-Abort\-Operation}!Serial and USB Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}}
+\subsubsection[{\-Abort\-Operation}]{\setlength{\rightskip}{0pt plus 5cm}int \-D\-F\-U\-Object\-::\-Abort\-Operation (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+)}}\label{group___uploader_gaa448917a297dd634c2ab4d760a6c402d}
+
+
+\-Definition at line 510 of file op\-\_\-dfu.\-cpp.
+
+\hypertarget{group___uploader_ga3c9852f8106d7177b5e27087f6e28764}{\index{\-Serial and U\-S\-B Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}!\-Compare\-Firmware@{\-Compare\-Firmware}}
+\index{\-Compare\-Firmware@{\-Compare\-Firmware}!Serial and USB Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}}
+\subsubsection[{\-Compare\-Firmware}]{\setlength{\rightskip}{0pt plus 5cm}\-O\-P\-\_\-\-D\-F\-U\-::\-Status \-D\-F\-U\-Object\-::\-Compare\-Firmware (
+\begin{DoxyParamCaption}
+\item[{const {\bf \-Q\-String} \&}]{sfile, }
+\item[{const {\bf \-Compare\-Type} \&}]{type, }
+\item[{int}]{device}
+\end{DoxyParamCaption}
+)}}\label{group___uploader_ga3c9852f8106d7177b5e27087f6e28764}
+
+
+\-Definition at line 824 of file op\-\_\-dfu.\-cpp.
+
+\hypertarget{group___uploader_gae755106568ea0611498e45e43bfa9e4d}{\index{\-Serial and U\-S\-B Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}!\-C\-R\-C32\-Wide\-Fast@{\-C\-R\-C32\-Wide\-Fast}}
+\index{\-C\-R\-C32\-Wide\-Fast@{\-C\-R\-C32\-Wide\-Fast}!Serial and USB Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}}
+\subsubsection[{\-C\-R\-C32\-Wide\-Fast}]{\setlength{\rightskip}{0pt plus 5cm}quint32 \-D\-F\-U\-Object\-::\-C\-R\-C32\-Wide\-Fast (
+\begin{DoxyParamCaption}
+\item[{quint32}]{\-Crc, }
+\item[{quint32}]{\-Size, }
+\item[{quint32 $\ast$}]{\-Buffer}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}\label{group___uploader_gae755106568ea0611498e45e43bfa9e4d}
+\-Utility function 
+
+\-Definition at line 953 of file op\-\_\-dfu.\-cpp.
+
+\hypertarget{group___uploader_ga8b3213586813e0e852bd8e8460f02fc0}{\index{\-Serial and U\-S\-B Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}!\-C\-R\-C\-From\-Q\-B\-Array@{\-C\-R\-C\-From\-Q\-B\-Array}}
+\index{\-C\-R\-C\-From\-Q\-B\-Array@{\-C\-R\-C\-From\-Q\-B\-Array}!Serial and USB Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}}
+\subsubsection[{\-C\-R\-C\-From\-Q\-B\-Array}]{\setlength{\rightskip}{0pt plus 5cm}quint32 \-D\-F\-U\-Object\-::\-C\-R\-C\-From\-Q\-B\-Array (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Byte\-Array}]{array, }
+\item[{quint32}]{\-Size}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}\label{group___uploader_ga8b3213586813e0e852bd8e8460f02fc0}
+\-Utility function 
+
+\-Definition at line 985 of file op\-\_\-dfu.\-cpp.
+
+\hypertarget{group___uploader_gacb8ee3e1b1358ae25813e37f08b6d510}{\index{\-Serial and U\-S\-B Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}!\-D\-F\-U\-Object@{\-D\-F\-U\-Object}}
+\index{\-D\-F\-U\-Object@{\-D\-F\-U\-Object}!Serial and USB Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}}
+\subsubsection[{\-D\-F\-U\-Object}]{\setlength{\rightskip}{0pt plus 5cm}\-D\-F\-U\-Object\-::\-D\-F\-U\-Object (
+\begin{DoxyParamCaption}
+\item[{bool}]{debug, }
+\item[{bool}]{use\-\_\-serial, }
+\item[{{\bf \-Q\-String}}]{port}
+\end{DoxyParamCaption}
+)}}\label{group___uploader_gacb8ee3e1b1358ae25813e37f08b6d510}
+
+
+\-Definition at line 36 of file op\-\_\-dfu.\-cpp.
+
+\hypertarget{group___uploader_ga5c3ae32c69bac4c663f6be430da1db3d}{\index{\-Serial and U\-S\-B Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}!\-Download\-Description@{\-Download\-Description}}
+\index{\-Download\-Description@{\-Download\-Description}!Serial and USB Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}}
+\subsubsection[{\-Download\-Description}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Q\-String} \-D\-F\-U\-Object\-::\-Download\-Description (
+\begin{DoxyParamCaption}
+\item[{int const \&}]{number\-Of\-Chars}
+\end{DoxyParamCaption}
+)}}\label{group___uploader_ga5c3ae32c69bac4c663f6be430da1db3d}
+\-Downloads the description string for the current device. \-You have to call enter\-D\-F\-U before calling this function. 
+
+\-Definition at line 366 of file op\-\_\-dfu.\-cpp.
+
+\hypertarget{group___uploader_gaa0f76d47015fa313a0bcf555bb0e690b}{\index{\-Serial and U\-S\-B Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}!\-Download\-Description\-As\-B\-A@{\-Download\-Description\-As\-B\-A}}
+\index{\-Download\-Description\-As\-B\-A@{\-Download\-Description\-As\-B\-A}!Serial and USB Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}}
+\subsubsection[{\-Download\-Description\-As\-B\-A}]{\setlength{\rightskip}{0pt plus 5cm}\-Q\-Byte\-Array \-D\-F\-U\-Object\-::\-Download\-Description\-As\-B\-A (
+\begin{DoxyParamCaption}
+\item[{int const \&}]{number\-Of\-Chars}
+\end{DoxyParamCaption}
+)}}\label{group___uploader_gaa0f76d47015fa313a0bcf555bb0e690b}
+
+
+\-Definition at line 376 of file op\-\_\-dfu.\-cpp.
+
+\hypertarget{group___uploader_ga8b88c71b81cbe00fe29938ac9b8a6dcf}{\index{\-Serial and U\-S\-B Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}!\-Download\-Firmware@{\-Download\-Firmware}}
+\index{\-Download\-Firmware@{\-Download\-Firmware}!Serial and USB Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}}
+\subsubsection[{\-Download\-Firmware}]{\setlength{\rightskip}{0pt plus 5cm}bool \-D\-F\-U\-Object\-::\-Download\-Firmware (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Byte\-Array $\ast$}]{byte\-Array, }
+\item[{int}]{device}
+\end{DoxyParamCaption}
+)}}\label{group___uploader_ga8b88c71b81cbe00fe29938ac9b8a6dcf}
+
+
+\-Definition at line 390 of file op\-\_\-dfu.\-cpp.
+
+\hypertarget{group___uploader_ga16f60a8d921f01aca803178398ccdf45}{\index{\-Serial and U\-S\-B Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}!\-End\-Operation@{\-End\-Operation}}
+\index{\-End\-Operation@{\-End\-Operation}!Serial and USB Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}}
+\subsubsection[{\-End\-Operation}]{\setlength{\rightskip}{0pt plus 5cm}bool \-D\-F\-U\-Object\-::\-End\-Operation (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___uploader_ga16f60a8d921f01aca803178398ccdf45}
+
+
+\-Definition at line 674 of file op\-\_\-dfu.\-cpp.
+
+\hypertarget{group___uploader_ga64ed24565b35c4530dd2614cc98f38cd}{\index{\-Serial and U\-S\-B Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}!enter\-D\-F\-U@{enter\-D\-F\-U}}
+\index{enter\-D\-F\-U@{enter\-D\-F\-U}!Serial and USB Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}}
+\subsubsection[{enter\-D\-F\-U}]{\setlength{\rightskip}{0pt plus 5cm}bool \-D\-F\-U\-Object\-::enter\-D\-F\-U (
+\begin{DoxyParamCaption}
+\item[{int const \&}]{dev\-Number}
+\end{DoxyParamCaption}
+)}}\label{group___uploader_ga64ed24565b35c4530dd2614cc98f38cd}
+\-Tells the mainboard to enter \-D\-F\-U \-Mode. 
+
+\-Definition at line 177 of file op\-\_\-dfu.\-cpp.
+
+\hypertarget{group___uploader_ga09f55b9de769e32ad728223294a8a500}{\index{\-Serial and U\-S\-B Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}!find\-Devices@{find\-Devices}}
+\index{find\-Devices@{find\-Devices}!Serial and USB Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}}
+\subsubsection[{find\-Devices}]{\setlength{\rightskip}{0pt plus 5cm}bool \-D\-F\-U\-Object\-::find\-Devices (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___uploader_ga09f55b9de769e32ad728223294a8a500}
+\-Ask the bootloader for the list of devices available 
+
+\-Definition at line 587 of file op\-\_\-dfu.\-cpp.
+
+\hypertarget{group___uploader_gac5513bd475a701ede81cde9432e8ddf2}{\index{\-Serial and U\-S\-B Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}!freeze@{freeze}}
+\index{freeze@{freeze}!Serial and USB Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}}
+\subsubsection[{freeze}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf device\-Widget\-::freeze} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___uploader_gac5513bd475a701ede81cde9432e8ddf2}
+\-Freezes the contents of the widget so that a user cannot try to modify the contents 
+
+\-Definition at line 127 of file devicewidget.\-cpp.
+
+\hypertarget{group___uploader_ga9376138780f2860b37c7b9ae8af3f799}{\index{\-Serial and U\-S\-B Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}!\-Get\-Board\-Type@{\-Get\-Board\-Type}}
+\index{\-Get\-Board\-Type@{\-Get\-Board\-Type}!Serial and USB Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}}
+\subsubsection[{\-Get\-Board\-Type}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-O\-P\-\_\-\-D\-F\-U\-::e\-Board\-Type} \-D\-F\-U\-Object\-::\-Get\-Board\-Type (
+\begin{DoxyParamCaption}
+\item[{int}]{board\-Num}
+\end{DoxyParamCaption}
+)}}\label{group___uploader_ga9376138780f2860b37c7b9ae8af3f799}
+\-Gets the type of board connected 
+
+\-Definition at line 1061 of file op\-\_\-dfu.\-cpp.
+
+\hypertarget{group___uploader_gad6165621f503c5767306199a8606edaf}{\index{\-Serial and U\-S\-B Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}!\-Jump\-To\-App@{\-Jump\-To\-App}}
+\index{\-Jump\-To\-App@{\-Jump\-To\-App}!Serial and USB Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}}
+\subsubsection[{\-Jump\-To\-App}]{\setlength{\rightskip}{0pt plus 5cm}int \-D\-F\-U\-Object\-::\-Jump\-To\-App (
+\begin{DoxyParamCaption}
+\item[{bool}]{safeboot}
+\end{DoxyParamCaption}
+)}}\label{group___uploader_gad6165621f503c5767306199a8606edaf}
+\-Starts the firmware (leaves bootloader and boots the main software) 
+
+\-Definition at line 530 of file op\-\_\-dfu.\-cpp.
+
+\hypertarget{group___uploader_ga4fd481f6796cd770176f43ddc097ebe8}{\index{\-Serial and U\-S\-B Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}!packets\-\_\-\-Available@{packets\-\_\-\-Available}}
+\index{packets\-\_\-\-Available@{packets\-\_\-\-Available}!Serial and USB Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}}
+\subsubsection[{packets\-\_\-\-Available}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf qsspt\-::packets\-\_\-\-Available} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___uploader_ga4fd481f6796cd770176f43ddc097ebe8}
+
+
+\-Definition at line 81 of file qsspt.\-cpp.
+
+\hypertarget{group___uploader_ga78a7ba52d304ce0352e013e99e98820d}{\index{\-Serial and U\-S\-B Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}!pf\-Call\-Back@{pf\-Call\-Back}}
+\index{pf\-Call\-Back@{pf\-Call\-Back}!Serial and USB Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}}
+\subsubsection[{pf\-Call\-Back}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf qssp\-::pf\-Call\-Back} (
+\begin{DoxyParamCaption}
+\item[{uint8\-\_\-t $\ast$}]{buf, }
+\item[{uint16\-\_\-t}]{size}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___uploader_ga78a7ba52d304ce0352e013e99e98820d}
+\-P\-U\-B\-L\-I\-C \-F\-U\-N\-C\-T\-I\-O\-N\-S 
+
+\-Definition at line 803 of file qssp.\-cpp.
+
+\hypertarget{group___uploader_ga175fa612d12b3411709d60fef9c26cc2}{\index{\-Serial and U\-S\-B Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}!pf\-Get\-Time@{pf\-Get\-Time}}
+\index{pf\-Get\-Time@{pf\-Get\-Time}!Serial and USB Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}}
+\subsubsection[{pf\-Get\-Time}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t {\bf port\-::pf\-Get\-Time} (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___uploader_ga175fa612d12b3411709d60fef9c26cc2}
+
+
+\-Definition at line 69 of file port.\-cpp.
+
+\hypertarget{group___uploader_gae97ecc8aa7bff549fc95c2fe0c922279}{\index{\-Serial and U\-S\-B Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}!pf\-Serial\-Read@{pf\-Serial\-Read}}
+\index{pf\-Serial\-Read@{pf\-Serial\-Read}!Serial and USB Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}}
+\subsubsection[{pf\-Serial\-Read}]{\setlength{\rightskip}{0pt plus 5cm}int16\-\_\-t {\bf port\-::pf\-Serial\-Read} (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___uploader_gae97ecc8aa7bff549fc95c2fe0c922279}
+
+
+\-Definition at line 50 of file port.\-cpp.
+
+\hypertarget{group___uploader_ga30e501e90b5d17c51d6f26ff169cf03d}{\index{\-Serial and U\-S\-B Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}!pf\-Serial\-Write@{pf\-Serial\-Write}}
+\index{pf\-Serial\-Write@{pf\-Serial\-Write}!Serial and USB Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}}
+\subsubsection[{pf\-Serial\-Write}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf port\-::pf\-Serial\-Write} (
+\begin{DoxyParamCaption}
+\item[{uint8\-\_\-t}]{c}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___uploader_ga30e501e90b5d17c51d6f26ff169cf03d}
+
+
+\-Definition at line 62 of file port.\-cpp.
+
+\hypertarget{group___uploader_ga361969437ae7c23ebaa3d646e742dbc5}{\index{\-Serial and U\-S\-B Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}!populate@{populate}}
+\index{populate@{populate}!Serial and USB Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}}
+\subsubsection[{populate}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf running\-Device\-Widget\-::populate} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___uploader_ga361969437ae7c23ebaa3d646e742dbc5}
+\-Fills the various fields for the device 
+
+\-Definition at line 60 of file runningdevicewidget.\-cpp.
+
+\hypertarget{group___uploader_gaf56d7d5fb2715ab7213ea4193df3b373}{\index{\-Serial and U\-S\-B Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}!populate@{populate}}
+\index{populate@{populate}!Serial and USB Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}}
+\subsubsection[{populate}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf device\-Widget\-::populate} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___uploader_gaf56d7d5fb2715ab7213ea4193df3b373}
+\-Fills the various fields for the device 
+
+\-Definition at line 79 of file devicewidget.\-cpp.
+
+\hypertarget{group___uploader_ga07c31ea30e7226e74f05a64bf51e89c8}{\index{\-Serial and U\-S\-B Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}!port@{port}}
+\index{port@{port}!Serial and USB Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}}
+\subsubsection[{port}]{\setlength{\rightskip}{0pt plus 5cm}{\bf port\-::port} (
+\begin{DoxyParamCaption}
+\item[{\-Port\-Settings}]{settings, }
+\item[{{\bf \-Q\-String}}]{name}
+\end{DoxyParamCaption}
+)}}\label{group___uploader_ga07c31ea30e7226e74f05a64bf51e89c8}
+
+
+\-Definition at line 29 of file port.\-cpp.
+
+\hypertarget{group___uploader_ga6b7f70326e497709fc513c3d122379cb}{\index{\-Serial and U\-S\-B Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}!qssp@{qssp}}
+\index{qssp@{qssp}!Serial and USB Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}}
+\subsubsection[{qssp}]{\setlength{\rightskip}{0pt plus 5cm}{\bf qssp\-::qssp} (
+\begin{DoxyParamCaption}
+\item[{{\bf port} $\ast$}]{info, }
+\item[{bool}]{debug}
+\end{DoxyParamCaption}
+)}}\label{group___uploader_ga6b7f70326e497709fc513c3d122379cb}
+
+
+\-Definition at line 781 of file qssp.\-cpp.
+
+\hypertarget{group___uploader_gaa7e3f69818d5f701e1c7191059b332ae}{\index{\-Serial and U\-S\-B Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}!qsspt@{qsspt}}
+\index{qsspt@{qsspt}!Serial and USB Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}}
+\subsubsection[{qsspt}]{\setlength{\rightskip}{0pt plus 5cm}{\bf qsspt\-::qsspt} (
+\begin{DoxyParamCaption}
+\item[{{\bf port} $\ast$}]{info, }
+\item[{bool}]{debug}
+\end{DoxyParamCaption}
+)}}\label{group___uploader_gaa7e3f69818d5f701e1c7191059b332ae}
+
+
+\-Definition at line 29 of file qsspt.\-cpp.
+
+\hypertarget{group___uploader_gab8eb0ccb0806be7a169c335cab1e4d0c}{\index{\-Serial and U\-S\-B Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}!read\-\_\-\-Packet@{read\-\_\-\-Packet}}
+\index{read\-\_\-\-Packet@{read\-\_\-\-Packet}!Serial and USB Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}}
+\subsubsection[{read\-\_\-\-Packet}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf qsspt\-::read\-\_\-\-Packet} (
+\begin{DoxyParamCaption}
+\item[{{\bf void} $\ast$}]{data}
+\end{DoxyParamCaption}
+)}}\label{group___uploader_gab8eb0ccb0806be7a169c335cab1e4d0c}
+
+
+\-Definition at line 85 of file qsspt.\-cpp.
+
+\hypertarget{group___uploader_gafbdc3dede843764690ebd5bc074ff5dd}{\index{\-Serial and U\-S\-B Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}!\-Reset\-Device@{\-Reset\-Device}}
+\index{\-Reset\-Device@{\-Reset\-Device}!Serial and USB Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}}
+\subsubsection[{\-Reset\-Device}]{\setlength{\rightskip}{0pt plus 5cm}int \-D\-F\-U\-Object\-::\-Reset\-Device (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+)}}\label{group___uploader_gafbdc3dede843764690ebd5bc074ff5dd}
+\-Resets the device 
+
+\-Definition at line 492 of file op\-\_\-dfu.\-cpp.
+
+\hypertarget{group___uploader_gac7b338eecc56ca930c6078162b168c83}{\index{\-Serial and U\-S\-B Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}!run@{run}}
+\index{run@{run}!Serial and USB Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}}
+\subsubsection[{run}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf qsspt\-::run} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___uploader_gac7b338eecc56ca930c6078162b168c83}
+
+
+\-Definition at line 33 of file qsspt.\-cpp.
+
+\hypertarget{group___uploader_gadb19927303aa24b5505dce3adbb532a2}{\index{\-Serial and U\-S\-B Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}!run@{run}}
+\index{run@{run}!Serial and USB Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}}
+\subsubsection[{run}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} \-D\-F\-U\-Object\-::run (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{group___uploader_gadb19927303aa24b5505dce3adbb532a2}
+\-Runs the upload or download operations. 
+
+\-Definition at line 407 of file op\-\_\-dfu.\-cpp.
+
+\hypertarget{group___uploader_ga1422e01836cfff2d47cd09bfbbdde774}{\index{\-Serial and U\-S\-B Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}!\-Save\-Byte\-Array\-To\-File@{\-Save\-Byte\-Array\-To\-File}}
+\index{\-Save\-Byte\-Array\-To\-File@{\-Save\-Byte\-Array\-To\-File}!Serial and USB Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}}
+\subsubsection[{\-Save\-Byte\-Array\-To\-File}]{\setlength{\rightskip}{0pt plus 5cm}bool \-D\-F\-U\-Object\-::\-Save\-Byte\-Array\-To\-File (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Q\-String} const \&}]{file, }
+\item[{\-Q\-Byte\-Array const \&}]{array}
+\end{DoxyParamCaption}
+)}}\label{group___uploader_ga1422e01836cfff2d47cd09bfbbdde774}
+
+
+\-Definition at line 160 of file op\-\_\-dfu.\-cpp.
+
+\hypertarget{group___uploader_ga7711ea10887bffa2d338e45bfdd564a2}{\index{\-Serial and U\-S\-B Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}!send\-Data@{send\-Data}}
+\index{send\-Data@{send\-Data}!Serial and USB Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}}
+\subsubsection[{send\-Data}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf qsspt\-::send\-Data} (
+\begin{DoxyParamCaption}
+\item[{uint8\-\_\-t $\ast$}]{buf, }
+\item[{uint16\-\_\-t}]{size}
+\end{DoxyParamCaption}
+)}}\label{group___uploader_ga7711ea10887bffa2d338e45bfdd564a2}
+
+
+\-Definition at line 52 of file qsspt.\-cpp.
+
+\hypertarget{group___uploader_ga6ad26364234edf8c743b0b08885050b1}{\index{\-Serial and U\-S\-B Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}!set\-Open\-File\-Name@{set\-Open\-File\-Name}}
+\index{set\-Open\-File\-Name@{set\-Open\-File\-Name}!Serial and USB Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}}
+\subsubsection[{set\-Open\-File\-Name}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Q\-String} {\bf device\-Widget\-::set\-Open\-File\-Name} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___uploader_ga6ad26364234edf8c743b0b08885050b1}
+\-Opens an open file dialog. 
+
+\-Definition at line 496 of file devicewidget.\-cpp.
+
+\hypertarget{group___uploader_ga1c33b640cfaca086fcfd5574eecec8ef}{\index{\-Serial and U\-S\-B Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}!set\-Save\-File\-Name@{set\-Save\-File\-Name}}
+\index{set\-Save\-File\-Name@{set\-Save\-File\-Name}!Serial and USB Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}}
+\subsubsection[{set\-Save\-File\-Name}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Q\-String} {\bf device\-Widget\-::set\-Save\-File\-Name} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___uploader_ga1c33b640cfaca086fcfd5574eecec8ef}
+\-Set the save file name 
+
+\-Definition at line 535 of file devicewidget.\-cpp.
+
+\hypertarget{group___uploader_gaa7efad31d36502cca3aab3e4eed10d12}{\index{\-Serial and U\-S\-B Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}!ssp\-\_\-\-Init@{ssp\-\_\-\-Init}}
+\index{ssp\-\_\-\-Init@{ssp\-\_\-\-Init}!Serial and USB Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}}
+\subsubsection[{ssp\-\_\-\-Init}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf qssp\-::ssp\-\_\-\-Init} (
+\begin{DoxyParamCaption}
+\item[{const {\bf \-Port\-Config\-\_\-t} $\ast$const}]{info}
+\end{DoxyParamCaption}
+)}}\label{group___uploader_gaa7efad31d36502cca3aab3e4eed10d12}
+
+
+\-Initializes the communication port for use. 
+
+\-E\-X\-T\-E\-R\-N\-A\-L \-D\-A\-T\-A \-E\-X\-T\-E\-R\-N\-A\-L \-F\-U\-N\-C\-T\-I\-O\-N\-S \-V\-E\-R\-I\-F\-I\-C\-A\-T\-I\-O\-N \-F\-U\-N\-C\-T\-I\-O\-N\-S
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em thisport} & = pointer to port structure to initialize \\
+\hline
+{\em info} & = config struct with default values. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+\-None.
+\end{DoxyReturn}
+\begin{DoxyNote}{\-Note}
+\-Must be called before calling the \-Send or \-R\-Eceive process functions. 
+\end{DoxyNote}
+
+
+\-Definition at line 134 of file qssp.\-cpp.
+
+\hypertarget{group___uploader_gae06a33d9cc36f1b95bb0bc0a5ab8ca3a}{\index{\-Serial and U\-S\-B Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}!ssp\-\_\-\-Receive\-Byte@{ssp\-\_\-\-Receive\-Byte}}
+\index{ssp\-\_\-\-Receive\-Byte@{ssp\-\_\-\-Receive\-Byte}!Serial and USB Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}}
+\subsubsection[{ssp\-\_\-\-Receive\-Byte}]{\setlength{\rightskip}{0pt plus 5cm}int16\-\_\-t {\bf qssp\-::ssp\-\_\-\-Receive\-Byte} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___uploader_gae06a33d9cc36f1b95bb0bc0a5ab8ca3a}
+
+
+processes a single byte through the receive state machine. 
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em thisport} & = which port to use \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+current receive status
+\end{DoxyReturn}
+\begin{DoxyNote}{\-Note}
+
+\end{DoxyNote}
+
+
+\-Definition at line 234 of file qssp.\-cpp.
+
+\hypertarget{group___uploader_ga11e7402dcc0d8efde83d13592279f122}{\index{\-Serial and U\-S\-B Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}!ssp\-\_\-\-Receive\-Process@{ssp\-\_\-\-Receive\-Process}}
+\index{ssp\-\_\-\-Receive\-Process@{ssp\-\_\-\-Receive\-Process}!Serial and USB Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}}
+\subsubsection[{ssp\-\_\-\-Receive\-Process}]{\setlength{\rightskip}{0pt plus 5cm}int16\-\_\-t {\bf qssp\-::ssp\-\_\-\-Receive\-Process} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___uploader_ga11e7402dcc0d8efde83d13592279f122}
+
+
+\-Runs the receive process. fetches a byte at a time and runs the byte through the protocol receive state machine. 
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em thisport} & -\/ which port to use. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+receive status.
+\end{DoxyReturn}
+\begin{DoxyNote}{\-Note}
+
+\end{DoxyNote}
+
+
+\-Definition at line 209 of file qssp.\-cpp.
+
+\hypertarget{group___uploader_gae129d1cdf9ba386b6cd8002176a35a3b}{\index{\-Serial and U\-S\-B Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}!ssp\-\_\-\-Send\-Data@{ssp\-\_\-\-Send\-Data}}
+\index{ssp\-\_\-\-Send\-Data@{ssp\-\_\-\-Send\-Data}!Serial and USB Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}}
+\subsubsection[{ssp\-\_\-\-Send\-Data}]{\setlength{\rightskip}{0pt plus 5cm}int16\-\_\-t {\bf qssp\-::ssp\-\_\-\-Send\-Data} (
+\begin{DoxyParamCaption}
+\item[{const uint8\-\_\-t $\ast$}]{data, }
+\item[{const uint16\-\_\-t}]{length}
+\end{DoxyParamCaption}
+)}}\label{group___uploader_gae129d1cdf9ba386b6cd8002176a35a3b}
+
+
+sends a chunk of data and does not block 
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em thisport} & = which port to use \\
+\hline
+{\em data} & = pointer to data to send \\
+\hline
+{\em length} & = number of bytes to send \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+\-S\-S\-P\-\_\-\-T\-X\-\_\-\-B\-U\-F\-O\-V\-E\-R\-R\-U\-N = tried to send too much data 
+
+\-S\-S\-P\-\_\-\-T\-X\-\_\-\-W\-A\-I\-T\-I\-N\-G = data sent and waiting for an ack to arrive 
+
+\-S\-S\-P\-\_\-\-T\-X\-\_\-\-B\-U\-S\-Y = a packet has already been sent, but not yet acked
+\end{DoxyReturn}
+\begin{DoxyNote}{\-Note}
+
+\end{DoxyNote}
+
+
+\-Definition at line 287 of file qssp.\-cpp.
+
+\hypertarget{group___uploader_gaa1b44e385ddf057c81585809dc71e4ba}{\index{\-Serial and U\-S\-B Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}!ssp\-\_\-\-Send\-Process@{ssp\-\_\-\-Send\-Process}}
+\index{ssp\-\_\-\-Send\-Process@{ssp\-\_\-\-Send\-Process}!Serial and USB Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}}
+\subsubsection[{ssp\-\_\-\-Send\-Process}]{\setlength{\rightskip}{0pt plus 5cm}int16\-\_\-t {\bf qssp\-::ssp\-\_\-\-Send\-Process} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___uploader_gaa1b44e385ddf057c81585809dc71e4ba}
+
+
+\-Runs the send process, checks for receipt of ack, timeouts and resends if needed. 
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em thisport} & = which port to use \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+\-S\-S\-P\-\_\-\-T\-X\-\_\-\-W\-A\-I\-T\-I\-N\-G -\/ waiting for a valid \-A\-C\-K to arrive 
+
+\-S\-S\-P\-\_\-\-T\-X\-\_\-\-T\-I\-M\-E\-O\-U\-T -\/ failed to receive a valid \-A\-C\-K in the timeout period, after retrying. 
+
+\-S\-S\-P\-\_\-\-T\-X\-\_\-\-I\-D\-L\-E -\/ not expecting a \-A\-C\-K packet (no current transmissions in progress) 
+
+\-S\-S\-P\-\_\-\-T\-X\-\_\-\-A\-C\-K\-E\-D -\/ valid \-A\-C\-K received before timeout period.
+\end{DoxyReturn}
+\begin{DoxyNote}{\-Note}
+
+\end{DoxyNote}
+
+
+\-Definition at line 168 of file qssp.\-cpp.
+
+\hypertarget{group___uploader_ga53a085c64c9a0e54a10cefe2ce660714}{\index{\-Serial and U\-S\-B Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}!ssp\-\_\-\-Send\-String@{ssp\-\_\-\-Send\-String}}
+\index{ssp\-\_\-\-Send\-String@{ssp\-\_\-\-Send\-String}!Serial and USB Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}}
+\subsubsection[{ssp\-\_\-\-Send\-String}]{\setlength{\rightskip}{0pt plus 5cm}uint16\-\_\-t {\bf qssp\-::ssp\-\_\-\-Send\-String} (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{str}
+\end{DoxyParamCaption}
+)}}\label{group___uploader_ga53a085c64c9a0e54a10cefe2ce660714}
+\hypertarget{group___uploader_ga6f47e7cf74215ceeaf3d6234ef0c37b7}{\index{\-Serial and U\-S\-B Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}!ssp\-\_\-\-Synchronise@{ssp\-\_\-\-Synchronise}}
+\index{ssp\-\_\-\-Synchronise@{ssp\-\_\-\-Synchronise}!Serial and USB Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}}
+\subsubsection[{ssp\-\_\-\-Synchronise}]{\setlength{\rightskip}{0pt plus 5cm}uint16\-\_\-t {\bf qssp\-::ssp\-\_\-\-Synchronise} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___uploader_ga6f47e7cf74215ceeaf3d6234ef0c37b7}
+
+
+\-Attempts to synchronize the sequence numbers with the other end of the connectin. 
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em thisport} & = which port to use \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+true = success 
+
+false = failed to receive an \-A\-C\-K to our synch request
+\end{DoxyReturn}
+\begin{DoxyNote}{\-Note}
+\-A. send a packet with a sequence number equal to zero \-B. if timed out then\-: send synch packet again increment try counter if number of tries exceed maximum try limit then exit \-C. goto \-A 
+\end{DoxyNote}
+
+
+\-Definition at line 360 of file qssp.\-cpp.
+
+\hypertarget{group___uploader_ga047435f44b40228c4e544c28bd77f03b}{\index{\-Serial and U\-S\-B Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}!status@{status}}
+\index{status@{status}!Serial and USB Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}}
+\subsubsection[{status}]{\setlength{\rightskip}{0pt plus 5cm}{\bf port\-::portstatus} {\bf port\-::status} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___uploader_ga047435f44b40228c4e544c28bd77f03b}
+
+
+\-Definition at line 46 of file port.\-cpp.
+
+\hypertarget{group___uploader_gadd798371bcb5c155ef215f5a77316471}{\index{\-Serial and U\-S\-B Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}!\-Status\-Request@{\-Status\-Request}}
+\index{\-Status\-Request@{\-Status\-Request}!Serial and USB Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}}
+\subsubsection[{\-Status\-Request}]{\setlength{\rightskip}{0pt plus 5cm}\-O\-P\-\_\-\-D\-F\-U\-::\-Status \-D\-F\-U\-Object\-::\-Status\-Request (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___uploader_gadd798371bcb5c155ef215f5a77316471}
+
+
+\-Definition at line 556 of file op\-\_\-dfu.\-cpp.
+
+\hypertarget{group___uploader_gae048f84f5abd2be97bbe40fcf6e193c4}{\index{\-Serial and U\-S\-B Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}!\-Status\-To\-String@{\-Status\-To\-String}}
+\index{\-Status\-To\-String@{\-Status\-To\-String}!Serial and USB Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}}
+\subsubsection[{\-Status\-To\-String}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Q\-String} \-D\-F\-U\-Object\-::\-Status\-To\-String (
+\begin{DoxyParamCaption}
+\item[{\-O\-P\-\_\-\-D\-F\-U\-::\-Status const \&}]{status}
+\end{DoxyParamCaption}
+)}}\label{group___uploader_gae048f84f5abd2be97bbe40fcf6e193c4}
+
+
+\-Definition at line 885 of file op\-\_\-dfu.\-cpp.
+
+\hypertarget{group___uploader_ga6273e94cd08759c019fbb9a1063cbd26}{\index{\-Serial and U\-S\-B Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}!unfreeze@{unfreeze}}
+\index{unfreeze@{unfreeze}!Serial and USB Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}}
+\subsubsection[{unfreeze}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf device\-Widget\-::unfreeze} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___uploader_ga6273e94cd08759c019fbb9a1063cbd26}
+\-Unfreezes the contents of the widget so that a user can again try to modify the contents 
+
+\-Definition at line 138 of file devicewidget.\-cpp.
+
+\hypertarget{group___uploader_ga6513c6ff0fee1f11aebd6312296e6ed6}{\index{\-Serial and U\-S\-B Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}!\-Upload\-Description@{\-Upload\-Description}}
+\index{\-Upload\-Description@{\-Upload\-Description}!Serial and USB Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}}
+\subsubsection[{\-Upload\-Description}]{\setlength{\rightskip}{0pt plus 5cm}\-O\-P\-\_\-\-D\-F\-U\-::\-Status \-D\-F\-U\-Object\-::\-Upload\-Description (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Variant}]{desc}
+\end{DoxyParamCaption}
+)}}\label{group___uploader_ga6513c6ff0fee1f11aebd6312296e6ed6}
+\-Sends the firmware description to the device 
+
+\-Definition at line 321 of file op\-\_\-dfu.\-cpp.
+
+\hypertarget{group___uploader_gacccdb64a8aa1c8ff0f90296fcb935fef}{\index{\-Serial and U\-S\-B Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}!\-Upload\-Firmware@{\-Upload\-Firmware}}
+\index{\-Upload\-Firmware@{\-Upload\-Firmware}!Serial and USB Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}}
+\subsubsection[{\-Upload\-Firmware}]{\setlength{\rightskip}{0pt plus 5cm}bool \-D\-F\-U\-Object\-::\-Upload\-Firmware (
+\begin{DoxyParamCaption}
+\item[{const {\bf \-Q\-String} \&}]{sfile, }
+\item[{const bool \&}]{verify, }
+\item[{int}]{device}
+\end{DoxyParamCaption}
+)}}\label{group___uploader_gacccdb64a8aa1c8ff0f90296fcb935fef}
+\-Starts a firmware upload (asynchronous) 
+
+\-Definition at line 701 of file op\-\_\-dfu.\-cpp.
+
+\hypertarget{group___uploader_gad3eb7cce298c72c456a84eb04cc9c0fe}{\index{\-Serial and U\-S\-B Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}!$\sim$\-D\-F\-U\-Object@{$\sim$\-D\-F\-U\-Object}}
+\index{$\sim$\-D\-F\-U\-Object@{$\sim$\-D\-F\-U\-Object}!Serial and USB Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}}
+\subsubsection[{$\sim$\-D\-F\-U\-Object}]{\setlength{\rightskip}{0pt plus 5cm}\-D\-F\-U\-Object\-::$\sim$\-D\-F\-U\-Object (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___uploader_gad3eb7cce298c72c456a84eb04cc9c0fe}
+
+
+\-Definition at line 147 of file op\-\_\-dfu.\-cpp.
+
+\hypertarget{group___uploader_gacd903c84068e3b7829d0688ae4aad58e}{\index{\-Serial and U\-S\-B Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}!$\sim$port@{$\sim$port}}
+\index{$\sim$port@{$\sim$port}!Serial and USB Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}}
+\subsubsection[{$\sim$port}]{\setlength{\rightskip}{0pt plus 5cm}{\bf port\-::$\sim$port} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___uploader_gacd903c84068e3b7829d0688ae4aad58e}
+
+
+\-Definition at line 42 of file port.\-cpp.
+
+\hypertarget{group___uploader_ga05f94a4538efa2bacd837e2b0684d6b3}{\index{\-Serial and U\-S\-B Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}!$\sim$qsspt@{$\sim$qsspt}}
+\index{$\sim$qsspt@{$\sim$qsspt}!Serial and USB Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}}
+\subsubsection[{$\sim$qsspt}]{\setlength{\rightskip}{0pt plus 5cm}{\bf qsspt\-::$\sim$qsspt} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___uploader_ga05f94a4538efa2bacd837e2b0684d6b3}
+
+
+\-Definition at line 98 of file qsspt.\-cpp.
+
+
+
+\subsection{\-Variable \-Documentation}
+\hypertarget{group___uploader_ga6ad77d0d0cc02d7ce86e13041ef33c5e}{\index{\-Serial and U\-S\-B Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}!crc@{crc}}
+\index{crc@{crc}!Serial and USB Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}}
+\subsubsection[{crc}]{\setlength{\rightskip}{0pt plus 5cm}uint16\-\_\-t {\bf port\-::crc}}}\label{group___uploader_ga6ad77d0d0cc02d7ce86e13041ef33c5e}
+
+
+\-Definition at line 62 of file port.\-h.
+
+\hypertarget{group___uploader_gacdbb361acbb12c670984915ffd83f70e}{\index{\-Serial and U\-S\-B Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}!crc@{crc}}
+\index{crc@{crc}!Serial and USB Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}}
+\subsubsection[{crc}]{\setlength{\rightskip}{0pt plus 5cm}uint16\-\_\-t {\bf \-Packet\-\_\-t\-::crc}}}\label{group___uploader_gacdbb361acbb12c670984915ffd83f70e}
+
+
+\-Definition at line 63 of file qssp.\-h.
+
+\hypertarget{group___uploader_gac689b116d4d7c80713d964bd631e9511}{\index{\-Serial and U\-S\-B Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}!\-Decode\-State@{\-Decode\-State}}
+\index{\-Decode\-State@{\-Decode\-State}!Serial and USB Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}}
+\subsubsection[{\-Decode\-State}]{\setlength{\rightskip}{0pt plus 5cm}{\bf decode\-State\-\_\-} {\bf port\-::\-Decode\-State}}}\label{group___uploader_gac689b116d4d7c80713d964bd631e9511}
+
+
+\-Definition at line 60 of file port.\-h.
+
+\hypertarget{group___uploader_gae9ceccbaac142c00a4699e9020d27f4b}{\index{\-Serial and U\-S\-B Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}!flags@{flags}}
+\index{flags@{flags}!Serial and USB Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}}
+\subsubsection[{flags}]{\setlength{\rightskip}{0pt plus 5cm}uint16\-\_\-t {\bf port\-::flags}}}\label{group___uploader_gae9ceccbaac142c00a4699e9020d27f4b}
+
+
+\-Definition at line 65 of file port.\-h.
+
+\hypertarget{group___uploader_ga4e66fb46404301e2985093c34ae57379}{\index{\-Serial and U\-S\-B Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}!\-Input\-State@{\-Input\-State}}
+\index{\-Input\-State@{\-Input\-State}!Serial and USB Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}}
+\subsubsection[{\-Input\-State}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Receive\-State} {\bf port\-::\-Input\-State}}}\label{group___uploader_ga4e66fb46404301e2985093c34ae57379}
+
+
+\-Definition at line 59 of file port.\-h.
+
+\hypertarget{group___uploader_ga0913fea37a151d66203855de5adfe013}{\index{\-Serial and U\-S\-B Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}!length@{length}}
+\index{length@{length}!Serial and USB Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}}
+\subsubsection[{length}]{\setlength{\rightskip}{0pt plus 5cm}uint16\-\_\-t {\bf \-Packet\-\_\-t\-::length}}}\label{group___uploader_ga0913fea37a151d66203855de5adfe013}
+
+
+\-Definition at line 62 of file qssp.\-h.
+
+\hypertarget{group___uploader_ga6a20c78337e965260038e132527ba852}{\index{\-Serial and U\-S\-B Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}!max\-\_\-retry@{max\-\_\-retry}}
+\index{max\-\_\-retry@{max\-\_\-retry}!Serial and USB Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}}
+\subsubsection[{max\-\_\-retry}]{\setlength{\rightskip}{0pt plus 5cm}uint16\-\_\-t {\bf port\-::max\-\_\-retry}}}\label{group___uploader_ga6a20c78337e965260038e132527ba852}
+
+
+\-Definition at line 44 of file port.\-h.
+
+\hypertarget{group___uploader_ga780cb1cf13c87035b0715a39dec4981b}{\index{\-Serial and U\-S\-B Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}!max\-\_\-retry@{max\-\_\-retry}}
+\index{max\-\_\-retry@{max\-\_\-retry}!Serial and USB Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}}
+\subsubsection[{max\-\_\-retry}]{\setlength{\rightskip}{0pt plus 5cm}uint16\-\_\-t {\bf \-Port\-Config\-\_\-t\-::max\-\_\-retry}}}\label{group___uploader_ga780cb1cf13c87035b0715a39dec4981b}
+
+
+\-Definition at line 73 of file qssp.\-h.
+
+\hypertarget{group___uploader_ga39fea4d573ab6d52b3b2df145d6d3f7a}{\index{\-Serial and U\-S\-B Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}!max\-Retry\-Count@{max\-Retry\-Count}}
+\index{max\-Retry\-Count@{max\-Retry\-Count}!Serial and USB Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}}
+\subsubsection[{max\-Retry\-Count}]{\setlength{\rightskip}{0pt plus 5cm}uint8\-\_\-t {\bf port\-::max\-Retry\-Count}}}\label{group___uploader_ga39fea4d573ab6d52b3b2df145d6d3f7a}
+
+
+\-Definition at line 43 of file port.\-h.
+
+\hypertarget{group___uploader_ga9e944ebc8efdc543601a3ba9ed2fa36d}{\index{\-Serial and U\-S\-B Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}!pbuff@{pbuff}}
+\index{pbuff@{pbuff}!Serial and USB Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}}
+\subsubsection[{pbuff}]{\setlength{\rightskip}{0pt plus 5cm}uint8\-\_\-t$\ast$ {\bf \-Packet\-\_\-t\-::pbuff}}}\label{group___uploader_ga9e944ebc8efdc543601a3ba9ed2fa36d}
+
+
+\-Definition at line 61 of file qssp.\-h.
+
+\hypertarget{group___uploader_gaa59e48abe3c6ec88333502c7abd9c309}{\index{\-Serial and U\-S\-B Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}!retry\-Count@{retry\-Count}}
+\index{retry\-Count@{retry\-Count}!Serial and USB Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}}
+\subsubsection[{retry\-Count}]{\setlength{\rightskip}{0pt plus 5cm}uint8\-\_\-t {\bf port\-::retry\-Count}}}\label{group___uploader_gaa59e48abe3c6ec88333502c7abd9c309}
+
+
+\-Definition at line 42 of file port.\-h.
+
+\hypertarget{group___uploader_ga934f922079e3cc67b83f3b27d377a1e4}{\index{\-Serial and U\-S\-B Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}!rx\-Buf@{rx\-Buf}}
+\index{rx\-Buf@{rx\-Buf}!Serial and USB Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}}
+\subsubsection[{rx\-Buf}]{\setlength{\rightskip}{0pt plus 5cm}uint8\-\_\-t$\ast$ {\bf port\-::rx\-Buf}}}\label{group___uploader_ga934f922079e3cc67b83f3b27d377a1e4}
+
+
+\-Definition at line 54 of file port.\-h.
+
+\hypertarget{group___uploader_ga351151bd718bd34e6b4acc0c33a315a1}{\index{\-Serial and U\-S\-B Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}!rx\-Buf@{rx\-Buf}}
+\index{rx\-Buf@{rx\-Buf}!Serial and USB Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}}
+\subsubsection[{rx\-Buf}]{\setlength{\rightskip}{0pt plus 5cm}uint8\-\_\-t$\ast$ {\bf \-Port\-Config\-\_\-t\-::rx\-Buf}}}\label{group___uploader_ga351151bd718bd34e6b4acc0c33a315a1}
+
+
+\-Definition at line 69 of file qssp.\-h.
+
+\hypertarget{group___uploader_ga1de477395cd5f7c06623860c2d8017e4}{\index{\-Serial and U\-S\-B Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}!rx\-Buf\-Len@{rx\-Buf\-Len}}
+\index{rx\-Buf\-Len@{rx\-Buf\-Len}!Serial and USB Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}}
+\subsubsection[{rx\-Buf\-Len}]{\setlength{\rightskip}{0pt plus 5cm}uint16\-\_\-t {\bf port\-::rx\-Buf\-Len}}}\label{group___uploader_ga1de477395cd5f7c06623860c2d8017e4}
+
+
+\-Definition at line 49 of file port.\-h.
+
+\hypertarget{group___uploader_ga75073512a14d809c8ed03df447815d09}{\index{\-Serial and U\-S\-B Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}!rx\-Buf\-Pos@{rx\-Buf\-Pos}}
+\index{rx\-Buf\-Pos@{rx\-Buf\-Pos}!Serial and USB Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}}
+\subsubsection[{rx\-Buf\-Pos}]{\setlength{\rightskip}{0pt plus 5cm}uint16\-\_\-t {\bf port\-::rx\-Buf\-Pos}}}\label{group___uploader_ga75073512a14d809c8ed03df447815d09}
+
+
+\-Definition at line 48 of file port.\-h.
+
+\hypertarget{group___uploader_ga640561a803c92539943ec445afba5e72}{\index{\-Serial and U\-S\-B Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}!rx\-Buf\-Size@{rx\-Buf\-Size}}
+\index{rx\-Buf\-Size@{rx\-Buf\-Size}!Serial and USB Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}}
+\subsubsection[{rx\-Buf\-Size}]{\setlength{\rightskip}{0pt plus 5cm}uint16\-\_\-t {\bf port\-::rx\-Buf\-Size}}}\label{group___uploader_ga640561a803c92539943ec445afba5e72}
+
+
+\-Definition at line 51 of file port.\-h.
+
+\hypertarget{group___uploader_ga2f1cf7a3eabee4b4fa51aeedb4e7f708}{\index{\-Serial and U\-S\-B Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}!rx\-Buf\-Size@{rx\-Buf\-Size}}
+\index{rx\-Buf\-Size@{rx\-Buf\-Size}!Serial and USB Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}}
+\subsubsection[{rx\-Buf\-Size}]{\setlength{\rightskip}{0pt plus 5cm}uint16\-\_\-t {\bf \-Port\-Config\-\_\-t\-::rx\-Buf\-Size}}}\label{group___uploader_ga2f1cf7a3eabee4b4fa51aeedb4e7f708}
+
+
+\-Definition at line 70 of file qssp.\-h.
+
+\hypertarget{group___uploader_ga6d92cd4c24b14264e16528a599123db4}{\index{\-Serial and U\-S\-B Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}!\-Rx\-Error@{\-Rx\-Error}}
+\index{\-Rx\-Error@{\-Rx\-Error}!Serial and USB Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}}
+\subsubsection[{\-Rx\-Error}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t {\bf port\-::\-Rx\-Error}}}\label{group___uploader_ga6d92cd4c24b14264e16528a599123db4}
+
+
+\-Definition at line 63 of file port.\-h.
+
+\hypertarget{group___uploader_ga82ee05e7b1de6f1b55b375364ce5bc83}{\index{\-Serial and U\-S\-B Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}!rx\-Seq\-No@{rx\-Seq\-No}}
+\index{rx\-Seq\-No@{rx\-Seq\-No}!Serial and USB Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}}
+\subsubsection[{rx\-Seq\-No}]{\setlength{\rightskip}{0pt plus 5cm}uint8\-\_\-t {\bf port\-::rx\-Seq\-No}}}\label{group___uploader_ga82ee05e7b1de6f1b55b375364ce5bc83}
+
+
+\-Definition at line 50 of file port.\-h.
+
+\hypertarget{group___uploader_ga9eaf6bf50865d1b4f8470110523b9f6b}{\index{\-Serial and U\-S\-B Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}!\-Send\-State@{\-Send\-State}}
+\index{\-Send\-State@{\-Send\-State}!Serial and USB Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}}
+\subsubsection[{\-Send\-State}]{\setlength{\rightskip}{0pt plus 5cm}uint16\-\_\-t {\bf port\-::\-Send\-State}}}\label{group___uploader_ga9eaf6bf50865d1b4f8470110523b9f6b}
+
+
+\-Definition at line 61 of file port.\-h.
+
+\hypertarget{group___uploader_gafc6af17b7bd943cd40a0223eed26a0c3}{\index{\-Serial and U\-S\-B Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}!send\-Synch@{send\-Synch}}
+\index{send\-Synch@{send\-Synch}!Serial and USB Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}}
+\subsubsection[{send\-Synch}]{\setlength{\rightskip}{0pt plus 5cm}uint16\-\_\-t {\bf port\-::send\-Synch}}}\label{group___uploader_gafc6af17b7bd943cd40a0223eed26a0c3}
+
+
+\-Definition at line 55 of file port.\-h.
+
+\hypertarget{group___uploader_ga9f51d41b7233025b207d9a47188a684b}{\index{\-Serial and U\-S\-B Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}!seq\-No@{seq\-No}}
+\index{seq\-No@{seq\-No}!Serial and USB Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}}
+\subsubsection[{seq\-No}]{\setlength{\rightskip}{0pt plus 5cm}uint8\-\_\-t {\bf \-Packet\-\_\-t\-::seq\-No}}}\label{group___uploader_ga9f51d41b7233025b207d9a47188a684b}
+
+
+\-Definition at line 64 of file qssp.\-h.
+
+\hypertarget{group___uploader_gac5f404a47ec2583f83bd610d5f184308}{\index{\-Serial and U\-S\-B Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}!timeout@{timeout}}
+\index{timeout@{timeout}!Serial and USB Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}}
+\subsubsection[{timeout}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t {\bf port\-::timeout}}}\label{group___uploader_gac5f404a47ec2583f83bd610d5f184308}
+
+
+\-Definition at line 46 of file port.\-h.
+
+\hypertarget{group___uploader_gacad18aa8d7e13c6500409da966437d3d}{\index{\-Serial and U\-S\-B Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}!timeout\-Len@{timeout\-Len}}
+\index{timeout\-Len@{timeout\-Len}!Serial and USB Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}}
+\subsubsection[{timeout\-Len}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf port\-::timeout\-Len}}}\label{group___uploader_gacad18aa8d7e13c6500409da966437d3d}
+
+
+\-Definition at line 45 of file port.\-h.
+
+\hypertarget{group___uploader_ga13c21abf5c985cf8f33e4a6ccc45310f}{\index{\-Serial and U\-S\-B Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}!timeout\-Len@{timeout\-Len}}
+\index{timeout\-Len@{timeout\-Len}!Serial and USB Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}}
+\subsubsection[{timeout\-Len}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-Port\-Config\-\_\-t\-::timeout\-Len}}}\label{group___uploader_ga13c21abf5c985cf8f33e4a6ccc45310f}
+
+
+\-Definition at line 74 of file qssp.\-h.
+
+\hypertarget{group___uploader_gaf025f7e1a7f2a73bbc14602b9a5f1ee0}{\index{\-Serial and U\-S\-B Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}!tx\-Buf@{tx\-Buf}}
+\index{tx\-Buf@{tx\-Buf}!Serial and USB Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}}
+\subsubsection[{tx\-Buf}]{\setlength{\rightskip}{0pt plus 5cm}uint8\-\_\-t$\ast$ {\bf port\-::tx\-Buf}}}\label{group___uploader_gaf025f7e1a7f2a73bbc14602b9a5f1ee0}
+
+
+\-Definition at line 53 of file port.\-h.
+
+\hypertarget{group___uploader_ga45f87f2e2a856d459c590f5a1a0ffeb4}{\index{\-Serial and U\-S\-B Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}!tx\-Buf@{tx\-Buf}}
+\index{tx\-Buf@{tx\-Buf}!Serial and USB Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}}
+\subsubsection[{tx\-Buf}]{\setlength{\rightskip}{0pt plus 5cm}uint8\-\_\-t$\ast$ {\bf \-Port\-Config\-\_\-t\-::tx\-Buf}}}\label{group___uploader_ga45f87f2e2a856d459c590f5a1a0ffeb4}
+
+
+\-Definition at line 71 of file qssp.\-h.
+
+\hypertarget{group___uploader_ga108da44374d16b8153824a65fec5a7ae}{\index{\-Serial and U\-S\-B Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}!tx\-Buf\-Size@{tx\-Buf\-Size}}
+\index{tx\-Buf\-Size@{tx\-Buf\-Size}!Serial and USB Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}}
+\subsubsection[{tx\-Buf\-Size}]{\setlength{\rightskip}{0pt plus 5cm}uint16\-\_\-t {\bf port\-::tx\-Buf\-Size}}}\label{group___uploader_ga108da44374d16b8153824a65fec5a7ae}
+
+
+\-Definition at line 52 of file port.\-h.
+
+\hypertarget{group___uploader_gacc8a53158605f7a72f895d2a80036137}{\index{\-Serial and U\-S\-B Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}!tx\-Buf\-Size@{tx\-Buf\-Size}}
+\index{tx\-Buf\-Size@{tx\-Buf\-Size}!Serial and USB Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}}
+\subsubsection[{tx\-Buf\-Size}]{\setlength{\rightskip}{0pt plus 5cm}uint16\-\_\-t {\bf \-Port\-Config\-\_\-t\-::tx\-Buf\-Size}}}\label{group___uploader_gacc8a53158605f7a72f895d2a80036137}
+
+
+\-Definition at line 72 of file qssp.\-h.
+
+\hypertarget{group___uploader_ga9b23351e935a17b3a216b903dabac29c}{\index{\-Serial and U\-S\-B Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}!\-Tx\-Error@{\-Tx\-Error}}
+\index{\-Tx\-Error@{\-Tx\-Error}!Serial and USB Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}}
+\subsubsection[{\-Tx\-Error}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t {\bf port\-::\-Tx\-Error}}}\label{group___uploader_ga9b23351e935a17b3a216b903dabac29c}
+
+
+\-Definition at line 64 of file port.\-h.
+
+\hypertarget{group___uploader_ga9add555476b07ac554ed3371358848bb}{\index{\-Serial and U\-S\-B Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}!tx\-Seq\-No@{tx\-Seq\-No}}
+\index{tx\-Seq\-No@{tx\-Seq\-No}!Serial and USB Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}}
+\subsubsection[{tx\-Seq\-No}]{\setlength{\rightskip}{0pt plus 5cm}uint8\-\_\-t {\bf port\-::tx\-Seq\-No}}}\label{group___uploader_ga9add555476b07ac554ed3371358848bb}
+
+
+\-Definition at line 47 of file port.\-h.
+
+
+
+\subsection{\-Public \-Slots}
+\hypertarget{group___uploader_gac421d53cac355c47f763a62eab7675c1}{\index{\-Serial and U\-S\-B Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}!dfu\-Status@{dfu\-Status}}
+\index{dfu\-Status@{dfu\-Status}!Serial and USB Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}}
+\subsubsection[{dfu\-Status}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf device\-Widget\-::dfu\-Status} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Q\-String}}]{str}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}slot\mbox{]}}}}\label{group___uploader_gac421d53cac355c47f763a62eab7675c1}
+\-Updates status message for messages coming from \-D\-F\-U 
+
+\-Definition at line 212 of file devicewidget.\-cpp.
+
+\hypertarget{group___uploader_ga0809fb3c0a799a12c92704a36d3abf16}{\index{\-Serial and U\-S\-B Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}!download\-Finished@{download\-Finished}}
+\index{download\-Finished@{download\-Finished}!Serial and USB Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}}
+\subsubsection[{download\-Finished}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf device\-Widget\-::download\-Finished} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}slot\mbox{]}}}}\label{group___uploader_ga0809fb3c0a799a12c92704a36d3abf16}
+\-Callback for the firmware download result 
+
+\-Definition at line 433 of file devicewidget.\-cpp.
+
+\hypertarget{group___uploader_ga988f01d143265ee96b4255b07b63fbf6}{\index{\-Serial and U\-S\-B Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}!download\-Firmware@{download\-Firmware}}
+\index{download\-Firmware@{download\-Firmware}!Serial and USB Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}}
+\subsubsection[{download\-Firmware}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf device\-Widget\-::download\-Firmware} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}slot\mbox{]}}}}\label{group___uploader_ga988f01d143265ee96b4255b07b63fbf6}
+\-Retrieves the firmware from the device 
+
+\-Definition at line 403 of file devicewidget.\-cpp.
+
+\hypertarget{group___uploader_ga8ac75c9483f273ed59faa116fe5699ee}{\index{\-Serial and U\-S\-B Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}!set\-Progress@{set\-Progress}}
+\index{set\-Progress@{set\-Progress}!Serial and USB Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}}
+\subsubsection[{set\-Progress}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf device\-Widget\-::set\-Progress} (
+\begin{DoxyParamCaption}
+\item[{int}]{percent}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}slot\mbox{]}}}}\label{group___uploader_ga8ac75c9483f273ed59faa116fe5699ee}
+\-Slot to update the progress bar 
+
+\-Definition at line 488 of file devicewidget.\-cpp.
+
+\hypertarget{group___uploader_ga671fb25fd918e7eeac5c16bd1f1dfe86}{\index{\-Serial and U\-S\-B Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}!upload\-Finished@{upload\-Finished}}
+\index{upload\-Finished@{upload\-Finished}!Serial and USB Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}}
+\subsubsection[{upload\-Finished}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf device\-Widget\-::upload\-Finished} (
+\begin{DoxyParamCaption}
+\item[{\-O\-P\-\_\-\-D\-F\-U\-::\-Status}]{retstatus}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}slot\mbox{]}}}}\label{group___uploader_ga671fb25fd918e7eeac5c16bd1f1dfe86}
+\-Callback for the firmware upload result 
+
+\-Definition at line 446 of file devicewidget.\-cpp.
+
+\hypertarget{group___uploader_ga51b53782cd70711b9ca91f81ef02565b}{\index{\-Serial and U\-S\-B Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}!upload\-Firmware@{upload\-Firmware}}
+\index{upload\-Firmware@{upload\-Firmware}!Serial and USB Uploader Plugin@{\-Serial and U\-S\-B Uploader Plugin}}
+\subsubsection[{upload\-Firmware}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf device\-Widget\-::upload\-Firmware} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}slot\mbox{]}}}}\label{group___uploader_ga51b53782cd70711b9ca91f81ef02565b}
+\-Sends a firmware to the device 
+
+\-Definition at line 325 of file devicewidget.\-cpp.
+

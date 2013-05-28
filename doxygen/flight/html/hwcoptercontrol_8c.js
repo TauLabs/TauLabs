@@ -1,0 +1,27 @@
+var hwcoptercontrol_8c =
+[
+    [ "HwCopterControlAccelRangeGet", "group___hw_copter_control.html#gada6cd52bea930a1e0a52f53a4a8af1f7", null ],
+    [ "HwCopterControlAccelRangeSet", "group___hw_copter_control.html#gaa8ed445f0402845d576b572993b8edec", null ],
+    [ "HwCopterControlDSMxBindGet", "group___hw_copter_control.html#ga39c92d526b82424330b8458a6968e58b", null ],
+    [ "HwCopterControlDSMxBindSet", "group___hw_copter_control.html#gaebe1246ae9bfd1b979ab47c48dd92a9c", null ],
+    [ "HwCopterControlFlexiPortGet", "group___hw_copter_control.html#ga6b19f9ec9693f58370edd5f2e7d40afc", null ],
+    [ "HwCopterControlFlexiPortSet", "group___hw_copter_control.html#ga5678455e5c31b1b8ff464fa59b994dd9", null ],
+    [ "HwCopterControlGyroRangeGet", "group___hw_copter_control.html#ga6c57cc3f1228af03a32a9bf62c5d155b", null ],
+    [ "HwCopterControlGyroRangeSet", "group___hw_copter_control.html#ga82a95dfacc1ea86d4b3a22180f302833", null ],
+    [ "HwCopterControlHandle", "group___hw_copter_control.html#gaad7687d36291c7057dfd225e8d31109f", null ],
+    [ "HwCopterControlInitialize", "group___hw_copter_control.html#ga5b1a25e7caa430e479fad08909694433", null ],
+    [ "HwCopterControlMainPortGet", "group___hw_copter_control.html#ga988c65aeca8df66ce948a8c48afc7854", null ],
+    [ "HwCopterControlMainPortSet", "group___hw_copter_control.html#ga6fa0ae21d42e7f94a2d126f214ed5eed", null ],
+    [ "HwCopterControlMPU6000DLPFGet", "group___hw_copter_control.html#ga243eedf550cdc89a6015d00adca6fb04", null ],
+    [ "HwCopterControlMPU6000DLPFSet", "group___hw_copter_control.html#ga887b762b05d7bbedf4ae82957c553d80", null ],
+    [ "HwCopterControlMPU6000RateGet", "group___hw_copter_control.html#ga3957e4ec11bac4e99b7f81938b681e3b", null ],
+    [ "HwCopterControlMPU6000RateSet", "group___hw_copter_control.html#ga02fbf5b377164ad421ae4062f9ef490e", null ],
+    [ "HwCopterControlRcvrPortGet", "group___hw_copter_control.html#ga3fbb99f5441e4e35c590675c9371838a", null ],
+    [ "HwCopterControlRcvrPortSet", "group___hw_copter_control.html#gad0b7d8c6dd12d99c2b997b5fdba0a866", null ],
+    [ "HwCopterControlSetDefaults", "group___hw_copter_control.html#gae3f624a5246fcd35a882f0ff0e8a0de2", null ],
+    [ "HwCopterControlUSB_HIDPortGet", "group___hw_copter_control.html#gae9c385e9941d7c2f184deba8ca87d473", null ],
+    [ "HwCopterControlUSB_HIDPortSet", "group___hw_copter_control.html#ga735932e4a2688c32953cd05d6001c75c", null ],
+    [ "HwCopterControlUSB_VCPPortGet", "group___hw_copter_control.html#ga64966b2a7307aa9a071ddc61d37cb409", null ],
+    [ "HwCopterControlUSB_VCPPortSet", "group___hw_copter_control.html#ga56b4c7ce38afbf857b660d744617e35a", null ],
+    [ "handle", "group___hw_copter_control.html#gab0285eeca256b1680508f7077efcb9e0", null ]
+];

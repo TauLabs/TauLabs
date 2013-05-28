@@ -1,0 +1,20 @@
+\hypertarget{buffer_8cpp}{\section{/home/jb/code/\-Tau\-Labs/ground/gcs/src/plugins/gpsdisplay/buffer.cpp \-File \-Reference}
+\label{buffer_8cpp}\index{/home/jb/code/\-Tau\-Labs/ground/gcs/src/plugins/gpsdisplay/buffer.\-cpp@{/home/jb/code/\-Tau\-Labs/ground/gcs/src/plugins/gpsdisplay/buffer.\-cpp}}
+}
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group__buffer_ga244e96c8f96cadc0d4bb38847d33453b}{buffer\-Init} (\hyperlink{group__buffer_ga63b2a19263ed371e329776b34f3164eb}{c\-Buffer} $\ast$\hyperlink{uavobjecttemplate_8m_a9295f53f891e8db64c56d4df48cbb933}{buffer}, unsigned char $\ast$start, unsigned short size)
+\begin{DoxyCompactList}\small\item\em initialize a buffer to start at a given address and have given size \end{DoxyCompactList}\item 
+unsigned char \hyperlink{group__buffer_ga9abc82d83082748d24820a4d7e584e6e}{buffer\-Get\-From\-Front} (\hyperlink{group__buffer_ga63b2a19263ed371e329776b34f3164eb}{c\-Buffer} $\ast$\hyperlink{uavobjecttemplate_8m_a9295f53f891e8db64c56d4df48cbb933}{buffer})
+\begin{DoxyCompactList}\small\item\em get the first byte from the front of the buffer \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group__buffer_ga29bdb509f323d435ca902cebf2fde021}{buffer\-Dump\-From\-Front} (\hyperlink{group__buffer_ga63b2a19263ed371e329776b34f3164eb}{c\-Buffer} $\ast$\hyperlink{uavobjecttemplate_8m_a9295f53f891e8db64c56d4df48cbb933}{buffer}, unsigned short numbytes)
+\begin{DoxyCompactList}\small\item\em dump (discard) the first numbytes from the front of the buffer \end{DoxyCompactList}\item 
+unsigned char \hyperlink{group__buffer_ga74f6af39ead63148559e79e39dc0b4f4}{buffer\-Get\-At\-Index} (\hyperlink{group__buffer_ga63b2a19263ed371e329776b34f3164eb}{c\-Buffer} $\ast$\hyperlink{uavobjecttemplate_8m_a9295f53f891e8db64c56d4df48cbb933}{buffer}, unsigned short index)
+\begin{DoxyCompactList}\small\item\em get a byte at the specified index in the buffer (kind of like array access) \end{DoxyCompactList}\item 
+unsigned char \hyperlink{group__buffer_ga9af0ac80a93ba9b2833b1f06b7218ecd}{buffer\-Add\-To\-End} (\hyperlink{group__buffer_ga63b2a19263ed371e329776b34f3164eb}{c\-Buffer} $\ast$\hyperlink{uavobjecttemplate_8m_a9295f53f891e8db64c56d4df48cbb933}{buffer}, unsigned char data)
+\begin{DoxyCompactList}\small\item\em add a byte to the end of the buffer \end{DoxyCompactList}\item 
+unsigned char \hyperlink{group__buffer_ga8bee3b83e4465e8f6c76caa8906fdeec}{buffer\-Is\-Not\-Full} (\hyperlink{group__buffer_ga63b2a19263ed371e329776b34f3164eb}{c\-Buffer} $\ast$\hyperlink{uavobjecttemplate_8m_a9295f53f891e8db64c56d4df48cbb933}{buffer})
+\begin{DoxyCompactList}\small\item\em check if the buffer is full/not full (returns non-\/zero value if not full) \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group__buffer_gaf322a6c7f3314ac0f5383035d206fc8e}{buffer\-Flush} (\hyperlink{group__buffer_ga63b2a19263ed371e329776b34f3164eb}{c\-Buffer} $\ast$\hyperlink{uavobjecttemplate_8m_a9295f53f891e8db64c56d4df48cbb933}{buffer})
+\begin{DoxyCompactList}\small\item\em flush (clear) the contents of the buffer \end{DoxyCompactList}\end{DoxyCompactItemize}

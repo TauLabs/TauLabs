@@ -1,0 +1,333 @@
+\hypertarget{group___p_i_o_s___v_i_d_e_o}{\section{\-Code for \-O\-S\-D video generator}
+\label{group___p_i_o_s___v_i_d_e_o}\index{\-Code for O\-S\-D video generator@{\-Code for O\-S\-D video generator}}
+}
+
+
+\-O\-S\-D generator, \-Parts from \-C\-L-\/\-O\-S\-D and \-S\-U\-P\-E\-R\-O\-S\-D project.  
+
+
+\subsection*{\-Data \-Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{struct__buffers}{\-\_\-buffers}
+\item 
+struct \hyperlink{structpios__video__cfg}{pios\-\_\-video\-\_\-cfg}
+\item 
+struct \hyperlink{struct_t_time}{\-T\-Time}
+\end{DoxyCompactItemize}
+\subsection*{\-Files}
+\begin{DoxyCompactItemize}
+\item 
+file \hyperlink{pios__video_8c}{pios\-\_\-video.\-c}
+\begin{DoxyCompactList}\small\item\em \-O\-S\-D generator, \-Parts from \-C\-L-\/\-O\-S\-D and \-S\-U\-P\-E\-R\-O\-S\-D projects. \end{DoxyCompactList}\item 
+file \hyperlink{pios__video_8h}{pios\-\_\-video.\-h}
+\begin{DoxyCompactList}\small\item\em \-O\-S\-D generator, \-Parts from \-C\-L-\/\-O\-S\-D and \-S\-U\-P\-E\-R\-O\-S\-D projects. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{group___p_i_o_s___v_i_d_e_o_ga0d157d997329169f936545f9985e334b}{swap\-\_\-buffers} ()
+\item 
+bool \hyperlink{group___p_i_o_s___v_i_d_e_o_ga80058030e4245438ea8a76bd5c98b133}{\-P\-I\-O\-S\-\_\-\-Hsync\-\_\-\-I\-S\-R} ()
+\item 
+bool \hyperlink{group___p_i_o_s___v_i_d_e_o_ga85b37fc7c59ec730520859920f0e1efb}{\-P\-I\-O\-S\-\_\-\-Vsync\-\_\-\-I\-S\-R} ()
+\item 
+uint16\-\_\-t \hyperlink{group___p_i_o_s___v_i_d_e_o_ga79339656dd43737af275c88061f31458}{\-P\-I\-O\-S\-\_\-\-Video\-\_\-\-Get\-O\-S\-D\-Lines} (void)
+\item 
+void \hyperlink{group___p_i_o_s___v_i_d_e_o_ga1dd937879200d15d16de47a439556adb}{\-P\-I\-O\-S\-\_\-\-Video\-\_\-\-Init} (const struct \hyperlink{structpios__video__cfg}{pios\-\_\-video\-\_\-cfg} $\ast$cfg)
+\item 
+void \hyperlink{group___p_i_o_s___v_i_d_e_o_ga7ceca4d5d94790fa8dc69537bccf004d}{\-P\-I\-O\-S\-\_\-\-V\-I\-D\-E\-O\-\_\-\-D\-M\-A\-\_\-\-Handler} (void)
+\begin{DoxyCompactList}\small\item\em \-Interrupt for half and full buffer transfer. \end{DoxyCompactList}\item 
+void \hyperlink{group___p_i_o_s___v_i_d_e_o_gae81787590524971351490705554cc351}{\-D\-M\-A1\-\_\-\-Stream7\-\_\-\-I\-R\-Q\-Handler} (void)
+\end{DoxyCompactItemize}
+\subsection*{\-Variables}
+\begin{DoxyCompactItemize}
+\item 
+x\-Semaphore\-Handle \hyperlink{group___p_i_o_s___v_i_d_e_o_ga34f96a89a1ad6c4649787dbc18e218e5}{osd\-Semaphore}
+\item 
+uint8\-\_\-t \hyperlink{group___p_i_o_s___v_i_d_e_o_ga3b52f2bd3c15f12d7a7257c5d8ff2627}{\-\_\-buffers\-::buffer0\-\_\-level} \mbox{[}\-G\-R\-A\-P\-H\-I\-C\-S\-\_\-\-H\-E\-I\-G\-H\-T $\ast$\-G\-R\-A\-P\-H\-I\-C\-S\-\_\-\-W\-I\-D\-T\-H\mbox{]}
+\item 
+uint8\-\_\-t \hyperlink{group___p_i_o_s___v_i_d_e_o_ga9620d63e32309e41277c6dd2dc8ee2ae}{\-\_\-buffers\-::buffer0\-\_\-mask} \mbox{[}\-G\-R\-A\-P\-H\-I\-C\-S\-\_\-\-H\-E\-I\-G\-H\-T $\ast$\-G\-R\-A\-P\-H\-I\-C\-S\-\_\-\-W\-I\-D\-T\-H\mbox{]}
+\item 
+uint8\-\_\-t \hyperlink{group___p_i_o_s___v_i_d_e_o_ga63add1136b802684b982c920c01ae697}{\-\_\-buffers\-::buffer1\-\_\-level} \mbox{[}\-G\-R\-A\-P\-H\-I\-C\-S\-\_\-\-H\-E\-I\-G\-H\-T $\ast$\-G\-R\-A\-P\-H\-I\-C\-S\-\_\-\-W\-I\-D\-T\-H\mbox{]}
+\item 
+uint8\-\_\-t \hyperlink{group___p_i_o_s___v_i_d_e_o_gad0338825ac9f4f66d1f1cc5147b69aa7}{\-\_\-buffers\-::buffer1\-\_\-mask} \mbox{[}\-G\-R\-A\-P\-H\-I\-C\-S\-\_\-\-H\-E\-I\-G\-H\-T $\ast$\-G\-R\-A\-P\-H\-I\-C\-S\-\_\-\-W\-I\-D\-T\-H\mbox{]}
+\item 
+struct \hyperlink{struct__buffers}{\-\_\-buffers} \hyperlink{group___p_i_o_s___v_i_d_e_o_gaec9bffb1068ac55e742a1e7b6e449273}{buffers}
+\item 
+uint8\-\_\-t $\ast$ \hyperlink{group___p_i_o_s___v_i_d_e_o_ga52b5c0fc86a398ddf62c5b2bb383374d}{draw\-\_\-buffer\-\_\-level}
+\item 
+uint8\-\_\-t $\ast$ \hyperlink{group___p_i_o_s___v_i_d_e_o_ga67085db0125b910109083e4d2605d7d5}{draw\-\_\-buffer\-\_\-mask}
+\item 
+uint8\-\_\-t $\ast$ \hyperlink{group___p_i_o_s___v_i_d_e_o_gac6ace302511130c48032b40f32a40bb8}{disp\-\_\-buffer\-\_\-level}
+\item 
+uint8\-\_\-t $\ast$ \hyperlink{group___p_i_o_s___v_i_d_e_o_ga2de64a6d3102b302a9b7582d63f09485}{disp\-\_\-buffer\-\_\-mask}
+\item 
+volatile uint8\-\_\-t \hyperlink{group___p_i_o_s___v_i_d_e_o_ga2be6bb035ef820488def868f5165b836}{g\-Line\-Type} = \-L\-I\-N\-E\-\_\-\-T\-Y\-P\-E\-\_\-\-U\-N\-K\-N\-O\-W\-N
+\item 
+volatile uint16\-\_\-t \hyperlink{group___p_i_o_s___v_i_d_e_o_ga2b82b203be6721e41653a0b4c07bfd82}{g\-Active\-Line} = 0
+\item 
+volatile uint16\-\_\-t \hyperlink{group___p_i_o_s___v_i_d_e_o_ga4e778b3bd5c9d692c381957e741aa4a3}{g\-Active\-Pixmap\-Line} = 0
+\item 
+volatile uint16\-\_\-t \hyperlink{group___p_i_o_s___v_i_d_e_o_ga308d53a9c395c298132110da98adb7c7}{line} = 0
+\item 
+volatile uint16\-\_\-t \hyperlink{group___p_i_o_s___v_i_d_e_o_ga650b4db295bf40320fafbfce5954a39e}{\-Vsync\-\_\-update} = 0
+\item 
+struct \hyperlink{structpios__spi__cfg}{pios\-\_\-spi\-\_\-cfg} \hyperlink{group___p_i_o_s___v_i_d_e_o_gac6699e31fbc588e69db444000ba7d44d}{pios\-\_\-video\-\_\-cfg\-::mask}
+\item 
+struct \hyperlink{structpios__spi__cfg}{pios\-\_\-spi\-\_\-cfg} \hyperlink{group___p_i_o_s___v_i_d_e_o_gab3de6ddfa1d478f8062c895cad5d4793}{pios\-\_\-video\-\_\-cfg\-::level}
+\item 
+struct \hyperlink{structpios__exti__cfg}{pios\-\_\-exti\-\_\-cfg} $\ast$ \hyperlink{group___p_i_o_s___v_i_d_e_o_ga01589e94ad18d5c8d12f72778539f8aa}{pios\-\_\-video\-\_\-cfg\-::hsync}
+\item 
+struct \hyperlink{structpios__exti__cfg}{pios\-\_\-exti\-\_\-cfg} $\ast$ \hyperlink{group___p_i_o_s___v_i_d_e_o_ga489c20025b1facf5435c66ff616e1cd9}{pios\-\_\-video\-\_\-cfg\-::vsync}
+\item 
+uint8\-\_\-t \hyperlink{group___p_i_o_s___v_i_d_e_o_gaa6288943af354a6cb143f2ad677cfece}{\-T\-Time\-::sec}
+\item 
+uint8\-\_\-t \hyperlink{group___p_i_o_s___v_i_d_e_o_gadb9b0440ee5ef05786949736913ce45c}{\-T\-Time\-::min}
+\item 
+uint8\-\_\-t \hyperlink{group___p_i_o_s___v_i_d_e_o_gae7afd210e593b007611ac237bd32d30d}{\-T\-Time\-::hour}
+\item 
+\hyperlink{struct_t_time}{\-T\-Time} \hyperlink{group___p_i_o_s___v_i_d_e_o_gac6e460448d29f05aad59dc67c3035057}{timex}
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-O\-S\-D generator, \-Parts from \-C\-L-\/\-O\-S\-D and \-S\-U\-P\-E\-R\-O\-S\-D project. 
+
+\subsection{\-Function \-Documentation}
+\hypertarget{group___p_i_o_s___v_i_d_e_o_gae81787590524971351490705554cc351}{\index{\-Code for O\-S\-D video generator@{\-Code for O\-S\-D video generator}!\-D\-M\-A1\-\_\-\-Stream7\-\_\-\-I\-R\-Q\-Handler@{\-D\-M\-A1\-\_\-\-Stream7\-\_\-\-I\-R\-Q\-Handler}}
+\index{\-D\-M\-A1\-\_\-\-Stream7\-\_\-\-I\-R\-Q\-Handler@{\-D\-M\-A1\-\_\-\-Stream7\-\_\-\-I\-R\-Q\-Handler}!Code for OSD video generator@{\-Code for O\-S\-D video generator}}
+\subsubsection[{\-D\-M\-A1\-\_\-\-Stream7\-\_\-\-I\-R\-Q\-Handler}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-D\-M\-A1\-\_\-\-Stream7\-\_\-\-I\-R\-Q\-Handler} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___v_i_d_e_o_gae81787590524971351490705554cc351}
+
+
+\-Definition at line 237 of file pios\-\_\-video.\-c.
+
+\hypertarget{group___p_i_o_s___v_i_d_e_o_ga80058030e4245438ea8a76bd5c98b133}{\index{\-Code for O\-S\-D video generator@{\-Code for O\-S\-D video generator}!\-P\-I\-O\-S\-\_\-\-Hsync\-\_\-\-I\-S\-R@{\-P\-I\-O\-S\-\_\-\-Hsync\-\_\-\-I\-S\-R}}
+\index{\-P\-I\-O\-S\-\_\-\-Hsync\-\_\-\-I\-S\-R@{\-P\-I\-O\-S\-\_\-\-Hsync\-\_\-\-I\-S\-R}!Code for OSD video generator@{\-Code for O\-S\-D video generator}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-Hsync\-\_\-\-I\-S\-R}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-P\-I\-O\-S\-\_\-\-Hsync\-\_\-\-I\-S\-R} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___v_i_d_e_o_ga80058030e4245438ea8a76bd5c98b133}
+
+
+\-Definition at line 88 of file pios\-\_\-video.\-c.
+
+\hypertarget{group___p_i_o_s___v_i_d_e_o_ga7ceca4d5d94790fa8dc69537bccf004d}{\index{\-Code for O\-S\-D video generator@{\-Code for O\-S\-D video generator}!\-P\-I\-O\-S\-\_\-\-V\-I\-D\-E\-O\-\_\-\-D\-M\-A\-\_\-\-Handler@{\-P\-I\-O\-S\-\_\-\-V\-I\-D\-E\-O\-\_\-\-D\-M\-A\-\_\-\-Handler}}
+\index{\-P\-I\-O\-S\-\_\-\-V\-I\-D\-E\-O\-\_\-\-D\-M\-A\-\_\-\-Handler@{\-P\-I\-O\-S\-\_\-\-V\-I\-D\-E\-O\-\_\-\-D\-M\-A\-\_\-\-Handler}!Code for OSD video generator@{\-Code for O\-S\-D video generator}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-V\-I\-D\-E\-O\-\_\-\-D\-M\-A\-\_\-\-Handler}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-P\-I\-O\-S\-\_\-\-V\-I\-D\-E\-O\-\_\-\-D\-M\-A\-\_\-\-Handler} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___v_i_d_e_o_ga7ceca4d5d94790fa8dc69537bccf004d}
+
+
+\-Interrupt for half and full buffer transfer. 
+
+\-This interrupt handler swaps between the two halfs of the double buffer to make sure the ahrs uses the most recent data. \-Only swaps data when \-A\-H\-R\-S is idle, but really this is a pretense of a sanity check since the \-D\-M\-A engine is consantly running in the background. \-Keep an eye on the ekf\-\_\-too\-\_\-slow variable to make sure it's keeping up. \hypertarget{group___p_i_o_s___v_i_d_e_o_ga79339656dd43737af275c88061f31458}{\index{\-Code for O\-S\-D video generator@{\-Code for O\-S\-D video generator}!\-P\-I\-O\-S\-\_\-\-Video\-\_\-\-Get\-O\-S\-D\-Lines@{\-P\-I\-O\-S\-\_\-\-Video\-\_\-\-Get\-O\-S\-D\-Lines}}
+\index{\-P\-I\-O\-S\-\_\-\-Video\-\_\-\-Get\-O\-S\-D\-Lines@{\-P\-I\-O\-S\-\_\-\-Video\-\_\-\-Get\-O\-S\-D\-Lines}!Code for OSD video generator@{\-Code for O\-S\-D video generator}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-Video\-\_\-\-Get\-O\-S\-D\-Lines}]{\setlength{\rightskip}{0pt plus 5cm}uint16\-\_\-t {\bf \-P\-I\-O\-S\-\_\-\-Video\-\_\-\-Get\-O\-S\-D\-Lines} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___v_i_d_e_o_ga79339656dd43737af275c88061f31458}
+
+
+\-Definition at line 146 of file pios\-\_\-video.\-c.
+
+\hypertarget{group___p_i_o_s___v_i_d_e_o_ga1dd937879200d15d16de47a439556adb}{\index{\-Code for O\-S\-D video generator@{\-Code for O\-S\-D video generator}!\-P\-I\-O\-S\-\_\-\-Video\-\_\-\-Init@{\-P\-I\-O\-S\-\_\-\-Video\-\_\-\-Init}}
+\index{\-P\-I\-O\-S\-\_\-\-Video\-\_\-\-Init@{\-P\-I\-O\-S\-\_\-\-Video\-\_\-\-Init}!Code for OSD video generator@{\-Code for O\-S\-D video generator}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-Video\-\_\-\-Init}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-P\-I\-O\-S\-\_\-\-Video\-\_\-\-Init} (
+\begin{DoxyParamCaption}
+\item[{const struct {\bf pios\-\_\-video\-\_\-cfg} $\ast$}]{cfg}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___v_i_d_e_o_ga1dd937879200d15d16de47a439556adb}
+
+
+\-Definition at line 150 of file pios\-\_\-video.\-c.
+
+\hypertarget{group___p_i_o_s___v_i_d_e_o_ga85b37fc7c59ec730520859920f0e1efb}{\index{\-Code for O\-S\-D video generator@{\-Code for O\-S\-D video generator}!\-P\-I\-O\-S\-\_\-\-Vsync\-\_\-\-I\-S\-R@{\-P\-I\-O\-S\-\_\-\-Vsync\-\_\-\-I\-S\-R}}
+\index{\-P\-I\-O\-S\-\_\-\-Vsync\-\_\-\-I\-S\-R@{\-P\-I\-O\-S\-\_\-\-Vsync\-\_\-\-I\-S\-R}!Code for OSD video generator@{\-Code for O\-S\-D video generator}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-Vsync\-\_\-\-I\-S\-R}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-P\-I\-O\-S\-\_\-\-Vsync\-\_\-\-I\-S\-R} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___v_i_d_e_o_ga85b37fc7c59ec730520859920f0e1efb}
+
+
+\-Definition at line 124 of file pios\-\_\-video.\-c.
+
+\hypertarget{group___p_i_o_s___v_i_d_e_o_ga0d157d997329169f936545f9985e334b}{\index{\-Code for O\-S\-D video generator@{\-Code for O\-S\-D video generator}!swap\-\_\-buffers@{swap\-\_\-buffers}}
+\index{swap\-\_\-buffers@{swap\-\_\-buffers}!Code for OSD video generator@{\-Code for O\-S\-D video generator}}
+\subsubsection[{swap\-\_\-buffers}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf swap\-\_\-buffers} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___v_i_d_e_o_ga0d157d997329169f936545f9985e334b}
+swap\-\_\-buffers\-: \-Swaps the two buffers. \-Contents in the display buffer is seen on the output and the display buffer becomes the new draw buffer. 
+
+\-Definition at line 78 of file pios\-\_\-video.\-c.
+
+
+
+\subsection{\-Variable \-Documentation}
+\hypertarget{group___p_i_o_s___v_i_d_e_o_ga3b52f2bd3c15f12d7a7257c5d8ff2627}{\index{\-Code for O\-S\-D video generator@{\-Code for O\-S\-D video generator}!buffer0\-\_\-level@{buffer0\-\_\-level}}
+\index{buffer0\-\_\-level@{buffer0\-\_\-level}!Code for OSD video generator@{\-Code for O\-S\-D video generator}}
+\subsubsection[{buffer0\-\_\-level}]{\setlength{\rightskip}{0pt plus 5cm}uint8\-\_\-t {\bf \-\_\-buffers\-::buffer0\-\_\-level}\mbox{[}\-G\-R\-A\-P\-H\-I\-C\-S\-\_\-\-H\-E\-I\-G\-H\-T $\ast$\-G\-R\-A\-P\-H\-I\-C\-S\-\_\-\-W\-I\-D\-T\-H\mbox{]}}}\label{group___p_i_o_s___v_i_d_e_o_ga3b52f2bd3c15f12d7a7257c5d8ff2627}
+
+
+\-Definition at line 48 of file pios\-\_\-video.\-c.
+
+\hypertarget{group___p_i_o_s___v_i_d_e_o_ga9620d63e32309e41277c6dd2dc8ee2ae}{\index{\-Code for O\-S\-D video generator@{\-Code for O\-S\-D video generator}!buffer0\-\_\-mask@{buffer0\-\_\-mask}}
+\index{buffer0\-\_\-mask@{buffer0\-\_\-mask}!Code for OSD video generator@{\-Code for O\-S\-D video generator}}
+\subsubsection[{buffer0\-\_\-mask}]{\setlength{\rightskip}{0pt plus 5cm}uint8\-\_\-t {\bf \-\_\-buffers\-::buffer0\-\_\-mask}\mbox{[}\-G\-R\-A\-P\-H\-I\-C\-S\-\_\-\-H\-E\-I\-G\-H\-T $\ast$\-G\-R\-A\-P\-H\-I\-C\-S\-\_\-\-W\-I\-D\-T\-H\mbox{]}}}\label{group___p_i_o_s___v_i_d_e_o_ga9620d63e32309e41277c6dd2dc8ee2ae}
+
+
+\-Definition at line 49 of file pios\-\_\-video.\-c.
+
+\hypertarget{group___p_i_o_s___v_i_d_e_o_ga63add1136b802684b982c920c01ae697}{\index{\-Code for O\-S\-D video generator@{\-Code for O\-S\-D video generator}!buffer1\-\_\-level@{buffer1\-\_\-level}}
+\index{buffer1\-\_\-level@{buffer1\-\_\-level}!Code for OSD video generator@{\-Code for O\-S\-D video generator}}
+\subsubsection[{buffer1\-\_\-level}]{\setlength{\rightskip}{0pt plus 5cm}uint8\-\_\-t {\bf \-\_\-buffers\-::buffer1\-\_\-level}\mbox{[}\-G\-R\-A\-P\-H\-I\-C\-S\-\_\-\-H\-E\-I\-G\-H\-T $\ast$\-G\-R\-A\-P\-H\-I\-C\-S\-\_\-\-W\-I\-D\-T\-H\mbox{]}}}\label{group___p_i_o_s___v_i_d_e_o_ga63add1136b802684b982c920c01ae697}
+
+
+\-Definition at line 50 of file pios\-\_\-video.\-c.
+
+\hypertarget{group___p_i_o_s___v_i_d_e_o_gad0338825ac9f4f66d1f1cc5147b69aa7}{\index{\-Code for O\-S\-D video generator@{\-Code for O\-S\-D video generator}!buffer1\-\_\-mask@{buffer1\-\_\-mask}}
+\index{buffer1\-\_\-mask@{buffer1\-\_\-mask}!Code for OSD video generator@{\-Code for O\-S\-D video generator}}
+\subsubsection[{buffer1\-\_\-mask}]{\setlength{\rightskip}{0pt plus 5cm}uint8\-\_\-t {\bf \-\_\-buffers\-::buffer1\-\_\-mask}\mbox{[}\-G\-R\-A\-P\-H\-I\-C\-S\-\_\-\-H\-E\-I\-G\-H\-T $\ast$\-G\-R\-A\-P\-H\-I\-C\-S\-\_\-\-W\-I\-D\-T\-H\mbox{]}}}\label{group___p_i_o_s___v_i_d_e_o_gad0338825ac9f4f66d1f1cc5147b69aa7}
+
+
+\-Definition at line 51 of file pios\-\_\-video.\-c.
+
+\hypertarget{group___p_i_o_s___v_i_d_e_o_gaec9bffb1068ac55e742a1e7b6e449273}{\index{\-Code for O\-S\-D video generator@{\-Code for O\-S\-D video generator}!buffers@{buffers}}
+\index{buffers@{buffers}!Code for OSD video generator@{\-Code for O\-S\-D video generator}}
+\subsubsection[{buffers}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf \-\_\-buffers}  {\bf buffers}}}\label{group___p_i_o_s___v_i_d_e_o_gaec9bffb1068ac55e742a1e7b6e449273}
+\hypertarget{group___p_i_o_s___v_i_d_e_o_gac6ace302511130c48032b40f32a40bb8}{\index{\-Code for O\-S\-D video generator@{\-Code for O\-S\-D video generator}!disp\-\_\-buffer\-\_\-level@{disp\-\_\-buffer\-\_\-level}}
+\index{disp\-\_\-buffer\-\_\-level@{disp\-\_\-buffer\-\_\-level}!Code for OSD video generator@{\-Code for O\-S\-D video generator}}
+\subsubsection[{disp\-\_\-buffer\-\_\-level}]{\setlength{\rightskip}{0pt plus 5cm}uint8\-\_\-t$\ast$ {\bf disp\-\_\-buffer\-\_\-level}}}\label{group___p_i_o_s___v_i_d_e_o_gac6ace302511130c48032b40f32a40bb8}
+
+
+\-Definition at line 63 of file pios\-\_\-video.\-c.
+
+\hypertarget{group___p_i_o_s___v_i_d_e_o_ga2de64a6d3102b302a9b7582d63f09485}{\index{\-Code for O\-S\-D video generator@{\-Code for O\-S\-D video generator}!disp\-\_\-buffer\-\_\-mask@{disp\-\_\-buffer\-\_\-mask}}
+\index{disp\-\_\-buffer\-\_\-mask@{disp\-\_\-buffer\-\_\-mask}!Code for OSD video generator@{\-Code for O\-S\-D video generator}}
+\subsubsection[{disp\-\_\-buffer\-\_\-mask}]{\setlength{\rightskip}{0pt plus 5cm}uint8\-\_\-t$\ast$ {\bf disp\-\_\-buffer\-\_\-mask}}}\label{group___p_i_o_s___v_i_d_e_o_ga2de64a6d3102b302a9b7582d63f09485}
+
+
+\-Definition at line 64 of file pios\-\_\-video.\-c.
+
+\hypertarget{group___p_i_o_s___v_i_d_e_o_ga52b5c0fc86a398ddf62c5b2bb383374d}{\index{\-Code for O\-S\-D video generator@{\-Code for O\-S\-D video generator}!draw\-\_\-buffer\-\_\-level@{draw\-\_\-buffer\-\_\-level}}
+\index{draw\-\_\-buffer\-\_\-level@{draw\-\_\-buffer\-\_\-level}!Code for OSD video generator@{\-Code for O\-S\-D video generator}}
+\subsubsection[{draw\-\_\-buffer\-\_\-level}]{\setlength{\rightskip}{0pt plus 5cm}uint8\-\_\-t$\ast$ {\bf draw\-\_\-buffer\-\_\-level}}}\label{group___p_i_o_s___v_i_d_e_o_ga52b5c0fc86a398ddf62c5b2bb383374d}
+
+
+\-Definition at line 61 of file pios\-\_\-video.\-c.
+
+\hypertarget{group___p_i_o_s___v_i_d_e_o_ga67085db0125b910109083e4d2605d7d5}{\index{\-Code for O\-S\-D video generator@{\-Code for O\-S\-D video generator}!draw\-\_\-buffer\-\_\-mask@{draw\-\_\-buffer\-\_\-mask}}
+\index{draw\-\_\-buffer\-\_\-mask@{draw\-\_\-buffer\-\_\-mask}!Code for OSD video generator@{\-Code for O\-S\-D video generator}}
+\subsubsection[{draw\-\_\-buffer\-\_\-mask}]{\setlength{\rightskip}{0pt plus 5cm}uint8\-\_\-t$\ast$ {\bf draw\-\_\-buffer\-\_\-mask}}}\label{group___p_i_o_s___v_i_d_e_o_ga67085db0125b910109083e4d2605d7d5}
+
+
+\-Definition at line 62 of file pios\-\_\-video.\-c.
+
+\hypertarget{group___p_i_o_s___v_i_d_e_o_ga2b82b203be6721e41653a0b4c07bfd82}{\index{\-Code for O\-S\-D video generator@{\-Code for O\-S\-D video generator}!g\-Active\-Line@{g\-Active\-Line}}
+\index{g\-Active\-Line@{g\-Active\-Line}!Code for OSD video generator@{\-Code for O\-S\-D video generator}}
+\subsubsection[{g\-Active\-Line}]{\setlength{\rightskip}{0pt plus 5cm}volatile uint16\-\_\-t {\bf g\-Active\-Line} = 0}}\label{group___p_i_o_s___v_i_d_e_o_ga2b82b203be6721e41653a0b4c07bfd82}
+
+
+\-Definition at line 67 of file pios\-\_\-video.\-c.
+
+\hypertarget{group___p_i_o_s___v_i_d_e_o_ga4e778b3bd5c9d692c381957e741aa4a3}{\index{\-Code for O\-S\-D video generator@{\-Code for O\-S\-D video generator}!g\-Active\-Pixmap\-Line@{g\-Active\-Pixmap\-Line}}
+\index{g\-Active\-Pixmap\-Line@{g\-Active\-Pixmap\-Line}!Code for OSD video generator@{\-Code for O\-S\-D video generator}}
+\subsubsection[{g\-Active\-Pixmap\-Line}]{\setlength{\rightskip}{0pt plus 5cm}volatile uint16\-\_\-t {\bf g\-Active\-Pixmap\-Line} = 0}}\label{group___p_i_o_s___v_i_d_e_o_ga4e778b3bd5c9d692c381957e741aa4a3}
+
+
+\-Definition at line 68 of file pios\-\_\-video.\-c.
+
+\hypertarget{group___p_i_o_s___v_i_d_e_o_ga2be6bb035ef820488def868f5165b836}{\index{\-Code for O\-S\-D video generator@{\-Code for O\-S\-D video generator}!g\-Line\-Type@{g\-Line\-Type}}
+\index{g\-Line\-Type@{g\-Line\-Type}!Code for OSD video generator@{\-Code for O\-S\-D video generator}}
+\subsubsection[{g\-Line\-Type}]{\setlength{\rightskip}{0pt plus 5cm}volatile uint8\-\_\-t {\bf g\-Line\-Type} = \-L\-I\-N\-E\-\_\-\-T\-Y\-P\-E\-\_\-\-U\-N\-K\-N\-O\-W\-N}}\label{group___p_i_o_s___v_i_d_e_o_ga2be6bb035ef820488def868f5165b836}
+
+
+\-Definition at line 66 of file pios\-\_\-video.\-c.
+
+\hypertarget{group___p_i_o_s___v_i_d_e_o_gae7afd210e593b007611ac237bd32d30d}{\index{\-Code for O\-S\-D video generator@{\-Code for O\-S\-D video generator}!hour@{hour}}
+\index{hour@{hour}!Code for OSD video generator@{\-Code for O\-S\-D video generator}}
+\subsubsection[{hour}]{\setlength{\rightskip}{0pt plus 5cm}uint8\-\_\-t {\bf \-T\-Time\-::hour}}}\label{group___p_i_o_s___v_i_d_e_o_gae7afd210e593b007611ac237bd32d30d}
+
+
+\-Definition at line 62 of file pios\-\_\-video.\-h.
+
+\hypertarget{group___p_i_o_s___v_i_d_e_o_ga01589e94ad18d5c8d12f72778539f8aa}{\index{\-Code for O\-S\-D video generator@{\-Code for O\-S\-D video generator}!hsync@{hsync}}
+\index{hsync@{hsync}!Code for OSD video generator@{\-Code for O\-S\-D video generator}}
+\subsubsection[{hsync}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf pios\-\_\-exti\-\_\-cfg}$\ast$ {\bf pios\-\_\-video\-\_\-cfg\-::hsync}}}\label{group___p_i_o_s___v_i_d_e_o_ga01589e94ad18d5c8d12f72778539f8aa}
+
+
+\-Definition at line 47 of file pios\-\_\-video.\-h.
+
+\hypertarget{group___p_i_o_s___v_i_d_e_o_gab3de6ddfa1d478f8062c895cad5d4793}{\index{\-Code for O\-S\-D video generator@{\-Code for O\-S\-D video generator}!level@{level}}
+\index{level@{level}!Code for OSD video generator@{\-Code for O\-S\-D video generator}}
+\subsubsection[{level}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf pios\-\_\-spi\-\_\-cfg} {\bf pios\-\_\-video\-\_\-cfg\-::level}}}\label{group___p_i_o_s___v_i_d_e_o_gab3de6ddfa1d478f8062c895cad5d4793}
+
+
+\-Definition at line 45 of file pios\-\_\-video.\-h.
+
+\hypertarget{group___p_i_o_s___v_i_d_e_o_ga308d53a9c395c298132110da98adb7c7}{\index{\-Code for O\-S\-D video generator@{\-Code for O\-S\-D video generator}!line@{line}}
+\index{line@{line}!Code for OSD video generator@{\-Code for O\-S\-D video generator}}
+\subsubsection[{line}]{\setlength{\rightskip}{0pt plus 5cm}volatile uint16\-\_\-t {\bf line} = 0}}\label{group___p_i_o_s___v_i_d_e_o_ga308d53a9c395c298132110da98adb7c7}
+
+
+\-Definition at line 69 of file pios\-\_\-video.\-c.
+
+\hypertarget{group___p_i_o_s___v_i_d_e_o_gac6699e31fbc588e69db444000ba7d44d}{\index{\-Code for O\-S\-D video generator@{\-Code for O\-S\-D video generator}!mask@{mask}}
+\index{mask@{mask}!Code for OSD video generator@{\-Code for O\-S\-D video generator}}
+\subsubsection[{mask}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf pios\-\_\-spi\-\_\-cfg} {\bf pios\-\_\-video\-\_\-cfg\-::mask}}}\label{group___p_i_o_s___v_i_d_e_o_gac6699e31fbc588e69db444000ba7d44d}
+
+
+\-Definition at line 44 of file pios\-\_\-video.\-h.
+
+\hypertarget{group___p_i_o_s___v_i_d_e_o_gadb9b0440ee5ef05786949736913ce45c}{\index{\-Code for O\-S\-D video generator@{\-Code for O\-S\-D video generator}!min@{min}}
+\index{min@{min}!Code for OSD video generator@{\-Code for O\-S\-D video generator}}
+\subsubsection[{min}]{\setlength{\rightskip}{0pt plus 5cm}uint8\-\_\-t {\bf \-T\-Time\-::min}}}\label{group___p_i_o_s___v_i_d_e_o_gadb9b0440ee5ef05786949736913ce45c}
+
+
+\-Definition at line 61 of file pios\-\_\-video.\-h.
+
+\hypertarget{group___p_i_o_s___v_i_d_e_o_ga34f96a89a1ad6c4649787dbc18e218e5}{\index{\-Code for O\-S\-D video generator@{\-Code for O\-S\-D video generator}!osd\-Semaphore@{osd\-Semaphore}}
+\index{osd\-Semaphore@{osd\-Semaphore}!Code for OSD video generator@{\-Code for O\-S\-D video generator}}
+\subsubsection[{osd\-Semaphore}]{\setlength{\rightskip}{0pt plus 5cm}x\-Semaphore\-Handle {\bf osd\-Semaphore}}}\label{group___p_i_o_s___v_i_d_e_o_ga34f96a89a1ad6c4649787dbc18e218e5}
+
+
+\-Definition at line 85 of file osdgen.\-c.
+
+\hypertarget{group___p_i_o_s___v_i_d_e_o_gaa6288943af354a6cb143f2ad677cfece}{\index{\-Code for O\-S\-D video generator@{\-Code for O\-S\-D video generator}!sec@{sec}}
+\index{sec@{sec}!Code for OSD video generator@{\-Code for O\-S\-D video generator}}
+\subsubsection[{sec}]{\setlength{\rightskip}{0pt plus 5cm}uint8\-\_\-t {\bf \-T\-Time\-::sec}}}\label{group___p_i_o_s___v_i_d_e_o_gaa6288943af354a6cb143f2ad677cfece}
+
+
+\-Definition at line 60 of file pios\-\_\-video.\-h.
+
+\hypertarget{group___p_i_o_s___v_i_d_e_o_gac6e460448d29f05aad59dc67c3035057}{\index{\-Code for O\-S\-D video generator@{\-Code for O\-S\-D video generator}!timex@{timex}}
+\index{timex@{timex}!Code for OSD video generator@{\-Code for O\-S\-D video generator}}
+\subsubsection[{timex}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-T\-Time} {\bf timex}}}\label{group___p_i_o_s___v_i_d_e_o_gac6e460448d29f05aad59dc67c3035057}
+
+
+\-Definition at line 75 of file osdgen.\-c.
+
+\hypertarget{group___p_i_o_s___v_i_d_e_o_ga489c20025b1facf5435c66ff616e1cd9}{\index{\-Code for O\-S\-D video generator@{\-Code for O\-S\-D video generator}!vsync@{vsync}}
+\index{vsync@{vsync}!Code for OSD video generator@{\-Code for O\-S\-D video generator}}
+\subsubsection[{vsync}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf pios\-\_\-exti\-\_\-cfg}$\ast$ {\bf pios\-\_\-video\-\_\-cfg\-::vsync}}}\label{group___p_i_o_s___v_i_d_e_o_ga489c20025b1facf5435c66ff616e1cd9}
+
+
+\-Definition at line 48 of file pios\-\_\-video.\-h.
+
+\hypertarget{group___p_i_o_s___v_i_d_e_o_ga650b4db295bf40320fafbfce5954a39e}{\index{\-Code for O\-S\-D video generator@{\-Code for O\-S\-D video generator}!\-Vsync\-\_\-update@{\-Vsync\-\_\-update}}
+\index{\-Vsync\-\_\-update@{\-Vsync\-\_\-update}!Code for OSD video generator@{\-Code for O\-S\-D video generator}}
+\subsubsection[{\-Vsync\-\_\-update}]{\setlength{\rightskip}{0pt plus 5cm}volatile uint16\-\_\-t {\bf \-Vsync\-\_\-update} = 0}}\label{group___p_i_o_s___v_i_d_e_o_ga650b4db295bf40320fafbfce5954a39e}
+
+
+\-Definition at line 70 of file pios\-\_\-video.\-c.
+

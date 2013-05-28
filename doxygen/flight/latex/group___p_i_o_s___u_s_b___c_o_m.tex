@@ -1,0 +1,495 @@
+\hypertarget{group___p_i_o_s___u_s_b___c_o_m}{\section{\-U\-S\-B \-C\-D\-C \-C\-O\-M layer functions}
+\label{group___p_i_o_s___u_s_b___c_o_m}\index{\-U\-S\-B C\-D\-C C\-O\-M layer functions@{\-U\-S\-B C\-D\-C C\-O\-M layer functions}}
+}
+
+
+\-Hardware communication layer.  
+
+
+\subsection*{\-Data \-Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structpios__usb__cdc__cfg}{pios\-\_\-usb\-\_\-cdc\-\_\-cfg}
+\item 
+struct \hyperlink{structpios__usb__hid__cfg}{pios\-\_\-usb\-\_\-hid\-\_\-cfg}
+\item 
+struct \hyperlink{structpios__usb__cdc__dev}{pios\-\_\-usb\-\_\-cdc\-\_\-dev}
+\end{DoxyCompactItemize}
+\subsection*{\-Files}
+\begin{DoxyCompactItemize}
+\item 
+file \hyperlink{pios__usb__cdc__priv_8h}{pios\-\_\-usb\-\_\-cdc\-\_\-priv.\-h}
+\begin{DoxyCompactList}\small\item\em \-U\-S\-B \-C\-O\-M \-C\-D\-C private definitions. \end{DoxyCompactList}\item 
+file \hyperlink{pios__usb__hid__priv_8h}{pios\-\_\-usb\-\_\-hid\-\_\-priv.\-h}
+\begin{DoxyCompactList}\small\item\em \-U\-S\-B \-C\-O\-M \-H\-I\-D private definitions. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{group___p_i_o_s___u_s_b___c_o_m_gab4c476b0e464c59dcf6eadec015a87b8}{pios\-\_\-usb\-\_\-cdc\-\_\-dev\-\_\-magic} \{ \hyperlink{group___p_i_o_s___u_s_b___c_o_m_ggab4c476b0e464c59dcf6eadec015a87b8a41f1698bd0d94e1a4755f2a39d3ce022}{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-C\-D\-C\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C} =  0x\-A\-A\-B\-B\-C\-C\-D\-D, 
+\hyperlink{group___p_i_o_s___u_s_b___c_o_m_ggab4c476b0e464c59dcf6eadec015a87b8a41f1698bd0d94e1a4755f2a39d3ce022}{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-C\-D\-C\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C} =  0x\-A\-A\-B\-B\-C\-C\-D\-D, 
+\hyperlink{group___p_i_o_s___u_s_b___c_o_m_ggab4c476b0e464c59dcf6eadec015a87b8a41f1698bd0d94e1a4755f2a39d3ce022}{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-C\-D\-C\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C} =  0x\-A\-A\-B\-B\-C\-C\-D\-D
+ \}
+\item 
+enum \hyperlink{group___p_i_o_s___u_s_b___c_o_m_gab4c476b0e464c59dcf6eadec015a87b8}{pios\-\_\-usb\-\_\-cdc\-\_\-dev\-\_\-magic} \{ \hyperlink{group___p_i_o_s___u_s_b___c_o_m_ggab4c476b0e464c59dcf6eadec015a87b8a41f1698bd0d94e1a4755f2a39d3ce022}{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-C\-D\-C\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C} =  0x\-A\-A\-B\-B\-C\-C\-D\-D, 
+\hyperlink{group___p_i_o_s___u_s_b___c_o_m_ggab4c476b0e464c59dcf6eadec015a87b8a41f1698bd0d94e1a4755f2a39d3ce022}{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-C\-D\-C\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C} =  0x\-A\-A\-B\-B\-C\-C\-D\-D, 
+\hyperlink{group___p_i_o_s___u_s_b___c_o_m_ggab4c476b0e464c59dcf6eadec015a87b8a41f1698bd0d94e1a4755f2a39d3ce022}{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-C\-D\-C\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C} =  0x\-A\-A\-B\-B\-C\-C\-D\-D
+ \}
+\item 
+enum \hyperlink{group___p_i_o_s___u_s_b___c_o_m_gab4c476b0e464c59dcf6eadec015a87b8}{pios\-\_\-usb\-\_\-cdc\-\_\-dev\-\_\-magic} \{ \hyperlink{group___p_i_o_s___u_s_b___c_o_m_ggab4c476b0e464c59dcf6eadec015a87b8a41f1698bd0d94e1a4755f2a39d3ce022}{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-C\-D\-C\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C} =  0x\-A\-A\-B\-B\-C\-C\-D\-D, 
+\hyperlink{group___p_i_o_s___u_s_b___c_o_m_ggab4c476b0e464c59dcf6eadec015a87b8a41f1698bd0d94e1a4755f2a39d3ce022}{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-C\-D\-C\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C} =  0x\-A\-A\-B\-B\-C\-C\-D\-D, 
+\hyperlink{group___p_i_o_s___u_s_b___c_o_m_ggab4c476b0e464c59dcf6eadec015a87b8a41f1698bd0d94e1a4755f2a39d3ce022}{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-C\-D\-C\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C} =  0x\-A\-A\-B\-B\-C\-C\-D\-D
+ \}
+\end{DoxyCompactItemize}
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___u_s_b___c_o_m_ga30299ce46992751181aeb3d997b75ca8}{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-C\-D\-C\-\_\-\-Init} (uint32\-\_\-t $\ast$usbcdc\-\_\-id, const struct \hyperlink{structpios__usb__cdc__cfg}{pios\-\_\-usb\-\_\-cdc\-\_\-cfg} $\ast$cfg, uint32\-\_\-t lower\-\_\-id)
+\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___u_s_b___c_o_m_ga4ea302beb0afbb7a83ff9ff1b20eb9cc}{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-H\-I\-D\-\_\-\-Init} (uint32\-\_\-t $\ast$usbhid\-\_\-id, const struct \hyperlink{structpios__usb__hid__cfg}{pios\-\_\-usb\-\_\-hid\-\_\-cfg} $\ast$cfg, uint32\-\_\-t lower\-\_\-id)
+\item 
+\-R\-E\-S\-U\-L\-T \hyperlink{group___p_i_o_s___u_s_b___c_o_m_gacbf6b3b4149e51a74c2f4255f0f8a199}{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-C\-D\-C\-\_\-\-Set\-Control\-Line\-State} (void)
+\item 
+uint8\-\_\-t $\ast$ \hyperlink{group___p_i_o_s___u_s_b___c_o_m_ga120d6d9cf08ed1125a62ea6759047914}{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-C\-D\-C\-\_\-\-Set\-Line\-Coding} (uint16\-\_\-t \-Length)
+\item 
+const uint8\-\_\-t $\ast$ \hyperlink{group___p_i_o_s___u_s_b___c_o_m_ga41d64940656273048e2558acb7609dc4}{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-C\-D\-C\-\_\-\-Get\-Line\-Coding} (uint16\-\_\-t \-Length)
+\item 
+uint8\-\_\-t rx\-\_\-packet\-\_\-buffer\mbox{[}\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-B\-O\-A\-R\-D\-\_\-\-C\-D\-C\-\_\-\-D\-A\-T\-A\-\_\-\-L\-E\-N\-G\-T\-H\mbox{]} \hyperlink{group___p_i_o_s___u_s_b___c_o_m_gab58a69ef6ffba4b36cf99ba5dfd9798c}{pios\-\_\-usb\-\_\-cdc\-\_\-dev\-::\-\_\-\-\_\-attribute\-\_\-\-\_\-} ((aligned(4)))
+\end{DoxyCompactItemize}
+\subsection*{\-Variables}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structpios__com__driver}{pios\-\_\-com\-\_\-driver} \hyperlink{group___p_i_o_s___u_s_b___c_o_m_gad661bf144c28ea36f290b0092e6957e2}{pios\-\_\-usb\-\_\-cdc\-\_\-com\-\_\-driver}
+\item 
+struct \hyperlink{structpios__usb__hid__cfg}{pios\-\_\-usb\-\_\-hid\-\_\-cfg} \hyperlink{group___p_i_o_s___u_s_b___c_o_m_gac56d93a50756ec83103cdfc4e5a31f3e}{\-\_\-\-\_\-attribute\-\_\-\-\_\-}
+\item 
+struct \hyperlink{structpios__com__driver}{pios\-\_\-com\-\_\-driver} \hyperlink{group___p_i_o_s___u_s_b___c_o_m_ga7bc5f832e095cad60f463436e377bb5d}{pios\-\_\-usb\-\_\-hid\-\_\-com\-\_\-driver}
+\item 
+struct \hyperlink{structpios__com__driver}{pios\-\_\-com\-\_\-driver} \hyperlink{group___p_i_o_s___u_s_b___c_o_m_gad661bf144c28ea36f290b0092e6957e2}{pios\-\_\-usb\-\_\-cdc\-\_\-com\-\_\-driver}
+\item 
+enum \hyperlink{group___p_i_o_s___u_s_b___c_o_m_gab4c476b0e464c59dcf6eadec015a87b8}{pios\-\_\-usb\-\_\-cdc\-\_\-dev\-\_\-magic} \hyperlink{group___p_i_o_s___u_s_b___c_o_m_gaf1f80b904c24c3a9d91aa7c8d9f0e0f7}{pios\-\_\-usb\-\_\-cdc\-\_\-dev\-::magic}
+\item 
+struct \hyperlink{structpios__usb__cdc__cfg}{pios\-\_\-usb\-\_\-cdc\-\_\-cfg} $\ast$ \hyperlink{group___p_i_o_s___u_s_b___c_o_m_gac129f3ba21ca6cb9ff92da45033acbbb}{pios\-\_\-usb\-\_\-cdc\-\_\-dev\-::cfg}
+\item 
+uint32\-\_\-t \hyperlink{group___p_i_o_s___u_s_b___c_o_m_ga5431d5544be717a197964da5a3b08d2a}{pios\-\_\-usb\-\_\-cdc\-\_\-dev\-::lower\-\_\-id}
+\item 
+\hyperlink{group___p_i_o_s___c_o_m_ga23f1888821f1f74a50c02adc459df597}{pios\-\_\-com\-\_\-callback} \hyperlink{group___p_i_o_s___u_s_b___c_o_m_gaf3cf777f785d8b2a117c736064e859de}{pios\-\_\-usb\-\_\-cdc\-\_\-dev\-::rx\-\_\-in\-\_\-cb}
+\item 
+uint32\-\_\-t \hyperlink{group___p_i_o_s___u_s_b___c_o_m_gae98fcbb800c5655c05106c1e73a1de01}{pios\-\_\-usb\-\_\-cdc\-\_\-dev\-::rx\-\_\-in\-\_\-context}
+\item 
+\hyperlink{group___p_i_o_s___c_o_m_ga23f1888821f1f74a50c02adc459df597}{pios\-\_\-com\-\_\-callback} \hyperlink{group___p_i_o_s___u_s_b___c_o_m_ga1e9a79d782c5671d5e35aafe776632f3}{pios\-\_\-usb\-\_\-cdc\-\_\-dev\-::tx\-\_\-out\-\_\-cb}
+\item 
+uint32\-\_\-t \hyperlink{group___p_i_o_s___u_s_b___c_o_m_ga81d00c55fe107bb853a8629706b0acb4}{pios\-\_\-usb\-\_\-cdc\-\_\-dev\-::tx\-\_\-out\-\_\-context}
+\item 
+uint8\-\_\-t \hyperlink{group___p_i_o_s___u_s_b___c_o_m_ga82f6a571f9bf92fae2d7368be2407a27}{pios\-\_\-usb\-\_\-cdc\-\_\-dev\-::rx\-\_\-packet\-\_\-buffer} \mbox{[}\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-B\-O\-A\-R\-D\-\_\-\-C\-D\-C\-\_\-\-D\-A\-T\-A\-\_\-\-L\-E\-N\-G\-T\-H\mbox{]}
+\item 
+uint8\-\_\-t \hyperlink{group___p_i_o_s___u_s_b___c_o_m_ga1b086465e042517001948516cfa908d1}{pios\-\_\-usb\-\_\-cdc\-\_\-dev\-::tx\-\_\-packet\-\_\-buffer} \mbox{[}\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-B\-O\-A\-R\-D\-\_\-\-C\-D\-C\-\_\-\-D\-A\-T\-A\-\_\-\-L\-E\-N\-G\-T\-H-\/1\mbox{]}
+\item 
+uint32\-\_\-t \hyperlink{group___p_i_o_s___u_s_b___c_o_m_gaf423c6fd8c8e8d95b5dc5d9242df40da}{pios\-\_\-usb\-\_\-cdc\-\_\-dev\-::rx\-\_\-dropped}
+\item 
+uint32\-\_\-t \hyperlink{group___p_i_o_s___u_s_b___c_o_m_ga88576a84665e4d9b17001b7cb5efebc6}{pios\-\_\-usb\-\_\-cdc\-\_\-dev\-::rx\-\_\-oversize}
+\item 
+void($\ast$ \hyperlink{group___p_i_o_s___u_s_b___c_o_m_ga0992c19a0f2e317fcd93f755d316a0fd}{p\-Ep\-Int\-\_\-\-I\-N} \mbox{[}7\mbox{]})(void)
+\item 
+void($\ast$ \hyperlink{group___p_i_o_s___u_s_b___c_o_m_ga549396ff4348c565f52117dd27ad52ca}{p\-Ep\-Int\-\_\-\-O\-U\-T} \mbox{[}7\mbox{]})(void)
+\item 
+struct \hyperlink{structusb__cdc__serial__state__report}{usb\-\_\-cdc\-\_\-serial\-\_\-state\-\_\-report} \hyperlink{group___p_i_o_s___u_s_b___c_o_m_gaf7f356f1ada9744b2424b2980baa2a81}{uart\-\_\-state}
+\item 
+struct \hyperlink{structpios__com__driver}{pios\-\_\-com\-\_\-driver} \hyperlink{group___p_i_o_s___u_s_b___c_o_m_gad661bf144c28ea36f290b0092e6957e2}{pios\-\_\-usb\-\_\-cdc\-\_\-com\-\_\-driver}
+\item 
+void($\ast$ \hyperlink{group___p_i_o_s___u_s_b___c_o_m_ga0992c19a0f2e317fcd93f755d316a0fd}{p\-Ep\-Int\-\_\-\-I\-N} \mbox{[}7\mbox{]})(void)
+\item 
+void($\ast$ \hyperlink{group___p_i_o_s___u_s_b___c_o_m_ga549396ff4348c565f52117dd27ad52ca}{p\-Ep\-Int\-\_\-\-O\-U\-T} \mbox{[}7\mbox{]})(void)
+\item 
+struct \hyperlink{structusb__cdc__serial__state__report}{usb\-\_\-cdc\-\_\-serial\-\_\-state\-\_\-report} \hyperlink{group___p_i_o_s___u_s_b___c_o_m_gaf7f356f1ada9744b2424b2980baa2a81}{uart\-\_\-state}
+\item 
+struct \hyperlink{structpios__com__driver}{pios\-\_\-com\-\_\-driver} \hyperlink{group___p_i_o_s___u_s_b___c_o_m_gad661bf144c28ea36f290b0092e6957e2}{pios\-\_\-usb\-\_\-cdc\-\_\-com\-\_\-driver}
+\item 
+bool \hyperlink{group___p_i_o_s___u_s_b___c_o_m_ga27ad044c09bb6b13874d1d1281aa397f}{pios\-\_\-usb\-\_\-cdc\-\_\-dev\-::usb\-\_\-ctrl\-\_\-if\-\_\-enabled}
+\item 
+bool \hyperlink{group___p_i_o_s___u_s_b___c_o_m_gaa0a4b4afa2a6f6c20709f878b026ecc5}{pios\-\_\-usb\-\_\-cdc\-\_\-dev\-::usb\-\_\-data\-\_\-if\-\_\-enabled}
+\item 
+volatile bool \hyperlink{group___p_i_o_s___u_s_b___c_o_m_gad41e79606da14368c2716f4bc3c84618}{pios\-\_\-usb\-\_\-cdc\-\_\-dev\-::rx\-\_\-active}
+\item 
+volatile bool \hyperlink{group___p_i_o_s___u_s_b___c_o_m_ga5ebf71c716fc76c564cf8217adeb956c}{pios\-\_\-usb\-\_\-cdc\-\_\-dev\-::tx\-\_\-active}
+\item 
+volatile uint16\-\_\-t \hyperlink{group___p_i_o_s___u_s_b___c_o_m_ga945dfed2223e17061cb6e4257c2b2624}{pios\-\_\-usb\-\_\-cdc\-\_\-dev\-::prev\-\_\-uart\-\_\-state}
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-Hardware communication layer. \-P\-I\-O\-S \-U\-S\-B \-C\-O\-M implementation for \-C\-D\-C interfaces  \-This implements a \-C\-D\-C \-Serial \-Port. 
+
+\subsection{\-Enumeration \-Type \-Documentation}
+\hypertarget{group___p_i_o_s___u_s_b___c_o_m_gab4c476b0e464c59dcf6eadec015a87b8}{\index{\-U\-S\-B C\-D\-C C\-O\-M layer functions@{\-U\-S\-B C\-D\-C C\-O\-M layer functions}!pios\-\_\-usb\-\_\-cdc\-\_\-dev\-\_\-magic@{pios\-\_\-usb\-\_\-cdc\-\_\-dev\-\_\-magic}}
+\index{pios\-\_\-usb\-\_\-cdc\-\_\-dev\-\_\-magic@{pios\-\_\-usb\-\_\-cdc\-\_\-dev\-\_\-magic}!USB CDC COM layer functions@{\-U\-S\-B C\-D\-C C\-O\-M layer functions}}
+\subsubsection[{pios\-\_\-usb\-\_\-cdc\-\_\-dev\-\_\-magic}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf pios\-\_\-usb\-\_\-cdc\-\_\-dev\-\_\-magic}}}\label{group___p_i_o_s___u_s_b___c_o_m_gab4c476b0e464c59dcf6eadec015a87b8}
+\begin{Desc}
+\item[\-Enumerator\-: ]\par
+\begin{description}
+\index{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-C\-D\-C\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C@{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-C\-D\-C\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}!\-U\-S\-B C\-D\-C C\-O\-M layer functions@{\-U\-S\-B C\-D\-C C\-O\-M layer functions}}\index{\-U\-S\-B C\-D\-C C\-O\-M layer functions@{\-U\-S\-B C\-D\-C C\-O\-M layer functions}!\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-C\-D\-C\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C@{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-C\-D\-C\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}}\item[{\em 
+\hypertarget{group___p_i_o_s___u_s_b___c_o_m_ggab4c476b0e464c59dcf6eadec015a87b8a41f1698bd0d94e1a4755f2a39d3ce022}{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-C\-D\-C\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}\label{group___p_i_o_s___u_s_b___c_o_m_ggab4c476b0e464c59dcf6eadec015a87b8a41f1698bd0d94e1a4755f2a39d3ce022}
+}]\index{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-C\-D\-C\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C@{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-C\-D\-C\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}!\-U\-S\-B C\-D\-C C\-O\-M layer functions@{\-U\-S\-B C\-D\-C C\-O\-M layer functions}}\index{\-U\-S\-B C\-D\-C C\-O\-M layer functions@{\-U\-S\-B C\-D\-C C\-O\-M layer functions}!\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-C\-D\-C\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C@{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-C\-D\-C\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}}\item[{\em 
+\hypertarget{group___p_i_o_s___u_s_b___c_o_m_ggab4c476b0e464c59dcf6eadec015a87b8a41f1698bd0d94e1a4755f2a39d3ce022}{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-C\-D\-C\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}\label{group___p_i_o_s___u_s_b___c_o_m_ggab4c476b0e464c59dcf6eadec015a87b8a41f1698bd0d94e1a4755f2a39d3ce022}
+}]\index{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-C\-D\-C\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C@{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-C\-D\-C\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}!\-U\-S\-B C\-D\-C C\-O\-M layer functions@{\-U\-S\-B C\-D\-C C\-O\-M layer functions}}\index{\-U\-S\-B C\-D\-C C\-O\-M layer functions@{\-U\-S\-B C\-D\-C C\-O\-M layer functions}!\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-C\-D\-C\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C@{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-C\-D\-C\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}}\item[{\em 
+\hypertarget{group___p_i_o_s___u_s_b___c_o_m_ggab4c476b0e464c59dcf6eadec015a87b8a41f1698bd0d94e1a4755f2a39d3ce022}{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-C\-D\-C\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}\label{group___p_i_o_s___u_s_b___c_o_m_ggab4c476b0e464c59dcf6eadec015a87b8a41f1698bd0d94e1a4755f2a39d3ce022}
+}]\end{description}
+\end{Desc}
+
+
+
+\-Definition at line 58 of file pios\-\_\-usb\-\_\-cdc.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_b___c_o_m_gab4c476b0e464c59dcf6eadec015a87b8}{\index{\-U\-S\-B C\-D\-C C\-O\-M layer functions@{\-U\-S\-B C\-D\-C C\-O\-M layer functions}!pios\-\_\-usb\-\_\-cdc\-\_\-dev\-\_\-magic@{pios\-\_\-usb\-\_\-cdc\-\_\-dev\-\_\-magic}}
+\index{pios\-\_\-usb\-\_\-cdc\-\_\-dev\-\_\-magic@{pios\-\_\-usb\-\_\-cdc\-\_\-dev\-\_\-magic}!USB CDC COM layer functions@{\-U\-S\-B C\-D\-C C\-O\-M layer functions}}
+\subsubsection[{pios\-\_\-usb\-\_\-cdc\-\_\-dev\-\_\-magic}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf pios\-\_\-usb\-\_\-cdc\-\_\-dev\-\_\-magic}}}\label{group___p_i_o_s___u_s_b___c_o_m_gab4c476b0e464c59dcf6eadec015a87b8}
+\begin{Desc}
+\item[\-Enumerator\-: ]\par
+\begin{description}
+\index{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-C\-D\-C\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C@{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-C\-D\-C\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}!\-U\-S\-B C\-D\-C C\-O\-M layer functions@{\-U\-S\-B C\-D\-C C\-O\-M layer functions}}\index{\-U\-S\-B C\-D\-C C\-O\-M layer functions@{\-U\-S\-B C\-D\-C C\-O\-M layer functions}!\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-C\-D\-C\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C@{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-C\-D\-C\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}}\item[{\em 
+\hypertarget{group___p_i_o_s___u_s_b___c_o_m_ggab4c476b0e464c59dcf6eadec015a87b8a41f1698bd0d94e1a4755f2a39d3ce022}{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-C\-D\-C\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}\label{group___p_i_o_s___u_s_b___c_o_m_ggab4c476b0e464c59dcf6eadec015a87b8a41f1698bd0d94e1a4755f2a39d3ce022}
+}]\index{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-C\-D\-C\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C@{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-C\-D\-C\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}!\-U\-S\-B C\-D\-C C\-O\-M layer functions@{\-U\-S\-B C\-D\-C C\-O\-M layer functions}}\index{\-U\-S\-B C\-D\-C C\-O\-M layer functions@{\-U\-S\-B C\-D\-C C\-O\-M layer functions}!\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-C\-D\-C\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C@{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-C\-D\-C\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}}\item[{\em 
+\hypertarget{group___p_i_o_s___u_s_b___c_o_m_ggab4c476b0e464c59dcf6eadec015a87b8a41f1698bd0d94e1a4755f2a39d3ce022}{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-C\-D\-C\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}\label{group___p_i_o_s___u_s_b___c_o_m_ggab4c476b0e464c59dcf6eadec015a87b8a41f1698bd0d94e1a4755f2a39d3ce022}
+}]\index{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-C\-D\-C\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C@{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-C\-D\-C\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}!\-U\-S\-B C\-D\-C C\-O\-M layer functions@{\-U\-S\-B C\-D\-C C\-O\-M layer functions}}\index{\-U\-S\-B C\-D\-C C\-O\-M layer functions@{\-U\-S\-B C\-D\-C C\-O\-M layer functions}!\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-C\-D\-C\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C@{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-C\-D\-C\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}}\item[{\em 
+\hypertarget{group___p_i_o_s___u_s_b___c_o_m_ggab4c476b0e464c59dcf6eadec015a87b8a41f1698bd0d94e1a4755f2a39d3ce022}{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-C\-D\-C\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}\label{group___p_i_o_s___u_s_b___c_o_m_ggab4c476b0e464c59dcf6eadec015a87b8a41f1698bd0d94e1a4755f2a39d3ce022}
+}]\end{description}
+\end{Desc}
+
+
+
+\-Definition at line 59 of file pios\-\_\-usb\-\_\-cdc.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_b___c_o_m_gab4c476b0e464c59dcf6eadec015a87b8}{\index{\-U\-S\-B C\-D\-C C\-O\-M layer functions@{\-U\-S\-B C\-D\-C C\-O\-M layer functions}!pios\-\_\-usb\-\_\-cdc\-\_\-dev\-\_\-magic@{pios\-\_\-usb\-\_\-cdc\-\_\-dev\-\_\-magic}}
+\index{pios\-\_\-usb\-\_\-cdc\-\_\-dev\-\_\-magic@{pios\-\_\-usb\-\_\-cdc\-\_\-dev\-\_\-magic}!USB CDC COM layer functions@{\-U\-S\-B C\-D\-C C\-O\-M layer functions}}
+\subsubsection[{pios\-\_\-usb\-\_\-cdc\-\_\-dev\-\_\-magic}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf pios\-\_\-usb\-\_\-cdc\-\_\-dev\-\_\-magic}}}\label{group___p_i_o_s___u_s_b___c_o_m_gab4c476b0e464c59dcf6eadec015a87b8}
+\begin{Desc}
+\item[\-Enumerator\-: ]\par
+\begin{description}
+\index{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-C\-D\-C\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C@{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-C\-D\-C\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}!\-U\-S\-B C\-D\-C C\-O\-M layer functions@{\-U\-S\-B C\-D\-C C\-O\-M layer functions}}\index{\-U\-S\-B C\-D\-C C\-O\-M layer functions@{\-U\-S\-B C\-D\-C C\-O\-M layer functions}!\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-C\-D\-C\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C@{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-C\-D\-C\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}}\item[{\em 
+\hypertarget{group___p_i_o_s___u_s_b___c_o_m_ggab4c476b0e464c59dcf6eadec015a87b8a41f1698bd0d94e1a4755f2a39d3ce022}{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-C\-D\-C\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}\label{group___p_i_o_s___u_s_b___c_o_m_ggab4c476b0e464c59dcf6eadec015a87b8a41f1698bd0d94e1a4755f2a39d3ce022}
+}]\index{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-C\-D\-C\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C@{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-C\-D\-C\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}!\-U\-S\-B C\-D\-C C\-O\-M layer functions@{\-U\-S\-B C\-D\-C C\-O\-M layer functions}}\index{\-U\-S\-B C\-D\-C C\-O\-M layer functions@{\-U\-S\-B C\-D\-C C\-O\-M layer functions}!\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-C\-D\-C\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C@{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-C\-D\-C\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}}\item[{\em 
+\hypertarget{group___p_i_o_s___u_s_b___c_o_m_ggab4c476b0e464c59dcf6eadec015a87b8a41f1698bd0d94e1a4755f2a39d3ce022}{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-C\-D\-C\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}\label{group___p_i_o_s___u_s_b___c_o_m_ggab4c476b0e464c59dcf6eadec015a87b8a41f1698bd0d94e1a4755f2a39d3ce022}
+}]\index{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-C\-D\-C\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C@{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-C\-D\-C\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}!\-U\-S\-B C\-D\-C C\-O\-M layer functions@{\-U\-S\-B C\-D\-C C\-O\-M layer functions}}\index{\-U\-S\-B C\-D\-C C\-O\-M layer functions@{\-U\-S\-B C\-D\-C C\-O\-M layer functions}!\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-C\-D\-C\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C@{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-C\-D\-C\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}}\item[{\em 
+\hypertarget{group___p_i_o_s___u_s_b___c_o_m_ggab4c476b0e464c59dcf6eadec015a87b8a41f1698bd0d94e1a4755f2a39d3ce022}{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-C\-D\-C\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}\label{group___p_i_o_s___u_s_b___c_o_m_ggab4c476b0e464c59dcf6eadec015a87b8a41f1698bd0d94e1a4755f2a39d3ce022}
+}]\end{description}
+\end{Desc}
+
+
+
+\-Definition at line 59 of file pios\-\_\-usb\-\_\-cdc.\-c.
+
+
+
+\subsection{\-Function \-Documentation}
+\hypertarget{group___p_i_o_s___u_s_b___c_o_m_gab58a69ef6ffba4b36cf99ba5dfd9798c}{\index{\-U\-S\-B C\-D\-C C\-O\-M layer functions@{\-U\-S\-B C\-D\-C C\-O\-M layer functions}!\-\_\-\-\_\-attribute\-\_\-\-\_\-@{\-\_\-\-\_\-attribute\-\_\-\-\_\-}}
+\index{\-\_\-\-\_\-attribute\-\_\-\-\_\-@{\-\_\-\-\_\-attribute\-\_\-\-\_\-}!USB CDC COM layer functions@{\-U\-S\-B C\-D\-C C\-O\-M layer functions}}
+\subsubsection[{\-\_\-\-\_\-attribute\-\_\-\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}uint8\-\_\-t rx\-\_\-packet\-\_\-buffer \mbox{[}\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-B\-O\-A\-R\-D\-\_\-\-C\-D\-C\-\_\-\-D\-A\-T\-A\-\_\-\-L\-E\-N\-G\-T\-H\mbox{]} {\bf pios\-\_\-usb\-\_\-cdc\-\_\-dev\-::\-\_\-\-\_\-attribute\-\_\-\-\_\-} (
+\begin{DoxyParamCaption}
+\item[{(aligned(4))}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___u_s_b___c_o_m_gab58a69ef6ffba4b36cf99ba5dfd9798c}
+\hypertarget{group___p_i_o_s___u_s_b___c_o_m_ga41d64940656273048e2558acb7609dc4}{\index{\-U\-S\-B C\-D\-C C\-O\-M layer functions@{\-U\-S\-B C\-D\-C C\-O\-M layer functions}!\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-C\-D\-C\-\_\-\-Get\-Line\-Coding@{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-C\-D\-C\-\_\-\-Get\-Line\-Coding}}
+\index{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-C\-D\-C\-\_\-\-Get\-Line\-Coding@{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-C\-D\-C\-\_\-\-Get\-Line\-Coding}!USB CDC COM layer functions@{\-U\-S\-B C\-D\-C C\-O\-M layer functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-C\-D\-C\-\_\-\-Get\-Line\-Coding}]{\setlength{\rightskip}{0pt plus 5cm}const uint8\-\_\-t $\ast$ {\bf \-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-C\-D\-C\-\_\-\-Get\-Line\-Coding} (
+\begin{DoxyParamCaption}
+\item[{uint16\-\_\-t}]{\-Length}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___u_s_b___c_o_m_ga41d64940656273048e2558acb7609dc4}
+
+
+\-Definition at line 383 of file pios\-\_\-usb\-\_\-cdc.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_b___c_o_m_ga30299ce46992751181aeb3d997b75ca8}{\index{\-U\-S\-B C\-D\-C C\-O\-M layer functions@{\-U\-S\-B C\-D\-C C\-O\-M layer functions}!\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-C\-D\-C\-\_\-\-Init@{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-C\-D\-C\-\_\-\-Init}}
+\index{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-C\-D\-C\-\_\-\-Init@{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-C\-D\-C\-\_\-\-Init}!USB CDC COM layer functions@{\-U\-S\-B C\-D\-C C\-O\-M layer functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-C\-D\-C\-\_\-\-Init}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-C\-D\-C\-\_\-\-Init} (
+\begin{DoxyParamCaption}
+\item[{uint32\-\_\-t $\ast$}]{usbcdc\-\_\-id, }
+\item[{const struct {\bf pios\-\_\-usb\-\_\-cdc\-\_\-cfg} $\ast$}]{cfg, }
+\item[{uint32\-\_\-t}]{lower\-\_\-id}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___u_s_b___c_o_m_ga30299ce46992751181aeb3d997b75ca8}
+
+
+\-Definition at line 133 of file pios\-\_\-usb\-\_\-cdc.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_b___c_o_m_gacbf6b3b4149e51a74c2f4255f0f8a199}{\index{\-U\-S\-B C\-D\-C C\-O\-M layer functions@{\-U\-S\-B C\-D\-C C\-O\-M layer functions}!\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-C\-D\-C\-\_\-\-Set\-Control\-Line\-State@{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-C\-D\-C\-\_\-\-Set\-Control\-Line\-State}}
+\index{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-C\-D\-C\-\_\-\-Set\-Control\-Line\-State@{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-C\-D\-C\-\_\-\-Set\-Control\-Line\-State}!USB CDC COM layer functions@{\-U\-S\-B C\-D\-C C\-O\-M layer functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-C\-D\-C\-\_\-\-Set\-Control\-Line\-State}]{\setlength{\rightskip}{0pt plus 5cm}\-R\-E\-S\-U\-L\-T {\bf \-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-C\-D\-C\-\_\-\-Set\-Control\-Line\-State} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___u_s_b___c_o_m_gacbf6b3b4149e51a74c2f4255f0f8a199}
+
+
+\-Definition at line 326 of file pios\-\_\-usb\-\_\-cdc.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_b___c_o_m_ga120d6d9cf08ed1125a62ea6759047914}{\index{\-U\-S\-B C\-D\-C C\-O\-M layer functions@{\-U\-S\-B C\-D\-C C\-O\-M layer functions}!\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-C\-D\-C\-\_\-\-Set\-Line\-Coding@{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-C\-D\-C\-\_\-\-Set\-Line\-Coding}}
+\index{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-C\-D\-C\-\_\-\-Set\-Line\-Coding@{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-C\-D\-C\-\_\-\-Set\-Line\-Coding}!USB CDC COM layer functions@{\-U\-S\-B C\-D\-C C\-O\-M layer functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-C\-D\-C\-\_\-\-Set\-Line\-Coding}]{\setlength{\rightskip}{0pt plus 5cm}uint8\-\_\-t $\ast$ {\bf \-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-C\-D\-C\-\_\-\-Set\-Line\-Coding} (
+\begin{DoxyParamCaption}
+\item[{uint16\-\_\-t}]{\-Length}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___u_s_b___c_o_m_ga120d6d9cf08ed1125a62ea6759047914}
+
+
+\-Definition at line 362 of file pios\-\_\-usb\-\_\-cdc.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_b___c_o_m_ga4ea302beb0afbb7a83ff9ff1b20eb9cc}{\index{\-U\-S\-B C\-D\-C C\-O\-M layer functions@{\-U\-S\-B C\-D\-C C\-O\-M layer functions}!\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-H\-I\-D\-\_\-\-Init@{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-H\-I\-D\-\_\-\-Init}}
+\index{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-H\-I\-D\-\_\-\-Init@{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-H\-I\-D\-\_\-\-Init}!USB CDC COM layer functions@{\-U\-S\-B C\-D\-C C\-O\-M layer functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-H\-I\-D\-\_\-\-Init}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-H\-I\-D\-\_\-\-Init} (
+\begin{DoxyParamCaption}
+\item[{uint32\-\_\-t $\ast$}]{usbhid\-\_\-id, }
+\item[{const struct {\bf pios\-\_\-usb\-\_\-hid\-\_\-cfg} $\ast$}]{cfg, }
+\item[{uint32\-\_\-t}]{lower\-\_\-id}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___u_s_b___c_o_m_ga4ea302beb0afbb7a83ff9ff1b20eb9cc}
+
+
+\-Definition at line 126 of file pios\-\_\-usb\-\_\-hid.\-c.
+
+
+
+\subsection{\-Variable \-Documentation}
+\hypertarget{group___p_i_o_s___u_s_b___c_o_m_gac56d93a50756ec83103cdfc4e5a31f3e}{\index{\-U\-S\-B C\-D\-C C\-O\-M layer functions@{\-U\-S\-B C\-D\-C C\-O\-M layer functions}!\-\_\-\-\_\-attribute\-\_\-\-\_\-@{\-\_\-\-\_\-attribute\-\_\-\-\_\-}}
+\index{\-\_\-\-\_\-attribute\-\_\-\-\_\-@{\-\_\-\-\_\-attribute\-\_\-\-\_\-}!USB CDC COM layer functions@{\-U\-S\-B C\-D\-C C\-O\-M layer functions}}
+\subsubsection[{\-\_\-\-\_\-attribute\-\_\-\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf pios\-\_\-usb\-\_\-hid\-\_\-cfg}  {\bf \-\_\-\-\_\-attribute\-\_\-\-\_\-}}}\label{group___p_i_o_s___u_s_b___c_o_m_gac56d93a50756ec83103cdfc4e5a31f3e}
+\hypertarget{group___p_i_o_s___u_s_b___c_o_m_gac129f3ba21ca6cb9ff92da45033acbbb}{\index{\-U\-S\-B C\-D\-C C\-O\-M layer functions@{\-U\-S\-B C\-D\-C C\-O\-M layer functions}!cfg@{cfg}}
+\index{cfg@{cfg}!USB CDC COM layer functions@{\-U\-S\-B C\-D\-C C\-O\-M layer functions}}
+\subsubsection[{cfg}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf pios\-\_\-usb\-\_\-cdc\-\_\-cfg} $\ast$ {\bf pios\-\_\-usb\-\_\-cdc\-\_\-dev\-::cfg}}}\label{group___p_i_o_s___u_s_b___c_o_m_gac129f3ba21ca6cb9ff92da45033acbbb}
+
+
+\-Definition at line 65 of file pios\-\_\-usb\-\_\-cdc.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_b___c_o_m_ga5431d5544be717a197964da5a3b08d2a}{\index{\-U\-S\-B C\-D\-C C\-O\-M layer functions@{\-U\-S\-B C\-D\-C C\-O\-M layer functions}!lower\-\_\-id@{lower\-\_\-id}}
+\index{lower\-\_\-id@{lower\-\_\-id}!USB CDC COM layer functions@{\-U\-S\-B C\-D\-C C\-O\-M layer functions}}
+\subsubsection[{lower\-\_\-id}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t {\bf pios\-\_\-usb\-\_\-cdc\-\_\-dev\-::lower\-\_\-id}}}\label{group___p_i_o_s___u_s_b___c_o_m_ga5431d5544be717a197964da5a3b08d2a}
+
+
+\-Definition at line 67 of file pios\-\_\-usb\-\_\-cdc.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_b___c_o_m_gaf1f80b904c24c3a9d91aa7c8d9f0e0f7}{\index{\-U\-S\-B C\-D\-C C\-O\-M layer functions@{\-U\-S\-B C\-D\-C C\-O\-M layer functions}!magic@{magic}}
+\index{magic@{magic}!USB CDC COM layer functions@{\-U\-S\-B C\-D\-C C\-O\-M layer functions}}
+\subsubsection[{magic}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf pios\-\_\-usb\-\_\-cdc\-\_\-dev\-\_\-magic} {\bf pios\-\_\-usb\-\_\-cdc\-\_\-dev\-::magic}}}\label{group___p_i_o_s___u_s_b___c_o_m_gaf1f80b904c24c3a9d91aa7c8d9f0e0f7}
+
+
+\-Definition at line 64 of file pios\-\_\-usb\-\_\-cdc.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_b___c_o_m_ga0992c19a0f2e317fcd93f755d316a0fd}{\index{\-U\-S\-B C\-D\-C C\-O\-M layer functions@{\-U\-S\-B C\-D\-C C\-O\-M layer functions}!p\-Ep\-Int\-\_\-\-I\-N@{p\-Ep\-Int\-\_\-\-I\-N}}
+\index{p\-Ep\-Int\-\_\-\-I\-N@{p\-Ep\-Int\-\_\-\-I\-N}!USB CDC COM layer functions@{\-U\-S\-B C\-D\-C C\-O\-M layer functions}}
+\subsubsection[{p\-Ep\-Int\-\_\-\-I\-N}]{\setlength{\rightskip}{0pt plus 5cm}void($\ast$ {\bf p\-Ep\-Int\-\_\-\-I\-N}\mbox{[}7\mbox{]})(void)}}\label{group___p_i_o_s___u_s_b___c_o_m_ga0992c19a0f2e317fcd93f755d316a0fd}
+
+
+\-Definition at line 34 of file pios\-\_\-usb\-\_\-hid\-\_\-istr.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_b___c_o_m_ga0992c19a0f2e317fcd93f755d316a0fd}{\index{\-U\-S\-B C\-D\-C C\-O\-M layer functions@{\-U\-S\-B C\-D\-C C\-O\-M layer functions}!p\-Ep\-Int\-\_\-\-I\-N@{p\-Ep\-Int\-\_\-\-I\-N}}
+\index{p\-Ep\-Int\-\_\-\-I\-N@{p\-Ep\-Int\-\_\-\-I\-N}!USB CDC COM layer functions@{\-U\-S\-B C\-D\-C C\-O\-M layer functions}}
+\subsubsection[{p\-Ep\-Int\-\_\-\-I\-N}]{\setlength{\rightskip}{0pt plus 5cm}void($\ast$ {\bf p\-Ep\-Int\-\_\-\-I\-N}\mbox{[}7\mbox{]})(void)}}\label{group___p_i_o_s___u_s_b___c_o_m_ga0992c19a0f2e317fcd93f755d316a0fd}
+
+
+\-Definition at line 34 of file pios\-\_\-usb\-\_\-hid\-\_\-istr.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_b___c_o_m_ga549396ff4348c565f52117dd27ad52ca}{\index{\-U\-S\-B C\-D\-C C\-O\-M layer functions@{\-U\-S\-B C\-D\-C C\-O\-M layer functions}!p\-Ep\-Int\-\_\-\-O\-U\-T@{p\-Ep\-Int\-\_\-\-O\-U\-T}}
+\index{p\-Ep\-Int\-\_\-\-O\-U\-T@{p\-Ep\-Int\-\_\-\-O\-U\-T}!USB CDC COM layer functions@{\-U\-S\-B C\-D\-C C\-O\-M layer functions}}
+\subsubsection[{p\-Ep\-Int\-\_\-\-O\-U\-T}]{\setlength{\rightskip}{0pt plus 5cm}void($\ast$ {\bf p\-Ep\-Int\-\_\-\-O\-U\-T}\mbox{[}7\mbox{]})(void)}}\label{group___p_i_o_s___u_s_b___c_o_m_ga549396ff4348c565f52117dd27ad52ca}
+
+
+\-Definition at line 37 of file pios\-\_\-usb\-\_\-hid\-\_\-istr.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_b___c_o_m_ga549396ff4348c565f52117dd27ad52ca}{\index{\-U\-S\-B C\-D\-C C\-O\-M layer functions@{\-U\-S\-B C\-D\-C C\-O\-M layer functions}!p\-Ep\-Int\-\_\-\-O\-U\-T@{p\-Ep\-Int\-\_\-\-O\-U\-T}}
+\index{p\-Ep\-Int\-\_\-\-O\-U\-T@{p\-Ep\-Int\-\_\-\-O\-U\-T}!USB CDC COM layer functions@{\-U\-S\-B C\-D\-C C\-O\-M layer functions}}
+\subsubsection[{p\-Ep\-Int\-\_\-\-O\-U\-T}]{\setlength{\rightskip}{0pt plus 5cm}void($\ast$ {\bf p\-Ep\-Int\-\_\-\-O\-U\-T}\mbox{[}7\mbox{]})(void)}}\label{group___p_i_o_s___u_s_b___c_o_m_ga549396ff4348c565f52117dd27ad52ca}
+
+
+\-Definition at line 37 of file pios\-\_\-usb\-\_\-hid\-\_\-istr.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_b___c_o_m_gad661bf144c28ea36f290b0092e6957e2}{\index{\-U\-S\-B C\-D\-C C\-O\-M layer functions@{\-U\-S\-B C\-D\-C C\-O\-M layer functions}!pios\-\_\-usb\-\_\-cdc\-\_\-com\-\_\-driver@{pios\-\_\-usb\-\_\-cdc\-\_\-com\-\_\-driver}}
+\index{pios\-\_\-usb\-\_\-cdc\-\_\-com\-\_\-driver@{pios\-\_\-usb\-\_\-cdc\-\_\-com\-\_\-driver}!USB CDC COM layer functions@{\-U\-S\-B C\-D\-C C\-O\-M layer functions}}
+\subsubsection[{pios\-\_\-usb\-\_\-cdc\-\_\-com\-\_\-driver}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf pios\-\_\-com\-\_\-driver} {\bf pios\-\_\-usb\-\_\-cdc\-\_\-com\-\_\-driver}}}\label{group___p_i_o_s___u_s_b___c_o_m_gad661bf144c28ea36f290b0092e6957e2}
+
+
+\-Definition at line 51 of file pios\-\_\-usb\-\_\-cdc.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_b___c_o_m_gad661bf144c28ea36f290b0092e6957e2}{\index{\-U\-S\-B C\-D\-C C\-O\-M layer functions@{\-U\-S\-B C\-D\-C C\-O\-M layer functions}!pios\-\_\-usb\-\_\-cdc\-\_\-com\-\_\-driver@{pios\-\_\-usb\-\_\-cdc\-\_\-com\-\_\-driver}}
+\index{pios\-\_\-usb\-\_\-cdc\-\_\-com\-\_\-driver@{pios\-\_\-usb\-\_\-cdc\-\_\-com\-\_\-driver}!USB CDC COM layer functions@{\-U\-S\-B C\-D\-C C\-O\-M layer functions}}
+\subsubsection[{pios\-\_\-usb\-\_\-cdc\-\_\-com\-\_\-driver}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf pios\-\_\-com\-\_\-driver} {\bf pios\-\_\-usb\-\_\-cdc\-\_\-com\-\_\-driver}}}\label{group___p_i_o_s___u_s_b___c_o_m_gad661bf144c28ea36f290b0092e6957e2}
+{\bfseries \-Initial value\-:}
+\begin{DoxyCode}
+ {
+        .tx_start    = PIOS_USB_CDC_TxStart,
+        .rx_start    = PIOS_USB_CDC_RxStart,
+        .bind_tx_cb  = PIOS_USB_CDC_RegisterTxCallback,
+        .bind_rx_cb  = PIOS_USB_CDC_RegisterRxCallback,
+        .available   = PIOS_USB_CDC_Available,
+}
+\end{DoxyCode}
+
+
+\-Definition at line 50 of file pios\-\_\-usb\-\_\-cdc.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_b___c_o_m_gad661bf144c28ea36f290b0092e6957e2}{\index{\-U\-S\-B C\-D\-C C\-O\-M layer functions@{\-U\-S\-B C\-D\-C C\-O\-M layer functions}!pios\-\_\-usb\-\_\-cdc\-\_\-com\-\_\-driver@{pios\-\_\-usb\-\_\-cdc\-\_\-com\-\_\-driver}}
+\index{pios\-\_\-usb\-\_\-cdc\-\_\-com\-\_\-driver@{pios\-\_\-usb\-\_\-cdc\-\_\-com\-\_\-driver}!USB CDC COM layer functions@{\-U\-S\-B C\-D\-C C\-O\-M layer functions}}
+\subsubsection[{pios\-\_\-usb\-\_\-cdc\-\_\-com\-\_\-driver}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf pios\-\_\-com\-\_\-driver} {\bf pios\-\_\-usb\-\_\-cdc\-\_\-com\-\_\-driver}}}\label{group___p_i_o_s___u_s_b___c_o_m_gad661bf144c28ea36f290b0092e6957e2}
+{\bfseries \-Initial value\-:}
+\begin{DoxyCode}
+ {
+        .tx_start    = PIOS_USB_CDC_TxStart,
+        .rx_start    = PIOS_USB_CDC_RxStart,
+        .bind_tx_cb  = PIOS_USB_CDC_RegisterTxCallback,
+        .bind_rx_cb  = PIOS_USB_CDC_RegisterRxCallback,
+        .available   = PIOS_USB_CDC_Available,
+}
+\end{DoxyCode}
+
+
+\-Definition at line 51 of file pios\-\_\-usb\-\_\-cdc.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_b___c_o_m_gad661bf144c28ea36f290b0092e6957e2}{\index{\-U\-S\-B C\-D\-C C\-O\-M layer functions@{\-U\-S\-B C\-D\-C C\-O\-M layer functions}!pios\-\_\-usb\-\_\-cdc\-\_\-com\-\_\-driver@{pios\-\_\-usb\-\_\-cdc\-\_\-com\-\_\-driver}}
+\index{pios\-\_\-usb\-\_\-cdc\-\_\-com\-\_\-driver@{pios\-\_\-usb\-\_\-cdc\-\_\-com\-\_\-driver}!USB CDC COM layer functions@{\-U\-S\-B C\-D\-C C\-O\-M layer functions}}
+\subsubsection[{pios\-\_\-usb\-\_\-cdc\-\_\-com\-\_\-driver}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf pios\-\_\-com\-\_\-driver} {\bf pios\-\_\-usb\-\_\-cdc\-\_\-com\-\_\-driver}}}\label{group___p_i_o_s___u_s_b___c_o_m_gad661bf144c28ea36f290b0092e6957e2}
+{\bfseries \-Initial value\-:}
+\begin{DoxyCode}
+ {
+        .tx_start    = PIOS_USB_CDC_TxStart,
+        .rx_start    = PIOS_USB_CDC_RxStart,
+        .bind_tx_cb  = PIOS_USB_CDC_RegisterTxCallback,
+        .bind_rx_cb  = PIOS_USB_CDC_RegisterRxCallback,
+        .available   = PIOS_USB_CDC_Available,
+}
+\end{DoxyCode}
+
+
+\-Definition at line 51 of file pios\-\_\-usb\-\_\-cdc.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_b___c_o_m_ga7bc5f832e095cad60f463436e377bb5d}{\index{\-U\-S\-B C\-D\-C C\-O\-M layer functions@{\-U\-S\-B C\-D\-C C\-O\-M layer functions}!pios\-\_\-usb\-\_\-hid\-\_\-com\-\_\-driver@{pios\-\_\-usb\-\_\-hid\-\_\-com\-\_\-driver}}
+\index{pios\-\_\-usb\-\_\-hid\-\_\-com\-\_\-driver@{pios\-\_\-usb\-\_\-hid\-\_\-com\-\_\-driver}!USB CDC COM layer functions@{\-U\-S\-B C\-D\-C C\-O\-M layer functions}}
+\subsubsection[{pios\-\_\-usb\-\_\-hid\-\_\-com\-\_\-driver}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf pios\-\_\-com\-\_\-driver} {\bf pios\-\_\-usb\-\_\-hid\-\_\-com\-\_\-driver}}}\label{group___p_i_o_s___u_s_b___c_o_m_ga7bc5f832e095cad60f463436e377bb5d}
+
+
+\-Definition at line 50 of file pios\-\_\-usb\-\_\-hid.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_b___c_o_m_ga945dfed2223e17061cb6e4257c2b2624}{\index{\-U\-S\-B C\-D\-C C\-O\-M layer functions@{\-U\-S\-B C\-D\-C C\-O\-M layer functions}!prev\-\_\-uart\-\_\-state@{prev\-\_\-uart\-\_\-state}}
+\index{prev\-\_\-uart\-\_\-state@{prev\-\_\-uart\-\_\-state}!USB CDC COM layer functions@{\-U\-S\-B C\-D\-C C\-O\-M layer functions}}
+\subsubsection[{prev\-\_\-uart\-\_\-state}]{\setlength{\rightskip}{0pt plus 5cm}volatile uint16\-\_\-t {\bf pios\-\_\-usb\-\_\-cdc\-\_\-dev\-::prev\-\_\-uart\-\_\-state}}}\label{group___p_i_o_s___u_s_b___c_o_m_ga945dfed2223e17061cb6e4257c2b2624}
+
+
+\-Definition at line 96 of file pios\-\_\-usb\-\_\-cdc.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_b___c_o_m_gad41e79606da14368c2716f4bc3c84618}{\index{\-U\-S\-B C\-D\-C C\-O\-M layer functions@{\-U\-S\-B C\-D\-C C\-O\-M layer functions}!rx\-\_\-active@{rx\-\_\-active}}
+\index{rx\-\_\-active@{rx\-\_\-active}!USB CDC COM layer functions@{\-U\-S\-B C\-D\-C C\-O\-M layer functions}}
+\subsubsection[{rx\-\_\-active}]{\setlength{\rightskip}{0pt plus 5cm}volatile bool {\bf pios\-\_\-usb\-\_\-cdc\-\_\-dev\-::rx\-\_\-active}}}\label{group___p_i_o_s___u_s_b___c_o_m_gad41e79606da14368c2716f4bc3c84618}
+
+
+\-Definition at line 77 of file pios\-\_\-usb\-\_\-cdc.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_b___c_o_m_gaf423c6fd8c8e8d95b5dc5d9242df40da}{\index{\-U\-S\-B C\-D\-C C\-O\-M layer functions@{\-U\-S\-B C\-D\-C C\-O\-M layer functions}!rx\-\_\-dropped@{rx\-\_\-dropped}}
+\index{rx\-\_\-dropped@{rx\-\_\-dropped}!USB CDC COM layer functions@{\-U\-S\-B C\-D\-C C\-O\-M layer functions}}
+\subsubsection[{rx\-\_\-dropped}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t {\bf pios\-\_\-usb\-\_\-cdc\-\_\-dev\-::rx\-\_\-dropped}}}\label{group___p_i_o_s___u_s_b___c_o_m_gaf423c6fd8c8e8d95b5dc5d9242df40da}
+
+
+\-Definition at line 82 of file pios\-\_\-usb\-\_\-cdc.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_b___c_o_m_gaf3cf777f785d8b2a117c736064e859de}{\index{\-U\-S\-B C\-D\-C C\-O\-M layer functions@{\-U\-S\-B C\-D\-C C\-O\-M layer functions}!rx\-\_\-in\-\_\-cb@{rx\-\_\-in\-\_\-cb}}
+\index{rx\-\_\-in\-\_\-cb@{rx\-\_\-in\-\_\-cb}!USB CDC COM layer functions@{\-U\-S\-B C\-D\-C C\-O\-M layer functions}}
+\subsubsection[{rx\-\_\-in\-\_\-cb}]{\setlength{\rightskip}{0pt plus 5cm}{\bf pios\-\_\-com\-\_\-callback} {\bf pios\-\_\-usb\-\_\-cdc\-\_\-dev\-::rx\-\_\-in\-\_\-cb}}}\label{group___p_i_o_s___u_s_b___c_o_m_gaf3cf777f785d8b2a117c736064e859de}
+
+
+\-Definition at line 69 of file pios\-\_\-usb\-\_\-cdc.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_b___c_o_m_gae98fcbb800c5655c05106c1e73a1de01}{\index{\-U\-S\-B C\-D\-C C\-O\-M layer functions@{\-U\-S\-B C\-D\-C C\-O\-M layer functions}!rx\-\_\-in\-\_\-context@{rx\-\_\-in\-\_\-context}}
+\index{rx\-\_\-in\-\_\-context@{rx\-\_\-in\-\_\-context}!USB CDC COM layer functions@{\-U\-S\-B C\-D\-C C\-O\-M layer functions}}
+\subsubsection[{rx\-\_\-in\-\_\-context}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t {\bf pios\-\_\-usb\-\_\-cdc\-\_\-dev\-::rx\-\_\-in\-\_\-context}}}\label{group___p_i_o_s___u_s_b___c_o_m_gae98fcbb800c5655c05106c1e73a1de01}
+
+
+\-Definition at line 70 of file pios\-\_\-usb\-\_\-cdc.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_b___c_o_m_ga88576a84665e4d9b17001b7cb5efebc6}{\index{\-U\-S\-B C\-D\-C C\-O\-M layer functions@{\-U\-S\-B C\-D\-C C\-O\-M layer functions}!rx\-\_\-oversize@{rx\-\_\-oversize}}
+\index{rx\-\_\-oversize@{rx\-\_\-oversize}!USB CDC COM layer functions@{\-U\-S\-B C\-D\-C C\-O\-M layer functions}}
+\subsubsection[{rx\-\_\-oversize}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t {\bf pios\-\_\-usb\-\_\-cdc\-\_\-dev\-::rx\-\_\-oversize}}}\label{group___p_i_o_s___u_s_b___c_o_m_ga88576a84665e4d9b17001b7cb5efebc6}
+
+
+\-Definition at line 83 of file pios\-\_\-usb\-\_\-cdc.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_b___c_o_m_ga82f6a571f9bf92fae2d7368be2407a27}{\index{\-U\-S\-B C\-D\-C C\-O\-M layer functions@{\-U\-S\-B C\-D\-C C\-O\-M layer functions}!rx\-\_\-packet\-\_\-buffer@{rx\-\_\-packet\-\_\-buffer}}
+\index{rx\-\_\-packet\-\_\-buffer@{rx\-\_\-packet\-\_\-buffer}!USB CDC COM layer functions@{\-U\-S\-B C\-D\-C C\-O\-M layer functions}}
+\subsubsection[{rx\-\_\-packet\-\_\-buffer}]{\setlength{\rightskip}{0pt plus 5cm}uint8\-\_\-t {\bf pios\-\_\-usb\-\_\-cdc\-\_\-dev\-::rx\-\_\-packet\-\_\-buffer}}}\label{group___p_i_o_s___u_s_b___c_o_m_ga82f6a571f9bf92fae2d7368be2407a27}
+
+
+\-Definition at line 74 of file pios\-\_\-usb\-\_\-cdc.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_b___c_o_m_ga5ebf71c716fc76c564cf8217adeb956c}{\index{\-U\-S\-B C\-D\-C C\-O\-M layer functions@{\-U\-S\-B C\-D\-C C\-O\-M layer functions}!tx\-\_\-active@{tx\-\_\-active}}
+\index{tx\-\_\-active@{tx\-\_\-active}!USB CDC COM layer functions@{\-U\-S\-B C\-D\-C C\-O\-M layer functions}}
+\subsubsection[{tx\-\_\-active}]{\setlength{\rightskip}{0pt plus 5cm}volatile bool {\bf pios\-\_\-usb\-\_\-cdc\-\_\-dev\-::tx\-\_\-active}}}\label{group___p_i_o_s___u_s_b___c_o_m_ga5ebf71c716fc76c564cf8217adeb956c}
+
+
+\-Definition at line 85 of file pios\-\_\-usb\-\_\-cdc.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_b___c_o_m_ga1e9a79d782c5671d5e35aafe776632f3}{\index{\-U\-S\-B C\-D\-C C\-O\-M layer functions@{\-U\-S\-B C\-D\-C C\-O\-M layer functions}!tx\-\_\-out\-\_\-cb@{tx\-\_\-out\-\_\-cb}}
+\index{tx\-\_\-out\-\_\-cb@{tx\-\_\-out\-\_\-cb}!USB CDC COM layer functions@{\-U\-S\-B C\-D\-C C\-O\-M layer functions}}
+\subsubsection[{tx\-\_\-out\-\_\-cb}]{\setlength{\rightskip}{0pt plus 5cm}{\bf pios\-\_\-com\-\_\-callback} {\bf pios\-\_\-usb\-\_\-cdc\-\_\-dev\-::tx\-\_\-out\-\_\-cb}}}\label{group___p_i_o_s___u_s_b___c_o_m_ga1e9a79d782c5671d5e35aafe776632f3}
+
+
+\-Definition at line 71 of file pios\-\_\-usb\-\_\-cdc.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_b___c_o_m_ga81d00c55fe107bb853a8629706b0acb4}{\index{\-U\-S\-B C\-D\-C C\-O\-M layer functions@{\-U\-S\-B C\-D\-C C\-O\-M layer functions}!tx\-\_\-out\-\_\-context@{tx\-\_\-out\-\_\-context}}
+\index{tx\-\_\-out\-\_\-context@{tx\-\_\-out\-\_\-context}!USB CDC COM layer functions@{\-U\-S\-B C\-D\-C C\-O\-M layer functions}}
+\subsubsection[{tx\-\_\-out\-\_\-context}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t {\bf pios\-\_\-usb\-\_\-cdc\-\_\-dev\-::tx\-\_\-out\-\_\-context}}}\label{group___p_i_o_s___u_s_b___c_o_m_ga81d00c55fe107bb853a8629706b0acb4}
+
+
+\-Definition at line 72 of file pios\-\_\-usb\-\_\-cdc.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_b___c_o_m_ga1b086465e042517001948516cfa908d1}{\index{\-U\-S\-B C\-D\-C C\-O\-M layer functions@{\-U\-S\-B C\-D\-C C\-O\-M layer functions}!tx\-\_\-packet\-\_\-buffer@{tx\-\_\-packet\-\_\-buffer}}
+\index{tx\-\_\-packet\-\_\-buffer@{tx\-\_\-packet\-\_\-buffer}!USB CDC COM layer functions@{\-U\-S\-B C\-D\-C C\-O\-M layer functions}}
+\subsubsection[{tx\-\_\-packet\-\_\-buffer}]{\setlength{\rightskip}{0pt plus 5cm}uint8\-\_\-t {\bf pios\-\_\-usb\-\_\-cdc\-\_\-dev\-::tx\-\_\-packet\-\_\-buffer}}}\label{group___p_i_o_s___u_s_b___c_o_m_ga1b086465e042517001948516cfa908d1}
+
+
+\-Definition at line 80 of file pios\-\_\-usb\-\_\-cdc.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_b___c_o_m_gaf7f356f1ada9744b2424b2980baa2a81}{\index{\-U\-S\-B C\-D\-C C\-O\-M layer functions@{\-U\-S\-B C\-D\-C C\-O\-M layer functions}!uart\-\_\-state@{uart\-\_\-state}}
+\index{uart\-\_\-state@{uart\-\_\-state}!USB CDC COM layer functions@{\-U\-S\-B C\-D\-C C\-O\-M layer functions}}
+\subsubsection[{uart\-\_\-state}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf usb\-\_\-cdc\-\_\-serial\-\_\-state\-\_\-report} {\bf uart\-\_\-state}}}\label{group___p_i_o_s___u_s_b___c_o_m_gaf7f356f1ada9744b2424b2980baa2a81}
+{\bfseries \-Initial value\-:}
+\begin{DoxyCode}
+ {
+        .bmRequestType = 0xA1,
+        .bNotification = USB_CDC_NOTIFICATION_SERIAL_STATE,
+        .wValue        = 0,
+        .wIndex        = htousbs(1),
+        .wLength       = htousbs(2),
+        .bmUartState   = htousbs(0),
+}
+\end{DoxyCode}
+
+
+\-Definition at line 401 of file pios\-\_\-usb\-\_\-cdc.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_b___c_o_m_gaf7f356f1ada9744b2424b2980baa2a81}{\index{\-U\-S\-B C\-D\-C C\-O\-M layer functions@{\-U\-S\-B C\-D\-C C\-O\-M layer functions}!uart\-\_\-state@{uart\-\_\-state}}
+\index{uart\-\_\-state@{uart\-\_\-state}!USB CDC COM layer functions@{\-U\-S\-B C\-D\-C C\-O\-M layer functions}}
+\subsubsection[{uart\-\_\-state}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf usb\-\_\-cdc\-\_\-serial\-\_\-state\-\_\-report} {\bf uart\-\_\-state}}}\label{group___p_i_o_s___u_s_b___c_o_m_gaf7f356f1ada9744b2424b2980baa2a81}
+{\bfseries \-Initial value\-:}
+\begin{DoxyCode}
+ {
+        .bmRequestType = 0xA1,
+        .bNotification = USB_CDC_NOTIFICATION_SERIAL_STATE,
+        .wValue        = 0,
+        .wIndex        = htousbs(1),
+        .wLength       = htousbs(2),
+        .bmUartState  = htousbs(0),
+}
+\end{DoxyCode}
+
+
+\-Definition at line 401 of file pios\-\_\-usb\-\_\-cdc.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_b___c_o_m_ga27ad044c09bb6b13874d1d1281aa397f}{\index{\-U\-S\-B C\-D\-C C\-O\-M layer functions@{\-U\-S\-B C\-D\-C C\-O\-M layer functions}!usb\-\_\-ctrl\-\_\-if\-\_\-enabled@{usb\-\_\-ctrl\-\_\-if\-\_\-enabled}}
+\index{usb\-\_\-ctrl\-\_\-if\-\_\-enabled@{usb\-\_\-ctrl\-\_\-if\-\_\-enabled}!USB CDC COM layer functions@{\-U\-S\-B C\-D\-C C\-O\-M layer functions}}
+\subsubsection[{usb\-\_\-ctrl\-\_\-if\-\_\-enabled}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf pios\-\_\-usb\-\_\-cdc\-\_\-dev\-::usb\-\_\-ctrl\-\_\-if\-\_\-enabled}}}\label{group___p_i_o_s___u_s_b___c_o_m_ga27ad044c09bb6b13874d1d1281aa397f}
+
+
+\-Definition at line 73 of file pios\-\_\-usb\-\_\-cdc.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_b___c_o_m_gaa0a4b4afa2a6f6c20709f878b026ecc5}{\index{\-U\-S\-B C\-D\-C C\-O\-M layer functions@{\-U\-S\-B C\-D\-C C\-O\-M layer functions}!usb\-\_\-data\-\_\-if\-\_\-enabled@{usb\-\_\-data\-\_\-if\-\_\-enabled}}
+\index{usb\-\_\-data\-\_\-if\-\_\-enabled@{usb\-\_\-data\-\_\-if\-\_\-enabled}!USB CDC COM layer functions@{\-U\-S\-B C\-D\-C C\-O\-M layer functions}}
+\subsubsection[{usb\-\_\-data\-\_\-if\-\_\-enabled}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf pios\-\_\-usb\-\_\-cdc\-\_\-dev\-::usb\-\_\-data\-\_\-if\-\_\-enabled}}}\label{group___p_i_o_s___u_s_b___c_o_m_gaa0a4b4afa2a6f6c20709f878b026ecc5}
+
+
+\-Definition at line 74 of file pios\-\_\-usb\-\_\-cdc.\-c.
+

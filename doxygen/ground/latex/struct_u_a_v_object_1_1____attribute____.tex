@@ -1,0 +1,34 @@
+\hypertarget{struct_u_a_v_object_1_1____attribute____}{\section{\-U\-A\-V\-Object\-:\-:\-\_\-\-\_\-attribute\-\_\-\-\_\- \-Struct \-Reference}
+\label{struct_u_a_v_object_1_1____attribute____}\index{\-U\-A\-V\-Object\-::\-\_\-\-\_\-attribute\-\_\-\-\_\-@{\-U\-A\-V\-Object\-::\-\_\-\-\_\-attribute\-\_\-\-\_\-}}
+}
+
+
+{\ttfamily \#include $<$uavobject.\-h$>$}
+
+\subsection*{\-Public \-Attributes}
+\begin{DoxyCompactItemize}
+\item 
+quint8 \hyperlink{group___u_a_v_objects_plugin_gaf5421bbd1e8748b9f0f12ba5b6722bdd}{flags}
+\item 
+quint16 \hyperlink{group___u_a_v_objects_plugin_gaa29a38fd35ce73e9e4afd2698de44797}{flight\-Telemetry\-Update\-Period}
+\item 
+quint16 \hyperlink{group___u_a_v_objects_plugin_ga3698244bb0c29537b3d26442624ee03b}{gcs\-Telemetry\-Update\-Period}
+\item 
+quint16 \hyperlink{group___u_a_v_objects_plugin_gad4c54f8af5beeb9dc2bbe402c9f01299}{logging\-Update\-Period}
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-Object metadata, each object has a meta object that holds its metadata. \-The metadata define properties for each object and can be used by multiple modules (e.\-g. telemetry and logger)
+
+\-The object metadata flags are packed into a single 16 bit integer. \-The bits in the flag field are defined as\-:
+
+\-Bit(s) \-Name \-Meaning -\/-\/-\/-\/-\/-\/ -\/-\/-\/-\/ -\/-\/-\/-\/-\/-\/-\/ 0 access \-Defines the access level for the local transactions (readonly=0 and readwrite=1) 1 gcs\-Access \-Defines the access level for the local \-G\-C\-S transactions (readonly=0 and readwrite=1), not used in the flight s/w 2 telemetry\-Acked \-Defines if an ack is required for the transactions of this object (1\-:acked, 0\-:not acked) 3 gcs\-Telemetry\-Acked \-Defines if an ack is required for the transactions of this object (1\-:acked, 0\-:not acked) 4-\/5 telemetry\-Update\-Mode \-Update mode used by the telemetry module (\-U\-A\-V\-Obj\-Update\-Mode) 6-\/7 gcs\-Telemetry\-Update\-Mode \-Update mode used by the \-G\-C\-S (\-U\-A\-V\-Obj\-Update\-Mode) 
+
+\-Definition at line 92 of file uavobject.\-h.
+
+
+
+\-The documentation for this struct was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/plugins/uavobjects/\hyperlink{uavobject_8h}{uavobject.\-h}\end{DoxyCompactItemize}

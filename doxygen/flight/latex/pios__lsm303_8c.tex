@@ -1,0 +1,45 @@
+\hypertarget{pios__lsm303_8c}{\section{/home/jb/code/\-Tau\-Labs/flight/\-Pi\-O\-S/\-Common/pios\-\_\-lsm303.c \-File \-Reference}
+\label{pios__lsm303_8c}\index{/home/jb/code/\-Tau\-Labs/flight/\-Pi\-O\-S/\-Common/pios\-\_\-lsm303.\-c@{/home/jb/code/\-Tau\-Labs/flight/\-Pi\-O\-S/\-Common/pios\-\_\-lsm303.\-c}}
+}
+\subsection*{\-Data \-Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structlsm303__dev}{lsm303\-\_\-dev}
+\item 
+struct \hyperlink{structpios__lsm303__accel__data}{pios\-\_\-lsm303\-\_\-accel\-\_\-data}
+\begin{DoxyCompactList}\small\item\em \-Internal representation of unscaled accelerometer data. \end{DoxyCompactList}\item 
+struct \hyperlink{structpios__lsm303__mag__data}{pios\-\_\-lsm303\-\_\-mag\-\_\-data}
+\begin{DoxyCompactList}\small\item\em \-Internal representation of unscaled magnetometer data. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{group___p_i_o_s___l_s_m303_ga541e751cf6c930fc56ab31e10b857a74}{pios\-\_\-lsm303\-\_\-dev\-\_\-magic} \{ \hyperlink{group___p_i_o_s___l_s_m303_gga541e751cf6c930fc56ab31e10b857a74a41c2c7ef1afe6e72780e4cbc0eb274d6}{\-P\-I\-O\-S\-\_\-\-L\-S\-M303\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C} =  0xef8e9e1d
+ \}
+\end{DoxyCompactItemize}
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___l_s_m303_ga14f9c78fed7bf58de8e69e585cd67769}{\-P\-I\-O\-S\-\_\-\-L\-S\-M303\-\_\-\-Init} (uint32\-\_\-t i2c\-\_\-id, const struct \hyperlink{structpios__lsm303__cfg}{pios\-\_\-lsm303\-\_\-cfg} $\ast$cfg)
+\begin{DoxyCompactList}\small\item\em \-Initialize the \-L\-S\-M303 3-\/axis gyro sensor. \end{DoxyCompactList}\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___l_s_m303_gae7f600d0c2cfc85affb21312eef1b4ce}{\-P\-I\-O\-S\-\_\-\-L\-S\-M303\-\_\-\-Mag\-\_\-\-Read\-I\-D} ()
+\item 
+void \hyperlink{group___p_i_o_s___l_s_m303_ga8b8011cf8463e2ae40eae82b2bf78251}{\-P\-I\-O\-S\-\_\-\-L\-S\-M303\-\_\-\-Accel\-\_\-\-Set\-Range} (enum \hyperlink{group___p_i_o_s___l_s_m303_gafbb0e59427f40a8d9b0e901af02bb7b3}{pios\-\_\-lsm303\-\_\-accel\-\_\-range} accel\-\_\-range)
+\item 
+void \hyperlink{group___p_i_o_s___l_s_m303_gae1c05338828d7ced47c189ed3e73a24a}{\-P\-I\-O\-S\-\_\-\-L\-S\-M303\-\_\-\-Mag\-\_\-\-Set\-Range} (enum \hyperlink{group___p_i_o_s___l_s_m303_ga24737af5b503329ca628b921e32ec8d8}{pios\-\_\-lsm303\-\_\-mag\-\_\-range} mag\-\_\-range)
+\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___l_s_m303_ga6cead4a99372061bc1b1a9a08a0eb183}{\-P\-I\-O\-S\-\_\-\-L\-S\-M303\-\_\-\-Accel\-\_\-\-Test} (void)
+\begin{DoxyCompactList}\small\item\em \-Run self-\/test operation. \end{DoxyCompactList}\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___l_s_m303_ga02c4d8ca4981e2ced505a7ea3bd13a72}{\-P\-I\-O\-S\-\_\-\-L\-S\-M303\-\_\-\-Mag\-\_\-\-Test} (void)
+\begin{DoxyCompactList}\small\item\em \-Run self-\/test operation. \end{DoxyCompactList}\item 
+bool \hyperlink{group___p_i_o_s___l_s_m303_gac6bc0a694ea85c9644a96c5558b75a7d}{\-P\-I\-O\-S\-\_\-\-L\-S\-M303\-\_\-\-I\-R\-Q\-Handler} (void)
+\begin{DoxyCompactList}\small\item\em \-I\-R\-Q \-Handler. \-Read all the data from onboard buffer. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\begin{DoxyAuthor}{\-Author}
+\-Tau \-Labs, \href{http://taulabs.org,}{\tt http\-://taulabs.\-org,} \-Copyright (\-C) 2013 
+\end{DoxyAuthor}
+
+
+\-Definition in file \hyperlink{pios__lsm303_8c_source}{pios\-\_\-lsm303.\-c}.
+

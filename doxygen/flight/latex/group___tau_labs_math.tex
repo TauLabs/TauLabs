@@ -1,0 +1,744 @@
+\hypertarget{group___tau_labs_math}{\section{\-Tau \-Labs math support libraries}
+\label{group___tau_labs_math}\index{\-Tau Labs math support libraries@{\-Tau Labs math support libraries}}
+}
+\subsection*{\-Data \-Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structpid}{pid}
+\end{DoxyCompactItemize}
+\subsection*{\-Files}
+\begin{DoxyCompactItemize}
+\item 
+file \hyperlink{coordinate__conversions_8c}{coordinate\-\_\-conversions.\-c}
+\begin{DoxyCompactList}\small\item\em \-General conversions with different coordinate systems. \end{DoxyCompactList}\item 
+file \hyperlink{coordinate__conversions_8h}{coordinate\-\_\-conversions.\-h}
+\begin{DoxyCompactList}\small\item\em \-Header for \-Coordinate conversions library in \hyperlink{coordinate__conversions_8c}{coordinate\-\_\-conversions.\-c}. \end{DoxyCompactList}\item 
+file \hyperlink{pid_8c}{pid.\-c}
+\begin{DoxyCompactList}\small\item\em \-P\-I\-D \-Control algorithms. \end{DoxyCompactList}\item 
+file \hyperlink{pid_8h}{pid.\-h}
+\begin{DoxyCompactList}\small\item\em \-P\-I\-D \-Control algorithms. \end{DoxyCompactList}\item 
+file \hyperlink{sin__lookup_8c}{sin\-\_\-lookup.\-c}
+\begin{DoxyCompactList}\small\item\em \-Fast lookup table based sin/cos functions. \end{DoxyCompactList}\item 
+file \hyperlink{sin__lookup_8h}{sin\-\_\-lookup.\-h}
+\begin{DoxyCompactList}\small\item\em \-Fast lookup table based sin/cos functions. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{group___tau_labs_math_ga362aa95352aa40af9d1d23ac12f83a49}{\-L\-L\-A2\-E\-C\-E\-F} (float \-L\-L\-A\mbox{[}3\mbox{]}, float \-E\-C\-E\-F\mbox{[}3\mbox{]})
+\item 
+uint16\-\_\-t \hyperlink{group___tau_labs_math_gade2c2cec4a9e1098f5b8f3c4b5987552}{\-E\-C\-E\-F2\-L\-L\-A} (float \-E\-C\-E\-F\mbox{[}3\mbox{]}, float \-L\-L\-A\mbox{[}3\mbox{]})
+\item 
+void \hyperlink{group___tau_labs_math_ga682c71aaf24cb8f77a2452e027daaff2}{\-Rne\-From\-L\-L\-A} (float \-L\-L\-A\mbox{[}3\mbox{]}, float \-Rne\mbox{[}3\mbox{]}\mbox{[}3\mbox{]})
+\item 
+void \hyperlink{group___tau_labs_math_ga0e4bc4f44a08a2e317db0bde882909cc}{\-Quaternion2\-R\-P\-Y} (const float q\mbox{[}4\mbox{]}, float rpy\mbox{[}3\mbox{]})
+\item 
+void \hyperlink{group___tau_labs_math_ga81a64437be6edb2654bfebcc14321964}{\-R\-P\-Y2\-Quaternion} (const float rpy\mbox{[}3\mbox{]}, float q\mbox{[}4\mbox{]})
+\item 
+void \hyperlink{group___tau_labs_math_gaccaead20abfe7057c1a086b5426865df}{\-Quaternion2\-R} (float q\mbox{[}4\mbox{]}, float \-Rbe\mbox{[}3\mbox{]}\mbox{[}3\mbox{]})
+\item 
+void \hyperlink{group___tau_labs_math_ga33c35c48faebb53d4d2cd46b67aba8ff}{\-Euler2\-R} (float rpy\mbox{[}3\mbox{]}, float \-Rbe\mbox{[}3\mbox{]}\mbox{[}3\mbox{]})
+\item 
+void \hyperlink{group___tau_labs_math_ga286e15f43ea9091854744369470fed6d}{\-L\-L\-A2\-Base} (float \-L\-L\-A\mbox{[}3\mbox{]}, float \-Base\-E\-C\-E\-F\mbox{[}3\mbox{]}, float \-Rne\mbox{[}3\mbox{]}\mbox{[}3\mbox{]}, float \-N\-E\-D\mbox{[}3\mbox{]})
+\item 
+void \hyperlink{group___tau_labs_math_ga3900fb782ab3f56ea2dad005610f2ffe}{\-E\-C\-E\-F2\-Base} (float \-E\-C\-E\-F\mbox{[}3\mbox{]}, float \-Base\-E\-C\-E\-F\mbox{[}3\mbox{]}, float \-Rne\mbox{[}3\mbox{]}\mbox{[}3\mbox{]}, float \-N\-E\-D\mbox{[}3\mbox{]})
+\item 
+void \hyperlink{group___tau_labs_math_gad6008216daaf402435c742d0290f9a30}{\-R2\-Quaternion} (float \-R\mbox{[}3\mbox{]}\mbox{[}3\mbox{]}, float q\mbox{[}4\mbox{]})
+\item 
+uint8\-\_\-t \hyperlink{group___tau_labs_math_ga0848733f9025a839c84f7e7b71d87c63}{\-Rot\-From2\-Vectors} (const float v1b\mbox{[}3\mbox{]}, const float v1e\mbox{[}3\mbox{]}, const float v2b\mbox{[}3\mbox{]}, const float v2e\mbox{[}3\mbox{]}, float \-Rbe\mbox{[}3\mbox{]}\mbox{[}3\mbox{]})
+\item 
+void \hyperlink{group___tau_labs_math_ga43ed3db7237f03a6488c8dd7b987b1bd}{\-Rv2\-Rot} (float \-Rv\mbox{[}3\mbox{]}, float \-R\mbox{[}3\mbox{]}\mbox{[}3\mbox{]})
+\item 
+void \hyperlink{group___tau_labs_math_ga6dc0e97647b4b3a5689c46aa415fe0b8}{\-Cross\-Product} (const float v1\mbox{[}3\mbox{]}, const float v2\mbox{[}3\mbox{]}, float result\mbox{[}3\mbox{]})
+\item 
+float \hyperlink{group___tau_labs_math_gaf5edfeac1bff286891d26b8c7fcc9958}{\-Vector\-Magnitude} (const float v\mbox{[}3\mbox{]})
+\item 
+void \hyperlink{group___tau_labs_math_gab25d503661ed9e31c9616b13c72d1ccd}{quat\-\_\-inverse} (float q\mbox{[}4\mbox{]})
+\begin{DoxyCompactList}\small\item\em \-Compute the inverse of a quaternion. \end{DoxyCompactList}\item 
+void \hyperlink{group___tau_labs_math_ga61bd7b4ee83de9d89b69dea4179edacc}{quat\-\_\-copy} (const float q\mbox{[}4\mbox{]}, float qnew\mbox{[}4\mbox{]})
+\begin{DoxyCompactList}\small\item\em \-Duplicate a quaternion. \end{DoxyCompactList}\item 
+void \hyperlink{group___tau_labs_math_ga0b537ea767fb853ee9d9797f389eaade}{quat\-\_\-mult} (const float q1\mbox{[}4\mbox{]}, const float q2\mbox{[}4\mbox{]}, float qout\mbox{[}4\mbox{]})
+\begin{DoxyCompactList}\small\item\em \-Multiply two quaternions into a third. \end{DoxyCompactList}\item 
+void \hyperlink{group___tau_labs_math_ga51d2a5ec28cbf272fe73aa5ea343a355}{rot\-\_\-mult} (float \-R\mbox{[}3\mbox{]}\mbox{[}3\mbox{]}, const float vec\mbox{[}3\mbox{]}, float vec\-\_\-out\mbox{[}3\mbox{]}, bool transpose)
+\begin{DoxyCompactList}\small\item\em \-Rotate a vector by a rotation matrix. \end{DoxyCompactList}\item 
+float \hyperlink{group___tau_labs_math_gae7fa5c4383337339fe17371cd78d7264}{bound\-\_\-min\-\_\-max} (float \hyperlink{group___p_i_o_s___t_i_m_ga757344f09097232d715d55cbf9d61a43}{val}, float min, float max)
+\begin{DoxyCompactList}\small\item\em \-Bound input value between min and max. \end{DoxyCompactList}\item 
+float \hyperlink{group___tau_labs_math_gab53f96ff60025bfea084300f2cec575e}{bound\-\_\-sym} (float \hyperlink{group___p_i_o_s___t_i_m_ga757344f09097232d715d55cbf9d61a43}{val}, float range)
+\item 
+float \hyperlink{group___tau_labs_math_gab7dbfea1a0ae1bd6758c2cb07b278ebf}{circular\-\_\-modulus\-\_\-deg} (float err)
+\begin{DoxyCompactList}\small\item\em \-Circular modulus. \end{DoxyCompactList}\item 
+float \hyperlink{group___tau_labs_math_gaba90e72f0f9a03ff25411ec53f5d492b}{circular\-\_\-modulus\-\_\-rad} (float err)
+\item 
+float \hyperlink{group___tau_labs_math_gad03a357c11d4b4f48d0b53508c134172}{pid\-\_\-apply} (struct \hyperlink{structpid}{pid} $\ast$\hyperlink{structpid}{pid}, const float err, float d\-T)
+\begin{DoxyCompactList}\small\item\em \-Methods to use the pid structures. \end{DoxyCompactList}\item 
+float \hyperlink{group___tau_labs_math_gaf54d5f129b61126e45090a00f76a5e5f}{pid\-\_\-apply\-\_\-antiwindup} (struct \hyperlink{structpid}{pid} $\ast$\hyperlink{structpid}{pid}, const float err, float min\-\_\-bound, float max\-\_\-bound, float d\-T)
+\item 
+float \hyperlink{group___tau_labs_math_ga45b7c7ad39b81a853b97decfeed5e7c1}{pid\-\_\-apply\-\_\-setpoint} (struct \hyperlink{structpid}{pid} $\ast$\hyperlink{structpid}{pid}, const float setpoint, const float measured, float d\-T)
+\item 
+void \hyperlink{group___tau_labs_math_ga2e2dbc48e2b186b32beebd99e18f79e9}{pid\-\_\-zero} (struct \hyperlink{structpid}{pid} $\ast$\hyperlink{structpid}{pid})
+\item 
+void \hyperlink{group___tau_labs_math_ga90a5d55ff766104f2cf9b4f2cc28d60f}{pid\-\_\-configure\-\_\-derivative} (float cutoff, float g)
+\begin{DoxyCompactList}\small\item\em \-Configure the common terms that alter ther derivative. \end{DoxyCompactList}\item 
+void \hyperlink{group___tau_labs_math_ga01f26a319e659b2b74a32a52a4a88f95}{pid\-\_\-configure} (struct \hyperlink{structpid}{pid} $\ast$\hyperlink{structpid}{pid}, float p, float i, float d, float i\-Lim)
+\item 
+int \hyperlink{group___tau_labs_math_gab64609ff84fffb0c000fc2662bd366c8}{sin\-\_\-lookup\-\_\-initialize} ()
+\item 
+float \hyperlink{group___tau_labs_math_ga13ede2c56ef26af3ff520fecfe431e93}{sin\-\_\-lookup\-\_\-deg} (float angle)
+\item 
+float \hyperlink{group___tau_labs_math_ga0a33b0bed5253ba4fe99f9e473d2fd53}{cos\-\_\-lookup\-\_\-deg} (float angle)
+\item 
+float \hyperlink{group___tau_labs_math_gab8fd4ab7486a98f459a2d33ef3f31e9e}{sin\-\_\-lookup\-\_\-rad} (float angle)
+\item 
+float \hyperlink{group___tau_labs_math_ga91a19e3f141f282bbdb792b2d4a69181}{cos\-\_\-lookup\-\_\-rad} (float angle)
+\end{DoxyCompactItemize}
+\subsection*{\-Variables}
+\begin{DoxyCompactItemize}
+\item 
+const float \hyperlink{group___tau_labs_math_ga70cc8b18ae100423fdb14030bc26eeb5}{sin\-\_\-table} \mbox{[}$\,$\mbox{]}
+\item 
+const int \hyperlink{group___tau_labs_math_gace095cad8be21b689623bd604ea20aaa}{\-S\-I\-N\-\_\-\-R\-E\-S\-O\-L\-U\-T\-I\-O\-N} = 180
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Function \-Documentation}
+\hypertarget{group___tau_labs_math_gae7fa5c4383337339fe17371cd78d7264}{\index{\-Tau Labs math support libraries@{\-Tau Labs math support libraries}!bound\-\_\-min\-\_\-max@{bound\-\_\-min\-\_\-max}}
+\index{bound\-\_\-min\-\_\-max@{bound\-\_\-min\-\_\-max}!Tau Labs math support libraries@{\-Tau Labs math support libraries}}
+\subsubsection[{bound\-\_\-min\-\_\-max}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf bound\-\_\-min\-\_\-max} (
+\begin{DoxyParamCaption}
+\item[{float}]{val, }
+\item[{float}]{min, }
+\item[{float}]{max}
+\end{DoxyParamCaption}
+)}}\label{group___tau_labs_math_gae7fa5c4383337339fe17371cd78d7264}
+
+
+\-Bound input value between min and max. 
+
+\-Bound input value between min and max 
+
+\-Definition at line 38 of file misc\-\_\-math.\-c.
+
+\hypertarget{group___tau_labs_math_gab53f96ff60025bfea084300f2cec575e}{\index{\-Tau Labs math support libraries@{\-Tau Labs math support libraries}!bound\-\_\-sym@{bound\-\_\-sym}}
+\index{bound\-\_\-sym@{bound\-\_\-sym}!Tau Labs math support libraries@{\-Tau Labs math support libraries}}
+\subsubsection[{bound\-\_\-sym}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf bound\-\_\-sym} (
+\begin{DoxyParamCaption}
+\item[{float}]{val, }
+\item[{float}]{range}
+\end{DoxyParamCaption}
+)}}\label{group___tau_labs_math_gab53f96ff60025bfea084300f2cec575e}
+\-Bound input value within range (plus or minus) 
+
+\-Definition at line 50 of file misc\-\_\-math.\-c.
+
+\hypertarget{group___tau_labs_math_gab7dbfea1a0ae1bd6758c2cb07b278ebf}{\index{\-Tau Labs math support libraries@{\-Tau Labs math support libraries}!circular\-\_\-modulus\-\_\-deg@{circular\-\_\-modulus\-\_\-deg}}
+\index{circular\-\_\-modulus\-\_\-deg@{circular\-\_\-modulus\-\_\-deg}!Tau Labs math support libraries@{\-Tau Labs math support libraries}}
+\subsubsection[{circular\-\_\-modulus\-\_\-deg}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf circular\-\_\-modulus\-\_\-deg} (
+\begin{DoxyParamCaption}
+\item[{float}]{err}
+\end{DoxyParamCaption}
+)}}\label{group___tau_labs_math_gab7dbfea1a0ae1bd6758c2cb07b278ebf}
+
+
+\-Circular modulus. 
+
+\-Circular modulus \mbox{[}degrees\mbox{]}. \-Compute the equivalent angle between \mbox{[}-\/180,180\mbox{]} for the input angle. \-This is useful taking the difference between two headings and working out the relative rotation to get there quickest. 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em err} & input value in degrees. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+\-The equivalent angle between -\/180 and 180 
+\end{DoxyReturn}
+
+
+\-Definition at line 62 of file misc\-\_\-math.\-c.
+
+\hypertarget{group___tau_labs_math_gaba90e72f0f9a03ff25411ec53f5d492b}{\index{\-Tau Labs math support libraries@{\-Tau Labs math support libraries}!circular\-\_\-modulus\-\_\-rad@{circular\-\_\-modulus\-\_\-rad}}
+\index{circular\-\_\-modulus\-\_\-rad@{circular\-\_\-modulus\-\_\-rad}!Tau Labs math support libraries@{\-Tau Labs math support libraries}}
+\subsubsection[{circular\-\_\-modulus\-\_\-rad}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf circular\-\_\-modulus\-\_\-rad} (
+\begin{DoxyParamCaption}
+\item[{float}]{err}
+\end{DoxyParamCaption}
+)}}\label{group___tau_labs_math_gaba90e72f0f9a03ff25411ec53f5d492b}
+\-Circular modulus \mbox{[}radians\mbox{]}. \-Compute the equivalent angle between \mbox{[}-\/pi,pi\mbox{]} for the input angle. \-This is useful taking the difference between two headings and working out the relative rotation to get there quickest. 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em err} & input value in radians. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+\-The equivalent angle between -\/pi and pi 
+\end{DoxyReturn}
+
+
+\-Definition at line 86 of file misc\-\_\-math.\-c.
+
+\hypertarget{group___tau_labs_math_ga0a33b0bed5253ba4fe99f9e473d2fd53}{\index{\-Tau Labs math support libraries@{\-Tau Labs math support libraries}!cos\-\_\-lookup\-\_\-deg@{cos\-\_\-lookup\-\_\-deg}}
+\index{cos\-\_\-lookup\-\_\-deg@{cos\-\_\-lookup\-\_\-deg}!Tau Labs math support libraries@{\-Tau Labs math support libraries}}
+\subsubsection[{cos\-\_\-lookup\-\_\-deg}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf cos\-\_\-lookup\-\_\-deg} (
+\begin{DoxyParamCaption}
+\item[{float}]{angle}
+\end{DoxyParamCaption}
+)}}\label{group___tau_labs_math_ga0a33b0bed5253ba4fe99f9e473d2fd53}
+\-Get cos(angle) using the sine lookup table 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em angle} & \-Angle in degrees \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+cos(angle) 
+\end{DoxyReturn}
+
+
+\-Definition at line 116 of file sin\-\_\-lookup.\-c.
+
+\hypertarget{group___tau_labs_math_ga91a19e3f141f282bbdb792b2d4a69181}{\index{\-Tau Labs math support libraries@{\-Tau Labs math support libraries}!cos\-\_\-lookup\-\_\-rad@{cos\-\_\-lookup\-\_\-rad}}
+\index{cos\-\_\-lookup\-\_\-rad@{cos\-\_\-lookup\-\_\-rad}!Tau Labs math support libraries@{\-Tau Labs math support libraries}}
+\subsubsection[{cos\-\_\-lookup\-\_\-rad}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf cos\-\_\-lookup\-\_\-rad} (
+\begin{DoxyParamCaption}
+\item[{float}]{angle}
+\end{DoxyParamCaption}
+)}}\label{group___tau_labs_math_ga91a19e3f141f282bbdb792b2d4a69181}
+\-Use the lookup table to return sine(angle) where angle is in radians 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em angle} & \-Angle in radians \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+cos(angle) 
+\end{DoxyReturn}
+
+
+\-Definition at line 137 of file sin\-\_\-lookup.\-c.
+
+\hypertarget{group___tau_labs_math_ga6dc0e97647b4b3a5689c46aa415fe0b8}{\index{\-Tau Labs math support libraries@{\-Tau Labs math support libraries}!\-Cross\-Product@{\-Cross\-Product}}
+\index{\-Cross\-Product@{\-Cross\-Product}!Tau Labs math support libraries@{\-Tau Labs math support libraries}}
+\subsubsection[{\-Cross\-Product}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-Cross\-Product} (
+\begin{DoxyParamCaption}
+\item[{const float}]{v1\mbox{[}3\mbox{]}, }
+\item[{const float}]{v2\mbox{[}3\mbox{]}, }
+\item[{float}]{result\mbox{[}3\mbox{]}}
+\end{DoxyParamCaption}
+)}}\label{group___tau_labs_math_ga6dc0e97647b4b3a5689c46aa415fe0b8}
+
+
+\-Definition at line 389 of file coordinate\-\_\-conversions.\-c.
+
+\hypertarget{group___tau_labs_math_ga3900fb782ab3f56ea2dad005610f2ffe}{\index{\-Tau Labs math support libraries@{\-Tau Labs math support libraries}!\-E\-C\-E\-F2\-Base@{\-E\-C\-E\-F2\-Base}}
+\index{\-E\-C\-E\-F2\-Base@{\-E\-C\-E\-F2\-Base}!Tau Labs math support libraries@{\-Tau Labs math support libraries}}
+\subsubsection[{\-E\-C\-E\-F2\-Base}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-E\-C\-E\-F2\-Base} (
+\begin{DoxyParamCaption}
+\item[{float}]{\-E\-C\-E\-F\mbox{[}3\mbox{]}, }
+\item[{float}]{\-Base\-E\-C\-E\-F\mbox{[}3\mbox{]}, }
+\item[{float}]{\-Rne\mbox{[}3\mbox{]}\mbox{[}3\mbox{]}, }
+\item[{float}]{\-N\-E\-D\mbox{[}3\mbox{]}}
+\end{DoxyParamCaption}
+)}}\label{group___tau_labs_math_ga3900fb782ab3f56ea2dad005610f2ffe}
+
+
+\-Definition at line 231 of file coordinate\-\_\-conversions.\-c.
+
+\hypertarget{group___tau_labs_math_gade2c2cec4a9e1098f5b8f3c4b5987552}{\index{\-Tau Labs math support libraries@{\-Tau Labs math support libraries}!\-E\-C\-E\-F2\-L\-L\-A@{\-E\-C\-E\-F2\-L\-L\-A}}
+\index{\-E\-C\-E\-F2\-L\-L\-A@{\-E\-C\-E\-F2\-L\-L\-A}!Tau Labs math support libraries@{\-Tau Labs math support libraries}}
+\subsubsection[{\-E\-C\-E\-F2\-L\-L\-A}]{\setlength{\rightskip}{0pt plus 5cm}uint16\-\_\-t {\bf \-E\-C\-E\-F2\-L\-L\-A} (
+\begin{DoxyParamCaption}
+\item[{float}]{\-E\-C\-E\-F\mbox{[}3\mbox{]}, }
+\item[{float}]{\-L\-L\-A\mbox{[}3\mbox{]}}
+\end{DoxyParamCaption}
+)}}\label{group___tau_labs_math_gade2c2cec4a9e1098f5b8f3c4b5987552}
+\-L\-L\-A parameter is used to prime the iteration. \-A position within 1 meter of the specified \-L\-L\-A will be calculated within at most 3 iterations. \-If unknown\-: \-Call with any valid \-L\-L\-A coordinate will compute within at most 5 iterations. \-Suggestion\-: \mbox{[}0,0,0\mbox{]}
+
+\-Definition at line 61 of file coordinate\-\_\-conversions.\-c.
+
+\hypertarget{group___tau_labs_math_ga33c35c48faebb53d4d2cd46b67aba8ff}{\index{\-Tau Labs math support libraries@{\-Tau Labs math support libraries}!\-Euler2\-R@{\-Euler2\-R}}
+\index{\-Euler2\-R@{\-Euler2\-R}!Tau Labs math support libraries@{\-Tau Labs math support libraries}}
+\subsubsection[{\-Euler2\-R}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-Euler2\-R} (
+\begin{DoxyParamCaption}
+\item[{float}]{rpy\mbox{[}3\mbox{]}, }
+\item[{float}]{\-Rbe\mbox{[}3\mbox{]}\mbox{[}3\mbox{]}}
+\end{DoxyParamCaption}
+)}}\label{group___tau_labs_math_ga33c35c48faebb53d4d2cd46b67aba8ff}
+
+
+\-Definition at line 195 of file coordinate\-\_\-conversions.\-c.
+
+\hypertarget{group___tau_labs_math_ga286e15f43ea9091854744369470fed6d}{\index{\-Tau Labs math support libraries@{\-Tau Labs math support libraries}!\-L\-L\-A2\-Base@{\-L\-L\-A2\-Base}}
+\index{\-L\-L\-A2\-Base@{\-L\-L\-A2\-Base}!Tau Labs math support libraries@{\-Tau Labs math support libraries}}
+\subsubsection[{\-L\-L\-A2\-Base}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-L\-L\-A2\-Base} (
+\begin{DoxyParamCaption}
+\item[{float}]{\-L\-L\-A\mbox{[}3\mbox{]}, }
+\item[{float}]{\-Base\-E\-C\-E\-F\mbox{[}3\mbox{]}, }
+\item[{float}]{\-Rne\mbox{[}3\mbox{]}\mbox{[}3\mbox{]}, }
+\item[{float}]{\-N\-E\-D\mbox{[}3\mbox{]}}
+\end{DoxyParamCaption}
+)}}\label{group___tau_labs_math_ga286e15f43ea9091854744369470fed6d}
+
+
+\-Definition at line 214 of file coordinate\-\_\-conversions.\-c.
+
+\hypertarget{group___tau_labs_math_ga362aa95352aa40af9d1d23ac12f83a49}{\index{\-Tau Labs math support libraries@{\-Tau Labs math support libraries}!\-L\-L\-A2\-E\-C\-E\-F@{\-L\-L\-A2\-E\-C\-E\-F}}
+\index{\-L\-L\-A2\-E\-C\-E\-F@{\-L\-L\-A2\-E\-C\-E\-F}!Tau Labs math support libraries@{\-Tau Labs math support libraries}}
+\subsubsection[{\-L\-L\-A2\-E\-C\-E\-F}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-L\-L\-A2\-E\-C\-E\-F} (
+\begin{DoxyParamCaption}
+\item[{float}]{\-L\-L\-A\mbox{[}3\mbox{]}, }
+\item[{float}]{\-E\-C\-E\-F\mbox{[}3\mbox{]}}
+\end{DoxyParamCaption}
+)}}\label{group___tau_labs_math_ga362aa95352aa40af9d1d23ac12f83a49}
+
+
+\-Definition at line 41 of file coordinate\-\_\-conversions.\-c.
+
+\hypertarget{group___tau_labs_math_gad03a357c11d4b4f48d0b53508c134172}{\index{\-Tau Labs math support libraries@{\-Tau Labs math support libraries}!pid\-\_\-apply@{pid\-\_\-apply}}
+\index{pid\-\_\-apply@{pid\-\_\-apply}!Tau Labs math support libraries@{\-Tau Labs math support libraries}}
+\subsubsection[{pid\-\_\-apply}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf pid\-\_\-apply} (
+\begin{DoxyParamCaption}
+\item[{struct {\bf pid} $\ast$}]{pid, }
+\item[{const float}]{err, }
+\item[{float}]{d\-T}
+\end{DoxyParamCaption}
+)}}\label{group___tau_labs_math_gad03a357c11d4b4f48d0b53508c134172}
+
+
+\-Methods to use the pid structures. 
+
+\-Update the \-P\-I\-D computation 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em pid} & \-The \-P\-I\-D struture which stores temporary information \\
+\hline
+\mbox{\tt in}  & {\em err} & \-The error term \\
+\hline
+\mbox{\tt in}  & {\em d\-T} & \-The time step \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+\-Output the computed controller value 
+\end{DoxyReturn}
+
+
+\-Definition at line 50 of file pid.\-c.
+
+\hypertarget{group___tau_labs_math_gaf54d5f129b61126e45090a00f76a5e5f}{\index{\-Tau Labs math support libraries@{\-Tau Labs math support libraries}!pid\-\_\-apply\-\_\-antiwindup@{pid\-\_\-apply\-\_\-antiwindup}}
+\index{pid\-\_\-apply\-\_\-antiwindup@{pid\-\_\-apply\-\_\-antiwindup}!Tau Labs math support libraries@{\-Tau Labs math support libraries}}
+\subsubsection[{pid\-\_\-apply\-\_\-antiwindup}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf pid\-\_\-apply\-\_\-antiwindup} (
+\begin{DoxyParamCaption}
+\item[{struct {\bf pid} $\ast$}]{pid, }
+\item[{const float}]{err, }
+\item[{float}]{min\-\_\-bound, }
+\item[{float}]{max\-\_\-bound, }
+\item[{float}]{d\-T}
+\end{DoxyParamCaption}
+)}}\label{group___tau_labs_math_gaf54d5f129b61126e45090a00f76a5e5f}
+\-Update the \-P\-I\-D computation and apply anti windup limit 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em pid} & \-The \-P\-I\-D struture which stores temporary information \\
+\hline
+\mbox{\tt in}  & {\em err} & \-The error term \\
+\hline
+\mbox{\tt in}  & {\em min\-\_\-bound} & \-The minimum output \\
+\hline
+\mbox{\tt in}  & {\em max\-\_\-bound} & \-The maximum output \\
+\hline
+\mbox{\tt in}  & {\em d\-T} & \-The time step \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+\-Output the computed controller value
+\end{DoxyReturn}
+based on \char`\"{}\-Feedback Systems\char`\"{} by \-Astrom and \-Murray, \-P\-I\-D control chapter. 
+
+\-Definition at line 86 of file pid.\-c.
+
+\hypertarget{group___tau_labs_math_ga45b7c7ad39b81a853b97decfeed5e7c1}{\index{\-Tau Labs math support libraries@{\-Tau Labs math support libraries}!pid\-\_\-apply\-\_\-setpoint@{pid\-\_\-apply\-\_\-setpoint}}
+\index{pid\-\_\-apply\-\_\-setpoint@{pid\-\_\-apply\-\_\-setpoint}!Tau Labs math support libraries@{\-Tau Labs math support libraries}}
+\subsubsection[{pid\-\_\-apply\-\_\-setpoint}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf pid\-\_\-apply\-\_\-setpoint} (
+\begin{DoxyParamCaption}
+\item[{struct {\bf pid} $\ast$}]{pid, }
+\item[{const float}]{setpoint, }
+\item[{const float}]{measured, }
+\item[{float}]{d\-T}
+\end{DoxyParamCaption}
+)}}\label{group___tau_labs_math_ga45b7c7ad39b81a853b97decfeed5e7c1}
+\-Update the \-P\-I\-D computation with setpoint weighting on the derivative 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em pid} & \-The \-P\-I\-D struture which stores temporary information \\
+\hline
+\mbox{\tt in}  & {\em setpoint} & \-The setpoint to use \\
+\hline
+\mbox{\tt in}  & {\em measured} & \-The measured value of output \\
+\hline
+\mbox{\tt in}  & {\em d\-T} & \-The time step \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+\-Output the computed controller value
+\end{DoxyReturn}
+\-This version of apply uses setpoint weighting for the derivative component so the gain on the gyro derivative can be different than the gain on the setpoint derivative 
+
+\-Definition at line 135 of file pid.\-c.
+
+\hypertarget{group___tau_labs_math_ga01f26a319e659b2b74a32a52a4a88f95}{\index{\-Tau Labs math support libraries@{\-Tau Labs math support libraries}!pid\-\_\-configure@{pid\-\_\-configure}}
+\index{pid\-\_\-configure@{pid\-\_\-configure}!Tau Labs math support libraries@{\-Tau Labs math support libraries}}
+\subsubsection[{pid\-\_\-configure}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf pid\-\_\-configure} (
+\begin{DoxyParamCaption}
+\item[{struct {\bf pid} $\ast$}]{pid, }
+\item[{float}]{p, }
+\item[{float}]{i, }
+\item[{float}]{d, }
+\item[{float}]{i\-Lim}
+\end{DoxyParamCaption}
+)}}\label{group___tau_labs_math_ga01f26a319e659b2b74a32a52a4a88f95}
+\-Configure the settings for a pid structure 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt out}  & {\em pid} & \-The \-P\-I\-D structure to configure \\
+\hline
+\mbox{\tt in}  & {\em p} & \-The proportional term \\
+\hline
+\mbox{\tt in}  & {\em i} & \-The integral term \\
+\hline
+\mbox{\tt in}  & {\em d} & \-The derivative term \\
+\hline
+\end{DoxyParams}
+
+
+\-Definition at line 193 of file pid.\-c.
+
+\hypertarget{group___tau_labs_math_ga90a5d55ff766104f2cf9b4f2cc28d60f}{\index{\-Tau Labs math support libraries@{\-Tau Labs math support libraries}!pid\-\_\-configure\-\_\-derivative@{pid\-\_\-configure\-\_\-derivative}}
+\index{pid\-\_\-configure\-\_\-derivative@{pid\-\_\-configure\-\_\-derivative}!Tau Labs math support libraries@{\-Tau Labs math support libraries}}
+\subsubsection[{pid\-\_\-configure\-\_\-derivative}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf pid\-\_\-configure\-\_\-derivative} (
+\begin{DoxyParamCaption}
+\item[{float}]{cutoff, }
+\item[{float}]{g}
+\end{DoxyParamCaption}
+)}}\label{group___tau_labs_math_ga90a5d55ff766104f2cf9b4f2cc28d60f}
+
+
+\-Configure the common terms that alter ther derivative. 
+
+
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em cutoff} & \-The cutoff frequency (in \-Hz) \\
+\hline
+\mbox{\tt in}  & {\em gamma} & \-The gamma term for setpoint shaping (unsused now) \\
+\hline
+\end{DoxyParams}
+
+
+\-Definition at line 180 of file pid.\-c.
+
+\hypertarget{group___tau_labs_math_ga2e2dbc48e2b186b32beebd99e18f79e9}{\index{\-Tau Labs math support libraries@{\-Tau Labs math support libraries}!pid\-\_\-zero@{pid\-\_\-zero}}
+\index{pid\-\_\-zero@{pid\-\_\-zero}!Tau Labs math support libraries@{\-Tau Labs math support libraries}}
+\subsubsection[{pid\-\_\-zero}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf pid\-\_\-zero} (
+\begin{DoxyParamCaption}
+\item[{struct {\bf pid} $\ast$}]{pid}
+\end{DoxyParamCaption}
+)}}\label{group___tau_labs_math_ga2e2dbc48e2b186b32beebd99e18f79e9}
+\-Reset a bit 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em pid} & \-The pid to reset \\
+\hline
+\end{DoxyParams}
+
+
+\-Definition at line 165 of file pid.\-c.
+
+\hypertarget{group___tau_labs_math_ga61bd7b4ee83de9d89b69dea4179edacc}{\index{\-Tau Labs math support libraries@{\-Tau Labs math support libraries}!quat\-\_\-copy@{quat\-\_\-copy}}
+\index{quat\-\_\-copy@{quat\-\_\-copy}!Tau Labs math support libraries@{\-Tau Labs math support libraries}}
+\subsubsection[{quat\-\_\-copy}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf quat\-\_\-copy} (
+\begin{DoxyParamCaption}
+\item[{const float}]{q\mbox{[}4\mbox{]}, }
+\item[{float}]{qnew\mbox{[}4\mbox{]}}
+\end{DoxyParamCaption}
+)}}\label{group___tau_labs_math_ga61bd7b4ee83de9d89b69dea4179edacc}
+
+
+\-Duplicate a quaternion. 
+
+
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em q} & quaternion in \\
+\hline
+\mbox{\tt out}  & {\em qnew} & quaternion to copy to \\
+\hline
+\end{DoxyParams}
+
+
+\-Definition at line 418 of file coordinate\-\_\-conversions.\-c.
+
+\hypertarget{group___tau_labs_math_gab25d503661ed9e31c9616b13c72d1ccd}{\index{\-Tau Labs math support libraries@{\-Tau Labs math support libraries}!quat\-\_\-inverse@{quat\-\_\-inverse}}
+\index{quat\-\_\-inverse@{quat\-\_\-inverse}!Tau Labs math support libraries@{\-Tau Labs math support libraries}}
+\subsubsection[{quat\-\_\-inverse}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf quat\-\_\-inverse} (
+\begin{DoxyParamCaption}
+\item[{float}]{q\mbox{[}4\mbox{]}}
+\end{DoxyParamCaption}
+)}}\label{group___tau_labs_math_gab25d503661ed9e31c9616b13c72d1ccd}
+
+
+\-Compute the inverse of a quaternion. 
+
+
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em out\mbox{]}} & q \-The matrix to invert \\
+\hline
+\end{DoxyParams}
+
+
+\-Definition at line 406 of file coordinate\-\_\-conversions.\-c.
+
+\hypertarget{group___tau_labs_math_ga0b537ea767fb853ee9d9797f389eaade}{\index{\-Tau Labs math support libraries@{\-Tau Labs math support libraries}!quat\-\_\-mult@{quat\-\_\-mult}}
+\index{quat\-\_\-mult@{quat\-\_\-mult}!Tau Labs math support libraries@{\-Tau Labs math support libraries}}
+\subsubsection[{quat\-\_\-mult}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf quat\-\_\-mult} (
+\begin{DoxyParamCaption}
+\item[{const float}]{q1\mbox{[}4\mbox{]}, }
+\item[{const float}]{q2\mbox{[}4\mbox{]}, }
+\item[{float}]{qout\mbox{[}4\mbox{]}}
+\end{DoxyParamCaption}
+)}}\label{group___tau_labs_math_ga0b537ea767fb853ee9d9797f389eaade}
+
+
+\-Multiply two quaternions into a third. 
+
+
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em q1} & \-First quaternion \\
+\hline
+\mbox{\tt in}  & {\em q2} & \-Second quaternion \\
+\hline
+\mbox{\tt out}  & {\em qout} & \-Output quaternion \\
+\hline
+\end{DoxyParams}
+
+
+\-Definition at line 432 of file coordinate\-\_\-conversions.\-c.
+
+\hypertarget{group___tau_labs_math_gaccaead20abfe7057c1a086b5426865df}{\index{\-Tau Labs math support libraries@{\-Tau Labs math support libraries}!\-Quaternion2\-R@{\-Quaternion2\-R}}
+\index{\-Quaternion2\-R@{\-Quaternion2\-R}!Tau Labs math support libraries@{\-Tau Labs math support libraries}}
+\subsubsection[{\-Quaternion2\-R}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-Quaternion2\-R} (
+\begin{DoxyParamCaption}
+\item[{float}]{q\mbox{[}4\mbox{]}, }
+\item[{float}]{\-Rbe\mbox{[}3\mbox{]}\mbox{[}3\mbox{]}}
+\end{DoxyParamCaption}
+)}}\label{group___tau_labs_math_gaccaead20abfe7057c1a086b5426865df}
+
+
+\-Definition at line 177 of file coordinate\-\_\-conversions.\-c.
+
+\hypertarget{group___tau_labs_math_ga0e4bc4f44a08a2e317db0bde882909cc}{\index{\-Tau Labs math support libraries@{\-Tau Labs math support libraries}!\-Quaternion2\-R\-P\-Y@{\-Quaternion2\-R\-P\-Y}}
+\index{\-Quaternion2\-R\-P\-Y@{\-Quaternion2\-R\-P\-Y}!Tau Labs math support libraries@{\-Tau Labs math support libraries}}
+\subsubsection[{\-Quaternion2\-R\-P\-Y}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-Quaternion2\-R\-P\-Y} (
+\begin{DoxyParamCaption}
+\item[{const float}]{q\mbox{[}4\mbox{]}, }
+\item[{float}]{rpy\mbox{[}3\mbox{]}}
+\end{DoxyParamCaption}
+)}}\label{group___tau_labs_math_ga0e4bc4f44a08a2e317db0bde882909cc}
+
+
+\-Definition at line 126 of file coordinate\-\_\-conversions.\-c.
+
+\hypertarget{group___tau_labs_math_gad6008216daaf402435c742d0290f9a30}{\index{\-Tau Labs math support libraries@{\-Tau Labs math support libraries}!\-R2\-Quaternion@{\-R2\-Quaternion}}
+\index{\-R2\-Quaternion@{\-R2\-Quaternion}!Tau Labs math support libraries@{\-Tau Labs math support libraries}}
+\subsubsection[{\-R2\-Quaternion}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-R2\-Quaternion} (
+\begin{DoxyParamCaption}
+\item[{float}]{\-R\mbox{[}3\mbox{]}\mbox{[}3\mbox{]}, }
+\item[{float}]{q\mbox{[}4\mbox{]}}
+\end{DoxyParamCaption}
+)}}\label{group___tau_labs_math_gad6008216daaf402435c742d0290f9a30}
+
+
+\-Definition at line 246 of file coordinate\-\_\-conversions.\-c.
+
+\hypertarget{group___tau_labs_math_ga682c71aaf24cb8f77a2452e027daaff2}{\index{\-Tau Labs math support libraries@{\-Tau Labs math support libraries}!\-Rne\-From\-L\-L\-A@{\-Rne\-From\-L\-L\-A}}
+\index{\-Rne\-From\-L\-L\-A@{\-Rne\-From\-L\-L\-A}!Tau Labs math support libraries@{\-Tau Labs math support libraries}}
+\subsubsection[{\-Rne\-From\-L\-L\-A}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-Rne\-From\-L\-L\-A} (
+\begin{DoxyParamCaption}
+\item[{float}]{\-L\-L\-A\mbox{[}3\mbox{]}, }
+\item[{float}]{\-Rne\mbox{[}3\mbox{]}\mbox{[}3\mbox{]}}
+\end{DoxyParamCaption}
+)}}\label{group___tau_labs_math_ga682c71aaf24cb8f77a2452e027daaff2}
+
+
+\-Definition at line 105 of file coordinate\-\_\-conversions.\-c.
+
+\hypertarget{group___tau_labs_math_ga51d2a5ec28cbf272fe73aa5ea343a355}{\index{\-Tau Labs math support libraries@{\-Tau Labs math support libraries}!rot\-\_\-mult@{rot\-\_\-mult}}
+\index{rot\-\_\-mult@{rot\-\_\-mult}!Tau Labs math support libraries@{\-Tau Labs math support libraries}}
+\subsubsection[{rot\-\_\-mult}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf rot\-\_\-mult} (
+\begin{DoxyParamCaption}
+\item[{float}]{\-R\mbox{[}3\mbox{]}\mbox{[}3\mbox{]}, }
+\item[{const float}]{vec\mbox{[}3\mbox{]}, }
+\item[{float}]{vec\-\_\-out\mbox{[}3\mbox{]}, }
+\item[{bool}]{transpose}
+\end{DoxyParamCaption}
+)}}\label{group___tau_labs_math_ga51d2a5ec28cbf272fe73aa5ea343a355}
+
+
+\-Rotate a vector by a rotation matrix. 
+
+
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em \-R} & a three by three rotation matrix (first index is row) \\
+\hline
+\mbox{\tt in}  & {\em vec} & the source vector \\
+\hline
+\mbox{\tt in}  & {\em transpose} & \-If false use \-R, else if true use \-R' \\
+\hline
+\mbox{\tt out}  & {\em vec\-\_\-out} & the output vector \\
+\hline
+\end{DoxyParams}
+
+
+\-Definition at line 447 of file coordinate\-\_\-conversions.\-c.
+
+\hypertarget{group___tau_labs_math_ga0848733f9025a839c84f7e7b71d87c63}{\index{\-Tau Labs math support libraries@{\-Tau Labs math support libraries}!\-Rot\-From2\-Vectors@{\-Rot\-From2\-Vectors}}
+\index{\-Rot\-From2\-Vectors@{\-Rot\-From2\-Vectors}!Tau Labs math support libraries@{\-Tau Labs math support libraries}}
+\subsubsection[{\-Rot\-From2\-Vectors}]{\setlength{\rightskip}{0pt plus 5cm}uint8\-\_\-t {\bf \-Rot\-From2\-Vectors} (
+\begin{DoxyParamCaption}
+\item[{const float}]{v1b\mbox{[}3\mbox{]}, }
+\item[{const float}]{v1e\mbox{[}3\mbox{]}, }
+\item[{const float}]{v2b\mbox{[}3\mbox{]}, }
+\item[{const float}]{v2e\mbox{[}3\mbox{]}, }
+\item[{float}]{\-Rbe\mbox{[}3\mbox{]}\mbox{[}3\mbox{]}}
+\end{DoxyParamCaption}
+)}}\label{group___tau_labs_math_ga0848733f9025a839c84f7e7b71d87c63}
+
+
+\-Definition at line 304 of file coordinate\-\_\-conversions.\-c.
+
+\hypertarget{group___tau_labs_math_ga81a64437be6edb2654bfebcc14321964}{\index{\-Tau Labs math support libraries@{\-Tau Labs math support libraries}!\-R\-P\-Y2\-Quaternion@{\-R\-P\-Y2\-Quaternion}}
+\index{\-R\-P\-Y2\-Quaternion@{\-R\-P\-Y2\-Quaternion}!Tau Labs math support libraries@{\-Tau Labs math support libraries}}
+\subsubsection[{\-R\-P\-Y2\-Quaternion}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-R\-P\-Y2\-Quaternion} (
+\begin{DoxyParamCaption}
+\item[{const float}]{rpy\mbox{[}3\mbox{]}, }
+\item[{float}]{q\mbox{[}4\mbox{]}}
+\end{DoxyParamCaption}
+)}}\label{group___tau_labs_math_ga81a64437be6edb2654bfebcc14321964}
+
+
+\-Definition at line 148 of file coordinate\-\_\-conversions.\-c.
+
+\hypertarget{group___tau_labs_math_ga43ed3db7237f03a6488c8dd7b987b1bd}{\index{\-Tau Labs math support libraries@{\-Tau Labs math support libraries}!\-Rv2\-Rot@{\-Rv2\-Rot}}
+\index{\-Rv2\-Rot@{\-Rv2\-Rot}!Tau Labs math support libraries@{\-Tau Labs math support libraries}}
+\subsubsection[{\-Rv2\-Rot}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-Rv2\-Rot} (
+\begin{DoxyParamCaption}
+\item[{float}]{\-Rv\mbox{[}3\mbox{]}, }
+\item[{float}]{\-R\mbox{[}3\mbox{]}\mbox{[}3\mbox{]}}
+\end{DoxyParamCaption}
+)}}\label{group___tau_labs_math_ga43ed3db7237f03a6488c8dd7b987b1bd}
+
+
+\-Definition at line 360 of file coordinate\-\_\-conversions.\-c.
+
+\hypertarget{group___tau_labs_math_ga13ede2c56ef26af3ff520fecfe431e93}{\index{\-Tau Labs math support libraries@{\-Tau Labs math support libraries}!sin\-\_\-lookup\-\_\-deg@{sin\-\_\-lookup\-\_\-deg}}
+\index{sin\-\_\-lookup\-\_\-deg@{sin\-\_\-lookup\-\_\-deg}!Tau Labs math support libraries@{\-Tau Labs math support libraries}}
+\subsubsection[{sin\-\_\-lookup\-\_\-deg}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf sin\-\_\-lookup\-\_\-deg} (
+\begin{DoxyParamCaption}
+\item[{float}]{angle}
+\end{DoxyParamCaption}
+)}}\label{group___tau_labs_math_ga13ede2c56ef26af3ff520fecfe431e93}
+\-Use the lookup table to return sine(angle) where angle is in degrees 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em angle} & \-Angle in degrees \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+sin(angle) 
+\end{DoxyReturn}
+
+
+\-Definition at line 97 of file sin\-\_\-lookup.\-c.
+
+\hypertarget{group___tau_labs_math_gab64609ff84fffb0c000fc2662bd366c8}{\index{\-Tau Labs math support libraries@{\-Tau Labs math support libraries}!sin\-\_\-lookup\-\_\-initialize@{sin\-\_\-lookup\-\_\-initialize}}
+\index{sin\-\_\-lookup\-\_\-initialize@{sin\-\_\-lookup\-\_\-initialize}!Tau Labs math support libraries@{\-Tau Labs math support libraries}}
+\subsubsection[{sin\-\_\-lookup\-\_\-initialize}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf sin\-\_\-lookup\-\_\-initialize} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___tau_labs_math_gab64609ff84fffb0c000fc2662bd366c8}
+
+
+\-Definition at line 63 of file sin\-\_\-lookup.\-c.
+
+\hypertarget{group___tau_labs_math_gab8fd4ab7486a98f459a2d33ef3f31e9e}{\index{\-Tau Labs math support libraries@{\-Tau Labs math support libraries}!sin\-\_\-lookup\-\_\-rad@{sin\-\_\-lookup\-\_\-rad}}
+\index{sin\-\_\-lookup\-\_\-rad@{sin\-\_\-lookup\-\_\-rad}!Tau Labs math support libraries@{\-Tau Labs math support libraries}}
+\subsubsection[{sin\-\_\-lookup\-\_\-rad}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf sin\-\_\-lookup\-\_\-rad} (
+\begin{DoxyParamCaption}
+\item[{float}]{angle}
+\end{DoxyParamCaption}
+)}}\label{group___tau_labs_math_gab8fd4ab7486a98f459a2d33ef3f31e9e}
+\-Use the lookup table to return sine(angle) where angle is in radians 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em angle} & \-Angle in radians \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+sin(angle) 
+\end{DoxyReturn}
+
+
+\-Definition at line 126 of file sin\-\_\-lookup.\-c.
+
+\hypertarget{group___tau_labs_math_gaf5edfeac1bff286891d26b8c7fcc9958}{\index{\-Tau Labs math support libraries@{\-Tau Labs math support libraries}!\-Vector\-Magnitude@{\-Vector\-Magnitude}}
+\index{\-Vector\-Magnitude@{\-Vector\-Magnitude}!Tau Labs math support libraries@{\-Tau Labs math support libraries}}
+\subsubsection[{\-Vector\-Magnitude}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf \-Vector\-Magnitude} (
+\begin{DoxyParamCaption}
+\item[{const float}]{v\mbox{[}3\mbox{]}}
+\end{DoxyParamCaption}
+)}}\label{group___tau_labs_math_gaf5edfeac1bff286891d26b8c7fcc9958}
+
+
+\-Definition at line 397 of file coordinate\-\_\-conversions.\-c.
+
+
+
+\subsection{\-Variable \-Documentation}
+\hypertarget{group___tau_labs_math_gace095cad8be21b689623bd604ea20aaa}{\index{\-Tau Labs math support libraries@{\-Tau Labs math support libraries}!\-S\-I\-N\-\_\-\-R\-E\-S\-O\-L\-U\-T\-I\-O\-N@{\-S\-I\-N\-\_\-\-R\-E\-S\-O\-L\-U\-T\-I\-O\-N}}
+\index{\-S\-I\-N\-\_\-\-R\-E\-S\-O\-L\-U\-T\-I\-O\-N@{\-S\-I\-N\-\_\-\-R\-E\-S\-O\-L\-U\-T\-I\-O\-N}!Tau Labs math support libraries@{\-Tau Labs math support libraries}}
+\subsubsection[{\-S\-I\-N\-\_\-\-R\-E\-S\-O\-L\-U\-T\-I\-O\-N}]{\setlength{\rightskip}{0pt plus 5cm}const int {\bf \-S\-I\-N\-\_\-\-R\-E\-S\-O\-L\-U\-T\-I\-O\-N} = 180}}\label{group___tau_labs_math_gace095cad8be21b689623bd604ea20aaa}
+\-Version of the code which allocates the lookup table in heap 
+
+\-Definition at line 71 of file sin\-\_\-lookup.\-c.
+
+\hypertarget{group___tau_labs_math_ga70cc8b18ae100423fdb14030bc26eeb5}{\index{\-Tau Labs math support libraries@{\-Tau Labs math support libraries}!sin\-\_\-table@{sin\-\_\-table}}
+\index{sin\-\_\-table@{sin\-\_\-table}!Tau Labs math support libraries@{\-Tau Labs math support libraries}}
+\subsubsection[{sin\-\_\-table}]{\setlength{\rightskip}{0pt plus 5cm}static float $\ast$ {\bf sin\-\_\-table}}}\label{group___tau_labs_math_ga70cc8b18ae100423fdb14030bc26eeb5}
+{\bfseries \-Initial value\-:}
+\begin{DoxyCode}
+ {
+        0.000000f,0.017452f,0.034899f,0.052336f,0.069756f,0.087156f,0.104528f,0
+      .121869f,0.139173f,0.156434f,
+        0.173648f,0.190809f,0.207912f,0.224951f,0.241922f,0.258819f,0.275637f,0
+      .292372f,0.309017f,0.325568f,
+        0.342020f,0.358368f,0.374607f,0.390731f,0.406737f,0.422618f,0.438371f,0
+      .453990f,0.469472f,0.484810f,
+        0.500000f,0.515038f,0.529919f,0.544639f,0.559193f,0.573576f,0.587785f,0
+      .601815f,0.615661f,0.629320f,
+        0.642788f,0.656059f,0.669131f,0.681998f,0.694658f,0.707107f,0.719340f,0
+      .731354f,0.743145f,0.754710f,
+        0.766044f,0.777146f,0.788011f,0.798636f,0.809017f,0.819152f,0.829038f,0
+      .838671f,0.848048f,0.857167f,
+        0.866025f,0.874620f,0.882948f,0.891007f,0.898794f,0.906308f,0.913545f,0
+      .920505f,0.927184f,0.933580f,
+        0.939693f,0.945519f,0.951057f,0.956305f,0.961262f,0.965926f,0.970296f,0
+      .974370f,0.978148f,0.981627f,
+        0.984808f,0.987688f,0.990268f,0.992546f,0.994522f,0.996195f,0.997564f,0
+      .998630f,0.999391f,0.999848f,
+        1.000000f,0.999848f,0.999391f,0.998630f,0.997564f,0.996195f,0.994522f,0
+      .992546f,0.990268f,0.987688f,
+        0.984808f,0.981627f,0.978148f,0.974370f,0.970296f,0.965926f,0.961262f,0
+      .956305f,0.951057f,0.945519f,
+        0.939693f,0.933580f,0.927184f,0.920505f,0.913545f,0.906308f,0.898794f,0
+      .891007f,0.882948f,0.874620f,
+        0.866025f,0.857167f,0.848048f,0.838671f,0.829038f,0.819152f,0.809017f,0
+      .798636f,0.788011f,0.777146f,
+        0.766044f,0.754710f,0.743145f,0.731354f,0.719340f,0.707107f,0.694658f,0
+      .681998f,0.669131f,0.656059f,
+        0.642788f,0.629320f,0.615661f,0.601815f,0.587785f,0.573576f,0.559193f,0
+      .544639f,0.529919f,0.515038f,
+        0.500000f,0.484810f,0.469472f,0.453990f,0.438371f,0.422618f,0.406737f,0
+      .390731f,0.374607f,0.358368f,
+        0.342020f,0.325568f,0.309017f,0.292372f,0.275637f,0.258819f,0.241922f,0
+      .224951f,0.207912f,0.190809f,
+        0.173648f,0.156434f,0.139173f,0.121869f,0.104528f,0.087156f,0.069756f,0
+      .052336f,0.034899f,0.017452f
+ }
+\end{DoxyCode}
+\-Version of the code which precomputes the lookup table in flash 
+
+\-Definition at line 42 of file sin\-\_\-lookup.\-c.
+

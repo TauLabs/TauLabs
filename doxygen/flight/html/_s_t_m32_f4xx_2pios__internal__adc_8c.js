@@ -1,0 +1,26 @@
+var _s_t_m32_f4xx_2pios__internal__adc_8c =
+[
+    [ "pios_adc_dev_magic", "group___p_i_o_s___a_d_c.html#gad4639b786d45b213ac842a0c4cf3e78d", null ],
+    [ "accumulate", "group___p_i_o_s___a_d_c.html#ga7cf4581a50ff57300061ea450f87a007", null ],
+    [ "init_adc", "group___p_i_o_s___a_d_c.html#ga58741f53e3e22ec8db7e66ded93d3b79", null ],
+    [ "init_dma", "group___p_i_o_s___a_d_c.html#ga28e51cbdfc72a78f22af56e7efe44236", null ],
+    [ "init_pins", "group___p_i_o_s___a_d_c.html#ga6fc5dbbd00e3c459e259ba3cc1467779", null ],
+    [ "PIOS_ADC_Config", "group___p_i_o_s___a_d_c.html#ga0edf09afa78da740bb49069ee8221b5c", null ],
+    [ "PIOS_ADC_GetBuffer", "group___p_i_o_s___a_d_c.html#ga3684039dd2c7b58018d93552371651d3", null ],
+    [ "PIOS_ADC_GetOverSampling", "group___p_i_o_s___a_d_c.html#gaa343a6f620ddd80259e92ff0595cf977", null ],
+    [ "PIOS_ADC_GetRawBuffer", "group___p_i_o_s___a_d_c.html#gaa72293956e8aaea48593f2d80ae9d9d2", null ],
+    [ "PIOS_ADC_SetCallback", "group___p_i_o_s___a_d_c.html#gaba0959952db7ff67364a28ea801c41ec", null ],
+    [ "PIOS_ADC_SetFIRCoefficients", "group___p_i_o_s___a_d_c.html#gab2bb95efd8a061a377ae0d8cd60ca1ed", null ],
+    [ "PIOS_INTERNAL_ADC_Allocate", "group___p_i_o_s___a_d_c.html#ga11cc028c72120f492bc574aeffd24283", null ],
+    [ "PIOS_INTERNAL_ADC_Available", "group___p_i_o_s___a_d_c.html#ga793297995f2226dfcaa76cd044fea6f7", null ],
+    [ "PIOS_INTERNAL_ADC_DMA_Handler", "group___p_i_o_s___a_d_c.html#ga90fc0a6fd10259ceca76e89e41ab744a", null ],
+    [ "PIOS_INTERNAL_ADC_Init", "group___p_i_o_s___a_d_c.html#ga24dec792533e0f27e35c3ea6d1bbd9e1", null ],
+    [ "PIOS_INTERNAL_ADC_Number_of_Channels", "group___p_i_o_s___a_d_c.html#gabb666c2c478146fd8bfa09c7ce31e7a4", null ],
+    [ "PIOS_INTERNAL_ADC_PinGet", "group___p_i_o_s___a_d_c.html#ga5f3375356e99e5bc818cbd020a6f424a", null ],
+    [ "PIOS_INTERNAL_ADC_validate", "group___p_i_o_s___a_d_c.html#gadd37ea8f811262d1a8a8e25aa263a91f", null ],
+    [ "accumulator", "group___p_i_o_s___a_d_c.html#gad400816c9bf818d3d396019a2811b6aa", null ],
+    [ "adc_raw_buffer", "group___p_i_o_s___a_d_c.html#ga44963920f3e47d32ff3023fe43d9dae8", null ],
+    [ "config", "group___p_i_o_s___a_d_c.html#gade626419d73592dfb57f2d68359888ff", null ],
+    [ "pios_adc_dev", "group___p_i_o_s___a_d_c.html#ga50791bcf1ed8302b9da726f449ba7f1b", null ],
+    [ "pios_internal_adc_driver", "group___p_i_o_s___a_d_c.html#gaa1decc30319efc11cab3d3e9ba32ff8e", null ]
+];

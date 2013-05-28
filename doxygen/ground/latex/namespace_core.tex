@@ -1,0 +1,148 @@
+\hypertarget{namespace_core}{\section{\-Core \-Namespace \-Reference}
+\label{namespace_core}\index{\-Core@{\-Core}}
+}
+
+
+\-The \hyperlink{namespace_core}{\-Core} namespace contains all classes that make up the \hyperlink{namespace_core}{\-Core} plugin which constitute the basic functionality of the \-Tau \-Labs \-G\-C\-S.  
+
+
+\subsection*{\-Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+namespace \hyperlink{namespace_core_1_1_constants}{\-Constants}
+\item 
+namespace \hyperlink{namespace_core_1_1_internal}{\-Internal}
+\end{DoxyCompactItemize}
+\subsection*{\-Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{class_core_1_1_action_container}{\-Action\-Container}
+\item 
+class \hyperlink{class_core_1_1_action_manager}{\-Action\-Manager}
+\begin{DoxyCompactList}\small\item\em \-The action manager is responsible for registration of menus and menu items and keyboard shortcuts. \end{DoxyCompactList}\item 
+class \hyperlink{class_core_1_1_command}{\-Command}
+\begin{DoxyCompactList}\small\item\em \-The class \hyperlink{class_core_1_1_command}{\-Command} represents an action like a menu item, tool button, or shortcut. \-You don't create \hyperlink{class_core_1_1_command}{\-Command} objects directly, instead use \{\hyperlink{group___core_plugin_ga316dd0cff29b294cd1b0631677f6357d}{\-Action\-Manager\-::register\-Action()}\} to register an action and retrieve a \hyperlink{class_core_1_1_command}{\-Command}. \-The \hyperlink{class_core_1_1_command}{\-Command} object represents the user visible action and its properties. \-If multiple actions are registered with the same \-I\-D (but different contexts) the returned \hyperlink{class_core_1_1_command}{\-Command} is the shared one between these actions. \end{DoxyCompactList}\item 
+class \hyperlink{class_core_1_1_base_mode}{\-Base\-Mode}
+\item 
+class \hyperlink{class_core_1_1_base_view}{\-Base\-View}
+\item 
+class \hyperlink{class_core_1_1_board_manager}{\-Board\-Manager}
+\item 
+class \hyperlink{class_core_1_1_dev_list_item}{\-Dev\-List\-Item}
+\item 
+class \hyperlink{class_core_1_1_connection_manager}{\-Connection\-Manager}
+\item 
+class \hyperlink{class_core_1_1_i_options_page}{\-I\-Options\-Page}
+\begin{DoxyCompactList}\small\item\em \-The \hyperlink{class_core_1_1_i_options_page}{\-I\-Options\-Page} is an interface for providing options pages. \end{DoxyCompactList}\item 
+class \hyperlink{class_core_1_1_i_wizard}{\-I\-Wizard}
+\begin{DoxyCompactList}\small\item\em \-The class \hyperlink{class_core_1_1_i_wizard}{\-I\-Wizard} is the base class for all wizards (for example shown in  \{\-File $|$ \-New\}). \end{DoxyCompactList}\item 
+class \hyperlink{class_core_1_1_file_icon_provider}{\-File\-Icon\-Provider}
+\item 
+class \hyperlink{class_core_1_1_global_message}{\-Global\-Message}
+\item 
+class \hyperlink{class_core_1_1_global_messaging}{\-Global\-Messaging}
+\item 
+class \hyperlink{class_core_1_1_i_board_type}{\-I\-Board\-Type}
+\item 
+class \hyperlink{class_core_1_1_i_configurable_plugin}{\-I\-Configurable\-Plugin}
+\item 
+class \hyperlink{class_core_1_1_i_connection}{\-I\-Connection}
+\item 
+class \hyperlink{class_core_1_1_i_context}{\-I\-Context}
+\item 
+class \hyperlink{class_core_1_1_base_context}{\-Base\-Context}
+\item 
+class \hyperlink{class_core_1_1_i_core}{\-I\-Core}
+\begin{DoxyCompactList}\small\item\em \-The \hyperlink{class_core_1_1_i_core}{\-I\-Core} class allows access to the different part that make up the basic functionality of the \-Tau \-Labs \-G\-C\-S. \end{DoxyCompactList}\item 
+class \hyperlink{class_core_1_1_i_core_listener}{\-I\-Core\-Listener}
+\begin{DoxyCompactList}\small\item\em \-Provides a hook for plugins to veto on certain events emitted from the core plugin. \end{DoxyCompactList}\item 
+class \hyperlink{class_core_1_1_i_device}{\-I\-Device}
+\item 
+class \hyperlink{class_core_1_1_i_mode}{\-I\-Mode}
+\item 
+class \hyperlink{class_core_1_1_i_output_pane}{\-I\-Output\-Pane}
+\item 
+class \hyperlink{class_core_1_1_i_u_a_v_gadget}{\-I\-U\-A\-V\-Gadget}
+\item 
+class \hyperlink{class_core_1_1_i_u_a_v_gadget_configuration}{\-I\-U\-A\-V\-Gadget\-Configuration}
+\item 
+class \hyperlink{class_core_1_1_i_u_a_v_gadget_factory}{\-I\-U\-A\-V\-Gadget\-Factory}
+\item 
+class \hyperlink{class_core_1_1_i_version_control}{\-I\-Version\-Control}
+\item 
+class \hyperlink{class_core_1_1_i_view}{\-I\-View}
+\item 
+class \hyperlink{class_core_1_1_message_manager}{\-Message\-Manager}
+\item 
+class \hyperlink{class_core_1_1_mime_type_data}{\-Mime\-Type\-Data}
+\item 
+struct \hyperlink{struct_core_1_1_mime_map_entry}{\-Mime\-Map\-Entry}
+\item 
+class \hyperlink{class_core_1_1_mime_database_private}{\-Mime\-Database\-Private}
+\item 
+class \hyperlink{class_core_1_1_i_magic_matcher}{\-I\-Magic\-Matcher}
+\item 
+class \hyperlink{class_core_1_1_magic_rule}{\-Magic\-Rule}
+\item 
+class \hyperlink{class_core_1_1_magic_rule_matcher}{\-Magic\-Rule\-Matcher}
+\item 
+class \hyperlink{class_core_1_1_mime_type}{\-Mime\-Type}
+\item 
+class \hyperlink{class_core_1_1_mime_database}{\-Mime\-Database}
+\item 
+class \hyperlink{class_core_1_1_mini_splitter}{\-Mini\-Splitter}
+\item 
+class \hyperlink{class_core_1_1_mode_manager}{\-Mode\-Manager}
+\item 
+class \hyperlink{class_core_1_1_right_pane_place_holder}{\-Right\-Pane\-Place\-Holder}
+\item 
+class \hyperlink{class_core_1_1_base_right_pane_widget}{\-Base\-Right\-Pane\-Widget}
+\item 
+class \hyperlink{class_core_1_1_right_pane_widget}{\-Right\-Pane\-Widget}
+\item 
+class \hyperlink{class_core_1_1_settings_database}{\-Settings\-Database}
+\begin{DoxyCompactList}\small\item\em \-An alternative to the application-\/wide \-Q\-Settings that is more suitable for storing large amounts of data. \end{DoxyCompactList}\item 
+class \hyperlink{class_core_1_1_side_bar_item}{\-Side\-Bar\-Item}
+\item 
+class \hyperlink{class_core_1_1_side_bar}{\-Side\-Bar}
+\item 
+class \hyperlink{class_core_1_1_thread_manager}{\-Thread\-Manager}
+\item 
+class \hyperlink{class_core_1_1_u_a_v_config_version}{\-U\-A\-V\-Config\-Version}
+\item 
+class \hyperlink{class_core_1_1_u_a_v_config_info}{\-U\-A\-V\-Config\-Info}
+\begin{DoxyCompactList}\small\item\em \-The \-Config \-Info is a helper-\/class to handle version changes in \-G\-C\-S configuration files. \end{DoxyCompactList}\item 
+class \hyperlink{class_core_1_1_u_a_v_gadget_decorator}{\-U\-A\-V\-Gadget\-Decorator}
+\item 
+class \hyperlink{class_core_1_1_u_a_v_gadget_instance_manager}{\-U\-A\-V\-Gadget\-Instance\-Manager}
+\item 
+class \hyperlink{class_core_1_1_u_a_v_gadget_manager}{\-U\-A\-V\-Gadget\-Manager}
+\item 
+class \hyperlink{class_core_1_1_u_a_v_gadget_options_page_decorator}{\-U\-A\-V\-Gadget\-Options\-Page\-Decorator}
+\item 
+class \hyperlink{class_core_1_1_unique_i_d_manager}{\-Unique\-I\-D\-Manager}
+\item 
+class \hyperlink{class_core_1_1_variable_manager}{\-Variable\-Manager}
+\end{DoxyCompactItemize}
+\subsection*{\-Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{group___core_plugin_ga51bd6651e9cc7b45aeaff9bd5991be3d}{\-Message\-Type} \{ \hyperlink{group___core_plugin_gga51bd6651e9cc7b45aeaff9bd5991be3da1b81696793f3033d6741d6b8a59ac60a}{\-E\-R\-R\-O\-R}, 
+\hyperlink{group___core_plugin_gga51bd6651e9cc7b45aeaff9bd5991be3dae0a166ed923f101d89729bd68e2ddc37}{\-W\-A\-R\-N\-I\-N\-G}, 
+\hyperlink{group___core_plugin_gga51bd6651e9cc7b45aeaff9bd5991be3dac2a21b18b6a15f19347c6f1401dad9b6}{\-I\-N\-F\-O}
+ \}
+\item 
+enum \{ \hyperlink{group___core_plugin_gga53c997c04f0ea990d88ccbf1b5b98f8ca8312614a0b402ff5e3d6b897d3f84f18}{\-Dangling} =  32767
+ \}
+\end{DoxyCompactItemize}
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+\-Q\-Debug \hyperlink{group___core_plugin_ga507400915fc308d3f7a295fd46aa8e8b}{operator$<$$<$} (\-Q\-Debug d, const \hyperlink{class_core_1_1_mime_type}{\-Mime\-Type} \&mt)
+\item 
+\-Q\-Debug \hyperlink{group___core_plugin_ga90cf57732d2c5688623991d6826ee082}{operator$<$$<$} (\-Q\-Debug d, const \hyperlink{class_core_1_1_mime_database}{\-Mime\-Database} \&mt)
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-The \hyperlink{namespace_core}{\-Core} namespace contains all classes that make up the \hyperlink{namespace_core}{\-Core} plugin which constitute the basic functionality of the \-Tau \-Labs \-G\-C\-S. 

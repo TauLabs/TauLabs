@@ -1,0 +1,25 @@
+var searchData=
+[
+  ['_5f_5fattribute',['__attribute',['../group___p_i_o_s.html#gaa3091d7ad2e376e149c455e647ad1f03',1,'startup.c']]],
+  ['_5f_5fattribute_5f_5f',['__attribute__',['../structdma__transaction.html#af9dac354296543c3960057020bf0f84d',1,'dma_transaction::__attribute__((aligned(4)))'],['../structdma__transaction.html#a055dbe16d1b8d2cb21a9ba3338d93387',1,'dma_transaction::__attribute__((aligned(4)))'],['../structpios__internal__adc__dev.html#a7d02d305d56906e363c9ec6af3701a12',1,'pios_internal_adc_dev::__attribute__((aligned(4)))'],['../structpios__internal__adc__dev.html#a31ebe9137afb824440104c09c2bee4a0',1,'pios_internal_adc_dev::__attribute__((aligned(4)))'],['../structpios__internal__adc__dev.html#a5c25b6024b528894526ca7aa52a8bb19',1,'pios_internal_adc_dev::__attribute__((aligned(4)))'],['../group___p_i_o_s___u_s_b___c_o_m.html#gab58a69ef6ffba4b36cf99ba5dfd9798c',1,'pios_usb_cdc_dev::__attribute__((aligned(4)))'],['../structpios__usb__cdc__dev.html#gab58a69ef6ffba4b36cf99ba5dfd9798c',1,'pios_usb_cdc_dev::__attribute__((aligned(4)))'],['../structpios__usb__cdc__dev.html#gab58a69ef6ffba4b36cf99ba5dfd9798c',1,'pios_usb_cdc_dev::__attribute__((aligned(4)))'],['../group___p_i_o_s___u_s_b___h_i_d.html#ga078ed58bf52ceaf8ee4248216c518445',1,'pios_usb_hid_dev::__attribute__((aligned(4)))'],['../structpios__usb__hid__dev.html#ga078ed58bf52ceaf8ee4248216c518445',1,'pios_usb_hid_dev::__attribute__((aligned(4)))'],['../pios__board__info_8c.html#a3cca5846d51a47115774afd508a5fa54',1,'__attribute__((__used__)):&#160;pios_board_info.c'],['../group___p_i_o_s___f_l_a_s_h_f_s.html#gaf0823c3e99bb9ab51cfc8a807339ad1b',1,'__attribute__((packed)):&#160;pios_flashfs_logfs.c'],['../group___p_i_o_s___u_s_b___d_e_s_c.html#ga6fb0c6d6cc5e1170eef958ceaf306a50',1,'__attribute__((packed)):&#160;pios_usb_desc_hid_cdc.c'],['../pios__board__info_8h.html#a9e0b8d4138cde5f7c541f3c1852fce6e',1,'__attribute__((packed)):&#160;pios_board_info.h'],['../group___p_i_o_s___u_s_b___d_e_f_s.html#ga3d1234b86c1e07d3decb640d63f05771',1,'__attribute__((packed)):&#160;pios_usb_defs.h'],['../group___p_i_o_s___u_s_b_h_o_o_k.html#ga7c85e72dd0b0db640d1db8abb5427715',1,'__attribute__((packed)):&#160;pios_usbhook.h'],['../group___p_i_o_s___e_x_t_i.html#ga5b4de0228d66143e17ab3388737b08f7',1,'__attribute__((weak)):&#160;pios_exti.c'],['../group___p_i_o_s.html#ga8f4cc61b58aac9810254db781951ac28',1,'__attribute__((section(&quot;.io_vectors&quot;))):&#160;vectors_stm32f30x.c'],['../group___u_a_v_object_handling.html#ga4b0485179787b019d9da516583780bdf',1,'__attribute__((packed)):&#160;uavobjectmanager.c']]],
+  ['_5f_5finit_5f_5f',['__init__',['../classuavobject_1_1_u_a_v_object_metadata.html#a624d80159a14066c74c6e3f42d53cea1',1,'uavobject::UAVObjectMetadata.__init__()'],['../classuavobject_1_1_u_a_v_object_field.html#acf43e94abcf1a399fa8ca600c45e9415',1,'uavobject::UAVObjectField.__init__()'],['../classuavobject_1_1_u_a_v_object.html#a6744d21db1b6b3009810ccc3699de1e9',1,'uavobject::UAVObject.__init__()']]],
+  ['_5fclose',['_close',['../printf2_8c.html#a5aab5e2acfd600e3667dc915a2bbc7cb',1,'printf2.c']]],
+  ['_5fexecve',['_execve',['../printf2_8c.html#ad2a07db8fdf26151eb98ba5711fad8c5',1,'printf2.c']]],
+  ['_5fexit',['_exit',['../printf2_8c.html#a2115a5a512e89dc34ce23bec2a9551fe',1,'printf2.c']]],
+  ['_5ffork',['_fork',['../printf2_8c.html#a6cb6331c9d166180903d5fb78b9c9dd7',1,'printf2.c']]],
+  ['_5ffstat',['_fstat',['../printf2_8c.html#a41eef54307912a82d20e71c3d47315aa',1,'printf2.c']]],
+  ['_5fgetpid',['_getpid',['../printf2_8c.html#a945e539df8e0f66d3c73c533fe1968ee',1,'printf2.c']]],
+  ['_5fisatty',['_isatty',['../printf2_8c.html#ad3134a3dc296622b8d1c5456e481505b',1,'printf2.c']]],
+  ['_5fkill',['_kill',['../printf2_8c.html#a062a5101199c3128edd5170f2575bb10',1,'printf2.c']]],
+  ['_5flink',['_link',['../printf2_8c.html#a31da4cd5328defa76a9e2246992aba12',1,'printf2.c']]],
+  ['_5flseek',['_lseek',['../printf2_8c.html#a7a61311bdf1cb025fc07dc2bdae22ce4',1,'printf2.c']]],
+  ['_5fmain',['_main',['../group___p_i_o_s.html#gabaa8f446abb569a6f850a328569bec9f',1,'startup.c']]],
+  ['_5fopen',['_open',['../printf2_8c.html#a7a287cf7e6fbdcbba731965aecf2dd8c',1,'printf2.c']]],
+  ['_5fread',['_read',['../printf2_8c.html#a4f9bf1e1602f2828e0a54e70c3b2dccb',1,'printf2.c']]],
+  ['_5fsbrk',['_sbrk',['../printf2_8c.html#aae54d7b9578ba1fc171ce6f30f4c68a3',1,'printf2.c']]],
+  ['_5fstat',['_stat',['../printf2_8c.html#a4711e961db985ed2c850a8be6597af50',1,'printf2.c']]],
+  ['_5ftimes',['_times',['../printf2_8c.html#aaf727ebf57cd64d6c58b23e6ee4a4a69',1,'printf2.c']]],
+  ['_5funlink',['_unlink',['../printf2_8c.html#a70b2f211d665cded5637065aa2bb89dc',1,'printf2.c']]],
+  ['_5fwait',['_wait',['../printf2_8c.html#aeef0c3372d04caa1bcc99fed2ab6ec72',1,'printf2.c']]],
+  ['_5fwrite_5fr',['_write_r',['../printf2_8c.html#a6094eeb9349a6bcfaeb5d44ace9fa747',1,'printf2.c']]]
+];

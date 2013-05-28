@@ -1,0 +1,87 @@
+\hypertarget{class_core_1_1_command}{\section{\-Core\-:\-:\-Command \-Class \-Reference}
+\label{class_core_1_1_command}\index{\-Core\-::\-Command@{\-Core\-::\-Command}}
+}
+
+
+\-The class \hyperlink{class_core_1_1_command}{\-Command} represents an action like a menu item, tool button, or shortcut. \-You don't create \hyperlink{class_core_1_1_command}{\-Command} objects directly, instead use \{\hyperlink{group___core_plugin_ga316dd0cff29b294cd1b0631677f6357d}{\-Action\-Manager\-::register\-Action()}\} to register an action and retrieve a \hyperlink{class_core_1_1_command}{\-Command}. \-The \hyperlink{class_core_1_1_command}{\-Command} object represents the user visible action and its properties. \-If multiple actions are registered with the same \-I\-D (but different contexts) the returned \hyperlink{class_core_1_1_command}{\-Command} is the shared one between these actions.  
+
+
+
+
+{\ttfamily \#include $<$command.\-h$>$}
+
+\-Inheritance diagram for \-Core\-:\-:\-Command\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=4.000000cm]{class_core_1_1_command}
+\end{center}
+\end{figure}
+\subsection*{\-Public \-Types}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{group___core_plugin_ga4d899c1f711159a432afeab3eb78c917}{\-Command\-Attribute} \{ \*
+\hyperlink{group___core_plugin_gga4d899c1f711159a432afeab3eb78c917ab40bdce625687830fbabbab74f3566f0}{\-C\-A\-\_\-\-Hide} =  0x0100, 
+\hyperlink{group___core_plugin_gga4d899c1f711159a432afeab3eb78c917a458aeb773c85933e0dd3e1bbf5a4243c}{\-C\-A\-\_\-\-Update\-Text} =  0x0200, 
+\hyperlink{group___core_plugin_gga4d899c1f711159a432afeab3eb78c917a838b5063e78a4f22a5aa7fa17c7f9358}{\-C\-A\-\_\-\-Update\-Icon} =  0x0400, 
+\hyperlink{group___core_plugin_gga4d899c1f711159a432afeab3eb78c917aba521f39f43b4328b76f678656a12d36}{\-C\-A\-\_\-\-Non\-Configureable} =  0x8000, 
+\*
+\hyperlink{group___core_plugin_gga4d899c1f711159a432afeab3eb78c917af24dbbade51b0afabda629e630197657}{\-C\-A\-\_\-\-Mask} =  0x\-F\-F00
+ \}
+\end{DoxyCompactItemize}
+\subsection*{\-Signals}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___core_plugin_ga4e8398381143aeb4216199854fdaf0ab}{key\-Sequence\-Changed} ()
+\end{DoxyCompactItemize}
+\subsection*{\-Public \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___core_plugin_ga9edb60253a233526349538b2fcb2e093}{set\-Default\-Key\-Sequence} (const \-Q\-Key\-Sequence \&key)=0
+\item 
+virtual \-Q\-Key\-Sequence \hyperlink{group___core_plugin_ga0c83dee8e3b5d218dd4273e801bfe106}{default\-Key\-Sequence} () const =0
+\item 
+virtual \-Q\-Key\-Sequence \hyperlink{group___core_plugin_ga489c0ef6a565b2af079f1fc61c2bf1d2}{key\-Sequence} () const =0
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___core_plugin_ga01b34fc1e361fb10f26bce17e7f1abd7}{set\-Default\-Text} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \&text)=0
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___core_plugin_gafb9261fe7f3e6b06f367257eae11d0ed}{default\-Text} () const =0
+\item 
+virtual int \hyperlink{group___core_plugin_ga86ee1c7ad9c36b2b3b4d6d5c4a8c7782}{id} () const =0
+\item 
+virtual \-Q\-Action $\ast$ \hyperlink{group___core_plugin_ga68bf6b0115ef45e9a734956f3b0d40c5}{action} () const =0
+\item 
+virtual \-Q\-Shortcut $\ast$ \hyperlink{group___core_plugin_ga3cbc83d8c6c353b4b28c436a691ae970}{shortcut} () const =0
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___core_plugin_ga07112a6a39d461f7bba7e470077ef3f4}{set\-Attribute} (\hyperlink{group___core_plugin_ga4d899c1f711159a432afeab3eb78c917}{\-Command\-Attribute} attr)=0
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___core_plugin_ga8d243f6cf311114107abfeea80a99ad0}{remove\-Attribute} (\hyperlink{group___core_plugin_ga4d899c1f711159a432afeab3eb78c917}{\-Command\-Attribute} attr)=0
+\item 
+virtual bool \hyperlink{group___core_plugin_ga534d642231f8e08b2641744553f42def}{has\-Attribute} (\hyperlink{group___core_plugin_ga4d899c1f711159a432afeab3eb78c917}{\-Command\-Attribute} attr) const =0
+\item 
+virtual bool \hyperlink{group___core_plugin_ga1bd3d8bc9629dfcc6fc495a61b279a7c}{is\-Active} () const =0
+\item 
+virtual \hyperlink{group___core_plugin_gab552bb3a07fdd1acbfd8ea76e69b2278}{$\sim$\-Command} ()
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___core_plugin_gad53cfa78788d0ccaeb168c512bb2c48a}{set\-Key\-Sequence} (const \-Q\-Key\-Sequence \&key)=0
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___core_plugin_gaf1df828641589d3db881d84c471abb3f}{string\-With\-Appended\-Shortcut} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \&str) const =0
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-The class \hyperlink{class_core_1_1_command}{\-Command} represents an action like a menu item, tool button, or shortcut. \-You don't create \hyperlink{class_core_1_1_command}{\-Command} objects directly, instead use \{\hyperlink{group___core_plugin_ga316dd0cff29b294cd1b0631677f6357d}{\-Action\-Manager\-::register\-Action()}\} to register an action and retrieve a \hyperlink{class_core_1_1_command}{\-Command}. \-The \hyperlink{class_core_1_1_command}{\-Command} object represents the user visible action and its properties. \-If multiple actions are registered with the same \-I\-D (but different contexts) the returned \hyperlink{class_core_1_1_command}{\-Command} is the shared one between these actions. 
+
+\-A \hyperlink{class_core_1_1_command}{\-Command} has two basic properties\-: \-A default shortcut and a default text. \-The default shortcut is a key sequence that the user can use to trigger the active action that the \hyperlink{class_core_1_1_command}{\-Command} represents. \-The default text is e.\-g. used for representing the \hyperlink{class_core_1_1_command}{\-Command} in the keyboard shortcut preference pane. \-If the default text is empty, the text of the visible action is used.
+
+\-The user visible action is updated to represent the state of the active action (if any). \-For performance reasons only the enabled and visible state are considered by default though. \-You can tell a \hyperlink{class_core_1_1_command}{\-Command} to also update the actions icon and text by setting the corresponding \{\hyperlink{group___core_plugin_ga4d899c1f711159a432afeab3eb78c917}{\-Command\-::\-Command\-Attribute}\}\{attribute\}.
+
+\-If there is no active action, the default behavior of the visible action is to be disabled. \-You can change that behavior to make the visible action hide instead via the \hyperlink{class_core_1_1_command}{\-Command}'s \{\hyperlink{group___core_plugin_ga4d899c1f711159a432afeab3eb78c917}{\-Command\-::\-Command\-Attribute}\}\{attributes\}. 
+
+\-Definition at line 45 of file command.\-h.
+
+
+
+\-The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/plugins/coreplugin/actionmanager/\hyperlink{command_8h}{command.\-h}\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/plugins/coreplugin/actionmanager/\hyperlink{command_8cpp}{command.\-cpp}\end{DoxyCompactItemize}

@@ -1,0 +1,870 @@
+\hypertarget{group___antenna_track_gadget_plugin}{\section{\-Antenna \-Track \-Gadget \-Plugin}
+\label{group___antenna_track_gadget_plugin}\index{\-Antenna Track Gadget Plugin@{\-Antenna Track Gadget Plugin}}
+}
+
+
+\-A gadget that communicates with antenna tracker and enables basic configuration.  
+
+
+\subsection*{\-Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{class_antenna_track_gadget}{\-Antenna\-Track\-Gadget}
+\item 
+class \hyperlink{class_antenna_track_gadget_configuration}{\-Antenna\-Track\-Gadget\-Configuration}
+\item 
+class \hyperlink{class_antenna_track_gadget_factory}{\-Antenna\-Track\-Gadget\-Factory}
+\item 
+class \hyperlink{class_antenna_track_gadget_options_page}{\-Antenna\-Track\-Gadget\-Options\-Page}
+\item 
+struct \hyperlink{structstruct___track_data}{struct\-\_\-\-Track\-Data}
+\item 
+class \hyperlink{class_antenna_track_widget}{\-Antenna\-Track\-Widget}
+\item 
+class \hyperlink{class_g_p_s_parser}{\-G\-P\-S\-Parser}
+\item 
+class \hyperlink{class_telemetry_parser}{\-Telemetry\-Parser}
+\end{DoxyCompactItemize}
+\subsection*{\-Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+namespace \hyperlink{namespace_core}{\-Core}
+\begin{DoxyCompactList}\small\item\em \-The \hyperlink{namespace_core}{\-Core} namespace contains all classes that make up the \hyperlink{namespace_core}{\-Core} plugin which constitute the basic functionality of the \-Tau \-Labs \-G\-C\-S. \end{DoxyCompactList}\item 
+namespace \hyperlink{namespace_ui}{\-Ui}
+\end{DoxyCompactItemize}
+\subsection*{\-Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef struct \hyperlink{structstruct___track_data}{struct\-\_\-\-Track\-Data} \hyperlink{group___antenna_track_gadget_plugin_ga2a189738d52fd5df21e4a823d19ad1ac}{\-Track\-Data\-\_\-t}
+\end{DoxyCompactItemize}
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___antenna_track_gadget_plugin_gafa295298db3662b9107fa1506ab434f7}{\-Antenna\-Track\-Gadget\-::\-Antenna\-Track\-Gadget} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} class\-Id, \hyperlink{class_antenna_track_widget}{\-Antenna\-Track\-Widget} $\ast$widget, \-Q\-Widget $\ast$parent=0)
+\item 
+\hyperlink{group___antenna_track_gadget_plugin_ga90012834df22b16c7824162b33eae46d}{\-Antenna\-Track\-Gadget\-::$\sim$\-Antenna\-Track\-Gadget} ()
+\item 
+\-Q\-Widget $\ast$ \hyperlink{group___antenna_track_gadget_plugin_ga890a1b4ef09527df4e205d76d2378da1}{\-Antenna\-Track\-Gadget\-::widget} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___antenna_track_gadget_plugin_ga05e5ae93f50d470a38cd699e5662fcbf}{\-Antenna\-Track\-Gadget\-::load\-Configuration} (\-I\-U\-A\-V\-Gadget\-Configuration $\ast$config)
+\item 
+\hyperlink{group___antenna_track_gadget_plugin_gaab0b8cb9542f69d06b53e54d5bb4761a}{\-Antenna\-Track\-Gadget\-Configuration\-::\-Antenna\-Track\-Gadget\-Configuration} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} class\-Id, \-Q\-Settings $\ast$q\-Settings=0, \-Q\-Object $\ast$parent=0)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___antenna_track_gadget_plugin_gaa8c80d59aa822d7e1a73288f8da1447d}{\-Antenna\-Track\-Gadget\-Configuration\-::set\-Connection\-Mode} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} mode)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___antenna_track_gadget_plugin_ga016616d69e43834c0b010babbbb20b04}{\-Antenna\-Track\-Gadget\-Configuration\-::connection\-Mode} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___antenna_track_gadget_plugin_ga657a8ae2f677f817ea6378959145290c}{\-Antenna\-Track\-Gadget\-Configuration\-::set\-Speed} (\-Baud\-Rate\-Type speed)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___antenna_track_gadget_plugin_ga36f5c3e37039cfa6f3ea79d53339db3f}{\-Antenna\-Track\-Gadget\-Configuration\-::set\-Data\-Bits} (\-Data\-Bits\-Type databits)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___antenna_track_gadget_plugin_gab8a02ca68afcbac2db3db1df1f777695}{\-Antenna\-Track\-Gadget\-Configuration\-::set\-Flow} (\-Flow\-Type flow)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___antenna_track_gadget_plugin_gae386222c5ab2b4132f1f09afd058f48f}{\-Antenna\-Track\-Gadget\-Configuration\-::set\-Parity} (\-Parity\-Type parity)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___antenna_track_gadget_plugin_ga35eed481804afdc5eaff1273278718f2}{\-Antenna\-Track\-Gadget\-Configuration\-::set\-Stop\-Bits} (\-Stop\-Bits\-Type stopbits)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___antenna_track_gadget_plugin_gac2bdc7b975f53784d49e7d2bb484742e}{\-Antenna\-Track\-Gadget\-Configuration\-::set\-Port} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{classport}{port})
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___antenna_track_gadget_plugin_gacf4c8b3c4cbd9235d1e80ddb544194f3}{\-Antenna\-Track\-Gadget\-Configuration\-::set\-Time\-Out} (long timeout)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___antenna_track_gadget_plugin_ga191565f9ae925e1b1b00f3b51254d102}{\-Antenna\-Track\-Gadget\-Configuration\-::port} ()
+\item 
+\-Baud\-Rate\-Type \hyperlink{group___antenna_track_gadget_plugin_ga9f04acbb3e66e621c35afaa756e61cb0}{\-Antenna\-Track\-Gadget\-Configuration\-::speed} ()
+\item 
+\-Flow\-Type \hyperlink{group___antenna_track_gadget_plugin_ga6c02451beb6f94db4d3c67bd13fa9c3e}{\-Antenna\-Track\-Gadget\-Configuration\-::flow} ()
+\item 
+\-Data\-Bits\-Type \hyperlink{group___antenna_track_gadget_plugin_gac5cb692c8bb0b91960b4697df1d68401}{\-Antenna\-Track\-Gadget\-Configuration\-::data\-Bits} ()
+\item 
+\-Stop\-Bits\-Type \hyperlink{group___antenna_track_gadget_plugin_ga9cb31ed1936c27264a65a79f45ca67b9}{\-Antenna\-Track\-Gadget\-Configuration\-::stop\-Bits} ()
+\item 
+\-Parity\-Type \hyperlink{group___antenna_track_gadget_plugin_ga24493de658f97012f89d15d6058bc1f7}{\-Antenna\-Track\-Gadget\-Configuration\-::parity} ()
+\item 
+long \hyperlink{group___antenna_track_gadget_plugin_gaeecdda26c0e04883d4ddb31cca80a3ca}{\-Antenna\-Track\-Gadget\-Configuration\-::time\-Out} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___antenna_track_gadget_plugin_ga5666ade504f914b0118bb6cc51919d95}{\-Antenna\-Track\-Gadget\-Configuration\-::save\-Config} (\-Q\-Settings $\ast$settings) const 
+\item 
+\-I\-U\-A\-V\-Gadget\-Configuration $\ast$ \hyperlink{group___antenna_track_gadget_plugin_ga75fc3a4d561ce3996236b59c1cde51f3}{\-Antenna\-Track\-Gadget\-Configuration\-::clone} ()
+\item 
+\hyperlink{group___antenna_track_gadget_plugin_ga1ef8f35faf1ffe91c15080461b78649c}{\-Antenna\-Track\-Gadget\-Factory\-::\-Antenna\-Track\-Gadget\-Factory} (\-Q\-Object $\ast$parent=0)
+\item 
+\hyperlink{group___antenna_track_gadget_plugin_ga6d885117d7af90d116622d81273651cd}{\-Antenna\-Track\-Gadget\-Factory\-::$\sim$\-Antenna\-Track\-Gadget\-Factory} ()
+\item 
+\hyperlink{class_core_1_1_i_u_a_v_gadget}{\-Core\-::\-I\-U\-A\-V\-Gadget} $\ast$ \hyperlink{group___antenna_track_gadget_plugin_ga50d1ad5798eee9e1ca60c3e1bf0559fc}{\-Antenna\-Track\-Gadget\-Factory\-::create\-Gadget} (\-Q\-Widget $\ast$parent)
+\item 
+\-I\-U\-A\-V\-Gadget\-Configuration $\ast$ \hyperlink{group___antenna_track_gadget_plugin_gaa4cb4bdba7574a5ba89c52f6791bc6d4}{\-Antenna\-Track\-Gadget\-Factory\-::create\-Configuration} (\-Q\-Settings $\ast$q\-Settings)
+\item 
+\-I\-Options\-Page $\ast$ \hyperlink{group___antenna_track_gadget_plugin_ga7645577ffc0de3e891b3ea2388c73e48}{\-Antenna\-Track\-Gadget\-Factory\-::create\-Options\-Page} (\-I\-U\-A\-V\-Gadget\-Configuration $\ast$config)
+\item 
+bool \hyperlink{group___antenna_track_gadget_plugin_ga6244f67dce3641a662a3c15f4eba081b}{sort\-Ports} (\-Qext\-Port\-Info const \&\hyperlink{_o_p_plots_8m_a2f07e0f444810cc4e54ee2be2ce0ac65}{s1}, \-Qext\-Port\-Info const \&\hyperlink{_o_p_plots_8m_a2e63e71737e8b6802b81f6a7c5ca6a0a}{s2})
+\item 
+\hyperlink{group___antenna_track_gadget_plugin_gaf422edb8885c7e52f91e53e8671ca7e7}{\-Antenna\-Track\-Gadget\-Options\-Page\-::\-Antenna\-Track\-Gadget\-Options\-Page} (\hyperlink{class_antenna_track_gadget_configuration}{\-Antenna\-Track\-Gadget\-Configuration} $\ast$config, \-Q\-Object $\ast$parent=0)
+\item 
+\-Q\-Widget $\ast$ \hyperlink{group___antenna_track_gadget_plugin_gab61c88a985c6dddb814fbd1dbb7a6455}{\-Antenna\-Track\-Gadget\-Options\-Page\-::create\-Page} (\-Q\-Widget $\ast$parent)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___antenna_track_gadget_plugin_gae05ea679125a443f47b6835fb243c3fb}{\-Antenna\-Track\-Gadget\-Options\-Page\-::apply} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___antenna_track_gadget_plugin_ga21f19cc8645a21200da9d3489a2a4bdf}{\-Antenna\-Track\-Gadget\-Options\-Page\-::finish} ()
+\item 
+\hyperlink{group___antenna_track_gadget_plugin_ga267d3ecf78fda6b906d043097dd0aa45}{\-Antenna\-Track\-Widget\-::\-Antenna\-Track\-Widget} (\-Q\-Widget $\ast$parent=0)
+\item 
+\hyperlink{group___antenna_track_gadget_plugin_gaee8823dccf11047cf563237c1f8e4864}{\-Antenna\-Track\-Widget\-::$\sim$\-Antenna\-Track\-Widget} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___antenna_track_gadget_plugin_gafe776706c20e81410397bf737b254c56}{\-Antenna\-Track\-Widget\-::set\-Port} (\-Q\-Pointer$<$ \-Qext\-Serial\-Port $>$ portx)
+\item 
+\hyperlink{group___antenna_track_gadget_plugin_ga6773ae49e6fecc274191f0d0e29294d8}{\-G\-P\-S\-Parser\-::$\sim$\-G\-P\-S\-Parser} ()
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___antenna_track_gadget_plugin_ga0d2ef23accd7d2cd3e098012f2f8e948}{\-G\-P\-S\-Parser\-::process\-Input\-Stream} (char c)
+\item 
+\hyperlink{group___antenna_track_gadget_plugin_ga15bb435154bfad7f732bc090c496915e}{\-G\-P\-S\-Parser\-::\-G\-P\-S\-Parser} (\-Q\-Object $\ast$parent=0)
+\item 
+\hyperlink{group___antenna_track_gadget_plugin_ga9a05a4fb6f18cdc568bc4e8f52534977}{\-Telemetry\-Parser\-::$\sim$\-Telemetry\-Parser} ()
+\end{DoxyCompactItemize}
+\subsection*{\-Variables}
+\begin{DoxyCompactItemize}
+\item 
+double \hyperlink{group___antenna_track_gadget_plugin_ga412a0215352cff81241572b0637ca6d5}{struct\-\_\-\-Track\-Data\-::\-Latitude}
+\item 
+double \hyperlink{group___antenna_track_gadget_plugin_gadd67067451f9adf6f25e45bcb7498a32}{struct\-\_\-\-Track\-Data\-::\-Longitude}
+\item 
+double \hyperlink{group___antenna_track_gadget_plugin_ga528ec049631eed362529f9ea5fd30b99}{struct\-\_\-\-Track\-Data\-::\-Altitude}
+\item 
+double \hyperlink{group___antenna_track_gadget_plugin_gad25500d6984ee3227abe9b2663c0a975}{struct\-\_\-\-Track\-Data\-::\-Home\-Latitude}
+\item 
+double \hyperlink{group___antenna_track_gadget_plugin_ga297bb9a225f2fa6033327e0d99bc5eac}{struct\-\_\-\-Track\-Data\-::\-Home\-Longitude}
+\item 
+double \hyperlink{group___antenna_track_gadget_plugin_ga0bb6374ee3a9a6f864fbd03a1c791256}{struct\-\_\-\-Track\-Data\-::\-Home\-Altitude}
+\item 
+\hyperlink{group___antenna_track_gadget_plugin_ga2a189738d52fd5df21e4a823d19ad1ac}{\-Track\-Data\-\_\-t} \hyperlink{group___antenna_track_gadget_plugin_ga18b3b7f2868671ca1d6e117f0bbccd90}{\-Antenna\-Track\-Widget\-::\-Track\-Data}
+\end{DoxyCompactItemize}
+\subsection*{\-Signals}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___antenna_track_gadget_plugin_ga5a65377c76fbafb57f377266034c7396}{\-G\-P\-S\-Parser\-::sv} (int)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___antenna_track_gadget_plugin_ga07f9008aa82b159a457c64d35fdaa3fc}{\-G\-P\-S\-Parser\-::position} (double, double, double)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___antenna_track_gadget_plugin_ga45082766eb72d3481f5755c19bf887ae}{\-G\-P\-S\-Parser\-::home} (double, double, double)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___antenna_track_gadget_plugin_ga95a0ee3f47dc682adcdfd74c2d06c616}{\-G\-P\-S\-Parser\-::datetime} (double, double)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___antenna_track_gadget_plugin_gad43cce1299e39b4fd4f9c43eb2ebbf67}{\-G\-P\-S\-Parser\-::speedheading} (double, double)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___antenna_track_gadget_plugin_gaa52c8cc41458c01d411d550d1e3f3d96}{\-G\-P\-S\-Parser\-::packet} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String})
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___antenna_track_gadget_plugin_gace7bc390ce3acaaf985eafad1b4217b3}{\-G\-P\-S\-Parser\-::satellite} (int, int, int, int, int)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___antenna_track_gadget_plugin_ga145563ebabd7ea6b135bad3d05cb9085}{\-G\-P\-S\-Parser\-::fixmode} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String})
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___antenna_track_gadget_plugin_gadccc59d425cbc0c0f8da68a3438e4e22}{\-G\-P\-S\-Parser\-::fixtype} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String})
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___antenna_track_gadget_plugin_ga53672aaf2037c7a9b389c15e69bc4d80}{\-G\-P\-S\-Parser\-::dop} (double, double, double)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___antenna_track_gadget_plugin_gacd7414def0621beab61941370e0dc874}{\-G\-P\-S\-Parser\-::fix\-S\-Vs} (\-Q\-List$<$ int $>$)
+\end{DoxyCompactItemize}
+\subsection*{\-Public \-Slots}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___antenna_track_gadget_plugin_ga900506724dae73384f80ed883f037588}{\-Antenna\-Track\-Gadget\-::on\-Connect} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___antenna_track_gadget_plugin_ga2732f0141e7e02dc548535a3a87965a6}{\-Antenna\-Track\-Gadget\-::on\-Disconnect} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___antenna_track_gadget_plugin_ga9b1c1509701c154ad1c3cdeef0cb522b}{\-Telemetry\-Parser\-::update\-G\-P\-S} (\hyperlink{class_u_a_v_object}{\-U\-A\-V\-Object} $\ast$object1)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___antenna_track_gadget_plugin_ga0e7bcbaf20beede5d60913dc50505465}{\-Telemetry\-Parser\-::update\-Home} (\hyperlink{class_u_a_v_object}{\-U\-A\-V\-Object} $\ast$object1)
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-A gadget that communicates with antenna tracker and enables basic configuration. 
+
+\subsection{\-Typedef \-Documentation}
+\hypertarget{group___antenna_track_gadget_plugin_ga2a189738d52fd5df21e4a823d19ad1ac}{\index{\-Antenna Track Gadget Plugin@{\-Antenna Track Gadget Plugin}!\-Track\-Data\-\_\-t@{\-Track\-Data\-\_\-t}}
+\index{\-Track\-Data\-\_\-t@{\-Track\-Data\-\_\-t}!Antenna Track Gadget Plugin@{\-Antenna Track Gadget Plugin}}
+\subsubsection[{\-Track\-Data\-\_\-t}]{\setlength{\rightskip}{0pt plus 5cm}typedef struct {\bf struct\-\_\-\-Track\-Data} {\bf \-Track\-Data\-\_\-t}}}\label{group___antenna_track_gadget_plugin_ga2a189738d52fd5df21e4a823d19ad1ac}
+
+
+\subsection{\-Function \-Documentation}
+\hypertarget{group___antenna_track_gadget_plugin_gafa295298db3662b9107fa1506ab434f7}{\index{\-Antenna Track Gadget Plugin@{\-Antenna Track Gadget Plugin}!\-Antenna\-Track\-Gadget@{\-Antenna\-Track\-Gadget}}
+\index{\-Antenna\-Track\-Gadget@{\-Antenna\-Track\-Gadget}!Antenna Track Gadget Plugin@{\-Antenna Track Gadget Plugin}}
+\subsubsection[{\-Antenna\-Track\-Gadget}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Antenna\-Track\-Gadget\-::\-Antenna\-Track\-Gadget} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Q\-String}}]{class\-Id, }
+\item[{{\bf \-Antenna\-Track\-Widget} $\ast$}]{widget, }
+\item[{\-Q\-Widget $\ast$}]{parent = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)}}\label{group___antenna_track_gadget_plugin_gafa295298db3662b9107fa1506ab434f7}
+
+
+\-Definition at line 32 of file antennatrackgadget.\-cpp.
+
+\hypertarget{group___antenna_track_gadget_plugin_gaab0b8cb9542f69d06b53e54d5bb4761a}{\index{\-Antenna Track Gadget Plugin@{\-Antenna Track Gadget Plugin}!\-Antenna\-Track\-Gadget\-Configuration@{\-Antenna\-Track\-Gadget\-Configuration}}
+\index{\-Antenna\-Track\-Gadget\-Configuration@{\-Antenna\-Track\-Gadget\-Configuration}!Antenna Track Gadget Plugin@{\-Antenna Track Gadget Plugin}}
+\subsubsection[{\-Antenna\-Track\-Gadget\-Configuration}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Antenna\-Track\-Gadget\-Configuration\-::\-Antenna\-Track\-Gadget\-Configuration} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Q\-String}}]{class\-Id, }
+\item[{\-Q\-Settings $\ast$}]{q\-Settings = {\ttfamily 0}, }
+\item[{\-Q\-Object $\ast$}]{parent = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}explicit\mbox{]}}}}\label{group___antenna_track_gadget_plugin_gaab0b8cb9542f69d06b53e54d5bb4761a}
+\-Loads a saved configuration or defaults if non exist. 
+
+\-Definition at line 35 of file antennatrackgadgetconfiguration.\-cpp.
+
+\hypertarget{group___antenna_track_gadget_plugin_ga1ef8f35faf1ffe91c15080461b78649c}{\index{\-Antenna Track Gadget Plugin@{\-Antenna Track Gadget Plugin}!\-Antenna\-Track\-Gadget\-Factory@{\-Antenna\-Track\-Gadget\-Factory}}
+\index{\-Antenna\-Track\-Gadget\-Factory@{\-Antenna\-Track\-Gadget\-Factory}!Antenna Track Gadget Plugin@{\-Antenna Track Gadget Plugin}}
+\subsubsection[{\-Antenna\-Track\-Gadget\-Factory}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Antenna\-Track\-Gadget\-Factory\-::\-Antenna\-Track\-Gadget\-Factory} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Object $\ast$}]{parent = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)}}\label{group___antenna_track_gadget_plugin_ga1ef8f35faf1ffe91c15080461b78649c}
+
+
+\-Definition at line 34 of file antennatrackgadgetfactory.\-cpp.
+
+\hypertarget{group___antenna_track_gadget_plugin_gaf422edb8885c7e52f91e53e8671ca7e7}{\index{\-Antenna Track Gadget Plugin@{\-Antenna Track Gadget Plugin}!\-Antenna\-Track\-Gadget\-Options\-Page@{\-Antenna\-Track\-Gadget\-Options\-Page}}
+\index{\-Antenna\-Track\-Gadget\-Options\-Page@{\-Antenna\-Track\-Gadget\-Options\-Page}!Antenna Track Gadget Plugin@{\-Antenna Track Gadget Plugin}}
+\subsubsection[{\-Antenna\-Track\-Gadget\-Options\-Page}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Antenna\-Track\-Gadget\-Options\-Page\-::\-Antenna\-Track\-Gadget\-Options\-Page} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Antenna\-Track\-Gadget\-Configuration} $\ast$}]{config, }
+\item[{\-Q\-Object $\ast$}]{parent = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}explicit\mbox{]}}}}\label{group___antenna_track_gadget_plugin_gaf422edb8885c7e52f91e53e8671ca7e7}
+
+
+\-Definition at line 36 of file antennatrackgadgetoptionspage.\-cpp.
+
+\hypertarget{group___antenna_track_gadget_plugin_ga267d3ecf78fda6b906d043097dd0aa45}{\index{\-Antenna Track Gadget Plugin@{\-Antenna Track Gadget Plugin}!\-Antenna\-Track\-Widget@{\-Antenna\-Track\-Widget}}
+\index{\-Antenna\-Track\-Widget@{\-Antenna\-Track\-Widget}!Antenna Track Gadget Plugin@{\-Antenna Track Gadget Plugin}}
+\subsubsection[{\-Antenna\-Track\-Widget}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Antenna\-Track\-Widget\-::\-Antenna\-Track\-Widget} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Widget $\ast$}]{parent = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)}}\label{group___antenna_track_gadget_plugin_ga267d3ecf78fda6b906d043097dd0aa45}
+
+
+\-Definition at line 41 of file antennatrackwidget.\-cpp.
+
+\hypertarget{group___antenna_track_gadget_plugin_gae05ea679125a443f47b6835fb243c3fb}{\index{\-Antenna Track Gadget Plugin@{\-Antenna Track Gadget Plugin}!apply@{apply}}
+\index{apply@{apply}!Antenna Track Gadget Plugin@{\-Antenna Track Gadget Plugin}}
+\subsubsection[{apply}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Antenna\-Track\-Gadget\-Options\-Page\-::apply} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___antenna_track_gadget_plugin_gae05ea679125a443f47b6835fb243c3fb}
+\-Called when the user presses apply or \-O\-K.
+
+\-Saves the current values 
+
+\-Implements \hyperlink{group___core_plugin_ga05fa0c9b91da02a0f2fed11d2d6afed0}{\-Core\-::\-I\-Options\-Page}.
+
+
+
+\-Definition at line 247 of file antennatrackgadgetoptionspage.\-cpp.
+
+\hypertarget{group___antenna_track_gadget_plugin_ga75fc3a4d561ce3996236b59c1cde51f3}{\index{\-Antenna Track Gadget Plugin@{\-Antenna Track Gadget Plugin}!clone@{clone}}
+\index{clone@{clone}!Antenna Track Gadget Plugin@{\-Antenna Track Gadget Plugin}}
+\subsubsection[{clone}]{\setlength{\rightskip}{0pt plus 5cm}\-I\-U\-A\-V\-Gadget\-Configuration $\ast$ {\bf \-Antenna\-Track\-Gadget\-Configuration\-::clone} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___antenna_track_gadget_plugin_ga75fc3a4d561ce3996236b59c1cde51f3}
+\-Clones a configuration. 
+
+\-Implements \hyperlink{group___core_plugin_ga35f72dc89919925fd591fa509ebbf7dc}{\-Core\-::\-I\-U\-A\-V\-Gadget\-Configuration}.
+
+
+
+\-Definition at line 82 of file antennatrackgadgetconfiguration.\-cpp.
+
+\hypertarget{group___antenna_track_gadget_plugin_ga016616d69e43834c0b010babbbb20b04}{\index{\-Antenna Track Gadget Plugin@{\-Antenna Track Gadget Plugin}!connection\-Mode@{connection\-Mode}}
+\index{connection\-Mode@{connection\-Mode}!Antenna Track Gadget Plugin@{\-Antenna Track Gadget Plugin}}
+\subsubsection[{connection\-Mode}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Q\-String} {\bf \-Antenna\-Track\-Gadget\-Configuration\-::connection\-Mode} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___antenna_track_gadget_plugin_ga016616d69e43834c0b010babbbb20b04}
+
+
+\-Definition at line 43 of file antennatrackgadgetconfiguration.\-h.
+
+\hypertarget{group___antenna_track_gadget_plugin_gaa4cb4bdba7574a5ba89c52f6791bc6d4}{\index{\-Antenna Track Gadget Plugin@{\-Antenna Track Gadget Plugin}!create\-Configuration@{create\-Configuration}}
+\index{create\-Configuration@{create\-Configuration}!Antenna Track Gadget Plugin@{\-Antenna Track Gadget Plugin}}
+\subsubsection[{create\-Configuration}]{\setlength{\rightskip}{0pt plus 5cm}\-I\-U\-A\-V\-Gadget\-Configuration $\ast$ {\bf \-Antenna\-Track\-Gadget\-Factory\-::create\-Configuration} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Settings $\ast$}]{q\-Settings}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___antenna_track_gadget_plugin_gaa4cb4bdba7574a5ba89c52f6791bc6d4}
+
+
+\-Reimplemented from \hyperlink{group___core_plugin_gae26104d7db90a65069c2bb654ecd5026}{\-Core\-::\-I\-U\-A\-V\-Gadget\-Factory}.
+
+
+
+\-Definition at line 51 of file antennatrackgadgetfactory.\-cpp.
+
+\hypertarget{group___antenna_track_gadget_plugin_ga50d1ad5798eee9e1ca60c3e1bf0559fc}{\index{\-Antenna Track Gadget Plugin@{\-Antenna Track Gadget Plugin}!create\-Gadget@{create\-Gadget}}
+\index{create\-Gadget@{create\-Gadget}!Antenna Track Gadget Plugin@{\-Antenna Track Gadget Plugin}}
+\subsubsection[{create\-Gadget}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Core\-::\-I\-U\-A\-V\-Gadget} $\ast$ {\bf \-Antenna\-Track\-Gadget\-Factory\-::create\-Gadget} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Widget $\ast$}]{parent}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___antenna_track_gadget_plugin_ga50d1ad5798eee9e1ca60c3e1bf0559fc}
+
+
+\-Implements \hyperlink{group___core_plugin_ga72d6fe5bbef9f4fa2333028c7a324f66}{\-Core\-::\-I\-U\-A\-V\-Gadget\-Factory}.
+
+
+
+\-Definition at line 45 of file antennatrackgadgetfactory.\-cpp.
+
+\hypertarget{group___antenna_track_gadget_plugin_ga7645577ffc0de3e891b3ea2388c73e48}{\index{\-Antenna Track Gadget Plugin@{\-Antenna Track Gadget Plugin}!create\-Options\-Page@{create\-Options\-Page}}
+\index{create\-Options\-Page@{create\-Options\-Page}!Antenna Track Gadget Plugin@{\-Antenna Track Gadget Plugin}}
+\subsubsection[{create\-Options\-Page}]{\setlength{\rightskip}{0pt plus 5cm}\-I\-Options\-Page $\ast$ {\bf \-Antenna\-Track\-Gadget\-Factory\-::create\-Options\-Page} (
+\begin{DoxyParamCaption}
+\item[{\-I\-U\-A\-V\-Gadget\-Configuration $\ast$}]{config}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___antenna_track_gadget_plugin_ga7645577ffc0de3e891b3ea2388c73e48}
+
+
+\-Reimplemented from \hyperlink{group___core_plugin_gaf11d34909f72b86882937f7a946ad0da}{\-Core\-::\-I\-U\-A\-V\-Gadget\-Factory}.
+
+
+
+\-Definition at line 56 of file antennatrackgadgetfactory.\-cpp.
+
+\hypertarget{group___antenna_track_gadget_plugin_gab61c88a985c6dddb814fbd1dbb7a6455}{\index{\-Antenna Track Gadget Plugin@{\-Antenna Track Gadget Plugin}!create\-Page@{create\-Page}}
+\index{create\-Page@{create\-Page}!Antenna Track Gadget Plugin@{\-Antenna Track Gadget Plugin}}
+\subsubsection[{create\-Page}]{\setlength{\rightskip}{0pt plus 5cm}\-Q\-Widget $\ast$ {\bf \-Antenna\-Track\-Gadget\-Options\-Page\-::create\-Page} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Widget $\ast$}]{parent}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___antenna_track_gadget_plugin_gab61c88a985c6dddb814fbd1dbb7a6455}
+
+
+\-Implements \hyperlink{group___core_plugin_gac70a4473b3e086d0fa9849c431fb0672}{\-Core\-::\-I\-Options\-Page}.
+
+
+
+\-Definition at line 166 of file antennatrackgadgetoptionspage.\-cpp.
+
+\hypertarget{group___antenna_track_gadget_plugin_gac5cb692c8bb0b91960b4697df1d68401}{\index{\-Antenna Track Gadget Plugin@{\-Antenna Track Gadget Plugin}!data\-Bits@{data\-Bits}}
+\index{data\-Bits@{data\-Bits}!Antenna Track Gadget Plugin@{\-Antenna Track Gadget Plugin}}
+\subsubsection[{data\-Bits}]{\setlength{\rightskip}{0pt plus 5cm}\-Data\-Bits\-Type {\bf \-Antenna\-Track\-Gadget\-Configuration\-::data\-Bits} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___antenna_track_gadget_plugin_gac5cb692c8bb0b91960b4697df1d68401}
+
+
+\-Definition at line 58 of file antennatrackgadgetconfiguration.\-h.
+
+\hypertarget{group___antenna_track_gadget_plugin_ga21f19cc8645a21200da9d3489a2a4bdf}{\index{\-Antenna Track Gadget Plugin@{\-Antenna Track Gadget Plugin}!finish@{finish}}
+\index{finish@{finish}!Antenna Track Gadget Plugin@{\-Antenna Track Gadget Plugin}}
+\subsubsection[{finish}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Antenna\-Track\-Gadget\-Options\-Page\-::finish} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___antenna_track_gadget_plugin_ga21f19cc8645a21200da9d3489a2a4bdf}
+
+
+\-Implements \hyperlink{group___core_plugin_ga47cf2602b6ee72a4971b1f0a4e1d887e}{\-Core\-::\-I\-Options\-Page}.
+
+
+
+\-Definition at line 263 of file antennatrackgadgetoptionspage.\-cpp.
+
+\hypertarget{group___antenna_track_gadget_plugin_ga6c02451beb6f94db4d3c67bd13fa9c3e}{\index{\-Antenna Track Gadget Plugin@{\-Antenna Track Gadget Plugin}!flow@{flow}}
+\index{flow@{flow}!Antenna Track Gadget Plugin@{\-Antenna Track Gadget Plugin}}
+\subsubsection[{flow}]{\setlength{\rightskip}{0pt plus 5cm}\-Flow\-Type {\bf \-Antenna\-Track\-Gadget\-Configuration\-::flow} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___antenna_track_gadget_plugin_ga6c02451beb6f94db4d3c67bd13fa9c3e}
+
+
+\-Definition at line 57 of file antennatrackgadgetconfiguration.\-h.
+
+\hypertarget{group___antenna_track_gadget_plugin_ga15bb435154bfad7f732bc090c496915e}{\index{\-Antenna Track Gadget Plugin@{\-Antenna Track Gadget Plugin}!\-G\-P\-S\-Parser@{\-G\-P\-S\-Parser}}
+\index{\-G\-P\-S\-Parser@{\-G\-P\-S\-Parser}!Antenna Track Gadget Plugin@{\-Antenna Track Gadget Plugin}}
+\subsubsection[{\-G\-P\-S\-Parser}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-G\-P\-S\-Parser\-::\-G\-P\-S\-Parser} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Object $\ast$}]{parent = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{group___antenna_track_gadget_plugin_ga15bb435154bfad7f732bc090c496915e}
+
+
+\-Definition at line 30 of file gpsparser.\-cpp.
+
+\hypertarget{group___antenna_track_gadget_plugin_ga05e5ae93f50d470a38cd699e5662fcbf}{\index{\-Antenna Track Gadget Plugin@{\-Antenna Track Gadget Plugin}!load\-Configuration@{load\-Configuration}}
+\index{load\-Configuration@{load\-Configuration}!Antenna Track Gadget Plugin@{\-Antenna Track Gadget Plugin}}
+\subsubsection[{load\-Configuration}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Antenna\-Track\-Gadget\-::load\-Configuration} (
+\begin{DoxyParamCaption}
+\item[{\-I\-U\-A\-V\-Gadget\-Configuration $\ast$}]{config}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___antenna_track_gadget_plugin_ga05e5ae93f50d470a38cd699e5662fcbf}
+
+
+\-Reimplemented from \hyperlink{group___core_plugin_gaaf60a82b8643f54a42381600c52bbe8a}{\-Core\-::\-I\-U\-A\-V\-Gadget}.
+
+
+
+\-Definition at line 51 of file antennatrackgadget.\-cpp.
+
+\hypertarget{group___antenna_track_gadget_plugin_ga24493de658f97012f89d15d6058bc1f7}{\index{\-Antenna Track Gadget Plugin@{\-Antenna Track Gadget Plugin}!parity@{parity}}
+\index{parity@{parity}!Antenna Track Gadget Plugin@{\-Antenna Track Gadget Plugin}}
+\subsubsection[{parity}]{\setlength{\rightskip}{0pt plus 5cm}\-Parity\-Type {\bf \-Antenna\-Track\-Gadget\-Configuration\-::parity} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___antenna_track_gadget_plugin_ga24493de658f97012f89d15d6058bc1f7}
+
+
+\-Definition at line 60 of file antennatrackgadgetconfiguration.\-h.
+
+\hypertarget{group___antenna_track_gadget_plugin_ga191565f9ae925e1b1b00f3b51254d102}{\index{\-Antenna Track Gadget Plugin@{\-Antenna Track Gadget Plugin}!port@{port}}
+\index{port@{port}!Antenna Track Gadget Plugin@{\-Antenna Track Gadget Plugin}}
+\subsubsection[{port}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Q\-String} {\bf \-Antenna\-Track\-Gadget\-Configuration\-::port} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___antenna_track_gadget_plugin_ga191565f9ae925e1b1b00f3b51254d102}
+
+
+\-Definition at line 55 of file antennatrackgadgetconfiguration.\-h.
+
+\hypertarget{group___antenna_track_gadget_plugin_ga0d2ef23accd7d2cd3e098012f2f8e948}{\index{\-Antenna Track Gadget Plugin@{\-Antenna Track Gadget Plugin}!process\-Input\-Stream@{process\-Input\-Stream}}
+\index{process\-Input\-Stream@{process\-Input\-Stream}!Antenna Track Gadget Plugin@{\-Antenna Track Gadget Plugin}}
+\subsubsection[{process\-Input\-Stream}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-G\-P\-S\-Parser\-::process\-Input\-Stream} (
+\begin{DoxyParamCaption}
+\item[{char}]{c}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___antenna_track_gadget_plugin_ga0d2ef23accd7d2cd3e098012f2f8e948}
+
+
+\-Reimplemented in \hyperlink{group___g_p_s_gadget_plugin_gaf4983b5649be1ec2deb7dafcd4a3573c}{\-N\-M\-E\-A\-Parser}.
+
+
+
+\-Definition at line 40 of file gpsparser.\-cpp.
+
+\hypertarget{group___antenna_track_gadget_plugin_ga5666ade504f914b0118bb6cc51919d95}{\index{\-Antenna Track Gadget Plugin@{\-Antenna Track Gadget Plugin}!save\-Config@{save\-Config}}
+\index{save\-Config@{save\-Config}!Antenna Track Gadget Plugin@{\-Antenna Track Gadget Plugin}}
+\subsubsection[{save\-Config}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Antenna\-Track\-Gadget\-Configuration\-::save\-Config} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Settings $\ast$}]{settings}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___antenna_track_gadget_plugin_ga5666ade504f914b0118bb6cc51919d95}
+\-Saves a configuration. 
+
+\-Reimplemented from \hyperlink{group___core_plugin_gadd755520091c21c0ce09973c5bbdb7a9}{\-Core\-::\-I\-U\-A\-V\-Gadget\-Configuration}.
+
+
+
+\-Definition at line 100 of file antennatrackgadgetconfiguration.\-cpp.
+
+\hypertarget{group___antenna_track_gadget_plugin_gaa8c80d59aa822d7e1a73288f8da1447d}{\index{\-Antenna Track Gadget Plugin@{\-Antenna Track Gadget Plugin}!set\-Connection\-Mode@{set\-Connection\-Mode}}
+\index{set\-Connection\-Mode@{set\-Connection\-Mode}!Antenna Track Gadget Plugin@{\-Antenna Track Gadget Plugin}}
+\subsubsection[{set\-Connection\-Mode}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Antenna\-Track\-Gadget\-Configuration\-::set\-Connection\-Mode} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Q\-String}}]{mode}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___antenna_track_gadget_plugin_gaa8c80d59aa822d7e1a73288f8da1447d}
+
+
+\-Definition at line 42 of file antennatrackgadgetconfiguration.\-h.
+
+\hypertarget{group___antenna_track_gadget_plugin_ga36f5c3e37039cfa6f3ea79d53339db3f}{\index{\-Antenna Track Gadget Plugin@{\-Antenna Track Gadget Plugin}!set\-Data\-Bits@{set\-Data\-Bits}}
+\index{set\-Data\-Bits@{set\-Data\-Bits}!Antenna Track Gadget Plugin@{\-Antenna Track Gadget Plugin}}
+\subsubsection[{set\-Data\-Bits}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Antenna\-Track\-Gadget\-Configuration\-::set\-Data\-Bits} (
+\begin{DoxyParamCaption}
+\item[{\-Data\-Bits\-Type}]{databits}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___antenna_track_gadget_plugin_ga36f5c3e37039cfa6f3ea79d53339db3f}
+
+
+\-Definition at line 47 of file antennatrackgadgetconfiguration.\-h.
+
+\hypertarget{group___antenna_track_gadget_plugin_gab8a02ca68afcbac2db3db1df1f777695}{\index{\-Antenna Track Gadget Plugin@{\-Antenna Track Gadget Plugin}!set\-Flow@{set\-Flow}}
+\index{set\-Flow@{set\-Flow}!Antenna Track Gadget Plugin@{\-Antenna Track Gadget Plugin}}
+\subsubsection[{set\-Flow}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Antenna\-Track\-Gadget\-Configuration\-::set\-Flow} (
+\begin{DoxyParamCaption}
+\item[{\-Flow\-Type}]{flow}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___antenna_track_gadget_plugin_gab8a02ca68afcbac2db3db1df1f777695}
+
+
+\-Definition at line 48 of file antennatrackgadgetconfiguration.\-h.
+
+\hypertarget{group___antenna_track_gadget_plugin_gae386222c5ab2b4132f1f09afd058f48f}{\index{\-Antenna Track Gadget Plugin@{\-Antenna Track Gadget Plugin}!set\-Parity@{set\-Parity}}
+\index{set\-Parity@{set\-Parity}!Antenna Track Gadget Plugin@{\-Antenna Track Gadget Plugin}}
+\subsubsection[{set\-Parity}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Antenna\-Track\-Gadget\-Configuration\-::set\-Parity} (
+\begin{DoxyParamCaption}
+\item[{\-Parity\-Type}]{parity}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___antenna_track_gadget_plugin_gae386222c5ab2b4132f1f09afd058f48f}
+
+
+\-Definition at line 49 of file antennatrackgadgetconfiguration.\-h.
+
+\hypertarget{group___antenna_track_gadget_plugin_gac2bdc7b975f53784d49e7d2bb484742e}{\index{\-Antenna Track Gadget Plugin@{\-Antenna Track Gadget Plugin}!set\-Port@{set\-Port}}
+\index{set\-Port@{set\-Port}!Antenna Track Gadget Plugin@{\-Antenna Track Gadget Plugin}}
+\subsubsection[{set\-Port}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Antenna\-Track\-Gadget\-Configuration\-::set\-Port} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Q\-String}}]{port}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___antenna_track_gadget_plugin_gac2bdc7b975f53784d49e7d2bb484742e}
+
+
+\-Definition at line 51 of file antennatrackgadgetconfiguration.\-h.
+
+\hypertarget{group___antenna_track_gadget_plugin_gafe776706c20e81410397bf737b254c56}{\index{\-Antenna Track Gadget Plugin@{\-Antenna Track Gadget Plugin}!set\-Port@{set\-Port}}
+\index{set\-Port@{set\-Port}!Antenna Track Gadget Plugin@{\-Antenna Track Gadget Plugin}}
+\subsubsection[{set\-Port}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Antenna\-Track\-Widget\-::set\-Port} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Pointer$<$ \-Qext\-Serial\-Port $>$}]{portx}
+\end{DoxyParamCaption}
+)}}\label{group___antenna_track_gadget_plugin_gafe776706c20e81410397bf737b254c56}
+
+
+\-Definition at line 52 of file antennatrackwidget.\-cpp.
+
+\hypertarget{group___antenna_track_gadget_plugin_ga657a8ae2f677f817ea6378959145290c}{\index{\-Antenna Track Gadget Plugin@{\-Antenna Track Gadget Plugin}!set\-Speed@{set\-Speed}}
+\index{set\-Speed@{set\-Speed}!Antenna Track Gadget Plugin@{\-Antenna Track Gadget Plugin}}
+\subsubsection[{set\-Speed}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Antenna\-Track\-Gadget\-Configuration\-::set\-Speed} (
+\begin{DoxyParamCaption}
+\item[{\-Baud\-Rate\-Type}]{speed}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___antenna_track_gadget_plugin_ga657a8ae2f677f817ea6378959145290c}
+
+
+\-Definition at line 46 of file antennatrackgadgetconfiguration.\-h.
+
+\hypertarget{group___antenna_track_gadget_plugin_ga35eed481804afdc5eaff1273278718f2}{\index{\-Antenna Track Gadget Plugin@{\-Antenna Track Gadget Plugin}!set\-Stop\-Bits@{set\-Stop\-Bits}}
+\index{set\-Stop\-Bits@{set\-Stop\-Bits}!Antenna Track Gadget Plugin@{\-Antenna Track Gadget Plugin}}
+\subsubsection[{set\-Stop\-Bits}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Antenna\-Track\-Gadget\-Configuration\-::set\-Stop\-Bits} (
+\begin{DoxyParamCaption}
+\item[{\-Stop\-Bits\-Type}]{stopbits}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___antenna_track_gadget_plugin_ga35eed481804afdc5eaff1273278718f2}
+
+
+\-Definition at line 50 of file antennatrackgadgetconfiguration.\-h.
+
+\hypertarget{group___antenna_track_gadget_plugin_gacf4c8b3c4cbd9235d1e80ddb544194f3}{\index{\-Antenna Track Gadget Plugin@{\-Antenna Track Gadget Plugin}!set\-Time\-Out@{set\-Time\-Out}}
+\index{set\-Time\-Out@{set\-Time\-Out}!Antenna Track Gadget Plugin@{\-Antenna Track Gadget Plugin}}
+\subsubsection[{set\-Time\-Out}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Antenna\-Track\-Gadget\-Configuration\-::set\-Time\-Out} (
+\begin{DoxyParamCaption}
+\item[{long}]{timeout}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___antenna_track_gadget_plugin_gacf4c8b3c4cbd9235d1e80ddb544194f3}
+
+
+\-Definition at line 52 of file antennatrackgadgetconfiguration.\-h.
+
+\hypertarget{group___antenna_track_gadget_plugin_ga6244f67dce3641a662a3c15f4eba081b}{\index{\-Antenna Track Gadget Plugin@{\-Antenna Track Gadget Plugin}!sort\-Ports@{sort\-Ports}}
+\index{sort\-Ports@{sort\-Ports}!Antenna Track Gadget Plugin@{\-Antenna Track Gadget Plugin}}
+\subsubsection[{sort\-Ports}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf sort\-Ports} (
+\begin{DoxyParamCaption}
+\item[{\-Qext\-Port\-Info const \&}]{s1, }
+\item[{\-Qext\-Port\-Info const \&}]{s2}
+\end{DoxyParamCaption}
+)}}\label{group___antenna_track_gadget_plugin_ga6244f67dce3641a662a3c15f4eba081b}
+
+
+\-Definition at line 159 of file antennatrackgadgetoptionspage.\-cpp.
+
+\hypertarget{group___antenna_track_gadget_plugin_ga9f04acbb3e66e621c35afaa756e61cb0}{\index{\-Antenna Track Gadget Plugin@{\-Antenna Track Gadget Plugin}!speed@{speed}}
+\index{speed@{speed}!Antenna Track Gadget Plugin@{\-Antenna Track Gadget Plugin}}
+\subsubsection[{speed}]{\setlength{\rightskip}{0pt plus 5cm}\-Baud\-Rate\-Type {\bf \-Antenna\-Track\-Gadget\-Configuration\-::speed} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___antenna_track_gadget_plugin_ga9f04acbb3e66e621c35afaa756e61cb0}
+
+
+\-Definition at line 56 of file antennatrackgadgetconfiguration.\-h.
+
+\hypertarget{group___antenna_track_gadget_plugin_ga9cb31ed1936c27264a65a79f45ca67b9}{\index{\-Antenna Track Gadget Plugin@{\-Antenna Track Gadget Plugin}!stop\-Bits@{stop\-Bits}}
+\index{stop\-Bits@{stop\-Bits}!Antenna Track Gadget Plugin@{\-Antenna Track Gadget Plugin}}
+\subsubsection[{stop\-Bits}]{\setlength{\rightskip}{0pt plus 5cm}\-Stop\-Bits\-Type {\bf \-Antenna\-Track\-Gadget\-Configuration\-::stop\-Bits} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___antenna_track_gadget_plugin_ga9cb31ed1936c27264a65a79f45ca67b9}
+
+
+\-Definition at line 59 of file antennatrackgadgetconfiguration.\-h.
+
+\hypertarget{group___antenna_track_gadget_plugin_gaeecdda26c0e04883d4ddb31cca80a3ca}{\index{\-Antenna Track Gadget Plugin@{\-Antenna Track Gadget Plugin}!time\-Out@{time\-Out}}
+\index{time\-Out@{time\-Out}!Antenna Track Gadget Plugin@{\-Antenna Track Gadget Plugin}}
+\subsubsection[{time\-Out}]{\setlength{\rightskip}{0pt plus 5cm}long {\bf \-Antenna\-Track\-Gadget\-Configuration\-::time\-Out} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___antenna_track_gadget_plugin_gaeecdda26c0e04883d4ddb31cca80a3ca}
+
+
+\-Definition at line 61 of file antennatrackgadgetconfiguration.\-h.
+
+\hypertarget{group___antenna_track_gadget_plugin_ga890a1b4ef09527df4e205d76d2378da1}{\index{\-Antenna Track Gadget Plugin@{\-Antenna Track Gadget Plugin}!widget@{widget}}
+\index{widget@{widget}!Antenna Track Gadget Plugin@{\-Antenna Track Gadget Plugin}}
+\subsubsection[{widget}]{\setlength{\rightskip}{0pt plus 5cm}\-Q\-Widget$\ast$ {\bf \-Antenna\-Track\-Gadget\-::widget} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, virtual\mbox{]}}}}\label{group___antenna_track_gadget_plugin_ga890a1b4ef09527df4e205d76d2378da1}
+
+
+\-Implements \hyperlink{group___core_plugin_gac74c76eef51e24e62a333fe0fd940cf6}{\-Core\-::\-I\-U\-A\-V\-Gadget}.
+
+
+
+\-Definition at line 51 of file antennatrackgadget.\-h.
+
+\hypertarget{group___antenna_track_gadget_plugin_ga90012834df22b16c7824162b33eae46d}{\index{\-Antenna Track Gadget Plugin@{\-Antenna Track Gadget Plugin}!$\sim$\-Antenna\-Track\-Gadget@{$\sim$\-Antenna\-Track\-Gadget}}
+\index{$\sim$\-Antenna\-Track\-Gadget@{$\sim$\-Antenna\-Track\-Gadget}!Antenna Track Gadget Plugin@{\-Antenna Track Gadget Plugin}}
+\subsubsection[{$\sim$\-Antenna\-Track\-Gadget}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Antenna\-Track\-Gadget\-::$\sim$\-Antenna\-Track\-Gadget} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___antenna_track_gadget_plugin_ga90012834df22b16c7824162b33eae46d}
+
+
+\-Definition at line 41 of file antennatrackgadget.\-cpp.
+
+\hypertarget{group___antenna_track_gadget_plugin_ga6d885117d7af90d116622d81273651cd}{\index{\-Antenna Track Gadget Plugin@{\-Antenna Track Gadget Plugin}!$\sim$\-Antenna\-Track\-Gadget\-Factory@{$\sim$\-Antenna\-Track\-Gadget\-Factory}}
+\index{$\sim$\-Antenna\-Track\-Gadget\-Factory@{$\sim$\-Antenna\-Track\-Gadget\-Factory}!Antenna Track Gadget Plugin@{\-Antenna Track Gadget Plugin}}
+\subsubsection[{$\sim$\-Antenna\-Track\-Gadget\-Factory}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Antenna\-Track\-Gadget\-Factory\-::$\sim$\-Antenna\-Track\-Gadget\-Factory} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___antenna_track_gadget_plugin_ga6d885117d7af90d116622d81273651cd}
+
+
+\-Definition at line 41 of file antennatrackgadgetfactory.\-cpp.
+
+\hypertarget{group___antenna_track_gadget_plugin_gaee8823dccf11047cf563237c1f8e4864}{\index{\-Antenna Track Gadget Plugin@{\-Antenna Track Gadget Plugin}!$\sim$\-Antenna\-Track\-Widget@{$\sim$\-Antenna\-Track\-Widget}}
+\index{$\sim$\-Antenna\-Track\-Widget@{$\sim$\-Antenna\-Track\-Widget}!Antenna Track Gadget Plugin@{\-Antenna Track Gadget Plugin}}
+\subsubsection[{$\sim$\-Antenna\-Track\-Widget}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Antenna\-Track\-Widget\-::$\sim$\-Antenna\-Track\-Widget} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___antenna_track_gadget_plugin_gaee8823dccf11047cf563237c1f8e4864}
+
+
+\-Definition at line 49 of file antennatrackwidget.\-cpp.
+
+\hypertarget{group___antenna_track_gadget_plugin_ga6773ae49e6fecc274191f0d0e29294d8}{\index{\-Antenna Track Gadget Plugin@{\-Antenna Track Gadget Plugin}!$\sim$\-G\-P\-S\-Parser@{$\sim$\-G\-P\-S\-Parser}}
+\index{$\sim$\-G\-P\-S\-Parser@{$\sim$\-G\-P\-S\-Parser}!Antenna Track Gadget Plugin@{\-Antenna Track Gadget Plugin}}
+\subsubsection[{$\sim$\-G\-P\-S\-Parser}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-G\-P\-S\-Parser\-::$\sim$\-G\-P\-S\-Parser} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___antenna_track_gadget_plugin_ga6773ae49e6fecc274191f0d0e29294d8}
+
+
+\-Definition at line 35 of file gpsparser.\-cpp.
+
+\hypertarget{group___antenna_track_gadget_plugin_ga9a05a4fb6f18cdc568bc4e8f52534977}{\index{\-Antenna Track Gadget Plugin@{\-Antenna Track Gadget Plugin}!$\sim$\-Telemetry\-Parser@{$\sim$\-Telemetry\-Parser}}
+\index{$\sim$\-Telemetry\-Parser@{$\sim$\-Telemetry\-Parser}!Antenna Track Gadget Plugin@{\-Antenna Track Gadget Plugin}}
+\subsubsection[{$\sim$\-Telemetry\-Parser}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Telemetry\-Parser\-::$\sim$\-Telemetry\-Parser} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___antenna_track_gadget_plugin_ga9a05a4fb6f18cdc568bc4e8f52534977}
+
+
+\-Definition at line 58 of file telemetryparser.\-cpp.
+
+
+
+\subsection{\-Variable \-Documentation}
+\hypertarget{group___antenna_track_gadget_plugin_ga528ec049631eed362529f9ea5fd30b99}{\index{\-Antenna Track Gadget Plugin@{\-Antenna Track Gadget Plugin}!\-Altitude@{\-Altitude}}
+\index{\-Altitude@{\-Altitude}!Antenna Track Gadget Plugin@{\-Antenna Track Gadget Plugin}}
+\subsubsection[{\-Altitude}]{\setlength{\rightskip}{0pt plus 5cm}double {\bf struct\-\_\-\-Track\-Data\-::\-Altitude}}}\label{group___antenna_track_gadget_plugin_ga528ec049631eed362529f9ea5fd30b99}
+
+
+\-Definition at line 46 of file antennatrackwidget.\-h.
+
+\hypertarget{group___antenna_track_gadget_plugin_ga0bb6374ee3a9a6f864fbd03a1c791256}{\index{\-Antenna Track Gadget Plugin@{\-Antenna Track Gadget Plugin}!\-Home\-Altitude@{\-Home\-Altitude}}
+\index{\-Home\-Altitude@{\-Home\-Altitude}!Antenna Track Gadget Plugin@{\-Antenna Track Gadget Plugin}}
+\subsubsection[{\-Home\-Altitude}]{\setlength{\rightskip}{0pt plus 5cm}double {\bf struct\-\_\-\-Track\-Data\-::\-Home\-Altitude}}}\label{group___antenna_track_gadget_plugin_ga0bb6374ee3a9a6f864fbd03a1c791256}
+
+
+\-Definition at line 49 of file antennatrackwidget.\-h.
+
+\hypertarget{group___antenna_track_gadget_plugin_gad25500d6984ee3227abe9b2663c0a975}{\index{\-Antenna Track Gadget Plugin@{\-Antenna Track Gadget Plugin}!\-Home\-Latitude@{\-Home\-Latitude}}
+\index{\-Home\-Latitude@{\-Home\-Latitude}!Antenna Track Gadget Plugin@{\-Antenna Track Gadget Plugin}}
+\subsubsection[{\-Home\-Latitude}]{\setlength{\rightskip}{0pt plus 5cm}double {\bf struct\-\_\-\-Track\-Data\-::\-Home\-Latitude}}}\label{group___antenna_track_gadget_plugin_gad25500d6984ee3227abe9b2663c0a975}
+
+
+\-Definition at line 47 of file antennatrackwidget.\-h.
+
+\hypertarget{group___antenna_track_gadget_plugin_ga297bb9a225f2fa6033327e0d99bc5eac}{\index{\-Antenna Track Gadget Plugin@{\-Antenna Track Gadget Plugin}!\-Home\-Longitude@{\-Home\-Longitude}}
+\index{\-Home\-Longitude@{\-Home\-Longitude}!Antenna Track Gadget Plugin@{\-Antenna Track Gadget Plugin}}
+\subsubsection[{\-Home\-Longitude}]{\setlength{\rightskip}{0pt plus 5cm}double {\bf struct\-\_\-\-Track\-Data\-::\-Home\-Longitude}}}\label{group___antenna_track_gadget_plugin_ga297bb9a225f2fa6033327e0d99bc5eac}
+
+
+\-Definition at line 48 of file antennatrackwidget.\-h.
+
+\hypertarget{group___antenna_track_gadget_plugin_ga412a0215352cff81241572b0637ca6d5}{\index{\-Antenna Track Gadget Plugin@{\-Antenna Track Gadget Plugin}!\-Latitude@{\-Latitude}}
+\index{\-Latitude@{\-Latitude}!Antenna Track Gadget Plugin@{\-Antenna Track Gadget Plugin}}
+\subsubsection[{\-Latitude}]{\setlength{\rightskip}{0pt plus 5cm}double {\bf struct\-\_\-\-Track\-Data\-::\-Latitude}}}\label{group___antenna_track_gadget_plugin_ga412a0215352cff81241572b0637ca6d5}
+
+
+\-Definition at line 44 of file antennatrackwidget.\-h.
+
+\hypertarget{group___antenna_track_gadget_plugin_gadd67067451f9adf6f25e45bcb7498a32}{\index{\-Antenna Track Gadget Plugin@{\-Antenna Track Gadget Plugin}!\-Longitude@{\-Longitude}}
+\index{\-Longitude@{\-Longitude}!Antenna Track Gadget Plugin@{\-Antenna Track Gadget Plugin}}
+\subsubsection[{\-Longitude}]{\setlength{\rightskip}{0pt plus 5cm}double {\bf struct\-\_\-\-Track\-Data\-::\-Longitude}}}\label{group___antenna_track_gadget_plugin_gadd67067451f9adf6f25e45bcb7498a32}
+
+
+\-Definition at line 45 of file antennatrackwidget.\-h.
+
+\hypertarget{group___antenna_track_gadget_plugin_ga18b3b7f2868671ca1d6e117f0bbccd90}{\index{\-Antenna Track Gadget Plugin@{\-Antenna Track Gadget Plugin}!\-Track\-Data@{\-Track\-Data}}
+\index{\-Track\-Data@{\-Track\-Data}!Antenna Track Gadget Plugin@{\-Antenna Track Gadget Plugin}}
+\subsubsection[{\-Track\-Data}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Track\-Data\-\_\-t} {\bf \-Antenna\-Track\-Widget\-::\-Track\-Data}}}\label{group___antenna_track_gadget_plugin_ga18b3b7f2868671ca1d6e117f0bbccd90}
+
+
+\-Definition at line 60 of file antennatrackwidget.\-h.
+
+
+
+\subsection{\-Signals}
+\hypertarget{group___antenna_track_gadget_plugin_ga95a0ee3f47dc682adcdfd74c2d06c616}{\index{\-Antenna Track Gadget Plugin@{\-Antenna Track Gadget Plugin}!datetime@{datetime}}
+\index{datetime@{datetime}!Antenna Track Gadget Plugin@{\-Antenna Track Gadget Plugin}}
+\subsubsection[{datetime}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-G\-P\-S\-Parser\-::datetime} (
+\begin{DoxyParamCaption}
+\item[{double}]{, }
+\item[{double}]{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}signal\mbox{]}}}}\label{group___antenna_track_gadget_plugin_ga95a0ee3f47dc682adcdfd74c2d06c616}
+\hypertarget{group___antenna_track_gadget_plugin_ga53672aaf2037c7a9b389c15e69bc4d80}{\index{\-Antenna Track Gadget Plugin@{\-Antenna Track Gadget Plugin}!dop@{dop}}
+\index{dop@{dop}!Antenna Track Gadget Plugin@{\-Antenna Track Gadget Plugin}}
+\subsubsection[{dop}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-G\-P\-S\-Parser\-::dop} (
+\begin{DoxyParamCaption}
+\item[{double}]{, }
+\item[{double}]{, }
+\item[{double}]{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}signal\mbox{]}}}}\label{group___antenna_track_gadget_plugin_ga53672aaf2037c7a9b389c15e69bc4d80}
+\hypertarget{group___antenna_track_gadget_plugin_ga145563ebabd7ea6b135bad3d05cb9085}{\index{\-Antenna Track Gadget Plugin@{\-Antenna Track Gadget Plugin}!fixmode@{fixmode}}
+\index{fixmode@{fixmode}!Antenna Track Gadget Plugin@{\-Antenna Track Gadget Plugin}}
+\subsubsection[{fixmode}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-G\-P\-S\-Parser\-::fixmode} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Q\-String}}]{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}signal\mbox{]}}}}\label{group___antenna_track_gadget_plugin_ga145563ebabd7ea6b135bad3d05cb9085}
+\hypertarget{group___antenna_track_gadget_plugin_gacd7414def0621beab61941370e0dc874}{\index{\-Antenna Track Gadget Plugin@{\-Antenna Track Gadget Plugin}!fix\-S\-Vs@{fix\-S\-Vs}}
+\index{fix\-S\-Vs@{fix\-S\-Vs}!Antenna Track Gadget Plugin@{\-Antenna Track Gadget Plugin}}
+\subsubsection[{fix\-S\-Vs}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-G\-P\-S\-Parser\-::fix\-S\-Vs} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-List$<$ int $>$}]{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}signal\mbox{]}}}}\label{group___antenna_track_gadget_plugin_gacd7414def0621beab61941370e0dc874}
+\hypertarget{group___antenna_track_gadget_plugin_gadccc59d425cbc0c0f8da68a3438e4e22}{\index{\-Antenna Track Gadget Plugin@{\-Antenna Track Gadget Plugin}!fixtype@{fixtype}}
+\index{fixtype@{fixtype}!Antenna Track Gadget Plugin@{\-Antenna Track Gadget Plugin}}
+\subsubsection[{fixtype}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-G\-P\-S\-Parser\-::fixtype} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Q\-String}}]{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}signal\mbox{]}}}}\label{group___antenna_track_gadget_plugin_gadccc59d425cbc0c0f8da68a3438e4e22}
+\hypertarget{group___antenna_track_gadget_plugin_ga45082766eb72d3481f5755c19bf887ae}{\index{\-Antenna Track Gadget Plugin@{\-Antenna Track Gadget Plugin}!home@{home}}
+\index{home@{home}!Antenna Track Gadget Plugin@{\-Antenna Track Gadget Plugin}}
+\subsubsection[{home}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-G\-P\-S\-Parser\-::home} (
+\begin{DoxyParamCaption}
+\item[{double}]{, }
+\item[{double}]{, }
+\item[{double}]{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}signal\mbox{]}}}}\label{group___antenna_track_gadget_plugin_ga45082766eb72d3481f5755c19bf887ae}
+\hypertarget{group___antenna_track_gadget_plugin_gaa52c8cc41458c01d411d550d1e3f3d96}{\index{\-Antenna Track Gadget Plugin@{\-Antenna Track Gadget Plugin}!packet@{packet}}
+\index{packet@{packet}!Antenna Track Gadget Plugin@{\-Antenna Track Gadget Plugin}}
+\subsubsection[{packet}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-G\-P\-S\-Parser\-::packet} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Q\-String}}]{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}signal\mbox{]}}}}\label{group___antenna_track_gadget_plugin_gaa52c8cc41458c01d411d550d1e3f3d96}
+\hypertarget{group___antenna_track_gadget_plugin_ga07f9008aa82b159a457c64d35fdaa3fc}{\index{\-Antenna Track Gadget Plugin@{\-Antenna Track Gadget Plugin}!position@{position}}
+\index{position@{position}!Antenna Track Gadget Plugin@{\-Antenna Track Gadget Plugin}}
+\subsubsection[{position}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-G\-P\-S\-Parser\-::position} (
+\begin{DoxyParamCaption}
+\item[{double}]{, }
+\item[{double}]{, }
+\item[{double}]{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}signal\mbox{]}}}}\label{group___antenna_track_gadget_plugin_ga07f9008aa82b159a457c64d35fdaa3fc}
+\hypertarget{group___antenna_track_gadget_plugin_gace7bc390ce3acaaf985eafad1b4217b3}{\index{\-Antenna Track Gadget Plugin@{\-Antenna Track Gadget Plugin}!satellite@{satellite}}
+\index{satellite@{satellite}!Antenna Track Gadget Plugin@{\-Antenna Track Gadget Plugin}}
+\subsubsection[{satellite}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-G\-P\-S\-Parser\-::satellite} (
+\begin{DoxyParamCaption}
+\item[{int}]{, }
+\item[{int}]{, }
+\item[{int}]{, }
+\item[{int}]{, }
+\item[{int}]{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}signal\mbox{]}}}}\label{group___antenna_track_gadget_plugin_gace7bc390ce3acaaf985eafad1b4217b3}
+\hypertarget{group___antenna_track_gadget_plugin_gad43cce1299e39b4fd4f9c43eb2ebbf67}{\index{\-Antenna Track Gadget Plugin@{\-Antenna Track Gadget Plugin}!speedheading@{speedheading}}
+\index{speedheading@{speedheading}!Antenna Track Gadget Plugin@{\-Antenna Track Gadget Plugin}}
+\subsubsection[{speedheading}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-G\-P\-S\-Parser\-::speedheading} (
+\begin{DoxyParamCaption}
+\item[{double}]{, }
+\item[{double}]{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}signal\mbox{]}}}}\label{group___antenna_track_gadget_plugin_gad43cce1299e39b4fd4f9c43eb2ebbf67}
+\hypertarget{group___antenna_track_gadget_plugin_ga5a65377c76fbafb57f377266034c7396}{\index{\-Antenna Track Gadget Plugin@{\-Antenna Track Gadget Plugin}!sv@{sv}}
+\index{sv@{sv}!Antenna Track Gadget Plugin@{\-Antenna Track Gadget Plugin}}
+\subsubsection[{sv}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-G\-P\-S\-Parser\-::sv} (
+\begin{DoxyParamCaption}
+\item[{int}]{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}signal\mbox{]}}}}\label{group___antenna_track_gadget_plugin_ga5a65377c76fbafb57f377266034c7396}
+
+
+\subsection{\-Public \-Slots}
+\hypertarget{group___antenna_track_gadget_plugin_ga900506724dae73384f80ed883f037588}{\index{\-Antenna Track Gadget Plugin@{\-Antenna Track Gadget Plugin}!on\-Connect@{on\-Connect}}
+\index{on\-Connect@{on\-Connect}!Antenna Track Gadget Plugin@{\-Antenna Track Gadget Plugin}}
+\subsubsection[{on\-Connect}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Antenna\-Track\-Gadget\-::on\-Connect} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}slot\mbox{]}}}}\label{group___antenna_track_gadget_plugin_ga900506724dae73384f80ed883f037588}
+
+
+\-Definition at line 107 of file antennatrackgadget.\-cpp.
+
+\hypertarget{group___antenna_track_gadget_plugin_ga2732f0141e7e02dc548535a3a87965a6}{\index{\-Antenna Track Gadget Plugin@{\-Antenna Track Gadget Plugin}!on\-Disconnect@{on\-Disconnect}}
+\index{on\-Disconnect@{on\-Disconnect}!Antenna Track Gadget Plugin@{\-Antenna Track Gadget Plugin}}
+\subsubsection[{on\-Disconnect}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Antenna\-Track\-Gadget\-::on\-Disconnect} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}slot\mbox{]}}}}\label{group___antenna_track_gadget_plugin_ga2732f0141e7e02dc548535a3a87965a6}
+
+
+\-Definition at line 125 of file antennatrackgadget.\-cpp.
+
+\hypertarget{group___antenna_track_gadget_plugin_ga9b1c1509701c154ad1c3cdeef0cb522b}{\index{\-Antenna Track Gadget Plugin@{\-Antenna Track Gadget Plugin}!update\-G\-P\-S@{update\-G\-P\-S}}
+\index{update\-G\-P\-S@{update\-G\-P\-S}!Antenna Track Gadget Plugin@{\-Antenna Track Gadget Plugin}}
+\subsubsection[{update\-G\-P\-S}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Telemetry\-Parser\-::update\-G\-P\-S} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-U\-A\-V\-Object} $\ast$}]{object1}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}slot\mbox{]}}}}\label{group___antenna_track_gadget_plugin_ga9b1c1509701c154ad1c3cdeef0cb522b}
+
+
+\-Definition at line 73 of file telemetryparser.\-cpp.
+
+\hypertarget{group___antenna_track_gadget_plugin_ga0e7bcbaf20beede5d60913dc50505465}{\index{\-Antenna Track Gadget Plugin@{\-Antenna Track Gadget Plugin}!update\-Home@{update\-Home}}
+\index{update\-Home@{update\-Home}!Antenna Track Gadget Plugin@{\-Antenna Track Gadget Plugin}}
+\subsubsection[{update\-Home}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Telemetry\-Parser\-::update\-Home} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-U\-A\-V\-Object} $\ast$}]{object1}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}slot\mbox{]}}}}\label{group___antenna_track_gadget_plugin_ga0e7bcbaf20beede5d60913dc50505465}
+
+
+\-Definition at line 63 of file telemetryparser.\-cpp.
+

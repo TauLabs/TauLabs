@@ -1,0 +1,90 @@
+\hypertarget{pios__flash__ut_8c}{\section{/home/jb/code/\-Tau\-Labs/flight/tests/logfs/pios\-\_\-flash\-\_\-ut.c \-File \-Reference}
+\label{pios__flash__ut_8c}\index{/home/jb/code/\-Tau\-Labs/flight/tests/logfs/pios\-\_\-flash\-\_\-ut.\-c@{/home/jb/code/\-Tau\-Labs/flight/tests/logfs/pios\-\_\-flash\-\_\-ut.\-c}}
+}
+\subsection*{\-Data \-Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structflash__ut__dev}{flash\-\_\-ut\-\_\-dev}
+\end{DoxyCompactItemize}
+\subsection*{\-Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{pios__flash__ut_8c_a9b498a69a687416b34b95a255083b7f6}{flash\-\_\-ut\-\_\-magic} \{ \hyperlink{pios__flash__ut_8c_a9b498a69a687416b34b95a255083b7f6a69f9d16606d71254cabfda5591dcbd84}{\-F\-L\-A\-S\-H\-\_\-\-U\-T\-\_\-\-M\-A\-G\-I\-C} =  0x321dabc1
+ \}
+\end{DoxyCompactItemize}
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+int32\-\_\-t \hyperlink{pios__flash__ut_8c_a854127be13e5e45765241d2354972d15}{\-P\-I\-O\-S\-\_\-\-Flash\-\_\-\-U\-T\-\_\-\-Init} (uintptr\-\_\-t $\ast$flash\-\_\-id, const struct \hyperlink{structpios__flash__ut__cfg}{pios\-\_\-flash\-\_\-ut\-\_\-cfg} $\ast$cfg)
+\item 
+void \hyperlink{pios__flash__ut_8c_a367cb83a912a314467bb415218a50f6e}{\-P\-I\-O\-S\-\_\-\-Flash\-\_\-\-U\-T\-\_\-\-Destroy} (uintptr\-\_\-t flash\-\_\-id)
+\end{DoxyCompactItemize}
+\subsection*{\-Variables}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structpios__flash__driver}{pios\-\_\-flash\-\_\-driver} \hyperlink{pios__flash__ut_8c_ac18ccc09c0b7a2c7306dcd70e94e0952}{pios\-\_\-ut\-\_\-flash\-\_\-driver}
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Enumeration \-Type \-Documentation}
+\hypertarget{pios__flash__ut_8c_a9b498a69a687416b34b95a255083b7f6}{\index{pios\-\_\-flash\-\_\-ut.\-c@{pios\-\_\-flash\-\_\-ut.\-c}!flash\-\_\-ut\-\_\-magic@{flash\-\_\-ut\-\_\-magic}}
+\index{flash\-\_\-ut\-\_\-magic@{flash\-\_\-ut\-\_\-magic}!pios_flash_ut.c@{pios\-\_\-flash\-\_\-ut.\-c}}
+\subsubsection[{flash\-\_\-ut\-\_\-magic}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf flash\-\_\-ut\-\_\-magic}}}\label{pios__flash__ut_8c_a9b498a69a687416b34b95a255083b7f6}
+\begin{Desc}
+\item[\-Enumerator\-: ]\par
+\begin{description}
+\index{\-F\-L\-A\-S\-H\-\_\-\-U\-T\-\_\-\-M\-A\-G\-I\-C@{\-F\-L\-A\-S\-H\-\_\-\-U\-T\-\_\-\-M\-A\-G\-I\-C}!pios\-\_\-flash\-\_\-ut.\-c@{pios\-\_\-flash\-\_\-ut.\-c}}\index{pios\-\_\-flash\-\_\-ut.\-c@{pios\-\_\-flash\-\_\-ut.\-c}!\-F\-L\-A\-S\-H\-\_\-\-U\-T\-\_\-\-M\-A\-G\-I\-C@{\-F\-L\-A\-S\-H\-\_\-\-U\-T\-\_\-\-M\-A\-G\-I\-C}}\item[{\em 
+\hypertarget{pios__flash__ut_8c_a9b498a69a687416b34b95a255083b7f6a69f9d16606d71254cabfda5591dcbd84}{\-F\-L\-A\-S\-H\-\_\-\-U\-T\-\_\-\-M\-A\-G\-I\-C}\label{pios__flash__ut_8c_a9b498a69a687416b34b95a255083b7f6a69f9d16606d71254cabfda5591dcbd84}
+}]\end{description}
+\end{Desc}
+
+
+
+\-Definition at line 10 of file pios\-\_\-flash\-\_\-ut.\-c.
+
+
+
+\subsection{\-Function \-Documentation}
+\hypertarget{pios__flash__ut_8c_a367cb83a912a314467bb415218a50f6e}{\index{pios\-\_\-flash\-\_\-ut.\-c@{pios\-\_\-flash\-\_\-ut.\-c}!\-P\-I\-O\-S\-\_\-\-Flash\-\_\-\-U\-T\-\_\-\-Destroy@{\-P\-I\-O\-S\-\_\-\-Flash\-\_\-\-U\-T\-\_\-\-Destroy}}
+\index{\-P\-I\-O\-S\-\_\-\-Flash\-\_\-\-U\-T\-\_\-\-Destroy@{\-P\-I\-O\-S\-\_\-\-Flash\-\_\-\-U\-T\-\_\-\-Destroy}!pios_flash_ut.c@{pios\-\_\-flash\-\_\-ut.\-c}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-Flash\-\_\-\-U\-T\-\_\-\-Destroy}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-P\-I\-O\-S\-\_\-\-Flash\-\_\-\-U\-T\-\_\-\-Destroy} (
+\begin{DoxyParamCaption}
+\item[{uintptr\-\_\-t}]{flash\-\_\-id}
+\end{DoxyParamCaption}
+)}}\label{pios__flash__ut_8c_a367cb83a912a314467bb415218a50f6e}
+
+
+\-Definition at line 59 of file pios\-\_\-flash\-\_\-ut.\-c.
+
+\hypertarget{pios__flash__ut_8c_a854127be13e5e45765241d2354972d15}{\index{pios\-\_\-flash\-\_\-ut.\-c@{pios\-\_\-flash\-\_\-ut.\-c}!\-P\-I\-O\-S\-\_\-\-Flash\-\_\-\-U\-T\-\_\-\-Init@{\-P\-I\-O\-S\-\_\-\-Flash\-\_\-\-U\-T\-\_\-\-Init}}
+\index{\-P\-I\-O\-S\-\_\-\-Flash\-\_\-\-U\-T\-\_\-\-Init@{\-P\-I\-O\-S\-\_\-\-Flash\-\_\-\-U\-T\-\_\-\-Init}!pios_flash_ut.c@{pios\-\_\-flash\-\_\-ut.\-c}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-Flash\-\_\-\-U\-T\-\_\-\-Init}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-P\-I\-O\-S\-\_\-\-Flash\-\_\-\-U\-T\-\_\-\-Init} (
+\begin{DoxyParamCaption}
+\item[{uintptr\-\_\-t $\ast$}]{flash\-\_\-id, }
+\item[{const struct {\bf pios\-\_\-flash\-\_\-ut\-\_\-cfg} $\ast$}]{cfg}
+\end{DoxyParamCaption}
+)}}\label{pios__flash__ut_8c_a854127be13e5e45765241d2354972d15}
+
+
+\-Definition at line 30 of file pios\-\_\-flash\-\_\-ut.\-c.
+
+
+
+\subsection{\-Variable \-Documentation}
+\hypertarget{pios__flash__ut_8c_ac18ccc09c0b7a2c7306dcd70e94e0952}{\index{pios\-\_\-flash\-\_\-ut.\-c@{pios\-\_\-flash\-\_\-ut.\-c}!pios\-\_\-ut\-\_\-flash\-\_\-driver@{pios\-\_\-ut\-\_\-flash\-\_\-driver}}
+\index{pios\-\_\-ut\-\_\-flash\-\_\-driver@{pios\-\_\-ut\-\_\-flash\-\_\-driver}!pios_flash_ut.c@{pios\-\_\-flash\-\_\-ut.\-c}}
+\subsubsection[{pios\-\_\-ut\-\_\-flash\-\_\-driver}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf pios\-\_\-flash\-\_\-driver} {\bf pios\-\_\-ut\-\_\-flash\-\_\-driver}}}\label{pios__flash__ut_8c_ac18ccc09c0b7a2c7306dcd70e94e0952}
+{\bfseries \-Initial value\-:}
+\begin{DoxyCode}
+ {
+        .start_transaction = PIOS_Flash_UT_StartTransaction,
+        .end_transaction   = PIOS_Flash_UT_EndTransaction,
+        .erase_sector      = PIOS_Flash_UT_EraseSector,
+        .write_data        = PIOS_Flash_UT_WriteData,
+        .read_data         = PIOS_Flash_UT_ReadData,
+}
+\end{DoxyCode}
+
+
+\-Definition at line 164 of file pios\-\_\-flash\-\_\-ut.\-c.
+

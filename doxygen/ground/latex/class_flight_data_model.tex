@@ -1,0 +1,77 @@
+\hypertarget{class_flight_data_model}{\section{\-Flight\-Data\-Model \-Class \-Reference}
+\label{class_flight_data_model}\index{\-Flight\-Data\-Model@{\-Flight\-Data\-Model}}
+}
+
+
+{\ttfamily \#include $<$flightdatamodel.\-h$>$}
+
+\subsection*{\-Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct {\bfseries \-N\-E\-D}
+\begin{DoxyCompactList}\small\item\em \-N\-E\-D representation of a location. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Public \-Types}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{group___path_gaa0908516cbd02b164b605fce903d9066}{path\-Plan\-Data\-Enum} \{ \*
+\hyperlink{group___path_ggaa0908516cbd02b164b605fce903d9066a13024b57ed66f819f1bd7a7be0e11547}{\-L\-A\-T\-P\-O\-S\-I\-T\-I\-O\-N}, 
+\hyperlink{group___path_ggaa0908516cbd02b164b605fce903d9066a62e4abf60e84ec15a1d55ccead4a171d}{\-L\-N\-G\-P\-O\-S\-I\-T\-I\-O\-N}, 
+\hyperlink{group___path_ggaa0908516cbd02b164b605fce903d9066a6cb875c2764969992994d66ba514a189}{\-A\-L\-T\-I\-T\-U\-D\-E}, 
+\hyperlink{group___path_ggaa0908516cbd02b164b605fce903d9066a17bce9ec0e6fab7e3abc296781e3acbe}{\-N\-E\-D\-\_\-\-N\-O\-R\-T\-H}, 
+\*
+\hyperlink{group___path_ggaa0908516cbd02b164b605fce903d9066ac273ffece3fb399e96824a7c940fbb66}{\-N\-E\-D\-\_\-\-E\-A\-S\-T}, 
+\hyperlink{group___path_ggaa0908516cbd02b164b605fce903d9066a8132be414bfac5bfc9a86e3fa3c2c4c2}{\-N\-E\-D\-\_\-\-D\-O\-W\-N}, 
+\hyperlink{group___path_ggaa0908516cbd02b164b605fce903d9066a1893f60afdc05d0fc0c762e8f74f6b89}{\-V\-E\-L\-O\-C\-I\-T\-Y}, 
+\hyperlink{group___path_ggaa0908516cbd02b164b605fce903d9066abc9a6ccea3fe42c5fb3b77401f59e3e0}{\-M\-O\-D\-E}, 
+\*
+\hyperlink{group___path_ggaa0908516cbd02b164b605fce903d9066a8c8d56fc223af4d252e65152fbf61c5f}{\-M\-O\-D\-E\-\_\-\-P\-A\-R\-A\-M\-S}, 
+\hyperlink{group___path_ggaa0908516cbd02b164b605fce903d9066acf92b5f5aa8947d83f18ff9d9dbb1681}{\-L\-O\-C\-K\-E\-D}, 
+\hyperlink{group___path_ggaa0908516cbd02b164b605fce903d9066a87ddbd86791c5f58af0900f25ea3e0a7}{\-W\-P\-D\-E\-S\-C\-R\-I\-T\-P\-T\-I\-O\-N}, 
+\hyperlink{group___path_ggaa0908516cbd02b164b605fce903d9066a9a93aeb591b9c29b835458cbbfc825c5}{\-L\-A\-S\-T\-C\-O\-L\-U\-M\-N}
+ \}
+\begin{DoxyCompactList}\small\item\em \-The column names. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Public \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___path_ga777bf842aa77abc4db16f1275fac0df0}{\-Flight\-Data\-Model} (\-Q\-Object $\ast$parent)
+\begin{DoxyCompactList}\small\item\em \-Initialize an empty flight plan. \end{DoxyCompactList}\item 
+int \hyperlink{group___path_ga7c8a098e7b8a37867261f0036502a4fc}{row\-Count} (const \-Q\-Model\-Index \&parent=\-Q\-Model\-Index()) const 
+\begin{DoxyCompactList}\small\item\em \-Return the number of waypoints. \end{DoxyCompactList}\item 
+int \hyperlink{group___path_gab6781580d20ed0e89768eafa799856d4}{column\-Count} (const \-Q\-Model\-Index \&parent=\-Q\-Model\-Index()) const 
+\begin{DoxyCompactList}\small\item\em \-Return the number of fields in the model. \end{DoxyCompactList}\item 
+\-Q\-Variant \hyperlink{group___path_ga3314e011bb5ed88b34ab33bf8f94d41e}{data} (const \-Q\-Model\-Index \&index, int role=\-Qt\-::\-Display\-Role) const 
+\begin{DoxyCompactList}\small\item\em \hyperlink{group___path_ga3314e011bb5ed88b34ab33bf8f94d41e}{\-Flight\-Data\-Model\-::data} \-Fetch the data from the model. \end{DoxyCompactList}\item 
+\-Q\-Variant \hyperlink{group___path_gaa4c59e9669bd77cd6475133fcf529bad}{header\-Data} (int section, \-Qt\-::\-Orientation orientation, int role) const 
+\begin{DoxyCompactList}\small\item\em \hyperlink{group___path_gaa4c59e9669bd77cd6475133fcf529bad}{\-Flight\-Data\-Model\-::header\-Data} \-Get the names of the columns. \end{DoxyCompactList}\item 
+bool \hyperlink{group___path_ga8931eaae5c2004c4d42233bcdad3ee4d}{set\-Data} (const \-Q\-Model\-Index \&index, const \-Q\-Variant \&value, int role=\-Qt\-::\-Edit\-Role)
+\begin{DoxyCompactList}\small\item\em \hyperlink{group___path_ga8931eaae5c2004c4d42233bcdad3ee4d}{\-Flight\-Data\-Model\-::set\-Data} \-Set the data at a given location. \end{DoxyCompactList}\item 
+\-Qt\-::\-Item\-Flags \hyperlink{group___path_gaeabf907ec7c9cfc6c410c2dd6678e603}{flags} (const \-Q\-Model\-Index \&index) const 
+\begin{DoxyCompactList}\small\item\em \hyperlink{group___path_gaeabf907ec7c9cfc6c410c2dd6678e603}{\-Flight\-Data\-Model\-::flags} \-Tell \-Q\-T \-M\-V\-C which flags are supported for items. \end{DoxyCompactList}\item 
+bool \hyperlink{group___path_ga17a5cd58322554d7fadb0c84031deb26}{insert\-Rows} (int row, int count, const \-Q\-Model\-Index \&parent=\-Q\-Model\-Index())
+\begin{DoxyCompactList}\small\item\em \hyperlink{group___path_ga17a5cd58322554d7fadb0c84031deb26}{\-Flight\-Data\-Model\-::insert\-Rows} \-Create a new waypoint. \end{DoxyCompactList}\item 
+bool \hyperlink{group___path_ga951208986321a56cc67eafa5a9d67f0e}{remove\-Rows} (int row, int count, const \-Q\-Model\-Index \&parent=\-Q\-Model\-Index())
+\begin{DoxyCompactList}\small\item\em \hyperlink{group___path_ga951208986321a56cc67eafa5a9d67f0e}{\-Flight\-Data\-Model\-::remove\-Rows} \-Remove waypoints from the model. \end{DoxyCompactList}\item 
+bool \hyperlink{group___path_gae8b76411094a9ad3164eab0996436da6}{write\-To\-File} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} filename)
+\begin{DoxyCompactList}\small\item\em \hyperlink{group___path_gae8b76411094a9ad3164eab0996436da6}{\-Flight\-Data\-Model\-::write\-To\-File} \-Write the waypoints to an xml file. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___path_ga39997b5fd9d9720f2798e2c1a18b8171}{read\-From\-File} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} file\-Name)
+\begin{DoxyCompactList}\small\item\em \hyperlink{group___path_ga39997b5fd9d9720f2798e2c1a18b8171}{\-Flight\-Data\-Model\-::read\-From\-File} \-Read into the model from a flight plan xml file. \end{DoxyCompactList}\item 
+bool \hyperlink{group___path_ga59cab53123301865b4604e97e13e1ce0}{replace\-Data} (\hyperlink{class_flight_data_model}{\-Flight\-Data\-Model} $\ast$new\-Model)
+\begin{DoxyCompactList}\small\item\em \-Replace a model data with another model. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Static \-Public \-Attributes}
+\begin{DoxyCompactItemize}
+\item 
+static \-Q\-Map$<$ int, \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} $>$ \hyperlink{group___path_gae4137f8c1c8d4c53cea911761c13b182}{mode\-Names} = \-Q\-Map$<$int, \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String}$>$()
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+
+
+\-Definition at line 46 of file flightdatamodel.\-h.
+
+
+
+\-The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/plugins/pathplanner/\hyperlink{flightdatamodel_8h}{flightdatamodel.\-h}\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/plugins/pathplanner/\hyperlink{flightdatamodel_8cpp}{flightdatamodel.\-cpp}\end{DoxyCompactItemize}

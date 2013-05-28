@@ -1,0 +1,49 @@
+\hypertarget{class_raw_h_i_d_read_thread}{\section{\-Raw\-H\-I\-D\-Read\-Thread \-Class \-Reference}
+\label{class_raw_h_i_d_read_thread}\index{\-Raw\-H\-I\-D\-Read\-Thread@{\-Raw\-H\-I\-D\-Read\-Thread}}
+}
+\subsection*{\-Public \-Slots}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___raw_h_i_d_plugin_ga9a2b05a16852317c6f30aa1171b4e605}{terminate} ()
+\end{DoxyCompactItemize}
+\subsection*{\-Public \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___raw_h_i_d_plugin_ga4a906f373d862e82a9c6972a5144a9ce}{\-Raw\-H\-I\-D\-Read\-Thread} (\hyperlink{class_raw_h_i_d}{\-Raw\-H\-I\-D} $\ast$hid)
+\item 
+virtual \hyperlink{group___raw_h_i_d_plugin_ga39a7dfe6227270e9721fb326ed792805}{$\sim$\-Raw\-H\-I\-D\-Read\-Thread} ()
+\item 
+int \hyperlink{group___raw_h_i_d_plugin_gaa619bfb605e0c07b6a33147d451490cb}{get\-Read\-Data} (char $\ast$data, int size)
+\item 
+qint64 \hyperlink{group___raw_h_i_d_plugin_ga7a009b110ddd862add0a221ad4072e75}{get\-Bytes\-Available} ()
+\end{DoxyCompactItemize}
+\subsection*{\-Protected \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___raw_h_i_d_plugin_ga1f533b47a0fb6382c542a4fa5b344d2a}{run} ()
+\end{DoxyCompactItemize}
+\subsection*{\-Protected \-Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\-Q\-Byte\-Array \hyperlink{group___raw_h_i_d_plugin_gaab5037bdcaa413fed7fea8c575861b1b}{m\-\_\-read\-Buffer}
+\item 
+\-Q\-Mutex \hyperlink{group___raw_h_i_d_plugin_ga5b3754efb963cd7171d34683320c01eb}{m\-\_\-read\-Buf\-Mtx}
+\item 
+\hyperlink{class_raw_h_i_d}{\-Raw\-H\-I\-D} $\ast$ \hyperlink{group___raw_h_i_d_plugin_gae4904e50399d18b7cce82e865d43dcbc}{m\-\_\-hid}
+\item 
+\hyperlink{classpjrc__rawhid}{pjrc\-\_\-rawhid} $\ast$ \hyperlink{group___raw_h_i_d_plugin_ga1a4a37b6308c6b835b62ea90dc2a37f9}{hiddev}
+\item 
+bool \hyperlink{group___raw_h_i_d_plugin_ga0b977a016ba6a452e9bdf1d49e2d89e3}{m\-\_\-running}
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\hyperlink{class_thread}{\-Thread} to desynchronize reading from the device 
+
+\-Definition at line 55 of file rawhid.\-cpp.
+
+
+
+\-The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/plugins/rawhid/\hyperlink{rawhid_8cpp}{rawhid.\-cpp}\end{DoxyCompactItemize}

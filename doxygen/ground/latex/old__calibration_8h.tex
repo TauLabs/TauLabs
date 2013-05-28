@@ -1,0 +1,103 @@
+\hypertarget{old__calibration_8h}{\section{/home/jb/code/\-Tau\-Labs/ground/gcs/src/plugins/config/old\-\_\-calibration.h \-File \-Reference}
+\label{old__calibration_8h}\index{/home/jb/code/\-Tau\-Labs/ground/gcs/src/plugins/config/old\-\_\-calibration.\-h@{/home/jb/code/\-Tau\-Labs/ground/gcs/src/plugins/config/old\-\_\-calibration.\-h}}
+}
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{old__calibration_8h_a480455bf97a856dc35e668762201a560}{calibration\-\_\-misalignment} (\-Vector3f \&rotation\-Vector, const \-Vector3f samples0\mbox{[}$\,$\mbox{]}, const \-Vector3f \&reference0, const \-Vector3f samples1\mbox{[}$\,$\mbox{]}, const \-Vector3f \&reference1, size\-\_\-t n\-\_\-samples)
+\item 
+\-Vector3f \hyperlink{old__calibration_8h_a01970f12c529e37db9f7e4ea0099b038}{twostep\-\_\-bias\-\_\-only} (const \-Vector3f samples\mbox{[}$\,$\mbox{]}, size\-\_\-t n\-\_\-samples, const \-Vector3f \&reference\-Field, const float noise)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{old__calibration_8h_aeadf339a179257ec1a940f8e0c29fe29}{twostep\-\_\-bias\-\_\-scale} (\-Vector3f \&bias, \-Vector3f \&scale, const \-Vector3f samples\mbox{[}$\,$\mbox{]}, const size\-\_\-t n\-\_\-samples, const \-Vector3f \&reference\-Field, const float noise)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{old__calibration_8h_a2730cf74cc141a73bf523a0ea259400a}{twostep\-\_\-bias\-\_\-scale} (\-Vector3f \&bias, \-Matrix3f \&scale, const \-Vector3f samples\mbox{[}$\,$\mbox{]}, const size\-\_\-t n\-\_\-samples, const \-Vector3f \&reference\-Field, const float noise)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___config_plugin_ga0b4a9c7b3d9017c7ddef423745b54f68}{openpilot\-\_\-bias\-\_\-scale} (\-Vector3f \&bias, \-Vector3f \&scale, const \-Vector3f samples\mbox{[}$\,$\mbox{]}, const size\-\_\-t n\-\_\-samples, const \-Vector3f \&reference\-Field)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{old__calibration_8h_a51322985dfdb9c7f300a045823dae16a}{gyroscope\-\_\-calibration} (\-Vector3f \&bias, \-Matrix3f \&accel\-Sensitivity, \-Vector3f gyro\-Samples\mbox{[}$\,$\mbox{]}, \-Vector3f accel\-Samples\mbox{[}$\,$\mbox{]}, size\-\_\-t n\-\_\-samples)
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Function \-Documentation}
+\hypertarget{old__calibration_8h_a480455bf97a856dc35e668762201a560}{\index{old\-\_\-calibration.\-h@{old\-\_\-calibration.\-h}!calibration\-\_\-misalignment@{calibration\-\_\-misalignment}}
+\index{calibration\-\_\-misalignment@{calibration\-\_\-misalignment}!old_calibration.h@{old\-\_\-calibration.\-h}}
+\subsubsection[{calibration\-\_\-misalignment}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf calibration\-\_\-misalignment} (
+\begin{DoxyParamCaption}
+\item[{\-Vector3f \&}]{rotation\-Vector, }
+\item[{const \-Vector3f}]{samples0\mbox{[}$\,$\mbox{]}, }
+\item[{const \-Vector3f \&}]{reference0, }
+\item[{const \-Vector3f}]{samples1\mbox{[}$\,$\mbox{]}, }
+\item[{const \-Vector3f \&}]{reference1, }
+\item[{size\-\_\-t}]{n\-\_\-samples}
+\end{DoxyParamCaption}
+)}}\label{old__calibration_8h_a480455bf97a856dc35e668762201a560}
+\-Calibrate the angular misalignment of one field sensor relative to another.
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em rotation\-Vector\mbox{[}out\mbox{]}} & \-The rotation vector that rotates sensor 1 such that its principle axes are colinear with the axes of sensor 0. \\
+\hline
+{\em samples0\mbox{[}in\mbox{]}} & \-A list of samples of the field observed by the reference sensor. \\
+\hline
+{\em reference0\mbox{[}in\mbox{]}} & \-The common value of the reference field in the inertial reference frame. \\
+\hline
+{\em samples1\mbox{[}in\mbox{]}} & \-The list of samples taken by the sensor to be aligned to the reference. \-The attitude of the sensor head as a whole must be identical between samples0\mbox{[}i\mbox{]} and samples1\mbox{[}i\mbox{]} for all i. \\
+\hline
+{\em reference1\mbox{[}in\mbox{]}} & \-The actual value of the second field in the inertial reference frame. \\
+\hline
+{\em n\-\_\-samples} & \-The number of samples. \\
+\hline
+\end{DoxyParams}
+
+
+\-Definition at line 24 of file alignment-\/calibration.\-cpp.
+
+\hypertarget{old__calibration_8h_a51322985dfdb9c7f300a045823dae16a}{\index{old\-\_\-calibration.\-h@{old\-\_\-calibration.\-h}!gyroscope\-\_\-calibration@{gyroscope\-\_\-calibration}}
+\index{gyroscope\-\_\-calibration@{gyroscope\-\_\-calibration}!old_calibration.h@{old\-\_\-calibration.\-h}}
+\subsubsection[{gyroscope\-\_\-calibration}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf gyroscope\-\_\-calibration} (
+\begin{DoxyParamCaption}
+\item[{\-Vector3f \&}]{bias, }
+\item[{\-Matrix3f \&}]{accel\-Sensitivity, }
+\item[{\-Vector3f}]{gyro\-Samples\mbox{[}$\,$\mbox{]}, }
+\item[{\-Vector3f}]{accel\-Samples\mbox{[}$\,$\mbox{]}, }
+\item[{size\-\_\-t}]{n\-\_\-samples}
+\end{DoxyParamCaption}
+)}}\label{old__calibration_8h_a51322985dfdb9c7f300a045823dae16a}
+
+
+\-Definition at line 22 of file gyro-\/calibration.\-cpp.
+
+\hypertarget{old__calibration_8h_a01970f12c529e37db9f7e4ea0099b038}{\index{old\-\_\-calibration.\-h@{old\-\_\-calibration.\-h}!twostep\-\_\-bias\-\_\-only@{twostep\-\_\-bias\-\_\-only}}
+\index{twostep\-\_\-bias\-\_\-only@{twostep\-\_\-bias\-\_\-only}!old_calibration.h@{old\-\_\-calibration.\-h}}
+\subsubsection[{twostep\-\_\-bias\-\_\-only}]{\setlength{\rightskip}{0pt plus 5cm}\-Vector3f {\bf twostep\-\_\-bias\-\_\-only} (
+\begin{DoxyParamCaption}
+\item[{const \-Vector3f}]{samples\mbox{[}$\,$\mbox{]}, }
+\item[{size\-\_\-t}]{n\-\_\-samples, }
+\item[{const \-Vector3f \&}]{reference\-Field, }
+\item[{const float}]{noise}
+\end{DoxyParamCaption}
+)}}\label{old__calibration_8h_a01970f12c529e37db9f7e4ea0099b038}
+\hypertarget{old__calibration_8h_aeadf339a179257ec1a940f8e0c29fe29}{\index{old\-\_\-calibration.\-h@{old\-\_\-calibration.\-h}!twostep\-\_\-bias\-\_\-scale@{twostep\-\_\-bias\-\_\-scale}}
+\index{twostep\-\_\-bias\-\_\-scale@{twostep\-\_\-bias\-\_\-scale}!old_calibration.h@{old\-\_\-calibration.\-h}}
+\subsubsection[{twostep\-\_\-bias\-\_\-scale}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf twostep\-\_\-bias\-\_\-scale} (
+\begin{DoxyParamCaption}
+\item[{\-Vector3f \&}]{bias, }
+\item[{\-Vector3f \&}]{scale, }
+\item[{const \-Vector3f}]{samples\mbox{[}$\,$\mbox{]}, }
+\item[{const size\-\_\-t}]{n\-\_\-samples, }
+\item[{const \-Vector3f \&}]{reference\-Field, }
+\item[{const float}]{noise}
+\end{DoxyParamCaption}
+)}}\label{old__calibration_8h_aeadf339a179257ec1a940f8e0c29fe29}
+\hypertarget{old__calibration_8h_a2730cf74cc141a73bf523a0ea259400a}{\index{old\-\_\-calibration.\-h@{old\-\_\-calibration.\-h}!twostep\-\_\-bias\-\_\-scale@{twostep\-\_\-bias\-\_\-scale}}
+\index{twostep\-\_\-bias\-\_\-scale@{twostep\-\_\-bias\-\_\-scale}!old_calibration.h@{old\-\_\-calibration.\-h}}
+\subsubsection[{twostep\-\_\-bias\-\_\-scale}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf twostep\-\_\-bias\-\_\-scale} (
+\begin{DoxyParamCaption}
+\item[{\-Vector3f \&}]{bias, }
+\item[{\-Matrix3f \&}]{scale, }
+\item[{const \-Vector3f}]{samples\mbox{[}$\,$\mbox{]}, }
+\item[{const size\-\_\-t}]{n\-\_\-samples, }
+\item[{const \-Vector3f \&}]{reference\-Field, }
+\item[{const float}]{noise}
+\end{DoxyParamCaption}
+)}}\label{old__calibration_8h_a2730cf74cc141a73bf523a0ea259400a}

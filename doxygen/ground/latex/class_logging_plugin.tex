@@ -1,0 +1,164 @@
+\hypertarget{class_logging_plugin}{\section{\-Logging\-Plugin \-Class \-Reference}
+\label{class_logging_plugin}\index{\-Logging\-Plugin@{\-Logging\-Plugin}}
+}
+
+
+{\ttfamily \#include $<$loggingplugin.\-h$>$}
+
+\-Inheritance diagram for \-Logging\-Plugin\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_logging_plugin}
+\end{center}
+\end{figure}
+\subsection*{\-Signals}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_logging_plugin_a98a1e57b1e2f83725350e1ef0058e99e}{stop\-Logging\-Signal} (\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void})
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_logging_plugin_ae099cf3698d490ea9b3484f0fa9ce339}{stop\-Replay\-Signal} (\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void})
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_logging_plugin_a48a1e9450ef2427e4b0da0d6566cc711}{state\-Changed} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String})
+\end{DoxyCompactItemize}
+\subsection*{\-Public \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___logging_gaddeb416da42e01f34abe18fa2fa39400}{\-Logging\-Plugin} ()
+\item 
+\hyperlink{group___logging_gaea5e4f27d801294d19b75975ce35a567}{$\sim$\-Logging\-Plugin} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___logging_gafefd3e10b5da148d3f936cc3631e4792}{extensions\-Initialized} ()
+\item 
+bool \hyperlink{group___logging_ga35b6ec31ee1c4118f1b15d8fb425e013}{initialize} (const \-Q\-String\-List \&arguments, \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} $\ast$error\-String)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___logging_ga15f368e20b8953eb38b932e59462c779}{shutdown} ()
+\item 
+\hyperlink{class_logging_connection}{\-Logging\-Connection} $\ast$ \hyperlink{class_logging_plugin_a50a824fc8b3afb92e4022c61c8ed0eff}{get\-Log\-Connection} ()
+\item 
+\hyperlink{class_log_file}{\-Log\-File} $\ast$ \hyperlink{class_logging_plugin_af36b137218e9bcf44a1c79d954a8f0b2}{get\-Logfile} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_logging_plugin_a732485aa196fa951f26f38764111938a}{set\-Log\-Menu\-Title} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} str)
+\end{DoxyCompactItemize}
+\subsection*{\-Protected \-Types}
+\begin{DoxyCompactItemize}
+\item 
+enum \{ \hyperlink{class_logging_plugin_ad8e62b5675086f87b52b9e6253d766ceab016e5df51d783046bf9e64102b4c54c}{\-I\-D\-L\-E}, 
+\hyperlink{class_logging_plugin_ad8e62b5675086f87b52b9e6253d766cea8e92421dfc070a67508f0311f921c0cd}{\-L\-O\-G\-G\-I\-N\-G}, 
+\hyperlink{class_logging_plugin_ad8e62b5675086f87b52b9e6253d766ceaa2f7f75dc98e5eda7bd7dbd4bf83a31b}{\-R\-E\-P\-L\-A\-Y}
+ \}
+\end{DoxyCompactItemize}
+\subsection*{\-Protected \-Attributes}
+\begin{DoxyCompactItemize}
+\item 
+enum \-Logging\-Plugin\-:: \{ ... \}  \hyperlink{class_logging_plugin_ae4e8e9ffae93981361d7569667082cf3}{state}
+\item 
+\hyperlink{class_logging_thread}{\-Logging\-Thread} $\ast$ \hyperlink{class_logging_plugin_a0e2c95cb5a17fd852e075212993e4ba3}{logging\-Thread}
+\item 
+\hyperlink{class_logging_connection}{\-Logging\-Connection} $\ast$ \hyperlink{class_logging_plugin_aa8ec59a3e026606b2e503ff2644c9e64}{log\-Connection}
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+
+
+\-Definition at line 113 of file loggingplugin.\-h.
+
+
+
+\subsection{\-Member \-Enumeration \-Documentation}
+\hypertarget{class_logging_plugin_ad8e62b5675086f87b52b9e6253d766ce}{\subsubsection[{anonymous enum}]{\setlength{\rightskip}{0pt plus 5cm}anonymous enum\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{class_logging_plugin_ad8e62b5675086f87b52b9e6253d766ce}
+\begin{Desc}
+\item[\-Enumerator\-: ]\par
+\begin{description}
+\index{\-I\-D\-L\-E@{\-I\-D\-L\-E}!\-Logging\-Plugin@{\-Logging\-Plugin}}\index{\-Logging\-Plugin@{\-Logging\-Plugin}!\-I\-D\-L\-E@{\-I\-D\-L\-E}}\item[{\em 
+\hypertarget{class_logging_plugin_ad8e62b5675086f87b52b9e6253d766ceab016e5df51d783046bf9e64102b4c54c}{\-I\-D\-L\-E}\label{class_logging_plugin_ad8e62b5675086f87b52b9e6253d766ceab016e5df51d783046bf9e64102b4c54c}
+}]\index{\-L\-O\-G\-G\-I\-N\-G@{\-L\-O\-G\-G\-I\-N\-G}!\-Logging\-Plugin@{\-Logging\-Plugin}}\index{\-Logging\-Plugin@{\-Logging\-Plugin}!\-L\-O\-G\-G\-I\-N\-G@{\-L\-O\-G\-G\-I\-N\-G}}\item[{\em 
+\hypertarget{class_logging_plugin_ad8e62b5675086f87b52b9e6253d766cea8e92421dfc070a67508f0311f921c0cd}{\-L\-O\-G\-G\-I\-N\-G}\label{class_logging_plugin_ad8e62b5675086f87b52b9e6253d766cea8e92421dfc070a67508f0311f921c0cd}
+}]\index{\-R\-E\-P\-L\-A\-Y@{\-R\-E\-P\-L\-A\-Y}!\-Logging\-Plugin@{\-Logging\-Plugin}}\index{\-Logging\-Plugin@{\-Logging\-Plugin}!\-R\-E\-P\-L\-A\-Y@{\-R\-E\-P\-L\-A\-Y}}\item[{\em 
+\hypertarget{class_logging_plugin_ad8e62b5675086f87b52b9e6253d766ceaa2f7f75dc98e5eda7bd7dbd4bf83a31b}{\-R\-E\-P\-L\-A\-Y}\label{class_logging_plugin_ad8e62b5675086f87b52b9e6253d766ceaa2f7f75dc98e5eda7bd7dbd4bf83a31b}
+}]\end{description}
+\end{Desc}
+
+
+
+\-Definition at line 137 of file loggingplugin.\-h.
+
+
+
+\subsection{\-Member \-Function \-Documentation}
+\hypertarget{class_logging_plugin_a50a824fc8b3afb92e4022c61c8ed0eff}{\index{\-Logging\-Plugin@{\-Logging\-Plugin}!get\-Log\-Connection@{get\-Log\-Connection}}
+\index{get\-Log\-Connection@{get\-Log\-Connection}!LoggingPlugin@{\-Logging\-Plugin}}
+\subsubsection[{get\-Log\-Connection}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Logging\-Connection}$\ast$ {\bf \-Logging\-Plugin\-::get\-Log\-Connection} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{class_logging_plugin_a50a824fc8b3afb92e4022c61c8ed0eff}
+
+
+\-Definition at line 125 of file loggingplugin.\-h.
+
+\hypertarget{class_logging_plugin_af36b137218e9bcf44a1c79d954a8f0b2}{\index{\-Logging\-Plugin@{\-Logging\-Plugin}!get\-Logfile@{get\-Logfile}}
+\index{get\-Logfile@{get\-Logfile}!LoggingPlugin@{\-Logging\-Plugin}}
+\subsubsection[{get\-Logfile}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Log\-File}$\ast$ {\bf \-Logging\-Plugin\-::get\-Logfile} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{class_logging_plugin_af36b137218e9bcf44a1c79d954a8f0b2}
+
+
+\-Definition at line 126 of file loggingplugin.\-h.
+
+\hypertarget{class_logging_plugin_a732485aa196fa951f26f38764111938a}{\index{\-Logging\-Plugin@{\-Logging\-Plugin}!set\-Log\-Menu\-Title@{set\-Log\-Menu\-Title}}
+\index{set\-Log\-Menu\-Title@{set\-Log\-Menu\-Title}!LoggingPlugin@{\-Logging\-Plugin}}
+\subsubsection[{set\-Log\-Menu\-Title}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Logging\-Plugin\-::set\-Log\-Menu\-Title} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Q\-String}}]{str}
+\end{DoxyParamCaption}
+)}}\label{class_logging_plugin_a732485aa196fa951f26f38764111938a}
+\hypertarget{class_logging_plugin_a48a1e9450ef2427e4b0da0d6566cc711}{\index{\-Logging\-Plugin@{\-Logging\-Plugin}!state\-Changed@{state\-Changed}}
+\index{state\-Changed@{state\-Changed}!LoggingPlugin@{\-Logging\-Plugin}}
+\subsubsection[{state\-Changed}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Logging\-Plugin\-::state\-Changed} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Q\-String}}]{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}signal\mbox{]}}}}\label{class_logging_plugin_a48a1e9450ef2427e4b0da0d6566cc711}
+\hypertarget{class_logging_plugin_a98a1e57b1e2f83725350e1ef0058e99e}{\index{\-Logging\-Plugin@{\-Logging\-Plugin}!stop\-Logging\-Signal@{stop\-Logging\-Signal}}
+\index{stop\-Logging\-Signal@{stop\-Logging\-Signal}!LoggingPlugin@{\-Logging\-Plugin}}
+\subsubsection[{stop\-Logging\-Signal}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Logging\-Plugin\-::stop\-Logging\-Signal} (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}signal\mbox{]}}}}\label{class_logging_plugin_a98a1e57b1e2f83725350e1ef0058e99e}
+\hypertarget{class_logging_plugin_ae099cf3698d490ea9b3484f0fa9ce339}{\index{\-Logging\-Plugin@{\-Logging\-Plugin}!stop\-Replay\-Signal@{stop\-Replay\-Signal}}
+\index{stop\-Replay\-Signal@{stop\-Replay\-Signal}!LoggingPlugin@{\-Logging\-Plugin}}
+\subsubsection[{stop\-Replay\-Signal}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Logging\-Plugin\-::stop\-Replay\-Signal} (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}signal\mbox{]}}}}\label{class_logging_plugin_ae099cf3698d490ea9b3484f0fa9ce339}
+
+
+\subsection{\-Member \-Data \-Documentation}
+\hypertarget{class_logging_plugin_aa8ec59a3e026606b2e503ff2644c9e64}{\index{\-Logging\-Plugin@{\-Logging\-Plugin}!log\-Connection@{log\-Connection}}
+\index{log\-Connection@{log\-Connection}!LoggingPlugin@{\-Logging\-Plugin}}
+\subsubsection[{log\-Connection}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Logging\-Connection}$\ast$ {\bf \-Logging\-Plugin\-::log\-Connection}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{class_logging_plugin_aa8ec59a3e026606b2e503ff2644c9e64}
+
+
+\-Definition at line 141 of file loggingplugin.\-h.
+
+\hypertarget{class_logging_plugin_a0e2c95cb5a17fd852e075212993e4ba3}{\index{\-Logging\-Plugin@{\-Logging\-Plugin}!logging\-Thread@{logging\-Thread}}
+\index{logging\-Thread@{logging\-Thread}!LoggingPlugin@{\-Logging\-Plugin}}
+\subsubsection[{logging\-Thread}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Logging\-Thread}$\ast$ {\bf \-Logging\-Plugin\-::logging\-Thread}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{class_logging_plugin_a0e2c95cb5a17fd852e075212993e4ba3}
+
+
+\-Definition at line 138 of file loggingplugin.\-h.
+
+\hypertarget{class_logging_plugin_ae4e8e9ffae93981361d7569667082cf3}{\index{\-Logging\-Plugin@{\-Logging\-Plugin}!state@{state}}
+\index{state@{state}!LoggingPlugin@{\-Logging\-Plugin}}
+\subsubsection[{state}]{\setlength{\rightskip}{0pt plus 5cm}enum \{ ... \}   {\bf \-Logging\-Plugin\-::state}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{class_logging_plugin_ae4e8e9ffae93981361d7569667082cf3}
+
+
+\-The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/plugins/logging/\hyperlink{loggingplugin_8h}{loggingplugin.\-h}\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/plugins/logging/\hyperlink{loggingplugin_8cpp}{loggingplugin.\-cpp}\end{DoxyCompactItemize}

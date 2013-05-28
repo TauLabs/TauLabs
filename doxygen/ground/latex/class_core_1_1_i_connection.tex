@@ -1,0 +1,47 @@
+\hypertarget{class_core_1_1_i_connection}{\section{\-Core\-:\-:\-I\-Connection \-Class \-Reference}
+\label{class_core_1_1_i_connection}\index{\-Core\-::\-I\-Connection@{\-Core\-::\-I\-Connection}}
+}
+
+
+{\ttfamily \#include $<$iconnection.\-h$>$}
+
+\-Inheritance diagram for \-Core\-:\-:\-I\-Connection\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=1.783440cm]{class_core_1_1_i_connection}
+\end{center}
+\end{figure}
+\subsection*{\-Signals}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___core_plugin_ga79b76e167c73d83f42b79f51f66a9c38}{available\-Dev\-Changed} (\hyperlink{class_core_1_1_i_connection}{\-I\-Connection} $\ast$)
+\end{DoxyCompactItemize}
+\subsection*{\-Public \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual \-Q\-List$<$ \hyperlink{class_core_1_1_i_device}{\-I\-Device} $\ast$ $>$ \hyperlink{group___core_plugin_ga2766d577d1343dfbd7f41859363cad29}{available\-Devices} ()=0
+\item 
+virtual \-Q\-I\-O\-Device $\ast$ \hyperlink{group___core_plugin_ga9fa3de80c2899c62813961082ad48e95}{open\-Device} (\hyperlink{class_core_1_1_i_device}{\-I\-Device} $\ast$device)=0
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___core_plugin_ga5264be67cf0d9ca62aae564737389b1d}{close\-Device} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \&device\-Name)
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___core_plugin_ga65bb74489e016d9863f42f0bb87afd8c}{connection\-Name} ()=0
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___core_plugin_gad436df0a83378128cb8034d83e6734f0}{short\-Name} ()
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___core_plugin_gac0a12e1d5a84be9528ce09595b424438}{suspend\-Polling} ()
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___core_plugin_gae3937027985048723454f1ad7d118d1a}{resume\-Polling} ()
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-An \hyperlink{class_core_1_1_i_connection}{\-I\-Connection} object define a \char`\"{}type of connection\char`\"{}, for instance \-U\-S\-B, \-Serial, \-Network, ... 
+
+\-Definition at line 45 of file iconnection.\-h.
+
+
+
+\-The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/plugins/coreplugin/\hyperlink{iconnection_8h}{iconnection.\-h}\end{DoxyCompactItemize}

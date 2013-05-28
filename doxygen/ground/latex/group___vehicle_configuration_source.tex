@@ -1,0 +1,473 @@
+\hypertarget{group___vehicle_configuration_source}{\section{\-Vehicle\-Configuration\-Source}
+\label{group___vehicle_configuration_source}\index{\-Vehicle\-Configuration\-Source@{\-Vehicle\-Configuration\-Source}}
+}
+\subsection*{\-Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structaccel_gyro_bias}{accel\-Gyro\-Bias}
+\item 
+struct \hyperlink{structactuator_channel_settings}{actuator\-Channel\-Settings}
+\item 
+class \hyperlink{class_vehicle_configuration_source}{\-Vehicle\-Configuration\-Source}
+\end{DoxyCompactItemize}
+\subsection*{\-Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{group___vehicle_configuration_source_ga3cfce2b0a501a6fdb7a0ae408ba63556}{\-Vehicle\-Configuration\-Source\-::\-C\-O\-N\-T\-R\-O\-L\-L\-E\-R\-\_\-\-T\-Y\-P\-E} \{ \*
+\hyperlink{group___vehicle_configuration_source_gga3cfce2b0a501a6fdb7a0ae408ba63556a69e31dc8fafebcdb8981dff697239dd4}{\-Vehicle\-Configuration\-Source\-::\-C\-O\-N\-T\-R\-O\-L\-L\-E\-R\-\_\-\-U\-N\-K\-N\-O\-W\-N}, 
+\hyperlink{group___vehicle_configuration_source_gga3cfce2b0a501a6fdb7a0ae408ba63556ac8cfc9f4873ebb35df9f159f5cd64a70}{\-Vehicle\-Configuration\-Source\-::\-C\-O\-N\-T\-R\-O\-L\-L\-E\-R\-\_\-\-C\-C}, 
+\hyperlink{group___vehicle_configuration_source_gga3cfce2b0a501a6fdb7a0ae408ba63556a5181ce709fafc7492ecc4435b8d1b225}{\-Vehicle\-Configuration\-Source\-::\-C\-O\-N\-T\-R\-O\-L\-L\-E\-R\-\_\-\-C\-C3\-D}, 
+\hyperlink{group___vehicle_configuration_source_gga3cfce2b0a501a6fdb7a0ae408ba63556ab492640b9dd702541686984714e89af3}{\-Vehicle\-Configuration\-Source\-::\-C\-O\-N\-T\-R\-O\-L\-L\-E\-R\-\_\-\-R\-E\-V\-O}, 
+\*
+\hyperlink{group___vehicle_configuration_source_gga3cfce2b0a501a6fdb7a0ae408ba63556a00ab0b6a83c903dd05c865b3659b2ae4}{\-Vehicle\-Configuration\-Source\-::\-C\-O\-N\-T\-R\-O\-L\-L\-E\-R\-\_\-\-P\-I\-P\-X}
+ \}
+\item 
+enum \hyperlink{group___vehicle_configuration_source_gaa97253587c69ba0d23535abdc42fad43}{\-Vehicle\-Configuration\-Source\-::\-V\-E\-H\-I\-C\-L\-E\-\_\-\-T\-Y\-P\-E} \{ \*
+\hyperlink{group___vehicle_configuration_source_ggaa97253587c69ba0d23535abdc42fad43a7323fb577948d82afe9c95ab8811a997}{\-Vehicle\-Configuration\-Source\-::\-V\-E\-H\-I\-C\-L\-E\-\_\-\-U\-N\-K\-N\-O\-W\-N}, 
+\hyperlink{group___vehicle_configuration_source_ggaa97253587c69ba0d23535abdc42fad43a70465cb26d67210d6a391ae6c57a3742}{\-Vehicle\-Configuration\-Source\-::\-V\-E\-H\-I\-C\-L\-E\-\_\-\-M\-U\-L\-T\-I}, 
+\hyperlink{group___vehicle_configuration_source_ggaa97253587c69ba0d23535abdc42fad43a0ee07742ddd4e5c2ebb94c0c533fa076}{\-Vehicle\-Configuration\-Source\-::\-V\-E\-H\-I\-C\-L\-E\-\_\-\-F\-I\-X\-E\-D\-W\-I\-N\-G}, 
+\hyperlink{group___vehicle_configuration_source_ggaa97253587c69ba0d23535abdc42fad43a87b79ad838ea0994916b11e3f5334561}{\-Vehicle\-Configuration\-Source\-::\-V\-E\-H\-I\-C\-L\-E\-\_\-\-H\-E\-L\-I}, 
+\*
+\hyperlink{group___vehicle_configuration_source_ggaa97253587c69ba0d23535abdc42fad43a669dadf2a2dceaaee6a2365c7562b946}{\-Vehicle\-Configuration\-Source\-::\-V\-E\-H\-I\-C\-L\-E\-\_\-\-S\-U\-R\-F\-A\-C\-E}
+ \}
+\item 
+enum \hyperlink{group___vehicle_configuration_source_gaa22bfa88d750f2b46f66702a723e8342}{\-Vehicle\-Configuration\-Source\-::\-V\-E\-H\-I\-C\-L\-E\-\_\-\-S\-U\-B\-\_\-\-T\-Y\-P\-E} \{ \*
+\hyperlink{group___vehicle_configuration_source_ggaa22bfa88d750f2b46f66702a723e8342aeba93c4d9061b24097f794b8d4763a70}{\-Vehicle\-Configuration\-Source\-::\-M\-U\-L\-T\-I\-\_\-\-R\-O\-T\-O\-R\-\_\-\-U\-N\-K\-N\-O\-W\-N}, 
+\hyperlink{group___vehicle_configuration_source_ggaa22bfa88d750f2b46f66702a723e8342a8ba2396f556369fc544b1707dbf8c09c}{\-Vehicle\-Configuration\-Source\-::\-M\-U\-L\-T\-I\-\_\-\-R\-O\-T\-O\-R\-\_\-\-T\-R\-I\-\_\-\-Y}, 
+\hyperlink{group___vehicle_configuration_source_ggaa22bfa88d750f2b46f66702a723e8342a7cd7dd43b3e55b58e2c4aaceff440e0b}{\-Vehicle\-Configuration\-Source\-::\-M\-U\-L\-T\-I\-\_\-\-R\-O\-T\-O\-R\-\_\-\-Q\-U\-A\-D\-\_\-\-X}, 
+\hyperlink{group___vehicle_configuration_source_ggaa22bfa88d750f2b46f66702a723e8342a56e3277bdc9f88f083c256ede9413965}{\-Vehicle\-Configuration\-Source\-::\-M\-U\-L\-T\-I\-\_\-\-R\-O\-T\-O\-R\-\_\-\-Q\-U\-A\-D\-\_\-\-P\-L\-U\-S}, 
+\*
+\hyperlink{group___vehicle_configuration_source_ggaa22bfa88d750f2b46f66702a723e8342a4c8e03ffda5b1cdcc859f5e7bb7e7c04}{\-Vehicle\-Configuration\-Source\-::\-M\-U\-L\-T\-I\-\_\-\-R\-O\-T\-O\-R\-\_\-\-H\-E\-X\-A}, 
+\hyperlink{group___vehicle_configuration_source_ggaa22bfa88d750f2b46f66702a723e8342a10b3d25f864d7a96b4005da47e9377c2}{\-Vehicle\-Configuration\-Source\-::\-M\-U\-L\-T\-I\-\_\-\-R\-O\-T\-O\-R\-\_\-\-H\-E\-X\-A\-\_\-\-H}, 
+\hyperlink{group___vehicle_configuration_source_ggaa22bfa88d750f2b46f66702a723e8342aeed58e63afe72d9925a003c4124ead77}{\-Vehicle\-Configuration\-Source\-::\-M\-U\-L\-T\-I\-\_\-\-R\-O\-T\-O\-R\-\_\-\-H\-E\-X\-A\-\_\-\-C\-O\-A\-X\-\_\-\-Y}, 
+\hyperlink{group___vehicle_configuration_source_ggaa22bfa88d750f2b46f66702a723e8342a250cd390b2c2f0490c9966ed731781ee}{\-Vehicle\-Configuration\-Source\-::\-M\-U\-L\-T\-I\-\_\-\-R\-O\-T\-O\-R\-\_\-\-O\-C\-T\-O}, 
+\*
+\hyperlink{group___vehicle_configuration_source_ggaa22bfa88d750f2b46f66702a723e8342a979f9a7694584f8b3a396b60e5266c14}{\-Vehicle\-Configuration\-Source\-::\-M\-U\-L\-T\-I\-\_\-\-R\-O\-T\-O\-R\-\_\-\-O\-C\-T\-O\-\_\-\-V}, 
+\hyperlink{group___vehicle_configuration_source_ggaa22bfa88d750f2b46f66702a723e8342a218c27519bddc93292f0ee616f7176aa}{\-Vehicle\-Configuration\-Source\-::\-M\-U\-L\-T\-I\-\_\-\-R\-O\-T\-O\-R\-\_\-\-O\-C\-T\-O\-\_\-\-C\-O\-A\-X\-\_\-\-X}, 
+\hyperlink{group___vehicle_configuration_source_ggaa22bfa88d750f2b46f66702a723e8342abc0f543bfa442d275376724a8dc832d2}{\-Vehicle\-Configuration\-Source\-::\-M\-U\-L\-T\-I\-\_\-\-R\-O\-T\-O\-R\-\_\-\-O\-C\-T\-O\-\_\-\-C\-O\-A\-X\-\_\-\-P\-L\-U\-S}, 
+\hyperlink{group___vehicle_configuration_source_ggaa22bfa88d750f2b46f66702a723e8342a0febd7d78b840283bdfb67fc2815c116}{\-Vehicle\-Configuration\-Source\-::\-F\-I\-X\-E\-D\-\_\-\-W\-I\-N\-G\-\_\-\-A\-I\-L\-E\-R\-O\-N}, 
+\*
+\hyperlink{group___vehicle_configuration_source_ggaa22bfa88d750f2b46f66702a723e8342a9935d9f4ba873b3a15ea4079a4be5c52}{\-Vehicle\-Configuration\-Source\-::\-F\-I\-X\-E\-D\-\_\-\-W\-I\-N\-G\-\_\-\-V\-T\-A\-I\-L}, 
+\hyperlink{group___vehicle_configuration_source_ggaa22bfa88d750f2b46f66702a723e8342a044343efb9c2ee3b7cd2e5d088dc477c}{\-Vehicle\-Configuration\-Source\-::\-H\-E\-L\-I\-\_\-\-C\-C\-P\-M}
+ \}
+\item 
+enum \hyperlink{group___vehicle_configuration_source_ga734c812e17554d4f7ca67f1008abdd6c}{\-Vehicle\-Configuration\-Source\-::\-E\-S\-C\-\_\-\-T\-Y\-P\-E} \{ \hyperlink{group___vehicle_configuration_source_gga734c812e17554d4f7ca67f1008abdd6cac48ffa07eef85f00880362bac141ba41}{\-Vehicle\-Configuration\-Source\-::\-E\-S\-C\-\_\-\-R\-A\-P\-I\-D}, 
+\hyperlink{group___vehicle_configuration_source_gga734c812e17554d4f7ca67f1008abdd6cacd0b3d034f82dd9b75a376a51c381541}{\-Vehicle\-Configuration\-Source\-::\-E\-S\-C\-\_\-\-L\-E\-G\-A\-C\-Y}, 
+\hyperlink{group___vehicle_configuration_source_gga734c812e17554d4f7ca67f1008abdd6ca3402682b676baad3b5e9c8849fc64ed5}{\-Vehicle\-Configuration\-Source\-::\-E\-S\-C\-\_\-\-U\-N\-K\-N\-O\-W\-N}
+ \}
+\item 
+enum \hyperlink{group___vehicle_configuration_source_gae10edd59d3a32fad8c531a1d2346115c}{\-Vehicle\-Configuration\-Source\-::\-I\-N\-P\-U\-T\-\_\-\-T\-Y\-P\-E} \{ \*
+\hyperlink{group___vehicle_configuration_source_ggae10edd59d3a32fad8c531a1d2346115ca995cd01aadc88d12f3b3f45b1e37e8be}{\-Vehicle\-Configuration\-Source\-::\-I\-N\-P\-U\-T\-\_\-\-P\-W\-M}, 
+\hyperlink{group___vehicle_configuration_source_ggae10edd59d3a32fad8c531a1d2346115ca3a1145e0c6fc8ecbdefc75b0a2fd590b}{\-Vehicle\-Configuration\-Source\-::\-I\-N\-P\-U\-T\-\_\-\-P\-P\-M}, 
+\hyperlink{group___vehicle_configuration_source_ggae10edd59d3a32fad8c531a1d2346115cacf4f11e9f90b42853d09b9d3e5814f05}{\-Vehicle\-Configuration\-Source\-::\-I\-N\-P\-U\-T\-\_\-\-S\-B\-U\-S}, 
+\hyperlink{group___vehicle_configuration_source_ggae10edd59d3a32fad8c531a1d2346115ca6ec3bb54cb1157ec35ab0a25ec9e0f5e}{\-Vehicle\-Configuration\-Source\-::\-I\-N\-P\-U\-T\-\_\-\-D\-S\-M\-X10}, 
+\*
+\hyperlink{group___vehicle_configuration_source_ggae10edd59d3a32fad8c531a1d2346115caf0f7b07c384751f7db153334498c6235}{\-Vehicle\-Configuration\-Source\-::\-I\-N\-P\-U\-T\-\_\-\-D\-S\-M\-X11}, 
+\hyperlink{group___vehicle_configuration_source_ggae10edd59d3a32fad8c531a1d2346115cafca05c6dee22ec020ef9abaa4d5e25eb}{\-Vehicle\-Configuration\-Source\-::\-I\-N\-P\-U\-T\-\_\-\-D\-S\-M2}, 
+\hyperlink{group___vehicle_configuration_source_ggae10edd59d3a32fad8c531a1d2346115cac370a4391eade324d087b73a7200e75d}{\-Vehicle\-Configuration\-Source\-::\-I\-N\-P\-U\-T\-\_\-\-U\-N\-K\-N\-O\-W\-N}
+ \}
+\end{DoxyCompactItemize}
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___vehicle_configuration_source_gafb0dd689dc5216c230c118b385dc1b56}{actuator\-Channel\-Settings\-::actuator\-Channel\-Settings} ()
+\item 
+\hyperlink{group___vehicle_configuration_source_ga56e48ed960f6d5fd24d03e01caaa460b}{\-Vehicle\-Configuration\-Source\-::\-Vehicle\-Configuration\-Source} ()
+\item 
+virtual \*
+\hyperlink{group___vehicle_configuration_source_ga3cfce2b0a501a6fdb7a0ae408ba63556}{\-Vehicle\-Configuration\-Source\-::\-C\-O\-N\-T\-R\-O\-L\-L\-E\-R\-\_\-\-T\-Y\-P\-E} \hyperlink{group___vehicle_configuration_source_ga7c0552b72e10b1c4f84ffcb926f1bc87}{\-Vehicle\-Configuration\-Source\-::get\-Controller\-Type} () const =0
+\item 
+virtual \*
+\hyperlink{group___vehicle_configuration_source_gaa97253587c69ba0d23535abdc42fad43}{\-Vehicle\-Configuration\-Source\-::\-V\-E\-H\-I\-C\-L\-E\-\_\-\-T\-Y\-P\-E} \hyperlink{group___vehicle_configuration_source_gacfd79047f8c186731eca58056dbb979d}{\-Vehicle\-Configuration\-Source\-::get\-Vehicle\-Type} () const =0
+\item 
+virtual \*
+\hyperlink{group___vehicle_configuration_source_gaa22bfa88d750f2b46f66702a723e8342}{\-Vehicle\-Configuration\-Source\-::\-V\-E\-H\-I\-C\-L\-E\-\_\-\-S\-U\-B\-\_\-\-T\-Y\-P\-E} \hyperlink{group___vehicle_configuration_source_gab3c8f49e774f0b679b21f6f281b3b803}{\-Vehicle\-Configuration\-Source\-::get\-Vehicle\-Sub\-Type} () const =0
+\item 
+virtual \*
+\hyperlink{group___vehicle_configuration_source_gae10edd59d3a32fad8c531a1d2346115c}{\-Vehicle\-Configuration\-Source\-::\-I\-N\-P\-U\-T\-\_\-\-T\-Y\-P\-E} \hyperlink{group___vehicle_configuration_source_gaa63bd09fcc8f30102f720cad79f99e7f}{\-Vehicle\-Configuration\-Source\-::get\-Input\-Type} () const =0
+\item 
+virtual \*
+\hyperlink{group___vehicle_configuration_source_ga734c812e17554d4f7ca67f1008abdd6c}{\-Vehicle\-Configuration\-Source\-::\-E\-S\-C\-\_\-\-T\-Y\-P\-E} \hyperlink{group___vehicle_configuration_source_ga748ecf5409ded5e291f093a48cea7637}{\-Vehicle\-Configuration\-Source\-::get\-E\-S\-C\-Type} () const =0
+\item 
+virtual bool \hyperlink{group___vehicle_configuration_source_ga18b570857c0bc2d0e77ad0be0a324f37}{\-Vehicle\-Configuration\-Source\-::is\-Levelling\-Performed} () const =0
+\item 
+virtual \hyperlink{structaccel_gyro_bias}{accel\-Gyro\-Bias} \hyperlink{group___vehicle_configuration_source_gae596e5378b9bc9d126c6c6207f473567}{\-Vehicle\-Configuration\-Source\-::get\-Levelling\-Bias} () const =0
+\item 
+virtual bool \hyperlink{group___vehicle_configuration_source_gaf2d0f922c260a7bd4481d565f1b46589}{\-Vehicle\-Configuration\-Source\-::is\-Motor\-Calibration\-Performed} () const =0
+\item 
+virtual \-Q\-List\*
+$<$ \hyperlink{structactuator_channel_settings}{actuator\-Channel\-Settings} $>$ \hyperlink{group___vehicle_configuration_source_ga21ab7c07bd3271df54d776b80b974a0f}{\-Vehicle\-Configuration\-Source\-::get\-Actuator\-Settings} () const =0
+\item 
+virtual bool \hyperlink{group___vehicle_configuration_source_ga53deeed450e4e532d976fde372be6a54}{\-Vehicle\-Configuration\-Source\-::is\-Restart\-Needed} () const =0
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___vehicle_configuration_source_ga1f54adbaeda45aac3778c52569dfa2f9}{\-Vehicle\-Configuration\-Source\-::get\-Summary\-Text} ()=0
+\end{DoxyCompactItemize}
+\subsection*{\-Variables}
+\begin{DoxyCompactItemize}
+\item 
+float \hyperlink{group___vehicle_configuration_source_ga982c33b20f567fe289dd461ce9bb0df2}{accel\-Gyro\-Bias\-::m\-\_\-accelerometer\-X\-Bias}
+\item 
+float \hyperlink{group___vehicle_configuration_source_ga76b3af5f8c4f87a92045a698eb32c681}{accel\-Gyro\-Bias\-::m\-\_\-accelerometer\-Y\-Bias}
+\item 
+float \hyperlink{group___vehicle_configuration_source_gaa0475cba1c09df9c39a69bbb62711b8e}{accel\-Gyro\-Bias\-::m\-\_\-accelerometer\-Z\-Bias}
+\item 
+float \hyperlink{group___vehicle_configuration_source_ga483a0631083ce446a08b73ecc712ed73}{accel\-Gyro\-Bias\-::m\-\_\-gyro\-X\-Bias}
+\item 
+float \hyperlink{group___vehicle_configuration_source_gade8f76b5b608f6446cb182c372598e53}{accel\-Gyro\-Bias\-::m\-\_\-gyro\-Y\-Bias}
+\item 
+float \hyperlink{group___vehicle_configuration_source_ga637101f3cecb351e7fe8d6106dd50d15}{accel\-Gyro\-Bias\-::m\-\_\-gyro\-Z\-Bias}
+\item 
+quint16 \hyperlink{group___vehicle_configuration_source_ga51bfc85e00becd45e4e622da70ff9d27}{actuator\-Channel\-Settings\-::channel\-Min}
+\item 
+quint16 \hyperlink{group___vehicle_configuration_source_gac557d0adca6e1ec8f789659c32cfbeff}{actuator\-Channel\-Settings\-::channel\-Neutral}
+\item 
+quint16 \hyperlink{group___vehicle_configuration_source_ga204a4e4648453d51e42ad2b82cb68fa8}{actuator\-Channel\-Settings\-::channel\-Max}
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Enumeration \-Type \-Documentation}
+\hypertarget{group___vehicle_configuration_source_ga3cfce2b0a501a6fdb7a0ae408ba63556}{\index{\-Vehicle\-Configuration\-Source@{\-Vehicle\-Configuration\-Source}!\-C\-O\-N\-T\-R\-O\-L\-L\-E\-R\-\_\-\-T\-Y\-P\-E@{\-C\-O\-N\-T\-R\-O\-L\-L\-E\-R\-\_\-\-T\-Y\-P\-E}}
+\index{\-C\-O\-N\-T\-R\-O\-L\-L\-E\-R\-\_\-\-T\-Y\-P\-E@{\-C\-O\-N\-T\-R\-O\-L\-L\-E\-R\-\_\-\-T\-Y\-P\-E}!VehicleConfigurationSource@{\-Vehicle\-Configuration\-Source}}
+\subsubsection[{\-C\-O\-N\-T\-R\-O\-L\-L\-E\-R\-\_\-\-T\-Y\-P\-E}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf \-Vehicle\-Configuration\-Source\-::\-C\-O\-N\-T\-R\-O\-L\-L\-E\-R\-\_\-\-T\-Y\-P\-E}}}\label{group___vehicle_configuration_source_ga3cfce2b0a501a6fdb7a0ae408ba63556}
+\begin{Desc}
+\item[\-Enumerator\-: ]\par
+\begin{description}
+\index{\-C\-O\-N\-T\-R\-O\-L\-L\-E\-R\-\_\-\-U\-N\-K\-N\-O\-W\-N@{\-C\-O\-N\-T\-R\-O\-L\-L\-E\-R\-\_\-\-U\-N\-K\-N\-O\-W\-N}!\-Vehicle\-Configuration\-Source@{\-Vehicle\-Configuration\-Source}}\index{\-Vehicle\-Configuration\-Source@{\-Vehicle\-Configuration\-Source}!\-C\-O\-N\-T\-R\-O\-L\-L\-E\-R\-\_\-\-U\-N\-K\-N\-O\-W\-N@{\-C\-O\-N\-T\-R\-O\-L\-L\-E\-R\-\_\-\-U\-N\-K\-N\-O\-W\-N}}\item[{\em 
+\hypertarget{group___vehicle_configuration_source_gga3cfce2b0a501a6fdb7a0ae408ba63556a69e31dc8fafebcdb8981dff697239dd4}{\-C\-O\-N\-T\-R\-O\-L\-L\-E\-R\-\_\-\-U\-N\-K\-N\-O\-W\-N}\label{group___vehicle_configuration_source_gga3cfce2b0a501a6fdb7a0ae408ba63556a69e31dc8fafebcdb8981dff697239dd4}
+}]\index{\-C\-O\-N\-T\-R\-O\-L\-L\-E\-R\-\_\-\-C\-C@{\-C\-O\-N\-T\-R\-O\-L\-L\-E\-R\-\_\-\-C\-C}!\-Vehicle\-Configuration\-Source@{\-Vehicle\-Configuration\-Source}}\index{\-Vehicle\-Configuration\-Source@{\-Vehicle\-Configuration\-Source}!\-C\-O\-N\-T\-R\-O\-L\-L\-E\-R\-\_\-\-C\-C@{\-C\-O\-N\-T\-R\-O\-L\-L\-E\-R\-\_\-\-C\-C}}\item[{\em 
+\hypertarget{group___vehicle_configuration_source_gga3cfce2b0a501a6fdb7a0ae408ba63556ac8cfc9f4873ebb35df9f159f5cd64a70}{\-C\-O\-N\-T\-R\-O\-L\-L\-E\-R\-\_\-\-C\-C}\label{group___vehicle_configuration_source_gga3cfce2b0a501a6fdb7a0ae408ba63556ac8cfc9f4873ebb35df9f159f5cd64a70}
+}]\index{\-C\-O\-N\-T\-R\-O\-L\-L\-E\-R\-\_\-\-C\-C3\-D@{\-C\-O\-N\-T\-R\-O\-L\-L\-E\-R\-\_\-\-C\-C3\-D}!\-Vehicle\-Configuration\-Source@{\-Vehicle\-Configuration\-Source}}\index{\-Vehicle\-Configuration\-Source@{\-Vehicle\-Configuration\-Source}!\-C\-O\-N\-T\-R\-O\-L\-L\-E\-R\-\_\-\-C\-C3\-D@{\-C\-O\-N\-T\-R\-O\-L\-L\-E\-R\-\_\-\-C\-C3\-D}}\item[{\em 
+\hypertarget{group___vehicle_configuration_source_gga3cfce2b0a501a6fdb7a0ae408ba63556a5181ce709fafc7492ecc4435b8d1b225}{\-C\-O\-N\-T\-R\-O\-L\-L\-E\-R\-\_\-\-C\-C3\-D}\label{group___vehicle_configuration_source_gga3cfce2b0a501a6fdb7a0ae408ba63556a5181ce709fafc7492ecc4435b8d1b225}
+}]\index{\-C\-O\-N\-T\-R\-O\-L\-L\-E\-R\-\_\-\-R\-E\-V\-O@{\-C\-O\-N\-T\-R\-O\-L\-L\-E\-R\-\_\-\-R\-E\-V\-O}!\-Vehicle\-Configuration\-Source@{\-Vehicle\-Configuration\-Source}}\index{\-Vehicle\-Configuration\-Source@{\-Vehicle\-Configuration\-Source}!\-C\-O\-N\-T\-R\-O\-L\-L\-E\-R\-\_\-\-R\-E\-V\-O@{\-C\-O\-N\-T\-R\-O\-L\-L\-E\-R\-\_\-\-R\-E\-V\-O}}\item[{\em 
+\hypertarget{group___vehicle_configuration_source_gga3cfce2b0a501a6fdb7a0ae408ba63556ab492640b9dd702541686984714e89af3}{\-C\-O\-N\-T\-R\-O\-L\-L\-E\-R\-\_\-\-R\-E\-V\-O}\label{group___vehicle_configuration_source_gga3cfce2b0a501a6fdb7a0ae408ba63556ab492640b9dd702541686984714e89af3}
+}]\index{\-C\-O\-N\-T\-R\-O\-L\-L\-E\-R\-\_\-\-P\-I\-P\-X@{\-C\-O\-N\-T\-R\-O\-L\-L\-E\-R\-\_\-\-P\-I\-P\-X}!\-Vehicle\-Configuration\-Source@{\-Vehicle\-Configuration\-Source}}\index{\-Vehicle\-Configuration\-Source@{\-Vehicle\-Configuration\-Source}!\-C\-O\-N\-T\-R\-O\-L\-L\-E\-R\-\_\-\-P\-I\-P\-X@{\-C\-O\-N\-T\-R\-O\-L\-L\-E\-R\-\_\-\-P\-I\-P\-X}}\item[{\em 
+\hypertarget{group___vehicle_configuration_source_gga3cfce2b0a501a6fdb7a0ae408ba63556a00ab0b6a83c903dd05c865b3659b2ae4}{\-C\-O\-N\-T\-R\-O\-L\-L\-E\-R\-\_\-\-P\-I\-P\-X}\label{group___vehicle_configuration_source_gga3cfce2b0a501a6fdb7a0ae408ba63556a00ab0b6a83c903dd05c865b3659b2ae4}
+}]\end{description}
+\end{Desc}
+
+
+
+\-Definition at line 59 of file vehicleconfigurationsource.\-h.
+
+\hypertarget{group___vehicle_configuration_source_ga734c812e17554d4f7ca67f1008abdd6c}{\index{\-Vehicle\-Configuration\-Source@{\-Vehicle\-Configuration\-Source}!\-E\-S\-C\-\_\-\-T\-Y\-P\-E@{\-E\-S\-C\-\_\-\-T\-Y\-P\-E}}
+\index{\-E\-S\-C\-\_\-\-T\-Y\-P\-E@{\-E\-S\-C\-\_\-\-T\-Y\-P\-E}!VehicleConfigurationSource@{\-Vehicle\-Configuration\-Source}}
+\subsubsection[{\-E\-S\-C\-\_\-\-T\-Y\-P\-E}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf \-Vehicle\-Configuration\-Source\-::\-E\-S\-C\-\_\-\-T\-Y\-P\-E}}}\label{group___vehicle_configuration_source_ga734c812e17554d4f7ca67f1008abdd6c}
+\begin{Desc}
+\item[\-Enumerator\-: ]\par
+\begin{description}
+\index{\-E\-S\-C\-\_\-\-R\-A\-P\-I\-D@{\-E\-S\-C\-\_\-\-R\-A\-P\-I\-D}!\-Vehicle\-Configuration\-Source@{\-Vehicle\-Configuration\-Source}}\index{\-Vehicle\-Configuration\-Source@{\-Vehicle\-Configuration\-Source}!\-E\-S\-C\-\_\-\-R\-A\-P\-I\-D@{\-E\-S\-C\-\_\-\-R\-A\-P\-I\-D}}\item[{\em 
+\hypertarget{group___vehicle_configuration_source_gga734c812e17554d4f7ca67f1008abdd6cac48ffa07eef85f00880362bac141ba41}{\-E\-S\-C\-\_\-\-R\-A\-P\-I\-D}\label{group___vehicle_configuration_source_gga734c812e17554d4f7ca67f1008abdd6cac48ffa07eef85f00880362bac141ba41}
+}]\index{\-E\-S\-C\-\_\-\-L\-E\-G\-A\-C\-Y@{\-E\-S\-C\-\_\-\-L\-E\-G\-A\-C\-Y}!\-Vehicle\-Configuration\-Source@{\-Vehicle\-Configuration\-Source}}\index{\-Vehicle\-Configuration\-Source@{\-Vehicle\-Configuration\-Source}!\-E\-S\-C\-\_\-\-L\-E\-G\-A\-C\-Y@{\-E\-S\-C\-\_\-\-L\-E\-G\-A\-C\-Y}}\item[{\em 
+\hypertarget{group___vehicle_configuration_source_gga734c812e17554d4f7ca67f1008abdd6cacd0b3d034f82dd9b75a376a51c381541}{\-E\-S\-C\-\_\-\-L\-E\-G\-A\-C\-Y}\label{group___vehicle_configuration_source_gga734c812e17554d4f7ca67f1008abdd6cacd0b3d034f82dd9b75a376a51c381541}
+}]\index{\-E\-S\-C\-\_\-\-U\-N\-K\-N\-O\-W\-N@{\-E\-S\-C\-\_\-\-U\-N\-K\-N\-O\-W\-N}!\-Vehicle\-Configuration\-Source@{\-Vehicle\-Configuration\-Source}}\index{\-Vehicle\-Configuration\-Source@{\-Vehicle\-Configuration\-Source}!\-E\-S\-C\-\_\-\-U\-N\-K\-N\-O\-W\-N@{\-E\-S\-C\-\_\-\-U\-N\-K\-N\-O\-W\-N}}\item[{\em 
+\hypertarget{group___vehicle_configuration_source_gga734c812e17554d4f7ca67f1008abdd6ca3402682b676baad3b5e9c8849fc64ed5}{\-E\-S\-C\-\_\-\-U\-N\-K\-N\-O\-W\-N}\label{group___vehicle_configuration_source_gga734c812e17554d4f7ca67f1008abdd6ca3402682b676baad3b5e9c8849fc64ed5}
+}]\end{description}
+\end{Desc}
+
+
+
+\-Definition at line 65 of file vehicleconfigurationsource.\-h.
+
+\hypertarget{group___vehicle_configuration_source_gae10edd59d3a32fad8c531a1d2346115c}{\index{\-Vehicle\-Configuration\-Source@{\-Vehicle\-Configuration\-Source}!\-I\-N\-P\-U\-T\-\_\-\-T\-Y\-P\-E@{\-I\-N\-P\-U\-T\-\_\-\-T\-Y\-P\-E}}
+\index{\-I\-N\-P\-U\-T\-\_\-\-T\-Y\-P\-E@{\-I\-N\-P\-U\-T\-\_\-\-T\-Y\-P\-E}!VehicleConfigurationSource@{\-Vehicle\-Configuration\-Source}}
+\subsubsection[{\-I\-N\-P\-U\-T\-\_\-\-T\-Y\-P\-E}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf \-Vehicle\-Configuration\-Source\-::\-I\-N\-P\-U\-T\-\_\-\-T\-Y\-P\-E}}}\label{group___vehicle_configuration_source_gae10edd59d3a32fad8c531a1d2346115c}
+\begin{Desc}
+\item[\-Enumerator\-: ]\par
+\begin{description}
+\index{\-I\-N\-P\-U\-T\-\_\-\-P\-W\-M@{\-I\-N\-P\-U\-T\-\_\-\-P\-W\-M}!\-Vehicle\-Configuration\-Source@{\-Vehicle\-Configuration\-Source}}\index{\-Vehicle\-Configuration\-Source@{\-Vehicle\-Configuration\-Source}!\-I\-N\-P\-U\-T\-\_\-\-P\-W\-M@{\-I\-N\-P\-U\-T\-\_\-\-P\-W\-M}}\item[{\em 
+\hypertarget{group___vehicle_configuration_source_ggae10edd59d3a32fad8c531a1d2346115ca995cd01aadc88d12f3b3f45b1e37e8be}{\-I\-N\-P\-U\-T\-\_\-\-P\-W\-M}\label{group___vehicle_configuration_source_ggae10edd59d3a32fad8c531a1d2346115ca995cd01aadc88d12f3b3f45b1e37e8be}
+}]\index{\-I\-N\-P\-U\-T\-\_\-\-P\-P\-M@{\-I\-N\-P\-U\-T\-\_\-\-P\-P\-M}!\-Vehicle\-Configuration\-Source@{\-Vehicle\-Configuration\-Source}}\index{\-Vehicle\-Configuration\-Source@{\-Vehicle\-Configuration\-Source}!\-I\-N\-P\-U\-T\-\_\-\-P\-P\-M@{\-I\-N\-P\-U\-T\-\_\-\-P\-P\-M}}\item[{\em 
+\hypertarget{group___vehicle_configuration_source_ggae10edd59d3a32fad8c531a1d2346115ca3a1145e0c6fc8ecbdefc75b0a2fd590b}{\-I\-N\-P\-U\-T\-\_\-\-P\-P\-M}\label{group___vehicle_configuration_source_ggae10edd59d3a32fad8c531a1d2346115ca3a1145e0c6fc8ecbdefc75b0a2fd590b}
+}]\index{\-I\-N\-P\-U\-T\-\_\-\-S\-B\-U\-S@{\-I\-N\-P\-U\-T\-\_\-\-S\-B\-U\-S}!\-Vehicle\-Configuration\-Source@{\-Vehicle\-Configuration\-Source}}\index{\-Vehicle\-Configuration\-Source@{\-Vehicle\-Configuration\-Source}!\-I\-N\-P\-U\-T\-\_\-\-S\-B\-U\-S@{\-I\-N\-P\-U\-T\-\_\-\-S\-B\-U\-S}}\item[{\em 
+\hypertarget{group___vehicle_configuration_source_ggae10edd59d3a32fad8c531a1d2346115cacf4f11e9f90b42853d09b9d3e5814f05}{\-I\-N\-P\-U\-T\-\_\-\-S\-B\-U\-S}\label{group___vehicle_configuration_source_ggae10edd59d3a32fad8c531a1d2346115cacf4f11e9f90b42853d09b9d3e5814f05}
+}]\index{\-I\-N\-P\-U\-T\-\_\-\-D\-S\-M\-X10@{\-I\-N\-P\-U\-T\-\_\-\-D\-S\-M\-X10}!\-Vehicle\-Configuration\-Source@{\-Vehicle\-Configuration\-Source}}\index{\-Vehicle\-Configuration\-Source@{\-Vehicle\-Configuration\-Source}!\-I\-N\-P\-U\-T\-\_\-\-D\-S\-M\-X10@{\-I\-N\-P\-U\-T\-\_\-\-D\-S\-M\-X10}}\item[{\em 
+\hypertarget{group___vehicle_configuration_source_ggae10edd59d3a32fad8c531a1d2346115ca6ec3bb54cb1157ec35ab0a25ec9e0f5e}{\-I\-N\-P\-U\-T\-\_\-\-D\-S\-M\-X10}\label{group___vehicle_configuration_source_ggae10edd59d3a32fad8c531a1d2346115ca6ec3bb54cb1157ec35ab0a25ec9e0f5e}
+}]\index{\-I\-N\-P\-U\-T\-\_\-\-D\-S\-M\-X11@{\-I\-N\-P\-U\-T\-\_\-\-D\-S\-M\-X11}!\-Vehicle\-Configuration\-Source@{\-Vehicle\-Configuration\-Source}}\index{\-Vehicle\-Configuration\-Source@{\-Vehicle\-Configuration\-Source}!\-I\-N\-P\-U\-T\-\_\-\-D\-S\-M\-X11@{\-I\-N\-P\-U\-T\-\_\-\-D\-S\-M\-X11}}\item[{\em 
+\hypertarget{group___vehicle_configuration_source_ggae10edd59d3a32fad8c531a1d2346115caf0f7b07c384751f7db153334498c6235}{\-I\-N\-P\-U\-T\-\_\-\-D\-S\-M\-X11}\label{group___vehicle_configuration_source_ggae10edd59d3a32fad8c531a1d2346115caf0f7b07c384751f7db153334498c6235}
+}]\index{\-I\-N\-P\-U\-T\-\_\-\-D\-S\-M2@{\-I\-N\-P\-U\-T\-\_\-\-D\-S\-M2}!\-Vehicle\-Configuration\-Source@{\-Vehicle\-Configuration\-Source}}\index{\-Vehicle\-Configuration\-Source@{\-Vehicle\-Configuration\-Source}!\-I\-N\-P\-U\-T\-\_\-\-D\-S\-M2@{\-I\-N\-P\-U\-T\-\_\-\-D\-S\-M2}}\item[{\em 
+\hypertarget{group___vehicle_configuration_source_ggae10edd59d3a32fad8c531a1d2346115cafca05c6dee22ec020ef9abaa4d5e25eb}{\-I\-N\-P\-U\-T\-\_\-\-D\-S\-M2}\label{group___vehicle_configuration_source_ggae10edd59d3a32fad8c531a1d2346115cafca05c6dee22ec020ef9abaa4d5e25eb}
+}]\index{\-I\-N\-P\-U\-T\-\_\-\-U\-N\-K\-N\-O\-W\-N@{\-I\-N\-P\-U\-T\-\_\-\-U\-N\-K\-N\-O\-W\-N}!\-Vehicle\-Configuration\-Source@{\-Vehicle\-Configuration\-Source}}\index{\-Vehicle\-Configuration\-Source@{\-Vehicle\-Configuration\-Source}!\-I\-N\-P\-U\-T\-\_\-\-U\-N\-K\-N\-O\-W\-N@{\-I\-N\-P\-U\-T\-\_\-\-U\-N\-K\-N\-O\-W\-N}}\item[{\em 
+\hypertarget{group___vehicle_configuration_source_ggae10edd59d3a32fad8c531a1d2346115cac370a4391eade324d087b73a7200e75d}{\-I\-N\-P\-U\-T\-\_\-\-U\-N\-K\-N\-O\-W\-N}\label{group___vehicle_configuration_source_ggae10edd59d3a32fad8c531a1d2346115cac370a4391eade324d087b73a7200e75d}
+}]\end{description}
+\end{Desc}
+
+
+
+\-Definition at line 66 of file vehicleconfigurationsource.\-h.
+
+\hypertarget{group___vehicle_configuration_source_gaa22bfa88d750f2b46f66702a723e8342}{\index{\-Vehicle\-Configuration\-Source@{\-Vehicle\-Configuration\-Source}!\-V\-E\-H\-I\-C\-L\-E\-\_\-\-S\-U\-B\-\_\-\-T\-Y\-P\-E@{\-V\-E\-H\-I\-C\-L\-E\-\_\-\-S\-U\-B\-\_\-\-T\-Y\-P\-E}}
+\index{\-V\-E\-H\-I\-C\-L\-E\-\_\-\-S\-U\-B\-\_\-\-T\-Y\-P\-E@{\-V\-E\-H\-I\-C\-L\-E\-\_\-\-S\-U\-B\-\_\-\-T\-Y\-P\-E}!VehicleConfigurationSource@{\-Vehicle\-Configuration\-Source}}
+\subsubsection[{\-V\-E\-H\-I\-C\-L\-E\-\_\-\-S\-U\-B\-\_\-\-T\-Y\-P\-E}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf \-Vehicle\-Configuration\-Source\-::\-V\-E\-H\-I\-C\-L\-E\-\_\-\-S\-U\-B\-\_\-\-T\-Y\-P\-E}}}\label{group___vehicle_configuration_source_gaa22bfa88d750f2b46f66702a723e8342}
+\begin{Desc}
+\item[\-Enumerator\-: ]\par
+\begin{description}
+\index{\-M\-U\-L\-T\-I\-\_\-\-R\-O\-T\-O\-R\-\_\-\-U\-N\-K\-N\-O\-W\-N@{\-M\-U\-L\-T\-I\-\_\-\-R\-O\-T\-O\-R\-\_\-\-U\-N\-K\-N\-O\-W\-N}!\-Vehicle\-Configuration\-Source@{\-Vehicle\-Configuration\-Source}}\index{\-Vehicle\-Configuration\-Source@{\-Vehicle\-Configuration\-Source}!\-M\-U\-L\-T\-I\-\_\-\-R\-O\-T\-O\-R\-\_\-\-U\-N\-K\-N\-O\-W\-N@{\-M\-U\-L\-T\-I\-\_\-\-R\-O\-T\-O\-R\-\_\-\-U\-N\-K\-N\-O\-W\-N}}\item[{\em 
+\hypertarget{group___vehicle_configuration_source_ggaa22bfa88d750f2b46f66702a723e8342aeba93c4d9061b24097f794b8d4763a70}{\-M\-U\-L\-T\-I\-\_\-\-R\-O\-T\-O\-R\-\_\-\-U\-N\-K\-N\-O\-W\-N}\label{group___vehicle_configuration_source_ggaa22bfa88d750f2b46f66702a723e8342aeba93c4d9061b24097f794b8d4763a70}
+}]\index{\-M\-U\-L\-T\-I\-\_\-\-R\-O\-T\-O\-R\-\_\-\-T\-R\-I\-\_\-\-Y@{\-M\-U\-L\-T\-I\-\_\-\-R\-O\-T\-O\-R\-\_\-\-T\-R\-I\-\_\-\-Y}!\-Vehicle\-Configuration\-Source@{\-Vehicle\-Configuration\-Source}}\index{\-Vehicle\-Configuration\-Source@{\-Vehicle\-Configuration\-Source}!\-M\-U\-L\-T\-I\-\_\-\-R\-O\-T\-O\-R\-\_\-\-T\-R\-I\-\_\-\-Y@{\-M\-U\-L\-T\-I\-\_\-\-R\-O\-T\-O\-R\-\_\-\-T\-R\-I\-\_\-\-Y}}\item[{\em 
+\hypertarget{group___vehicle_configuration_source_ggaa22bfa88d750f2b46f66702a723e8342a8ba2396f556369fc544b1707dbf8c09c}{\-M\-U\-L\-T\-I\-\_\-\-R\-O\-T\-O\-R\-\_\-\-T\-R\-I\-\_\-\-Y}\label{group___vehicle_configuration_source_ggaa22bfa88d750f2b46f66702a723e8342a8ba2396f556369fc544b1707dbf8c09c}
+}]\index{\-M\-U\-L\-T\-I\-\_\-\-R\-O\-T\-O\-R\-\_\-\-Q\-U\-A\-D\-\_\-\-X@{\-M\-U\-L\-T\-I\-\_\-\-R\-O\-T\-O\-R\-\_\-\-Q\-U\-A\-D\-\_\-\-X}!\-Vehicle\-Configuration\-Source@{\-Vehicle\-Configuration\-Source}}\index{\-Vehicle\-Configuration\-Source@{\-Vehicle\-Configuration\-Source}!\-M\-U\-L\-T\-I\-\_\-\-R\-O\-T\-O\-R\-\_\-\-Q\-U\-A\-D\-\_\-\-X@{\-M\-U\-L\-T\-I\-\_\-\-R\-O\-T\-O\-R\-\_\-\-Q\-U\-A\-D\-\_\-\-X}}\item[{\em 
+\hypertarget{group___vehicle_configuration_source_ggaa22bfa88d750f2b46f66702a723e8342a7cd7dd43b3e55b58e2c4aaceff440e0b}{\-M\-U\-L\-T\-I\-\_\-\-R\-O\-T\-O\-R\-\_\-\-Q\-U\-A\-D\-\_\-\-X}\label{group___vehicle_configuration_source_ggaa22bfa88d750f2b46f66702a723e8342a7cd7dd43b3e55b58e2c4aaceff440e0b}
+}]\index{\-M\-U\-L\-T\-I\-\_\-\-R\-O\-T\-O\-R\-\_\-\-Q\-U\-A\-D\-\_\-\-P\-L\-U\-S@{\-M\-U\-L\-T\-I\-\_\-\-R\-O\-T\-O\-R\-\_\-\-Q\-U\-A\-D\-\_\-\-P\-L\-U\-S}!\-Vehicle\-Configuration\-Source@{\-Vehicle\-Configuration\-Source}}\index{\-Vehicle\-Configuration\-Source@{\-Vehicle\-Configuration\-Source}!\-M\-U\-L\-T\-I\-\_\-\-R\-O\-T\-O\-R\-\_\-\-Q\-U\-A\-D\-\_\-\-P\-L\-U\-S@{\-M\-U\-L\-T\-I\-\_\-\-R\-O\-T\-O\-R\-\_\-\-Q\-U\-A\-D\-\_\-\-P\-L\-U\-S}}\item[{\em 
+\hypertarget{group___vehicle_configuration_source_ggaa22bfa88d750f2b46f66702a723e8342a56e3277bdc9f88f083c256ede9413965}{\-M\-U\-L\-T\-I\-\_\-\-R\-O\-T\-O\-R\-\_\-\-Q\-U\-A\-D\-\_\-\-P\-L\-U\-S}\label{group___vehicle_configuration_source_ggaa22bfa88d750f2b46f66702a723e8342a56e3277bdc9f88f083c256ede9413965}
+}]\index{\-M\-U\-L\-T\-I\-\_\-\-R\-O\-T\-O\-R\-\_\-\-H\-E\-X\-A@{\-M\-U\-L\-T\-I\-\_\-\-R\-O\-T\-O\-R\-\_\-\-H\-E\-X\-A}!\-Vehicle\-Configuration\-Source@{\-Vehicle\-Configuration\-Source}}\index{\-Vehicle\-Configuration\-Source@{\-Vehicle\-Configuration\-Source}!\-M\-U\-L\-T\-I\-\_\-\-R\-O\-T\-O\-R\-\_\-\-H\-E\-X\-A@{\-M\-U\-L\-T\-I\-\_\-\-R\-O\-T\-O\-R\-\_\-\-H\-E\-X\-A}}\item[{\em 
+\hypertarget{group___vehicle_configuration_source_ggaa22bfa88d750f2b46f66702a723e8342a4c8e03ffda5b1cdcc859f5e7bb7e7c04}{\-M\-U\-L\-T\-I\-\_\-\-R\-O\-T\-O\-R\-\_\-\-H\-E\-X\-A}\label{group___vehicle_configuration_source_ggaa22bfa88d750f2b46f66702a723e8342a4c8e03ffda5b1cdcc859f5e7bb7e7c04}
+}]\index{\-M\-U\-L\-T\-I\-\_\-\-R\-O\-T\-O\-R\-\_\-\-H\-E\-X\-A\-\_\-\-H@{\-M\-U\-L\-T\-I\-\_\-\-R\-O\-T\-O\-R\-\_\-\-H\-E\-X\-A\-\_\-\-H}!\-Vehicle\-Configuration\-Source@{\-Vehicle\-Configuration\-Source}}\index{\-Vehicle\-Configuration\-Source@{\-Vehicle\-Configuration\-Source}!\-M\-U\-L\-T\-I\-\_\-\-R\-O\-T\-O\-R\-\_\-\-H\-E\-X\-A\-\_\-\-H@{\-M\-U\-L\-T\-I\-\_\-\-R\-O\-T\-O\-R\-\_\-\-H\-E\-X\-A\-\_\-\-H}}\item[{\em 
+\hypertarget{group___vehicle_configuration_source_ggaa22bfa88d750f2b46f66702a723e8342a10b3d25f864d7a96b4005da47e9377c2}{\-M\-U\-L\-T\-I\-\_\-\-R\-O\-T\-O\-R\-\_\-\-H\-E\-X\-A\-\_\-\-H}\label{group___vehicle_configuration_source_ggaa22bfa88d750f2b46f66702a723e8342a10b3d25f864d7a96b4005da47e9377c2}
+}]\index{\-M\-U\-L\-T\-I\-\_\-\-R\-O\-T\-O\-R\-\_\-\-H\-E\-X\-A\-\_\-\-C\-O\-A\-X\-\_\-\-Y@{\-M\-U\-L\-T\-I\-\_\-\-R\-O\-T\-O\-R\-\_\-\-H\-E\-X\-A\-\_\-\-C\-O\-A\-X\-\_\-\-Y}!\-Vehicle\-Configuration\-Source@{\-Vehicle\-Configuration\-Source}}\index{\-Vehicle\-Configuration\-Source@{\-Vehicle\-Configuration\-Source}!\-M\-U\-L\-T\-I\-\_\-\-R\-O\-T\-O\-R\-\_\-\-H\-E\-X\-A\-\_\-\-C\-O\-A\-X\-\_\-\-Y@{\-M\-U\-L\-T\-I\-\_\-\-R\-O\-T\-O\-R\-\_\-\-H\-E\-X\-A\-\_\-\-C\-O\-A\-X\-\_\-\-Y}}\item[{\em 
+\hypertarget{group___vehicle_configuration_source_ggaa22bfa88d750f2b46f66702a723e8342aeed58e63afe72d9925a003c4124ead77}{\-M\-U\-L\-T\-I\-\_\-\-R\-O\-T\-O\-R\-\_\-\-H\-E\-X\-A\-\_\-\-C\-O\-A\-X\-\_\-\-Y}\label{group___vehicle_configuration_source_ggaa22bfa88d750f2b46f66702a723e8342aeed58e63afe72d9925a003c4124ead77}
+}]\index{\-M\-U\-L\-T\-I\-\_\-\-R\-O\-T\-O\-R\-\_\-\-O\-C\-T\-O@{\-M\-U\-L\-T\-I\-\_\-\-R\-O\-T\-O\-R\-\_\-\-O\-C\-T\-O}!\-Vehicle\-Configuration\-Source@{\-Vehicle\-Configuration\-Source}}\index{\-Vehicle\-Configuration\-Source@{\-Vehicle\-Configuration\-Source}!\-M\-U\-L\-T\-I\-\_\-\-R\-O\-T\-O\-R\-\_\-\-O\-C\-T\-O@{\-M\-U\-L\-T\-I\-\_\-\-R\-O\-T\-O\-R\-\_\-\-O\-C\-T\-O}}\item[{\em 
+\hypertarget{group___vehicle_configuration_source_ggaa22bfa88d750f2b46f66702a723e8342a250cd390b2c2f0490c9966ed731781ee}{\-M\-U\-L\-T\-I\-\_\-\-R\-O\-T\-O\-R\-\_\-\-O\-C\-T\-O}\label{group___vehicle_configuration_source_ggaa22bfa88d750f2b46f66702a723e8342a250cd390b2c2f0490c9966ed731781ee}
+}]\index{\-M\-U\-L\-T\-I\-\_\-\-R\-O\-T\-O\-R\-\_\-\-O\-C\-T\-O\-\_\-\-V@{\-M\-U\-L\-T\-I\-\_\-\-R\-O\-T\-O\-R\-\_\-\-O\-C\-T\-O\-\_\-\-V}!\-Vehicle\-Configuration\-Source@{\-Vehicle\-Configuration\-Source}}\index{\-Vehicle\-Configuration\-Source@{\-Vehicle\-Configuration\-Source}!\-M\-U\-L\-T\-I\-\_\-\-R\-O\-T\-O\-R\-\_\-\-O\-C\-T\-O\-\_\-\-V@{\-M\-U\-L\-T\-I\-\_\-\-R\-O\-T\-O\-R\-\_\-\-O\-C\-T\-O\-\_\-\-V}}\item[{\em 
+\hypertarget{group___vehicle_configuration_source_ggaa22bfa88d750f2b46f66702a723e8342a979f9a7694584f8b3a396b60e5266c14}{\-M\-U\-L\-T\-I\-\_\-\-R\-O\-T\-O\-R\-\_\-\-O\-C\-T\-O\-\_\-\-V}\label{group___vehicle_configuration_source_ggaa22bfa88d750f2b46f66702a723e8342a979f9a7694584f8b3a396b60e5266c14}
+}]\index{\-M\-U\-L\-T\-I\-\_\-\-R\-O\-T\-O\-R\-\_\-\-O\-C\-T\-O\-\_\-\-C\-O\-A\-X\-\_\-\-X@{\-M\-U\-L\-T\-I\-\_\-\-R\-O\-T\-O\-R\-\_\-\-O\-C\-T\-O\-\_\-\-C\-O\-A\-X\-\_\-\-X}!\-Vehicle\-Configuration\-Source@{\-Vehicle\-Configuration\-Source}}\index{\-Vehicle\-Configuration\-Source@{\-Vehicle\-Configuration\-Source}!\-M\-U\-L\-T\-I\-\_\-\-R\-O\-T\-O\-R\-\_\-\-O\-C\-T\-O\-\_\-\-C\-O\-A\-X\-\_\-\-X@{\-M\-U\-L\-T\-I\-\_\-\-R\-O\-T\-O\-R\-\_\-\-O\-C\-T\-O\-\_\-\-C\-O\-A\-X\-\_\-\-X}}\item[{\em 
+\hypertarget{group___vehicle_configuration_source_ggaa22bfa88d750f2b46f66702a723e8342a218c27519bddc93292f0ee616f7176aa}{\-M\-U\-L\-T\-I\-\_\-\-R\-O\-T\-O\-R\-\_\-\-O\-C\-T\-O\-\_\-\-C\-O\-A\-X\-\_\-\-X}\label{group___vehicle_configuration_source_ggaa22bfa88d750f2b46f66702a723e8342a218c27519bddc93292f0ee616f7176aa}
+}]\index{\-M\-U\-L\-T\-I\-\_\-\-R\-O\-T\-O\-R\-\_\-\-O\-C\-T\-O\-\_\-\-C\-O\-A\-X\-\_\-\-P\-L\-U\-S@{\-M\-U\-L\-T\-I\-\_\-\-R\-O\-T\-O\-R\-\_\-\-O\-C\-T\-O\-\_\-\-C\-O\-A\-X\-\_\-\-P\-L\-U\-S}!\-Vehicle\-Configuration\-Source@{\-Vehicle\-Configuration\-Source}}\index{\-Vehicle\-Configuration\-Source@{\-Vehicle\-Configuration\-Source}!\-M\-U\-L\-T\-I\-\_\-\-R\-O\-T\-O\-R\-\_\-\-O\-C\-T\-O\-\_\-\-C\-O\-A\-X\-\_\-\-P\-L\-U\-S@{\-M\-U\-L\-T\-I\-\_\-\-R\-O\-T\-O\-R\-\_\-\-O\-C\-T\-O\-\_\-\-C\-O\-A\-X\-\_\-\-P\-L\-U\-S}}\item[{\em 
+\hypertarget{group___vehicle_configuration_source_ggaa22bfa88d750f2b46f66702a723e8342abc0f543bfa442d275376724a8dc832d2}{\-M\-U\-L\-T\-I\-\_\-\-R\-O\-T\-O\-R\-\_\-\-O\-C\-T\-O\-\_\-\-C\-O\-A\-X\-\_\-\-P\-L\-U\-S}\label{group___vehicle_configuration_source_ggaa22bfa88d750f2b46f66702a723e8342abc0f543bfa442d275376724a8dc832d2}
+}]\index{\-F\-I\-X\-E\-D\-\_\-\-W\-I\-N\-G\-\_\-\-A\-I\-L\-E\-R\-O\-N@{\-F\-I\-X\-E\-D\-\_\-\-W\-I\-N\-G\-\_\-\-A\-I\-L\-E\-R\-O\-N}!\-Vehicle\-Configuration\-Source@{\-Vehicle\-Configuration\-Source}}\index{\-Vehicle\-Configuration\-Source@{\-Vehicle\-Configuration\-Source}!\-F\-I\-X\-E\-D\-\_\-\-W\-I\-N\-G\-\_\-\-A\-I\-L\-E\-R\-O\-N@{\-F\-I\-X\-E\-D\-\_\-\-W\-I\-N\-G\-\_\-\-A\-I\-L\-E\-R\-O\-N}}\item[{\em 
+\hypertarget{group___vehicle_configuration_source_ggaa22bfa88d750f2b46f66702a723e8342a0febd7d78b840283bdfb67fc2815c116}{\-F\-I\-X\-E\-D\-\_\-\-W\-I\-N\-G\-\_\-\-A\-I\-L\-E\-R\-O\-N}\label{group___vehicle_configuration_source_ggaa22bfa88d750f2b46f66702a723e8342a0febd7d78b840283bdfb67fc2815c116}
+}]\index{\-F\-I\-X\-E\-D\-\_\-\-W\-I\-N\-G\-\_\-\-V\-T\-A\-I\-L@{\-F\-I\-X\-E\-D\-\_\-\-W\-I\-N\-G\-\_\-\-V\-T\-A\-I\-L}!\-Vehicle\-Configuration\-Source@{\-Vehicle\-Configuration\-Source}}\index{\-Vehicle\-Configuration\-Source@{\-Vehicle\-Configuration\-Source}!\-F\-I\-X\-E\-D\-\_\-\-W\-I\-N\-G\-\_\-\-V\-T\-A\-I\-L@{\-F\-I\-X\-E\-D\-\_\-\-W\-I\-N\-G\-\_\-\-V\-T\-A\-I\-L}}\item[{\em 
+\hypertarget{group___vehicle_configuration_source_ggaa22bfa88d750f2b46f66702a723e8342a9935d9f4ba873b3a15ea4079a4be5c52}{\-F\-I\-X\-E\-D\-\_\-\-W\-I\-N\-G\-\_\-\-V\-T\-A\-I\-L}\label{group___vehicle_configuration_source_ggaa22bfa88d750f2b46f66702a723e8342a9935d9f4ba873b3a15ea4079a4be5c52}
+}]\index{\-H\-E\-L\-I\-\_\-\-C\-C\-P\-M@{\-H\-E\-L\-I\-\_\-\-C\-C\-P\-M}!\-Vehicle\-Configuration\-Source@{\-Vehicle\-Configuration\-Source}}\index{\-Vehicle\-Configuration\-Source@{\-Vehicle\-Configuration\-Source}!\-H\-E\-L\-I\-\_\-\-C\-C\-P\-M@{\-H\-E\-L\-I\-\_\-\-C\-C\-P\-M}}\item[{\em 
+\hypertarget{group___vehicle_configuration_source_ggaa22bfa88d750f2b46f66702a723e8342a044343efb9c2ee3b7cd2e5d088dc477c}{\-H\-E\-L\-I\-\_\-\-C\-C\-P\-M}\label{group___vehicle_configuration_source_ggaa22bfa88d750f2b46f66702a723e8342a044343efb9c2ee3b7cd2e5d088dc477c}
+}]\end{description}
+\end{Desc}
+
+
+
+\-Definition at line 61 of file vehicleconfigurationsource.\-h.
+
+\hypertarget{group___vehicle_configuration_source_gaa97253587c69ba0d23535abdc42fad43}{\index{\-Vehicle\-Configuration\-Source@{\-Vehicle\-Configuration\-Source}!\-V\-E\-H\-I\-C\-L\-E\-\_\-\-T\-Y\-P\-E@{\-V\-E\-H\-I\-C\-L\-E\-\_\-\-T\-Y\-P\-E}}
+\index{\-V\-E\-H\-I\-C\-L\-E\-\_\-\-T\-Y\-P\-E@{\-V\-E\-H\-I\-C\-L\-E\-\_\-\-T\-Y\-P\-E}!VehicleConfigurationSource@{\-Vehicle\-Configuration\-Source}}
+\subsubsection[{\-V\-E\-H\-I\-C\-L\-E\-\_\-\-T\-Y\-P\-E}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf \-Vehicle\-Configuration\-Source\-::\-V\-E\-H\-I\-C\-L\-E\-\_\-\-T\-Y\-P\-E}}}\label{group___vehicle_configuration_source_gaa97253587c69ba0d23535abdc42fad43}
+\begin{Desc}
+\item[\-Enumerator\-: ]\par
+\begin{description}
+\index{\-V\-E\-H\-I\-C\-L\-E\-\_\-\-U\-N\-K\-N\-O\-W\-N@{\-V\-E\-H\-I\-C\-L\-E\-\_\-\-U\-N\-K\-N\-O\-W\-N}!\-Vehicle\-Configuration\-Source@{\-Vehicle\-Configuration\-Source}}\index{\-Vehicle\-Configuration\-Source@{\-Vehicle\-Configuration\-Source}!\-V\-E\-H\-I\-C\-L\-E\-\_\-\-U\-N\-K\-N\-O\-W\-N@{\-V\-E\-H\-I\-C\-L\-E\-\_\-\-U\-N\-K\-N\-O\-W\-N}}\item[{\em 
+\hypertarget{group___vehicle_configuration_source_ggaa97253587c69ba0d23535abdc42fad43a7323fb577948d82afe9c95ab8811a997}{\-V\-E\-H\-I\-C\-L\-E\-\_\-\-U\-N\-K\-N\-O\-W\-N}\label{group___vehicle_configuration_source_ggaa97253587c69ba0d23535abdc42fad43a7323fb577948d82afe9c95ab8811a997}
+}]\index{\-V\-E\-H\-I\-C\-L\-E\-\_\-\-M\-U\-L\-T\-I@{\-V\-E\-H\-I\-C\-L\-E\-\_\-\-M\-U\-L\-T\-I}!\-Vehicle\-Configuration\-Source@{\-Vehicle\-Configuration\-Source}}\index{\-Vehicle\-Configuration\-Source@{\-Vehicle\-Configuration\-Source}!\-V\-E\-H\-I\-C\-L\-E\-\_\-\-M\-U\-L\-T\-I@{\-V\-E\-H\-I\-C\-L\-E\-\_\-\-M\-U\-L\-T\-I}}\item[{\em 
+\hypertarget{group___vehicle_configuration_source_ggaa97253587c69ba0d23535abdc42fad43a70465cb26d67210d6a391ae6c57a3742}{\-V\-E\-H\-I\-C\-L\-E\-\_\-\-M\-U\-L\-T\-I}\label{group___vehicle_configuration_source_ggaa97253587c69ba0d23535abdc42fad43a70465cb26d67210d6a391ae6c57a3742}
+}]\index{\-V\-E\-H\-I\-C\-L\-E\-\_\-\-F\-I\-X\-E\-D\-W\-I\-N\-G@{\-V\-E\-H\-I\-C\-L\-E\-\_\-\-F\-I\-X\-E\-D\-W\-I\-N\-G}!\-Vehicle\-Configuration\-Source@{\-Vehicle\-Configuration\-Source}}\index{\-Vehicle\-Configuration\-Source@{\-Vehicle\-Configuration\-Source}!\-V\-E\-H\-I\-C\-L\-E\-\_\-\-F\-I\-X\-E\-D\-W\-I\-N\-G@{\-V\-E\-H\-I\-C\-L\-E\-\_\-\-F\-I\-X\-E\-D\-W\-I\-N\-G}}\item[{\em 
+\hypertarget{group___vehicle_configuration_source_ggaa97253587c69ba0d23535abdc42fad43a0ee07742ddd4e5c2ebb94c0c533fa076}{\-V\-E\-H\-I\-C\-L\-E\-\_\-\-F\-I\-X\-E\-D\-W\-I\-N\-G}\label{group___vehicle_configuration_source_ggaa97253587c69ba0d23535abdc42fad43a0ee07742ddd4e5c2ebb94c0c533fa076}
+}]\index{\-V\-E\-H\-I\-C\-L\-E\-\_\-\-H\-E\-L\-I@{\-V\-E\-H\-I\-C\-L\-E\-\_\-\-H\-E\-L\-I}!\-Vehicle\-Configuration\-Source@{\-Vehicle\-Configuration\-Source}}\index{\-Vehicle\-Configuration\-Source@{\-Vehicle\-Configuration\-Source}!\-V\-E\-H\-I\-C\-L\-E\-\_\-\-H\-E\-L\-I@{\-V\-E\-H\-I\-C\-L\-E\-\_\-\-H\-E\-L\-I}}\item[{\em 
+\hypertarget{group___vehicle_configuration_source_ggaa97253587c69ba0d23535abdc42fad43a87b79ad838ea0994916b11e3f5334561}{\-V\-E\-H\-I\-C\-L\-E\-\_\-\-H\-E\-L\-I}\label{group___vehicle_configuration_source_ggaa97253587c69ba0d23535abdc42fad43a87b79ad838ea0994916b11e3f5334561}
+}]\index{\-V\-E\-H\-I\-C\-L\-E\-\_\-\-S\-U\-R\-F\-A\-C\-E@{\-V\-E\-H\-I\-C\-L\-E\-\_\-\-S\-U\-R\-F\-A\-C\-E}!\-Vehicle\-Configuration\-Source@{\-Vehicle\-Configuration\-Source}}\index{\-Vehicle\-Configuration\-Source@{\-Vehicle\-Configuration\-Source}!\-V\-E\-H\-I\-C\-L\-E\-\_\-\-S\-U\-R\-F\-A\-C\-E@{\-V\-E\-H\-I\-C\-L\-E\-\_\-\-S\-U\-R\-F\-A\-C\-E}}\item[{\em 
+\hypertarget{group___vehicle_configuration_source_ggaa97253587c69ba0d23535abdc42fad43a669dadf2a2dceaaee6a2365c7562b946}{\-V\-E\-H\-I\-C\-L\-E\-\_\-\-S\-U\-R\-F\-A\-C\-E}\label{group___vehicle_configuration_source_ggaa97253587c69ba0d23535abdc42fad43a669dadf2a2dceaaee6a2365c7562b946}
+}]\end{description}
+\end{Desc}
+
+
+
+\-Definition at line 60 of file vehicleconfigurationsource.\-h.
+
+
+
+\subsection{\-Function \-Documentation}
+\hypertarget{group___vehicle_configuration_source_gafb0dd689dc5216c230c118b385dc1b56}{\index{\-Vehicle\-Configuration\-Source@{\-Vehicle\-Configuration\-Source}!actuator\-Channel\-Settings@{actuator\-Channel\-Settings}}
+\index{actuator\-Channel\-Settings@{actuator\-Channel\-Settings}!VehicleConfigurationSource@{\-Vehicle\-Configuration\-Source}}
+\subsubsection[{actuator\-Channel\-Settings}]{\setlength{\rightskip}{0pt plus 5cm}{\bf actuator\-Channel\-Settings\-::actuator\-Channel\-Settings} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___vehicle_configuration_source_gafb0dd689dc5216c230c118b385dc1b56}
+
+
+\-Definition at line 50 of file vehicleconfigurationsource.\-h.
+
+\hypertarget{group___vehicle_configuration_source_ga21ab7c07bd3271df54d776b80b974a0f}{\index{\-Vehicle\-Configuration\-Source@{\-Vehicle\-Configuration\-Source}!get\-Actuator\-Settings@{get\-Actuator\-Settings}}
+\index{get\-Actuator\-Settings@{get\-Actuator\-Settings}!VehicleConfigurationSource@{\-Vehicle\-Configuration\-Source}}
+\subsubsection[{get\-Actuator\-Settings}]{\setlength{\rightskip}{0pt plus 5cm}virtual \-Q\-List$<${\bf actuator\-Channel\-Settings}$>$ {\bf \-Vehicle\-Configuration\-Source\-::get\-Actuator\-Settings} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}pure virtual\mbox{]}}}}\label{group___vehicle_configuration_source_ga21ab7c07bd3271df54d776b80b974a0f}
+
+
+\-Implemented in \hyperlink{group___setup_ga47a0be6b075d0075a7ae935c7fe5deed}{\-Setup\-Wizard}.
+
+\hypertarget{group___vehicle_configuration_source_ga7c0552b72e10b1c4f84ffcb926f1bc87}{\index{\-Vehicle\-Configuration\-Source@{\-Vehicle\-Configuration\-Source}!get\-Controller\-Type@{get\-Controller\-Type}}
+\index{get\-Controller\-Type@{get\-Controller\-Type}!VehicleConfigurationSource@{\-Vehicle\-Configuration\-Source}}
+\subsubsection[{get\-Controller\-Type}]{\setlength{\rightskip}{0pt plus 5cm}virtual {\bf \-Vehicle\-Configuration\-Source\-::\-C\-O\-N\-T\-R\-O\-L\-L\-E\-R\-\_\-\-T\-Y\-P\-E} {\bf \-Vehicle\-Configuration\-Source\-::get\-Controller\-Type} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}pure virtual\mbox{]}}}}\label{group___vehicle_configuration_source_ga7c0552b72e10b1c4f84ffcb926f1bc87}
+
+
+\-Implemented in \hyperlink{group___setup_ga1d7c4e20ee0857aef644a2e162ce51e7}{\-Setup\-Wizard}.
+
+\hypertarget{group___vehicle_configuration_source_ga748ecf5409ded5e291f093a48cea7637}{\index{\-Vehicle\-Configuration\-Source@{\-Vehicle\-Configuration\-Source}!get\-E\-S\-C\-Type@{get\-E\-S\-C\-Type}}
+\index{get\-E\-S\-C\-Type@{get\-E\-S\-C\-Type}!VehicleConfigurationSource@{\-Vehicle\-Configuration\-Source}}
+\subsubsection[{get\-E\-S\-C\-Type}]{\setlength{\rightskip}{0pt plus 5cm}virtual {\bf \-Vehicle\-Configuration\-Source\-::\-E\-S\-C\-\_\-\-T\-Y\-P\-E} {\bf \-Vehicle\-Configuration\-Source\-::get\-E\-S\-C\-Type} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}pure virtual\mbox{]}}}}\label{group___vehicle_configuration_source_ga748ecf5409ded5e291f093a48cea7637}
+
+
+\-Implemented in \hyperlink{group___setup_ga3922ac6f628847018f045d0c60f1ba6b}{\-Setup\-Wizard}.
+
+\hypertarget{group___vehicle_configuration_source_gaa63bd09fcc8f30102f720cad79f99e7f}{\index{\-Vehicle\-Configuration\-Source@{\-Vehicle\-Configuration\-Source}!get\-Input\-Type@{get\-Input\-Type}}
+\index{get\-Input\-Type@{get\-Input\-Type}!VehicleConfigurationSource@{\-Vehicle\-Configuration\-Source}}
+\subsubsection[{get\-Input\-Type}]{\setlength{\rightskip}{0pt plus 5cm}virtual {\bf \-Vehicle\-Configuration\-Source\-::\-I\-N\-P\-U\-T\-\_\-\-T\-Y\-P\-E} {\bf \-Vehicle\-Configuration\-Source\-::get\-Input\-Type} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}pure virtual\mbox{]}}}}\label{group___vehicle_configuration_source_gaa63bd09fcc8f30102f720cad79f99e7f}
+
+
+\-Implemented in \hyperlink{group___setup_ga8457ec450095eb7b93fd74be5451cac6}{\-Setup\-Wizard}.
+
+\hypertarget{group___vehicle_configuration_source_gae596e5378b9bc9d126c6c6207f473567}{\index{\-Vehicle\-Configuration\-Source@{\-Vehicle\-Configuration\-Source}!get\-Levelling\-Bias@{get\-Levelling\-Bias}}
+\index{get\-Levelling\-Bias@{get\-Levelling\-Bias}!VehicleConfigurationSource@{\-Vehicle\-Configuration\-Source}}
+\subsubsection[{get\-Levelling\-Bias}]{\setlength{\rightskip}{0pt plus 5cm}virtual {\bf accel\-Gyro\-Bias} {\bf \-Vehicle\-Configuration\-Source\-::get\-Levelling\-Bias} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}pure virtual\mbox{]}}}}\label{group___vehicle_configuration_source_gae596e5378b9bc9d126c6c6207f473567}
+
+
+\-Implemented in \hyperlink{group___setup_ga2e280373fdc65c0cb8c5520855eadbef}{\-Setup\-Wizard}.
+
+\hypertarget{group___vehicle_configuration_source_ga1f54adbaeda45aac3778c52569dfa2f9}{\index{\-Vehicle\-Configuration\-Source@{\-Vehicle\-Configuration\-Source}!get\-Summary\-Text@{get\-Summary\-Text}}
+\index{get\-Summary\-Text@{get\-Summary\-Text}!VehicleConfigurationSource@{\-Vehicle\-Configuration\-Source}}
+\subsubsection[{get\-Summary\-Text}]{\setlength{\rightskip}{0pt plus 5cm}virtual {\bf \-Q\-String} {\bf \-Vehicle\-Configuration\-Source\-::get\-Summary\-Text} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}pure virtual\mbox{]}}}}\label{group___vehicle_configuration_source_ga1f54adbaeda45aac3778c52569dfa2f9}
+
+
+\-Implemented in \hyperlink{group___setup_gaf9b2ce464fc2b73f43f648e68a274676}{\-Setup\-Wizard}.
+
+\hypertarget{group___vehicle_configuration_source_gab3c8f49e774f0b679b21f6f281b3b803}{\index{\-Vehicle\-Configuration\-Source@{\-Vehicle\-Configuration\-Source}!get\-Vehicle\-Sub\-Type@{get\-Vehicle\-Sub\-Type}}
+\index{get\-Vehicle\-Sub\-Type@{get\-Vehicle\-Sub\-Type}!VehicleConfigurationSource@{\-Vehicle\-Configuration\-Source}}
+\subsubsection[{get\-Vehicle\-Sub\-Type}]{\setlength{\rightskip}{0pt plus 5cm}virtual {\bf \-Vehicle\-Configuration\-Source\-::\-V\-E\-H\-I\-C\-L\-E\-\_\-\-S\-U\-B\-\_\-\-T\-Y\-P\-E} {\bf \-Vehicle\-Configuration\-Source\-::get\-Vehicle\-Sub\-Type} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}pure virtual\mbox{]}}}}\label{group___vehicle_configuration_source_gab3c8f49e774f0b679b21f6f281b3b803}
+
+
+\-Implemented in \hyperlink{group___setup_ga4ad46c232d39b8e7a4371a812c48e761}{\-Setup\-Wizard}.
+
+\hypertarget{group___vehicle_configuration_source_gacfd79047f8c186731eca58056dbb979d}{\index{\-Vehicle\-Configuration\-Source@{\-Vehicle\-Configuration\-Source}!get\-Vehicle\-Type@{get\-Vehicle\-Type}}
+\index{get\-Vehicle\-Type@{get\-Vehicle\-Type}!VehicleConfigurationSource@{\-Vehicle\-Configuration\-Source}}
+\subsubsection[{get\-Vehicle\-Type}]{\setlength{\rightskip}{0pt plus 5cm}virtual {\bf \-Vehicle\-Configuration\-Source\-::\-V\-E\-H\-I\-C\-L\-E\-\_\-\-T\-Y\-P\-E} {\bf \-Vehicle\-Configuration\-Source\-::get\-Vehicle\-Type} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}pure virtual\mbox{]}}}}\label{group___vehicle_configuration_source_gacfd79047f8c186731eca58056dbb979d}
+
+
+\-Implemented in \hyperlink{group___setup_gac67d395a98064dde4cd243f78cdef9d4}{\-Setup\-Wizard}.
+
+\hypertarget{group___vehicle_configuration_source_ga18b570857c0bc2d0e77ad0be0a324f37}{\index{\-Vehicle\-Configuration\-Source@{\-Vehicle\-Configuration\-Source}!is\-Levelling\-Performed@{is\-Levelling\-Performed}}
+\index{is\-Levelling\-Performed@{is\-Levelling\-Performed}!VehicleConfigurationSource@{\-Vehicle\-Configuration\-Source}}
+\subsubsection[{is\-Levelling\-Performed}]{\setlength{\rightskip}{0pt plus 5cm}virtual bool {\bf \-Vehicle\-Configuration\-Source\-::is\-Levelling\-Performed} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}pure virtual\mbox{]}}}}\label{group___vehicle_configuration_source_ga18b570857c0bc2d0e77ad0be0a324f37}
+
+
+\-Implemented in \hyperlink{group___setup_ga71069ce8994f32f192e40aaa45b51a4a}{\-Setup\-Wizard}.
+
+\hypertarget{group___vehicle_configuration_source_gaf2d0f922c260a7bd4481d565f1b46589}{\index{\-Vehicle\-Configuration\-Source@{\-Vehicle\-Configuration\-Source}!is\-Motor\-Calibration\-Performed@{is\-Motor\-Calibration\-Performed}}
+\index{is\-Motor\-Calibration\-Performed@{is\-Motor\-Calibration\-Performed}!VehicleConfigurationSource@{\-Vehicle\-Configuration\-Source}}
+\subsubsection[{is\-Motor\-Calibration\-Performed}]{\setlength{\rightskip}{0pt plus 5cm}virtual bool {\bf \-Vehicle\-Configuration\-Source\-::is\-Motor\-Calibration\-Performed} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}pure virtual\mbox{]}}}}\label{group___vehicle_configuration_source_gaf2d0f922c260a7bd4481d565f1b46589}
+
+
+\-Implemented in \hyperlink{group___setup_ga98d902dbc91dfbd4c88f9adbc6f57e89}{\-Setup\-Wizard}.
+
+\hypertarget{group___vehicle_configuration_source_ga53deeed450e4e532d976fde372be6a54}{\index{\-Vehicle\-Configuration\-Source@{\-Vehicle\-Configuration\-Source}!is\-Restart\-Needed@{is\-Restart\-Needed}}
+\index{is\-Restart\-Needed@{is\-Restart\-Needed}!VehicleConfigurationSource@{\-Vehicle\-Configuration\-Source}}
+\subsubsection[{is\-Restart\-Needed}]{\setlength{\rightskip}{0pt plus 5cm}virtual bool {\bf \-Vehicle\-Configuration\-Source\-::is\-Restart\-Needed} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}pure virtual\mbox{]}}}}\label{group___vehicle_configuration_source_ga53deeed450e4e532d976fde372be6a54}
+
+
+\-Implemented in \hyperlink{group___setup_ga882149361d85310b21ac7b62e5fa0abd}{\-Setup\-Wizard}.
+
+\hypertarget{group___vehicle_configuration_source_ga56e48ed960f6d5fd24d03e01caaa460b}{\index{\-Vehicle\-Configuration\-Source@{\-Vehicle\-Configuration\-Source}!\-Vehicle\-Configuration\-Source@{\-Vehicle\-Configuration\-Source}}
+\index{\-Vehicle\-Configuration\-Source@{\-Vehicle\-Configuration\-Source}!VehicleConfigurationSource@{\-Vehicle\-Configuration\-Source}}
+\subsubsection[{\-Vehicle\-Configuration\-Source}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Vehicle\-Configuration\-Source\-::\-Vehicle\-Configuration\-Source} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___vehicle_configuration_source_ga56e48ed960f6d5fd24d03e01caaa460b}
+
+
+\-Definition at line 30 of file vehicleconfigurationsource.\-cpp.
+
+
+
+\subsection{\-Variable \-Documentation}
+\hypertarget{group___vehicle_configuration_source_ga204a4e4648453d51e42ad2b82cb68fa8}{\index{\-Vehicle\-Configuration\-Source@{\-Vehicle\-Configuration\-Source}!channel\-Max@{channel\-Max}}
+\index{channel\-Max@{channel\-Max}!VehicleConfigurationSource@{\-Vehicle\-Configuration\-Source}}
+\subsubsection[{channel\-Max}]{\setlength{\rightskip}{0pt plus 5cm}quint16 {\bf actuator\-Channel\-Settings\-::channel\-Max}}}\label{group___vehicle_configuration_source_ga204a4e4648453d51e42ad2b82cb68fa8}
+
+
+\-Definition at line 47 of file vehicleconfigurationsource.\-h.
+
+\hypertarget{group___vehicle_configuration_source_ga51bfc85e00becd45e4e622da70ff9d27}{\index{\-Vehicle\-Configuration\-Source@{\-Vehicle\-Configuration\-Source}!channel\-Min@{channel\-Min}}
+\index{channel\-Min@{channel\-Min}!VehicleConfigurationSource@{\-Vehicle\-Configuration\-Source}}
+\subsubsection[{channel\-Min}]{\setlength{\rightskip}{0pt plus 5cm}quint16 {\bf actuator\-Channel\-Settings\-::channel\-Min}}}\label{group___vehicle_configuration_source_ga51bfc85e00becd45e4e622da70ff9d27}
+
+
+\-Definition at line 45 of file vehicleconfigurationsource.\-h.
+
+\hypertarget{group___vehicle_configuration_source_gac557d0adca6e1ec8f789659c32cfbeff}{\index{\-Vehicle\-Configuration\-Source@{\-Vehicle\-Configuration\-Source}!channel\-Neutral@{channel\-Neutral}}
+\index{channel\-Neutral@{channel\-Neutral}!VehicleConfigurationSource@{\-Vehicle\-Configuration\-Source}}
+\subsubsection[{channel\-Neutral}]{\setlength{\rightskip}{0pt plus 5cm}quint16 {\bf actuator\-Channel\-Settings\-::channel\-Neutral}}}\label{group___vehicle_configuration_source_gac557d0adca6e1ec8f789659c32cfbeff}
+
+
+\-Definition at line 46 of file vehicleconfigurationsource.\-h.
+
+\hypertarget{group___vehicle_configuration_source_ga982c33b20f567fe289dd461ce9bb0df2}{\index{\-Vehicle\-Configuration\-Source@{\-Vehicle\-Configuration\-Source}!m\-\_\-accelerometer\-X\-Bias@{m\-\_\-accelerometer\-X\-Bias}}
+\index{m\-\_\-accelerometer\-X\-Bias@{m\-\_\-accelerometer\-X\-Bias}!VehicleConfigurationSource@{\-Vehicle\-Configuration\-Source}}
+\subsubsection[{m\-\_\-accelerometer\-X\-Bias}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf accel\-Gyro\-Bias\-::m\-\_\-accelerometer\-X\-Bias}}}\label{group___vehicle_configuration_source_ga982c33b20f567fe289dd461ce9bb0df2}
+
+
+\-Definition at line 35 of file vehicleconfigurationsource.\-h.
+
+\hypertarget{group___vehicle_configuration_source_ga76b3af5f8c4f87a92045a698eb32c681}{\index{\-Vehicle\-Configuration\-Source@{\-Vehicle\-Configuration\-Source}!m\-\_\-accelerometer\-Y\-Bias@{m\-\_\-accelerometer\-Y\-Bias}}
+\index{m\-\_\-accelerometer\-Y\-Bias@{m\-\_\-accelerometer\-Y\-Bias}!VehicleConfigurationSource@{\-Vehicle\-Configuration\-Source}}
+\subsubsection[{m\-\_\-accelerometer\-Y\-Bias}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf accel\-Gyro\-Bias\-::m\-\_\-accelerometer\-Y\-Bias}}}\label{group___vehicle_configuration_source_ga76b3af5f8c4f87a92045a698eb32c681}
+
+
+\-Definition at line 36 of file vehicleconfigurationsource.\-h.
+
+\hypertarget{group___vehicle_configuration_source_gaa0475cba1c09df9c39a69bbb62711b8e}{\index{\-Vehicle\-Configuration\-Source@{\-Vehicle\-Configuration\-Source}!m\-\_\-accelerometer\-Z\-Bias@{m\-\_\-accelerometer\-Z\-Bias}}
+\index{m\-\_\-accelerometer\-Z\-Bias@{m\-\_\-accelerometer\-Z\-Bias}!VehicleConfigurationSource@{\-Vehicle\-Configuration\-Source}}
+\subsubsection[{m\-\_\-accelerometer\-Z\-Bias}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf accel\-Gyro\-Bias\-::m\-\_\-accelerometer\-Z\-Bias}}}\label{group___vehicle_configuration_source_gaa0475cba1c09df9c39a69bbb62711b8e}
+
+
+\-Definition at line 37 of file vehicleconfigurationsource.\-h.
+
+\hypertarget{group___vehicle_configuration_source_ga483a0631083ce446a08b73ecc712ed73}{\index{\-Vehicle\-Configuration\-Source@{\-Vehicle\-Configuration\-Source}!m\-\_\-gyro\-X\-Bias@{m\-\_\-gyro\-X\-Bias}}
+\index{m\-\_\-gyro\-X\-Bias@{m\-\_\-gyro\-X\-Bias}!VehicleConfigurationSource@{\-Vehicle\-Configuration\-Source}}
+\subsubsection[{m\-\_\-gyro\-X\-Bias}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf accel\-Gyro\-Bias\-::m\-\_\-gyro\-X\-Bias}}}\label{group___vehicle_configuration_source_ga483a0631083ce446a08b73ecc712ed73}
+
+
+\-Definition at line 39 of file vehicleconfigurationsource.\-h.
+
+\hypertarget{group___vehicle_configuration_source_gade8f76b5b608f6446cb182c372598e53}{\index{\-Vehicle\-Configuration\-Source@{\-Vehicle\-Configuration\-Source}!m\-\_\-gyro\-Y\-Bias@{m\-\_\-gyro\-Y\-Bias}}
+\index{m\-\_\-gyro\-Y\-Bias@{m\-\_\-gyro\-Y\-Bias}!VehicleConfigurationSource@{\-Vehicle\-Configuration\-Source}}
+\subsubsection[{m\-\_\-gyro\-Y\-Bias}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf accel\-Gyro\-Bias\-::m\-\_\-gyro\-Y\-Bias}}}\label{group___vehicle_configuration_source_gade8f76b5b608f6446cb182c372598e53}
+
+
+\-Definition at line 40 of file vehicleconfigurationsource.\-h.
+
+\hypertarget{group___vehicle_configuration_source_ga637101f3cecb351e7fe8d6106dd50d15}{\index{\-Vehicle\-Configuration\-Source@{\-Vehicle\-Configuration\-Source}!m\-\_\-gyro\-Z\-Bias@{m\-\_\-gyro\-Z\-Bias}}
+\index{m\-\_\-gyro\-Z\-Bias@{m\-\_\-gyro\-Z\-Bias}!VehicleConfigurationSource@{\-Vehicle\-Configuration\-Source}}
+\subsubsection[{m\-\_\-gyro\-Z\-Bias}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf accel\-Gyro\-Bias\-::m\-\_\-gyro\-Z\-Bias}}}\label{group___vehicle_configuration_source_ga637101f3cecb351e7fe8d6106dd50d15}
+
+
+\-Definition at line 41 of file vehicleconfigurationsource.\-h.
+

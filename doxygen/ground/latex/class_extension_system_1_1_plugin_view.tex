@@ -1,0 +1,100 @@
+\hypertarget{class_extension_system_1_1_plugin_view}{\section{\-Extension\-System\-:\-:\-Plugin\-View \-Class \-Reference}
+\label{class_extension_system_1_1_plugin_view}\index{\-Extension\-System\-::\-Plugin\-View@{\-Extension\-System\-::\-Plugin\-View}}
+}
+
+
+\hyperlink{class_widget}{\-Widget} that shows a list of all plugins and their state.  
+
+
+
+
+{\ttfamily \#include $<$pluginview.\-h$>$}
+
+\subsection*{\-Signals}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_extension_system_1_1_plugin_view_acb8afbec2c244b6c5225a576e86c3c01}{current\-Plugin\-Changed} (\hyperlink{class_extension_system_1_1_plugin_spec}{\-Extension\-System\-::\-Plugin\-Spec} $\ast$spec)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_extension_system_1_1_plugin_view_a0455a1c8215732176c5555d88517f5e5}{plugin\-Activated} (\hyperlink{class_extension_system_1_1_plugin_spec}{\-Extension\-System\-::\-Plugin\-Spec} $\ast$spec)
+\end{DoxyCompactItemize}
+\subsection*{\-Public \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_extension_system_1_1_plugin_view_afaa4ceb9c0931e0bcb90508176381016}{\-Plugin\-View} (\hyperlink{class_extension_system_1_1_plugin_manager}{\-Plugin\-Manager} $\ast$manager, \-Q\-Widget $\ast$parent=0)
+\item 
+\hyperlink{class_extension_system_1_1_plugin_view_adb39058a5108137ed5347791914f0f64}{$\sim$\-Plugin\-View} ()
+\item 
+\hyperlink{class_extension_system_1_1_plugin_spec}{\-Plugin\-Spec} $\ast$ \hyperlink{class_extension_system_1_1_plugin_view_a2b442b927989161117846bd89b4e0809}{current\-Plugin} () const 
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\hyperlink{class_widget}{\-Widget} that shows a list of all plugins and their state. 
+
+\-This can be embedded e.\-g. in a dialog in the application that uses the plugin manager. \-The class also provides notifications for interactions with the list.
+
+\begin{DoxySeeAlso}{\-See also}
+\hyperlink{class_extension_system_1_1_plugin_details_view}{\-Extension\-System\-::\-Plugin\-Details\-View} 
+
+\hyperlink{class_extension_system_1_1_plugin_error_view}{\-Extension\-System\-::\-Plugin\-Error\-View} 
+\end{DoxySeeAlso}
+
+
+\-Definition at line 52 of file pluginview.\-h.
+
+
+
+\subsection{\-Constructor \& \-Destructor \-Documentation}
+\hypertarget{class_extension_system_1_1_plugin_view_afaa4ceb9c0931e0bcb90508176381016}{\index{\-Extension\-System\-::\-Plugin\-View@{\-Extension\-System\-::\-Plugin\-View}!\-Plugin\-View@{\-Plugin\-View}}
+\index{\-Plugin\-View@{\-Plugin\-View}!ExtensionSystem::PluginView@{\-Extension\-System\-::\-Plugin\-View}}
+\subsubsection[{\-Plugin\-View}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Extension\-System\-::\-Plugin\-View\-::\-Plugin\-View} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Plugin\-Manager} $\ast$}]{manager, }
+\item[{\-Q\-Widget $\ast$}]{parent = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)}}\label{class_extension_system_1_1_plugin_view_afaa4ceb9c0931e0bcb90508176381016}
+\hypertarget{class_extension_system_1_1_plugin_view_adb39058a5108137ed5347791914f0f64}{\index{\-Extension\-System\-::\-Plugin\-View@{\-Extension\-System\-::\-Plugin\-View}!$\sim$\-Plugin\-View@{$\sim$\-Plugin\-View}}
+\index{$\sim$\-Plugin\-View@{$\sim$\-Plugin\-View}!ExtensionSystem::PluginView@{\-Extension\-System\-::\-Plugin\-View}}
+\subsubsection[{$\sim$\-Plugin\-View}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Plugin\-View\-::$\sim$\-Plugin\-View} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_extension_system_1_1_plugin_view_adb39058a5108137ed5347791914f0f64}
+
+
+\-Definition at line 97 of file pluginview.\-cpp.
+
+
+
+\subsection{\-Member \-Function \-Documentation}
+\hypertarget{class_extension_system_1_1_plugin_view_a2b442b927989161117846bd89b4e0809}{\index{\-Extension\-System\-::\-Plugin\-View@{\-Extension\-System\-::\-Plugin\-View}!current\-Plugin@{current\-Plugin}}
+\index{current\-Plugin@{current\-Plugin}!ExtensionSystem::PluginView@{\-Extension\-System\-::\-Plugin\-View}}
+\subsubsection[{current\-Plugin}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Plugin\-Spec} $\ast$ {\bf \-Plugin\-View\-::current\-Plugin} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_extension_system_1_1_plugin_view_a2b442b927989161117846bd89b4e0809}
+\-Returns the current selection in the list of plugins. 
+
+\-Definition at line 107 of file pluginview.\-cpp.
+
+\hypertarget{class_extension_system_1_1_plugin_view_acb8afbec2c244b6c5225a576e86c3c01}{\index{\-Extension\-System\-::\-Plugin\-View@{\-Extension\-System\-::\-Plugin\-View}!current\-Plugin\-Changed@{current\-Plugin\-Changed}}
+\index{current\-Plugin\-Changed@{current\-Plugin\-Changed}!ExtensionSystem::PluginView@{\-Extension\-System\-::\-Plugin\-View}}
+\subsubsection[{current\-Plugin\-Changed}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Plugin\-View\-::current\-Plugin\-Changed} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Extension\-System\-::\-Plugin\-Spec} $\ast$}]{spec}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}signal\mbox{]}}}}\label{class_extension_system_1_1_plugin_view_acb8afbec2c244b6c5225a576e86c3c01}
+\-The current selection in the plugin list has changed to the plugin corresponding to {\itshape spec\/}. \hypertarget{class_extension_system_1_1_plugin_view_a0455a1c8215732176c5555d88517f5e5}{\index{\-Extension\-System\-::\-Plugin\-View@{\-Extension\-System\-::\-Plugin\-View}!plugin\-Activated@{plugin\-Activated}}
+\index{plugin\-Activated@{plugin\-Activated}!ExtensionSystem::PluginView@{\-Extension\-System\-::\-Plugin\-View}}
+\subsubsection[{plugin\-Activated}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Plugin\-View\-::plugin\-Activated} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Extension\-System\-::\-Plugin\-Spec} $\ast$}]{spec}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}signal\mbox{]}}}}\label{class_extension_system_1_1_plugin_view_a0455a1c8215732176c5555d88517f5e5}
+\-The plugin list entry corresponding to {\itshape spec\/} has been activated, e.\-g. by a double-\/click. 
+
+\-The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/libs/extensionsystem/\hyperlink{pluginview_8h}{pluginview.\-h}\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/libs/extensionsystem/\hyperlink{pluginview_8cpp}{pluginview.\-cpp}\end{DoxyCompactItemize}

@@ -1,0 +1,52 @@
+\hypertarget{pios__overo_8c}{\section{/home/jb/code/\-Tau\-Labs/flight/\-Pi\-O\-S/\-S\-T\-M32\-F4xx/pios\-\_\-overo.c \-File \-Reference}
+\label{pios__overo_8c}\index{/home/jb/code/\-Tau\-Labs/flight/\-Pi\-O\-S/\-S\-T\-M32\-F4xx/pios\-\_\-overo.\-c@{/home/jb/code/\-Tau\-Labs/flight/\-Pi\-O\-S/\-S\-T\-M32\-F4xx/pios\-\_\-overo.\-c}}
+}
+
+
+\-Hardware \-Abstraction \-Layer for \-Overo communications.  
+
+
+\subsection*{\-Data \-Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structpios__overo__dev}{pios\-\_\-overo\-\_\-dev}
+\end{DoxyCompactItemize}
+\subsection*{\-Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{group___p_i_o_s___o_v_e_r_o_ga9b9fb7573bead7d69299823fb7f7a372}{pios\-\_\-overo\-\_\-dev\-\_\-magic} \{ \hyperlink{group___p_i_o_s___o_v_e_r_o_gga9b9fb7573bead7d69299823fb7f7a372a4b3b30ca1a20eb319f55d522e4eb1789}{\-P\-I\-O\-S\-\_\-\-O\-V\-E\-R\-O\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C} =  0x85\-A3834\-A
+ \}
+\begin{DoxyCompactList}\small\item\em \-Data types. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{group___p_i_o_s___o_v_e_r_o_ga33d7651a225f8feaebee0da7b806d6f3}{\-P\-I\-O\-S\-\_\-\-O\-V\-E\-R\-O\-\_\-\-D\-M\-A\-\_\-irq\-\_\-handler} (uint32\-\_\-t overo\-\_\-id)
+\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___o_v_e_r_o_gaca2a7dbfbba27c8016063572c884f0fe}{\-P\-I\-O\-S\-\_\-\-O\-V\-E\-R\-O\-\_\-\-Get\-Packet\-Count} (uint32\-\_\-t overo\-\_\-id)
+\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___o_v_e_r_o_ga964b1603e8379e322e04ae308d4f931c}{\-P\-I\-O\-S\-\_\-\-O\-V\-E\-R\-O\-\_\-\-Get\-Written\-Bytes} (uint32\-\_\-t overo\-\_\-id)
+\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___o_v_e_r_o_ga6aa066f1ee4dee8fd2766d10f9833a97}{\-P\-I\-O\-S\-\_\-\-O\-V\-E\-R\-O\-\_\-\-Init} (uint32\-\_\-t $\ast$overo\-\_\-id, const struct \hyperlink{structpios__overo__cfg}{pios\-\_\-overo\-\_\-cfg} $\ast$cfg)
+\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___o_v_e_r_o_gaa548fd4048405d2ea1016f302bd077fa}{\-P\-I\-O\-S\-\_\-\-O\-V\-E\-R\-O\-\_\-\-Enable} (uint32\-\_\-t overo\-\_\-id)
+\begin{DoxyCompactList}\small\item\em \-Enable the \-S\-P\-I peripheral. \end{DoxyCompactList}\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___o_v_e_r_o_ga4ea04c150565308d37d3df5166c2ec71}{\-P\-I\-O\-S\-\_\-\-O\-V\-E\-R\-O\-\_\-\-Disable} (uint32\-\_\-t overo\-\_\-id)
+\begin{DoxyCompactList}\small\item\em \-Disable the \-S\-P\-I peripheral. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Variables}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structpios__com__driver}{pios\-\_\-com\-\_\-driver} \hyperlink{group___p_i_o_s___o_v_e_r_o_ga07e1a9093b33ec66c4e896e83834bfd6}{pios\-\_\-overo\-\_\-com\-\_\-driver}
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-Hardware \-Abstraction \-Layer for \-Overo communications. \begin{DoxyAuthor}{\-Author}
+\-The \-Open\-Pilot \-Team, \href{http://www.openpilot.org}{\tt http\-://www.\-openpilot.\-org} \-Copyright (\-C) 2012. 
+\end{DoxyAuthor}
+\begin{DoxySeeAlso}{\-See also}
+\-The \-G\-N\-U \-Public \-License (\-G\-P\-L) \-Version 3  
+\end{DoxySeeAlso}
+
+
+\-Definition in file \hyperlink{pios__overo_8c_source}{pios\-\_\-overo.\-c}.
+

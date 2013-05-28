@@ -1,0 +1,190 @@
+\hypertarget{group___p_i_o_s___w_d_g}{\section{\-Watchdog \-Functions}
+\label{group___p_i_o_s___w_d_g}\index{\-Watchdog Functions@{\-Watchdog Functions}}
+}
+
+
+\-P\-I\-O\-S \-Comamnds to initialize and clear watchdog timer.  
+
+
+\subsection*{\-Data \-Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct {\bfseries wdg\-\_\-configuration}
+\end{DoxyCompactItemize}
+\subsection*{\-Files}
+\begin{DoxyCompactItemize}
+\item 
+file \hyperlink{pios__wdg_8h}{pios\-\_\-wdg.\-h}
+\begin{DoxyCompactList}\small\item\em \-S\-P\-I functions header. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+uint16\-\_\-t \hyperlink{group___p_i_o_s___w_d_g_ga1ffcba6811cce798c0a6bc014a691dc7}{\-P\-I\-O\-S\-\_\-\-W\-D\-G\-\_\-\-Init} ()
+\begin{DoxyCompactList}\small\item\em \-Initialize the watchdog timer for a specified timeout. \end{DoxyCompactList}\item 
+bool \hyperlink{group___p_i_o_s___w_d_g_ga181128f13ffdec27ea07e13fc4a4e1ab}{\-P\-I\-O\-S\-\_\-\-W\-D\-G\-\_\-\-Register\-Flag} (uint16\-\_\-t flag\-\_\-requested)
+\begin{DoxyCompactList}\small\item\em \-Register a module against the watchdog. \end{DoxyCompactList}\item 
+bool \hyperlink{group___p_i_o_s___w_d_g_ga4698d93015624e320b5c7c980c4edecd}{\-P\-I\-O\-S\-\_\-\-W\-D\-G\-\_\-\-Update\-Flag} (uint16\-\_\-t flag)
+\begin{DoxyCompactList}\small\item\em \-Function called by modules to indicate they are still running. \end{DoxyCompactList}\item 
+uint16\-\_\-t \hyperlink{group___p_i_o_s___w_d_g_ga0cb157cf1f3763126ab097d9bf67658b}{\-P\-I\-O\-S\-\_\-\-W\-D\-G\-\_\-\-Get\-Bootup\-Flags} ()
+\begin{DoxyCompactList}\small\item\em \-Returns the flags that were set at bootup. \end{DoxyCompactList}\item 
+uint16\-\_\-t \hyperlink{group___p_i_o_s___w_d_g_ga725a2e6282c5cb3c63d5c022204aec22}{\-P\-I\-O\-S\-\_\-\-W\-D\-G\-\_\-\-Get\-Active\-Flags} ()
+\begin{DoxyCompactList}\small\item\em \-Returns the currently active flags. \end{DoxyCompactList}\item 
+void \hyperlink{group___p_i_o_s___w_d_g_ga49f0e0259a9db3551d437e5d74fd48a1}{\-P\-I\-O\-S\-\_\-\-W\-D\-G\-\_\-\-Clear} (void)
+\begin{DoxyCompactList}\small\item\em \-Clear the watchdog timer. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Variables}
+\begin{DoxyCompactItemize}
+\item 
+uint16\-\_\-t \hyperlink{group___p_i_o_s___w_d_g_ga5256cc27a9d0a00ca6392a56ff3426e0}{wdg\-\_\-configuration\-::used\-\_\-flags}
+\item 
+uint16\-\_\-t \hyperlink{group___p_i_o_s___w_d_g_ga52dc5a350735444a607b0dfd24d49371}{wdg\-\_\-configuration\-::bootup\-\_\-flags}
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-P\-I\-O\-S \-Comamnds to initialize and clear watchdog timer. 
+
+\subsection{\-Function \-Documentation}
+\hypertarget{group___p_i_o_s___w_d_g_ga49f0e0259a9db3551d437e5d74fd48a1}{\index{\-Watchdog Functions@{\-Watchdog Functions}!\-P\-I\-O\-S\-\_\-\-W\-D\-G\-\_\-\-Clear@{\-P\-I\-O\-S\-\_\-\-W\-D\-G\-\_\-\-Clear}}
+\index{\-P\-I\-O\-S\-\_\-\-W\-D\-G\-\_\-\-Clear@{\-P\-I\-O\-S\-\_\-\-W\-D\-G\-\_\-\-Clear}!Watchdog Functions@{\-Watchdog Functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-W\-D\-G\-\_\-\-Clear}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-P\-I\-O\-S\-\_\-\-W\-D\-G\-\_\-\-Clear} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___w_d_g_ga49f0e0259a9db3551d437e5d74fd48a1}
+
+
+\-Clear the watchdog timer. 
+
+\-This function must be called at the appropriate delay to prevent a reset event occuring 
+
+\-Definition at line 167 of file pios\-\_\-wdg.\-c.
+
+\hypertarget{group___p_i_o_s___w_d_g_ga725a2e6282c5cb3c63d5c022204aec22}{\index{\-Watchdog Functions@{\-Watchdog Functions}!\-P\-I\-O\-S\-\_\-\-W\-D\-G\-\_\-\-Get\-Active\-Flags@{\-P\-I\-O\-S\-\_\-\-W\-D\-G\-\_\-\-Get\-Active\-Flags}}
+\index{\-P\-I\-O\-S\-\_\-\-W\-D\-G\-\_\-\-Get\-Active\-Flags@{\-P\-I\-O\-S\-\_\-\-W\-D\-G\-\_\-\-Get\-Active\-Flags}!Watchdog Functions@{\-Watchdog Functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-W\-D\-G\-\_\-\-Get\-Active\-Flags}]{\setlength{\rightskip}{0pt plus 5cm}uint16\-\_\-t {\bf \-P\-I\-O\-S\-\_\-\-W\-D\-G\-\_\-\-Get\-Active\-Flags} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___w_d_g_ga725a2e6282c5cb3c63d5c022204aec22}
+
+
+\-Returns the currently active flags. 
+
+\-For external monitoring
+
+\begin{DoxyReturn}{\-Returns}
+\-The active flags register 
+\end{DoxyReturn}
+
+
+\-Definition at line 157 of file pios\-\_\-wdg.\-c.
+
+\hypertarget{group___p_i_o_s___w_d_g_ga0cb157cf1f3763126ab097d9bf67658b}{\index{\-Watchdog Functions@{\-Watchdog Functions}!\-P\-I\-O\-S\-\_\-\-W\-D\-G\-\_\-\-Get\-Bootup\-Flags@{\-P\-I\-O\-S\-\_\-\-W\-D\-G\-\_\-\-Get\-Bootup\-Flags}}
+\index{\-P\-I\-O\-S\-\_\-\-W\-D\-G\-\_\-\-Get\-Bootup\-Flags@{\-P\-I\-O\-S\-\_\-\-W\-D\-G\-\_\-\-Get\-Bootup\-Flags}!Watchdog Functions@{\-Watchdog Functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-W\-D\-G\-\_\-\-Get\-Bootup\-Flags}]{\setlength{\rightskip}{0pt plus 5cm}uint16\-\_\-t {\bf \-P\-I\-O\-S\-\_\-\-W\-D\-G\-\_\-\-Get\-Bootup\-Flags} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___w_d_g_ga0cb157cf1f3763126ab097d9bf67658b}
+
+
+\-Returns the flags that were set at bootup. 
+
+\-This is used for diagnostics, if only one flag not set this was likely the module that wasn't running before reset
+
+\begin{DoxyReturn}{\-Returns}
+\-The active flags register from bootup 
+\end{DoxyReturn}
+
+
+\-Definition at line 145 of file pios\-\_\-wdg.\-c.
+
+\hypertarget{group___p_i_o_s___w_d_g_ga1ffcba6811cce798c0a6bc014a691dc7}{\index{\-Watchdog Functions@{\-Watchdog Functions}!\-P\-I\-O\-S\-\_\-\-W\-D\-G\-\_\-\-Init@{\-P\-I\-O\-S\-\_\-\-W\-D\-G\-\_\-\-Init}}
+\index{\-P\-I\-O\-S\-\_\-\-W\-D\-G\-\_\-\-Init@{\-P\-I\-O\-S\-\_\-\-W\-D\-G\-\_\-\-Init}!Watchdog Functions@{\-Watchdog Functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-W\-D\-G\-\_\-\-Init}]{\setlength{\rightskip}{0pt plus 5cm}uint16\-\_\-t {\bf \-P\-I\-O\-S\-\_\-\-W\-D\-G\-\_\-\-Init} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___w_d_g_ga1ffcba6811cce798c0a6bc014a691dc7}
+
+
+\-Initialize the watchdog timer for a specified timeout. 
+
+\-It is important to note that this function returns the achieved timeout for this hardware. \-For hardware independence this should be checked when scheduling updates. \-Other hardware dependent details may need to be considered such as a window time which sets a minimum update time, and this function should return a recommended delay for clearing.
+
+\-For the \-S\-T\-M32 nominal clock rate is 32 khz, but for the maximum clock rate of 60 khz and a prescaler of 4 yields a clock rate of 15 khz. \-The delay that is set in the watchdog assumes the nominal clock rate, but the delay for \-Free\-R\-T\-O\-S to use is 75\% of the minimal delay.
+
+\begin{DoxyReturn}{\-Returns}
+\-Maximum recommended delay between updates based on \-P\-I\-O\-S\-\_\-\-W\-A\-T\-C\-H\-D\-O\-G\-\_\-\-T\-I\-M\-E\-O\-U\-T constant 
+\end{DoxyReturn}
+
+
+\-Definition at line 60 of file pios\-\_\-wdg.\-c.
+
+\hypertarget{group___p_i_o_s___w_d_g_ga181128f13ffdec27ea07e13fc4a4e1ab}{\index{\-Watchdog Functions@{\-Watchdog Functions}!\-P\-I\-O\-S\-\_\-\-W\-D\-G\-\_\-\-Register\-Flag@{\-P\-I\-O\-S\-\_\-\-W\-D\-G\-\_\-\-Register\-Flag}}
+\index{\-P\-I\-O\-S\-\_\-\-W\-D\-G\-\_\-\-Register\-Flag@{\-P\-I\-O\-S\-\_\-\-W\-D\-G\-\_\-\-Register\-Flag}!Watchdog Functions@{\-Watchdog Functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-W\-D\-G\-\_\-\-Register\-Flag}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-P\-I\-O\-S\-\_\-\-W\-D\-G\-\_\-\-Register\-Flag} (
+\begin{DoxyParamCaption}
+\item[{uint16\-\_\-t}]{flag\-\_\-requested}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___w_d_g_ga181128f13ffdec27ea07e13fc4a4e1ab}
+
+
+\-Register a module against the watchdog. 
+
+\-There are two ways to use \-P\-I\-O\-S \-W\-D\-G\-: this is for when multiple modules must be monitored. \-In this case they must first register against the watchdog system and only when all of the modules have been updated with the watchdog be cleared. \-Each module must have its own bit in the 16 bit
+
+
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em flag} & the bit this module wants to use \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+\-True if that bit is unregistered 
+\end{DoxyReturn}
+
+
+\-Definition at line 95 of file pios\-\_\-wdg.\-c.
+
+\hypertarget{group___p_i_o_s___w_d_g_ga4698d93015624e320b5c7c980c4edecd}{\index{\-Watchdog Functions@{\-Watchdog Functions}!\-P\-I\-O\-S\-\_\-\-W\-D\-G\-\_\-\-Update\-Flag@{\-P\-I\-O\-S\-\_\-\-W\-D\-G\-\_\-\-Update\-Flag}}
+\index{\-P\-I\-O\-S\-\_\-\-W\-D\-G\-\_\-\-Update\-Flag@{\-P\-I\-O\-S\-\_\-\-W\-D\-G\-\_\-\-Update\-Flag}!Watchdog Functions@{\-Watchdog Functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-W\-D\-G\-\_\-\-Update\-Flag}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-P\-I\-O\-S\-\_\-\-W\-D\-G\-\_\-\-Update\-Flag} (
+\begin{DoxyParamCaption}
+\item[{uint16\-\_\-t}]{flag}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___w_d_g_ga4698d93015624e320b5c7c980c4edecd}
+
+
+\-Function called by modules to indicate they are still running. 
+
+\-This function will set this flag in the active flags register (which is a backup regsiter) and if all the registered flags are set will clear the watchdog and set only this flag in the backup register
+
+
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em flag} & the flag to set \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+true if the watchdog cleared, false if flags are pending 
+\end{DoxyReturn}
+
+
+\-Definition at line 118 of file pios\-\_\-wdg.\-c.
+
+
+
+\subsection{\-Variable \-Documentation}
+\hypertarget{group___p_i_o_s___w_d_g_ga52dc5a350735444a607b0dfd24d49371}{\index{\-Watchdog Functions@{\-Watchdog Functions}!bootup\-\_\-flags@{bootup\-\_\-flags}}
+\index{bootup\-\_\-flags@{bootup\-\_\-flags}!Watchdog Functions@{\-Watchdog Functions}}
+\subsubsection[{bootup\-\_\-flags}]{\setlength{\rightskip}{0pt plus 5cm}uint16\-\_\-t wdg\-\_\-configuration\-::bootup\-\_\-flags}}\label{group___p_i_o_s___w_d_g_ga52dc5a350735444a607b0dfd24d49371}
+
+
+\-Definition at line 41 of file pios\-\_\-wdg.\-c.
+
+\hypertarget{group___p_i_o_s___w_d_g_ga5256cc27a9d0a00ca6392a56ff3426e0}{\index{\-Watchdog Functions@{\-Watchdog Functions}!used\-\_\-flags@{used\-\_\-flags}}
+\index{used\-\_\-flags@{used\-\_\-flags}!Watchdog Functions@{\-Watchdog Functions}}
+\subsubsection[{used\-\_\-flags}]{\setlength{\rightskip}{0pt plus 5cm}uint16\-\_\-t wdg\-\_\-configuration\-::used\-\_\-flags}}\label{group___p_i_o_s___w_d_g_ga5256cc27a9d0a00ca6392a56ff3426e0}
+
+
+\-Definition at line 40 of file pios\-\_\-wdg.\-c.
+

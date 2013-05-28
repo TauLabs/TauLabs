@@ -1,0 +1,108 @@
+\hypertarget{group___p_i_o_s___r_t_c}{\section{\-R\-T\-C \-Functions}
+\label{group___p_i_o_s___r_t_c}\index{\-R\-T\-C Functions@{\-R\-T\-C Functions}}
+}
+
+
+\-P\-I\-O\-S interface for \-R\-T\-C tick.  
+
+
+\subsection*{\-Data \-Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structpios__rtc__cfg}{pios\-\_\-rtc\-\_\-cfg}
+\end{DoxyCompactItemize}
+\subsection*{\-Files}
+\begin{DoxyCompactItemize}
+\item 
+file \hyperlink{pios__rtc_8h}{pios\-\_\-rtc.\-h}
+\begin{DoxyCompactList}\small\item\em \-R\-T\-C functions header. \end{DoxyCompactList}\item 
+file \hyperlink{pios__rtc__priv_8h}{pios\-\_\-rtc\-\_\-priv.\-h}
+\begin{DoxyCompactList}\small\item\em \-A\-D\-C private definitions. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+uint32\-\_\-t \hyperlink{group___p_i_o_s___r_t_c_ga9d01d1ac8ca6944639f49eeb358a5283}{\-P\-I\-O\-S\-\_\-\-R\-T\-C\-\_\-\-Counter} ()
+\item 
+float \hyperlink{group___p_i_o_s___r_t_c_ga67f1e1979b94ff871968e14497974af1}{\-P\-I\-O\-S\-\_\-\-R\-T\-C\-\_\-\-Rate} ()
+\item 
+float \hyperlink{group___p_i_o_s___r_t_c_gad34cae8cd02b5e6de39366292722edba}{\-P\-I\-O\-S\-\_\-\-R\-T\-C\-\_\-\-Ms\-Per\-Tick} ()
+\item 
+bool \hyperlink{group___p_i_o_s___r_t_c_gaedab634636153fb8507f2fd1667c6f39}{\-P\-I\-O\-S\-\_\-\-R\-T\-C\-\_\-\-Register\-Tick\-Callback} (void($\ast$fn)(uint32\-\_\-t \hyperlink{uavobjectmanager_8c_abaabdc509cdaba7df9f56c6c76f3ae19}{id}), uint32\-\_\-t data)
+\item 
+void \hyperlink{group___p_i_o_s___r_t_c_ga0edcdea74daf967c3ebbf09d14f21f95}{\-P\-I\-O\-S\-\_\-\-R\-T\-C\-\_\-\-Init} (const struct \hyperlink{structpios__rtc__cfg}{pios\-\_\-rtc\-\_\-cfg} $\ast$cfg)
+\item 
+void \hyperlink{group___p_i_o_s___r_t_c_ga882b48b1e7ce218715dbcc6268387eb7}{\-P\-I\-O\-S\-\_\-\-R\-T\-C\-\_\-irq\-\_\-handler} (void)
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-P\-I\-O\-S interface for \-R\-T\-C tick. 
+
+\subsection{\-Function \-Documentation}
+\hypertarget{group___p_i_o_s___r_t_c_ga9d01d1ac8ca6944639f49eeb358a5283}{\index{\-R\-T\-C Functions@{\-R\-T\-C Functions}!\-P\-I\-O\-S\-\_\-\-R\-T\-C\-\_\-\-Counter@{\-P\-I\-O\-S\-\_\-\-R\-T\-C\-\_\-\-Counter}}
+\index{\-P\-I\-O\-S\-\_\-\-R\-T\-C\-\_\-\-Counter@{\-P\-I\-O\-S\-\_\-\-R\-T\-C\-\_\-\-Counter}!RTC Functions@{\-R\-T\-C Functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-R\-T\-C\-\_\-\-Counter}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t {\bf \-P\-I\-O\-S\-\_\-\-R\-T\-C\-\_\-\-Counter} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___r_t_c_ga9d01d1ac8ca6944639f49eeb358a5283}
+
+
+\-Definition at line 82 of file pios\-\_\-rtc.\-c.
+
+\hypertarget{group___p_i_o_s___r_t_c_ga0edcdea74daf967c3ebbf09d14f21f95}{\index{\-R\-T\-C Functions@{\-R\-T\-C Functions}!\-P\-I\-O\-S\-\_\-\-R\-T\-C\-\_\-\-Init@{\-P\-I\-O\-S\-\_\-\-R\-T\-C\-\_\-\-Init}}
+\index{\-P\-I\-O\-S\-\_\-\-R\-T\-C\-\_\-\-Init@{\-P\-I\-O\-S\-\_\-\-R\-T\-C\-\_\-\-Init}!RTC Functions@{\-R\-T\-C Functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-R\-T\-C\-\_\-\-Init}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-P\-I\-O\-S\-\_\-\-R\-T\-C\-\_\-\-Init} (
+\begin{DoxyParamCaption}
+\item[{const struct {\bf pios\-\_\-rtc\-\_\-cfg} $\ast$}]{cfg}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___r_t_c_ga0edcdea74daf967c3ebbf09d14f21f95}
+
+
+\-Definition at line 51 of file pios\-\_\-rtc.\-c.
+
+\hypertarget{group___p_i_o_s___r_t_c_ga882b48b1e7ce218715dbcc6268387eb7}{\index{\-R\-T\-C Functions@{\-R\-T\-C Functions}!\-P\-I\-O\-S\-\_\-\-R\-T\-C\-\_\-irq\-\_\-handler@{\-P\-I\-O\-S\-\_\-\-R\-T\-C\-\_\-irq\-\_\-handler}}
+\index{\-P\-I\-O\-S\-\_\-\-R\-T\-C\-\_\-irq\-\_\-handler@{\-P\-I\-O\-S\-\_\-\-R\-T\-C\-\_\-irq\-\_\-handler}!RTC Functions@{\-R\-T\-C Functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-R\-T\-C\-\_\-irq\-\_\-handler}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-P\-I\-O\-S\-\_\-\-R\-T\-C\-\_\-irq\-\_\-handler} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___r_t_c_ga882b48b1e7ce218715dbcc6268387eb7}
+
+
+\-Definition at line 115 of file pios\-\_\-rtc.\-c.
+
+\hypertarget{group___p_i_o_s___r_t_c_gad34cae8cd02b5e6de39366292722edba}{\index{\-R\-T\-C Functions@{\-R\-T\-C Functions}!\-P\-I\-O\-S\-\_\-\-R\-T\-C\-\_\-\-Ms\-Per\-Tick@{\-P\-I\-O\-S\-\_\-\-R\-T\-C\-\_\-\-Ms\-Per\-Tick}}
+\index{\-P\-I\-O\-S\-\_\-\-R\-T\-C\-\_\-\-Ms\-Per\-Tick@{\-P\-I\-O\-S\-\_\-\-R\-T\-C\-\_\-\-Ms\-Per\-Tick}!RTC Functions@{\-R\-T\-C Functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-R\-T\-C\-\_\-\-Ms\-Per\-Tick}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf \-P\-I\-O\-S\-\_\-\-R\-T\-C\-\_\-\-Ms\-Per\-Tick} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___r_t_c_gad34cae8cd02b5e6de39366292722edba}
+
+
+\-Definition at line 95 of file pios\-\_\-rtc.\-c.
+
+\hypertarget{group___p_i_o_s___r_t_c_ga67f1e1979b94ff871968e14497974af1}{\index{\-R\-T\-C Functions@{\-R\-T\-C Functions}!\-P\-I\-O\-S\-\_\-\-R\-T\-C\-\_\-\-Rate@{\-P\-I\-O\-S\-\_\-\-R\-T\-C\-\_\-\-Rate}}
+\index{\-P\-I\-O\-S\-\_\-\-R\-T\-C\-\_\-\-Rate@{\-P\-I\-O\-S\-\_\-\-R\-T\-C\-\_\-\-Rate}!RTC Functions@{\-R\-T\-C Functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-R\-T\-C\-\_\-\-Rate}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf \-P\-I\-O\-S\-\_\-\-R\-T\-C\-\_\-\-Rate} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___r_t_c_ga67f1e1979b94ff871968e14497974af1}
+
+
+\-Definition at line 90 of file pios\-\_\-rtc.\-c.
+
+\hypertarget{group___p_i_o_s___r_t_c_gaedab634636153fb8507f2fd1667c6f39}{\index{\-R\-T\-C Functions@{\-R\-T\-C Functions}!\-P\-I\-O\-S\-\_\-\-R\-T\-C\-\_\-\-Register\-Tick\-Callback@{\-P\-I\-O\-S\-\_\-\-R\-T\-C\-\_\-\-Register\-Tick\-Callback}}
+\index{\-P\-I\-O\-S\-\_\-\-R\-T\-C\-\_\-\-Register\-Tick\-Callback@{\-P\-I\-O\-S\-\_\-\-R\-T\-C\-\_\-\-Register\-Tick\-Callback}!RTC Functions@{\-R\-T\-C Functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-R\-T\-C\-\_\-\-Register\-Tick\-Callback}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-P\-I\-O\-S\-\_\-\-R\-T\-C\-\_\-\-Register\-Tick\-Callback} (
+\begin{DoxyParamCaption}
+\item[{void($\ast$)(uint32\-\_\-t {\bf id})}]{fn, }
+\item[{uint32\-\_\-t}]{data}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___r_t_c_gaedab634636153fb8507f2fd1667c6f39}
+
+
+\-Definition at line 101 of file pios\-\_\-rtc.\-c.
+

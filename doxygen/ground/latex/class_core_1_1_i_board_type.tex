@@ -1,0 +1,83 @@
+\hypertarget{class_core_1_1_i_board_type}{\section{\-Core\-:\-:\-I\-Board\-Type \-Class \-Reference}
+\label{class_core_1_1_i_board_type}\index{\-Core\-::\-I\-Board\-Type@{\-Core\-::\-I\-Board\-Type}}
+}
+
+
+{\ttfamily \#include $<$iboardtype.\-h$>$}
+
+\-Inheritance diagram for \-Core\-:\-:\-I\-Board\-Type\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=11.000000cm]{class_core_1_1_i_board_type}
+\end{center}
+\end{figure}
+\subsection*{\-Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{struct_core_1_1_i_board_type_1_1_u_s_b_info}{\-U\-S\-B\-Info}
+\begin{DoxyCompactList}\small\item\em \-The \hyperlink{struct_core_1_1_i_board_type_1_1_u_s_b_info}{\-U\-S\-B\-Info} struct \-T\-O\-D\-O\-: finalize what we will put there, not everything is relevant. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Public \-Types}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{group___core_plugin_ga01b09218f2a13aaeee6db007ac6bd967}{\-Board\-Capabilities} \{ \*
+\hyperlink{group___core_plugin_gga01b09218f2a13aaeee6db007ac6bd967a6490aec954e127f73371f4fb9b457b7c}{\-B\-O\-A\-R\-D\-\_\-\-C\-A\-P\-A\-B\-I\-L\-I\-T\-I\-E\-S\-\_\-\-G\-Y\-R\-O\-S}, 
+\hyperlink{group___core_plugin_gga01b09218f2a13aaeee6db007ac6bd967ac0d0ee8be489c9d3b7b41f1463fea3f3}{\-B\-O\-A\-R\-D\-\_\-\-C\-A\-P\-A\-B\-I\-L\-I\-T\-I\-E\-S\-\_\-\-A\-C\-C\-E\-L\-S}, 
+\hyperlink{group___core_plugin_gga01b09218f2a13aaeee6db007ac6bd967a769644e0a335cd070adf4c24017a462f}{\-B\-O\-A\-R\-D\-\_\-\-C\-A\-P\-A\-B\-I\-L\-I\-T\-I\-E\-S\-\_\-\-M\-A\-G\-S}, 
+\hyperlink{group___core_plugin_gga01b09218f2a13aaeee6db007ac6bd967a9f6c413adaed7f2079e0d2f8097a6d68}{\-B\-O\-A\-R\-D\-\_\-\-C\-A\-P\-A\-B\-I\-L\-I\-T\-I\-E\-S\-\_\-\-B\-A\-R\-O\-S}, 
+\*
+\hyperlink{group___core_plugin_gga01b09218f2a13aaeee6db007ac6bd967a288728a55ec6a807d327586c5d061678}{\-B\-O\-A\-R\-D\-\_\-\-C\-A\-P\-A\-B\-I\-L\-I\-T\-I\-E\-S\-\_\-\-R\-A\-D\-I\-O}
+ \}
+\begin{DoxyCompactList}\small\item\em \-Types of capabilities boards can support. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Public \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___core_plugin_gab7a5ac1921113d9ab3a8181acb704c08}{short\-Name} ()=0
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___core_plugin_gad4ab160d20fd133acd9df87eaa398e8f}{board\-Description} ()=0
+\item 
+virtual bool \hyperlink{group___core_plugin_gac4aef79d19d7ee487afee6655808e722}{query\-Capabilities} (\hyperlink{group___core_plugin_ga01b09218f2a13aaeee6db007ac6bd967}{\-Board\-Capabilities} capability)=0
+\item 
+virtual \-Q\-Pixmap \hyperlink{group___core_plugin_gaf2965319c1d15dcb3563dd224add7858}{get\-Board\-Picture} ()=0
+\begin{DoxyCompactList}\small\item\em get\-Board\-Picture \end{DoxyCompactList}\item 
+virtual \-Q\-String\-List \hyperlink{group___core_plugin_ga01b18f940069cc5cdc9bfc42fef2854a}{get\-Supported\-Protocols} ()=0
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___core_plugin_ga265636c3ae87d360bcddaa13cf4d2ce4}{get\-Hw\-U\-A\-V\-O} ()=0
+\item 
+\hyperlink{struct_core_1_1_i_board_type_1_1_u_s_b_info}{\-U\-S\-B\-Info} \hyperlink{group___core_plugin_ga5a5ae8e61aae6fb70f4557df2c6e49dc}{get\-U\-S\-B\-Info} ()
+\item 
+int \hyperlink{group___core_plugin_ga6d8beb4c61fcb291ecef7dbdb8785d9f}{get\-Vendor\-I\-D} ()
+\item 
+bool \hyperlink{group___core_plugin_ga5a4a5e1306420d52d03a2a45ba9af280}{is\-D\-F\-U\-Supported} ()
+\item 
+int \hyperlink{group___core_plugin_ga5d2ecfabe310535314afc68f856c06bf}{get\-Board\-Type} ()
+\begin{DoxyCompactList}\small\item\em \-Get the board type number. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Protected \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___core_plugin_ga42daca6311468f194ca6fe21ba757739}{set\-U\-S\-B\-Info} (\hyperlink{struct_core_1_1_i_board_type_1_1_u_s_b_info}{\-U\-S\-B\-Info} info)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___core_plugin_gac9d8c69a2547553e8129adc61d57714f}{set\-D\-F\-U\-Support} (bool support)
+\end{DoxyCompactItemize}
+\subsection*{\-Protected \-Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{struct_core_1_1_i_board_type_1_1_u_s_b_info}{\-U\-S\-B\-Info} \hyperlink{group___core_plugin_ga240004d7cf24893e312b4c471e7d18c2}{board\-U\-S\-B\-Info}
+\item 
+bool \hyperlink{group___core_plugin_gada9001e6e7d55c7cee9b04f37597946c}{dfu\-Support}
+\item 
+int \hyperlink{group___core_plugin_gab9cad66a5d315e3e491293c989bc4e5a}{board\-Type}
+\begin{DoxyCompactList}\small\item\em \-The numerical board type \-I\-D. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-An \hyperlink{class_core_1_1_i_board_type}{\-I\-Board\-Type} object defines an autopilot or more generally a hardware device, that is supported by the \-G\-C\-S. \-It provides basic information to the \-G\-C\-S to detect and use this board type.
+
+\-Note\-: at present (2012), the \-G\-C\-S only supports autopilots, and assumes they will talk with \hyperlink{class_u_a_v_talk}{\-U\-A\-V\-Talk}. \-Further down the line, \-G\-C\-S will be able to support additional protocols, as well as other device types (beacons, other). 
+
+\-Definition at line 48 of file iboardtype.\-h.
+
+
+
+\-The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/plugins/coreplugin/\hyperlink{iboardtype_8h}{iboardtype.\-h}\end{DoxyCompactItemize}

@@ -1,0 +1,81 @@
+\hypertarget{class_config_gadget_widget}{\section{\-Config\-Gadget\-Widget \-Class \-Reference}
+\label{class_config_gadget_widget}\index{\-Config\-Gadget\-Widget@{\-Config\-Gadget\-Widget}}
+}
+
+
+{\ttfamily \#include $<$configgadgetwidget.\-h$>$}
+
+\subsection*{\-Public \-Types}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{group___config_plugin_ga63fe84e8399ffe3db8ffa9c83b109c66}{widget\-Tabs} \{ \*
+\hyperlink{group___config_plugin_gga63fe84e8399ffe3db8ffa9c83b109c66a5d6b5e9de62beaabf98d3f3d4898bd37}{hardware} = 0, 
+\hyperlink{group___config_plugin_gga63fe84e8399ffe3db8ffa9c83b109c66a0daadf1249382ad3b13cd539bcafc8a5}{aircraft}, 
+\hyperlink{group___config_plugin_gga63fe84e8399ffe3db8ffa9c83b109c66a0c4c2ed85d2c3d9acd90fbd2392f10aa}{input}, 
+\hyperlink{group___config_plugin_gga63fe84e8399ffe3db8ffa9c83b109c66ab940a2bf8cfb52030d1b1d7c0cddb5b2}{output}, 
+\*
+\hyperlink{group___config_plugin_gga63fe84e8399ffe3db8ffa9c83b109c66a9f0c06e93c63493f41060eb823cc2448}{sensors}, 
+\hyperlink{group___config_plugin_gga63fe84e8399ffe3db8ffa9c83b109c66a4544ce691818bcec4988f0a3e5055b40}{stabilization}, 
+\hyperlink{group___config_plugin_gga63fe84e8399ffe3db8ffa9c83b109c66afb489ec55c65ac005cbe0319bab20e11}{camerastabilization}, 
+\hyperlink{group___config_plugin_gga63fe84e8399ffe3db8ffa9c83b109c66a0926ebfc1e048a25fbe8816714dcb0c8}{txpid}, 
+\*
+\hyperlink{group___config_plugin_gga63fe84e8399ffe3db8ffa9c83b109c66a316bc45a7cc6c902ea6b24978bb7648f}{oplink}, 
+\hyperlink{group___config_plugin_gga63fe84e8399ffe3db8ffa9c83b109c66a446519617d79946d8c73fedbaf8b4e60}{autotune}
+ \}
+\end{DoxyCompactItemize}
+\subsection*{\-Public \-Slots}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___config_plugin_ga4f8e913d92b646252bb6d82dfd028c52}{on\-Autopilot\-Connect} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___config_plugin_gaa57c964c58914d045daa972b9a1b87ce}{on\-Autopilot\-Disconnect} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___config_plugin_ga280d7130ca08f8974292483f6b017d72}{tab\-About\-To\-Change} (int \hyperlink{uavobjecttemplate_8m_a6f6ccfcf58b31cb6412107d9d5281426}{i}, bool $\ast$)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___config_plugin_ga818055c405858506c9ae07240e0bfad7}{update\-O\-P\-Link\-Status} (\hyperlink{class_u_a_v_object}{\-U\-A\-V\-Object} $\ast$object)
+\begin{DoxyCompactList}\small\item\em \-Called by updates to . \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___config_plugin_gaec8bc8bcd267141edd1fee6ca08c3a97}{on\-O\-P\-Link\-Disconnect} ()
+\end{DoxyCompactItemize}
+\subsection*{\-Signals}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___config_plugin_ga5c7aaec226341fec654b07be4cdcd807}{autopilot\-Connected} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___config_plugin_ga1ba3ecc94d2a793f945493631cc7be34}{autopilot\-Disconnected} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___config_plugin_ga672206f813d7364dc6bd71140773c828}{oplink\-Connect} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___config_plugin_gad5ee6c6370ca04c5da447e4ba0304f0b}{oplink\-Disconnect} ()
+\end{DoxyCompactItemize}
+\subsection*{\-Public \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___config_plugin_gafc45c197f2917c39166b7d228d592784}{\-Config\-Gadget\-Widget} (\-Q\-Widget $\ast$parent=0)
+\item 
+\hyperlink{group___config_plugin_gaeafab35f30d35ed548cda276953b8ad5}{$\sim$\-Config\-Gadget\-Widget} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___config_plugin_ga8655bea31bbed90a46bacb2f428301f6}{start\-Input\-Wizard} ()
+\end{DoxyCompactItemize}
+\subsection*{\-Protected \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___config_plugin_ga62d98ed212936a33d9e9240f27aa7497}{resize\-Event} (\-Q\-Resize\-Event $\ast$event)
+\end{DoxyCompactItemize}
+\subsection*{\-Protected \-Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_my_tabbed_stack_widget}{\-My\-Tabbed\-Stack\-Widget} $\ast$ \hyperlink{group___config_plugin_ga86b1da74559f7e5f1e68bf0360b06dc5}{ftw}
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+
+
+\-Definition at line 43 of file configgadgetwidget.\-h.
+
+
+
+\-The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/plugins/config/\hyperlink{configgadgetwidget_8h}{configgadgetwidget.\-h}\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/plugins/config/\hyperlink{configgadgetwidget_8cpp}{configgadgetwidget.\-cpp}\end{DoxyCompactItemize}

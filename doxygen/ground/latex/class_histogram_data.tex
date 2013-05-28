@@ -1,0 +1,50 @@
+\hypertarget{class_histogram_data}{\section{\-Histogram\-Data \-Class \-Reference}
+\label{class_histogram_data}\index{\-Histogram\-Data@{\-Histogram\-Data}}
+}
+
+
+\-The \hyperlink{class_histogram_data}{\-Histogram\-Data} class \-The histogram plot has a variable sized buffer of data, where the data is for a specified histogram data set.  
+
+
+
+
+{\ttfamily \#include $<$histogramplotdata.\-h$>$}
+
+\-Inheritance diagram for \-Histogram\-Data\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{class_histogram_data}
+\end{center}
+\end{figure}
+\subsection*{\-Public \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___scope_plugin_ga72e50dd5614c61d39ec10aa120c47d3b}{\-Histogram\-Data} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} uav\-Object, \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} uav\-Field, double bin\-Width, uint number\-Of\-Bins)
+\begin{DoxyCompactList}\small\item\em \hyperlink{group___scope_plugin_ga72e50dd5614c61d39ec10aa120c47d3b}{\-Histogram\-Data\-::\-Histogram\-Data}. \end{DoxyCompactList}\item 
+\hyperlink{group___scope_plugin_ga4469655db4ea251dc664d6537ac56c5a}{$\sim$\-Histogram\-Data} ()
+\item 
+bool \hyperlink{group___scope_plugin_ga0d810ba48c487ee265cdc1386b23bece}{append} (\hyperlink{class_u_a_v_object}{\-U\-A\-V\-Object} $\ast$obj)
+\begin{DoxyCompactList}\small\item\em \hyperlink{group___scope_plugin_ga0d810ba48c487ee265cdc1386b23bece}{\-Histogram\-Data\-::append} \-Appends data to histogram. \end{DoxyCompactList}\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___scope_plugin_ga347aa15de12fde18bb0b88245ef0ff57}{remove\-Stale\-Data} ()
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___scope_plugin_gac17c425a9e59f0b1187d76a8cc13e6ad}{plot\-New\-Data} (\hyperlink{class_plot_data}{\-Plot\-Data} $\ast$, \hyperlink{class_scope_config}{\-Scope\-Config} $\ast$, \hyperlink{class_scope_gadget_widget}{\-Scope\-Gadget\-Widget} $\ast$)
+\begin{DoxyCompactList}\small\item\em \-Histogram\-Scope\-Config\-::plot\-New\-Data \-Update plot with new data. \end{DoxyCompactList}\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___scope_plugin_gaba86940fa8881f8a36b2bafacd9d59f6}{clear\-Plots} (\hyperlink{class_plot_data}{\-Plot\-Data} $\ast$)
+\begin{DoxyCompactList}\small\item\em \-Histogram\-Scope\-Config\-::clear\-Plots \-Clear all plot data. \end{DoxyCompactList}\item 
+\-Qwt\-Interval\-Series\-Data $\ast$ \hyperlink{group___scope_plugin_ga025ada984f64906121e98805e9ab43b4}{get\-Interval\-Series\-Data} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___scope_plugin_ga2f4dbd730d5616dbd15922f23f775d02}{set\-Histogram} (\-Qwt\-Plot\-Histogram $\ast$val)
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-The \hyperlink{class_histogram_data}{\-Histogram\-Data} class \-The histogram plot has a variable sized buffer of data, where the data is for a specified histogram data set. 
+
+\-Definition at line 46 of file histogramplotdata.\-h.
+
+
+
+\-The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/plugins/scope/scopes2d/\hyperlink{histogramplotdata_8h}{histogramplotdata.\-h}\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/plugins/scope/scopes2d/\hyperlink{histogramplotdata_8cpp}{histogramplotdata.\-cpp}\end{DoxyCompactItemize}

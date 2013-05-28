@@ -1,0 +1,154 @@
+\hypertarget{group___airspeed_module}{\section{\-Airspeed \-Module}
+\label{group___airspeed_module}\index{\-Airspeed Module@{\-Airspeed Module}}
+}
+\subsection*{\-Data \-Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{struct_g_p_s_globals}{\-G\-P\-S\-Globals}
+\end{DoxyCompactItemize}
+\subsection*{\-Files}
+\begin{DoxyCompactItemize}
+\item 
+file \hyperlink{airspeed_8c}{airspeed.\-c}
+\begin{DoxyCompactList}\small\item\em \-Airspeed module. \end{DoxyCompactList}\item 
+file \hyperlink{baro__airspeed__analog_8h}{baro\-\_\-airspeed\-\_\-analog.\-h}
+\begin{DoxyCompactList}\small\item\em \-Read airspeed from analog sensor. \end{DoxyCompactList}\item 
+file \hyperlink{baro__airspeed__etasv3_8h}{baro\-\_\-airspeed\-\_\-etasv3.\-h}
+\begin{DoxyCompactList}\small\item\em \-Calculate airspeed using \-G\-P\-S. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{group___airspeed_module_ga76db67751a27b3bcbf75e88ee48148fb}{baro\-\_\-airspeed\-Get} (\-Baro\-Airspeed\-Data $\ast$baro\-Airspeed\-Data, port\-Tick\-Type $\ast$last\-Sys\-Time, uint8\-\_\-t airspeed\-Sensor\-Type, int8\-\_\-t airspeed\-A\-D\-C\-Pin)
+\item 
+int32\-\_\-t \hyperlink{group___airspeed_module_ga4e599df9b683a64cb49340f7d0386be5}{\-Airspeed\-Start} ()
+\item 
+int32\-\_\-t \hyperlink{group___airspeed_module_ga3e08decda04632d5570c9a030a96041f}{\-Airspeed\-Initialize} ()
+\item 
+\hyperlink{group___airspeed_module_ga21ecf0efa7ca0f9597649aa8babdc8b0}{\-M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L} (\hyperlink{group___airspeed_module_ga3e08decda04632d5570c9a030a96041f}{\-Airspeed\-Initialize}, \hyperlink{group___airspeed_module_ga4e599df9b683a64cb49340f7d0386be5}{\-Airspeed\-Start})
+\item 
+void \hyperlink{group___airspeed_module_ga11ad675f5f7a043d2cfaada3edf7ae6e}{baro\-\_\-airspeed\-Get\-Analog} (\-Baro\-Airspeed\-Data $\ast$baro\-Airspeed\-Data, port\-Tick\-Type $\ast$last\-Sys\-Time, uint8\-\_\-t airspeed\-Sensor\-Type, int8\-\_\-t airspeed\-A\-D\-C\-Pin)
+\item 
+void \hyperlink{group___airspeed_module_ga220f144f081ac5d6b18383754ef0572f}{baro\-\_\-airspeed\-Get\-E\-T\-A\-S\-V3} (\-Baro\-Airspeed\-Data $\ast$baro\-Airspeed\-Data, port\-Tick\-Type $\ast$last\-Sys\-Time, uint8\-\_\-t airspeed\-Sensor\-Type, int8\-\_\-t airspeed\-A\-D\-C\-Pin)
+\item 
+void \hyperlink{group___airspeed_module_ga189c9d3a29580346591f8dd1e03dd919}{gps\-\_\-airspeed\-Initialize} ()
+\item 
+void \hyperlink{group___airspeed_module_gac8b8ff60998625430e286f7797c5ce67}{gps\-\_\-airspeed\-Get} (float $\ast$v\-\_\-air\-\_\-\-G\-P\-S)
+\end{DoxyCompactItemize}
+\subsection*{\-Variables}
+\begin{DoxyCompactItemize}
+\item 
+volatile bool \hyperlink{group___airspeed_module_ga92e7d8d768e91460a03e1f0ef2c9a443}{gps\-New} = false
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Function \-Documentation}
+\hypertarget{group___airspeed_module_ga3e08decda04632d5570c9a030a96041f}{\index{\-Airspeed Module@{\-Airspeed Module}!\-Airspeed\-Initialize@{\-Airspeed\-Initialize}}
+\index{\-Airspeed\-Initialize@{\-Airspeed\-Initialize}!Airspeed Module@{\-Airspeed Module}}
+\subsubsection[{\-Airspeed\-Initialize}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-Airspeed\-Initialize} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___airspeed_module_ga3e08decda04632d5570c9a030a96041f}
+\-Initialise the module, called on startup \begin{DoxyReturn}{\-Returns}
+0 on success or -\/1 if initialisation failed 
+\end{DoxyReturn}
+
+
+\-Definition at line 136 of file airspeed.\-c.
+
+\hypertarget{group___airspeed_module_ga4e599df9b683a64cb49340f7d0386be5}{\index{\-Airspeed Module@{\-Airspeed Module}!\-Airspeed\-Start@{\-Airspeed\-Start}}
+\index{\-Airspeed\-Start@{\-Airspeed\-Start}!Airspeed Module@{\-Airspeed Module}}
+\subsubsection[{\-Airspeed\-Start}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-Airspeed\-Start} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___airspeed_module_ga4e599df9b683a64cb49340f7d0386be5}
+\-Initialise the module, called on startup \begin{DoxyReturn}{\-Returns}
+0 on success or -\/1 if initialisation failed 
+\end{DoxyReturn}
+
+
+\-Definition at line 115 of file airspeed.\-c.
+
+\hypertarget{group___airspeed_module_ga76db67751a27b3bcbf75e88ee48148fb}{\index{\-Airspeed Module@{\-Airspeed Module}!baro\-\_\-airspeed\-Get@{baro\-\_\-airspeed\-Get}}
+\index{baro\-\_\-airspeed\-Get@{baro\-\_\-airspeed\-Get}!Airspeed Module@{\-Airspeed Module}}
+\subsubsection[{baro\-\_\-airspeed\-Get}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf baro\-\_\-airspeed\-Get} (
+\begin{DoxyParamCaption}
+\item[{\-Baro\-Airspeed\-Data $\ast$}]{baro\-Airspeed\-Data, }
+\item[{port\-Tick\-Type $\ast$}]{last\-Sys\-Time, }
+\item[{uint8\-\_\-t}]{airspeed\-Sensor\-Type, }
+\item[{int8\-\_\-t}]{airspeed\-A\-D\-C\-Pin}
+\end{DoxyParamCaption}
+)}}\label{group___airspeed_module_ga76db67751a27b3bcbf75e88ee48148fb}
+\hypertarget{group___airspeed_module_ga11ad675f5f7a043d2cfaada3edf7ae6e}{\index{\-Airspeed Module@{\-Airspeed Module}!baro\-\_\-airspeed\-Get\-Analog@{baro\-\_\-airspeed\-Get\-Analog}}
+\index{baro\-\_\-airspeed\-Get\-Analog@{baro\-\_\-airspeed\-Get\-Analog}!Airspeed Module@{\-Airspeed Module}}
+\subsubsection[{baro\-\_\-airspeed\-Get\-Analog}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf baro\-\_\-airspeed\-Get\-Analog} (
+\begin{DoxyParamCaption}
+\item[{\-Baro\-Airspeed\-Data $\ast$}]{baro\-Airspeed\-Data, }
+\item[{port\-Tick\-Type $\ast$}]{last\-Sys\-Time, }
+\item[{uint8\-\_\-t}]{airspeed\-Sensor\-Type, }
+\item[{int8\-\_\-t}]{airspeed\-A\-D\-C\-Pin}
+\end{DoxyParamCaption}
+)}}\label{group___airspeed_module_ga11ad675f5f7a043d2cfaada3edf7ae6e}
+
+
+\-Definition at line 59 of file baro\-\_\-airspeed\-\_\-analog.\-c.
+
+\hypertarget{group___airspeed_module_ga220f144f081ac5d6b18383754ef0572f}{\index{\-Airspeed Module@{\-Airspeed Module}!baro\-\_\-airspeed\-Get\-E\-T\-A\-S\-V3@{baro\-\_\-airspeed\-Get\-E\-T\-A\-S\-V3}}
+\index{baro\-\_\-airspeed\-Get\-E\-T\-A\-S\-V3@{baro\-\_\-airspeed\-Get\-E\-T\-A\-S\-V3}!Airspeed Module@{\-Airspeed Module}}
+\subsubsection[{baro\-\_\-airspeed\-Get\-E\-T\-A\-S\-V3}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf baro\-\_\-airspeed\-Get\-E\-T\-A\-S\-V3} (
+\begin{DoxyParamCaption}
+\item[{\-Baro\-Airspeed\-Data $\ast$}]{baro\-Airspeed\-Data, }
+\item[{port\-Tick\-Type $\ast$}]{last\-Sys\-Time, }
+\item[{uint8\-\_\-t}]{airspeed\-Sensor\-Type, }
+\item[{int8\-\_\-t}]{airspeed\-A\-D\-C\-Pin}
+\end{DoxyParamCaption}
+)}}\label{group___airspeed_module_ga220f144f081ac5d6b18383754ef0572f}
+
+
+\-Definition at line 60 of file baro\-\_\-airspeed\-\_\-etasv3.\-c.
+
+\hypertarget{group___airspeed_module_gac8b8ff60998625430e286f7797c5ce67}{\index{\-Airspeed Module@{\-Airspeed Module}!gps\-\_\-airspeed\-Get@{gps\-\_\-airspeed\-Get}}
+\index{gps\-\_\-airspeed\-Get@{gps\-\_\-airspeed\-Get}!Airspeed Module@{\-Airspeed Module}}
+\subsubsection[{gps\-\_\-airspeed\-Get}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf gps\-\_\-airspeed\-Get} (
+\begin{DoxyParamCaption}
+\item[{float $\ast$}]{v\-\_\-air\-\_\-\-G\-P\-S}
+\end{DoxyParamCaption}
+)}}\label{group___airspeed_module_gac8b8ff60998625430e286f7797c5ce67}
+
+
+\-Definition at line 99 of file gps\-\_\-airspeed.\-c.
+
+\hypertarget{group___airspeed_module_ga189c9d3a29580346591f8dd1e03dd919}{\index{\-Airspeed Module@{\-Airspeed Module}!gps\-\_\-airspeed\-Initialize@{gps\-\_\-airspeed\-Initialize}}
+\index{gps\-\_\-airspeed\-Initialize@{gps\-\_\-airspeed\-Initialize}!Airspeed Module@{\-Airspeed Module}}
+\subsubsection[{gps\-\_\-airspeed\-Initialize}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf gps\-\_\-airspeed\-Initialize} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___airspeed_module_ga189c9d3a29580346591f8dd1e03dd919}
+
+
+\-Definition at line 63 of file gps\-\_\-airspeed.\-c.
+
+\hypertarget{group___airspeed_module_ga21ecf0efa7ca0f9597649aa8babdc8b0}{\index{\-Airspeed Module@{\-Airspeed Module}!\-M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L@{\-M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L}}
+\index{\-M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L@{\-M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L}!Airspeed Module@{\-Airspeed Module}}
+\subsubsection[{\-M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Airspeed\-Initialize}}]{, }
+\item[{{\bf \-Airspeed\-Start}}]{}
+\end{DoxyParamCaption}
+)}}\label{group___airspeed_module_ga21ecf0efa7ca0f9597649aa8babdc8b0}
+\-Module thread, should not return. 
+
+\-Definition at line 175 of file airspeed.\-c.
+
+
+
+\subsection{\-Variable \-Documentation}
+\hypertarget{group___airspeed_module_ga92e7d8d768e91460a03e1f0ef2c9a443}{\index{\-Airspeed Module@{\-Airspeed Module}!gps\-New@{gps\-New}}
+\index{gps\-New@{gps\-New}!Airspeed Module@{\-Airspeed Module}}
+\subsubsection[{gps\-New}]{\setlength{\rightskip}{0pt plus 5cm}volatile bool {\bf gps\-New} = false}}\label{group___airspeed_module_ga92e7d8d768e91460a03e1f0ef2c9a443}
+
+
+\-Definition at line 92 of file airspeed.\-c.
+

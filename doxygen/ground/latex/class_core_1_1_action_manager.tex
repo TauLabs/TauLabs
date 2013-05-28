@@ -1,0 +1,58 @@
+\hypertarget{class_core_1_1_action_manager}{\section{\-Core\-:\-:\-Action\-Manager \-Class \-Reference}
+\label{class_core_1_1_action_manager}\index{\-Core\-::\-Action\-Manager@{\-Core\-::\-Action\-Manager}}
+}
+
+
+\-The action manager is responsible for registration of menus and menu items and keyboard shortcuts.  
+
+
+
+
+{\ttfamily \#include $<$actionmanager.\-h$>$}
+
+\-Inheritance diagram for \-Core\-:\-:\-Action\-Manager\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_core_1_1_action_manager}
+\end{center}
+\end{figure}
+\subsection*{\-Public \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___core_plugin_gab0f34dc9c6d367a0807cef1003bc3667}{\-Action\-Manager} (\-Q\-Object $\ast$parent=0)
+\item 
+virtual \hyperlink{group___core_plugin_gac80d3d645622551a98db65a649abe079}{$\sim$\-Action\-Manager} ()
+\item 
+virtual \hyperlink{class_core_1_1_action_container}{\-Action\-Container} $\ast$ \hyperlink{group___core_plugin_ga5affc8a59dfae8d4d00779b9f8390c22}{create\-Menu} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \&id)=0
+\begin{DoxyCompactList}\small\item\em \-Creates a new menu with the given string {\itshape id\/}. \end{DoxyCompactList}\item 
+virtual \hyperlink{class_core_1_1_action_container}{\-Action\-Container} $\ast$ \hyperlink{group___core_plugin_gaa00e94317a705be8cf40afc32368c4b4}{create\-Menu\-Bar} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \&id)=0
+\begin{DoxyCompactList}\small\item\em \-Creates a new menu bar with the given string {\itshape id\/}. \end{DoxyCompactList}\item 
+virtual \hyperlink{class_core_1_1_command}{\-Command} $\ast$ \hyperlink{group___core_plugin_ga316dd0cff29b294cd1b0631677f6357d}{register\-Action} (\-Q\-Action $\ast$action, const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \&id, const \-Q\-List$<$ int $>$ \&context)=0
+\begin{DoxyCompactList}\small\item\em \-Makes an {\itshape action\/} known to the system under the specified string {\itshape id\/}. \end{DoxyCompactList}\item 
+virtual \hyperlink{class_core_1_1_command}{\-Command} $\ast$ \hyperlink{group___core_plugin_ga74e32e1f8008da2d536cc688b32d111f}{register\-Shortcut} (\-Q\-Shortcut $\ast$shortcut, const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \&id, const \-Q\-List$<$ int $>$ \&context)=0
+\begin{DoxyCompactList}\small\item\em \-Makes a {\itshape shortcut\/} known to the system under the specified string {\itshape id\/}. \end{DoxyCompactList}\item 
+virtual \hyperlink{class_core_1_1_command}{\-Command} $\ast$ \hyperlink{group___core_plugin_ga262e29bf6a8d1cf1fb92dfe93b96621e}{command} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \&id) const =0
+\begin{DoxyCompactList}\small\item\em \-Returns the \hyperlink{class_core_1_1_command}{\-Command} object that is known to the system under the given string {\itshape id\/}. \end{DoxyCompactList}\item 
+virtual \hyperlink{class_core_1_1_action_container}{\-Action\-Container} $\ast$ \hyperlink{group___core_plugin_ga0bd5e0ad7658056a7c80666200734df8}{action\-Container} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \&id) const =0
+\begin{DoxyCompactList}\small\item\em \-Returns the \-I\-Action\-Containter object that is know to the system under the given string {\itshape id\/}. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-The action manager is responsible for registration of menus and menu items and keyboard shortcuts. 
+
+\-The \hyperlink{class_core_1_1_action_manager}{\-Action\-Manager} is the central bookkeeper of actions and their shortcuts and layout. \-You get the only implementation of this class from the core interface \hyperlink{group___core_plugin_ga5e44e7795213bb2627acfa08a13f6a12}{\-I\-Core\-::action\-Manager()} method, e.\-g. 
+\begin{DoxyCode}
+        Core::ICore::instance()->actionManager()
+\end{DoxyCode}
+
+
+\-The main reasons for the need of this class is to provide a central place where the user can specify all his keyboard shortcuts, and to provide a solution for actions that should behave differently in different contexts (like the copy/replace/undo/redo actions).
+
+\-Definition at line 48 of file actionmanager.\-h.
+
+
+
+\-The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/plugins/coreplugin/actionmanager/\hyperlink{actionmanager_8h}{actionmanager.\-h}\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/plugins/coreplugin/actionmanager/\hyperlink{actionmanager_8cpp}{actionmanager.\-cpp}\end{DoxyCompactItemize}

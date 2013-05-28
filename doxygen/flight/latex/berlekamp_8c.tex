@@ -1,0 +1,137 @@
+\hypertarget{berlekamp_8c}{\section{/home/jb/code/\-Tau\-Labs/flight/\-Libraries/rscode/berlekamp.c \-File \-Reference}
+\label{berlekamp_8c}\index{/home/jb/code/\-Tau\-Labs/flight/\-Libraries/rscode/berlekamp.\-c@{/home/jb/code/\-Tau\-Labs/flight/\-Libraries/rscode/berlekamp.\-c}}
+}
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{berlekamp_8c_a3fa9c2ccc35637876cbb5117bc52fad2}{\-Modified\-\_\-\-Berlekamp\-\_\-\-Massey} (void)
+\item 
+void \hyperlink{berlekamp_8c_ad6079f119d46b188fc8f0c8f98cbbc03}{mult\-\_\-polys} (int dst\mbox{[}$\,$\mbox{]}, int p1\mbox{[}$\,$\mbox{]}, int p2\mbox{[}$\,$\mbox{]})
+\item 
+void \hyperlink{berlekamp_8c_a7048a07eb92991d559cb5508bc9a07ae}{compute\-\_\-next\-\_\-omega} (int d, int \-A\mbox{[}$\,$\mbox{]}, int dst\mbox{[}$\,$\mbox{]}, int src\mbox{[}$\,$\mbox{]})
+\item 
+void \hyperlink{berlekamp_8c_af5ea13e698651189b3705cb2b1e7d2cf}{add\-\_\-polys} (int dst\mbox{[}$\,$\mbox{]}, int src\mbox{[}$\,$\mbox{]})
+\item 
+void \hyperlink{berlekamp_8c_aedca0b4d3e5bef4c830e5e82b8ebe655}{copy\-\_\-poly} (int dst\mbox{[}$\,$\mbox{]}, int src\mbox{[}$\,$\mbox{]})
+\item 
+void \hyperlink{berlekamp_8c_adeed254ee2d542d7da8d54d5d5762f17}{scale\-\_\-poly} (int k, int poly\mbox{[}$\,$\mbox{]})
+\item 
+void \hyperlink{berlekamp_8c_afe3883a12ae28716adce4ede69d58191}{zero\-\_\-poly} (int poly\mbox{[}$\,$\mbox{]})
+\item 
+void \hyperlink{berlekamp_8c_a4069950fa80c5dd0b12ff06ba4374f27}{\-Find\-\_\-\-Roots} (void)
+\item 
+int \hyperlink{berlekamp_8c_a6da28744dd026ab3b7deb96086c74f0d}{correct\-\_\-errors\-\_\-erasures} (unsigned char \hyperlink{_libraries_2rscode_2example_8c_af45402c50a301706fd28b80e00c1868f}{codeword}\mbox{[}$\,$\mbox{]}, int csize, int nerasures, int erasures\mbox{[}$\,$\mbox{]})
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Function \-Documentation}
+\hypertarget{berlekamp_8c_af5ea13e698651189b3705cb2b1e7d2cf}{\index{berlekamp.\-c@{berlekamp.\-c}!add\-\_\-polys@{add\-\_\-polys}}
+\index{add\-\_\-polys@{add\-\_\-polys}!berlekamp.c@{berlekamp.\-c}}
+\subsubsection[{add\-\_\-polys}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf add\-\_\-polys} (
+\begin{DoxyParamCaption}
+\item[{int}]{dst\mbox{[}$\,$\mbox{]}, }
+\item[{int}]{src\mbox{[}$\,$\mbox{]}}
+\end{DoxyParamCaption}
+)}}\label{berlekamp_8c_af5ea13e698651189b3705cb2b1e7d2cf}
+
+
+\-Definition at line 194 of file berlekamp.\-c.
+
+\hypertarget{berlekamp_8c_a7048a07eb92991d559cb5508bc9a07ae}{\index{berlekamp.\-c@{berlekamp.\-c}!compute\-\_\-next\-\_\-omega@{compute\-\_\-next\-\_\-omega}}
+\index{compute\-\_\-next\-\_\-omega@{compute\-\_\-next\-\_\-omega}!berlekamp.c@{berlekamp.\-c}}
+\subsubsection[{compute\-\_\-next\-\_\-omega}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf compute\-\_\-next\-\_\-omega} (
+\begin{DoxyParamCaption}
+\item[{int}]{d, }
+\item[{int}]{\-A\mbox{[}$\,$\mbox{]}, }
+\item[{int}]{dst\mbox{[}$\,$\mbox{]}, }
+\item[{int}]{src\mbox{[}$\,$\mbox{]}}
+\end{DoxyParamCaption}
+)}}\label{berlekamp_8c_a7048a07eb92991d559cb5508bc9a07ae}
+
+
+\-Definition at line 172 of file berlekamp.\-c.
+
+\hypertarget{berlekamp_8c_aedca0b4d3e5bef4c830e5e82b8ebe655}{\index{berlekamp.\-c@{berlekamp.\-c}!copy\-\_\-poly@{copy\-\_\-poly}}
+\index{copy\-\_\-poly@{copy\-\_\-poly}!berlekamp.c@{berlekamp.\-c}}
+\subsubsection[{copy\-\_\-poly}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf copy\-\_\-poly} (
+\begin{DoxyParamCaption}
+\item[{int}]{dst\mbox{[}$\,$\mbox{]}, }
+\item[{int}]{src\mbox{[}$\,$\mbox{]}}
+\end{DoxyParamCaption}
+)}}\label{berlekamp_8c_aedca0b4d3e5bef4c830e5e82b8ebe655}
+
+
+\-Definition at line 200 of file berlekamp.\-c.
+
+\hypertarget{berlekamp_8c_a6da28744dd026ab3b7deb96086c74f0d}{\index{berlekamp.\-c@{berlekamp.\-c}!correct\-\_\-errors\-\_\-erasures@{correct\-\_\-errors\-\_\-erasures}}
+\index{correct\-\_\-errors\-\_\-erasures@{correct\-\_\-errors\-\_\-erasures}!berlekamp.c@{berlekamp.\-c}}
+\subsubsection[{correct\-\_\-errors\-\_\-erasures}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf correct\-\_\-errors\-\_\-erasures} (
+\begin{DoxyParamCaption}
+\item[{unsigned char}]{codeword\mbox{[}$\,$\mbox{]}, }
+\item[{int}]{csize, }
+\item[{int}]{nerasures, }
+\item[{int}]{erasures\mbox{[}$\,$\mbox{]}}
+\end{DoxyParamCaption}
+)}}\label{berlekamp_8c_a6da28744dd026ab3b7deb96086c74f0d}
+
+
+\-Definition at line 270 of file berlekamp.\-c.
+
+\hypertarget{berlekamp_8c_a4069950fa80c5dd0b12ff06ba4374f27}{\index{berlekamp.\-c@{berlekamp.\-c}!\-Find\-\_\-\-Roots@{\-Find\-\_\-\-Roots}}
+\index{\-Find\-\_\-\-Roots@{\-Find\-\_\-\-Roots}!berlekamp.c@{berlekamp.\-c}}
+\subsubsection[{\-Find\-\_\-\-Roots}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-Find\-\_\-\-Roots} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{berlekamp_8c_a4069950fa80c5dd0b12ff06ba4374f27}
+
+
+\-Definition at line 237 of file berlekamp.\-c.
+
+\hypertarget{berlekamp_8c_a3fa9c2ccc35637876cbb5117bc52fad2}{\index{berlekamp.\-c@{berlekamp.\-c}!\-Modified\-\_\-\-Berlekamp\-\_\-\-Massey@{\-Modified\-\_\-\-Berlekamp\-\_\-\-Massey}}
+\index{\-Modified\-\_\-\-Berlekamp\-\_\-\-Massey@{\-Modified\-\_\-\-Berlekamp\-\_\-\-Massey}!berlekamp.c@{berlekamp.\-c}}
+\subsubsection[{\-Modified\-\_\-\-Berlekamp\-\_\-\-Massey}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-Modified\-\_\-\-Berlekamp\-\_\-\-Massey} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{berlekamp_8c_a3fa9c2ccc35637876cbb5117bc52fad2}
+
+
+\-Definition at line 63 of file berlekamp.\-c.
+
+\hypertarget{berlekamp_8c_ad6079f119d46b188fc8f0c8f98cbbc03}{\index{berlekamp.\-c@{berlekamp.\-c}!mult\-\_\-polys@{mult\-\_\-polys}}
+\index{mult\-\_\-polys@{mult\-\_\-polys}!berlekamp.c@{berlekamp.\-c}}
+\subsubsection[{mult\-\_\-polys}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf mult\-\_\-polys} (
+\begin{DoxyParamCaption}
+\item[{int}]{dst\mbox{[}$\,$\mbox{]}, }
+\item[{int}]{p1\mbox{[}$\,$\mbox{]}, }
+\item[{int}]{p2\mbox{[}$\,$\mbox{]}}
+\end{DoxyParamCaption}
+)}}\label{berlekamp_8c_ad6079f119d46b188fc8f0c8f98cbbc03}
+
+
+\-Definition at line 128 of file berlekamp.\-c.
+
+\hypertarget{berlekamp_8c_adeed254ee2d542d7da8d54d5d5762f17}{\index{berlekamp.\-c@{berlekamp.\-c}!scale\-\_\-poly@{scale\-\_\-poly}}
+\index{scale\-\_\-poly@{scale\-\_\-poly}!berlekamp.c@{berlekamp.\-c}}
+\subsubsection[{scale\-\_\-poly}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf scale\-\_\-poly} (
+\begin{DoxyParamCaption}
+\item[{int}]{k, }
+\item[{int}]{poly\mbox{[}$\,$\mbox{]}}
+\end{DoxyParamCaption}
+)}}\label{berlekamp_8c_adeed254ee2d542d7da8d54d5d5762f17}
+
+
+\-Definition at line 206 of file berlekamp.\-c.
+
+\hypertarget{berlekamp_8c_afe3883a12ae28716adce4ede69d58191}{\index{berlekamp.\-c@{berlekamp.\-c}!zero\-\_\-poly@{zero\-\_\-poly}}
+\index{zero\-\_\-poly@{zero\-\_\-poly}!berlekamp.c@{berlekamp.\-c}}
+\subsubsection[{zero\-\_\-poly}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf zero\-\_\-poly} (
+\begin{DoxyParamCaption}
+\item[{int}]{poly\mbox{[}$\,$\mbox{]}}
+\end{DoxyParamCaption}
+)}}\label{berlekamp_8c_afe3883a12ae28716adce4ede69d58191}
+
+
+\-Definition at line 213 of file berlekamp.\-c.
+

@@ -1,0 +1,168 @@
+\hypertarget{class_o_p___d_f_u_1_1_d_f_u_object}{\section{\-O\-P\-\_\-\-D\-F\-U\-:\-:\-D\-F\-U\-Object \-Class \-Reference}
+\label{class_o_p___d_f_u_1_1_d_f_u_object}\index{\-O\-P\-\_\-\-D\-F\-U\-::\-D\-F\-U\-Object@{\-O\-P\-\_\-\-D\-F\-U\-::\-D\-F\-U\-Object}}
+}
+
+
+{\ttfamily \#include $<$op\-\_\-dfu.\-h$>$}
+
+\subsection*{\-Signals}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_o_p___d_f_u_1_1_d_f_u_object_a1747e4980c4dd7c5f7aa6a5bc8d062d6}{progress\-Updated} (int)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_o_p___d_f_u_1_1_d_f_u_object_aa992a6776ef6e88ef4be90c9edc6c647}{download\-Finished} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_o_p___d_f_u_1_1_d_f_u_object_a40da1291da633fd5b0135d67b55f34c1}{upload\-Finished} (\-O\-P\-\_\-\-D\-F\-U\-::\-Status)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_o_p___d_f_u_1_1_d_f_u_object_a8867ea1fd25b22c6189b4e60e3d1c3d5}{operation\-Progress} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} status)
+\end{DoxyCompactItemize}
+\subsection*{\-Public \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___uploader_gacb8ee3e1b1358ae25813e37f08b6d510}{\-D\-F\-U\-Object} (bool debug, bool use\-\_\-serial, \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{classport}{port})
+\item 
+\hyperlink{group___uploader_gad3eb7cce298c72c456a84eb04cc9c0fe}{$\sim$\-D\-F\-U\-Object} ()
+\item 
+bool \hyperlink{group___uploader_ga64ed24565b35c4530dd2614cc98f38cd}{enter\-D\-F\-U} (int const \&dev\-Number)
+\item 
+bool \hyperlink{group___uploader_ga09f55b9de769e32ad728223294a8a500}{find\-Devices} ()
+\item 
+int \hyperlink{group___uploader_gad6165621f503c5767306199a8606edaf}{\-Jump\-To\-App} (bool)
+\item 
+int \hyperlink{group___uploader_gafbdc3dede843764690ebd5bc074ff5dd}{\-Reset\-Device} (\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void})
+\item 
+\-O\-P\-\_\-\-D\-F\-U\-::\-Status \hyperlink{group___uploader_gadd798371bcb5c155ef215f5a77316471}{\-Status\-Request} ()
+\item 
+bool \hyperlink{group___uploader_ga16f60a8d921f01aca803178398ccdf45}{\-End\-Operation} ()
+\item 
+int \hyperlink{group___uploader_gaa448917a297dd634c2ab4d760a6c402d}{\-Abort\-Operation} (\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void})
+\item 
+bool \hyperlink{class_o_p___d_f_u_1_1_d_f_u_object_a1c9a40869c444e1c095c99b74a1d5f77}{ready} ()
+\item 
+\-O\-P\-\_\-\-D\-F\-U\-::\-Status \hyperlink{group___uploader_ga6513c6ff0fee1f11aebd6312296e6ed6}{\-Upload\-Description} (\-Q\-Variant description)
+\item 
+bool \hyperlink{group___uploader_gacccdb64a8aa1c8ff0f90296fcb935fef}{\-Upload\-Firmware} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \&sfile, const bool \&verify, int \hyperlink{struct_o_p___d_f_u_1_1device}{device})
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___uploader_ga5c3ae32c69bac4c663f6be430da1db3d}{\-Download\-Description} (int const \&number\-Of\-Chars)
+\item 
+\-Q\-Byte\-Array \hyperlink{group___uploader_gaa0f76d47015fa313a0bcf555bb0e690b}{\-Download\-Description\-As\-B\-A} (int const \&number\-Of\-Chars)
+\item 
+bool \hyperlink{group___uploader_ga8b88c71b81cbe00fe29938ac9b8a6dcf}{\-Download\-Firmware} (\-Q\-Byte\-Array $\ast$byte\-Array, int \hyperlink{struct_o_p___d_f_u_1_1device}{device})
+\item 
+\-O\-P\-\_\-\-D\-F\-U\-::\-Status \hyperlink{group___uploader_ga3c9852f8106d7177b5e27087f6e28764}{\-Compare\-Firmware} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \&sfile, const \hyperlink{namespace_o_p___d_f_u_a687d96e45447775c09aced0f06db435b}{\-Compare\-Type} \&type, int \hyperlink{struct_o_p___d_f_u_1_1device}{device})
+\item 
+bool \hyperlink{group___uploader_ga1422e01836cfff2d47cd09bfbbdde774}{\-Save\-Byte\-Array\-To\-File} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} const \&\hyperlink{uavobjecttemplate_8m_a97c04efa65bcf0928abf9260bc5cbf46}{file}, \-Q\-Byte\-Array const \&array)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___uploader_gae048f84f5abd2be97bbe40fcf6e193c4}{\-Status\-To\-String} (\-O\-P\-\_\-\-D\-F\-U\-::\-Status const \&status)
+\item 
+\hyperlink{namespace_o_p___d_f_u_a7226d41298447c34a2c489cb47c470bd}{\-O\-P\-\_\-\-D\-F\-U\-::e\-Board\-Type} \hyperlink{group___uploader_ga9376138780f2860b37c7b9ae8af3f799}{\-Get\-Board\-Type} (int board\-Num)
+\end{DoxyCompactItemize}
+\subsection*{\-Static \-Public \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+static quint32 \hyperlink{group___uploader_ga8b3213586813e0e852bd8e8460f02fc0}{\-C\-R\-C\-From\-Q\-B\-Array} (\-Q\-Byte\-Array array, quint32 \-Size)
+\item 
+static quint32 \hyperlink{group___uploader_gae755106568ea0611498e45e43bfa9e4d}{\-C\-R\-C32\-Wide\-Fast} (quint32 \-Crc, quint32 \-Size, quint32 $\ast$\-Buffer)
+\end{DoxyCompactItemize}
+\subsection*{\-Public \-Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\-Q\-List$<$ \hyperlink{struct_o_p___d_f_u_1_1device}{device} $>$ \hyperlink{class_o_p___d_f_u_1_1_d_f_u_object_ae14ca1c854c2c8378f1c6f0e7c504732}{devices}
+\item 
+int \hyperlink{class_o_p___d_f_u_1_1_d_f_u_object_a805f4ba165cc9592522fbc928d06c08d}{number\-Of\-Devices}
+\item 
+int \hyperlink{class_o_p___d_f_u_1_1_d_f_u_object_a0a420df742f4528dde9d22a28526a8f3}{send\-\_\-delay}
+\item 
+bool \hyperlink{class_o_p___d_f_u_1_1_d_f_u_object_a5e6ad3fb431eb0220a06c934b13ae276}{use\-\_\-delay}
+\end{DoxyCompactItemize}
+\subsection*{\-Protected \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___uploader_gadb19927303aa24b5505dce3adbb532a2}{run} ()
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+
+
+\-Definition at line 120 of file op\-\_\-dfu.\-h.
+
+
+
+\subsection{\-Member \-Function \-Documentation}
+\hypertarget{class_o_p___d_f_u_1_1_d_f_u_object_aa992a6776ef6e88ef4be90c9edc6c647}{\index{\-O\-P\-\_\-\-D\-F\-U\-::\-D\-F\-U\-Object@{\-O\-P\-\_\-\-D\-F\-U\-::\-D\-F\-U\-Object}!download\-Finished@{download\-Finished}}
+\index{download\-Finished@{download\-Finished}!OP_DFU::DFUObject@{\-O\-P\-\_\-\-D\-F\-U\-::\-D\-F\-U\-Object}}
+\subsubsection[{download\-Finished}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-O\-P\-\_\-\-D\-F\-U\-::\-D\-F\-U\-Object\-::download\-Finished} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}signal\mbox{]}}}}\label{class_o_p___d_f_u_1_1_d_f_u_object_aa992a6776ef6e88ef4be90c9edc6c647}
+\hypertarget{class_o_p___d_f_u_1_1_d_f_u_object_a8867ea1fd25b22c6189b4e60e3d1c3d5}{\index{\-O\-P\-\_\-\-D\-F\-U\-::\-D\-F\-U\-Object@{\-O\-P\-\_\-\-D\-F\-U\-::\-D\-F\-U\-Object}!operation\-Progress@{operation\-Progress}}
+\index{operation\-Progress@{operation\-Progress}!OP_DFU::DFUObject@{\-O\-P\-\_\-\-D\-F\-U\-::\-D\-F\-U\-Object}}
+\subsubsection[{operation\-Progress}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-O\-P\-\_\-\-D\-F\-U\-::\-D\-F\-U\-Object\-::operation\-Progress} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Q\-String}}]{status}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}signal\mbox{]}}}}\label{class_o_p___d_f_u_1_1_d_f_u_object_a8867ea1fd25b22c6189b4e60e3d1c3d5}
+\hypertarget{class_o_p___d_f_u_1_1_d_f_u_object_a1747e4980c4dd7c5f7aa6a5bc8d062d6}{\index{\-O\-P\-\_\-\-D\-F\-U\-::\-D\-F\-U\-Object@{\-O\-P\-\_\-\-D\-F\-U\-::\-D\-F\-U\-Object}!progress\-Updated@{progress\-Updated}}
+\index{progress\-Updated@{progress\-Updated}!OP_DFU::DFUObject@{\-O\-P\-\_\-\-D\-F\-U\-::\-D\-F\-U\-Object}}
+\subsubsection[{progress\-Updated}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-O\-P\-\_\-\-D\-F\-U\-::\-D\-F\-U\-Object\-::progress\-Updated} (
+\begin{DoxyParamCaption}
+\item[{int}]{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}signal\mbox{]}}}}\label{class_o_p___d_f_u_1_1_d_f_u_object_a1747e4980c4dd7c5f7aa6a5bc8d062d6}
+\hypertarget{class_o_p___d_f_u_1_1_d_f_u_object_a1c9a40869c444e1c095c99b74a1d5f77}{\index{\-O\-P\-\_\-\-D\-F\-U\-::\-D\-F\-U\-Object@{\-O\-P\-\_\-\-D\-F\-U\-::\-D\-F\-U\-Object}!ready@{ready}}
+\index{ready@{ready}!OP_DFU::DFUObject@{\-O\-P\-\_\-\-D\-F\-U\-::\-D\-F\-U\-Object}}
+\subsubsection[{ready}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-O\-P\-\_\-\-D\-F\-U\-::\-D\-F\-U\-Object\-::ready} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{class_o_p___d_f_u_1_1_d_f_u_object_a1c9a40869c444e1c095c99b74a1d5f77}
+
+
+\-Definition at line 139 of file op\-\_\-dfu.\-h.
+
+\hypertarget{class_o_p___d_f_u_1_1_d_f_u_object_a40da1291da633fd5b0135d67b55f34c1}{\index{\-O\-P\-\_\-\-D\-F\-U\-::\-D\-F\-U\-Object@{\-O\-P\-\_\-\-D\-F\-U\-::\-D\-F\-U\-Object}!upload\-Finished@{upload\-Finished}}
+\index{upload\-Finished@{upload\-Finished}!OP_DFU::DFUObject@{\-O\-P\-\_\-\-D\-F\-U\-::\-D\-F\-U\-Object}}
+\subsubsection[{upload\-Finished}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-O\-P\-\_\-\-D\-F\-U\-::\-D\-F\-U\-Object\-::upload\-Finished} (
+\begin{DoxyParamCaption}
+\item[{\-O\-P\-\_\-\-D\-F\-U\-::\-Status}]{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}signal\mbox{]}}}}\label{class_o_p___d_f_u_1_1_d_f_u_object_a40da1291da633fd5b0135d67b55f34c1}
+
+
+\subsection{\-Member \-Data \-Documentation}
+\hypertarget{class_o_p___d_f_u_1_1_d_f_u_object_ae14ca1c854c2c8378f1c6f0e7c504732}{\index{\-O\-P\-\_\-\-D\-F\-U\-::\-D\-F\-U\-Object@{\-O\-P\-\_\-\-D\-F\-U\-::\-D\-F\-U\-Object}!devices@{devices}}
+\index{devices@{devices}!OP_DFU::DFUObject@{\-O\-P\-\_\-\-D\-F\-U\-::\-D\-F\-U\-Object}}
+\subsubsection[{devices}]{\setlength{\rightskip}{0pt plus 5cm}\-Q\-List$<${\bf device}$>$ {\bf \-O\-P\-\_\-\-D\-F\-U\-::\-D\-F\-U\-Object\-::devices}}}\label{class_o_p___d_f_u_1_1_d_f_u_object_ae14ca1c854c2c8378f1c6f0e7c504732}
+
+
+\-Definition at line 162 of file op\-\_\-dfu.\-h.
+
+\hypertarget{class_o_p___d_f_u_1_1_d_f_u_object_a805f4ba165cc9592522fbc928d06c08d}{\index{\-O\-P\-\_\-\-D\-F\-U\-::\-D\-F\-U\-Object@{\-O\-P\-\_\-\-D\-F\-U\-::\-D\-F\-U\-Object}!number\-Of\-Devices@{number\-Of\-Devices}}
+\index{number\-Of\-Devices@{number\-Of\-Devices}!OP_DFU::DFUObject@{\-O\-P\-\_\-\-D\-F\-U\-::\-D\-F\-U\-Object}}
+\subsubsection[{number\-Of\-Devices}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf \-O\-P\-\_\-\-D\-F\-U\-::\-D\-F\-U\-Object\-::number\-Of\-Devices}}}\label{class_o_p___d_f_u_1_1_d_f_u_object_a805f4ba165cc9592522fbc928d06c08d}
+
+
+\-Definition at line 163 of file op\-\_\-dfu.\-h.
+
+\hypertarget{class_o_p___d_f_u_1_1_d_f_u_object_a0a420df742f4528dde9d22a28526a8f3}{\index{\-O\-P\-\_\-\-D\-F\-U\-::\-D\-F\-U\-Object@{\-O\-P\-\_\-\-D\-F\-U\-::\-D\-F\-U\-Object}!send\-\_\-delay@{send\-\_\-delay}}
+\index{send\-\_\-delay@{send\-\_\-delay}!OP_DFU::DFUObject@{\-O\-P\-\_\-\-D\-F\-U\-::\-D\-F\-U\-Object}}
+\subsubsection[{send\-\_\-delay}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf \-O\-P\-\_\-\-D\-F\-U\-::\-D\-F\-U\-Object\-::send\-\_\-delay}}}\label{class_o_p___d_f_u_1_1_d_f_u_object_a0a420df742f4528dde9d22a28526a8f3}
+
+
+\-Definition at line 164 of file op\-\_\-dfu.\-h.
+
+\hypertarget{class_o_p___d_f_u_1_1_d_f_u_object_a5e6ad3fb431eb0220a06c934b13ae276}{\index{\-O\-P\-\_\-\-D\-F\-U\-::\-D\-F\-U\-Object@{\-O\-P\-\_\-\-D\-F\-U\-::\-D\-F\-U\-Object}!use\-\_\-delay@{use\-\_\-delay}}
+\index{use\-\_\-delay@{use\-\_\-delay}!OP_DFU::DFUObject@{\-O\-P\-\_\-\-D\-F\-U\-::\-D\-F\-U\-Object}}
+\subsubsection[{use\-\_\-delay}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-O\-P\-\_\-\-D\-F\-U\-::\-D\-F\-U\-Object\-::use\-\_\-delay}}}\label{class_o_p___d_f_u_1_1_d_f_u_object_a5e6ad3fb431eb0220a06c934b13ae276}
+
+
+\-Definition at line 165 of file op\-\_\-dfu.\-h.
+
+
+
+\-The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/plugins/uploader/\hyperlink{op__dfu_8h}{op\-\_\-dfu.\-h}\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/plugins/uploader/\hyperlink{op__dfu_8cpp}{op\-\_\-dfu.\-cpp}\end{DoxyCompactItemize}

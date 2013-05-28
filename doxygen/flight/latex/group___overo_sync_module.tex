@@ -1,0 +1,150 @@
+\hypertarget{group___overo_sync_module}{\section{\-Overo\-Sync \-Module}
+\label{group___overo_sync_module}\index{\-Overo\-Sync Module@{\-Overo\-Sync Module}}
+}
+\subsection*{\-Data \-Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structoverosync}{overosync}
+\item 
+struct \hyperlink{structdma__transaction}{dma\-\_\-transaction}
+\end{DoxyCompactItemize}
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+int32\-\_\-t \hyperlink{group___overo_sync_module_gae0e77f24c85219aa88e348edb409cf6c}{\-Overo\-Sync\-Initialize} (void)
+\item 
+int32\-\_\-t \hyperlink{group___overo_sync_module_gad17ab9f25d8183e8dbaeed2d1e58b788}{\-Overo\-Sync\-Start} (void)
+\item 
+\hyperlink{group___overo_sync_module_ga90e0f6cdee6c499399c0627e15ffcbd9}{\-M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L} (\hyperlink{group___overo_sync_module_gae0e77f24c85219aa88e348edb409cf6c}{\-Overo\-Sync\-Initialize}, \hyperlink{group___overo_sync_module_gad17ab9f25d8183e8dbaeed2d1e58b788}{\-Overo\-Sync\-Start})
+\end{DoxyCompactItemize}
+\subsection*{\-Variables}
+\begin{DoxyCompactItemize}
+\item 
+uint32\-\_\-t \hyperlink{group___overo_sync_module_gad93c8058f5c4d01e2ecc5670a0fa5407}{pios\-\_\-com\-\_\-overo\-\_\-id}
+\item 
+uint32\-\_\-t \hyperlink{group___overo_sync_module_ga6068626ce5d15d09ba077204ea2fd43d}{pios\-\_\-overo\-\_\-id}
+\item 
+struct \hyperlink{structoverosync}{overosync} $\ast$ \hyperlink{group___overo_sync_module_ga34ce26c29a4ded07cf5f562126682017}{overosync}
+\item 
+volatile bool \hyperlink{group___overo_sync_module_gaf3669c85af58042a7e4440bb29725642}{buffer\-\_\-swap\-\_\-failed}
+\item 
+volatile uint32\-\_\-t \hyperlink{group___overo_sync_module_ga5c2ff66cb86affccb720ee8e0e55cbd7}{buffer\-\_\-swap\-\_\-timeval}
+\item 
+\-F\-I\-L\-E $\ast$ \hyperlink{group___overo_sync_module_ga646170d6f9e3b0d001430a771e9f2247}{fid}
+\item 
+struct \hyperlink{structoverosync}{overosync} $\ast$ \hyperlink{group___overo_sync_module_ga34ce26c29a4ded07cf5f562126682017}{overosync}
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Function \-Documentation}
+\hypertarget{group___overo_sync_module_ga90e0f6cdee6c499399c0627e15ffcbd9}{\index{\-Overo\-Sync Module@{\-Overo\-Sync Module}!\-M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L@{\-M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L}}
+\index{\-M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L@{\-M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L}!OveroSync Module@{\-Overo\-Sync Module}}
+\subsubsection[{\-M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Overo\-Sync\-Initialize}}]{, }
+\item[{{\bf \-Overo\-Sync\-Start}}]{}
+\end{DoxyParamCaption}
+)}}\label{group___overo_sync_module_ga90e0f6cdee6c499399c0627e15ffcbd9}
+\-Register a new object, adds object to local list and connects the queue depending on the object's telemetry settings. 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em obj} & \-Object to connect \\
+\hline
+\end{DoxyParams}
+
+
+\-Definition at line 133 of file overosync.\-c.
+
+\hypertarget{group___overo_sync_module_gae0e77f24c85219aa88e348edb409cf6c}{\index{\-Overo\-Sync Module@{\-Overo\-Sync Module}!\-Overo\-Sync\-Initialize@{\-Overo\-Sync\-Initialize}}
+\index{\-Overo\-Sync\-Initialize@{\-Overo\-Sync\-Initialize}!OveroSync Module@{\-Overo\-Sync Module}}
+\subsubsection[{\-Overo\-Sync\-Initialize}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-Overo\-Sync\-Initialize} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group___overo_sync_module_gae0e77f24c85219aa88e348edb409cf6c}
+\-Initialise the overo sync module \begin{DoxyReturn}{\-Returns}
+-\/1 if initialisation failed 
+
+0 on success
+\end{DoxyReturn}
+\-Initialise the telemetry module \begin{DoxyReturn}{\-Returns}
+-\/1 if initialisation failed 
+
+0 on success 
+\end{DoxyReturn}
+
+
+\-Definition at line 75 of file overosync.\-c.
+
+\hypertarget{group___overo_sync_module_gad17ab9f25d8183e8dbaeed2d1e58b788}{\index{\-Overo\-Sync Module@{\-Overo\-Sync Module}!\-Overo\-Sync\-Start@{\-Overo\-Sync\-Start}}
+\index{\-Overo\-Sync\-Start@{\-Overo\-Sync\-Start}!OveroSync Module@{\-Overo\-Sync Module}}
+\subsubsection[{\-Overo\-Sync\-Start}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-Overo\-Sync\-Start} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group___overo_sync_module_gad17ab9f25d8183e8dbaeed2d1e58b788}
+\-Start the overo sync module \begin{DoxyReturn}{\-Returns}
+-\/1 if initialisation failed 
+
+0 on success
+\end{DoxyReturn}
+\-Initialise the telemetry module \begin{DoxyReturn}{\-Returns}
+-\/1 if initialisation failed 
+
+0 on success 
+\end{DoxyReturn}
+
+
+\-Definition at line 108 of file overosync.\-c.
+
+
+
+\subsection{\-Variable \-Documentation}
+\hypertarget{group___overo_sync_module_gaf3669c85af58042a7e4440bb29725642}{\index{\-Overo\-Sync Module@{\-Overo\-Sync Module}!buffer\-\_\-swap\-\_\-failed@{buffer\-\_\-swap\-\_\-failed}}
+\index{buffer\-\_\-swap\-\_\-failed@{buffer\-\_\-swap\-\_\-failed}!OveroSync Module@{\-Overo\-Sync Module}}
+\subsubsection[{buffer\-\_\-swap\-\_\-failed}]{\setlength{\rightskip}{0pt plus 5cm}volatile bool {\bf buffer\-\_\-swap\-\_\-failed}}}\label{group___overo_sync_module_gaf3669c85af58042a7e4440bb29725642}
+
+
+\-Definition at line 48 of file overosync.\-c.
+
+\hypertarget{group___overo_sync_module_ga5c2ff66cb86affccb720ee8e0e55cbd7}{\index{\-Overo\-Sync Module@{\-Overo\-Sync Module}!buffer\-\_\-swap\-\_\-timeval@{buffer\-\_\-swap\-\_\-timeval}}
+\index{buffer\-\_\-swap\-\_\-timeval@{buffer\-\_\-swap\-\_\-timeval}!OveroSync Module@{\-Overo\-Sync Module}}
+\subsubsection[{buffer\-\_\-swap\-\_\-timeval}]{\setlength{\rightskip}{0pt plus 5cm}volatile uint32\-\_\-t {\bf buffer\-\_\-swap\-\_\-timeval}}}\label{group___overo_sync_module_ga5c2ff66cb86affccb720ee8e0e55cbd7}
+
+
+\-Definition at line 49 of file overosync.\-c.
+
+\hypertarget{group___overo_sync_module_ga646170d6f9e3b0d001430a771e9f2247}{\index{\-Overo\-Sync Module@{\-Overo\-Sync Module}!fid@{fid}}
+\index{fid@{fid}!OveroSync Module@{\-Overo\-Sync Module}}
+\subsubsection[{fid}]{\setlength{\rightskip}{0pt plus 5cm}\-F\-I\-L\-E$\ast$ {\bf fid}}}\label{group___overo_sync_module_ga646170d6f9e3b0d001430a771e9f2247}
+
+
+\-Definition at line 50 of file overosync.\-c.
+
+\hypertarget{group___overo_sync_module_ga34ce26c29a4ded07cf5f562126682017}{\index{\-Overo\-Sync Module@{\-Overo\-Sync Module}!overosync@{overosync}}
+\index{overosync@{overosync}!OveroSync Module@{\-Overo\-Sync Module}}
+\subsubsection[{overosync}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf overosync}$\ast$ {\bf overosync}}}\label{group___overo_sync_module_ga34ce26c29a4ded07cf5f562126682017}
+
+
+\-Definition at line 68 of file overosync.\-c.
+
+\hypertarget{group___overo_sync_module_ga34ce26c29a4ded07cf5f562126682017}{\index{\-Overo\-Sync Module@{\-Overo\-Sync Module}!overosync@{overosync}}
+\index{overosync@{overosync}!OveroSync Module@{\-Overo\-Sync Module}}
+\subsubsection[{overosync}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf overosync}$\ast$ {\bf overosync}}}\label{group___overo_sync_module_ga34ce26c29a4ded07cf5f562126682017}
+
+
+\-Definition at line 77 of file overosync.\-c.
+
+\hypertarget{group___overo_sync_module_gad93c8058f5c4d01e2ecc5670a0fa5407}{\index{\-Overo\-Sync Module@{\-Overo\-Sync Module}!pios\-\_\-com\-\_\-overo\-\_\-id@{pios\-\_\-com\-\_\-overo\-\_\-id}}
+\index{pios\-\_\-com\-\_\-overo\-\_\-id@{pios\-\_\-com\-\_\-overo\-\_\-id}!OveroSync Module@{\-Overo\-Sync Module}}
+\subsubsection[{pios\-\_\-com\-\_\-overo\-\_\-id}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t {\bf pios\-\_\-com\-\_\-overo\-\_\-id}}}\label{group___overo_sync_module_gad93c8058f5c4d01e2ecc5670a0fa5407}
+
+
+\-Definition at line 171 of file pios\-\_\-board.\-c.
+
+\hypertarget{group___overo_sync_module_ga6068626ce5d15d09ba077204ea2fd43d}{\index{\-Overo\-Sync Module@{\-Overo\-Sync Module}!pios\-\_\-overo\-\_\-id@{pios\-\_\-overo\-\_\-id}}
+\index{pios\-\_\-overo\-\_\-id@{pios\-\_\-overo\-\_\-id}!OveroSync Module@{\-Overo\-Sync Module}}
+\subsubsection[{pios\-\_\-overo\-\_\-id}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t {\bf pios\-\_\-overo\-\_\-id}}}\label{group___overo_sync_module_ga6068626ce5d15d09ba077204ea2fd43d}
+
+
+\-Definition at line 324 of file board\-\_\-hw\-\_\-defs.\-c.
+

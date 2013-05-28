@@ -1,0 +1,111 @@
+\hypertarget{class_utils_1_1_base_validating_line_edit}{\section{\-Utils\-:\-:\-Base\-Validating\-Line\-Edit \-Class \-Reference}
+\label{class_utils_1_1_base_validating_line_edit}\index{\-Utils\-::\-Base\-Validating\-Line\-Edit@{\-Utils\-::\-Base\-Validating\-Line\-Edit}}
+}
+
+
+{\ttfamily \#include $<$basevalidatinglineedit.\-h$>$}
+
+\-Inheritance diagram for \-Utils\-:\-:\-Base\-Validating\-Line\-Edit\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=1.261261cm]{class_utils_1_1_base_validating_line_edit}
+\end{center}
+\end{figure}
+\subsection*{\-Signals}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_utils_1_1_base_validating_line_edit_a870ff192086bf4c4a0a9a0b08d627c08}{valid\-Changed} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_utils_1_1_base_validating_line_edit_ac0df0e8ad47ecded73920f823fa1a425}{valid\-Changed} (bool valid\-State)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_utils_1_1_base_validating_line_edit_a4eabb0eea13a9067d93e1fffd1e3fc6d}{valid\-Return\-Pressed} ()
+\end{DoxyCompactItemize}
+\subsection*{\-Protected \-Slots}
+\begin{DoxyCompactItemize}
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_utils_1_1_base_validating_line_edit_a7c452527ffd93e1b201f0d3e2340ee36}{slot\-Return\-Pressed} ()
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_utils_1_1_base_validating_line_edit_ab20d444798b262703c012c68bbfdf44e}{slot\-Changed} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \&t)
+\end{DoxyCompactItemize}
+\subsection*{\-Protected \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual bool \hyperlink{class_utils_1_1_base_validating_line_edit_acaf01e0ff24a7e62f45d7a4eddb04941}{validate} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \&value, \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} $\ast$error\-Message) const =0
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-Base class for validating line edits that performs validation in a virtual \hyperlink{class_utils_1_1_base_validating_line_edit_acaf01e0ff24a7e62f45d7a4eddb04941}{validate()} function to be implemented in derived classes. \-When invalid, the text color will turn red and a tooltip will contain the error message. \-This approach is less intrusive than a \-Q\-Validator which will prevent the user from entering certain characters.
+
+\-The widget has a concept of an \char`\"{}initial\-Text\char`\"{} which can be something like \char`\"{}$<$\-Enter name here$>$\char`\"{}. \-This results in state '\-Displaying\-Initial\-Text', which is not valid, but is not marked red. 
+
+\-Definition at line 51 of file basevalidatinglineedit.\-h.
+
+
+
+\subsection{\-Member \-Function \-Documentation}
+\hypertarget{class_utils_1_1_base_validating_line_edit_ab20d444798b262703c012c68bbfdf44e}{\index{\-Utils\-::\-Base\-Validating\-Line\-Edit@{\-Utils\-::\-Base\-Validating\-Line\-Edit}!slot\-Changed@{slot\-Changed}}
+\index{slot\-Changed@{slot\-Changed}!Utils::BaseValidatingLineEdit@{\-Utils\-::\-Base\-Validating\-Line\-Edit}}
+\subsubsection[{slot\-Changed}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Utils\-::\-Base\-Validating\-Line\-Edit\-::slot\-Changed} (
+\begin{DoxyParamCaption}
+\item[{const {\bf \-Q\-String} \&}]{t}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}protected, virtual, slot\mbox{]}}}}\label{class_utils_1_1_base_validating_line_edit_ab20d444798b262703c012c68bbfdf44e}
+
+
+\-Reimplemented in \hyperlink{class_utils_1_1_class_name_validating_line_edit_ae688632f3e52f39969a7cdae84ee288b}{\-Utils\-::\-Class\-Name\-Validating\-Line\-Edit}.
+
+
+
+\-Definition at line 122 of file basevalidatinglineedit.\-cpp.
+
+\hypertarget{class_utils_1_1_base_validating_line_edit_a7c452527ffd93e1b201f0d3e2340ee36}{\index{\-Utils\-::\-Base\-Validating\-Line\-Edit@{\-Utils\-::\-Base\-Validating\-Line\-Edit}!slot\-Return\-Pressed@{slot\-Return\-Pressed}}
+\index{slot\-Return\-Pressed@{slot\-Return\-Pressed}!Utils::BaseValidatingLineEdit@{\-Utils\-::\-Base\-Validating\-Line\-Edit}}
+\subsubsection[{slot\-Return\-Pressed}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Utils\-::\-Base\-Validating\-Line\-Edit\-::slot\-Return\-Pressed} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}protected, virtual, slot\mbox{]}}}}\label{class_utils_1_1_base_validating_line_edit_a7c452527ffd93e1b201f0d3e2340ee36}
+
+
+\-Definition at line 147 of file basevalidatinglineedit.\-cpp.
+
+\hypertarget{class_utils_1_1_base_validating_line_edit_acaf01e0ff24a7e62f45d7a4eddb04941}{\index{\-Utils\-::\-Base\-Validating\-Line\-Edit@{\-Utils\-::\-Base\-Validating\-Line\-Edit}!validate@{validate}}
+\index{validate@{validate}!Utils::BaseValidatingLineEdit@{\-Utils\-::\-Base\-Validating\-Line\-Edit}}
+\subsubsection[{validate}]{\setlength{\rightskip}{0pt plus 5cm}virtual bool {\bf \-Utils\-::\-Base\-Validating\-Line\-Edit\-::validate} (
+\begin{DoxyParamCaption}
+\item[{const {\bf \-Q\-String} \&}]{value, }
+\item[{{\bf \-Q\-String} $\ast$}]{error\-Message}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}protected, pure virtual\mbox{]}}}}\label{class_utils_1_1_base_validating_line_edit_acaf01e0ff24a7e62f45d7a4eddb04941}
+
+
+\-Implemented in \hyperlink{class_utils_1_1_class_name_validating_line_edit_ac58e9df4310d647fb83e92d82ffa53a1}{\-Utils\-::\-Class\-Name\-Validating\-Line\-Edit}, \hyperlink{class_utils_1_1_path_validating_line_edit_a11d7ce87a39a5709cc41bce1e602cb46}{\-Utils\-::\-Path\-Validating\-Line\-Edit}, \hyperlink{class_utils_1_1_file_name_validating_line_edit_a6ba8ad815a56a23c6ffde57188e4c73a}{\-Utils\-::\-File\-Name\-Validating\-Line\-Edit}, and \hyperlink{class_utils_1_1_project_name_validating_line_edit_a165faa03d37c30304d0049eb57513988}{\-Utils\-::\-Project\-Name\-Validating\-Line\-Edit}.
+
+\hypertarget{class_utils_1_1_base_validating_line_edit_a870ff192086bf4c4a0a9a0b08d627c08}{\index{\-Utils\-::\-Base\-Validating\-Line\-Edit@{\-Utils\-::\-Base\-Validating\-Line\-Edit}!valid\-Changed@{valid\-Changed}}
+\index{valid\-Changed@{valid\-Changed}!Utils::BaseValidatingLineEdit@{\-Utils\-::\-Base\-Validating\-Line\-Edit}}
+\subsubsection[{valid\-Changed}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Utils\-::\-Base\-Validating\-Line\-Edit\-::valid\-Changed} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}signal\mbox{]}}}}\label{class_utils_1_1_base_validating_line_edit_a870ff192086bf4c4a0a9a0b08d627c08}
+\hypertarget{class_utils_1_1_base_validating_line_edit_ac0df0e8ad47ecded73920f823fa1a425}{\index{\-Utils\-::\-Base\-Validating\-Line\-Edit@{\-Utils\-::\-Base\-Validating\-Line\-Edit}!valid\-Changed@{valid\-Changed}}
+\index{valid\-Changed@{valid\-Changed}!Utils::BaseValidatingLineEdit@{\-Utils\-::\-Base\-Validating\-Line\-Edit}}
+\subsubsection[{valid\-Changed}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Utils\-::\-Base\-Validating\-Line\-Edit\-::valid\-Changed} (
+\begin{DoxyParamCaption}
+\item[{bool}]{valid\-State}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}signal\mbox{]}}}}\label{class_utils_1_1_base_validating_line_edit_ac0df0e8ad47ecded73920f823fa1a425}
+\hypertarget{class_utils_1_1_base_validating_line_edit_a4eabb0eea13a9067d93e1fffd1e3fc6d}{\index{\-Utils\-::\-Base\-Validating\-Line\-Edit@{\-Utils\-::\-Base\-Validating\-Line\-Edit}!valid\-Return\-Pressed@{valid\-Return\-Pressed}}
+\index{valid\-Return\-Pressed@{valid\-Return\-Pressed}!Utils::BaseValidatingLineEdit@{\-Utils\-::\-Base\-Validating\-Line\-Edit}}
+\subsubsection[{valid\-Return\-Pressed}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Utils\-::\-Base\-Validating\-Line\-Edit\-::valid\-Return\-Pressed} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}signal\mbox{]}}}}\label{class_utils_1_1_base_validating_line_edit_a4eabb0eea13a9067d93e1fffd1e3fc6d}
+
+
+\-The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/libs/utils/\hyperlink{basevalidatinglineedit_8h}{basevalidatinglineedit.\-h}\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/libs/utils/\hyperlink{basevalidatinglineedit_8cpp}{basevalidatinglineedit.\-cpp}\end{DoxyCompactItemize}

@@ -1,0 +1,665 @@
+\hypertarget{group___p_i_o_s___u_s_b_h_o_o_k}{\section{\-U\-S\-B glue code}
+\label{group___p_i_o_s___u_s_b_h_o_o_k}\index{\-U\-S\-B glue code@{\-U\-S\-B glue code}}
+}
+
+
+\-Glue between \-Pi\-O\-S and \-S\-T\-M32 libs.  
+
+
+\subsection*{\-Data \-Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structpios__usbhook__descriptor}{pios\-\_\-usbhook\-\_\-descriptor}
+\item 
+struct \hyperlink{structpios__usb__ifops}{pios\-\_\-usb\-\_\-ifops}
+\item 
+struct \hyperlink{structusb__if__entry}{usb\-\_\-if\-\_\-entry}
+\item 
+struct \hyperlink{structusb__ep__entry}{usb\-\_\-ep\-\_\-entry}
+\end{DoxyCompactItemize}
+\subsection*{\-Files}
+\begin{DoxyCompactItemize}
+\item 
+file \hyperlink{pios__usbhook_8h}{pios\-\_\-usbhook.\-h}
+\begin{DoxyCompactList}\small\item\em \-A\-P\-Is for \-P\-I\-O\-S\-\_\-\-U\-S\-B\-H\-O\-O\-K layer. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef bool($\ast$ \hyperlink{group___p_i_o_s___u_s_b_h_o_o_k_ga5f7904cd3922ab7207afebe3d9ef2650}{pios\-\_\-usbhook\-\_\-epcb} )(uint32\-\_\-t context, uint8\-\_\-t epnum, uint16\-\_\-t len)
+\end{DoxyCompactItemize}
+\subsection*{\-Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{group___p_i_o_s___u_s_b_h_o_o_k_ga5a1ae5206971f0c296fa30b24e8725da}{usb\-\_\-string\-\_\-desc} 
+\end{DoxyCompactItemize}
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{group___p_i_o_s___u_s_b_h_o_o_k_ga5a1ae5206971f0c296fa30b24e8725da}{usb\-\_\-string\-\_\-desc} \hyperlink{group___p_i_o_s___u_s_b_h_o_o_k_ga7c85e72dd0b0db640d1db8abb5427715}{\-\_\-\-\_\-attribute\-\_\-\-\_\-} ((packed))
+\item 
+void \hyperlink{group___p_i_o_s___u_s_b_h_o_o_k_ga59b142c7def8bcde4564793de82198d6}{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-H\-O\-O\-K\-\_\-\-Register\-Device} (const uint8\-\_\-t $\ast$desc, uint16\-\_\-t \hyperlink{pios__board__info_8h_ae5d617056baa2cb80f47bfcef73f2b69}{desc\-\_\-size})
+\item 
+void \hyperlink{group___p_i_o_s___u_s_b_h_o_o_k_gaf98576e0b9228288e852901754ab9759}{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-H\-O\-O\-K\-\_\-\-Register\-Config} (uint8\-\_\-t config\-\_\-id, const uint8\-\_\-t $\ast$desc, uint16\-\_\-t \hyperlink{pios__board__info_8h_ae5d617056baa2cb80f47bfcef73f2b69}{desc\-\_\-size})
+\item 
+void \hyperlink{group___p_i_o_s___u_s_b_h_o_o_k_gab472720c22eb46c81e7f6739dc53117b}{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-H\-O\-O\-K\-\_\-\-Register\-String} (enum \hyperlink{group___p_i_o_s___u_s_b_h_o_o_k_ga5a1ae5206971f0c296fa30b24e8725da}{usb\-\_\-string\-\_\-desc} string\-\_\-id, const uint8\-\_\-t $\ast$desc, uint16\-\_\-t \hyperlink{pios__board__info_8h_ae5d617056baa2cb80f47bfcef73f2b69}{desc\-\_\-size})
+\item 
+void \hyperlink{group___p_i_o_s___u_s_b_h_o_o_k_ga810a146080ed0e84fd2e76eeb1237cb4}{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-H\-O\-O\-K\-\_\-\-Register\-If\-Ops} (uint8\-\_\-t ifnum, struct \hyperlink{structpios__usb__ifops}{pios\-\_\-usb\-\_\-ifops} $\ast$ifops, uint32\-\_\-t context)
+\item 
+void \hyperlink{group___p_i_o_s___u_s_b_h_o_o_k_gaab0fa8ca00730aaca31b660d2c3940b7}{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-H\-O\-O\-K\-\_\-\-Register\-Ep\-In\-Callback} (uint8\-\_\-t epnum, uint16\-\_\-t max\-\_\-len, \hyperlink{group___p_i_o_s___u_s_b_h_o_o_k_ga5f7904cd3922ab7207afebe3d9ef2650}{pios\-\_\-usbhook\-\_\-epcb} cb, uint32\-\_\-t context)
+\item 
+void \hyperlink{group___p_i_o_s___u_s_b_h_o_o_k_gac9251a5f11fe56ac9a0e8d1405bcb322}{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-H\-O\-O\-K\-\_\-\-Register\-Ep\-Out\-Callback} (uint8\-\_\-t epnum, uint16\-\_\-t max\-\_\-len, \hyperlink{group___p_i_o_s___u_s_b_h_o_o_k_ga5f7904cd3922ab7207afebe3d9ef2650}{pios\-\_\-usbhook\-\_\-epcb} cb, uint32\-\_\-t context)
+\item 
+void \hyperlink{group___p_i_o_s___u_s_b_h_o_o_k_gab625794d48d586353a8d1b81d2abaa10}{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-H\-O\-O\-K\-\_\-\-De\-Register\-Ep\-In\-Callback} (uint8\-\_\-t epnum)
+\item 
+void \hyperlink{group___p_i_o_s___u_s_b_h_o_o_k_gaee6a7cfd0b24ed7e41097a3629f25a1d}{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-H\-O\-O\-K\-\_\-\-De\-Register\-Ep\-Out\-Callback} (uint8\-\_\-t epnum)
+\item 
+void \hyperlink{group___p_i_o_s___u_s_b_h_o_o_k_ga6704b03262547936a31c1c9798c7cee0}{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-H\-O\-O\-K\-\_\-\-Ctrl\-Tx} (const uint8\-\_\-t $\ast$buf, uint16\-\_\-t len)
+\item 
+void \hyperlink{group___p_i_o_s___u_s_b_h_o_o_k_ga1fdfbec3bfa53133f72ac8acff597415}{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-H\-O\-O\-K\-\_\-\-Ctrl\-Rx} (uint8\-\_\-t $\ast$buf, uint16\-\_\-t len)
+\item 
+void \hyperlink{group___p_i_o_s___u_s_b_h_o_o_k_ga7f8bef536a231085c493d004ec8466d2}{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-H\-O\-O\-K\-\_\-\-Endpoint\-Tx} (uint8\-\_\-t epnum, const uint8\-\_\-t $\ast$buf, uint16\-\_\-t len)
+\item 
+void \hyperlink{group___p_i_o_s___u_s_b_h_o_o_k_ga9ff507855511c9dcf36f8839955e4c86}{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-H\-O\-O\-K\-\_\-\-Endpoint\-Rx} (uint8\-\_\-t epnum, uint8\-\_\-t $\ast$buf, uint16\-\_\-t len)
+\item 
+void \hyperlink{group___p_i_o_s___u_s_b_h_o_o_k_gaa9dd93041af333771c368a4eb0171caa}{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-H\-O\-O\-K\-\_\-\-Activate} (void)
+\item 
+void \hyperlink{group___p_i_o_s___u_s_b_h_o_o_k_ga0b91e1af1f658ed36ac3da1414dd1dae}{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-H\-O\-O\-K\-\_\-\-Deactivate} (void)
+\item 
+void \hyperlink{group___p_i_o_s___u_s_b_h_o_o_k_gaba51a804e2ee3df6834af3d37d15ecd0}{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-H\-I\-D\-\_\-\-Register\-Hid\-Descriptor} (const uint8\-\_\-t $\ast$desc, uint16\-\_\-t \hyperlink{pios__board__info_8h_ae5d617056baa2cb80f47bfcef73f2b69}{desc\-\_\-size})
+\item 
+void \hyperlink{group___p_i_o_s___u_s_b_h_o_o_k_gaa26752754b2018e8584247b715c9500c}{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-H\-I\-D\-\_\-\-Register\-Hid\-Report} (const uint8\-\_\-t $\ast$desc, uint16\-\_\-t \hyperlink{pios__board__info_8h_ae5d617056baa2cb80f47bfcef73f2b69}{desc\-\_\-size})
+\item 
+uint8\-\_\-t $\ast$ \hyperlink{group___p_i_o_s___u_s_b_h_o_o_k_gaf660c51dbd2a8174a34e43b02f6774e0}{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-C\-D\-C\-\_\-\-Set\-Line\-Coding} (uint16\-\_\-t \-Length)
+\item 
+const uint8\-\_\-t $\ast$ \hyperlink{group___p_i_o_s___u_s_b_h_o_o_k_gaa001d7fe6ba14dccc0b0cf8fe21d5548}{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-C\-D\-C\-\_\-\-Get\-Line\-Coding} (uint16\-\_\-t \-Length)
+\item 
+\-R\-E\-S\-U\-L\-T \hyperlink{group___p_i_o_s___u_s_b_h_o_o_k_gacbf6b3b4149e51a74c2f4255f0f8a199}{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-C\-D\-C\-\_\-\-Set\-Control\-Line\-State} (void)
+\item 
+void \hyperlink{group___p_i_o_s___u_s_b_h_o_o_k_ga75135d7a041e2932e9903e8a345b3fc4}{\-O\-T\-G\-\_\-\-F\-S\-\_\-\-I\-R\-Q\-Handler} (void)
+\end{DoxyCompactItemize}
+\subsection*{\-Variables}
+\begin{DoxyCompactItemize}
+\item 
+const uint8\-\_\-t $\ast$ \hyperlink{group___p_i_o_s___u_s_b_h_o_o_k_ga56ff6e20a77e4421c8c47442ca13d75b}{pios\-\_\-usbhook\-\_\-descriptor\-::descriptor}
+\item 
+uint16\-\_\-t \hyperlink{group___p_i_o_s___u_s_b_h_o_o_k_ga9cc49b35b49236ac74e747d179a3650f}{pios\-\_\-usbhook\-\_\-descriptor\-::length}
+\item 
+\hyperlink{group___p_i_o_s___u_s_b_h_o_o_k_gac5f1f2d3bae1b6b5b9912f0fdd72dc93}{\-U\-S\-B\-\_\-\-S\-T\-R\-I\-N\-G\-\_\-\-D\-E\-S\-C\-\_\-\-L\-A\-N\-G} = 0
+\item 
+\hyperlink{group___p_i_o_s___u_s_b_h_o_o_k_ga05f051e48c96e9d6d2e05804c8023fe2}{\-U\-S\-B\-\_\-\-S\-T\-R\-I\-N\-G\-\_\-\-D\-E\-S\-C\-\_\-\-V\-E\-N\-D\-O\-R} = 1
+\item 
+\hyperlink{group___p_i_o_s___u_s_b_h_o_o_k_ga80dce006aa14f2a9412e8ee68b4627b0}{\-U\-S\-B\-\_\-\-S\-T\-R\-I\-N\-G\-\_\-\-D\-E\-S\-C\-\_\-\-P\-R\-O\-D\-U\-C\-T} = 2
+\item 
+\hyperlink{group___p_i_o_s___u_s_b_h_o_o_k_ga1c1263ee96f36ccbfc0e662b85e044bf}{\-U\-S\-B\-\_\-\-S\-T\-R\-I\-N\-G\-\_\-\-D\-E\-S\-C\-\_\-\-S\-E\-R\-I\-A\-L} = 3
+\item 
+void($\ast$ \hyperlink{group___p_i_o_s___u_s_b_h_o_o_k_ga08614658e728cfb81cb4091e3e210624}{pios\-\_\-usb\-\_\-ifops\-::init} )(uint32\-\_\-t context)
+\item 
+void($\ast$ \hyperlink{group___p_i_o_s___u_s_b_h_o_o_k_ga23c8bc133e24838b490c81a9d47318d4}{pios\-\_\-usb\-\_\-ifops\-::deinit} )(uint32\-\_\-t context)
+\item 
+bool($\ast$ \hyperlink{group___p_i_o_s___u_s_b_h_o_o_k_gafc58e776c6ff79a3974ca6dc1decf467}{pios\-\_\-usb\-\_\-ifops\-::setup} )(uint32\-\_\-t context, struct \hyperlink{structusb__setup__request}{usb\-\_\-setup\-\_\-request} $\ast$req)
+\item 
+void($\ast$ \hyperlink{group___p_i_o_s___u_s_b_h_o_o_k_ga7fce932d233ec743f190170b5b277746}{pios\-\_\-usb\-\_\-ifops\-::ctrl\-\_\-data\-\_\-out} )(uint32\-\_\-t context, const struct \hyperlink{structusb__setup__request}{usb\-\_\-setup\-\_\-request} $\ast$req)
+\item 
+struct \hyperlink{structpios__usb__ifops}{pios\-\_\-usb\-\_\-ifops} \hyperlink{group___p_i_o_s___u_s_b_h_o_o_k_gaefc540229d1ad4829fb317812135c7b4}{\-\_\-\-\_\-attribute\-\_\-\-\_\-}
+\item 
+\-\_\-\-\_\-\-I\-O uint8\-\_\-t \hyperlink{group___p_i_o_s___u_s_b_h_o_o_k_ga80e4a20c4f7576283232cda440c47694}{\-E\-X\-T\-I\-\_\-\-Enable}
+\item 
+uint32\-\_\-t \hyperlink{group___p_i_o_s___u_s_b_h_o_o_k_ga271c451896dad2b849277faad3eb3ea6}{\-Protocol\-Value}
+\item 
+\-D\-E\-V\-I\-C\-E \hyperlink{group___p_i_o_s___u_s_b_h_o_o_k_gafa47e7c7d5d6fb4c682e16c89c1b7d75}{\-Device\-\_\-\-Table}
+\item 
+\-D\-E\-V\-I\-C\-E\-\_\-\-P\-R\-O\-P \hyperlink{group___p_i_o_s___u_s_b_h_o_o_k_ga646bdfc60e69ee637f2c39b5bb91dfec}{\-Device\-\_\-\-Property}
+\item 
+\-U\-S\-E\-R\-\_\-\-S\-T\-A\-N\-D\-A\-R\-D\-\_\-\-R\-E\-Q\-U\-E\-S\-T\-S \hyperlink{group___p_i_o_s___u_s_b_h_o_o_k_ga8d70d0a7e05cf9c172e4304def6b65b8}{\-User\-\_\-\-Standard\-\_\-\-Requests}
+\item 
+\-\_\-\-\_\-\-I\-O uint8\-\_\-t \hyperlink{group___p_i_o_s___u_s_b_h_o_o_k_ga80e4a20c4f7576283232cda440c47694}{\-E\-X\-T\-I\-\_\-\-Enable}
+\item 
+uint32\-\_\-t \hyperlink{group___p_i_o_s___u_s_b_h_o_o_k_ga271c451896dad2b849277faad3eb3ea6}{\-Protocol\-Value}
+\item 
+\-D\-E\-V\-I\-C\-E \hyperlink{group___p_i_o_s___u_s_b_h_o_o_k_gafa47e7c7d5d6fb4c682e16c89c1b7d75}{\-Device\-\_\-\-Table}
+\item 
+\-D\-E\-V\-I\-C\-E\-\_\-\-P\-R\-O\-P \hyperlink{group___p_i_o_s___u_s_b_h_o_o_k_ga646bdfc60e69ee637f2c39b5bb91dfec}{\-Device\-\_\-\-Property}
+\item 
+\-U\-S\-E\-R\-\_\-\-S\-T\-A\-N\-D\-A\-R\-D\-\_\-\-R\-E\-Q\-U\-E\-S\-T\-S \hyperlink{group___p_i_o_s___u_s_b_h_o_o_k_ga8d70d0a7e05cf9c172e4304def6b65b8}{\-User\-\_\-\-Standard\-\_\-\-Requests}
+\item 
+struct \hyperlink{structpios__usb__ifops}{pios\-\_\-usb\-\_\-ifops} $\ast$ \hyperlink{group___p_i_o_s___u_s_b_h_o_o_k_ga8c6a8d1a868734fd250c8af665a54c3c}{usb\-\_\-if\-\_\-entry\-::ifops}
+\item 
+uint32\-\_\-t \hyperlink{group___p_i_o_s___u_s_b_h_o_o_k_gad9a6d740530f937ee0fd2870b5c02ce8}{usb\-\_\-if\-\_\-entry\-::context}
+\item 
+\hyperlink{group___p_i_o_s___u_s_b_h_o_o_k_ga5f7904cd3922ab7207afebe3d9ef2650}{pios\-\_\-usbhook\-\_\-epcb} \hyperlink{group___p_i_o_s___u_s_b_h_o_o_k_gaf0106468de445de05247315a6001789c}{usb\-\_\-ep\-\_\-entry\-::cb}
+\item 
+uint32\-\_\-t \hyperlink{group___p_i_o_s___u_s_b_h_o_o_k_ga044e4671681d96fdf1918abb9e52542e}{usb\-\_\-ep\-\_\-entry\-::context}
+\item 
+uint16\-\_\-t \hyperlink{group___p_i_o_s___u_s_b_h_o_o_k_ga010957cf5bf2628ba64249b8c1271f91}{usb\-\_\-ep\-\_\-entry\-::max\-\_\-len}
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-Glue between \-Pi\-O\-S and \-S\-T\-M32 libs. 
+
+\subsection{\-Typedef \-Documentation}
+\hypertarget{group___p_i_o_s___u_s_b_h_o_o_k_ga5f7904cd3922ab7207afebe3d9ef2650}{\index{\-U\-S\-B glue code@{\-U\-S\-B glue code}!pios\-\_\-usbhook\-\_\-epcb@{pios\-\_\-usbhook\-\_\-epcb}}
+\index{pios\-\_\-usbhook\-\_\-epcb@{pios\-\_\-usbhook\-\_\-epcb}!USB glue code@{\-U\-S\-B glue code}}
+\subsubsection[{pios\-\_\-usbhook\-\_\-epcb}]{\setlength{\rightskip}{0pt plus 5cm}typedef bool($\ast$ {\bf pios\-\_\-usbhook\-\_\-epcb})(uint32\-\_\-t context, uint8\-\_\-t epnum, uint16\-\_\-t len)}}\label{group___p_i_o_s___u_s_b_h_o_o_k_ga5f7904cd3922ab7207afebe3d9ef2650}
+
+
+\-Definition at line 64 of file pios\-\_\-usbhook.\-h.
+
+
+
+\subsection{\-Enumeration \-Type \-Documentation}
+\hypertarget{group___p_i_o_s___u_s_b_h_o_o_k_ga5a1ae5206971f0c296fa30b24e8725da}{\index{\-U\-S\-B glue code@{\-U\-S\-B glue code}!usb\-\_\-string\-\_\-desc@{usb\-\_\-string\-\_\-desc}}
+\index{usb\-\_\-string\-\_\-desc@{usb\-\_\-string\-\_\-desc}!USB glue code@{\-U\-S\-B glue code}}
+\subsubsection[{usb\-\_\-string\-\_\-desc}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf usb\-\_\-string\-\_\-desc}}}\label{group___p_i_o_s___u_s_b_h_o_o_k_ga5a1ae5206971f0c296fa30b24e8725da}
+
+
+\-Definition at line 44 of file pios\-\_\-usbhook.\-h.
+
+
+
+\subsection{\-Function \-Documentation}
+\hypertarget{group___p_i_o_s___u_s_b_h_o_o_k_ga7c85e72dd0b0db640d1db8abb5427715}{\index{\-U\-S\-B glue code@{\-U\-S\-B glue code}!\-\_\-\-\_\-attribute\-\_\-\-\_\-@{\-\_\-\-\_\-attribute\-\_\-\-\_\-}}
+\index{\-\_\-\-\_\-attribute\-\_\-\-\_\-@{\-\_\-\-\_\-attribute\-\_\-\-\_\-}!USB glue code@{\-U\-S\-B glue code}}
+\subsubsection[{\-\_\-\-\_\-attribute\-\_\-\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf usb\-\_\-string\-\_\-desc} {\bf \-\_\-\-\_\-attribute\-\_\-\-\_\-} (
+\begin{DoxyParamCaption}
+\item[{(packed)}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___u_s_b_h_o_o_k_ga7c85e72dd0b0db640d1db8abb5427715}
+\hypertarget{group___p_i_o_s___u_s_b_h_o_o_k_ga75135d7a041e2932e9903e8a345b3fc4}{\index{\-U\-S\-B glue code@{\-U\-S\-B glue code}!\-O\-T\-G\-\_\-\-F\-S\-\_\-\-I\-R\-Q\-Handler@{\-O\-T\-G\-\_\-\-F\-S\-\_\-\-I\-R\-Q\-Handler}}
+\index{\-O\-T\-G\-\_\-\-F\-S\-\_\-\-I\-R\-Q\-Handler@{\-O\-T\-G\-\_\-\-F\-S\-\_\-\-I\-R\-Q\-Handler}!USB glue code@{\-U\-S\-B glue code}}
+\subsubsection[{\-O\-T\-G\-\_\-\-F\-S\-\_\-\-I\-R\-Q\-Handler}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-O\-T\-G\-\_\-\-F\-S\-\_\-\-I\-R\-Q\-Handler} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___u_s_b_h_o_o_k_ga75135d7a041e2932e9903e8a345b3fc4}
+
+
+\-Definition at line 97 of file pios\-\_\-usbhook.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_b_h_o_o_k_gaa001d7fe6ba14dccc0b0cf8fe21d5548}{\index{\-U\-S\-B glue code@{\-U\-S\-B glue code}!\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-C\-D\-C\-\_\-\-Get\-Line\-Coding@{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-C\-D\-C\-\_\-\-Get\-Line\-Coding}}
+\index{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-C\-D\-C\-\_\-\-Get\-Line\-Coding@{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-C\-D\-C\-\_\-\-Get\-Line\-Coding}!USB glue code@{\-U\-S\-B glue code}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-C\-D\-C\-\_\-\-Get\-Line\-Coding}]{\setlength{\rightskip}{0pt plus 5cm}const uint8\-\_\-t$\ast$ {\bf \-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-C\-D\-C\-\_\-\-Get\-Line\-Coding} (
+\begin{DoxyParamCaption}
+\item[{uint16\-\_\-t}]{\-Length}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___u_s_b_h_o_o_k_gaa001d7fe6ba14dccc0b0cf8fe21d5548}
+
+
+\-Definition at line 383 of file pios\-\_\-usb\-\_\-cdc.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_b_h_o_o_k_gacbf6b3b4149e51a74c2f4255f0f8a199}{\index{\-U\-S\-B glue code@{\-U\-S\-B glue code}!\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-C\-D\-C\-\_\-\-Set\-Control\-Line\-State@{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-C\-D\-C\-\_\-\-Set\-Control\-Line\-State}}
+\index{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-C\-D\-C\-\_\-\-Set\-Control\-Line\-State@{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-C\-D\-C\-\_\-\-Set\-Control\-Line\-State}!USB glue code@{\-U\-S\-B glue code}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-C\-D\-C\-\_\-\-Set\-Control\-Line\-State}]{\setlength{\rightskip}{0pt plus 5cm}\-R\-E\-S\-U\-L\-T {\bf \-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-C\-D\-C\-\_\-\-Set\-Control\-Line\-State} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___u_s_b_h_o_o_k_gacbf6b3b4149e51a74c2f4255f0f8a199}
+
+
+\-Definition at line 326 of file pios\-\_\-usb\-\_\-cdc.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_b_h_o_o_k_gaf660c51dbd2a8174a34e43b02f6774e0}{\index{\-U\-S\-B glue code@{\-U\-S\-B glue code}!\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-C\-D\-C\-\_\-\-Set\-Line\-Coding@{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-C\-D\-C\-\_\-\-Set\-Line\-Coding}}
+\index{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-C\-D\-C\-\_\-\-Set\-Line\-Coding@{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-C\-D\-C\-\_\-\-Set\-Line\-Coding}!USB glue code@{\-U\-S\-B glue code}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-C\-D\-C\-\_\-\-Set\-Line\-Coding}]{\setlength{\rightskip}{0pt plus 5cm}uint8\-\_\-t$\ast$ {\bf \-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-C\-D\-C\-\_\-\-Set\-Line\-Coding} (
+\begin{DoxyParamCaption}
+\item[{uint16\-\_\-t}]{\-Length}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___u_s_b_h_o_o_k_gaf660c51dbd2a8174a34e43b02f6774e0}
+
+
+\-Definition at line 362 of file pios\-\_\-usb\-\_\-cdc.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_b_h_o_o_k_gaba51a804e2ee3df6834af3d37d15ecd0}{\index{\-U\-S\-B glue code@{\-U\-S\-B glue code}!\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-H\-I\-D\-\_\-\-Register\-Hid\-Descriptor@{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-H\-I\-D\-\_\-\-Register\-Hid\-Descriptor}}
+\index{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-H\-I\-D\-\_\-\-Register\-Hid\-Descriptor@{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-H\-I\-D\-\_\-\-Register\-Hid\-Descriptor}!USB glue code@{\-U\-S\-B glue code}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-H\-I\-D\-\_\-\-Register\-Hid\-Descriptor}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-H\-I\-D\-\_\-\-Register\-Hid\-Descriptor} (
+\begin{DoxyParamCaption}
+\item[{const uint8\-\_\-t $\ast$}]{desc, }
+\item[{uint16\-\_\-t}]{desc\-\_\-size}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___u_s_b_h_o_o_k_gaba51a804e2ee3df6834af3d37d15ecd0}
+
+
+\-Definition at line 70 of file pios\-\_\-usbhook.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_b_h_o_o_k_gaa26752754b2018e8584247b715c9500c}{\index{\-U\-S\-B glue code@{\-U\-S\-B glue code}!\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-H\-I\-D\-\_\-\-Register\-Hid\-Report@{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-H\-I\-D\-\_\-\-Register\-Hid\-Report}}
+\index{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-H\-I\-D\-\_\-\-Register\-Hid\-Report@{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-H\-I\-D\-\_\-\-Register\-Hid\-Report}!USB glue code@{\-U\-S\-B glue code}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-H\-I\-D\-\_\-\-Register\-Hid\-Report}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-H\-I\-D\-\_\-\-Register\-Hid\-Report} (
+\begin{DoxyParamCaption}
+\item[{const uint8\-\_\-t $\ast$}]{desc, }
+\item[{uint16\-\_\-t}]{desc\-\_\-size}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___u_s_b_h_o_o_k_gaa26752754b2018e8584247b715c9500c}
+
+
+\-Definition at line 78 of file pios\-\_\-usbhook.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_b_h_o_o_k_gaa9dd93041af333771c368a4eb0171caa}{\index{\-U\-S\-B glue code@{\-U\-S\-B glue code}!\-P\-I\-O\-S\-\_\-\-U\-S\-B\-H\-O\-O\-K\-\_\-\-Activate@{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-H\-O\-O\-K\-\_\-\-Activate}}
+\index{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-H\-O\-O\-K\-\_\-\-Activate@{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-H\-O\-O\-K\-\_\-\-Activate}!USB glue code@{\-U\-S\-B glue code}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-H\-O\-O\-K\-\_\-\-Activate}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-P\-I\-O\-S\-\_\-\-U\-S\-B\-H\-O\-O\-K\-\_\-\-Activate} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___u_s_b_h_o_o_k_gaa9dd93041af333771c368a4eb0171caa}
+
+
+\-Definition at line 81 of file pios\-\_\-usbhook.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_b_h_o_o_k_ga1fdfbec3bfa53133f72ac8acff597415}{\index{\-U\-S\-B glue code@{\-U\-S\-B glue code}!\-P\-I\-O\-S\-\_\-\-U\-S\-B\-H\-O\-O\-K\-\_\-\-Ctrl\-Rx@{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-H\-O\-O\-K\-\_\-\-Ctrl\-Rx}}
+\index{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-H\-O\-O\-K\-\_\-\-Ctrl\-Rx@{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-H\-O\-O\-K\-\_\-\-Ctrl\-Rx}!USB glue code@{\-U\-S\-B glue code}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-H\-O\-O\-K\-\_\-\-Ctrl\-Rx}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-P\-I\-O\-S\-\_\-\-U\-S\-B\-H\-O\-O\-K\-\_\-\-Ctrl\-Rx} (
+\begin{DoxyParamCaption}
+\item[{uint8\-\_\-t $\ast$}]{buf, }
+\item[{uint16\-\_\-t}]{len}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___u_s_b_h_o_o_k_ga1fdfbec3bfa53133f72ac8acff597415}
+
+
+\-Definition at line 199 of file pios\-\_\-usbhook.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_b_h_o_o_k_ga6704b03262547936a31c1c9798c7cee0}{\index{\-U\-S\-B glue code@{\-U\-S\-B glue code}!\-P\-I\-O\-S\-\_\-\-U\-S\-B\-H\-O\-O\-K\-\_\-\-Ctrl\-Tx@{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-H\-O\-O\-K\-\_\-\-Ctrl\-Tx}}
+\index{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-H\-O\-O\-K\-\_\-\-Ctrl\-Tx@{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-H\-O\-O\-K\-\_\-\-Ctrl\-Tx}!USB glue code@{\-U\-S\-B glue code}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-H\-O\-O\-K\-\_\-\-Ctrl\-Tx}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-P\-I\-O\-S\-\_\-\-U\-S\-B\-H\-O\-O\-K\-\_\-\-Ctrl\-Tx} (
+\begin{DoxyParamCaption}
+\item[{const uint8\-\_\-t $\ast$}]{buf, }
+\item[{uint16\-\_\-t}]{len}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___u_s_b_h_o_o_k_ga6704b03262547936a31c1c9798c7cee0}
+
+
+\-Definition at line 194 of file pios\-\_\-usbhook.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_b_h_o_o_k_ga0b91e1af1f658ed36ac3da1414dd1dae}{\index{\-U\-S\-B glue code@{\-U\-S\-B glue code}!\-P\-I\-O\-S\-\_\-\-U\-S\-B\-H\-O\-O\-K\-\_\-\-Deactivate@{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-H\-O\-O\-K\-\_\-\-Deactivate}}
+\index{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-H\-O\-O\-K\-\_\-\-Deactivate@{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-H\-O\-O\-K\-\_\-\-Deactivate}!USB glue code@{\-U\-S\-B glue code}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-H\-O\-O\-K\-\_\-\-Deactivate}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-P\-I\-O\-S\-\_\-\-U\-S\-B\-H\-O\-O\-K\-\_\-\-Deactivate} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___u_s_b_h_o_o_k_ga0b91e1af1f658ed36ac3da1414dd1dae}
+
+
+\-Definition at line 90 of file pios\-\_\-usbhook.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_b_h_o_o_k_gab625794d48d586353a8d1b81d2abaa10}{\index{\-U\-S\-B glue code@{\-U\-S\-B glue code}!\-P\-I\-O\-S\-\_\-\-U\-S\-B\-H\-O\-O\-K\-\_\-\-De\-Register\-Ep\-In\-Callback@{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-H\-O\-O\-K\-\_\-\-De\-Register\-Ep\-In\-Callback}}
+\index{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-H\-O\-O\-K\-\_\-\-De\-Register\-Ep\-In\-Callback@{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-H\-O\-O\-K\-\_\-\-De\-Register\-Ep\-In\-Callback}!USB glue code@{\-U\-S\-B glue code}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-H\-O\-O\-K\-\_\-\-De\-Register\-Ep\-In\-Callback}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-P\-I\-O\-S\-\_\-\-U\-S\-B\-H\-O\-O\-K\-\_\-\-De\-Register\-Ep\-In\-Callback} (
+\begin{DoxyParamCaption}
+\item[{uint8\-\_\-t}]{epnum}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___u_s_b_h_o_o_k_gab625794d48d586353a8d1b81d2abaa10}
+
+
+\-Definition at line 143 of file pios\-\_\-usbhook.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_b_h_o_o_k_gaee6a7cfd0b24ed7e41097a3629f25a1d}{\index{\-U\-S\-B glue code@{\-U\-S\-B glue code}!\-P\-I\-O\-S\-\_\-\-U\-S\-B\-H\-O\-O\-K\-\_\-\-De\-Register\-Ep\-Out\-Callback@{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-H\-O\-O\-K\-\_\-\-De\-Register\-Ep\-Out\-Callback}}
+\index{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-H\-O\-O\-K\-\_\-\-De\-Register\-Ep\-Out\-Callback@{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-H\-O\-O\-K\-\_\-\-De\-Register\-Ep\-Out\-Callback}!USB glue code@{\-U\-S\-B glue code}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-H\-O\-O\-K\-\_\-\-De\-Register\-Ep\-Out\-Callback}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-P\-I\-O\-S\-\_\-\-U\-S\-B\-H\-O\-O\-K\-\_\-\-De\-Register\-Ep\-Out\-Callback} (
+\begin{DoxyParamCaption}
+\item[{uint8\-\_\-t}]{epnum}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___u_s_b_h_o_o_k_gaee6a7cfd0b24ed7e41097a3629f25a1d}
+
+
+\-Definition at line 185 of file pios\-\_\-usbhook.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_b_h_o_o_k_ga9ff507855511c9dcf36f8839955e4c86}{\index{\-U\-S\-B glue code@{\-U\-S\-B glue code}!\-P\-I\-O\-S\-\_\-\-U\-S\-B\-H\-O\-O\-K\-\_\-\-Endpoint\-Rx@{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-H\-O\-O\-K\-\_\-\-Endpoint\-Rx}}
+\index{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-H\-O\-O\-K\-\_\-\-Endpoint\-Rx@{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-H\-O\-O\-K\-\_\-\-Endpoint\-Rx}!USB glue code@{\-U\-S\-B glue code}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-H\-O\-O\-K\-\_\-\-Endpoint\-Rx}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-P\-I\-O\-S\-\_\-\-U\-S\-B\-H\-O\-O\-K\-\_\-\-Endpoint\-Rx} (
+\begin{DoxyParamCaption}
+\item[{uint8\-\_\-t}]{epnum, }
+\item[{uint8\-\_\-t $\ast$}]{buf, }
+\item[{uint16\-\_\-t}]{len}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___u_s_b_h_o_o_k_ga9ff507855511c9dcf36f8839955e4c86}
+
+
+\-Definition at line 211 of file pios\-\_\-usbhook.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_b_h_o_o_k_ga7f8bef536a231085c493d004ec8466d2}{\index{\-U\-S\-B glue code@{\-U\-S\-B glue code}!\-P\-I\-O\-S\-\_\-\-U\-S\-B\-H\-O\-O\-K\-\_\-\-Endpoint\-Tx@{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-H\-O\-O\-K\-\_\-\-Endpoint\-Tx}}
+\index{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-H\-O\-O\-K\-\_\-\-Endpoint\-Tx@{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-H\-O\-O\-K\-\_\-\-Endpoint\-Tx}!USB glue code@{\-U\-S\-B glue code}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-H\-O\-O\-K\-\_\-\-Endpoint\-Tx}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-P\-I\-O\-S\-\_\-\-U\-S\-B\-H\-O\-O\-K\-\_\-\-Endpoint\-Tx} (
+\begin{DoxyParamCaption}
+\item[{uint8\-\_\-t}]{epnum, }
+\item[{const uint8\-\_\-t $\ast$}]{buf, }
+\item[{uint16\-\_\-t}]{len}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___u_s_b_h_o_o_k_ga7f8bef536a231085c493d004ec8466d2}
+
+
+\-Definition at line 204 of file pios\-\_\-usbhook.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_b_h_o_o_k_gaf98576e0b9228288e852901754ab9759}{\index{\-U\-S\-B glue code@{\-U\-S\-B glue code}!\-P\-I\-O\-S\-\_\-\-U\-S\-B\-H\-O\-O\-K\-\_\-\-Register\-Config@{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-H\-O\-O\-K\-\_\-\-Register\-Config}}
+\index{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-H\-O\-O\-K\-\_\-\-Register\-Config@{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-H\-O\-O\-K\-\_\-\-Register\-Config}!USB glue code@{\-U\-S\-B glue code}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-H\-O\-O\-K\-\_\-\-Register\-Config}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-P\-I\-O\-S\-\_\-\-U\-S\-B\-H\-O\-O\-K\-\_\-\-Register\-Config} (
+\begin{DoxyParamCaption}
+\item[{uint8\-\_\-t}]{config\-\_\-id, }
+\item[{const uint8\-\_\-t $\ast$}]{desc, }
+\item[{uint16\-\_\-t}]{desc\-\_\-size}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___u_s_b_h_o_o_k_gaf98576e0b9228288e852901754ab9759}
+
+
+\-Definition at line 52 of file pios\-\_\-usbhook.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_b_h_o_o_k_ga59b142c7def8bcde4564793de82198d6}{\index{\-U\-S\-B glue code@{\-U\-S\-B glue code}!\-P\-I\-O\-S\-\_\-\-U\-S\-B\-H\-O\-O\-K\-\_\-\-Register\-Device@{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-H\-O\-O\-K\-\_\-\-Register\-Device}}
+\index{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-H\-O\-O\-K\-\_\-\-Register\-Device@{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-H\-O\-O\-K\-\_\-\-Register\-Device}!USB glue code@{\-U\-S\-B glue code}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-H\-O\-O\-K\-\_\-\-Register\-Device}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-P\-I\-O\-S\-\_\-\-U\-S\-B\-H\-O\-O\-K\-\_\-\-Register\-Device} (
+\begin{DoxyParamCaption}
+\item[{const uint8\-\_\-t $\ast$}]{desc, }
+\item[{uint16\-\_\-t}]{desc\-\_\-size}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___u_s_b_h_o_o_k_ga59b142c7def8bcde4564793de82198d6}
+
+
+\-Definition at line 44 of file pios\-\_\-usbhook.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_b_h_o_o_k_gaab0fa8ca00730aaca31b660d2c3940b7}{\index{\-U\-S\-B glue code@{\-U\-S\-B glue code}!\-P\-I\-O\-S\-\_\-\-U\-S\-B\-H\-O\-O\-K\-\_\-\-Register\-Ep\-In\-Callback@{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-H\-O\-O\-K\-\_\-\-Register\-Ep\-In\-Callback}}
+\index{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-H\-O\-O\-K\-\_\-\-Register\-Ep\-In\-Callback@{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-H\-O\-O\-K\-\_\-\-Register\-Ep\-In\-Callback}!USB glue code@{\-U\-S\-B glue code}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-H\-O\-O\-K\-\_\-\-Register\-Ep\-In\-Callback}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-P\-I\-O\-S\-\_\-\-U\-S\-B\-H\-O\-O\-K\-\_\-\-Register\-Ep\-In\-Callback} (
+\begin{DoxyParamCaption}
+\item[{uint8\-\_\-t}]{epnum, }
+\item[{uint16\-\_\-t}]{max\-\_\-len, }
+\item[{{\bf pios\-\_\-usbhook\-\_\-epcb}}]{cb, }
+\item[{uint32\-\_\-t}]{context}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___u_s_b_h_o_o_k_gaab0fa8ca00730aaca31b660d2c3940b7}
+
+
+\-Definition at line 125 of file pios\-\_\-usbhook.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_b_h_o_o_k_gac9251a5f11fe56ac9a0e8d1405bcb322}{\index{\-U\-S\-B glue code@{\-U\-S\-B glue code}!\-P\-I\-O\-S\-\_\-\-U\-S\-B\-H\-O\-O\-K\-\_\-\-Register\-Ep\-Out\-Callback@{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-H\-O\-O\-K\-\_\-\-Register\-Ep\-Out\-Callback}}
+\index{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-H\-O\-O\-K\-\_\-\-Register\-Ep\-Out\-Callback@{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-H\-O\-O\-K\-\_\-\-Register\-Ep\-Out\-Callback}!USB glue code@{\-U\-S\-B glue code}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-H\-O\-O\-K\-\_\-\-Register\-Ep\-Out\-Callback}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-P\-I\-O\-S\-\_\-\-U\-S\-B\-H\-O\-O\-K\-\_\-\-Register\-Ep\-Out\-Callback} (
+\begin{DoxyParamCaption}
+\item[{uint8\-\_\-t}]{epnum, }
+\item[{uint16\-\_\-t}]{max\-\_\-len, }
+\item[{{\bf pios\-\_\-usbhook\-\_\-epcb}}]{cb, }
+\item[{uint32\-\_\-t}]{context}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___u_s_b_h_o_o_k_gac9251a5f11fe56ac9a0e8d1405bcb322}
+
+
+\-Definition at line 153 of file pios\-\_\-usbhook.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_b_h_o_o_k_ga810a146080ed0e84fd2e76eeb1237cb4}{\index{\-U\-S\-B glue code@{\-U\-S\-B glue code}!\-P\-I\-O\-S\-\_\-\-U\-S\-B\-H\-O\-O\-K\-\_\-\-Register\-If\-Ops@{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-H\-O\-O\-K\-\_\-\-Register\-If\-Ops}}
+\index{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-H\-O\-O\-K\-\_\-\-Register\-If\-Ops@{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-H\-O\-O\-K\-\_\-\-Register\-If\-Ops}!USB glue code@{\-U\-S\-B glue code}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-H\-O\-O\-K\-\_\-\-Register\-If\-Ops}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-P\-I\-O\-S\-\_\-\-U\-S\-B\-H\-O\-O\-K\-\_\-\-Register\-If\-Ops} (
+\begin{DoxyParamCaption}
+\item[{uint8\-\_\-t}]{ifnum, }
+\item[{struct {\bf pios\-\_\-usb\-\_\-ifops} $\ast$}]{ifops, }
+\item[{uint32\-\_\-t}]{context}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___u_s_b_h_o_o_k_ga810a146080ed0e84fd2e76eeb1237cb4}
+
+
+\-Definition at line 110 of file pios\-\_\-usbhook.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_b_h_o_o_k_gab472720c22eb46c81e7f6739dc53117b}{\index{\-U\-S\-B glue code@{\-U\-S\-B glue code}!\-P\-I\-O\-S\-\_\-\-U\-S\-B\-H\-O\-O\-K\-\_\-\-Register\-String@{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-H\-O\-O\-K\-\_\-\-Register\-String}}
+\index{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-H\-O\-O\-K\-\_\-\-Register\-String@{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-H\-O\-O\-K\-\_\-\-Register\-String}!USB glue code@{\-U\-S\-B glue code}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-H\-O\-O\-K\-\_\-\-Register\-String}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-P\-I\-O\-S\-\_\-\-U\-S\-B\-H\-O\-O\-K\-\_\-\-Register\-String} (
+\begin{DoxyParamCaption}
+\item[{enum {\bf usb\-\_\-string\-\_\-desc}}]{string\-\_\-id, }
+\item[{const uint8\-\_\-t $\ast$}]{desc, }
+\item[{uint16\-\_\-t}]{desc\-\_\-size}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___u_s_b_h_o_o_k_gab472720c22eb46c81e7f6739dc53117b}
+
+
+\-Definition at line 60 of file pios\-\_\-usbhook.\-c.
+
+
+
+\subsection{\-Variable \-Documentation}
+\hypertarget{group___p_i_o_s___u_s_b_h_o_o_k_gaefc540229d1ad4829fb317812135c7b4}{\index{\-U\-S\-B glue code@{\-U\-S\-B glue code}!\-\_\-\-\_\-attribute\-\_\-\-\_\-@{\-\_\-\-\_\-attribute\-\_\-\-\_\-}}
+\index{\-\_\-\-\_\-attribute\-\_\-\-\_\-@{\-\_\-\-\_\-attribute\-\_\-\-\_\-}!USB glue code@{\-U\-S\-B glue code}}
+\subsubsection[{\-\_\-\-\_\-attribute\-\_\-\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf pios\-\_\-usb\-\_\-ifops}  {\bf \-\_\-\-\_\-attribute\-\_\-\-\_\-}}}\label{group___p_i_o_s___u_s_b_h_o_o_k_gaefc540229d1ad4829fb317812135c7b4}
+\hypertarget{group___p_i_o_s___u_s_b_h_o_o_k_gaf0106468de445de05247315a6001789c}{\index{\-U\-S\-B glue code@{\-U\-S\-B glue code}!cb@{cb}}
+\index{cb@{cb}!USB glue code@{\-U\-S\-B glue code}}
+\subsubsection[{cb}]{\setlength{\rightskip}{0pt plus 5cm}{\bf pios\-\_\-usbhook\-\_\-epcb} {\bf usb\-\_\-ep\-\_\-entry\-::cb}}}\label{group___p_i_o_s___u_s_b_h_o_o_k_gaf0106468de445de05247315a6001789c}
+
+
+\-Definition at line 120 of file pios\-\_\-usbhook.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_b_h_o_o_k_gad9a6d740530f937ee0fd2870b5c02ce8}{\index{\-U\-S\-B glue code@{\-U\-S\-B glue code}!context@{context}}
+\index{context@{context}!USB glue code@{\-U\-S\-B glue code}}
+\subsubsection[{context}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t {\bf usb\-\_\-if\-\_\-entry\-::context}}}\label{group___p_i_o_s___u_s_b_h_o_o_k_gad9a6d740530f937ee0fd2870b5c02ce8}
+
+
+\-Definition at line 107 of file pios\-\_\-usbhook.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_b_h_o_o_k_ga044e4671681d96fdf1918abb9e52542e}{\index{\-U\-S\-B glue code@{\-U\-S\-B glue code}!context@{context}}
+\index{context@{context}!USB glue code@{\-U\-S\-B glue code}}
+\subsubsection[{context}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t {\bf usb\-\_\-ep\-\_\-entry\-::context}}}\label{group___p_i_o_s___u_s_b_h_o_o_k_ga044e4671681d96fdf1918abb9e52542e}
+
+
+\-Definition at line 121 of file pios\-\_\-usbhook.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_b_h_o_o_k_ga7fce932d233ec743f190170b5b277746}{\index{\-U\-S\-B glue code@{\-U\-S\-B glue code}!ctrl\-\_\-data\-\_\-out@{ctrl\-\_\-data\-\_\-out}}
+\index{ctrl\-\_\-data\-\_\-out@{ctrl\-\_\-data\-\_\-out}!USB glue code@{\-U\-S\-B glue code}}
+\subsubsection[{ctrl\-\_\-data\-\_\-out}]{\setlength{\rightskip}{0pt plus 5cm}void($\ast$ {\bf pios\-\_\-usb\-\_\-ifops\-::ctrl\-\_\-data\-\_\-out})(uint32\-\_\-t context, const struct {\bf usb\-\_\-setup\-\_\-request} $\ast$req)}}\label{group___p_i_o_s___u_s_b_h_o_o_k_ga7fce932d233ec743f190170b5b277746}
+
+
+\-Definition at line 59 of file pios\-\_\-usbhook.\-h.
+
+\hypertarget{group___p_i_o_s___u_s_b_h_o_o_k_ga23c8bc133e24838b490c81a9d47318d4}{\index{\-U\-S\-B glue code@{\-U\-S\-B glue code}!deinit@{deinit}}
+\index{deinit@{deinit}!USB glue code@{\-U\-S\-B glue code}}
+\subsubsection[{deinit}]{\setlength{\rightskip}{0pt plus 5cm}void($\ast$ {\bf pios\-\_\-usb\-\_\-ifops\-::deinit})(uint32\-\_\-t context)}}\label{group___p_i_o_s___u_s_b_h_o_o_k_ga23c8bc133e24838b490c81a9d47318d4}
+
+
+\-Definition at line 57 of file pios\-\_\-usbhook.\-h.
+
+\hypertarget{group___p_i_o_s___u_s_b_h_o_o_k_ga56ff6e20a77e4421c8c47442ca13d75b}{\index{\-U\-S\-B glue code@{\-U\-S\-B glue code}!descriptor@{descriptor}}
+\index{descriptor@{descriptor}!USB glue code@{\-U\-S\-B glue code}}
+\subsubsection[{descriptor}]{\setlength{\rightskip}{0pt plus 5cm}const uint8\-\_\-t$\ast$ {\bf pios\-\_\-usbhook\-\_\-descriptor\-::descriptor}}}\label{group___p_i_o_s___u_s_b_h_o_o_k_ga56ff6e20a77e4421c8c47442ca13d75b}
+
+
+\-Definition at line 40 of file pios\-\_\-usbhook.\-h.
+
+\hypertarget{group___p_i_o_s___u_s_b_h_o_o_k_ga646bdfc60e69ee637f2c39b5bb91dfec}{\index{\-U\-S\-B glue code@{\-U\-S\-B glue code}!\-Device\-\_\-\-Property@{\-Device\-\_\-\-Property}}
+\index{\-Device\-\_\-\-Property@{\-Device\-\_\-\-Property}!USB glue code@{\-U\-S\-B glue code}}
+\subsubsection[{\-Device\-\_\-\-Property}]{\setlength{\rightskip}{0pt plus 5cm}\-D\-E\-V\-I\-C\-E\-\_\-\-P\-R\-O\-P {\bf \-Device\-\_\-\-Property}}}\label{group___p_i_o_s___u_s_b_h_o_o_k_ga646bdfc60e69ee637f2c39b5bb91dfec}
+{\bfseries \-Initial value\-:}
+\begin{DoxyCode}
+ {
+        .Init                        = PIOS_USBHOOK_Init,
+        .Reset                       = PIOS_USBHOOK_Reset,
+        .Process_Status_IN           = PIOS_USBHOOK_Status_In,
+        .Process_Status_OUT          = PIOS_USBHOOK_Status_Out,
+        .Class_Data_Setup            = PIOS_USBHOOK_Data_Setup,
+        .Class_NoData_Setup          = PIOS_USBHOOK_NoData_Setup,
+        .Class_Get_Interface_Setting = PIOS_USBHOOK_Get_Interface_Setting,
+        .GetDeviceDescriptor         = PIOS_USBHOOK_GetDeviceDescriptor,
+        .GetConfigDescriptor         = PIOS_USBHOOK_GetConfigDescriptor,
+        .GetStringDescriptor         = PIOS_USBHOOK_GetStringDescriptor,
+        .RxEP_buffer                 = 0,
+        .MaxPacketSize               = 0x40,
+}
+\end{DoxyCode}
+
+
+\-Definition at line 105 of file pios\-\_\-usbhook.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_b_h_o_o_k_ga646bdfc60e69ee637f2c39b5bb91dfec}{\index{\-U\-S\-B glue code@{\-U\-S\-B glue code}!\-Device\-\_\-\-Property@{\-Device\-\_\-\-Property}}
+\index{\-Device\-\_\-\-Property@{\-Device\-\_\-\-Property}!USB glue code@{\-U\-S\-B glue code}}
+\subsubsection[{\-Device\-\_\-\-Property}]{\setlength{\rightskip}{0pt plus 5cm}\-D\-E\-V\-I\-C\-E\-\_\-\-P\-R\-O\-P {\bf \-Device\-\_\-\-Property}}}\label{group___p_i_o_s___u_s_b_h_o_o_k_ga646bdfc60e69ee637f2c39b5bb91dfec}
+{\bfseries \-Initial value\-:}
+\begin{DoxyCode}
+ {
+        .Init                        = PIOS_USBHOOK_Init,
+        .Reset                       = PIOS_USBHOOK_Reset,
+        .Process_Status_IN           = PIOS_USBHOOK_Status_In,
+        .Process_Status_OUT          = PIOS_USBHOOK_Status_Out,
+        .Class_Data_Setup            = PIOS_USBHOOK_Data_Setup,
+        .Class_NoData_Setup          = PIOS_USBHOOK_NoData_Setup,
+        .Class_Get_Interface_Setting = PIOS_USBHOOK_Get_Interface_Setting,
+        .GetDeviceDescriptor         = PIOS_USBHOOK_GetDeviceDescriptor,
+        .GetConfigDescriptor         = PIOS_USBHOOK_GetConfigDescriptor,
+        .GetStringDescriptor         = PIOS_USBHOOK_GetStringDescriptor,
+        .RxEP_buffer                 = 0,
+        .MaxPacketSize               = 0x40,
+}
+\end{DoxyCode}
+
+
+\-Definition at line 106 of file pios\-\_\-usbhook.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_b_h_o_o_k_gafa47e7c7d5d6fb4c682e16c89c1b7d75}{\index{\-U\-S\-B glue code@{\-U\-S\-B glue code}!\-Device\-\_\-\-Table@{\-Device\-\_\-\-Table}}
+\index{\-Device\-\_\-\-Table@{\-Device\-\_\-\-Table}!USB glue code@{\-U\-S\-B glue code}}
+\subsubsection[{\-Device\-\_\-\-Table}]{\setlength{\rightskip}{0pt plus 5cm}\-D\-E\-V\-I\-C\-E {\bf \-Device\-\_\-\-Table}}}\label{group___p_i_o_s___u_s_b_h_o_o_k_gafa47e7c7d5d6fb4c682e16c89c1b7d75}
+{\bfseries \-Initial value\-:}
+\begin{DoxyCode}
+ {
+        PIOS_USB_BOARD_EP_NUM,
+        1
+}
+\end{DoxyCode}
+
+
+\-Definition at line 89 of file pios\-\_\-usbhook.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_b_h_o_o_k_gafa47e7c7d5d6fb4c682e16c89c1b7d75}{\index{\-U\-S\-B glue code@{\-U\-S\-B glue code}!\-Device\-\_\-\-Table@{\-Device\-\_\-\-Table}}
+\index{\-Device\-\_\-\-Table@{\-Device\-\_\-\-Table}!USB glue code@{\-U\-S\-B glue code}}
+\subsubsection[{\-Device\-\_\-\-Table}]{\setlength{\rightskip}{0pt plus 5cm}\-D\-E\-V\-I\-C\-E {\bf \-Device\-\_\-\-Table}}}\label{group___p_i_o_s___u_s_b_h_o_o_k_gafa47e7c7d5d6fb4c682e16c89c1b7d75}
+{\bfseries \-Initial value\-:}
+\begin{DoxyCode}
+ {
+        PIOS_USB_BOARD_EP_NUM,
+        1
+}
+\end{DoxyCode}
+
+
+\-Definition at line 90 of file pios\-\_\-usbhook.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_b_h_o_o_k_ga80e4a20c4f7576283232cda440c47694}{\index{\-U\-S\-B glue code@{\-U\-S\-B glue code}!\-E\-X\-T\-I\-\_\-\-Enable@{\-E\-X\-T\-I\-\_\-\-Enable}}
+\index{\-E\-X\-T\-I\-\_\-\-Enable@{\-E\-X\-T\-I\-\_\-\-Enable}!USB glue code@{\-U\-S\-B glue code}}
+\subsubsection[{\-E\-X\-T\-I\-\_\-\-Enable}]{\setlength{\rightskip}{0pt plus 5cm}\-\_\-\-\_\-\-I\-O uint8\-\_\-t {\bf \-E\-X\-T\-I\-\_\-\-Enable}}}\label{group___p_i_o_s___u_s_b_h_o_o_k_ga80e4a20c4f7576283232cda440c47694}
+
+
+\-Definition at line 85 of file pios\-\_\-usbhook.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_b_h_o_o_k_ga80e4a20c4f7576283232cda440c47694}{\index{\-U\-S\-B glue code@{\-U\-S\-B glue code}!\-E\-X\-T\-I\-\_\-\-Enable@{\-E\-X\-T\-I\-\_\-\-Enable}}
+\index{\-E\-X\-T\-I\-\_\-\-Enable@{\-E\-X\-T\-I\-\_\-\-Enable}!USB glue code@{\-U\-S\-B glue code}}
+\subsubsection[{\-E\-X\-T\-I\-\_\-\-Enable}]{\setlength{\rightskip}{0pt plus 5cm}\-\_\-\-\_\-\-I\-O uint8\-\_\-t {\bf \-E\-X\-T\-I\-\_\-\-Enable}}}\label{group___p_i_o_s___u_s_b_h_o_o_k_ga80e4a20c4f7576283232cda440c47694}
+
+
+\-Definition at line 86 of file pios\-\_\-usbhook.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_b_h_o_o_k_ga8c6a8d1a868734fd250c8af665a54c3c}{\index{\-U\-S\-B glue code@{\-U\-S\-B glue code}!ifops@{ifops}}
+\index{ifops@{ifops}!USB glue code@{\-U\-S\-B glue code}}
+\subsubsection[{ifops}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf pios\-\_\-usb\-\_\-ifops}$\ast$ {\bf usb\-\_\-if\-\_\-entry\-::ifops}}}\label{group___p_i_o_s___u_s_b_h_o_o_k_ga8c6a8d1a868734fd250c8af665a54c3c}
+
+
+\-Definition at line 106 of file pios\-\_\-usbhook.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_b_h_o_o_k_ga08614658e728cfb81cb4091e3e210624}{\index{\-U\-S\-B glue code@{\-U\-S\-B glue code}!init@{init}}
+\index{init@{init}!USB glue code@{\-U\-S\-B glue code}}
+\subsubsection[{init}]{\setlength{\rightskip}{0pt plus 5cm}void($\ast$ {\bf pios\-\_\-usb\-\_\-ifops\-::init})(uint32\-\_\-t context)}}\label{group___p_i_o_s___u_s_b_h_o_o_k_ga08614658e728cfb81cb4091e3e210624}
+
+
+\-Definition at line 56 of file pios\-\_\-usbhook.\-h.
+
+\hypertarget{group___p_i_o_s___u_s_b_h_o_o_k_ga9cc49b35b49236ac74e747d179a3650f}{\index{\-U\-S\-B glue code@{\-U\-S\-B glue code}!length@{length}}
+\index{length@{length}!USB glue code@{\-U\-S\-B glue code}}
+\subsubsection[{length}]{\setlength{\rightskip}{0pt plus 5cm}uint16\-\_\-t {\bf pios\-\_\-usbhook\-\_\-descriptor\-::length}}}\label{group___p_i_o_s___u_s_b_h_o_o_k_ga9cc49b35b49236ac74e747d179a3650f}
+
+
+\-Definition at line 41 of file pios\-\_\-usbhook.\-h.
+
+\hypertarget{group___p_i_o_s___u_s_b_h_o_o_k_ga010957cf5bf2628ba64249b8c1271f91}{\index{\-U\-S\-B glue code@{\-U\-S\-B glue code}!max\-\_\-len@{max\-\_\-len}}
+\index{max\-\_\-len@{max\-\_\-len}!USB glue code@{\-U\-S\-B glue code}}
+\subsubsection[{max\-\_\-len}]{\setlength{\rightskip}{0pt plus 5cm}uint16\-\_\-t {\bf usb\-\_\-ep\-\_\-entry\-::max\-\_\-len}}}\label{group___p_i_o_s___u_s_b_h_o_o_k_ga010957cf5bf2628ba64249b8c1271f91}
+
+
+\-Definition at line 122 of file pios\-\_\-usbhook.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_b_h_o_o_k_ga271c451896dad2b849277faad3eb3ea6}{\index{\-U\-S\-B glue code@{\-U\-S\-B glue code}!\-Protocol\-Value@{\-Protocol\-Value}}
+\index{\-Protocol\-Value@{\-Protocol\-Value}!USB glue code@{\-U\-S\-B glue code}}
+\subsubsection[{\-Protocol\-Value}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t {\bf \-Protocol\-Value}}}\label{group___p_i_o_s___u_s_b_h_o_o_k_ga271c451896dad2b849277faad3eb3ea6}
+
+
+\-Definition at line 87 of file pios\-\_\-usbhook.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_b_h_o_o_k_ga271c451896dad2b849277faad3eb3ea6}{\index{\-U\-S\-B glue code@{\-U\-S\-B glue code}!\-Protocol\-Value@{\-Protocol\-Value}}
+\index{\-Protocol\-Value@{\-Protocol\-Value}!USB glue code@{\-U\-S\-B glue code}}
+\subsubsection[{\-Protocol\-Value}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t {\bf \-Protocol\-Value}}}\label{group___p_i_o_s___u_s_b_h_o_o_k_ga271c451896dad2b849277faad3eb3ea6}
+
+
+\-Definition at line 88 of file pios\-\_\-usbhook.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_b_h_o_o_k_gafc58e776c6ff79a3974ca6dc1decf467}{\index{\-U\-S\-B glue code@{\-U\-S\-B glue code}!setup@{setup}}
+\index{setup@{setup}!USB glue code@{\-U\-S\-B glue code}}
+\subsubsection[{setup}]{\setlength{\rightskip}{0pt plus 5cm}bool($\ast$ {\bf pios\-\_\-usb\-\_\-ifops\-::setup})(uint32\-\_\-t context, struct {\bf usb\-\_\-setup\-\_\-request} $\ast$req)}}\label{group___p_i_o_s___u_s_b_h_o_o_k_gafc58e776c6ff79a3974ca6dc1decf467}
+
+
+\-Definition at line 58 of file pios\-\_\-usbhook.\-h.
+
+\hypertarget{group___p_i_o_s___u_s_b_h_o_o_k_gac5f1f2d3bae1b6b5b9912f0fdd72dc93}{\index{\-U\-S\-B glue code@{\-U\-S\-B glue code}!\-U\-S\-B\-\_\-\-S\-T\-R\-I\-N\-G\-\_\-\-D\-E\-S\-C\-\_\-\-L\-A\-N\-G@{\-U\-S\-B\-\_\-\-S\-T\-R\-I\-N\-G\-\_\-\-D\-E\-S\-C\-\_\-\-L\-A\-N\-G}}
+\index{\-U\-S\-B\-\_\-\-S\-T\-R\-I\-N\-G\-\_\-\-D\-E\-S\-C\-\_\-\-L\-A\-N\-G@{\-U\-S\-B\-\_\-\-S\-T\-R\-I\-N\-G\-\_\-\-D\-E\-S\-C\-\_\-\-L\-A\-N\-G}!USB glue code@{\-U\-S\-B glue code}}
+\subsubsection[{\-U\-S\-B\-\_\-\-S\-T\-R\-I\-N\-G\-\_\-\-D\-E\-S\-C\-\_\-\-L\-A\-N\-G}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-U\-S\-B\-\_\-\-S\-T\-R\-I\-N\-G\-\_\-\-D\-E\-S\-C\-\_\-\-L\-A\-N\-G} = 0}}\label{group___p_i_o_s___u_s_b_h_o_o_k_gac5f1f2d3bae1b6b5b9912f0fdd72dc93}
+
+
+\-Definition at line 50 of file pios\-\_\-usbhook.\-h.
+
+\hypertarget{group___p_i_o_s___u_s_b_h_o_o_k_ga80dce006aa14f2a9412e8ee68b4627b0}{\index{\-U\-S\-B glue code@{\-U\-S\-B glue code}!\-U\-S\-B\-\_\-\-S\-T\-R\-I\-N\-G\-\_\-\-D\-E\-S\-C\-\_\-\-P\-R\-O\-D\-U\-C\-T@{\-U\-S\-B\-\_\-\-S\-T\-R\-I\-N\-G\-\_\-\-D\-E\-S\-C\-\_\-\-P\-R\-O\-D\-U\-C\-T}}
+\index{\-U\-S\-B\-\_\-\-S\-T\-R\-I\-N\-G\-\_\-\-D\-E\-S\-C\-\_\-\-P\-R\-O\-D\-U\-C\-T@{\-U\-S\-B\-\_\-\-S\-T\-R\-I\-N\-G\-\_\-\-D\-E\-S\-C\-\_\-\-P\-R\-O\-D\-U\-C\-T}!USB glue code@{\-U\-S\-B glue code}}
+\subsubsection[{\-U\-S\-B\-\_\-\-S\-T\-R\-I\-N\-G\-\_\-\-D\-E\-S\-C\-\_\-\-P\-R\-O\-D\-U\-C\-T}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-U\-S\-B\-\_\-\-S\-T\-R\-I\-N\-G\-\_\-\-D\-E\-S\-C\-\_\-\-P\-R\-O\-D\-U\-C\-T} = 2}}\label{group___p_i_o_s___u_s_b_h_o_o_k_ga80dce006aa14f2a9412e8ee68b4627b0}
+
+
+\-Definition at line 52 of file pios\-\_\-usbhook.\-h.
+
+\hypertarget{group___p_i_o_s___u_s_b_h_o_o_k_ga1c1263ee96f36ccbfc0e662b85e044bf}{\index{\-U\-S\-B glue code@{\-U\-S\-B glue code}!\-U\-S\-B\-\_\-\-S\-T\-R\-I\-N\-G\-\_\-\-D\-E\-S\-C\-\_\-\-S\-E\-R\-I\-A\-L@{\-U\-S\-B\-\_\-\-S\-T\-R\-I\-N\-G\-\_\-\-D\-E\-S\-C\-\_\-\-S\-E\-R\-I\-A\-L}}
+\index{\-U\-S\-B\-\_\-\-S\-T\-R\-I\-N\-G\-\_\-\-D\-E\-S\-C\-\_\-\-S\-E\-R\-I\-A\-L@{\-U\-S\-B\-\_\-\-S\-T\-R\-I\-N\-G\-\_\-\-D\-E\-S\-C\-\_\-\-S\-E\-R\-I\-A\-L}!USB glue code@{\-U\-S\-B glue code}}
+\subsubsection[{\-U\-S\-B\-\_\-\-S\-T\-R\-I\-N\-G\-\_\-\-D\-E\-S\-C\-\_\-\-S\-E\-R\-I\-A\-L}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-U\-S\-B\-\_\-\-S\-T\-R\-I\-N\-G\-\_\-\-D\-E\-S\-C\-\_\-\-S\-E\-R\-I\-A\-L} = 3}}\label{group___p_i_o_s___u_s_b_h_o_o_k_ga1c1263ee96f36ccbfc0e662b85e044bf}
+
+
+\-Definition at line 53 of file pios\-\_\-usbhook.\-h.
+
+\hypertarget{group___p_i_o_s___u_s_b_h_o_o_k_ga05f051e48c96e9d6d2e05804c8023fe2}{\index{\-U\-S\-B glue code@{\-U\-S\-B glue code}!\-U\-S\-B\-\_\-\-S\-T\-R\-I\-N\-G\-\_\-\-D\-E\-S\-C\-\_\-\-V\-E\-N\-D\-O\-R@{\-U\-S\-B\-\_\-\-S\-T\-R\-I\-N\-G\-\_\-\-D\-E\-S\-C\-\_\-\-V\-E\-N\-D\-O\-R}}
+\index{\-U\-S\-B\-\_\-\-S\-T\-R\-I\-N\-G\-\_\-\-D\-E\-S\-C\-\_\-\-V\-E\-N\-D\-O\-R@{\-U\-S\-B\-\_\-\-S\-T\-R\-I\-N\-G\-\_\-\-D\-E\-S\-C\-\_\-\-V\-E\-N\-D\-O\-R}!USB glue code@{\-U\-S\-B glue code}}
+\subsubsection[{\-U\-S\-B\-\_\-\-S\-T\-R\-I\-N\-G\-\_\-\-D\-E\-S\-C\-\_\-\-V\-E\-N\-D\-O\-R}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-U\-S\-B\-\_\-\-S\-T\-R\-I\-N\-G\-\_\-\-D\-E\-S\-C\-\_\-\-V\-E\-N\-D\-O\-R} = 1}}\label{group___p_i_o_s___u_s_b_h_o_o_k_ga05f051e48c96e9d6d2e05804c8023fe2}
+
+
+\-Definition at line 51 of file pios\-\_\-usbhook.\-h.
+
+\hypertarget{group___p_i_o_s___u_s_b_h_o_o_k_ga8d70d0a7e05cf9c172e4304def6b65b8}{\index{\-U\-S\-B glue code@{\-U\-S\-B glue code}!\-User\-\_\-\-Standard\-\_\-\-Requests@{\-User\-\_\-\-Standard\-\_\-\-Requests}}
+\index{\-User\-\_\-\-Standard\-\_\-\-Requests@{\-User\-\_\-\-Standard\-\_\-\-Requests}!USB glue code@{\-U\-S\-B glue code}}
+\subsubsection[{\-User\-\_\-\-Standard\-\_\-\-Requests}]{\setlength{\rightskip}{0pt plus 5cm}\-U\-S\-E\-R\-\_\-\-S\-T\-A\-N\-D\-A\-R\-D\-\_\-\-R\-E\-Q\-U\-E\-S\-T\-S {\bf \-User\-\_\-\-Standard\-\_\-\-Requests}}}\label{group___p_i_o_s___u_s_b_h_o_o_k_ga8d70d0a7e05cf9c172e4304def6b65b8}
+{\bfseries \-Initial value\-:}
+\begin{DoxyCode}
+ {
+        .User_GetConfiguration   = NOP_Process,
+        .User_SetConfiguration   = PIOS_USBHOOK_SetConfiguration,
+        .User_GetInterface       = NOP_Process,
+        .User_SetInterface       = NOP_Process,
+        .User_GetStatus          = NOP_Process,
+        .User_ClearFeature       = NOP_Process,
+        .User_SetEndPointFeature = NOP_Process,
+        .User_SetDeviceFeature   = NOP_Process,
+        .User_SetDeviceAddress   = PIOS_USBHOOK_SetDeviceAddress
+}
+\end{DoxyCode}
+
+
+\-Definition at line 123 of file pios\-\_\-usbhook.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_b_h_o_o_k_ga8d70d0a7e05cf9c172e4304def6b65b8}{\index{\-U\-S\-B glue code@{\-U\-S\-B glue code}!\-User\-\_\-\-Standard\-\_\-\-Requests@{\-User\-\_\-\-Standard\-\_\-\-Requests}}
+\index{\-User\-\_\-\-Standard\-\_\-\-Requests@{\-User\-\_\-\-Standard\-\_\-\-Requests}!USB glue code@{\-U\-S\-B glue code}}
+\subsubsection[{\-User\-\_\-\-Standard\-\_\-\-Requests}]{\setlength{\rightskip}{0pt plus 5cm}\-U\-S\-E\-R\-\_\-\-S\-T\-A\-N\-D\-A\-R\-D\-\_\-\-R\-E\-Q\-U\-E\-S\-T\-S {\bf \-User\-\_\-\-Standard\-\_\-\-Requests}}}\label{group___p_i_o_s___u_s_b_h_o_o_k_ga8d70d0a7e05cf9c172e4304def6b65b8}
+{\bfseries \-Initial value\-:}
+\begin{DoxyCode}
+ {
+        .User_GetConfiguration   = NOP_Process,
+        .User_SetConfiguration   = PIOS_USBHOOK_SetConfiguration,
+        .User_GetInterface       = NOP_Process,
+        .User_SetInterface       = NOP_Process,
+        .User_GetStatus          = NOP_Process,
+        .User_ClearFeature       = NOP_Process,
+        .User_SetEndPointFeature = NOP_Process,
+        .User_SetDeviceFeature   = NOP_Process,
+        .User_SetDeviceAddress   = PIOS_USBHOOK_SetDeviceAddress
+}
+\end{DoxyCode}
+
+
+\-Definition at line 124 of file pios\-\_\-usbhook.\-c.
+

@@ -1,0 +1,420 @@
+%!PS-Adobe-2.0 EPSF-2.0
+%%Title: ClassName
+%%Creator: Doxygen
+%%CreationDate: Time
+%%For: 
+%Magnification: 1.00
+%%Orientation: Portrait
+%%BoundingBox: 0 0 500 2701.421801
+%%Pages: 0
+%%BeginSetup
+%%EndSetup
+%%EndComments
+
+% ----- variables -----
+
+/boxwidth 0 def
+/boxheight 40 def
+/fontheight 24 def
+/marginwidth 10 def
+/distx 20 def
+/disty 40 def
+/boundaspect 0.185088 def  % aspect ratio of the BoundingBox (width/height)
+/boundx 500 def
+/boundy boundx boundaspect div def
+/xspacing 0 def
+/yspacing 0 def
+/rows 57 def
+/cols 2 def
+/scalefactor 0 def
+/boxfont /Times-Roman findfont fontheight scalefont def
+
+% ----- procedures -----
+
+/dotted { [1 4] 0 setdash } def
+/dashed { [5] 0 setdash } def
+/solid  { [] 0 setdash } def
+
+/max % result = MAX(arg1,arg2)
+{
+  /a exch def
+  /b exch def
+  a b gt {a} {b} ifelse
+} def
+
+/xoffset % result = MAX(0,(scalefactor-(boxwidth*cols+distx*(cols-1)))/2)
+{
+  0 scalefactor boxwidth cols mul distx cols 1 sub mul add sub 2 div max
+} def
+
+/cw % boxwidth = MAX(boxwidth, stringwidth(arg1))
+{
+  /str exch def
+  /boxwidth boxwidth str stringwidth pop max def
+} def
+
+/box % draws a box with text `arg1' at grid pos (arg2,arg3)
+{ gsave
+  2 setlinewidth
+  newpath
+  exch xspacing mul xoffset add
+  exch yspacing mul
+  moveto
+  boxwidth 0 rlineto 
+  0 boxheight rlineto 
+  boxwidth neg 0 rlineto 
+  0 boxheight neg rlineto 
+  closepath
+  dup stringwidth pop neg boxwidth add 2 div
+  boxheight fontheight 2 div sub 2 div
+  rmoveto show stroke
+  grestore
+} def  
+
+/mark
+{ newpath
+  exch xspacing mul xoffset add boxwidth add
+  exch yspacing mul
+  moveto
+  0 boxheight 4 div rlineto
+  boxheight neg 4 div boxheight neg 4 div rlineto
+  closepath
+  eofill
+  stroke
+} def
+
+/arrow
+{ newpath
+  moveto
+  3 -8 rlineto
+  -6 0 rlineto
+  3 8 rlineto
+  closepath
+  eofill
+  stroke
+} def
+
+/out % draws an output connector for the block at (arg1,arg2)
+{
+  newpath
+  exch xspacing mul xoffset add boxwidth 2 div add
+  exch yspacing mul boxheight add
+  /y exch def
+  /x exch def
+  x y moveto
+  0 disty 2 div rlineto 
+  stroke
+  1 eq { x y disty 2 div add arrow } if
+} def
+
+/in % draws an input connector for the block at (arg1,arg2)
+{
+  newpath
+  exch xspacing mul xoffset add boxwidth 2 div add
+  exch yspacing mul disty 2 div sub
+  /y exch def
+  /x exch def
+  x y moveto
+  0 disty 2 div rlineto
+  stroke
+  1 eq { x y disty 2 div add arrow } if
+} def
+
+/hedge
+{
+  exch xspacing mul xoffset add boxwidth 2 div add
+  exch yspacing mul boxheight 2 div sub
+  /y exch def
+  /x exch def
+  newpath
+  x y moveto
+  boxwidth 2 div distx add 0 rlineto
+  stroke
+  1 eq
+  { newpath x boxwidth 2 div distx add add y moveto
+    -8 3 rlineto
+    0 -6 rlineto
+    8 3 rlineto
+    closepath
+    eofill
+    stroke
+  } if
+} def
+
+/vedge
+{
+  /ye exch def
+  /ys exch def
+  /xs exch def
+  newpath
+  xs xspacing mul xoffset add boxwidth 2 div add dup
+  ys yspacing mul boxheight 2 div sub
+  moveto
+  ye yspacing mul boxheight 2 div sub
+  lineto
+  stroke
+} def
+
+/conn % connections the blocks from col `arg1' to `arg2' of row `arg3'
+{
+  /ys exch def
+  /xe exch def
+  /xs exch def
+  newpath
+  xs xspacing mul xoffset add boxwidth 2 div add
+  ys yspacing mul disty 2 div sub
+  moveto
+  xspacing xe xs sub mul 0
+  rlineto
+  stroke
+} def
+
+% ----- main ------
+
+boxfont setfont
+1 boundaspect scale
+(ExtensionSystem::IPlugin) cw
+(AntennaTrackPlugin) cw
+(BrowserPlugin) cw
+(ConfigPlugin) cw
+(ConsolePlugin) cw
+(Core::IConfigurablePlugin) cw
+(Core::Internal::CorePlugin) cw
+(DebugPlugin) cw
+(DialPlugin) cw
+(DoNothingPlugin) cw
+(EmptyPlugin) cw
+(GCSControlPlugin) cw
+(GpsDisplayPlugin) cw
+(HITLPlugin) cw
+(ImportExportPlugin) cw
+(IPconnectionPlugin) cw
+(LineardialPlugin) cw
+(LoggingPlugin) cw
+(MagicWaypointPlugin) cw
+(MoCapPlugin) cw
+(ModelViewPlugin) cw
+(MyPlugin::MyPluginImpl) cw
+(OpenPilotPlugin) cw
+(OPMapPlugin) cw
+(OsgEarthviewPlugin) cw
+(PathPlannerPlugin) cw
+(PFDPlugin) cw
+(PfdQmlPlugin) cw
+(Plugin1::MyPlugin1) cw
+(Plugin1::MyPlugin1) cw
+(Plugin1::MyPlugin1) cw
+(Plugin2::MyPlugin2) cw
+(Plugin2::MyPlugin2) cw
+(Plugin2::MyPlugin2) cw
+(Plugin3::MyPlugin3) cw
+(Plugin3::MyPlugin3) cw
+(Plugin3::MyPlugin3) cw
+(PowerlogPlugin) cw
+(QmlViewPlugin) cw
+(QuantecPlugin) cw
+(RawHIDPlugin) cw
+(ScopePlugin) cw
+(SerialPlugin) cw
+(SetupWizardPlugin) cw
+(StmPlugin) cw
+(SysAlarmsMessagingPlugin) cw
+(SystemHealthPlugin) cw
+(TauLabsPlugin) cw
+(TelemetrySchedulerPlugin) cw
+(UAVObjectsPlugin) cw
+(UAVObjectUtilPlugin) cw
+(UAVObjectWidgetUtilsPlugin) cw
+(UAVSettingsImportExportPlugin) cw
+(UAVTalkPlugin) cw
+(UploaderPlugin) cw
+(WaypointEditorPlugin) cw
+(Welcome::Internal::WelcomePlugin) cw
+/boxwidth boxwidth marginwidth 2 mul add def
+/xspacing boxwidth distx add def
+/yspacing boxheight disty add def
+/scalefactor 
+  boxwidth cols mul distx cols 1 sub mul add
+  boxheight rows mul disty rows 1 sub mul add boundaspect mul 
+  max def
+boundx scalefactor div boundy scalefactor div scale
+
+% ----- classes -----
+
+ (ExtensionSystem::IPlugin) 0.000000 56.000000 box
+ (AntennaTrackPlugin) 1.000000 55.000000 box
+ (BrowserPlugin) 1.000000 54.000000 box
+ (ConfigPlugin) 1.000000 53.000000 box
+ (ConsolePlugin) 1.000000 52.000000 box
+ (Core::IConfigurablePlugin) 1.000000 51.000000 box
+1.000000 51.000000 mark
+ (Core::Internal::CorePlugin) 1.000000 50.000000 box
+ (DebugPlugin) 1.000000 49.000000 box
+ (DialPlugin) 1.000000 48.000000 box
+ (DoNothingPlugin) 1.000000 47.000000 box
+ (EmptyPlugin) 1.000000 46.000000 box
+ (GCSControlPlugin) 1.000000 45.000000 box
+ (GpsDisplayPlugin) 1.000000 44.000000 box
+ (HITLPlugin) 1.000000 43.000000 box
+ (ImportExportPlugin) 1.000000 42.000000 box
+ (IPconnectionPlugin) 1.000000 41.000000 box
+ (LineardialPlugin) 1.000000 40.000000 box
+ (LoggingPlugin) 1.000000 39.000000 box
+ (MagicWaypointPlugin) 1.000000 38.000000 box
+ (MoCapPlugin) 1.000000 37.000000 box
+ (ModelViewPlugin) 1.000000 36.000000 box
+ (MyPlugin::MyPluginImpl) 1.000000 35.000000 box
+ (OpenPilotPlugin) 1.000000 34.000000 box
+ (OPMapPlugin) 1.000000 33.000000 box
+ (OsgEarthviewPlugin) 1.000000 32.000000 box
+ (PathPlannerPlugin) 1.000000 31.000000 box
+ (PFDPlugin) 1.000000 30.000000 box
+ (PfdQmlPlugin) 1.000000 29.000000 box
+ (Plugin1::MyPlugin1) 1.000000 28.000000 box
+ (Plugin1::MyPlugin1) 1.000000 27.000000 box
+ (Plugin1::MyPlugin1) 1.000000 26.000000 box
+ (Plugin2::MyPlugin2) 1.000000 25.000000 box
+ (Plugin2::MyPlugin2) 1.000000 24.000000 box
+ (Plugin2::MyPlugin2) 1.000000 23.000000 box
+ (Plugin3::MyPlugin3) 1.000000 22.000000 box
+ (Plugin3::MyPlugin3) 1.000000 21.000000 box
+ (Plugin3::MyPlugin3) 1.000000 20.000000 box
+ (PowerlogPlugin) 1.000000 19.000000 box
+ (QmlViewPlugin) 1.000000 18.000000 box
+ (QuantecPlugin) 1.000000 17.000000 box
+ (RawHIDPlugin) 1.000000 16.000000 box
+ (ScopePlugin) 1.000000 15.000000 box
+ (SerialPlugin) 1.000000 14.000000 box
+ (SetupWizardPlugin) 1.000000 13.000000 box
+ (StmPlugin) 1.000000 12.000000 box
+ (SysAlarmsMessagingPlugin) 1.000000 11.000000 box
+ (SystemHealthPlugin) 1.000000 10.000000 box
+ (TauLabsPlugin) 1.000000 9.000000 box
+ (TelemetrySchedulerPlugin) 1.000000 8.000000 box
+ (UAVObjectsPlugin) 1.000000 7.000000 box
+ (UAVObjectUtilPlugin) 1.000000 6.000000 box
+ (UAVObjectWidgetUtilsPlugin) 1.000000 5.000000 box
+ (UAVSettingsImportExportPlugin) 1.000000 4.000000 box
+ (UAVTalkPlugin) 1.000000 3.000000 box
+ (UploaderPlugin) 1.000000 2.000000 box
+ (WaypointEditorPlugin) 1.000000 1.000000 box
+ (Welcome::Internal::WelcomePlugin) 1.000000 0.000000 box
+
+% ----- relations -----
+
+solid
+1 0.000000 55.250000 out
+solid
+0 0.000000 55.500000 hedge
+solid
+0 0.000000 54.500000 hedge
+solid
+0 0.000000 53.500000 hedge
+solid
+0 0.000000 52.500000 hedge
+solid
+0 0.000000 51.500000 hedge
+solid
+0 0.000000 50.500000 hedge
+solid
+0 0.000000 49.500000 hedge
+solid
+0 0.000000 48.500000 hedge
+solid
+0 0.000000 47.500000 hedge
+solid
+0 0.000000 46.500000 hedge
+solid
+0 0.000000 45.500000 hedge
+solid
+0 0.000000 44.500000 hedge
+solid
+0 0.000000 43.500000 hedge
+solid
+0 0.000000 42.500000 hedge
+solid
+0 0.000000 41.500000 hedge
+solid
+0 0.000000 40.500000 hedge
+solid
+0 0.000000 39.500000 hedge
+solid
+0 0.000000 38.500000 hedge
+solid
+0 0.000000 37.500000 hedge
+solid
+0 0.000000 36.500000 hedge
+solid
+0 0.000000 35.500000 hedge
+solid
+0 0.000000 34.500000 hedge
+solid
+0 0.000000 33.500000 hedge
+solid
+0 0.000000 32.500000 hedge
+solid
+0 0.000000 31.500000 hedge
+solid
+0 0.000000 30.500000 hedge
+solid
+0 0.000000 29.500000 hedge
+solid
+0 0.000000 28.500000 hedge
+solid
+0 0.000000 27.500000 hedge
+solid
+0 0.000000 26.500000 hedge
+solid
+0 0.000000 25.500000 hedge
+solid
+0 0.000000 24.500000 hedge
+solid
+0 0.000000 23.500000 hedge
+solid
+0 0.000000 22.500000 hedge
+solid
+0 0.000000 21.500000 hedge
+solid
+0 0.000000 20.500000 hedge
+solid
+0 0.000000 19.500000 hedge
+solid
+0 0.000000 18.500000 hedge
+solid
+0 0.000000 17.500000 hedge
+solid
+0 0.000000 16.500000 hedge
+solid
+0 0.000000 15.500000 hedge
+solid
+0 0.000000 14.500000 hedge
+solid
+0 0.000000 13.500000 hedge
+solid
+0 0.000000 12.500000 hedge
+solid
+0 0.000000 11.500000 hedge
+solid
+0 0.000000 10.500000 hedge
+solid
+0 0.000000 9.500000 hedge
+solid
+0 0.000000 8.500000 hedge
+solid
+0 0.000000 7.500000 hedge
+solid
+0 0.000000 6.500000 hedge
+solid
+0 0.000000 5.500000 hedge
+solid
+0 0.000000 4.500000 hedge
+solid
+0 0.000000 3.500000 hedge
+solid
+0 0.000000 2.500000 hedge
+solid
+0 0.000000 1.500000 hedge
+solid
+0 0.000000 0.500000 hedge
+solid
+0.000000 56.000000 0.500000 vedge

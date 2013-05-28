@@ -1,0 +1,92 @@
+\hypertarget{class_spectrogram_scope_config}{\section{\-Spectrogram\-Scope\-Config \-Class \-Reference}
+\label{class_spectrogram_scope_config}\index{\-Spectrogram\-Scope\-Config@{\-Spectrogram\-Scope\-Config}}
+}
+
+
+\-The \hyperlink{class_spectrogram_scope_config}{\-Spectrogram\-Scope\-Config} class \-The spectrogram scope configuration.  
+
+
+
+
+{\ttfamily \#include $<$spectrogramscopeconfig.\-h$>$}
+
+\-Inheritance diagram for \-Spectrogram\-Scope\-Config\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{class_spectrogram_scope_config}
+\end{center}
+\end{figure}
+\subsection*{\-Public \-Types}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{group___scope_plugin_ga4c227eca53956a4dda5ee8877b7868c6}{\-Spectrogram\-Type} \{ \hyperlink{group___scope_plugin_gga4c227eca53956a4dda5ee8877b7868c6a1412daaa24267bf3b82a82d8b8427238}{\-V\-I\-B\-R\-A\-T\-I\-O\-N\-A\-N\-A\-L\-Y\-S\-I\-S}, 
+\hyperlink{group___scope_plugin_gga4c227eca53956a4dda5ee8877b7868c6a7f0d2eab37446fb5b0e0136911fa069f}{\-C\-U\-S\-T\-O\-M\-\_\-\-S\-P\-E\-C\-T\-R\-O\-G\-R\-A\-M}
+ \}
+\begin{DoxyCompactList}\small\item\em \-The \-Spectrogram\-Type enum \-Defines the different type of spectrogram plots. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Public \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___scope_plugin_ga28b2d6eb7e9d8b459d67cef767b92fc5}{\-Spectrogram\-Scope\-Config} ()
+\begin{DoxyCompactList}\small\item\em \hyperlink{group___scope_plugin_ga28b2d6eb7e9d8b459d67cef767b92fc5}{\-Spectrogram\-Scope\-Config\-::\-Spectrogram\-Scope\-Config} \-Default constructor. \end{DoxyCompactList}\item 
+\hyperlink{group___scope_plugin_ga8acde1e8cd1057e318cdccaa2d2935b4}{\-Spectrogram\-Scope\-Config} (\-Q\-Settings $\ast$q\-Settings)
+\begin{DoxyCompactList}\small\item\em \hyperlink{group___scope_plugin_ga28b2d6eb7e9d8b459d67cef767b92fc5}{\-Spectrogram\-Scope\-Config\-::\-Spectrogram\-Scope\-Config} \-Constructor using the \-X\-M\-L settings. \end{DoxyCompactList}\item 
+\hyperlink{group___scope_plugin_ga40e298cc36738756669408e5cb4d4166}{\-Spectrogram\-Scope\-Config} (\-Ui\-::\-Scope\-Gadget\-Options\-Page $\ast$options\-\_\-page)
+\begin{DoxyCompactList}\small\item\em \hyperlink{group___scope_plugin_ga28b2d6eb7e9d8b459d67cef767b92fc5}{\-Spectrogram\-Scope\-Config\-::\-Spectrogram\-Scope\-Config} \-Constructor using the \-G\-U\-I settings. \end{DoxyCompactList}\item 
+\hyperlink{group___scope_plugin_ga12537968c75d08027a1490766226d871}{$\sim$\-Spectrogram\-Scope\-Config} ()
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___scope_plugin_ga11e36d400c5929b6feb7c6e2fb0ba30f}{save\-Configuration} (\-Q\-Settings $\ast$q\-Settings)
+\begin{DoxyCompactList}\small\item\em \hyperlink{group___scope_plugin_ga11e36d400c5929b6feb7c6e2fb0ba30f}{\-Spectrogram\-Scope\-Config\-::save\-Configuration} \-Saves configuration to \-X\-M\-L file. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___scope_plugin_ga764cb2be26dd64d438f6ff61da3f1c92}{create} (\-Q\-Settings q\-Settings)
+\item 
+\-Q\-List$<$ \hyperlink{struct_plot3d_curve_configuration}{\-Plot3d\-Curve\-Configuration} $\ast$ $>$ \hyperlink{group___scope_plugin_ga0f006cce4d464191ee21a19fad8c8ee1}{get\-Spectrogram\-Data\-Source} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___scope_plugin_ga7c459607813f5554b33051a7a8bc0e24}{add\-Spectrogram\-Data\-Source} (\hyperlink{struct_plot3d_curve_configuration}{\-Plot3d\-Curve\-Configuration} $\ast$value)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___scope_plugin_ga3202b61b6cde085652ea649879e48c63}{replace\-Spectrogram\-Data\-Source} (\-Q\-List$<$ \hyperlink{struct_plot3d_curve_configuration}{\-Plot3d\-Curve\-Configuration} $\ast$ $>$ spectrogram\-Source\-Configs)
+\begin{DoxyCompactList}\small\item\em \hyperlink{group___scope_plugin_ga3202b61b6cde085652ea649879e48c63}{\-Spectrogram\-Scope\-Config\-::replace\-Spectrogram\-Data\-Source} \-Replaces the list of spectrogram data sources. \end{DoxyCompactList}\item 
+double \hyperlink{group___scope_plugin_ga4fb9d3be277337c045b46845bab20f39}{get\-Sampling\-Frequency} ()
+\item 
+double \hyperlink{group___scope_plugin_ga953b8cd98a71026b132ddace51d3111a}{get\-Z\-Maximum} ()
+\item 
+unsigned int \hyperlink{group___scope_plugin_ga38591d941f9fabb469887d48006a629c}{get\-Window\-Width} ()
+\item 
+double \hyperlink{group___scope_plugin_gabf7ca6406f6b5affaf769e09e633a101}{get\-Time\-Horizon} ()
+\item 
+virtual \-Q\-List\*
+$<$ \hyperlink{struct_plot3d_curve_configuration}{\-Plot3d\-Curve\-Configuration} $\ast$ $>$ \hyperlink{group___scope_plugin_ga20cd38fb6f34eae6a7a5c9e18a2184ba}{get\-Data\-Source\-Configs} ()
+\item 
+virtual int \hyperlink{group___scope_plugin_gab53e8753102217ba194ab539f0892bd7}{get\-Scope\-Type} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___scope_plugin_ga3e3207be4ff4a10b7ec3df051d76c3f6}{set\-Sampling\-Frequency} (double val)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___scope_plugin_ga4f71e9c45cd8cbebb11505f9f6d18a42}{set\-Z\-Maximum} (double val)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___scope_plugin_gaf3bc69a747cec5908674e2df1118cd82}{set\-Window\-Width} (unsigned int val)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___scope_plugin_ga511f9914f1f524bd49a6edfa18760501}{set\-Time\-Horizon} (double val)
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___scope_plugin_gaf4d1958704699a8b7bb596fef64c6bd5}{set\-Gui\-Configuration} (\-Ui\-::\-Scope\-Gadget\-Options\-Page $\ast$options\-\_\-page)
+\begin{DoxyCompactList}\small\item\em \hyperlink{group___scope_plugin_gaf4d1958704699a8b7bb596fef64c6bd5}{\-Spectrogram\-Scope\-Config\-::set\-Gui\-Configuration} \-Set the \-G\-U\-I elements based on values from the \-X\-M\-L settings file. \end{DoxyCompactList}\item 
+virtual \hyperlink{class_scope_config}{\-Scope\-Config} $\ast$ \hyperlink{group___scope_plugin_ga7d2fafe0c5f703d03825ad42689a9d73}{clone\-Scope} (\hyperlink{class_scope_config}{\-Scope\-Config} $\ast$)
+\begin{DoxyCompactList}\small\item\em \hyperlink{group___scope_plugin_ga7d2fafe0c5f703d03825ad42689a9d73}{\-Spectrogram\-Scope\-Config\-::clone\-Scope} \-Clones scope from existing \-G\-U\-I configuration. \end{DoxyCompactList}\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___scope_plugin_gaa4de5cf86195631ccdce65d67b22f31a}{load\-Configuration} (\hyperlink{class_scope_gadget_widget}{\-Scope\-Gadget\-Widget} $\ast$scope\-Gadget\-Widget)
+\begin{DoxyCompactList}\small\item\em \hyperlink{group___scope_plugin_gaa4de5cf86195631ccdce65d67b22f31a}{\-Spectrogram\-Scope\-Config\-::load\-Configuration} loads the plot configuration into the scope gadget widget. \end{DoxyCompactList}\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___scope_plugin_ga56b200887661925df25743af2f62375b}{prepare\-Plot} (\hyperlink{class_scope_gadget_widget}{\-Scope\-Gadget\-Widget} $\ast$)
+\begin{DoxyCompactList}\small\item\em \hyperlink{group___scope_plugin_ga56b200887661925df25743af2f62375b}{\-Spectrogram\-Scope\-Config\-::prepare\-Plot} \-Prepares the \-Qwt plot colors and axes. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___scope_plugin_ga607c43753c7a8540b7953d4945f2f6b5}{configure\-Axes} (\hyperlink{class_scope_gadget_widget}{\-Scope\-Gadget\-Widget} $\ast$)
+\begin{DoxyCompactList}\small\item\em \hyperlink{group___scope_plugin_ga607c43753c7a8540b7953d4945f2f6b5}{\-Spectrogram\-Scope\-Config\-::configure\-Axes} \-Configure the axes. \end{DoxyCompactList}\item 
+\hyperlink{group___scope_plugin_ga7f4f087196557757ec8061242e795031}{\-Color\-Map\-::\-Color\-Map\-Type} \hyperlink{group___scope_plugin_ga429eb179a2c1b1f46a1d45a699e983f2}{get\-Color\-Map} ()
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-The \hyperlink{class_spectrogram_scope_config}{\-Spectrogram\-Scope\-Config} class \-The spectrogram scope configuration. 
+
+\-Definition at line 37 of file spectrogramscopeconfig.\-h.
+
+
+
+\-The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/plugins/scope/scopes3d/\hyperlink{spectrogramscopeconfig_8h}{spectrogramscopeconfig.\-h}\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/plugins/scope/scopes3d/\hyperlink{spectrogramscopeconfig_8cpp}{spectrogramscopeconfig.\-cpp}\end{DoxyCompactItemize}

@@ -1,0 +1,64 @@
+\hypertarget{class_u_a_v_object_tree_model}{\section{\-U\-A\-V\-Object\-Tree\-Model \-Class \-Reference}
+\label{class_u_a_v_object_tree_model}\index{\-U\-A\-V\-Object\-Tree\-Model@{\-U\-A\-V\-Object\-Tree\-Model}}
+}
+
+
+{\ttfamily \#include $<$uavobjecttreemodel.\-h$>$}
+
+\subsection*{\-Public \-Slots}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_browser_plugin_gafd9deb057c76e2910dd13055abcbad3e}{new\-Object} (\hyperlink{class_u_a_v_object}{\-U\-A\-V\-Object} $\ast$obj)
+\end{DoxyCompactItemize}
+\subsection*{\-Public \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_object_browser_plugin_ga7c48c4fa7c5b464e0127d929f8610964}{\-U\-A\-V\-Object\-Tree\-Model} (\-Q\-Object $\ast$\hyperlink{group___u_a_v_object_browser_plugin_ga8d23a2cd6d6b785179ebd12426f142e3}{parent}=0, bool categorize=true, bool use\-Scientific\-Notation=false)
+\item 
+\hyperlink{group___u_a_v_object_browser_plugin_ga162709965b0a670c87305d09bf3d5e76}{$\sim$\-U\-A\-V\-Object\-Tree\-Model} ()
+\item 
+\-Q\-Variant \hyperlink{group___u_a_v_object_browser_plugin_ga7e2af1d5c89b55437fb74df890b24a53}{data} (const \-Q\-Model\-Index \&\hyperlink{group___u_a_v_object_browser_plugin_ga9b9e52145b78d333effe586a41478701}{index}, int role) const 
+\item 
+bool \hyperlink{group___u_a_v_object_browser_plugin_ga3327e2ff6b418ae404a06d7c990fbc50}{set\-Data} (const \-Q\-Model\-Index \&\hyperlink{group___u_a_v_object_browser_plugin_ga9b9e52145b78d333effe586a41478701}{index}, const \-Q\-Variant \&value, int role)
+\item 
+\-Qt\-::\-Item\-Flags \hyperlink{group___u_a_v_object_browser_plugin_ga16ae36c54433edd7b07439edc1264b59}{flags} (const \-Q\-Model\-Index \&\hyperlink{group___u_a_v_object_browser_plugin_ga9b9e52145b78d333effe586a41478701}{index}) const 
+\item 
+\-Q\-Variant \hyperlink{group___u_a_v_object_browser_plugin_gaa19ce01eb026443086adfe5063bbc233}{header\-Data} (int section, \-Qt\-::\-Orientation orientation, int role=\-Qt\-::\-Display\-Role) const 
+\item 
+\-Q\-Model\-Index \hyperlink{group___u_a_v_object_browser_plugin_ga9b9e52145b78d333effe586a41478701}{index} (int row, int column, const \-Q\-Model\-Index \&\hyperlink{group___u_a_v_object_browser_plugin_ga8d23a2cd6d6b785179ebd12426f142e3}{parent}=\-Q\-Model\-Index()) const 
+\item 
+\-Q\-Model\-Index \hyperlink{group___u_a_v_object_browser_plugin_ga8d23a2cd6d6b785179ebd12426f142e3}{parent} (const \-Q\-Model\-Index \&\hyperlink{group___u_a_v_object_browser_plugin_ga9b9e52145b78d333effe586a41478701}{index}) const 
+\item 
+int \hyperlink{group___u_a_v_object_browser_plugin_ga77552bcb5a7016909e6de111fb100744}{row\-Count} (const \-Q\-Model\-Index \&\hyperlink{group___u_a_v_object_browser_plugin_ga8d23a2cd6d6b785179ebd12426f142e3}{parent}=\-Q\-Model\-Index()) const 
+\item 
+int \hyperlink{group___u_a_v_object_browser_plugin_gafe7737e489b53e92c325a27785e690cd}{column\-Count} (const \-Q\-Model\-Index \&\hyperlink{group___u_a_v_object_browser_plugin_ga8d23a2cd6d6b785179ebd12426f142e3}{parent}=\-Q\-Model\-Index()) const 
+\item 
+\hyperlink{class_top_tree_item}{\-Top\-Tree\-Item} $\ast$ \hyperlink{group___u_a_v_object_browser_plugin_ga65564af37704d64b262417b4e5795b76}{get\-Settings\-Tree} ()
+\item 
+\hyperlink{class_top_tree_item}{\-Top\-Tree\-Item} $\ast$ \hyperlink{group___u_a_v_object_browser_plugin_gaba7711ed458572937f031011b8ad9842}{get\-Non\-Settings\-Tree} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_browser_plugin_gac3ae57e6538de964006edcdb0affb776}{set\-Recently\-Updated\-Color} (\-Q\-Color color)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_browser_plugin_ga9bc5e49ee3b742c3f1b9ff05b71f7d7e}{set\-Manually\-Changed\-Color} (\-Q\-Color color)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_browser_plugin_ga2b730043ef2a9acc337b2a6864894456}{set\-Recently\-Updated\-Timeout} (int timeout)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_browser_plugin_gaef0cd94aa30b16dabefb791a32542b10}{set\-Only\-Highlight\-Changed\-Values} (bool highlight)
+\item 
+\-Q\-List$<$ \-Q\-Model\-Index $>$ \hyperlink{group___u_a_v_object_browser_plugin_ga96556d7a4724a18462706ac54d6cc761}{get\-Meta\-Data\-Indexes} ()
+\item 
+\-Q\-Model\-Index \hyperlink{group___u_a_v_object_browser_plugin_gaadbcc539338a28f21acc570915b786df}{get\-Index} (int index\-Row, int index\-Col, \hyperlink{class_top_tree_item}{\-Top\-Tree\-Item} $\ast$top\-Tree\-Item)
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+
+
+\-Definition at line 48 of file uavobjecttreemodel.\-h.
+
+
+
+\-The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/plugins/uavobjectbrowser/\hyperlink{uavobjecttreemodel_8h}{uavobjecttreemodel.\-h}\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/plugins/uavobjectbrowser/\hyperlink{uavobjecttreemodel_8cpp}{uavobjecttreemodel.\-cpp}\end{DoxyCompactItemize}

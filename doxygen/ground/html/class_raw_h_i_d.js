@@ -1,0 +1,28 @@
+var class_raw_h_i_d =
+[
+    [ "RawHID", "group___raw_h_i_d_plugin.html#gab8670136473a97cded80dd1a4e785680", null ],
+    [ "RawHID", "group___raw_h_i_d_plugin.html#gae7f570657448daa4890a0e38f693e6ed", null ],
+    [ "~RawHID", "group___raw_h_i_d_plugin.html#gaa925a3d3cbb80dd61705cedd4a0d5167", null ],
+    [ "bytesAvailable", "group___raw_h_i_d_plugin.html#ga5bd4826624aa1689aedbfd1832c4ddb4", null ],
+    [ "bytesToWrite", "group___raw_h_i_d_plugin.html#gaf0246fd49e7dc9cda82b983312f4a782", null ],
+    [ "close", "group___raw_h_i_d_plugin.html#gad109f6050214525dde9804f5a20bf53f", null ],
+    [ "closed", "group___raw_h_i_d_plugin.html#ga4ababcef71544d260177e4957426598c", null ],
+    [ "closeDevice", "group___raw_h_i_d_plugin.html#ga6cf706b44d1aaf58b4218b3cacbc6218", null ],
+    [ "isSequential", "group___raw_h_i_d_plugin.html#gaf9b8ab547528829a7ef19c1d9a9e692a", null ],
+    [ "onDeviceUnplugged", "group___raw_h_i_d_plugin.html#ga62bfd16ef26f8f8e8c52ce836b268c71", null ],
+    [ "open", "group___raw_h_i_d_plugin.html#ga58a13b23858ae0b323802154fa2b93a8", null ],
+    [ "openDevice", "group___raw_h_i_d_plugin.html#gafc323c516287e2e1e5e12b425cd28b4b", null ],
+    [ "readData", "group___raw_h_i_d_plugin.html#gac4b532c2c57925141897d91434924e80", null ],
+    [ "writeData", "group___raw_h_i_d_plugin.html#ga59184fec2a68eecf3e08e81303b8cdbe", null ],
+    [ "RawHIDReadThread", "group___raw_h_i_d_plugin.html#ga8ff6a2bdea09543bed5912710ec13dab", null ],
+    [ "RawHIDWriteThread", "group___raw_h_i_d_plugin.html#ga2d3d87c46461ab8d3746b207989bb7f8", null ],
+    [ "dev", "group___raw_h_i_d_plugin.html#ga4939588bf5bf31e39139a75ca4319884", null ],
+    [ "device_open", "group___raw_h_i_d_plugin.html#ga6ec3ad7c063679816e5aafed60f677c3", null ],
+    [ "deviceInfo", "group___raw_h_i_d_plugin.html#gab9b0f096459d4bc5a220ac42e9465752", null ],
+    [ "m_deviceNo", "group___raw_h_i_d_plugin.html#ga0dde2d900a5f9cbd059e528de3f0c73b", null ],
+    [ "m_mutex", "group___raw_h_i_d_plugin.html#ga915d676c812135bc006e37a140a52365", null ],
+    [ "m_readThread", "group___raw_h_i_d_plugin.html#gaecb703f979aac429ee3961f52c998b53", null ],
+    [ "m_startedMutex", "group___raw_h_i_d_plugin.html#ga62ee841aa1de86d73cfd1b9bc7a5d719", null ],
+    [ "m_writeThread", "group___raw_h_i_d_plugin.html#ga103f382a48fee4b9fe034b3d88f45d42", null ],
+    [ "serialNumber", "group___raw_h_i_d_plugin.html#ga0b5d9bd4ac69612199afa5b59dfc3ed6", null ]
+];

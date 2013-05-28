@@ -1,0 +1,1629 @@
+\hypertarget{group___mo_cap_plugin}{\section{\-Motion \-Capture \-Plugin}
+\label{group___mo_cap_plugin}\index{\-Motion Capture Plugin@{\-Motion Capture Plugin}}
+}
+
+
+\-Motion capture plugin which communicates via \-U\-D\-P.  
+
+
+\subsection*{\-Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{struct___f_l_i_g_h_t___p_a_r_a_m}{\-\_\-\-F\-L\-I\-G\-H\-T\-\_\-\-P\-A\-R\-A\-M}
+\item 
+struct \hyperlink{struct___c_o_n_n_e_c_t_i_o_n}{\-\_\-\-C\-O\-N\-N\-E\-C\-T\-I\-O\-N}
+\item 
+struct \hyperlink{struct_mocap_output2_hardware}{\-Mocap\-Output2\-Hardware}
+\item 
+class \hyperlink{class_exporter}{\-Exporter}
+\item 
+class \hyperlink{class_mocap_creator}{\-Mocap\-Creator}
+\item 
+class \hyperlink{class_mo_cap_configuration}{\-Mo\-Cap\-Configuration}
+\item 
+class \hyperlink{class_mo_cap_factory}{\-Mo\-Cap\-Factory}
+\item 
+class \hyperlink{class_mo_cap_gadget}{\-Mo\-Cap\-Gadget}
+\item 
+struct \hyperlink{struct_noise}{\-Noise}
+\item 
+class \hyperlink{class_mo_cap_noise_generation}{\-Mo\-Cap\-Noise\-Generation}
+\item 
+class \hyperlink{class_mo_cap_options_page}{\-Mo\-Cap\-Options\-Page}
+\item 
+class \hyperlink{class_mo_cap_plugin}{\-Mo\-Cap\-Plugin}
+\item 
+class \hyperlink{class_mo_cap_widget}{\-Mo\-Cap\-Widget}
+\item 
+class \hyperlink{class_nat_net}{\-Nat\-Net}
+\item 
+class \hyperlink{class_nat_net_creator}{\-Nat\-Net\-Creator}
+\end{DoxyCompactItemize}
+\subsection*{\-Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+namespace \hyperlink{namespace_core}{\-Core}
+\begin{DoxyCompactList}\small\item\em \-The \hyperlink{namespace_core}{\-Core} namespace contains all classes that make up the \hyperlink{namespace_core}{\-Core} plugin which constitute the basic functionality of the \-Tau \-Labs \-G\-C\-S. \end{DoxyCompactList}\item 
+namespace \hyperlink{namespace_ui}{\-Ui}
+\end{DoxyCompactItemize}
+\subsection*{\-Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef struct \hyperlink{struct___f_l_i_g_h_t___p_a_r_a_m}{\-\_\-\-F\-L\-I\-G\-H\-T\-\_\-\-P\-A\-R\-A\-M} \hyperlink{group___mo_cap_plugin_ga7bda7a22b899fe8dff0ba9a0cae99da6}{\-F\-L\-I\-G\-H\-T\-\_\-\-P\-A\-R\-A\-M}
+\item 
+typedef struct \hyperlink{struct___c_o_n_n_e_c_t_i_o_n}{\-\_\-\-C\-O\-N\-N\-E\-C\-T\-I\-O\-N} \hyperlink{group___mo_cap_plugin_ga6083347a5b3eb70e360f599354dc0f0b}{\-Mocap\-Settings}
+\end{DoxyCompactItemize}
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___mo_cap_plugin_ga3c11abedc19c26ed0e0212e152f10685}{\-Exporter\-::\-Exporter} (const \hyperlink{group___mo_cap_plugin_ga6083347a5b3eb70e360f599354dc0f0b}{\-Mocap\-Settings} \&params)
+\item 
+virtual \hyperlink{group___mo_cap_plugin_ga44f24686958e01a543fd8b68b392658a}{\-Exporter\-::$\sim$\-Exporter} ()
+\item 
+bool \hyperlink{group___mo_cap_plugin_gaec7e0cea763639d6f79c4f61e9e78375}{\-Exporter\-::is\-Autopilot\-Connected} () const 
+\item 
+bool \hyperlink{group___mo_cap_plugin_gad9cd5c117dc3025d1ef55ba560b9e7c4}{\-Exporter\-::is\-Exporter\-Connected} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___mo_cap_plugin_gaad282295f6b9ba8910db1a11c56d1998}{\-Exporter\-::\-Name} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___mo_cap_plugin_ga09d765021a9a03276d14769f3ab7c43d}{\-Exporter\-::set\-Name} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} str)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___mo_cap_plugin_gaebb24e563941debf0abc1897ef3c89e3}{\-Exporter\-::\-Exporter\-Id} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___mo_cap_plugin_gaf8c44fde7b72a5f5658d47408b806b62}{\-Exporter\-::set\-Exporter\-Id} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} str)
+\item 
+static bool \hyperlink{group___mo_cap_plugin_ga4b693d27267a22d345082b85e2ebe71e}{\-Exporter\-::\-Is\-Started} ()
+\item 
+static \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___mo_cap_plugin_ga7b3b24d7f35ac822cf8414afbf88854d}{\-Exporter\-::set\-Started} (bool val)
+\item 
+static \-Q\-String\-List \& \hyperlink{group___mo_cap_plugin_ga31d137dece30e0f249c4162df4b5b105}{\-Exporter\-::\-Instances} ()
+\item 
+static \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___mo_cap_plugin_ga8a5fd7b06f55301b2683b72e15ffdd1e}{\-Exporter\-::set\-Instance} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \&str)
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___mo_cap_plugin_gad00fa0512ade28ce7c6e08f2e4254b59}{\-Exporter\-::stop\-Process} ()
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___mo_cap_plugin_ga8790a68ca0c9e28691948cb19eba005d}{\-Exporter\-::setup\-Udp\-Ports} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \&host, int in\-Port, int out\-Port)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___mo_cap_plugin_ga4bed3f9d105ae145815a651f02083ea0}{\-Exporter\-::reset\-Initial\-Home\-Position} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___mo_cap_plugin_ga6ac428e6d5db8fba507314cc56783821}{\-Exporter\-::update\-U\-A\-V\-Os} (\hyperlink{struct_mocap_output2_hardware}{\-Mocap\-Output2\-Hardware} \hyperlink{uavobjecttemplate_8m_a2a89187d8e8e8fba509ef9ab5f815d88}{out})
+\item 
+\hyperlink{group___mo_cap_plugin_ga90d59062e3d2c753e512451b60a977e8}{\-Mocap\-Creator\-::\-Mocap\-Creator} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} id, \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} descr)
+\item 
+virtual \hyperlink{group___mo_cap_plugin_ga934741ed7c6804f46b162987c2b9b5c8}{\-Mocap\-Creator\-::$\sim$\-Mocap\-Creator} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___mo_cap_plugin_ga775e3a65e804fbbeba1680da9b949286}{\-Mocap\-Creator\-::\-Class\-Id} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___mo_cap_plugin_ga0eb79ab6540fef8926129b47aef0a2a8}{\-Mocap\-Creator\-::\-Description} () const 
+\item 
+virtual \hyperlink{class_exporter}{\-Exporter} $\ast$ \hyperlink{group___mo_cap_plugin_gaa300503bdf633291aeab43797cc61939}{\-Mocap\-Creator\-::create\-Exporter} (const \hyperlink{group___mo_cap_plugin_ga6083347a5b3eb70e360f599354dc0f0b}{\-Mocap\-Settings} \&params, \-Ui\-\_\-\-Mo\-Cap\-Widget $\ast$widget)=0
+\item 
+\hyperlink{group___mo_cap_plugin_ga98e918c3063a6ec66da51a9532174cc8}{\-Mo\-Cap\-Configuration\-::\-Mo\-Cap\-Configuration} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} class\-Id, \-Q\-Settings $\ast$q\-Settings=0, \-Q\-Object $\ast$parent=0)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___mo_cap_plugin_ga4890815d185a0393db178dd686be0bdb}{\-Mo\-Cap\-Configuration\-::save\-Config} (\-Q\-Settings $\ast$settings) const 
+\item 
+\-I\-U\-A\-V\-Gadget\-Configuration $\ast$ \hyperlink{group___mo_cap_plugin_gadc51635684ea1cfd6355b0ad8e0b40a6}{\-Mo\-Cap\-Configuration\-::clone} ()
+\item 
+\hyperlink{group___mo_cap_plugin_ga6083347a5b3eb70e360f599354dc0f0b}{\-Mocap\-Settings} \hyperlink{group___mo_cap_plugin_ga27cf83efd45539e4f87288010c5f285a}{\-Mo\-Cap\-Configuration\-::\-Settings} () const 
+\item 
+\hyperlink{group___mo_cap_plugin_ga4c5fc1e339794bad8a5ad59687380db0}{\-Mo\-Cap\-Factory\-::\-Mo\-Cap\-Factory} (\-Q\-Object $\ast$parent=0)
+\item 
+\hyperlink{group___mo_cap_plugin_gae7570bd6937d0e589152551bd0ff5cf1}{\-Mo\-Cap\-Factory\-::$\sim$\-Mo\-Cap\-Factory} ()
+\item 
+\hyperlink{class_core_1_1_i_u_a_v_gadget}{\-Core\-::\-I\-U\-A\-V\-Gadget} $\ast$ \hyperlink{group___mo_cap_plugin_ga4a3cc25be4de282c2017c0e9db77e31d}{\-Mo\-Cap\-Factory\-::create\-Gadget} (\-Q\-Widget $\ast$parent)
+\item 
+\-I\-U\-A\-V\-Gadget\-Configuration $\ast$ \hyperlink{group___mo_cap_plugin_gacb27abd92b935f31e14c22c97795e4e6}{\-Mo\-Cap\-Factory\-::create\-Configuration} (\-Q\-Settings $\ast$q\-Settings)
+\item 
+\-I\-Options\-Page $\ast$ \hyperlink{group___mo_cap_plugin_gaea471065fa9f7d73e26e9b744f2bb117}{\-Mo\-Cap\-Factory\-::create\-Options\-Page} (\-I\-U\-A\-V\-Gadget\-Configuration $\ast$config)
+\item 
+\hyperlink{group___mo_cap_plugin_ga539f5d9892beeecc36e51d97dacd3263}{\-Mo\-Cap\-Gadget\-::\-Mo\-Cap\-Gadget} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} class\-Id, \hyperlink{class_mo_cap_widget}{\-Mo\-Cap\-Widget} $\ast$widget, \-Q\-Widget $\ast$parent=0)
+\item 
+\hyperlink{group___mo_cap_plugin_gabcb6599fae9fd93655a6f2c9d72f13e0}{\-Mo\-Cap\-Gadget\-::$\sim$\-Mo\-Cap\-Gadget} ()
+\item 
+\-Q\-Widget $\ast$ \hyperlink{group___mo_cap_plugin_ga10e2501808e097eccf87a35bc8111c20}{\-Mo\-Cap\-Gadget\-::widget} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___mo_cap_plugin_ga3ec1dcb97187294b0436fd7a0e5532d1}{\-Mo\-Cap\-Gadget\-::load\-Configuration} (\-I\-U\-A\-V\-Gadget\-Configuration $\ast$config)
+\item 
+\hyperlink{group___mo_cap_plugin_ga8157e4474b5a83adb73bbf40aa9f5fe6}{\-Mo\-Cap\-Noise\-Generation\-::\-Mo\-Cap\-Noise\-Generation} ()
+\item 
+\hyperlink{group___mo_cap_plugin_ga8881b0089bfba1918a16456398fabb55}{\-Mo\-Cap\-Noise\-Generation\-::$\sim$\-Mo\-Cap\-Noise\-Generation} ()
+\item 
+\hyperlink{struct_noise}{\-Noise} \hyperlink{group___mo_cap_plugin_ga0fe5a906dcd6c5d3dd92267217fdb9ef}{\-Mo\-Cap\-Noise\-Generation\-::get\-Noise} ()
+\item 
+\hyperlink{struct_noise}{\-Noise} \hyperlink{group___mo_cap_plugin_gab39e02794679a919f0d20b1901ec28c4}{\-Mo\-Cap\-Noise\-Generation\-::generate\-Noise} ()
+\item 
+\hyperlink{group___mo_cap_plugin_gaab2f4270ddf74e0e284cf1ea61d646c8}{\-Mo\-Cap\-Options\-Page\-::\-Mo\-Cap\-Options\-Page} (\hyperlink{class_mo_cap_configuration}{\-Mo\-Cap\-Configuration} $\ast$conf, \-Q\-Object $\ast$parent=0)
+\item 
+\-Q\-Widget $\ast$ \hyperlink{group___mo_cap_plugin_gab507e9ec6cd64d26e3034dcf753885ad}{\-Mo\-Cap\-Options\-Page\-::create\-Page} (\-Q\-Widget $\ast$parent)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___mo_cap_plugin_gaa5c95a0fa9de269561e8adb51407862a}{\-Mo\-Cap\-Options\-Page\-::apply} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___mo_cap_plugin_ga00ac715fe603d78584cf772904147f38}{\-Mo\-Cap\-Options\-Page\-::finish} ()
+\item 
+bool \hyperlink{group___mo_cap_plugin_gaea29fdd6e8a640f92167d6a581d23eac}{\-Mo\-Cap\-Options\-Page\-::is\-Decorated} () const 
+\item 
+\hyperlink{group___mo_cap_plugin_gae4dfd9a9bb3746b1311deb0968382442}{\-Mo\-Cap\-Plugin\-::\-Mo\-Cap\-Plugin} ()
+\item 
+\hyperlink{group___mo_cap_plugin_gae35a57590fd1156a31b514641702fb0e}{\-Mo\-Cap\-Plugin\-::$\sim$\-Mo\-Cap\-Plugin} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___mo_cap_plugin_ga44d4c75032b9cb5698f876ff3cee5e09}{\-Mo\-Cap\-Plugin\-::extensions\-Initialized} ()
+\item 
+bool \hyperlink{group___mo_cap_plugin_ga91a5975a6eb4f0771b265669e68b9732}{\-Mo\-Cap\-Plugin\-::initialize} (const \-Q\-String\-List \&arguments, \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} $\ast$error\-String)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___mo_cap_plugin_ga6ceccf865e672ec6799046772bb33346}{\-Mo\-Cap\-Plugin\-::shutdown} ()
+\item 
+static \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___mo_cap_plugin_ga6af38b170105a0cbf49fcd99f3765f76}{\-Mo\-Cap\-Plugin\-::add\-Mocap} (\hyperlink{class_mocap_creator}{\-Mocap\-Creator} $\ast$creator)
+\item 
+static \hyperlink{class_mocap_creator}{\-Mocap\-Creator} $\ast$ \hyperlink{group___mo_cap_plugin_ga1d86e516f13c5ef45cf76400e74fe8e5}{\-Mo\-Cap\-Plugin\-::get\-Mocap\-Creator} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} class\-Id)
+\item 
+\hyperlink{group___mo_cap_plugin_ga36cbb83db56d6d7eb8f5d30717d2c5e4}{\-Mo\-Cap\-Widget\-::\-Mo\-Cap\-Widget} (\-Q\-Widget $\ast$parent=0)
+\item 
+\hyperlink{group___mo_cap_plugin_gae095eb46b9b054f9601f677e9d82ad49}{\-Mo\-Cap\-Widget\-::$\sim$\-Mo\-Cap\-Widget} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___mo_cap_plugin_ga49fc96a517fa87b95341072a5bacd7f9}{\-Mo\-Cap\-Widget\-::set\-Setting\-Parameters} (const \hyperlink{group___mo_cap_plugin_ga6083347a5b3eb70e360f599354dc0f0b}{\-Mocap\-Settings} \&params)
+\item 
+\hyperlink{group___mo_cap_plugin_gaa94c0d1f5d60294b81cdb7d04f50c13e}{\-Nat\-Net\-::\-Nat\-Net} (const \hyperlink{group___mo_cap_plugin_ga6083347a5b3eb70e360f599354dc0f0b}{\-Mocap\-Settings} \&params, \-Ui\-\_\-\-Mo\-Cap\-Widget $\ast$widget)
+\item 
+\hyperlink{group___mo_cap_plugin_ga119cde1cc51a6b41f0e064565467c398}{\-Nat\-Net\-::$\sim$\-Nat\-Net} ()
+\item 
+bool \hyperlink{group___mo_cap_plugin_gaec62d88408f6c898d9cd6b6192b7dec8}{\-Nat\-Net\-::setup\-Process} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___mo_cap_plugin_gad51f36a3cda11c275da178b2e55ae688}{\-Nat\-Net\-::setup\-Udp\-Ports} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \&host, int in\-Port, int out\-Port)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___mo_cap_plugin_ga92f0c84eeffa49fd021a9c5ad837947a}{\-Nat\-Net\-::set\-Trackable\-Idx} (int track\-Idx)
+\begin{DoxyCompactList}\small\item\em \hyperlink{group___mo_cap_plugin_ga92f0c84eeffa49fd021a9c5ad837947a}{\-Nat\-Net\-::set\-Trackable\-Idx} \-Set the index of the trackable currently being tracked. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___mo_cap_plugin_gac1813312de25d16f42e41c5ffd3ced8c}{\-Nat\-Net\-::set\-Trackable\-Name} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} track\-Name)
+\begin{DoxyCompactList}\small\item\em \hyperlink{group___mo_cap_plugin_gac1813312de25d16f42e41c5ffd3ced8c}{\-Nat\-Net\-::set\-Trackable\-Name} \-Set the name of the trackable currently being tracked. \end{DoxyCompactList}\item 
+int \hyperlink{group___mo_cap_plugin_gabf29127f9bdc7e4667b0d495812ec2a0}{\-Nat\-Net\-::get\-Trackable\-Idx} ()
+\begin{DoxyCompactList}\small\item\em \hyperlink{group___mo_cap_plugin_gabf29127f9bdc7e4667b0d495812ec2a0}{\-Nat\-Net\-::get\-Trackable\-Idx} \-Get the index of the trackable currently being tracked. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___mo_cap_plugin_ga5c9af1ea346e9baf803728c2e0f94dc8}{\-Nat\-Net\-::set\-Widget} (\-Ui\-\_\-\-Mo\-Cap\-Widget $\ast$widget)
+\item 
+\hyperlink{group___mo_cap_plugin_ga7eceb6d31ea96db4e00bdf9c6765b4b7}{\-Nat\-Net\-Creator\-::\-Nat\-Net\-Creator} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \&class\-Id, const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \&description)
+\item 
+\hyperlink{class_exporter}{\-Exporter} $\ast$ \hyperlink{group___mo_cap_plugin_ga1d23a419317ce602e13c9dffd77de68a}{\-Nat\-Net\-Creator\-::create\-Exporter} (const \hyperlink{group___mo_cap_plugin_ga6083347a5b3eb70e360f599354dc0f0b}{\-Mocap\-Settings} \&params, \-Ui\-\_\-\-Mo\-Cap\-Widget $\ast$widget)
+\end{DoxyCompactItemize}
+\subsection*{\-Variables}
+\begin{DoxyCompactItemize}
+\item 
+float \hyperlink{group___mo_cap_plugin_ga30e6260b59e9997c3b1bec5bc9347ec3}{\-\_\-\-F\-L\-I\-G\-H\-T\-\_\-\-P\-A\-R\-A\-M\-::ias}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___mo_cap_plugin_ga2bff4ba6b082ec966a7075df9e19d66b}{\-\_\-\-C\-O\-N\-N\-E\-C\-T\-I\-O\-N\-::exporter\-Id}
+\item 
+bool \hyperlink{group___mo_cap_plugin_ga4d9a7f3563731377f2905f1b18e17d52}{\-\_\-\-C\-O\-N\-N\-E\-C\-T\-I\-O\-N\-::att\-Actual\-H\-W}
+\item 
+bool \hyperlink{group___mo_cap_plugin_gacd70b3a85672be0f8311fc107768c93f}{\-\_\-\-C\-O\-N\-N\-E\-C\-T\-I\-O\-N\-::att\-Actual\-Mocap}
+\item 
+quint16 \hyperlink{group___mo_cap_plugin_ga14fb71ed2eb43b817ee157f6cdcb84eb}{\-\_\-\-C\-O\-N\-N\-E\-C\-T\-I\-O\-N\-::att\-Actual\-Rate}
+\item 
+float \hyperlink{group___mo_cap_plugin_ga65a9de4b87de2a4aaff0760f2b912407}{\-Mocap\-Output2\-Hardware\-::longitude}
+\item 
+float \hyperlink{group___mo_cap_plugin_gacfbf5cf513abfc200b4fd5c14dad294c}{\-Mocap\-Output2\-Hardware\-::latitude}
+\item 
+float \hyperlink{group___mo_cap_plugin_ga6f5725506a151cfd49e1c6b80c2e948f}{\-Mocap\-Output2\-Hardware\-::altitude}
+\item 
+float \hyperlink{group___mo_cap_plugin_ga75792a6a49b67e8d7b63a219ca0f2ed2}{\-Mocap\-Output2\-Hardware\-::pos\-N}
+\item 
+float \hyperlink{group___mo_cap_plugin_gaeb486e47d519b624cd7b598eb6f33169}{\-Mocap\-Output2\-Hardware\-::pos\-E}
+\item 
+float \hyperlink{group___mo_cap_plugin_ga60ef031584e000727250ea18e4e0ce36}{\-Mocap\-Output2\-Hardware\-::pos\-D}
+\item 
+float \hyperlink{group___mo_cap_plugin_gadfa715081f6bc74af7efc32c39d720f2}{\-Mocap\-Output2\-Hardware\-::vel\-North}
+\item 
+float \hyperlink{group___mo_cap_plugin_gaa2d1409fe871a4dd45265e2412d53f67}{\-Mocap\-Output2\-Hardware\-::vel\-East}
+\item 
+float \hyperlink{group___mo_cap_plugin_ga2ffad0e2c72a914bb6f9ff031aeb9b79}{\-Mocap\-Output2\-Hardware\-::vel\-Down}
+\item 
+float \hyperlink{group___mo_cap_plugin_ga34811521a55099df3d905b19ab544638}{\-Mocap\-Output2\-Hardware\-::acc\-X}
+\item 
+float \hyperlink{group___mo_cap_plugin_gad47738d7c1cd424f7d9508b4d44a4043}{\-Mocap\-Output2\-Hardware\-::acc\-Y}
+\item 
+float \hyperlink{group___mo_cap_plugin_gae919304b20a26d362f67b32533118ce7}{\-Mocap\-Output2\-Hardware\-::acc\-Z}
+\item 
+float \hyperlink{group___mo_cap_plugin_ga6db93cd0e529bbfcb33af3293ab16c62}{\-Mocap\-Output2\-Hardware\-::roll}
+\item 
+float \hyperlink{group___mo_cap_plugin_ga5e6750ec09f6ef2ebd014c746421e952}{\-Mocap\-Output2\-Hardware\-::pitch}
+\item 
+float \hyperlink{group___mo_cap_plugin_ga423b4c125aa4c8caf1001d16de1dd3f9}{\-Mocap\-Output2\-Hardware\-::yaw}
+\item 
+float \hyperlink{group___mo_cap_plugin_ga178bcd8c81449eb7c9cc5c5bb203e591}{\-Mocap\-Output2\-Hardware\-::roll\-Rate}
+\item 
+float \hyperlink{group___mo_cap_plugin_ga03ecf7a98f0b6197c65a71fa1e2a1237}{\-Mocap\-Output2\-Hardware\-::pitch\-Rate}
+\item 
+float \hyperlink{group___mo_cap_plugin_gaddfb563223971f02a45ebd14034b2a06}{\-Mocap\-Output2\-Hardware\-::yaw\-Rate}
+\item 
+float \hyperlink{group___mo_cap_plugin_gab0735b3db4133ae25e01a4ee6dc3347f}{\-Mocap\-Output2\-Hardware\-::groundspeed}
+\item 
+float \hyperlink{group___mo_cap_plugin_ga521e946322d097a3b14b24f53ce1568f}{\-Mocap\-Output2\-Hardware\-::pressure}
+\item 
+float \hyperlink{group___mo_cap_plugin_gaa66ae80cf0902b622dea302a9a588fe8}{\-Mocap\-Output2\-Hardware\-::temperature}
+\item 
+float \hyperlink{group___mo_cap_plugin_ga0c6d6722adb60229659cfe26d61ec953}{\-Mocap\-Output2\-Hardware\-::del\-T}
+\item 
+\-Q\-Process $\ast$ \hyperlink{group___mo_cap_plugin_ga3e0f59d7efdaba4ae56afc474e929a17}{\-Exporter\-::exporter\-Process}
+\item 
+\-Q\-Time $\ast$ \hyperlink{group___mo_cap_plugin_gac71372aac301b0f6d2ae67c3a5c4be63}{\-Exporter\-::time}
+\item 
+\-Q\-Udp\-Socket $\ast$ \hyperlink{group___mo_cap_plugin_ga01c0037d3abe6f3cfc9521e865cbe65f}{\-Exporter\-::in\-Socket}
+\item 
+\-Q\-Udp\-Socket $\ast$ \hyperlink{group___mo_cap_plugin_gad4adc615f73413f479e48983cce6f3e0}{\-Exporter\-::out\-Socket}
+\item 
+\-Actuator\-Command $\ast$ \hyperlink{group___mo_cap_plugin_gaaa8cd64f3935d77113b41cf84f398e78}{\-Exporter\-::act\-Command}
+\item 
+\-Actuator\-Desired $\ast$ \hyperlink{group___mo_cap_plugin_ga480be6f8874e252461095878c7b41d08}{\-Exporter\-::act\-Desired}
+\item 
+\-Manual\-Control\-Command $\ast$ \hyperlink{group___mo_cap_plugin_ga8855725831e82f6e02e0caba72c0dd7b}{\-Exporter\-::man\-Ctrl\-Command}
+\item 
+\-Flight\-Status $\ast$ \hyperlink{group___mo_cap_plugin_ga63bef489a0fb9ccf02eadc577d487c10}{\-Exporter\-::flight\-Status}
+\item 
+\-Baro\-Altitude $\ast$ \hyperlink{group___mo_cap_plugin_ga15711fcb53727148f4c62b5bfa1ce9f1}{\-Exporter\-::baro\-Alt}
+\item 
+\-Airspeed\-Actual $\ast$ \hyperlink{group___mo_cap_plugin_ga933ba2309643df8ddd342ae4cf010fca}{\-Exporter\-::airspeed\-Actual}
+\item 
+\-Attitude\-Actual $\ast$ \hyperlink{group___mo_cap_plugin_gaa96960187d095cbbc69ba0cc08d776a7}{\-Exporter\-::att\-Actual}
+\item 
+\-Attitude\-Settings $\ast$ \hyperlink{group___mo_cap_plugin_gaa7be67cf3fe5bd561bfd56b81ace46d6}{\-Exporter\-::att\-Settings}
+\item 
+\-Velocity\-Actual $\ast$ \hyperlink{group___mo_cap_plugin_gaf7dc7b4cb9c561edf9c8df28131eeac3}{\-Exporter\-::vel\-Actual}
+\item 
+\-G\-P\-S\-Position $\ast$ \hyperlink{group___mo_cap_plugin_gab8839ee3d842d22d5717905f7dea20cd}{\-Exporter\-::gps\-Pos}
+\item 
+\-G\-P\-S\-Velocity $\ast$ \hyperlink{group___mo_cap_plugin_ga75de3c84f1e0fec7aec493cb1a27b9a8}{\-Exporter\-::gps\-Vel}
+\item 
+\-Position\-Actual $\ast$ \hyperlink{group___mo_cap_plugin_ga48e371afeb39f31ab368d804798313f5}{\-Exporter\-::pos\-Actual}
+\item 
+\-Home\-Location $\ast$ \hyperlink{group___mo_cap_plugin_ga9a7c0ada8bbd6bf8c95ca54f123befbe}{\-Exporter\-::pos\-Home}
+\item 
+\-Accels $\ast$ \hyperlink{group___mo_cap_plugin_ga4dd5a6587431c70720881c0540f065c9}{\-Exporter\-::accels}
+\item 
+\-Gyros $\ast$ \hyperlink{group___mo_cap_plugin_ga2b6042b4adabe6985d92cc22f33cfc9a}{\-Exporter\-::gyros}
+\item 
+\-G\-C\-S\-Telemetry\-Stats $\ast$ \hyperlink{group___mo_cap_plugin_gad3a5a6122f88f8f4b44847053a7d830b}{\-Exporter\-::tel\-Stats}
+\item 
+\-G\-C\-S\-Receiver $\ast$ \hyperlink{group___mo_cap_plugin_ga49b2f0b0762b95f0da3f7c4a7330b941}{\-Exporter\-::gcs\-Receiver}
+\item 
+\hyperlink{group___mo_cap_plugin_ga6083347a5b3eb70e360f599354dc0f0b}{\-Mocap\-Settings} \hyperlink{group___mo_cap_plugin_ga50484fe9f9410948c133b1c589f73f76}{\-Exporter\-::settings}
+\item 
+\hyperlink{group___h_i_t_l_plugin_ga7bda7a22b899fe8dff0ba9a0cae99da6}{\-F\-L\-I\-G\-H\-T\-\_\-\-P\-A\-R\-A\-M} \hyperlink{group___mo_cap_plugin_ga6c17ed61598da30f012113ffbff26816}{\-Exporter\-::current}
+\item 
+\hyperlink{group___h_i_t_l_plugin_ga7bda7a22b899fe8dff0ba9a0cae99da6}{\-F\-L\-I\-G\-H\-T\-\_\-\-P\-A\-R\-A\-M} \hyperlink{group___mo_cap_plugin_ga5ef84da1bd9cf4e1d625c33beb5a148c}{\-Exporter\-::old}
+\item 
+\-Q\-Mutex \hyperlink{group___mo_cap_plugin_ga55a5f9c6eb2d80cfc96523f4592f5417}{\-Exporter\-::lock}
+\item 
+static \-Q\-List$<$ \hyperlink{class_mocap_creator}{\-Mocap\-Creator} $\ast$ $>$ \hyperlink{group___mo_cap_plugin_gaca68fd324d804c3124d7ba64b5d0294a}{\-Mo\-Cap\-Plugin\-::type\-Mocaps}
+\end{DoxyCompactItemize}
+\subsection*{\-Signals}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___mo_cap_plugin_ga52a7d20152fb6923f10c6940a7286396}{\-Exporter\-::autopilot\-Connected} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___mo_cap_plugin_ga94d2323c5abe7b5fb873f894f1115462}{\-Exporter\-::autopilot\-Disconnected} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___mo_cap_plugin_gab2bac0f39a4f396ad4d99829d85ca4d9}{\-Exporter\-::exporter\-Connected} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___mo_cap_plugin_gae4dad27cecdf9ed206a7ebb5b711a23d}{\-Exporter\-::exporter\-Disconnected} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___mo_cap_plugin_gafcdca00f55b093906997cc158f7fa39c}{\-Exporter\-::process\-Output} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} str)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___mo_cap_plugin_gaced02c5dc9cdfc8e07c7be1b3ea03d4f}{\-Exporter\-::delete\-Exporter\-Process} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___mo_cap_plugin_ga8588f1bba3155708a434f543372d7f7d}{\-Exporter\-::my\-Start} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___mo_cap_plugin_gacbc122d8949ff735984095e5d5bcce1b}{\-Mo\-Cap\-Gadget\-::change\-Configuration} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___mo_cap_plugin_ga34afe7fdc30edaad2ec82fdb72275fa8}{\-Mo\-Cap\-Widget\-::delete\-Exporter} ()
+\end{DoxyCompactItemize}
+\subsection*{\-Public \-Slots}
+\begin{DoxyCompactItemize}
+\item 
+virtual \-Q\-\_\-\-I\-N\-V\-O\-K\-A\-B\-L\-E bool \hyperlink{group___mo_cap_plugin_gad43c05ef37398dad0c09a5103beb27d8}{\-Exporter\-::setup\-Process} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___mo_cap_plugin_ga1c9c0bbef4c538125abfd27b6fc47208}{\-Mo\-Cap\-Configuration\-::set\-Mocap\-Settings} (const \hyperlink{group___mo_cap_plugin_ga6083347a5b3eb70e360f599354dc0f0b}{\-Mocap\-Settings} \&params)
+\end{DoxyCompactItemize}
+\subsection*{\-Properties}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___mo_cap_plugin_ga6083347a5b3eb70e360f599354dc0f0b}{\-Mocap\-Settings} \hyperlink{group___mo_cap_plugin_ga7211120cc5d6c7feffb594a36552a9af}{\-Mo\-Cap\-Configuration\-::settings}
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-Motion capture plugin which communicates via \-U\-D\-P. 
+
+\subsection{\-Typedef \-Documentation}
+\hypertarget{group___mo_cap_plugin_ga7bda7a22b899fe8dff0ba9a0cae99da6}{\index{\-Motion Capture Plugin@{\-Motion Capture Plugin}!\-F\-L\-I\-G\-H\-T\-\_\-\-P\-A\-R\-A\-M@{\-F\-L\-I\-G\-H\-T\-\_\-\-P\-A\-R\-A\-M}}
+\index{\-F\-L\-I\-G\-H\-T\-\_\-\-P\-A\-R\-A\-M@{\-F\-L\-I\-G\-H\-T\-\_\-\-P\-A\-R\-A\-M}!Motion Capture Plugin@{\-Motion Capture Plugin}}
+\subsubsection[{\-F\-L\-I\-G\-H\-T\-\_\-\-P\-A\-R\-A\-M}]{\setlength{\rightskip}{0pt plus 5cm}typedef struct {\bf \-\_\-\-F\-L\-I\-G\-H\-T\-\_\-\-P\-A\-R\-A\-M}  {\bf \-F\-L\-I\-G\-H\-T\-\_\-\-P\-A\-R\-A\-M}}}\label{group___mo_cap_plugin_ga7bda7a22b899fe8dff0ba9a0cae99da6}
+just imagine this was a class without methods and all public properties \hypertarget{group___mo_cap_plugin_ga6083347a5b3eb70e360f599354dc0f0b}{\index{\-Motion Capture Plugin@{\-Motion Capture Plugin}!\-Mocap\-Settings@{\-Mocap\-Settings}}
+\index{\-Mocap\-Settings@{\-Mocap\-Settings}!Motion Capture Plugin@{\-Motion Capture Plugin}}
+\subsubsection[{\-Mocap\-Settings}]{\setlength{\rightskip}{0pt plus 5cm}typedef struct {\bf \-\_\-\-C\-O\-N\-N\-E\-C\-T\-I\-O\-N}  {\bf \-Mocap\-Settings}}}\label{group___mo_cap_plugin_ga6083347a5b3eb70e360f599354dc0f0b}
+
+
+\subsection{\-Function \-Documentation}
+\hypertarget{group___mo_cap_plugin_ga6af38b170105a0cbf49fcd99f3765f76}{\index{\-Motion Capture Plugin@{\-Motion Capture Plugin}!add\-Mocap@{add\-Mocap}}
+\index{add\-Mocap@{add\-Mocap}!Motion Capture Plugin@{\-Motion Capture Plugin}}
+\subsubsection[{add\-Mocap}]{\setlength{\rightskip}{0pt plus 5cm}static {\bf void} {\bf \-Mo\-Cap\-Plugin\-::add\-Mocap} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Mocap\-Creator} $\ast$}]{creator}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, static\mbox{]}}}}\label{group___mo_cap_plugin_ga6af38b170105a0cbf49fcd99f3765f76}
+
+
+\-Definition at line 50 of file mocapplugin.\-h.
+
+\hypertarget{group___mo_cap_plugin_gaa5c95a0fa9de269561e8adb51407862a}{\index{\-Motion Capture Plugin@{\-Motion Capture Plugin}!apply@{apply}}
+\index{apply@{apply}!Motion Capture Plugin@{\-Motion Capture Plugin}}
+\subsubsection[{apply}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Mo\-Cap\-Options\-Page\-::apply} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___mo_cap_plugin_gaa5c95a0fa9de269561e8adb51407862a}
+
+
+\-Implements \hyperlink{group___core_plugin_ga05fa0c9b91da02a0f2fed11d2d6afed0}{\-Core\-::\-I\-Options\-Page}.
+
+
+
+\-Definition at line 108 of file mocapoptionspage.\-cpp.
+
+\hypertarget{group___mo_cap_plugin_ga775e3a65e804fbbeba1680da9b949286}{\index{\-Motion Capture Plugin@{\-Motion Capture Plugin}!\-Class\-Id@{\-Class\-Id}}
+\index{\-Class\-Id@{\-Class\-Id}!Motion Capture Plugin@{\-Motion Capture Plugin}}
+\subsubsection[{\-Class\-Id}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Q\-String} {\bf \-Mocap\-Creator\-::\-Class\-Id} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___mo_cap_plugin_ga775e3a65e804fbbeba1680da9b949286}
+
+
+\-Definition at line 300 of file exporter.\-h.
+
+\hypertarget{group___mo_cap_plugin_gadc51635684ea1cfd6355b0ad8e0b40a6}{\index{\-Motion Capture Plugin@{\-Motion Capture Plugin}!clone@{clone}}
+\index{clone@{clone}!Motion Capture Plugin@{\-Motion Capture Plugin}}
+\subsubsection[{clone}]{\setlength{\rightskip}{0pt plus 5cm}\-I\-U\-A\-V\-Gadget\-Configuration $\ast$ {\bf \-Mo\-Cap\-Configuration\-::clone} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___mo_cap_plugin_gadc51635684ea1cfd6355b0ad8e0b40a6}
+
+
+\-Implements \hyperlink{group___core_plugin_ga35f72dc89919925fd591fa509ebbf7dc}{\-Core\-::\-I\-U\-A\-V\-Gadget\-Configuration}.
+
+
+
+\-Definition at line 129 of file mocapconfiguration.\-cpp.
+
+\hypertarget{group___mo_cap_plugin_gacb27abd92b935f31e14c22c97795e4e6}{\index{\-Motion Capture Plugin@{\-Motion Capture Plugin}!create\-Configuration@{create\-Configuration}}
+\index{create\-Configuration@{create\-Configuration}!Motion Capture Plugin@{\-Motion Capture Plugin}}
+\subsubsection[{create\-Configuration}]{\setlength{\rightskip}{0pt plus 5cm}\-I\-U\-A\-V\-Gadget\-Configuration $\ast$ {\bf \-Mo\-Cap\-Factory\-::create\-Configuration} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Settings $\ast$}]{q\-Settings}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___mo_cap_plugin_gacb27abd92b935f31e14c22c97795e4e6}
+
+
+\-Reimplemented from \hyperlink{group___core_plugin_gae26104d7db90a65069c2bb654ecd5026}{\-Core\-::\-I\-U\-A\-V\-Gadget\-Factory}.
+
+
+
+\-Definition at line 53 of file mocapfactory.\-cpp.
+
+\hypertarget{group___mo_cap_plugin_ga1d23a419317ce602e13c9dffd77de68a}{\index{\-Motion Capture Plugin@{\-Motion Capture Plugin}!create\-Exporter@{create\-Exporter}}
+\index{create\-Exporter@{create\-Exporter}!Motion Capture Plugin@{\-Motion Capture Plugin}}
+\subsubsection[{create\-Exporter}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Exporter}$\ast$ {\bf \-Nat\-Net\-Creator\-::create\-Exporter} (
+\begin{DoxyParamCaption}
+\item[{const {\bf \-Mocap\-Settings} \&}]{params, }
+\item[{\-Ui\-\_\-\-Mo\-Cap\-Widget $\ast$}]{widget}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, virtual\mbox{]}}}}\label{group___mo_cap_plugin_ga1d23a419317ce602e13c9dffd77de68a}
+
+
+\-Implements \hyperlink{group___mo_cap_plugin_gaa300503bdf633291aeab43797cc61939}{\-Mocap\-Creator}.
+
+
+
+\-Definition at line 73 of file natnet.\-h.
+
+\hypertarget{group___mo_cap_plugin_gaa300503bdf633291aeab43797cc61939}{\index{\-Motion Capture Plugin@{\-Motion Capture Plugin}!create\-Exporter@{create\-Exporter}}
+\index{create\-Exporter@{create\-Exporter}!Motion Capture Plugin@{\-Motion Capture Plugin}}
+\subsubsection[{create\-Exporter}]{\setlength{\rightskip}{0pt plus 5cm}virtual {\bf \-Exporter}$\ast$ {\bf \-Mocap\-Creator\-::create\-Exporter} (
+\begin{DoxyParamCaption}
+\item[{const {\bf \-Mocap\-Settings} \&}]{params, }
+\item[{\-Ui\-\_\-\-Mo\-Cap\-Widget $\ast$}]{widget}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}pure virtual\mbox{]}}}}\label{group___mo_cap_plugin_gaa300503bdf633291aeab43797cc61939}
+
+
+\-Implemented in \hyperlink{group___mo_cap_plugin_ga1d23a419317ce602e13c9dffd77de68a}{\-Nat\-Net\-Creator}.
+
+\hypertarget{group___mo_cap_plugin_ga4a3cc25be4de282c2017c0e9db77e31d}{\index{\-Motion Capture Plugin@{\-Motion Capture Plugin}!create\-Gadget@{create\-Gadget}}
+\index{create\-Gadget@{create\-Gadget}!Motion Capture Plugin@{\-Motion Capture Plugin}}
+\subsubsection[{create\-Gadget}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Core\-::\-I\-U\-A\-V\-Gadget} $\ast$ {\bf \-Mo\-Cap\-Factory\-::create\-Gadget} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Widget $\ast$}]{parent}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___mo_cap_plugin_ga4a3cc25be4de282c2017c0e9db77e31d}
+
+
+\-Implements \hyperlink{group___core_plugin_ga72d6fe5bbef9f4fa2333028c7a324f66}{\-Core\-::\-I\-U\-A\-V\-Gadget\-Factory}.
+
+
+
+\-Definition at line 45 of file mocapfactory.\-cpp.
+
+\hypertarget{group___mo_cap_plugin_gaea471065fa9f7d73e26e9b744f2bb117}{\index{\-Motion Capture Plugin@{\-Motion Capture Plugin}!create\-Options\-Page@{create\-Options\-Page}}
+\index{create\-Options\-Page@{create\-Options\-Page}!Motion Capture Plugin@{\-Motion Capture Plugin}}
+\subsubsection[{create\-Options\-Page}]{\setlength{\rightskip}{0pt plus 5cm}\-I\-Options\-Page $\ast$ {\bf \-Mo\-Cap\-Factory\-::create\-Options\-Page} (
+\begin{DoxyParamCaption}
+\item[{\-I\-U\-A\-V\-Gadget\-Configuration $\ast$}]{config}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___mo_cap_plugin_gaea471065fa9f7d73e26e9b744f2bb117}
+
+
+\-Reimplemented from \hyperlink{group___core_plugin_gaf11d34909f72b86882937f7a946ad0da}{\-Core\-::\-I\-U\-A\-V\-Gadget\-Factory}.
+
+
+
+\-Definition at line 58 of file mocapfactory.\-cpp.
+
+\hypertarget{group___mo_cap_plugin_gab507e9ec6cd64d26e3034dcf753885ad}{\index{\-Motion Capture Plugin@{\-Motion Capture Plugin}!create\-Page@{create\-Page}}
+\index{create\-Page@{create\-Page}!Motion Capture Plugin@{\-Motion Capture Plugin}}
+\subsubsection[{create\-Page}]{\setlength{\rightskip}{0pt plus 5cm}\-Q\-Widget $\ast$ {\bf \-Mo\-Cap\-Options\-Page\-::create\-Page} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Widget $\ast$}]{parent}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___mo_cap_plugin_gab507e9ec6cd64d26e3034dcf753885ad}
+
+
+\-Implements \hyperlink{group___core_plugin_gac70a4473b3e086d0fa9849c431fb0672}{\-Core\-::\-I\-Options\-Page}.
+
+
+
+\-Definition at line 47 of file mocapoptionspage.\-cpp.
+
+\hypertarget{group___mo_cap_plugin_ga0eb79ab6540fef8926129b47aef0a2a8}{\index{\-Motion Capture Plugin@{\-Motion Capture Plugin}!\-Description@{\-Description}}
+\index{\-Description@{\-Description}!Motion Capture Plugin@{\-Motion Capture Plugin}}
+\subsubsection[{\-Description}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Q\-String} {\bf \-Mocap\-Creator\-::\-Description} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___mo_cap_plugin_ga0eb79ab6540fef8926129b47aef0a2a8}
+
+
+\-Definition at line 301 of file exporter.\-h.
+
+\hypertarget{group___mo_cap_plugin_ga3c11abedc19c26ed0e0212e152f10685}{\index{\-Motion Capture Plugin@{\-Motion Capture Plugin}!\-Exporter@{\-Exporter}}
+\index{\-Exporter@{\-Exporter}!Motion Capture Plugin@{\-Motion Capture Plugin}}
+\subsubsection[{\-Exporter}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Exporter\-::\-Exporter} (
+\begin{DoxyParamCaption}
+\item[{const {\bf \-Mocap\-Settings} \&}]{params}
+\end{DoxyParamCaption}
+)}}\label{group___mo_cap_plugin_ga3c11abedc19c26ed0e0212e152f10685}
+
+
+\-Definition at line 40 of file exporter.\-cpp.
+
+\hypertarget{group___mo_cap_plugin_gaebb24e563941debf0abc1897ef3c89e3}{\index{\-Motion Capture Plugin@{\-Motion Capture Plugin}!\-Exporter\-Id@{\-Exporter\-Id}}
+\index{\-Exporter\-Id@{\-Exporter\-Id}!Motion Capture Plugin@{\-Motion Capture Plugin}}
+\subsubsection[{\-Exporter\-Id}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Q\-String} {\bf \-Exporter\-::\-Exporter\-Id} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___mo_cap_plugin_gaebb24e563941debf0abc1897ef3c89e3}
+
+
+\-Definition at line 190 of file exporter.\-h.
+
+\hypertarget{group___mo_cap_plugin_ga44d4c75032b9cb5698f876ff3cee5e09}{\index{\-Motion Capture Plugin@{\-Motion Capture Plugin}!extensions\-Initialized@{extensions\-Initialized}}
+\index{extensions\-Initialized@{extensions\-Initialized}!Motion Capture Plugin@{\-Motion Capture Plugin}}
+\subsubsection[{extensions\-Initialized}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Mo\-Cap\-Plugin\-::extensions\-Initialized} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___mo_cap_plugin_ga44d4c75032b9cb5698f876ff3cee5e09}
+\-Called after the \-I\-Plugin\-::initialize() method has been called, and after both the \-I\-Plugin\-::initialize() and \-I\-Plugin\-::extensions\-Initialized() methods of plugins that depend on this plugin have been called. \-In this method, the plugin can assume that plugins that depend on this plugin are fully 'up and running'. \-It is a good place to look in the plugin manager's object pool for objects that have been provided by dependent plugins. \begin{DoxySeeAlso}{\-See also}
+\hyperlink{group___mo_cap_plugin_ga91a5975a6eb4f0771b265669e68b9732}{initialize()} 
+\end{DoxySeeAlso}
+
+
+\-Implements \hyperlink{class_extension_system_1_1_i_plugin_a1db3a7fb242fca02229f9a3be4fd6610}{\-Extension\-System\-::\-I\-Plugin}.
+
+
+
+\-Definition at line 60 of file mocapplugin.\-cpp.
+
+\hypertarget{group___mo_cap_plugin_ga00ac715fe603d78584cf772904147f38}{\index{\-Motion Capture Plugin@{\-Motion Capture Plugin}!finish@{finish}}
+\index{finish@{finish}!Motion Capture Plugin@{\-Motion Capture Plugin}}
+\subsubsection[{finish}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Mo\-Cap\-Options\-Page\-::finish} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___mo_cap_plugin_ga00ac715fe603d78584cf772904147f38}
+
+
+\-Implements \hyperlink{group___core_plugin_ga47cf2602b6ee72a4971b1f0a4e1d887e}{\-Core\-::\-I\-Options\-Page}.
+
+
+
+\-Definition at line 156 of file mocapoptionspage.\-cpp.
+
+\hypertarget{group___mo_cap_plugin_gab39e02794679a919f0d20b1901ec28c4}{\index{\-Motion Capture Plugin@{\-Motion Capture Plugin}!generate\-Noise@{generate\-Noise}}
+\index{generate\-Noise@{generate\-Noise}!Motion Capture Plugin@{\-Motion Capture Plugin}}
+\subsubsection[{generate\-Noise}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Noise} {\bf \-Mo\-Cap\-Noise\-Generation\-::generate\-Noise} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___mo_cap_plugin_gab39e02794679a919f0d20b1901ec28c4}
+
+
+\-Definition at line 48 of file mocapnoisegeneration.\-cpp.
+
+\hypertarget{group___mo_cap_plugin_ga1d86e516f13c5ef45cf76400e74fe8e5}{\index{\-Motion Capture Plugin@{\-Motion Capture Plugin}!get\-Mocap\-Creator@{get\-Mocap\-Creator}}
+\index{get\-Mocap\-Creator@{get\-Mocap\-Creator}!Motion Capture Plugin@{\-Motion Capture Plugin}}
+\subsubsection[{get\-Mocap\-Creator}]{\setlength{\rightskip}{0pt plus 5cm}static {\bf \-Mocap\-Creator}$\ast$ {\bf \-Mo\-Cap\-Plugin\-::get\-Mocap\-Creator} (
+\begin{DoxyParamCaption}
+\item[{const {\bf \-Q\-String}}]{class\-Id}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, static\mbox{]}}}}\label{group___mo_cap_plugin_ga1d86e516f13c5ef45cf76400e74fe8e5}
+
+
+\-Definition at line 55 of file mocapplugin.\-h.
+
+\hypertarget{group___mo_cap_plugin_ga0fe5a906dcd6c5d3dd92267217fdb9ef}{\index{\-Motion Capture Plugin@{\-Motion Capture Plugin}!get\-Noise@{get\-Noise}}
+\index{get\-Noise@{get\-Noise}!Motion Capture Plugin@{\-Motion Capture Plugin}}
+\subsubsection[{get\-Noise}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Noise} {\bf \-Mo\-Cap\-Noise\-Generation\-::get\-Noise} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___mo_cap_plugin_ga0fe5a906dcd6c5d3dd92267217fdb9ef}
+
+
+\-Definition at line 44 of file mocapnoisegeneration.\-cpp.
+
+\hypertarget{group___mo_cap_plugin_gabf29127f9bdc7e4667b0d495812ec2a0}{\index{\-Motion Capture Plugin@{\-Motion Capture Plugin}!get\-Trackable\-Idx@{get\-Trackable\-Idx}}
+\index{get\-Trackable\-Idx@{get\-Trackable\-Idx}!Motion Capture Plugin@{\-Motion Capture Plugin}}
+\subsubsection[{get\-Trackable\-Idx}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf \-Nat\-Net\-::get\-Trackable\-Idx} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___mo_cap_plugin_gabf29127f9bdc7e4667b0d495812ec2a0}
+
+
+\hyperlink{group___mo_cap_plugin_gabf29127f9bdc7e4667b0d495812ec2a0}{\-Nat\-Net\-::get\-Trackable\-Idx} \-Get the index of the trackable currently being tracked. 
+
+\begin{DoxyReturn}{\-Returns}
+
+\end{DoxyReturn}
+
+
+\-Definition at line 116 of file natnet.\-cpp.
+
+\hypertarget{group___mo_cap_plugin_ga91a5975a6eb4f0771b265669e68b9732}{\index{\-Motion Capture Plugin@{\-Motion Capture Plugin}!initialize@{initialize}}
+\index{initialize@{initialize}!Motion Capture Plugin@{\-Motion Capture Plugin}}
+\subsubsection[{initialize}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-Mo\-Cap\-Plugin\-::initialize} (
+\begin{DoxyParamCaption}
+\item[{const \-Q\-String\-List \&}]{arguments, }
+\item[{{\bf \-Q\-String} $\ast$}]{error\-String}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___mo_cap_plugin_ga91a5975a6eb4f0771b265669e68b9732}
+\-Called after the plugin has been loaded and the \-I\-Plugin instance has been created. \-The initialize methods of plugins that depend on this plugin are called after the initialize method of this plugin has been called. \-Plugins should initialize their internal state in this method. \-Returns if initialization of successful. \-If it wasn't successful, the {\itshape error\-String\/} should be set to a user-\/readable message describing the reason. \begin{DoxySeeAlso}{\-See also}
+\hyperlink{group___mo_cap_plugin_ga44d4c75032b9cb5698f876ff3cee5e09}{extensions\-Initialized()} 
+\end{DoxySeeAlso}
+
+
+\-Implements \hyperlink{class_extension_system_1_1_i_plugin_a9f3dc957317279daed393fdf4894e944}{\-Extension\-System\-::\-I\-Plugin}.
+
+
+
+\-Definition at line 47 of file mocapplugin.\-cpp.
+
+\hypertarget{group___mo_cap_plugin_ga31d137dece30e0f249c4162df4b5b105}{\index{\-Motion Capture Plugin@{\-Motion Capture Plugin}!\-Instances@{\-Instances}}
+\index{\-Instances@{\-Instances}!Motion Capture Plugin@{\-Motion Capture Plugin}}
+\subsubsection[{\-Instances}]{\setlength{\rightskip}{0pt plus 5cm}static \-Q\-String\-List\& {\bf \-Exporter\-::\-Instances} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, static\mbox{]}}}}\label{group___mo_cap_plugin_ga31d137dece30e0f249c4162df4b5b105}
+
+
+\-Definition at line 197 of file exporter.\-h.
+
+\hypertarget{group___mo_cap_plugin_gaec7e0cea763639d6f79c4f61e9e78375}{\index{\-Motion Capture Plugin@{\-Motion Capture Plugin}!is\-Autopilot\-Connected@{is\-Autopilot\-Connected}}
+\index{is\-Autopilot\-Connected@{is\-Autopilot\-Connected}!Motion Capture Plugin@{\-Motion Capture Plugin}}
+\subsubsection[{is\-Autopilot\-Connected}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-Exporter\-::is\-Autopilot\-Connected} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___mo_cap_plugin_gaec7e0cea763639d6f79c4f61e9e78375}
+
+
+\-Definition at line 185 of file exporter.\-h.
+
+\hypertarget{group___mo_cap_plugin_gaea29fdd6e8a640f92167d6a581d23eac}{\index{\-Motion Capture Plugin@{\-Motion Capture Plugin}!is\-Decorated@{is\-Decorated}}
+\index{is\-Decorated@{is\-Decorated}!Motion Capture Plugin@{\-Motion Capture Plugin}}
+\subsubsection[{is\-Decorated}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-Mo\-Cap\-Options\-Page\-::is\-Decorated} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___mo_cap_plugin_gaea29fdd6e8a640f92167d6a581d23eac}
+
+
+\-Definition at line 55 of file mocapoptionspage.\-h.
+
+\hypertarget{group___mo_cap_plugin_gad9cd5c117dc3025d1ef55ba560b9e7c4}{\index{\-Motion Capture Plugin@{\-Motion Capture Plugin}!is\-Exporter\-Connected@{is\-Exporter\-Connected}}
+\index{is\-Exporter\-Connected@{is\-Exporter\-Connected}!Motion Capture Plugin@{\-Motion Capture Plugin}}
+\subsubsection[{is\-Exporter\-Connected}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-Exporter\-::is\-Exporter\-Connected} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___mo_cap_plugin_gad9cd5c117dc3025d1ef55ba560b9e7c4}
+
+
+\-Definition at line 186 of file exporter.\-h.
+
+\hypertarget{group___mo_cap_plugin_ga4b693d27267a22d345082b85e2ebe71e}{\index{\-Motion Capture Plugin@{\-Motion Capture Plugin}!\-Is\-Started@{\-Is\-Started}}
+\index{\-Is\-Started@{\-Is\-Started}!Motion Capture Plugin@{\-Motion Capture Plugin}}
+\subsubsection[{\-Is\-Started}]{\setlength{\rightskip}{0pt plus 5cm}static bool {\bf \-Exporter\-::\-Is\-Started} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, static\mbox{]}}}}\label{group___mo_cap_plugin_ga4b693d27267a22d345082b85e2ebe71e}
+
+
+\-Definition at line 195 of file exporter.\-h.
+
+\hypertarget{group___mo_cap_plugin_ga3ec1dcb97187294b0436fd7a0e5532d1}{\index{\-Motion Capture Plugin@{\-Motion Capture Plugin}!load\-Configuration@{load\-Configuration}}
+\index{load\-Configuration@{load\-Configuration}!Motion Capture Plugin@{\-Motion Capture Plugin}}
+\subsubsection[{load\-Configuration}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Mo\-Cap\-Gadget\-::load\-Configuration} (
+\begin{DoxyParamCaption}
+\item[{\-I\-U\-A\-V\-Gadget\-Configuration $\ast$}]{config}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___mo_cap_plugin_ga3ec1dcb97187294b0436fd7a0e5532d1}
+
+
+\-Reimplemented from \hyperlink{group___core_plugin_gaaf60a82b8643f54a42381600c52bbe8a}{\-Core\-::\-I\-U\-A\-V\-Gadget}.
+
+
+
+\-Definition at line 45 of file mocapgadget.\-cpp.
+
+\hypertarget{group___mo_cap_plugin_ga98e918c3063a6ec66da51a9532174cc8}{\index{\-Motion Capture Plugin@{\-Motion Capture Plugin}!\-Mo\-Cap\-Configuration@{\-Mo\-Cap\-Configuration}}
+\index{\-Mo\-Cap\-Configuration@{\-Mo\-Cap\-Configuration}!Motion Capture Plugin@{\-Motion Capture Plugin}}
+\subsubsection[{\-Mo\-Cap\-Configuration}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Mo\-Cap\-Configuration\-::\-Mo\-Cap\-Configuration} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Q\-String}}]{class\-Id, }
+\item[{\-Q\-Settings $\ast$}]{q\-Settings = {\ttfamily 0}, }
+\item[{\-Q\-Object $\ast$}]{parent = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}explicit\mbox{]}}}}\label{group___mo_cap_plugin_ga98e918c3063a6ec66da51a9532174cc8}
+
+
+\-Definition at line 31 of file mocapconfiguration.\-cpp.
+
+\hypertarget{group___mo_cap_plugin_ga90d59062e3d2c753e512451b60a977e8}{\index{\-Motion Capture Plugin@{\-Motion Capture Plugin}!\-Mocap\-Creator@{\-Mocap\-Creator}}
+\index{\-Mocap\-Creator@{\-Mocap\-Creator}!Motion Capture Plugin@{\-Motion Capture Plugin}}
+\subsubsection[{\-Mocap\-Creator}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Mocap\-Creator\-::\-Mocap\-Creator} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Q\-String}}]{id, }
+\item[{{\bf \-Q\-String}}]{descr}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___mo_cap_plugin_ga90d59062e3d2c753e512451b60a977e8}
+
+
+\-Definition at line 294 of file exporter.\-h.
+
+\hypertarget{group___mo_cap_plugin_ga4c5fc1e339794bad8a5ad59687380db0}{\index{\-Motion Capture Plugin@{\-Motion Capture Plugin}!\-Mo\-Cap\-Factory@{\-Mo\-Cap\-Factory}}
+\index{\-Mo\-Cap\-Factory@{\-Mo\-Cap\-Factory}!Motion Capture Plugin@{\-Motion Capture Plugin}}
+\subsubsection[{\-Mo\-Cap\-Factory}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Mo\-Cap\-Factory\-::\-Mo\-Cap\-Factory} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Object $\ast$}]{parent = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)}}\label{group___mo_cap_plugin_ga4c5fc1e339794bad8a5ad59687380db0}
+
+
+\-Definition at line 35 of file mocapfactory.\-cpp.
+
+\hypertarget{group___mo_cap_plugin_ga539f5d9892beeecc36e51d97dacd3263}{\index{\-Motion Capture Plugin@{\-Motion Capture Plugin}!\-Mo\-Cap\-Gadget@{\-Mo\-Cap\-Gadget}}
+\index{\-Mo\-Cap\-Gadget@{\-Mo\-Cap\-Gadget}!Motion Capture Plugin@{\-Motion Capture Plugin}}
+\subsubsection[{\-Mo\-Cap\-Gadget}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Mo\-Cap\-Gadget\-::\-Mo\-Cap\-Gadget} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Q\-String}}]{class\-Id, }
+\item[{{\bf \-Mo\-Cap\-Widget} $\ast$}]{widget, }
+\item[{\-Q\-Widget $\ast$}]{parent = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)}}\label{group___mo_cap_plugin_ga539f5d9892beeecc36e51d97dacd3263}
+
+
+\-Definition at line 33 of file mocapgadget.\-cpp.
+
+\hypertarget{group___mo_cap_plugin_ga8157e4474b5a83adb73bbf40aa9f5fe6}{\index{\-Motion Capture Plugin@{\-Motion Capture Plugin}!\-Mo\-Cap\-Noise\-Generation@{\-Mo\-Cap\-Noise\-Generation}}
+\index{\-Mo\-Cap\-Noise\-Generation@{\-Mo\-Cap\-Noise\-Generation}!Motion Capture Plugin@{\-Motion Capture Plugin}}
+\subsubsection[{\-Mo\-Cap\-Noise\-Generation}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Mo\-Cap\-Noise\-Generation\-::\-Mo\-Cap\-Noise\-Generation} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___mo_cap_plugin_ga8157e4474b5a83adb73bbf40aa9f5fe6}
+
+
+\-Definition at line 34 of file mocapnoisegeneration.\-cpp.
+
+\hypertarget{group___mo_cap_plugin_gaab2f4270ddf74e0e284cf1ea61d646c8}{\index{\-Motion Capture Plugin@{\-Motion Capture Plugin}!\-Mo\-Cap\-Options\-Page@{\-Mo\-Cap\-Options\-Page}}
+\index{\-Mo\-Cap\-Options\-Page@{\-Mo\-Cap\-Options\-Page}!Motion Capture Plugin@{\-Motion Capture Plugin}}
+\subsubsection[{\-Mo\-Cap\-Options\-Page}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Mo\-Cap\-Options\-Page\-::\-Mo\-Cap\-Options\-Page} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Mo\-Cap\-Configuration} $\ast$}]{conf, }
+\item[{\-Q\-Object $\ast$}]{parent = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}explicit\mbox{]}}}}\label{group___mo_cap_plugin_gaab2f4270ddf74e0e284cf1ea61d646c8}
+
+
+\-Definition at line 41 of file mocapoptionspage.\-cpp.
+
+\hypertarget{group___mo_cap_plugin_gae4dfd9a9bb3746b1311deb0968382442}{\index{\-Motion Capture Plugin@{\-Motion Capture Plugin}!\-Mo\-Cap\-Plugin@{\-Mo\-Cap\-Plugin}}
+\index{\-Mo\-Cap\-Plugin@{\-Mo\-Cap\-Plugin}!Motion Capture Plugin@{\-Motion Capture Plugin}}
+\subsubsection[{\-Mo\-Cap\-Plugin}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Mo\-Cap\-Plugin\-::\-Mo\-Cap\-Plugin} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___mo_cap_plugin_gae4dfd9a9bb3746b1311deb0968382442}
+
+
+\-Definition at line 37 of file mocapplugin.\-cpp.
+
+\hypertarget{group___mo_cap_plugin_ga36cbb83db56d6d7eb8f5d30717d2c5e4}{\index{\-Motion Capture Plugin@{\-Motion Capture Plugin}!\-Mo\-Cap\-Widget@{\-Mo\-Cap\-Widget}}
+\index{\-Mo\-Cap\-Widget@{\-Mo\-Cap\-Widget}!Motion Capture Plugin@{\-Motion Capture Plugin}}
+\subsubsection[{\-Mo\-Cap\-Widget}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Mo\-Cap\-Widget\-::\-Mo\-Cap\-Widget} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Widget $\ast$}]{parent = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)}}\label{group___mo_cap_plugin_ga36cbb83db56d6d7eb8f5d30717d2c5e4}
+
+
+\-Definition at line 46 of file mocapwidget.\-cpp.
+
+\hypertarget{group___mo_cap_plugin_gaad282295f6b9ba8910db1a11c56d1998}{\index{\-Motion Capture Plugin@{\-Motion Capture Plugin}!\-Name@{\-Name}}
+\index{\-Name@{\-Name}!Motion Capture Plugin@{\-Motion Capture Plugin}}
+\subsubsection[{\-Name}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Q\-String} {\bf \-Exporter\-::\-Name} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___mo_cap_plugin_gaad282295f6b9ba8910db1a11c56d1998}
+
+
+\-Definition at line 187 of file exporter.\-h.
+
+\hypertarget{group___mo_cap_plugin_gaa94c0d1f5d60294b81cdb7d04f50c13e}{\index{\-Motion Capture Plugin@{\-Motion Capture Plugin}!\-Nat\-Net@{\-Nat\-Net}}
+\index{\-Nat\-Net@{\-Nat\-Net}!Motion Capture Plugin@{\-Motion Capture Plugin}}
+\subsubsection[{\-Nat\-Net}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Nat\-Net\-::\-Nat\-Net} (
+\begin{DoxyParamCaption}
+\item[{const {\bf \-Mocap\-Settings} \&}]{params, }
+\item[{\-Ui\-\_\-\-Mo\-Cap\-Widget $\ast$}]{widget}
+\end{DoxyParamCaption}
+)}}\label{group___mo_cap_plugin_gaa94c0d1f5d60294b81cdb7d04f50c13e}
+\-Short description of \hyperlink{class_nat_net}{\-Nat\-Net} \-Packet protocol. \-Refer to \-Opti\-Track documentation for more complete details
+
+bytes value description \mbox{[}0-\/1\mbox{]} \-M\-S\-G\-I\-D \mbox{[}2-\/3\mbox{]} \-Byte\-Cnt \mbox{[}4-\/7\mbox{]} \-Frame\-Cnt ... 
+
+\-Definition at line 51 of file natnet.\-cpp.
+
+\hypertarget{group___mo_cap_plugin_ga7eceb6d31ea96db4e00bdf9c6765b4b7}{\index{\-Motion Capture Plugin@{\-Motion Capture Plugin}!\-Nat\-Net\-Creator@{\-Nat\-Net\-Creator}}
+\index{\-Nat\-Net\-Creator@{\-Nat\-Net\-Creator}!Motion Capture Plugin@{\-Motion Capture Plugin}}
+\subsubsection[{\-Nat\-Net\-Creator}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Nat\-Net\-Creator\-::\-Nat\-Net\-Creator} (
+\begin{DoxyParamCaption}
+\item[{const {\bf \-Q\-String} \&}]{class\-Id, }
+\item[{const {\bf \-Q\-String} \&}]{description}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___mo_cap_plugin_ga7eceb6d31ea96db4e00bdf9c6765b4b7}
+
+
+\-Definition at line 69 of file natnet.\-h.
+
+\hypertarget{group___mo_cap_plugin_ga4bed3f9d105ae145815a651f02083ea0}{\index{\-Motion Capture Plugin@{\-Motion Capture Plugin}!reset\-Initial\-Home\-Position@{reset\-Initial\-Home\-Position}}
+\index{reset\-Initial\-Home\-Position@{reset\-Initial\-Home\-Position}!Motion Capture Plugin@{\-Motion Capture Plugin}}
+\subsubsection[{reset\-Initial\-Home\-Position}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Exporter\-::reset\-Initial\-Home\-Position} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___mo_cap_plugin_ga4bed3f9d105ae145815a651f02083ea0}
+
+
+\-Definition at line 358 of file exporter.\-cpp.
+
+\hypertarget{group___mo_cap_plugin_ga4890815d185a0393db178dd686be0bdb}{\index{\-Motion Capture Plugin@{\-Motion Capture Plugin}!save\-Config@{save\-Config}}
+\index{save\-Config@{save\-Config}!Motion Capture Plugin@{\-Motion Capture Plugin}}
+\subsubsection[{save\-Config}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Mo\-Cap\-Configuration\-::save\-Config} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Settings $\ast$}]{q\-Settings}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___mo_cap_plugin_ga4890815d185a0393db178dd686be0bdb}
+\-Saves a configuration. 
+
+\-Reimplemented from \hyperlink{group___core_plugin_gadd755520091c21c0ce09973c5bbdb7a9}{\-Core\-::\-I\-U\-A\-V\-Gadget\-Configuration}.
+
+
+
+\-Definition at line 141 of file mocapconfiguration.\-cpp.
+
+\hypertarget{group___mo_cap_plugin_gaf8c44fde7b72a5f5658d47408b806b62}{\index{\-Motion Capture Plugin@{\-Motion Capture Plugin}!set\-Exporter\-Id@{set\-Exporter\-Id}}
+\index{set\-Exporter\-Id@{set\-Exporter\-Id}!Motion Capture Plugin@{\-Motion Capture Plugin}}
+\subsubsection[{set\-Exporter\-Id}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Exporter\-::set\-Exporter\-Id} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Q\-String}}]{str}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___mo_cap_plugin_gaf8c44fde7b72a5f5658d47408b806b62}
+
+
+\-Definition at line 191 of file exporter.\-h.
+
+\hypertarget{group___mo_cap_plugin_ga8a5fd7b06f55301b2683b72e15ffdd1e}{\index{\-Motion Capture Plugin@{\-Motion Capture Plugin}!set\-Instance@{set\-Instance}}
+\index{set\-Instance@{set\-Instance}!Motion Capture Plugin@{\-Motion Capture Plugin}}
+\subsubsection[{set\-Instance}]{\setlength{\rightskip}{0pt plus 5cm}static {\bf void} {\bf \-Exporter\-::set\-Instance} (
+\begin{DoxyParamCaption}
+\item[{const {\bf \-Q\-String} \&}]{str}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, static\mbox{]}}}}\label{group___mo_cap_plugin_ga8a5fd7b06f55301b2683b72e15ffdd1e}
+
+
+\-Definition at line 198 of file exporter.\-h.
+
+\hypertarget{group___mo_cap_plugin_ga09d765021a9a03276d14769f3ab7c43d}{\index{\-Motion Capture Plugin@{\-Motion Capture Plugin}!set\-Name@{set\-Name}}
+\index{set\-Name@{set\-Name}!Motion Capture Plugin@{\-Motion Capture Plugin}}
+\subsubsection[{set\-Name}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Exporter\-::set\-Name} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Q\-String}}]{str}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___mo_cap_plugin_ga09d765021a9a03276d14769f3ab7c43d}
+
+
+\-Definition at line 188 of file exporter.\-h.
+
+\hypertarget{group___mo_cap_plugin_ga49fc96a517fa87b95341072a5bacd7f9}{\index{\-Motion Capture Plugin@{\-Motion Capture Plugin}!set\-Setting\-Parameters@{set\-Setting\-Parameters}}
+\index{set\-Setting\-Parameters@{set\-Setting\-Parameters}!Motion Capture Plugin@{\-Motion Capture Plugin}}
+\subsubsection[{set\-Setting\-Parameters}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Mo\-Cap\-Widget\-::set\-Setting\-Parameters} (
+\begin{DoxyParamCaption}
+\item[{const {\bf \-Mocap\-Settings} \&}]{params}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___mo_cap_plugin_ga49fc96a517fa87b95341072a5bacd7f9}
+
+
+\-Definition at line 46 of file mocapwidget.\-h.
+
+\hypertarget{group___mo_cap_plugin_ga7b3b24d7f35ac822cf8414afbf88854d}{\index{\-Motion Capture Plugin@{\-Motion Capture Plugin}!set\-Started@{set\-Started}}
+\index{set\-Started@{set\-Started}!Motion Capture Plugin@{\-Motion Capture Plugin}}
+\subsubsection[{set\-Started}]{\setlength{\rightskip}{0pt plus 5cm}static {\bf void} {\bf \-Exporter\-::set\-Started} (
+\begin{DoxyParamCaption}
+\item[{bool}]{val}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, static\mbox{]}}}}\label{group___mo_cap_plugin_ga7b3b24d7f35ac822cf8414afbf88854d}
+
+
+\-Definition at line 196 of file exporter.\-h.
+
+\hypertarget{group___mo_cap_plugin_ga27cf83efd45539e4f87288010c5f285a}{\index{\-Motion Capture Plugin@{\-Motion Capture Plugin}!\-Settings@{\-Settings}}
+\index{\-Settings@{\-Settings}!Motion Capture Plugin@{\-Motion Capture Plugin}}
+\subsubsection[{\-Settings}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Mocap\-Settings} {\bf \-Mo\-Cap\-Configuration\-::\-Settings} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___mo_cap_plugin_ga27cf83efd45539e4f87288010c5f285a}
+
+
+\-Definition at line 53 of file mocapconfiguration.\-h.
+
+\hypertarget{group___mo_cap_plugin_ga92f0c84eeffa49fd021a9c5ad837947a}{\index{\-Motion Capture Plugin@{\-Motion Capture Plugin}!set\-Trackable\-Idx@{set\-Trackable\-Idx}}
+\index{set\-Trackable\-Idx@{set\-Trackable\-Idx}!Motion Capture Plugin@{\-Motion Capture Plugin}}
+\subsubsection[{set\-Trackable\-Idx}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Nat\-Net\-::set\-Trackable\-Idx} (
+\begin{DoxyParamCaption}
+\item[{int}]{track\-Idx}
+\end{DoxyParamCaption}
+)}}\label{group___mo_cap_plugin_ga92f0c84eeffa49fd021a9c5ad837947a}
+
+
+\hyperlink{group___mo_cap_plugin_ga92f0c84eeffa49fd021a9c5ad837947a}{\-Nat\-Net\-::set\-Trackable\-Idx} \-Set the index of the trackable currently being tracked. 
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em track\-Idx} & \-The trackable's index \\
+\hline
+\end{DoxyParams}
+
+
+\-Definition at line 97 of file natnet.\-cpp.
+
+\hypertarget{group___mo_cap_plugin_gac1813312de25d16f42e41c5ffd3ced8c}{\index{\-Motion Capture Plugin@{\-Motion Capture Plugin}!set\-Trackable\-Name@{set\-Trackable\-Name}}
+\index{set\-Trackable\-Name@{set\-Trackable\-Name}!Motion Capture Plugin@{\-Motion Capture Plugin}}
+\subsubsection[{set\-Trackable\-Name}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Nat\-Net\-::set\-Trackable\-Name} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Q\-String}}]{track\-Name}
+\end{DoxyParamCaption}
+)}}\label{group___mo_cap_plugin_gac1813312de25d16f42e41c5ffd3ced8c}
+
+
+\hyperlink{group___mo_cap_plugin_gac1813312de25d16f42e41c5ffd3ced8c}{\-Nat\-Net\-::set\-Trackable\-Name} \-Set the name of the trackable currently being tracked. 
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em track\-Idx} & \-The trackable's name \\
+\hline
+\end{DoxyParams}
+
+
+\-Definition at line 106 of file natnet.\-cpp.
+
+\hypertarget{group___mo_cap_plugin_gaec62d88408f6c898d9cd6b6192b7dec8}{\index{\-Motion Capture Plugin@{\-Motion Capture Plugin}!setup\-Process@{setup\-Process}}
+\index{setup\-Process@{setup\-Process}!Motion Capture Plugin@{\-Motion Capture Plugin}}
+\subsubsection[{setup\-Process}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-Nat\-Net\-::setup\-Process} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___mo_cap_plugin_gaec62d88408f6c898d9cd6b6192b7dec8}
+
+
+\-Reimplemented from \hyperlink{group___mo_cap_plugin_gad43c05ef37398dad0c09a5103beb27d8}{\-Exporter}.
+
+
+
+\-Definition at line 76 of file natnet.\-cpp.
+
+\hypertarget{group___mo_cap_plugin_gad51f36a3cda11c275da178b2e55ae688}{\index{\-Motion Capture Plugin@{\-Motion Capture Plugin}!setup\-Udp\-Ports@{setup\-Udp\-Ports}}
+\index{setup\-Udp\-Ports@{setup\-Udp\-Ports}!Motion Capture Plugin@{\-Motion Capture Plugin}}
+\subsubsection[{setup\-Udp\-Ports}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Nat\-Net\-::setup\-Udp\-Ports} (
+\begin{DoxyParamCaption}
+\item[{const {\bf \-Q\-String} \&}]{host, }
+\item[{int}]{in\-Port, }
+\item[{int}]{out\-Port}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___mo_cap_plugin_gad51f36a3cda11c275da178b2e55ae688}
+
+
+\-Reimplemented from \hyperlink{group___mo_cap_plugin_ga8790a68ca0c9e28691948cb19eba005d}{\-Exporter}.
+
+
+
+\-Definition at line 65 of file natnet.\-cpp.
+
+\hypertarget{group___mo_cap_plugin_ga8790a68ca0c9e28691948cb19eba005d}{\index{\-Motion Capture Plugin@{\-Motion Capture Plugin}!setup\-Udp\-Ports@{setup\-Udp\-Ports}}
+\index{setup\-Udp\-Ports@{setup\-Udp\-Ports}!Motion Capture Plugin@{\-Motion Capture Plugin}}
+\subsubsection[{setup\-Udp\-Ports}]{\setlength{\rightskip}{0pt plus 5cm}virtual {\bf void} {\bf \-Exporter\-::setup\-Udp\-Ports} (
+\begin{DoxyParamCaption}
+\item[{const {\bf \-Q\-String} \&}]{host, }
+\item[{int}]{in\-Port, }
+\item[{int}]{out\-Port}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, virtual\mbox{]}}}}\label{group___mo_cap_plugin_ga8790a68ca0c9e28691948cb19eba005d}
+
+
+\-Reimplemented in \hyperlink{group___mo_cap_plugin_gad51f36a3cda11c275da178b2e55ae688}{\-Nat\-Net}.
+
+
+
+\-Definition at line 201 of file exporter.\-h.
+
+\hypertarget{group___mo_cap_plugin_ga5c9af1ea346e9baf803728c2e0f94dc8}{\index{\-Motion Capture Plugin@{\-Motion Capture Plugin}!set\-Widget@{set\-Widget}}
+\index{set\-Widget@{set\-Widget}!Motion Capture Plugin@{\-Motion Capture Plugin}}
+\subsubsection[{set\-Widget}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Nat\-Net\-::set\-Widget} (
+\begin{DoxyParamCaption}
+\item[{\-Ui\-\_\-\-Mo\-Cap\-Widget $\ast$}]{widget}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___mo_cap_plugin_ga5c9af1ea346e9baf803728c2e0f94dc8}
+
+
+\-Definition at line 51 of file natnet.\-h.
+
+\hypertarget{group___mo_cap_plugin_ga6ceccf865e672ec6799046772bb33346}{\index{\-Motion Capture Plugin@{\-Motion Capture Plugin}!shutdown@{shutdown}}
+\index{shutdown@{shutdown}!Motion Capture Plugin@{\-Motion Capture Plugin}}
+\subsubsection[{shutdown}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Mo\-Cap\-Plugin\-::shutdown} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___mo_cap_plugin_ga6ceccf865e672ec6799046772bb33346}
+\-Called during a shutdown sequence in the same order as initialization before the plugins get deleted in reverse order. \-This method can be used to optimize the shutdown down, e.\-g. to disconnect from the \-Plugin\-Manager\-::about\-To\-Remove\-Object() signal if getting the signal (and probably doing lots of stuff to update the internal and visible state) doesn't make sense during shutdown. 
+
+\-Reimplemented from \hyperlink{class_extension_system_1_1_i_plugin_a65c16ebd3a6e89918a99af6515fe68cb}{\-Extension\-System\-::\-I\-Plugin}.
+
+
+
+\-Definition at line 65 of file mocapplugin.\-cpp.
+
+\hypertarget{group___mo_cap_plugin_gad00fa0512ade28ce7c6e08f2e4254b59}{\index{\-Motion Capture Plugin@{\-Motion Capture Plugin}!stop\-Process@{stop\-Process}}
+\index{stop\-Process@{stop\-Process}!Motion Capture Plugin@{\-Motion Capture Plugin}}
+\subsubsection[{stop\-Process}]{\setlength{\rightskip}{0pt plus 5cm}virtual {\bf void} {\bf \-Exporter\-::stop\-Process} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, virtual\mbox{]}}}}\label{group___mo_cap_plugin_gad00fa0512ade28ce7c6e08f2e4254b59}
+
+
+\-Definition at line 200 of file exporter.\-h.
+
+\hypertarget{group___mo_cap_plugin_ga6ac428e6d5db8fba507314cc56783821}{\index{\-Motion Capture Plugin@{\-Motion Capture Plugin}!update\-U\-A\-V\-Os@{update\-U\-A\-V\-Os}}
+\index{update\-U\-A\-V\-Os@{update\-U\-A\-V\-Os}!Motion Capture Plugin@{\-Motion Capture Plugin}}
+\subsubsection[{update\-U\-A\-V\-Os}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Exporter\-::update\-U\-A\-V\-Os} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Mocap\-Output2\-Hardware}}]{out}
+\end{DoxyParamCaption}
+)}}\label{group___mo_cap_plugin_ga6ac428e6d5db8fba507314cc56783821}
+
+
+\-Definition at line 363 of file exporter.\-cpp.
+
+\hypertarget{group___mo_cap_plugin_ga10e2501808e097eccf87a35bc8111c20}{\index{\-Motion Capture Plugin@{\-Motion Capture Plugin}!widget@{widget}}
+\index{widget@{widget}!Motion Capture Plugin@{\-Motion Capture Plugin}}
+\subsubsection[{widget}]{\setlength{\rightskip}{0pt plus 5cm}\-Q\-Widget$\ast$ {\bf \-Mo\-Cap\-Gadget\-::widget} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, virtual\mbox{]}}}}\label{group___mo_cap_plugin_ga10e2501808e097eccf87a35bc8111c20}
+
+
+\-Implements \hyperlink{group___core_plugin_gac74c76eef51e24e62a333fe0fd940cf6}{\-Core\-::\-I\-U\-A\-V\-Gadget}.
+
+
+
+\-Definition at line 48 of file mocapgadget.\-h.
+
+\hypertarget{group___mo_cap_plugin_ga44f24686958e01a543fd8b68b392658a}{\index{\-Motion Capture Plugin@{\-Motion Capture Plugin}!$\sim$\-Exporter@{$\sim$\-Exporter}}
+\index{$\sim$\-Exporter@{$\sim$\-Exporter}!Motion Capture Plugin@{\-Motion Capture Plugin}}
+\subsubsection[{$\sim$\-Exporter}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Exporter\-::$\sim$\-Exporter} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___mo_cap_plugin_ga44f24686958e01a543fd8b68b392658a}
+
+
+\-Definition at line 69 of file exporter.\-cpp.
+
+\hypertarget{group___mo_cap_plugin_ga934741ed7c6804f46b162987c2b9b5c8}{\index{\-Motion Capture Plugin@{\-Motion Capture Plugin}!$\sim$\-Mocap\-Creator@{$\sim$\-Mocap\-Creator}}
+\index{$\sim$\-Mocap\-Creator@{$\sim$\-Mocap\-Creator}!Motion Capture Plugin@{\-Motion Capture Plugin}}
+\subsubsection[{$\sim$\-Mocap\-Creator}]{\setlength{\rightskip}{0pt plus 5cm}virtual {\bf \-Mocap\-Creator\-::$\sim$\-Mocap\-Creator} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, virtual\mbox{]}}}}\label{group___mo_cap_plugin_ga934741ed7c6804f46b162987c2b9b5c8}
+
+
+\-Definition at line 298 of file exporter.\-h.
+
+\hypertarget{group___mo_cap_plugin_gae7570bd6937d0e589152551bd0ff5cf1}{\index{\-Motion Capture Plugin@{\-Motion Capture Plugin}!$\sim$\-Mo\-Cap\-Factory@{$\sim$\-Mo\-Cap\-Factory}}
+\index{$\sim$\-Mo\-Cap\-Factory@{$\sim$\-Mo\-Cap\-Factory}!Motion Capture Plugin@{\-Motion Capture Plugin}}
+\subsubsection[{$\sim$\-Mo\-Cap\-Factory}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Mo\-Cap\-Factory\-::$\sim$\-Mo\-Cap\-Factory} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___mo_cap_plugin_gae7570bd6937d0e589152551bd0ff5cf1}
+
+
+\-Definition at line 41 of file mocapfactory.\-cpp.
+
+\hypertarget{group___mo_cap_plugin_gabcb6599fae9fd93655a6f2c9d72f13e0}{\index{\-Motion Capture Plugin@{\-Motion Capture Plugin}!$\sim$\-Mo\-Cap\-Gadget@{$\sim$\-Mo\-Cap\-Gadget}}
+\index{$\sim$\-Mo\-Cap\-Gadget@{$\sim$\-Mo\-Cap\-Gadget}!Motion Capture Plugin@{\-Motion Capture Plugin}}
+\subsubsection[{$\sim$\-Mo\-Cap\-Gadget}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Mo\-Cap\-Gadget\-::$\sim$\-Mo\-Cap\-Gadget} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___mo_cap_plugin_gabcb6599fae9fd93655a6f2c9d72f13e0}
+
+
+\-Definition at line 40 of file mocapgadget.\-cpp.
+
+\hypertarget{group___mo_cap_plugin_ga8881b0089bfba1918a16456398fabb55}{\index{\-Motion Capture Plugin@{\-Motion Capture Plugin}!$\sim$\-Mo\-Cap\-Noise\-Generation@{$\sim$\-Mo\-Cap\-Noise\-Generation}}
+\index{$\sim$\-Mo\-Cap\-Noise\-Generation@{$\sim$\-Mo\-Cap\-Noise\-Generation}!Motion Capture Plugin@{\-Motion Capture Plugin}}
+\subsubsection[{$\sim$\-Mo\-Cap\-Noise\-Generation}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Mo\-Cap\-Noise\-Generation\-::$\sim$\-Mo\-Cap\-Noise\-Generation} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___mo_cap_plugin_ga8881b0089bfba1918a16456398fabb55}
+
+
+\-Definition at line 40 of file mocapnoisegeneration.\-cpp.
+
+\hypertarget{group___mo_cap_plugin_gae35a57590fd1156a31b514641702fb0e}{\index{\-Motion Capture Plugin@{\-Motion Capture Plugin}!$\sim$\-Mo\-Cap\-Plugin@{$\sim$\-Mo\-Cap\-Plugin}}
+\index{$\sim$\-Mo\-Cap\-Plugin@{$\sim$\-Mo\-Cap\-Plugin}!Motion Capture Plugin@{\-Motion Capture Plugin}}
+\subsubsection[{$\sim$\-Mo\-Cap\-Plugin}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Mo\-Cap\-Plugin\-::$\sim$\-Mo\-Cap\-Plugin} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___mo_cap_plugin_gae35a57590fd1156a31b514641702fb0e}
+
+
+\-Definition at line 42 of file mocapplugin.\-cpp.
+
+\hypertarget{group___mo_cap_plugin_gae095eb46b9b054f9601f677e9d82ad49}{\index{\-Motion Capture Plugin@{\-Motion Capture Plugin}!$\sim$\-Mo\-Cap\-Widget@{$\sim$\-Mo\-Cap\-Widget}}
+\index{$\sim$\-Mo\-Cap\-Widget@{$\sim$\-Mo\-Cap\-Widget}!Motion Capture Plugin@{\-Motion Capture Plugin}}
+\subsubsection[{$\sim$\-Mo\-Cap\-Widget}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Mo\-Cap\-Widget\-::$\sim$\-Mo\-Cap\-Widget} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___mo_cap_plugin_gae095eb46b9b054f9601f677e9d82ad49}
+
+
+\-Definition at line 71 of file mocapwidget.\-cpp.
+
+\hypertarget{group___mo_cap_plugin_ga119cde1cc51a6b41f0e064565467c398}{\index{\-Motion Capture Plugin@{\-Motion Capture Plugin}!$\sim$\-Nat\-Net@{$\sim$\-Nat\-Net}}
+\index{$\sim$\-Nat\-Net@{$\sim$\-Nat\-Net}!Motion Capture Plugin@{\-Motion Capture Plugin}}
+\subsubsection[{$\sim$\-Nat\-Net}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Nat\-Net\-::$\sim$\-Nat\-Net} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___mo_cap_plugin_ga119cde1cc51a6b41f0e064565467c398}
+
+
+\-Definition at line 60 of file natnet.\-cpp.
+
+
+
+\subsection{\-Variable \-Documentation}
+\hypertarget{group___mo_cap_plugin_ga4dd5a6587431c70720881c0540f065c9}{\index{\-Motion Capture Plugin@{\-Motion Capture Plugin}!accels@{accels}}
+\index{accels@{accels}!Motion Capture Plugin@{\-Motion Capture Plugin}}
+\subsubsection[{accels}]{\setlength{\rightskip}{0pt plus 5cm}\-Accels$\ast$ {\bf \-Exporter\-::accels}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{group___mo_cap_plugin_ga4dd5a6587431c70720881c0540f065c9}
+
+
+\-Definition at line 248 of file exporter.\-h.
+
+\hypertarget{group___mo_cap_plugin_ga34811521a55099df3d905b19ab544638}{\index{\-Motion Capture Plugin@{\-Motion Capture Plugin}!acc\-X@{acc\-X}}
+\index{acc\-X@{acc\-X}!Motion Capture Plugin@{\-Motion Capture Plugin}}
+\subsubsection[{acc\-X}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf \-Mocap\-Output2\-Hardware\-::acc\-X}}}\label{group___mo_cap_plugin_ga34811521a55099df3d905b19ab544638}
+
+
+\-Definition at line 162 of file exporter.\-h.
+
+\hypertarget{group___mo_cap_plugin_gad47738d7c1cd424f7d9508b4d44a4043}{\index{\-Motion Capture Plugin@{\-Motion Capture Plugin}!acc\-Y@{acc\-Y}}
+\index{acc\-Y@{acc\-Y}!Motion Capture Plugin@{\-Motion Capture Plugin}}
+\subsubsection[{acc\-Y}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf \-Mocap\-Output2\-Hardware\-::acc\-Y}}}\label{group___mo_cap_plugin_gad47738d7c1cd424f7d9508b4d44a4043}
+
+
+\-Definition at line 163 of file exporter.\-h.
+
+\hypertarget{group___mo_cap_plugin_gae919304b20a26d362f67b32533118ce7}{\index{\-Motion Capture Plugin@{\-Motion Capture Plugin}!acc\-Z@{acc\-Z}}
+\index{acc\-Z@{acc\-Z}!Motion Capture Plugin@{\-Motion Capture Plugin}}
+\subsubsection[{acc\-Z}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf \-Mocap\-Output2\-Hardware\-::acc\-Z}}}\label{group___mo_cap_plugin_gae919304b20a26d362f67b32533118ce7}
+
+
+\-Definition at line 164 of file exporter.\-h.
+
+\hypertarget{group___mo_cap_plugin_gaaa8cd64f3935d77113b41cf84f398e78}{\index{\-Motion Capture Plugin@{\-Motion Capture Plugin}!act\-Command@{act\-Command}}
+\index{act\-Command@{act\-Command}!Motion Capture Plugin@{\-Motion Capture Plugin}}
+\subsubsection[{act\-Command}]{\setlength{\rightskip}{0pt plus 5cm}\-Actuator\-Command$\ast$ {\bf \-Exporter\-::act\-Command}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{group___mo_cap_plugin_gaaa8cd64f3935d77113b41cf84f398e78}
+
+
+\-Definition at line 235 of file exporter.\-h.
+
+\hypertarget{group___mo_cap_plugin_ga480be6f8874e252461095878c7b41d08}{\index{\-Motion Capture Plugin@{\-Motion Capture Plugin}!act\-Desired@{act\-Desired}}
+\index{act\-Desired@{act\-Desired}!Motion Capture Plugin@{\-Motion Capture Plugin}}
+\subsubsection[{act\-Desired}]{\setlength{\rightskip}{0pt plus 5cm}\-Actuator\-Desired$\ast$ {\bf \-Exporter\-::act\-Desired}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{group___mo_cap_plugin_ga480be6f8874e252461095878c7b41d08}
+
+
+\-Definition at line 236 of file exporter.\-h.
+
+\hypertarget{group___mo_cap_plugin_ga933ba2309643df8ddd342ae4cf010fca}{\index{\-Motion Capture Plugin@{\-Motion Capture Plugin}!airspeed\-Actual@{airspeed\-Actual}}
+\index{airspeed\-Actual@{airspeed\-Actual}!Motion Capture Plugin@{\-Motion Capture Plugin}}
+\subsubsection[{airspeed\-Actual}]{\setlength{\rightskip}{0pt plus 5cm}\-Airspeed\-Actual$\ast$ {\bf \-Exporter\-::airspeed\-Actual}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{group___mo_cap_plugin_ga933ba2309643df8ddd342ae4cf010fca}
+
+
+\-Definition at line 240 of file exporter.\-h.
+
+\hypertarget{group___mo_cap_plugin_ga6f5725506a151cfd49e1c6b80c2e948f}{\index{\-Motion Capture Plugin@{\-Motion Capture Plugin}!altitude@{altitude}}
+\index{altitude@{altitude}!Motion Capture Plugin@{\-Motion Capture Plugin}}
+\subsubsection[{altitude}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf \-Mocap\-Output2\-Hardware\-::altitude}}}\label{group___mo_cap_plugin_ga6f5725506a151cfd49e1c6b80c2e948f}
+
+
+\-Definition at line 155 of file exporter.\-h.
+
+\hypertarget{group___mo_cap_plugin_gaa96960187d095cbbc69ba0cc08d776a7}{\index{\-Motion Capture Plugin@{\-Motion Capture Plugin}!att\-Actual@{att\-Actual}}
+\index{att\-Actual@{att\-Actual}!Motion Capture Plugin@{\-Motion Capture Plugin}}
+\subsubsection[{att\-Actual}]{\setlength{\rightskip}{0pt plus 5cm}\-Attitude\-Actual$\ast$ {\bf \-Exporter\-::att\-Actual}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{group___mo_cap_plugin_gaa96960187d095cbbc69ba0cc08d776a7}
+
+
+\-Definition at line 241 of file exporter.\-h.
+
+\hypertarget{group___mo_cap_plugin_ga4d9a7f3563731377f2905f1b18e17d52}{\index{\-Motion Capture Plugin@{\-Motion Capture Plugin}!att\-Actual\-H\-W@{att\-Actual\-H\-W}}
+\index{att\-Actual\-H\-W@{att\-Actual\-H\-W}!Motion Capture Plugin@{\-Motion Capture Plugin}}
+\subsubsection[{att\-Actual\-H\-W}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-\_\-\-C\-O\-N\-N\-E\-C\-T\-I\-O\-N\-::att\-Actual\-H\-W}}}\label{group___mo_cap_plugin_ga4d9a7f3563731377f2905f1b18e17d52}
+
+
+\-Definition at line 128 of file exporter.\-h.
+
+\hypertarget{group___mo_cap_plugin_gacd70b3a85672be0f8311fc107768c93f}{\index{\-Motion Capture Plugin@{\-Motion Capture Plugin}!att\-Actual\-Mocap@{att\-Actual\-Mocap}}
+\index{att\-Actual\-Mocap@{att\-Actual\-Mocap}!Motion Capture Plugin@{\-Motion Capture Plugin}}
+\subsubsection[{att\-Actual\-Mocap}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-\_\-\-C\-O\-N\-N\-E\-C\-T\-I\-O\-N\-::att\-Actual\-Mocap}}}\label{group___mo_cap_plugin_gacd70b3a85672be0f8311fc107768c93f}
+
+
+\-Definition at line 129 of file exporter.\-h.
+
+\hypertarget{group___mo_cap_plugin_ga14fb71ed2eb43b817ee157f6cdcb84eb}{\index{\-Motion Capture Plugin@{\-Motion Capture Plugin}!att\-Actual\-Rate@{att\-Actual\-Rate}}
+\index{att\-Actual\-Rate@{att\-Actual\-Rate}!Motion Capture Plugin@{\-Motion Capture Plugin}}
+\subsubsection[{att\-Actual\-Rate}]{\setlength{\rightskip}{0pt plus 5cm}quint16 {\bf \-\_\-\-C\-O\-N\-N\-E\-C\-T\-I\-O\-N\-::att\-Actual\-Rate}}}\label{group___mo_cap_plugin_ga14fb71ed2eb43b817ee157f6cdcb84eb}
+
+
+\-Definition at line 130 of file exporter.\-h.
+
+\hypertarget{group___mo_cap_plugin_gaa7be67cf3fe5bd561bfd56b81ace46d6}{\index{\-Motion Capture Plugin@{\-Motion Capture Plugin}!att\-Settings@{att\-Settings}}
+\index{att\-Settings@{att\-Settings}!Motion Capture Plugin@{\-Motion Capture Plugin}}
+\subsubsection[{att\-Settings}]{\setlength{\rightskip}{0pt plus 5cm}\-Attitude\-Settings$\ast$ {\bf \-Exporter\-::att\-Settings}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{group___mo_cap_plugin_gaa7be67cf3fe5bd561bfd56b81ace46d6}
+
+
+\-Definition at line 242 of file exporter.\-h.
+
+\hypertarget{group___mo_cap_plugin_ga15711fcb53727148f4c62b5bfa1ce9f1}{\index{\-Motion Capture Plugin@{\-Motion Capture Plugin}!baro\-Alt@{baro\-Alt}}
+\index{baro\-Alt@{baro\-Alt}!Motion Capture Plugin@{\-Motion Capture Plugin}}
+\subsubsection[{baro\-Alt}]{\setlength{\rightskip}{0pt plus 5cm}\-Baro\-Altitude$\ast$ {\bf \-Exporter\-::baro\-Alt}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{group___mo_cap_plugin_ga15711fcb53727148f4c62b5bfa1ce9f1}
+
+
+\-Definition at line 239 of file exporter.\-h.
+
+\hypertarget{group___mo_cap_plugin_ga6c17ed61598da30f012113ffbff26816}{\index{\-Motion Capture Plugin@{\-Motion Capture Plugin}!current@{current}}
+\index{current@{current}!Motion Capture Plugin@{\-Motion Capture Plugin}}
+\subsubsection[{current}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-F\-L\-I\-G\-H\-T\-\_\-\-P\-A\-R\-A\-M} {\bf \-Exporter\-::current}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{group___mo_cap_plugin_ga6c17ed61598da30f012113ffbff26816}
+
+
+\-Definition at line 255 of file exporter.\-h.
+
+\hypertarget{group___mo_cap_plugin_ga0c6d6722adb60229659cfe26d61ec953}{\index{\-Motion Capture Plugin@{\-Motion Capture Plugin}!del\-T@{del\-T}}
+\index{del\-T@{del\-T}!Motion Capture Plugin@{\-Motion Capture Plugin}}
+\subsubsection[{del\-T}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf \-Mocap\-Output2\-Hardware\-::del\-T}}}\label{group___mo_cap_plugin_ga0c6d6722adb60229659cfe26d61ec953}
+
+
+\-Definition at line 174 of file exporter.\-h.
+
+\hypertarget{group___mo_cap_plugin_ga2bff4ba6b082ec966a7075df9e19d66b}{\index{\-Motion Capture Plugin@{\-Motion Capture Plugin}!exporter\-Id@{exporter\-Id}}
+\index{exporter\-Id@{exporter\-Id}!Motion Capture Plugin@{\-Motion Capture Plugin}}
+\subsubsection[{exporter\-Id}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Q\-String} {\bf \-\_\-\-C\-O\-N\-N\-E\-C\-T\-I\-O\-N\-::exporter\-Id}}}\label{group___mo_cap_plugin_ga2bff4ba6b082ec966a7075df9e19d66b}
+
+
+\-Definition at line 111 of file exporter.\-h.
+
+\hypertarget{group___mo_cap_plugin_ga3e0f59d7efdaba4ae56afc474e929a17}{\index{\-Motion Capture Plugin@{\-Motion Capture Plugin}!exporter\-Process@{exporter\-Process}}
+\index{exporter\-Process@{exporter\-Process}!Motion Capture Plugin@{\-Motion Capture Plugin}}
+\subsubsection[{exporter\-Process}]{\setlength{\rightskip}{0pt plus 5cm}\-Q\-Process$\ast$ {\bf \-Exporter\-::exporter\-Process}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{group___mo_cap_plugin_ga3e0f59d7efdaba4ae56afc474e929a17}
+
+
+\-Definition at line 230 of file exporter.\-h.
+
+\hypertarget{group___mo_cap_plugin_ga63bef489a0fb9ccf02eadc577d487c10}{\index{\-Motion Capture Plugin@{\-Motion Capture Plugin}!flight\-Status@{flight\-Status}}
+\index{flight\-Status@{flight\-Status}!Motion Capture Plugin@{\-Motion Capture Plugin}}
+\subsubsection[{flight\-Status}]{\setlength{\rightskip}{0pt plus 5cm}\-Flight\-Status$\ast$ {\bf \-Exporter\-::flight\-Status}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{group___mo_cap_plugin_ga63bef489a0fb9ccf02eadc577d487c10}
+
+
+\-Definition at line 238 of file exporter.\-h.
+
+\hypertarget{group___mo_cap_plugin_ga49b2f0b0762b95f0da3f7c4a7330b941}{\index{\-Motion Capture Plugin@{\-Motion Capture Plugin}!gcs\-Receiver@{gcs\-Receiver}}
+\index{gcs\-Receiver@{gcs\-Receiver}!Motion Capture Plugin@{\-Motion Capture Plugin}}
+\subsubsection[{gcs\-Receiver}]{\setlength{\rightskip}{0pt plus 5cm}\-G\-C\-S\-Receiver$\ast$ {\bf \-Exporter\-::gcs\-Receiver}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{group___mo_cap_plugin_ga49b2f0b0762b95f0da3f7c4a7330b941}
+
+
+\-Definition at line 251 of file exporter.\-h.
+
+\hypertarget{group___mo_cap_plugin_gab8839ee3d842d22d5717905f7dea20cd}{\index{\-Motion Capture Plugin@{\-Motion Capture Plugin}!gps\-Pos@{gps\-Pos}}
+\index{gps\-Pos@{gps\-Pos}!Motion Capture Plugin@{\-Motion Capture Plugin}}
+\subsubsection[{gps\-Pos}]{\setlength{\rightskip}{0pt plus 5cm}\-G\-P\-S\-Position$\ast$ {\bf \-Exporter\-::gps\-Pos}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{group___mo_cap_plugin_gab8839ee3d842d22d5717905f7dea20cd}
+
+
+\-Definition at line 244 of file exporter.\-h.
+
+\hypertarget{group___mo_cap_plugin_ga75de3c84f1e0fec7aec493cb1a27b9a8}{\index{\-Motion Capture Plugin@{\-Motion Capture Plugin}!gps\-Vel@{gps\-Vel}}
+\index{gps\-Vel@{gps\-Vel}!Motion Capture Plugin@{\-Motion Capture Plugin}}
+\subsubsection[{gps\-Vel}]{\setlength{\rightskip}{0pt plus 5cm}\-G\-P\-S\-Velocity$\ast$ {\bf \-Exporter\-::gps\-Vel}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{group___mo_cap_plugin_ga75de3c84f1e0fec7aec493cb1a27b9a8}
+
+
+\-Definition at line 245 of file exporter.\-h.
+
+\hypertarget{group___mo_cap_plugin_gab0735b3db4133ae25e01a4ee6dc3347f}{\index{\-Motion Capture Plugin@{\-Motion Capture Plugin}!groundspeed@{groundspeed}}
+\index{groundspeed@{groundspeed}!Motion Capture Plugin@{\-Motion Capture Plugin}}
+\subsubsection[{groundspeed}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf \-Mocap\-Output2\-Hardware\-::groundspeed}}}\label{group___mo_cap_plugin_gab0735b3db4133ae25e01a4ee6dc3347f}
+
+
+\-Definition at line 171 of file exporter.\-h.
+
+\hypertarget{group___mo_cap_plugin_ga2b6042b4adabe6985d92cc22f33cfc9a}{\index{\-Motion Capture Plugin@{\-Motion Capture Plugin}!gyros@{gyros}}
+\index{gyros@{gyros}!Motion Capture Plugin@{\-Motion Capture Plugin}}
+\subsubsection[{gyros}]{\setlength{\rightskip}{0pt plus 5cm}\-Gyros$\ast$ {\bf \-Exporter\-::gyros}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{group___mo_cap_plugin_ga2b6042b4adabe6985d92cc22f33cfc9a}
+
+
+\-Definition at line 249 of file exporter.\-h.
+
+\hypertarget{group___mo_cap_plugin_ga30e6260b59e9997c3b1bec5bc9347ec3}{\index{\-Motion Capture Plugin@{\-Motion Capture Plugin}!ias@{ias}}
+\index{ias@{ias}!Motion Capture Plugin@{\-Motion Capture Plugin}}
+\subsubsection[{ias}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf \-\_\-\-F\-L\-I\-G\-H\-T\-\_\-\-P\-A\-R\-A\-M\-::ias}}}\label{group___mo_cap_plugin_ga30e6260b59e9997c3b1bec5bc9347ec3}
+
+
+\-Definition at line 77 of file exporter.\-h.
+
+\hypertarget{group___mo_cap_plugin_ga01c0037d3abe6f3cfc9521e865cbe65f}{\index{\-Motion Capture Plugin@{\-Motion Capture Plugin}!in\-Socket@{in\-Socket}}
+\index{in\-Socket@{in\-Socket}!Motion Capture Plugin@{\-Motion Capture Plugin}}
+\subsubsection[{in\-Socket}]{\setlength{\rightskip}{0pt plus 5cm}\-Q\-Udp\-Socket$\ast$ {\bf \-Exporter\-::in\-Socket}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{group___mo_cap_plugin_ga01c0037d3abe6f3cfc9521e865cbe65f}
+
+
+\-Definition at line 232 of file exporter.\-h.
+
+\hypertarget{group___mo_cap_plugin_gacfbf5cf513abfc200b4fd5c14dad294c}{\index{\-Motion Capture Plugin@{\-Motion Capture Plugin}!latitude@{latitude}}
+\index{latitude@{latitude}!Motion Capture Plugin@{\-Motion Capture Plugin}}
+\subsubsection[{latitude}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf \-Mocap\-Output2\-Hardware\-::latitude}}}\label{group___mo_cap_plugin_gacfbf5cf513abfc200b4fd5c14dad294c}
+
+
+\-Definition at line 154 of file exporter.\-h.
+
+\hypertarget{group___mo_cap_plugin_ga55a5f9c6eb2d80cfc96523f4592f5417}{\index{\-Motion Capture Plugin@{\-Motion Capture Plugin}!lock@{lock}}
+\index{lock@{lock}!Motion Capture Plugin@{\-Motion Capture Plugin}}
+\subsubsection[{lock}]{\setlength{\rightskip}{0pt plus 5cm}\-Q\-Mutex {\bf \-Exporter\-::lock}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{group___mo_cap_plugin_ga55a5f9c6eb2d80cfc96523f4592f5417}
+
+
+\-Definition at line 257 of file exporter.\-h.
+
+\hypertarget{group___mo_cap_plugin_ga65a9de4b87de2a4aaff0760f2b912407}{\index{\-Motion Capture Plugin@{\-Motion Capture Plugin}!longitude@{longitude}}
+\index{longitude@{longitude}!Motion Capture Plugin@{\-Motion Capture Plugin}}
+\subsubsection[{longitude}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf \-Mocap\-Output2\-Hardware\-::longitude}}}\label{group___mo_cap_plugin_ga65a9de4b87de2a4aaff0760f2b912407}
+
+
+\-Definition at line 153 of file exporter.\-h.
+
+\hypertarget{group___mo_cap_plugin_ga8855725831e82f6e02e0caba72c0dd7b}{\index{\-Motion Capture Plugin@{\-Motion Capture Plugin}!man\-Ctrl\-Command@{man\-Ctrl\-Command}}
+\index{man\-Ctrl\-Command@{man\-Ctrl\-Command}!Motion Capture Plugin@{\-Motion Capture Plugin}}
+\subsubsection[{man\-Ctrl\-Command}]{\setlength{\rightskip}{0pt plus 5cm}\-Manual\-Control\-Command$\ast$ {\bf \-Exporter\-::man\-Ctrl\-Command}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{group___mo_cap_plugin_ga8855725831e82f6e02e0caba72c0dd7b}
+
+
+\-Definition at line 237 of file exporter.\-h.
+
+\hypertarget{group___mo_cap_plugin_ga5ef84da1bd9cf4e1d625c33beb5a148c}{\index{\-Motion Capture Plugin@{\-Motion Capture Plugin}!old@{old}}
+\index{old@{old}!Motion Capture Plugin@{\-Motion Capture Plugin}}
+\subsubsection[{old}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-F\-L\-I\-G\-H\-T\-\_\-\-P\-A\-R\-A\-M} {\bf \-Exporter\-::old}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{group___mo_cap_plugin_ga5ef84da1bd9cf4e1d625c33beb5a148c}
+
+
+\-Definition at line 256 of file exporter.\-h.
+
+\hypertarget{group___mo_cap_plugin_gad4adc615f73413f479e48983cce6f3e0}{\index{\-Motion Capture Plugin@{\-Motion Capture Plugin}!out\-Socket@{out\-Socket}}
+\index{out\-Socket@{out\-Socket}!Motion Capture Plugin@{\-Motion Capture Plugin}}
+\subsubsection[{out\-Socket}]{\setlength{\rightskip}{0pt plus 5cm}\-Q\-Udp\-Socket$\ast$ {\bf \-Exporter\-::out\-Socket}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{group___mo_cap_plugin_gad4adc615f73413f479e48983cce6f3e0}
+
+
+\-Definition at line 233 of file exporter.\-h.
+
+\hypertarget{group___mo_cap_plugin_ga5e6750ec09f6ef2ebd014c746421e952}{\index{\-Motion Capture Plugin@{\-Motion Capture Plugin}!pitch@{pitch}}
+\index{pitch@{pitch}!Motion Capture Plugin@{\-Motion Capture Plugin}}
+\subsubsection[{pitch}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf \-Mocap\-Output2\-Hardware\-::pitch}}}\label{group___mo_cap_plugin_ga5e6750ec09f6ef2ebd014c746421e952}
+
+
+\-Definition at line 166 of file exporter.\-h.
+
+\hypertarget{group___mo_cap_plugin_ga03ecf7a98f0b6197c65a71fa1e2a1237}{\index{\-Motion Capture Plugin@{\-Motion Capture Plugin}!pitch\-Rate@{pitch\-Rate}}
+\index{pitch\-Rate@{pitch\-Rate}!Motion Capture Plugin@{\-Motion Capture Plugin}}
+\subsubsection[{pitch\-Rate}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf \-Mocap\-Output2\-Hardware\-::pitch\-Rate}}}\label{group___mo_cap_plugin_ga03ecf7a98f0b6197c65a71fa1e2a1237}
+
+
+\-Definition at line 169 of file exporter.\-h.
+
+\hypertarget{group___mo_cap_plugin_ga48e371afeb39f31ab368d804798313f5}{\index{\-Motion Capture Plugin@{\-Motion Capture Plugin}!pos\-Actual@{pos\-Actual}}
+\index{pos\-Actual@{pos\-Actual}!Motion Capture Plugin@{\-Motion Capture Plugin}}
+\subsubsection[{pos\-Actual}]{\setlength{\rightskip}{0pt plus 5cm}\-Position\-Actual$\ast$ {\bf \-Exporter\-::pos\-Actual}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{group___mo_cap_plugin_ga48e371afeb39f31ab368d804798313f5}
+
+
+\-Definition at line 246 of file exporter.\-h.
+
+\hypertarget{group___mo_cap_plugin_ga60ef031584e000727250ea18e4e0ce36}{\index{\-Motion Capture Plugin@{\-Motion Capture Plugin}!pos\-D@{pos\-D}}
+\index{pos\-D@{pos\-D}!Motion Capture Plugin@{\-Motion Capture Plugin}}
+\subsubsection[{pos\-D}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf \-Mocap\-Output2\-Hardware\-::pos\-D}}}\label{group___mo_cap_plugin_ga60ef031584e000727250ea18e4e0ce36}
+
+
+\-Definition at line 158 of file exporter.\-h.
+
+\hypertarget{group___mo_cap_plugin_gaeb486e47d519b624cd7b598eb6f33169}{\index{\-Motion Capture Plugin@{\-Motion Capture Plugin}!pos\-E@{pos\-E}}
+\index{pos\-E@{pos\-E}!Motion Capture Plugin@{\-Motion Capture Plugin}}
+\subsubsection[{pos\-E}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf \-Mocap\-Output2\-Hardware\-::pos\-E}}}\label{group___mo_cap_plugin_gaeb486e47d519b624cd7b598eb6f33169}
+
+
+\-Definition at line 157 of file exporter.\-h.
+
+\hypertarget{group___mo_cap_plugin_ga9a7c0ada8bbd6bf8c95ca54f123befbe}{\index{\-Motion Capture Plugin@{\-Motion Capture Plugin}!pos\-Home@{pos\-Home}}
+\index{pos\-Home@{pos\-Home}!Motion Capture Plugin@{\-Motion Capture Plugin}}
+\subsubsection[{pos\-Home}]{\setlength{\rightskip}{0pt plus 5cm}\-Home\-Location$\ast$ {\bf \-Exporter\-::pos\-Home}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{group___mo_cap_plugin_ga9a7c0ada8bbd6bf8c95ca54f123befbe}
+
+
+\-Definition at line 247 of file exporter.\-h.
+
+\hypertarget{group___mo_cap_plugin_ga75792a6a49b67e8d7b63a219ca0f2ed2}{\index{\-Motion Capture Plugin@{\-Motion Capture Plugin}!pos\-N@{pos\-N}}
+\index{pos\-N@{pos\-N}!Motion Capture Plugin@{\-Motion Capture Plugin}}
+\subsubsection[{pos\-N}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf \-Mocap\-Output2\-Hardware\-::pos\-N}}}\label{group___mo_cap_plugin_ga75792a6a49b67e8d7b63a219ca0f2ed2}
+
+
+\-Definition at line 156 of file exporter.\-h.
+
+\hypertarget{group___mo_cap_plugin_ga521e946322d097a3b14b24f53ce1568f}{\index{\-Motion Capture Plugin@{\-Motion Capture Plugin}!pressure@{pressure}}
+\index{pressure@{pressure}!Motion Capture Plugin@{\-Motion Capture Plugin}}
+\subsubsection[{pressure}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf \-Mocap\-Output2\-Hardware\-::pressure}}}\label{group___mo_cap_plugin_ga521e946322d097a3b14b24f53ce1568f}
+
+
+\-Definition at line 172 of file exporter.\-h.
+
+\hypertarget{group___mo_cap_plugin_ga6db93cd0e529bbfcb33af3293ab16c62}{\index{\-Motion Capture Plugin@{\-Motion Capture Plugin}!roll@{roll}}
+\index{roll@{roll}!Motion Capture Plugin@{\-Motion Capture Plugin}}
+\subsubsection[{roll}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf \-Mocap\-Output2\-Hardware\-::roll}}}\label{group___mo_cap_plugin_ga6db93cd0e529bbfcb33af3293ab16c62}
+
+
+\-Definition at line 165 of file exporter.\-h.
+
+\hypertarget{group___mo_cap_plugin_ga178bcd8c81449eb7c9cc5c5bb203e591}{\index{\-Motion Capture Plugin@{\-Motion Capture Plugin}!roll\-Rate@{roll\-Rate}}
+\index{roll\-Rate@{roll\-Rate}!Motion Capture Plugin@{\-Motion Capture Plugin}}
+\subsubsection[{roll\-Rate}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf \-Mocap\-Output2\-Hardware\-::roll\-Rate}}}\label{group___mo_cap_plugin_ga178bcd8c81449eb7c9cc5c5bb203e591}
+
+
+\-Definition at line 168 of file exporter.\-h.
+
+\hypertarget{group___mo_cap_plugin_ga50484fe9f9410948c133b1c589f73f76}{\index{\-Motion Capture Plugin@{\-Motion Capture Plugin}!settings@{settings}}
+\index{settings@{settings}!Motion Capture Plugin@{\-Motion Capture Plugin}}
+\subsubsection[{settings}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Mocap\-Settings} {\bf \-Exporter\-::settings}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{group___mo_cap_plugin_ga50484fe9f9410948c133b1c589f73f76}
+
+
+\-Definition at line 253 of file exporter.\-h.
+
+\hypertarget{group___mo_cap_plugin_gad3a5a6122f88f8f4b44847053a7d830b}{\index{\-Motion Capture Plugin@{\-Motion Capture Plugin}!tel\-Stats@{tel\-Stats}}
+\index{tel\-Stats@{tel\-Stats}!Motion Capture Plugin@{\-Motion Capture Plugin}}
+\subsubsection[{tel\-Stats}]{\setlength{\rightskip}{0pt plus 5cm}\-G\-C\-S\-Telemetry\-Stats$\ast$ {\bf \-Exporter\-::tel\-Stats}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{group___mo_cap_plugin_gad3a5a6122f88f8f4b44847053a7d830b}
+
+
+\-Definition at line 250 of file exporter.\-h.
+
+\hypertarget{group___mo_cap_plugin_gaa66ae80cf0902b622dea302a9a588fe8}{\index{\-Motion Capture Plugin@{\-Motion Capture Plugin}!temperature@{temperature}}
+\index{temperature@{temperature}!Motion Capture Plugin@{\-Motion Capture Plugin}}
+\subsubsection[{temperature}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf \-Mocap\-Output2\-Hardware\-::temperature}}}\label{group___mo_cap_plugin_gaa66ae80cf0902b622dea302a9a588fe8}
+
+
+\-Definition at line 173 of file exporter.\-h.
+
+\hypertarget{group___mo_cap_plugin_gac71372aac301b0f6d2ae67c3a5c4be63}{\index{\-Motion Capture Plugin@{\-Motion Capture Plugin}!time@{time}}
+\index{time@{time}!Motion Capture Plugin@{\-Motion Capture Plugin}}
+\subsubsection[{time}]{\setlength{\rightskip}{0pt plus 5cm}\-Q\-Time$\ast$ {\bf \-Exporter\-::time}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{group___mo_cap_plugin_gac71372aac301b0f6d2ae67c3a5c4be63}
+
+
+\-Definition at line 231 of file exporter.\-h.
+
+\hypertarget{group___mo_cap_plugin_gaca68fd324d804c3124d7ba64b5d0294a}{\index{\-Motion Capture Plugin@{\-Motion Capture Plugin}!type\-Mocaps@{type\-Mocaps}}
+\index{type\-Mocaps@{type\-Mocaps}!Motion Capture Plugin@{\-Motion Capture Plugin}}
+\subsubsection[{type\-Mocaps}]{\setlength{\rightskip}{0pt plus 5cm}\-Q\-List$<$ {\bf \-Mocap\-Creator} $\ast$ $>$ {\bf \-Mo\-Cap\-Plugin\-::type\-Mocaps}\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}\label{group___mo_cap_plugin_gaca68fd324d804c3124d7ba64b5d0294a}
+
+
+\-Definition at line 65 of file mocapplugin.\-h.
+
+\hypertarget{group___mo_cap_plugin_gaf7dc7b4cb9c561edf9c8df28131eeac3}{\index{\-Motion Capture Plugin@{\-Motion Capture Plugin}!vel\-Actual@{vel\-Actual}}
+\index{vel\-Actual@{vel\-Actual}!Motion Capture Plugin@{\-Motion Capture Plugin}}
+\subsubsection[{vel\-Actual}]{\setlength{\rightskip}{0pt plus 5cm}\-Velocity\-Actual$\ast$ {\bf \-Exporter\-::vel\-Actual}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{group___mo_cap_plugin_gaf7dc7b4cb9c561edf9c8df28131eeac3}
+
+
+\-Definition at line 243 of file exporter.\-h.
+
+\hypertarget{group___mo_cap_plugin_ga2ffad0e2c72a914bb6f9ff031aeb9b79}{\index{\-Motion Capture Plugin@{\-Motion Capture Plugin}!vel\-Down@{vel\-Down}}
+\index{vel\-Down@{vel\-Down}!Motion Capture Plugin@{\-Motion Capture Plugin}}
+\subsubsection[{vel\-Down}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf \-Mocap\-Output2\-Hardware\-::vel\-Down}}}\label{group___mo_cap_plugin_ga2ffad0e2c72a914bb6f9ff031aeb9b79}
+
+
+\-Definition at line 161 of file exporter.\-h.
+
+\hypertarget{group___mo_cap_plugin_gaa2d1409fe871a4dd45265e2412d53f67}{\index{\-Motion Capture Plugin@{\-Motion Capture Plugin}!vel\-East@{vel\-East}}
+\index{vel\-East@{vel\-East}!Motion Capture Plugin@{\-Motion Capture Plugin}}
+\subsubsection[{vel\-East}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf \-Mocap\-Output2\-Hardware\-::vel\-East}}}\label{group___mo_cap_plugin_gaa2d1409fe871a4dd45265e2412d53f67}
+
+
+\-Definition at line 160 of file exporter.\-h.
+
+\hypertarget{group___mo_cap_plugin_gadfa715081f6bc74af7efc32c39d720f2}{\index{\-Motion Capture Plugin@{\-Motion Capture Plugin}!vel\-North@{vel\-North}}
+\index{vel\-North@{vel\-North}!Motion Capture Plugin@{\-Motion Capture Plugin}}
+\subsubsection[{vel\-North}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf \-Mocap\-Output2\-Hardware\-::vel\-North}}}\label{group___mo_cap_plugin_gadfa715081f6bc74af7efc32c39d720f2}
+
+
+\-Definition at line 159 of file exporter.\-h.
+
+\hypertarget{group___mo_cap_plugin_ga423b4c125aa4c8caf1001d16de1dd3f9}{\index{\-Motion Capture Plugin@{\-Motion Capture Plugin}!yaw@{yaw}}
+\index{yaw@{yaw}!Motion Capture Plugin@{\-Motion Capture Plugin}}
+\subsubsection[{yaw}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf \-Mocap\-Output2\-Hardware\-::yaw}}}\label{group___mo_cap_plugin_ga423b4c125aa4c8caf1001d16de1dd3f9}
+
+
+\-Definition at line 167 of file exporter.\-h.
+
+\hypertarget{group___mo_cap_plugin_gaddfb563223971f02a45ebd14034b2a06}{\index{\-Motion Capture Plugin@{\-Motion Capture Plugin}!yaw\-Rate@{yaw\-Rate}}
+\index{yaw\-Rate@{yaw\-Rate}!Motion Capture Plugin@{\-Motion Capture Plugin}}
+\subsubsection[{yaw\-Rate}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf \-Mocap\-Output2\-Hardware\-::yaw\-Rate}}}\label{group___mo_cap_plugin_gaddfb563223971f02a45ebd14034b2a06}
+
+
+\-Definition at line 170 of file exporter.\-h.
+
+
+
+\subsection{\-Signals}
+\hypertarget{group___mo_cap_plugin_ga52a7d20152fb6923f10c6940a7286396}{\index{\-Motion Capture Plugin@{\-Motion Capture Plugin}!autopilot\-Connected@{autopilot\-Connected}}
+\index{autopilot\-Connected@{autopilot\-Connected}!Motion Capture Plugin@{\-Motion Capture Plugin}}
+\subsubsection[{autopilot\-Connected}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Exporter\-::autopilot\-Connected} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}signal\mbox{]}}}}\label{group___mo_cap_plugin_ga52a7d20152fb6923f10c6940a7286396}
+\hypertarget{group___mo_cap_plugin_ga94d2323c5abe7b5fb873f894f1115462}{\index{\-Motion Capture Plugin@{\-Motion Capture Plugin}!autopilot\-Disconnected@{autopilot\-Disconnected}}
+\index{autopilot\-Disconnected@{autopilot\-Disconnected}!Motion Capture Plugin@{\-Motion Capture Plugin}}
+\subsubsection[{autopilot\-Disconnected}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Exporter\-::autopilot\-Disconnected} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}signal\mbox{]}}}}\label{group___mo_cap_plugin_ga94d2323c5abe7b5fb873f894f1115462}
+\hypertarget{group___mo_cap_plugin_gacbc122d8949ff735984095e5d5bcce1b}{\index{\-Motion Capture Plugin@{\-Motion Capture Plugin}!change\-Configuration@{change\-Configuration}}
+\index{change\-Configuration@{change\-Configuration}!Motion Capture Plugin@{\-Motion Capture Plugin}}
+\subsubsection[{change\-Configuration}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Mo\-Cap\-Gadget\-::change\-Configuration} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}signal\mbox{]}}}}\label{group___mo_cap_plugin_gacbc122d8949ff735984095e5d5bcce1b}
+\hypertarget{group___mo_cap_plugin_ga34afe7fdc30edaad2ec82fdb72275fa8}{\index{\-Motion Capture Plugin@{\-Motion Capture Plugin}!delete\-Exporter@{delete\-Exporter}}
+\index{delete\-Exporter@{delete\-Exporter}!Motion Capture Plugin@{\-Motion Capture Plugin}}
+\subsubsection[{delete\-Exporter}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Mo\-Cap\-Widget\-::delete\-Exporter} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}signal\mbox{]}}}}\label{group___mo_cap_plugin_ga34afe7fdc30edaad2ec82fdb72275fa8}
+\hypertarget{group___mo_cap_plugin_gaced02c5dc9cdfc8e07c7be1b3ea03d4f}{\index{\-Motion Capture Plugin@{\-Motion Capture Plugin}!delete\-Exporter\-Process@{delete\-Exporter\-Process}}
+\index{delete\-Exporter\-Process@{delete\-Exporter\-Process}!Motion Capture Plugin@{\-Motion Capture Plugin}}
+\subsubsection[{delete\-Exporter\-Process}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Exporter\-::delete\-Exporter\-Process} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}signal\mbox{]}}}}\label{group___mo_cap_plugin_gaced02c5dc9cdfc8e07c7be1b3ea03d4f}
+\hypertarget{group___mo_cap_plugin_gab2bac0f39a4f396ad4d99829d85ca4d9}{\index{\-Motion Capture Plugin@{\-Motion Capture Plugin}!exporter\-Connected@{exporter\-Connected}}
+\index{exporter\-Connected@{exporter\-Connected}!Motion Capture Plugin@{\-Motion Capture Plugin}}
+\subsubsection[{exporter\-Connected}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Exporter\-::exporter\-Connected} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}signal\mbox{]}}}}\label{group___mo_cap_plugin_gab2bac0f39a4f396ad4d99829d85ca4d9}
+\hypertarget{group___mo_cap_plugin_gae4dad27cecdf9ed206a7ebb5b711a23d}{\index{\-Motion Capture Plugin@{\-Motion Capture Plugin}!exporter\-Disconnected@{exporter\-Disconnected}}
+\index{exporter\-Disconnected@{exporter\-Disconnected}!Motion Capture Plugin@{\-Motion Capture Plugin}}
+\subsubsection[{exporter\-Disconnected}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Exporter\-::exporter\-Disconnected} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}signal\mbox{]}}}}\label{group___mo_cap_plugin_gae4dad27cecdf9ed206a7ebb5b711a23d}
+\hypertarget{group___mo_cap_plugin_ga8588f1bba3155708a434f543372d7f7d}{\index{\-Motion Capture Plugin@{\-Motion Capture Plugin}!my\-Start@{my\-Start}}
+\index{my\-Start@{my\-Start}!Motion Capture Plugin@{\-Motion Capture Plugin}}
+\subsubsection[{my\-Start}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Exporter\-::my\-Start} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}signal\mbox{]}}}}\label{group___mo_cap_plugin_ga8588f1bba3155708a434f543372d7f7d}
+\hypertarget{group___mo_cap_plugin_gafcdca00f55b093906997cc158f7fa39c}{\index{\-Motion Capture Plugin@{\-Motion Capture Plugin}!process\-Output@{process\-Output}}
+\index{process\-Output@{process\-Output}!Motion Capture Plugin@{\-Motion Capture Plugin}}
+\subsubsection[{process\-Output}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Exporter\-::process\-Output} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Q\-String}}]{str}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}signal\mbox{]}}}}\label{group___mo_cap_plugin_gafcdca00f55b093906997cc158f7fa39c}
+
+
+\subsection{\-Public \-Slots}
+\hypertarget{group___mo_cap_plugin_ga1c9c0bbef4c538125abfd27b6fc47208}{\index{\-Motion Capture Plugin@{\-Motion Capture Plugin}!set\-Mocap\-Settings@{set\-Mocap\-Settings}}
+\index{set\-Mocap\-Settings@{set\-Mocap\-Settings}!Motion Capture Plugin@{\-Motion Capture Plugin}}
+\subsubsection[{set\-Mocap\-Settings}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Mo\-Cap\-Configuration\-::set\-Mocap\-Settings} (
+\begin{DoxyParamCaption}
+\item[{const {\bf \-Mocap\-Settings} \&}]{params}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, slot\mbox{]}}}}\label{group___mo_cap_plugin_ga1c9c0bbef4c538125abfd27b6fc47208}
+
+
+\-Definition at line 56 of file mocapconfiguration.\-h.
+
+\hypertarget{group___mo_cap_plugin_gad43c05ef37398dad0c09a5103beb27d8}{\index{\-Motion Capture Plugin@{\-Motion Capture Plugin}!setup\-Process@{setup\-Process}}
+\index{setup\-Process@{setup\-Process}!Motion Capture Plugin@{\-Motion Capture Plugin}}
+\subsubsection[{setup\-Process}]{\setlength{\rightskip}{0pt plus 5cm}virtual \-Q\-\_\-\-I\-N\-V\-O\-K\-A\-B\-L\-E bool {\bf \-Exporter\-::setup\-Process} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, virtual, slot\mbox{]}}}}\label{group___mo_cap_plugin_gad43c05ef37398dad0c09a5103beb27d8}
+
+
+\-Reimplemented in \hyperlink{group___mo_cap_plugin_gaec62d88408f6c898d9cd6b6192b7dec8}{\-Nat\-Net}.
+
+
+
+\-Definition at line 215 of file exporter.\-h.
+
+
+
+\subsection{\-Properties}
+\hypertarget{group___mo_cap_plugin_ga7211120cc5d6c7feffb594a36552a9af}{\index{\-Motion Capture Plugin@{\-Motion Capture Plugin}!settings@{settings}}
+\index{settings@{settings}!Motion Capture Plugin@{\-Motion Capture Plugin}}
+\subsubsection[{settings}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Mocap\-Settings} {\bf \-Mo\-Cap\-Configuration\-::settings}\hspace{0.3cm}{\ttfamily  \mbox{[}read, write\mbox{]}}}}\label{group___mo_cap_plugin_ga7211120cc5d6c7feffb594a36552a9af}
+
+
+\-Definition at line 45 of file mocapconfiguration.\-h.
+

@@ -1,0 +1,55 @@
+\hypertarget{i2c__vm_8c}{\section{/home/jb/code/\-Tau\-Labs/flight/\-Modules/\-Generic\-I2\-C\-Sensor/i2c\-\_\-vm.c \-File \-Reference}
+\label{i2c__vm_8c}\index{/home/jb/code/\-Tau\-Labs/flight/\-Modules/\-Generic\-I2\-C\-Sensor/i2c\-\_\-vm.\-c@{/home/jb/code/\-Tau\-Labs/flight/\-Modules/\-Generic\-I2\-C\-Sensor/i2c\-\_\-vm.\-c}}
+}
+
+
+\-The virtual machine for \-I2\-C sensors.  
+
+
+\subsection*{\-Data \-Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structi2c__vm__regs}{i2c\-\_\-vm\-\_\-regs}
+\end{DoxyCompactItemize}
+\subsection*{\-Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef bool($\ast$ \hyperlink{group___generic_i2_c_sensor_gadf40759a617bda9fd99790f2c1f2699a}{i2c\-\_\-vm\-\_\-inst\-\_\-handler} )(struct \hyperlink{structi2c__vm__regs}{i2c\-\_\-vm\-\_\-regs} $\ast$vm\-\_\-state, uint8\-\_\-t op1, uint8\-\_\-t op2, uint8\-\_\-t op3)
+\end{DoxyCompactItemize}
+\subsection*{\-Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{group___generic_i2_c_sensor_ga2ee1b0064ef2db1498ae8fb59548a865}{aluop} \{ \*
+\hyperlink{group___generic_i2_c_sensor_gga2ee1b0064ef2db1498ae8fb59548a865a6f9ecf7290283d4ac27f9a224c8febfb}{\-A\-L\-U\-O\-P\-\_\-\-A\-D\-D}, 
+\hyperlink{group___generic_i2_c_sensor_gga2ee1b0064ef2db1498ae8fb59548a865afee8d68922e487fd5b9b01249cd56627}{\-A\-L\-U\-O\-P\-\_\-\-M\-U\-L}, 
+\hyperlink{group___generic_i2_c_sensor_gga2ee1b0064ef2db1498ae8fb59548a865abaeb37672e28ae72847ae16ea28b5edd}{\-A\-L\-U\-O\-P\-\_\-\-D\-I\-V}, 
+\hyperlink{group___generic_i2_c_sensor_gga2ee1b0064ef2db1498ae8fb59548a865acc28a270f52a75a1531f9aaef6e61493}{\-A\-L\-U\-O\-P\-\_\-\-L\-S\-R}, 
+\*
+\hyperlink{group___generic_i2_c_sensor_gga2ee1b0064ef2db1498ae8fb59548a865a90db6aa1f2728dc8d7117cb705930333}{\-A\-L\-U\-O\-P\-\_\-\-A\-S\-R}, 
+\hyperlink{group___generic_i2_c_sensor_gga2ee1b0064ef2db1498ae8fb59548a865a44b5db26a65333ca2c370a7e422d6d34}{\-A\-L\-U\-O\-P\-\_\-\-S\-L}, 
+\hyperlink{group___generic_i2_c_sensor_gga2ee1b0064ef2db1498ae8fb59548a865ab11994f2dbe833ede0ee1ad55b40a041}{\-A\-L\-U\-O\-P\-\_\-\-O\-R}, 
+\hyperlink{group___generic_i2_c_sensor_gga2ee1b0064ef2db1498ae8fb59548a865a9bac7bd2748699ab1efd293a4f559914}{\-A\-L\-U\-O\-P\-\_\-\-A\-N\-D}
+ \}
+\end{DoxyCompactItemize}
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+bool \hyperlink{group___generic_i2_c_sensor_ga25fa33f408947a8b6015181705441220}{i2c\-\_\-vm\-\_\-run} (const uint32\-\_\-t $\ast$code, uint8\-\_\-t code\-\_\-len, uintptr\-\_\-t i2c\-\_\-adapter)
+\end{DoxyCompactItemize}
+\subsection*{\-Variables}
+\begin{DoxyCompactItemize}
+\item 
+const \hyperlink{group___generic_i2_c_sensor_gadf40759a617bda9fd99790f2c1f2699a}{i2c\-\_\-vm\-\_\-inst\-\_\-handler} \hyperlink{group___generic_i2_c_sensor_gab83cd2149bbe6ea9179b75ee8a02071e}{i2c\-\_\-vm\-\_\-handlers} \mbox{[}$\,$\mbox{]}
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-The virtual machine for \-I2\-C sensors. \begin{DoxyAuthor}{\-Author}
+\-The \-Open\-Pilot \-Team, \href{http://www.openpilot.org}{\tt http\-://www.\-openpilot.\-org} \-Copyright (\-C) 2012. 
+
+\-Tau \-Labs, \href{http://taulabs.org,}{\tt http\-://taulabs.\-org,} \-Copyright (\-C) 2012-\/2013 
+\end{DoxyAuthor}
+
+
+\-Definition in file \hyperlink{i2c__vm_8c_source}{i2c\-\_\-vm.\-c}.
+

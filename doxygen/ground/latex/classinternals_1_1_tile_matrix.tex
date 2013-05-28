@@ -1,0 +1,44 @@
+\hypertarget{classinternals_1_1_tile_matrix}{\section{internals\-:\-:\-Tile\-Matrix \-Class \-Reference}
+\label{classinternals_1_1_tile_matrix}\index{internals\-::\-Tile\-Matrix@{internals\-::\-Tile\-Matrix}}
+}
+
+
+{\ttfamily \#include $<$tilematrix.\-h$>$}
+
+\subsection*{\-Public \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___o_p_map_widget_ga3d1378e5fe1bbfe4113a4ce68aea7859}{\-Tile\-Matrix} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_widget_ga77cb176c33480b11c18a63824649e839}{\-Clear} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_widget_ga6317ab91209c66759964ba340bd3b980}{\-Clear\-Points\-Not\-In} (\-Q\-List$<$ \hyperlink{structcore_1_1_point}{core\-::\-Point} $>$ list)
+\item 
+\hyperlink{classinternals_1_1_tile}{\-Tile} $\ast$ \hyperlink{group___o_p_map_widget_gacf6a186610bc126a6fdd89149f0452e6}{\-Tile\-At} (const \hyperlink{structcore_1_1_point}{core\-::\-Point} \&p)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_widget_gad2d5e21b31c1b3a0420990925a7e6cdc}{\-Set\-Tile\-At} (const \hyperlink{structcore_1_1_point}{core\-::\-Point} \&p, \hyperlink{classinternals_1_1_tile}{\-Tile} $\ast$tile)
+\item 
+int \hyperlink{group___o_p_map_widget_gad7ee58d6ccda306fff324d62676aab7a}{count} () const 
+\end{DoxyCompactItemize}
+\subsection*{\-Protected \-Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\-Q\-Hash$<$ \hyperlink{structcore_1_1_point}{core\-::\-Point}, \hyperlink{classinternals_1_1_tile}{\-Tile} $\ast$ $>$ \hyperlink{group___o_p_map_widget_gaecc6fdfe28242560867ab83c02820b20}{matrix}
+\item 
+\-Q\-List$<$ \hyperlink{structcore_1_1_point}{core\-::\-Point} $>$ \hyperlink{group___o_p_map_widget_gaba9b5e3cf2e51b2a87c5a343968573e9}{removals}
+\item 
+\-Q\-Mutex \hyperlink{group___o_p_map_widget_gae5c51dfc2c2d290c958e335bef18f0a1}{mutex}
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+
+
+\-Definition at line 37 of file tilematrix.\-h.
+
+
+
+\-The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/libs/opmapcontrol/src/internals/\hyperlink{tilematrix_8h}{tilematrix.\-h}\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/libs/opmapcontrol/src/internals/\hyperlink{tilematrix_8cpp}{tilematrix.\-cpp}\end{DoxyCompactItemize}

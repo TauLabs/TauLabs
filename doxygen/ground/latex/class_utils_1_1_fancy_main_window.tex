@@ -1,0 +1,191 @@
+\hypertarget{class_utils_1_1_fancy_main_window}{\section{\-Utils\-:\-:\-Fancy\-Main\-Window \-Class \-Reference}
+\label{class_utils_1_1_fancy_main_window}\index{\-Utils\-::\-Fancy\-Main\-Window@{\-Utils\-::\-Fancy\-Main\-Window}}
+}
+
+
+{\ttfamily \#include $<$fancymainwindow.\-h$>$}
+
+\subsection*{\-Public \-Slots}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_utils_1_1_fancy_main_window_a4158149be21439e3eddf430c7dab6bb1}{set\-Locked} (bool locked)
+\end{DoxyCompactItemize}
+\subsection*{\-Public \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_utils_1_1_fancy_main_window_a168e128d3f13bbfaf7805d9cfb590bc2}{\-Fancy\-Main\-Window} (\-Q\-Widget $\ast$parent=0)
+\item 
+\-Q\-Dock\-Widget $\ast$ \hyperlink{class_utils_1_1_fancy_main_window_a421491059555a87ae2b5c395a4e54c0d}{add\-Dock\-For\-Widget} (\-Q\-Widget $\ast$widget)
+\item 
+\-Q\-List$<$ \-Q\-Dock\-Widget $\ast$ $>$ \hyperlink{class_utils_1_1_fancy_main_window_aa36813c3a709ff0f7d2eb9a5da76bfd4}{dock\-Widgets} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_utils_1_1_fancy_main_window_a2d8d324b8363730282ba40fecb8b9768}{set\-Tracking\-Enabled} (bool enabled)
+\item 
+bool \hyperlink{class_utils_1_1_fancy_main_window_ac239ffe161e74932b493aa55d23d8b62}{is\-Locked} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_utils_1_1_fancy_main_window_ad7909fa8deee5dc4394554ca8acdab18}{save\-Settings} (\-Q\-Settings $\ast$settings) const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_utils_1_1_fancy_main_window_a38517f30e5d3a541aa19eca0a15d1c8b}{restore\-Settings} (\-Q\-Settings $\ast$settings)
+\item 
+\-Q\-Hash$<$ \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String}, \-Q\-Variant $>$ \hyperlink{class_utils_1_1_fancy_main_window_ac5f53bf721cfaeb1339265d28c13a553}{save\-Settings} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_utils_1_1_fancy_main_window_a91be3cb4a0f106a24def9f64f29917ef}{restore\-Settings} (const \-Q\-Hash$<$ \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String}, \-Q\-Variant $>$ \&settings)
+\end{DoxyCompactItemize}
+\subsection*{\-Protected \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_utils_1_1_fancy_main_window_af75f017b9f6111029debafa47838a7a9}{hide\-Event} (\-Q\-Hide\-Event $\ast$event)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_utils_1_1_fancy_main_window_ae5574599bcaf697abc28fd98ad37def7}{show\-Event} (\-Q\-Show\-Event $\ast$event)
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+
+
+\-Definition at line 45 of file fancymainwindow.\-h.
+
+
+
+\subsection{\-Constructor \& \-Destructor \-Documentation}
+\hypertarget{class_utils_1_1_fancy_main_window_a168e128d3f13bbfaf7805d9cfb590bc2}{\index{\-Utils\-::\-Fancy\-Main\-Window@{\-Utils\-::\-Fancy\-Main\-Window}!\-Fancy\-Main\-Window@{\-Fancy\-Main\-Window}}
+\index{\-Fancy\-Main\-Window@{\-Fancy\-Main\-Window}!Utils::FancyMainWindow@{\-Utils\-::\-Fancy\-Main\-Window}}
+\subsubsection[{\-Fancy\-Main\-Window}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Fancy\-Main\-Window\-::\-Fancy\-Main\-Window} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Widget $\ast$}]{parent = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)}}\label{class_utils_1_1_fancy_main_window_a168e128d3f13bbfaf7805d9cfb590bc2}
+
+
+\-Definition at line 39 of file fancymainwindow.\-cpp.
+
+
+
+\subsection{\-Member \-Function \-Documentation}
+\hypertarget{class_utils_1_1_fancy_main_window_a421491059555a87ae2b5c395a4e54c0d}{\index{\-Utils\-::\-Fancy\-Main\-Window@{\-Utils\-::\-Fancy\-Main\-Window}!add\-Dock\-For\-Widget@{add\-Dock\-For\-Widget}}
+\index{add\-Dock\-For\-Widget@{add\-Dock\-For\-Widget}!Utils::FancyMainWindow@{\-Utils\-::\-Fancy\-Main\-Window}}
+\subsubsection[{add\-Dock\-For\-Widget}]{\setlength{\rightskip}{0pt plus 5cm}\-Q\-Dock\-Widget $\ast$ {\bf \-Fancy\-Main\-Window\-::add\-Dock\-For\-Widget} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Widget $\ast$}]{widget}
+\end{DoxyParamCaption}
+)}}\label{class_utils_1_1_fancy_main_window_a421491059555a87ae2b5c395a4e54c0d}
+
+
+\-Definition at line 46 of file fancymainwindow.\-cpp.
+
+\hypertarget{class_utils_1_1_fancy_main_window_aa36813c3a709ff0f7d2eb9a5da76bfd4}{\index{\-Utils\-::\-Fancy\-Main\-Window@{\-Utils\-::\-Fancy\-Main\-Window}!dock\-Widgets@{dock\-Widgets}}
+\index{dock\-Widgets@{dock\-Widgets}!Utils::FancyMainWindow@{\-Utils\-::\-Fancy\-Main\-Window}}
+\subsubsection[{dock\-Widgets}]{\setlength{\rightskip}{0pt plus 5cm}\-Q\-List$<$\-Q\-Dock\-Widget $\ast$$>$ {\bf \-Utils\-::\-Fancy\-Main\-Window\-::dock\-Widgets} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{class_utils_1_1_fancy_main_window_aa36813c3a709ff0f7d2eb9a5da76bfd4}
+
+
+\-Definition at line 53 of file fancymainwindow.\-h.
+
+\hypertarget{class_utils_1_1_fancy_main_window_af75f017b9f6111029debafa47838a7a9}{\index{\-Utils\-::\-Fancy\-Main\-Window@{\-Utils\-::\-Fancy\-Main\-Window}!hide\-Event@{hide\-Event}}
+\index{hide\-Event@{hide\-Event}!Utils::FancyMainWindow@{\-Utils\-::\-Fancy\-Main\-Window}}
+\subsubsection[{hide\-Event}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Fancy\-Main\-Window\-::hide\-Event} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Hide\-Event $\ast$}]{event}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{class_utils_1_1_fancy_main_window_af75f017b9f6111029debafa47838a7a9}
+
+
+\-Definition at line 121 of file fancymainwindow.\-cpp.
+
+\hypertarget{class_utils_1_1_fancy_main_window_ac239ffe161e74932b493aa55d23d8b62}{\index{\-Utils\-::\-Fancy\-Main\-Window@{\-Utils\-::\-Fancy\-Main\-Window}!is\-Locked@{is\-Locked}}
+\index{is\-Locked@{is\-Locked}!Utils::FancyMainWindow@{\-Utils\-::\-Fancy\-Main\-Window}}
+\subsubsection[{is\-Locked}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-Utils\-::\-Fancy\-Main\-Window\-::is\-Locked} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{class_utils_1_1_fancy_main_window_ac239ffe161e74932b493aa55d23d8b62}
+
+
+\-Definition at line 56 of file fancymainwindow.\-h.
+
+\hypertarget{class_utils_1_1_fancy_main_window_a38517f30e5d3a541aa19eca0a15d1c8b}{\index{\-Utils\-::\-Fancy\-Main\-Window@{\-Utils\-::\-Fancy\-Main\-Window}!restore\-Settings@{restore\-Settings}}
+\index{restore\-Settings@{restore\-Settings}!Utils::FancyMainWindow@{\-Utils\-::\-Fancy\-Main\-Window}}
+\subsubsection[{restore\-Settings}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Fancy\-Main\-Window\-::restore\-Settings} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Settings $\ast$}]{settings}
+\end{DoxyParamCaption}
+)}}\label{class_utils_1_1_fancy_main_window_a38517f30e5d3a541aa19eca0a15d1c8b}
+
+
+\-Definition at line 156 of file fancymainwindow.\-cpp.
+
+\hypertarget{class_utils_1_1_fancy_main_window_a91be3cb4a0f106a24def9f64f29917ef}{\index{\-Utils\-::\-Fancy\-Main\-Window@{\-Utils\-::\-Fancy\-Main\-Window}!restore\-Settings@{restore\-Settings}}
+\index{restore\-Settings@{restore\-Settings}!Utils::FancyMainWindow@{\-Utils\-::\-Fancy\-Main\-Window}}
+\subsubsection[{restore\-Settings}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Fancy\-Main\-Window\-::restore\-Settings} (
+\begin{DoxyParamCaption}
+\item[{const \-Q\-Hash$<$ {\bf \-Q\-String}, \-Q\-Variant $>$ \&}]{settings}
+\end{DoxyParamCaption}
+)}}\label{class_utils_1_1_fancy_main_window_a91be3cb4a0f106a24def9f64f29917ef}
+
+
+\-Definition at line 177 of file fancymainwindow.\-cpp.
+
+\hypertarget{class_utils_1_1_fancy_main_window_ad7909fa8deee5dc4394554ca8acdab18}{\index{\-Utils\-::\-Fancy\-Main\-Window@{\-Utils\-::\-Fancy\-Main\-Window}!save\-Settings@{save\-Settings}}
+\index{save\-Settings@{save\-Settings}!Utils::FancyMainWindow@{\-Utils\-::\-Fancy\-Main\-Window}}
+\subsubsection[{save\-Settings}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Fancy\-Main\-Window\-::save\-Settings} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Settings $\ast$}]{settings}
+\end{DoxyParamCaption}
+) const}}\label{class_utils_1_1_fancy_main_window_ad7909fa8deee5dc4394554ca8acdab18}
+
+
+\-Definition at line 146 of file fancymainwindow.\-cpp.
+
+\hypertarget{class_utils_1_1_fancy_main_window_ac5f53bf721cfaeb1339265d28c13a553}{\index{\-Utils\-::\-Fancy\-Main\-Window@{\-Utils\-::\-Fancy\-Main\-Window}!save\-Settings@{save\-Settings}}
+\index{save\-Settings@{save\-Settings}!Utils::FancyMainWindow@{\-Utils\-::\-Fancy\-Main\-Window}}
+\subsubsection[{save\-Settings}]{\setlength{\rightskip}{0pt plus 5cm}\-Q\-Hash$<$ {\bf \-Q\-String}, \-Q\-Variant $>$ {\bf \-Fancy\-Main\-Window\-::save\-Settings} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_utils_1_1_fancy_main_window_ac5f53bf721cfaeb1339265d28c13a553}
+
+
+\-Definition at line 165 of file fancymainwindow.\-cpp.
+
+\hypertarget{class_utils_1_1_fancy_main_window_a4158149be21439e3eddf430c7dab6bb1}{\index{\-Utils\-::\-Fancy\-Main\-Window@{\-Utils\-::\-Fancy\-Main\-Window}!set\-Locked@{set\-Locked}}
+\index{set\-Locked@{set\-Locked}!Utils::FancyMainWindow@{\-Utils\-::\-Fancy\-Main\-Window}}
+\subsubsection[{set\-Locked}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Fancy\-Main\-Window\-::set\-Locked} (
+\begin{DoxyParamCaption}
+\item[{bool}]{locked}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}slot\mbox{]}}}}\label{class_utils_1_1_fancy_main_window_a4158149be21439e3eddf430c7dab6bb1}
+
+
+\-Definition at line 113 of file fancymainwindow.\-cpp.
+
+\hypertarget{class_utils_1_1_fancy_main_window_a2d8d324b8363730282ba40fecb8b9768}{\index{\-Utils\-::\-Fancy\-Main\-Window@{\-Utils\-::\-Fancy\-Main\-Window}!set\-Tracking\-Enabled@{set\-Tracking\-Enabled}}
+\index{set\-Tracking\-Enabled@{set\-Tracking\-Enabled}!Utils::FancyMainWindow@{\-Utils\-::\-Fancy\-Main\-Window}}
+\subsubsection[{set\-Tracking\-Enabled}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Fancy\-Main\-Window\-::set\-Tracking\-Enabled} (
+\begin{DoxyParamCaption}
+\item[{bool}]{enabled}
+\end{DoxyParamCaption}
+)}}\label{class_utils_1_1_fancy_main_window_a2d8d324b8363730282ba40fecb8b9768}
+
+
+\-Definition at line 102 of file fancymainwindow.\-cpp.
+
+\hypertarget{class_utils_1_1_fancy_main_window_ae5574599bcaf697abc28fd98ad37def7}{\index{\-Utils\-::\-Fancy\-Main\-Window@{\-Utils\-::\-Fancy\-Main\-Window}!show\-Event@{show\-Event}}
+\index{show\-Event@{show\-Event}!Utils::FancyMainWindow@{\-Utils\-::\-Fancy\-Main\-Window}}
+\subsubsection[{show\-Event}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Fancy\-Main\-Window\-::show\-Event} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Show\-Event $\ast$}]{event}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{class_utils_1_1_fancy_main_window_ae5574599bcaf697abc28fd98ad37def7}
+
+
+\-Definition at line 127 of file fancymainwindow.\-cpp.
+
+
+
+\-The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/libs/utils/\hyperlink{fancymainwindow_8h}{fancymainwindow.\-h}\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/libs/utils/\hyperlink{fancymainwindow_8cpp}{fancymainwindow.\-cpp}\end{DoxyCompactItemize}

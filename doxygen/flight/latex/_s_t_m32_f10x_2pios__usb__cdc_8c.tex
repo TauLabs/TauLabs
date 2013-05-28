@@ -1,0 +1,38 @@
+\hypertarget{_s_t_m32_f10x_2pios__usb__cdc_8c}{\section{/home/jb/code/\-Tau\-Labs/flight/\-Pi\-O\-S/\-S\-T\-M32\-F10x/pios\-\_\-usb\-\_\-cdc.c \-File \-Reference}
+\label{_s_t_m32_f10x_2pios__usb__cdc_8c}\index{/home/jb/code/\-Tau\-Labs/flight/\-Pi\-O\-S/\-S\-T\-M32\-F10x/pios\-\_\-usb\-\_\-cdc.\-c@{/home/jb/code/\-Tau\-Labs/flight/\-Pi\-O\-S/\-S\-T\-M32\-F10x/pios\-\_\-usb\-\_\-cdc.\-c}}
+}
+\subsection*{\-Data \-Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structpios__usb__cdc__dev}{pios\-\_\-usb\-\_\-cdc\-\_\-dev}
+\end{DoxyCompactItemize}
+\subsection*{\-Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{group___p_i_o_s___u_s_b___c_o_m_gab4c476b0e464c59dcf6eadec015a87b8}{pios\-\_\-usb\-\_\-cdc\-\_\-dev\-\_\-magic} \{ \hyperlink{group___p_i_o_s___u_s_b___c_o_m_ggab4c476b0e464c59dcf6eadec015a87b8a41f1698bd0d94e1a4755f2a39d3ce022}{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-C\-D\-C\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C} =  0x\-A\-A\-B\-B\-C\-C\-D\-D, 
+\hyperlink{group___p_i_o_s___u_s_b___c_o_m_ggab4c476b0e464c59dcf6eadec015a87b8a41f1698bd0d94e1a4755f2a39d3ce022}{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-C\-D\-C\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C} =  0x\-A\-A\-B\-B\-C\-C\-D\-D, 
+\hyperlink{group___p_i_o_s___u_s_b___c_o_m_ggab4c476b0e464c59dcf6eadec015a87b8a41f1698bd0d94e1a4755f2a39d3ce022}{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-C\-D\-C\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C} =  0x\-A\-A\-B\-B\-C\-C\-D\-D
+ \}
+\end{DoxyCompactItemize}
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___u_s_b___c_o_m_ga30299ce46992751181aeb3d997b75ca8}{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-C\-D\-C\-\_\-\-Init} (uint32\-\_\-t $\ast$usbcdc\-\_\-id, const struct \hyperlink{structpios__usb__cdc__cfg}{pios\-\_\-usb\-\_\-cdc\-\_\-cfg} $\ast$cfg, uint32\-\_\-t lower\-\_\-id)
+\item 
+\-R\-E\-S\-U\-L\-T \hyperlink{group___p_i_o_s___u_s_b___c_o_m_gacbf6b3b4149e51a74c2f4255f0f8a199}{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-C\-D\-C\-\_\-\-Set\-Control\-Line\-State} (void)
+\item 
+uint8\-\_\-t $\ast$ \hyperlink{group___p_i_o_s___u_s_b___c_o_m_ga120d6d9cf08ed1125a62ea6759047914}{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-C\-D\-C\-\_\-\-Set\-Line\-Coding} (uint16\-\_\-t \-Length)
+\item 
+const uint8\-\_\-t $\ast$ \hyperlink{group___p_i_o_s___u_s_b___c_o_m_ga41d64940656273048e2558acb7609dc4}{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-C\-D\-C\-\_\-\-Get\-Line\-Coding} (uint16\-\_\-t \-Length)
+\end{DoxyCompactItemize}
+\subsection*{\-Variables}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structpios__com__driver}{pios\-\_\-com\-\_\-driver} \hyperlink{group___p_i_o_s___u_s_b___c_o_m_gad661bf144c28ea36f290b0092e6957e2}{pios\-\_\-usb\-\_\-cdc\-\_\-com\-\_\-driver}
+\item 
+void($\ast$ \hyperlink{group___p_i_o_s___u_s_b___c_o_m_ga0992c19a0f2e317fcd93f755d316a0fd}{p\-Ep\-Int\-\_\-\-I\-N} \mbox{[}7\mbox{]})(void)
+\item 
+void($\ast$ \hyperlink{group___p_i_o_s___u_s_b___c_o_m_ga549396ff4348c565f52117dd27ad52ca}{p\-Ep\-Int\-\_\-\-O\-U\-T} \mbox{[}7\mbox{]})(void)
+\item 
+struct \hyperlink{structusb__cdc__serial__state__report}{usb\-\_\-cdc\-\_\-serial\-\_\-state\-\_\-report} \hyperlink{group___p_i_o_s___u_s_b___c_o_m_gaf7f356f1ada9744b2424b2980baa2a81}{uart\-\_\-state}
+\end{DoxyCompactItemize}

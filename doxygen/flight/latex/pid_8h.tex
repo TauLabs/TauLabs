@@ -1,0 +1,43 @@
+\hypertarget{pid_8h}{\section{/home/jb/code/\-Tau\-Labs/flight/\-Libraries/math/pid.h \-File \-Reference}
+\label{pid_8h}\index{/home/jb/code/\-Tau\-Labs/flight/\-Libraries/math/pid.\-h@{/home/jb/code/\-Tau\-Labs/flight/\-Libraries/math/pid.\-h}}
+}
+
+
+\-P\-I\-D \-Control algorithms.  
+
+
+\subsection*{\-Data \-Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structpid}{pid}
+\end{DoxyCompactItemize}
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+float \hyperlink{group___tau_labs_math_gad03a357c11d4b4f48d0b53508c134172}{pid\-\_\-apply} (struct \hyperlink{structpid}{pid} $\ast$\hyperlink{structpid}{pid}, const float err, float d\-T)
+\begin{DoxyCompactList}\small\item\em \-Methods to use the pid structures. \end{DoxyCompactList}\item 
+float \hyperlink{group___tau_labs_math_gaf54d5f129b61126e45090a00f76a5e5f}{pid\-\_\-apply\-\_\-antiwindup} (struct \hyperlink{structpid}{pid} $\ast$\hyperlink{structpid}{pid}, const float err, float min\-\_\-bound, float max\-\_\-bound, float d\-T)
+\item 
+float \hyperlink{group___tau_labs_math_ga45b7c7ad39b81a853b97decfeed5e7c1}{pid\-\_\-apply\-\_\-setpoint} (struct \hyperlink{structpid}{pid} $\ast$\hyperlink{structpid}{pid}, const float setpoint, const float measured, float d\-T)
+\item 
+void \hyperlink{group___tau_labs_math_ga2e2dbc48e2b186b32beebd99e18f79e9}{pid\-\_\-zero} (struct \hyperlink{structpid}{pid} $\ast$\hyperlink{structpid}{pid})
+\item 
+void \hyperlink{group___tau_labs_math_ga01f26a319e659b2b74a32a52a4a88f95}{pid\-\_\-configure} (struct \hyperlink{structpid}{pid} $\ast$\hyperlink{structpid}{pid}, float p, float i, float d, float i\-Lim)
+\item 
+void \hyperlink{group___tau_labs_math_ga90a5d55ff766104f2cf9b4f2cc28d60f}{pid\-\_\-configure\-\_\-derivative} (float cutoff, float g)
+\begin{DoxyCompactList}\small\item\em \-Configure the common terms that alter ther derivative. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-P\-I\-D \-Control algorithms. \begin{DoxyAuthor}{\-Author}
+\-The \-Open\-Pilot \-Team, \href{http://www.openpilot.org}{\tt http\-://www.\-openpilot.\-org} \-Copyright (\-C) 2010. 
+
+\-Tau \-Labs, \href{http://taulabs.org,}{\tt http\-://taulabs.\-org,} \-Copyright (\-C) 2012-\/2013 
+\end{DoxyAuthor}
+\begin{DoxySeeAlso}{\-See also}
+\-The \-G\-N\-U \-Public \-License (\-G\-P\-L) \-Version 3 
+\end{DoxySeeAlso}
+
+
+\-Definition in file \hyperlink{pid_8h_source}{pid.\-h}.
+

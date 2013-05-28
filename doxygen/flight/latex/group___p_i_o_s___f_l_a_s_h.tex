@@ -1,0 +1,320 @@
+\hypertarget{group___p_i_o_s___f_l_a_s_h}{\section{\-Flash device handler}
+\label{group___p_i_o_s___f_l_a_s_h}\index{\-Flash device handler@{\-Flash device handler}}
+}
+
+
+\-Flash \-Driver \-A\-P\-I \-Definition.  
+
+
+\subsection*{\-Data \-Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structjedec__flash__dev}{jedec\-\_\-flash\-\_\-dev}
+\begin{DoxyCompactList}\small\item\em \hyperlink{struct_device}{\-Device} handle structure. \end{DoxyCompactList}\item 
+struct \hyperlink{structpios__flash__chunk}{pios\-\_\-flash\-\_\-chunk}
+\item 
+struct \hyperlink{structpios__flash__driver}{pios\-\_\-flash\-\_\-driver}
+\item 
+struct \hyperlink{structpios__flash__jedec__cfg}{pios\-\_\-flash\-\_\-jedec\-\_\-cfg}
+\end{DoxyCompactItemize}
+\subsection*{\-Files}
+\begin{DoxyCompactItemize}
+\item 
+file \hyperlink{pios__flash__jedec__priv_8h}{pios\-\_\-flash\-\_\-jedec\-\_\-priv.\-h}
+\begin{DoxyCompactList}\small\item\em \-Driver for talking to most \-J\-E\-D\-E\-C flash chips. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{group___p_i_o_s___f_l_a_s_h_ga3e7c01370e9757b84f3a37ec903714f3}{pios\-\_\-jedec\-\_\-dev\-\_\-magic} \{ \hyperlink{group___p_i_o_s___f_l_a_s_h_gga3e7c01370e9757b84f3a37ec903714f3a6360375c9264a236124eccd65cf3e519}{\-P\-I\-O\-S\-\_\-\-J\-E\-D\-E\-C\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C} =  0xcb55aa55
+ \}
+\end{DoxyCompactItemize}
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___f_l_a_s_h_ga9a23c23702dd0004514c87ce4a5520dc}{\-P\-I\-O\-S\-\_\-\-Flash\-\_\-\-Jedec\-\_\-\-Init} (uintptr\-\_\-t $\ast$flash\-\_\-id, uint32\-\_\-t spi\-\_\-id, uint32\-\_\-t slave\-\_\-num, const struct \hyperlink{structpios__flash__jedec__cfg}{pios\-\_\-flash\-\_\-jedec\-\_\-cfg} $\ast$cfg)
+\begin{DoxyCompactList}\small\item\em \-Initialize the flash device and enable write access. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Variables}
+\begin{DoxyCompactItemize}
+\item 
+uint32\-\_\-t \hyperlink{group___p_i_o_s___f_l_a_s_h_ga0f87de9cf831cf45ad2e81d4629cf021}{jedec\-\_\-flash\-\_\-dev\-::spi\-\_\-id}
+\item 
+uint32\-\_\-t \hyperlink{group___p_i_o_s___f_l_a_s_h_ga38ca35aafe78e6032326184768221fab}{jedec\-\_\-flash\-\_\-dev\-::slave\-\_\-num}
+\item 
+bool \hyperlink{group___p_i_o_s___f_l_a_s_h_ga0252ff9aa887c054e7299923b344bf59}{jedec\-\_\-flash\-\_\-dev\-::claimed}
+\item 
+uint8\-\_\-t \hyperlink{group___p_i_o_s___f_l_a_s_h_gaf7bb5593bcefe3837116c4bdb768cd6e}{jedec\-\_\-flash\-\_\-dev\-::manufacturer}
+\item 
+uint8\-\_\-t \hyperlink{group___p_i_o_s___f_l_a_s_h_ga68ce126b7f544ebb02fa8beab9b9faa2}{jedec\-\_\-flash\-\_\-dev\-::memorytype}
+\item 
+uint8\-\_\-t \hyperlink{group___p_i_o_s___f_l_a_s_h_ga4253b6dd4128fd223d200bed60696804}{jedec\-\_\-flash\-\_\-dev\-::capacity}
+\item 
+struct \hyperlink{structpios__flash__jedec__cfg}{pios\-\_\-flash\-\_\-jedec\-\_\-cfg} $\ast$ \hyperlink{group___p_i_o_s___f_l_a_s_h_ga26db753e18e085086b539aca2438ee45}{jedec\-\_\-flash\-\_\-dev\-::cfg}
+\item 
+x\-Semaphore\-Handle \hyperlink{group___p_i_o_s___f_l_a_s_h_ga28870637f7372faa2a3fb2bd887a4ab7}{jedec\-\_\-flash\-\_\-dev\-::transaction\-\_\-lock}
+\item 
+enum \hyperlink{group___p_i_o_s___f_l_a_s_h_ga3e7c01370e9757b84f3a37ec903714f3}{pios\-\_\-jedec\-\_\-dev\-\_\-magic} \hyperlink{group___p_i_o_s___f_l_a_s_h_gaf71b8f686812a43a77983b3ec807aed7}{jedec\-\_\-flash\-\_\-dev\-::magic}
+\item 
+struct \hyperlink{structpios__flash__driver}{pios\-\_\-flash\-\_\-driver} \hyperlink{group___p_i_o_s___f_l_a_s_h_gab3923a09f07a535164fd799434276f27}{pios\-\_\-jedec\-\_\-flash\-\_\-driver}
+\item 
+uint8\-\_\-t $\ast$ \hyperlink{group___p_i_o_s___f_l_a_s_h_gab6bdf89325e231293b582afee4e49e9b}{pios\-\_\-flash\-\_\-chunk\-::addr}
+\item 
+uint32\-\_\-t \hyperlink{group___p_i_o_s___f_l_a_s_h_ga127467a644fb34d50d9c074535dcaec3}{pios\-\_\-flash\-\_\-chunk\-::len}
+\item 
+int32\-\_\-t($\ast$ \hyperlink{group___p_i_o_s___f_l_a_s_h_ga3128721bfc5d4b157f9c8866d10d80f0}{pios\-\_\-flash\-\_\-driver\-::start\-\_\-transaction} )(uintptr\-\_\-t flash\-\_\-id)
+\item 
+int32\-\_\-t($\ast$ \hyperlink{group___p_i_o_s___f_l_a_s_h_ga775db43adcb0c42ede668aef36016301}{pios\-\_\-flash\-\_\-driver\-::end\-\_\-transaction} )(uintptr\-\_\-t flash\-\_\-id)
+\item 
+int32\-\_\-t($\ast$ \hyperlink{group___p_i_o_s___f_l_a_s_h_ga38768b3295a563897e91191bfead95b5}{pios\-\_\-flash\-\_\-driver\-::erase\-\_\-chip} )(uintptr\-\_\-t flash\-\_\-id)
+\item 
+int32\-\_\-t($\ast$ \hyperlink{group___p_i_o_s___f_l_a_s_h_ga91676d432517e3a2ea7303a07cd1bde3}{pios\-\_\-flash\-\_\-driver\-::erase\-\_\-sector} )(uintptr\-\_\-t flash\-\_\-id, uint32\-\_\-t addr)
+\item 
+int32\-\_\-t($\ast$ \hyperlink{group___p_i_o_s___f_l_a_s_h_ga019d8ac125523464c1068f1170852dd0}{pios\-\_\-flash\-\_\-driver\-::write\-\_\-data} )(uintptr\-\_\-t flash\-\_\-id, uint32\-\_\-t addr, uint8\-\_\-t $\ast$data, uint16\-\_\-t len)
+\item 
+int32\-\_\-t($\ast$ \hyperlink{group___p_i_o_s___f_l_a_s_h_ga5bac463e83aa46ce41c151c74ff8467b}{pios\-\_\-flash\-\_\-driver\-::write\-\_\-chunks} )(uintptr\-\_\-t flash\-\_\-id, uint32\-\_\-t addr, struct \hyperlink{structpios__flash__chunk}{pios\-\_\-flash\-\_\-chunk} chunks\mbox{[}$\,$\mbox{]}, uint32\-\_\-t num\-\_\-chunks)
+\item 
+int32\-\_\-t($\ast$ \hyperlink{group___p_i_o_s___f_l_a_s_h_ga5499ff7cdf896098a6eb43f2f32dc40a}{pios\-\_\-flash\-\_\-driver\-::read\-\_\-data} )(uintptr\-\_\-t flash\-\_\-id, uint32\-\_\-t addr, uint8\-\_\-t $\ast$data, uint16\-\_\-t len)
+\item 
+struct \hyperlink{structpios__flash__driver}{pios\-\_\-flash\-\_\-driver} \hyperlink{group___p_i_o_s___f_l_a_s_h_gab3923a09f07a535164fd799434276f27}{pios\-\_\-jedec\-\_\-flash\-\_\-driver}
+\item 
+uint8\-\_\-t \hyperlink{group___p_i_o_s___f_l_a_s_h_gab7416f66a2c392cc5a27e12cbf4e9a07}{pios\-\_\-flash\-\_\-jedec\-\_\-cfg\-::expect\-\_\-manufacturer}
+\item 
+uint8\-\_\-t \hyperlink{group___p_i_o_s___f_l_a_s_h_gacfb5714f6cef5d14a78a38ebe2369b43}{pios\-\_\-flash\-\_\-jedec\-\_\-cfg\-::expect\-\_\-memorytype}
+\item 
+uint8\-\_\-t \hyperlink{group___p_i_o_s___f_l_a_s_h_ga33911ac74387cebdbc4bb2fe3d5541a6}{pios\-\_\-flash\-\_\-jedec\-\_\-cfg\-::expect\-\_\-capacity}
+\item 
+uint32\-\_\-t \hyperlink{group___p_i_o_s___f_l_a_s_h_gae824eeb4a55e49fa84a48f1d43ae788c}{pios\-\_\-flash\-\_\-jedec\-\_\-cfg\-::sector\-\_\-erase}
+\item 
+uint32\-\_\-t \hyperlink{group___p_i_o_s___f_l_a_s_h_ga24dfbff52821d42480cde7686f07e956}{pios\-\_\-flash\-\_\-jedec\-\_\-cfg\-::chip\-\_\-erase}
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-Flash \-Driver \-A\-P\-I \-Definition. 
+
+\subsection{\-Enumeration \-Type \-Documentation}
+\hypertarget{group___p_i_o_s___f_l_a_s_h_ga3e7c01370e9757b84f3a37ec903714f3}{\index{\-Flash device handler@{\-Flash device handler}!pios\-\_\-jedec\-\_\-dev\-\_\-magic@{pios\-\_\-jedec\-\_\-dev\-\_\-magic}}
+\index{pios\-\_\-jedec\-\_\-dev\-\_\-magic@{pios\-\_\-jedec\-\_\-dev\-\_\-magic}!Flash device handler@{\-Flash device handler}}
+\subsubsection[{pios\-\_\-jedec\-\_\-dev\-\_\-magic}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf pios\-\_\-jedec\-\_\-dev\-\_\-magic}}}\label{group___p_i_o_s___f_l_a_s_h_ga3e7c01370e9757b84f3a37ec903714f3}
+\begin{Desc}
+\item[\-Enumerator\-: ]\par
+\begin{description}
+\index{\-P\-I\-O\-S\-\_\-\-J\-E\-D\-E\-C\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C@{\-P\-I\-O\-S\-\_\-\-J\-E\-D\-E\-C\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}!\-Flash device handler@{\-Flash device handler}}\index{\-Flash device handler@{\-Flash device handler}!\-P\-I\-O\-S\-\_\-\-J\-E\-D\-E\-C\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C@{\-P\-I\-O\-S\-\_\-\-J\-E\-D\-E\-C\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}}\item[{\em 
+\hypertarget{group___p_i_o_s___f_l_a_s_h_gga3e7c01370e9757b84f3a37ec903714f3a6360375c9264a236124eccd65cf3e519}{\-P\-I\-O\-S\-\_\-\-J\-E\-D\-E\-C\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}\label{group___p_i_o_s___f_l_a_s_h_gga3e7c01370e9757b84f3a37ec903714f3a6360375c9264a236124eccd65cf3e519}
+}]\end{description}
+\end{Desc}
+
+
+
+\-Definition at line 52 of file pios\-\_\-flash\-\_\-jedec.\-c.
+
+
+
+\subsection{\-Function \-Documentation}
+\hypertarget{group___p_i_o_s___f_l_a_s_h_ga9a23c23702dd0004514c87ce4a5520dc}{\index{\-Flash device handler@{\-Flash device handler}!\-P\-I\-O\-S\-\_\-\-Flash\-\_\-\-Jedec\-\_\-\-Init@{\-P\-I\-O\-S\-\_\-\-Flash\-\_\-\-Jedec\-\_\-\-Init}}
+\index{\-P\-I\-O\-S\-\_\-\-Flash\-\_\-\-Jedec\-\_\-\-Init@{\-P\-I\-O\-S\-\_\-\-Flash\-\_\-\-Jedec\-\_\-\-Init}!Flash device handler@{\-Flash device handler}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-Flash\-\_\-\-Jedec\-\_\-\-Init}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-P\-I\-O\-S\-\_\-\-Flash\-\_\-\-Jedec\-\_\-\-Init} (
+\begin{DoxyParamCaption}
+\item[{uintptr\-\_\-t $\ast$}]{flash\-\_\-id, }
+\item[{uint32\-\_\-t}]{spi\-\_\-id, }
+\item[{uint32\-\_\-t}]{slave\-\_\-num, }
+\item[{const struct {\bf pios\-\_\-flash\-\_\-jedec\-\_\-cfg} $\ast$}]{cfg}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___f_l_a_s_h_ga9a23c23702dd0004514c87ce4a5520dc}
+
+
+\-Initialize the flash device and enable write access. 
+
+
+
+\-Definition at line 118 of file pios\-\_\-flash\-\_\-jedec.\-c.
+
+
+
+\subsection{\-Variable \-Documentation}
+\hypertarget{group___p_i_o_s___f_l_a_s_h_gab6bdf89325e231293b582afee4e49e9b}{\index{\-Flash device handler@{\-Flash device handler}!addr@{addr}}
+\index{addr@{addr}!Flash device handler@{\-Flash device handler}}
+\subsubsection[{addr}]{\setlength{\rightskip}{0pt plus 5cm}uint8\-\_\-t$\ast$ {\bf pios\-\_\-flash\-\_\-chunk\-::addr}}}\label{group___p_i_o_s___f_l_a_s_h_gab6bdf89325e231293b582afee4e49e9b}
+
+
+\-Definition at line 33 of file pios\-\_\-flash.\-h.
+
+\hypertarget{group___p_i_o_s___f_l_a_s_h_ga4253b6dd4128fd223d200bed60696804}{\index{\-Flash device handler@{\-Flash device handler}!capacity@{capacity}}
+\index{capacity@{capacity}!Flash device handler@{\-Flash device handler}}
+\subsubsection[{capacity}]{\setlength{\rightskip}{0pt plus 5cm}uint8\-\_\-t {\bf jedec\-\_\-flash\-\_\-dev\-::capacity}}}\label{group___p_i_o_s___f_l_a_s_h_ga4253b6dd4128fd223d200bed60696804}
+
+
+\-Definition at line 64 of file pios\-\_\-flash\-\_\-jedec.\-c.
+
+\hypertarget{group___p_i_o_s___f_l_a_s_h_ga26db753e18e085086b539aca2438ee45}{\index{\-Flash device handler@{\-Flash device handler}!cfg@{cfg}}
+\index{cfg@{cfg}!Flash device handler@{\-Flash device handler}}
+\subsubsection[{cfg}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf pios\-\_\-flash\-\_\-jedec\-\_\-cfg}$\ast$ {\bf jedec\-\_\-flash\-\_\-dev\-::cfg}}}\label{group___p_i_o_s___f_l_a_s_h_ga26db753e18e085086b539aca2438ee45}
+
+
+\-Definition at line 66 of file pios\-\_\-flash\-\_\-jedec.\-c.
+
+\hypertarget{group___p_i_o_s___f_l_a_s_h_ga24dfbff52821d42480cde7686f07e956}{\index{\-Flash device handler@{\-Flash device handler}!chip\-\_\-erase@{chip\-\_\-erase}}
+\index{chip\-\_\-erase@{chip\-\_\-erase}!Flash device handler@{\-Flash device handler}}
+\subsubsection[{chip\-\_\-erase}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t {\bf pios\-\_\-flash\-\_\-jedec\-\_\-cfg\-::chip\-\_\-erase}}}\label{group___p_i_o_s___f_l_a_s_h_ga24dfbff52821d42480cde7686f07e956}
+
+
+\-Definition at line 47 of file pios\-\_\-flash\-\_\-jedec\-\_\-priv.\-h.
+
+\hypertarget{group___p_i_o_s___f_l_a_s_h_ga0252ff9aa887c054e7299923b344bf59}{\index{\-Flash device handler@{\-Flash device handler}!claimed@{claimed}}
+\index{claimed@{claimed}!Flash device handler@{\-Flash device handler}}
+\subsubsection[{claimed}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf jedec\-\_\-flash\-\_\-dev\-::claimed}}}\label{group___p_i_o_s___f_l_a_s_h_ga0252ff9aa887c054e7299923b344bf59}
+
+
+\-Definition at line 60 of file pios\-\_\-flash\-\_\-jedec.\-c.
+
+\hypertarget{group___p_i_o_s___f_l_a_s_h_ga775db43adcb0c42ede668aef36016301}{\index{\-Flash device handler@{\-Flash device handler}!end\-\_\-transaction@{end\-\_\-transaction}}
+\index{end\-\_\-transaction@{end\-\_\-transaction}!Flash device handler@{\-Flash device handler}}
+\subsubsection[{end\-\_\-transaction}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t($\ast$ {\bf pios\-\_\-flash\-\_\-driver\-::end\-\_\-transaction})(uintptr\-\_\-t flash\-\_\-id)}}\label{group___p_i_o_s___f_l_a_s_h_ga775db43adcb0c42ede668aef36016301}
+
+
+\-Definition at line 39 of file pios\-\_\-flash.\-h.
+
+\hypertarget{group___p_i_o_s___f_l_a_s_h_ga38768b3295a563897e91191bfead95b5}{\index{\-Flash device handler@{\-Flash device handler}!erase\-\_\-chip@{erase\-\_\-chip}}
+\index{erase\-\_\-chip@{erase\-\_\-chip}!Flash device handler@{\-Flash device handler}}
+\subsubsection[{erase\-\_\-chip}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t($\ast$ {\bf pios\-\_\-flash\-\_\-driver\-::erase\-\_\-chip})(uintptr\-\_\-t flash\-\_\-id)}}\label{group___p_i_o_s___f_l_a_s_h_ga38768b3295a563897e91191bfead95b5}
+
+
+\-Definition at line 40 of file pios\-\_\-flash.\-h.
+
+\hypertarget{group___p_i_o_s___f_l_a_s_h_ga91676d432517e3a2ea7303a07cd1bde3}{\index{\-Flash device handler@{\-Flash device handler}!erase\-\_\-sector@{erase\-\_\-sector}}
+\index{erase\-\_\-sector@{erase\-\_\-sector}!Flash device handler@{\-Flash device handler}}
+\subsubsection[{erase\-\_\-sector}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t($\ast$ {\bf pios\-\_\-flash\-\_\-driver\-::erase\-\_\-sector})(uintptr\-\_\-t flash\-\_\-id, uint32\-\_\-t addr)}}\label{group___p_i_o_s___f_l_a_s_h_ga91676d432517e3a2ea7303a07cd1bde3}
+
+
+\-Definition at line 41 of file pios\-\_\-flash.\-h.
+
+\hypertarget{group___p_i_o_s___f_l_a_s_h_ga33911ac74387cebdbc4bb2fe3d5541a6}{\index{\-Flash device handler@{\-Flash device handler}!expect\-\_\-capacity@{expect\-\_\-capacity}}
+\index{expect\-\_\-capacity@{expect\-\_\-capacity}!Flash device handler@{\-Flash device handler}}
+\subsubsection[{expect\-\_\-capacity}]{\setlength{\rightskip}{0pt plus 5cm}uint8\-\_\-t {\bf pios\-\_\-flash\-\_\-jedec\-\_\-cfg\-::expect\-\_\-capacity}}}\label{group___p_i_o_s___f_l_a_s_h_ga33911ac74387cebdbc4bb2fe3d5541a6}
+
+
+\-Definition at line 45 of file pios\-\_\-flash\-\_\-jedec\-\_\-priv.\-h.
+
+\hypertarget{group___p_i_o_s___f_l_a_s_h_gab7416f66a2c392cc5a27e12cbf4e9a07}{\index{\-Flash device handler@{\-Flash device handler}!expect\-\_\-manufacturer@{expect\-\_\-manufacturer}}
+\index{expect\-\_\-manufacturer@{expect\-\_\-manufacturer}!Flash device handler@{\-Flash device handler}}
+\subsubsection[{expect\-\_\-manufacturer}]{\setlength{\rightskip}{0pt plus 5cm}uint8\-\_\-t {\bf pios\-\_\-flash\-\_\-jedec\-\_\-cfg\-::expect\-\_\-manufacturer}}}\label{group___p_i_o_s___f_l_a_s_h_gab7416f66a2c392cc5a27e12cbf4e9a07}
+
+
+\-Definition at line 43 of file pios\-\_\-flash\-\_\-jedec\-\_\-priv.\-h.
+
+\hypertarget{group___p_i_o_s___f_l_a_s_h_gacfb5714f6cef5d14a78a38ebe2369b43}{\index{\-Flash device handler@{\-Flash device handler}!expect\-\_\-memorytype@{expect\-\_\-memorytype}}
+\index{expect\-\_\-memorytype@{expect\-\_\-memorytype}!Flash device handler@{\-Flash device handler}}
+\subsubsection[{expect\-\_\-memorytype}]{\setlength{\rightskip}{0pt plus 5cm}uint8\-\_\-t {\bf pios\-\_\-flash\-\_\-jedec\-\_\-cfg\-::expect\-\_\-memorytype}}}\label{group___p_i_o_s___f_l_a_s_h_gacfb5714f6cef5d14a78a38ebe2369b43}
+
+
+\-Definition at line 44 of file pios\-\_\-flash\-\_\-jedec\-\_\-priv.\-h.
+
+\hypertarget{group___p_i_o_s___f_l_a_s_h_ga127467a644fb34d50d9c074535dcaec3}{\index{\-Flash device handler@{\-Flash device handler}!len@{len}}
+\index{len@{len}!Flash device handler@{\-Flash device handler}}
+\subsubsection[{len}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t {\bf pios\-\_\-flash\-\_\-chunk\-::len}}}\label{group___p_i_o_s___f_l_a_s_h_ga127467a644fb34d50d9c074535dcaec3}
+
+
+\-Definition at line 34 of file pios\-\_\-flash.\-h.
+
+\hypertarget{group___p_i_o_s___f_l_a_s_h_gaf71b8f686812a43a77983b3ec807aed7}{\index{\-Flash device handler@{\-Flash device handler}!magic@{magic}}
+\index{magic@{magic}!Flash device handler@{\-Flash device handler}}
+\subsubsection[{magic}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf pios\-\_\-jedec\-\_\-dev\-\_\-magic} {\bf jedec\-\_\-flash\-\_\-dev\-::magic}}}\label{group___p_i_o_s___f_l_a_s_h_gaf71b8f686812a43a77983b3ec807aed7}
+
+
+\-Definition at line 70 of file pios\-\_\-flash\-\_\-jedec.\-c.
+
+\hypertarget{group___p_i_o_s___f_l_a_s_h_gaf7bb5593bcefe3837116c4bdb768cd6e}{\index{\-Flash device handler@{\-Flash device handler}!manufacturer@{manufacturer}}
+\index{manufacturer@{manufacturer}!Flash device handler@{\-Flash device handler}}
+\subsubsection[{manufacturer}]{\setlength{\rightskip}{0pt plus 5cm}uint8\-\_\-t {\bf jedec\-\_\-flash\-\_\-dev\-::manufacturer}}}\label{group___p_i_o_s___f_l_a_s_h_gaf7bb5593bcefe3837116c4bdb768cd6e}
+
+
+\-Definition at line 62 of file pios\-\_\-flash\-\_\-jedec.\-c.
+
+\hypertarget{group___p_i_o_s___f_l_a_s_h_ga68ce126b7f544ebb02fa8beab9b9faa2}{\index{\-Flash device handler@{\-Flash device handler}!memorytype@{memorytype}}
+\index{memorytype@{memorytype}!Flash device handler@{\-Flash device handler}}
+\subsubsection[{memorytype}]{\setlength{\rightskip}{0pt plus 5cm}uint8\-\_\-t {\bf jedec\-\_\-flash\-\_\-dev\-::memorytype}}}\label{group___p_i_o_s___f_l_a_s_h_ga68ce126b7f544ebb02fa8beab9b9faa2}
+
+
+\-Definition at line 63 of file pios\-\_\-flash\-\_\-jedec.\-c.
+
+\hypertarget{group___p_i_o_s___f_l_a_s_h_gab3923a09f07a535164fd799434276f27}{\index{\-Flash device handler@{\-Flash device handler}!pios\-\_\-jedec\-\_\-flash\-\_\-driver@{pios\-\_\-jedec\-\_\-flash\-\_\-driver}}
+\index{pios\-\_\-jedec\-\_\-flash\-\_\-driver@{pios\-\_\-jedec\-\_\-flash\-\_\-driver}!Flash device handler@{\-Flash device handler}}
+\subsubsection[{pios\-\_\-jedec\-\_\-flash\-\_\-driver}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf pios\-\_\-flash\-\_\-driver} {\bf pios\-\_\-jedec\-\_\-flash\-\_\-driver}}}\label{group___p_i_o_s___f_l_a_s_h_gab3923a09f07a535164fd799434276f27}
+
+
+\-Definition at line 555 of file pios\-\_\-flash\-\_\-jedec.\-c.
+
+\hypertarget{group___p_i_o_s___f_l_a_s_h_gab3923a09f07a535164fd799434276f27}{\index{\-Flash device handler@{\-Flash device handler}!pios\-\_\-jedec\-\_\-flash\-\_\-driver@{pios\-\_\-jedec\-\_\-flash\-\_\-driver}}
+\index{pios\-\_\-jedec\-\_\-flash\-\_\-driver@{pios\-\_\-jedec\-\_\-flash\-\_\-driver}!Flash device handler@{\-Flash device handler}}
+\subsubsection[{pios\-\_\-jedec\-\_\-flash\-\_\-driver}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf pios\-\_\-flash\-\_\-driver} {\bf pios\-\_\-jedec\-\_\-flash\-\_\-driver}}}\label{group___p_i_o_s___f_l_a_s_h_gab3923a09f07a535164fd799434276f27}
+{\bfseries \-Initial value\-:}
+\begin{DoxyCode}
+ {
+        .start_transaction = PIOS_Flash_Jedec_StartTransaction,
+        .end_transaction   = PIOS_Flash_Jedec_EndTransaction,
+        .erase_chip        = PIOS_Flash_Jedec_EraseChip,
+        .erase_sector      = PIOS_Flash_Jedec_EraseSector,
+        .write_chunks      = PIOS_Flash_Jedec_WriteChunks,
+        .write_data        = PIOS_Flash_Jedec_WriteData,
+        .read_data         = PIOS_Flash_Jedec_ReadData,
+}
+\end{DoxyCode}
+
+
+\-Definition at line 555 of file pios\-\_\-flash\-\_\-jedec.\-c.
+
+\hypertarget{group___p_i_o_s___f_l_a_s_h_ga5499ff7cdf896098a6eb43f2f32dc40a}{\index{\-Flash device handler@{\-Flash device handler}!read\-\_\-data@{read\-\_\-data}}
+\index{read\-\_\-data@{read\-\_\-data}!Flash device handler@{\-Flash device handler}}
+\subsubsection[{read\-\_\-data}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t($\ast$ {\bf pios\-\_\-flash\-\_\-driver\-::read\-\_\-data})(uintptr\-\_\-t flash\-\_\-id, uint32\-\_\-t addr, uint8\-\_\-t $\ast$data, uint16\-\_\-t len)}}\label{group___p_i_o_s___f_l_a_s_h_ga5499ff7cdf896098a6eb43f2f32dc40a}
+
+
+\-Definition at line 44 of file pios\-\_\-flash.\-h.
+
+\hypertarget{group___p_i_o_s___f_l_a_s_h_gae824eeb4a55e49fa84a48f1d43ae788c}{\index{\-Flash device handler@{\-Flash device handler}!sector\-\_\-erase@{sector\-\_\-erase}}
+\index{sector\-\_\-erase@{sector\-\_\-erase}!Flash device handler@{\-Flash device handler}}
+\subsubsection[{sector\-\_\-erase}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t {\bf pios\-\_\-flash\-\_\-jedec\-\_\-cfg\-::sector\-\_\-erase}}}\label{group___p_i_o_s___f_l_a_s_h_gae824eeb4a55e49fa84a48f1d43ae788c}
+
+
+\-Definition at line 46 of file pios\-\_\-flash\-\_\-jedec\-\_\-priv.\-h.
+
+\hypertarget{group___p_i_o_s___f_l_a_s_h_ga38ca35aafe78e6032326184768221fab}{\index{\-Flash device handler@{\-Flash device handler}!slave\-\_\-num@{slave\-\_\-num}}
+\index{slave\-\_\-num@{slave\-\_\-num}!Flash device handler@{\-Flash device handler}}
+\subsubsection[{slave\-\_\-num}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t {\bf jedec\-\_\-flash\-\_\-dev\-::slave\-\_\-num}}}\label{group___p_i_o_s___f_l_a_s_h_ga38ca35aafe78e6032326184768221fab}
+
+
+\-Definition at line 59 of file pios\-\_\-flash\-\_\-jedec.\-c.
+
+\hypertarget{group___p_i_o_s___f_l_a_s_h_ga0f87de9cf831cf45ad2e81d4629cf021}{\index{\-Flash device handler@{\-Flash device handler}!spi\-\_\-id@{spi\-\_\-id}}
+\index{spi\-\_\-id@{spi\-\_\-id}!Flash device handler@{\-Flash device handler}}
+\subsubsection[{spi\-\_\-id}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t {\bf jedec\-\_\-flash\-\_\-dev\-::spi\-\_\-id}}}\label{group___p_i_o_s___f_l_a_s_h_ga0f87de9cf831cf45ad2e81d4629cf021}
+
+
+\-Definition at line 58 of file pios\-\_\-flash\-\_\-jedec.\-c.
+
+\hypertarget{group___p_i_o_s___f_l_a_s_h_ga3128721bfc5d4b157f9c8866d10d80f0}{\index{\-Flash device handler@{\-Flash device handler}!start\-\_\-transaction@{start\-\_\-transaction}}
+\index{start\-\_\-transaction@{start\-\_\-transaction}!Flash device handler@{\-Flash device handler}}
+\subsubsection[{start\-\_\-transaction}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t($\ast$ {\bf pios\-\_\-flash\-\_\-driver\-::start\-\_\-transaction})(uintptr\-\_\-t flash\-\_\-id)}}\label{group___p_i_o_s___f_l_a_s_h_ga3128721bfc5d4b157f9c8866d10d80f0}
+
+
+\-Definition at line 38 of file pios\-\_\-flash.\-h.
+
+\hypertarget{group___p_i_o_s___f_l_a_s_h_ga28870637f7372faa2a3fb2bd887a4ab7}{\index{\-Flash device handler@{\-Flash device handler}!transaction\-\_\-lock@{transaction\-\_\-lock}}
+\index{transaction\-\_\-lock@{transaction\-\_\-lock}!Flash device handler@{\-Flash device handler}}
+\subsubsection[{transaction\-\_\-lock}]{\setlength{\rightskip}{0pt plus 5cm}x\-Semaphore\-Handle {\bf jedec\-\_\-flash\-\_\-dev\-::transaction\-\_\-lock}}}\label{group___p_i_o_s___f_l_a_s_h_ga28870637f7372faa2a3fb2bd887a4ab7}
+
+
+\-Definition at line 68 of file pios\-\_\-flash\-\_\-jedec.\-c.
+
+\hypertarget{group___p_i_o_s___f_l_a_s_h_ga5bac463e83aa46ce41c151c74ff8467b}{\index{\-Flash device handler@{\-Flash device handler}!write\-\_\-chunks@{write\-\_\-chunks}}
+\index{write\-\_\-chunks@{write\-\_\-chunks}!Flash device handler@{\-Flash device handler}}
+\subsubsection[{write\-\_\-chunks}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t($\ast$ {\bf pios\-\_\-flash\-\_\-driver\-::write\-\_\-chunks})(uintptr\-\_\-t flash\-\_\-id, uint32\-\_\-t addr, struct {\bf pios\-\_\-flash\-\_\-chunk} chunks\mbox{[}$\,$\mbox{]}, uint32\-\_\-t num\-\_\-chunks)}}\label{group___p_i_o_s___f_l_a_s_h_ga5bac463e83aa46ce41c151c74ff8467b}
+
+
+\-Definition at line 43 of file pios\-\_\-flash.\-h.
+
+\hypertarget{group___p_i_o_s___f_l_a_s_h_ga019d8ac125523464c1068f1170852dd0}{\index{\-Flash device handler@{\-Flash device handler}!write\-\_\-data@{write\-\_\-data}}
+\index{write\-\_\-data@{write\-\_\-data}!Flash device handler@{\-Flash device handler}}
+\subsubsection[{write\-\_\-data}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t($\ast$ {\bf pios\-\_\-flash\-\_\-driver\-::write\-\_\-data})(uintptr\-\_\-t flash\-\_\-id, uint32\-\_\-t addr, uint8\-\_\-t $\ast$data, uint16\-\_\-t len)}}\label{group___p_i_o_s___f_l_a_s_h_ga019d8ac125523464c1068f1170852dd0}
+
+
+\-Definition at line 42 of file pios\-\_\-flash.\-h.
+

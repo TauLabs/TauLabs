@@ -1,0 +1,672 @@
+\hypertarget{group___serial_plugin}{\section{\-Serial \-Connection \-Plugin}
+\label{group___serial_plugin}\index{\-Serial Connection Plugin@{\-Serial Connection Plugin}}
+}
+
+
+\-Impliments serial connection to the flight hardware for \hyperlink{class_telemetry}{\-Telemetry}.  
+
+
+\subsection*{\-Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{class_serial_enumeration_thread}{\-Serial\-Enumeration\-Thread}
+\item 
+class \hyperlink{class_serial_connection}{\-Serial\-Connection}
+\item 
+class \hyperlink{class_serial_plugin}{\-Serial\-Plugin}
+\item 
+class \hyperlink{class_serial_plugin_configuration}{\-Serial\-Plugin\-Configuration}
+\item 
+class \hyperlink{class_serial_plugin_options_page}{\-Serial\-Plugin\-Options\-Page}
+\end{DoxyCompactItemize}
+\subsection*{\-Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+namespace \hyperlink{namespace_core}{\-Core}
+\begin{DoxyCompactList}\small\item\em \-The \hyperlink{namespace_core}{\-Core} namespace contains all classes that make up the \hyperlink{namespace_core}{\-Core} plugin which constitute the basic functionality of the \-Tau \-Labs \-G\-C\-S. \end{DoxyCompactList}\item 
+namespace \hyperlink{namespace_ui}{\-Ui}
+\end{DoxyCompactItemize}
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+bool \hyperlink{group___serial_plugin_gad78f86e2b854b6285de51dbf32711129}{sort\-Ports} (const \-Qext\-Port\-Info \&\hyperlink{_o_p_plots_8m_a2f07e0f444810cc4e54ee2be2ce0ac65}{s1}, const \-Qext\-Port\-Info \&\hyperlink{_o_p_plots_8m_a2e63e71737e8b6802b81f6a7c5ca6a0a}{s2})
+\item 
+\hyperlink{group___serial_plugin_ga289f1853507d6f6b1bfdd1dd31284c31}{\-Serial\-Enumeration\-Thread\-::\-Serial\-Enumeration\-Thread} (\hyperlink{class_serial_connection}{\-Serial\-Connection} $\ast$serial)
+\item 
+virtual \hyperlink{group___serial_plugin_gaf247ad3a1a6b6c85a885aaaa1675cd48}{\-Serial\-Enumeration\-Thread\-::$\sim$\-Serial\-Enumeration\-Thread} ()
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___serial_plugin_gab90979605ec84bd0383575c2b10f18d0}{\-Serial\-Enumeration\-Thread\-::run} ()
+\item 
+\hyperlink{group___serial_plugin_gaad6479d49b3483b42c19868c9efcef01}{\-Serial\-Connection\-::\-Serial\-Connection} ()
+\item 
+virtual \hyperlink{group___serial_plugin_gae73749bb08c2f53f467809cb6c0a3fc8}{\-Serial\-Connection\-::$\sim$\-Serial\-Connection} ()
+\item 
+virtual \-Q\-List$<$ \hyperlink{class_core_1_1_i_device}{\-Core\-::\-I\-Device} $\ast$ $>$ \hyperlink{group___serial_plugin_ga35f8b088eb3166e3e81cc71809806085}{\-Serial\-Connection\-::available\-Devices} ()
+\item 
+virtual \-Q\-I\-O\-Device $\ast$ \hyperlink{group___serial_plugin_gacbed38aeba722578f369ad9b4ef2b822}{\-Serial\-Connection\-::open\-Device} (\hyperlink{class_core_1_1_i_device}{\-Core\-::\-I\-Device} $\ast$device\-Name)
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___serial_plugin_gaa5933c2426d549fd1621d1e29529e517}{\-Serial\-Connection\-::close\-Device} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \&device\-Name)
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___serial_plugin_ga4b91aa098a25069f0590a25687bdf25b}{\-Serial\-Connection\-::connection\-Name} ()
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___serial_plugin_ga6783c4f6c9faa91aeb0b91fef726a2d4}{\-Serial\-Connection\-::short\-Name} ()
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___serial_plugin_ga9616a4134ceba88c6ae5820e29a783c4}{\-Serial\-Connection\-::suspend\-Polling} ()
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___serial_plugin_gac4a001507836025006728ab1771116f0}{\-Serial\-Connection\-::resume\-Polling} ()
+\item 
+bool \hyperlink{group___serial_plugin_gaa9616a7f264a903a0a5b13ae05d40375}{\-Serial\-Connection\-::device\-Opened} ()
+\item 
+\hyperlink{class_serial_plugin_configuration}{\-Serial\-Plugin\-Configuration} $\ast$ \hyperlink{group___serial_plugin_gad054f24566a90754595ad08e00756bfc}{\-Serial\-Connection\-::\-Config} () const 
+\item 
+\hyperlink{class_serial_plugin_options_page}{\-Serial\-Plugin\-Options\-Page} $\ast$ \hyperlink{group___serial_plugin_gaf86b9d4296b2b9e6429dd643fd113861}{\-Serial\-Connection\-::\-Optionspage} () const 
+\item 
+\hyperlink{group___serial_plugin_ga61918aa34cb91654613f5ae3e2992cb5}{\-Serial\-Plugin\-::\-Serial\-Plugin} ()
+\item 
+\hyperlink{group___serial_plugin_gaed0afbd615d41b58d07b4916f4c9e277}{\-Serial\-Plugin\-::$\sim$\-Serial\-Plugin} ()
+\item 
+virtual bool \hyperlink{group___serial_plugin_ga06e1847534162b254c0790b2221e2836}{\-Serial\-Plugin\-::initialize} (const \-Q\-String\-List \&arguments, \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} $\ast$error\-\_\-message)
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___serial_plugin_ga513ef44cd1747f6859255f102fc9f845}{\-Serial\-Plugin\-::extensions\-Initialized} ()
+\item 
+\hyperlink{group___serial_plugin_ga15a723a8f3215c718070ef32ea6fff2e}{\-Serial\-Plugin\-Configuration\-::\-Serial\-Plugin\-Configuration} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} class\-Id, \-Q\-Settings $\ast$q\-Settings=0, \-Q\-Object $\ast$parent=0)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___serial_plugin_ga1e6623a11c7e9c8e52411d2568dd4e7c}{\-Serial\-Plugin\-Configuration\-::speed} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___serial_plugin_ga01715638b8bff47aaa76961d1cd11f59}{\-Serial\-Plugin\-Configuration\-::save\-Config} (\-Q\-Settings $\ast$settings) const 
+\item 
+\-I\-U\-A\-V\-Gadget\-Configuration $\ast$ \hyperlink{group___serial_plugin_ga894fb8aa5280cdfb94f844d09f21e64d}{\-Serial\-Plugin\-Configuration\-::clone} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___serial_plugin_ga4a63c76785f20677382b69b52b9537f0}{\-Serial\-Plugin\-Configuration\-::savesettings} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___serial_plugin_ga9c071c1ab20bf2139e54c469ab804332}{\-Serial\-Plugin\-Configuration\-::restoresettings} ()
+\item 
+virtual \hyperlink{group___serial_plugin_ga02088820254dad5d594d652f0d1ac556}{\-Serial\-Plugin\-Configuration\-::$\sim$\-Serial\-Plugin\-Configuration} ()
+\item 
+\hyperlink{group___serial_plugin_gabbba5e225f4b24b0ff2762edd89a7c85}{\-Serial\-Plugin\-Options\-Page\-::\-Serial\-Plugin\-Options\-Page} (\hyperlink{class_serial_plugin_configuration}{\-Serial\-Plugin\-Configuration} $\ast$config, \-Q\-Object $\ast$parent=0)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___serial_plugin_gaadfb80c5939566ed536ef5e6d49601fd}{\-Serial\-Plugin\-Options\-Page\-::id} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___serial_plugin_ga6558090ef30ec926b500dc27787f194a}{\-Serial\-Plugin\-Options\-Page\-::tr\-Name} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___serial_plugin_ga11d58b7fe11ee48ac5a865eaea4d9a13}{\-Serial\-Plugin\-Options\-Page\-::category} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___serial_plugin_ga65036a91c24758081e8a2cecc44925a0}{\-Serial\-Plugin\-Options\-Page\-::tr\-Category} () const 
+\item 
+\-Q\-Widget $\ast$ \hyperlink{group___serial_plugin_ga77331da48998f8e92c60751f5e2ab862}{\-Serial\-Plugin\-Options\-Page\-::create\-Page} (\-Q\-Widget $\ast$parent)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___serial_plugin_ga442981f9537c634cbc6bd160f30c0a8a}{\-Serial\-Plugin\-Options\-Page\-::apply} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___serial_plugin_ga7d5463f2125597e0962512fde1cd83e4}{\-Serial\-Plugin\-Options\-Page\-::finish} ()
+\end{DoxyCompactItemize}
+\subsection*{\-Variables}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_serial_connection}{\-Serial\-Connection} $\ast$ \hyperlink{group___serial_plugin_ga5f88185588c5c33293dad0342be60237}{\-Serial\-Enumeration\-Thread\-::m\-\_\-serial}
+\item 
+bool \hyperlink{group___serial_plugin_ga1b3398189b91a1994544370f00f8cd00}{\-Serial\-Enumeration\-Thread\-::m\-\_\-running}
+\item 
+\hyperlink{class_serial_enumeration_thread}{\-Serial\-Enumeration\-Thread} \hyperlink{group___serial_plugin_ga5895d83033636cc3832bd9478f4415f7}{\-Serial\-Connection\-::m\-\_\-enumerate\-Thread}
+\item 
+bool \hyperlink{group___serial_plugin_gac430f3139892f313e094560f5e2e72d1}{\-Serial\-Connection\-::m\-\_\-device\-Opened}
+\end{DoxyCompactItemize}
+\subsection*{\-Signals}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___serial_plugin_ga18ace5d92ca2899dc35a0fa3b43e016a}{\-Serial\-Enumeration\-Thread\-::enumeration\-Changed} ()
+\end{DoxyCompactItemize}
+\subsection*{\-Public \-Slots}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___serial_plugin_ga6e476e94e24bb1f9bf91de3c99ff00fc}{\-Serial\-Plugin\-Configuration\-::set\-Speed} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} speed)
+\end{DoxyCompactItemize}
+\subsection*{\-Protected \-Slots}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___serial_plugin_gaa86538693d05fa3051ffebb2821d40fd}{\-Serial\-Connection\-::on\-Enumeration\-Changed} ()
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-Impliments serial connection to the flight hardware for \hyperlink{class_telemetry}{\-Telemetry}. 
+
+\subsection{\-Function \-Documentation}
+\hypertarget{group___serial_plugin_ga442981f9537c634cbc6bd160f30c0a8a}{\index{\-Serial Connection Plugin@{\-Serial Connection Plugin}!apply@{apply}}
+\index{apply@{apply}!Serial Connection Plugin@{\-Serial Connection Plugin}}
+\subsubsection[{apply}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Serial\-Plugin\-Options\-Page\-::apply} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___serial_plugin_ga442981f9537c634cbc6bd160f30c0a8a}
+\-Called when the user presses apply or \-O\-K.
+
+\-Saves the current values 
+
+\-Implements \hyperlink{group___core_plugin_ga05fa0c9b91da02a0f2fed11d2d6afed0}{\-Core\-::\-I\-Options\-Page}.
+
+
+
+\-Definition at line 92 of file serialpluginoptionspage.\-cpp.
+
+\hypertarget{group___serial_plugin_ga35f8b088eb3166e3e81cc71809806085}{\index{\-Serial Connection Plugin@{\-Serial Connection Plugin}!available\-Devices@{available\-Devices}}
+\index{available\-Devices@{available\-Devices}!Serial Connection Plugin@{\-Serial Connection Plugin}}
+\subsubsection[{available\-Devices}]{\setlength{\rightskip}{0pt plus 5cm}\-Q\-List$<$ \-I\-Device $\ast$ $>$ {\bf \-Serial\-Connection\-::available\-Devices} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___serial_plugin_ga35f8b088eb3166e3e81cc71809806085}
+\-Return the list of devices found on the system 
+
+\-Implements \hyperlink{group___core_plugin_ga2766d577d1343dfbd7f41859363cad29}{\-Core\-::\-I\-Connection}.
+
+
+
+\-Definition at line 130 of file serialplugin.\-cpp.
+
+\hypertarget{group___serial_plugin_ga11d58b7fe11ee48ac5a865eaea4d9a13}{\index{\-Serial Connection Plugin@{\-Serial Connection Plugin}!category@{category}}
+\index{category@{category}!Serial Connection Plugin@{\-Serial Connection Plugin}}
+\subsubsection[{category}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Q\-String} {\bf \-Serial\-Plugin\-Options\-Page\-::category} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}inline, virtual\mbox{]}}}}\label{group___serial_plugin_ga11d58b7fe11ee48ac5a865eaea4d9a13}
+
+
+\-Reimplemented from \hyperlink{group___core_plugin_ga03767437394cdfbfc9e253638a71b132}{\-Core\-::\-I\-Options\-Page}.
+
+
+
+\-Definition at line 58 of file serialpluginoptionspage.\-h.
+
+\hypertarget{group___serial_plugin_ga894fb8aa5280cdfb94f844d09f21e64d}{\index{\-Serial Connection Plugin@{\-Serial Connection Plugin}!clone@{clone}}
+\index{clone@{clone}!Serial Connection Plugin@{\-Serial Connection Plugin}}
+\subsubsection[{clone}]{\setlength{\rightskip}{0pt plus 5cm}\-I\-U\-A\-V\-Gadget\-Configuration $\ast$ {\bf \-Serial\-Plugin\-Configuration\-::clone} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___serial_plugin_ga894fb8aa5280cdfb94f844d09f21e64d}
+\-Clones a configuration. 
+
+\-Implements \hyperlink{group___core_plugin_ga35f72dc89919925fd591fa509ebbf7dc}{\-Core\-::\-I\-U\-A\-V\-Gadget\-Configuration}.
+
+
+
+\-Definition at line 50 of file serialpluginconfiguration.\-cpp.
+
+\hypertarget{group___serial_plugin_gaa5933c2426d549fd1621d1e29529e517}{\index{\-Serial Connection Plugin@{\-Serial Connection Plugin}!close\-Device@{close\-Device}}
+\index{close\-Device@{close\-Device}!Serial Connection Plugin@{\-Serial Connection Plugin}}
+\subsubsection[{close\-Device}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Serial\-Connection\-::close\-Device} (
+\begin{DoxyParamCaption}
+\item[{const {\bf \-Q\-String} \&}]{device\-Name}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___serial_plugin_gaa5933c2426d549fd1621d1e29529e517}
+
+
+\-Reimplemented from \hyperlink{group___core_plugin_ga5264be67cf0d9ca62aae564737389b1d}{\-Core\-::\-I\-Connection}.
+
+
+
+\-Definition at line 180 of file serialplugin.\-cpp.
+
+\hypertarget{group___serial_plugin_gad054f24566a90754595ad08e00756bfc}{\index{\-Serial Connection Plugin@{\-Serial Connection Plugin}!\-Config@{\-Config}}
+\index{\-Config@{\-Config}!Serial Connection Plugin@{\-Serial Connection Plugin}}
+\subsubsection[{\-Config}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Serial\-Plugin\-Configuration}$\ast$ {\bf \-Serial\-Connection\-::\-Config} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___serial_plugin_gad054f24566a90754595ad08e00756bfc}
+
+
+\-Definition at line 92 of file serialplugin.\-h.
+
+\hypertarget{group___serial_plugin_ga4b91aa098a25069f0590a25687bdf25b}{\index{\-Serial Connection Plugin@{\-Serial Connection Plugin}!connection\-Name@{connection\-Name}}
+\index{connection\-Name@{connection\-Name}!Serial Connection Plugin@{\-Serial Connection Plugin}}
+\subsubsection[{connection\-Name}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Q\-String} {\bf \-Serial\-Connection\-::connection\-Name} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___serial_plugin_ga4b91aa098a25069f0590a25687bdf25b}
+\-Connection type name \char`\"{}\-U\-S\-B H\-I\-D\char`\"{} 
+
+\-Implements \hyperlink{group___core_plugin_ga65bb74489e016d9863f42f0bb87afd8c}{\-Core\-::\-I\-Connection}.
+
+
+
+\-Definition at line 192 of file serialplugin.\-cpp.
+
+\hypertarget{group___serial_plugin_ga77331da48998f8e92c60751f5e2ab862}{\index{\-Serial Connection Plugin@{\-Serial Connection Plugin}!create\-Page@{create\-Page}}
+\index{create\-Page@{create\-Page}!Serial Connection Plugin@{\-Serial Connection Plugin}}
+\subsubsection[{create\-Page}]{\setlength{\rightskip}{0pt plus 5cm}\-Q\-Widget $\ast$ {\bf \-Serial\-Plugin\-Options\-Page\-::create\-Page} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Widget $\ast$}]{parent}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___serial_plugin_ga77331da48998f8e92c60751f5e2ab862}
+
+
+\-Implements \hyperlink{group___core_plugin_gac70a4473b3e086d0fa9849c431fb0672}{\-Core\-::\-I\-Options\-Page}.
+
+
+
+\-Definition at line 41 of file serialpluginoptionspage.\-cpp.
+
+\hypertarget{group___serial_plugin_gaa9616a7f264a903a0a5b13ae05d40375}{\index{\-Serial Connection Plugin@{\-Serial Connection Plugin}!device\-Opened@{device\-Opened}}
+\index{device\-Opened@{device\-Opened}!Serial Connection Plugin@{\-Serial Connection Plugin}}
+\subsubsection[{device\-Opened}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-Serial\-Connection\-::device\-Opened} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___serial_plugin_gaa9616a7f264a903a0a5b13ae05d40375}
+
+
+\-Definition at line 91 of file serialplugin.\-h.
+
+\hypertarget{group___serial_plugin_ga513ef44cd1747f6859255f102fc9f845}{\index{\-Serial Connection Plugin@{\-Serial Connection Plugin}!extensions\-Initialized@{extensions\-Initialized}}
+\index{extensions\-Initialized@{extensions\-Initialized}!Serial Connection Plugin@{\-Serial Connection Plugin}}
+\subsubsection[{extensions\-Initialized}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Serial\-Plugin\-::extensions\-Initialized} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___serial_plugin_ga513ef44cd1747f6859255f102fc9f845}
+\-Called after the \-I\-Plugin\-::initialize() method has been called, and after both the \-I\-Plugin\-::initialize() and \-I\-Plugin\-::extensions\-Initialized() methods of plugins that depend on this plugin have been called. \-In this method, the plugin can assume that plugins that depend on this plugin are fully 'up and running'. \-It is a good place to look in the plugin manager's object pool for objects that have been provided by dependent plugins. \begin{DoxySeeAlso}{\-See also}
+\hyperlink{group___serial_plugin_ga06e1847534162b254c0790b2221e2836}{initialize()} 
+\end{DoxySeeAlso}
+
+
+\-Implements \hyperlink{class_extension_system_1_1_i_plugin_a1db3a7fb242fca02229f9a3be4fd6610}{\-Extension\-System\-::\-I\-Plugin}.
+
+
+
+\-Definition at line 267 of file serialplugin.\-cpp.
+
+\hypertarget{group___serial_plugin_ga7d5463f2125597e0962512fde1cd83e4}{\index{\-Serial Connection Plugin@{\-Serial Connection Plugin}!finish@{finish}}
+\index{finish@{finish}!Serial Connection Plugin@{\-Serial Connection Plugin}}
+\subsubsection[{finish}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Serial\-Plugin\-Options\-Page\-::finish} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___serial_plugin_ga7d5463f2125597e0962512fde1cd83e4}
+
+
+\-Implements \hyperlink{group___core_plugin_ga47cf2602b6ee72a4971b1f0a4e1d887e}{\-Core\-::\-I\-Options\-Page}.
+
+
+
+\-Definition at line 100 of file serialpluginoptionspage.\-cpp.
+
+\hypertarget{group___serial_plugin_gaadfb80c5939566ed536ef5e6d49601fd}{\index{\-Serial Connection Plugin@{\-Serial Connection Plugin}!id@{id}}
+\index{id@{id}!Serial Connection Plugin@{\-Serial Connection Plugin}}
+\subsubsection[{id}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Q\-String} {\bf \-Serial\-Plugin\-Options\-Page\-::id} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}inline, virtual\mbox{]}}}}\label{group___serial_plugin_gaadfb80c5939566ed536ef5e6d49601fd}
+
+
+\-Reimplemented from \hyperlink{group___core_plugin_ga2984fb6ab0e3b502783dfee7ba596268}{\-Core\-::\-I\-Options\-Page}.
+
+
+
+\-Definition at line 56 of file serialpluginoptionspage.\-h.
+
+\hypertarget{group___serial_plugin_ga06e1847534162b254c0790b2221e2836}{\index{\-Serial Connection Plugin@{\-Serial Connection Plugin}!initialize@{initialize}}
+\index{initialize@{initialize}!Serial Connection Plugin@{\-Serial Connection Plugin}}
+\subsubsection[{initialize}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-Serial\-Plugin\-::initialize} (
+\begin{DoxyParamCaption}
+\item[{const \-Q\-String\-List \&}]{arguments, }
+\item[{{\bf \-Q\-String} $\ast$}]{error\-String}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___serial_plugin_ga06e1847534162b254c0790b2221e2836}
+\-Called after the plugin has been loaded and the \-I\-Plugin instance has been created. \-The initialize methods of plugins that depend on this plugin are called after the initialize method of this plugin has been called. \-Plugins should initialize their internal state in this method. \-Returns if initialization of successful. \-If it wasn't successful, the {\itshape error\-String\/} should be set to a user-\/readable message describing the reason. \begin{DoxySeeAlso}{\-See also}
+\hyperlink{group___serial_plugin_ga513ef44cd1747f6859255f102fc9f845}{extensions\-Initialized()} 
+\end{DoxySeeAlso}
+
+
+\-Implements \hyperlink{class_extension_system_1_1_i_plugin_a9f3dc957317279daed393fdf4894e944}{\-Extension\-System\-::\-I\-Plugin}.
+
+
+
+\-Definition at line 272 of file serialplugin.\-cpp.
+
+\hypertarget{group___serial_plugin_gacbed38aeba722578f369ad9b4ef2b822}{\index{\-Serial Connection Plugin@{\-Serial Connection Plugin}!open\-Device@{open\-Device}}
+\index{open\-Device@{open\-Device}!Serial Connection Plugin@{\-Serial Connection Plugin}}
+\subsubsection[{open\-Device}]{\setlength{\rightskip}{0pt plus 5cm}\-Q\-I\-O\-Device $\ast$ {\bf \-Serial\-Connection\-::open\-Device} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Core\-::\-I\-Device} $\ast$}]{device}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___serial_plugin_gacbed38aeba722578f369ad9b4ef2b822}
+\-Open a device, and return a \-Q\-I\-O\-Device interface from it \-It should be a dynamically created object as it will be deleted by the connection manager. 
+
+\-Implements \hyperlink{group___core_plugin_ga9fa3de80c2899c62813961082ad48e95}{\-Core\-::\-I\-Connection}.
+
+
+
+\-Definition at line 150 of file serialplugin.\-cpp.
+
+\hypertarget{group___serial_plugin_gaf86b9d4296b2b9e6429dd643fd113861}{\index{\-Serial Connection Plugin@{\-Serial Connection Plugin}!\-Optionspage@{\-Optionspage}}
+\index{\-Optionspage@{\-Optionspage}!Serial Connection Plugin@{\-Serial Connection Plugin}}
+\subsubsection[{\-Optionspage}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Serial\-Plugin\-Options\-Page}$\ast$ {\bf \-Serial\-Connection\-::\-Optionspage} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___serial_plugin_gaf86b9d4296b2b9e6429dd643fd113861}
+
+
+\-Definition at line 93 of file serialplugin.\-h.
+
+\hypertarget{group___serial_plugin_ga9c071c1ab20bf2139e54c469ab804332}{\index{\-Serial Connection Plugin@{\-Serial Connection Plugin}!restoresettings@{restoresettings}}
+\index{restoresettings@{restoresettings}!Serial Connection Plugin@{\-Serial Connection Plugin}}
+\subsubsection[{restoresettings}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Serial\-Plugin\-Configuration\-::restoresettings} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___serial_plugin_ga9c071c1ab20bf2139e54c469ab804332}
+
+
+\-Definition at line 64 of file serialpluginconfiguration.\-cpp.
+
+\hypertarget{group___serial_plugin_gac4a001507836025006728ab1771116f0}{\index{\-Serial Connection Plugin@{\-Serial Connection Plugin}!resume\-Polling@{resume\-Polling}}
+\index{resume\-Polling@{resume\-Polling}!Serial Connection Plugin@{\-Serial Connection Plugin}}
+\subsubsection[{resume\-Polling}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Serial\-Connection\-::resume\-Polling} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___serial_plugin_gac4a001507836025006728ab1771116f0}
+\-Tells the \-Serial plugin to resume polling for serial devices 
+
+\-Reimplemented from \hyperlink{group___core_plugin_gae3937027985048723454f1ad7d118d1a}{\-Core\-::\-I\-Connection}.
+
+
+
+\-Definition at line 213 of file serialplugin.\-cpp.
+
+\hypertarget{group___serial_plugin_gab90979605ec84bd0383575c2b10f18d0}{\index{\-Serial Connection Plugin@{\-Serial Connection Plugin}!run@{run}}
+\index{run@{run}!Serial Connection Plugin@{\-Serial Connection Plugin}}
+\subsubsection[{run}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Serial\-Enumeration\-Thread\-::run} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___serial_plugin_gab90979605ec84bd0383575c2b10f18d0}
+
+
+\-Definition at line 55 of file serialplugin.\-cpp.
+
+\hypertarget{group___serial_plugin_ga01715638b8bff47aaa76961d1cd11f59}{\index{\-Serial Connection Plugin@{\-Serial Connection Plugin}!save\-Config@{save\-Config}}
+\index{save\-Config@{save\-Config}!Serial Connection Plugin@{\-Serial Connection Plugin}}
+\subsubsection[{save\-Config}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Serial\-Plugin\-Configuration\-::save\-Config} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Settings $\ast$}]{settings}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___serial_plugin_ga01715638b8bff47aaa76961d1cd11f59}
+\-Saves a configuration. 
+
+\-Reimplemented from \hyperlink{group___core_plugin_gadd755520091c21c0ce09973c5bbdb7a9}{\-Core\-::\-I\-U\-A\-V\-Gadget\-Configuration}.
+
+
+
+\-Definition at line 61 of file serialpluginconfiguration.\-cpp.
+
+\hypertarget{group___serial_plugin_ga4a63c76785f20677382b69b52b9537f0}{\index{\-Serial Connection Plugin@{\-Serial Connection Plugin}!savesettings@{savesettings}}
+\index{savesettings@{savesettings}!Serial Connection Plugin@{\-Serial Connection Plugin}}
+\subsubsection[{savesettings}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Serial\-Plugin\-Configuration\-::savesettings} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{group___serial_plugin_ga4a63c76785f20677382b69b52b9537f0}
+
+
+\-Definition at line 75 of file serialpluginconfiguration.\-cpp.
+
+\hypertarget{group___serial_plugin_gaad6479d49b3483b42c19868c9efcef01}{\index{\-Serial Connection Plugin@{\-Serial Connection Plugin}!\-Serial\-Connection@{\-Serial\-Connection}}
+\index{\-Serial\-Connection@{\-Serial\-Connection}!Serial Connection Plugin@{\-Serial Connection Plugin}}
+\subsubsection[{\-Serial\-Connection}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Serial\-Connection\-::\-Serial\-Connection} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___serial_plugin_gaad6479d49b3483b42c19868c9efcef01}
+
+
+\-Definition at line 85 of file serialplugin.\-cpp.
+
+\hypertarget{group___serial_plugin_ga289f1853507d6f6b1bfdd1dd31284c31}{\index{\-Serial Connection Plugin@{\-Serial Connection Plugin}!\-Serial\-Enumeration\-Thread@{\-Serial\-Enumeration\-Thread}}
+\index{\-Serial\-Enumeration\-Thread@{\-Serial\-Enumeration\-Thread}!Serial Connection Plugin@{\-Serial Connection Plugin}}
+\subsubsection[{\-Serial\-Enumeration\-Thread}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Serial\-Enumeration\-Thread\-::\-Serial\-Enumeration\-Thread} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Serial\-Connection} $\ast$}]{serial}
+\end{DoxyParamCaption}
+)}}\label{group___serial_plugin_ga289f1853507d6f6b1bfdd1dd31284c31}
+
+
+\-Definition at line 41 of file serialplugin.\-cpp.
+
+\hypertarget{group___serial_plugin_ga61918aa34cb91654613f5ae3e2992cb5}{\index{\-Serial Connection Plugin@{\-Serial Connection Plugin}!\-Serial\-Plugin@{\-Serial\-Plugin}}
+\index{\-Serial\-Plugin@{\-Serial\-Plugin}!Serial Connection Plugin@{\-Serial Connection Plugin}}
+\subsubsection[{\-Serial\-Plugin}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Serial\-Plugin\-::\-Serial\-Plugin} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___serial_plugin_ga61918aa34cb91654613f5ae3e2992cb5}
+
+
+\-Definition at line 258 of file serialplugin.\-cpp.
+
+\hypertarget{group___serial_plugin_ga15a723a8f3215c718070ef32ea6fff2e}{\index{\-Serial Connection Plugin@{\-Serial Connection Plugin}!\-Serial\-Plugin\-Configuration@{\-Serial\-Plugin\-Configuration}}
+\index{\-Serial\-Plugin\-Configuration@{\-Serial\-Plugin\-Configuration}!Serial Connection Plugin@{\-Serial Connection Plugin}}
+\subsubsection[{\-Serial\-Plugin\-Configuration}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Serial\-Plugin\-Configuration\-::\-Serial\-Plugin\-Configuration} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Q\-String}}]{class\-Id, }
+\item[{\-Q\-Settings $\ast$}]{q\-Settings = {\ttfamily 0}, }
+\item[{\-Q\-Object $\ast$}]{parent = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}explicit\mbox{]}}}}\label{group___serial_plugin_ga15a723a8f3215c718070ef32ea6fff2e}
+\-Loads a saved configuration or defaults if non exist. 
+
+\-Definition at line 37 of file serialpluginconfiguration.\-cpp.
+
+\hypertarget{group___serial_plugin_gabbba5e225f4b24b0ff2762edd89a7c85}{\index{\-Serial Connection Plugin@{\-Serial Connection Plugin}!\-Serial\-Plugin\-Options\-Page@{\-Serial\-Plugin\-Options\-Page}}
+\index{\-Serial\-Plugin\-Options\-Page@{\-Serial\-Plugin\-Options\-Page}!Serial Connection Plugin@{\-Serial Connection Plugin}}
+\subsubsection[{\-Serial\-Plugin\-Options\-Page}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Serial\-Plugin\-Options\-Page\-::\-Serial\-Plugin\-Options\-Page} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Serial\-Plugin\-Configuration} $\ast$}]{config, }
+\item[{\-Q\-Object $\ast$}]{parent = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}explicit\mbox{]}}}}\label{group___serial_plugin_gabbba5e225f4b24b0ff2762edd89a7c85}
+
+
+\-Definition at line 34 of file serialpluginoptionspage.\-cpp.
+
+\hypertarget{group___serial_plugin_ga6783c4f6c9faa91aeb0b91fef726a2d4}{\index{\-Serial Connection Plugin@{\-Serial Connection Plugin}!short\-Name@{short\-Name}}
+\index{short\-Name@{short\-Name}!Serial Connection Plugin@{\-Serial Connection Plugin}}
+\subsubsection[{short\-Name}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Q\-String} {\bf \-Serial\-Connection\-::short\-Name} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___serial_plugin_ga6783c4f6c9faa91aeb0b91fef726a2d4}
+\-Short name to display in a combo box 
+
+\-Reimplemented from \hyperlink{group___core_plugin_gad436df0a83378128cb8034d83e6734f0}{\-Core\-::\-I\-Connection}.
+
+
+
+\-Definition at line 197 of file serialplugin.\-cpp.
+
+\hypertarget{group___serial_plugin_gad78f86e2b854b6285de51dbf32711129}{\index{\-Serial Connection Plugin@{\-Serial Connection Plugin}!sort\-Ports@{sort\-Ports}}
+\index{sort\-Ports@{sort\-Ports}!Serial Connection Plugin@{\-Serial Connection Plugin}}
+\subsubsection[{sort\-Ports}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf sort\-Ports} (
+\begin{DoxyParamCaption}
+\item[{const \-Qext\-Port\-Info \&}]{s1, }
+\item[{const \-Qext\-Port\-Info \&}]{s2}
+\end{DoxyParamCaption}
+)}}\label{group___serial_plugin_gad78f86e2b854b6285de51dbf32711129}
+
+
+\-Definition at line 125 of file serialplugin.\-cpp.
+
+\hypertarget{group___serial_plugin_ga1e6623a11c7e9c8e52411d2568dd4e7c}{\index{\-Serial Connection Plugin@{\-Serial Connection Plugin}!speed@{speed}}
+\index{speed@{speed}!Serial Connection Plugin@{\-Serial Connection Plugin}}
+\subsubsection[{speed}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Q\-String} {\bf \-Serial\-Plugin\-Configuration\-::speed} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___serial_plugin_ga1e6623a11c7e9c8e52411d2568dd4e7c}
+
+
+\-Definition at line 44 of file serialpluginconfiguration.\-h.
+
+\hypertarget{group___serial_plugin_ga9616a4134ceba88c6ae5820e29a783c4}{\index{\-Serial Connection Plugin@{\-Serial Connection Plugin}!suspend\-Polling@{suspend\-Polling}}
+\index{suspend\-Polling@{suspend\-Polling}!Serial Connection Plugin@{\-Serial Connection Plugin}}
+\subsubsection[{suspend\-Polling}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Serial\-Connection\-::suspend\-Polling} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___serial_plugin_ga9616a4134ceba88c6ae5820e29a783c4}
+\-Tells the \-Serial plugin to stop polling for serial devices 
+
+\-Reimplemented from \hyperlink{group___core_plugin_gac0a12e1d5a84be9528ce09595b424438}{\-Core\-::\-I\-Connection}.
+
+
+
+\-Definition at line 205 of file serialplugin.\-cpp.
+
+\hypertarget{group___serial_plugin_ga65036a91c24758081e8a2cecc44925a0}{\index{\-Serial Connection Plugin@{\-Serial Connection Plugin}!tr\-Category@{tr\-Category}}
+\index{tr\-Category@{tr\-Category}!Serial Connection Plugin@{\-Serial Connection Plugin}}
+\subsubsection[{tr\-Category}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Q\-String} {\bf \-Serial\-Plugin\-Options\-Page\-::tr\-Category} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}inline, virtual\mbox{]}}}}\label{group___serial_plugin_ga65036a91c24758081e8a2cecc44925a0}
+
+
+\-Reimplemented from \hyperlink{group___core_plugin_gac5538fc040c826784167edb4fc359b68}{\-Core\-::\-I\-Options\-Page}.
+
+
+
+\-Definition at line 59 of file serialpluginoptionspage.\-h.
+
+\hypertarget{group___serial_plugin_ga6558090ef30ec926b500dc27787f194a}{\index{\-Serial Connection Plugin@{\-Serial Connection Plugin}!tr\-Name@{tr\-Name}}
+\index{tr\-Name@{tr\-Name}!Serial Connection Plugin@{\-Serial Connection Plugin}}
+\subsubsection[{tr\-Name}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Q\-String} {\bf \-Serial\-Plugin\-Options\-Page\-::tr\-Name} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}inline, virtual\mbox{]}}}}\label{group___serial_plugin_ga6558090ef30ec926b500dc27787f194a}
+
+
+\-Reimplemented from \hyperlink{group___core_plugin_ga9bda94026b37720a30f4294560c79244}{\-Core\-::\-I\-Options\-Page}.
+
+
+
+\-Definition at line 57 of file serialpluginoptionspage.\-h.
+
+\hypertarget{group___serial_plugin_gae73749bb08c2f53f467809cb6c0a3fc8}{\index{\-Serial Connection Plugin@{\-Serial Connection Plugin}!$\sim$\-Serial\-Connection@{$\sim$\-Serial\-Connection}}
+\index{$\sim$\-Serial\-Connection@{$\sim$\-Serial\-Connection}!Serial Connection Plugin@{\-Serial Connection Plugin}}
+\subsubsection[{$\sim$\-Serial\-Connection}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Serial\-Connection\-::$\sim$\-Serial\-Connection} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___serial_plugin_gae73749bb08c2f53f467809cb6c0a3fc8}
+
+
+\-Definition at line 115 of file serialplugin.\-cpp.
+
+\hypertarget{group___serial_plugin_gaf247ad3a1a6b6c85a885aaaa1675cd48}{\index{\-Serial Connection Plugin@{\-Serial Connection Plugin}!$\sim$\-Serial\-Enumeration\-Thread@{$\sim$\-Serial\-Enumeration\-Thread}}
+\index{$\sim$\-Serial\-Enumeration\-Thread@{$\sim$\-Serial\-Enumeration\-Thread}!Serial Connection Plugin@{\-Serial Connection Plugin}}
+\subsubsection[{$\sim$\-Serial\-Enumeration\-Thread}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Serial\-Enumeration\-Thread\-::$\sim$\-Serial\-Enumeration\-Thread} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___serial_plugin_gaf247ad3a1a6b6c85a885aaaa1675cd48}
+
+
+\-Definition at line 47 of file serialplugin.\-cpp.
+
+\hypertarget{group___serial_plugin_gaed0afbd615d41b58d07b4916f4c9e277}{\index{\-Serial Connection Plugin@{\-Serial Connection Plugin}!$\sim$\-Serial\-Plugin@{$\sim$\-Serial\-Plugin}}
+\index{$\sim$\-Serial\-Plugin@{$\sim$\-Serial\-Plugin}!Serial Connection Plugin@{\-Serial Connection Plugin}}
+\subsubsection[{$\sim$\-Serial\-Plugin}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Serial\-Plugin\-::$\sim$\-Serial\-Plugin} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___serial_plugin_gaed0afbd615d41b58d07b4916f4c9e277}
+
+
+\-Definition at line 262 of file serialplugin.\-cpp.
+
+\hypertarget{group___serial_plugin_ga02088820254dad5d594d652f0d1ac556}{\index{\-Serial Connection Plugin@{\-Serial Connection Plugin}!$\sim$\-Serial\-Plugin\-Configuration@{$\sim$\-Serial\-Plugin\-Configuration}}
+\index{$\sim$\-Serial\-Plugin\-Configuration@{$\sim$\-Serial\-Plugin\-Configuration}!Serial Connection Plugin@{\-Serial Connection Plugin}}
+\subsubsection[{$\sim$\-Serial\-Plugin\-Configuration}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Serial\-Plugin\-Configuration\-::$\sim$\-Serial\-Plugin\-Configuration} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___serial_plugin_ga02088820254dad5d594d652f0d1ac556}
+
+
+\-Definition at line 81 of file serialpluginconfiguration.\-cpp.
+
+
+
+\subsection{\-Variable \-Documentation}
+\hypertarget{group___serial_plugin_gac430f3139892f313e094560f5e2e72d1}{\index{\-Serial Connection Plugin@{\-Serial Connection Plugin}!m\-\_\-device\-Opened@{m\-\_\-device\-Opened}}
+\index{m\-\_\-device\-Opened@{m\-\_\-device\-Opened}!Serial Connection Plugin@{\-Serial Connection Plugin}}
+\subsubsection[{m\-\_\-device\-Opened}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-Serial\-Connection\-::m\-\_\-device\-Opened}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{group___serial_plugin_gac430f3139892f313e094560f5e2e72d1}
+
+
+\-Definition at line 108 of file serialplugin.\-h.
+
+\hypertarget{group___serial_plugin_ga5895d83033636cc3832bd9478f4415f7}{\index{\-Serial Connection Plugin@{\-Serial Connection Plugin}!m\-\_\-enumerate\-Thread@{m\-\_\-enumerate\-Thread}}
+\index{m\-\_\-enumerate\-Thread@{m\-\_\-enumerate\-Thread}!Serial Connection Plugin@{\-Serial Connection Plugin}}
+\subsubsection[{m\-\_\-enumerate\-Thread}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Serial\-Enumeration\-Thread} {\bf \-Serial\-Connection\-::m\-\_\-enumerate\-Thread}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{group___serial_plugin_ga5895d83033636cc3832bd9478f4415f7}
+
+
+\-Definition at line 107 of file serialplugin.\-h.
+
+\hypertarget{group___serial_plugin_ga1b3398189b91a1994544370f00f8cd00}{\index{\-Serial Connection Plugin@{\-Serial Connection Plugin}!m\-\_\-running@{m\-\_\-running}}
+\index{m\-\_\-running@{m\-\_\-running}!Serial Connection Plugin@{\-Serial Connection Plugin}}
+\subsubsection[{m\-\_\-running}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-Serial\-Enumeration\-Thread\-::m\-\_\-running}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{group___serial_plugin_ga1b3398189b91a1994544370f00f8cd00}
+
+
+\-Definition at line 64 of file serialplugin.\-h.
+
+\hypertarget{group___serial_plugin_ga5f88185588c5c33293dad0342be60237}{\index{\-Serial Connection Plugin@{\-Serial Connection Plugin}!m\-\_\-serial@{m\-\_\-serial}}
+\index{m\-\_\-serial@{m\-\_\-serial}!Serial Connection Plugin@{\-Serial Connection Plugin}}
+\subsubsection[{m\-\_\-serial}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Serial\-Connection}$\ast$ {\bf \-Serial\-Enumeration\-Thread\-::m\-\_\-serial}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{group___serial_plugin_ga5f88185588c5c33293dad0342be60237}
+
+
+\-Definition at line 63 of file serialplugin.\-h.
+
+
+
+\subsection{\-Signals}
+\hypertarget{group___serial_plugin_ga18ace5d92ca2899dc35a0fa3b43e016a}{\index{\-Serial Connection Plugin@{\-Serial Connection Plugin}!enumeration\-Changed@{enumeration\-Changed}}
+\index{enumeration\-Changed@{enumeration\-Changed}!Serial Connection Plugin@{\-Serial Connection Plugin}}
+\subsubsection[{enumeration\-Changed}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Serial\-Enumeration\-Thread\-::enumeration\-Changed} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}signal\mbox{]}}}}\label{group___serial_plugin_ga18ace5d92ca2899dc35a0fa3b43e016a}
+
+
+\subsection{\-Public \-Slots}
+\hypertarget{group___serial_plugin_ga6e476e94e24bb1f9bf91de3c99ff00fc}{\index{\-Serial Connection Plugin@{\-Serial Connection Plugin}!set\-Speed@{set\-Speed}}
+\index{set\-Speed@{set\-Speed}!Serial Connection Plugin@{\-Serial Connection Plugin}}
+\subsubsection[{set\-Speed}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Serial\-Plugin\-Configuration\-::set\-Speed} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Q\-String}}]{speed}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, slot\mbox{]}}}}\label{group___serial_plugin_ga6e476e94e24bb1f9bf91de3c99ff00fc}
+
+
+\-Definition at line 54 of file serialpluginconfiguration.\-h.
+
+
+
+\subsection{\-Protected \-Slots}
+\hypertarget{group___serial_plugin_gaa86538693d05fa3051ffebb2821d40fd}{\index{\-Serial Connection Plugin@{\-Serial Connection Plugin}!on\-Enumeration\-Changed@{on\-Enumeration\-Changed}}
+\index{on\-Enumeration\-Changed@{on\-Enumeration\-Changed}!Serial Connection Plugin@{\-Serial Connection Plugin}}
+\subsubsection[{on\-Enumeration\-Changed}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Serial\-Connection\-::on\-Enumeration\-Changed} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}protected, slot\mbox{]}}}}\label{group___serial_plugin_gaa86538693d05fa3051ffebb2821d40fd}
+
+
+\-Definition at line 119 of file serialplugin.\-cpp.
+

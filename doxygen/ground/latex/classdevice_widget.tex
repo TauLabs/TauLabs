@@ -1,0 +1,81 @@
+\hypertarget{classdevice_widget}{\section{device\-Widget \-Class \-Reference}
+\label{classdevice_widget}\index{device\-Widget@{device\-Widget}}
+}
+
+
+{\ttfamily \#include $<$devicewidget.\-h$>$}
+
+\subsection*{\-Public \-Types}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{group___y_modem_uploader_ga788236c4f7d8fe7586489a183528d657}{\-Status\-Icon} \{ \hyperlink{group___y_modem_uploader_gga788236c4f7d8fe7586489a183528d657a8bca9ffd7e0d28d471e8b3f6aa52120c}{\-S\-T\-A\-T\-U\-S\-I\-C\-O\-N\-\_\-\-O\-K}, 
+\hyperlink{group___y_modem_uploader_gga788236c4f7d8fe7586489a183528d657a9930ae1923857bf1f78907ee4bb3baaa}{\-S\-T\-A\-T\-U\-S\-I\-C\-O\-N\-\_\-\-R\-U\-N\-N\-I\-N\-G}, 
+\hyperlink{group___y_modem_uploader_gga788236c4f7d8fe7586489a183528d657a72975044b2bc8aa1b97b1bd730059025}{\-S\-T\-A\-T\-U\-S\-I\-C\-O\-N\-\_\-\-F\-A\-I\-L}, 
+\hyperlink{group___y_modem_uploader_gga788236c4f7d8fe7586489a183528d657a7e4049feafb5e7f932619e41afda5257}{\-S\-T\-A\-T\-U\-S\-I\-C\-O\-N\-\_\-\-I\-N\-F\-O}
+ \}
+\end{DoxyCompactItemize}
+\subsection*{\-Public \-Slots}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___uploader_ga51b53782cd70711b9ca91f81ef02565b}{upload\-Firmware} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___y_modem_uploader_gafbf692fdd482b85feb6510193a242a87}{load\-Firmware} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___uploader_ga988f01d143265ee96b4255b07b63fbf6}{download\-Firmware} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___uploader_ga8ac75c9483f273ed59faa116fe5699ee}{set\-Progress} (int)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___uploader_ga0809fb3c0a799a12c92704a36d3abf16}{download\-Finished} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___uploader_ga671fb25fd918e7eeac5c16bd1f1dfe86}{upload\-Finished} (\-O\-P\-\_\-\-D\-F\-U\-::\-Status)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___uploader_gac421d53cac355c47f763a62eab7675c1}{dfu\-Status} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String})
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___y_modem_uploader_ga116ecb3aed92f7f793ea4769a7e0572d}{confirm\-C\-B} (int)
+\end{DoxyCompactItemize}
+\subsection*{\-Signals}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___y_modem_uploader_ga237b72fb1450126236fb690941ce7cf0}{upload\-Started} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___y_modem_uploader_ga80c1daefa8adc8af10178e3ad8c52307}{upload\-Ended} (bool success)
+\end{DoxyCompactItemize}
+\subsection*{\-Public \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___y_modem_uploader_gafcee9273f2b8216d324c235d5e164899}{device\-Widget} (\-Q\-Widget $\ast$parent=0)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___y_modem_uploader_ga9b64e94e398f8362d8dcae0b9ec4275f}{set\-Device\-I\-D} (int dev\-I\-D)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___y_modem_uploader_gadc475267f79d2e50ec5eac4f043aa058}{set\-Dfu} (\-D\-F\-U\-Object $\ast$dfu)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___uploader_gaf56d7d5fb2715ab7213ea4193df3b373}{populate} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___uploader_gac5513bd475a701ede81cde9432e8ddf2}{freeze} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___uploader_ga6273e94cd08759c019fbb9a1063cbd26}{unfreeze} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___uploader_ga6ad26364234edf8c743b0b08885050b1}{set\-Open\-File\-Name} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___uploader_ga1c33b640cfaca086fcfd5574eecec8ef}{set\-Save\-File\-Name} ()
+\end{DoxyCompactItemize}
+\subsection*{\-Protected \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___y_modem_uploader_gae8c02916851ec8e041d9e2fb1be90a91}{show\-Event} (\-Q\-Show\-Event $\ast$event)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___y_modem_uploader_ga732d883048a75c6bac92c02fe90f2184}{resize\-Event} (\-Q\-Resize\-Event $\ast$event)
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+
+
+\-Definition at line 48 of file devicewidget.\-h.
+
+
+
+\-The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/plugins/uploader/\hyperlink{devicewidget_8h}{devicewidget.\-h}\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/plugins/uploader/\hyperlink{devicewidget_8cpp}{devicewidget.\-cpp}\end{DoxyCompactItemize}

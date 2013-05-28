@@ -1,0 +1,27 @@
+var i2cstats_8c =
+[
+    [ "I2CStatserirq_logGet", "group___i2_c_stats.html#ga82079324bd34824b23e5faf93bd1ef81", null ],
+    [ "I2CStatserirq_logSet", "group___i2_c_stats.html#gadcfb41af596d2ae6d34bfaba74f69a6a", null ],
+    [ "I2CStatsevent_errorsGet", "group___i2_c_stats.html#ga68ba19bfe3289155f3311d70b7c06a15", null ],
+    [ "I2CStatsevent_errorsSet", "group___i2_c_stats.html#gae5a65ef7231b9bce6b17e0ce3228817f", null ],
+    [ "I2CStatsevent_logGet", "group___i2_c_stats.html#ga8aaf332583fd0234f15a976dd0655942", null ],
+    [ "I2CStatsevent_logSet", "group___i2_c_stats.html#gac0cb4a0a9ddf33586923d6ef433ebd47", null ],
+    [ "I2CStatsevirq_logGet", "group___i2_c_stats.html#ga9ff75216185c7a2ceef6e00f1073fc3c", null ],
+    [ "I2CStatsevirq_logSet", "group___i2_c_stats.html#ga41651bca6807acc212a3e528962676dc", null ],
+    [ "I2CStatsfsm_errorsGet", "group___i2_c_stats.html#ga0df3861cf6336e208c7f67deac9b4d69", null ],
+    [ "I2CStatsfsm_errorsSet", "group___i2_c_stats.html#ga8cfbb76b9b7cd65764d2a4ef321e2aca", null ],
+    [ "I2CStatsHandle", "group___i2_c_stats.html#ga2fa9f5dad816a87207b2ee4759bd1613", null ],
+    [ "I2CStatsInitialize", "group___i2_c_stats.html#ga5a3ce31d5bd4ac53406837a330e09c6f", null ],
+    [ "I2CStatsirq_errorsGet", "group___i2_c_stats.html#gae59d3be76fd580db89d2e76ae1f75578", null ],
+    [ "I2CStatsirq_errorsSet", "group___i2_c_stats.html#ga3351148b9b3be4e118b4d6baeac0df80", null ],
+    [ "I2CStatslast_error_typeGet", "group___i2_c_stats.html#ga67ae845afc19b2f9257dbc8ece96210f", null ],
+    [ "I2CStatslast_error_typeSet", "group___i2_c_stats.html#ga5e47540366103e4740e7189382749daf", null ],
+    [ "I2CStatsnacksGet", "group___i2_c_stats.html#ga18c9f2180429da6734e03d5dbcfc56a7", null ],
+    [ "I2CStatsnacksSet", "group___i2_c_stats.html#ga36cb9c01bf51136c97329b368499e27c", null ],
+    [ "I2CStatsSetDefaults", "group___i2_c_stats.html#ga89a35c023aea76ad0899856531e3f832", null ],
+    [ "I2CStatsstate_logGet", "group___i2_c_stats.html#gae043c0601fd8dc3db50668d026fbdf9b", null ],
+    [ "I2CStatsstate_logSet", "group___i2_c_stats.html#ga6fed53801a24dfa99a525d004275cccd", null ],
+    [ "I2CStatstimeoutsGet", "group___i2_c_stats.html#gaa8c7363323b277ccc11bfe60f71e1913", null ],
+    [ "I2CStatstimeoutsSet", "group___i2_c_stats.html#ga2f726ff5433b1f4ce26b429a89ab3616", null ],
+    [ "handle", "group___i2_c_stats.html#gab0285eeca256b1680508f7077efcb9e0", null ]
+];

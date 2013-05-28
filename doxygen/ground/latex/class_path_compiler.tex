@@ -1,0 +1,60 @@
+\hypertarget{class_path_compiler}{\section{\-Path\-Compiler \-Class \-Reference}
+\label{class_path_compiler}\index{\-Path\-Compiler@{\-Path\-Compiler}}
+}
+
+
+{\ttfamily \#include $<$pathcompiler.\-h$>$}
+
+\subsection*{\-Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{class_path_compiler_1_1waypoint}{waypoint}
+\begin{DoxyCompactList}\small\item\em \-Waypoint representation that is exchanged between visualization. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Public \-Slots}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_plugin_ga1089b3cd3bacf871b8db6f14a1305819}{do\-New\-Instance} (\hyperlink{class_u_a_v_object}{\-U\-A\-V\-Object} $\ast$)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_plugin_gac62083613851ca96a2d14632d9553171}{do\-Add\-Waypoint} (\hyperlink{class_path_compiler_1_1waypoint}{waypoint}, int position=-\/1)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_plugin_gaadeb33c165349ef42df9dffe0d9d7b57}{do\-Update\-Waypoints} (\hyperlink{class_path_compiler_1_1waypoint}{\-Path\-Compiler\-::waypoint}, int position)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_plugin_ga2e7d1eed3bd9981e4f1c7d4bfeeeeba4}{do\-Del\-Waypoint} (int index)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_plugin_ga43eeb28430ee8c4569a8163c34198403}{do\-Del\-All\-Waypoints} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_plugin_ga559ab15dae5623715205528a06b9addc}{do\-Update\-From\-U\-A\-V} (\hyperlink{class_u_a_v_object}{\-U\-A\-V\-Object} $\ast$)
+\end{DoxyCompactItemize}
+\subsection*{\-Signals}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_plugin_ga9b1e292fa1cea559f4177ac8adb8d19d}{visualization\-Changed} (\-Q\-List$<$ \hyperlink{class_path_compiler_1_1waypoint}{\-Path\-Compiler\-::waypoint} $>$)
+\end{DoxyCompactItemize}
+\subsection*{\-Public \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___o_p_map_plugin_ga9270b91f203f6c656318dbfb7b6f0d2d}{\-Path\-Compiler} (\-Q\-Object $\ast$parent=0)
+\item 
+int \hyperlink{group___o_p_map_plugin_gadd7f57ff007094b9434d1864b52c13ad}{save\-Path} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} filename=\-N\-U\-L\-L)
+\begin{DoxyCompactList}\small\item\em \-This method opens a dialog (if filename is null) and saves the path. \end{DoxyCompactList}\item 
+int \hyperlink{group___o_p_map_plugin_ga6fb97167102fdadaeadd9d6686c3aea0}{load\-Path} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} filename=\-N\-U\-L\-L)
+\begin{DoxyCompactList}\small\item\em \-This method opens a dialog (if filename is null) and loads the path. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-This class is a two way adapter between a visualization of a path and the \hyperlink{class_u_a_v_object}{\-U\-A\-V\-Object} representation on the flight controller. \-It also can support multiple ways of converting a path from what the user clicked to the underlying representation to achieve the desired end flight trajectory
+
+\-So the chain of data for the map lib is\-: \-F\-C $<$-\/$>$ \hyperlink{class_path_compiler}{\-Path\-Compiler} $<$-\/$>$ \hyperlink{class_o_p_map_gadget}{\-O\-P\-Map\-Gadget} $<$-\/$>$ \-O\-P\-Map\-Lib
+
+\-The goal is that \hyperlink{class_path_compiler}{\-Path\-Compiler} be as state free as is possible. \-Eventually for more complicated path compilation this will probably not be achievable. \-That means it should not cache a copy of waypoints locally if that can be avoided (i.\-e. it should refer directly to what is stored on the \-F\-C).
+
+\-For the visualization to have the ability to manipulate the path though it needs to be able to map unambiguously from the graphical items to the internal waypoints. \-It must cache a lookup from the graphical item to the index from this tool. 
+
+\-Definition at line 56 of file pathcompiler.\-h.
+
+
+
+\-The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/plugins/opmap/\hyperlink{pathcompiler_8h}{pathcompiler.\-h}\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/plugins/opmap/\hyperlink{pathcompiler_8cpp}{pathcompiler.\-cpp}\end{DoxyCompactItemize}

@@ -1,0 +1,68 @@
+\hypertarget{pios__video_8c}{\section{/home/jb/code/\-Tau\-Labs/flight/\-Pi\-O\-S/\-Common/pios\-\_\-video.c \-File \-Reference}
+\label{pios__video_8c}\index{/home/jb/code/\-Tau\-Labs/flight/\-Pi\-O\-S/\-Common/pios\-\_\-video.\-c@{/home/jb/code/\-Tau\-Labs/flight/\-Pi\-O\-S/\-Common/pios\-\_\-video.\-c}}
+}
+
+
+\-O\-S\-D generator, \-Parts from \-C\-L-\/\-O\-S\-D and \-S\-U\-P\-E\-R\-O\-S\-D projects.  
+
+
+\subsection*{\-Data \-Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{struct__buffers}{\-\_\-buffers}
+\end{DoxyCompactItemize}
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{group___p_i_o_s___v_i_d_e_o_ga0d157d997329169f936545f9985e334b}{swap\-\_\-buffers} ()
+\item 
+bool \hyperlink{group___p_i_o_s___v_i_d_e_o_ga80058030e4245438ea8a76bd5c98b133}{\-P\-I\-O\-S\-\_\-\-Hsync\-\_\-\-I\-S\-R} ()
+\item 
+bool \hyperlink{group___p_i_o_s___v_i_d_e_o_ga85b37fc7c59ec730520859920f0e1efb}{\-P\-I\-O\-S\-\_\-\-Vsync\-\_\-\-I\-S\-R} ()
+\item 
+uint16\-\_\-t \hyperlink{group___p_i_o_s___v_i_d_e_o_ga79339656dd43737af275c88061f31458}{\-P\-I\-O\-S\-\_\-\-Video\-\_\-\-Get\-O\-S\-D\-Lines} (void)
+\item 
+void \hyperlink{group___p_i_o_s___v_i_d_e_o_ga1dd937879200d15d16de47a439556adb}{\-P\-I\-O\-S\-\_\-\-Video\-\_\-\-Init} (const struct \hyperlink{structpios__video__cfg}{pios\-\_\-video\-\_\-cfg} $\ast$cfg)
+\item 
+void \hyperlink{group___p_i_o_s___v_i_d_e_o_ga7ceca4d5d94790fa8dc69537bccf004d}{\-P\-I\-O\-S\-\_\-\-V\-I\-D\-E\-O\-\_\-\-D\-M\-A\-\_\-\-Handler} (void)
+\begin{DoxyCompactList}\small\item\em \-Interrupt for half and full buffer transfer. \end{DoxyCompactList}\item 
+void \hyperlink{group___p_i_o_s___v_i_d_e_o_gae81787590524971351490705554cc351}{\-D\-M\-A1\-\_\-\-Stream7\-\_\-\-I\-R\-Q\-Handler} (void)
+\end{DoxyCompactItemize}
+\subsection*{\-Variables}
+\begin{DoxyCompactItemize}
+\item 
+x\-Semaphore\-Handle \hyperlink{group___p_i_o_s___v_i_d_e_o_ga34f96a89a1ad6c4649787dbc18e218e5}{osd\-Semaphore}
+\item 
+struct \hyperlink{struct__buffers}{\-\_\-buffers} \hyperlink{group___p_i_o_s___v_i_d_e_o_gaec9bffb1068ac55e742a1e7b6e449273}{buffers}
+\item 
+uint8\-\_\-t $\ast$ \hyperlink{group___p_i_o_s___v_i_d_e_o_ga52b5c0fc86a398ddf62c5b2bb383374d}{draw\-\_\-buffer\-\_\-level}
+\item 
+uint8\-\_\-t $\ast$ \hyperlink{group___p_i_o_s___v_i_d_e_o_ga67085db0125b910109083e4d2605d7d5}{draw\-\_\-buffer\-\_\-mask}
+\item 
+uint8\-\_\-t $\ast$ \hyperlink{group___p_i_o_s___v_i_d_e_o_gac6ace302511130c48032b40f32a40bb8}{disp\-\_\-buffer\-\_\-level}
+\item 
+uint8\-\_\-t $\ast$ \hyperlink{group___p_i_o_s___v_i_d_e_o_ga2de64a6d3102b302a9b7582d63f09485}{disp\-\_\-buffer\-\_\-mask}
+\item 
+volatile uint8\-\_\-t \hyperlink{group___p_i_o_s___v_i_d_e_o_ga2be6bb035ef820488def868f5165b836}{g\-Line\-Type} = \-L\-I\-N\-E\-\_\-\-T\-Y\-P\-E\-\_\-\-U\-N\-K\-N\-O\-W\-N
+\item 
+volatile uint16\-\_\-t \hyperlink{group___p_i_o_s___v_i_d_e_o_ga2b82b203be6721e41653a0b4c07bfd82}{g\-Active\-Line} = 0
+\item 
+volatile uint16\-\_\-t \hyperlink{group___p_i_o_s___v_i_d_e_o_ga4e778b3bd5c9d692c381957e741aa4a3}{g\-Active\-Pixmap\-Line} = 0
+\item 
+volatile uint16\-\_\-t \hyperlink{group___p_i_o_s___v_i_d_e_o_ga308d53a9c395c298132110da98adb7c7}{line} = 0
+\item 
+volatile uint16\-\_\-t \hyperlink{group___p_i_o_s___v_i_d_e_o_ga650b4db295bf40320fafbfce5954a39e}{\-Vsync\-\_\-update} = 0
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-O\-S\-D generator, \-Parts from \-C\-L-\/\-O\-S\-D and \-S\-U\-P\-E\-R\-O\-S\-D projects. \begin{DoxyAuthor}{\-Author}
+\-The \-Open\-Pilot \-Team, \href{http://www.openpilot.org}{\tt http\-://www.\-openpilot.\-org} \-Copyright (\-C) 2010. 
+\end{DoxyAuthor}
+\begin{DoxySeeAlso}{\-See also}
+\-The \-G\-N\-U \-Public \-License (\-G\-P\-L) \-Version 3 
+\end{DoxySeeAlso}
+
+
+\-Definition in file \hyperlink{pios__video_8c_source}{pios\-\_\-video.\-c}.
+

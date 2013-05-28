@@ -1,0 +1,213 @@
+\hypertarget{group___p_i_o_s___d_s_m}{\section{\-Spektrum/\-J\-R \-D\-S\-Mx satellite receiver functions}
+\label{group___p_i_o_s___d_s_m}\index{\-Spektrum/\-J\-R D\-S\-Mx satellite receiver functions@{\-Spektrum/\-J\-R D\-S\-Mx satellite receiver functions}}
+}
+
+
+\-P\-I\-O\-S interface to bind and read \-Spektrum/\-J\-R \-D\-S\-Mx satellite receiver.  
+
+
+\subsection*{\-Data \-Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structpios__dsm__cfg}{pios\-\_\-dsm\-\_\-cfg}
+\item 
+struct \hyperlink{structpios__dsm__state}{pios\-\_\-dsm\-\_\-state}
+\item 
+struct \hyperlink{structpios__dsm__dev}{pios\-\_\-dsm\-\_\-dev}
+\end{DoxyCompactItemize}
+\subsection*{\-Files}
+\begin{DoxyCompactItemize}
+\item 
+file \hyperlink{pios__dsm_8h}{pios\-\_\-dsm.\-h}
+\begin{DoxyCompactList}\small\item\em \-Spektrum/\-J\-R \-D\-S\-Mx satellite receiver functions header. \end{DoxyCompactList}\item 
+file \hyperlink{pios__dsm__priv_8h}{pios\-\_\-dsm\-\_\-priv.\-h}
+\begin{DoxyCompactList}\small\item\em \-Spektrum/\-J\-R \-D\-S\-Mx satellite receiver private structures. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{group___p_i_o_s___d_s_m_ga0c64890f0b9cb4fd7681b2d92fad8bd9}{pios\-\_\-dsm\-\_\-proto} \{ \hyperlink{group___p_i_o_s___d_s_m_gga0c64890f0b9cb4fd7681b2d92fad8bd9ac1f20698946da8d49ca98423672c5c2f}{\-P\-I\-O\-S\-\_\-\-D\-S\-M\-\_\-\-P\-R\-O\-T\-O\-\_\-\-D\-S\-M2}, 
+\hyperlink{group___p_i_o_s___d_s_m_gga0c64890f0b9cb4fd7681b2d92fad8bd9a72b98ff1fac8f28c46376c1b9219f229}{\-P\-I\-O\-S\-\_\-\-D\-S\-M\-\_\-\-P\-R\-O\-T\-O\-\_\-\-D\-S\-M\-X10\-B\-I\-T}, 
+\hyperlink{group___p_i_o_s___d_s_m_gga0c64890f0b9cb4fd7681b2d92fad8bd9aac434e0720becbc427a60bae21582abd}{\-P\-I\-O\-S\-\_\-\-D\-S\-M\-\_\-\-P\-R\-O\-T\-O\-\_\-\-D\-S\-M\-X11\-B\-I\-T}
+ \}
+\item 
+enum \hyperlink{group___p_i_o_s___d_s_m_gaa8fd2b8b7432f69244c6af0ffd1c3c4b}{pios\-\_\-dsm\-\_\-dev\-\_\-magic} \{ \hyperlink{group___p_i_o_s___d_s_m_ggaa8fd2b8b7432f69244c6af0ffd1c3c4ba519ec93ae372d40ba8c2958931e3ca86}{\-P\-I\-O\-S\-\_\-\-D\-S\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C} =  0x44534d78, 
+\hyperlink{group___p_i_o_s___d_s_m_ggaa8fd2b8b7432f69244c6af0ffd1c3c4ba519ec93ae372d40ba8c2958931e3ca86}{\-P\-I\-O\-S\-\_\-\-D\-S\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C} =  0x44534d78, 
+\hyperlink{group___p_i_o_s___d_s_m_ggaa8fd2b8b7432f69244c6af0ffd1c3c4ba519ec93ae372d40ba8c2958931e3ca86}{\-P\-I\-O\-S\-\_\-\-D\-S\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C} =  0x44534d78
+ \}
+\item 
+enum \hyperlink{group___p_i_o_s___d_s_m_gaa8fd2b8b7432f69244c6af0ffd1c3c4b}{pios\-\_\-dsm\-\_\-dev\-\_\-magic} \{ \hyperlink{group___p_i_o_s___d_s_m_ggaa8fd2b8b7432f69244c6af0ffd1c3c4ba519ec93ae372d40ba8c2958931e3ca86}{\-P\-I\-O\-S\-\_\-\-D\-S\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C} =  0x44534d78, 
+\hyperlink{group___p_i_o_s___d_s_m_ggaa8fd2b8b7432f69244c6af0ffd1c3c4ba519ec93ae372d40ba8c2958931e3ca86}{\-P\-I\-O\-S\-\_\-\-D\-S\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C} =  0x44534d78, 
+\hyperlink{group___p_i_o_s___d_s_m_ggaa8fd2b8b7432f69244c6af0ffd1c3c4ba519ec93ae372d40ba8c2958931e3ca86}{\-P\-I\-O\-S\-\_\-\-D\-S\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C} =  0x44534d78
+ \}
+\item 
+enum \hyperlink{group___p_i_o_s___d_s_m_gaa8fd2b8b7432f69244c6af0ffd1c3c4b}{pios\-\_\-dsm\-\_\-dev\-\_\-magic} \{ \hyperlink{group___p_i_o_s___d_s_m_ggaa8fd2b8b7432f69244c6af0ffd1c3c4ba519ec93ae372d40ba8c2958931e3ca86}{\-P\-I\-O\-S\-\_\-\-D\-S\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C} =  0x44534d78, 
+\hyperlink{group___p_i_o_s___d_s_m_ggaa8fd2b8b7432f69244c6af0ffd1c3c4ba519ec93ae372d40ba8c2958931e3ca86}{\-P\-I\-O\-S\-\_\-\-D\-S\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C} =  0x44534d78, 
+\hyperlink{group___p_i_o_s___d_s_m_ggaa8fd2b8b7432f69244c6af0ffd1c3c4ba519ec93ae372d40ba8c2958931e3ca86}{\-P\-I\-O\-S\-\_\-\-D\-S\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C} =  0x44534d78
+ \}
+\end{DoxyCompactItemize}
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___d_s_m_ga546d34996bb1c4dd734a5a90da3fab42}{\-P\-I\-O\-S\-\_\-\-D\-S\-M\-\_\-\-Init} (uint32\-\_\-t $\ast$dsm\-\_\-id, const struct \hyperlink{structpios__dsm__cfg}{pios\-\_\-dsm\-\_\-cfg} $\ast$cfg, const struct \hyperlink{structpios__com__driver}{pios\-\_\-com\-\_\-driver} $\ast$driver, uint32\-\_\-t lower\-\_\-id, enum \hyperlink{group___p_i_o_s___d_s_m_ga0c64890f0b9cb4fd7681b2d92fad8bd9}{pios\-\_\-dsm\-\_\-proto} proto, uint8\-\_\-t bind)
+\end{DoxyCompactItemize}
+\subsection*{\-Variables}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structpios__rcvr__driver}{pios\-\_\-rcvr\-\_\-driver} \hyperlink{group___p_i_o_s___d_s_m_ga2bfdf466752a6865225de7d8136958b7}{pios\-\_\-dsm\-\_\-rcvr\-\_\-driver}
+\item 
+struct \hyperlink{structpios__rcvr__driver}{pios\-\_\-rcvr\-\_\-driver} \hyperlink{group___p_i_o_s___d_s_m_ga2bfdf466752a6865225de7d8136958b7}{pios\-\_\-dsm\-\_\-rcvr\-\_\-driver}
+\item 
+struct \hyperlink{structpios__rcvr__driver}{pios\-\_\-rcvr\-\_\-driver} \hyperlink{group___p_i_o_s___d_s_m_ga2bfdf466752a6865225de7d8136958b7}{pios\-\_\-dsm\-\_\-rcvr\-\_\-driver}
+\item 
+struct \hyperlink{structpios__rcvr__driver}{pios\-\_\-rcvr\-\_\-driver} \hyperlink{group___p_i_o_s___d_s_m_ga2bfdf466752a6865225de7d8136958b7}{pios\-\_\-dsm\-\_\-rcvr\-\_\-driver}
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-P\-I\-O\-S interface to bind and read \-Spektrum/\-J\-R \-D\-S\-Mx satellite receiver. \-Code to bind and read \-Spektrum/\-J\-R \-D\-S\-Mx satellite receiver serial stream. 
+
+\subsection{\-Enumeration \-Type \-Documentation}
+\hypertarget{group___p_i_o_s___d_s_m_gaa8fd2b8b7432f69244c6af0ffd1c3c4b}{\index{\-Spektrum/\-J\-R D\-S\-Mx satellite receiver functions@{\-Spektrum/\-J\-R D\-S\-Mx satellite receiver functions}!pios\-\_\-dsm\-\_\-dev\-\_\-magic@{pios\-\_\-dsm\-\_\-dev\-\_\-magic}}
+\index{pios\-\_\-dsm\-\_\-dev\-\_\-magic@{pios\-\_\-dsm\-\_\-dev\-\_\-magic}!Spektrum/JR DSMx satellite receiver functions@{\-Spektrum/\-J\-R D\-S\-Mx satellite receiver functions}}
+\subsubsection[{pios\-\_\-dsm\-\_\-dev\-\_\-magic}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf pios\-\_\-dsm\-\_\-dev\-\_\-magic}}}\label{group___p_i_o_s___d_s_m_gaa8fd2b8b7432f69244c6af0ffd1c3c4b}
+\begin{Desc}
+\item[\-Enumerator\-: ]\par
+\begin{description}
+\index{\-P\-I\-O\-S\-\_\-\-D\-S\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C@{\-P\-I\-O\-S\-\_\-\-D\-S\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}!\-Spektrum/\-J\-R D\-S\-Mx satellite receiver functions@{\-Spektrum/\-J\-R D\-S\-Mx satellite receiver functions}}\index{\-Spektrum/\-J\-R D\-S\-Mx satellite receiver functions@{\-Spektrum/\-J\-R D\-S\-Mx satellite receiver functions}!\-P\-I\-O\-S\-\_\-\-D\-S\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C@{\-P\-I\-O\-S\-\_\-\-D\-S\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}}\item[{\em 
+\hypertarget{group___p_i_o_s___d_s_m_ggaa8fd2b8b7432f69244c6af0ffd1c3c4ba519ec93ae372d40ba8c2958931e3ca86}{\-P\-I\-O\-S\-\_\-\-D\-S\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}\label{group___p_i_o_s___d_s_m_ggaa8fd2b8b7432f69244c6af0ffd1c3c4ba519ec93ae372d40ba8c2958931e3ca86}
+}]\index{\-P\-I\-O\-S\-\_\-\-D\-S\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C@{\-P\-I\-O\-S\-\_\-\-D\-S\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}!\-Spektrum/\-J\-R D\-S\-Mx satellite receiver functions@{\-Spektrum/\-J\-R D\-S\-Mx satellite receiver functions}}\index{\-Spektrum/\-J\-R D\-S\-Mx satellite receiver functions@{\-Spektrum/\-J\-R D\-S\-Mx satellite receiver functions}!\-P\-I\-O\-S\-\_\-\-D\-S\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C@{\-P\-I\-O\-S\-\_\-\-D\-S\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}}\item[{\em 
+\hypertarget{group___p_i_o_s___d_s_m_ggaa8fd2b8b7432f69244c6af0ffd1c3c4ba519ec93ae372d40ba8c2958931e3ca86}{\-P\-I\-O\-S\-\_\-\-D\-S\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}\label{group___p_i_o_s___d_s_m_ggaa8fd2b8b7432f69244c6af0ffd1c3c4ba519ec93ae372d40ba8c2958931e3ca86}
+}]\index{\-P\-I\-O\-S\-\_\-\-D\-S\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C@{\-P\-I\-O\-S\-\_\-\-D\-S\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}!\-Spektrum/\-J\-R D\-S\-Mx satellite receiver functions@{\-Spektrum/\-J\-R D\-S\-Mx satellite receiver functions}}\index{\-Spektrum/\-J\-R D\-S\-Mx satellite receiver functions@{\-Spektrum/\-J\-R D\-S\-Mx satellite receiver functions}!\-P\-I\-O\-S\-\_\-\-D\-S\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C@{\-P\-I\-O\-S\-\_\-\-D\-S\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}}\item[{\em 
+\hypertarget{group___p_i_o_s___d_s_m_ggaa8fd2b8b7432f69244c6af0ffd1c3c4ba519ec93ae372d40ba8c2958931e3ca86}{\-P\-I\-O\-S\-\_\-\-D\-S\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}\label{group___p_i_o_s___d_s_m_ggaa8fd2b8b7432f69244c6af0ffd1c3c4ba519ec93ae372d40ba8c2958931e3ca86}
+}]\end{description}
+\end{Desc}
+
+
+
+\-Definition at line 51 of file pios\-\_\-dsm.\-c.
+
+\hypertarget{group___p_i_o_s___d_s_m_gaa8fd2b8b7432f69244c6af0ffd1c3c4b}{\index{\-Spektrum/\-J\-R D\-S\-Mx satellite receiver functions@{\-Spektrum/\-J\-R D\-S\-Mx satellite receiver functions}!pios\-\_\-dsm\-\_\-dev\-\_\-magic@{pios\-\_\-dsm\-\_\-dev\-\_\-magic}}
+\index{pios\-\_\-dsm\-\_\-dev\-\_\-magic@{pios\-\_\-dsm\-\_\-dev\-\_\-magic}!Spektrum/JR DSMx satellite receiver functions@{\-Spektrum/\-J\-R D\-S\-Mx satellite receiver functions}}
+\subsubsection[{pios\-\_\-dsm\-\_\-dev\-\_\-magic}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf pios\-\_\-dsm\-\_\-dev\-\_\-magic}}}\label{group___p_i_o_s___d_s_m_gaa8fd2b8b7432f69244c6af0ffd1c3c4b}
+\begin{Desc}
+\item[\-Enumerator\-: ]\par
+\begin{description}
+\index{\-P\-I\-O\-S\-\_\-\-D\-S\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C@{\-P\-I\-O\-S\-\_\-\-D\-S\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}!\-Spektrum/\-J\-R D\-S\-Mx satellite receiver functions@{\-Spektrum/\-J\-R D\-S\-Mx satellite receiver functions}}\index{\-Spektrum/\-J\-R D\-S\-Mx satellite receiver functions@{\-Spektrum/\-J\-R D\-S\-Mx satellite receiver functions}!\-P\-I\-O\-S\-\_\-\-D\-S\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C@{\-P\-I\-O\-S\-\_\-\-D\-S\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}}\item[{\em 
+\hypertarget{group___p_i_o_s___d_s_m_ggaa8fd2b8b7432f69244c6af0ffd1c3c4ba519ec93ae372d40ba8c2958931e3ca86}{\-P\-I\-O\-S\-\_\-\-D\-S\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}\label{group___p_i_o_s___d_s_m_ggaa8fd2b8b7432f69244c6af0ffd1c3c4ba519ec93ae372d40ba8c2958931e3ca86}
+}]\index{\-P\-I\-O\-S\-\_\-\-D\-S\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C@{\-P\-I\-O\-S\-\_\-\-D\-S\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}!\-Spektrum/\-J\-R D\-S\-Mx satellite receiver functions@{\-Spektrum/\-J\-R D\-S\-Mx satellite receiver functions}}\index{\-Spektrum/\-J\-R D\-S\-Mx satellite receiver functions@{\-Spektrum/\-J\-R D\-S\-Mx satellite receiver functions}!\-P\-I\-O\-S\-\_\-\-D\-S\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C@{\-P\-I\-O\-S\-\_\-\-D\-S\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}}\item[{\em 
+\hypertarget{group___p_i_o_s___d_s_m_ggaa8fd2b8b7432f69244c6af0ffd1c3c4ba519ec93ae372d40ba8c2958931e3ca86}{\-P\-I\-O\-S\-\_\-\-D\-S\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}\label{group___p_i_o_s___d_s_m_ggaa8fd2b8b7432f69244c6af0ffd1c3c4ba519ec93ae372d40ba8c2958931e3ca86}
+}]\index{\-P\-I\-O\-S\-\_\-\-D\-S\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C@{\-P\-I\-O\-S\-\_\-\-D\-S\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}!\-Spektrum/\-J\-R D\-S\-Mx satellite receiver functions@{\-Spektrum/\-J\-R D\-S\-Mx satellite receiver functions}}\index{\-Spektrum/\-J\-R D\-S\-Mx satellite receiver functions@{\-Spektrum/\-J\-R D\-S\-Mx satellite receiver functions}!\-P\-I\-O\-S\-\_\-\-D\-S\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C@{\-P\-I\-O\-S\-\_\-\-D\-S\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}}\item[{\em 
+\hypertarget{group___p_i_o_s___d_s_m_ggaa8fd2b8b7432f69244c6af0ffd1c3c4ba519ec93ae372d40ba8c2958931e3ca86}{\-P\-I\-O\-S\-\_\-\-D\-S\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}\label{group___p_i_o_s___d_s_m_ggaa8fd2b8b7432f69244c6af0ffd1c3c4ba519ec93ae372d40ba8c2958931e3ca86}
+}]\end{description}
+\end{Desc}
+
+
+
+\-Definition at line 55 of file pios\-\_\-dsm.\-c.
+
+\hypertarget{group___p_i_o_s___d_s_m_gaa8fd2b8b7432f69244c6af0ffd1c3c4b}{\index{\-Spektrum/\-J\-R D\-S\-Mx satellite receiver functions@{\-Spektrum/\-J\-R D\-S\-Mx satellite receiver functions}!pios\-\_\-dsm\-\_\-dev\-\_\-magic@{pios\-\_\-dsm\-\_\-dev\-\_\-magic}}
+\index{pios\-\_\-dsm\-\_\-dev\-\_\-magic@{pios\-\_\-dsm\-\_\-dev\-\_\-magic}!Spektrum/JR DSMx satellite receiver functions@{\-Spektrum/\-J\-R D\-S\-Mx satellite receiver functions}}
+\subsubsection[{pios\-\_\-dsm\-\_\-dev\-\_\-magic}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf pios\-\_\-dsm\-\_\-dev\-\_\-magic}}}\label{group___p_i_o_s___d_s_m_gaa8fd2b8b7432f69244c6af0ffd1c3c4b}
+\begin{Desc}
+\item[\-Enumerator\-: ]\par
+\begin{description}
+\index{\-P\-I\-O\-S\-\_\-\-D\-S\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C@{\-P\-I\-O\-S\-\_\-\-D\-S\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}!\-Spektrum/\-J\-R D\-S\-Mx satellite receiver functions@{\-Spektrum/\-J\-R D\-S\-Mx satellite receiver functions}}\index{\-Spektrum/\-J\-R D\-S\-Mx satellite receiver functions@{\-Spektrum/\-J\-R D\-S\-Mx satellite receiver functions}!\-P\-I\-O\-S\-\_\-\-D\-S\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C@{\-P\-I\-O\-S\-\_\-\-D\-S\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}}\item[{\em 
+\hypertarget{group___p_i_o_s___d_s_m_ggaa8fd2b8b7432f69244c6af0ffd1c3c4ba519ec93ae372d40ba8c2958931e3ca86}{\-P\-I\-O\-S\-\_\-\-D\-S\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}\label{group___p_i_o_s___d_s_m_ggaa8fd2b8b7432f69244c6af0ffd1c3c4ba519ec93ae372d40ba8c2958931e3ca86}
+}]\index{\-P\-I\-O\-S\-\_\-\-D\-S\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C@{\-P\-I\-O\-S\-\_\-\-D\-S\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}!\-Spektrum/\-J\-R D\-S\-Mx satellite receiver functions@{\-Spektrum/\-J\-R D\-S\-Mx satellite receiver functions}}\index{\-Spektrum/\-J\-R D\-S\-Mx satellite receiver functions@{\-Spektrum/\-J\-R D\-S\-Mx satellite receiver functions}!\-P\-I\-O\-S\-\_\-\-D\-S\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C@{\-P\-I\-O\-S\-\_\-\-D\-S\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}}\item[{\em 
+\hypertarget{group___p_i_o_s___d_s_m_ggaa8fd2b8b7432f69244c6af0ffd1c3c4ba519ec93ae372d40ba8c2958931e3ca86}{\-P\-I\-O\-S\-\_\-\-D\-S\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}\label{group___p_i_o_s___d_s_m_ggaa8fd2b8b7432f69244c6af0ffd1c3c4ba519ec93ae372d40ba8c2958931e3ca86}
+}]\index{\-P\-I\-O\-S\-\_\-\-D\-S\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C@{\-P\-I\-O\-S\-\_\-\-D\-S\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}!\-Spektrum/\-J\-R D\-S\-Mx satellite receiver functions@{\-Spektrum/\-J\-R D\-S\-Mx satellite receiver functions}}\index{\-Spektrum/\-J\-R D\-S\-Mx satellite receiver functions@{\-Spektrum/\-J\-R D\-S\-Mx satellite receiver functions}!\-P\-I\-O\-S\-\_\-\-D\-S\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C@{\-P\-I\-O\-S\-\_\-\-D\-S\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}}\item[{\em 
+\hypertarget{group___p_i_o_s___d_s_m_ggaa8fd2b8b7432f69244c6af0ffd1c3c4ba519ec93ae372d40ba8c2958931e3ca86}{\-P\-I\-O\-S\-\_\-\-D\-S\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}\label{group___p_i_o_s___d_s_m_ggaa8fd2b8b7432f69244c6af0ffd1c3c4ba519ec93ae372d40ba8c2958931e3ca86}
+}]\end{description}
+\end{Desc}
+
+
+
+\-Definition at line 56 of file pios\-\_\-dsm.\-c.
+
+\hypertarget{group___p_i_o_s___d_s_m_ga0c64890f0b9cb4fd7681b2d92fad8bd9}{\index{\-Spektrum/\-J\-R D\-S\-Mx satellite receiver functions@{\-Spektrum/\-J\-R D\-S\-Mx satellite receiver functions}!pios\-\_\-dsm\-\_\-proto@{pios\-\_\-dsm\-\_\-proto}}
+\index{pios\-\_\-dsm\-\_\-proto@{pios\-\_\-dsm\-\_\-proto}!Spektrum/JR DSMx satellite receiver functions@{\-Spektrum/\-J\-R D\-S\-Mx satellite receiver functions}}
+\subsubsection[{pios\-\_\-dsm\-\_\-proto}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf pios\-\_\-dsm\-\_\-proto}}}\label{group___p_i_o_s___d_s_m_ga0c64890f0b9cb4fd7681b2d92fad8bd9}
+\begin{Desc}
+\item[\-Enumerator\-: ]\par
+\begin{description}
+\index{\-P\-I\-O\-S\-\_\-\-D\-S\-M\-\_\-\-P\-R\-O\-T\-O\-\_\-\-D\-S\-M2@{\-P\-I\-O\-S\-\_\-\-D\-S\-M\-\_\-\-P\-R\-O\-T\-O\-\_\-\-D\-S\-M2}!\-Spektrum/\-J\-R D\-S\-Mx satellite receiver functions@{\-Spektrum/\-J\-R D\-S\-Mx satellite receiver functions}}\index{\-Spektrum/\-J\-R D\-S\-Mx satellite receiver functions@{\-Spektrum/\-J\-R D\-S\-Mx satellite receiver functions}!\-P\-I\-O\-S\-\_\-\-D\-S\-M\-\_\-\-P\-R\-O\-T\-O\-\_\-\-D\-S\-M2@{\-P\-I\-O\-S\-\_\-\-D\-S\-M\-\_\-\-P\-R\-O\-T\-O\-\_\-\-D\-S\-M2}}\item[{\em 
+\hypertarget{group___p_i_o_s___d_s_m_gga0c64890f0b9cb4fd7681b2d92fad8bd9ac1f20698946da8d49ca98423672c5c2f}{\-P\-I\-O\-S\-\_\-\-D\-S\-M\-\_\-\-P\-R\-O\-T\-O\-\_\-\-D\-S\-M2}\label{group___p_i_o_s___d_s_m_gga0c64890f0b9cb4fd7681b2d92fad8bd9ac1f20698946da8d49ca98423672c5c2f}
+}]\index{\-P\-I\-O\-S\-\_\-\-D\-S\-M\-\_\-\-P\-R\-O\-T\-O\-\_\-\-D\-S\-M\-X10\-B\-I\-T@{\-P\-I\-O\-S\-\_\-\-D\-S\-M\-\_\-\-P\-R\-O\-T\-O\-\_\-\-D\-S\-M\-X10\-B\-I\-T}!\-Spektrum/\-J\-R D\-S\-Mx satellite receiver functions@{\-Spektrum/\-J\-R D\-S\-Mx satellite receiver functions}}\index{\-Spektrum/\-J\-R D\-S\-Mx satellite receiver functions@{\-Spektrum/\-J\-R D\-S\-Mx satellite receiver functions}!\-P\-I\-O\-S\-\_\-\-D\-S\-M\-\_\-\-P\-R\-O\-T\-O\-\_\-\-D\-S\-M\-X10\-B\-I\-T@{\-P\-I\-O\-S\-\_\-\-D\-S\-M\-\_\-\-P\-R\-O\-T\-O\-\_\-\-D\-S\-M\-X10\-B\-I\-T}}\item[{\em 
+\hypertarget{group___p_i_o_s___d_s_m_gga0c64890f0b9cb4fd7681b2d92fad8bd9a72b98ff1fac8f28c46376c1b9219f229}{\-P\-I\-O\-S\-\_\-\-D\-S\-M\-\_\-\-P\-R\-O\-T\-O\-\_\-\-D\-S\-M\-X10\-B\-I\-T}\label{group___p_i_o_s___d_s_m_gga0c64890f0b9cb4fd7681b2d92fad8bd9a72b98ff1fac8f28c46376c1b9219f229}
+}]\index{\-P\-I\-O\-S\-\_\-\-D\-S\-M\-\_\-\-P\-R\-O\-T\-O\-\_\-\-D\-S\-M\-X11\-B\-I\-T@{\-P\-I\-O\-S\-\_\-\-D\-S\-M\-\_\-\-P\-R\-O\-T\-O\-\_\-\-D\-S\-M\-X11\-B\-I\-T}!\-Spektrum/\-J\-R D\-S\-Mx satellite receiver functions@{\-Spektrum/\-J\-R D\-S\-Mx satellite receiver functions}}\index{\-Spektrum/\-J\-R D\-S\-Mx satellite receiver functions@{\-Spektrum/\-J\-R D\-S\-Mx satellite receiver functions}!\-P\-I\-O\-S\-\_\-\-D\-S\-M\-\_\-\-P\-R\-O\-T\-O\-\_\-\-D\-S\-M\-X11\-B\-I\-T@{\-P\-I\-O\-S\-\_\-\-D\-S\-M\-\_\-\-P\-R\-O\-T\-O\-\_\-\-D\-S\-M\-X11\-B\-I\-T}}\item[{\em 
+\hypertarget{group___p_i_o_s___d_s_m_gga0c64890f0b9cb4fd7681b2d92fad8bd9aac434e0720becbc427a60bae21582abd}{\-P\-I\-O\-S\-\_\-\-D\-S\-M\-\_\-\-P\-R\-O\-T\-O\-\_\-\-D\-S\-M\-X11\-B\-I\-T}\label{group___p_i_o_s___d_s_m_gga0c64890f0b9cb4fd7681b2d92fad8bd9aac434e0720becbc427a60bae21582abd}
+}]\end{description}
+\end{Desc}
+
+
+
+\-Definition at line 113 of file pios\-\_\-dsm\-\_\-priv.\-h.
+
+
+
+\subsection{\-Function \-Documentation}
+\hypertarget{group___p_i_o_s___d_s_m_ga546d34996bb1c4dd734a5a90da3fab42}{\index{\-Spektrum/\-J\-R D\-S\-Mx satellite receiver functions@{\-Spektrum/\-J\-R D\-S\-Mx satellite receiver functions}!\-P\-I\-O\-S\-\_\-\-D\-S\-M\-\_\-\-Init@{\-P\-I\-O\-S\-\_\-\-D\-S\-M\-\_\-\-Init}}
+\index{\-P\-I\-O\-S\-\_\-\-D\-S\-M\-\_\-\-Init@{\-P\-I\-O\-S\-\_\-\-D\-S\-M\-\_\-\-Init}!Spektrum/JR DSMx satellite receiver functions@{\-Spektrum/\-J\-R D\-S\-Mx satellite receiver functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-D\-S\-M\-\_\-\-Init}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-P\-I\-O\-S\-\_\-\-D\-S\-M\-\_\-\-Init} (
+\begin{DoxyParamCaption}
+\item[{uint32\-\_\-t $\ast$}]{dsm\-\_\-id, }
+\item[{const struct {\bf pios\-\_\-dsm\-\_\-cfg} $\ast$}]{cfg, }
+\item[{const struct {\bf pios\-\_\-com\-\_\-driver} $\ast$}]{driver, }
+\item[{uint32\-\_\-t}]{lower\-\_\-id, }
+\item[{enum {\bf pios\-\_\-dsm\-\_\-proto}}]{proto, }
+\item[{uint8\-\_\-t}]{bind}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___d_s_m_ga546d34996bb1c4dd734a5a90da3fab42}
+
+
+\-Definition at line 277 of file pios\-\_\-dsm.\-c.
+
+
+
+\subsection{\-Variable \-Documentation}
+\hypertarget{group___p_i_o_s___d_s_m_ga2bfdf466752a6865225de7d8136958b7}{\index{\-Spektrum/\-J\-R D\-S\-Mx satellite receiver functions@{\-Spektrum/\-J\-R D\-S\-Mx satellite receiver functions}!pios\-\_\-dsm\-\_\-rcvr\-\_\-driver@{pios\-\_\-dsm\-\_\-rcvr\-\_\-driver}}
+\index{pios\-\_\-dsm\-\_\-rcvr\-\_\-driver@{pios\-\_\-dsm\-\_\-rcvr\-\_\-driver}!Spektrum/JR DSMx satellite receiver functions@{\-Spektrum/\-J\-R D\-S\-Mx satellite receiver functions}}
+\subsubsection[{pios\-\_\-dsm\-\_\-rcvr\-\_\-driver}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf pios\-\_\-rcvr\-\_\-driver} {\bf pios\-\_\-dsm\-\_\-rcvr\-\_\-driver}}}\label{group___p_i_o_s___d_s_m_ga2bfdf466752a6865225de7d8136958b7}
+{\bfseries \-Initial value\-:}
+\begin{DoxyCode}
+ {
+        .read = PIOS_DSM_Get,
+}
+\end{DoxyCode}
+
+
+\-Definition at line 47 of file pios\-\_\-dsm.\-c.
+
+\hypertarget{group___p_i_o_s___d_s_m_ga2bfdf466752a6865225de7d8136958b7}{\index{\-Spektrum/\-J\-R D\-S\-Mx satellite receiver functions@{\-Spektrum/\-J\-R D\-S\-Mx satellite receiver functions}!pios\-\_\-dsm\-\_\-rcvr\-\_\-driver@{pios\-\_\-dsm\-\_\-rcvr\-\_\-driver}}
+\index{pios\-\_\-dsm\-\_\-rcvr\-\_\-driver@{pios\-\_\-dsm\-\_\-rcvr\-\_\-driver}!Spektrum/JR DSMx satellite receiver functions@{\-Spektrum/\-J\-R D\-S\-Mx satellite receiver functions}}
+\subsubsection[{pios\-\_\-dsm\-\_\-rcvr\-\_\-driver}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf pios\-\_\-rcvr\-\_\-driver} {\bf pios\-\_\-dsm\-\_\-rcvr\-\_\-driver}}}\label{group___p_i_o_s___d_s_m_ga2bfdf466752a6865225de7d8136958b7}
+{\bfseries \-Initial value\-:}
+\begin{DoxyCode}
+ {
+        .read = PIOS_DSM_Get,
+}
+\end{DoxyCode}
+
+
+\-Definition at line 51 of file pios\-\_\-dsm.\-c.
+
+\hypertarget{group___p_i_o_s___d_s_m_ga2bfdf466752a6865225de7d8136958b7}{\index{\-Spektrum/\-J\-R D\-S\-Mx satellite receiver functions@{\-Spektrum/\-J\-R D\-S\-Mx satellite receiver functions}!pios\-\_\-dsm\-\_\-rcvr\-\_\-driver@{pios\-\_\-dsm\-\_\-rcvr\-\_\-driver}}
+\index{pios\-\_\-dsm\-\_\-rcvr\-\_\-driver@{pios\-\_\-dsm\-\_\-rcvr\-\_\-driver}!Spektrum/JR DSMx satellite receiver functions@{\-Spektrum/\-J\-R D\-S\-Mx satellite receiver functions}}
+\subsubsection[{pios\-\_\-dsm\-\_\-rcvr\-\_\-driver}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf pios\-\_\-rcvr\-\_\-driver} {\bf pios\-\_\-dsm\-\_\-rcvr\-\_\-driver}}}\label{group___p_i_o_s___d_s_m_ga2bfdf466752a6865225de7d8136958b7}
+{\bfseries \-Initial value\-:}
+\begin{DoxyCode}
+ {
+        .read = PIOS_DSM_Get,
+}
+\end{DoxyCode}
+
+
+\-Definition at line 52 of file pios\-\_\-dsm.\-c.
+
+\hypertarget{group___p_i_o_s___d_s_m_ga2bfdf466752a6865225de7d8136958b7}{\index{\-Spektrum/\-J\-R D\-S\-Mx satellite receiver functions@{\-Spektrum/\-J\-R D\-S\-Mx satellite receiver functions}!pios\-\_\-dsm\-\_\-rcvr\-\_\-driver@{pios\-\_\-dsm\-\_\-rcvr\-\_\-driver}}
+\index{pios\-\_\-dsm\-\_\-rcvr\-\_\-driver@{pios\-\_\-dsm\-\_\-rcvr\-\_\-driver}!Spektrum/JR DSMx satellite receiver functions@{\-Spektrum/\-J\-R D\-S\-Mx satellite receiver functions}}
+\subsubsection[{pios\-\_\-dsm\-\_\-rcvr\-\_\-driver}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf pios\-\_\-rcvr\-\_\-driver} {\bf pios\-\_\-dsm\-\_\-rcvr\-\_\-driver}}}\label{group___p_i_o_s___d_s_m_ga2bfdf466752a6865225de7d8136958b7}
+
+
+\-Definition at line 47 of file pios\-\_\-dsm.\-c.
+

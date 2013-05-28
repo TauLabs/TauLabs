@@ -1,0 +1,281 @@
+\hypertarget{group___p_i_o_s___s_e_n_s_o_r_s}{\section{\-Generic sensor interface functions}
+\label{group___p_i_o_s___s_e_n_s_o_r_s}\index{\-Generic sensor interface functions@{\-Generic sensor interface functions}}
+}
+
+
+\-Generic interface for sensors.  
+
+
+\subsection*{\-Data \-Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structpios__sensor__gyro__data}{pios\-\_\-sensor\-\_\-gyro\-\_\-data}
+\begin{DoxyCompactList}\small\item\em \-Pios sensor structure for generic gyro data. \end{DoxyCompactList}\item 
+struct \hyperlink{structpios__sensor__accel__data}{pios\-\_\-sensor\-\_\-accel\-\_\-data}
+\begin{DoxyCompactList}\small\item\em \-Pios sensor structure for generic accel data. \end{DoxyCompactList}\item 
+struct \hyperlink{structpios__sensor__mag__data}{pios\-\_\-sensor\-\_\-mag\-\_\-data}
+\begin{DoxyCompactList}\small\item\em \-Pios sensor structure for generic mag data. \end{DoxyCompactList}\item 
+struct \hyperlink{structpios__sensor__baro__data}{pios\-\_\-sensor\-\_\-baro\-\_\-data}
+\begin{DoxyCompactList}\small\item\em \-Pios sensor structure for generic baro data. \end{DoxyCompactList}\item 
+struct \hyperlink{structpios__sensor__registration}{pios\-\_\-sensor\-\_\-registration}
+\begin{DoxyCompactList}\small\item\em \-Structure to register the data. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Files}
+\begin{DoxyCompactItemize}
+\item 
+file \hyperlink{pios__sensors_8c}{pios\-\_\-sensors.\-c}
+\begin{DoxyCompactList}\small\item\em \-Generic interface for sensors. \end{DoxyCompactList}\item 
+file \hyperlink{pios__sensors_8h}{pios\-\_\-sensors.\-h}
+\begin{DoxyCompactList}\small\item\em \-Generic interface for sensors. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{group___p_i_o_s___s_e_n_s_o_r_s_gadad1b67d985a6c9c150a70d23aac96a0}{pios\-\_\-sensor\-\_\-type} \{ \*
+\hyperlink{group___p_i_o_s___s_e_n_s_o_r_s_ggadad1b67d985a6c9c150a70d23aac96a0a0b386dcd14ce22a4ec0f296727338876}{\-P\-I\-O\-S\-\_\-\-S\-E\-N\-S\-O\-R\-\_\-\-A\-C\-C\-E\-L}, 
+\hyperlink{group___p_i_o_s___s_e_n_s_o_r_s_ggadad1b67d985a6c9c150a70d23aac96a0aa15cffcc905e0229f765c0653a43d6fe}{\-P\-I\-O\-S\-\_\-\-S\-E\-N\-S\-O\-R\-\_\-\-G\-Y\-R\-O}, 
+\hyperlink{group___p_i_o_s___s_e_n_s_o_r_s_ggadad1b67d985a6c9c150a70d23aac96a0a5a4ddf59e023cf155e5af7f8304e644f}{\-P\-I\-O\-S\-\_\-\-S\-E\-N\-S\-O\-R\-\_\-\-M\-A\-G}, 
+\hyperlink{group___p_i_o_s___s_e_n_s_o_r_s_ggadad1b67d985a6c9c150a70d23aac96a0aa17c455b7f9000f88b8d60d6c3ab1db0}{\-P\-I\-O\-S\-\_\-\-S\-E\-N\-S\-O\-R\-\_\-\-B\-A\-R\-O}, 
+\*
+\hyperlink{group___p_i_o_s___s_e_n_s_o_r_s_ggadad1b67d985a6c9c150a70d23aac96a0a022b8f5e76ed6659cdf85b004be20170}{\-P\-I\-O\-S\-\_\-\-S\-E\-N\-S\-O\-R\-\_\-\-L\-A\-S\-T}
+ \}
+\begin{DoxyCompactList}\small\item\em \-The types of sensors this module supports. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___s_e_n_s_o_r_s_ga382f3e734c0289835d99e3a8410a28bd}{\-P\-I\-O\-S\-\_\-\-S\-E\-N\-S\-O\-R\-S\-\_\-\-Init} ()
+\begin{DoxyCompactList}\small\item\em \-Initialize the sensors interface. \end{DoxyCompactList}\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___s_e_n_s_o_r_s_gadd19368ecca5b7d027ce475e3677692b}{\-P\-I\-O\-S\-\_\-\-S\-E\-N\-S\-O\-R\-S\-\_\-\-Register} (enum \hyperlink{group___p_i_o_s___s_e_n_s_o_r_s_gadad1b67d985a6c9c150a70d23aac96a0}{pios\-\_\-sensor\-\_\-type} type, x\-Queue\-Handle queue)
+\begin{DoxyCompactList}\small\item\em \-Register a sensor with the \-P\-I\-O\-S\-\_\-\-S\-E\-N\-S\-O\-R\-S interface. \end{DoxyCompactList}\item 
+x\-Queue\-Handle \hyperlink{group___p_i_o_s___s_e_n_s_o_r_s_gaec312826a58f6c29ef0a00f56e37cfbc}{\-P\-I\-O\-S\-\_\-\-S\-E\-N\-S\-O\-R\-S\-\_\-\-Get\-Queue} (enum \hyperlink{group___p_i_o_s___s_e_n_s_o_r_s_gadad1b67d985a6c9c150a70d23aac96a0}{pios\-\_\-sensor\-\_\-type} type)
+\begin{DoxyCompactList}\small\item\em \-Get the data queue for a sensor type. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Variables}
+\begin{DoxyCompactItemize}
+\item 
+float \hyperlink{group___p_i_o_s___s_e_n_s_o_r_s_gaa3675ec6a2d0ed4f805311fef19c0c8b}{pios\-\_\-sensor\-\_\-gyro\-\_\-data\-::x}
+\item 
+float \hyperlink{group___p_i_o_s___s_e_n_s_o_r_s_gaad82a3c1fcca51db61c84eb792d19842}{pios\-\_\-sensor\-\_\-gyro\-\_\-data\-::y}
+\item 
+float \hyperlink{group___p_i_o_s___s_e_n_s_o_r_s_ga54e998de17a4da6aa1f8504cce31a31c}{pios\-\_\-sensor\-\_\-gyro\-\_\-data\-::z}
+\item 
+float \hyperlink{group___p_i_o_s___s_e_n_s_o_r_s_ga9f44abb5eea58728c07c17a58155f6e8}{pios\-\_\-sensor\-\_\-gyro\-\_\-data\-::temperature}
+\item 
+float \hyperlink{group___p_i_o_s___s_e_n_s_o_r_s_gae32485cbb3023e21caf5ac1fd8378fb3}{pios\-\_\-sensor\-\_\-accel\-\_\-data\-::x}
+\item 
+float \hyperlink{group___p_i_o_s___s_e_n_s_o_r_s_ga9f94596a8b62bafbbbd58e9196347e82}{pios\-\_\-sensor\-\_\-accel\-\_\-data\-::y}
+\item 
+float \hyperlink{group___p_i_o_s___s_e_n_s_o_r_s_ga8d801598e8a0f5aade459361b3ec9b7a}{pios\-\_\-sensor\-\_\-accel\-\_\-data\-::z}
+\item 
+float \hyperlink{group___p_i_o_s___s_e_n_s_o_r_s_gadb57b0d1050bd04870c0ad76832f4287}{pios\-\_\-sensor\-\_\-accel\-\_\-data\-::temperature}
+\item 
+float \hyperlink{group___p_i_o_s___s_e_n_s_o_r_s_ga3ec7375b9b8c7ab5ddd50349c76ac818}{pios\-\_\-sensor\-\_\-mag\-\_\-data\-::x}
+\item 
+float \hyperlink{group___p_i_o_s___s_e_n_s_o_r_s_ga04a14fcd48fda39a469229e1b01c0b2d}{pios\-\_\-sensor\-\_\-mag\-\_\-data\-::y}
+\item 
+float \hyperlink{group___p_i_o_s___s_e_n_s_o_r_s_ga77b8adea9b5e8b43c3ce7d4c60784862}{pios\-\_\-sensor\-\_\-mag\-\_\-data\-::z}
+\item 
+float \hyperlink{group___p_i_o_s___s_e_n_s_o_r_s_ga9cb0c320301d3a8028859d3bf920669f}{pios\-\_\-sensor\-\_\-baro\-\_\-data\-::temperature}
+\item 
+float \hyperlink{group___p_i_o_s___s_e_n_s_o_r_s_ga43ba219138a0c31669a1af1b45f7a7f6}{pios\-\_\-sensor\-\_\-baro\-\_\-data\-::pressure}
+\item 
+float \hyperlink{group___p_i_o_s___s_e_n_s_o_r_s_ga36e1ee62fc132c0b2c992ef8efc5bb81}{pios\-\_\-sensor\-\_\-baro\-\_\-data\-::altitude}
+\item 
+enum \hyperlink{group___p_i_o_s___s_e_n_s_o_r_s_gadad1b67d985a6c9c150a70d23aac96a0}{pios\-\_\-sensor\-\_\-type} \hyperlink{group___p_i_o_s___s_e_n_s_o_r_s_gaf66f51be389998d910c8e9d3fc826a75}{pios\-\_\-sensor\-\_\-registration\-::type}
+\item 
+x\-Queue\-Handle \hyperlink{group___p_i_o_s___s_e_n_s_o_r_s_gaeea1102e8510b8a5f3bb0cf298e7ebea}{pios\-\_\-sensor\-\_\-registration\-::queue}
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-Generic interface for sensors. 
+
+\subsection{\-Enumeration \-Type \-Documentation}
+\hypertarget{group___p_i_o_s___s_e_n_s_o_r_s_gadad1b67d985a6c9c150a70d23aac96a0}{\index{\-Generic sensor interface functions@{\-Generic sensor interface functions}!pios\-\_\-sensor\-\_\-type@{pios\-\_\-sensor\-\_\-type}}
+\index{pios\-\_\-sensor\-\_\-type@{pios\-\_\-sensor\-\_\-type}!Generic sensor interface functions@{\-Generic sensor interface functions}}
+\subsubsection[{pios\-\_\-sensor\-\_\-type}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf pios\-\_\-sensor\-\_\-type}}}\label{group___p_i_o_s___s_e_n_s_o_r_s_gadad1b67d985a6c9c150a70d23aac96a0}
+
+
+\-The types of sensors this module supports. 
+
+\begin{Desc}
+\item[\-Enumerator\-: ]\par
+\begin{description}
+\index{\-P\-I\-O\-S\-\_\-\-S\-E\-N\-S\-O\-R\-\_\-\-A\-C\-C\-E\-L@{\-P\-I\-O\-S\-\_\-\-S\-E\-N\-S\-O\-R\-\_\-\-A\-C\-C\-E\-L}!\-Generic sensor interface functions@{\-Generic sensor interface functions}}\index{\-Generic sensor interface functions@{\-Generic sensor interface functions}!\-P\-I\-O\-S\-\_\-\-S\-E\-N\-S\-O\-R\-\_\-\-A\-C\-C\-E\-L@{\-P\-I\-O\-S\-\_\-\-S\-E\-N\-S\-O\-R\-\_\-\-A\-C\-C\-E\-L}}\item[{\em 
+\hypertarget{group___p_i_o_s___s_e_n_s_o_r_s_ggadad1b67d985a6c9c150a70d23aac96a0a0b386dcd14ce22a4ec0f296727338876}{\-P\-I\-O\-S\-\_\-\-S\-E\-N\-S\-O\-R\-\_\-\-A\-C\-C\-E\-L}\label{group___p_i_o_s___s_e_n_s_o_r_s_ggadad1b67d985a6c9c150a70d23aac96a0a0b386dcd14ce22a4ec0f296727338876}
+}]\index{\-P\-I\-O\-S\-\_\-\-S\-E\-N\-S\-O\-R\-\_\-\-G\-Y\-R\-O@{\-P\-I\-O\-S\-\_\-\-S\-E\-N\-S\-O\-R\-\_\-\-G\-Y\-R\-O}!\-Generic sensor interface functions@{\-Generic sensor interface functions}}\index{\-Generic sensor interface functions@{\-Generic sensor interface functions}!\-P\-I\-O\-S\-\_\-\-S\-E\-N\-S\-O\-R\-\_\-\-G\-Y\-R\-O@{\-P\-I\-O\-S\-\_\-\-S\-E\-N\-S\-O\-R\-\_\-\-G\-Y\-R\-O}}\item[{\em 
+\hypertarget{group___p_i_o_s___s_e_n_s_o_r_s_ggadad1b67d985a6c9c150a70d23aac96a0aa15cffcc905e0229f765c0653a43d6fe}{\-P\-I\-O\-S\-\_\-\-S\-E\-N\-S\-O\-R\-\_\-\-G\-Y\-R\-O}\label{group___p_i_o_s___s_e_n_s_o_r_s_ggadad1b67d985a6c9c150a70d23aac96a0aa15cffcc905e0229f765c0653a43d6fe}
+}]\index{\-P\-I\-O\-S\-\_\-\-S\-E\-N\-S\-O\-R\-\_\-\-M\-A\-G@{\-P\-I\-O\-S\-\_\-\-S\-E\-N\-S\-O\-R\-\_\-\-M\-A\-G}!\-Generic sensor interface functions@{\-Generic sensor interface functions}}\index{\-Generic sensor interface functions@{\-Generic sensor interface functions}!\-P\-I\-O\-S\-\_\-\-S\-E\-N\-S\-O\-R\-\_\-\-M\-A\-G@{\-P\-I\-O\-S\-\_\-\-S\-E\-N\-S\-O\-R\-\_\-\-M\-A\-G}}\item[{\em 
+\hypertarget{group___p_i_o_s___s_e_n_s_o_r_s_ggadad1b67d985a6c9c150a70d23aac96a0a5a4ddf59e023cf155e5af7f8304e644f}{\-P\-I\-O\-S\-\_\-\-S\-E\-N\-S\-O\-R\-\_\-\-M\-A\-G}\label{group___p_i_o_s___s_e_n_s_o_r_s_ggadad1b67d985a6c9c150a70d23aac96a0a5a4ddf59e023cf155e5af7f8304e644f}
+}]\index{\-P\-I\-O\-S\-\_\-\-S\-E\-N\-S\-O\-R\-\_\-\-B\-A\-R\-O@{\-P\-I\-O\-S\-\_\-\-S\-E\-N\-S\-O\-R\-\_\-\-B\-A\-R\-O}!\-Generic sensor interface functions@{\-Generic sensor interface functions}}\index{\-Generic sensor interface functions@{\-Generic sensor interface functions}!\-P\-I\-O\-S\-\_\-\-S\-E\-N\-S\-O\-R\-\_\-\-B\-A\-R\-O@{\-P\-I\-O\-S\-\_\-\-S\-E\-N\-S\-O\-R\-\_\-\-B\-A\-R\-O}}\item[{\em 
+\hypertarget{group___p_i_o_s___s_e_n_s_o_r_s_ggadad1b67d985a6c9c150a70d23aac96a0aa17c455b7f9000f88b8d60d6c3ab1db0}{\-P\-I\-O\-S\-\_\-\-S\-E\-N\-S\-O\-R\-\_\-\-B\-A\-R\-O}\label{group___p_i_o_s___s_e_n_s_o_r_s_ggadad1b67d985a6c9c150a70d23aac96a0aa17c455b7f9000f88b8d60d6c3ab1db0}
+}]\index{\-P\-I\-O\-S\-\_\-\-S\-E\-N\-S\-O\-R\-\_\-\-L\-A\-S\-T@{\-P\-I\-O\-S\-\_\-\-S\-E\-N\-S\-O\-R\-\_\-\-L\-A\-S\-T}!\-Generic sensor interface functions@{\-Generic sensor interface functions}}\index{\-Generic sensor interface functions@{\-Generic sensor interface functions}!\-P\-I\-O\-S\-\_\-\-S\-E\-N\-S\-O\-R\-\_\-\-L\-A\-S\-T@{\-P\-I\-O\-S\-\_\-\-S\-E\-N\-S\-O\-R\-\_\-\-L\-A\-S\-T}}\item[{\em 
+\hypertarget{group___p_i_o_s___s_e_n_s_o_r_s_ggadad1b67d985a6c9c150a70d23aac96a0a022b8f5e76ed6659cdf85b004be20170}{\-P\-I\-O\-S\-\_\-\-S\-E\-N\-S\-O\-R\-\_\-\-L\-A\-S\-T}\label{group___p_i_o_s___s_e_n_s_o_r_s_ggadad1b67d985a6c9c150a70d23aac96a0a022b8f5e76ed6659cdf85b004be20170}
+}]\end{description}
+\end{Desc}
+
+
+
+\-Definition at line 69 of file pios\-\_\-sensors.\-h.
+
+
+
+\subsection{\-Function \-Documentation}
+\hypertarget{group___p_i_o_s___s_e_n_s_o_r_s_gaec312826a58f6c29ef0a00f56e37cfbc}{\index{\-Generic sensor interface functions@{\-Generic sensor interface functions}!\-P\-I\-O\-S\-\_\-\-S\-E\-N\-S\-O\-R\-S\-\_\-\-Get\-Queue@{\-P\-I\-O\-S\-\_\-\-S\-E\-N\-S\-O\-R\-S\-\_\-\-Get\-Queue}}
+\index{\-P\-I\-O\-S\-\_\-\-S\-E\-N\-S\-O\-R\-S\-\_\-\-Get\-Queue@{\-P\-I\-O\-S\-\_\-\-S\-E\-N\-S\-O\-R\-S\-\_\-\-Get\-Queue}!Generic sensor interface functions@{\-Generic sensor interface functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-S\-E\-N\-S\-O\-R\-S\-\_\-\-Get\-Queue}]{\setlength{\rightskip}{0pt plus 5cm}x\-Queue\-Handle {\bf \-P\-I\-O\-S\-\_\-\-S\-E\-N\-S\-O\-R\-S\-\_\-\-Get\-Queue} (
+\begin{DoxyParamCaption}
+\item[{enum {\bf pios\-\_\-sensor\-\_\-type}}]{type}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___s_e_n_s_o_r_s_gaec312826a58f6c29ef0a00f56e37cfbc}
+
+
+\-Get the data queue for a sensor type. 
+
+
+
+\-Definition at line 60 of file pios\-\_\-sensors.\-c.
+
+\hypertarget{group___p_i_o_s___s_e_n_s_o_r_s_ga382f3e734c0289835d99e3a8410a28bd}{\index{\-Generic sensor interface functions@{\-Generic sensor interface functions}!\-P\-I\-O\-S\-\_\-\-S\-E\-N\-S\-O\-R\-S\-\_\-\-Init@{\-P\-I\-O\-S\-\_\-\-S\-E\-N\-S\-O\-R\-S\-\_\-\-Init}}
+\index{\-P\-I\-O\-S\-\_\-\-S\-E\-N\-S\-O\-R\-S\-\_\-\-Init@{\-P\-I\-O\-S\-\_\-\-S\-E\-N\-S\-O\-R\-S\-\_\-\-Init}!Generic sensor interface functions@{\-Generic sensor interface functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-S\-E\-N\-S\-O\-R\-S\-\_\-\-Init}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-P\-I\-O\-S\-\_\-\-S\-E\-N\-S\-O\-R\-S\-\_\-\-Init} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___s_e_n_s_o_r_s_ga382f3e734c0289835d99e3a8410a28bd}
+
+
+\-Initialize the sensors interface. 
+
+\-Initialize the \-P\-I\-O\-S\-\_\-\-S\-E\-N\-S\-O\-R\-S interface. 
+
+\-Definition at line 40 of file pios\-\_\-sensors.\-c.
+
+\hypertarget{group___p_i_o_s___s_e_n_s_o_r_s_gadd19368ecca5b7d027ce475e3677692b}{\index{\-Generic sensor interface functions@{\-Generic sensor interface functions}!\-P\-I\-O\-S\-\_\-\-S\-E\-N\-S\-O\-R\-S\-\_\-\-Register@{\-P\-I\-O\-S\-\_\-\-S\-E\-N\-S\-O\-R\-S\-\_\-\-Register}}
+\index{\-P\-I\-O\-S\-\_\-\-S\-E\-N\-S\-O\-R\-S\-\_\-\-Register@{\-P\-I\-O\-S\-\_\-\-S\-E\-N\-S\-O\-R\-S\-\_\-\-Register}!Generic sensor interface functions@{\-Generic sensor interface functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-S\-E\-N\-S\-O\-R\-S\-\_\-\-Register}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-P\-I\-O\-S\-\_\-\-S\-E\-N\-S\-O\-R\-S\-\_\-\-Register} (
+\begin{DoxyParamCaption}
+\item[{enum {\bf pios\-\_\-sensor\-\_\-type}}]{type, }
+\item[{x\-Queue\-Handle}]{queue}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___s_e_n_s_o_r_s_gadd19368ecca5b7d027ce475e3677692b}
+
+
+\-Register a sensor with the \-P\-I\-O\-S\-\_\-\-S\-E\-N\-S\-O\-R\-S interface. 
+
+
+
+\-Definition at line 49 of file pios\-\_\-sensors.\-c.
+
+
+
+\subsection{\-Variable \-Documentation}
+\hypertarget{group___p_i_o_s___s_e_n_s_o_r_s_ga36e1ee62fc132c0b2c992ef8efc5bb81}{\index{\-Generic sensor interface functions@{\-Generic sensor interface functions}!altitude@{altitude}}
+\index{altitude@{altitude}!Generic sensor interface functions@{\-Generic sensor interface functions}}
+\subsubsection[{altitude}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf pios\-\_\-sensor\-\_\-baro\-\_\-data\-::altitude}}}\label{group___p_i_o_s___s_e_n_s_o_r_s_ga36e1ee62fc132c0b2c992ef8efc5bb81}
+
+
+\-Definition at line 65 of file pios\-\_\-sensors.\-h.
+
+\hypertarget{group___p_i_o_s___s_e_n_s_o_r_s_ga43ba219138a0c31669a1af1b45f7a7f6}{\index{\-Generic sensor interface functions@{\-Generic sensor interface functions}!pressure@{pressure}}
+\index{pressure@{pressure}!Generic sensor interface functions@{\-Generic sensor interface functions}}
+\subsubsection[{pressure}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf pios\-\_\-sensor\-\_\-baro\-\_\-data\-::pressure}}}\label{group___p_i_o_s___s_e_n_s_o_r_s_ga43ba219138a0c31669a1af1b45f7a7f6}
+
+
+\-Definition at line 64 of file pios\-\_\-sensors.\-h.
+
+\hypertarget{group___p_i_o_s___s_e_n_s_o_r_s_gaeea1102e8510b8a5f3bb0cf298e7ebea}{\index{\-Generic sensor interface functions@{\-Generic sensor interface functions}!queue@{queue}}
+\index{queue@{queue}!Generic sensor interface functions@{\-Generic sensor interface functions}}
+\subsubsection[{queue}]{\setlength{\rightskip}{0pt plus 5cm}x\-Queue\-Handle {\bf pios\-\_\-sensor\-\_\-registration\-::queue}}}\label{group___p_i_o_s___s_e_n_s_o_r_s_gaeea1102e8510b8a5f3bb0cf298e7ebea}
+
+
+\-Definition at line 81 of file pios\-\_\-sensors.\-h.
+
+\hypertarget{group___p_i_o_s___s_e_n_s_o_r_s_ga9f44abb5eea58728c07c17a58155f6e8}{\index{\-Generic sensor interface functions@{\-Generic sensor interface functions}!temperature@{temperature}}
+\index{temperature@{temperature}!Generic sensor interface functions@{\-Generic sensor interface functions}}
+\subsubsection[{temperature}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf pios\-\_\-sensor\-\_\-gyro\-\_\-data\-::temperature}}}\label{group___p_i_o_s___s_e_n_s_o_r_s_ga9f44abb5eea58728c07c17a58155f6e8}
+
+
+\-Definition at line 43 of file pios\-\_\-sensors.\-h.
+
+\hypertarget{group___p_i_o_s___s_e_n_s_o_r_s_gadb57b0d1050bd04870c0ad76832f4287}{\index{\-Generic sensor interface functions@{\-Generic sensor interface functions}!temperature@{temperature}}
+\index{temperature@{temperature}!Generic sensor interface functions@{\-Generic sensor interface functions}}
+\subsubsection[{temperature}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf pios\-\_\-sensor\-\_\-accel\-\_\-data\-::temperature}}}\label{group___p_i_o_s___s_e_n_s_o_r_s_gadb57b0d1050bd04870c0ad76832f4287}
+
+
+\-Definition at line 51 of file pios\-\_\-sensors.\-h.
+
+\hypertarget{group___p_i_o_s___s_e_n_s_o_r_s_ga9cb0c320301d3a8028859d3bf920669f}{\index{\-Generic sensor interface functions@{\-Generic sensor interface functions}!temperature@{temperature}}
+\index{temperature@{temperature}!Generic sensor interface functions@{\-Generic sensor interface functions}}
+\subsubsection[{temperature}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf pios\-\_\-sensor\-\_\-baro\-\_\-data\-::temperature}}}\label{group___p_i_o_s___s_e_n_s_o_r_s_ga9cb0c320301d3a8028859d3bf920669f}
+
+
+\-Definition at line 63 of file pios\-\_\-sensors.\-h.
+
+\hypertarget{group___p_i_o_s___s_e_n_s_o_r_s_gaf66f51be389998d910c8e9d3fc826a75}{\index{\-Generic sensor interface functions@{\-Generic sensor interface functions}!type@{type}}
+\index{type@{type}!Generic sensor interface functions@{\-Generic sensor interface functions}}
+\subsubsection[{type}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf pios\-\_\-sensor\-\_\-type} {\bf pios\-\_\-sensor\-\_\-registration\-::type}}}\label{group___p_i_o_s___s_e_n_s_o_r_s_gaf66f51be389998d910c8e9d3fc826a75}
+
+
+\-Definition at line 80 of file pios\-\_\-sensors.\-h.
+
+\hypertarget{group___p_i_o_s___s_e_n_s_o_r_s_gaa3675ec6a2d0ed4f805311fef19c0c8b}{\index{\-Generic sensor interface functions@{\-Generic sensor interface functions}!x@{x}}
+\index{x@{x}!Generic sensor interface functions@{\-Generic sensor interface functions}}
+\subsubsection[{x}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf pios\-\_\-sensor\-\_\-gyro\-\_\-data\-::x}}}\label{group___p_i_o_s___s_e_n_s_o_r_s_gaa3675ec6a2d0ed4f805311fef19c0c8b}
+
+
+\-Definition at line 40 of file pios\-\_\-sensors.\-h.
+
+\hypertarget{group___p_i_o_s___s_e_n_s_o_r_s_gae32485cbb3023e21caf5ac1fd8378fb3}{\index{\-Generic sensor interface functions@{\-Generic sensor interface functions}!x@{x}}
+\index{x@{x}!Generic sensor interface functions@{\-Generic sensor interface functions}}
+\subsubsection[{x}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf pios\-\_\-sensor\-\_\-accel\-\_\-data\-::x}}}\label{group___p_i_o_s___s_e_n_s_o_r_s_gae32485cbb3023e21caf5ac1fd8378fb3}
+
+
+\-Definition at line 48 of file pios\-\_\-sensors.\-h.
+
+\hypertarget{group___p_i_o_s___s_e_n_s_o_r_s_ga3ec7375b9b8c7ab5ddd50349c76ac818}{\index{\-Generic sensor interface functions@{\-Generic sensor interface functions}!x@{x}}
+\index{x@{x}!Generic sensor interface functions@{\-Generic sensor interface functions}}
+\subsubsection[{x}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf pios\-\_\-sensor\-\_\-mag\-\_\-data\-::x}}}\label{group___p_i_o_s___s_e_n_s_o_r_s_ga3ec7375b9b8c7ab5ddd50349c76ac818}
+
+
+\-Definition at line 56 of file pios\-\_\-sensors.\-h.
+
+\hypertarget{group___p_i_o_s___s_e_n_s_o_r_s_gaad82a3c1fcca51db61c84eb792d19842}{\index{\-Generic sensor interface functions@{\-Generic sensor interface functions}!y@{y}}
+\index{y@{y}!Generic sensor interface functions@{\-Generic sensor interface functions}}
+\subsubsection[{y}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf pios\-\_\-sensor\-\_\-gyro\-\_\-data\-::y}}}\label{group___p_i_o_s___s_e_n_s_o_r_s_gaad82a3c1fcca51db61c84eb792d19842}
+
+
+\-Definition at line 41 of file pios\-\_\-sensors.\-h.
+
+\hypertarget{group___p_i_o_s___s_e_n_s_o_r_s_ga9f94596a8b62bafbbbd58e9196347e82}{\index{\-Generic sensor interface functions@{\-Generic sensor interface functions}!y@{y}}
+\index{y@{y}!Generic sensor interface functions@{\-Generic sensor interface functions}}
+\subsubsection[{y}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf pios\-\_\-sensor\-\_\-accel\-\_\-data\-::y}}}\label{group___p_i_o_s___s_e_n_s_o_r_s_ga9f94596a8b62bafbbbd58e9196347e82}
+
+
+\-Definition at line 49 of file pios\-\_\-sensors.\-h.
+
+\hypertarget{group___p_i_o_s___s_e_n_s_o_r_s_ga04a14fcd48fda39a469229e1b01c0b2d}{\index{\-Generic sensor interface functions@{\-Generic sensor interface functions}!y@{y}}
+\index{y@{y}!Generic sensor interface functions@{\-Generic sensor interface functions}}
+\subsubsection[{y}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf pios\-\_\-sensor\-\_\-mag\-\_\-data\-::y}}}\label{group___p_i_o_s___s_e_n_s_o_r_s_ga04a14fcd48fda39a469229e1b01c0b2d}
+
+
+\-Definition at line 57 of file pios\-\_\-sensors.\-h.
+
+\hypertarget{group___p_i_o_s___s_e_n_s_o_r_s_ga54e998de17a4da6aa1f8504cce31a31c}{\index{\-Generic sensor interface functions@{\-Generic sensor interface functions}!z@{z}}
+\index{z@{z}!Generic sensor interface functions@{\-Generic sensor interface functions}}
+\subsubsection[{z}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf pios\-\_\-sensor\-\_\-gyro\-\_\-data\-::z}}}\label{group___p_i_o_s___s_e_n_s_o_r_s_ga54e998de17a4da6aa1f8504cce31a31c}
+
+
+\-Definition at line 42 of file pios\-\_\-sensors.\-h.
+
+\hypertarget{group___p_i_o_s___s_e_n_s_o_r_s_ga8d801598e8a0f5aade459361b3ec9b7a}{\index{\-Generic sensor interface functions@{\-Generic sensor interface functions}!z@{z}}
+\index{z@{z}!Generic sensor interface functions@{\-Generic sensor interface functions}}
+\subsubsection[{z}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf pios\-\_\-sensor\-\_\-accel\-\_\-data\-::z}}}\label{group___p_i_o_s___s_e_n_s_o_r_s_ga8d801598e8a0f5aade459361b3ec9b7a}
+
+
+\-Definition at line 50 of file pios\-\_\-sensors.\-h.
+
+\hypertarget{group___p_i_o_s___s_e_n_s_o_r_s_ga77b8adea9b5e8b43c3ce7d4c60784862}{\index{\-Generic sensor interface functions@{\-Generic sensor interface functions}!z@{z}}
+\index{z@{z}!Generic sensor interface functions@{\-Generic sensor interface functions}}
+\subsubsection[{z}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf pios\-\_\-sensor\-\_\-mag\-\_\-data\-::z}}}\label{group___p_i_o_s___s_e_n_s_o_r_s_ga77b8adea9b5e8b43c3ce7d4c60784862}
+
+
+\-Definition at line 58 of file pios\-\_\-sensors.\-h.
+

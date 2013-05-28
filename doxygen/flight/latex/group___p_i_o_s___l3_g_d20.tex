@@ -1,0 +1,218 @@
+\hypertarget{group___p_i_o_s___l3_g_d20}{\section{\-L3\-G\-D20 \-Functions}
+\label{group___p_i_o_s___l3_g_d20}\index{\-L3\-G\-D20 Functions@{\-L3\-G\-D20 Functions}}
+}
+
+
+\-Deals with the hardware interface to the 3-\/axis gyro.  
+
+
+\subsection*{\-Data \-Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structl3gd20__dev}{l3gd20\-\_\-dev}
+\begin{DoxyCompactList}\small\item\em \-Local types. \end{DoxyCompactList}\item 
+struct \hyperlink{structpios__l3gd20__data}{pios\-\_\-l3gd20\-\_\-data}
+\item 
+struct \hyperlink{structpios__l3gd20__cfg}{pios\-\_\-l3gd20\-\_\-cfg}
+\end{DoxyCompactItemize}
+\subsection*{\-Files}
+\begin{DoxyCompactItemize}
+\item 
+file \hyperlink{pios__l3gd20_8c}{pios\-\_\-l3gd20.\-c}
+\begin{DoxyCompactList}\small\item\em \-L3\-G\-D20 3-\/axis gyro chip. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{group___p_i_o_s___l3_g_d20_ga34e70adc9970e3e83c4d39e720087df3}{pios\-\_\-l3gd20\-\_\-dev\-\_\-magic} \{ \hyperlink{group___p_i_o_s___l3_g_d20_gga34e70adc9970e3e83c4d39e720087df3a8ff24655b5a2966b5bdf02704790f7c1}{\-P\-I\-O\-S\-\_\-\-L3\-G\-D20\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C} =  0x9d39bced
+ \}
+\item 
+enum \hyperlink{group___p_i_o_s___l3_g_d20_ga704696d385abb591516d2e31301dad66}{pios\-\_\-l3gd20\-\_\-range} \{ \hyperlink{group___p_i_o_s___l3_g_d20_gga704696d385abb591516d2e31301dad66aedd6eafcd26b7ea732535c95e6df130b}{\-P\-I\-O\-S\-\_\-\-L3\-G\-D20\-\_\-\-S\-C\-A\-L\-E\-\_\-250\-\_\-\-D\-E\-G} =  0x00, 
+\hyperlink{group___p_i_o_s___l3_g_d20_gga704696d385abb591516d2e31301dad66a7e5b9b2cf555ad09aa1dd0ba78acb274}{\-P\-I\-O\-S\-\_\-\-L3\-G\-D20\-\_\-\-S\-C\-A\-L\-E\-\_\-500\-\_\-\-D\-E\-G} =  0x10, 
+\hyperlink{group___p_i_o_s___l3_g_d20_gga704696d385abb591516d2e31301dad66a3c6ef417567852dc017c6d0158a15eba}{\-P\-I\-O\-S\-\_\-\-L3\-G\-D20\-\_\-\-S\-C\-A\-L\-E\-\_\-2000\-\_\-\-D\-E\-G} =  0x3
+ \}
+\item 
+enum \hyperlink{group___p_i_o_s___l3_g_d20_ga61c11c9fa344e4d6a9087dd81414d54c}{pios\-\_\-l3gd20\-\_\-filter} \{ \*
+\hyperlink{group___p_i_o_s___l3_g_d20_gga61c11c9fa344e4d6a9087dd81414d54ca7bcc15cafe9ca8cc2ffe55a8920d9b0d}{\-P\-I\-O\-S\-\_\-\-L3\-G\-D20\-\_\-\-L\-O\-W\-P\-A\-S\-S\-\_\-256\-\_\-\-H\-Z} =  0x00, 
+\hyperlink{group___p_i_o_s___l3_g_d20_gga61c11c9fa344e4d6a9087dd81414d54cac31670f3cab1a3a10fead7d61959cee9}{\-P\-I\-O\-S\-\_\-\-L3\-G\-D20\-\_\-\-L\-O\-W\-P\-A\-S\-S\-\_\-188\-\_\-\-H\-Z} =  0x01, 
+\hyperlink{group___p_i_o_s___l3_g_d20_gga61c11c9fa344e4d6a9087dd81414d54ca6d73399d5d2252dc4e577812335b48f4}{\-P\-I\-O\-S\-\_\-\-L3\-G\-D20\-\_\-\-L\-O\-W\-P\-A\-S\-S\-\_\-98\-\_\-\-H\-Z} =  0x02, 
+\hyperlink{group___p_i_o_s___l3_g_d20_gga61c11c9fa344e4d6a9087dd81414d54cad7a50f4cfb1e0155140f7f0e5113e50e}{\-P\-I\-O\-S\-\_\-\-L3\-G\-D20\-\_\-\-L\-O\-W\-P\-A\-S\-S\-\_\-42\-\_\-\-H\-Z} =  0x03, 
+\*
+\hyperlink{group___p_i_o_s___l3_g_d20_gga61c11c9fa344e4d6a9087dd81414d54ca73a26a6c815fe14b8658e2e20364cbbe}{\-P\-I\-O\-S\-\_\-\-L3\-G\-D20\-\_\-\-L\-O\-W\-P\-A\-S\-S\-\_\-20\-\_\-\-H\-Z} =  0x04, 
+\hyperlink{group___p_i_o_s___l3_g_d20_gga61c11c9fa344e4d6a9087dd81414d54ca96ce608de595fe92992a8a80117aae23}{\-P\-I\-O\-S\-\_\-\-L3\-G\-D20\-\_\-\-L\-O\-W\-P\-A\-S\-S\-\_\-10\-\_\-\-H\-Z} =  0x05, 
+\hyperlink{group___p_i_o_s___l3_g_d20_gga61c11c9fa344e4d6a9087dd81414d54ca4aafab965ecb9a13cbd74263c0609526}{\-P\-I\-O\-S\-\_\-\-L3\-G\-D20\-\_\-\-L\-O\-W\-P\-A\-S\-S\-\_\-5\-\_\-\-H\-Z} =  0x06
+ \}
+\end{DoxyCompactItemize}
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___l3_g_d20_gac5608ef1d6d1c639969449e9613ed814}{\-P\-I\-O\-S\-\_\-\-L3\-G\-D20\-\_\-\-Init} (uint32\-\_\-t spi\-\_\-id, uint32\-\_\-t slave\-\_\-num, const struct \hyperlink{structpios__l3gd20__cfg}{pios\-\_\-l3gd20\-\_\-cfg} $\ast$cfg)
+\begin{DoxyCompactList}\small\item\em \-Initialize the \-L3\-G\-D20 3-\/axis gyro sensor. \end{DoxyCompactList}\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___l3_g_d20_ga26819f3aff62932a133ff618c3f25ee3}{\-P\-I\-O\-S\-\_\-\-L3\-G\-D20\-\_\-\-Set\-Range} (enum \hyperlink{group___p_i_o_s___l3_g_d20_ga704696d385abb591516d2e31301dad66}{pios\-\_\-l3gd20\-\_\-range} range)
+\begin{DoxyCompactList}\small\item\em \-Sets the maximum range of the \-L3\-G\-D20. \end{DoxyCompactList}\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___l3_g_d20_gacbb45ecd0888306f970c7a719cb372c2}{\-P\-I\-O\-S\-\_\-\-L3\-G\-D20\-\_\-\-Read\-I\-D} ()
+\begin{DoxyCompactList}\small\item\em \-Read the identification bytes from the \-L3\-G\-D20 sensor. \end{DoxyCompactList}\item 
+uint8\-\_\-t \hyperlink{group___p_i_o_s___l3_g_d20_ga9951dd9f920e6734bbce9117a983fed5}{\-P\-I\-O\-S\-\_\-\-L3\-G\-D20\-\_\-\-Test} (void)
+\begin{DoxyCompactList}\small\item\em \-Run self-\/test operation. \end{DoxyCompactList}\item 
+bool \hyperlink{group___p_i_o_s___l3_g_d20_ga27629f4a3a69cd7202e7effff4d9a2d2}{\-P\-I\-O\-S\-\_\-\-L3\-G\-D20\-\_\-\-I\-R\-Q\-Handler} (void)
+\begin{DoxyCompactList}\small\item\em \-I\-R\-Q \-Handler. \-Read all the data from onboard buffer. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-Deals with the hardware interface to the 3-\/axis gyro. 
+
+\subsection{\-Enumeration \-Type \-Documentation}
+\hypertarget{group___p_i_o_s___l3_g_d20_ga34e70adc9970e3e83c4d39e720087df3}{\index{\-L3\-G\-D20 Functions@{\-L3\-G\-D20 Functions}!pios\-\_\-l3gd20\-\_\-dev\-\_\-magic@{pios\-\_\-l3gd20\-\_\-dev\-\_\-magic}}
+\index{pios\-\_\-l3gd20\-\_\-dev\-\_\-magic@{pios\-\_\-l3gd20\-\_\-dev\-\_\-magic}!L3GD20 Functions@{\-L3\-G\-D20 Functions}}
+\subsubsection[{pios\-\_\-l3gd20\-\_\-dev\-\_\-magic}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf pios\-\_\-l3gd20\-\_\-dev\-\_\-magic}}}\label{group___p_i_o_s___l3_g_d20_ga34e70adc9970e3e83c4d39e720087df3}
+\begin{Desc}
+\item[\-Enumerator\-: ]\par
+\begin{description}
+\index{\-P\-I\-O\-S\-\_\-\-L3\-G\-D20\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C@{\-P\-I\-O\-S\-\_\-\-L3\-G\-D20\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}!\-L3\-G\-D20 Functions@{\-L3\-G\-D20 Functions}}\index{\-L3\-G\-D20 Functions@{\-L3\-G\-D20 Functions}!\-P\-I\-O\-S\-\_\-\-L3\-G\-D20\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C@{\-P\-I\-O\-S\-\_\-\-L3\-G\-D20\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}}\item[{\em 
+\hypertarget{group___p_i_o_s___l3_g_d20_gga34e70adc9970e3e83c4d39e720087df3a8ff24655b5a2966b5bdf02704790f7c1}{\-P\-I\-O\-S\-\_\-\-L3\-G\-D20\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}\label{group___p_i_o_s___l3_g_d20_gga34e70adc9970e3e83c4d39e720087df3a8ff24655b5a2966b5bdf02704790f7c1}
+}]\end{description}
+\end{Desc}
+
+
+
+\-Definition at line 41 of file pios\-\_\-l3gd20.\-c.
+
+\hypertarget{group___p_i_o_s___l3_g_d20_ga61c11c9fa344e4d6a9087dd81414d54c}{\index{\-L3\-G\-D20 Functions@{\-L3\-G\-D20 Functions}!pios\-\_\-l3gd20\-\_\-filter@{pios\-\_\-l3gd20\-\_\-filter}}
+\index{pios\-\_\-l3gd20\-\_\-filter@{pios\-\_\-l3gd20\-\_\-filter}!L3GD20 Functions@{\-L3\-G\-D20 Functions}}
+\subsubsection[{pios\-\_\-l3gd20\-\_\-filter}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf pios\-\_\-l3gd20\-\_\-filter}}}\label{group___p_i_o_s___l3_g_d20_ga61c11c9fa344e4d6a9087dd81414d54c}
+\begin{Desc}
+\item[\-Enumerator\-: ]\par
+\begin{description}
+\index{\-P\-I\-O\-S\-\_\-\-L3\-G\-D20\-\_\-\-L\-O\-W\-P\-A\-S\-S\-\_\-256\-\_\-\-H\-Z@{\-P\-I\-O\-S\-\_\-\-L3\-G\-D20\-\_\-\-L\-O\-W\-P\-A\-S\-S\-\_\-256\-\_\-\-H\-Z}!\-L3\-G\-D20 Functions@{\-L3\-G\-D20 Functions}}\index{\-L3\-G\-D20 Functions@{\-L3\-G\-D20 Functions}!\-P\-I\-O\-S\-\_\-\-L3\-G\-D20\-\_\-\-L\-O\-W\-P\-A\-S\-S\-\_\-256\-\_\-\-H\-Z@{\-P\-I\-O\-S\-\_\-\-L3\-G\-D20\-\_\-\-L\-O\-W\-P\-A\-S\-S\-\_\-256\-\_\-\-H\-Z}}\item[{\em 
+\hypertarget{group___p_i_o_s___l3_g_d20_gga61c11c9fa344e4d6a9087dd81414d54ca7bcc15cafe9ca8cc2ffe55a8920d9b0d}{\-P\-I\-O\-S\-\_\-\-L3\-G\-D20\-\_\-\-L\-O\-W\-P\-A\-S\-S\-\_\-256\-\_\-\-H\-Z}\label{group___p_i_o_s___l3_g_d20_gga61c11c9fa344e4d6a9087dd81414d54ca7bcc15cafe9ca8cc2ffe55a8920d9b0d}
+}]\index{\-P\-I\-O\-S\-\_\-\-L3\-G\-D20\-\_\-\-L\-O\-W\-P\-A\-S\-S\-\_\-188\-\_\-\-H\-Z@{\-P\-I\-O\-S\-\_\-\-L3\-G\-D20\-\_\-\-L\-O\-W\-P\-A\-S\-S\-\_\-188\-\_\-\-H\-Z}!\-L3\-G\-D20 Functions@{\-L3\-G\-D20 Functions}}\index{\-L3\-G\-D20 Functions@{\-L3\-G\-D20 Functions}!\-P\-I\-O\-S\-\_\-\-L3\-G\-D20\-\_\-\-L\-O\-W\-P\-A\-S\-S\-\_\-188\-\_\-\-H\-Z@{\-P\-I\-O\-S\-\_\-\-L3\-G\-D20\-\_\-\-L\-O\-W\-P\-A\-S\-S\-\_\-188\-\_\-\-H\-Z}}\item[{\em 
+\hypertarget{group___p_i_o_s___l3_g_d20_gga61c11c9fa344e4d6a9087dd81414d54cac31670f3cab1a3a10fead7d61959cee9}{\-P\-I\-O\-S\-\_\-\-L3\-G\-D20\-\_\-\-L\-O\-W\-P\-A\-S\-S\-\_\-188\-\_\-\-H\-Z}\label{group___p_i_o_s___l3_g_d20_gga61c11c9fa344e4d6a9087dd81414d54cac31670f3cab1a3a10fead7d61959cee9}
+}]\index{\-P\-I\-O\-S\-\_\-\-L3\-G\-D20\-\_\-\-L\-O\-W\-P\-A\-S\-S\-\_\-98\-\_\-\-H\-Z@{\-P\-I\-O\-S\-\_\-\-L3\-G\-D20\-\_\-\-L\-O\-W\-P\-A\-S\-S\-\_\-98\-\_\-\-H\-Z}!\-L3\-G\-D20 Functions@{\-L3\-G\-D20 Functions}}\index{\-L3\-G\-D20 Functions@{\-L3\-G\-D20 Functions}!\-P\-I\-O\-S\-\_\-\-L3\-G\-D20\-\_\-\-L\-O\-W\-P\-A\-S\-S\-\_\-98\-\_\-\-H\-Z@{\-P\-I\-O\-S\-\_\-\-L3\-G\-D20\-\_\-\-L\-O\-W\-P\-A\-S\-S\-\_\-98\-\_\-\-H\-Z}}\item[{\em 
+\hypertarget{group___p_i_o_s___l3_g_d20_gga61c11c9fa344e4d6a9087dd81414d54ca6d73399d5d2252dc4e577812335b48f4}{\-P\-I\-O\-S\-\_\-\-L3\-G\-D20\-\_\-\-L\-O\-W\-P\-A\-S\-S\-\_\-98\-\_\-\-H\-Z}\label{group___p_i_o_s___l3_g_d20_gga61c11c9fa344e4d6a9087dd81414d54ca6d73399d5d2252dc4e577812335b48f4}
+}]\index{\-P\-I\-O\-S\-\_\-\-L3\-G\-D20\-\_\-\-L\-O\-W\-P\-A\-S\-S\-\_\-42\-\_\-\-H\-Z@{\-P\-I\-O\-S\-\_\-\-L3\-G\-D20\-\_\-\-L\-O\-W\-P\-A\-S\-S\-\_\-42\-\_\-\-H\-Z}!\-L3\-G\-D20 Functions@{\-L3\-G\-D20 Functions}}\index{\-L3\-G\-D20 Functions@{\-L3\-G\-D20 Functions}!\-P\-I\-O\-S\-\_\-\-L3\-G\-D20\-\_\-\-L\-O\-W\-P\-A\-S\-S\-\_\-42\-\_\-\-H\-Z@{\-P\-I\-O\-S\-\_\-\-L3\-G\-D20\-\_\-\-L\-O\-W\-P\-A\-S\-S\-\_\-42\-\_\-\-H\-Z}}\item[{\em 
+\hypertarget{group___p_i_o_s___l3_g_d20_gga61c11c9fa344e4d6a9087dd81414d54cad7a50f4cfb1e0155140f7f0e5113e50e}{\-P\-I\-O\-S\-\_\-\-L3\-G\-D20\-\_\-\-L\-O\-W\-P\-A\-S\-S\-\_\-42\-\_\-\-H\-Z}\label{group___p_i_o_s___l3_g_d20_gga61c11c9fa344e4d6a9087dd81414d54cad7a50f4cfb1e0155140f7f0e5113e50e}
+}]\index{\-P\-I\-O\-S\-\_\-\-L3\-G\-D20\-\_\-\-L\-O\-W\-P\-A\-S\-S\-\_\-20\-\_\-\-H\-Z@{\-P\-I\-O\-S\-\_\-\-L3\-G\-D20\-\_\-\-L\-O\-W\-P\-A\-S\-S\-\_\-20\-\_\-\-H\-Z}!\-L3\-G\-D20 Functions@{\-L3\-G\-D20 Functions}}\index{\-L3\-G\-D20 Functions@{\-L3\-G\-D20 Functions}!\-P\-I\-O\-S\-\_\-\-L3\-G\-D20\-\_\-\-L\-O\-W\-P\-A\-S\-S\-\_\-20\-\_\-\-H\-Z@{\-P\-I\-O\-S\-\_\-\-L3\-G\-D20\-\_\-\-L\-O\-W\-P\-A\-S\-S\-\_\-20\-\_\-\-H\-Z}}\item[{\em 
+\hypertarget{group___p_i_o_s___l3_g_d20_gga61c11c9fa344e4d6a9087dd81414d54ca73a26a6c815fe14b8658e2e20364cbbe}{\-P\-I\-O\-S\-\_\-\-L3\-G\-D20\-\_\-\-L\-O\-W\-P\-A\-S\-S\-\_\-20\-\_\-\-H\-Z}\label{group___p_i_o_s___l3_g_d20_gga61c11c9fa344e4d6a9087dd81414d54ca73a26a6c815fe14b8658e2e20364cbbe}
+}]\index{\-P\-I\-O\-S\-\_\-\-L3\-G\-D20\-\_\-\-L\-O\-W\-P\-A\-S\-S\-\_\-10\-\_\-\-H\-Z@{\-P\-I\-O\-S\-\_\-\-L3\-G\-D20\-\_\-\-L\-O\-W\-P\-A\-S\-S\-\_\-10\-\_\-\-H\-Z}!\-L3\-G\-D20 Functions@{\-L3\-G\-D20 Functions}}\index{\-L3\-G\-D20 Functions@{\-L3\-G\-D20 Functions}!\-P\-I\-O\-S\-\_\-\-L3\-G\-D20\-\_\-\-L\-O\-W\-P\-A\-S\-S\-\_\-10\-\_\-\-H\-Z@{\-P\-I\-O\-S\-\_\-\-L3\-G\-D20\-\_\-\-L\-O\-W\-P\-A\-S\-S\-\_\-10\-\_\-\-H\-Z}}\item[{\em 
+\hypertarget{group___p_i_o_s___l3_g_d20_gga61c11c9fa344e4d6a9087dd81414d54ca96ce608de595fe92992a8a80117aae23}{\-P\-I\-O\-S\-\_\-\-L3\-G\-D20\-\_\-\-L\-O\-W\-P\-A\-S\-S\-\_\-10\-\_\-\-H\-Z}\label{group___p_i_o_s___l3_g_d20_gga61c11c9fa344e4d6a9087dd81414d54ca96ce608de595fe92992a8a80117aae23}
+}]\index{\-P\-I\-O\-S\-\_\-\-L3\-G\-D20\-\_\-\-L\-O\-W\-P\-A\-S\-S\-\_\-5\-\_\-\-H\-Z@{\-P\-I\-O\-S\-\_\-\-L3\-G\-D20\-\_\-\-L\-O\-W\-P\-A\-S\-S\-\_\-5\-\_\-\-H\-Z}!\-L3\-G\-D20 Functions@{\-L3\-G\-D20 Functions}}\index{\-L3\-G\-D20 Functions@{\-L3\-G\-D20 Functions}!\-P\-I\-O\-S\-\_\-\-L3\-G\-D20\-\_\-\-L\-O\-W\-P\-A\-S\-S\-\_\-5\-\_\-\-H\-Z@{\-P\-I\-O\-S\-\_\-\-L3\-G\-D20\-\_\-\-L\-O\-W\-P\-A\-S\-S\-\_\-5\-\_\-\-H\-Z}}\item[{\em 
+\hypertarget{group___p_i_o_s___l3_g_d20_gga61c11c9fa344e4d6a9087dd81414d54ca4aafab965ecb9a13cbd74263c0609526}{\-P\-I\-O\-S\-\_\-\-L3\-G\-D20\-\_\-\-L\-O\-W\-P\-A\-S\-S\-\_\-5\-\_\-\-H\-Z}\label{group___p_i_o_s___l3_g_d20_gga61c11c9fa344e4d6a9087dd81414d54ca4aafab965ecb9a13cbd74263c0609526}
+}]\end{description}
+\end{Desc}
+
+
+
+\-Definition at line 113 of file pios\-\_\-l3gd20.\-h.
+
+\hypertarget{group___p_i_o_s___l3_g_d20_ga704696d385abb591516d2e31301dad66}{\index{\-L3\-G\-D20 Functions@{\-L3\-G\-D20 Functions}!pios\-\_\-l3gd20\-\_\-range@{pios\-\_\-l3gd20\-\_\-range}}
+\index{pios\-\_\-l3gd20\-\_\-range@{pios\-\_\-l3gd20\-\_\-range}!L3GD20 Functions@{\-L3\-G\-D20 Functions}}
+\subsubsection[{pios\-\_\-l3gd20\-\_\-range}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf pios\-\_\-l3gd20\-\_\-range}}}\label{group___p_i_o_s___l3_g_d20_ga704696d385abb591516d2e31301dad66}
+\begin{Desc}
+\item[\-Enumerator\-: ]\par
+\begin{description}
+\index{\-P\-I\-O\-S\-\_\-\-L3\-G\-D20\-\_\-\-S\-C\-A\-L\-E\-\_\-250\-\_\-\-D\-E\-G@{\-P\-I\-O\-S\-\_\-\-L3\-G\-D20\-\_\-\-S\-C\-A\-L\-E\-\_\-250\-\_\-\-D\-E\-G}!\-L3\-G\-D20 Functions@{\-L3\-G\-D20 Functions}}\index{\-L3\-G\-D20 Functions@{\-L3\-G\-D20 Functions}!\-P\-I\-O\-S\-\_\-\-L3\-G\-D20\-\_\-\-S\-C\-A\-L\-E\-\_\-250\-\_\-\-D\-E\-G@{\-P\-I\-O\-S\-\_\-\-L3\-G\-D20\-\_\-\-S\-C\-A\-L\-E\-\_\-250\-\_\-\-D\-E\-G}}\item[{\em 
+\hypertarget{group___p_i_o_s___l3_g_d20_gga704696d385abb591516d2e31301dad66aedd6eafcd26b7ea732535c95e6df130b}{\-P\-I\-O\-S\-\_\-\-L3\-G\-D20\-\_\-\-S\-C\-A\-L\-E\-\_\-250\-\_\-\-D\-E\-G}\label{group___p_i_o_s___l3_g_d20_gga704696d385abb591516d2e31301dad66aedd6eafcd26b7ea732535c95e6df130b}
+}]\index{\-P\-I\-O\-S\-\_\-\-L3\-G\-D20\-\_\-\-S\-C\-A\-L\-E\-\_\-500\-\_\-\-D\-E\-G@{\-P\-I\-O\-S\-\_\-\-L3\-G\-D20\-\_\-\-S\-C\-A\-L\-E\-\_\-500\-\_\-\-D\-E\-G}!\-L3\-G\-D20 Functions@{\-L3\-G\-D20 Functions}}\index{\-L3\-G\-D20 Functions@{\-L3\-G\-D20 Functions}!\-P\-I\-O\-S\-\_\-\-L3\-G\-D20\-\_\-\-S\-C\-A\-L\-E\-\_\-500\-\_\-\-D\-E\-G@{\-P\-I\-O\-S\-\_\-\-L3\-G\-D20\-\_\-\-S\-C\-A\-L\-E\-\_\-500\-\_\-\-D\-E\-G}}\item[{\em 
+\hypertarget{group___p_i_o_s___l3_g_d20_gga704696d385abb591516d2e31301dad66a7e5b9b2cf555ad09aa1dd0ba78acb274}{\-P\-I\-O\-S\-\_\-\-L3\-G\-D20\-\_\-\-S\-C\-A\-L\-E\-\_\-500\-\_\-\-D\-E\-G}\label{group___p_i_o_s___l3_g_d20_gga704696d385abb591516d2e31301dad66a7e5b9b2cf555ad09aa1dd0ba78acb274}
+}]\index{\-P\-I\-O\-S\-\_\-\-L3\-G\-D20\-\_\-\-S\-C\-A\-L\-E\-\_\-2000\-\_\-\-D\-E\-G@{\-P\-I\-O\-S\-\_\-\-L3\-G\-D20\-\_\-\-S\-C\-A\-L\-E\-\_\-2000\-\_\-\-D\-E\-G}!\-L3\-G\-D20 Functions@{\-L3\-G\-D20 Functions}}\index{\-L3\-G\-D20 Functions@{\-L3\-G\-D20 Functions}!\-P\-I\-O\-S\-\_\-\-L3\-G\-D20\-\_\-\-S\-C\-A\-L\-E\-\_\-2000\-\_\-\-D\-E\-G@{\-P\-I\-O\-S\-\_\-\-L3\-G\-D20\-\_\-\-S\-C\-A\-L\-E\-\_\-2000\-\_\-\-D\-E\-G}}\item[{\em 
+\hypertarget{group___p_i_o_s___l3_g_d20_gga704696d385abb591516d2e31301dad66a3c6ef417567852dc017c6d0158a15eba}{\-P\-I\-O\-S\-\_\-\-L3\-G\-D20\-\_\-\-S\-C\-A\-L\-E\-\_\-2000\-\_\-\-D\-E\-G}\label{group___p_i_o_s___l3_g_d20_gga704696d385abb591516d2e31301dad66a3c6ef417567852dc017c6d0158a15eba}
+}]\end{description}
+\end{Desc}
+
+
+
+\-Definition at line 107 of file pios\-\_\-l3gd20.\-h.
+
+
+
+\subsection{\-Function \-Documentation}
+\hypertarget{group___p_i_o_s___l3_g_d20_gac5608ef1d6d1c639969449e9613ed814}{\index{\-L3\-G\-D20 Functions@{\-L3\-G\-D20 Functions}!\-P\-I\-O\-S\-\_\-\-L3\-G\-D20\-\_\-\-Init@{\-P\-I\-O\-S\-\_\-\-L3\-G\-D20\-\_\-\-Init}}
+\index{\-P\-I\-O\-S\-\_\-\-L3\-G\-D20\-\_\-\-Init@{\-P\-I\-O\-S\-\_\-\-L3\-G\-D20\-\_\-\-Init}!L3GD20 Functions@{\-L3\-G\-D20 Functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-L3\-G\-D20\-\_\-\-Init}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-P\-I\-O\-S\-\_\-\-L3\-G\-D20\-\_\-\-Init} (
+\begin{DoxyParamCaption}
+\item[{uint32\-\_\-t}]{spi\-\_\-id, }
+\item[{uint32\-\_\-t}]{slave\-\_\-num, }
+\item[{const struct {\bf pios\-\_\-l3gd20\-\_\-cfg} $\ast$}]{cfg}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___l3_g_d20_gac5608ef1d6d1c639969449e9613ed814}
+
+
+\-Initialize the \-L3\-G\-D20 3-\/axis gyro sensor. 
+
+\begin{DoxyReturn}{\-Returns}
+none 
+\end{DoxyReturn}
+
+
+\-Definition at line 131 of file pios\-\_\-l3gd20.\-c.
+
+\hypertarget{group___p_i_o_s___l3_g_d20_ga27629f4a3a69cd7202e7effff4d9a2d2}{\index{\-L3\-G\-D20 Functions@{\-L3\-G\-D20 Functions}!\-P\-I\-O\-S\-\_\-\-L3\-G\-D20\-\_\-\-I\-R\-Q\-Handler@{\-P\-I\-O\-S\-\_\-\-L3\-G\-D20\-\_\-\-I\-R\-Q\-Handler}}
+\index{\-P\-I\-O\-S\-\_\-\-L3\-G\-D20\-\_\-\-I\-R\-Q\-Handler@{\-P\-I\-O\-S\-\_\-\-L3\-G\-D20\-\_\-\-I\-R\-Q\-Handler}!L3GD20 Functions@{\-L3\-G\-D20 Functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-L3\-G\-D20\-\_\-\-I\-R\-Q\-Handler}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-P\-I\-O\-S\-\_\-\-L3\-G\-D20\-\_\-\-I\-R\-Q\-Handler} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___l3_g_d20_ga27629f4a3a69cd7202e7effff4d9a2d2}
+
+
+\-I\-R\-Q \-Handler. \-Read all the data from onboard buffer. 
+
+
+
+\-Definition at line 412 of file pios\-\_\-l3gd20.\-c.
+
+\hypertarget{group___p_i_o_s___l3_g_d20_gacbb45ecd0888306f970c7a719cb372c2}{\index{\-L3\-G\-D20 Functions@{\-L3\-G\-D20 Functions}!\-P\-I\-O\-S\-\_\-\-L3\-G\-D20\-\_\-\-Read\-I\-D@{\-P\-I\-O\-S\-\_\-\-L3\-G\-D20\-\_\-\-Read\-I\-D}}
+\index{\-P\-I\-O\-S\-\_\-\-L3\-G\-D20\-\_\-\-Read\-I\-D@{\-P\-I\-O\-S\-\_\-\-L3\-G\-D20\-\_\-\-Read\-I\-D}!L3GD20 Functions@{\-L3\-G\-D20 Functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-L3\-G\-D20\-\_\-\-Read\-I\-D}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-P\-I\-O\-S\-\_\-\-L3\-G\-D20\-\_\-\-Read\-I\-D} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___l3_g_d20_gacbb45ecd0888306f970c7a719cb372c2}
+
+
+\-Read the identification bytes from the \-L3\-G\-D20 sensor. 
+
+\begin{DoxyReturn}{\-Returns}
+\-I\-D read from \-L3\-G\-D20 or -\/1 if failure 
+\end{DoxyReturn}
+
+
+\-Definition at line 362 of file pios\-\_\-l3gd20.\-c.
+
+\hypertarget{group___p_i_o_s___l3_g_d20_ga26819f3aff62932a133ff618c3f25ee3}{\index{\-L3\-G\-D20 Functions@{\-L3\-G\-D20 Functions}!\-P\-I\-O\-S\-\_\-\-L3\-G\-D20\-\_\-\-Set\-Range@{\-P\-I\-O\-S\-\_\-\-L3\-G\-D20\-\_\-\-Set\-Range}}
+\index{\-P\-I\-O\-S\-\_\-\-L3\-G\-D20\-\_\-\-Set\-Range@{\-P\-I\-O\-S\-\_\-\-L3\-G\-D20\-\_\-\-Set\-Range}!L3GD20 Functions@{\-L3\-G\-D20 Functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-L3\-G\-D20\-\_\-\-Set\-Range}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-P\-I\-O\-S\-\_\-\-L3\-G\-D20\-\_\-\-Set\-Range} (
+\begin{DoxyParamCaption}
+\item[{enum {\bf pios\-\_\-l3gd20\-\_\-range}}]{range}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___l3_g_d20_ga26819f3aff62932a133ff618c3f25ee3}
+
+
+\-Sets the maximum range of the \-L3\-G\-D20. 
+
+\begin{DoxyReturn}{\-Returns}
+0 for success, -\/1 for invalid device, -\/2 if unable to set register 
+\end{DoxyReturn}
+
+
+\-Definition at line 189 of file pios\-\_\-l3gd20.\-c.
+
+\hypertarget{group___p_i_o_s___l3_g_d20_ga9951dd9f920e6734bbce9117a983fed5}{\index{\-L3\-G\-D20 Functions@{\-L3\-G\-D20 Functions}!\-P\-I\-O\-S\-\_\-\-L3\-G\-D20\-\_\-\-Test@{\-P\-I\-O\-S\-\_\-\-L3\-G\-D20\-\_\-\-Test}}
+\index{\-P\-I\-O\-S\-\_\-\-L3\-G\-D20\-\_\-\-Test@{\-P\-I\-O\-S\-\_\-\-L3\-G\-D20\-\_\-\-Test}!L3GD20 Functions@{\-L3\-G\-D20 Functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-L3\-G\-D20\-\_\-\-Test}]{\setlength{\rightskip}{0pt plus 5cm}uint8\-\_\-t {\bf \-P\-I\-O\-S\-\_\-\-L3\-G\-D20\-\_\-\-Test} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___l3_g_d20_ga9951dd9f920e6734bbce9117a983fed5}
+
+
+\-Run self-\/test operation. 
+
+\begin{DoxyReturn}{\-Returns}
+0 if test succeeded 
+
+non-\/zero value if test succeeded 
+\end{DoxyReturn}
+
+
+\-Definition at line 394 of file pios\-\_\-l3gd20.\-c.
+

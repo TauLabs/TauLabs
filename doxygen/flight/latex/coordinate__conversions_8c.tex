@@ -1,0 +1,67 @@
+\hypertarget{coordinate__conversions_8c}{\section{/home/jb/code/\-Tau\-Labs/flight/\-Libraries/math/coordinate\-\_\-conversions.c \-File \-Reference}
+\label{coordinate__conversions_8c}\index{/home/jb/code/\-Tau\-Labs/flight/\-Libraries/math/coordinate\-\_\-conversions.\-c@{/home/jb/code/\-Tau\-Labs/flight/\-Libraries/math/coordinate\-\_\-conversions.\-c}}
+}
+
+
+\-General conversions with different coordinate systems.  
+
+
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{group___tau_labs_math_ga362aa95352aa40af9d1d23ac12f83a49}{\-L\-L\-A2\-E\-C\-E\-F} (float \-L\-L\-A\mbox{[}3\mbox{]}, float \-E\-C\-E\-F\mbox{[}3\mbox{]})
+\item 
+uint16\-\_\-t \hyperlink{group___tau_labs_math_gade2c2cec4a9e1098f5b8f3c4b5987552}{\-E\-C\-E\-F2\-L\-L\-A} (float \-E\-C\-E\-F\mbox{[}3\mbox{]}, float \-L\-L\-A\mbox{[}3\mbox{]})
+\item 
+void \hyperlink{group___tau_labs_math_ga682c71aaf24cb8f77a2452e027daaff2}{\-Rne\-From\-L\-L\-A} (float \-L\-L\-A\mbox{[}3\mbox{]}, float \-Rne\mbox{[}3\mbox{]}\mbox{[}3\mbox{]})
+\item 
+void \hyperlink{group___tau_labs_math_ga0e4bc4f44a08a2e317db0bde882909cc}{\-Quaternion2\-R\-P\-Y} (const float q\mbox{[}4\mbox{]}, float rpy\mbox{[}3\mbox{]})
+\item 
+void \hyperlink{group___tau_labs_math_ga81a64437be6edb2654bfebcc14321964}{\-R\-P\-Y2\-Quaternion} (const float rpy\mbox{[}3\mbox{]}, float q\mbox{[}4\mbox{]})
+\item 
+void \hyperlink{group___tau_labs_math_gaccaead20abfe7057c1a086b5426865df}{\-Quaternion2\-R} (float q\mbox{[}4\mbox{]}, float \-Rbe\mbox{[}3\mbox{]}\mbox{[}3\mbox{]})
+\item 
+void \hyperlink{group___tau_labs_math_ga33c35c48faebb53d4d2cd46b67aba8ff}{\-Euler2\-R} (float rpy\mbox{[}3\mbox{]}, float \-Rbe\mbox{[}3\mbox{]}\mbox{[}3\mbox{]})
+\item 
+void \hyperlink{group___tau_labs_math_ga286e15f43ea9091854744369470fed6d}{\-L\-L\-A2\-Base} (float \-L\-L\-A\mbox{[}3\mbox{]}, float \-Base\-E\-C\-E\-F\mbox{[}3\mbox{]}, float \-Rne\mbox{[}3\mbox{]}\mbox{[}3\mbox{]}, float \-N\-E\-D\mbox{[}3\mbox{]})
+\item 
+void \hyperlink{group___tau_labs_math_ga3900fb782ab3f56ea2dad005610f2ffe}{\-E\-C\-E\-F2\-Base} (float \-E\-C\-E\-F\mbox{[}3\mbox{]}, float \-Base\-E\-C\-E\-F\mbox{[}3\mbox{]}, float \-Rne\mbox{[}3\mbox{]}\mbox{[}3\mbox{]}, float \-N\-E\-D\mbox{[}3\mbox{]})
+\item 
+void \hyperlink{group___tau_labs_math_gad6008216daaf402435c742d0290f9a30}{\-R2\-Quaternion} (float \-R\mbox{[}3\mbox{]}\mbox{[}3\mbox{]}, float q\mbox{[}4\mbox{]})
+\item 
+uint8\-\_\-t \hyperlink{group___tau_labs_math_ga0848733f9025a839c84f7e7b71d87c63}{\-Rot\-From2\-Vectors} (const float v1b\mbox{[}3\mbox{]}, const float v1e\mbox{[}3\mbox{]}, const float v2b\mbox{[}3\mbox{]}, const float v2e\mbox{[}3\mbox{]}, float \-Rbe\mbox{[}3\mbox{]}\mbox{[}3\mbox{]})
+\item 
+void \hyperlink{group___tau_labs_math_ga43ed3db7237f03a6488c8dd7b987b1bd}{\-Rv2\-Rot} (float \-Rv\mbox{[}3\mbox{]}, float \-R\mbox{[}3\mbox{]}\mbox{[}3\mbox{]})
+\item 
+void \hyperlink{group___tau_labs_math_ga6dc0e97647b4b3a5689c46aa415fe0b8}{\-Cross\-Product} (const float v1\mbox{[}3\mbox{]}, const float v2\mbox{[}3\mbox{]}, float result\mbox{[}3\mbox{]})
+\item 
+float \hyperlink{group___tau_labs_math_gaf5edfeac1bff286891d26b8c7fcc9958}{\-Vector\-Magnitude} (const float v\mbox{[}3\mbox{]})
+\item 
+void \hyperlink{group___tau_labs_math_gab25d503661ed9e31c9616b13c72d1ccd}{quat\-\_\-inverse} (float q\mbox{[}4\mbox{]})
+\begin{DoxyCompactList}\small\item\em \-Compute the inverse of a quaternion. \end{DoxyCompactList}\item 
+void \hyperlink{group___tau_labs_math_ga61bd7b4ee83de9d89b69dea4179edacc}{quat\-\_\-copy} (const float q\mbox{[}4\mbox{]}, float qnew\mbox{[}4\mbox{]})
+\begin{DoxyCompactList}\small\item\em \-Duplicate a quaternion. \end{DoxyCompactList}\item 
+void \hyperlink{group___tau_labs_math_ga0b537ea767fb853ee9d9797f389eaade}{quat\-\_\-mult} (const float q1\mbox{[}4\mbox{]}, const float q2\mbox{[}4\mbox{]}, float qout\mbox{[}4\mbox{]})
+\begin{DoxyCompactList}\small\item\em \-Multiply two quaternions into a third. \end{DoxyCompactList}\item 
+void \hyperlink{group___tau_labs_math_ga51d2a5ec28cbf272fe73aa5ea343a355}{rot\-\_\-mult} (float \-R\mbox{[}3\mbox{]}\mbox{[}3\mbox{]}, const float vec\mbox{[}3\mbox{]}, float vec\-\_\-out\mbox{[}3\mbox{]}, bool transpose)
+\begin{DoxyCompactList}\small\item\em \-Rotate a vector by a rotation matrix. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-General conversions with different coordinate systems. \begin{DoxyAuthor}{\-Author}
+\-The \-Open\-Pilot \-Team, \href{http://www.openpilot.org}{\tt http\-://www.\-openpilot.\-org} \-Copyright (\-C) 2010. 
+
+\-Tau \-Labs, \href{http://taulabs.org,}{\tt http\-://taulabs.\-org,} \-Copyright (\-C) 2013
+\begin{DoxyItemize}
+\item all angles in deg
+\item distances in meters
+\item altitude above \-W\-G\-S-\/84 elipsoid
+\end{DoxyItemize}
+\end{DoxyAuthor}
+\begin{DoxySeeAlso}{\-See also}
+\-The \-G\-N\-U \-Public \-License (\-G\-P\-L) \-Version 3 
+\end{DoxySeeAlso}
+
+
+\-Definition in file \hyperlink{coordinate__conversions_8c_source}{coordinate\-\_\-conversions.\-c}.
+

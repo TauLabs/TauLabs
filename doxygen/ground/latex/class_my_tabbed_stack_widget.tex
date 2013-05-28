@@ -1,0 +1,190 @@
+\hypertarget{class_my_tabbed_stack_widget}{\section{\-My\-Tabbed\-Stack\-Widget \-Class \-Reference}
+\label{class_my_tabbed_stack_widget}\index{\-My\-Tabbed\-Stack\-Widget@{\-My\-Tabbed\-Stack\-Widget}}
+}
+
+
+{\ttfamily \#include $<$mytabbedstackwidget.\-h$>$}
+
+\subsection*{\-Public \-Slots}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_my_tabbed_stack_widget_a9e3c968779227ca412735073b437fdf1}{set\-Current\-Index} (int index)
+\end{DoxyCompactItemize}
+\subsection*{\-Signals}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_my_tabbed_stack_widget_a9f0e64fce4a1b4f26e9aa6fee22ab7f5}{current\-About\-To\-Show} (int index, bool $\ast$proceed)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_my_tabbed_stack_widget_ab4617839c400d58c804ba6b86dc33cc1}{current\-Changed} (int index)
+\end{DoxyCompactItemize}
+\subsection*{\-Public \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_my_tabbed_stack_widget_a45f38b17b9cbdb32460e12c2ccfd5bc5}{\-My\-Tabbed\-Stack\-Widget} (\-Q\-Widget $\ast$parent=0, bool is\-Vertical=false, bool icon\-Above=true)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_my_tabbed_stack_widget_a6658d23fb4e0f3ae7324b313f5a7b062}{insert\-Tab} (int index, \-Q\-Widget $\ast$tab, const \-Q\-Icon \&icon, const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \&label)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_my_tabbed_stack_widget_a2c275028a87ba60b343b6da3fa21db5a}{remove\-Tab} (int index)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_my_tabbed_stack_widget_adb5bf6edcd958fc360a1c8ac429c7a9d}{set\-Icon\-Size} (int size)
+\item 
+int \hyperlink{class_my_tabbed_stack_widget_a791fd756fe24cbd0e0334335701915e1}{current\-Index} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_my_tabbed_stack_widget_a5657f3b6910b0335c8d6fa78e98caa09}{insert\-Corner\-Widget} (int index, \-Q\-Widget $\ast$widget)
+\item 
+int \hyperlink{class_my_tabbed_stack_widget_a669cd92d77d9616b4526c7cf1abfa2a5}{corner\-Widget\-Count} ()
+\item 
+\-Q\-Widget $\ast$ \hyperlink{class_my_tabbed_stack_widget_a54de7410a5b308e2ea32fe95da7a1ed9}{current\-Widget} ()
+\item 
+\-Q\-Widget $\ast$ \hyperlink{class_my_tabbed_stack_widget_a26d2df6637c94d03f943b431557f647c}{get\-Widget} (int index)
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+
+
+\-Definition at line 39 of file mytabbedstackwidget.\-h.
+
+
+
+\subsection{\-Constructor \& \-Destructor \-Documentation}
+\hypertarget{class_my_tabbed_stack_widget_a45f38b17b9cbdb32460e12c2ccfd5bc5}{\index{\-My\-Tabbed\-Stack\-Widget@{\-My\-Tabbed\-Stack\-Widget}!\-My\-Tabbed\-Stack\-Widget@{\-My\-Tabbed\-Stack\-Widget}}
+\index{\-My\-Tabbed\-Stack\-Widget@{\-My\-Tabbed\-Stack\-Widget}!MyTabbedStackWidget@{\-My\-Tabbed\-Stack\-Widget}}
+\subsubsection[{\-My\-Tabbed\-Stack\-Widget}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-My\-Tabbed\-Stack\-Widget\-::\-My\-Tabbed\-Stack\-Widget} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Widget $\ast$}]{parent = {\ttfamily 0}, }
+\item[{bool}]{is\-Vertical = {\ttfamily false}, }
+\item[{bool}]{icon\-Above = {\ttfamily true}}
+\end{DoxyParamCaption}
+)}}\label{class_my_tabbed_stack_widget_a45f38b17b9cbdb32460e12c2ccfd5bc5}
+
+
+\-Definition at line 34 of file mytabbedstackwidget.\-cpp.
+
+
+
+\subsection{\-Member \-Function \-Documentation}
+\hypertarget{class_my_tabbed_stack_widget_a669cd92d77d9616b4526c7cf1abfa2a5}{\index{\-My\-Tabbed\-Stack\-Widget@{\-My\-Tabbed\-Stack\-Widget}!corner\-Widget\-Count@{corner\-Widget\-Count}}
+\index{corner\-Widget\-Count@{corner\-Widget\-Count}!MyTabbedStackWidget@{\-My\-Tabbed\-Stack\-Widget}}
+\subsubsection[{corner\-Widget\-Count}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf \-My\-Tabbed\-Stack\-Widget\-::corner\-Widget\-Count} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{class_my_tabbed_stack_widget_a669cd92d77d9616b4526c7cf1abfa2a5}
+
+
+\-Definition at line 53 of file mytabbedstackwidget.\-h.
+
+\hypertarget{class_my_tabbed_stack_widget_a9f0e64fce4a1b4f26e9aa6fee22ab7f5}{\index{\-My\-Tabbed\-Stack\-Widget@{\-My\-Tabbed\-Stack\-Widget}!current\-About\-To\-Show@{current\-About\-To\-Show}}
+\index{current\-About\-To\-Show@{current\-About\-To\-Show}!MyTabbedStackWidget@{\-My\-Tabbed\-Stack\-Widget}}
+\subsubsection[{current\-About\-To\-Show}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-My\-Tabbed\-Stack\-Widget\-::current\-About\-To\-Show} (
+\begin{DoxyParamCaption}
+\item[{int}]{index, }
+\item[{bool $\ast$}]{proceed}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}signal\mbox{]}}}}\label{class_my_tabbed_stack_widget_a9f0e64fce4a1b4f26e9aa6fee22ab7f5}
+\hypertarget{class_my_tabbed_stack_widget_ab4617839c400d58c804ba6b86dc33cc1}{\index{\-My\-Tabbed\-Stack\-Widget@{\-My\-Tabbed\-Stack\-Widget}!current\-Changed@{current\-Changed}}
+\index{current\-Changed@{current\-Changed}!MyTabbedStackWidget@{\-My\-Tabbed\-Stack\-Widget}}
+\subsubsection[{current\-Changed}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-My\-Tabbed\-Stack\-Widget\-::current\-Changed} (
+\begin{DoxyParamCaption}
+\item[{int}]{index}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}signal\mbox{]}}}}\label{class_my_tabbed_stack_widget_ab4617839c400d58c804ba6b86dc33cc1}
+\hypertarget{class_my_tabbed_stack_widget_a791fd756fe24cbd0e0334335701915e1}{\index{\-My\-Tabbed\-Stack\-Widget@{\-My\-Tabbed\-Stack\-Widget}!current\-Index@{current\-Index}}
+\index{current\-Index@{current\-Index}!MyTabbedStackWidget@{\-My\-Tabbed\-Stack\-Widget}}
+\subsubsection[{current\-Index}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf \-My\-Tabbed\-Stack\-Widget\-::current\-Index} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_my_tabbed_stack_widget_a791fd756fe24cbd0e0334335701915e1}
+
+
+\-Definition at line 94 of file mytabbedstackwidget.\-cpp.
+
+\hypertarget{class_my_tabbed_stack_widget_a54de7410a5b308e2ea32fe95da7a1ed9}{\index{\-My\-Tabbed\-Stack\-Widget@{\-My\-Tabbed\-Stack\-Widget}!current\-Widget@{current\-Widget}}
+\index{current\-Widget@{current\-Widget}!MyTabbedStackWidget@{\-My\-Tabbed\-Stack\-Widget}}
+\subsubsection[{current\-Widget}]{\setlength{\rightskip}{0pt plus 5cm}\-Q\-Widget$\ast$ {\bf \-My\-Tabbed\-Stack\-Widget\-::current\-Widget} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{class_my_tabbed_stack_widget_a54de7410a5b308e2ea32fe95da7a1ed9}
+
+
+\-Definition at line 54 of file mytabbedstackwidget.\-h.
+
+\hypertarget{class_my_tabbed_stack_widget_a26d2df6637c94d03f943b431557f647c}{\index{\-My\-Tabbed\-Stack\-Widget@{\-My\-Tabbed\-Stack\-Widget}!get\-Widget@{get\-Widget}}
+\index{get\-Widget@{get\-Widget}!MyTabbedStackWidget@{\-My\-Tabbed\-Stack\-Widget}}
+\subsubsection[{get\-Widget}]{\setlength{\rightskip}{0pt plus 5cm}\-Q\-Widget$\ast$ {\bf \-My\-Tabbed\-Stack\-Widget\-::get\-Widget} (
+\begin{DoxyParamCaption}
+\item[{int}]{index}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{class_my_tabbed_stack_widget_a26d2df6637c94d03f943b431557f647c}
+
+
+\-Definition at line 55 of file mytabbedstackwidget.\-h.
+
+\hypertarget{class_my_tabbed_stack_widget_a5657f3b6910b0335c8d6fa78e98caa09}{\index{\-My\-Tabbed\-Stack\-Widget@{\-My\-Tabbed\-Stack\-Widget}!insert\-Corner\-Widget@{insert\-Corner\-Widget}}
+\index{insert\-Corner\-Widget@{insert\-Corner\-Widget}!MyTabbedStackWidget@{\-My\-Tabbed\-Stack\-Widget}}
+\subsubsection[{insert\-Corner\-Widget}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-My\-Tabbed\-Stack\-Widget\-::insert\-Corner\-Widget} (
+\begin{DoxyParamCaption}
+\item[{int}]{index, }
+\item[{\-Q\-Widget $\ast$}]{widget}
+\end{DoxyParamCaption}
+)}}\label{class_my_tabbed_stack_widget_a5657f3b6910b0335c8d6fa78e98caa09}
+
+
+\-Definition at line 121 of file mytabbedstackwidget.\-cpp.
+
+\hypertarget{class_my_tabbed_stack_widget_a6658d23fb4e0f3ae7324b313f5a7b062}{\index{\-My\-Tabbed\-Stack\-Widget@{\-My\-Tabbed\-Stack\-Widget}!insert\-Tab@{insert\-Tab}}
+\index{insert\-Tab@{insert\-Tab}!MyTabbedStackWidget@{\-My\-Tabbed\-Stack\-Widget}}
+\subsubsection[{insert\-Tab}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-My\-Tabbed\-Stack\-Widget\-::insert\-Tab} (
+\begin{DoxyParamCaption}
+\item[{int}]{index, }
+\item[{\-Q\-Widget $\ast$}]{tab, }
+\item[{const \-Q\-Icon \&}]{icon, }
+\item[{const {\bf \-Q\-String} \&}]{label}
+\end{DoxyParamCaption}
+)}}\label{class_my_tabbed_stack_widget_a6658d23fb4e0f3ae7324b313f5a7b062}
+
+
+\-Definition at line 75 of file mytabbedstackwidget.\-cpp.
+
+\hypertarget{class_my_tabbed_stack_widget_a2c275028a87ba60b343b6da3fa21db5a}{\index{\-My\-Tabbed\-Stack\-Widget@{\-My\-Tabbed\-Stack\-Widget}!remove\-Tab@{remove\-Tab}}
+\index{remove\-Tab@{remove\-Tab}!MyTabbedStackWidget@{\-My\-Tabbed\-Stack\-Widget}}
+\subsubsection[{remove\-Tab}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-My\-Tabbed\-Stack\-Widget\-::remove\-Tab} (
+\begin{DoxyParamCaption}
+\item[{int}]{index}
+\end{DoxyParamCaption}
+)}}\label{class_my_tabbed_stack_widget_a2c275028a87ba60b343b6da3fa21db5a}
+
+
+\-Definition at line 84 of file mytabbedstackwidget.\-cpp.
+
+\hypertarget{class_my_tabbed_stack_widget_a9e3c968779227ca412735073b437fdf1}{\index{\-My\-Tabbed\-Stack\-Widget@{\-My\-Tabbed\-Stack\-Widget}!set\-Current\-Index@{set\-Current\-Index}}
+\index{set\-Current\-Index@{set\-Current\-Index}!MyTabbedStackWidget@{\-My\-Tabbed\-Stack\-Widget}}
+\subsubsection[{set\-Current\-Index}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-My\-Tabbed\-Stack\-Widget\-::set\-Current\-Index} (
+\begin{DoxyParamCaption}
+\item[{int}]{index}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}slot\mbox{]}}}}\label{class_my_tabbed_stack_widget_a9e3c968779227ca412735073b437fdf1}
+
+
+\-Definition at line 99 of file mytabbedstackwidget.\-cpp.
+
+\hypertarget{class_my_tabbed_stack_widget_adb5bf6edcd958fc360a1c8ac429c7a9d}{\index{\-My\-Tabbed\-Stack\-Widget@{\-My\-Tabbed\-Stack\-Widget}!set\-Icon\-Size@{set\-Icon\-Size}}
+\index{set\-Icon\-Size@{set\-Icon\-Size}!MyTabbedStackWidget@{\-My\-Tabbed\-Stack\-Widget}}
+\subsubsection[{set\-Icon\-Size}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-My\-Tabbed\-Stack\-Widget\-::set\-Icon\-Size} (
+\begin{DoxyParamCaption}
+\item[{int}]{size}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{class_my_tabbed_stack_widget_adb5bf6edcd958fc360a1c8ac429c7a9d}
+
+
+\-Definition at line 48 of file mytabbedstackwidget.\-h.
+
+
+
+\-The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/libs/utils/\hyperlink{mytabbedstackwidget_8h}{mytabbedstackwidget.\-h}\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/libs/utils/\hyperlink{mytabbedstackwidget_8cpp}{mytabbedstackwidget.\-cpp}\end{DoxyCompactItemize}

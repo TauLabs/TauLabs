@@ -1,0 +1,59 @@
+\hypertarget{class_i_pconnection_connection}{\section{\-I\-Pconnection\-Connection \-Class \-Reference}
+\label{class_i_pconnection_connection}\index{\-I\-Pconnection\-Connection@{\-I\-Pconnection\-Connection}}
+}
+
+
+{\ttfamily \#include $<$ipconnectionplugin.\-h$>$}
+
+\-Inheritance diagram for \-I\-Pconnection\-Connection\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_i_pconnection_connection}
+\end{center}
+\end{figure}
+\subsection*{\-Signals}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___i_p_conn_plugin_gae512a545bf7714b3a085d0a9ffec49e5}{\-Create\-Socket} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \-Host\-Name, int \-Port, bool \-Use\-T\-C\-P)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___i_p_conn_plugin_ga382e928a679913b5d226abbd10a08167}{\-Close\-Socket} (\-Q\-Abstract\-Socket $\ast$socket)
+\end{DoxyCompactItemize}
+\subsection*{\-Public \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___i_p_conn_plugin_ga5eedabe97b32eaee1617cc040476a4b9}{\-I\-Pconnection\-Connection} ()
+\item 
+virtual \hyperlink{group___i_p_conn_plugin_ga003fc5feae8a88f8a1ad994b5b688f6e}{$\sim$\-I\-Pconnection\-Connection} ()
+\item 
+virtual \-Q\-List$<$ \hyperlink{class_core_1_1_i_device}{\-Core\-::\-I\-Device} $\ast$ $>$ \hyperlink{group___i_p_conn_plugin_ga046ba69036aa4661e97da3c8fbb13850}{available\-Devices} ()
+\item 
+virtual \-Q\-I\-O\-Device $\ast$ \hyperlink{group___i_p_conn_plugin_ga111b86b5f5905dee93d220a847614bed}{open\-Device} (\hyperlink{class_core_1_1_i_device}{\-Core\-::\-I\-Device} $\ast$device\-Name)
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___i_p_conn_plugin_gab576cdaa8af931b52cafea033a9c7350}{close\-Device} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \&device\-Name)
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___i_p_conn_plugin_ga8709e871725c0d119edddd54db4c505c}{connection\-Name} ()
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___i_p_conn_plugin_gae18fe74813c61e299c3492ea3ac616c5}{short\-Name} ()
+\item 
+\hyperlink{class_i_pconnection_configuration}{\-I\-Pconnection\-Configuration} $\ast$ \hyperlink{group___i_p_conn_plugin_ga0e41970926f79a5f86cd89fe61075e03}{\-Config} () const 
+\item 
+\hyperlink{class_i_pconnection_options_page}{\-I\-Pconnection\-Options\-Page} $\ast$ \hyperlink{group___i_p_conn_plugin_ga8d119fd704cfcdca9ae8dc6c3a3c237b}{\-Optionspage} () const 
+\end{DoxyCompactItemize}
+\subsection*{\-Protected \-Slots}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___i_p_conn_plugin_ga1163b3efc22084c70e47aa84ac84c612}{on\-Enumeration\-Changed} ()
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-Define a connection via the \-I\-Connection interface \-Plugin will add a instance of this class to the pool, so the connection manager can use it. 
+
+\-Definition at line 50 of file ipconnectionplugin.\-h.
+
+
+
+\-The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/plugins/ipconnection/\hyperlink{ipconnectionplugin_8h}{ipconnectionplugin.\-h}\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/plugins/ipconnection/\hyperlink{ipconnectionplugin_8cpp}{ipconnectionplugin.\-cpp}\end{DoxyCompactItemize}

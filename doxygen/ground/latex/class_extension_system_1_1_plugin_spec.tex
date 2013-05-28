@@ -1,0 +1,414 @@
+\hypertarget{class_extension_system_1_1_plugin_spec}{\section{\-Extension\-System\-:\-:\-Plugin\-Spec \-Class \-Reference}
+\label{class_extension_system_1_1_plugin_spec}\index{\-Extension\-System\-::\-Plugin\-Spec@{\-Extension\-System\-::\-Plugin\-Spec}}
+}
+
+
+\-Contains the information of the plugins xml description file and information about the plugin's current state.  
+
+
+
+
+{\ttfamily \#include $<$pluginspec.\-h$>$}
+
+\subsection*{\-Public \-Types}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{class_extension_system_1_1_plugin_spec_a3d40e1bd1f17eb32b314bcd282b3e3b9}{\-State} \{ \*
+\hyperlink{class_extension_system_1_1_plugin_spec_a3d40e1bd1f17eb32b314bcd282b3e3b9af4fcbc4b0803e9e7b253ac404c65902c}{\-Invalid}, 
+\hyperlink{class_extension_system_1_1_plugin_spec_a3d40e1bd1f17eb32b314bcd282b3e3b9af535b59005757ad8251db519a5f4a7e7}{\-Read}, 
+\hyperlink{class_extension_system_1_1_plugin_spec_a3d40e1bd1f17eb32b314bcd282b3e3b9abf1eaab858db15373d08dc8cabbd7cec}{\-Resolved}, 
+\hyperlink{class_extension_system_1_1_plugin_spec_a3d40e1bd1f17eb32b314bcd282b3e3b9ae0f34b9f96c75571b3d749b4c6d6e9ff}{\-Loaded}, 
+\*
+\hyperlink{class_extension_system_1_1_plugin_spec_a3d40e1bd1f17eb32b314bcd282b3e3b9a2695d0fa8246182dcfa36d148ba0706d}{\-Initialized}, 
+\hyperlink{class_extension_system_1_1_plugin_spec_a3d40e1bd1f17eb32b314bcd282b3e3b9a7f0dc635a9c4606801a7e8382001e20f}{\-Running}, 
+\hyperlink{class_extension_system_1_1_plugin_spec_a3d40e1bd1f17eb32b314bcd282b3e3b9af7d75f1e9edfb5ddf4c01aebc7708abf}{\-Stopped}, 
+\hyperlink{class_extension_system_1_1_plugin_spec_a3d40e1bd1f17eb32b314bcd282b3e3b9a30ba387e682bf28d58da8c48829bb029}{\-Deleted}
+ \}
+\item 
+typedef \-Q\-List\*
+$<$ \hyperlink{struct_extension_system_1_1_plugin_argument_description}{\-Plugin\-Argument\-Description} $>$ \hyperlink{class_extension_system_1_1_plugin_spec_acf81cc5fcc20b047203f9da886cbbdee}{\-Plugin\-Argument\-Descriptions}
+\end{DoxyCompactItemize}
+\subsection*{\-Public \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_extension_system_1_1_plugin_spec_a36fc0d85c9607b850b79415a6588c496}{$\sim$\-Plugin\-Spec} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{class_extension_system_1_1_plugin_spec_a822492851bc8d91f2e82960fbf6303ff}{name} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{class_extension_system_1_1_plugin_spec_aa4e3f800e656d5c849a91247fa4a5b71}{version} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{class_extension_system_1_1_plugin_spec_a45b8cc109ac512b48cf3781d9189959e}{compat\-Version} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{class_extension_system_1_1_plugin_spec_a192dfd0c30392c994303743b8ad76d83}{vendor} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{class_extension_system_1_1_plugin_spec_aedb8b15a0ecdf0d8b2ac27911594d585}{copyright} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{class_extension_system_1_1_plugin_spec_aa0aea3276267028b56289d0f594089dd}{license} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{class_extension_system_1_1_plugin_spec_a971d59d3293bca9fc1f312542d380a57}{description} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{class_extension_system_1_1_plugin_spec_a567faa06e5f2f469ff34a53cc45cc6eb}{url} () const 
+\item 
+\-Q\-List$<$ \hyperlink{struct_extension_system_1_1_plugin_dependency}{\-Plugin\-Dependency} $>$ \hyperlink{class_extension_system_1_1_plugin_spec_aea2dc5245d57466a867e7f59a11a6af5}{dependencies} () const 
+\item 
+\hyperlink{class_extension_system_1_1_plugin_spec_acf81cc5fcc20b047203f9da886cbbdee}{\-Plugin\-Argument\-Descriptions} \hyperlink{class_extension_system_1_1_plugin_spec_a5591aa7a260c6f74fd5abee3382658af}{argument\-Descriptions} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{class_extension_system_1_1_plugin_spec_afa870ca9c67d8e09aa87dc74a5de0ba8}{location} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{class_extension_system_1_1_plugin_spec_a9acb85e370ec9ee96c27860dc1ceccd6}{file\-Path} () const 
+\item 
+\-Q\-String\-List \hyperlink{class_extension_system_1_1_plugin_spec_a1d67bb71bc40bb5c90eb197503e103b7}{arguments} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_extension_system_1_1_plugin_spec_a27d7c6644d5757da46391cc82803e42d}{set\-Arguments} (const \-Q\-String\-List \&\hyperlink{class_extension_system_1_1_plugin_spec_a1d67bb71bc40bb5c90eb197503e103b7}{arguments})
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_extension_system_1_1_plugin_spec_a648a51e79049f3a3e0b67596befc8639}{add\-Argument} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \&argument)
+\item 
+bool \hyperlink{class_extension_system_1_1_plugin_spec_a1bc08643fc8637379344949ac8062773}{provides} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \&plugin\-Name, const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \&\hyperlink{class_extension_system_1_1_plugin_spec_aa4e3f800e656d5c849a91247fa4a5b71}{version}) const 
+\item 
+\-Q\-List$<$ \hyperlink{class_extension_system_1_1_plugin_spec}{\-Plugin\-Spec} $\ast$ $>$ \hyperlink{class_extension_system_1_1_plugin_spec_aea749392b5e9b90bf580fae85b956e12}{dependency\-Specs} () const 
+\item 
+\hyperlink{class_extension_system_1_1_i_plugin}{\-I\-Plugin} $\ast$ \hyperlink{class_extension_system_1_1_plugin_spec_ae6e82e9c2548b309eafbadfffffd4cc6}{plugin} () const 
+\item 
+\hyperlink{class_extension_system_1_1_plugin_spec_a3d40e1bd1f17eb32b314bcd282b3e3b9}{\-State} \hyperlink{class_extension_system_1_1_plugin_spec_a2ce7fae71669e79fc1e4a227afee2c78}{state} () const 
+\item 
+bool \hyperlink{class_extension_system_1_1_plugin_spec_a4f81e50b4662bbe22fe207d66963b712}{has\-Error} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{class_extension_system_1_1_plugin_spec_a5c7e05df1ab79d1c67140f72237e92e5}{error\-String} () const 
+\end{DoxyCompactItemize}
+\subsection*{\-Friends}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{class_extension_system_1_1_plugin_spec_ac886620628a69def5b6d57fa12c39179}{\-Internal\-::\-Plugin\-Manager\-Private}
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-Contains the information of the plugins xml description file and information about the plugin's current state. 
+
+\hyperlink{struct_extension_system_1_1_plugin_dependency_acd2cf6b00e6408b5fe155340a8159183}{\-Extension\-System\-::\-Plugin\-Dependency\-::name} \-String identifier of the plugin.
+
+\hyperlink{struct_extension_system_1_1_plugin_dependency_a2d00bf5564134af5cb2eeddf2074eee8}{\-Extension\-System\-::\-Plugin\-Dependency\-::version} \-Version string that a plugin must match to fill this dependency.
+
+\-The plugin spec is also filled with more information as the plugin goes through its loading process (see \hyperlink{class_extension_system_1_1_plugin_spec_a3d40e1bd1f17eb32b314bcd282b3e3b9}{\-Plugin\-Spec\-::\-State}). \-If an error occurs, the plugin spec is the place to look for the error details. 
+
+\-Definition at line 64 of file pluginspec.\-h.
+
+
+
+\subsection{\-Member \-Typedef \-Documentation}
+\hypertarget{class_extension_system_1_1_plugin_spec_acf81cc5fcc20b047203f9da886cbbdee}{\index{\-Extension\-System\-::\-Plugin\-Spec@{\-Extension\-System\-::\-Plugin\-Spec}!\-Plugin\-Argument\-Descriptions@{\-Plugin\-Argument\-Descriptions}}
+\index{\-Plugin\-Argument\-Descriptions@{\-Plugin\-Argument\-Descriptions}!ExtensionSystem::PluginSpec@{\-Extension\-System\-::\-Plugin\-Spec}}
+\subsubsection[{\-Plugin\-Argument\-Descriptions}]{\setlength{\rightskip}{0pt plus 5cm}typedef \-Q\-List$<${\bf \-Plugin\-Argument\-Description}$>$ {\bf \-Extension\-System\-::\-Plugin\-Spec\-::\-Plugin\-Argument\-Descriptions}}}\label{class_extension_system_1_1_plugin_spec_acf81cc5fcc20b047203f9da886cbbdee}
+
+
+\-Definition at line 82 of file pluginspec.\-h.
+
+
+
+\subsection{\-Member \-Enumeration \-Documentation}
+\hypertarget{class_extension_system_1_1_plugin_spec_a3d40e1bd1f17eb32b314bcd282b3e3b9}{\index{\-Extension\-System\-::\-Plugin\-Spec@{\-Extension\-System\-::\-Plugin\-Spec}!\-State@{\-State}}
+\index{\-State@{\-State}!ExtensionSystem::PluginSpec@{\-Extension\-System\-::\-Plugin\-Spec}}
+\subsubsection[{\-State}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf \-Extension\-System\-::\-Plugin\-Spec\-::\-State}}}\label{class_extension_system_1_1_plugin_spec_a3d40e1bd1f17eb32b314bcd282b3e3b9}
+\-The plugin goes through several steps while being loaded. \-The state gives a hint on what went wrong in case of an error.
+
+\-Invalid \-Starting point\-: \-Even the xml description file was not read.  \-Read \-The xml description file has been successfully read, and its information is available via the \hyperlink{class_extension_system_1_1_plugin_spec}{\-Plugin\-Spec}.  \-Resolved \-The dependencies given in the description file have been successfully found, and are available via the \hyperlink{class_extension_system_1_1_plugin_spec_aea749392b5e9b90bf580fae85b956e12}{dependency\-Specs()} method.  \-Loaded \-The plugin's library is loaded and the plugin instance created (available through \hyperlink{class_extension_system_1_1_plugin_spec_ae6e82e9c2548b309eafbadfffffd4cc6}{plugin()}).  \-Initialized \-The plugin instance's \hyperlink{class_extension_system_1_1_i_plugin_a9f3dc957317279daed393fdf4894e944}{\-I\-Plugin\-::initialize()} method has been called and returned a success value.  \-Running \-The plugin's dependencies are successfully initialized and extensions\-Initialized has been called. \-The loading process is complete.  \-Stopped \-The plugin has been shut down, i.\-e. the plugin's \hyperlink{class_extension_system_1_1_i_plugin_a65c16ebd3a6e89918a99af6515fe68cb}{\-I\-Plugin\-::shutdown()} method has been called.  \-Deleted \-The plugin instance has been deleted. \begin{Desc}
+\item[\-Enumerator\-: ]\par
+\begin{description}
+\index{\-Invalid@{\-Invalid}!\-Extension\-System\-::\-Plugin\-Spec@{\-Extension\-System\-::\-Plugin\-Spec}}\index{\-Extension\-System\-::\-Plugin\-Spec@{\-Extension\-System\-::\-Plugin\-Spec}!\-Invalid@{\-Invalid}}\item[{\em 
+\hypertarget{class_extension_system_1_1_plugin_spec_a3d40e1bd1f17eb32b314bcd282b3e3b9af4fcbc4b0803e9e7b253ac404c65902c}{\-Invalid}\label{class_extension_system_1_1_plugin_spec_a3d40e1bd1f17eb32b314bcd282b3e3b9af4fcbc4b0803e9e7b253ac404c65902c}
+}]\index{\-Read@{\-Read}!\-Extension\-System\-::\-Plugin\-Spec@{\-Extension\-System\-::\-Plugin\-Spec}}\index{\-Extension\-System\-::\-Plugin\-Spec@{\-Extension\-System\-::\-Plugin\-Spec}!\-Read@{\-Read}}\item[{\em 
+\hypertarget{class_extension_system_1_1_plugin_spec_a3d40e1bd1f17eb32b314bcd282b3e3b9af535b59005757ad8251db519a5f4a7e7}{\-Read}\label{class_extension_system_1_1_plugin_spec_a3d40e1bd1f17eb32b314bcd282b3e3b9af535b59005757ad8251db519a5f4a7e7}
+}]\index{\-Resolved@{\-Resolved}!\-Extension\-System\-::\-Plugin\-Spec@{\-Extension\-System\-::\-Plugin\-Spec}}\index{\-Extension\-System\-::\-Plugin\-Spec@{\-Extension\-System\-::\-Plugin\-Spec}!\-Resolved@{\-Resolved}}\item[{\em 
+\hypertarget{class_extension_system_1_1_plugin_spec_a3d40e1bd1f17eb32b314bcd282b3e3b9abf1eaab858db15373d08dc8cabbd7cec}{\-Resolved}\label{class_extension_system_1_1_plugin_spec_a3d40e1bd1f17eb32b314bcd282b3e3b9abf1eaab858db15373d08dc8cabbd7cec}
+}]\index{\-Loaded@{\-Loaded}!\-Extension\-System\-::\-Plugin\-Spec@{\-Extension\-System\-::\-Plugin\-Spec}}\index{\-Extension\-System\-::\-Plugin\-Spec@{\-Extension\-System\-::\-Plugin\-Spec}!\-Loaded@{\-Loaded}}\item[{\em 
+\hypertarget{class_extension_system_1_1_plugin_spec_a3d40e1bd1f17eb32b314bcd282b3e3b9ae0f34b9f96c75571b3d749b4c6d6e9ff}{\-Loaded}\label{class_extension_system_1_1_plugin_spec_a3d40e1bd1f17eb32b314bcd282b3e3b9ae0f34b9f96c75571b3d749b4c6d6e9ff}
+}]\index{\-Initialized@{\-Initialized}!\-Extension\-System\-::\-Plugin\-Spec@{\-Extension\-System\-::\-Plugin\-Spec}}\index{\-Extension\-System\-::\-Plugin\-Spec@{\-Extension\-System\-::\-Plugin\-Spec}!\-Initialized@{\-Initialized}}\item[{\em 
+\hypertarget{class_extension_system_1_1_plugin_spec_a3d40e1bd1f17eb32b314bcd282b3e3b9a2695d0fa8246182dcfa36d148ba0706d}{\-Initialized}\label{class_extension_system_1_1_plugin_spec_a3d40e1bd1f17eb32b314bcd282b3e3b9a2695d0fa8246182dcfa36d148ba0706d}
+}]\index{\-Running@{\-Running}!\-Extension\-System\-::\-Plugin\-Spec@{\-Extension\-System\-::\-Plugin\-Spec}}\index{\-Extension\-System\-::\-Plugin\-Spec@{\-Extension\-System\-::\-Plugin\-Spec}!\-Running@{\-Running}}\item[{\em 
+\hypertarget{class_extension_system_1_1_plugin_spec_a3d40e1bd1f17eb32b314bcd282b3e3b9a7f0dc635a9c4606801a7e8382001e20f}{\-Running}\label{class_extension_system_1_1_plugin_spec_a3d40e1bd1f17eb32b314bcd282b3e3b9a7f0dc635a9c4606801a7e8382001e20f}
+}]\index{\-Stopped@{\-Stopped}!\-Extension\-System\-::\-Plugin\-Spec@{\-Extension\-System\-::\-Plugin\-Spec}}\index{\-Extension\-System\-::\-Plugin\-Spec@{\-Extension\-System\-::\-Plugin\-Spec}!\-Stopped@{\-Stopped}}\item[{\em 
+\hypertarget{class_extension_system_1_1_plugin_spec_a3d40e1bd1f17eb32b314bcd282b3e3b9af7d75f1e9edfb5ddf4c01aebc7708abf}{\-Stopped}\label{class_extension_system_1_1_plugin_spec_a3d40e1bd1f17eb32b314bcd282b3e3b9af7d75f1e9edfb5ddf4c01aebc7708abf}
+}]\index{\-Deleted@{\-Deleted}!\-Extension\-System\-::\-Plugin\-Spec@{\-Extension\-System\-::\-Plugin\-Spec}}\index{\-Extension\-System\-::\-Plugin\-Spec@{\-Extension\-System\-::\-Plugin\-Spec}!\-Deleted@{\-Deleted}}\item[{\em 
+\hypertarget{class_extension_system_1_1_plugin_spec_a3d40e1bd1f17eb32b314bcd282b3e3b9a30ba387e682bf28d58da8c48829bb029}{\-Deleted}\label{class_extension_system_1_1_plugin_spec_a3d40e1bd1f17eb32b314bcd282b3e3b9a30ba387e682bf28d58da8c48829bb029}
+}]\end{description}
+\end{Desc}
+
+
+
+\-Definition at line 67 of file pluginspec.\-h.
+
+
+
+\subsection{\-Constructor \& \-Destructor \-Documentation}
+\hypertarget{class_extension_system_1_1_plugin_spec_a36fc0d85c9607b850b79415a6588c496}{\index{\-Extension\-System\-::\-Plugin\-Spec@{\-Extension\-System\-::\-Plugin\-Spec}!$\sim$\-Plugin\-Spec@{$\sim$\-Plugin\-Spec}}
+\index{$\sim$\-Plugin\-Spec@{$\sim$\-Plugin\-Spec}!ExtensionSystem::PluginSpec@{\-Extension\-System\-::\-Plugin\-Spec}}
+\subsubsection[{$\sim$\-Plugin\-Spec}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Plugin\-Spec\-::$\sim$\-Plugin\-Spec} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_extension_system_1_1_plugin_spec_a36fc0d85c9607b850b79415a6588c496}
+
+
+\-Definition at line 149 of file pluginspec.\-cpp.
+
+
+
+\subsection{\-Member \-Function \-Documentation}
+\hypertarget{class_extension_system_1_1_plugin_spec_a648a51e79049f3a3e0b67596befc8639}{\index{\-Extension\-System\-::\-Plugin\-Spec@{\-Extension\-System\-::\-Plugin\-Spec}!add\-Argument@{add\-Argument}}
+\index{add\-Argument@{add\-Argument}!ExtensionSystem::PluginSpec@{\-Extension\-System\-::\-Plugin\-Spec}}
+\subsubsection[{add\-Argument}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Plugin\-Spec\-::add\-Argument} (
+\begin{DoxyParamCaption}
+\item[{const {\bf \-Q\-String} \&}]{argument}
+\end{DoxyParamCaption}
+)}}\label{class_extension_system_1_1_plugin_spec_a648a51e79049f3a3e0b67596befc8639}
+\-Adds {\itshape argument\/} to the command line arguments specific to that plugin. 
+
+\-Definition at line 291 of file pluginspec.\-cpp.
+
+\hypertarget{class_extension_system_1_1_plugin_spec_a5591aa7a260c6f74fd5abee3382658af}{\index{\-Extension\-System\-::\-Plugin\-Spec@{\-Extension\-System\-::\-Plugin\-Spec}!argument\-Descriptions@{argument\-Descriptions}}
+\index{argument\-Descriptions@{argument\-Descriptions}!ExtensionSystem::PluginSpec@{\-Extension\-System\-::\-Plugin\-Spec}}
+\subsubsection[{argument\-Descriptions}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Plugin\-Spec\-::\-Plugin\-Argument\-Descriptions} {\bf \-Plugin\-Spec\-::argument\-Descriptions} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_extension_system_1_1_plugin_spec_a5591aa7a260c6f74fd5abee3382658af}
+\-Returns a list of descriptions of command line arguments the plugin processes. 
+
+\-Definition at line 241 of file pluginspec.\-cpp.
+
+\hypertarget{class_extension_system_1_1_plugin_spec_a1d67bb71bc40bb5c90eb197503e103b7}{\index{\-Extension\-System\-::\-Plugin\-Spec@{\-Extension\-System\-::\-Plugin\-Spec}!arguments@{arguments}}
+\index{arguments@{arguments}!ExtensionSystem::PluginSpec@{\-Extension\-System\-::\-Plugin\-Spec}}
+\subsubsection[{arguments}]{\setlength{\rightskip}{0pt plus 5cm}\-Q\-String\-List {\bf \-Plugin\-Spec\-::arguments} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_extension_system_1_1_plugin_spec_a1d67bb71bc40bb5c90eb197503e103b7}
+\-Command line arguments specific to that plugin. \-Set at startup 
+
+\-Definition at line 271 of file pluginspec.\-cpp.
+
+\hypertarget{class_extension_system_1_1_plugin_spec_a45b8cc109ac512b48cf3781d9189959e}{\index{\-Extension\-System\-::\-Plugin\-Spec@{\-Extension\-System\-::\-Plugin\-Spec}!compat\-Version@{compat\-Version}}
+\index{compat\-Version@{compat\-Version}!ExtensionSystem::PluginSpec@{\-Extension\-System\-::\-Plugin\-Spec}}
+\subsubsection[{compat\-Version}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Q\-String} {\bf \-Plugin\-Spec\-::compat\-Version} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_extension_system_1_1_plugin_spec_a45b8cc109ac512b48cf3781d9189959e}
+\-The plugin compatibility version. \-This is valid after the \hyperlink{class_extension_system_1_1_plugin_spec_a3d40e1bd1f17eb32b314bcd282b3e3b9af535b59005757ad8251db519a5f4a7e7}{\-Plugin\-Spec\-::\-Read} state is reached. 
+
+\-Definition at line 177 of file pluginspec.\-cpp.
+
+\hypertarget{class_extension_system_1_1_plugin_spec_aedb8b15a0ecdf0d8b2ac27911594d585}{\index{\-Extension\-System\-::\-Plugin\-Spec@{\-Extension\-System\-::\-Plugin\-Spec}!copyright@{copyright}}
+\index{copyright@{copyright}!ExtensionSystem::PluginSpec@{\-Extension\-System\-::\-Plugin\-Spec}}
+\subsubsection[{copyright}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Q\-String} {\bf \-Plugin\-Spec\-::copyright} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_extension_system_1_1_plugin_spec_aedb8b15a0ecdf0d8b2ac27911594d585}
+\-The plugin copyright. \-This is valid after the \hyperlink{class_extension_system_1_1_plugin_spec_a3d40e1bd1f17eb32b314bcd282b3e3b9af535b59005757ad8251db519a5f4a7e7}{\-Plugin\-Spec\-::\-Read} state is reached. 
+
+\-Definition at line 195 of file pluginspec.\-cpp.
+
+\hypertarget{class_extension_system_1_1_plugin_spec_aea2dc5245d57466a867e7f59a11a6af5}{\index{\-Extension\-System\-::\-Plugin\-Spec@{\-Extension\-System\-::\-Plugin\-Spec}!dependencies@{dependencies}}
+\index{dependencies@{dependencies}!ExtensionSystem::PluginSpec@{\-Extension\-System\-::\-Plugin\-Spec}}
+\subsubsection[{dependencies}]{\setlength{\rightskip}{0pt plus 5cm}\-Q\-List$<$ {\bf \-Plugin\-Dependency} $>$ {\bf \-Plugin\-Spec\-::dependencies} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_extension_system_1_1_plugin_spec_aea2dc5245d57466a867e7f59a11a6af5}
+\-The plugin dependencies. \-This is valid after the \hyperlink{class_extension_system_1_1_plugin_spec_a3d40e1bd1f17eb32b314bcd282b3e3b9af535b59005757ad8251db519a5f4a7e7}{\-Plugin\-Spec\-::\-Read} state is reached. 
+
+\-Definition at line 231 of file pluginspec.\-cpp.
+
+\hypertarget{class_extension_system_1_1_plugin_spec_aea749392b5e9b90bf580fae85b956e12}{\index{\-Extension\-System\-::\-Plugin\-Spec@{\-Extension\-System\-::\-Plugin\-Spec}!dependency\-Specs@{dependency\-Specs}}
+\index{dependency\-Specs@{dependency\-Specs}!ExtensionSystem::PluginSpec@{\-Extension\-System\-::\-Plugin\-Spec}}
+\subsubsection[{dependency\-Specs}]{\setlength{\rightskip}{0pt plus 5cm}\-Q\-List$<$ {\bf \-Plugin\-Spec} $\ast$ $>$ {\bf \-Plugin\-Spec\-::dependency\-Specs} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_extension_system_1_1_plugin_spec_aea749392b5e9b90bf580fae85b956e12}
+\-Returns the list of dependencies, already resolved to existing plugin specs. \-Valid if \hyperlink{class_extension_system_1_1_plugin_spec_a3d40e1bd1f17eb32b314bcd282b3e3b9abf1eaab858db15373d08dc8cabbd7cec}{\-Plugin\-Spec\-::\-Resolved} state is reached.
+
+\begin{DoxySeeAlso}{\-See also}
+\hyperlink{class_extension_system_1_1_plugin_spec_aea2dc5245d57466a867e7f59a11a6af5}{\-Plugin\-Spec\-::dependencies()} 
+\end{DoxySeeAlso}
+
+
+\-Definition at line 354 of file pluginspec.\-cpp.
+
+\hypertarget{class_extension_system_1_1_plugin_spec_a971d59d3293bca9fc1f312542d380a57}{\index{\-Extension\-System\-::\-Plugin\-Spec@{\-Extension\-System\-::\-Plugin\-Spec}!description@{description}}
+\index{description@{description}!ExtensionSystem::PluginSpec@{\-Extension\-System\-::\-Plugin\-Spec}}
+\subsubsection[{description}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Q\-String} {\bf \-Plugin\-Spec\-::description} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_extension_system_1_1_plugin_spec_a971d59d3293bca9fc1f312542d380a57}
+\-The plugin description. \-This is valid after the \hyperlink{class_extension_system_1_1_plugin_spec_a3d40e1bd1f17eb32b314bcd282b3e3b9af535b59005757ad8251db519a5f4a7e7}{\-Plugin\-Spec\-::\-Read} state is reached. 
+
+\-Definition at line 213 of file pluginspec.\-cpp.
+
+\hypertarget{class_extension_system_1_1_plugin_spec_a5c7e05df1ab79d1c67140f72237e92e5}{\index{\-Extension\-System\-::\-Plugin\-Spec@{\-Extension\-System\-::\-Plugin\-Spec}!error\-String@{error\-String}}
+\index{error\-String@{error\-String}!ExtensionSystem::PluginSpec@{\-Extension\-System\-::\-Plugin\-Spec}}
+\subsubsection[{error\-String}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Q\-String} {\bf \-Plugin\-Spec\-::error\-String} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_extension_system_1_1_plugin_spec_a5c7e05df1ab79d1c67140f72237e92e5}
+\-Detailed, possibly multi-\/line, error description in case of an error. 
+
+\-Definition at line 320 of file pluginspec.\-cpp.
+
+\hypertarget{class_extension_system_1_1_plugin_spec_a9acb85e370ec9ee96c27860dc1ceccd6}{\index{\-Extension\-System\-::\-Plugin\-Spec@{\-Extension\-System\-::\-Plugin\-Spec}!file\-Path@{file\-Path}}
+\index{file\-Path@{file\-Path}!ExtensionSystem::PluginSpec@{\-Extension\-System\-::\-Plugin\-Spec}}
+\subsubsection[{file\-Path}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Q\-String} {\bf \-Plugin\-Spec\-::file\-Path} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_extension_system_1_1_plugin_spec_a9acb85e370ec9ee96c27860dc1ceccd6}
+\-The absolute path to the plugin xml description file (including the file name) this \hyperlink{class_extension_system_1_1_plugin_spec}{\-Plugin\-Spec} corresponds to. 
+
+\-Definition at line 261 of file pluginspec.\-cpp.
+
+\hypertarget{class_extension_system_1_1_plugin_spec_a4f81e50b4662bbe22fe207d66963b712}{\index{\-Extension\-System\-::\-Plugin\-Spec@{\-Extension\-System\-::\-Plugin\-Spec}!has\-Error@{has\-Error}}
+\index{has\-Error@{has\-Error}!ExtensionSystem::PluginSpec@{\-Extension\-System\-::\-Plugin\-Spec}}
+\subsubsection[{has\-Error}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-Plugin\-Spec\-::has\-Error} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_extension_system_1_1_plugin_spec_a4f81e50b4662bbe22fe207d66963b712}
+\-Returns whether an error occurred while reading/starting the plugin. 
+
+\-Definition at line 311 of file pluginspec.\-cpp.
+
+\hypertarget{class_extension_system_1_1_plugin_spec_aa0aea3276267028b56289d0f594089dd}{\index{\-Extension\-System\-::\-Plugin\-Spec@{\-Extension\-System\-::\-Plugin\-Spec}!license@{license}}
+\index{license@{license}!ExtensionSystem::PluginSpec@{\-Extension\-System\-::\-Plugin\-Spec}}
+\subsubsection[{license}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Q\-String} {\bf \-Plugin\-Spec\-::license} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_extension_system_1_1_plugin_spec_aa0aea3276267028b56289d0f594089dd}
+\-The plugin license. \-This is valid after the \hyperlink{class_extension_system_1_1_plugin_spec_a3d40e1bd1f17eb32b314bcd282b3e3b9af535b59005757ad8251db519a5f4a7e7}{\-Plugin\-Spec\-::\-Read} state is reached. 
+
+\-Definition at line 204 of file pluginspec.\-cpp.
+
+\hypertarget{class_extension_system_1_1_plugin_spec_afa870ca9c67d8e09aa87dc74a5de0ba8}{\index{\-Extension\-System\-::\-Plugin\-Spec@{\-Extension\-System\-::\-Plugin\-Spec}!location@{location}}
+\index{location@{location}!ExtensionSystem::PluginSpec@{\-Extension\-System\-::\-Plugin\-Spec}}
+\subsubsection[{location}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Q\-String} {\bf \-Plugin\-Spec\-::location} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_extension_system_1_1_plugin_spec_afa870ca9c67d8e09aa87dc74a5de0ba8}
+\-The absolute path to the directory containing the plugin xml description file this \hyperlink{class_extension_system_1_1_plugin_spec}{\-Plugin\-Spec} corresponds to. 
+
+\-Definition at line 251 of file pluginspec.\-cpp.
+
+\hypertarget{class_extension_system_1_1_plugin_spec_a822492851bc8d91f2e82960fbf6303ff}{\index{\-Extension\-System\-::\-Plugin\-Spec@{\-Extension\-System\-::\-Plugin\-Spec}!name@{name}}
+\index{name@{name}!ExtensionSystem::PluginSpec@{\-Extension\-System\-::\-Plugin\-Spec}}
+\subsubsection[{name}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Q\-String} {\bf \-Plugin\-Spec\-::name} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_extension_system_1_1_plugin_spec_a822492851bc8d91f2e82960fbf6303ff}
+\-The plugin name. \-This is valid after the \hyperlink{class_extension_system_1_1_plugin_spec_a3d40e1bd1f17eb32b314bcd282b3e3b9af535b59005757ad8251db519a5f4a7e7}{\-Plugin\-Spec\-::\-Read} state is reached. 
+
+\-Definition at line 159 of file pluginspec.\-cpp.
+
+\hypertarget{class_extension_system_1_1_plugin_spec_ae6e82e9c2548b309eafbadfffffd4cc6}{\index{\-Extension\-System\-::\-Plugin\-Spec@{\-Extension\-System\-::\-Plugin\-Spec}!plugin@{plugin}}
+\index{plugin@{plugin}!ExtensionSystem::PluginSpec@{\-Extension\-System\-::\-Plugin\-Spec}}
+\subsubsection[{plugin}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-I\-Plugin} $\ast$ {\bf \-Plugin\-Spec\-::plugin} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_extension_system_1_1_plugin_spec_ae6e82e9c2548b309eafbadfffffd4cc6}
+\-The corresponding \hyperlink{class_extension_system_1_1_i_plugin}{\-I\-Plugin} instance, if the plugin library has already been successfully loaded, i.\-e. the \hyperlink{class_extension_system_1_1_plugin_spec_a3d40e1bd1f17eb32b314bcd282b3e3b9ae0f34b9f96c75571b3d749b4c6d6e9ff}{\-Plugin\-Spec\-::\-Loaded} state is reached. 
+
+\-Definition at line 342 of file pluginspec.\-cpp.
+
+\hypertarget{class_extension_system_1_1_plugin_spec_a1bc08643fc8637379344949ac8062773}{\index{\-Extension\-System\-::\-Plugin\-Spec@{\-Extension\-System\-::\-Plugin\-Spec}!provides@{provides}}
+\index{provides@{provides}!ExtensionSystem::PluginSpec@{\-Extension\-System\-::\-Plugin\-Spec}}
+\subsubsection[{provides}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-Plugin\-Spec\-::provides} (
+\begin{DoxyParamCaption}
+\item[{const {\bf \-Q\-String} \&}]{plugin\-Name, }
+\item[{const {\bf \-Q\-String} \&}]{version}
+\end{DoxyParamCaption}
+) const}}\label{class_extension_system_1_1_plugin_spec_a1bc08643fc8637379344949ac8062773}
+\-Returns if this plugin can be used to fill in a dependency of the given {\itshape plugin\-Name\/} and {\itshape version\/}.
+
+\begin{DoxySeeAlso}{\-See also}
+\hyperlink{class_extension_system_1_1_plugin_spec_aea2dc5245d57466a867e7f59a11a6af5}{\-Plugin\-Spec\-::dependencies()} 
+\end{DoxySeeAlso}
+
+
+\-Definition at line 332 of file pluginspec.\-cpp.
+
+\hypertarget{class_extension_system_1_1_plugin_spec_a27d7c6644d5757da46391cc82803e42d}{\index{\-Extension\-System\-::\-Plugin\-Spec@{\-Extension\-System\-::\-Plugin\-Spec}!set\-Arguments@{set\-Arguments}}
+\index{set\-Arguments@{set\-Arguments}!ExtensionSystem::PluginSpec@{\-Extension\-System\-::\-Plugin\-Spec}}
+\subsubsection[{set\-Arguments}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Plugin\-Spec\-::set\-Arguments} (
+\begin{DoxyParamCaption}
+\item[{const \-Q\-String\-List \&}]{arguments}
+\end{DoxyParamCaption}
+)}}\label{class_extension_system_1_1_plugin_spec_a27d7c6644d5757da46391cc82803e42d}
+\-Set the command line arguments specific to that plugin to {\itshape arguments\/}. 
+
+\-Definition at line 281 of file pluginspec.\-cpp.
+
+\hypertarget{class_extension_system_1_1_plugin_spec_a2ce7fae71669e79fc1e4a227afee2c78}{\index{\-Extension\-System\-::\-Plugin\-Spec@{\-Extension\-System\-::\-Plugin\-Spec}!state@{state}}
+\index{state@{state}!ExtensionSystem::PluginSpec@{\-Extension\-System\-::\-Plugin\-Spec}}
+\subsubsection[{state}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Plugin\-Spec\-::\-State} {\bf \-Plugin\-Spec\-::state} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_extension_system_1_1_plugin_spec_a2ce7fae71669e79fc1e4a227afee2c78}
+\-The state in which the plugin currently is. \-See the description of the \hyperlink{class_extension_system_1_1_plugin_spec_a3d40e1bd1f17eb32b314bcd282b3e3b9}{\-Plugin\-Spec\-::\-State} enum for details. 
+
+\-Definition at line 302 of file pluginspec.\-cpp.
+
+\hypertarget{class_extension_system_1_1_plugin_spec_a567faa06e5f2f469ff34a53cc45cc6eb}{\index{\-Extension\-System\-::\-Plugin\-Spec@{\-Extension\-System\-::\-Plugin\-Spec}!url@{url}}
+\index{url@{url}!ExtensionSystem::PluginSpec@{\-Extension\-System\-::\-Plugin\-Spec}}
+\subsubsection[{url}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Q\-String} {\bf \-Plugin\-Spec\-::url} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_extension_system_1_1_plugin_spec_a567faa06e5f2f469ff34a53cc45cc6eb}
+\-The plugin url where you can find more information about the plugin. \-This is valid after the \hyperlink{class_extension_system_1_1_plugin_spec_a3d40e1bd1f17eb32b314bcd282b3e3b9af535b59005757ad8251db519a5f4a7e7}{\-Plugin\-Spec\-::\-Read} state is reached. 
+
+\-Definition at line 222 of file pluginspec.\-cpp.
+
+\hypertarget{class_extension_system_1_1_plugin_spec_a192dfd0c30392c994303743b8ad76d83}{\index{\-Extension\-System\-::\-Plugin\-Spec@{\-Extension\-System\-::\-Plugin\-Spec}!vendor@{vendor}}
+\index{vendor@{vendor}!ExtensionSystem::PluginSpec@{\-Extension\-System\-::\-Plugin\-Spec}}
+\subsubsection[{vendor}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Q\-String} {\bf \-Plugin\-Spec\-::vendor} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_extension_system_1_1_plugin_spec_a192dfd0c30392c994303743b8ad76d83}
+\-The plugin vendor. \-This is valid after the \hyperlink{class_extension_system_1_1_plugin_spec_a3d40e1bd1f17eb32b314bcd282b3e3b9af535b59005757ad8251db519a5f4a7e7}{\-Plugin\-Spec\-::\-Read} state is reached. 
+
+\-Definition at line 186 of file pluginspec.\-cpp.
+
+\hypertarget{class_extension_system_1_1_plugin_spec_aa4e3f800e656d5c849a91247fa4a5b71}{\index{\-Extension\-System\-::\-Plugin\-Spec@{\-Extension\-System\-::\-Plugin\-Spec}!version@{version}}
+\index{version@{version}!ExtensionSystem::PluginSpec@{\-Extension\-System\-::\-Plugin\-Spec}}
+\subsubsection[{version}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Q\-String} {\bf \-Plugin\-Spec\-::version} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_extension_system_1_1_plugin_spec_aa4e3f800e656d5c849a91247fa4a5b71}
+\-The plugin version. \-This is valid after the \hyperlink{class_extension_system_1_1_plugin_spec_a3d40e1bd1f17eb32b314bcd282b3e3b9af535b59005757ad8251db519a5f4a7e7}{\-Plugin\-Spec\-::\-Read} state is reached. 
+
+\-Definition at line 168 of file pluginspec.\-cpp.
+
+
+
+\subsection{\-Friends \-And \-Related \-Function \-Documentation}
+\hypertarget{class_extension_system_1_1_plugin_spec_ac886620628a69def5b6d57fa12c39179}{\index{\-Extension\-System\-::\-Plugin\-Spec@{\-Extension\-System\-::\-Plugin\-Spec}!\-Internal\-::\-Plugin\-Manager\-Private@{\-Internal\-::\-Plugin\-Manager\-Private}}
+\index{\-Internal\-::\-Plugin\-Manager\-Private@{\-Internal\-::\-Plugin\-Manager\-Private}!ExtensionSystem::PluginSpec@{\-Extension\-System\-::\-Plugin\-Spec}}
+\subsubsection[{\-Internal\-::\-Plugin\-Manager\-Private}]{\setlength{\rightskip}{0pt plus 5cm}friend class {\bf \-Internal\-::\-Plugin\-Manager\-Private}\hspace{0.3cm}{\ttfamily  \mbox{[}friend\mbox{]}}}}\label{class_extension_system_1_1_plugin_spec_ac886620628a69def5b6d57fa12c39179}
+
+
+\-Definition at line 110 of file pluginspec.\-h.
+
+
+
+\-The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/libs/extensionsystem/\hyperlink{pluginspec_8h}{pluginspec.\-h}\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/libs/extensionsystem/\hyperlink{pluginspec_8cpp}{pluginspec.\-cpp}\end{DoxyCompactItemize}

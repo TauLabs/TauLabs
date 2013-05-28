@@ -1,0 +1,175 @@
+\hypertarget{rs_8c}{\section{/home/jb/code/\-Tau\-Labs/flight/\-Libraries/rscode/rs.c \-File \-Reference}
+\label{rs_8c}\index{/home/jb/code/\-Tau\-Labs/flight/\-Libraries/rscode/rs.\-c@{/home/jb/code/\-Tau\-Labs/flight/\-Libraries/rscode/rs.\-c}}
+}
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{rs_8c_a18be08df1fe8bf64e65d007e858c1f0e}{initialize\-\_\-ecc} ()
+\item 
+void \hyperlink{rs_8c_a37c8e69893100c575b5d81b9808d5838}{zero\-\_\-fill\-\_\-from} (unsigned char buf\mbox{[}$\,$\mbox{]}, int from, int to)
+\item 
+void \hyperlink{rs_8c_af1d5ad8eec1a2c678b86613c54aea50e}{print\-\_\-parity} (void)
+\item 
+void \hyperlink{rs_8c_aa384f9a066adf385c9375141085cf90e}{print\-\_\-syndrome} (void)
+\item 
+void \hyperlink{rs_8c_ad72c3418b7254c2efbff890fc97fc32f}{build\-\_\-codeword} (unsigned char \hyperlink{_libraries_2rscode_2example_8c_a6248cb5c33683ab9f937d2a954646849}{msg}\mbox{[}$\,$\mbox{]}, int nbytes, unsigned char dst\mbox{[}$\,$\mbox{]})
+\item 
+void \hyperlink{rs_8c_a231146bc254c1a49a9d3cc94c84cfd4e}{decode\-\_\-data} (unsigned char data\mbox{[}$\,$\mbox{]}, int nbytes)
+\item 
+int \hyperlink{rs_8c_a75555933650a50987a9c5b39aff2b26a}{check\-\_\-syndrome} (void)
+\item 
+void \hyperlink{rs_8c_a503801e9bcd8e179d6b5ba5b185ff0d1}{debug\-\_\-check\-\_\-syndrome} (void)
+\item 
+void \hyperlink{rs_8c_a33cac00a5b8d040514e163b6d4f97b90}{encode\-\_\-data} (unsigned char \hyperlink{_libraries_2rscode_2example_8c_a6248cb5c33683ab9f937d2a954646849}{msg}\mbox{[}$\,$\mbox{]}, int nbytes, unsigned char dst\mbox{[}$\,$\mbox{]})
+\end{DoxyCompactItemize}
+\subsection*{\-Variables}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{rs_8c_ae92bed6593d875f29f79a12f10e84b5b}{p\-Bytes} \mbox{[}\-M\-A\-X\-D\-E\-G\mbox{]}
+\item 
+int \hyperlink{rs_8c_a5dd915356908211565387e01d4a9cd8d}{syn\-Bytes} \mbox{[}\-M\-A\-X\-D\-E\-G\mbox{]}
+\item 
+int \hyperlink{rs_8c_abc09b23ea6197988bec9d69c3e92eb20}{gen\-Poly} \mbox{[}\-M\-A\-X\-D\-E\-G $\ast$2\mbox{]}
+\item 
+int \hyperlink{rs_8c_a48f76a8c0dc23567f303ed6aa221e078}{\-D\-E\-B\-U\-G} = \-F\-A\-L\-S\-E
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Function \-Documentation}
+\hypertarget{rs_8c_ad72c3418b7254c2efbff890fc97fc32f}{\index{rs.\-c@{rs.\-c}!build\-\_\-codeword@{build\-\_\-codeword}}
+\index{build\-\_\-codeword@{build\-\_\-codeword}!rs.c@{rs.\-c}}
+\subsubsection[{build\-\_\-codeword}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf build\-\_\-codeword} (
+\begin{DoxyParamCaption}
+\item[{unsigned char}]{msg\mbox{[}$\,$\mbox{]}, }
+\item[{int}]{nbytes, }
+\item[{unsigned char}]{dst\mbox{[}$\,$\mbox{]}}
+\end{DoxyParamCaption}
+)}}\label{rs_8c_ad72c3418b7254c2efbff890fc97fc32f}
+
+
+\-Definition at line 92 of file rs.\-c.
+
+\hypertarget{rs_8c_a75555933650a50987a9c5b39aff2b26a}{\index{rs.\-c@{rs.\-c}!check\-\_\-syndrome@{check\-\_\-syndrome}}
+\index{check\-\_\-syndrome@{check\-\_\-syndrome}!rs.c@{rs.\-c}}
+\subsubsection[{check\-\_\-syndrome}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf check\-\_\-syndrome} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{rs_8c_a75555933650a50987a9c5b39aff2b26a}
+
+
+\-Definition at line 126 of file rs.\-c.
+
+\hypertarget{rs_8c_a503801e9bcd8e179d6b5ba5b185ff0d1}{\index{rs.\-c@{rs.\-c}!debug\-\_\-check\-\_\-syndrome@{debug\-\_\-check\-\_\-syndrome}}
+\index{debug\-\_\-check\-\_\-syndrome@{debug\-\_\-check\-\_\-syndrome}!rs.c@{rs.\-c}}
+\subsubsection[{debug\-\_\-check\-\_\-syndrome}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf debug\-\_\-check\-\_\-syndrome} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{rs_8c_a503801e9bcd8e179d6b5ba5b185ff0d1}
+
+
+\-Definition at line 140 of file rs.\-c.
+
+\hypertarget{rs_8c_a231146bc254c1a49a9d3cc94c84cfd4e}{\index{rs.\-c@{rs.\-c}!decode\-\_\-data@{decode\-\_\-data}}
+\index{decode\-\_\-data@{decode\-\_\-data}!rs.c@{rs.\-c}}
+\subsubsection[{decode\-\_\-data}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf decode\-\_\-data} (
+\begin{DoxyParamCaption}
+\item[{unsigned char}]{data\mbox{[}$\,$\mbox{]}, }
+\item[{int}]{nbytes}
+\end{DoxyParamCaption}
+)}}\label{rs_8c_a231146bc254c1a49a9d3cc94c84cfd4e}
+
+
+\-Definition at line 111 of file rs.\-c.
+
+\hypertarget{rs_8c_a33cac00a5b8d040514e163b6d4f97b90}{\index{rs.\-c@{rs.\-c}!encode\-\_\-data@{encode\-\_\-data}}
+\index{encode\-\_\-data@{encode\-\_\-data}!rs.c@{rs.\-c}}
+\subsubsection[{encode\-\_\-data}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf encode\-\_\-data} (
+\begin{DoxyParamCaption}
+\item[{unsigned char}]{msg\mbox{[}$\,$\mbox{]}, }
+\item[{int}]{nbytes, }
+\item[{unsigned char}]{dst\mbox{[}$\,$\mbox{]}}
+\end{DoxyParamCaption}
+)}}\label{rs_8c_a33cac00a5b8d040514e163b6d4f97b90}
+
+
+\-Definition at line 188 of file rs.\-c.
+
+\hypertarget{rs_8c_a18be08df1fe8bf64e65d007e858c1f0e}{\index{rs.\-c@{rs.\-c}!initialize\-\_\-ecc@{initialize\-\_\-ecc}}
+\index{initialize\-\_\-ecc@{initialize\-\_\-ecc}!rs.c@{rs.\-c}}
+\subsubsection[{initialize\-\_\-ecc}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf initialize\-\_\-ecc} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{rs_8c_a18be08df1fe8bf64e65d007e858c1f0e}
+
+
+\-Definition at line 48 of file rs.\-c.
+
+\hypertarget{rs_8c_af1d5ad8eec1a2c678b86613c54aea50e}{\index{rs.\-c@{rs.\-c}!print\-\_\-parity@{print\-\_\-parity}}
+\index{print\-\_\-parity@{print\-\_\-parity}!rs.c@{rs.\-c}}
+\subsubsection[{print\-\_\-parity}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf print\-\_\-parity} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{rs_8c_af1d5ad8eec1a2c678b86613c54aea50e}
+
+
+\-Definition at line 66 of file rs.\-c.
+
+\hypertarget{rs_8c_aa384f9a066adf385c9375141085cf90e}{\index{rs.\-c@{rs.\-c}!print\-\_\-syndrome@{print\-\_\-syndrome}}
+\index{print\-\_\-syndrome@{print\-\_\-syndrome}!rs.c@{rs.\-c}}
+\subsubsection[{print\-\_\-syndrome}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf print\-\_\-syndrome} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{rs_8c_aa384f9a066adf385c9375141085cf90e}
+
+
+\-Definition at line 79 of file rs.\-c.
+
+\hypertarget{rs_8c_a37c8e69893100c575b5d81b9808d5838}{\index{rs.\-c@{rs.\-c}!zero\-\_\-fill\-\_\-from@{zero\-\_\-fill\-\_\-from}}
+\index{zero\-\_\-fill\-\_\-from@{zero\-\_\-fill\-\_\-from}!rs.c@{rs.\-c}}
+\subsubsection[{zero\-\_\-fill\-\_\-from}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf zero\-\_\-fill\-\_\-from} (
+\begin{DoxyParamCaption}
+\item[{unsigned char}]{buf\mbox{[}$\,$\mbox{]}, }
+\item[{int}]{from, }
+\item[{int}]{to}
+\end{DoxyParamCaption}
+)}}\label{rs_8c_a37c8e69893100c575b5d81b9808d5838}
+
+
+\-Definition at line 58 of file rs.\-c.
+
+
+
+\subsection{\-Variable \-Documentation}
+\hypertarget{rs_8c_a48f76a8c0dc23567f303ed6aa221e078}{\index{rs.\-c@{rs.\-c}!\-D\-E\-B\-U\-G@{\-D\-E\-B\-U\-G}}
+\index{\-D\-E\-B\-U\-G@{\-D\-E\-B\-U\-G}!rs.c@{rs.\-c}}
+\subsubsection[{\-D\-E\-B\-U\-G}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf \-D\-E\-B\-U\-G} = \-F\-A\-L\-S\-E}}\label{rs_8c_a48f76a8c0dc23567f303ed6aa221e078}
+
+
+\-Definition at line 41 of file rs.\-c.
+
+\hypertarget{rs_8c_abc09b23ea6197988bec9d69c3e92eb20}{\index{rs.\-c@{rs.\-c}!gen\-Poly@{gen\-Poly}}
+\index{gen\-Poly@{gen\-Poly}!rs.c@{rs.\-c}}
+\subsubsection[{gen\-Poly}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf gen\-Poly}\mbox{[}\-M\-A\-X\-D\-E\-G $\ast$2\mbox{]}}}\label{rs_8c_abc09b23ea6197988bec9d69c3e92eb20}
+
+
+\-Definition at line 39 of file rs.\-c.
+
+\hypertarget{rs_8c_ae92bed6593d875f29f79a12f10e84b5b}{\index{rs.\-c@{rs.\-c}!p\-Bytes@{p\-Bytes}}
+\index{p\-Bytes@{p\-Bytes}!rs.c@{rs.\-c}}
+\subsubsection[{p\-Bytes}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf p\-Bytes}\mbox{[}\-M\-A\-X\-D\-E\-G\mbox{]}}}\label{rs_8c_ae92bed6593d875f29f79a12f10e84b5b}
+
+
+\-Definition at line 33 of file rs.\-c.
+
+\hypertarget{rs_8c_a5dd915356908211565387e01d4a9cd8d}{\index{rs.\-c@{rs.\-c}!syn\-Bytes@{syn\-Bytes}}
+\index{syn\-Bytes@{syn\-Bytes}!rs.c@{rs.\-c}}
+\subsubsection[{syn\-Bytes}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf syn\-Bytes}\mbox{[}\-M\-A\-X\-D\-E\-G\mbox{]}}}\label{rs_8c_a5dd915356908211565387e01d4a9cd8d}
+
+
+\-Definition at line 36 of file rs.\-c.
+

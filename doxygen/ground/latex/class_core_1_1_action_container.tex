@@ -1,0 +1,58 @@
+\hypertarget{class_core_1_1_action_container}{\section{\-Core\-:\-:\-Action\-Container \-Class \-Reference}
+\label{class_core_1_1_action_container}\index{\-Core\-::\-Action\-Container@{\-Core\-::\-Action\-Container}}
+}
+
+
+{\ttfamily \#include $<$actioncontainer.\-h$>$}
+
+\-Inheritance diagram for \-Core\-:\-:\-Action\-Container\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{class_core_1_1_action_container}
+\end{center}
+\end{figure}
+\subsection*{\-Public \-Types}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{group___core_plugin_ga25957afb898f645827d8e7949c831327}{\-Empty\-Action} \{ \hyperlink{group___core_plugin_gga25957afb898f645827d8e7949c831327af1a70360b274cf469d7fd0a42007e614}{\-E\-A\-\_\-\-Mask} =  0x\-F\-F00, 
+\hyperlink{group___core_plugin_gga25957afb898f645827d8e7949c831327a2492c1e5772bc04b21150f29a3620354}{\-E\-A\-\_\-\-None} =  0x0100, 
+\hyperlink{group___core_plugin_gga25957afb898f645827d8e7949c831327aed8a4c98f66c29197b772529c4959190}{\-E\-A\-\_\-\-Hide} =  0x0200, 
+\hyperlink{group___core_plugin_gga25957afb898f645827d8e7949c831327aefaf5abf9c05ed2a6a6b75b2c1824186}{\-E\-A\-\_\-\-Disable} =  0x0300
+ \}
+\end{DoxyCompactItemize}
+\subsection*{\-Public \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___core_plugin_gae80d85ff590923f92540ca6a4b35694e}{set\-Empty\-Action} (\hyperlink{group___core_plugin_ga25957afb898f645827d8e7949c831327}{\-Empty\-Action} ea)=0
+\item 
+virtual int \hyperlink{group___core_plugin_gae3760030de490ae638ec35547d79d5da}{id} () const =0
+\item 
+virtual \-Q\-Menu $\ast$ \hyperlink{group___core_plugin_ga8e92377ca31ccb08155053b639c13059}{menu} () const =0
+\item 
+virtual \-Q\-Menu\-Bar $\ast$ \hyperlink{group___core_plugin_gaf02adf2900f7a064f59f14a8af0fe547}{menu\-Bar} () const =0
+\item 
+virtual \-Q\-Action $\ast$ \hyperlink{group___core_plugin_ga9429467e6adc07c5d348224bbc65ac54}{insert\-Location} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \&group) const =0
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___core_plugin_ga6479409008a106faa25ceccc055c0bd6}{append\-Group} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \&group)=0
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___core_plugin_gaae18910476f06c6af0eecd572bf1dd51}{add\-Action} (\hyperlink{class_core_1_1_command}{\-Core\-::\-Command} $\ast$action, const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \&group=\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String}())=0
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___core_plugin_ga77e35e602ffea9dac9cf53ccd0f582a8}{add\-Menu} (\hyperlink{class_core_1_1_action_container}{\-Core\-::\-Action\-Container} $\ast$\hyperlink{group___core_plugin_ga8e92377ca31ccb08155053b639c13059}{menu}, const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \&group=\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String}())=0
+\item 
+virtual bool \hyperlink{group___core_plugin_ga04932c7a13be19e6c83354411964d848}{update} ()=0
+\item 
+virtual \hyperlink{group___core_plugin_gadce9ee76d4dad19beb7d474531bb7579}{$\sim$\-Action\-Container} ()
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+
+
+\-Definition at line 41 of file actioncontainer.\-h.
+
+
+
+\-The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/plugins/coreplugin/actionmanager/\hyperlink{actioncontainer_8h}{actioncontainer.\-h}\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/plugins/coreplugin/actionmanager/\hyperlink{actioncontainer_8cpp}{actioncontainer.\-cpp}\end{DoxyCompactItemize}

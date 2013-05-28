@@ -1,0 +1,71 @@
+\hypertarget{pios__lsm303_8h}{\section{/home/jb/code/\-Tau\-Labs/flight/\-Pi\-O\-S/inc/pios\-\_\-lsm303.h \-File \-Reference}
+\label{pios__lsm303_8h}\index{/home/jb/code/\-Tau\-Labs/flight/\-Pi\-O\-S/inc/pios\-\_\-lsm303.\-h@{/home/jb/code/\-Tau\-Labs/flight/\-Pi\-O\-S/inc/pios\-\_\-lsm303.\-h}}
+}
+\subsection*{\-Data \-Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structpios__lsm303__cfg}{pios\-\_\-lsm303\-\_\-cfg}
+\end{DoxyCompactItemize}
+\subsection*{\-Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{group___p_i_o_s___l_s_m303_gafbb0e59427f40a8d9b0e901af02bb7b3}{pios\-\_\-lsm303\-\_\-accel\-\_\-range} \{ \hyperlink{group___p_i_o_s___l_s_m303_ggafbb0e59427f40a8d9b0e901af02bb7b3a27dfa9deebf2dde3af39a5befaec680b}{\-P\-I\-O\-S\-\_\-\-L\-S\-M303\-\_\-\-A\-C\-C\-E\-L\-\_\-2\-G} =  0x00, 
+\hyperlink{group___p_i_o_s___l_s_m303_ggafbb0e59427f40a8d9b0e901af02bb7b3a17ae55c78fa45d2ce30ed46e9e2f9a00}{\-P\-I\-O\-S\-\_\-\-L\-S\-M303\-\_\-\-A\-C\-C\-E\-L\-\_\-4\-G} =  0x10, 
+\hyperlink{group___p_i_o_s___l_s_m303_ggafbb0e59427f40a8d9b0e901af02bb7b3a9535d578ca9f6242eab4d401727a209d}{\-P\-I\-O\-S\-\_\-\-L\-S\-M303\-\_\-\-A\-C\-C\-E\-L\-\_\-8\-G} =  0x20, 
+\hyperlink{group___p_i_o_s___l_s_m303_ggafbb0e59427f40a8d9b0e901af02bb7b3a964aeb7da75de6e7dd39e0007b3385b9}{\-P\-I\-O\-S\-\_\-\-L\-S\-M303\-\_\-\-A\-C\-C\-E\-L\-\_\-16\-G} =  0x30
+ \}
+\item 
+enum \hyperlink{group___p_i_o_s___l_s_m303_ga24737af5b503329ca628b921e32ec8d8}{pios\-\_\-lsm303\-\_\-mag\-\_\-range} \{ \*
+\hyperlink{group___p_i_o_s___l_s_m303_gga24737af5b503329ca628b921e32ec8d8a78d5f0759823530a8bc4b6ad007ca51a}{\-P\-I\-O\-S\-\_\-\-L\-S\-M303\-\_\-\-M\-A\-G\-\_\-1\-\_\-3\-G\-A} =  0x20, 
+\hyperlink{group___p_i_o_s___l_s_m303_gga24737af5b503329ca628b921e32ec8d8a4f6e30669e9fe7926bb28fb4e3192262}{\-P\-I\-O\-S\-\_\-\-L\-S\-M303\-\_\-\-M\-A\-G\-\_\-1\-\_\-9\-G\-A} =  0x40, 
+\hyperlink{group___p_i_o_s___l_s_m303_gga24737af5b503329ca628b921e32ec8d8aa3503800030f5377ad55bce47498f260}{\-P\-I\-O\-S\-\_\-\-L\-S\-M303\-\_\-\-M\-A\-G\-\_\-2\-\_\-5\-G\-A} =  0x60, 
+\hyperlink{group___p_i_o_s___l_s_m303_gga24737af5b503329ca628b921e32ec8d8a3a95154f97aab91f26efaa1a2fd8992f}{\-P\-I\-O\-S\-\_\-\-L\-S\-M303\-\_\-\-M\-A\-G\-\_\-4\-\_\-0\-G\-A} =  0x80, 
+\*
+\hyperlink{group___p_i_o_s___l_s_m303_gga24737af5b503329ca628b921e32ec8d8a3d37bcb89bd4512b249617ec810bb6cb}{\-P\-I\-O\-S\-\_\-\-L\-S\-M303\-\_\-\-M\-A\-G\-\_\-4\-\_\-7\-G\-A} =  0xa0, 
+\hyperlink{group___p_i_o_s___l_s_m303_gga24737af5b503329ca628b921e32ec8d8ab66a621ddc7001e12f46831f09887b42}{\-P\-I\-O\-S\-\_\-\-L\-S\-M303\-\_\-\-M\-A\-G\-\_\-5\-\_\-6\-G\-A} =  0xc0, 
+\hyperlink{group___p_i_o_s___l_s_m303_gga24737af5b503329ca628b921e32ec8d8ac0e0008a503ac4616b070659a6772261}{\-P\-I\-O\-S\-\_\-\-L\-S\-M303\-\_\-\-M\-A\-G\-\_\-8\-\_\-1\-G\-A} =  0xe0
+ \}
+\item 
+enum \hyperlink{group___p_i_o_s___l_s_m303_ga2657cfa22c98bd2d84ea7fed74fac52a}{pios\-\_\-lsm303\-\_\-devicetype} \{ \hyperlink{group___p_i_o_s___l_s_m303_gga2657cfa22c98bd2d84ea7fed74fac52aa97582c6f90df3f1015cf1dc3ddf90fac}{\-P\-I\-O\-S\-\_\-\-L\-S\-M303\-\_\-\-D\-E\-V\-I\-C\-E\-\_\-\-I\-N\-V\-A\-L\-I\-D} =  0, 
+\hyperlink{group___p_i_o_s___l_s_m303_gga2657cfa22c98bd2d84ea7fed74fac52aa7e833e3a72c661126d6e602fb69bf7c7}{\-P\-I\-O\-S\-\_\-\-L\-S\-M303\-D\-L\-H\-\_\-\-D\-E\-V\-I\-C\-E}, 
+\hyperlink{group___p_i_o_s___l_s_m303_gga2657cfa22c98bd2d84ea7fed74fac52aa8c93a71bb3cbb84a52d66f125ea0ff49}{\-P\-I\-O\-S\-\_\-\-L\-S\-M303\-D\-L\-M\-\_\-\-D\-E\-V\-I\-C\-E}, 
+\hyperlink{group___p_i_o_s___l_s_m303_gga2657cfa22c98bd2d84ea7fed74fac52aacabdc696724de7b296add69c5460a3d3}{\-P\-I\-O\-S\-\_\-\-L\-S\-M303\-D\-L\-H\-C\-\_\-\-D\-E\-V\-I\-C\-E}
+ \}
+\item 
+enum \hyperlink{group___p_i_o_s___l_s_m303_ga73dd8a4c7039b8b41b78b88b16c510d6}{pios\-\_\-lsm303\-\_\-sa0\-\_\-state} \{ \hyperlink{group___p_i_o_s___l_s_m303_gga73dd8a4c7039b8b41b78b88b16c510d6af653b3f4b5bcf3b5862aeb2004bb0659}{\-P\-I\-O\-S\-\_\-\-L\-S\-M303\-\_\-\-S\-A0\-\_\-\-A\-\_\-\-L\-O\-W} =  0, 
+\hyperlink{group___p_i_o_s___l_s_m303_gga73dd8a4c7039b8b41b78b88b16c510d6a6694e08eefe53774a38391ced7a0aa5b}{\-P\-I\-O\-S\-\_\-\-L\-S\-M303\-\_\-\-S\-A0\-\_\-\-A\-\_\-\-H\-I\-G\-H} =  1
+ \}
+\item 
+enum \hyperlink{group___p_i_o_s___l_s_m303_gaf21acd6da6d1a83963ba1b7a45937cfc}{pios\-\_\-lsm303\-\_\-orientation} \{ \hyperlink{group___p_i_o_s___l_s_m303_ggaf21acd6da6d1a83963ba1b7a45937cfcab7b9ad1a88b543eb6f98397977e0581e}{\-P\-I\-O\-S\-\_\-\-L\-S\-M303\-\_\-\-T\-O\-P\-\_\-0\-D\-E\-G} =  0x00, 
+\hyperlink{group___p_i_o_s___l_s_m303_ggaf21acd6da6d1a83963ba1b7a45937cfca55c31b966726d9b7177e8e25db2357d5}{\-P\-I\-O\-S\-\_\-\-L\-S\-M303\-\_\-\-T\-O\-P\-\_\-90\-D\-E\-G} =  0x01, 
+\hyperlink{group___p_i_o_s___l_s_m303_ggaf21acd6da6d1a83963ba1b7a45937cfcab4b68df0f50b413ab7d2910d55da299a}{\-P\-I\-O\-S\-\_\-\-L\-S\-M303\-\_\-\-T\-O\-P\-\_\-180\-D\-E\-G} =  0x02, 
+\hyperlink{group___p_i_o_s___l_s_m303_ggaf21acd6da6d1a83963ba1b7a45937cfca7b58cc3793a2a9107f9b29de98ebc463}{\-P\-I\-O\-S\-\_\-\-L\-S\-M303\-\_\-\-T\-O\-P\-\_\-270\-D\-E\-G} =  0x03
+ \}
+\end{DoxyCompactItemize}
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___l_s_m303_ga14f9c78fed7bf58de8e69e585cd67769}{\-P\-I\-O\-S\-\_\-\-L\-S\-M303\-\_\-\-Init} (uint32\-\_\-t i2c\-\_\-id, const struct \hyperlink{structpios__lsm303__cfg}{pios\-\_\-lsm303\-\_\-cfg} $\ast$cfg)
+\begin{DoxyCompactList}\small\item\em \-Initialize the \-L\-S\-M303 3-\/axis gyro sensor. \end{DoxyCompactList}\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___l_s_m303_gae7f600d0c2cfc85affb21312eef1b4ce}{\-P\-I\-O\-S\-\_\-\-L\-S\-M303\-\_\-\-Mag\-\_\-\-Read\-I\-D} ()
+\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___l_s_m303_ga6cead4a99372061bc1b1a9a08a0eb183}{\-P\-I\-O\-S\-\_\-\-L\-S\-M303\-\_\-\-Accel\-\_\-\-Test} (void)
+\begin{DoxyCompactList}\small\item\em \-Run self-\/test operation. \end{DoxyCompactList}\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___l_s_m303_ga02c4d8ca4981e2ced505a7ea3bd13a72}{\-P\-I\-O\-S\-\_\-\-L\-S\-M303\-\_\-\-Mag\-\_\-\-Test} (void)
+\begin{DoxyCompactList}\small\item\em \-Run self-\/test operation. \end{DoxyCompactList}\item 
+void \hyperlink{group___p_i_o_s___l_s_m303_ga8b8011cf8463e2ae40eae82b2bf78251}{\-P\-I\-O\-S\-\_\-\-L\-S\-M303\-\_\-\-Accel\-\_\-\-Set\-Range} (enum \hyperlink{group___p_i_o_s___l_s_m303_gafbb0e59427f40a8d9b0e901af02bb7b3}{pios\-\_\-lsm303\-\_\-accel\-\_\-range} accel\-\_\-range)
+\item 
+void \hyperlink{group___p_i_o_s___l_s_m303_gae1c05338828d7ced47c189ed3e73a24a}{\-P\-I\-O\-S\-\_\-\-L\-S\-M303\-\_\-\-Mag\-\_\-\-Set\-Range} (enum \hyperlink{group___p_i_o_s___l_s_m303_ga24737af5b503329ca628b921e32ec8d8}{pios\-\_\-lsm303\-\_\-mag\-\_\-range} mag\-\_\-range)
+\item 
+bool \hyperlink{group___p_i_o_s___l_s_m303_gac6bc0a694ea85c9644a96c5558b75a7d}{\-P\-I\-O\-S\-\_\-\-L\-S\-M303\-\_\-\-I\-R\-Q\-Handler} (void)
+\begin{DoxyCompactList}\small\item\em \-I\-R\-Q \-Handler. \-Read all the data from onboard buffer. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\begin{DoxyAuthor}{\-Author}
+\-Tau \-Labs, \href{http://taulabs.org,}{\tt http\-://taulabs.\-org,} \-Copyright (\-C) 2012-\/2013 
+\end{DoxyAuthor}
+
+
+\-Definition in file \hyperlink{pios__lsm303_8h_source}{pios\-\_\-lsm303.\-h}.
+

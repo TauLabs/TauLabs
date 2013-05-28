@@ -1,0 +1,232 @@
+\hypertarget{_s_t_m32_f10x_2pios__tim_8c}{\section{/home/jb/code/\-Tau\-Labs/flight/\-Pi\-O\-S/\-S\-T\-M32\-F10x/pios\-\_\-tim.c \-File \-Reference}
+\label{_s_t_m32_f10x_2pios__tim_8c}\index{/home/jb/code/\-Tau\-Labs/flight/\-Pi\-O\-S/\-S\-T\-M32\-F10x/pios\-\_\-tim.\-c@{/home/jb/code/\-Tau\-Labs/flight/\-Pi\-O\-S/\-S\-T\-M32\-F10x/pios\-\_\-tim.\-c}}
+}
+\subsection*{\-Data \-Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structpios__tim__dev}{pios\-\_\-tim\-\_\-dev}
+\end{DoxyCompactItemize}
+\subsection*{\-Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{_s_t_m32_f10x_2pios__tim_8c_a7d425167804fd43bc76fe29c11386a6c}{pios\-\_\-tim\-\_\-dev\-\_\-magic} \{ \hyperlink{group___p_i_o_s___t_i_m_gga7d425167804fd43bc76fe29c11386a6ca0c5dc16440e893937250b8ab7e88f777}{\-P\-I\-O\-S\-\_\-\-T\-I\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C} =  0x87654098, 
+\hyperlink{group___p_i_o_s___t_i_m_gga7d425167804fd43bc76fe29c11386a6ca0c5dc16440e893937250b8ab7e88f777}{\-P\-I\-O\-S\-\_\-\-T\-I\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C} =  0x87654098, 
+\hyperlink{group___p_i_o_s___t_i_m_gga7d425167804fd43bc76fe29c11386a6ca0c5dc16440e893937250b8ab7e88f777}{\-P\-I\-O\-S\-\_\-\-T\-I\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C} =  0x87654098
+ \}
+\end{DoxyCompactItemize}
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+int32\-\_\-t \hyperlink{_s_t_m32_f10x_2pios__tim_8c_a091c161ba7b19b91067616f0cbd768fc}{\-P\-I\-O\-S\-\_\-\-T\-I\-M\-\_\-\-Init\-Clock} (const struct \hyperlink{structpios__tim__clock__cfg}{pios\-\_\-tim\-\_\-clock\-\_\-cfg} $\ast$cfg)
+\item 
+int32\-\_\-t \hyperlink{_s_t_m32_f10x_2pios__tim_8c_a7f5717527aad92ccdff6c7a1841754f7}{\-P\-I\-O\-S\-\_\-\-T\-I\-M\-\_\-\-Init\-Channels} (uint32\-\_\-t $\ast$tim\-\_\-id, const struct \hyperlink{structpios__tim__channel}{pios\-\_\-tim\-\_\-channel} $\ast$channels, uint8\-\_\-t num\-\_\-channels, const struct \hyperlink{structpios__tim__callbacks}{pios\-\_\-tim\-\_\-callbacks} $\ast$callbacks, uint32\-\_\-t context)
+\item 
+\hyperlink{_s_t_m32_f10x_2pios__tim_8c_ga354d20ebcb9396fb9b160590fcef9cee}{for} (uint8\-\_\-t i=0;i$<$ \hyperlink{structpios__pwm__cfg_acf9d41bfa9ce5ee489fcb27a98605e5c}{pios\-\_\-pwm\-\_\-cfg.\-num\-\_\-channels};i++)
+\item 
+void \hyperlink{_s_t_m32_f10x_2pios__tim_8c_a51741dbf9b0de1b8b56b5a6f1ef2e694}{\-T\-I\-M1\-\_\-\-U\-P\-\_\-\-I\-R\-Q\-Handler} (void)
+\item 
+void \hyperlink{_s_t_m32_f10x_2pios__tim_8c_gae8a61b27afdb07c70d6b863c44284ca6}{\-T\-I\-M1\-\_\-\-C\-C\-\_\-\-I\-R\-Q\-Handler} (void)
+\item 
+void \hyperlink{_s_t_m32_f10x_2pios__tim_8c_ga38ad4725462bdc5e86c4ead4f04b9fc2}{\-T\-I\-M2\-\_\-\-I\-R\-Q\-Handler} (void)
+\item 
+void \hyperlink{_s_t_m32_f10x_2pios__tim_8c_ac8e51d2183b5230cbd5481f8867adce9}{\-T\-I\-M3\-\_\-\-I\-R\-Q\-Handler} (void)
+\item 
+void \hyperlink{_s_t_m32_f10x_2pios__tim_8c_ga7133f3f78767503641d307386e68bd28}{\-T\-I\-M4\-\_\-\-I\-R\-Q\-Handler} (void)
+\item 
+void \hyperlink{_s_t_m32_f10x_2pios__tim_8c_a5e66446caf21dd90191dc07a13ce2378}{\-T\-I\-M5\-\_\-\-I\-R\-Q\-Handler} (void)
+\item 
+void \hyperlink{_s_t_m32_f10x_2pios__tim_8c_a0453d4621224d4aed7b6f727f12657b2}{\-T\-I\-M6\-\_\-\-I\-R\-Q\-Handler} (void)
+\item 
+void \hyperlink{_s_t_m32_f10x_2pios__tim_8c_ga98cff83252098363b2dbca9608df964e}{\-T\-I\-M7\-\_\-\-I\-R\-Q\-Handler} (void)
+\item 
+void \hyperlink{_s_t_m32_f10x_2pios__tim_8c_a255e5267ee3275b665940ed1a61ae3ce}{\-T\-I\-M8\-\_\-\-U\-P\-\_\-\-I\-R\-Q\-Handler} (void)
+\item 
+void \hyperlink{_s_t_m32_f10x_2pios__tim_8c_ga96e44d6fe80524f038da6254514316a4}{\-T\-I\-M8\-\_\-\-C\-C\-\_\-\-I\-R\-Q\-Handler} (void)
+\end{DoxyCompactItemize}
+\subsection*{\-Variables}
+\begin{DoxyCompactItemize}
+\item 
+uint16\-\_\-t \hyperlink{_s_t_m32_f10x_2pios__tim_8c_a757344f09097232d715d55cbf9d61a43}{val} = 0
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Enumeration \-Type \-Documentation}
+\hypertarget{_s_t_m32_f10x_2pios__tim_8c_a7d425167804fd43bc76fe29c11386a6c}{\index{\-S\-T\-M32\-F10x/pios\-\_\-tim.\-c@{\-S\-T\-M32\-F10x/pios\-\_\-tim.\-c}!pios\-\_\-tim\-\_\-dev\-\_\-magic@{pios\-\_\-tim\-\_\-dev\-\_\-magic}}
+\index{pios\-\_\-tim\-\_\-dev\-\_\-magic@{pios\-\_\-tim\-\_\-dev\-\_\-magic}!STM32F10x/pios_tim.c@{\-S\-T\-M32\-F10x/pios\-\_\-tim.\-c}}
+\subsubsection[{pios\-\_\-tim\-\_\-dev\-\_\-magic}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf pios\-\_\-tim\-\_\-dev\-\_\-magic}}}\label{_s_t_m32_f10x_2pios__tim_8c_a7d425167804fd43bc76fe29c11386a6c}
+\begin{Desc}
+\item[\-Enumerator\-: ]\par
+\begin{description}
+\index{\-P\-I\-O\-S\-\_\-\-T\-I\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C@{\-P\-I\-O\-S\-\_\-\-T\-I\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}!\-S\-T\-M32\-F10x/pios\-\_\-tim.\-c@{\-S\-T\-M32\-F10x/pios\-\_\-tim.\-c}}\index{\-S\-T\-M32\-F10x/pios\-\_\-tim.\-c@{\-S\-T\-M32\-F10x/pios\-\_\-tim.\-c}!\-P\-I\-O\-S\-\_\-\-T\-I\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C@{\-P\-I\-O\-S\-\_\-\-T\-I\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}}\item[{\em 
+\hypertarget{_s_t_m32_f10x_2pios__tim_8c_gga7d425167804fd43bc76fe29c11386a6ca0c5dc16440e893937250b8ab7e88f777}{\-P\-I\-O\-S\-\_\-\-T\-I\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}\label{_s_t_m32_f10x_2pios__tim_8c_gga7d425167804fd43bc76fe29c11386a6ca0c5dc16440e893937250b8ab7e88f777}
+}]\index{\-P\-I\-O\-S\-\_\-\-T\-I\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C@{\-P\-I\-O\-S\-\_\-\-T\-I\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}!\-S\-T\-M32\-F10x/pios\-\_\-tim.\-c@{\-S\-T\-M32\-F10x/pios\-\_\-tim.\-c}}\index{\-S\-T\-M32\-F10x/pios\-\_\-tim.\-c@{\-S\-T\-M32\-F10x/pios\-\_\-tim.\-c}!\-P\-I\-O\-S\-\_\-\-T\-I\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C@{\-P\-I\-O\-S\-\_\-\-T\-I\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}}\item[{\em 
+\hypertarget{_s_t_m32_f10x_2pios__tim_8c_gga7d425167804fd43bc76fe29c11386a6ca0c5dc16440e893937250b8ab7e88f777}{\-P\-I\-O\-S\-\_\-\-T\-I\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}\label{_s_t_m32_f10x_2pios__tim_8c_gga7d425167804fd43bc76fe29c11386a6ca0c5dc16440e893937250b8ab7e88f777}
+}]\index{\-P\-I\-O\-S\-\_\-\-T\-I\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C@{\-P\-I\-O\-S\-\_\-\-T\-I\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}!\-S\-T\-M32\-F10x/pios\-\_\-tim.\-c@{\-S\-T\-M32\-F10x/pios\-\_\-tim.\-c}}\index{\-S\-T\-M32\-F10x/pios\-\_\-tim.\-c@{\-S\-T\-M32\-F10x/pios\-\_\-tim.\-c}!\-P\-I\-O\-S\-\_\-\-T\-I\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C@{\-P\-I\-O\-S\-\_\-\-T\-I\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}}\item[{\em 
+\hypertarget{_s_t_m32_f10x_2pios__tim_8c_gga7d425167804fd43bc76fe29c11386a6ca0c5dc16440e893937250b8ab7e88f777}{\-P\-I\-O\-S\-\_\-\-T\-I\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}\label{_s_t_m32_f10x_2pios__tim_8c_gga7d425167804fd43bc76fe29c11386a6ca0c5dc16440e893937250b8ab7e88f777}
+}]\end{description}
+\end{Desc}
+
+
+
+\-Definition at line 6 of file pios\-\_\-tim.\-c.
+
+
+
+\subsection{\-Function \-Documentation}
+\hypertarget{_s_t_m32_f10x_2pios__tim_8c_ga354d20ebcb9396fb9b160590fcef9cee}{\index{\-S\-T\-M32\-F10x/pios\-\_\-tim.\-c@{\-S\-T\-M32\-F10x/pios\-\_\-tim.\-c}!for@{for}}
+\index{for@{for}!STM32F10x/pios_tim.c@{\-S\-T\-M32\-F10x/pios\-\_\-tim.\-c}}
+\subsubsection[{for}]{\setlength{\rightskip}{0pt plus 5cm}{\bf for} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{_s_t_m32_f10x_2pios__tim_8c_ga354d20ebcb9396fb9b160590fcef9cee}
+
+
+\-Definition at line 302 of file pios\-\_\-tim.\-c.
+
+\hypertarget{_s_t_m32_f10x_2pios__tim_8c_a7f5717527aad92ccdff6c7a1841754f7}{\index{\-S\-T\-M32\-F10x/pios\-\_\-tim.\-c@{\-S\-T\-M32\-F10x/pios\-\_\-tim.\-c}!\-P\-I\-O\-S\-\_\-\-T\-I\-M\-\_\-\-Init\-Channels@{\-P\-I\-O\-S\-\_\-\-T\-I\-M\-\_\-\-Init\-Channels}}
+\index{\-P\-I\-O\-S\-\_\-\-T\-I\-M\-\_\-\-Init\-Channels@{\-P\-I\-O\-S\-\_\-\-T\-I\-M\-\_\-\-Init\-Channels}!STM32F10x/pios_tim.c@{\-S\-T\-M32\-F10x/pios\-\_\-tim.\-c}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-T\-I\-M\-\_\-\-Init\-Channels}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-P\-I\-O\-S\-\_\-\-T\-I\-M\-\_\-\-Init\-Channels} (
+\begin{DoxyParamCaption}
+\item[{uint32\-\_\-t $\ast$}]{tim\-\_\-id, }
+\item[{const struct {\bf pios\-\_\-tim\-\_\-channel} $\ast$}]{channels, }
+\item[{uint8\-\_\-t}]{num\-\_\-channels, }
+\item[{const struct {\bf pios\-\_\-tim\-\_\-callbacks} $\ast$}]{callbacks, }
+\item[{uint32\-\_\-t}]{context}
+\end{DoxyParamCaption}
+)}}\label{_s_t_m32_f10x_2pios__tim_8c_a7f5717527aad92ccdff6c7a1841754f7}
+
+
+\-Definition at line 108 of file pios\-\_\-tim.\-c.
+
+\hypertarget{_s_t_m32_f10x_2pios__tim_8c_a091c161ba7b19b91067616f0cbd768fc}{\index{\-S\-T\-M32\-F10x/pios\-\_\-tim.\-c@{\-S\-T\-M32\-F10x/pios\-\_\-tim.\-c}!\-P\-I\-O\-S\-\_\-\-T\-I\-M\-\_\-\-Init\-Clock@{\-P\-I\-O\-S\-\_\-\-T\-I\-M\-\_\-\-Init\-Clock}}
+\index{\-P\-I\-O\-S\-\_\-\-T\-I\-M\-\_\-\-Init\-Clock@{\-P\-I\-O\-S\-\_\-\-T\-I\-M\-\_\-\-Init\-Clock}!STM32F10x/pios_tim.c@{\-S\-T\-M32\-F10x/pios\-\_\-tim.\-c}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-T\-I\-M\-\_\-\-Init\-Clock}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-P\-I\-O\-S\-\_\-\-T\-I\-M\-\_\-\-Init\-Clock} (
+\begin{DoxyParamCaption}
+\item[{const struct {\bf pios\-\_\-tim\-\_\-clock\-\_\-cfg} $\ast$}]{cfg}
+\end{DoxyParamCaption}
+)}}\label{_s_t_m32_f10x_2pios__tim_8c_a091c161ba7b19b91067616f0cbd768fc}
+
+
+\-Definition at line 59 of file pios\-\_\-tim.\-c.
+
+\hypertarget{_s_t_m32_f10x_2pios__tim_8c_gae8a61b27afdb07c70d6b863c44284ca6}{\index{\-S\-T\-M32\-F10x/pios\-\_\-tim.\-c@{\-S\-T\-M32\-F10x/pios\-\_\-tim.\-c}!\-T\-I\-M1\-\_\-\-C\-C\-\_\-\-I\-R\-Q\-Handler@{\-T\-I\-M1\-\_\-\-C\-C\-\_\-\-I\-R\-Q\-Handler}}
+\index{\-T\-I\-M1\-\_\-\-C\-C\-\_\-\-I\-R\-Q\-Handler@{\-T\-I\-M1\-\_\-\-C\-C\-\_\-\-I\-R\-Q\-Handler}!STM32F10x/pios_tim.c@{\-S\-T\-M32\-F10x/pios\-\_\-tim.\-c}}
+\subsubsection[{\-T\-I\-M1\-\_\-\-C\-C\-\_\-\-I\-R\-Q\-Handler}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-T\-I\-M1\-\_\-\-C\-C\-\_\-\-I\-R\-Q\-Handler} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{_s_t_m32_f10x_2pios__tim_8c_gae8a61b27afdb07c70d6b863c44284ca6}
+
+
+\-Definition at line 374 of file pios\-\_\-tim.\-c.
+
+\hypertarget{_s_t_m32_f10x_2pios__tim_8c_a51741dbf9b0de1b8b56b5a6f1ef2e694}{\index{\-S\-T\-M32\-F10x/pios\-\_\-tim.\-c@{\-S\-T\-M32\-F10x/pios\-\_\-tim.\-c}!\-T\-I\-M1\-\_\-\-U\-P\-\_\-\-I\-R\-Q\-Handler@{\-T\-I\-M1\-\_\-\-U\-P\-\_\-\-I\-R\-Q\-Handler}}
+\index{\-T\-I\-M1\-\_\-\-U\-P\-\_\-\-I\-R\-Q\-Handler@{\-T\-I\-M1\-\_\-\-U\-P\-\_\-\-I\-R\-Q\-Handler}!STM32F10x/pios_tim.c@{\-S\-T\-M32\-F10x/pios\-\_\-tim.\-c}}
+\subsubsection[{\-T\-I\-M1\-\_\-\-U\-P\-\_\-\-I\-R\-Q\-Handler}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-T\-I\-M1\-\_\-\-U\-P\-\_\-\-I\-R\-Q\-Handler} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{_s_t_m32_f10x_2pios__tim_8c_a51741dbf9b0de1b8b56b5a6f1ef2e694}
+
+
+\-Definition at line 368 of file pios\-\_\-tim.\-c.
+
+\hypertarget{_s_t_m32_f10x_2pios__tim_8c_ga38ad4725462bdc5e86c4ead4f04b9fc2}{\index{\-S\-T\-M32\-F10x/pios\-\_\-tim.\-c@{\-S\-T\-M32\-F10x/pios\-\_\-tim.\-c}!\-T\-I\-M2\-\_\-\-I\-R\-Q\-Handler@{\-T\-I\-M2\-\_\-\-I\-R\-Q\-Handler}}
+\index{\-T\-I\-M2\-\_\-\-I\-R\-Q\-Handler@{\-T\-I\-M2\-\_\-\-I\-R\-Q\-Handler}!STM32F10x/pios_tim.c@{\-S\-T\-M32\-F10x/pios\-\_\-tim.\-c}}
+\subsubsection[{\-T\-I\-M2\-\_\-\-I\-R\-Q\-Handler}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-T\-I\-M2\-\_\-\-I\-R\-Q\-Handler} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{_s_t_m32_f10x_2pios__tim_8c_ga38ad4725462bdc5e86c4ead4f04b9fc2}
+
+
+\-Definition at line 380 of file pios\-\_\-tim.\-c.
+
+\hypertarget{_s_t_m32_f10x_2pios__tim_8c_ac8e51d2183b5230cbd5481f8867adce9}{\index{\-S\-T\-M32\-F10x/pios\-\_\-tim.\-c@{\-S\-T\-M32\-F10x/pios\-\_\-tim.\-c}!\-T\-I\-M3\-\_\-\-I\-R\-Q\-Handler@{\-T\-I\-M3\-\_\-\-I\-R\-Q\-Handler}}
+\index{\-T\-I\-M3\-\_\-\-I\-R\-Q\-Handler@{\-T\-I\-M3\-\_\-\-I\-R\-Q\-Handler}!STM32F10x/pios_tim.c@{\-S\-T\-M32\-F10x/pios\-\_\-tim.\-c}}
+\subsubsection[{\-T\-I\-M3\-\_\-\-I\-R\-Q\-Handler}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-T\-I\-M3\-\_\-\-I\-R\-Q\-Handler} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{_s_t_m32_f10x_2pios__tim_8c_ac8e51d2183b5230cbd5481f8867adce9}
+
+
+\-Definition at line 386 of file pios\-\_\-tim.\-c.
+
+\hypertarget{_s_t_m32_f10x_2pios__tim_8c_ga7133f3f78767503641d307386e68bd28}{\index{\-S\-T\-M32\-F10x/pios\-\_\-tim.\-c@{\-S\-T\-M32\-F10x/pios\-\_\-tim.\-c}!\-T\-I\-M4\-\_\-\-I\-R\-Q\-Handler@{\-T\-I\-M4\-\_\-\-I\-R\-Q\-Handler}}
+\index{\-T\-I\-M4\-\_\-\-I\-R\-Q\-Handler@{\-T\-I\-M4\-\_\-\-I\-R\-Q\-Handler}!STM32F10x/pios_tim.c@{\-S\-T\-M32\-F10x/pios\-\_\-tim.\-c}}
+\subsubsection[{\-T\-I\-M4\-\_\-\-I\-R\-Q\-Handler}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-T\-I\-M4\-\_\-\-I\-R\-Q\-Handler} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{_s_t_m32_f10x_2pios__tim_8c_ga7133f3f78767503641d307386e68bd28}
+
+
+\-Definition at line 392 of file pios\-\_\-tim.\-c.
+
+\hypertarget{_s_t_m32_f10x_2pios__tim_8c_a5e66446caf21dd90191dc07a13ce2378}{\index{\-S\-T\-M32\-F10x/pios\-\_\-tim.\-c@{\-S\-T\-M32\-F10x/pios\-\_\-tim.\-c}!\-T\-I\-M5\-\_\-\-I\-R\-Q\-Handler@{\-T\-I\-M5\-\_\-\-I\-R\-Q\-Handler}}
+\index{\-T\-I\-M5\-\_\-\-I\-R\-Q\-Handler@{\-T\-I\-M5\-\_\-\-I\-R\-Q\-Handler}!STM32F10x/pios_tim.c@{\-S\-T\-M32\-F10x/pios\-\_\-tim.\-c}}
+\subsubsection[{\-T\-I\-M5\-\_\-\-I\-R\-Q\-Handler}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-T\-I\-M5\-\_\-\-I\-R\-Q\-Handler} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{_s_t_m32_f10x_2pios__tim_8c_a5e66446caf21dd90191dc07a13ce2378}
+
+
+\-Definition at line 398 of file pios\-\_\-tim.\-c.
+
+\hypertarget{_s_t_m32_f10x_2pios__tim_8c_a0453d4621224d4aed7b6f727f12657b2}{\index{\-S\-T\-M32\-F10x/pios\-\_\-tim.\-c@{\-S\-T\-M32\-F10x/pios\-\_\-tim.\-c}!\-T\-I\-M6\-\_\-\-I\-R\-Q\-Handler@{\-T\-I\-M6\-\_\-\-I\-R\-Q\-Handler}}
+\index{\-T\-I\-M6\-\_\-\-I\-R\-Q\-Handler@{\-T\-I\-M6\-\_\-\-I\-R\-Q\-Handler}!STM32F10x/pios_tim.c@{\-S\-T\-M32\-F10x/pios\-\_\-tim.\-c}}
+\subsubsection[{\-T\-I\-M6\-\_\-\-I\-R\-Q\-Handler}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-T\-I\-M6\-\_\-\-I\-R\-Q\-Handler} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{_s_t_m32_f10x_2pios__tim_8c_a0453d4621224d4aed7b6f727f12657b2}
+
+
+\-Definition at line 404 of file pios\-\_\-tim.\-c.
+
+\hypertarget{_s_t_m32_f10x_2pios__tim_8c_ga98cff83252098363b2dbca9608df964e}{\index{\-S\-T\-M32\-F10x/pios\-\_\-tim.\-c@{\-S\-T\-M32\-F10x/pios\-\_\-tim.\-c}!\-T\-I\-M7\-\_\-\-I\-R\-Q\-Handler@{\-T\-I\-M7\-\_\-\-I\-R\-Q\-Handler}}
+\index{\-T\-I\-M7\-\_\-\-I\-R\-Q\-Handler@{\-T\-I\-M7\-\_\-\-I\-R\-Q\-Handler}!STM32F10x/pios_tim.c@{\-S\-T\-M32\-F10x/pios\-\_\-tim.\-c}}
+\subsubsection[{\-T\-I\-M7\-\_\-\-I\-R\-Q\-Handler}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-T\-I\-M7\-\_\-\-I\-R\-Q\-Handler} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{_s_t_m32_f10x_2pios__tim_8c_ga98cff83252098363b2dbca9608df964e}
+
+
+\-Definition at line 410 of file pios\-\_\-tim.\-c.
+
+\hypertarget{_s_t_m32_f10x_2pios__tim_8c_ga96e44d6fe80524f038da6254514316a4}{\index{\-S\-T\-M32\-F10x/pios\-\_\-tim.\-c@{\-S\-T\-M32\-F10x/pios\-\_\-tim.\-c}!\-T\-I\-M8\-\_\-\-C\-C\-\_\-\-I\-R\-Q\-Handler@{\-T\-I\-M8\-\_\-\-C\-C\-\_\-\-I\-R\-Q\-Handler}}
+\index{\-T\-I\-M8\-\_\-\-C\-C\-\_\-\-I\-R\-Q\-Handler@{\-T\-I\-M8\-\_\-\-C\-C\-\_\-\-I\-R\-Q\-Handler}!STM32F10x/pios_tim.c@{\-S\-T\-M32\-F10x/pios\-\_\-tim.\-c}}
+\subsubsection[{\-T\-I\-M8\-\_\-\-C\-C\-\_\-\-I\-R\-Q\-Handler}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-T\-I\-M8\-\_\-\-C\-C\-\_\-\-I\-R\-Q\-Handler} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{_s_t_m32_f10x_2pios__tim_8c_ga96e44d6fe80524f038da6254514316a4}
+
+
+\-Definition at line 422 of file pios\-\_\-tim.\-c.
+
+\hypertarget{_s_t_m32_f10x_2pios__tim_8c_a255e5267ee3275b665940ed1a61ae3ce}{\index{\-S\-T\-M32\-F10x/pios\-\_\-tim.\-c@{\-S\-T\-M32\-F10x/pios\-\_\-tim.\-c}!\-T\-I\-M8\-\_\-\-U\-P\-\_\-\-I\-R\-Q\-Handler@{\-T\-I\-M8\-\_\-\-U\-P\-\_\-\-I\-R\-Q\-Handler}}
+\index{\-T\-I\-M8\-\_\-\-U\-P\-\_\-\-I\-R\-Q\-Handler@{\-T\-I\-M8\-\_\-\-U\-P\-\_\-\-I\-R\-Q\-Handler}!STM32F10x/pios_tim.c@{\-S\-T\-M32\-F10x/pios\-\_\-tim.\-c}}
+\subsubsection[{\-T\-I\-M8\-\_\-\-U\-P\-\_\-\-I\-R\-Q\-Handler}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-T\-I\-M8\-\_\-\-U\-P\-\_\-\-I\-R\-Q\-Handler} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{_s_t_m32_f10x_2pios__tim_8c_a255e5267ee3275b665940ed1a61ae3ce}
+
+
+\-Definition at line 416 of file pios\-\_\-tim.\-c.
+
+
+
+\subsection{\-Variable \-Documentation}
+\hypertarget{_s_t_m32_f10x_2pios__tim_8c_a757344f09097232d715d55cbf9d61a43}{\index{\-S\-T\-M32\-F10x/pios\-\_\-tim.\-c@{\-S\-T\-M32\-F10x/pios\-\_\-tim.\-c}!val@{val}}
+\index{val@{val}!STM32F10x/pios_tim.c@{\-S\-T\-M32\-F10x/pios\-\_\-tim.\-c}}
+\subsubsection[{val}]{\setlength{\rightskip}{0pt plus 5cm}uint16\-\_\-t {\bf val} = 0}}\label{_s_t_m32_f10x_2pios__tim_8c_a757344f09097232d715d55cbf9d61a43}
+
+
+\-Definition at line 301 of file pios\-\_\-tim.\-c.
+

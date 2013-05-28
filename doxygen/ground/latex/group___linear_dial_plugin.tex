@@ -1,0 +1,970 @@
+\hypertarget{group___linear_dial_plugin}{\section{\-Linear \-Dial \-Plugin}
+\label{group___linear_dial_plugin}\index{\-Linear Dial Plugin@{\-Linear Dial Plugin}}
+}
+
+
+\-Impliments a gadget that displays linear gauges.  
+
+
+\subsection*{\-Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{class_lineardial_gadget}{\-Lineardial\-Gadget}
+\item 
+class \hyperlink{class_lineardial_gadget_configuration}{\-Lineardial\-Gadget\-Configuration}
+\item 
+class \hyperlink{class_lineardial_gadget_factory}{\-Lineardial\-Gadget\-Factory}
+\item 
+class \hyperlink{class_lineardial_gadget_options_page}{\-Lineardial\-Gadget\-Options\-Page}
+\item 
+class \hyperlink{class_lineardial_gadget_widget}{\-Lineardial\-Gadget\-Widget}
+\item 
+class \hyperlink{class_lineardial_plugin}{\-Lineardial\-Plugin}
+\end{DoxyCompactItemize}
+\subsection*{\-Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+namespace \hyperlink{namespace_core}{\-Core}
+\begin{DoxyCompactList}\small\item\em \-The \hyperlink{namespace_core}{\-Core} namespace contains all classes that make up the \hyperlink{namespace_core}{\-Core} plugin which constitute the basic functionality of the \-Tau \-Labs \-G\-C\-S. \end{DoxyCompactList}\item 
+namespace \hyperlink{namespace_ui}{\-Ui}
+\end{DoxyCompactItemize}
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___linear_dial_plugin_gae00c0aad0b87c017df5b0305d6fb1c5b}{\-Lineardial\-Gadget\-::\-Lineardial\-Gadget} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} class\-Id, \hyperlink{class_lineardial_gadget_widget}{\-Lineardial\-Gadget\-Widget} $\ast$widget, \-Q\-Widget $\ast$parent=0)
+\item 
+\hyperlink{group___linear_dial_plugin_gaee31b5207ca412de6722401f392a8fd0}{\-Lineardial\-Gadget\-::$\sim$\-Lineardial\-Gadget} ()
+\item 
+\-Q\-Widget $\ast$ \hyperlink{group___linear_dial_plugin_ga65e61a0bf52e2ab9b2fe4ba7e3ae3b96}{\-Lineardial\-Gadget\-::widget} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___linear_dial_plugin_ga6bdccc9d4347fd8f04ea5e893877a30f}{\-Lineardial\-Gadget\-::load\-Configuration} (\-I\-U\-A\-V\-Gadget\-Configuration $\ast$config)
+\item 
+\hyperlink{group___linear_dial_plugin_ga49b8e3de979573e8574a47a355fb537f}{\-Lineardial\-Gadget\-Configuration\-::\-Lineardial\-Gadget\-Configuration} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} class\-Id, \-Q\-Settings $\ast$q\-Settings=0, \-Q\-Object $\ast$parent=0)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___linear_dial_plugin_ga20902ca5cb846c1c93ac9d0ef3799eca}{\-Lineardial\-Gadget\-Configuration\-::set\-Dial\-File} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} filename)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___linear_dial_plugin_gaa4baee59ed6a862a9c31f64b2349acdc}{\-Lineardial\-Gadget\-Configuration\-::set\-Range} (double min, double max)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___linear_dial_plugin_ga126eafb9e37022d0160d544665e9687d}{\-Lineardial\-Gadget\-Configuration\-::set\-Green\-Range} (double min, double max)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___linear_dial_plugin_gae1437ef9469c5a813ad0c76f04b186d2}{\-Lineardial\-Gadget\-Configuration\-::set\-Yellow\-Range} (double min, double max)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___linear_dial_plugin_gab1a3bcf875948fdb2203a511b7245e36}{\-Lineardial\-Gadget\-Configuration\-::set\-Red\-Range} (double min, double max)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___linear_dial_plugin_ga1aedc8fa6dded9d30aacde381e4b068a}{\-Lineardial\-Gadget\-Configuration\-::set\-Font} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} text)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___linear_dial_plugin_ga59dcd0145c59b1e63f4f004d1b8cc22a}{\-Lineardial\-Gadget\-Configuration\-::set\-Factor} (double val)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___linear_dial_plugin_gac027133a81aa51ae990681d8ece122e6}{\-Lineardial\-Gadget\-Configuration\-::set\-Decimal\-Places} (int val)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___linear_dial_plugin_gab0e129448ff276e38c2fc87cb8883e62}{\-Lineardial\-Gadget\-Configuration\-::set\-Source\-Data\-Object} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} text)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___linear_dial_plugin_gace43fd36313161f4a963e2b95a445354}{\-Lineardial\-Gadget\-Configuration\-::set\-Source\-Obj\-Field} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} text)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___linear_dial_plugin_ga3834f5a345c01cce74297c2a65a82523}{\-Lineardial\-Gadget\-Configuration\-::set\-Use\-Open\-G\-L} (bool flag)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___linear_dial_plugin_ga44cbe980684b267ae41060c0428e00ce}{\-Lineardial\-Gadget\-Configuration\-::get\-Dial\-File} ()
+\item 
+double \hyperlink{group___linear_dial_plugin_ga43b18753744079052cb3b4e58a226eab}{\-Lineardial\-Gadget\-Configuration\-::get\-Min} ()
+\item 
+double \hyperlink{group___linear_dial_plugin_gae8b0681f133693a66256022babdca5cc}{\-Lineardial\-Gadget\-Configuration\-::get\-Max} ()
+\item 
+double \hyperlink{group___linear_dial_plugin_gaac4e3bef42979801094f4b3c47d83a07}{\-Lineardial\-Gadget\-Configuration\-::get\-Green\-Min} ()
+\item 
+double \hyperlink{group___linear_dial_plugin_gaf0f52dd07291d938390b228e8e0a90f2}{\-Lineardial\-Gadget\-Configuration\-::get\-Green\-Max} ()
+\item 
+double \hyperlink{group___linear_dial_plugin_gad39b6746e6b3b7c0e6d20794d2f494d9}{\-Lineardial\-Gadget\-Configuration\-::get\-Yellow\-Min} ()
+\item 
+double \hyperlink{group___linear_dial_plugin_ga2c58391f9aa712de50504d4437b54ded}{\-Lineardial\-Gadget\-Configuration\-::get\-Yellow\-Max} ()
+\item 
+double \hyperlink{group___linear_dial_plugin_ga2144cb1d1c1c13bd87529460a3ad88bc}{\-Lineardial\-Gadget\-Configuration\-::get\-Red\-Min} ()
+\item 
+double \hyperlink{group___linear_dial_plugin_ga022f5eeb2931bde01bb130ac6cb237b7}{\-Lineardial\-Gadget\-Configuration\-::get\-Red\-Max} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___linear_dial_plugin_ga6b635f5d74e7815014a597e5a38e5e80}{\-Lineardial\-Gadget\-Configuration\-::get\-Source\-Data\-Object} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___linear_dial_plugin_ga1de5843a26127b379137ee870ec74b89}{\-Lineardial\-Gadget\-Configuration\-::get\-Source\-Object\-Field} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___linear_dial_plugin_ga044d31fb1388d1f8b1b11f682c4e2aaa}{\-Lineardial\-Gadget\-Configuration\-::get\-Font} ()
+\item 
+int \hyperlink{group___linear_dial_plugin_gab0a4ac1f433766548d4f87e0d4c1c499}{\-Lineardial\-Gadget\-Configuration\-::get\-Decimal\-Places} ()
+\item 
+double \hyperlink{group___linear_dial_plugin_ga4bb648d826a5f7847ecdaa288a477b14}{\-Lineardial\-Gadget\-Configuration\-::get\-Factor} ()
+\item 
+bool \hyperlink{group___linear_dial_plugin_ga74595eab1c81ed96361010ba7f770bd1}{\-Lineardial\-Gadget\-Configuration\-::use\-Open\-G\-L} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___linear_dial_plugin_ga09129321da61b2494dca4ceafa18b996}{\-Lineardial\-Gadget\-Configuration\-::save\-Config} (\-Q\-Settings $\ast$settings) const 
+\item 
+\-I\-U\-A\-V\-Gadget\-Configuration $\ast$ \hyperlink{group___linear_dial_plugin_ga4b5d2c9802ec3b863732d6f707a1befe}{\-Lineardial\-Gadget\-Configuration\-::clone} ()
+\item 
+\hyperlink{group___linear_dial_plugin_ga65f46ec9f31c70119c149accc51b304e}{\-Lineardial\-Gadget\-Factory\-::\-Lineardial\-Gadget\-Factory} (\-Q\-Object $\ast$parent=0)
+\item 
+\hyperlink{group___linear_dial_plugin_ga85102065ae14d80cf83202637c76b94c}{\-Lineardial\-Gadget\-Factory\-::$\sim$\-Lineardial\-Gadget\-Factory} ()
+\item 
+\hyperlink{class_core_1_1_i_u_a_v_gadget}{\-Core\-::\-I\-U\-A\-V\-Gadget} $\ast$ \hyperlink{group___linear_dial_plugin_gad0365f5bab013eac15acf924e0bc2821}{\-Lineardial\-Gadget\-Factory\-::create\-Gadget} (\-Q\-Widget $\ast$parent)
+\item 
+\-I\-U\-A\-V\-Gadget\-Configuration $\ast$ \hyperlink{group___linear_dial_plugin_ga280a4a9d168f6d6b477c30630fdb128b}{\-Lineardial\-Gadget\-Factory\-::create\-Configuration} (\-Q\-Settings $\ast$q\-Settings)
+\item 
+\-I\-Options\-Page $\ast$ \hyperlink{group___linear_dial_plugin_gab8b7a7edac05d576e192c715acf48a22}{\-Lineardial\-Gadget\-Factory\-::create\-Options\-Page} (\-I\-U\-A\-V\-Gadget\-Configuration $\ast$config)
+\item 
+\hyperlink{group___linear_dial_plugin_gaa49909f8404b5303882872f6bb8ccdb2}{\-Lineardial\-Gadget\-Options\-Page\-::\-Lineardial\-Gadget\-Options\-Page} (\hyperlink{class_lineardial_gadget_configuration}{\-Lineardial\-Gadget\-Configuration} $\ast$config, \-Q\-Object $\ast$parent=0)
+\item 
+\-Q\-Widget $\ast$ \hyperlink{group___linear_dial_plugin_ga7498a19341fff9fe87afe47efb379a00}{\-Lineardial\-Gadget\-Options\-Page\-::create\-Page} (\-Q\-Widget $\ast$parent)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___linear_dial_plugin_gace7e2623dbc910a445c0f4f772fb85cb}{\-Lineardial\-Gadget\-Options\-Page\-::apply} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___linear_dial_plugin_ga5afd30269776667128093b5ec5bef9de}{\-Lineardial\-Gadget\-Options\-Page\-::finish} ()
+\item 
+\hyperlink{group___linear_dial_plugin_ga67af774f5fa476bda0dce880d57348a7}{\-Lineardial\-Gadget\-Widget\-::\-Lineardial\-Gadget\-Widget} (\-Q\-Widget $\ast$parent=0)
+\item 
+\hyperlink{group___linear_dial_plugin_ga46b2275fc21a5a5fc14809f31be48674}{\-Lineardial\-Gadget\-Widget\-::$\sim$\-Lineardial\-Gadget\-Widget} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___linear_dial_plugin_ga6963a6b647b9d9def0497b60df89d576}{\-Lineardial\-Gadget\-Widget\-::enable\-Open\-G\-L} (bool flag)
+\begin{DoxyCompactList}\small\item\em \-Enables/\-Disables \-Open\-G\-L. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___linear_dial_plugin_ga5242e6b2ecad5fb0d80b13f5e989c671}{\-Lineardial\-Gadget\-Widget\-::set\-Dial\-File} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} dfn)
+\begin{DoxyCompactList}\small\item\em \-Setup dial using its master \-S\-V\-G template. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___linear_dial_plugin_ga90222159d9de45fe9f4321c30e3f536a}{\-Lineardial\-Gadget\-Widget\-::paint} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___linear_dial_plugin_ga659bce00c419425ed6e5e03095b06e3c}{\-Lineardial\-Gadget\-Widget\-::set\-Range} (double min, double max)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___linear_dial_plugin_ga46b699d52d4dea2d6b6ff2b37a5657b0}{\-Lineardial\-Gadget\-Widget\-::set\-Green\-Range} (double min, double max)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___linear_dial_plugin_ga109a0d550537110c81433ec36eaea6ba}{\-Lineardial\-Gadget\-Widget\-::set\-Yellow\-Range} (double min, double max)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___linear_dial_plugin_gac43bdb344ff4fa3376e0c38358b9ae22}{\-Lineardial\-Gadget\-Widget\-::set\-Red\-Range} (double min, double max)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___linear_dial_plugin_gae8c680251e4f8898f8653b6aede9fc81}{\-Lineardial\-Gadget\-Widget\-::connect\-Input} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} obj, \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} field)
+\begin{DoxyCompactList}\small\item\em \-Connects the widget to the relevant \-U\-A\-V\-Objects. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___linear_dial_plugin_ga68d6c562622c590886f5d3efceac4349}{\-Lineardial\-Gadget\-Widget\-::set\-Index} (double val)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___linear_dial_plugin_ga65e46979b848fd423f40d6b001e04ffa}{\-Lineardial\-Gadget\-Widget\-::set\-Dial\-Font} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} font\-Props)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___linear_dial_plugin_gad4c7bf09ce46f89db163dee80784418b}{\-Lineardial\-Gadget\-Widget\-::set\-Factor} (double val)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___linear_dial_plugin_ga1c62c1ba4256fcbe4654bb904003c3b5}{\-Lineardial\-Gadget\-Widget\-::set\-Decimal\-Places} (int val)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___linear_dial_plugin_ga80239da240f9678e9cf4d2de3d9f6568}{\-Lineardial\-Gadget\-Widget\-::paint\-Event} (\-Q\-Paint\-Event $\ast$event)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___linear_dial_plugin_ga6f18ff48bf1851067cbd13d56f04fd73}{\-Lineardial\-Gadget\-Widget\-::resize\-Event} (\-Q\-Resize\-Event $\ast$event)
+\item 
+\hyperlink{group___linear_dial_plugin_gaeea9f7a365f52b1aef0da13809fabbc6}{\-Lineardial\-Plugin\-::\-Lineardial\-Plugin} ()
+\item 
+\hyperlink{group___linear_dial_plugin_ga945fcb418fce051d1998af913f4b6c6f}{\-Lineardial\-Plugin\-::$\sim$\-Lineardial\-Plugin} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___linear_dial_plugin_ga383081754a198481bde0fce79b7c01a9}{\-Lineardial\-Plugin\-::extensions\-Initialized} ()
+\item 
+bool \hyperlink{group___linear_dial_plugin_gab9c622169ddf91a97d6bd560b4f24f6f}{\-Lineardial\-Plugin\-::initialize} (const \-Q\-String\-List \&arguments, \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} $\ast$error\-String)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___linear_dial_plugin_ga7a47ee89aef6192202148d71bf6a98a3}{\-Lineardial\-Plugin\-::shutdown} ()
+\end{DoxyCompactItemize}
+\subsection*{\-Public \-Slots}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___linear_dial_plugin_gae4ba61f22d069348e46919a30913ee34}{\-Lineardial\-Gadget\-Widget\-::update\-Index} (\hyperlink{class_u_a_v_object}{\-U\-A\-V\-Object} $\ast$object1)
+\begin{DoxyCompactList}\small\item\em \-Called by the \hyperlink{class_u_a_v_object}{\-U\-A\-V\-Object} which got updated. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-Impliments a gadget that displays linear gauges. \-Implements a gadget that displays linear gauges and generic indicators.
+
+\-Implements a gadget that displays linear gauges. 
+
+\subsection{\-Function \-Documentation}
+\hypertarget{group___linear_dial_plugin_gace7e2623dbc910a445c0f4f772fb85cb}{\index{\-Linear Dial Plugin@{\-Linear Dial Plugin}!apply@{apply}}
+\index{apply@{apply}!Linear Dial Plugin@{\-Linear Dial Plugin}}
+\subsubsection[{apply}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Lineardial\-Gadget\-Options\-Page\-::apply} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___linear_dial_plugin_gace7e2623dbc910a445c0f4f772fb85cb}
+\-Called when the user presses apply or \-O\-K.
+
+\-Saves the current values 
+
+\-Implements \hyperlink{group___core_plugin_ga05fa0c9b91da02a0f2fed11d2d6afed0}{\-Core\-::\-I\-Options\-Page}.
+
+
+
+\-Definition at line 153 of file lineardialgadgetoptionspage.\-cpp.
+
+\hypertarget{group___linear_dial_plugin_ga4b5d2c9802ec3b863732d6f707a1befe}{\index{\-Linear Dial Plugin@{\-Linear Dial Plugin}!clone@{clone}}
+\index{clone@{clone}!Linear Dial Plugin@{\-Linear Dial Plugin}}
+\subsubsection[{clone}]{\setlength{\rightskip}{0pt plus 5cm}\-I\-U\-A\-V\-Gadget\-Configuration $\ast$ {\bf \-Lineardial\-Gadget\-Configuration\-::clone} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___linear_dial_plugin_ga4b5d2c9802ec3b863732d6f707a1befe}
+\-Clones a configuration. 
+
+\-Implements \hyperlink{group___core_plugin_ga35f72dc89919925fd591fa509ebbf7dc}{\-Core\-::\-I\-U\-A\-V\-Gadget\-Configuration}.
+
+
+
+\-Definition at line 77 of file lineardialgadgetconfiguration.\-cpp.
+
+\hypertarget{group___linear_dial_plugin_gae8c680251e4f8898f8653b6aede9fc81}{\index{\-Linear Dial Plugin@{\-Linear Dial Plugin}!connect\-Input@{connect\-Input}}
+\index{connect\-Input@{connect\-Input}!Linear Dial Plugin@{\-Linear Dial Plugin}}
+\subsubsection[{connect\-Input}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Lineardial\-Gadget\-Widget\-::connect\-Input} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Q\-String}}]{obj, }
+\item[{{\bf \-Q\-String}}]{field}
+\end{DoxyParamCaption}
+)}}\label{group___linear_dial_plugin_gae8c680251e4f8898f8653b6aede9fc81}
+
+
+\-Connects the widget to the relevant \-U\-A\-V\-Objects. 
+
+
+
+\-Definition at line 78 of file lineardialgadgetwidget.\-cpp.
+
+\hypertarget{group___linear_dial_plugin_ga280a4a9d168f6d6b477c30630fdb128b}{\index{\-Linear Dial Plugin@{\-Linear Dial Plugin}!create\-Configuration@{create\-Configuration}}
+\index{create\-Configuration@{create\-Configuration}!Linear Dial Plugin@{\-Linear Dial Plugin}}
+\subsubsection[{create\-Configuration}]{\setlength{\rightskip}{0pt plus 5cm}\-I\-U\-A\-V\-Gadget\-Configuration $\ast$ {\bf \-Lineardial\-Gadget\-Factory\-::create\-Configuration} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Settings $\ast$}]{q\-Settings}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___linear_dial_plugin_ga280a4a9d168f6d6b477c30630fdb128b}
+
+
+\-Reimplemented from \hyperlink{group___core_plugin_gae26104d7db90a65069c2bb654ecd5026}{\-Core\-::\-I\-U\-A\-V\-Gadget\-Factory}.
+
+
+
+\-Definition at line 51 of file lineardialgadgetfactory.\-cpp.
+
+\hypertarget{group___linear_dial_plugin_gad0365f5bab013eac15acf924e0bc2821}{\index{\-Linear Dial Plugin@{\-Linear Dial Plugin}!create\-Gadget@{create\-Gadget}}
+\index{create\-Gadget@{create\-Gadget}!Linear Dial Plugin@{\-Linear Dial Plugin}}
+\subsubsection[{create\-Gadget}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Core\-::\-I\-U\-A\-V\-Gadget} $\ast$ {\bf \-Lineardial\-Gadget\-Factory\-::create\-Gadget} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Widget $\ast$}]{parent}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___linear_dial_plugin_gad0365f5bab013eac15acf924e0bc2821}
+
+
+\-Implements \hyperlink{group___core_plugin_ga72d6fe5bbef9f4fa2333028c7a324f66}{\-Core\-::\-I\-U\-A\-V\-Gadget\-Factory}.
+
+
+
+\-Definition at line 45 of file lineardialgadgetfactory.\-cpp.
+
+\hypertarget{group___linear_dial_plugin_gab8b7a7edac05d576e192c715acf48a22}{\index{\-Linear Dial Plugin@{\-Linear Dial Plugin}!create\-Options\-Page@{create\-Options\-Page}}
+\index{create\-Options\-Page@{create\-Options\-Page}!Linear Dial Plugin@{\-Linear Dial Plugin}}
+\subsubsection[{create\-Options\-Page}]{\setlength{\rightskip}{0pt plus 5cm}\-I\-Options\-Page $\ast$ {\bf \-Lineardial\-Gadget\-Factory\-::create\-Options\-Page} (
+\begin{DoxyParamCaption}
+\item[{\-I\-U\-A\-V\-Gadget\-Configuration $\ast$}]{config}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___linear_dial_plugin_gab8b7a7edac05d576e192c715acf48a22}
+
+
+\-Reimplemented from \hyperlink{group___core_plugin_gaf11d34909f72b86882937f7a946ad0da}{\-Core\-::\-I\-U\-A\-V\-Gadget\-Factory}.
+
+
+
+\-Definition at line 56 of file lineardialgadgetfactory.\-cpp.
+
+\hypertarget{group___linear_dial_plugin_ga7498a19341fff9fe87afe47efb379a00}{\index{\-Linear Dial Plugin@{\-Linear Dial Plugin}!create\-Page@{create\-Page}}
+\index{create\-Page@{create\-Page}!Linear Dial Plugin@{\-Linear Dial Plugin}}
+\subsubsection[{create\-Page}]{\setlength{\rightskip}{0pt plus 5cm}\-Q\-Widget $\ast$ {\bf \-Lineardial\-Gadget\-Options\-Page\-::create\-Page} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Widget $\ast$}]{parent}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___linear_dial_plugin_ga7498a19341fff9fe87afe47efb379a00}
+
+
+\-Implements \hyperlink{group___core_plugin_gac70a4473b3e086d0fa9849c431fb0672}{\-Core\-::\-I\-Options\-Page}.
+
+
+
+\-Definition at line 48 of file lineardialgadgetoptionspage.\-cpp.
+
+\hypertarget{group___linear_dial_plugin_ga6963a6b647b9d9def0497b60df89d576}{\index{\-Linear Dial Plugin@{\-Linear Dial Plugin}!enable\-Open\-G\-L@{enable\-Open\-G\-L}}
+\index{enable\-Open\-G\-L@{enable\-Open\-G\-L}!Linear Dial Plugin@{\-Linear Dial Plugin}}
+\subsubsection[{enable\-Open\-G\-L}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Lineardial\-Gadget\-Widget\-::enable\-Open\-G\-L} (
+\begin{DoxyParamCaption}
+\item[{bool}]{flag}
+\end{DoxyParamCaption}
+)}}\label{group___linear_dial_plugin_ga6963a6b647b9d9def0497b60df89d576}
+
+
+\-Enables/\-Disables \-Open\-G\-L. 
+
+
+
+\-Definition at line 67 of file lineardialgadgetwidget.\-cpp.
+
+\hypertarget{group___linear_dial_plugin_ga383081754a198481bde0fce79b7c01a9}{\index{\-Linear Dial Plugin@{\-Linear Dial Plugin}!extensions\-Initialized@{extensions\-Initialized}}
+\index{extensions\-Initialized@{extensions\-Initialized}!Linear Dial Plugin@{\-Linear Dial Plugin}}
+\subsubsection[{extensions\-Initialized}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Lineardial\-Plugin\-::extensions\-Initialized} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___linear_dial_plugin_ga383081754a198481bde0fce79b7c01a9}
+\-Called after the \-I\-Plugin\-::initialize() method has been called, and after both the \-I\-Plugin\-::initialize() and \-I\-Plugin\-::extensions\-Initialized() methods of plugins that depend on this plugin have been called. \-In this method, the plugin can assume that plugins that depend on this plugin are fully 'up and running'. \-It is a good place to look in the plugin manager's object pool for objects that have been provided by dependent plugins. \begin{DoxySeeAlso}{\-See also}
+\hyperlink{group___linear_dial_plugin_gab9c622169ddf91a97d6bd560b4f24f6f}{initialize()} 
+\end{DoxySeeAlso}
+
+
+\-Implements \hyperlink{class_extension_system_1_1_i_plugin_a1db3a7fb242fca02229f9a3be4fd6610}{\-Extension\-System\-::\-I\-Plugin}.
+
+
+
+\-Definition at line 56 of file lineardialplugin.\-cpp.
+
+\hypertarget{group___linear_dial_plugin_ga5afd30269776667128093b5ec5bef9de}{\index{\-Linear Dial Plugin@{\-Linear Dial Plugin}!finish@{finish}}
+\index{finish@{finish}!Linear Dial Plugin@{\-Linear Dial Plugin}}
+\subsubsection[{finish}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Lineardial\-Gadget\-Options\-Page\-::finish} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___linear_dial_plugin_ga5afd30269776667128093b5ec5bef9de}
+
+
+\-Implements \hyperlink{group___core_plugin_ga47cf2602b6ee72a4971b1f0a4e1d887e}{\-Core\-::\-I\-Options\-Page}.
+
+
+
+\-Definition at line 204 of file lineardialgadgetoptionspage.\-cpp.
+
+\hypertarget{group___linear_dial_plugin_gab0a4ac1f433766548d4f87e0d4c1c499}{\index{\-Linear Dial Plugin@{\-Linear Dial Plugin}!get\-Decimal\-Places@{get\-Decimal\-Places}}
+\index{get\-Decimal\-Places@{get\-Decimal\-Places}!Linear Dial Plugin@{\-Linear Dial Plugin}}
+\subsubsection[{get\-Decimal\-Places}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf \-Lineardial\-Gadget\-Configuration\-::get\-Decimal\-Places} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___linear_dial_plugin_gab0a4ac1f433766548d4f87e0d4c1c499}
+
+
+\-Definition at line 74 of file lineardialgadgetconfiguration.\-h.
+
+\hypertarget{group___linear_dial_plugin_ga44cbe980684b267ae41060c0428e00ce}{\index{\-Linear Dial Plugin@{\-Linear Dial Plugin}!get\-Dial\-File@{get\-Dial\-File}}
+\index{get\-Dial\-File@{get\-Dial\-File}!Linear Dial Plugin@{\-Linear Dial Plugin}}
+\subsubsection[{get\-Dial\-File}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Q\-String} {\bf \-Lineardial\-Gadget\-Configuration\-::get\-Dial\-File} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___linear_dial_plugin_ga44cbe980684b267ae41060c0428e00ce}
+
+
+\-Definition at line 62 of file lineardialgadgetconfiguration.\-h.
+
+\hypertarget{group___linear_dial_plugin_ga4bb648d826a5f7847ecdaa288a477b14}{\index{\-Linear Dial Plugin@{\-Linear Dial Plugin}!get\-Factor@{get\-Factor}}
+\index{get\-Factor@{get\-Factor}!Linear Dial Plugin@{\-Linear Dial Plugin}}
+\subsubsection[{get\-Factor}]{\setlength{\rightskip}{0pt plus 5cm}double {\bf \-Lineardial\-Gadget\-Configuration\-::get\-Factor} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___linear_dial_plugin_ga4bb648d826a5f7847ecdaa288a477b14}
+
+
+\-Definition at line 75 of file lineardialgadgetconfiguration.\-h.
+
+\hypertarget{group___linear_dial_plugin_ga044d31fb1388d1f8b1b11f682c4e2aaa}{\index{\-Linear Dial Plugin@{\-Linear Dial Plugin}!get\-Font@{get\-Font}}
+\index{get\-Font@{get\-Font}!Linear Dial Plugin@{\-Linear Dial Plugin}}
+\subsubsection[{get\-Font}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Q\-String} {\bf \-Lineardial\-Gadget\-Configuration\-::get\-Font} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___linear_dial_plugin_ga044d31fb1388d1f8b1b11f682c4e2aaa}
+
+
+\-Definition at line 73 of file lineardialgadgetconfiguration.\-h.
+
+\hypertarget{group___linear_dial_plugin_gaf0f52dd07291d938390b228e8e0a90f2}{\index{\-Linear Dial Plugin@{\-Linear Dial Plugin}!get\-Green\-Max@{get\-Green\-Max}}
+\index{get\-Green\-Max@{get\-Green\-Max}!Linear Dial Plugin@{\-Linear Dial Plugin}}
+\subsubsection[{get\-Green\-Max}]{\setlength{\rightskip}{0pt plus 5cm}double {\bf \-Lineardial\-Gadget\-Configuration\-::get\-Green\-Max} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___linear_dial_plugin_gaf0f52dd07291d938390b228e8e0a90f2}
+
+
+\-Definition at line 66 of file lineardialgadgetconfiguration.\-h.
+
+\hypertarget{group___linear_dial_plugin_gaac4e3bef42979801094f4b3c47d83a07}{\index{\-Linear Dial Plugin@{\-Linear Dial Plugin}!get\-Green\-Min@{get\-Green\-Min}}
+\index{get\-Green\-Min@{get\-Green\-Min}!Linear Dial Plugin@{\-Linear Dial Plugin}}
+\subsubsection[{get\-Green\-Min}]{\setlength{\rightskip}{0pt plus 5cm}double {\bf \-Lineardial\-Gadget\-Configuration\-::get\-Green\-Min} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___linear_dial_plugin_gaac4e3bef42979801094f4b3c47d83a07}
+
+
+\-Definition at line 65 of file lineardialgadgetconfiguration.\-h.
+
+\hypertarget{group___linear_dial_plugin_gae8b0681f133693a66256022babdca5cc}{\index{\-Linear Dial Plugin@{\-Linear Dial Plugin}!get\-Max@{get\-Max}}
+\index{get\-Max@{get\-Max}!Linear Dial Plugin@{\-Linear Dial Plugin}}
+\subsubsection[{get\-Max}]{\setlength{\rightskip}{0pt plus 5cm}double {\bf \-Lineardial\-Gadget\-Configuration\-::get\-Max} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___linear_dial_plugin_gae8b0681f133693a66256022babdca5cc}
+
+
+\-Definition at line 64 of file lineardialgadgetconfiguration.\-h.
+
+\hypertarget{group___linear_dial_plugin_ga43b18753744079052cb3b4e58a226eab}{\index{\-Linear Dial Plugin@{\-Linear Dial Plugin}!get\-Min@{get\-Min}}
+\index{get\-Min@{get\-Min}!Linear Dial Plugin@{\-Linear Dial Plugin}}
+\subsubsection[{get\-Min}]{\setlength{\rightskip}{0pt plus 5cm}double {\bf \-Lineardial\-Gadget\-Configuration\-::get\-Min} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___linear_dial_plugin_ga43b18753744079052cb3b4e58a226eab}
+
+
+\-Definition at line 63 of file lineardialgadgetconfiguration.\-h.
+
+\hypertarget{group___linear_dial_plugin_ga022f5eeb2931bde01bb130ac6cb237b7}{\index{\-Linear Dial Plugin@{\-Linear Dial Plugin}!get\-Red\-Max@{get\-Red\-Max}}
+\index{get\-Red\-Max@{get\-Red\-Max}!Linear Dial Plugin@{\-Linear Dial Plugin}}
+\subsubsection[{get\-Red\-Max}]{\setlength{\rightskip}{0pt plus 5cm}double {\bf \-Lineardial\-Gadget\-Configuration\-::get\-Red\-Max} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___linear_dial_plugin_ga022f5eeb2931bde01bb130ac6cb237b7}
+
+
+\-Definition at line 70 of file lineardialgadgetconfiguration.\-h.
+
+\hypertarget{group___linear_dial_plugin_ga2144cb1d1c1c13bd87529460a3ad88bc}{\index{\-Linear Dial Plugin@{\-Linear Dial Plugin}!get\-Red\-Min@{get\-Red\-Min}}
+\index{get\-Red\-Min@{get\-Red\-Min}!Linear Dial Plugin@{\-Linear Dial Plugin}}
+\subsubsection[{get\-Red\-Min}]{\setlength{\rightskip}{0pt plus 5cm}double {\bf \-Lineardial\-Gadget\-Configuration\-::get\-Red\-Min} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___linear_dial_plugin_ga2144cb1d1c1c13bd87529460a3ad88bc}
+
+
+\-Definition at line 69 of file lineardialgadgetconfiguration.\-h.
+
+\hypertarget{group___linear_dial_plugin_ga6b635f5d74e7815014a597e5a38e5e80}{\index{\-Linear Dial Plugin@{\-Linear Dial Plugin}!get\-Source\-Data\-Object@{get\-Source\-Data\-Object}}
+\index{get\-Source\-Data\-Object@{get\-Source\-Data\-Object}!Linear Dial Plugin@{\-Linear Dial Plugin}}
+\subsubsection[{get\-Source\-Data\-Object}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Q\-String} {\bf \-Lineardial\-Gadget\-Configuration\-::get\-Source\-Data\-Object} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___linear_dial_plugin_ga6b635f5d74e7815014a597e5a38e5e80}
+
+
+\-Definition at line 71 of file lineardialgadgetconfiguration.\-h.
+
+\hypertarget{group___linear_dial_plugin_ga1de5843a26127b379137ee870ec74b89}{\index{\-Linear Dial Plugin@{\-Linear Dial Plugin}!get\-Source\-Object\-Field@{get\-Source\-Object\-Field}}
+\index{get\-Source\-Object\-Field@{get\-Source\-Object\-Field}!Linear Dial Plugin@{\-Linear Dial Plugin}}
+\subsubsection[{get\-Source\-Object\-Field}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Q\-String} {\bf \-Lineardial\-Gadget\-Configuration\-::get\-Source\-Object\-Field} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___linear_dial_plugin_ga1de5843a26127b379137ee870ec74b89}
+
+
+\-Definition at line 72 of file lineardialgadgetconfiguration.\-h.
+
+\hypertarget{group___linear_dial_plugin_ga2c58391f9aa712de50504d4437b54ded}{\index{\-Linear Dial Plugin@{\-Linear Dial Plugin}!get\-Yellow\-Max@{get\-Yellow\-Max}}
+\index{get\-Yellow\-Max@{get\-Yellow\-Max}!Linear Dial Plugin@{\-Linear Dial Plugin}}
+\subsubsection[{get\-Yellow\-Max}]{\setlength{\rightskip}{0pt plus 5cm}double {\bf \-Lineardial\-Gadget\-Configuration\-::get\-Yellow\-Max} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___linear_dial_plugin_ga2c58391f9aa712de50504d4437b54ded}
+
+
+\-Definition at line 68 of file lineardialgadgetconfiguration.\-h.
+
+\hypertarget{group___linear_dial_plugin_gad39b6746e6b3b7c0e6d20794d2f494d9}{\index{\-Linear Dial Plugin@{\-Linear Dial Plugin}!get\-Yellow\-Min@{get\-Yellow\-Min}}
+\index{get\-Yellow\-Min@{get\-Yellow\-Min}!Linear Dial Plugin@{\-Linear Dial Plugin}}
+\subsubsection[{get\-Yellow\-Min}]{\setlength{\rightskip}{0pt plus 5cm}double {\bf \-Lineardial\-Gadget\-Configuration\-::get\-Yellow\-Min} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___linear_dial_plugin_gad39b6746e6b3b7c0e6d20794d2f494d9}
+
+
+\-Definition at line 67 of file lineardialgadgetconfiguration.\-h.
+
+\hypertarget{group___linear_dial_plugin_gab9c622169ddf91a97d6bd560b4f24f6f}{\index{\-Linear Dial Plugin@{\-Linear Dial Plugin}!initialize@{initialize}}
+\index{initialize@{initialize}!Linear Dial Plugin@{\-Linear Dial Plugin}}
+\subsubsection[{initialize}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-Lineardial\-Plugin\-::initialize} (
+\begin{DoxyParamCaption}
+\item[{const \-Q\-String\-List \&}]{arguments, }
+\item[{{\bf \-Q\-String} $\ast$}]{error\-String}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___linear_dial_plugin_gab9c622169ddf91a97d6bd560b4f24f6f}
+\-Called after the plugin has been loaded and the \-I\-Plugin instance has been created. \-The initialize methods of plugins that depend on this plugin are called after the initialize method of this plugin has been called. \-Plugins should initialize their internal state in this method. \-Returns if initialization of successful. \-If it wasn't successful, the {\itshape error\-String\/} should be set to a user-\/readable message describing the reason. \begin{DoxySeeAlso}{\-See also}
+\hyperlink{group___linear_dial_plugin_ga383081754a198481bde0fce79b7c01a9}{extensions\-Initialized()} 
+\end{DoxySeeAlso}
+
+
+\-Implements \hyperlink{class_extension_system_1_1_i_plugin_a9f3dc957317279daed393fdf4894e944}{\-Extension\-System\-::\-I\-Plugin}.
+
+
+
+\-Definition at line 46 of file lineardialplugin.\-cpp.
+
+\hypertarget{group___linear_dial_plugin_gae00c0aad0b87c017df5b0305d6fb1c5b}{\index{\-Linear Dial Plugin@{\-Linear Dial Plugin}!\-Lineardial\-Gadget@{\-Lineardial\-Gadget}}
+\index{\-Lineardial\-Gadget@{\-Lineardial\-Gadget}!Linear Dial Plugin@{\-Linear Dial Plugin}}
+\subsubsection[{\-Lineardial\-Gadget}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Lineardial\-Gadget\-::\-Lineardial\-Gadget} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Q\-String}}]{class\-Id, }
+\item[{{\bf \-Lineardial\-Gadget\-Widget} $\ast$}]{widget, }
+\item[{\-Q\-Widget $\ast$}]{parent = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)}}\label{group___linear_dial_plugin_gae00c0aad0b87c017df5b0305d6fb1c5b}
+
+
+\-Definition at line 32 of file lineardialgadget.\-cpp.
+
+\hypertarget{group___linear_dial_plugin_ga49b8e3de979573e8574a47a355fb537f}{\index{\-Linear Dial Plugin@{\-Linear Dial Plugin}!\-Lineardial\-Gadget\-Configuration@{\-Lineardial\-Gadget\-Configuration}}
+\index{\-Lineardial\-Gadget\-Configuration@{\-Lineardial\-Gadget\-Configuration}!Linear Dial Plugin@{\-Linear Dial Plugin}}
+\subsubsection[{\-Lineardial\-Gadget\-Configuration}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Lineardial\-Gadget\-Configuration\-::\-Lineardial\-Gadget\-Configuration} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Q\-String}}]{class\-Id, }
+\item[{\-Q\-Settings $\ast$}]{q\-Settings = {\ttfamily 0}, }
+\item[{\-Q\-Object $\ast$}]{parent = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}explicit\mbox{]}}}}\label{group___linear_dial_plugin_ga49b8e3de979573e8574a47a355fb537f}
+\-Loads a saved configuration or defaults if non exist. 
+
+\-Definition at line 35 of file lineardialgadgetconfiguration.\-cpp.
+
+\hypertarget{group___linear_dial_plugin_ga65f46ec9f31c70119c149accc51b304e}{\index{\-Linear Dial Plugin@{\-Linear Dial Plugin}!\-Lineardial\-Gadget\-Factory@{\-Lineardial\-Gadget\-Factory}}
+\index{\-Lineardial\-Gadget\-Factory@{\-Lineardial\-Gadget\-Factory}!Linear Dial Plugin@{\-Linear Dial Plugin}}
+\subsubsection[{\-Lineardial\-Gadget\-Factory}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Lineardial\-Gadget\-Factory\-::\-Lineardial\-Gadget\-Factory} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Object $\ast$}]{parent = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)}}\label{group___linear_dial_plugin_ga65f46ec9f31c70119c149accc51b304e}
+
+
+\-Definition at line 34 of file lineardialgadgetfactory.\-cpp.
+
+\hypertarget{group___linear_dial_plugin_gaa49909f8404b5303882872f6bb8ccdb2}{\index{\-Linear Dial Plugin@{\-Linear Dial Plugin}!\-Lineardial\-Gadget\-Options\-Page@{\-Lineardial\-Gadget\-Options\-Page}}
+\index{\-Lineardial\-Gadget\-Options\-Page@{\-Lineardial\-Gadget\-Options\-Page}!Linear Dial Plugin@{\-Linear Dial Plugin}}
+\subsubsection[{\-Lineardial\-Gadget\-Options\-Page}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Lineardial\-Gadget\-Options\-Page\-::\-Lineardial\-Gadget\-Options\-Page} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Lineardial\-Gadget\-Configuration} $\ast$}]{config, }
+\item[{\-Q\-Object $\ast$}]{parent = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}explicit\mbox{]}}}}\label{group___linear_dial_plugin_gaa49909f8404b5303882872f6bb8ccdb2}
+
+
+\-Definition at line 40 of file lineardialgadgetoptionspage.\-cpp.
+
+\hypertarget{group___linear_dial_plugin_ga67af774f5fa476bda0dce880d57348a7}{\index{\-Linear Dial Plugin@{\-Linear Dial Plugin}!\-Lineardial\-Gadget\-Widget@{\-Lineardial\-Gadget\-Widget}}
+\index{\-Lineardial\-Gadget\-Widget@{\-Lineardial\-Gadget\-Widget}!Linear Dial Plugin@{\-Linear Dial Plugin}}
+\subsubsection[{\-Lineardial\-Gadget\-Widget}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Lineardial\-Gadget\-Widget\-::\-Lineardial\-Gadget\-Widget} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Widget $\ast$}]{parent = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)}}\label{group___linear_dial_plugin_ga67af774f5fa476bda0dce880d57348a7}
+
+
+\-Definition at line 34 of file lineardialgadgetwidget.\-cpp.
+
+\hypertarget{group___linear_dial_plugin_gaeea9f7a365f52b1aef0da13809fabbc6}{\index{\-Linear Dial Plugin@{\-Linear Dial Plugin}!\-Lineardial\-Plugin@{\-Lineardial\-Plugin}}
+\index{\-Lineardial\-Plugin@{\-Lineardial\-Plugin}!Linear Dial Plugin@{\-Linear Dial Plugin}}
+\subsubsection[{\-Lineardial\-Plugin}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Lineardial\-Plugin\-::\-Lineardial\-Plugin} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___linear_dial_plugin_gaeea9f7a365f52b1aef0da13809fabbc6}
+
+
+\-Definition at line 36 of file lineardialplugin.\-cpp.
+
+\hypertarget{group___linear_dial_plugin_ga6bdccc9d4347fd8f04ea5e893877a30f}{\index{\-Linear Dial Plugin@{\-Linear Dial Plugin}!load\-Configuration@{load\-Configuration}}
+\index{load\-Configuration@{load\-Configuration}!Linear Dial Plugin@{\-Linear Dial Plugin}}
+\subsubsection[{load\-Configuration}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Lineardial\-Gadget\-::load\-Configuration} (
+\begin{DoxyParamCaption}
+\item[{\-I\-U\-A\-V\-Gadget\-Configuration $\ast$}]{config}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___linear_dial_plugin_ga6bdccc9d4347fd8f04ea5e893877a30f}
+
+
+\-Reimplemented from \hyperlink{group___core_plugin_gaaf60a82b8643f54a42381600c52bbe8a}{\-Core\-::\-I\-U\-A\-V\-Gadget}.
+
+
+
+\-Definition at line 49 of file lineardialgadget.\-cpp.
+
+\hypertarget{group___linear_dial_plugin_ga90222159d9de45fe9f4321c30e3f536a}{\index{\-Linear Dial Plugin@{\-Linear Dial Plugin}!paint@{paint}}
+\index{paint@{paint}!Linear Dial Plugin@{\-Linear Dial Plugin}}
+\subsubsection[{paint}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Lineardial\-Gadget\-Widget\-::paint} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___linear_dial_plugin_ga90222159d9de45fe9f4321c30e3f536a}
+
+
+\-Definition at line 383 of file lineardialgadgetwidget.\-cpp.
+
+\hypertarget{group___linear_dial_plugin_ga80239da240f9678e9cf4d2de3d9f6568}{\index{\-Linear Dial Plugin@{\-Linear Dial Plugin}!paint\-Event@{paint\-Event}}
+\index{paint\-Event@{paint\-Event}!Linear Dial Plugin@{\-Linear Dial Plugin}}
+\subsubsection[{paint\-Event}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Lineardial\-Gadget\-Widget\-::paint\-Event} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Paint\-Event $\ast$}]{event}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{group___linear_dial_plugin_ga80239da240f9678e9cf4d2de3d9f6568}
+
+
+\-Definition at line 388 of file lineardialgadgetwidget.\-cpp.
+
+\hypertarget{group___linear_dial_plugin_ga6f18ff48bf1851067cbd13d56f04fd73}{\index{\-Linear Dial Plugin@{\-Linear Dial Plugin}!resize\-Event@{resize\-Event}}
+\index{resize\-Event@{resize\-Event}!Linear Dial Plugin@{\-Linear Dial Plugin}}
+\subsubsection[{resize\-Event}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Lineardial\-Gadget\-Widget\-::resize\-Event} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Resize\-Event $\ast$}]{event}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{group___linear_dial_plugin_ga6f18ff48bf1851067cbd13d56f04fd73}
+
+
+\-Definition at line 401 of file lineardialgadgetwidget.\-cpp.
+
+\hypertarget{group___linear_dial_plugin_ga09129321da61b2494dca4ceafa18b996}{\index{\-Linear Dial Plugin@{\-Linear Dial Plugin}!save\-Config@{save\-Config}}
+\index{save\-Config@{save\-Config}!Linear Dial Plugin@{\-Linear Dial Plugin}}
+\subsubsection[{save\-Config}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Lineardial\-Gadget\-Configuration\-::save\-Config} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Settings $\ast$}]{q\-Settings}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___linear_dial_plugin_ga09129321da61b2494dca4ceafa18b996}
+\-Saves a configuration. 
+
+\-Reimplemented from \hyperlink{group___core_plugin_gadd755520091c21c0ce09973c5bbdb7a9}{\-Core\-::\-I\-U\-A\-V\-Gadget\-Configuration}.
+
+
+
+\-Definition at line 103 of file lineardialgadgetconfiguration.\-cpp.
+
+\hypertarget{group___linear_dial_plugin_gac027133a81aa51ae990681d8ece122e6}{\index{\-Linear Dial Plugin@{\-Linear Dial Plugin}!set\-Decimal\-Places@{set\-Decimal\-Places}}
+\index{set\-Decimal\-Places@{set\-Decimal\-Places}!Linear Dial Plugin@{\-Linear Dial Plugin}}
+\subsubsection[{set\-Decimal\-Places}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Lineardial\-Gadget\-Configuration\-::set\-Decimal\-Places} (
+\begin{DoxyParamCaption}
+\item[{int}]{val}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___linear_dial_plugin_gac027133a81aa51ae990681d8ece122e6}
+
+
+\-Definition at line 54 of file lineardialgadgetconfiguration.\-h.
+
+\hypertarget{group___linear_dial_plugin_ga1c62c1ba4256fcbe4654bb904003c3b5}{\index{\-Linear Dial Plugin@{\-Linear Dial Plugin}!set\-Decimal\-Places@{set\-Decimal\-Places}}
+\index{set\-Decimal\-Places@{set\-Decimal\-Places}!Linear Dial Plugin@{\-Linear Dial Plugin}}
+\subsubsection[{set\-Decimal\-Places}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Lineardial\-Gadget\-Widget\-::set\-Decimal\-Places} (
+\begin{DoxyParamCaption}
+\item[{int}]{val}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___linear_dial_plugin_ga1c62c1ba4256fcbe4654bb904003c3b5}
+
+
+\-Definition at line 60 of file lineardialgadgetwidget.\-h.
+
+\hypertarget{group___linear_dial_plugin_ga20902ca5cb846c1c93ac9d0ef3799eca}{\index{\-Linear Dial Plugin@{\-Linear Dial Plugin}!set\-Dial\-File@{set\-Dial\-File}}
+\index{set\-Dial\-File@{set\-Dial\-File}!Linear Dial Plugin@{\-Linear Dial Plugin}}
+\subsubsection[{set\-Dial\-File}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Lineardial\-Gadget\-Configuration\-::set\-Dial\-File} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Q\-String}}]{filename}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___linear_dial_plugin_ga20902ca5cb846c1c93ac9d0ef3799eca}
+
+
+\-Definition at line 45 of file lineardialgadgetconfiguration.\-h.
+
+\hypertarget{group___linear_dial_plugin_ga5242e6b2ecad5fb0d80b13f5e989c671}{\index{\-Linear Dial Plugin@{\-Linear Dial Plugin}!set\-Dial\-File@{set\-Dial\-File}}
+\index{set\-Dial\-File@{set\-Dial\-File}!Linear Dial Plugin@{\-Linear Dial Plugin}}
+\subsubsection[{set\-Dial\-File}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Lineardial\-Gadget\-Widget\-::set\-Dial\-File} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Q\-String}}]{dfn}
+\end{DoxyParamCaption}
+)}}\label{group___linear_dial_plugin_ga5242e6b2ecad5fb0d80b13f5e989c671}
+
+
+\-Setup dial using its master \-S\-V\-G template. 
+
+\-Should only be called after the min/max ranges have been set. 
+
+\-Definition at line 163 of file lineardialgadgetwidget.\-cpp.
+
+\hypertarget{group___linear_dial_plugin_ga65e46979b848fd423f40d6b001e04ffa}{\index{\-Linear Dial Plugin@{\-Linear Dial Plugin}!set\-Dial\-Font@{set\-Dial\-Font}}
+\index{set\-Dial\-Font@{set\-Dial\-Font}!Linear Dial Plugin@{\-Linear Dial Plugin}}
+\subsubsection[{set\-Dial\-Font}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Lineardial\-Gadget\-Widget\-::set\-Dial\-Font} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Q\-String}}]{font\-Props}
+\end{DoxyParamCaption}
+)}}\label{group___linear_dial_plugin_ga65e46979b848fd423f40d6b001e04ffa}
+
+
+\-Definition at line 364 of file lineardialgadgetwidget.\-cpp.
+
+\hypertarget{group___linear_dial_plugin_ga59dcd0145c59b1e63f4f004d1b8cc22a}{\index{\-Linear Dial Plugin@{\-Linear Dial Plugin}!set\-Factor@{set\-Factor}}
+\index{set\-Factor@{set\-Factor}!Linear Dial Plugin@{\-Linear Dial Plugin}}
+\subsubsection[{set\-Factor}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Lineardial\-Gadget\-Configuration\-::set\-Factor} (
+\begin{DoxyParamCaption}
+\item[{double}]{val}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___linear_dial_plugin_ga59dcd0145c59b1e63f4f004d1b8cc22a}
+
+
+\-Definition at line 53 of file lineardialgadgetconfiguration.\-h.
+
+\hypertarget{group___linear_dial_plugin_gad4c7bf09ce46f89db163dee80784418b}{\index{\-Linear Dial Plugin@{\-Linear Dial Plugin}!set\-Factor@{set\-Factor}}
+\index{set\-Factor@{set\-Factor}!Linear Dial Plugin@{\-Linear Dial Plugin}}
+\subsubsection[{set\-Factor}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Lineardial\-Gadget\-Widget\-::set\-Factor} (
+\begin{DoxyParamCaption}
+\item[{double}]{val}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___linear_dial_plugin_gad4c7bf09ce46f89db163dee80784418b}
+
+
+\-Definition at line 59 of file lineardialgadgetwidget.\-h.
+
+\hypertarget{group___linear_dial_plugin_ga1aedc8fa6dded9d30aacde381e4b068a}{\index{\-Linear Dial Plugin@{\-Linear Dial Plugin}!set\-Font@{set\-Font}}
+\index{set\-Font@{set\-Font}!Linear Dial Plugin@{\-Linear Dial Plugin}}
+\subsubsection[{set\-Font}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Lineardial\-Gadget\-Configuration\-::set\-Font} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Q\-String}}]{text}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___linear_dial_plugin_ga1aedc8fa6dded9d30aacde381e4b068a}
+
+
+\-Definition at line 51 of file lineardialgadgetconfiguration.\-h.
+
+\hypertarget{group___linear_dial_plugin_ga126eafb9e37022d0160d544665e9687d}{\index{\-Linear Dial Plugin@{\-Linear Dial Plugin}!set\-Green\-Range@{set\-Green\-Range}}
+\index{set\-Green\-Range@{set\-Green\-Range}!Linear Dial Plugin@{\-Linear Dial Plugin}}
+\subsubsection[{set\-Green\-Range}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Lineardial\-Gadget\-Configuration\-::set\-Green\-Range} (
+\begin{DoxyParamCaption}
+\item[{double}]{min, }
+\item[{double}]{max}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___linear_dial_plugin_ga126eafb9e37022d0160d544665e9687d}
+
+
+\-Definition at line 47 of file lineardialgadgetconfiguration.\-h.
+
+\hypertarget{group___linear_dial_plugin_ga46b699d52d4dea2d6b6ff2b37a5657b0}{\index{\-Linear Dial Plugin@{\-Linear Dial Plugin}!set\-Green\-Range@{set\-Green\-Range}}
+\index{set\-Green\-Range@{set\-Green\-Range}!Linear Dial Plugin@{\-Linear Dial Plugin}}
+\subsubsection[{set\-Green\-Range}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Lineardial\-Gadget\-Widget\-::set\-Green\-Range} (
+\begin{DoxyParamCaption}
+\item[{double}]{min, }
+\item[{double}]{max}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___linear_dial_plugin_ga46b699d52d4dea2d6b6ff2b37a5657b0}
+
+
+\-Definition at line 53 of file lineardialgadgetwidget.\-h.
+
+\hypertarget{group___linear_dial_plugin_ga68d6c562622c590886f5d3efceac4349}{\index{\-Linear Dial Plugin@{\-Linear Dial Plugin}!set\-Index@{set\-Index}}
+\index{set\-Index@{set\-Index}!Linear Dial Plugin@{\-Linear Dial Plugin}}
+\subsubsection[{set\-Index}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Lineardial\-Gadget\-Widget\-::set\-Index} (
+\begin{DoxyParamCaption}
+\item[{double}]{val}
+\end{DoxyParamCaption}
+)}}\label{group___linear_dial_plugin_ga68d6c562622c590886f5d3efceac4349}
+
+
+\-Definition at line 409 of file lineardialgadgetwidget.\-cpp.
+
+\hypertarget{group___linear_dial_plugin_gaa4baee59ed6a862a9c31f64b2349acdc}{\index{\-Linear Dial Plugin@{\-Linear Dial Plugin}!set\-Range@{set\-Range}}
+\index{set\-Range@{set\-Range}!Linear Dial Plugin@{\-Linear Dial Plugin}}
+\subsubsection[{set\-Range}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Lineardial\-Gadget\-Configuration\-::set\-Range} (
+\begin{DoxyParamCaption}
+\item[{double}]{min, }
+\item[{double}]{max}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___linear_dial_plugin_gaa4baee59ed6a862a9c31f64b2349acdc}
+
+
+\-Definition at line 46 of file lineardialgadgetconfiguration.\-h.
+
+\hypertarget{group___linear_dial_plugin_ga659bce00c419425ed6e5e03095b06e3c}{\index{\-Linear Dial Plugin@{\-Linear Dial Plugin}!set\-Range@{set\-Range}}
+\index{set\-Range@{set\-Range}!Linear Dial Plugin@{\-Linear Dial Plugin}}
+\subsubsection[{set\-Range}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Lineardial\-Gadget\-Widget\-::set\-Range} (
+\begin{DoxyParamCaption}
+\item[{double}]{min, }
+\item[{double}]{max}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___linear_dial_plugin_ga659bce00c419425ed6e5e03095b06e3c}
+
+
+\-Definition at line 52 of file lineardialgadgetwidget.\-h.
+
+\hypertarget{group___linear_dial_plugin_gab1a3bcf875948fdb2203a511b7245e36}{\index{\-Linear Dial Plugin@{\-Linear Dial Plugin}!set\-Red\-Range@{set\-Red\-Range}}
+\index{set\-Red\-Range@{set\-Red\-Range}!Linear Dial Plugin@{\-Linear Dial Plugin}}
+\subsubsection[{set\-Red\-Range}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Lineardial\-Gadget\-Configuration\-::set\-Red\-Range} (
+\begin{DoxyParamCaption}
+\item[{double}]{min, }
+\item[{double}]{max}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___linear_dial_plugin_gab1a3bcf875948fdb2203a511b7245e36}
+
+
+\-Definition at line 49 of file lineardialgadgetconfiguration.\-h.
+
+\hypertarget{group___linear_dial_plugin_gac43bdb344ff4fa3376e0c38358b9ae22}{\index{\-Linear Dial Plugin@{\-Linear Dial Plugin}!set\-Red\-Range@{set\-Red\-Range}}
+\index{set\-Red\-Range@{set\-Red\-Range}!Linear Dial Plugin@{\-Linear Dial Plugin}}
+\subsubsection[{set\-Red\-Range}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Lineardial\-Gadget\-Widget\-::set\-Red\-Range} (
+\begin{DoxyParamCaption}
+\item[{double}]{min, }
+\item[{double}]{max}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___linear_dial_plugin_gac43bdb344ff4fa3376e0c38358b9ae22}
+
+
+\-Definition at line 55 of file lineardialgadgetwidget.\-h.
+
+\hypertarget{group___linear_dial_plugin_gab0e129448ff276e38c2fc87cb8883e62}{\index{\-Linear Dial Plugin@{\-Linear Dial Plugin}!set\-Source\-Data\-Object@{set\-Source\-Data\-Object}}
+\index{set\-Source\-Data\-Object@{set\-Source\-Data\-Object}!Linear Dial Plugin@{\-Linear Dial Plugin}}
+\subsubsection[{set\-Source\-Data\-Object}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Lineardial\-Gadget\-Configuration\-::set\-Source\-Data\-Object} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Q\-String}}]{text}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___linear_dial_plugin_gab0e129448ff276e38c2fc87cb8883e62}
+
+
+\-Definition at line 56 of file lineardialgadgetconfiguration.\-h.
+
+\hypertarget{group___linear_dial_plugin_gace43fd36313161f4a963e2b95a445354}{\index{\-Linear Dial Plugin@{\-Linear Dial Plugin}!set\-Source\-Obj\-Field@{set\-Source\-Obj\-Field}}
+\index{set\-Source\-Obj\-Field@{set\-Source\-Obj\-Field}!Linear Dial Plugin@{\-Linear Dial Plugin}}
+\subsubsection[{set\-Source\-Obj\-Field}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Lineardial\-Gadget\-Configuration\-::set\-Source\-Obj\-Field} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Q\-String}}]{text}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___linear_dial_plugin_gace43fd36313161f4a963e2b95a445354}
+
+
+\-Definition at line 57 of file lineardialgadgetconfiguration.\-h.
+
+\hypertarget{group___linear_dial_plugin_ga3834f5a345c01cce74297c2a65a82523}{\index{\-Linear Dial Plugin@{\-Linear Dial Plugin}!set\-Use\-Open\-G\-L@{set\-Use\-Open\-G\-L}}
+\index{set\-Use\-Open\-G\-L@{set\-Use\-Open\-G\-L}!Linear Dial Plugin@{\-Linear Dial Plugin}}
+\subsubsection[{set\-Use\-Open\-G\-L}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Lineardial\-Gadget\-Configuration\-::set\-Use\-Open\-G\-L} (
+\begin{DoxyParamCaption}
+\item[{bool}]{flag}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___linear_dial_plugin_ga3834f5a345c01cce74297c2a65a82523}
+
+
+\-Definition at line 59 of file lineardialgadgetconfiguration.\-h.
+
+\hypertarget{group___linear_dial_plugin_gae1437ef9469c5a813ad0c76f04b186d2}{\index{\-Linear Dial Plugin@{\-Linear Dial Plugin}!set\-Yellow\-Range@{set\-Yellow\-Range}}
+\index{set\-Yellow\-Range@{set\-Yellow\-Range}!Linear Dial Plugin@{\-Linear Dial Plugin}}
+\subsubsection[{set\-Yellow\-Range}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Lineardial\-Gadget\-Configuration\-::set\-Yellow\-Range} (
+\begin{DoxyParamCaption}
+\item[{double}]{min, }
+\item[{double}]{max}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___linear_dial_plugin_gae1437ef9469c5a813ad0c76f04b186d2}
+
+
+\-Definition at line 48 of file lineardialgadgetconfiguration.\-h.
+
+\hypertarget{group___linear_dial_plugin_ga109a0d550537110c81433ec36eaea6ba}{\index{\-Linear Dial Plugin@{\-Linear Dial Plugin}!set\-Yellow\-Range@{set\-Yellow\-Range}}
+\index{set\-Yellow\-Range@{set\-Yellow\-Range}!Linear Dial Plugin@{\-Linear Dial Plugin}}
+\subsubsection[{set\-Yellow\-Range}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Lineardial\-Gadget\-Widget\-::set\-Yellow\-Range} (
+\begin{DoxyParamCaption}
+\item[{double}]{min, }
+\item[{double}]{max}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___linear_dial_plugin_ga109a0d550537110c81433ec36eaea6ba}
+
+
+\-Definition at line 54 of file lineardialgadgetwidget.\-h.
+
+\hypertarget{group___linear_dial_plugin_ga7a47ee89aef6192202148d71bf6a98a3}{\index{\-Linear Dial Plugin@{\-Linear Dial Plugin}!shutdown@{shutdown}}
+\index{shutdown@{shutdown}!Linear Dial Plugin@{\-Linear Dial Plugin}}
+\subsubsection[{shutdown}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Lineardial\-Plugin\-::shutdown} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___linear_dial_plugin_ga7a47ee89aef6192202148d71bf6a98a3}
+\-Called during a shutdown sequence in the same order as initialization before the plugins get deleted in reverse order. \-This method can be used to optimize the shutdown down, e.\-g. to disconnect from the \-Plugin\-Manager\-::about\-To\-Remove\-Object() signal if getting the signal (and probably doing lots of stuff to update the internal and visible state) doesn't make sense during shutdown. 
+
+\-Reimplemented from \hyperlink{class_extension_system_1_1_i_plugin_a65c16ebd3a6e89918a99af6515fe68cb}{\-Extension\-System\-::\-I\-Plugin}.
+
+
+
+\-Definition at line 61 of file lineardialplugin.\-cpp.
+
+\hypertarget{group___linear_dial_plugin_ga74595eab1c81ed96361010ba7f770bd1}{\index{\-Linear Dial Plugin@{\-Linear Dial Plugin}!use\-Open\-G\-L@{use\-Open\-G\-L}}
+\index{use\-Open\-G\-L@{use\-Open\-G\-L}!Linear Dial Plugin@{\-Linear Dial Plugin}}
+\subsubsection[{use\-Open\-G\-L}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-Lineardial\-Gadget\-Configuration\-::use\-Open\-G\-L} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___linear_dial_plugin_ga74595eab1c81ed96361010ba7f770bd1}
+
+
+\-Definition at line 76 of file lineardialgadgetconfiguration.\-h.
+
+\hypertarget{group___linear_dial_plugin_ga65e61a0bf52e2ab9b2fe4ba7e3ae3b96}{\index{\-Linear Dial Plugin@{\-Linear Dial Plugin}!widget@{widget}}
+\index{widget@{widget}!Linear Dial Plugin@{\-Linear Dial Plugin}}
+\subsubsection[{widget}]{\setlength{\rightskip}{0pt plus 5cm}\-Q\-Widget$\ast$ {\bf \-Lineardial\-Gadget\-::widget} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, virtual\mbox{]}}}}\label{group___linear_dial_plugin_ga65e61a0bf52e2ab9b2fe4ba7e3ae3b96}
+
+
+\-Implements \hyperlink{group___core_plugin_gac74c76eef51e24e62a333fe0fd940cf6}{\-Core\-::\-I\-U\-A\-V\-Gadget}.
+
+
+
+\-Definition at line 48 of file lineardialgadget.\-h.
+
+\hypertarget{group___linear_dial_plugin_gaee31b5207ca412de6722401f392a8fd0}{\index{\-Linear Dial Plugin@{\-Linear Dial Plugin}!$\sim$\-Lineardial\-Gadget@{$\sim$\-Lineardial\-Gadget}}
+\index{$\sim$\-Lineardial\-Gadget@{$\sim$\-Lineardial\-Gadget}!Linear Dial Plugin@{\-Linear Dial Plugin}}
+\subsubsection[{$\sim$\-Lineardial\-Gadget}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Lineardial\-Gadget\-::$\sim$\-Lineardial\-Gadget} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___linear_dial_plugin_gaee31b5207ca412de6722401f392a8fd0}
+
+
+\-Definition at line 38 of file lineardialgadget.\-cpp.
+
+\hypertarget{group___linear_dial_plugin_ga85102065ae14d80cf83202637c76b94c}{\index{\-Linear Dial Plugin@{\-Linear Dial Plugin}!$\sim$\-Lineardial\-Gadget\-Factory@{$\sim$\-Lineardial\-Gadget\-Factory}}
+\index{$\sim$\-Lineardial\-Gadget\-Factory@{$\sim$\-Lineardial\-Gadget\-Factory}!Linear Dial Plugin@{\-Linear Dial Plugin}}
+\subsubsection[{$\sim$\-Lineardial\-Gadget\-Factory}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Lineardial\-Gadget\-Factory\-::$\sim$\-Lineardial\-Gadget\-Factory} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___linear_dial_plugin_ga85102065ae14d80cf83202637c76b94c}
+
+
+\-Definition at line 41 of file lineardialgadgetfactory.\-cpp.
+
+\hypertarget{group___linear_dial_plugin_ga46b2275fc21a5a5fc14809f31be48674}{\index{\-Linear Dial Plugin@{\-Linear Dial Plugin}!$\sim$\-Lineardial\-Gadget\-Widget@{$\sim$\-Lineardial\-Gadget\-Widget}}
+\index{$\sim$\-Lineardial\-Gadget\-Widget@{$\sim$\-Lineardial\-Gadget\-Widget}!Linear Dial Plugin@{\-Linear Dial Plugin}}
+\subsubsection[{$\sim$\-Lineardial\-Gadget\-Widget}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Lineardial\-Gadget\-Widget\-::$\sim$\-Lineardial\-Gadget\-Widget} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___linear_dial_plugin_ga46b2275fc21a5a5fc14809f31be48674}
+
+
+\-Definition at line 59 of file lineardialgadgetwidget.\-cpp.
+
+\hypertarget{group___linear_dial_plugin_ga945fcb418fce051d1998af913f4b6c6f}{\index{\-Linear Dial Plugin@{\-Linear Dial Plugin}!$\sim$\-Lineardial\-Plugin@{$\sim$\-Lineardial\-Plugin}}
+\index{$\sim$\-Lineardial\-Plugin@{$\sim$\-Lineardial\-Plugin}!Linear Dial Plugin@{\-Linear Dial Plugin}}
+\subsubsection[{$\sim$\-Lineardial\-Plugin}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Lineardial\-Plugin\-::$\sim$\-Lineardial\-Plugin} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___linear_dial_plugin_ga945fcb418fce051d1998af913f4b6c6f}
+
+
+\-Definition at line 41 of file lineardialplugin.\-cpp.
+
+
+
+\subsection{\-Public \-Slots}
+\hypertarget{group___linear_dial_plugin_gae4ba61f22d069348e46919a30913ee34}{\index{\-Linear Dial Plugin@{\-Linear Dial Plugin}!update\-Index@{update\-Index}}
+\index{update\-Index@{update\-Index}!Linear Dial Plugin@{\-Linear Dial Plugin}}
+\subsubsection[{update\-Index}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Lineardial\-Gadget\-Widget\-::update\-Index} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-U\-A\-V\-Object} $\ast$}]{object1}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}slot\mbox{]}}}}\label{group___linear_dial_plugin_gae4ba61f22d069348e46919a30913ee34}
+
+
+\-Called by the \hyperlink{class_u_a_v_object}{\-U\-A\-V\-Object} which got updated. 
+
+\-Updates the numeric value and/or the icon if the dial wants this. 
+
+\-Definition at line 119 of file lineardialgadgetwidget.\-cpp.
+

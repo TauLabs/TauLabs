@@ -1,0 +1,345 @@
+\hypertarget{class_extension_system_1_1_internal_1_1_plugin_spec_private}{\section{\-Extension\-System\-:\-:\-Internal\-:\-:\-Plugin\-Spec\-Private \-Class \-Reference}
+\label{class_extension_system_1_1_internal_1_1_plugin_spec_private}\index{\-Extension\-System\-::\-Internal\-::\-Plugin\-Spec\-Private@{\-Extension\-System\-::\-Internal\-::\-Plugin\-Spec\-Private}}
+}
+
+
+{\ttfamily \#include $<$pluginspec\-\_\-p.\-h$>$}
+
+\subsection*{\-Public \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_extension_system_1_1_internal_1_1_plugin_spec_private_a0d44c8c936a8c62f5ad88ff19c70b9aa}{\-Plugin\-Spec\-Private} (\hyperlink{class_extension_system_1_1_plugin_spec}{\-Plugin\-Spec} $\ast$spec)
+\item 
+bool \hyperlink{class_extension_system_1_1_internal_1_1_plugin_spec_private_ab17f9aacac39aa19b98897bc6faafcd0}{read} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \&file\-Name)
+\item 
+bool \hyperlink{class_extension_system_1_1_internal_1_1_plugin_spec_private_aafdcb363fa1e2f8af75c77b13d16f7c1}{provides} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \&plugin\-Name, const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \&\hyperlink{class_extension_system_1_1_internal_1_1_plugin_spec_private_a00cf7a310301d427a56b1b23576289bc}{version}) const 
+\item 
+bool \hyperlink{class_extension_system_1_1_internal_1_1_plugin_spec_private_a85aa6e98c8148c4d88b70118dc271f03}{resolve\-Dependencies} (const \-Q\-List$<$ \hyperlink{class_extension_system_1_1_plugin_spec}{\-Plugin\-Spec} $\ast$ $>$ \&specs)
+\item 
+bool \hyperlink{class_extension_system_1_1_internal_1_1_plugin_spec_private_ae6c8e468abd33bfa0d2f3cc04afa14c9}{load\-Library} ()
+\item 
+bool \hyperlink{class_extension_system_1_1_internal_1_1_plugin_spec_private_a3bf586c7c6de7d0e8cbffc91a9895b25}{initialize\-Plugin} ()
+\item 
+bool \hyperlink{class_extension_system_1_1_internal_1_1_plugin_spec_private_ae5901e2eca5aa40d0c0525b40de51ccd}{initialize\-Extensions} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_extension_system_1_1_internal_1_1_plugin_spec_private_a19705e05760dcdf3dc55ace4e2e95f45}{stop} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_extension_system_1_1_internal_1_1_plugin_spec_private_a7581a0cfec32239b633b4689542a56db}{kill} ()
+\end{DoxyCompactItemize}
+\subsection*{\-Static \-Public \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+static bool \hyperlink{class_extension_system_1_1_internal_1_1_plugin_spec_private_a7233cda395b9d7ee44734541958ee82c}{is\-Valid\-Version} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \&\hyperlink{class_extension_system_1_1_internal_1_1_plugin_spec_private_a00cf7a310301d427a56b1b23576289bc}{version})
+\item 
+static int \hyperlink{class_extension_system_1_1_internal_1_1_plugin_spec_private_a9b2b47f08743b4cb4dc977755390959a}{version\-Compare} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \&version1, const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \&version2)
+\end{DoxyCompactItemize}
+\subsection*{\-Public \-Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{class_extension_system_1_1_internal_1_1_plugin_spec_private_ab3a82ed362b9755352316778bda2c635}{name}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{class_extension_system_1_1_internal_1_1_plugin_spec_private_a00cf7a310301d427a56b1b23576289bc}{version}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{class_extension_system_1_1_internal_1_1_plugin_spec_private_a5bca4f5cd92049fabd441bf9ae2a9734}{compat\-Version}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{class_extension_system_1_1_internal_1_1_plugin_spec_private_a3628c7ebcd80e71dd74fc0df729aac7a}{vendor}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{class_extension_system_1_1_internal_1_1_plugin_spec_private_a20718c1d11fe66633f33bfccc7dbfdf6}{copyright}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{class_extension_system_1_1_internal_1_1_plugin_spec_private_a8060ccf842513091c9821ad6118a22c0}{license}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{class_extension_system_1_1_internal_1_1_plugin_spec_private_a477c1550169cba561d0cede9d8dc5c2b}{description}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{class_extension_system_1_1_internal_1_1_plugin_spec_private_a6872e7bd6f42c91c16e3fcd03554f004}{url}
+\item 
+\-Q\-List$<$ \hyperlink{struct_extension_system_1_1_plugin_dependency}{\-Plugin\-Dependency} $>$ \hyperlink{class_extension_system_1_1_internal_1_1_plugin_spec_private_a1f765a1f76bd2ba2f296f84289e9b44f}{dependencies}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{class_extension_system_1_1_internal_1_1_plugin_spec_private_a69f6532837e17c9858580b506b5c3448}{location}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{class_extension_system_1_1_internal_1_1_plugin_spec_private_a048e4d091eccd93affd5c38b841ad2ed}{file\-Path}
+\item 
+\-Q\-String\-List \hyperlink{class_extension_system_1_1_internal_1_1_plugin_spec_private_ae1681eb5cafc61fa0736e1a75b557c20}{arguments}
+\item 
+\-Q\-List$<$ \hyperlink{class_extension_system_1_1_plugin_spec}{\-Plugin\-Spec} $\ast$ $>$ \hyperlink{class_extension_system_1_1_internal_1_1_plugin_spec_private_abd32e8602856b2fe48fed8140846be54}{dependency\-Specs}
+\item 
+\hyperlink{class_extension_system_1_1_plugin_spec_acf81cc5fcc20b047203f9da886cbbdee}{\-Plugin\-Spec\-::\-Plugin\-Argument\-Descriptions} \hyperlink{class_extension_system_1_1_internal_1_1_plugin_spec_private_a32dd76917c01771fb0ad25ff50193fbc}{argument\-Descriptions}
+\item 
+\hyperlink{class_extension_system_1_1_i_plugin}{\-I\-Plugin} $\ast$ \hyperlink{class_extension_system_1_1_internal_1_1_plugin_spec_private_a45c4fa79923c8d0624258b8f733125f1}{plugin}
+\item 
+\hyperlink{class_extension_system_1_1_plugin_spec_a3d40e1bd1f17eb32b314bcd282b3e3b9}{\-Plugin\-Spec\-::\-State} \hyperlink{class_extension_system_1_1_internal_1_1_plugin_spec_private_a1806625ef956622e6727d0b0d50274aa}{state}
+\item 
+bool \hyperlink{class_extension_system_1_1_internal_1_1_plugin_spec_private_aaee87e26d32c27c408a5059bd821b217}{has\-Error}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{class_extension_system_1_1_internal_1_1_plugin_spec_private_a1fdbeffffeb8b7a7dbb2d30417674d83}{error\-String}
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+
+
+\-Definition at line 45 of file pluginspec\-\_\-p.\-h.
+
+
+
+\subsection{\-Constructor \& \-Destructor \-Documentation}
+\hypertarget{class_extension_system_1_1_internal_1_1_plugin_spec_private_a0d44c8c936a8c62f5ad88ff19c70b9aa}{\index{\-Extension\-System\-::\-Internal\-::\-Plugin\-Spec\-Private@{\-Extension\-System\-::\-Internal\-::\-Plugin\-Spec\-Private}!\-Plugin\-Spec\-Private@{\-Plugin\-Spec\-Private}}
+\index{\-Plugin\-Spec\-Private@{\-Plugin\-Spec\-Private}!ExtensionSystem::Internal::PluginSpecPrivate@{\-Extension\-System\-::\-Internal\-::\-Plugin\-Spec\-Private}}
+\subsubsection[{\-Plugin\-Spec\-Private}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Plugin\-Spec\-Private\-::\-Plugin\-Spec\-Private} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Plugin\-Spec} $\ast$}]{spec}
+\end{DoxyParamCaption}
+)}}\label{class_extension_system_1_1_internal_1_1_plugin_spec_private_a0d44c8c936a8c62f5ad88ff19c70b9aa}
+
+
+\-Definition at line 384 of file pluginspec.\-cpp.
+
+
+
+\subsection{\-Member \-Function \-Documentation}
+\hypertarget{class_extension_system_1_1_internal_1_1_plugin_spec_private_ae5901e2eca5aa40d0c0525b40de51ccd}{\index{\-Extension\-System\-::\-Internal\-::\-Plugin\-Spec\-Private@{\-Extension\-System\-::\-Internal\-::\-Plugin\-Spec\-Private}!initialize\-Extensions@{initialize\-Extensions}}
+\index{initialize\-Extensions@{initialize\-Extensions}!ExtensionSystem::Internal::PluginSpecPrivate@{\-Extension\-System\-::\-Internal\-::\-Plugin\-Spec\-Private}}
+\subsubsection[{initialize\-Extensions}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-Plugin\-Spec\-Private\-::initialize\-Extensions} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_extension_system_1_1_internal_1_1_plugin_spec_private_ae5901e2eca5aa40d0c0525b40de51ccd}
+
+
+\-Definition at line 839 of file pluginspec.\-cpp.
+
+\hypertarget{class_extension_system_1_1_internal_1_1_plugin_spec_private_a3bf586c7c6de7d0e8cbffc91a9895b25}{\index{\-Extension\-System\-::\-Internal\-::\-Plugin\-Spec\-Private@{\-Extension\-System\-::\-Internal\-::\-Plugin\-Spec\-Private}!initialize\-Plugin@{initialize\-Plugin}}
+\index{initialize\-Plugin@{initialize\-Plugin}!ExtensionSystem::Internal::PluginSpecPrivate@{\-Extension\-System\-::\-Internal\-::\-Plugin\-Spec\-Private}}
+\subsubsection[{initialize\-Plugin}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-Plugin\-Spec\-Private\-::initialize\-Plugin} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_extension_system_1_1_internal_1_1_plugin_spec_private_a3bf586c7c6de7d0e8cbffc91a9895b25}
+
+
+\-Definition at line 809 of file pluginspec.\-cpp.
+
+\hypertarget{class_extension_system_1_1_internal_1_1_plugin_spec_private_a7233cda395b9d7ee44734541958ee82c}{\index{\-Extension\-System\-::\-Internal\-::\-Plugin\-Spec\-Private@{\-Extension\-System\-::\-Internal\-::\-Plugin\-Spec\-Private}!is\-Valid\-Version@{is\-Valid\-Version}}
+\index{is\-Valid\-Version@{is\-Valid\-Version}!ExtensionSystem::Internal::PluginSpecPrivate@{\-Extension\-System\-::\-Internal\-::\-Plugin\-Spec\-Private}}
+\subsubsection[{is\-Valid\-Version}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-Plugin\-Spec\-Private\-::is\-Valid\-Version} (
+\begin{DoxyParamCaption}
+\item[{const {\bf \-Q\-String} \&}]{version}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}\label{class_extension_system_1_1_internal_1_1_plugin_spec_private_a7233cda395b9d7ee44734541958ee82c}
+
+
+\-Definition at line 678 of file pluginspec.\-cpp.
+
+\hypertarget{class_extension_system_1_1_internal_1_1_plugin_spec_private_a7581a0cfec32239b633b4689542a56db}{\index{\-Extension\-System\-::\-Internal\-::\-Plugin\-Spec\-Private@{\-Extension\-System\-::\-Internal\-::\-Plugin\-Spec\-Private}!kill@{kill}}
+\index{kill@{kill}!ExtensionSystem::Internal::PluginSpecPrivate@{\-Extension\-System\-::\-Internal\-::\-Plugin\-Spec\-Private}}
+\subsubsection[{kill}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Plugin\-Spec\-Private\-::kill} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_extension_system_1_1_internal_1_1_plugin_spec_private_a7581a0cfec32239b633b4689542a56db}
+
+
+\-Definition at line 876 of file pluginspec.\-cpp.
+
+\hypertarget{class_extension_system_1_1_internal_1_1_plugin_spec_private_ae6c8e468abd33bfa0d2f3cc04afa14c9}{\index{\-Extension\-System\-::\-Internal\-::\-Plugin\-Spec\-Private@{\-Extension\-System\-::\-Internal\-::\-Plugin\-Spec\-Private}!load\-Library@{load\-Library}}
+\index{load\-Library@{load\-Library}!ExtensionSystem::Internal::PluginSpecPrivate@{\-Extension\-System\-::\-Internal\-::\-Plugin\-Spec\-Private}}
+\subsubsection[{load\-Library}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-Plugin\-Spec\-Private\-::load\-Library} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_extension_system_1_1_internal_1_1_plugin_spec_private_ae6c8e468abd33bfa0d2f3cc04afa14c9}
+
+
+\-Definition at line 753 of file pluginspec.\-cpp.
+
+\hypertarget{class_extension_system_1_1_internal_1_1_plugin_spec_private_aafdcb363fa1e2f8af75c77b13d16f7c1}{\index{\-Extension\-System\-::\-Internal\-::\-Plugin\-Spec\-Private@{\-Extension\-System\-::\-Internal\-::\-Plugin\-Spec\-Private}!provides@{provides}}
+\index{provides@{provides}!ExtensionSystem::Internal::PluginSpecPrivate@{\-Extension\-System\-::\-Internal\-::\-Plugin\-Spec\-Private}}
+\subsubsection[{provides}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-Plugin\-Spec\-Private\-::provides} (
+\begin{DoxyParamCaption}
+\item[{const {\bf \-Q\-String} \&}]{plugin\-Name, }
+\item[{const {\bf \-Q\-String} \&}]{version}
+\end{DoxyParamCaption}
+) const}}\label{class_extension_system_1_1_internal_1_1_plugin_spec_private_aafdcb363fa1e2f8af75c77b13d16f7c1}
+
+
+\-Definition at line 658 of file pluginspec.\-cpp.
+
+\hypertarget{class_extension_system_1_1_internal_1_1_plugin_spec_private_ab17f9aacac39aa19b98897bc6faafcd0}{\index{\-Extension\-System\-::\-Internal\-::\-Plugin\-Spec\-Private@{\-Extension\-System\-::\-Internal\-::\-Plugin\-Spec\-Private}!read@{read}}
+\index{read@{read}!ExtensionSystem::Internal::PluginSpecPrivate@{\-Extension\-System\-::\-Internal\-::\-Plugin\-Spec\-Private}}
+\subsubsection[{read}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-Plugin\-Spec\-Private\-::read} (
+\begin{DoxyParamCaption}
+\item[{const {\bf \-Q\-String} \&}]{file\-Name}
+\end{DoxyParamCaption}
+)}}\label{class_extension_system_1_1_internal_1_1_plugin_spec_private_ab17f9aacac39aa19b98897bc6faafcd0}
+
+
+\-Definition at line 396 of file pluginspec.\-cpp.
+
+\hypertarget{class_extension_system_1_1_internal_1_1_plugin_spec_private_a85aa6e98c8148c4d88b70118dc271f03}{\index{\-Extension\-System\-::\-Internal\-::\-Plugin\-Spec\-Private@{\-Extension\-System\-::\-Internal\-::\-Plugin\-Spec\-Private}!resolve\-Dependencies@{resolve\-Dependencies}}
+\index{resolve\-Dependencies@{resolve\-Dependencies}!ExtensionSystem::Internal::PluginSpecPrivate@{\-Extension\-System\-::\-Internal\-::\-Plugin\-Spec\-Private}}
+\subsubsection[{resolve\-Dependencies}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-Plugin\-Spec\-Private\-::resolve\-Dependencies} (
+\begin{DoxyParamCaption}
+\item[{const \-Q\-List$<$ {\bf \-Plugin\-Spec} $\ast$ $>$ \&}]{specs}
+\end{DoxyParamCaption}
+)}}\label{class_extension_system_1_1_internal_1_1_plugin_spec_private_a85aa6e98c8148c4d88b70118dc271f03}
+
+
+\-Definition at line 712 of file pluginspec.\-cpp.
+
+\hypertarget{class_extension_system_1_1_internal_1_1_plugin_spec_private_a19705e05760dcdf3dc55ace4e2e95f45}{\index{\-Extension\-System\-::\-Internal\-::\-Plugin\-Spec\-Private@{\-Extension\-System\-::\-Internal\-::\-Plugin\-Spec\-Private}!stop@{stop}}
+\index{stop@{stop}!ExtensionSystem::Internal::PluginSpecPrivate@{\-Extension\-System\-::\-Internal\-::\-Plugin\-Spec\-Private}}
+\subsubsection[{stop}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Plugin\-Spec\-Private\-::stop} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_extension_system_1_1_internal_1_1_plugin_spec_private_a19705e05760dcdf3dc55ace4e2e95f45}
+
+
+\-Definition at line 864 of file pluginspec.\-cpp.
+
+\hypertarget{class_extension_system_1_1_internal_1_1_plugin_spec_private_a9b2b47f08743b4cb4dc977755390959a}{\index{\-Extension\-System\-::\-Internal\-::\-Plugin\-Spec\-Private@{\-Extension\-System\-::\-Internal\-::\-Plugin\-Spec\-Private}!version\-Compare@{version\-Compare}}
+\index{version\-Compare@{version\-Compare}!ExtensionSystem::Internal::PluginSpecPrivate@{\-Extension\-System\-::\-Internal\-::\-Plugin\-Spec\-Private}}
+\subsubsection[{version\-Compare}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf \-Plugin\-Spec\-Private\-::version\-Compare} (
+\begin{DoxyParamCaption}
+\item[{const {\bf \-Q\-String} \&}]{version1, }
+\item[{const {\bf \-Q\-String} \&}]{version2}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}\label{class_extension_system_1_1_internal_1_1_plugin_spec_private_a9b2b47f08743b4cb4dc977755390959a}
+
+
+\-Definition at line 687 of file pluginspec.\-cpp.
+
+
+
+\subsection{\-Member \-Data \-Documentation}
+\hypertarget{class_extension_system_1_1_internal_1_1_plugin_spec_private_a32dd76917c01771fb0ad25ff50193fbc}{\index{\-Extension\-System\-::\-Internal\-::\-Plugin\-Spec\-Private@{\-Extension\-System\-::\-Internal\-::\-Plugin\-Spec\-Private}!argument\-Descriptions@{argument\-Descriptions}}
+\index{argument\-Descriptions@{argument\-Descriptions}!ExtensionSystem::Internal::PluginSpecPrivate@{\-Extension\-System\-::\-Internal\-::\-Plugin\-Spec\-Private}}
+\subsubsection[{argument\-Descriptions}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Plugin\-Spec\-::\-Plugin\-Argument\-Descriptions} {\bf \-Extension\-System\-::\-Internal\-::\-Plugin\-Spec\-Private\-::argument\-Descriptions}}}\label{class_extension_system_1_1_internal_1_1_plugin_spec_private_a32dd76917c01771fb0ad25ff50193fbc}
+
+
+\-Definition at line 76 of file pluginspec\-\_\-p.\-h.
+
+\hypertarget{class_extension_system_1_1_internal_1_1_plugin_spec_private_ae1681eb5cafc61fa0736e1a75b557c20}{\index{\-Extension\-System\-::\-Internal\-::\-Plugin\-Spec\-Private@{\-Extension\-System\-::\-Internal\-::\-Plugin\-Spec\-Private}!arguments@{arguments}}
+\index{arguments@{arguments}!ExtensionSystem::Internal::PluginSpecPrivate@{\-Extension\-System\-::\-Internal\-::\-Plugin\-Spec\-Private}}
+\subsubsection[{arguments}]{\setlength{\rightskip}{0pt plus 5cm}\-Q\-String\-List {\bf \-Extension\-System\-::\-Internal\-::\-Plugin\-Spec\-Private\-::arguments}}}\label{class_extension_system_1_1_internal_1_1_plugin_spec_private_ae1681eb5cafc61fa0736e1a75b557c20}
+
+
+\-Definition at line 73 of file pluginspec\-\_\-p.\-h.
+
+\hypertarget{class_extension_system_1_1_internal_1_1_plugin_spec_private_a5bca4f5cd92049fabd441bf9ae2a9734}{\index{\-Extension\-System\-::\-Internal\-::\-Plugin\-Spec\-Private@{\-Extension\-System\-::\-Internal\-::\-Plugin\-Spec\-Private}!compat\-Version@{compat\-Version}}
+\index{compat\-Version@{compat\-Version}!ExtensionSystem::Internal::PluginSpecPrivate@{\-Extension\-System\-::\-Internal\-::\-Plugin\-Spec\-Private}}
+\subsubsection[{compat\-Version}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Q\-String} {\bf \-Extension\-System\-::\-Internal\-::\-Plugin\-Spec\-Private\-::compat\-Version}}}\label{class_extension_system_1_1_internal_1_1_plugin_spec_private_a5bca4f5cd92049fabd441bf9ae2a9734}
+
+
+\-Definition at line 63 of file pluginspec\-\_\-p.\-h.
+
+\hypertarget{class_extension_system_1_1_internal_1_1_plugin_spec_private_a20718c1d11fe66633f33bfccc7dbfdf6}{\index{\-Extension\-System\-::\-Internal\-::\-Plugin\-Spec\-Private@{\-Extension\-System\-::\-Internal\-::\-Plugin\-Spec\-Private}!copyright@{copyright}}
+\index{copyright@{copyright}!ExtensionSystem::Internal::PluginSpecPrivate@{\-Extension\-System\-::\-Internal\-::\-Plugin\-Spec\-Private}}
+\subsubsection[{copyright}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Q\-String} {\bf \-Extension\-System\-::\-Internal\-::\-Plugin\-Spec\-Private\-::copyright}}}\label{class_extension_system_1_1_internal_1_1_plugin_spec_private_a20718c1d11fe66633f33bfccc7dbfdf6}
+
+
+\-Definition at line 65 of file pluginspec\-\_\-p.\-h.
+
+\hypertarget{class_extension_system_1_1_internal_1_1_plugin_spec_private_a1f765a1f76bd2ba2f296f84289e9b44f}{\index{\-Extension\-System\-::\-Internal\-::\-Plugin\-Spec\-Private@{\-Extension\-System\-::\-Internal\-::\-Plugin\-Spec\-Private}!dependencies@{dependencies}}
+\index{dependencies@{dependencies}!ExtensionSystem::Internal::PluginSpecPrivate@{\-Extension\-System\-::\-Internal\-::\-Plugin\-Spec\-Private}}
+\subsubsection[{dependencies}]{\setlength{\rightskip}{0pt plus 5cm}\-Q\-List$<${\bf \-Plugin\-Dependency}$>$ {\bf \-Extension\-System\-::\-Internal\-::\-Plugin\-Spec\-Private\-::dependencies}}}\label{class_extension_system_1_1_internal_1_1_plugin_spec_private_a1f765a1f76bd2ba2f296f84289e9b44f}
+
+
+\-Definition at line 69 of file pluginspec\-\_\-p.\-h.
+
+\hypertarget{class_extension_system_1_1_internal_1_1_plugin_spec_private_abd32e8602856b2fe48fed8140846be54}{\index{\-Extension\-System\-::\-Internal\-::\-Plugin\-Spec\-Private@{\-Extension\-System\-::\-Internal\-::\-Plugin\-Spec\-Private}!dependency\-Specs@{dependency\-Specs}}
+\index{dependency\-Specs@{dependency\-Specs}!ExtensionSystem::Internal::PluginSpecPrivate@{\-Extension\-System\-::\-Internal\-::\-Plugin\-Spec\-Private}}
+\subsubsection[{dependency\-Specs}]{\setlength{\rightskip}{0pt plus 5cm}\-Q\-List$<${\bf \-Plugin\-Spec} $\ast$$>$ {\bf \-Extension\-System\-::\-Internal\-::\-Plugin\-Spec\-Private\-::dependency\-Specs}}}\label{class_extension_system_1_1_internal_1_1_plugin_spec_private_abd32e8602856b2fe48fed8140846be54}
+
+
+\-Definition at line 75 of file pluginspec\-\_\-p.\-h.
+
+\hypertarget{class_extension_system_1_1_internal_1_1_plugin_spec_private_a477c1550169cba561d0cede9d8dc5c2b}{\index{\-Extension\-System\-::\-Internal\-::\-Plugin\-Spec\-Private@{\-Extension\-System\-::\-Internal\-::\-Plugin\-Spec\-Private}!description@{description}}
+\index{description@{description}!ExtensionSystem::Internal::PluginSpecPrivate@{\-Extension\-System\-::\-Internal\-::\-Plugin\-Spec\-Private}}
+\subsubsection[{description}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Q\-String} {\bf \-Extension\-System\-::\-Internal\-::\-Plugin\-Spec\-Private\-::description}}}\label{class_extension_system_1_1_internal_1_1_plugin_spec_private_a477c1550169cba561d0cede9d8dc5c2b}
+
+
+\-Definition at line 67 of file pluginspec\-\_\-p.\-h.
+
+\hypertarget{class_extension_system_1_1_internal_1_1_plugin_spec_private_a1fdbeffffeb8b7a7dbb2d30417674d83}{\index{\-Extension\-System\-::\-Internal\-::\-Plugin\-Spec\-Private@{\-Extension\-System\-::\-Internal\-::\-Plugin\-Spec\-Private}!error\-String@{error\-String}}
+\index{error\-String@{error\-String}!ExtensionSystem::Internal::PluginSpecPrivate@{\-Extension\-System\-::\-Internal\-::\-Plugin\-Spec\-Private}}
+\subsubsection[{error\-String}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Q\-String} {\bf \-Extension\-System\-::\-Internal\-::\-Plugin\-Spec\-Private\-::error\-String}}}\label{class_extension_system_1_1_internal_1_1_plugin_spec_private_a1fdbeffffeb8b7a7dbb2d30417674d83}
+
+
+\-Definition at line 81 of file pluginspec\-\_\-p.\-h.
+
+\hypertarget{class_extension_system_1_1_internal_1_1_plugin_spec_private_a048e4d091eccd93affd5c38b841ad2ed}{\index{\-Extension\-System\-::\-Internal\-::\-Plugin\-Spec\-Private@{\-Extension\-System\-::\-Internal\-::\-Plugin\-Spec\-Private}!file\-Path@{file\-Path}}
+\index{file\-Path@{file\-Path}!ExtensionSystem::Internal::PluginSpecPrivate@{\-Extension\-System\-::\-Internal\-::\-Plugin\-Spec\-Private}}
+\subsubsection[{file\-Path}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Q\-String} {\bf \-Extension\-System\-::\-Internal\-::\-Plugin\-Spec\-Private\-::file\-Path}}}\label{class_extension_system_1_1_internal_1_1_plugin_spec_private_a048e4d091eccd93affd5c38b841ad2ed}
+
+
+\-Definition at line 72 of file pluginspec\-\_\-p.\-h.
+
+\hypertarget{class_extension_system_1_1_internal_1_1_plugin_spec_private_aaee87e26d32c27c408a5059bd821b217}{\index{\-Extension\-System\-::\-Internal\-::\-Plugin\-Spec\-Private@{\-Extension\-System\-::\-Internal\-::\-Plugin\-Spec\-Private}!has\-Error@{has\-Error}}
+\index{has\-Error@{has\-Error}!ExtensionSystem::Internal::PluginSpecPrivate@{\-Extension\-System\-::\-Internal\-::\-Plugin\-Spec\-Private}}
+\subsubsection[{has\-Error}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-Extension\-System\-::\-Internal\-::\-Plugin\-Spec\-Private\-::has\-Error}}}\label{class_extension_system_1_1_internal_1_1_plugin_spec_private_aaee87e26d32c27c408a5059bd821b217}
+
+
+\-Definition at line 80 of file pluginspec\-\_\-p.\-h.
+
+\hypertarget{class_extension_system_1_1_internal_1_1_plugin_spec_private_a8060ccf842513091c9821ad6118a22c0}{\index{\-Extension\-System\-::\-Internal\-::\-Plugin\-Spec\-Private@{\-Extension\-System\-::\-Internal\-::\-Plugin\-Spec\-Private}!license@{license}}
+\index{license@{license}!ExtensionSystem::Internal::PluginSpecPrivate@{\-Extension\-System\-::\-Internal\-::\-Plugin\-Spec\-Private}}
+\subsubsection[{license}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Q\-String} {\bf \-Extension\-System\-::\-Internal\-::\-Plugin\-Spec\-Private\-::license}}}\label{class_extension_system_1_1_internal_1_1_plugin_spec_private_a8060ccf842513091c9821ad6118a22c0}
+
+
+\-Definition at line 66 of file pluginspec\-\_\-p.\-h.
+
+\hypertarget{class_extension_system_1_1_internal_1_1_plugin_spec_private_a69f6532837e17c9858580b506b5c3448}{\index{\-Extension\-System\-::\-Internal\-::\-Plugin\-Spec\-Private@{\-Extension\-System\-::\-Internal\-::\-Plugin\-Spec\-Private}!location@{location}}
+\index{location@{location}!ExtensionSystem::Internal::PluginSpecPrivate@{\-Extension\-System\-::\-Internal\-::\-Plugin\-Spec\-Private}}
+\subsubsection[{location}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Q\-String} {\bf \-Extension\-System\-::\-Internal\-::\-Plugin\-Spec\-Private\-::location}}}\label{class_extension_system_1_1_internal_1_1_plugin_spec_private_a69f6532837e17c9858580b506b5c3448}
+
+
+\-Definition at line 71 of file pluginspec\-\_\-p.\-h.
+
+\hypertarget{class_extension_system_1_1_internal_1_1_plugin_spec_private_ab3a82ed362b9755352316778bda2c635}{\index{\-Extension\-System\-::\-Internal\-::\-Plugin\-Spec\-Private@{\-Extension\-System\-::\-Internal\-::\-Plugin\-Spec\-Private}!name@{name}}
+\index{name@{name}!ExtensionSystem::Internal::PluginSpecPrivate@{\-Extension\-System\-::\-Internal\-::\-Plugin\-Spec\-Private}}
+\subsubsection[{name}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Q\-String} {\bf \-Extension\-System\-::\-Internal\-::\-Plugin\-Spec\-Private\-::name}}}\label{class_extension_system_1_1_internal_1_1_plugin_spec_private_ab3a82ed362b9755352316778bda2c635}
+
+
+\-Definition at line 61 of file pluginspec\-\_\-p.\-h.
+
+\hypertarget{class_extension_system_1_1_internal_1_1_plugin_spec_private_a45c4fa79923c8d0624258b8f733125f1}{\index{\-Extension\-System\-::\-Internal\-::\-Plugin\-Spec\-Private@{\-Extension\-System\-::\-Internal\-::\-Plugin\-Spec\-Private}!plugin@{plugin}}
+\index{plugin@{plugin}!ExtensionSystem::Internal::PluginSpecPrivate@{\-Extension\-System\-::\-Internal\-::\-Plugin\-Spec\-Private}}
+\subsubsection[{plugin}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-I\-Plugin}$\ast$ {\bf \-Extension\-System\-::\-Internal\-::\-Plugin\-Spec\-Private\-::plugin}}}\label{class_extension_system_1_1_internal_1_1_plugin_spec_private_a45c4fa79923c8d0624258b8f733125f1}
+
+
+\-Definition at line 77 of file pluginspec\-\_\-p.\-h.
+
+\hypertarget{class_extension_system_1_1_internal_1_1_plugin_spec_private_a1806625ef956622e6727d0b0d50274aa}{\index{\-Extension\-System\-::\-Internal\-::\-Plugin\-Spec\-Private@{\-Extension\-System\-::\-Internal\-::\-Plugin\-Spec\-Private}!state@{state}}
+\index{state@{state}!ExtensionSystem::Internal::PluginSpecPrivate@{\-Extension\-System\-::\-Internal\-::\-Plugin\-Spec\-Private}}
+\subsubsection[{state}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Plugin\-Spec\-::\-State} {\bf \-Extension\-System\-::\-Internal\-::\-Plugin\-Spec\-Private\-::state}}}\label{class_extension_system_1_1_internal_1_1_plugin_spec_private_a1806625ef956622e6727d0b0d50274aa}
+
+
+\-Definition at line 79 of file pluginspec\-\_\-p.\-h.
+
+\hypertarget{class_extension_system_1_1_internal_1_1_plugin_spec_private_a6872e7bd6f42c91c16e3fcd03554f004}{\index{\-Extension\-System\-::\-Internal\-::\-Plugin\-Spec\-Private@{\-Extension\-System\-::\-Internal\-::\-Plugin\-Spec\-Private}!url@{url}}
+\index{url@{url}!ExtensionSystem::Internal::PluginSpecPrivate@{\-Extension\-System\-::\-Internal\-::\-Plugin\-Spec\-Private}}
+\subsubsection[{url}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Q\-String} {\bf \-Extension\-System\-::\-Internal\-::\-Plugin\-Spec\-Private\-::url}}}\label{class_extension_system_1_1_internal_1_1_plugin_spec_private_a6872e7bd6f42c91c16e3fcd03554f004}
+
+
+\-Definition at line 68 of file pluginspec\-\_\-p.\-h.
+
+\hypertarget{class_extension_system_1_1_internal_1_1_plugin_spec_private_a3628c7ebcd80e71dd74fc0df729aac7a}{\index{\-Extension\-System\-::\-Internal\-::\-Plugin\-Spec\-Private@{\-Extension\-System\-::\-Internal\-::\-Plugin\-Spec\-Private}!vendor@{vendor}}
+\index{vendor@{vendor}!ExtensionSystem::Internal::PluginSpecPrivate@{\-Extension\-System\-::\-Internal\-::\-Plugin\-Spec\-Private}}
+\subsubsection[{vendor}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Q\-String} {\bf \-Extension\-System\-::\-Internal\-::\-Plugin\-Spec\-Private\-::vendor}}}\label{class_extension_system_1_1_internal_1_1_plugin_spec_private_a3628c7ebcd80e71dd74fc0df729aac7a}
+
+
+\-Definition at line 64 of file pluginspec\-\_\-p.\-h.
+
+\hypertarget{class_extension_system_1_1_internal_1_1_plugin_spec_private_a00cf7a310301d427a56b1b23576289bc}{\index{\-Extension\-System\-::\-Internal\-::\-Plugin\-Spec\-Private@{\-Extension\-System\-::\-Internal\-::\-Plugin\-Spec\-Private}!version@{version}}
+\index{version@{version}!ExtensionSystem::Internal::PluginSpecPrivate@{\-Extension\-System\-::\-Internal\-::\-Plugin\-Spec\-Private}}
+\subsubsection[{version}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Q\-String} {\bf \-Extension\-System\-::\-Internal\-::\-Plugin\-Spec\-Private\-::version}}}\label{class_extension_system_1_1_internal_1_1_plugin_spec_private_a00cf7a310301d427a56b1b23576289bc}
+
+
+\-Definition at line 62 of file pluginspec\-\_\-p.\-h.
+
+
+
+\-The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/libs/extensionsystem/\hyperlink{pluginspec__p_8h}{pluginspec\-\_\-p.\-h}\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/libs/extensionsystem/\hyperlink{pluginspec_8cpp}{pluginspec.\-cpp}\end{DoxyCompactItemize}

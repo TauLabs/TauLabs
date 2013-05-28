@@ -1,0 +1,67 @@
+\hypertarget{stabilization_8c}{\section{/home/jb/code/\-Tau\-Labs/flight/\-Modules/\-Stabilization/stabilization.c \-File \-Reference}
+\label{stabilization_8c}\index{/home/jb/code/\-Tau\-Labs/flight/\-Modules/\-Stabilization/stabilization.\-c@{/home/jb/code/\-Tau\-Labs/flight/\-Modules/\-Stabilization/stabilization.\-c}}
+}
+
+
+\-Attitude stabilization.  
+
+
+\subsection*{\-Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \{ \*
+\hyperlink{group___stabilization_module_gga99fb83031ce9923c84392b4e92f956b5a72ce5e299bef48d82c7df12b830f4362}{\-P\-I\-D\-\_\-\-R\-A\-T\-E\-\_\-\-R\-O\-L\-L}, 
+\hyperlink{group___stabilization_module_gga99fb83031ce9923c84392b4e92f956b5ac06016a8c64f1a65c3e50fbf8e130d40}{\-P\-I\-D\-\_\-\-R\-A\-T\-E\-\_\-\-P\-I\-T\-C\-H}, 
+\hyperlink{group___stabilization_module_gga99fb83031ce9923c84392b4e92f956b5a0c6a71c56e424e9e8dbece3cc8b6e247}{\-P\-I\-D\-\_\-\-R\-A\-T\-E\-\_\-\-Y\-A\-W}, 
+\hyperlink{group___stabilization_module_gga99fb83031ce9923c84392b4e92f956b5a5f8120c562708e146803407541f87dbb}{\-P\-I\-D\-\_\-\-A\-T\-T\-\_\-\-R\-O\-L\-L}, 
+\*
+\hyperlink{group___stabilization_module_gga99fb83031ce9923c84392b4e92f956b5ab1e5a0050d3a9b6ac04aa9f2283ab6cb}{\-P\-I\-D\-\_\-\-A\-T\-T\-\_\-\-P\-I\-T\-C\-H}, 
+\hyperlink{group___stabilization_module_gga99fb83031ce9923c84392b4e92f956b5ac81ceeecde5376af34dd127b8143ec3b}{\-P\-I\-D\-\_\-\-A\-T\-T\-\_\-\-Y\-A\-W}, 
+\hyperlink{group___stabilization_module_gga99fb83031ce9923c84392b4e92f956b5aa9ba8c316889eca7f244f9e458323e1c}{\-P\-I\-D\-\_\-\-M\-A\-X}
+ \}
+\end{DoxyCompactItemize}
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+int32\-\_\-t \hyperlink{group___stabilization_module_ga6190a7e200476bf20da7b47ac4107973}{\-Stabilization\-Start} ()
+\item 
+int32\-\_\-t \hyperlink{group___stabilization_module_ga0271ad4d56816c408814d99db9d15b8b}{\-Stabilization\-Initialize} ()
+\item 
+\hyperlink{group___stabilization_module_ga2ed12a01187d2c1f1659b1e9ee957d93}{\-M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L} (\hyperlink{group___stabilization_module_ga0271ad4d56816c408814d99db9d15b8b}{\-Stabilization\-Initialize}, \hyperlink{group___stabilization_module_ga6190a7e200476bf20da7b47ac4107973}{\-Stabilization\-Start})
+\end{DoxyCompactItemize}
+\subsection*{\-Variables}
+\begin{DoxyCompactItemize}
+\item 
+float \hyperlink{group___stabilization_module_gaf51ebd613903cfff91be0878961b04cf}{gyro\-\_\-alpha} = 0
+\item 
+float \hyperlink{group___stabilization_module_ga1b6fc01b4acff35c8b4875e91fb63bce}{axis\-\_\-lock\-\_\-accum} \mbox{[}3\mbox{]} = \{0,0,0\}
+\item 
+uint8\-\_\-t \hyperlink{group___stabilization_module_ga9d12f9314c47dcc57be19ca03b5ac09a}{max\-\_\-axis\-\_\-lock} = 0
+\item 
+uint8\-\_\-t \hyperlink{group___stabilization_module_ga94dd677918bcbe2c1ee026d1c1f95fd1}{max\-\_\-axislock\-\_\-rate} = 0
+\item 
+float \hyperlink{group___stabilization_module_ga0ed1377fcc1a59ba76172e76b113704d}{weak\-\_\-leveling\-\_\-kp} = 0
+\item 
+uint8\-\_\-t \hyperlink{group___stabilization_module_gac1659053cf18ba9ead672d2795fb6941}{weak\-\_\-leveling\-\_\-max} = 0
+\item 
+bool \hyperlink{group___stabilization_module_gaf67afab9d5822cab800d87ee04512e53}{low\-Throttle\-Zero\-Integral}
+\item 
+float \hyperlink{group___stabilization_module_ga953d14b1e6e45afc361e0898296bf346}{vbar\-\_\-decay} = 0.\-991f
+\item 
+struct \hyperlink{structpid}{pid} \hyperlink{group___stabilization_module_ga1b7c75ff9222444babfe603f25b91233}{pids} \mbox{[}\hyperlink{group___stabilization_module_gga99fb83031ce9923c84392b4e92f956b5aa9ba8c316889eca7f244f9e458323e1c}{\-P\-I\-D\-\_\-\-M\-A\-X}\mbox{]}
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-Attitude stabilization. \begin{DoxyAuthor}{\-Author}
+\-The \-Open\-Pilot \-Team, \href{http://www.openpilot.org}{\tt http\-://www.\-openpilot.\-org} \-Copyright (\-C) 2010. 
+
+\-Tau \-Labs, \href{http://taulabs.org,}{\tt http\-://taulabs.\-org,} \-Copyright (\-C) 2012-\/2013 
+\end{DoxyAuthor}
+\begin{DoxySeeAlso}{\-See also}
+\-The \-G\-N\-U \-Public \-License (\-G\-P\-L) \-Version 3 
+\end{DoxySeeAlso}
+
+
+\-Definition in file \hyperlink{stabilization_8c_source}{stabilization.\-c}.
+

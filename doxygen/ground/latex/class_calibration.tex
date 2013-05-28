@@ -1,0 +1,804 @@
+\hypertarget{class_calibration}{\section{\-Calibration \-Class \-Reference}
+\label{class_calibration}\index{\-Calibration@{\-Calibration}}
+}
+
+
+\-The \hyperlink{class_calibration}{\-Calibration} class is a \-U\-I free algorithm that can be connected to any interfaces. \-As such it only communicates with the \-U\-I via signals and slots, but has no direct handles to any particular controls or widgets.  
+
+
+
+
+{\ttfamily \#include $<$calibration.\-h$>$}
+
+\subsection*{\-Public \-Slots}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_calibration_a74c9adf432cfde3c607dc3459c9ff5b1}{do\-Start\-Leveling} ()
+\begin{DoxyCompactList}\small\item\em \-Start collecting data while aircraft is level. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_calibration_a5bea779241f9d9bb50e2c670ea588a43}{do\-Start\-Six\-Point} ()
+\begin{DoxyCompactList}\small\item\em \-Start the six point calibration routine. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_calibration_a5a9bae0780189e6dfd1aadaa825232e0}{do\-Cancel\-Six\-Point} ()
+\begin{DoxyCompactList}\small\item\em \-Cancels the six point calibration routine. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_calibration_a0d28935bfd66742e8551ddbdd98ce941}{do\-Save\-Six\-Point\-Position} ()
+\begin{DoxyCompactList}\small\item\em \-Indicates \-U\-A\-V is in a position to collect data during 6pt calibration. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_calibration_ad79bd9545005476bb15c478607e55a36}{do\-Start\-Temp\-Cal} ()
+\begin{DoxyCompactList}\small\item\em \-Start collecting gyro temp calibration data. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_calibration_a410796ba6e560144c62ec42a8b7bc9b9}{do\-Accept\-Temp\-Cal} ()
+\begin{DoxyCompactList}\small\item\em \-Accept gyro temp calibration data. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_calibration_aee6c4261672e5a8c194c331a71963622}{do\-Cancel\-Temp\-Cal\-Point} ()
+\begin{DoxyCompactList}\small\item\em \-Cancels the temperature calibration routine. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_calibration_a7f1864654eed2d90d8bb5949c9249454}{configure\-Temp\-Curves} (\hyperlink{class_temp_comp_curve}{\-Temp\-Comp\-Curve} $\ast$\hyperlink{_o_p_plots_8m_a9336ebf25087d91c818ee6e9ec29f8c1}{x}, \hyperlink{class_temp_comp_curve}{\-Temp\-Comp\-Curve} $\ast$\hyperlink{_o_p_plots_8m_a2fb1c5cf58867b5bbc9a1b145a86f3a0}{y}, \hyperlink{class_temp_comp_curve}{\-Temp\-Comp\-Curve} $\ast$\hyperlink{_o_p_plots_8m_a25ed1bcb423b0b7200f485fc5ff71c8e}{z})
+\begin{DoxyCompactList}\small\item\em \-Set up the curves. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_calibration_a895658576c504c370a7a7929a832f1b1}{set\-Temp\-Cal\-Range} (int r)
+\begin{DoxyCompactList}\small\item\em \-Set temperature calibration range. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Signals}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_calibration_acd2d18249304f970ea2b88be25ffacf4}{toggle\-Controls} (bool enable)
+\begin{DoxyCompactList}\small\item\em \-Indicate whether to enable or disable controls. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_calibration_a5c0c4477675b95dc0417496eb667f187}{toggle\-Save\-Position} (bool enable)
+\begin{DoxyCompactList}\small\item\em \-Indicate whether to enable or disable controls. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_calibration_abf64232b5acd7d93c98cf1394b0547d8}{update\-Plane} (int position)
+\begin{DoxyCompactList}\small\item\em \-Change the \-U\-A\-V visualization. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_calibration_a3cd34992a8bea67dbc42f5a4dbe1d08d}{show\-Six\-Point\-Message} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} message)
+\begin{DoxyCompactList}\small\item\em \-Show an instruction to the user for six point calibration. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_calibration_a398c9601c7103ec24323e32474d20757}{show\-Leveling\-Message} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} message)
+\begin{DoxyCompactList}\small\item\em \-Show an instruction to the user for six point calibration. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_calibration_a34770d5a2df9d4dd5e5845c8c0633a63}{leveling\-Progress\-Changed} (int)
+\begin{DoxyCompactList}\small\item\em \-Indicate what the progress is for leveling. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_calibration_a147fed7878b2ce2578f912e377447cc8}{six\-Point\-Progress\-Changed} (int)
+\begin{DoxyCompactList}\small\item\em \-Indicate what the progress is for six point collection. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_calibration_a6d1fe12509a4d29e08cb8d76e7d81b20}{show\-Temp\-Cal\-Message} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} message)
+\begin{DoxyCompactList}\small\item\em \-Show an instruction or message from temperature calibration. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_calibration_a7d28d53212a12e83b021eb3d32e06bcd}{temp\-Cal\-Progress\-Changed} (int)
+\begin{DoxyCompactList}\small\item\em \-Indicate what the progress is for leveling. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_calibration_a4e681ad78dc398b52b137dad1fe8e18b}{calibration\-Completed} ()
+\begin{DoxyCompactList}\small\item\em \-Indicate that a calibration process has successfully completed and the results saved to \-U\-A\-V\-O. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Public \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_calibration_a80f51a5ff7ec0f44d5388c9a61d1f20b}{\-Calibration} ()
+\item 
+\hyperlink{class_calibration_a108efb6ccd8c98e5cac950be4bf0ac26}{$\sim$\-Calibration} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_calibration_ab7f3ea695cee64e92f8fe59d546b134d}{initialize} (bool calibrate\-Accels, bool calibrate\-Mags)
+\begin{DoxyCompactList}\small\item\em \hyperlink{class_calibration_ab7f3ea695cee64e92f8fe59d546b134d}{\-Calibration\-::initialize} \-Configure whether to calibrate the magnetometer and/or accelerometer during 6-\/point calibration. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Protected \-Types}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{class_calibration_ab4af1e75c9a40776a4c5ed1da5e7caf8}{sensor\-\_\-type} \{ \hyperlink{class_calibration_ab4af1e75c9a40776a4c5ed1da5e7caf8a3d0c57c4632846573b22a605d31d59fd}{\-A\-C\-C\-E\-L}, 
+\hyperlink{class_calibration_ab4af1e75c9a40776a4c5ed1da5e7caf8a80751a325ad77e6a9240bc534ca9b5e8}{\-G\-Y\-R\-O}, 
+\hyperlink{class_calibration_ab4af1e75c9a40776a4c5ed1da5e7caf8a40b1af5ef9ac8c8600e3190a06bf81ca}{\-M\-A\-G}
+ \}
+\end{DoxyCompactItemize}
+\subsection*{\-Protected \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_calibration_a136ee34ff849bbeb76c30cd543e7419b}{connect\-Sensor} (\hyperlink{class_calibration_ab4af1e75c9a40776a4c5ed1da5e7caf8}{sensor\-\_\-type} sensor, bool connect)
+\begin{DoxyCompactList}\small\item\em \-Connect and speed up or disconnect a sensor. \end{DoxyCompactList}\item 
+bool \hyperlink{class_calibration_accd918a485a64e4d0f751050f84e660a}{store\-Six\-Point\-Measurement} (\hyperlink{class_u_a_v_object}{\-U\-A\-V\-Object} $\ast$obj, int position)
+\begin{DoxyCompactList}\small\item\em \-Store a measurement at this position and indicate if it is the last one. \end{DoxyCompactList}\item 
+bool \hyperlink{class_calibration_a2a04c8742b7da61b9b835b43d114fcd4}{store\-Leveling\-Measurement} (\hyperlink{class_u_a_v_object}{\-U\-A\-V\-Object} $\ast$obj)
+\begin{DoxyCompactList}\small\item\em \-Store leveling sample and compute level if finished. \end{DoxyCompactList}\item 
+int \hyperlink{class_calibration_aae10034ae031c64a977309fed00e7a91}{compute\-Scale\-Bias} ()
+\begin{DoxyCompactList}\small\item\em \-Computes the scale and bias for the accelerometer and mag. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_calibration_a5b519d85bb3e530d25b595bad5a926d7}{rotate\-\_\-vector} (double \-R\mbox{[}3\mbox{]}\mbox{[}3\mbox{]}, const double vec\mbox{[}3\mbox{]}, double vec\-\_\-out\mbox{[}3\mbox{]}, bool transpose)
+\begin{DoxyCompactList}\small\item\em \-Rotate a vector by the rotation matrix, optionally trasposing. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_calibration_a377eb05dfcb626f7b5af01ea1647d9ae}{\-Euler2\-R} (double rpy\mbox{[}3\mbox{]}, double \-Rbe\mbox{[}3\mbox{]}\mbox{[}3\mbox{]})
+\begin{DoxyCompactList}\small\item\em \-Compute a rotation matrix from a set of euler angles. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_calibration_afb4b17903974c7e7142cb5e65d29c967}{reset\-Sensor\-Calibration\-To\-Original\-Values} ()
+\begin{DoxyCompactList}\small\item\em \-Reset sensor settings to pre-\/calibration values. \end{DoxyCompactList}\item 
+bool \hyperlink{class_calibration_a08dbde1fd3231dc4ec7f6a6132adcc80}{store\-Temp\-Cal\-Measurement} (\hyperlink{class_u_a_v_object}{\-U\-A\-V\-Object} $\ast$obj)
+\begin{DoxyCompactList}\small\item\em \-Store a sample for temperature compensation. \end{DoxyCompactList}\item 
+int \hyperlink{class_calibration_a00f7ee1317e4c7b92b8c60a5f513698d}{compute\-Temp\-Cal} ()
+\begin{DoxyCompactList}\small\item\em \-Compute temperature compensation factors. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_calibration_aa6f828b26cfbaecba7ebb8f1ab90fea4}{update\-Temp\-Comp\-Calibration\-Display} ()
+\begin{DoxyCompactList}\small\item\em \-Update the graphs with the temperature compensation. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{Indent}{\bf \-Six\-Point\-In\-Const\-Field\-Cal}\par
+{\em \-Compute the scale and bias assuming the data comes from six orientations in a constant field
+
+x, y, z are vectors of six measurements
+
+\-Computes sensitivity and offset such that\-:
+
+c = \-S $\ast$ \-A + b
+
+where c is the measurement, \-S is the sensitivity, b is the bias offset, and \-A is the field being measured expressed as a ratio of the measured value to the field strength. aka a direction cosine.
+
+\-A is what we really want and it is computed using the equation\-:
+
+\-A = (c -\/ b)/\-S }\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{class_calibration_aaf643402ea9690b33d40ec8b79382b54}{\-Six\-Point\-In\-Const\-Field\-Cal} (double \-Const\-Mag, double \hyperlink{_o_p_plots_8m_a9336ebf25087d91c818ee6e9ec29f8c1}{x}\mbox{[}6\mbox{]}, double \hyperlink{_o_p_plots_8m_a2fb1c5cf58867b5bbc9a1b145a86f3a0}{y}\mbox{[}6\mbox{]}, double \hyperlink{_o_p_plots_8m_a25ed1bcb423b0b7200f485fc5ff71c8e}{z}\mbox{[}6\mbox{]}, double \-S\mbox{[}3\mbox{]}, double b\mbox{[}3\mbox{]})
+\end{DoxyCompactItemize}
+\end{Indent}
+\begin{Indent}{\bf \-Linear\-Equations\-Solving}\par
+{\em \-Uses \-Gaussian \-Elimination to solve linear equations of the type \-Ax=b
+
+\begin{DoxyNote}{\-Note}
+\-Matrix code snarfed from\-: \href{http://www.hlevkin.com/NumAlg/LinearEquations.c}{\tt http\-://www.\-hlevkin.\-com/\-Num\-Alg/\-Linear\-Equations.\-c}
+\end{DoxyNote}
+\begin{DoxyReturn}{\-Returns}
+0 if system not solving 
+\end{DoxyReturn}
+
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em n\-Dim} & -\/ system dimension \\
+\hline
+\mbox{\tt in}  & {\em pf\-Matr} & -\/ matrix with coefficients \\
+\hline
+\mbox{\tt in}  & {\em pf\-Vect} & -\/ vector with free members \\
+\hline
+\mbox{\tt out}  & {\em pf\-Solution} & -\/ vector with system solution \\
+\hline
+\mbox{\tt out}  & {\em pf\-Matr} & becames trianglular after function call \\
+\hline
+\mbox{\tt out}  & {\em pf\-Vect} & changes after function call \\
+\hline
+\end{DoxyParams}
+\begin{DoxyAuthor}{\-Author}
+\-Henry \-Guennadi \-Levkin 
+\end{DoxyAuthor}
+}\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{class_calibration_a35a3bab633b59ec9e4816fc7b9fd4629}{\-Linear\-Equations\-Solving} (int n\-Dim, double $\ast$pf\-Matr, double $\ast$pf\-Vect, double $\ast$pf\-Solution)
+\end{DoxyCompactItemize}
+\end{Indent}
+\subsection*{\-Static \-Protected \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+static double \hyperlink{class_calibration_a95498e971c84717dd7aec18af86e008d}{list\-Mean} (\-Q\-List$<$ double $>$ list)
+\begin{DoxyCompactList}\small\item\em \-Compute the mean value of a list. \end{DoxyCompactList}\item 
+static double \hyperlink{class_calibration_a5eb9cfb2ba5165de6feea8dc94152d49}{list\-Min} (\-Q\-List$<$ double $>$ list)
+\begin{DoxyCompactList}\small\item\em \-Compute the min value of a list. \end{DoxyCompactList}\item 
+static double \hyperlink{class_calibration_a635535616022d0ffb41e1a9235d52787}{list\-Max} (\-Q\-List$<$ double $>$ list)
+\begin{DoxyCompactList}\small\item\em \-Compute the max value of a list. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-The \hyperlink{class_calibration}{\-Calibration} class is a \-U\-I free algorithm that can be connected to any interfaces. \-As such it only communicates with the \-U\-I via signals and slots, but has no direct handles to any particular controls or widgets. 
+
+\-It performs a number of calibration routines, including six-\/point calibration for accelerometers and magnetometers, temperature compensation for gyros and, calculating the rotation to level the accelerometers. 
+
+\-Definition at line 45 of file calibration.\-h.
+
+
+
+\subsection{\-Member \-Enumeration \-Documentation}
+\hypertarget{class_calibration_ab4af1e75c9a40776a4c5ed1da5e7caf8}{\index{\-Calibration@{\-Calibration}!sensor\-\_\-type@{sensor\-\_\-type}}
+\index{sensor\-\_\-type@{sensor\-\_\-type}!Calibration@{\-Calibration}}
+\subsubsection[{sensor\-\_\-type}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf \-Calibration\-::sensor\-\_\-type}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{class_calibration_ab4af1e75c9a40776a4c5ed1da5e7caf8}
+\begin{Desc}
+\item[\-Enumerator\-: ]\par
+\begin{description}
+\index{\-A\-C\-C\-E\-L@{\-A\-C\-C\-E\-L}!\-Calibration@{\-Calibration}}\index{\-Calibration@{\-Calibration}!\-A\-C\-C\-E\-L@{\-A\-C\-C\-E\-L}}\item[{\em 
+\hypertarget{class_calibration_ab4af1e75c9a40776a4c5ed1da5e7caf8a3d0c57c4632846573b22a605d31d59fd}{\-A\-C\-C\-E\-L}\label{class_calibration_ab4af1e75c9a40776a4c5ed1da5e7caf8a3d0c57c4632846573b22a605d31d59fd}
+}]\index{\-G\-Y\-R\-O@{\-G\-Y\-R\-O}!\-Calibration@{\-Calibration}}\index{\-Calibration@{\-Calibration}!\-G\-Y\-R\-O@{\-G\-Y\-R\-O}}\item[{\em 
+\hypertarget{class_calibration_ab4af1e75c9a40776a4c5ed1da5e7caf8a80751a325ad77e6a9240bc534ca9b5e8}{\-G\-Y\-R\-O}\label{class_calibration_ab4af1e75c9a40776a4c5ed1da5e7caf8a80751a325ad77e6a9240bc534ca9b5e8}
+}]\index{\-M\-A\-G@{\-M\-A\-G}!\-Calibration@{\-Calibration}}\index{\-Calibration@{\-Calibration}!\-M\-A\-G@{\-M\-A\-G}}\item[{\em 
+\hypertarget{class_calibration_ab4af1e75c9a40776a4c5ed1da5e7caf8a40b1af5ef9ac8c8600e3190a06bf81ca}{\-M\-A\-G}\label{class_calibration_ab4af1e75c9a40776a4c5ed1da5e7caf8a40b1af5ef9ac8c8600e3190a06bf81ca}
+}]\end{description}
+\end{Desc}
+
+
+
+\-Definition at line 193 of file calibration.\-h.
+
+
+
+\subsection{\-Constructor \& \-Destructor \-Documentation}
+\hypertarget{class_calibration_a80f51a5ff7ec0f44d5388c9a61d1f20b}{\index{\-Calibration@{\-Calibration}!\-Calibration@{\-Calibration}}
+\index{\-Calibration@{\-Calibration}!Calibration@{\-Calibration}}
+\subsubsection[{\-Calibration}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Calibration\-::\-Calibration} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}explicit\mbox{]}}}}\label{class_calibration_a80f51a5ff7ec0f44d5388c9a61d1f20b}
+
+
+\-Definition at line 61 of file calibration.\-cpp.
+
+\hypertarget{class_calibration_a108efb6ccd8c98e5cac950be4bf0ac26}{\index{\-Calibration@{\-Calibration}!$\sim$\-Calibration@{$\sim$\-Calibration}}
+\index{$\sim$\-Calibration@{$\sim$\-Calibration}!Calibration@{\-Calibration}}
+\subsubsection[{$\sim$\-Calibration}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Calibration\-::$\sim$\-Calibration} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_calibration_a108efb6ccd8c98e5cac950be4bf0ac26}
+
+
+\-Definition at line 66 of file calibration.\-cpp.
+
+
+
+\subsection{\-Member \-Function \-Documentation}
+\hypertarget{class_calibration_a4e681ad78dc398b52b137dad1fe8e18b}{\index{\-Calibration@{\-Calibration}!calibration\-Completed@{calibration\-Completed}}
+\index{calibration\-Completed@{calibration\-Completed}!Calibration@{\-Calibration}}
+\subsubsection[{calibration\-Completed}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Calibration\-::calibration\-Completed} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}signal\mbox{]}}}}\label{class_calibration_a4e681ad78dc398b52b137dad1fe8e18b}
+
+
+\-Indicate that a calibration process has successfully completed and the results saved to \-U\-A\-V\-O. 
+
+\hypertarget{class_calibration_aae10034ae031c64a977309fed00e7a91}{\index{\-Calibration@{\-Calibration}!compute\-Scale\-Bias@{compute\-Scale\-Bias}}
+\index{compute\-Scale\-Bias@{compute\-Scale\-Bias}!Calibration@{\-Calibration}}
+\subsubsection[{compute\-Scale\-Bias}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf \-Calibration\-::compute\-Scale\-Bias} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{class_calibration_aae10034ae031c64a977309fed00e7a91}
+
+
+\-Computes the scale and bias for the accelerometer and mag. 
+
+\-Computes the scale and bias for the accelerometer and mag once all the data has been collected in 6 positions. 
+
+\-Definition at line 1196 of file calibration.\-cpp.
+
+\hypertarget{class_calibration_a00f7ee1317e4c7b92b8c60a5f513698d}{\index{\-Calibration@{\-Calibration}!compute\-Temp\-Cal@{compute\-Temp\-Cal}}
+\index{compute\-Temp\-Cal@{compute\-Temp\-Cal}!Calibration@{\-Calibration}}
+\subsubsection[{compute\-Temp\-Cal}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf \-Calibration\-::compute\-Temp\-Cal} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{class_calibration_a00f7ee1317e4c7b92b8c60a5f513698d}
+
+
+\-Compute temperature compensation factors. 
+
+\hyperlink{class_calibration_a7d28d53212a12e83b021eb3d32e06bcd}{\-Calibration\-::temp\-Cal\-Progress\-Changed} \-Compute a polynominal fit to all of the temperature data and each gyro channel.
+
+\begin{DoxyReturn}{\-Returns}
+
+\end{DoxyReturn}
+
+
+\-Definition at line 1037 of file calibration.\-cpp.
+
+\hypertarget{class_calibration_a7f1864654eed2d90d8bb5949c9249454}{\index{\-Calibration@{\-Calibration}!configure\-Temp\-Curves@{configure\-Temp\-Curves}}
+\index{configure\-Temp\-Curves@{configure\-Temp\-Curves}!Calibration@{\-Calibration}}
+\subsubsection[{configure\-Temp\-Curves}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Calibration\-::configure\-Temp\-Curves} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Temp\-Comp\-Curve} $\ast$}]{x, }
+\item[{{\bf \-Temp\-Comp\-Curve} $\ast$}]{y, }
+\item[{{\bf \-Temp\-Comp\-Curve} $\ast$}]{z}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}slot\mbox{]}}}}\label{class_calibration_a7f1864654eed2d90d8bb5949c9249454}
+
+
+\-Set up the curves. 
+
+\hyperlink{class_calibration_a7f1864654eed2d90d8bb5949c9249454}{\-Calibration\-::configure\-Temp\-Curves}.
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em x} & \\
+\hline
+{\em y} & \\
+\hline
+{\em z} & \\
+\hline
+\end{DoxyParams}
+
+
+\-Definition at line 937 of file calibration.\-cpp.
+
+\hypertarget{class_calibration_a136ee34ff849bbeb76c30cd543e7419b}{\index{\-Calibration@{\-Calibration}!connect\-Sensor@{connect\-Sensor}}
+\index{connect\-Sensor@{connect\-Sensor}!Calibration@{\-Calibration}}
+\subsubsection[{connect\-Sensor}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Calibration\-::connect\-Sensor} (
+\begin{DoxyParamCaption}
+\item[{{\bf sensor\-\_\-type}}]{sensor, }
+\item[{bool}]{con}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{class_calibration_a136ee34ff849bbeb76c30cd543e7419b}
+
+
+\-Connect and speed up or disconnect a sensor. 
+
+\hyperlink{class_calibration_a136ee34ff849bbeb76c30cd543e7419b}{\-Calibration\-::connect\-Sensor}.
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em sensor} & \-The sensor to change \\
+\hline
+{\em con} & \-Whether to connect or disconnect to this sensor \\
+\hline
+\end{DoxyParams}
+
+
+\-Definition at line 85 of file calibration.\-cpp.
+
+\hypertarget{class_calibration_a410796ba6e560144c62ec42a8b7bc9b9}{\index{\-Calibration@{\-Calibration}!do\-Accept\-Temp\-Cal@{do\-Accept\-Temp\-Cal}}
+\index{do\-Accept\-Temp\-Cal@{do\-Accept\-Temp\-Cal}!Calibration@{\-Calibration}}
+\subsubsection[{do\-Accept\-Temp\-Cal}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Calibration\-::do\-Accept\-Temp\-Cal} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}slot\mbox{]}}}}\label{class_calibration_a410796ba6e560144c62ec42a8b7bc9b9}
+
+
+\-Accept gyro temp calibration data. 
+
+\hyperlink{class_calibration_aee6c4261672e5a8c194c331a71963622}{\-Calibration\-::do\-Cancel\-Temp\-Cal\-Point} \-Abort the temperature calibration. 
+
+\-Definition at line 691 of file calibration.\-cpp.
+
+\hypertarget{class_calibration_a5a9bae0780189e6dfd1aadaa825232e0}{\index{\-Calibration@{\-Calibration}!do\-Cancel\-Six\-Point@{do\-Cancel\-Six\-Point}}
+\index{do\-Cancel\-Six\-Point@{do\-Cancel\-Six\-Point}!Calibration@{\-Calibration}}
+\subsubsection[{do\-Cancel\-Six\-Point}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Calibration\-::do\-Cancel\-Six\-Point} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}slot\mbox{]}}}}\label{class_calibration_a5a9bae0780189e6dfd1aadaa825232e0}
+
+
+\-Cancels the six point calibration routine. 
+
+\hyperlink{class_calibration_a5a9bae0780189e6dfd1aadaa825232e0}{\-Calibration\-::do\-Cancel\-Six\-Point} \-Cancels six point calibration and returns all values to their original settings. 
+
+\-Definition at line 576 of file calibration.\-cpp.
+
+\hypertarget{class_calibration_aee6c4261672e5a8c194c331a71963622}{\index{\-Calibration@{\-Calibration}!do\-Cancel\-Temp\-Cal\-Point@{do\-Cancel\-Temp\-Cal\-Point}}
+\index{do\-Cancel\-Temp\-Cal\-Point@{do\-Cancel\-Temp\-Cal\-Point}!Calibration@{\-Calibration}}
+\subsubsection[{do\-Cancel\-Temp\-Cal\-Point}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Calibration\-::do\-Cancel\-Temp\-Cal\-Point} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}slot\mbox{]}}}}\label{class_calibration_aee6c4261672e5a8c194c331a71963622}
+
+
+\-Cancels the temperature calibration routine. 
+
+\hyperlink{class_calibration_aee6c4261672e5a8c194c331a71963622}{\-Calibration\-::do\-Cancel\-Temp\-Cal\-Point} \-Abort the temperature calibration. 
+
+\-Definition at line 714 of file calibration.\-cpp.
+
+\hypertarget{class_calibration_a0d28935bfd66742e8551ddbdd98ce941}{\index{\-Calibration@{\-Calibration}!do\-Save\-Six\-Point\-Position@{do\-Save\-Six\-Point\-Position}}
+\index{do\-Save\-Six\-Point\-Position@{do\-Save\-Six\-Point\-Position}!Calibration@{\-Calibration}}
+\subsubsection[{do\-Save\-Six\-Point\-Position}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Calibration\-::do\-Save\-Six\-Point\-Position} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}slot\mbox{]}}}}\label{class_calibration_a0d28935bfd66742e8551ddbdd98ce941}
+
+
+\-Indicates \-U\-A\-V is in a position to collect data during 6pt calibration. 
+
+\-Tells the calibration utility the \-U\-A\-V is in position and to collect data. 
+
+\-Definition at line 603 of file calibration.\-cpp.
+
+\hypertarget{class_calibration_a74c9adf432cfde3c607dc3459c9ff5b1}{\index{\-Calibration@{\-Calibration}!do\-Start\-Leveling@{do\-Start\-Leveling}}
+\index{do\-Start\-Leveling@{do\-Start\-Leveling}!Calibration@{\-Calibration}}
+\subsubsection[{do\-Start\-Leveling}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Calibration\-::do\-Start\-Leveling} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}slot\mbox{]}}}}\label{class_calibration_a74c9adf432cfde3c607dc3459c9ff5b1}
+
+
+\-Start collecting data while aircraft is level. 
+
+\hyperlink{class_calibration_a74c9adf432cfde3c607dc3459c9ff5b1}{\-Calibration\-::do\-Start\-Leveling} \-Called by \-U\-I to start collecting data to calculate level. 
+
+\-Definition at line 406 of file calibration.\-cpp.
+
+\hypertarget{class_calibration_a5bea779241f9d9bb50e2c670ea588a43}{\index{\-Calibration@{\-Calibration}!do\-Start\-Six\-Point@{do\-Start\-Six\-Point}}
+\index{do\-Start\-Six\-Point@{do\-Start\-Six\-Point}!Calibration@{\-Calibration}}
+\subsubsection[{do\-Start\-Six\-Point}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Calibration\-::do\-Start\-Six\-Point} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}slot\mbox{]}}}}\label{class_calibration_a5bea779241f9d9bb50e2c670ea588a43}
+
+
+\-Start the six point calibration routine. 
+
+\-Called by the \char`\"{}\-Start\char`\"{} button. \-Sets up the meta data and enables the buttons to perform six point calibration of the magnetometer (optionally accel) to compute the scale and bias of this sensor based on the current home location magnetic strength. 
+
+\-Definition at line 465 of file calibration.\-cpp.
+
+\hypertarget{class_calibration_ad79bd9545005476bb15c478607e55a36}{\index{\-Calibration@{\-Calibration}!do\-Start\-Temp\-Cal@{do\-Start\-Temp\-Cal}}
+\index{do\-Start\-Temp\-Cal@{do\-Start\-Temp\-Cal}!Calibration@{\-Calibration}}
+\subsubsection[{do\-Start\-Temp\-Cal}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Calibration\-::do\-Start\-Temp\-Cal} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}slot\mbox{]}}}}\label{class_calibration_ad79bd9545005476bb15c478607e55a36}
+
+
+\-Start collecting gyro temp calibration data. 
+
+\-Start collecting gyro calibration data 
+
+\-Definition at line 652 of file calibration.\-cpp.
+
+\hypertarget{class_calibration_a377eb05dfcb626f7b5af01ea1647d9ae}{\index{\-Calibration@{\-Calibration}!\-Euler2\-R@{\-Euler2\-R}}
+\index{\-Euler2\-R@{\-Euler2\-R}!Calibration@{\-Calibration}}
+\subsubsection[{\-Euler2\-R}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Calibration\-::\-Euler2\-R} (
+\begin{DoxyParamCaption}
+\item[{double}]{rpy\mbox{[}3\mbox{]}, }
+\item[{double}]{\-Rbe\mbox{[}3\mbox{]}\mbox{[}3\mbox{]}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{class_calibration_a377eb05dfcb626f7b5af01ea1647d9ae}
+
+
+\-Compute a rotation matrix from a set of euler angles. 
+
+
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em rpy} & \-The euler angles in roll, pitch, yaw \\
+\hline
+\mbox{\tt out}  & {\em \-Rbe} & \-The rotation matrix to take a matrix from 0,0,0 to that rotation \\
+\hline
+\end{DoxyParams}
+
+
+\-Definition at line 1379 of file calibration.\-cpp.
+
+\hypertarget{class_calibration_ab7f3ea695cee64e92f8fe59d546b134d}{\index{\-Calibration@{\-Calibration}!initialize@{initialize}}
+\index{initialize@{initialize}!Calibration@{\-Calibration}}
+\subsubsection[{initialize}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Calibration\-::initialize} (
+\begin{DoxyParamCaption}
+\item[{bool}]{calibrate\-Accels, }
+\item[{bool}]{calibrate\-Mags}
+\end{DoxyParamCaption}
+)}}\label{class_calibration_ab7f3ea695cee64e92f8fe59d546b134d}
+
+
+\hyperlink{class_calibration_ab7f3ea695cee64e92f8fe59d546b134d}{\-Calibration\-::initialize} \-Configure whether to calibrate the magnetometer and/or accelerometer during 6-\/point calibration. 
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em calibrate\-Mags} & \\
+\hline
+\end{DoxyParams}
+
+
+\-Definition at line 75 of file calibration.\-cpp.
+
+\hypertarget{class_calibration_a34770d5a2df9d4dd5e5845c8c0633a63}{\index{\-Calibration@{\-Calibration}!leveling\-Progress\-Changed@{leveling\-Progress\-Changed}}
+\index{leveling\-Progress\-Changed@{leveling\-Progress\-Changed}!Calibration@{\-Calibration}}
+\subsubsection[{leveling\-Progress\-Changed}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Calibration\-::leveling\-Progress\-Changed} (
+\begin{DoxyParamCaption}
+\item[{int}]{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}signal\mbox{]}}}}\label{class_calibration_a34770d5a2df9d4dd5e5845c8c0633a63}
+
+
+\-Indicate what the progress is for leveling. 
+
+\hypertarget{class_calibration_a35a3bab633b59ec9e4816fc7b9fd4629}{\index{\-Calibration@{\-Calibration}!\-Linear\-Equations\-Solving@{\-Linear\-Equations\-Solving}}
+\index{\-Linear\-Equations\-Solving@{\-Linear\-Equations\-Solving}!Calibration@{\-Calibration}}
+\subsubsection[{\-Linear\-Equations\-Solving}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf \-Calibration\-::\-Linear\-Equations\-Solving} (
+\begin{DoxyParamCaption}
+\item[{int}]{n\-Dim, }
+\item[{double $\ast$}]{pf\-Matr, }
+\item[{double $\ast$}]{pf\-Vect, }
+\item[{double $\ast$}]{pf\-Solution}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{class_calibration_a35a3bab633b59ec9e4816fc7b9fd4629}
+
+
+\-Definition at line 1432 of file calibration.\-cpp.
+
+\hypertarget{class_calibration_a635535616022d0ffb41e1a9235d52787}{\index{\-Calibration@{\-Calibration}!list\-Max@{list\-Max}}
+\index{list\-Max@{list\-Max}!Calibration@{\-Calibration}}
+\subsubsection[{list\-Max}]{\setlength{\rightskip}{0pt plus 5cm}double {\bf \-Calibration\-::list\-Max} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-List$<$ double $>$}]{list}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}static, protected\mbox{]}}}}\label{class_calibration_a635535616022d0ffb41e1a9235d52787}
+
+
+\-Compute the max value of a list. 
+
+\-Utility function which calculates the \-Mean value of a list of values 
+\begin{DoxyParams}{\-Parameters}
+{\em list} & list of double values \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+\-Mean value of the list of parameter values 
+\end{DoxyReturn}
+
+
+\-Definition at line 1184 of file calibration.\-cpp.
+
+\hypertarget{class_calibration_a95498e971c84717dd7aec18af86e008d}{\index{\-Calibration@{\-Calibration}!list\-Mean@{list\-Mean}}
+\index{list\-Mean@{list\-Mean}!Calibration@{\-Calibration}}
+\subsubsection[{list\-Mean}]{\setlength{\rightskip}{0pt plus 5cm}double {\bf \-Calibration\-::list\-Mean} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-List$<$ double $>$}]{list}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}static, protected\mbox{]}}}}\label{class_calibration_a95498e971c84717dd7aec18af86e008d}
+
+
+\-Compute the mean value of a list. 
+
+\-Utility function which calculates the \-Mean value of a list of values 
+\begin{DoxyParams}{\-Parameters}
+{\em list} & list of double values \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+\-Mean value of the list of parameter values 
+\end{DoxyReturn}
+
+
+\-Definition at line 1158 of file calibration.\-cpp.
+
+\hypertarget{class_calibration_a5eb9cfb2ba5165de6feea8dc94152d49}{\index{\-Calibration@{\-Calibration}!list\-Min@{list\-Min}}
+\index{list\-Min@{list\-Min}!Calibration@{\-Calibration}}
+\subsubsection[{list\-Min}]{\setlength{\rightskip}{0pt plus 5cm}double {\bf \-Calibration\-::list\-Min} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-List$<$ double $>$}]{list}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}static, protected\mbox{]}}}}\label{class_calibration_a5eb9cfb2ba5165de6feea8dc94152d49}
+
+
+\-Compute the min value of a list. 
+
+\-Utility function which calculates the \-Mean value of a list of values 
+\begin{DoxyParams}{\-Parameters}
+{\em list} & list of double values \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+\-Mean value of the list of parameter values 
+\end{DoxyReturn}
+
+
+\-Definition at line 1171 of file calibration.\-cpp.
+
+\hypertarget{class_calibration_afb4b17903974c7e7142cb5e65d29c967}{\index{\-Calibration@{\-Calibration}!reset\-Sensor\-Calibration\-To\-Original\-Values@{reset\-Sensor\-Calibration\-To\-Original\-Values}}
+\index{reset\-Sensor\-Calibration\-To\-Original\-Values@{reset\-Sensor\-Calibration\-To\-Original\-Values}!Calibration@{\-Calibration}}
+\subsubsection[{reset\-Sensor\-Calibration\-To\-Original\-Values}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Calibration\-::reset\-Sensor\-Calibration\-To\-Original\-Values} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{class_calibration_afb4b17903974c7e7142cb5e65d29c967}
+
+
+\-Reset sensor settings to pre-\/calibration values. 
+
+\-Calibration\-::reset\-To\-Original\-Values \-Resets the accelerometer and magnetometer setting to their pre-\/calibration values. 
+
+\-Definition at line 1332 of file calibration.\-cpp.
+
+\hypertarget{class_calibration_a5b519d85bb3e530d25b595bad5a926d7}{\index{\-Calibration@{\-Calibration}!rotate\-\_\-vector@{rotate\-\_\-vector}}
+\index{rotate\-\_\-vector@{rotate\-\_\-vector}!Calibration@{\-Calibration}}
+\subsubsection[{rotate\-\_\-vector}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Calibration\-::rotate\-\_\-vector} (
+\begin{DoxyParamCaption}
+\item[{double}]{\-R\mbox{[}3\mbox{]}\mbox{[}3\mbox{]}, }
+\item[{const double}]{vec\mbox{[}3\mbox{]}, }
+\item[{double}]{vec\-\_\-out\mbox{[}3\mbox{]}, }
+\item[{bool}]{transpose = {\ttfamily true}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{class_calibration_a5b519d85bb3e530d25b595bad5a926d7}
+
+
+\-Rotate a vector by the rotation matrix, optionally trasposing. 
+
+
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em \-R} & the rotation matrix \\
+\hline
+\mbox{\tt in}  & {\em vec} & \-The vector to rotate by this matrix \\
+\hline
+\mbox{\tt out}  & {\em vec\-\_\-out} & \-The rotated vector \\
+\hline
+\mbox{\tt in}  & {\em transpose} & \-Optionally transpose the rotation matrix first (reverse the rotation) \\
+\hline
+\end{DoxyParams}
+
+
+\-Definition at line 1403 of file calibration.\-cpp.
+
+\hypertarget{class_calibration_a895658576c504c370a7a7929a832f1b1}{\index{\-Calibration@{\-Calibration}!set\-Temp\-Cal\-Range@{set\-Temp\-Cal\-Range}}
+\index{set\-Temp\-Cal\-Range@{set\-Temp\-Cal\-Range}!Calibration@{\-Calibration}}
+\subsubsection[{set\-Temp\-Cal\-Range}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Calibration\-::set\-Temp\-Cal\-Range} (
+\begin{DoxyParamCaption}
+\item[{int}]{r}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}slot\mbox{]}}}}\label{class_calibration_a895658576c504c370a7a7929a832f1b1}
+
+
+\-Set temperature calibration range. 
+
+\hyperlink{class_calibration_a895658576c504c370a7a7929a832f1b1}{\-Calibration\-::set\-Temp\-Cal\-Range} \-Set the range for calibration.
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em r} & \-The number of degrees that must be spanned for calibration to terminate \\
+\hline
+\end{DoxyParams}
+
+
+\-Definition at line 745 of file calibration.\-cpp.
+
+\hypertarget{class_calibration_a398c9601c7103ec24323e32474d20757}{\index{\-Calibration@{\-Calibration}!show\-Leveling\-Message@{show\-Leveling\-Message}}
+\index{show\-Leveling\-Message@{show\-Leveling\-Message}!Calibration@{\-Calibration}}
+\subsubsection[{show\-Leveling\-Message}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Calibration\-::show\-Leveling\-Message} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Q\-String}}]{message}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}signal\mbox{]}}}}\label{class_calibration_a398c9601c7103ec24323e32474d20757}
+
+
+\-Show an instruction to the user for six point calibration. 
+
+\hypertarget{class_calibration_a3cd34992a8bea67dbc42f5a4dbe1d08d}{\index{\-Calibration@{\-Calibration}!show\-Six\-Point\-Message@{show\-Six\-Point\-Message}}
+\index{show\-Six\-Point\-Message@{show\-Six\-Point\-Message}!Calibration@{\-Calibration}}
+\subsubsection[{show\-Six\-Point\-Message}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Calibration\-::show\-Six\-Point\-Message} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Q\-String}}]{message}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}signal\mbox{]}}}}\label{class_calibration_a3cd34992a8bea67dbc42f5a4dbe1d08d}
+
+
+\-Show an instruction to the user for six point calibration. 
+
+\hypertarget{class_calibration_a6d1fe12509a4d29e08cb8d76e7d81b20}{\index{\-Calibration@{\-Calibration}!show\-Temp\-Cal\-Message@{show\-Temp\-Cal\-Message}}
+\index{show\-Temp\-Cal\-Message@{show\-Temp\-Cal\-Message}!Calibration@{\-Calibration}}
+\subsubsection[{show\-Temp\-Cal\-Message}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Calibration\-::show\-Temp\-Cal\-Message} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Q\-String}}]{message}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}signal\mbox{]}}}}\label{class_calibration_a6d1fe12509a4d29e08cb8d76e7d81b20}
+
+
+\-Show an instruction or message from temperature calibration. 
+
+\hypertarget{class_calibration_aaf643402ea9690b33d40ec8b79382b54}{\index{\-Calibration@{\-Calibration}!\-Six\-Point\-In\-Const\-Field\-Cal@{\-Six\-Point\-In\-Const\-Field\-Cal}}
+\index{\-Six\-Point\-In\-Const\-Field\-Cal@{\-Six\-Point\-In\-Const\-Field\-Cal}!Calibration@{\-Calibration}}
+\subsubsection[{\-Six\-Point\-In\-Const\-Field\-Cal}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf \-Calibration\-::\-Six\-Point\-In\-Const\-Field\-Cal} (
+\begin{DoxyParamCaption}
+\item[{double}]{\-Const\-Mag, }
+\item[{double}]{x\mbox{[}6\mbox{]}, }
+\item[{double}]{y\mbox{[}6\mbox{]}, }
+\item[{double}]{z\mbox{[}6\mbox{]}, }
+\item[{double}]{\-S\mbox{[}3\mbox{]}, }
+\item[{double}]{b\mbox{[}3\mbox{]}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{class_calibration_aaf643402ea9690b33d40ec8b79382b54}
+
+
+\-Definition at line 1514 of file calibration.\-cpp.
+
+\hypertarget{class_calibration_a147fed7878b2ce2578f912e377447cc8}{\index{\-Calibration@{\-Calibration}!six\-Point\-Progress\-Changed@{six\-Point\-Progress\-Changed}}
+\index{six\-Point\-Progress\-Changed@{six\-Point\-Progress\-Changed}!Calibration@{\-Calibration}}
+\subsubsection[{six\-Point\-Progress\-Changed}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Calibration\-::six\-Point\-Progress\-Changed} (
+\begin{DoxyParamCaption}
+\item[{int}]{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}signal\mbox{]}}}}\label{class_calibration_a147fed7878b2ce2578f912e377447cc8}
+
+
+\-Indicate what the progress is for six point collection. 
+
+\hypertarget{class_calibration_a2a04c8742b7da61b9b835b43d114fcd4}{\index{\-Calibration@{\-Calibration}!store\-Leveling\-Measurement@{store\-Leveling\-Measurement}}
+\index{store\-Leveling\-Measurement@{store\-Leveling\-Measurement}!Calibration@{\-Calibration}}
+\subsubsection[{store\-Leveling\-Measurement}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-Calibration\-::store\-Leveling\-Measurement} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-U\-A\-V\-Object} $\ast$}]{obj}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{class_calibration_a2a04c8742b7da61b9b835b43d114fcd4}
+
+
+\-Store leveling sample and compute level if finished. 
+
+\-Calibration\-::stored\-Leveling\-Measurement \-Store a measurement and if there is enough data compute the level angle and gyro zero.
+
+\begin{DoxyReturn}{\-Returns}
+true if enough data is collected 
+\end{DoxyReturn}
+
+
+\-Definition at line 755 of file calibration.\-cpp.
+
+\hypertarget{class_calibration_accd918a485a64e4d0f751050f84e660a}{\index{\-Calibration@{\-Calibration}!store\-Six\-Point\-Measurement@{store\-Six\-Point\-Measurement}}
+\index{store\-Six\-Point\-Measurement@{store\-Six\-Point\-Measurement}!Calibration@{\-Calibration}}
+\subsubsection[{store\-Six\-Point\-Measurement}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-Calibration\-::store\-Six\-Point\-Measurement} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-U\-A\-V\-Object} $\ast$}]{obj, }
+\item[{int}]{position}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{class_calibration_accd918a485a64e4d0f751050f84e660a}
+
+
+\-Store a measurement at this position and indicate if it is the last one. 
+
+\-Grab a sample of accel or mag data while in this position and store it for averaging. \begin{DoxyReturn}{\-Returns}
+true \-If enough data is averaged at this position 
+\end{DoxyReturn}
+
+
+\-Definition at line 865 of file calibration.\-cpp.
+
+\hypertarget{class_calibration_a08dbde1fd3231dc4ec7f6a6132adcc80}{\index{\-Calibration@{\-Calibration}!store\-Temp\-Cal\-Measurement@{store\-Temp\-Cal\-Measurement}}
+\index{store\-Temp\-Cal\-Measurement@{store\-Temp\-Cal\-Measurement}!Calibration@{\-Calibration}}
+\subsubsection[{store\-Temp\-Cal\-Measurement}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-Calibration\-::store\-Temp\-Cal\-Measurement} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-U\-A\-V\-Object} $\ast$}]{obj}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{class_calibration_a08dbde1fd3231dc4ec7f6a6132adcc80}
+
+
+\-Store a sample for temperature compensation. 
+
+\-Grab a sample of gyro data with the temperautre \begin{DoxyReturn}{\-Returns}
+true \-If enough data is averaged at this position 
+\end{DoxyReturn}
+
+
+\-Definition at line 950 of file calibration.\-cpp.
+
+\hypertarget{class_calibration_a7d28d53212a12e83b021eb3d32e06bcd}{\index{\-Calibration@{\-Calibration}!temp\-Cal\-Progress\-Changed@{temp\-Cal\-Progress\-Changed}}
+\index{temp\-Cal\-Progress\-Changed@{temp\-Cal\-Progress\-Changed}!Calibration@{\-Calibration}}
+\subsubsection[{temp\-Cal\-Progress\-Changed}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Calibration\-::temp\-Cal\-Progress\-Changed} (
+\begin{DoxyParamCaption}
+\item[{int}]{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}signal\mbox{]}}}}\label{class_calibration_a7d28d53212a12e83b021eb3d32e06bcd}
+
+
+\-Indicate what the progress is for leveling. 
+
+\hypertarget{class_calibration_acd2d18249304f970ea2b88be25ffacf4}{\index{\-Calibration@{\-Calibration}!toggle\-Controls@{toggle\-Controls}}
+\index{toggle\-Controls@{toggle\-Controls}!Calibration@{\-Calibration}}
+\subsubsection[{toggle\-Controls}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Calibration\-::toggle\-Controls} (
+\begin{DoxyParamCaption}
+\item[{bool}]{enable}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}signal\mbox{]}}}}\label{class_calibration_acd2d18249304f970ea2b88be25ffacf4}
+
+
+\-Indicate whether to enable or disable controls. 
+
+\hypertarget{class_calibration_a5c0c4477675b95dc0417496eb667f187}{\index{\-Calibration@{\-Calibration}!toggle\-Save\-Position@{toggle\-Save\-Position}}
+\index{toggle\-Save\-Position@{toggle\-Save\-Position}!Calibration@{\-Calibration}}
+\subsubsection[{toggle\-Save\-Position}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Calibration\-::toggle\-Save\-Position} (
+\begin{DoxyParamCaption}
+\item[{bool}]{enable}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}signal\mbox{]}}}}\label{class_calibration_a5c0c4477675b95dc0417496eb667f187}
+
+
+\-Indicate whether to enable or disable controls. 
+
+\hypertarget{class_calibration_abf64232b5acd7d93c98cf1394b0547d8}{\index{\-Calibration@{\-Calibration}!update\-Plane@{update\-Plane}}
+\index{update\-Plane@{update\-Plane}!Calibration@{\-Calibration}}
+\subsubsection[{update\-Plane}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Calibration\-::update\-Plane} (
+\begin{DoxyParamCaption}
+\item[{int}]{position}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}signal\mbox{]}}}}\label{class_calibration_abf64232b5acd7d93c98cf1394b0547d8}
+
+
+\-Change the \-U\-A\-V visualization. 
+
+\hypertarget{class_calibration_aa6f828b26cfbaecba7ebb8f1ab90fea4}{\index{\-Calibration@{\-Calibration}!update\-Temp\-Comp\-Calibration\-Display@{update\-Temp\-Comp\-Calibration\-Display}}
+\index{update\-Temp\-Comp\-Calibration\-Display@{update\-Temp\-Comp\-Calibration\-Display}!Calibration@{\-Calibration}}
+\subsubsection[{update\-Temp\-Comp\-Calibration\-Display}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Calibration\-::update\-Temp\-Comp\-Calibration\-Display} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{class_calibration_aa6f828b26cfbaecba7ebb8f1ab90fea4}
+
+
+\-Update the graphs with the temperature compensation. 
+
+\hyperlink{class_calibration_aa6f828b26cfbaecba7ebb8f1ab90fea4}{\-Calibration\-::update\-Temp\-Comp\-Calibration\-Display}. 
+
+\-Definition at line 980 of file calibration.\-cpp.
+
+
+
+\-The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/plugins/config/\hyperlink{calibration_8h}{calibration.\-h}\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/plugins/config/\hyperlink{calibration_8cpp}{calibration.\-cpp}\end{DoxyCompactItemize}

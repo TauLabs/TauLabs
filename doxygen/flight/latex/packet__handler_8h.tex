@@ -1,0 +1,68 @@
+\hypertarget{packet__handler_8h}{\section{/home/jb/code/\-Tau\-Labs/flight/\-Libraries/inc/packet\-\_\-handler.h \-File \-Reference}
+\label{packet__handler_8h}\index{/home/jb/code/\-Tau\-Labs/flight/\-Libraries/inc/packet\-\_\-handler.\-h@{/home/jb/code/\-Tau\-Labs/flight/\-Libraries/inc/packet\-\_\-handler.\-h}}
+}
+
+
+\-A packet handler for handeling radio packet transmission.  
+
+
+\subsection*{\-Data \-Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{struct_p_h_packet_header}{\-P\-H\-Packet\-Header}
+\item 
+struct \hyperlink{struct_p_h_packet}{\-P\-H\-Packet}
+\item 
+struct \hyperlink{struct_p_h_ack_nack_packet}{\-P\-H\-Ack\-Nack\-Packet}
+\item 
+struct \hyperlink{struct_p_h_ppm_packet}{\-P\-H\-Ppm\-Packet}
+\item 
+struct \hyperlink{struct_p_h_status_packet}{\-P\-H\-Status\-Packet}
+\item 
+struct \hyperlink{struct_p_h_connection_packet}{\-P\-H\-Connection\-Packet}
+\end{DoxyCompactItemize}
+\subsection*{\-Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef struct \hyperlink{struct_p_h_packet}{\-P\-H\-Packet} $\ast$ \hyperlink{group___tau_labs_libraries_gaa252eac3dc3346fec375be8805fd8694}{\-P\-H\-Packet\-Handle}
+\item 
+typedef struct \hyperlink{struct_p_h_ack_nack_packet}{\-P\-H\-Ack\-Nack\-Packet} $\ast$ \hyperlink{group___tau_labs_libraries_gafd4ce42b4793fdd6ccdba127272056b4}{\-P\-H\-Ack\-Nack\-Packet\-Handle}
+\item 
+typedef struct \hyperlink{struct_p_h_ppm_packet}{\-P\-H\-Ppm\-Packet} $\ast$ \hyperlink{group___tau_labs_libraries_ga64fda6fd21f38899abc02e01a8920fe2}{\-P\-H\-Ppm\-Packet\-Handle}
+\item 
+typedef struct \hyperlink{struct_p_h_status_packet}{\-P\-H\-Status\-Packet} $\ast$ \hyperlink{group___tau_labs_libraries_gaba4b593b2564f247de7ae01fe86e908a}{\-P\-H\-Status\-Packet\-Handle}
+\item 
+typedef struct \hyperlink{struct_p_h_connection_packet}{\-P\-H\-Connection\-Packet} $\ast$ \hyperlink{group___tau_labs_libraries_ga2c36c280fa284ae25b54eba06a601805}{\-P\-H\-Connection\-Packet\-Handle}
+\end{DoxyCompactItemize}
+\subsection*{\-Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{group___tau_labs_libraries_gafc6fe85f3c89dabc11ae43c825fb28ad}{\-P\-H\-Packet\-Type} \{ \*
+\hyperlink{group___tau_labs_libraries_ggafc6fe85f3c89dabc11ae43c825fb28ada7bc0b281e9e7e0ef0dfb2ffb37655333}{\-P\-A\-C\-K\-E\-T\-\_\-\-T\-Y\-P\-E\-\_\-\-N\-O\-N\-E} =  0, 
+\hyperlink{group___tau_labs_libraries_ggafc6fe85f3c89dabc11ae43c825fb28adad83911cea88c149916cd281ec9ee5cee}{\-P\-A\-C\-K\-E\-T\-\_\-\-T\-Y\-P\-E\-\_\-\-S\-T\-A\-T\-U\-S}, 
+\hyperlink{group___tau_labs_libraries_ggafc6fe85f3c89dabc11ae43c825fb28ada287243cb80381ee8175f3fdcb25b69de}{\-P\-A\-C\-K\-E\-T\-\_\-\-T\-Y\-P\-E\-\_\-\-C\-O\-N\-\_\-\-R\-E\-Q\-U\-E\-S\-T}, 
+\hyperlink{group___tau_labs_libraries_ggafc6fe85f3c89dabc11ae43c825fb28ada2062477b6d9ae02203bcb2adfe989055}{\-P\-A\-C\-K\-E\-T\-\_\-\-T\-Y\-P\-E\-\_\-\-D\-A\-T\-A}, 
+\*
+\hyperlink{group___tau_labs_libraries_ggafc6fe85f3c89dabc11ae43c825fb28ada3392941f745533dd9f815c1d8e88003a}{\-P\-A\-C\-K\-E\-T\-\_\-\-T\-Y\-P\-E\-\_\-\-D\-U\-P\-L\-I\-C\-A\-T\-E\-\_\-\-D\-A\-T\-A}, 
+\hyperlink{group___tau_labs_libraries_ggafc6fe85f3c89dabc11ae43c825fb28adad3e2cee14551c12b1123a659b4456d04}{\-P\-A\-C\-K\-E\-T\-\_\-\-T\-Y\-P\-E\-\_\-\-P\-P\-M}, 
+\hyperlink{group___tau_labs_libraries_ggafc6fe85f3c89dabc11ae43c825fb28ada6add2b6716957bc5e01de78127161c27}{\-P\-A\-C\-K\-E\-T\-\_\-\-T\-Y\-P\-E\-\_\-\-A\-C\-K}, 
+\hyperlink{group___tau_labs_libraries_ggafc6fe85f3c89dabc11ae43c825fb28ada77fe95b0ef25a7e060413a0175ac7747}{\-P\-A\-C\-K\-E\-T\-\_\-\-T\-Y\-P\-E\-\_\-\-A\-C\-K\-\_\-\-R\-T\-S}, 
+\*
+\hyperlink{group___tau_labs_libraries_ggafc6fe85f3c89dabc11ae43c825fb28ada7b9680cb1a5b7a996450a1c19439779f}{\-P\-A\-C\-K\-E\-T\-\_\-\-T\-Y\-P\-E\-\_\-\-N\-A\-C\-K}
+ \}
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-A packet handler for handeling radio packet transmission. \begin{DoxyAuthor}{\-Author}
+\-The \-Open\-Pilot \-Team, \href{http://www.openpilot.org}{\tt http\-://www.\-openpilot.\-org} \-Copyright (\-C) 2012. 
+
+\-Tau \-Labs, \href{http://taulabs.org,}{\tt http\-://taulabs.\-org,} \-Copyright (\-C) 2013 \-Used by the \hyperlink{group___radio_com_bridge_module}{\-Com \-Port to \-Radio \-Bridge \-Module} and \hyperlink{group___p_i_o_s___r_f_m22_b}{\-Radio \-Functions}
+\end{DoxyAuthor}
+\begin{DoxySeeAlso}{\-See also}
+\-The \-G\-N\-U \-Public \-License (\-G\-P\-L) \-Version 3 
+\end{DoxySeeAlso}
+
+
+\-Definition in file \hyperlink{packet__handler_8h_source}{packet\-\_\-handler.\-h}.
+

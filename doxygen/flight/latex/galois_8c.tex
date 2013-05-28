@@ -1,0 +1,110 @@
+\hypertarget{galois_8c}{\section{/home/jb/code/\-Tau\-Labs/flight/\-Libraries/rscode/galois.c \-File \-Reference}
+\label{galois_8c}\index{/home/jb/code/\-Tau\-Labs/flight/\-Libraries/rscode/galois.\-c@{/home/jb/code/\-Tau\-Labs/flight/\-Libraries/rscode/galois.\-c}}
+}
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{galois_8c_a65eb83f04917d12d687aaa70449a3036}{init\-\_\-galois\-\_\-tables} (void)
+\item 
+int \hyperlink{galois_8c_a67e5fdd13f145fe895d82b04bc7bffc3}{gmult} (int a, int b)
+\item 
+int \hyperlink{galois_8c_aea2f56d785c0dfc8af1f9bc2c78294f4}{ginv} (int elt)
+\end{DoxyCompactItemize}
+\subsection*{\-Variables}
+\begin{DoxyCompactItemize}
+\item 
+const int \hyperlink{galois_8c_aaca848efd07888d6d88886ac06b463de}{gexp} \mbox{[}512\mbox{]}
+\item 
+const int \hyperlink{galois_8c_af2e4b45be6be48b610cd9c7ad27de11a}{glog} \mbox{[}256\mbox{]}
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Function \-Documentation}
+\hypertarget{galois_8c_aea2f56d785c0dfc8af1f9bc2c78294f4}{\index{galois.\-c@{galois.\-c}!ginv@{ginv}}
+\index{ginv@{ginv}!galois.c@{galois.\-c}}
+\subsubsection[{ginv}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf ginv} (
+\begin{DoxyParamCaption}
+\item[{int}]{elt}
+\end{DoxyParamCaption}
+)}}\label{galois_8c_aea2f56d785c0dfc8af1f9bc2c78294f4}
+
+
+\-Definition at line 160 of file galois.\-c.
+
+\hypertarget{galois_8c_a67e5fdd13f145fe895d82b04bc7bffc3}{\index{galois.\-c@{galois.\-c}!gmult@{gmult}}
+\index{gmult@{gmult}!galois.c@{galois.\-c}}
+\subsubsection[{gmult}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf gmult} (
+\begin{DoxyParamCaption}
+\item[{int}]{a, }
+\item[{int}]{b}
+\end{DoxyParamCaption}
+)}}\label{galois_8c_a67e5fdd13f145fe895d82b04bc7bffc3}
+
+
+\-Definition at line 150 of file galois.\-c.
+
+\hypertarget{galois_8c_a65eb83f04917d12d687aaa70449a3036}{\index{galois.\-c@{galois.\-c}!init\-\_\-galois\-\_\-tables@{init\-\_\-galois\-\_\-tables}}
+\index{init\-\_\-galois\-\_\-tables@{init\-\_\-galois\-\_\-tables}!galois.c@{galois.\-c}}
+\subsubsection[{init\-\_\-galois\-\_\-tables}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf init\-\_\-galois\-\_\-tables} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{galois_8c_a65eb83f04917d12d687aaa70449a3036}
+
+
+\-Definition at line 103 of file galois.\-c.
+
+
+
+\subsection{\-Variable \-Documentation}
+\hypertarget{galois_8c_aaca848efd07888d6d88886ac06b463de}{\index{galois.\-c@{galois.\-c}!gexp@{gexp}}
+\index{gexp@{gexp}!galois.c@{galois.\-c}}
+\subsubsection[{gexp}]{\setlength{\rightskip}{0pt plus 5cm}const int {\bf gexp}\mbox{[}512\mbox{]}}}\label{galois_8c_aaca848efd07888d6d88886ac06b463de}
+
+
+\-Definition at line 45 of file galois.\-c.
+
+\hypertarget{galois_8c_af2e4b45be6be48b610cd9c7ad27de11a}{\index{galois.\-c@{galois.\-c}!glog@{glog}}
+\index{glog@{glog}!galois.c@{galois.\-c}}
+\subsubsection[{glog}]{\setlength{\rightskip}{0pt plus 5cm}const int {\bf glog}\mbox{[}256\mbox{]}}}\label{galois_8c_af2e4b45be6be48b610cd9c7ad27de11a}
+{\bfseries \-Initial value\-:}
+\begin{DoxyCode}
+ {
+          0,   0,   1,  25,   2,  50,  26, 198,   3, 223,  51, 238,  27, 104, 
+      199,  75, 
+          4, 100, 224,  14,  52, 141, 239, 129,  28, 193, 105, 248, 200,   8,  
+      76, 113, 
+          5, 138, 101,  47, 225,  36,  15,  33,  53, 147, 142, 218, 240,  18, 
+      130,  69, 
+         29, 181, 194, 125, 106,  39, 249, 185, 201, 154,   9, 120,  77, 228, 
+      114, 166, 
+          6, 191, 139,  98, 102, 221,  48, 253, 226, 152,  37, 179,  16, 145,  
+      34, 136, 
+         54, 208, 148, 206, 143, 150, 219, 189, 241, 210,  19,  92, 131,  56,  
+      70,  64, 
+         30,  66, 182, 163, 195,  72, 126, 110, 107,  58,  40,  84, 250, 133, 
+      186,  61, 
+        202,  94, 155, 159,  10,  21, 121,  43,  78, 212, 229, 172, 115, 243, 
+      167,  87, 
+          7, 112, 192, 247, 140, 128,  99,  13, 103,  74, 222, 237,  49, 197, 
+      254,  24, 
+        227, 165, 153, 119,  38, 184, 180, 124,  17,  68, 146, 217,  35,  32, 
+      137,  46, 
+         55,  63, 209,  91, 149, 188, 207, 205, 144, 135, 151, 178, 220, 252, 
+      190,  97, 
+        242,  86, 211, 171,  20,  42,  93, 158, 132,  60,  57,  83,  71, 109,  
+      65, 162, 
+         31,  45,  67, 216, 183, 123, 164, 118, 196,  23,  73, 236, 127,  12, 
+      111, 246, 
+        108, 161,  59,  82,  41, 157,  85, 170, 251,  96, 134, 177, 187, 204,  
+      62,  90, 
+        203,  89,  95, 176, 156, 169, 160,  81,  11, 245,  22, 235, 122, 117,  
+      44, 215, 
+         79, 174, 213, 233, 230, 231, 173, 232, 116, 214, 244, 234, 168,  80,  
+      88, 175, 
+}
+\end{DoxyCode}
+
+
+\-Definition at line 79 of file galois.\-c.
+

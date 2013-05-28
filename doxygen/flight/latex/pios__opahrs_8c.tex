@@ -1,0 +1,42 @@
+\hypertarget{pios__opahrs_8c}{\section{/home/jb/code/\-Tau\-Labs/flight/\-Pi\-O\-S/\-Common/pios\-\_\-opahrs.c \-File \-Reference}
+\label{pios__opahrs_8c}\index{/home/jb/code/\-Tau\-Labs/flight/\-Pi\-O\-S/\-Common/pios\-\_\-opahrs.\-c@{/home/jb/code/\-Tau\-Labs/flight/\-Pi\-O\-S/\-Common/pios\-\_\-opahrs.\-c}}
+}
+
+
+\-Hardware commands to communicate with the \-A\-H\-R\-S.  
+
+
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{group___p_i_o_s___o_p_a_h_r_s_ga67ca7bfc93dd4242084641433d56f6f7}{\-P\-I\-O\-S\-\_\-\-O\-P\-A\-H\-R\-S\-\_\-\-Init} (void)
+\item 
+enum \hyperlink{group___p_i_o_s___o_p_a_h_r_s_gaf6fe64d28ea92983e870494d0a5d05bd}{opahrs\-\_\-result} \hyperlink{group___p_i_o_s___o_p_a_h_r_s_ga75623cd403d1d9da708ae4ff42c2f09a}{\-P\-I\-O\-S\-\_\-\-O\-P\-A\-H\-R\-S\-\_\-\-Get\-Serial} (struct opahrs\-\_\-msg\-\_\-v1 $\ast$rsp)
+\item 
+enum \hyperlink{group___p_i_o_s___o_p_a_h_r_s_gaf6fe64d28ea92983e870494d0a5d05bd}{opahrs\-\_\-result} \hyperlink{group___p_i_o_s___o_p_a_h_r_s_gab167c91b006ac9f0b334289760271b56}{\-P\-I\-O\-S\-\_\-\-O\-P\-A\-H\-R\-S\-\_\-resync} (void)
+\item 
+enum \hyperlink{group___p_i_o_s___o_p_a_h_r_s_gaf6fe64d28ea92983e870494d0a5d05bd}{opahrs\-\_\-result} \hyperlink{group___p_i_o_s___o_p_a_h_r_s_ga6a2460efc73e4077b41f3db454142bd7}{\-P\-I\-O\-S\-\_\-\-O\-P\-A\-H\-R\-S\-\_\-\-Get\-Attitude\-Raw} (struct opahrs\-\_\-msg\-\_\-v1 $\ast$rsp)
+\item 
+enum \hyperlink{group___p_i_o_s___o_p_a_h_r_s_gaf6fe64d28ea92983e870494d0a5d05bd}{opahrs\-\_\-result} \hyperlink{group___p_i_o_s___o_p_a_h_r_s_gac7ff2fa43e0673e0b9665cbd587a2c37}{\-P\-I\-O\-S\-\_\-\-O\-P\-A\-H\-R\-S\-\_\-\-Set\-Algorithm} (struct opahrs\-\_\-msg\-\_\-v1 $\ast$req)
+\item 
+enum \hyperlink{group___p_i_o_s___o_p_a_h_r_s_gaf6fe64d28ea92983e870494d0a5d05bd}{opahrs\-\_\-result} \hyperlink{group___p_i_o_s___o_p_a_h_r_s_ga5f33585c0a6aa5158e015cc5fed5a042}{\-P\-I\-O\-S\-\_\-\-O\-P\-A\-H\-R\-S\-\_\-\-Set\-Mag\-North} (struct opahrs\-\_\-msg\-\_\-v1 $\ast$req)
+\item 
+enum \hyperlink{group___p_i_o_s___o_p_a_h_r_s_gaf6fe64d28ea92983e870494d0a5d05bd}{opahrs\-\_\-result} \hyperlink{group___p_i_o_s___o_p_a_h_r_s_ga4633695459517529c7841b3d2bb5dccf}{\-P\-I\-O\-S\-\_\-\-O\-P\-A\-H\-R\-S\-\_\-\-Set\-Get\-Update} (struct opahrs\-\_\-msg\-\_\-v1 $\ast$req, struct opahrs\-\_\-msg\-\_\-v1 $\ast$rsp)
+\item 
+enum \hyperlink{group___p_i_o_s___o_p_a_h_r_s_gaf6fe64d28ea92983e870494d0a5d05bd}{opahrs\-\_\-result} \hyperlink{group___p_i_o_s___o_p_a_h_r_s_gadc32051065da8842b2a3e4416783ff2a}{\-P\-I\-O\-S\-\_\-\-O\-P\-A\-H\-R\-S\-\_\-\-Set\-Get\-Calibration} (struct opahrs\-\_\-msg\-\_\-v1 $\ast$req, struct opahrs\-\_\-msg\-\_\-v1 $\ast$rsp)
+\item 
+enum \hyperlink{group___p_i_o_s___o_p_a_h_r_s_gaf6fe64d28ea92983e870494d0a5d05bd}{opahrs\-\_\-result} \hyperlink{group___p_i_o_s___o_p_a_h_r_s_ga1c2a499e2354e0673f66656bcb4def7a}{\-P\-I\-O\-S\-\_\-\-O\-P\-A\-H\-R\-S\-\_\-\-Set\-Get\-Initialized} (struct opahrs\-\_\-msg\-\_\-v1 $\ast$req, struct opahrs\-\_\-msg\-\_\-v1 $\ast$rsp)
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-Hardware commands to communicate with the \-A\-H\-R\-S. \begin{DoxyAuthor}{\-Author}
+\-The \-Open\-Pilot \-Team, \href{http://www.openpilot.org}{\tt http\-://www.\-openpilot.\-org} \-Copyright (\-C) 2010. 
+\end{DoxyAuthor}
+\begin{DoxySeeAlso}{\-See also}
+\-The \-G\-N\-U \-Public \-License (\-G\-P\-L) \-Version 3 
+\end{DoxySeeAlso}
+
+
+\-Definition in file \hyperlink{pios__opahrs_8c_source}{pios\-\_\-opahrs.\-c}.
+

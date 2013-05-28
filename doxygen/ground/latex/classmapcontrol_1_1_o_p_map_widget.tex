@@ -1,0 +1,242 @@
+\hypertarget{classmapcontrol_1_1_o_p_map_widget}{\section{mapcontrol\-:\-:\-O\-P\-Map\-Widget \-Class \-Reference}
+\label{classmapcontrol_1_1_o_p_map_widget}\index{mapcontrol\-::\-O\-P\-Map\-Widget@{mapcontrol\-::\-O\-P\-Map\-Widget}}
+}
+
+
+{\ttfamily \#include $<$opmapwidget.\-h$>$}
+
+\subsection*{\-Public \-Slots}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_widget_ga3cc1af46a4555caac4d2bcafc775dd3c}{\-Rip\-Map} ()
+\begin{DoxyCompactList}\small\item\em \-Ripps the current selection to the \-D\-B. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_widget_gaebc469fcc05092fd93d332b528eae3e5}{\-On\-Selection\-Changed} ()
+\end{DoxyCompactItemize}
+\subsection*{\-Signals}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_widget_ga5f82149d3970603013155e5ace73c085}{zoom\-Changed} (double zoomt, double zoom, double zoomd)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_widget_gad5aa3c5dba212fe3975e483da178f16c}{\-W\-P\-Number\-Changed} (int const \&oldnumber, int const \&newnumber, \hyperlink{classmapcontrol_1_1_way_point_item}{\-Way\-Point\-Item} $\ast$waypoint)
+\begin{DoxyCompactList}\small\item\em fires when one of the \-Way\-Points numbers changes (not fired if due to a auto-\/renumbering) \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_widget_ga7b05d6d31a9d3dc1fb1bf4d581884f77}{\-W\-P\-Values\-Changed} (\hyperlink{classmapcontrol_1_1_way_point_item}{\-Way\-Point\-Item} $\ast$waypoint)
+\begin{DoxyCompactList}\small\item\em \-Fired when the description, altitude or coordinates of a \-Way\-Point changed. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_widget_gace0e66a97e422c30b79aed508d0be81d}{\-W\-P\-Reached} (\hyperlink{classmapcontrol_1_1_way_point_item}{\-Way\-Point\-Item} $\ast$waypoint)
+\begin{DoxyCompactList}\small\item\em \-Fires when a new \-Way\-Point is inserted. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_widget_ga76a7138d7fd9e231e80d00430c349d03}{\-W\-P\-Created} (int const \&number, \hyperlink{classmapcontrol_1_1_way_point_item}{\-Way\-Point\-Item} $\ast$waypoint)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_widget_gaacb4d7f71ed1c2874106d276563e1348}{\-W\-P\-Inserted} (int const \&number, \hyperlink{classmapcontrol_1_1_way_point_item}{\-Way\-Point\-Item} $\ast$waypoint)
+\begin{DoxyCompactList}\small\item\em \-Fires when a new \-Way\-Point is inserted. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_widget_ga27de44a330cf3ee63827db0c562f7bb8}{\-W\-P\-Deleted} (int const \&number, \hyperlink{classmapcontrol_1_1_way_point_item}{\-Way\-Point\-Item} $\ast$waypoint)
+\begin{DoxyCompactList}\small\item\em \-Fires \-When a \-Way\-Point is deleted. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_widget_gac6d662e318e008a70747a8d26b971a3a}{\-W\-P\-Manual\-Coord\-Change} (\hyperlink{classmapcontrol_1_1_way_point_item}{\-Way\-Point\-Item} $\ast$)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_widget_ga532ae30a356e865120c460f345a4ab65}{\-U\-A\-V\-Reached\-Way\-Point} (int const \&waypointnumber, \hyperlink{classmapcontrol_1_1_way_point_item}{\-Way\-Point\-Item} $\ast$waypoint)
+\begin{DoxyCompactList}\small\item\em \-Fires \-When a \-Way\-Point is \-Reached. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_widget_ga77cc2b980ecb442b256f8f494a8835c7}{\-U\-A\-V\-Left\-Safety\-Bouble} (\hyperlink{structinternals_1_1_point_lat_lng}{internals\-::\-Point\-Lat\-Lng} const \&position)
+\begin{DoxyCompactList}\small\item\em \-Fires \-When the \-U\-A\-V lives the safety bouble. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_widget_ga15064d97d2715398719dd78fccb07a39}{\-On\-Current\-Position\-Changed} (\hyperlink{structinternals_1_1_point_lat_lng}{internals\-::\-Point\-Lat\-Lng} point)
+\begin{DoxyCompactList}\small\item\em \-Fires when map position changes. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_widget_ga5cffbc0b6973aa0d25c7a8e3cb9a10bd}{\-On\-Tile\-Load\-Complete} ()
+\begin{DoxyCompactList}\small\item\em \-Fires when there are no more tiles to load. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_widget_gab28c7ce093c06e3dd06d7981fa34abde}{\-On\-Tile\-Load\-Start} ()
+\begin{DoxyCompactList}\small\item\em \-Fires when tiles loading begins. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_widget_ga0985006355718a5c61bfd02c70e6b0aa}{\-On\-Map\-Drag} ()
+\begin{DoxyCompactList}\small\item\em \-Fires when the map is dragged. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_widget_ga6cff965989ae7d23b98d5345c3912492}{\-On\-Map\-Zoom\-Changed} ()
+\begin{DoxyCompactList}\small\item\em \-Fires when map zoom changes. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_widget_gad0bd8494b0fba444bad76bcf3c1bdb0a}{\-On\-Map\-Type\-Changed} (\-Map\-Type\-::\-Types type)
+\begin{DoxyCompactList}\small\item\em \-Fires when map type changes. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_widget_gad393b8af8f879239faaa466bbc33f4b7}{\-On\-Empty\-Tile\-Error} (int zoom, \hyperlink{structcore_1_1_point}{core\-::\-Point} pos)
+\begin{DoxyCompactList}\small\item\em \-Fires when an error ocurred while loading a tile. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_widget_gad7537ed2e10658cabe5f1f320f31b83f}{\-On\-Tiles\-Still\-To\-Load} (int number)
+\begin{DoxyCompactList}\small\item\em \-Fires when the number of tiles in the load queue changes. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_widget_ga76257e275a9d3c05a75b0fca87faba3d}{\-On\-Way\-Point\-Double\-Clicked} (\hyperlink{classmapcontrol_1_1_way_point_item}{\-Way\-Point\-Item} $\ast$waypoint)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_widget_ga173f22c1dd41ac235400d05eb42eeff6}{selected\-W\-P\-Changed} (\-Q\-List$<$ \hyperlink{classmapcontrol_1_1_way_point_item}{\-Way\-Point\-Item} $\ast$ $>$)
+\end{DoxyCompactItemize}
+\subsection*{\-Public \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+\-Q\-\_\-\-E\-N\-U\-M\-S(internals\-::\-Mouse\-Wheel\-Zoom\-Type\-::\-Types) \*
+\-Q\-\_\-\-E\-N\-U\-M\-S(internals \hyperlink{group___o_p_map_widget_ga390f25c0a1e661e1496be4b21c4b4796}{\-O\-P\-Map\-Widget} (\-Q\-Widget $\ast$parent=0, \hyperlink{classmapcontrol_1_1_configuration}{\-Configuration} $\ast$config=new \hyperlink{classmapcontrol_1_1_configuration}{\-Configuration})
+\begin{DoxyCompactList}\small\item\em \-Constructor. \end{DoxyCompactList}\item 
+\hyperlink{group___o_p_map_widget_gabdcfea44244e345b2e4c966cc8d8c3c6}{$\sim$\-O\-P\-Map\-Widget} ()
+\item 
+bool \hyperlink{group___o_p_map_widget_ga206c68521bc221bc6db0e63e187c4481}{\-Show\-Tile\-Grid\-Lines} () const 
+\begin{DoxyCompactList}\small\item\em \-Returns true if map is showing gridlines. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_widget_gae09f73466c8f5ba738db48600eab7635}{\-Set\-Show\-Tile\-Grid\-Lines} (bool const \&value)
+\begin{DoxyCompactList}\small\item\em \-Defines if map is to show gridlines. \end{DoxyCompactList}\item 
+int \hyperlink{group___o_p_map_widget_ga20e653fc57f65044824fd9697d9111a8}{\-Max\-Zoom} () const 
+\begin{DoxyCompactList}\small\item\em \-Returns the maximum zoom for the map. \end{DoxyCompactList}\item 
+int \hyperlink{group___o_p_map_widget_ga331965564954b53f6fa29812ae5c8f4b}{\-Min\-Zoom} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_widget_gaf973bb53af546323b7714f8715bb527d}{\-Set\-Min\-Zoom} (int const \&value)
+\item 
+internals\-::\-Mouse\-Wheel\-Zoom\-Type\-::\-Types \hyperlink{group___o_p_map_widget_gaccdd5b2b818dd9add21788954c49eabe}{\-Get\-Mouse\-Wheel\-Zoom\-Type} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_widget_ga24fd1f0f732f8306c89d00997f9957e1}{\-Set\-Mouse\-Wheel\-Zoom\-Type} (internals\-::\-Mouse\-Wheel\-Zoom\-Type\-::\-Types const \&value)
+\item 
+\hyperlink{structinternals_1_1_rect_lat_lng}{internals\-::\-Rect\-Lat\-Lng} \hyperlink{group___o_p_map_widget_gaa5afd1049e526ae7424065bca8308106}{\-Selected\-Area} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_widget_ga39fb72ad777f823ecaba3f30feb9e623}{\-Set\-Selected\-Area} (\hyperlink{structinternals_1_1_rect_lat_lng}{internals\-::\-Rect\-Lat\-Lng} const \&value)
+\item 
+bool \hyperlink{group___o_p_map_widget_ga2c73815e5add0186091174a0dabad975}{\-Can\-Drag\-Map} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_widget_ga8e9c310f8929536de86a8ed730abde94}{\-Set\-Can\-Drag\-Map} (bool const \&value)
+\item 
+\hyperlink{structinternals_1_1_point_lat_lng}{internals\-::\-Point\-Lat\-Lng} \hyperlink{group___o_p_map_widget_ga5da99e2dca74bad302e2a35466a5a2fc}{\-Current\-Position} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_widget_ga5144489a16c9bd07abbd0d8adc01656d}{\-Set\-Current\-Position} (\hyperlink{structinternals_1_1_point_lat_lng}{internals\-::\-Point\-Lat\-Lng} const \&value)
+\item 
+double \hyperlink{group___o_p_map_widget_gae56c86fccffa01f54944d431af98a7b9}{\-Zoom\-Real} ()
+\item 
+double \hyperlink{group___o_p_map_widget_gaf7a725070972e7158ec0f5b10a0d9cd3}{\-Zoom\-Digi} ()
+\item 
+double \hyperlink{group___o_p_map_widget_ga2060cbfea71913a458f3a6f0c6dad8c5}{\-Zoom\-Total} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_widget_ga63fe346f4ea58f09453ccd42ffe87260}{\-Set\-Zoom} (double const \&value)
+\item 
+qreal \hyperlink{group___o_p_map_widget_gaea05eeafa50a244b2356918c2dae0444}{\-Rotate} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_widget_ga1e6312bc140cbcfa38ac1bd66b278a71}{\-Set\-Rotate} (qreal const \&value)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_widget_ga5281e4aae5ac664f9d4093735e6ced51}{\-Reload\-Map} ()
+\item 
+\-Geo\-Coder\-Status\-Code\-::\-Types \hyperlink{group___o_p_map_widget_ga6dfd41d966be5940e4bb94dd36a25499}{\-Set\-Current\-Position\-By\-Keywords} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} const \&keys)
+\item 
+bool \hyperlink{group___o_p_map_widget_gafe684fbd6e3d76b2dbb9eeb2ffeab969}{\-Use\-Open\-G\-L} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_widget_ga1dad00a9a3dc508690c7db4cb7b3373d}{\-Set\-Use\-Open\-G\-L} (bool const \&value)
+\item 
+\-Map\-Type\-::\-Types \hyperlink{group___o_p_map_widget_gaf5f079175bace819bcc168c5ea4bdb59}{\-Get\-Map\-Type} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_widget_ga57d623773f3801edb2a359b9d92c648b}{\-Set\-Map\-Type} (\-Map\-Type\-::\-Types const \&value)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_widget_gad61028ad754a5341e96c7f2e0e8c13f0}{\-Set\-User\-Image\-Horizontal\-Scale} (double h\-Scale)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_widget_gaac2d5997b77a7b661f1d983316e4f825}{\-Set\-User\-Image\-Vertical\-Scale} (double v\-Scale)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_widget_gab46d43fc65b333d32a79056ca882caa0}{\-Set\-User\-Image\-Location} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} location)
+\item 
+bool \hyperlink{group___o_p_map_widget_ga1a79fb1b73da4c902626f6dcee9fa372}{is\-Started} ()
+\item 
+\hyperlink{structinternals_1_1_point_lat_lng}{internals\-::\-Point\-Lat\-Lng} \hyperlink{group___o_p_map_widget_gabb9370f367fc42a3987983e79db0828a}{current\-Mouse\-Position} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_widget_ga9713d4bd6a80debb60fbb66d3e55ebd3}{\-Set\-Follow\-Mouse} (bool const \&value)
+\item 
+bool \hyperlink{group___o_p_map_widget_gab4d31649441240def7d389c4d814c6a2}{\-Follow\-Mouse} ()
+\item 
+\hyperlink{structinternals_1_1_point_lat_lng}{internals\-::\-Point\-Lat\-Lng} \hyperlink{group___o_p_map_widget_ga350ef32ca621e11b3d5a2d3fe4aeaca6}{\-Get\-From\-Local\-To\-Lat\-Lng} (\-Q\-Point\-F p)
+\item 
+\hyperlink{classmapcontrol_1_1_way_point_item}{\-Way\-Point\-Item} $\ast$ \hyperlink{group___o_p_map_widget_ga7a23e7347fa5504a5af7d58e66161fa2}{\-W\-P\-Create} ()
+\begin{DoxyCompactList}\small\item\em \-Creates a new \-Way\-Point on the center of the map. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_widget_gaf4409d0e8417e7cce528af31cef4dfe4}{\-W\-P\-Create} (\hyperlink{classmapcontrol_1_1_way_point_item}{\-Way\-Point\-Item} $\ast$item)
+\begin{DoxyCompactList}\small\item\em \-Creates a new \-Way\-Point. \end{DoxyCompactList}\item 
+\hyperlink{classmapcontrol_1_1_way_point_item}{\-Way\-Point\-Item} $\ast$ \hyperlink{group___o_p_map_widget_gac17ec2fbbcf0065570ad8d8568729521}{\-W\-P\-Create} (\hyperlink{structinternals_1_1_point_lat_lng}{internals\-::\-Point\-Lat\-Lng} const \&coord, int const \&altitude)
+\begin{DoxyCompactList}\small\item\em \-Creates a new \-Way\-Point. \end{DoxyCompactList}\item 
+\hyperlink{classmapcontrol_1_1_way_point_item}{\-Way\-Point\-Item} $\ast$ \hyperlink{group___o_p_map_widget_gae95af6f438774b8cddf4b8b4d670483c}{\-W\-P\-Create} (\hyperlink{structinternals_1_1_point_lat_lng}{internals\-::\-Point\-Lat\-Lng} const \&coord, int const \&altitude, \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} const \&description)
+\begin{DoxyCompactList}\small\item\em \-Creates a new \-Way\-Point. \end{DoxyCompactList}\item 
+\hyperlink{classmapcontrol_1_1_way_point_item}{\-Way\-Point\-Item} $\ast$ \hyperlink{group___o_p_map_widget_ga950bec7a5d536f5adeddf3f2db2ee98f}{\-W\-P\-Create} (const \hyperlink{structmapcontrol_1_1dist_bearing_altitude}{dist\-Bearing\-Altitude} \&relative\-Coord, const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \&description)
+\begin{DoxyCompactList}\small\item\em \-Creates a new \-Way\-Point. \end{DoxyCompactList}\item 
+\hyperlink{classmapcontrol_1_1_way_point_item}{\-Way\-Point\-Item} $\ast$ \hyperlink{group___o_p_map_widget_ga44d46fc77045a7ac6011ebda19204c43}{\-W\-P\-Insert} (int const \&position)
+\begin{DoxyCompactList}\small\item\em \-Inserts a new \-Way\-Point on the specified position. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_widget_ga65a6a571d08fec807a20945e293acc73}{\-W\-P\-Insert} (\hyperlink{classmapcontrol_1_1_way_point_item}{\-Way\-Point\-Item} $\ast$item, int const \&position)
+\begin{DoxyCompactList}\small\item\em \-Inserts a new \-Way\-Point on the specified position. \end{DoxyCompactList}\item 
+\hyperlink{classmapcontrol_1_1_way_point_item}{\-Way\-Point\-Item} $\ast$ \hyperlink{group___o_p_map_widget_ga1b5b37540dd272a7b6f4a39ae12095a4}{\-W\-P\-Insert} (\hyperlink{structinternals_1_1_point_lat_lng}{internals\-::\-Point\-Lat\-Lng} const \&coord, int const \&altitude, int const \&position)
+\begin{DoxyCompactList}\small\item\em \-Inserts a new \-Way\-Point on the specified position. \end{DoxyCompactList}\item 
+\hyperlink{classmapcontrol_1_1_way_point_item}{\-Way\-Point\-Item} $\ast$ \hyperlink{group___o_p_map_widget_ga344e39ad3db8c1de32dda8273e78310e}{\-W\-P\-Insert} (\hyperlink{structinternals_1_1_point_lat_lng}{internals\-::\-Point\-Lat\-Lng} const \&coord, int const \&altitude, \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} const \&description, int const \&position)
+\begin{DoxyCompactList}\small\item\em \-Inserts a new \-Way\-Point on the specified position. \end{DoxyCompactList}\item 
+\hyperlink{classmapcontrol_1_1_way_point_item}{\-Way\-Point\-Item} $\ast$ \hyperlink{group___o_p_map_widget_gaf16670bc38e8aca978582a35732e2e6b}{\-W\-P\-Insert} (const \hyperlink{structmapcontrol_1_1dist_bearing_altitude}{dist\-Bearing\-Altitude} \&relative, const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \&description, const int \&position)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_widget_gacb242b413e111fc504749bdfacc16fd2}{\-W\-P\-Delete} (\hyperlink{classmapcontrol_1_1_way_point_item}{\-Way\-Point\-Item} $\ast$item)
+\begin{DoxyCompactList}\small\item\em \-Deletes the \-Way\-Point. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_widget_ga2dd5bd06f443a496f6f81464ef44b614}{\-W\-P\-Delete\-All} ()
+\begin{DoxyCompactList}\small\item\em deletes all \-Way\-Points \end{DoxyCompactList}\item 
+\-Q\-List$<$ \hyperlink{classmapcontrol_1_1_way_point_item}{\-Way\-Point\-Item} $\ast$ $>$ \hyperlink{group___o_p_map_widget_ga6051fad972405dd8b2a27196b4569684}{\-W\-P\-Selected} ()
+\begin{DoxyCompactList}\small\item\em \-Returns the currently selected \-Way\-Points. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_widget_gaba5ee1743df3dee15e552f21a0c5d141}{\-W\-P\-Renumber} (\hyperlink{classmapcontrol_1_1_way_point_item}{\-Way\-Point\-Item} $\ast$item, int const \&newnumber)
+\begin{DoxyCompactList}\small\item\em \-Renumbers the \-Way\-Point and all others as needed. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_widget_ga6f97b86b2d7a7ca6f5b7bb65a70b5a96}{\-Set\-Show\-Compass} (bool const \&value)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_widget_ga989b4bdc242ebd97536cffb2be2193fc}{set\-Overlay\-Opacity} (qreal value)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_widget_ga0ced0790f99341bffe4d71cd8f1f3d61}{\-Set\-Show\-U\-A\-V} (bool const \&value)
+\item 
+bool \hyperlink{group___o_p_map_widget_ga07fb8db72de213248c524cae2b148d7a}{\-Show\-U\-A\-V} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_widget_gaa503c30b06667b16caa4190f8fa47f86}{\-Set\-Show\-Home} (bool const \&value)
+\item 
+bool \hyperlink{group___o_p_map_widget_ga0479c8181e84aade1b9a3eac69daf0b6}{\-Show\-Home} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_widget_gabf19ca6f76133841be5fedfff841073e}{\-Set\-Show\-Diagnostics} (bool const \&value)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_widget_ga6413251a1bea12088cdfa6d7f599ba04}{\-Set\-Uav\-Pic} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \-U\-A\-V\-Pic)
+\item 
+\hyperlink{classmapcontrol_1_1_way_point_line}{\-Way\-Point\-Line} $\ast$ \hyperlink{group___o_p_map_widget_gaf6d0234b2aa0e66f40f4da7bc3b9fb4f}{\-W\-P\-Line\-Create} (\hyperlink{classmapcontrol_1_1_way_point_item}{\-Way\-Point\-Item} $\ast$from, \hyperlink{classmapcontrol_1_1_way_point_item}{\-Way\-Point\-Item} $\ast$to, \-Q\-Color color)
+\begin{DoxyCompactList}\small\item\em \-Create a line between two waypoint items. \end{DoxyCompactList}\item 
+\hyperlink{classmapcontrol_1_1_way_point_line}{\-Way\-Point\-Line} $\ast$ \hyperlink{group___o_p_map_widget_gada64bfaa4e838335d8b923e9e184b373}{\-W\-P\-Line\-Create} (\hyperlink{classmapcontrol_1_1_home_item}{\-Home\-Item} $\ast$from, \hyperlink{classmapcontrol_1_1_way_point_item}{\-Way\-Point\-Item} $\ast$to, \-Q\-Color color)
+\begin{DoxyCompactList}\small\item\em \-Create a line from home to a waypoint item. \end{DoxyCompactList}\item 
+\hyperlink{classmapcontrol_1_1_way_point_curve}{\-Way\-Point\-Curve} $\ast$ \hyperlink{group___o_p_map_widget_ga18e61fa069c17e42dd0d6743e1e24ce4}{\-W\-P\-Curve\-Create} (\hyperlink{classmapcontrol_1_1_way_point_item}{\-Way\-Point\-Item} $\ast$start, \hyperlink{classmapcontrol_1_1_way_point_item}{\-Way\-Point\-Item} $\ast$dest, double radius, bool clockwise, \-Q\-Color color)
+\begin{DoxyCompactList}\small\item\em \-Create a curve from one waypoint item to another with a given radius. \end{DoxyCompactList}\item 
+\hyperlink{classmapcontrol_1_1_way_point_circle}{\-Way\-Point\-Circle} $\ast$ \hyperlink{group___o_p_map_widget_ga8843daa4f0da4fe9343c9cee78bd6a1d}{\-W\-P\-Circle\-Create} (\hyperlink{classmapcontrol_1_1_way_point_item}{\-Way\-Point\-Item} $\ast$center, \hyperlink{classmapcontrol_1_1_way_point_item}{\-Way\-Point\-Item} $\ast$radius, bool clockwise, \-Q\-Color color)
+\begin{DoxyCompactList}\small\item\em \-Create a circle around a waypoint with the radius specified by the distance to another waypoint. \end{DoxyCompactList}\item 
+\hyperlink{classmapcontrol_1_1_way_point_circle}{\-Way\-Point\-Circle} $\ast$ \hyperlink{group___o_p_map_widget_gad8d5513836ce91c3ab5f84cf81ce2ec8}{\-W\-P\-Circle\-Create} (\hyperlink{classmapcontrol_1_1_home_item}{\-Home\-Item} $\ast$center, \hyperlink{classmapcontrol_1_1_way_point_item}{\-Way\-Point\-Item} $\ast$radius, bool clockwise, \-Q\-Color color)
+\begin{DoxyCompactList}\small\item\em \-Create a circle around home with the radius specifed by the distance to another waypoint. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_widget_gaaad12163774b8b524d7d05ed28b01cae}{delete\-All\-Overlays} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_widget_ga9a1f7cb8eb3ca498061257be74ed76c6}{\-W\-P\-Set\-Visible\-All} (bool value)
+\item 
+\hyperlink{classmapcontrol_1_1_way_point_item}{\-Way\-Point\-Item} $\ast$ \hyperlink{group___o_p_map_widget_gad4bf26f4b1c6f177513e61bd70956360}{magic\-W\-P\-Create} ()
+\item 
+bool \hyperlink{group___o_p_map_widget_ga22fc188ce6991cc900182e1a60b3ee34}{\-W\-P\-Present} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_widget_ga7bea26b184175ee4cf10a9103b59de32}{\-W\-P\-Delete} (int number)
+\item 
+\hyperlink{classmapcontrol_1_1_way_point_item}{\-Way\-Point\-Item} $\ast$ \hyperlink{group___o_p_map_widget_ga633b72f3ab012b8e9b8f6e58b75bfbb8}{\-W\-P\-Find} (int number)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_widget_ga611fd47fbd108d887b40a1d1a878bd27}{set\-Selected\-W\-P} (\-Q\-List$<$ \hyperlink{classmapcontrol_1_1_way_point_item}{\-Way\-Point\-Item} $\ast$ $>$ list)
+\end{DoxyCompactItemize}
+\subsection*{\-Protected \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_widget_gaeb81f004806916633910751cfe808de8}{resize\-Event} (\-Q\-Resize\-Event $\ast$event)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_widget_gaa02db9787da06fe405061620b80605d4}{show\-Event} (\-Q\-Show\-Event $\ast$event)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_widget_gabb098a73bed666626144c0da8332c609}{close\-Event} (\-Q\-Close\-Event $\ast$event)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_widget_gaac8f40f4fe29d88750285c003b3f7b3f}{mouse\-Move\-Event} (\-Q\-Mouse\-Event $\ast$event)
+\end{DoxyCompactItemize}
+\subsection*{\-Properties}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{group___o_p_map_widget_gac91f92751a3ac3a5a10a6592d4213d42}{\-Min\-Zoom}
+\item 
+bool \hyperlink{group___o_p_map_widget_ga41a15a2c8198b2ad76d2b494917a02ed}{\-Show\-Tile\-Grid\-Lines}
+\item 
+double \hyperlink{group___o_p_map_widget_gadc46820d44c2517e9a6014ddede98099}{\-Zoom}
+\item 
+qreal \hyperlink{group___o_p_map_widget_gac0960d6e34ea06d84ddad72f930a3917}{\-Rotate}
+\item 
+\hyperlink{classmapcontrol_1_1_configuration}{\-Configuration} $\ast$ \hyperlink{group___o_p_map_widget_gaa79e123990d6d7b2f1c45e5c2a56313d}{configuration}
+\item 
+\hyperlink{classmapcontrol_1_1_u_a_v_item}{\-U\-A\-V\-Item} $\ast$ \hyperlink{group___o_p_map_widget_gabb5c6c7e07970a7f9b774ebf94cd2286}{\-U\-A\-V}
+\item 
+\hyperlink{classmapcontrol_1_1_g_p_s_item}{\-G\-P\-S\-Item} $\ast$ \hyperlink{group___o_p_map_widget_ga83798c623babeffb173d483ad1c84ccc}{\-G\-P\-S}
+\item 
+\hyperlink{classmapcontrol_1_1_home_item}{\-Home\-Item} $\ast$ \hyperlink{group___o_p_map_widget_ga3c39e182c87b25990664fbe7dd0a9eff}{\-Home}
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+
+
+\-Definition at line 154 of file opmapwidget.\-h.
+
+
+
+\-The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/libs/opmapcontrol/src/mapwidget/\hyperlink{opmapwidget_8h}{opmapwidget.\-h}\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/libs/opmapcontrol/src/mapwidget/\hyperlink{opmapwidget_8cpp}{opmapwidget.\-cpp}\end{DoxyCompactItemize}

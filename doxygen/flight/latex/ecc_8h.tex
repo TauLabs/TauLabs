@@ -1,0 +1,279 @@
+\hypertarget{ecc_8h}{\section{/home/jb/code/\-Tau\-Labs/flight/\-Libraries/rscode/ecc.h \-File \-Reference}
+\label{ecc_8h}\index{/home/jb/code/\-Tau\-Labs/flight/\-Libraries/rscode/ecc.\-h@{/home/jb/code/\-Tau\-Labs/flight/\-Libraries/rscode/ecc.\-h}}
+}
+\subsection*{\-Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef unsigned long \hyperlink{ecc_8h_affaac463542a40708765b460819c3a11}{\-B\-I\-T32}
+\item 
+typedef unsigned short \hyperlink{ecc_8h_ace493edc80acaea5344a606de06d5257}{\-B\-I\-T16}
+\end{DoxyCompactItemize}
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{ecc_8h_a8a34d4f9d615ce945b4e6a2c01f27fa8}{initialize\-\_\-ecc} (void)
+\item 
+int \hyperlink{ecc_8h_a75555933650a50987a9c5b39aff2b26a}{check\-\_\-syndrome} (void)
+\item 
+void \hyperlink{ecc_8h_a231146bc254c1a49a9d3cc94c84cfd4e}{decode\-\_\-data} (unsigned char data\mbox{[}$\,$\mbox{]}, int nbytes)
+\item 
+void \hyperlink{ecc_8h_a33cac00a5b8d040514e163b6d4f97b90}{encode\-\_\-data} (unsigned char \hyperlink{_libraries_2rscode_2example_8c_a6248cb5c33683ab9f937d2a954646849}{msg}\mbox{[}$\,$\mbox{]}, int nbytes, unsigned char dst\mbox{[}$\,$\mbox{]})
+\item 
+\hyperlink{ecc_8h_ace493edc80acaea5344a606de06d5257}{\-B\-I\-T16} \hyperlink{ecc_8h_ae66d2a67ac172fd2890b9cd25691d5a3}{crc\-\_\-ccitt} (unsigned char $\ast$\hyperlink{_libraries_2rscode_2example_8c_a6248cb5c33683ab9f937d2a954646849}{msg}, int len)
+\item 
+void \hyperlink{ecc_8h_a65eb83f04917d12d687aaa70449a3036}{init\-\_\-galois\-\_\-tables} (void)
+\item 
+int \hyperlink{ecc_8h_aea2f56d785c0dfc8af1f9bc2c78294f4}{ginv} (int elt)
+\item 
+int \hyperlink{ecc_8h_a67e5fdd13f145fe895d82b04bc7bffc3}{gmult} (int a, int b)
+\item 
+int \hyperlink{ecc_8h_a6da28744dd026ab3b7deb96086c74f0d}{correct\-\_\-errors\-\_\-erasures} (unsigned char \hyperlink{_libraries_2rscode_2example_8c_af45402c50a301706fd28b80e00c1868f}{codeword}\mbox{[}$\,$\mbox{]}, int csize, int nerasures, int erasures\mbox{[}$\,$\mbox{]})
+\item 
+void \hyperlink{ecc_8h_af5ea13e698651189b3705cb2b1e7d2cf}{add\-\_\-polys} (int dst\mbox{[}$\,$\mbox{]}, int src\mbox{[}$\,$\mbox{]})
+\item 
+void \hyperlink{ecc_8h_adeed254ee2d542d7da8d54d5d5762f17}{scale\-\_\-poly} (int k, int poly\mbox{[}$\,$\mbox{]})
+\item 
+void \hyperlink{ecc_8h_ad6079f119d46b188fc8f0c8f98cbbc03}{mult\-\_\-polys} (int dst\mbox{[}$\,$\mbox{]}, int p1\mbox{[}$\,$\mbox{]}, int p2\mbox{[}$\,$\mbox{]})
+\item 
+void \hyperlink{ecc_8h_aedca0b4d3e5bef4c830e5e82b8ebe655}{copy\-\_\-poly} (int dst\mbox{[}$\,$\mbox{]}, int src\mbox{[}$\,$\mbox{]})
+\item 
+void \hyperlink{ecc_8h_afe3883a12ae28716adce4ede69d58191}{zero\-\_\-poly} (int poly\mbox{[}$\,$\mbox{]})
+\end{DoxyCompactItemize}
+\subsection*{\-Variables}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{ecc_8h_ae92bed6593d875f29f79a12f10e84b5b}{p\-Bytes} \mbox{[}\-M\-A\-X\-D\-E\-G\mbox{]}
+\item 
+int \hyperlink{ecc_8h_a5dd915356908211565387e01d4a9cd8d}{syn\-Bytes} \mbox{[}\-M\-A\-X\-D\-E\-G\mbox{]}
+\item 
+int \hyperlink{ecc_8h_a48f76a8c0dc23567f303ed6aa221e078}{\-D\-E\-B\-U\-G}
+\item 
+const int \hyperlink{ecc_8h_a4bfe7bd4f17407ec020b8850207bfa25}{gexp} \mbox{[}$\,$\mbox{]}
+\item 
+const int \hyperlink{ecc_8h_ac5e276c5c2818484cef4185b715f2c70}{glog} \mbox{[}$\,$\mbox{]}
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Typedef \-Documentation}
+\hypertarget{ecc_8h_ace493edc80acaea5344a606de06d5257}{\index{ecc.\-h@{ecc.\-h}!\-B\-I\-T16@{\-B\-I\-T16}}
+\index{\-B\-I\-T16@{\-B\-I\-T16}!ecc.h@{ecc.\-h}}
+\subsubsection[{\-B\-I\-T16}]{\setlength{\rightskip}{0pt plus 5cm}typedef unsigned short {\bf \-B\-I\-T16}}}\label{ecc_8h_ace493edc80acaea5344a606de06d5257}
+
+
+\-Definition at line 54 of file ecc.\-h.
+
+\hypertarget{ecc_8h_affaac463542a40708765b460819c3a11}{\index{ecc.\-h@{ecc.\-h}!\-B\-I\-T32@{\-B\-I\-T32}}
+\index{\-B\-I\-T32@{\-B\-I\-T32}!ecc.h@{ecc.\-h}}
+\subsubsection[{\-B\-I\-T32}]{\setlength{\rightskip}{0pt plus 5cm}typedef unsigned long {\bf \-B\-I\-T32}}}\label{ecc_8h_affaac463542a40708765b460819c3a11}
+
+
+\-Definition at line 53 of file ecc.\-h.
+
+
+
+\subsection{\-Function \-Documentation}
+\hypertarget{ecc_8h_af5ea13e698651189b3705cb2b1e7d2cf}{\index{ecc.\-h@{ecc.\-h}!add\-\_\-polys@{add\-\_\-polys}}
+\index{add\-\_\-polys@{add\-\_\-polys}!ecc.h@{ecc.\-h}}
+\subsubsection[{add\-\_\-polys}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf add\-\_\-polys} (
+\begin{DoxyParamCaption}
+\item[{int}]{dst\mbox{[}$\,$\mbox{]}, }
+\item[{int}]{src\mbox{[}$\,$\mbox{]}}
+\end{DoxyParamCaption}
+)}}\label{ecc_8h_af5ea13e698651189b3705cb2b1e7d2cf}
+
+
+\-Definition at line 194 of file berlekamp.\-c.
+
+\hypertarget{ecc_8h_a75555933650a50987a9c5b39aff2b26a}{\index{ecc.\-h@{ecc.\-h}!check\-\_\-syndrome@{check\-\_\-syndrome}}
+\index{check\-\_\-syndrome@{check\-\_\-syndrome}!ecc.h@{ecc.\-h}}
+\subsubsection[{check\-\_\-syndrome}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf check\-\_\-syndrome} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{ecc_8h_a75555933650a50987a9c5b39aff2b26a}
+
+
+\-Definition at line 126 of file rs.\-c.
+
+\hypertarget{ecc_8h_aedca0b4d3e5bef4c830e5e82b8ebe655}{\index{ecc.\-h@{ecc.\-h}!copy\-\_\-poly@{copy\-\_\-poly}}
+\index{copy\-\_\-poly@{copy\-\_\-poly}!ecc.h@{ecc.\-h}}
+\subsubsection[{copy\-\_\-poly}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf copy\-\_\-poly} (
+\begin{DoxyParamCaption}
+\item[{int}]{dst\mbox{[}$\,$\mbox{]}, }
+\item[{int}]{src\mbox{[}$\,$\mbox{]}}
+\end{DoxyParamCaption}
+)}}\label{ecc_8h_aedca0b4d3e5bef4c830e5e82b8ebe655}
+
+
+\-Definition at line 200 of file berlekamp.\-c.
+
+\hypertarget{ecc_8h_a6da28744dd026ab3b7deb96086c74f0d}{\index{ecc.\-h@{ecc.\-h}!correct\-\_\-errors\-\_\-erasures@{correct\-\_\-errors\-\_\-erasures}}
+\index{correct\-\_\-errors\-\_\-erasures@{correct\-\_\-errors\-\_\-erasures}!ecc.h@{ecc.\-h}}
+\subsubsection[{correct\-\_\-errors\-\_\-erasures}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf correct\-\_\-errors\-\_\-erasures} (
+\begin{DoxyParamCaption}
+\item[{unsigned char}]{codeword\mbox{[}$\,$\mbox{]}, }
+\item[{int}]{csize, }
+\item[{int}]{nerasures, }
+\item[{int}]{erasures\mbox{[}$\,$\mbox{]}}
+\end{DoxyParamCaption}
+)}}\label{ecc_8h_a6da28744dd026ab3b7deb96086c74f0d}
+
+
+\-Definition at line 270 of file berlekamp.\-c.
+
+\hypertarget{ecc_8h_ae66d2a67ac172fd2890b9cd25691d5a3}{\index{ecc.\-h@{ecc.\-h}!crc\-\_\-ccitt@{crc\-\_\-ccitt}}
+\index{crc\-\_\-ccitt@{crc\-\_\-ccitt}!ecc.h@{ecc.\-h}}
+\subsubsection[{crc\-\_\-ccitt}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-B\-I\-T16} {\bf crc\-\_\-ccitt} (
+\begin{DoxyParamCaption}
+\item[{unsigned char $\ast$}]{msg, }
+\item[{int}]{len}
+\end{DoxyParamCaption}
+)}}\label{ecc_8h_ae66d2a67ac172fd2890b9cd25691d5a3}
+
+
+\-Definition at line 40 of file crcgen.\-c.
+
+\hypertarget{ecc_8h_a231146bc254c1a49a9d3cc94c84cfd4e}{\index{ecc.\-h@{ecc.\-h}!decode\-\_\-data@{decode\-\_\-data}}
+\index{decode\-\_\-data@{decode\-\_\-data}!ecc.h@{ecc.\-h}}
+\subsubsection[{decode\-\_\-data}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf decode\-\_\-data} (
+\begin{DoxyParamCaption}
+\item[{unsigned char}]{data\mbox{[}$\,$\mbox{]}, }
+\item[{int}]{nbytes}
+\end{DoxyParamCaption}
+)}}\label{ecc_8h_a231146bc254c1a49a9d3cc94c84cfd4e}
+
+
+\-Definition at line 111 of file rs.\-c.
+
+\hypertarget{ecc_8h_a33cac00a5b8d040514e163b6d4f97b90}{\index{ecc.\-h@{ecc.\-h}!encode\-\_\-data@{encode\-\_\-data}}
+\index{encode\-\_\-data@{encode\-\_\-data}!ecc.h@{ecc.\-h}}
+\subsubsection[{encode\-\_\-data}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf encode\-\_\-data} (
+\begin{DoxyParamCaption}
+\item[{unsigned char}]{msg\mbox{[}$\,$\mbox{]}, }
+\item[{int}]{nbytes, }
+\item[{unsigned char}]{dst\mbox{[}$\,$\mbox{]}}
+\end{DoxyParamCaption}
+)}}\label{ecc_8h_a33cac00a5b8d040514e163b6d4f97b90}
+
+
+\-Definition at line 188 of file rs.\-c.
+
+\hypertarget{ecc_8h_aea2f56d785c0dfc8af1f9bc2c78294f4}{\index{ecc.\-h@{ecc.\-h}!ginv@{ginv}}
+\index{ginv@{ginv}!ecc.h@{ecc.\-h}}
+\subsubsection[{ginv}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf ginv} (
+\begin{DoxyParamCaption}
+\item[{int}]{elt}
+\end{DoxyParamCaption}
+)}}\label{ecc_8h_aea2f56d785c0dfc8af1f9bc2c78294f4}
+
+
+\-Definition at line 160 of file galois.\-c.
+
+\hypertarget{ecc_8h_a67e5fdd13f145fe895d82b04bc7bffc3}{\index{ecc.\-h@{ecc.\-h}!gmult@{gmult}}
+\index{gmult@{gmult}!ecc.h@{ecc.\-h}}
+\subsubsection[{gmult}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf gmult} (
+\begin{DoxyParamCaption}
+\item[{int}]{a, }
+\item[{int}]{b}
+\end{DoxyParamCaption}
+)}}\label{ecc_8h_a67e5fdd13f145fe895d82b04bc7bffc3}
+
+
+\-Definition at line 150 of file galois.\-c.
+
+\hypertarget{ecc_8h_a65eb83f04917d12d687aaa70449a3036}{\index{ecc.\-h@{ecc.\-h}!init\-\_\-galois\-\_\-tables@{init\-\_\-galois\-\_\-tables}}
+\index{init\-\_\-galois\-\_\-tables@{init\-\_\-galois\-\_\-tables}!ecc.h@{ecc.\-h}}
+\subsubsection[{init\-\_\-galois\-\_\-tables}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf init\-\_\-galois\-\_\-tables} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{ecc_8h_a65eb83f04917d12d687aaa70449a3036}
+
+
+\-Definition at line 103 of file galois.\-c.
+
+\hypertarget{ecc_8h_a8a34d4f9d615ce945b4e6a2c01f27fa8}{\index{ecc.\-h@{ecc.\-h}!initialize\-\_\-ecc@{initialize\-\_\-ecc}}
+\index{initialize\-\_\-ecc@{initialize\-\_\-ecc}!ecc.h@{ecc.\-h}}
+\subsubsection[{initialize\-\_\-ecc}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf initialize\-\_\-ecc} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{ecc_8h_a8a34d4f9d615ce945b4e6a2c01f27fa8}
+
+
+\-Definition at line 48 of file rs.\-c.
+
+\hypertarget{ecc_8h_ad6079f119d46b188fc8f0c8f98cbbc03}{\index{ecc.\-h@{ecc.\-h}!mult\-\_\-polys@{mult\-\_\-polys}}
+\index{mult\-\_\-polys@{mult\-\_\-polys}!ecc.h@{ecc.\-h}}
+\subsubsection[{mult\-\_\-polys}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf mult\-\_\-polys} (
+\begin{DoxyParamCaption}
+\item[{int}]{dst\mbox{[}$\,$\mbox{]}, }
+\item[{int}]{p1\mbox{[}$\,$\mbox{]}, }
+\item[{int}]{p2\mbox{[}$\,$\mbox{]}}
+\end{DoxyParamCaption}
+)}}\label{ecc_8h_ad6079f119d46b188fc8f0c8f98cbbc03}
+
+
+\-Definition at line 128 of file berlekamp.\-c.
+
+\hypertarget{ecc_8h_adeed254ee2d542d7da8d54d5d5762f17}{\index{ecc.\-h@{ecc.\-h}!scale\-\_\-poly@{scale\-\_\-poly}}
+\index{scale\-\_\-poly@{scale\-\_\-poly}!ecc.h@{ecc.\-h}}
+\subsubsection[{scale\-\_\-poly}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf scale\-\_\-poly} (
+\begin{DoxyParamCaption}
+\item[{int}]{k, }
+\item[{int}]{poly\mbox{[}$\,$\mbox{]}}
+\end{DoxyParamCaption}
+)}}\label{ecc_8h_adeed254ee2d542d7da8d54d5d5762f17}
+
+
+\-Definition at line 206 of file berlekamp.\-c.
+
+\hypertarget{ecc_8h_afe3883a12ae28716adce4ede69d58191}{\index{ecc.\-h@{ecc.\-h}!zero\-\_\-poly@{zero\-\_\-poly}}
+\index{zero\-\_\-poly@{zero\-\_\-poly}!ecc.h@{ecc.\-h}}
+\subsubsection[{zero\-\_\-poly}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf zero\-\_\-poly} (
+\begin{DoxyParamCaption}
+\item[{int}]{poly\mbox{[}$\,$\mbox{]}}
+\end{DoxyParamCaption}
+)}}\label{ecc_8h_afe3883a12ae28716adce4ede69d58191}
+
+
+\-Definition at line 213 of file berlekamp.\-c.
+
+
+
+\subsection{\-Variable \-Documentation}
+\hypertarget{ecc_8h_a48f76a8c0dc23567f303ed6aa221e078}{\index{ecc.\-h@{ecc.\-h}!\-D\-E\-B\-U\-G@{\-D\-E\-B\-U\-G}}
+\index{\-D\-E\-B\-U\-G@{\-D\-E\-B\-U\-G}!ecc.h@{ecc.\-h}}
+\subsubsection[{\-D\-E\-B\-U\-G}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf \-D\-E\-B\-U\-G}}}\label{ecc_8h_a48f76a8c0dc23567f303ed6aa221e078}
+
+
+\-Definition at line 41 of file rs.\-c.
+
+\hypertarget{ecc_8h_a4bfe7bd4f17407ec020b8850207bfa25}{\index{ecc.\-h@{ecc.\-h}!gexp@{gexp}}
+\index{gexp@{gexp}!ecc.h@{ecc.\-h}}
+\subsubsection[{gexp}]{\setlength{\rightskip}{0pt plus 5cm}const int {\bf gexp}\mbox{[}$\,$\mbox{]}}}\label{ecc_8h_a4bfe7bd4f17407ec020b8850207bfa25}
+
+
+\-Definition at line 45 of file galois.\-c.
+
+\hypertarget{ecc_8h_ac5e276c5c2818484cef4185b715f2c70}{\index{ecc.\-h@{ecc.\-h}!glog@{glog}}
+\index{glog@{glog}!ecc.h@{ecc.\-h}}
+\subsubsection[{glog}]{\setlength{\rightskip}{0pt plus 5cm}const int {\bf glog}\mbox{[}$\,$\mbox{]}}}\label{ecc_8h_ac5e276c5c2818484cef4185b715f2c70}
+
+
+\-Definition at line 79 of file galois.\-c.
+
+\hypertarget{ecc_8h_ae92bed6593d875f29f79a12f10e84b5b}{\index{ecc.\-h@{ecc.\-h}!p\-Bytes@{p\-Bytes}}
+\index{p\-Bytes@{p\-Bytes}!ecc.h@{ecc.\-h}}
+\subsubsection[{p\-Bytes}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf p\-Bytes}\mbox{[}\-M\-A\-X\-D\-E\-G\mbox{]}}}\label{ecc_8h_ae92bed6593d875f29f79a12f10e84b5b}
+
+
+\-Definition at line 33 of file rs.\-c.
+
+\hypertarget{ecc_8h_a5dd915356908211565387e01d4a9cd8d}{\index{ecc.\-h@{ecc.\-h}!syn\-Bytes@{syn\-Bytes}}
+\index{syn\-Bytes@{syn\-Bytes}!ecc.h@{ecc.\-h}}
+\subsubsection[{syn\-Bytes}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf syn\-Bytes}\mbox{[}\-M\-A\-X\-D\-E\-G\mbox{]}}}\label{ecc_8h_a5dd915356908211565387e01d4a9cd8d}
+
+
+\-Definition at line 36 of file rs.\-c.
+

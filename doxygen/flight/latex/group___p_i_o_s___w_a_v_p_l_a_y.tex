@@ -1,0 +1,151 @@
+\hypertarget{group___p_i_o_s___w_a_v_p_l_a_y}{\section{\-Code for wave audio generator}
+\label{group___p_i_o_s___w_a_v_p_l_a_y}\index{\-Code for wave audio generator@{\-Code for wave audio generator}}
+}
+
+
+\-Wave audio generator.  
+
+
+\subsection*{\-Data \-Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structpios__dac__cfg}{pios\-\_\-dac\-\_\-cfg}
+\end{DoxyCompactItemize}
+\subsection*{\-Files}
+\begin{DoxyCompactItemize}
+\item 
+file \hyperlink{pios__wavplay_8c}{pios\-\_\-wavplay.\-c}
+\begin{DoxyCompactList}\small\item\em audio generator \end{DoxyCompactList}\item 
+file \hyperlink{pios__wavplay_8h}{pios\-\_\-wavplay.\-h}
+\begin{DoxyCompactList}\small\item\em audio generator \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{group___p_i_o_s___w_a_v_p_l_a_y_ga4f3ee12da30a1e47c52dc137b4627cab}{\-Endianness} \{ \hyperlink{group___p_i_o_s___w_a_v_p_l_a_y_gga4f3ee12da30a1e47c52dc137b4627caba66c163903fb08aef1735714dbb818cc7}{\-Little\-Endian}, 
+\hyperlink{group___p_i_o_s___w_a_v_p_l_a_y_gga4f3ee12da30a1e47c52dc137b4627cabab90b00401d08d0ecc6b6c2c54db50d6b}{\-Big\-Endian}
+ \}
+\end{DoxyCompactItemize}
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{group___p_i_o_s___w_a_v_p_l_a_y_ga833570d033bad7d2098b024caec552be}{\-P\-I\-O\-S\-\_\-\-Wav\-Play\-\_\-\-Init} (const struct \hyperlink{structpios__dac__cfg}{pios\-\_\-dac\-\_\-cfg} $\ast$cfg)
+\item 
+uint8\-\_\-t \hyperlink{group___p_i_o_s___w_a_v_p_l_a_y_gad653a67ad3415d1d9d9c91e13904fb06}{\-Wave\-Player\-\_\-\-Start} (void)
+\end{DoxyCompactItemize}
+\subsection*{\-Variables}
+\begin{DoxyCompactItemize}
+\item 
+\-T\-I\-M\-\_\-\-Type\-Def $\ast$ \hyperlink{group___p_i_o_s___w_a_v_p_l_a_y_ga06b2a838489fd6bb8f48615002e024d8}{pios\-\_\-dac\-\_\-cfg\-::timer}
+\item 
+\-T\-I\-M\-\_\-\-Time\-Base\-Init\-Type\-Def \hyperlink{group___p_i_o_s___w_a_v_p_l_a_y_ga1568b0926bb1e178d06682a8495e0f40}{pios\-\_\-dac\-\_\-cfg\-::time\-\_\-base\-\_\-init}
+\item 
+struct \hyperlink{structstm32__irq}{stm32\-\_\-irq} \hyperlink{group___p_i_o_s___w_a_v_p_l_a_y_ga1db4430fc674d954d396ce5abf14307c}{pios\-\_\-dac\-\_\-cfg\-::irq}
+\item 
+struct \hyperlink{structstm32__dma}{stm32\-\_\-dma} \hyperlink{group___p_i_o_s___w_a_v_p_l_a_y_ga9794db8fe6627bb998ba905f5ec5b869}{pios\-\_\-dac\-\_\-cfg\-::dma}
+\item 
+uint32\-\_\-t \hyperlink{group___p_i_o_s___w_a_v_p_l_a_y_ga197e2e3664b092f223251af8db017392}{pios\-\_\-dac\-\_\-cfg\-::channel}
+\item 
+\-D\-A\-C\-\_\-\-Init\-Type\-Def \hyperlink{group___p_i_o_s___w_a_v_p_l_a_y_ga2da6286f80191750fd6960a67d4a1e20}{pios\-\_\-dac\-\_\-cfg\-::dac\-\_\-init}
+\item 
+struct \hyperlink{structstm32__gpio}{stm32\-\_\-gpio} \hyperlink{group___p_i_o_s___w_a_v_p_l_a_y_gae02d1c0fa0764b2cf3172a8d3582295f}{pios\-\_\-dac\-\_\-cfg\-::dac\-\_\-io}
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-Wave audio generator. 
+
+\subsection{\-Enumeration \-Type \-Documentation}
+\hypertarget{group___p_i_o_s___w_a_v_p_l_a_y_ga4f3ee12da30a1e47c52dc137b4627cab}{\index{\-Code for wave audio generator@{\-Code for wave audio generator}!\-Endianness@{\-Endianness}}
+\index{\-Endianness@{\-Endianness}!Code for wave audio generator@{\-Code for wave audio generator}}
+\subsubsection[{\-Endianness}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf \-Endianness}}}\label{group___p_i_o_s___w_a_v_p_l_a_y_ga4f3ee12da30a1e47c52dc137b4627cab}
+\begin{Desc}
+\item[\-Enumerator\-: ]\par
+\begin{description}
+\index{\-Little\-Endian@{\-Little\-Endian}!\-Code for wave audio generator@{\-Code for wave audio generator}}\index{\-Code for wave audio generator@{\-Code for wave audio generator}!\-Little\-Endian@{\-Little\-Endian}}\item[{\em 
+\hypertarget{group___p_i_o_s___w_a_v_p_l_a_y_gga4f3ee12da30a1e47c52dc137b4627caba66c163903fb08aef1735714dbb818cc7}{\-Little\-Endian}\label{group___p_i_o_s___w_a_v_p_l_a_y_gga4f3ee12da30a1e47c52dc137b4627caba66c163903fb08aef1735714dbb818cc7}
+}]\index{\-Big\-Endian@{\-Big\-Endian}!\-Code for wave audio generator@{\-Code for wave audio generator}}\index{\-Code for wave audio generator@{\-Code for wave audio generator}!\-Big\-Endian@{\-Big\-Endian}}\item[{\em 
+\hypertarget{group___p_i_o_s___w_a_v_p_l_a_y_gga4f3ee12da30a1e47c52dc137b4627cabab90b00401d08d0ecc6b6c2c54db50d6b}{\-Big\-Endian}\label{group___p_i_o_s___w_a_v_p_l_a_y_gga4f3ee12da30a1e47c52dc137b4627cabab90b00401d08d0ecc6b6c2c54db50d6b}
+}]\end{description}
+\end{Desc}
+
+
+
+\-Definition at line 37 of file pios\-\_\-wavplay.\-c.
+
+
+
+\subsection{\-Function \-Documentation}
+\hypertarget{group___p_i_o_s___w_a_v_p_l_a_y_ga833570d033bad7d2098b024caec552be}{\index{\-Code for wave audio generator@{\-Code for wave audio generator}!\-P\-I\-O\-S\-\_\-\-Wav\-Play\-\_\-\-Init@{\-P\-I\-O\-S\-\_\-\-Wav\-Play\-\_\-\-Init}}
+\index{\-P\-I\-O\-S\-\_\-\-Wav\-Play\-\_\-\-Init@{\-P\-I\-O\-S\-\_\-\-Wav\-Play\-\_\-\-Init}!Code for wave audio generator@{\-Code for wave audio generator}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-Wav\-Play\-\_\-\-Init}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-P\-I\-O\-S\-\_\-\-Wav\-Play\-\_\-\-Init} (
+\begin{DoxyParamCaption}
+\item[{const struct {\bf pios\-\_\-dac\-\_\-cfg} $\ast$}]{cfg}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___w_a_v_p_l_a_y_ga833570d033bad7d2098b024caec552be}
+
+
+\-Definition at line 403 of file pios\-\_\-wavplay.\-c.
+
+\hypertarget{group___p_i_o_s___w_a_v_p_l_a_y_gad653a67ad3415d1d9d9c91e13904fb06}{\index{\-Code for wave audio generator@{\-Code for wave audio generator}!\-Wave\-Player\-\_\-\-Start@{\-Wave\-Player\-\_\-\-Start}}
+\index{\-Wave\-Player\-\_\-\-Start@{\-Wave\-Player\-\_\-\-Start}!Code for wave audio generator@{\-Code for wave audio generator}}
+\subsubsection[{\-Wave\-Player\-\_\-\-Start}]{\setlength{\rightskip}{0pt plus 5cm}uint8\-\_\-t {\bf \-Wave\-Player\-\_\-\-Start} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___w_a_v_p_l_a_y_gad653a67ad3415d1d9d9c91e13904fb06}
+
+
+\-Definition at line 365 of file pios\-\_\-wavplay.\-c.
+
+
+
+\subsection{\-Variable \-Documentation}
+\hypertarget{group___p_i_o_s___w_a_v_p_l_a_y_ga197e2e3664b092f223251af8db017392}{\index{\-Code for wave audio generator@{\-Code for wave audio generator}!channel@{channel}}
+\index{channel@{channel}!Code for wave audio generator@{\-Code for wave audio generator}}
+\subsubsection[{channel}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t {\bf pios\-\_\-dac\-\_\-cfg\-::channel}}}\label{group___p_i_o_s___w_a_v_p_l_a_y_ga197e2e3664b092f223251af8db017392}
+
+
+\-Definition at line 48 of file pios\-\_\-wavplay.\-h.
+
+\hypertarget{group___p_i_o_s___w_a_v_p_l_a_y_ga2da6286f80191750fd6960a67d4a1e20}{\index{\-Code for wave audio generator@{\-Code for wave audio generator}!dac\-\_\-init@{dac\-\_\-init}}
+\index{dac\-\_\-init@{dac\-\_\-init}!Code for wave audio generator@{\-Code for wave audio generator}}
+\subsubsection[{dac\-\_\-init}]{\setlength{\rightskip}{0pt plus 5cm}\-D\-A\-C\-\_\-\-Init\-Type\-Def {\bf pios\-\_\-dac\-\_\-cfg\-::dac\-\_\-init}}}\label{group___p_i_o_s___w_a_v_p_l_a_y_ga2da6286f80191750fd6960a67d4a1e20}
+
+
+\-Definition at line 49 of file pios\-\_\-wavplay.\-h.
+
+\hypertarget{group___p_i_o_s___w_a_v_p_l_a_y_gae02d1c0fa0764b2cf3172a8d3582295f}{\index{\-Code for wave audio generator@{\-Code for wave audio generator}!dac\-\_\-io@{dac\-\_\-io}}
+\index{dac\-\_\-io@{dac\-\_\-io}!Code for wave audio generator@{\-Code for wave audio generator}}
+\subsubsection[{dac\-\_\-io}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf stm32\-\_\-gpio} {\bf pios\-\_\-dac\-\_\-cfg\-::dac\-\_\-io}}}\label{group___p_i_o_s___w_a_v_p_l_a_y_gae02d1c0fa0764b2cf3172a8d3582295f}
+
+
+\-Definition at line 50 of file pios\-\_\-wavplay.\-h.
+
+\hypertarget{group___p_i_o_s___w_a_v_p_l_a_y_ga9794db8fe6627bb998ba905f5ec5b869}{\index{\-Code for wave audio generator@{\-Code for wave audio generator}!dma@{dma}}
+\index{dma@{dma}!Code for wave audio generator@{\-Code for wave audio generator}}
+\subsubsection[{dma}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf stm32\-\_\-dma} {\bf pios\-\_\-dac\-\_\-cfg\-::dma}}}\label{group___p_i_o_s___w_a_v_p_l_a_y_ga9794db8fe6627bb998ba905f5ec5b869}
+
+
+\-Definition at line 47 of file pios\-\_\-wavplay.\-h.
+
+\hypertarget{group___p_i_o_s___w_a_v_p_l_a_y_ga1db4430fc674d954d396ce5abf14307c}{\index{\-Code for wave audio generator@{\-Code for wave audio generator}!irq@{irq}}
+\index{irq@{irq}!Code for wave audio generator@{\-Code for wave audio generator}}
+\subsubsection[{irq}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf stm32\-\_\-irq} {\bf pios\-\_\-dac\-\_\-cfg\-::irq}}}\label{group___p_i_o_s___w_a_v_p_l_a_y_ga1db4430fc674d954d396ce5abf14307c}
+
+
+\-Definition at line 46 of file pios\-\_\-wavplay.\-h.
+
+\hypertarget{group___p_i_o_s___w_a_v_p_l_a_y_ga1568b0926bb1e178d06682a8495e0f40}{\index{\-Code for wave audio generator@{\-Code for wave audio generator}!time\-\_\-base\-\_\-init@{time\-\_\-base\-\_\-init}}
+\index{time\-\_\-base\-\_\-init@{time\-\_\-base\-\_\-init}!Code for wave audio generator@{\-Code for wave audio generator}}
+\subsubsection[{time\-\_\-base\-\_\-init}]{\setlength{\rightskip}{0pt plus 5cm}\-T\-I\-M\-\_\-\-Time\-Base\-Init\-Type\-Def {\bf pios\-\_\-dac\-\_\-cfg\-::time\-\_\-base\-\_\-init}}}\label{group___p_i_o_s___w_a_v_p_l_a_y_ga1568b0926bb1e178d06682a8495e0f40}
+
+
+\-Definition at line 45 of file pios\-\_\-wavplay.\-h.
+
+\hypertarget{group___p_i_o_s___w_a_v_p_l_a_y_ga06b2a838489fd6bb8f48615002e024d8}{\index{\-Code for wave audio generator@{\-Code for wave audio generator}!timer@{timer}}
+\index{timer@{timer}!Code for wave audio generator@{\-Code for wave audio generator}}
+\subsubsection[{timer}]{\setlength{\rightskip}{0pt plus 5cm}\-T\-I\-M\-\_\-\-Type\-Def$\ast$ {\bf pios\-\_\-dac\-\_\-cfg\-::timer}}}\label{group___p_i_o_s___w_a_v_p_l_a_y_ga06b2a838489fd6bb8f48615002e024d8}
+
+
+\-Definition at line 44 of file pios\-\_\-wavplay.\-h.
+

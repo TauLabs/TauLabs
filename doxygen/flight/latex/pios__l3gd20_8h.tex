@@ -1,0 +1,40 @@
+\hypertarget{pios__l3gd20_8h}{\section{/home/jb/code/\-Tau\-Labs/flight/\-Pi\-O\-S/inc/pios\-\_\-l3gd20.h \-File \-Reference}
+\label{pios__l3gd20_8h}\index{/home/jb/code/\-Tau\-Labs/flight/\-Pi\-O\-S/inc/pios\-\_\-l3gd20.\-h@{/home/jb/code/\-Tau\-Labs/flight/\-Pi\-O\-S/inc/pios\-\_\-l3gd20.\-h}}
+}
+\subsection*{\-Data \-Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structpios__l3gd20__cfg}{pios\-\_\-l3gd20\-\_\-cfg}
+\end{DoxyCompactItemize}
+\subsection*{\-Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{group___p_i_o_s___l3_g_d20_ga704696d385abb591516d2e31301dad66}{pios\-\_\-l3gd20\-\_\-range} \{ \hyperlink{group___p_i_o_s___l3_g_d20_gga704696d385abb591516d2e31301dad66aedd6eafcd26b7ea732535c95e6df130b}{\-P\-I\-O\-S\-\_\-\-L3\-G\-D20\-\_\-\-S\-C\-A\-L\-E\-\_\-250\-\_\-\-D\-E\-G} =  0x00, 
+\hyperlink{group___p_i_o_s___l3_g_d20_gga704696d385abb591516d2e31301dad66a7e5b9b2cf555ad09aa1dd0ba78acb274}{\-P\-I\-O\-S\-\_\-\-L3\-G\-D20\-\_\-\-S\-C\-A\-L\-E\-\_\-500\-\_\-\-D\-E\-G} =  0x10, 
+\hyperlink{group___p_i_o_s___l3_g_d20_gga704696d385abb591516d2e31301dad66a3c6ef417567852dc017c6d0158a15eba}{\-P\-I\-O\-S\-\_\-\-L3\-G\-D20\-\_\-\-S\-C\-A\-L\-E\-\_\-2000\-\_\-\-D\-E\-G} =  0x3
+ \}
+\item 
+enum \hyperlink{group___p_i_o_s___l3_g_d20_ga61c11c9fa344e4d6a9087dd81414d54c}{pios\-\_\-l3gd20\-\_\-filter} \{ \*
+\hyperlink{group___p_i_o_s___l3_g_d20_gga61c11c9fa344e4d6a9087dd81414d54ca7bcc15cafe9ca8cc2ffe55a8920d9b0d}{\-P\-I\-O\-S\-\_\-\-L3\-G\-D20\-\_\-\-L\-O\-W\-P\-A\-S\-S\-\_\-256\-\_\-\-H\-Z} =  0x00, 
+\hyperlink{group___p_i_o_s___l3_g_d20_gga61c11c9fa344e4d6a9087dd81414d54cac31670f3cab1a3a10fead7d61959cee9}{\-P\-I\-O\-S\-\_\-\-L3\-G\-D20\-\_\-\-L\-O\-W\-P\-A\-S\-S\-\_\-188\-\_\-\-H\-Z} =  0x01, 
+\hyperlink{group___p_i_o_s___l3_g_d20_gga61c11c9fa344e4d6a9087dd81414d54ca6d73399d5d2252dc4e577812335b48f4}{\-P\-I\-O\-S\-\_\-\-L3\-G\-D20\-\_\-\-L\-O\-W\-P\-A\-S\-S\-\_\-98\-\_\-\-H\-Z} =  0x02, 
+\hyperlink{group___p_i_o_s___l3_g_d20_gga61c11c9fa344e4d6a9087dd81414d54cad7a50f4cfb1e0155140f7f0e5113e50e}{\-P\-I\-O\-S\-\_\-\-L3\-G\-D20\-\_\-\-L\-O\-W\-P\-A\-S\-S\-\_\-42\-\_\-\-H\-Z} =  0x03, 
+\*
+\hyperlink{group___p_i_o_s___l3_g_d20_gga61c11c9fa344e4d6a9087dd81414d54ca73a26a6c815fe14b8658e2e20364cbbe}{\-P\-I\-O\-S\-\_\-\-L3\-G\-D20\-\_\-\-L\-O\-W\-P\-A\-S\-S\-\_\-20\-\_\-\-H\-Z} =  0x04, 
+\hyperlink{group___p_i_o_s___l3_g_d20_gga61c11c9fa344e4d6a9087dd81414d54ca96ce608de595fe92992a8a80117aae23}{\-P\-I\-O\-S\-\_\-\-L3\-G\-D20\-\_\-\-L\-O\-W\-P\-A\-S\-S\-\_\-10\-\_\-\-H\-Z} =  0x05, 
+\hyperlink{group___p_i_o_s___l3_g_d20_gga61c11c9fa344e4d6a9087dd81414d54ca4aafab965ecb9a13cbd74263c0609526}{\-P\-I\-O\-S\-\_\-\-L3\-G\-D20\-\_\-\-L\-O\-W\-P\-A\-S\-S\-\_\-5\-\_\-\-H\-Z} =  0x06
+ \}
+\end{DoxyCompactItemize}
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___l3_g_d20_gac5608ef1d6d1c639969449e9613ed814}{\-P\-I\-O\-S\-\_\-\-L3\-G\-D20\-\_\-\-Init} (uint32\-\_\-t spi\-\_\-id, uint32\-\_\-t slave\-\_\-num, const struct \hyperlink{structpios__l3gd20__cfg}{pios\-\_\-l3gd20\-\_\-cfg} $\ast$cfg)
+\begin{DoxyCompactList}\small\item\em \-Initialize the \-L3\-G\-D20 3-\/axis gyro sensor. \end{DoxyCompactList}\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___l3_g_d20_ga26819f3aff62932a133ff618c3f25ee3}{\-P\-I\-O\-S\-\_\-\-L3\-G\-D20\-\_\-\-Set\-Range} (enum \hyperlink{group___p_i_o_s___l3_g_d20_ga704696d385abb591516d2e31301dad66}{pios\-\_\-l3gd20\-\_\-range} range)
+\begin{DoxyCompactList}\small\item\em \-Sets the maximum range of the \-L3\-G\-D20. \end{DoxyCompactList}\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___l3_g_d20_gacbb45ecd0888306f970c7a719cb372c2}{\-P\-I\-O\-S\-\_\-\-L3\-G\-D20\-\_\-\-Read\-I\-D} ()
+\begin{DoxyCompactList}\small\item\em \-Read the identification bytes from the \-L3\-G\-D20 sensor. \end{DoxyCompactList}\item 
+uint8\-\_\-t \hyperlink{group___p_i_o_s___l3_g_d20_ga9951dd9f920e6734bbce9117a983fed5}{\-P\-I\-O\-S\-\_\-\-L3\-G\-D20\-\_\-\-Test} (void)
+\begin{DoxyCompactList}\small\item\em \-Run self-\/test operation. \end{DoxyCompactList}\item 
+bool \hyperlink{group___p_i_o_s___l3_g_d20_ga27629f4a3a69cd7202e7effff4d9a2d2}{\-P\-I\-O\-S\-\_\-\-L3\-G\-D20\-\_\-\-I\-R\-Q\-Handler} (void)
+\begin{DoxyCompactList}\small\item\em \-I\-R\-Q \-Handler. \-Read all the data from onboard buffer. \end{DoxyCompactList}\end{DoxyCompactItemize}

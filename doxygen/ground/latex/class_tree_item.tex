@@ -1,0 +1,108 @@
+\hypertarget{class_tree_item}{\section{\-Tree\-Item \-Class \-Reference}
+\label{class_tree_item}\index{\-Tree\-Item@{\-Tree\-Item}}
+}
+
+
+{\ttfamily \#include $<$treeitem.\-h$>$}
+
+\-Inheritance diagram for \-Tree\-Item\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.807018cm]{class_tree_item}
+\end{center}
+\end{figure}
+\subsection*{\-Signals}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_browser_plugin_gab8702d2046500fbe3dd7cee66ebcda70}{update\-Highlight} (\hyperlink{class_tree_item}{\-Tree\-Item} $\ast$)
+\end{DoxyCompactItemize}
+\subsection*{\-Public \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_object_browser_plugin_gaee288dea1233cde85e888cd709a5385e}{\-Tree\-Item} (const \-Q\-List$<$ \-Q\-Variant $>$ \&\hyperlink{group___u_a_v_object_browser_plugin_ga7c5708ae3cbba9c509f497c493beccb6}{data}, \hyperlink{class_tree_item}{\-Tree\-Item} $\ast$\hyperlink{group___u_a_v_object_browser_plugin_gaa3a7ba624312b6be70872634db291881}{parent}=0)
+\item 
+\hyperlink{group___u_a_v_object_browser_plugin_ga18da596c178ccc1c830ac82d1896be1d}{\-Tree\-Item} (const \-Q\-Variant \&\hyperlink{group___u_a_v_object_browser_plugin_ga7c5708ae3cbba9c509f497c493beccb6}{data}, \hyperlink{class_tree_item}{\-Tree\-Item} $\ast$\hyperlink{group___u_a_v_object_browser_plugin_gaa3a7ba624312b6be70872634db291881}{parent}=0)
+\item 
+virtual \hyperlink{group___u_a_v_object_browser_plugin_ga859429185d908c3e54861bbbfb185425}{$\sim$\-Tree\-Item} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_browser_plugin_gac7f432ac0587ca037e80857eefd622f8}{append\-Child} (\hyperlink{class_tree_item}{\-Tree\-Item} $\ast$child)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_browser_plugin_ga1d0b952f15a93167dadb41667ccc5e4c}{insert\-Child} (\hyperlink{class_tree_item}{\-Tree\-Item} $\ast$child)
+\item 
+\hyperlink{class_tree_item}{\-Tree\-Item} $\ast$ \hyperlink{group___u_a_v_object_browser_plugin_gae115cb3e046c94117d64ee87764cb3ef}{get\-Child} (int index)
+\item 
+\-Q\-List$<$ \hyperlink{class_tree_item}{\-Tree\-Item} $\ast$ $>$ \hyperlink{group___u_a_v_object_browser_plugin_gaa56dc80d617c2c9bd914abe5da774fd8}{tree\-Children} () const 
+\item 
+int \hyperlink{group___u_a_v_object_browser_plugin_ga55ffe6dd27750e479034b93e753f87af}{child\-Count} () const 
+\item 
+int \hyperlink{group___u_a_v_object_browser_plugin_ga31c3fb89ad8e19ae696a310a1f843a8e}{column\-Count} () const 
+\item 
+\-Q\-Variant \hyperlink{group___u_a_v_object_browser_plugin_ga7c5708ae3cbba9c509f497c493beccb6}{data} (int column=1) const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___u_a_v_object_browser_plugin_gadb051f76eb10bd51ba2b7830601f0046}{description} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_browser_plugin_ga14cc339bd1ed2fc44cb352461c623031}{set\-Description} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} d)
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_browser_plugin_gac71bc85379e761548f4a7d15f049cdd8}{set\-Data} (\-Q\-Variant value, int column=1)
+\item 
+int \hyperlink{group___u_a_v_object_browser_plugin_ga5a062d24b35421360ad1d101c564e9be}{row} () const 
+\item 
+\hyperlink{class_tree_item}{\-Tree\-Item} $\ast$ \hyperlink{group___u_a_v_object_browser_plugin_gaa3a7ba624312b6be70872634db291881}{parent} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_browser_plugin_gab0eb64f28a5cd5d9e77ff4579014b1bb}{set\-Parent\-Tree} (\hyperlink{class_tree_item}{\-Tree\-Item} $\ast$\hyperlink{group___u_a_v_object_browser_plugin_gaa3a7ba624312b6be70872634db291881}{parent})
+\item 
+virtual bool \hyperlink{group___u_a_v_object_browser_plugin_ga6d83a2fdf1599b2be263c94ad5b05e83}{is\-Editable} ()
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_browser_plugin_gab6c763d5ea39c359ab56b4d8b1af8f7b}{update} ()
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_browser_plugin_gaca25a01ba924019208f39d7c7ae2f593}{apply} ()
+\item 
+bool \hyperlink{group___u_a_v_object_browser_plugin_ga47c7c59b2ed66695e9c42351fbeb24b2}{highlighted} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_browser_plugin_ga59e306591cb8099a247f47cde3e4e78a}{set\-Highlight} (bool highlight)
+\item 
+bool \hyperlink{group___u_a_v_object_browser_plugin_ga092f37d4eb04a9889985eadb5066ff6e}{changed} ()
+\item 
+bool \hyperlink{group___u_a_v_object_browser_plugin_gae407428df05b1f28bcb6e8bf2cd86b73}{updated\-Only} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_browser_plugin_ga2562126b279261daaf87d6234bfb807c}{set\-Changed} (bool \hyperlink{group___u_a_v_object_browser_plugin_ga092f37d4eb04a9889985eadb5066ff6e}{changed})
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_browser_plugin_ga63e16f896af89aa165dcd9c31d42ce83}{set\-Updated\-Only} (bool updated)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_browser_plugin_gae74eb4785ae705b5a9ffc056a71fb88a}{set\-Updated\-Only\-Parent} ()
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_browser_plugin_gac523fe360648e1e148c4b30f6918c6be}{set\-Highlight\-Manager} (\hyperlink{class_high_light_manager}{\-High\-Light\-Manager} $\ast$mgr)
+\item 
+\-Q\-Time \hyperlink{group___u_a_v_object_browser_plugin_gabc3b5a703ec23600e388018db3349369}{get\-Higlight\-Expires} ()
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_browser_plugin_ga9620f3abc5fda75861a24032594766a6}{remove\-Highlight} ()
+\item 
+int \hyperlink{group___u_a_v_object_browser_plugin_gac2b731cbaed396ea1819b12ddb0f7767}{name\-Index} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} name)
+\item 
+\hyperlink{class_tree_item}{\-Tree\-Item} $\ast$ \hyperlink{group___u_a_v_object_browser_plugin_ga17e124da1542c7dab530add7dce6d170}{find\-Child\-By\-Name} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} name)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_browser_plugin_ga2d8b58f0944b4a2b934f1aacc5188f17}{set\-Current\-Time} (\-Q\-Time $\ast$current\-Time)
+\end{DoxyCompactItemize}
+\subsection*{\-Static \-Public \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+static \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_browser_plugin_ga75de400d0bd7ba687fcc1535a3a0f871}{set\-Highlight\-Time} (int time)
+\end{DoxyCompactItemize}
+\subsection*{\-Static \-Public \-Attributes}
+\begin{DoxyCompactItemize}
+\item 
+static const int \hyperlink{group___u_a_v_object_browser_plugin_gad4ee9a1203f812d975a410765ddb8710}{data\-Column} = 1
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+
+
+\-Definition at line 92 of file treeitem.\-h.
+
+
+
+\-The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/plugins/uavobjectbrowser/\hyperlink{treeitem_8h}{treeitem.\-h}\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/plugins/uavobjectbrowser/\hyperlink{treeitem_8cpp}{treeitem.\-cpp}\end{DoxyCompactItemize}

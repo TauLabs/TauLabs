@@ -1,0 +1,143 @@
+\hypertarget{group___power_log}{\section{\-Power\-Log}
+\label{group___power_log}\index{\-Power\-Log@{\-Power\-Log}}
+}
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+bool \hyperlink{group___power_log_gac2181c168547833f7826354c333cd431}{\-Powerlog\-Thread\-::open\-File} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{uavobjecttemplate_8m_a97c04efa65bcf0928abf9260bc5cbf46}{file}, \hyperlink{class_powerlog_plugin}{\-Powerlog\-Plugin} $\ast$parent)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___power_log_ga8a04077cf7c30019689b894c73cb0020}{\-Powerlog\-Thread\-::run} ()
+\item 
+\hyperlink{group___power_log_ga9e38cb901b8c4d1f73f06f2b6e481e2e}{\-Powerlog\-Plugin\-::\-Powerlog\-Plugin} ()
+\item 
+\hyperlink{group___power_log_ga2556b7dd74c9d3c635c84f31a40269cd}{\-Powerlog\-Plugin\-::$\sim$\-Powerlog\-Plugin} ()
+\item 
+bool \hyperlink{group___power_log_gadc5a5af4c3942d0ec384cad6f677cef3}{\-Powerlog\-Plugin\-::initialize} (const \-Q\-String\-List \&arguments, \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} $\ast$error\-String)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___power_log_gabdc836ec2b2a95cfe56fabe4d8c8e629}{\-Powerlog\-Plugin\-::extensions\-Initialized} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___power_log_gabcda6ddff409dc11244b3df09276d0cc}{\-Powerlog\-Plugin\-::shutdown} ()
+\end{DoxyCompactItemize}
+\subsection*{\-Public \-Slots}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___power_log_ga9a391d6c905ecddc9bbc2dd34f055d7c}{\-Powerlog\-Thread\-::stop\-Logging} ()
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Function \-Documentation}
+\hypertarget{group___power_log_gabdc836ec2b2a95cfe56fabe4d8c8e629}{\index{\-Power\-Log@{\-Power\-Log}!extensions\-Initialized@{extensions\-Initialized}}
+\index{extensions\-Initialized@{extensions\-Initialized}!PowerLog@{\-Power\-Log}}
+\subsubsection[{extensions\-Initialized}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Powerlog\-Plugin\-::extensions\-Initialized} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___power_log_gabdc836ec2b2a95cfe56fabe4d8c8e629}
+\-Called after the \-I\-Plugin\-::initialize() method has been called, and after both the \-I\-Plugin\-::initialize() and \-I\-Plugin\-::extensions\-Initialized() methods of plugins that depend on this plugin have been called. \-In this method, the plugin can assume that plugins that depend on this plugin are fully 'up and running'. \-It is a good place to look in the plugin manager's object pool for objects that have been provided by dependent plugins. \begin{DoxySeeAlso}{\-See also}
+\hyperlink{group___power_log_gadc5a5af4c3942d0ec384cad6f677cef3}{initialize()} 
+\end{DoxySeeAlso}
+
+
+\-Implements \hyperlink{class_extension_system_1_1_i_plugin_a1db3a7fb242fca02229f9a3be4fd6610}{\-Extension\-System\-::\-I\-Plugin}.
+
+
+
+\-Definition at line 352 of file powerlogplugin.\-cpp.
+
+\hypertarget{group___power_log_gadc5a5af4c3942d0ec384cad6f677cef3}{\index{\-Power\-Log@{\-Power\-Log}!initialize@{initialize}}
+\index{initialize@{initialize}!PowerLog@{\-Power\-Log}}
+\subsubsection[{initialize}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-Powerlog\-Plugin\-::initialize} (
+\begin{DoxyParamCaption}
+\item[{const \-Q\-String\-List \&}]{args, }
+\item[{{\bf \-Q\-String} $\ast$}]{err\-Msg}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___power_log_gadc5a5af4c3942d0ec384cad6f677cef3}
+\-Add \-Powerlog plugin entry to \-File menu 
+
+\-Implements \hyperlink{class_extension_system_1_1_i_plugin_a9f3dc957317279daed393fdf4894e944}{\-Extension\-System\-::\-I\-Plugin}.
+
+
+
+\-Definition at line 252 of file powerlogplugin.\-cpp.
+
+\hypertarget{group___power_log_gac2181c168547833f7826354c333cd431}{\index{\-Power\-Log@{\-Power\-Log}!open\-File@{open\-File}}
+\index{open\-File@{open\-File}!PowerLog@{\-Power\-Log}}
+\subsubsection[{open\-File}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-Powerlog\-Thread\-::open\-File} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Q\-String}}]{file, }
+\item[{{\bf \-Powerlog\-Plugin} $\ast$}]{parent}
+\end{DoxyParamCaption}
+)}}\label{group___power_log_gac2181c168547833f7826354c333cd431}
+\-Sets the file to use for logging and takes the parent plugin to connect to stop logging signal 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em file} & \-File name to write to \\
+\hline
+\mbox{\tt in}  & {\em parent} & plugin \\
+\hline
+\end{DoxyParams}
+
+
+\-Definition at line 54 of file powerlogplugin.\-cpp.
+
+\hypertarget{group___power_log_ga9e38cb901b8c4d1f73f06f2b6e481e2e}{\index{\-Power\-Log@{\-Power\-Log}!\-Powerlog\-Plugin@{\-Powerlog\-Plugin}}
+\index{\-Powerlog\-Plugin@{\-Powerlog\-Plugin}!PowerLog@{\-Power\-Log}}
+\subsubsection[{\-Powerlog\-Plugin}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Powerlog\-Plugin\-::\-Powerlog\-Plugin} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___power_log_ga9e38cb901b8c4d1f73f06f2b6e481e2e}
+
+
+\-Definition at line 236 of file powerlogplugin.\-cpp.
+
+\hypertarget{group___power_log_ga8a04077cf7c30019689b894c73cb0020}{\index{\-Power\-Log@{\-Power\-Log}!run@{run}}
+\index{run@{run}!PowerLog@{\-Power\-Log}}
+\subsubsection[{run}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Powerlog\-Thread\-::run} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{group___power_log_ga8a04077cf7c30019689b894c73cb0020}
+\-Get all logs from \-Powerlog 
+
+\-Definition at line 68 of file powerlogplugin.\-cpp.
+
+\hypertarget{group___power_log_gabcda6ddff409dc11244b3df09276d0cc}{\index{\-Power\-Log@{\-Power\-Log}!shutdown@{shutdown}}
+\index{shutdown@{shutdown}!PowerLog@{\-Power\-Log}}
+\subsubsection[{shutdown}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Powerlog\-Plugin\-::shutdown} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___power_log_gabcda6ddff409dc11244b3df09276d0cc}
+\-Called during a shutdown sequence in the same order as initialization before the plugins get deleted in reverse order. \-This method can be used to optimize the shutdown down, e.\-g. to disconnect from the \-Plugin\-Manager\-::about\-To\-Remove\-Object() signal if getting the signal (and probably doing lots of stuff to update the internal and visible state) doesn't make sense during shutdown. 
+
+\-Reimplemented from \hyperlink{class_extension_system_1_1_i_plugin_a65c16ebd3a6e89918a99af6515fe68cb}{\-Extension\-System\-::\-I\-Plugin}.
+
+
+
+\-Definition at line 365 of file powerlogplugin.\-cpp.
+
+\hypertarget{group___power_log_ga2556b7dd74c9d3c635c84f31a40269cd}{\index{\-Power\-Log@{\-Power\-Log}!$\sim$\-Powerlog\-Plugin@{$\sim$\-Powerlog\-Plugin}}
+\index{$\sim$\-Powerlog\-Plugin@{$\sim$\-Powerlog\-Plugin}!PowerLog@{\-Power\-Log}}
+\subsubsection[{$\sim$\-Powerlog\-Plugin}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Powerlog\-Plugin\-::$\sim$\-Powerlog\-Plugin} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___power_log_ga2556b7dd74c9d3c635c84f31a40269cd}
+
+
+\-Definition at line 244 of file powerlogplugin.\-cpp.
+
+
+
+\subsection{\-Public \-Slots}
+\hypertarget{group___power_log_ga9a391d6c905ecddc9bbc2dd34f055d7c}{\index{\-Power\-Log@{\-Power\-Log}!stop\-Logging@{stop\-Logging}}
+\index{stop\-Logging@{stop\-Logging}!PowerLog@{\-Power\-Log}}
+\subsubsection[{stop\-Logging}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Powerlog\-Thread\-::stop\-Logging} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}slot\mbox{]}}}}\label{group___power_log_ga9a391d6c905ecddc9bbc2dd34f055d7c}
+\-Pass this command to the correct thread then close the file 
+
+\-Definition at line 104 of file powerlogplugin.\-cpp.
+

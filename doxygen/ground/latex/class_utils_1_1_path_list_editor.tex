@@ -1,0 +1,209 @@
+\hypertarget{class_utils_1_1_path_list_editor}{\section{\-Utils\-:\-:\-Path\-List\-Editor \-Class \-Reference}
+\label{class_utils_1_1_path_list_editor}\index{\-Utils\-::\-Path\-List\-Editor@{\-Utils\-::\-Path\-List\-Editor}}
+}
+
+
+{\ttfamily \#include $<$pathlisteditor.\-h$>$}
+
+\subsection*{\-Public \-Slots}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_utils_1_1_path_list_editor_af6cfc8d39c245493fe352dcb05e7fafc}{clear} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_utils_1_1_path_list_editor_a18015673d52b80b875628c2b66d4db24}{set\-Path\-List} (const \-Q\-String\-List \&l)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_utils_1_1_path_list_editor_aed361e69b7808c9e39a3c11d00feda03}{set\-Path\-List} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \&path\-String)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_utils_1_1_path_list_editor_a5126b279700cc6799220c53681ccc5fa}{set\-Path\-List\-From\-Env\-Variable} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \&var)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_utils_1_1_path_list_editor_ac6942cbe78b6f8df818f21ed565e347c}{set\-File\-Dialog\-Title} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \&l)
+\end{DoxyCompactItemize}
+\subsection*{\-Protected \-Slots}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_utils_1_1_path_list_editor_ab3be814407ee47387ca049bfd93780fb}{insert\-Path\-At\-Cursor} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \&)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_utils_1_1_path_list_editor_a117c18f87a59dac54632f3b5e775bd72}{delete\-Path\-At\-Cursor} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_utils_1_1_path_list_editor_acf378616452930cf50c4a54957e5d142}{append\-Path} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \&)
+\end{DoxyCompactItemize}
+\subsection*{\-Protected \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+\-Q\-Action $\ast$ \hyperlink{class_utils_1_1_path_list_editor_a5ff6cc4033c262c8f3925446b6266280}{insert\-Action} (int index, const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \&\hyperlink{class_utils_1_1_path_list_editor_afe432e8e2962ada8ff59067ae2403b72}{text}, \-Q\-Object $\ast$receiver, const char $\ast$slot\-Func)
+\item 
+\-Q\-Action $\ast$ \hyperlink{class_utils_1_1_path_list_editor_a7ad40d88b0bf500e8592c54089f37160}{add\-Action} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \&\hyperlink{class_utils_1_1_path_list_editor_afe432e8e2962ada8ff59067ae2403b72}{text}, \-Q\-Object $\ast$receiver, const char $\ast$slot\-Func)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{class_utils_1_1_path_list_editor_afe432e8e2962ada8ff59067ae2403b72}{text} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_utils_1_1_path_list_editor_a29e4a886c1d4e3923dc2f9f3d625835e}{set\-Text} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \&)
+\end{DoxyCompactItemize}
+\subsection*{\-Static \-Protected \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+static int \hyperlink{class_utils_1_1_path_list_editor_adece655966bd271c6a6ff2dac1a0fc53}{last\-Add\-Action\-Index} ()
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-A control that let's the user edit a list of (directory) paths using the platform separator (';','\-:'). \-Typically used for path lists controlled by environment variables, such as \-P\-A\-T\-H. \-It is based on a \-Q\-Plain\-Text\-Edit as it should allow for convenient editing and non-\/directory type elements like \char`\"{}etc/mydir1\-:\$\-S\-P\-E\-C\-I\-A\-L\-\_\-\-S\-Y\-N\-T\-A\-X\-:/etc/mydir2\char`\"{}. \-When pasting text into it, the platform separator will be replaced by new line characters for convenience. 
+
+\-Definition at line 56 of file pathlisteditor.\-h.
+
+
+
+\subsection{\-Member \-Function \-Documentation}
+\hypertarget{class_utils_1_1_path_list_editor_a7ad40d88b0bf500e8592c54089f37160}{\index{\-Utils\-::\-Path\-List\-Editor@{\-Utils\-::\-Path\-List\-Editor}!add\-Action@{add\-Action}}
+\index{add\-Action@{add\-Action}!Utils::PathListEditor@{\-Utils\-::\-Path\-List\-Editor}}
+\subsubsection[{add\-Action}]{\setlength{\rightskip}{0pt plus 5cm}\-Q\-Action $\ast$ {\bf \-Utils\-::\-Path\-List\-Editor\-::add\-Action} (
+\begin{DoxyParamCaption}
+\item[{const {\bf \-Q\-String} \&}]{text, }
+\item[{\-Q\-Object $\ast$}]{receiver, }
+\item[{const char $\ast$}]{slot\-Func}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{class_utils_1_1_path_list_editor_a7ad40d88b0bf500e8592c54089f37160}
+
+
+\-Definition at line 139 of file pathlisteditor.\-cpp.
+
+\hypertarget{class_utils_1_1_path_list_editor_acf378616452930cf50c4a54957e5d142}{\index{\-Utils\-::\-Path\-List\-Editor@{\-Utils\-::\-Path\-List\-Editor}!append\-Path@{append\-Path}}
+\index{append\-Path@{append\-Path}!Utils::PathListEditor@{\-Utils\-::\-Path\-List\-Editor}}
+\subsubsection[{append\-Path}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Utils\-::\-Path\-List\-Editor\-::append\-Path} (
+\begin{DoxyParamCaption}
+\item[{const {\bf \-Q\-String} \&}]{path}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}protected, slot\mbox{]}}}}\label{class_utils_1_1_path_list_editor_acf378616452930cf50c4a54957e5d142}
+
+
+\-Definition at line 287 of file pathlisteditor.\-cpp.
+
+\hypertarget{class_utils_1_1_path_list_editor_af6cfc8d39c245493fe352dcb05e7fafc}{\index{\-Utils\-::\-Path\-List\-Editor@{\-Utils\-::\-Path\-List\-Editor}!clear@{clear}}
+\index{clear@{clear}!Utils::PathListEditor@{\-Utils\-::\-Path\-List\-Editor}}
+\subsubsection[{clear}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Utils\-::\-Path\-List\-Editor\-::clear} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}slot\mbox{]}}}}\label{class_utils_1_1_path_list_editor_af6cfc8d39c245493fe352dcb05e7fafc}
+
+
+\-Definition at line 216 of file pathlisteditor.\-cpp.
+
+\hypertarget{class_utils_1_1_path_list_editor_a117c18f87a59dac54632f3b5e775bd72}{\index{\-Utils\-::\-Path\-List\-Editor@{\-Utils\-::\-Path\-List\-Editor}!delete\-Path\-At\-Cursor@{delete\-Path\-At\-Cursor}}
+\index{delete\-Path\-At\-Cursor@{delete\-Path\-At\-Cursor}!Utils::PathListEditor@{\-Utils\-::\-Path\-List\-Editor}}
+\subsubsection[{delete\-Path\-At\-Cursor}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Utils\-::\-Path\-List\-Editor\-::delete\-Path\-At\-Cursor} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}protected, slot\mbox{]}}}}\label{class_utils_1_1_path_list_editor_a117c18f87a59dac54632f3b5e775bd72}
+
+
+\-Definition at line 296 of file pathlisteditor.\-cpp.
+
+\hypertarget{class_utils_1_1_path_list_editor_a5ff6cc4033c262c8f3925446b6266280}{\index{\-Utils\-::\-Path\-List\-Editor@{\-Utils\-::\-Path\-List\-Editor}!insert\-Action@{insert\-Action}}
+\index{insert\-Action@{insert\-Action}!Utils::PathListEditor@{\-Utils\-::\-Path\-List\-Editor}}
+\subsubsection[{insert\-Action}]{\setlength{\rightskip}{0pt plus 5cm}\-Q\-Action $\ast$ {\bf \-Utils\-::\-Path\-List\-Editor\-::insert\-Action} (
+\begin{DoxyParamCaption}
+\item[{int}]{index, }
+\item[{const {\bf \-Q\-String} \&}]{text, }
+\item[{\-Q\-Object $\ast$}]{receiver, }
+\item[{const char $\ast$}]{slot\-Func}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{class_utils_1_1_path_list_editor_a5ff6cc4033c262c8f3925446b6266280}
+
+
+\-Definition at line 146 of file pathlisteditor.\-cpp.
+
+\hypertarget{class_utils_1_1_path_list_editor_ab3be814407ee47387ca049bfd93780fb}{\index{\-Utils\-::\-Path\-List\-Editor@{\-Utils\-::\-Path\-List\-Editor}!insert\-Path\-At\-Cursor@{insert\-Path\-At\-Cursor}}
+\index{insert\-Path\-At\-Cursor@{insert\-Path\-At\-Cursor}!Utils::PathListEditor@{\-Utils\-::\-Path\-List\-Editor}}
+\subsubsection[{insert\-Path\-At\-Cursor}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Utils\-::\-Path\-List\-Editor\-::insert\-Path\-At\-Cursor} (
+\begin{DoxyParamCaption}
+\item[{const {\bf \-Q\-String} \&}]{path}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}protected, slot\mbox{]}}}}\label{class_utils_1_1_path_list_editor_ab3be814407ee47387ca049bfd93780fb}
+
+
+\-Definition at line 268 of file pathlisteditor.\-cpp.
+
+\hypertarget{class_utils_1_1_path_list_editor_adece655966bd271c6a6ff2dac1a0fc53}{\index{\-Utils\-::\-Path\-List\-Editor@{\-Utils\-::\-Path\-List\-Editor}!last\-Add\-Action\-Index@{last\-Add\-Action\-Index}}
+\index{last\-Add\-Action\-Index@{last\-Add\-Action\-Index}!Utils::PathListEditor@{\-Utils\-::\-Path\-List\-Editor}}
+\subsubsection[{last\-Add\-Action\-Index}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf \-Utils\-::\-Path\-List\-Editor\-::last\-Add\-Action\-Index} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}static, protected\mbox{]}}}}\label{class_utils_1_1_path_list_editor_adece655966bd271c6a6ff2dac1a0fc53}
+
+
+\-Definition at line 164 of file pathlisteditor.\-cpp.
+
+\hypertarget{class_utils_1_1_path_list_editor_ac6942cbe78b6f8df818f21ed565e347c}{\index{\-Utils\-::\-Path\-List\-Editor@{\-Utils\-::\-Path\-List\-Editor}!set\-File\-Dialog\-Title@{set\-File\-Dialog\-Title}}
+\index{set\-File\-Dialog\-Title@{set\-File\-Dialog\-Title}!Utils::PathListEditor@{\-Utils\-::\-Path\-List\-Editor}}
+\subsubsection[{set\-File\-Dialog\-Title}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Utils\-::\-Path\-List\-Editor\-::set\-File\-Dialog\-Title} (
+\begin{DoxyParamCaption}
+\item[{const {\bf \-Q\-String} \&}]{l}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}slot\mbox{]}}}}\label{class_utils_1_1_path_list_editor_ac6942cbe78b6f8df818f21ed565e347c}
+
+
+\-Definition at line 211 of file pathlisteditor.\-cpp.
+
+\hypertarget{class_utils_1_1_path_list_editor_a18015673d52b80b875628c2b66d4db24}{\index{\-Utils\-::\-Path\-List\-Editor@{\-Utils\-::\-Path\-List\-Editor}!set\-Path\-List@{set\-Path\-List}}
+\index{set\-Path\-List@{set\-Path\-List}!Utils::PathListEditor@{\-Utils\-::\-Path\-List\-Editor}}
+\subsubsection[{set\-Path\-List}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Utils\-::\-Path\-List\-Editor\-::set\-Path\-List} (
+\begin{DoxyParamCaption}
+\item[{const \-Q\-String\-List \&}]{l}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}slot\mbox{]}}}}\label{class_utils_1_1_path_list_editor_a18015673d52b80b875628c2b66d4db24}
+
+
+\-Definition at line 187 of file pathlisteditor.\-cpp.
+
+\hypertarget{class_utils_1_1_path_list_editor_aed361e69b7808c9e39a3c11d00feda03}{\index{\-Utils\-::\-Path\-List\-Editor@{\-Utils\-::\-Path\-List\-Editor}!set\-Path\-List@{set\-Path\-List}}
+\index{set\-Path\-List@{set\-Path\-List}!Utils::PathListEditor@{\-Utils\-::\-Path\-List\-Editor}}
+\subsubsection[{set\-Path\-List}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Utils\-::\-Path\-List\-Editor\-::set\-Path\-List} (
+\begin{DoxyParamCaption}
+\item[{const {\bf \-Q\-String} \&}]{path\-String}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}slot\mbox{]}}}}\label{class_utils_1_1_path_list_editor_aed361e69b7808c9e39a3c11d00feda03}
+
+
+\-Definition at line 192 of file pathlisteditor.\-cpp.
+
+\hypertarget{class_utils_1_1_path_list_editor_a5126b279700cc6799220c53681ccc5fa}{\index{\-Utils\-::\-Path\-List\-Editor@{\-Utils\-::\-Path\-List\-Editor}!set\-Path\-List\-From\-Env\-Variable@{set\-Path\-List\-From\-Env\-Variable}}
+\index{set\-Path\-List\-From\-Env\-Variable@{set\-Path\-List\-From\-Env\-Variable}!Utils::PathListEditor@{\-Utils\-::\-Path\-List\-Editor}}
+\subsubsection[{set\-Path\-List\-From\-Env\-Variable}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Utils\-::\-Path\-List\-Editor\-::set\-Path\-List\-From\-Env\-Variable} (
+\begin{DoxyParamCaption}
+\item[{const {\bf \-Q\-String} \&}]{var}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}slot\mbox{]}}}}\label{class_utils_1_1_path_list_editor_a5126b279700cc6799220c53681ccc5fa}
+
+
+\-Definition at line 201 of file pathlisteditor.\-cpp.
+
+\hypertarget{class_utils_1_1_path_list_editor_a29e4a886c1d4e3923dc2f9f3d625835e}{\index{\-Utils\-::\-Path\-List\-Editor@{\-Utils\-::\-Path\-List\-Editor}!set\-Text@{set\-Text}}
+\index{set\-Text@{set\-Text}!Utils::PathListEditor@{\-Utils\-::\-Path\-List\-Editor}}
+\subsubsection[{set\-Text}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Utils\-::\-Path\-List\-Editor\-::set\-Text} (
+\begin{DoxyParamCaption}
+\item[{const {\bf \-Q\-String} \&}]{t}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{class_utils_1_1_path_list_editor_a29e4a886c1d4e3923dc2f9f3d625835e}
+
+
+\-Definition at line 263 of file pathlisteditor.\-cpp.
+
+\hypertarget{class_utils_1_1_path_list_editor_afe432e8e2962ada8ff59067ae2403b72}{\index{\-Utils\-::\-Path\-List\-Editor@{\-Utils\-::\-Path\-List\-Editor}!text@{text}}
+\index{text@{text}!Utils::PathListEditor@{\-Utils\-::\-Path\-List\-Editor}}
+\subsubsection[{text}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Q\-String} {\bf \-Utils\-::\-Path\-List\-Editor\-::text} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{class_utils_1_1_path_list_editor_afe432e8e2962ada8ff59067ae2403b72}
+
+
+\-Definition at line 258 of file pathlisteditor.\-cpp.
+
+
+
+\-The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/libs/utils/\hyperlink{pathlisteditor_8h}{pathlisteditor.\-h}\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/libs/utils/\hyperlink{pathlisteditor_8cpp}{pathlisteditor.\-cpp}\end{DoxyCompactItemize}

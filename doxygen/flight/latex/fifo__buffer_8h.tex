@@ -1,0 +1,53 @@
+\hypertarget{fifo__buffer_8h}{\section{/home/jb/code/\-Tau\-Labs/flight/\-Libraries/inc/fifo\-\_\-buffer.h \-File \-Reference}
+\label{fifo__buffer_8h}\index{/home/jb/code/\-Tau\-Labs/flight/\-Libraries/inc/fifo\-\_\-buffer.\-h@{/home/jb/code/\-Tau\-Labs/flight/\-Libraries/inc/fifo\-\_\-buffer.\-h}}
+}
+
+
+\-G\-P\-I\-O functions header.  
+
+
+\subsection*{\-Data \-Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structt__fifo__buffer}{t\-\_\-fifo\-\_\-buffer}
+\end{DoxyCompactItemize}
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+uint16\-\_\-t \hyperlink{group___tau_labs_libraries_gaa270e4285342d4acfa39da6f18d5660a}{fifo\-Buf\-\_\-get\-Size} (\hyperlink{structt__fifo__buffer}{t\-\_\-fifo\-\_\-buffer} $\ast$buf)
+\item 
+uint16\-\_\-t \hyperlink{group___tau_labs_libraries_gaf7899f5644ee92bfeb70f13ce6960397}{fifo\-Buf\-\_\-get\-Used} (\hyperlink{structt__fifo__buffer}{t\-\_\-fifo\-\_\-buffer} $\ast$buf)
+\item 
+uint16\-\_\-t \hyperlink{group___tau_labs_libraries_ga844ca11f0130068bc86cbcafeb4b4ed5}{fifo\-Buf\-\_\-get\-Free} (\hyperlink{structt__fifo__buffer}{t\-\_\-fifo\-\_\-buffer} $\ast$buf)
+\item 
+void \hyperlink{group___tau_labs_libraries_ga9b8f79febf2799987381e0ebf46f3340}{fifo\-Buf\-\_\-clear\-Data} (\hyperlink{structt__fifo__buffer}{t\-\_\-fifo\-\_\-buffer} $\ast$buf)
+\item 
+void \hyperlink{group___tau_labs_libraries_gad0f438c3b314276b428c8d53c8c092a5}{fifo\-Buf\-\_\-remove\-Data} (\hyperlink{structt__fifo__buffer}{t\-\_\-fifo\-\_\-buffer} $\ast$buf, uint16\-\_\-t len)
+\item 
+int16\-\_\-t \hyperlink{group___tau_labs_libraries_ga3c62c9926850173d22b4b30eb43e8e20}{fifo\-Buf\-\_\-get\-Byte\-Peek} (\hyperlink{structt__fifo__buffer}{t\-\_\-fifo\-\_\-buffer} $\ast$buf)
+\item 
+int16\-\_\-t \hyperlink{group___tau_labs_libraries_gaf13e89738afc15e35e037da8d7cad31c}{fifo\-Buf\-\_\-get\-Byte} (\hyperlink{structt__fifo__buffer}{t\-\_\-fifo\-\_\-buffer} $\ast$buf)
+\item 
+uint16\-\_\-t \hyperlink{group___tau_labs_libraries_ga5fccb0ff8f5982236052c0eb939b14c5}{fifo\-Buf\-\_\-get\-Data\-Peek} (\hyperlink{structt__fifo__buffer}{t\-\_\-fifo\-\_\-buffer} $\ast$buf, void $\ast$data, uint16\-\_\-t len)
+\item 
+uint16\-\_\-t \hyperlink{group___tau_labs_libraries_gabc2919ac07ca622ec4daf5cc3e0c9fee}{fifo\-Buf\-\_\-get\-Data} (\hyperlink{structt__fifo__buffer}{t\-\_\-fifo\-\_\-buffer} $\ast$buf, void $\ast$data, uint16\-\_\-t len)
+\item 
+uint16\-\_\-t \hyperlink{group___tau_labs_libraries_ga03ae690aa0295d5a6f5afcdfcdc9fdff}{fifo\-Buf\-\_\-put\-Byte} (\hyperlink{structt__fifo__buffer}{t\-\_\-fifo\-\_\-buffer} $\ast$buf, const uint8\-\_\-t b)
+\item 
+uint16\-\_\-t \hyperlink{group___tau_labs_libraries_ga2399b539ff485341dbe71ff2f8bc8c4c}{fifo\-Buf\-\_\-put\-Data} (\hyperlink{structt__fifo__buffer}{t\-\_\-fifo\-\_\-buffer} $\ast$buf, const void $\ast$data, uint16\-\_\-t len)
+\item 
+void \hyperlink{group___tau_labs_libraries_ga42b601965d761a66732c7ae8a43d62b4}{fifo\-Buf\-\_\-init} (\hyperlink{structt__fifo__buffer}{t\-\_\-fifo\-\_\-buffer} $\ast$buf, const void $\ast$buffer, const uint16\-\_\-t buffer\-\_\-size)
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-G\-P\-I\-O functions header. \begin{DoxyAuthor}{\-Author}
+\-The \-Open\-Pilot \-Team, \href{http://www.openpilot.org}{\tt http\-://www.\-openpilot.\-org} \-Copyright (\-C) 2010. 
+\end{DoxyAuthor}
+\begin{DoxySeeAlso}{\-See also}
+\-The \-G\-N\-U \-Public \-License (\-G\-P\-L) \-Version 3 
+\end{DoxySeeAlso}
+
+
+\-Definition in file \hyperlink{fifo__buffer_8h_source}{fifo\-\_\-buffer.\-h}.
+

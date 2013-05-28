@@ -1,0 +1,100 @@
+\hypertarget{group___pip_xtreme_module}{\section{\-Pip\-Xtreme \-Module}
+\label{group___pip_xtreme_module}\index{\-Pip\-Xtreme Module@{\-Pip\-Xtreme Module}}
+}
+\subsection*{\-Files}
+\begin{DoxyCompactItemize}
+\item 
+file \hyperlink{pipxtrememod_8c}{pipxtrememod.\-c}
+\begin{DoxyCompactList}\small\item\em \-This starts and handles the \-R\-F tasks for radio links. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+int32\-\_\-t \hyperlink{group___pip_xtreme_module_gaf807db07678e4bfa45af98ad2ba88231}{\-Pip\-Xtreme\-Mod\-Start} (void)
+\item 
+int32\-\_\-t \hyperlink{group___pip_xtreme_module_ga5328319847f8d7b5abec5b91331b7d8b}{\-Pip\-Xtreme\-Mod\-Initialize} (void)
+\item 
+\hyperlink{group___pip_xtreme_module_ga5d5845e9f2be9cbef331306db953f747}{\-M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L} (\hyperlink{group___pip_xtreme_module_ga5328319847f8d7b5abec5b91331b7d8b}{\-Pip\-Xtreme\-Mod\-Initialize}, 0)
+\item 
+void \hyperlink{group___pip_xtreme_module_ga97fd430f36f8b065226e2bff9bad1de5}{v\-Application\-Idle\-Hook} (void)
+\item 
+void \hyperlink{group___pip_xtreme_module_ga329de0f973fabef8b34da6444654295c}{v\-Application\-Stack\-Overflow\-Hook} (x\-Task\-Handle $\ast$px\-Task, signed port\-C\-H\-A\-R $\ast$pc\-Task\-Name)
+\item 
+void \hyperlink{group___pip_xtreme_module_gab7e5c95cf72a3f819bc4462a7fb62ca3}{v\-Application\-Malloc\-Failed\-Hook} (void)
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Function \-Documentation}
+\hypertarget{group___pip_xtreme_module_ga5d5845e9f2be9cbef331306db953f747}{\index{\-Pip\-Xtreme Module@{\-Pip\-Xtreme Module}!\-M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L@{\-M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L}}
+\index{\-M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L@{\-M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L}!PipXtreme Module@{\-Pip\-Xtreme Module}}
+\subsubsection[{\-M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Pip\-Xtreme\-Mod\-Initialize}}]{, }
+\item[{0}]{}
+\end{DoxyParamCaption}
+)}}\label{group___pip_xtreme_module_ga5d5845e9f2be9cbef331306db953f747}
+\-System task, periodically executes every \-S\-Y\-S\-T\-E\-M\-\_\-\-U\-P\-D\-A\-T\-E\-\_\-\-P\-E\-R\-I\-O\-D\-\_\-\-M\-S 
+
+\-Definition at line 111 of file pipxtrememod.\-c.
+
+\hypertarget{group___pip_xtreme_module_ga5328319847f8d7b5abec5b91331b7d8b}{\index{\-Pip\-Xtreme Module@{\-Pip\-Xtreme Module}!\-Pip\-Xtreme\-Mod\-Initialize@{\-Pip\-Xtreme\-Mod\-Initialize}}
+\index{\-Pip\-Xtreme\-Mod\-Initialize@{\-Pip\-Xtreme\-Mod\-Initialize}!PipXtreme Module@{\-Pip\-Xtreme Module}}
+\subsubsection[{\-Pip\-Xtreme\-Mod\-Initialize}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-Pip\-Xtreme\-Mod\-Initialize} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group___pip_xtreme_module_ga5328319847f8d7b5abec5b91331b7d8b}
+\-Initialize the module, called on startup. \begin{DoxyReturn}{\-Returns}
+0 on success or -\/1 if initialization failed 
+\end{DoxyReturn}
+
+
+\-Definition at line 84 of file pipxtrememod.\-c.
+
+\hypertarget{group___pip_xtreme_module_gaf807db07678e4bfa45af98ad2ba88231}{\index{\-Pip\-Xtreme Module@{\-Pip\-Xtreme Module}!\-Pip\-Xtreme\-Mod\-Start@{\-Pip\-Xtreme\-Mod\-Start}}
+\index{\-Pip\-Xtreme\-Mod\-Start@{\-Pip\-Xtreme\-Mod\-Start}!PipXtreme Module@{\-Pip\-Xtreme Module}}
+\subsubsection[{\-Pip\-Xtreme\-Mod\-Start}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-Pip\-Xtreme\-Mod\-Start} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group___pip_xtreme_module_gaf807db07678e4bfa45af98ad2ba88231}
+\-Create the module task. \begin{DoxyReturn}{\-Returns}
+0 on success or -\/1 if initialization failed 
+\end{DoxyReturn}
+
+
+\-Definition at line 67 of file pipxtrememod.\-c.
+
+\hypertarget{group___pip_xtreme_module_ga97fd430f36f8b065226e2bff9bad1de5}{\index{\-Pip\-Xtreme Module@{\-Pip\-Xtreme Module}!v\-Application\-Idle\-Hook@{v\-Application\-Idle\-Hook}}
+\index{v\-Application\-Idle\-Hook@{v\-Application\-Idle\-Hook}!PipXtreme Module@{\-Pip\-Xtreme Module}}
+\subsubsection[{v\-Application\-Idle\-Hook}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf v\-Application\-Idle\-Hook} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group___pip_xtreme_module_ga97fd430f36f8b065226e2bff9bad1de5}
+\-Called by the \-R\-T\-O\-S when the \-C\-P\-U is idle, used to measure the \-C\-P\-U idle time. 
+
+\-Definition at line 207 of file pipxtrememod.\-c.
+
+\hypertarget{group___pip_xtreme_module_gab7e5c95cf72a3f819bc4462a7fb62ca3}{\index{\-Pip\-Xtreme Module@{\-Pip\-Xtreme Module}!v\-Application\-Malloc\-Failed\-Hook@{v\-Application\-Malloc\-Failed\-Hook}}
+\index{v\-Application\-Malloc\-Failed\-Hook@{v\-Application\-Malloc\-Failed\-Hook}!PipXtreme Module@{\-Pip\-Xtreme Module}}
+\subsubsection[{v\-Application\-Malloc\-Failed\-Hook}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf v\-Application\-Malloc\-Failed\-Hook} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group___pip_xtreme_module_gab7e5c95cf72a3f819bc4462a7fb62ca3}
+
+
+\-Definition at line 236 of file pipxtrememod.\-c.
+
+\hypertarget{group___pip_xtreme_module_ga329de0f973fabef8b34da6444654295c}{\index{\-Pip\-Xtreme Module@{\-Pip\-Xtreme Module}!v\-Application\-Stack\-Overflow\-Hook@{v\-Application\-Stack\-Overflow\-Hook}}
+\index{v\-Application\-Stack\-Overflow\-Hook@{v\-Application\-Stack\-Overflow\-Hook}!PipXtreme Module@{\-Pip\-Xtreme Module}}
+\subsubsection[{v\-Application\-Stack\-Overflow\-Hook}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf v\-Application\-Stack\-Overflow\-Hook} (
+\begin{DoxyParamCaption}
+\item[{x\-Task\-Handle $\ast$}]{px\-Task, }
+\item[{signed port\-C\-H\-A\-R $\ast$}]{pc\-Task\-Name}
+\end{DoxyParamCaption}
+)}}\label{group___pip_xtreme_module_ga329de0f973fabef8b34da6444654295c}
+
+
+\-Definition at line 222 of file pipxtrememod.\-c.
+

@@ -1,0 +1,38 @@
+\hypertarget{class_model_map_proxy}{\section{\-Model\-Map\-Proxy \-Class \-Reference}
+\label{class_model_map_proxy}\index{\-Model\-Map\-Proxy@{\-Model\-Map\-Proxy}}
+}
+
+
+\-The \hyperlink{class_model_map_proxy}{\-Model\-Map\-Proxy} class maps from the \hyperlink{class_flight_data_model}{\-Flight\-Data\-Model} to the \-O\-P\-Map and provides synchronization, both when the model changes updating the \-U\-I and if it is modified on the \-U\-I propagating changes to the model.  
+
+
+
+
+{\ttfamily \#include $<$modelmapproxy.\-h$>$}
+
+\subsection*{\-Public \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___o_p_map_plugin_gaa86a0afe448c45b8ecffde73dff2be16}{\-Model\-Map\-Proxy} (\-Q\-Object $\ast$parent, \-O\-P\-Map\-Widget $\ast$map, \hyperlink{class_flight_data_model}{\-Flight\-Data\-Model} $\ast$model, \-Q\-Item\-Selection\-Model $\ast$selection\-Model)
+\item 
+\-Way\-Point\-Item $\ast$ \hyperlink{group___o_p_map_plugin_gabc5719db39d81801af2bce5a5dd3eee9}{find\-Way\-Point\-Number} (int number)
+\begin{DoxyCompactList}\small\item\em \-Get the handle to a waypoint graphical item. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_plugin_ga4e68125d7b19aa3adf055e50bea8afdf}{create\-Way\-Point} (\hyperlink{structinternals_1_1_point_lat_lng}{internals\-::\-Point\-Lat\-Lng} coord)
+\begin{DoxyCompactList}\small\item\em \-When a waypoint is created graphically, insert into the end of the model. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_plugin_ga6e67b9c6c661db0b0c02119c6372c5b7}{delete\-Way\-Point} (int number)
+\begin{DoxyCompactList}\small\item\em \-When a waypoint is deleted graphically, delete from the model. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_plugin_gaf33e33d2457fd1ebc593907ffd3c0167}{delete\-All} ()
+\begin{DoxyCompactList}\small\item\em \-When all the waypoints are deleted graphically, update the model. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-The \hyperlink{class_model_map_proxy}{\-Model\-Map\-Proxy} class maps from the \hyperlink{class_flight_data_model}{\-Flight\-Data\-Model} to the \-O\-P\-Map and provides synchronization, both when the model changes updating the \-U\-I and if it is modified on the \-U\-I propagating changes to the model. 
+
+\-Definition at line 46 of file modelmapproxy.\-h.
+
+
+
+\-The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/plugins/opmap/\hyperlink{modelmapproxy_8h}{modelmapproxy.\-h}\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/plugins/opmap/\hyperlink{modelmapproxy_8cpp}{modelmapproxy.\-cpp}\end{DoxyCompactItemize}

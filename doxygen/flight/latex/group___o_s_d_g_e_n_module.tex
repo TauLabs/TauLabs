@@ -1,0 +1,1536 @@
+\hypertarget{group___o_s_d_g_e_n_module}{\section{osdgen \-Module}
+\label{group___o_s_d_g_e_n_module}\index{osdgen Module@{osdgen Module}}
+}
+
+
+\-Process \-O\-S\-D information.  
+
+
+\subsection*{\-Data \-Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structsplash_entry}{splash\-Entry}
+\end{DoxyCompactItemize}
+\subsection*{\-Files}
+\begin{DoxyCompactItemize}
+\item 
+file \hyperlink{osdgen_8c}{osdgen.\-c}
+\begin{DoxyCompactList}\small\item\em \-O\-S\-D gen module, handles \-O\-S\-D draw. \-Parts from \-C\-L-\/\-O\-S\-D and \-S\-U\-P\-E\-R\-O\-S\-D projects. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+uint16\-\_\-t \hyperlink{group___o_s_d_g_e_n_module_ga5a45071c8d6dc7fb048d5f791831b868}{mirror} (uint16\-\_\-t source)
+\item 
+void \hyperlink{group___o_s_d_g_e_n_module_gaef4730e1cc093c1b98a70d8e9241c3de}{clear\-Graphics} ()
+\item 
+void \hyperlink{group___o_s_d_g_e_n_module_gaddad1c4131ec096796b78d23a4082da6}{copyimage} (uint16\-\_\-t offsetx, uint16\-\_\-t offsety, int image)
+\item 
+uint8\-\_\-t \hyperlink{group___o_s_d_g_e_n_module_ga2f47e18d66eab4b942c583d519b122d8}{valid\-Pos} (uint16\-\_\-t x, uint16\-\_\-t y)
+\item 
+void \hyperlink{group___o_s_d_g_e_n_module_ga62264c6d524275901f3a3f4d43a13353}{draw\-Circle} (uint16\-\_\-t x0, uint16\-\_\-t y0, uint16\-\_\-t radius)
+\item 
+void \hyperlink{group___o_s_d_g_e_n_module_ga6079548d874cda431d71e15174ff375c}{swap} (uint16\-\_\-t $\ast$a, uint16\-\_\-t $\ast$b)
+\item 
+void \hyperlink{group___o_s_d_g_e_n_module_ga3fc15f51865688e662571a829c21a3ec}{plot\-Four\-Quadrants} (int32\-\_\-t center\-X, int32\-\_\-t center\-Y, int32\-\_\-t delta\-X, int32\-\_\-t delta\-Y)
+\item 
+void \hyperlink{group___o_s_d_g_e_n_module_gad7ea00fa059e0f9ec514b43f176db91c}{ellipse} (int center\-X, int center\-Y, int horizontal\-Radius, int vertical\-Radius)
+\item 
+void \hyperlink{group___o_s_d_g_e_n_module_ga6b10ec15d9b155e3ecdd6bac85c227a9}{draw\-Arrow} (uint16\-\_\-t x, uint16\-\_\-t y, uint16\-\_\-t angle, uint16\-\_\-t size)
+\item 
+void \hyperlink{group___o_s_d_g_e_n_module_gae399f433b1adebe10b6108074e73ee59}{draw\-Box} (uint16\-\_\-t x1, uint16\-\_\-t y1, uint16\-\_\-t x2, uint16\-\_\-t y2)
+\item 
+void \hyperlink{group___o_s_d_g_e_n_module_gabbd31ecda0c72dedfc2f0455d7dedf3e}{write\-\_\-pixel} (uint8\-\_\-t $\ast$buff, unsigned int x, unsigned int y, int mode)
+\item 
+void \hyperlink{group___o_s_d_g_e_n_module_gac1761b4fcfac704692e9a6cb6b263c70}{write\-\_\-pixel\-\_\-lm} (unsigned int x, unsigned int y, int mmode, int lmode)
+\item 
+void \hyperlink{group___o_s_d_g_e_n_module_ga1918951dd8566c5eef5ecfd7dcd7c685}{write\-\_\-hline} (uint8\-\_\-t $\ast$buff, unsigned int x0, unsigned int x1, unsigned int y, int mode)
+\item 
+void \hyperlink{group___o_s_d_g_e_n_module_gacf5cb2507be8b860675b466d19fa4aa8}{write\-\_\-hline\-\_\-lm} (unsigned int x0, unsigned int x1, unsigned int y, int lmode, int mmode)
+\item 
+void \hyperlink{group___o_s_d_g_e_n_module_ga093e7b26837226a19a69ea698d6db954}{write\-\_\-hline\-\_\-outlined} (unsigned int x0, unsigned int x1, unsigned int y, int endcap0, int endcap1, int mode, int mmode)
+\item 
+void \hyperlink{group___o_s_d_g_e_n_module_ga34c98ce736d5146c81ef3b167780031f}{write\-\_\-vline} (uint8\-\_\-t $\ast$buff, unsigned int x, unsigned int y0, unsigned int y1, int mode)
+\item 
+void \hyperlink{group___o_s_d_g_e_n_module_ga4ab8daa08074c7ccb69b2f8a1d834979}{write\-\_\-vline\-\_\-lm} (unsigned int x, unsigned int y0, unsigned int y1, int lmode, int mmode)
+\item 
+void \hyperlink{group___o_s_d_g_e_n_module_ga0587de2636d0acd501858f056b6ad4da}{write\-\_\-vline\-\_\-outlined} (unsigned int x, unsigned int y0, unsigned int y1, int endcap0, int endcap1, int mode, int mmode)
+\item 
+void \hyperlink{group___o_s_d_g_e_n_module_ga66c619079158f1694d8cc86f109ba91e}{write\-\_\-filled\-\_\-rectangle} (uint8\-\_\-t $\ast$buff, unsigned int x, unsigned int y, unsigned int width, unsigned int height, int mode)
+\item 
+void \hyperlink{group___o_s_d_g_e_n_module_gafdf87d4c22a0fcb603bdfba416768248}{write\-\_\-filled\-\_\-rectangle\-\_\-lm} (unsigned int x, unsigned int y, unsigned int width, unsigned int height, int lmode, int mmode)
+\item 
+void \hyperlink{group___o_s_d_g_e_n_module_ga761aea940799fbd6d4f6bafe83ea2032}{write\-\_\-rectangle\-\_\-outlined} (unsigned int x, unsigned int y, int width, int height, int mode, int mmode)
+\item 
+void \hyperlink{group___o_s_d_g_e_n_module_ga634e8149f811d4bb090d50b25064907c}{write\-\_\-circle} (uint8\-\_\-t $\ast$buff, unsigned int cx, unsigned int cy, unsigned int r, unsigned int dashp, int mode)
+\item 
+void \hyperlink{group___o_s_d_g_e_n_module_gaa58af239ed159652cb196f745c79d9a6}{write\-\_\-circle\-\_\-outlined} (unsigned int cx, unsigned int cy, unsigned int r, unsigned int dashp, int bmode, int mode, int mmode)
+\item 
+void \hyperlink{group___o_s_d_g_e_n_module_gaf369bd7c0a15859e4a35ac7a6bf77263}{write\-\_\-circle\-\_\-filled} (uint8\-\_\-t $\ast$buff, unsigned int cx, unsigned int cy, unsigned int r, int mode)
+\item 
+void \hyperlink{group___o_s_d_g_e_n_module_ga2fe2ee0f0ff8e34091a5357658c686c1}{write\-\_\-line} (uint8\-\_\-t $\ast$buff, unsigned int x0, unsigned int y0, unsigned int x1, unsigned int y1, int mode)
+\item 
+void \hyperlink{group___o_s_d_g_e_n_module_ga1b12386d924769809d25c0151ca7d47f}{write\-\_\-line\-\_\-lm} (unsigned int x0, unsigned int y0, unsigned int x1, unsigned int y1, int mmode, int lmode)
+\item 
+void \hyperlink{group___o_s_d_g_e_n_module_ga27afef3cac2fe7bd07005b4cfdab1297}{write\-\_\-line\-\_\-outlined} (unsigned int x0, unsigned int y0, unsigned int x1, unsigned int y1, int endcap0, int endcap1, int mode, int mmode)
+\item 
+void \hyperlink{group___o_s_d_g_e_n_module_ga609b93e9b64ad8b92c1c555d3cdb80c5}{write\-\_\-word\-\_\-misaligned} (uint8\-\_\-t $\ast$buff, uint16\-\_\-t word, unsigned int addr, unsigned int xoff, int mode)
+\item 
+void \hyperlink{group___o_s_d_g_e_n_module_gac311d0b8a75e018101c2f7de25468bce}{write\-\_\-word\-\_\-misaligned\-\_\-\-N\-A\-N\-D} (uint8\-\_\-t $\ast$buff, uint16\-\_\-t word, unsigned int addr, unsigned int xoff)
+\item 
+void \hyperlink{group___o_s_d_g_e_n_module_ga17f327de483285ee88a844c5b617d1ed}{write\-\_\-word\-\_\-misaligned\-\_\-\-O\-R} (uint8\-\_\-t $\ast$buff, uint16\-\_\-t word, unsigned int addr, unsigned int xoff)
+\item 
+void \hyperlink{group___o_s_d_g_e_n_module_gaf7b6f5e5e2980741c80f92a24c27d470}{write\-\_\-word\-\_\-misaligned\-\_\-lm} (uint16\-\_\-t wordl, uint16\-\_\-t wordm, unsigned int addr, unsigned int xoff, int lmode, int mmode)
+\item 
+int \hyperlink{group___o_s_d_g_e_n_module_ga77bb4c9fa18481a38a30c22fc2b8ad68}{fetch\-\_\-font\-\_\-info} (uint8\-\_\-t ch, int font, struct \-Font\-Entry $\ast$font\-\_\-info, char $\ast$lookup)
+\item 
+void \hyperlink{group___o_s_d_g_e_n_module_gaa298c555d34c7e1929c065b647c0f2c8}{write\-\_\-char16} (char ch, unsigned int x, unsigned int y, int font)
+\item 
+void \hyperlink{group___o_s_d_g_e_n_module_ga790a5ed0b4f266fd6699d69102a632f4}{write\-\_\-char} (char ch, unsigned int x, unsigned int y, int \hyperlink{uavobjectmanager_8c_a89997860157be94711355010fc2a337d}{flags}, int font)
+\item 
+void \hyperlink{group___o_s_d_g_e_n_module_gaeb262588efc72fef0d981fb2c7e447d4}{calc\-\_\-text\-\_\-dimensions} (char $\ast$str, struct \-Font\-Entry font, int xs, int ys, struct \hyperlink{struct_font_dimensions}{\-Font\-Dimensions} $\ast$dim)
+\item 
+void \hyperlink{group___o_s_d_g_e_n_module_ga9202b1bd055f9fa88d46cec7ed412763}{write\-\_\-string} (char $\ast$str, unsigned int x, unsigned int y, unsigned int xs, unsigned int ys, int va, int ha, int \hyperlink{uavobjectmanager_8c_a89997860157be94711355010fc2a337d}{flags}, int font)
+\item 
+void \hyperlink{group___o_s_d_g_e_n_module_gab49221eead66b5e8af2b4e3104fa8456}{write\-\_\-string\-\_\-formatted} (char $\ast$str, unsigned int x, unsigned int y, unsigned int xs, unsigned int ys, int va, int ha, int \hyperlink{uavobjectmanager_8c_a89997860157be94711355010fc2a337d}{flags})
+\item 
+void \hyperlink{group___o_s_d_g_e_n_module_gab6cd6692726c21ca6a7da8b8acf01de3}{draw\-Attitude} (uint16\-\_\-t x, uint16\-\_\-t y, int16\-\_\-t pitch, int16\-\_\-t roll, uint16\-\_\-t size)
+\item 
+void \hyperlink{group___o_s_d_g_e_n_module_ga85d7e1ad745a9c81483f8b513db8cebc}{draw\-Battery} (uint16\-\_\-t x, uint16\-\_\-t y, uint8\-\_\-t battery, uint16\-\_\-t size)
+\item 
+void \hyperlink{group___o_s_d_g_e_n_module_ga8b0f8e99f2bfee4a902a9d46a8714579}{print\-Time} (uint16\-\_\-t x, uint16\-\_\-t y)
+\item 
+void \hyperlink{group___o_s_d_g_e_n_module_ga03d95a090f293be5c864ee5334d3c287}{hud\-\_\-draw\-\_\-vertical\-\_\-scale} (int v, int range, int halign, int x, int y, int height, int mintick\-\_\-step, int majtick\-\_\-step, int mintick\-\_\-len, int majtick\-\_\-len, int boundtick\-\_\-len, int max\-\_\-val, int \hyperlink{uavobjectmanager_8c_a89997860157be94711355010fc2a337d}{flags})
+\item 
+void \hyperlink{group___o_s_d_g_e_n_module_ga1598b1881ca23bff8a3df4c896ed4869}{hud\-\_\-draw\-\_\-linear\-\_\-compass} (int v, int range, int width, int x, int y, int mintick\-\_\-step, int majtick\-\_\-step, int mintick\-\_\-len, int majtick\-\_\-len, int \hyperlink{uavobjectmanager_8c_a89997860157be94711355010fc2a337d}{flags})
+\item 
+void \hyperlink{group___o_s_d_g_e_n_module_gab0e4e7223434b0cf8dd683461136fcd2}{draw\-\_\-artificial\-\_\-horizon} (float angle, float pitch, int16\-\_\-t l\-\_\-x, int16\-\_\-t l\-\_\-y, int16\-\_\-t size)
+\item 
+void \hyperlink{group___o_s_d_g_e_n_module_ga637c8a1ae3f761c2724cebbe6f92cce6}{intro\-Text} ()
+\item 
+void \hyperlink{group___o_s_d_g_e_n_module_gadb49e780d11eb6b7ca55b1a555b55d21}{intro\-Graphics} ()
+\item 
+void \hyperlink{group___o_s_d_g_e_n_module_ga00457c3ec2ca140e964b76b872c7b57f}{calc\-Home\-Arrow} (int16\-\_\-t m\-\_\-yaw)
+\item 
+void \hyperlink{group___o_s_d_g_e_n_module_ga78f00a89c30b0c4c25cb300a153efe54}{lamas} (void)
+\item 
+void \hyperlink{group___o_s_d_g_e_n_module_ga2a784a5e5cba20bd454de8c32e2dcfde}{update\-Graphics} ()
+\item 
+void \hyperlink{group___o_s_d_g_e_n_module_ga368bd7bc79f8c2f6999dee52aabd7b19}{update\-Once\-Every\-Frame} ()
+\item 
+int32\-\_\-t \hyperlink{group___o_s_d_g_e_n_module_gab4a7ade39ef421b0eb737497084c6c89}{osdgen\-Start} (void)
+\item 
+int32\-\_\-t \hyperlink{group___o_s_d_g_e_n_module_gad5c99924576b5d8a3922949f6bc6643c}{osdgen\-Initialize} (void)
+\item 
+\hyperlink{group___o_s_d_g_e_n_module_gabf1debb6845824a756c3194f8367323a}{\-M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L} (\hyperlink{group___o_s_d_g_e_n_module_gad5c99924576b5d8a3922949f6bc6643c}{osdgen\-Initialize}, \hyperlink{group___o_s_d_g_e_n_module_gab4a7ade39ef421b0eb737497084c6c89}{osdgen\-Start})
+\end{DoxyCompactItemize}
+\subsection*{\-Variables}
+\begin{DoxyCompactItemize}
+\item 
+uint8\-\_\-t $\ast$ \hyperlink{group___o_s_d_g_e_n_module_ga52b5c0fc86a398ddf62c5b2bb383374d}{draw\-\_\-buffer\-\_\-level}
+\item 
+uint8\-\_\-t $\ast$ \hyperlink{group___o_s_d_g_e_n_module_ga67085db0125b910109083e4d2605d7d5}{draw\-\_\-buffer\-\_\-mask}
+\item 
+uint8\-\_\-t $\ast$ \hyperlink{group___o_s_d_g_e_n_module_gac6ace302511130c48032b40f32a40bb8}{disp\-\_\-buffer\-\_\-level}
+\item 
+uint8\-\_\-t $\ast$ \hyperlink{group___o_s_d_g_e_n_module_ga2de64a6d3102b302a9b7582d63f09485}{disp\-\_\-buffer\-\_\-mask}
+\item 
+\hyperlink{struct_t_time}{\-T\-Time} \hyperlink{group___o_s_d_g_e_n_module_gac6e460448d29f05aad59dc67c3035057}{timex}
+\item 
+x\-Semaphore\-Handle \hyperlink{group___o_s_d_g_e_n_module_ga34f96a89a1ad6c4649787dbc18e218e5}{osd\-Semaphore} = \-N\-U\-L\-L
+\item 
+struct \hyperlink{structsplash_entry}{splash\-Entry} \hyperlink{group___o_s_d_g_e_n_module_gafd73dea95bd8cae01a8225936c4c302e}{splash} \mbox{[}3\mbox{]}
+\item 
+int \hyperlink{group___o_s_d_g_e_n_module_ga36bea199c0657c29a6c7836f8157066e}{lama} = 10
+\item 
+int \hyperlink{group___o_s_d_g_e_n_module_ga35258f3e002e3b7d6dc3a50b458c1ed5}{lama\-\_\-loc} \mbox{[}2\mbox{]}\mbox{[}30\mbox{]}
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-Process \-O\-S\-D information. 
+
+\subsection{\-Function \-Documentation}
+\hypertarget{group___o_s_d_g_e_n_module_gaeb262588efc72fef0d981fb2c7e447d4}{\index{osdgen Module@{osdgen Module}!calc\-\_\-text\-\_\-dimensions@{calc\-\_\-text\-\_\-dimensions}}
+\index{calc\-\_\-text\-\_\-dimensions@{calc\-\_\-text\-\_\-dimensions}!osdgen Module@{osdgen Module}}
+\subsubsection[{calc\-\_\-text\-\_\-dimensions}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf calc\-\_\-text\-\_\-dimensions} (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{str, }
+\item[{struct \-Font\-Entry}]{font, }
+\item[{int}]{xs, }
+\item[{int}]{ys, }
+\item[{struct {\bf \-Font\-Dimensions} $\ast$}]{dim}
+\end{DoxyParamCaption}
+)}}\label{group___o_s_d_g_e_n_module_gaeb262588efc72fef0d981fb2c7e447d4}
+calc\-\_\-text\-\_\-dimensions\-: \-Calculate the dimensions of a string in a given font. \-Supports new lines and carriage returns in text.
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em str} & string to calculate dimensions of \\
+\hline
+{\em font\-\_\-info} & font info structure \\
+\hline
+{\em xs} & horizontal spacing \\
+\hline
+{\em ys} & vertical spacing \\
+\hline
+{\em dim} & return result\-: struct \hyperlink{struct_font_dimensions}{\-Font\-Dimensions} \\
+\hline
+\end{DoxyParams}
+
+
+\-Definition at line 1257 of file osdgen.\-c.
+
+\hypertarget{group___o_s_d_g_e_n_module_ga00457c3ec2ca140e964b76b872c7b57f}{\index{osdgen Module@{osdgen Module}!calc\-Home\-Arrow@{calc\-Home\-Arrow}}
+\index{calc\-Home\-Arrow@{calc\-Home\-Arrow}!osdgen Module@{osdgen Module}}
+\subsubsection[{calc\-Home\-Arrow}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf calc\-Home\-Arrow} (
+\begin{DoxyParamCaption}
+\item[{int16\-\_\-t}]{m\-\_\-yaw}
+\end{DoxyParamCaption}
+)}}\label{group___o_s_d_g_e_n_module_ga00457c3ec2ca140e964b76b872c7b57f}
+\href{http://www.movable-type.co.uk/scripts/latlong.html}{\tt http\-://www.\-movable-\/type.\-co.\-uk/scripts/latlong.\-html}
+
+var y = \-Math.\-sin(d\-Lon) $\ast$ \-Math.\-cos(lat2); var x = \-Math.\-cos(lat1)$\ast$\-Math.sin(lat2) -\/ \-Math.\-sin(lat1)$\ast$\-Math.cos(lat2)$\ast$\-Math.cos(d\-Lon); var brng = \-Math.\-atan2(y, x).to\-Deg();
+
+var \-R = 6371; // km var d\-Lat = (lat2-\/lat1).to\-Rad(); var d\-Lon = (lon2-\/lon1).to\-Rad(); var a = \-Math.\-sin(d\-Lat/2) $\ast$ \-Math.\-sin(d\-Lat/2) + \-Math.\-cos(lat1.\-to\-Rad()) $\ast$ \-Math.\-cos(lat2.\-to\-Rad()) $\ast$ \-Math.\-sin(d\-Lon/2) $\ast$ \-Math.\-sin(d\-Lon/2); var c = 2 $\ast$ \-Math.\-atan2(\-Math.\-sqrt(a), \-Math.\-sqrt(1-\/a)); var d = \-R $\ast$ c;
+
+\-T\-O\-D\-O\-: sanity check 
+
+\-Definition at line 2092 of file osdgen.\-c.
+
+\hypertarget{group___o_s_d_g_e_n_module_gaef4730e1cc093c1b98a70d8e9241c3de}{\index{osdgen Module@{osdgen Module}!clear\-Graphics@{clear\-Graphics}}
+\index{clear\-Graphics@{clear\-Graphics}!osdgen Module@{osdgen Module}}
+\subsubsection[{clear\-Graphics}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf clear\-Graphics} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___o_s_d_g_e_n_module_gaef4730e1cc093c1b98a70d8e9241c3de}
+
+
+\-Definition at line 134 of file osdgen.\-c.
+
+\hypertarget{group___o_s_d_g_e_n_module_gaddad1c4131ec096796b78d23a4082da6}{\index{osdgen Module@{osdgen Module}!copyimage@{copyimage}}
+\index{copyimage@{copyimage}!osdgen Module@{osdgen Module}}
+\subsubsection[{copyimage}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf copyimage} (
+\begin{DoxyParamCaption}
+\item[{uint16\-\_\-t}]{offsetx, }
+\item[{uint16\-\_\-t}]{offsety, }
+\item[{int}]{image}
+\end{DoxyParamCaption}
+)}}\label{group___o_s_d_g_e_n_module_gaddad1c4131ec096796b78d23a4082da6}
+
+
+\-Definition at line 139 of file osdgen.\-c.
+
+\hypertarget{group___o_s_d_g_e_n_module_gab0e4e7223434b0cf8dd683461136fcd2}{\index{osdgen Module@{osdgen Module}!draw\-\_\-artificial\-\_\-horizon@{draw\-\_\-artificial\-\_\-horizon}}
+\index{draw\-\_\-artificial\-\_\-horizon@{draw\-\_\-artificial\-\_\-horizon}!osdgen Module@{osdgen Module}}
+\subsubsection[{draw\-\_\-artificial\-\_\-horizon}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf draw\-\_\-artificial\-\_\-horizon} (
+\begin{DoxyParamCaption}
+\item[{float}]{angle, }
+\item[{float}]{pitch, }
+\item[{int16\-\_\-t}]{l\-\_\-x, }
+\item[{int16\-\_\-t}]{l\-\_\-y, }
+\item[{int16\-\_\-t}]{size}
+\end{DoxyParamCaption}
+)}}\label{group___o_s_d_g_e_n_module_gab0e4e7223434b0cf8dd683461136fcd2}
+
+
+\-Definition at line 1895 of file osdgen.\-c.
+
+\hypertarget{group___o_s_d_g_e_n_module_ga6b10ec15d9b155e3ecdd6bac85c227a9}{\index{osdgen Module@{osdgen Module}!draw\-Arrow@{draw\-Arrow}}
+\index{draw\-Arrow@{draw\-Arrow}!osdgen Module@{osdgen Module}}
+\subsubsection[{draw\-Arrow}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf draw\-Arrow} (
+\begin{DoxyParamCaption}
+\item[{uint16\-\_\-t}]{x, }
+\item[{uint16\-\_\-t}]{y, }
+\item[{uint16\-\_\-t}]{angle, }
+\item[{uint16\-\_\-t}]{size}
+\end{DoxyParamCaption}
+)}}\label{group___o_s_d_g_e_n_module_ga6b10ec15d9b155e3ecdd6bac85c227a9}
+
+
+\-Definition at line 318 of file osdgen.\-c.
+
+\hypertarget{group___o_s_d_g_e_n_module_gab6cd6692726c21ca6a7da8b8acf01de3}{\index{osdgen Module@{osdgen Module}!draw\-Attitude@{draw\-Attitude}}
+\index{draw\-Attitude@{draw\-Attitude}!osdgen Module@{osdgen Module}}
+\subsubsection[{draw\-Attitude}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf draw\-Attitude} (
+\begin{DoxyParamCaption}
+\item[{uint16\-\_\-t}]{x, }
+\item[{uint16\-\_\-t}]{y, }
+\item[{int16\-\_\-t}]{pitch, }
+\item[{int16\-\_\-t}]{roll, }
+\item[{uint16\-\_\-t}]{size}
+\end{DoxyParamCaption}
+)}}\label{group___o_s_d_g_e_n_module_gab6cd6692726c21ca6a7da8b8acf01de3}
+
+
+\-Definition at line 1507 of file osdgen.\-c.
+
+\hypertarget{group___o_s_d_g_e_n_module_ga85d7e1ad745a9c81483f8b513db8cebc}{\index{osdgen Module@{osdgen Module}!draw\-Battery@{draw\-Battery}}
+\index{draw\-Battery@{draw\-Battery}!osdgen Module@{osdgen Module}}
+\subsubsection[{draw\-Battery}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf draw\-Battery} (
+\begin{DoxyParamCaption}
+\item[{uint16\-\_\-t}]{x, }
+\item[{uint16\-\_\-t}]{y, }
+\item[{uint8\-\_\-t}]{battery, }
+\item[{uint16\-\_\-t}]{size}
+\end{DoxyParamCaption}
+)}}\label{group___o_s_d_g_e_n_module_ga85d7e1ad745a9c81483f8b513db8cebc}
+
+
+\-Definition at line 1588 of file osdgen.\-c.
+
+\hypertarget{group___o_s_d_g_e_n_module_gae399f433b1adebe10b6108074e73ee59}{\index{osdgen Module@{osdgen Module}!draw\-Box@{draw\-Box}}
+\index{draw\-Box@{draw\-Box}!osdgen Module@{osdgen Module}}
+\subsubsection[{draw\-Box}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf draw\-Box} (
+\begin{DoxyParamCaption}
+\item[{uint16\-\_\-t}]{x1, }
+\item[{uint16\-\_\-t}]{y1, }
+\item[{uint16\-\_\-t}]{x2, }
+\item[{uint16\-\_\-t}]{y2}
+\end{DoxyParamCaption}
+)}}\label{group___o_s_d_g_e_n_module_gae399f433b1adebe10b6108074e73ee59}
+
+
+\-Definition at line 330 of file osdgen.\-c.
+
+\hypertarget{group___o_s_d_g_e_n_module_ga62264c6d524275901f3a3f4d43a13353}{\index{osdgen Module@{osdgen Module}!draw\-Circle@{draw\-Circle}}
+\index{draw\-Circle@{draw\-Circle}!osdgen Module@{osdgen Module}}
+\subsubsection[{draw\-Circle}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf draw\-Circle} (
+\begin{DoxyParamCaption}
+\item[{uint16\-\_\-t}]{x0, }
+\item[{uint16\-\_\-t}]{y0, }
+\item[{uint16\-\_\-t}]{radius}
+\end{DoxyParamCaption}
+)}}\label{group___o_s_d_g_e_n_module_ga62264c6d524275901f3a3f4d43a13353}
+
+
+\-Definition at line 167 of file osdgen.\-c.
+
+\hypertarget{group___o_s_d_g_e_n_module_gad7ea00fa059e0f9ec514b43f176db91c}{\index{osdgen Module@{osdgen Module}!ellipse@{ellipse}}
+\index{ellipse@{ellipse}!osdgen Module@{osdgen Module}}
+\subsubsection[{ellipse}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf ellipse} (
+\begin{DoxyParamCaption}
+\item[{int}]{center\-X, }
+\item[{int}]{center\-Y, }
+\item[{int}]{horizontal\-Radius, }
+\item[{int}]{vertical\-Radius}
+\end{DoxyParamCaption}
+)}}\label{group___o_s_d_g_e_n_module_gad7ea00fa059e0f9ec514b43f176db91c}
+\-Implements the midpoint ellipse drawing algorithm which is a bresenham style \-D\-D\-F.
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em center\-X} & the x coordinate of the center of the ellipse \\
+\hline
+{\em center\-Y} & the y coordinate of the center of the ellipse \\
+\hline
+{\em horizontal\-Radius} & the horizontal radius of the ellipse \\
+\hline
+{\em vertical\-Radius} & the vertical radius of the ellipse \\
+\hline
+{\em color} & the color of the ellipse border \\
+\hline
+\end{DoxyParams}
+
+
+\-Definition at line 266 of file osdgen.\-c.
+
+\hypertarget{group___o_s_d_g_e_n_module_ga77bb4c9fa18481a38a30c22fc2b8ad68}{\index{osdgen Module@{osdgen Module}!fetch\-\_\-font\-\_\-info@{fetch\-\_\-font\-\_\-info}}
+\index{fetch\-\_\-font\-\_\-info@{fetch\-\_\-font\-\_\-info}!osdgen Module@{osdgen Module}}
+\subsubsection[{fetch\-\_\-font\-\_\-info}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf fetch\-\_\-font\-\_\-info} (
+\begin{DoxyParamCaption}
+\item[{uint8\-\_\-t}]{ch, }
+\item[{int}]{font, }
+\item[{struct \-Font\-Entry $\ast$}]{font\-\_\-info, }
+\item[{char $\ast$}]{lookup}
+\end{DoxyParamCaption}
+)}}\label{group___o_s_d_g_e_n_module_ga77bb4c9fa18481a38a30c22fc2b8ad68}
+fetch\-\_\-font\-\_\-info\-: \-Fetch font info structs.
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em ch} & character \\
+\hline
+{\em font} & font id \\
+\hline
+\end{DoxyParams}
+
+
+\-Definition at line 1079 of file osdgen.\-c.
+
+\hypertarget{group___o_s_d_g_e_n_module_ga1598b1881ca23bff8a3df4c896ed4869}{\index{osdgen Module@{osdgen Module}!hud\-\_\-draw\-\_\-linear\-\_\-compass@{hud\-\_\-draw\-\_\-linear\-\_\-compass}}
+\index{hud\-\_\-draw\-\_\-linear\-\_\-compass@{hud\-\_\-draw\-\_\-linear\-\_\-compass}!osdgen Module@{osdgen Module}}
+\subsubsection[{hud\-\_\-draw\-\_\-linear\-\_\-compass}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf hud\-\_\-draw\-\_\-linear\-\_\-compass} (
+\begin{DoxyParamCaption}
+\item[{int}]{v, }
+\item[{int}]{range, }
+\item[{int}]{width, }
+\item[{int}]{x, }
+\item[{int}]{y, }
+\item[{int}]{mintick\-\_\-step, }
+\item[{int}]{majtick\-\_\-step, }
+\item[{int}]{mintick\-\_\-len, }
+\item[{int}]{majtick\-\_\-len, }
+\item[{int}]{flags}
+\end{DoxyParamCaption}
+)}}\label{group___o_s_d_g_e_n_module_ga1598b1881ca23bff8a3df4c896ed4869}
+hud\-\_\-draw\-\_\-compass\-: \-Draw a compass.
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em v} & value for the compass \\
+\hline
+{\em range} & range about value to display (+/-\/ range/2 each direction) \\
+\hline
+{\em width} & length in pixels \\
+\hline
+{\em x} & x displacement (typ. half display width) \\
+\hline
+{\em y} & y displacement (typ. bottom of display) \\
+\hline
+{\em mintick\-\_\-step} & how often a minor tick is shown \\
+\hline
+{\em majtick\-\_\-step} & how often a major tick (heading \char`\"{}xx\char`\"{}) is shown \\
+\hline
+{\em mintick\-\_\-len} & minor tick length \\
+\hline
+{\em majtick\-\_\-len} & major tick length \\
+\hline
+{\em flags} & special flags (see hud.\-h.) \\
+\hline
+\end{DoxyParams}
+
+
+\-Definition at line 1818 of file osdgen.\-c.
+
+\hypertarget{group___o_s_d_g_e_n_module_ga03d95a090f293be5c864ee5334d3c287}{\index{osdgen Module@{osdgen Module}!hud\-\_\-draw\-\_\-vertical\-\_\-scale@{hud\-\_\-draw\-\_\-vertical\-\_\-scale}}
+\index{hud\-\_\-draw\-\_\-vertical\-\_\-scale@{hud\-\_\-draw\-\_\-vertical\-\_\-scale}!osdgen Module@{osdgen Module}}
+\subsubsection[{hud\-\_\-draw\-\_\-vertical\-\_\-scale}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf hud\-\_\-draw\-\_\-vertical\-\_\-scale} (
+\begin{DoxyParamCaption}
+\item[{int}]{v, }
+\item[{int}]{range, }
+\item[{int}]{halign, }
+\item[{int}]{x, }
+\item[{int}]{y, }
+\item[{int}]{height, }
+\item[{int}]{mintick\-\_\-step, }
+\item[{int}]{majtick\-\_\-step, }
+\item[{int}]{mintick\-\_\-len, }
+\item[{int}]{majtick\-\_\-len, }
+\item[{int}]{boundtick\-\_\-len, }
+\item[{int}]{max\-\_\-val, }
+\item[{int}]{flags}
+\end{DoxyParamCaption}
+)}}\label{group___o_s_d_g_e_n_module_ga03d95a090f293be5c864ee5334d3c287}
+hud\-\_\-draw\-\_\-vertical\-\_\-scale\-: \-Draw a vertical scale.
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em v} & value to display as an integer \\
+\hline
+{\em range} & range about value to display (+/-\/ range/2 each direction) \\
+\hline
+{\em halign} & horizontal alignment\-: -\/1 = left, +1 = right. \\
+\hline
+{\em x} & x displacement (typ. 0) \\
+\hline
+{\em y} & y displacement (typ. half display height) \\
+\hline
+{\em height} & height of scale \\
+\hline
+{\em mintick\-\_\-step} & how often a minor tick is shown \\
+\hline
+{\em majtick\-\_\-step} & how often a major tick is shown \\
+\hline
+{\em mintick\-\_\-len} & minor tick length \\
+\hline
+{\em majtick\-\_\-len} & major tick length \\
+\hline
+{\em boundtick\-\_\-len} & boundary tick length \\
+\hline
+{\em max\-\_\-val} & maximum expected value (used to compute size of arrow ticker) \\
+\hline
+{\em flags} & special flags (see hud.\-h.) \\
+\hline
+\end{DoxyParams}
+
+
+\-Definition at line 1660 of file osdgen.\-c.
+
+\hypertarget{group___o_s_d_g_e_n_module_gadb49e780d11eb6b7ca55b1a555b55d21}{\index{osdgen Module@{osdgen Module}!intro\-Graphics@{intro\-Graphics}}
+\index{intro\-Graphics@{intro\-Graphics}!osdgen Module@{osdgen Module}}
+\subsubsection[{intro\-Graphics}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf intro\-Graphics} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___o_s_d_g_e_n_module_gadb49e780d11eb6b7ca55b1a555b55d21}
+
+
+\-Definition at line 2074 of file osdgen.\-c.
+
+\hypertarget{group___o_s_d_g_e_n_module_ga637c8a1ae3f761c2724cebbe6f92cce6}{\index{osdgen Module@{osdgen Module}!intro\-Text@{intro\-Text}}
+\index{intro\-Text@{intro\-Text}!osdgen Module@{osdgen Module}}
+\subsubsection[{intro\-Text}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf intro\-Text} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___o_s_d_g_e_n_module_ga637c8a1ae3f761c2724cebbe6f92cce6}
+
+
+\-Definition at line 2070 of file osdgen.\-c.
+
+\hypertarget{group___o_s_d_g_e_n_module_ga78f00a89c30b0c4c25cb300a153efe54}{\index{osdgen Module@{osdgen Module}!lamas@{lamas}}
+\index{lamas@{lamas}!osdgen Module@{osdgen Module}}
+\subsubsection[{lamas}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf lamas} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group___o_s_d_g_e_n_module_ga78f00a89c30b0c4c25cb300a153efe54}
+
+
+\-Definition at line 2171 of file osdgen.\-c.
+
+\hypertarget{group___o_s_d_g_e_n_module_ga5a45071c8d6dc7fb048d5f791831b868}{\index{osdgen Module@{osdgen Module}!mirror@{mirror}}
+\index{mirror@{mirror}!osdgen Module@{osdgen Module}}
+\subsubsection[{mirror}]{\setlength{\rightskip}{0pt plus 5cm}uint16\-\_\-t {\bf mirror} (
+\begin{DoxyParamCaption}
+\item[{uint16\-\_\-t}]{source}
+\end{DoxyParamCaption}
+)}}\label{group___o_s_d_g_e_n_module_ga5a45071c8d6dc7fb048d5f791831b868}
+
+
+\-Definition at line 120 of file osdgen.\-c.
+
+\hypertarget{group___o_s_d_g_e_n_module_gabf1debb6845824a756c3194f8367323a}{\index{osdgen Module@{osdgen Module}!\-M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L@{\-M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L}}
+\index{\-M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L@{\-M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L}!osdgen Module@{osdgen Module}}
+\subsubsection[{\-M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L} (
+\begin{DoxyParamCaption}
+\item[{{\bf osdgen\-Initialize}}]{, }
+\item[{{\bf osdgen\-Start}}]{}
+\end{DoxyParamCaption}
+)}}\label{group___o_s_d_g_e_n_module_gabf1debb6845824a756c3194f8367323a}
+\-Main osd task. \-It does not return. 
+
+\-Definition at line 2453 of file osdgen.\-c.
+
+\hypertarget{group___o_s_d_g_e_n_module_gad5c99924576b5d8a3922949f6bc6643c}{\index{osdgen Module@{osdgen Module}!osdgen\-Initialize@{osdgen\-Initialize}}
+\index{osdgen\-Initialize@{osdgen\-Initialize}!osdgen Module@{osdgen Module}}
+\subsubsection[{osdgen\-Initialize}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf osdgen\-Initialize} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group___o_s_d_g_e_n_module_gad5c99924576b5d8a3922949f6bc6643c}
+\-Initialise the osd module \begin{DoxyReturn}{\-Returns}
+-\/1 if initialisation failed 
+
+0 on success 
+\end{DoxyReturn}
+
+
+\-Definition at line 2435 of file osdgen.\-c.
+
+\hypertarget{group___o_s_d_g_e_n_module_gab4a7ade39ef421b0eb737497084c6c89}{\index{osdgen Module@{osdgen Module}!osdgen\-Start@{osdgen\-Start}}
+\index{osdgen\-Start@{osdgen\-Start}!osdgen Module@{osdgen Module}}
+\subsubsection[{osdgen\-Start}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf osdgen\-Start} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group___o_s_d_g_e_n_module_gab4a7ade39ef421b0eb737497084c6c89}
+\-Initialise the gps module \begin{DoxyReturn}{\-Returns}
+-\/1 if initialisation failed 
+
+0 on success 
+\end{DoxyReturn}
+
+
+\-Definition at line 2420 of file osdgen.\-c.
+
+\hypertarget{group___o_s_d_g_e_n_module_ga3fc15f51865688e662571a829c21a3ec}{\index{osdgen Module@{osdgen Module}!plot\-Four\-Quadrants@{plot\-Four\-Quadrants}}
+\index{plot\-Four\-Quadrants@{plot\-Four\-Quadrants}!osdgen Module@{osdgen Module}}
+\subsubsection[{plot\-Four\-Quadrants}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf plot\-Four\-Quadrants} (
+\begin{DoxyParamCaption}
+\item[{int32\-\_\-t}]{center\-X, }
+\item[{int32\-\_\-t}]{center\-Y, }
+\item[{int32\-\_\-t}]{delta\-X, }
+\item[{int32\-\_\-t}]{delta\-Y}
+\end{DoxyParamCaption}
+)}}\label{group___o_s_d_g_e_n_module_ga3fc15f51865688e662571a829c21a3ec}
+\-Draws four points relative to the given center point.
+
+\begin{DoxyItemize}
+\item center\-X + \-X, center\-Y + \-Y \item center\-X + \-X, center\-Y -\/ \-Y \item center\-X -\/ \-X, center\-Y + \-Y \item center\-X -\/ \-X, center\-Y -\/ \-Y\end{DoxyItemize}
+
+\begin{DoxyParams}{\-Parameters}
+{\em center\-X} & the x coordinate of the center point \\
+\hline
+{\em center\-Y} & the y coordinate of the center point \\
+\hline
+{\em delta\-X} & the difference between the center\-X coordinate and each pixel drawn \\
+\hline
+{\em delta\-Y} & the difference between the center\-Y coordinate and each pixel drawn \\
+\hline
+{\em color} & the color to draw the pixels with. \\
+\hline
+\end{DoxyParams}
+
+
+\-Definition at line 250 of file osdgen.\-c.
+
+\hypertarget{group___o_s_d_g_e_n_module_ga8b0f8e99f2bfee4a902a9d46a8714579}{\index{osdgen Module@{osdgen Module}!print\-Time@{print\-Time}}
+\index{print\-Time@{print\-Time}!osdgen Module@{osdgen Module}}
+\subsubsection[{print\-Time}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf print\-Time} (
+\begin{DoxyParamCaption}
+\item[{uint16\-\_\-t}]{x, }
+\item[{uint16\-\_\-t}]{y}
+\end{DoxyParamCaption}
+)}}\label{group___o_s_d_g_e_n_module_ga8b0f8e99f2bfee4a902a9d46a8714579}
+
+
+\-Definition at line 1620 of file osdgen.\-c.
+
+\hypertarget{group___o_s_d_g_e_n_module_ga6079548d874cda431d71e15174ff375c}{\index{osdgen Module@{osdgen Module}!swap@{swap}}
+\index{swap@{swap}!osdgen Module@{osdgen Module}}
+\subsubsection[{swap}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf swap} (
+\begin{DoxyParamCaption}
+\item[{uint16\-\_\-t $\ast$}]{a, }
+\item[{uint16\-\_\-t $\ast$}]{b}
+\end{DoxyParamCaption}
+)}}\label{group___o_s_d_g_e_n_module_ga6079548d874cda431d71e15174ff375c}
+
+
+\-Definition at line 204 of file osdgen.\-c.
+
+\hypertarget{group___o_s_d_g_e_n_module_ga2a784a5e5cba20bd454de8c32e2dcfde}{\index{osdgen Module@{osdgen Module}!update\-Graphics@{update\-Graphics}}
+\index{update\-Graphics@{update\-Graphics}!osdgen Module@{osdgen Module}}
+\subsubsection[{update\-Graphics}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf update\-Graphics} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___o_s_d_g_e_n_module_ga2a784a5e5cba20bd454de8c32e2dcfde}
+
+
+\-Definition at line 2192 of file osdgen.\-c.
+
+\hypertarget{group___o_s_d_g_e_n_module_ga368bd7bc79f8c2f6999dee52aabd7b19}{\index{osdgen Module@{osdgen Module}!update\-Once\-Every\-Frame@{update\-Once\-Every\-Frame}}
+\index{update\-Once\-Every\-Frame@{update\-Once\-Every\-Frame}!osdgen Module@{osdgen Module}}
+\subsubsection[{update\-Once\-Every\-Frame}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf update\-Once\-Every\-Frame} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___o_s_d_g_e_n_module_ga368bd7bc79f8c2f6999dee52aabd7b19}
+
+
+\-Definition at line 2407 of file osdgen.\-c.
+
+\hypertarget{group___o_s_d_g_e_n_module_ga2f47e18d66eab4b942c583d519b122d8}{\index{osdgen Module@{osdgen Module}!valid\-Pos@{valid\-Pos}}
+\index{valid\-Pos@{valid\-Pos}!osdgen Module@{osdgen Module}}
+\subsubsection[{valid\-Pos}]{\setlength{\rightskip}{0pt plus 5cm}uint8\-\_\-t {\bf valid\-Pos} (
+\begin{DoxyParamCaption}
+\item[{uint16\-\_\-t}]{x, }
+\item[{uint16\-\_\-t}]{y}
+\end{DoxyParamCaption}
+)}}\label{group___o_s_d_g_e_n_module_ga2f47e18d66eab4b942c583d519b122d8}
+
+
+\-Definition at line 159 of file osdgen.\-c.
+
+\hypertarget{group___o_s_d_g_e_n_module_ga790a5ed0b4f266fd6699d69102a632f4}{\index{osdgen Module@{osdgen Module}!write\-\_\-char@{write\-\_\-char}}
+\index{write\-\_\-char@{write\-\_\-char}!osdgen Module@{osdgen Module}}
+\subsubsection[{write\-\_\-char}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf write\-\_\-char} (
+\begin{DoxyParamCaption}
+\item[{char}]{ch, }
+\item[{unsigned int}]{x, }
+\item[{unsigned int}]{y, }
+\item[{int}]{flags, }
+\item[{int}]{font}
+\end{DoxyParamCaption}
+)}}\label{group___o_s_d_g_e_n_module_ga790a5ed0b4f266fd6699d69102a632f4}
+write\-\_\-char\-: \-Draw a character on the current draw buffer. \-Currently supports outlined characters and characters with a width of up to 8 pixels.
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em ch} & character to write \\
+\hline
+{\em x} & x coordinate (left) \\
+\hline
+{\em y} & y coordinate (top) \\
+\hline
+{\em flags} & flags to write with (see gfx.\-h) \\
+\hline
+{\em font} & font to use \\
+\hline
+\end{DoxyParams}
+
+
+\-Definition at line 1187 of file osdgen.\-c.
+
+\hypertarget{group___o_s_d_g_e_n_module_gaa298c555d34c7e1929c065b647c0f2c8}{\index{osdgen Module@{osdgen Module}!write\-\_\-char16@{write\-\_\-char16}}
+\index{write\-\_\-char16@{write\-\_\-char16}!osdgen Module@{osdgen Module}}
+\subsubsection[{write\-\_\-char16}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf write\-\_\-char16} (
+\begin{DoxyParamCaption}
+\item[{char}]{ch, }
+\item[{unsigned int}]{x, }
+\item[{unsigned int}]{y, }
+\item[{int}]{font}
+\end{DoxyParamCaption}
+)}}\label{group___o_s_d_g_e_n_module_gaa298c555d34c7e1929c065b647c0f2c8}
+write\-\_\-char16\-: \-Draw a character on the current draw buffer. \-Currently supports outlined characters and characters with a width of up to 8 pixels.
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em ch} & character to write \\
+\hline
+{\em x} & x coordinate (left) \\
+\hline
+{\em y} & y coordinate (top) \\
+\hline
+{\em flags} & flags to write with (see gfx.\-h) \\
+\hline
+{\em font} & font to use \\
+\hline
+\end{DoxyParams}
+
+
+\-Definition at line 1108 of file osdgen.\-c.
+
+\hypertarget{group___o_s_d_g_e_n_module_ga634e8149f811d4bb090d50b25064907c}{\index{osdgen Module@{osdgen Module}!write\-\_\-circle@{write\-\_\-circle}}
+\index{write\-\_\-circle@{write\-\_\-circle}!osdgen Module@{osdgen Module}}
+\subsubsection[{write\-\_\-circle}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf write\-\_\-circle} (
+\begin{DoxyParamCaption}
+\item[{uint8\-\_\-t $\ast$}]{buff, }
+\item[{unsigned int}]{cx, }
+\item[{unsigned int}]{cy, }
+\item[{unsigned int}]{r, }
+\item[{unsigned int}]{dashp, }
+\item[{int}]{mode}
+\end{DoxyParamCaption}
+)}}\label{group___o_s_d_g_e_n_module_ga634e8149f811d4bb090d50b25064907c}
+write\-\_\-circle\-: draw the outline of a circle on a given buffer, with an optional dash pattern for the line instead of a normal line.
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em buff} & pointer to buffer to write in \\
+\hline
+{\em cx} & origin x coordinate \\
+\hline
+{\em cy} & origin y coordinate \\
+\hline
+{\em r} & radius \\
+\hline
+{\em dashp} & dash period (pixels) -\/ zero for no dash \\
+\hline
+{\em mode} & 0 = clear, 1 = set, 2 = toggle \\
+\hline
+\end{DoxyParams}
+
+
+\-Definition at line 682 of file osdgen.\-c.
+
+\hypertarget{group___o_s_d_g_e_n_module_gaf369bd7c0a15859e4a35ac7a6bf77263}{\index{osdgen Module@{osdgen Module}!write\-\_\-circle\-\_\-filled@{write\-\_\-circle\-\_\-filled}}
+\index{write\-\_\-circle\-\_\-filled@{write\-\_\-circle\-\_\-filled}!osdgen Module@{osdgen Module}}
+\subsubsection[{write\-\_\-circle\-\_\-filled}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf write\-\_\-circle\-\_\-filled} (
+\begin{DoxyParamCaption}
+\item[{uint8\-\_\-t $\ast$}]{buff, }
+\item[{unsigned int}]{cx, }
+\item[{unsigned int}]{cy, }
+\item[{unsigned int}]{r, }
+\item[{int}]{mode}
+\end{DoxyParamCaption}
+)}}\label{group___o_s_d_g_e_n_module_gaf369bd7c0a15859e4a35ac7a6bf77263}
+write\-\_\-circle\-\_\-filled\-: fill a circle on a given buffer.
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em buff} & pointer to buffer to write in \\
+\hline
+{\em cx} & origin x coordinate \\
+\hline
+{\em cy} & origin y coordinate \\
+\hline
+{\em r} & radius \\
+\hline
+{\em mode} & 0 = clear, 1 = set, 2 = toggle \\
+\hline
+\end{DoxyParams}
+
+
+\-Definition at line 778 of file osdgen.\-c.
+
+\hypertarget{group___o_s_d_g_e_n_module_gaa58af239ed159652cb196f745c79d9a6}{\index{osdgen Module@{osdgen Module}!write\-\_\-circle\-\_\-outlined@{write\-\_\-circle\-\_\-outlined}}
+\index{write\-\_\-circle\-\_\-outlined@{write\-\_\-circle\-\_\-outlined}!osdgen Module@{osdgen Module}}
+\subsubsection[{write\-\_\-circle\-\_\-outlined}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf write\-\_\-circle\-\_\-outlined} (
+\begin{DoxyParamCaption}
+\item[{unsigned int}]{cx, }
+\item[{unsigned int}]{cy, }
+\item[{unsigned int}]{r, }
+\item[{unsigned int}]{dashp, }
+\item[{int}]{bmode, }
+\item[{int}]{mode, }
+\item[{int}]{mmode}
+\end{DoxyParamCaption}
+)}}\label{group___o_s_d_g_e_n_module_gaa58af239ed159652cb196f745c79d9a6}
+write\-\_\-circle\-\_\-outlined\-: draw an outlined circle on the draw buffer.
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em cx} & origin x coordinate \\
+\hline
+{\em cy} & origin y coordinate \\
+\hline
+{\em r} & radius \\
+\hline
+{\em dashp} & dash period (pixels) -\/ zero for no dash \\
+\hline
+{\em bmode} & 0 = 4-\/neighbour border, 1 = 8-\/neighbour border \\
+\hline
+{\em mode} & 0 = black outline, white body, 1 = white outline, black body \\
+\hline
+{\em mmode} & 0 = clear, 1 = set, 2 = toggle \\
+\hline
+\end{DoxyParams}
+
+
+\-Definition at line 713 of file osdgen.\-c.
+
+\hypertarget{group___o_s_d_g_e_n_module_ga66c619079158f1694d8cc86f109ba91e}{\index{osdgen Module@{osdgen Module}!write\-\_\-filled\-\_\-rectangle@{write\-\_\-filled\-\_\-rectangle}}
+\index{write\-\_\-filled\-\_\-rectangle@{write\-\_\-filled\-\_\-rectangle}!osdgen Module@{osdgen Module}}
+\subsubsection[{write\-\_\-filled\-\_\-rectangle}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf write\-\_\-filled\-\_\-rectangle} (
+\begin{DoxyParamCaption}
+\item[{uint8\-\_\-t $\ast$}]{buff, }
+\item[{unsigned int}]{x, }
+\item[{unsigned int}]{y, }
+\item[{unsigned int}]{width, }
+\item[{unsigned int}]{height, }
+\item[{int}]{mode}
+\end{DoxyParamCaption}
+)}}\label{group___o_s_d_g_e_n_module_ga66c619079158f1694d8cc86f109ba91e}
+write\-\_\-filled\-\_\-rectangle\-: draw a filled rectangle.
+
+\-Uses an optimised algorithm which is similar to the horizontal line writing algorithm, but optimised for writing the lines multiple times without recalculating lots of stuff.
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em buff} & pointer to buffer to write in \\
+\hline
+{\em x} & x coordinate (left) \\
+\hline
+{\em y} & y coordinate (top) \\
+\hline
+{\em width} & rectangle width \\
+\hline
+{\em height} & rectangle height \\
+\hline
+{\em mode} & 0 = clear, 1 = set, 2 = toggle \\
+\hline
+\end{DoxyParams}
+
+
+\-Definition at line 573 of file osdgen.\-c.
+
+\hypertarget{group___o_s_d_g_e_n_module_gafdf87d4c22a0fcb603bdfba416768248}{\index{osdgen Module@{osdgen Module}!write\-\_\-filled\-\_\-rectangle\-\_\-lm@{write\-\_\-filled\-\_\-rectangle\-\_\-lm}}
+\index{write\-\_\-filled\-\_\-rectangle\-\_\-lm@{write\-\_\-filled\-\_\-rectangle\-\_\-lm}!osdgen Module@{osdgen Module}}
+\subsubsection[{write\-\_\-filled\-\_\-rectangle\-\_\-lm}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf write\-\_\-filled\-\_\-rectangle\-\_\-lm} (
+\begin{DoxyParamCaption}
+\item[{unsigned int}]{x, }
+\item[{unsigned int}]{y, }
+\item[{unsigned int}]{width, }
+\item[{unsigned int}]{height, }
+\item[{int}]{lmode, }
+\item[{int}]{mmode}
+\end{DoxyParamCaption}
+)}}\label{group___o_s_d_g_e_n_module_gafdf87d4c22a0fcb603bdfba416768248}
+write\-\_\-filled\-\_\-rectangle\-\_\-lm\-: draw a filled rectangle on both draw buffers.
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em x} & x coordinate (left) \\
+\hline
+{\em y} & y coordinate (top) \\
+\hline
+{\em width} & rectangle width \\
+\hline
+{\em height} & rectangle height \\
+\hline
+{\em lmode} & 0 = clear, 1 = set, 2 = toggle \\
+\hline
+{\em mmode} & 0 = clear, 1 = set, 2 = toggle \\
+\hline
+\end{DoxyParams}
+
+
+\-Definition at line 642 of file osdgen.\-c.
+
+\hypertarget{group___o_s_d_g_e_n_module_ga1918951dd8566c5eef5ecfd7dcd7c685}{\index{osdgen Module@{osdgen Module}!write\-\_\-hline@{write\-\_\-hline}}
+\index{write\-\_\-hline@{write\-\_\-hline}!osdgen Module@{osdgen Module}}
+\subsubsection[{write\-\_\-hline}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf write\-\_\-hline} (
+\begin{DoxyParamCaption}
+\item[{uint8\-\_\-t $\ast$}]{buff, }
+\item[{unsigned int}]{x0, }
+\item[{unsigned int}]{x1, }
+\item[{unsigned int}]{y, }
+\item[{int}]{mode}
+\end{DoxyParamCaption}
+)}}\label{group___o_s_d_g_e_n_module_ga1918951dd8566c5eef5ecfd7dcd7c685}
+write\-\_\-hline\-: optimised horizontal line writing algorithm
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em buff} & pointer to buffer to write in \\
+\hline
+{\em x0} & x0 coordinate \\
+\hline
+{\em x1} & x1 coordinate \\
+\hline
+{\em y} & y coordinate \\
+\hline
+{\em mode} & 0 = clear, 1 = set, 2 = toggle \\
+\hline
+\end{DoxyParams}
+
+
+\-Definition at line 394 of file osdgen.\-c.
+
+\hypertarget{group___o_s_d_g_e_n_module_gacf5cb2507be8b860675b466d19fa4aa8}{\index{osdgen Module@{osdgen Module}!write\-\_\-hline\-\_\-lm@{write\-\_\-hline\-\_\-lm}}
+\index{write\-\_\-hline\-\_\-lm@{write\-\_\-hline\-\_\-lm}!osdgen Module@{osdgen Module}}
+\subsubsection[{write\-\_\-hline\-\_\-lm}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf write\-\_\-hline\-\_\-lm} (
+\begin{DoxyParamCaption}
+\item[{unsigned int}]{x0, }
+\item[{unsigned int}]{x1, }
+\item[{unsigned int}]{y, }
+\item[{int}]{lmode, }
+\item[{int}]{mmode}
+\end{DoxyParamCaption}
+)}}\label{group___o_s_d_g_e_n_module_gacf5cb2507be8b860675b466d19fa4aa8}
+write\-\_\-hline\-\_\-lm\-: write both level and mask buffers.
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em x0} & x0 coordinate \\
+\hline
+{\em x1} & x1 coordinate \\
+\hline
+{\em y} & y coordinate \\
+\hline
+{\em lmode} & 0 = clear, 1 = set, 2 = toggle \\
+\hline
+{\em mmode} & 0 = clear, 1 = set, 2 = toggle \\
+\hline
+\end{DoxyParams}
+
+
+\-Definition at line 442 of file osdgen.\-c.
+
+\hypertarget{group___o_s_d_g_e_n_module_ga093e7b26837226a19a69ea698d6db954}{\index{osdgen Module@{osdgen Module}!write\-\_\-hline\-\_\-outlined@{write\-\_\-hline\-\_\-outlined}}
+\index{write\-\_\-hline\-\_\-outlined@{write\-\_\-hline\-\_\-outlined}!osdgen Module@{osdgen Module}}
+\subsubsection[{write\-\_\-hline\-\_\-outlined}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf write\-\_\-hline\-\_\-outlined} (
+\begin{DoxyParamCaption}
+\item[{unsigned int}]{x0, }
+\item[{unsigned int}]{x1, }
+\item[{unsigned int}]{y, }
+\item[{int}]{endcap0, }
+\item[{int}]{endcap1, }
+\item[{int}]{mode, }
+\item[{int}]{mmode}
+\end{DoxyParamCaption}
+)}}\label{group___o_s_d_g_e_n_module_ga093e7b26837226a19a69ea698d6db954}
+write\-\_\-hline\-\_\-outlined\-: outlined horizontal line with varying endcaps \-Always uses draw buffer.
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em x0} & x0 coordinate \\
+\hline
+{\em x1} & x1 coordinate \\
+\hline
+{\em y} & y coordinate \\
+\hline
+{\em endcap0} & 0 = none, 1 = single pixel, 2 = full cap \\
+\hline
+{\em endcap1} & 0 = none, 1 = single pixel, 2 = full cap \\
+\hline
+{\em mode} & 0 = black outline, white body, 1 = white outline, black body \\
+\hline
+{\em mmode} & 0 = clear, 1 = set, 2 = toggle \\
+\hline
+\end{DoxyParams}
+
+
+\-Definition at line 462 of file osdgen.\-c.
+
+\hypertarget{group___o_s_d_g_e_n_module_ga2fe2ee0f0ff8e34091a5357658c686c1}{\index{osdgen Module@{osdgen Module}!write\-\_\-line@{write\-\_\-line}}
+\index{write\-\_\-line@{write\-\_\-line}!osdgen Module@{osdgen Module}}
+\subsubsection[{write\-\_\-line}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf write\-\_\-line} (
+\begin{DoxyParamCaption}
+\item[{uint8\-\_\-t $\ast$}]{buff, }
+\item[{unsigned int}]{x0, }
+\item[{unsigned int}]{y0, }
+\item[{unsigned int}]{x1, }
+\item[{unsigned int}]{y1, }
+\item[{int}]{mode}
+\end{DoxyParamCaption}
+)}}\label{group___o_s_d_g_e_n_module_ga2fe2ee0f0ff8e34091a5357658c686c1}
+write\-\_\-line\-: \-Draw a line of arbitrary angle.
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em buff} & pointer to buffer to write in \\
+\hline
+{\em x0} & first x coordinate \\
+\hline
+{\em y0} & first y coordinate \\
+\hline
+{\em x1} & second x coordinate \\
+\hline
+{\em y1} & second y coordinate \\
+\hline
+{\em mode} & 0 = clear, 1 = set, 2 = toggle \\
+\hline
+\end{DoxyParams}
+
+
+\-Definition at line 828 of file osdgen.\-c.
+
+\hypertarget{group___o_s_d_g_e_n_module_ga1b12386d924769809d25c0151ca7d47f}{\index{osdgen Module@{osdgen Module}!write\-\_\-line\-\_\-lm@{write\-\_\-line\-\_\-lm}}
+\index{write\-\_\-line\-\_\-lm@{write\-\_\-line\-\_\-lm}!osdgen Module@{osdgen Module}}
+\subsubsection[{write\-\_\-line\-\_\-lm}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf write\-\_\-line\-\_\-lm} (
+\begin{DoxyParamCaption}
+\item[{unsigned int}]{x0, }
+\item[{unsigned int}]{y0, }
+\item[{unsigned int}]{x1, }
+\item[{unsigned int}]{y1, }
+\item[{int}]{mmode, }
+\item[{int}]{lmode}
+\end{DoxyParamCaption}
+)}}\label{group___o_s_d_g_e_n_module_ga1b12386d924769809d25c0151ca7d47f}
+write\-\_\-line\-\_\-lm\-: \-Draw a line of arbitrary angle.
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em x0} & first x coordinate \\
+\hline
+{\em y0} & first y coordinate \\
+\hline
+{\em x1} & second x coordinate \\
+\hline
+{\em y1} & second y coordinate \\
+\hline
+{\em mmode} & 0 = clear, 1 = set, 2 = toggle \\
+\hline
+{\em lmode} & 0 = clear, 1 = set, 2 = toggle \\
+\hline
+\end{DoxyParams}
+
+
+\-Definition at line 881 of file osdgen.\-c.
+
+\hypertarget{group___o_s_d_g_e_n_module_ga27afef3cac2fe7bd07005b4cfdab1297}{\index{osdgen Module@{osdgen Module}!write\-\_\-line\-\_\-outlined@{write\-\_\-line\-\_\-outlined}}
+\index{write\-\_\-line\-\_\-outlined@{write\-\_\-line\-\_\-outlined}!osdgen Module@{osdgen Module}}
+\subsubsection[{write\-\_\-line\-\_\-outlined}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf write\-\_\-line\-\_\-outlined} (
+\begin{DoxyParamCaption}
+\item[{unsigned int}]{x0, }
+\item[{unsigned int}]{y0, }
+\item[{unsigned int}]{x1, }
+\item[{unsigned int}]{y1, }
+\item[{int}]{endcap0, }
+\item[{int}]{endcap1, }
+\item[{int}]{mode, }
+\item[{int}]{mmode}
+\end{DoxyParamCaption}
+)}}\label{group___o_s_d_g_e_n_module_ga27afef3cac2fe7bd07005b4cfdab1297}
+write\-\_\-line\-\_\-outlined\-: \-Draw a line of arbitrary angle, with an outline.
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em buff} & pointer to buffer to write in \\
+\hline
+{\em x0} & first x coordinate \\
+\hline
+{\em y0} & first y coordinate \\
+\hline
+{\em x1} & second x coordinate \\
+\hline
+{\em y1} & second y coordinate \\
+\hline
+{\em endcap0} & 0 = none, 1 = single pixel, 2 = full cap \\
+\hline
+{\em endcap1} & 0 = none, 1 = single pixel, 2 = full cap \\
+\hline
+{\em mode} & 0 = black outline, white body, 1 = white outline, black body \\
+\hline
+{\em mmode} & 0 = clear, 1 = set, 2 = toggle \\
+\hline
+\end{DoxyParams}
+
+
+\-Definition at line 900 of file osdgen.\-c.
+
+\hypertarget{group___o_s_d_g_e_n_module_gabbd31ecda0c72dedfc2f0455d7dedf3e}{\index{osdgen Module@{osdgen Module}!write\-\_\-pixel@{write\-\_\-pixel}}
+\index{write\-\_\-pixel@{write\-\_\-pixel}!osdgen Module@{osdgen Module}}
+\subsubsection[{write\-\_\-pixel}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf write\-\_\-pixel} (
+\begin{DoxyParamCaption}
+\item[{uint8\-\_\-t $\ast$}]{buff, }
+\item[{unsigned int}]{x, }
+\item[{unsigned int}]{y, }
+\item[{int}]{mode}
+\end{DoxyParamCaption}
+)}}\label{group___o_s_d_g_e_n_module_gabbd31ecda0c72dedfc2f0455d7dedf3e}
+write\-\_\-pixel\-: \-Write a pixel at an x,y position to a given surface.
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em buff} & pointer to buffer to write in \\
+\hline
+{\em x} & x coordinate \\
+\hline
+{\em y} & y coordinate \\
+\hline
+{\em mode} & 0 = clear bit, 1 = set bit, 2 = toggle bit \\
+\hline
+\end{DoxyParams}
+
+
+\-Definition at line 350 of file osdgen.\-c.
+
+\hypertarget{group___o_s_d_g_e_n_module_gac1761b4fcfac704692e9a6cb6b263c70}{\index{osdgen Module@{osdgen Module}!write\-\_\-pixel\-\_\-lm@{write\-\_\-pixel\-\_\-lm}}
+\index{write\-\_\-pixel\-\_\-lm@{write\-\_\-pixel\-\_\-lm}!osdgen Module@{osdgen Module}}
+\subsubsection[{write\-\_\-pixel\-\_\-lm}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf write\-\_\-pixel\-\_\-lm} (
+\begin{DoxyParamCaption}
+\item[{unsigned int}]{x, }
+\item[{unsigned int}]{y, }
+\item[{int}]{mmode, }
+\item[{int}]{lmode}
+\end{DoxyParamCaption}
+)}}\label{group___o_s_d_g_e_n_module_gac1761b4fcfac704692e9a6cb6b263c70}
+write\-\_\-pixel\-\_\-lm\-: write the pixel on both surfaces (level and mask.) \-Uses current draw buffer.
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em x} & x coordinate \\
+\hline
+{\em y} & y coordinate \\
+\hline
+{\em mmode} & 0 = clear, 1 = set, 2 = toggle \\
+\hline
+{\em lmode} & 0 = black, 1 = white, 2 = toggle \\
+\hline
+\end{DoxyParams}
+
+
+\-Definition at line 371 of file osdgen.\-c.
+
+\hypertarget{group___o_s_d_g_e_n_module_ga761aea940799fbd6d4f6bafe83ea2032}{\index{osdgen Module@{osdgen Module}!write\-\_\-rectangle\-\_\-outlined@{write\-\_\-rectangle\-\_\-outlined}}
+\index{write\-\_\-rectangle\-\_\-outlined@{write\-\_\-rectangle\-\_\-outlined}!osdgen Module@{osdgen Module}}
+\subsubsection[{write\-\_\-rectangle\-\_\-outlined}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf write\-\_\-rectangle\-\_\-outlined} (
+\begin{DoxyParamCaption}
+\item[{unsigned int}]{x, }
+\item[{unsigned int}]{y, }
+\item[{int}]{width, }
+\item[{int}]{height, }
+\item[{int}]{mode, }
+\item[{int}]{mmode}
+\end{DoxyParamCaption}
+)}}\label{group___o_s_d_g_e_n_module_ga761aea940799fbd6d4f6bafe83ea2032}
+write\-\_\-rectangle\-\_\-outlined\-: draw an outline of a rectangle. \-Essentially a convenience wrapper for draw\-\_\-hline\-\_\-outlined and draw\-\_\-vline\-\_\-outlined.
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em x} & x coordinate (left) \\
+\hline
+{\em y} & y coordinate (top) \\
+\hline
+{\em width} & rectangle width \\
+\hline
+{\em height} & rectangle height \\
+\hline
+{\em mode} & 0 = black outline, white body, 1 = white outline, black body \\
+\hline
+{\em mmode} & 0 = clear, 1 = set, 2 = toggle \\
+\hline
+\end{DoxyParams}
+
+
+\-Definition at line 659 of file osdgen.\-c.
+
+\hypertarget{group___o_s_d_g_e_n_module_ga9202b1bd055f9fa88d46cec7ed412763}{\index{osdgen Module@{osdgen Module}!write\-\_\-string@{write\-\_\-string}}
+\index{write\-\_\-string@{write\-\_\-string}!osdgen Module@{osdgen Module}}
+\subsubsection[{write\-\_\-string}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf write\-\_\-string} (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{str, }
+\item[{unsigned int}]{x, }
+\item[{unsigned int}]{y, }
+\item[{unsigned int}]{xs, }
+\item[{unsigned int}]{ys, }
+\item[{int}]{va, }
+\item[{int}]{ha, }
+\item[{int}]{flags, }
+\item[{int}]{font}
+\end{DoxyParamCaption}
+)}}\label{group___o_s_d_g_e_n_module_ga9202b1bd055f9fa88d46cec7ed412763}
+write\-\_\-string\-: \-Draw a string on the screen with certain alignment parameters.
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em str} & string to write \\
+\hline
+{\em x} & x coordinate \\
+\hline
+{\em y} & y coordinate \\
+\hline
+{\em xs} & horizontal spacing \\
+\hline
+{\em ys} & horizontal spacing \\
+\hline
+{\em va} & vertical align \\
+\hline
+{\em ha} & horizontal align \\
+\hline
+{\em flags} & flags (passed to write\-\_\-char) \\
+\hline
+{\em font} & font \\
+\hline
+\end{DoxyParams}
+
+
+\-Definition at line 1292 of file osdgen.\-c.
+
+\hypertarget{group___o_s_d_g_e_n_module_gab49221eead66b5e8af2b4e3104fa8456}{\index{osdgen Module@{osdgen Module}!write\-\_\-string\-\_\-formatted@{write\-\_\-string\-\_\-formatted}}
+\index{write\-\_\-string\-\_\-formatted@{write\-\_\-string\-\_\-formatted}!osdgen Module@{osdgen Module}}
+\subsubsection[{write\-\_\-string\-\_\-formatted}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf write\-\_\-string\-\_\-formatted} (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{str, }
+\item[{unsigned int}]{x, }
+\item[{unsigned int}]{y, }
+\item[{unsigned int}]{xs, }
+\item[{unsigned int}]{ys, }
+\item[{int}]{va, }
+\item[{int}]{ha, }
+\item[{int}]{flags}
+\end{DoxyParamCaption}
+)}}\label{group___o_s_d_g_e_n_module_gab49221eead66b5e8af2b4e3104fa8456}
+write\-\_\-string\-\_\-formatted\-: \-Draw a string with format escape sequences in it. \-Allows for complex text effects.
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em str} & string to write (with format data) \\
+\hline
+{\em x} & x coordinate \\
+\hline
+{\em y} & y coordinate \\
+\hline
+{\em xs} & default horizontal spacing \\
+\hline
+{\em ys} & default horizontal spacing \\
+\hline
+{\em va} & vertical align \\
+\hline
+{\em ha} & horizontal align \\
+\hline
+{\em flags} & flags (passed to write\-\_\-char) \\
+\hline
+\end{DoxyParams}
+
+
+\-Definition at line 1349 of file osdgen.\-c.
+
+\hypertarget{group___o_s_d_g_e_n_module_ga34c98ce736d5146c81ef3b167780031f}{\index{osdgen Module@{osdgen Module}!write\-\_\-vline@{write\-\_\-vline}}
+\index{write\-\_\-vline@{write\-\_\-vline}!osdgen Module@{osdgen Module}}
+\subsubsection[{write\-\_\-vline}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf write\-\_\-vline} (
+\begin{DoxyParamCaption}
+\item[{uint8\-\_\-t $\ast$}]{buff, }
+\item[{unsigned int}]{x, }
+\item[{unsigned int}]{y0, }
+\item[{unsigned int}]{y1, }
+\item[{int}]{mode}
+\end{DoxyParamCaption}
+)}}\label{group___o_s_d_g_e_n_module_ga34c98ce736d5146c81ef3b167780031f}
+write\-\_\-vline\-: optimised vertical line writing algorithm
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em buff} & pointer to buffer to write in \\
+\hline
+{\em x} & x coordinate \\
+\hline
+{\em y0} & y0 coordinate \\
+\hline
+{\em y1} & y1 coordinate \\
+\hline
+{\em mode} & 0 = clear, 1 = set, 2 = toggle \\
+\hline
+\end{DoxyParams}
+
+
+\-Definition at line 488 of file osdgen.\-c.
+
+\hypertarget{group___o_s_d_g_e_n_module_ga4ab8daa08074c7ccb69b2f8a1d834979}{\index{osdgen Module@{osdgen Module}!write\-\_\-vline\-\_\-lm@{write\-\_\-vline\-\_\-lm}}
+\index{write\-\_\-vline\-\_\-lm@{write\-\_\-vline\-\_\-lm}!osdgen Module@{osdgen Module}}
+\subsubsection[{write\-\_\-vline\-\_\-lm}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf write\-\_\-vline\-\_\-lm} (
+\begin{DoxyParamCaption}
+\item[{unsigned int}]{x, }
+\item[{unsigned int}]{y0, }
+\item[{unsigned int}]{y1, }
+\item[{int}]{lmode, }
+\item[{int}]{mmode}
+\end{DoxyParamCaption}
+)}}\label{group___o_s_d_g_e_n_module_ga4ab8daa08074c7ccb69b2f8a1d834979}
+write\-\_\-vline\-\_\-lm\-: write both level and mask buffers.
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em x} & x coordinate \\
+\hline
+{\em y0} & y0 coordinate \\
+\hline
+{\em y1} & y1 coordinate \\
+\hline
+{\em lmode} & 0 = clear, 1 = set, 2 = toggle \\
+\hline
+{\em mmode} & 0 = clear, 1 = set, 2 = toggle \\
+\hline
+\end{DoxyParams}
+
+
+\-Definition at line 522 of file osdgen.\-c.
+
+\hypertarget{group___o_s_d_g_e_n_module_ga0587de2636d0acd501858f056b6ad4da}{\index{osdgen Module@{osdgen Module}!write\-\_\-vline\-\_\-outlined@{write\-\_\-vline\-\_\-outlined}}
+\index{write\-\_\-vline\-\_\-outlined@{write\-\_\-vline\-\_\-outlined}!osdgen Module@{osdgen Module}}
+\subsubsection[{write\-\_\-vline\-\_\-outlined}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf write\-\_\-vline\-\_\-outlined} (
+\begin{DoxyParamCaption}
+\item[{unsigned int}]{x, }
+\item[{unsigned int}]{y0, }
+\item[{unsigned int}]{y1, }
+\item[{int}]{endcap0, }
+\item[{int}]{endcap1, }
+\item[{int}]{mode, }
+\item[{int}]{mmode}
+\end{DoxyParamCaption}
+)}}\label{group___o_s_d_g_e_n_module_ga0587de2636d0acd501858f056b6ad4da}
+write\-\_\-vline\-\_\-outlined\-: outlined vertical line with varying endcaps \-Always uses draw buffer.
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em x} & x coordinate \\
+\hline
+{\em y0} & y0 coordinate \\
+\hline
+{\em y1} & y1 coordinate \\
+\hline
+{\em endcap0} & 0 = none, 1 = single pixel, 2 = full cap \\
+\hline
+{\em endcap1} & 0 = none, 1 = single pixel, 2 = full cap \\
+\hline
+{\em mode} & 0 = black outline, white body, 1 = white outline, black body \\
+\hline
+{\em mmode} & 0 = clear, 1 = set, 2 = toggle \\
+\hline
+\end{DoxyParams}
+
+
+\-Definition at line 542 of file osdgen.\-c.
+
+\hypertarget{group___o_s_d_g_e_n_module_ga609b93e9b64ad8b92c1c555d3cdb80c5}{\index{osdgen Module@{osdgen Module}!write\-\_\-word\-\_\-misaligned@{write\-\_\-word\-\_\-misaligned}}
+\index{write\-\_\-word\-\_\-misaligned@{write\-\_\-word\-\_\-misaligned}!osdgen Module@{osdgen Module}}
+\subsubsection[{write\-\_\-word\-\_\-misaligned}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf write\-\_\-word\-\_\-misaligned} (
+\begin{DoxyParamCaption}
+\item[{uint8\-\_\-t $\ast$}]{buff, }
+\item[{uint16\-\_\-t}]{word, }
+\item[{unsigned int}]{addr, }
+\item[{unsigned int}]{xoff, }
+\item[{int}]{mode}
+\end{DoxyParamCaption}
+)}}\label{group___o_s_d_g_e_n_module_ga609b93e9b64ad8b92c1c555d3cdb80c5}
+write\-\_\-word\-\_\-misaligned\-: \-Write a misaligned word across two addresses with an x offset.
+
+\-This allows for many pixels to be set in one write.
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em buff} & buffer to write in \\
+\hline
+{\em word} & word to write (16 bits) \\
+\hline
+{\em addr} & address of first word \\
+\hline
+{\em xoff} & x offset (0-\/15) \\
+\hline
+{\em mode} & 0 = clear, 1 = set, 2 = toggle \\
+\hline
+\end{DoxyParams}
+
+
+\-Definition at line 994 of file osdgen.\-c.
+
+\hypertarget{group___o_s_d_g_e_n_module_gaf7b6f5e5e2980741c80f92a24c27d470}{\index{osdgen Module@{osdgen Module}!write\-\_\-word\-\_\-misaligned\-\_\-lm@{write\-\_\-word\-\_\-misaligned\-\_\-lm}}
+\index{write\-\_\-word\-\_\-misaligned\-\_\-lm@{write\-\_\-word\-\_\-misaligned\-\_\-lm}!osdgen Module@{osdgen Module}}
+\subsubsection[{write\-\_\-word\-\_\-misaligned\-\_\-lm}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf write\-\_\-word\-\_\-misaligned\-\_\-lm} (
+\begin{DoxyParamCaption}
+\item[{uint16\-\_\-t}]{wordl, }
+\item[{uint16\-\_\-t}]{wordm, }
+\item[{unsigned int}]{addr, }
+\item[{unsigned int}]{xoff, }
+\item[{int}]{lmode, }
+\item[{int}]{mmode}
+\end{DoxyParamCaption}
+)}}\label{group___o_s_d_g_e_n_module_gaf7b6f5e5e2980741c80f92a24c27d470}
+write\-\_\-word\-\_\-misaligned\-\_\-lm\-: \-Write a misaligned word across two words, in both level and mask buffers. \-This is core to the text writing routines.
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em buff} & buffer to write in \\
+\hline
+{\em word} & word to write (16 bits) \\
+\hline
+{\em addr} & address of first word \\
+\hline
+{\em xoff} & x offset (0-\/15) \\
+\hline
+{\em lmode} & 0 = clear, 1 = set, 2 = toggle \\
+\hline
+{\em mmode} & 0 = clear, 1 = set, 2 = toggle \\
+\hline
+\end{DoxyParams}
+
+
+\-Definition at line 1067 of file osdgen.\-c.
+
+\hypertarget{group___o_s_d_g_e_n_module_gac311d0b8a75e018101c2f7de25468bce}{\index{osdgen Module@{osdgen Module}!write\-\_\-word\-\_\-misaligned\-\_\-\-N\-A\-N\-D@{write\-\_\-word\-\_\-misaligned\-\_\-\-N\-A\-N\-D}}
+\index{write\-\_\-word\-\_\-misaligned\-\_\-\-N\-A\-N\-D@{write\-\_\-word\-\_\-misaligned\-\_\-\-N\-A\-N\-D}!osdgen Module@{osdgen Module}}
+\subsubsection[{write\-\_\-word\-\_\-misaligned\-\_\-\-N\-A\-N\-D}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf write\-\_\-word\-\_\-misaligned\-\_\-\-N\-A\-N\-D} (
+\begin{DoxyParamCaption}
+\item[{uint8\-\_\-t $\ast$}]{buff, }
+\item[{uint16\-\_\-t}]{word, }
+\item[{unsigned int}]{addr, }
+\item[{unsigned int}]{xoff}
+\end{DoxyParamCaption}
+)}}\label{group___o_s_d_g_e_n_module_gac311d0b8a75e018101c2f7de25468bce}
+write\-\_\-word\-\_\-misaligned\-\_\-\-N\-A\-N\-D\-: \-Write a misaligned word across two addresses with an x offset, using a \-N\-A\-N\-D mask.
+
+\-This allows for many pixels to be set in one write.
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em buff} & buffer to write in \\
+\hline
+{\em word} & word to write (16 bits) \\
+\hline
+{\em addr} & address of first word \\
+\hline
+{\em xoff} & x offset (0-\/15)\\
+\hline
+\end{DoxyParams}
+\-This is identical to calling write\-\_\-word\-\_\-misaligned with a mode of 0 but it doesn't go through a lot of switch logic which slows down text writing a lot. 
+
+\-Definition at line 1019 of file osdgen.\-c.
+
+\hypertarget{group___o_s_d_g_e_n_module_ga17f327de483285ee88a844c5b617d1ed}{\index{osdgen Module@{osdgen Module}!write\-\_\-word\-\_\-misaligned\-\_\-\-O\-R@{write\-\_\-word\-\_\-misaligned\-\_\-\-O\-R}}
+\index{write\-\_\-word\-\_\-misaligned\-\_\-\-O\-R@{write\-\_\-word\-\_\-misaligned\-\_\-\-O\-R}!osdgen Module@{osdgen Module}}
+\subsubsection[{write\-\_\-word\-\_\-misaligned\-\_\-\-O\-R}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf write\-\_\-word\-\_\-misaligned\-\_\-\-O\-R} (
+\begin{DoxyParamCaption}
+\item[{uint8\-\_\-t $\ast$}]{buff, }
+\item[{uint16\-\_\-t}]{word, }
+\item[{unsigned int}]{addr, }
+\item[{unsigned int}]{xoff}
+\end{DoxyParamCaption}
+)}}\label{group___o_s_d_g_e_n_module_ga17f327de483285ee88a844c5b617d1ed}
+write\-\_\-word\-\_\-misaligned\-\_\-\-O\-R\-: \-Write a misaligned word across two addresses with an x offset, using an \-O\-R mask.
+
+\-This allows for many pixels to be set in one write.
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em buff} & buffer to write in \\
+\hline
+{\em word} & word to write (16 bits) \\
+\hline
+{\em addr} & address of first word \\
+\hline
+{\em xoff} & x offset (0-\/15)\\
+\hline
+\end{DoxyParams}
+\-This is identical to calling write\-\_\-word\-\_\-misaligned with a mode of 1 but it doesn't go through a lot of switch logic which slows down text writing a lot. 
+
+\-Definition at line 1044 of file osdgen.\-c.
+
+
+
+\subsection{\-Variable \-Documentation}
+\hypertarget{group___o_s_d_g_e_n_module_gac6ace302511130c48032b40f32a40bb8}{\index{osdgen Module@{osdgen Module}!disp\-\_\-buffer\-\_\-level@{disp\-\_\-buffer\-\_\-level}}
+\index{disp\-\_\-buffer\-\_\-level@{disp\-\_\-buffer\-\_\-level}!osdgen Module@{osdgen Module}}
+\subsubsection[{disp\-\_\-buffer\-\_\-level}]{\setlength{\rightskip}{0pt plus 5cm}uint8\-\_\-t$\ast$ {\bf disp\-\_\-buffer\-\_\-level}}}\label{group___o_s_d_g_e_n_module_gac6ace302511130c48032b40f32a40bb8}
+
+
+\-Definition at line 63 of file pios\-\_\-video.\-c.
+
+\hypertarget{group___o_s_d_g_e_n_module_ga2de64a6d3102b302a9b7582d63f09485}{\index{osdgen Module@{osdgen Module}!disp\-\_\-buffer\-\_\-mask@{disp\-\_\-buffer\-\_\-mask}}
+\index{disp\-\_\-buffer\-\_\-mask@{disp\-\_\-buffer\-\_\-mask}!osdgen Module@{osdgen Module}}
+\subsubsection[{disp\-\_\-buffer\-\_\-mask}]{\setlength{\rightskip}{0pt plus 5cm}uint8\-\_\-t$\ast$ {\bf disp\-\_\-buffer\-\_\-mask}}}\label{group___o_s_d_g_e_n_module_ga2de64a6d3102b302a9b7582d63f09485}
+
+
+\-Definition at line 64 of file pios\-\_\-video.\-c.
+
+\hypertarget{group___o_s_d_g_e_n_module_ga52b5c0fc86a398ddf62c5b2bb383374d}{\index{osdgen Module@{osdgen Module}!draw\-\_\-buffer\-\_\-level@{draw\-\_\-buffer\-\_\-level}}
+\index{draw\-\_\-buffer\-\_\-level@{draw\-\_\-buffer\-\_\-level}!osdgen Module@{osdgen Module}}
+\subsubsection[{draw\-\_\-buffer\-\_\-level}]{\setlength{\rightskip}{0pt plus 5cm}uint8\-\_\-t$\ast$ {\bf draw\-\_\-buffer\-\_\-level}}}\label{group___o_s_d_g_e_n_module_ga52b5c0fc86a398ddf62c5b2bb383374d}
+
+
+\-Definition at line 61 of file pios\-\_\-video.\-c.
+
+\hypertarget{group___o_s_d_g_e_n_module_ga67085db0125b910109083e4d2605d7d5}{\index{osdgen Module@{osdgen Module}!draw\-\_\-buffer\-\_\-mask@{draw\-\_\-buffer\-\_\-mask}}
+\index{draw\-\_\-buffer\-\_\-mask@{draw\-\_\-buffer\-\_\-mask}!osdgen Module@{osdgen Module}}
+\subsubsection[{draw\-\_\-buffer\-\_\-mask}]{\setlength{\rightskip}{0pt plus 5cm}uint8\-\_\-t$\ast$ {\bf draw\-\_\-buffer\-\_\-mask}}}\label{group___o_s_d_g_e_n_module_ga67085db0125b910109083e4d2605d7d5}
+
+
+\-Definition at line 62 of file pios\-\_\-video.\-c.
+
+\hypertarget{group___o_s_d_g_e_n_module_ga36bea199c0657c29a6c7836f8157066e}{\index{osdgen Module@{osdgen Module}!lama@{lama}}
+\index{lama@{lama}!osdgen Module@{osdgen Module}}
+\subsubsection[{lama}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf lama} = 10}}\label{group___o_s_d_g_e_n_module_ga36bea199c0657c29a6c7836f8157066e}
+
+
+\-Definition at line 2168 of file osdgen.\-c.
+
+\hypertarget{group___o_s_d_g_e_n_module_ga35258f3e002e3b7d6dc3a50b458c1ed5}{\index{osdgen Module@{osdgen Module}!lama\-\_\-loc@{lama\-\_\-loc}}
+\index{lama\-\_\-loc@{lama\-\_\-loc}!osdgen Module@{osdgen Module}}
+\subsubsection[{lama\-\_\-loc}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf lama\-\_\-loc}\mbox{[}2\mbox{]}\mbox{[}30\mbox{]}}}\label{group___o_s_d_g_e_n_module_ga35258f3e002e3b7d6dc3a50b458c1ed5}
+
+
+\-Definition at line 2169 of file osdgen.\-c.
+
+\hypertarget{group___o_s_d_g_e_n_module_ga34f96a89a1ad6c4649787dbc18e218e5}{\index{osdgen Module@{osdgen Module}!osd\-Semaphore@{osd\-Semaphore}}
+\index{osd\-Semaphore@{osd\-Semaphore}!osdgen Module@{osdgen Module}}
+\subsubsection[{osd\-Semaphore}]{\setlength{\rightskip}{0pt plus 5cm}x\-Semaphore\-Handle {\bf osd\-Semaphore} = \-N\-U\-L\-L}}\label{group___o_s_d_g_e_n_module_ga34f96a89a1ad6c4649787dbc18e218e5}
+
+
+\-Definition at line 85 of file osdgen.\-c.
+
+\hypertarget{group___o_s_d_g_e_n_module_gafd73dea95bd8cae01a8225936c4c302e}{\index{osdgen Module@{osdgen Module}!splash@{splash}}
+\index{splash@{splash}!osdgen Module@{osdgen Module}}
+\subsubsection[{splash}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf splash\-Entry} {\bf splash}\mbox{[}3\mbox{]}}}\label{group___o_s_d_g_e_n_module_gafd73dea95bd8cae01a8225936c4c302e}
+{\bfseries \-Initial value\-:}
+\begin{DoxyCode}
+ {
+        {       oplogo_width,
+                oplogo_height,
+                oplogo_bits,
+                oplogo_mask_bits },
+        {       level_width,
+                level_height,
+                level_bits,
+                level_mask_bits },
+        {       llama_width,
+                llama_height,
+                llama_bits,
+                llama_mask_bits },
+
+}
+\end{DoxyCode}
+
+
+\-Definition at line 104 of file osdgen.\-c.
+
+\hypertarget{group___o_s_d_g_e_n_module_gac6e460448d29f05aad59dc67c3035057}{\index{osdgen Module@{osdgen Module}!timex@{timex}}
+\index{timex@{timex}!osdgen Module@{osdgen Module}}
+\subsubsection[{timex}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-T\-Time} {\bf timex}}}\label{group___o_s_d_g_e_n_module_gac6e460448d29f05aad59dc67c3035057}
+
+
+\-Definition at line 75 of file osdgen.\-c.
+

@@ -1,0 +1,86 @@
+\hypertarget{pios__usbhook_8h}{\section{/home/jb/code/\-Tau\-Labs/flight/\-Pi\-O\-S/inc/pios\-\_\-usbhook.h \-File \-Reference}
+\label{pios__usbhook_8h}\index{/home/jb/code/\-Tau\-Labs/flight/\-Pi\-O\-S/inc/pios\-\_\-usbhook.\-h@{/home/jb/code/\-Tau\-Labs/flight/\-Pi\-O\-S/inc/pios\-\_\-usbhook.\-h}}
+}
+
+
+\-A\-P\-Is for \-P\-I\-O\-S\-\_\-\-U\-S\-B\-H\-O\-O\-K layer.  
+
+
+\subsection*{\-Data \-Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structpios__usbhook__descriptor}{pios\-\_\-usbhook\-\_\-descriptor}
+\item 
+struct \hyperlink{structpios__usb__ifops}{pios\-\_\-usb\-\_\-ifops}
+\end{DoxyCompactItemize}
+\subsection*{\-Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef bool($\ast$ \hyperlink{group___p_i_o_s___u_s_b_h_o_o_k_ga5f7904cd3922ab7207afebe3d9ef2650}{pios\-\_\-usbhook\-\_\-epcb} )(uint32\-\_\-t context, uint8\-\_\-t epnum, uint16\-\_\-t len)
+\end{DoxyCompactItemize}
+\subsection*{\-Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{group___p_i_o_s___u_s_b_h_o_o_k_ga5a1ae5206971f0c296fa30b24e8725da}{usb\-\_\-string\-\_\-desc} 
+\end{DoxyCompactItemize}
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{group___p_i_o_s___u_s_b_h_o_o_k_ga5a1ae5206971f0c296fa30b24e8725da}{usb\-\_\-string\-\_\-desc} \hyperlink{group___p_i_o_s___u_s_b_h_o_o_k_ga7c85e72dd0b0db640d1db8abb5427715}{\-\_\-\-\_\-attribute\-\_\-\-\_\-} ((packed))
+\item 
+void \hyperlink{group___p_i_o_s___u_s_b_h_o_o_k_ga59b142c7def8bcde4564793de82198d6}{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-H\-O\-O\-K\-\_\-\-Register\-Device} (const uint8\-\_\-t $\ast$desc, uint16\-\_\-t \hyperlink{pios__board__info_8h_ae5d617056baa2cb80f47bfcef73f2b69}{desc\-\_\-size})
+\item 
+void \hyperlink{group___p_i_o_s___u_s_b_h_o_o_k_gaf98576e0b9228288e852901754ab9759}{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-H\-O\-O\-K\-\_\-\-Register\-Config} (uint8\-\_\-t config\-\_\-id, const uint8\-\_\-t $\ast$desc, uint16\-\_\-t \hyperlink{pios__board__info_8h_ae5d617056baa2cb80f47bfcef73f2b69}{desc\-\_\-size})
+\item 
+void \hyperlink{group___p_i_o_s___u_s_b_h_o_o_k_gab472720c22eb46c81e7f6739dc53117b}{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-H\-O\-O\-K\-\_\-\-Register\-String} (enum \hyperlink{group___p_i_o_s___u_s_b_h_o_o_k_ga5a1ae5206971f0c296fa30b24e8725da}{usb\-\_\-string\-\_\-desc} string\-\_\-id, const uint8\-\_\-t $\ast$desc, uint16\-\_\-t \hyperlink{pios__board__info_8h_ae5d617056baa2cb80f47bfcef73f2b69}{desc\-\_\-size})
+\item 
+void \hyperlink{group___p_i_o_s___u_s_b_h_o_o_k_ga810a146080ed0e84fd2e76eeb1237cb4}{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-H\-O\-O\-K\-\_\-\-Register\-If\-Ops} (uint8\-\_\-t ifnum, struct \hyperlink{structpios__usb__ifops}{pios\-\_\-usb\-\_\-ifops} $\ast$ifops, uint32\-\_\-t context)
+\item 
+void \hyperlink{group___p_i_o_s___u_s_b_h_o_o_k_gaab0fa8ca00730aaca31b660d2c3940b7}{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-H\-O\-O\-K\-\_\-\-Register\-Ep\-In\-Callback} (uint8\-\_\-t epnum, uint16\-\_\-t max\-\_\-len, \hyperlink{group___p_i_o_s___u_s_b_h_o_o_k_ga5f7904cd3922ab7207afebe3d9ef2650}{pios\-\_\-usbhook\-\_\-epcb} cb, uint32\-\_\-t context)
+\item 
+void \hyperlink{group___p_i_o_s___u_s_b_h_o_o_k_gac9251a5f11fe56ac9a0e8d1405bcb322}{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-H\-O\-O\-K\-\_\-\-Register\-Ep\-Out\-Callback} (uint8\-\_\-t epnum, uint16\-\_\-t max\-\_\-len, \hyperlink{group___p_i_o_s___u_s_b_h_o_o_k_ga5f7904cd3922ab7207afebe3d9ef2650}{pios\-\_\-usbhook\-\_\-epcb} cb, uint32\-\_\-t context)
+\item 
+void \hyperlink{group___p_i_o_s___u_s_b_h_o_o_k_gab625794d48d586353a8d1b81d2abaa10}{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-H\-O\-O\-K\-\_\-\-De\-Register\-Ep\-In\-Callback} (uint8\-\_\-t epnum)
+\item 
+void \hyperlink{group___p_i_o_s___u_s_b_h_o_o_k_gaee6a7cfd0b24ed7e41097a3629f25a1d}{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-H\-O\-O\-K\-\_\-\-De\-Register\-Ep\-Out\-Callback} (uint8\-\_\-t epnum)
+\item 
+void \hyperlink{group___p_i_o_s___u_s_b_h_o_o_k_ga6704b03262547936a31c1c9798c7cee0}{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-H\-O\-O\-K\-\_\-\-Ctrl\-Tx} (const uint8\-\_\-t $\ast$buf, uint16\-\_\-t len)
+\item 
+void \hyperlink{group___p_i_o_s___u_s_b_h_o_o_k_ga1fdfbec3bfa53133f72ac8acff597415}{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-H\-O\-O\-K\-\_\-\-Ctrl\-Rx} (uint8\-\_\-t $\ast$buf, uint16\-\_\-t len)
+\item 
+void \hyperlink{group___p_i_o_s___u_s_b_h_o_o_k_ga7f8bef536a231085c493d004ec8466d2}{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-H\-O\-O\-K\-\_\-\-Endpoint\-Tx} (uint8\-\_\-t epnum, const uint8\-\_\-t $\ast$buf, uint16\-\_\-t len)
+\item 
+void \hyperlink{group___p_i_o_s___u_s_b_h_o_o_k_ga9ff507855511c9dcf36f8839955e4c86}{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-H\-O\-O\-K\-\_\-\-Endpoint\-Rx} (uint8\-\_\-t epnum, uint8\-\_\-t $\ast$buf, uint16\-\_\-t len)
+\item 
+void \hyperlink{group___p_i_o_s___u_s_b_h_o_o_k_gaa9dd93041af333771c368a4eb0171caa}{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-H\-O\-O\-K\-\_\-\-Activate} (void)
+\item 
+void \hyperlink{group___p_i_o_s___u_s_b_h_o_o_k_ga0b91e1af1f658ed36ac3da1414dd1dae}{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-H\-O\-O\-K\-\_\-\-Deactivate} (void)
+\end{DoxyCompactItemize}
+\subsection*{\-Variables}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___p_i_o_s___u_s_b_h_o_o_k_gac5f1f2d3bae1b6b5b9912f0fdd72dc93}{\-U\-S\-B\-\_\-\-S\-T\-R\-I\-N\-G\-\_\-\-D\-E\-S\-C\-\_\-\-L\-A\-N\-G} = 0
+\item 
+\hyperlink{group___p_i_o_s___u_s_b_h_o_o_k_ga05f051e48c96e9d6d2e05804c8023fe2}{\-U\-S\-B\-\_\-\-S\-T\-R\-I\-N\-G\-\_\-\-D\-E\-S\-C\-\_\-\-V\-E\-N\-D\-O\-R} = 1
+\item 
+\hyperlink{group___p_i_o_s___u_s_b_h_o_o_k_ga80dce006aa14f2a9412e8ee68b4627b0}{\-U\-S\-B\-\_\-\-S\-T\-R\-I\-N\-G\-\_\-\-D\-E\-S\-C\-\_\-\-P\-R\-O\-D\-U\-C\-T} = 2
+\item 
+\hyperlink{group___p_i_o_s___u_s_b_h_o_o_k_ga1c1263ee96f36ccbfc0e662b85e044bf}{\-U\-S\-B\-\_\-\-S\-T\-R\-I\-N\-G\-\_\-\-D\-E\-S\-C\-\_\-\-S\-E\-R\-I\-A\-L} = 3
+\item 
+struct \hyperlink{structpios__usb__ifops}{pios\-\_\-usb\-\_\-ifops} \hyperlink{group___p_i_o_s___u_s_b_h_o_o_k_gaefc540229d1ad4829fb317812135c7b4}{\-\_\-\-\_\-attribute\-\_\-\-\_\-}
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-A\-P\-Is for \-P\-I\-O\-S\-\_\-\-U\-S\-B\-H\-O\-O\-K layer. \begin{DoxyAuthor}{\-Author}
+\-The \-Open\-Pilot \-Team, \href{http://www.openpilot.org}{\tt http\-://www.\-openpilot.\-org} \-Copyright (\-C) 2010. 
+
+\-Tau \-Labs, \href{http://taulabs.org,}{\tt http\-://taulabs.\-org,} \-Copyright (\-C) 2012-\/2013 
+\end{DoxyAuthor}
+\begin{DoxySeeAlso}{\-See also}
+\-The \-G\-N\-U \-Public \-License (\-G\-P\-L) \-Version 3 
+\end{DoxySeeAlso}
+
+
+\-Definition in file \hyperlink{pios__usbhook_8h_source}{pios\-\_\-usbhook.\-h}.
+

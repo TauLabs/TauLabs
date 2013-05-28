@@ -1,0 +1,47 @@
+\hypertarget{classqssp}{\section{qssp \-Class \-Reference}
+\label{classqssp}\index{qssp@{qssp}}
+}
+
+
+{\ttfamily \#include $<$qssp.\-h$>$}
+
+\-Inheritance diagram for qssp\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classqssp}
+\end{center}
+\end{figure}
+\subsection*{\-Public \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___uploader_ga78a7ba52d304ce0352e013e99e98820d}{pf\-Call\-Back} (uint8\-\_\-t $\ast$, uint16\-\_\-t)
+\item 
+int16\-\_\-t \hyperlink{group___uploader_ga11e7402dcc0d8efde83d13592279f122}{ssp\-\_\-\-Receive\-Process} ()
+\begin{DoxyCompactList}\small\item\em \-Runs the receive process. fetches a byte at a time and runs the byte through the protocol receive state machine. \end{DoxyCompactList}\item 
+int16\-\_\-t \hyperlink{group___uploader_gaa1b44e385ddf057c81585809dc71e4ba}{ssp\-\_\-\-Send\-Process} ()
+\begin{DoxyCompactList}\small\item\em \-Runs the send process, checks for receipt of ack, timeouts and resends if needed. \end{DoxyCompactList}\item 
+uint16\-\_\-t \hyperlink{group___uploader_ga53a085c64c9a0e54a10cefe2ce660714}{ssp\-\_\-\-Send\-String} (char $\ast$str)
+\item 
+int16\-\_\-t \hyperlink{group___uploader_gae129d1cdf9ba386b6cd8002176a35a3b}{ssp\-\_\-\-Send\-Data} (const uint8\-\_\-t $\ast$data, const uint16\-\_\-t \hyperlink{uavobjecttemplate_8m_a076bf56c9bafa07f3dbda4901a40d84c}{length})
+\begin{DoxyCompactList}\small\item\em sends a chunk of data and does not block \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___uploader_gaa7efad31d36502cca3aab3e4eed10d12}{ssp\-\_\-\-Init} (const \hyperlink{struct_port_config__t}{\-Port\-Config\-\_\-t} $\ast$const info)
+\begin{DoxyCompactList}\small\item\em \-Initializes the communication port for use. \end{DoxyCompactList}\item 
+int16\-\_\-t \hyperlink{group___uploader_gae06a33d9cc36f1b95bb0bc0a5ab8ca3a}{ssp\-\_\-\-Receive\-Byte} ()
+\begin{DoxyCompactList}\small\item\em processes a single byte through the receive state machine. \end{DoxyCompactList}\item 
+uint16\-\_\-t \hyperlink{group___uploader_ga6f47e7cf74215ceeaf3d6234ef0c37b7}{ssp\-\_\-\-Synchronise} ()
+\begin{DoxyCompactList}\small\item\em \-Attempts to synchronize the sequence numbers with the other end of the connectin. \end{DoxyCompactList}\item 
+\hyperlink{group___uploader_ga6b7f70326e497709fc513c3d122379cb}{qssp} (\hyperlink{classport}{port} $\ast$info, bool debug)
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-Public \-Data \-E\-X\-T\-E\-R\-N\-A\-L \-F\-U\-N\-C\-T\-I\-O\-N\-S 
+
+\-Definition at line 89 of file qssp.\-h.
+
+
+
+\-The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/plugins/uploader/\-S\-S\-P/\hyperlink{qssp_8h}{qssp.\-h}\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/plugins/uploader/\-S\-S\-P/\hyperlink{qssp_8cpp}{qssp.\-cpp}\end{DoxyCompactItemize}

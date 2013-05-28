@@ -1,0 +1,1503 @@
+\hypertarget{group___p_i_o_s}{\section{\-P\-I\-O\-S \-Core hardware abstraction layer}
+\label{group___p_i_o_s}\index{\-P\-I\-O\-S Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}}
+}
+\subsection*{\-Modules}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___w_a_v_e_p_l_a_y_e_r___private___defines}{\-W\-A\-V\-E\-P\-L\-A\-Y\-E\-R\-\_\-\-Private\-\_\-\-Defines}
+\item 
+\hyperlink{group___w_a_v_e_p_l_a_y_e_r___exported___constants}{\-W\-A\-V\-E\-P\-L\-A\-Y\-E\-R\-\_\-\-Exported\-\_\-\-Constants}
+\item 
+\hyperlink{group___w_a_v_e_p_l_a_y_e_r___private___macros}{\-W\-A\-V\-E\-P\-L\-A\-Y\-E\-R\-\_\-\-Private\-\_\-\-Macros}
+\item 
+\hyperlink{group___w_a_v_e_p_l_a_y_e_r___private___variables}{\-W\-A\-V\-E\-P\-L\-A\-Y\-E\-R\-\_\-\-Private\-\_\-\-Variables}
+\item 
+\hyperlink{group___p_i_o_s___d_e_b_u_g}{\-Debugging Functions}
+\begin{DoxyCompactList}\small\item\em \-Debugging functionality. \end{DoxyCompactList}\item 
+\hyperlink{group___p_i_o_s___g_p_i_o}{\-G\-P\-I\-O Functions}
+\begin{DoxyCompactList}\small\item\em \-G\-P\-I\-O hardware code for \-S\-T\-M32. \end{DoxyCompactList}\item 
+\hyperlink{group___p_i_o_s___a_d_c}{\-A\-D\-C Functions}
+\begin{DoxyCompactList}\small\item\em \-Upper level \-Analog to \-Digital converter layer. \end{DoxyCompactList}\item 
+\hyperlink{group___p_i_o_s___a_d_x_l345}{\-A\-D\-X\-L345 Functions}
+\begin{DoxyCompactList}\small\item\em \-Deals with the hardware interface to the \-B\-M\-A180 3-\/axis accelerometer. \end{DoxyCompactList}\item 
+\hyperlink{group___p_i_o_s___b_m_a180}{\-B\-M\-A180 Functions}
+\begin{DoxyCompactList}\small\item\em \-Deals with the hardware interface to the \-B\-M\-A180 3-\/axis accelerometer. \end{DoxyCompactList}\item 
+\hyperlink{group___p_i_o_s___b_m_p085}{\-B\-M\-P085 Functions}
+\begin{DoxyCompactList}\small\item\em \-Hardware functions to deal with the altitude pressure sensor. \end{DoxyCompactList}\item 
+\hyperlink{group___p_i_o_s___c_o_m}{\-C\-O\-M layer functions}
+\begin{DoxyCompactList}\small\item\em \-Hardware communication layer. \end{DoxyCompactList}\item 
+\hyperlink{group___p_i_o_s___e_t_a_s_v3}{\-E\-T\-A\-S\-V3 Functions}
+\begin{DoxyCompactList}\small\item\em \-Hardware functions to deal with the \-Eagle \-Tree \-Airspeed \-Micro\-Sensor \-V3. \end{DoxyCompactList}\item 
+\hyperlink{group___p_i_o_s___f_l_a_s_h}{\-Flash device handler}
+\begin{DoxyCompactList}\small\item\em \-Flash \-Driver \-A\-P\-I \-Definition. \end{DoxyCompactList}\item 
+\hyperlink{group___p_i_o_s___f_l_a_s_h_f_s}{\-Flash Filesystem Function}
+\begin{DoxyCompactList}\small\item\em \-Log \-Structured \-Filesystem for internal or external \-N\-O\-R \-Flash. \end{DoxyCompactList}\item 
+\hyperlink{group___p_i_o_s___g_c_s_r_c_v_r}{\-G\-C\-S Receiver Input Functions}
+\begin{DoxyCompactList}\small\item\em \-Code to read the channels within the \-G\-C\-S \-Receiver \-U\-A\-V\-Object. \end{DoxyCompactList}\item 
+\hyperlink{group___p_i_o_s___h_c_s_r04}{\-H\-C\-S\-R04 Functions}
+\begin{DoxyCompactList}\small\item\em \-Hardware functions to deal with the altitude pressure sensor. \end{DoxyCompactList}\item 
+\hyperlink{group___p_i_o_s___h_m_c5843}{\-H\-M\-C5843 Functions}
+\begin{DoxyCompactList}\small\item\em \-Deals with the hardware interface to the magnetometers. \end{DoxyCompactList}\item 
+\hyperlink{group___p_i_o_s___h_m_c5883}{\-H\-M\-C5883 Functions}
+\begin{DoxyCompactList}\small\item\em \-Deals with the hardware interface to the magnetometers. \end{DoxyCompactList}\item 
+\hyperlink{group___p_i_o_s___i2_c___e_s_c}{\-Code for controlling I2\-C based E\-S\-Cs}
+\begin{DoxyCompactList}\small\item\em \-Deals with the hardware interface to the magnetometers. \end{DoxyCompactList}\item 
+\hyperlink{group___p_i_o_s___l3_g_d20}{\-L3\-G\-D20 Functions}
+\begin{DoxyCompactList}\small\item\em \-Deals with the hardware interface to the 3-\/axis gyro. \end{DoxyCompactList}\item 
+\hyperlink{group___p_i_o_s___l_s_m303}{\-L\-S\-M303 Functions}
+\begin{DoxyCompactList}\small\item\em \-L\-S\-M303 3-\/axis accelerometer and 3-\/axis magnetometer driver. \end{DoxyCompactList}\item 
+\hyperlink{group___p_i_o_s___m_p_u6000}{\-M\-P\-U6000 Functions}
+\begin{DoxyCompactList}\small\item\em \-Deals with the hardware interface to the 3-\/axis gyro. \end{DoxyCompactList}\item 
+\hyperlink{group___p_i_o_s___m_p_u6050}{\-M\-P\-U6050 Functions}
+\begin{DoxyCompactList}\small\item\em \-Deals with the hardware interface to the 3-\/axis gyro. \end{DoxyCompactList}\item 
+\hyperlink{group___p_i_o_s___m_p_u9150}{\-M\-P\-U9150 Functions}
+\begin{DoxyCompactList}\small\item\em \-Deals with the hardware interface to the 3-\/axis gyro. \end{DoxyCompactList}\item 
+\hyperlink{group___p_i_o_s___m_p_x_v5004}{\-M\-P\-X\-V5004 Functions}
+\begin{DoxyCompactList}\small\item\em \-Hardware functions to deal with the \-D\-I\-Y\-Drones airspeed kit, using \-M\-P\-X\-V5004. \-This is a differential sensor, so the value returned is first converted into calibrated airspeed, using \href{http://en.wikipedia.org/wiki/Calibrated_airspeed}{\tt http\-://en.\-wikipedia.\-org/wiki/\-Calibrated\-\_\-airspeed}. \end{DoxyCompactList}\item 
+\hyperlink{group___p_i_o_s___m_p_x_v7002}{\-M\-P\-X\-V7002 Functions}
+\begin{DoxyCompactList}\small\item\em \-Hardware functions to deal with the \-D\-I\-Y\-Drones airspeed kit, using \-M\-P\-X\-V7002. \-This is a differential sensor, so the value returned is first converted into calibrated airspeed, using \href{http://en.wikipedia.org/wiki/Calibrated_airspeed}{\tt http\-://en.\-wikipedia.\-org/wiki/\-Calibrated\-\_\-airspeed}. \end{DoxyCompactList}\item 
+\hyperlink{group___p_i_o_s___m_s5611}{\-M\-S5611 Functions}
+\begin{DoxyCompactList}\small\item\em \-Hardware functions to deal with the altitude pressure sensor. \end{DoxyCompactList}\item 
+\hyperlink{group___p_i_o_s___o_p_a_h_r_s}{\-O\-P\-A\-H\-R\-S Functions}
+\begin{DoxyCompactList}\small\item\em \-H\-A\-L code to interface to the \-Open\-Pilot \-A\-H\-R\-S module. \end{DoxyCompactList}\item 
+\hyperlink{group___p_i_o_s___p_c_f8591___a_d_c}{\-P\-C\-F8591 A\-D\-C Functions}
+\item 
+\hyperlink{group___p_i_o_s___r_f_m22_b}{\-Radio Functions}
+\begin{DoxyCompactList}\small\item\em \-P\-I\-O\-S interface for for the \-R\-F\-M22\-B radio. \end{DoxyCompactList}\item 
+\hyperlink{group___p_i_o_s___s_bus}{\-Futaba S.\-Bus receiver functions}
+\begin{DoxyCompactList}\small\item\em \-Code to read \-Futaba \-S.\-Bus receiver serial stream. \end{DoxyCompactList}\item 
+\hyperlink{group___p_i_o_s___s_d_c_a_r_d}{\-S\-D\-Card Functions}
+\begin{DoxyCompactList}\small\item\em \-Code to deal with reading and writing to flash cards. \end{DoxyCompactList}\item 
+\hyperlink{group___p_i_o_s___s_e_n_s_o_r_s}{\-Generic sensor interface functions}
+\begin{DoxyCompactList}\small\item\em \-Generic interface for sensors. \end{DoxyCompactList}\item 
+\hyperlink{group___p_i_o_s___u_s_b___d_e_s_c}{\-U\-S\-B Descriptor definitions}
+\begin{DoxyCompactList}\small\item\em \-U\-S\-B \-Descriptor definitions for \-H\-I\-D and \-C\-D\-C. \end{DoxyCompactList}\item 
+\hyperlink{group___p_i_o_s___u_s_b___u_t_i_l}{\-U\-S\-B utility functions}
+\begin{DoxyCompactList}\small\item\em \-U\-S\-B utility functions. \end{DoxyCompactList}\item 
+\hyperlink{group___p_i_o_s___v_i_d_e_o}{\-Code for O\-S\-D video generator}
+\begin{DoxyCompactList}\small\item\em \-O\-S\-D generator, \-Parts from \-C\-L-\/\-O\-S\-D and \-S\-U\-P\-E\-R\-O\-S\-D project. \end{DoxyCompactList}\item 
+\hyperlink{group___p_i_o_s___w_a_v_p_l_a_y}{\-Code for wave audio generator}
+\begin{DoxyCompactList}\small\item\em \-Wave audio generator. \end{DoxyCompactList}\item 
+\hyperlink{group___p_i_o_s___b_o_o_t_l_o_a_d_e_r}{\-Functions}
+\begin{DoxyCompactList}\small\item\em \-H\-A\-L code to interface to the \-Open\-Pilot \-A\-H\-R\-S module. \end{DoxyCompactList}\item 
+\hyperlink{group___p_i_o_s___c_r_c}{\-C\-R\-C Functions}
+\item 
+\hyperlink{group___p_i_o_s___d_e_l_a_y}{\-Delay Functions}
+\begin{DoxyCompactList}\small\item\em \-Pi\-O\-S \-Delay functionality. \end{DoxyCompactList}\item 
+\hyperlink{group___p_i_o_s___d_s_m}{\-Spektrum/\-J\-R D\-S\-Mx satellite receiver functions}
+\begin{DoxyCompactList}\small\item\em \-P\-I\-O\-S interface to bind and read \-Spektrum/\-J\-R \-D\-S\-Mx satellite receiver. \end{DoxyCompactList}\item 
+\hyperlink{group___p_i_o_s___e_e_p_r_o_m}{\-E\-E\-P\-R\-O\-M reading/writing functions}
+\begin{DoxyCompactList}\small\item\em \-P\-I\-O\-S \-E\-E\-P\-R\-O\-M reading/writing functions. \end{DoxyCompactList}\item 
+\hyperlink{group___p_i_o_s___e_x_t_i}{\-External Interrupt Handlers}
+\begin{DoxyCompactList}\small\item\em \-External interrupt handler functions. \end{DoxyCompactList}\item 
+\hyperlink{group___p_i_o_s___i2_c}{\-I2\-C Functions}
+\begin{DoxyCompactList}\small\item\em \-S\-T\-M32 \-Hardware dependent \-I2\-C functionality. \end{DoxyCompactList}\item 
+\hyperlink{group___p_i_o_s___i_n_i_t_c_a_l_l}{\-Generic Initcall Macros}
+\begin{DoxyCompactList}\small\item\em \-Initcall \-Macros. \end{DoxyCompactList}\item 
+\hyperlink{group___p_i_o_s___i_n_t_e_r_n_a_l___a_d_c}{\-Internal A\-D\-C Functions}
+\item 
+\hyperlink{group___p_i_o_s___i_r_q}{\-I\-R\-Q Setup Functions}
+\begin{DoxyCompactList}\small\item\em \-S\-T\-M32 \-Hardware code to enable and disable interrupts. \end{DoxyCompactList}\item 
+\hyperlink{group___p_i_o_s___l_e_d}{\-L\-E\-D Functions}
+\begin{DoxyCompactList}\small\item\em \-P\-I\-O\-S interface for \-L\-E\-Ds. \end{DoxyCompactList}\item 
+\hyperlink{group___p_i_o_s___m_p_u60_x0}{\-M\-P\-U60\-X0 Functions}
+\begin{DoxyCompactList}\small\item\em \-Deals with the hardware interface to the 3-\/axis gyro. \end{DoxyCompactList}\item 
+\hyperlink{group___p_i_o_s___o_v_e_r_o}{\-Overo Functions}
+\begin{DoxyCompactList}\small\item\em \-P\-I\-O\-S interface to read and write to overo. \end{DoxyCompactList}\item 
+\hyperlink{group___p_i_o_s___p_p_m}{\-P\-P\-M Input Functions}
+\begin{DoxyCompactList}\small\item\em \-P\-I\-O\-S interface to read and write from ppm port. \end{DoxyCompactList}\item 
+\hyperlink{group___p_i_o_s___p_w_m}{\-P\-W\-M Input Functions}
+\begin{DoxyCompactList}\small\item\em \-Code to measure with \-P\-W\-M input. \end{DoxyCompactList}\item 
+\hyperlink{group___p_i_o_s___s_e_r_v_o}{\-Servo Functions}
+\begin{DoxyCompactList}\small\item\em \-P\-I\-O\-S interface to read and write from servo \-P\-W\-M ports. \end{DoxyCompactList}\item 
+\hyperlink{group___p_i_o_s___r_c_v_r}{\-R\-C\-V\-R layer functions}
+\begin{DoxyCompactList}\small\item\em \-Hardware communication layer. \end{DoxyCompactList}\item 
+\hyperlink{group___p_i_o_s___r_t_c}{\-R\-T\-C Functions}
+\begin{DoxyCompactList}\small\item\em \-P\-I\-O\-S interface for \-R\-T\-C tick. \end{DoxyCompactList}\item 
+\hyperlink{group___p_i_o_s___s_p_i}{\-S\-P\-I Functions}
+\begin{DoxyCompactList}\small\item\em \-P\-I\-O\-S interface to read and write from \-S\-P\-I ports. \end{DoxyCompactList}\item 
+\hyperlink{group___p_i_o_s___s_t_m32}{\-S\-T\-M32 H\-A\-L}
+\begin{DoxyCompactList}\small\item\em \-S\-T\-M32 specific global data structures. \end{DoxyCompactList}\item 
+\hyperlink{group___p_i_o_s___s_y_s}{\-System Functions}
+\begin{DoxyCompactList}\small\item\em \-P\-I\-O\-S \-System \-Initialization code. \end{DoxyCompactList}\item 
+\hyperlink{group___p_i_o_s___u_s_a_r_t}{\-U\-S\-A\-R\-T Functions}
+\begin{DoxyCompactList}\small\item\em \-P\-I\-O\-S interface for \-U\-S\-A\-R\-T port. \end{DoxyCompactList}\item 
+\hyperlink{group___p_i_o_s___u_s_b}{\-U\-S\-B Functions}
+\begin{DoxyCompactList}\small\item\em \-P\-I\-O\-S interface for \-U\-S\-B device driver. \end{DoxyCompactList}\item 
+\hyperlink{group___p_i_o_s___u_s_b___b_o_a_r_d}{\-U\-S\-B board layer functions}
+\item 
+\hyperlink{group___p_i_o_s___u_s_b___c_o_m}{\-U\-S\-B C\-D\-C C\-O\-M layer functions}
+\begin{DoxyCompactList}\small\item\em \-Hardware communication layer. \end{DoxyCompactList}\item 
+\hyperlink{group___p_i_o_s___u_s_b___d_e_f_s}{\-U\-S\-B standard types and definitions}
+\begin{DoxyCompactList}\small\item\em \-U\-S\-B \-Standard types and definitions. \end{DoxyCompactList}\item 
+\hyperlink{group___p_i_o_s___u_s_b___h_i_d}{\-U\-S\-B H\-I\-D Functions}
+\begin{DoxyCompactList}\small\item\em \-P\-I\-O\-S \-U\-S\-B \-C\-O\-M implementation for \-H\-I\-D interfaces  \-This implements serial emulation over \-H\-I\-D reports. \end{DoxyCompactList}\item 
+\hyperlink{group___p_i_o_s___u_s_b_h_o_o_k}{\-U\-S\-B glue code}
+\begin{DoxyCompactList}\small\item\em \-Glue between \-Pi\-O\-S and \-S\-T\-M32 libs. \end{DoxyCompactList}\item 
+\hyperlink{group___p_i_o_s___w_d_g}{\-Watchdog Functions}
+\begin{DoxyCompactList}\small\item\em \-P\-I\-O\-S \-Comamnds to initialize and clear watchdog timer. \end{DoxyCompactList}\item 
+\hyperlink{group___p_i_o_s___u_s_b___r_c_t_x}{\-U\-S\-B R\-C Transmitter/\-Joystick Functions}
+\begin{DoxyCompactList}\small\item\em \-P\-I\-O\-S \-U\-S\-B implementation for a \-H\-I\-D \-Joystick  \-This implements transmitter/joystick emulation over \-H\-I\-D reports. \end{DoxyCompactList}\item 
+\hyperlink{group___p_i_o_s___i_a_p}{\-I\-A\-P Functions}
+\begin{DoxyCompactList}\small\item\em \-S\-T\-M32\-F4xx \-Hardware dependent \-I2\-C functionality. \end{DoxyCompactList}\item 
+\hyperlink{group___p_i_o_s___t_i_m}{\-Timer Functions}
+\begin{DoxyCompactList}\small\item\em \-P\-I\-O\-S \-Timer control code. \end{DoxyCompactList}\item 
+\hyperlink{group___free_r_t_o_s}{\-Free\-R\-T\-O\-S}
+\end{DoxyCompactItemize}
+\subsection*{\-Files}
+\begin{DoxyCompactItemize}
+\item 
+file \hyperlink{printf-stdarg_8c}{printf-\/stdarg.\-c}
+\begin{DoxyCompactList}\small\item\em \-Formatted print functions. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef const void( \hyperlink{group___p_i_o_s_ga3c46a32d92954306e54f6e9acdd9eaac}{vector} )(void)
+\item 
+typedef const void( \hyperlink{group___p_i_o_s_ga3c46a32d92954306e54f6e9acdd9eaac}{vector} )(void)
+\end{DoxyCompactItemize}
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{group___p_i_o_s_ga98631211a4a8aee62f572375d5b637be}{printf} (const char $\ast$format,...)
+\item 
+int \hyperlink{group___p_i_o_s_gaae4ab8b56862ed0a04505cafb8a05112}{vprintf} (const char $\ast$format, va\-\_\-list args)
+\item 
+int \hyperlink{group___p_i_o_s_gaa0649118bc3728b2a62af0b47606ff51}{sprintf} (char $\ast$out, const char $\ast$format,...)
+\item 
+int \hyperlink{group___p_i_o_s_ga7408e892dd48c6ce39b5821d917a3dd2}{vsprintf} (char $\ast$out, const char $\ast$format, va\-\_\-list args)
+\item 
+int \hyperlink{group___p_i_o_s_gaf78a52a59a43dc156963dbbab958a468}{snprintf} (char $\ast$buf, size\-\_\-t count, const char $\ast$format,...)
+\item 
+void \hyperlink{group___p_i_o_s_ga4c168099ccb82fb36167e031a5907c57}{\-Open\-Pilot\-Init} (void)
+\item 
+int \hyperlink{group___p_i_o_s_ga840291bc02cba5474a4cb46a9b9566fe}{main} (void)
+\item 
+void \hyperlink{group___p_i_o_s_gabaa8f446abb569a6f850a328569bec9f}{\-\_\-main} (void)
+\item 
+\hyperlink{group___p_i_o_s_ga22781b76899c3e04d207a6991cc99bf4}{\-H\-A\-N\-D\-L\-E\-R} (\-N\-M\-I\-\_\-\-Handler)
+\item 
+\hyperlink{group___p_i_o_s_ga3e5203ca6ee79d2c3590d430095858ba}{\-H\-A\-N\-D\-L\-E\-R} (\-Hard\-Fault\-\_\-\-Handler)
+\item 
+\hyperlink{group___p_i_o_s_ga613a3f3451967f46994b6cda45edb3a1}{\-H\-A\-N\-D\-L\-E\-R} (\-Mem\-Manage\-\_\-\-Handler)
+\item 
+\hyperlink{group___p_i_o_s_gaa3b3d1c4145924c2bcb1f6ecbbb65de9}{\-H\-A\-N\-D\-L\-E\-R} (\-Bus\-Fault\-\_\-\-Handler)
+\item 
+\hyperlink{group___p_i_o_s_ga0c2094e67c27767c96a07a3ffa5ce62b}{\-H\-A\-N\-D\-L\-E\-R} (\-Usage\-Fault\-\_\-\-Handler)
+\item 
+\hyperlink{group___p_i_o_s_gae155b63ec7087004e2fbf61c1f29c81b}{\-H\-A\-N\-D\-L\-E\-R} (\-Debug\-Mon\-\_\-\-Handler)
+\item 
+\hyperlink{group___p_i_o_s_ga67d6ce2f5112b5c4b1269e6353f23769}{\-H\-A\-N\-D\-L\-E\-R} (v\-Port\-S\-V\-C\-Handler)
+\item 
+\hyperlink{group___p_i_o_s_ga34841d66016106a71850a3c0efb0cbe7}{\-H\-A\-N\-D\-L\-E\-R} (x\-Port\-Pend\-S\-V\-Handler)
+\item 
+\hyperlink{group___p_i_o_s_ga3475219dea921ff367d4230f32172c25}{\-H\-A\-N\-D\-L\-E\-R} (x\-Port\-Sys\-Tick\-Handler)
+\item 
+struct cm3\-\_\-vectors cpu\-\_\-vectors \hyperlink{group___p_i_o_s_gaa3091d7ad2e376e149c455e647ad1f03}{\-\_\-\-\_\-attribute} ((section(\char`\"{}.cpu\-\_\-vectors\char`\"{})))
+\item 
+\hyperlink{group___p_i_o_s_ga2b6188c113332aeef4dfae90570b2a7c}{\-H\-A\-N\-D\-L\-E\-R} (\-Reserved\-\_\-\-I\-R\-Q\-Handler)
+\item 
+\hyperlink{group___p_i_o_s_gacc51fb846ad8dc05370ab051b0307eff}{\-H\-A\-N\-D\-L\-E\-R} (\-W\-W\-D\-G\-\_\-\-I\-R\-Q\-Handler)
+\item 
+\hyperlink{group___p_i_o_s_gacaf5a0d71233fe05229985176913af99}{\-H\-A\-N\-D\-L\-E\-R} (\-P\-V\-D\-\_\-\-I\-R\-Q\-Handler)
+\item 
+\hyperlink{group___p_i_o_s_ga24e33b33d441bd37d1127c6d8b43af02}{\-H\-A\-N\-D\-L\-E\-R} (\-T\-A\-M\-P\-\_\-\-S\-T\-A\-M\-P\-\_\-\-I\-R\-Q\-Handler)
+\item 
+\hyperlink{group___p_i_o_s_ga6c0711ebc5e0b1aaf3e7c7555be644b0}{\-H\-A\-N\-D\-L\-E\-R} (\hyperlink{group___sparky_ga7e78266985c97f3b7e8a9f91893657d1}{\-R\-T\-C\-\_\-\-W\-K\-U\-P\-\_\-\-I\-R\-Q\-Handler})
+\item 
+\hyperlink{group___p_i_o_s_gad2d12e5da34f9831f5fb626f4d6f9258}{\-H\-A\-N\-D\-L\-E\-R} (\-F\-L\-A\-S\-H\-\_\-\-I\-R\-Q\-Handler)
+\item 
+\hyperlink{group___p_i_o_s_gaa39ba7a7b9c4858c671e0e0811fbdf15}{\-H\-A\-N\-D\-L\-E\-R} (\-R\-C\-C\-\_\-\-I\-R\-Q\-Handler)
+\item 
+\hyperlink{group___p_i_o_s_ga4d34c7117246e20017f92377a86ef1d8}{\-H\-A\-N\-D\-L\-E\-R} (\hyperlink{group___p_i_o_s___e_x_t_i_ga17e9789a29a87d2df54f12b94dd1a0b6}{\-E\-X\-T\-I0\-\_\-\-I\-R\-Q\-Handler})
+\item 
+\hyperlink{group___p_i_o_s_ga45e5b700a5acc59f46c85542ef3ced58}{\-H\-A\-N\-D\-L\-E\-R} (\hyperlink{group___p_i_o_s___e_x_t_i_ga49cfdd46eb8d0ef3e1987514aa9343dc}{\-E\-X\-T\-I1\-\_\-\-I\-R\-Q\-Handler})
+\item 
+\hyperlink{group___p_i_o_s_ga0447579d55e271d7a793046ae6eca6e4}{\-H\-A\-N\-D\-L\-E\-R} (\-E\-X\-T\-I2\-\_\-\-T\-S\-\_\-\-I\-R\-Q\-Handler)
+\item 
+\hyperlink{group___p_i_o_s_gaad3527eb1b913871844c4e19b1208781}{\-H\-A\-N\-D\-L\-E\-R} (\hyperlink{group___p_i_o_s___e_x_t_i_ga30c045de96d18ec9c67a7b9e4350920f}{\-E\-X\-T\-I3\-\_\-\-I\-R\-Q\-Handler})
+\item 
+\hyperlink{group___p_i_o_s_ga9b52b435e765f418d0b20373ebf7d3de}{\-H\-A\-N\-D\-L\-E\-R} (\hyperlink{group___p_i_o_s___e_x_t_i_ga290cb997018c8d85d4b965b4a242842f}{\-E\-X\-T\-I4\-\_\-\-I\-R\-Q\-Handler})
+\item 
+\hyperlink{group___p_i_o_s_ga9e2d769f4c4643f6f859b5ef04d6d8df}{\-H\-A\-N\-D\-L\-E\-R} (\hyperlink{group___pip_xtreme_gabd49de55f82b1a0be3edaaf34dbe4b14}{\-D\-M\-A1\-\_\-\-Channel1\-\_\-\-I\-R\-Q\-Handler})
+\item 
+\hyperlink{group___p_i_o_s_gadf12505dd17ab67ac8f1ef1acd5722b2}{\-H\-A\-N\-D\-L\-E\-R} (\hyperlink{group___copter_control_ga4055152a9bfe1072e00247cc351276ba}{\-D\-M\-A1\-\_\-\-Channel2\-\_\-\-I\-R\-Q\-Handler})
+\item 
+\hyperlink{group___p_i_o_s_gad3ca30cca745b268027f50e556588fa5}{\-H\-A\-N\-D\-L\-E\-R} (\-D\-M\-A1\-\_\-\-Channel3\-\_\-\-I\-R\-Q\-Handler)
+\item 
+\hyperlink{group___p_i_o_s_ga1d58ca450480446a2c488dc53001f493}{\-H\-A\-N\-D\-L\-E\-R} (\hyperlink{group___copter_control_ga9cdc63af1166aec768f87546a48bec8d}{\-D\-M\-A1\-\_\-\-Channel4\-\_\-\-I\-R\-Q\-Handler})
+\item 
+\hyperlink{group___p_i_o_s_ga3d879eb7c368ae3e534bfcdbff172109}{\-H\-A\-N\-D\-L\-E\-R} (\hyperlink{group___pip_xtreme_ga8e3a6d7ba4b5da3ec8decb912bd80943}{\-D\-M\-A1\-\_\-\-Channel5\-\_\-\-I\-R\-Q\-Handler})
+\item 
+\hyperlink{group___p_i_o_s_gade543c66fd60c4e916129eafa94a335c}{\-H\-A\-N\-D\-L\-E\-R} (\-D\-M\-A1\-\_\-\-Channel6\-\_\-\-I\-R\-Q\-Handler)
+\item 
+\hyperlink{group___p_i_o_s_ga6c9ed7169954db94ef46ab39ce85d6f1}{\-H\-A\-N\-D\-L\-E\-R} (\-D\-M\-A1\-\_\-\-Channel7\-\_\-\-I\-R\-Q\-Handler)
+\item 
+\hyperlink{group___p_i_o_s_ga26b03512a0e5375eee51ef8d4b03c748}{\-H\-A\-N\-D\-L\-E\-R} (\-A\-D\-C1\-\_\-2\-\_\-\-I\-R\-Q\-Handler)
+\item 
+\hyperlink{group___p_i_o_s_gae24dca6ba50882215c910dcf23a3ef10}{\-H\-A\-N\-D\-L\-E\-R} (\-U\-S\-B\-\_\-\-H\-P\-\_\-\-C\-A\-N1\-\_\-\-T\-X\-\_\-\-I\-R\-Q\-Handler)
+\item 
+\hyperlink{group___p_i_o_s_ga46ab0ef22d9e34e51ecb3f08ab2a3a8b}{\-H\-A\-N\-D\-L\-E\-R} (\hyperlink{_s_t_m32_f30x_2pios__usb__hid__istr_8c_af57bde854fa2b396f29664995a502b19}{\-U\-S\-B\-\_\-\-L\-P\-\_\-\-C\-A\-N1\-\_\-\-R\-X0\-\_\-\-I\-R\-Q\-Handler})
+\item 
+\hyperlink{group___p_i_o_s_gae1b19bec9df0a07c35af20be43d4afa4}{\-H\-A\-N\-D\-L\-E\-R} (\-C\-A\-N1\-\_\-\-R\-X1\-\_\-\-I\-R\-Q\-Handler)
+\item 
+\hyperlink{group___p_i_o_s_gaf3bd936674d03387b3fbc7b23ac49493}{\-H\-A\-N\-D\-L\-E\-R} (\-C\-A\-N1\-\_\-\-S\-C\-E\-\_\-\-I\-R\-Q\-Handler)
+\item 
+\hyperlink{group___p_i_o_s_ga8e7e5161f04ddaad1a46275ef60af5b3}{\-H\-A\-N\-D\-L\-E\-R} (\hyperlink{group___p_i_o_s___e_x_t_i_ga7b2096b8b2643286dc3a7e5110e5ae85}{\-E\-X\-T\-I9\-\_\-5\-\_\-\-I\-R\-Q\-Handler})
+\item 
+\hyperlink{group___p_i_o_s_gaef5ecd9aa5c79599d6e13d627bccd933}{\-H\-A\-N\-D\-L\-E\-R} (\hyperlink{group___p_i_o_s___t_i_m_ga37c3c8d5fe4f0106410dea2c1147b8a9}{\-T\-I\-M1\-\_\-\-B\-R\-K\-\_\-\-T\-I\-M15\-\_\-\-I\-R\-Q\-Handler})
+\item 
+\hyperlink{group___p_i_o_s_gad074af2e425b95b58e889f27da54ae7b}{\-H\-A\-N\-D\-L\-E\-R} (\hyperlink{group___p_i_o_s___t_i_m_gab19e96bc9fe4483b9fdf25047c61238e}{\-T\-I\-M1\-\_\-\-U\-P\-\_\-\-T\-I\-M16\-\_\-\-I\-R\-Q\-Handler})
+\item 
+\hyperlink{group___p_i_o_s_ga0be5a32ba5788641eb2e9dead9bf6fc0}{\-H\-A\-N\-D\-L\-E\-R} (\hyperlink{group___p_i_o_s___t_i_m_gaa96795d8fb4793f60135fad74ecb1d70}{\-T\-I\-M1\-\_\-\-T\-R\-G\-\_\-\-C\-O\-M\-\_\-\-T\-I\-M17\-\_\-\-I\-R\-Q\-Handler})
+\item 
+\hyperlink{group___p_i_o_s_gab03e032732f0ad22dc58da2637c4eb07}{\-H\-A\-N\-D\-L\-E\-R} (\hyperlink{group___p_i_o_s___t_i_m_gae8a61b27afdb07c70d6b863c44284ca6}{\-T\-I\-M1\-\_\-\-C\-C\-\_\-\-I\-R\-Q\-Handler})
+\item 
+\hyperlink{group___p_i_o_s_ga390d635886c3450d24f41c93d01afa93}{\-H\-A\-N\-D\-L\-E\-R} (\hyperlink{group___p_i_o_s___t_i_m_ga38ad4725462bdc5e86c4ead4f04b9fc2}{\-T\-I\-M2\-\_\-\-I\-R\-Q\-Handler})
+\item 
+\hyperlink{group___p_i_o_s_gaecb039356f5447d178398ce19716a5e5}{\-H\-A\-N\-D\-L\-E\-R} (\hyperlink{group___p_i_o_s___t_i_m_gac8e51d2183b5230cbd5481f8867adce9}{\-T\-I\-M3\-\_\-\-I\-R\-Q\-Handler})
+\item 
+\hyperlink{group___p_i_o_s_ga69c3c91cb4931a9f27a7ec197bd442eb}{\-H\-A\-N\-D\-L\-E\-R} (\hyperlink{group___p_i_o_s___t_i_m_ga7133f3f78767503641d307386e68bd28}{\-T\-I\-M4\-\_\-\-I\-R\-Q\-Handler})
+\item 
+\hyperlink{group___p_i_o_s_ga3f576078381cc740c5f4fd50e26d7312}{\-H\-A\-N\-D\-L\-E\-R} (\hyperlink{group___sparky_ga40edacd7797186e686829d1c3b43f4bc}{\-I2\-C1\-\_\-\-E\-V\-\_\-\-E\-X\-T\-I23\-\_\-\-I\-R\-Q\-Handler})
+\item 
+\hyperlink{group___p_i_o_s_gaa3febcc5f3cd972c88b93057bb941f52}{\-H\-A\-N\-D\-L\-E\-R} (\-I2\-C1\-\_\-\-E\-R\-\_\-\-I\-R\-Q\-Handler)
+\item 
+\hyperlink{group___p_i_o_s_ga4ef23887f4ca8f231e4e7d5dac1e6490}{\-H\-A\-N\-D\-L\-E\-R} (\hyperlink{group___sparky_ga860bdffadc546e3969c31b9b00c5d29c}{\-I2\-C2\-\_\-\-E\-V\-\_\-\-E\-X\-T\-I24\-\_\-\-I\-R\-Q\-Handler})
+\item 
+\hyperlink{group___p_i_o_s_gae93e0ca64a1196614305e8fb0f934cc6}{\-H\-A\-N\-D\-L\-E\-R} (\-I2\-C2\-\_\-\-E\-R\-\_\-\-I\-R\-Q\-Handler)
+\item 
+\hyperlink{group___p_i_o_s_ga62abd0a75fff43f7a3275a2ced1d32f0}{\-H\-A\-N\-D\-L\-E\-R} (\hyperlink{group___flying_f3_ga9bbd8c17ce4f49adcca47d11f482aab6}{\-S\-P\-I1\-\_\-\-I\-R\-Q\-Handler})
+\item 
+\hyperlink{group___p_i_o_s_gaacd1f2576272d789637f863ad084d0c5}{\-H\-A\-N\-D\-L\-E\-R} (\-S\-P\-I2\-\_\-\-I\-R\-Q\-Handler)
+\item 
+\hyperlink{group___p_i_o_s_ga15f854d07581b79a46522cf9462291bc}{\-H\-A\-N\-D\-L\-E\-R} (\hyperlink{group___p_i_o_s___u_s_a_r_t_ga9da740f6a7dda252db44255f54a3bee3}{\-U\-S\-A\-R\-T1\-\_\-\-E\-X\-T\-I25\-\_\-\-I\-R\-Q\-Handler})
+\item 
+\hyperlink{group___p_i_o_s_ga619c0fe57e74452982f8b139d23c958d}{\-H\-A\-N\-D\-L\-E\-R} (\hyperlink{group___p_i_o_s___u_s_a_r_t_ga4897c2dbb8e8ae70938922276f95800b}{\-U\-S\-A\-R\-T2\-\_\-\-E\-X\-T\-I26\-\_\-\-I\-R\-Q\-Handler})
+\item 
+\hyperlink{group___p_i_o_s_ga7b00a01c76ff4fe321f382353a91f177}{\-H\-A\-N\-D\-L\-E\-R} (\hyperlink{group___p_i_o_s___u_s_a_r_t_gaab980dd8a502127dc3ae895e77931bdd}{\-U\-S\-A\-R\-T3\-\_\-\-E\-X\-T\-I28\-\_\-\-I\-R\-Q\-Handler})
+\item 
+\hyperlink{group___p_i_o_s_ga612a35f8a94a6280c13843868268c306}{\-H\-A\-N\-D\-L\-E\-R} (\-E\-X\-T\-I15\-\_\-10\-\_\-\-I\-R\-Q\-Handler)
+\item 
+\hyperlink{group___p_i_o_s_gae0731c6d70ba277057df059abde85816}{\-H\-A\-N\-D\-L\-E\-R} (\-R\-T\-C\-\_\-\-Alarm\-\_\-\-I\-R\-Q\-Handler)
+\item 
+\hyperlink{group___p_i_o_s_ga21643f12372d277da96ae9cf6318a197}{\-H\-A\-N\-D\-L\-E\-R} (\-U\-S\-B\-\_\-\-W\-K\-U\-P\-\_\-\-I\-R\-Q\-Handler)
+\item 
+\hyperlink{group___p_i_o_s_ga73f3c95c6f0c9f0e20976cbfc6107445}{\-H\-A\-N\-D\-L\-E\-R} (\hyperlink{group___p_i_o_s___t_i_m_gaa2754c1d099a614d954b4b449fd5ea19}{\-T\-I\-M8\-\_\-\-B\-R\-K\-\_\-\-I\-R\-Q\-Handler})
+\item 
+\hyperlink{group___p_i_o_s_ga61af3452715de85c1208b7dc0f371c7c}{\-H\-A\-N\-D\-L\-E\-R} (\hyperlink{group___p_i_o_s___t_i_m_ga255e5267ee3275b665940ed1a61ae3ce}{\-T\-I\-M8\-\_\-\-U\-P\-\_\-\-I\-R\-Q\-Handler})
+\item 
+\hyperlink{group___p_i_o_s_ga3df951db7fa4ae71db65090983cb1947}{\-H\-A\-N\-D\-L\-E\-R} (\hyperlink{group___p_i_o_s___t_i_m_ga5e1addc9f7d3e0ffa4ed6ca284123043}{\-T\-I\-M8\-\_\-\-T\-R\-G\-\_\-\-C\-O\-M\-\_\-\-I\-R\-Q\-Handler})
+\item 
+\hyperlink{group___p_i_o_s_ga015d5c07ddbb9c51c66a77065a08c22a}{\-H\-A\-N\-D\-L\-E\-R} (\hyperlink{group___p_i_o_s___t_i_m_ga96e44d6fe80524f038da6254514316a4}{\-T\-I\-M8\-\_\-\-C\-C\-\_\-\-I\-R\-Q\-Handler})
+\item 
+\hyperlink{group___p_i_o_s_ga446e8dca18881d21381741e57a0e2853}{\-H\-A\-N\-D\-L\-E\-R} (\-A\-D\-C3\-\_\-\-I\-R\-Q\-Handler)
+\item 
+\hyperlink{group___p_i_o_s_ga8adae9815b64a37af214413ac6c1843a}{\-H\-A\-N\-D\-L\-E\-R} (\hyperlink{group___flying_f3_ga82987561e28d02b184ecb0515a5e5d2b}{\-S\-P\-I3\-\_\-\-I\-R\-Q\-Handler})
+\item 
+\hyperlink{group___p_i_o_s_ga5015849ca8d806a1625b3584cb5c962d}{\-H\-A\-N\-D\-L\-E\-R} (\hyperlink{group___p_i_o_s___u_s_a_r_t_ga552c5d505ae108eef11cd39ebc22773b}{\-U\-A\-R\-T4\-\_\-\-E\-X\-T\-I34\-\_\-\-I\-R\-Q\-Handler})
+\item 
+\hyperlink{group___p_i_o_s_ga40bf19e8e0d8608164a79fc0c9697b9f}{\-H\-A\-N\-D\-L\-E\-R} (\hyperlink{group___p_i_o_s___u_s_a_r_t_ga379570b068a7a67525c68b24831f77fd}{\-U\-A\-R\-T5\-\_\-\-E\-X\-T\-I35\-\_\-\-I\-R\-Q\-Handler})
+\item 
+\hyperlink{group___p_i_o_s_ga7b3222d00864779c700492060cc4dda9}{\-H\-A\-N\-D\-L\-E\-R} (\hyperlink{group___p_i_o_s___t_i_m_ga0839a45f331c4c067939b9c4533bbf4d}{\-T\-I\-M6\-\_\-\-D\-A\-C\-\_\-\-I\-R\-Q\-Handler})
+\item 
+\hyperlink{group___p_i_o_s_ga147fa8f18128bdddf9ee07691a5b00a3}{\-H\-A\-N\-D\-L\-E\-R} (\hyperlink{group___p_i_o_s___t_i_m_ga98cff83252098363b2dbca9608df964e}{\-T\-I\-M7\-\_\-\-I\-R\-Q\-Handler})
+\item 
+\hyperlink{group___p_i_o_s_ga6717e88a5b952955f7cbdf18a2407b0c}{\-H\-A\-N\-D\-L\-E\-R} (\-D\-M\-A2\-\_\-\-Channel1\-\_\-\-I\-R\-Q\-Handler)
+\item 
+\hyperlink{group___p_i_o_s_gaf2086766394e4d1b904c8c606332ee87}{\-H\-A\-N\-D\-L\-E\-R} (\-D\-M\-A2\-\_\-\-Channel2\-\_\-\-I\-R\-Q\-Handler)
+\item 
+\hyperlink{group___p_i_o_s_ga95ff74d750f8a2647ab624f233ec4546}{\-H\-A\-N\-D\-L\-E\-R} (\-D\-M\-A2\-\_\-\-Channel3\-\_\-\-I\-R\-Q\-Handler)
+\item 
+\hyperlink{group___p_i_o_s_gab5d0cd2c1bbe6a1eeaa91bc6b2c14ad9}{\-H\-A\-N\-D\-L\-E\-R} (\-D\-M\-A2\-\_\-\-Channel4\-\_\-\-I\-R\-Q\-Handler)
+\item 
+\hyperlink{group___p_i_o_s_ga1dc19efd10bf2b57f76e057d9658e34e}{\-H\-A\-N\-D\-L\-E\-R} (\-D\-M\-A2\-\_\-\-Channel5\-\_\-\-I\-R\-Q\-Handler)
+\item 
+\hyperlink{group___p_i_o_s_gaf4e7f7a30685280c61aeb5b7d8c00e25}{\-H\-A\-N\-D\-L\-E\-R} (\-A\-D\-C4\-\_\-\-I\-R\-Q\-Handler)
+\item 
+\hyperlink{group___p_i_o_s_ga6e46c1bfa9fb159be005578cbc9a51f8}{\-H\-A\-N\-D\-L\-E\-R} (\-C\-O\-M\-P1\-\_\-2\-\_\-3\-\_\-\-I\-R\-Q\-Handler)
+\item 
+\hyperlink{group___p_i_o_s_ga65ff2e4915c9602921fa55ee1b22ab95}{\-H\-A\-N\-D\-L\-E\-R} (\-C\-O\-M\-P4\-\_\-5\-\_\-6\-\_\-\-I\-R\-Q\-Handler)
+\item 
+\hyperlink{group___p_i_o_s_ga239a311cf01f1abba2e728f1be1019cf}{\-H\-A\-N\-D\-L\-E\-R} (\-C\-O\-M\-P7\-\_\-\-I\-R\-Q\-Handler)
+\item 
+\hyperlink{group___p_i_o_s_ga6fb28e184c11d412c0da98fdf5f85eb8}{\-H\-A\-N\-D\-L\-E\-R} (\-U\-S\-B\-\_\-\-H\-P\-\_\-\-I\-R\-Q\-Handler)
+\item 
+\hyperlink{group___p_i_o_s_gadc437f3a400a1fc9bc0bfe89c4be65f9}{\-H\-A\-N\-D\-L\-E\-R} (\-U\-S\-B\-\_\-\-L\-P\-\_\-\-I\-R\-Q\-Handler)
+\item 
+\hyperlink{group___p_i_o_s_gaa4d740a7c852a7547495df644d526cf7}{\-H\-A\-N\-D\-L\-E\-R} (\-U\-S\-B\-\_\-\-W\-K\-U\-P\-\_\-\-R\-M\-P\-\_\-\-I\-R\-Q\-Handler)
+\item 
+\hyperlink{group___p_i_o_s_gad4883dff4ea4e95dc98860af9735954b}{\-H\-A\-N\-D\-L\-E\-R} (\-F\-P\-U\-\_\-\-I\-R\-Q\-Handler)
+\item 
+\hyperlink{group___p_i_o_s_ga3c46a32d92954306e54f6e9acdd9eaac}{vector} $\ast$io\-\_\-vectors\mbox{[}$\,$\mbox{]} \hyperlink{group___p_i_o_s_ga8f4cc61b58aac9810254db781951ac28}{\-\_\-\-\_\-attribute\-\_\-\-\_\-} ((section(\char`\"{}.io\-\_\-vectors\char`\"{})))
+\item 
+\hyperlink{group___p_i_o_s_ga8f4231146f11b7ec2b7cfe4789a1afa3}{\-H\-A\-N\-D\-L\-E\-R} (\hyperlink{group___p_i_o_s___e_x_t_i_gab5a1d9e9c8ef50e0cb9ddb5745a20a14}{\-E\-X\-T\-I2\-\_\-\-I\-R\-Q\-Handler})
+\item 
+\hyperlink{group___p_i_o_s_ga13fe24463da7f0ad3f1c1967d5f85514}{\-H\-A\-N\-D\-L\-E\-R} (\hyperlink{group___revo_mini_ga1b70a4441662b1d6548e803499da414f}{\-D\-M\-A1\-\_\-\-Stream0\-\_\-\-I\-R\-Q\-Handler})
+\item 
+\hyperlink{group___p_i_o_s_ga56c01029b55ddc924fed289f14797c89}{\-H\-A\-N\-D\-L\-E\-R} (\-D\-M\-A1\-\_\-\-Stream1\-\_\-\-I\-R\-Q\-Handler)
+\item 
+\hyperlink{group___p_i_o_s_ga951ef6b9669d7229cc20eb36c4ed6d76}{\-H\-A\-N\-D\-L\-E\-R} (\-D\-M\-A1\-\_\-\-Stream2\-\_\-\-I\-R\-Q\-Handler)
+\item 
+\hyperlink{group___p_i_o_s_ga5a835df41056ec1fe998c5b2df30f8b1}{\-H\-A\-N\-D\-L\-E\-R} (\hyperlink{group___revolution_ga51d485393cf37043623c8bd0abae12a1}{\-D\-M\-A1\-\_\-\-Stream3\-\_\-\-I\-R\-Q\-Handler})
+\item 
+\hyperlink{group___p_i_o_s_gae2ae9fe1b7fbbac27ceaf8c085255ea7}{\-H\-A\-N\-D\-L\-E\-R} (\-D\-M\-A1\-\_\-\-Stream4\-\_\-\-I\-R\-Q\-Handler)
+\item 
+\hyperlink{group___p_i_o_s_ga91d06149cb05850dc812b4a3f8fcdf6f}{\-H\-A\-N\-D\-L\-E\-R} (\hyperlink{group___w_a_v_e_p_l_a_y_e_r___private___variables_gac201b60d58b0eba2ce0b55710eb3c4d0}{\-D\-M\-A1\-\_\-\-Stream5\-\_\-\-I\-R\-Q\-Handler})
+\item 
+\hyperlink{group___p_i_o_s_gaa0728c2b9fc9dc457309d801d78e95bd}{\-H\-A\-N\-D\-L\-E\-R} (\-D\-M\-A1\-\_\-\-Stream6\-\_\-\-I\-R\-Q\-Handler)
+\item 
+\hyperlink{group___p_i_o_s_gaeaae2b77eadbeae6679c9c80abe4af1e}{\-H\-A\-N\-D\-L\-E\-R} (\-A\-D\-C\-\_\-\-I\-R\-Q\-Handler)
+\item 
+\hyperlink{group___p_i_o_s_gaeea8d0e1d22529cde3b6e3257c391136}{\-H\-A\-N\-D\-L\-E\-R} (\-C\-A\-N1\-\_\-\-T\-X\-\_\-\-I\-R\-Q\-Handler)
+\item 
+\hyperlink{group___p_i_o_s_ga7453b7196fb31ff23a32f771aef37a4e}{\-H\-A\-N\-D\-L\-E\-R} (\-C\-A\-N1\-\_\-\-R\-X0\-\_\-\-I\-R\-Q\-Handler)
+\item 
+\hyperlink{group___p_i_o_s_gad650c0d1f4898574c29120ac55a2546f}{\-H\-A\-N\-D\-L\-E\-R} (\hyperlink{group___p_i_o_s___t_i_m_ga3b60f6118cdd3449f4ed29fde4704236}{\-T\-I\-M1\-\_\-\-B\-R\-K\-\_\-\-T\-I\-M9\-\_\-\-I\-R\-Q\-Handler})
+\item 
+\hyperlink{group___p_i_o_s_gaae58b36fbe035659376ee656ebdcab07}{\-H\-A\-N\-D\-L\-E\-R} (\hyperlink{group___p_i_o_s___t_i_m_gad1fd361bc5ad89facee67c76d1ff8dc0}{\-T\-I\-M1\-\_\-\-U\-P\-\_\-\-T\-I\-M10\-\_\-\-I\-R\-Q\-Handler})
+\item 
+\hyperlink{group___p_i_o_s_gacc5fee09d8594fbce1941ddb36631718}{\-H\-A\-N\-D\-L\-E\-R} (\hyperlink{group___p_i_o_s___t_i_m_ga098245bf4e2f8844b22692b034a266fb}{\-T\-I\-M1\-\_\-\-T\-R\-G\-\_\-\-C\-O\-M\-\_\-\-T\-I\-M11\-\_\-\-I\-R\-Q\-Handler})
+\item 
+\hyperlink{group___p_i_o_s_ga1783b0468c1bdb51696e3fa7484d15d9}{\-H\-A\-N\-D\-L\-E\-R} (\hyperlink{group___revo_mini_gad0e17b57fe51ed2861178f06899345c0}{\-I2\-C1\-\_\-\-E\-V\-\_\-\-I\-R\-Q\-Handler})
+\item 
+\hyperlink{group___p_i_o_s_ga03be10db0a301a884516b2bec72fd339}{\-H\-A\-N\-D\-L\-E\-R} (\hyperlink{group___revo_mini_gaa32a80208798d6132876a58823ff6202}{\-I2\-C2\-\_\-\-E\-V\-\_\-\-I\-R\-Q\-Handler})
+\item 
+\hyperlink{group___p_i_o_s_ga9c27c83d8c59cb384efcca34a7aaf531}{\-H\-A\-N\-D\-L\-E\-R} (\hyperlink{group___p_i_o_s___u_s_a_r_t_ga7139cd4baabbbcbab0c1fe6d7d4ae1cc}{\-U\-S\-A\-R\-T1\-\_\-\-I\-R\-Q\-Handler})
+\item 
+\hyperlink{group___p_i_o_s_gacd95f312186dc47a3c131c7df33a0384}{\-H\-A\-N\-D\-L\-E\-R} (\hyperlink{group___p_i_o_s___u_s_a_r_t_ga0ca6fd0e6f77921dd1123539857ba0a8}{\-U\-S\-A\-R\-T2\-\_\-\-I\-R\-Q\-Handler})
+\item 
+\hyperlink{group___p_i_o_s_ga5daada32634b528ac183ba5ca2a50d34}{\-H\-A\-N\-D\-L\-E\-R} (\hyperlink{group___p_i_o_s___u_s_a_r_t_ga0d108a3468b2051548183ee5ca2158a0}{\-U\-S\-A\-R\-T3\-\_\-\-I\-R\-Q\-Handler})
+\item 
+\hyperlink{group___p_i_o_s_ga93013dd7cf810d7c7985096942b4f7f4}{\-H\-A\-N\-D\-L\-E\-R} (\-O\-T\-G\-\_\-\-F\-S\-\_\-\-W\-K\-U\-P\-\_\-\-I\-R\-Q\-Handler)
+\item 
+\hyperlink{group___p_i_o_s_gaf58ab9a64ef5177e43b0f0ae8157a3b9}{\-H\-A\-N\-D\-L\-E\-R} (\hyperlink{group___p_i_o_s___t_i_m_ga301e0d3520f05f672ce047976f75ff6a}{\-T\-I\-M8\-\_\-\-B\-R\-K\-\_\-\-T\-I\-M12\-\_\-\-I\-R\-Q\-Handler})
+\item 
+\hyperlink{group___p_i_o_s_gac098e20bbfe6d5c8b1538edd9dc3cf0b}{\-H\-A\-N\-D\-L\-E\-R} (\hyperlink{group___p_i_o_s___t_i_m_ga7fb516f8826d882ac91cfc093884fcf5}{\-T\-I\-M8\-\_\-\-U\-P\-\_\-\-T\-I\-M13\-\_\-\-I\-R\-Q\-Handler})
+\item 
+\hyperlink{group___p_i_o_s_ga59b4c726aea5cc82c6aaf1d1328d7845}{\-H\-A\-N\-D\-L\-E\-R} (\hyperlink{group___p_i_o_s___t_i_m_ga4c8359a023f7ede4a9d9f94ea6fb92da}{\-T\-I\-M8\-\_\-\-T\-R\-G\-\_\-\-C\-O\-M\-\_\-\-T\-I\-M14\-\_\-\-I\-R\-Q\-Handler})
+\item 
+\hyperlink{group___p_i_o_s_ga6493d239229d24bde302872ba743c42e}{\-H\-A\-N\-D\-L\-E\-R} (\hyperlink{group___revolution_gae81787590524971351490705554cc351}{\-D\-M\-A1\-\_\-\-Stream7\-\_\-\-I\-R\-Q\-Handler})
+\item 
+\hyperlink{group___p_i_o_s_ga2fba471dc42fb50c0063056bb0dfd836}{\-H\-A\-N\-D\-L\-E\-R} (\-F\-S\-M\-C\-\_\-\-I\-R\-Q\-Handler)
+\item 
+\hyperlink{group___p_i_o_s_gadfe9f029aad3b5f4cdf76a9e963028d7}{\-H\-A\-N\-D\-L\-E\-R} (\-S\-D\-I\-O\-\_\-\-I\-R\-Q\-Handler)
+\item 
+\hyperlink{group___p_i_o_s_gacbcccd459a3932d4322da7c7a5c7872e}{\-H\-A\-N\-D\-L\-E\-R} (\hyperlink{group___p_i_o_s___t_i_m_ga5e66446caf21dd90191dc07a13ce2378}{\-T\-I\-M5\-\_\-\-I\-R\-Q\-Handler})
+\item 
+\hyperlink{group___p_i_o_s_gaede689144bb644321dd432814bf3922b}{\-H\-A\-N\-D\-L\-E\-R} (\hyperlink{group___p_i_o_s___u_s_a_r_t_gad0d53420fd047695ef9cf3fda8282d9b}{\-U\-S\-A\-R\-T4\-\_\-\-I\-R\-Q\-Handler})
+\item 
+\hyperlink{group___p_i_o_s_ga379aa41e763615593630b4a0cf47f68f}{\-H\-A\-N\-D\-L\-E\-R} (\hyperlink{group___p_i_o_s___u_s_a_r_t_gaea1a468c29d1d6aba1bba3f58c4b3b7e}{\-U\-S\-A\-R\-T5\-\_\-\-I\-R\-Q\-Handler})
+\item 
+\hyperlink{group___p_i_o_s_gad1fc97c4859b2ad38ced205b29bcdf78}{\-H\-A\-N\-D\-L\-E\-R} (\hyperlink{group___revo_mini_gaaf6ce196dde98712e1223b99766e06c0}{\-D\-M\-A2\-\_\-\-Stream0\-\_\-\-I\-R\-Q\-Handler})
+\item 
+\hyperlink{group___p_i_o_s_gae943fbf2f38d3e771dab065a76be5c12}{\-H\-A\-N\-D\-L\-E\-R} (\-D\-M\-A2\-\_\-\-Stream1\-\_\-\-I\-R\-Q\-Handler)
+\item 
+\hyperlink{group___p_i_o_s_gaa33e17f5fc95cb8d9a26872a8e92520d}{\-H\-A\-N\-D\-L\-E\-R} (\-D\-M\-A2\-\_\-\-Stream2\-\_\-\-I\-R\-Q\-Handler)
+\item 
+\hyperlink{group___p_i_o_s_ga00ad54696a7bfc560abb0204bbc8c71a}{\-H\-A\-N\-D\-L\-E\-R} (\hyperlink{group___freedom_ga877135f6494d6923d6f6ec32d75d9eeb}{\-D\-M\-A2\-\_\-\-Stream3\-\_\-\-I\-R\-Q\-Handler})
+\item 
+\hyperlink{group___p_i_o_s_ga05944aa0595b1daead2f9f88f04ba2ea}{\-H\-A\-N\-D\-L\-E\-R} (\hyperlink{group___revo_mini_ga295198ed574625d416158a5fc54205ea}{\-D\-M\-A2\-\_\-\-Stream4\-\_\-\-I\-R\-Q\-Handler})
+\item 
+\hyperlink{group___p_i_o_s_gaa7e4b5a35c01012524887b1579da87f2}{\-H\-A\-N\-D\-L\-E\-R} (\-E\-T\-H\-\_\-\-I\-R\-Q\-Handler)
+\item 
+\hyperlink{group___p_i_o_s_ga50152e398c00f62171e35ee5eff9abd3}{\-H\-A\-N\-D\-L\-E\-R} (\-E\-T\-H\-\_\-\-W\-K\-U\-P\-\_\-\-I\-R\-Q\-Handler)
+\item 
+\hyperlink{group___p_i_o_s_gae50f2c63fc1727fba00b306499cd8e16}{\-H\-A\-N\-D\-L\-E\-R} (\-C\-A\-N2\-\_\-\-T\-X\-\_\-\-I\-R\-Q\-Handler)
+\item 
+\hyperlink{group___p_i_o_s_ga2e8f3f3c4b79dedbfc64bd6303fde94a}{\-H\-A\-N\-D\-L\-E\-R} (\-C\-A\-N2\-\_\-\-R\-X0\-\_\-\-I\-R\-Q\-Handler)
+\item 
+\hyperlink{group___p_i_o_s_ga92aa6d0570148148f28d084240182be1}{\-H\-A\-N\-D\-L\-E\-R} (\-C\-A\-N2\-\_\-\-R\-X1\-\_\-\-I\-R\-Q\-Handler)
+\item 
+\hyperlink{group___p_i_o_s_gad32a556af377661534f4ec502a087681}{\-H\-A\-N\-D\-L\-E\-R} (\-C\-A\-N2\-\_\-\-S\-C\-E\-\_\-\-I\-R\-Q\-Handler)
+\item 
+\hyperlink{group___p_i_o_s_gafcfcd1e017eeb75287de863ab8a1478a}{\-H\-A\-N\-D\-L\-E\-R} (\hyperlink{group___p_i_o_s___u_s_b_h_o_o_k_ga75135d7a041e2932e9903e8a345b3fc4}{\-O\-T\-G\-\_\-\-F\-S\-\_\-\-I\-R\-Q\-Handler})
+\item 
+\hyperlink{group___p_i_o_s_ga1f64cc7d597320a5204bb47080011574}{\-H\-A\-N\-D\-L\-E\-R} (\-D\-M\-A2\-\_\-\-Stream5\-\_\-\-I\-R\-Q\-Handler)
+\item 
+\hyperlink{group___p_i_o_s_ga108b995e36b02ef3e15f87fc683f1786}{\-H\-A\-N\-D\-L\-E\-R} (\-D\-M\-A2\-\_\-\-Stream6\-\_\-\-I\-R\-Q\-Handler)
+\item 
+\hyperlink{group___p_i_o_s_ga49402f17f34d2b768b0ed14c97136ce8}{\-H\-A\-N\-D\-L\-E\-R} (\-D\-M\-A2\-\_\-\-Stream7\-\_\-\-I\-R\-Q\-Handler)
+\item 
+\hyperlink{group___p_i_o_s_ga962e492fca169f575b163bb0bacdc03d}{\-H\-A\-N\-D\-L\-E\-R} (\hyperlink{group___p_i_o_s___u_s_a_r_t_ga12c827857d907ad0cccd586fd934d446}{\-U\-S\-A\-R\-T6\-\_\-\-I\-R\-Q\-Handler})
+\item 
+\hyperlink{group___p_i_o_s_ga9a88bd32032026c57ae5f7685f0e86ae}{\-H\-A\-N\-D\-L\-E\-R} (\hyperlink{group___revolution_ga749eb918c398cc3f11f47ec317757573}{\-I2\-C3\-\_\-\-E\-V\-\_\-\-I\-R\-Q\-Handler})
+\item 
+\hyperlink{group___p_i_o_s_ga8cd90e3b30cdf4d3e7a4fc9022768fcf}{\-H\-A\-N\-D\-L\-E\-R} (\-I2\-C3\-\_\-\-E\-R\-\_\-\-I\-R\-Q\-Handler)
+\item 
+\hyperlink{group___p_i_o_s_ga55d1c6dae88d8aa9ae24b07010113ca9}{\-H\-A\-N\-D\-L\-E\-R} (\-O\-T\-G\-\_\-\-H\-S\-\_\-\-E\-P1\-\_\-\-O\-U\-T\-\_\-\-I\-R\-Q\-Handler)
+\item 
+\hyperlink{group___p_i_o_s_gaf10d7571fc1c39118b6a0a779f18f7a3}{\-H\-A\-N\-D\-L\-E\-R} (\-O\-T\-G\-\_\-\-H\-S\-\_\-\-E\-P1\-\_\-\-I\-N\-\_\-\-I\-R\-Q\-Handler)
+\item 
+\hyperlink{group___p_i_o_s_ga3b875f3bd65fd974cf4e8b29b2d71b97}{\-H\-A\-N\-D\-L\-E\-R} (\-O\-T\-G\-\_\-\-H\-S\-\_\-\-W\-K\-U\-P\-\_\-\-I\-R\-Q\-Handler)
+\item 
+\hyperlink{group___p_i_o_s_ga5311b7f23d19c0fb8b696d2759202e76}{\-H\-A\-N\-D\-L\-E\-R} (\-O\-T\-G\-\_\-\-H\-S\-\_\-\-I\-R\-Q\-Handler)
+\item 
+\hyperlink{group___p_i_o_s_ga3aa6cb3ec72ada671e5942718f69efa5}{\-H\-A\-N\-D\-L\-E\-R} (\-D\-C\-M\-I\-\_\-\-I\-R\-Q\-Handler)
+\item 
+\hyperlink{group___p_i_o_s_ga2b36ce025c75d394fbdc509201d8b237}{\-H\-A\-N\-D\-L\-E\-R} (\-C\-R\-Y\-P\-\_\-\-I\-R\-Q\-Handler)
+\item 
+\hyperlink{group___p_i_o_s_ga256101589d80098fdf7e10440c2fca7d}{\-H\-A\-N\-D\-L\-E\-R} (\-H\-A\-S\-H\-\_\-\-R\-N\-G\-\_\-\-I\-R\-Q\-Handler)
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Typedef \-Documentation}
+\hypertarget{group___p_i_o_s_ga3c46a32d92954306e54f6e9acdd9eaac}{\index{\-P\-I\-O\-S Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}!vector@{vector}}
+\index{vector@{vector}!PIOS Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}}
+\subsubsection[{vector}]{\setlength{\rightskip}{0pt plus 5cm}typedef const void( {\bf vector})(void)}}\label{group___p_i_o_s_ga3c46a32d92954306e54f6e9acdd9eaac}
+interrupt handler 
+
+\-Definition at line 29 of file vectors\-\_\-stm32f4xx.\-c.
+
+\hypertarget{group___p_i_o_s_ga3c46a32d92954306e54f6e9acdd9eaac}{\index{\-P\-I\-O\-S Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}!vector@{vector}}
+\index{vector@{vector}!PIOS Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}}
+\subsubsection[{vector}]{\setlength{\rightskip}{0pt plus 5cm}typedef const void( {\bf vector})(void)}}\label{group___p_i_o_s_ga3c46a32d92954306e54f6e9acdd9eaac}
+interrupt handler 
+
+\-Definition at line 30 of file vectors\-\_\-stm32f30x.\-c.
+
+
+
+\subsection{\-Function \-Documentation}
+\hypertarget{group___p_i_o_s_gaa3091d7ad2e376e149c455e647ad1f03}{\index{\-P\-I\-O\-S Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}!\-\_\-\-\_\-attribute@{\-\_\-\-\_\-attribute}}
+\index{\-\_\-\-\_\-attribute@{\-\_\-\-\_\-attribute}!PIOS Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}}
+\subsubsection[{\-\_\-\-\_\-attribute}]{\setlength{\rightskip}{0pt plus 5cm}struct cm3\-\_\-vectors cpu\-\_\-vectors {\bf \-\_\-\-\_\-attribute} (
+\begin{DoxyParamCaption}
+\item[{(section(\char`\"{}.cpu\-\_\-vectors\char`\"{}))}]{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}read\mbox{]}}}}\label{group___p_i_o_s_gaa3091d7ad2e376e149c455e647ad1f03}
+{\bfseries \-Initial value\-:}
+\begin{DoxyCode}
+ {
+                .initial_stack = &irq_stack[sizeof(irq_stack)],
+                .entry = (vector *)_main,
+                .vectors = {
+                                NMI_Handler,
+                                HardFault_Handler,
+                                MemManage_Handler,
+                                BusFault_Handler,
+                                UsageFault_Handler,
+                                0,
+                                0,
+                                0,
+                                0,
+                                vPortSVCHandler,
+                                DebugMon_Handler,
+                                0,
+                                xPortPendSVHandler,
+                                xPortSysTickHandler,
+                }
+}
+\end{DoxyCode}
+\-Cortex\-M3 vector table \hypertarget{group___p_i_o_s_ga8f4cc61b58aac9810254db781951ac28}{\index{\-P\-I\-O\-S Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}!\-\_\-\-\_\-attribute\-\_\-\-\_\-@{\-\_\-\-\_\-attribute\-\_\-\-\_\-}}
+\index{\-\_\-\-\_\-attribute\-\_\-\-\_\-@{\-\_\-\-\_\-attribute\-\_\-\-\_\-}!PIOS Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}}
+\subsubsection[{\-\_\-\-\_\-attribute\-\_\-\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf vector}$\ast$ io\-\_\-vectors \mbox{[}$\,$\mbox{]} {\bf \-\_\-\-\_\-attribute\-\_\-\-\_\-} (
+\begin{DoxyParamCaption}
+\item[{(section(\char`\"{}.io\-\_\-vectors\char`\"{}))}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s_ga8f4cc61b58aac9810254db781951ac28}
+stm32f30x interrupt vector table
+
+stm32f4xx interrupt vector table \hypertarget{group___p_i_o_s_gabaa8f446abb569a6f850a328569bec9f}{\index{\-P\-I\-O\-S Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}!\-\_\-main@{\-\_\-main}}
+\index{\-\_\-main@{\-\_\-main}!PIOS Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}}
+\subsubsection[{\-\_\-main}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-\_\-main} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s_gabaa8f446abb569a6f850a328569bec9f}
+\-Initial startup code. 
+
+\-Definition at line 65 of file startup.\-c.
+
+\hypertarget{group___p_i_o_s_ga2b6188c113332aeef4dfae90570b2a7c}{\index{\-P\-I\-O\-S Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}!\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}}
+\index{\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}!PIOS Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}}
+\subsubsection[{\-H\-A\-N\-D\-L\-E\-R}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-H\-A\-N\-D\-L\-E\-R} (
+\begin{DoxyParamCaption}
+\item[{\-Reserved\-\_\-\-I\-R\-Q\-Handler}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s_ga2b6188c113332aeef4dfae90570b2a7c}
+\hypertarget{group___p_i_o_s_gacc51fb846ad8dc05370ab051b0307eff}{\index{\-P\-I\-O\-S Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}!\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}}
+\index{\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}!PIOS Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}}
+\subsubsection[{\-H\-A\-N\-D\-L\-E\-R}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-H\-A\-N\-D\-L\-E\-R} (
+\begin{DoxyParamCaption}
+\item[{\-W\-W\-D\-G\-\_\-\-I\-R\-Q\-Handler}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s_gacc51fb846ad8dc05370ab051b0307eff}
+\hypertarget{group___p_i_o_s_gacaf5a0d71233fe05229985176913af99}{\index{\-P\-I\-O\-S Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}!\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}}
+\index{\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}!PIOS Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}}
+\subsubsection[{\-H\-A\-N\-D\-L\-E\-R}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-H\-A\-N\-D\-L\-E\-R} (
+\begin{DoxyParamCaption}
+\item[{\-P\-V\-D\-\_\-\-I\-R\-Q\-Handler}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s_gacaf5a0d71233fe05229985176913af99}
+\hypertarget{group___p_i_o_s_ga24e33b33d441bd37d1127c6d8b43af02}{\index{\-P\-I\-O\-S Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}!\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}}
+\index{\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}!PIOS Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}}
+\subsubsection[{\-H\-A\-N\-D\-L\-E\-R}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-H\-A\-N\-D\-L\-E\-R} (
+\begin{DoxyParamCaption}
+\item[{\-T\-A\-M\-P\-\_\-\-S\-T\-A\-M\-P\-\_\-\-I\-R\-Q\-Handler}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s_ga24e33b33d441bd37d1127c6d8b43af02}
+\hypertarget{group___p_i_o_s_ga6c0711ebc5e0b1aaf3e7c7555be644b0}{\index{\-P\-I\-O\-S Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}!\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}}
+\index{\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}!PIOS Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}}
+\subsubsection[{\-H\-A\-N\-D\-L\-E\-R}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-H\-A\-N\-D\-L\-E\-R} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-R\-T\-C\-\_\-\-W\-K\-U\-P\-\_\-\-I\-R\-Q\-Handler}}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s_ga6c0711ebc5e0b1aaf3e7c7555be644b0}
+\hypertarget{group___p_i_o_s_gad2d12e5da34f9831f5fb626f4d6f9258}{\index{\-P\-I\-O\-S Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}!\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}}
+\index{\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}!PIOS Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}}
+\subsubsection[{\-H\-A\-N\-D\-L\-E\-R}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-H\-A\-N\-D\-L\-E\-R} (
+\begin{DoxyParamCaption}
+\item[{\-F\-L\-A\-S\-H\-\_\-\-I\-R\-Q\-Handler}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s_gad2d12e5da34f9831f5fb626f4d6f9258}
+\hypertarget{group___p_i_o_s_gaa39ba7a7b9c4858c671e0e0811fbdf15}{\index{\-P\-I\-O\-S Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}!\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}}
+\index{\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}!PIOS Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}}
+\subsubsection[{\-H\-A\-N\-D\-L\-E\-R}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-H\-A\-N\-D\-L\-E\-R} (
+\begin{DoxyParamCaption}
+\item[{\-R\-C\-C\-\_\-\-I\-R\-Q\-Handler}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s_gaa39ba7a7b9c4858c671e0e0811fbdf15}
+\hypertarget{group___p_i_o_s_ga4d34c7117246e20017f92377a86ef1d8}{\index{\-P\-I\-O\-S Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}!\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}}
+\index{\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}!PIOS Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}}
+\subsubsection[{\-H\-A\-N\-D\-L\-E\-R}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-H\-A\-N\-D\-L\-E\-R} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-E\-X\-T\-I0\-\_\-\-I\-R\-Q\-Handler}}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s_ga4d34c7117246e20017f92377a86ef1d8}
+\hypertarget{group___p_i_o_s_ga8f4231146f11b7ec2b7cfe4789a1afa3}{\index{\-P\-I\-O\-S Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}!\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}}
+\index{\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}!PIOS Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}}
+\subsubsection[{\-H\-A\-N\-D\-L\-E\-R}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-H\-A\-N\-D\-L\-E\-R} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-E\-X\-T\-I2\-\_\-\-I\-R\-Q\-Handler}}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s_ga8f4231146f11b7ec2b7cfe4789a1afa3}
+\hypertarget{group___p_i_o_s_ga45e5b700a5acc59f46c85542ef3ced58}{\index{\-P\-I\-O\-S Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}!\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}}
+\index{\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}!PIOS Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}}
+\subsubsection[{\-H\-A\-N\-D\-L\-E\-R}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-H\-A\-N\-D\-L\-E\-R} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-E\-X\-T\-I1\-\_\-\-I\-R\-Q\-Handler}}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s_ga45e5b700a5acc59f46c85542ef3ced58}
+\hypertarget{group___p_i_o_s_ga0447579d55e271d7a793046ae6eca6e4}{\index{\-P\-I\-O\-S Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}!\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}}
+\index{\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}!PIOS Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}}
+\subsubsection[{\-H\-A\-N\-D\-L\-E\-R}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-H\-A\-N\-D\-L\-E\-R} (
+\begin{DoxyParamCaption}
+\item[{\-E\-X\-T\-I2\-\_\-\-T\-S\-\_\-\-I\-R\-Q\-Handler}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s_ga0447579d55e271d7a793046ae6eca6e4}
+\hypertarget{group___p_i_o_s_gaad3527eb1b913871844c4e19b1208781}{\index{\-P\-I\-O\-S Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}!\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}}
+\index{\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}!PIOS Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}}
+\subsubsection[{\-H\-A\-N\-D\-L\-E\-R}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-H\-A\-N\-D\-L\-E\-R} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-E\-X\-T\-I3\-\_\-\-I\-R\-Q\-Handler}}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s_gaad3527eb1b913871844c4e19b1208781}
+\hypertarget{group___p_i_o_s_ga13fe24463da7f0ad3f1c1967d5f85514}{\index{\-P\-I\-O\-S Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}!\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}}
+\index{\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}!PIOS Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}}
+\subsubsection[{\-H\-A\-N\-D\-L\-E\-R}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-H\-A\-N\-D\-L\-E\-R} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-D\-M\-A1\-\_\-\-Stream0\-\_\-\-I\-R\-Q\-Handler}}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s_ga13fe24463da7f0ad3f1c1967d5f85514}
+\hypertarget{group___p_i_o_s_ga9b52b435e765f418d0b20373ebf7d3de}{\index{\-P\-I\-O\-S Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}!\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}}
+\index{\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}!PIOS Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}}
+\subsubsection[{\-H\-A\-N\-D\-L\-E\-R}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-H\-A\-N\-D\-L\-E\-R} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-E\-X\-T\-I4\-\_\-\-I\-R\-Q\-Handler}}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s_ga9b52b435e765f418d0b20373ebf7d3de}
+\hypertarget{group___p_i_o_s_ga56c01029b55ddc924fed289f14797c89}{\index{\-P\-I\-O\-S Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}!\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}}
+\index{\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}!PIOS Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}}
+\subsubsection[{\-H\-A\-N\-D\-L\-E\-R}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-H\-A\-N\-D\-L\-E\-R} (
+\begin{DoxyParamCaption}
+\item[{\-D\-M\-A1\-\_\-\-Stream1\-\_\-\-I\-R\-Q\-Handler}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s_ga56c01029b55ddc924fed289f14797c89}
+\hypertarget{group___p_i_o_s_ga9e2d769f4c4643f6f859b5ef04d6d8df}{\index{\-P\-I\-O\-S Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}!\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}}
+\index{\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}!PIOS Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}}
+\subsubsection[{\-H\-A\-N\-D\-L\-E\-R}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-H\-A\-N\-D\-L\-E\-R} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-D\-M\-A1\-\_\-\-Channel1\-\_\-\-I\-R\-Q\-Handler}}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s_ga9e2d769f4c4643f6f859b5ef04d6d8df}
+\hypertarget{group___p_i_o_s_ga951ef6b9669d7229cc20eb36c4ed6d76}{\index{\-P\-I\-O\-S Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}!\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}}
+\index{\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}!PIOS Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}}
+\subsubsection[{\-H\-A\-N\-D\-L\-E\-R}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-H\-A\-N\-D\-L\-E\-R} (
+\begin{DoxyParamCaption}
+\item[{\-D\-M\-A1\-\_\-\-Stream2\-\_\-\-I\-R\-Q\-Handler}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s_ga951ef6b9669d7229cc20eb36c4ed6d76}
+\hypertarget{group___p_i_o_s_gadf12505dd17ab67ac8f1ef1acd5722b2}{\index{\-P\-I\-O\-S Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}!\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}}
+\index{\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}!PIOS Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}}
+\subsubsection[{\-H\-A\-N\-D\-L\-E\-R}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-H\-A\-N\-D\-L\-E\-R} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-D\-M\-A1\-\_\-\-Channel2\-\_\-\-I\-R\-Q\-Handler}}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s_gadf12505dd17ab67ac8f1ef1acd5722b2}
+\hypertarget{group___p_i_o_s_ga5a835df41056ec1fe998c5b2df30f8b1}{\index{\-P\-I\-O\-S Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}!\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}}
+\index{\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}!PIOS Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}}
+\subsubsection[{\-H\-A\-N\-D\-L\-E\-R}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-H\-A\-N\-D\-L\-E\-R} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-D\-M\-A1\-\_\-\-Stream3\-\_\-\-I\-R\-Q\-Handler}}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s_ga5a835df41056ec1fe998c5b2df30f8b1}
+\hypertarget{group___p_i_o_s_gad3ca30cca745b268027f50e556588fa5}{\index{\-P\-I\-O\-S Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}!\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}}
+\index{\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}!PIOS Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}}
+\subsubsection[{\-H\-A\-N\-D\-L\-E\-R}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-H\-A\-N\-D\-L\-E\-R} (
+\begin{DoxyParamCaption}
+\item[{\-D\-M\-A1\-\_\-\-Channel3\-\_\-\-I\-R\-Q\-Handler}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s_gad3ca30cca745b268027f50e556588fa5}
+\hypertarget{group___p_i_o_s_gae2ae9fe1b7fbbac27ceaf8c085255ea7}{\index{\-P\-I\-O\-S Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}!\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}}
+\index{\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}!PIOS Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}}
+\subsubsection[{\-H\-A\-N\-D\-L\-E\-R}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-H\-A\-N\-D\-L\-E\-R} (
+\begin{DoxyParamCaption}
+\item[{\-D\-M\-A1\-\_\-\-Stream4\-\_\-\-I\-R\-Q\-Handler}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s_gae2ae9fe1b7fbbac27ceaf8c085255ea7}
+\hypertarget{group___p_i_o_s_ga1d58ca450480446a2c488dc53001f493}{\index{\-P\-I\-O\-S Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}!\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}}
+\index{\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}!PIOS Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}}
+\subsubsection[{\-H\-A\-N\-D\-L\-E\-R}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-H\-A\-N\-D\-L\-E\-R} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-D\-M\-A1\-\_\-\-Channel4\-\_\-\-I\-R\-Q\-Handler}}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s_ga1d58ca450480446a2c488dc53001f493}
+\hypertarget{group___p_i_o_s_ga91d06149cb05850dc812b4a3f8fcdf6f}{\index{\-P\-I\-O\-S Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}!\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}}
+\index{\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}!PIOS Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}}
+\subsubsection[{\-H\-A\-N\-D\-L\-E\-R}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-H\-A\-N\-D\-L\-E\-R} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-D\-M\-A1\-\_\-\-Stream5\-\_\-\-I\-R\-Q\-Handler}}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s_ga91d06149cb05850dc812b4a3f8fcdf6f}
+\hypertarget{group___p_i_o_s_ga3d879eb7c368ae3e534bfcdbff172109}{\index{\-P\-I\-O\-S Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}!\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}}
+\index{\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}!PIOS Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}}
+\subsubsection[{\-H\-A\-N\-D\-L\-E\-R}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-H\-A\-N\-D\-L\-E\-R} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-D\-M\-A1\-\_\-\-Channel5\-\_\-\-I\-R\-Q\-Handler}}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s_ga3d879eb7c368ae3e534bfcdbff172109}
+\hypertarget{group___p_i_o_s_gaa0728c2b9fc9dc457309d801d78e95bd}{\index{\-P\-I\-O\-S Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}!\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}}
+\index{\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}!PIOS Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}}
+\subsubsection[{\-H\-A\-N\-D\-L\-E\-R}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-H\-A\-N\-D\-L\-E\-R} (
+\begin{DoxyParamCaption}
+\item[{\-D\-M\-A1\-\_\-\-Stream6\-\_\-\-I\-R\-Q\-Handler}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s_gaa0728c2b9fc9dc457309d801d78e95bd}
+\hypertarget{group___p_i_o_s_gade543c66fd60c4e916129eafa94a335c}{\index{\-P\-I\-O\-S Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}!\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}}
+\index{\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}!PIOS Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}}
+\subsubsection[{\-H\-A\-N\-D\-L\-E\-R}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-H\-A\-N\-D\-L\-E\-R} (
+\begin{DoxyParamCaption}
+\item[{\-D\-M\-A1\-\_\-\-Channel6\-\_\-\-I\-R\-Q\-Handler}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s_gade543c66fd60c4e916129eafa94a335c}
+\hypertarget{group___p_i_o_s_gaeaae2b77eadbeae6679c9c80abe4af1e}{\index{\-P\-I\-O\-S Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}!\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}}
+\index{\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}!PIOS Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}}
+\subsubsection[{\-H\-A\-N\-D\-L\-E\-R}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-H\-A\-N\-D\-L\-E\-R} (
+\begin{DoxyParamCaption}
+\item[{\-A\-D\-C\-\_\-\-I\-R\-Q\-Handler}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s_gaeaae2b77eadbeae6679c9c80abe4af1e}
+\hypertarget{group___p_i_o_s_ga6c9ed7169954db94ef46ab39ce85d6f1}{\index{\-P\-I\-O\-S Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}!\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}}
+\index{\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}!PIOS Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}}
+\subsubsection[{\-H\-A\-N\-D\-L\-E\-R}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-H\-A\-N\-D\-L\-E\-R} (
+\begin{DoxyParamCaption}
+\item[{\-D\-M\-A1\-\_\-\-Channel7\-\_\-\-I\-R\-Q\-Handler}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s_ga6c9ed7169954db94ef46ab39ce85d6f1}
+\hypertarget{group___p_i_o_s_gaeea8d0e1d22529cde3b6e3257c391136}{\index{\-P\-I\-O\-S Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}!\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}}
+\index{\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}!PIOS Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}}
+\subsubsection[{\-H\-A\-N\-D\-L\-E\-R}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-H\-A\-N\-D\-L\-E\-R} (
+\begin{DoxyParamCaption}
+\item[{\-C\-A\-N1\-\_\-\-T\-X\-\_\-\-I\-R\-Q\-Handler}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s_gaeea8d0e1d22529cde3b6e3257c391136}
+\hypertarget{group___p_i_o_s_ga26b03512a0e5375eee51ef8d4b03c748}{\index{\-P\-I\-O\-S Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}!\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}}
+\index{\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}!PIOS Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}}
+\subsubsection[{\-H\-A\-N\-D\-L\-E\-R}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-H\-A\-N\-D\-L\-E\-R} (
+\begin{DoxyParamCaption}
+\item[{\-A\-D\-C1\-\_\-2\-\_\-\-I\-R\-Q\-Handler}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s_ga26b03512a0e5375eee51ef8d4b03c748}
+\hypertarget{group___p_i_o_s_ga7453b7196fb31ff23a32f771aef37a4e}{\index{\-P\-I\-O\-S Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}!\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}}
+\index{\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}!PIOS Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}}
+\subsubsection[{\-H\-A\-N\-D\-L\-E\-R}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-H\-A\-N\-D\-L\-E\-R} (
+\begin{DoxyParamCaption}
+\item[{\-C\-A\-N1\-\_\-\-R\-X0\-\_\-\-I\-R\-Q\-Handler}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s_ga7453b7196fb31ff23a32f771aef37a4e}
+\hypertarget{group___p_i_o_s_gae24dca6ba50882215c910dcf23a3ef10}{\index{\-P\-I\-O\-S Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}!\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}}
+\index{\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}!PIOS Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}}
+\subsubsection[{\-H\-A\-N\-D\-L\-E\-R}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-H\-A\-N\-D\-L\-E\-R} (
+\begin{DoxyParamCaption}
+\item[{\-U\-S\-B\-\_\-\-H\-P\-\_\-\-C\-A\-N1\-\_\-\-T\-X\-\_\-\-I\-R\-Q\-Handler}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s_gae24dca6ba50882215c910dcf23a3ef10}
+\hypertarget{group___p_i_o_s_ga46ab0ef22d9e34e51ecb3f08ab2a3a8b}{\index{\-P\-I\-O\-S Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}!\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}}
+\index{\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}!PIOS Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}}
+\subsubsection[{\-H\-A\-N\-D\-L\-E\-R}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-H\-A\-N\-D\-L\-E\-R} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-U\-S\-B\-\_\-\-L\-P\-\_\-\-C\-A\-N1\-\_\-\-R\-X0\-\_\-\-I\-R\-Q\-Handler}}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s_ga46ab0ef22d9e34e51ecb3f08ab2a3a8b}
+\hypertarget{group___p_i_o_s_gae1b19bec9df0a07c35af20be43d4afa4}{\index{\-P\-I\-O\-S Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}!\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}}
+\index{\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}!PIOS Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}}
+\subsubsection[{\-H\-A\-N\-D\-L\-E\-R}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-H\-A\-N\-D\-L\-E\-R} (
+\begin{DoxyParamCaption}
+\item[{\-C\-A\-N1\-\_\-\-R\-X1\-\_\-\-I\-R\-Q\-Handler}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s_gae1b19bec9df0a07c35af20be43d4afa4}
+\hypertarget{group___p_i_o_s_gaf3bd936674d03387b3fbc7b23ac49493}{\index{\-P\-I\-O\-S Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}!\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}}
+\index{\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}!PIOS Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}}
+\subsubsection[{\-H\-A\-N\-D\-L\-E\-R}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-H\-A\-N\-D\-L\-E\-R} (
+\begin{DoxyParamCaption}
+\item[{\-C\-A\-N1\-\_\-\-S\-C\-E\-\_\-\-I\-R\-Q\-Handler}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s_gaf3bd936674d03387b3fbc7b23ac49493}
+\hypertarget{group___p_i_o_s_gad650c0d1f4898574c29120ac55a2546f}{\index{\-P\-I\-O\-S Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}!\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}}
+\index{\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}!PIOS Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}}
+\subsubsection[{\-H\-A\-N\-D\-L\-E\-R}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-H\-A\-N\-D\-L\-E\-R} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-T\-I\-M1\-\_\-\-B\-R\-K\-\_\-\-T\-I\-M9\-\_\-\-I\-R\-Q\-Handler}}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s_gad650c0d1f4898574c29120ac55a2546f}
+\hypertarget{group___p_i_o_s_ga8e7e5161f04ddaad1a46275ef60af5b3}{\index{\-P\-I\-O\-S Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}!\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}}
+\index{\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}!PIOS Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}}
+\subsubsection[{\-H\-A\-N\-D\-L\-E\-R}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-H\-A\-N\-D\-L\-E\-R} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-E\-X\-T\-I9\-\_\-5\-\_\-\-I\-R\-Q\-Handler}}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s_ga8e7e5161f04ddaad1a46275ef60af5b3}
+\hypertarget{group___p_i_o_s_gaae58b36fbe035659376ee656ebdcab07}{\index{\-P\-I\-O\-S Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}!\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}}
+\index{\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}!PIOS Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}}
+\subsubsection[{\-H\-A\-N\-D\-L\-E\-R}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-H\-A\-N\-D\-L\-E\-R} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-T\-I\-M1\-\_\-\-U\-P\-\_\-\-T\-I\-M10\-\_\-\-I\-R\-Q\-Handler}}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s_gaae58b36fbe035659376ee656ebdcab07}
+\hypertarget{group___p_i_o_s_gaef5ecd9aa5c79599d6e13d627bccd933}{\index{\-P\-I\-O\-S Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}!\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}}
+\index{\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}!PIOS Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}}
+\subsubsection[{\-H\-A\-N\-D\-L\-E\-R}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-H\-A\-N\-D\-L\-E\-R} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-T\-I\-M1\-\_\-\-B\-R\-K\-\_\-\-T\-I\-M15\-\_\-\-I\-R\-Q\-Handler}}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s_gaef5ecd9aa5c79599d6e13d627bccd933}
+\hypertarget{group___p_i_o_s_gacc5fee09d8594fbce1941ddb36631718}{\index{\-P\-I\-O\-S Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}!\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}}
+\index{\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}!PIOS Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}}
+\subsubsection[{\-H\-A\-N\-D\-L\-E\-R}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-H\-A\-N\-D\-L\-E\-R} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-T\-I\-M1\-\_\-\-T\-R\-G\-\_\-\-C\-O\-M\-\_\-\-T\-I\-M11\-\_\-\-I\-R\-Q\-Handler}}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s_gacc5fee09d8594fbce1941ddb36631718}
+\hypertarget{group___p_i_o_s_gad074af2e425b95b58e889f27da54ae7b}{\index{\-P\-I\-O\-S Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}!\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}}
+\index{\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}!PIOS Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}}
+\subsubsection[{\-H\-A\-N\-D\-L\-E\-R}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-H\-A\-N\-D\-L\-E\-R} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-T\-I\-M1\-\_\-\-U\-P\-\_\-\-T\-I\-M16\-\_\-\-I\-R\-Q\-Handler}}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s_gad074af2e425b95b58e889f27da54ae7b}
+\hypertarget{group___p_i_o_s_ga0be5a32ba5788641eb2e9dead9bf6fc0}{\index{\-P\-I\-O\-S Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}!\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}}
+\index{\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}!PIOS Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}}
+\subsubsection[{\-H\-A\-N\-D\-L\-E\-R}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-H\-A\-N\-D\-L\-E\-R} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-T\-I\-M1\-\_\-\-T\-R\-G\-\_\-\-C\-O\-M\-\_\-\-T\-I\-M17\-\_\-\-I\-R\-Q\-Handler}}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s_ga0be5a32ba5788641eb2e9dead9bf6fc0}
+\hypertarget{group___p_i_o_s_gab03e032732f0ad22dc58da2637c4eb07}{\index{\-P\-I\-O\-S Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}!\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}}
+\index{\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}!PIOS Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}}
+\subsubsection[{\-H\-A\-N\-D\-L\-E\-R}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-H\-A\-N\-D\-L\-E\-R} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-T\-I\-M1\-\_\-\-C\-C\-\_\-\-I\-R\-Q\-Handler}}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s_gab03e032732f0ad22dc58da2637c4eb07}
+\hypertarget{group___p_i_o_s_ga390d635886c3450d24f41c93d01afa93}{\index{\-P\-I\-O\-S Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}!\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}}
+\index{\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}!PIOS Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}}
+\subsubsection[{\-H\-A\-N\-D\-L\-E\-R}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-H\-A\-N\-D\-L\-E\-R} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-T\-I\-M2\-\_\-\-I\-R\-Q\-Handler}}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s_ga390d635886c3450d24f41c93d01afa93}
+\hypertarget{group___p_i_o_s_ga1783b0468c1bdb51696e3fa7484d15d9}{\index{\-P\-I\-O\-S Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}!\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}}
+\index{\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}!PIOS Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}}
+\subsubsection[{\-H\-A\-N\-D\-L\-E\-R}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-H\-A\-N\-D\-L\-E\-R} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-I2\-C1\-\_\-\-E\-V\-\_\-\-I\-R\-Q\-Handler}}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s_ga1783b0468c1bdb51696e3fa7484d15d9}
+\hypertarget{group___p_i_o_s_gaecb039356f5447d178398ce19716a5e5}{\index{\-P\-I\-O\-S Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}!\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}}
+\index{\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}!PIOS Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}}
+\subsubsection[{\-H\-A\-N\-D\-L\-E\-R}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-H\-A\-N\-D\-L\-E\-R} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-T\-I\-M3\-\_\-\-I\-R\-Q\-Handler}}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s_gaecb039356f5447d178398ce19716a5e5}
+\hypertarget{group___p_i_o_s_ga69c3c91cb4931a9f27a7ec197bd442eb}{\index{\-P\-I\-O\-S Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}!\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}}
+\index{\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}!PIOS Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}}
+\subsubsection[{\-H\-A\-N\-D\-L\-E\-R}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-H\-A\-N\-D\-L\-E\-R} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-T\-I\-M4\-\_\-\-I\-R\-Q\-Handler}}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s_ga69c3c91cb4931a9f27a7ec197bd442eb}
+\hypertarget{group___p_i_o_s_ga03be10db0a301a884516b2bec72fd339}{\index{\-P\-I\-O\-S Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}!\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}}
+\index{\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}!PIOS Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}}
+\subsubsection[{\-H\-A\-N\-D\-L\-E\-R}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-H\-A\-N\-D\-L\-E\-R} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-I2\-C2\-\_\-\-E\-V\-\_\-\-I\-R\-Q\-Handler}}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s_ga03be10db0a301a884516b2bec72fd339}
+\hypertarget{group___p_i_o_s_ga3f576078381cc740c5f4fd50e26d7312}{\index{\-P\-I\-O\-S Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}!\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}}
+\index{\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}!PIOS Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}}
+\subsubsection[{\-H\-A\-N\-D\-L\-E\-R}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-H\-A\-N\-D\-L\-E\-R} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-I2\-C1\-\_\-\-E\-V\-\_\-\-E\-X\-T\-I23\-\_\-\-I\-R\-Q\-Handler}}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s_ga3f576078381cc740c5f4fd50e26d7312}
+\hypertarget{group___p_i_o_s_gaa3febcc5f3cd972c88b93057bb941f52}{\index{\-P\-I\-O\-S Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}!\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}}
+\index{\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}!PIOS Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}}
+\subsubsection[{\-H\-A\-N\-D\-L\-E\-R}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-H\-A\-N\-D\-L\-E\-R} (
+\begin{DoxyParamCaption}
+\item[{\-I2\-C1\-\_\-\-E\-R\-\_\-\-I\-R\-Q\-Handler}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s_gaa3febcc5f3cd972c88b93057bb941f52}
+\hypertarget{group___p_i_o_s_ga4ef23887f4ca8f231e4e7d5dac1e6490}{\index{\-P\-I\-O\-S Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}!\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}}
+\index{\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}!PIOS Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}}
+\subsubsection[{\-H\-A\-N\-D\-L\-E\-R}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-H\-A\-N\-D\-L\-E\-R} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-I2\-C2\-\_\-\-E\-V\-\_\-\-E\-X\-T\-I24\-\_\-\-I\-R\-Q\-Handler}}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s_ga4ef23887f4ca8f231e4e7d5dac1e6490}
+\hypertarget{group___p_i_o_s_gae93e0ca64a1196614305e8fb0f934cc6}{\index{\-P\-I\-O\-S Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}!\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}}
+\index{\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}!PIOS Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}}
+\subsubsection[{\-H\-A\-N\-D\-L\-E\-R}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-H\-A\-N\-D\-L\-E\-R} (
+\begin{DoxyParamCaption}
+\item[{\-I2\-C2\-\_\-\-E\-R\-\_\-\-I\-R\-Q\-Handler}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s_gae93e0ca64a1196614305e8fb0f934cc6}
+\hypertarget{group___p_i_o_s_ga9c27c83d8c59cb384efcca34a7aaf531}{\index{\-P\-I\-O\-S Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}!\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}}
+\index{\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}!PIOS Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}}
+\subsubsection[{\-H\-A\-N\-D\-L\-E\-R}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-H\-A\-N\-D\-L\-E\-R} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-U\-S\-A\-R\-T1\-\_\-\-I\-R\-Q\-Handler}}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s_ga9c27c83d8c59cb384efcca34a7aaf531}
+\hypertarget{group___p_i_o_s_ga62abd0a75fff43f7a3275a2ced1d32f0}{\index{\-P\-I\-O\-S Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}!\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}}
+\index{\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}!PIOS Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}}
+\subsubsection[{\-H\-A\-N\-D\-L\-E\-R}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-H\-A\-N\-D\-L\-E\-R} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-S\-P\-I1\-\_\-\-I\-R\-Q\-Handler}}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s_ga62abd0a75fff43f7a3275a2ced1d32f0}
+\hypertarget{group___p_i_o_s_gacd95f312186dc47a3c131c7df33a0384}{\index{\-P\-I\-O\-S Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}!\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}}
+\index{\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}!PIOS Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}}
+\subsubsection[{\-H\-A\-N\-D\-L\-E\-R}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-H\-A\-N\-D\-L\-E\-R} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-U\-S\-A\-R\-T2\-\_\-\-I\-R\-Q\-Handler}}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s_gacd95f312186dc47a3c131c7df33a0384}
+\hypertarget{group___p_i_o_s_gaacd1f2576272d789637f863ad084d0c5}{\index{\-P\-I\-O\-S Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}!\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}}
+\index{\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}!PIOS Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}}
+\subsubsection[{\-H\-A\-N\-D\-L\-E\-R}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-H\-A\-N\-D\-L\-E\-R} (
+\begin{DoxyParamCaption}
+\item[{\-S\-P\-I2\-\_\-\-I\-R\-Q\-Handler}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s_gaacd1f2576272d789637f863ad084d0c5}
+\hypertarget{group___p_i_o_s_ga5daada32634b528ac183ba5ca2a50d34}{\index{\-P\-I\-O\-S Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}!\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}}
+\index{\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}!PIOS Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}}
+\subsubsection[{\-H\-A\-N\-D\-L\-E\-R}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-H\-A\-N\-D\-L\-E\-R} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-U\-S\-A\-R\-T3\-\_\-\-I\-R\-Q\-Handler}}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s_ga5daada32634b528ac183ba5ca2a50d34}
+\hypertarget{group___p_i_o_s_ga15f854d07581b79a46522cf9462291bc}{\index{\-P\-I\-O\-S Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}!\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}}
+\index{\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}!PIOS Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}}
+\subsubsection[{\-H\-A\-N\-D\-L\-E\-R}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-H\-A\-N\-D\-L\-E\-R} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-U\-S\-A\-R\-T1\-\_\-\-E\-X\-T\-I25\-\_\-\-I\-R\-Q\-Handler}}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s_ga15f854d07581b79a46522cf9462291bc}
+\hypertarget{group___p_i_o_s_ga619c0fe57e74452982f8b139d23c958d}{\index{\-P\-I\-O\-S Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}!\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}}
+\index{\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}!PIOS Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}}
+\subsubsection[{\-H\-A\-N\-D\-L\-E\-R}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-H\-A\-N\-D\-L\-E\-R} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-U\-S\-A\-R\-T2\-\_\-\-E\-X\-T\-I26\-\_\-\-I\-R\-Q\-Handler}}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s_ga619c0fe57e74452982f8b139d23c958d}
+\hypertarget{group___p_i_o_s_ga7b00a01c76ff4fe321f382353a91f177}{\index{\-P\-I\-O\-S Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}!\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}}
+\index{\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}!PIOS Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}}
+\subsubsection[{\-H\-A\-N\-D\-L\-E\-R}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-H\-A\-N\-D\-L\-E\-R} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-U\-S\-A\-R\-T3\-\_\-\-E\-X\-T\-I28\-\_\-\-I\-R\-Q\-Handler}}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s_ga7b00a01c76ff4fe321f382353a91f177}
+\hypertarget{group___p_i_o_s_ga612a35f8a94a6280c13843868268c306}{\index{\-P\-I\-O\-S Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}!\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}}
+\index{\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}!PIOS Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}}
+\subsubsection[{\-H\-A\-N\-D\-L\-E\-R}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-H\-A\-N\-D\-L\-E\-R} (
+\begin{DoxyParamCaption}
+\item[{\-E\-X\-T\-I15\-\_\-10\-\_\-\-I\-R\-Q\-Handler}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s_ga612a35f8a94a6280c13843868268c306}
+\hypertarget{group___p_i_o_s_ga93013dd7cf810d7c7985096942b4f7f4}{\index{\-P\-I\-O\-S Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}!\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}}
+\index{\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}!PIOS Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}}
+\subsubsection[{\-H\-A\-N\-D\-L\-E\-R}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-H\-A\-N\-D\-L\-E\-R} (
+\begin{DoxyParamCaption}
+\item[{\-O\-T\-G\-\_\-\-F\-S\-\_\-\-W\-K\-U\-P\-\_\-\-I\-R\-Q\-Handler}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s_ga93013dd7cf810d7c7985096942b4f7f4}
+\hypertarget{group___p_i_o_s_gae0731c6d70ba277057df059abde85816}{\index{\-P\-I\-O\-S Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}!\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}}
+\index{\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}!PIOS Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}}
+\subsubsection[{\-H\-A\-N\-D\-L\-E\-R}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-H\-A\-N\-D\-L\-E\-R} (
+\begin{DoxyParamCaption}
+\item[{\-R\-T\-C\-\_\-\-Alarm\-\_\-\-I\-R\-Q\-Handler}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s_gae0731c6d70ba277057df059abde85816}
+\hypertarget{group___p_i_o_s_gaf58ab9a64ef5177e43b0f0ae8157a3b9}{\index{\-P\-I\-O\-S Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}!\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}}
+\index{\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}!PIOS Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}}
+\subsubsection[{\-H\-A\-N\-D\-L\-E\-R}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-H\-A\-N\-D\-L\-E\-R} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-T\-I\-M8\-\_\-\-B\-R\-K\-\_\-\-T\-I\-M12\-\_\-\-I\-R\-Q\-Handler}}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s_gaf58ab9a64ef5177e43b0f0ae8157a3b9}
+\hypertarget{group___p_i_o_s_ga21643f12372d277da96ae9cf6318a197}{\index{\-P\-I\-O\-S Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}!\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}}
+\index{\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}!PIOS Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}}
+\subsubsection[{\-H\-A\-N\-D\-L\-E\-R}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-H\-A\-N\-D\-L\-E\-R} (
+\begin{DoxyParamCaption}
+\item[{\-U\-S\-B\-\_\-\-W\-K\-U\-P\-\_\-\-I\-R\-Q\-Handler}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s_ga21643f12372d277da96ae9cf6318a197}
+\hypertarget{group___p_i_o_s_gac098e20bbfe6d5c8b1538edd9dc3cf0b}{\index{\-P\-I\-O\-S Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}!\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}}
+\index{\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}!PIOS Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}}
+\subsubsection[{\-H\-A\-N\-D\-L\-E\-R}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-H\-A\-N\-D\-L\-E\-R} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-T\-I\-M8\-\_\-\-U\-P\-\_\-\-T\-I\-M13\-\_\-\-I\-R\-Q\-Handler}}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s_gac098e20bbfe6d5c8b1538edd9dc3cf0b}
+\hypertarget{group___p_i_o_s_ga73f3c95c6f0c9f0e20976cbfc6107445}{\index{\-P\-I\-O\-S Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}!\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}}
+\index{\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}!PIOS Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}}
+\subsubsection[{\-H\-A\-N\-D\-L\-E\-R}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-H\-A\-N\-D\-L\-E\-R} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-T\-I\-M8\-\_\-\-B\-R\-K\-\_\-\-I\-R\-Q\-Handler}}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s_ga73f3c95c6f0c9f0e20976cbfc6107445}
+\hypertarget{group___p_i_o_s_ga59b4c726aea5cc82c6aaf1d1328d7845}{\index{\-P\-I\-O\-S Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}!\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}}
+\index{\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}!PIOS Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}}
+\subsubsection[{\-H\-A\-N\-D\-L\-E\-R}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-H\-A\-N\-D\-L\-E\-R} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-T\-I\-M8\-\_\-\-T\-R\-G\-\_\-\-C\-O\-M\-\_\-\-T\-I\-M14\-\_\-\-I\-R\-Q\-Handler}}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s_ga59b4c726aea5cc82c6aaf1d1328d7845}
+\hypertarget{group___p_i_o_s_ga61af3452715de85c1208b7dc0f371c7c}{\index{\-P\-I\-O\-S Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}!\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}}
+\index{\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}!PIOS Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}}
+\subsubsection[{\-H\-A\-N\-D\-L\-E\-R}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-H\-A\-N\-D\-L\-E\-R} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-T\-I\-M8\-\_\-\-U\-P\-\_\-\-I\-R\-Q\-Handler}}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s_ga61af3452715de85c1208b7dc0f371c7c}
+\hypertarget{group___p_i_o_s_ga3df951db7fa4ae71db65090983cb1947}{\index{\-P\-I\-O\-S Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}!\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}}
+\index{\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}!PIOS Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}}
+\subsubsection[{\-H\-A\-N\-D\-L\-E\-R}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-H\-A\-N\-D\-L\-E\-R} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-T\-I\-M8\-\_\-\-T\-R\-G\-\_\-\-C\-O\-M\-\_\-\-I\-R\-Q\-Handler}}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s_ga3df951db7fa4ae71db65090983cb1947}
+\hypertarget{group___p_i_o_s_ga6493d239229d24bde302872ba743c42e}{\index{\-P\-I\-O\-S Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}!\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}}
+\index{\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}!PIOS Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}}
+\subsubsection[{\-H\-A\-N\-D\-L\-E\-R}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-H\-A\-N\-D\-L\-E\-R} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-D\-M\-A1\-\_\-\-Stream7\-\_\-\-I\-R\-Q\-Handler}}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s_ga6493d239229d24bde302872ba743c42e}
+\hypertarget{group___p_i_o_s_ga015d5c07ddbb9c51c66a77065a08c22a}{\index{\-P\-I\-O\-S Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}!\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}}
+\index{\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}!PIOS Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}}
+\subsubsection[{\-H\-A\-N\-D\-L\-E\-R}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-H\-A\-N\-D\-L\-E\-R} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-T\-I\-M8\-\_\-\-C\-C\-\_\-\-I\-R\-Q\-Handler}}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s_ga015d5c07ddbb9c51c66a77065a08c22a}
+\hypertarget{group___p_i_o_s_ga2fba471dc42fb50c0063056bb0dfd836}{\index{\-P\-I\-O\-S Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}!\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}}
+\index{\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}!PIOS Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}}
+\subsubsection[{\-H\-A\-N\-D\-L\-E\-R}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-H\-A\-N\-D\-L\-E\-R} (
+\begin{DoxyParamCaption}
+\item[{\-F\-S\-M\-C\-\_\-\-I\-R\-Q\-Handler}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s_ga2fba471dc42fb50c0063056bb0dfd836}
+\hypertarget{group___p_i_o_s_ga446e8dca18881d21381741e57a0e2853}{\index{\-P\-I\-O\-S Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}!\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}}
+\index{\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}!PIOS Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}}
+\subsubsection[{\-H\-A\-N\-D\-L\-E\-R}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-H\-A\-N\-D\-L\-E\-R} (
+\begin{DoxyParamCaption}
+\item[{\-A\-D\-C3\-\_\-\-I\-R\-Q\-Handler}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s_ga446e8dca18881d21381741e57a0e2853}
+\hypertarget{group___p_i_o_s_gadfe9f029aad3b5f4cdf76a9e963028d7}{\index{\-P\-I\-O\-S Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}!\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}}
+\index{\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}!PIOS Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}}
+\subsubsection[{\-H\-A\-N\-D\-L\-E\-R}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-H\-A\-N\-D\-L\-E\-R} (
+\begin{DoxyParamCaption}
+\item[{\-S\-D\-I\-O\-\_\-\-I\-R\-Q\-Handler}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s_gadfe9f029aad3b5f4cdf76a9e963028d7}
+\hypertarget{group___p_i_o_s_ga8adae9815b64a37af214413ac6c1843a}{\index{\-P\-I\-O\-S Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}!\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}}
+\index{\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}!PIOS Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}}
+\subsubsection[{\-H\-A\-N\-D\-L\-E\-R}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-H\-A\-N\-D\-L\-E\-R} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-S\-P\-I3\-\_\-\-I\-R\-Q\-Handler}}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s_ga8adae9815b64a37af214413ac6c1843a}
+\hypertarget{group___p_i_o_s_gacbcccd459a3932d4322da7c7a5c7872e}{\index{\-P\-I\-O\-S Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}!\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}}
+\index{\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}!PIOS Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}}
+\subsubsection[{\-H\-A\-N\-D\-L\-E\-R}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-H\-A\-N\-D\-L\-E\-R} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-T\-I\-M5\-\_\-\-I\-R\-Q\-Handler}}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s_gacbcccd459a3932d4322da7c7a5c7872e}
+\hypertarget{group___p_i_o_s_ga5015849ca8d806a1625b3584cb5c962d}{\index{\-P\-I\-O\-S Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}!\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}}
+\index{\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}!PIOS Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}}
+\subsubsection[{\-H\-A\-N\-D\-L\-E\-R}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-H\-A\-N\-D\-L\-E\-R} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-U\-A\-R\-T4\-\_\-\-E\-X\-T\-I34\-\_\-\-I\-R\-Q\-Handler}}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s_ga5015849ca8d806a1625b3584cb5c962d}
+\hypertarget{group___p_i_o_s_ga40bf19e8e0d8608164a79fc0c9697b9f}{\index{\-P\-I\-O\-S Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}!\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}}
+\index{\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}!PIOS Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}}
+\subsubsection[{\-H\-A\-N\-D\-L\-E\-R}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-H\-A\-N\-D\-L\-E\-R} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-U\-A\-R\-T5\-\_\-\-E\-X\-T\-I35\-\_\-\-I\-R\-Q\-Handler}}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s_ga40bf19e8e0d8608164a79fc0c9697b9f}
+\hypertarget{group___p_i_o_s_gaede689144bb644321dd432814bf3922b}{\index{\-P\-I\-O\-S Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}!\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}}
+\index{\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}!PIOS Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}}
+\subsubsection[{\-H\-A\-N\-D\-L\-E\-R}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-H\-A\-N\-D\-L\-E\-R} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-U\-S\-A\-R\-T4\-\_\-\-I\-R\-Q\-Handler}}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s_gaede689144bb644321dd432814bf3922b}
+\hypertarget{group___p_i_o_s_ga7b3222d00864779c700492060cc4dda9}{\index{\-P\-I\-O\-S Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}!\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}}
+\index{\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}!PIOS Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}}
+\subsubsection[{\-H\-A\-N\-D\-L\-E\-R}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-H\-A\-N\-D\-L\-E\-R} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-T\-I\-M6\-\_\-\-D\-A\-C\-\_\-\-I\-R\-Q\-Handler}}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s_ga7b3222d00864779c700492060cc4dda9}
+\hypertarget{group___p_i_o_s_ga379aa41e763615593630b4a0cf47f68f}{\index{\-P\-I\-O\-S Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}!\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}}
+\index{\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}!PIOS Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}}
+\subsubsection[{\-H\-A\-N\-D\-L\-E\-R}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-H\-A\-N\-D\-L\-E\-R} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-U\-S\-A\-R\-T5\-\_\-\-I\-R\-Q\-Handler}}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s_ga379aa41e763615593630b4a0cf47f68f}
+\hypertarget{group___p_i_o_s_ga147fa8f18128bdddf9ee07691a5b00a3}{\index{\-P\-I\-O\-S Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}!\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}}
+\index{\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}!PIOS Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}}
+\subsubsection[{\-H\-A\-N\-D\-L\-E\-R}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-H\-A\-N\-D\-L\-E\-R} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-T\-I\-M7\-\_\-\-I\-R\-Q\-Handler}}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s_ga147fa8f18128bdddf9ee07691a5b00a3}
+\hypertarget{group___p_i_o_s_ga6717e88a5b952955f7cbdf18a2407b0c}{\index{\-P\-I\-O\-S Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}!\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}}
+\index{\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}!PIOS Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}}
+\subsubsection[{\-H\-A\-N\-D\-L\-E\-R}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-H\-A\-N\-D\-L\-E\-R} (
+\begin{DoxyParamCaption}
+\item[{\-D\-M\-A2\-\_\-\-Channel1\-\_\-\-I\-R\-Q\-Handler}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s_ga6717e88a5b952955f7cbdf18a2407b0c}
+\hypertarget{group___p_i_o_s_gaf2086766394e4d1b904c8c606332ee87}{\index{\-P\-I\-O\-S Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}!\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}}
+\index{\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}!PIOS Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}}
+\subsubsection[{\-H\-A\-N\-D\-L\-E\-R}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-H\-A\-N\-D\-L\-E\-R} (
+\begin{DoxyParamCaption}
+\item[{\-D\-M\-A2\-\_\-\-Channel2\-\_\-\-I\-R\-Q\-Handler}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s_gaf2086766394e4d1b904c8c606332ee87}
+\hypertarget{group___p_i_o_s_gad1fc97c4859b2ad38ced205b29bcdf78}{\index{\-P\-I\-O\-S Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}!\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}}
+\index{\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}!PIOS Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}}
+\subsubsection[{\-H\-A\-N\-D\-L\-E\-R}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-H\-A\-N\-D\-L\-E\-R} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-D\-M\-A2\-\_\-\-Stream0\-\_\-\-I\-R\-Q\-Handler}}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s_gad1fc97c4859b2ad38ced205b29bcdf78}
+\hypertarget{group___p_i_o_s_ga95ff74d750f8a2647ab624f233ec4546}{\index{\-P\-I\-O\-S Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}!\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}}
+\index{\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}!PIOS Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}}
+\subsubsection[{\-H\-A\-N\-D\-L\-E\-R}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-H\-A\-N\-D\-L\-E\-R} (
+\begin{DoxyParamCaption}
+\item[{\-D\-M\-A2\-\_\-\-Channel3\-\_\-\-I\-R\-Q\-Handler}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s_ga95ff74d750f8a2647ab624f233ec4546}
+\hypertarget{group___p_i_o_s_gae943fbf2f38d3e771dab065a76be5c12}{\index{\-P\-I\-O\-S Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}!\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}}
+\index{\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}!PIOS Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}}
+\subsubsection[{\-H\-A\-N\-D\-L\-E\-R}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-H\-A\-N\-D\-L\-E\-R} (
+\begin{DoxyParamCaption}
+\item[{\-D\-M\-A2\-\_\-\-Stream1\-\_\-\-I\-R\-Q\-Handler}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s_gae943fbf2f38d3e771dab065a76be5c12}
+\hypertarget{group___p_i_o_s_gab5d0cd2c1bbe6a1eeaa91bc6b2c14ad9}{\index{\-P\-I\-O\-S Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}!\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}}
+\index{\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}!PIOS Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}}
+\subsubsection[{\-H\-A\-N\-D\-L\-E\-R}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-H\-A\-N\-D\-L\-E\-R} (
+\begin{DoxyParamCaption}
+\item[{\-D\-M\-A2\-\_\-\-Channel4\-\_\-\-I\-R\-Q\-Handler}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s_gab5d0cd2c1bbe6a1eeaa91bc6b2c14ad9}
+\hypertarget{group___p_i_o_s_gaa33e17f5fc95cb8d9a26872a8e92520d}{\index{\-P\-I\-O\-S Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}!\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}}
+\index{\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}!PIOS Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}}
+\subsubsection[{\-H\-A\-N\-D\-L\-E\-R}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-H\-A\-N\-D\-L\-E\-R} (
+\begin{DoxyParamCaption}
+\item[{\-D\-M\-A2\-\_\-\-Stream2\-\_\-\-I\-R\-Q\-Handler}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s_gaa33e17f5fc95cb8d9a26872a8e92520d}
+\hypertarget{group___p_i_o_s_ga00ad54696a7bfc560abb0204bbc8c71a}{\index{\-P\-I\-O\-S Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}!\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}}
+\index{\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}!PIOS Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}}
+\subsubsection[{\-H\-A\-N\-D\-L\-E\-R}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-H\-A\-N\-D\-L\-E\-R} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-D\-M\-A2\-\_\-\-Stream3\-\_\-\-I\-R\-Q\-Handler}}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s_ga00ad54696a7bfc560abb0204bbc8c71a}
+\hypertarget{group___p_i_o_s_ga1dc19efd10bf2b57f76e057d9658e34e}{\index{\-P\-I\-O\-S Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}!\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}}
+\index{\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}!PIOS Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}}
+\subsubsection[{\-H\-A\-N\-D\-L\-E\-R}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-H\-A\-N\-D\-L\-E\-R} (
+\begin{DoxyParamCaption}
+\item[{\-D\-M\-A2\-\_\-\-Channel5\-\_\-\-I\-R\-Q\-Handler}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s_ga1dc19efd10bf2b57f76e057d9658e34e}
+\hypertarget{group___p_i_o_s_gaf4e7f7a30685280c61aeb5b7d8c00e25}{\index{\-P\-I\-O\-S Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}!\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}}
+\index{\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}!PIOS Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}}
+\subsubsection[{\-H\-A\-N\-D\-L\-E\-R}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-H\-A\-N\-D\-L\-E\-R} (
+\begin{DoxyParamCaption}
+\item[{\-A\-D\-C4\-\_\-\-I\-R\-Q\-Handler}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s_gaf4e7f7a30685280c61aeb5b7d8c00e25}
+\hypertarget{group___p_i_o_s_ga05944aa0595b1daead2f9f88f04ba2ea}{\index{\-P\-I\-O\-S Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}!\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}}
+\index{\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}!PIOS Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}}
+\subsubsection[{\-H\-A\-N\-D\-L\-E\-R}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-H\-A\-N\-D\-L\-E\-R} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-D\-M\-A2\-\_\-\-Stream4\-\_\-\-I\-R\-Q\-Handler}}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s_ga05944aa0595b1daead2f9f88f04ba2ea}
+\hypertarget{group___p_i_o_s_gaa7e4b5a35c01012524887b1579da87f2}{\index{\-P\-I\-O\-S Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}!\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}}
+\index{\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}!PIOS Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}}
+\subsubsection[{\-H\-A\-N\-D\-L\-E\-R}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-H\-A\-N\-D\-L\-E\-R} (
+\begin{DoxyParamCaption}
+\item[{\-E\-T\-H\-\_\-\-I\-R\-Q\-Handler}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s_gaa7e4b5a35c01012524887b1579da87f2}
+\hypertarget{group___p_i_o_s_ga6e46c1bfa9fb159be005578cbc9a51f8}{\index{\-P\-I\-O\-S Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}!\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}}
+\index{\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}!PIOS Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}}
+\subsubsection[{\-H\-A\-N\-D\-L\-E\-R}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-H\-A\-N\-D\-L\-E\-R} (
+\begin{DoxyParamCaption}
+\item[{\-C\-O\-M\-P1\-\_\-2\-\_\-3\-\_\-\-I\-R\-Q\-Handler}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s_ga6e46c1bfa9fb159be005578cbc9a51f8}
+\hypertarget{group___p_i_o_s_ga50152e398c00f62171e35ee5eff9abd3}{\index{\-P\-I\-O\-S Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}!\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}}
+\index{\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}!PIOS Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}}
+\subsubsection[{\-H\-A\-N\-D\-L\-E\-R}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-H\-A\-N\-D\-L\-E\-R} (
+\begin{DoxyParamCaption}
+\item[{\-E\-T\-H\-\_\-\-W\-K\-U\-P\-\_\-\-I\-R\-Q\-Handler}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s_ga50152e398c00f62171e35ee5eff9abd3}
+\hypertarget{group___p_i_o_s_ga65ff2e4915c9602921fa55ee1b22ab95}{\index{\-P\-I\-O\-S Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}!\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}}
+\index{\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}!PIOS Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}}
+\subsubsection[{\-H\-A\-N\-D\-L\-E\-R}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-H\-A\-N\-D\-L\-E\-R} (
+\begin{DoxyParamCaption}
+\item[{\-C\-O\-M\-P4\-\_\-5\-\_\-6\-\_\-\-I\-R\-Q\-Handler}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s_ga65ff2e4915c9602921fa55ee1b22ab95}
+\hypertarget{group___p_i_o_s_gae50f2c63fc1727fba00b306499cd8e16}{\index{\-P\-I\-O\-S Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}!\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}}
+\index{\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}!PIOS Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}}
+\subsubsection[{\-H\-A\-N\-D\-L\-E\-R}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-H\-A\-N\-D\-L\-E\-R} (
+\begin{DoxyParamCaption}
+\item[{\-C\-A\-N2\-\_\-\-T\-X\-\_\-\-I\-R\-Q\-Handler}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s_gae50f2c63fc1727fba00b306499cd8e16}
+\hypertarget{group___p_i_o_s_ga239a311cf01f1abba2e728f1be1019cf}{\index{\-P\-I\-O\-S Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}!\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}}
+\index{\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}!PIOS Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}}
+\subsubsection[{\-H\-A\-N\-D\-L\-E\-R}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-H\-A\-N\-D\-L\-E\-R} (
+\begin{DoxyParamCaption}
+\item[{\-C\-O\-M\-P7\-\_\-\-I\-R\-Q\-Handler}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s_ga239a311cf01f1abba2e728f1be1019cf}
+\hypertarget{group___p_i_o_s_ga2e8f3f3c4b79dedbfc64bd6303fde94a}{\index{\-P\-I\-O\-S Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}!\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}}
+\index{\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}!PIOS Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}}
+\subsubsection[{\-H\-A\-N\-D\-L\-E\-R}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-H\-A\-N\-D\-L\-E\-R} (
+\begin{DoxyParamCaption}
+\item[{\-C\-A\-N2\-\_\-\-R\-X0\-\_\-\-I\-R\-Q\-Handler}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s_ga2e8f3f3c4b79dedbfc64bd6303fde94a}
+\hypertarget{group___p_i_o_s_ga6fb28e184c11d412c0da98fdf5f85eb8}{\index{\-P\-I\-O\-S Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}!\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}}
+\index{\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}!PIOS Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}}
+\subsubsection[{\-H\-A\-N\-D\-L\-E\-R}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-H\-A\-N\-D\-L\-E\-R} (
+\begin{DoxyParamCaption}
+\item[{\-U\-S\-B\-\_\-\-H\-P\-\_\-\-I\-R\-Q\-Handler}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s_ga6fb28e184c11d412c0da98fdf5f85eb8}
+\hypertarget{group___p_i_o_s_ga92aa6d0570148148f28d084240182be1}{\index{\-P\-I\-O\-S Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}!\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}}
+\index{\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}!PIOS Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}}
+\subsubsection[{\-H\-A\-N\-D\-L\-E\-R}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-H\-A\-N\-D\-L\-E\-R} (
+\begin{DoxyParamCaption}
+\item[{\-C\-A\-N2\-\_\-\-R\-X1\-\_\-\-I\-R\-Q\-Handler}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s_ga92aa6d0570148148f28d084240182be1}
+\hypertarget{group___p_i_o_s_gadc437f3a400a1fc9bc0bfe89c4be65f9}{\index{\-P\-I\-O\-S Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}!\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}}
+\index{\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}!PIOS Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}}
+\subsubsection[{\-H\-A\-N\-D\-L\-E\-R}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-H\-A\-N\-D\-L\-E\-R} (
+\begin{DoxyParamCaption}
+\item[{\-U\-S\-B\-\_\-\-L\-P\-\_\-\-I\-R\-Q\-Handler}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s_gadc437f3a400a1fc9bc0bfe89c4be65f9}
+\hypertarget{group___p_i_o_s_gad32a556af377661534f4ec502a087681}{\index{\-P\-I\-O\-S Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}!\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}}
+\index{\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}!PIOS Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}}
+\subsubsection[{\-H\-A\-N\-D\-L\-E\-R}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-H\-A\-N\-D\-L\-E\-R} (
+\begin{DoxyParamCaption}
+\item[{\-C\-A\-N2\-\_\-\-S\-C\-E\-\_\-\-I\-R\-Q\-Handler}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s_gad32a556af377661534f4ec502a087681}
+\hypertarget{group___p_i_o_s_gaa4d740a7c852a7547495df644d526cf7}{\index{\-P\-I\-O\-S Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}!\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}}
+\index{\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}!PIOS Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}}
+\subsubsection[{\-H\-A\-N\-D\-L\-E\-R}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-H\-A\-N\-D\-L\-E\-R} (
+\begin{DoxyParamCaption}
+\item[{\-U\-S\-B\-\_\-\-W\-K\-U\-P\-\_\-\-R\-M\-P\-\_\-\-I\-R\-Q\-Handler}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s_gaa4d740a7c852a7547495df644d526cf7}
+\hypertarget{group___p_i_o_s_gafcfcd1e017eeb75287de863ab8a1478a}{\index{\-P\-I\-O\-S Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}!\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}}
+\index{\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}!PIOS Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}}
+\subsubsection[{\-H\-A\-N\-D\-L\-E\-R}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-H\-A\-N\-D\-L\-E\-R} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-O\-T\-G\-\_\-\-F\-S\-\_\-\-I\-R\-Q\-Handler}}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s_gafcfcd1e017eeb75287de863ab8a1478a}
+\hypertarget{group___p_i_o_s_gad4883dff4ea4e95dc98860af9735954b}{\index{\-P\-I\-O\-S Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}!\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}}
+\index{\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}!PIOS Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}}
+\subsubsection[{\-H\-A\-N\-D\-L\-E\-R}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-H\-A\-N\-D\-L\-E\-R} (
+\begin{DoxyParamCaption}
+\item[{\-F\-P\-U\-\_\-\-I\-R\-Q\-Handler}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s_gad4883dff4ea4e95dc98860af9735954b}
+\hypertarget{group___p_i_o_s_ga1f64cc7d597320a5204bb47080011574}{\index{\-P\-I\-O\-S Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}!\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}}
+\index{\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}!PIOS Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}}
+\subsubsection[{\-H\-A\-N\-D\-L\-E\-R}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-H\-A\-N\-D\-L\-E\-R} (
+\begin{DoxyParamCaption}
+\item[{\-D\-M\-A2\-\_\-\-Stream5\-\_\-\-I\-R\-Q\-Handler}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s_ga1f64cc7d597320a5204bb47080011574}
+\hypertarget{group___p_i_o_s_ga108b995e36b02ef3e15f87fc683f1786}{\index{\-P\-I\-O\-S Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}!\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}}
+\index{\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}!PIOS Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}}
+\subsubsection[{\-H\-A\-N\-D\-L\-E\-R}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-H\-A\-N\-D\-L\-E\-R} (
+\begin{DoxyParamCaption}
+\item[{\-D\-M\-A2\-\_\-\-Stream6\-\_\-\-I\-R\-Q\-Handler}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s_ga108b995e36b02ef3e15f87fc683f1786}
+\hypertarget{group___p_i_o_s_ga49402f17f34d2b768b0ed14c97136ce8}{\index{\-P\-I\-O\-S Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}!\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}}
+\index{\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}!PIOS Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}}
+\subsubsection[{\-H\-A\-N\-D\-L\-E\-R}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-H\-A\-N\-D\-L\-E\-R} (
+\begin{DoxyParamCaption}
+\item[{\-D\-M\-A2\-\_\-\-Stream7\-\_\-\-I\-R\-Q\-Handler}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s_ga49402f17f34d2b768b0ed14c97136ce8}
+\hypertarget{group___p_i_o_s_ga962e492fca169f575b163bb0bacdc03d}{\index{\-P\-I\-O\-S Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}!\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}}
+\index{\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}!PIOS Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}}
+\subsubsection[{\-H\-A\-N\-D\-L\-E\-R}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-H\-A\-N\-D\-L\-E\-R} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-U\-S\-A\-R\-T6\-\_\-\-I\-R\-Q\-Handler}}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s_ga962e492fca169f575b163bb0bacdc03d}
+\hypertarget{group___p_i_o_s_ga22781b76899c3e04d207a6991cc99bf4}{\index{\-P\-I\-O\-S Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}!\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}}
+\index{\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}!PIOS Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}}
+\subsubsection[{\-H\-A\-N\-D\-L\-E\-R}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-H\-A\-N\-D\-L\-E\-R} (
+\begin{DoxyParamCaption}
+\item[{\-N\-M\-I\-\_\-\-Handler}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s_ga22781b76899c3e04d207a6991cc99bf4}
+\hypertarget{group___p_i_o_s_ga9a88bd32032026c57ae5f7685f0e86ae}{\index{\-P\-I\-O\-S Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}!\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}}
+\index{\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}!PIOS Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}}
+\subsubsection[{\-H\-A\-N\-D\-L\-E\-R}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-H\-A\-N\-D\-L\-E\-R} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-I2\-C3\-\_\-\-E\-V\-\_\-\-I\-R\-Q\-Handler}}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s_ga9a88bd32032026c57ae5f7685f0e86ae}
+\hypertarget{group___p_i_o_s_ga8cd90e3b30cdf4d3e7a4fc9022768fcf}{\index{\-P\-I\-O\-S Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}!\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}}
+\index{\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}!PIOS Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}}
+\subsubsection[{\-H\-A\-N\-D\-L\-E\-R}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-H\-A\-N\-D\-L\-E\-R} (
+\begin{DoxyParamCaption}
+\item[{\-I2\-C3\-\_\-\-E\-R\-\_\-\-I\-R\-Q\-Handler}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s_ga8cd90e3b30cdf4d3e7a4fc9022768fcf}
+\hypertarget{group___p_i_o_s_ga3e5203ca6ee79d2c3590d430095858ba}{\index{\-P\-I\-O\-S Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}!\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}}
+\index{\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}!PIOS Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}}
+\subsubsection[{\-H\-A\-N\-D\-L\-E\-R}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-H\-A\-N\-D\-L\-E\-R} (
+\begin{DoxyParamCaption}
+\item[{\-Hard\-Fault\-\_\-\-Handler}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s_ga3e5203ca6ee79d2c3590d430095858ba}
+\hypertarget{group___p_i_o_s_ga55d1c6dae88d8aa9ae24b07010113ca9}{\index{\-P\-I\-O\-S Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}!\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}}
+\index{\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}!PIOS Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}}
+\subsubsection[{\-H\-A\-N\-D\-L\-E\-R}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-H\-A\-N\-D\-L\-E\-R} (
+\begin{DoxyParamCaption}
+\item[{\-O\-T\-G\-\_\-\-H\-S\-\_\-\-E\-P1\-\_\-\-O\-U\-T\-\_\-\-I\-R\-Q\-Handler}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s_ga55d1c6dae88d8aa9ae24b07010113ca9}
+\hypertarget{group___p_i_o_s_ga613a3f3451967f46994b6cda45edb3a1}{\index{\-P\-I\-O\-S Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}!\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}}
+\index{\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}!PIOS Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}}
+\subsubsection[{\-H\-A\-N\-D\-L\-E\-R}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-H\-A\-N\-D\-L\-E\-R} (
+\begin{DoxyParamCaption}
+\item[{\-Mem\-Manage\-\_\-\-Handler}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s_ga613a3f3451967f46994b6cda45edb3a1}
+\hypertarget{group___p_i_o_s_gaa3b3d1c4145924c2bcb1f6ecbbb65de9}{\index{\-P\-I\-O\-S Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}!\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}}
+\index{\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}!PIOS Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}}
+\subsubsection[{\-H\-A\-N\-D\-L\-E\-R}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-H\-A\-N\-D\-L\-E\-R} (
+\begin{DoxyParamCaption}
+\item[{\-Bus\-Fault\-\_\-\-Handler}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s_gaa3b3d1c4145924c2bcb1f6ecbbb65de9}
+\hypertarget{group___p_i_o_s_gaf10d7571fc1c39118b6a0a779f18f7a3}{\index{\-P\-I\-O\-S Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}!\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}}
+\index{\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}!PIOS Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}}
+\subsubsection[{\-H\-A\-N\-D\-L\-E\-R}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-H\-A\-N\-D\-L\-E\-R} (
+\begin{DoxyParamCaption}
+\item[{\-O\-T\-G\-\_\-\-H\-S\-\_\-\-E\-P1\-\_\-\-I\-N\-\_\-\-I\-R\-Q\-Handler}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s_gaf10d7571fc1c39118b6a0a779f18f7a3}
+\hypertarget{group___p_i_o_s_ga0c2094e67c27767c96a07a3ffa5ce62b}{\index{\-P\-I\-O\-S Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}!\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}}
+\index{\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}!PIOS Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}}
+\subsubsection[{\-H\-A\-N\-D\-L\-E\-R}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-H\-A\-N\-D\-L\-E\-R} (
+\begin{DoxyParamCaption}
+\item[{\-Usage\-Fault\-\_\-\-Handler}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s_ga0c2094e67c27767c96a07a3ffa5ce62b}
+\hypertarget{group___p_i_o_s_ga3b875f3bd65fd974cf4e8b29b2d71b97}{\index{\-P\-I\-O\-S Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}!\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}}
+\index{\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}!PIOS Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}}
+\subsubsection[{\-H\-A\-N\-D\-L\-E\-R}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-H\-A\-N\-D\-L\-E\-R} (
+\begin{DoxyParamCaption}
+\item[{\-O\-T\-G\-\_\-\-H\-S\-\_\-\-W\-K\-U\-P\-\_\-\-I\-R\-Q\-Handler}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s_ga3b875f3bd65fd974cf4e8b29b2d71b97}
+\hypertarget{group___p_i_o_s_ga5311b7f23d19c0fb8b696d2759202e76}{\index{\-P\-I\-O\-S Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}!\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}}
+\index{\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}!PIOS Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}}
+\subsubsection[{\-H\-A\-N\-D\-L\-E\-R}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-H\-A\-N\-D\-L\-E\-R} (
+\begin{DoxyParamCaption}
+\item[{\-O\-T\-G\-\_\-\-H\-S\-\_\-\-I\-R\-Q\-Handler}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s_ga5311b7f23d19c0fb8b696d2759202e76}
+\hypertarget{group___p_i_o_s_gae155b63ec7087004e2fbf61c1f29c81b}{\index{\-P\-I\-O\-S Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}!\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}}
+\index{\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}!PIOS Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}}
+\subsubsection[{\-H\-A\-N\-D\-L\-E\-R}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-H\-A\-N\-D\-L\-E\-R} (
+\begin{DoxyParamCaption}
+\item[{\-Debug\-Mon\-\_\-\-Handler}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s_gae155b63ec7087004e2fbf61c1f29c81b}
+\hypertarget{group___p_i_o_s_ga3aa6cb3ec72ada671e5942718f69efa5}{\index{\-P\-I\-O\-S Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}!\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}}
+\index{\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}!PIOS Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}}
+\subsubsection[{\-H\-A\-N\-D\-L\-E\-R}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-H\-A\-N\-D\-L\-E\-R} (
+\begin{DoxyParamCaption}
+\item[{\-D\-C\-M\-I\-\_\-\-I\-R\-Q\-Handler}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s_ga3aa6cb3ec72ada671e5942718f69efa5}
+\hypertarget{group___p_i_o_s_ga2b36ce025c75d394fbdc509201d8b237}{\index{\-P\-I\-O\-S Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}!\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}}
+\index{\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}!PIOS Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}}
+\subsubsection[{\-H\-A\-N\-D\-L\-E\-R}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-H\-A\-N\-D\-L\-E\-R} (
+\begin{DoxyParamCaption}
+\item[{\-C\-R\-Y\-P\-\_\-\-I\-R\-Q\-Handler}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s_ga2b36ce025c75d394fbdc509201d8b237}
+\hypertarget{group___p_i_o_s_ga67d6ce2f5112b5c4b1269e6353f23769}{\index{\-P\-I\-O\-S Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}!\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}}
+\index{\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}!PIOS Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}}
+\subsubsection[{\-H\-A\-N\-D\-L\-E\-R}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-H\-A\-N\-D\-L\-E\-R} (
+\begin{DoxyParamCaption}
+\item[{v\-Port\-S\-V\-C\-Handler}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s_ga67d6ce2f5112b5c4b1269e6353f23769}
+\hypertarget{group___p_i_o_s_ga256101589d80098fdf7e10440c2fca7d}{\index{\-P\-I\-O\-S Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}!\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}}
+\index{\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}!PIOS Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}}
+\subsubsection[{\-H\-A\-N\-D\-L\-E\-R}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-H\-A\-N\-D\-L\-E\-R} (
+\begin{DoxyParamCaption}
+\item[{\-H\-A\-S\-H\-\_\-\-R\-N\-G\-\_\-\-I\-R\-Q\-Handler}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s_ga256101589d80098fdf7e10440c2fca7d}
+\hypertarget{group___p_i_o_s_ga34841d66016106a71850a3c0efb0cbe7}{\index{\-P\-I\-O\-S Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}!\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}}
+\index{\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}!PIOS Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}}
+\subsubsection[{\-H\-A\-N\-D\-L\-E\-R}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-H\-A\-N\-D\-L\-E\-R} (
+\begin{DoxyParamCaption}
+\item[{x\-Port\-Pend\-S\-V\-Handler}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s_ga34841d66016106a71850a3c0efb0cbe7}
+\hypertarget{group___p_i_o_s_ga3475219dea921ff367d4230f32172c25}{\index{\-P\-I\-O\-S Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}!\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}}
+\index{\-H\-A\-N\-D\-L\-E\-R@{\-H\-A\-N\-D\-L\-E\-R}!PIOS Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}}
+\subsubsection[{\-H\-A\-N\-D\-L\-E\-R}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-H\-A\-N\-D\-L\-E\-R} (
+\begin{DoxyParamCaption}
+\item[{x\-Port\-Sys\-Tick\-Handler}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s_ga3475219dea921ff367d4230f32172c25}
+\hypertarget{group___p_i_o_s_ga840291bc02cba5474a4cb46a9b9566fe}{\index{\-P\-I\-O\-S Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}!main@{main}}
+\index{main@{main}!PIOS Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}}
+\subsubsection[{main}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf main} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s_ga840291bc02cba5474a4cb46a9b9566fe}
+\-Cortex\-M3 \-C\-P\-U vectors 
+
+\-Definition at line 34 of file startup.\-c.
+
+\hypertarget{group___p_i_o_s_ga4c168099ccb82fb36167e031a5907c57}{\index{\-P\-I\-O\-S Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}!\-Open\-Pilot\-Init@{\-Open\-Pilot\-Init}}
+\index{\-Open\-Pilot\-Init@{\-Open\-Pilot\-Init}!PIOS Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}}
+\subsubsection[{\-Open\-Pilot\-Init}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-Open\-Pilot\-Init} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s_ga4c168099ccb82fb36167e031a5907c57}
+\hypertarget{group___p_i_o_s_ga98631211a4a8aee62f572375d5b637be}{\index{\-P\-I\-O\-S Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}!printf@{printf}}
+\index{printf@{printf}!PIOS Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}}
+\subsubsection[{printf}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf printf} (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{format, }
+\item[{}]{...}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s_ga98631211a4a8aee62f572375d5b637be}
+
+
+\-Definition at line 202 of file printf-\/stdarg.\-c.
+
+\hypertarget{group___p_i_o_s_gaf78a52a59a43dc156963dbbab958a468}{\index{\-P\-I\-O\-S Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}!snprintf@{snprintf}}
+\index{snprintf@{snprintf}!PIOS Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}}
+\subsubsection[{snprintf}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf snprintf} (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{buf, }
+\item[{size\-\_\-t}]{count, }
+\item[{const char $\ast$}]{format, }
+\item[{}]{...}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s_gaf78a52a59a43dc156963dbbab958a468}
+
+
+\-Definition at line 232 of file printf-\/stdarg.\-c.
+
+\hypertarget{group___p_i_o_s_gaa0649118bc3728b2a62af0b47606ff51}{\index{\-P\-I\-O\-S Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}!sprintf@{sprintf}}
+\index{sprintf@{sprintf}!PIOS Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}}
+\subsubsection[{sprintf}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf sprintf} (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{out, }
+\item[{const char $\ast$}]{format, }
+\item[{}]{...}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s_gaa0649118bc3728b2a62af0b47606ff51}
+
+
+\-Definition at line 216 of file printf-\/stdarg.\-c.
+
+\hypertarget{group___p_i_o_s_gaae4ab8b56862ed0a04505cafb8a05112}{\index{\-P\-I\-O\-S Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}!vprintf@{vprintf}}
+\index{vprintf@{vprintf}!PIOS Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}}
+\subsubsection[{vprintf}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf vprintf} (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{format, }
+\item[{va\-\_\-list}]{args}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s_gaae4ab8b56862ed0a04505cafb8a05112}
+
+
+\-Definition at line 211 of file printf-\/stdarg.\-c.
+
+\hypertarget{group___p_i_o_s_ga7408e892dd48c6ce39b5821d917a3dd2}{\index{\-P\-I\-O\-S Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}!vsprintf@{vsprintf}}
+\index{vsprintf@{vsprintf}!PIOS Core hardware abstraction layer@{\-P\-I\-O\-S Core hardware abstraction layer}}
+\subsubsection[{vsprintf}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf vsprintf} (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{out, }
+\item[{const char $\ast$}]{format, }
+\item[{va\-\_\-list}]{args}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s_ga7408e892dd48c6ce39b5821d917a3dd2}
+
+
+\-Definition at line 225 of file printf-\/stdarg.\-c.
+

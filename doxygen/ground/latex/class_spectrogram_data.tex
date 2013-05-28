@@ -1,0 +1,58 @@
+\hypertarget{class_spectrogram_data}{\section{\-Spectrogram\-Data \-Class \-Reference}
+\label{class_spectrogram_data}\index{\-Spectrogram\-Data@{\-Spectrogram\-Data}}
+}
+
+
+\-The \hyperlink{class_spectrogram_data}{\-Spectrogram\-Data} class \-The spectrogram plot has a fixed size data buffer. \-All the curves in one plot have the same size buffer.  
+
+
+
+
+{\ttfamily \#include $<$spectrogramplotdata.\-h$>$}
+
+\-Inheritance diagram for \-Spectrogram\-Data\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{class_spectrogram_data}
+\end{center}
+\end{figure}
+\subsection*{\-Public \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___scope_plugin_gaaac18b4298b3bb722d59928336254cd1}{\-Spectrogram\-Data} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} uav\-Object, \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} uav\-Field, double sampling\-Frequency, unsigned int window\-Width, double time\-Horizon)
+\begin{DoxyCompactList}\small\item\em \hyperlink{class_spectrogram_data}{\-Spectrogram\-Data}. \end{DoxyCompactList}\item 
+\hyperlink{group___scope_plugin_gafe709b6e448db73f8548bc2b76f27d19}{$\sim$\-Spectrogram\-Data} ()
+\item 
+bool \hyperlink{group___scope_plugin_gab2c059e5c5dea398eed663062df84fb6}{append} (\hyperlink{class_u_a_v_object}{\-U\-A\-V\-Object} $\ast$obj)
+\begin{DoxyCompactList}\small\item\em \-Append new data to the plot. \end{DoxyCompactList}\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___scope_plugin_ga6e71a34a3e6d00b99845ac4cdfabdde9}{remove\-Stale\-Data} ()
+\begin{DoxyCompactList}\small\item\em \-Removes the old data from the buffer. \end{DoxyCompactList}\item 
+double \hyperlink{group___scope_plugin_ga5adb8d57b4829f746f7437380b663d72}{read\-And\-Reset\-Autoscale\-Value} ()
+\begin{DoxyCompactList}\small\item\em read\-And\-Reset\-Autoscale\-Flag reads the flag value and resets it \end{DoxyCompactList}\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___scope_plugin_gadfdece3155868e0a61b6a481a663be74}{plot\-New\-Data} (\hyperlink{class_plot_data}{\-Plot\-Data} $\ast$, \hyperlink{class_scope_config}{\-Scope\-Config} $\ast$, \hyperlink{class_scope_gadget_widget}{\-Scope\-Gadget\-Widget} $\ast$)
+\begin{DoxyCompactList}\small\item\em \-Spectrogram\-Scope\-Config\-::plot\-New\-Data \-Update plot with new data. \end{DoxyCompactList}\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___scope_plugin_ga3976392eaccf049644001f3e6c7596ad}{clear\-Plots} (\hyperlink{class_plot_data}{\-Plot\-Data} $\ast$)
+\begin{DoxyCompactList}\small\item\em \-Spectrogram\-Scope\-Config\-::clear\-Plots \-Clear all plot data. \end{DoxyCompactList}\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___scope_plugin_ga47ae0c37eea393bc7c83907b6fceb173}{set\-X\-Maximum} (double val)
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___scope_plugin_ga1379bb89fb91d5f6c894fbf000c65cae}{set\-Y\-Maximum} (double val)
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___scope_plugin_ga90a7b5815000fba373fc23d13506ce5f}{set\-Z\-Maximum} (double val)
+\item 
+\-Qwt\-Matrix\-Raster\-Data $\ast$ \hyperlink{group___scope_plugin_ga6373cb623e2b93290e6251c913a3330f}{get\-Raster\-Data} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___scope_plugin_ga357b6fb785d9356c39fe80f5f1a7d88f}{set\-Spectrogram} (\-Qwt\-Plot\-Spectrogram $\ast$val)
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-The \hyperlink{class_spectrogram_data}{\-Spectrogram\-Data} class \-The spectrogram plot has a fixed size data buffer. \-All the curves in one plot have the same size buffer. 
+
+\-Definition at line 45 of file spectrogramplotdata.\-h.
+
+
+
+\-The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/plugins/scope/scopes3d/\hyperlink{spectrogramplotdata_8h}{spectrogramplotdata.\-h}\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/plugins/scope/scopes3d/\hyperlink{spectrogramplotdata_8cpp}{spectrogramplotdata.\-cpp}\end{DoxyCompactItemize}

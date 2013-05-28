@@ -1,0 +1,76 @@
+\hypertarget{pios__opahrs_8h}{\section{/home/jb/code/\-Tau\-Labs/flight/\-Pi\-O\-S/inc/pios\-\_\-opahrs.h \-File \-Reference}
+\label{pios__opahrs_8h}\index{/home/jb/code/\-Tau\-Labs/flight/\-Pi\-O\-S/inc/pios\-\_\-opahrs.\-h@{/home/jb/code/\-Tau\-Labs/flight/\-Pi\-O\-S/inc/pios\-\_\-opahrs.\-h}}
+}
+
+
+\-Open\-Pilot \-A\-H\-R\-S functions header.  
+
+
+\subsection*{\-Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{group___p_i_o_s___o_p_a_h_r_s_gaf6fe64d28ea92983e870494d0a5d05bd}{opahrs\-\_\-result} \{ \hyperlink{group___p_i_o_s___o_p_a_h_r_s_ggaf6fe64d28ea92983e870494d0a5d05bda20bc9bd773d44f8ef0af8b40151b6349}{\-O\-P\-A\-H\-R\-S\-\_\-\-R\-E\-S\-U\-L\-T\-\_\-\-O\-K} =  0, 
+\hyperlink{group___p_i_o_s___o_p_a_h_r_s_ggaf6fe64d28ea92983e870494d0a5d05bda892b46cfe463af918c421464c2809545}{\-O\-P\-A\-H\-R\-S\-\_\-\-R\-E\-S\-U\-L\-T\-\_\-\-T\-I\-M\-E\-O\-U\-T}, 
+\hyperlink{group___p_i_o_s___o_p_a_h_r_s_ggaf6fe64d28ea92983e870494d0a5d05bda7952eace857150eede21d18910af8239}{\-O\-P\-A\-H\-R\-S\-\_\-\-R\-E\-S\-U\-L\-T\-\_\-\-F\-A\-I\-L\-E\-D}
+ \}
+\end{DoxyCompactItemize}
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{group___p_i_o_s___o_p_a_h_r_s_ga3c5db99dda75d50cdb2d79fdb13ab50a}{\-P\-I\-O\-S\-\_\-\-O\-P\-A\-H\-R\-S\-\_\-\-Attach} (uint32\-\_\-t spi\-\_\-id)
+\item 
+void \hyperlink{group___p_i_o_s___o_p_a_h_r_s_ga2ce9aa363884ac4a0e00d1b984779379}{\-P\-I\-O\-S\-\_\-\-O\-P\-A\-H\-R\-S\-\_\-\-Force\-Slave\-Selected} (bool selected)
+\item 
+enum \hyperlink{group___p_i_o_s___o_p_a_h_r_s_gaf6fe64d28ea92983e870494d0a5d05bd}{opahrs\-\_\-result} \hyperlink{group___p_i_o_s___o_p_a_h_r_s_gab77141d03bc5b17886bec2bb4fcec3a7}{\-P\-I\-O\-S\-\_\-\-O\-P\-A\-H\-R\-S\-\_\-bl\-\_\-\-Get\-Versions} (struct opahrs\-\_\-msg\-\_\-v0 $\ast$rsp)
+\item 
+enum \hyperlink{group___p_i_o_s___o_p_a_h_r_s_gaf6fe64d28ea92983e870494d0a5d05bd}{opahrs\-\_\-result} \hyperlink{group___p_i_o_s___o_p_a_h_r_s_ga43649afa78f6c8bacb299cbd8c7b000f}{\-P\-I\-O\-S\-\_\-\-O\-P\-A\-H\-R\-S\-\_\-bl\-\_\-\-Get\-Serial} (struct opahrs\-\_\-msg\-\_\-v0 $\ast$rsp)
+\item 
+enum \hyperlink{group___p_i_o_s___o_p_a_h_r_s_gaf6fe64d28ea92983e870494d0a5d05bd}{opahrs\-\_\-result} \hyperlink{group___p_i_o_s___o_p_a_h_r_s_gabf88838c097eb514d070f373c2dcd063}{\-P\-I\-O\-S\-\_\-\-O\-P\-A\-H\-R\-S\-\_\-bl\-\_\-\-Fwup\-Start} (struct opahrs\-\_\-msg\-\_\-v0 $\ast$rsp)
+\item 
+enum \hyperlink{group___p_i_o_s___o_p_a_h_r_s_gaf6fe64d28ea92983e870494d0a5d05bd}{opahrs\-\_\-result} \hyperlink{group___p_i_o_s___o_p_a_h_r_s_gaa87845021b5151fe9462ea3bc6c3b826}{\-P\-I\-O\-S\-\_\-\-O\-P\-A\-H\-R\-S\-\_\-bl\-\_\-\-Fwup\-Status} (struct opahrs\-\_\-msg\-\_\-v0 $\ast$rsp)
+\item 
+enum \hyperlink{group___p_i_o_s___o_p_a_h_r_s_gaf6fe64d28ea92983e870494d0a5d05bd}{opahrs\-\_\-result} \hyperlink{group___p_i_o_s___o_p_a_h_r_s_ga658babb3f11ce146f013c2de54adc4be}{\-P\-I\-O\-S\-\_\-\-O\-P\-A\-H\-R\-S\-\_\-bl\-\_\-\-Fwup\-Data} (struct opahrs\-\_\-msg\-\_\-v0 $\ast$req, struct opahrs\-\_\-msg\-\_\-v0 $\ast$rsp)
+\item 
+enum \hyperlink{group___p_i_o_s___o_p_a_h_r_s_gaf6fe64d28ea92983e870494d0a5d05bd}{opahrs\-\_\-result} \hyperlink{group___p_i_o_s___o_p_a_h_r_s_ga4bb7842e9f92a0286d39da199a3d5247}{\-P\-I\-O\-S\-\_\-\-O\-P\-A\-H\-R\-S\-\_\-bl\-\_\-\-Fwup\-Verify} (struct opahrs\-\_\-msg\-\_\-v0 $\ast$rsp)
+\item 
+enum \hyperlink{group___p_i_o_s___o_p_a_h_r_s_gaf6fe64d28ea92983e870494d0a5d05bd}{opahrs\-\_\-result} \hyperlink{group___p_i_o_s___o_p_a_h_r_s_gaa8bdcd7c130fd8eb142b9d211f87be2a}{\-P\-I\-O\-S\-\_\-\-O\-P\-A\-H\-R\-S\-\_\-bl\-\_\-resync} (void)
+\item 
+enum \hyperlink{group___p_i_o_s___o_p_a_h_r_s_gaf6fe64d28ea92983e870494d0a5d05bd}{opahrs\-\_\-result} \hyperlink{group___p_i_o_s___o_p_a_h_r_s_gad30305563d8e9e2ecb8bacaf203f17a3}{\-P\-I\-O\-S\-\_\-\-O\-P\-A\-H\-R\-S\-\_\-bl\-\_\-\-Get\-Mem\-Map} (struct opahrs\-\_\-msg\-\_\-v0 $\ast$rsp)
+\item 
+enum \hyperlink{group___p_i_o_s___o_p_a_h_r_s_gaf6fe64d28ea92983e870494d0a5d05bd}{opahrs\-\_\-result} \hyperlink{group___p_i_o_s___o_p_a_h_r_s_gaf2be915c98324c485c1a56d17472ddde}{\-P\-I\-O\-S\-\_\-\-O\-P\-A\-H\-R\-S\-\_\-bl\-\_\-reset} (uint32\-\_\-t delay)
+\item 
+enum \hyperlink{group___p_i_o_s___o_p_a_h_r_s_gaf6fe64d28ea92983e870494d0a5d05bd}{opahrs\-\_\-result} \hyperlink{group___p_i_o_s___o_p_a_h_r_s_ga5ef319e1098cc7338f56e9eea00ed761}{\-P\-I\-O\-S\-\_\-\-O\-P\-A\-H\-R\-S\-\_\-bl\-\_\-boot} (uint32\-\_\-t delay)
+\item 
+enum \hyperlink{group___p_i_o_s___o_p_a_h_r_s_gaf6fe64d28ea92983e870494d0a5d05bd}{opahrs\-\_\-result} \hyperlink{group___p_i_o_s___o_p_a_h_r_s_gadd69754c1b2e212326e33fb2209ae72e}{\-P\-I\-O\-S\-\_\-\-O\-P\-A\-H\-R\-S\-\_\-bl\-\_\-\-Fw\-Dl\-Data} (struct opahrs\-\_\-msg\-\_\-v0 $\ast$req, struct opahrs\-\_\-msg\-\_\-v0 $\ast$rsp)
+\item 
+enum \hyperlink{group___p_i_o_s___o_p_a_h_r_s_gaf6fe64d28ea92983e870494d0a5d05bd}{opahrs\-\_\-result} \hyperlink{group___p_i_o_s___o_p_a_h_r_s_gadbd0b219bada97964333612bc3394464}{\-P\-I\-O\-S\-\_\-\-O\-P\-A\-H\-R\-S\-\_\-\-Sync} (struct opahrs\-\_\-msg\-\_\-v1 $\ast$rsp)
+\item 
+enum \hyperlink{group___p_i_o_s___o_p_a_h_r_s_gaf6fe64d28ea92983e870494d0a5d05bd}{opahrs\-\_\-result} \hyperlink{group___p_i_o_s___o_p_a_h_r_s_ga75623cd403d1d9da708ae4ff42c2f09a}{\-P\-I\-O\-S\-\_\-\-O\-P\-A\-H\-R\-S\-\_\-\-Get\-Serial} (struct opahrs\-\_\-msg\-\_\-v1 $\ast$rsp)
+\item 
+enum \hyperlink{group___p_i_o_s___o_p_a_h_r_s_gaf6fe64d28ea92983e870494d0a5d05bd}{opahrs\-\_\-result} \hyperlink{group___p_i_o_s___o_p_a_h_r_s_ga4633695459517529c7841b3d2bb5dccf}{\-P\-I\-O\-S\-\_\-\-O\-P\-A\-H\-R\-S\-\_\-\-Set\-Get\-Update} (struct opahrs\-\_\-msg\-\_\-v1 $\ast$req, struct opahrs\-\_\-msg\-\_\-v1 $\ast$rsp)
+\item 
+enum \hyperlink{group___p_i_o_s___o_p_a_h_r_s_gaf6fe64d28ea92983e870494d0a5d05bd}{opahrs\-\_\-result} \hyperlink{group___p_i_o_s___o_p_a_h_r_s_ga6a2460efc73e4077b41f3db454142bd7}{\-P\-I\-O\-S\-\_\-\-O\-P\-A\-H\-R\-S\-\_\-\-Get\-Attitude\-Raw} (struct opahrs\-\_\-msg\-\_\-v1 $\ast$rsp)
+\item 
+enum \hyperlink{group___p_i_o_s___o_p_a_h_r_s_gaf6fe64d28ea92983e870494d0a5d05bd}{opahrs\-\_\-result} \hyperlink{group___p_i_o_s___o_p_a_h_r_s_gac7ff2fa43e0673e0b9665cbd587a2c37}{\-P\-I\-O\-S\-\_\-\-O\-P\-A\-H\-R\-S\-\_\-\-Set\-Algorithm} (struct opahrs\-\_\-msg\-\_\-v1 $\ast$req)
+\item 
+enum \hyperlink{group___p_i_o_s___o_p_a_h_r_s_gaf6fe64d28ea92983e870494d0a5d05bd}{opahrs\-\_\-result} \hyperlink{group___p_i_o_s___o_p_a_h_r_s_ga5f33585c0a6aa5158e015cc5fed5a042}{\-P\-I\-O\-S\-\_\-\-O\-P\-A\-H\-R\-S\-\_\-\-Set\-Mag\-North} (struct opahrs\-\_\-msg\-\_\-v1 $\ast$req)
+\item 
+enum \hyperlink{group___p_i_o_s___o_p_a_h_r_s_gaf6fe64d28ea92983e870494d0a5d05bd}{opahrs\-\_\-result} \hyperlink{group___p_i_o_s___o_p_a_h_r_s_gadc32051065da8842b2a3e4416783ff2a}{\-P\-I\-O\-S\-\_\-\-O\-P\-A\-H\-R\-S\-\_\-\-Set\-Get\-Calibration} (struct opahrs\-\_\-msg\-\_\-v1 $\ast$req, struct opahrs\-\_\-msg\-\_\-v1 $\ast$rsp)
+\item 
+enum \hyperlink{group___p_i_o_s___o_p_a_h_r_s_gaf6fe64d28ea92983e870494d0a5d05bd}{opahrs\-\_\-result} \hyperlink{group___p_i_o_s___o_p_a_h_r_s_ga1c2a499e2354e0673f66656bcb4def7a}{\-P\-I\-O\-S\-\_\-\-O\-P\-A\-H\-R\-S\-\_\-\-Set\-Get\-Initialized} (struct opahrs\-\_\-msg\-\_\-v1 $\ast$req, struct opahrs\-\_\-msg\-\_\-v1 $\ast$rsp)
+\item 
+enum \hyperlink{group___p_i_o_s___o_p_a_h_r_s_gaf6fe64d28ea92983e870494d0a5d05bd}{opahrs\-\_\-result} \hyperlink{group___p_i_o_s___o_p_a_h_r_s_gab167c91b006ac9f0b334289760271b56}{\-P\-I\-O\-S\-\_\-\-O\-P\-A\-H\-R\-S\-\_\-resync} (void)
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-Open\-Pilot \-A\-H\-R\-S functions header. \begin{DoxyAuthor}{\-Author}
+\-The \-Open\-Pilot \-Team, \href{http://www.openpilot.org}{\tt http\-://www.\-openpilot.\-org} \-Copyright (\-C) 2010. 
+\end{DoxyAuthor}
+\begin{DoxySeeAlso}{\-See also}
+\-The \-G\-N\-U \-Public \-License (\-G\-P\-L) \-Version 3 
+\end{DoxySeeAlso}
+
+
+\-Definition in file \hyperlink{pios__opahrs_8h_source}{pios\-\_\-opahrs.\-h}.
+

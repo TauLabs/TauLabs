@@ -1,0 +1,26 @@
+var gyrosbias_8h =
+[
+    [ "GyrosBiasConnectCallback", "group___gyros_bias.html#ga673cf47eef6d06ad16aad16fcedc0bcb", null ],
+    [ "GyrosBiasConnectQueue", "group___gyros_bias.html#ga3d409e397d28aec15879c9cbd0df2f99", null ],
+    [ "GyrosBiasCreateInstance", "group___gyros_bias.html#gac7f1c3660d54a631829202129251a64b", null ],
+    [ "GyrosBiasGet", "group___gyros_bias.html#ga123f5922e4a06302ae04d21723a374bf", null ],
+    [ "GyrosBiasGetMetadata", "group___gyros_bias.html#gae6ebf508883865c00176fd240d10967c", null ],
+    [ "GyrosBiasHandle", "group___gyros_bias.html#ga76628fe51ec083bb8075e436a040a943", null ],
+    [ "GyrosBiasInitialize", "group___gyros_bias.html#ga518053d9e86a214ac1b14bd54ef49569", null ],
+    [ "GyrosBiasInstGet", "group___gyros_bias.html#ga0317aae835c2cffa88c6347b29790d8d", null ],
+    [ "GyrosBiasInstSet", "group___gyros_bias.html#ga72e1fb9a954856fb1eb9f5ad1cf5eba0", null ],
+    [ "GyrosBiasInstUpdated", "group___gyros_bias.html#ga59f5dea4e4ee4f8c460077f5071b3b7e", null ],
+    [ "GyrosBiasReadOnly", "group___gyros_bias.html#ga39d8eb9153553460a2b949a33f8f0009", null ],
+    [ "GyrosBiasRequestInstUpdate", "group___gyros_bias.html#gad8b5bfe2b948d3f37ee7d3d47481ad72", null ],
+    [ "GyrosBiasRequestUpdate", "group___gyros_bias.html#ga7a17a1fe9416483c0e026959920a47ff", null ],
+    [ "GyrosBiasSet", "group___gyros_bias.html#gaca2a6fb9541b9b2045380df7d9deaa94", null ],
+    [ "GyrosBiasSetDefaults", "group___gyros_bias.html#ga39cf506c67d0237b97660da688ef63dc", null ],
+    [ "GyrosBiasSetMetadata", "group___gyros_bias.html#gad61aff0ce0215923ac340eac4d9c14ea", null ],
+    [ "GyrosBiasUpdated", "group___gyros_bias.html#ga9ec2cb17aac78043479b8102919a828a", null ],
+    [ "GyrosBiasxGet", "group___gyros_bias.html#gad15dbe3766c86b04b7958bbf20a42b7a", null ],
+    [ "GyrosBiasxSet", "group___gyros_bias.html#gae5da20f791242d6f761411c9a10ed3a8", null ],
+    [ "GyrosBiasyGet", "group___gyros_bias.html#ga2bd126dda953e2600cacedf0852c483b", null ],
+    [ "GyrosBiasySet", "group___gyros_bias.html#ga5eaac881e1186048dc0e635d551dd180", null ],
+    [ "GyrosBiaszGet", "group___gyros_bias.html#gaf815cd230df846fa79602a7ff7aa87a0", null ],
+    [ "GyrosBiaszSet", "group___gyros_bias.html#gaa5890fb3cb732bf61946d73fbb84e8f5", null ]
+];

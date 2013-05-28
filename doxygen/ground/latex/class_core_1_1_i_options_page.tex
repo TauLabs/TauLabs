@@ -1,0 +1,57 @@
+\hypertarget{class_core_1_1_i_options_page}{\section{\-Core\-:\-:\-I\-Options\-Page \-Class \-Reference}
+\label{class_core_1_1_i_options_page}\index{\-Core\-::\-I\-Options\-Page@{\-Core\-::\-I\-Options\-Page}}
+}
+
+
+\-The \hyperlink{class_core_1_1_i_options_page}{\-I\-Options\-Page} is an interface for providing options pages.  
+
+
+
+
+{\ttfamily \#include $<$ioptionspage.\-h$>$}
+
+\-Inheritance diagram for \-Core\-:\-:\-I\-Options\-Page\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=12.000000cm]{class_core_1_1_i_options_page}
+\end{center}
+\end{figure}
+\subsection*{\-Public \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___core_plugin_ga9b695b2de67229131dbe91bd1ef22ef8}{\-I\-Options\-Page} (\-Q\-Object $\ast$parent=0)
+\item 
+virtual \hyperlink{group___core_plugin_gaaea80acd4f4df67edf6a8027abf6b016}{$\sim$\-I\-Options\-Page} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___core_plugin_gaab16eddf8ad1ee26863b41acaf18feb3}{set\-Icon} (\-Q\-Icon \hyperlink{group___core_plugin_gac858e7a1ee4af77f311dba0b44d22d4d}{icon})
+\item 
+\-Q\-Icon \hyperlink{group___core_plugin_gac858e7a1ee4af77f311dba0b44d22d4d}{icon} ()
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___core_plugin_ga2984fb6ab0e3b502783dfee7ba596268}{id} () const 
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___core_plugin_ga9bda94026b37720a30f4294560c79244}{tr\-Name} () const 
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___core_plugin_ga03767437394cdfbfc9e253638a71b132}{category} () const 
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___core_plugin_gac5538fc040c826784167edb4fc359b68}{tr\-Category} () const 
+\item 
+virtual \-Q\-Widget $\ast$ \hyperlink{group___core_plugin_gac70a4473b3e086d0fa9849c431fb0672}{create\-Page} (\-Q\-Widget $\ast$parent)=0
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___core_plugin_ga05fa0c9b91da02a0f2fed11d2d6afed0}{apply} ()=0
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___core_plugin_ga47cf2602b6ee72a4971b1f0a4e1d887e}{finish} ()=0
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-The \hyperlink{class_core_1_1_i_options_page}{\-I\-Options\-Page} is an interface for providing options pages. 
+
+\-Guidelines for implementing\-:   \hyperlink{group___core_plugin_ga2984fb6ab0e3b502783dfee7ba596268}{id()} is an id used for filtering when calling \hyperlink{class_core_1_1_i_core}{\-I\-Core}\-:\-: show\-Options\-Dialog()  \hyperlink{group___core_plugin_ga9bda94026b37720a30f4294560c79244}{tr\-Name()} is the (translated) name for display.  \hyperlink{group___core_plugin_ga03767437394cdfbfc9e253638a71b132}{category()} is the category used for filtering when calling \hyperlink{class_core_1_1_i_core}{\-I\-Core}\-:\-: show\-Options\-Dialog()  \hyperlink{group___core_plugin_gac5538fc040c826784167edb4fc359b68}{tr\-Category()} is the translated category  \hyperlink{group___core_plugin_ga05fa0c9b91da02a0f2fed11d2d6afed0}{apply()} is called to store the settings. \-It should detect if any changes have been made and store those.  
+
+\-Definition at line 43 of file ioptionspage.\-h.
+
+
+
+\-The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/plugins/coreplugin/dialogs/\hyperlink{ioptionspage_8h}{ioptionspage.\-h}\end{DoxyCompactItemize}

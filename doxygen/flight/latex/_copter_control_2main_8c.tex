@@ -1,0 +1,52 @@
+\hypertarget{_copter_control_2main_8c}{\section{/home/jb/code/\-Tau\-Labs/flight/targets/\-Bootloaders/\-Copter\-Control/main.c \-File \-Reference}
+\label{_copter_control_2main_8c}\index{/home/jb/code/\-Tau\-Labs/flight/targets/\-Bootloaders/\-Copter\-Control/main.\-c@{/home/jb/code/\-Tau\-Labs/flight/targets/\-Bootloaders/\-Copter\-Control/main.\-c}}
+}
+\subsection*{\-Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef void($\ast$ \hyperlink{group___copter_control_b_l_ga9227bf1f1a9c633a0cc9ca50cc761c1a}{p\-Function} )(void)
+\end{DoxyCompactItemize}
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{group___copter_control_b_l_ga902009c5b1cb57d9f9d60092eb7cacfb}{\-P\-I\-O\-S\-\_\-\-Board\-\_\-\-Init} (void)
+\item 
+void \hyperlink{group___copter_control_b_l_ga7ec2ca9d0a908d6508dbc58c00eb18ec}{\-F\-L\-A\-S\-H\-\_\-\-Download} ()
+\item 
+uint32\-\_\-t \hyperlink{group___copter_control_b_l_ga75e30c099232f21fa6e08353b0dfcef7}{\-Led\-P\-W\-M} (uint32\-\_\-t pwm\-\_\-period, uint32\-\_\-t pwm\-\_\-sweep\-\_\-steps, uint32\-\_\-t count)
+\item 
+uint8\-\_\-t \hyperlink{group___copter_control_b_l_ga37137877683fa8bb290bf36655ca2359}{process\-R\-X} ()
+\item 
+void \hyperlink{group___copter_control_b_l_ga4b30467c425c173f9ddf827491be666c}{jump\-\_\-to\-\_\-app} ()
+\item 
+int \hyperlink{group___copter_control_b_l_gae66f6b31b5ad750f1fe042a706a4e3d4}{main} ()
+\end{DoxyCompactItemize}
+\subsection*{\-Variables}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___sparky_b_l_ga9227bf1f1a9c633a0cc9ca50cc761c1a}{p\-Function} \hyperlink{group___copter_control_b_l_gafe6990204003a7b416139a4723064b14}{\-Jump\-\_\-\-To\-\_\-\-Application}
+\item 
+uint32\-\_\-t \hyperlink{group___copter_control_b_l_ga77170d6dd28c130d54753378bdfa035e}{\-Jump\-Address}
+\item 
+uint32\-\_\-t \hyperlink{group___copter_control_b_l_gabe751b3d399e053031c1e3db20b6b071}{period1} = 5000
+\begin{DoxyCompactList}\small\item\em \-L\-E\-Ds \-P\-W\-M. \end{DoxyCompactList}\item 
+uint32\-\_\-t \hyperlink{group___copter_control_b_l_ga594b91aa3e135c58969dc298b8acdeb3}{sweep\-\_\-steps1} = 100
+\item 
+uint32\-\_\-t \hyperlink{group___copter_control_b_l_gadf8633b43922fbf4f1d86981daf74ccc}{period2} = 5000
+\item 
+uint32\-\_\-t \hyperlink{group___copter_control_b_l_gac9cf28c40cee906b9405cb32f16b1fa2}{sweep\-\_\-steps2} = 100
+\item 
+uint8\-\_\-t \hyperlink{group___copter_control_b_l_ga61692259c50bf6def0bc56b1c2fd44b8}{tempcount} = 0
+\item 
+\hyperlink{group___copter_control_b_l_ga9a9e510f2da4e725074c7191d9d75d37}{\-D\-F\-U\-States} \hyperlink{group___copter_control_b_l_ga342208ed1954c6486eac389edf7c7f86}{\-Device\-State}
+\item 
+int16\-\_\-t \hyperlink{group___copter_control_b_l_ga2414697de79a243562514a0a4344a4dd}{status} = 0
+\item 
+uint8\-\_\-t \hyperlink{group___copter_control_b_l_ga6c435d21e1e77b6e71943e6ecac43154}{\-Jump\-To\-App} = \-F\-A\-L\-S\-E
+\item 
+uint8\-\_\-t \hyperlink{group___copter_control_b_l_ga45c9bb4b375b5f606e1ef13138fd01ae}{\-G\-O\-\_\-dfu} = \-F\-A\-L\-S\-E
+\item 
+uint8\-\_\-t \hyperlink{group___copter_control_b_l_gac2fd478a40cb67cd7b769eb34ed0a063}{\-U\-S\-B\-\_\-connected} = \-F\-A\-L\-S\-E
+\item 
+uint8\-\_\-t \hyperlink{group___copter_control_b_l_ga4e35257eb1d649bd7353cb4a4d37d5fb}{\-User\-\_\-\-D\-F\-U\-\_\-request} = \-F\-A\-L\-S\-E
+\end{DoxyCompactItemize}

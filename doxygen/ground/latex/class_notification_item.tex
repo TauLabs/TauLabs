@@ -1,0 +1,151 @@
+\hypertarget{class_notification_item}{\section{\-Notification\-Item \-Class \-Reference}
+\label{class_notification_item}\index{\-Notification\-Item@{\-Notification\-Item}}
+}
+
+
+{\ttfamily \#include $<$notificationitem.\-h$>$}
+
+\subsection*{\-Public \-Types}
+\begin{DoxyCompactItemize}
+\item 
+enum \{ \hyperlink{group___notify_plugin_ggae19b5277b68bb273f1a0225e41255ccea8fee5829d0108684543cf01a53af668f}{e\-Default\-Timeout} =  15
+ \}
+\item 
+enum \{ \hyperlink{group___notify_plugin_gga9cd2611b6dc62949c93abb5b82ad0ec3a908fb8bab8f2e2e5aae18d53fe643c1e}{never}, 
+\hyperlink{group___notify_plugin_gga9cd2611b6dc62949c93abb5b82ad0ec3af3a07edb74d1ab9b39fd6db3b1d6ad00}{before\-First}, 
+\hyperlink{group___notify_plugin_gga9cd2611b6dc62949c93abb5b82ad0ec3ac0e140c5209cc791f99fc19ddf8fe6f0}{before\-Second}, 
+\hyperlink{group___notify_plugin_gga9cd2611b6dc62949c93abb5b82ad0ec3a95117a3c7ab2e169b43a3121a329a43a}{after\-Second}
+ \}
+\item 
+enum \{ \*
+\hyperlink{group___notify_plugin_ggac4b5f5f84172cf5ac9e09f3a683f3ebba1a55bc3c686d15eb1e9d010b7a07a50a}{repeat\-Once\-Per\-Update}, 
+\hyperlink{group___notify_plugin_ggac4b5f5f84172cf5ac9e09f3a683f3ebba13280fe30c3bd30abf86825b504b6ec7}{repeat\-Once}, 
+\hyperlink{group___notify_plugin_ggac4b5f5f84172cf5ac9e09f3a683f3ebba49596c4af726c4fb52dbfe7df33c7178}{repeat\-Instantly}, 
+\hyperlink{group___notify_plugin_ggac4b5f5f84172cf5ac9e09f3a683f3ebbac3e73d8efe76007eeca66f2cfb609075}{repeat10seconds}, 
+\*
+\hyperlink{group___notify_plugin_ggac4b5f5f84172cf5ac9e09f3a683f3ebba18a34ac252d2f02c618ee1a4aae6ce9e}{repeat30seconds}, 
+\hyperlink{group___notify_plugin_ggac4b5f5f84172cf5ac9e09f3a683f3ebba014d745bf7f8943763a58f8c55d5891b}{repeat1minute}
+ \}
+\end{DoxyCompactItemize}
+\subsection*{\-Public \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___notify_plugin_ga382be87567eab960b4bd89e2c7238ba8}{\-Notification\-Item} (\-Q\-Object $\ast$parent=0)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___notify_plugin_ga308d07be5a887bb4e35319a55c70fb06}{copy\-To} (\hyperlink{class_notification_item}{\-Notification\-Item} $\ast$) const 
+\item 
+\hyperlink{group___notify_plugin_gafd8fcfb284be8c92e29aba742748d4b8}{\-D\-E\-C\-L\-A\-R\-E\-\_\-\-S\-O\-U\-N\-D} (1) \hyperlink{group___notify_plugin_gafd8fcfb284be8c92e29aba742748d4b8}{\-D\-E\-C\-L\-A\-R\-E\-\_\-\-S\-O\-U\-N\-D}(2) \hyperlink{group___notify_plugin_gafd8fcfb284be8c92e29aba742748d4b8}{\-D\-E\-C\-L\-A\-R\-E\-\_\-\-S\-O\-U\-N\-D}(3) bool get\-Current\-Update\-Played() const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___notify_plugin_ga3df23419f46ace03f4874972e2a14579}{set\-Current\-Update\-Played} (bool value)
+\item 
+int \hyperlink{group___notify_plugin_ga04c987109a0ab4c1f9d719a6c0e3096a}{get\-Condition} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___notify_plugin_gab14a508f3cd7fd060939a7c8320b35e2}{set\-Condition} (int value)
+\item 
+int \hyperlink{group___notify_plugin_ga395bd37d71abbcb58be1b077e0dd83f6}{get\-Say\-Order} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___notify_plugin_ga0489a9c8b690360558e02eb562a34974}{set\-Say\-Order} (int text)
+\item 
+\-Q\-Variant \hyperlink{group___notify_plugin_ga2c73d25e5b3deadb7b7aec06957e91c5}{single\-Value} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___notify_plugin_gacadb2d38a2a7d648f40454fd26f50ad8}{set\-Single\-Value} (\-Q\-Variant value)
+\item 
+double \hyperlink{group___notify_plugin_ga55c7c963b3a43675f58dfe2af221b0c2}{value\-Range2} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___notify_plugin_gaf9a1d6d8fdc19a2e0124890e06fd3ee3}{set\-Value\-Range2} (double value)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___notify_plugin_gaf04fb4ac7c4882b581eb0ccb8808ba23}{get\-Data\-Object} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___notify_plugin_gaa1ca305c3e8571f02153e8edabf0c6a3}{set\-Data\-Object} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} text)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___notify_plugin_gabe5f556c91c61fb1b490fde2eb3ca0c8}{get\-Object\-Field} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___notify_plugin_ga54c72d7ede2e6cc94ba5121c04f379f9}{set\-Object\-Field} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} text)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___notify_plugin_ga02d674a0d98fc50edb96e8e487e4f247}{get\-Sound\-Collection\-Path} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___notify_plugin_ga51e72a159e74fc6c2f4575589caaf5b1}{set\-Sound\-Collection\-Path} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} path)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___notify_plugin_ga90dda23b3c620a17440f8708a4e98241}{get\-Current\-Language} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___notify_plugin_ga125828e3dae6986b12d315319b3ee24a}{set\-Current\-Language} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} text)
+\item 
+\-Q\-String\-List \hyperlink{group___notify_plugin_gad9a4c112e8b27294870f09c7c3bf6bd8}{get\-Message\-Sequence} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___notify_plugin_gad8bface53f8c0b678ba53efa7607c644}{set\-Message\-Sequence} (\-Q\-String\-List sequence)
+\item 
+int \hyperlink{group___notify_plugin_gad3ef16c40fa24c6362f0a5b8dcf7106a}{retry\-Value} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___notify_plugin_gace1ba5eab850d1945aeede024e405463}{set\-Retry\-Value} (int value)
+\item 
+int \hyperlink{group___notify_plugin_ga2a7280994bcb9184ba2a3de6aa2d9dd7}{lifetime} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___notify_plugin_gab8ee00149d5b8c0a74ff7fc134bdbd4c}{set\-Lifetime} (int value)
+\item 
+bool \hyperlink{group___notify_plugin_ga815fa2051096a7c2f3074c60afad5d47}{mute} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___notify_plugin_ga45781a8ec6285e780f592f1b3952b407}{set\-Mute} (bool value)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___notify_plugin_ga9ba0eb664828ae93d16faaa783b77cfc}{save\-State} (\-Q\-Settings $\ast$settings) const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___notify_plugin_gad7dea9a755d75cd820f3b06131f52a1d}{restore\-State} (\-Q\-Settings $\ast$settings)
+\item 
+\hyperlink{class_u_a_v_data_object}{\-U\-A\-V\-Data\-Object} $\ast$ \hyperlink{group___notify_plugin_ga5f16bd85e4ffd982c71b75abbb00833d}{get\-U\-A\-V\-Object} (\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void})
+\item 
+\hyperlink{class_u_a_v_object_field}{\-U\-A\-V\-Object\-Field} $\ast$ \hyperlink{group___notify_plugin_gad80a60dd673d057f2fdd45e79f8b8905}{get\-U\-A\-V\-Object\-Field} (\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void})
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___notify_plugin_gad39b4705bd8ee634abb8a8922450613b}{serialize} (\-Q\-Data\-Stream \&stream)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___notify_plugin_ga02e47b11a2cd7d0e9b608c497afbf359}{deserialize} (\-Q\-Data\-Stream \&stream)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___notify_plugin_gacced9ea8ef4e62bf9f126766c99514c9}{to\-String} ()
+\item 
+\-Q\-String\-List \& \hyperlink{group___notify_plugin_ga3fa8d750e630be2b90fbbe2ad536a55b}{to\-Sound\-List} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___notify_plugin_gadaf0f176a8851c6a9fe551bf80b61cb4}{get\-Sound\-Caption} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} file\-Name)
+\item 
+\-Q\-Timer $\ast$ \hyperlink{group___notify_plugin_gad0b36630b519b091944bbf350ca8de5f}{get\-Timer} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___notify_plugin_gaa7aa70f2843fa4dfaf65d257280afc6b}{start\-Timer} (int value)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___notify_plugin_gacf26398de566bf5f6b947e9065841653}{restart\-Timer} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___notify_plugin_ga40c3dd7de6f84d1c49d6536d3bf7c310}{stop\-Timer} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___notify_plugin_gaa2f1891b46a9b84e08cd3cde71981655}{dispose\-Timer} ()
+\item 
+\-Q\-Timer $\ast$ \hyperlink{group___notify_plugin_gac3e54f4c867cf1ab32a5127dcc5dcebe}{get\-Expire\-Timer} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___notify_plugin_ga1cea7db89fc4ba5cc6177e4676fc6f5b}{start\-Expire\-Timer} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___notify_plugin_gafff508e9352fb1a5ed40502e6845ebef}{stop\-Expire\-Timer} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___notify_plugin_ga701d292a397a1198e167f249475b77e0}{dispose\-Expire\-Timer} ()
+\end{DoxyCompactItemize}
+\subsection*{\-Public \-Attributes}
+\begin{DoxyCompactItemize}
+\item 
+bool \hyperlink{group___notify_plugin_gabd9ee81e318805b60e89e7045eb7deaa}{is\-Now\-Playing}
+\item 
+bool \hyperlink{group___notify_plugin_ga6469ec28d3051122de855c266d0dc6dd}{\-\_\-is\-Played}
+\end{DoxyCompactItemize}
+\subsection*{\-Static \-Public \-Attributes}
+\begin{DoxyCompactItemize}
+\item 
+static \-Q\-String\-List \hyperlink{group___notify_plugin_ga856cd4e9d78e6c8900f9de74f0f25dac}{say\-Order\-Values}
+\item 
+static \-Q\-String\-List \hyperlink{group___notify_plugin_ga7c47e100b3ea3f8b527dbdea2385edd0}{retry\-Values}
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+
+
+\-Definition at line 49 of file notificationitem.\-h.
+
+
+
+\-The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/plugins/notify/\hyperlink{notificationitem_8h}{notificationitem.\-h}\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/plugins/notify/\hyperlink{notificationitem_8cpp}{notificationitem.\-cpp}\end{DoxyCompactItemize}

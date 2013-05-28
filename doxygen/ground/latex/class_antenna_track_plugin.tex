@@ -1,0 +1,119 @@
+\hypertarget{class_antenna_track_plugin}{\section{\-Antenna\-Track\-Plugin \-Class \-Reference}
+\label{class_antenna_track_plugin}\index{\-Antenna\-Track\-Plugin@{\-Antenna\-Track\-Plugin}}
+}
+
+
+{\ttfamily \#include $<$antennatrackplugin.\-h$>$}
+
+\-Inheritance diagram for \-Antenna\-Track\-Plugin\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_antenna_track_plugin}
+\end{center}
+\end{figure}
+\subsection*{\-Public \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_antenna_track_plugin_ab54dcdb214e3f2d6a4399308605864b1}{\-Antenna\-Track\-Plugin} ()
+\item 
+\hyperlink{class_antenna_track_plugin_addd54210e941b2d9fa6106c351f72f97}{$\sim$\-Antenna\-Track\-Plugin} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_antenna_track_plugin_a370afea2fcc519ae07e072bf227f096c}{extensions\-Initialized} ()
+\item 
+bool \hyperlink{class_antenna_track_plugin_a8bcbdaaf5cd20fa3a61f6c7bd9b5d514}{initialize} (const \-Q\-String\-List \&arguments, \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} $\ast$error\-String)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_antenna_track_plugin_a3628ddddb3154268c34dfd1f69c6e8f4}{shutdown} ()
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+
+
+\-Definition at line 8 of file antennatrackplugin.\-h.
+
+
+
+\subsection{\-Constructor \& \-Destructor \-Documentation}
+\hypertarget{class_antenna_track_plugin_ab54dcdb214e3f2d6a4399308605864b1}{\index{\-Antenna\-Track\-Plugin@{\-Antenna\-Track\-Plugin}!\-Antenna\-Track\-Plugin@{\-Antenna\-Track\-Plugin}}
+\index{\-Antenna\-Track\-Plugin@{\-Antenna\-Track\-Plugin}!AntennaTrackPlugin@{\-Antenna\-Track\-Plugin}}
+\subsubsection[{\-Antenna\-Track\-Plugin}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Antenna\-Track\-Plugin\-::\-Antenna\-Track\-Plugin} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_antenna_track_plugin_ab54dcdb214e3f2d6a4399308605864b1}
+
+
+\-Definition at line 8 of file antennatrackplugin.\-cpp.
+
+\hypertarget{class_antenna_track_plugin_addd54210e941b2d9fa6106c351f72f97}{\index{\-Antenna\-Track\-Plugin@{\-Antenna\-Track\-Plugin}!$\sim$\-Antenna\-Track\-Plugin@{$\sim$\-Antenna\-Track\-Plugin}}
+\index{$\sim$\-Antenna\-Track\-Plugin@{$\sim$\-Antenna\-Track\-Plugin}!AntennaTrackPlugin@{\-Antenna\-Track\-Plugin}}
+\subsubsection[{$\sim$\-Antenna\-Track\-Plugin}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Antenna\-Track\-Plugin\-::$\sim$\-Antenna\-Track\-Plugin} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_antenna_track_plugin_addd54210e941b2d9fa6106c351f72f97}
+
+
+\-Definition at line 12 of file antennatrackplugin.\-cpp.
+
+
+
+\subsection{\-Member \-Function \-Documentation}
+\hypertarget{class_antenna_track_plugin_a370afea2fcc519ae07e072bf227f096c}{\index{\-Antenna\-Track\-Plugin@{\-Antenna\-Track\-Plugin}!extensions\-Initialized@{extensions\-Initialized}}
+\index{extensions\-Initialized@{extensions\-Initialized}!AntennaTrackPlugin@{\-Antenna\-Track\-Plugin}}
+\subsubsection[{extensions\-Initialized}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Antenna\-Track\-Plugin\-::extensions\-Initialized} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{class_antenna_track_plugin_a370afea2fcc519ae07e072bf227f096c}
+\-Called after the \-I\-Plugin\-::initialize() method has been called, and after both the \-I\-Plugin\-::initialize() and \-I\-Plugin\-::extensions\-Initialized() methods of plugins that depend on this plugin have been called. \-In this method, the plugin can assume that plugins that depend on this plugin are fully 'up and running'. \-It is a good place to look in the plugin manager's object pool for objects that have been provided by dependent plugins. \begin{DoxySeeAlso}{\-See also}
+\hyperlink{class_antenna_track_plugin_a8bcbdaaf5cd20fa3a61f6c7bd9b5d514}{initialize()} 
+\end{DoxySeeAlso}
+
+
+\-Implements \hyperlink{class_extension_system_1_1_i_plugin_a1db3a7fb242fca02229f9a3be4fd6610}{\-Extension\-System\-::\-I\-Plugin}.
+
+
+
+\-Definition at line 26 of file antennatrackplugin.\-cpp.
+
+\hypertarget{class_antenna_track_plugin_a8bcbdaaf5cd20fa3a61f6c7bd9b5d514}{\index{\-Antenna\-Track\-Plugin@{\-Antenna\-Track\-Plugin}!initialize@{initialize}}
+\index{initialize@{initialize}!AntennaTrackPlugin@{\-Antenna\-Track\-Plugin}}
+\subsubsection[{initialize}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-Antenna\-Track\-Plugin\-::initialize} (
+\begin{DoxyParamCaption}
+\item[{const \-Q\-String\-List \&}]{arguments, }
+\item[{{\bf \-Q\-String} $\ast$}]{error\-String}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{class_antenna_track_plugin_a8bcbdaaf5cd20fa3a61f6c7bd9b5d514}
+\-Called after the plugin has been loaded and the \-I\-Plugin instance has been created. \-The initialize methods of plugins that depend on this plugin are called after the initialize method of this plugin has been called. \-Plugins should initialize their internal state in this method. \-Returns if initialization of successful. \-If it wasn't successful, the {\itshape error\-String\/} should be set to a user-\/readable message describing the reason. \begin{DoxySeeAlso}{\-See also}
+\hyperlink{class_antenna_track_plugin_a370afea2fcc519ae07e072bf227f096c}{extensions\-Initialized()} 
+\end{DoxySeeAlso}
+
+
+\-Implements \hyperlink{class_extension_system_1_1_i_plugin_a9f3dc957317279daed393fdf4894e944}{\-Extension\-System\-::\-I\-Plugin}.
+
+
+
+\-Definition at line 16 of file antennatrackplugin.\-cpp.
+
+\hypertarget{class_antenna_track_plugin_a3628ddddb3154268c34dfd1f69c6e8f4}{\index{\-Antenna\-Track\-Plugin@{\-Antenna\-Track\-Plugin}!shutdown@{shutdown}}
+\index{shutdown@{shutdown}!AntennaTrackPlugin@{\-Antenna\-Track\-Plugin}}
+\subsubsection[{shutdown}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Antenna\-Track\-Plugin\-::shutdown} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{class_antenna_track_plugin_a3628ddddb3154268c34dfd1f69c6e8f4}
+\-Called during a shutdown sequence in the same order as initialization before the plugins get deleted in reverse order. \-This method can be used to optimize the shutdown down, e.\-g. to disconnect from the \-Plugin\-Manager\-::about\-To\-Remove\-Object() signal if getting the signal (and probably doing lots of stuff to update the internal and visible state) doesn't make sense during shutdown. 
+
+\-Reimplemented from \hyperlink{class_extension_system_1_1_i_plugin_a65c16ebd3a6e89918a99af6515fe68cb}{\-Extension\-System\-::\-I\-Plugin}.
+
+
+
+\-Definition at line 30 of file antennatrackplugin.\-cpp.
+
+
+
+\-The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/plugins/antennatrack/\hyperlink{antennatrackplugin_8h}{antennatrackplugin.\-h}\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/plugins/antennatrack/\hyperlink{antennatrackplugin_8cpp}{antennatrackplugin.\-cpp}\end{DoxyCompactItemize}

@@ -1,0 +1,36 @@
+\hypertarget{structpios__flash__driver}{\section{pios\-\_\-flash\-\_\-driver \-Struct \-Reference}
+\label{structpios__flash__driver}\index{pios\-\_\-flash\-\_\-driver@{pios\-\_\-flash\-\_\-driver}}
+}
+
+
+{\ttfamily \#include $<$pios\-\_\-flash.\-h$>$}
+
+\subsection*{\-Data \-Fields}
+\begin{DoxyCompactItemize}
+\item 
+int32\-\_\-t($\ast$ \hyperlink{group___p_i_o_s___f_l_a_s_h_ga3128721bfc5d4b157f9c8866d10d80f0}{start\-\_\-transaction} )(uintptr\-\_\-t flash\-\_\-id)
+\item 
+int32\-\_\-t($\ast$ \hyperlink{group___p_i_o_s___f_l_a_s_h_ga775db43adcb0c42ede668aef36016301}{end\-\_\-transaction} )(uintptr\-\_\-t flash\-\_\-id)
+\item 
+int32\-\_\-t($\ast$ \hyperlink{group___p_i_o_s___f_l_a_s_h_ga38768b3295a563897e91191bfead95b5}{erase\-\_\-chip} )(uintptr\-\_\-t flash\-\_\-id)
+\item 
+int32\-\_\-t($\ast$ \hyperlink{group___p_i_o_s___f_l_a_s_h_ga91676d432517e3a2ea7303a07cd1bde3}{erase\-\_\-sector} )(uintptr\-\_\-t flash\-\_\-id, uint32\-\_\-t addr)
+\item 
+int32\-\_\-t($\ast$ \hyperlink{group___p_i_o_s___f_l_a_s_h_ga019d8ac125523464c1068f1170852dd0}{write\-\_\-data} )(uintptr\-\_\-t flash\-\_\-id, uint32\-\_\-t addr, uint8\-\_\-t $\ast$data, uint16\-\_\-t len)
+\item 
+int32\-\_\-t($\ast$ \hyperlink{group___p_i_o_s___f_l_a_s_h_ga5bac463e83aa46ce41c151c74ff8467b}{write\-\_\-chunks} )(uintptr\-\_\-t flash\-\_\-id, uint32\-\_\-t addr, struct \hyperlink{structpios__flash__chunk}{pios\-\_\-flash\-\_\-chunk} chunks\mbox{[}$\,$\mbox{]}, uint32\-\_\-t num\-\_\-chunks)
+\item 
+int32\-\_\-t($\ast$ \hyperlink{group___p_i_o_s___f_l_a_s_h_ga5499ff7cdf896098a6eb43f2f32dc40a}{read\-\_\-data} )(uintptr\-\_\-t flash\-\_\-id, uint32\-\_\-t addr, uint8\-\_\-t $\ast$data, uint16\-\_\-t len)
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+
+
+\-Definition at line 37 of file pios\-\_\-flash.\-h.
+
+
+
+\-The documentation for this struct was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/home/jb/code/\-Tau\-Labs/flight/\-Pi\-O\-S/inc/\hyperlink{pios__flash_8h}{pios\-\_\-flash.\-h}\end{DoxyCompactItemize}

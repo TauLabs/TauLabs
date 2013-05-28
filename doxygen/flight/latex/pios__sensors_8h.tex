@@ -1,0 +1,55 @@
+\hypertarget{pios__sensors_8h}{\section{/home/jb/code/\-Tau\-Labs/flight/\-Pi\-O\-S/inc/pios\-\_\-sensors.h \-File \-Reference}
+\label{pios__sensors_8h}\index{/home/jb/code/\-Tau\-Labs/flight/\-Pi\-O\-S/inc/pios\-\_\-sensors.\-h@{/home/jb/code/\-Tau\-Labs/flight/\-Pi\-O\-S/inc/pios\-\_\-sensors.\-h}}
+}
+
+
+\-Generic interface for sensors.  
+
+
+\subsection*{\-Data \-Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structpios__sensor__gyro__data}{pios\-\_\-sensor\-\_\-gyro\-\_\-data}
+\begin{DoxyCompactList}\small\item\em \-Pios sensor structure for generic gyro data. \end{DoxyCompactList}\item 
+struct \hyperlink{structpios__sensor__accel__data}{pios\-\_\-sensor\-\_\-accel\-\_\-data}
+\begin{DoxyCompactList}\small\item\em \-Pios sensor structure for generic accel data. \end{DoxyCompactList}\item 
+struct \hyperlink{structpios__sensor__mag__data}{pios\-\_\-sensor\-\_\-mag\-\_\-data}
+\begin{DoxyCompactList}\small\item\em \-Pios sensor structure for generic mag data. \end{DoxyCompactList}\item 
+struct \hyperlink{structpios__sensor__baro__data}{pios\-\_\-sensor\-\_\-baro\-\_\-data}
+\begin{DoxyCompactList}\small\item\em \-Pios sensor structure for generic baro data. \end{DoxyCompactList}\item 
+struct \hyperlink{structpios__sensor__registration}{pios\-\_\-sensor\-\_\-registration}
+\begin{DoxyCompactList}\small\item\em \-Structure to register the data. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{group___p_i_o_s___s_e_n_s_o_r_s_gadad1b67d985a6c9c150a70d23aac96a0}{pios\-\_\-sensor\-\_\-type} \{ \*
+\hyperlink{group___p_i_o_s___s_e_n_s_o_r_s_ggadad1b67d985a6c9c150a70d23aac96a0a0b386dcd14ce22a4ec0f296727338876}{\-P\-I\-O\-S\-\_\-\-S\-E\-N\-S\-O\-R\-\_\-\-A\-C\-C\-E\-L}, 
+\hyperlink{group___p_i_o_s___s_e_n_s_o_r_s_ggadad1b67d985a6c9c150a70d23aac96a0aa15cffcc905e0229f765c0653a43d6fe}{\-P\-I\-O\-S\-\_\-\-S\-E\-N\-S\-O\-R\-\_\-\-G\-Y\-R\-O}, 
+\hyperlink{group___p_i_o_s___s_e_n_s_o_r_s_ggadad1b67d985a6c9c150a70d23aac96a0a5a4ddf59e023cf155e5af7f8304e644f}{\-P\-I\-O\-S\-\_\-\-S\-E\-N\-S\-O\-R\-\_\-\-M\-A\-G}, 
+\hyperlink{group___p_i_o_s___s_e_n_s_o_r_s_ggadad1b67d985a6c9c150a70d23aac96a0aa17c455b7f9000f88b8d60d6c3ab1db0}{\-P\-I\-O\-S\-\_\-\-S\-E\-N\-S\-O\-R\-\_\-\-B\-A\-R\-O}, 
+\*
+\hyperlink{group___p_i_o_s___s_e_n_s_o_r_s_ggadad1b67d985a6c9c150a70d23aac96a0a022b8f5e76ed6659cdf85b004be20170}{\-P\-I\-O\-S\-\_\-\-S\-E\-N\-S\-O\-R\-\_\-\-L\-A\-S\-T}
+ \}
+\begin{DoxyCompactList}\small\item\em \-The types of sensors this module supports. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___s_e_n_s_o_r_s_ga382f3e734c0289835d99e3a8410a28bd}{\-P\-I\-O\-S\-\_\-\-S\-E\-N\-S\-O\-R\-S\-\_\-\-Init} ()
+\begin{DoxyCompactList}\small\item\em \-Initialize the sensors interface. \end{DoxyCompactList}\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___s_e_n_s_o_r_s_gadd19368ecca5b7d027ce475e3677692b}{\-P\-I\-O\-S\-\_\-\-S\-E\-N\-S\-O\-R\-S\-\_\-\-Register} (enum \hyperlink{group___p_i_o_s___s_e_n_s_o_r_s_gadad1b67d985a6c9c150a70d23aac96a0}{pios\-\_\-sensor\-\_\-type} type, x\-Queue\-Handle queue)
+\begin{DoxyCompactList}\small\item\em \-Register a sensor with the \-P\-I\-O\-S\-\_\-\-S\-E\-N\-S\-O\-R\-S interface. \end{DoxyCompactList}\item 
+x\-Queue\-Handle \hyperlink{group___p_i_o_s___s_e_n_s_o_r_s_gaec312826a58f6c29ef0a00f56e37cfbc}{\-P\-I\-O\-S\-\_\-\-S\-E\-N\-S\-O\-R\-S\-\_\-\-Get\-Queue} (enum \hyperlink{group___p_i_o_s___s_e_n_s_o_r_s_gadad1b67d985a6c9c150a70d23aac96a0}{pios\-\_\-sensor\-\_\-type} type)
+\begin{DoxyCompactList}\small\item\em \-Get the data queue for a sensor type. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-Generic interface for sensors. \begin{DoxyAuthor}{\-Author}
+\-Tau \-Labs, \href{http://taulabs.org,}{\tt http\-://taulabs.\-org,} \-Copyright (\-C) 2012-\/2013 
+\end{DoxyAuthor}
+\begin{DoxySeeAlso}{\-See also}
+\-The \-G\-N\-U \-Public \-License (\-G\-P\-L) \-Version 3 
+\end{DoxySeeAlso}
+
+
+\-Definition in file \hyperlink{pios__sensors_8h_source}{pios\-\_\-sensors.\-h}.
+

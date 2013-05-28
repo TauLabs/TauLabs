@@ -1,0 +1,44 @@
+\hypertarget{classpjrc__rawhid}{\section{pjrc\-\_\-rawhid \-Class \-Reference}
+\label{classpjrc__rawhid}\index{pjrc\-\_\-rawhid@{pjrc\-\_\-rawhid}}
+}
+
+
+{\ttfamily \#include $<$pjrc\-\_\-rawhid.\-h$>$}
+
+\subsection*{\-Signals}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___raw_h_i_d_plugin_ga214c3f073c411ac80306d36644715d8c}{device\-Unplugged} (int)
+\end{DoxyCompactItemize}
+\subsection*{\-Public \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___raw_h_i_d_plugin_gac45cb09ef64b6ae7d47e4d8a3a8ffdbe}{pjrc\-\_\-rawhid} ()
+\item 
+\hyperlink{group___raw_h_i_d_plugin_ga2ddf20ce0f573f8fdaae4134abe0c33f}{$\sim$pjrc\-\_\-rawhid} ()
+\item 
+int \hyperlink{group___raw_h_i_d_plugin_ga5ec309dd6bff41a84e52450d10db5fa7}{open} (int max, int vid, int pid, int usage\-\_\-page, int usage)
+\begin{DoxyCompactList}\small\item\em open -\/ open 1 or more devices \end{DoxyCompactList}\item 
+int \hyperlink{group___raw_h_i_d_plugin_gad2cd7d0625e39c7743d3bd814c5829d1}{receive} (int, \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} $\ast$buf, int len, int timeout)
+\begin{DoxyCompactList}\small\item\em receive -\/ receive a packet \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___raw_h_i_d_plugin_gaa8ef1b93b6d941b6213a87ccdcd45d91}{close} (int num)
+\begin{DoxyCompactList}\small\item\em \-Close the \-H\-I\-D device. \end{DoxyCompactList}\item 
+int \hyperlink{group___raw_h_i_d_plugin_gac3f9d785ee170f6331278e39c6f43c00}{send} (int num, \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} $\ast$buf, int len, int timeout)
+\begin{DoxyCompactList}\small\item\em send -\/ send a packet \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___raw_h_i_d_plugin_gad851d6feef1ebb7256895d5aab3ed3a4}{getserial} (int num)
+\begin{DoxyCompactList}\small\item\em \-Get the serial number for a \-H\-I\-D device. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+
+
+\-Definition at line 83 of file pjrc\-\_\-rawhid.\-h.
+
+
+
+\-The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/plugins/rawhid/\hyperlink{pjrc__rawhid_8h}{pjrc\-\_\-rawhid.\-h}\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/plugins/rawhid/\hyperlink{pjrc__rawhid__mac_8cpp}{pjrc\-\_\-rawhid\-\_\-mac.\-cpp}\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/plugins/rawhid/\hyperlink{pjrc__rawhid__unix_8cpp}{pjrc\-\_\-rawhid\-\_\-unix.\-cpp}\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/plugins/rawhid/\hyperlink{pjrc__rawhid__win_8cpp}{pjrc\-\_\-rawhid\-\_\-win.\-cpp}\end{DoxyCompactItemize}

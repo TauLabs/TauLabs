@@ -1,0 +1,68 @@
+\hypertarget{classmapcontrol_1_1_way_point_item}{\section{mapcontrol\-:\-:\-Way\-Point\-Item \-Class \-Reference}
+\label{classmapcontrol_1_1_way_point_item}\index{mapcontrol\-::\-Way\-Point\-Item@{mapcontrol\-::\-Way\-Point\-Item}}
+}
+
+
+\-A \-Q\-Graphics\-Item representing a \-Way\-Point.  
+
+
+
+
+{\ttfamily \#include $<$waypointitem.\-h$>$}
+
+\subsection*{\-Public \-Slots}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_widget_ga4f73652bac019e1b92fc67c4a2403b2b}{\-W\-P\-Deleted} (int const \&number, \hyperlink{classmapcontrol_1_1_way_point_item}{\-Way\-Point\-Item} $\ast$waypoint)
+\begin{DoxyCompactList}\small\item\em \-Called when a \-Way\-Point is deleted. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_widget_ga071a506384379c4aabb30ea5dc0fa4e1}{\-W\-P\-Renumbered} (int const \&oldnumber, int const \&newnumber, \hyperlink{classmapcontrol_1_1_way_point_item}{\-Way\-Point\-Item} $\ast$waypoint)
+\begin{DoxyCompactList}\small\item\em \-Called when a \-Way\-Point is renumbered. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_widget_ga5a663a828366d996f76a646e2cad90ec}{\-W\-P\-Inserted} (int const \&number, \hyperlink{classmapcontrol_1_1_way_point_item}{\-Way\-Point\-Item} $\ast$waypoint)
+\begin{DoxyCompactList}\small\item\em \-Called when a \-Way\-Point is inserted. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_widget_gaacddad340f4910d2ddbc811183adb83c}{on\-Home\-Position\-Changed} (\hyperlink{structinternals_1_1_point_lat_lng}{internals\-::\-Point\-Lat\-Lng}, float altitude)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_widget_ga0fa8c77130a9df8c2057ea0078606e0f}{\-Refresh\-Pos} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_widget_ga31fd5de287142c02d4bd478b4aacdf52}{set\-Opacity\-Slot} (qreal opacity)
+\end{DoxyCompactItemize}
+\subsection*{\-Signals}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_widget_ga259ccf14fc1866f99af110b4b0334d74}{\-W\-P\-Number\-Changed} (int const \&oldnumber, int const \&newnumber, \hyperlink{classmapcontrol_1_1_way_point_item}{\-Way\-Point\-Item} $\ast$waypoint)
+\begin{DoxyCompactList}\small\item\em fires when this \-Way\-Point number changes (not fired if due to a auto-\/renumbering) \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_widget_gae08b9a33683cbdb80ac273d6dcd75837}{\-W\-P\-Dropped} (\hyperlink{classmapcontrol_1_1_way_point_item}{\-Way\-Point\-Item} $\ast$waypoint)
+\begin{DoxyCompactList}\small\item\em \-Fired when the description, altitude or coordinates change. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_widget_gac48456e8c6628a31dc82e235dbf94c2f}{\-W\-P\-Values\-Changed} (\hyperlink{classmapcontrol_1_1_way_point_item}{\-Way\-Point\-Item} $\ast$waypoint)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_widget_ga94099ae67d892548f27f41b816f4735f}{waypointdoubleclick} (\hyperlink{classmapcontrol_1_1_way_point_item}{\-Way\-Point\-Item} $\ast$waypoint)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_widget_gaa25d07c9de649428ed3dd38384048404}{local\-Position\-Changed} (\-Q\-Point\-F point, \hyperlink{classmapcontrol_1_1_way_point_item}{\-Way\-Point\-Item} $\ast$waypoint)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_widget_ga976918f8397d48a08ae2af24e0ab219c}{manual\-Coord\-Change} (\hyperlink{classmapcontrol_1_1_way_point_item}{\-Way\-Point\-Item} $\ast$)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_widget_ga7ab7e29d2f8728b8fb7e804f0f2a34ed}{about\-To\-Be\-Deleted} (\hyperlink{classmapcontrol_1_1_way_point_item}{\-Way\-Point\-Item} $\ast$)
+\end{DoxyCompactItemize}
+\subsection*{\-Protected \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_widget_ga6f89cd987bfc43501b2d48b05a98e542}{mouse\-Move\-Event} (\-Q\-Graphics\-Scene\-Mouse\-Event $\ast$event)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_widget_ga75c88df34476dc60c89f8611fec5868b}{mouse\-Press\-Event} (\-Q\-Graphics\-Scene\-Mouse\-Event $\ast$event)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_widget_gab66a8c1572009dbf0caad4c9a0109cfa}{mouse\-Release\-Event} (\-Q\-Graphics\-Scene\-Mouse\-Event $\ast$event)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_widget_ga8e95fece0c41ca37ee7878e84a03e700}{mouse\-Double\-Click\-Event} (\-Q\-Graphics\-Scene\-Mouse\-Event $\ast$event)
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-A \-Q\-Graphics\-Item representing a \-Way\-Point. 
+
+\-Definition at line 54 of file waypointitem.\-h.
+
+
+
+\-The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/libs/opmapcontrol/src/mapwidget/\hyperlink{waypointitem_8h}{waypointitem.\-h}\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/libs/opmapcontrol/src/mapwidget/\hyperlink{waypointitem_8cpp}{waypointitem.\-cpp}\end{DoxyCompactItemize}

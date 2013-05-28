@@ -1,0 +1,111 @@
+\hypertarget{structmpu6000__dev}{\section{mpu6000\-\_\-dev \-Struct \-Reference}
+\label{structmpu6000__dev}\index{mpu6000\-\_\-dev@{mpu6000\-\_\-dev}}
+}
+\subsection*{\-Data \-Fields}
+\begin{DoxyCompactItemize}
+\item 
+uint32\-\_\-t \hyperlink{structmpu6000__dev_a7409608d24410d4ef980f9c05085bdb5}{spi\-\_\-id}
+\item 
+uint32\-\_\-t \hyperlink{structmpu6000__dev_a2b1869dd86c392ccfe9a0cd881a3b4a7}{slave\-\_\-num}
+\item 
+enum \hyperlink{group___p_i_o_s___m_p_u60_x0_ga56700b0154a14cf67c9f8f44a86ad9c0}{pios\-\_\-mpu60x0\-\_\-range} \hyperlink{structmpu6000__dev_a0d330b8cdca1d01d4b5eecd21bba78f6}{gyro\-\_\-range}
+\item 
+x\-Queue\-Handle \hyperlink{structmpu6000__dev_a356a86d4ad42dd2daecb5e255cc5f7ce}{gyro\-\_\-queue}
+\item 
+enum \hyperlink{group___p_i_o_s___m_p_u60_x0_ga8f297bddae3eb43bbf7b54abc6494992}{pios\-\_\-mpu60x0\-\_\-accel\-\_\-range} \hyperlink{structmpu6000__dev_a97c53e87c85ad8b04916492833bedadb}{accel\-\_\-range}
+\item 
+x\-Queue\-Handle \hyperlink{structmpu6000__dev_aab5a85c354860f95eabe5fdaac73504a}{accel\-\_\-queue}
+\item 
+struct \hyperlink{structpios__mpu60x0__cfg}{pios\-\_\-mpu60x0\-\_\-cfg} $\ast$ \hyperlink{structmpu6000__dev_a4a8e8aa9b09f9ce6dcb417ff154282bc}{cfg}
+\item 
+volatile bool \hyperlink{structmpu6000__dev_a235cf7e1cc85cf6707100027c483894a}{configured}
+\item 
+enum \hyperlink{group___p_i_o_s___m_p_u6000_gacec1373b8d76d996eacbadde2698c1ee}{pios\-\_\-mpu6000\-\_\-dev\-\_\-magic} \hyperlink{structmpu6000__dev_a11582fec1335a7b8e45979545ce7191b}{magic}
+\item 
+enum \hyperlink{group___p_i_o_s___m_p_u60_x0_gacce1988bc994f5ade6ac748c2bf0b924}{pios\-\_\-mpu60x0\-\_\-filter} \hyperlink{structmpu6000__dev_ad8507301bf86feb8f18211ddb353f332}{filter}
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+
+
+\-Definition at line 47 of file pios\-\_\-mpu6000.\-c.
+
+
+
+\subsection{\-Field \-Documentation}
+\hypertarget{structmpu6000__dev_aab5a85c354860f95eabe5fdaac73504a}{\index{mpu6000\-\_\-dev@{mpu6000\-\_\-dev}!accel\-\_\-queue@{accel\-\_\-queue}}
+\index{accel\-\_\-queue@{accel\-\_\-queue}!mpu6000_dev@{mpu6000\-\_\-dev}}
+\subsubsection[{accel\-\_\-queue}]{\setlength{\rightskip}{0pt plus 5cm}x\-Queue\-Handle {\bf mpu6000\-\_\-dev\-::accel\-\_\-queue}}}\label{structmpu6000__dev_aab5a85c354860f95eabe5fdaac73504a}
+
+
+\-Definition at line 54 of file pios\-\_\-mpu6000.\-c.
+
+\hypertarget{structmpu6000__dev_a97c53e87c85ad8b04916492833bedadb}{\index{mpu6000\-\_\-dev@{mpu6000\-\_\-dev}!accel\-\_\-range@{accel\-\_\-range}}
+\index{accel\-\_\-range@{accel\-\_\-range}!mpu6000_dev@{mpu6000\-\_\-dev}}
+\subsubsection[{accel\-\_\-range}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf pios\-\_\-mpu60x0\-\_\-accel\-\_\-range} {\bf mpu6000\-\_\-dev\-::accel\-\_\-range}}}\label{structmpu6000__dev_a97c53e87c85ad8b04916492833bedadb}
+
+
+\-Definition at line 53 of file pios\-\_\-mpu6000.\-c.
+
+\hypertarget{structmpu6000__dev_a4a8e8aa9b09f9ce6dcb417ff154282bc}{\index{mpu6000\-\_\-dev@{mpu6000\-\_\-dev}!cfg@{cfg}}
+\index{cfg@{cfg}!mpu6000_dev@{mpu6000\-\_\-dev}}
+\subsubsection[{cfg}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf pios\-\_\-mpu60x0\-\_\-cfg}$\ast$ {\bf mpu6000\-\_\-dev\-::cfg}}}\label{structmpu6000__dev_a4a8e8aa9b09f9ce6dcb417ff154282bc}
+
+
+\-Definition at line 56 of file pios\-\_\-mpu6000.\-c.
+
+\hypertarget{structmpu6000__dev_a235cf7e1cc85cf6707100027c483894a}{\index{mpu6000\-\_\-dev@{mpu6000\-\_\-dev}!configured@{configured}}
+\index{configured@{configured}!mpu6000_dev@{mpu6000\-\_\-dev}}
+\subsubsection[{configured}]{\setlength{\rightskip}{0pt plus 5cm}volatile bool {\bf mpu6000\-\_\-dev\-::configured}}}\label{structmpu6000__dev_a235cf7e1cc85cf6707100027c483894a}
+
+
+\-Definition at line 57 of file pios\-\_\-mpu6000.\-c.
+
+\hypertarget{structmpu6000__dev_ad8507301bf86feb8f18211ddb353f332}{\index{mpu6000\-\_\-dev@{mpu6000\-\_\-dev}!filter@{filter}}
+\index{filter@{filter}!mpu6000_dev@{mpu6000\-\_\-dev}}
+\subsubsection[{filter}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf pios\-\_\-mpu60x0\-\_\-filter} {\bf mpu6000\-\_\-dev\-::filter}}}\label{structmpu6000__dev_ad8507301bf86feb8f18211ddb353f332}
+
+
+\-Definition at line 59 of file pios\-\_\-mpu6000.\-c.
+
+\hypertarget{structmpu6000__dev_a356a86d4ad42dd2daecb5e255cc5f7ce}{\index{mpu6000\-\_\-dev@{mpu6000\-\_\-dev}!gyro\-\_\-queue@{gyro\-\_\-queue}}
+\index{gyro\-\_\-queue@{gyro\-\_\-queue}!mpu6000_dev@{mpu6000\-\_\-dev}}
+\subsubsection[{gyro\-\_\-queue}]{\setlength{\rightskip}{0pt plus 5cm}x\-Queue\-Handle {\bf mpu6000\-\_\-dev\-::gyro\-\_\-queue}}}\label{structmpu6000__dev_a356a86d4ad42dd2daecb5e255cc5f7ce}
+
+
+\-Definition at line 51 of file pios\-\_\-mpu6000.\-c.
+
+\hypertarget{structmpu6000__dev_a0d330b8cdca1d01d4b5eecd21bba78f6}{\index{mpu6000\-\_\-dev@{mpu6000\-\_\-dev}!gyro\-\_\-range@{gyro\-\_\-range}}
+\index{gyro\-\_\-range@{gyro\-\_\-range}!mpu6000_dev@{mpu6000\-\_\-dev}}
+\subsubsection[{gyro\-\_\-range}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf pios\-\_\-mpu60x0\-\_\-range} {\bf mpu6000\-\_\-dev\-::gyro\-\_\-range}}}\label{structmpu6000__dev_a0d330b8cdca1d01d4b5eecd21bba78f6}
+
+
+\-Definition at line 50 of file pios\-\_\-mpu6000.\-c.
+
+\hypertarget{structmpu6000__dev_a11582fec1335a7b8e45979545ce7191b}{\index{mpu6000\-\_\-dev@{mpu6000\-\_\-dev}!magic@{magic}}
+\index{magic@{magic}!mpu6000_dev@{mpu6000\-\_\-dev}}
+\subsubsection[{magic}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf pios\-\_\-mpu6000\-\_\-dev\-\_\-magic} {\bf mpu6000\-\_\-dev\-::magic}}}\label{structmpu6000__dev_a11582fec1335a7b8e45979545ce7191b}
+
+
+\-Definition at line 58 of file pios\-\_\-mpu6000.\-c.
+
+\hypertarget{structmpu6000__dev_a2b1869dd86c392ccfe9a0cd881a3b4a7}{\index{mpu6000\-\_\-dev@{mpu6000\-\_\-dev}!slave\-\_\-num@{slave\-\_\-num}}
+\index{slave\-\_\-num@{slave\-\_\-num}!mpu6000_dev@{mpu6000\-\_\-dev}}
+\subsubsection[{slave\-\_\-num}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t {\bf mpu6000\-\_\-dev\-::slave\-\_\-num}}}\label{structmpu6000__dev_a2b1869dd86c392ccfe9a0cd881a3b4a7}
+
+
+\-Definition at line 49 of file pios\-\_\-mpu6000.\-c.
+
+\hypertarget{structmpu6000__dev_a7409608d24410d4ef980f9c05085bdb5}{\index{mpu6000\-\_\-dev@{mpu6000\-\_\-dev}!spi\-\_\-id@{spi\-\_\-id}}
+\index{spi\-\_\-id@{spi\-\_\-id}!mpu6000_dev@{mpu6000\-\_\-dev}}
+\subsubsection[{spi\-\_\-id}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t {\bf mpu6000\-\_\-dev\-::spi\-\_\-id}}}\label{structmpu6000__dev_a7409608d24410d4ef980f9c05085bdb5}
+
+
+\-Definition at line 48 of file pios\-\_\-mpu6000.\-c.
+
+
+
+\-The documentation for this struct was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/home/jb/code/\-Tau\-Labs/flight/\-Pi\-O\-S/\-Common/\hyperlink{pios__mpu6000_8c}{pios\-\_\-mpu6000.\-c}\end{DoxyCompactItemize}

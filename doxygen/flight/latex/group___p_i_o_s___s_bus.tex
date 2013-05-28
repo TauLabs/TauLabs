@@ -1,0 +1,105 @@
+\hypertarget{group___p_i_o_s___s_bus}{\section{\-Futaba \-S.\-Bus receiver functions}
+\label{group___p_i_o_s___s_bus}\index{\-Futaba S.\-Bus receiver functions@{\-Futaba S.\-Bus receiver functions}}
+}
+
+
+\-Code to read \-Futaba \-S.\-Bus receiver serial stream.  
+
+
+\subsection*{\-Data \-Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structpios__sbus__state}{pios\-\_\-sbus\-\_\-state}
+\item 
+struct \hyperlink{structpios__sbus__dev}{pios\-\_\-sbus\-\_\-dev}
+\item 
+struct \hyperlink{structpios__sbus__cfg}{pios\-\_\-sbus\-\_\-cfg}
+\end{DoxyCompactItemize}
+\subsection*{\-Files}
+\begin{DoxyCompactItemize}
+\item 
+file \hyperlink{pios__sbus_8c}{pios\-\_\-sbus.\-c}
+\begin{DoxyCompactList}\small\item\em \-Code to read \-Futaba \-S.\-Bus receiver serial stream. \end{DoxyCompactList}\item 
+file \hyperlink{pios__sbus_8h}{pios\-\_\-sbus.\-h}
+\begin{DoxyCompactList}\small\item\em \-Futaba \-S.\-Bus functions header. \end{DoxyCompactList}\item 
+file \hyperlink{pios__sbus__priv_8h}{pios\-\_\-sbus\-\_\-priv.\-h}
+\begin{DoxyCompactList}\small\item\em \-Futaba \-S.\-Bus \-Private structures. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{group___p_i_o_s___s_bus_ga595ee1f903af9c4166426f9cc144b36c}{pios\-\_\-sbus\-\_\-dev\-\_\-magic} \{ \hyperlink{group___p_i_o_s___s_bus_gga595ee1f903af9c4166426f9cc144b36ca326080b9f0c57625a4ce55bd5cd91d66}{\-P\-I\-O\-S\-\_\-\-S\-B\-U\-S\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C} =  0x53427573
+ \}
+\end{DoxyCompactItemize}
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___s_bus_gac93988726d12e4481b1ae236ab5fc8f5}{\-P\-I\-O\-S\-\_\-\-S\-Bus\-\_\-\-Init} (uint32\-\_\-t $\ast$sbus\-\_\-id, const struct \hyperlink{structpios__sbus__cfg}{pios\-\_\-sbus\-\_\-cfg} $\ast$cfg, const struct \hyperlink{structpios__com__driver}{pios\-\_\-com\-\_\-driver} $\ast$driver, uint32\-\_\-t lower\-\_\-id)
+\end{DoxyCompactItemize}
+\subsection*{\-Variables}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structpios__rcvr__driver}{pios\-\_\-rcvr\-\_\-driver} \hyperlink{group___p_i_o_s___s_bus_gaaeb5483a0eaa4e4221011d4a83831876}{pios\-\_\-sbus\-\_\-rcvr\-\_\-driver}
+\item 
+struct \hyperlink{structpios__rcvr__driver}{pios\-\_\-rcvr\-\_\-driver} \hyperlink{group___p_i_o_s___s_bus_gaaeb5483a0eaa4e4221011d4a83831876}{pios\-\_\-sbus\-\_\-rcvr\-\_\-driver}
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-Code to read \-Futaba \-S.\-Bus receiver serial stream. \-P\-I\-O\-S interface to read and write from \-Futaba \-S.\-Bus port. 
+
+\subsection{\-Enumeration \-Type \-Documentation}
+\hypertarget{group___p_i_o_s___s_bus_ga595ee1f903af9c4166426f9cc144b36c}{\index{\-Futaba S.\-Bus receiver functions@{\-Futaba S.\-Bus receiver functions}!pios\-\_\-sbus\-\_\-dev\-\_\-magic@{pios\-\_\-sbus\-\_\-dev\-\_\-magic}}
+\index{pios\-\_\-sbus\-\_\-dev\-\_\-magic@{pios\-\_\-sbus\-\_\-dev\-\_\-magic}!Futaba S.Bus receiver functions@{\-Futaba S.\-Bus receiver functions}}
+\subsubsection[{pios\-\_\-sbus\-\_\-dev\-\_\-magic}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf pios\-\_\-sbus\-\_\-dev\-\_\-magic}}}\label{group___p_i_o_s___s_bus_ga595ee1f903af9c4166426f9cc144b36c}
+\begin{Desc}
+\item[\-Enumerator\-: ]\par
+\begin{description}
+\index{\-P\-I\-O\-S\-\_\-\-S\-B\-U\-S\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C@{\-P\-I\-O\-S\-\_\-\-S\-B\-U\-S\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}!\-Futaba S.\-Bus receiver functions@{\-Futaba S.\-Bus receiver functions}}\index{\-Futaba S.\-Bus receiver functions@{\-Futaba S.\-Bus receiver functions}!\-P\-I\-O\-S\-\_\-\-S\-B\-U\-S\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C@{\-P\-I\-O\-S\-\_\-\-S\-B\-U\-S\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}}\item[{\em 
+\hypertarget{group___p_i_o_s___s_bus_gga595ee1f903af9c4166426f9cc144b36ca326080b9f0c57625a4ce55bd5cd91d66}{\-P\-I\-O\-S\-\_\-\-S\-B\-U\-S\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}\label{group___p_i_o_s___s_bus_gga595ee1f903af9c4166426f9cc144b36ca326080b9f0c57625a4ce55bd5cd91d66}
+}]\end{description}
+\end{Desc}
+
+
+
+\-Definition at line 52 of file pios\-\_\-sbus.\-c.
+
+
+
+\subsection{\-Function \-Documentation}
+\hypertarget{group___p_i_o_s___s_bus_gac93988726d12e4481b1ae236ab5fc8f5}{\index{\-Futaba S.\-Bus receiver functions@{\-Futaba S.\-Bus receiver functions}!\-P\-I\-O\-S\-\_\-\-S\-Bus\-\_\-\-Init@{\-P\-I\-O\-S\-\_\-\-S\-Bus\-\_\-\-Init}}
+\index{\-P\-I\-O\-S\-\_\-\-S\-Bus\-\_\-\-Init@{\-P\-I\-O\-S\-\_\-\-S\-Bus\-\_\-\-Init}!Futaba S.Bus receiver functions@{\-Futaba S.\-Bus receiver functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-S\-Bus\-\_\-\-Init}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-P\-I\-O\-S\-\_\-\-S\-Bus\-\_\-\-Init} (
+\begin{DoxyParamCaption}
+\item[{uint32\-\_\-t $\ast$}]{sbus\-\_\-id, }
+\item[{const struct {\bf pios\-\_\-sbus\-\_\-cfg} $\ast$}]{cfg, }
+\item[{const struct {\bf pios\-\_\-com\-\_\-driver} $\ast$}]{driver, }
+\item[{uint32\-\_\-t}]{lower\-\_\-id}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___s_bus_gac93988726d12e4481b1ae236ab5fc8f5}
+
+
+\-Definition at line 125 of file pios\-\_\-sbus.\-c.
+
+
+
+\subsection{\-Variable \-Documentation}
+\hypertarget{group___p_i_o_s___s_bus_gaaeb5483a0eaa4e4221011d4a83831876}{\index{\-Futaba S.\-Bus receiver functions@{\-Futaba S.\-Bus receiver functions}!pios\-\_\-sbus\-\_\-rcvr\-\_\-driver@{pios\-\_\-sbus\-\_\-rcvr\-\_\-driver}}
+\index{pios\-\_\-sbus\-\_\-rcvr\-\_\-driver@{pios\-\_\-sbus\-\_\-rcvr\-\_\-driver}!Futaba S.Bus receiver functions@{\-Futaba S.\-Bus receiver functions}}
+\subsubsection[{pios\-\_\-sbus\-\_\-rcvr\-\_\-driver}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf pios\-\_\-rcvr\-\_\-driver} {\bf pios\-\_\-sbus\-\_\-rcvr\-\_\-driver}}}\label{group___p_i_o_s___s_bus_gaaeb5483a0eaa4e4221011d4a83831876}
+{\bfseries \-Initial value\-:}
+\begin{DoxyCode}
+ {
+        .read = PIOS_SBus_Get,
+}
+\end{DoxyCode}
+
+
+\-Definition at line 48 of file pios\-\_\-sbus.\-c.
+
+\hypertarget{group___p_i_o_s___s_bus_gaaeb5483a0eaa4e4221011d4a83831876}{\index{\-Futaba S.\-Bus receiver functions@{\-Futaba S.\-Bus receiver functions}!pios\-\_\-sbus\-\_\-rcvr\-\_\-driver@{pios\-\_\-sbus\-\_\-rcvr\-\_\-driver}}
+\index{pios\-\_\-sbus\-\_\-rcvr\-\_\-driver@{pios\-\_\-sbus\-\_\-rcvr\-\_\-driver}!Futaba S.Bus receiver functions@{\-Futaba S.\-Bus receiver functions}}
+\subsubsection[{pios\-\_\-sbus\-\_\-rcvr\-\_\-driver}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf pios\-\_\-rcvr\-\_\-driver} {\bf pios\-\_\-sbus\-\_\-rcvr\-\_\-driver}}}\label{group___p_i_o_s___s_bus_gaaeb5483a0eaa4e4221011d4a83831876}
+
+
+\-Definition at line 48 of file pios\-\_\-sbus.\-c.
+

@@ -1,0 +1,25 @@
+var _s_t_m32_f30x_2pios__internal__adc_8c =
+[
+    [ "pios_internal_adc_dev_magic", "group___p_i_o_s___a_d_c.html#gafcbb2d879978c3e1679c3ccabaff8c03", null ],
+    [ "accumulate", "group___p_i_o_s___a_d_c.html#ga5a21111fa22369034478d53481ae957e", null ],
+    [ "PIOS_ADC_DMA_Handler", "group___p_i_o_s___a_d_c.html#gaa3de97465d76af6756c3c90aa54d6ba0", null ],
+    [ "PIOS_INTERNAL_ADC_Allocate", "group___p_i_o_s___a_d_c.html#ga11cc028c72120f492bc574aeffd24283", null ],
+    [ "PIOS_INTERNAL_ADC_Available", "group___p_i_o_s___a_d_c.html#ga793297995f2226dfcaa76cd044fea6f7", null ],
+    [ "PIOS_INTERNAL_ADC_Converter_Config", "group___p_i_o_s___a_d_c.html#gae554209b09f6231ced5293e6384175f9", null ],
+    [ "PIOS_INTERNAL_ADC_DMA_Handler1", "group___p_i_o_s___a_d_c.html#gafe1af212b06b25f8c3fd12a4261be677", null ],
+    [ "PIOS_INTERNAL_ADC_DMA_Handler2", "group___p_i_o_s___a_d_c.html#gae64c15d8870f720a8057401c7ac9c8e2", null ],
+    [ "PIOS_INTERNAL_ADC_DMA_Handler3", "group___p_i_o_s___a_d_c.html#gaefd6cb0dc568c897f95a8862a32216b5", null ],
+    [ "PIOS_INTERNAL_ADC_DMA_Handler4", "group___p_i_o_s___a_d_c.html#gae365ebda765df4bcd9d6315b7c57f92d", null ],
+    [ "PIOS_INTERNAL_ADC_Init", "group___p_i_o_s___a_d_c.html#ga24dec792533e0f27e35c3ea6d1bbd9e1", null ],
+    [ "PIOS_INTERNAL_ADC_PinConfig", "group___p_i_o_s___a_d_c.html#gadf10eba156f8219fb128649201d52d44", null ],
+    [ "PIOS_INTERNAL_ADC_PinGet", "group___p_i_o_s___a_d_c.html#ga5f3375356e99e5bc818cbd020a6f424a", null ],
+    [ "PIOS_INTERNAL_ADC_validate", "group___p_i_o_s___a_d_c.html#gadd37ea8f811262d1a8a8e25aa263a91f", null ],
+    [ "PIOS_INTERNAL_DMAConfig", "group___p_i_o_s___a_d_c.html#gaef9a5736746070a689196ab235cb475e", null ],
+    [ "current_instances", "group___p_i_o_s___a_d_c.html#ga7bbb419cb93fd7379362489e839daec6", null ],
+    [ "driver_instances", "group___p_i_o_s___a_d_c.html#ga5250ef3bb34ef47503a057a9b95c494a", null ],
+    [ "pios_internal_adc_driver", "group___p_i_o_s___a_d_c.html#gaa1decc30319efc11cab3d3e9ba32ff8e", null ],
+    [ "static_accumulator", "group___p_i_o_s___a_d_c.html#ga4a9ef33d5b4098deaf5304a4774a26f1", null ],
+    [ "static_adc_dev", "group___p_i_o_s___a_d_c.html#gaaf72a53b2e01cb2e407eca2d687061c0", null ],
+    [ "static_channel_map", "group___p_i_o_s___a_d_c.html#ga78febbbc4c3fa9ab709e4f2921557044", null ],
+    [ "static_raw_data_buffer", "group___p_i_o_s___a_d_c.html#ga85e884b42c9b4d8bc26a42c26fc3e0ef", null ]
+];

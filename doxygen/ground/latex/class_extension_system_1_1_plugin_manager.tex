@@ -1,0 +1,89 @@
+\hypertarget{class_extension_system_1_1_plugin_manager}{\section{\-Extension\-System\-:\-:\-Plugin\-Manager \-Class \-Reference}
+\label{class_extension_system_1_1_plugin_manager}\index{\-Extension\-System\-::\-Plugin\-Manager@{\-Extension\-System\-::\-Plugin\-Manager}}
+}
+
+
+\hyperlink{namespace_core}{\-Core} plugin system that manages the plugins, their life cycle and their registered objects.  
+
+
+
+
+{\ttfamily \#include $<$pluginmanager.\-h$>$}
+
+\subsection*{\-Signals}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_extension_system_1_1_plugin_manager_a6b4756c3e225d230d653fc4b17e75333}{object\-Added} (\-Q\-Object $\ast$obj)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_extension_system_1_1_plugin_manager_ad8bb981cb3c0d59af87244cdc5807d35}{about\-To\-Remove\-Object} (\-Q\-Object $\ast$obj)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_extension_system_1_1_plugin_manager_ae3beea101f4f0ade4bef0a2ba0995ebc}{plugins\-Changed} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_extension_system_1_1_plugin_manager_afb03a4a58ac4629332ca26b4eb519748}{plugins\-Load\-Ended} ()
+\end{DoxyCompactItemize}
+\subsection*{\-Friends}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{class_extension_system_1_1_plugin_manager_ac886620628a69def5b6d57fa12c39179}{\-Internal\-::\-Plugin\-Manager\-Private}
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\hyperlink{namespace_core}{\-Core} plugin system that manages the plugins, their life cycle and their registered objects. 
+
+\-The plugin manager is used for the following tasks\-:   \-Manage plugins and their state  \-Manipulate a 'common object pool' 
+
+\-Definition at line 52 of file pluginmanager.\-h.
+
+
+
+\subsection{\-Member \-Function \-Documentation}
+\hypertarget{class_extension_system_1_1_plugin_manager_ad8bb981cb3c0d59af87244cdc5807d35}{\index{\-Extension\-System\-::\-Plugin\-Manager@{\-Extension\-System\-::\-Plugin\-Manager}!about\-To\-Remove\-Object@{about\-To\-Remove\-Object}}
+\index{about\-To\-Remove\-Object@{about\-To\-Remove\-Object}!ExtensionSystem::PluginManager@{\-Extension\-System\-::\-Plugin\-Manager}}
+\subsubsection[{about\-To\-Remove\-Object}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Plugin\-Manager\-::about\-To\-Remove\-Object} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Object $\ast$}]{obj}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}signal\mbox{]}}}}\label{class_extension_system_1_1_plugin_manager_ad8bb981cb3c0d59af87244cdc5807d35}
+\-Signal that {\itshape obj\/} will be removed from the object pool. \hypertarget{class_extension_system_1_1_plugin_manager_a6b4756c3e225d230d653fc4b17e75333}{\index{\-Extension\-System\-::\-Plugin\-Manager@{\-Extension\-System\-::\-Plugin\-Manager}!object\-Added@{object\-Added}}
+\index{object\-Added@{object\-Added}!ExtensionSystem::PluginManager@{\-Extension\-System\-::\-Plugin\-Manager}}
+\subsubsection[{object\-Added}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Plugin\-Manager\-::object\-Added} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Object $\ast$}]{obj}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}signal\mbox{]}}}}\label{class_extension_system_1_1_plugin_manager_a6b4756c3e225d230d653fc4b17e75333}
+\-Signal that {\itshape obj\/} has been added to the object pool. \hypertarget{class_extension_system_1_1_plugin_manager_ae3beea101f4f0ade4bef0a2ba0995ebc}{\index{\-Extension\-System\-::\-Plugin\-Manager@{\-Extension\-System\-::\-Plugin\-Manager}!plugins\-Changed@{plugins\-Changed}}
+\index{plugins\-Changed@{plugins\-Changed}!ExtensionSystem::PluginManager@{\-Extension\-System\-::\-Plugin\-Manager}}
+\subsubsection[{plugins\-Changed}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Plugin\-Manager\-::plugins\-Changed} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}signal\mbox{]}}}}\label{class_extension_system_1_1_plugin_manager_ae3beea101f4f0ade4bef0a2ba0995ebc}
+\-Signal that the list of available plugins has changed.
+
+\begin{DoxySeeAlso}{\-See also}
+plugins() 
+\end{DoxySeeAlso}
+\hypertarget{class_extension_system_1_1_plugin_manager_afb03a4a58ac4629332ca26b4eb519748}{\index{\-Extension\-System\-::\-Plugin\-Manager@{\-Extension\-System\-::\-Plugin\-Manager}!plugins\-Load\-Ended@{plugins\-Load\-Ended}}
+\index{plugins\-Load\-Ended@{plugins\-Load\-Ended}!ExtensionSystem::PluginManager@{\-Extension\-System\-::\-Plugin\-Manager}}
+\subsubsection[{plugins\-Load\-Ended}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Extension\-System\-::\-Plugin\-Manager\-::plugins\-Load\-Ended} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}signal\mbox{]}}}}\label{class_extension_system_1_1_plugin_manager_afb03a4a58ac4629332ca26b4eb519748}
+
+
+\subsection{\-Friends \-And \-Related \-Function \-Documentation}
+\hypertarget{class_extension_system_1_1_plugin_manager_ac886620628a69def5b6d57fa12c39179}{\index{\-Extension\-System\-::\-Plugin\-Manager@{\-Extension\-System\-::\-Plugin\-Manager}!\-Internal\-::\-Plugin\-Manager\-Private@{\-Internal\-::\-Plugin\-Manager\-Private}}
+\index{\-Internal\-::\-Plugin\-Manager\-Private@{\-Internal\-::\-Plugin\-Manager\-Private}!ExtensionSystem::PluginManager@{\-Extension\-System\-::\-Plugin\-Manager}}
+\subsubsection[{\-Internal\-::\-Plugin\-Manager\-Private}]{\setlength{\rightskip}{0pt plus 5cm}friend class {\bf \-Internal\-::\-Plugin\-Manager\-Private}\hspace{0.3cm}{\ttfamily  \mbox{[}friend\mbox{]}}}}\label{class_extension_system_1_1_plugin_manager_ac886620628a69def5b6d57fa12c39179}
+
+
+\-Definition at line 128 of file pluginmanager.\-h.
+
+
+
+\-The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/libs/extensionsystem/\hyperlink{pluginmanager_8h}{pluginmanager.\-h}\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/libs/extensionsystem/\hyperlink{pluginmanager_8cpp}{pluginmanager.\-cpp}\end{DoxyCompactItemize}

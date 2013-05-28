@@ -1,0 +1,565 @@
+\hypertarget{structpios__rfm22b__dev}{\section{pios\-\_\-rfm22b\-\_\-dev \-Struct \-Reference}
+\label{structpios__rfm22b__dev}\index{pios\-\_\-rfm22b\-\_\-dev@{pios\-\_\-rfm22b\-\_\-dev}}
+}
+
+
+{\ttfamily \#include $<$pios\-\_\-rfm22b\-\_\-priv.\-h$>$}
+
+\subsection*{\-Data \-Fields}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{group___p_i_o_s___r_f_m22_b_ga25f646fb6abded1e9f076ca00e13cbec}{pios\-\_\-rfm22b\-\_\-dev\-\_\-magic} \hyperlink{structpios__rfm22b__dev_acffebca4153749f86cd6237ac4482f3a}{magic}
+\item 
+struct \hyperlink{structpios__rfm22b__cfg}{pios\-\_\-rfm22b\-\_\-cfg} \hyperlink{structpios__rfm22b__dev_a2fc3047fbb17be7e546cab4e24ee2b28}{cfg}
+\item 
+uint32\-\_\-t \hyperlink{structpios__rfm22b__dev_a7fae761882f21a9a0088db1f81dd41da}{spi\-\_\-id}
+\item 
+uint32\-\_\-t \hyperlink{structpios__rfm22b__dev_a4e0db01351dfac40720073969a7fafae}{slave\-\_\-num}
+\item 
+uint32\-\_\-t \hyperlink{structpios__rfm22b__dev_ac608ccb62cbd144c8053aaacb8c14fcf}{device\-I\-D}
+\item 
+uint32\-\_\-t \hyperlink{structpios__rfm22b__dev_ada47e039e7ba782c44b154fce01005eb}{destination\-\_\-id}
+\item 
+bool \hyperlink{structpios__rfm22b__dev_a37c2eab9f05656b3ef5690689b0e06c9}{coordinator}
+\item 
+x\-Task\-Handle \hyperlink{structpios__rfm22b__dev_a28c619aaf7379eacea11f08847223cc2}{task\-Handle}
+\item 
+\hyperlink{structrfm22b__pair__stats}{rfm22b\-\_\-pair\-\_\-stats} \hyperlink{structpios__rfm22b__dev_a6db8d809d116a414eb5c7a826c833bc5}{pair\-\_\-stats} \mbox{[}\-O\-P\-L\-I\-N\-K\-S\-T\-A\-T\-U\-S\-\_\-\-P\-A\-I\-R\-I\-D\-S\-\_\-\-N\-U\-M\-E\-L\-E\-M\mbox{]}
+\item 
+x\-Semaphore\-Handle \hyperlink{structpios__rfm22b__dev_a9e681596408e8e6d5387ecdd43acfe62}{isr\-Pending}
+\item 
+\hyperlink{group___p_i_o_s___r_f_m22_b_gaa8a316480e010f5e383d29257c0686cd}{\-P\-I\-O\-S\-\_\-\-R\-F\-M22\-B\-\_\-\-Com\-Config\-Callback} \hyperlink{structpios__rfm22b__dev_abed55ffe3e0e2832d958e692f9310b6e}{com\-\_\-config\-\_\-cb}
+\item 
+\hyperlink{group___p_i_o_s___c_o_m_ga23f1888821f1f74a50c02adc459df597}{pios\-\_\-com\-\_\-callback} \hyperlink{structpios__rfm22b__dev_ac170322ec2f96932e0f060aa68b6bd12}{rx\-\_\-in\-\_\-cb}
+\item 
+uint32\-\_\-t \hyperlink{structpios__rfm22b__dev_a70fce9f445ae6ec87f5a559b89e82169}{rx\-\_\-in\-\_\-context}
+\item 
+\hyperlink{group___p_i_o_s___c_o_m_ga23f1888821f1f74a50c02adc459df597}{pios\-\_\-com\-\_\-callback} \hyperlink{structpios__rfm22b__dev_ab861d6c14abc749f20e45226bd606840}{tx\-\_\-out\-\_\-cb}
+\item 
+uint32\-\_\-t \hyperlink{structpios__rfm22b__dev_a6d55d5cf2cee09fb6e56c1f918dc31ea}{tx\-\_\-out\-\_\-context}
+\item 
+uint8\-\_\-t \hyperlink{structpios__rfm22b__dev_a3ca116567675ce2311161483fe4c9ff4}{tx\-\_\-power}
+\item 
+uint8\-\_\-t \hyperlink{structpios__rfm22b__dev_aff7a6133350534d9bdb99e8e4856dd6e}{datarate}
+\item 
+enum \hyperlink{group___p_i_o_s___r_f_m22_b_gaf31f5344b7afb099b3105bfff4debdca}{pios\-\_\-rfm22b\-\_\-state} \hyperlink{structpios__rfm22b__dev_a2725ce50c0aad0fae1e4cee8e29072f7}{state}
+\item 
+x\-Queue\-Handle \hyperlink{structpios__rfm22b__dev_a0c5971f25ea4ab50328105098e54eda7}{event\-Queue}
+\item 
+uint8\-\_\-t \hyperlink{structpios__rfm22b__dev_aa6ea2086a901b33a1f0f1535f378cdfc}{device\-\_\-status}
+\item 
+uint8\-\_\-t \hyperlink{structpios__rfm22b__dev_a9a3b8dfbadc7d813f3f9a2e9a40373f7}{int\-\_\-status1}
+\item 
+uint8\-\_\-t \hyperlink{structpios__rfm22b__dev_a59c62fb8b9b007e94890dc8a9d9c72e3}{int\-\_\-status2}
+\item 
+uint8\-\_\-t \hyperlink{structpios__rfm22b__dev_ae89edb5d4197faaeab67b5f0b010f5f8}{ezmac\-\_\-status}
+\item 
+uint16\-\_\-t \hyperlink{structpios__rfm22b__dev_a932f3bf8b3d7c94a5404fad6ff6801d4}{prev\-\_\-rx\-\_\-seq\-\_\-num}
+\item 
+uint32\-\_\-t \hyperlink{structpios__rfm22b__dev_acae5126a75716a87ed65f6d354df1d6a}{rx\-\_\-packet\-\_\-stats} \mbox{[}\-R\-F\-M22\-B\-\_\-\-R\-X\-\_\-\-P\-A\-C\-K\-E\-T\-\_\-\-S\-T\-A\-T\-S\-\_\-\-L\-E\-N\mbox{]}
+\item 
+struct \hyperlink{structrfm22b__stats}{rfm22b\-\_\-stats} \hyperlink{structpios__rfm22b__dev_abb8511852ba38b8de9c19aaae6a495f0}{stats}
+\item 
+uint16\-\_\-t \hyperlink{structpios__rfm22b__dev_a538dcdf62ddc3430e172d88eb252dc0d}{errors}
+\item 
+int8\-\_\-t \hyperlink{structpios__rfm22b__dev_a7efa2c785a1c9feaff4db472c1f22805}{rssi\-\_\-d\-Bm}
+\item 
+x\-Queue\-Handle \hyperlink{structpios__rfm22b__dev_ab04a8d36db91686aaf0748e5db71ca0f}{packet\-Queue}
+\item 
+\hyperlink{struct_p_h_packet}{\-P\-H\-Packet} \hyperlink{structpios__rfm22b__dev_a19e3336c0f0c2da02404e828d688cbd3}{data\-\_\-packet}
+\item 
+\hyperlink{group___tau_labs_libraries_gaa252eac3dc3346fec375be8805fd8694}{\-P\-H\-Packet\-Handle} \hyperlink{structpios__rfm22b__dev_a3b7420bb896bb0b1504c4795c8af9087}{tx\-\_\-packet}
+\item 
+\hyperlink{group___tau_labs_libraries_gaa252eac3dc3346fec375be8805fd8694}{\-P\-H\-Packet\-Handle} \hyperlink{structpios__rfm22b__dev_a4c0368362858e8e4450ce094670e9b3d}{prev\-\_\-tx\-\_\-packet}
+\item 
+uint16\-\_\-t \hyperlink{structpios__rfm22b__dev_a19f0507e484216186dab475d3d5f15a0}{tx\-\_\-data\-\_\-rd}
+\item 
+uint16\-\_\-t \hyperlink{structpios__rfm22b__dev_a6fa47c8dff475d9292a547732cbe4138}{tx\-\_\-data\-\_\-wr}
+\item 
+uint16\-\_\-t \hyperlink{structpios__rfm22b__dev_ac7ab84030bbfedd9cf397152e1d17ff9}{tx\-\_\-seq}
+\item 
+\hyperlink{struct_p_h_packet}{\-P\-H\-Packet} \hyperlink{structpios__rfm22b__dev_a6c8fb7a4ca0874d372ec084d2089f43c}{rx\-\_\-packet}
+\item 
+uint16\-\_\-t \hyperlink{structpios__rfm22b__dev_aa31cc789855ee5b29487085603190aa3}{rx\-\_\-buffer\-\_\-wr}
+\item 
+uint16\-\_\-t \hyperlink{structpios__rfm22b__dev_acf4806b2fb1db624e1fa47dad08ba447}{rx\-\_\-packet\-\_\-len}
+\item 
+bool \hyperlink{structpios__rfm22b__dev_a5d1bb77d70e2da36174e66d08e42cac6}{in\-\_\-rx\-\_\-mode}
+\item 
+\hyperlink{struct_p_h_status_packet}{\-P\-H\-Status\-Packet} \hyperlink{structpios__rfm22b__dev_a655ec6ecb5828af1262a9108c8fb25f7}{status\-\_\-packet}
+\item 
+\hyperlink{struct_p_h_ack_nack_packet}{\-P\-H\-Ack\-Nack\-Packet} \hyperlink{structpios__rfm22b__dev_a57f8d0ab5171f50e634940b11cc402c1}{ack\-\_\-nack\-\_\-packet}
+\item 
+\hyperlink{struct_p_h_ppm_packet}{\-P\-H\-Ppm\-Packet} \hyperlink{structpios__rfm22b__dev_abdfbc812f36087f9b8392e9303f28086}{ppm\-\_\-packet}
+\item 
+\hyperlink{struct_p_h_connection_packet}{\-P\-H\-Connection\-Packet} \hyperlink{structpios__rfm22b__dev_a8bfeaddca61583fad2b2396d61d4c459}{con\-\_\-packet}
+\item 
+bool \hyperlink{structpios__rfm22b__dev_abf332b1a47bf1d07fbc580382acd4b95}{send\-\_\-status}
+\item 
+bool \hyperlink{structpios__rfm22b__dev_a44f9d9da0b1740ea9f077873f766ee45}{send\-\_\-ppm}
+\item 
+bool \hyperlink{structpios__rfm22b__dev_afd7377cf7b2ada828b83887653e4d3c2}{send\-\_\-connection\-\_\-request}
+\item 
+bool \hyperlink{structpios__rfm22b__dev_a2ab6b40e08577ff473d6a462f6e9ba47}{time\-\_\-to\-\_\-send}
+\item 
+uint8\-\_\-t \hyperlink{structpios__rfm22b__dev_ad552e65c59e3873f29312042109562cd}{time\-\_\-to\-\_\-send\-\_\-offset}
+\item 
+uint32\-\_\-t \hyperlink{structpios__rfm22b__dev_acfd89dda5551722d12e887369e3e6616}{min\-\_\-frequency}
+\item 
+uint32\-\_\-t \hyperlink{structpios__rfm22b__dev_a98085c05f6be6d71a6fbe868ee5f29ef}{max\-\_\-frequency}
+\item 
+uint32\-\_\-t \hyperlink{structpios__rfm22b__dev_a1b85d9c8c4c8dc7ebb1449ce2febee0e}{frequency\-\_\-hz}
+\item 
+float \hyperlink{structpios__rfm22b__dev_a8cc9611e61bcaf29852b83cffa87ccd6}{frequency\-\_\-step\-\_\-size}
+\item 
+uint8\-\_\-t \hyperlink{structpios__rfm22b__dev_a27f8f42b03439de7810e39e4240cc9dc}{frequency\-\_\-hop\-\_\-channel}
+\item 
+uint8\-\_\-t \hyperlink{structpios__rfm22b__dev_a2ac3d7ab6d15ced50a36ffc03275b5ea}{frequency\-\_\-hop\-\_\-step\-\_\-size\-\_\-reg}
+\item 
+int8\-\_\-t \hyperlink{structpios__rfm22b__dev_a7ee3ea27898cb9341fcbfe9d4b7ad874}{afc\-\_\-correction\-\_\-\-Hz}
+\item 
+uint32\-\_\-t \hyperlink{structpios__rfm22b__dev_ab09ddb5c90f5e40bfe8b4be488144ef6}{max\-\_\-packet\-\_\-time}
+\item 
+port\-Tick\-Type \hyperlink{structpios__rfm22b__dev_add7ce31439ee28ce51c07a4167666141}{packet\-\_\-start\-\_\-ticks}
+\item 
+port\-Tick\-Type \hyperlink{structpios__rfm22b__dev_af71e33856164ba7654a523173441ecb3}{tx\-\_\-complete\-\_\-ticks}
+\item 
+port\-Tick\-Type \hyperlink{structpios__rfm22b__dev_a1a3dc2a287da24ec20da3daba8182266}{rx\-\_\-complete\-\_\-ticks}
+\item 
+uint8\-\_\-t \hyperlink{structpios__rfm22b__dev_ad0342540c88cd117f4c82035cedb1f10}{max\-\_\-ack\-\_\-delay}
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+
+
+\-Definition at line 648 of file pios\-\_\-rfm22b\-\_\-priv.\-h.
+
+
+
+\subsection{\-Field \-Documentation}
+\hypertarget{structpios__rfm22b__dev_a57f8d0ab5171f50e634940b11cc402c1}{\index{pios\-\_\-rfm22b\-\_\-dev@{pios\-\_\-rfm22b\-\_\-dev}!ack\-\_\-nack\-\_\-packet@{ack\-\_\-nack\-\_\-packet}}
+\index{ack\-\_\-nack\-\_\-packet@{ack\-\_\-nack\-\_\-packet}!pios_rfm22b_dev@{pios\-\_\-rfm22b\-\_\-dev}}
+\subsubsection[{ack\-\_\-nack\-\_\-packet}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-P\-H\-Ack\-Nack\-Packet} {\bf pios\-\_\-rfm22b\-\_\-dev\-::ack\-\_\-nack\-\_\-packet}}}\label{structpios__rfm22b__dev_a57f8d0ab5171f50e634940b11cc402c1}
+
+
+\-Definition at line 746 of file pios\-\_\-rfm22b\-\_\-priv.\-h.
+
+\hypertarget{structpios__rfm22b__dev_a7ee3ea27898cb9341fcbfe9d4b7ad874}{\index{pios\-\_\-rfm22b\-\_\-dev@{pios\-\_\-rfm22b\-\_\-dev}!afc\-\_\-correction\-\_\-\-Hz@{afc\-\_\-correction\-\_\-\-Hz}}
+\index{afc\-\_\-correction\-\_\-\-Hz@{afc\-\_\-correction\-\_\-\-Hz}!pios_rfm22b_dev@{pios\-\_\-rfm22b\-\_\-dev}}
+\subsubsection[{afc\-\_\-correction\-\_\-\-Hz}]{\setlength{\rightskip}{0pt plus 5cm}int8\-\_\-t {\bf pios\-\_\-rfm22b\-\_\-dev\-::afc\-\_\-correction\-\_\-\-Hz}}}\label{structpios__rfm22b__dev_a7ee3ea27898cb9341fcbfe9d4b7ad874}
+
+
+\-Definition at line 776 of file pios\-\_\-rfm22b\-\_\-priv.\-h.
+
+\hypertarget{structpios__rfm22b__dev_a2fc3047fbb17be7e546cab4e24ee2b28}{\index{pios\-\_\-rfm22b\-\_\-dev@{pios\-\_\-rfm22b\-\_\-dev}!cfg@{cfg}}
+\index{cfg@{cfg}!pios_rfm22b_dev@{pios\-\_\-rfm22b\-\_\-dev}}
+\subsubsection[{cfg}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf pios\-\_\-rfm22b\-\_\-cfg} {\bf pios\-\_\-rfm22b\-\_\-dev\-::cfg}}}\label{structpios__rfm22b__dev_a2fc3047fbb17be7e546cab4e24ee2b28}
+
+
+\-Definition at line 650 of file pios\-\_\-rfm22b\-\_\-priv.\-h.
+
+\hypertarget{structpios__rfm22b__dev_abed55ffe3e0e2832d958e692f9310b6e}{\index{pios\-\_\-rfm22b\-\_\-dev@{pios\-\_\-rfm22b\-\_\-dev}!com\-\_\-config\-\_\-cb@{com\-\_\-config\-\_\-cb}}
+\index{com\-\_\-config\-\_\-cb@{com\-\_\-config\-\_\-cb}!pios_rfm22b_dev@{pios\-\_\-rfm22b\-\_\-dev}}
+\subsubsection[{com\-\_\-config\-\_\-cb}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-P\-I\-O\-S\-\_\-\-R\-F\-M22\-B\-\_\-\-Com\-Config\-Callback} {\bf pios\-\_\-rfm22b\-\_\-dev\-::com\-\_\-config\-\_\-cb}}}\label{structpios__rfm22b__dev_abed55ffe3e0e2832d958e692f9310b6e}
+
+
+\-Definition at line 675 of file pios\-\_\-rfm22b\-\_\-priv.\-h.
+
+\hypertarget{structpios__rfm22b__dev_a8bfeaddca61583fad2b2396d61d4c459}{\index{pios\-\_\-rfm22b\-\_\-dev@{pios\-\_\-rfm22b\-\_\-dev}!con\-\_\-packet@{con\-\_\-packet}}
+\index{con\-\_\-packet@{con\-\_\-packet}!pios_rfm22b_dev@{pios\-\_\-rfm22b\-\_\-dev}}
+\subsubsection[{con\-\_\-packet}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-P\-H\-Connection\-Packet} {\bf pios\-\_\-rfm22b\-\_\-dev\-::con\-\_\-packet}}}\label{structpios__rfm22b__dev_a8bfeaddca61583fad2b2396d61d4c459}
+
+
+\-Definition at line 754 of file pios\-\_\-rfm22b\-\_\-priv.\-h.
+
+\hypertarget{structpios__rfm22b__dev_a37c2eab9f05656b3ef5690689b0e06c9}{\index{pios\-\_\-rfm22b\-\_\-dev@{pios\-\_\-rfm22b\-\_\-dev}!coordinator@{coordinator}}
+\index{coordinator@{coordinator}!pios_rfm22b_dev@{pios\-\_\-rfm22b\-\_\-dev}}
+\subsubsection[{coordinator}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf pios\-\_\-rfm22b\-\_\-dev\-::coordinator}}}\label{structpios__rfm22b__dev_a37c2eab9f05656b3ef5690689b0e06c9}
+
+
+\-Definition at line 663 of file pios\-\_\-rfm22b\-\_\-priv.\-h.
+
+\hypertarget{structpios__rfm22b__dev_a19e3336c0f0c2da02404e828d688cbd3}{\index{pios\-\_\-rfm22b\-\_\-dev@{pios\-\_\-rfm22b\-\_\-dev}!data\-\_\-packet@{data\-\_\-packet}}
+\index{data\-\_\-packet@{data\-\_\-packet}!pios_rfm22b_dev@{pios\-\_\-rfm22b\-\_\-dev}}
+\subsubsection[{data\-\_\-packet}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-P\-H\-Packet} {\bf pios\-\_\-rfm22b\-\_\-dev\-::data\-\_\-packet}}}\label{structpios__rfm22b__dev_a19e3336c0f0c2da02404e828d688cbd3}
+
+
+\-Definition at line 721 of file pios\-\_\-rfm22b\-\_\-priv.\-h.
+
+\hypertarget{structpios__rfm22b__dev_aff7a6133350534d9bdb99e8e4856dd6e}{\index{pios\-\_\-rfm22b\-\_\-dev@{pios\-\_\-rfm22b\-\_\-dev}!datarate@{datarate}}
+\index{datarate@{datarate}!pios_rfm22b_dev@{pios\-\_\-rfm22b\-\_\-dev}}
+\subsubsection[{datarate}]{\setlength{\rightskip}{0pt plus 5cm}uint8\-\_\-t {\bf pios\-\_\-rfm22b\-\_\-dev\-::datarate}}}\label{structpios__rfm22b__dev_aff7a6133350534d9bdb99e8e4856dd6e}
+
+
+\-Definition at line 687 of file pios\-\_\-rfm22b\-\_\-priv.\-h.
+
+\hypertarget{structpios__rfm22b__dev_ada47e039e7ba782c44b154fce01005eb}{\index{pios\-\_\-rfm22b\-\_\-dev@{pios\-\_\-rfm22b\-\_\-dev}!destination\-\_\-id@{destination\-\_\-id}}
+\index{destination\-\_\-id@{destination\-\_\-id}!pios_rfm22b_dev@{pios\-\_\-rfm22b\-\_\-dev}}
+\subsubsection[{destination\-\_\-id}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t {\bf pios\-\_\-rfm22b\-\_\-dev\-::destination\-\_\-id}}}\label{structpios__rfm22b__dev_ada47e039e7ba782c44b154fce01005eb}
+
+
+\-Definition at line 660 of file pios\-\_\-rfm22b\-\_\-priv.\-h.
+
+\hypertarget{structpios__rfm22b__dev_aa6ea2086a901b33a1f0f1535f378cdfc}{\index{pios\-\_\-rfm22b\-\_\-dev@{pios\-\_\-rfm22b\-\_\-dev}!device\-\_\-status@{device\-\_\-status}}
+\index{device\-\_\-status@{device\-\_\-status}!pios_rfm22b_dev@{pios\-\_\-rfm22b\-\_\-dev}}
+\subsubsection[{device\-\_\-status}]{\setlength{\rightskip}{0pt plus 5cm}uint8\-\_\-t {\bf pios\-\_\-rfm22b\-\_\-dev\-::device\-\_\-status}}}\label{structpios__rfm22b__dev_aa6ea2086a901b33a1f0f1535f378cdfc}
+
+
+\-Definition at line 696 of file pios\-\_\-rfm22b\-\_\-priv.\-h.
+
+\hypertarget{structpios__rfm22b__dev_ac608ccb62cbd144c8053aaacb8c14fcf}{\index{pios\-\_\-rfm22b\-\_\-dev@{pios\-\_\-rfm22b\-\_\-dev}!device\-I\-D@{device\-I\-D}}
+\index{device\-I\-D@{device\-I\-D}!pios_rfm22b_dev@{pios\-\_\-rfm22b\-\_\-dev}}
+\subsubsection[{device\-I\-D}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t {\bf pios\-\_\-rfm22b\-\_\-dev\-::device\-I\-D}}}\label{structpios__rfm22b__dev_ac608ccb62cbd144c8053aaacb8c14fcf}
+
+
+\-Definition at line 657 of file pios\-\_\-rfm22b\-\_\-priv.\-h.
+
+\hypertarget{structpios__rfm22b__dev_a538dcdf62ddc3430e172d88eb252dc0d}{\index{pios\-\_\-rfm22b\-\_\-dev@{pios\-\_\-rfm22b\-\_\-dev}!errors@{errors}}
+\index{errors@{errors}!pios_rfm22b_dev@{pios\-\_\-rfm22b\-\_\-dev}}
+\subsubsection[{errors}]{\setlength{\rightskip}{0pt plus 5cm}uint16\-\_\-t {\bf pios\-\_\-rfm22b\-\_\-dev\-::errors}}}\label{structpios__rfm22b__dev_a538dcdf62ddc3430e172d88eb252dc0d}
+
+
+\-Definition at line 712 of file pios\-\_\-rfm22b\-\_\-priv.\-h.
+
+\hypertarget{structpios__rfm22b__dev_a0c5971f25ea4ab50328105098e54eda7}{\index{pios\-\_\-rfm22b\-\_\-dev@{pios\-\_\-rfm22b\-\_\-dev}!event\-Queue@{event\-Queue}}
+\index{event\-Queue@{event\-Queue}!pios_rfm22b_dev@{pios\-\_\-rfm22b\-\_\-dev}}
+\subsubsection[{event\-Queue}]{\setlength{\rightskip}{0pt plus 5cm}x\-Queue\-Handle {\bf pios\-\_\-rfm22b\-\_\-dev\-::event\-Queue}}}\label{structpios__rfm22b__dev_a0c5971f25ea4ab50328105098e54eda7}
+
+
+\-Definition at line 693 of file pios\-\_\-rfm22b\-\_\-priv.\-h.
+
+\hypertarget{structpios__rfm22b__dev_ae89edb5d4197faaeab67b5f0b010f5f8}{\index{pios\-\_\-rfm22b\-\_\-dev@{pios\-\_\-rfm22b\-\_\-dev}!ezmac\-\_\-status@{ezmac\-\_\-status}}
+\index{ezmac\-\_\-status@{ezmac\-\_\-status}!pios_rfm22b_dev@{pios\-\_\-rfm22b\-\_\-dev}}
+\subsubsection[{ezmac\-\_\-status}]{\setlength{\rightskip}{0pt plus 5cm}uint8\-\_\-t {\bf pios\-\_\-rfm22b\-\_\-dev\-::ezmac\-\_\-status}}}\label{structpios__rfm22b__dev_ae89edb5d4197faaeab67b5f0b010f5f8}
+
+
+\-Definition at line 702 of file pios\-\_\-rfm22b\-\_\-priv.\-h.
+
+\hypertarget{structpios__rfm22b__dev_a27f8f42b03439de7810e39e4240cc9dc}{\index{pios\-\_\-rfm22b\-\_\-dev@{pios\-\_\-rfm22b\-\_\-dev}!frequency\-\_\-hop\-\_\-channel@{frequency\-\_\-hop\-\_\-channel}}
+\index{frequency\-\_\-hop\-\_\-channel@{frequency\-\_\-hop\-\_\-channel}!pios_rfm22b_dev@{pios\-\_\-rfm22b\-\_\-dev}}
+\subsubsection[{frequency\-\_\-hop\-\_\-channel}]{\setlength{\rightskip}{0pt plus 5cm}uint8\-\_\-t {\bf pios\-\_\-rfm22b\-\_\-dev\-::frequency\-\_\-hop\-\_\-channel}}}\label{structpios__rfm22b__dev_a27f8f42b03439de7810e39e4240cc9dc}
+
+
+\-Definition at line 772 of file pios\-\_\-rfm22b\-\_\-priv.\-h.
+
+\hypertarget{structpios__rfm22b__dev_a2ac3d7ab6d15ced50a36ffc03275b5ea}{\index{pios\-\_\-rfm22b\-\_\-dev@{pios\-\_\-rfm22b\-\_\-dev}!frequency\-\_\-hop\-\_\-step\-\_\-size\-\_\-reg@{frequency\-\_\-hop\-\_\-step\-\_\-size\-\_\-reg}}
+\index{frequency\-\_\-hop\-\_\-step\-\_\-size\-\_\-reg@{frequency\-\_\-hop\-\_\-step\-\_\-size\-\_\-reg}!pios_rfm22b_dev@{pios\-\_\-rfm22b\-\_\-dev}}
+\subsubsection[{frequency\-\_\-hop\-\_\-step\-\_\-size\-\_\-reg}]{\setlength{\rightskip}{0pt plus 5cm}uint8\-\_\-t {\bf pios\-\_\-rfm22b\-\_\-dev\-::frequency\-\_\-hop\-\_\-step\-\_\-size\-\_\-reg}}}\label{structpios__rfm22b__dev_a2ac3d7ab6d15ced50a36ffc03275b5ea}
+
+
+\-Definition at line 774 of file pios\-\_\-rfm22b\-\_\-priv.\-h.
+
+\hypertarget{structpios__rfm22b__dev_a1b85d9c8c4c8dc7ebb1449ce2febee0e}{\index{pios\-\_\-rfm22b\-\_\-dev@{pios\-\_\-rfm22b\-\_\-dev}!frequency\-\_\-hz@{frequency\-\_\-hz}}
+\index{frequency\-\_\-hz@{frequency\-\_\-hz}!pios_rfm22b_dev@{pios\-\_\-rfm22b\-\_\-dev}}
+\subsubsection[{frequency\-\_\-hz}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t {\bf pios\-\_\-rfm22b\-\_\-dev\-::frequency\-\_\-hz}}}\label{structpios__rfm22b__dev_a1b85d9c8c4c8dc7ebb1449ce2febee0e}
+
+
+\-Definition at line 768 of file pios\-\_\-rfm22b\-\_\-priv.\-h.
+
+\hypertarget{structpios__rfm22b__dev_a8cc9611e61bcaf29852b83cffa87ccd6}{\index{pios\-\_\-rfm22b\-\_\-dev@{pios\-\_\-rfm22b\-\_\-dev}!frequency\-\_\-step\-\_\-size@{frequency\-\_\-step\-\_\-size}}
+\index{frequency\-\_\-step\-\_\-size@{frequency\-\_\-step\-\_\-size}!pios_rfm22b_dev@{pios\-\_\-rfm22b\-\_\-dev}}
+\subsubsection[{frequency\-\_\-step\-\_\-size}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf pios\-\_\-rfm22b\-\_\-dev\-::frequency\-\_\-step\-\_\-size}}}\label{structpios__rfm22b__dev_a8cc9611e61bcaf29852b83cffa87ccd6}
+
+
+\-Definition at line 770 of file pios\-\_\-rfm22b\-\_\-priv.\-h.
+
+\hypertarget{structpios__rfm22b__dev_a5d1bb77d70e2da36174e66d08e42cac6}{\index{pios\-\_\-rfm22b\-\_\-dev@{pios\-\_\-rfm22b\-\_\-dev}!in\-\_\-rx\-\_\-mode@{in\-\_\-rx\-\_\-mode}}
+\index{in\-\_\-rx\-\_\-mode@{in\-\_\-rx\-\_\-mode}!pios_rfm22b_dev@{pios\-\_\-rfm22b\-\_\-dev}}
+\subsubsection[{in\-\_\-rx\-\_\-mode}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf pios\-\_\-rfm22b\-\_\-dev\-::in\-\_\-rx\-\_\-mode}}}\label{structpios__rfm22b__dev_a5d1bb77d70e2da36174e66d08e42cac6}
+
+
+\-Definition at line 740 of file pios\-\_\-rfm22b\-\_\-priv.\-h.
+
+\hypertarget{structpios__rfm22b__dev_a9a3b8dfbadc7d813f3f9a2e9a40373f7}{\index{pios\-\_\-rfm22b\-\_\-dev@{pios\-\_\-rfm22b\-\_\-dev}!int\-\_\-status1@{int\-\_\-status1}}
+\index{int\-\_\-status1@{int\-\_\-status1}!pios_rfm22b_dev@{pios\-\_\-rfm22b\-\_\-dev}}
+\subsubsection[{int\-\_\-status1}]{\setlength{\rightskip}{0pt plus 5cm}uint8\-\_\-t {\bf pios\-\_\-rfm22b\-\_\-dev\-::int\-\_\-status1}}}\label{structpios__rfm22b__dev_a9a3b8dfbadc7d813f3f9a2e9a40373f7}
+
+
+\-Definition at line 698 of file pios\-\_\-rfm22b\-\_\-priv.\-h.
+
+\hypertarget{structpios__rfm22b__dev_a59c62fb8b9b007e94890dc8a9d9c72e3}{\index{pios\-\_\-rfm22b\-\_\-dev@{pios\-\_\-rfm22b\-\_\-dev}!int\-\_\-status2@{int\-\_\-status2}}
+\index{int\-\_\-status2@{int\-\_\-status2}!pios_rfm22b_dev@{pios\-\_\-rfm22b\-\_\-dev}}
+\subsubsection[{int\-\_\-status2}]{\setlength{\rightskip}{0pt plus 5cm}uint8\-\_\-t {\bf pios\-\_\-rfm22b\-\_\-dev\-::int\-\_\-status2}}}\label{structpios__rfm22b__dev_a59c62fb8b9b007e94890dc8a9d9c72e3}
+
+
+\-Definition at line 700 of file pios\-\_\-rfm22b\-\_\-priv.\-h.
+
+\hypertarget{structpios__rfm22b__dev_a9e681596408e8e6d5387ecdd43acfe62}{\index{pios\-\_\-rfm22b\-\_\-dev@{pios\-\_\-rfm22b\-\_\-dev}!isr\-Pending@{isr\-Pending}}
+\index{isr\-Pending@{isr\-Pending}!pios_rfm22b_dev@{pios\-\_\-rfm22b\-\_\-dev}}
+\subsubsection[{isr\-Pending}]{\setlength{\rightskip}{0pt plus 5cm}x\-Semaphore\-Handle {\bf pios\-\_\-rfm22b\-\_\-dev\-::isr\-Pending}}}\label{structpios__rfm22b__dev_a9e681596408e8e6d5387ecdd43acfe62}
+
+
+\-Definition at line 672 of file pios\-\_\-rfm22b\-\_\-priv.\-h.
+
+\hypertarget{structpios__rfm22b__dev_acffebca4153749f86cd6237ac4482f3a}{\index{pios\-\_\-rfm22b\-\_\-dev@{pios\-\_\-rfm22b\-\_\-dev}!magic@{magic}}
+\index{magic@{magic}!pios_rfm22b_dev@{pios\-\_\-rfm22b\-\_\-dev}}
+\subsubsection[{magic}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf pios\-\_\-rfm22b\-\_\-dev\-\_\-magic} {\bf pios\-\_\-rfm22b\-\_\-dev\-::magic}}}\label{structpios__rfm22b__dev_acffebca4153749f86cd6237ac4482f3a}
+
+
+\-Definition at line 649 of file pios\-\_\-rfm22b\-\_\-priv.\-h.
+
+\hypertarget{structpios__rfm22b__dev_ad0342540c88cd117f4c82035cedb1f10}{\index{pios\-\_\-rfm22b\-\_\-dev@{pios\-\_\-rfm22b\-\_\-dev}!max\-\_\-ack\-\_\-delay@{max\-\_\-ack\-\_\-delay}}
+\index{max\-\_\-ack\-\_\-delay@{max\-\_\-ack\-\_\-delay}!pios_rfm22b_dev@{pios\-\_\-rfm22b\-\_\-dev}}
+\subsubsection[{max\-\_\-ack\-\_\-delay}]{\setlength{\rightskip}{0pt plus 5cm}uint8\-\_\-t {\bf pios\-\_\-rfm22b\-\_\-dev\-::max\-\_\-ack\-\_\-delay}}}\label{structpios__rfm22b__dev_ad0342540c88cd117f4c82035cedb1f10}
+
+
+\-Definition at line 783 of file pios\-\_\-rfm22b\-\_\-priv.\-h.
+
+\hypertarget{structpios__rfm22b__dev_a98085c05f6be6d71a6fbe868ee5f29ef}{\index{pios\-\_\-rfm22b\-\_\-dev@{pios\-\_\-rfm22b\-\_\-dev}!max\-\_\-frequency@{max\-\_\-frequency}}
+\index{max\-\_\-frequency@{max\-\_\-frequency}!pios_rfm22b_dev@{pios\-\_\-rfm22b\-\_\-dev}}
+\subsubsection[{max\-\_\-frequency}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t {\bf pios\-\_\-rfm22b\-\_\-dev\-::max\-\_\-frequency}}}\label{structpios__rfm22b__dev_a98085c05f6be6d71a6fbe868ee5f29ef}
+
+
+\-Definition at line 766 of file pios\-\_\-rfm22b\-\_\-priv.\-h.
+
+\hypertarget{structpios__rfm22b__dev_ab09ddb5c90f5e40bfe8b4be488144ef6}{\index{pios\-\_\-rfm22b\-\_\-dev@{pios\-\_\-rfm22b\-\_\-dev}!max\-\_\-packet\-\_\-time@{max\-\_\-packet\-\_\-time}}
+\index{max\-\_\-packet\-\_\-time@{max\-\_\-packet\-\_\-time}!pios_rfm22b_dev@{pios\-\_\-rfm22b\-\_\-dev}}
+\subsubsection[{max\-\_\-packet\-\_\-time}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t {\bf pios\-\_\-rfm22b\-\_\-dev\-::max\-\_\-packet\-\_\-time}}}\label{structpios__rfm22b__dev_ab09ddb5c90f5e40bfe8b4be488144ef6}
+
+
+\-Definition at line 779 of file pios\-\_\-rfm22b\-\_\-priv.\-h.
+
+\hypertarget{structpios__rfm22b__dev_acfd89dda5551722d12e887369e3e6616}{\index{pios\-\_\-rfm22b\-\_\-dev@{pios\-\_\-rfm22b\-\_\-dev}!min\-\_\-frequency@{min\-\_\-frequency}}
+\index{min\-\_\-frequency@{min\-\_\-frequency}!pios_rfm22b_dev@{pios\-\_\-rfm22b\-\_\-dev}}
+\subsubsection[{min\-\_\-frequency}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t {\bf pios\-\_\-rfm22b\-\_\-dev\-::min\-\_\-frequency}}}\label{structpios__rfm22b__dev_acfd89dda5551722d12e887369e3e6616}
+
+
+\-Definition at line 764 of file pios\-\_\-rfm22b\-\_\-priv.\-h.
+
+\hypertarget{structpios__rfm22b__dev_add7ce31439ee28ce51c07a4167666141}{\index{pios\-\_\-rfm22b\-\_\-dev@{pios\-\_\-rfm22b\-\_\-dev}!packet\-\_\-start\-\_\-ticks@{packet\-\_\-start\-\_\-ticks}}
+\index{packet\-\_\-start\-\_\-ticks@{packet\-\_\-start\-\_\-ticks}!pios_rfm22b_dev@{pios\-\_\-rfm22b\-\_\-dev}}
+\subsubsection[{packet\-\_\-start\-\_\-ticks}]{\setlength{\rightskip}{0pt plus 5cm}port\-Tick\-Type {\bf pios\-\_\-rfm22b\-\_\-dev\-::packet\-\_\-start\-\_\-ticks}}}\label{structpios__rfm22b__dev_add7ce31439ee28ce51c07a4167666141}
+
+
+\-Definition at line 780 of file pios\-\_\-rfm22b\-\_\-priv.\-h.
+
+\hypertarget{structpios__rfm22b__dev_ab04a8d36db91686aaf0748e5db71ca0f}{\index{pios\-\_\-rfm22b\-\_\-dev@{pios\-\_\-rfm22b\-\_\-dev}!packet\-Queue@{packet\-Queue}}
+\index{packet\-Queue@{packet\-Queue}!pios_rfm22b_dev@{pios\-\_\-rfm22b\-\_\-dev}}
+\subsubsection[{packet\-Queue}]{\setlength{\rightskip}{0pt plus 5cm}x\-Queue\-Handle {\bf pios\-\_\-rfm22b\-\_\-dev\-::packet\-Queue}}}\label{structpios__rfm22b__dev_ab04a8d36db91686aaf0748e5db71ca0f}
+
+
+\-Definition at line 718 of file pios\-\_\-rfm22b\-\_\-priv.\-h.
+
+\hypertarget{structpios__rfm22b__dev_a6db8d809d116a414eb5c7a826c833bc5}{\index{pios\-\_\-rfm22b\-\_\-dev@{pios\-\_\-rfm22b\-\_\-dev}!pair\-\_\-stats@{pair\-\_\-stats}}
+\index{pair\-\_\-stats@{pair\-\_\-stats}!pios_rfm22b_dev@{pios\-\_\-rfm22b\-\_\-dev}}
+\subsubsection[{pair\-\_\-stats}]{\setlength{\rightskip}{0pt plus 5cm}{\bf rfm22b\-\_\-pair\-\_\-stats} {\bf pios\-\_\-rfm22b\-\_\-dev\-::pair\-\_\-stats}\mbox{[}\-O\-P\-L\-I\-N\-K\-S\-T\-A\-T\-U\-S\-\_\-\-P\-A\-I\-R\-I\-D\-S\-\_\-\-N\-U\-M\-E\-L\-E\-M\mbox{]}}}\label{structpios__rfm22b__dev_a6db8d809d116a414eb5c7a826c833bc5}
+
+
+\-Definition at line 669 of file pios\-\_\-rfm22b\-\_\-priv.\-h.
+
+\hypertarget{structpios__rfm22b__dev_abdfbc812f36087f9b8392e9303f28086}{\index{pios\-\_\-rfm22b\-\_\-dev@{pios\-\_\-rfm22b\-\_\-dev}!ppm\-\_\-packet@{ppm\-\_\-packet}}
+\index{ppm\-\_\-packet@{ppm\-\_\-packet}!pios_rfm22b_dev@{pios\-\_\-rfm22b\-\_\-dev}}
+\subsubsection[{ppm\-\_\-packet}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-P\-H\-Ppm\-Packet} {\bf pios\-\_\-rfm22b\-\_\-dev\-::ppm\-\_\-packet}}}\label{structpios__rfm22b__dev_abdfbc812f36087f9b8392e9303f28086}
+
+
+\-Definition at line 750 of file pios\-\_\-rfm22b\-\_\-priv.\-h.
+
+\hypertarget{structpios__rfm22b__dev_a932f3bf8b3d7c94a5404fad6ff6801d4}{\index{pios\-\_\-rfm22b\-\_\-dev@{pios\-\_\-rfm22b\-\_\-dev}!prev\-\_\-rx\-\_\-seq\-\_\-num@{prev\-\_\-rx\-\_\-seq\-\_\-num}}
+\index{prev\-\_\-rx\-\_\-seq\-\_\-num@{prev\-\_\-rx\-\_\-seq\-\_\-num}!pios_rfm22b_dev@{pios\-\_\-rfm22b\-\_\-dev}}
+\subsubsection[{prev\-\_\-rx\-\_\-seq\-\_\-num}]{\setlength{\rightskip}{0pt plus 5cm}uint16\-\_\-t {\bf pios\-\_\-rfm22b\-\_\-dev\-::prev\-\_\-rx\-\_\-seq\-\_\-num}}}\label{structpios__rfm22b__dev_a932f3bf8b3d7c94a5404fad6ff6801d4}
+
+
+\-Definition at line 705 of file pios\-\_\-rfm22b\-\_\-priv.\-h.
+
+\hypertarget{structpios__rfm22b__dev_a4c0368362858e8e4450ce094670e9b3d}{\index{pios\-\_\-rfm22b\-\_\-dev@{pios\-\_\-rfm22b\-\_\-dev}!prev\-\_\-tx\-\_\-packet@{prev\-\_\-tx\-\_\-packet}}
+\index{prev\-\_\-tx\-\_\-packet@{prev\-\_\-tx\-\_\-packet}!pios_rfm22b_dev@{pios\-\_\-rfm22b\-\_\-dev}}
+\subsubsection[{prev\-\_\-tx\-\_\-packet}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-P\-H\-Packet\-Handle} {\bf pios\-\_\-rfm22b\-\_\-dev\-::prev\-\_\-tx\-\_\-packet}}}\label{structpios__rfm22b__dev_a4c0368362858e8e4450ce094670e9b3d}
+
+
+\-Definition at line 725 of file pios\-\_\-rfm22b\-\_\-priv.\-h.
+
+\hypertarget{structpios__rfm22b__dev_a7efa2c785a1c9feaff4db472c1f22805}{\index{pios\-\_\-rfm22b\-\_\-dev@{pios\-\_\-rfm22b\-\_\-dev}!rssi\-\_\-d\-Bm@{rssi\-\_\-d\-Bm}}
+\index{rssi\-\_\-d\-Bm@{rssi\-\_\-d\-Bm}!pios_rfm22b_dev@{pios\-\_\-rfm22b\-\_\-dev}}
+\subsubsection[{rssi\-\_\-d\-Bm}]{\setlength{\rightskip}{0pt plus 5cm}int8\-\_\-t {\bf pios\-\_\-rfm22b\-\_\-dev\-::rssi\-\_\-d\-Bm}}}\label{structpios__rfm22b__dev_a7efa2c785a1c9feaff4db472c1f22805}
+
+
+\-Definition at line 715 of file pios\-\_\-rfm22b\-\_\-priv.\-h.
+
+\hypertarget{structpios__rfm22b__dev_aa31cc789855ee5b29487085603190aa3}{\index{pios\-\_\-rfm22b\-\_\-dev@{pios\-\_\-rfm22b\-\_\-dev}!rx\-\_\-buffer\-\_\-wr@{rx\-\_\-buffer\-\_\-wr}}
+\index{rx\-\_\-buffer\-\_\-wr@{rx\-\_\-buffer\-\_\-wr}!pios_rfm22b_dev@{pios\-\_\-rfm22b\-\_\-dev}}
+\subsubsection[{rx\-\_\-buffer\-\_\-wr}]{\setlength{\rightskip}{0pt plus 5cm}uint16\-\_\-t {\bf pios\-\_\-rfm22b\-\_\-dev\-::rx\-\_\-buffer\-\_\-wr}}}\label{structpios__rfm22b__dev_aa31cc789855ee5b29487085603190aa3}
+
+
+\-Definition at line 736 of file pios\-\_\-rfm22b\-\_\-priv.\-h.
+
+\hypertarget{structpios__rfm22b__dev_a1a3dc2a287da24ec20da3daba8182266}{\index{pios\-\_\-rfm22b\-\_\-dev@{pios\-\_\-rfm22b\-\_\-dev}!rx\-\_\-complete\-\_\-ticks@{rx\-\_\-complete\-\_\-ticks}}
+\index{rx\-\_\-complete\-\_\-ticks@{rx\-\_\-complete\-\_\-ticks}!pios_rfm22b_dev@{pios\-\_\-rfm22b\-\_\-dev}}
+\subsubsection[{rx\-\_\-complete\-\_\-ticks}]{\setlength{\rightskip}{0pt plus 5cm}port\-Tick\-Type {\bf pios\-\_\-rfm22b\-\_\-dev\-::rx\-\_\-complete\-\_\-ticks}}}\label{structpios__rfm22b__dev_a1a3dc2a287da24ec20da3daba8182266}
+
+
+\-Definition at line 782 of file pios\-\_\-rfm22b\-\_\-priv.\-h.
+
+\hypertarget{structpios__rfm22b__dev_ac170322ec2f96932e0f060aa68b6bd12}{\index{pios\-\_\-rfm22b\-\_\-dev@{pios\-\_\-rfm22b\-\_\-dev}!rx\-\_\-in\-\_\-cb@{rx\-\_\-in\-\_\-cb}}
+\index{rx\-\_\-in\-\_\-cb@{rx\-\_\-in\-\_\-cb}!pios_rfm22b_dev@{pios\-\_\-rfm22b\-\_\-dev}}
+\subsubsection[{rx\-\_\-in\-\_\-cb}]{\setlength{\rightskip}{0pt plus 5cm}{\bf pios\-\_\-com\-\_\-callback} {\bf pios\-\_\-rfm22b\-\_\-dev\-::rx\-\_\-in\-\_\-cb}}}\label{structpios__rfm22b__dev_ac170322ec2f96932e0f060aa68b6bd12}
+
+
+\-Definition at line 678 of file pios\-\_\-rfm22b\-\_\-priv.\-h.
+
+\hypertarget{structpios__rfm22b__dev_a70fce9f445ae6ec87f5a559b89e82169}{\index{pios\-\_\-rfm22b\-\_\-dev@{pios\-\_\-rfm22b\-\_\-dev}!rx\-\_\-in\-\_\-context@{rx\-\_\-in\-\_\-context}}
+\index{rx\-\_\-in\-\_\-context@{rx\-\_\-in\-\_\-context}!pios_rfm22b_dev@{pios\-\_\-rfm22b\-\_\-dev}}
+\subsubsection[{rx\-\_\-in\-\_\-context}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t {\bf pios\-\_\-rfm22b\-\_\-dev\-::rx\-\_\-in\-\_\-context}}}\label{structpios__rfm22b__dev_a70fce9f445ae6ec87f5a559b89e82169}
+
+
+\-Definition at line 679 of file pios\-\_\-rfm22b\-\_\-priv.\-h.
+
+\hypertarget{structpios__rfm22b__dev_a6c8fb7a4ca0874d372ec084d2089f43c}{\index{pios\-\_\-rfm22b\-\_\-dev@{pios\-\_\-rfm22b\-\_\-dev}!rx\-\_\-packet@{rx\-\_\-packet}}
+\index{rx\-\_\-packet@{rx\-\_\-packet}!pios_rfm22b_dev@{pios\-\_\-rfm22b\-\_\-dev}}
+\subsubsection[{rx\-\_\-packet}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-P\-H\-Packet} {\bf pios\-\_\-rfm22b\-\_\-dev\-::rx\-\_\-packet}}}\label{structpios__rfm22b__dev_a6c8fb7a4ca0874d372ec084d2089f43c}
+
+
+\-Definition at line 734 of file pios\-\_\-rfm22b\-\_\-priv.\-h.
+
+\hypertarget{structpios__rfm22b__dev_acf4806b2fb1db624e1fa47dad08ba447}{\index{pios\-\_\-rfm22b\-\_\-dev@{pios\-\_\-rfm22b\-\_\-dev}!rx\-\_\-packet\-\_\-len@{rx\-\_\-packet\-\_\-len}}
+\index{rx\-\_\-packet\-\_\-len@{rx\-\_\-packet\-\_\-len}!pios_rfm22b_dev@{pios\-\_\-rfm22b\-\_\-dev}}
+\subsubsection[{rx\-\_\-packet\-\_\-len}]{\setlength{\rightskip}{0pt plus 5cm}uint16\-\_\-t {\bf pios\-\_\-rfm22b\-\_\-dev\-::rx\-\_\-packet\-\_\-len}}}\label{structpios__rfm22b__dev_acf4806b2fb1db624e1fa47dad08ba447}
+
+
+\-Definition at line 738 of file pios\-\_\-rfm22b\-\_\-priv.\-h.
+
+\hypertarget{structpios__rfm22b__dev_acae5126a75716a87ed65f6d354df1d6a}{\index{pios\-\_\-rfm22b\-\_\-dev@{pios\-\_\-rfm22b\-\_\-dev}!rx\-\_\-packet\-\_\-stats@{rx\-\_\-packet\-\_\-stats}}
+\index{rx\-\_\-packet\-\_\-stats@{rx\-\_\-packet\-\_\-stats}!pios_rfm22b_dev@{pios\-\_\-rfm22b\-\_\-dev}}
+\subsubsection[{rx\-\_\-packet\-\_\-stats}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t {\bf pios\-\_\-rfm22b\-\_\-dev\-::rx\-\_\-packet\-\_\-stats}\mbox{[}\-R\-F\-M22\-B\-\_\-\-R\-X\-\_\-\-P\-A\-C\-K\-E\-T\-\_\-\-S\-T\-A\-T\-S\-\_\-\-L\-E\-N\mbox{]}}}\label{structpios__rfm22b__dev_acae5126a75716a87ed65f6d354df1d6a}
+
+
+\-Definition at line 706 of file pios\-\_\-rfm22b\-\_\-priv.\-h.
+
+\hypertarget{structpios__rfm22b__dev_afd7377cf7b2ada828b83887653e4d3c2}{\index{pios\-\_\-rfm22b\-\_\-dev@{pios\-\_\-rfm22b\-\_\-dev}!send\-\_\-connection\-\_\-request@{send\-\_\-connection\-\_\-request}}
+\index{send\-\_\-connection\-\_\-request@{send\-\_\-connection\-\_\-request}!pios_rfm22b_dev@{pios\-\_\-rfm22b\-\_\-dev}}
+\subsubsection[{send\-\_\-connection\-\_\-request}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf pios\-\_\-rfm22b\-\_\-dev\-::send\-\_\-connection\-\_\-request}}}\label{structpios__rfm22b__dev_afd7377cf7b2ada828b83887653e4d3c2}
+
+
+\-Definition at line 759 of file pios\-\_\-rfm22b\-\_\-priv.\-h.
+
+\hypertarget{structpios__rfm22b__dev_a44f9d9da0b1740ea9f077873f766ee45}{\index{pios\-\_\-rfm22b\-\_\-dev@{pios\-\_\-rfm22b\-\_\-dev}!send\-\_\-ppm@{send\-\_\-ppm}}
+\index{send\-\_\-ppm@{send\-\_\-ppm}!pios_rfm22b_dev@{pios\-\_\-rfm22b\-\_\-dev}}
+\subsubsection[{send\-\_\-ppm}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf pios\-\_\-rfm22b\-\_\-dev\-::send\-\_\-ppm}}}\label{structpios__rfm22b__dev_a44f9d9da0b1740ea9f077873f766ee45}
+
+
+\-Definition at line 758 of file pios\-\_\-rfm22b\-\_\-priv.\-h.
+
+\hypertarget{structpios__rfm22b__dev_abf332b1a47bf1d07fbc580382acd4b95}{\index{pios\-\_\-rfm22b\-\_\-dev@{pios\-\_\-rfm22b\-\_\-dev}!send\-\_\-status@{send\-\_\-status}}
+\index{send\-\_\-status@{send\-\_\-status}!pios_rfm22b_dev@{pios\-\_\-rfm22b\-\_\-dev}}
+\subsubsection[{send\-\_\-status}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf pios\-\_\-rfm22b\-\_\-dev\-::send\-\_\-status}}}\label{structpios__rfm22b__dev_abf332b1a47bf1d07fbc580382acd4b95}
+
+
+\-Definition at line 757 of file pios\-\_\-rfm22b\-\_\-priv.\-h.
+
+\hypertarget{structpios__rfm22b__dev_a4e0db01351dfac40720073969a7fafae}{\index{pios\-\_\-rfm22b\-\_\-dev@{pios\-\_\-rfm22b\-\_\-dev}!slave\-\_\-num@{slave\-\_\-num}}
+\index{slave\-\_\-num@{slave\-\_\-num}!pios_rfm22b_dev@{pios\-\_\-rfm22b\-\_\-dev}}
+\subsubsection[{slave\-\_\-num}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t {\bf pios\-\_\-rfm22b\-\_\-dev\-::slave\-\_\-num}}}\label{structpios__rfm22b__dev_a4e0db01351dfac40720073969a7fafae}
+
+
+\-Definition at line 654 of file pios\-\_\-rfm22b\-\_\-priv.\-h.
+
+\hypertarget{structpios__rfm22b__dev_a7fae761882f21a9a0088db1f81dd41da}{\index{pios\-\_\-rfm22b\-\_\-dev@{pios\-\_\-rfm22b\-\_\-dev}!spi\-\_\-id@{spi\-\_\-id}}
+\index{spi\-\_\-id@{spi\-\_\-id}!pios_rfm22b_dev@{pios\-\_\-rfm22b\-\_\-dev}}
+\subsubsection[{spi\-\_\-id}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t {\bf pios\-\_\-rfm22b\-\_\-dev\-::spi\-\_\-id}}}\label{structpios__rfm22b__dev_a7fae761882f21a9a0088db1f81dd41da}
+
+
+\-Definition at line 653 of file pios\-\_\-rfm22b\-\_\-priv.\-h.
+
+\hypertarget{structpios__rfm22b__dev_a2725ce50c0aad0fae1e4cee8e29072f7}{\index{pios\-\_\-rfm22b\-\_\-dev@{pios\-\_\-rfm22b\-\_\-dev}!state@{state}}
+\index{state@{state}!pios_rfm22b_dev@{pios\-\_\-rfm22b\-\_\-dev}}
+\subsubsection[{state}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf pios\-\_\-rfm22b\-\_\-state} {\bf pios\-\_\-rfm22b\-\_\-dev\-::state}}}\label{structpios__rfm22b__dev_a2725ce50c0aad0fae1e4cee8e29072f7}
+
+
+\-Definition at line 690 of file pios\-\_\-rfm22b\-\_\-priv.\-h.
+
+\hypertarget{structpios__rfm22b__dev_abb8511852ba38b8de9c19aaae6a495f0}{\index{pios\-\_\-rfm22b\-\_\-dev@{pios\-\_\-rfm22b\-\_\-dev}!stats@{stats}}
+\index{stats@{stats}!pios_rfm22b_dev@{pios\-\_\-rfm22b\-\_\-dev}}
+\subsubsection[{stats}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf rfm22b\-\_\-stats} {\bf pios\-\_\-rfm22b\-\_\-dev\-::stats}}}\label{structpios__rfm22b__dev_abb8511852ba38b8de9c19aaae6a495f0}
+
+
+\-Definition at line 709 of file pios\-\_\-rfm22b\-\_\-priv.\-h.
+
+\hypertarget{structpios__rfm22b__dev_a655ec6ecb5828af1262a9108c8fb25f7}{\index{pios\-\_\-rfm22b\-\_\-dev@{pios\-\_\-rfm22b\-\_\-dev}!status\-\_\-packet@{status\-\_\-packet}}
+\index{status\-\_\-packet@{status\-\_\-packet}!pios_rfm22b_dev@{pios\-\_\-rfm22b\-\_\-dev}}
+\subsubsection[{status\-\_\-packet}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-P\-H\-Status\-Packet} {\bf pios\-\_\-rfm22b\-\_\-dev\-::status\-\_\-packet}}}\label{structpios__rfm22b__dev_a655ec6ecb5828af1262a9108c8fb25f7}
+
+
+\-Definition at line 743 of file pios\-\_\-rfm22b\-\_\-priv.\-h.
+
+\hypertarget{structpios__rfm22b__dev_a28c619aaf7379eacea11f08847223cc2}{\index{pios\-\_\-rfm22b\-\_\-dev@{pios\-\_\-rfm22b\-\_\-dev}!task\-Handle@{task\-Handle}}
+\index{task\-Handle@{task\-Handle}!pios_rfm22b_dev@{pios\-\_\-rfm22b\-\_\-dev}}
+\subsubsection[{task\-Handle}]{\setlength{\rightskip}{0pt plus 5cm}x\-Task\-Handle {\bf pios\-\_\-rfm22b\-\_\-dev\-::task\-Handle}}}\label{structpios__rfm22b__dev_a28c619aaf7379eacea11f08847223cc2}
+
+
+\-Definition at line 666 of file pios\-\_\-rfm22b\-\_\-priv.\-h.
+
+\hypertarget{structpios__rfm22b__dev_a2ab6b40e08577ff473d6a462f6e9ba47}{\index{pios\-\_\-rfm22b\-\_\-dev@{pios\-\_\-rfm22b\-\_\-dev}!time\-\_\-to\-\_\-send@{time\-\_\-to\-\_\-send}}
+\index{time\-\_\-to\-\_\-send@{time\-\_\-to\-\_\-send}!pios_rfm22b_dev@{pios\-\_\-rfm22b\-\_\-dev}}
+\subsubsection[{time\-\_\-to\-\_\-send}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf pios\-\_\-rfm22b\-\_\-dev\-::time\-\_\-to\-\_\-send}}}\label{structpios__rfm22b__dev_a2ab6b40e08577ff473d6a462f6e9ba47}
+
+
+\-Definition at line 760 of file pios\-\_\-rfm22b\-\_\-priv.\-h.
+
+\hypertarget{structpios__rfm22b__dev_ad552e65c59e3873f29312042109562cd}{\index{pios\-\_\-rfm22b\-\_\-dev@{pios\-\_\-rfm22b\-\_\-dev}!time\-\_\-to\-\_\-send\-\_\-offset@{time\-\_\-to\-\_\-send\-\_\-offset}}
+\index{time\-\_\-to\-\_\-send\-\_\-offset@{time\-\_\-to\-\_\-send\-\_\-offset}!pios_rfm22b_dev@{pios\-\_\-rfm22b\-\_\-dev}}
+\subsubsection[{time\-\_\-to\-\_\-send\-\_\-offset}]{\setlength{\rightskip}{0pt plus 5cm}uint8\-\_\-t {\bf pios\-\_\-rfm22b\-\_\-dev\-::time\-\_\-to\-\_\-send\-\_\-offset}}}\label{structpios__rfm22b__dev_ad552e65c59e3873f29312042109562cd}
+
+
+\-Definition at line 761 of file pios\-\_\-rfm22b\-\_\-priv.\-h.
+
+\hypertarget{structpios__rfm22b__dev_af71e33856164ba7654a523173441ecb3}{\index{pios\-\_\-rfm22b\-\_\-dev@{pios\-\_\-rfm22b\-\_\-dev}!tx\-\_\-complete\-\_\-ticks@{tx\-\_\-complete\-\_\-ticks}}
+\index{tx\-\_\-complete\-\_\-ticks@{tx\-\_\-complete\-\_\-ticks}!pios_rfm22b_dev@{pios\-\_\-rfm22b\-\_\-dev}}
+\subsubsection[{tx\-\_\-complete\-\_\-ticks}]{\setlength{\rightskip}{0pt plus 5cm}port\-Tick\-Type {\bf pios\-\_\-rfm22b\-\_\-dev\-::tx\-\_\-complete\-\_\-ticks}}}\label{structpios__rfm22b__dev_af71e33856164ba7654a523173441ecb3}
+
+
+\-Definition at line 781 of file pios\-\_\-rfm22b\-\_\-priv.\-h.
+
+\hypertarget{structpios__rfm22b__dev_a19f0507e484216186dab475d3d5f15a0}{\index{pios\-\_\-rfm22b\-\_\-dev@{pios\-\_\-rfm22b\-\_\-dev}!tx\-\_\-data\-\_\-rd@{tx\-\_\-data\-\_\-rd}}
+\index{tx\-\_\-data\-\_\-rd@{tx\-\_\-data\-\_\-rd}!pios_rfm22b_dev@{pios\-\_\-rfm22b\-\_\-dev}}
+\subsubsection[{tx\-\_\-data\-\_\-rd}]{\setlength{\rightskip}{0pt plus 5cm}uint16\-\_\-t {\bf pios\-\_\-rfm22b\-\_\-dev\-::tx\-\_\-data\-\_\-rd}}}\label{structpios__rfm22b__dev_a19f0507e484216186dab475d3d5f15a0}
+
+
+\-Definition at line 727 of file pios\-\_\-rfm22b\-\_\-priv.\-h.
+
+\hypertarget{structpios__rfm22b__dev_a6fa47c8dff475d9292a547732cbe4138}{\index{pios\-\_\-rfm22b\-\_\-dev@{pios\-\_\-rfm22b\-\_\-dev}!tx\-\_\-data\-\_\-wr@{tx\-\_\-data\-\_\-wr}}
+\index{tx\-\_\-data\-\_\-wr@{tx\-\_\-data\-\_\-wr}!pios_rfm22b_dev@{pios\-\_\-rfm22b\-\_\-dev}}
+\subsubsection[{tx\-\_\-data\-\_\-wr}]{\setlength{\rightskip}{0pt plus 5cm}uint16\-\_\-t {\bf pios\-\_\-rfm22b\-\_\-dev\-::tx\-\_\-data\-\_\-wr}}}\label{structpios__rfm22b__dev_a6fa47c8dff475d9292a547732cbe4138}
+
+
+\-Definition at line 729 of file pios\-\_\-rfm22b\-\_\-priv.\-h.
+
+\hypertarget{structpios__rfm22b__dev_ab861d6c14abc749f20e45226bd606840}{\index{pios\-\_\-rfm22b\-\_\-dev@{pios\-\_\-rfm22b\-\_\-dev}!tx\-\_\-out\-\_\-cb@{tx\-\_\-out\-\_\-cb}}
+\index{tx\-\_\-out\-\_\-cb@{tx\-\_\-out\-\_\-cb}!pios_rfm22b_dev@{pios\-\_\-rfm22b\-\_\-dev}}
+\subsubsection[{tx\-\_\-out\-\_\-cb}]{\setlength{\rightskip}{0pt plus 5cm}{\bf pios\-\_\-com\-\_\-callback} {\bf pios\-\_\-rfm22b\-\_\-dev\-::tx\-\_\-out\-\_\-cb}}}\label{structpios__rfm22b__dev_ab861d6c14abc749f20e45226bd606840}
+
+
+\-Definition at line 680 of file pios\-\_\-rfm22b\-\_\-priv.\-h.
+
+\hypertarget{structpios__rfm22b__dev_a6d55d5cf2cee09fb6e56c1f918dc31ea}{\index{pios\-\_\-rfm22b\-\_\-dev@{pios\-\_\-rfm22b\-\_\-dev}!tx\-\_\-out\-\_\-context@{tx\-\_\-out\-\_\-context}}
+\index{tx\-\_\-out\-\_\-context@{tx\-\_\-out\-\_\-context}!pios_rfm22b_dev@{pios\-\_\-rfm22b\-\_\-dev}}
+\subsubsection[{tx\-\_\-out\-\_\-context}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t {\bf pios\-\_\-rfm22b\-\_\-dev\-::tx\-\_\-out\-\_\-context}}}\label{structpios__rfm22b__dev_a6d55d5cf2cee09fb6e56c1f918dc31ea}
+
+
+\-Definition at line 681 of file pios\-\_\-rfm22b\-\_\-priv.\-h.
+
+\hypertarget{structpios__rfm22b__dev_a3b7420bb896bb0b1504c4795c8af9087}{\index{pios\-\_\-rfm22b\-\_\-dev@{pios\-\_\-rfm22b\-\_\-dev}!tx\-\_\-packet@{tx\-\_\-packet}}
+\index{tx\-\_\-packet@{tx\-\_\-packet}!pios_rfm22b_dev@{pios\-\_\-rfm22b\-\_\-dev}}
+\subsubsection[{tx\-\_\-packet}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-P\-H\-Packet\-Handle} {\bf pios\-\_\-rfm22b\-\_\-dev\-::tx\-\_\-packet}}}\label{structpios__rfm22b__dev_a3b7420bb896bb0b1504c4795c8af9087}
+
+
+\-Definition at line 723 of file pios\-\_\-rfm22b\-\_\-priv.\-h.
+
+\hypertarget{structpios__rfm22b__dev_a3ca116567675ce2311161483fe4c9ff4}{\index{pios\-\_\-rfm22b\-\_\-dev@{pios\-\_\-rfm22b\-\_\-dev}!tx\-\_\-power@{tx\-\_\-power}}
+\index{tx\-\_\-power@{tx\-\_\-power}!pios_rfm22b_dev@{pios\-\_\-rfm22b\-\_\-dev}}
+\subsubsection[{tx\-\_\-power}]{\setlength{\rightskip}{0pt plus 5cm}uint8\-\_\-t {\bf pios\-\_\-rfm22b\-\_\-dev\-::tx\-\_\-power}}}\label{structpios__rfm22b__dev_a3ca116567675ce2311161483fe4c9ff4}
+
+
+\-Definition at line 684 of file pios\-\_\-rfm22b\-\_\-priv.\-h.
+
+\hypertarget{structpios__rfm22b__dev_ac7ab84030bbfedd9cf397152e1d17ff9}{\index{pios\-\_\-rfm22b\-\_\-dev@{pios\-\_\-rfm22b\-\_\-dev}!tx\-\_\-seq@{tx\-\_\-seq}}
+\index{tx\-\_\-seq@{tx\-\_\-seq}!pios_rfm22b_dev@{pios\-\_\-rfm22b\-\_\-dev}}
+\subsubsection[{tx\-\_\-seq}]{\setlength{\rightskip}{0pt plus 5cm}uint16\-\_\-t {\bf pios\-\_\-rfm22b\-\_\-dev\-::tx\-\_\-seq}}}\label{structpios__rfm22b__dev_ac7ab84030bbfedd9cf397152e1d17ff9}
+
+
+\-Definition at line 731 of file pios\-\_\-rfm22b\-\_\-priv.\-h.
+
+
+
+\-The documentation for this struct was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/home/jb/code/\-Tau\-Labs/flight/\-Pi\-O\-S/inc/\hyperlink{pios__rfm22b__priv_8h}{pios\-\_\-rfm22b\-\_\-priv.\-h}\end{DoxyCompactItemize}

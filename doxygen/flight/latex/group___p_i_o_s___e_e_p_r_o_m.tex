@@ -1,0 +1,95 @@
+\hypertarget{group___p_i_o_s___e_e_p_r_o_m}{\section{\-E\-E\-P\-R\-O\-M reading/writing functions}
+\label{group___p_i_o_s___e_e_p_r_o_m}\index{\-E\-E\-P\-R\-O\-M reading/writing functions@{\-E\-E\-P\-R\-O\-M reading/writing functions}}
+}
+
+
+\-P\-I\-O\-S \-E\-E\-P\-R\-O\-M reading/writing functions.  
+
+
+\subsection*{\-Data \-Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structpios__eeprom__cfg}{pios\-\_\-eeprom\-\_\-cfg}
+\end{DoxyCompactItemize}
+\subsection*{\-Files}
+\begin{DoxyCompactItemize}
+\item 
+file \hyperlink{pios__eeprom_8c}{pios\-\_\-eeprom.\-c}
+\begin{DoxyCompactList}\small\item\em \-C\-O\-M layer functions. \end{DoxyCompactList}\item 
+file \hyperlink{pios__eeprom_8c}{pios\-\_\-eeprom.\-c}
+\begin{DoxyCompactList}\small\item\em \-C\-O\-M layer functions. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{group___p_i_o_s___e_e_p_r_o_m_ga89a716e16ce15d30ee420d5d0a2a3cd8}{\-P\-I\-O\-S\-\_\-\-E\-E\-P\-R\-O\-M\-\_\-\-Init} (const struct \hyperlink{structpios__eeprom__cfg}{pios\-\_\-eeprom\-\_\-cfg} $\ast$cfg)
+\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___e_e_p_r_o_m_ga324767758d92c2fa9701b4ae023362b2}{\-P\-I\-O\-S\-\_\-\-E\-E\-P\-R\-O\-M\-\_\-\-Save} (uint8\-\_\-t $\ast$data, uint32\-\_\-t len)
+\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___e_e_p_r_o_m_ga2158356e9d0a6a63ba08dfc59492fce8}{\-P\-I\-O\-S\-\_\-\-E\-E\-P\-R\-O\-M\-\_\-\-Load} (uint8\-\_\-t $\ast$data, uint32\-\_\-t len)
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-P\-I\-O\-S \-E\-E\-P\-R\-O\-M reading/writing functions. 
+
+\subsection{\-Function \-Documentation}
+\hypertarget{group___p_i_o_s___e_e_p_r_o_m_ga89a716e16ce15d30ee420d5d0a2a3cd8}{\index{\-E\-E\-P\-R\-O\-M reading/writing functions@{\-E\-E\-P\-R\-O\-M reading/writing functions}!\-P\-I\-O\-S\-\_\-\-E\-E\-P\-R\-O\-M\-\_\-\-Init@{\-P\-I\-O\-S\-\_\-\-E\-E\-P\-R\-O\-M\-\_\-\-Init}}
+\index{\-P\-I\-O\-S\-\_\-\-E\-E\-P\-R\-O\-M\-\_\-\-Init@{\-P\-I\-O\-S\-\_\-\-E\-E\-P\-R\-O\-M\-\_\-\-Init}!EEPROM reading/writing functions@{\-E\-E\-P\-R\-O\-M reading/writing functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-E\-E\-P\-R\-O\-M\-\_\-\-Init}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-P\-I\-O\-S\-\_\-\-E\-E\-P\-R\-O\-M\-\_\-\-Init} (
+\begin{DoxyParamCaption}
+\item[{const struct {\bf pios\-\_\-eeprom\-\_\-cfg} $\ast$}]{cfg}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___e_e_p_r_o_m_ga89a716e16ce15d30ee420d5d0a2a3cd8}
+\-Initialize the flash eeprom device 
+\begin{DoxyParams}{\-Parameters}
+{\em cfg} & \-The configuration structure. \\
+\hline
+\end{DoxyParams}
+
+
+\-Definition at line 45 of file pios\-\_\-eeprom.\-c.
+
+\hypertarget{group___p_i_o_s___e_e_p_r_o_m_ga2158356e9d0a6a63ba08dfc59492fce8}{\index{\-E\-E\-P\-R\-O\-M reading/writing functions@{\-E\-E\-P\-R\-O\-M reading/writing functions}!\-P\-I\-O\-S\-\_\-\-E\-E\-P\-R\-O\-M\-\_\-\-Load@{\-P\-I\-O\-S\-\_\-\-E\-E\-P\-R\-O\-M\-\_\-\-Load}}
+\index{\-P\-I\-O\-S\-\_\-\-E\-E\-P\-R\-O\-M\-\_\-\-Load@{\-P\-I\-O\-S\-\_\-\-E\-E\-P\-R\-O\-M\-\_\-\-Load}!EEPROM reading/writing functions@{\-E\-E\-P\-R\-O\-M reading/writing functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-E\-E\-P\-R\-O\-M\-\_\-\-Load}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-P\-I\-O\-S\-\_\-\-E\-E\-P\-R\-O\-M\-\_\-\-Load} (
+\begin{DoxyParamCaption}
+\item[{uint8\-\_\-t $\ast$}]{data, }
+\item[{uint32\-\_\-t}]{len}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___e_e_p_r_o_m_ga2158356e9d0a6a63ba08dfc59492fce8}
+\-Reads a block of data from the flash eeprom device. 
+\begin{DoxyParams}{\-Parameters}
+{\em data} & \-A pointer to the output data buffer. \\
+\hline
+{\em len} & \-The length of data to read. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+0 on sucess 
+\end{DoxyReturn}
+
+
+\-Definition at line 131 of file pios\-\_\-eeprom.\-c.
+
+\hypertarget{group___p_i_o_s___e_e_p_r_o_m_ga324767758d92c2fa9701b4ae023362b2}{\index{\-E\-E\-P\-R\-O\-M reading/writing functions@{\-E\-E\-P\-R\-O\-M reading/writing functions}!\-P\-I\-O\-S\-\_\-\-E\-E\-P\-R\-O\-M\-\_\-\-Save@{\-P\-I\-O\-S\-\_\-\-E\-E\-P\-R\-O\-M\-\_\-\-Save}}
+\index{\-P\-I\-O\-S\-\_\-\-E\-E\-P\-R\-O\-M\-\_\-\-Save@{\-P\-I\-O\-S\-\_\-\-E\-E\-P\-R\-O\-M\-\_\-\-Save}!EEPROM reading/writing functions@{\-E\-E\-P\-R\-O\-M reading/writing functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-E\-E\-P\-R\-O\-M\-\_\-\-Save}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-P\-I\-O\-S\-\_\-\-E\-E\-P\-R\-O\-M\-\_\-\-Save} (
+\begin{DoxyParamCaption}
+\item[{uint8\-\_\-t $\ast$}]{data, }
+\item[{uint32\-\_\-t}]{len}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___e_e_p_r_o_m_ga324767758d92c2fa9701b4ae023362b2}
+\-Save a block of data to the flash eeprom device. 
+\begin{DoxyParams}{\-Parameters}
+{\em data} & \-A pointer to the data to write. \\
+\hline
+{\em len} & \-The length of data to write. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+0 on sucess 
+\end{DoxyReturn}
+
+
+\-Definition at line 56 of file pios\-\_\-eeprom.\-c.
+

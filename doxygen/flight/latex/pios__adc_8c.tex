@@ -1,0 +1,67 @@
+\hypertarget{pios__adc_8c}{\section{/home/jb/code/\-Tau\-Labs/flight/\-Pi\-O\-S/\-Common/pios\-\_\-adc.c \-File \-Reference}
+\label{pios__adc_8c}\index{/home/jb/code/\-Tau\-Labs/flight/\-Pi\-O\-S/\-Common/pios\-\_\-adc.\-c@{/home/jb/code/\-Tau\-Labs/flight/\-Pi\-O\-S/\-Common/pios\-\_\-adc.\-c}}
+}
+
+
+\-Analog to \-Digital conversion routines.  
+
+
+\subsection*{\-Data \-Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structpios__adc__dev}{pios\-\_\-adc\-\_\-dev}
+\item 
+struct {\bfseries sub\-\_\-device\-\_\-list\-\_\-}
+\end{DoxyCompactItemize}
+\subsection*{\-Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{group___p_i_o_s___a_d_c_gad4639b786d45b213ac842a0c4cf3e78d}{pios\-\_\-adc\-\_\-dev\-\_\-magic} \{ \hyperlink{group___p_i_o_s___a_d_c_ggad4639b786d45b213ac842a0c4cf3e78dab432edba8e4a3348b2f28cf7edf94f79}{\-P\-I\-O\-S\-\_\-\-A\-D\-C\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C} =  0x58375169, 
+\hyperlink{group___p_i_o_s___a_d_c_ggad4639b786d45b213ac842a0c4cf3e78dadc16fac7b3b7f2cbaf50a1224b2bbba2}{\-P\-I\-O\-S\-\_\-\-I\-N\-T\-E\-R\-N\-A\-L\-\_\-\-A\-D\-C\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C} =  0x58375124
+ \}
+\end{DoxyCompactItemize}
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___a_d_c_gae120a825a76a2207d0e90abd773f32fc}{\-P\-I\-O\-S\-\_\-\-A\-D\-C\-\_\-\-Init} (uintptr\-\_\-t $\ast$adc\-\_\-id, const struct \hyperlink{structpios__adc__driver}{pios\-\_\-adc\-\_\-driver} $\ast$driver, uint32\-\_\-t lower\-\_\-id)
+\begin{DoxyCompactList}\small\item\em \-Initializes an \-A\-D\-C device. \end{DoxyCompactList}\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___a_d_c_ga99e9080cf4eb3114f15ad00364a5b4d0}{\-P\-I\-O\-S\-\_\-\-A\-D\-C\-\_\-\-Device\-Pin\-Get} (uintptr\-\_\-t adc\-\_\-id, uint32\-\_\-t device\-\_\-pin)
+\begin{DoxyCompactList}\small\item\em \-Gets the \-A\-D\-C value of the given pin of the device. \end{DoxyCompactList}\item 
+bool \hyperlink{group___p_i_o_s___a_d_c_ga3f5f671e8a6057b26861ce21789f3733}{\-P\-I\-O\-S\-\_\-\-A\-D\-C\-\_\-\-Available} (uintptr\-\_\-t adc\-\_\-id, uint32\-\_\-t device\-\_\-pin)
+\begin{DoxyCompactList}\small\item\em \-Checks if a given pin is available on the given device. \end{DoxyCompactList}\item 
+void \hyperlink{group___p_i_o_s___a_d_c_ga0081adb4449c45987f2245cb3455b3e9}{\-P\-I\-O\-S\-\_\-\-A\-D\-C\-\_\-\-Set\-Queue} (uintptr\-\_\-t adc\-\_\-id, x\-Queue\-Handle data\-\_\-queue)
+\begin{DoxyCompactList}\small\item\em \-Set the queue to write to. \end{DoxyCompactList}\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___a_d_c_ga84f004e1278a4e7ae3539bc0ea138477}{\-P\-I\-O\-S\-\_\-\-A\-D\-C\-\_\-\-Get\-Channel} (uint32\-\_\-t channel)
+\begin{DoxyCompactList}\small\item\em \-Reads from an \-A\-D\-C channel this is an abstraction of the lower devices channels are sequentially added from the lower devices available pins \-Warning this function is not as efficient as directly getting the device channel in the order of initialization. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Variables}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structpios__adc__dev}{pios\-\_\-adc\-\_\-dev} $\ast$ \hyperlink{group___p_i_o_s___a_d_c_gab32db3584e1b8779726fcabc7aa2dc9a}{pios\-\_\-adc\-\_\-dev}
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-Analog to \-Digital conversion routines. \-S\-T\-M32\-F4xx \-Internal \-A\-D\-C \-P\-I\-O\-S interface.
+
+\begin{DoxyAuthor}{\-Author}
+\-The \-Open\-Pilot \-Team, \href{http://www.openpilot.org}{\tt http\-://www.\-openpilot.\-org} \-Copyright (\-C) 2012. 
+
+\-Tau \-Labs, \href{http://taulabs.org,}{\tt http\-://taulabs.\-org,} \-Copyright (\-C) 2013 
+\end{DoxyAuthor}
+\begin{DoxySeeAlso}{\-See also}
+\-The \-G\-N\-U \-Public \-License (\-G\-P\-L) \-Version 3
+\end{DoxySeeAlso}
+\begin{DoxyAuthor}{\-Author}
+\-The \-Open\-Pilot \-Team, \href{http://www.openpilot.org}{\tt http\-://www.\-openpilot.\-org} \-Copyright (\-C) 2012. 
+
+\-Michael \-Smith \-Copyright (\-C) 2011. 
+
+\-Tau \-Labs, \href{http://taulabs.org,}{\tt http\-://taulabs.\-org,} \-Copyright (\-C) 2012-\/2013 
+\end{DoxyAuthor}
+\begin{DoxySeeAlso}{\-See also}
+\-The \-G\-N\-U \-Public \-License (\-G\-P\-L) \-Version 3 
+\end{DoxySeeAlso}
+
+
+\-Definition in file \hyperlink{pios__adc_8c_source}{pios\-\_\-adc.\-c}.
+

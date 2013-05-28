@@ -1,0 +1,154 @@
+\hypertarget{pios__i2c__priv_8h}{\section{/home/jb/code/\-Tau\-Labs/flight/\-Pi\-O\-S/inc/pios\-\_\-i2c\-\_\-priv.h \-File \-Reference}
+\label{pios__i2c__priv_8h}\index{/home/jb/code/\-Tau\-Labs/flight/\-Pi\-O\-S/inc/pios\-\_\-i2c\-\_\-priv.\-h@{/home/jb/code/\-Tau\-Labs/flight/\-Pi\-O\-S/inc/pios\-\_\-i2c\-\_\-priv.\-h}}
+}
+
+
+\-I2\-C private definitions.  
+
+
+\subsection*{\-Data \-Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structpios__i2c__adapter__cfg}{pios\-\_\-i2c\-\_\-adapter\-\_\-cfg}
+\item 
+struct \hyperlink{structpios__i2c__adapter}{pios\-\_\-i2c\-\_\-adapter}
+\end{DoxyCompactItemize}
+\subsection*{\-Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{pios__i2c__priv_8h_ac73b69ffe53544057fa2e4751fd9c22b}{i2c\-\_\-adapter\-\_\-state} \{ \*
+\hyperlink{pios__i2c__priv_8h_ac73b69ffe53544057fa2e4751fd9c22ba96ed7394a387e079da7bb5d8173fb361}{\-I2\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-F\-S\-M\-\_\-\-F\-A\-U\-L\-T} =  0, 
+\hyperlink{pios__i2c__priv_8h_ac73b69ffe53544057fa2e4751fd9c22ba35a5d616d4db99e0ba1c159912c38641}{\-I2\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-B\-U\-S\-\_\-\-E\-R\-R\-O\-R}, 
+\hyperlink{pios__i2c__priv_8h_ac73b69ffe53544057fa2e4751fd9c22baf1bf5e65204f34bf3ab04ef69831a93d}{\-I2\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-S\-T\-O\-P\-P\-E\-D}, 
+\hyperlink{pios__i2c__priv_8h_ac73b69ffe53544057fa2e4751fd9c22ba849701cbc8a89399e1b985805510c64a}{\-I2\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-S\-T\-O\-P\-P\-I\-N\-G}, 
+\*
+\hyperlink{pios__i2c__priv_8h_ac73b69ffe53544057fa2e4751fd9c22ba63906c0cdb52625f1d9d5729e8d49acd}{\-I2\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-S\-T\-A\-R\-T\-I\-N\-G}, 
+\hyperlink{pios__i2c__priv_8h_ac73b69ffe53544057fa2e4751fd9c22ba4fbbfea8f0a482d301c64588def6ae36}{\-I2\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-R\-\_\-\-M\-O\-R\-E\-\_\-\-T\-X\-N\-\_\-\-A\-D\-D\-R}, 
+\hyperlink{pios__i2c__priv_8h_ac73b69ffe53544057fa2e4751fd9c22ba7ae3338ba8bb19475a5011aa5b6bf523}{\-I2\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-R\-\_\-\-M\-O\-R\-E\-\_\-\-T\-X\-N\-\_\-\-P\-R\-E\-\_\-\-O\-N\-E}, 
+\hyperlink{pios__i2c__priv_8h_ac73b69ffe53544057fa2e4751fd9c22ba44a9edcc4e182a33a4804d057edd3c82}{\-I2\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-R\-\_\-\-M\-O\-R\-E\-\_\-\-T\-X\-N\-\_\-\-P\-R\-E\-\_\-\-F\-I\-R\-S\-T}, 
+\*
+\hyperlink{pios__i2c__priv_8h_ac73b69ffe53544057fa2e4751fd9c22baa1d92a4712e20551630199192286316c}{\-I2\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-R\-\_\-\-M\-O\-R\-E\-\_\-\-T\-X\-N\-\_\-\-P\-R\-E\-\_\-\-M\-I\-D\-D\-L\-E}, 
+\hyperlink{pios__i2c__priv_8h_ac73b69ffe53544057fa2e4751fd9c22bad4fc57cbc42af580a57c2da15447efb1}{\-I2\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-R\-\_\-\-M\-O\-R\-E\-\_\-\-T\-X\-N\-\_\-\-P\-R\-E\-\_\-\-L\-A\-S\-T}, 
+\hyperlink{pios__i2c__priv_8h_ac73b69ffe53544057fa2e4751fd9c22ba9f938aee4c372c9fb6045d9736fb9a17}{\-I2\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-R\-\_\-\-M\-O\-R\-E\-\_\-\-T\-X\-N\-\_\-\-P\-O\-S\-T\-\_\-\-L\-A\-S\-T}, 
+\hyperlink{pios__i2c__priv_8h_ac73b69ffe53544057fa2e4751fd9c22baed782679cf79c1d847fc3994fb146a23}{\-I2\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-R\-\_\-\-L\-A\-S\-T\-\_\-\-T\-X\-N\-\_\-\-A\-D\-D\-R}, 
+\*
+\hyperlink{pios__i2c__priv_8h_ac73b69ffe53544057fa2e4751fd9c22baa36c5e0db610c05408693a1ae64729e9}{\-I2\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-R\-\_\-\-L\-A\-S\-T\-\_\-\-T\-X\-N\-\_\-\-P\-R\-E\-\_\-\-O\-N\-E}, 
+\hyperlink{pios__i2c__priv_8h_ac73b69ffe53544057fa2e4751fd9c22ba0150e4e3b19fa26b36711b9780b7800d}{\-I2\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-R\-\_\-\-L\-A\-S\-T\-\_\-\-T\-X\-N\-\_\-\-P\-R\-E\-\_\-\-F\-I\-R\-S\-T}, 
+\hyperlink{pios__i2c__priv_8h_ac73b69ffe53544057fa2e4751fd9c22ba2c78d59f7d26725aeac3011d408fa83c}{\-I2\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-R\-\_\-\-L\-A\-S\-T\-\_\-\-T\-X\-N\-\_\-\-P\-R\-E\-\_\-\-M\-I\-D\-D\-L\-E}, 
+\hyperlink{pios__i2c__priv_8h_ac73b69ffe53544057fa2e4751fd9c22bac6069f55ff75bb2d10f158444170bd0c}{\-I2\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-R\-\_\-\-L\-A\-S\-T\-\_\-\-T\-X\-N\-\_\-\-P\-R\-E\-\_\-\-L\-A\-S\-T}, 
+\*
+\hyperlink{pios__i2c__priv_8h_ac73b69ffe53544057fa2e4751fd9c22bae976789408702b629045d7ea96148abe}{\-I2\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-R\-\_\-\-L\-A\-S\-T\-\_\-\-T\-X\-N\-\_\-\-P\-O\-S\-T\-\_\-\-L\-A\-S\-T}, 
+\hyperlink{pios__i2c__priv_8h_ac73b69ffe53544057fa2e4751fd9c22bacf23badff27bc72acc43096130932b19}{\-I2\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-W\-\_\-\-M\-O\-R\-E\-\_\-\-T\-X\-N\-\_\-\-A\-D\-D\-R}, 
+\hyperlink{pios__i2c__priv_8h_ac73b69ffe53544057fa2e4751fd9c22ba2dd1811d4b61e1f60d65b93fb052729b}{\-I2\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-W\-\_\-\-M\-O\-R\-E\-\_\-\-T\-X\-N\-\_\-\-M\-I\-D\-D\-L\-E}, 
+\hyperlink{pios__i2c__priv_8h_ac73b69ffe53544057fa2e4751fd9c22bade419dbabdcca20a8d2e16967b8a6f23}{\-I2\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-W\-\_\-\-M\-O\-R\-E\-\_\-\-T\-X\-N\-\_\-\-L\-A\-S\-T}, 
+\*
+\hyperlink{pios__i2c__priv_8h_ac73b69ffe53544057fa2e4751fd9c22ba48f71a06651b5ad51be2a68cdd876a3c}{\-I2\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-W\-\_\-\-L\-A\-S\-T\-\_\-\-T\-X\-N\-\_\-\-A\-D\-D\-R}, 
+\hyperlink{pios__i2c__priv_8h_ac73b69ffe53544057fa2e4751fd9c22ba278d98c644c404d2bf910686b8b469a9}{\-I2\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-W\-\_\-\-L\-A\-S\-T\-\_\-\-T\-X\-N\-\_\-\-M\-I\-D\-D\-L\-E}, 
+\hyperlink{pios__i2c__priv_8h_ac73b69ffe53544057fa2e4751fd9c22baed2c78d79aa6713f1e9f91574bcd287c}{\-I2\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-W\-\_\-\-L\-A\-S\-T\-\_\-\-T\-X\-N\-\_\-\-L\-A\-S\-T}, 
+\hyperlink{pios__i2c__priv_8h_ac73b69ffe53544057fa2e4751fd9c22ba175360d96f13e8b518d3c54649d29837}{\-I2\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-N\-A\-C\-K}, 
+\*
+\hyperlink{pios__i2c__priv_8h_ac73b69ffe53544057fa2e4751fd9c22baf617c80abdf7eabc425a2e6104a2728b}{\-I2\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-N\-U\-M\-\_\-\-S\-T\-A\-T\-E\-S}
+ \}
+\item 
+enum \hyperlink{pios__i2c__priv_8h_af5ae4a1b83b5404462787136ee41be24}{pios\-\_\-i2c\-\_\-adapter\-\_\-magic} \{ \hyperlink{pios__i2c__priv_8h_af5ae4a1b83b5404462787136ee41be24ac4ee1ff9db4e1aa45ab36da359646268}{\-P\-I\-O\-S\-\_\-\-I2\-C\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C} =  0xa9a9b8b8
+ \}
+\end{DoxyCompactItemize}
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___i2_c_ga10b19295cb30ec2e44c0a11f45cf28fe}{\-P\-I\-O\-S\-\_\-\-I2\-C\-\_\-\-Init} (uint32\-\_\-t $\ast$i2c\-\_\-id, const struct \hyperlink{structpios__i2c__adapter__cfg}{pios\-\_\-i2c\-\_\-adapter\-\_\-cfg} $\ast$cfg)
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-I2\-C private definitions. \begin{DoxyAuthor}{\-Author}
+\-The \-Open\-Pilot \-Team, \href{http://www.openpilot.org}{\tt http\-://www.\-openpilot.\-org} \-Copyright (\-C) 2010. 
+\end{DoxyAuthor}
+\begin{DoxySeeAlso}{\-See also}
+\-The \-G\-N\-U \-Public \-License (\-G\-P\-L) \-Version 3 
+\end{DoxySeeAlso}
+
+
+\-Definition in file \hyperlink{pios__i2c__priv_8h_source}{pios\-\_\-i2c\-\_\-priv.\-h}.
+
+
+
+\subsection{\-Enumeration \-Type \-Documentation}
+\hypertarget{pios__i2c__priv_8h_ac73b69ffe53544057fa2e4751fd9c22b}{\index{pios\-\_\-i2c\-\_\-priv.\-h@{pios\-\_\-i2c\-\_\-priv.\-h}!i2c\-\_\-adapter\-\_\-state@{i2c\-\_\-adapter\-\_\-state}}
+\index{i2c\-\_\-adapter\-\_\-state@{i2c\-\_\-adapter\-\_\-state}!pios_i2c_priv.h@{pios\-\_\-i2c\-\_\-priv.\-h}}
+\subsubsection[{i2c\-\_\-adapter\-\_\-state}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf i2c\-\_\-adapter\-\_\-state}}}\label{pios__i2c__priv_8h_ac73b69ffe53544057fa2e4751fd9c22b}
+\begin{Desc}
+\item[\-Enumerator\-: ]\par
+\begin{description}
+\index{\-I2\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-F\-S\-M\-\_\-\-F\-A\-U\-L\-T@{\-I2\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-F\-S\-M\-\_\-\-F\-A\-U\-L\-T}!pios\-\_\-i2c\-\_\-priv.\-h@{pios\-\_\-i2c\-\_\-priv.\-h}}\index{pios\-\_\-i2c\-\_\-priv.\-h@{pios\-\_\-i2c\-\_\-priv.\-h}!\-I2\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-F\-S\-M\-\_\-\-F\-A\-U\-L\-T@{\-I2\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-F\-S\-M\-\_\-\-F\-A\-U\-L\-T}}\item[{\em 
+\hypertarget{pios__i2c__priv_8h_ac73b69ffe53544057fa2e4751fd9c22ba96ed7394a387e079da7bb5d8173fb361}{\-I2\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-F\-S\-M\-\_\-\-F\-A\-U\-L\-T}\label{pios__i2c__priv_8h_ac73b69ffe53544057fa2e4751fd9c22ba96ed7394a387e079da7bb5d8173fb361}
+}]\index{\-I2\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-B\-U\-S\-\_\-\-E\-R\-R\-O\-R@{\-I2\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-B\-U\-S\-\_\-\-E\-R\-R\-O\-R}!pios\-\_\-i2c\-\_\-priv.\-h@{pios\-\_\-i2c\-\_\-priv.\-h}}\index{pios\-\_\-i2c\-\_\-priv.\-h@{pios\-\_\-i2c\-\_\-priv.\-h}!\-I2\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-B\-U\-S\-\_\-\-E\-R\-R\-O\-R@{\-I2\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-B\-U\-S\-\_\-\-E\-R\-R\-O\-R}}\item[{\em 
+\hypertarget{pios__i2c__priv_8h_ac73b69ffe53544057fa2e4751fd9c22ba35a5d616d4db99e0ba1c159912c38641}{\-I2\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-B\-U\-S\-\_\-\-E\-R\-R\-O\-R}\label{pios__i2c__priv_8h_ac73b69ffe53544057fa2e4751fd9c22ba35a5d616d4db99e0ba1c159912c38641}
+}]\index{\-I2\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-S\-T\-O\-P\-P\-E\-D@{\-I2\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-S\-T\-O\-P\-P\-E\-D}!pios\-\_\-i2c\-\_\-priv.\-h@{pios\-\_\-i2c\-\_\-priv.\-h}}\index{pios\-\_\-i2c\-\_\-priv.\-h@{pios\-\_\-i2c\-\_\-priv.\-h}!\-I2\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-S\-T\-O\-P\-P\-E\-D@{\-I2\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-S\-T\-O\-P\-P\-E\-D}}\item[{\em 
+\hypertarget{pios__i2c__priv_8h_ac73b69ffe53544057fa2e4751fd9c22baf1bf5e65204f34bf3ab04ef69831a93d}{\-I2\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-S\-T\-O\-P\-P\-E\-D}\label{pios__i2c__priv_8h_ac73b69ffe53544057fa2e4751fd9c22baf1bf5e65204f34bf3ab04ef69831a93d}
+}]\index{\-I2\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-S\-T\-O\-P\-P\-I\-N\-G@{\-I2\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-S\-T\-O\-P\-P\-I\-N\-G}!pios\-\_\-i2c\-\_\-priv.\-h@{pios\-\_\-i2c\-\_\-priv.\-h}}\index{pios\-\_\-i2c\-\_\-priv.\-h@{pios\-\_\-i2c\-\_\-priv.\-h}!\-I2\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-S\-T\-O\-P\-P\-I\-N\-G@{\-I2\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-S\-T\-O\-P\-P\-I\-N\-G}}\item[{\em 
+\hypertarget{pios__i2c__priv_8h_ac73b69ffe53544057fa2e4751fd9c22ba849701cbc8a89399e1b985805510c64a}{\-I2\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-S\-T\-O\-P\-P\-I\-N\-G}\label{pios__i2c__priv_8h_ac73b69ffe53544057fa2e4751fd9c22ba849701cbc8a89399e1b985805510c64a}
+}]\index{\-I2\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-S\-T\-A\-R\-T\-I\-N\-G@{\-I2\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-S\-T\-A\-R\-T\-I\-N\-G}!pios\-\_\-i2c\-\_\-priv.\-h@{pios\-\_\-i2c\-\_\-priv.\-h}}\index{pios\-\_\-i2c\-\_\-priv.\-h@{pios\-\_\-i2c\-\_\-priv.\-h}!\-I2\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-S\-T\-A\-R\-T\-I\-N\-G@{\-I2\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-S\-T\-A\-R\-T\-I\-N\-G}}\item[{\em 
+\hypertarget{pios__i2c__priv_8h_ac73b69ffe53544057fa2e4751fd9c22ba63906c0cdb52625f1d9d5729e8d49acd}{\-I2\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-S\-T\-A\-R\-T\-I\-N\-G}\label{pios__i2c__priv_8h_ac73b69ffe53544057fa2e4751fd9c22ba63906c0cdb52625f1d9d5729e8d49acd}
+}]\index{\-I2\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-R\-\_\-\-M\-O\-R\-E\-\_\-\-T\-X\-N\-\_\-\-A\-D\-D\-R@{\-I2\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-R\-\_\-\-M\-O\-R\-E\-\_\-\-T\-X\-N\-\_\-\-A\-D\-D\-R}!pios\-\_\-i2c\-\_\-priv.\-h@{pios\-\_\-i2c\-\_\-priv.\-h}}\index{pios\-\_\-i2c\-\_\-priv.\-h@{pios\-\_\-i2c\-\_\-priv.\-h}!\-I2\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-R\-\_\-\-M\-O\-R\-E\-\_\-\-T\-X\-N\-\_\-\-A\-D\-D\-R@{\-I2\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-R\-\_\-\-M\-O\-R\-E\-\_\-\-T\-X\-N\-\_\-\-A\-D\-D\-R}}\item[{\em 
+\hypertarget{pios__i2c__priv_8h_ac73b69ffe53544057fa2e4751fd9c22ba4fbbfea8f0a482d301c64588def6ae36}{\-I2\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-R\-\_\-\-M\-O\-R\-E\-\_\-\-T\-X\-N\-\_\-\-A\-D\-D\-R}\label{pios__i2c__priv_8h_ac73b69ffe53544057fa2e4751fd9c22ba4fbbfea8f0a482d301c64588def6ae36}
+}]\index{\-I2\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-R\-\_\-\-M\-O\-R\-E\-\_\-\-T\-X\-N\-\_\-\-P\-R\-E\-\_\-\-O\-N\-E@{\-I2\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-R\-\_\-\-M\-O\-R\-E\-\_\-\-T\-X\-N\-\_\-\-P\-R\-E\-\_\-\-O\-N\-E}!pios\-\_\-i2c\-\_\-priv.\-h@{pios\-\_\-i2c\-\_\-priv.\-h}}\index{pios\-\_\-i2c\-\_\-priv.\-h@{pios\-\_\-i2c\-\_\-priv.\-h}!\-I2\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-R\-\_\-\-M\-O\-R\-E\-\_\-\-T\-X\-N\-\_\-\-P\-R\-E\-\_\-\-O\-N\-E@{\-I2\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-R\-\_\-\-M\-O\-R\-E\-\_\-\-T\-X\-N\-\_\-\-P\-R\-E\-\_\-\-O\-N\-E}}\item[{\em 
+\hypertarget{pios__i2c__priv_8h_ac73b69ffe53544057fa2e4751fd9c22ba7ae3338ba8bb19475a5011aa5b6bf523}{\-I2\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-R\-\_\-\-M\-O\-R\-E\-\_\-\-T\-X\-N\-\_\-\-P\-R\-E\-\_\-\-O\-N\-E}\label{pios__i2c__priv_8h_ac73b69ffe53544057fa2e4751fd9c22ba7ae3338ba8bb19475a5011aa5b6bf523}
+}]\index{\-I2\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-R\-\_\-\-M\-O\-R\-E\-\_\-\-T\-X\-N\-\_\-\-P\-R\-E\-\_\-\-F\-I\-R\-S\-T@{\-I2\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-R\-\_\-\-M\-O\-R\-E\-\_\-\-T\-X\-N\-\_\-\-P\-R\-E\-\_\-\-F\-I\-R\-S\-T}!pios\-\_\-i2c\-\_\-priv.\-h@{pios\-\_\-i2c\-\_\-priv.\-h}}\index{pios\-\_\-i2c\-\_\-priv.\-h@{pios\-\_\-i2c\-\_\-priv.\-h}!\-I2\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-R\-\_\-\-M\-O\-R\-E\-\_\-\-T\-X\-N\-\_\-\-P\-R\-E\-\_\-\-F\-I\-R\-S\-T@{\-I2\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-R\-\_\-\-M\-O\-R\-E\-\_\-\-T\-X\-N\-\_\-\-P\-R\-E\-\_\-\-F\-I\-R\-S\-T}}\item[{\em 
+\hypertarget{pios__i2c__priv_8h_ac73b69ffe53544057fa2e4751fd9c22ba44a9edcc4e182a33a4804d057edd3c82}{\-I2\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-R\-\_\-\-M\-O\-R\-E\-\_\-\-T\-X\-N\-\_\-\-P\-R\-E\-\_\-\-F\-I\-R\-S\-T}\label{pios__i2c__priv_8h_ac73b69ffe53544057fa2e4751fd9c22ba44a9edcc4e182a33a4804d057edd3c82}
+}]\index{\-I2\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-R\-\_\-\-M\-O\-R\-E\-\_\-\-T\-X\-N\-\_\-\-P\-R\-E\-\_\-\-M\-I\-D\-D\-L\-E@{\-I2\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-R\-\_\-\-M\-O\-R\-E\-\_\-\-T\-X\-N\-\_\-\-P\-R\-E\-\_\-\-M\-I\-D\-D\-L\-E}!pios\-\_\-i2c\-\_\-priv.\-h@{pios\-\_\-i2c\-\_\-priv.\-h}}\index{pios\-\_\-i2c\-\_\-priv.\-h@{pios\-\_\-i2c\-\_\-priv.\-h}!\-I2\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-R\-\_\-\-M\-O\-R\-E\-\_\-\-T\-X\-N\-\_\-\-P\-R\-E\-\_\-\-M\-I\-D\-D\-L\-E@{\-I2\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-R\-\_\-\-M\-O\-R\-E\-\_\-\-T\-X\-N\-\_\-\-P\-R\-E\-\_\-\-M\-I\-D\-D\-L\-E}}\item[{\em 
+\hypertarget{pios__i2c__priv_8h_ac73b69ffe53544057fa2e4751fd9c22baa1d92a4712e20551630199192286316c}{\-I2\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-R\-\_\-\-M\-O\-R\-E\-\_\-\-T\-X\-N\-\_\-\-P\-R\-E\-\_\-\-M\-I\-D\-D\-L\-E}\label{pios__i2c__priv_8h_ac73b69ffe53544057fa2e4751fd9c22baa1d92a4712e20551630199192286316c}
+}]\index{\-I2\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-R\-\_\-\-M\-O\-R\-E\-\_\-\-T\-X\-N\-\_\-\-P\-R\-E\-\_\-\-L\-A\-S\-T@{\-I2\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-R\-\_\-\-M\-O\-R\-E\-\_\-\-T\-X\-N\-\_\-\-P\-R\-E\-\_\-\-L\-A\-S\-T}!pios\-\_\-i2c\-\_\-priv.\-h@{pios\-\_\-i2c\-\_\-priv.\-h}}\index{pios\-\_\-i2c\-\_\-priv.\-h@{pios\-\_\-i2c\-\_\-priv.\-h}!\-I2\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-R\-\_\-\-M\-O\-R\-E\-\_\-\-T\-X\-N\-\_\-\-P\-R\-E\-\_\-\-L\-A\-S\-T@{\-I2\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-R\-\_\-\-M\-O\-R\-E\-\_\-\-T\-X\-N\-\_\-\-P\-R\-E\-\_\-\-L\-A\-S\-T}}\item[{\em 
+\hypertarget{pios__i2c__priv_8h_ac73b69ffe53544057fa2e4751fd9c22bad4fc57cbc42af580a57c2da15447efb1}{\-I2\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-R\-\_\-\-M\-O\-R\-E\-\_\-\-T\-X\-N\-\_\-\-P\-R\-E\-\_\-\-L\-A\-S\-T}\label{pios__i2c__priv_8h_ac73b69ffe53544057fa2e4751fd9c22bad4fc57cbc42af580a57c2da15447efb1}
+}]\index{\-I2\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-R\-\_\-\-M\-O\-R\-E\-\_\-\-T\-X\-N\-\_\-\-P\-O\-S\-T\-\_\-\-L\-A\-S\-T@{\-I2\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-R\-\_\-\-M\-O\-R\-E\-\_\-\-T\-X\-N\-\_\-\-P\-O\-S\-T\-\_\-\-L\-A\-S\-T}!pios\-\_\-i2c\-\_\-priv.\-h@{pios\-\_\-i2c\-\_\-priv.\-h}}\index{pios\-\_\-i2c\-\_\-priv.\-h@{pios\-\_\-i2c\-\_\-priv.\-h}!\-I2\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-R\-\_\-\-M\-O\-R\-E\-\_\-\-T\-X\-N\-\_\-\-P\-O\-S\-T\-\_\-\-L\-A\-S\-T@{\-I2\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-R\-\_\-\-M\-O\-R\-E\-\_\-\-T\-X\-N\-\_\-\-P\-O\-S\-T\-\_\-\-L\-A\-S\-T}}\item[{\em 
+\hypertarget{pios__i2c__priv_8h_ac73b69ffe53544057fa2e4751fd9c22ba9f938aee4c372c9fb6045d9736fb9a17}{\-I2\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-R\-\_\-\-M\-O\-R\-E\-\_\-\-T\-X\-N\-\_\-\-P\-O\-S\-T\-\_\-\-L\-A\-S\-T}\label{pios__i2c__priv_8h_ac73b69ffe53544057fa2e4751fd9c22ba9f938aee4c372c9fb6045d9736fb9a17}
+}]\index{\-I2\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-R\-\_\-\-L\-A\-S\-T\-\_\-\-T\-X\-N\-\_\-\-A\-D\-D\-R@{\-I2\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-R\-\_\-\-L\-A\-S\-T\-\_\-\-T\-X\-N\-\_\-\-A\-D\-D\-R}!pios\-\_\-i2c\-\_\-priv.\-h@{pios\-\_\-i2c\-\_\-priv.\-h}}\index{pios\-\_\-i2c\-\_\-priv.\-h@{pios\-\_\-i2c\-\_\-priv.\-h}!\-I2\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-R\-\_\-\-L\-A\-S\-T\-\_\-\-T\-X\-N\-\_\-\-A\-D\-D\-R@{\-I2\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-R\-\_\-\-L\-A\-S\-T\-\_\-\-T\-X\-N\-\_\-\-A\-D\-D\-R}}\item[{\em 
+\hypertarget{pios__i2c__priv_8h_ac73b69ffe53544057fa2e4751fd9c22baed782679cf79c1d847fc3994fb146a23}{\-I2\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-R\-\_\-\-L\-A\-S\-T\-\_\-\-T\-X\-N\-\_\-\-A\-D\-D\-R}\label{pios__i2c__priv_8h_ac73b69ffe53544057fa2e4751fd9c22baed782679cf79c1d847fc3994fb146a23}
+}]\index{\-I2\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-R\-\_\-\-L\-A\-S\-T\-\_\-\-T\-X\-N\-\_\-\-P\-R\-E\-\_\-\-O\-N\-E@{\-I2\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-R\-\_\-\-L\-A\-S\-T\-\_\-\-T\-X\-N\-\_\-\-P\-R\-E\-\_\-\-O\-N\-E}!pios\-\_\-i2c\-\_\-priv.\-h@{pios\-\_\-i2c\-\_\-priv.\-h}}\index{pios\-\_\-i2c\-\_\-priv.\-h@{pios\-\_\-i2c\-\_\-priv.\-h}!\-I2\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-R\-\_\-\-L\-A\-S\-T\-\_\-\-T\-X\-N\-\_\-\-P\-R\-E\-\_\-\-O\-N\-E@{\-I2\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-R\-\_\-\-L\-A\-S\-T\-\_\-\-T\-X\-N\-\_\-\-P\-R\-E\-\_\-\-O\-N\-E}}\item[{\em 
+\hypertarget{pios__i2c__priv_8h_ac73b69ffe53544057fa2e4751fd9c22baa36c5e0db610c05408693a1ae64729e9}{\-I2\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-R\-\_\-\-L\-A\-S\-T\-\_\-\-T\-X\-N\-\_\-\-P\-R\-E\-\_\-\-O\-N\-E}\label{pios__i2c__priv_8h_ac73b69ffe53544057fa2e4751fd9c22baa36c5e0db610c05408693a1ae64729e9}
+}]\index{\-I2\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-R\-\_\-\-L\-A\-S\-T\-\_\-\-T\-X\-N\-\_\-\-P\-R\-E\-\_\-\-F\-I\-R\-S\-T@{\-I2\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-R\-\_\-\-L\-A\-S\-T\-\_\-\-T\-X\-N\-\_\-\-P\-R\-E\-\_\-\-F\-I\-R\-S\-T}!pios\-\_\-i2c\-\_\-priv.\-h@{pios\-\_\-i2c\-\_\-priv.\-h}}\index{pios\-\_\-i2c\-\_\-priv.\-h@{pios\-\_\-i2c\-\_\-priv.\-h}!\-I2\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-R\-\_\-\-L\-A\-S\-T\-\_\-\-T\-X\-N\-\_\-\-P\-R\-E\-\_\-\-F\-I\-R\-S\-T@{\-I2\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-R\-\_\-\-L\-A\-S\-T\-\_\-\-T\-X\-N\-\_\-\-P\-R\-E\-\_\-\-F\-I\-R\-S\-T}}\item[{\em 
+\hypertarget{pios__i2c__priv_8h_ac73b69ffe53544057fa2e4751fd9c22ba0150e4e3b19fa26b36711b9780b7800d}{\-I2\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-R\-\_\-\-L\-A\-S\-T\-\_\-\-T\-X\-N\-\_\-\-P\-R\-E\-\_\-\-F\-I\-R\-S\-T}\label{pios__i2c__priv_8h_ac73b69ffe53544057fa2e4751fd9c22ba0150e4e3b19fa26b36711b9780b7800d}
+}]\index{\-I2\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-R\-\_\-\-L\-A\-S\-T\-\_\-\-T\-X\-N\-\_\-\-P\-R\-E\-\_\-\-M\-I\-D\-D\-L\-E@{\-I2\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-R\-\_\-\-L\-A\-S\-T\-\_\-\-T\-X\-N\-\_\-\-P\-R\-E\-\_\-\-M\-I\-D\-D\-L\-E}!pios\-\_\-i2c\-\_\-priv.\-h@{pios\-\_\-i2c\-\_\-priv.\-h}}\index{pios\-\_\-i2c\-\_\-priv.\-h@{pios\-\_\-i2c\-\_\-priv.\-h}!\-I2\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-R\-\_\-\-L\-A\-S\-T\-\_\-\-T\-X\-N\-\_\-\-P\-R\-E\-\_\-\-M\-I\-D\-D\-L\-E@{\-I2\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-R\-\_\-\-L\-A\-S\-T\-\_\-\-T\-X\-N\-\_\-\-P\-R\-E\-\_\-\-M\-I\-D\-D\-L\-E}}\item[{\em 
+\hypertarget{pios__i2c__priv_8h_ac73b69ffe53544057fa2e4751fd9c22ba2c78d59f7d26725aeac3011d408fa83c}{\-I2\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-R\-\_\-\-L\-A\-S\-T\-\_\-\-T\-X\-N\-\_\-\-P\-R\-E\-\_\-\-M\-I\-D\-D\-L\-E}\label{pios__i2c__priv_8h_ac73b69ffe53544057fa2e4751fd9c22ba2c78d59f7d26725aeac3011d408fa83c}
+}]\index{\-I2\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-R\-\_\-\-L\-A\-S\-T\-\_\-\-T\-X\-N\-\_\-\-P\-R\-E\-\_\-\-L\-A\-S\-T@{\-I2\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-R\-\_\-\-L\-A\-S\-T\-\_\-\-T\-X\-N\-\_\-\-P\-R\-E\-\_\-\-L\-A\-S\-T}!pios\-\_\-i2c\-\_\-priv.\-h@{pios\-\_\-i2c\-\_\-priv.\-h}}\index{pios\-\_\-i2c\-\_\-priv.\-h@{pios\-\_\-i2c\-\_\-priv.\-h}!\-I2\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-R\-\_\-\-L\-A\-S\-T\-\_\-\-T\-X\-N\-\_\-\-P\-R\-E\-\_\-\-L\-A\-S\-T@{\-I2\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-R\-\_\-\-L\-A\-S\-T\-\_\-\-T\-X\-N\-\_\-\-P\-R\-E\-\_\-\-L\-A\-S\-T}}\item[{\em 
+\hypertarget{pios__i2c__priv_8h_ac73b69ffe53544057fa2e4751fd9c22bac6069f55ff75bb2d10f158444170bd0c}{\-I2\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-R\-\_\-\-L\-A\-S\-T\-\_\-\-T\-X\-N\-\_\-\-P\-R\-E\-\_\-\-L\-A\-S\-T}\label{pios__i2c__priv_8h_ac73b69ffe53544057fa2e4751fd9c22bac6069f55ff75bb2d10f158444170bd0c}
+}]\index{\-I2\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-R\-\_\-\-L\-A\-S\-T\-\_\-\-T\-X\-N\-\_\-\-P\-O\-S\-T\-\_\-\-L\-A\-S\-T@{\-I2\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-R\-\_\-\-L\-A\-S\-T\-\_\-\-T\-X\-N\-\_\-\-P\-O\-S\-T\-\_\-\-L\-A\-S\-T}!pios\-\_\-i2c\-\_\-priv.\-h@{pios\-\_\-i2c\-\_\-priv.\-h}}\index{pios\-\_\-i2c\-\_\-priv.\-h@{pios\-\_\-i2c\-\_\-priv.\-h}!\-I2\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-R\-\_\-\-L\-A\-S\-T\-\_\-\-T\-X\-N\-\_\-\-P\-O\-S\-T\-\_\-\-L\-A\-S\-T@{\-I2\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-R\-\_\-\-L\-A\-S\-T\-\_\-\-T\-X\-N\-\_\-\-P\-O\-S\-T\-\_\-\-L\-A\-S\-T}}\item[{\em 
+\hypertarget{pios__i2c__priv_8h_ac73b69ffe53544057fa2e4751fd9c22bae976789408702b629045d7ea96148abe}{\-I2\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-R\-\_\-\-L\-A\-S\-T\-\_\-\-T\-X\-N\-\_\-\-P\-O\-S\-T\-\_\-\-L\-A\-S\-T}\label{pios__i2c__priv_8h_ac73b69ffe53544057fa2e4751fd9c22bae976789408702b629045d7ea96148abe}
+}]\index{\-I2\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-W\-\_\-\-M\-O\-R\-E\-\_\-\-T\-X\-N\-\_\-\-A\-D\-D\-R@{\-I2\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-W\-\_\-\-M\-O\-R\-E\-\_\-\-T\-X\-N\-\_\-\-A\-D\-D\-R}!pios\-\_\-i2c\-\_\-priv.\-h@{pios\-\_\-i2c\-\_\-priv.\-h}}\index{pios\-\_\-i2c\-\_\-priv.\-h@{pios\-\_\-i2c\-\_\-priv.\-h}!\-I2\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-W\-\_\-\-M\-O\-R\-E\-\_\-\-T\-X\-N\-\_\-\-A\-D\-D\-R@{\-I2\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-W\-\_\-\-M\-O\-R\-E\-\_\-\-T\-X\-N\-\_\-\-A\-D\-D\-R}}\item[{\em 
+\hypertarget{pios__i2c__priv_8h_ac73b69ffe53544057fa2e4751fd9c22bacf23badff27bc72acc43096130932b19}{\-I2\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-W\-\_\-\-M\-O\-R\-E\-\_\-\-T\-X\-N\-\_\-\-A\-D\-D\-R}\label{pios__i2c__priv_8h_ac73b69ffe53544057fa2e4751fd9c22bacf23badff27bc72acc43096130932b19}
+}]\index{\-I2\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-W\-\_\-\-M\-O\-R\-E\-\_\-\-T\-X\-N\-\_\-\-M\-I\-D\-D\-L\-E@{\-I2\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-W\-\_\-\-M\-O\-R\-E\-\_\-\-T\-X\-N\-\_\-\-M\-I\-D\-D\-L\-E}!pios\-\_\-i2c\-\_\-priv.\-h@{pios\-\_\-i2c\-\_\-priv.\-h}}\index{pios\-\_\-i2c\-\_\-priv.\-h@{pios\-\_\-i2c\-\_\-priv.\-h}!\-I2\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-W\-\_\-\-M\-O\-R\-E\-\_\-\-T\-X\-N\-\_\-\-M\-I\-D\-D\-L\-E@{\-I2\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-W\-\_\-\-M\-O\-R\-E\-\_\-\-T\-X\-N\-\_\-\-M\-I\-D\-D\-L\-E}}\item[{\em 
+\hypertarget{pios__i2c__priv_8h_ac73b69ffe53544057fa2e4751fd9c22ba2dd1811d4b61e1f60d65b93fb052729b}{\-I2\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-W\-\_\-\-M\-O\-R\-E\-\_\-\-T\-X\-N\-\_\-\-M\-I\-D\-D\-L\-E}\label{pios__i2c__priv_8h_ac73b69ffe53544057fa2e4751fd9c22ba2dd1811d4b61e1f60d65b93fb052729b}
+}]\index{\-I2\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-W\-\_\-\-M\-O\-R\-E\-\_\-\-T\-X\-N\-\_\-\-L\-A\-S\-T@{\-I2\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-W\-\_\-\-M\-O\-R\-E\-\_\-\-T\-X\-N\-\_\-\-L\-A\-S\-T}!pios\-\_\-i2c\-\_\-priv.\-h@{pios\-\_\-i2c\-\_\-priv.\-h}}\index{pios\-\_\-i2c\-\_\-priv.\-h@{pios\-\_\-i2c\-\_\-priv.\-h}!\-I2\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-W\-\_\-\-M\-O\-R\-E\-\_\-\-T\-X\-N\-\_\-\-L\-A\-S\-T@{\-I2\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-W\-\_\-\-M\-O\-R\-E\-\_\-\-T\-X\-N\-\_\-\-L\-A\-S\-T}}\item[{\em 
+\hypertarget{pios__i2c__priv_8h_ac73b69ffe53544057fa2e4751fd9c22bade419dbabdcca20a8d2e16967b8a6f23}{\-I2\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-W\-\_\-\-M\-O\-R\-E\-\_\-\-T\-X\-N\-\_\-\-L\-A\-S\-T}\label{pios__i2c__priv_8h_ac73b69ffe53544057fa2e4751fd9c22bade419dbabdcca20a8d2e16967b8a6f23}
+}]\index{\-I2\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-W\-\_\-\-L\-A\-S\-T\-\_\-\-T\-X\-N\-\_\-\-A\-D\-D\-R@{\-I2\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-W\-\_\-\-L\-A\-S\-T\-\_\-\-T\-X\-N\-\_\-\-A\-D\-D\-R}!pios\-\_\-i2c\-\_\-priv.\-h@{pios\-\_\-i2c\-\_\-priv.\-h}}\index{pios\-\_\-i2c\-\_\-priv.\-h@{pios\-\_\-i2c\-\_\-priv.\-h}!\-I2\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-W\-\_\-\-L\-A\-S\-T\-\_\-\-T\-X\-N\-\_\-\-A\-D\-D\-R@{\-I2\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-W\-\_\-\-L\-A\-S\-T\-\_\-\-T\-X\-N\-\_\-\-A\-D\-D\-R}}\item[{\em 
+\hypertarget{pios__i2c__priv_8h_ac73b69ffe53544057fa2e4751fd9c22ba48f71a06651b5ad51be2a68cdd876a3c}{\-I2\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-W\-\_\-\-L\-A\-S\-T\-\_\-\-T\-X\-N\-\_\-\-A\-D\-D\-R}\label{pios__i2c__priv_8h_ac73b69ffe53544057fa2e4751fd9c22ba48f71a06651b5ad51be2a68cdd876a3c}
+}]\index{\-I2\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-W\-\_\-\-L\-A\-S\-T\-\_\-\-T\-X\-N\-\_\-\-M\-I\-D\-D\-L\-E@{\-I2\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-W\-\_\-\-L\-A\-S\-T\-\_\-\-T\-X\-N\-\_\-\-M\-I\-D\-D\-L\-E}!pios\-\_\-i2c\-\_\-priv.\-h@{pios\-\_\-i2c\-\_\-priv.\-h}}\index{pios\-\_\-i2c\-\_\-priv.\-h@{pios\-\_\-i2c\-\_\-priv.\-h}!\-I2\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-W\-\_\-\-L\-A\-S\-T\-\_\-\-T\-X\-N\-\_\-\-M\-I\-D\-D\-L\-E@{\-I2\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-W\-\_\-\-L\-A\-S\-T\-\_\-\-T\-X\-N\-\_\-\-M\-I\-D\-D\-L\-E}}\item[{\em 
+\hypertarget{pios__i2c__priv_8h_ac73b69ffe53544057fa2e4751fd9c22ba278d98c644c404d2bf910686b8b469a9}{\-I2\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-W\-\_\-\-L\-A\-S\-T\-\_\-\-T\-X\-N\-\_\-\-M\-I\-D\-D\-L\-E}\label{pios__i2c__priv_8h_ac73b69ffe53544057fa2e4751fd9c22ba278d98c644c404d2bf910686b8b469a9}
+}]\index{\-I2\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-W\-\_\-\-L\-A\-S\-T\-\_\-\-T\-X\-N\-\_\-\-L\-A\-S\-T@{\-I2\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-W\-\_\-\-L\-A\-S\-T\-\_\-\-T\-X\-N\-\_\-\-L\-A\-S\-T}!pios\-\_\-i2c\-\_\-priv.\-h@{pios\-\_\-i2c\-\_\-priv.\-h}}\index{pios\-\_\-i2c\-\_\-priv.\-h@{pios\-\_\-i2c\-\_\-priv.\-h}!\-I2\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-W\-\_\-\-L\-A\-S\-T\-\_\-\-T\-X\-N\-\_\-\-L\-A\-S\-T@{\-I2\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-W\-\_\-\-L\-A\-S\-T\-\_\-\-T\-X\-N\-\_\-\-L\-A\-S\-T}}\item[{\em 
+\hypertarget{pios__i2c__priv_8h_ac73b69ffe53544057fa2e4751fd9c22baed2c78d79aa6713f1e9f91574bcd287c}{\-I2\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-W\-\_\-\-L\-A\-S\-T\-\_\-\-T\-X\-N\-\_\-\-L\-A\-S\-T}\label{pios__i2c__priv_8h_ac73b69ffe53544057fa2e4751fd9c22baed2c78d79aa6713f1e9f91574bcd287c}
+}]\index{\-I2\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-N\-A\-C\-K@{\-I2\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-N\-A\-C\-K}!pios\-\_\-i2c\-\_\-priv.\-h@{pios\-\_\-i2c\-\_\-priv.\-h}}\index{pios\-\_\-i2c\-\_\-priv.\-h@{pios\-\_\-i2c\-\_\-priv.\-h}!\-I2\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-N\-A\-C\-K@{\-I2\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-N\-A\-C\-K}}\item[{\em 
+\hypertarget{pios__i2c__priv_8h_ac73b69ffe53544057fa2e4751fd9c22ba175360d96f13e8b518d3c54649d29837}{\-I2\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-N\-A\-C\-K}\label{pios__i2c__priv_8h_ac73b69ffe53544057fa2e4751fd9c22ba175360d96f13e8b518d3c54649d29837}
+}]\index{\-I2\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-N\-U\-M\-\_\-\-S\-T\-A\-T\-E\-S@{\-I2\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-N\-U\-M\-\_\-\-S\-T\-A\-T\-E\-S}!pios\-\_\-i2c\-\_\-priv.\-h@{pios\-\_\-i2c\-\_\-priv.\-h}}\index{pios\-\_\-i2c\-\_\-priv.\-h@{pios\-\_\-i2c\-\_\-priv.\-h}!\-I2\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-N\-U\-M\-\_\-\-S\-T\-A\-T\-E\-S@{\-I2\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-N\-U\-M\-\_\-\-S\-T\-A\-T\-E\-S}}\item[{\em 
+\hypertarget{pios__i2c__priv_8h_ac73b69ffe53544057fa2e4751fd9c22baf617c80abdf7eabc425a2e6104a2728b}{\-I2\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-N\-U\-M\-\_\-\-S\-T\-A\-T\-E\-S}\label{pios__i2c__priv_8h_ac73b69ffe53544057fa2e4751fd9c22baf617c80abdf7eabc425a2e6104a2728b}
+}]\end{description}
+\end{Desc}
+
+
+
+\-Definition at line 45 of file pios\-\_\-i2c\-\_\-priv.\-h.
+
+\hypertarget{pios__i2c__priv_8h_af5ae4a1b83b5404462787136ee41be24}{\index{pios\-\_\-i2c\-\_\-priv.\-h@{pios\-\_\-i2c\-\_\-priv.\-h}!pios\-\_\-i2c\-\_\-adapter\-\_\-magic@{pios\-\_\-i2c\-\_\-adapter\-\_\-magic}}
+\index{pios\-\_\-i2c\-\_\-adapter\-\_\-magic@{pios\-\_\-i2c\-\_\-adapter\-\_\-magic}!pios_i2c_priv.h@{pios\-\_\-i2c\-\_\-priv.\-h}}
+\subsubsection[{pios\-\_\-i2c\-\_\-adapter\-\_\-magic}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf pios\-\_\-i2c\-\_\-adapter\-\_\-magic}}}\label{pios__i2c__priv_8h_af5ae4a1b83b5404462787136ee41be24}
+\begin{Desc}
+\item[\-Enumerator\-: ]\par
+\begin{description}
+\index{\-P\-I\-O\-S\-\_\-\-I2\-C\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C@{\-P\-I\-O\-S\-\_\-\-I2\-C\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}!pios\-\_\-i2c\-\_\-priv.\-h@{pios\-\_\-i2c\-\_\-priv.\-h}}\index{pios\-\_\-i2c\-\_\-priv.\-h@{pios\-\_\-i2c\-\_\-priv.\-h}!\-P\-I\-O\-S\-\_\-\-I2\-C\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C@{\-P\-I\-O\-S\-\_\-\-I2\-C\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}}\item[{\em 
+\hypertarget{pios__i2c__priv_8h_af5ae4a1b83b5404462787136ee41be24ac4ee1ff9db4e1aa45ab36da359646268}{\-P\-I\-O\-S\-\_\-\-I2\-C\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}\label{pios__i2c__priv_8h_af5ae4a1b83b5404462787136ee41be24ac4ee1ff9db4e1aa45ab36da359646268}
+}]\end{description}
+\end{Desc}
+
+
+
+\-Definition at line 81 of file pios\-\_\-i2c\-\_\-priv.\-h.
+

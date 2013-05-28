@@ -1,0 +1,82 @@
+\hypertarget{class_scatterplot2d_scope_config}{\section{\-Scatterplot2d\-Scope\-Config \-Class \-Reference}
+\label{class_scatterplot2d_scope_config}\index{\-Scatterplot2d\-Scope\-Config@{\-Scatterplot2d\-Scope\-Config}}
+}
+
+
+\-The \hyperlink{class_scatterplot2d_scope_config}{\-Scatterplot2d\-Scope\-Config} class \-The scatterplot scope configuration.  
+
+
+
+
+{\ttfamily \#include $<$scatterplotscopeconfig.\-h$>$}
+
+\-Inheritance diagram for \-Scatterplot2d\-Scope\-Config\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{class_scatterplot2d_scope_config}
+\end{center}
+\end{figure}
+\subsection*{\-Public \-Types}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{group___scope_plugin_gac3cffd2a84d02f4ebfba6df970d03e97}{\-Scatterplot2d\-Type} \{ \hyperlink{group___scope_plugin_ggac3cffd2a84d02f4ebfba6df970d03e97a8ac04199dbef37beba1b81fe42278b3a}{\-S\-E\-R\-I\-E\-S2\-D}, 
+\hyperlink{group___scope_plugin_ggac3cffd2a84d02f4ebfba6df970d03e97af135d74488370bcdd47ee9744b513263}{\-T\-I\-M\-E\-S\-E\-R\-I\-E\-S2\-D}
+ \}
+\begin{DoxyCompactList}\small\item\em \-The \-Scatterplot2d\-Type enum \-Defines the different type of plots. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Public \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___scope_plugin_gafdcf057f46ce7c284b969bf8d0a8fe0e}{\-Scatterplot2d\-Scope\-Config} ()
+\begin{DoxyCompactList}\small\item\em \hyperlink{group___scope_plugin_gafdcf057f46ce7c284b969bf8d0a8fe0e}{\-Scatterplot2d\-Scope\-Config\-::\-Scatterplot2d\-Scope\-Config} \-Default constructor. \end{DoxyCompactList}\item 
+\hyperlink{group___scope_plugin_ga3f0c68575d63ef6831f8e28d5835e056}{\-Scatterplot2d\-Scope\-Config} (\-Q\-Settings $\ast$q\-Settings)
+\begin{DoxyCompactList}\small\item\em \hyperlink{group___scope_plugin_gafdcf057f46ce7c284b969bf8d0a8fe0e}{\-Scatterplot2d\-Scope\-Config\-::\-Scatterplot2d\-Scope\-Config} \-Constructor using the \-X\-M\-L settings. \end{DoxyCompactList}\item 
+\hyperlink{group___scope_plugin_gab4f886463a61e05057f4fc3043b08f9e}{\-Scatterplot2d\-Scope\-Config} (\-Ui\-::\-Scope\-Gadget\-Options\-Page $\ast$options\-\_\-page)
+\begin{DoxyCompactList}\small\item\em \hyperlink{group___scope_plugin_gafdcf057f46ce7c284b969bf8d0a8fe0e}{\-Scatterplot2d\-Scope\-Config\-::\-Scatterplot2d\-Scope\-Config} \-Constructor using the \-G\-U\-I settings. \end{DoxyCompactList}\item 
+\hyperlink{group___scope_plugin_gad761d10c520b7bbeabfd1eac13b8d6d9}{$\sim$\-Scatterplot2d\-Scope\-Config} ()
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___scope_plugin_ga37a87c7a797180e5634b24238137d996}{save\-Configuration} (\-Q\-Settings $\ast$q\-Settings)
+\begin{DoxyCompactList}\small\item\em \hyperlink{group___scope_plugin_ga37a87c7a797180e5634b24238137d996}{\-Scatterplot2d\-Scope\-Config\-::save\-Configuration} \-Saves configuration to \-X\-M\-L file. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___scope_plugin_ga5b5afb4928f9ea75b7606be6a4138a3d}{create} (\-Q\-Settings q\-Settings)
+\item 
+\-Q\-List$<$ \hyperlink{struct_plot2d_curve_configuration}{\-Plot2d\-Curve\-Configuration} $\ast$ $>$ \hyperlink{group___scope_plugin_ga56246d3456c2ccf8cc5a851d3fd956f4}{get\-Scatterplot\-Data\-Source} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___scope_plugin_gac77a97364a3c7dc1e41da11bd400c551}{add\-Scatterplot\-Data\-Source} (\hyperlink{struct_plot2d_curve_configuration}{\-Plot2d\-Curve\-Configuration} $\ast$value)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___scope_plugin_ga9fa344bf8a33a2d154be6922d8cc7915}{replace\-Scatterplot\-Data\-Source} (\-Q\-List$<$ \hyperlink{struct_plot2d_curve_configuration}{\-Plot2d\-Curve\-Configuration} $\ast$ $>$ scatterplot\-Source\-Configs)
+\begin{DoxyCompactList}\small\item\em \hyperlink{group___scope_plugin_ga9fa344bf8a33a2d154be6922d8cc7915}{\-Scatterplot2d\-Scope\-Config\-::replace\-Scatterplot\-Data\-Source} \-Replaces the list of scatterplot data sources. \end{DoxyCompactList}\item 
+virtual int \hyperlink{group___scope_plugin_gaca53d526ca13b2be6f8e11ea754929a7}{get\-Scope\-Type} ()
+\item 
+double \hyperlink{group___scope_plugin_ga66b9fcd762689ee3c5692552de87d7d1}{get\-Time\-Horizon} ()
+\item 
+virtual \-Q\-List\*
+$<$ \hyperlink{struct_plot2d_curve_configuration}{\-Plot2d\-Curve\-Configuration} $\ast$ $>$ \hyperlink{group___scope_plugin_ga7ca2caad5fa0ed638d0681c5d3270241}{get\-Data\-Source\-Configs} ()
+\item 
+\hyperlink{group___scope_plugin_gac3cffd2a84d02f4ebfba6df970d03e97}{\-Scatterplot2d\-Type} \hyperlink{group___scope_plugin_ga09fc23adf2e2a28804bcf775ea00057c}{get\-Scatterplot2d\-Type} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___scope_plugin_gaecbec1456088d121dbf2b9f63a45c6ab}{set\-Time\-Horizon} (double val)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___scope_plugin_ga67790b6de2598e4ff9f2d585fee11d09}{set\-Scatterplot2d\-Type} (\hyperlink{group___scope_plugin_gac3cffd2a84d02f4ebfba6df970d03e97}{\-Scatterplot2d\-Type} val)
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___scope_plugin_gafe1bd9bbdc9859af7a5d0ad561172a16}{set\-Gui\-Configuration} (\-Ui\-::\-Scope\-Gadget\-Options\-Page $\ast$options\-\_\-page)
+\begin{DoxyCompactList}\small\item\em \-Scatterplot2d\-Scope\-Config\-::set\-Gui\-Configuration\-Set the \-G\-U\-I elements based on values from the \-X\-M\-L settings file. \end{DoxyCompactList}\item 
+virtual \hyperlink{class_scope_config}{\-Scope\-Config} $\ast$ \hyperlink{group___scope_plugin_ga71ae0bb572870f67432575772c3093f8}{clone\-Scope} (\hyperlink{class_scope_config}{\-Scope\-Config} $\ast$\hyperlink{class_scatterplot2d_scope_config}{\-Scatterplot2d\-Scope\-Config})
+\begin{DoxyCompactList}\small\item\em \hyperlink{group___scope_plugin_ga71ae0bb572870f67432575772c3093f8}{\-Scatterplot2d\-Scope\-Config\-::clone\-Scope} \-Clones scope from existing \-G\-U\-I configuration. \end{DoxyCompactList}\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___scope_plugin_ga33b7752470b6c5d32b9aaf1b95faf0f7}{load\-Configuration} (\hyperlink{class_scope_gadget_widget}{\-Scope\-Gadget\-Widget} $\ast$scope\-Gadget\-Widget)
+\begin{DoxyCompactList}\small\item\em \hyperlink{group___scope_plugin_ga33b7752470b6c5d32b9aaf1b95faf0f7}{\-Scatterplot2d\-Scope\-Config\-::load\-Configuration} loads the plot configuration into the scope gadget widget. \end{DoxyCompactList}\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___scope_plugin_ga7ff8815549e33c472a7ada6080401b38}{prepare\-Plot} (\hyperlink{class_scope_gadget_widget}{\-Scope\-Gadget\-Widget} $\ast$)
+\begin{DoxyCompactList}\small\item\em \hyperlink{group___scope_plugin_ga7ff8815549e33c472a7ada6080401b38}{\-Scatterplot2d\-Scope\-Config\-::prepare\-Plot} \-Prepares the \-Qwt plot colors and axes. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___scope_plugin_ga420168b2c6740e98666d76cf58bfb2ee}{configure\-Axes} (\hyperlink{class_scope_gadget_widget}{\-Scope\-Gadget\-Widget} $\ast$)
+\begin{DoxyCompactList}\small\item\em \hyperlink{group___scope_plugin_ga420168b2c6740e98666d76cf58bfb2ee}{\-Scatterplot2d\-Scope\-Config\-::configure\-Axes} \-Configure the axes. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-The \hyperlink{class_scatterplot2d_scope_config}{\-Scatterplot2d\-Scope\-Config} class \-The scatterplot scope configuration. 
+
+\-Definition at line 37 of file scatterplotscopeconfig.\-h.
+
+
+
+\-The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/plugins/scope/scopes2d/\hyperlink{scatterplotscopeconfig_8h}{scatterplotscopeconfig.\-h}\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/plugins/scope/scopes2d/\hyperlink{scatterplotscopeconfig_8cpp}{scatterplotscopeconfig.\-cpp}\end{DoxyCompactItemize}

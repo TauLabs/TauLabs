@@ -1,0 +1,26 @@
+var altholdsmoothed_8h =
+[
+    [ "AltHoldSmoothedAccelGet", "group___alt_hold_smoothed.html#gada8ee4c33187968ceee18f84b4c68d8a", null ],
+    [ "AltHoldSmoothedAccelSet", "group___alt_hold_smoothed.html#ga7019ad84a5627ab98b86177f50a8e642", null ],
+    [ "AltHoldSmoothedAltitudeGet", "group___alt_hold_smoothed.html#ga1ca870770fce4363992ca84499ef66ef", null ],
+    [ "AltHoldSmoothedAltitudeSet", "group___alt_hold_smoothed.html#ga8d34362db9c14d071177ab25637c3ecd", null ],
+    [ "AltHoldSmoothedConnectCallback", "group___alt_hold_smoothed.html#ga6f9c8c3d859695503a54988d17cc36cf", null ],
+    [ "AltHoldSmoothedConnectQueue", "group___alt_hold_smoothed.html#ga38ef59d50ce4c241238b85a7e1cf35f4", null ],
+    [ "AltHoldSmoothedCreateInstance", "group___alt_hold_smoothed.html#gad5445e1acc63ee5b6c1ab11fd4ea9d8d", null ],
+    [ "AltHoldSmoothedGet", "group___alt_hold_smoothed.html#ga1f3bec711a59c653629551cd443e324d", null ],
+    [ "AltHoldSmoothedGetMetadata", "group___alt_hold_smoothed.html#gaede0f7f5d65a64d98d29644cfbb00830", null ],
+    [ "AltHoldSmoothedHandle", "group___alt_hold_smoothed.html#gacf4912bf4ea7692caae986a1f4b507b7", null ],
+    [ "AltHoldSmoothedInitialize", "group___alt_hold_smoothed.html#ga0d0628fc3d4883b9c2a7c3d7f785c366", null ],
+    [ "AltHoldSmoothedInstGet", "group___alt_hold_smoothed.html#gaed6e9b9d3d021efd0ba6e38f57ef1a60", null ],
+    [ "AltHoldSmoothedInstSet", "group___alt_hold_smoothed.html#gad480de5750df926abbb5c079aff0ac7e", null ],
+    [ "AltHoldSmoothedInstUpdated", "group___alt_hold_smoothed.html#ga929cb43168b30aca42f7edc6f410233e", null ],
+    [ "AltHoldSmoothedReadOnly", "group___alt_hold_smoothed.html#ga3d8821b5d2ddd2be9f222c6f3315a378", null ],
+    [ "AltHoldSmoothedRequestInstUpdate", "group___alt_hold_smoothed.html#ga303e3a76487ebfa6afc981980e6cee5f", null ],
+    [ "AltHoldSmoothedRequestUpdate", "group___alt_hold_smoothed.html#ga7ca4b6f9ffaf6b5234987f68c9e3a1d1", null ],
+    [ "AltHoldSmoothedSet", "group___alt_hold_smoothed.html#ga8706a8d4419d056c9c27e89887ff5c51", null ],
+    [ "AltHoldSmoothedSetDefaults", "group___alt_hold_smoothed.html#gaf8cec35674f28a427a392476150495e2", null ],
+    [ "AltHoldSmoothedSetMetadata", "group___alt_hold_smoothed.html#ga4e5126b3613e75fb51998115c7e0e5b9", null ],
+    [ "AltHoldSmoothedUpdated", "group___alt_hold_smoothed.html#gacf69a4f5872a581588e05ea326ea9219", null ],
+    [ "AltHoldSmoothedVelocityGet", "group___alt_hold_smoothed.html#ga16f379d8a2d73fb92c45317badf48d3b", null ],
+    [ "AltHoldSmoothedVelocitySet", "group___alt_hold_smoothed.html#ga2ce30cb68ab6d0a3fff2f62efefa41b6", null ]
+];

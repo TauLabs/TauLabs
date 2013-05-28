@@ -1,0 +1,102 @@
+\hypertarget{structpios__com__dev}{\section{pios\-\_\-com\-\_\-dev \-Struct \-Reference}
+\label{structpios__com__dev}\index{pios\-\_\-com\-\_\-dev@{pios\-\_\-com\-\_\-dev}}
+}
+\subsection*{\-Data \-Fields}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{group___p_i_o_s___c_o_m_ga57d90f793d1e8323599fd11e929c945d}{pios\-\_\-com\-\_\-dev\-\_\-magic} \hyperlink{structpios__com__dev_ac886360255eb683d1be8e60bde922e69}{magic}
+\item 
+uint32\-\_\-t \hyperlink{structpios__com__dev_a3447468fdb0c7996c3669046d48b4cb6}{lower\-\_\-id}
+\item 
+struct \hyperlink{structpios__com__driver}{pios\-\_\-com\-\_\-driver} $\ast$ \hyperlink{structpios__com__dev_a39cf63f61fa9d8ce12143835c9cbc87e}{driver}
+\item 
+x\-Semaphore\-Handle \hyperlink{structpios__com__dev_adf20399b709462af4eafca64b6394aa3}{tx\-\_\-sem}
+\item 
+x\-Semaphore\-Handle \hyperlink{structpios__com__dev_a7fc0be64ae4ec8b66c6cc9fb0d14a912}{rx\-\_\-sem}
+\item 
+bool \hyperlink{structpios__com__dev_a0ef5c9630be8df13ab50070bbf65009c}{has\-\_\-rx}
+\item 
+bool \hyperlink{structpios__com__dev_af723f3ee893a43d4ba3fff3e8ff6d3f7}{has\-\_\-tx}
+\item 
+\hyperlink{structt__fifo__buffer}{t\-\_\-fifo\-\_\-buffer} \hyperlink{structpios__com__dev_a505ae5ef4b8b02aa59d47da4275f9c48}{rx}
+\item 
+\hyperlink{structt__fifo__buffer}{t\-\_\-fifo\-\_\-buffer} \hyperlink{structpios__com__dev_a7a373bf857434538304aae2c831929c8}{tx}
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+
+
+\-Definition at line 48 of file pios\-\_\-com.\-c.
+
+
+
+\subsection{\-Field \-Documentation}
+\hypertarget{structpios__com__dev_a39cf63f61fa9d8ce12143835c9cbc87e}{\index{pios\-\_\-com\-\_\-dev@{pios\-\_\-com\-\_\-dev}!driver@{driver}}
+\index{driver@{driver}!pios_com_dev@{pios\-\_\-com\-\_\-dev}}
+\subsubsection[{driver}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf pios\-\_\-com\-\_\-driver}$\ast$ {\bf pios\-\_\-com\-\_\-dev\-::driver}}}\label{structpios__com__dev_a39cf63f61fa9d8ce12143835c9cbc87e}
+
+
+\-Definition at line 51 of file pios\-\_\-com.\-c.
+
+\hypertarget{structpios__com__dev_a0ef5c9630be8df13ab50070bbf65009c}{\index{pios\-\_\-com\-\_\-dev@{pios\-\_\-com\-\_\-dev}!has\-\_\-rx@{has\-\_\-rx}}
+\index{has\-\_\-rx@{has\-\_\-rx}!pios_com_dev@{pios\-\_\-com\-\_\-dev}}
+\subsubsection[{has\-\_\-rx}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf pios\-\_\-com\-\_\-dev\-::has\-\_\-rx}}}\label{structpios__com__dev_a0ef5c9630be8df13ab50070bbf65009c}
+
+
+\-Definition at line 58 of file pios\-\_\-com.\-c.
+
+\hypertarget{structpios__com__dev_af723f3ee893a43d4ba3fff3e8ff6d3f7}{\index{pios\-\_\-com\-\_\-dev@{pios\-\_\-com\-\_\-dev}!has\-\_\-tx@{has\-\_\-tx}}
+\index{has\-\_\-tx@{has\-\_\-tx}!pios_com_dev@{pios\-\_\-com\-\_\-dev}}
+\subsubsection[{has\-\_\-tx}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf pios\-\_\-com\-\_\-dev\-::has\-\_\-tx}}}\label{structpios__com__dev_af723f3ee893a43d4ba3fff3e8ff6d3f7}
+
+
+\-Definition at line 59 of file pios\-\_\-com.\-c.
+
+\hypertarget{structpios__com__dev_a3447468fdb0c7996c3669046d48b4cb6}{\index{pios\-\_\-com\-\_\-dev@{pios\-\_\-com\-\_\-dev}!lower\-\_\-id@{lower\-\_\-id}}
+\index{lower\-\_\-id@{lower\-\_\-id}!pios_com_dev@{pios\-\_\-com\-\_\-dev}}
+\subsubsection[{lower\-\_\-id}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t {\bf pios\-\_\-com\-\_\-dev\-::lower\-\_\-id}}}\label{structpios__com__dev_a3447468fdb0c7996c3669046d48b4cb6}
+
+
+\-Definition at line 50 of file pios\-\_\-com.\-c.
+
+\hypertarget{structpios__com__dev_ac886360255eb683d1be8e60bde922e69}{\index{pios\-\_\-com\-\_\-dev@{pios\-\_\-com\-\_\-dev}!magic@{magic}}
+\index{magic@{magic}!pios_com_dev@{pios\-\_\-com\-\_\-dev}}
+\subsubsection[{magic}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf pios\-\_\-com\-\_\-dev\-\_\-magic} {\bf pios\-\_\-com\-\_\-dev\-::magic}}}\label{structpios__com__dev_ac886360255eb683d1be8e60bde922e69}
+
+
+\-Definition at line 49 of file pios\-\_\-com.\-c.
+
+\hypertarget{structpios__com__dev_a505ae5ef4b8b02aa59d47da4275f9c48}{\index{pios\-\_\-com\-\_\-dev@{pios\-\_\-com\-\_\-dev}!rx@{rx}}
+\index{rx@{rx}!pios_com_dev@{pios\-\_\-com\-\_\-dev}}
+\subsubsection[{rx}]{\setlength{\rightskip}{0pt plus 5cm}{\bf t\-\_\-fifo\-\_\-buffer} {\bf pios\-\_\-com\-\_\-dev\-::rx}}}\label{structpios__com__dev_a505ae5ef4b8b02aa59d47da4275f9c48}
+
+
+\-Definition at line 61 of file pios\-\_\-com.\-c.
+
+\hypertarget{structpios__com__dev_a7fc0be64ae4ec8b66c6cc9fb0d14a912}{\index{pios\-\_\-com\-\_\-dev@{pios\-\_\-com\-\_\-dev}!rx\-\_\-sem@{rx\-\_\-sem}}
+\index{rx\-\_\-sem@{rx\-\_\-sem}!pios_com_dev@{pios\-\_\-com\-\_\-dev}}
+\subsubsection[{rx\-\_\-sem}]{\setlength{\rightskip}{0pt plus 5cm}x\-Semaphore\-Handle {\bf pios\-\_\-com\-\_\-dev\-::rx\-\_\-sem}}}\label{structpios__com__dev_a7fc0be64ae4ec8b66c6cc9fb0d14a912}
+
+
+\-Definition at line 55 of file pios\-\_\-com.\-c.
+
+\hypertarget{structpios__com__dev_a7a373bf857434538304aae2c831929c8}{\index{pios\-\_\-com\-\_\-dev@{pios\-\_\-com\-\_\-dev}!tx@{tx}}
+\index{tx@{tx}!pios_com_dev@{pios\-\_\-com\-\_\-dev}}
+\subsubsection[{tx}]{\setlength{\rightskip}{0pt plus 5cm}{\bf t\-\_\-fifo\-\_\-buffer} {\bf pios\-\_\-com\-\_\-dev\-::tx}}}\label{structpios__com__dev_a7a373bf857434538304aae2c831929c8}
+
+
+\-Definition at line 62 of file pios\-\_\-com.\-c.
+
+\hypertarget{structpios__com__dev_adf20399b709462af4eafca64b6394aa3}{\index{pios\-\_\-com\-\_\-dev@{pios\-\_\-com\-\_\-dev}!tx\-\_\-sem@{tx\-\_\-sem}}
+\index{tx\-\_\-sem@{tx\-\_\-sem}!pios_com_dev@{pios\-\_\-com\-\_\-dev}}
+\subsubsection[{tx\-\_\-sem}]{\setlength{\rightskip}{0pt plus 5cm}x\-Semaphore\-Handle {\bf pios\-\_\-com\-\_\-dev\-::tx\-\_\-sem}}}\label{structpios__com__dev_adf20399b709462af4eafca64b6394aa3}
+
+
+\-Definition at line 54 of file pios\-\_\-com.\-c.
+
+
+
+\-The documentation for this struct was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/home/jb/code/\-Tau\-Labs/flight/\-Pi\-O\-S/\-Common/\hyperlink{pios__com_8c}{pios\-\_\-com.\-c}\end{DoxyCompactItemize}

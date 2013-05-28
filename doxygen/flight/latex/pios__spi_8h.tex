@@ -1,0 +1,61 @@
+\hypertarget{pios__spi_8h}{\section{/home/jb/code/\-Tau\-Labs/flight/\-Pi\-O\-S/inc/pios\-\_\-spi.h \-File \-Reference}
+\label{pios__spi_8h}\index{/home/jb/code/\-Tau\-Labs/flight/\-Pi\-O\-S/inc/pios\-\_\-spi.\-h@{/home/jb/code/\-Tau\-Labs/flight/\-Pi\-O\-S/inc/pios\-\_\-spi.\-h}}
+}
+
+
+\-S\-P\-I functions header.  
+
+
+\subsection*{\-Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{group___p_i_o_s___s_p_i_gacc2b1ca1c7cd8aeef04fee955ef7ffd2}{\-S\-P\-I\-Prescaler\-Type\-Def} \{ \*
+\hyperlink{group___p_i_o_s___s_p_i_ggacc2b1ca1c7cd8aeef04fee955ef7ffd2af5940d5cceea232a53c7dbebd624ffec}{\-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-P\-R\-E\-S\-C\-A\-L\-E\-R\-\_\-2} =  0, 
+\hyperlink{group___p_i_o_s___s_p_i_ggacc2b1ca1c7cd8aeef04fee955ef7ffd2a822cfd241709e888d44d62f34893cc47}{\-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-P\-R\-E\-S\-C\-A\-L\-E\-R\-\_\-4} =  1, 
+\hyperlink{group___p_i_o_s___s_p_i_ggacc2b1ca1c7cd8aeef04fee955ef7ffd2a92b2d129b53b4f5c083b6da2d8f57356}{\-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-P\-R\-E\-S\-C\-A\-L\-E\-R\-\_\-8} =  2, 
+\hyperlink{group___p_i_o_s___s_p_i_ggacc2b1ca1c7cd8aeef04fee955ef7ffd2a434915bc04c78a929a5a3184e71f1f38}{\-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-P\-R\-E\-S\-C\-A\-L\-E\-R\-\_\-16} =  3, 
+\*
+\hyperlink{group___p_i_o_s___s_p_i_ggacc2b1ca1c7cd8aeef04fee955ef7ffd2a101388bb1fc6d066e8b297f45426c45e}{\-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-P\-R\-E\-S\-C\-A\-L\-E\-R\-\_\-32} =  4, 
+\hyperlink{group___p_i_o_s___s_p_i_ggacc2b1ca1c7cd8aeef04fee955ef7ffd2a9c71c6dec8a4a411d9d2fc8838f8f2d6}{\-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-P\-R\-E\-S\-C\-A\-L\-E\-R\-\_\-64} =  5, 
+\hyperlink{group___p_i_o_s___s_p_i_ggacc2b1ca1c7cd8aeef04fee955ef7ffd2aed1958e920936add1e9c66d4132e437a}{\-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-P\-R\-E\-S\-C\-A\-L\-E\-R\-\_\-128} =  6, 
+\hyperlink{group___p_i_o_s___s_p_i_ggacc2b1ca1c7cd8aeef04fee955ef7ffd2abda35a0964776633862f5b99f1bb6be2}{\-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-P\-R\-E\-S\-C\-A\-L\-E\-R\-\_\-256} =  7
+ \}
+\end{DoxyCompactItemize}
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___s_p_i_ga5e8329c2d8543fe240f50571bf87eb22}{\-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-Set\-Clock\-Speed} (uint32\-\_\-t spi\-\_\-id, \hyperlink{group___p_i_o_s___s_p_i_gacc2b1ca1c7cd8aeef04fee955ef7ffd2}{\-S\-P\-I\-Prescaler\-Type\-Def} spi\-\_\-prescaler)
+\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___s_p_i_gaae1c8b2fa4574c575994c1fd591233a6}{\-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-R\-C\-\_\-\-Pin\-Set} (uint32\-\_\-t spi\-\_\-id, uint32\-\_\-t slave\-\_\-id, uint8\-\_\-t pin\-\_\-value)
+\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___s_p_i_gaa65b0b0a89e87c3e8f13c00ee0b91563}{\-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-Transfer\-Byte} (uint32\-\_\-t spi\-\_\-id, uint8\-\_\-t b)
+\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___s_p_i_ga7dc994b4889415502021540ebbd2fce3}{\-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-Transfer\-Block} (uint32\-\_\-t spi\-\_\-id, const uint8\-\_\-t $\ast$send\-\_\-buffer, uint8\-\_\-t $\ast$receive\-\_\-buffer, uint16\-\_\-t len, void $\ast$callback)
+\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___s_p_i_ga2c561c9f63706d774c1b5ed7df2e17f5}{\-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-Busy} (uint32\-\_\-t spi\-\_\-id)
+\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___s_p_i_ga307f60532c61b56c285ce5d680cb14c5}{\-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-Claim\-Bus} (uint32\-\_\-t spi\-\_\-id)
+\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___s_p_i_gaa42e1b9f8f8628cf28c3612fc1f7f9d1}{\-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-Claim\-Bus\-I\-S\-R} (uint32\-\_\-t spi\-\_\-id, bool $\ast$woken)
+\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___s_p_i_ga117fbed6d00c5404e9414ab72175e1c8}{\-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-Release\-Bus} (uint32\-\_\-t spi\-\_\-id)
+\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___s_p_i_ga9b61d0c23476fd3a67c887c13c666a67}{\-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-Release\-Bus\-I\-S\-R} (uint32\-\_\-t spi\-\_\-id, bool $\ast$woken)
+\item 
+void \hyperlink{group___p_i_o_s___s_p_i_ga018ed8c0b8d0c9a22faf6faca9b5a895}{\-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-I\-R\-Q\-\_\-\-Handler} (uint32\-\_\-t spi\-\_\-id)
+\item 
+void \hyperlink{group___p_i_o_s___s_p_i_ga8d8a9bc28c1c30e41e662da188d12cd7}{\-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-\-Set\-Prescalar} (uint32\-\_\-t spi\-\_\-id, uint32\-\_\-t prescalar)
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-S\-P\-I functions header. \begin{DoxyAuthor}{\-Author}
+\-The \-Open\-Pilot \-Team, \href{http://www.openpilot.org}{\tt http\-://www.\-openpilot.\-org} \-Copyright (\-C) 2010. 
+\end{DoxyAuthor}
+\begin{DoxySeeAlso}{\-See also}
+\-The \-G\-N\-U \-Public \-License (\-G\-P\-L) \-Version 3 
+\end{DoxySeeAlso}
+
+
+\-Definition in file \hyperlink{pios__spi_8h_source}{pios\-\_\-spi.\-h}.
+

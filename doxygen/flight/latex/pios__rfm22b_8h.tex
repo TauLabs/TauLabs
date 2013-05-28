@@ -1,0 +1,104 @@
+\hypertarget{pios__rfm22b_8h}{\section{/home/jb/code/\-Tau\-Labs/flight/\-Pi\-O\-S/inc/pios\-\_\-rfm22b.h \-File \-Reference}
+\label{pios__rfm22b_8h}\index{/home/jb/code/\-Tau\-Labs/flight/\-Pi\-O\-S/inc/pios\-\_\-rfm22b.\-h@{/home/jb/code/\-Tau\-Labs/flight/\-Pi\-O\-S/inc/pios\-\_\-rfm22b.\-h}}
+}
+
+
+\-R\-F\-M22\-B functions header.  
+
+
+\subsection*{\-Data \-Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structpios__rfm22b__cfg}{pios\-\_\-rfm22b\-\_\-cfg}
+\item 
+struct \hyperlink{structrfm22b__stats}{rfm22b\-\_\-stats}
+\end{DoxyCompactItemize}
+\subsection*{\-Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef void($\ast$ \hyperlink{group___p_i_o_s___r_f_m22_b_gaa8a316480e010f5e383d29257c0686cd}{\-P\-I\-O\-S\-\_\-\-R\-F\-M22\-B\-\_\-\-Com\-Config\-Callback} )(\hyperlink{group___o_p_link_settings_ga1511abaff051d1cd559ddd52fea0bfa8}{\-O\-P\-Link\-Settings\-Output\-Connection\-Options} com\-\_\-port, \hyperlink{group___o_p_link_settings_gaf4886a2c0a8f8a79c93d27c94ee503ba}{\-O\-P\-Link\-Settings\-Com\-Speed\-Options} com\-\_\-speed)
+\end{DoxyCompactItemize}
+\subsection*{\-Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{group___p_i_o_s___r_f_m22_b_gaccc7d029df9e5a96151a68e64f4be7e2}{gpio\-\_\-direction} \{ \hyperlink{group___p_i_o_s___r_f_m22_b_ggaccc7d029df9e5a96151a68e64f4be7e2a87c92cb693852456c28e74d75b67b00a}{\-G\-P\-I\-O0\-\_\-\-T\-X\-\_\-\-G\-P\-I\-O1\-\_\-\-R\-X}, 
+\hyperlink{group___p_i_o_s___r_f_m22_b_ggaccc7d029df9e5a96151a68e64f4be7e2a914b463221cba0d76f04cd178ef2d8f0}{\-G\-P\-I\-O0\-\_\-\-R\-X\-\_\-\-G\-P\-I\-O1\-\_\-\-T\-X}
+ \}
+\item 
+enum \hyperlink{group___p_i_o_s___r_f_m22_b_gaad7a4f0b388c5c9323bb4ced4e9356cc}{rfm22b\-\_\-tx\-\_\-power} \{ \*
+\hyperlink{group___p_i_o_s___r_f_m22_b_ggaad7a4f0b388c5c9323bb4ced4e9356cca3b8061dc56ef54a7f5db4bf1e74c5319}{\-R\-F\-M22\-\_\-tx\-\_\-pwr\-\_\-txpow\-\_\-0} =  0x00, 
+\hyperlink{group___p_i_o_s___r_f_m22_b_ggaad7a4f0b388c5c9323bb4ced4e9356cca6d5a44ebcaa13080170d647910a721c1}{\-R\-F\-M22\-\_\-tx\-\_\-pwr\-\_\-txpow\-\_\-1} =  0x01, 
+\hyperlink{group___p_i_o_s___r_f_m22_b_ggaad7a4f0b388c5c9323bb4ced4e9356cca211047452ea729f5c4836e2732c750e4}{\-R\-F\-M22\-\_\-tx\-\_\-pwr\-\_\-txpow\-\_\-2} =  0x02, 
+\hyperlink{group___p_i_o_s___r_f_m22_b_ggaad7a4f0b388c5c9323bb4ced4e9356cca47ab0e394ffb21472cc73bd3ea4ba139}{\-R\-F\-M22\-\_\-tx\-\_\-pwr\-\_\-txpow\-\_\-3} =  0x03, 
+\*
+\hyperlink{group___p_i_o_s___r_f_m22_b_ggaad7a4f0b388c5c9323bb4ced4e9356ccae3308a1793a8636dd4127b88516a8ae5}{\-R\-F\-M22\-\_\-tx\-\_\-pwr\-\_\-txpow\-\_\-4} =  0x04, 
+\hyperlink{group___p_i_o_s___r_f_m22_b_ggaad7a4f0b388c5c9323bb4ced4e9356cca725b92623670d326be838a450a1970fc}{\-R\-F\-M22\-\_\-tx\-\_\-pwr\-\_\-txpow\-\_\-5} =  0x05, 
+\hyperlink{group___p_i_o_s___r_f_m22_b_ggaad7a4f0b388c5c9323bb4ced4e9356cca31374e8ebc5c7afb036fba8c6d69336c}{\-R\-F\-M22\-\_\-tx\-\_\-pwr\-\_\-txpow\-\_\-6} =  0x06, 
+\hyperlink{group___p_i_o_s___r_f_m22_b_ggaad7a4f0b388c5c9323bb4ced4e9356ccade87df0ea8ae8e430c1fc59bad39ecc7}{\-R\-F\-M22\-\_\-tx\-\_\-pwr\-\_\-txpow\-\_\-7} =  0x07
+ \}
+\item 
+enum \hyperlink{group___p_i_o_s___r_f_m22_b_gaa3e170044f27a00c422ee75f98130ef1}{rfm22b\-\_\-datarate} \{ \*
+\hyperlink{group___p_i_o_s___r_f_m22_b_ggaa3e170044f27a00c422ee75f98130ef1a36bc9a3bd8b78d019dbd7d2495169ce4}{\-R\-F\-M22\-\_\-datarate\-\_\-500} =  0, 
+\hyperlink{group___p_i_o_s___r_f_m22_b_ggaa3e170044f27a00c422ee75f98130ef1aa17cabbc60faeb47c286249dfa14c670}{\-R\-F\-M22\-\_\-datarate\-\_\-1000} =  1, 
+\hyperlink{group___p_i_o_s___r_f_m22_b_ggaa3e170044f27a00c422ee75f98130ef1a1b1de802b878eeb6bdc948a02ced816a}{\-R\-F\-M22\-\_\-datarate\-\_\-2000} =  2, 
+\hyperlink{group___p_i_o_s___r_f_m22_b_ggaa3e170044f27a00c422ee75f98130ef1afb5019f492f916460103f5d8802ef3c0}{\-R\-F\-M22\-\_\-datarate\-\_\-4000} =  3, 
+\*
+\hyperlink{group___p_i_o_s___r_f_m22_b_ggaa3e170044f27a00c422ee75f98130ef1ab694518703ba2978f5c0a713c7653ce7}{\-R\-F\-M22\-\_\-datarate\-\_\-8000} =  4, 
+\hyperlink{group___p_i_o_s___r_f_m22_b_ggaa3e170044f27a00c422ee75f98130ef1a2f4a71d53bc9f04e377b6f6294d9ca50}{\-R\-F\-M22\-\_\-datarate\-\_\-9600} =  5, 
+\hyperlink{group___p_i_o_s___r_f_m22_b_ggaa3e170044f27a00c422ee75f98130ef1a09ed5e9fcf5708dd7407346d9a0ab922}{\-R\-F\-M22\-\_\-datarate\-\_\-16000} =  6, 
+\hyperlink{group___p_i_o_s___r_f_m22_b_ggaa3e170044f27a00c422ee75f98130ef1aedd904c3e63449c00996dca8934d5413}{\-R\-F\-M22\-\_\-datarate\-\_\-19200} =  7, 
+\*
+\hyperlink{group___p_i_o_s___r_f_m22_b_ggaa3e170044f27a00c422ee75f98130ef1ab081da7c750e3499b953b518d24bc5bf}{\-R\-F\-M22\-\_\-datarate\-\_\-24000} =  8, 
+\hyperlink{group___p_i_o_s___r_f_m22_b_ggaa3e170044f27a00c422ee75f98130ef1a3f8afae5b7a9383c81f1e56d307953b3}{\-R\-F\-M22\-\_\-datarate\-\_\-32000} =  9, 
+\hyperlink{group___p_i_o_s___r_f_m22_b_ggaa3e170044f27a00c422ee75f98130ef1a68ce67d698ece0a8fe76f20f22e65830}{\-R\-F\-M22\-\_\-datarate\-\_\-64000} =  10, 
+\hyperlink{group___p_i_o_s___r_f_m22_b_ggaa3e170044f27a00c422ee75f98130ef1a5724082114b980608e6fea8076767031}{\-R\-F\-M22\-\_\-datarate\-\_\-128000} =  11, 
+\*
+\hyperlink{group___p_i_o_s___r_f_m22_b_ggaa3e170044f27a00c422ee75f98130ef1ab01bf42f9f3a056aabb6571f3f824f40}{\-R\-F\-M22\-\_\-datarate\-\_\-192000} =  12, 
+\hyperlink{group___p_i_o_s___r_f_m22_b_ggaa3e170044f27a00c422ee75f98130ef1a53a8ce185aada9d03c225f9cb773d222}{\-R\-F\-M22\-\_\-datarate\-\_\-256000} =  13
+ \}
+\end{DoxyCompactItemize}
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___r_f_m22_b_ga5d053a5a8be93e0b0d4c61061cc74464}{\-P\-I\-O\-S\-\_\-\-R\-F\-M22\-B\-\_\-\-Init} (uint32\-\_\-t $\ast$rfm22b\-\_\-id, uint32\-\_\-t spi\-\_\-id, uint32\-\_\-t slave\-\_\-num, const struct \hyperlink{structpios__rfm22b__cfg}{pios\-\_\-rfm22b\-\_\-cfg} $\ast$cfg)
+\item 
+void \hyperlink{group___p_i_o_s___r_f_m22_b_ga6b7275549a5178f70500c1705d85e30a}{\-P\-I\-O\-S\-\_\-\-R\-F\-M22\-B\-\_\-\-Set\-Frequency\-Range} (uint32\-\_\-t rfm22b\-\_\-id, uint32\-\_\-t min\-\_\-frequency, uint32\-\_\-t max\-\_\-frequency)
+\item 
+void \hyperlink{group___p_i_o_s___r_f_m22_b_ga2230c70e99a4c87dcad0ea19351ddc0a}{\-P\-I\-O\-S\-\_\-\-R\-F\-M22\-B\-\_\-\-Set\-Tx\-Power} (uint32\-\_\-t rfm22b\-\_\-id, enum \hyperlink{group___p_i_o_s___r_f_m22_b_gaad7a4f0b388c5c9323bb4ced4e9356cc}{rfm22b\-\_\-tx\-\_\-power} tx\-\_\-pwr)
+\item 
+void \hyperlink{group___p_i_o_s___r_f_m22_b_ga9f3c01f66fd57433e99bc863554a9a19}{\-P\-I\-O\-S\-\_\-\-R\-F\-M22\-B\-\_\-\-Set\-Datarate} (uint32\-\_\-t rfm22b\-\_\-id, enum \hyperlink{group___p_i_o_s___r_f_m22_b_gaa3e170044f27a00c422ee75f98130ef1}{rfm22b\-\_\-datarate} datarate, bool data\-\_\-whitening)
+\item 
+void \hyperlink{group___p_i_o_s___r_f_m22_b_ga2e2954db8900f7f997170fbc5047e748}{\-P\-I\-O\-S\-\_\-\-R\-F\-M22\-B\-\_\-\-Set\-Destination\-Id} (uint32\-\_\-t rfm22b\-\_\-id, uint32\-\_\-t dest\-\_\-id)
+\item 
+void \hyperlink{group___p_i_o_s___r_f_m22_b_gaf27178ba026097c91627b50f862f388e}{\-P\-I\-O\-S\-\_\-\-R\-F\-M22\-B\-\_\-\-Set\-Coordinator} (uint32\-\_\-t rfm22b\-\_\-id, bool coordinator)
+\item 
+void \hyperlink{group___p_i_o_s___r_f_m22_b_ga74f4ab9cf6b2337fc517addf32e432d7}{\-P\-I\-O\-S\-\_\-\-R\-F\-M22\-B\-\_\-\-Set\-Remote\-Com\-Config} (uint32\-\_\-t rfm22b\-\_\-id, \hyperlink{group___o_p_link_settings_ga1511abaff051d1cd559ddd52fea0bfa8}{\-O\-P\-Link\-Settings\-Output\-Connection\-Options} com\-\_\-port, \hyperlink{group___o_p_link_settings_gaf4886a2c0a8f8a79c93d27c94ee503ba}{\-O\-P\-Link\-Settings\-Com\-Speed\-Options} com\-\_\-speed)
+\item 
+void \hyperlink{group___p_i_o_s___r_f_m22_b_gaa2f467cefea23fca9354817c336c2c7f}{\-P\-I\-O\-S\-\_\-\-R\-F\-M22\-B\-\_\-\-Set\-Com\-Config\-Callback} (uint32\-\_\-t rfm22b\-\_\-id, \hyperlink{group___p_i_o_s___r_f_m22_b_gaa8a316480e010f5e383d29257c0686cd}{\-P\-I\-O\-S\-\_\-\-R\-F\-M22\-B\-\_\-\-Com\-Config\-Callback} cb)
+\item 
+uint32\-\_\-t \hyperlink{group___p_i_o_s___r_f_m22_b_ga48b5ed8668584cdfbbbec3e07156e5d8}{\-P\-I\-O\-S\-\_\-\-R\-F\-M22\-B\-\_\-\-Device\-I\-D} (uint32\-\_\-t rfm22b\-\_\-id)
+\item 
+void \hyperlink{group___p_i_o_s___r_f_m22_b_ga7993764aede415744ac90bf71b2a84f5}{\-P\-I\-O\-S\-\_\-\-R\-F\-M22\-B\-\_\-\-Get\-Stats} (uint32\-\_\-t rfm22b\-\_\-id, struct \hyperlink{structrfm22b__stats}{rfm22b\-\_\-stats} $\ast$stats)
+\item 
+uint8\-\_\-t \hyperlink{group___p_i_o_s___r_f_m22_b_ga2c3963442036bf6e581c9c4e2e6447b9}{\-P\-I\-O\-S\-\_\-\-R\-F\-M2\-B\-\_\-\-Get\-Pair\-Stats} (uint32\-\_\-t rfm22b\-\_\-id, uint32\-\_\-t $\ast$device\-\_\-ids, int8\-\_\-t $\ast$\-R\-S\-S\-Is, uint8\-\_\-t max\-\_\-pairs)
+\item 
+bool \hyperlink{group___p_i_o_s___r_f_m22_b_ga5d2ba4c573bc63f53ccb80f3bdbbc8e4}{\-P\-I\-O\-S\-\_\-\-R\-F\-M22\-B\-\_\-\-Link\-Status} (uint32\-\_\-t rfm22b\-\_\-id)
+\end{DoxyCompactItemize}
+\subsection*{\-Variables}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structpios__com__driver}{pios\-\_\-com\-\_\-driver} \hyperlink{group___p_i_o_s___r_f_m22_b_gafc506e8bc70ed8b31b75cbddf28ee660}{pios\-\_\-rfm22b\-\_\-com\-\_\-driver}
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-R\-F\-M22\-B functions header. \begin{DoxyAuthor}{\-Author}
+\-The \-Open\-Pilot \-Team, \href{http://www.openpilot.org}{\tt http\-://www.\-openpilot.\-org} \-Copyright (\-C) 2012. 
+\end{DoxyAuthor}
+\begin{DoxySeeAlso}{\-See also}
+\-The \-G\-N\-U \-Public \-License (\-G\-P\-L) \-Version 3 
+\end{DoxySeeAlso}
+
+
+\-Definition in file \hyperlink{pios__rfm22b_8h_source}{pios\-\_\-rfm22b.\-h}.
+

@@ -1,0 +1,49 @@
+\hypertarget{pathfollower_8c}{\section{/home/jb/code/\-Tau\-Labs/flight/\-Modules/\-Path\-Follower/pathfollower.c \-File \-Reference}
+\label{pathfollower_8c}\index{/home/jb/code/\-Tau\-Labs/flight/\-Modules/\-Path\-Follower/pathfollower.\-c@{/home/jb/code/\-Tau\-Labs/flight/\-Modules/\-Path\-Follower/pathfollower.\-c}}
+}
+
+
+\-This module compared \-Position\-Actuatl to \-Active\-Waypoint and sets \-Attitude\-Desired. \-It only does this when the \-Flight\-Mode field of \hyperlink{group___manual_control_command}{\-Manual\-Control\-Command} is \-Auto.  
+
+
+\subsection*{\-Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{group___path_follower_module_ga4bbdbc4a4481bd273fb63fab3646c22b}{path\-Follower\-Types} \{ \*
+\hyperlink{group___path_follower_module_gga4bbdbc4a4481bd273fb63fab3646c22ba710308aadc92dad47de079a6a899679b}{\-F\-I\-X\-E\-D\-W\-I\-N\-G}, 
+\hyperlink{group___path_follower_module_gga4bbdbc4a4481bd273fb63fab3646c22ba2ab934febd51e9a1402de82bdf57e990}{\-M\-U\-L\-T\-I\-R\-O\-T\-O\-R}, 
+\hyperlink{group___path_follower_module_gga4bbdbc4a4481bd273fb63fab3646c22ba5ed875b8404837e6474a4b500e656fcd}{\-H\-E\-L\-I\-C\-O\-P\-T\-E\-R}, 
+\hyperlink{group___path_follower_module_gga4bbdbc4a4481bd273fb63fab3646c22ba9a5efc045d26a0771e5e78980f1d9ac3}{\-D\-U\-B\-I\-N\-S\-C\-A\-R\-T}, 
+\*
+\hyperlink{group___path_follower_module_gga4bbdbc4a4481bd273fb63fab3646c22ba8f3ed5f77271bf50a6004685c4b729c5}{\-H\-O\-L\-O\-N\-O\-M\-I\-C}, 
+\hyperlink{group___path_follower_module_gga4bbdbc4a4481bd273fb63fab3646c22ba3f3f266a1f303d33d28de86ada3c722d}{\-N\-O\-N\-H\-O\-L\-O\-N\-O\-M\-I\-C}, 
+\hyperlink{group___path_follower_module_gga4bbdbc4a4481bd273fb63fab3646c22ba40f39385238042f6ec0cbac821a19fc4}{\-D\-I\-S\-A\-B\-L\-E\-D}
+ \}
+\end{DoxyCompactItemize}
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+int32\-\_\-t \hyperlink{group___path_follower_module_ga779f0a705b6a86f7a467d70dd0e91b56}{\-Path\-Follower\-Start} ()
+\item 
+int32\-\_\-t \hyperlink{group___path_follower_module_gaa4ee6d9af7715845fd300acdf4ee3fbe}{\-Path\-Follower\-Initialize} ()
+\item 
+\hyperlink{group___path_follower_module_ga12295fff725e85b0b9cab808ded56315}{\-M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L} (\hyperlink{group___path_follower_module_gaa4ee6d9af7715845fd300acdf4ee3fbe}{\-Path\-Follower\-Initialize}, \hyperlink{group___path_follower_module_ga779f0a705b6a86f7a467d70dd0e91b56}{\-Path\-Follower\-Start})
+\end{DoxyCompactItemize}
+\subsection*{\-Variables}
+\begin{DoxyCompactItemize}
+\item 
+bool \hyperlink{group___path_follower_module_ga1fcb1f94a20ead02f78d415f51cabb6c}{flight\-Status\-Update} = false
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-This module compared \-Position\-Actuatl to \-Active\-Waypoint and sets \-Attitude\-Desired. \-It only does this when the \-Flight\-Mode field of \hyperlink{group___manual_control_command}{\-Manual\-Control\-Command} is \-Auto. \begin{DoxyAuthor}{\-Author}
+\-The \-Open\-Pilot \-Team, \href{http://www.openpilot.org}{\tt http\-://www.\-openpilot.\-org} \-Copyright (\-C) 2012. 
+\end{DoxyAuthor}
+\begin{DoxySeeAlso}{\-See also}
+\-The \-G\-N\-U \-Public \-License (\-G\-P\-L) \-Version 3 
+\end{DoxySeeAlso}
+
+
+\-Definition in file \hyperlink{pathfollower_8c_source}{pathfollower.\-c}.
+

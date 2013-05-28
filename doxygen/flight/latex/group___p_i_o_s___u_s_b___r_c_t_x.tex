@@ -1,0 +1,157 @@
+\hypertarget{group___p_i_o_s___u_s_b___r_c_t_x}{\section{\-U\-S\-B \-R\-C \-Transmitter/\-Joystick \-Functions}
+\label{group___p_i_o_s___u_s_b___r_c_t_x}\index{\-U\-S\-B R\-C Transmitter/\-Joystick Functions@{\-U\-S\-B R\-C Transmitter/\-Joystick Functions}}
+}
+
+
+\-P\-I\-O\-S \-U\-S\-B implementation for a \-H\-I\-D \-Joystick  \-This implements transmitter/joystick emulation over \-H\-I\-D reports.  
+
+
+\subsection*{\-Data \-Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structpios__usb__rctx__dev}{pios\-\_\-usb\-\_\-rctx\-\_\-dev}
+\end{DoxyCompactItemize}
+\subsection*{\-Files}
+\begin{DoxyCompactItemize}
+\item 
+file \hyperlink{pios__usb__rctx_8c}{pios\-\_\-usb\-\_\-rctx.\-c}
+\end{DoxyCompactItemize}
+\subsection*{\-Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{group___p_i_o_s___u_s_b___r_c_t_x_gab6be8817fc2ea56ea36728686255d0dc}{pios\-\_\-usb\-\_\-rctx\-\_\-dev\-\_\-magic} \{ \hyperlink{group___p_i_o_s___u_s_b___r_c_t_x_ggab6be8817fc2ea56ea36728686255d0dca115996decde68a659be5dc66ac2f669b}{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-R\-C\-T\-X\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C} =  0x\-A\-B98\-B745
+ \}
+\end{DoxyCompactItemize}
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___u_s_b___r_c_t_x_ga335e2cdbbb185681f189b0f030bd712c}{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-R\-C\-T\-X\-\_\-\-Init} (uint32\-\_\-t $\ast$usbrctx\-\_\-id, const struct \hyperlink{structpios__usb__rctx__cfg}{pios\-\_\-usb\-\_\-rctx\-\_\-cfg} $\ast$cfg, uint32\-\_\-t lower\-\_\-id)
+\item 
+void \hyperlink{group___p_i_o_s___u_s_b___r_c_t_x_gaf82632897875fdc4d211a82e7ffb1103}{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-R\-C\-T\-X\-\_\-\-Update} (uint32\-\_\-t usbrctx\-\_\-id, const uint16\-\_\-t channel\mbox{[}$\,$\mbox{]}, const int16\-\_\-t channel\-\_\-min\mbox{[}$\,$\mbox{]}, const int16\-\_\-t channel\-\_\-max\mbox{[}$\,$\mbox{]}, uint8\-\_\-t num\-\_\-channels)
+\end{DoxyCompactItemize}
+\subsection*{\-Variables}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{group___p_i_o_s___u_s_b___r_c_t_x_gab6be8817fc2ea56ea36728686255d0dc}{pios\-\_\-usb\-\_\-rctx\-\_\-dev\-\_\-magic} \hyperlink{group___p_i_o_s___u_s_b___r_c_t_x_ga8f71b1caefbf4e9ed2a032bd56d63c73}{pios\-\_\-usb\-\_\-rctx\-\_\-dev\-::magic}
+\item 
+struct \hyperlink{structpios__usb__rctx__cfg}{pios\-\_\-usb\-\_\-rctx\-\_\-cfg} $\ast$ \hyperlink{group___p_i_o_s___u_s_b___r_c_t_x_gafd4556f7f9de22ef19636d97457b59b5}{pios\-\_\-usb\-\_\-rctx\-\_\-dev\-::cfg}
+\item 
+uint32\-\_\-t \hyperlink{group___p_i_o_s___u_s_b___r_c_t_x_gab5b742c93aa7545ca0a497ffb8b0c298}{pios\-\_\-usb\-\_\-rctx\-\_\-dev\-::lower\-\_\-id}
+\item 
+uint8\-\_\-t \hyperlink{group___p_i_o_s___u_s_b___r_c_t_x_ga6fff63358d7474743285bfc4a0297d46}{pios\-\_\-usb\-\_\-rctx\-\_\-dev\-::id}
+\item 
+uint16\-\_\-t \hyperlink{group___p_i_o_s___u_s_b___r_c_t_x_ga980974676b9de61965d90ed45d5ccab3}{pios\-\_\-usb\-\_\-rctx\-\_\-dev\-::vals} \mbox{[}\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-R\-C\-T\-X\-\_\-\-N\-U\-M\-\_\-\-C\-H\-A\-N\-N\-E\-L\-S\mbox{]}
+\item 
+void($\ast$ \hyperlink{group___p_i_o_s___u_s_b___r_c_t_x_ga0992c19a0f2e317fcd93f755d316a0fd}{p\-Ep\-Int\-\_\-\-I\-N} \mbox{[}7\mbox{]})(void)
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-P\-I\-O\-S \-U\-S\-B implementation for a \-H\-I\-D \-Joystick  \-This implements transmitter/joystick emulation over \-H\-I\-D reports. 
+
+\subsection{\-Enumeration \-Type \-Documentation}
+\hypertarget{group___p_i_o_s___u_s_b___r_c_t_x_gab6be8817fc2ea56ea36728686255d0dc}{\index{\-U\-S\-B R\-C Transmitter/\-Joystick Functions@{\-U\-S\-B R\-C Transmitter/\-Joystick Functions}!pios\-\_\-usb\-\_\-rctx\-\_\-dev\-\_\-magic@{pios\-\_\-usb\-\_\-rctx\-\_\-dev\-\_\-magic}}
+\index{pios\-\_\-usb\-\_\-rctx\-\_\-dev\-\_\-magic@{pios\-\_\-usb\-\_\-rctx\-\_\-dev\-\_\-magic}!USB RC Transmitter/Joystick Functions@{\-U\-S\-B R\-C Transmitter/\-Joystick Functions}}
+\subsubsection[{pios\-\_\-usb\-\_\-rctx\-\_\-dev\-\_\-magic}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf pios\-\_\-usb\-\_\-rctx\-\_\-dev\-\_\-magic}}}\label{group___p_i_o_s___u_s_b___r_c_t_x_gab6be8817fc2ea56ea36728686255d0dc}
+\begin{Desc}
+\item[\-Enumerator\-: ]\par
+\begin{description}
+\index{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-R\-C\-T\-X\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C@{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-R\-C\-T\-X\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}!\-U\-S\-B R\-C Transmitter/\-Joystick Functions@{\-U\-S\-B R\-C Transmitter/\-Joystick Functions}}\index{\-U\-S\-B R\-C Transmitter/\-Joystick Functions@{\-U\-S\-B R\-C Transmitter/\-Joystick Functions}!\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-R\-C\-T\-X\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C@{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-R\-C\-T\-X\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}}\item[{\em 
+\hypertarget{group___p_i_o_s___u_s_b___r_c_t_x_ggab6be8817fc2ea56ea36728686255d0dca115996decde68a659be5dc66ac2f669b}{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-R\-C\-T\-X\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}\label{group___p_i_o_s___u_s_b___r_c_t_x_ggab6be8817fc2ea56ea36728686255d0dca115996decde68a659be5dc66ac2f669b}
+}]\end{description}
+\end{Desc}
+
+
+
+\-Definition at line 44 of file pios\-\_\-usb\-\_\-rctx.\-c.
+
+
+
+\subsection{\-Function \-Documentation}
+\hypertarget{group___p_i_o_s___u_s_b___r_c_t_x_ga335e2cdbbb185681f189b0f030bd712c}{\index{\-U\-S\-B R\-C Transmitter/\-Joystick Functions@{\-U\-S\-B R\-C Transmitter/\-Joystick Functions}!\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-R\-C\-T\-X\-\_\-\-Init@{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-R\-C\-T\-X\-\_\-\-Init}}
+\index{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-R\-C\-T\-X\-\_\-\-Init@{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-R\-C\-T\-X\-\_\-\-Init}!USB RC Transmitter/Joystick Functions@{\-U\-S\-B R\-C Transmitter/\-Joystick Functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-R\-C\-T\-X\-\_\-\-Init}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-R\-C\-T\-X\-\_\-\-Init} (
+\begin{DoxyParamCaption}
+\item[{uint32\-\_\-t $\ast$}]{usbrctx\-\_\-id, }
+\item[{const struct {\bf pios\-\_\-usb\-\_\-rctx\-\_\-cfg} $\ast$}]{cfg, }
+\item[{uint32\-\_\-t}]{lower\-\_\-id}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___u_s_b___r_c_t_x_ga335e2cdbbb185681f189b0f030bd712c}
+
+
+\-Definition at line 100 of file pios\-\_\-usb\-\_\-rctx.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_b___r_c_t_x_gaf82632897875fdc4d211a82e7ffb1103}{\index{\-U\-S\-B R\-C Transmitter/\-Joystick Functions@{\-U\-S\-B R\-C Transmitter/\-Joystick Functions}!\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-R\-C\-T\-X\-\_\-\-Update@{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-R\-C\-T\-X\-\_\-\-Update}}
+\index{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-R\-C\-T\-X\-\_\-\-Update@{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-R\-C\-T\-X\-\_\-\-Update}!USB RC Transmitter/Joystick Functions@{\-U\-S\-B R\-C Transmitter/\-Joystick Functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-R\-C\-T\-X\-\_\-\-Update}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-R\-C\-T\-X\-\_\-\-Update} (
+\begin{DoxyParamCaption}
+\item[{uint32\-\_\-t}]{usbrctx\-\_\-id, }
+\item[{const uint16\-\_\-t}]{channel\mbox{[}$\,$\mbox{]}, }
+\item[{const int16\-\_\-t}]{channel\-\_\-min\mbox{[}$\,$\mbox{]}, }
+\item[{const int16\-\_\-t}]{channel\-\_\-max\mbox{[}$\,$\mbox{]}, }
+\item[{uint8\-\_\-t}]{num\-\_\-channels}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___u_s_b___r_c_t_x_gaf82632897875fdc4d211a82e7ffb1103}
+
+
+\-Definition at line 161 of file pios\-\_\-usb\-\_\-rctx.\-c.
+
+
+
+\subsection{\-Variable \-Documentation}
+\hypertarget{group___p_i_o_s___u_s_b___r_c_t_x_gafd4556f7f9de22ef19636d97457b59b5}{\index{\-U\-S\-B R\-C Transmitter/\-Joystick Functions@{\-U\-S\-B R\-C Transmitter/\-Joystick Functions}!cfg@{cfg}}
+\index{cfg@{cfg}!USB RC Transmitter/Joystick Functions@{\-U\-S\-B R\-C Transmitter/\-Joystick Functions}}
+\subsubsection[{cfg}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf pios\-\_\-usb\-\_\-rctx\-\_\-cfg}$\ast$ {\bf pios\-\_\-usb\-\_\-rctx\-\_\-dev\-::cfg}}}\label{group___p_i_o_s___u_s_b___r_c_t_x_gafd4556f7f9de22ef19636d97457b59b5}
+
+
+\-Definition at line 50 of file pios\-\_\-usb\-\_\-rctx.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_b___r_c_t_x_ga6fff63358d7474743285bfc4a0297d46}{\index{\-U\-S\-B R\-C Transmitter/\-Joystick Functions@{\-U\-S\-B R\-C Transmitter/\-Joystick Functions}!id@{id}}
+\index{id@{id}!USB RC Transmitter/Joystick Functions@{\-U\-S\-B R\-C Transmitter/\-Joystick Functions}}
+\subsubsection[{id}]{\setlength{\rightskip}{0pt plus 5cm}uint8\-\_\-t {\bf pios\-\_\-usb\-\_\-rctx\-\_\-dev\-::id}}}\label{group___p_i_o_s___u_s_b___r_c_t_x_ga6fff63358d7474743285bfc4a0297d46}
+
+
+\-Definition at line 55 of file pios\-\_\-usb\-\_\-rctx.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_b___r_c_t_x_ga1daae8fd95ff100125ad3cf03001b6e2}{\index{\-U\-S\-B R\-C Transmitter/\-Joystick Functions@{\-U\-S\-B R\-C Transmitter/\-Joystick Functions}!id@{id}}
+\index{id@{id}!USB RC Transmitter/Joystick Functions@{\-U\-S\-B R\-C Transmitter/\-Joystick Functions}}
+\subsubsection[{id}]{\setlength{\rightskip}{0pt plus 5cm}uint8\-\_\-t \{ ... \} \-::{\bf id}}}\label{group___p_i_o_s___u_s_b___r_c_t_x_ga1daae8fd95ff100125ad3cf03001b6e2}
+
+
+\-Definition at line 55 of file pios\-\_\-usb\-\_\-rctx.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_b___r_c_t_x_gab5b742c93aa7545ca0a497ffb8b0c298}{\index{\-U\-S\-B R\-C Transmitter/\-Joystick Functions@{\-U\-S\-B R\-C Transmitter/\-Joystick Functions}!lower\-\_\-id@{lower\-\_\-id}}
+\index{lower\-\_\-id@{lower\-\_\-id}!USB RC Transmitter/Joystick Functions@{\-U\-S\-B R\-C Transmitter/\-Joystick Functions}}
+\subsubsection[{lower\-\_\-id}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t {\bf pios\-\_\-usb\-\_\-rctx\-\_\-dev\-::lower\-\_\-id}}}\label{group___p_i_o_s___u_s_b___r_c_t_x_gab5b742c93aa7545ca0a497ffb8b0c298}
+
+
+\-Definition at line 52 of file pios\-\_\-usb\-\_\-rctx.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_b___r_c_t_x_ga8f71b1caefbf4e9ed2a032bd56d63c73}{\index{\-U\-S\-B R\-C Transmitter/\-Joystick Functions@{\-U\-S\-B R\-C Transmitter/\-Joystick Functions}!magic@{magic}}
+\index{magic@{magic}!USB RC Transmitter/Joystick Functions@{\-U\-S\-B R\-C Transmitter/\-Joystick Functions}}
+\subsubsection[{magic}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf pios\-\_\-usb\-\_\-rctx\-\_\-dev\-\_\-magic} {\bf pios\-\_\-usb\-\_\-rctx\-\_\-dev\-::magic}}}\label{group___p_i_o_s___u_s_b___r_c_t_x_ga8f71b1caefbf4e9ed2a032bd56d63c73}
+
+
+\-Definition at line 49 of file pios\-\_\-usb\-\_\-rctx.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_b___r_c_t_x_ga0992c19a0f2e317fcd93f755d316a0fd}{\index{\-U\-S\-B R\-C Transmitter/\-Joystick Functions@{\-U\-S\-B R\-C Transmitter/\-Joystick Functions}!p\-Ep\-Int\-\_\-\-I\-N@{p\-Ep\-Int\-\_\-\-I\-N}}
+\index{p\-Ep\-Int\-\_\-\-I\-N@{p\-Ep\-Int\-\_\-\-I\-N}!USB RC Transmitter/Joystick Functions@{\-U\-S\-B R\-C Transmitter/\-Joystick Functions}}
+\subsubsection[{p\-Ep\-Int\-\_\-\-I\-N}]{\setlength{\rightskip}{0pt plus 5cm}void($\ast$ {\bf p\-Ep\-Int\-\_\-\-I\-N}\mbox{[}7\mbox{]})(void)}}\label{group___p_i_o_s___u_s_b___r_c_t_x_ga0992c19a0f2e317fcd93f755d316a0fd}
+
+
+\-Definition at line 34 of file pios\-\_\-usb\-\_\-hid\-\_\-istr.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_b___r_c_t_x_ga980974676b9de61965d90ed45d5ccab3}{\index{\-U\-S\-B R\-C Transmitter/\-Joystick Functions@{\-U\-S\-B R\-C Transmitter/\-Joystick Functions}!vals@{vals}}
+\index{vals@{vals}!USB RC Transmitter/Joystick Functions@{\-U\-S\-B R\-C Transmitter/\-Joystick Functions}}
+\subsubsection[{vals}]{\setlength{\rightskip}{0pt plus 5cm}uint16\-\_\-t {\bf pios\-\_\-usb\-\_\-rctx\-\_\-dev\-::vals}\mbox{[}\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-R\-C\-T\-X\-\_\-\-N\-U\-M\-\_\-\-C\-H\-A\-N\-N\-E\-L\-S\mbox{]}}}\label{group___p_i_o_s___u_s_b___r_c_t_x_ga980974676b9de61965d90ed45d5ccab3}
+
+
+\-Definition at line 56 of file pios\-\_\-usb\-\_\-rctx.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_b___r_c_t_x_ga8bd066c9fb9fd04bd239ed00a7cf2d62}{\index{\-U\-S\-B R\-C Transmitter/\-Joystick Functions@{\-U\-S\-B R\-C Transmitter/\-Joystick Functions}!vals@{vals}}
+\index{vals@{vals}!USB RC Transmitter/Joystick Functions@{\-U\-S\-B R\-C Transmitter/\-Joystick Functions}}
+\subsubsection[{vals}]{\setlength{\rightskip}{0pt plus 5cm}uint16\-\_\-t \{ ... \} \-::vals\mbox{[}\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-R\-C\-T\-X\-\_\-\-N\-U\-M\-\_\-\-C\-H\-A\-N\-N\-E\-L\-S\mbox{]}}}\label{group___p_i_o_s___u_s_b___r_c_t_x_ga8bd066c9fb9fd04bd239ed00a7cf2d62}
+
+
+\-Definition at line 56 of file pios\-\_\-usb\-\_\-rctx.\-c.
+

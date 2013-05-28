@@ -1,0 +1,609 @@
+\hypertarget{group___model_view_plugin}{\section{\-Model\-View \-Plugin}
+\label{group___model_view_plugin}\index{\-Model\-View Plugin@{\-Model\-View Plugin}}
+}
+
+
+\-A gadget that displays a 3\-D representation of the \-U\-A\-V.  
+
+
+\subsection*{\-Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{class_model_view_gadget}{\-Model\-View\-Gadget}
+\item 
+class \hyperlink{class_model_view_gadget_configuration}{\-Model\-View\-Gadget\-Configuration}
+\item 
+class \hyperlink{class_model_view_gadget_factory}{\-Model\-View\-Gadget\-Factory}
+\item 
+class \hyperlink{class_model_view_gadget_options_page}{\-Model\-View\-Gadget\-Options\-Page}
+\item 
+class \hyperlink{class_model_view_gadget_widget}{\-Model\-View\-Gadget\-Widget}
+\item 
+class \hyperlink{class_model_view_plugin}{\-Model\-View\-Plugin}
+\end{DoxyCompactItemize}
+\subsection*{\-Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+namespace \hyperlink{namespace_core}{\-Core}
+\begin{DoxyCompactList}\small\item\em \-The \hyperlink{namespace_core}{\-Core} namespace contains all classes that make up the \hyperlink{namespace_core}{\-Core} plugin which constitute the basic functionality of the \-Tau \-Labs \-G\-C\-S. \end{DoxyCompactList}\item 
+namespace \hyperlink{namespace_ui}{\-Ui}
+\end{DoxyCompactItemize}
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___model_view_plugin_ga411c180daebc524f226c60cef529bcd4}{\-Model\-View\-Gadget\-::\-Model\-View\-Gadget} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} class\-Id, \hyperlink{class_model_view_gadget_widget}{\-Model\-View\-Gadget\-Widget} $\ast$widget, \-Q\-Widget $\ast$parent=0)
+\item 
+\hyperlink{group___model_view_plugin_ga0b914fe76448332e8f22649b75984f4d}{\-Model\-View\-Gadget\-::$\sim$\-Model\-View\-Gadget} ()
+\item 
+\-Q\-Widget $\ast$ \hyperlink{group___model_view_plugin_ga9240ecd7243b93f3188923a7a28926b1}{\-Model\-View\-Gadget\-::widget} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___model_view_plugin_gae2075c43d77a6afba12fa43cbda0af36}{\-Model\-View\-Gadget\-::load\-Configuration} (\-I\-U\-A\-V\-Gadget\-Configuration $\ast$config)
+\item 
+\hyperlink{group___model_view_plugin_ga68c5b45bcb3a5b4f35186957e765e343}{\-Model\-View\-Gadget\-Configuration\-::\-Model\-View\-Gadget\-Configuration} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} class\-Id, \-Q\-Settings $\ast$q\-Settings=0, \-Q\-Object $\ast$parent=0)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___model_view_plugin_gaa2ed9dd347aecb4518cf716e3fbd9288}{\-Model\-View\-Gadget\-Configuration\-::save\-Config} (\-Q\-Settings $\ast$settings) const 
+\item 
+\-I\-U\-A\-V\-Gadget\-Configuration $\ast$ \hyperlink{group___model_view_plugin_gafe85c40e0602f4bb0a8f54637fd87b2c}{\-Model\-View\-Gadget\-Configuration\-::clone} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___model_view_plugin_ga38f0d11e16e59ffff87290b2a222468e}{\-Model\-View\-Gadget\-Configuration\-::ac\-Filename} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___model_view_plugin_ga5a6c75e6ec1963b48ad4cd6fd1f80e67}{\-Model\-View\-Gadget\-Configuration\-::set\-Ac\-Filename} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} ac\-File)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___model_view_plugin_ga1d269e09831fb3fd6187c831b3b516b1}{\-Model\-View\-Gadget\-Configuration\-::bg\-Filename} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___model_view_plugin_gac9bccdbb077005f2bb94cfc7c9dfefaa}{\-Model\-View\-Gadget\-Configuration\-::set\-Bg\-Filename} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} bg\-File)
+\item 
+bool \hyperlink{group___model_view_plugin_ga82f3e4d2137def4ff8aa56abc69d3bce}{\-Model\-View\-Gadget\-Configuration\-::vbo\-Enabled} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___model_view_plugin_gad35eb4d4a2a27f015e4e54b18e3b2b97}{\-Model\-View\-Gadget\-Configuration\-::set\-Vbo\-Enabled} (bool vbo\-Enable)
+\item 
+\hyperlink{group___model_view_plugin_gab4ca362258332f3214c66cc63ba54d77}{\-Model\-View\-Gadget\-Factory\-::\-Model\-View\-Gadget\-Factory} (\-Q\-Object $\ast$parent=0)
+\item 
+\hyperlink{group___model_view_plugin_ga7bdf383eb25b1a5226f036371be723b5}{\-Model\-View\-Gadget\-Factory\-::$\sim$\-Model\-View\-Gadget\-Factory} ()
+\item 
+\hyperlink{class_core_1_1_i_u_a_v_gadget}{\-Core\-::\-I\-U\-A\-V\-Gadget} $\ast$ \hyperlink{group___model_view_plugin_ga10c8c524e828527192c4821b769ab1fe}{\-Model\-View\-Gadget\-Factory\-::create\-Gadget} (\-Q\-Widget $\ast$parent)
+\item 
+\-I\-U\-A\-V\-Gadget\-Configuration $\ast$ \hyperlink{group___model_view_plugin_gaa2d13e8c20201017fc03b9ffd781247c}{\-Model\-View\-Gadget\-Factory\-::create\-Configuration} (\-Q\-Settings $\ast$q\-Settings)
+\item 
+\-I\-Options\-Page $\ast$ \hyperlink{group___model_view_plugin_gacccb2300c14739970fbef9a38365c070}{\-Model\-View\-Gadget\-Factory\-::create\-Options\-Page} (\-I\-U\-A\-V\-Gadget\-Configuration $\ast$config)
+\item 
+\hyperlink{group___model_view_plugin_ga86839ae520e5a8d7d38e0349ab8110db}{\-Model\-View\-Gadget\-Options\-Page\-::\-Model\-View\-Gadget\-Options\-Page} (\hyperlink{class_model_view_gadget_configuration}{\-Model\-View\-Gadget\-Configuration} $\ast$config, \-Q\-Object $\ast$parent=0)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___model_view_plugin_ga4ef97dfb27bc7bf0761a6ef8c9992461}{\-Model\-View\-Gadget\-Options\-Page\-::id} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___model_view_plugin_ga957813f49ad4050f6d8fe39c8ddb8db9}{\-Model\-View\-Gadget\-Options\-Page\-::tr\-Name} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___model_view_plugin_ga7ac23d7285b3e6b2541b45329d26d973}{\-Model\-View\-Gadget\-Options\-Page\-::category} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___model_view_plugin_ga0026a37d0b02b743a513a6f79b88928e}{\-Model\-View\-Gadget\-Options\-Page\-::tr\-Category} () const 
+\item 
+\-Q\-Widget $\ast$ \hyperlink{group___model_view_plugin_ga5a42eda3ce28f2971be7b426347d588a}{\-Model\-View\-Gadget\-Options\-Page\-::create\-Page} (\-Q\-Widget $\ast$parent)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___model_view_plugin_ga77c3c23e38d3018c84f464c0ef5402e5}{\-Model\-View\-Gadget\-Options\-Page\-::apply} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___model_view_plugin_ga9ba47bc802df977b1f8cc5f1c8b70ca3}{\-Model\-View\-Gadget\-Options\-Page\-::finish} ()
+\item 
+\hyperlink{group___model_view_plugin_ga7b299b7e0c58f0bca02228b6376370a6}{\-Model\-View\-Gadget\-Widget\-::\-Model\-View\-Gadget\-Widget} (\-Q\-Widget $\ast$parent=0)
+\item 
+\hyperlink{group___model_view_plugin_gafd8359344ca9b61a21a93e1256e9247a}{\-Model\-View\-Gadget\-Widget\-::$\sim$\-Model\-View\-Gadget\-Widget} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___model_view_plugin_ga61a44ab1922172cfaee66b78fde29538}{\-Model\-View\-Gadget\-Widget\-::set\-Ac\-Filename} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} acf)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___model_view_plugin_gab29343cadc70576f4b7d8f91dd1a3863}{\-Model\-View\-Gadget\-Widget\-::set\-Bg\-Filename} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} bgf)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___model_view_plugin_ga9ae7a41d63686c2ec25ee02e08ffed21}{\-Model\-View\-Gadget\-Widget\-::set\-Vbo\-Enable} (bool e\-Vbo)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___model_view_plugin_gad031b977be54f4bd5243fa4d6f846f68}{\-Model\-View\-Gadget\-Widget\-::reload\-Scene} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___model_view_plugin_gaa7c16fd0b59ded87f8d136fd72680dca}{\-Model\-View\-Gadget\-Widget\-::update\-Attitude} (int value)
+\item 
+\hyperlink{group___model_view_plugin_gafbc74cc8c17048cddb875add75e65cad}{\-Model\-View\-Plugin\-::\-Model\-View\-Plugin} ()
+\item 
+\hyperlink{group___model_view_plugin_gac1d370684cf595a557c80ee2d6572e39}{\-Model\-View\-Plugin\-::$\sim$\-Model\-View\-Plugin} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___model_view_plugin_gaf0ae0222c081f943759de1e0697df04e}{\-Model\-View\-Plugin\-::extensions\-Initialized} ()
+\item 
+bool \hyperlink{group___model_view_plugin_ga6f9214b4e1b72063475d8351046df6bb}{\-Model\-View\-Plugin\-::initialize} (const \-Q\-String\-List \&arguments, \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} $\ast$error\-String)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___model_view_plugin_gad3a367fabe72d1e3a0063267d0170df9}{\-Model\-View\-Plugin\-::shutdown} ()
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-A gadget that displays a 3\-D representation of the \-U\-A\-V. 
+
+\subsection{\-Function \-Documentation}
+\hypertarget{group___model_view_plugin_ga38f0d11e16e59ffff87290b2a222468e}{\index{\-Model\-View Plugin@{\-Model\-View Plugin}!ac\-Filename@{ac\-Filename}}
+\index{ac\-Filename@{ac\-Filename}!ModelView Plugin@{\-Model\-View Plugin}}
+\subsubsection[{ac\-Filename}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Q\-String} {\bf \-Model\-View\-Gadget\-Configuration\-::ac\-Filename} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___model_view_plugin_ga38f0d11e16e59ffff87290b2a222468e}
+
+
+\-Definition at line 43 of file modelviewgadgetconfiguration.\-h.
+
+\hypertarget{group___model_view_plugin_ga77c3c23e38d3018c84f464c0ef5402e5}{\index{\-Model\-View Plugin@{\-Model\-View Plugin}!apply@{apply}}
+\index{apply@{apply}!ModelView Plugin@{\-Model\-View Plugin}}
+\subsubsection[{apply}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Model\-View\-Gadget\-Options\-Page\-::apply} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___model_view_plugin_ga77c3c23e38d3018c84f464c0ef5402e5}
+
+
+\-Implements \hyperlink{group___core_plugin_ga05fa0c9b91da02a0f2fed11d2d6afed0}{\-Core\-::\-I\-Options\-Page}.
+
+
+
+\-Definition at line 62 of file modelviewgadgetoptionspage.\-cpp.
+
+\hypertarget{group___model_view_plugin_ga1d269e09831fb3fd6187c831b3b516b1}{\index{\-Model\-View Plugin@{\-Model\-View Plugin}!bg\-Filename@{bg\-Filename}}
+\index{bg\-Filename@{bg\-Filename}!ModelView Plugin@{\-Model\-View Plugin}}
+\subsubsection[{bg\-Filename}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Q\-String} {\bf \-Model\-View\-Gadget\-Configuration\-::bg\-Filename} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___model_view_plugin_ga1d269e09831fb3fd6187c831b3b516b1}
+
+
+\-Definition at line 45 of file modelviewgadgetconfiguration.\-h.
+
+\hypertarget{group___model_view_plugin_ga7ac23d7285b3e6b2541b45329d26d973}{\index{\-Model\-View Plugin@{\-Model\-View Plugin}!category@{category}}
+\index{category@{category}!ModelView Plugin@{\-Model\-View Plugin}}
+\subsubsection[{category}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Q\-String} {\bf \-Model\-View\-Gadget\-Options\-Page\-::category} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}inline, virtual\mbox{]}}}}\label{group___model_view_plugin_ga7ac23d7285b3e6b2541b45329d26d973}
+
+
+\-Reimplemented from \hyperlink{group___core_plugin_ga03767437394cdfbfc9e253638a71b132}{\-Core\-::\-I\-Options\-Page}.
+
+
+
+\-Definition at line 56 of file modelviewgadgetoptionspage.\-h.
+
+\hypertarget{group___model_view_plugin_gafe85c40e0602f4bb0a8f54637fd87b2c}{\index{\-Model\-View Plugin@{\-Model\-View Plugin}!clone@{clone}}
+\index{clone@{clone}!ModelView Plugin@{\-Model\-View Plugin}}
+\subsubsection[{clone}]{\setlength{\rightskip}{0pt plus 5cm}\-I\-U\-A\-V\-Gadget\-Configuration $\ast$ {\bf \-Model\-View\-Gadget\-Configuration\-::clone} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___model_view_plugin_gafe85c40e0602f4bb0a8f54637fd87b2c}
+
+
+\-Implements \hyperlink{group___core_plugin_ga35f72dc89919925fd591fa509ebbf7dc}{\-Core\-::\-I\-U\-A\-V\-Gadget\-Configuration}.
+
+
+
+\-Definition at line 47 of file modelviewgadgetconfiguration.\-cpp.
+
+\hypertarget{group___model_view_plugin_gaa2d13e8c20201017fc03b9ffd781247c}{\index{\-Model\-View Plugin@{\-Model\-View Plugin}!create\-Configuration@{create\-Configuration}}
+\index{create\-Configuration@{create\-Configuration}!ModelView Plugin@{\-Model\-View Plugin}}
+\subsubsection[{create\-Configuration}]{\setlength{\rightskip}{0pt plus 5cm}\-I\-U\-A\-V\-Gadget\-Configuration $\ast$ {\bf \-Model\-View\-Gadget\-Factory\-::create\-Configuration} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Settings $\ast$}]{q\-Settings}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___model_view_plugin_gaa2d13e8c20201017fc03b9ffd781247c}
+
+
+\-Reimplemented from \hyperlink{group___core_plugin_gae26104d7db90a65069c2bb654ecd5026}{\-Core\-::\-I\-U\-A\-V\-Gadget\-Factory}.
+
+
+
+\-Definition at line 50 of file modelviewgadgetfactory.\-cpp.
+
+\hypertarget{group___model_view_plugin_ga10c8c524e828527192c4821b769ab1fe}{\index{\-Model\-View Plugin@{\-Model\-View Plugin}!create\-Gadget@{create\-Gadget}}
+\index{create\-Gadget@{create\-Gadget}!ModelView Plugin@{\-Model\-View Plugin}}
+\subsubsection[{create\-Gadget}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Core\-::\-I\-U\-A\-V\-Gadget} $\ast$ {\bf \-Model\-View\-Gadget\-Factory\-::create\-Gadget} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Widget $\ast$}]{parent}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___model_view_plugin_ga10c8c524e828527192c4821b769ab1fe}
+
+
+\-Implements \hyperlink{group___core_plugin_ga72d6fe5bbef9f4fa2333028c7a324f66}{\-Core\-::\-I\-U\-A\-V\-Gadget\-Factory}.
+
+
+
+\-Definition at line 44 of file modelviewgadgetfactory.\-cpp.
+
+\hypertarget{group___model_view_plugin_gacccb2300c14739970fbef9a38365c070}{\index{\-Model\-View Plugin@{\-Model\-View Plugin}!create\-Options\-Page@{create\-Options\-Page}}
+\index{create\-Options\-Page@{create\-Options\-Page}!ModelView Plugin@{\-Model\-View Plugin}}
+\subsubsection[{create\-Options\-Page}]{\setlength{\rightskip}{0pt plus 5cm}\-I\-Options\-Page $\ast$ {\bf \-Model\-View\-Gadget\-Factory\-::create\-Options\-Page} (
+\begin{DoxyParamCaption}
+\item[{\-I\-U\-A\-V\-Gadget\-Configuration $\ast$}]{config}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___model_view_plugin_gacccb2300c14739970fbef9a38365c070}
+
+
+\-Reimplemented from \hyperlink{group___core_plugin_gaf11d34909f72b86882937f7a946ad0da}{\-Core\-::\-I\-U\-A\-V\-Gadget\-Factory}.
+
+
+
+\-Definition at line 55 of file modelviewgadgetfactory.\-cpp.
+
+\hypertarget{group___model_view_plugin_ga5a42eda3ce28f2971be7b426347d588a}{\index{\-Model\-View Plugin@{\-Model\-View Plugin}!create\-Page@{create\-Page}}
+\index{create\-Page@{create\-Page}!ModelView Plugin@{\-Model\-View Plugin}}
+\subsubsection[{create\-Page}]{\setlength{\rightskip}{0pt plus 5cm}\-Q\-Widget $\ast$ {\bf \-Model\-View\-Gadget\-Options\-Page\-::create\-Page} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Widget $\ast$}]{parent}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___model_view_plugin_ga5a42eda3ce28f2971be7b426347d588a}
+
+
+\-Implements \hyperlink{group___core_plugin_gac70a4473b3e086d0fa9849c431fb0672}{\-Core\-::\-I\-Options\-Page}.
+
+
+
+\-Definition at line 40 of file modelviewgadgetoptionspage.\-cpp.
+
+\hypertarget{group___model_view_plugin_gaf0ae0222c081f943759de1e0697df04e}{\index{\-Model\-View Plugin@{\-Model\-View Plugin}!extensions\-Initialized@{extensions\-Initialized}}
+\index{extensions\-Initialized@{extensions\-Initialized}!ModelView Plugin@{\-Model\-View Plugin}}
+\subsubsection[{extensions\-Initialized}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Model\-View\-Plugin\-::extensions\-Initialized} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___model_view_plugin_gaf0ae0222c081f943759de1e0697df04e}
+\-Called after the \-I\-Plugin\-::initialize() method has been called, and after both the \-I\-Plugin\-::initialize() and \-I\-Plugin\-::extensions\-Initialized() methods of plugins that depend on this plugin have been called. \-In this method, the plugin can assume that plugins that depend on this plugin are fully 'up and running'. \-It is a good place to look in the plugin manager's object pool for objects that have been provided by dependent plugins. \begin{DoxySeeAlso}{\-See also}
+\hyperlink{group___model_view_plugin_ga6f9214b4e1b72063475d8351046df6bb}{initialize()} 
+\end{DoxySeeAlso}
+
+
+\-Implements \hyperlink{class_extension_system_1_1_i_plugin_a1db3a7fb242fca02229f9a3be4fd6610}{\-Extension\-System\-::\-I\-Plugin}.
+
+
+
+\-Definition at line 55 of file modelviewplugin.\-cpp.
+
+\hypertarget{group___model_view_plugin_ga9ba47bc802df977b1f8cc5f1c8b70ca3}{\index{\-Model\-View Plugin@{\-Model\-View Plugin}!finish@{finish}}
+\index{finish@{finish}!ModelView Plugin@{\-Model\-View Plugin}}
+\subsubsection[{finish}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Model\-View\-Gadget\-Options\-Page\-::finish} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___model_view_plugin_ga9ba47bc802df977b1f8cc5f1c8b70ca3}
+
+
+\-Implements \hyperlink{group___core_plugin_ga47cf2602b6ee72a4971b1f0a4e1d887e}{\-Core\-::\-I\-Options\-Page}.
+
+
+
+\-Definition at line 69 of file modelviewgadgetoptionspage.\-cpp.
+
+\hypertarget{group___model_view_plugin_ga4ef97dfb27bc7bf0761a6ef8c9992461}{\index{\-Model\-View Plugin@{\-Model\-View Plugin}!id@{id}}
+\index{id@{id}!ModelView Plugin@{\-Model\-View Plugin}}
+\subsubsection[{id}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Q\-String} {\bf \-Model\-View\-Gadget\-Options\-Page\-::id} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}inline, virtual\mbox{]}}}}\label{group___model_view_plugin_ga4ef97dfb27bc7bf0761a6ef8c9992461}
+
+
+\-Reimplemented from \hyperlink{group___core_plugin_ga2984fb6ab0e3b502783dfee7ba596268}{\-Core\-::\-I\-Options\-Page}.
+
+
+
+\-Definition at line 54 of file modelviewgadgetoptionspage.\-h.
+
+\hypertarget{group___model_view_plugin_ga6f9214b4e1b72063475d8351046df6bb}{\index{\-Model\-View Plugin@{\-Model\-View Plugin}!initialize@{initialize}}
+\index{initialize@{initialize}!ModelView Plugin@{\-Model\-View Plugin}}
+\subsubsection[{initialize}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-Model\-View\-Plugin\-::initialize} (
+\begin{DoxyParamCaption}
+\item[{const \-Q\-String\-List \&}]{arguments, }
+\item[{{\bf \-Q\-String} $\ast$}]{error\-String}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___model_view_plugin_ga6f9214b4e1b72063475d8351046df6bb}
+\-Called after the plugin has been loaded and the \-I\-Plugin instance has been created. \-The initialize methods of plugins that depend on this plugin are called after the initialize method of this plugin has been called. \-Plugins should initialize their internal state in this method. \-Returns if initialization of successful. \-If it wasn't successful, the {\itshape error\-String\/} should be set to a user-\/readable message describing the reason. \begin{DoxySeeAlso}{\-See also}
+\hyperlink{group___model_view_plugin_gaf0ae0222c081f943759de1e0697df04e}{extensions\-Initialized()} 
+\end{DoxySeeAlso}
+
+
+\-Implements \hyperlink{class_extension_system_1_1_i_plugin_a9f3dc957317279daed393fdf4894e944}{\-Extension\-System\-::\-I\-Plugin}.
+
+
+
+\-Definition at line 45 of file modelviewplugin.\-cpp.
+
+\hypertarget{group___model_view_plugin_gae2075c43d77a6afba12fa43cbda0af36}{\index{\-Model\-View Plugin@{\-Model\-View Plugin}!load\-Configuration@{load\-Configuration}}
+\index{load\-Configuration@{load\-Configuration}!ModelView Plugin@{\-Model\-View Plugin}}
+\subsubsection[{load\-Configuration}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Model\-View\-Gadget\-::load\-Configuration} (
+\begin{DoxyParamCaption}
+\item[{\-I\-U\-A\-V\-Gadget\-Configuration $\ast$}]{config}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___model_view_plugin_gae2075c43d77a6afba12fa43cbda0af36}
+
+
+\-Reimplemented from \hyperlink{group___core_plugin_gaaf60a82b8643f54a42381600c52bbe8a}{\-Core\-::\-I\-U\-A\-V\-Gadget}.
+
+
+
+\-Definition at line 42 of file modelviewgadget.\-cpp.
+
+\hypertarget{group___model_view_plugin_ga411c180daebc524f226c60cef529bcd4}{\index{\-Model\-View Plugin@{\-Model\-View Plugin}!\-Model\-View\-Gadget@{\-Model\-View\-Gadget}}
+\index{\-Model\-View\-Gadget@{\-Model\-View\-Gadget}!ModelView Plugin@{\-Model\-View Plugin}}
+\subsubsection[{\-Model\-View\-Gadget}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Model\-View\-Gadget\-::\-Model\-View\-Gadget} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Q\-String}}]{class\-Id, }
+\item[{{\bf \-Model\-View\-Gadget\-Widget} $\ast$}]{widget, }
+\item[{\-Q\-Widget $\ast$}]{parent = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)}}\label{group___model_view_plugin_ga411c180daebc524f226c60cef529bcd4}
+
+
+\-Definition at line 31 of file modelviewgadget.\-cpp.
+
+\hypertarget{group___model_view_plugin_ga68c5b45bcb3a5b4f35186957e765e343}{\index{\-Model\-View Plugin@{\-Model\-View Plugin}!\-Model\-View\-Gadget\-Configuration@{\-Model\-View\-Gadget\-Configuration}}
+\index{\-Model\-View\-Gadget\-Configuration@{\-Model\-View\-Gadget\-Configuration}!ModelView Plugin@{\-Model\-View Plugin}}
+\subsubsection[{\-Model\-View\-Gadget\-Configuration}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Model\-View\-Gadget\-Configuration\-::\-Model\-View\-Gadget\-Configuration} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Q\-String}}]{class\-Id, }
+\item[{\-Q\-Settings $\ast$}]{q\-Settings = {\ttfamily 0}, }
+\item[{\-Q\-Object $\ast$}]{parent = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}explicit\mbox{]}}}}\label{group___model_view_plugin_ga68c5b45bcb3a5b4f35186957e765e343}
+
+
+\-Definition at line 31 of file modelviewgadgetconfiguration.\-cpp.
+
+\hypertarget{group___model_view_plugin_gab4ca362258332f3214c66cc63ba54d77}{\index{\-Model\-View Plugin@{\-Model\-View Plugin}!\-Model\-View\-Gadget\-Factory@{\-Model\-View\-Gadget\-Factory}}
+\index{\-Model\-View\-Gadget\-Factory@{\-Model\-View\-Gadget\-Factory}!ModelView Plugin@{\-Model\-View Plugin}}
+\subsubsection[{\-Model\-View\-Gadget\-Factory}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Model\-View\-Gadget\-Factory\-::\-Model\-View\-Gadget\-Factory} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Object $\ast$}]{parent = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)}}\label{group___model_view_plugin_gab4ca362258332f3214c66cc63ba54d77}
+
+
+\-Definition at line 35 of file modelviewgadgetfactory.\-cpp.
+
+\hypertarget{group___model_view_plugin_ga86839ae520e5a8d7d38e0349ab8110db}{\index{\-Model\-View Plugin@{\-Model\-View Plugin}!\-Model\-View\-Gadget\-Options\-Page@{\-Model\-View\-Gadget\-Options\-Page}}
+\index{\-Model\-View\-Gadget\-Options\-Page@{\-Model\-View\-Gadget\-Options\-Page}!ModelView Plugin@{\-Model\-View Plugin}}
+\subsubsection[{\-Model\-View\-Gadget\-Options\-Page}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Model\-View\-Gadget\-Options\-Page\-::\-Model\-View\-Gadget\-Options\-Page} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Model\-View\-Gadget\-Configuration} $\ast$}]{config, }
+\item[{\-Q\-Object $\ast$}]{parent = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}explicit\mbox{]}}}}\label{group___model_view_plugin_ga86839ae520e5a8d7d38e0349ab8110db}
+
+
+\-Definition at line 34 of file modelviewgadgetoptionspage.\-cpp.
+
+\hypertarget{group___model_view_plugin_ga7b299b7e0c58f0bca02228b6376370a6}{\index{\-Model\-View Plugin@{\-Model\-View Plugin}!\-Model\-View\-Gadget\-Widget@{\-Model\-View\-Gadget\-Widget}}
+\index{\-Model\-View\-Gadget\-Widget@{\-Model\-View\-Gadget\-Widget}!ModelView Plugin@{\-Model\-View Plugin}}
+\subsubsection[{\-Model\-View\-Gadget\-Widget}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Model\-View\-Gadget\-Widget\-::\-Model\-View\-Gadget\-Widget} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Widget $\ast$}]{parent = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)}}\label{group___model_view_plugin_ga7b299b7e0c58f0bca02228b6376370a6}
+
+
+\-Definition at line 38 of file modelviewgadgetwidget.\-cpp.
+
+\hypertarget{group___model_view_plugin_gafbc74cc8c17048cddb875add75e65cad}{\index{\-Model\-View Plugin@{\-Model\-View Plugin}!\-Model\-View\-Plugin@{\-Model\-View\-Plugin}}
+\index{\-Model\-View\-Plugin@{\-Model\-View\-Plugin}!ModelView Plugin@{\-Model\-View Plugin}}
+\subsubsection[{\-Model\-View\-Plugin}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Model\-View\-Plugin\-::\-Model\-View\-Plugin} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___model_view_plugin_gafbc74cc8c17048cddb875add75e65cad}
+
+
+\-Definition at line 35 of file modelviewplugin.\-cpp.
+
+\hypertarget{group___model_view_plugin_gad031b977be54f4bd5243fa4d6f846f68}{\index{\-Model\-View Plugin@{\-Model\-View Plugin}!reload\-Scene@{reload\-Scene}}
+\index{reload\-Scene@{reload\-Scene}!ModelView Plugin@{\-Model\-View Plugin}}
+\subsubsection[{reload\-Scene}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Model\-View\-Gadget\-Widget\-::reload\-Scene} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___model_view_plugin_gad031b977be54f4bd5243fa4d6f846f68}
+
+
+\-Definition at line 102 of file modelviewgadgetwidget.\-cpp.
+
+\hypertarget{group___model_view_plugin_gaa2ed9dd347aecb4518cf716e3fbd9288}{\index{\-Model\-View Plugin@{\-Model\-View Plugin}!save\-Config@{save\-Config}}
+\index{save\-Config@{save\-Config}!ModelView Plugin@{\-Model\-View Plugin}}
+\subsubsection[{save\-Config}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Model\-View\-Gadget\-Configuration\-::save\-Config} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Settings $\ast$}]{q\-Settings}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___model_view_plugin_gaa2ed9dd347aecb4518cf716e3fbd9288}
+\-Saves a configuration. 
+
+\-Reimplemented from \hyperlink{group___core_plugin_gadd755520091c21c0ce09973c5bbdb7a9}{\-Core\-::\-I\-U\-A\-V\-Gadget\-Configuration}.
+
+
+
+\-Definition at line 60 of file modelviewgadgetconfiguration.\-cpp.
+
+\hypertarget{group___model_view_plugin_ga5a6c75e6ec1963b48ad4cd6fd1f80e67}{\index{\-Model\-View Plugin@{\-Model\-View Plugin}!set\-Ac\-Filename@{set\-Ac\-Filename}}
+\index{set\-Ac\-Filename@{set\-Ac\-Filename}!ModelView Plugin@{\-Model\-View Plugin}}
+\subsubsection[{set\-Ac\-Filename}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Model\-View\-Gadget\-Configuration\-::set\-Ac\-Filename} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Q\-String}}]{ac\-File}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___model_view_plugin_ga5a6c75e6ec1963b48ad4cd6fd1f80e67}
+
+
+\-Definition at line 44 of file modelviewgadgetconfiguration.\-h.
+
+\hypertarget{group___model_view_plugin_ga61a44ab1922172cfaee66b78fde29538}{\index{\-Model\-View Plugin@{\-Model\-View Plugin}!set\-Ac\-Filename@{set\-Ac\-Filename}}
+\index{set\-Ac\-Filename@{set\-Ac\-Filename}!ModelView Plugin@{\-Model\-View Plugin}}
+\subsubsection[{set\-Ac\-Filename}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Model\-View\-Gadget\-Widget\-::set\-Ac\-Filename} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Q\-String}}]{acf}
+\end{DoxyParamCaption}
+)}}\label{group___model_view_plugin_ga61a44ab1922172cfaee66b78fde29538}
+
+
+\-Definition at line 72 of file modelviewgadgetwidget.\-cpp.
+
+\hypertarget{group___model_view_plugin_gac9bccdbb077005f2bb94cfc7c9dfefaa}{\index{\-Model\-View Plugin@{\-Model\-View Plugin}!set\-Bg\-Filename@{set\-Bg\-Filename}}
+\index{set\-Bg\-Filename@{set\-Bg\-Filename}!ModelView Plugin@{\-Model\-View Plugin}}
+\subsubsection[{set\-Bg\-Filename}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Model\-View\-Gadget\-Configuration\-::set\-Bg\-Filename} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Q\-String}}]{bg\-File}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___model_view_plugin_gac9bccdbb077005f2bb94cfc7c9dfefaa}
+
+
+\-Definition at line 46 of file modelviewgadgetconfiguration.\-h.
+
+\hypertarget{group___model_view_plugin_gab29343cadc70576f4b7d8f91dd1a3863}{\index{\-Model\-View Plugin@{\-Model\-View Plugin}!set\-Bg\-Filename@{set\-Bg\-Filename}}
+\index{set\-Bg\-Filename@{set\-Bg\-Filename}!ModelView Plugin@{\-Model\-View Plugin}}
+\subsubsection[{set\-Bg\-Filename}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Model\-View\-Gadget\-Widget\-::set\-Bg\-Filename} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Q\-String}}]{bgf}
+\end{DoxyParamCaption}
+)}}\label{group___model_view_plugin_gab29343cadc70576f4b7d8f91dd1a3863}
+
+
+\-Definition at line 83 of file modelviewgadgetwidget.\-cpp.
+
+\hypertarget{group___model_view_plugin_ga9ae7a41d63686c2ec25ee02e08ffed21}{\index{\-Model\-View Plugin@{\-Model\-View Plugin}!set\-Vbo\-Enable@{set\-Vbo\-Enable}}
+\index{set\-Vbo\-Enable@{set\-Vbo\-Enable}!ModelView Plugin@{\-Model\-View Plugin}}
+\subsubsection[{set\-Vbo\-Enable}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Model\-View\-Gadget\-Widget\-::set\-Vbo\-Enable} (
+\begin{DoxyParamCaption}
+\item[{bool}]{e\-Vbo}
+\end{DoxyParamCaption}
+)}}\label{group___model_view_plugin_ga9ae7a41d63686c2ec25ee02e08ffed21}
+
+
+\-Definition at line 95 of file modelviewgadgetwidget.\-cpp.
+
+\hypertarget{group___model_view_plugin_gad35eb4d4a2a27f015e4e54b18e3b2b97}{\index{\-Model\-View Plugin@{\-Model\-View Plugin}!set\-Vbo\-Enabled@{set\-Vbo\-Enabled}}
+\index{set\-Vbo\-Enabled@{set\-Vbo\-Enabled}!ModelView Plugin@{\-Model\-View Plugin}}
+\subsubsection[{set\-Vbo\-Enabled}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Model\-View\-Gadget\-Configuration\-::set\-Vbo\-Enabled} (
+\begin{DoxyParamCaption}
+\item[{bool}]{vbo\-Enable}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___model_view_plugin_gad35eb4d4a2a27f015e4e54b18e3b2b97}
+
+
+\-Definition at line 48 of file modelviewgadgetconfiguration.\-h.
+
+\hypertarget{group___model_view_plugin_gad3a367fabe72d1e3a0063267d0170df9}{\index{\-Model\-View Plugin@{\-Model\-View Plugin}!shutdown@{shutdown}}
+\index{shutdown@{shutdown}!ModelView Plugin@{\-Model\-View Plugin}}
+\subsubsection[{shutdown}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Model\-View\-Plugin\-::shutdown} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___model_view_plugin_gad3a367fabe72d1e3a0063267d0170df9}
+\-Called during a shutdown sequence in the same order as initialization before the plugins get deleted in reverse order. \-This method can be used to optimize the shutdown down, e.\-g. to disconnect from the \-Plugin\-Manager\-::about\-To\-Remove\-Object() signal if getting the signal (and probably doing lots of stuff to update the internal and visible state) doesn't make sense during shutdown. 
+
+\-Reimplemented from \hyperlink{class_extension_system_1_1_i_plugin_a65c16ebd3a6e89918a99af6515fe68cb}{\-Extension\-System\-::\-I\-Plugin}.
+
+
+
+\-Definition at line 60 of file modelviewplugin.\-cpp.
+
+\hypertarget{group___model_view_plugin_ga0026a37d0b02b743a513a6f79b88928e}{\index{\-Model\-View Plugin@{\-Model\-View Plugin}!tr\-Category@{tr\-Category}}
+\index{tr\-Category@{tr\-Category}!ModelView Plugin@{\-Model\-View Plugin}}
+\subsubsection[{tr\-Category}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Q\-String} {\bf \-Model\-View\-Gadget\-Options\-Page\-::tr\-Category} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}inline, virtual\mbox{]}}}}\label{group___model_view_plugin_ga0026a37d0b02b743a513a6f79b88928e}
+
+
+\-Reimplemented from \hyperlink{group___core_plugin_gac5538fc040c826784167edb4fc359b68}{\-Core\-::\-I\-Options\-Page}.
+
+
+
+\-Definition at line 57 of file modelviewgadgetoptionspage.\-h.
+
+\hypertarget{group___model_view_plugin_ga957813f49ad4050f6d8fe39c8ddb8db9}{\index{\-Model\-View Plugin@{\-Model\-View Plugin}!tr\-Name@{tr\-Name}}
+\index{tr\-Name@{tr\-Name}!ModelView Plugin@{\-Model\-View Plugin}}
+\subsubsection[{tr\-Name}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Q\-String} {\bf \-Model\-View\-Gadget\-Options\-Page\-::tr\-Name} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}inline, virtual\mbox{]}}}}\label{group___model_view_plugin_ga957813f49ad4050f6d8fe39c8ddb8db9}
+
+
+\-Reimplemented from \hyperlink{group___core_plugin_ga9bda94026b37720a30f4294560c79244}{\-Core\-::\-I\-Options\-Page}.
+
+
+
+\-Definition at line 55 of file modelviewgadgetoptionspage.\-h.
+
+\hypertarget{group___model_view_plugin_gaa7c16fd0b59ded87f8d136fd72680dca}{\index{\-Model\-View Plugin@{\-Model\-View Plugin}!update\-Attitude@{update\-Attitude}}
+\index{update\-Attitude@{update\-Attitude}!ModelView Plugin@{\-Model\-View Plugin}}
+\subsubsection[{update\-Attitude}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Model\-View\-Gadget\-Widget\-::update\-Attitude} (
+\begin{DoxyParamCaption}
+\item[{int}]{value}
+\end{DoxyParamCaption}
+)}}\label{group___model_view_plugin_gaa7c16fd0b59ded87f8d136fd72680dca}
+\hypertarget{group___model_view_plugin_ga82f3e4d2137def4ff8aa56abc69d3bce}{\index{\-Model\-View Plugin@{\-Model\-View Plugin}!vbo\-Enabled@{vbo\-Enabled}}
+\index{vbo\-Enabled@{vbo\-Enabled}!ModelView Plugin@{\-Model\-View Plugin}}
+\subsubsection[{vbo\-Enabled}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-Model\-View\-Gadget\-Configuration\-::vbo\-Enabled} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___model_view_plugin_ga82f3e4d2137def4ff8aa56abc69d3bce}
+
+
+\-Definition at line 47 of file modelviewgadgetconfiguration.\-h.
+
+\hypertarget{group___model_view_plugin_ga9240ecd7243b93f3188923a7a28926b1}{\index{\-Model\-View Plugin@{\-Model\-View Plugin}!widget@{widget}}
+\index{widget@{widget}!ModelView Plugin@{\-Model\-View Plugin}}
+\subsubsection[{widget}]{\setlength{\rightskip}{0pt plus 5cm}\-Q\-Widget$\ast$ {\bf \-Model\-View\-Gadget\-::widget} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, virtual\mbox{]}}}}\label{group___model_view_plugin_ga9240ecd7243b93f3188923a7a28926b1}
+
+
+\-Implements \hyperlink{group___core_plugin_gac74c76eef51e24e62a333fe0fd940cf6}{\-Core\-::\-I\-U\-A\-V\-Gadget}.
+
+
+
+\-Definition at line 48 of file modelviewgadget.\-h.
+
+\hypertarget{group___model_view_plugin_ga0b914fe76448332e8f22649b75984f4d}{\index{\-Model\-View Plugin@{\-Model\-View Plugin}!$\sim$\-Model\-View\-Gadget@{$\sim$\-Model\-View\-Gadget}}
+\index{$\sim$\-Model\-View\-Gadget@{$\sim$\-Model\-View\-Gadget}!ModelView Plugin@{\-Model\-View Plugin}}
+\subsubsection[{$\sim$\-Model\-View\-Gadget}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Model\-View\-Gadget\-::$\sim$\-Model\-View\-Gadget} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___model_view_plugin_ga0b914fe76448332e8f22649b75984f4d}
+
+
+\-Definition at line 37 of file modelviewgadget.\-cpp.
+
+\hypertarget{group___model_view_plugin_ga7bdf383eb25b1a5226f036371be723b5}{\index{\-Model\-View Plugin@{\-Model\-View Plugin}!$\sim$\-Model\-View\-Gadget\-Factory@{$\sim$\-Model\-View\-Gadget\-Factory}}
+\index{$\sim$\-Model\-View\-Gadget\-Factory@{$\sim$\-Model\-View\-Gadget\-Factory}!ModelView Plugin@{\-Model\-View Plugin}}
+\subsubsection[{$\sim$\-Model\-View\-Gadget\-Factory}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Model\-View\-Gadget\-Factory\-::$\sim$\-Model\-View\-Gadget\-Factory} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___model_view_plugin_ga7bdf383eb25b1a5226f036371be723b5}
+
+
+\-Definition at line 40 of file modelviewgadgetfactory.\-cpp.
+
+\hypertarget{group___model_view_plugin_gafd8359344ca9b61a21a93e1256e9247a}{\index{\-Model\-View Plugin@{\-Model\-View Plugin}!$\sim$\-Model\-View\-Gadget\-Widget@{$\sim$\-Model\-View\-Gadget\-Widget}}
+\index{$\sim$\-Model\-View\-Gadget\-Widget@{$\sim$\-Model\-View\-Gadget\-Widget}!ModelView Plugin@{\-Model\-View Plugin}}
+\subsubsection[{$\sim$\-Model\-View\-Gadget\-Widget}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Model\-View\-Gadget\-Widget\-::$\sim$\-Model\-View\-Gadget\-Widget} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___model_view_plugin_gafd8359344ca9b61a21a93e1256e9247a}
+
+
+\-Definition at line 66 of file modelviewgadgetwidget.\-cpp.
+
+\hypertarget{group___model_view_plugin_gac1d370684cf595a557c80ee2d6572e39}{\index{\-Model\-View Plugin@{\-Model\-View Plugin}!$\sim$\-Model\-View\-Plugin@{$\sim$\-Model\-View\-Plugin}}
+\index{$\sim$\-Model\-View\-Plugin@{$\sim$\-Model\-View\-Plugin}!ModelView Plugin@{\-Model\-View Plugin}}
+\subsubsection[{$\sim$\-Model\-View\-Plugin}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Model\-View\-Plugin\-::$\sim$\-Model\-View\-Plugin} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___model_view_plugin_gac1d370684cf595a557c80ee2d6572e39}
+
+
+\-Definition at line 40 of file modelviewplugin.\-cpp.
+

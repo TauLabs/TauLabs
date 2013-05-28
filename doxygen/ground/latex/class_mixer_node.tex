@@ -1,0 +1,91 @@
+\hypertarget{class_mixer_node}{\section{\-Mixer\-Node \-Class \-Reference}
+\label{class_mixer_node}\index{\-Mixer\-Node@{\-Mixer\-Node}}
+}
+
+
+{\ttfamily \#include $<$mixercurvepoint.\-h$>$}
+
+\subsection*{\-Public \-Types}
+\begin{DoxyCompactItemize}
+\item 
+enum \{ \hyperlink{group___u_a_v_object_widget_utils_ggacfcbe9e0a1b137ea0afeca0789e5e398ae34bb4f715b22e70e0a2182529bed883}{\-Type} =  \-User\-Type + 10
+ \}
+\end{DoxyCompactItemize}
+\subsection*{\-Signals}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_ga942a3a9bcc32e276d18b155ef73298f1}{command\-Activated} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} text)
+\end{DoxyCompactItemize}
+\subsection*{\-Public \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_object_widget_utils_gad99e53701553bdb4852ccedd6362f5a2}{\-Mixer\-Node} (\hyperlink{class_mixer_curve_widget}{\-Mixer\-Curve\-Widget} $\ast$graph\-Widget)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_gaf8a1ccdbffed70e2995e75d37c57851c}{add\-Edge} (\hyperlink{class_edge}{\-Edge} $\ast$edge)
+\item 
+\-Q\-List$<$ \hyperlink{class_edge}{\-Edge} $\ast$ $>$ \hyperlink{group___u_a_v_object_widget_utils_ga40ed4006b807a83e49d061ed3d2660d2}{edges} () const 
+\item 
+int \hyperlink{group___u_a_v_object_widget_utils_gab4486e1ba0c3c072c94654c3af32b0c6}{type} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_gadfd7806c5496ba5afcd31e2965292feb}{set\-Name} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} name)
+\item 
+const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \& \hyperlink{group___u_a_v_object_widget_utils_gade160748ca597706039a14036cf2cf49}{get\-Name} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_ga611004aca7ff8a9568500f208f9e4dd8}{vertical\-Move} (bool flag)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_ga3eb17fc4cf477877868bb1d9cc4baad9}{command\-Node} (bool enable)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_ga549e0ca95a0402dfc301e141de9e269e}{command\-Text} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} text)
+\item 
+int \hyperlink{group___u_a_v_object_widget_utils_ga9256f0cba8c457485bfc00b660076d2b}{get\-Command\-Index} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_ga85c1946a33e5309ac2b9aa3675671935}{set\-Command\-Index} (int \hyperlink{uavobjecttemplate_8m_a49654e4709f40aecccada266daa32fc6}{idx})
+\item 
+bool \hyperlink{group___u_a_v_object_widget_utils_ga63b0822569ce8326323c15159682c57e}{get\-Command\-Active} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_ga224ddcb050b9008c2352ca9c1318159d}{set\-Command\-Active} (bool enable)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_ga55f38aaacbac71e094d96baf3df429a4}{set\-Toggle} (bool enable)
+\item 
+bool \hyperlink{group___u_a_v_object_widget_utils_gab63ea3448c47f2e65a056ec49b30e0d1}{get\-Toggle} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_ga1318ec003e5b6d72bb03b061f6df3996}{set\-Positive\-Color} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} color0=\char`\"{}\#00ff00\char`\"{}, Q\-String color1=\char`\"{}\#00ff00\char`\"{})
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_gaa22c8cab4fa7424caf1a9168f12365e3}{set\-Negative\-Color} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} color0=\char`\"{}\#ff0000\char`\"{}, \-Q\-String color1=\char`\"{}\#ff0000\char`\"{})
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_ga85ed2c5bf8ae66f16496bd5fef25362b}{set\-Image} (\-Q\-Image img)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_ga90b5c3c03fb1cca75ba471125d93b550}{set\-Draw\-Node} (bool draw)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_gac7a63c8df4268991b6c48f6d528fe02c}{set\-Draw\-Text} (bool draw)
+\item 
+\-Q\-Rect\-F \hyperlink{group___u_a_v_object_widget_utils_ga016954be92f06c8ef2007526890e030e}{bounding\-Rect} () const 
+\item 
+\-Q\-Painter\-Path \hyperlink{group___u_a_v_object_widget_utils_gafbd32275c2089c42d00f43a0e17886ae}{shape} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_gaa06d538612911f733082849ebbef3cb0}{paint} (\-Q\-Painter $\ast$painter, const \-Q\-Style\-Option\-Graphics\-Item $\ast$option, \-Q\-Widget $\ast$widget)
+\item 
+double \hyperlink{group___u_a_v_object_widget_utils_ga74c57bb80930c775e055d2759acb92fe}{value} ()
+\end{DoxyCompactItemize}
+\subsection*{\-Protected \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+\-Q\-Variant \hyperlink{group___u_a_v_object_widget_utils_ga4e95b04348d98dedd3493d466fb5bdf5}{item\-Change} (\-Graphics\-Item\-Change change, const \-Q\-Variant \&val)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_ga5b8710657e58b224928419c431d19fbc}{mouse\-Press\-Event} (\-Q\-Graphics\-Scene\-Mouse\-Event $\ast$event)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_object_widget_utils_ga82dc38bf127547b87931a58561f02a27}{mouse\-Release\-Event} (\-Q\-Graphics\-Scene\-Mouse\-Event $\ast$event)
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+
+
+\-Definition at line 43 of file mixercurvepoint.\-h.
+
+
+
+\-The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/plugins/uavobjectwidgetutils/\hyperlink{mixercurvepoint_8h}{mixercurvepoint.\-h}\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/plugins/uavobjectwidgetutils/\hyperlink{mixercurvepoint_8cpp}{mixercurvepoint.\-cpp}\end{DoxyCompactItemize}

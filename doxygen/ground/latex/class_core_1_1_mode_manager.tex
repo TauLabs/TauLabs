@@ -1,0 +1,66 @@
+\hypertarget{class_core_1_1_mode_manager}{\section{\-Core\-:\-:\-Mode\-Manager \-Class \-Reference}
+\label{class_core_1_1_mode_manager}\index{\-Core\-::\-Mode\-Manager@{\-Core\-::\-Mode\-Manager}}
+}
+
+
+{\ttfamily \#include $<$modemanager.\-h$>$}
+
+\subsection*{\-Public \-Slots}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___core_plugin_ga9f75e14a1a348f3f46c62b4575dbca9e}{activate\-Mode} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \&id)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___core_plugin_gadd4b3b24c51d0993e61aab8ee9e76f48}{activate\-Mode\-By\-Workspace\-Name} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \&id)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___core_plugin_gab1fd02bc6554c6df4acfad271551230d}{set\-Focus\-To\-Current\-Mode} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___core_plugin_gad031a62ca8a27a4a5fb24c7bb77fbeb5}{trigger\-Action} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \&action\-Id)
+\end{DoxyCompactItemize}
+\subsection*{\-Signals}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___core_plugin_gaa77e7371f833a065f7608953552acb2e}{current\-Mode\-About\-To\-Change} (\hyperlink{class_core_1_1_i_mode}{\-Core\-::\-I\-Mode} $\ast$\hyperlink{group___core_plugin_ga2f29188b707a73ac13c2312497b99219}{mode})
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___core_plugin_gae6bfcb951bb5f94b642a368c82116faf}{current\-Mode\-Changed} (\hyperlink{class_core_1_1_i_mode}{\-Core\-::\-I\-Mode} $\ast$\hyperlink{group___core_plugin_ga2f29188b707a73ac13c2312497b99219}{mode})
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___core_plugin_ga43ebcb6f603d4f852c917bc5ed76c124}{new\-Mode\-Order} (\-Q\-Vector$<$ \hyperlink{class_core_1_1_i_mode}{\-I\-Mode} $\ast$ $>$ \hyperlink{group___core_plugin_gafe066d728cdaeffc19eb6407a41e29e0}{modes})
+\end{DoxyCompactItemize}
+\subsection*{\-Public \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___core_plugin_ga7424a5232a9062d5d715d46cb6dab058}{\-Mode\-Manager} (\hyperlink{class_core_1_1_internal_1_1_main_window}{\-Internal\-::\-Main\-Window} $\ast$main\-Window, \hyperlink{class_my_tab_widget}{\-My\-Tab\-Widget} $\ast$mode\-Stack)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___core_plugin_ga0602e86f2b78e9b234c3fa737837d266}{init} ()
+\item 
+\hyperlink{class_core_1_1_i_mode}{\-I\-Mode} $\ast$ \hyperlink{group___core_plugin_ga8b622df4a78ae2e368474999c0698306}{current\-Mode} () const 
+\item 
+\hyperlink{class_core_1_1_i_mode}{\-I\-Mode} $\ast$ \hyperlink{group___core_plugin_ga2f29188b707a73ac13c2312497b99219}{mode} (const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \&id) const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___core_plugin_ga59c08a546248c7443d069fffc04a6b90}{add\-Action} (\hyperlink{class_core_1_1_command}{\-Command} $\ast$command, int priority, \-Q\-Menu $\ast$menu=0)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___core_plugin_ga44a336b5464c757765a238ac56da3cc3}{add\-Widget} (\-Q\-Widget $\ast$widget)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___core_plugin_ga19ea1eb5b0bc5b064afc7d4498a23b86}{update\-Mode\-Name\-Icon} (\hyperlink{class_core_1_1_i_mode}{\-I\-Mode} $\ast$\hyperlink{group___core_plugin_ga2f29188b707a73ac13c2312497b99219}{mode}, const \-Q\-Icon \&icon, const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \&label)
+\item 
+\-Q\-Vector$<$ \hyperlink{class_core_1_1_i_mode}{\-I\-Mode} $\ast$ $>$ \hyperlink{group___core_plugin_gafe066d728cdaeffc19eb6407a41e29e0}{modes} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___core_plugin_ga5d0135f443bbd69ffdc3cf24152cf9a0}{reorder\-Modes} (\-Q\-Map$<$ \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String}, int $>$ priorities)
+\end{DoxyCompactItemize}
+\subsection*{\-Static \-Public \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+static \hyperlink{class_core_1_1_mode_manager}{\-Mode\-Manager} $\ast$ \hyperlink{group___core_plugin_ga756ec59f5104cce0abf8a6990a2bba2c}{instance} ()
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+
+
+\-Definition at line 57 of file modemanager.\-h.
+
+
+
+\-The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/plugins/coreplugin/\hyperlink{modemanager_8h}{modemanager.\-h}\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/plugins/coreplugin/\hyperlink{modemanager_8cpp}{modemanager.\-cpp}\end{DoxyCompactItemize}

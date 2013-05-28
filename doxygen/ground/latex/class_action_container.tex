@@ -1,0 +1,22 @@
+\hypertarget{class_action_container}{\section{\-Action\-Container \-Class \-Reference}
+\label{class_action_container}\index{\-Action\-Container@{\-Action\-Container}}
+}
+
+
+\-The \hyperlink{class_action_container}{\-Action\-Container} class represents a menu or menu bar in the \-Tau \-Labs \-G\-C\-S.  
+
+
+
+
+\subsection{\-Detailed \-Description}
+\-The \hyperlink{class_action_container}{\-Action\-Container} class represents a menu or menu bar in the \-Tau \-Labs \-G\-C\-S. 
+
+\-You don't create instances of this class directly, but instead use the \{\-Action\-Manager\-::create\-Menu()\} and \{\-Action\-Manager\-::create\-Menu\-Bar()\} methods. \-Retrieve existing action containers for an \-I\-D with \{\-Action\-Manager\-::action\-Container()\}.
+
+\-Within a menu or menu bar you can group menus and items together by defining groups (the order of the groups is defined by the order of the \{\-Action\-Container\-::append\-Group()\} calls), and adding menus/actions to these groups. \-If no custom groups are defined, an action container has three default groups {\ttfamily }\{\hyperlink{group___core_plugin_ga522e575966eb8fe2374da35aac3e7d69}{\-Core\-::\-Constants\-::\-G\-\_\-\-D\-E\-F\-A\-U\-L\-T\-\_\-\-O\-N\-E}\}, {\ttfamily }\{\hyperlink{group___core_plugin_ga4f77e1e87898edaae0fa296fdab5806d}{\-Core\-::\-Constants\-::\-G\-\_\-\-D\-E\-F\-A\-U\-L\-T\-\_\-\-T\-W\-O}\} and {\ttfamily }\{\hyperlink{group___core_plugin_gaa9d110a5d72f47a9f4893a54bebdef9d}{\-Core\-::\-Constants\-::\-G\-\_\-\-D\-E\-F\-A\-U\-L\-T\-\_\-\-T\-H\-R\-E\-E}\}.
+
+\-You can define if the menu represented by this action container should automatically disable or hide whenever it only contains disabled items and submenus by setting the corresponding \{\-Action\-Container\-::set\-Empty\-Action()\}\{\-Empty\-Action\}. 
+
+\-The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/plugins/coreplugin/actionmanager/\hyperlink{actioncontainer_8cpp}{actioncontainer.\-cpp}\end{DoxyCompactItemize}

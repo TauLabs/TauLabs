@@ -1,0 +1,35 @@
+\hypertarget{group___vibration_analysis_module}{\section{\-Vibration analysis module}
+\label{group___vibration_analysis_module}\index{\-Vibration analysis module@{\-Vibration analysis module}}
+}
+\subsection*{\-Data \-Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct {\bfseries \-Vibration\-Analysis\-\_\-data}
+\end{DoxyCompactItemize}
+\subsection*{\-Files}
+\begin{DoxyCompactItemize}
+\item 
+file \hyperlink{vibrationanalysis_8c}{vibrationanalysis.\-c}
+\begin{DoxyCompactList}\small\item\em \-Performs an \-F\-F\-T on the accels to estimation vibration. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___vibration_analysis_module_ga9e7e6a96f3ed454bc4e05c84c5b7c5d1}{\-M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L} (\-Vibration\-Analysis\-Initialize, \-Vibration\-Analysis\-Start)
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Function \-Documentation}
+\hypertarget{group___vibration_analysis_module_ga9e7e6a96f3ed454bc4e05c84c5b7c5d1}{\index{\-Vibration analysis module@{\-Vibration analysis module}!\-M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L@{\-M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L}}
+\index{\-M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L@{\-M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L}!Vibration analysis module@{\-Vibration analysis module}}
+\subsubsection[{\-M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L} (
+\begin{DoxyParamCaption}
+\item[{\-Vibration\-Analysis\-Initialize}]{, }
+\item[{\-Vibration\-Analysis\-Start}]{}
+\end{DoxyParamCaption}
+)}}\label{group___vibration_analysis_module_ga9e7e6a96f3ed454bc4e05c84c5b7c5d1}
+\-These values are useful for insight into the \-Fourier transform performed by this module. float freq\-\_\-sample = 1.\-0f/(sample\-Rate\-\_\-ms $\ast$ port\-T\-I\-C\-K\-\_\-\-R\-A\-T\-E\-\_\-\-M\-S); float freq\-\_\-nyquist = f\-\_\-s/2.\-0f; uint16\-\_\-t num\-\_\-samples = vtd-\/$>$fft\-\_\-window\-\_\-size;
+
+\-Accumulate accelerometer data. \-This would be a great place to add a high-\/pass filter, in order to eliminate the \-D\-C bias from gravity. \-Until then, a \-D\-C bias subtraction has been added in the main loop.
+
+\-Definition at line 233 of file vibrationanalysis.\-c.
+

@@ -1,0 +1,39 @@
+\hypertarget{class_core_1_1_i_core_listener}{\section{\-Core\-:\-:\-I\-Core\-Listener \-Class \-Reference}
+\label{class_core_1_1_i_core_listener}\index{\-Core\-::\-I\-Core\-Listener@{\-Core\-::\-I\-Core\-Listener}}
+}
+
+
+\-Provides a hook for plugins to veto on certain events emitted from the core plugin.  
+
+
+
+
+{\ttfamily \#include $<$icorelistener.\-h$>$}
+
+\subsection*{\-Public \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___core_plugin_gaae530a3c48fb9849eb9fee0f2616d665}{\-I\-Core\-Listener} (\-Q\-Object $\ast$parent=0)
+\item 
+virtual \hyperlink{group___core_plugin_ga2dbf8855d21d35851dc3dd795648b50b}{$\sim$\-I\-Core\-Listener} ()
+\item 
+virtual bool \hyperlink{group___core_plugin_ga234ba638cc5653d3bb183df5c9fe0ce2}{core\-About\-To\-Close} ()
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-Provides a hook for plugins to veto on certain events emitted from the core plugin. 
+
+\-You implement this interface if you want to prevent certain events from occurring, e.\-g. if you want to prevent the closing of the whole application or to prevent the closing of an editor window under certain conditions.
+
+\-If e.\-g. the application window requests a close, then first \hyperlink{group___core_plugin_ga234ba638cc5653d3bb183df5c9fe0ce2}{\-I\-Core\-Listener\-::core\-About\-To\-Close()} is called (in arbitrary order) on all registered objects implementing this interface. \-If one if these calls returns false, the process is aborted and the event is ignored. \-If all calls return true, the corresponding signal is emitted and the event is accepted/performed.
+
+\-Guidelines for implementing\-:   \-Return false from the implemented method if you want to prevent the event.  \-You need to add your implementing object to the plugin managers objects\-: \-Extension\-System\-::\-Plugin\-Manager\-::instance()-\/$>$add\-Object(your\-Implementing\-Object);  \-Don't forget to remove the object again at deconstruction (e.\-g. in the destructor of your plugin). 
+
+\-Definition at line 60 of file icorelistener.\-h.
+
+
+
+\-The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/plugins/coreplugin/\hyperlink{icorelistener_8h}{icorelistener.\-h}\end{DoxyCompactItemize}

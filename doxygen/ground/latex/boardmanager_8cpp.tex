@@ -1,0 +1,26 @@
+\hypertarget{boardmanager_8cpp}{\section{/home/jb/code/\-Tau\-Labs/ground/gcs/src/plugins/coreplugin/boardmanager.cpp \-File \-Reference}
+\label{boardmanager_8cpp}\index{/home/jb/code/\-Tau\-Labs/ground/gcs/src/plugins/coreplugin/boardmanager.\-cpp@{/home/jb/code/\-Tau\-Labs/ground/gcs/src/plugins/coreplugin/boardmanager.\-cpp}}
+}
+\subsection*{\-Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+namespace \hyperlink{namespace_core}{\-Core}
+\begin{DoxyCompactList}\small\item\em \-The \hyperlink{namespace_core}{\-Core} namespace contains all classes that make up the \hyperlink{namespace_core}{\-Core} plugin which constitute the basic functionality of the \-Tau \-Labs \-G\-C\-S. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\begin{DoxyAuthor}{\-Author}
+\-Tau \-Labs, \href{http://taulabs.org,}{\tt http\-://taulabs.\-org,} \-Copyright (\-C) 2012-\/2013 \-Parts by \-Nokia \-Corporation (\href{mailto:qt-info@nokia.com}{\tt qt-\/info@nokia.\-com}) \-Copyright (\-C) 2009.
+\end{DoxyAuthor}
+\-The board manager listens for the arrival or \char`\"{}\-Board Type\char`\"{} objects, which are instanciated by board plugins. \-Any plugin that needs to interface with a board at a low level -\/ \-Serial, \-U\-S\-B, etc -\/ can query the \-Board \-Manager to understand how to to it. \-At the moment, the board manager provides information to the \hyperlink{class_raw_h_i_d}{\-Raw\-H\-I\-D} \-U\-S\-B library to help it detect boards that are supported. \-On the roadmap are the following features\-:
+\begin{DoxyItemize}
+\item \-Provide information on bootloader support -\/ supported or not, what protocol
+\item \-Provide information on telemetry protocol to use for that particular board
+\item \-Provide board description\-: textual, icon, board image
+\item \-Provide hardware configuration description
+\item \-Enable board detection routines over 'generic' links such as serial or network
+\item \-Provide board configuration panels to be used by the config plugin 
+\end{DoxyItemize}
+
+\-Definition in file \hyperlink{boardmanager_8cpp_source}{boardmanager.\-cpp}.
+

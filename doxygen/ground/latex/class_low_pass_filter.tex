@@ -1,0 +1,246 @@
+\hypertarget{class_low_pass_filter}{\section{\-Low\-Pass\-Filter \-Class \-Reference}
+\label{class_low_pass_filter}\index{\-Low\-Pass\-Filter@{\-Low\-Pass\-Filter}}
+}
+
+
+{\ttfamily \#include $<$lowpassfilter.\-h$>$}
+
+\subsection*{\-Public \-Slots}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_low_pass_filter_a8ffe4e89963aeeb9cbc3d7ff9ea7bf65}{set\-Input} (qreal arg)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_low_pass_filter_afbffbe1e5869efaa7e6af73cfdd73757}{set\-Time\-Constant} (qreal arg)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_low_pass_filter_a835f0c970fa58a7b456259b7871f3455}{set\-Update\-Period} (qreal arg)
+\end{DoxyCompactItemize}
+\subsection*{\-Signals}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_low_pass_filter_a2293d8b7286bf10aa2b01272be435fab}{input\-Changed} (qreal arg)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_low_pass_filter_a0cf9a9e7e11e71b2d69a166dca569e7b}{value\-Changed} (qreal arg)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_low_pass_filter_a2df94ddd52514427afeeaa55233d2ca9}{time\-Constant\-Changed} (qreal arg)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_low_pass_filter_a8ada11275d48621aeb4fc2d9bb09a6a3}{update\-Period\-Changed} (qreal arg)
+\end{DoxyCompactItemize}
+\subsection*{\-Public \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_low_pass_filter_a34f68a23df793e64436da736a7580423}{\-Low\-Pass\-Filter} (\-Q\-Object $\ast$parent=0)
+\item 
+\hyperlink{class_low_pass_filter_a0c3f3acc5df212a1e702252af9cb27ef}{$\sim$\-Low\-Pass\-Filter} ()
+\item 
+qreal \hyperlink{class_low_pass_filter_a2b06f75027c1663872aae67bdbdf0579}{input} () const 
+\item 
+qreal \hyperlink{class_low_pass_filter_ab6afdd634d2f59a7e7b3391a62f226eb}{value} () const 
+\item 
+qreal \hyperlink{class_low_pass_filter_a93af69b2fc850730ad5053b2dc5832d0}{time\-Constant} () const 
+\item 
+qreal \hyperlink{class_low_pass_filter_a5e78b303f3293ed766297d6441dcfdbb}{update\-Period} () const 
+\end{DoxyCompactItemize}
+\subsection*{\-Protected \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_low_pass_filter_a56d8065f6aba6ab1e3dff9a337d6d797}{timer\-Event} (\-Q\-Timer\-Event $\ast$ev)
+\end{DoxyCompactItemize}
+\subsection*{\-Properties}
+\begin{DoxyCompactItemize}
+\item 
+qreal \hyperlink{class_low_pass_filter_a9a9e7b2ff54b0fc7268a5cc3e9e6fbf4}{input}
+\item 
+qreal \hyperlink{class_low_pass_filter_abf649373a1b2f12fc6b6ffa4842dc2f7}{value}
+\item 
+qreal \hyperlink{class_low_pass_filter_ab761ee5ebd0249c6724c17d1e0d42500}{time\-Constant}
+\item 
+qreal \hyperlink{class_low_pass_filter_a2587a6787fa752084a473ec21a25222a}{update\-Period}
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+
+
+\-Definition at line 24 of file lowpassfilter.\-h.
+
+
+
+\subsection{\-Constructor \& \-Destructor \-Documentation}
+\hypertarget{class_low_pass_filter_a34f68a23df793e64436da736a7580423}{\index{\-Low\-Pass\-Filter@{\-Low\-Pass\-Filter}!\-Low\-Pass\-Filter@{\-Low\-Pass\-Filter}}
+\index{\-Low\-Pass\-Filter@{\-Low\-Pass\-Filter}!LowPassFilter@{\-Low\-Pass\-Filter}}
+\subsubsection[{\-Low\-Pass\-Filter}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Low\-Pass\-Filter\-::\-Low\-Pass\-Filter} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Object $\ast$}]{parent = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)}}\label{class_low_pass_filter_a34f68a23df793e64436da736a7580423}
+
+
+\-Definition at line 21 of file lowpassfilter.\-cpp.
+
+\hypertarget{class_low_pass_filter_a0c3f3acc5df212a1e702252af9cb27ef}{\index{\-Low\-Pass\-Filter@{\-Low\-Pass\-Filter}!$\sim$\-Low\-Pass\-Filter@{$\sim$\-Low\-Pass\-Filter}}
+\index{$\sim$\-Low\-Pass\-Filter@{$\sim$\-Low\-Pass\-Filter}!LowPassFilter@{\-Low\-Pass\-Filter}}
+\subsubsection[{$\sim$\-Low\-Pass\-Filter}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Low\-Pass\-Filter\-::$\sim$\-Low\-Pass\-Filter} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_low_pass_filter_a0c3f3acc5df212a1e702252af9cb27ef}
+
+
+\-Definition at line 31 of file lowpassfilter.\-cpp.
+
+
+
+\subsection{\-Member \-Function \-Documentation}
+\hypertarget{class_low_pass_filter_a2b06f75027c1663872aae67bdbdf0579}{\index{\-Low\-Pass\-Filter@{\-Low\-Pass\-Filter}!input@{input}}
+\index{input@{input}!LowPassFilter@{\-Low\-Pass\-Filter}}
+\subsubsection[{input}]{\setlength{\rightskip}{0pt plus 5cm}qreal {\bf \-Low\-Pass\-Filter\-::input} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{class_low_pass_filter_a2b06f75027c1663872aae67bdbdf0579}
+
+
+\-Definition at line 35 of file lowpassfilter.\-h.
+
+\hypertarget{class_low_pass_filter_a2293d8b7286bf10aa2b01272be435fab}{\index{\-Low\-Pass\-Filter@{\-Low\-Pass\-Filter}!input\-Changed@{input\-Changed}}
+\index{input\-Changed@{input\-Changed}!LowPassFilter@{\-Low\-Pass\-Filter}}
+\subsubsection[{input\-Changed}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Low\-Pass\-Filter\-::input\-Changed} (
+\begin{DoxyParamCaption}
+\item[{qreal}]{arg}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}signal\mbox{]}}}}\label{class_low_pass_filter_a2293d8b7286bf10aa2b01272be435fab}
+\hypertarget{class_low_pass_filter_a8ffe4e89963aeeb9cbc3d7ff9ea7bf65}{\index{\-Low\-Pass\-Filter@{\-Low\-Pass\-Filter}!set\-Input@{set\-Input}}
+\index{set\-Input@{set\-Input}!LowPassFilter@{\-Low\-Pass\-Filter}}
+\subsubsection[{set\-Input}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Low\-Pass\-Filter\-::set\-Input} (
+\begin{DoxyParamCaption}
+\item[{qreal}]{arg}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}slot\mbox{]}}}}\label{class_low_pass_filter_a8ffe4e89963aeeb9cbc3d7ff9ea7bf65}
+
+
+\-Definition at line 44 of file lowpassfilter.\-cpp.
+
+\hypertarget{class_low_pass_filter_afbffbe1e5869efaa7e6af73cfdd73757}{\index{\-Low\-Pass\-Filter@{\-Low\-Pass\-Filter}!set\-Time\-Constant@{set\-Time\-Constant}}
+\index{set\-Time\-Constant@{set\-Time\-Constant}!LowPassFilter@{\-Low\-Pass\-Filter}}
+\subsubsection[{set\-Time\-Constant}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Low\-Pass\-Filter\-::set\-Time\-Constant} (
+\begin{DoxyParamCaption}
+\item[{qreal}]{arg}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}slot\mbox{]}}}}\label{class_low_pass_filter_afbffbe1e5869efaa7e6af73cfdd73757}
+
+
+\-Definition at line 67 of file lowpassfilter.\-cpp.
+
+\hypertarget{class_low_pass_filter_a835f0c970fa58a7b456259b7871f3455}{\index{\-Low\-Pass\-Filter@{\-Low\-Pass\-Filter}!set\-Update\-Period@{set\-Update\-Period}}
+\index{set\-Update\-Period@{set\-Update\-Period}!LowPassFilter@{\-Low\-Pass\-Filter}}
+\subsubsection[{set\-Update\-Period}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Low\-Pass\-Filter\-::set\-Update\-Period} (
+\begin{DoxyParamCaption}
+\item[{qreal}]{arg}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}slot\mbox{]}}}}\label{class_low_pass_filter_a835f0c970fa58a7b456259b7871f3455}
+
+
+\-Definition at line 80 of file lowpassfilter.\-cpp.
+
+\hypertarget{class_low_pass_filter_a93af69b2fc850730ad5053b2dc5832d0}{\index{\-Low\-Pass\-Filter@{\-Low\-Pass\-Filter}!time\-Constant@{time\-Constant}}
+\index{time\-Constant@{time\-Constant}!LowPassFilter@{\-Low\-Pass\-Filter}}
+\subsubsection[{time\-Constant}]{\setlength{\rightskip}{0pt plus 5cm}qreal {\bf \-Low\-Pass\-Filter\-::time\-Constant} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{class_low_pass_filter_a93af69b2fc850730ad5053b2dc5832d0}
+
+
+\-Definition at line 37 of file lowpassfilter.\-h.
+
+\hypertarget{class_low_pass_filter_a2df94ddd52514427afeeaa55233d2ca9}{\index{\-Low\-Pass\-Filter@{\-Low\-Pass\-Filter}!time\-Constant\-Changed@{time\-Constant\-Changed}}
+\index{time\-Constant\-Changed@{time\-Constant\-Changed}!LowPassFilter@{\-Low\-Pass\-Filter}}
+\subsubsection[{time\-Constant\-Changed}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Low\-Pass\-Filter\-::time\-Constant\-Changed} (
+\begin{DoxyParamCaption}
+\item[{qreal}]{arg}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}signal\mbox{]}}}}\label{class_low_pass_filter_a2df94ddd52514427afeeaa55233d2ca9}
+\hypertarget{class_low_pass_filter_a56d8065f6aba6ab1e3dff9a337d6d797}{\index{\-Low\-Pass\-Filter@{\-Low\-Pass\-Filter}!timer\-Event@{timer\-Event}}
+\index{timer\-Event@{timer\-Event}!LowPassFilter@{\-Low\-Pass\-Filter}}
+\subsubsection[{timer\-Event}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Low\-Pass\-Filter\-::timer\-Event} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Timer\-Event $\ast$}]{ev}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{class_low_pass_filter_a56d8065f6aba6ab1e3dff9a337d6d797}
+
+
+\-Definition at line 112 of file lowpassfilter.\-cpp.
+
+\hypertarget{class_low_pass_filter_a5e78b303f3293ed766297d6441dcfdbb}{\index{\-Low\-Pass\-Filter@{\-Low\-Pass\-Filter}!update\-Period@{update\-Period}}
+\index{update\-Period@{update\-Period}!LowPassFilter@{\-Low\-Pass\-Filter}}
+\subsubsection[{update\-Period}]{\setlength{\rightskip}{0pt plus 5cm}qreal {\bf \-Low\-Pass\-Filter\-::update\-Period} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{class_low_pass_filter_a5e78b303f3293ed766297d6441dcfdbb}
+
+
+\-Definition at line 38 of file lowpassfilter.\-h.
+
+\hypertarget{class_low_pass_filter_a8ada11275d48621aeb4fc2d9bb09a6a3}{\index{\-Low\-Pass\-Filter@{\-Low\-Pass\-Filter}!update\-Period\-Changed@{update\-Period\-Changed}}
+\index{update\-Period\-Changed@{update\-Period\-Changed}!LowPassFilter@{\-Low\-Pass\-Filter}}
+\subsubsection[{update\-Period\-Changed}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Low\-Pass\-Filter\-::update\-Period\-Changed} (
+\begin{DoxyParamCaption}
+\item[{qreal}]{arg}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}signal\mbox{]}}}}\label{class_low_pass_filter_a8ada11275d48621aeb4fc2d9bb09a6a3}
+\hypertarget{class_low_pass_filter_ab6afdd634d2f59a7e7b3391a62f226eb}{\index{\-Low\-Pass\-Filter@{\-Low\-Pass\-Filter}!value@{value}}
+\index{value@{value}!LowPassFilter@{\-Low\-Pass\-Filter}}
+\subsubsection[{value}]{\setlength{\rightskip}{0pt plus 5cm}qreal {\bf \-Low\-Pass\-Filter\-::value} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{class_low_pass_filter_ab6afdd634d2f59a7e7b3391a62f226eb}
+
+
+\-Definition at line 36 of file lowpassfilter.\-h.
+
+\hypertarget{class_low_pass_filter_a0cf9a9e7e11e71b2d69a166dca569e7b}{\index{\-Low\-Pass\-Filter@{\-Low\-Pass\-Filter}!value\-Changed@{value\-Changed}}
+\index{value\-Changed@{value\-Changed}!LowPassFilter@{\-Low\-Pass\-Filter}}
+\subsubsection[{value\-Changed}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Low\-Pass\-Filter\-::value\-Changed} (
+\begin{DoxyParamCaption}
+\item[{qreal}]{arg}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}signal\mbox{]}}}}\label{class_low_pass_filter_a0cf9a9e7e11e71b2d69a166dca569e7b}
+
+
+\subsection{\-Property \-Documentation}
+\hypertarget{class_low_pass_filter_a9a9e7b2ff54b0fc7268a5cc3e9e6fbf4}{\index{\-Low\-Pass\-Filter@{\-Low\-Pass\-Filter}!input@{input}}
+\index{input@{input}!LowPassFilter@{\-Low\-Pass\-Filter}}
+\subsubsection[{input}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Low\-Pass\-Filter\-::input}\hspace{0.3cm}{\ttfamily  \mbox{[}read, write\mbox{]}}}}\label{class_low_pass_filter_a9a9e7b2ff54b0fc7268a5cc3e9e6fbf4}
+\-Input sample value 
+
+\-Definition at line 27 of file lowpassfilter.\-h.
+
+\hypertarget{class_low_pass_filter_ab761ee5ebd0249c6724c17d1e0d42500}{\index{\-Low\-Pass\-Filter@{\-Low\-Pass\-Filter}!time\-Constant@{time\-Constant}}
+\index{time\-Constant@{time\-Constant}!LowPassFilter@{\-Low\-Pass\-Filter}}
+\subsubsection[{time\-Constant}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Low\-Pass\-Filter\-::time\-Constant}\hspace{0.3cm}{\ttfamily  \mbox{[}read, write\mbox{]}}}}\label{class_low_pass_filter_ab761ee5ebd0249c6724c17d1e0d42500}
+\-Low pass filter time constant, in seconds. \-The default value is 0.\-5 seconds. 
+
+\-Definition at line 29 of file lowpassfilter.\-h.
+
+\hypertarget{class_low_pass_filter_a2587a6787fa752084a473ec21a25222a}{\index{\-Low\-Pass\-Filter@{\-Low\-Pass\-Filter}!update\-Period@{update\-Period}}
+\index{update\-Period@{update\-Period}!LowPassFilter@{\-Low\-Pass\-Filter}}
+\subsubsection[{update\-Period}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Low\-Pass\-Filter\-::update\-Period}\hspace{0.3cm}{\ttfamily  \mbox{[}read, write\mbox{]}}}}\label{class_low_pass_filter_a2587a6787fa752084a473ec21a25222a}
+\-Low pass filter update period, in seconds. \-The default value is 1/30s. 
+
+\-Definition at line 30 of file lowpassfilter.\-h.
+
+\hypertarget{class_low_pass_filter_abf649373a1b2f12fc6b6ffa4842dc2f7}{\index{\-Low\-Pass\-Filter@{\-Low\-Pass\-Filter}!value@{value}}
+\index{value@{value}!LowPassFilter@{\-Low\-Pass\-Filter}}
+\subsubsection[{value}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Low\-Pass\-Filter\-::value}\hspace{0.3cm}{\ttfamily  \mbox{[}read\mbox{]}}}}\label{class_low_pass_filter_abf649373a1b2f12fc6b6ffa4842dc2f7}
+\-Filtered value. 
+
+\-Definition at line 28 of file lowpassfilter.\-h.
+
+
+
+\-The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/plugins/pfdqml/\hyperlink{lowpassfilter_8h}{lowpassfilter.\-h}\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/plugins/pfdqml/\hyperlink{lowpassfilter_8cpp}{lowpassfilter.\-cpp}\end{DoxyCompactItemize}

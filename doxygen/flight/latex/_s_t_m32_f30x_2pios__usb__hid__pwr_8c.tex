@@ -1,0 +1,162 @@
+\hypertarget{_s_t_m32_f30x_2pios__usb__hid__pwr_8c}{\section{/home/jb/code/\-Tau\-Labs/flight/\-Pi\-O\-S/\-S\-T\-M32\-F30x/pios\-\_\-usb\-\_\-hid\-\_\-pwr.c \-File \-Reference}
+\label{_s_t_m32_f30x_2pios__usb__hid__pwr_8c}\index{/home/jb/code/\-Tau\-Labs/flight/\-Pi\-O\-S/\-S\-T\-M32\-F30x/pios\-\_\-usb\-\_\-hid\-\_\-pwr.\-c@{/home/jb/code/\-Tau\-Labs/flight/\-Pi\-O\-S/\-S\-T\-M32\-F30x/pios\-\_\-usb\-\_\-hid\-\_\-pwr.\-c}}
+}
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{_s_t_m32_f30x_2pios__usb__hid__pwr_8c_aa99b8eac23843be0bca036fae722c788}{\-U\-S\-B\-\_\-\-Cable\-\_\-\-Config} (\-Functional\-State \-New\-State)
+\item 
+\-R\-E\-S\-U\-L\-T \hyperlink{_s_t_m32_f30x_2pios__usb__hid__pwr_8c_a23cb7957e66d04c1411f2151b19c6c5c}{\-Power\-On} (void)
+\item 
+\-R\-E\-S\-U\-L\-T \hyperlink{_s_t_m32_f30x_2pios__usb__hid__pwr_8c_a7b4c2044bf2be52b9f636d4ccffeccd2}{\-Power\-Off} ()
+\item 
+void \hyperlink{_s_t_m32_f30x_2pios__usb__hid__pwr_8c_a7720eb7ac1ea6af8e9e76b2eb6f12d65}{\-Enter\-\_\-\-Low\-Power\-Mode} (void)
+\item 
+void \hyperlink{_s_t_m32_f30x_2pios__usb__hid__pwr_8c_a1eb60d4c13f2c21d00ddc5fe6ad57f40}{\-Suspend} (void)
+\item 
+void \hyperlink{_s_t_m32_f30x_2pios__usb__hid__pwr_8c_a6c7ca414693c535f48a636ca862ed49d}{\-Leave\-\_\-\-Low\-Power\-Mode} (void)
+\item 
+void \hyperlink{_s_t_m32_f30x_2pios__usb__hid__pwr_8c_aed055ac12f74727702bd41df2e35beec}{\-Resume\-\_\-\-Init} (void)
+\item 
+void \hyperlink{_s_t_m32_f30x_2pios__usb__hid__pwr_8c_a927a384b5759002b5f933f9c92a800ea}{\-Resume} (\hyperlink{pios__usb__hid__pwr_8h_a78d10fe921914bd2c7772dc97a9a0d1c}{\-R\-E\-S\-U\-M\-E\-\_\-\-S\-T\-A\-T\-E} e\-Resume\-Set\-Val)
+\end{DoxyCompactItemize}
+\subsection*{\-Variables}
+\begin{DoxyCompactItemize}
+\item 
+\-\_\-\-\_\-\-I\-O uint32\-\_\-t \hyperlink{_s_t_m32_f30x_2pios__usb__hid__pwr_8c_abde06594331cfefcb35ae1166edd52fb}{b\-Device\-State} = \hyperlink{pios__usb__hid__pwr_8h_a26f487b1eb7b2d6b83b0d08414c542bba29d18c1b3b6b68b4d20daf998bbd5c29}{\-U\-N\-C\-O\-N\-N\-E\-C\-T\-E\-D}
+\item 
+\-\_\-\-\_\-\-I\-O bool \hyperlink{_s_t_m32_f30x_2pios__usb__hid__pwr_8c_a393e7e35fe633c7431b3de2cccaf892a}{f\-Suspend\-Enabled} = \-T\-R\-U\-E
+\item 
+\begin{tabbing}
+xx\=xx\=xx\=xx\=xx\=xx\=xx\=xx\=xx\=\kill
+struct \{\\
+\>\_\_IO \hyperlink{pios__usb__hid__pwr_8h_a78d10fe921914bd2c7772dc97a9a0d1c}{RESUME\_STATE} \hyperlink{_s_t_m32_f30x_2pios__usb__hid__pwr_8c_a0f5d1b77943736b224c1034966cc56eb}{eState}\\
+\>\_\_IO uint8\_t \hyperlink{_s_t_m32_f30x_2pios__usb__hid__pwr_8c_a0b488c6cee7fca8e5b2f73347998fa62}{bESOFcnt}\\
+\} \hyperlink{_s_t_m32_f30x_2pios__usb__hid__pwr_8c_a64fb19a8cb5288dc08573489fdefc6bc}{ResumeS}\\
+
+\end{tabbing}\end{DoxyCompactItemize}
+
+
+\subsection{\-Function \-Documentation}
+\hypertarget{_s_t_m32_f30x_2pios__usb__hid__pwr_8c_a7720eb7ac1ea6af8e9e76b2eb6f12d65}{\index{\-S\-T\-M32\-F30x/pios\-\_\-usb\-\_\-hid\-\_\-pwr.\-c@{\-S\-T\-M32\-F30x/pios\-\_\-usb\-\_\-hid\-\_\-pwr.\-c}!\-Enter\-\_\-\-Low\-Power\-Mode@{\-Enter\-\_\-\-Low\-Power\-Mode}}
+\index{\-Enter\-\_\-\-Low\-Power\-Mode@{\-Enter\-\_\-\-Low\-Power\-Mode}!STM32F30x/pios_usb_hid_pwr.c@{\-S\-T\-M32\-F30x/pios\-\_\-usb\-\_\-hid\-\_\-pwr.\-c}}
+\subsubsection[{\-Enter\-\_\-\-Low\-Power\-Mode}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-Enter\-\_\-\-Low\-Power\-Mode} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{_s_t_m32_f30x_2pios__usb__hid__pwr_8c_a7720eb7ac1ea6af8e9e76b2eb6f12d65}
+
+
+\-Definition at line 117 of file pios\-\_\-usb\-\_\-hid\-\_\-pwr.\-c.
+
+\hypertarget{_s_t_m32_f30x_2pios__usb__hid__pwr_8c_a6c7ca414693c535f48a636ca862ed49d}{\index{\-S\-T\-M32\-F30x/pios\-\_\-usb\-\_\-hid\-\_\-pwr.\-c@{\-S\-T\-M32\-F30x/pios\-\_\-usb\-\_\-hid\-\_\-pwr.\-c}!\-Leave\-\_\-\-Low\-Power\-Mode@{\-Leave\-\_\-\-Low\-Power\-Mode}}
+\index{\-Leave\-\_\-\-Low\-Power\-Mode@{\-Leave\-\_\-\-Low\-Power\-Mode}!STM32F30x/pios_usb_hid_pwr.c@{\-S\-T\-M32\-F30x/pios\-\_\-usb\-\_\-hid\-\_\-pwr.\-c}}
+\subsubsection[{\-Leave\-\_\-\-Low\-Power\-Mode}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-Leave\-\_\-\-Low\-Power\-Mode} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{_s_t_m32_f30x_2pios__usb__hid__pwr_8c_a6c7ca414693c535f48a636ca862ed49d}
+
+
+\-Definition at line 167 of file pios\-\_\-usb\-\_\-hid\-\_\-pwr.\-c.
+
+\hypertarget{_s_t_m32_f30x_2pios__usb__hid__pwr_8c_a7b4c2044bf2be52b9f636d4ccffeccd2}{\index{\-S\-T\-M32\-F30x/pios\-\_\-usb\-\_\-hid\-\_\-pwr.\-c@{\-S\-T\-M32\-F30x/pios\-\_\-usb\-\_\-hid\-\_\-pwr.\-c}!\-Power\-Off@{\-Power\-Off}}
+\index{\-Power\-Off@{\-Power\-Off}!STM32F30x/pios_usb_hid_pwr.c@{\-S\-T\-M32\-F30x/pios\-\_\-usb\-\_\-hid\-\_\-pwr.\-c}}
+\subsubsection[{\-Power\-Off}]{\setlength{\rightskip}{0pt plus 5cm}\-R\-E\-S\-U\-L\-T {\bf \-Power\-Off} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{_s_t_m32_f30x_2pios__usb__hid__pwr_8c_a7b4c2044bf2be52b9f636d4ccffeccd2}
+
+
+\-Definition at line 91 of file pios\-\_\-usb\-\_\-hid\-\_\-pwr.\-c.
+
+\hypertarget{_s_t_m32_f30x_2pios__usb__hid__pwr_8c_a23cb7957e66d04c1411f2151b19c6c5c}{\index{\-S\-T\-M32\-F30x/pios\-\_\-usb\-\_\-hid\-\_\-pwr.\-c@{\-S\-T\-M32\-F30x/pios\-\_\-usb\-\_\-hid\-\_\-pwr.\-c}!\-Power\-On@{\-Power\-On}}
+\index{\-Power\-On@{\-Power\-On}!STM32F30x/pios_usb_hid_pwr.c@{\-S\-T\-M32\-F30x/pios\-\_\-usb\-\_\-hid\-\_\-pwr.\-c}}
+\subsubsection[{\-Power\-On}]{\setlength{\rightskip}{0pt plus 5cm}\-R\-E\-S\-U\-L\-T {\bf \-Power\-On} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{_s_t_m32_f30x_2pios__usb__hid__pwr_8c_a23cb7957e66d04c1411f2151b19c6c5c}
+
+
+\-Definition at line 59 of file pios\-\_\-usb\-\_\-hid\-\_\-pwr.\-c.
+
+\hypertarget{_s_t_m32_f30x_2pios__usb__hid__pwr_8c_a927a384b5759002b5f933f9c92a800ea}{\index{\-S\-T\-M32\-F30x/pios\-\_\-usb\-\_\-hid\-\_\-pwr.\-c@{\-S\-T\-M32\-F30x/pios\-\_\-usb\-\_\-hid\-\_\-pwr.\-c}!\-Resume@{\-Resume}}
+\index{\-Resume@{\-Resume}!STM32F30x/pios_usb_hid_pwr.c@{\-S\-T\-M32\-F30x/pios\-\_\-usb\-\_\-hid\-\_\-pwr.\-c}}
+\subsubsection[{\-Resume}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-Resume} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-R\-E\-S\-U\-M\-E\-\_\-\-S\-T\-A\-T\-E}}]{e\-Resume\-Set\-Val}
+\end{DoxyParamCaption}
+)}}\label{_s_t_m32_f30x_2pios__usb__hid__pwr_8c_a927a384b5759002b5f933f9c92a800ea}
+
+
+\-Definition at line 230 of file pios\-\_\-usb\-\_\-hid\-\_\-pwr.\-c.
+
+\hypertarget{_s_t_m32_f30x_2pios__usb__hid__pwr_8c_aed055ac12f74727702bd41df2e35beec}{\index{\-S\-T\-M32\-F30x/pios\-\_\-usb\-\_\-hid\-\_\-pwr.\-c@{\-S\-T\-M32\-F30x/pios\-\_\-usb\-\_\-hid\-\_\-pwr.\-c}!\-Resume\-\_\-\-Init@{\-Resume\-\_\-\-Init}}
+\index{\-Resume\-\_\-\-Init@{\-Resume\-\_\-\-Init}!STM32F30x/pios_usb_hid_pwr.c@{\-S\-T\-M32\-F30x/pios\-\_\-usb\-\_\-hid\-\_\-pwr.\-c}}
+\subsubsection[{\-Resume\-\_\-\-Init}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-Resume\-\_\-\-Init} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{_s_t_m32_f30x_2pios__usb__hid__pwr_8c_aed055ac12f74727702bd41df2e35beec}
+
+
+\-Definition at line 187 of file pios\-\_\-usb\-\_\-hid\-\_\-pwr.\-c.
+
+\hypertarget{_s_t_m32_f30x_2pios__usb__hid__pwr_8c_a1eb60d4c13f2c21d00ddc5fe6ad57f40}{\index{\-S\-T\-M32\-F30x/pios\-\_\-usb\-\_\-hid\-\_\-pwr.\-c@{\-S\-T\-M32\-F30x/pios\-\_\-usb\-\_\-hid\-\_\-pwr.\-c}!\-Suspend@{\-Suspend}}
+\index{\-Suspend@{\-Suspend}!STM32F30x/pios_usb_hid_pwr.c@{\-S\-T\-M32\-F30x/pios\-\_\-usb\-\_\-hid\-\_\-pwr.\-c}}
+\subsubsection[{\-Suspend}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-Suspend} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{_s_t_m32_f30x_2pios__usb__hid__pwr_8c_a1eb60d4c13f2c21d00ddc5fe6ad57f40}
+
+
+\-Definition at line 130 of file pios\-\_\-usb\-\_\-hid\-\_\-pwr.\-c.
+
+\hypertarget{_s_t_m32_f30x_2pios__usb__hid__pwr_8c_aa99b8eac23843be0bca036fae722c788}{\index{\-S\-T\-M32\-F30x/pios\-\_\-usb\-\_\-hid\-\_\-pwr.\-c@{\-S\-T\-M32\-F30x/pios\-\_\-usb\-\_\-hid\-\_\-pwr.\-c}!\-U\-S\-B\-\_\-\-Cable\-\_\-\-Config@{\-U\-S\-B\-\_\-\-Cable\-\_\-\-Config}}
+\index{\-U\-S\-B\-\_\-\-Cable\-\_\-\-Config@{\-U\-S\-B\-\_\-\-Cable\-\_\-\-Config}!STM32F30x/pios_usb_hid_pwr.c@{\-S\-T\-M32\-F30x/pios\-\_\-usb\-\_\-hid\-\_\-pwr.\-c}}
+\subsubsection[{\-U\-S\-B\-\_\-\-Cable\-\_\-\-Config}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-U\-S\-B\-\_\-\-Cable\-\_\-\-Config} (
+\begin{DoxyParamCaption}
+\item[{\-Functional\-State}]{\-New\-State}
+\end{DoxyParamCaption}
+)}}\label{_s_t_m32_f30x_2pios__usb__hid__pwr_8c_aa99b8eac23843be0bca036fae722c788}
+
+
+\-Definition at line 48 of file pios\-\_\-usb\-\_\-hid\-\_\-pwr.\-c.
+
+
+
+\subsection{\-Variable \-Documentation}
+\hypertarget{_s_t_m32_f30x_2pios__usb__hid__pwr_8c_abde06594331cfefcb35ae1166edd52fb}{\index{\-S\-T\-M32\-F30x/pios\-\_\-usb\-\_\-hid\-\_\-pwr.\-c@{\-S\-T\-M32\-F30x/pios\-\_\-usb\-\_\-hid\-\_\-pwr.\-c}!b\-Device\-State@{b\-Device\-State}}
+\index{b\-Device\-State@{b\-Device\-State}!STM32F30x/pios_usb_hid_pwr.c@{\-S\-T\-M32\-F30x/pios\-\_\-usb\-\_\-hid\-\_\-pwr.\-c}}
+\subsubsection[{b\-Device\-State}]{\setlength{\rightskip}{0pt plus 5cm}\-\_\-\-\_\-\-I\-O uint32\-\_\-t {\bf b\-Device\-State} = {\bf \-U\-N\-C\-O\-N\-N\-E\-C\-T\-E\-D}}}\label{_s_t_m32_f30x_2pios__usb__hid__pwr_8c_abde06594331cfefcb35ae1166edd52fb}
+
+
+\-Definition at line 28 of file pios\-\_\-usb\-\_\-hid\-\_\-pwr.\-c.
+
+\hypertarget{_s_t_m32_f30x_2pios__usb__hid__pwr_8c_a0b488c6cee7fca8e5b2f73347998fa62}{\index{\-S\-T\-M32\-F30x/pios\-\_\-usb\-\_\-hid\-\_\-pwr.\-c@{\-S\-T\-M32\-F30x/pios\-\_\-usb\-\_\-hid\-\_\-pwr.\-c}!b\-E\-S\-O\-Fcnt@{b\-E\-S\-O\-Fcnt}}
+\index{b\-E\-S\-O\-Fcnt@{b\-E\-S\-O\-Fcnt}!STM32F30x/pios_usb_hid_pwr.c@{\-S\-T\-M32\-F30x/pios\-\_\-usb\-\_\-hid\-\_\-pwr.\-c}}
+\subsubsection[{b\-E\-S\-O\-Fcnt}]{\setlength{\rightskip}{0pt plus 5cm}\-\_\-\-\_\-\-I\-O uint8\-\_\-t {\bf b\-E\-S\-O\-Fcnt}}}\label{_s_t_m32_f30x_2pios__usb__hid__pwr_8c_a0b488c6cee7fca8e5b2f73347998fa62}
+
+
+\-Definition at line 33 of file pios\-\_\-usb\-\_\-hid\-\_\-pwr.\-c.
+
+\hypertarget{_s_t_m32_f30x_2pios__usb__hid__pwr_8c_a0f5d1b77943736b224c1034966cc56eb}{\index{\-S\-T\-M32\-F30x/pios\-\_\-usb\-\_\-hid\-\_\-pwr.\-c@{\-S\-T\-M32\-F30x/pios\-\_\-usb\-\_\-hid\-\_\-pwr.\-c}!e\-State@{e\-State}}
+\index{e\-State@{e\-State}!STM32F30x/pios_usb_hid_pwr.c@{\-S\-T\-M32\-F30x/pios\-\_\-usb\-\_\-hid\-\_\-pwr.\-c}}
+\subsubsection[{e\-State}]{\setlength{\rightskip}{0pt plus 5cm}\-\_\-\-\_\-\-I\-O {\bf \-R\-E\-S\-U\-M\-E\-\_\-\-S\-T\-A\-T\-E} {\bf e\-State}}}\label{_s_t_m32_f30x_2pios__usb__hid__pwr_8c_a0f5d1b77943736b224c1034966cc56eb}
+
+
+\-Definition at line 32 of file pios\-\_\-usb\-\_\-hid\-\_\-pwr.\-c.
+
+\hypertarget{_s_t_m32_f30x_2pios__usb__hid__pwr_8c_a393e7e35fe633c7431b3de2cccaf892a}{\index{\-S\-T\-M32\-F30x/pios\-\_\-usb\-\_\-hid\-\_\-pwr.\-c@{\-S\-T\-M32\-F30x/pios\-\_\-usb\-\_\-hid\-\_\-pwr.\-c}!f\-Suspend\-Enabled@{f\-Suspend\-Enabled}}
+\index{f\-Suspend\-Enabled@{f\-Suspend\-Enabled}!STM32F30x/pios_usb_hid_pwr.c@{\-S\-T\-M32\-F30x/pios\-\_\-usb\-\_\-hid\-\_\-pwr.\-c}}
+\subsubsection[{f\-Suspend\-Enabled}]{\setlength{\rightskip}{0pt plus 5cm}\-\_\-\-\_\-\-I\-O bool {\bf f\-Suspend\-Enabled} = \-T\-R\-U\-E}}\label{_s_t_m32_f30x_2pios__usb__hid__pwr_8c_a393e7e35fe633c7431b3de2cccaf892a}
+
+
+\-Definition at line 29 of file pios\-\_\-usb\-\_\-hid\-\_\-pwr.\-c.
+
+\hypertarget{_s_t_m32_f30x_2pios__usb__hid__pwr_8c_a64fb19a8cb5288dc08573489fdefc6bc}{\index{\-S\-T\-M32\-F30x/pios\-\_\-usb\-\_\-hid\-\_\-pwr.\-c@{\-S\-T\-M32\-F30x/pios\-\_\-usb\-\_\-hid\-\_\-pwr.\-c}!\-Resume\-S@{\-Resume\-S}}
+\index{\-Resume\-S@{\-Resume\-S}!STM32F30x/pios_usb_hid_pwr.c@{\-S\-T\-M32\-F30x/pios\-\_\-usb\-\_\-hid\-\_\-pwr.\-c}}
+\subsubsection[{\-Resume\-S}]{\setlength{\rightskip}{0pt plus 5cm}struct \{ ... \}   {\bf \-Resume\-S}}}\label{_s_t_m32_f30x_2pios__usb__hid__pwr_8c_a64fb19a8cb5288dc08573489fdefc6bc}

@@ -1,0 +1,75 @@
+\hypertarget{class_histogram_scope_config}{\section{\-Histogram\-Scope\-Config \-Class \-Reference}
+\label{class_histogram_scope_config}\index{\-Histogram\-Scope\-Config@{\-Histogram\-Scope\-Config}}
+}
+
+
+\-The \hyperlink{class_histogram_scope_config}{\-Histogram\-Scope\-Config} class \-The histogram scope configuration.  
+
+
+
+
+{\ttfamily \#include $<$histogramscopeconfig.\-h$>$}
+
+\-Inheritance diagram for \-Histogram\-Scope\-Config\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{class_histogram_scope_config}
+\end{center}
+\end{figure}
+\subsection*{\-Public \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___scope_plugin_ga3770fc706fe9b5fdd16bad59dfc23fa1}{\-Histogram\-Scope\-Config} ()
+\begin{DoxyCompactList}\small\item\em \hyperlink{group___scope_plugin_ga3770fc706fe9b5fdd16bad59dfc23fa1}{\-Histogram\-Scope\-Config\-::\-Histogram\-Scope\-Config} \-Default constructor. \end{DoxyCompactList}\item 
+\hyperlink{group___scope_plugin_ga0a412b8c840e9f5bc746d492cafed2a5}{\-Histogram\-Scope\-Config} (\-Q\-Settings $\ast$q\-Settings)
+\begin{DoxyCompactList}\small\item\em \hyperlink{group___scope_plugin_ga3770fc706fe9b5fdd16bad59dfc23fa1}{\-Histogram\-Scope\-Config\-::\-Histogram\-Scope\-Config} \-Constructor using the \-X\-M\-L settings. \end{DoxyCompactList}\item 
+\hyperlink{group___scope_plugin_gaa8c3ad4f914751d27033f2c70ea2fc2c}{\-Histogram\-Scope\-Config} (\-Ui\-::\-Scope\-Gadget\-Options\-Page $\ast$options\-\_\-page)
+\begin{DoxyCompactList}\small\item\em \hyperlink{group___scope_plugin_ga3770fc706fe9b5fdd16bad59dfc23fa1}{\-Histogram\-Scope\-Config\-::\-Histogram\-Scope\-Config} \-Constructor using the \-G\-U\-I settings. \end{DoxyCompactList}\item 
+\hyperlink{group___scope_plugin_gafbd12c48895f5b324a0048f956c2a773}{$\sim$\-Histogram\-Scope\-Config} ()
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___scope_plugin_ga08dd5f7ac27b067ed6eddc9e645bce45}{save\-Configuration} (\-Q\-Settings $\ast$q\-Settings)
+\begin{DoxyCompactList}\small\item\em \hyperlink{group___scope_plugin_ga08dd5f7ac27b067ed6eddc9e645bce45}{\-Histogram\-Scope\-Config\-::save\-Configuration} \-Saves configuration to \-X\-M\-L file. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___scope_plugin_ga23b4c258bf17b6bc16c3dc75ea7d98eb}{create} (\-Q\-Settings q\-Settings)
+\item 
+\-Q\-List$<$ \hyperlink{struct_plot2d_curve_configuration}{\-Plot2d\-Curve\-Configuration} $\ast$ $>$ \hyperlink{group___scope_plugin_gac01f208b6d79e28b2f148abc13d6b0b9}{get\-Histogram\-Data\-Source} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___scope_plugin_ga2092a20c3f43c9eb68d370e7dc98cd2b}{add\-Histogram\-Data\-Source} (\hyperlink{struct_plot2d_curve_configuration}{\-Plot2d\-Curve\-Configuration} $\ast$value)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___scope_plugin_gaa036bf883eaa724bb577ee9de902dce1}{replace\-Histogram\-Data\-Source} (\-Q\-List$<$ \hyperlink{struct_plot2d_curve_configuration}{\-Plot2d\-Curve\-Configuration} $\ast$ $>$ histogram\-Source\-Configs)
+\begin{DoxyCompactList}\small\item\em \-Histogram\-Scope\-Config\-::replace\-Histogram\-Source \-Replaces the list of histogram data sources. \end{DoxyCompactList}\item 
+virtual int \hyperlink{group___scope_plugin_ga232680e8671b7a4e205a11f5f164aa1a}{get\-Scope\-Type} ()
+\item 
+double \hyperlink{group___scope_plugin_gac7c220940b1b3c4c51997623b0268f3d}{get\-Bin\-Width} ()
+\item 
+unsigned int \hyperlink{group___scope_plugin_ga4b72da75ea27852393740b47bf6f6ae5}{get\-Max\-Number\-Of\-Bins} ()
+\item 
+virtual \-Q\-List\*
+$<$ \hyperlink{struct_plot2d_curve_configuration}{\-Plot2d\-Curve\-Configuration} $\ast$ $>$ \hyperlink{group___scope_plugin_ga79e96fd6c2de93da275c9d1b3c568e95}{get\-Data\-Source\-Configs} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___scope_plugin_ga692ce41b341567916c0ff62a541b4138}{set\-Bin\-Width} (double val)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___scope_plugin_ga9fc3929f75679aa143e96e9919de54ac}{set\-Max\-Number\-Of\-Bins} (unsigned int val)
+\item 
+virtual \hyperlink{class_scope_config}{\-Scope\-Config} $\ast$ \hyperlink{group___scope_plugin_gaf687cd062ff03c3a6dcf3edb05d29662}{clone\-Scope} (\hyperlink{class_scope_config}{\-Scope\-Config} $\ast$histogram\-Source\-Configs)
+\begin{DoxyCompactList}\small\item\em \hyperlink{group___scope_plugin_gaf687cd062ff03c3a6dcf3edb05d29662}{\-Histogram\-Scope\-Config\-::clone\-Scope} \-Clones scope from existing \-G\-U\-I configuration. \end{DoxyCompactList}\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___scope_plugin_ga575b4cb9a8b9a9ad8e236487a3da570b}{set\-Gui\-Configuration} (\-Ui\-::\-Scope\-Gadget\-Options\-Page $\ast$options\-\_\-page)
+\begin{DoxyCompactList}\small\item\em \hyperlink{group___scope_plugin_ga575b4cb9a8b9a9ad8e236487a3da570b}{\-Histogram\-Scope\-Config\-::set\-Gui\-Configuration} \-Set the \-G\-U\-I elements based on values from the \-X\-M\-L settings file. \end{DoxyCompactList}\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___scope_plugin_gace592757ce86fefdc0848379d6833748}{load\-Configuration} (\hyperlink{class_scope_gadget_widget}{\-Scope\-Gadget\-Widget} $\ast$scope\-Gadget\-Widget)
+\begin{DoxyCompactList}\small\item\em \hyperlink{group___scope_plugin_gace592757ce86fefdc0848379d6833748}{\-Histogram\-Scope\-Config\-::load\-Configuration} loads the plot configuration into the scope gadget widget. \end{DoxyCompactList}\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___scope_plugin_gaaf43bfcb7e79e657acda463cb66d854c}{prepare\-Plot} (\hyperlink{class_scope_gadget_widget}{\-Scope\-Gadget\-Widget} $\ast$)
+\begin{DoxyCompactList}\small\item\em \hyperlink{group___scope_plugin_gaaf43bfcb7e79e657acda463cb66d854c}{\-Histogram\-Scope\-Config\-::prepare\-Plot} \-Prepares the \-Qwt plot colors and axes. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___scope_plugin_ga522d6d5e834566550cacdb1eb24b934f}{configure\-Axes} (\hyperlink{class_scope_gadget_widget}{\-Scope\-Gadget\-Widget} $\ast$)
+\begin{DoxyCompactList}\small\item\em \hyperlink{group___scope_plugin_ga522d6d5e834566550cacdb1eb24b934f}{\-Histogram\-Scope\-Config\-::configure\-Axes} \-Configure the axes. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-The \hyperlink{class_histogram_scope_config}{\-Histogram\-Scope\-Config} class \-The histogram scope configuration. 
+
+\-Definition at line 37 of file histogramscopeconfig.\-h.
+
+
+
+\-The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/plugins/scope/scopes2d/\hyperlink{histogramscopeconfig_8h}{histogramscopeconfig.\-h}\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/plugins/scope/scopes2d/\hyperlink{histogramscopeconfig_8cpp}{histogramscopeconfig.\-cpp}\end{DoxyCompactItemize}

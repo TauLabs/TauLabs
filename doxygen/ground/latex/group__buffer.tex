@@ -1,0 +1,163 @@
+\hypertarget{group__buffer}{\section{\-Circular \-Byte-\/\-Buffer \-Structure and \-Function \-Library (buffer.\-c)}
+\label{group__buffer}\index{\-Circular Byte-\/\-Buffer Structure and Function Library (buffer.\-c)@{\-Circular Byte-\/\-Buffer Structure and Function Library (buffer.\-c)}}
+}
+\subsection*{\-Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structstruct__c_buffer}{struct\-\_\-c\-Buffer}
+\begin{DoxyCompactList}\small\item\em c\-Buffer structure \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef struct \hyperlink{structstruct__c_buffer}{struct\-\_\-c\-Buffer} \hyperlink{group__buffer_ga63b2a19263ed371e329776b34f3164eb}{c\-Buffer}
+\begin{DoxyCompactList}\small\item\em c\-Buffer structure \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group__buffer_ga244e96c8f96cadc0d4bb38847d33453b}{buffer\-Init} (\hyperlink{group__buffer_ga63b2a19263ed371e329776b34f3164eb}{c\-Buffer} $\ast$\hyperlink{uavobjecttemplate_8m_a9295f53f891e8db64c56d4df48cbb933}{buffer}, unsigned char $\ast$start, unsigned short size)
+\begin{DoxyCompactList}\small\item\em initialize a buffer to start at a given address and have given size \end{DoxyCompactList}\item 
+unsigned char \hyperlink{group__buffer_ga9abc82d83082748d24820a4d7e584e6e}{buffer\-Get\-From\-Front} (\hyperlink{group__buffer_ga63b2a19263ed371e329776b34f3164eb}{c\-Buffer} $\ast$\hyperlink{uavobjecttemplate_8m_a9295f53f891e8db64c56d4df48cbb933}{buffer})
+\begin{DoxyCompactList}\small\item\em get the first byte from the front of the buffer \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group__buffer_ga29bdb509f323d435ca902cebf2fde021}{buffer\-Dump\-From\-Front} (\hyperlink{group__buffer_ga63b2a19263ed371e329776b34f3164eb}{c\-Buffer} $\ast$\hyperlink{uavobjecttemplate_8m_a9295f53f891e8db64c56d4df48cbb933}{buffer}, unsigned short numbytes)
+\begin{DoxyCompactList}\small\item\em dump (discard) the first numbytes from the front of the buffer \end{DoxyCompactList}\item 
+unsigned char \hyperlink{group__buffer_ga74f6af39ead63148559e79e39dc0b4f4}{buffer\-Get\-At\-Index} (\hyperlink{group__buffer_ga63b2a19263ed371e329776b34f3164eb}{c\-Buffer} $\ast$\hyperlink{uavobjecttemplate_8m_a9295f53f891e8db64c56d4df48cbb933}{buffer}, unsigned short index)
+\begin{DoxyCompactList}\small\item\em get a byte at the specified index in the buffer (kind of like array access) \end{DoxyCompactList}\item 
+unsigned char \hyperlink{group__buffer_ga9af0ac80a93ba9b2833b1f06b7218ecd}{buffer\-Add\-To\-End} (\hyperlink{group__buffer_ga63b2a19263ed371e329776b34f3164eb}{c\-Buffer} $\ast$\hyperlink{uavobjecttemplate_8m_a9295f53f891e8db64c56d4df48cbb933}{buffer}, unsigned char data)
+\begin{DoxyCompactList}\small\item\em add a byte to the end of the buffer \end{DoxyCompactList}\item 
+unsigned char \hyperlink{group__buffer_ga8bee3b83e4465e8f6c76caa8906fdeec}{buffer\-Is\-Not\-Full} (\hyperlink{group__buffer_ga63b2a19263ed371e329776b34f3164eb}{c\-Buffer} $\ast$\hyperlink{uavobjecttemplate_8m_a9295f53f891e8db64c56d4df48cbb933}{buffer})
+\begin{DoxyCompactList}\small\item\em check if the buffer is full/not full (returns non-\/zero value if not full) \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group__buffer_gaf322a6c7f3314ac0f5383035d206fc8e}{buffer\-Flush} (\hyperlink{group__buffer_ga63b2a19263ed371e329776b34f3164eb}{c\-Buffer} $\ast$\hyperlink{uavobjecttemplate_8m_a9295f53f891e8db64c56d4df48cbb933}{buffer})
+\begin{DoxyCompactList}\small\item\em flush (clear) the contents of the buffer \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+
+\begin{DoxyCode}
+ #include "buffer.h" 
+\end{DoxyCode}
+ \begin{DoxyParagraph}{\-Overview}
+\-This byte-\/buffer structure provides an easy and efficient way to store and process a stream of bytes.\-  \-You can create as many buffers as you like (within memory limits), and then use this common set of functions to access each buffer.\-  \-The buffers are designed for \-F\-I\-F\-O operation (first in, first out).  \-This means that the first byte you put in the buffer will be the first one you get when you read out the buffer.\-  \-Supported functions include buffer initialize, get byte from front of buffer, add byte to end of buffer, check if buffer is full, and flush buffer.\-  \-The buffer uses a circular design so no copying of data is ever necessary. \-This buffer is not dynamically allocated, it has a user-\/defined fixed maximum size.\-  \-This buffer is used in many places in the avrlib code. 
+\end{DoxyParagraph}
+
+
+\subsection{\-Typedef \-Documentation}
+\hypertarget{group__buffer_ga63b2a19263ed371e329776b34f3164eb}{\index{\-Circular Byte-\/\-Buffer Structure and Function Library (buffer.\-c)@{\-Circular Byte-\/\-Buffer Structure and Function Library (buffer.\-c)}!c\-Buffer@{c\-Buffer}}
+\index{c\-Buffer@{c\-Buffer}!Circular Byte-Buffer Structure and Function Library (buffer.c)@{\-Circular Byte-\/\-Buffer Structure and Function Library (buffer.\-c)}}
+\subsubsection[{c\-Buffer}]{\setlength{\rightskip}{0pt plus 5cm}typedef struct {\bf struct\-\_\-c\-Buffer}  {\bf c\-Buffer}}}\label{group__buffer_ga63b2a19263ed371e329776b34f3164eb}
+
+
+c\-Buffer structure 
+
+
+
+\subsection{\-Function \-Documentation}
+\hypertarget{group__buffer_ga9af0ac80a93ba9b2833b1f06b7218ecd}{\index{\-Circular Byte-\/\-Buffer Structure and Function Library (buffer.\-c)@{\-Circular Byte-\/\-Buffer Structure and Function Library (buffer.\-c)}!buffer\-Add\-To\-End@{buffer\-Add\-To\-End}}
+\index{buffer\-Add\-To\-End@{buffer\-Add\-To\-End}!Circular Byte-Buffer Structure and Function Library (buffer.c)@{\-Circular Byte-\/\-Buffer Structure and Function Library (buffer.\-c)}}
+\subsubsection[{buffer\-Add\-To\-End}]{\setlength{\rightskip}{0pt plus 5cm}unsigned char {\bf buffer\-Add\-To\-End} (
+\begin{DoxyParamCaption}
+\item[{{\bf c\-Buffer} $\ast$}]{buffer, }
+\item[{unsigned char}]{data}
+\end{DoxyParamCaption}
+)}}\label{group__buffer_ga9af0ac80a93ba9b2833b1f06b7218ecd}
+
+
+add a byte to the end of the buffer 
+
+
+
+\-Definition at line 112 of file buffer.\-cpp.
+
+\hypertarget{group__buffer_ga29bdb509f323d435ca902cebf2fde021}{\index{\-Circular Byte-\/\-Buffer Structure and Function Library (buffer.\-c)@{\-Circular Byte-\/\-Buffer Structure and Function Library (buffer.\-c)}!buffer\-Dump\-From\-Front@{buffer\-Dump\-From\-Front}}
+\index{buffer\-Dump\-From\-Front@{buffer\-Dump\-From\-Front}!Circular Byte-Buffer Structure and Function Library (buffer.c)@{\-Circular Byte-\/\-Buffer Structure and Function Library (buffer.\-c)}}
+\subsubsection[{buffer\-Dump\-From\-Front}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf buffer\-Dump\-From\-Front} (
+\begin{DoxyParamCaption}
+\item[{{\bf c\-Buffer} $\ast$}]{buffer, }
+\item[{unsigned short}]{numbytes}
+\end{DoxyParamCaption}
+)}}\label{group__buffer_ga29bdb509f323d435ca902cebf2fde021}
+
+
+dump (discard) the first numbytes from the front of the buffer 
+
+
+
+\-Definition at line 85 of file buffer.\-cpp.
+
+\hypertarget{group__buffer_gaf322a6c7f3314ac0f5383035d206fc8e}{\index{\-Circular Byte-\/\-Buffer Structure and Function Library (buffer.\-c)@{\-Circular Byte-\/\-Buffer Structure and Function Library (buffer.\-c)}!buffer\-Flush@{buffer\-Flush}}
+\index{buffer\-Flush@{buffer\-Flush}!Circular Byte-Buffer Structure and Function Library (buffer.c)@{\-Circular Byte-\/\-Buffer Structure and Function Library (buffer.\-c)}}
+\subsubsection[{buffer\-Flush}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf buffer\-Flush} (
+\begin{DoxyParamCaption}
+\item[{{\bf c\-Buffer} $\ast$}]{buffer}
+\end{DoxyParamCaption}
+)}}\label{group__buffer_gaf322a6c7f3314ac0f5383035d206fc8e}
+
+
+flush (clear) the contents of the buffer 
+
+
+
+\-Definition at line 134 of file buffer.\-cpp.
+
+\hypertarget{group__buffer_ga74f6af39ead63148559e79e39dc0b4f4}{\index{\-Circular Byte-\/\-Buffer Structure and Function Library (buffer.\-c)@{\-Circular Byte-\/\-Buffer Structure and Function Library (buffer.\-c)}!buffer\-Get\-At\-Index@{buffer\-Get\-At\-Index}}
+\index{buffer\-Get\-At\-Index@{buffer\-Get\-At\-Index}!Circular Byte-Buffer Structure and Function Library (buffer.c)@{\-Circular Byte-\/\-Buffer Structure and Function Library (buffer.\-c)}}
+\subsubsection[{buffer\-Get\-At\-Index}]{\setlength{\rightskip}{0pt plus 5cm}unsigned char {\bf buffer\-Get\-At\-Index} (
+\begin{DoxyParamCaption}
+\item[{{\bf c\-Buffer} $\ast$}]{buffer, }
+\item[{unsigned short}]{index}
+\end{DoxyParamCaption}
+)}}\label{group__buffer_ga74f6af39ead63148559e79e39dc0b4f4}
+
+
+get a byte at the specified index in the buffer (kind of like array access) 
+
+
+
+\-Definition at line 106 of file buffer.\-cpp.
+
+\hypertarget{group__buffer_ga9abc82d83082748d24820a4d7e584e6e}{\index{\-Circular Byte-\/\-Buffer Structure and Function Library (buffer.\-c)@{\-Circular Byte-\/\-Buffer Structure and Function Library (buffer.\-c)}!buffer\-Get\-From\-Front@{buffer\-Get\-From\-Front}}
+\index{buffer\-Get\-From\-Front@{buffer\-Get\-From\-Front}!Circular Byte-Buffer Structure and Function Library (buffer.c)@{\-Circular Byte-\/\-Buffer Structure and Function Library (buffer.\-c)}}
+\subsubsection[{buffer\-Get\-From\-Front}]{\setlength{\rightskip}{0pt plus 5cm}unsigned char {\bf buffer\-Get\-From\-Front} (
+\begin{DoxyParamCaption}
+\item[{{\bf c\-Buffer} $\ast$}]{buffer}
+\end{DoxyParamCaption}
+)}}\label{group__buffer_ga9abc82d83082748d24820a4d7e584e6e}
+
+
+get the first byte from the front of the buffer 
+
+
+
+\-Definition at line 64 of file buffer.\-cpp.
+
+\hypertarget{group__buffer_ga244e96c8f96cadc0d4bb38847d33453b}{\index{\-Circular Byte-\/\-Buffer Structure and Function Library (buffer.\-c)@{\-Circular Byte-\/\-Buffer Structure and Function Library (buffer.\-c)}!buffer\-Init@{buffer\-Init}}
+\index{buffer\-Init@{buffer\-Init}!Circular Byte-Buffer Structure and Function Library (buffer.c)@{\-Circular Byte-\/\-Buffer Structure and Function Library (buffer.\-c)}}
+\subsubsection[{buffer\-Init}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf buffer\-Init} (
+\begin{DoxyParamCaption}
+\item[{{\bf c\-Buffer} $\ast$}]{buffer, }
+\item[{unsigned char $\ast$}]{start, }
+\item[{unsigned short}]{size}
+\end{DoxyParamCaption}
+)}}\label{group__buffer_ga244e96c8f96cadc0d4bb38847d33453b}
+
+
+initialize a buffer to start at a given address and have given size 
+
+
+
+\-Definition at line 53 of file buffer.\-cpp.
+
+\hypertarget{group__buffer_ga8bee3b83e4465e8f6c76caa8906fdeec}{\index{\-Circular Byte-\/\-Buffer Structure and Function Library (buffer.\-c)@{\-Circular Byte-\/\-Buffer Structure and Function Library (buffer.\-c)}!buffer\-Is\-Not\-Full@{buffer\-Is\-Not\-Full}}
+\index{buffer\-Is\-Not\-Full@{buffer\-Is\-Not\-Full}!Circular Byte-Buffer Structure and Function Library (buffer.c)@{\-Circular Byte-\/\-Buffer Structure and Function Library (buffer.\-c)}}
+\subsubsection[{buffer\-Is\-Not\-Full}]{\setlength{\rightskip}{0pt plus 5cm}unsigned char {\bf buffer\-Is\-Not\-Full} (
+\begin{DoxyParamCaption}
+\item[{{\bf c\-Buffer} $\ast$}]{buffer}
+\end{DoxyParamCaption}
+)}}\label{group__buffer_ga8bee3b83e4465e8f6c76caa8906fdeec}
+
+
+check if the buffer is full/not full (returns non-\/zero value if not full) 
+
+
+
+\-Definition at line 127 of file buffer.\-cpp.
+

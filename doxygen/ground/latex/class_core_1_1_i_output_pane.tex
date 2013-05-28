@@ -1,0 +1,86 @@
+\hypertarget{class_core_1_1_i_output_pane}{\section{\-Core\-:\-:\-I\-Output\-Pane \-Class \-Reference}
+\label{class_core_1_1_i_output_pane}\index{\-Core\-::\-I\-Output\-Pane@{\-Core\-::\-I\-Output\-Pane}}
+}
+
+
+{\ttfamily \#include $<$ioutputpane.\-h$>$}
+
+\-Inheritance diagram for \-Core\-:\-:\-I\-Output\-Pane\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_core_1_1_i_output_pane}
+\end{center}
+\end{figure}
+\subsection*{\-Public \-Slots}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___core_plugin_ga96646cdb720d2f1a819147ffc22748cb}{popup} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___core_plugin_ga37eda05403e637a641e31a221f4f16fd}{popup} (bool with\-Focus)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___core_plugin_gace5067407c84261c848e18533416a9c7}{hide} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___core_plugin_ga5b1cac6c84e8ad71438a8b1d42a3295c}{toggle} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___core_plugin_ga64a1d14b461a93a287ed24c9a058674b}{toggle} (bool with\-Focus\-If\-Shown)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___core_plugin_ga1d93873edcf628da2a1db4365f8be494}{navigate\-State\-Changed} ()
+\end{DoxyCompactItemize}
+\subsection*{\-Signals}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___core_plugin_ga5ddca3c2d6c7c1696aaa9d21a297d75e}{show\-Page} (bool with\-Focus)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___core_plugin_gab17c1ab24f6ff4a8e32da73dd6f3a709}{hide\-Page} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___core_plugin_gaa737406ffca155e80dc1af7ee3ff1cdd}{toggle\-Page} (bool with\-Focus\-If\-Shown)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___core_plugin_gad0071aa500a2af9ac99b389a357a3c7f}{navigate\-State\-Update} ()
+\end{DoxyCompactItemize}
+\subsection*{\-Public \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___core_plugin_ga47a14795596f88e7b26b737cb94e4348}{\-I\-Output\-Pane} (\-Q\-Object $\ast$parent=0)
+\item 
+virtual \hyperlink{group___core_plugin_ga74f2026df82773bb5ed94226666b641e}{$\sim$\-I\-Output\-Pane} ()
+\item 
+virtual \-Q\-Widget $\ast$ \hyperlink{group___core_plugin_ga99cb40dfe9b8625932283775e1edb2ba}{output\-Widget} (\-Q\-Widget $\ast$parent)=0
+\item 
+virtual \-Q\-List$<$ \-Q\-Widget $\ast$ $>$ \hyperlink{group___core_plugin_ga6086193af6e059b86451cd5a3c0d2373}{tool\-Bar\-Widgets} () const =0
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___core_plugin_ga1504ed1816cbdb3458ff3439f6355d49}{name} () const =0
+\item 
+virtual int \hyperlink{group___core_plugin_ga46b89bfb71ca90a47531ec5536d50075}{priority\-In\-Status\-Bar} () const =0
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___core_plugin_ga0450bf70f518ec784c29d9d4f7a1ed3b}{clear\-Contents} ()=0
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___core_plugin_ga3128a309873592d64cddf36d88f76856}{visibility\-Changed} (bool visible)=0
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___core_plugin_ga3f018a7b33734836caaf6d26346d2847}{set\-Focus} ()=0
+\item 
+virtual bool \hyperlink{group___core_plugin_ga53b719828a92b5466b432ee47cf9961e}{has\-Focus} ()=0
+\item 
+virtual bool \hyperlink{group___core_plugin_ga181d2716dd1a399a31c2db4e4c57f2cb}{can\-Focus} ()=0
+\item 
+virtual bool \hyperlink{group___core_plugin_ga955964e740f01e5750466e0d9a94b6a8}{can\-Navigate} ()=0
+\item 
+virtual bool \hyperlink{group___core_plugin_gaf443b3346efc59338b4a21e97b800111}{can\-Next} ()=0
+\item 
+virtual bool \hyperlink{group___core_plugin_gab8f58bb62f6ebcb98768447471cfe21c}{can\-Previous} ()=0
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___core_plugin_ga2ddbd6616a138d34c937f59ece4c3118}{go\-To\-Next} ()=0
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___core_plugin_ga292b3bbe41d455040928fab85b78c79d}{go\-To\-Prev} ()=0
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+
+
+\-Definition at line 44 of file ioutputpane.\-h.
+
+
+
+\-The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/plugins/coreplugin/\hyperlink{ioutputpane_8h}{ioutputpane.\-h}\end{DoxyCompactItemize}

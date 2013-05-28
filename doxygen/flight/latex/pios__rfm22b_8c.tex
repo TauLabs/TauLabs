@@ -1,0 +1,59 @@
+\hypertarget{pios__rfm22b_8c}{\section{/home/jb/code/\-Tau\-Labs/flight/\-Pi\-O\-S/\-Common/pios\-\_\-rfm22b.c \-File \-Reference}
+\label{pios__rfm22b_8c}\index{/home/jb/code/\-Tau\-Labs/flight/\-Pi\-O\-S/\-Common/pios\-\_\-rfm22b.\-c@{/home/jb/code/\-Tau\-Labs/flight/\-Pi\-O\-S/\-Common/pios\-\_\-rfm22b.\-c}}
+}
+
+
+\-Implements a driver the the \-R\-F\-M22\-B driver.  
+
+
+\subsection*{\-Data \-Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structpios__rfm22b__transition}{pios\-\_\-rfm22b\-\_\-transition}
+\end{DoxyCompactItemize}
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+bool \hyperlink{group___p_i_o_s___r_f_m22_b_gadb74603103aaab46ac72a08665bf0047}{\-P\-I\-O\-S\-\_\-\-R\-F\-M22\-B\-\_\-validate} (struct \hyperlink{structpios__rfm22b__dev}{pios\-\_\-rfm22b\-\_\-dev} $\ast$rfm22b\-\_\-dev)
+\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___r_f_m22_b_ga5d053a5a8be93e0b0d4c61061cc74464}{\-P\-I\-O\-S\-\_\-\-R\-F\-M22\-B\-\_\-\-Init} (uint32\-\_\-t $\ast$rfm22b\-\_\-id, uint32\-\_\-t spi\-\_\-id, uint32\-\_\-t slave\-\_\-num, const struct \hyperlink{structpios__rfm22b__cfg}{pios\-\_\-rfm22b\-\_\-cfg} $\ast$cfg)
+\item 
+bool \hyperlink{group___p_i_o_s___r_f_m22_b_ga34f82a23ad429841e5f212fc0c221131}{\-P\-I\-O\-S\-\_\-\-R\-F\-M22\-\_\-\-E\-X\-T\-\_\-\-Int} (void)
+\item 
+void \hyperlink{group___p_i_o_s___r_f_m22_b_ga4327e22931b06353b8340bfc91abdc59}{\-P\-I\-O\-S\-\_\-\-R\-F\-M22\-B\-\_\-\-Inject\-Event} (struct \hyperlink{structpios__rfm22b__dev}{pios\-\_\-rfm22b\-\_\-dev} $\ast$rfm22b\-\_\-dev, enum \hyperlink{group___p_i_o_s___r_f_m22_b_gafefba9f85ea9fb8d2c610fe3759a00c2}{pios\-\_\-rfm22b\-\_\-event} event, bool in\-I\-S\-R)
+\item 
+uint32\-\_\-t \hyperlink{group___p_i_o_s___r_f_m22_b_ga48b5ed8668584cdfbbbec3e07156e5d8}{\-P\-I\-O\-S\-\_\-\-R\-F\-M22\-B\-\_\-\-Device\-I\-D} (uint32\-\_\-t rfm22b\-\_\-id)
+\item 
+void \hyperlink{group___p_i_o_s___r_f_m22_b_ga2230c70e99a4c87dcad0ea19351ddc0a}{\-P\-I\-O\-S\-\_\-\-R\-F\-M22\-B\-\_\-\-Set\-Tx\-Power} (uint32\-\_\-t rfm22b\-\_\-id, enum \hyperlink{group___p_i_o_s___r_f_m22_b_gaad7a4f0b388c5c9323bb4ced4e9356cc}{rfm22b\-\_\-tx\-\_\-power} tx\-\_\-pwr)
+\item 
+void \hyperlink{group___p_i_o_s___r_f_m22_b_ga6b7275549a5178f70500c1705d85e30a}{\-P\-I\-O\-S\-\_\-\-R\-F\-M22\-B\-\_\-\-Set\-Frequency\-Range} (uint32\-\_\-t rfm22b\-\_\-id, uint32\-\_\-t min\-\_\-frequency, uint32\-\_\-t max\-\_\-frequency)
+\item 
+void \hyperlink{group___p_i_o_s___r_f_m22_b_ga2e2954db8900f7f997170fbc5047e748}{\-P\-I\-O\-S\-\_\-\-R\-F\-M22\-B\-\_\-\-Set\-Destination\-Id} (uint32\-\_\-t rfm22b\-\_\-id, uint32\-\_\-t dest\-\_\-id)
+\item 
+void \hyperlink{group___p_i_o_s___r_f_m22_b_gaf27178ba026097c91627b50f862f388e}{\-P\-I\-O\-S\-\_\-\-R\-F\-M22\-B\-\_\-\-Set\-Coordinator} (uint32\-\_\-t rfm22b\-\_\-id, bool coordinator)
+\item 
+void \hyperlink{group___p_i_o_s___r_f_m22_b_ga74f4ab9cf6b2337fc517addf32e432d7}{\-P\-I\-O\-S\-\_\-\-R\-F\-M22\-B\-\_\-\-Set\-Remote\-Com\-Config} (uint32\-\_\-t rfm22b\-\_\-id, \hyperlink{group___o_p_link_settings_ga1511abaff051d1cd559ddd52fea0bfa8}{\-O\-P\-Link\-Settings\-Output\-Connection\-Options} com\-\_\-port, \hyperlink{group___o_p_link_settings_gaf4886a2c0a8f8a79c93d27c94ee503ba}{\-O\-P\-Link\-Settings\-Com\-Speed\-Options} com\-\_\-speed)
+\item 
+void \hyperlink{group___p_i_o_s___r_f_m22_b_gaa2f467cefea23fca9354817c336c2c7f}{\-P\-I\-O\-S\-\_\-\-R\-F\-M22\-B\-\_\-\-Set\-Com\-Config\-Callback} (uint32\-\_\-t rfm22b\-\_\-id, \hyperlink{group___p_i_o_s___r_f_m22_b_gaa8a316480e010f5e383d29257c0686cd}{\-P\-I\-O\-S\-\_\-\-R\-F\-M22\-B\-\_\-\-Com\-Config\-Callback} cb)
+\item 
+void \hyperlink{group___p_i_o_s___r_f_m22_b_ga7993764aede415744ac90bf71b2a84f5}{\-P\-I\-O\-S\-\_\-\-R\-F\-M22\-B\-\_\-\-Get\-Stats} (uint32\-\_\-t rfm22b\-\_\-id, struct \hyperlink{structrfm22b__stats}{rfm22b\-\_\-stats} $\ast$stats)
+\item 
+uint8\-\_\-t \hyperlink{group___p_i_o_s___r_f_m22_b_ga2c3963442036bf6e581c9c4e2e6447b9}{\-P\-I\-O\-S\-\_\-\-R\-F\-M2\-B\-\_\-\-Get\-Pair\-Stats} (uint32\-\_\-t rfm22b\-\_\-id, uint32\-\_\-t $\ast$device\-\_\-ids, int8\-\_\-t $\ast$\-R\-S\-S\-Is, uint8\-\_\-t max\-\_\-pairs)
+\item 
+bool \hyperlink{group___p_i_o_s___r_f_m22_b_ga5d2ba4c573bc63f53ccb80f3bdbbc8e4}{\-P\-I\-O\-S\-\_\-\-R\-F\-M22\-B\-\_\-\-Link\-Status} (uint32\-\_\-t rfm22b\-\_\-id)
+\item 
+void \hyperlink{group___p_i_o_s___r_f_m22_b_ga9f3c01f66fd57433e99bc863554a9a19}{\-P\-I\-O\-S\-\_\-\-R\-F\-M22\-B\-\_\-\-Set\-Datarate} (uint32\-\_\-t rfm22b\-\_\-id, enum \hyperlink{group___p_i_o_s___r_f_m22_b_gaa3e170044f27a00c422ee75f98130ef1}{rfm22b\-\_\-datarate} datarate, bool data\-\_\-whitening)
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-Implements a driver the the \-R\-F\-M22\-B driver. \begin{DoxyAuthor}{\-Author}
+\-The \-Open\-Pilot \-Team, \href{http://www.openpilot.org}{\tt http\-://www.\-openpilot.\-org} \-Copyright (\-C) 2012. 
+\end{DoxyAuthor}
+\begin{DoxySeeAlso}{\-See also}
+\-The \-G\-N\-U \-Public \-License (\-G\-P\-L) \-Version 3 
+\end{DoxySeeAlso}
+
+
+\-Definition in file \hyperlink{pios__rfm22b_8c_source}{pios\-\_\-rfm22b.\-c}.
+

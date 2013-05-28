@@ -1,0 +1,87 @@
+\hypertarget{group__osdinput_module}{\section{osdinput \-Module}
+\label{group__osdinput_module}\index{osdinput Module@{osdinput Module}}
+}
+
+
+\-Process osdinput information.  
+
+
+\subsection*{\-Files}
+\begin{DoxyCompactItemize}
+\item 
+file \hyperlink{osdinput_8c}{osdinput.\-c}
+\begin{DoxyCompactList}\small\item\em osdinput module, handles osdinput stream \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+int32\-\_\-t \hyperlink{group__osdinput_module_gaaba21100503d866b583940aa3bc550b3}{\-Op\-Osd\-Start} (void)
+\item 
+int32\-\_\-t \hyperlink{group__osdinput_module_ga312c7d8bcb66b8430bd009bd7128bba7}{\-Op\-Osd\-Initialize} (void)
+\item 
+\hyperlink{group__osdinput_module_ga31db709dbe6f535319711b191f1ef781}{\-M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L} (\hyperlink{group__osdinput_module_ga312c7d8bcb66b8430bd009bd7128bba7}{\-Op\-Osd\-Initialize}, \hyperlink{group__osdinput_module_gaaba21100503d866b583940aa3bc550b3}{\-Op\-Osd\-Start})
+\end{DoxyCompactItemize}
+\subsection*{\-Variables}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{structt__fifo__buffer}{t\-\_\-fifo\-\_\-buffer} \hyperlink{group__osdinput_module_ga666084f476b4a75298efd53fc6dc3203}{rx}
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-Process osdinput information. 
+
+\subsection{\-Function \-Documentation}
+\hypertarget{group__osdinput_module_ga31db709dbe6f535319711b191f1ef781}{\index{osdinput Module@{osdinput Module}!\-M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L@{\-M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L}}
+\index{\-M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L@{\-M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L}!osdinput Module@{osdinput Module}}
+\subsubsection[{\-M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Op\-Osd\-Initialize}}]{, }
+\item[{{\bf \-Op\-Osd\-Start}}]{}
+\end{DoxyParamCaption}
+)}}\label{group__osdinput_module_ga31db709dbe6f535319711b191f1ef781}
+\-Main gps task. \-It does not return. 
+
+\-Definition at line 121 of file osdinput.\-c.
+
+\hypertarget{group__osdinput_module_ga312c7d8bcb66b8430bd009bd7128bba7}{\index{osdinput Module@{osdinput Module}!\-Op\-Osd\-Initialize@{\-Op\-Osd\-Initialize}}
+\index{\-Op\-Osd\-Initialize@{\-Op\-Osd\-Initialize}!osdinput Module@{osdinput Module}}
+\subsubsection[{\-Op\-Osd\-Initialize}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-Op\-Osd\-Initialize} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group__osdinput_module_ga312c7d8bcb66b8430bd009bd7128bba7}
+\-Initialise the gps module \begin{DoxyReturn}{\-Returns}
+-\/1 if initialisation failed 
+
+0 on success 
+\end{DoxyReturn}
+
+
+\-Definition at line 97 of file osdinput.\-c.
+
+\hypertarget{group__osdinput_module_gaaba21100503d866b583940aa3bc550b3}{\index{osdinput Module@{osdinput Module}!\-Op\-Osd\-Start@{\-Op\-Osd\-Start}}
+\index{\-Op\-Osd\-Start@{\-Op\-Osd\-Start}!osdinput Module@{osdinput Module}}
+\subsubsection[{\-Op\-Osd\-Start}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-Op\-Osd\-Start} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group__osdinput_module_gaaba21100503d866b583940aa3bc550b3}
+\-Initialise the gps module \begin{DoxyReturn}{\-Returns}
+-\/1 if initialisation failed 
+
+0 on success 
+\end{DoxyReturn}
+
+
+\-Definition at line 84 of file osdinput.\-c.
+
+
+
+\subsection{\-Variable \-Documentation}
+\hypertarget{group__osdinput_module_ga666084f476b4a75298efd53fc6dc3203}{\index{osdinput Module@{osdinput Module}!rx@{rx}}
+\index{rx@{rx}!osdinput Module@{osdinput Module}}
+\subsubsection[{rx}]{\setlength{\rightskip}{0pt plus 5cm}{\bf t\-\_\-fifo\-\_\-buffer} {\bf rx}}}\label{group__osdinput_module_ga666084f476b4a75298efd53fc6dc3203}
+
+
+\-Definition at line 69 of file osdinput.\-c.
+

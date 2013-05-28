@@ -1,0 +1,43 @@
+\hypertarget{pios__hmc5883_8c}{\section{/home/jb/code/\-Tau\-Labs/flight/\-Pi\-O\-S/\-Common/pios\-\_\-hmc5883.c \-File \-Reference}
+\label{pios__hmc5883_8c}\index{/home/jb/code/\-Tau\-Labs/flight/\-Pi\-O\-S/\-Common/pios\-\_\-hmc5883.\-c@{/home/jb/code/\-Tau\-Labs/flight/\-Pi\-O\-S/\-Common/pios\-\_\-hmc5883.\-c}}
+}
+
+
+\-H\-M\-C5883 \-Magnetic \-Sensor \-Functions from \-A\-H\-R\-S.  
+
+
+\subsection*{\-Data \-Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structhmc5883__dev}{hmc5883\-\_\-dev}
+\end{DoxyCompactItemize}
+\subsection*{\-Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{group___p_i_o_s___h_m_c5883_ga694f4a1224c19ea7205e8865132bc4c8}{pios\-\_\-hmc5883\-\_\-dev\-\_\-magic} \{ \hyperlink{group___p_i_o_s___h_m_c5883_gga694f4a1224c19ea7205e8865132bc4c8a8a6521f0bc2fd12e7b8b34562bfa845c}{\-P\-I\-O\-S\-\_\-\-H\-M\-C5883\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C} =  0x3d8e17ab
+ \}
+\end{DoxyCompactItemize}
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___h_m_c5883_ga2de33c0ac02b42cb114d9af689101498}{\-P\-I\-O\-S\-\_\-\-H\-M\-C5883\-\_\-\-Init} (uint32\-\_\-t i2c\-\_\-id, const struct \hyperlink{structpios__hmc5883__cfg}{pios\-\_\-hmc5883\-\_\-cfg} $\ast$cfg)
+\begin{DoxyCompactList}\small\item\em \-Initialize the \-H\-M\-C5883 magnetometer sensor. \end{DoxyCompactList}\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___h_m_c5883_gacea6145300c5c975b46bca1acfe800bf}{\-P\-I\-O\-S\-\_\-\-H\-M\-C5883\-\_\-\-Test} (void)
+\begin{DoxyCompactList}\small\item\em \-Run self-\/test operation. \-Do not call this during operational use!! \end{DoxyCompactList}\item 
+bool \hyperlink{group___p_i_o_s___h_m_c5883_ga418c7eecd061766bac016b522b593fc2}{\-P\-I\-O\-S\-\_\-\-H\-M\-C5883\-\_\-\-I\-R\-Q\-Handler} (void)
+\begin{DoxyCompactList}\small\item\em \-I\-R\-Q \-Handler. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-H\-M\-C5883 \-Magnetic \-Sensor \-Functions from \-A\-H\-R\-S. \begin{DoxyAuthor}{\-Author}
+\-The \-Open\-Pilot \-Team, \href{http://www.openpilot.org}{\tt http\-://www.\-openpilot.\-org} \-Copyright (\-C) 2012. 
+
+\-Tau \-Labs, \href{http://taulabs.org,}{\tt http\-://taulabs.\-org,} \-Copyright (\-C) 2012-\/2013 
+\end{DoxyAuthor}
+\begin{DoxySeeAlso}{\-See also}
+\-The \-G\-N\-U \-Public \-License (\-G\-P\-L) \-Version 3 
+\end{DoxySeeAlso}
+
+
+\-Definition in file \hyperlink{pios__hmc5883_8c_source}{pios\-\_\-hmc5883.\-c}.
+

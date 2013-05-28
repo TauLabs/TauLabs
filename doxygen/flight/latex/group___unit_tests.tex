@@ -1,0 +1,1571 @@
+\hypertarget{group___unit_tests}{\section{\-Unit\-Tests}
+\label{group___unit_tests}\index{\-Unit\-Tests@{\-Unit\-Tests}}
+}
+
+
+\-Unit test.  
+
+
+\subsection*{\-Data \-Structures}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{class_i2_c_v_m_test}{\-I2\-C\-V\-M\-Test}
+\item 
+class \hyperlink{class_logfs_test_raw}{\-Logfs\-Test\-Raw}
+\item 
+class \hyperlink{class_logfs_test_cooked}{\-Logfs\-Test\-Cooked}
+\item 
+class \hyperlink{class_logfs_test_cooked_multi_part}{\-Logfs\-Test\-Cooked\-Multi\-Part}
+\item 
+class \hyperlink{class_misc_math}{\-Misc\-Math}
+\item 
+class \hyperlink{class_bound_min_max}{\-Bound\-Min\-Max}
+\item 
+class \hyperlink{class_bound_sym}{\-Bound\-Sym}
+\item 
+class \hyperlink{class_circular_modulus_deg}{\-Circular\-Modulus\-Deg}
+\item 
+class \hyperlink{class_sin_lookup}{\-Sin\-Lookup}
+\end{DoxyCompactItemize}
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+bool \hyperlink{group___unit_tests_ga25fa33f408947a8b6015181705441220}{i2c\-\_\-vm\-\_\-run} (const uint32\-\_\-t $\ast$code, uint8\-\_\-t code\-\_\-len, uintptr\-\_\-t i2c\-\_\-adapter)
+\item 
+virtual void \hyperlink{group___unit_tests_ga14dcb45d7859a9c686f96f3ca84013c4}{\-I2\-C\-V\-M\-Test\-::\-Set\-Up} ()
+\item 
+virtual void \hyperlink{group___unit_tests_ga7c761569820d4a0ce44dc316e20870e7}{\-I2\-C\-V\-M\-Test\-::\-Tear\-Down} ()
+\item 
+\hyperlink{group___unit_tests_ga10c5fdc24984add2787d6dd8b945dec4}{\-T\-E\-S\-T\-\_\-\-F} (\hyperlink{class_i2_c_v_m_test}{\-I2\-C\-V\-M\-Test}, \-Null\-Program)
+\item 
+\hyperlink{group___unit_tests_ga0e38611807a8fda65d9205b4210b4eb6}{\-T\-E\-S\-T\-\_\-\-F} (\hyperlink{class_i2_c_v_m_test}{\-I2\-C\-V\-M\-Test}, \-Zero\-Length\-Program)
+\item 
+\hyperlink{group___unit_tests_gad02391e83795156c832c539efb040a39}{\-T\-E\-S\-T\-\_\-\-F} (\hyperlink{class_i2_c_v_m_test}{\-I2\-C\-V\-M\-Test}, \-Invalid\-Op\-Code\-Program)
+\item 
+\hyperlink{group___unit_tests_ga910c1f79944cb7a8b4dcbb6aad106cd0}{\-T\-E\-S\-T\-\_\-\-F} (\hyperlink{class_i2_c_v_m_test}{\-I2\-C\-V\-M\-Test}, \-Nop\-Program)
+\item 
+\hyperlink{group___unit_tests_ga368e9e15e13bc83e0a503fb312b095f9}{\-T\-E\-S\-T\-\_\-\-F} (\hyperlink{class_i2_c_v_m_test}{\-I2\-C\-V\-M\-Test}, \-Send\-Initial\-U\-A\-V\-O)
+\item 
+\hyperlink{group___unit_tests_gae71b9ce7ab11f166b843e3658a8ff438}{\-T\-E\-S\-T\-\_\-\-F} (\hyperlink{class_i2_c_v_m_test}{\-I2\-C\-V\-M\-Test}, \-Register\-Independence)
+\item 
+\hyperlink{group___unit_tests_ga0a655cc31302bf8e9372a3c5ba7540e0}{\-T\-E\-S\-T\-\_\-\-F} (\hyperlink{class_i2_c_v_m_test}{\-I2\-C\-V\-M\-Test}, \-Set\-Imm\-Max)
+\item 
+\hyperlink{group___unit_tests_gab26ddcb061179d0238954b4a4f149b3b}{\-T\-E\-S\-T\-\_\-\-F} (\hyperlink{class_i2_c_v_m_test}{\-I2\-C\-V\-M\-Test}, \-Set\-Imm\-Sign\-Extension)
+\item 
+\hyperlink{group___unit_tests_ga9d1fd34d9c33dcae7684a163688efa51}{\-T\-E\-S\-T\-\_\-\-F} (\hyperlink{class_i2_c_v_m_test}{\-I2\-C\-V\-M\-Test}, \-Set\-Imm\-Min)
+\item 
+\hyperlink{group___unit_tests_ga00fc2472f93dc16ff718689f8fbdcda2}{\-T\-E\-S\-T\-\_\-\-F} (\hyperlink{class_i2_c_v_m_test}{\-I2\-C\-V\-M\-Test}, \-Set\-Imm\-Truncates\-At16\-Bit)
+\item 
+\hyperlink{group___unit_tests_gaef630d690ed99e8cf216b0f72fdd5b23}{\-T\-E\-S\-T\-\_\-\-F} (\hyperlink{class_i2_c_v_m_test}{\-I2\-C\-V\-M\-Test}, \-Store)
+\item 
+\hyperlink{group___unit_tests_ga05800e4f670392f78853e4827e13f691}{\-T\-E\-S\-T\-\_\-\-F} (\hyperlink{class_i2_c_v_m_test}{\-I2\-C\-V\-M\-Test}, \-Store\-Bad\-Address)
+\item 
+\hyperlink{group___unit_tests_gad3289332928cfabc7cabe596aa42dd73}{\-T\-E\-S\-T\-\_\-\-F} (\hyperlink{class_i2_c_v_m_test}{\-I2\-C\-V\-M\-Test}, \-Load\-Endian\-Conversions)
+\item 
+\hyperlink{group___unit_tests_ga1126eb2ccff40800bc0d5c308004e807}{\-T\-E\-S\-T\-\_\-\-F} (\hyperlink{class_i2_c_v_m_test}{\-I2\-C\-V\-M\-Test}, \-Load\-Bad\-Address)
+\item 
+\hyperlink{group___unit_tests_gad868321881cf4fae0a9d11c16ad273a5}{\-T\-E\-S\-T\-\_\-\-F} (\hyperlink{class_i2_c_v_m_test}{\-I2\-C\-V\-M\-Test}, \-Load\-Bad\-Length)
+\item 
+\hyperlink{group___unit_tests_ga4b43e2486591995a9870ffe8b97ff0af}{\-T\-E\-S\-T\-\_\-\-F} (\hyperlink{class_i2_c_v_m_test}{\-I2\-C\-V\-M\-Test}, \-L\-S\-L\-\_\-\-A\-S\-R\-\_\-\-Sign\-Extend)
+\item 
+\hyperlink{group___unit_tests_gaceb71a0ba1b5cb9e7dddf188c05833cb}{\-T\-E\-S\-T\-\_\-\-F} (\hyperlink{class_i2_c_v_m_test}{\-I2\-C\-V\-M\-Test}, \-L\-S\-L\-\_\-\-A\-S\-R\-\_\-\-Zero\-Extend)
+\item 
+\hyperlink{group___unit_tests_ga727b6097a9d881f2333caf01add8f616}{\-T\-E\-S\-T\-\_\-\-F} (\hyperlink{class_i2_c_v_m_test}{\-I2\-C\-V\-M\-Test}, \-Logical\-Shift\-Left)
+\item 
+\hyperlink{group___unit_tests_ga3e5c552462de21f6f63035ab3dab4408}{\-T\-E\-S\-T\-\_\-\-F} (\hyperlink{class_i2_c_v_m_test}{\-I2\-C\-V\-M\-Test}, \-Logical\-Shift\-Right)
+\item 
+\hyperlink{group___unit_tests_ga5ddec420dc153ad632f5e0e3c85c7336}{\-T\-E\-S\-T\-\_\-\-F} (\hyperlink{class_i2_c_v_m_test}{\-I2\-C\-V\-M\-Test}, \-Arithmetic\-Shift\-Right)
+\item 
+\hyperlink{group___unit_tests_gaab9d848ac09c9188a76aefedde95f0d9}{\-T\-E\-S\-T\-\_\-\-F} (\hyperlink{class_i2_c_v_m_test}{\-I2\-C\-V\-M\-Test}, \-Or\-Imm)
+\item 
+\hyperlink{group___unit_tests_gadef92e19394b5187e64aa9673b4a12ed}{\-T\-E\-S\-T\-\_\-\-F} (\hyperlink{class_i2_c_v_m_test}{\-I2\-C\-V\-M\-Test}, \-And)
+\item 
+\hyperlink{group___unit_tests_ga0d9ace46337e18e51615a40e0aa8d829}{\-T\-E\-S\-T\-\_\-\-F} (\hyperlink{class_i2_c_v_m_test}{\-I2\-C\-V\-M\-Test}, \-Add\-Imm\-Positive)
+\item 
+\hyperlink{group___unit_tests_gad8c282d88cb4f0088a9a4119db2cd1e8}{\-T\-E\-S\-T\-\_\-\-F} (\hyperlink{class_i2_c_v_m_test}{\-I2\-C\-V\-M\-Test}, \-Add\-Imm\-Negative)
+\item 
+\hyperlink{group___unit_tests_ga9829ebf2ae65488e6ccf160935366f67}{\-T\-E\-S\-T\-\_\-\-F} (\hyperlink{class_i2_c_v_m_test}{\-I2\-C\-V\-M\-Test}, \-Add\-Imm\-Does\-Not\-Overflow\-At16\-Bit)
+\item 
+\hyperlink{group___unit_tests_ga5b89dd714658a53cd8aac63b369eb4d6}{\-T\-E\-S\-T\-\_\-\-F} (\hyperlink{class_i2_c_v_m_test}{\-I2\-C\-V\-M\-Test}, \-Add)
+\item 
+\hyperlink{group___unit_tests_gacce37e91388f64c77a7639840f41ec16}{\-T\-E\-S\-T\-\_\-\-F} (\hyperlink{class_i2_c_v_m_test}{\-I2\-C\-V\-M\-Test}, \-Mul\-Pos\-Pos)
+\item 
+\hyperlink{group___unit_tests_ga894251de250d7fca8fa49e2777bf1d14}{\-T\-E\-S\-T\-\_\-\-F} (\hyperlink{class_i2_c_v_m_test}{\-I2\-C\-V\-M\-Test}, \-Mul\-Pos\-Neg)
+\item 
+\hyperlink{group___unit_tests_gad5b94d4470f9d8171e7e6e2b13e15f74}{\-T\-E\-S\-T\-\_\-\-F} (\hyperlink{class_i2_c_v_m_test}{\-I2\-C\-V\-M\-Test}, \-Mul\-Neg\-Neg)
+\item 
+\hyperlink{group___unit_tests_gab41e406d8e82ae50d4f4e996fc61aa23}{\-T\-E\-S\-T\-\_\-\-F} (\hyperlink{class_i2_c_v_m_test}{\-I2\-C\-V\-M\-Test}, \-Mul\-Imm)
+\item 
+\hyperlink{group___unit_tests_gae742693ab9cdf6d9aa60587eecd23cc3}{\-T\-E\-S\-T\-\_\-\-F} (\hyperlink{class_i2_c_v_m_test}{\-I2\-C\-V\-M\-Test}, \-Div\-Pos\-Pos)
+\item 
+\hyperlink{group___unit_tests_gada8a4a6bad23c5bbd0bfb9f7081db885}{\-T\-E\-S\-T\-\_\-\-F} (\hyperlink{class_i2_c_v_m_test}{\-I2\-C\-V\-M\-Test}, \-Div\-Pos\-Neg)
+\item 
+\hyperlink{group___unit_tests_ga4c34c8b941370225deb56e1abddc0c6c}{\-T\-E\-S\-T\-\_\-\-F} (\hyperlink{class_i2_c_v_m_test}{\-I2\-C\-V\-M\-Test}, \-Div\-Neg\-Neg)
+\item 
+\hyperlink{group___unit_tests_ga90e589865b97c8090278acc057a5aa19}{\-T\-E\-S\-T\-\_\-\-F} (\hyperlink{class_i2_c_v_m_test}{\-I2\-C\-V\-M\-Test}, \-Div\-Imm)
+\item 
+\hyperlink{group___unit_tests_ga4eab1e697b804d9a3dd9e4f5ee823335}{\-T\-E\-S\-T\-\_\-\-F} (\hyperlink{class_i2_c_v_m_test}{\-I2\-C\-V\-M\-Test}, \-Jump\-Forward)
+\item 
+\hyperlink{group___unit_tests_ga0a2a0cd2cb3be12cfe7bd67968a819ae}{\-T\-E\-S\-T\-\_\-\-F} (\hyperlink{class_i2_c_v_m_test}{\-I2\-C\-V\-M\-Test}, \-Jump\-Backward)
+\item 
+\hyperlink{group___unit_tests_ga7b4336a0da271403b044b8293bd54169}{\-T\-E\-S\-T\-\_\-\-F} (\hyperlink{class_i2_c_v_m_test}{\-I2\-C\-V\-M\-Test}, \-B\-N\-Z\-Not\-Taken)
+\item 
+\hyperlink{group___unit_tests_ga84f66a747de5db897d49e1cfa0305685}{\-T\-E\-S\-T\-\_\-\-F} (\hyperlink{class_i2_c_v_m_test}{\-I2\-C\-V\-M\-Test}, \-B\-N\-Z\-Taken)
+\item 
+\hyperlink{group___unit_tests_ga56ccd9fbaa7cdef0485f6a89c4d700c3}{\-T\-E\-S\-T\-\_\-\-F} (\hyperlink{class_i2_c_v_m_test}{\-I2\-C\-V\-M\-Test}, \-Clean\-Reboot)
+\item 
+virtual void \hyperlink{group___unit_tests_ga6ad4da1f7c409b092a28457c4841e361}{\-Logfs\-Test\-Raw\-::\-Set\-Up} ()
+\item 
+virtual void \hyperlink{group___unit_tests_ga14c567025394faab5c7628decc578f1f}{\-Logfs\-Test\-Raw\-::\-Tear\-Down} ()
+\item 
+\hyperlink{group___unit_tests_gad0ffad42b546bb80c39d04c4d69466f0}{\-T\-E\-S\-T\-\_\-\-F} (\hyperlink{class_logfs_test_raw}{\-Logfs\-Test\-Raw}, \-Flash\-Init)
+\item 
+\hyperlink{group___unit_tests_ga253b9e2c592f3b3754c532aeea4968d4}{\-T\-E\-S\-T\-\_\-\-F} (\hyperlink{class_logfs_test_raw}{\-Logfs\-Test\-Raw}, \-Logfs\-Init)
+\item 
+virtual void \hyperlink{group___unit_tests_gafefb90c56c5d60e99e716775a5e60028}{\-Logfs\-Test\-Cooked\-::\-Set\-Up} ()
+\item 
+virtual void \hyperlink{group___unit_tests_gab1ca9799c18f4944962a0e5b88ca8c9d}{\-Logfs\-Test\-Cooked\-::\-Tear\-Down} ()
+\item 
+\hyperlink{group___unit_tests_gaa95ae577174d8bd9b9cc50f39e1e4cf3}{\-T\-E\-S\-T\-\_\-\-F} (\hyperlink{class_logfs_test_cooked}{\-Logfs\-Test\-Cooked}, \-Bad\-Id\-Logfs\-Format)
+\item 
+\hyperlink{group___unit_tests_ga6f8e4fff0ee826ffd2f764af9d8d971f}{\-T\-E\-S\-T\-\_\-\-F} (\hyperlink{class_logfs_test_cooked}{\-Logfs\-Test\-Cooked}, \-Bad\-Id\-Save)
+\item 
+\hyperlink{group___unit_tests_ga2ae66629b7714cae9e6b7fa7513e582a}{\-T\-E\-S\-T\-\_\-\-F} (\hyperlink{class_logfs_test_cooked}{\-Logfs\-Test\-Cooked}, \-Bad\-Id\-Load)
+\item 
+\hyperlink{group___unit_tests_gacaef9b0357724dd62343d2e2c12228f6}{\-T\-E\-S\-T\-\_\-\-F} (\hyperlink{class_logfs_test_cooked}{\-Logfs\-Test\-Cooked}, \-Logfs\-Format)
+\item 
+\hyperlink{group___unit_tests_gaad108bf9d51537e7a021406dbb72ba8d}{\-T\-E\-S\-T\-\_\-\-F} (\hyperlink{class_logfs_test_cooked}{\-Logfs\-Test\-Cooked}, \-Write\-One)
+\item 
+\hyperlink{group___unit_tests_ga648a4ec4fd8c6237d8ca35746dd64a9d}{\-T\-E\-S\-T\-\_\-\-F} (\hyperlink{class_logfs_test_cooked}{\-Logfs\-Test\-Cooked}, \-Write\-Verify\-One)
+\item 
+\hyperlink{group___unit_tests_ga3445631e0cef3272b085ad6f9db3157b}{\-T\-E\-S\-T\-\_\-\-F} (\hyperlink{class_logfs_test_cooked}{\-Logfs\-Test\-Cooked}, \-Write\-Verify\-Delete\-Verify\-One)
+\item 
+\hyperlink{group___unit_tests_ga1cf14f972876c023077641ba98e63c8b}{\-T\-E\-S\-T\-\_\-\-F} (\hyperlink{class_logfs_test_cooked}{\-Logfs\-Test\-Cooked}, \-Write\-Two\-Verify\-One\-A)
+\item 
+\hyperlink{group___unit_tests_ga48d1f17dec8bfe59c3012e8cb7d02c97}{\-T\-E\-S\-T\-\_\-\-F} (\hyperlink{class_logfs_test_cooked}{\-Logfs\-Test\-Cooked}, \-Write\-Two\-Verify\-One\-B)
+\item 
+\hyperlink{group___unit_tests_ga773670f215b2d6d437cf973b562e7208}{\-T\-E\-S\-T\-\_\-\-F} (\hyperlink{class_logfs_test_cooked}{\-Logfs\-Test\-Cooked}, \-Write\-Zero\-Size)
+\item 
+\hyperlink{group___unit_tests_ga079b8cc84786de4a97f3b1d2ead2aec1}{\-T\-E\-S\-T\-\_\-\-F} (\hyperlink{class_logfs_test_cooked}{\-Logfs\-Test\-Cooked}, \-Write\-Verify\-Zero\-Length)
+\item 
+\hyperlink{group___unit_tests_ga6ce60ecfc18738ead214a44d47a22c19}{\-T\-E\-S\-T\-\_\-\-F} (\hyperlink{class_logfs_test_cooked}{\-Logfs\-Test\-Cooked}, \-Write\-Max\-Size)
+\item 
+\hyperlink{group___unit_tests_ga2e5a9acaa02d2c2fa66d03adf200af24}{\-T\-E\-S\-T\-\_\-\-F} (\hyperlink{class_logfs_test_cooked}{\-Logfs\-Test\-Cooked}, \-Read\-Nonexistent)
+\item 
+\hyperlink{group___unit_tests_ga669c582bc27e4f9ac82e377803246061}{\-T\-E\-S\-T\-\_\-\-F} (\hyperlink{class_logfs_test_cooked}{\-Logfs\-Test\-Cooked}, \-Write\-Verify\-Multi\-Instance)
+\item 
+\hyperlink{group___unit_tests_ga3a5ba5e7649f2e14d3092f671c996e3e}{\-T\-E\-S\-T\-\_\-\-F} (\hyperlink{class_logfs_test_cooked}{\-Logfs\-Test\-Cooked}, \-Fill\-Filesystem\-And\-Garbage\-Collect)
+\item 
+\hyperlink{group___unit_tests_ga64b4ab283359ebc3533f35a7fb7e6fe3}{\-T\-E\-S\-T\-\_\-\-F} (\hyperlink{class_logfs_test_cooked}{\-Logfs\-Test\-Cooked}, \-Write\-Many\-Verify)
+\item 
+virtual void \hyperlink{group___unit_tests_ga6143b6807b4ed29675a12d317dda0b87}{\-Logfs\-Test\-Cooked\-Multi\-Part\-::\-Set\-Up} ()
+\item 
+virtual void \hyperlink{group___unit_tests_ga5031a2adb8db0e1125f0f2f2e5d0c82b}{\-Logfs\-Test\-Cooked\-Multi\-Part\-::\-Tear\-Down} ()
+\item 
+\hyperlink{group___unit_tests_ga24a114e324d7b9f86337c08c9f2b6c64}{\-T\-E\-S\-T\-\_\-\-F} (\hyperlink{class_logfs_test_cooked_multi_part}{\-Logfs\-Test\-Cooked\-Multi\-Part}, \-Write\-One\-Write\-One\-Verify)
+\item 
+\hyperlink{group___unit_tests_ga66d2a26c55d24d0da23b04752a7a6fb0}{\-T\-E\-S\-T\-\_\-\-F} (\hyperlink{class_logfs_test_cooked_multi_part}{\-Logfs\-Test\-Cooked\-Multi\-Part}, \-Write\-One\-Write\-One\-Format\-One\-Verify)
+\item 
+\hyperlink{group___unit_tests_ga764d406c79c1ec4236e5f03c1fc48e46}{\-T\-E\-S\-T\-\_\-\-F} (\hyperlink{class_logfs_test_cooked_multi_part}{\-Logfs\-Test\-Cooked\-Multi\-Part}, \-Write\-One\-Write\-One\-No\-Cross)
+\item 
+\hyperlink{group___unit_tests_ga4b1eaeb81dc020435304ff23a66895c8}{\-T\-E\-S\-T\-\_\-\-F} (\hyperlink{class_logfs_test_cooked_multi_part}{\-Logfs\-Test\-Cooked\-Multi\-Part}, \-Write\-One\-Write\-One\-Delete\-One)
+\item 
+\hyperlink{group___unit_tests_ga4ae6529c9fa155129efba3de7100b3d9}{\-T\-E\-S\-T\-\_\-\-F} (\hyperlink{class_logfs_test_cooked_multi_part}{\-Logfs\-Test\-Cooked\-Multi\-Part}, \-Write\-Large)
+\item 
+virtual void \hyperlink{group___unit_tests_gaf32e95ea690177429881d65ee89a43e2}{\-Misc\-Math\-::\-Set\-Up} ()
+\item 
+virtual void \hyperlink{group___unit_tests_gaee049bdfbeb6e7117415c472da634038}{\-Misc\-Math\-::\-Tear\-Down} ()
+\item 
+virtual void \hyperlink{group___unit_tests_gaa083f26ac602b6553ebd522ebce74b44}{\-Bound\-Min\-Max\-::\-Set\-Up} ()
+\item 
+virtual void \hyperlink{group___unit_tests_ga5b1a04dbcaaa9db5e928c59c87d81a69}{\-Bound\-Min\-Max\-::\-Tear\-Down} ()
+\item 
+\hyperlink{group___unit_tests_ga616b42d75c14427fb433a0efc0dcc8d0}{\-T\-E\-S\-T\-\_\-\-F} (\hyperlink{class_bound_min_max}{\-Bound\-Min\-Max}, \-Val\-Below\-Zero\-Range)
+\item 
+\hyperlink{group___unit_tests_ga7b82883b4c8ff0d533a5b3923e8845fd}{\-T\-E\-S\-T\-\_\-\-F} (\hyperlink{class_bound_min_max}{\-Bound\-Min\-Max}, \-Val\-Within\-Zero\-Range)
+\item 
+\hyperlink{group___unit_tests_ga132356b391d86ecdf50208ce16363129}{\-T\-E\-S\-T\-\_\-\-F} (\hyperlink{class_bound_min_max}{\-Bound\-Min\-Max}, \-Val\-Above\-Zero\-Range)
+\item 
+\hyperlink{group___unit_tests_gaa62459355b2c84ef788d4bb84f924458}{\-T\-E\-S\-T\-\_\-\-F} (\hyperlink{class_bound_min_max}{\-Bound\-Min\-Max}, \-Positive\-Min\-Max)
+\item 
+\hyperlink{group___unit_tests_ga55f8b8b58267f37c46e74ff9a02c3552}{\-T\-E\-S\-T\-\_\-\-F} (\hyperlink{class_bound_min_max}{\-Bound\-Min\-Max}, \-Negative\-Min\-Max)
+\item 
+\hyperlink{group___unit_tests_ga2bfe3239906784d1c3bc974c164a8ac1}{\-T\-E\-S\-T\-\_\-\-F} (\hyperlink{class_bound_min_max}{\-Bound\-Min\-Max}, \-Straddle\-Zero\-Min\-Max)
+\item 
+virtual void \hyperlink{group___unit_tests_ga3b1ffcc33db9c2489206486310736009}{\-Bound\-Sym\-::\-Set\-Up} ()
+\item 
+virtual void \hyperlink{group___unit_tests_gac3c27344e8473b0cfba42ddd7e28b509}{\-Bound\-Sym\-::\-Tear\-Down} ()
+\item 
+\hyperlink{group___unit_tests_gadd176ad6c420571ec24f5b96f9578e5b}{\-T\-E\-S\-T\-\_\-\-F} (\hyperlink{class_bound_sym}{\-Bound\-Sym}, \-Zero\-Range)
+\item 
+\hyperlink{group___unit_tests_ga548005fd2118ab3d1421a52580886532}{\-T\-E\-S\-T\-\_\-\-F} (\hyperlink{class_bound_sym}{\-Bound\-Sym}, \-Non\-Zero\-Range)
+\item 
+virtual void \hyperlink{group___unit_tests_gade916660611f66dc899b964b8d064166}{\-Circular\-Modulus\-Deg\-::\-Set\-Up} ()
+\item 
+virtual void \hyperlink{group___unit_tests_gab07ca9308f02057fa2623a51eb709aac}{\-Circular\-Modulus\-Deg\-::\-Tear\-Down} ()
+\item 
+\hyperlink{group___unit_tests_ga17693a11d324ba463ae792d590bee714}{\-T\-E\-S\-T\-\_\-\-F} (\hyperlink{class_circular_modulus_deg}{\-Circular\-Modulus\-Deg}, \-Null\-Error)
+\item 
+\hyperlink{group___unit_tests_gab74bc4a71915e6b66efa543d8162af35}{\-T\-E\-S\-T\-\_\-\-F} (\hyperlink{class_circular_modulus_deg}{\-Circular\-Modulus\-Deg}, \-Max\-Pos\-Error)
+\item 
+\hyperlink{group___unit_tests_ga399c1468b3de50cedea1c29e281f0387}{\-T\-E\-S\-T\-\_\-\-F} (\hyperlink{class_circular_modulus_deg}{\-Circular\-Modulus\-Deg}, \-Max\-Neg\-Error)
+\item 
+\hyperlink{group___unit_tests_gae9b10024a005563e17340713ce445a15}{\-T\-E\-S\-T\-\_\-\-F} (\hyperlink{class_circular_modulus_deg}{\-Circular\-Modulus\-Deg}, \-Sweep\-Error)
+\item 
+virtual void \hyperlink{group___unit_tests_gaf5c7e4b5a50e259ba0c95e5134d66b9b}{\-Sin\-Lookup\-::\-Set\-Up} ()
+\item 
+virtual void \hyperlink{group___unit_tests_ga93c08f4058ee3f8c7de2ac69b799b386}{\-Sin\-Lookup\-::\-Tear\-Down} ()
+\item 
+float \hyperlink{group___unit_tests_gab9e378171158291991120fdea72f48f0}{\-Sin\-Lookup\-::deg2rad} (float deg)
+\item 
+\hyperlink{group___unit_tests_ga0f957c5a6bc6cb673ad664bbdc389721}{\-T\-E\-S\-T\-\_\-\-F} (\hyperlink{class_sin_lookup}{\-Sin\-Lookup}, \-Sin\-Deg\-Sweep)
+\item 
+\hyperlink{group___unit_tests_ga28cf6df5edd30421eba939fc8b6951d7}{\-T\-E\-S\-T\-\_\-\-F} (\hyperlink{class_sin_lookup}{\-Sin\-Lookup}, \-Sin\-Rad\-Sweep)
+\item 
+\hyperlink{group___unit_tests_gaf59634da9fe51f87255171f2b26412ff}{\-T\-E\-S\-T\-\_\-\-F} (\hyperlink{class_sin_lookup}{\-Sin\-Lookup}, \-Cos\-Deg\-Sweep)
+\item 
+\hyperlink{group___unit_tests_gab85081745f2bed950e8b3c8a383711e0}{\-T\-E\-S\-T\-\_\-\-F} (\hyperlink{class_sin_lookup}{\-Sin\-Lookup}, \-Cos\-Rad\-Sweep)
+\end{DoxyCompactItemize}
+\subsection*{\-Variables}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structpios__flash__ut__cfg}{pios\-\_\-flash\-\_\-ut\-\_\-cfg} \hyperlink{group___unit_tests_gad0a2e88bcf286c1d92cc71ae4f2f4030}{flash\-\_\-config}
+\item 
+struct \hyperlink{structflashfs__logfs__cfg}{flashfs\-\_\-logfs\-\_\-cfg} \hyperlink{group___unit_tests_gaba5cc3d568259a61d596b4cd0c63bad8}{flashfs\-\_\-config\-\_\-partition\-\_\-a}
+\item 
+struct \hyperlink{structflashfs__logfs__cfg}{flashfs\-\_\-logfs\-\_\-cfg} \hyperlink{group___unit_tests_ga6d0bc62b8797aa4539687ed6b976e503}{flashfs\-\_\-config\-\_\-partition\-\_\-b}
+\item 
+unsigned char \hyperlink{group___unit_tests_ga9a310807ae65fdb582ace246798d9112}{\-Logfs\-Test\-Raw\-::obj1} \mbox{[}\-O\-B\-J1\-\_\-\-S\-I\-Z\-E\mbox{]}
+\item 
+unsigned char \hyperlink{group___unit_tests_gab4d553b9c4a87a6f45e032b57f98a751}{\-Logfs\-Test\-Raw\-::obj1\-\_\-alt} \mbox{[}\-O\-B\-J1\-\_\-\-S\-I\-Z\-E\mbox{]}
+\item 
+unsigned char \hyperlink{group___unit_tests_ga8ed143a62924cbb11a0150f51b0f39e9}{\-Logfs\-Test\-Raw\-::obj2} \mbox{[}\-O\-B\-J2\-\_\-\-S\-I\-Z\-E\mbox{]}
+\item 
+unsigned char \hyperlink{group___unit_tests_gae2971f4ef641d737044260c4f11c1ba0}{\-Logfs\-Test\-Raw\-::obj3} \mbox{[}\-O\-B\-J3\-\_\-\-S\-I\-Z\-E\mbox{]}
+\item 
+unsigned char \hyperlink{group___unit_tests_ga538292c7d3fd8ffe5a32cc8b7e43d51c}{\-Logfs\-Test\-Raw\-::obj4} \mbox{[}\-O\-B\-J4\-\_\-\-S\-I\-Z\-E\mbox{]}
+\item 
+uintptr\-\_\-t \hyperlink{group___unit_tests_ga1180d0088fd85cca978eaed59163f626}{\-Logfs\-Test\-Cooked\-::flash\-\_\-id}
+\item 
+uintptr\-\_\-t \hyperlink{group___unit_tests_gaa47f085754c3a15dd69bcfbde0d804d7}{\-Logfs\-Test\-Cooked\-::fs\-\_\-id}
+\item 
+uintptr\-\_\-t \hyperlink{group___unit_tests_ga503c4ee9ad8abab85d6fb34d0397944c}{\-Logfs\-Test\-Cooked\-Multi\-Part\-::flash\-\_\-id}
+\item 
+uintptr\-\_\-t \hyperlink{group___unit_tests_gadeab2644468b89d495d396f0e55524e6}{\-Logfs\-Test\-Cooked\-Multi\-Part\-::fs\-\_\-id\-\_\-a}
+\item 
+uintptr\-\_\-t \hyperlink{group___unit_tests_ga2398cf58e337f70603e12a997936f0c9}{\-Logfs\-Test\-Cooked\-Multi\-Part\-::fs\-\_\-id\-\_\-b}
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-Unit test. 
+
+\subsection{\-Function \-Documentation}
+\hypertarget{group___unit_tests_gab9e378171158291991120fdea72f48f0}{\index{\-Unit\-Tests@{\-Unit\-Tests}!deg2rad@{deg2rad}}
+\index{deg2rad@{deg2rad}!UnitTests@{\-Unit\-Tests}}
+\subsubsection[{deg2rad}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf \-Sin\-Lookup\-::deg2rad} (
+\begin{DoxyParamCaption}
+\item[{float}]{deg}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, protected\mbox{]}}}}\label{group___unit_tests_gab9e378171158291991120fdea72f48f0}
+
+
+\-Definition at line 59 of file unittest.\-cpp.
+
+\hypertarget{group___unit_tests_ga25fa33f408947a8b6015181705441220}{\index{\-Unit\-Tests@{\-Unit\-Tests}!i2c\-\_\-vm\-\_\-run@{i2c\-\_\-vm\-\_\-run}}
+\index{i2c\-\_\-vm\-\_\-run@{i2c\-\_\-vm\-\_\-run}!UnitTests@{\-Unit\-Tests}}
+\subsubsection[{i2c\-\_\-vm\-\_\-run}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf i2c\-\_\-vm\-\_\-run} (
+\begin{DoxyParamCaption}
+\item[{const uint32\-\_\-t $\ast$}]{code, }
+\item[{uint8\-\_\-t}]{code\-\_\-len, }
+\item[{uintptr\-\_\-t}]{i2c\-\_\-adapter}
+\end{DoxyParamCaption}
+)}}\label{group___unit_tests_ga25fa33f408947a8b6015181705441220}
+
+
+\-Definition at line 757 of file i2c\-\_\-vm.\-c.
+
+\hypertarget{group___unit_tests_gaf32e95ea690177429881d65ee89a43e2}{\index{\-Unit\-Tests@{\-Unit\-Tests}!\-Set\-Up@{\-Set\-Up}}
+\index{\-Set\-Up@{\-Set\-Up}!UnitTests@{\-Unit\-Tests}}
+\subsubsection[{\-Set\-Up}]{\setlength{\rightskip}{0pt plus 5cm}virtual void {\bf \-Misc\-Math\-::\-Set\-Up} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, protected, virtual\mbox{]}}}}\label{group___unit_tests_gaf32e95ea690177429881d65ee89a43e2}
+
+
+\-Reimplemented in \hyperlink{group___unit_tests_gade916660611f66dc899b964b8d064166}{\-Circular\-Modulus\-Deg}, \hyperlink{group___unit_tests_ga3b1ffcc33db9c2489206486310736009}{\-Bound\-Sym}, and \hyperlink{group___unit_tests_gaa083f26ac602b6553ebd522ebce74b44}{\-Bound\-Min\-Max}.
+
+
+
+\-Definition at line 52 of file unittest.\-cpp.
+
+\hypertarget{group___unit_tests_gaf5c7e4b5a50e259ba0c95e5134d66b9b}{\index{\-Unit\-Tests@{\-Unit\-Tests}!\-Set\-Up@{\-Set\-Up}}
+\index{\-Set\-Up@{\-Set\-Up}!UnitTests@{\-Unit\-Tests}}
+\subsubsection[{\-Set\-Up}]{\setlength{\rightskip}{0pt plus 5cm}virtual void {\bf \-Sin\-Lookup\-::\-Set\-Up} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, protected, virtual\mbox{]}}}}\label{group___unit_tests_gaf5c7e4b5a50e259ba0c95e5134d66b9b}
+
+
+\-Definition at line 52 of file unittest.\-cpp.
+
+\hypertarget{group___unit_tests_ga14dcb45d7859a9c686f96f3ca84013c4}{\index{\-Unit\-Tests@{\-Unit\-Tests}!\-Set\-Up@{\-Set\-Up}}
+\index{\-Set\-Up@{\-Set\-Up}!UnitTests@{\-Unit\-Tests}}
+\subsubsection[{\-Set\-Up}]{\setlength{\rightskip}{0pt plus 5cm}virtual void {\bf \-I2\-C\-V\-M\-Test\-::\-Set\-Up} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, protected, virtual\mbox{]}}}}\label{group___unit_tests_ga14dcb45d7859a9c686f96f3ca84013c4}
+
+
+\-Definition at line 55 of file unittest.\-cpp.
+
+\hypertarget{group___unit_tests_gaa083f26ac602b6553ebd522ebce74b44}{\index{\-Unit\-Tests@{\-Unit\-Tests}!\-Set\-Up@{\-Set\-Up}}
+\index{\-Set\-Up@{\-Set\-Up}!UnitTests@{\-Unit\-Tests}}
+\subsubsection[{\-Set\-Up}]{\setlength{\rightskip}{0pt plus 5cm}virtual void {\bf \-Bound\-Min\-Max\-::\-Set\-Up} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, protected, virtual\mbox{]}}}}\label{group___unit_tests_gaa083f26ac602b6553ebd522ebce74b44}
+
+
+\-Reimplemented from \hyperlink{group___unit_tests_gaf32e95ea690177429881d65ee89a43e2}{\-Misc\-Math}.
+
+
+
+\-Definition at line 62 of file unittest.\-cpp.
+
+\hypertarget{group___unit_tests_ga6ad4da1f7c409b092a28457c4841e361}{\index{\-Unit\-Tests@{\-Unit\-Tests}!\-Set\-Up@{\-Set\-Up}}
+\index{\-Set\-Up@{\-Set\-Up}!UnitTests@{\-Unit\-Tests}}
+\subsubsection[{\-Set\-Up}]{\setlength{\rightskip}{0pt plus 5cm}virtual void {\bf \-Logfs\-Test\-Raw\-::\-Set\-Up} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, protected, virtual\mbox{]}}}}\label{group___unit_tests_ga6ad4da1f7c409b092a28457c4841e361}
+
+
+\-Reimplemented in \hyperlink{group___unit_tests_ga6143b6807b4ed29675a12d317dda0b87}{\-Logfs\-Test\-Cooked\-Multi\-Part}, and \hyperlink{group___unit_tests_gafefb90c56c5d60e99e716775a5e60028}{\-Logfs\-Test\-Cooked}.
+
+
+
+\-Definition at line 73 of file unittest.\-cpp.
+
+\hypertarget{group___unit_tests_gafefb90c56c5d60e99e716775a5e60028}{\index{\-Unit\-Tests@{\-Unit\-Tests}!\-Set\-Up@{\-Set\-Up}}
+\index{\-Set\-Up@{\-Set\-Up}!UnitTests@{\-Unit\-Tests}}
+\subsubsection[{\-Set\-Up}]{\setlength{\rightskip}{0pt plus 5cm}virtual void {\bf \-Logfs\-Test\-Cooked\-::\-Set\-Up} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, protected, virtual\mbox{]}}}}\label{group___unit_tests_gafefb90c56c5d60e99e716775a5e60028}
+
+
+\-Reimplemented from \hyperlink{group___unit_tests_ga6ad4da1f7c409b092a28457c4841e361}{\-Logfs\-Test\-Raw}.
+
+
+
+\-Definition at line 140 of file unittest.\-cpp.
+
+\hypertarget{group___unit_tests_ga3b1ffcc33db9c2489206486310736009}{\index{\-Unit\-Tests@{\-Unit\-Tests}!\-Set\-Up@{\-Set\-Up}}
+\index{\-Set\-Up@{\-Set\-Up}!UnitTests@{\-Unit\-Tests}}
+\subsubsection[{\-Set\-Up}]{\setlength{\rightskip}{0pt plus 5cm}virtual void {\bf \-Bound\-Sym\-::\-Set\-Up} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, protected, virtual\mbox{]}}}}\label{group___unit_tests_ga3b1ffcc33db9c2489206486310736009}
+
+
+\-Reimplemented from \hyperlink{group___unit_tests_gaf32e95ea690177429881d65ee89a43e2}{\-Misc\-Math}.
+
+
+
+\-Definition at line 141 of file unittest.\-cpp.
+
+\hypertarget{group___unit_tests_gade916660611f66dc899b964b8d064166}{\index{\-Unit\-Tests@{\-Unit\-Tests}!\-Set\-Up@{\-Set\-Up}}
+\index{\-Set\-Up@{\-Set\-Up}!UnitTests@{\-Unit\-Tests}}
+\subsubsection[{\-Set\-Up}]{\setlength{\rightskip}{0pt plus 5cm}virtual void {\bf \-Circular\-Modulus\-Deg\-::\-Set\-Up} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, protected, virtual\mbox{]}}}}\label{group___unit_tests_gade916660611f66dc899b964b8d064166}
+
+
+\-Reimplemented from \hyperlink{group___unit_tests_gaf32e95ea690177429881d65ee89a43e2}{\-Misc\-Math}.
+
+
+
+\-Definition at line 181 of file unittest.\-cpp.
+
+\hypertarget{group___unit_tests_ga6143b6807b4ed29675a12d317dda0b87}{\index{\-Unit\-Tests@{\-Unit\-Tests}!\-Set\-Up@{\-Set\-Up}}
+\index{\-Set\-Up@{\-Set\-Up}!UnitTests@{\-Unit\-Tests}}
+\subsubsection[{\-Set\-Up}]{\setlength{\rightskip}{0pt plus 5cm}virtual void {\bf \-Logfs\-Test\-Cooked\-Multi\-Part\-::\-Set\-Up} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, protected, virtual\mbox{]}}}}\label{group___unit_tests_ga6143b6807b4ed29675a12d317dda0b87}
+
+
+\-Reimplemented from \hyperlink{group___unit_tests_ga6ad4da1f7c409b092a28457c4841e361}{\-Logfs\-Test\-Raw}.
+
+
+
+\-Definition at line 330 of file unittest.\-cpp.
+
+\hypertarget{group___unit_tests_gaee049bdfbeb6e7117415c472da634038}{\index{\-Unit\-Tests@{\-Unit\-Tests}!\-Tear\-Down@{\-Tear\-Down}}
+\index{\-Tear\-Down@{\-Tear\-Down}!UnitTests@{\-Unit\-Tests}}
+\subsubsection[{\-Tear\-Down}]{\setlength{\rightskip}{0pt plus 5cm}virtual void {\bf \-Misc\-Math\-::\-Tear\-Down} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, protected, virtual\mbox{]}}}}\label{group___unit_tests_gaee049bdfbeb6e7117415c472da634038}
+
+
+\-Reimplemented in \hyperlink{group___unit_tests_gab07ca9308f02057fa2623a51eb709aac}{\-Circular\-Modulus\-Deg}, \hyperlink{group___unit_tests_gac3c27344e8473b0cfba42ddd7e28b509}{\-Bound\-Sym}, and \hyperlink{group___unit_tests_ga5b1a04dbcaaa9db5e928c59c87d81a69}{\-Bound\-Min\-Max}.
+
+
+
+\-Definition at line 55 of file unittest.\-cpp.
+
+\hypertarget{group___unit_tests_ga93c08f4058ee3f8c7de2ac69b799b386}{\index{\-Unit\-Tests@{\-Unit\-Tests}!\-Tear\-Down@{\-Tear\-Down}}
+\index{\-Tear\-Down@{\-Tear\-Down}!UnitTests@{\-Unit\-Tests}}
+\subsubsection[{\-Tear\-Down}]{\setlength{\rightskip}{0pt plus 5cm}virtual void {\bf \-Sin\-Lookup\-::\-Tear\-Down} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, protected, virtual\mbox{]}}}}\label{group___unit_tests_ga93c08f4058ee3f8c7de2ac69b799b386}
+
+
+\-Definition at line 56 of file unittest.\-cpp.
+
+\hypertarget{group___unit_tests_ga7c761569820d4a0ce44dc316e20870e7}{\index{\-Unit\-Tests@{\-Unit\-Tests}!\-Tear\-Down@{\-Tear\-Down}}
+\index{\-Tear\-Down@{\-Tear\-Down}!UnitTests@{\-Unit\-Tests}}
+\subsubsection[{\-Tear\-Down}]{\setlength{\rightskip}{0pt plus 5cm}virtual void {\bf \-I2\-C\-V\-M\-Test\-::\-Tear\-Down} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, protected, virtual\mbox{]}}}}\label{group___unit_tests_ga7c761569820d4a0ce44dc316e20870e7}
+
+
+\-Definition at line 58 of file unittest.\-cpp.
+
+\hypertarget{group___unit_tests_ga5b1a04dbcaaa9db5e928c59c87d81a69}{\index{\-Unit\-Tests@{\-Unit\-Tests}!\-Tear\-Down@{\-Tear\-Down}}
+\index{\-Tear\-Down@{\-Tear\-Down}!UnitTests@{\-Unit\-Tests}}
+\subsubsection[{\-Tear\-Down}]{\setlength{\rightskip}{0pt plus 5cm}virtual void {\bf \-Bound\-Min\-Max\-::\-Tear\-Down} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, protected, virtual\mbox{]}}}}\label{group___unit_tests_ga5b1a04dbcaaa9db5e928c59c87d81a69}
+
+
+\-Reimplemented from \hyperlink{group___unit_tests_gaee049bdfbeb6e7117415c472da634038}{\-Misc\-Math}.
+
+
+
+\-Definition at line 65 of file unittest.\-cpp.
+
+\hypertarget{group___unit_tests_ga14c567025394faab5c7628decc578f1f}{\index{\-Unit\-Tests@{\-Unit\-Tests}!\-Tear\-Down@{\-Tear\-Down}}
+\index{\-Tear\-Down@{\-Tear\-Down}!UnitTests@{\-Unit\-Tests}}
+\subsubsection[{\-Tear\-Down}]{\setlength{\rightskip}{0pt plus 5cm}virtual void {\bf \-Logfs\-Test\-Raw\-::\-Tear\-Down} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, protected, virtual\mbox{]}}}}\label{group___unit_tests_ga14c567025394faab5c7628decc578f1f}
+
+
+\-Reimplemented in \hyperlink{group___unit_tests_ga5031a2adb8db0e1125f0f2f2e5d0c82b}{\-Logfs\-Test\-Cooked\-Multi\-Part}, and \hyperlink{group___unit_tests_gab1ca9799c18f4944962a0e5b88ca8c9d}{\-Logfs\-Test\-Cooked}.
+
+
+
+\-Definition at line 109 of file unittest.\-cpp.
+
+\hypertarget{group___unit_tests_gac3c27344e8473b0cfba42ddd7e28b509}{\index{\-Unit\-Tests@{\-Unit\-Tests}!\-Tear\-Down@{\-Tear\-Down}}
+\index{\-Tear\-Down@{\-Tear\-Down}!UnitTests@{\-Unit\-Tests}}
+\subsubsection[{\-Tear\-Down}]{\setlength{\rightskip}{0pt plus 5cm}virtual void {\bf \-Bound\-Sym\-::\-Tear\-Down} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, protected, virtual\mbox{]}}}}\label{group___unit_tests_gac3c27344e8473b0cfba42ddd7e28b509}
+
+
+\-Reimplemented from \hyperlink{group___unit_tests_gaee049bdfbeb6e7117415c472da634038}{\-Misc\-Math}.
+
+
+
+\-Definition at line 144 of file unittest.\-cpp.
+
+\hypertarget{group___unit_tests_gab1ca9799c18f4944962a0e5b88ca8c9d}{\index{\-Unit\-Tests@{\-Unit\-Tests}!\-Tear\-Down@{\-Tear\-Down}}
+\index{\-Tear\-Down@{\-Tear\-Down}!UnitTests@{\-Unit\-Tests}}
+\subsubsection[{\-Tear\-Down}]{\setlength{\rightskip}{0pt plus 5cm}virtual void {\bf \-Logfs\-Test\-Cooked\-::\-Tear\-Down} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, protected, virtual\mbox{]}}}}\label{group___unit_tests_gab1ca9799c18f4944962a0e5b88ca8c9d}
+
+
+\-Reimplemented from \hyperlink{group___unit_tests_ga14c567025394faab5c7628decc578f1f}{\-Logfs\-Test\-Raw}.
+
+
+
+\-Definition at line 149 of file unittest.\-cpp.
+
+\hypertarget{group___unit_tests_gab07ca9308f02057fa2623a51eb709aac}{\index{\-Unit\-Tests@{\-Unit\-Tests}!\-Tear\-Down@{\-Tear\-Down}}
+\index{\-Tear\-Down@{\-Tear\-Down}!UnitTests@{\-Unit\-Tests}}
+\subsubsection[{\-Tear\-Down}]{\setlength{\rightskip}{0pt plus 5cm}virtual void {\bf \-Circular\-Modulus\-Deg\-::\-Tear\-Down} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, protected, virtual\mbox{]}}}}\label{group___unit_tests_gab07ca9308f02057fa2623a51eb709aac}
+
+
+\-Reimplemented from \hyperlink{group___unit_tests_gaee049bdfbeb6e7117415c472da634038}{\-Misc\-Math}.
+
+
+
+\-Definition at line 184 of file unittest.\-cpp.
+
+\hypertarget{group___unit_tests_ga5031a2adb8db0e1125f0f2f2e5d0c82b}{\index{\-Unit\-Tests@{\-Unit\-Tests}!\-Tear\-Down@{\-Tear\-Down}}
+\index{\-Tear\-Down@{\-Tear\-Down}!UnitTests@{\-Unit\-Tests}}
+\subsubsection[{\-Tear\-Down}]{\setlength{\rightskip}{0pt plus 5cm}virtual void {\bf \-Logfs\-Test\-Cooked\-Multi\-Part\-::\-Tear\-Down} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, protected, virtual\mbox{]}}}}\label{group___unit_tests_ga5031a2adb8db0e1125f0f2f2e5d0c82b}
+
+
+\-Reimplemented from \hyperlink{group___unit_tests_ga14c567025394faab5c7628decc578f1f}{\-Logfs\-Test\-Raw}.
+
+
+
+\-Definition at line 340 of file unittest.\-cpp.
+
+\hypertarget{group___unit_tests_ga10c5fdc24984add2787d6dd8b945dec4}{\index{\-Unit\-Tests@{\-Unit\-Tests}!\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}}
+\index{\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}!UnitTests@{\-Unit\-Tests}}
+\subsubsection[{\-T\-E\-S\-T\-\_\-\-F}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-T\-E\-S\-T\-\_\-\-F} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-I2\-C\-V\-M\-Test}}]{, }
+\item[{\-Null\-Program}]{}
+\end{DoxyParamCaption}
+)}}\label{group___unit_tests_ga10c5fdc24984add2787d6dd8b945dec4}
+
+
+\-Definition at line 62 of file unittest.\-cpp.
+
+\hypertarget{group___unit_tests_ga0f957c5a6bc6cb673ad664bbdc389721}{\index{\-Unit\-Tests@{\-Unit\-Tests}!\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}}
+\index{\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}!UnitTests@{\-Unit\-Tests}}
+\subsubsection[{\-T\-E\-S\-T\-\_\-\-F}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-T\-E\-S\-T\-\_\-\-F} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Sin\-Lookup}}]{, }
+\item[{\-Sin\-Deg\-Sweep}]{}
+\end{DoxyParamCaption}
+)}}\label{group___unit_tests_ga0f957c5a6bc6cb673ad664bbdc389721}
+
+
+\-Definition at line 65 of file unittest.\-cpp.
+
+\hypertarget{group___unit_tests_ga0e38611807a8fda65d9205b4210b4eb6}{\index{\-Unit\-Tests@{\-Unit\-Tests}!\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}}
+\index{\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}!UnitTests@{\-Unit\-Tests}}
+\subsubsection[{\-T\-E\-S\-T\-\_\-\-F}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-T\-E\-S\-T\-\_\-\-F} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-I2\-C\-V\-M\-Test}}]{, }
+\item[{\-Zero\-Length\-Program}]{}
+\end{DoxyParamCaption}
+)}}\label{group___unit_tests_ga0e38611807a8fda65d9205b4210b4eb6}
+
+
+\-Definition at line 66 of file unittest.\-cpp.
+
+\hypertarget{group___unit_tests_ga616b42d75c14427fb433a0efc0dcc8d0}{\index{\-Unit\-Tests@{\-Unit\-Tests}!\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}}
+\index{\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}!UnitTests@{\-Unit\-Tests}}
+\subsubsection[{\-T\-E\-S\-T\-\_\-\-F}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-T\-E\-S\-T\-\_\-\-F} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Bound\-Min\-Max}}]{, }
+\item[{\-Val\-Below\-Zero\-Range}]{}
+\end{DoxyParamCaption}
+)}}\label{group___unit_tests_ga616b42d75c14427fb433a0efc0dcc8d0}
+
+
+\-Definition at line 69 of file unittest.\-cpp.
+
+\hypertarget{group___unit_tests_gad02391e83795156c832c539efb040a39}{\index{\-Unit\-Tests@{\-Unit\-Tests}!\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}}
+\index{\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}!UnitTests@{\-Unit\-Tests}}
+\subsubsection[{\-T\-E\-S\-T\-\_\-\-F}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-T\-E\-S\-T\-\_\-\-F} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-I2\-C\-V\-M\-Test}}]{, }
+\item[{\-Invalid\-Op\-Code\-Program}]{}
+\end{DoxyParamCaption}
+)}}\label{group___unit_tests_gad02391e83795156c832c539efb040a39}
+
+
+\-Definition at line 73 of file unittest.\-cpp.
+
+\hypertarget{group___unit_tests_ga28cf6df5edd30421eba939fc8b6951d7}{\index{\-Unit\-Tests@{\-Unit\-Tests}!\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}}
+\index{\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}!UnitTests@{\-Unit\-Tests}}
+\subsubsection[{\-T\-E\-S\-T\-\_\-\-F}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-T\-E\-S\-T\-\_\-\-F} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Sin\-Lookup}}]{, }
+\item[{\-Sin\-Rad\-Sweep}]{}
+\end{DoxyParamCaption}
+)}}\label{group___unit_tests_ga28cf6df5edd30421eba939fc8b6951d7}
+
+
+\-Definition at line 73 of file unittest.\-cpp.
+
+\hypertarget{group___unit_tests_ga7b82883b4c8ff0d533a5b3923e8845fd}{\index{\-Unit\-Tests@{\-Unit\-Tests}!\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}}
+\index{\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}!UnitTests@{\-Unit\-Tests}}
+\subsubsection[{\-T\-E\-S\-T\-\_\-\-F}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-T\-E\-S\-T\-\_\-\-F} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Bound\-Min\-Max}}]{, }
+\item[{\-Val\-Within\-Zero\-Range}]{}
+\end{DoxyParamCaption}
+)}}\label{group___unit_tests_ga7b82883b4c8ff0d533a5b3923e8845fd}
+
+
+\-Definition at line 76 of file unittest.\-cpp.
+
+\hypertarget{group___unit_tests_gaf59634da9fe51f87255171f2b26412ff}{\index{\-Unit\-Tests@{\-Unit\-Tests}!\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}}
+\index{\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}!UnitTests@{\-Unit\-Tests}}
+\subsubsection[{\-T\-E\-S\-T\-\_\-\-F}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-T\-E\-S\-T\-\_\-\-F} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Sin\-Lookup}}]{, }
+\item[{\-Cos\-Deg\-Sweep}]{}
+\end{DoxyParamCaption}
+)}}\label{group___unit_tests_gaf59634da9fe51f87255171f2b26412ff}
+
+
+\-Definition at line 81 of file unittest.\-cpp.
+
+\hypertarget{group___unit_tests_ga910c1f79944cb7a8b4dcbb6aad106cd0}{\index{\-Unit\-Tests@{\-Unit\-Tests}!\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}}
+\index{\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}!UnitTests@{\-Unit\-Tests}}
+\subsubsection[{\-T\-E\-S\-T\-\_\-\-F}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-T\-E\-S\-T\-\_\-\-F} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-I2\-C\-V\-M\-Test}}]{, }
+\item[{\-Nop\-Program}]{}
+\end{DoxyParamCaption}
+)}}\label{group___unit_tests_ga910c1f79944cb7a8b4dcbb6aad106cd0}
+
+
+\-Definition at line 81 of file unittest.\-cpp.
+
+\hypertarget{group___unit_tests_ga132356b391d86ecdf50208ce16363129}{\index{\-Unit\-Tests@{\-Unit\-Tests}!\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}}
+\index{\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}!UnitTests@{\-Unit\-Tests}}
+\subsubsection[{\-T\-E\-S\-T\-\_\-\-F}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-T\-E\-S\-T\-\_\-\-F} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Bound\-Min\-Max}}]{, }
+\item[{\-Val\-Above\-Zero\-Range}]{}
+\end{DoxyParamCaption}
+)}}\label{group___unit_tests_ga132356b391d86ecdf50208ce16363129}
+
+
+\-Definition at line 83 of file unittest.\-cpp.
+
+\hypertarget{group___unit_tests_ga368e9e15e13bc83e0a503fb312b095f9}{\index{\-Unit\-Tests@{\-Unit\-Tests}!\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}}
+\index{\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}!UnitTests@{\-Unit\-Tests}}
+\subsubsection[{\-T\-E\-S\-T\-\_\-\-F}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-T\-E\-S\-T\-\_\-\-F} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-I2\-C\-V\-M\-Test}}]{, }
+\item[{\-Send\-Initial\-U\-A\-V\-O}]{}
+\end{DoxyParamCaption}
+)}}\label{group___unit_tests_ga368e9e15e13bc83e0a503fb312b095f9}
+
+
+\-Definition at line 89 of file unittest.\-cpp.
+
+\hypertarget{group___unit_tests_gab85081745f2bed950e8b3c8a383711e0}{\index{\-Unit\-Tests@{\-Unit\-Tests}!\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}}
+\index{\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}!UnitTests@{\-Unit\-Tests}}
+\subsubsection[{\-T\-E\-S\-T\-\_\-\-F}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-T\-E\-S\-T\-\_\-\-F} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Sin\-Lookup}}]{, }
+\item[{\-Cos\-Rad\-Sweep}]{}
+\end{DoxyParamCaption}
+)}}\label{group___unit_tests_gab85081745f2bed950e8b3c8a383711e0}
+
+
+\-Definition at line 89 of file unittest.\-cpp.
+
+\hypertarget{group___unit_tests_gaa62459355b2c84ef788d4bb84f924458}{\index{\-Unit\-Tests@{\-Unit\-Tests}!\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}}
+\index{\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}!UnitTests@{\-Unit\-Tests}}
+\subsubsection[{\-T\-E\-S\-T\-\_\-\-F}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-T\-E\-S\-T\-\_\-\-F} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Bound\-Min\-Max}}]{, }
+\item[{\-Positive\-Min\-Max}]{}
+\end{DoxyParamCaption}
+)}}\label{group___unit_tests_gaa62459355b2c84ef788d4bb84f924458}
+
+
+\-Definition at line 90 of file unittest.\-cpp.
+
+\hypertarget{group___unit_tests_gae71b9ce7ab11f166b843e3658a8ff438}{\index{\-Unit\-Tests@{\-Unit\-Tests}!\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}}
+\index{\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}!UnitTests@{\-Unit\-Tests}}
+\subsubsection[{\-T\-E\-S\-T\-\_\-\-F}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-T\-E\-S\-T\-\_\-\-F} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-I2\-C\-V\-M\-Test}}]{, }
+\item[{\-Register\-Independence}]{}
+\end{DoxyParamCaption}
+)}}\label{group___unit_tests_gae71b9ce7ab11f166b843e3658a8ff438}
+
+
+\-Definition at line 106 of file unittest.\-cpp.
+
+\hypertarget{group___unit_tests_ga55f8b8b58267f37c46e74ff9a02c3552}{\index{\-Unit\-Tests@{\-Unit\-Tests}!\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}}
+\index{\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}!UnitTests@{\-Unit\-Tests}}
+\subsubsection[{\-T\-E\-S\-T\-\_\-\-F}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-T\-E\-S\-T\-\_\-\-F} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Bound\-Min\-Max}}]{, }
+\item[{\-Negative\-Min\-Max}]{}
+\end{DoxyParamCaption}
+)}}\label{group___unit_tests_ga55f8b8b58267f37c46e74ff9a02c3552}
+
+
+\-Definition at line 106 of file unittest.\-cpp.
+
+\hypertarget{group___unit_tests_gad0ffad42b546bb80c39d04c4d69466f0}{\index{\-Unit\-Tests@{\-Unit\-Tests}!\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}}
+\index{\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}!UnitTests@{\-Unit\-Tests}}
+\subsubsection[{\-T\-E\-S\-T\-\_\-\-F}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-T\-E\-S\-T\-\_\-\-F} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Logfs\-Test\-Raw}}]{, }
+\item[{\-Flash\-Init}]{}
+\end{DoxyParamCaption}
+)}}\label{group___unit_tests_gad0ffad42b546bb80c39d04c4d69466f0}
+
+
+\-Definition at line 120 of file unittest.\-cpp.
+
+\hypertarget{group___unit_tests_ga2bfe3239906784d1c3bc974c164a8ac1}{\index{\-Unit\-Tests@{\-Unit\-Tests}!\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}}
+\index{\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}!UnitTests@{\-Unit\-Tests}}
+\subsubsection[{\-T\-E\-S\-T\-\_\-\-F}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-T\-E\-S\-T\-\_\-\-F} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Bound\-Min\-Max}}]{, }
+\item[{\-Straddle\-Zero\-Min\-Max}]{}
+\end{DoxyParamCaption}
+)}}\label{group___unit_tests_ga2bfe3239906784d1c3bc974c164a8ac1}
+
+
+\-Definition at line 122 of file unittest.\-cpp.
+
+\hypertarget{group___unit_tests_ga253b9e2c592f3b3754c532aeea4968d4}{\index{\-Unit\-Tests@{\-Unit\-Tests}!\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}}
+\index{\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}!UnitTests@{\-Unit\-Tests}}
+\subsubsection[{\-T\-E\-S\-T\-\_\-\-F}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-T\-E\-S\-T\-\_\-\-F} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Logfs\-Test\-Raw}}]{, }
+\item[{\-Logfs\-Init}]{}
+\end{DoxyParamCaption}
+)}}\label{group___unit_tests_ga253b9e2c592f3b3754c532aeea4968d4}
+
+
+\-Definition at line 127 of file unittest.\-cpp.
+
+\hypertarget{group___unit_tests_ga0a655cc31302bf8e9372a3c5ba7540e0}{\index{\-Unit\-Tests@{\-Unit\-Tests}!\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}}
+\index{\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}!UnitTests@{\-Unit\-Tests}}
+\subsubsection[{\-T\-E\-S\-T\-\_\-\-F}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-T\-E\-S\-T\-\_\-\-F} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-I2\-C\-V\-M\-Test}}]{, }
+\item[{\-Set\-Imm\-Max}]{}
+\end{DoxyParamCaption}
+)}}\label{group___unit_tests_ga0a655cc31302bf8e9372a3c5ba7540e0}
+
+
+\-Definition at line 130 of file unittest.\-cpp.
+
+\hypertarget{group___unit_tests_gab26ddcb061179d0238954b4a4f149b3b}{\index{\-Unit\-Tests@{\-Unit\-Tests}!\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}}
+\index{\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}!UnitTests@{\-Unit\-Tests}}
+\subsubsection[{\-T\-E\-S\-T\-\_\-\-F}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-T\-E\-S\-T\-\_\-\-F} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-I2\-C\-V\-M\-Test}}]{, }
+\item[{\-Set\-Imm\-Sign\-Extension}]{}
+\end{DoxyParamCaption}
+)}}\label{group___unit_tests_gab26ddcb061179d0238954b4a4f149b3b}
+
+
+\-Definition at line 141 of file unittest.\-cpp.
+
+\hypertarget{group___unit_tests_gadd176ad6c420571ec24f5b96f9578e5b}{\index{\-Unit\-Tests@{\-Unit\-Tests}!\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}}
+\index{\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}!UnitTests@{\-Unit\-Tests}}
+\subsubsection[{\-T\-E\-S\-T\-\_\-\-F}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-T\-E\-S\-T\-\_\-\-F} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Bound\-Sym}}]{, }
+\item[{\-Zero\-Range}]{}
+\end{DoxyParamCaption}
+)}}\label{group___unit_tests_gadd176ad6c420571ec24f5b96f9578e5b}
+
+
+\-Definition at line 148 of file unittest.\-cpp.
+
+\hypertarget{group___unit_tests_ga9d1fd34d9c33dcae7684a163688efa51}{\index{\-Unit\-Tests@{\-Unit\-Tests}!\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}}
+\index{\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}!UnitTests@{\-Unit\-Tests}}
+\subsubsection[{\-T\-E\-S\-T\-\_\-\-F}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-T\-E\-S\-T\-\_\-\-F} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-I2\-C\-V\-M\-Test}}]{, }
+\item[{\-Set\-Imm\-Min}]{}
+\end{DoxyParamCaption}
+)}}\label{group___unit_tests_ga9d1fd34d9c33dcae7684a163688efa51}
+
+
+\-Definition at line 152 of file unittest.\-cpp.
+
+\hypertarget{group___unit_tests_gaa95ae577174d8bd9b9cc50f39e1e4cf3}{\index{\-Unit\-Tests@{\-Unit\-Tests}!\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}}
+\index{\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}!UnitTests@{\-Unit\-Tests}}
+\subsubsection[{\-T\-E\-S\-T\-\_\-\-F}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-T\-E\-S\-T\-\_\-\-F} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Logfs\-Test\-Cooked}}]{, }
+\item[{\-Bad\-Id\-Logfs\-Format}]{}
+\end{DoxyParamCaption}
+)}}\label{group___unit_tests_gaa95ae577174d8bd9b9cc50f39e1e4cf3}
+
+
+\-Definition at line 158 of file unittest.\-cpp.
+
+\hypertarget{group___unit_tests_ga6f8e4fff0ee826ffd2f764af9d8d971f}{\index{\-Unit\-Tests@{\-Unit\-Tests}!\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}}
+\index{\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}!UnitTests@{\-Unit\-Tests}}
+\subsubsection[{\-T\-E\-S\-T\-\_\-\-F}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-T\-E\-S\-T\-\_\-\-F} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Logfs\-Test\-Cooked}}]{, }
+\item[{\-Bad\-Id\-Save}]{}
+\end{DoxyParamCaption}
+)}}\label{group___unit_tests_ga6f8e4fff0ee826ffd2f764af9d8d971f}
+
+
+\-Definition at line 162 of file unittest.\-cpp.
+
+\hypertarget{group___unit_tests_ga548005fd2118ab3d1421a52580886532}{\index{\-Unit\-Tests@{\-Unit\-Tests}!\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}}
+\index{\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}!UnitTests@{\-Unit\-Tests}}
+\subsubsection[{\-T\-E\-S\-T\-\_\-\-F}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-T\-E\-S\-T\-\_\-\-F} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Bound\-Sym}}]{, }
+\item[{\-Non\-Zero\-Range}]{}
+\end{DoxyParamCaption}
+)}}\label{group___unit_tests_ga548005fd2118ab3d1421a52580886532}
+
+
+\-Definition at line 163 of file unittest.\-cpp.
+
+\hypertarget{group___unit_tests_ga00fc2472f93dc16ff718689f8fbdcda2}{\index{\-Unit\-Tests@{\-Unit\-Tests}!\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}}
+\index{\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}!UnitTests@{\-Unit\-Tests}}
+\subsubsection[{\-T\-E\-S\-T\-\_\-\-F}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-T\-E\-S\-T\-\_\-\-F} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-I2\-C\-V\-M\-Test}}]{, }
+\item[{\-Set\-Imm\-Truncates\-At16\-Bit}]{}
+\end{DoxyParamCaption}
+)}}\label{group___unit_tests_ga00fc2472f93dc16ff718689f8fbdcda2}
+
+
+\-Definition at line 163 of file unittest.\-cpp.
+
+\hypertarget{group___unit_tests_ga2ae66629b7714cae9e6b7fa7513e582a}{\index{\-Unit\-Tests@{\-Unit\-Tests}!\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}}
+\index{\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}!UnitTests@{\-Unit\-Tests}}
+\subsubsection[{\-T\-E\-S\-T\-\_\-\-F}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-T\-E\-S\-T\-\_\-\-F} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Logfs\-Test\-Cooked}}]{, }
+\item[{\-Bad\-Id\-Load}]{}
+\end{DoxyParamCaption}
+)}}\label{group___unit_tests_ga2ae66629b7714cae9e6b7fa7513e582a}
+
+
+\-Definition at line 166 of file unittest.\-cpp.
+
+\hypertarget{group___unit_tests_gacaef9b0357724dd62343d2e2c12228f6}{\index{\-Unit\-Tests@{\-Unit\-Tests}!\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}}
+\index{\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}!UnitTests@{\-Unit\-Tests}}
+\subsubsection[{\-T\-E\-S\-T\-\_\-\-F}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-T\-E\-S\-T\-\_\-\-F} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Logfs\-Test\-Cooked}}]{, }
+\item[{\-Logfs\-Format}]{}
+\end{DoxyParamCaption}
+)}}\label{group___unit_tests_gacaef9b0357724dd62343d2e2c12228f6}
+
+
+\-Definition at line 172 of file unittest.\-cpp.
+
+\hypertarget{group___unit_tests_gaef630d690ed99e8cf216b0f72fdd5b23}{\index{\-Unit\-Tests@{\-Unit\-Tests}!\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}}
+\index{\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}!UnitTests@{\-Unit\-Tests}}
+\subsubsection[{\-T\-E\-S\-T\-\_\-\-F}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-T\-E\-S\-T\-\_\-\-F} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-I2\-C\-V\-M\-Test}}]{, }
+\item[{\-Store}]{}
+\end{DoxyParamCaption}
+)}}\label{group___unit_tests_gaef630d690ed99e8cf216b0f72fdd5b23}
+
+
+\-Definition at line 174 of file unittest.\-cpp.
+
+\hypertarget{group___unit_tests_gaad108bf9d51537e7a021406dbb72ba8d}{\index{\-Unit\-Tests@{\-Unit\-Tests}!\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}}
+\index{\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}!UnitTests@{\-Unit\-Tests}}
+\subsubsection[{\-T\-E\-S\-T\-\_\-\-F}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-T\-E\-S\-T\-\_\-\-F} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Logfs\-Test\-Cooked}}]{, }
+\item[{\-Write\-One}]{}
+\end{DoxyParamCaption}
+)}}\label{group___unit_tests_gaad108bf9d51537e7a021406dbb72ba8d}
+
+
+\-Definition at line 176 of file unittest.\-cpp.
+
+\hypertarget{group___unit_tests_ga648a4ec4fd8c6237d8ca35746dd64a9d}{\index{\-Unit\-Tests@{\-Unit\-Tests}!\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}}
+\index{\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}!UnitTests@{\-Unit\-Tests}}
+\subsubsection[{\-T\-E\-S\-T\-\_\-\-F}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-T\-E\-S\-T\-\_\-\-F} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Logfs\-Test\-Cooked}}]{, }
+\item[{\-Write\-Verify\-One}]{}
+\end{DoxyParamCaption}
+)}}\label{group___unit_tests_ga648a4ec4fd8c6237d8ca35746dd64a9d}
+
+
+\-Definition at line 180 of file unittest.\-cpp.
+
+\hypertarget{group___unit_tests_ga17693a11d324ba463ae792d590bee714}{\index{\-Unit\-Tests@{\-Unit\-Tests}!\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}}
+\index{\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}!UnitTests@{\-Unit\-Tests}}
+\subsubsection[{\-T\-E\-S\-T\-\_\-\-F}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-T\-E\-S\-T\-\_\-\-F} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Circular\-Modulus\-Deg}}]{, }
+\item[{\-Null\-Error}]{}
+\end{DoxyParamCaption}
+)}}\label{group___unit_tests_ga17693a11d324ba463ae792d590bee714}
+
+
+\-Definition at line 188 of file unittest.\-cpp.
+
+\hypertarget{group___unit_tests_ga3445631e0cef3272b085ad6f9db3157b}{\index{\-Unit\-Tests@{\-Unit\-Tests}!\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}}
+\index{\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}!UnitTests@{\-Unit\-Tests}}
+\subsubsection[{\-T\-E\-S\-T\-\_\-\-F}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-T\-E\-S\-T\-\_\-\-F} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Logfs\-Test\-Cooked}}]{, }
+\item[{\-Write\-Verify\-Delete\-Verify\-One}]{}
+\end{DoxyParamCaption}
+)}}\label{group___unit_tests_ga3445631e0cef3272b085ad6f9db3157b}
+
+
+\-Definition at line 189 of file unittest.\-cpp.
+
+\hypertarget{group___unit_tests_ga05800e4f670392f78853e4827e13f691}{\index{\-Unit\-Tests@{\-Unit\-Tests}!\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}}
+\index{\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}!UnitTests@{\-Unit\-Tests}}
+\subsubsection[{\-T\-E\-S\-T\-\_\-\-F}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-T\-E\-S\-T\-\_\-\-F} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-I2\-C\-V\-M\-Test}}]{, }
+\item[{\-Store\-Bad\-Address}]{}
+\end{DoxyParamCaption}
+)}}\label{group___unit_tests_ga05800e4f670392f78853e4827e13f691}
+
+
+\-Definition at line 197 of file unittest.\-cpp.
+
+\hypertarget{group___unit_tests_gab74bc4a71915e6b66efa543d8162af35}{\index{\-Unit\-Tests@{\-Unit\-Tests}!\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}}
+\index{\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}!UnitTests@{\-Unit\-Tests}}
+\subsubsection[{\-T\-E\-S\-T\-\_\-\-F}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-T\-E\-S\-T\-\_\-\-F} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Circular\-Modulus\-Deg}}]{, }
+\item[{\-Max\-Pos\-Error}]{}
+\end{DoxyParamCaption}
+)}}\label{group___unit_tests_gab74bc4a71915e6b66efa543d8162af35}
+
+
+\-Definition at line 201 of file unittest.\-cpp.
+
+\hypertarget{group___unit_tests_ga1cf14f972876c023077641ba98e63c8b}{\index{\-Unit\-Tests@{\-Unit\-Tests}!\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}}
+\index{\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}!UnitTests@{\-Unit\-Tests}}
+\subsubsection[{\-T\-E\-S\-T\-\_\-\-F}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-T\-E\-S\-T\-\_\-\-F} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Logfs\-Test\-Cooked}}]{, }
+\item[{\-Write\-Two\-Verify\-One\-A}]{}
+\end{DoxyParamCaption}
+)}}\label{group___unit_tests_ga1cf14f972876c023077641ba98e63c8b}
+
+
+\-Definition at line 202 of file unittest.\-cpp.
+
+\hypertarget{group___unit_tests_gad3289332928cfabc7cabe596aa42dd73}{\index{\-Unit\-Tests@{\-Unit\-Tests}!\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}}
+\index{\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}!UnitTests@{\-Unit\-Tests}}
+\subsubsection[{\-T\-E\-S\-T\-\_\-\-F}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-T\-E\-S\-T\-\_\-\-F} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-I2\-C\-V\-M\-Test}}]{, }
+\item[{\-Load\-Endian\-Conversions}]{}
+\end{DoxyParamCaption}
+)}}\label{group___unit_tests_gad3289332928cfabc7cabe596aa42dd73}
+
+
+\-Definition at line 205 of file unittest.\-cpp.
+
+\hypertarget{group___unit_tests_ga399c1468b3de50cedea1c29e281f0387}{\index{\-Unit\-Tests@{\-Unit\-Tests}!\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}}
+\index{\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}!UnitTests@{\-Unit\-Tests}}
+\subsubsection[{\-T\-E\-S\-T\-\_\-\-F}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-T\-E\-S\-T\-\_\-\-F} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Circular\-Modulus\-Deg}}]{, }
+\item[{\-Max\-Neg\-Error}]{}
+\end{DoxyParamCaption}
+)}}\label{group___unit_tests_ga399c1468b3de50cedea1c29e281f0387}
+
+
+\-Definition at line 214 of file unittest.\-cpp.
+
+\hypertarget{group___unit_tests_ga48d1f17dec8bfe59c3012e8cb7d02c97}{\index{\-Unit\-Tests@{\-Unit\-Tests}!\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}}
+\index{\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}!UnitTests@{\-Unit\-Tests}}
+\subsubsection[{\-T\-E\-S\-T\-\_\-\-F}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-T\-E\-S\-T\-\_\-\-F} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Logfs\-Test\-Cooked}}]{, }
+\item[{\-Write\-Two\-Verify\-One\-B}]{}
+\end{DoxyParamCaption}
+)}}\label{group___unit_tests_ga48d1f17dec8bfe59c3012e8cb7d02c97}
+
+
+\-Definition at line 214 of file unittest.\-cpp.
+
+\hypertarget{group___unit_tests_ga773670f215b2d6d437cf973b562e7208}{\index{\-Unit\-Tests@{\-Unit\-Tests}!\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}}
+\index{\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}!UnitTests@{\-Unit\-Tests}}
+\subsubsection[{\-T\-E\-S\-T\-\_\-\-F}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-T\-E\-S\-T\-\_\-\-F} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Logfs\-Test\-Cooked}}]{, }
+\item[{\-Write\-Zero\-Size}]{}
+\end{DoxyParamCaption}
+)}}\label{group___unit_tests_ga773670f215b2d6d437cf973b562e7208}
+
+
+\-Definition at line 226 of file unittest.\-cpp.
+
+\hypertarget{group___unit_tests_gae9b10024a005563e17340713ce445a15}{\index{\-Unit\-Tests@{\-Unit\-Tests}!\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}}
+\index{\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}!UnitTests@{\-Unit\-Tests}}
+\subsubsection[{\-T\-E\-S\-T\-\_\-\-F}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-T\-E\-S\-T\-\_\-\-F} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Circular\-Modulus\-Deg}}]{, }
+\item[{\-Sweep\-Error}]{}
+\end{DoxyParamCaption}
+)}}\label{group___unit_tests_gae9b10024a005563e17340713ce445a15}
+
+
+\-Definition at line 227 of file unittest.\-cpp.
+
+\hypertarget{group___unit_tests_ga079b8cc84786de4a97f3b1d2ead2aec1}{\index{\-Unit\-Tests@{\-Unit\-Tests}!\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}}
+\index{\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}!UnitTests@{\-Unit\-Tests}}
+\subsubsection[{\-T\-E\-S\-T\-\_\-\-F}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-T\-E\-S\-T\-\_\-\-F} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Logfs\-Test\-Cooked}}]{, }
+\item[{\-Write\-Verify\-Zero\-Length}]{}
+\end{DoxyParamCaption}
+)}}\label{group___unit_tests_ga079b8cc84786de4a97f3b1d2ead2aec1}
+
+
+\-Definition at line 231 of file unittest.\-cpp.
+
+\hypertarget{group___unit_tests_ga1126eb2ccff40800bc0d5c308004e807}{\index{\-Unit\-Tests@{\-Unit\-Tests}!\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}}
+\index{\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}!UnitTests@{\-Unit\-Tests}}
+\subsubsection[{\-T\-E\-S\-T\-\_\-\-F}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-T\-E\-S\-T\-\_\-\-F} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-I2\-C\-V\-M\-Test}}]{, }
+\item[{\-Load\-Bad\-Address}]{}
+\end{DoxyParamCaption}
+)}}\label{group___unit_tests_ga1126eb2ccff40800bc0d5c308004e807}
+
+
+\-Definition at line 235 of file unittest.\-cpp.
+
+\hypertarget{group___unit_tests_ga6ce60ecfc18738ead214a44d47a22c19}{\index{\-Unit\-Tests@{\-Unit\-Tests}!\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}}
+\index{\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}!UnitTests@{\-Unit\-Tests}}
+\subsubsection[{\-T\-E\-S\-T\-\_\-\-F}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-T\-E\-S\-T\-\_\-\-F} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Logfs\-Test\-Cooked}}]{, }
+\item[{\-Write\-Max\-Size}]{}
+\end{DoxyParamCaption}
+)}}\label{group___unit_tests_ga6ce60ecfc18738ead214a44d47a22c19}
+
+
+\-Definition at line 239 of file unittest.\-cpp.
+
+\hypertarget{group___unit_tests_gad868321881cf4fae0a9d11c16ad273a5}{\index{\-Unit\-Tests@{\-Unit\-Tests}!\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}}
+\index{\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}!UnitTests@{\-Unit\-Tests}}
+\subsubsection[{\-T\-E\-S\-T\-\_\-\-F}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-T\-E\-S\-T\-\_\-\-F} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-I2\-C\-V\-M\-Test}}]{, }
+\item[{\-Load\-Bad\-Length}]{}
+\end{DoxyParamCaption}
+)}}\label{group___unit_tests_gad868321881cf4fae0a9d11c16ad273a5}
+
+
+\-Definition at line 243 of file unittest.\-cpp.
+
+\hypertarget{group___unit_tests_ga2e5a9acaa02d2c2fa66d03adf200af24}{\index{\-Unit\-Tests@{\-Unit\-Tests}!\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}}
+\index{\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}!UnitTests@{\-Unit\-Tests}}
+\subsubsection[{\-T\-E\-S\-T\-\_\-\-F}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-T\-E\-S\-T\-\_\-\-F} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Logfs\-Test\-Cooked}}]{, }
+\item[{\-Read\-Nonexistent}]{}
+\end{DoxyParamCaption}
+)}}\label{group___unit_tests_ga2e5a9acaa02d2c2fa66d03adf200af24}
+
+
+\-Definition at line 244 of file unittest.\-cpp.
+
+\hypertarget{group___unit_tests_ga4b43e2486591995a9870ffe8b97ff0af}{\index{\-Unit\-Tests@{\-Unit\-Tests}!\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}}
+\index{\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}!UnitTests@{\-Unit\-Tests}}
+\subsubsection[{\-T\-E\-S\-T\-\_\-\-F}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-T\-E\-S\-T\-\_\-\-F} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-I2\-C\-V\-M\-Test}}]{, }
+\item[{\-L\-S\-L\-\_\-\-A\-S\-R\-\_\-\-Sign\-Extend}]{}
+\end{DoxyParamCaption}
+)}}\label{group___unit_tests_ga4b43e2486591995a9870ffe8b97ff0af}
+
+
+\-Definition at line 251 of file unittest.\-cpp.
+
+\hypertarget{group___unit_tests_ga669c582bc27e4f9ac82e377803246061}{\index{\-Unit\-Tests@{\-Unit\-Tests}!\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}}
+\index{\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}!UnitTests@{\-Unit\-Tests}}
+\subsubsection[{\-T\-E\-S\-T\-\_\-\-F}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-T\-E\-S\-T\-\_\-\-F} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Logfs\-Test\-Cooked}}]{, }
+\item[{\-Write\-Verify\-Multi\-Instance}]{}
+\end{DoxyParamCaption}
+)}}\label{group___unit_tests_ga669c582bc27e4f9ac82e377803246061}
+
+
+\-Definition at line 251 of file unittest.\-cpp.
+
+\hypertarget{group___unit_tests_ga3a5ba5e7649f2e14d3092f671c996e3e}{\index{\-Unit\-Tests@{\-Unit\-Tests}!\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}}
+\index{\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}!UnitTests@{\-Unit\-Tests}}
+\subsubsection[{\-T\-E\-S\-T\-\_\-\-F}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-T\-E\-S\-T\-\_\-\-F} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Logfs\-Test\-Cooked}}]{, }
+\item[{\-Fill\-Filesystem\-And\-Garbage\-Collect}]{}
+\end{DoxyParamCaption}
+)}}\label{group___unit_tests_ga3a5ba5e7649f2e14d3092f671c996e3e}
+
+
+\-Definition at line 271 of file unittest.\-cpp.
+
+\hypertarget{group___unit_tests_gaceb71a0ba1b5cb9e7dddf188c05833cb}{\index{\-Unit\-Tests@{\-Unit\-Tests}!\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}}
+\index{\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}!UnitTests@{\-Unit\-Tests}}
+\subsubsection[{\-T\-E\-S\-T\-\_\-\-F}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-T\-E\-S\-T\-\_\-\-F} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-I2\-C\-V\-M\-Test}}]{, }
+\item[{\-L\-S\-L\-\_\-\-A\-S\-R\-\_\-\-Zero\-Extend}]{}
+\end{DoxyParamCaption}
+)}}\label{group___unit_tests_gaceb71a0ba1b5cb9e7dddf188c05833cb}
+
+
+\-Definition at line 283 of file unittest.\-cpp.
+
+\hypertarget{group___unit_tests_ga64b4ab283359ebc3533f35a7fb7e6fe3}{\index{\-Unit\-Tests@{\-Unit\-Tests}!\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}}
+\index{\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}!UnitTests@{\-Unit\-Tests}}
+\subsubsection[{\-T\-E\-S\-T\-\_\-\-F}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-T\-E\-S\-T\-\_\-\-F} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Logfs\-Test\-Cooked}}]{, }
+\item[{\-Write\-Many\-Verify}]{}
+\end{DoxyParamCaption}
+)}}\label{group___unit_tests_ga64b4ab283359ebc3533f35a7fb7e6fe3}
+
+
+\-Definition at line 295 of file unittest.\-cpp.
+
+\hypertarget{group___unit_tests_ga727b6097a9d881f2333caf01add8f616}{\index{\-Unit\-Tests@{\-Unit\-Tests}!\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}}
+\index{\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}!UnitTests@{\-Unit\-Tests}}
+\subsubsection[{\-T\-E\-S\-T\-\_\-\-F}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-T\-E\-S\-T\-\_\-\-F} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-I2\-C\-V\-M\-Test}}]{, }
+\item[{\-Logical\-Shift\-Left}]{}
+\end{DoxyParamCaption}
+)}}\label{group___unit_tests_ga727b6097a9d881f2333caf01add8f616}
+
+
+\-Definition at line 315 of file unittest.\-cpp.
+
+\hypertarget{group___unit_tests_ga24a114e324d7b9f86337c08c9f2b6c64}{\index{\-Unit\-Tests@{\-Unit\-Tests}!\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}}
+\index{\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}!UnitTests@{\-Unit\-Tests}}
+\subsubsection[{\-T\-E\-S\-T\-\_\-\-F}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-T\-E\-S\-T\-\_\-\-F} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Logfs\-Test\-Cooked\-Multi\-Part}}]{, }
+\item[{\-Write\-One\-Write\-One\-Verify}]{}
+\end{DoxyParamCaption}
+)}}\label{group___unit_tests_ga24a114e324d7b9f86337c08c9f2b6c64}
+
+
+\-Definition at line 351 of file unittest.\-cpp.
+
+\hypertarget{group___unit_tests_ga3e5c552462de21f6f63035ab3dab4408}{\index{\-Unit\-Tests@{\-Unit\-Tests}!\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}}
+\index{\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}!UnitTests@{\-Unit\-Tests}}
+\subsubsection[{\-T\-E\-S\-T\-\_\-\-F}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-T\-E\-S\-T\-\_\-\-F} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-I2\-C\-V\-M\-Test}}]{, }
+\item[{\-Logical\-Shift\-Right}]{}
+\end{DoxyParamCaption}
+)}}\label{group___unit_tests_ga3e5c552462de21f6f63035ab3dab4408}
+
+
+\-Definition at line 359 of file unittest.\-cpp.
+
+\hypertarget{group___unit_tests_ga66d2a26c55d24d0da23b04752a7a6fb0}{\index{\-Unit\-Tests@{\-Unit\-Tests}!\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}}
+\index{\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}!UnitTests@{\-Unit\-Tests}}
+\subsubsection[{\-T\-E\-S\-T\-\_\-\-F}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-T\-E\-S\-T\-\_\-\-F} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Logfs\-Test\-Cooked\-Multi\-Part}}]{, }
+\item[{\-Write\-One\-Write\-One\-Format\-One\-Verify}]{}
+\end{DoxyParamCaption}
+)}}\label{group___unit_tests_ga66d2a26c55d24d0da23b04752a7a6fb0}
+
+
+\-Definition at line 368 of file unittest.\-cpp.
+
+\hypertarget{group___unit_tests_ga764d406c79c1ec4236e5f03c1fc48e46}{\index{\-Unit\-Tests@{\-Unit\-Tests}!\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}}
+\index{\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}!UnitTests@{\-Unit\-Tests}}
+\subsubsection[{\-T\-E\-S\-T\-\_\-\-F}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-T\-E\-S\-T\-\_\-\-F} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Logfs\-Test\-Cooked\-Multi\-Part}}]{, }
+\item[{\-Write\-One\-Write\-One\-No\-Cross}]{}
+\end{DoxyParamCaption}
+)}}\label{group___unit_tests_ga764d406c79c1ec4236e5f03c1fc48e46}
+
+
+\-Definition at line 381 of file unittest.\-cpp.
+
+\hypertarget{group___unit_tests_ga4b1eaeb81dc020435304ff23a66895c8}{\index{\-Unit\-Tests@{\-Unit\-Tests}!\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}}
+\index{\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}!UnitTests@{\-Unit\-Tests}}
+\subsubsection[{\-T\-E\-S\-T\-\_\-\-F}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-T\-E\-S\-T\-\_\-\-F} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Logfs\-Test\-Cooked\-Multi\-Part}}]{, }
+\item[{\-Write\-One\-Write\-One\-Delete\-One}]{}
+\end{DoxyParamCaption}
+)}}\label{group___unit_tests_ga4b1eaeb81dc020435304ff23a66895c8}
+
+
+\-Definition at line 396 of file unittest.\-cpp.
+
+\hypertarget{group___unit_tests_ga5ddec420dc153ad632f5e0e3c85c7336}{\index{\-Unit\-Tests@{\-Unit\-Tests}!\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}}
+\index{\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}!UnitTests@{\-Unit\-Tests}}
+\subsubsection[{\-T\-E\-S\-T\-\_\-\-F}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-T\-E\-S\-T\-\_\-\-F} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-I2\-C\-V\-M\-Test}}]{, }
+\item[{\-Arithmetic\-Shift\-Right}]{}
+\end{DoxyParamCaption}
+)}}\label{group___unit_tests_ga5ddec420dc153ad632f5e0e3c85c7336}
+
+
+\-Definition at line 403 of file unittest.\-cpp.
+
+\hypertarget{group___unit_tests_ga4ae6529c9fa155129efba3de7100b3d9}{\index{\-Unit\-Tests@{\-Unit\-Tests}!\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}}
+\index{\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}!UnitTests@{\-Unit\-Tests}}
+\subsubsection[{\-T\-E\-S\-T\-\_\-\-F}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-T\-E\-S\-T\-\_\-\-F} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Logfs\-Test\-Cooked\-Multi\-Part}}]{, }
+\item[{\-Write\-Large}]{}
+\end{DoxyParamCaption}
+)}}\label{group___unit_tests_ga4ae6529c9fa155129efba3de7100b3d9}
+
+
+\-Definition at line 413 of file unittest.\-cpp.
+
+\hypertarget{group___unit_tests_gaab9d848ac09c9188a76aefedde95f0d9}{\index{\-Unit\-Tests@{\-Unit\-Tests}!\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}}
+\index{\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}!UnitTests@{\-Unit\-Tests}}
+\subsubsection[{\-T\-E\-S\-T\-\_\-\-F}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-T\-E\-S\-T\-\_\-\-F} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-I2\-C\-V\-M\-Test}}]{, }
+\item[{\-Or\-Imm}]{}
+\end{DoxyParamCaption}
+)}}\label{group___unit_tests_gaab9d848ac09c9188a76aefedde95f0d9}
+
+
+\-Definition at line 447 of file unittest.\-cpp.
+
+\hypertarget{group___unit_tests_gadef92e19394b5187e64aa9673b4a12ed}{\index{\-Unit\-Tests@{\-Unit\-Tests}!\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}}
+\index{\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}!UnitTests@{\-Unit\-Tests}}
+\subsubsection[{\-T\-E\-S\-T\-\_\-\-F}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-T\-E\-S\-T\-\_\-\-F} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-I2\-C\-V\-M\-Test}}]{, }
+\item[{\-And}]{}
+\end{DoxyParamCaption}
+)}}\label{group___unit_tests_gadef92e19394b5187e64aa9673b4a12ed}
+
+
+\-Definition at line 462 of file unittest.\-cpp.
+
+\hypertarget{group___unit_tests_ga0d9ace46337e18e51615a40e0aa8d829}{\index{\-Unit\-Tests@{\-Unit\-Tests}!\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}}
+\index{\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}!UnitTests@{\-Unit\-Tests}}
+\subsubsection[{\-T\-E\-S\-T\-\_\-\-F}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-T\-E\-S\-T\-\_\-\-F} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-I2\-C\-V\-M\-Test}}]{, }
+\item[{\-Add\-Imm\-Positive}]{}
+\end{DoxyParamCaption}
+)}}\label{group___unit_tests_ga0d9ace46337e18e51615a40e0aa8d829}
+
+
+\-Definition at line 508 of file unittest.\-cpp.
+
+\hypertarget{group___unit_tests_gad8c282d88cb4f0088a9a4119db2cd1e8}{\index{\-Unit\-Tests@{\-Unit\-Tests}!\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}}
+\index{\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}!UnitTests@{\-Unit\-Tests}}
+\subsubsection[{\-T\-E\-S\-T\-\_\-\-F}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-T\-E\-S\-T\-\_\-\-F} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-I2\-C\-V\-M\-Test}}]{, }
+\item[{\-Add\-Imm\-Negative}]{}
+\end{DoxyParamCaption}
+)}}\label{group___unit_tests_gad8c282d88cb4f0088a9a4119db2cd1e8}
+
+
+\-Definition at line 520 of file unittest.\-cpp.
+
+\hypertarget{group___unit_tests_ga9829ebf2ae65488e6ccf160935366f67}{\index{\-Unit\-Tests@{\-Unit\-Tests}!\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}}
+\index{\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}!UnitTests@{\-Unit\-Tests}}
+\subsubsection[{\-T\-E\-S\-T\-\_\-\-F}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-T\-E\-S\-T\-\_\-\-F} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-I2\-C\-V\-M\-Test}}]{, }
+\item[{\-Add\-Imm\-Does\-Not\-Overflow\-At16\-Bit}]{}
+\end{DoxyParamCaption}
+)}}\label{group___unit_tests_ga9829ebf2ae65488e6ccf160935366f67}
+
+
+\-Definition at line 532 of file unittest.\-cpp.
+
+\hypertarget{group___unit_tests_ga5b89dd714658a53cd8aac63b369eb4d6}{\index{\-Unit\-Tests@{\-Unit\-Tests}!\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}}
+\index{\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}!UnitTests@{\-Unit\-Tests}}
+\subsubsection[{\-T\-E\-S\-T\-\_\-\-F}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-T\-E\-S\-T\-\_\-\-F} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-I2\-C\-V\-M\-Test}}]{, }
+\item[{\-Add}]{}
+\end{DoxyParamCaption}
+)}}\label{group___unit_tests_ga5b89dd714658a53cd8aac63b369eb4d6}
+
+
+\-Definition at line 544 of file unittest.\-cpp.
+
+\hypertarget{group___unit_tests_gacce37e91388f64c77a7639840f41ec16}{\index{\-Unit\-Tests@{\-Unit\-Tests}!\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}}
+\index{\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}!UnitTests@{\-Unit\-Tests}}
+\subsubsection[{\-T\-E\-S\-T\-\_\-\-F}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-T\-E\-S\-T\-\_\-\-F} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-I2\-C\-V\-M\-Test}}]{, }
+\item[{\-Mul\-Pos\-Pos}]{}
+\end{DoxyParamCaption}
+)}}\label{group___unit_tests_gacce37e91388f64c77a7639840f41ec16}
+
+
+\-Definition at line 557 of file unittest.\-cpp.
+
+\hypertarget{group___unit_tests_ga894251de250d7fca8fa49e2777bf1d14}{\index{\-Unit\-Tests@{\-Unit\-Tests}!\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}}
+\index{\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}!UnitTests@{\-Unit\-Tests}}
+\subsubsection[{\-T\-E\-S\-T\-\_\-\-F}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-T\-E\-S\-T\-\_\-\-F} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-I2\-C\-V\-M\-Test}}]{, }
+\item[{\-Mul\-Pos\-Neg}]{}
+\end{DoxyParamCaption}
+)}}\label{group___unit_tests_ga894251de250d7fca8fa49e2777bf1d14}
+
+
+\-Definition at line 570 of file unittest.\-cpp.
+
+\hypertarget{group___unit_tests_gad5b94d4470f9d8171e7e6e2b13e15f74}{\index{\-Unit\-Tests@{\-Unit\-Tests}!\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}}
+\index{\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}!UnitTests@{\-Unit\-Tests}}
+\subsubsection[{\-T\-E\-S\-T\-\_\-\-F}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-T\-E\-S\-T\-\_\-\-F} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-I2\-C\-V\-M\-Test}}]{, }
+\item[{\-Mul\-Neg\-Neg}]{}
+\end{DoxyParamCaption}
+)}}\label{group___unit_tests_gad5b94d4470f9d8171e7e6e2b13e15f74}
+
+
+\-Definition at line 583 of file unittest.\-cpp.
+
+\hypertarget{group___unit_tests_gab41e406d8e82ae50d4f4e996fc61aa23}{\index{\-Unit\-Tests@{\-Unit\-Tests}!\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}}
+\index{\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}!UnitTests@{\-Unit\-Tests}}
+\subsubsection[{\-T\-E\-S\-T\-\_\-\-F}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-T\-E\-S\-T\-\_\-\-F} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-I2\-C\-V\-M\-Test}}]{, }
+\item[{\-Mul\-Imm}]{}
+\end{DoxyParamCaption}
+)}}\label{group___unit_tests_gab41e406d8e82ae50d4f4e996fc61aa23}
+
+
+\-Definition at line 596 of file unittest.\-cpp.
+
+\hypertarget{group___unit_tests_gae742693ab9cdf6d9aa60587eecd23cc3}{\index{\-Unit\-Tests@{\-Unit\-Tests}!\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}}
+\index{\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}!UnitTests@{\-Unit\-Tests}}
+\subsubsection[{\-T\-E\-S\-T\-\_\-\-F}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-T\-E\-S\-T\-\_\-\-F} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-I2\-C\-V\-M\-Test}}]{, }
+\item[{\-Div\-Pos\-Pos}]{}
+\end{DoxyParamCaption}
+)}}\label{group___unit_tests_gae742693ab9cdf6d9aa60587eecd23cc3}
+
+
+\-Definition at line 608 of file unittest.\-cpp.
+
+\hypertarget{group___unit_tests_gada8a4a6bad23c5bbd0bfb9f7081db885}{\index{\-Unit\-Tests@{\-Unit\-Tests}!\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}}
+\index{\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}!UnitTests@{\-Unit\-Tests}}
+\subsubsection[{\-T\-E\-S\-T\-\_\-\-F}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-T\-E\-S\-T\-\_\-\-F} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-I2\-C\-V\-M\-Test}}]{, }
+\item[{\-Div\-Pos\-Neg}]{}
+\end{DoxyParamCaption}
+)}}\label{group___unit_tests_gada8a4a6bad23c5bbd0bfb9f7081db885}
+
+
+\-Definition at line 621 of file unittest.\-cpp.
+
+\hypertarget{group___unit_tests_ga4c34c8b941370225deb56e1abddc0c6c}{\index{\-Unit\-Tests@{\-Unit\-Tests}!\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}}
+\index{\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}!UnitTests@{\-Unit\-Tests}}
+\subsubsection[{\-T\-E\-S\-T\-\_\-\-F}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-T\-E\-S\-T\-\_\-\-F} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-I2\-C\-V\-M\-Test}}]{, }
+\item[{\-Div\-Neg\-Neg}]{}
+\end{DoxyParamCaption}
+)}}\label{group___unit_tests_ga4c34c8b941370225deb56e1abddc0c6c}
+
+
+\-Definition at line 634 of file unittest.\-cpp.
+
+\hypertarget{group___unit_tests_ga90e589865b97c8090278acc057a5aa19}{\index{\-Unit\-Tests@{\-Unit\-Tests}!\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}}
+\index{\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}!UnitTests@{\-Unit\-Tests}}
+\subsubsection[{\-T\-E\-S\-T\-\_\-\-F}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-T\-E\-S\-T\-\_\-\-F} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-I2\-C\-V\-M\-Test}}]{, }
+\item[{\-Div\-Imm}]{}
+\end{DoxyParamCaption}
+)}}\label{group___unit_tests_ga90e589865b97c8090278acc057a5aa19}
+
+
+\-Definition at line 647 of file unittest.\-cpp.
+
+\hypertarget{group___unit_tests_ga4eab1e697b804d9a3dd9e4f5ee823335}{\index{\-Unit\-Tests@{\-Unit\-Tests}!\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}}
+\index{\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}!UnitTests@{\-Unit\-Tests}}
+\subsubsection[{\-T\-E\-S\-T\-\_\-\-F}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-T\-E\-S\-T\-\_\-\-F} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-I2\-C\-V\-M\-Test}}]{, }
+\item[{\-Jump\-Forward}]{}
+\end{DoxyParamCaption}
+)}}\label{group___unit_tests_ga4eab1e697b804d9a3dd9e4f5ee823335}
+
+
+\-Definition at line 659 of file unittest.\-cpp.
+
+\hypertarget{group___unit_tests_ga0a2a0cd2cb3be12cfe7bd67968a819ae}{\index{\-Unit\-Tests@{\-Unit\-Tests}!\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}}
+\index{\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}!UnitTests@{\-Unit\-Tests}}
+\subsubsection[{\-T\-E\-S\-T\-\_\-\-F}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-T\-E\-S\-T\-\_\-\-F} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-I2\-C\-V\-M\-Test}}]{, }
+\item[{\-Jump\-Backward}]{}
+\end{DoxyParamCaption}
+)}}\label{group___unit_tests_ga0a2a0cd2cb3be12cfe7bd67968a819ae}
+
+
+\-Definition at line 675 of file unittest.\-cpp.
+
+\hypertarget{group___unit_tests_ga7b4336a0da271403b044b8293bd54169}{\index{\-Unit\-Tests@{\-Unit\-Tests}!\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}}
+\index{\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}!UnitTests@{\-Unit\-Tests}}
+\subsubsection[{\-T\-E\-S\-T\-\_\-\-F}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-T\-E\-S\-T\-\_\-\-F} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-I2\-C\-V\-M\-Test}}]{, }
+\item[{\-B\-N\-Z\-Not\-Taken}]{}
+\end{DoxyParamCaption}
+)}}\label{group___unit_tests_ga7b4336a0da271403b044b8293bd54169}
+
+
+\-Definition at line 696 of file unittest.\-cpp.
+
+\hypertarget{group___unit_tests_ga84f66a747de5db897d49e1cfa0305685}{\index{\-Unit\-Tests@{\-Unit\-Tests}!\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}}
+\index{\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}!UnitTests@{\-Unit\-Tests}}
+\subsubsection[{\-T\-E\-S\-T\-\_\-\-F}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-T\-E\-S\-T\-\_\-\-F} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-I2\-C\-V\-M\-Test}}]{, }
+\item[{\-B\-N\-Z\-Taken}]{}
+\end{DoxyParamCaption}
+)}}\label{group___unit_tests_ga84f66a747de5db897d49e1cfa0305685}
+
+
+\-Definition at line 718 of file unittest.\-cpp.
+
+\hypertarget{group___unit_tests_ga56ccd9fbaa7cdef0485f6a89c4d700c3}{\index{\-Unit\-Tests@{\-Unit\-Tests}!\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}}
+\index{\-T\-E\-S\-T\-\_\-\-F@{\-T\-E\-S\-T\-\_\-\-F}!UnitTests@{\-Unit\-Tests}}
+\subsubsection[{\-T\-E\-S\-T\-\_\-\-F}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-T\-E\-S\-T\-\_\-\-F} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-I2\-C\-V\-M\-Test}}]{, }
+\item[{\-Clean\-Reboot}]{}
+\end{DoxyParamCaption}
+)}}\label{group___unit_tests_ga56ccd9fbaa7cdef0485f6a89c4d700c3}
+
+
+\-Definition at line 740 of file unittest.\-cpp.
+
+
+
+\subsection{\-Variable \-Documentation}
+\hypertarget{group___unit_tests_gad0a2e88bcf286c1d92cc71ae4f2f4030}{\index{\-Unit\-Tests@{\-Unit\-Tests}!flash\-\_\-config@{flash\-\_\-config}}
+\index{flash\-\_\-config@{flash\-\_\-config}!UnitTests@{\-Unit\-Tests}}
+\subsubsection[{flash\-\_\-config}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf pios\-\_\-flash\-\_\-ut\-\_\-cfg} {\bf flash\-\_\-config}}}\label{group___unit_tests_gad0a2e88bcf286c1d92cc71ae4f2f4030}
+\-Simulation of the flash filesystem 
+
+\-Definition at line 94 of file pios\-\_\-board\-\_\-sim.\-c.
+
+\hypertarget{group___unit_tests_ga1180d0088fd85cca978eaed59163f626}{\index{\-Unit\-Tests@{\-Unit\-Tests}!flash\-\_\-id@{flash\-\_\-id}}
+\index{flash\-\_\-id@{flash\-\_\-id}!UnitTests@{\-Unit\-Tests}}
+\subsubsection[{flash\-\_\-id}]{\setlength{\rightskip}{0pt plus 5cm}uintptr\-\_\-t {\bf \-Logfs\-Test\-Cooked\-::flash\-\_\-id}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{group___unit_tests_ga1180d0088fd85cca978eaed59163f626}
+
+
+\-Definition at line 154 of file unittest.\-cpp.
+
+\hypertarget{group___unit_tests_ga503c4ee9ad8abab85d6fb34d0397944c}{\index{\-Unit\-Tests@{\-Unit\-Tests}!flash\-\_\-id@{flash\-\_\-id}}
+\index{flash\-\_\-id@{flash\-\_\-id}!UnitTests@{\-Unit\-Tests}}
+\subsubsection[{flash\-\_\-id}]{\setlength{\rightskip}{0pt plus 5cm}uintptr\-\_\-t {\bf \-Logfs\-Test\-Cooked\-Multi\-Part\-::flash\-\_\-id}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{group___unit_tests_ga503c4ee9ad8abab85d6fb34d0397944c}
+
+
+\-Definition at line 346 of file unittest.\-cpp.
+
+\hypertarget{group___unit_tests_gaba5cc3d568259a61d596b4cd0c63bad8}{\index{\-Unit\-Tests@{\-Unit\-Tests}!flashfs\-\_\-config\-\_\-partition\-\_\-a@{flashfs\-\_\-config\-\_\-partition\-\_\-a}}
+\index{flashfs\-\_\-config\-\_\-partition\-\_\-a@{flashfs\-\_\-config\-\_\-partition\-\_\-a}!UnitTests@{\-Unit\-Tests}}
+\subsubsection[{flashfs\-\_\-config\-\_\-partition\-\_\-a}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf flashfs\-\_\-logfs\-\_\-cfg} {\bf flashfs\-\_\-config\-\_\-partition\-\_\-a}}}\label{group___unit_tests_gaba5cc3d568259a61d596b4cd0c63bad8}
+
+
+\-Definition at line 101 of file pios\-\_\-board\-\_\-sim.\-c.
+
+\hypertarget{group___unit_tests_ga6d0bc62b8797aa4539687ed6b976e503}{\index{\-Unit\-Tests@{\-Unit\-Tests}!flashfs\-\_\-config\-\_\-partition\-\_\-b@{flashfs\-\_\-config\-\_\-partition\-\_\-b}}
+\index{flashfs\-\_\-config\-\_\-partition\-\_\-b@{flashfs\-\_\-config\-\_\-partition\-\_\-b}!UnitTests@{\-Unit\-Tests}}
+\subsubsection[{flashfs\-\_\-config\-\_\-partition\-\_\-b}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf flashfs\-\_\-logfs\-\_\-cfg} {\bf flashfs\-\_\-config\-\_\-partition\-\_\-b}}}\label{group___unit_tests_ga6d0bc62b8797aa4539687ed6b976e503}
+
+
+\-Definition at line 112 of file pios\-\_\-board\-\_\-sim.\-c.
+
+\hypertarget{group___unit_tests_gaa47f085754c3a15dd69bcfbde0d804d7}{\index{\-Unit\-Tests@{\-Unit\-Tests}!fs\-\_\-id@{fs\-\_\-id}}
+\index{fs\-\_\-id@{fs\-\_\-id}!UnitTests@{\-Unit\-Tests}}
+\subsubsection[{fs\-\_\-id}]{\setlength{\rightskip}{0pt plus 5cm}uintptr\-\_\-t {\bf \-Logfs\-Test\-Cooked\-::fs\-\_\-id}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{group___unit_tests_gaa47f085754c3a15dd69bcfbde0d804d7}
+
+
+\-Definition at line 155 of file unittest.\-cpp.
+
+\hypertarget{group___unit_tests_gadeab2644468b89d495d396f0e55524e6}{\index{\-Unit\-Tests@{\-Unit\-Tests}!fs\-\_\-id\-\_\-a@{fs\-\_\-id\-\_\-a}}
+\index{fs\-\_\-id\-\_\-a@{fs\-\_\-id\-\_\-a}!UnitTests@{\-Unit\-Tests}}
+\subsubsection[{fs\-\_\-id\-\_\-a}]{\setlength{\rightskip}{0pt plus 5cm}uintptr\-\_\-t {\bf \-Logfs\-Test\-Cooked\-Multi\-Part\-::fs\-\_\-id\-\_\-a}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{group___unit_tests_gadeab2644468b89d495d396f0e55524e6}
+
+
+\-Definition at line 347 of file unittest.\-cpp.
+
+\hypertarget{group___unit_tests_ga2398cf58e337f70603e12a997936f0c9}{\index{\-Unit\-Tests@{\-Unit\-Tests}!fs\-\_\-id\-\_\-b@{fs\-\_\-id\-\_\-b}}
+\index{fs\-\_\-id\-\_\-b@{fs\-\_\-id\-\_\-b}!UnitTests@{\-Unit\-Tests}}
+\subsubsection[{fs\-\_\-id\-\_\-b}]{\setlength{\rightskip}{0pt plus 5cm}uintptr\-\_\-t {\bf \-Logfs\-Test\-Cooked\-Multi\-Part\-::fs\-\_\-id\-\_\-b}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{group___unit_tests_ga2398cf58e337f70603e12a997936f0c9}
+
+
+\-Definition at line 348 of file unittest.\-cpp.
+
+\hypertarget{group___unit_tests_ga9a310807ae65fdb582ace246798d9112}{\index{\-Unit\-Tests@{\-Unit\-Tests}!obj1@{obj1}}
+\index{obj1@{obj1}!UnitTests@{\-Unit\-Tests}}
+\subsubsection[{obj1}]{\setlength{\rightskip}{0pt plus 5cm}unsigned char {\bf \-Logfs\-Test\-Raw\-::obj1}\mbox{[}\-O\-B\-J1\-\_\-\-S\-I\-Z\-E\mbox{]}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{group___unit_tests_ga9a310807ae65fdb582ace246798d9112}
+
+
+\-Definition at line 113 of file unittest.\-cpp.
+
+\hypertarget{group___unit_tests_gab4d553b9c4a87a6f45e032b57f98a751}{\index{\-Unit\-Tests@{\-Unit\-Tests}!obj1\-\_\-alt@{obj1\-\_\-alt}}
+\index{obj1\-\_\-alt@{obj1\-\_\-alt}!UnitTests@{\-Unit\-Tests}}
+\subsubsection[{obj1\-\_\-alt}]{\setlength{\rightskip}{0pt plus 5cm}unsigned char {\bf \-Logfs\-Test\-Raw\-::obj1\-\_\-alt}\mbox{[}\-O\-B\-J1\-\_\-\-S\-I\-Z\-E\mbox{]}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{group___unit_tests_gab4d553b9c4a87a6f45e032b57f98a751}
+
+
+\-Definition at line 114 of file unittest.\-cpp.
+
+\hypertarget{group___unit_tests_ga8ed143a62924cbb11a0150f51b0f39e9}{\index{\-Unit\-Tests@{\-Unit\-Tests}!obj2@{obj2}}
+\index{obj2@{obj2}!UnitTests@{\-Unit\-Tests}}
+\subsubsection[{obj2}]{\setlength{\rightskip}{0pt plus 5cm}unsigned char {\bf \-Logfs\-Test\-Raw\-::obj2}\mbox{[}\-O\-B\-J2\-\_\-\-S\-I\-Z\-E\mbox{]}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{group___unit_tests_ga8ed143a62924cbb11a0150f51b0f39e9}
+
+
+\-Definition at line 115 of file unittest.\-cpp.
+
+\hypertarget{group___unit_tests_gae2971f4ef641d737044260c4f11c1ba0}{\index{\-Unit\-Tests@{\-Unit\-Tests}!obj3@{obj3}}
+\index{obj3@{obj3}!UnitTests@{\-Unit\-Tests}}
+\subsubsection[{obj3}]{\setlength{\rightskip}{0pt plus 5cm}unsigned char {\bf \-Logfs\-Test\-Raw\-::obj3}\mbox{[}\-O\-B\-J3\-\_\-\-S\-I\-Z\-E\mbox{]}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{group___unit_tests_gae2971f4ef641d737044260c4f11c1ba0}
+
+
+\-Definition at line 116 of file unittest.\-cpp.
+
+\hypertarget{group___unit_tests_ga538292c7d3fd8ffe5a32cc8b7e43d51c}{\index{\-Unit\-Tests@{\-Unit\-Tests}!obj4@{obj4}}
+\index{obj4@{obj4}!UnitTests@{\-Unit\-Tests}}
+\subsubsection[{obj4}]{\setlength{\rightskip}{0pt plus 5cm}unsigned char {\bf \-Logfs\-Test\-Raw\-::obj4}\mbox{[}\-O\-B\-J4\-\_\-\-S\-I\-Z\-E\mbox{]}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{group___unit_tests_ga538292c7d3fd8ffe5a32cc8b7e43d51c}
+
+
+\-Definition at line 117 of file unittest.\-cpp.
+

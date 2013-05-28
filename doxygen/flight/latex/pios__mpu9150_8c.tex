@@ -1,0 +1,51 @@
+\hypertarget{pios__mpu9150_8c}{\section{/home/jb/code/\-Tau\-Labs/flight/\-Pi\-O\-S/\-Common/pios\-\_\-mpu9150.c \-File \-Reference}
+\label{pios__mpu9150_8c}\index{/home/jb/code/\-Tau\-Labs/flight/\-Pi\-O\-S/\-Common/pios\-\_\-mpu9150.\-c@{/home/jb/code/\-Tau\-Labs/flight/\-Pi\-O\-S/\-Common/pios\-\_\-mpu9150.\-c}}
+}
+
+
+\-M\-P\-U9150 9-\/axis gyro accel and mag chip.  
+
+
+\subsection*{\-Data \-Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structmpu9150__dev}{mpu9150\-\_\-dev}
+\end{DoxyCompactItemize}
+\subsection*{\-Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{group___p_i_o_s___m_p_u9150_ga2924f0a0ab14681967b9e7f1e72e1c46}{pios\-\_\-mpu9150\-\_\-dev\-\_\-magic} \{ \hyperlink{group___p_i_o_s___m_p_u9150_gga2924f0a0ab14681967b9e7f1e72e1c46a111e3179bf78fadce5ff0039f2f78190}{\-P\-I\-O\-S\-\_\-\-M\-P\-U9150\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C} =  0xf212da62
+ \}
+\end{DoxyCompactItemize}
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___m_p_u9150_ga9f12fde72b74347a0d0212856b50388f}{\-P\-I\-O\-S\-\_\-\-M\-P\-U9150\-\_\-\-Init} (uint32\-\_\-t i2c\-\_\-id, uint8\-\_\-t i2c\-\_\-addr, const struct \hyperlink{structpios__mpu60x0__cfg}{pios\-\_\-mpu60x0\-\_\-cfg} $\ast$cfg)
+\begin{DoxyCompactList}\small\item\em \-Initialize the \-M\-P\-U9150 3-\/axis gyro sensor. \end{DoxyCompactList}\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___m_p_u9150_ga4992b96ee80014a7ebc7f651fa0a40e5}{\-P\-I\-O\-S\-\_\-\-M\-P\-U9150\-\_\-\-Set\-Gyro\-Range} (enum \hyperlink{group___p_i_o_s___m_p_u60_x0_ga56700b0154a14cf67c9f8f44a86ad9c0}{pios\-\_\-mpu60x0\-\_\-range} gyro\-\_\-range)
+\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___m_p_u9150_gab610f5d4cce3bba688ac2abdcfe48712}{\-P\-I\-O\-S\-\_\-\-M\-P\-U9150\-\_\-\-Set\-Accel\-Range} (enum \hyperlink{group___p_i_o_s___m_p_u60_x0_ga8f297bddae3eb43bbf7b54abc6494992}{pios\-\_\-mpu60x0\-\_\-accel\-\_\-range} accel\-\_\-range)
+\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___m_p_u9150_gafcde42bd5efcf63aecc85783d644103e}{\-P\-I\-O\-S\-\_\-\-M\-P\-U9150\-\_\-\-Set\-Sample\-Rate} (uint16\-\_\-t samplerate\-\_\-hz)
+\item 
+void \hyperlink{group___p_i_o_s___m_p_u9150_gac35235a1e8c79e987cf6995865112d54}{\-P\-I\-O\-S\-\_\-\-M\-P\-U9150\-\_\-\-Set\-L\-P\-F} (enum \hyperlink{group___p_i_o_s___m_p_u60_x0_gacce1988bc994f5ade6ac748c2bf0b924}{pios\-\_\-mpu60x0\-\_\-filter} filter)
+\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___m_p_u9150_ga9e6324fa360404c19238ef45e20590f2}{\-P\-I\-O\-S\-\_\-\-M\-P\-U9150\-\_\-\-Probe} (uint32\-\_\-t i2c\-\_\-id, uint8\-\_\-t i2c\-\_\-addr)
+\item 
+uint8\-\_\-t \hyperlink{group___p_i_o_s___m_p_u9150_ga761368c5db9ceb1a2a5eeaa12fe08703}{\-P\-I\-O\-S\-\_\-\-M\-P\-U9150\-\_\-\-Test} (void)
+\begin{DoxyCompactList}\small\item\em \-Run self-\/test operation. \end{DoxyCompactList}\item 
+bool \hyperlink{group___p_i_o_s___m_p_u9150_ga543c340540b2b3916748a1be8b94861e}{\-P\-I\-O\-S\-\_\-\-M\-P\-U9150\-\_\-\-I\-R\-Q\-Handler} (void)
+\begin{DoxyCompactList}\small\item\em \-I\-R\-Q \-Handler. \-Read all the data from onboard buffer. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-M\-P\-U9150 9-\/axis gyro accel and mag chip. \begin{DoxyAuthor}{\-Author}
+\-Tau \-Labs, \href{http://taulabs.org,}{\tt http\-://taulabs.\-org,} \-Copyright (\-C) 2013 
+\end{DoxyAuthor}
+\begin{DoxySeeAlso}{\-See also}
+\-The \-G\-N\-U \-Public \-License (\-G\-P\-L) \-Version 3 
+\end{DoxySeeAlso}
+
+
+\-Definition in file \hyperlink{pios__mpu9150_8c_source}{pios\-\_\-mpu9150.\-c}.
+

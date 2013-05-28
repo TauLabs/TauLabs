@@ -1,0 +1,126 @@
+\hypertarget{classinternals_1_1_pure_projection}{\section{internals\-:\-:\-Pure\-Projection \-Class \-Reference}
+\label{classinternals_1_1_pure_projection}\index{internals\-::\-Pure\-Projection@{internals\-::\-Pure\-Projection}}
+}
+
+
+{\ttfamily \#include $<$pureprojection.\-h$>$}
+
+\-Inheritance diagram for internals\-:\-:\-Pure\-Projection\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=0.906883cm]{classinternals_1_1_pure_projection}
+\end{center}
+\end{figure}
+\subsection*{\-Public \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual \hyperlink{structcore_1_1_size}{\-Size} \hyperlink{group___o_p_map_widget_ga745313ff69d0f869f456ccbc312cc2bf}{\-Tile\-Size} () const =0
+\item 
+virtual double \hyperlink{group___o_p_map_widget_ga72d36ba021583a6dec5f549c6137494a}{\-Axis} () const =0
+\item 
+virtual double \hyperlink{group___o_p_map_widget_ga253e85d9958729b994bf7b9e075297de}{\-Flattening} () const =0
+\item 
+virtual \hyperlink{structcore_1_1_point}{core\-::\-Point} \hyperlink{group___o_p_map_widget_gacadfc01954e3e37c801106981b297b45}{\-From\-Lat\-Lng\-To\-Pixel} (double lat, double lng, int const \&zoom)=0
+\item 
+virtual \hyperlink{structinternals_1_1_point_lat_lng}{\-Point\-Lat\-Lng} \hyperlink{group___o_p_map_widget_ga235a8ad2ed5da22f78e0c5d447f8d34c}{\-From\-Pixel\-To\-Lat\-Lng} (const qint64 \&\hyperlink{_o_p_plots_8m_a9336ebf25087d91c818ee6e9ec29f8c1}{x}, const qint64 \&\hyperlink{_o_p_plots_8m_a2fb1c5cf58867b5bbc9a1b145a86f3a0}{y}, const int \&zoom)=0
+\item 
+virtual \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___o_p_map_widget_gae371ba9189e5318e016af0df9cf0123f}{\-Type} ()
+\item 
+\hyperlink{structcore_1_1_point}{core\-::\-Point} \hyperlink{group___o_p_map_widget_ga18aa4617ab63019451badac8567c85d8}{\-From\-Lat\-Lng\-To\-Pixel} (const \hyperlink{structinternals_1_1_point_lat_lng}{\-Point\-Lat\-Lng} \&p, const int \&zoom)
+\item 
+\hyperlink{structinternals_1_1_point_lat_lng}{\-Point\-Lat\-Lng} \hyperlink{group___o_p_map_widget_ga44df6b58603a8cdba19f7bf899cc57bc}{\-From\-Pixel\-To\-Lat\-Lng} (const \-Point \&p, const int \&zoom)
+\item 
+virtual \hyperlink{structcore_1_1_point}{core\-::\-Point} \hyperlink{group___o_p_map_widget_ga44846fe14a2b915a79c730b0b6513579}{\-From\-Pixel\-To\-Tile\-X\-Y} (const \hyperlink{structcore_1_1_point}{core\-::\-Point} \&p)
+\item 
+virtual \hyperlink{structcore_1_1_point}{core\-::\-Point} \hyperlink{group___o_p_map_widget_ga6eb6b9db59d0e4e58f4e70c4d4d2887a}{\-From\-Tile\-X\-Y\-To\-Pixel} (const \hyperlink{structcore_1_1_point}{core\-::\-Point} \&p)
+\item 
+virtual \hyperlink{structcore_1_1_size}{\-Size} \hyperlink{group___o_p_map_widget_ga655cbf971f1a5d2df37f97d6e7b422f5}{\-Get\-Tile\-Matrix\-Min\-X\-Y} (const int \&zoom)=0
+\item 
+virtual \hyperlink{structcore_1_1_size}{\-Size} \hyperlink{group___o_p_map_widget_ga5588735ea108bf7743f87c86fe14f3f1}{\-Get\-Tile\-Matrix\-Max\-X\-Y} (const int \&zoom)=0
+\item 
+virtual \-Size \hyperlink{group___o_p_map_widget_ga4ae08027e37b2017b358d8fbe75ae5c6}{\-Get\-Tile\-Matrix\-Size\-X\-Y} (const int \&zoom)
+\item 
+int \hyperlink{group___o_p_map_widget_ga9729f2fced303b2b353fbb8349a16a18}{\-Get\-Tile\-Matrix\-Item\-Count} (const int \&zoom)
+\item 
+virtual \-Size \hyperlink{group___o_p_map_widget_ga2756c4a5e52399306da81bb913106474}{\-Get\-Tile\-Matrix\-Size\-Pixel} (const int \&zoom)
+\item 
+\-Q\-List$<$ \hyperlink{structcore_1_1_point}{core\-::\-Point} $>$ \hyperlink{group___o_p_map_widget_gab8c7480cc18ebba515ca1c9c4258a2fd}{\-Get\-Area\-Tile\-List} (const \hyperlink{structinternals_1_1_rect_lat_lng}{\-Rect\-Lat\-Lng} \&rect, const int \&zoom, const int \&padding)
+\item 
+virtual double \hyperlink{group___o_p_map_widget_ga40a54138c94f8707cc2e2d9f2c5e1297}{\-Get\-Ground\-Resolution} (const int \&zoom, const double \&latitude)
+\begin{DoxyCompactList}\small\item\em \hyperlink{group___o_p_map_widget_ga40a54138c94f8707cc2e2d9f2c5e1297}{\-Pure\-Projection\-::\-Get\-Ground\-Resolution} \-Returns the conversion from pixels to meters. \end{DoxyCompactList}\item 
+double \hyperlink{group___o_p_map_widget_gaf5f3d8b3ad4c4fdb6ab6ff4bdb2b2584}{\-Degrees\-To\-Radians} (const double \&deg) const 
+\item 
+double \hyperlink{group___o_p_map_widget_ga61454b50ff7258a201eb43229885c8f3}{\-Radians\-To\-Degrees} (const double \&rad) const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_widget_gadbd11323a9e1396fefe06cdf8bf4755d}{\-From\-Geodetic\-To\-Cartesian} (double \hyperlink{_o_p_plots_8m_afdc4c4bc9859d268f8b5d1cc44b8ab7c}{\-Lat}, double \-Lng, double \-Height, double \&\-X, double \&\-Y, double \&\-Z)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_widget_ga872656fbcb1b34b5888a600e4782db13}{\-From\-Cartesian\-T\-Geodetic} (const double \&\-X, const double \&\-Y, const double \&\-Z, double \&\hyperlink{_o_p_plots_8m_afdc4c4bc9859d268f8b5d1cc44b8ab7c}{\-Lat}, double \&\-Lng)
+\item 
+\hyperlink{structinternals_1_1_point_lat_lng}{\-Point\-Lat\-Lng} \hyperlink{group___o_p_map_widget_gae41a7a74d45f66fa61c622f0838827ae}{translate} (\hyperlink{structinternals_1_1_point_lat_lng}{\-Point\-Lat\-Lng} p1, double distance, double bearing)
+\item 
+double \hyperlink{group___o_p_map_widget_ga2b6a72edc701752748d62a513aea828b}{course\-Between\-Lat\-Lng} (const \hyperlink{structinternals_1_1_point_lat_lng}{\-Point\-Lat\-Lng} \&p1, const \hyperlink{structinternals_1_1_point_lat_lng}{\-Point\-Lat\-Lng} \&p2)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_widget_gaa4efe3b7598311215c44e7a0f47df531}{off\-Set\-From\-Lat\-Lngs} (\hyperlink{structinternals_1_1_point_lat_lng}{\-Point\-Lat\-Lng} p1, \hyperlink{structinternals_1_1_point_lat_lng}{\-Point\-Lat\-Lng} p2, double \&d\-X, double \&d\-Y)
+\item 
+double \hyperlink{group___o_p_map_widget_ga0a978f088a3c28b59ce7bdf4ac3ab238}{bound} (double const \&\hyperlink{_o_p_plots_8m_a1ee0621678c54afffb4b6e50f10c9ab8}{n}, double const \&min\-Value, double const \&max\-Value) const 
+\begin{DoxyCompactList}\small\item\em \hyperlink{group___o_p_map_widget_ga0a978f088a3c28b59ce7bdf4ac3ab238}{\-Pure\-Projection\-::bound} \-Bounds the value at an upper and lower threshold. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Static \-Public \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+static double \hyperlink{group___o_p_map_widget_ga2dd7d98a1173081e9e81f2acb088f382}{\-Distance\-Between\-Lat\-Lng} (\hyperlink{structinternals_1_1_point_lat_lng}{\-Point\-Lat\-Lng} const \&p1, \hyperlink{structinternals_1_1_point_lat_lng}{\-Point\-Lat\-Lng} const \&p2)
+\end{DoxyCompactItemize}
+\subsection*{\-Static \-Protected \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+static double \hyperlink{group___o_p_map_widget_gaee27ced7a956221b25376a3a66d24225}{\-Sign} (const double \&\hyperlink{_o_p_plots_8m_a9336ebf25087d91c818ee6e9ec29f8c1}{x})
+\item 
+static double \hyperlink{group___o_p_map_widget_gafa614e10aa8fca4d1efadf7dd2afe24f}{\-Adjust\-Longitude} (double \hyperlink{_o_p_plots_8m_a9336ebf25087d91c818ee6e9ec29f8c1}{x})
+\item 
+static \hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_widget_gac2ded9931569402c0332f2eb88775291}{\-Sin\-Cos} (const double \&val, double \&sin, double \&cos)
+\item 
+static double \hyperlink{group___o_p_map_widget_ga1431f7528de2f5e7e46a1fc112e57d9e}{e0fn} (const double \&\hyperlink{_o_p_plots_8m_a9336ebf25087d91c818ee6e9ec29f8c1}{x})
+\item 
+static double \hyperlink{group___o_p_map_widget_ga3887fec80271d2bb2ad73cd33cd133f6}{e1fn} (const double \&\hyperlink{_o_p_plots_8m_a9336ebf25087d91c818ee6e9ec29f8c1}{x})
+\item 
+static double \hyperlink{group___o_p_map_widget_gaf1cb887c1701e60dd8e1b86620fdfc0e}{e2fn} (const double \&\hyperlink{_o_p_plots_8m_a9336ebf25087d91c818ee6e9ec29f8c1}{x})
+\item 
+static double \hyperlink{group___o_p_map_widget_ga42266b37884ed2a7b650fdd830dd2ce2}{e3fn} (const double \&\hyperlink{_o_p_plots_8m_a9336ebf25087d91c818ee6e9ec29f8c1}{x})
+\item 
+static double \hyperlink{group___o_p_map_widget_ga5be16c4bd50c6869390aa8e1fa81d44d}{mlfn} (const double \&e0, const double \&e1, const double \&e2, const double \&e3, const double \&phi)
+\item 
+static qlonglong \hyperlink{group___o_p_map_widget_ga4fe99842f3ee0de090c40b11999ab860}{\-Get\-U\-T\-Mzone} (const double \&lon)
+\end{DoxyCompactItemize}
+\subsection*{\-Static \-Protected \-Attributes}
+\begin{DoxyCompactItemize}
+\item 
+static const double \hyperlink{group___o_p_map_widget_gaab58a4dd2b2aec1a140df479c3da07c5}{\-P\-I} = \-M\-\_\-\-P\-I
+\item 
+static const double \hyperlink{group___o_p_map_widget_ga767800d1664d3a7d0255a1d1d55bea69}{\-H\-A\-L\-F\-\_\-\-P\-I} = (\-M\-\_\-\-P\-I $\ast$ 0.\-5)
+\item 
+static const double \hyperlink{group___o_p_map_widget_gac2ca007c6c6f6c095902daca2254d4bb}{\-T\-W\-O\-\_\-\-P\-I} = (\-M\-\_\-\-P\-I $\ast$ 2.\-0)
+\item 
+static const double \hyperlink{group___o_p_map_widget_ga48583ac82eb87f081f2dc32a9ab39349}{\-E\-P\-S\-Lo\-N} = 1.\-0e-\/10
+\item 
+static const double \hyperlink{group___o_p_map_widget_ga34e30a80435ba07c4e95b56f24935ceb}{\-M\-A\-X\-\_\-\-V\-A\-L} = 4
+\item 
+static const double \hyperlink{group___o_p_map_widget_gad58d07a94d560015458a3411190b5cc0}{\-M\-A\-X\-L\-O\-N\-G} = 2147483647
+\item 
+static const double \hyperlink{group___o_p_map_widget_gaffa95138ab57a5c0267eb66399bbdc5c}{\-D\-B\-L\-L\-O\-N\-G} = 4.\-61168601e18
+\item 
+static const double \hyperlink{group___o_p_map_widget_ga112e42b7b86260ce042d7c14b4ece2b7}{\-R2\-D} = 180/\-M\-\_\-\-P\-I
+\item 
+static const double \hyperlink{group___o_p_map_widget_ga52ec5ac7446a549728bf6e9c798ed6f6}{\-D2\-R} = \-M\-\_\-\-P\-I/180
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+
+
+\-Definition at line 42 of file pureprojection.\-h.
+
+
+
+\-The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/libs/opmapcontrol/src/internals/\hyperlink{pureprojection_8h}{pureprojection.\-h}\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/libs/opmapcontrol/src/internals/\hyperlink{pureprojection_8cpp}{pureprojection.\-cpp}\end{DoxyCompactItemize}

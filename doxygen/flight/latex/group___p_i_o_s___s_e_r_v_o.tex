@@ -1,0 +1,103 @@
+\hypertarget{group___p_i_o_s___s_e_r_v_o}{\section{\-Servo \-Functions}
+\label{group___p_i_o_s___s_e_r_v_o}\index{\-Servo Functions@{\-Servo Functions}}
+}
+
+
+\-P\-I\-O\-S interface to read and write from servo \-P\-W\-M ports.  
+
+
+\subsection*{\-Data \-Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structpios__pwm__cfg}{pios\-\_\-pwm\-\_\-cfg}
+\item 
+struct \hyperlink{structpios__servo__cfg}{pios\-\_\-servo\-\_\-cfg}
+\end{DoxyCompactItemize}
+\subsection*{\-Files}
+\begin{DoxyCompactItemize}
+\item 
+file \hyperlink{pios__servo__priv_8h}{pios\-\_\-servo\-\_\-priv.\-h}
+\begin{DoxyCompactList}\small\item\em \-Servo private structures. \end{DoxyCompactList}\item 
+file \hyperlink{pios__servo_8h}{pios\-\_\-servo.\-h}
+\begin{DoxyCompactList}\small\item\em \-R\-C \-Servo functions header. \end{DoxyCompactList}\item 
+file \hyperlink{pios__servo__priv_8h}{pios\-\_\-servo\-\_\-priv.\-h}
+\begin{DoxyCompactList}\small\item\em \-Servo private structures. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{group___p_i_o_s___s_e_r_v_o_gacc20fb520926dba9214e34206d9c6e88}{\-P\-I\-O\-S\-\_\-\-Servo\-\_\-\-Set\-Hz} (const uint16\-\_\-t $\ast$update\-\_\-rates, uint8\-\_\-t banks)
+\item 
+void \hyperlink{group___p_i_o_s___s_e_r_v_o_ga9191a380c1c605a4cab312e5d850b58f}{\-P\-I\-O\-S\-\_\-\-Servo\-\_\-\-Set} (uint8\-\_\-t \-Servo, uint16\-\_\-t \-Position)
+\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___s_e_r_v_o_ga9d74027bc92b7db6f1b0dc049ba1625d}{\-P\-I\-O\-S\-\_\-\-Servo\-\_\-\-Init} (const struct \hyperlink{structpios__servo__cfg}{pios\-\_\-servo\-\_\-cfg} $\ast$cfg)
+\end{DoxyCompactItemize}
+\subsection*{\-Variables}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structpios__rcvr__driver}{pios\-\_\-rcvr\-\_\-driver} \hyperlink{group___p_i_o_s___s_e_r_v_o_ga767a19a3a54afa71399b7467963690df}{pios\-\_\-pwm\-\_\-rcvr\-\_\-driver}
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-P\-I\-O\-S interface to read and write from servo \-P\-W\-M ports. \-Code to do set \-R\-C servo output. 
+
+\subsection{\-Function \-Documentation}
+\hypertarget{group___p_i_o_s___s_e_r_v_o_ga9d74027bc92b7db6f1b0dc049ba1625d}{\index{\-Servo Functions@{\-Servo Functions}!\-P\-I\-O\-S\-\_\-\-Servo\-\_\-\-Init@{\-P\-I\-O\-S\-\_\-\-Servo\-\_\-\-Init}}
+\index{\-P\-I\-O\-S\-\_\-\-Servo\-\_\-\-Init@{\-P\-I\-O\-S\-\_\-\-Servo\-\_\-\-Init}!Servo Functions@{\-Servo Functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-Servo\-\_\-\-Init}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-P\-I\-O\-S\-\_\-\-Servo\-\_\-\-Init} (
+\begin{DoxyParamCaption}
+\item[{const struct {\bf pios\-\_\-servo\-\_\-cfg} $\ast$}]{cfg}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___s_e_r_v_o_ga9d74027bc92b7db6f1b0dc049ba1625d}
+\-Initialise \-Servos 
+
+\-Definition at line 43 of file pios\-\_\-servo.\-c.
+
+\hypertarget{group___p_i_o_s___s_e_r_v_o_ga9191a380c1c605a4cab312e5d850b58f}{\index{\-Servo Functions@{\-Servo Functions}!\-P\-I\-O\-S\-\_\-\-Servo\-\_\-\-Set@{\-P\-I\-O\-S\-\_\-\-Servo\-\_\-\-Set}}
+\index{\-P\-I\-O\-S\-\_\-\-Servo\-\_\-\-Set@{\-P\-I\-O\-S\-\_\-\-Servo\-\_\-\-Set}!Servo Functions@{\-Servo Functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-Servo\-\_\-\-Set}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-P\-I\-O\-S\-\_\-\-Servo\-\_\-\-Set} (
+\begin{DoxyParamCaption}
+\item[{uint8\-\_\-t}]{servo, }
+\item[{uint16\-\_\-t}]{position}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___s_e_r_v_o_ga9191a380c1c605a4cab312e5d850b58f}
+\-Set servo position 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em \-Servo} & \-Servo number (0-\/7) \\
+\hline
+\mbox{\tt in}  & {\em \-Position} & \-Servo position in microseconds \\
+\hline
+\end{DoxyParams}
+
+
+\-Definition at line 124 of file pios\-\_\-servo.\-c.
+
+\hypertarget{group___p_i_o_s___s_e_r_v_o_gacc20fb520926dba9214e34206d9c6e88}{\index{\-Servo Functions@{\-Servo Functions}!\-P\-I\-O\-S\-\_\-\-Servo\-\_\-\-Set\-Hz@{\-P\-I\-O\-S\-\_\-\-Servo\-\_\-\-Set\-Hz}}
+\index{\-P\-I\-O\-S\-\_\-\-Servo\-\_\-\-Set\-Hz@{\-P\-I\-O\-S\-\_\-\-Servo\-\_\-\-Set\-Hz}!Servo Functions@{\-Servo Functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-Servo\-\_\-\-Set\-Hz}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-P\-I\-O\-S\-\_\-\-Servo\-\_\-\-Set\-Hz} (
+\begin{DoxyParamCaption}
+\item[{const uint16\-\_\-t $\ast$}]{speeds, }
+\item[{uint8\-\_\-t}]{banks}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___s_e_r_v_o_gacc20fb520926dba9214e34206d9c6e88}
+\-Set the servo update rate (\-Max 500\-Hz) 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em array} & of rates in \-Hz \\
+\hline
+\mbox{\tt in}  & {\em maximum} & number of banks \\
+\hline
+\end{DoxyParams}
+
+
+\-Definition at line 90 of file pios\-\_\-servo.\-c.
+
+
+
+\subsection{\-Variable \-Documentation}
+\hypertarget{group___p_i_o_s___s_e_r_v_o_ga767a19a3a54afa71399b7467963690df}{\index{\-Servo Functions@{\-Servo Functions}!pios\-\_\-pwm\-\_\-rcvr\-\_\-driver@{pios\-\_\-pwm\-\_\-rcvr\-\_\-driver}}
+\index{pios\-\_\-pwm\-\_\-rcvr\-\_\-driver@{pios\-\_\-pwm\-\_\-rcvr\-\_\-driver}!Servo Functions@{\-Servo Functions}}
+\subsubsection[{pios\-\_\-pwm\-\_\-rcvr\-\_\-driver}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf pios\-\_\-rcvr\-\_\-driver} {\bf pios\-\_\-pwm\-\_\-rcvr\-\_\-driver}}}\label{group___p_i_o_s___s_e_r_v_o_ga767a19a3a54afa71399b7467963690df}
+
+
+\-Definition at line 40 of file pios\-\_\-pwm.\-c.
+

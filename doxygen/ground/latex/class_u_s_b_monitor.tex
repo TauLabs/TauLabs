@@ -1,0 +1,54 @@
+\hypertarget{class_u_s_b_monitor}{\section{\-U\-S\-B\-Monitor \-Class \-Reference}
+\label{class_u_s_b_monitor}\index{\-U\-S\-B\-Monitor@{\-U\-S\-B\-Monitor}}
+}
+
+
+{\ttfamily \#include $<$usbmonitor.\-h$>$}
+
+\subsection*{\-Public \-Types}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{group___raw_h_i_d_plugin_gaff6bf8945a7cdab907cf5adc29bec064}{\-Run\-State} \{ \hyperlink{group___raw_h_i_d_plugin_ggaff6bf8945a7cdab907cf5adc29bec064ac18f9b621b18e8d33c36467a92dd0dc9}{\-Bootloader} =  0x01, 
+\hyperlink{group___raw_h_i_d_plugin_ggaff6bf8945a7cdab907cf5adc29bec064a1a9efe940184d4bec69cb5d343eaaf81}{\-Running} =  0x02
+ \}
+\end{DoxyCompactItemize}
+\subsection*{\-Signals}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___raw_h_i_d_plugin_gab2f32b160f38299dd97b8bce113ac016}{device\-Discovered} (const \hyperlink{struct_u_s_b_port_info}{\-U\-S\-B\-Port\-Info} \&info)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___raw_h_i_d_plugin_ga2184059e85771292590afbb9087ee225}{device\-Removed} (const \hyperlink{struct_u_s_b_port_info}{\-U\-S\-B\-Port\-Info} \&info)
+\end{DoxyCompactItemize}
+\subsection*{\-Public \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___raw_h_i_d_plugin_ga1de6bdbd3deee4991e3b910e6d274121}{\-U\-S\-B\-Monitor} (\-Q\-Object $\ast$parent=0)
+\item 
+\hyperlink{group___raw_h_i_d_plugin_ga0a472129bd25e3c7972ce78ca52ed19d}{$\sim$\-U\-S\-B\-Monitor} ()
+\item 
+\-Q\-List$<$ \hyperlink{struct_u_s_b_port_info}{\-U\-S\-B\-Port\-Info} $>$ \hyperlink{group___raw_h_i_d_plugin_gaf7da3cc1fc2b9085f5647f0d3822ade1}{available\-Devices} ()
+\item 
+\-Q\-List$<$ \hyperlink{struct_u_s_b_port_info}{\-U\-S\-B\-Port\-Info} $>$ \hyperlink{group___raw_h_i_d_plugin_ga8b0ce433f3d1f5907b290b1f4185984d}{available\-Devices} (int vid, int pid, int board\-Model, int run\-State)
+\begin{DoxyCompactList}\small\item\em \-Be a bit more picky and ask only for a specific type of device\-: \end{DoxyCompactList}\item 
+\-L\-R\-E\-S\-U\-L\-T \hyperlink{group___raw_h_i_d_plugin_ga108b55e821dbc91874e52cdb7cb71150}{on\-Device\-Change\-Win} (\-W\-P\-A\-R\-A\-M w\-Param, \-L\-P\-A\-R\-A\-M l\-Param)
+\end{DoxyCompactItemize}
+\subsection*{\-Static \-Public \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+static \hyperlink{class_u_s_b_monitor}{\-U\-S\-B\-Monitor} $\ast$ \hyperlink{group___raw_h_i_d_plugin_gabcb44085db71f0bd0a1513d25a572b33}{instance} ()
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-A monitoring thread which will wait for device events. 
+
+\-Definition at line 108 of file usbmonitor.\-h.
+
+
+
+\-The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/plugins/rawhid/\hyperlink{usbmonitor_8h}{usbmonitor.\-h}\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/plugins/rawhid/\hyperlink{usbmonitor__linux_8cpp}{usbmonitor\-\_\-linux.\-cpp}\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/plugins/rawhid/\hyperlink{usbmonitor__mac_8cpp}{usbmonitor\-\_\-mac.\-cpp}\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/plugins/rawhid/\hyperlink{usbmonitor__win_8cpp}{usbmonitor\-\_\-win.\-cpp}\end{DoxyCompactItemize}

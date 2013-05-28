@@ -1,0 +1,1592 @@
+\hypertarget{group___u_a_v_talk_plugin}{\section{\-U\-A\-V\-Talk \-Plugin}
+\label{group___u_a_v_talk_plugin}\index{\-U\-A\-V\-Talk Plugin@{\-U\-A\-V\-Talk Plugin}}
+}
+
+
+\-Provide a higher level of telemetry control on top of \hyperlink{class_u_a_v_talk}{\-U\-A\-V\-Talk} including setting up transactions and acknowledging their receipt or timeout.  
+
+
+\subsection*{\-Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{class_transaction_key}{\-Transaction\-Key}
+\begin{DoxyCompactList}\small\item\em \-The \hyperlink{class_transaction_key}{\-Transaction\-Key} class \-A key for the \-Q\-Map to track transactions. \end{DoxyCompactList}\item 
+class \hyperlink{class_object_transaction_info}{\-Object\-Transaction\-Info}
+\item 
+class \hyperlink{class_telemetry}{\-Telemetry}
+\item 
+struct \hyperlink{struct_telemetry_1_1_telemetry_stats}{\-Telemetry\-::\-Telemetry\-Stats}
+\item 
+struct {\bfseries \-Telemetry\-::\-Object\-Time\-Info}
+\item 
+struct {\bfseries \-Telemetry\-::\-Object\-Queue\-Info}
+\item 
+class \hyperlink{class_telemetry_manager}{\-Telemetry\-Manager}
+\item 
+class \hyperlink{class_telemetry_monitor}{\-Telemetry\-Monitor}
+\item 
+class \hyperlink{class_u_a_v_talk}{\-U\-A\-V\-Talk}
+\item 
+struct \hyperlink{struct_u_a_v_talk_1_1_com_stats}{\-U\-A\-V\-Talk\-::\-Com\-Stats}
+\item 
+class \hyperlink{class_u_a_v_talk_plugin}{\-U\-A\-V\-Talk\-Plugin}
+\item 
+class \hyperlink{class_uav_talk_relay_comon}{\-Uav\-Talk\-Relay\-Comon}
+\end{DoxyCompactItemize}
+\subsection*{\-Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{group___u_a_v_talk_plugin_ga7f7ca2a64b0ea5ec26fb64d06bf9e09b}{\-U\-A\-V\-Talk\-::\-Rx\-State\-Type} \{ \*
+\hyperlink{group___u_a_v_talk_plugin_gga7f7ca2a64b0ea5ec26fb64d06bf9e09baf774a734f7889e634d5b363fa3f3c793}{\-U\-A\-V\-Talk\-::\-S\-T\-A\-T\-E\-\_\-\-S\-Y\-N\-C}, 
+\hyperlink{group___u_a_v_talk_plugin_gga7f7ca2a64b0ea5ec26fb64d06bf9e09baa1450012a1828440751fcb6f17ac250f}{\-U\-A\-V\-Talk\-::\-S\-T\-A\-T\-E\-\_\-\-T\-Y\-P\-E}, 
+\hyperlink{group___u_a_v_talk_plugin_gga7f7ca2a64b0ea5ec26fb64d06bf9e09ba3257c8699631219b720e0661955ef1f6}{\-U\-A\-V\-Talk\-::\-S\-T\-A\-T\-E\-\_\-\-S\-I\-Z\-E}, 
+\hyperlink{group___u_a_v_talk_plugin_gga7f7ca2a64b0ea5ec26fb64d06bf9e09ba14ae245b4bee65b20ff1be4e31396df4}{\-U\-A\-V\-Talk\-::\-S\-T\-A\-T\-E\-\_\-\-O\-B\-J\-I\-D}, 
+\*
+\hyperlink{group___u_a_v_talk_plugin_gga7f7ca2a64b0ea5ec26fb64d06bf9e09baadc60771fcd506f0b9714cdb478ecb08}{\-U\-A\-V\-Talk\-::\-S\-T\-A\-T\-E\-\_\-\-I\-N\-S\-T\-I\-D}, 
+\hyperlink{group___u_a_v_talk_plugin_gga7f7ca2a64b0ea5ec26fb64d06bf9e09ba38e65dcea6f1e7c9e74726f3e2f0654b}{\-U\-A\-V\-Talk\-::\-S\-T\-A\-T\-E\-\_\-\-D\-A\-T\-A}, 
+\hyperlink{group___u_a_v_talk_plugin_gga7f7ca2a64b0ea5ec26fb64d06bf9e09baed576d42fef7f3e2488c61b3f64402d7}{\-U\-A\-V\-Talk\-::\-S\-T\-A\-T\-E\-\_\-\-C\-S}
+ \}
+\item 
+enum \hyperlink{group___u_a_v_talk_plugin_gae73e1677650d617d825cf2224fa0626a}{\-Uav\-Talk\-Relay\-Comon\-::access\-Type} \{ \hyperlink{group___u_a_v_talk_plugin_ggae73e1677650d617d825cf2224fa0626aa957fb229d0cc0c660145b9e1287ad8e1}{\-Uav\-Talk\-Relay\-Comon\-::\-Read\-Only}, 
+\hyperlink{group___u_a_v_talk_plugin_ggae73e1677650d617d825cf2224fa0626aa024baabb3a664e953e20d4022ce393fa}{\-Uav\-Talk\-Relay\-Comon\-::\-Write\-Only}, 
+\hyperlink{group___u_a_v_talk_plugin_ggae73e1677650d617d825cf2224fa0626aacc91949972bbaf73f88f2e814994481e}{\-Uav\-Talk\-Relay\-Comon\-::\-Read\-Write}, 
+\hyperlink{group___u_a_v_talk_plugin_ggae73e1677650d617d825cf2224fa0626aa83e6c2ba48be7947d0d526ba645c6ee4}{\-Uav\-Talk\-Relay\-Comon\-::\-None}
+ \}
+\end{DoxyCompactItemize}
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_talk_plugin_gad570ba59a89b2499d1fa950f756f029e}{\-Transaction\-Key\-::\-Transaction\-Key} (quint32 obj\-Id, quint32 inst\-Id, bool req)
+\item 
+\hyperlink{group___u_a_v_talk_plugin_ga01b3c8039cd97c7da26eb79fdeed0003}{\-Transaction\-Key\-::\-Transaction\-Key} (\hyperlink{class_u_a_v_object}{\-U\-A\-V\-Object} $\ast$obj, bool req)
+\item 
+bool \hyperlink{group___u_a_v_talk_plugin_ga6619fa90d68b631eef2b94302d77df19}{\-Transaction\-Key\-::operator==} (const \hyperlink{class_transaction_key}{\-Transaction\-Key} \&rhs) const 
+\item 
+bool \hyperlink{group___u_a_v_talk_plugin_ga535141f4efa21d7b4b5d5314c92d1c8e}{\-Transaction\-Key\-::operator$<$} (const \hyperlink{class_transaction_key}{\-Transaction\-Key} \&rhs) const 
+\item 
+\hyperlink{group___u_a_v_talk_plugin_ga56a113c31769c8841a65cf085c53a33e}{\-Object\-Transaction\-Info\-::\-Object\-Transaction\-Info} (\-Q\-Object $\ast$parent)
+\item 
+\hyperlink{group___u_a_v_talk_plugin_ga8b1a7a6e63feac107ca370ce1a68758f}{\-Object\-Transaction\-Info\-::$\sim$\-Object\-Transaction\-Info} ()
+\item 
+\hyperlink{group___u_a_v_talk_plugin_ga6998be3c493d7a742d8f54bcf235e823}{\-Telemetry\-::\-Telemetry} (\hyperlink{class_u_a_v_talk}{\-U\-A\-V\-Talk} $\ast$utalk, \hyperlink{class_u_a_v_object_manager}{\-U\-A\-V\-Object\-Manager} $\ast$obj\-Mngr)
+\item 
+\hyperlink{group___u_a_v_talk_plugin_ga5d74297211be2d8d48f38e2632c97de8}{\-Telemetry\-::$\sim$\-Telemetry} ()
+\item 
+\-Telemetry\-Stats \hyperlink{group___u_a_v_talk_plugin_ga9f456df92180138a0adebc5e3afc3402}{\-Telemetry\-::get\-Stats} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_talk_plugin_ga6452c56eab6e4b7ce913566562a005ef}{\-Telemetry\-::reset\-Stats} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_talk_plugin_gab5d172ba63e07316e086a65c5bcc8d47}{\-Telemetry\-::transaction\-Timeout} (\hyperlink{class_object_transaction_info}{\-Object\-Transaction\-Info} $\ast$info)
+\item 
+\hyperlink{group___u_a_v_talk_plugin_gaab121ca26ff1b0985b013d715132a088}{\-Telemetry\-Manager\-::\-Telemetry\-Manager} ()
+\item 
+\hyperlink{group___u_a_v_talk_plugin_ga28e48a3688e195cc9c3263ccdeb084c4}{\-Telemetry\-Manager\-::$\sim$\-Telemetry\-Manager} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_talk_plugin_ga48c17e83f41b742abc5c234963093171}{\-Telemetry\-Manager\-::start} (\-Q\-I\-O\-Device $\ast$dev)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_talk_plugin_ga59bfea54673b2ab51e9ac1bf3a186718}{\-Telemetry\-Manager\-::stop} ()
+\item 
+bool \hyperlink{group___u_a_v_talk_plugin_ga73bf9fbd67f3eb0451363525de9cc7de}{\-Telemetry\-Manager\-::is\-Connected} ()
+\item 
+\hyperlink{group___u_a_v_talk_plugin_gad2af9cb530ef07a84cc9992d6458111f}{\-Telemetry\-Monitor\-::\-Telemetry\-Monitor} (\hyperlink{class_u_a_v_object_manager}{\-U\-A\-V\-Object\-Manager} $\ast$obj\-Mngr, \hyperlink{class_telemetry}{\-Telemetry} $\ast$tel)
+\item 
+\hyperlink{group___u_a_v_talk_plugin_gabe2f26f1992e78356a82b135aeac951e}{\-Telemetry\-Monitor\-::$\sim$\-Telemetry\-Monitor} ()
+\item 
+\hyperlink{group___u_a_v_talk_plugin_ga53c36c64288a62b44a285dfb40cee946}{\-U\-A\-V\-Talk\-::\-U\-A\-V\-Talk} (\-Q\-I\-O\-Device $\ast$iodev, \hyperlink{class_u_a_v_object_manager}{\-U\-A\-V\-Object\-Manager} $\ast$obj\-Mngr)
+\item 
+\hyperlink{group___u_a_v_talk_plugin_ga1c6de05403ed728008c21592d142375e}{\-U\-A\-V\-Talk\-::$\sim$\-U\-A\-V\-Talk} ()
+\item 
+bool \hyperlink{group___u_a_v_talk_plugin_gafb99b5df957808785013366dfd5bc636}{\-U\-A\-V\-Talk\-::send\-Object} (\hyperlink{class_u_a_v_object}{\-U\-A\-V\-Object} $\ast$obj, bool acked, bool all\-Instances)
+\item 
+bool \hyperlink{group___u_a_v_talk_plugin_ga884c8680ea2c95bef75fca2c4c95867d}{\-U\-A\-V\-Talk\-::send\-Object\-Request} (\hyperlink{class_u_a_v_object}{\-U\-A\-V\-Object} $\ast$obj, bool all\-Instances)
+\item 
+\-Com\-Stats \hyperlink{group___u_a_v_talk_plugin_gac9f7d49b556190b1b7d4b845b8b23a34}{\-U\-A\-V\-Talk\-::get\-Stats} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_talk_plugin_gaba16247e0963a29b16a6177e685f1321}{\-U\-A\-V\-Talk\-::reset\-Stats} ()
+\item 
+bool \hyperlink{group___u_a_v_talk_plugin_gaf41ae2b1b8730f18bc3992d6777c0627}{\-U\-A\-V\-Talk\-::object\-Transaction} (\hyperlink{class_u_a_v_object}{\-U\-A\-V\-Object} $\ast$obj, quint8 type, bool all\-Instances)
+\item 
+bool \hyperlink{group___u_a_v_talk_plugin_ga39bcb007900ed377097079d21ffe3a68}{\-U\-A\-V\-Talk\-::process\-Input\-Byte} (quint8 rxbyte)
+\item 
+virtual bool \hyperlink{group___u_a_v_talk_plugin_gaa95319b62b2b1a92e3f0ef753a1c04a3}{\-U\-A\-V\-Talk\-::receive\-Object} (quint8 type, quint32 obj\-Id, quint16 inst\-Id, quint8 $\ast$data, qint32 \hyperlink{uavobjecttemplate_8m_a076bf56c9bafa07f3dbda4901a40d84c}{length})
+\item 
+\hyperlink{class_u_a_v_object}{\-U\-A\-V\-Object} $\ast$ \hyperlink{group___u_a_v_talk_plugin_ga06d53e41c45734baa38c0eb08d684af8}{\-U\-A\-V\-Talk\-::update\-Object} (quint32 obj\-Id, quint16 inst\-Id, quint8 $\ast$data)
+\item 
+bool \hyperlink{group___u_a_v_talk_plugin_ga1ea574fb7b47dc949201d4c29b834208}{\-U\-A\-V\-Talk\-::transmit\-Nack} (quint32 obj\-Id)
+\item 
+bool \hyperlink{group___u_a_v_talk_plugin_ga81519c2c45745383850ccec92be1eb6a}{\-U\-A\-V\-Talk\-::transmit\-Object} (\hyperlink{class_u_a_v_object}{\-U\-A\-V\-Object} $\ast$obj, quint8 type, bool all\-Instances)
+\item 
+bool \hyperlink{group___u_a_v_talk_plugin_ga474ec2f43670acca29d18ad9965b0440}{\-U\-A\-V\-Talk\-::transmit\-Single\-Object} (\hyperlink{class_u_a_v_object}{\-U\-A\-V\-Object} $\ast$obj, quint8 type, bool all\-Instances)
+\item 
+quint8 \hyperlink{group___u_a_v_talk_plugin_gae15db61cd3e3604aad8fbd52ddc68fff}{\-U\-A\-V\-Talk\-::update\-C\-R\-C} (quint8 \hyperlink{uavobjecttemplate_8m_a6a3730e10b2455e9a8b6599785809fce}{crc}, const quint8 data)
+\item 
+quint8 \hyperlink{group___u_a_v_talk_plugin_gadefd185fb8609e37990694d45282ecd4}{\-U\-A\-V\-Talk\-::update\-C\-R\-C} (quint8 \hyperlink{uavobjecttemplate_8m_a6a3730e10b2455e9a8b6599785809fce}{crc}, const quint8 $\ast$data, qint32 \hyperlink{uavobjecttemplate_8m_a076bf56c9bafa07f3dbda4901a40d84c}{length})
+\item 
+\hyperlink{group___u_a_v_talk_plugin_ga140bdf803c218ccb2a6017a2a6aba95e}{\-U\-A\-V\-Talk\-Plugin\-::\-U\-A\-V\-Talk\-Plugin} ()
+\item 
+\hyperlink{group___u_a_v_talk_plugin_gab4102ef2791ea82b9460336b06361158}{\-U\-A\-V\-Talk\-Plugin\-::$\sim$\-U\-A\-V\-Talk\-Plugin} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_talk_plugin_ga2b7202eb07a1d037f8e92eeedbc1621e}{\-U\-A\-V\-Talk\-Plugin\-::extensions\-Initialized} ()
+\item 
+bool \hyperlink{group___u_a_v_talk_plugin_ga311f58f272717ad544a6ca019a42f821}{\-U\-A\-V\-Talk\-Plugin\-::initialize} (const \-Q\-String\-List \&arguments, \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} $\ast$error\-String)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_talk_plugin_ga67b3b23618210b3dfbf43dc1b0fa03b1}{\-U\-A\-V\-Talk\-Plugin\-::shutdown} ()
+\end{DoxyCompactItemize}
+\subsection*{\-Variables}
+\begin{DoxyCompactItemize}
+\item 
+quint32 \hyperlink{group___u_a_v_talk_plugin_ga23b79980c6f897e84ca1b88c5bb532ad}{\-Transaction\-Key\-::obj\-Id}
+\item 
+quint32 \hyperlink{group___u_a_v_talk_plugin_ga3d92643b78ea3e10cd9ac1ac2cc4b5f7}{\-Transaction\-Key\-::inst\-Id}
+\item 
+bool \hyperlink{group___u_a_v_talk_plugin_gafe5007a7f451f47110150ee417594a38}{\-Transaction\-Key\-::req}
+\item 
+\hyperlink{class_u_a_v_object}{\-U\-A\-V\-Object} $\ast$ \hyperlink{group___u_a_v_talk_plugin_ga9ad43239e470da9249f214e43521bddb}{\-Object\-Transaction\-Info\-::obj}
+\item 
+bool \hyperlink{group___u_a_v_talk_plugin_gaf134962f4df09323cf89245e3bc32f6e}{\-Object\-Transaction\-Info\-::all\-Instances}
+\item 
+bool \hyperlink{group___u_a_v_talk_plugin_ga35e10d2ea8bcd4f4bd1e32db43857e2c}{\-Object\-Transaction\-Info\-::obj\-Request}
+\item 
+qint32 \hyperlink{group___u_a_v_talk_plugin_gaf7cfad07635a777272c96c4b2fb2284b}{\-Object\-Transaction\-Info\-::retries\-Remaining}
+\item 
+bool \hyperlink{group___u_a_v_talk_plugin_ga27c9898b3e1a5940f0340891578f6ea5}{\-Object\-Transaction\-Info\-::acked}
+\item 
+\-Q\-Pointer$<$ class \hyperlink{class_telemetry}{\-Telemetry} $>$ \hyperlink{group___u_a_v_talk_plugin_ga1df77178093618626fe21d5bc58b03f4}{\-Object\-Transaction\-Info\-::telem}
+\item 
+\-Q\-Timer $\ast$ \hyperlink{group___u_a_v_talk_plugin_gaf400de9c7d9b37a52e821b1a7bc6580e}{\-Object\-Transaction\-Info\-::timer}
+\item 
+quint32 \hyperlink{group___u_a_v_talk_plugin_ga349d8c0f2aac815d79b13e54f818658c}{\-Telemetry\-::\-Telemetry\-Stats\-::tx\-Bytes}
+\item 
+quint32 \hyperlink{group___u_a_v_talk_plugin_gadda927fbb6858f5e60b6daf16d5bc94e}{\-Telemetry\-::\-Telemetry\-Stats\-::rx\-Bytes}
+\item 
+quint32 \hyperlink{group___u_a_v_talk_plugin_ga5c315107de95913671e9bd51ce699e1f}{\-Telemetry\-::\-Telemetry\-Stats\-::tx\-Object\-Bytes}
+\item 
+quint32 \hyperlink{group___u_a_v_talk_plugin_ga495b5acf35424dbdf221e81f0024ae92}{\-Telemetry\-::\-Telemetry\-Stats\-::rx\-Object\-Bytes}
+\item 
+quint32 \hyperlink{group___u_a_v_talk_plugin_gacd544f271fc6ee0f5eb72dc101a23c21}{\-Telemetry\-::\-Telemetry\-Stats\-::rx\-Objects}
+\item 
+quint32 \hyperlink{group___u_a_v_talk_plugin_gaa7970a8185efea335e5cbe734739eca9}{\-Telemetry\-::\-Telemetry\-Stats\-::tx\-Objects}
+\item 
+quint32 \hyperlink{group___u_a_v_talk_plugin_gad6930d8f0e5a3c2e251c9600d1264c1a}{\-Telemetry\-::\-Telemetry\-Stats\-::tx\-Errors}
+\item 
+quint32 \hyperlink{group___u_a_v_talk_plugin_gaf07e5e11a7f3b4c277a26fa5dba7d3fa}{\-Telemetry\-::\-Telemetry\-Stats\-::rx\-Errors}
+\item 
+quint32 \hyperlink{group___u_a_v_talk_plugin_ga071780b1d6a06aa36a41efaa190e97ec}{\-Telemetry\-::\-Telemetry\-Stats\-::tx\-Retries}
+\item 
+\hyperlink{class_u_a_v_object}{\-U\-A\-V\-Object} $\ast$ \hyperlink{group___u_a_v_talk_plugin_ga5dc98fd0fc9c63da03a2468969adb919}{\-Telemetry\-::\-Object\-Time\-Info\-::obj}
+\item 
+qint32 \hyperlink{group___u_a_v_talk_plugin_ga63538585df200e147d34a4a929976b4d}{\-Telemetry\-::\-Object\-Time\-Info\-::update\-Period\-Ms}
+\item 
+qint32 \hyperlink{group___u_a_v_talk_plugin_gad3f8bd7cd7ca82748573626dde1055af}{\-Telemetry\-::\-Object\-Time\-Info\-::time\-To\-Next\-Update\-Ms}
+\item 
+\hyperlink{class_u_a_v_object}{\-U\-A\-V\-Object} $\ast$ \hyperlink{group___u_a_v_talk_plugin_ga467e2ec75abb2e4535cac1d8cc872692}{\-Telemetry\-::\-Object\-Queue\-Info\-::obj}
+\item 
+\-Event\-Mask \hyperlink{group___u_a_v_talk_plugin_ga6cc8fb5745c2e3cc2a6e0e4512542d7c}{\-Telemetry\-::\-Object\-Queue\-Info\-::event}
+\item 
+bool \hyperlink{group___u_a_v_talk_plugin_gaf8816b148dce6b50838c9e84272a1d04}{\-Telemetry\-::\-Object\-Queue\-Info\-::all\-Instances}
+\item 
+quint32 \hyperlink{group___u_a_v_talk_plugin_ga6ab32543081346e61bdc67874617d3e1}{\-U\-A\-V\-Talk\-::\-Com\-Stats\-::tx\-Bytes}
+\item 
+quint32 \hyperlink{group___u_a_v_talk_plugin_ga93a6f8b7f60333a7e7afb70085ca7efd}{\-U\-A\-V\-Talk\-::\-Com\-Stats\-::rx\-Bytes}
+\item 
+quint32 \hyperlink{group___u_a_v_talk_plugin_gaf811665cd1c815ac65764deff354ba6c}{\-U\-A\-V\-Talk\-::\-Com\-Stats\-::tx\-Object\-Bytes}
+\item 
+quint32 \hyperlink{group___u_a_v_talk_plugin_ga6a61f515e2c09de8fadddb1d8382a2a1}{\-U\-A\-V\-Talk\-::\-Com\-Stats\-::rx\-Object\-Bytes}
+\item 
+quint32 \hyperlink{group___u_a_v_talk_plugin_ga60c07de32f4130a7b761066819bf0712}{\-U\-A\-V\-Talk\-::\-Com\-Stats\-::rx\-Objects}
+\item 
+quint32 \hyperlink{group___u_a_v_talk_plugin_ga4d48878de025a87f65263e537467fb9b}{\-U\-A\-V\-Talk\-::\-Com\-Stats\-::tx\-Objects}
+\item 
+quint32 \hyperlink{group___u_a_v_talk_plugin_gaddc2324ebd5b83b73e1f873131efcccf}{\-U\-A\-V\-Talk\-::\-Com\-Stats\-::tx\-Errors}
+\item 
+quint32 \hyperlink{group___u_a_v_talk_plugin_ga52c1d5163810f507e6ca052884ee7ecc}{\-U\-A\-V\-Talk\-::\-Com\-Stats\-::rx\-Errors}
+\item 
+static const int \hyperlink{group___u_a_v_talk_plugin_gadad9ea7937a0ef8cf1a162fc2265e9c4}{\-U\-A\-V\-Talk\-::\-T\-Y\-P\-E\-\_\-\-M\-A\-S\-K} = 0x\-F8
+\item 
+static const int \hyperlink{group___u_a_v_talk_plugin_gad838c235ec5ef5e1389791d518faa6e7}{\-U\-A\-V\-Talk\-::\-T\-Y\-P\-E\-\_\-\-V\-E\-R} = 0x20
+\item 
+static const int \hyperlink{group___u_a_v_talk_plugin_ga160fa827bdb9b5114b132cf644f76d4c}{\-U\-A\-V\-Talk\-::\-T\-Y\-P\-E\-\_\-\-O\-B\-J} = (\-T\-Y\-P\-E\-\_\-\-V\-E\-R $|$ 0x00)
+\item 
+static const int \hyperlink{group___u_a_v_talk_plugin_ga5e1cb8e2b0aa00f08a16af9c858079e9}{\-U\-A\-V\-Talk\-::\-T\-Y\-P\-E\-\_\-\-O\-B\-J\-\_\-\-R\-E\-Q} = (\-T\-Y\-P\-E\-\_\-\-V\-E\-R $|$ 0x01)
+\item 
+static const int \hyperlink{group___u_a_v_talk_plugin_gafc2b2ad8c68063a80d64666d0e812572}{\-U\-A\-V\-Talk\-::\-T\-Y\-P\-E\-\_\-\-O\-B\-J\-\_\-\-A\-C\-K} = (\-T\-Y\-P\-E\-\_\-\-V\-E\-R $|$ 0x02)
+\item 
+static const int \hyperlink{group___u_a_v_talk_plugin_gaec2c5c58b05deb71a40e1248ff82aa52}{\-U\-A\-V\-Talk\-::\-T\-Y\-P\-E\-\_\-\-A\-C\-K} = (\-T\-Y\-P\-E\-\_\-\-V\-E\-R $|$ 0x03)
+\item 
+static const int \hyperlink{group___u_a_v_talk_plugin_ga809ec3528886e43e38072e2d16787668}{\-U\-A\-V\-Talk\-::\-T\-Y\-P\-E\-\_\-\-N\-A\-C\-K} = (\-T\-Y\-P\-E\-\_\-\-V\-E\-R $|$ 0x04)
+\item 
+static const int \hyperlink{group___u_a_v_talk_plugin_ga0d20c7ff6e0eedb2ab1243c6bf957fd3}{\-U\-A\-V\-Talk\-::\-M\-I\-N\-\_\-\-H\-E\-A\-D\-E\-R\-\_\-\-L\-E\-N\-G\-T\-H} = 8
+\item 
+static const int \hyperlink{group___u_a_v_talk_plugin_ga279763a8abdcb2fae7cb36916b36c1a8}{\-U\-A\-V\-Talk\-::\-M\-A\-X\-\_\-\-H\-E\-A\-D\-E\-R\-\_\-\-L\-E\-N\-G\-T\-H} = 10
+\item 
+static const int \hyperlink{group___u_a_v_talk_plugin_ga094abac2d747f187a4b22bea1dd28ec0}{\-U\-A\-V\-Talk\-::\-C\-H\-E\-C\-K\-S\-U\-M\-\_\-\-L\-E\-N\-G\-T\-H} = 1
+\item 
+static const int \hyperlink{group___u_a_v_talk_plugin_gac89ca6073b8cf1479a5e2468b3691db9}{\-U\-A\-V\-Talk\-::\-M\-A\-X\-\_\-\-P\-A\-Y\-L\-O\-A\-D\-\_\-\-L\-E\-N\-G\-T\-H} = 256
+\item 
+static const int \hyperlink{group___u_a_v_talk_plugin_gab5a37286c5e8b676d49e134f26444a0c}{\-U\-A\-V\-Talk\-::\-M\-A\-X\-\_\-\-P\-A\-C\-K\-E\-T\-\_\-\-L\-E\-N\-G\-T\-H} = (\-M\-A\-X\-\_\-\-H\-E\-A\-D\-E\-R\-\_\-\-L\-E\-N\-G\-T\-H + \-M\-A\-X\-\_\-\-P\-A\-Y\-L\-O\-A\-D\-\_\-\-L\-E\-N\-G\-T\-H + \-C\-H\-E\-C\-K\-S\-U\-M\-\_\-\-L\-E\-N\-G\-T\-H)
+\item 
+static const quint16 \hyperlink{group___u_a_v_talk_plugin_ga71e922ea4fa7f9e0a9fe89ebdd2fe75c}{\-U\-A\-V\-Talk\-::\-A\-L\-L\-\_\-\-I\-N\-S\-T\-A\-N\-C\-E\-S} = 0x\-F\-F\-F\-F
+\item 
+static const quint16 \hyperlink{group___u_a_v_talk_plugin_gaa627c86aec4d382c9744541688fb66ef}{\-U\-A\-V\-Talk\-::\-O\-B\-J\-I\-D\-\_\-\-N\-O\-T\-F\-O\-U\-N\-D} = 0x0000
+\item 
+static const int \hyperlink{group___u_a_v_talk_plugin_gaa84c0f2f2a83872a6f82f00969d9ddff}{\-U\-A\-V\-Talk\-::\-T\-X\-\_\-\-B\-U\-F\-F\-E\-R\-\_\-\-S\-I\-Z\-E} = 2$\ast$1024
+\item 
+static const quint8 \hyperlink{group___u_a_v_talk_plugin_gac5c5c810a2edb31ed325bf2d54e1b289}{\-U\-A\-V\-Talk\-::crc\-\_\-table} \mbox{[}256\mbox{]}
+\item 
+\-Q\-Pointer$<$ \-Q\-I\-O\-Device $>$ \hyperlink{group___u_a_v_talk_plugin_ga0047f38af98ba4de8e38500e10b73046}{\-U\-A\-V\-Talk\-::io}
+\item 
+\hyperlink{class_u_a_v_object_manager}{\-U\-A\-V\-Object\-Manager} $\ast$ \hyperlink{group___u_a_v_talk_plugin_ga096422f1ff46ea45de07a92c41827aa5}{\-U\-A\-V\-Talk\-::obj\-Mngr}
+\item 
+\-Q\-Mutex $\ast$ \hyperlink{group___u_a_v_talk_plugin_ga2dea39cdabf26ef85d0b26583e21e60b}{\-U\-A\-V\-Talk\-::mutex}
+\item 
+quint8 \hyperlink{group___u_a_v_talk_plugin_ga612e1b395a61ee81d90d8199ba789a86}{\-U\-A\-V\-Talk\-::rx\-Buffer} \mbox{[}\-M\-A\-X\-\_\-\-P\-A\-C\-K\-E\-T\-\_\-\-L\-E\-N\-G\-T\-H\mbox{]}
+\item 
+quint8 \hyperlink{group___u_a_v_talk_plugin_ga7f0eb8c42215b435a77b84d7ffdbbfc3}{\-U\-A\-V\-Talk\-::tx\-Buffer} \mbox{[}\-M\-A\-X\-\_\-\-P\-A\-C\-K\-E\-T\-\_\-\-L\-E\-N\-G\-T\-H\mbox{]}
+\item 
+quint8 \hyperlink{group___u_a_v_talk_plugin_ga94d59693bfbe92bf000ee85b559693e0}{\-U\-A\-V\-Talk\-::rx\-Tmp\-Buffer} \mbox{[}4\mbox{]}
+\item 
+quint8 \hyperlink{group___u_a_v_talk_plugin_ga59962a309157ed27efad61d5bf85f650}{\-U\-A\-V\-Talk\-::rx\-Type}
+\item 
+quint32 \hyperlink{group___u_a_v_talk_plugin_ga922e3ea36927c84023cfb0cf719c9aa0}{\-U\-A\-V\-Talk\-::rx\-Obj\-Id}
+\item 
+quint16 \hyperlink{group___u_a_v_talk_plugin_ga72761110b9b683dad5615619c9323674}{\-U\-A\-V\-Talk\-::rx\-Inst\-Id}
+\item 
+quint16 \hyperlink{group___u_a_v_talk_plugin_ga52cc4d0f063a520fcf7fc2a10254118b}{\-U\-A\-V\-Talk\-::rx\-Length}
+\item 
+quint16 \hyperlink{group___u_a_v_talk_plugin_ga8ce408e2fe258de7a15c77540055a81d}{\-U\-A\-V\-Talk\-::rx\-Packet\-Length}
+\item 
+quint8 \hyperlink{group___u_a_v_talk_plugin_gab6dc6fd77ce7d02c121d7c197dfdebd2}{\-U\-A\-V\-Talk\-::rx\-C\-S\-Packet}
+\item 
+quint8 \hyperlink{group___u_a_v_talk_plugin_gabfde70d24df43bcff2ab3c3da3f2444f}{\-U\-A\-V\-Talk\-::rx\-C\-S}
+\item 
+qint32 \hyperlink{group___u_a_v_talk_plugin_ga380dea6ca845f80612070ed17ea65655}{\-U\-A\-V\-Talk\-::rx\-Count}
+\item 
+qint32 \hyperlink{group___u_a_v_talk_plugin_gaa014be97504e5d24ac39f2808976685e}{\-U\-A\-V\-Talk\-::packet\-Size}
+\item 
+\-Rx\-State\-Type \hyperlink{group___u_a_v_talk_plugin_gacce7e3b2035887b09dce0fdbba0f1b58}{\-U\-A\-V\-Talk\-::rx\-State}
+\item 
+\-Com\-Stats \hyperlink{group___u_a_v_talk_plugin_ga35edebb70765f832afb1174152d4e20c}{\-U\-A\-V\-Talk\-::stats}
+\item 
+bool \hyperlink{group___u_a_v_talk_plugin_ga5198259bc34e6f215c111d731b822e3f}{\-U\-A\-V\-Talk\-::use\-U\-D\-P\-Mirror}
+\item 
+\-Q\-Udp\-Socket $\ast$ \hyperlink{group___u_a_v_talk_plugin_ga02f40e7ac97a6778928a5e9869ea5bc8}{\-U\-A\-V\-Talk\-::udp\-Socket\-Tx}
+\item 
+\-Q\-Udp\-Socket $\ast$ \hyperlink{group___u_a_v_talk_plugin_ga3fe3d99135440f58cb74fb73a4055ef4}{\-U\-A\-V\-Talk\-::udp\-Socket\-Rx}
+\item 
+\-Q\-Byte\-Array \hyperlink{group___u_a_v_talk_plugin_ga053813b68171430545f1bc1d69d450a0}{\-U\-A\-V\-Talk\-::rx\-Data\-Array}
+\end{DoxyCompactItemize}
+\subsection*{\-Signals}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_talk_plugin_ga54bec8ecfe469710c7261f567e76c5f0}{\-Telemetry\-Manager\-::connected} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_talk_plugin_ga61e671949cc2403327617d9c9a372a76}{\-Telemetry\-Manager\-::disconnected} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_talk_plugin_gabb52305ac7bcf975fd60517b0dc9a148}{\-Telemetry\-Manager\-::my\-Start} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_talk_plugin_gabbe5997234dbee93471fcef62361d276}{\-Telemetry\-Manager\-::my\-Stop} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_talk_plugin_gac4e867b78642d4f1fe27c5fc97468ce7}{\-Telemetry\-Monitor\-::connected} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_talk_plugin_ga8445fbd983df4d054bb798c760ba0640}{\-Telemetry\-Monitor\-::disconnected} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_talk_plugin_gac7898d4b74305c568adefb289da72ebc}{\-Telemetry\-Monitor\-::telemetry\-Updated} (double tx\-Rate, double rx\-Rate)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_talk_plugin_ga2d657cf81a725bce5e859eb6828cf80c}{\-U\-A\-V\-Talk\-::ack\-Received} (\hyperlink{class_u_a_v_object}{\-U\-A\-V\-Object} $\ast$obj)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_talk_plugin_gac0268d5005ed3241192bae731c362f7e}{\-U\-A\-V\-Talk\-::nack\-Received} (\hyperlink{class_u_a_v_object}{\-U\-A\-V\-Object} $\ast$obj)
+\end{DoxyCompactItemize}
+\subsection*{\-Public \-Slots}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_talk_plugin_ga2b5452341c351cd2d67c46469b855607}{\-Telemetry\-Monitor\-::transaction\-Completed} (\hyperlink{class_u_a_v_object}{\-U\-A\-V\-Object} $\ast$obj, bool success)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_talk_plugin_ga2e16b3d1a298f851879d22749d1e38e9}{\-Telemetry\-Monitor\-::process\-Stats\-Updates} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_talk_plugin_ga31c0b7ae632d68a5584d1f0696e35766}{\-Telemetry\-Monitor\-::flight\-Stats\-Updated} (\hyperlink{class_u_a_v_object}{\-U\-A\-V\-Object} $\ast$obj)
+\end{DoxyCompactItemize}
+\subsection*{\-Protected \-Slots}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_talk_plugin_ga496d6211736a7cfd5cee129eb2b8ad95}{\-U\-A\-V\-Talk\-Plugin\-::on\-Device\-Connect} (\-Q\-I\-O\-Device $\ast$dev)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_talk_plugin_ga1ac9b2c0c21d66d603c639183ebcd7db}{\-U\-A\-V\-Talk\-Plugin\-::on\-Device\-Disconnect} ()
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-Provide a higher level of telemetry control on top of \hyperlink{class_u_a_v_talk}{\-U\-A\-V\-Talk} including setting up transactions and acknowledging their receipt or timeout. \-Implementation of the \hyperlink{class_u_a_v_talk}{\-U\-A\-V\-Talk} protocol which serializes and deserializes \-U\-A\-V\-Objects.
+
+\-The \hyperlink{class_u_a_v_talk}{\-U\-A\-V\-Talk} protocol plugin. 
+
+\subsection{\-Enumeration \-Type \-Documentation}
+\hypertarget{group___u_a_v_talk_plugin_gae73e1677650d617d825cf2224fa0626a}{\index{\-U\-A\-V\-Talk Plugin@{\-U\-A\-V\-Talk Plugin}!access\-Type@{access\-Type}}
+\index{access\-Type@{access\-Type}!UAVTalk Plugin@{\-U\-A\-V\-Talk Plugin}}
+\subsubsection[{access\-Type}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf \-Uav\-Talk\-Relay\-Comon\-::access\-Type}}}\label{group___u_a_v_talk_plugin_gae73e1677650d617d825cf2224fa0626a}
+\begin{Desc}
+\item[\-Enumerator\-: ]\par
+\begin{description}
+\index{\-Read\-Only@{\-Read\-Only}!\-U\-A\-V\-Talk Plugin@{\-U\-A\-V\-Talk Plugin}}\index{\-U\-A\-V\-Talk Plugin@{\-U\-A\-V\-Talk Plugin}!\-Read\-Only@{\-Read\-Only}}\item[{\em 
+\hypertarget{group___u_a_v_talk_plugin_ggae73e1677650d617d825cf2224fa0626aa957fb229d0cc0c660145b9e1287ad8e1}{\-Read\-Only}\label{group___u_a_v_talk_plugin_ggae73e1677650d617d825cf2224fa0626aa957fb229d0cc0c660145b9e1287ad8e1}
+}]\index{\-Write\-Only@{\-Write\-Only}!\-U\-A\-V\-Talk Plugin@{\-U\-A\-V\-Talk Plugin}}\index{\-U\-A\-V\-Talk Plugin@{\-U\-A\-V\-Talk Plugin}!\-Write\-Only@{\-Write\-Only}}\item[{\em 
+\hypertarget{group___u_a_v_talk_plugin_ggae73e1677650d617d825cf2224fa0626aa024baabb3a664e953e20d4022ce393fa}{\-Write\-Only}\label{group___u_a_v_talk_plugin_ggae73e1677650d617d825cf2224fa0626aa024baabb3a664e953e20d4022ce393fa}
+}]\index{\-Read\-Write@{\-Read\-Write}!\-U\-A\-V\-Talk Plugin@{\-U\-A\-V\-Talk Plugin}}\index{\-U\-A\-V\-Talk Plugin@{\-U\-A\-V\-Talk Plugin}!\-Read\-Write@{\-Read\-Write}}\item[{\em 
+\hypertarget{group___u_a_v_talk_plugin_ggae73e1677650d617d825cf2224fa0626aacc91949972bbaf73f88f2e814994481e}{\-Read\-Write}\label{group___u_a_v_talk_plugin_ggae73e1677650d617d825cf2224fa0626aacc91949972bbaf73f88f2e814994481e}
+}]\index{\-None@{\-None}!\-U\-A\-V\-Talk Plugin@{\-U\-A\-V\-Talk Plugin}}\index{\-U\-A\-V\-Talk Plugin@{\-U\-A\-V\-Talk Plugin}!\-None@{\-None}}\item[{\em 
+\hypertarget{group___u_a_v_talk_plugin_ggae73e1677650d617d825cf2224fa0626aa83e6c2ba48be7947d0d526ba645c6ee4}{\-None}\label{group___u_a_v_talk_plugin_ggae73e1677650d617d825cf2224fa0626aa83e6c2ba48be7947d0d526ba645c6ee4}
+}]\end{description}
+\end{Desc}
+
+
+
+\-Definition at line 45 of file uavtalkrelay\-\_\-global.\-h.
+
+\hypertarget{group___u_a_v_talk_plugin_ga7f7ca2a64b0ea5ec26fb64d06bf9e09b}{\index{\-U\-A\-V\-Talk Plugin@{\-U\-A\-V\-Talk Plugin}!\-Rx\-State\-Type@{\-Rx\-State\-Type}}
+\index{\-Rx\-State\-Type@{\-Rx\-State\-Type}!UAVTalk Plugin@{\-U\-A\-V\-Talk Plugin}}
+\subsubsection[{\-Rx\-State\-Type}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf \-U\-A\-V\-Talk\-::\-Rx\-State\-Type}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{group___u_a_v_talk_plugin_ga7f7ca2a64b0ea5ec26fb64d06bf9e09b}
+\begin{Desc}
+\item[\-Enumerator\-: ]\par
+\begin{description}
+\index{\-S\-T\-A\-T\-E\-\_\-\-S\-Y\-N\-C@{\-S\-T\-A\-T\-E\-\_\-\-S\-Y\-N\-C}!\-U\-A\-V\-Talk Plugin@{\-U\-A\-V\-Talk Plugin}}\index{\-U\-A\-V\-Talk Plugin@{\-U\-A\-V\-Talk Plugin}!\-S\-T\-A\-T\-E\-\_\-\-S\-Y\-N\-C@{\-S\-T\-A\-T\-E\-\_\-\-S\-Y\-N\-C}}\item[{\em 
+\hypertarget{group___u_a_v_talk_plugin_gga7f7ca2a64b0ea5ec26fb64d06bf9e09baf774a734f7889e634d5b363fa3f3c793}{\-S\-T\-A\-T\-E\-\_\-\-S\-Y\-N\-C}\label{group___u_a_v_talk_plugin_gga7f7ca2a64b0ea5ec26fb64d06bf9e09baf774a734f7889e634d5b363fa3f3c793}
+}]\index{\-S\-T\-A\-T\-E\-\_\-\-T\-Y\-P\-E@{\-S\-T\-A\-T\-E\-\_\-\-T\-Y\-P\-E}!\-U\-A\-V\-Talk Plugin@{\-U\-A\-V\-Talk Plugin}}\index{\-U\-A\-V\-Talk Plugin@{\-U\-A\-V\-Talk Plugin}!\-S\-T\-A\-T\-E\-\_\-\-T\-Y\-P\-E@{\-S\-T\-A\-T\-E\-\_\-\-T\-Y\-P\-E}}\item[{\em 
+\hypertarget{group___u_a_v_talk_plugin_gga7f7ca2a64b0ea5ec26fb64d06bf9e09baa1450012a1828440751fcb6f17ac250f}{\-S\-T\-A\-T\-E\-\_\-\-T\-Y\-P\-E}\label{group___u_a_v_talk_plugin_gga7f7ca2a64b0ea5ec26fb64d06bf9e09baa1450012a1828440751fcb6f17ac250f}
+}]\index{\-S\-T\-A\-T\-E\-\_\-\-S\-I\-Z\-E@{\-S\-T\-A\-T\-E\-\_\-\-S\-I\-Z\-E}!\-U\-A\-V\-Talk Plugin@{\-U\-A\-V\-Talk Plugin}}\index{\-U\-A\-V\-Talk Plugin@{\-U\-A\-V\-Talk Plugin}!\-S\-T\-A\-T\-E\-\_\-\-S\-I\-Z\-E@{\-S\-T\-A\-T\-E\-\_\-\-S\-I\-Z\-E}}\item[{\em 
+\hypertarget{group___u_a_v_talk_plugin_gga7f7ca2a64b0ea5ec26fb64d06bf9e09ba3257c8699631219b720e0661955ef1f6}{\-S\-T\-A\-T\-E\-\_\-\-S\-I\-Z\-E}\label{group___u_a_v_talk_plugin_gga7f7ca2a64b0ea5ec26fb64d06bf9e09ba3257c8699631219b720e0661955ef1f6}
+}]\index{\-S\-T\-A\-T\-E\-\_\-\-O\-B\-J\-I\-D@{\-S\-T\-A\-T\-E\-\_\-\-O\-B\-J\-I\-D}!\-U\-A\-V\-Talk Plugin@{\-U\-A\-V\-Talk Plugin}}\index{\-U\-A\-V\-Talk Plugin@{\-U\-A\-V\-Talk Plugin}!\-S\-T\-A\-T\-E\-\_\-\-O\-B\-J\-I\-D@{\-S\-T\-A\-T\-E\-\_\-\-O\-B\-J\-I\-D}}\item[{\em 
+\hypertarget{group___u_a_v_talk_plugin_gga7f7ca2a64b0ea5ec26fb64d06bf9e09ba14ae245b4bee65b20ff1be4e31396df4}{\-S\-T\-A\-T\-E\-\_\-\-O\-B\-J\-I\-D}\label{group___u_a_v_talk_plugin_gga7f7ca2a64b0ea5ec26fb64d06bf9e09ba14ae245b4bee65b20ff1be4e31396df4}
+}]\index{\-S\-T\-A\-T\-E\-\_\-\-I\-N\-S\-T\-I\-D@{\-S\-T\-A\-T\-E\-\_\-\-I\-N\-S\-T\-I\-D}!\-U\-A\-V\-Talk Plugin@{\-U\-A\-V\-Talk Plugin}}\index{\-U\-A\-V\-Talk Plugin@{\-U\-A\-V\-Talk Plugin}!\-S\-T\-A\-T\-E\-\_\-\-I\-N\-S\-T\-I\-D@{\-S\-T\-A\-T\-E\-\_\-\-I\-N\-S\-T\-I\-D}}\item[{\em 
+\hypertarget{group___u_a_v_talk_plugin_gga7f7ca2a64b0ea5ec26fb64d06bf9e09baadc60771fcd506f0b9714cdb478ecb08}{\-S\-T\-A\-T\-E\-\_\-\-I\-N\-S\-T\-I\-D}\label{group___u_a_v_talk_plugin_gga7f7ca2a64b0ea5ec26fb64d06bf9e09baadc60771fcd506f0b9714cdb478ecb08}
+}]\index{\-S\-T\-A\-T\-E\-\_\-\-D\-A\-T\-A@{\-S\-T\-A\-T\-E\-\_\-\-D\-A\-T\-A}!\-U\-A\-V\-Talk Plugin@{\-U\-A\-V\-Talk Plugin}}\index{\-U\-A\-V\-Talk Plugin@{\-U\-A\-V\-Talk Plugin}!\-S\-T\-A\-T\-E\-\_\-\-D\-A\-T\-A@{\-S\-T\-A\-T\-E\-\_\-\-D\-A\-T\-A}}\item[{\em 
+\hypertarget{group___u_a_v_talk_plugin_gga7f7ca2a64b0ea5ec26fb64d06bf9e09ba38e65dcea6f1e7c9e74726f3e2f0654b}{\-S\-T\-A\-T\-E\-\_\-\-D\-A\-T\-A}\label{group___u_a_v_talk_plugin_gga7f7ca2a64b0ea5ec26fb64d06bf9e09ba38e65dcea6f1e7c9e74726f3e2f0654b}
+}]\index{\-S\-T\-A\-T\-E\-\_\-\-C\-S@{\-S\-T\-A\-T\-E\-\_\-\-C\-S}!\-U\-A\-V\-Talk Plugin@{\-U\-A\-V\-Talk Plugin}}\index{\-U\-A\-V\-Talk Plugin@{\-U\-A\-V\-Talk Plugin}!\-S\-T\-A\-T\-E\-\_\-\-C\-S@{\-S\-T\-A\-T\-E\-\_\-\-C\-S}}\item[{\em 
+\hypertarget{group___u_a_v_talk_plugin_gga7f7ca2a64b0ea5ec26fb64d06bf9e09baed576d42fef7f3e2488c61b3f64402d7}{\-S\-T\-A\-T\-E\-\_\-\-C\-S}\label{group___u_a_v_talk_plugin_gga7f7ca2a64b0ea5ec26fb64d06bf9e09baed576d42fef7f3e2488c61b3f64402d7}
+}]\end{description}
+\end{Desc}
+
+
+
+\-Definition at line 101 of file uavtalk.\-h.
+
+
+
+\subsection{\-Function \-Documentation}
+\hypertarget{group___u_a_v_talk_plugin_ga2b7202eb07a1d037f8e92eeedbc1621e}{\index{\-U\-A\-V\-Talk Plugin@{\-U\-A\-V\-Talk Plugin}!extensions\-Initialized@{extensions\-Initialized}}
+\index{extensions\-Initialized@{extensions\-Initialized}!UAVTalk Plugin@{\-U\-A\-V\-Talk Plugin}}
+\subsubsection[{extensions\-Initialized}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-U\-A\-V\-Talk\-Plugin\-::extensions\-Initialized} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___u_a_v_talk_plugin_ga2b7202eb07a1d037f8e92eeedbc1621e}
+\-Called once all the plugins which depend on us have been loaded 
+
+\-Implements \hyperlink{class_extension_system_1_1_i_plugin_a1db3a7fb242fca02229f9a3be4fd6610}{\-Extension\-System\-::\-I\-Plugin}.
+
+
+
+\-Definition at line 44 of file uavtalkplugin.\-cpp.
+
+\hypertarget{group___u_a_v_talk_plugin_gac9f7d49b556190b1b7d4b845b8b23a34}{\index{\-U\-A\-V\-Talk Plugin@{\-U\-A\-V\-Talk Plugin}!get\-Stats@{get\-Stats}}
+\index{get\-Stats@{get\-Stats}!UAVTalk Plugin@{\-U\-A\-V\-Talk Plugin}}
+\subsubsection[{get\-Stats}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-U\-A\-V\-Talk\-::\-Com\-Stats} {\bf \-U\-A\-V\-Talk\-::get\-Stats} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_talk_plugin_gac9f7d49b556190b1b7d4b845b8b23a34}
+\-Get the statistics counters 
+
+\-Definition at line 115 of file uavtalk.\-cpp.
+
+\hypertarget{group___u_a_v_talk_plugin_ga9f456df92180138a0adebc5e3afc3402}{\index{\-U\-A\-V\-Talk Plugin@{\-U\-A\-V\-Talk Plugin}!get\-Stats@{get\-Stats}}
+\index{get\-Stats@{get\-Stats}!UAVTalk Plugin@{\-U\-A\-V\-Talk Plugin}}
+\subsubsection[{get\-Stats}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Telemetry\-::\-Telemetry\-Stats} {\bf \-Telemetry\-::get\-Stats} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_talk_plugin_ga9f456df92180138a0adebc5e3afc3402}
+
+
+\-Definition at line 591 of file telemetry.\-cpp.
+
+\hypertarget{group___u_a_v_talk_plugin_ga311f58f272717ad544a6ca019a42f821}{\index{\-U\-A\-V\-Talk Plugin@{\-U\-A\-V\-Talk Plugin}!initialize@{initialize}}
+\index{initialize@{initialize}!UAVTalk Plugin@{\-U\-A\-V\-Talk Plugin}}
+\subsubsection[{initialize}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-U\-A\-V\-Talk\-Plugin\-::initialize} (
+\begin{DoxyParamCaption}
+\item[{const \-Q\-String\-List \&}]{arguments, }
+\item[{{\bf \-Q\-String} $\ast$}]{error\-String}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___u_a_v_talk_plugin_ga311f58f272717ad544a6ca019a42f821}
+\-Called at startup, before any plugin which depends on us is initialized 
+
+\-Implements \hyperlink{class_extension_system_1_1_i_plugin_a9f3dc957317279daed393fdf4894e944}{\-Extension\-System\-::\-I\-Plugin}.
+
+
+
+\-Definition at line 51 of file uavtalkplugin.\-cpp.
+
+\hypertarget{group___u_a_v_talk_plugin_ga73bf9fbd67f3eb0451363525de9cc7de}{\index{\-U\-A\-V\-Talk Plugin@{\-U\-A\-V\-Talk Plugin}!is\-Connected@{is\-Connected}}
+\index{is\-Connected@{is\-Connected}!UAVTalk Plugin@{\-U\-A\-V\-Talk Plugin}}
+\subsubsection[{is\-Connected}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-Telemetry\-Manager\-::is\-Connected} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_talk_plugin_ga73bf9fbd67f3eb0451363525de9cc7de}
+
+
+\-Definition at line 50 of file telemetrymanager.\-cpp.
+
+\hypertarget{group___u_a_v_talk_plugin_gaf41ae2b1b8730f18bc3992d6777c0627}{\index{\-U\-A\-V\-Talk Plugin@{\-U\-A\-V\-Talk Plugin}!object\-Transaction@{object\-Transaction}}
+\index{object\-Transaction@{object\-Transaction}!UAVTalk Plugin@{\-U\-A\-V\-Talk Plugin}}
+\subsubsection[{object\-Transaction}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-U\-A\-V\-Talk\-::object\-Transaction} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-U\-A\-V\-Object} $\ast$}]{obj, }
+\item[{quint8}]{type, }
+\item[{bool}]{all\-Instances}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{group___u_a_v_talk_plugin_gaf41ae2b1b8730f18bc3992d6777c0627}
+\-Execute the requested transaction on an object. 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em obj} & \-Object \\
+\hline
+\mbox{\tt in}  & {\em type} & \-Transaction type \-T\-Y\-P\-E\-\_\-\-O\-B\-J\-: send object with no ack, \-T\-Y\-P\-E\-\_\-\-O\-B\-J\-\_\-\-R\-E\-Q\-: request object update \-T\-Y\-P\-E\-\_\-\-O\-B\-J\-\_\-\-A\-C\-K\-: send object with an ack \\
+\hline
+\mbox{\tt in}  & {\em all\-Instances} & \-If set true then all instances will be updated \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+\-Success (true), \-Failure (false) 
+\end{DoxyReturn}
+
+
+\-Definition at line 191 of file uavtalk.\-cpp.
+
+\hypertarget{group___u_a_v_talk_plugin_ga56a113c31769c8841a65cf085c53a33e}{\index{\-U\-A\-V\-Talk Plugin@{\-U\-A\-V\-Talk Plugin}!\-Object\-Transaction\-Info@{\-Object\-Transaction\-Info}}
+\index{\-Object\-Transaction\-Info@{\-Object\-Transaction\-Info}!UAVTalk Plugin@{\-U\-A\-V\-Talk Plugin}}
+\subsubsection[{\-Object\-Transaction\-Info}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Object\-Transaction\-Info\-::\-Object\-Transaction\-Info} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Object $\ast$}]{parent}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_talk_plugin_ga56a113c31769c8841a65cf085c53a33e}
+
+
+\-Definition at line 664 of file telemetry.\-cpp.
+
+\hypertarget{group___u_a_v_talk_plugin_ga535141f4efa21d7b4b5d5314c92d1c8e}{\index{\-U\-A\-V\-Talk Plugin@{\-U\-A\-V\-Talk Plugin}!operator$<$@{operator$<$}}
+\index{operator$<$@{operator$<$}!UAVTalk Plugin@{\-U\-A\-V\-Talk Plugin}}
+\subsubsection[{operator$<$}]{\setlength{\rightskip}{0pt plus 5cm}bool \-Transaction\-Key\-::operator$<$ (
+\begin{DoxyParamCaption}
+\item[{const {\bf \-Transaction\-Key} \&}]{rhs}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___u_a_v_talk_plugin_ga535141f4efa21d7b4b5d5314c92d1c8e}
+
+
+\-Definition at line 61 of file telemetry.\-cpp.
+
+\hypertarget{group___u_a_v_talk_plugin_ga6619fa90d68b631eef2b94302d77df19}{\index{\-U\-A\-V\-Talk Plugin@{\-U\-A\-V\-Talk Plugin}!operator==@{operator==}}
+\index{operator==@{operator==}!UAVTalk Plugin@{\-U\-A\-V\-Talk Plugin}}
+\subsubsection[{operator==}]{\setlength{\rightskip}{0pt plus 5cm}bool \-Transaction\-Key\-::operator== (
+\begin{DoxyParamCaption}
+\item[{const {\bf \-Transaction\-Key} \&}]{rhs}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___u_a_v_talk_plugin_ga6619fa90d68b631eef2b94302d77df19}
+
+
+\-Definition at line 57 of file telemetry.\-cpp.
+
+\hypertarget{group___u_a_v_talk_plugin_ga39bcb007900ed377097079d21ffe3a68}{\index{\-U\-A\-V\-Talk Plugin@{\-U\-A\-V\-Talk Plugin}!process\-Input\-Byte@{process\-Input\-Byte}}
+\index{process\-Input\-Byte@{process\-Input\-Byte}!UAVTalk Plugin@{\-U\-A\-V\-Talk Plugin}}
+\subsubsection[{process\-Input\-Byte}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-U\-A\-V\-Talk\-::process\-Input\-Byte} (
+\begin{DoxyParamCaption}
+\item[{quint8}]{rxbyte}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{group___u_a_v_talk_plugin_ga39bcb007900ed377097079d21ffe3a68}
+\-Process a byte from the telemetry stream. 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em rxbyte} & \-Received byte \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+\-Success (true), \-Failure (false) 
+\end{DoxyReturn}
+
+
+\-Definition at line 207 of file uavtalk.\-cpp.
+
+\hypertarget{group___u_a_v_talk_plugin_gaa95319b62b2b1a92e3f0ef753a1c04a3}{\index{\-U\-A\-V\-Talk Plugin@{\-U\-A\-V\-Talk Plugin}!receive\-Object@{receive\-Object}}
+\index{receive\-Object@{receive\-Object}!UAVTalk Plugin@{\-U\-A\-V\-Talk Plugin}}
+\subsubsection[{receive\-Object}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-U\-A\-V\-Talk\-::receive\-Object} (
+\begin{DoxyParamCaption}
+\item[{quint8}]{type, }
+\item[{quint32}]{obj\-Id, }
+\item[{quint16}]{inst\-Id, }
+\item[{quint8 $\ast$}]{data, }
+\item[{qint32}]{length}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}protected, virtual\mbox{]}}}}\label{group___u_a_v_talk_plugin_gaa95319b62b2b1a92e3f0ef753a1c04a3}
+\-Receive an object. \-This function process objects received through the telemetry stream. 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em type} & \-Type of received message (\-T\-Y\-P\-E\-\_\-\-O\-B\-J, \-T\-Y\-P\-E\-\_\-\-O\-B\-J\-\_\-\-R\-E\-Q, \-T\-Y\-P\-E\-\_\-\-O\-B\-J\-\_\-\-A\-C\-K, \-T\-Y\-P\-E\-\_\-\-A\-C\-K, \-T\-Y\-P\-E\-\_\-\-N\-A\-C\-K) \\
+\hline
+\mbox{\tt in}  & {\em obj} & \-Handle of the received object \\
+\hline
+\mbox{\tt in}  & {\em inst\-Id} & \-The instance \-I\-D of \-U\-A\-V\-O\-B\-J\-\_\-\-A\-L\-L\-\_\-\-I\-N\-S\-T\-A\-N\-C\-E\-S for all instances. \\
+\hline
+\mbox{\tt in}  & {\em data} & \-Data buffer \\
+\hline
+\mbox{\tt in}  & {\em length} & \-Buffer length \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+\-Success (true), \-Failure (false) 
+\end{DoxyReturn}
+
+
+\-Reimplemented in \hyperlink{group___u_a_v_talk_gae0a55c71a396a0577dd48dad6188a7a0}{\-Filtered\-Uav\-Talk}.
+
+
+
+\-Definition at line 479 of file uavtalk.\-cpp.
+
+\hypertarget{group___u_a_v_talk_plugin_gaba16247e0963a29b16a6177e685f1321}{\index{\-U\-A\-V\-Talk Plugin@{\-U\-A\-V\-Talk Plugin}!reset\-Stats@{reset\-Stats}}
+\index{reset\-Stats@{reset\-Stats}!UAVTalk Plugin@{\-U\-A\-V\-Talk Plugin}}
+\subsubsection[{reset\-Stats}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-U\-A\-V\-Talk\-::reset\-Stats} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_talk_plugin_gaba16247e0963a29b16a6177e685f1321}
+\-Reset the statistics counters 
+
+\-Definition at line 106 of file uavtalk.\-cpp.
+
+\hypertarget{group___u_a_v_talk_plugin_ga6452c56eab6e4b7ce913566562a005ef}{\index{\-U\-A\-V\-Talk Plugin@{\-U\-A\-V\-Talk Plugin}!reset\-Stats@{reset\-Stats}}
+\index{reset\-Stats@{reset\-Stats}!UAVTalk Plugin@{\-U\-A\-V\-Talk Plugin}}
+\subsubsection[{reset\-Stats}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Telemetry\-::reset\-Stats} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_talk_plugin_ga6452c56eab6e4b7ce913566562a005ef}
+
+
+\-Definition at line 614 of file telemetry.\-cpp.
+
+\hypertarget{group___u_a_v_talk_plugin_gafb99b5df957808785013366dfd5bc636}{\index{\-U\-A\-V\-Talk Plugin@{\-U\-A\-V\-Talk Plugin}!send\-Object@{send\-Object}}
+\index{send\-Object@{send\-Object}!UAVTalk Plugin@{\-U\-A\-V\-Talk Plugin}}
+\subsubsection[{send\-Object}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-U\-A\-V\-Talk\-::send\-Object} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-U\-A\-V\-Object} $\ast$}]{obj, }
+\item[{bool}]{acked, }
+\item[{bool}]{all\-Instances}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_talk_plugin_gafb99b5df957808785013366dfd5bc636}
+\-Send the specified object through the telemetry link. 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em obj} & \-Object to send \\
+\hline
+\mbox{\tt in}  & {\em acked} & \-Selects if an ack is required \\
+\hline
+\mbox{\tt in}  & {\em all\-Instances} & \-If set true then all instances will be updated \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+\-Success (true), \-Failure (false) 
+\end{DoxyReturn}
+
+
+\-Definition at line 168 of file uavtalk.\-cpp.
+
+\hypertarget{group___u_a_v_talk_plugin_ga884c8680ea2c95bef75fca2c4c95867d}{\index{\-U\-A\-V\-Talk Plugin@{\-U\-A\-V\-Talk Plugin}!send\-Object\-Request@{send\-Object\-Request}}
+\index{send\-Object\-Request@{send\-Object\-Request}!UAVTalk Plugin@{\-U\-A\-V\-Talk Plugin}}
+\subsubsection[{send\-Object\-Request}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-U\-A\-V\-Talk\-::send\-Object\-Request} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-U\-A\-V\-Object} $\ast$}]{obj, }
+\item[{bool}]{all\-Instances}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_talk_plugin_ga884c8680ea2c95bef75fca2c4c95867d}
+\-Request an update for the specified object, on success the object data would have been updated by the \-G\-C\-S. 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em obj} & \-Object to update \\
+\hline
+\mbox{\tt in}  & {\em all\-Instances} & \-If set true then all instances will be updated \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+\-Success (true), \-Failure (false) 
+\end{DoxyReturn}
+
+
+\-Definition at line 155 of file uavtalk.\-cpp.
+
+\hypertarget{group___u_a_v_talk_plugin_ga67b3b23618210b3dfbf43dc1b0fa03b1}{\index{\-U\-A\-V\-Talk Plugin@{\-U\-A\-V\-Talk Plugin}!shutdown@{shutdown}}
+\index{shutdown@{shutdown}!UAVTalk Plugin@{\-U\-A\-V\-Talk Plugin}}
+\subsubsection[{shutdown}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-U\-A\-V\-Talk\-Plugin\-::shutdown} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___u_a_v_talk_plugin_ga67b3b23618210b3dfbf43dc1b0fa03b1}
+\-Called during a shutdown sequence in the same order as initialization before the plugins get deleted in reverse order. \-This method can be used to optimize the shutdown down, e.\-g. to disconnect from the \-Plugin\-Manager\-::about\-To\-Remove\-Object() signal if getting the signal (and probably doing lots of stuff to update the internal and visible state) doesn't make sense during shutdown. 
+
+\-Reimplemented from \hyperlink{class_extension_system_1_1_i_plugin_a65c16ebd3a6e89918a99af6515fe68cb}{\-Extension\-System\-::\-I\-Plugin}.
+
+
+
+\-Definition at line 73 of file uavtalkplugin.\-cpp.
+
+\hypertarget{group___u_a_v_talk_plugin_ga48c17e83f41b742abc5c234963093171}{\index{\-U\-A\-V\-Talk Plugin@{\-U\-A\-V\-Talk Plugin}!start@{start}}
+\index{start@{start}!UAVTalk Plugin@{\-U\-A\-V\-Talk Plugin}}
+\subsubsection[{start}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Telemetry\-Manager\-::start} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-I\-O\-Device $\ast$}]{dev}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_talk_plugin_ga48c17e83f41b742abc5c234963093171}
+
+
+\-Definition at line 55 of file telemetrymanager.\-cpp.
+
+\hypertarget{group___u_a_v_talk_plugin_ga59bfea54673b2ab51e9ac1bf3a186718}{\index{\-U\-A\-V\-Talk Plugin@{\-U\-A\-V\-Talk Plugin}!stop@{stop}}
+\index{stop@{stop}!UAVTalk Plugin@{\-U\-A\-V\-Talk Plugin}}
+\subsubsection[{stop}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Telemetry\-Manager\-::stop} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_talk_plugin_ga59bfea54673b2ab51e9ac1bf3a186718}
+
+
+\-Definition at line 71 of file telemetrymanager.\-cpp.
+
+\hypertarget{group___u_a_v_talk_plugin_ga6998be3c493d7a742d8f54bcf235e823}{\index{\-U\-A\-V\-Talk Plugin@{\-U\-A\-V\-Talk Plugin}!\-Telemetry@{\-Telemetry}}
+\index{\-Telemetry@{\-Telemetry}!UAVTalk Plugin@{\-U\-A\-V\-Talk Plugin}}
+\subsubsection[{\-Telemetry}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Telemetry\-::\-Telemetry} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-U\-A\-V\-Talk} $\ast$}]{utalk, }
+\item[{{\bf \-U\-A\-V\-Object\-Manager} $\ast$}]{obj\-Mngr}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_talk_plugin_ga6998be3c493d7a742d8f54bcf235e823}
+\-Constructor 
+
+\-Definition at line 74 of file telemetry.\-cpp.
+
+\hypertarget{group___u_a_v_talk_plugin_gaab121ca26ff1b0985b013d715132a088}{\index{\-U\-A\-V\-Talk Plugin@{\-U\-A\-V\-Talk Plugin}!\-Telemetry\-Manager@{\-Telemetry\-Manager}}
+\index{\-Telemetry\-Manager@{\-Telemetry\-Manager}!UAVTalk Plugin@{\-U\-A\-V\-Talk Plugin}}
+\subsubsection[{\-Telemetry\-Manager}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Telemetry\-Manager\-::\-Telemetry\-Manager} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_talk_plugin_gaab121ca26ff1b0985b013d715132a088}
+
+
+\-Definition at line 33 of file telemetrymanager.\-cpp.
+
+\hypertarget{group___u_a_v_talk_plugin_gad2af9cb530ef07a84cc9992d6458111f}{\index{\-U\-A\-V\-Talk Plugin@{\-U\-A\-V\-Talk Plugin}!\-Telemetry\-Monitor@{\-Telemetry\-Monitor}}
+\index{\-Telemetry\-Monitor@{\-Telemetry\-Monitor}!UAVTalk Plugin@{\-U\-A\-V\-Talk Plugin}}
+\subsubsection[{\-Telemetry\-Monitor}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Telemetry\-Monitor\-::\-Telemetry\-Monitor} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-U\-A\-V\-Object\-Manager} $\ast$}]{obj\-Mngr, }
+\item[{{\bf \-Telemetry} $\ast$}]{tel}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_talk_plugin_gad2af9cb530ef07a84cc9992d6458111f}
+\-Constructor 
+
+\-Definition at line 36 of file telemetrymonitor.\-cpp.
+
+\hypertarget{group___u_a_v_talk_plugin_gad570ba59a89b2499d1fa950f756f029e}{\index{\-U\-A\-V\-Talk Plugin@{\-U\-A\-V\-Talk Plugin}!\-Transaction\-Key@{\-Transaction\-Key}}
+\index{\-Transaction\-Key@{\-Transaction\-Key}!UAVTalk Plugin@{\-U\-A\-V\-Talk Plugin}}
+\subsubsection[{\-Transaction\-Key}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Transaction\-Key\-::\-Transaction\-Key} (
+\begin{DoxyParamCaption}
+\item[{quint32}]{obj\-Id, }
+\item[{quint32}]{inst\-Id, }
+\item[{bool}]{req}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___u_a_v_talk_plugin_gad570ba59a89b2499d1fa950f756f029e}
+
+
+\-Definition at line 44 of file telemetry.\-cpp.
+
+\hypertarget{group___u_a_v_talk_plugin_ga01b3c8039cd97c7da26eb79fdeed0003}{\index{\-U\-A\-V\-Talk Plugin@{\-U\-A\-V\-Talk Plugin}!\-Transaction\-Key@{\-Transaction\-Key}}
+\index{\-Transaction\-Key@{\-Transaction\-Key}!UAVTalk Plugin@{\-U\-A\-V\-Talk Plugin}}
+\subsubsection[{\-Transaction\-Key}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Transaction\-Key\-::\-Transaction\-Key} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-U\-A\-V\-Object} $\ast$}]{obj, }
+\item[{bool}]{req}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___u_a_v_talk_plugin_ga01b3c8039cd97c7da26eb79fdeed0003}
+
+
+\-Definition at line 50 of file telemetry.\-cpp.
+
+\hypertarget{group___u_a_v_talk_plugin_gab5d172ba63e07316e086a65c5bcc8d47}{\index{\-U\-A\-V\-Talk Plugin@{\-U\-A\-V\-Talk Plugin}!transaction\-Timeout@{transaction\-Timeout}}
+\index{transaction\-Timeout@{transaction\-Timeout}!UAVTalk Plugin@{\-U\-A\-V\-Talk Plugin}}
+\subsubsection[{transaction\-Timeout}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Telemetry\-::transaction\-Timeout} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Object\-Transaction\-Info} $\ast$}]{trans\-Info}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_talk_plugin_gab5d172ba63e07316e086a65c5bcc8d47}
+\-Called when a transaction is not completed within the timeout period (timer event) 
+
+\-Definition at line 349 of file telemetry.\-cpp.
+
+\hypertarget{group___u_a_v_talk_plugin_ga1ea574fb7b47dc949201d4c29b834208}{\index{\-U\-A\-V\-Talk Plugin@{\-U\-A\-V\-Talk Plugin}!transmit\-Nack@{transmit\-Nack}}
+\index{transmit\-Nack@{transmit\-Nack}!UAVTalk Plugin@{\-U\-A\-V\-Talk Plugin}}
+\subsubsection[{transmit\-Nack}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-U\-A\-V\-Talk\-::transmit\-Nack} (
+\begin{DoxyParamCaption}
+\item[{quint32}]{obj\-Id}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{group___u_a_v_talk_plugin_ga1ea574fb7b47dc949201d4c29b834208}
+\-Transmit a \-N\-A\-C\-K through the telemetry link. \-This method is separate from transmitsingleobject because we are using an object\-I\-D for an unknown object. 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em obj\-Id} & the \-Object\-I\-D we rejected \\
+\hline
+\end{DoxyParams}
+
+
+\-Definition at line 694 of file uavtalk.\-cpp.
+
+\hypertarget{group___u_a_v_talk_plugin_ga81519c2c45745383850ccec92be1eb6a}{\index{\-U\-A\-V\-Talk Plugin@{\-U\-A\-V\-Talk Plugin}!transmit\-Object@{transmit\-Object}}
+\index{transmit\-Object@{transmit\-Object}!UAVTalk Plugin@{\-U\-A\-V\-Talk Plugin}}
+\subsubsection[{transmit\-Object}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-U\-A\-V\-Talk\-::transmit\-Object} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-U\-A\-V\-Object} $\ast$}]{obj, }
+\item[{quint8}]{type, }
+\item[{bool}]{all\-Instances}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{group___u_a_v_talk_plugin_ga81519c2c45745383850ccec92be1eb6a}
+\-Send an object through the telemetry link. 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em obj} & \-Object to send \\
+\hline
+\mbox{\tt in}  & {\em type} & \-Transaction type \\
+\hline
+\mbox{\tt in}  & {\em all\-Instances} & \-True is all instances of the object are to be sent \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+\-Success (true), \-Failure (false) 
+\end{DoxyReturn}
+
+
+\-Definition at line 639 of file uavtalk.\-cpp.
+
+\hypertarget{group___u_a_v_talk_plugin_ga474ec2f43670acca29d18ad9965b0440}{\index{\-U\-A\-V\-Talk Plugin@{\-U\-A\-V\-Talk Plugin}!transmit\-Single\-Object@{transmit\-Single\-Object}}
+\index{transmit\-Single\-Object@{transmit\-Single\-Object}!UAVTalk Plugin@{\-U\-A\-V\-Talk Plugin}}
+\subsubsection[{transmit\-Single\-Object}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-U\-A\-V\-Talk\-::transmit\-Single\-Object} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-U\-A\-V\-Object} $\ast$}]{obj, }
+\item[{quint8}]{type, }
+\item[{bool}]{all\-Instances}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{group___u_a_v_talk_plugin_ga474ec2f43670acca29d18ad9965b0440}
+\-Send an object through the telemetry link. 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em obj} & \-Object handle to send \\
+\hline
+\mbox{\tt in}  & {\em type} & \-Transaction type \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+\-Success (true), \-Failure (false) 
+\end{DoxyReturn}
+
+
+\-Definition at line 737 of file uavtalk.\-cpp.
+
+\hypertarget{group___u_a_v_talk_plugin_ga53c36c64288a62b44a285dfb40cee946}{\index{\-U\-A\-V\-Talk Plugin@{\-U\-A\-V\-Talk Plugin}!\-U\-A\-V\-Talk@{\-U\-A\-V\-Talk}}
+\index{\-U\-A\-V\-Talk@{\-U\-A\-V\-Talk}!UAVTalk Plugin@{\-U\-A\-V\-Talk Plugin}}
+\subsubsection[{\-U\-A\-V\-Talk}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-U\-A\-V\-Talk\-::\-U\-A\-V\-Talk} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-I\-O\-Device $\ast$}]{iodev, }
+\item[{{\bf \-U\-A\-V\-Object\-Manager} $\ast$}]{obj\-Mngr}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_talk_plugin_ga53c36c64288a62b44a285dfb40cee946}
+\-Constructor 
+
+\-Definition at line 66 of file uavtalk.\-cpp.
+
+\hypertarget{group___u_a_v_talk_plugin_ga140bdf803c218ccb2a6017a2a6aba95e}{\index{\-U\-A\-V\-Talk Plugin@{\-U\-A\-V\-Talk Plugin}!\-U\-A\-V\-Talk\-Plugin@{\-U\-A\-V\-Talk\-Plugin}}
+\index{\-U\-A\-V\-Talk\-Plugin@{\-U\-A\-V\-Talk\-Plugin}!UAVTalk Plugin@{\-U\-A\-V\-Talk Plugin}}
+\subsubsection[{\-U\-A\-V\-Talk\-Plugin}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-U\-A\-V\-Talk\-Plugin\-::\-U\-A\-V\-Talk\-Plugin} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_talk_plugin_ga140bdf803c218ccb2a6017a2a6aba95e}
+
+
+\-Definition at line 32 of file uavtalkplugin.\-cpp.
+
+\hypertarget{group___u_a_v_talk_plugin_gae15db61cd3e3604aad8fbd52ddc68fff}{\index{\-U\-A\-V\-Talk Plugin@{\-U\-A\-V\-Talk Plugin}!update\-C\-R\-C@{update\-C\-R\-C}}
+\index{update\-C\-R\-C@{update\-C\-R\-C}!UAVTalk Plugin@{\-U\-A\-V\-Talk Plugin}}
+\subsubsection[{update\-C\-R\-C}]{\setlength{\rightskip}{0pt plus 5cm}quint8 {\bf \-U\-A\-V\-Talk\-::update\-C\-R\-C} (
+\begin{DoxyParamCaption}
+\item[{quint8}]{crc, }
+\item[{const quint8}]{data}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{group___u_a_v_talk_plugin_gae15db61cd3e3604aad8fbd52ddc68fff}
+\-Update the crc value with new data.
+
+\-Generated by pycrc v0.\-7.\-5, \href{http://www.tty1.net/pycrc/}{\tt http\-://www.\-tty1.\-net/pycrc/} using the configuration\-: \-Width = 8 \-Poly = 0x07 \-Xor\-In = 0x00 \-Reflect\-In = \-False \-Xor\-Out = 0x00 \-Reflect\-Out = \-False \-Algorithm = table-\/driven
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em crc} & \-The current crc value. \\
+\hline
+{\em data} & \-Pointer to a buffer of {\itshape data\-\_\-len\/} bytes. \\
+\hline
+{\em length} & \-Number of bytes in the {\itshape data\/} buffer. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+\-The updated crc value. 
+\end{DoxyReturn}
+
+
+\-Definition at line 843 of file uavtalk.\-cpp.
+
+\hypertarget{group___u_a_v_talk_plugin_gadefd185fb8609e37990694d45282ecd4}{\index{\-U\-A\-V\-Talk Plugin@{\-U\-A\-V\-Talk Plugin}!update\-C\-R\-C@{update\-C\-R\-C}}
+\index{update\-C\-R\-C@{update\-C\-R\-C}!UAVTalk Plugin@{\-U\-A\-V\-Talk Plugin}}
+\subsubsection[{update\-C\-R\-C}]{\setlength{\rightskip}{0pt plus 5cm}quint8 {\bf \-U\-A\-V\-Talk\-::update\-C\-R\-C} (
+\begin{DoxyParamCaption}
+\item[{quint8}]{crc, }
+\item[{const quint8 $\ast$}]{data, }
+\item[{qint32}]{length}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{group___u_a_v_talk_plugin_gadefd185fb8609e37990694d45282ecd4}
+
+
+\-Definition at line 847 of file uavtalk.\-cpp.
+
+\hypertarget{group___u_a_v_talk_plugin_ga06d53e41c45734baa38c0eb08d684af8}{\index{\-U\-A\-V\-Talk Plugin@{\-U\-A\-V\-Talk Plugin}!update\-Object@{update\-Object}}
+\index{update\-Object@{update\-Object}!UAVTalk Plugin@{\-U\-A\-V\-Talk Plugin}}
+\subsubsection[{update\-Object}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-U\-A\-V\-Object} $\ast$ {\bf \-U\-A\-V\-Talk\-::update\-Object} (
+\begin{DoxyParamCaption}
+\item[{quint32}]{obj\-Id, }
+\item[{quint16}]{inst\-Id, }
+\item[{quint8 $\ast$}]{data}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{group___u_a_v_talk_plugin_ga06d53e41c45734baa38c0eb08d684af8}
+\-Update the data of an object from a byte array (unpack). \-If the object instance could not be found in the list, then a new one is created. 
+
+\-Definition at line 595 of file uavtalk.\-cpp.
+
+\hypertarget{group___u_a_v_talk_plugin_ga8b1a7a6e63feac107ca370ce1a68758f}{\index{\-U\-A\-V\-Talk Plugin@{\-U\-A\-V\-Talk Plugin}!$\sim$\-Object\-Transaction\-Info@{$\sim$\-Object\-Transaction\-Info}}
+\index{$\sim$\-Object\-Transaction\-Info@{$\sim$\-Object\-Transaction\-Info}!UAVTalk Plugin@{\-U\-A\-V\-Talk Plugin}}
+\subsubsection[{$\sim$\-Object\-Transaction\-Info}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Object\-Transaction\-Info\-::$\sim$\-Object\-Transaction\-Info} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_talk_plugin_ga8b1a7a6e63feac107ca370ce1a68758f}
+
+
+\-Definition at line 678 of file telemetry.\-cpp.
+
+\hypertarget{group___u_a_v_talk_plugin_ga5d74297211be2d8d48f38e2632c97de8}{\index{\-U\-A\-V\-Talk Plugin@{\-U\-A\-V\-Talk Plugin}!$\sim$\-Telemetry@{$\sim$\-Telemetry}}
+\index{$\sim$\-Telemetry@{$\sim$\-Telemetry}!UAVTalk Plugin@{\-U\-A\-V\-Talk Plugin}}
+\subsubsection[{$\sim$\-Telemetry}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Telemetry\-::$\sim$\-Telemetry} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_talk_plugin_ga5d74297211be2d8d48f38e2632c97de8}
+
+
+\-Definition at line 104 of file telemetry.\-cpp.
+
+\hypertarget{group___u_a_v_talk_plugin_ga28e48a3688e195cc9c3263ccdeb084c4}{\index{\-U\-A\-V\-Talk Plugin@{\-U\-A\-V\-Talk Plugin}!$\sim$\-Telemetry\-Manager@{$\sim$\-Telemetry\-Manager}}
+\index{$\sim$\-Telemetry\-Manager@{$\sim$\-Telemetry\-Manager}!UAVTalk Plugin@{\-U\-A\-V\-Talk Plugin}}
+\subsubsection[{$\sim$\-Telemetry\-Manager}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Telemetry\-Manager\-::$\sim$\-Telemetry\-Manager} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_talk_plugin_ga28e48a3688e195cc9c3263ccdeb084c4}
+
+
+\-Definition at line 46 of file telemetrymanager.\-cpp.
+
+\hypertarget{group___u_a_v_talk_plugin_gabe2f26f1992e78356a82b135aeac951e}{\index{\-U\-A\-V\-Talk Plugin@{\-U\-A\-V\-Talk Plugin}!$\sim$\-Telemetry\-Monitor@{$\sim$\-Telemetry\-Monitor}}
+\index{$\sim$\-Telemetry\-Monitor@{$\sim$\-Telemetry\-Monitor}!UAVTalk Plugin@{\-U\-A\-V\-Talk Plugin}}
+\subsubsection[{$\sim$\-Telemetry\-Monitor}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Telemetry\-Monitor\-::$\sim$\-Telemetry\-Monitor} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_talk_plugin_gabe2f26f1992e78356a82b135aeac951e}
+
+
+\-Definition at line 64 of file telemetrymonitor.\-cpp.
+
+\hypertarget{group___u_a_v_talk_plugin_ga1c6de05403ed728008c21592d142375e}{\index{\-U\-A\-V\-Talk Plugin@{\-U\-A\-V\-Talk Plugin}!$\sim$\-U\-A\-V\-Talk@{$\sim$\-U\-A\-V\-Talk}}
+\index{$\sim$\-U\-A\-V\-Talk@{$\sim$\-U\-A\-V\-Talk}!UAVTalk Plugin@{\-U\-A\-V\-Talk Plugin}}
+\subsubsection[{$\sim$\-U\-A\-V\-Talk}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-U\-A\-V\-Talk\-::$\sim$\-U\-A\-V\-Talk} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_talk_plugin_ga1c6de05403ed728008c21592d142375e}
+
+
+\-Definition at line 95 of file uavtalk.\-cpp.
+
+\hypertarget{group___u_a_v_talk_plugin_gab4102ef2791ea82b9460336b06361158}{\index{\-U\-A\-V\-Talk Plugin@{\-U\-A\-V\-Talk Plugin}!$\sim$\-U\-A\-V\-Talk\-Plugin@{$\sim$\-U\-A\-V\-Talk\-Plugin}}
+\index{$\sim$\-U\-A\-V\-Talk\-Plugin@{$\sim$\-U\-A\-V\-Talk\-Plugin}!UAVTalk Plugin@{\-U\-A\-V\-Talk Plugin}}
+\subsubsection[{$\sim$\-U\-A\-V\-Talk\-Plugin}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-U\-A\-V\-Talk\-Plugin\-::$\sim$\-U\-A\-V\-Talk\-Plugin} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_talk_plugin_gab4102ef2791ea82b9460336b06361158}
+
+
+\-Definition at line 37 of file uavtalkplugin.\-cpp.
+
+
+
+\subsection{\-Variable \-Documentation}
+\hypertarget{group___u_a_v_talk_plugin_ga27c9898b3e1a5940f0340891578f6ea5}{\index{\-U\-A\-V\-Talk Plugin@{\-U\-A\-V\-Talk Plugin}!acked@{acked}}
+\index{acked@{acked}!UAVTalk Plugin@{\-U\-A\-V\-Talk Plugin}}
+\subsubsection[{acked}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-Object\-Transaction\-Info\-::acked}}}\label{group___u_a_v_talk_plugin_ga27c9898b3e1a5940f0340891578f6ea5}
+
+
+\-Definition at line 54 of file telemetry.\-h.
+
+\hypertarget{group___u_a_v_talk_plugin_ga71e922ea4fa7f9e0a9fe89ebdd2fe75c}{\index{\-U\-A\-V\-Talk Plugin@{\-U\-A\-V\-Talk Plugin}!\-A\-L\-L\-\_\-\-I\-N\-S\-T\-A\-N\-C\-E\-S@{\-A\-L\-L\-\_\-\-I\-N\-S\-T\-A\-N\-C\-E\-S}}
+\index{\-A\-L\-L\-\_\-\-I\-N\-S\-T\-A\-N\-C\-E\-S@{\-A\-L\-L\-\_\-\-I\-N\-S\-T\-A\-N\-C\-E\-S}!UAVTalk Plugin@{\-U\-A\-V\-Talk Plugin}}
+\subsubsection[{\-A\-L\-L\-\_\-\-I\-N\-S\-T\-A\-N\-C\-E\-S}]{\setlength{\rightskip}{0pt plus 5cm}const quint16 {\bf \-U\-A\-V\-Talk\-::\-A\-L\-L\-\_\-\-I\-N\-S\-T\-A\-N\-C\-E\-S} = 0x\-F\-F\-F\-F\hspace{0.3cm}{\ttfamily  \mbox{[}static, protected\mbox{]}}}}\label{group___u_a_v_talk_plugin_ga71e922ea4fa7f9e0a9fe89ebdd2fe75c}
+
+
+\-Definition at line 94 of file uavtalk.\-h.
+
+\hypertarget{group___u_a_v_talk_plugin_gaf134962f4df09323cf89245e3bc32f6e}{\index{\-U\-A\-V\-Talk Plugin@{\-U\-A\-V\-Talk Plugin}!all\-Instances@{all\-Instances}}
+\index{all\-Instances@{all\-Instances}!UAVTalk Plugin@{\-U\-A\-V\-Talk Plugin}}
+\subsubsection[{all\-Instances}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-Object\-Transaction\-Info\-::all\-Instances}}}\label{group___u_a_v_talk_plugin_gaf134962f4df09323cf89245e3bc32f6e}
+
+
+\-Definition at line 51 of file telemetry.\-h.
+
+\hypertarget{group___u_a_v_talk_plugin_gaf8816b148dce6b50838c9e84272a1d04}{\index{\-U\-A\-V\-Talk Plugin@{\-U\-A\-V\-Talk Plugin}!all\-Instances@{all\-Instances}}
+\index{all\-Instances@{all\-Instances}!UAVTalk Plugin@{\-U\-A\-V\-Talk Plugin}}
+\subsubsection[{all\-Instances}]{\setlength{\rightskip}{0pt plus 5cm}bool \-Telemetry\-::\-Object\-Queue\-Info\-::all\-Instances}}\label{group___u_a_v_talk_plugin_gaf8816b148dce6b50838c9e84272a1d04}
+
+
+\-Definition at line 116 of file telemetry.\-h.
+
+\hypertarget{group___u_a_v_talk_plugin_ga094abac2d747f187a4b22bea1dd28ec0}{\index{\-U\-A\-V\-Talk Plugin@{\-U\-A\-V\-Talk Plugin}!\-C\-H\-E\-C\-K\-S\-U\-M\-\_\-\-L\-E\-N\-G\-T\-H@{\-C\-H\-E\-C\-K\-S\-U\-M\-\_\-\-L\-E\-N\-G\-T\-H}}
+\index{\-C\-H\-E\-C\-K\-S\-U\-M\-\_\-\-L\-E\-N\-G\-T\-H@{\-C\-H\-E\-C\-K\-S\-U\-M\-\_\-\-L\-E\-N\-G\-T\-H}!UAVTalk Plugin@{\-U\-A\-V\-Talk Plugin}}
+\subsubsection[{\-C\-H\-E\-C\-K\-S\-U\-M\-\_\-\-L\-E\-N\-G\-T\-H}]{\setlength{\rightskip}{0pt plus 5cm}const int {\bf \-U\-A\-V\-Talk\-::\-C\-H\-E\-C\-K\-S\-U\-M\-\_\-\-L\-E\-N\-G\-T\-H} = 1\hspace{0.3cm}{\ttfamily  \mbox{[}static, protected\mbox{]}}}}\label{group___u_a_v_talk_plugin_ga094abac2d747f187a4b22bea1dd28ec0}
+
+
+\-Definition at line 88 of file uavtalk.\-h.
+
+\hypertarget{group___u_a_v_talk_plugin_gac5c5c810a2edb31ed325bf2d54e1b289}{\index{\-U\-A\-V\-Talk Plugin@{\-U\-A\-V\-Talk Plugin}!crc\-\_\-table@{crc\-\_\-table}}
+\index{crc\-\_\-table@{crc\-\_\-table}!UAVTalk Plugin@{\-U\-A\-V\-Talk Plugin}}
+\subsubsection[{crc\-\_\-table}]{\setlength{\rightskip}{0pt plus 5cm}const quint8 {\bf \-U\-A\-V\-Talk\-::crc\-\_\-table}\hspace{0.3cm}{\ttfamily  \mbox{[}static, protected\mbox{]}}}}\label{group___u_a_v_talk_plugin_gac5c5c810a2edb31ed325bf2d54e1b289}
+{\bfseries \-Initial value\-:}
+\begin{DoxyCode}
+ {
+    0x00, 0x07, 0x0e, 0x09, 0x1c, 0x1b, 0x12, 0x15, 0x38, 0x3f, 0x36, 0x31, 
+      0x24, 0x23, 0x2a, 0x2d,
+    0x70, 0x77, 0x7e, 0x79, 0x6c, 0x6b, 0x62, 0x65, 0x48, 0x4f, 0x46, 0x41, 
+      0x54, 0x53, 0x5a, 0x5d,
+    0xe0, 0xe7, 0xee, 0xe9, 0xfc, 0xfb, 0xf2, 0xf5, 0xd8, 0xdf, 0xd6, 0xd1, 
+      0xc4, 0xc3, 0xca, 0xcd,
+    0x90, 0x97, 0x9e, 0x99, 0x8c, 0x8b, 0x82, 0x85, 0xa8, 0xaf, 0xa6, 0xa1, 
+      0xb4, 0xb3, 0xba, 0xbd,
+    0xc7, 0xc0, 0xc9, 0xce, 0xdb, 0xdc, 0xd5, 0xd2, 0xff, 0xf8, 0xf1, 0xf6, 
+      0xe3, 0xe4, 0xed, 0xea,
+    0xb7, 0xb0, 0xb9, 0xbe, 0xab, 0xac, 0xa5, 0xa2, 0x8f, 0x88, 0x81, 0x86, 
+      0x93, 0x94, 0x9d, 0x9a,
+    0x27, 0x20, 0x29, 0x2e, 0x3b, 0x3c, 0x35, 0x32, 0x1f, 0x18, 0x11, 0x16, 
+      0x03, 0x04, 0x0d, 0x0a,
+    0x57, 0x50, 0x59, 0x5e, 0x4b, 0x4c, 0x45, 0x42, 0x6f, 0x68, 0x61, 0x66, 
+      0x73, 0x74, 0x7d, 0x7a,
+    0x89, 0x8e, 0x87, 0x80, 0x95, 0x92, 0x9b, 0x9c, 0xb1, 0xb6, 0xbf, 0xb8, 
+      0xad, 0xaa, 0xa3, 0xa4,
+    0xf9, 0xfe, 0xf7, 0xf0, 0xe5, 0xe2, 0xeb, 0xec, 0xc1, 0xc6, 0xcf, 0xc8, 
+      0xdd, 0xda, 0xd3, 0xd4,
+    0x69, 0x6e, 0x67, 0x60, 0x75, 0x72, 0x7b, 0x7c, 0x51, 0x56, 0x5f, 0x58, 
+      0x4d, 0x4a, 0x43, 0x44,
+    0x19, 0x1e, 0x17, 0x10, 0x05, 0x02, 0x0b, 0x0c, 0x21, 0x26, 0x2f, 0x28, 
+      0x3d, 0x3a, 0x33, 0x34,
+    0x4e, 0x49, 0x40, 0x47, 0x52, 0x55, 0x5c, 0x5b, 0x76, 0x71, 0x78, 0x7f, 
+      0x6a, 0x6d, 0x64, 0x63,
+    0x3e, 0x39, 0x30, 0x37, 0x22, 0x25, 0x2c, 0x2b, 0x06, 0x01, 0x08, 0x0f, 
+      0x1a, 0x1d, 0x14, 0x13,
+    0xae, 0xa9, 0xa0, 0xa7, 0xb2, 0xb5, 0xbc, 0xbb, 0x96, 0x91, 0x98, 0x9f, 
+      0x8a, 0x8d, 0x84, 0x83,
+    0xde, 0xd9, 0xd0, 0xd7, 0xc2, 0xc5, 0xcc, 0xcb, 0xe6, 0xe1, 0xe8, 0xef, 
+      0xfa, 0xfd, 0xf4, 0xf3
+}
+\end{DoxyCode}
+
+
+\-Definition at line 98 of file uavtalk.\-h.
+
+\hypertarget{group___u_a_v_talk_plugin_ga6cc8fb5745c2e3cc2a6e0e4512542d7c}{\index{\-U\-A\-V\-Talk Plugin@{\-U\-A\-V\-Talk Plugin}!event@{event}}
+\index{event@{event}!UAVTalk Plugin@{\-U\-A\-V\-Talk Plugin}}
+\subsubsection[{event}]{\setlength{\rightskip}{0pt plus 5cm}\-Event\-Mask \-Telemetry\-::\-Object\-Queue\-Info\-::event}}\label{group___u_a_v_talk_plugin_ga6cc8fb5745c2e3cc2a6e0e4512542d7c}
+
+
+\-Definition at line 115 of file telemetry.\-h.
+
+\hypertarget{group___u_a_v_talk_plugin_ga3d92643b78ea3e10cd9ac1ac2cc4b5f7}{\index{\-U\-A\-V\-Talk Plugin@{\-U\-A\-V\-Talk Plugin}!inst\-Id@{inst\-Id}}
+\index{inst\-Id@{inst\-Id}!UAVTalk Plugin@{\-U\-A\-V\-Talk Plugin}}
+\subsubsection[{inst\-Id}]{\setlength{\rightskip}{0pt plus 5cm}quint32 {\bf \-Transaction\-Key\-::inst\-Id}}}\label{group___u_a_v_talk_plugin_ga3d92643b78ea3e10cd9ac1ac2cc4b5f7}
+
+
+\-Definition at line 67 of file telemetry.\-cpp.
+
+\hypertarget{group___u_a_v_talk_plugin_ga0047f38af98ba4de8e38500e10b73046}{\index{\-U\-A\-V\-Talk Plugin@{\-U\-A\-V\-Talk Plugin}!io@{io}}
+\index{io@{io}!UAVTalk Plugin@{\-U\-A\-V\-Talk Plugin}}
+\subsubsection[{io}]{\setlength{\rightskip}{0pt plus 5cm}\-Q\-Pointer$<$\-Q\-I\-O\-Device$>$ {\bf \-U\-A\-V\-Talk\-::io}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{group___u_a_v_talk_plugin_ga0047f38af98ba4de8e38500e10b73046}
+
+
+\-Definition at line 104 of file uavtalk.\-h.
+
+\hypertarget{group___u_a_v_talk_plugin_ga279763a8abdcb2fae7cb36916b36c1a8}{\index{\-U\-A\-V\-Talk Plugin@{\-U\-A\-V\-Talk Plugin}!\-M\-A\-X\-\_\-\-H\-E\-A\-D\-E\-R\-\_\-\-L\-E\-N\-G\-T\-H@{\-M\-A\-X\-\_\-\-H\-E\-A\-D\-E\-R\-\_\-\-L\-E\-N\-G\-T\-H}}
+\index{\-M\-A\-X\-\_\-\-H\-E\-A\-D\-E\-R\-\_\-\-L\-E\-N\-G\-T\-H@{\-M\-A\-X\-\_\-\-H\-E\-A\-D\-E\-R\-\_\-\-L\-E\-N\-G\-T\-H}!UAVTalk Plugin@{\-U\-A\-V\-Talk Plugin}}
+\subsubsection[{\-M\-A\-X\-\_\-\-H\-E\-A\-D\-E\-R\-\_\-\-L\-E\-N\-G\-T\-H}]{\setlength{\rightskip}{0pt plus 5cm}const int {\bf \-U\-A\-V\-Talk\-::\-M\-A\-X\-\_\-\-H\-E\-A\-D\-E\-R\-\_\-\-L\-E\-N\-G\-T\-H} = 10\hspace{0.3cm}{\ttfamily  \mbox{[}static, protected\mbox{]}}}}\label{group___u_a_v_talk_plugin_ga279763a8abdcb2fae7cb36916b36c1a8}
+
+
+\-Definition at line 86 of file uavtalk.\-h.
+
+\hypertarget{group___u_a_v_talk_plugin_gab5a37286c5e8b676d49e134f26444a0c}{\index{\-U\-A\-V\-Talk Plugin@{\-U\-A\-V\-Talk Plugin}!\-M\-A\-X\-\_\-\-P\-A\-C\-K\-E\-T\-\_\-\-L\-E\-N\-G\-T\-H@{\-M\-A\-X\-\_\-\-P\-A\-C\-K\-E\-T\-\_\-\-L\-E\-N\-G\-T\-H}}
+\index{\-M\-A\-X\-\_\-\-P\-A\-C\-K\-E\-T\-\_\-\-L\-E\-N\-G\-T\-H@{\-M\-A\-X\-\_\-\-P\-A\-C\-K\-E\-T\-\_\-\-L\-E\-N\-G\-T\-H}!UAVTalk Plugin@{\-U\-A\-V\-Talk Plugin}}
+\subsubsection[{\-M\-A\-X\-\_\-\-P\-A\-C\-K\-E\-T\-\_\-\-L\-E\-N\-G\-T\-H}]{\setlength{\rightskip}{0pt plus 5cm}const int {\bf \-U\-A\-V\-Talk\-::\-M\-A\-X\-\_\-\-P\-A\-C\-K\-E\-T\-\_\-\-L\-E\-N\-G\-T\-H} = (\-M\-A\-X\-\_\-\-H\-E\-A\-D\-E\-R\-\_\-\-L\-E\-N\-G\-T\-H + \-M\-A\-X\-\_\-\-P\-A\-Y\-L\-O\-A\-D\-\_\-\-L\-E\-N\-G\-T\-H + \-C\-H\-E\-C\-K\-S\-U\-M\-\_\-\-L\-E\-N\-G\-T\-H)\hspace{0.3cm}{\ttfamily  \mbox{[}static, protected\mbox{]}}}}\label{group___u_a_v_talk_plugin_gab5a37286c5e8b676d49e134f26444a0c}
+
+
+\-Definition at line 92 of file uavtalk.\-h.
+
+\hypertarget{group___u_a_v_talk_plugin_gac89ca6073b8cf1479a5e2468b3691db9}{\index{\-U\-A\-V\-Talk Plugin@{\-U\-A\-V\-Talk Plugin}!\-M\-A\-X\-\_\-\-P\-A\-Y\-L\-O\-A\-D\-\_\-\-L\-E\-N\-G\-T\-H@{\-M\-A\-X\-\_\-\-P\-A\-Y\-L\-O\-A\-D\-\_\-\-L\-E\-N\-G\-T\-H}}
+\index{\-M\-A\-X\-\_\-\-P\-A\-Y\-L\-O\-A\-D\-\_\-\-L\-E\-N\-G\-T\-H@{\-M\-A\-X\-\_\-\-P\-A\-Y\-L\-O\-A\-D\-\_\-\-L\-E\-N\-G\-T\-H}!UAVTalk Plugin@{\-U\-A\-V\-Talk Plugin}}
+\subsubsection[{\-M\-A\-X\-\_\-\-P\-A\-Y\-L\-O\-A\-D\-\_\-\-L\-E\-N\-G\-T\-H}]{\setlength{\rightskip}{0pt plus 5cm}const int {\bf \-U\-A\-V\-Talk\-::\-M\-A\-X\-\_\-\-P\-A\-Y\-L\-O\-A\-D\-\_\-\-L\-E\-N\-G\-T\-H} = 256\hspace{0.3cm}{\ttfamily  \mbox{[}static, protected\mbox{]}}}}\label{group___u_a_v_talk_plugin_gac89ca6073b8cf1479a5e2468b3691db9}
+
+
+\-Definition at line 90 of file uavtalk.\-h.
+
+\hypertarget{group___u_a_v_talk_plugin_ga0d20c7ff6e0eedb2ab1243c6bf957fd3}{\index{\-U\-A\-V\-Talk Plugin@{\-U\-A\-V\-Talk Plugin}!\-M\-I\-N\-\_\-\-H\-E\-A\-D\-E\-R\-\_\-\-L\-E\-N\-G\-T\-H@{\-M\-I\-N\-\_\-\-H\-E\-A\-D\-E\-R\-\_\-\-L\-E\-N\-G\-T\-H}}
+\index{\-M\-I\-N\-\_\-\-H\-E\-A\-D\-E\-R\-\_\-\-L\-E\-N\-G\-T\-H@{\-M\-I\-N\-\_\-\-H\-E\-A\-D\-E\-R\-\_\-\-L\-E\-N\-G\-T\-H}!UAVTalk Plugin@{\-U\-A\-V\-Talk Plugin}}
+\subsubsection[{\-M\-I\-N\-\_\-\-H\-E\-A\-D\-E\-R\-\_\-\-L\-E\-N\-G\-T\-H}]{\setlength{\rightskip}{0pt plus 5cm}const int {\bf \-U\-A\-V\-Talk\-::\-M\-I\-N\-\_\-\-H\-E\-A\-D\-E\-R\-\_\-\-L\-E\-N\-G\-T\-H} = 8\hspace{0.3cm}{\ttfamily  \mbox{[}static, protected\mbox{]}}}}\label{group___u_a_v_talk_plugin_ga0d20c7ff6e0eedb2ab1243c6bf957fd3}
+
+
+\-Definition at line 85 of file uavtalk.\-h.
+
+\hypertarget{group___u_a_v_talk_plugin_ga2dea39cdabf26ef85d0b26583e21e60b}{\index{\-U\-A\-V\-Talk Plugin@{\-U\-A\-V\-Talk Plugin}!mutex@{mutex}}
+\index{mutex@{mutex}!UAVTalk Plugin@{\-U\-A\-V\-Talk Plugin}}
+\subsubsection[{mutex}]{\setlength{\rightskip}{0pt plus 5cm}\-Q\-Mutex$\ast$ {\bf \-U\-A\-V\-Talk\-::mutex}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{group___u_a_v_talk_plugin_ga2dea39cdabf26ef85d0b26583e21e60b}
+
+
+\-Definition at line 106 of file uavtalk.\-h.
+
+\hypertarget{group___u_a_v_talk_plugin_ga9ad43239e470da9249f214e43521bddb}{\index{\-U\-A\-V\-Talk Plugin@{\-U\-A\-V\-Talk Plugin}!obj@{obj}}
+\index{obj@{obj}!UAVTalk Plugin@{\-U\-A\-V\-Talk Plugin}}
+\subsubsection[{obj}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-U\-A\-V\-Object}$\ast$ {\bf \-Object\-Transaction\-Info\-::obj}}}\label{group___u_a_v_talk_plugin_ga9ad43239e470da9249f214e43521bddb}
+
+
+\-Definition at line 50 of file telemetry.\-h.
+
+\hypertarget{group___u_a_v_talk_plugin_ga5dc98fd0fc9c63da03a2468969adb919}{\index{\-U\-A\-V\-Talk Plugin@{\-U\-A\-V\-Talk Plugin}!obj@{obj}}
+\index{obj@{obj}!UAVTalk Plugin@{\-U\-A\-V\-Talk Plugin}}
+\subsubsection[{obj}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-U\-A\-V\-Object}$\ast$ \-Telemetry\-::\-Object\-Time\-Info\-::obj}}\label{group___u_a_v_talk_plugin_ga5dc98fd0fc9c63da03a2468969adb919}
+
+
+\-Definition at line 108 of file telemetry.\-h.
+
+\hypertarget{group___u_a_v_talk_plugin_ga467e2ec75abb2e4535cac1d8cc872692}{\index{\-U\-A\-V\-Talk Plugin@{\-U\-A\-V\-Talk Plugin}!obj@{obj}}
+\index{obj@{obj}!UAVTalk Plugin@{\-U\-A\-V\-Talk Plugin}}
+\subsubsection[{obj}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-U\-A\-V\-Object}$\ast$ \-Telemetry\-::\-Object\-Queue\-Info\-::obj}}\label{group___u_a_v_talk_plugin_ga467e2ec75abb2e4535cac1d8cc872692}
+
+
+\-Definition at line 114 of file telemetry.\-h.
+
+\hypertarget{group___u_a_v_talk_plugin_ga23b79980c6f897e84ca1b88c5bb532ad}{\index{\-U\-A\-V\-Talk Plugin@{\-U\-A\-V\-Talk Plugin}!obj\-Id@{obj\-Id}}
+\index{obj\-Id@{obj\-Id}!UAVTalk Plugin@{\-U\-A\-V\-Talk Plugin}}
+\subsubsection[{obj\-Id}]{\setlength{\rightskip}{0pt plus 5cm}quint32 {\bf \-Transaction\-Key\-::obj\-Id}}}\label{group___u_a_v_talk_plugin_ga23b79980c6f897e84ca1b88c5bb532ad}
+
+
+\-Definition at line 66 of file telemetry.\-cpp.
+
+\hypertarget{group___u_a_v_talk_plugin_gaa627c86aec4d382c9744541688fb66ef}{\index{\-U\-A\-V\-Talk Plugin@{\-U\-A\-V\-Talk Plugin}!\-O\-B\-J\-I\-D\-\_\-\-N\-O\-T\-F\-O\-U\-N\-D@{\-O\-B\-J\-I\-D\-\_\-\-N\-O\-T\-F\-O\-U\-N\-D}}
+\index{\-O\-B\-J\-I\-D\-\_\-\-N\-O\-T\-F\-O\-U\-N\-D@{\-O\-B\-J\-I\-D\-\_\-\-N\-O\-T\-F\-O\-U\-N\-D}!UAVTalk Plugin@{\-U\-A\-V\-Talk Plugin}}
+\subsubsection[{\-O\-B\-J\-I\-D\-\_\-\-N\-O\-T\-F\-O\-U\-N\-D}]{\setlength{\rightskip}{0pt plus 5cm}const quint16 {\bf \-U\-A\-V\-Talk\-::\-O\-B\-J\-I\-D\-\_\-\-N\-O\-T\-F\-O\-U\-N\-D} = 0x0000\hspace{0.3cm}{\ttfamily  \mbox{[}static, protected\mbox{]}}}}\label{group___u_a_v_talk_plugin_gaa627c86aec4d382c9744541688fb66ef}
+
+
+\-Definition at line 95 of file uavtalk.\-h.
+
+\hypertarget{group___u_a_v_talk_plugin_ga096422f1ff46ea45de07a92c41827aa5}{\index{\-U\-A\-V\-Talk Plugin@{\-U\-A\-V\-Talk Plugin}!obj\-Mngr@{obj\-Mngr}}
+\index{obj\-Mngr@{obj\-Mngr}!UAVTalk Plugin@{\-U\-A\-V\-Talk Plugin}}
+\subsubsection[{obj\-Mngr}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-U\-A\-V\-Object\-Manager}$\ast$ {\bf \-U\-A\-V\-Talk\-::obj\-Mngr}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{group___u_a_v_talk_plugin_ga096422f1ff46ea45de07a92c41827aa5}
+
+
+\-Definition at line 105 of file uavtalk.\-h.
+
+\hypertarget{group___u_a_v_talk_plugin_ga35e10d2ea8bcd4f4bd1e32db43857e2c}{\index{\-U\-A\-V\-Talk Plugin@{\-U\-A\-V\-Talk Plugin}!obj\-Request@{obj\-Request}}
+\index{obj\-Request@{obj\-Request}!UAVTalk Plugin@{\-U\-A\-V\-Talk Plugin}}
+\subsubsection[{obj\-Request}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-Object\-Transaction\-Info\-::obj\-Request}}}\label{group___u_a_v_talk_plugin_ga35e10d2ea8bcd4f4bd1e32db43857e2c}
+
+
+\-Definition at line 52 of file telemetry.\-h.
+
+\hypertarget{group___u_a_v_talk_plugin_gaa014be97504e5d24ac39f2808976685e}{\index{\-U\-A\-V\-Talk Plugin@{\-U\-A\-V\-Talk Plugin}!packet\-Size@{packet\-Size}}
+\index{packet\-Size@{packet\-Size}!UAVTalk Plugin@{\-U\-A\-V\-Talk Plugin}}
+\subsubsection[{packet\-Size}]{\setlength{\rightskip}{0pt plus 5cm}qint32 {\bf \-U\-A\-V\-Talk\-::packet\-Size}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{group___u_a_v_talk_plugin_gaa014be97504e5d24ac39f2808976685e}
+
+
+\-Definition at line 119 of file uavtalk.\-h.
+
+\hypertarget{group___u_a_v_talk_plugin_gafe5007a7f451f47110150ee417594a38}{\index{\-U\-A\-V\-Talk Plugin@{\-U\-A\-V\-Talk Plugin}!req@{req}}
+\index{req@{req}!UAVTalk Plugin@{\-U\-A\-V\-Talk Plugin}}
+\subsubsection[{req}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-Transaction\-Key\-::req}}}\label{group___u_a_v_talk_plugin_gafe5007a7f451f47110150ee417594a38}
+
+
+\-Definition at line 68 of file telemetry.\-cpp.
+
+\hypertarget{group___u_a_v_talk_plugin_gaf7cfad07635a777272c96c4b2fb2284b}{\index{\-U\-A\-V\-Talk Plugin@{\-U\-A\-V\-Talk Plugin}!retries\-Remaining@{retries\-Remaining}}
+\index{retries\-Remaining@{retries\-Remaining}!UAVTalk Plugin@{\-U\-A\-V\-Talk Plugin}}
+\subsubsection[{retries\-Remaining}]{\setlength{\rightskip}{0pt plus 5cm}qint32 {\bf \-Object\-Transaction\-Info\-::retries\-Remaining}}}\label{group___u_a_v_talk_plugin_gaf7cfad07635a777272c96c4b2fb2284b}
+
+
+\-Definition at line 53 of file telemetry.\-h.
+
+\hypertarget{group___u_a_v_talk_plugin_ga612e1b395a61ee81d90d8199ba789a86}{\index{\-U\-A\-V\-Talk Plugin@{\-U\-A\-V\-Talk Plugin}!rx\-Buffer@{rx\-Buffer}}
+\index{rx\-Buffer@{rx\-Buffer}!UAVTalk Plugin@{\-U\-A\-V\-Talk Plugin}}
+\subsubsection[{rx\-Buffer}]{\setlength{\rightskip}{0pt plus 5cm}quint8 {\bf \-U\-A\-V\-Talk\-::rx\-Buffer}\mbox{[}\-M\-A\-X\-\_\-\-P\-A\-C\-K\-E\-T\-\_\-\-L\-E\-N\-G\-T\-H\mbox{]}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{group___u_a_v_talk_plugin_ga612e1b395a61ee81d90d8199ba789a86}
+
+
+\-Definition at line 107 of file uavtalk.\-h.
+
+\hypertarget{group___u_a_v_talk_plugin_ga93a6f8b7f60333a7e7afb70085ca7efd}{\index{\-U\-A\-V\-Talk Plugin@{\-U\-A\-V\-Talk Plugin}!rx\-Bytes@{rx\-Bytes}}
+\index{rx\-Bytes@{rx\-Bytes}!UAVTalk Plugin@{\-U\-A\-V\-Talk Plugin}}
+\subsubsection[{rx\-Bytes}]{\setlength{\rightskip}{0pt plus 5cm}quint32 {\bf \-U\-A\-V\-Talk\-::\-Com\-Stats\-::rx\-Bytes}}}\label{group___u_a_v_talk_plugin_ga93a6f8b7f60333a7e7afb70085ca7efd}
+
+
+\-Definition at line 48 of file uavtalk.\-h.
+
+\hypertarget{group___u_a_v_talk_plugin_gadda927fbb6858f5e60b6daf16d5bc94e}{\index{\-U\-A\-V\-Talk Plugin@{\-U\-A\-V\-Talk Plugin}!rx\-Bytes@{rx\-Bytes}}
+\index{rx\-Bytes@{rx\-Bytes}!UAVTalk Plugin@{\-U\-A\-V\-Talk Plugin}}
+\subsubsection[{rx\-Bytes}]{\setlength{\rightskip}{0pt plus 5cm}quint32 {\bf \-Telemetry\-::\-Telemetry\-Stats\-::rx\-Bytes}}}\label{group___u_a_v_talk_plugin_gadda927fbb6858f5e60b6daf16d5bc94e}
+
+
+\-Definition at line 68 of file telemetry.\-h.
+
+\hypertarget{group___u_a_v_talk_plugin_ga380dea6ca845f80612070ed17ea65655}{\index{\-U\-A\-V\-Talk Plugin@{\-U\-A\-V\-Talk Plugin}!rx\-Count@{rx\-Count}}
+\index{rx\-Count@{rx\-Count}!UAVTalk Plugin@{\-U\-A\-V\-Talk Plugin}}
+\subsubsection[{rx\-Count}]{\setlength{\rightskip}{0pt plus 5cm}qint32 {\bf \-U\-A\-V\-Talk\-::rx\-Count}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{group___u_a_v_talk_plugin_ga380dea6ca845f80612070ed17ea65655}
+
+
+\-Definition at line 118 of file uavtalk.\-h.
+
+\hypertarget{group___u_a_v_talk_plugin_gabfde70d24df43bcff2ab3c3da3f2444f}{\index{\-U\-A\-V\-Talk Plugin@{\-U\-A\-V\-Talk Plugin}!rx\-C\-S@{rx\-C\-S}}
+\index{rx\-C\-S@{rx\-C\-S}!UAVTalk Plugin@{\-U\-A\-V\-Talk Plugin}}
+\subsubsection[{rx\-C\-S}]{\setlength{\rightskip}{0pt plus 5cm}quint8 {\bf \-U\-A\-V\-Talk\-::rx\-C\-S}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{group___u_a_v_talk_plugin_gabfde70d24df43bcff2ab3c3da3f2444f}
+
+
+\-Definition at line 117 of file uavtalk.\-h.
+
+\hypertarget{group___u_a_v_talk_plugin_gab6dc6fd77ce7d02c121d7c197dfdebd2}{\index{\-U\-A\-V\-Talk Plugin@{\-U\-A\-V\-Talk Plugin}!rx\-C\-S\-Packet@{rx\-C\-S\-Packet}}
+\index{rx\-C\-S\-Packet@{rx\-C\-S\-Packet}!UAVTalk Plugin@{\-U\-A\-V\-Talk Plugin}}
+\subsubsection[{rx\-C\-S\-Packet}]{\setlength{\rightskip}{0pt plus 5cm}quint8 {\bf \-U\-A\-V\-Talk\-::rx\-C\-S\-Packet}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{group___u_a_v_talk_plugin_gab6dc6fd77ce7d02c121d7c197dfdebd2}
+
+
+\-Definition at line 117 of file uavtalk.\-h.
+
+\hypertarget{group___u_a_v_talk_plugin_ga053813b68171430545f1bc1d69d450a0}{\index{\-U\-A\-V\-Talk Plugin@{\-U\-A\-V\-Talk Plugin}!rx\-Data\-Array@{rx\-Data\-Array}}
+\index{rx\-Data\-Array@{rx\-Data\-Array}!UAVTalk Plugin@{\-U\-A\-V\-Talk Plugin}}
+\subsubsection[{rx\-Data\-Array}]{\setlength{\rightskip}{0pt plus 5cm}\-Q\-Byte\-Array {\bf \-U\-A\-V\-Talk\-::rx\-Data\-Array}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{group___u_a_v_talk_plugin_ga053813b68171430545f1bc1d69d450a0}
+
+
+\-Definition at line 126 of file uavtalk.\-h.
+
+\hypertarget{group___u_a_v_talk_plugin_ga52c1d5163810f507e6ca052884ee7ecc}{\index{\-U\-A\-V\-Talk Plugin@{\-U\-A\-V\-Talk Plugin}!rx\-Errors@{rx\-Errors}}
+\index{rx\-Errors@{rx\-Errors}!UAVTalk Plugin@{\-U\-A\-V\-Talk Plugin}}
+\subsubsection[{rx\-Errors}]{\setlength{\rightskip}{0pt plus 5cm}quint32 {\bf \-U\-A\-V\-Talk\-::\-Com\-Stats\-::rx\-Errors}}}\label{group___u_a_v_talk_plugin_ga52c1d5163810f507e6ca052884ee7ecc}
+
+
+\-Definition at line 54 of file uavtalk.\-h.
+
+\hypertarget{group___u_a_v_talk_plugin_gaf07e5e11a7f3b4c277a26fa5dba7d3fa}{\index{\-U\-A\-V\-Talk Plugin@{\-U\-A\-V\-Talk Plugin}!rx\-Errors@{rx\-Errors}}
+\index{rx\-Errors@{rx\-Errors}!UAVTalk Plugin@{\-U\-A\-V\-Talk Plugin}}
+\subsubsection[{rx\-Errors}]{\setlength{\rightskip}{0pt plus 5cm}quint32 {\bf \-Telemetry\-::\-Telemetry\-Stats\-::rx\-Errors}}}\label{group___u_a_v_talk_plugin_gaf07e5e11a7f3b4c277a26fa5dba7d3fa}
+
+
+\-Definition at line 74 of file telemetry.\-h.
+
+\hypertarget{group___u_a_v_talk_plugin_ga72761110b9b683dad5615619c9323674}{\index{\-U\-A\-V\-Talk Plugin@{\-U\-A\-V\-Talk Plugin}!rx\-Inst\-Id@{rx\-Inst\-Id}}
+\index{rx\-Inst\-Id@{rx\-Inst\-Id}!UAVTalk Plugin@{\-U\-A\-V\-Talk Plugin}}
+\subsubsection[{rx\-Inst\-Id}]{\setlength{\rightskip}{0pt plus 5cm}quint16 {\bf \-U\-A\-V\-Talk\-::rx\-Inst\-Id}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{group___u_a_v_talk_plugin_ga72761110b9b683dad5615619c9323674}
+
+
+\-Definition at line 113 of file uavtalk.\-h.
+
+\hypertarget{group___u_a_v_talk_plugin_ga52cc4d0f063a520fcf7fc2a10254118b}{\index{\-U\-A\-V\-Talk Plugin@{\-U\-A\-V\-Talk Plugin}!rx\-Length@{rx\-Length}}
+\index{rx\-Length@{rx\-Length}!UAVTalk Plugin@{\-U\-A\-V\-Talk Plugin}}
+\subsubsection[{rx\-Length}]{\setlength{\rightskip}{0pt plus 5cm}quint16 {\bf \-U\-A\-V\-Talk\-::rx\-Length}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{group___u_a_v_talk_plugin_ga52cc4d0f063a520fcf7fc2a10254118b}
+
+
+\-Definition at line 114 of file uavtalk.\-h.
+
+\hypertarget{group___u_a_v_talk_plugin_ga6a61f515e2c09de8fadddb1d8382a2a1}{\index{\-U\-A\-V\-Talk Plugin@{\-U\-A\-V\-Talk Plugin}!rx\-Object\-Bytes@{rx\-Object\-Bytes}}
+\index{rx\-Object\-Bytes@{rx\-Object\-Bytes}!UAVTalk Plugin@{\-U\-A\-V\-Talk Plugin}}
+\subsubsection[{rx\-Object\-Bytes}]{\setlength{\rightskip}{0pt plus 5cm}quint32 {\bf \-U\-A\-V\-Talk\-::\-Com\-Stats\-::rx\-Object\-Bytes}}}\label{group___u_a_v_talk_plugin_ga6a61f515e2c09de8fadddb1d8382a2a1}
+
+
+\-Definition at line 50 of file uavtalk.\-h.
+
+\hypertarget{group___u_a_v_talk_plugin_ga495b5acf35424dbdf221e81f0024ae92}{\index{\-U\-A\-V\-Talk Plugin@{\-U\-A\-V\-Talk Plugin}!rx\-Object\-Bytes@{rx\-Object\-Bytes}}
+\index{rx\-Object\-Bytes@{rx\-Object\-Bytes}!UAVTalk Plugin@{\-U\-A\-V\-Talk Plugin}}
+\subsubsection[{rx\-Object\-Bytes}]{\setlength{\rightskip}{0pt plus 5cm}quint32 {\bf \-Telemetry\-::\-Telemetry\-Stats\-::rx\-Object\-Bytes}}}\label{group___u_a_v_talk_plugin_ga495b5acf35424dbdf221e81f0024ae92}
+
+
+\-Definition at line 70 of file telemetry.\-h.
+
+\hypertarget{group___u_a_v_talk_plugin_ga60c07de32f4130a7b761066819bf0712}{\index{\-U\-A\-V\-Talk Plugin@{\-U\-A\-V\-Talk Plugin}!rx\-Objects@{rx\-Objects}}
+\index{rx\-Objects@{rx\-Objects}!UAVTalk Plugin@{\-U\-A\-V\-Talk Plugin}}
+\subsubsection[{rx\-Objects}]{\setlength{\rightskip}{0pt plus 5cm}quint32 {\bf \-U\-A\-V\-Talk\-::\-Com\-Stats\-::rx\-Objects}}}\label{group___u_a_v_talk_plugin_ga60c07de32f4130a7b761066819bf0712}
+
+
+\-Definition at line 51 of file uavtalk.\-h.
+
+\hypertarget{group___u_a_v_talk_plugin_gacd544f271fc6ee0f5eb72dc101a23c21}{\index{\-U\-A\-V\-Talk Plugin@{\-U\-A\-V\-Talk Plugin}!rx\-Objects@{rx\-Objects}}
+\index{rx\-Objects@{rx\-Objects}!UAVTalk Plugin@{\-U\-A\-V\-Talk Plugin}}
+\subsubsection[{rx\-Objects}]{\setlength{\rightskip}{0pt plus 5cm}quint32 {\bf \-Telemetry\-::\-Telemetry\-Stats\-::rx\-Objects}}}\label{group___u_a_v_talk_plugin_gacd544f271fc6ee0f5eb72dc101a23c21}
+
+
+\-Definition at line 71 of file telemetry.\-h.
+
+\hypertarget{group___u_a_v_talk_plugin_ga922e3ea36927c84023cfb0cf719c9aa0}{\index{\-U\-A\-V\-Talk Plugin@{\-U\-A\-V\-Talk Plugin}!rx\-Obj\-Id@{rx\-Obj\-Id}}
+\index{rx\-Obj\-Id@{rx\-Obj\-Id}!UAVTalk Plugin@{\-U\-A\-V\-Talk Plugin}}
+\subsubsection[{rx\-Obj\-Id}]{\setlength{\rightskip}{0pt plus 5cm}quint32 {\bf \-U\-A\-V\-Talk\-::rx\-Obj\-Id}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{group___u_a_v_talk_plugin_ga922e3ea36927c84023cfb0cf719c9aa0}
+
+
+\-Definition at line 112 of file uavtalk.\-h.
+
+\hypertarget{group___u_a_v_talk_plugin_ga8ce408e2fe258de7a15c77540055a81d}{\index{\-U\-A\-V\-Talk Plugin@{\-U\-A\-V\-Talk Plugin}!rx\-Packet\-Length@{rx\-Packet\-Length}}
+\index{rx\-Packet\-Length@{rx\-Packet\-Length}!UAVTalk Plugin@{\-U\-A\-V\-Talk Plugin}}
+\subsubsection[{rx\-Packet\-Length}]{\setlength{\rightskip}{0pt plus 5cm}quint16 {\bf \-U\-A\-V\-Talk\-::rx\-Packet\-Length}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{group___u_a_v_talk_plugin_ga8ce408e2fe258de7a15c77540055a81d}
+
+
+\-Definition at line 115 of file uavtalk.\-h.
+
+\hypertarget{group___u_a_v_talk_plugin_gacce7e3b2035887b09dce0fdbba0f1b58}{\index{\-U\-A\-V\-Talk Plugin@{\-U\-A\-V\-Talk Plugin}!rx\-State@{rx\-State}}
+\index{rx\-State@{rx\-State}!UAVTalk Plugin@{\-U\-A\-V\-Talk Plugin}}
+\subsubsection[{rx\-State}]{\setlength{\rightskip}{0pt plus 5cm}\-Rx\-State\-Type {\bf \-U\-A\-V\-Talk\-::rx\-State}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{group___u_a_v_talk_plugin_gacce7e3b2035887b09dce0fdbba0f1b58}
+
+
+\-Definition at line 120 of file uavtalk.\-h.
+
+\hypertarget{group___u_a_v_talk_plugin_ga94d59693bfbe92bf000ee85b559693e0}{\index{\-U\-A\-V\-Talk Plugin@{\-U\-A\-V\-Talk Plugin}!rx\-Tmp\-Buffer@{rx\-Tmp\-Buffer}}
+\index{rx\-Tmp\-Buffer@{rx\-Tmp\-Buffer}!UAVTalk Plugin@{\-U\-A\-V\-Talk Plugin}}
+\subsubsection[{rx\-Tmp\-Buffer}]{\setlength{\rightskip}{0pt plus 5cm}quint8 {\bf \-U\-A\-V\-Talk\-::rx\-Tmp\-Buffer}\mbox{[}4\mbox{]}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{group___u_a_v_talk_plugin_ga94d59693bfbe92bf000ee85b559693e0}
+
+
+\-Definition at line 110 of file uavtalk.\-h.
+
+\hypertarget{group___u_a_v_talk_plugin_ga59962a309157ed27efad61d5bf85f650}{\index{\-U\-A\-V\-Talk Plugin@{\-U\-A\-V\-Talk Plugin}!rx\-Type@{rx\-Type}}
+\index{rx\-Type@{rx\-Type}!UAVTalk Plugin@{\-U\-A\-V\-Talk Plugin}}
+\subsubsection[{rx\-Type}]{\setlength{\rightskip}{0pt plus 5cm}quint8 {\bf \-U\-A\-V\-Talk\-::rx\-Type}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{group___u_a_v_talk_plugin_ga59962a309157ed27efad61d5bf85f650}
+
+
+\-Definition at line 111 of file uavtalk.\-h.
+
+\hypertarget{group___u_a_v_talk_plugin_ga35edebb70765f832afb1174152d4e20c}{\index{\-U\-A\-V\-Talk Plugin@{\-U\-A\-V\-Talk Plugin}!stats@{stats}}
+\index{stats@{stats}!UAVTalk Plugin@{\-U\-A\-V\-Talk Plugin}}
+\subsubsection[{stats}]{\setlength{\rightskip}{0pt plus 5cm}\-Com\-Stats {\bf \-U\-A\-V\-Talk\-::stats}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{group___u_a_v_talk_plugin_ga35edebb70765f832afb1174152d4e20c}
+
+
+\-Definition at line 121 of file uavtalk.\-h.
+
+\hypertarget{group___u_a_v_talk_plugin_ga1df77178093618626fe21d5bc58b03f4}{\index{\-U\-A\-V\-Talk Plugin@{\-U\-A\-V\-Talk Plugin}!telem@{telem}}
+\index{telem@{telem}!UAVTalk Plugin@{\-U\-A\-V\-Talk Plugin}}
+\subsubsection[{telem}]{\setlength{\rightskip}{0pt plus 5cm}\-Q\-Pointer$<$class {\bf \-Telemetry}$>$ {\bf \-Object\-Transaction\-Info\-::telem}}}\label{group___u_a_v_talk_plugin_ga1df77178093618626fe21d5bc58b03f4}
+
+
+\-Definition at line 55 of file telemetry.\-h.
+
+\hypertarget{group___u_a_v_talk_plugin_gaf400de9c7d9b37a52e821b1a7bc6580e}{\index{\-U\-A\-V\-Talk Plugin@{\-U\-A\-V\-Talk Plugin}!timer@{timer}}
+\index{timer@{timer}!UAVTalk Plugin@{\-U\-A\-V\-Talk Plugin}}
+\subsubsection[{timer}]{\setlength{\rightskip}{0pt plus 5cm}\-Q\-Timer$\ast$ {\bf \-Object\-Transaction\-Info\-::timer}}}\label{group___u_a_v_talk_plugin_gaf400de9c7d9b37a52e821b1a7bc6580e}
+
+
+\-Definition at line 56 of file telemetry.\-h.
+
+\hypertarget{group___u_a_v_talk_plugin_gad3f8bd7cd7ca82748573626dde1055af}{\index{\-U\-A\-V\-Talk Plugin@{\-U\-A\-V\-Talk Plugin}!time\-To\-Next\-Update\-Ms@{time\-To\-Next\-Update\-Ms}}
+\index{time\-To\-Next\-Update\-Ms@{time\-To\-Next\-Update\-Ms}!UAVTalk Plugin@{\-U\-A\-V\-Talk Plugin}}
+\subsubsection[{time\-To\-Next\-Update\-Ms}]{\setlength{\rightskip}{0pt plus 5cm}qint32 \-Telemetry\-::\-Object\-Time\-Info\-::time\-To\-Next\-Update\-Ms}}\label{group___u_a_v_talk_plugin_gad3f8bd7cd7ca82748573626dde1055af}
+\-Update period in ms or 0 if no periodic updates are needed 
+
+\-Definition at line 110 of file telemetry.\-h.
+
+\hypertarget{group___u_a_v_talk_plugin_gaa84c0f2f2a83872a6f82f00969d9ddff}{\index{\-U\-A\-V\-Talk Plugin@{\-U\-A\-V\-Talk Plugin}!\-T\-X\-\_\-\-B\-U\-F\-F\-E\-R\-\_\-\-S\-I\-Z\-E@{\-T\-X\-\_\-\-B\-U\-F\-F\-E\-R\-\_\-\-S\-I\-Z\-E}}
+\index{\-T\-X\-\_\-\-B\-U\-F\-F\-E\-R\-\_\-\-S\-I\-Z\-E@{\-T\-X\-\_\-\-B\-U\-F\-F\-E\-R\-\_\-\-S\-I\-Z\-E}!UAVTalk Plugin@{\-U\-A\-V\-Talk Plugin}}
+\subsubsection[{\-T\-X\-\_\-\-B\-U\-F\-F\-E\-R\-\_\-\-S\-I\-Z\-E}]{\setlength{\rightskip}{0pt plus 5cm}const int {\bf \-U\-A\-V\-Talk\-::\-T\-X\-\_\-\-B\-U\-F\-F\-E\-R\-\_\-\-S\-I\-Z\-E} = 2$\ast$1024\hspace{0.3cm}{\ttfamily  \mbox{[}static, protected\mbox{]}}}}\label{group___u_a_v_talk_plugin_gaa84c0f2f2a83872a6f82f00969d9ddff}
+
+
+\-Definition at line 97 of file uavtalk.\-h.
+
+\hypertarget{group___u_a_v_talk_plugin_ga7f0eb8c42215b435a77b84d7ffdbbfc3}{\index{\-U\-A\-V\-Talk Plugin@{\-U\-A\-V\-Talk Plugin}!tx\-Buffer@{tx\-Buffer}}
+\index{tx\-Buffer@{tx\-Buffer}!UAVTalk Plugin@{\-U\-A\-V\-Talk Plugin}}
+\subsubsection[{tx\-Buffer}]{\setlength{\rightskip}{0pt plus 5cm}quint8 {\bf \-U\-A\-V\-Talk\-::tx\-Buffer}\mbox{[}\-M\-A\-X\-\_\-\-P\-A\-C\-K\-E\-T\-\_\-\-L\-E\-N\-G\-T\-H\mbox{]}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{group___u_a_v_talk_plugin_ga7f0eb8c42215b435a77b84d7ffdbbfc3}
+
+
+\-Definition at line 108 of file uavtalk.\-h.
+
+\hypertarget{group___u_a_v_talk_plugin_ga6ab32543081346e61bdc67874617d3e1}{\index{\-U\-A\-V\-Talk Plugin@{\-U\-A\-V\-Talk Plugin}!tx\-Bytes@{tx\-Bytes}}
+\index{tx\-Bytes@{tx\-Bytes}!UAVTalk Plugin@{\-U\-A\-V\-Talk Plugin}}
+\subsubsection[{tx\-Bytes}]{\setlength{\rightskip}{0pt plus 5cm}quint32 {\bf \-U\-A\-V\-Talk\-::\-Com\-Stats\-::tx\-Bytes}}}\label{group___u_a_v_talk_plugin_ga6ab32543081346e61bdc67874617d3e1}
+
+
+\-Definition at line 47 of file uavtalk.\-h.
+
+\hypertarget{group___u_a_v_talk_plugin_ga349d8c0f2aac815d79b13e54f818658c}{\index{\-U\-A\-V\-Talk Plugin@{\-U\-A\-V\-Talk Plugin}!tx\-Bytes@{tx\-Bytes}}
+\index{tx\-Bytes@{tx\-Bytes}!UAVTalk Plugin@{\-U\-A\-V\-Talk Plugin}}
+\subsubsection[{tx\-Bytes}]{\setlength{\rightskip}{0pt plus 5cm}quint32 {\bf \-Telemetry\-::\-Telemetry\-Stats\-::tx\-Bytes}}}\label{group___u_a_v_talk_plugin_ga349d8c0f2aac815d79b13e54f818658c}
+
+
+\-Definition at line 67 of file telemetry.\-h.
+
+\hypertarget{group___u_a_v_talk_plugin_gaddc2324ebd5b83b73e1f873131efcccf}{\index{\-U\-A\-V\-Talk Plugin@{\-U\-A\-V\-Talk Plugin}!tx\-Errors@{tx\-Errors}}
+\index{tx\-Errors@{tx\-Errors}!UAVTalk Plugin@{\-U\-A\-V\-Talk Plugin}}
+\subsubsection[{tx\-Errors}]{\setlength{\rightskip}{0pt plus 5cm}quint32 {\bf \-U\-A\-V\-Talk\-::\-Com\-Stats\-::tx\-Errors}}}\label{group___u_a_v_talk_plugin_gaddc2324ebd5b83b73e1f873131efcccf}
+
+
+\-Definition at line 53 of file uavtalk.\-h.
+
+\hypertarget{group___u_a_v_talk_plugin_gad6930d8f0e5a3c2e251c9600d1264c1a}{\index{\-U\-A\-V\-Talk Plugin@{\-U\-A\-V\-Talk Plugin}!tx\-Errors@{tx\-Errors}}
+\index{tx\-Errors@{tx\-Errors}!UAVTalk Plugin@{\-U\-A\-V\-Talk Plugin}}
+\subsubsection[{tx\-Errors}]{\setlength{\rightskip}{0pt plus 5cm}quint32 {\bf \-Telemetry\-::\-Telemetry\-Stats\-::tx\-Errors}}}\label{group___u_a_v_talk_plugin_gad6930d8f0e5a3c2e251c9600d1264c1a}
+
+
+\-Definition at line 73 of file telemetry.\-h.
+
+\hypertarget{group___u_a_v_talk_plugin_gaf811665cd1c815ac65764deff354ba6c}{\index{\-U\-A\-V\-Talk Plugin@{\-U\-A\-V\-Talk Plugin}!tx\-Object\-Bytes@{tx\-Object\-Bytes}}
+\index{tx\-Object\-Bytes@{tx\-Object\-Bytes}!UAVTalk Plugin@{\-U\-A\-V\-Talk Plugin}}
+\subsubsection[{tx\-Object\-Bytes}]{\setlength{\rightskip}{0pt plus 5cm}quint32 {\bf \-U\-A\-V\-Talk\-::\-Com\-Stats\-::tx\-Object\-Bytes}}}\label{group___u_a_v_talk_plugin_gaf811665cd1c815ac65764deff354ba6c}
+
+
+\-Definition at line 49 of file uavtalk.\-h.
+
+\hypertarget{group___u_a_v_talk_plugin_ga5c315107de95913671e9bd51ce699e1f}{\index{\-U\-A\-V\-Talk Plugin@{\-U\-A\-V\-Talk Plugin}!tx\-Object\-Bytes@{tx\-Object\-Bytes}}
+\index{tx\-Object\-Bytes@{tx\-Object\-Bytes}!UAVTalk Plugin@{\-U\-A\-V\-Talk Plugin}}
+\subsubsection[{tx\-Object\-Bytes}]{\setlength{\rightskip}{0pt plus 5cm}quint32 {\bf \-Telemetry\-::\-Telemetry\-Stats\-::tx\-Object\-Bytes}}}\label{group___u_a_v_talk_plugin_ga5c315107de95913671e9bd51ce699e1f}
+
+
+\-Definition at line 69 of file telemetry.\-h.
+
+\hypertarget{group___u_a_v_talk_plugin_ga4d48878de025a87f65263e537467fb9b}{\index{\-U\-A\-V\-Talk Plugin@{\-U\-A\-V\-Talk Plugin}!tx\-Objects@{tx\-Objects}}
+\index{tx\-Objects@{tx\-Objects}!UAVTalk Plugin@{\-U\-A\-V\-Talk Plugin}}
+\subsubsection[{tx\-Objects}]{\setlength{\rightskip}{0pt plus 5cm}quint32 {\bf \-U\-A\-V\-Talk\-::\-Com\-Stats\-::tx\-Objects}}}\label{group___u_a_v_talk_plugin_ga4d48878de025a87f65263e537467fb9b}
+
+
+\-Definition at line 52 of file uavtalk.\-h.
+
+\hypertarget{group___u_a_v_talk_plugin_gaa7970a8185efea335e5cbe734739eca9}{\index{\-U\-A\-V\-Talk Plugin@{\-U\-A\-V\-Talk Plugin}!tx\-Objects@{tx\-Objects}}
+\index{tx\-Objects@{tx\-Objects}!UAVTalk Plugin@{\-U\-A\-V\-Talk Plugin}}
+\subsubsection[{tx\-Objects}]{\setlength{\rightskip}{0pt plus 5cm}quint32 {\bf \-Telemetry\-::\-Telemetry\-Stats\-::tx\-Objects}}}\label{group___u_a_v_talk_plugin_gaa7970a8185efea335e5cbe734739eca9}
+
+
+\-Definition at line 72 of file telemetry.\-h.
+
+\hypertarget{group___u_a_v_talk_plugin_ga071780b1d6a06aa36a41efaa190e97ec}{\index{\-U\-A\-V\-Talk Plugin@{\-U\-A\-V\-Talk Plugin}!tx\-Retries@{tx\-Retries}}
+\index{tx\-Retries@{tx\-Retries}!UAVTalk Plugin@{\-U\-A\-V\-Talk Plugin}}
+\subsubsection[{tx\-Retries}]{\setlength{\rightskip}{0pt plus 5cm}quint32 {\bf \-Telemetry\-::\-Telemetry\-Stats\-::tx\-Retries}}}\label{group___u_a_v_talk_plugin_ga071780b1d6a06aa36a41efaa190e97ec}
+
+
+\-Definition at line 75 of file telemetry.\-h.
+
+\hypertarget{group___u_a_v_talk_plugin_gaec2c5c58b05deb71a40e1248ff82aa52}{\index{\-U\-A\-V\-Talk Plugin@{\-U\-A\-V\-Talk Plugin}!\-T\-Y\-P\-E\-\_\-\-A\-C\-K@{\-T\-Y\-P\-E\-\_\-\-A\-C\-K}}
+\index{\-T\-Y\-P\-E\-\_\-\-A\-C\-K@{\-T\-Y\-P\-E\-\_\-\-A\-C\-K}!UAVTalk Plugin@{\-U\-A\-V\-Talk Plugin}}
+\subsubsection[{\-T\-Y\-P\-E\-\_\-\-A\-C\-K}]{\setlength{\rightskip}{0pt plus 5cm}const int {\bf \-U\-A\-V\-Talk\-::\-T\-Y\-P\-E\-\_\-\-A\-C\-K} = (\-T\-Y\-P\-E\-\_\-\-V\-E\-R $|$ 0x03)\hspace{0.3cm}{\ttfamily  \mbox{[}static, protected\mbox{]}}}}\label{group___u_a_v_talk_plugin_gaec2c5c58b05deb71a40e1248ff82aa52}
+
+
+\-Definition at line 82 of file uavtalk.\-h.
+
+\hypertarget{group___u_a_v_talk_plugin_gadad9ea7937a0ef8cf1a162fc2265e9c4}{\index{\-U\-A\-V\-Talk Plugin@{\-U\-A\-V\-Talk Plugin}!\-T\-Y\-P\-E\-\_\-\-M\-A\-S\-K@{\-T\-Y\-P\-E\-\_\-\-M\-A\-S\-K}}
+\index{\-T\-Y\-P\-E\-\_\-\-M\-A\-S\-K@{\-T\-Y\-P\-E\-\_\-\-M\-A\-S\-K}!UAVTalk Plugin@{\-U\-A\-V\-Talk Plugin}}
+\subsubsection[{\-T\-Y\-P\-E\-\_\-\-M\-A\-S\-K}]{\setlength{\rightskip}{0pt plus 5cm}const int {\bf \-U\-A\-V\-Talk\-::\-T\-Y\-P\-E\-\_\-\-M\-A\-S\-K} = 0x\-F8\hspace{0.3cm}{\ttfamily  \mbox{[}static, protected\mbox{]}}}}\label{group___u_a_v_talk_plugin_gadad9ea7937a0ef8cf1a162fc2265e9c4}
+
+
+\-Definition at line 77 of file uavtalk.\-h.
+
+\hypertarget{group___u_a_v_talk_plugin_ga809ec3528886e43e38072e2d16787668}{\index{\-U\-A\-V\-Talk Plugin@{\-U\-A\-V\-Talk Plugin}!\-T\-Y\-P\-E\-\_\-\-N\-A\-C\-K@{\-T\-Y\-P\-E\-\_\-\-N\-A\-C\-K}}
+\index{\-T\-Y\-P\-E\-\_\-\-N\-A\-C\-K@{\-T\-Y\-P\-E\-\_\-\-N\-A\-C\-K}!UAVTalk Plugin@{\-U\-A\-V\-Talk Plugin}}
+\subsubsection[{\-T\-Y\-P\-E\-\_\-\-N\-A\-C\-K}]{\setlength{\rightskip}{0pt plus 5cm}const int {\bf \-U\-A\-V\-Talk\-::\-T\-Y\-P\-E\-\_\-\-N\-A\-C\-K} = (\-T\-Y\-P\-E\-\_\-\-V\-E\-R $|$ 0x04)\hspace{0.3cm}{\ttfamily  \mbox{[}static, protected\mbox{]}}}}\label{group___u_a_v_talk_plugin_ga809ec3528886e43e38072e2d16787668}
+
+
+\-Definition at line 83 of file uavtalk.\-h.
+
+\hypertarget{group___u_a_v_talk_plugin_ga160fa827bdb9b5114b132cf644f76d4c}{\index{\-U\-A\-V\-Talk Plugin@{\-U\-A\-V\-Talk Plugin}!\-T\-Y\-P\-E\-\_\-\-O\-B\-J@{\-T\-Y\-P\-E\-\_\-\-O\-B\-J}}
+\index{\-T\-Y\-P\-E\-\_\-\-O\-B\-J@{\-T\-Y\-P\-E\-\_\-\-O\-B\-J}!UAVTalk Plugin@{\-U\-A\-V\-Talk Plugin}}
+\subsubsection[{\-T\-Y\-P\-E\-\_\-\-O\-B\-J}]{\setlength{\rightskip}{0pt plus 5cm}const int {\bf \-U\-A\-V\-Talk\-::\-T\-Y\-P\-E\-\_\-\-O\-B\-J} = (\-T\-Y\-P\-E\-\_\-\-V\-E\-R $|$ 0x00)\hspace{0.3cm}{\ttfamily  \mbox{[}static, protected\mbox{]}}}}\label{group___u_a_v_talk_plugin_ga160fa827bdb9b5114b132cf644f76d4c}
+
+
+\-Definition at line 79 of file uavtalk.\-h.
+
+\hypertarget{group___u_a_v_talk_plugin_gafc2b2ad8c68063a80d64666d0e812572}{\index{\-U\-A\-V\-Talk Plugin@{\-U\-A\-V\-Talk Plugin}!\-T\-Y\-P\-E\-\_\-\-O\-B\-J\-\_\-\-A\-C\-K@{\-T\-Y\-P\-E\-\_\-\-O\-B\-J\-\_\-\-A\-C\-K}}
+\index{\-T\-Y\-P\-E\-\_\-\-O\-B\-J\-\_\-\-A\-C\-K@{\-T\-Y\-P\-E\-\_\-\-O\-B\-J\-\_\-\-A\-C\-K}!UAVTalk Plugin@{\-U\-A\-V\-Talk Plugin}}
+\subsubsection[{\-T\-Y\-P\-E\-\_\-\-O\-B\-J\-\_\-\-A\-C\-K}]{\setlength{\rightskip}{0pt plus 5cm}const int {\bf \-U\-A\-V\-Talk\-::\-T\-Y\-P\-E\-\_\-\-O\-B\-J\-\_\-\-A\-C\-K} = (\-T\-Y\-P\-E\-\_\-\-V\-E\-R $|$ 0x02)\hspace{0.3cm}{\ttfamily  \mbox{[}static, protected\mbox{]}}}}\label{group___u_a_v_talk_plugin_gafc2b2ad8c68063a80d64666d0e812572}
+
+
+\-Definition at line 81 of file uavtalk.\-h.
+
+\hypertarget{group___u_a_v_talk_plugin_ga5e1cb8e2b0aa00f08a16af9c858079e9}{\index{\-U\-A\-V\-Talk Plugin@{\-U\-A\-V\-Talk Plugin}!\-T\-Y\-P\-E\-\_\-\-O\-B\-J\-\_\-\-R\-E\-Q@{\-T\-Y\-P\-E\-\_\-\-O\-B\-J\-\_\-\-R\-E\-Q}}
+\index{\-T\-Y\-P\-E\-\_\-\-O\-B\-J\-\_\-\-R\-E\-Q@{\-T\-Y\-P\-E\-\_\-\-O\-B\-J\-\_\-\-R\-E\-Q}!UAVTalk Plugin@{\-U\-A\-V\-Talk Plugin}}
+\subsubsection[{\-T\-Y\-P\-E\-\_\-\-O\-B\-J\-\_\-\-R\-E\-Q}]{\setlength{\rightskip}{0pt plus 5cm}const int {\bf \-U\-A\-V\-Talk\-::\-T\-Y\-P\-E\-\_\-\-O\-B\-J\-\_\-\-R\-E\-Q} = (\-T\-Y\-P\-E\-\_\-\-V\-E\-R $|$ 0x01)\hspace{0.3cm}{\ttfamily  \mbox{[}static, protected\mbox{]}}}}\label{group___u_a_v_talk_plugin_ga5e1cb8e2b0aa00f08a16af9c858079e9}
+
+
+\-Definition at line 80 of file uavtalk.\-h.
+
+\hypertarget{group___u_a_v_talk_plugin_gad838c235ec5ef5e1389791d518faa6e7}{\index{\-U\-A\-V\-Talk Plugin@{\-U\-A\-V\-Talk Plugin}!\-T\-Y\-P\-E\-\_\-\-V\-E\-R@{\-T\-Y\-P\-E\-\_\-\-V\-E\-R}}
+\index{\-T\-Y\-P\-E\-\_\-\-V\-E\-R@{\-T\-Y\-P\-E\-\_\-\-V\-E\-R}!UAVTalk Plugin@{\-U\-A\-V\-Talk Plugin}}
+\subsubsection[{\-T\-Y\-P\-E\-\_\-\-V\-E\-R}]{\setlength{\rightskip}{0pt plus 5cm}const int {\bf \-U\-A\-V\-Talk\-::\-T\-Y\-P\-E\-\_\-\-V\-E\-R} = 0x20\hspace{0.3cm}{\ttfamily  \mbox{[}static, protected\mbox{]}}}}\label{group___u_a_v_talk_plugin_gad838c235ec5ef5e1389791d518faa6e7}
+
+
+\-Definition at line 78 of file uavtalk.\-h.
+
+\hypertarget{group___u_a_v_talk_plugin_ga3fe3d99135440f58cb74fb73a4055ef4}{\index{\-U\-A\-V\-Talk Plugin@{\-U\-A\-V\-Talk Plugin}!udp\-Socket\-Rx@{udp\-Socket\-Rx}}
+\index{udp\-Socket\-Rx@{udp\-Socket\-Rx}!UAVTalk Plugin@{\-U\-A\-V\-Talk Plugin}}
+\subsubsection[{udp\-Socket\-Rx}]{\setlength{\rightskip}{0pt plus 5cm}\-Q\-Udp\-Socket$\ast$ {\bf \-U\-A\-V\-Talk\-::udp\-Socket\-Rx}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{group___u_a_v_talk_plugin_ga3fe3d99135440f58cb74fb73a4055ef4}
+
+
+\-Definition at line 125 of file uavtalk.\-h.
+
+\hypertarget{group___u_a_v_talk_plugin_ga02f40e7ac97a6778928a5e9869ea5bc8}{\index{\-U\-A\-V\-Talk Plugin@{\-U\-A\-V\-Talk Plugin}!udp\-Socket\-Tx@{udp\-Socket\-Tx}}
+\index{udp\-Socket\-Tx@{udp\-Socket\-Tx}!UAVTalk Plugin@{\-U\-A\-V\-Talk Plugin}}
+\subsubsection[{udp\-Socket\-Tx}]{\setlength{\rightskip}{0pt plus 5cm}\-Q\-Udp\-Socket$\ast$ {\bf \-U\-A\-V\-Talk\-::udp\-Socket\-Tx}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{group___u_a_v_talk_plugin_ga02f40e7ac97a6778928a5e9869ea5bc8}
+
+
+\-Definition at line 124 of file uavtalk.\-h.
+
+\hypertarget{group___u_a_v_talk_plugin_ga63538585df200e147d34a4a929976b4d}{\index{\-U\-A\-V\-Talk Plugin@{\-U\-A\-V\-Talk Plugin}!update\-Period\-Ms@{update\-Period\-Ms}}
+\index{update\-Period\-Ms@{update\-Period\-Ms}!UAVTalk Plugin@{\-U\-A\-V\-Talk Plugin}}
+\subsubsection[{update\-Period\-Ms}]{\setlength{\rightskip}{0pt plus 5cm}qint32 \-Telemetry\-::\-Object\-Time\-Info\-::update\-Period\-Ms}}\label{group___u_a_v_talk_plugin_ga63538585df200e147d34a4a929976b4d}
+
+
+\-Definition at line 109 of file telemetry.\-h.
+
+\hypertarget{group___u_a_v_talk_plugin_ga5198259bc34e6f215c111d731b822e3f}{\index{\-U\-A\-V\-Talk Plugin@{\-U\-A\-V\-Talk Plugin}!use\-U\-D\-P\-Mirror@{use\-U\-D\-P\-Mirror}}
+\index{use\-U\-D\-P\-Mirror@{use\-U\-D\-P\-Mirror}!UAVTalk Plugin@{\-U\-A\-V\-Talk Plugin}}
+\subsubsection[{use\-U\-D\-P\-Mirror}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-U\-A\-V\-Talk\-::use\-U\-D\-P\-Mirror}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}\label{group___u_a_v_talk_plugin_ga5198259bc34e6f215c111d731b822e3f}
+
+
+\-Definition at line 123 of file uavtalk.\-h.
+
+
+
+\subsection{\-Signals}
+\hypertarget{group___u_a_v_talk_plugin_ga2d657cf81a725bce5e859eb6828cf80c}{\index{\-U\-A\-V\-Talk Plugin@{\-U\-A\-V\-Talk Plugin}!ack\-Received@{ack\-Received}}
+\index{ack\-Received@{ack\-Received}!UAVTalk Plugin@{\-U\-A\-V\-Talk Plugin}}
+\subsubsection[{ack\-Received}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-U\-A\-V\-Talk\-::ack\-Received} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-U\-A\-V\-Object} $\ast$}]{obj}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}signal\mbox{]}}}}\label{group___u_a_v_talk_plugin_ga2d657cf81a725bce5e859eb6828cf80c}
+\hypertarget{group___u_a_v_talk_plugin_ga54bec8ecfe469710c7261f567e76c5f0}{\index{\-U\-A\-V\-Talk Plugin@{\-U\-A\-V\-Talk Plugin}!connected@{connected}}
+\index{connected@{connected}!UAVTalk Plugin@{\-U\-A\-V\-Talk Plugin}}
+\subsubsection[{connected}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Telemetry\-Manager\-::connected} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}signal\mbox{]}}}}\label{group___u_a_v_talk_plugin_ga54bec8ecfe469710c7261f567e76c5f0}
+\hypertarget{group___u_a_v_talk_plugin_gac4e867b78642d4f1fe27c5fc97468ce7}{\index{\-U\-A\-V\-Talk Plugin@{\-U\-A\-V\-Talk Plugin}!connected@{connected}}
+\index{connected@{connected}!UAVTalk Plugin@{\-U\-A\-V\-Talk Plugin}}
+\subsubsection[{connected}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Telemetry\-Monitor\-::connected} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}signal\mbox{]}}}}\label{group___u_a_v_talk_plugin_gac4e867b78642d4f1fe27c5fc97468ce7}
+\hypertarget{group___u_a_v_talk_plugin_ga61e671949cc2403327617d9c9a372a76}{\index{\-U\-A\-V\-Talk Plugin@{\-U\-A\-V\-Talk Plugin}!disconnected@{disconnected}}
+\index{disconnected@{disconnected}!UAVTalk Plugin@{\-U\-A\-V\-Talk Plugin}}
+\subsubsection[{disconnected}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Telemetry\-Manager\-::disconnected} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}signal\mbox{]}}}}\label{group___u_a_v_talk_plugin_ga61e671949cc2403327617d9c9a372a76}
+\hypertarget{group___u_a_v_talk_plugin_ga8445fbd983df4d054bb798c760ba0640}{\index{\-U\-A\-V\-Talk Plugin@{\-U\-A\-V\-Talk Plugin}!disconnected@{disconnected}}
+\index{disconnected@{disconnected}!UAVTalk Plugin@{\-U\-A\-V\-Talk Plugin}}
+\subsubsection[{disconnected}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Telemetry\-Monitor\-::disconnected} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}signal\mbox{]}}}}\label{group___u_a_v_talk_plugin_ga8445fbd983df4d054bb798c760ba0640}
+\hypertarget{group___u_a_v_talk_plugin_gabb52305ac7bcf975fd60517b0dc9a148}{\index{\-U\-A\-V\-Talk Plugin@{\-U\-A\-V\-Talk Plugin}!my\-Start@{my\-Start}}
+\index{my\-Start@{my\-Start}!UAVTalk Plugin@{\-U\-A\-V\-Talk Plugin}}
+\subsubsection[{my\-Start}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Telemetry\-Manager\-::my\-Start} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}signal\mbox{]}}}}\label{group___u_a_v_talk_plugin_gabb52305ac7bcf975fd60517b0dc9a148}
+\hypertarget{group___u_a_v_talk_plugin_gabbe5997234dbee93471fcef62361d276}{\index{\-U\-A\-V\-Talk Plugin@{\-U\-A\-V\-Talk Plugin}!my\-Stop@{my\-Stop}}
+\index{my\-Stop@{my\-Stop}!UAVTalk Plugin@{\-U\-A\-V\-Talk Plugin}}
+\subsubsection[{my\-Stop}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Telemetry\-Manager\-::my\-Stop} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}signal\mbox{]}}}}\label{group___u_a_v_talk_plugin_gabbe5997234dbee93471fcef62361d276}
+\hypertarget{group___u_a_v_talk_plugin_gac0268d5005ed3241192bae731c362f7e}{\index{\-U\-A\-V\-Talk Plugin@{\-U\-A\-V\-Talk Plugin}!nack\-Received@{nack\-Received}}
+\index{nack\-Received@{nack\-Received}!UAVTalk Plugin@{\-U\-A\-V\-Talk Plugin}}
+\subsubsection[{nack\-Received}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-U\-A\-V\-Talk\-::nack\-Received} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-U\-A\-V\-Object} $\ast$}]{obj}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}signal\mbox{]}}}}\label{group___u_a_v_talk_plugin_gac0268d5005ed3241192bae731c362f7e}
+\hypertarget{group___u_a_v_talk_plugin_gac7898d4b74305c568adefb289da72ebc}{\index{\-U\-A\-V\-Talk Plugin@{\-U\-A\-V\-Talk Plugin}!telemetry\-Updated@{telemetry\-Updated}}
+\index{telemetry\-Updated@{telemetry\-Updated}!UAVTalk Plugin@{\-U\-A\-V\-Talk Plugin}}
+\subsubsection[{telemetry\-Updated}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Telemetry\-Monitor\-::telemetry\-Updated} (
+\begin{DoxyParamCaption}
+\item[{double}]{tx\-Rate, }
+\item[{double}]{rx\-Rate}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}signal\mbox{]}}}}\label{group___u_a_v_talk_plugin_gac7898d4b74305c568adefb289da72ebc}
+
+
+\subsection{\-Public \-Slots}
+\hypertarget{group___u_a_v_talk_plugin_ga31c0b7ae632d68a5584d1f0696e35766}{\index{\-U\-A\-V\-Talk Plugin@{\-U\-A\-V\-Talk Plugin}!flight\-Stats\-Updated@{flight\-Stats\-Updated}}
+\index{flight\-Stats\-Updated@{flight\-Stats\-Updated}!UAVTalk Plugin@{\-U\-A\-V\-Talk Plugin}}
+\subsubsection[{flight\-Stats\-Updated}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Telemetry\-Monitor\-::flight\-Stats\-Updated} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-U\-A\-V\-Object} $\ast$}]{obj}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}slot\mbox{]}}}}\label{group___u_a_v_talk_plugin_ga31c0b7ae632d68a5584d1f0696e35766}
+\-Called each time the flight stats object is updated by the autopilot 
+
+\-Definition at line 169 of file telemetrymonitor.\-cpp.
+
+\hypertarget{group___u_a_v_talk_plugin_ga2e16b3d1a298f851879d22749d1e38e9}{\index{\-U\-A\-V\-Talk Plugin@{\-U\-A\-V\-Talk Plugin}!process\-Stats\-Updates@{process\-Stats\-Updates}}
+\index{process\-Stats\-Updates@{process\-Stats\-Updates}!UAVTalk Plugin@{\-U\-A\-V\-Talk Plugin}}
+\subsubsection[{process\-Stats\-Updates}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Telemetry\-Monitor\-::process\-Stats\-Updates} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}slot\mbox{]}}}}\label{group___u_a_v_talk_plugin_ga2e16b3d1a298f851879d22749d1e38e9}
+\-Called periodically to update the statistics and connection status. 
+
+\-Definition at line 187 of file telemetrymonitor.\-cpp.
+
+\hypertarget{group___u_a_v_talk_plugin_ga2b5452341c351cd2d67c46469b855607}{\index{\-U\-A\-V\-Talk Plugin@{\-U\-A\-V\-Talk Plugin}!transaction\-Completed@{transaction\-Completed}}
+\index{transaction\-Completed@{transaction\-Completed}!UAVTalk Plugin@{\-U\-A\-V\-Talk Plugin}}
+\subsubsection[{transaction\-Completed}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Telemetry\-Monitor\-::transaction\-Completed} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-U\-A\-V\-Object} $\ast$}]{obj, }
+\item[{bool}]{success}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}slot\mbox{]}}}}\label{group___u_a_v_talk_plugin_ga2b5452341c351cd2d67c46469b855607}
+\-Called by the retrieved object when a transaction is completed. 
+
+\-Definition at line 147 of file telemetrymonitor.\-cpp.
+
+
+
+\subsection{\-Protected \-Slots}
+\hypertarget{group___u_a_v_talk_plugin_ga496d6211736a7cfd5cee129eb2b8ad95}{\index{\-U\-A\-V\-Talk Plugin@{\-U\-A\-V\-Talk Plugin}!on\-Device\-Connect@{on\-Device\-Connect}}
+\index{on\-Device\-Connect@{on\-Device\-Connect}!UAVTalk Plugin@{\-U\-A\-V\-Talk Plugin}}
+\subsubsection[{on\-Device\-Connect}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-U\-A\-V\-Talk\-Plugin\-::on\-Device\-Connect} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-I\-O\-Device $\ast$}]{dev}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}protected, slot\mbox{]}}}}\label{group___u_a_v_talk_plugin_ga496d6211736a7cfd5cee129eb2b8ad95}
+
+
+\-Definition at line 78 of file uavtalkplugin.\-cpp.
+
+\hypertarget{group___u_a_v_talk_plugin_ga1ac9b2c0c21d66d603c639183ebcd7db}{\index{\-U\-A\-V\-Talk Plugin@{\-U\-A\-V\-Talk Plugin}!on\-Device\-Disconnect@{on\-Device\-Disconnect}}
+\index{on\-Device\-Disconnect@{on\-Device\-Disconnect}!UAVTalk Plugin@{\-U\-A\-V\-Talk Plugin}}
+\subsubsection[{on\-Device\-Disconnect}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-U\-A\-V\-Talk\-Plugin\-::on\-Device\-Disconnect} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}protected, slot\mbox{]}}}}\label{group___u_a_v_talk_plugin_ga1ac9b2c0c21d66d603c639183ebcd7db}
+
+
+\-Definition at line 83 of file uavtalkplugin.\-cpp.
+

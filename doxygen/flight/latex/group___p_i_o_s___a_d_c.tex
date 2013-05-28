@@ -1,0 +1,485 @@
+\hypertarget{group___p_i_o_s___a_d_c}{\section{\-A\-D\-C \-Functions}
+\label{group___p_i_o_s___a_d_c}\index{\-A\-D\-C Functions@{\-A\-D\-C Functions}}
+}
+
+
+\-Upper level \-Analog to \-Digital converter layer.  
+
+
+\subsection*{\-Data \-Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structpios__adc__dev}{pios\-\_\-adc\-\_\-dev}
+\item 
+struct {\bfseries sub\-\_\-device\-\_\-list\-\_\-}
+\item 
+struct \hyperlink{structpios__adc__driver}{pios\-\_\-adc\-\_\-driver}
+\item 
+struct \hyperlink{structadc__accumulator}{adc\-\_\-accumulator}
+\item 
+struct \hyperlink{structpios__internal__adc__dev}{pios\-\_\-internal\-\_\-adc\-\_\-dev}
+\item 
+struct \hyperlink{structdma__config}{dma\-\_\-config}
+\end{DoxyCompactItemize}
+\subsection*{\-Files}
+\begin{DoxyCompactItemize}
+\item 
+file \hyperlink{pios__adc_8c}{pios\-\_\-adc.\-c}
+\begin{DoxyCompactList}\small\item\em \-Analog to \-Digital conversion routines. \end{DoxyCompactList}\item 
+file \hyperlink{pios__adc_8h}{pios\-\_\-adc.\-h}
+\begin{DoxyCompactList}\small\item\em \-A\-D\-C layer functions header. \end{DoxyCompactList}\item 
+file \hyperlink{pios__adc__priv_8h}{pios\-\_\-adc\-\_\-priv.\-h}
+\begin{DoxyCompactList}\small\item\em \-A\-D\-C private definitions. \end{DoxyCompactList}\item 
+file \hyperlink{pios__adc_8c}{pios\-\_\-adc.\-c}
+\begin{DoxyCompactList}\small\item\em \-Analog to \-Digital conversion routines. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{group___p_i_o_s___a_d_c_gad4639b786d45b213ac842a0c4cf3e78d}{pios\-\_\-adc\-\_\-dev\-\_\-magic} \{ \hyperlink{group___p_i_o_s___a_d_c_ggad4639b786d45b213ac842a0c4cf3e78dab432edba8e4a3348b2f28cf7edf94f79}{\-P\-I\-O\-S\-\_\-\-A\-D\-C\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C} =  0x58375169, 
+\hyperlink{group___p_i_o_s___a_d_c_ggad4639b786d45b213ac842a0c4cf3e78dadc16fac7b3b7f2cbaf50a1224b2bbba2}{\-P\-I\-O\-S\-\_\-\-I\-N\-T\-E\-R\-N\-A\-L\-\_\-\-A\-D\-C\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C} =  0x58375124
+ \}
+\item 
+enum \hyperlink{group___p_i_o_s___a_d_c_gafcbb2d879978c3e1679c3ccabaff8c03}{pios\-\_\-internal\-\_\-adc\-\_\-dev\-\_\-magic} \{ \hyperlink{group___p_i_o_s___a_d_c_ggafcbb2d879978c3e1679c3ccabaff8c03adc16fac7b3b7f2cbaf50a1224b2bbba2}{\-P\-I\-O\-S\-\_\-\-I\-N\-T\-E\-R\-N\-A\-L\-\_\-\-A\-D\-C\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C} =  0x58375124, 
+\hyperlink{group___p_i_o_s___a_d_c_ggafcbb2d879978c3e1679c3ccabaff8c03adc16fac7b3b7f2cbaf50a1224b2bbba2}{\-P\-I\-O\-S\-\_\-\-I\-N\-T\-E\-R\-N\-A\-L\-\_\-\-A\-D\-C\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C} =  0x58375124
+ \}
+\item 
+enum \hyperlink{group___p_i_o_s___a_d_c_gad4639b786d45b213ac842a0c4cf3e78d}{pios\-\_\-adc\-\_\-dev\-\_\-magic} \{ \hyperlink{group___p_i_o_s___a_d_c_ggad4639b786d45b213ac842a0c4cf3e78dab432edba8e4a3348b2f28cf7edf94f79}{\-P\-I\-O\-S\-\_\-\-A\-D\-C\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C} =  0x58375169, 
+\hyperlink{group___p_i_o_s___a_d_c_ggad4639b786d45b213ac842a0c4cf3e78dadc16fac7b3b7f2cbaf50a1224b2bbba2}{\-P\-I\-O\-S\-\_\-\-I\-N\-T\-E\-R\-N\-A\-L\-\_\-\-A\-D\-C\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C} =  0x58375124
+ \}
+\end{DoxyCompactItemize}
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___a_d_c_gae120a825a76a2207d0e90abd773f32fc}{\-P\-I\-O\-S\-\_\-\-A\-D\-C\-\_\-\-Init} (uintptr\-\_\-t $\ast$adc\-\_\-id, const struct \hyperlink{structpios__adc__driver}{pios\-\_\-adc\-\_\-driver} $\ast$driver, uint32\-\_\-t lower\-\_\-id)
+\begin{DoxyCompactList}\small\item\em \-Initializes an \-A\-D\-C device. \end{DoxyCompactList}\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___a_d_c_ga99e9080cf4eb3114f15ad00364a5b4d0}{\-P\-I\-O\-S\-\_\-\-A\-D\-C\-\_\-\-Device\-Pin\-Get} (uintptr\-\_\-t adc\-\_\-id, uint32\-\_\-t device\-\_\-pin)
+\begin{DoxyCompactList}\small\item\em \-Gets the \-A\-D\-C value of the given pin of the device. \end{DoxyCompactList}\item 
+bool \hyperlink{group___p_i_o_s___a_d_c_ga3f5f671e8a6057b26861ce21789f3733}{\-P\-I\-O\-S\-\_\-\-A\-D\-C\-\_\-\-Available} (uintptr\-\_\-t adc\-\_\-id, uint32\-\_\-t device\-\_\-pin)
+\begin{DoxyCompactList}\small\item\em \-Checks if a given pin is available on the given device. \end{DoxyCompactList}\item 
+void \hyperlink{group___p_i_o_s___a_d_c_ga0081adb4449c45987f2245cb3455b3e9}{\-P\-I\-O\-S\-\_\-\-A\-D\-C\-\_\-\-Set\-Queue} (uintptr\-\_\-t adc\-\_\-id, x\-Queue\-Handle data\-\_\-queue)
+\begin{DoxyCompactList}\small\item\em \-Set the queue to write to. \end{DoxyCompactList}\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___a_d_c_ga84f004e1278a4e7ae3539bc0ea138477}{\-P\-I\-O\-S\-\_\-\-A\-D\-C\-\_\-\-Get\-Channel} (uint32\-\_\-t channel)
+\begin{DoxyCompactList}\small\item\em \-Reads from an \-A\-D\-C channel this is an abstraction of the lower devices channels are sequentially added from the lower devices available pins \-Warning this function is not as efficient as directly getting the device channel in the order of initialization. \end{DoxyCompactList}\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___a_d_c_ga24dec792533e0f27e35c3ea6d1bbd9e1}{\-P\-I\-O\-S\-\_\-\-I\-N\-T\-E\-R\-N\-A\-L\-\_\-\-A\-D\-C\-\_\-\-Init} (uint32\-\_\-t $\ast$internal\-\_\-adc\-\_\-id, const struct \hyperlink{structpios__internal__adc__cfg}{pios\-\_\-internal\-\_\-adc\-\_\-cfg} $\ast$cfg)
+\begin{DoxyCompactList}\small\item\em \-Init the \-A\-D\-C. \end{DoxyCompactList}\item 
+void \hyperlink{group___p_i_o_s___a_d_c_ga0edf09afa78da740bb49069ee8221b5c}{\-P\-I\-O\-S\-\_\-\-A\-D\-C\-\_\-\-Config} (uint32\-\_\-t oversampling)
+\begin{DoxyCompactList}\small\item\em \-Configure the \-A\-D\-C to run at a fixed oversampling. \end{DoxyCompactList}\item 
+void \hyperlink{group___p_i_o_s___a_d_c_gaba0959952db7ff67364a28ea801c41ec}{\-P\-I\-O\-S\-\_\-\-A\-D\-C\-\_\-\-Set\-Callback} (\hyperlink{group___p_i_o_s___i_n_t_e_r_n_a_l___a_d_c_ga20bf90833813c2c4945fab90c8e4f386}{\-A\-D\-C\-Callback} new\-\_\-function)
+\begin{DoxyCompactList}\small\item\em \-Set a callback function that is executed whenever the \-A\-D\-C double buffer swaps. \end{DoxyCompactList}\item 
+float $\ast$ \hyperlink{group___p_i_o_s___a_d_c_ga3684039dd2c7b58018d93552371651d3}{\-P\-I\-O\-S\-\_\-\-A\-D\-C\-\_\-\-Get\-Buffer} (void)
+\begin{DoxyCompactList}\small\item\em \-Return the address of the downsampled data buffer. \end{DoxyCompactList}\item 
+int16\-\_\-t $\ast$ \hyperlink{group___p_i_o_s___a_d_c_gaa72293956e8aaea48593f2d80ae9d9d2}{\-P\-I\-O\-S\-\_\-\-A\-D\-C\-\_\-\-Get\-Raw\-Buffer} (void)
+\begin{DoxyCompactList}\small\item\em \-Return the address of the raw data data buffer. \end{DoxyCompactList}\item 
+uint8\-\_\-t \hyperlink{group___p_i_o_s___a_d_c_gaa343a6f620ddd80259e92ff0595cf977}{\-P\-I\-O\-S\-\_\-\-A\-D\-C\-\_\-\-Get\-Over\-Sampling} (void)
+\begin{DoxyCompactList}\small\item\em \-Return the amount of over sampling. \end{DoxyCompactList}\item 
+void \hyperlink{group___p_i_o_s___a_d_c_gab2bb95efd8a061a377ae0d8cd60ca1ed}{\-P\-I\-O\-S\-\_\-\-A\-D\-C\-\_\-\-Set\-F\-I\-R\-Coefficients} (float $\ast$new\-\_\-filter)
+\begin{DoxyCompactList}\small\item\em \-Set the fir coefficients. \-Takes as many samples as the current filter order plus one (normalization) \end{DoxyCompactList}\item 
+void \hyperlink{group___p_i_o_s___a_d_c_ga7cf4581a50ff57300061ea450f87a007}{accumulate} (uint16\-\_\-t $\ast$buffer, uint32\-\_\-t count)
+\begin{DoxyCompactList}\small\item\em accumulate the data for each of the channels. \end{DoxyCompactList}\item 
+void \hyperlink{group___p_i_o_s___a_d_c_ga90fc0a6fd10259ceca76e89e41ab744a}{\-P\-I\-O\-S\-\_\-\-I\-N\-T\-E\-R\-N\-A\-L\-\_\-\-A\-D\-C\-\_\-\-D\-M\-A\-\_\-\-Handler} (void)
+\begin{DoxyCompactList}\small\item\em \-Interrupt on buffer flip. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Variables}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structpios__adc__dev}{pios\-\_\-adc\-\_\-dev} $\ast$ \hyperlink{group___p_i_o_s___a_d_c_gab32db3584e1b8779726fcabc7aa2dc9a}{pios\-\_\-adc\-\_\-dev}
+\item 
+struct \hyperlink{structpios__adc__driver}{pios\-\_\-adc\-\_\-driver} \hyperlink{group___p_i_o_s___a_d_c_gaa1decc30319efc11cab3d3e9ba32ff8e}{pios\-\_\-internal\-\_\-adc\-\_\-driver}
+\item 
+struct \hyperlink{structpios__internal__adc__dev}{pios\-\_\-internal\-\_\-adc\-\_\-dev} $\ast$ \hyperlink{group___p_i_o_s___a_d_c_ga5250ef3bb34ef47503a057a9b95c494a}{driver\-\_\-instances} \mbox{[}\-P\-I\-O\-S\-\_\-\-I\-N\-T\-E\-R\-N\-A\-L\-\_\-\-A\-D\-C\-\_\-\-M\-A\-X\-\_\-\-I\-N\-S\-T\-A\-N\-C\-E\-S\mbox{]}
+\item 
+struct \hyperlink{structpios__adc__driver}{pios\-\_\-adc\-\_\-driver} \hyperlink{group___p_i_o_s___a_d_c_gaa1decc30319efc11cab3d3e9ba32ff8e}{pios\-\_\-internal\-\_\-adc\-\_\-driver}
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-Upper level \-Analog to \-Digital converter layer. 
+
+\subsection{\-Enumeration \-Type \-Documentation}
+\hypertarget{group___p_i_o_s___a_d_c_gad4639b786d45b213ac842a0c4cf3e78d}{\index{\-A\-D\-C Functions@{\-A\-D\-C Functions}!pios\-\_\-adc\-\_\-dev\-\_\-magic@{pios\-\_\-adc\-\_\-dev\-\_\-magic}}
+\index{pios\-\_\-adc\-\_\-dev\-\_\-magic@{pios\-\_\-adc\-\_\-dev\-\_\-magic}!ADC Functions@{\-A\-D\-C Functions}}
+\subsubsection[{pios\-\_\-adc\-\_\-dev\-\_\-magic}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf pios\-\_\-adc\-\_\-dev\-\_\-magic}}}\label{group___p_i_o_s___a_d_c_gad4639b786d45b213ac842a0c4cf3e78d}
+\begin{Desc}
+\item[\-Enumerator\-: ]\par
+\begin{description}
+\index{\-P\-I\-O\-S\-\_\-\-A\-D\-C\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C@{\-P\-I\-O\-S\-\_\-\-A\-D\-C\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}!\-A\-D\-C Functions@{\-A\-D\-C Functions}}\index{\-A\-D\-C Functions@{\-A\-D\-C Functions}!\-P\-I\-O\-S\-\_\-\-A\-D\-C\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C@{\-P\-I\-O\-S\-\_\-\-A\-D\-C\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}}\item[{\em 
+\hypertarget{group___p_i_o_s___a_d_c_ggad4639b786d45b213ac842a0c4cf3e78dab432edba8e4a3348b2f28cf7edf94f79}{\-P\-I\-O\-S\-\_\-\-A\-D\-C\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}\label{group___p_i_o_s___a_d_c_ggad4639b786d45b213ac842a0c4cf3e78dab432edba8e4a3348b2f28cf7edf94f79}
+}]\index{\-P\-I\-O\-S\-\_\-\-I\-N\-T\-E\-R\-N\-A\-L\-\_\-\-A\-D\-C\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C@{\-P\-I\-O\-S\-\_\-\-I\-N\-T\-E\-R\-N\-A\-L\-\_\-\-A\-D\-C\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}!\-A\-D\-C Functions@{\-A\-D\-C Functions}}\index{\-A\-D\-C Functions@{\-A\-D\-C Functions}!\-P\-I\-O\-S\-\_\-\-I\-N\-T\-E\-R\-N\-A\-L\-\_\-\-A\-D\-C\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C@{\-P\-I\-O\-S\-\_\-\-I\-N\-T\-E\-R\-N\-A\-L\-\_\-\-A\-D\-C\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}}\item[{\em 
+\hypertarget{group___p_i_o_s___a_d_c_ggad4639b786d45b213ac842a0c4cf3e78dadc16fac7b3b7f2cbaf50a1224b2bbba2}{\-P\-I\-O\-S\-\_\-\-I\-N\-T\-E\-R\-N\-A\-L\-\_\-\-A\-D\-C\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}\label{group___p_i_o_s___a_d_c_ggad4639b786d45b213ac842a0c4cf3e78dadc16fac7b3b7f2cbaf50a1224b2bbba2}
+}]\end{description}
+\end{Desc}
+
+
+
+\-Definition at line 34 of file pios\-\_\-adc.\-c.
+
+\hypertarget{group___p_i_o_s___a_d_c_gad4639b786d45b213ac842a0c4cf3e78d}{\index{\-A\-D\-C Functions@{\-A\-D\-C Functions}!pios\-\_\-adc\-\_\-dev\-\_\-magic@{pios\-\_\-adc\-\_\-dev\-\_\-magic}}
+\index{pios\-\_\-adc\-\_\-dev\-\_\-magic@{pios\-\_\-adc\-\_\-dev\-\_\-magic}!ADC Functions@{\-A\-D\-C Functions}}
+\subsubsection[{pios\-\_\-adc\-\_\-dev\-\_\-magic}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf pios\-\_\-adc\-\_\-dev\-\_\-magic}}}\label{group___p_i_o_s___a_d_c_gad4639b786d45b213ac842a0c4cf3e78d}
+\begin{Desc}
+\item[\-Enumerator\-: ]\par
+\begin{description}
+\index{\-P\-I\-O\-S\-\_\-\-A\-D\-C\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C@{\-P\-I\-O\-S\-\_\-\-A\-D\-C\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}!\-A\-D\-C Functions@{\-A\-D\-C Functions}}\index{\-A\-D\-C Functions@{\-A\-D\-C Functions}!\-P\-I\-O\-S\-\_\-\-A\-D\-C\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C@{\-P\-I\-O\-S\-\_\-\-A\-D\-C\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}}\item[{\em 
+\hypertarget{group___p_i_o_s___a_d_c_ggad4639b786d45b213ac842a0c4cf3e78dab432edba8e4a3348b2f28cf7edf94f79}{\-P\-I\-O\-S\-\_\-\-A\-D\-C\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}\label{group___p_i_o_s___a_d_c_ggad4639b786d45b213ac842a0c4cf3e78dab432edba8e4a3348b2f28cf7edf94f79}
+}]\index{\-P\-I\-O\-S\-\_\-\-I\-N\-T\-E\-R\-N\-A\-L\-\_\-\-A\-D\-C\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C@{\-P\-I\-O\-S\-\_\-\-I\-N\-T\-E\-R\-N\-A\-L\-\_\-\-A\-D\-C\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}!\-A\-D\-C Functions@{\-A\-D\-C Functions}}\index{\-A\-D\-C Functions@{\-A\-D\-C Functions}!\-P\-I\-O\-S\-\_\-\-I\-N\-T\-E\-R\-N\-A\-L\-\_\-\-A\-D\-C\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C@{\-P\-I\-O\-S\-\_\-\-I\-N\-T\-E\-R\-N\-A\-L\-\_\-\-A\-D\-C\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}}\item[{\em 
+\hypertarget{group___p_i_o_s___a_d_c_ggad4639b786d45b213ac842a0c4cf3e78dadc16fac7b3b7f2cbaf50a1224b2bbba2}{\-P\-I\-O\-S\-\_\-\-I\-N\-T\-E\-R\-N\-A\-L\-\_\-\-A\-D\-C\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}\label{group___p_i_o_s___a_d_c_ggad4639b786d45b213ac842a0c4cf3e78dadc16fac7b3b7f2cbaf50a1224b2bbba2}
+}]\end{description}
+\end{Desc}
+
+
+
+\-Definition at line 67 of file pios\-\_\-internal\-\_\-adc.\-c.
+
+\hypertarget{group___p_i_o_s___a_d_c_gafcbb2d879978c3e1679c3ccabaff8c03}{\index{\-A\-D\-C Functions@{\-A\-D\-C Functions}!pios\-\_\-internal\-\_\-adc\-\_\-dev\-\_\-magic@{pios\-\_\-internal\-\_\-adc\-\_\-dev\-\_\-magic}}
+\index{pios\-\_\-internal\-\_\-adc\-\_\-dev\-\_\-magic@{pios\-\_\-internal\-\_\-adc\-\_\-dev\-\_\-magic}!ADC Functions@{\-A\-D\-C Functions}}
+\subsubsection[{pios\-\_\-internal\-\_\-adc\-\_\-dev\-\_\-magic}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf pios\-\_\-internal\-\_\-adc\-\_\-dev\-\_\-magic}}}\label{group___p_i_o_s___a_d_c_gafcbb2d879978c3e1679c3ccabaff8c03}
+\begin{Desc}
+\item[\-Enumerator\-: ]\par
+\begin{description}
+\index{\-P\-I\-O\-S\-\_\-\-I\-N\-T\-E\-R\-N\-A\-L\-\_\-\-A\-D\-C\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C@{\-P\-I\-O\-S\-\_\-\-I\-N\-T\-E\-R\-N\-A\-L\-\_\-\-A\-D\-C\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}!\-A\-D\-C Functions@{\-A\-D\-C Functions}}\index{\-A\-D\-C Functions@{\-A\-D\-C Functions}!\-P\-I\-O\-S\-\_\-\-I\-N\-T\-E\-R\-N\-A\-L\-\_\-\-A\-D\-C\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C@{\-P\-I\-O\-S\-\_\-\-I\-N\-T\-E\-R\-N\-A\-L\-\_\-\-A\-D\-C\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}}\item[{\em 
+\hypertarget{group___p_i_o_s___a_d_c_ggafcbb2d879978c3e1679c3ccabaff8c03adc16fac7b3b7f2cbaf50a1224b2bbba2}{\-P\-I\-O\-S\-\_\-\-I\-N\-T\-E\-R\-N\-A\-L\-\_\-\-A\-D\-C\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}\label{group___p_i_o_s___a_d_c_ggafcbb2d879978c3e1679c3ccabaff8c03adc16fac7b3b7f2cbaf50a1224b2bbba2}
+}]\index{\-P\-I\-O\-S\-\_\-\-I\-N\-T\-E\-R\-N\-A\-L\-\_\-\-A\-D\-C\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C@{\-P\-I\-O\-S\-\_\-\-I\-N\-T\-E\-R\-N\-A\-L\-\_\-\-A\-D\-C\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}!\-A\-D\-C Functions@{\-A\-D\-C Functions}}\index{\-A\-D\-C Functions@{\-A\-D\-C Functions}!\-P\-I\-O\-S\-\_\-\-I\-N\-T\-E\-R\-N\-A\-L\-\_\-\-A\-D\-C\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C@{\-P\-I\-O\-S\-\_\-\-I\-N\-T\-E\-R\-N\-A\-L\-\_\-\-A\-D\-C\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}}\item[{\em 
+\hypertarget{group___p_i_o_s___a_d_c_ggafcbb2d879978c3e1679c3ccabaff8c03adc16fac7b3b7f2cbaf50a1224b2bbba2}{\-P\-I\-O\-S\-\_\-\-I\-N\-T\-E\-R\-N\-A\-L\-\_\-\-A\-D\-C\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}\label{group___p_i_o_s___a_d_c_ggafcbb2d879978c3e1679c3ccabaff8c03adc16fac7b3b7f2cbaf50a1224b2bbba2}
+}]\end{description}
+\end{Desc}
+
+
+
+\-Definition at line 67 of file pios\-\_\-internal\-\_\-adc.\-c.
+
+
+
+\subsection{\-Function \-Documentation}
+\hypertarget{group___p_i_o_s___a_d_c_ga7cf4581a50ff57300061ea450f87a007}{\index{\-A\-D\-C Functions@{\-A\-D\-C Functions}!accumulate@{accumulate}}
+\index{accumulate@{accumulate}!ADC Functions@{\-A\-D\-C Functions}}
+\subsubsection[{accumulate}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf accumulate} (
+\begin{DoxyParamCaption}
+\item[{uint16\-\_\-t $\ast$}]{buffer, }
+\item[{uint32\-\_\-t}]{count}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___a_d_c_ga7cf4581a50ff57300061ea450f87a007}
+
+
+accumulate the data for each of the channels. 
+
+
+
+\-Definition at line 382 of file pios\-\_\-internal\-\_\-adc.\-c.
+
+\hypertarget{group___p_i_o_s___a_d_c_ga3f5f671e8a6057b26861ce21789f3733}{\index{\-A\-D\-C Functions@{\-A\-D\-C Functions}!\-P\-I\-O\-S\-\_\-\-A\-D\-C\-\_\-\-Available@{\-P\-I\-O\-S\-\_\-\-A\-D\-C\-\_\-\-Available}}
+\index{\-P\-I\-O\-S\-\_\-\-A\-D\-C\-\_\-\-Available@{\-P\-I\-O\-S\-\_\-\-A\-D\-C\-\_\-\-Available}!ADC Functions@{\-A\-D\-C Functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-A\-D\-C\-\_\-\-Available}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-P\-I\-O\-S\-\_\-\-A\-D\-C\-\_\-\-Available} (
+\begin{DoxyParamCaption}
+\item[{uintptr\-\_\-t}]{adc\-\_\-id, }
+\item[{uint32\-\_\-t}]{device\-\_\-pin}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___a_d_c_ga3f5f671e8a6057b26861ce21789f3733}
+
+
+\-Checks if a given pin is available on the given device. 
+
+
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em adc\-\_\-id} & handle of the device to read \\
+\hline
+\mbox{\tt in}  & {\em device\-\_\-pin} & pin to check if available \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+true if available 
+\end{DoxyReturn}
+
+
+\-Definition at line 149 of file pios\-\_\-adc.\-c.
+
+\hypertarget{group___p_i_o_s___a_d_c_ga0edf09afa78da740bb49069ee8221b5c}{\index{\-A\-D\-C Functions@{\-A\-D\-C Functions}!\-P\-I\-O\-S\-\_\-\-A\-D\-C\-\_\-\-Config@{\-P\-I\-O\-S\-\_\-\-A\-D\-C\-\_\-\-Config}}
+\index{\-P\-I\-O\-S\-\_\-\-A\-D\-C\-\_\-\-Config@{\-P\-I\-O\-S\-\_\-\-A\-D\-C\-\_\-\-Config}!ADC Functions@{\-A\-D\-C Functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-A\-D\-C\-\_\-\-Config}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-P\-I\-O\-S\-\_\-\-A\-D\-C\-\_\-\-Config} (
+\begin{DoxyParamCaption}
+\item[{uint32\-\_\-t}]{oversampling}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___a_d_c_ga0edf09afa78da740bb49069ee8221b5c}
+
+
+\-Configure the \-A\-D\-C to run at a fixed oversampling. 
+
+
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em oversampling} & the amount of oversampling to run at \\
+\hline
+\end{DoxyParams}
+
+
+\-Definition at line 292 of file pios\-\_\-internal\-\_\-adc.\-c.
+
+\hypertarget{group___p_i_o_s___a_d_c_ga99e9080cf4eb3114f15ad00364a5b4d0}{\index{\-A\-D\-C Functions@{\-A\-D\-C Functions}!\-P\-I\-O\-S\-\_\-\-A\-D\-C\-\_\-\-Device\-Pin\-Get@{\-P\-I\-O\-S\-\_\-\-A\-D\-C\-\_\-\-Device\-Pin\-Get}}
+\index{\-P\-I\-O\-S\-\_\-\-A\-D\-C\-\_\-\-Device\-Pin\-Get@{\-P\-I\-O\-S\-\_\-\-A\-D\-C\-\_\-\-Device\-Pin\-Get}!ADC Functions@{\-A\-D\-C Functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-A\-D\-C\-\_\-\-Device\-Pin\-Get}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-P\-I\-O\-S\-\_\-\-A\-D\-C\-\_\-\-Device\-Pin\-Get} (
+\begin{DoxyParamCaption}
+\item[{uintptr\-\_\-t}]{adc\-\_\-id, }
+\item[{uint32\-\_\-t}]{device\-\_\-pin}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___a_d_c_ga99e9080cf4eb3114f15ad00364a5b4d0}
+
+
+\-Gets the \-A\-D\-C value of the given pin of the device. 
+
+
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em adc\-\_\-id} & pointer to the device to read from \\
+\hline
+\mbox{\tt in}  & {\em device\-\_\-pin} & pin from device to be read \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+the value of the pin or -\/1 if error 
+\end{DoxyReturn}
+
+
+\-Definition at line 130 of file pios\-\_\-adc.\-c.
+
+\hypertarget{group___p_i_o_s___a_d_c_ga3684039dd2c7b58018d93552371651d3}{\index{\-A\-D\-C Functions@{\-A\-D\-C Functions}!\-P\-I\-O\-S\-\_\-\-A\-D\-C\-\_\-\-Get\-Buffer@{\-P\-I\-O\-S\-\_\-\-A\-D\-C\-\_\-\-Get\-Buffer}}
+\index{\-P\-I\-O\-S\-\_\-\-A\-D\-C\-\_\-\-Get\-Buffer@{\-P\-I\-O\-S\-\_\-\-A\-D\-C\-\_\-\-Get\-Buffer}!ADC Functions@{\-A\-D\-C Functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-A\-D\-C\-\_\-\-Get\-Buffer}]{\setlength{\rightskip}{0pt plus 5cm}float$\ast$ {\bf \-P\-I\-O\-S\-\_\-\-A\-D\-C\-\_\-\-Get\-Buffer} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___a_d_c_ga3684039dd2c7b58018d93552371651d3}
+
+
+\-Return the address of the downsampled data buffer. 
+
+\begin{DoxyNote}{\-Note}
+\-Not currently supported. 
+\end{DoxyNote}
+
+
+\-Definition at line 343 of file pios\-\_\-internal\-\_\-adc.\-c.
+
+\hypertarget{group___p_i_o_s___a_d_c_ga84f004e1278a4e7ae3539bc0ea138477}{\index{\-A\-D\-C Functions@{\-A\-D\-C Functions}!\-P\-I\-O\-S\-\_\-\-A\-D\-C\-\_\-\-Get\-Channel@{\-P\-I\-O\-S\-\_\-\-A\-D\-C\-\_\-\-Get\-Channel}}
+\index{\-P\-I\-O\-S\-\_\-\-A\-D\-C\-\_\-\-Get\-Channel@{\-P\-I\-O\-S\-\_\-\-A\-D\-C\-\_\-\-Get\-Channel}!ADC Functions@{\-A\-D\-C Functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-A\-D\-C\-\_\-\-Get\-Channel}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-P\-I\-O\-S\-\_\-\-A\-D\-C\-\_\-\-Get\-Channel} (
+\begin{DoxyParamCaption}
+\item[{uint32\-\_\-t}]{channel}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___a_d_c_ga84f004e1278a4e7ae3539bc0ea138477}
+
+
+\-Reads from an \-A\-D\-C channel this is an abstraction of the lower devices channels are sequentially added from the lower devices available pins \-Warning this function is not as efficient as directly getting the device channel in the order of initialization. 
+
+
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em channel} & channel to read from \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+value of the channel or -\/1 if error 
+\end{DoxyReturn}
+
+
+\-Definition at line 188 of file pios\-\_\-adc.\-c.
+
+\hypertarget{group___p_i_o_s___a_d_c_gaa343a6f620ddd80259e92ff0595cf977}{\index{\-A\-D\-C Functions@{\-A\-D\-C Functions}!\-P\-I\-O\-S\-\_\-\-A\-D\-C\-\_\-\-Get\-Over\-Sampling@{\-P\-I\-O\-S\-\_\-\-A\-D\-C\-\_\-\-Get\-Over\-Sampling}}
+\index{\-P\-I\-O\-S\-\_\-\-A\-D\-C\-\_\-\-Get\-Over\-Sampling@{\-P\-I\-O\-S\-\_\-\-A\-D\-C\-\_\-\-Get\-Over\-Sampling}!ADC Functions@{\-A\-D\-C Functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-A\-D\-C\-\_\-\-Get\-Over\-Sampling}]{\setlength{\rightskip}{0pt plus 5cm}uint8\-\_\-t {\bf \-P\-I\-O\-S\-\_\-\-A\-D\-C\-\_\-\-Get\-Over\-Sampling} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___a_d_c_gaa343a6f620ddd80259e92ff0595cf977}
+
+
+\-Return the amount of over sampling. 
+
+\begin{DoxyNote}{\-Note}
+\-Not currently supported (always returns 1) 
+\end{DoxyNote}
+
+
+\-Definition at line 361 of file pios\-\_\-internal\-\_\-adc.\-c.
+
+\hypertarget{group___p_i_o_s___a_d_c_gaa72293956e8aaea48593f2d80ae9d9d2}{\index{\-A\-D\-C Functions@{\-A\-D\-C Functions}!\-P\-I\-O\-S\-\_\-\-A\-D\-C\-\_\-\-Get\-Raw\-Buffer@{\-P\-I\-O\-S\-\_\-\-A\-D\-C\-\_\-\-Get\-Raw\-Buffer}}
+\index{\-P\-I\-O\-S\-\_\-\-A\-D\-C\-\_\-\-Get\-Raw\-Buffer@{\-P\-I\-O\-S\-\_\-\-A\-D\-C\-\_\-\-Get\-Raw\-Buffer}!ADC Functions@{\-A\-D\-C Functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-A\-D\-C\-\_\-\-Get\-Raw\-Buffer}]{\setlength{\rightskip}{0pt plus 5cm}int16\-\_\-t$\ast$ {\bf \-P\-I\-O\-S\-\_\-\-A\-D\-C\-\_\-\-Get\-Raw\-Buffer} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___a_d_c_gaa72293956e8aaea48593f2d80ae9d9d2}
+
+
+\-Return the address of the raw data data buffer. 
+
+\begin{DoxyNote}{\-Note}
+\-Not currently supported. 
+\end{DoxyNote}
+
+
+\-Definition at line 352 of file pios\-\_\-internal\-\_\-adc.\-c.
+
+\hypertarget{group___p_i_o_s___a_d_c_gae120a825a76a2207d0e90abd773f32fc}{\index{\-A\-D\-C Functions@{\-A\-D\-C Functions}!\-P\-I\-O\-S\-\_\-\-A\-D\-C\-\_\-\-Init@{\-P\-I\-O\-S\-\_\-\-A\-D\-C\-\_\-\-Init}}
+\index{\-P\-I\-O\-S\-\_\-\-A\-D\-C\-\_\-\-Init@{\-P\-I\-O\-S\-\_\-\-A\-D\-C\-\_\-\-Init}!ADC Functions@{\-A\-D\-C Functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-A\-D\-C\-\_\-\-Init}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-P\-I\-O\-S\-\_\-\-A\-D\-C\-\_\-\-Init} (
+\begin{DoxyParamCaption}
+\item[{uintptr\-\_\-t $\ast$}]{adc\-\_\-id, }
+\item[{const struct {\bf pios\-\_\-adc\-\_\-driver} $\ast$}]{driver, }
+\item[{uint32\-\_\-t}]{lower\-\_\-id}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___a_d_c_gae120a825a76a2207d0e90abd773f32fc}
+
+
+\-Initializes an \-A\-D\-C device. 
+
+
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt out}  & {\em adc\-\_\-id} & handle to the device \\
+\hline
+\mbox{\tt in}  & {\em driver} & drive to use with the device \\
+\hline
+\mbox{\tt in}  & {\em lower\-\_\-id} & handle to the lower level device \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+$<$ 0 if deviced initialization failed 
+\end{DoxyReturn}
+
+
+\-Definition at line 103 of file pios\-\_\-adc.\-c.
+
+\hypertarget{group___p_i_o_s___a_d_c_gaba0959952db7ff67364a28ea801c41ec}{\index{\-A\-D\-C Functions@{\-A\-D\-C Functions}!\-P\-I\-O\-S\-\_\-\-A\-D\-C\-\_\-\-Set\-Callback@{\-P\-I\-O\-S\-\_\-\-A\-D\-C\-\_\-\-Set\-Callback}}
+\index{\-P\-I\-O\-S\-\_\-\-A\-D\-C\-\_\-\-Set\-Callback@{\-P\-I\-O\-S\-\_\-\-A\-D\-C\-\_\-\-Set\-Callback}!ADC Functions@{\-A\-D\-C Functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-A\-D\-C\-\_\-\-Set\-Callback}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-P\-I\-O\-S\-\_\-\-A\-D\-C\-\_\-\-Set\-Callback} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-A\-D\-C\-Callback}}]{new\-\_\-function}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___a_d_c_gaba0959952db7ff67364a28ea801c41ec}
+
+
+\-Set a callback function that is executed whenever the \-A\-D\-C double buffer swaps. 
+
+\begin{DoxyNote}{\-Note}
+\-Not currently supported. 
+\end{DoxyNote}
+
+
+\-Definition at line 334 of file pios\-\_\-internal\-\_\-adc.\-c.
+
+\hypertarget{group___p_i_o_s___a_d_c_gab2bb95efd8a061a377ae0d8cd60ca1ed}{\index{\-A\-D\-C Functions@{\-A\-D\-C Functions}!\-P\-I\-O\-S\-\_\-\-A\-D\-C\-\_\-\-Set\-F\-I\-R\-Coefficients@{\-P\-I\-O\-S\-\_\-\-A\-D\-C\-\_\-\-Set\-F\-I\-R\-Coefficients}}
+\index{\-P\-I\-O\-S\-\_\-\-A\-D\-C\-\_\-\-Set\-F\-I\-R\-Coefficients@{\-P\-I\-O\-S\-\_\-\-A\-D\-C\-\_\-\-Set\-F\-I\-R\-Coefficients}!ADC Functions@{\-A\-D\-C Functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-A\-D\-C\-\_\-\-Set\-F\-I\-R\-Coefficients}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-P\-I\-O\-S\-\_\-\-A\-D\-C\-\_\-\-Set\-F\-I\-R\-Coefficients} (
+\begin{DoxyParamCaption}
+\item[{float $\ast$}]{new\-\_\-filter}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___a_d_c_gab2bb95efd8a061a377ae0d8cd60ca1ed}
+
+
+\-Set the fir coefficients. \-Takes as many samples as the current filter order plus one (normalization) 
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em new\-\_\-filter} & \-Array of adc\-\_\-oversampling floats plus one for the filter coefficients \\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{\-Note}
+\-Not currently supported. 
+\end{DoxyNote}
+
+
+\-Definition at line 374 of file pios\-\_\-internal\-\_\-adc.\-c.
+
+\hypertarget{group___p_i_o_s___a_d_c_ga0081adb4449c45987f2245cb3455b3e9}{\index{\-A\-D\-C Functions@{\-A\-D\-C Functions}!\-P\-I\-O\-S\-\_\-\-A\-D\-C\-\_\-\-Set\-Queue@{\-P\-I\-O\-S\-\_\-\-A\-D\-C\-\_\-\-Set\-Queue}}
+\index{\-P\-I\-O\-S\-\_\-\-A\-D\-C\-\_\-\-Set\-Queue@{\-P\-I\-O\-S\-\_\-\-A\-D\-C\-\_\-\-Set\-Queue}!ADC Functions@{\-A\-D\-C Functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-A\-D\-C\-\_\-\-Set\-Queue}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-P\-I\-O\-S\-\_\-\-A\-D\-C\-\_\-\-Set\-Queue} (
+\begin{DoxyParamCaption}
+\item[{uintptr\-\_\-t}]{adc\-\_\-id, }
+\item[{x\-Queue\-Handle}]{data\-\_\-queue}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___a_d_c_ga0081adb4449c45987f2245cb3455b3e9}
+
+
+\-Set the queue to write to. 
+
+
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em adc\-\_\-id} & handle to the device \\
+\hline
+\mbox{\tt in}  & {\em data\-\_\-queue} & handle to the queue to be used \\
+\hline
+\end{DoxyParams}
+
+
+\-Definition at line 167 of file pios\-\_\-adc.\-c.
+
+\hypertarget{group___p_i_o_s___a_d_c_ga90fc0a6fd10259ceca76e89e41ab744a}{\index{\-A\-D\-C Functions@{\-A\-D\-C Functions}!\-P\-I\-O\-S\-\_\-\-I\-N\-T\-E\-R\-N\-A\-L\-\_\-\-A\-D\-C\-\_\-\-D\-M\-A\-\_\-\-Handler@{\-P\-I\-O\-S\-\_\-\-I\-N\-T\-E\-R\-N\-A\-L\-\_\-\-A\-D\-C\-\_\-\-D\-M\-A\-\_\-\-Handler}}
+\index{\-P\-I\-O\-S\-\_\-\-I\-N\-T\-E\-R\-N\-A\-L\-\_\-\-A\-D\-C\-\_\-\-D\-M\-A\-\_\-\-Handler@{\-P\-I\-O\-S\-\_\-\-I\-N\-T\-E\-R\-N\-A\-L\-\_\-\-A\-D\-C\-\_\-\-D\-M\-A\-\_\-\-Handler}!ADC Functions@{\-A\-D\-C Functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-I\-N\-T\-E\-R\-N\-A\-L\-\_\-\-A\-D\-C\-\_\-\-D\-M\-A\-\_\-\-Handler}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-P\-I\-O\-S\-\_\-\-I\-N\-T\-E\-R\-N\-A\-L\-\_\-\-A\-D\-C\-\_\-\-D\-M\-A\-\_\-\-Handler} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___a_d_c_ga90fc0a6fd10259ceca76e89e41ab744a}
+
+
+\-Interrupt on buffer flip. 
+
+\-The hardware is done with the 'other' buffer, so we can pass it to the accumulator. 
+
+\-Definition at line 426 of file pios\-\_\-internal\-\_\-adc.\-c.
+
+\hypertarget{group___p_i_o_s___a_d_c_ga24dec792533e0f27e35c3ea6d1bbd9e1}{\index{\-A\-D\-C Functions@{\-A\-D\-C Functions}!\-P\-I\-O\-S\-\_\-\-I\-N\-T\-E\-R\-N\-A\-L\-\_\-\-A\-D\-C\-\_\-\-Init@{\-P\-I\-O\-S\-\_\-\-I\-N\-T\-E\-R\-N\-A\-L\-\_\-\-A\-D\-C\-\_\-\-Init}}
+\index{\-P\-I\-O\-S\-\_\-\-I\-N\-T\-E\-R\-N\-A\-L\-\_\-\-A\-D\-C\-\_\-\-Init@{\-P\-I\-O\-S\-\_\-\-I\-N\-T\-E\-R\-N\-A\-L\-\_\-\-A\-D\-C\-\_\-\-Init}!ADC Functions@{\-A\-D\-C Functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-I\-N\-T\-E\-R\-N\-A\-L\-\_\-\-A\-D\-C\-\_\-\-Init}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-P\-I\-O\-S\-\_\-\-I\-N\-T\-E\-R\-N\-A\-L\-\_\-\-A\-D\-C\-\_\-\-Init} (
+\begin{DoxyParamCaption}
+\item[{uint32\-\_\-t $\ast$}]{internal\-\_\-adc\-\_\-id, }
+\item[{const struct {\bf pios\-\_\-internal\-\_\-adc\-\_\-cfg} $\ast$}]{cfg}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___a_d_c_ga24dec792533e0f27e35c3ea6d1bbd9e1}
+
+
+\-Init the \-A\-D\-C. 
+
+
+
+\subsection{\-Variable \-Documentation}
+\hypertarget{group___p_i_o_s___a_d_c_ga5250ef3bb34ef47503a057a9b95c494a}{\index{\-A\-D\-C Functions@{\-A\-D\-C Functions}!driver\-\_\-instances@{driver\-\_\-instances}}
+\index{driver\-\_\-instances@{driver\-\_\-instances}!ADC Functions@{\-A\-D\-C Functions}}
+\subsubsection[{driver\-\_\-instances}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf pios\-\_\-internal\-\_\-adc\-\_\-dev}$\ast$ {\bf driver\-\_\-instances}\mbox{[}\-P\-I\-O\-S\-\_\-\-I\-N\-T\-E\-R\-N\-A\-L\-\_\-\-A\-D\-C\-\_\-\-M\-A\-X\-\_\-\-I\-N\-S\-T\-A\-N\-C\-E\-S\mbox{]}}}\label{group___p_i_o_s___a_d_c_ga5250ef3bb34ef47503a057a9b95c494a}
+
+
+\-Definition at line 76 of file pios\-\_\-internal\-\_\-adc.\-c.
+
+\hypertarget{group___p_i_o_s___a_d_c_gab32db3584e1b8779726fcabc7aa2dc9a}{\index{\-A\-D\-C Functions@{\-A\-D\-C Functions}!pios\-\_\-adc\-\_\-dev@{pios\-\_\-adc\-\_\-dev}}
+\index{pios\-\_\-adc\-\_\-dev@{pios\-\_\-adc\-\_\-dev}!ADC Functions@{\-A\-D\-C Functions}}
+\subsubsection[{pios\-\_\-adc\-\_\-dev}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf pios\-\_\-adc\-\_\-dev}$\ast$ {\bf pios\-\_\-adc\-\_\-dev}}}\label{group___p_i_o_s___a_d_c_gab32db3584e1b8779726fcabc7aa2dc9a}
+
+
+\-Definition at line 45 of file pios\-\_\-adc.\-c.
+
+\hypertarget{group___p_i_o_s___a_d_c_gaa1decc30319efc11cab3d3e9ba32ff8e}{\index{\-A\-D\-C Functions@{\-A\-D\-C Functions}!pios\-\_\-internal\-\_\-adc\-\_\-driver@{pios\-\_\-internal\-\_\-adc\-\_\-driver}}
+\index{pios\-\_\-internal\-\_\-adc\-\_\-driver@{pios\-\_\-internal\-\_\-adc\-\_\-driver}!ADC Functions@{\-A\-D\-C Functions}}
+\subsubsection[{pios\-\_\-internal\-\_\-adc\-\_\-driver}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf pios\-\_\-adc\-\_\-driver} {\bf pios\-\_\-internal\-\_\-adc\-\_\-driver}}}\label{group___p_i_o_s___a_d_c_gaa1decc30319efc11cab3d3e9ba32ff8e}
+{\bfseries \-Initial value\-:}
+\begin{DoxyCode}
+ {
+                .available      = PIOS_INTERNAL_ADC_Available,
+                .get_pin        = PIOS_INTERNAL_ADC_PinGet,
+                .set_queue      = NULL,
+                .number_of_channels = NULL,
+}
+\end{DoxyCode}
+
+
+\-Definition at line 54 of file pios\-\_\-internal\-\_\-adc.\-c.
+
+\hypertarget{group___p_i_o_s___a_d_c_gaa1decc30319efc11cab3d3e9ba32ff8e}{\index{\-A\-D\-C Functions@{\-A\-D\-C Functions}!pios\-\_\-internal\-\_\-adc\-\_\-driver@{pios\-\_\-internal\-\_\-adc\-\_\-driver}}
+\index{pios\-\_\-internal\-\_\-adc\-\_\-driver@{pios\-\_\-internal\-\_\-adc\-\_\-driver}!ADC Functions@{\-A\-D\-C Functions}}
+\subsubsection[{pios\-\_\-internal\-\_\-adc\-\_\-driver}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf pios\-\_\-adc\-\_\-driver} {\bf pios\-\_\-internal\-\_\-adc\-\_\-driver}}}\label{group___p_i_o_s___a_d_c_gaa1decc30319efc11cab3d3e9ba32ff8e}
+{\bfseries \-Initial value\-:}
+\begin{DoxyCode}
+ {
+                .available      = PIOS_INTERNAL_ADC_Available,
+                .get_pin        = PIOS_INTERNAL_ADC_PinGet,
+                .set_queue      = NULL,
+                .number_of_channels = PIOS_INTERNAL_ADC_Number_of_Channels,
+}
+\end{DoxyCode}
+
+
+\-Definition at line 103 of file pios\-\_\-internal\-\_\-adc.\-c.
+

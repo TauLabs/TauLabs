@@ -1,0 +1,111 @@
+\hypertarget{group___sensors}{\section{\-Sensor acquisition module}
+\label{group___sensors}\index{\-Sensor acquisition module@{\-Sensor acquisition module}}
+}
+\subsection*{\-Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{group___sensors_gaa4a9d2444da0ad9373dc8d8fc3d851c8}{mag\-\_\-calibration\-\_\-algo} \{ \hyperlink{group___sensors_ggaa4a9d2444da0ad9373dc8d8fc3d851c8acb8ba365d61808f93588f4f6ab773121}{\-M\-A\-G\-\_\-\-C\-A\-L\-I\-B\-R\-A\-T\-I\-O\-N\-\_\-\-P\-R\-E\-L\-E\-M\-A\-R\-I}, 
+\hyperlink{group___sensors_ggaa4a9d2444da0ad9373dc8d8fc3d851c8a566b052171d9d352158b7d7652b4280a}{\-M\-A\-G\-\_\-\-C\-A\-L\-I\-B\-R\-A\-T\-I\-O\-N\-\_\-\-N\-O\-R\-M\-A\-L\-I\-Z\-E\-\_\-\-L\-E\-N\-G\-T\-H}
+ \}
+\item 
+enum \hyperlink{group___sensors_ga6423b17c1c5cfe30ec2b9cabedc03f70}{sensor\-\_\-sim\-\_\-type} \{ \*
+\hyperlink{group___sensors_gga6423b17c1c5cfe30ec2b9cabedc03f70a83972670b57415508523b5641bb46116}{\-C\-O\-N\-S\-T\-A\-N\-T}, 
+\hyperlink{group___sensors_gga6423b17c1c5cfe30ec2b9cabedc03f70a7960fc19ecff58403fe8ce9aff5254a8}{\-M\-O\-D\-E\-L\-\_\-\-A\-G\-N\-O\-S\-T\-I\-C}, 
+\hyperlink{group___sensors_gga6423b17c1c5cfe30ec2b9cabedc03f70af0e5a574aa71ec14e1b4d7288086995c}{\-M\-O\-D\-E\-L\-\_\-\-Q\-U\-A\-D\-C\-O\-P\-T\-E\-R}, 
+\hyperlink{group___sensors_gga6423b17c1c5cfe30ec2b9cabedc03f70a760a21ed021ec46ff7bbff4846bc7064}{\-M\-O\-D\-E\-L\-\_\-\-A\-I\-R\-P\-L\-A\-N\-E}, 
+\*
+\hyperlink{group___sensors_gga6423b17c1c5cfe30ec2b9cabedc03f70ab7b5347f7118bc133ff0b6dddd3b0cf4}{\-M\-O\-D\-E\-L\-\_\-\-C\-A\-R}
+ \}
+\end{DoxyCompactItemize}
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___sensors_gad752fb91759736ace8a33f3994a6ddbc}{\-M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L} (\-Sensors\-Initialize, \-Sensors\-Start)
+\end{DoxyCompactItemize}
+\subsection*{\-Variables}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{group___sensors_ga6423b17c1c5cfe30ec2b9cabedc03f70}{sensor\-\_\-sim\-\_\-type} \hyperlink{group___sensors_gaa5e76bc9bc1cc20d2b183069aea687b4}{sensor\-\_\-sim\-\_\-type}
+\item 
+float \hyperlink{group___sensors_ga0bfc1acfbf1c0b59ebaeba678cb8c811}{thrust\-To\-Degs} = 50
+\item 
+bool \hyperlink{group___sensors_ga4003f7985e24e407bbc2f44b2d289c29}{overide\-Attitude} = false
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Enumeration \-Type \-Documentation}
+\hypertarget{group___sensors_gaa4a9d2444da0ad9373dc8d8fc3d851c8}{\index{\-Sensor acquisition module@{\-Sensor acquisition module}!mag\-\_\-calibration\-\_\-algo@{mag\-\_\-calibration\-\_\-algo}}
+\index{mag\-\_\-calibration\-\_\-algo@{mag\-\_\-calibration\-\_\-algo}!Sensor acquisition module@{\-Sensor acquisition module}}
+\subsubsection[{mag\-\_\-calibration\-\_\-algo}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf mag\-\_\-calibration\-\_\-algo}}}\label{group___sensors_gaa4a9d2444da0ad9373dc8d8fc3d851c8}
+\begin{Desc}
+\item[\-Enumerator\-: ]\par
+\begin{description}
+\index{\-M\-A\-G\-\_\-\-C\-A\-L\-I\-B\-R\-A\-T\-I\-O\-N\-\_\-\-P\-R\-E\-L\-E\-M\-A\-R\-I@{\-M\-A\-G\-\_\-\-C\-A\-L\-I\-B\-R\-A\-T\-I\-O\-N\-\_\-\-P\-R\-E\-L\-E\-M\-A\-R\-I}!\-Sensor acquisition module@{\-Sensor acquisition module}}\index{\-Sensor acquisition module@{\-Sensor acquisition module}!\-M\-A\-G\-\_\-\-C\-A\-L\-I\-B\-R\-A\-T\-I\-O\-N\-\_\-\-P\-R\-E\-L\-E\-M\-A\-R\-I@{\-M\-A\-G\-\_\-\-C\-A\-L\-I\-B\-R\-A\-T\-I\-O\-N\-\_\-\-P\-R\-E\-L\-E\-M\-A\-R\-I}}\item[{\em 
+\hypertarget{group___sensors_ggaa4a9d2444da0ad9373dc8d8fc3d851c8acb8ba365d61808f93588f4f6ab773121}{\-M\-A\-G\-\_\-\-C\-A\-L\-I\-B\-R\-A\-T\-I\-O\-N\-\_\-\-P\-R\-E\-L\-E\-M\-A\-R\-I}\label{group___sensors_ggaa4a9d2444da0ad9373dc8d8fc3d851c8acb8ba365d61808f93588f4f6ab773121}
+}]\index{\-M\-A\-G\-\_\-\-C\-A\-L\-I\-B\-R\-A\-T\-I\-O\-N\-\_\-\-N\-O\-R\-M\-A\-L\-I\-Z\-E\-\_\-\-L\-E\-N\-G\-T\-H@{\-M\-A\-G\-\_\-\-C\-A\-L\-I\-B\-R\-A\-T\-I\-O\-N\-\_\-\-N\-O\-R\-M\-A\-L\-I\-Z\-E\-\_\-\-L\-E\-N\-G\-T\-H}!\-Sensor acquisition module@{\-Sensor acquisition module}}\index{\-Sensor acquisition module@{\-Sensor acquisition module}!\-M\-A\-G\-\_\-\-C\-A\-L\-I\-B\-R\-A\-T\-I\-O\-N\-\_\-\-N\-O\-R\-M\-A\-L\-I\-Z\-E\-\_\-\-L\-E\-N\-G\-T\-H@{\-M\-A\-G\-\_\-\-C\-A\-L\-I\-B\-R\-A\-T\-I\-O\-N\-\_\-\-N\-O\-R\-M\-A\-L\-I\-Z\-E\-\_\-\-L\-E\-N\-G\-T\-H}}\item[{\em 
+\hypertarget{group___sensors_ggaa4a9d2444da0ad9373dc8d8fc3d851c8a566b052171d9d352158b7d7652b4280a}{\-M\-A\-G\-\_\-\-C\-A\-L\-I\-B\-R\-A\-T\-I\-O\-N\-\_\-\-N\-O\-R\-M\-A\-L\-I\-Z\-E\-\_\-\-L\-E\-N\-G\-T\-H}\label{group___sensors_ggaa4a9d2444da0ad9373dc8d8fc3d851c8a566b052171d9d352158b7d7652b4280a}
+}]\end{description}
+\end{Desc}
+
+
+
+\-Definition at line 57 of file sensors.\-c.
+
+\hypertarget{group___sensors_ga6423b17c1c5cfe30ec2b9cabedc03f70}{\index{\-Sensor acquisition module@{\-Sensor acquisition module}!sensor\-\_\-sim\-\_\-type@{sensor\-\_\-sim\-\_\-type}}
+\index{sensor\-\_\-sim\-\_\-type@{sensor\-\_\-sim\-\_\-type}!Sensor acquisition module@{\-Sensor acquisition module}}
+\subsubsection[{sensor\-\_\-sim\-\_\-type}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf sensor\-\_\-sim\-\_\-type}}}\label{group___sensors_ga6423b17c1c5cfe30ec2b9cabedc03f70}
+\begin{Desc}
+\item[\-Enumerator\-: ]\par
+\begin{description}
+\index{\-C\-O\-N\-S\-T\-A\-N\-T@{\-C\-O\-N\-S\-T\-A\-N\-T}!\-Sensor acquisition module@{\-Sensor acquisition module}}\index{\-Sensor acquisition module@{\-Sensor acquisition module}!\-C\-O\-N\-S\-T\-A\-N\-T@{\-C\-O\-N\-S\-T\-A\-N\-T}}\item[{\em 
+\hypertarget{group___sensors_gga6423b17c1c5cfe30ec2b9cabedc03f70a83972670b57415508523b5641bb46116}{\-C\-O\-N\-S\-T\-A\-N\-T}\label{group___sensors_gga6423b17c1c5cfe30ec2b9cabedc03f70a83972670b57415508523b5641bb46116}
+}]\index{\-M\-O\-D\-E\-L\-\_\-\-A\-G\-N\-O\-S\-T\-I\-C@{\-M\-O\-D\-E\-L\-\_\-\-A\-G\-N\-O\-S\-T\-I\-C}!\-Sensor acquisition module@{\-Sensor acquisition module}}\index{\-Sensor acquisition module@{\-Sensor acquisition module}!\-M\-O\-D\-E\-L\-\_\-\-A\-G\-N\-O\-S\-T\-I\-C@{\-M\-O\-D\-E\-L\-\_\-\-A\-G\-N\-O\-S\-T\-I\-C}}\item[{\em 
+\hypertarget{group___sensors_gga6423b17c1c5cfe30ec2b9cabedc03f70a7960fc19ecff58403fe8ce9aff5254a8}{\-M\-O\-D\-E\-L\-\_\-\-A\-G\-N\-O\-S\-T\-I\-C}\label{group___sensors_gga6423b17c1c5cfe30ec2b9cabedc03f70a7960fc19ecff58403fe8ce9aff5254a8}
+}]\index{\-M\-O\-D\-E\-L\-\_\-\-Q\-U\-A\-D\-C\-O\-P\-T\-E\-R@{\-M\-O\-D\-E\-L\-\_\-\-Q\-U\-A\-D\-C\-O\-P\-T\-E\-R}!\-Sensor acquisition module@{\-Sensor acquisition module}}\index{\-Sensor acquisition module@{\-Sensor acquisition module}!\-M\-O\-D\-E\-L\-\_\-\-Q\-U\-A\-D\-C\-O\-P\-T\-E\-R@{\-M\-O\-D\-E\-L\-\_\-\-Q\-U\-A\-D\-C\-O\-P\-T\-E\-R}}\item[{\em 
+\hypertarget{group___sensors_gga6423b17c1c5cfe30ec2b9cabedc03f70af0e5a574aa71ec14e1b4d7288086995c}{\-M\-O\-D\-E\-L\-\_\-\-Q\-U\-A\-D\-C\-O\-P\-T\-E\-R}\label{group___sensors_gga6423b17c1c5cfe30ec2b9cabedc03f70af0e5a574aa71ec14e1b4d7288086995c}
+}]\index{\-M\-O\-D\-E\-L\-\_\-\-A\-I\-R\-P\-L\-A\-N\-E@{\-M\-O\-D\-E\-L\-\_\-\-A\-I\-R\-P\-L\-A\-N\-E}!\-Sensor acquisition module@{\-Sensor acquisition module}}\index{\-Sensor acquisition module@{\-Sensor acquisition module}!\-M\-O\-D\-E\-L\-\_\-\-A\-I\-R\-P\-L\-A\-N\-E@{\-M\-O\-D\-E\-L\-\_\-\-A\-I\-R\-P\-L\-A\-N\-E}}\item[{\em 
+\hypertarget{group___sensors_gga6423b17c1c5cfe30ec2b9cabedc03f70a760a21ed021ec46ff7bbff4846bc7064}{\-M\-O\-D\-E\-L\-\_\-\-A\-I\-R\-P\-L\-A\-N\-E}\label{group___sensors_gga6423b17c1c5cfe30ec2b9cabedc03f70a760a21ed021ec46ff7bbff4846bc7064}
+}]\index{\-M\-O\-D\-E\-L\-\_\-\-C\-A\-R@{\-M\-O\-D\-E\-L\-\_\-\-C\-A\-R}!\-Sensor acquisition module@{\-Sensor acquisition module}}\index{\-Sensor acquisition module@{\-Sensor acquisition module}!\-M\-O\-D\-E\-L\-\_\-\-C\-A\-R@{\-M\-O\-D\-E\-L\-\_\-\-C\-A\-R}}\item[{\em 
+\hypertarget{group___sensors_gga6423b17c1c5cfe30ec2b9cabedc03f70ab7b5347f7118bc133ff0b6dddd3b0cf4}{\-M\-O\-D\-E\-L\-\_\-\-C\-A\-R}\label{group___sensors_gga6423b17c1c5cfe30ec2b9cabedc03f70ab7b5347f7118bc133ff0b6dddd3b0cf4}
+}]\end{description}
+\end{Desc}
+
+
+
+\-Definition at line 81 of file sensors.\-c.
+
+
+
+\subsection{\-Function \-Documentation}
+\hypertarget{group___sensors_gad752fb91759736ace8a33f3994a6ddbc}{\index{\-Sensor acquisition module@{\-Sensor acquisition module}!\-M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L@{\-M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L}}
+\index{\-M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L@{\-M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L}!Sensor acquisition module@{\-Sensor acquisition module}}
+\subsubsection[{\-M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L} (
+\begin{DoxyParamCaption}
+\item[{\-Sensors\-Initialize}]{, }
+\item[{\-Sensors\-Start}]{}
+\end{DoxyParamCaption}
+)}}\label{group___sensors_gad752fb91759736ace8a33f3994a6ddbc}
+\-The sensor task. \-This polls the gyros at 500 \-Hz and pumps that data to stabilization and to the attitude loop 
+
+\-Definition at line 147 of file sensors.\-c.
+
+
+
+\subsection{\-Variable \-Documentation}
+\hypertarget{group___sensors_ga4003f7985e24e407bbc2f44b2d289c29}{\index{\-Sensor acquisition module@{\-Sensor acquisition module}!overide\-Attitude@{overide\-Attitude}}
+\index{overide\-Attitude@{overide\-Attitude}!Sensor acquisition module@{\-Sensor acquisition module}}
+\subsubsection[{overide\-Attitude}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf overide\-Attitude} = false}}\label{group___sensors_ga4003f7985e24e407bbc2f44b2d289c29}
+
+
+\-Definition at line 306 of file sensors.\-c.
+
+\hypertarget{group___sensors_gaa5e76bc9bc1cc20d2b183069aea687b4}{\index{\-Sensor acquisition module@{\-Sensor acquisition module}!sensor\-\_\-sim\-\_\-type@{sensor\-\_\-sim\-\_\-type}}
+\index{sensor\-\_\-sim\-\_\-type@{sensor\-\_\-sim\-\_\-type}!Sensor acquisition module@{\-Sensor acquisition module}}
+\subsubsection[{sensor\-\_\-sim\-\_\-type}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf sensor\-\_\-sim\-\_\-type}  {\bf sensor\-\_\-sim\-\_\-type}}}\label{group___sensors_gaa5e76bc9bc1cc20d2b183069aea687b4}
+\hypertarget{group___sensors_ga0bfc1acfbf1c0b59ebaeba678cb8c811}{\index{\-Sensor acquisition module@{\-Sensor acquisition module}!thrust\-To\-Degs@{thrust\-To\-Degs}}
+\index{thrust\-To\-Degs@{thrust\-To\-Degs}!Sensor acquisition module@{\-Sensor acquisition module}}
+\subsubsection[{thrust\-To\-Degs}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf thrust\-To\-Degs} = 50}}\label{group___sensors_ga0bfc1acfbf1c0b59ebaeba678cb8c811}
+
+
+\-Definition at line 305 of file sensors.\-c.
+

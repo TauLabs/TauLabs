@@ -1,0 +1,58 @@
+\hypertarget{_s_t_m32_f4xx_2pios__tim_8c}{\section{/home/jb/code/\-Tau\-Labs/flight/\-Pi\-O\-S/\-S\-T\-M32\-F4xx/pios\-\_\-tim.c \-File \-Reference}
+\label{_s_t_m32_f4xx_2pios__tim_8c}\index{/home/jb/code/\-Tau\-Labs/flight/\-Pi\-O\-S/\-S\-T\-M32\-F4xx/pios\-\_\-tim.\-c@{/home/jb/code/\-Tau\-Labs/flight/\-Pi\-O\-S/\-S\-T\-M32\-F4xx/pios\-\_\-tim.\-c}}
+}
+\subsection*{\-Data \-Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structpios__tim__dev}{pios\-\_\-tim\-\_\-dev}
+\end{DoxyCompactItemize}
+\subsection*{\-Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{group___p_i_o_s___t_i_m_ga7d425167804fd43bc76fe29c11386a6c}{pios\-\_\-tim\-\_\-dev\-\_\-magic} \{ \hyperlink{group___p_i_o_s___t_i_m_gga7d425167804fd43bc76fe29c11386a6ca0c5dc16440e893937250b8ab7e88f777}{\-P\-I\-O\-S\-\_\-\-T\-I\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C} =  0x87654098, 
+\hyperlink{group___p_i_o_s___t_i_m_gga7d425167804fd43bc76fe29c11386a6ca0c5dc16440e893937250b8ab7e88f777}{\-P\-I\-O\-S\-\_\-\-T\-I\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C} =  0x87654098, 
+\hyperlink{group___p_i_o_s___t_i_m_gga7d425167804fd43bc76fe29c11386a6ca0c5dc16440e893937250b8ab7e88f777}{\-P\-I\-O\-S\-\_\-\-T\-I\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C} =  0x87654098
+ \}
+\end{DoxyCompactItemize}
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___t_i_m_ga091c161ba7b19b91067616f0cbd768fc}{\-P\-I\-O\-S\-\_\-\-T\-I\-M\-\_\-\-Init\-Clock} (const struct \hyperlink{structpios__tim__clock__cfg}{pios\-\_\-tim\-\_\-clock\-\_\-cfg} $\ast$cfg)
+\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___t_i_m_ga7f5717527aad92ccdff6c7a1841754f7}{\-P\-I\-O\-S\-\_\-\-T\-I\-M\-\_\-\-Init\-Channels} (uint32\-\_\-t $\ast$tim\-\_\-id, const struct \hyperlink{structpios__tim__channel}{pios\-\_\-tim\-\_\-channel} $\ast$channels, uint8\-\_\-t num\-\_\-channels, const struct \hyperlink{structpios__tim__callbacks}{pios\-\_\-tim\-\_\-callbacks} $\ast$callbacks, uint32\-\_\-t context)
+\item 
+\hyperlink{group___p_i_o_s___t_i_m_ga354d20ebcb9396fb9b160590fcef9cee}{for} (uint8\-\_\-t i=0;i$<$ \hyperlink{structpios__pwm__cfg_acf9d41bfa9ce5ee489fcb27a98605e5c}{pios\-\_\-pwm\-\_\-cfg.\-num\-\_\-channels};i++)
+\item 
+void \hyperlink{group___p_i_o_s___t_i_m_gae8a61b27afdb07c70d6b863c44284ca6}{\-T\-I\-M1\-\_\-\-C\-C\-\_\-\-I\-R\-Q\-Handler} (void)
+\item 
+void \hyperlink{group___p_i_o_s___t_i_m_ga3b60f6118cdd3449f4ed29fde4704236}{\-T\-I\-M1\-\_\-\-B\-R\-K\-\_\-\-T\-I\-M9\-\_\-\-I\-R\-Q\-Handler} (void)
+\item 
+void \hyperlink{group___p_i_o_s___t_i_m_gad1fd361bc5ad89facee67c76d1ff8dc0}{\-T\-I\-M1\-\_\-\-U\-P\-\_\-\-T\-I\-M10\-\_\-\-I\-R\-Q\-Handler} (void)
+\item 
+void \hyperlink{group___p_i_o_s___t_i_m_ga098245bf4e2f8844b22692b034a266fb}{\-T\-I\-M1\-\_\-\-T\-R\-G\-\_\-\-C\-O\-M\-\_\-\-T\-I\-M11\-\_\-\-I\-R\-Q\-Handler} (void)
+\item 
+void \hyperlink{group___p_i_o_s___t_i_m_ga38ad4725462bdc5e86c4ead4f04b9fc2}{\-T\-I\-M2\-\_\-\-I\-R\-Q\-Handler} (void)
+\item 
+void \hyperlink{group___p_i_o_s___t_i_m_gac8e51d2183b5230cbd5481f8867adce9}{\-T\-I\-M3\-\_\-\-I\-R\-Q\-Handler} (void)
+\item 
+void \hyperlink{group___p_i_o_s___t_i_m_ga7133f3f78767503641d307386e68bd28}{\-T\-I\-M4\-\_\-\-I\-R\-Q\-Handler} (void)
+\item 
+void \hyperlink{group___p_i_o_s___t_i_m_ga5e66446caf21dd90191dc07a13ce2378}{\-T\-I\-M5\-\_\-\-I\-R\-Q\-Handler} (void)
+\item 
+void \hyperlink{group___p_i_o_s___t_i_m_ga0839a45f331c4c067939b9c4533bbf4d}{\-T\-I\-M6\-\_\-\-D\-A\-C\-\_\-\-I\-R\-Q\-Handler} (void)
+\item 
+void \hyperlink{group___p_i_o_s___t_i_m_ga98cff83252098363b2dbca9608df964e}{\-T\-I\-M7\-\_\-\-I\-R\-Q\-Handler} (void)
+\item 
+void \hyperlink{group___p_i_o_s___t_i_m_ga96e44d6fe80524f038da6254514316a4}{\-T\-I\-M8\-\_\-\-C\-C\-\_\-\-I\-R\-Q\-Handler} (void)
+\item 
+void \hyperlink{group___p_i_o_s___t_i_m_ga301e0d3520f05f672ce047976f75ff6a}{\-T\-I\-M8\-\_\-\-B\-R\-K\-\_\-\-T\-I\-M12\-\_\-\-I\-R\-Q\-Handler} (void)
+\item 
+void \hyperlink{group___p_i_o_s___t_i_m_ga7fb516f8826d882ac91cfc093884fcf5}{\-T\-I\-M8\-\_\-\-U\-P\-\_\-\-T\-I\-M13\-\_\-\-I\-R\-Q\-Handler} (void)
+\item 
+void \hyperlink{group___p_i_o_s___t_i_m_ga4c8359a023f7ede4a9d9f94ea6fb92da}{\-T\-I\-M8\-\_\-\-T\-R\-G\-\_\-\-C\-O\-M\-\_\-\-T\-I\-M14\-\_\-\-I\-R\-Q\-Handler} (void)
+\end{DoxyCompactItemize}
+\subsection*{\-Variables}
+\begin{DoxyCompactItemize}
+\item 
+uint16\-\_\-t \hyperlink{group___p_i_o_s___t_i_m_ga757344f09097232d715d55cbf9d61a43}{val} = 0
+\end{DoxyCompactItemize}

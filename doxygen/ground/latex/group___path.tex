@@ -1,0 +1,697 @@
+\hypertarget{group___path}{\section{\-Planner \-Pluggin}
+\label{group___path}\index{\-Planner Pluggin@{\-Planner Pluggin}}
+}
+
+
+\-Abstact algorithm that can be run on a path.  
+
+
+\subsection*{\-Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{class_path_fillet}{\-Path\-Fillet}
+\item 
+struct \hyperlink{structpath_plan_data}{path\-Plan\-Data}
+\item 
+class \hyperlink{class_flight_data_model}{\-Flight\-Data\-Model}
+\item 
+struct {\bfseries \-Flight\-Data\-Model\-::\-N\-E\-D}
+\begin{DoxyCompactList}\small\item\em \-N\-E\-D representation of a location. \end{DoxyCompactList}\item 
+class \hyperlink{class_i_path_algorithm}{\-I\-Path\-Algorithm}
+\end{DoxyCompactItemize}
+\subsection*{\-Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{group___path_gaa0908516cbd02b164b605fce903d9066}{\-Flight\-Data\-Model\-::path\-Plan\-Data\-Enum} \{ \*
+\hyperlink{group___path_ggaa0908516cbd02b164b605fce903d9066a13024b57ed66f819f1bd7a7be0e11547}{\-Flight\-Data\-Model\-::\-L\-A\-T\-P\-O\-S\-I\-T\-I\-O\-N}, 
+\hyperlink{group___path_ggaa0908516cbd02b164b605fce903d9066a62e4abf60e84ec15a1d55ccead4a171d}{\-Flight\-Data\-Model\-::\-L\-N\-G\-P\-O\-S\-I\-T\-I\-O\-N}, 
+\hyperlink{group___path_ggaa0908516cbd02b164b605fce903d9066a6cb875c2764969992994d66ba514a189}{\-Flight\-Data\-Model\-::\-A\-L\-T\-I\-T\-U\-D\-E}, 
+\hyperlink{group___path_ggaa0908516cbd02b164b605fce903d9066a17bce9ec0e6fab7e3abc296781e3acbe}{\-Flight\-Data\-Model\-::\-N\-E\-D\-\_\-\-N\-O\-R\-T\-H}, 
+\*
+\hyperlink{group___path_ggaa0908516cbd02b164b605fce903d9066ac273ffece3fb399e96824a7c940fbb66}{\-Flight\-Data\-Model\-::\-N\-E\-D\-\_\-\-E\-A\-S\-T}, 
+\hyperlink{group___path_ggaa0908516cbd02b164b605fce903d9066a8132be414bfac5bfc9a86e3fa3c2c4c2}{\-Flight\-Data\-Model\-::\-N\-E\-D\-\_\-\-D\-O\-W\-N}, 
+\hyperlink{group___path_ggaa0908516cbd02b164b605fce903d9066a1893f60afdc05d0fc0c762e8f74f6b89}{\-Flight\-Data\-Model\-::\-V\-E\-L\-O\-C\-I\-T\-Y}, 
+\hyperlink{group___path_ggaa0908516cbd02b164b605fce903d9066abc9a6ccea3fe42c5fb3b77401f59e3e0}{\-Flight\-Data\-Model\-::\-M\-O\-D\-E}, 
+\*
+\hyperlink{group___path_ggaa0908516cbd02b164b605fce903d9066a8c8d56fc223af4d252e65152fbf61c5f}{\-Flight\-Data\-Model\-::\-M\-O\-D\-E\-\_\-\-P\-A\-R\-A\-M\-S}, 
+\hyperlink{group___path_ggaa0908516cbd02b164b605fce903d9066acf92b5f5aa8947d83f18ff9d9dbb1681}{\-Flight\-Data\-Model\-::\-L\-O\-C\-K\-E\-D}, 
+\hyperlink{group___path_ggaa0908516cbd02b164b605fce903d9066a87ddbd86791c5f58af0900f25ea3e0a7}{\-Flight\-Data\-Model\-::\-W\-P\-D\-E\-S\-C\-R\-I\-T\-P\-T\-I\-O\-N}, 
+\hyperlink{group___path_ggaa0908516cbd02b164b605fce903d9066a9a93aeb591b9c29b835458cbbfc825c5}{\-Flight\-Data\-Model\-::\-L\-A\-S\-T\-C\-O\-L\-U\-M\-N}
+ \}
+\begin{DoxyCompactList}\small\item\em \-The column names. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___path_ga239ceff0ba45400e38be3f6641054f4c}{\-Path\-Fillet\-::\-Path\-Fillet} (\-Q\-Object $\ast$parent=0)
+\item 
+virtual bool \hyperlink{group___path_gaf69499501bc26d9321cb3edaabaf8b21}{\-Path\-Fillet\-::verify\-Path} (\hyperlink{class_flight_data_model}{\-Flight\-Data\-Model} $\ast$model, \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \&err)
+\item 
+virtual bool \hyperlink{group___path_ga1e32689145e646e17836652d3e90067c}{\-Path\-Fillet\-::process\-Path} (\hyperlink{class_flight_data_model}{\-Flight\-Data\-Model} $\ast$model)
+\item 
+virtual bool \hyperlink{group___path_ga4ab477c2642c61f1169c6aa07228ec64}{\-Path\-Fillet\-::configure} (\-Q\-Widget $\ast$calling\-Ui=0)
+\item 
+\hyperlink{group___path_ga777bf842aa77abc4db16f1275fac0df0}{\-Flight\-Data\-Model\-::\-Flight\-Data\-Model} (\-Q\-Object $\ast$parent)
+\begin{DoxyCompactList}\small\item\em \-Initialize an empty flight plan. \end{DoxyCompactList}\item 
+int \hyperlink{group___path_ga7c8a098e7b8a37867261f0036502a4fc}{\-Flight\-Data\-Model\-::row\-Count} (const \-Q\-Model\-Index \&parent=\-Q\-Model\-Index()) const 
+\begin{DoxyCompactList}\small\item\em \-Return the number of waypoints. \end{DoxyCompactList}\item 
+int \hyperlink{group___path_gab6781580d20ed0e89768eafa799856d4}{\-Flight\-Data\-Model\-::column\-Count} (const \-Q\-Model\-Index \&parent=\-Q\-Model\-Index()) const 
+\begin{DoxyCompactList}\small\item\em \-Return the number of fields in the model. \end{DoxyCompactList}\item 
+\-Q\-Variant \hyperlink{group___path_ga3314e011bb5ed88b34ab33bf8f94d41e}{\-Flight\-Data\-Model\-::data} (const \-Q\-Model\-Index \&index, int role=\-Qt\-::\-Display\-Role) const 
+\begin{DoxyCompactList}\small\item\em \hyperlink{group___path_ga3314e011bb5ed88b34ab33bf8f94d41e}{\-Flight\-Data\-Model\-::data} \-Fetch the data from the model. \end{DoxyCompactList}\item 
+\-Q\-Variant \hyperlink{group___path_gaa4c59e9669bd77cd6475133fcf529bad}{\-Flight\-Data\-Model\-::header\-Data} (int section, \-Qt\-::\-Orientation orientation, int role) const 
+\begin{DoxyCompactList}\small\item\em \hyperlink{group___path_gaa4c59e9669bd77cd6475133fcf529bad}{\-Flight\-Data\-Model\-::header\-Data} \-Get the names of the columns. \end{DoxyCompactList}\item 
+bool \hyperlink{group___path_ga8931eaae5c2004c4d42233bcdad3ee4d}{\-Flight\-Data\-Model\-::set\-Data} (const \-Q\-Model\-Index \&index, const \-Q\-Variant \&value, int role=\-Qt\-::\-Edit\-Role)
+\begin{DoxyCompactList}\small\item\em \hyperlink{group___path_ga8931eaae5c2004c4d42233bcdad3ee4d}{\-Flight\-Data\-Model\-::set\-Data} \-Set the data at a given location. \end{DoxyCompactList}\item 
+\-Qt\-::\-Item\-Flags \hyperlink{group___path_gaeabf907ec7c9cfc6c410c2dd6678e603}{\-Flight\-Data\-Model\-::flags} (const \-Q\-Model\-Index \&index) const 
+\begin{DoxyCompactList}\small\item\em \hyperlink{group___path_gaeabf907ec7c9cfc6c410c2dd6678e603}{\-Flight\-Data\-Model\-::flags} \-Tell \-Q\-T \-M\-V\-C which flags are supported for items. \end{DoxyCompactList}\item 
+bool \hyperlink{group___path_ga17a5cd58322554d7fadb0c84031deb26}{\-Flight\-Data\-Model\-::insert\-Rows} (int row, int count, const \-Q\-Model\-Index \&parent=\-Q\-Model\-Index())
+\begin{DoxyCompactList}\small\item\em \hyperlink{group___path_ga17a5cd58322554d7fadb0c84031deb26}{\-Flight\-Data\-Model\-::insert\-Rows} \-Create a new waypoint. \end{DoxyCompactList}\item 
+bool \hyperlink{group___path_ga951208986321a56cc67eafa5a9d67f0e}{\-Flight\-Data\-Model\-::remove\-Rows} (int row, int count, const \-Q\-Model\-Index \&parent=\-Q\-Model\-Index())
+\begin{DoxyCompactList}\small\item\em \hyperlink{group___path_ga951208986321a56cc67eafa5a9d67f0e}{\-Flight\-Data\-Model\-::remove\-Rows} \-Remove waypoints from the model. \end{DoxyCompactList}\item 
+bool \hyperlink{group___path_gae8b76411094a9ad3164eab0996436da6}{\-Flight\-Data\-Model\-::write\-To\-File} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} filename)
+\begin{DoxyCompactList}\small\item\em \hyperlink{group___path_gae8b76411094a9ad3164eab0996436da6}{\-Flight\-Data\-Model\-::write\-To\-File} \-Write the waypoints to an xml file. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___path_ga39997b5fd9d9720f2798e2c1a18b8171}{\-Flight\-Data\-Model\-::read\-From\-File} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} file\-Name)
+\begin{DoxyCompactList}\small\item\em \hyperlink{group___path_ga39997b5fd9d9720f2798e2c1a18b8171}{\-Flight\-Data\-Model\-::read\-From\-File} \-Read into the model from a flight plan xml file. \end{DoxyCompactList}\item 
+bool \hyperlink{group___path_ga59cab53123301865b4604e97e13e1ce0}{\-Flight\-Data\-Model\-::replace\-Data} (\hyperlink{class_flight_data_model}{\-Flight\-Data\-Model} $\ast$new\-Model)
+\begin{DoxyCompactList}\small\item\em \-Replace a model data with another model. \end{DoxyCompactList}\item 
+\hyperlink{group___path_gafe016f55fde1369cf1d9301f86b37c2a}{\-I\-Path\-Algorithm\-::\-I\-Path\-Algorithm} (\-Q\-Object $\ast$parent=0)
+\item 
+virtual bool \hyperlink{group___path_ga115e5e8fbbb0f1e2a1208be63bafdb5e}{\-I\-Path\-Algorithm\-::verify\-Path} (\hyperlink{class_flight_data_model}{\-Flight\-Data\-Model} $\ast$model, \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \&err)=0
+\item 
+virtual bool \hyperlink{group___path_ga7c93a036e8d5904a4c76444e38ec96b9}{\-I\-Path\-Algorithm\-::process\-Path} (\hyperlink{class_flight_data_model}{\-Flight\-Data\-Model} $\ast$model)=0
+\item 
+virtual bool \hyperlink{group___path_ga4157a802d06807c33e402f6a51f9f366}{\-I\-Path\-Algorithm\-::configure} (\-Q\-Widget $\ast$calling\-Ui=0)=0
+\end{DoxyCompactItemize}
+\subsection*{\-Variables}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___path_gac7fc0b526eac540aa404e9d3d6ee95ef}{path\-Plan\-Data\-::wp\-Descritption}
+\item 
+double \hyperlink{group___path_ga741da9e938717a4dba1a1b28afc94d07}{path\-Plan\-Data\-::lat\-Position}
+\item 
+double \hyperlink{group___path_ga28464ee2b2537b0bc670193bc29627b7}{path\-Plan\-Data\-::lng\-Position}
+\item 
+double \hyperlink{group___path_ga6684fc7c8c169232f70b43e4fedc6eb0}{path\-Plan\-Data\-::altitude}
+\item 
+float \hyperlink{group___path_ga58910b1bf08e8e02291db4ea420cc383}{path\-Plan\-Data\-::velocity}
+\item 
+int \hyperlink{group___path_gabea436564f0d9df2abf6b4c35d505753}{path\-Plan\-Data\-::mode}
+\item 
+float \hyperlink{group___path_gaba12f55aa813b5f1dc707e3c1814ab14}{path\-Plan\-Data\-::mode\-\_\-params}
+\item 
+bool \hyperlink{group___path_ga5e07c3e8bda93b1d5dba9dd3d35c0280}{path\-Plan\-Data\-::locked}
+\item 
+static \-Q\-Map$<$ int, \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} $>$ \hyperlink{group___path_gae4137f8c1c8d4c53cea911761c13b182}{\-Flight\-Data\-Model\-::mode\-Names} = \-Q\-Map$<$int, \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String}$>$()
+\item 
+double \hyperlink{group___path_ga67abe9626bfdec594f13dadb6a8e0507}{\-Flight\-Data\-Model\-::\-N\-E\-D\-::\-North}
+\item 
+double \hyperlink{group___path_ga61ad0d9a38807fe21d456dc84cdb80d7}{\-Flight\-Data\-Model\-::\-N\-E\-D\-::\-East}
+\item 
+double \hyperlink{group___path_gae7f07300d5df11f628d4be7fefddce05}{\-Flight\-Data\-Model\-::\-N\-E\-D\-::\-Down}
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-Abstact algorithm that can be run on a path. global include for the library
+
+\-The \-Path \-Planner plugin.
+
+\-Used to represent flight paths.
+
+\-Representation of a flight plan. 
+
+\subsection{\-Enumeration \-Type \-Documentation}
+\hypertarget{group___path_gaa0908516cbd02b164b605fce903d9066}{\index{\-Planner Pluggin@{\-Planner Pluggin}!path\-Plan\-Data\-Enum@{path\-Plan\-Data\-Enum}}
+\index{path\-Plan\-Data\-Enum@{path\-Plan\-Data\-Enum}!Planner Pluggin@{\-Planner Pluggin}}
+\subsubsection[{path\-Plan\-Data\-Enum}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf \-Flight\-Data\-Model\-::path\-Plan\-Data\-Enum}}}\label{group___path_gaa0908516cbd02b164b605fce903d9066}
+
+
+\-The column names. 
+
+\begin{Desc}
+\item[\-Enumerator\-: ]\par
+\begin{description}
+\index{\-L\-A\-T\-P\-O\-S\-I\-T\-I\-O\-N@{\-L\-A\-T\-P\-O\-S\-I\-T\-I\-O\-N}!\-Planner Pluggin@{\-Planner Pluggin}}\index{\-Planner Pluggin@{\-Planner Pluggin}!\-L\-A\-T\-P\-O\-S\-I\-T\-I\-O\-N@{\-L\-A\-T\-P\-O\-S\-I\-T\-I\-O\-N}}\item[{\em 
+\hypertarget{group___path_ggaa0908516cbd02b164b605fce903d9066a13024b57ed66f819f1bd7a7be0e11547}{\-L\-A\-T\-P\-O\-S\-I\-T\-I\-O\-N}\label{group___path_ggaa0908516cbd02b164b605fce903d9066a13024b57ed66f819f1bd7a7be0e11547}
+}]\index{\-L\-N\-G\-P\-O\-S\-I\-T\-I\-O\-N@{\-L\-N\-G\-P\-O\-S\-I\-T\-I\-O\-N}!\-Planner Pluggin@{\-Planner Pluggin}}\index{\-Planner Pluggin@{\-Planner Pluggin}!\-L\-N\-G\-P\-O\-S\-I\-T\-I\-O\-N@{\-L\-N\-G\-P\-O\-S\-I\-T\-I\-O\-N}}\item[{\em 
+\hypertarget{group___path_ggaa0908516cbd02b164b605fce903d9066a62e4abf60e84ec15a1d55ccead4a171d}{\-L\-N\-G\-P\-O\-S\-I\-T\-I\-O\-N}\label{group___path_ggaa0908516cbd02b164b605fce903d9066a62e4abf60e84ec15a1d55ccead4a171d}
+}]\index{\-A\-L\-T\-I\-T\-U\-D\-E@{\-A\-L\-T\-I\-T\-U\-D\-E}!\-Planner Pluggin@{\-Planner Pluggin}}\index{\-Planner Pluggin@{\-Planner Pluggin}!\-A\-L\-T\-I\-T\-U\-D\-E@{\-A\-L\-T\-I\-T\-U\-D\-E}}\item[{\em 
+\hypertarget{group___path_ggaa0908516cbd02b164b605fce903d9066a6cb875c2764969992994d66ba514a189}{\-A\-L\-T\-I\-T\-U\-D\-E}\label{group___path_ggaa0908516cbd02b164b605fce903d9066a6cb875c2764969992994d66ba514a189}
+}]\index{\-N\-E\-D\-\_\-\-N\-O\-R\-T\-H@{\-N\-E\-D\-\_\-\-N\-O\-R\-T\-H}!\-Planner Pluggin@{\-Planner Pluggin}}\index{\-Planner Pluggin@{\-Planner Pluggin}!\-N\-E\-D\-\_\-\-N\-O\-R\-T\-H@{\-N\-E\-D\-\_\-\-N\-O\-R\-T\-H}}\item[{\em 
+\hypertarget{group___path_ggaa0908516cbd02b164b605fce903d9066a17bce9ec0e6fab7e3abc296781e3acbe}{\-N\-E\-D\-\_\-\-N\-O\-R\-T\-H}\label{group___path_ggaa0908516cbd02b164b605fce903d9066a17bce9ec0e6fab7e3abc296781e3acbe}
+}]\index{\-N\-E\-D\-\_\-\-E\-A\-S\-T@{\-N\-E\-D\-\_\-\-E\-A\-S\-T}!\-Planner Pluggin@{\-Planner Pluggin}}\index{\-Planner Pluggin@{\-Planner Pluggin}!\-N\-E\-D\-\_\-\-E\-A\-S\-T@{\-N\-E\-D\-\_\-\-E\-A\-S\-T}}\item[{\em 
+\hypertarget{group___path_ggaa0908516cbd02b164b605fce903d9066ac273ffece3fb399e96824a7c940fbb66}{\-N\-E\-D\-\_\-\-E\-A\-S\-T}\label{group___path_ggaa0908516cbd02b164b605fce903d9066ac273ffece3fb399e96824a7c940fbb66}
+}]\index{\-N\-E\-D\-\_\-\-D\-O\-W\-N@{\-N\-E\-D\-\_\-\-D\-O\-W\-N}!\-Planner Pluggin@{\-Planner Pluggin}}\index{\-Planner Pluggin@{\-Planner Pluggin}!\-N\-E\-D\-\_\-\-D\-O\-W\-N@{\-N\-E\-D\-\_\-\-D\-O\-W\-N}}\item[{\em 
+\hypertarget{group___path_ggaa0908516cbd02b164b605fce903d9066a8132be414bfac5bfc9a86e3fa3c2c4c2}{\-N\-E\-D\-\_\-\-D\-O\-W\-N}\label{group___path_ggaa0908516cbd02b164b605fce903d9066a8132be414bfac5bfc9a86e3fa3c2c4c2}
+}]\index{\-V\-E\-L\-O\-C\-I\-T\-Y@{\-V\-E\-L\-O\-C\-I\-T\-Y}!\-Planner Pluggin@{\-Planner Pluggin}}\index{\-Planner Pluggin@{\-Planner Pluggin}!\-V\-E\-L\-O\-C\-I\-T\-Y@{\-V\-E\-L\-O\-C\-I\-T\-Y}}\item[{\em 
+\hypertarget{group___path_ggaa0908516cbd02b164b605fce903d9066a1893f60afdc05d0fc0c762e8f74f6b89}{\-V\-E\-L\-O\-C\-I\-T\-Y}\label{group___path_ggaa0908516cbd02b164b605fce903d9066a1893f60afdc05d0fc0c762e8f74f6b89}
+}]\index{\-M\-O\-D\-E@{\-M\-O\-D\-E}!\-Planner Pluggin@{\-Planner Pluggin}}\index{\-Planner Pluggin@{\-Planner Pluggin}!\-M\-O\-D\-E@{\-M\-O\-D\-E}}\item[{\em 
+\hypertarget{group___path_ggaa0908516cbd02b164b605fce903d9066abc9a6ccea3fe42c5fb3b77401f59e3e0}{\-M\-O\-D\-E}\label{group___path_ggaa0908516cbd02b164b605fce903d9066abc9a6ccea3fe42c5fb3b77401f59e3e0}
+}]\index{\-M\-O\-D\-E\-\_\-\-P\-A\-R\-A\-M\-S@{\-M\-O\-D\-E\-\_\-\-P\-A\-R\-A\-M\-S}!\-Planner Pluggin@{\-Planner Pluggin}}\index{\-Planner Pluggin@{\-Planner Pluggin}!\-M\-O\-D\-E\-\_\-\-P\-A\-R\-A\-M\-S@{\-M\-O\-D\-E\-\_\-\-P\-A\-R\-A\-M\-S}}\item[{\em 
+\hypertarget{group___path_ggaa0908516cbd02b164b605fce903d9066a8c8d56fc223af4d252e65152fbf61c5f}{\-M\-O\-D\-E\-\_\-\-P\-A\-R\-A\-M\-S}\label{group___path_ggaa0908516cbd02b164b605fce903d9066a8c8d56fc223af4d252e65152fbf61c5f}
+}]\index{\-L\-O\-C\-K\-E\-D@{\-L\-O\-C\-K\-E\-D}!\-Planner Pluggin@{\-Planner Pluggin}}\index{\-Planner Pluggin@{\-Planner Pluggin}!\-L\-O\-C\-K\-E\-D@{\-L\-O\-C\-K\-E\-D}}\item[{\em 
+\hypertarget{group___path_ggaa0908516cbd02b164b605fce903d9066acf92b5f5aa8947d83f18ff9d9dbb1681}{\-L\-O\-C\-K\-E\-D}\label{group___path_ggaa0908516cbd02b164b605fce903d9066acf92b5f5aa8947d83f18ff9d9dbb1681}
+}]\index{\-W\-P\-D\-E\-S\-C\-R\-I\-T\-P\-T\-I\-O\-N@{\-W\-P\-D\-E\-S\-C\-R\-I\-T\-P\-T\-I\-O\-N}!\-Planner Pluggin@{\-Planner Pluggin}}\index{\-Planner Pluggin@{\-Planner Pluggin}!\-W\-P\-D\-E\-S\-C\-R\-I\-T\-P\-T\-I\-O\-N@{\-W\-P\-D\-E\-S\-C\-R\-I\-T\-P\-T\-I\-O\-N}}\item[{\em 
+\hypertarget{group___path_ggaa0908516cbd02b164b605fce903d9066a87ddbd86791c5f58af0900f25ea3e0a7}{\-W\-P\-D\-E\-S\-C\-R\-I\-T\-P\-T\-I\-O\-N}\label{group___path_ggaa0908516cbd02b164b605fce903d9066a87ddbd86791c5f58af0900f25ea3e0a7}
+}]\index{\-L\-A\-S\-T\-C\-O\-L\-U\-M\-N@{\-L\-A\-S\-T\-C\-O\-L\-U\-M\-N}!\-Planner Pluggin@{\-Planner Pluggin}}\index{\-Planner Pluggin@{\-Planner Pluggin}!\-L\-A\-S\-T\-C\-O\-L\-U\-M\-N@{\-L\-A\-S\-T\-C\-O\-L\-U\-M\-N}}\item[{\em 
+\hypertarget{group___path_ggaa0908516cbd02b164b605fce903d9066a9a93aeb591b9c29b835458cbbfc825c5}{\-L\-A\-S\-T\-C\-O\-L\-U\-M\-N}\label{group___path_ggaa0908516cbd02b164b605fce903d9066a9a93aeb591b9c29b835458cbbfc825c5}
+}]\end{description}
+\end{Desc}
+
+
+
+\-Definition at line 52 of file flightdatamodel.\-h.
+
+
+
+\subsection{\-Function \-Documentation}
+\hypertarget{group___path_gab6781580d20ed0e89768eafa799856d4}{\index{\-Planner Pluggin@{\-Planner Pluggin}!column\-Count@{column\-Count}}
+\index{column\-Count@{column\-Count}!Planner Pluggin@{\-Planner Pluggin}}
+\subsubsection[{column\-Count}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf \-Flight\-Data\-Model\-::column\-Count} (
+\begin{DoxyParamCaption}
+\item[{const \-Q\-Model\-Index \&}]{parent = {\ttfamily \-Q\-Model\-Index()}}
+\end{DoxyParamCaption}
+) const}}\label{group___path_gab6781580d20ed0e89768eafa799856d4}
+
+
+\-Return the number of fields in the model. 
+
+
+
+\-Definition at line 69 of file flightdatamodel.\-cpp.
+
+\hypertarget{group___path_ga4157a802d06807c33e402f6a51f9f366}{\index{\-Planner Pluggin@{\-Planner Pluggin}!configure@{configure}}
+\index{configure@{configure}!Planner Pluggin@{\-Planner Pluggin}}
+\subsubsection[{configure}]{\setlength{\rightskip}{0pt plus 5cm}virtual bool {\bf \-I\-Path\-Algorithm\-::configure} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Widget $\ast$}]{calling\-Ui = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}pure virtual\mbox{]}}}}\label{group___path_ga4157a802d06807c33e402f6a51f9f366}
+\-Present a \-U\-I to configure options for the algorithm 
+\begin{DoxyParams}{\-Parameters}
+{\em calling\-Ui} & the \-Q\-Widget that called this algorithm \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+true for success, false for failure 
+\end{DoxyReturn}
+
+
+\-Implemented in \hyperlink{group___path_ga4ab477c2642c61f1169c6aa07228ec64}{\-Path\-Fillet}.
+
+\hypertarget{group___path_ga4ab477c2642c61f1169c6aa07228ec64}{\index{\-Planner Pluggin@{\-Planner Pluggin}!configure@{configure}}
+\index{configure@{configure}!Planner Pluggin@{\-Planner Pluggin}}
+\subsubsection[{configure}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-Path\-Fillet\-::configure} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Widget $\ast$}]{calling\-Ui = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___path_ga4ab477c2642c61f1169c6aa07228ec64}
+\-Present a \-U\-I to configure options for the algorithm 
+\begin{DoxyParams}{\-Parameters}
+{\em calling\-Ui} & the \-Q\-Widget that called this algorithm \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+true for success, false for failure
+\end{DoxyReturn}
+\-Verify the path is valid to run through this algorithm 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em model} & the flight model to validate \\
+\hline
+\mbox{\tt out}  & {\em err} & an error message for the user for invalid paths \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+true for valid path, false for invalid 
+\end{DoxyReturn}
+
+
+\-Implements \hyperlink{group___path_ga4157a802d06807c33e402f6a51f9f366}{\-I\-Path\-Algorithm}.
+
+
+
+\-Definition at line 46 of file pathfillet.\-cpp.
+
+\hypertarget{group___path_ga3314e011bb5ed88b34ab33bf8f94d41e}{\index{\-Planner Pluggin@{\-Planner Pluggin}!data@{data}}
+\index{data@{data}!Planner Pluggin@{\-Planner Pluggin}}
+\subsubsection[{data}]{\setlength{\rightskip}{0pt plus 5cm}\-Q\-Variant {\bf \-Flight\-Data\-Model\-::data} (
+\begin{DoxyParamCaption}
+\item[{const \-Q\-Model\-Index \&}]{index, }
+\item[{int}]{role = {\ttfamily \-Qt\-:\-:\-Display\-Role}}
+\end{DoxyParamCaption}
+) const}}\label{group___path_ga3314e011bb5ed88b34ab33bf8f94d41e}
+
+
+\hyperlink{group___path_ga3314e011bb5ed88b34ab33bf8f94d41e}{\-Flight\-Data\-Model\-::data} \-Fetch the data from the model. 
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em index} & \-Specifies the row and column to fetch \\
+\hline
+{\em role} & \-Either use \-Qt\-::\-Display\-Role or \-Qt\-::\-Edit\-Role \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+\-The data as a variant or \-Q\-Variant\-::\-Invalid for a bad role 
+\end{DoxyReturn}
+
+
+\-Definition at line 82 of file flightdatamodel.\-cpp.
+
+\hypertarget{group___path_gaeabf907ec7c9cfc6c410c2dd6678e603}{\index{\-Planner Pluggin@{\-Planner Pluggin}!flags@{flags}}
+\index{flags@{flags}!Planner Pluggin@{\-Planner Pluggin}}
+\subsubsection[{flags}]{\setlength{\rightskip}{0pt plus 5cm}\-Qt\-::\-Item\-Flags {\bf \-Flight\-Data\-Model\-::flags} (
+\begin{DoxyParamCaption}
+\item[{const \-Q\-Model\-Index \&}]{index}
+\end{DoxyParamCaption}
+) const}}\label{group___path_gaeabf907ec7c9cfc6c410c2dd6678e603}
+
+
+\hyperlink{group___path_gaeabf907ec7c9cfc6c410c2dd6678e603}{\-Flight\-Data\-Model\-::flags} \-Tell \-Q\-T \-M\-V\-C which flags are supported for items. 
+
+\begin{DoxyReturn}{\-Returns}
+\-That the item is selectable, editable and enabled 
+\end{DoxyReturn}
+
+
+\-Definition at line 275 of file flightdatamodel.\-cpp.
+
+\hypertarget{group___path_ga777bf842aa77abc4db16f1275fac0df0}{\index{\-Planner Pluggin@{\-Planner Pluggin}!\-Flight\-Data\-Model@{\-Flight\-Data\-Model}}
+\index{\-Flight\-Data\-Model@{\-Flight\-Data\-Model}!Planner Pluggin@{\-Planner Pluggin}}
+\subsubsection[{\-Flight\-Data\-Model}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Flight\-Data\-Model\-::\-Flight\-Data\-Model} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Object $\ast$}]{parent}
+\end{DoxyParamCaption}
+)}}\label{group___path_ga777bf842aa77abc4db16f1275fac0df0}
+
+
+\-Initialize an empty flight plan. 
+
+
+
+\-Definition at line 42 of file flightdatamodel.\-cpp.
+
+\hypertarget{group___path_gaa4c59e9669bd77cd6475133fcf529bad}{\index{\-Planner Pluggin@{\-Planner Pluggin}!header\-Data@{header\-Data}}
+\index{header\-Data@{header\-Data}!Planner Pluggin@{\-Planner Pluggin}}
+\subsubsection[{header\-Data}]{\setlength{\rightskip}{0pt plus 5cm}\-Q\-Variant {\bf \-Flight\-Data\-Model\-::header\-Data} (
+\begin{DoxyParamCaption}
+\item[{int}]{section, }
+\item[{\-Qt\-::\-Orientation}]{orientation, }
+\item[{int}]{role}
+\end{DoxyParamCaption}
+) const}}\label{group___path_gaa4c59e9669bd77cd6475133fcf529bad}
+
+
+\hyperlink{group___path_gaa4c59e9669bd77cd6475133fcf529bad}{\-Flight\-Data\-Model\-::header\-Data} \-Get the names of the columns. 
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em section} & \\
+\hline
+{\em orientation} & \\
+\hline
+{\em role} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+
+\end{DoxyReturn}
+
+
+\-Definition at line 141 of file flightdatamodel.\-cpp.
+
+\hypertarget{group___path_ga17a5cd58322554d7fadb0c84031deb26}{\index{\-Planner Pluggin@{\-Planner Pluggin}!insert\-Rows@{insert\-Rows}}
+\index{insert\-Rows@{insert\-Rows}!Planner Pluggin@{\-Planner Pluggin}}
+\subsubsection[{insert\-Rows}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-Flight\-Data\-Model\-::insert\-Rows} (
+\begin{DoxyParamCaption}
+\item[{int}]{row, }
+\item[{int}]{count, }
+\item[{const \-Q\-Model\-Index \&}]{parent = {\ttfamily \-Q\-Model\-Index()}}
+\end{DoxyParamCaption}
+)}}\label{group___path_ga17a5cd58322554d7fadb0c84031deb26}
+
+
+\hyperlink{group___path_ga17a5cd58322554d7fadb0c84031deb26}{\-Flight\-Data\-Model\-::insert\-Rows} \-Create a new waypoint. 
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em row} & \-The new waypoint id \\
+\hline
+{\em count} & \-How many to add \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+
+\end{DoxyReturn}
+
+
+\-Definition at line 296 of file flightdatamodel.\-cpp.
+
+\hypertarget{group___path_gafe016f55fde1369cf1d9301f86b37c2a}{\index{\-Planner Pluggin@{\-Planner Pluggin}!\-I\-Path\-Algorithm@{\-I\-Path\-Algorithm}}
+\index{\-I\-Path\-Algorithm@{\-I\-Path\-Algorithm}!Planner Pluggin@{\-Planner Pluggin}}
+\subsubsection[{\-I\-Path\-Algorithm}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-I\-Path\-Algorithm\-::\-I\-Path\-Algorithm} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Object $\ast$}]{parent = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}explicit\mbox{]}}}}\label{group___path_gafe016f55fde1369cf1d9301f86b37c2a}
+
+
+\-Definition at line 28 of file ipathalgorithm.\-cpp.
+
+\hypertarget{group___path_ga239ceff0ba45400e38be3f6641054f4c}{\index{\-Planner Pluggin@{\-Planner Pluggin}!\-Path\-Fillet@{\-Path\-Fillet}}
+\index{\-Path\-Fillet@{\-Path\-Fillet}!Planner Pluggin@{\-Planner Pluggin}}
+\subsubsection[{\-Path\-Fillet}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Path\-Fillet\-::\-Path\-Fillet} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Object $\ast$}]{parent = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}explicit\mbox{]}}}}\label{group___path_ga239ceff0ba45400e38be3f6641054f4c}
+
+
+\-Definition at line 34 of file pathfillet.\-cpp.
+
+\hypertarget{group___path_ga7c93a036e8d5904a4c76444e38ec96b9}{\index{\-Planner Pluggin@{\-Planner Pluggin}!process\-Path@{process\-Path}}
+\index{process\-Path@{process\-Path}!Planner Pluggin@{\-Planner Pluggin}}
+\subsubsection[{process\-Path}]{\setlength{\rightskip}{0pt plus 5cm}virtual bool {\bf \-I\-Path\-Algorithm\-::process\-Path} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Flight\-Data\-Model} $\ast$}]{model}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}pure virtual\mbox{]}}}}\label{group___path_ga7c93a036e8d5904a4c76444e38ec96b9}
+\-Process the flight path according to the algorithm 
+\begin{DoxyParams}{\-Parameters}
+{\em model} & the flight model to process and update \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+true for success, false for failure 
+\end{DoxyReturn}
+
+
+\-Implemented in \hyperlink{group___path_ga1e32689145e646e17836652d3e90067c}{\-Path\-Fillet}.
+
+\hypertarget{group___path_ga1e32689145e646e17836652d3e90067c}{\index{\-Planner Pluggin@{\-Planner Pluggin}!process\-Path@{process\-Path}}
+\index{process\-Path@{process\-Path}!Planner Pluggin@{\-Planner Pluggin}}
+\subsubsection[{process\-Path}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-Path\-Fillet\-::process\-Path} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Flight\-Data\-Model} $\ast$}]{model}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___path_ga1e32689145e646e17836652d3e90067c}
+\-Process the flight path according to the algorithm 
+\begin{DoxyParams}{\-Parameters}
+{\em model} & the flight model to process and update \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+true for success, false for failure
+\end{DoxyReturn}
+\-It connects waypoints together with straight lines, and fillets, so that the vehicle dynamics, i.\-e. \-Dubin's cart constraints, are taken into account. \-However the \char`\"{}direct with filleting\char`\"{} path planner still assumes that there are no obstacles along the path. \-The general approach is that before adding a new segment, the path planner looks ahead at the next waypoint, and adds in fillets that align the vehicle with this next waypoint. 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em original} & the flight model to process \\
+\hline
+\mbox{\tt out}  & {\em new} & the resulting flight model \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+true for success, false for failure 
+\end{DoxyReturn}
+
+
+\-Implements \hyperlink{group___path_ga7c93a036e8d5904a4c76444e38ec96b9}{\-I\-Path\-Algorithm}.
+
+
+
+\-Definition at line 80 of file pathfillet.\-cpp.
+
+\hypertarget{group___path_ga39997b5fd9d9720f2798e2c1a18b8171}{\index{\-Planner Pluggin@{\-Planner Pluggin}!read\-From\-File@{read\-From\-File}}
+\index{read\-From\-File@{read\-From\-File}!Planner Pluggin@{\-Planner Pluggin}}
+\subsubsection[{read\-From\-File}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Flight\-Data\-Model\-::read\-From\-File} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Q\-String}}]{file\-Name}
+\end{DoxyParamCaption}
+)}}\label{group___path_ga39997b5fd9d9720f2798e2c1a18b8171}
+
+
+\hyperlink{group___path_ga39997b5fd9d9720f2798e2c1a18b8171}{\-Flight\-Data\-Model\-::read\-From\-File} \-Read into the model from a flight plan xml file. 
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em file\-Name} & \-The filename to parse \\
+\hline
+\end{DoxyParams}
+
+
+\-Definition at line 426 of file flightdatamodel.\-cpp.
+
+\hypertarget{group___path_ga951208986321a56cc67eafa5a9d67f0e}{\index{\-Planner Pluggin@{\-Planner Pluggin}!remove\-Rows@{remove\-Rows}}
+\index{remove\-Rows@{remove\-Rows}!Planner Pluggin@{\-Planner Pluggin}}
+\subsubsection[{remove\-Rows}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-Flight\-Data\-Model\-::remove\-Rows} (
+\begin{DoxyParamCaption}
+\item[{int}]{row, }
+\item[{int}]{count, }
+\item[{const \-Q\-Model\-Index \&}]{parent = {\ttfamily \-Q\-Model\-Index()}}
+\end{DoxyParamCaption}
+)}}\label{group___path_ga951208986321a56cc67eafa5a9d67f0e}
+
+
+\hyperlink{group___path_ga951208986321a56cc67eafa5a9d67f0e}{\-Flight\-Data\-Model\-::remove\-Rows} \-Remove waypoints from the model. 
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em row} & \-The starting waypoint \\
+\hline
+{\em count} & \-How many to remove \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+\-True if succeeded, otherwise false 
+\end{DoxyReturn}
+
+
+\-Definition at line 337 of file flightdatamodel.\-cpp.
+
+\hypertarget{group___path_ga59cab53123301865b4604e97e13e1ce0}{\index{\-Planner Pluggin@{\-Planner Pluggin}!replace\-Data@{replace\-Data}}
+\index{replace\-Data@{replace\-Data}!Planner Pluggin@{\-Planner Pluggin}}
+\subsubsection[{replace\-Data}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-Flight\-Data\-Model\-::replace\-Data} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Flight\-Data\-Model} $\ast$}]{new\-Model}
+\end{DoxyParamCaption}
+)}}\label{group___path_ga59cab53123301865b4604e97e13e1ce0}
+
+
+\-Replace a model data with another model. 
+
+\hyperlink{group___path_ga59cab53123301865b4604e97e13e1ce0}{\-Flight\-Data\-Model\-::replace\-Data} with data from a new model.
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em new\-Model} & the new data to use \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+true if successful 
+\end{DoxyReturn}
+
+
+\-Definition at line 570 of file flightdatamodel.\-cpp.
+
+\hypertarget{group___path_ga7c8a098e7b8a37867261f0036502a4fc}{\index{\-Planner Pluggin@{\-Planner Pluggin}!row\-Count@{row\-Count}}
+\index{row\-Count@{row\-Count}!Planner Pluggin@{\-Planner Pluggin}}
+\subsubsection[{row\-Count}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf \-Flight\-Data\-Model\-::row\-Count} (
+\begin{DoxyParamCaption}
+\item[{const \-Q\-Model\-Index \&}]{parent = {\ttfamily \-Q\-Model\-Index()}}
+\end{DoxyParamCaption}
+) const}}\label{group___path_ga7c8a098e7b8a37867261f0036502a4fc}
+
+
+\-Return the number of waypoints. 
+
+
+
+\-Definition at line 63 of file flightdatamodel.\-cpp.
+
+\hypertarget{group___path_ga8931eaae5c2004c4d42233bcdad3ee4d}{\index{\-Planner Pluggin@{\-Planner Pluggin}!set\-Data@{set\-Data}}
+\index{set\-Data@{set\-Data}!Planner Pluggin@{\-Planner Pluggin}}
+\subsubsection[{set\-Data}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-Flight\-Data\-Model\-::set\-Data} (
+\begin{DoxyParamCaption}
+\item[{const \-Q\-Model\-Index \&}]{index, }
+\item[{const \-Q\-Variant \&}]{value, }
+\item[{int}]{role = {\ttfamily \-Qt\-:\-:\-Edit\-Role}}
+\end{DoxyParamCaption}
+)}}\label{group___path_ga8931eaae5c2004c4d42233bcdad3ee4d}
+
+
+\hyperlink{group___path_ga8931eaae5c2004c4d42233bcdad3ee4d}{\-Flight\-Data\-Model\-::set\-Data} \-Set the data at a given location. 
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em index} & \-Specifies both the row (waypoint) and column (field0 \\
+\hline
+{\em value} & \-The new value \\
+\hline
+{\em role} & \-Used by the \-Qt \-M\-V\-C to determine what to do. \-Should be \-Qt\-::\-Edit\-Role \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+\-True if setting data succeeded, otherwise false 
+\end{DoxyReturn}
+
+
+\-Definition at line 190 of file flightdatamodel.\-cpp.
+
+\hypertarget{group___path_ga115e5e8fbbb0f1e2a1208be63bafdb5e}{\index{\-Planner Pluggin@{\-Planner Pluggin}!verify\-Path@{verify\-Path}}
+\index{verify\-Path@{verify\-Path}!Planner Pluggin@{\-Planner Pluggin}}
+\subsubsection[{verify\-Path}]{\setlength{\rightskip}{0pt plus 5cm}virtual bool {\bf \-I\-Path\-Algorithm\-::verify\-Path} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Flight\-Data\-Model} $\ast$}]{model, }
+\item[{{\bf \-Q\-String} \&}]{err}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}pure virtual\mbox{]}}}}\label{group___path_ga115e5e8fbbb0f1e2a1208be63bafdb5e}
+\-Verify the path is valid to run through this algorithm 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em model} & the flight model to validate \\
+\hline
+\mbox{\tt out}  & {\em err} & an error message for the user for invalid paths \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+true for valid path, false for invalid 
+\end{DoxyReturn}
+
+
+\-Implemented in \hyperlink{group___path_gaf69499501bc26d9321cb3edaabaf8b21}{\-Path\-Fillet}.
+
+\hypertarget{group___path_gaf69499501bc26d9321cb3edaabaf8b21}{\index{\-Planner Pluggin@{\-Planner Pluggin}!verify\-Path@{verify\-Path}}
+\index{verify\-Path@{verify\-Path}!Planner Pluggin@{\-Planner Pluggin}}
+\subsubsection[{verify\-Path}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-Path\-Fillet\-::verify\-Path} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Flight\-Data\-Model} $\ast$}]{model, }
+\item[{{\bf \-Q\-String} \&}]{err}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___path_gaf69499501bc26d9321cb3edaabaf8b21}
+\-Verify the path is valid to run through this algorithm 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em model} & the flight model to validate \\
+\hline
+\mbox{\tt out}  & {\em err} & an error message for the user for invalid paths \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+true for valid path, false for invalid 
+\end{DoxyReturn}
+
+
+\-Implements \hyperlink{group___path_ga115e5e8fbbb0f1e2a1208be63bafdb5e}{\-I\-Path\-Algorithm}.
+
+
+
+\-Definition at line 60 of file pathfillet.\-cpp.
+
+\hypertarget{group___path_gae8b76411094a9ad3164eab0996436da6}{\index{\-Planner Pluggin@{\-Planner Pluggin}!write\-To\-File@{write\-To\-File}}
+\index{write\-To\-File@{write\-To\-File}!Planner Pluggin@{\-Planner Pluggin}}
+\subsubsection[{write\-To\-File}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-Flight\-Data\-Model\-::write\-To\-File} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Q\-String}}]{file\-Name}
+\end{DoxyParamCaption}
+)}}\label{group___path_gae8b76411094a9ad3164eab0996436da6}
+
+
+\hyperlink{group___path_gae8b76411094a9ad3164eab0996436da6}{\-Flight\-Data\-Model\-::write\-To\-File} \-Write the waypoints to an xml file. 
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em file\-Name} & \-The filename to write to \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+
+\end{DoxyReturn}
+
+
+\-Definition at line 357 of file flightdatamodel.\-cpp.
+
+
+
+\subsection{\-Variable \-Documentation}
+\hypertarget{group___path_ga6684fc7c8c169232f70b43e4fedc6eb0}{\index{\-Planner Pluggin@{\-Planner Pluggin}!altitude@{altitude}}
+\index{altitude@{altitude}!Planner Pluggin@{\-Planner Pluggin}}
+\subsubsection[{altitude}]{\setlength{\rightskip}{0pt plus 5cm}double {\bf path\-Plan\-Data\-::altitude}}}\label{group___path_ga6684fc7c8c169232f70b43e4fedc6eb0}
+
+
+\-Definition at line 39 of file flightdatamodel.\-h.
+
+\hypertarget{group___path_gae7f07300d5df11f628d4be7fefddce05}{\index{\-Planner Pluggin@{\-Planner Pluggin}!\-Down@{\-Down}}
+\index{\-Down@{\-Down}!Planner Pluggin@{\-Planner Pluggin}}
+\subsubsection[{\-Down}]{\setlength{\rightskip}{0pt plus 5cm}double \-Flight\-Data\-Model\-::\-N\-E\-D\-::\-Down}}\label{group___path_gae7f07300d5df11f628d4be7fefddce05}
+
+
+\-Definition at line 85 of file flightdatamodel.\-h.
+
+\hypertarget{group___path_ga61ad0d9a38807fe21d456dc84cdb80d7}{\index{\-Planner Pluggin@{\-Planner Pluggin}!\-East@{\-East}}
+\index{\-East@{\-East}!Planner Pluggin@{\-Planner Pluggin}}
+\subsubsection[{\-East}]{\setlength{\rightskip}{0pt plus 5cm}double \-Flight\-Data\-Model\-::\-N\-E\-D\-::\-East}}\label{group___path_ga61ad0d9a38807fe21d456dc84cdb80d7}
+
+
+\-Definition at line 84 of file flightdatamodel.\-h.
+
+\hypertarget{group___path_ga741da9e938717a4dba1a1b28afc94d07}{\index{\-Planner Pluggin@{\-Planner Pluggin}!lat\-Position@{lat\-Position}}
+\index{lat\-Position@{lat\-Position}!Planner Pluggin@{\-Planner Pluggin}}
+\subsubsection[{lat\-Position}]{\setlength{\rightskip}{0pt plus 5cm}double {\bf path\-Plan\-Data\-::lat\-Position}}}\label{group___path_ga741da9e938717a4dba1a1b28afc94d07}
+
+
+\-Definition at line 37 of file flightdatamodel.\-h.
+
+\hypertarget{group___path_ga28464ee2b2537b0bc670193bc29627b7}{\index{\-Planner Pluggin@{\-Planner Pluggin}!lng\-Position@{lng\-Position}}
+\index{lng\-Position@{lng\-Position}!Planner Pluggin@{\-Planner Pluggin}}
+\subsubsection[{lng\-Position}]{\setlength{\rightskip}{0pt plus 5cm}double {\bf path\-Plan\-Data\-::lng\-Position}}}\label{group___path_ga28464ee2b2537b0bc670193bc29627b7}
+
+
+\-Definition at line 38 of file flightdatamodel.\-h.
+
+\hypertarget{group___path_ga5e07c3e8bda93b1d5dba9dd3d35c0280}{\index{\-Planner Pluggin@{\-Planner Pluggin}!locked@{locked}}
+\index{locked@{locked}!Planner Pluggin@{\-Planner Pluggin}}
+\subsubsection[{locked}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf path\-Plan\-Data\-::locked}}}\label{group___path_ga5e07c3e8bda93b1d5dba9dd3d35c0280}
+
+
+\-Definition at line 43 of file flightdatamodel.\-h.
+
+\hypertarget{group___path_gabea436564f0d9df2abf6b4c35d505753}{\index{\-Planner Pluggin@{\-Planner Pluggin}!mode@{mode}}
+\index{mode@{mode}!Planner Pluggin@{\-Planner Pluggin}}
+\subsubsection[{mode}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf path\-Plan\-Data\-::mode}}}\label{group___path_gabea436564f0d9df2abf6b4c35d505753}
+
+
+\-Definition at line 41 of file flightdatamodel.\-h.
+
+\hypertarget{group___path_gaba12f55aa813b5f1dc707e3c1814ab14}{\index{\-Planner Pluggin@{\-Planner Pluggin}!mode\-\_\-params@{mode\-\_\-params}}
+\index{mode\-\_\-params@{mode\-\_\-params}!Planner Pluggin@{\-Planner Pluggin}}
+\subsubsection[{mode\-\_\-params}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf path\-Plan\-Data\-::mode\-\_\-params}}}\label{group___path_gaba12f55aa813b5f1dc707e3c1814ab14}
+
+
+\-Definition at line 42 of file flightdatamodel.\-h.
+
+\hypertarget{group___path_gae4137f8c1c8d4c53cea911761c13b182}{\index{\-Planner Pluggin@{\-Planner Pluggin}!mode\-Names@{mode\-Names}}
+\index{mode\-Names@{mode\-Names}!Planner Pluggin@{\-Planner Pluggin}}
+\subsubsection[{mode\-Names}]{\setlength{\rightskip}{0pt plus 5cm}\-Q\-Map$<$ int, {\bf \-Q\-String} $>$ {\bf \-Flight\-Data\-Model\-::mode\-Names} = \-Q\-Map$<$int, {\bf \-Q\-String}$>$()\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}\label{group___path_gae4137f8c1c8d4c53cea911761c13b182}
+
+
+\-Definition at line 73 of file flightdatamodel.\-h.
+
+\hypertarget{group___path_ga67abe9626bfdec594f13dadb6a8e0507}{\index{\-Planner Pluggin@{\-Planner Pluggin}!\-North@{\-North}}
+\index{\-North@{\-North}!Planner Pluggin@{\-Planner Pluggin}}
+\subsubsection[{\-North}]{\setlength{\rightskip}{0pt plus 5cm}double \-Flight\-Data\-Model\-::\-N\-E\-D\-::\-North}}\label{group___path_ga67abe9626bfdec594f13dadb6a8e0507}
+
+
+\-Definition at line 83 of file flightdatamodel.\-h.
+
+\hypertarget{group___path_ga58910b1bf08e8e02291db4ea420cc383}{\index{\-Planner Pluggin@{\-Planner Pluggin}!velocity@{velocity}}
+\index{velocity@{velocity}!Planner Pluggin@{\-Planner Pluggin}}
+\subsubsection[{velocity}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf path\-Plan\-Data\-::velocity}}}\label{group___path_ga58910b1bf08e8e02291db4ea420cc383}
+
+
+\-Definition at line 40 of file flightdatamodel.\-h.
+
+\hypertarget{group___path_gac7fc0b526eac540aa404e9d3d6ee95ef}{\index{\-Planner Pluggin@{\-Planner Pluggin}!wp\-Descritption@{wp\-Descritption}}
+\index{wp\-Descritption@{wp\-Descritption}!Planner Pluggin@{\-Planner Pluggin}}
+\subsubsection[{wp\-Descritption}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Q\-String} {\bf path\-Plan\-Data\-::wp\-Descritption}}}\label{group___path_gac7fc0b526eac540aa404e9d3d6ee95ef}
+
+
+\-Definition at line 36 of file flightdatamodel.\-h.
+

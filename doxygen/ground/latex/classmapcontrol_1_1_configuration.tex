@@ -1,0 +1,71 @@
+\hypertarget{classmapcontrol_1_1_configuration}{\section{mapcontrol\-:\-:\-Configuration \-Class \-Reference}
+\label{classmapcontrol_1_1_configuration}\index{mapcontrol\-::\-Configuration@{mapcontrol\-::\-Configuration}}
+}
+
+
+\-A class that centralizes most of the mapcontrol configurations.  
+
+
+
+
+{\ttfamily \#include $<$configuration.\-h$>$}
+
+\subsection*{\-Public \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___o_p_map_widget_ga0963ae98b690172299a36a61ee003c21}{\-Configuration} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_widget_ga41001a3e8948832246f19baf28c45e68}{\-Set\-Access\-Mode} (core\-::\-Access\-Mode\-::\-Types const \&type)
+\begin{DoxyCompactList}\small\item\em \-Sets the access mode for the map (cache only, server and cache...) \end{DoxyCompactList}\item 
+core\-::\-Access\-Mode\-::\-Types \hyperlink{group___o_p_map_widget_ga902ee11abd0b7c7634bfbadf5bd73517}{\-Access\-Mode} ()
+\begin{DoxyCompactList}\small\item\em \-Returns the access mode for the map (cache only, server and cache...) \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_widget_ga29b42ec96098c35b537e64d33d6c41b5}{\-Set\-Language} (core\-::\-Language\-Type\-::\-Types const \&type)
+\begin{DoxyCompactList}\small\item\em \-Sets the language used for geocaching. \end{DoxyCompactList}\item 
+core\-::\-Language\-Type\-::\-Types \hyperlink{group___o_p_map_widget_ga0058ff0ad6bf530d4e7ce0399a14a39c}{\-Language} ()
+\begin{DoxyCompactList}\small\item\em \-Returns the language used for geocaching. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_widget_ga323ea9b6071044204ce278734ef855fb}{\-Set\-Use\-Memory\-Cache} (bool const \&value)
+\begin{DoxyCompactList}\small\item\em \-Used to allow disallow use of memory caching. \end{DoxyCompactList}\item 
+bool \hyperlink{group___o_p_map_widget_ga07a1c9decb34a05e0337db285bb15bc3}{\-Use\-Memory\-Cache} ()
+\begin{DoxyCompactList}\small\item\em \-Return if memory caching is in use. \end{DoxyCompactList}\item 
+double \hyperlink{group___o_p_map_widget_gaf1e79ea822cc04fd7bc6f9b566c19224}{\-Tile\-Memory\-Used} () const 
+\begin{DoxyCompactList}\small\item\em \-Returns the currently used memory for tiles. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_widget_gaa6bfe2092080fa7a3464cece122819b5}{\-Set\-Tile\-Memory\-Size} (int const \&value)
+\begin{DoxyCompactList}\small\item\em \-Sets the size of the memory for tiles. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_widget_ga735443d74919b6c74f91fbf1f0576931}{\-Set\-Cache\-Location} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} const \&dir)
+\begin{DoxyCompactList}\small\item\em \-Sets the location for the \-S\-Q\-Lite \-Database used for caching and the geocoding cache files. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_widget_ga66137fefcd998b31354b7c0c4575b40a}{\-Delete\-Tiles\-Older\-Than} (int const \&days)
+\begin{DoxyCompactList}\small\item\em \-Deletes tiles in \-Data\-Base older than \char`\"{}days\char`\"{} days. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_widget_ga373e3935f7b6ce79ca89a7bbfdff8a00}{\-Export\-Map\-Data\-To\-D\-B} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} const \&source\-D\-B, \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} const \&dest\-D\-B) const 
+\begin{DoxyCompactList}\small\item\em \-Exports tiles from one \-D\-B to another. \-Only new tiles are added. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___o_p_map_widget_ga1edc453f938348b4b2400fe6310bae75}{\-Cache\-Location} ()
+\begin{DoxyCompactList}\small\item\em \-Returns the location for the \-S\-Q\-Lite \-Database used for caching and the geocoding cache files. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Public \-Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\-Q\-Brush \hyperlink{group___o_p_map_widget_gad6bf957803f87dacf49bbff6998c72b6}{\-Emptytile\-Brush}
+\begin{DoxyCompactList}\small\item\em \-Used to draw empty map tiles. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___o_p_map_widget_ga3cee2f55adac9ad6424d5ea36a1fec54}{\-Empty\-Tile\-Text}
+\begin{DoxyCompactList}\small\item\em \-Used for empty tiles text. \end{DoxyCompactList}\item 
+\-Q\-Pen \hyperlink{group___o_p_map_widget_gae8db48d6cb03fedba7aa82d206dc82eb}{\-Empty\-Tile\-Borders}
+\begin{DoxyCompactList}\small\item\em \-Used to draw empty tile borders. \end{DoxyCompactList}\item 
+\-Q\-Pen \hyperlink{group___o_p_map_widget_gab4e66a6217ae69c3344a0af8578f5932}{\-Scale\-Pen}
+\begin{DoxyCompactList}\small\item\em \-Used to \-Draw the maps scale. \end{DoxyCompactList}\item 
+\-Q\-Pen \hyperlink{group___o_p_map_widget_gab3ccb3d980f16de07166bad27b8ff4dc}{\-Selection\-Pen}
+\begin{DoxyCompactList}\small\item\em \-Used to draw selection box. \end{DoxyCompactList}\item 
+\-Q\-Font \hyperlink{group___o_p_map_widget_gacaef660cdedd3dc5c76abc6f6872b149}{\-Missing\-Data\-Font}
+\item 
+\-Qt\-::\-Mouse\-Button \hyperlink{group___o_p_map_widget_ga18190e2acae7a12ba6b598cf25244acf}{\-Drag\-Button}
+\begin{DoxyCompactList}\small\item\em \-Button used for dragging. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-A class that centralizes most of the mapcontrol configurations. 
+
+\-Definition at line 46 of file configuration.\-h.
+
+
+
+\-The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/libs/opmapcontrol/src/mapwidget/\hyperlink{configuration_8h}{configuration.\-h}\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/libs/opmapcontrol/src/mapwidget/\hyperlink{configuration_8cpp}{configuration.\-cpp}\end{DoxyCompactItemize}

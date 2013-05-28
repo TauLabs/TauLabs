@@ -1,0 +1,531 @@
+\hypertarget{group___u_a_v_talk}{\section{relay plugin}
+\label{group___u_a_v_talk}\index{relay plugin@{relay plugin}}
+}
+
+
+\-Relays \hyperlink{class_u_a_v_talk}{\-U\-A\-V\-Talk} data trough \-U\-D\-P to another \-G\-C\-S.  
+
+
+\subsection*{\-Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{class_filtered_uav_talk}{\-Filtered\-Uav\-Talk}
+\begin{DoxyCompactList}\small\item\em \-The \hyperlink{class_filtered_uav_talk}{\-Filtered\-Uav\-Talk} class \-An extension of the \hyperlink{class_u_a_v_talk}{\-U\-A\-V\-Talk} class to be run on the master \-G\-C\-S (the one which also has a connection to the \-U\-A\-V) which will relay object updates to a slave \-G\-C\-S subject to certain filtering rules which this class enforces. \end{DoxyCompactList}\item 
+class \hyperlink{class_uav_talk_relay}{\-Uav\-Talk\-Relay}
+\item 
+class \hyperlink{class_uav_talk_relay_options_page}{\-Uav\-Talk\-Relay\-Options\-Page}
+\item 
+class \hyperlink{class_uav_talk_relay_plugin}{\-Uav\-Talk\-Relay\-Plugin}
+\end{DoxyCompactItemize}
+\subsection*{\-Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+namespace \hyperlink{namespace_core}{\-Core}
+\begin{DoxyCompactList}\small\item\em \-The \hyperlink{namespace_core}{\-Core} namespace contains all classes that make up the \hyperlink{namespace_core}{\-Core} plugin which constitute the basic functionality of the \-Tau \-Labs \-G\-C\-S. \end{DoxyCompactList}\item 
+namespace \hyperlink{namespace_ui}{\-Ui}
+\end{DoxyCompactItemize}
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_talk_ga618403abe72042a54b38faa22c1c5e5f}{\-Filtered\-Uav\-Talk\-::\-Filtered\-Uav\-Talk} (\-Q\-I\-O\-Device $\ast$iodev, \hyperlink{class_u_a_v_object_manager}{\-U\-A\-V\-Object\-Manager} $\ast$obj\-Mngr, \-Q\-Hash$<$ quint32, \hyperlink{group___u_a_v_talk_plugin_gae73e1677650d617d825cf2224fa0626a}{\-Uav\-Talk\-Relay\-Comon\-::access\-Type} $>$ rules, \hyperlink{group___u_a_v_talk_plugin_gae73e1677650d617d825cf2224fa0626a}{\-Uav\-Talk\-Relay\-Comon\-::access\-Type} default\-Rule)
+\begin{DoxyCompactList}\small\item\em \-Construct a filtered uavtalk class. \end{DoxyCompactList}\item 
+bool \hyperlink{group___u_a_v_talk_gae0a55c71a396a0577dd48dad6188a7a0}{\-Filtered\-Uav\-Talk\-::receive\-Object} (quint8 type, quint32 obj\-Id, quint16 inst\-Id, quint8 $\ast$data, qint32 \hyperlink{uavobjecttemplate_8m_a076bf56c9bafa07f3dbda4901a40d84c}{length})
+\begin{DoxyCompactList}\small\item\em \-Called when an uavtalk packet is received from the slave. \-Updates master based on filtering rules. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_talk_gac8b1e7722bbeccbae7c3dcea8d1fe222}{\-Uav\-Talk\-Relay\-::\-Uav\-Talk\-Relay} (\hyperlink{class_u_a_v_object_manager}{\-U\-A\-V\-Object\-Manager} $\ast$\-Obj\-Mngr, \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \-Ip\-Adress, quint16 \-Port, \-Q\-Hash$<$ \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String}, \-Q\-Hash$<$ quint32, \hyperlink{group___u_a_v_talk_plugin_gae73e1677650d617d825cf2224fa0626a}{\-Uav\-Talk\-Relay\-Comon\-::access\-Type} $>$ $>$ rules, \hyperlink{group___u_a_v_talk_plugin_gae73e1677650d617d825cf2224fa0626a}{\-Uav\-Talk\-Relay\-Comon\-::access\-Type} default\-Rule)
+\item 
+quint16 \hyperlink{group___u_a_v_talk_gaa880d4612e6112e7a8c320cca690f31a}{\-Uav\-Talk\-Relay\-::\-Port} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___u_a_v_talk_ga8f99b1f0add7784e3aad75a0784728bb}{\-Uav\-Talk\-Relay\-::\-Ip\-Adress} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_talk_ga5ef623c050c9d1a65536f7de2eeda738}{\-Uav\-Talk\-Relay\-::set\-Port} (quint16 value)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_talk_gaae8733ac23163492f5ea685cc69950ca}{\-Uav\-Talk\-Relay\-::set\-Ip\-Adress} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} value)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_talk_ga61c935860a7d4f77e40c58c10557eed4}{\-Uav\-Talk\-Relay\-::set\-Rules} (\-Q\-Hash$<$ \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String}, \-Q\-Hash$<$ quint32, \hyperlink{group___u_a_v_talk_plugin_gae73e1677650d617d825cf2224fa0626a}{\-Uav\-Talk\-Relay\-Comon\-::access\-Type} $>$ $>$ value)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_talk_gac7de28de1557a197ee88c192917bca40}{\-Uav\-Talk\-Relay\-::restart\-Server} ()
+\item 
+\hyperlink{group___u_a_v_talk_gac97773c8e2650a9c89d3b44262b3c9a5}{\-Uav\-Talk\-Relay\-Options\-Page\-::\-Uav\-Talk\-Relay\-Options\-Page} (\-Q\-Object $\ast$parent=0)
+\item 
+virtual \hyperlink{group___u_a_v_talk_gab4a5b0b63eba0e6df8f5d81ab10f5fff}{\-Uav\-Talk\-Relay\-Options\-Page\-::$\sim$\-Uav\-Talk\-Relay\-Options\-Page} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___u_a_v_talk_ga1a7f2a6d7fe0eab1466ad5fef1d77448}{\-Uav\-Talk\-Relay\-Options\-Page\-::id} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___u_a_v_talk_gaa9de5e7b246a6ed8f405cd79586bcbab}{\-Uav\-Talk\-Relay\-Options\-Page\-::tr\-Name} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___u_a_v_talk_ga096c5d44abc589317aae875f985190ed}{\-Uav\-Talk\-Relay\-Options\-Page\-::category} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___u_a_v_talk_ga06b96ea896336a6b5cbf6431a19b60f7}{\-Uav\-Talk\-Relay\-Options\-Page\-::tr\-Category} () const 
+\item 
+\-Q\-Widget $\ast$ \hyperlink{group___u_a_v_talk_ga07ae0ea88536d2fd82f9f9ddb84cb3cc}{\-Uav\-Talk\-Relay\-Options\-Page\-::create\-Page} (\-Q\-Widget $\ast$parent)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_talk_gac14cce3fcdf4dc493bfc8777032d1b41}{\-Uav\-Talk\-Relay\-Options\-Page\-::apply} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_talk_ga3c6b3400f3c46755bcc572ba5b76e9af}{\-Uav\-Talk\-Relay\-Options\-Page\-::finish} ()
+\item 
+\hyperlink{group___u_a_v_talk_ga425fbe805214fb0a0ec2eb24f6bf0af4}{\-Uav\-Talk\-Relay\-Plugin\-::\-Uav\-Talk\-Relay\-Plugin} ()
+\item 
+\hyperlink{group___u_a_v_talk_gaad7159b5c609edca5e23031119f623c7}{\-Uav\-Talk\-Relay\-Plugin\-::$\sim$\-Uav\-Talk\-Relay\-Plugin} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_talk_ga23c510f5254ca286083d1b3e4a732582}{\-Uav\-Talk\-Relay\-Plugin\-::extensions\-Initialized} ()
+\item 
+bool \hyperlink{group___u_a_v_talk_gacb02c97b971babafb922150887825934}{\-Uav\-Talk\-Relay\-Plugin\-::initialize} (const \-Q\-String\-List \&arguments, \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} $\ast$error\-String)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_talk_ga2a3c3d63a751ae8931cfbd8cf30792ba}{\-Uav\-Talk\-Relay\-Plugin\-::shutdown} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_talk_ga56f6231aec2bb6b547cd07b4533cb949}{\-Uav\-Talk\-Relay\-Plugin\-::read\-Config} (\-Q\-Settings $\ast$q\-Settings, \hyperlink{class_core_1_1_u_a_v_config_info}{\-Core\-::\-U\-A\-V\-Config\-Info} $\ast$config\-Info)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_talk_ga36180ad0b7197a844dfe5ff50a116aa1}{\-Uav\-Talk\-Relay\-Plugin\-::save\-Config} (\-Q\-Settings $\ast$q\-Settings, \hyperlink{class_core_1_1_u_a_v_config_info}{\-Core\-::\-U\-A\-V\-Config\-Info} $\ast$config\-Info)
+\end{DoxyCompactItemize}
+\subsection*{\-Signals}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_talk_gace88a60fb10cfb6c3994f0a3a8883aa3}{\-Uav\-Talk\-Relay\-Options\-Page\-::settings\-Updated} ()
+\end{DoxyCompactItemize}
+\subsection*{\-Public \-Slots}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_talk_ga41ca9188bbbc0be7e458f94ef49117df}{\-Filtered\-Uav\-Talk\-::send\-Object\-Slot} (\hyperlink{class_u_a_v_object}{\-U\-A\-V\-Object} $\ast$obj)
+\begin{DoxyCompactList}\small\item\em \hyperlink{group___u_a_v_talk_ga41ca9188bbbc0be7e458f94ef49117df}{\-Filtered\-Uav\-Talk\-::send\-Object\-Slot} \-Called whenever an object is updated by the local \-G\-C\-S and sends it to the remote \-G\-C\-S is the rules allow it. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Protected \-Slots}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___u_a_v_talk_gac6522ac462e3ef789bccecdf33e38779}{\-Uav\-Talk\-Relay\-Plugin\-::update\-Settings} ()
+\end{DoxyCompactItemize}
+\subsection*{\-Friends}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{group___u_a_v_talk_gaf20a0868107dbd85408f5bcba4e98063}{\-Uav\-Talk\-Relay\-Plugin\-::\-Uav\-Talk\-Relay\-Options\-Page}
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-Relays \hyperlink{class_u_a_v_talk}{\-U\-A\-V\-Talk} data trough \-U\-D\-P to another \-G\-C\-S. 
+
+\subsection{\-Function \-Documentation}
+\hypertarget{group___u_a_v_talk_gac14cce3fcdf4dc493bfc8777032d1b41}{\index{relay plugin@{relay plugin}!apply@{apply}}
+\index{apply@{apply}!relay plugin@{relay plugin}}
+\subsubsection[{apply}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Uav\-Talk\-Relay\-Options\-Page\-::apply} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___u_a_v_talk_gac14cce3fcdf4dc493bfc8777032d1b41}
+
+
+\-Implements \hyperlink{group___core_plugin_ga05fa0c9b91da02a0f2fed11d2d6afed0}{\-Core\-::\-I\-Options\-Page}.
+
+
+
+\-Definition at line 94 of file uavtalkrelayoptionspage.\-cpp.
+
+\hypertarget{group___u_a_v_talk_ga096c5d44abc589317aae875f985190ed}{\index{relay plugin@{relay plugin}!category@{category}}
+\index{category@{category}!relay plugin@{relay plugin}}
+\subsubsection[{category}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Q\-String} {\bf \-Uav\-Talk\-Relay\-Options\-Page\-::category} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}inline, virtual\mbox{]}}}}\label{group___u_a_v_talk_ga096c5d44abc589317aae875f985190ed}
+
+
+\-Reimplemented from \hyperlink{group___core_plugin_ga03767437394cdfbfc9e253638a71b132}{\-Core\-::\-I\-Options\-Page}.
+
+
+
+\-Definition at line 55 of file uavtalkrelayoptionspage.\-h.
+
+\hypertarget{group___u_a_v_talk_ga07ae0ea88536d2fd82f9f9ddb84cb3cc}{\index{relay plugin@{relay plugin}!create\-Page@{create\-Page}}
+\index{create\-Page@{create\-Page}!relay plugin@{relay plugin}}
+\subsubsection[{create\-Page}]{\setlength{\rightskip}{0pt plus 5cm}\-Q\-Widget $\ast$ {\bf \-Uav\-Talk\-Relay\-Options\-Page\-::create\-Page} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Widget $\ast$}]{parent}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___u_a_v_talk_ga07ae0ea88536d2fd82f9f9ddb84cb3cc}
+
+
+\-Implements \hyperlink{group___core_plugin_gac70a4473b3e086d0fa9849c431fb0672}{\-Core\-::\-I\-Options\-Page}.
+
+
+
+\-Definition at line 47 of file uavtalkrelayoptionspage.\-cpp.
+
+\hypertarget{group___u_a_v_talk_ga23c510f5254ca286083d1b3e4a732582}{\index{relay plugin@{relay plugin}!extensions\-Initialized@{extensions\-Initialized}}
+\index{extensions\-Initialized@{extensions\-Initialized}!relay plugin@{relay plugin}}
+\subsubsection[{extensions\-Initialized}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Uav\-Talk\-Relay\-Plugin\-::extensions\-Initialized} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___u_a_v_talk_ga23c510f5254ca286083d1b3e4a732582}
+\-Called once all the plugins which depend on us have been loaded 
+
+\-Implements \hyperlink{class_extension_system_1_1_i_plugin_a1db3a7fb242fca02229f9a3be4fd6610}{\-Extension\-System\-::\-I\-Plugin}.
+
+
+
+\-Definition at line 49 of file uavtalkrelayplugin.\-cpp.
+
+\hypertarget{group___u_a_v_talk_ga618403abe72042a54b38faa22c1c5e5f}{\index{relay plugin@{relay plugin}!\-Filtered\-Uav\-Talk@{\-Filtered\-Uav\-Talk}}
+\index{\-Filtered\-Uav\-Talk@{\-Filtered\-Uav\-Talk}!relay plugin@{relay plugin}}
+\subsubsection[{\-Filtered\-Uav\-Talk}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Filtered\-Uav\-Talk\-::\-Filtered\-Uav\-Talk} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-I\-O\-Device $\ast$}]{iodev, }
+\item[{{\bf \-U\-A\-V\-Object\-Manager} $\ast$}]{obj\-Mngr, }
+\item[{\-Q\-Hash$<$ quint32, {\bf \-Uav\-Talk\-Relay\-Comon\-::access\-Type} $>$}]{rules, }
+\item[{{\bf \-Uav\-Talk\-Relay\-Comon\-::access\-Type}}]{default\-Rule}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_talk_ga618403abe72042a54b38faa22c1c5e5f}
+
+
+\-Construct a filtered uavtalk class. 
+
+
+
+\-Definition at line 31 of file filtereduavtalk.\-cpp.
+
+\hypertarget{group___u_a_v_talk_ga3c6b3400f3c46755bcc572ba5b76e9af}{\index{relay plugin@{relay plugin}!finish@{finish}}
+\index{finish@{finish}!relay plugin@{relay plugin}}
+\subsubsection[{finish}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Uav\-Talk\-Relay\-Options\-Page\-::finish} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___u_a_v_talk_ga3c6b3400f3c46755bcc572ba5b76e9af}
+
+
+\-Implements \hyperlink{group___core_plugin_ga47cf2602b6ee72a4971b1f0a4e1d887e}{\-Core\-::\-I\-Options\-Page}.
+
+
+
+\-Definition at line 119 of file uavtalkrelayoptionspage.\-cpp.
+
+\hypertarget{group___u_a_v_talk_ga1a7f2a6d7fe0eab1466ad5fef1d77448}{\index{relay plugin@{relay plugin}!id@{id}}
+\index{id@{id}!relay plugin@{relay plugin}}
+\subsubsection[{id}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Q\-String} {\bf \-Uav\-Talk\-Relay\-Options\-Page\-::id} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}inline, virtual\mbox{]}}}}\label{group___u_a_v_talk_ga1a7f2a6d7fe0eab1466ad5fef1d77448}
+
+
+\-Reimplemented from \hyperlink{group___core_plugin_ga2984fb6ab0e3b502783dfee7ba596268}{\-Core\-::\-I\-Options\-Page}.
+
+
+
+\-Definition at line 53 of file uavtalkrelayoptionspage.\-h.
+
+\hypertarget{group___u_a_v_talk_gacb02c97b971babafb922150887825934}{\index{relay plugin@{relay plugin}!initialize@{initialize}}
+\index{initialize@{initialize}!relay plugin@{relay plugin}}
+\subsubsection[{initialize}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-Uav\-Talk\-Relay\-Plugin\-::initialize} (
+\begin{DoxyParamCaption}
+\item[{const \-Q\-String\-List \&}]{arguments, }
+\item[{{\bf \-Q\-String} $\ast$}]{error\-String}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___u_a_v_talk_gacb02c97b971babafb922150887825934}
+\-Called at startup, before any plugin which depends on us is initialized 
+
+\-Implements \hyperlink{class_extension_system_1_1_i_plugin_a9f3dc957317279daed393fdf4894e944}{\-Extension\-System\-::\-I\-Plugin}.
+
+
+
+\-Definition at line 57 of file uavtalkrelayplugin.\-cpp.
+
+\hypertarget{group___u_a_v_talk_ga8f99b1f0add7784e3aad75a0784728bb}{\index{relay plugin@{relay plugin}!\-Ip\-Adress@{\-Ip\-Adress}}
+\index{\-Ip\-Adress@{\-Ip\-Adress}!relay plugin@{relay plugin}}
+\subsubsection[{\-Ip\-Adress}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Q\-String} {\bf \-Uav\-Talk\-Relay\-::\-Ip\-Adress} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___u_a_v_talk_ga8f99b1f0add7784e3aad75a0784728bb}
+
+
+\-Definition at line 44 of file uavtalkrelay.\-h.
+
+\hypertarget{group___u_a_v_talk_gaa880d4612e6112e7a8c320cca690f31a}{\index{relay plugin@{relay plugin}!\-Port@{\-Port}}
+\index{\-Port@{\-Port}!relay plugin@{relay plugin}}
+\subsubsection[{\-Port}]{\setlength{\rightskip}{0pt plus 5cm}quint16 {\bf \-Uav\-Talk\-Relay\-::\-Port} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___u_a_v_talk_gaa880d4612e6112e7a8c320cca690f31a}
+
+
+\-Definition at line 43 of file uavtalkrelay.\-h.
+
+\hypertarget{group___u_a_v_talk_ga56f6231aec2bb6b547cd07b4533cb949}{\index{relay plugin@{relay plugin}!read\-Config@{read\-Config}}
+\index{read\-Config@{read\-Config}!relay plugin@{relay plugin}}
+\subsubsection[{read\-Config}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Uav\-Talk\-Relay\-Plugin\-::read\-Config} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Settings $\ast$}]{q\-Settings, }
+\item[{{\bf \-Core\-::\-U\-A\-V\-Config\-Info} $\ast$}]{config\-Info}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___u_a_v_talk_ga56f6231aec2bb6b547cd07b4533cb949}
+
+
+\-Implements \hyperlink{class_core_1_1_i_configurable_plugin_af40567d082a243282cda71b3f9efd83f}{\-Core\-::\-I\-Configurable\-Plugin}.
+
+
+
+\-Definition at line 76 of file uavtalkrelayplugin.\-cpp.
+
+\hypertarget{group___u_a_v_talk_gae0a55c71a396a0577dd48dad6188a7a0}{\index{relay plugin@{relay plugin}!receive\-Object@{receive\-Object}}
+\index{receive\-Object@{receive\-Object}!relay plugin@{relay plugin}}
+\subsubsection[{receive\-Object}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-Filtered\-Uav\-Talk\-::receive\-Object} (
+\begin{DoxyParamCaption}
+\item[{quint8}]{type, }
+\item[{quint32}]{obj\-Id, }
+\item[{quint16}]{inst\-Id, }
+\item[{quint8 $\ast$}]{data, }
+\item[{qint32}]{length}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___u_a_v_talk_gae0a55c71a396a0577dd48dad6188a7a0}
+
+
+\-Called when an uavtalk packet is received from the slave. \-Updates master based on filtering rules. 
+
+\hyperlink{group___u_a_v_talk_gae0a55c71a396a0577dd48dad6188a7a0}{\-Filtered\-Uav\-Talk\-::receive\-Object} \-Called by the parent parser whenever an object is deserialized with a correct \-C\-R\-C. \-Determines what to do based on the applicable rules.
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em type} & \-The type of \hyperlink{class_u_a_v_talk}{\-U\-A\-V\-Talk} message sent (\-T\-Y\-P\-E\-\_\-\-O\-B\-J, \-T\-Y\-P\-E\-\_\-\-O\-B\-J\-\_\-\-A\-C\-K, \-T\-Y\-P\-E\-\_\-\-O\-B\-J\-\_\-\-R\-E\-Q) \\
+\hline
+{\em obj\-Id} & \-The \-I\-D of the object received \\
+\hline
+{\em inst\-Id} & \-The instance \-I\-D of the received object \\
+\hline
+{\em data} & \-The array of data received \\
+\hline
+{\em length} & \-The length of the data received \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+\-True if the object passed the flitering, false otherwise 
+\end{DoxyReturn}
+
+
+\-Reimplemented from \hyperlink{group___u_a_v_talk_plugin_gaa95319b62b2b1a92e3f0ef753a1c04a3}{\-U\-A\-V\-Talk}.
+
+
+
+\-Definition at line 63 of file filtereduavtalk.\-cpp.
+
+\hypertarget{group___u_a_v_talk_gac7de28de1557a197ee88c192917bca40}{\index{relay plugin@{relay plugin}!restart\-Server@{restart\-Server}}
+\index{restart\-Server@{restart\-Server}!relay plugin@{relay plugin}}
+\subsubsection[{restart\-Server}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Uav\-Talk\-Relay\-::restart\-Server} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_talk_gac7de28de1557a197ee88c192917bca40}
+
+
+\-Definition at line 62 of file uavtalkrelay.\-cpp.
+
+\hypertarget{group___u_a_v_talk_ga36180ad0b7197a844dfe5ff50a116aa1}{\index{relay plugin@{relay plugin}!save\-Config@{save\-Config}}
+\index{save\-Config@{save\-Config}!relay plugin@{relay plugin}}
+\subsubsection[{save\-Config}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Uav\-Talk\-Relay\-Plugin\-::save\-Config} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Settings $\ast$}]{q\-Settings, }
+\item[{{\bf \-Core\-::\-U\-A\-V\-Config\-Info} $\ast$}]{config\-Info}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___u_a_v_talk_ga36180ad0b7197a844dfe5ff50a116aa1}
+
+
+\-Implements \hyperlink{class_core_1_1_i_configurable_plugin_afd0c67d4dbb9ff64ca7a3bed07eb5b66}{\-Core\-::\-I\-Configurable\-Plugin}.
+
+
+
+\-Definition at line 110 of file uavtalkrelayplugin.\-cpp.
+
+\hypertarget{group___u_a_v_talk_gaae8733ac23163492f5ea685cc69950ca}{\index{relay plugin@{relay plugin}!set\-Ip\-Adress@{set\-Ip\-Adress}}
+\index{set\-Ip\-Adress@{set\-Ip\-Adress}!relay plugin@{relay plugin}}
+\subsubsection[{set\-Ip\-Adress}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Uav\-Talk\-Relay\-::set\-Ip\-Adress} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Q\-String}}]{value}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_talk_gaae8733ac23163492f5ea685cc69950ca}
+
+
+\-Definition at line 52 of file uavtalkrelay.\-cpp.
+
+\hypertarget{group___u_a_v_talk_ga5ef623c050c9d1a65536f7de2eeda738}{\index{relay plugin@{relay plugin}!set\-Port@{set\-Port}}
+\index{set\-Port@{set\-Port}!relay plugin@{relay plugin}}
+\subsubsection[{set\-Port}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Uav\-Talk\-Relay\-::set\-Port} (
+\begin{DoxyParamCaption}
+\item[{quint16}]{value}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_talk_ga5ef623c050c9d1a65536f7de2eeda738}
+
+
+\-Definition at line 47 of file uavtalkrelay.\-cpp.
+
+\hypertarget{group___u_a_v_talk_ga61c935860a7d4f77e40c58c10557eed4}{\index{relay plugin@{relay plugin}!set\-Rules@{set\-Rules}}
+\index{set\-Rules@{set\-Rules}!relay plugin@{relay plugin}}
+\subsubsection[{set\-Rules}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Uav\-Talk\-Relay\-::set\-Rules} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Hash$<$ {\bf \-Q\-String}, \-Q\-Hash$<$ quint32, {\bf \-Uav\-Talk\-Relay\-Comon\-::access\-Type} $>$ $>$}]{value}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_talk_ga61c935860a7d4f77e40c58c10557eed4}
+
+
+\-Definition at line 57 of file uavtalkrelay.\-cpp.
+
+\hypertarget{group___u_a_v_talk_ga2a3c3d63a751ae8931cfbd8cf30792ba}{\index{relay plugin@{relay plugin}!shutdown@{shutdown}}
+\index{shutdown@{shutdown}!relay plugin@{relay plugin}}
+\subsubsection[{shutdown}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Uav\-Talk\-Relay\-Plugin\-::shutdown} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___u_a_v_talk_ga2a3c3d63a751ae8931cfbd8cf30792ba}
+\-Called during a shutdown sequence in the same order as initialization before the plugins get deleted in reverse order. \-This method can be used to optimize the shutdown down, e.\-g. to disconnect from the \-Plugin\-Manager\-::about\-To\-Remove\-Object() signal if getting the signal (and probably doing lots of stuff to update the internal and visible state) doesn't make sense during shutdown. 
+
+\-Reimplemented from \hyperlink{class_extension_system_1_1_i_plugin_a65c16ebd3a6e89918a99af6515fe68cb}{\-Extension\-System\-::\-I\-Plugin}.
+
+
+
+\-Definition at line 71 of file uavtalkrelayplugin.\-cpp.
+
+\hypertarget{group___u_a_v_talk_ga06b96ea896336a6b5cbf6431a19b60f7}{\index{relay plugin@{relay plugin}!tr\-Category@{tr\-Category}}
+\index{tr\-Category@{tr\-Category}!relay plugin@{relay plugin}}
+\subsubsection[{tr\-Category}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Q\-String} {\bf \-Uav\-Talk\-Relay\-Options\-Page\-::tr\-Category} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}inline, virtual\mbox{]}}}}\label{group___u_a_v_talk_ga06b96ea896336a6b5cbf6431a19b60f7}
+
+
+\-Reimplemented from \hyperlink{group___core_plugin_gac5538fc040c826784167edb4fc359b68}{\-Core\-::\-I\-Options\-Page}.
+
+
+
+\-Definition at line 56 of file uavtalkrelayoptionspage.\-h.
+
+\hypertarget{group___u_a_v_talk_gaa9de5e7b246a6ed8f405cd79586bcbab}{\index{relay plugin@{relay plugin}!tr\-Name@{tr\-Name}}
+\index{tr\-Name@{tr\-Name}!relay plugin@{relay plugin}}
+\subsubsection[{tr\-Name}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Q\-String} {\bf \-Uav\-Talk\-Relay\-Options\-Page\-::tr\-Name} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}inline, virtual\mbox{]}}}}\label{group___u_a_v_talk_gaa9de5e7b246a6ed8f405cd79586bcbab}
+
+
+\-Reimplemented from \hyperlink{group___core_plugin_ga9bda94026b37720a30f4294560c79244}{\-Core\-::\-I\-Options\-Page}.
+
+
+
+\-Definition at line 54 of file uavtalkrelayoptionspage.\-h.
+
+\hypertarget{group___u_a_v_talk_gac8b1e7722bbeccbae7c3dcea8d1fe222}{\index{relay plugin@{relay plugin}!\-Uav\-Talk\-Relay@{\-Uav\-Talk\-Relay}}
+\index{\-Uav\-Talk\-Relay@{\-Uav\-Talk\-Relay}!relay plugin@{relay plugin}}
+\subsubsection[{\-Uav\-Talk\-Relay}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Uav\-Talk\-Relay\-::\-Uav\-Talk\-Relay} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-U\-A\-V\-Object\-Manager} $\ast$}]{\-Obj\-Mngr, }
+\item[{{\bf \-Q\-String}}]{\-Ip\-Adress, }
+\item[{quint16}]{\-Port, }
+\item[{\-Q\-Hash$<$ {\bf \-Q\-String}, \-Q\-Hash$<$ quint32, {\bf \-Uav\-Talk\-Relay\-Comon\-::access\-Type} $>$ $>$}]{rules, }
+\item[{{\bf \-Uav\-Talk\-Relay\-Comon\-::access\-Type}}]{default\-Rule}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_talk_gac8b1e7722bbeccbae7c3dcea8d1fe222}
+
+
+\-Definition at line 33 of file uavtalkrelay.\-cpp.
+
+\hypertarget{group___u_a_v_talk_gac97773c8e2650a9c89d3b44262b3c9a5}{\index{relay plugin@{relay plugin}!\-Uav\-Talk\-Relay\-Options\-Page@{\-Uav\-Talk\-Relay\-Options\-Page}}
+\index{\-Uav\-Talk\-Relay\-Options\-Page@{\-Uav\-Talk\-Relay\-Options\-Page}!relay plugin@{relay plugin}}
+\subsubsection[{\-Uav\-Talk\-Relay\-Options\-Page}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Uav\-Talk\-Relay\-Options\-Page\-::\-Uav\-Talk\-Relay\-Options\-Page} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Object $\ast$}]{parent = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_talk_gac97773c8e2650a9c89d3b44262b3c9a5}
+
+
+\-Definition at line 38 of file uavtalkrelayoptionspage.\-cpp.
+
+\hypertarget{group___u_a_v_talk_ga425fbe805214fb0a0ec2eb24f6bf0af4}{\index{relay plugin@{relay plugin}!\-Uav\-Talk\-Relay\-Plugin@{\-Uav\-Talk\-Relay\-Plugin}}
+\index{\-Uav\-Talk\-Relay\-Plugin@{\-Uav\-Talk\-Relay\-Plugin}!relay plugin@{relay plugin}}
+\subsubsection[{\-Uav\-Talk\-Relay\-Plugin}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Uav\-Talk\-Relay\-Plugin\-::\-Uav\-Talk\-Relay\-Plugin} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_talk_ga425fbe805214fb0a0ec2eb24f6bf0af4}
+
+
+\-Definition at line 37 of file uavtalkrelayplugin.\-cpp.
+
+\hypertarget{group___u_a_v_talk_gab4a5b0b63eba0e6df8f5d81ab10f5fff}{\index{relay plugin@{relay plugin}!$\sim$\-Uav\-Talk\-Relay\-Options\-Page@{$\sim$\-Uav\-Talk\-Relay\-Options\-Page}}
+\index{$\sim$\-Uav\-Talk\-Relay\-Options\-Page@{$\sim$\-Uav\-Talk\-Relay\-Options\-Page}!relay plugin@{relay plugin}}
+\subsubsection[{$\sim$\-Uav\-Talk\-Relay\-Options\-Page}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Uav\-Talk\-Relay\-Options\-Page\-::$\sim$\-Uav\-Talk\-Relay\-Options\-Page} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___u_a_v_talk_gab4a5b0b63eba0e6df8f5d81ab10f5fff}
+
+
+\-Definition at line 44 of file uavtalkrelayoptionspage.\-cpp.
+
+\hypertarget{group___u_a_v_talk_gaad7159b5c609edca5e23031119f623c7}{\index{relay plugin@{relay plugin}!$\sim$\-Uav\-Talk\-Relay\-Plugin@{$\sim$\-Uav\-Talk\-Relay\-Plugin}}
+\index{$\sim$\-Uav\-Talk\-Relay\-Plugin@{$\sim$\-Uav\-Talk\-Relay\-Plugin}!relay plugin@{relay plugin}}
+\subsubsection[{$\sim$\-Uav\-Talk\-Relay\-Plugin}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Uav\-Talk\-Relay\-Plugin\-::$\sim$\-Uav\-Talk\-Relay\-Plugin} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_talk_gaad7159b5c609edca5e23031119f623c7}
+
+
+\-Definition at line 42 of file uavtalkrelayplugin.\-cpp.
+
+
+
+\subsection{\-Signals}
+\hypertarget{group___u_a_v_talk_gace88a60fb10cfb6c3994f0a3a8883aa3}{\index{relay plugin@{relay plugin}!settings\-Updated@{settings\-Updated}}
+\index{settings\-Updated@{settings\-Updated}!relay plugin@{relay plugin}}
+\subsubsection[{settings\-Updated}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Uav\-Talk\-Relay\-Options\-Page\-::settings\-Updated} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}signal\mbox{]}}}}\label{group___u_a_v_talk_gace88a60fb10cfb6c3994f0a3a8883aa3}
+
+
+\subsection{\-Public \-Slots}
+\hypertarget{group___u_a_v_talk_ga41ca9188bbbc0be7e458f94ef49117df}{\index{relay plugin@{relay plugin}!send\-Object\-Slot@{send\-Object\-Slot}}
+\index{send\-Object\-Slot@{send\-Object\-Slot}!relay plugin@{relay plugin}}
+\subsubsection[{send\-Object\-Slot}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Filtered\-Uav\-Talk\-::send\-Object\-Slot} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-U\-A\-V\-Object} $\ast$}]{obj}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}slot\mbox{]}}}}\label{group___u_a_v_talk_ga41ca9188bbbc0be7e458f94ef49117df}
+
+
+\hyperlink{group___u_a_v_talk_ga41ca9188bbbc0be7e458f94ef49117df}{\-Filtered\-Uav\-Talk\-::send\-Object\-Slot} \-Called whenever an object is updated by the local \-G\-C\-S and sends it to the remote \-G\-C\-S is the rules allow it. 
+
+\-Called whenever an object is updated either locally in the master \-G\-C\-S or from the main telemetry connection, but \-N\-O\-T as a consquence of the receive\-Object method
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em obj} & \-The \hyperlink{class_u_a_v_object}{\-U\-A\-V\-Object} to possibly send \\
+\hline
+\end{DoxyParams}
+
+
+\-Definition at line 43 of file filtereduavtalk.\-cpp.
+
+
+
+\subsection{\-Protected \-Slots}
+\hypertarget{group___u_a_v_talk_gac6522ac462e3ef789bccecdf33e38779}{\index{relay plugin@{relay plugin}!update\-Settings@{update\-Settings}}
+\index{update\-Settings@{update\-Settings}!relay plugin@{relay plugin}}
+\subsubsection[{update\-Settings}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Uav\-Talk\-Relay\-Plugin\-::update\-Settings} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}protected, slot\mbox{]}}}}\label{group___u_a_v_talk_gac6522ac462e3ef789bccecdf33e38779}
+
+
+\-Definition at line 105 of file uavtalkrelayplugin.\-cpp.
+
+
+
+\subsection{\-Friends}
+\hypertarget{group___u_a_v_talk_gaf20a0868107dbd85408f5bcba4e98063}{\index{relay plugin@{relay plugin}!\-Uav\-Talk\-Relay\-Options\-Page@{\-Uav\-Talk\-Relay\-Options\-Page}}
+\index{\-Uav\-Talk\-Relay\-Options\-Page@{\-Uav\-Talk\-Relay\-Options\-Page}!relay plugin@{relay plugin}}
+\subsubsection[{\-Uav\-Talk\-Relay\-Options\-Page}]{\setlength{\rightskip}{0pt plus 5cm}friend class {\bf \-Uav\-Talk\-Relay\-Options\-Page}\hspace{0.3cm}{\ttfamily  \mbox{[}friend\mbox{]}}}}\label{group___u_a_v_talk_gaf20a0868107dbd85408f5bcba4e98063}
+
+
+\-Definition at line 42 of file uavtalkrelayplugin.\-h.
+

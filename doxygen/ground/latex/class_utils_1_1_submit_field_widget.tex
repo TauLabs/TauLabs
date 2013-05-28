@@ -1,0 +1,233 @@
+\hypertarget{class_utils_1_1_submit_field_widget}{\section{\-Utils\-:\-:\-Submit\-Field\-Widget \-Class \-Reference}
+\label{class_utils_1_1_submit_field_widget}\index{\-Utils\-::\-Submit\-Field\-Widget@{\-Utils\-::\-Submit\-Field\-Widget}}
+}
+
+
+{\ttfamily \#include $<$submitfieldwidget.\-h$>$}
+
+\subsection*{\-Signals}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_utils_1_1_submit_field_widget_adc7d1b6d1536cfcb44cabe89c27bfeec}{browse\-Button\-Clicked} (int pos, const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \&field)
+\end{DoxyCompactItemize}
+\subsection*{\-Public \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_utils_1_1_submit_field_widget_a5c94b205b129aa2e13380f50613c1219}{\-Submit\-Field\-Widget} (\-Q\-Widget $\ast$parent=0)
+\item 
+virtual \hyperlink{class_utils_1_1_submit_field_widget_a70d97293a17e22f06a730e18b95518e0}{$\sim$\-Submit\-Field\-Widget} ()
+\item 
+\-Q\-String\-List \hyperlink{class_utils_1_1_submit_field_widget_a1d6fd4fe2919c099e5cb7e4a85e4b3af}{fields} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_utils_1_1_submit_field_widget_a5cc81b5b6aca524b7e3668c519719ee1}{set\-Fields} (const \-Q\-String\-List \&)
+\item 
+bool \hyperlink{class_utils_1_1_submit_field_widget_af634ec674af941e50bfb46ef816aa251}{has\-Browse\-Button} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_utils_1_1_submit_field_widget_a5b332d77afb3bb77d57a744805dd02b1}{set\-Has\-Browse\-Button} (bool d)
+\item 
+bool \hyperlink{class_utils_1_1_submit_field_widget_ac3e509c0a1f442d378434953b365e707}{allow\-Duplicate\-Fields} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_utils_1_1_submit_field_widget_a8cc8d00f25687d8fc526bb66ddde5620}{set\-Allow\-Duplicate\-Fields} (bool)
+\item 
+\-Q\-Completer $\ast$ \hyperlink{class_utils_1_1_submit_field_widget_ab11b596a4e9e831bb1090febdf0e1324}{completer} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_utils_1_1_submit_field_widget_ac40d3d639f21ed3f2c1a364578529b11}{set\-Completer} (\-Q\-Completer $\ast$c)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{class_utils_1_1_submit_field_widget_a9085ebdc78107f7973721f890706dfd1}{field\-Value} (int pos) const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{class_utils_1_1_submit_field_widget_afad7e57d164b4398e7d0b4783c93a543}{set\-Field\-Value} (int pos, const \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \&value)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{class_utils_1_1_submit_field_widget_a7008903646d9ebac6e100dbc5434c55e}{field\-Values} () const 
+\end{DoxyCompactItemize}
+\subsection*{\-Properties}
+\begin{DoxyCompactItemize}
+\item 
+\-Q\-String\-List \hyperlink{class_utils_1_1_submit_field_widget_a703b2271bfd9dce841ff482a1c787da8}{fields}
+\item 
+bool \hyperlink{class_utils_1_1_submit_field_widget_abf83b3fe4fc7040c43e27b77f77ac6a6}{has\-Browse\-Button}
+\item 
+bool \hyperlink{class_utils_1_1_submit_field_widget_a7d0928a7bb510f65441ec97e3cc1d14d}{allow\-Duplicate\-Fields}
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+
+
+\-Definition at line 50 of file submitfieldwidget.\-h.
+
+
+
+\subsection{\-Constructor \& \-Destructor \-Documentation}
+\hypertarget{class_utils_1_1_submit_field_widget_a5c94b205b129aa2e13380f50613c1219}{\index{\-Utils\-::\-Submit\-Field\-Widget@{\-Utils\-::\-Submit\-Field\-Widget}!\-Submit\-Field\-Widget@{\-Submit\-Field\-Widget}}
+\index{\-Submit\-Field\-Widget@{\-Submit\-Field\-Widget}!Utils::SubmitFieldWidget@{\-Utils\-::\-Submit\-Field\-Widget}}
+\subsubsection[{\-Submit\-Field\-Widget}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Utils\-::\-Submit\-Field\-Widget\-::\-Submit\-Field\-Widget} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Widget $\ast$}]{parent = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}explicit\mbox{]}}}}\label{class_utils_1_1_submit_field_widget_a5c94b205b129aa2e13380f50613c1219}
+
+
+\-Definition at line 176 of file submitfieldwidget.\-cpp.
+
+\hypertarget{class_utils_1_1_submit_field_widget_a70d97293a17e22f06a730e18b95518e0}{\index{\-Utils\-::\-Submit\-Field\-Widget@{\-Utils\-::\-Submit\-Field\-Widget}!$\sim$\-Submit\-Field\-Widget@{$\sim$\-Submit\-Field\-Widget}}
+\index{$\sim$\-Submit\-Field\-Widget@{$\sim$\-Submit\-Field\-Widget}!Utils::SubmitFieldWidget@{\-Utils\-::\-Submit\-Field\-Widget}}
+\subsubsection[{$\sim$\-Submit\-Field\-Widget}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Utils\-::\-Submit\-Field\-Widget\-::$\sim$\-Submit\-Field\-Widget} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{class_utils_1_1_submit_field_widget_a70d97293a17e22f06a730e18b95518e0}
+
+
+\-Definition at line 186 of file submitfieldwidget.\-cpp.
+
+
+
+\subsection{\-Member \-Function \-Documentation}
+\hypertarget{class_utils_1_1_submit_field_widget_ac3e509c0a1f442d378434953b365e707}{\index{\-Utils\-::\-Submit\-Field\-Widget@{\-Utils\-::\-Submit\-Field\-Widget}!allow\-Duplicate\-Fields@{allow\-Duplicate\-Fields}}
+\index{allow\-Duplicate\-Fields@{allow\-Duplicate\-Fields}!Utils::SubmitFieldWidget@{\-Utils\-::\-Submit\-Field\-Widget}}
+\subsubsection[{allow\-Duplicate\-Fields}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-Utils\-::\-Submit\-Field\-Widget\-::allow\-Duplicate\-Fields} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_utils_1_1_submit_field_widget_ac3e509c0a1f442d378434953b365e707}
+\hypertarget{class_utils_1_1_submit_field_widget_adc7d1b6d1536cfcb44cabe89c27bfeec}{\index{\-Utils\-::\-Submit\-Field\-Widget@{\-Utils\-::\-Submit\-Field\-Widget}!browse\-Button\-Clicked@{browse\-Button\-Clicked}}
+\index{browse\-Button\-Clicked@{browse\-Button\-Clicked}!Utils::SubmitFieldWidget@{\-Utils\-::\-Submit\-Field\-Widget}}
+\subsubsection[{browse\-Button\-Clicked}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Utils\-::\-Submit\-Field\-Widget\-::browse\-Button\-Clicked} (
+\begin{DoxyParamCaption}
+\item[{int}]{pos, }
+\item[{const {\bf \-Q\-String} \&}]{field}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}signal\mbox{]}}}}\label{class_utils_1_1_submit_field_widget_adc7d1b6d1536cfcb44cabe89c27bfeec}
+\hypertarget{class_utils_1_1_submit_field_widget_ab11b596a4e9e831bb1090febdf0e1324}{\index{\-Utils\-::\-Submit\-Field\-Widget@{\-Utils\-::\-Submit\-Field\-Widget}!completer@{completer}}
+\index{completer@{completer}!Utils::SubmitFieldWidget@{\-Utils\-::\-Submit\-Field\-Widget}}
+\subsubsection[{completer}]{\setlength{\rightskip}{0pt plus 5cm}\-Q\-Completer $\ast$ {\bf \-Utils\-::\-Submit\-Field\-Widget\-::completer} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_utils_1_1_submit_field_widget_ab11b596a4e9e831bb1090febdf0e1324}
+
+
+\-Definition at line 231 of file submitfieldwidget.\-cpp.
+
+\hypertarget{class_utils_1_1_submit_field_widget_a1d6fd4fe2919c099e5cb7e4a85e4b3af}{\index{\-Utils\-::\-Submit\-Field\-Widget@{\-Utils\-::\-Submit\-Field\-Widget}!fields@{fields}}
+\index{fields@{fields}!Utils::SubmitFieldWidget@{\-Utils\-::\-Submit\-Field\-Widget}}
+\subsubsection[{fields}]{\setlength{\rightskip}{0pt plus 5cm}\-Q\-String\-List {\bf \-Utils\-::\-Submit\-Field\-Widget\-::fields} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_utils_1_1_submit_field_widget_a1d6fd4fe2919c099e5cb7e4a85e4b3af}
+\hypertarget{class_utils_1_1_submit_field_widget_a9085ebdc78107f7973721f890706dfd1}{\index{\-Utils\-::\-Submit\-Field\-Widget@{\-Utils\-::\-Submit\-Field\-Widget}!field\-Value@{field\-Value}}
+\index{field\-Value@{field\-Value}!Utils::SubmitFieldWidget@{\-Utils\-::\-Submit\-Field\-Widget}}
+\subsubsection[{field\-Value}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Q\-String} {\bf \-Utils\-::\-Submit\-Field\-Widget\-::field\-Value} (
+\begin{DoxyParamCaption}
+\item[{int}]{pos}
+\end{DoxyParamCaption}
+) const}}\label{class_utils_1_1_submit_field_widget_a9085ebdc78107f7973721f890706dfd1}
+
+
+\-Definition at line 245 of file submitfieldwidget.\-cpp.
+
+\hypertarget{class_utils_1_1_submit_field_widget_a7008903646d9ebac6e100dbc5434c55e}{\index{\-Utils\-::\-Submit\-Field\-Widget@{\-Utils\-::\-Submit\-Field\-Widget}!field\-Values@{field\-Values}}
+\index{field\-Values@{field\-Values}!Utils::SubmitFieldWidget@{\-Utils\-::\-Submit\-Field\-Widget}}
+\subsubsection[{field\-Values}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Q\-String} {\bf \-Utils\-::\-Submit\-Field\-Widget\-::field\-Values} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_utils_1_1_submit_field_widget_a7008903646d9ebac6e100dbc5434c55e}
+
+
+\-Definition at line 255 of file submitfieldwidget.\-cpp.
+
+\hypertarget{class_utils_1_1_submit_field_widget_af634ec674af941e50bfb46ef816aa251}{\index{\-Utils\-::\-Submit\-Field\-Widget@{\-Utils\-::\-Submit\-Field\-Widget}!has\-Browse\-Button@{has\-Browse\-Button}}
+\index{has\-Browse\-Button@{has\-Browse\-Button}!Utils::SubmitFieldWidget@{\-Utils\-::\-Submit\-Field\-Widget}}
+\subsubsection[{has\-Browse\-Button}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-Utils\-::\-Submit\-Field\-Widget\-::has\-Browse\-Button} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_utils_1_1_submit_field_widget_af634ec674af941e50bfb46ef816aa251}
+\hypertarget{class_utils_1_1_submit_field_widget_a8cc8d00f25687d8fc526bb66ddde5620}{\index{\-Utils\-::\-Submit\-Field\-Widget@{\-Utils\-::\-Submit\-Field\-Widget}!set\-Allow\-Duplicate\-Fields@{set\-Allow\-Duplicate\-Fields}}
+\index{set\-Allow\-Duplicate\-Fields@{set\-Allow\-Duplicate\-Fields}!Utils::SubmitFieldWidget@{\-Utils\-::\-Submit\-Field\-Widget}}
+\subsubsection[{set\-Allow\-Duplicate\-Fields}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Utils\-::\-Submit\-Field\-Widget\-::set\-Allow\-Duplicate\-Fields} (
+\begin{DoxyParamCaption}
+\item[{bool}]{v}
+\end{DoxyParamCaption}
+)}}\label{class_utils_1_1_submit_field_widget_a8cc8d00f25687d8fc526bb66ddde5620}
+
+
+\-Definition at line 226 of file submitfieldwidget.\-cpp.
+
+\hypertarget{class_utils_1_1_submit_field_widget_ac40d3d639f21ed3f2c1a364578529b11}{\index{\-Utils\-::\-Submit\-Field\-Widget@{\-Utils\-::\-Submit\-Field\-Widget}!set\-Completer@{set\-Completer}}
+\index{set\-Completer@{set\-Completer}!Utils::SubmitFieldWidget@{\-Utils\-::\-Submit\-Field\-Widget}}
+\subsubsection[{set\-Completer}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Utils\-::\-Submit\-Field\-Widget\-::set\-Completer} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Completer $\ast$}]{c}
+\end{DoxyParamCaption}
+)}}\label{class_utils_1_1_submit_field_widget_ac40d3d639f21ed3f2c1a364578529b11}
+
+
+\-Definition at line 236 of file submitfieldwidget.\-cpp.
+
+\hypertarget{class_utils_1_1_submit_field_widget_a5cc81b5b6aca524b7e3668c519719ee1}{\index{\-Utils\-::\-Submit\-Field\-Widget@{\-Utils\-::\-Submit\-Field\-Widget}!set\-Fields@{set\-Fields}}
+\index{set\-Fields@{set\-Fields}!Utils::SubmitFieldWidget@{\-Utils\-::\-Submit\-Field\-Widget}}
+\subsubsection[{set\-Fields}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Utils\-::\-Submit\-Field\-Widget\-::set\-Fields} (
+\begin{DoxyParamCaption}
+\item[{const \-Q\-String\-List \&}]{f}
+\end{DoxyParamCaption}
+)}}\label{class_utils_1_1_submit_field_widget_a5cc81b5b6aca524b7e3668c519719ee1}
+
+
+\-Definition at line 191 of file submitfieldwidget.\-cpp.
+
+\hypertarget{class_utils_1_1_submit_field_widget_afad7e57d164b4398e7d0b4783c93a543}{\index{\-Utils\-::\-Submit\-Field\-Widget@{\-Utils\-::\-Submit\-Field\-Widget}!set\-Field\-Value@{set\-Field\-Value}}
+\index{set\-Field\-Value@{set\-Field\-Value}!Utils::SubmitFieldWidget@{\-Utils\-::\-Submit\-Field\-Widget}}
+\subsubsection[{set\-Field\-Value}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Utils\-::\-Submit\-Field\-Widget\-::set\-Field\-Value} (
+\begin{DoxyParamCaption}
+\item[{int}]{pos, }
+\item[{const {\bf \-Q\-String} \&}]{value}
+\end{DoxyParamCaption}
+)}}\label{class_utils_1_1_submit_field_widget_afad7e57d164b4398e7d0b4783c93a543}
+
+
+\-Definition at line 250 of file submitfieldwidget.\-cpp.
+
+\hypertarget{class_utils_1_1_submit_field_widget_a5b332d77afb3bb77d57a744805dd02b1}{\index{\-Utils\-::\-Submit\-Field\-Widget@{\-Utils\-::\-Submit\-Field\-Widget}!set\-Has\-Browse\-Button@{set\-Has\-Browse\-Button}}
+\index{set\-Has\-Browse\-Button@{set\-Has\-Browse\-Button}!Utils::SubmitFieldWidget@{\-Utils\-::\-Submit\-Field\-Widget}}
+\subsubsection[{set\-Has\-Browse\-Button}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Utils\-::\-Submit\-Field\-Widget\-::set\-Has\-Browse\-Button} (
+\begin{DoxyParamCaption}
+\item[{bool}]{d}
+\end{DoxyParamCaption}
+)}}\label{class_utils_1_1_submit_field_widget_a5b332d77afb3bb77d57a744805dd02b1}
+
+
+\-Definition at line 212 of file submitfieldwidget.\-cpp.
+
+
+
+\subsection{\-Property \-Documentation}
+\hypertarget{class_utils_1_1_submit_field_widget_a7d0928a7bb510f65441ec97e3cc1d14d}{\index{\-Utils\-::\-Submit\-Field\-Widget@{\-Utils\-::\-Submit\-Field\-Widget}!allow\-Duplicate\-Fields@{allow\-Duplicate\-Fields}}
+\index{allow\-Duplicate\-Fields@{allow\-Duplicate\-Fields}!Utils::SubmitFieldWidget@{\-Utils\-::\-Submit\-Field\-Widget}}
+\subsubsection[{allow\-Duplicate\-Fields}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-Utils\-::\-Submit\-Field\-Widget\-::allow\-Duplicate\-Fields}\hspace{0.3cm}{\ttfamily  \mbox{[}read, write\mbox{]}}}}\label{class_utils_1_1_submit_field_widget_a7d0928a7bb510f65441ec97e3cc1d14d}
+
+
+\-Definition at line 55 of file submitfieldwidget.\-h.
+
+\hypertarget{class_utils_1_1_submit_field_widget_a703b2271bfd9dce841ff482a1c787da8}{\index{\-Utils\-::\-Submit\-Field\-Widget@{\-Utils\-::\-Submit\-Field\-Widget}!fields@{fields}}
+\index{fields@{fields}!Utils::SubmitFieldWidget@{\-Utils\-::\-Submit\-Field\-Widget}}
+\subsubsection[{fields}]{\setlength{\rightskip}{0pt plus 5cm}\-Q\-String\-List {\bf \-Utils\-::\-Submit\-Field\-Widget\-::fields}\hspace{0.3cm}{\ttfamily  \mbox{[}read, write\mbox{]}}}}\label{class_utils_1_1_submit_field_widget_a703b2271bfd9dce841ff482a1c787da8}
+
+
+\-Definition at line 53 of file submitfieldwidget.\-h.
+
+\hypertarget{class_utils_1_1_submit_field_widget_abf83b3fe4fc7040c43e27b77f77ac6a6}{\index{\-Utils\-::\-Submit\-Field\-Widget@{\-Utils\-::\-Submit\-Field\-Widget}!has\-Browse\-Button@{has\-Browse\-Button}}
+\index{has\-Browse\-Button@{has\-Browse\-Button}!Utils::SubmitFieldWidget@{\-Utils\-::\-Submit\-Field\-Widget}}
+\subsubsection[{has\-Browse\-Button}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-Utils\-::\-Submit\-Field\-Widget\-::has\-Browse\-Button}\hspace{0.3cm}{\ttfamily  \mbox{[}read, write\mbox{]}}}}\label{class_utils_1_1_submit_field_widget_abf83b3fe4fc7040c43e27b77f77ac6a6}
+
+
+\-Definition at line 54 of file submitfieldwidget.\-h.
+
+
+
+\-The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/libs/utils/\hyperlink{submitfieldwidget_8h}{submitfieldwidget.\-h}\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/libs/utils/\hyperlink{submitfieldwidget_8cpp}{submitfieldwidget.\-cpp}\end{DoxyCompactItemize}

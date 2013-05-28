@@ -1,0 +1,51 @@
+\hypertarget{attitudedrift_8c}{\section{/home/jb/code/\-Tau\-Labs/flight/\-Modules/\-State/coptercontrol/attitudedrift.c \-File \-Reference}
+\label{attitudedrift_8c}\index{/home/jb/code/\-Tau\-Labs/flight/\-Modules/\-State/coptercontrol/attitudedrift.\-c@{/home/jb/code/\-Tau\-Labs/flight/\-Modules/\-State/coptercontrol/attitudedrift.\-c}}
+}
+
+
+\-Various filters for handling gyroscope drift.  
+
+
+\subsection*{\-Data \-Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{struct_global_dcm_drift_variables}{\-Global\-Dcm\-Drift\-Variables}
+\end{DoxyCompactItemize}
+\subsection*{\-Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{group___c_c_state_ga0c4491990a84594e2c930826b64b725c}{\-D\-R\-I\-F\-T\-\_\-\-C\-O\-R\-R\-E\-C\-T\-I\-O\-N\-\_\-\-A\-L\-G\-O\-S} \{ \*
+\hyperlink{group___c_c_state_gga0c4491990a84594e2c930826b64b725ca34fecf46a591d355d8d76d32e4b5d469}{\-C\-C\-C}, 
+\hyperlink{group___c_c_state_gga0c4491990a84594e2c930826b64b725ca7f012e6cc49436cc18a3204777eb9834}{\-P\-R\-E\-M\-E\-R\-L\-A\-N\-I}, 
+\hyperlink{group___c_c_state_gga0c4491990a84594e2c930826b64b725ca34fecf46a591d355d8d76d32e4b5d469}{\-C\-C\-C}, 
+\hyperlink{group___c_c_state_gga0c4491990a84594e2c930826b64b725ca7f012e6cc49436cc18a3204777eb9834}{\-P\-R\-E\-M\-E\-R\-L\-A\-N\-I}, 
+\*
+\hyperlink{group___c_c_state_gga0c4491990a84594e2c930826b64b725ca34fecf46a591d355d8d76d32e4b5d469}{\-C\-C\-C}, 
+\hyperlink{group___c_c_state_gga0c4491990a84594e2c930826b64b725ca7f012e6cc49436cc18a3204777eb9834}{\-P\-R\-E\-M\-E\-R\-L\-A\-N\-I}
+ \}
+\end{DoxyCompactItemize}
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{group___c_c_state_gacf73f90ae39bfb7e42e688376f9cf5ef}{update\-Attitude\-Drift} (\-Accels\-Data $\ast$accels\-Data, \-Gyros\-Data $\ast$gyros\-Data, const float del\-T, \hyperlink{struct_global_attitude_variables}{\-Global\-Attitude\-Variables} $\ast$\hyperlink{group___c_c_state_ga76682d72011dc0109f1d5cf25a6c6da0}{glbl\-Att}, \-Attitude\-Settings\-Data $\ast$\hyperlink{group___c_c_state_ga8f6543ab52bafea6c0858baeeae8db59}{attitude\-Settings}, \-Sensor\-Settings\-Data $\ast$inertial\-Sensor\-Settings)
+\end{DoxyCompactItemize}
+\subsection*{\-Variables}
+\begin{DoxyCompactItemize}
+\item 
+bool \hyperlink{group___c_c_state_ga82c3e02e8def62d93a337dc338c4d6cd}{firstpass\-\_\-flag} = true
+\item 
+struct \hyperlink{struct_global_dcm_drift_variables}{\-Global\-Dcm\-Drift\-Variables} $\ast$ \hyperlink{group___c_c_state_ga89657be5e41cdb8b74d42e587333115a}{drft}
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-Various filters for handling gyroscope drift. \begin{DoxyAuthor}{\-Author}
+\-Tau \-Labs, \href{http://taulabs.org,}{\tt http\-://taulabs.\-org,} \-Copyright (\-C) 2013 
+\end{DoxyAuthor}
+\begin{DoxySeeAlso}{\-See also}
+\-The \-G\-N\-U \-Public \-License (\-G\-P\-L) \-Version 3 
+\end{DoxySeeAlso}
+
+
+\-Definition in file \hyperlink{attitudedrift_8c_source}{attitudedrift.\-c}.
+

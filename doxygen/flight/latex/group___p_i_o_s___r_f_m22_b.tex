@@ -1,0 +1,792 @@
+\hypertarget{group___p_i_o_s___r_f_m22_b}{\section{\-Radio \-Functions}
+\label{group___p_i_o_s___r_f_m22_b}\index{\-Radio Functions@{\-Radio Functions}}
+}
+
+
+\-P\-I\-O\-S interface for for the \-R\-F\-M22\-B radio.  
+
+
+\subsection*{\-Data \-Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structpios__rfm22b__transition}{pios\-\_\-rfm22b\-\_\-transition}
+\item 
+struct \hyperlink{structpios__rfm22b__cfg}{pios\-\_\-rfm22b\-\_\-cfg}
+\item 
+struct \hyperlink{structrfm22b__stats}{rfm22b\-\_\-stats}
+\item 
+struct \hyperlink{structrfm22b__pair__stats}{rfm22b\-\_\-pair\-\_\-stats}
+\item 
+struct \hyperlink{structpios__rfm22b__dev}{pios\-\_\-rfm22b\-\_\-dev}
+\end{DoxyCompactItemize}
+\subsection*{\-Files}
+\begin{DoxyCompactItemize}
+\item 
+file \hyperlink{pios__rfm22b_8c}{pios\-\_\-rfm22b.\-c}
+\begin{DoxyCompactList}\small\item\em \-Implements a driver the the \-R\-F\-M22\-B driver. \end{DoxyCompactList}\item 
+file \hyperlink{pios__rfm22b__com_8c}{pios\-\_\-rfm22b\-\_\-com.\-c}
+\begin{DoxyCompactList}\small\item\em \-Implements a driver the the \-R\-F\-M22\-B driver. \end{DoxyCompactList}\item 
+file \hyperlink{pios__rfm22b_8h}{pios\-\_\-rfm22b.\-h}
+\begin{DoxyCompactList}\small\item\em \-R\-F\-M22\-B functions header. \end{DoxyCompactList}\item 
+file \hyperlink{pios__rfm22b__com_8h}{pios\-\_\-rfm22b\-\_\-com.\-h}
+\begin{DoxyCompactList}\small\item\em \-R\-F\-M22\-B functions header. \end{DoxyCompactList}\item 
+file \hyperlink{pios__rfm22b__priv_8h}{pios\-\_\-rfm22b\-\_\-priv.\-h}
+\begin{DoxyCompactList}\small\item\em \-R\-F\-M22\-B private definitions. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef void($\ast$ \hyperlink{group___p_i_o_s___r_f_m22_b_gaa8a316480e010f5e383d29257c0686cd}{\-P\-I\-O\-S\-\_\-\-R\-F\-M22\-B\-\_\-\-Com\-Config\-Callback} )(\hyperlink{group___o_p_link_settings_ga1511abaff051d1cd559ddd52fea0bfa8}{\-O\-P\-Link\-Settings\-Output\-Connection\-Options} com\-\_\-port, \hyperlink{group___o_p_link_settings_gaf4886a2c0a8f8a79c93d27c94ee503ba}{\-O\-P\-Link\-Settings\-Com\-Speed\-Options} com\-\_\-speed)
+\item 
+typedef int16\-\_\-t($\ast$ \hyperlink{group___p_i_o_s___r_f_m22_b_ga10adbdf30d2b2a9c6eab132094364df2}{t\-\_\-rfm22\-\_\-\-Tx\-Data\-Byte\-Callback} )(void)
+\item 
+typedef bool($\ast$ \hyperlink{group___p_i_o_s___r_f_m22_b_ga6d517bc1c96f4b523eb7a289850c3bb8}{t\-\_\-rfm22\-\_\-\-Rx\-Data\-Callback} )(void $\ast$data, uint8\-\_\-t len)
+\end{DoxyCompactItemize}
+\subsection*{\-Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{group___p_i_o_s___r_f_m22_b_gaccc7d029df9e5a96151a68e64f4be7e2}{gpio\-\_\-direction} \{ \hyperlink{group___p_i_o_s___r_f_m22_b_ggaccc7d029df9e5a96151a68e64f4be7e2a87c92cb693852456c28e74d75b67b00a}{\-G\-P\-I\-O0\-\_\-\-T\-X\-\_\-\-G\-P\-I\-O1\-\_\-\-R\-X}, 
+\hyperlink{group___p_i_o_s___r_f_m22_b_ggaccc7d029df9e5a96151a68e64f4be7e2a914b463221cba0d76f04cd178ef2d8f0}{\-G\-P\-I\-O0\-\_\-\-R\-X\-\_\-\-G\-P\-I\-O1\-\_\-\-T\-X}
+ \}
+\item 
+enum \hyperlink{group___p_i_o_s___r_f_m22_b_gaad7a4f0b388c5c9323bb4ced4e9356cc}{rfm22b\-\_\-tx\-\_\-power} \{ \*
+\hyperlink{group___p_i_o_s___r_f_m22_b_ggaad7a4f0b388c5c9323bb4ced4e9356cca3b8061dc56ef54a7f5db4bf1e74c5319}{\-R\-F\-M22\-\_\-tx\-\_\-pwr\-\_\-txpow\-\_\-0} =  0x00, 
+\hyperlink{group___p_i_o_s___r_f_m22_b_ggaad7a4f0b388c5c9323bb4ced4e9356cca6d5a44ebcaa13080170d647910a721c1}{\-R\-F\-M22\-\_\-tx\-\_\-pwr\-\_\-txpow\-\_\-1} =  0x01, 
+\hyperlink{group___p_i_o_s___r_f_m22_b_ggaad7a4f0b388c5c9323bb4ced4e9356cca211047452ea729f5c4836e2732c750e4}{\-R\-F\-M22\-\_\-tx\-\_\-pwr\-\_\-txpow\-\_\-2} =  0x02, 
+\hyperlink{group___p_i_o_s___r_f_m22_b_ggaad7a4f0b388c5c9323bb4ced4e9356cca47ab0e394ffb21472cc73bd3ea4ba139}{\-R\-F\-M22\-\_\-tx\-\_\-pwr\-\_\-txpow\-\_\-3} =  0x03, 
+\*
+\hyperlink{group___p_i_o_s___r_f_m22_b_ggaad7a4f0b388c5c9323bb4ced4e9356ccae3308a1793a8636dd4127b88516a8ae5}{\-R\-F\-M22\-\_\-tx\-\_\-pwr\-\_\-txpow\-\_\-4} =  0x04, 
+\hyperlink{group___p_i_o_s___r_f_m22_b_ggaad7a4f0b388c5c9323bb4ced4e9356cca725b92623670d326be838a450a1970fc}{\-R\-F\-M22\-\_\-tx\-\_\-pwr\-\_\-txpow\-\_\-5} =  0x05, 
+\hyperlink{group___p_i_o_s___r_f_m22_b_ggaad7a4f0b388c5c9323bb4ced4e9356cca31374e8ebc5c7afb036fba8c6d69336c}{\-R\-F\-M22\-\_\-tx\-\_\-pwr\-\_\-txpow\-\_\-6} =  0x06, 
+\hyperlink{group___p_i_o_s___r_f_m22_b_ggaad7a4f0b388c5c9323bb4ced4e9356ccade87df0ea8ae8e430c1fc59bad39ecc7}{\-R\-F\-M22\-\_\-tx\-\_\-pwr\-\_\-txpow\-\_\-7} =  0x07
+ \}
+\item 
+enum \hyperlink{group___p_i_o_s___r_f_m22_b_gaa3e170044f27a00c422ee75f98130ef1}{rfm22b\-\_\-datarate} \{ \*
+\hyperlink{group___p_i_o_s___r_f_m22_b_ggaa3e170044f27a00c422ee75f98130ef1a36bc9a3bd8b78d019dbd7d2495169ce4}{\-R\-F\-M22\-\_\-datarate\-\_\-500} =  0, 
+\hyperlink{group___p_i_o_s___r_f_m22_b_ggaa3e170044f27a00c422ee75f98130ef1aa17cabbc60faeb47c286249dfa14c670}{\-R\-F\-M22\-\_\-datarate\-\_\-1000} =  1, 
+\hyperlink{group___p_i_o_s___r_f_m22_b_ggaa3e170044f27a00c422ee75f98130ef1a1b1de802b878eeb6bdc948a02ced816a}{\-R\-F\-M22\-\_\-datarate\-\_\-2000} =  2, 
+\hyperlink{group___p_i_o_s___r_f_m22_b_ggaa3e170044f27a00c422ee75f98130ef1afb5019f492f916460103f5d8802ef3c0}{\-R\-F\-M22\-\_\-datarate\-\_\-4000} =  3, 
+\*
+\hyperlink{group___p_i_o_s___r_f_m22_b_ggaa3e170044f27a00c422ee75f98130ef1ab694518703ba2978f5c0a713c7653ce7}{\-R\-F\-M22\-\_\-datarate\-\_\-8000} =  4, 
+\hyperlink{group___p_i_o_s___r_f_m22_b_ggaa3e170044f27a00c422ee75f98130ef1a2f4a71d53bc9f04e377b6f6294d9ca50}{\-R\-F\-M22\-\_\-datarate\-\_\-9600} =  5, 
+\hyperlink{group___p_i_o_s___r_f_m22_b_ggaa3e170044f27a00c422ee75f98130ef1a09ed5e9fcf5708dd7407346d9a0ab922}{\-R\-F\-M22\-\_\-datarate\-\_\-16000} =  6, 
+\hyperlink{group___p_i_o_s___r_f_m22_b_ggaa3e170044f27a00c422ee75f98130ef1aedd904c3e63449c00996dca8934d5413}{\-R\-F\-M22\-\_\-datarate\-\_\-19200} =  7, 
+\*
+\hyperlink{group___p_i_o_s___r_f_m22_b_ggaa3e170044f27a00c422ee75f98130ef1ab081da7c750e3499b953b518d24bc5bf}{\-R\-F\-M22\-\_\-datarate\-\_\-24000} =  8, 
+\hyperlink{group___p_i_o_s___r_f_m22_b_ggaa3e170044f27a00c422ee75f98130ef1a3f8afae5b7a9383c81f1e56d307953b3}{\-R\-F\-M22\-\_\-datarate\-\_\-32000} =  9, 
+\hyperlink{group___p_i_o_s___r_f_m22_b_ggaa3e170044f27a00c422ee75f98130ef1a68ce67d698ece0a8fe76f20f22e65830}{\-R\-F\-M22\-\_\-datarate\-\_\-64000} =  10, 
+\hyperlink{group___p_i_o_s___r_f_m22_b_ggaa3e170044f27a00c422ee75f98130ef1a5724082114b980608e6fea8076767031}{\-R\-F\-M22\-\_\-datarate\-\_\-128000} =  11, 
+\*
+\hyperlink{group___p_i_o_s___r_f_m22_b_ggaa3e170044f27a00c422ee75f98130ef1ab01bf42f9f3a056aabb6571f3f824f40}{\-R\-F\-M22\-\_\-datarate\-\_\-192000} =  12, 
+\hyperlink{group___p_i_o_s___r_f_m22_b_ggaa3e170044f27a00c422ee75f98130ef1a53a8ce185aada9d03c225f9cb773d222}{\-R\-F\-M22\-\_\-datarate\-\_\-256000} =  13
+ \}
+\item 
+enum \hyperlink{group___p_i_o_s___r_f_m22_b_ga25f646fb6abded1e9f076ca00e13cbec}{pios\-\_\-rfm22b\-\_\-dev\-\_\-magic} \{ \hyperlink{group___p_i_o_s___r_f_m22_b_gga25f646fb6abded1e9f076ca00e13cbeca465296d21d23694d7d9f2f7486929f77}{\-P\-I\-O\-S\-\_\-\-R\-F\-M22\-B\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C} =  0x68e971b6
+ \}
+\item 
+enum \hyperlink{group___p_i_o_s___r_f_m22_b_gaf31f5344b7afb099b3105bfff4debdca}{pios\-\_\-rfm22b\-\_\-state} \{ \*
+\hyperlink{group___p_i_o_s___r_f_m22_b_ggaf31f5344b7afb099b3105bfff4debdcaa435d2d141dac949cbbb311066ff1d84e}{\-R\-F\-M22\-B\-\_\-\-S\-T\-A\-T\-E\-\_\-\-U\-N\-I\-N\-I\-T\-I\-A\-L\-I\-Z\-E\-D}, 
+\hyperlink{group___p_i_o_s___r_f_m22_b_ggaf31f5344b7afb099b3105bfff4debdcaa7b299487dbe220f59e1684dd72672fd3}{\-R\-F\-M22\-B\-\_\-\-S\-T\-A\-T\-E\-\_\-\-I\-N\-I\-T\-I\-A\-L\-I\-Z\-I\-N\-G}, 
+\hyperlink{group___p_i_o_s___r_f_m22_b_ggaf31f5344b7afb099b3105bfff4debdcaa27bfead702378b4480b2a6125a619e6b}{\-R\-F\-M22\-B\-\_\-\-S\-T\-A\-T\-E\-\_\-\-I\-N\-I\-T\-I\-A\-L\-I\-Z\-E\-D}, 
+\hyperlink{group___p_i_o_s___r_f_m22_b_ggaf31f5344b7afb099b3105bfff4debdcaa8bd0f5000b8fa7d043c3a9bcccd7ceb3}{\-R\-F\-M22\-B\-\_\-\-S\-T\-A\-T\-E\-\_\-\-I\-N\-I\-T\-I\-A\-T\-I\-N\-G\-\_\-\-C\-O\-N\-N\-E\-C\-T\-I\-O\-N}, 
+\*
+\hyperlink{group___p_i_o_s___r_f_m22_b_ggaf31f5344b7afb099b3105bfff4debdcaa7c244cdd9274f1107f0caaee4f2554b4}{\-R\-F\-M22\-B\-\_\-\-S\-T\-A\-T\-E\-\_\-\-W\-A\-I\-T\-\_\-\-F\-O\-R\-\_\-\-C\-O\-N\-N\-E\-C\-T\-I\-O\-N}, 
+\hyperlink{group___p_i_o_s___r_f_m22_b_ggaf31f5344b7afb099b3105bfff4debdcaaceb982d73e068ba7631800977735b857}{\-R\-F\-M22\-B\-\_\-\-S\-T\-A\-T\-E\-\_\-\-R\-E\-Q\-U\-E\-S\-T\-I\-N\-G\-\_\-\-C\-O\-N\-N\-E\-C\-T\-I\-O\-N}, 
+\hyperlink{group___p_i_o_s___r_f_m22_b_ggaf31f5344b7afb099b3105bfff4debdcaaa8e557f9dff9cf70d39cc40ee0e9c3e6}{\-R\-F\-M22\-B\-\_\-\-S\-T\-A\-T\-E\-\_\-\-A\-C\-C\-E\-P\-T\-I\-N\-G\-\_\-\-C\-O\-N\-N\-E\-C\-T\-I\-O\-N}, 
+\hyperlink{group___p_i_o_s___r_f_m22_b_ggaf31f5344b7afb099b3105bfff4debdcaae6ac3eb1e9d3fbe864d227e8dae9ba49}{\-R\-F\-M22\-B\-\_\-\-S\-T\-A\-T\-E\-\_\-\-C\-O\-N\-N\-E\-C\-T\-I\-O\-N\-\_\-\-A\-C\-C\-E\-P\-T\-E\-D}, 
+\*
+\hyperlink{group___p_i_o_s___r_f_m22_b_ggaf31f5344b7afb099b3105bfff4debdcaa63a36dff1cddc703145598fab4e6bfec}{\-R\-F\-M22\-B\-\_\-\-S\-T\-A\-T\-E\-\_\-\-R\-X\-\_\-\-M\-O\-D\-E}, 
+\hyperlink{group___p_i_o_s___r_f_m22_b_ggaf31f5344b7afb099b3105bfff4debdcaaff1829e6659fb28cb9cc7e69d120924c}{\-R\-F\-M22\-B\-\_\-\-S\-T\-A\-T\-E\-\_\-\-W\-A\-I\-T\-\_\-\-P\-R\-E\-A\-M\-B\-L\-E}, 
+\hyperlink{group___p_i_o_s___r_f_m22_b_ggaf31f5344b7afb099b3105bfff4debdcaa65a831997eef86bd160b26db0453cc5d}{\-R\-F\-M22\-B\-\_\-\-S\-T\-A\-T\-E\-\_\-\-W\-A\-I\-T\-\_\-\-S\-Y\-N\-C}, 
+\hyperlink{group___p_i_o_s___r_f_m22_b_ggaf31f5344b7afb099b3105bfff4debdcaa309b3a0d3adf41d01687864e7b041740}{\-R\-F\-M22\-B\-\_\-\-S\-T\-A\-T\-E\-\_\-\-R\-X\-\_\-\-D\-A\-T\-A}, 
+\*
+\hyperlink{group___p_i_o_s___r_f_m22_b_ggaf31f5344b7afb099b3105bfff4debdcaa8f421837505275bcb2fa262075e7793d}{\-R\-F\-M22\-B\-\_\-\-S\-T\-A\-T\-E\-\_\-\-R\-X\-\_\-\-F\-A\-I\-L\-U\-R\-E}, 
+\hyperlink{group___p_i_o_s___r_f_m22_b_ggaf31f5344b7afb099b3105bfff4debdcaa2e446fb00d4991e2515e7b0ea2a41177}{\-R\-F\-M22\-B\-\_\-\-S\-T\-A\-T\-E\-\_\-\-R\-E\-C\-E\-I\-V\-I\-N\-G\-\_\-\-S\-T\-A\-T\-U\-S}, 
+\hyperlink{group___p_i_o_s___r_f_m22_b_ggaf31f5344b7afb099b3105bfff4debdcaacc32ba57d31d0786b6addb57d363e412}{\-R\-F\-M22\-B\-\_\-\-S\-T\-A\-T\-E\-\_\-\-T\-X\-\_\-\-S\-T\-A\-R\-T}, 
+\hyperlink{group___p_i_o_s___r_f_m22_b_ggaf31f5344b7afb099b3105bfff4debdcaa961a924caf5750cb8830f00aeb40b665}{\-R\-F\-M22\-B\-\_\-\-S\-T\-A\-T\-E\-\_\-\-T\-X\-\_\-\-D\-A\-T\-A}, 
+\*
+\hyperlink{group___p_i_o_s___r_f_m22_b_ggaf31f5344b7afb099b3105bfff4debdcaaf1847b13cef0dfe40f78a5d093135b1b}{\-R\-F\-M22\-B\-\_\-\-S\-T\-A\-T\-E\-\_\-\-T\-X\-\_\-\-F\-A\-I\-L\-U\-R\-E}, 
+\hyperlink{group___p_i_o_s___r_f_m22_b_ggaf31f5344b7afb099b3105bfff4debdcaa4d5c74c46877772372fce099c4d10ad7}{\-R\-F\-M22\-B\-\_\-\-S\-T\-A\-T\-E\-\_\-\-S\-E\-N\-D\-I\-N\-G\-\_\-\-A\-C\-K}, 
+\hyperlink{group___p_i_o_s___r_f_m22_b_ggaf31f5344b7afb099b3105bfff4debdcaafb273fcaba2f21d05b48a72bf8ec0218}{\-R\-F\-M22\-B\-\_\-\-S\-T\-A\-T\-E\-\_\-\-S\-E\-N\-D\-I\-N\-G\-\_\-\-N\-A\-C\-K}, 
+\hyperlink{group___p_i_o_s___r_f_m22_b_ggaf31f5344b7afb099b3105bfff4debdcaa31d4bd901d91fa70cd6b5265abb7342f}{\-R\-F\-M22\-B\-\_\-\-S\-T\-A\-T\-E\-\_\-\-R\-E\-C\-E\-I\-V\-I\-N\-G\-\_\-\-A\-C\-K}, 
+\*
+\hyperlink{group___p_i_o_s___r_f_m22_b_ggaf31f5344b7afb099b3105bfff4debdcaa0bb4551035b87363e95887adc4c87f44}{\-R\-F\-M22\-B\-\_\-\-S\-T\-A\-T\-E\-\_\-\-R\-E\-C\-E\-I\-V\-I\-N\-G\-\_\-\-N\-A\-C\-K}, 
+\hyperlink{group___p_i_o_s___r_f_m22_b_ggaf31f5344b7afb099b3105bfff4debdcaa94356a3bc173a01ef473c81f7f9f387c}{\-R\-F\-M22\-B\-\_\-\-S\-T\-A\-T\-E\-\_\-\-T\-I\-M\-E\-O\-U\-T}, 
+\hyperlink{group___p_i_o_s___r_f_m22_b_ggaf31f5344b7afb099b3105bfff4debdcaa863dc3eeb6b9d6daea6718097e9afba0}{\-R\-F\-M22\-B\-\_\-\-S\-T\-A\-T\-E\-\_\-\-E\-R\-R\-O\-R}, 
+\hyperlink{group___p_i_o_s___r_f_m22_b_ggaf31f5344b7afb099b3105bfff4debdcaa29a48aa40064638700998b35b23ec72f}{\-R\-F\-M22\-B\-\_\-\-S\-T\-A\-T\-E\-\_\-\-F\-A\-T\-A\-L\-\_\-\-E\-R\-R\-O\-R}, 
+\*
+\hyperlink{group___p_i_o_s___r_f_m22_b_ggaf31f5344b7afb099b3105bfff4debdcaacc8445257d6ed1782b22c1ee2a46f206}{\-R\-F\-M22\-B\-\_\-\-S\-T\-A\-T\-E\-\_\-\-N\-U\-M\-\_\-\-S\-T\-A\-T\-E\-S}
+ \}
+\item 
+enum \hyperlink{group___p_i_o_s___r_f_m22_b_gafefba9f85ea9fb8d2c610fe3759a00c2}{pios\-\_\-rfm22b\-\_\-event} \{ \*
+\hyperlink{group___p_i_o_s___r_f_m22_b_ggafefba9f85ea9fb8d2c610fe3759a00c2a3e4ec4cdace68a2fc496863553f1b21e}{\-R\-F\-M22\-B\-\_\-\-E\-V\-E\-N\-T\-\_\-\-I\-N\-T\-\_\-\-R\-E\-C\-E\-I\-V\-E\-D}, 
+\hyperlink{group___p_i_o_s___r_f_m22_b_ggafefba9f85ea9fb8d2c610fe3759a00c2ac81159af4ef62745e2379cf638c4023e}{\-R\-F\-M22\-B\-\_\-\-E\-V\-E\-N\-T\-\_\-\-I\-N\-I\-T\-I\-A\-L\-I\-Z\-E}, 
+\hyperlink{group___p_i_o_s___r_f_m22_b_ggafefba9f85ea9fb8d2c610fe3759a00c2ab2a453aeb15fd52d7ee950515ccc396c}{\-R\-F\-M22\-B\-\_\-\-E\-V\-E\-N\-T\-\_\-\-I\-N\-I\-T\-I\-A\-L\-I\-Z\-E\-D}, 
+\hyperlink{group___p_i_o_s___r_f_m22_b_ggafefba9f85ea9fb8d2c610fe3759a00c2ac19a6abb58f931e6475c592848d7d05a}{\-R\-F\-M22\-B\-\_\-\-E\-V\-E\-N\-T\-\_\-\-R\-E\-Q\-U\-E\-S\-T\-\_\-\-C\-O\-N\-N\-E\-C\-T\-I\-O\-N}, 
+\*
+\hyperlink{group___p_i_o_s___r_f_m22_b_ggafefba9f85ea9fb8d2c610fe3759a00c2a92444fc670fb008ab3e6df5fc7551209}{\-R\-F\-M22\-B\-\_\-\-E\-V\-E\-N\-T\-\_\-\-W\-A\-I\-T\-\_\-\-F\-O\-R\-\_\-\-C\-O\-N\-N\-E\-C\-T\-I\-O\-N}, 
+\hyperlink{group___p_i_o_s___r_f_m22_b_ggafefba9f85ea9fb8d2c610fe3759a00c2aa6b3b8a36ef2f5be8301355ebce89112}{\-R\-F\-M22\-B\-\_\-\-E\-V\-E\-N\-T\-\_\-\-C\-O\-N\-N\-E\-C\-T\-I\-O\-N\-\_\-\-R\-E\-Q\-U\-E\-S\-T\-E\-D}, 
+\hyperlink{group___p_i_o_s___r_f_m22_b_ggafefba9f85ea9fb8d2c610fe3759a00c2a270353a6c8c619acd575015ed7acceb6}{\-R\-F\-M22\-B\-\_\-\-E\-V\-E\-N\-T\-\_\-\-C\-O\-N\-N\-E\-C\-T\-I\-O\-N\-\_\-\-A\-C\-C\-E\-P\-T\-E\-D}, 
+\hyperlink{group___p_i_o_s___r_f_m22_b_ggafefba9f85ea9fb8d2c610fe3759a00c2a19e9383feac0c23ce398f7d9384c3059}{\-R\-F\-M22\-B\-\_\-\-E\-V\-E\-N\-T\-\_\-\-P\-A\-C\-K\-E\-T\-\_\-\-A\-C\-K\-E\-D}, 
+\*
+\hyperlink{group___p_i_o_s___r_f_m22_b_ggafefba9f85ea9fb8d2c610fe3759a00c2a725d3965af8e429a95709db317751eea}{\-R\-F\-M22\-B\-\_\-\-E\-V\-E\-N\-T\-\_\-\-P\-A\-C\-K\-E\-T\-\_\-\-N\-A\-C\-K\-E\-D}, 
+\hyperlink{group___p_i_o_s___r_f_m22_b_ggafefba9f85ea9fb8d2c610fe3759a00c2a94e81215f6aa0f647dfa646a8ffbb0b5}{\-R\-F\-M22\-B\-\_\-\-E\-V\-E\-N\-T\-\_\-\-A\-C\-K\-\_\-\-T\-I\-M\-E\-O\-U\-T}, 
+\hyperlink{group___p_i_o_s___r_f_m22_b_ggafefba9f85ea9fb8d2c610fe3759a00c2a6fff9bee58987bb93a1771f29c3c1f23}{\-R\-F\-M22\-B\-\_\-\-E\-V\-E\-N\-T\-\_\-\-R\-X\-\_\-\-M\-O\-D\-E}, 
+\hyperlink{group___p_i_o_s___r_f_m22_b_ggafefba9f85ea9fb8d2c610fe3759a00c2ad7dfe2b62a899f8ac694d6ff415f8f4a}{\-R\-F\-M22\-B\-\_\-\-E\-V\-E\-N\-T\-\_\-\-P\-R\-E\-A\-M\-B\-L\-E\-\_\-\-D\-E\-T\-E\-C\-T\-E\-D}, 
+\*
+\hyperlink{group___p_i_o_s___r_f_m22_b_ggafefba9f85ea9fb8d2c610fe3759a00c2a997bf1f3409379b556abfeda294ff184}{\-R\-F\-M22\-B\-\_\-\-E\-V\-E\-N\-T\-\_\-\-S\-Y\-N\-C\-\_\-\-D\-E\-T\-E\-C\-T\-E\-D}, 
+\hyperlink{group___p_i_o_s___r_f_m22_b_ggafefba9f85ea9fb8d2c610fe3759a00c2adc4252d32316b4bdff1c9b64e46e7f5a}{\-R\-F\-M22\-B\-\_\-\-E\-V\-E\-N\-T\-\_\-\-R\-X\-\_\-\-C\-O\-M\-P\-L\-E\-T\-E}, 
+\hyperlink{group___p_i_o_s___r_f_m22_b_ggafefba9f85ea9fb8d2c610fe3759a00c2a35d784cf5079afeadda2640ee6b46f26}{\-R\-F\-M22\-B\-\_\-\-E\-V\-E\-N\-T\-\_\-\-R\-X\-\_\-\-E\-R\-R\-O\-R}, 
+\hyperlink{group___p_i_o_s___r_f_m22_b_ggafefba9f85ea9fb8d2c610fe3759a00c2aaf8fcd36a96e9bc6fea158bc9f9b9ecd}{\-R\-F\-M22\-B\-\_\-\-E\-V\-E\-N\-T\-\_\-\-S\-T\-A\-T\-U\-S\-\_\-\-R\-E\-C\-E\-I\-V\-E\-D}, 
+\*
+\hyperlink{group___p_i_o_s___r_f_m22_b_ggafefba9f85ea9fb8d2c610fe3759a00c2a705b1f62a633333da46845128deb24ee}{\-R\-F\-M22\-B\-\_\-\-E\-V\-E\-N\-T\-\_\-\-T\-X\-\_\-\-S\-T\-A\-R\-T}, 
+\hyperlink{group___p_i_o_s___r_f_m22_b_ggafefba9f85ea9fb8d2c610fe3759a00c2a2465e4731727edd260b49e52dc85de56}{\-R\-F\-M22\-B\-\_\-\-E\-V\-E\-N\-T\-\_\-\-F\-A\-I\-L\-U\-R\-E}, 
+\hyperlink{group___p_i_o_s___r_f_m22_b_ggafefba9f85ea9fb8d2c610fe3759a00c2adc66d582f00b8536c5a13a7ba02acda2}{\-R\-F\-M22\-B\-\_\-\-E\-V\-E\-N\-T\-\_\-\-T\-I\-M\-E\-O\-U\-T}, 
+\hyperlink{group___p_i_o_s___r_f_m22_b_ggafefba9f85ea9fb8d2c610fe3759a00c2af4356b8b7a94d19dc7023bdc33e87b62}{\-R\-F\-M22\-B\-\_\-\-E\-V\-E\-N\-T\-\_\-\-E\-R\-R\-O\-R}, 
+\*
+\hyperlink{group___p_i_o_s___r_f_m22_b_ggafefba9f85ea9fb8d2c610fe3759a00c2aed906179c93278bdedaa584719416009}{\-R\-F\-M22\-B\-\_\-\-E\-V\-E\-N\-T\-\_\-\-F\-A\-T\-A\-L\-\_\-\-E\-R\-R\-O\-R}, 
+\hyperlink{group___p_i_o_s___r_f_m22_b_ggafefba9f85ea9fb8d2c610fe3759a00c2aa1f8214c33b90c900f422b7e5c2b8f31}{\-R\-F\-M22\-B\-\_\-\-E\-V\-E\-N\-T\-\_\-\-N\-U\-M\-\_\-\-E\-V\-E\-N\-T\-S}
+ \}
+\item 
+enum \hyperlink{group___p_i_o_s___r_f_m22_b_ga35600b81785134630f9193e4ff1478a3}{pios\-\_\-rfm22b\-\_\-rx\-\_\-packet\-\_\-status} \{ \hyperlink{group___p_i_o_s___r_f_m22_b_gga35600b81785134630f9193e4ff1478a3a70ea6e91308b4c2944276f919e07af30}{\-R\-F\-M22\-B\-\_\-\-G\-O\-O\-D\-\_\-\-R\-X\-\_\-\-P\-A\-C\-K\-E\-T} =  0x00, 
+\hyperlink{group___p_i_o_s___r_f_m22_b_gga35600b81785134630f9193e4ff1478a3ab785f920fd4d6b5091a150bbbea5dc3f}{\-R\-F\-M22\-B\-\_\-\-C\-O\-R\-R\-E\-C\-T\-E\-D\-\_\-\-R\-X\-\_\-\-P\-A\-C\-K\-E\-T} =  0x01, 
+\hyperlink{group___p_i_o_s___r_f_m22_b_gga35600b81785134630f9193e4ff1478a3a275f3866391d28d8a46a71a50d4fae12}{\-R\-F\-M22\-B\-\_\-\-E\-R\-R\-O\-R\-\_\-\-R\-X\-\_\-\-P\-A\-C\-K\-E\-T} =  0x2, 
+\hyperlink{group___p_i_o_s___r_f_m22_b_gga35600b81785134630f9193e4ff1478a3a69529f54139da530e2a9df40d6be5cf1}{\-R\-F\-M22\-B\-\_\-\-R\-E\-S\-E\-N\-T\-\_\-\-T\-X\-\_\-\-P\-A\-C\-K\-E\-T} =  0x3
+ \}
+\end{DoxyCompactItemize}
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+bool \hyperlink{group___p_i_o_s___r_f_m22_b_gadb74603103aaab46ac72a08665bf0047}{\-P\-I\-O\-S\-\_\-\-R\-F\-M22\-B\-\_\-validate} (struct \hyperlink{structpios__rfm22b__dev}{pios\-\_\-rfm22b\-\_\-dev} $\ast$rfm22b\-\_\-dev)
+\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___r_f_m22_b_ga5d053a5a8be93e0b0d4c61061cc74464}{\-P\-I\-O\-S\-\_\-\-R\-F\-M22\-B\-\_\-\-Init} (uint32\-\_\-t $\ast$rfm22b\-\_\-id, uint32\-\_\-t spi\-\_\-id, uint32\-\_\-t slave\-\_\-num, const struct \hyperlink{structpios__rfm22b__cfg}{pios\-\_\-rfm22b\-\_\-cfg} $\ast$cfg)
+\item 
+bool \hyperlink{group___p_i_o_s___r_f_m22_b_ga34f82a23ad429841e5f212fc0c221131}{\-P\-I\-O\-S\-\_\-\-R\-F\-M22\-\_\-\-E\-X\-T\-\_\-\-Int} (void)
+\item 
+void \hyperlink{group___p_i_o_s___r_f_m22_b_ga4327e22931b06353b8340bfc91abdc59}{\-P\-I\-O\-S\-\_\-\-R\-F\-M22\-B\-\_\-\-Inject\-Event} (struct \hyperlink{structpios__rfm22b__dev}{pios\-\_\-rfm22b\-\_\-dev} $\ast$rfm22b\-\_\-dev, enum \hyperlink{group___p_i_o_s___r_f_m22_b_gafefba9f85ea9fb8d2c610fe3759a00c2}{pios\-\_\-rfm22b\-\_\-event} event, bool in\-I\-S\-R)
+\item 
+uint32\-\_\-t \hyperlink{group___p_i_o_s___r_f_m22_b_ga48b5ed8668584cdfbbbec3e07156e5d8}{\-P\-I\-O\-S\-\_\-\-R\-F\-M22\-B\-\_\-\-Device\-I\-D} (uint32\-\_\-t rfm22b\-\_\-id)
+\item 
+void \hyperlink{group___p_i_o_s___r_f_m22_b_ga2230c70e99a4c87dcad0ea19351ddc0a}{\-P\-I\-O\-S\-\_\-\-R\-F\-M22\-B\-\_\-\-Set\-Tx\-Power} (uint32\-\_\-t rfm22b\-\_\-id, enum \hyperlink{group___p_i_o_s___r_f_m22_b_gaad7a4f0b388c5c9323bb4ced4e9356cc}{rfm22b\-\_\-tx\-\_\-power} tx\-\_\-pwr)
+\item 
+void \hyperlink{group___p_i_o_s___r_f_m22_b_ga6b7275549a5178f70500c1705d85e30a}{\-P\-I\-O\-S\-\_\-\-R\-F\-M22\-B\-\_\-\-Set\-Frequency\-Range} (uint32\-\_\-t rfm22b\-\_\-id, uint32\-\_\-t min\-\_\-frequency, uint32\-\_\-t max\-\_\-frequency)
+\item 
+void \hyperlink{group___p_i_o_s___r_f_m22_b_ga2e2954db8900f7f997170fbc5047e748}{\-P\-I\-O\-S\-\_\-\-R\-F\-M22\-B\-\_\-\-Set\-Destination\-Id} (uint32\-\_\-t rfm22b\-\_\-id, uint32\-\_\-t dest\-\_\-id)
+\item 
+void \hyperlink{group___p_i_o_s___r_f_m22_b_gaf27178ba026097c91627b50f862f388e}{\-P\-I\-O\-S\-\_\-\-R\-F\-M22\-B\-\_\-\-Set\-Coordinator} (uint32\-\_\-t rfm22b\-\_\-id, bool coordinator)
+\item 
+void \hyperlink{group___p_i_o_s___r_f_m22_b_ga74f4ab9cf6b2337fc517addf32e432d7}{\-P\-I\-O\-S\-\_\-\-R\-F\-M22\-B\-\_\-\-Set\-Remote\-Com\-Config} (uint32\-\_\-t rfm22b\-\_\-id, \hyperlink{group___o_p_link_settings_ga1511abaff051d1cd559ddd52fea0bfa8}{\-O\-P\-Link\-Settings\-Output\-Connection\-Options} com\-\_\-port, \hyperlink{group___o_p_link_settings_gaf4886a2c0a8f8a79c93d27c94ee503ba}{\-O\-P\-Link\-Settings\-Com\-Speed\-Options} com\-\_\-speed)
+\item 
+void \hyperlink{group___p_i_o_s___r_f_m22_b_gaa2f467cefea23fca9354817c336c2c7f}{\-P\-I\-O\-S\-\_\-\-R\-F\-M22\-B\-\_\-\-Set\-Com\-Config\-Callback} (uint32\-\_\-t rfm22b\-\_\-id, \hyperlink{group___p_i_o_s___r_f_m22_b_gaa8a316480e010f5e383d29257c0686cd}{\-P\-I\-O\-S\-\_\-\-R\-F\-M22\-B\-\_\-\-Com\-Config\-Callback} cb)
+\item 
+void \hyperlink{group___p_i_o_s___r_f_m22_b_ga7993764aede415744ac90bf71b2a84f5}{\-P\-I\-O\-S\-\_\-\-R\-F\-M22\-B\-\_\-\-Get\-Stats} (uint32\-\_\-t rfm22b\-\_\-id, struct \hyperlink{structrfm22b__stats}{rfm22b\-\_\-stats} $\ast$stats)
+\item 
+uint8\-\_\-t \hyperlink{group___p_i_o_s___r_f_m22_b_ga2c3963442036bf6e581c9c4e2e6447b9}{\-P\-I\-O\-S\-\_\-\-R\-F\-M2\-B\-\_\-\-Get\-Pair\-Stats} (uint32\-\_\-t rfm22b\-\_\-id, uint32\-\_\-t $\ast$device\-\_\-ids, int8\-\_\-t $\ast$\-R\-S\-S\-Is, uint8\-\_\-t max\-\_\-pairs)
+\item 
+bool \hyperlink{group___p_i_o_s___r_f_m22_b_ga5d2ba4c573bc63f53ccb80f3bdbbc8e4}{\-P\-I\-O\-S\-\_\-\-R\-F\-M22\-B\-\_\-\-Link\-Status} (uint32\-\_\-t rfm22b\-\_\-id)
+\item 
+void \hyperlink{group___p_i_o_s___r_f_m22_b_ga9f3c01f66fd57433e99bc863554a9a19}{\-P\-I\-O\-S\-\_\-\-R\-F\-M22\-B\-\_\-\-Set\-Datarate} (uint32\-\_\-t rfm22b\-\_\-id, enum \hyperlink{group___p_i_o_s___r_f_m22_b_gaa3e170044f27a00c422ee75f98130ef1}{rfm22b\-\_\-datarate} datarate, bool data\-\_\-whitening)
+\end{DoxyCompactItemize}
+\subsection*{\-Variables}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structpios__com__driver}{pios\-\_\-com\-\_\-driver} \hyperlink{group___p_i_o_s___r_f_m22_b_gafc506e8bc70ed8b31b75cbddf28ee660}{pios\-\_\-rfm22b\-\_\-com\-\_\-driver}
+\item 
+struct \hyperlink{structpios__com__driver}{pios\-\_\-com\-\_\-driver} \hyperlink{group___p_i_o_s___r_f_m22_b_gafc506e8bc70ed8b31b75cbddf28ee660}{pios\-\_\-rfm22b\-\_\-com\-\_\-driver}
+\item 
+struct \hyperlink{structpios__com__driver}{pios\-\_\-com\-\_\-driver} \hyperlink{group___p_i_o_s___r_f_m22_b_gafc506e8bc70ed8b31b75cbddf28ee660}{pios\-\_\-rfm22b\-\_\-com\-\_\-driver}
+\item 
+struct \hyperlink{structpios__com__driver}{pios\-\_\-com\-\_\-driver} \hyperlink{group___p_i_o_s___r_f_m22_b_gafc506e8bc70ed8b31b75cbddf28ee660}{pios\-\_\-rfm22b\-\_\-com\-\_\-driver}
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-P\-I\-O\-S interface for for the \-R\-F\-M22\-B radio. \-P\-I\-O\-S interface for \-R\-F\-M22\-B \-Radio \-C\-O\-M interface.
+
+\-P\-I\-O\-S interface for \-R\-F\-M22\-B \-Radio.
+
+\-P\-I\-O\-S \-C\-O\-M interface for for the \-R\-F\-M22\-B radio. 
+
+\subsection{\-Typedef \-Documentation}
+\hypertarget{group___p_i_o_s___r_f_m22_b_gaa8a316480e010f5e383d29257c0686cd}{\index{\-Radio Functions@{\-Radio Functions}!\-P\-I\-O\-S\-\_\-\-R\-F\-M22\-B\-\_\-\-Com\-Config\-Callback@{\-P\-I\-O\-S\-\_\-\-R\-F\-M22\-B\-\_\-\-Com\-Config\-Callback}}
+\index{\-P\-I\-O\-S\-\_\-\-R\-F\-M22\-B\-\_\-\-Com\-Config\-Callback@{\-P\-I\-O\-S\-\_\-\-R\-F\-M22\-B\-\_\-\-Com\-Config\-Callback}!Radio Functions@{\-Radio Functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-R\-F\-M22\-B\-\_\-\-Com\-Config\-Callback}]{\setlength{\rightskip}{0pt plus 5cm}typedef void($\ast$ {\bf \-P\-I\-O\-S\-\_\-\-R\-F\-M22\-B\-\_\-\-Com\-Config\-Callback})({\bf \-O\-P\-Link\-Settings\-Output\-Connection\-Options} com\-\_\-port, {\bf \-O\-P\-Link\-Settings\-Com\-Speed\-Options} com\-\_\-speed)}}\label{group___p_i_o_s___r_f_m22_b_gaa8a316480e010f5e383d29257c0686cd}
+
+
+\-Definition at line 99 of file pios\-\_\-rfm22b.\-h.
+
+\hypertarget{group___p_i_o_s___r_f_m22_b_ga6d517bc1c96f4b523eb7a289850c3bb8}{\index{\-Radio Functions@{\-Radio Functions}!t\-\_\-rfm22\-\_\-\-Rx\-Data\-Callback@{t\-\_\-rfm22\-\_\-\-Rx\-Data\-Callback}}
+\index{t\-\_\-rfm22\-\_\-\-Rx\-Data\-Callback@{t\-\_\-rfm22\-\_\-\-Rx\-Data\-Callback}!Radio Functions@{\-Radio Functions}}
+\subsubsection[{t\-\_\-rfm22\-\_\-\-Rx\-Data\-Callback}]{\setlength{\rightskip}{0pt plus 5cm}typedef bool($\ast$ {\bf t\-\_\-rfm22\-\_\-\-Rx\-Data\-Callback})(void $\ast$data, uint8\-\_\-t len)}}\label{group___p_i_o_s___r_f_m22_b_ga6d517bc1c96f4b523eb7a289850c3bb8}
+
+
+\-Definition at line 573 of file pios\-\_\-rfm22b\-\_\-priv.\-h.
+
+\hypertarget{group___p_i_o_s___r_f_m22_b_ga10adbdf30d2b2a9c6eab132094364df2}{\index{\-Radio Functions@{\-Radio Functions}!t\-\_\-rfm22\-\_\-\-Tx\-Data\-Byte\-Callback@{t\-\_\-rfm22\-\_\-\-Tx\-Data\-Byte\-Callback}}
+\index{t\-\_\-rfm22\-\_\-\-Tx\-Data\-Byte\-Callback@{t\-\_\-rfm22\-\_\-\-Tx\-Data\-Byte\-Callback}!Radio Functions@{\-Radio Functions}}
+\subsubsection[{t\-\_\-rfm22\-\_\-\-Tx\-Data\-Byte\-Callback}]{\setlength{\rightskip}{0pt plus 5cm}typedef int16\-\_\-t($\ast$ {\bf t\-\_\-rfm22\-\_\-\-Tx\-Data\-Byte\-Callback})(void)}}\label{group___p_i_o_s___r_f_m22_b_ga10adbdf30d2b2a9c6eab132094364df2}
+
+
+\-Definition at line 572 of file pios\-\_\-rfm22b\-\_\-priv.\-h.
+
+
+
+\subsection{\-Enumeration \-Type \-Documentation}
+\hypertarget{group___p_i_o_s___r_f_m22_b_gaccc7d029df9e5a96151a68e64f4be7e2}{\index{\-Radio Functions@{\-Radio Functions}!gpio\-\_\-direction@{gpio\-\_\-direction}}
+\index{gpio\-\_\-direction@{gpio\-\_\-direction}!Radio Functions@{\-Radio Functions}}
+\subsubsection[{gpio\-\_\-direction}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf gpio\-\_\-direction}}}\label{group___p_i_o_s___r_f_m22_b_gaccc7d029df9e5a96151a68e64f4be7e2}
+\begin{Desc}
+\item[\-Enumerator\-: ]\par
+\begin{description}
+\index{\-G\-P\-I\-O0\-\_\-\-T\-X\-\_\-\-G\-P\-I\-O1\-\_\-\-R\-X@{\-G\-P\-I\-O0\-\_\-\-T\-X\-\_\-\-G\-P\-I\-O1\-\_\-\-R\-X}!\-Radio Functions@{\-Radio Functions}}\index{\-Radio Functions@{\-Radio Functions}!\-G\-P\-I\-O0\-\_\-\-T\-X\-\_\-\-G\-P\-I\-O1\-\_\-\-R\-X@{\-G\-P\-I\-O0\-\_\-\-T\-X\-\_\-\-G\-P\-I\-O1\-\_\-\-R\-X}}\item[{\em 
+\hypertarget{group___p_i_o_s___r_f_m22_b_ggaccc7d029df9e5a96151a68e64f4be7e2a87c92cb693852456c28e74d75b67b00a}{\-G\-P\-I\-O0\-\_\-\-T\-X\-\_\-\-G\-P\-I\-O1\-\_\-\-R\-X}\label{group___p_i_o_s___r_f_m22_b_ggaccc7d029df9e5a96151a68e64f4be7e2a87c92cb693852456c28e74d75b67b00a}
+}]\index{\-G\-P\-I\-O0\-\_\-\-R\-X\-\_\-\-G\-P\-I\-O1\-\_\-\-T\-X@{\-G\-P\-I\-O0\-\_\-\-R\-X\-\_\-\-G\-P\-I\-O1\-\_\-\-T\-X}!\-Radio Functions@{\-Radio Functions}}\index{\-Radio Functions@{\-Radio Functions}!\-G\-P\-I\-O0\-\_\-\-R\-X\-\_\-\-G\-P\-I\-O1\-\_\-\-T\-X@{\-G\-P\-I\-O0\-\_\-\-R\-X\-\_\-\-G\-P\-I\-O1\-\_\-\-T\-X}}\item[{\em 
+\hypertarget{group___p_i_o_s___r_f_m22_b_ggaccc7d029df9e5a96151a68e64f4be7e2a914b463221cba0d76f04cd178ef2d8f0}{\-G\-P\-I\-O0\-\_\-\-R\-X\-\_\-\-G\-P\-I\-O1\-\_\-\-T\-X}\label{group___p_i_o_s___r_f_m22_b_ggaccc7d029df9e5a96151a68e64f4be7e2a914b463221cba0d76f04cd178ef2d8f0}
+}]\end{description}
+\end{Desc}
+
+
+
+\-Definition at line 37 of file pios\-\_\-rfm22b.\-h.
+
+\hypertarget{group___p_i_o_s___r_f_m22_b_ga25f646fb6abded1e9f076ca00e13cbec}{\index{\-Radio Functions@{\-Radio Functions}!pios\-\_\-rfm22b\-\_\-dev\-\_\-magic@{pios\-\_\-rfm22b\-\_\-dev\-\_\-magic}}
+\index{pios\-\_\-rfm22b\-\_\-dev\-\_\-magic@{pios\-\_\-rfm22b\-\_\-dev\-\_\-magic}!Radio Functions@{\-Radio Functions}}
+\subsubsection[{pios\-\_\-rfm22b\-\_\-dev\-\_\-magic}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf pios\-\_\-rfm22b\-\_\-dev\-\_\-magic}}}\label{group___p_i_o_s___r_f_m22_b_ga25f646fb6abded1e9f076ca00e13cbec}
+\begin{Desc}
+\item[\-Enumerator\-: ]\par
+\begin{description}
+\index{\-P\-I\-O\-S\-\_\-\-R\-F\-M22\-B\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C@{\-P\-I\-O\-S\-\_\-\-R\-F\-M22\-B\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}!\-Radio Functions@{\-Radio Functions}}\index{\-Radio Functions@{\-Radio Functions}!\-P\-I\-O\-S\-\_\-\-R\-F\-M22\-B\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C@{\-P\-I\-O\-S\-\_\-\-R\-F\-M22\-B\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}}\item[{\em 
+\hypertarget{group___p_i_o_s___r_f_m22_b_gga25f646fb6abded1e9f076ca00e13cbeca465296d21d23694d7d9f2f7486929f77}{\-P\-I\-O\-S\-\_\-\-R\-F\-M22\-B\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}\label{group___p_i_o_s___r_f_m22_b_gga25f646fb6abded1e9f076ca00e13cbeca465296d21d23694d7d9f2f7486929f77}
+}]\end{description}
+\end{Desc}
+
+
+
+\-Definition at line 574 of file pios\-\_\-rfm22b\-\_\-priv.\-h.
+
+\hypertarget{group___p_i_o_s___r_f_m22_b_gafefba9f85ea9fb8d2c610fe3759a00c2}{\index{\-Radio Functions@{\-Radio Functions}!pios\-\_\-rfm22b\-\_\-event@{pios\-\_\-rfm22b\-\_\-event}}
+\index{pios\-\_\-rfm22b\-\_\-event@{pios\-\_\-rfm22b\-\_\-event}!Radio Functions@{\-Radio Functions}}
+\subsubsection[{pios\-\_\-rfm22b\-\_\-event}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf pios\-\_\-rfm22b\-\_\-event}}}\label{group___p_i_o_s___r_f_m22_b_gafefba9f85ea9fb8d2c610fe3759a00c2}
+\begin{Desc}
+\item[\-Enumerator\-: ]\par
+\begin{description}
+\index{\-R\-F\-M22\-B\-\_\-\-E\-V\-E\-N\-T\-\_\-\-I\-N\-T\-\_\-\-R\-E\-C\-E\-I\-V\-E\-D@{\-R\-F\-M22\-B\-\_\-\-E\-V\-E\-N\-T\-\_\-\-I\-N\-T\-\_\-\-R\-E\-C\-E\-I\-V\-E\-D}!\-Radio Functions@{\-Radio Functions}}\index{\-Radio Functions@{\-Radio Functions}!\-R\-F\-M22\-B\-\_\-\-E\-V\-E\-N\-T\-\_\-\-I\-N\-T\-\_\-\-R\-E\-C\-E\-I\-V\-E\-D@{\-R\-F\-M22\-B\-\_\-\-E\-V\-E\-N\-T\-\_\-\-I\-N\-T\-\_\-\-R\-E\-C\-E\-I\-V\-E\-D}}\item[{\em 
+\hypertarget{group___p_i_o_s___r_f_m22_b_ggafefba9f85ea9fb8d2c610fe3759a00c2a3e4ec4cdace68a2fc496863553f1b21e}{\-R\-F\-M22\-B\-\_\-\-E\-V\-E\-N\-T\-\_\-\-I\-N\-T\-\_\-\-R\-E\-C\-E\-I\-V\-E\-D}\label{group___p_i_o_s___r_f_m22_b_ggafefba9f85ea9fb8d2c610fe3759a00c2a3e4ec4cdace68a2fc496863553f1b21e}
+}]\index{\-R\-F\-M22\-B\-\_\-\-E\-V\-E\-N\-T\-\_\-\-I\-N\-I\-T\-I\-A\-L\-I\-Z\-E@{\-R\-F\-M22\-B\-\_\-\-E\-V\-E\-N\-T\-\_\-\-I\-N\-I\-T\-I\-A\-L\-I\-Z\-E}!\-Radio Functions@{\-Radio Functions}}\index{\-Radio Functions@{\-Radio Functions}!\-R\-F\-M22\-B\-\_\-\-E\-V\-E\-N\-T\-\_\-\-I\-N\-I\-T\-I\-A\-L\-I\-Z\-E@{\-R\-F\-M22\-B\-\_\-\-E\-V\-E\-N\-T\-\_\-\-I\-N\-I\-T\-I\-A\-L\-I\-Z\-E}}\item[{\em 
+\hypertarget{group___p_i_o_s___r_f_m22_b_ggafefba9f85ea9fb8d2c610fe3759a00c2ac81159af4ef62745e2379cf638c4023e}{\-R\-F\-M22\-B\-\_\-\-E\-V\-E\-N\-T\-\_\-\-I\-N\-I\-T\-I\-A\-L\-I\-Z\-E}\label{group___p_i_o_s___r_f_m22_b_ggafefba9f85ea9fb8d2c610fe3759a00c2ac81159af4ef62745e2379cf638c4023e}
+}]\index{\-R\-F\-M22\-B\-\_\-\-E\-V\-E\-N\-T\-\_\-\-I\-N\-I\-T\-I\-A\-L\-I\-Z\-E\-D@{\-R\-F\-M22\-B\-\_\-\-E\-V\-E\-N\-T\-\_\-\-I\-N\-I\-T\-I\-A\-L\-I\-Z\-E\-D}!\-Radio Functions@{\-Radio Functions}}\index{\-Radio Functions@{\-Radio Functions}!\-R\-F\-M22\-B\-\_\-\-E\-V\-E\-N\-T\-\_\-\-I\-N\-I\-T\-I\-A\-L\-I\-Z\-E\-D@{\-R\-F\-M22\-B\-\_\-\-E\-V\-E\-N\-T\-\_\-\-I\-N\-I\-T\-I\-A\-L\-I\-Z\-E\-D}}\item[{\em 
+\hypertarget{group___p_i_o_s___r_f_m22_b_ggafefba9f85ea9fb8d2c610fe3759a00c2ab2a453aeb15fd52d7ee950515ccc396c}{\-R\-F\-M22\-B\-\_\-\-E\-V\-E\-N\-T\-\_\-\-I\-N\-I\-T\-I\-A\-L\-I\-Z\-E\-D}\label{group___p_i_o_s___r_f_m22_b_ggafefba9f85ea9fb8d2c610fe3759a00c2ab2a453aeb15fd52d7ee950515ccc396c}
+}]\index{\-R\-F\-M22\-B\-\_\-\-E\-V\-E\-N\-T\-\_\-\-R\-E\-Q\-U\-E\-S\-T\-\_\-\-C\-O\-N\-N\-E\-C\-T\-I\-O\-N@{\-R\-F\-M22\-B\-\_\-\-E\-V\-E\-N\-T\-\_\-\-R\-E\-Q\-U\-E\-S\-T\-\_\-\-C\-O\-N\-N\-E\-C\-T\-I\-O\-N}!\-Radio Functions@{\-Radio Functions}}\index{\-Radio Functions@{\-Radio Functions}!\-R\-F\-M22\-B\-\_\-\-E\-V\-E\-N\-T\-\_\-\-R\-E\-Q\-U\-E\-S\-T\-\_\-\-C\-O\-N\-N\-E\-C\-T\-I\-O\-N@{\-R\-F\-M22\-B\-\_\-\-E\-V\-E\-N\-T\-\_\-\-R\-E\-Q\-U\-E\-S\-T\-\_\-\-C\-O\-N\-N\-E\-C\-T\-I\-O\-N}}\item[{\em 
+\hypertarget{group___p_i_o_s___r_f_m22_b_ggafefba9f85ea9fb8d2c610fe3759a00c2ac19a6abb58f931e6475c592848d7d05a}{\-R\-F\-M22\-B\-\_\-\-E\-V\-E\-N\-T\-\_\-\-R\-E\-Q\-U\-E\-S\-T\-\_\-\-C\-O\-N\-N\-E\-C\-T\-I\-O\-N}\label{group___p_i_o_s___r_f_m22_b_ggafefba9f85ea9fb8d2c610fe3759a00c2ac19a6abb58f931e6475c592848d7d05a}
+}]\index{\-R\-F\-M22\-B\-\_\-\-E\-V\-E\-N\-T\-\_\-\-W\-A\-I\-T\-\_\-\-F\-O\-R\-\_\-\-C\-O\-N\-N\-E\-C\-T\-I\-O\-N@{\-R\-F\-M22\-B\-\_\-\-E\-V\-E\-N\-T\-\_\-\-W\-A\-I\-T\-\_\-\-F\-O\-R\-\_\-\-C\-O\-N\-N\-E\-C\-T\-I\-O\-N}!\-Radio Functions@{\-Radio Functions}}\index{\-Radio Functions@{\-Radio Functions}!\-R\-F\-M22\-B\-\_\-\-E\-V\-E\-N\-T\-\_\-\-W\-A\-I\-T\-\_\-\-F\-O\-R\-\_\-\-C\-O\-N\-N\-E\-C\-T\-I\-O\-N@{\-R\-F\-M22\-B\-\_\-\-E\-V\-E\-N\-T\-\_\-\-W\-A\-I\-T\-\_\-\-F\-O\-R\-\_\-\-C\-O\-N\-N\-E\-C\-T\-I\-O\-N}}\item[{\em 
+\hypertarget{group___p_i_o_s___r_f_m22_b_ggafefba9f85ea9fb8d2c610fe3759a00c2a92444fc670fb008ab3e6df5fc7551209}{\-R\-F\-M22\-B\-\_\-\-E\-V\-E\-N\-T\-\_\-\-W\-A\-I\-T\-\_\-\-F\-O\-R\-\_\-\-C\-O\-N\-N\-E\-C\-T\-I\-O\-N}\label{group___p_i_o_s___r_f_m22_b_ggafefba9f85ea9fb8d2c610fe3759a00c2a92444fc670fb008ab3e6df5fc7551209}
+}]\index{\-R\-F\-M22\-B\-\_\-\-E\-V\-E\-N\-T\-\_\-\-C\-O\-N\-N\-E\-C\-T\-I\-O\-N\-\_\-\-R\-E\-Q\-U\-E\-S\-T\-E\-D@{\-R\-F\-M22\-B\-\_\-\-E\-V\-E\-N\-T\-\_\-\-C\-O\-N\-N\-E\-C\-T\-I\-O\-N\-\_\-\-R\-E\-Q\-U\-E\-S\-T\-E\-D}!\-Radio Functions@{\-Radio Functions}}\index{\-Radio Functions@{\-Radio Functions}!\-R\-F\-M22\-B\-\_\-\-E\-V\-E\-N\-T\-\_\-\-C\-O\-N\-N\-E\-C\-T\-I\-O\-N\-\_\-\-R\-E\-Q\-U\-E\-S\-T\-E\-D@{\-R\-F\-M22\-B\-\_\-\-E\-V\-E\-N\-T\-\_\-\-C\-O\-N\-N\-E\-C\-T\-I\-O\-N\-\_\-\-R\-E\-Q\-U\-E\-S\-T\-E\-D}}\item[{\em 
+\hypertarget{group___p_i_o_s___r_f_m22_b_ggafefba9f85ea9fb8d2c610fe3759a00c2aa6b3b8a36ef2f5be8301355ebce89112}{\-R\-F\-M22\-B\-\_\-\-E\-V\-E\-N\-T\-\_\-\-C\-O\-N\-N\-E\-C\-T\-I\-O\-N\-\_\-\-R\-E\-Q\-U\-E\-S\-T\-E\-D}\label{group___p_i_o_s___r_f_m22_b_ggafefba9f85ea9fb8d2c610fe3759a00c2aa6b3b8a36ef2f5be8301355ebce89112}
+}]\index{\-R\-F\-M22\-B\-\_\-\-E\-V\-E\-N\-T\-\_\-\-C\-O\-N\-N\-E\-C\-T\-I\-O\-N\-\_\-\-A\-C\-C\-E\-P\-T\-E\-D@{\-R\-F\-M22\-B\-\_\-\-E\-V\-E\-N\-T\-\_\-\-C\-O\-N\-N\-E\-C\-T\-I\-O\-N\-\_\-\-A\-C\-C\-E\-P\-T\-E\-D}!\-Radio Functions@{\-Radio Functions}}\index{\-Radio Functions@{\-Radio Functions}!\-R\-F\-M22\-B\-\_\-\-E\-V\-E\-N\-T\-\_\-\-C\-O\-N\-N\-E\-C\-T\-I\-O\-N\-\_\-\-A\-C\-C\-E\-P\-T\-E\-D@{\-R\-F\-M22\-B\-\_\-\-E\-V\-E\-N\-T\-\_\-\-C\-O\-N\-N\-E\-C\-T\-I\-O\-N\-\_\-\-A\-C\-C\-E\-P\-T\-E\-D}}\item[{\em 
+\hypertarget{group___p_i_o_s___r_f_m22_b_ggafefba9f85ea9fb8d2c610fe3759a00c2a270353a6c8c619acd575015ed7acceb6}{\-R\-F\-M22\-B\-\_\-\-E\-V\-E\-N\-T\-\_\-\-C\-O\-N\-N\-E\-C\-T\-I\-O\-N\-\_\-\-A\-C\-C\-E\-P\-T\-E\-D}\label{group___p_i_o_s___r_f_m22_b_ggafefba9f85ea9fb8d2c610fe3759a00c2a270353a6c8c619acd575015ed7acceb6}
+}]\index{\-R\-F\-M22\-B\-\_\-\-E\-V\-E\-N\-T\-\_\-\-P\-A\-C\-K\-E\-T\-\_\-\-A\-C\-K\-E\-D@{\-R\-F\-M22\-B\-\_\-\-E\-V\-E\-N\-T\-\_\-\-P\-A\-C\-K\-E\-T\-\_\-\-A\-C\-K\-E\-D}!\-Radio Functions@{\-Radio Functions}}\index{\-Radio Functions@{\-Radio Functions}!\-R\-F\-M22\-B\-\_\-\-E\-V\-E\-N\-T\-\_\-\-P\-A\-C\-K\-E\-T\-\_\-\-A\-C\-K\-E\-D@{\-R\-F\-M22\-B\-\_\-\-E\-V\-E\-N\-T\-\_\-\-P\-A\-C\-K\-E\-T\-\_\-\-A\-C\-K\-E\-D}}\item[{\em 
+\hypertarget{group___p_i_o_s___r_f_m22_b_ggafefba9f85ea9fb8d2c610fe3759a00c2a19e9383feac0c23ce398f7d9384c3059}{\-R\-F\-M22\-B\-\_\-\-E\-V\-E\-N\-T\-\_\-\-P\-A\-C\-K\-E\-T\-\_\-\-A\-C\-K\-E\-D}\label{group___p_i_o_s___r_f_m22_b_ggafefba9f85ea9fb8d2c610fe3759a00c2a19e9383feac0c23ce398f7d9384c3059}
+}]\index{\-R\-F\-M22\-B\-\_\-\-E\-V\-E\-N\-T\-\_\-\-P\-A\-C\-K\-E\-T\-\_\-\-N\-A\-C\-K\-E\-D@{\-R\-F\-M22\-B\-\_\-\-E\-V\-E\-N\-T\-\_\-\-P\-A\-C\-K\-E\-T\-\_\-\-N\-A\-C\-K\-E\-D}!\-Radio Functions@{\-Radio Functions}}\index{\-Radio Functions@{\-Radio Functions}!\-R\-F\-M22\-B\-\_\-\-E\-V\-E\-N\-T\-\_\-\-P\-A\-C\-K\-E\-T\-\_\-\-N\-A\-C\-K\-E\-D@{\-R\-F\-M22\-B\-\_\-\-E\-V\-E\-N\-T\-\_\-\-P\-A\-C\-K\-E\-T\-\_\-\-N\-A\-C\-K\-E\-D}}\item[{\em 
+\hypertarget{group___p_i_o_s___r_f_m22_b_ggafefba9f85ea9fb8d2c610fe3759a00c2a725d3965af8e429a95709db317751eea}{\-R\-F\-M22\-B\-\_\-\-E\-V\-E\-N\-T\-\_\-\-P\-A\-C\-K\-E\-T\-\_\-\-N\-A\-C\-K\-E\-D}\label{group___p_i_o_s___r_f_m22_b_ggafefba9f85ea9fb8d2c610fe3759a00c2a725d3965af8e429a95709db317751eea}
+}]\index{\-R\-F\-M22\-B\-\_\-\-E\-V\-E\-N\-T\-\_\-\-A\-C\-K\-\_\-\-T\-I\-M\-E\-O\-U\-T@{\-R\-F\-M22\-B\-\_\-\-E\-V\-E\-N\-T\-\_\-\-A\-C\-K\-\_\-\-T\-I\-M\-E\-O\-U\-T}!\-Radio Functions@{\-Radio Functions}}\index{\-Radio Functions@{\-Radio Functions}!\-R\-F\-M22\-B\-\_\-\-E\-V\-E\-N\-T\-\_\-\-A\-C\-K\-\_\-\-T\-I\-M\-E\-O\-U\-T@{\-R\-F\-M22\-B\-\_\-\-E\-V\-E\-N\-T\-\_\-\-A\-C\-K\-\_\-\-T\-I\-M\-E\-O\-U\-T}}\item[{\em 
+\hypertarget{group___p_i_o_s___r_f_m22_b_ggafefba9f85ea9fb8d2c610fe3759a00c2a94e81215f6aa0f647dfa646a8ffbb0b5}{\-R\-F\-M22\-B\-\_\-\-E\-V\-E\-N\-T\-\_\-\-A\-C\-K\-\_\-\-T\-I\-M\-E\-O\-U\-T}\label{group___p_i_o_s___r_f_m22_b_ggafefba9f85ea9fb8d2c610fe3759a00c2a94e81215f6aa0f647dfa646a8ffbb0b5}
+}]\index{\-R\-F\-M22\-B\-\_\-\-E\-V\-E\-N\-T\-\_\-\-R\-X\-\_\-\-M\-O\-D\-E@{\-R\-F\-M22\-B\-\_\-\-E\-V\-E\-N\-T\-\_\-\-R\-X\-\_\-\-M\-O\-D\-E}!\-Radio Functions@{\-Radio Functions}}\index{\-Radio Functions@{\-Radio Functions}!\-R\-F\-M22\-B\-\_\-\-E\-V\-E\-N\-T\-\_\-\-R\-X\-\_\-\-M\-O\-D\-E@{\-R\-F\-M22\-B\-\_\-\-E\-V\-E\-N\-T\-\_\-\-R\-X\-\_\-\-M\-O\-D\-E}}\item[{\em 
+\hypertarget{group___p_i_o_s___r_f_m22_b_ggafefba9f85ea9fb8d2c610fe3759a00c2a6fff9bee58987bb93a1771f29c3c1f23}{\-R\-F\-M22\-B\-\_\-\-E\-V\-E\-N\-T\-\_\-\-R\-X\-\_\-\-M\-O\-D\-E}\label{group___p_i_o_s___r_f_m22_b_ggafefba9f85ea9fb8d2c610fe3759a00c2a6fff9bee58987bb93a1771f29c3c1f23}
+}]\index{\-R\-F\-M22\-B\-\_\-\-E\-V\-E\-N\-T\-\_\-\-P\-R\-E\-A\-M\-B\-L\-E\-\_\-\-D\-E\-T\-E\-C\-T\-E\-D@{\-R\-F\-M22\-B\-\_\-\-E\-V\-E\-N\-T\-\_\-\-P\-R\-E\-A\-M\-B\-L\-E\-\_\-\-D\-E\-T\-E\-C\-T\-E\-D}!\-Radio Functions@{\-Radio Functions}}\index{\-Radio Functions@{\-Radio Functions}!\-R\-F\-M22\-B\-\_\-\-E\-V\-E\-N\-T\-\_\-\-P\-R\-E\-A\-M\-B\-L\-E\-\_\-\-D\-E\-T\-E\-C\-T\-E\-D@{\-R\-F\-M22\-B\-\_\-\-E\-V\-E\-N\-T\-\_\-\-P\-R\-E\-A\-M\-B\-L\-E\-\_\-\-D\-E\-T\-E\-C\-T\-E\-D}}\item[{\em 
+\hypertarget{group___p_i_o_s___r_f_m22_b_ggafefba9f85ea9fb8d2c610fe3759a00c2ad7dfe2b62a899f8ac694d6ff415f8f4a}{\-R\-F\-M22\-B\-\_\-\-E\-V\-E\-N\-T\-\_\-\-P\-R\-E\-A\-M\-B\-L\-E\-\_\-\-D\-E\-T\-E\-C\-T\-E\-D}\label{group___p_i_o_s___r_f_m22_b_ggafefba9f85ea9fb8d2c610fe3759a00c2ad7dfe2b62a899f8ac694d6ff415f8f4a}
+}]\index{\-R\-F\-M22\-B\-\_\-\-E\-V\-E\-N\-T\-\_\-\-S\-Y\-N\-C\-\_\-\-D\-E\-T\-E\-C\-T\-E\-D@{\-R\-F\-M22\-B\-\_\-\-E\-V\-E\-N\-T\-\_\-\-S\-Y\-N\-C\-\_\-\-D\-E\-T\-E\-C\-T\-E\-D}!\-Radio Functions@{\-Radio Functions}}\index{\-Radio Functions@{\-Radio Functions}!\-R\-F\-M22\-B\-\_\-\-E\-V\-E\-N\-T\-\_\-\-S\-Y\-N\-C\-\_\-\-D\-E\-T\-E\-C\-T\-E\-D@{\-R\-F\-M22\-B\-\_\-\-E\-V\-E\-N\-T\-\_\-\-S\-Y\-N\-C\-\_\-\-D\-E\-T\-E\-C\-T\-E\-D}}\item[{\em 
+\hypertarget{group___p_i_o_s___r_f_m22_b_ggafefba9f85ea9fb8d2c610fe3759a00c2a997bf1f3409379b556abfeda294ff184}{\-R\-F\-M22\-B\-\_\-\-E\-V\-E\-N\-T\-\_\-\-S\-Y\-N\-C\-\_\-\-D\-E\-T\-E\-C\-T\-E\-D}\label{group___p_i_o_s___r_f_m22_b_ggafefba9f85ea9fb8d2c610fe3759a00c2a997bf1f3409379b556abfeda294ff184}
+}]\index{\-R\-F\-M22\-B\-\_\-\-E\-V\-E\-N\-T\-\_\-\-R\-X\-\_\-\-C\-O\-M\-P\-L\-E\-T\-E@{\-R\-F\-M22\-B\-\_\-\-E\-V\-E\-N\-T\-\_\-\-R\-X\-\_\-\-C\-O\-M\-P\-L\-E\-T\-E}!\-Radio Functions@{\-Radio Functions}}\index{\-Radio Functions@{\-Radio Functions}!\-R\-F\-M22\-B\-\_\-\-E\-V\-E\-N\-T\-\_\-\-R\-X\-\_\-\-C\-O\-M\-P\-L\-E\-T\-E@{\-R\-F\-M22\-B\-\_\-\-E\-V\-E\-N\-T\-\_\-\-R\-X\-\_\-\-C\-O\-M\-P\-L\-E\-T\-E}}\item[{\em 
+\hypertarget{group___p_i_o_s___r_f_m22_b_ggafefba9f85ea9fb8d2c610fe3759a00c2adc4252d32316b4bdff1c9b64e46e7f5a}{\-R\-F\-M22\-B\-\_\-\-E\-V\-E\-N\-T\-\_\-\-R\-X\-\_\-\-C\-O\-M\-P\-L\-E\-T\-E}\label{group___p_i_o_s___r_f_m22_b_ggafefba9f85ea9fb8d2c610fe3759a00c2adc4252d32316b4bdff1c9b64e46e7f5a}
+}]\index{\-R\-F\-M22\-B\-\_\-\-E\-V\-E\-N\-T\-\_\-\-R\-X\-\_\-\-E\-R\-R\-O\-R@{\-R\-F\-M22\-B\-\_\-\-E\-V\-E\-N\-T\-\_\-\-R\-X\-\_\-\-E\-R\-R\-O\-R}!\-Radio Functions@{\-Radio Functions}}\index{\-Radio Functions@{\-Radio Functions}!\-R\-F\-M22\-B\-\_\-\-E\-V\-E\-N\-T\-\_\-\-R\-X\-\_\-\-E\-R\-R\-O\-R@{\-R\-F\-M22\-B\-\_\-\-E\-V\-E\-N\-T\-\_\-\-R\-X\-\_\-\-E\-R\-R\-O\-R}}\item[{\em 
+\hypertarget{group___p_i_o_s___r_f_m22_b_ggafefba9f85ea9fb8d2c610fe3759a00c2a35d784cf5079afeadda2640ee6b46f26}{\-R\-F\-M22\-B\-\_\-\-E\-V\-E\-N\-T\-\_\-\-R\-X\-\_\-\-E\-R\-R\-O\-R}\label{group___p_i_o_s___r_f_m22_b_ggafefba9f85ea9fb8d2c610fe3759a00c2a35d784cf5079afeadda2640ee6b46f26}
+}]\index{\-R\-F\-M22\-B\-\_\-\-E\-V\-E\-N\-T\-\_\-\-S\-T\-A\-T\-U\-S\-\_\-\-R\-E\-C\-E\-I\-V\-E\-D@{\-R\-F\-M22\-B\-\_\-\-E\-V\-E\-N\-T\-\_\-\-S\-T\-A\-T\-U\-S\-\_\-\-R\-E\-C\-E\-I\-V\-E\-D}!\-Radio Functions@{\-Radio Functions}}\index{\-Radio Functions@{\-Radio Functions}!\-R\-F\-M22\-B\-\_\-\-E\-V\-E\-N\-T\-\_\-\-S\-T\-A\-T\-U\-S\-\_\-\-R\-E\-C\-E\-I\-V\-E\-D@{\-R\-F\-M22\-B\-\_\-\-E\-V\-E\-N\-T\-\_\-\-S\-T\-A\-T\-U\-S\-\_\-\-R\-E\-C\-E\-I\-V\-E\-D}}\item[{\em 
+\hypertarget{group___p_i_o_s___r_f_m22_b_ggafefba9f85ea9fb8d2c610fe3759a00c2aaf8fcd36a96e9bc6fea158bc9f9b9ecd}{\-R\-F\-M22\-B\-\_\-\-E\-V\-E\-N\-T\-\_\-\-S\-T\-A\-T\-U\-S\-\_\-\-R\-E\-C\-E\-I\-V\-E\-D}\label{group___p_i_o_s___r_f_m22_b_ggafefba9f85ea9fb8d2c610fe3759a00c2aaf8fcd36a96e9bc6fea158bc9f9b9ecd}
+}]\index{\-R\-F\-M22\-B\-\_\-\-E\-V\-E\-N\-T\-\_\-\-T\-X\-\_\-\-S\-T\-A\-R\-T@{\-R\-F\-M22\-B\-\_\-\-E\-V\-E\-N\-T\-\_\-\-T\-X\-\_\-\-S\-T\-A\-R\-T}!\-Radio Functions@{\-Radio Functions}}\index{\-Radio Functions@{\-Radio Functions}!\-R\-F\-M22\-B\-\_\-\-E\-V\-E\-N\-T\-\_\-\-T\-X\-\_\-\-S\-T\-A\-R\-T@{\-R\-F\-M22\-B\-\_\-\-E\-V\-E\-N\-T\-\_\-\-T\-X\-\_\-\-S\-T\-A\-R\-T}}\item[{\em 
+\hypertarget{group___p_i_o_s___r_f_m22_b_ggafefba9f85ea9fb8d2c610fe3759a00c2a705b1f62a633333da46845128deb24ee}{\-R\-F\-M22\-B\-\_\-\-E\-V\-E\-N\-T\-\_\-\-T\-X\-\_\-\-S\-T\-A\-R\-T}\label{group___p_i_o_s___r_f_m22_b_ggafefba9f85ea9fb8d2c610fe3759a00c2a705b1f62a633333da46845128deb24ee}
+}]\index{\-R\-F\-M22\-B\-\_\-\-E\-V\-E\-N\-T\-\_\-\-F\-A\-I\-L\-U\-R\-E@{\-R\-F\-M22\-B\-\_\-\-E\-V\-E\-N\-T\-\_\-\-F\-A\-I\-L\-U\-R\-E}!\-Radio Functions@{\-Radio Functions}}\index{\-Radio Functions@{\-Radio Functions}!\-R\-F\-M22\-B\-\_\-\-E\-V\-E\-N\-T\-\_\-\-F\-A\-I\-L\-U\-R\-E@{\-R\-F\-M22\-B\-\_\-\-E\-V\-E\-N\-T\-\_\-\-F\-A\-I\-L\-U\-R\-E}}\item[{\em 
+\hypertarget{group___p_i_o_s___r_f_m22_b_ggafefba9f85ea9fb8d2c610fe3759a00c2a2465e4731727edd260b49e52dc85de56}{\-R\-F\-M22\-B\-\_\-\-E\-V\-E\-N\-T\-\_\-\-F\-A\-I\-L\-U\-R\-E}\label{group___p_i_o_s___r_f_m22_b_ggafefba9f85ea9fb8d2c610fe3759a00c2a2465e4731727edd260b49e52dc85de56}
+}]\index{\-R\-F\-M22\-B\-\_\-\-E\-V\-E\-N\-T\-\_\-\-T\-I\-M\-E\-O\-U\-T@{\-R\-F\-M22\-B\-\_\-\-E\-V\-E\-N\-T\-\_\-\-T\-I\-M\-E\-O\-U\-T}!\-Radio Functions@{\-Radio Functions}}\index{\-Radio Functions@{\-Radio Functions}!\-R\-F\-M22\-B\-\_\-\-E\-V\-E\-N\-T\-\_\-\-T\-I\-M\-E\-O\-U\-T@{\-R\-F\-M22\-B\-\_\-\-E\-V\-E\-N\-T\-\_\-\-T\-I\-M\-E\-O\-U\-T}}\item[{\em 
+\hypertarget{group___p_i_o_s___r_f_m22_b_ggafefba9f85ea9fb8d2c610fe3759a00c2adc66d582f00b8536c5a13a7ba02acda2}{\-R\-F\-M22\-B\-\_\-\-E\-V\-E\-N\-T\-\_\-\-T\-I\-M\-E\-O\-U\-T}\label{group___p_i_o_s___r_f_m22_b_ggafefba9f85ea9fb8d2c610fe3759a00c2adc66d582f00b8536c5a13a7ba02acda2}
+}]\index{\-R\-F\-M22\-B\-\_\-\-E\-V\-E\-N\-T\-\_\-\-E\-R\-R\-O\-R@{\-R\-F\-M22\-B\-\_\-\-E\-V\-E\-N\-T\-\_\-\-E\-R\-R\-O\-R}!\-Radio Functions@{\-Radio Functions}}\index{\-Radio Functions@{\-Radio Functions}!\-R\-F\-M22\-B\-\_\-\-E\-V\-E\-N\-T\-\_\-\-E\-R\-R\-O\-R@{\-R\-F\-M22\-B\-\_\-\-E\-V\-E\-N\-T\-\_\-\-E\-R\-R\-O\-R}}\item[{\em 
+\hypertarget{group___p_i_o_s___r_f_m22_b_ggafefba9f85ea9fb8d2c610fe3759a00c2af4356b8b7a94d19dc7023bdc33e87b62}{\-R\-F\-M22\-B\-\_\-\-E\-V\-E\-N\-T\-\_\-\-E\-R\-R\-O\-R}\label{group___p_i_o_s___r_f_m22_b_ggafefba9f85ea9fb8d2c610fe3759a00c2af4356b8b7a94d19dc7023bdc33e87b62}
+}]\index{\-R\-F\-M22\-B\-\_\-\-E\-V\-E\-N\-T\-\_\-\-F\-A\-T\-A\-L\-\_\-\-E\-R\-R\-O\-R@{\-R\-F\-M22\-B\-\_\-\-E\-V\-E\-N\-T\-\_\-\-F\-A\-T\-A\-L\-\_\-\-E\-R\-R\-O\-R}!\-Radio Functions@{\-Radio Functions}}\index{\-Radio Functions@{\-Radio Functions}!\-R\-F\-M22\-B\-\_\-\-E\-V\-E\-N\-T\-\_\-\-F\-A\-T\-A\-L\-\_\-\-E\-R\-R\-O\-R@{\-R\-F\-M22\-B\-\_\-\-E\-V\-E\-N\-T\-\_\-\-F\-A\-T\-A\-L\-\_\-\-E\-R\-R\-O\-R}}\item[{\em 
+\hypertarget{group___p_i_o_s___r_f_m22_b_ggafefba9f85ea9fb8d2c610fe3759a00c2aed906179c93278bdedaa584719416009}{\-R\-F\-M22\-B\-\_\-\-E\-V\-E\-N\-T\-\_\-\-F\-A\-T\-A\-L\-\_\-\-E\-R\-R\-O\-R}\label{group___p_i_o_s___r_f_m22_b_ggafefba9f85ea9fb8d2c610fe3759a00c2aed906179c93278bdedaa584719416009}
+}]\index{\-R\-F\-M22\-B\-\_\-\-E\-V\-E\-N\-T\-\_\-\-N\-U\-M\-\_\-\-E\-V\-E\-N\-T\-S@{\-R\-F\-M22\-B\-\_\-\-E\-V\-E\-N\-T\-\_\-\-N\-U\-M\-\_\-\-E\-V\-E\-N\-T\-S}!\-Radio Functions@{\-Radio Functions}}\index{\-Radio Functions@{\-Radio Functions}!\-R\-F\-M22\-B\-\_\-\-E\-V\-E\-N\-T\-\_\-\-N\-U\-M\-\_\-\-E\-V\-E\-N\-T\-S@{\-R\-F\-M22\-B\-\_\-\-E\-V\-E\-N\-T\-\_\-\-N\-U\-M\-\_\-\-E\-V\-E\-N\-T\-S}}\item[{\em 
+\hypertarget{group___p_i_o_s___r_f_m22_b_ggafefba9f85ea9fb8d2c610fe3759a00c2aa1f8214c33b90c900f422b7e5c2b8f31}{\-R\-F\-M22\-B\-\_\-\-E\-V\-E\-N\-T\-\_\-\-N\-U\-M\-\_\-\-E\-V\-E\-N\-T\-S}\label{group___p_i_o_s___r_f_m22_b_ggafefba9f85ea9fb8d2c610fe3759a00c2aa1f8214c33b90c900f422b7e5c2b8f31}
+}]\end{description}
+\end{Desc}
+
+
+
+\-Definition at line 607 of file pios\-\_\-rfm22b\-\_\-priv.\-h.
+
+\hypertarget{group___p_i_o_s___r_f_m22_b_ga35600b81785134630f9193e4ff1478a3}{\index{\-Radio Functions@{\-Radio Functions}!pios\-\_\-rfm22b\-\_\-rx\-\_\-packet\-\_\-status@{pios\-\_\-rfm22b\-\_\-rx\-\_\-packet\-\_\-status}}
+\index{pios\-\_\-rfm22b\-\_\-rx\-\_\-packet\-\_\-status@{pios\-\_\-rfm22b\-\_\-rx\-\_\-packet\-\_\-status}!Radio Functions@{\-Radio Functions}}
+\subsubsection[{pios\-\_\-rfm22b\-\_\-rx\-\_\-packet\-\_\-status}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf pios\-\_\-rfm22b\-\_\-rx\-\_\-packet\-\_\-status}}}\label{group___p_i_o_s___r_f_m22_b_ga35600b81785134630f9193e4ff1478a3}
+\begin{Desc}
+\item[\-Enumerator\-: ]\par
+\begin{description}
+\index{\-R\-F\-M22\-B\-\_\-\-G\-O\-O\-D\-\_\-\-R\-X\-\_\-\-P\-A\-C\-K\-E\-T@{\-R\-F\-M22\-B\-\_\-\-G\-O\-O\-D\-\_\-\-R\-X\-\_\-\-P\-A\-C\-K\-E\-T}!\-Radio Functions@{\-Radio Functions}}\index{\-Radio Functions@{\-Radio Functions}!\-R\-F\-M22\-B\-\_\-\-G\-O\-O\-D\-\_\-\-R\-X\-\_\-\-P\-A\-C\-K\-E\-T@{\-R\-F\-M22\-B\-\_\-\-G\-O\-O\-D\-\_\-\-R\-X\-\_\-\-P\-A\-C\-K\-E\-T}}\item[{\em 
+\hypertarget{group___p_i_o_s___r_f_m22_b_gga35600b81785134630f9193e4ff1478a3a70ea6e91308b4c2944276f919e07af30}{\-R\-F\-M22\-B\-\_\-\-G\-O\-O\-D\-\_\-\-R\-X\-\_\-\-P\-A\-C\-K\-E\-T}\label{group___p_i_o_s___r_f_m22_b_gga35600b81785134630f9193e4ff1478a3a70ea6e91308b4c2944276f919e07af30}
+}]\index{\-R\-F\-M22\-B\-\_\-\-C\-O\-R\-R\-E\-C\-T\-E\-D\-\_\-\-R\-X\-\_\-\-P\-A\-C\-K\-E\-T@{\-R\-F\-M22\-B\-\_\-\-C\-O\-R\-R\-E\-C\-T\-E\-D\-\_\-\-R\-X\-\_\-\-P\-A\-C\-K\-E\-T}!\-Radio Functions@{\-Radio Functions}}\index{\-Radio Functions@{\-Radio Functions}!\-R\-F\-M22\-B\-\_\-\-C\-O\-R\-R\-E\-C\-T\-E\-D\-\_\-\-R\-X\-\_\-\-P\-A\-C\-K\-E\-T@{\-R\-F\-M22\-B\-\_\-\-C\-O\-R\-R\-E\-C\-T\-E\-D\-\_\-\-R\-X\-\_\-\-P\-A\-C\-K\-E\-T}}\item[{\em 
+\hypertarget{group___p_i_o_s___r_f_m22_b_gga35600b81785134630f9193e4ff1478a3ab785f920fd4d6b5091a150bbbea5dc3f}{\-R\-F\-M22\-B\-\_\-\-C\-O\-R\-R\-E\-C\-T\-E\-D\-\_\-\-R\-X\-\_\-\-P\-A\-C\-K\-E\-T}\label{group___p_i_o_s___r_f_m22_b_gga35600b81785134630f9193e4ff1478a3ab785f920fd4d6b5091a150bbbea5dc3f}
+}]\index{\-R\-F\-M22\-B\-\_\-\-E\-R\-R\-O\-R\-\_\-\-R\-X\-\_\-\-P\-A\-C\-K\-E\-T@{\-R\-F\-M22\-B\-\_\-\-E\-R\-R\-O\-R\-\_\-\-R\-X\-\_\-\-P\-A\-C\-K\-E\-T}!\-Radio Functions@{\-Radio Functions}}\index{\-Radio Functions@{\-Radio Functions}!\-R\-F\-M22\-B\-\_\-\-E\-R\-R\-O\-R\-\_\-\-R\-X\-\_\-\-P\-A\-C\-K\-E\-T@{\-R\-F\-M22\-B\-\_\-\-E\-R\-R\-O\-R\-\_\-\-R\-X\-\_\-\-P\-A\-C\-K\-E\-T}}\item[{\em 
+\hypertarget{group___p_i_o_s___r_f_m22_b_gga35600b81785134630f9193e4ff1478a3a275f3866391d28d8a46a71a50d4fae12}{\-R\-F\-M22\-B\-\_\-\-E\-R\-R\-O\-R\-\_\-\-R\-X\-\_\-\-P\-A\-C\-K\-E\-T}\label{group___p_i_o_s___r_f_m22_b_gga35600b81785134630f9193e4ff1478a3a275f3866391d28d8a46a71a50d4fae12}
+}]\index{\-R\-F\-M22\-B\-\_\-\-R\-E\-S\-E\-N\-T\-\_\-\-T\-X\-\_\-\-P\-A\-C\-K\-E\-T@{\-R\-F\-M22\-B\-\_\-\-R\-E\-S\-E\-N\-T\-\_\-\-T\-X\-\_\-\-P\-A\-C\-K\-E\-T}!\-Radio Functions@{\-Radio Functions}}\index{\-Radio Functions@{\-Radio Functions}!\-R\-F\-M22\-B\-\_\-\-R\-E\-S\-E\-N\-T\-\_\-\-T\-X\-\_\-\-P\-A\-C\-K\-E\-T@{\-R\-F\-M22\-B\-\_\-\-R\-E\-S\-E\-N\-T\-\_\-\-T\-X\-\_\-\-P\-A\-C\-K\-E\-T}}\item[{\em 
+\hypertarget{group___p_i_o_s___r_f_m22_b_gga35600b81785134630f9193e4ff1478a3a69529f54139da530e2a9df40d6be5cf1}{\-R\-F\-M22\-B\-\_\-\-R\-E\-S\-E\-N\-T\-\_\-\-T\-X\-\_\-\-P\-A\-C\-K\-E\-T}\label{group___p_i_o_s___r_f_m22_b_gga35600b81785134630f9193e4ff1478a3a69529f54139da530e2a9df40d6be5cf1}
+}]\end{description}
+\end{Desc}
+
+
+
+\-Definition at line 634 of file pios\-\_\-rfm22b\-\_\-priv.\-h.
+
+\hypertarget{group___p_i_o_s___r_f_m22_b_gaf31f5344b7afb099b3105bfff4debdca}{\index{\-Radio Functions@{\-Radio Functions}!pios\-\_\-rfm22b\-\_\-state@{pios\-\_\-rfm22b\-\_\-state}}
+\index{pios\-\_\-rfm22b\-\_\-state@{pios\-\_\-rfm22b\-\_\-state}!Radio Functions@{\-Radio Functions}}
+\subsubsection[{pios\-\_\-rfm22b\-\_\-state}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf pios\-\_\-rfm22b\-\_\-state}}}\label{group___p_i_o_s___r_f_m22_b_gaf31f5344b7afb099b3105bfff4debdca}
+\begin{Desc}
+\item[\-Enumerator\-: ]\par
+\begin{description}
+\index{\-R\-F\-M22\-B\-\_\-\-S\-T\-A\-T\-E\-\_\-\-U\-N\-I\-N\-I\-T\-I\-A\-L\-I\-Z\-E\-D@{\-R\-F\-M22\-B\-\_\-\-S\-T\-A\-T\-E\-\_\-\-U\-N\-I\-N\-I\-T\-I\-A\-L\-I\-Z\-E\-D}!\-Radio Functions@{\-Radio Functions}}\index{\-Radio Functions@{\-Radio Functions}!\-R\-F\-M22\-B\-\_\-\-S\-T\-A\-T\-E\-\_\-\-U\-N\-I\-N\-I\-T\-I\-A\-L\-I\-Z\-E\-D@{\-R\-F\-M22\-B\-\_\-\-S\-T\-A\-T\-E\-\_\-\-U\-N\-I\-N\-I\-T\-I\-A\-L\-I\-Z\-E\-D}}\item[{\em 
+\hypertarget{group___p_i_o_s___r_f_m22_b_ggaf31f5344b7afb099b3105bfff4debdcaa435d2d141dac949cbbb311066ff1d84e}{\-R\-F\-M22\-B\-\_\-\-S\-T\-A\-T\-E\-\_\-\-U\-N\-I\-N\-I\-T\-I\-A\-L\-I\-Z\-E\-D}\label{group___p_i_o_s___r_f_m22_b_ggaf31f5344b7afb099b3105bfff4debdcaa435d2d141dac949cbbb311066ff1d84e}
+}]\index{\-R\-F\-M22\-B\-\_\-\-S\-T\-A\-T\-E\-\_\-\-I\-N\-I\-T\-I\-A\-L\-I\-Z\-I\-N\-G@{\-R\-F\-M22\-B\-\_\-\-S\-T\-A\-T\-E\-\_\-\-I\-N\-I\-T\-I\-A\-L\-I\-Z\-I\-N\-G}!\-Radio Functions@{\-Radio Functions}}\index{\-Radio Functions@{\-Radio Functions}!\-R\-F\-M22\-B\-\_\-\-S\-T\-A\-T\-E\-\_\-\-I\-N\-I\-T\-I\-A\-L\-I\-Z\-I\-N\-G@{\-R\-F\-M22\-B\-\_\-\-S\-T\-A\-T\-E\-\_\-\-I\-N\-I\-T\-I\-A\-L\-I\-Z\-I\-N\-G}}\item[{\em 
+\hypertarget{group___p_i_o_s___r_f_m22_b_ggaf31f5344b7afb099b3105bfff4debdcaa7b299487dbe220f59e1684dd72672fd3}{\-R\-F\-M22\-B\-\_\-\-S\-T\-A\-T\-E\-\_\-\-I\-N\-I\-T\-I\-A\-L\-I\-Z\-I\-N\-G}\label{group___p_i_o_s___r_f_m22_b_ggaf31f5344b7afb099b3105bfff4debdcaa7b299487dbe220f59e1684dd72672fd3}
+}]\index{\-R\-F\-M22\-B\-\_\-\-S\-T\-A\-T\-E\-\_\-\-I\-N\-I\-T\-I\-A\-L\-I\-Z\-E\-D@{\-R\-F\-M22\-B\-\_\-\-S\-T\-A\-T\-E\-\_\-\-I\-N\-I\-T\-I\-A\-L\-I\-Z\-E\-D}!\-Radio Functions@{\-Radio Functions}}\index{\-Radio Functions@{\-Radio Functions}!\-R\-F\-M22\-B\-\_\-\-S\-T\-A\-T\-E\-\_\-\-I\-N\-I\-T\-I\-A\-L\-I\-Z\-E\-D@{\-R\-F\-M22\-B\-\_\-\-S\-T\-A\-T\-E\-\_\-\-I\-N\-I\-T\-I\-A\-L\-I\-Z\-E\-D}}\item[{\em 
+\hypertarget{group___p_i_o_s___r_f_m22_b_ggaf31f5344b7afb099b3105bfff4debdcaa27bfead702378b4480b2a6125a619e6b}{\-R\-F\-M22\-B\-\_\-\-S\-T\-A\-T\-E\-\_\-\-I\-N\-I\-T\-I\-A\-L\-I\-Z\-E\-D}\label{group___p_i_o_s___r_f_m22_b_ggaf31f5344b7afb099b3105bfff4debdcaa27bfead702378b4480b2a6125a619e6b}
+}]\index{\-R\-F\-M22\-B\-\_\-\-S\-T\-A\-T\-E\-\_\-\-I\-N\-I\-T\-I\-A\-T\-I\-N\-G\-\_\-\-C\-O\-N\-N\-E\-C\-T\-I\-O\-N@{\-R\-F\-M22\-B\-\_\-\-S\-T\-A\-T\-E\-\_\-\-I\-N\-I\-T\-I\-A\-T\-I\-N\-G\-\_\-\-C\-O\-N\-N\-E\-C\-T\-I\-O\-N}!\-Radio Functions@{\-Radio Functions}}\index{\-Radio Functions@{\-Radio Functions}!\-R\-F\-M22\-B\-\_\-\-S\-T\-A\-T\-E\-\_\-\-I\-N\-I\-T\-I\-A\-T\-I\-N\-G\-\_\-\-C\-O\-N\-N\-E\-C\-T\-I\-O\-N@{\-R\-F\-M22\-B\-\_\-\-S\-T\-A\-T\-E\-\_\-\-I\-N\-I\-T\-I\-A\-T\-I\-N\-G\-\_\-\-C\-O\-N\-N\-E\-C\-T\-I\-O\-N}}\item[{\em 
+\hypertarget{group___p_i_o_s___r_f_m22_b_ggaf31f5344b7afb099b3105bfff4debdcaa8bd0f5000b8fa7d043c3a9bcccd7ceb3}{\-R\-F\-M22\-B\-\_\-\-S\-T\-A\-T\-E\-\_\-\-I\-N\-I\-T\-I\-A\-T\-I\-N\-G\-\_\-\-C\-O\-N\-N\-E\-C\-T\-I\-O\-N}\label{group___p_i_o_s___r_f_m22_b_ggaf31f5344b7afb099b3105bfff4debdcaa8bd0f5000b8fa7d043c3a9bcccd7ceb3}
+}]\index{\-R\-F\-M22\-B\-\_\-\-S\-T\-A\-T\-E\-\_\-\-W\-A\-I\-T\-\_\-\-F\-O\-R\-\_\-\-C\-O\-N\-N\-E\-C\-T\-I\-O\-N@{\-R\-F\-M22\-B\-\_\-\-S\-T\-A\-T\-E\-\_\-\-W\-A\-I\-T\-\_\-\-F\-O\-R\-\_\-\-C\-O\-N\-N\-E\-C\-T\-I\-O\-N}!\-Radio Functions@{\-Radio Functions}}\index{\-Radio Functions@{\-Radio Functions}!\-R\-F\-M22\-B\-\_\-\-S\-T\-A\-T\-E\-\_\-\-W\-A\-I\-T\-\_\-\-F\-O\-R\-\_\-\-C\-O\-N\-N\-E\-C\-T\-I\-O\-N@{\-R\-F\-M22\-B\-\_\-\-S\-T\-A\-T\-E\-\_\-\-W\-A\-I\-T\-\_\-\-F\-O\-R\-\_\-\-C\-O\-N\-N\-E\-C\-T\-I\-O\-N}}\item[{\em 
+\hypertarget{group___p_i_o_s___r_f_m22_b_ggaf31f5344b7afb099b3105bfff4debdcaa7c244cdd9274f1107f0caaee4f2554b4}{\-R\-F\-M22\-B\-\_\-\-S\-T\-A\-T\-E\-\_\-\-W\-A\-I\-T\-\_\-\-F\-O\-R\-\_\-\-C\-O\-N\-N\-E\-C\-T\-I\-O\-N}\label{group___p_i_o_s___r_f_m22_b_ggaf31f5344b7afb099b3105bfff4debdcaa7c244cdd9274f1107f0caaee4f2554b4}
+}]\index{\-R\-F\-M22\-B\-\_\-\-S\-T\-A\-T\-E\-\_\-\-R\-E\-Q\-U\-E\-S\-T\-I\-N\-G\-\_\-\-C\-O\-N\-N\-E\-C\-T\-I\-O\-N@{\-R\-F\-M22\-B\-\_\-\-S\-T\-A\-T\-E\-\_\-\-R\-E\-Q\-U\-E\-S\-T\-I\-N\-G\-\_\-\-C\-O\-N\-N\-E\-C\-T\-I\-O\-N}!\-Radio Functions@{\-Radio Functions}}\index{\-Radio Functions@{\-Radio Functions}!\-R\-F\-M22\-B\-\_\-\-S\-T\-A\-T\-E\-\_\-\-R\-E\-Q\-U\-E\-S\-T\-I\-N\-G\-\_\-\-C\-O\-N\-N\-E\-C\-T\-I\-O\-N@{\-R\-F\-M22\-B\-\_\-\-S\-T\-A\-T\-E\-\_\-\-R\-E\-Q\-U\-E\-S\-T\-I\-N\-G\-\_\-\-C\-O\-N\-N\-E\-C\-T\-I\-O\-N}}\item[{\em 
+\hypertarget{group___p_i_o_s___r_f_m22_b_ggaf31f5344b7afb099b3105bfff4debdcaaceb982d73e068ba7631800977735b857}{\-R\-F\-M22\-B\-\_\-\-S\-T\-A\-T\-E\-\_\-\-R\-E\-Q\-U\-E\-S\-T\-I\-N\-G\-\_\-\-C\-O\-N\-N\-E\-C\-T\-I\-O\-N}\label{group___p_i_o_s___r_f_m22_b_ggaf31f5344b7afb099b3105bfff4debdcaaceb982d73e068ba7631800977735b857}
+}]\index{\-R\-F\-M22\-B\-\_\-\-S\-T\-A\-T\-E\-\_\-\-A\-C\-C\-E\-P\-T\-I\-N\-G\-\_\-\-C\-O\-N\-N\-E\-C\-T\-I\-O\-N@{\-R\-F\-M22\-B\-\_\-\-S\-T\-A\-T\-E\-\_\-\-A\-C\-C\-E\-P\-T\-I\-N\-G\-\_\-\-C\-O\-N\-N\-E\-C\-T\-I\-O\-N}!\-Radio Functions@{\-Radio Functions}}\index{\-Radio Functions@{\-Radio Functions}!\-R\-F\-M22\-B\-\_\-\-S\-T\-A\-T\-E\-\_\-\-A\-C\-C\-E\-P\-T\-I\-N\-G\-\_\-\-C\-O\-N\-N\-E\-C\-T\-I\-O\-N@{\-R\-F\-M22\-B\-\_\-\-S\-T\-A\-T\-E\-\_\-\-A\-C\-C\-E\-P\-T\-I\-N\-G\-\_\-\-C\-O\-N\-N\-E\-C\-T\-I\-O\-N}}\item[{\em 
+\hypertarget{group___p_i_o_s___r_f_m22_b_ggaf31f5344b7afb099b3105bfff4debdcaaa8e557f9dff9cf70d39cc40ee0e9c3e6}{\-R\-F\-M22\-B\-\_\-\-S\-T\-A\-T\-E\-\_\-\-A\-C\-C\-E\-P\-T\-I\-N\-G\-\_\-\-C\-O\-N\-N\-E\-C\-T\-I\-O\-N}\label{group___p_i_o_s___r_f_m22_b_ggaf31f5344b7afb099b3105bfff4debdcaaa8e557f9dff9cf70d39cc40ee0e9c3e6}
+}]\index{\-R\-F\-M22\-B\-\_\-\-S\-T\-A\-T\-E\-\_\-\-C\-O\-N\-N\-E\-C\-T\-I\-O\-N\-\_\-\-A\-C\-C\-E\-P\-T\-E\-D@{\-R\-F\-M22\-B\-\_\-\-S\-T\-A\-T\-E\-\_\-\-C\-O\-N\-N\-E\-C\-T\-I\-O\-N\-\_\-\-A\-C\-C\-E\-P\-T\-E\-D}!\-Radio Functions@{\-Radio Functions}}\index{\-Radio Functions@{\-Radio Functions}!\-R\-F\-M22\-B\-\_\-\-S\-T\-A\-T\-E\-\_\-\-C\-O\-N\-N\-E\-C\-T\-I\-O\-N\-\_\-\-A\-C\-C\-E\-P\-T\-E\-D@{\-R\-F\-M22\-B\-\_\-\-S\-T\-A\-T\-E\-\_\-\-C\-O\-N\-N\-E\-C\-T\-I\-O\-N\-\_\-\-A\-C\-C\-E\-P\-T\-E\-D}}\item[{\em 
+\hypertarget{group___p_i_o_s___r_f_m22_b_ggaf31f5344b7afb099b3105bfff4debdcaae6ac3eb1e9d3fbe864d227e8dae9ba49}{\-R\-F\-M22\-B\-\_\-\-S\-T\-A\-T\-E\-\_\-\-C\-O\-N\-N\-E\-C\-T\-I\-O\-N\-\_\-\-A\-C\-C\-E\-P\-T\-E\-D}\label{group___p_i_o_s___r_f_m22_b_ggaf31f5344b7afb099b3105bfff4debdcaae6ac3eb1e9d3fbe864d227e8dae9ba49}
+}]\index{\-R\-F\-M22\-B\-\_\-\-S\-T\-A\-T\-E\-\_\-\-R\-X\-\_\-\-M\-O\-D\-E@{\-R\-F\-M22\-B\-\_\-\-S\-T\-A\-T\-E\-\_\-\-R\-X\-\_\-\-M\-O\-D\-E}!\-Radio Functions@{\-Radio Functions}}\index{\-Radio Functions@{\-Radio Functions}!\-R\-F\-M22\-B\-\_\-\-S\-T\-A\-T\-E\-\_\-\-R\-X\-\_\-\-M\-O\-D\-E@{\-R\-F\-M22\-B\-\_\-\-S\-T\-A\-T\-E\-\_\-\-R\-X\-\_\-\-M\-O\-D\-E}}\item[{\em 
+\hypertarget{group___p_i_o_s___r_f_m22_b_ggaf31f5344b7afb099b3105bfff4debdcaa63a36dff1cddc703145598fab4e6bfec}{\-R\-F\-M22\-B\-\_\-\-S\-T\-A\-T\-E\-\_\-\-R\-X\-\_\-\-M\-O\-D\-E}\label{group___p_i_o_s___r_f_m22_b_ggaf31f5344b7afb099b3105bfff4debdcaa63a36dff1cddc703145598fab4e6bfec}
+}]\index{\-R\-F\-M22\-B\-\_\-\-S\-T\-A\-T\-E\-\_\-\-W\-A\-I\-T\-\_\-\-P\-R\-E\-A\-M\-B\-L\-E@{\-R\-F\-M22\-B\-\_\-\-S\-T\-A\-T\-E\-\_\-\-W\-A\-I\-T\-\_\-\-P\-R\-E\-A\-M\-B\-L\-E}!\-Radio Functions@{\-Radio Functions}}\index{\-Radio Functions@{\-Radio Functions}!\-R\-F\-M22\-B\-\_\-\-S\-T\-A\-T\-E\-\_\-\-W\-A\-I\-T\-\_\-\-P\-R\-E\-A\-M\-B\-L\-E@{\-R\-F\-M22\-B\-\_\-\-S\-T\-A\-T\-E\-\_\-\-W\-A\-I\-T\-\_\-\-P\-R\-E\-A\-M\-B\-L\-E}}\item[{\em 
+\hypertarget{group___p_i_o_s___r_f_m22_b_ggaf31f5344b7afb099b3105bfff4debdcaaff1829e6659fb28cb9cc7e69d120924c}{\-R\-F\-M22\-B\-\_\-\-S\-T\-A\-T\-E\-\_\-\-W\-A\-I\-T\-\_\-\-P\-R\-E\-A\-M\-B\-L\-E}\label{group___p_i_o_s___r_f_m22_b_ggaf31f5344b7afb099b3105bfff4debdcaaff1829e6659fb28cb9cc7e69d120924c}
+}]\index{\-R\-F\-M22\-B\-\_\-\-S\-T\-A\-T\-E\-\_\-\-W\-A\-I\-T\-\_\-\-S\-Y\-N\-C@{\-R\-F\-M22\-B\-\_\-\-S\-T\-A\-T\-E\-\_\-\-W\-A\-I\-T\-\_\-\-S\-Y\-N\-C}!\-Radio Functions@{\-Radio Functions}}\index{\-Radio Functions@{\-Radio Functions}!\-R\-F\-M22\-B\-\_\-\-S\-T\-A\-T\-E\-\_\-\-W\-A\-I\-T\-\_\-\-S\-Y\-N\-C@{\-R\-F\-M22\-B\-\_\-\-S\-T\-A\-T\-E\-\_\-\-W\-A\-I\-T\-\_\-\-S\-Y\-N\-C}}\item[{\em 
+\hypertarget{group___p_i_o_s___r_f_m22_b_ggaf31f5344b7afb099b3105bfff4debdcaa65a831997eef86bd160b26db0453cc5d}{\-R\-F\-M22\-B\-\_\-\-S\-T\-A\-T\-E\-\_\-\-W\-A\-I\-T\-\_\-\-S\-Y\-N\-C}\label{group___p_i_o_s___r_f_m22_b_ggaf31f5344b7afb099b3105bfff4debdcaa65a831997eef86bd160b26db0453cc5d}
+}]\index{\-R\-F\-M22\-B\-\_\-\-S\-T\-A\-T\-E\-\_\-\-R\-X\-\_\-\-D\-A\-T\-A@{\-R\-F\-M22\-B\-\_\-\-S\-T\-A\-T\-E\-\_\-\-R\-X\-\_\-\-D\-A\-T\-A}!\-Radio Functions@{\-Radio Functions}}\index{\-Radio Functions@{\-Radio Functions}!\-R\-F\-M22\-B\-\_\-\-S\-T\-A\-T\-E\-\_\-\-R\-X\-\_\-\-D\-A\-T\-A@{\-R\-F\-M22\-B\-\_\-\-S\-T\-A\-T\-E\-\_\-\-R\-X\-\_\-\-D\-A\-T\-A}}\item[{\em 
+\hypertarget{group___p_i_o_s___r_f_m22_b_ggaf31f5344b7afb099b3105bfff4debdcaa309b3a0d3adf41d01687864e7b041740}{\-R\-F\-M22\-B\-\_\-\-S\-T\-A\-T\-E\-\_\-\-R\-X\-\_\-\-D\-A\-T\-A}\label{group___p_i_o_s___r_f_m22_b_ggaf31f5344b7afb099b3105bfff4debdcaa309b3a0d3adf41d01687864e7b041740}
+}]\index{\-R\-F\-M22\-B\-\_\-\-S\-T\-A\-T\-E\-\_\-\-R\-X\-\_\-\-F\-A\-I\-L\-U\-R\-E@{\-R\-F\-M22\-B\-\_\-\-S\-T\-A\-T\-E\-\_\-\-R\-X\-\_\-\-F\-A\-I\-L\-U\-R\-E}!\-Radio Functions@{\-Radio Functions}}\index{\-Radio Functions@{\-Radio Functions}!\-R\-F\-M22\-B\-\_\-\-S\-T\-A\-T\-E\-\_\-\-R\-X\-\_\-\-F\-A\-I\-L\-U\-R\-E@{\-R\-F\-M22\-B\-\_\-\-S\-T\-A\-T\-E\-\_\-\-R\-X\-\_\-\-F\-A\-I\-L\-U\-R\-E}}\item[{\em 
+\hypertarget{group___p_i_o_s___r_f_m22_b_ggaf31f5344b7afb099b3105bfff4debdcaa8f421837505275bcb2fa262075e7793d}{\-R\-F\-M22\-B\-\_\-\-S\-T\-A\-T\-E\-\_\-\-R\-X\-\_\-\-F\-A\-I\-L\-U\-R\-E}\label{group___p_i_o_s___r_f_m22_b_ggaf31f5344b7afb099b3105bfff4debdcaa8f421837505275bcb2fa262075e7793d}
+}]\index{\-R\-F\-M22\-B\-\_\-\-S\-T\-A\-T\-E\-\_\-\-R\-E\-C\-E\-I\-V\-I\-N\-G\-\_\-\-S\-T\-A\-T\-U\-S@{\-R\-F\-M22\-B\-\_\-\-S\-T\-A\-T\-E\-\_\-\-R\-E\-C\-E\-I\-V\-I\-N\-G\-\_\-\-S\-T\-A\-T\-U\-S}!\-Radio Functions@{\-Radio Functions}}\index{\-Radio Functions@{\-Radio Functions}!\-R\-F\-M22\-B\-\_\-\-S\-T\-A\-T\-E\-\_\-\-R\-E\-C\-E\-I\-V\-I\-N\-G\-\_\-\-S\-T\-A\-T\-U\-S@{\-R\-F\-M22\-B\-\_\-\-S\-T\-A\-T\-E\-\_\-\-R\-E\-C\-E\-I\-V\-I\-N\-G\-\_\-\-S\-T\-A\-T\-U\-S}}\item[{\em 
+\hypertarget{group___p_i_o_s___r_f_m22_b_ggaf31f5344b7afb099b3105bfff4debdcaa2e446fb00d4991e2515e7b0ea2a41177}{\-R\-F\-M22\-B\-\_\-\-S\-T\-A\-T\-E\-\_\-\-R\-E\-C\-E\-I\-V\-I\-N\-G\-\_\-\-S\-T\-A\-T\-U\-S}\label{group___p_i_o_s___r_f_m22_b_ggaf31f5344b7afb099b3105bfff4debdcaa2e446fb00d4991e2515e7b0ea2a41177}
+}]\index{\-R\-F\-M22\-B\-\_\-\-S\-T\-A\-T\-E\-\_\-\-T\-X\-\_\-\-S\-T\-A\-R\-T@{\-R\-F\-M22\-B\-\_\-\-S\-T\-A\-T\-E\-\_\-\-T\-X\-\_\-\-S\-T\-A\-R\-T}!\-Radio Functions@{\-Radio Functions}}\index{\-Radio Functions@{\-Radio Functions}!\-R\-F\-M22\-B\-\_\-\-S\-T\-A\-T\-E\-\_\-\-T\-X\-\_\-\-S\-T\-A\-R\-T@{\-R\-F\-M22\-B\-\_\-\-S\-T\-A\-T\-E\-\_\-\-T\-X\-\_\-\-S\-T\-A\-R\-T}}\item[{\em 
+\hypertarget{group___p_i_o_s___r_f_m22_b_ggaf31f5344b7afb099b3105bfff4debdcaacc32ba57d31d0786b6addb57d363e412}{\-R\-F\-M22\-B\-\_\-\-S\-T\-A\-T\-E\-\_\-\-T\-X\-\_\-\-S\-T\-A\-R\-T}\label{group___p_i_o_s___r_f_m22_b_ggaf31f5344b7afb099b3105bfff4debdcaacc32ba57d31d0786b6addb57d363e412}
+}]\index{\-R\-F\-M22\-B\-\_\-\-S\-T\-A\-T\-E\-\_\-\-T\-X\-\_\-\-D\-A\-T\-A@{\-R\-F\-M22\-B\-\_\-\-S\-T\-A\-T\-E\-\_\-\-T\-X\-\_\-\-D\-A\-T\-A}!\-Radio Functions@{\-Radio Functions}}\index{\-Radio Functions@{\-Radio Functions}!\-R\-F\-M22\-B\-\_\-\-S\-T\-A\-T\-E\-\_\-\-T\-X\-\_\-\-D\-A\-T\-A@{\-R\-F\-M22\-B\-\_\-\-S\-T\-A\-T\-E\-\_\-\-T\-X\-\_\-\-D\-A\-T\-A}}\item[{\em 
+\hypertarget{group___p_i_o_s___r_f_m22_b_ggaf31f5344b7afb099b3105bfff4debdcaa961a924caf5750cb8830f00aeb40b665}{\-R\-F\-M22\-B\-\_\-\-S\-T\-A\-T\-E\-\_\-\-T\-X\-\_\-\-D\-A\-T\-A}\label{group___p_i_o_s___r_f_m22_b_ggaf31f5344b7afb099b3105bfff4debdcaa961a924caf5750cb8830f00aeb40b665}
+}]\index{\-R\-F\-M22\-B\-\_\-\-S\-T\-A\-T\-E\-\_\-\-T\-X\-\_\-\-F\-A\-I\-L\-U\-R\-E@{\-R\-F\-M22\-B\-\_\-\-S\-T\-A\-T\-E\-\_\-\-T\-X\-\_\-\-F\-A\-I\-L\-U\-R\-E}!\-Radio Functions@{\-Radio Functions}}\index{\-Radio Functions@{\-Radio Functions}!\-R\-F\-M22\-B\-\_\-\-S\-T\-A\-T\-E\-\_\-\-T\-X\-\_\-\-F\-A\-I\-L\-U\-R\-E@{\-R\-F\-M22\-B\-\_\-\-S\-T\-A\-T\-E\-\_\-\-T\-X\-\_\-\-F\-A\-I\-L\-U\-R\-E}}\item[{\em 
+\hypertarget{group___p_i_o_s___r_f_m22_b_ggaf31f5344b7afb099b3105bfff4debdcaaf1847b13cef0dfe40f78a5d093135b1b}{\-R\-F\-M22\-B\-\_\-\-S\-T\-A\-T\-E\-\_\-\-T\-X\-\_\-\-F\-A\-I\-L\-U\-R\-E}\label{group___p_i_o_s___r_f_m22_b_ggaf31f5344b7afb099b3105bfff4debdcaaf1847b13cef0dfe40f78a5d093135b1b}
+}]\index{\-R\-F\-M22\-B\-\_\-\-S\-T\-A\-T\-E\-\_\-\-S\-E\-N\-D\-I\-N\-G\-\_\-\-A\-C\-K@{\-R\-F\-M22\-B\-\_\-\-S\-T\-A\-T\-E\-\_\-\-S\-E\-N\-D\-I\-N\-G\-\_\-\-A\-C\-K}!\-Radio Functions@{\-Radio Functions}}\index{\-Radio Functions@{\-Radio Functions}!\-R\-F\-M22\-B\-\_\-\-S\-T\-A\-T\-E\-\_\-\-S\-E\-N\-D\-I\-N\-G\-\_\-\-A\-C\-K@{\-R\-F\-M22\-B\-\_\-\-S\-T\-A\-T\-E\-\_\-\-S\-E\-N\-D\-I\-N\-G\-\_\-\-A\-C\-K}}\item[{\em 
+\hypertarget{group___p_i_o_s___r_f_m22_b_ggaf31f5344b7afb099b3105bfff4debdcaa4d5c74c46877772372fce099c4d10ad7}{\-R\-F\-M22\-B\-\_\-\-S\-T\-A\-T\-E\-\_\-\-S\-E\-N\-D\-I\-N\-G\-\_\-\-A\-C\-K}\label{group___p_i_o_s___r_f_m22_b_ggaf31f5344b7afb099b3105bfff4debdcaa4d5c74c46877772372fce099c4d10ad7}
+}]\index{\-R\-F\-M22\-B\-\_\-\-S\-T\-A\-T\-E\-\_\-\-S\-E\-N\-D\-I\-N\-G\-\_\-\-N\-A\-C\-K@{\-R\-F\-M22\-B\-\_\-\-S\-T\-A\-T\-E\-\_\-\-S\-E\-N\-D\-I\-N\-G\-\_\-\-N\-A\-C\-K}!\-Radio Functions@{\-Radio Functions}}\index{\-Radio Functions@{\-Radio Functions}!\-R\-F\-M22\-B\-\_\-\-S\-T\-A\-T\-E\-\_\-\-S\-E\-N\-D\-I\-N\-G\-\_\-\-N\-A\-C\-K@{\-R\-F\-M22\-B\-\_\-\-S\-T\-A\-T\-E\-\_\-\-S\-E\-N\-D\-I\-N\-G\-\_\-\-N\-A\-C\-K}}\item[{\em 
+\hypertarget{group___p_i_o_s___r_f_m22_b_ggaf31f5344b7afb099b3105bfff4debdcaafb273fcaba2f21d05b48a72bf8ec0218}{\-R\-F\-M22\-B\-\_\-\-S\-T\-A\-T\-E\-\_\-\-S\-E\-N\-D\-I\-N\-G\-\_\-\-N\-A\-C\-K}\label{group___p_i_o_s___r_f_m22_b_ggaf31f5344b7afb099b3105bfff4debdcaafb273fcaba2f21d05b48a72bf8ec0218}
+}]\index{\-R\-F\-M22\-B\-\_\-\-S\-T\-A\-T\-E\-\_\-\-R\-E\-C\-E\-I\-V\-I\-N\-G\-\_\-\-A\-C\-K@{\-R\-F\-M22\-B\-\_\-\-S\-T\-A\-T\-E\-\_\-\-R\-E\-C\-E\-I\-V\-I\-N\-G\-\_\-\-A\-C\-K}!\-Radio Functions@{\-Radio Functions}}\index{\-Radio Functions@{\-Radio Functions}!\-R\-F\-M22\-B\-\_\-\-S\-T\-A\-T\-E\-\_\-\-R\-E\-C\-E\-I\-V\-I\-N\-G\-\_\-\-A\-C\-K@{\-R\-F\-M22\-B\-\_\-\-S\-T\-A\-T\-E\-\_\-\-R\-E\-C\-E\-I\-V\-I\-N\-G\-\_\-\-A\-C\-K}}\item[{\em 
+\hypertarget{group___p_i_o_s___r_f_m22_b_ggaf31f5344b7afb099b3105bfff4debdcaa31d4bd901d91fa70cd6b5265abb7342f}{\-R\-F\-M22\-B\-\_\-\-S\-T\-A\-T\-E\-\_\-\-R\-E\-C\-E\-I\-V\-I\-N\-G\-\_\-\-A\-C\-K}\label{group___p_i_o_s___r_f_m22_b_ggaf31f5344b7afb099b3105bfff4debdcaa31d4bd901d91fa70cd6b5265abb7342f}
+}]\index{\-R\-F\-M22\-B\-\_\-\-S\-T\-A\-T\-E\-\_\-\-R\-E\-C\-E\-I\-V\-I\-N\-G\-\_\-\-N\-A\-C\-K@{\-R\-F\-M22\-B\-\_\-\-S\-T\-A\-T\-E\-\_\-\-R\-E\-C\-E\-I\-V\-I\-N\-G\-\_\-\-N\-A\-C\-K}!\-Radio Functions@{\-Radio Functions}}\index{\-Radio Functions@{\-Radio Functions}!\-R\-F\-M22\-B\-\_\-\-S\-T\-A\-T\-E\-\_\-\-R\-E\-C\-E\-I\-V\-I\-N\-G\-\_\-\-N\-A\-C\-K@{\-R\-F\-M22\-B\-\_\-\-S\-T\-A\-T\-E\-\_\-\-R\-E\-C\-E\-I\-V\-I\-N\-G\-\_\-\-N\-A\-C\-K}}\item[{\em 
+\hypertarget{group___p_i_o_s___r_f_m22_b_ggaf31f5344b7afb099b3105bfff4debdcaa0bb4551035b87363e95887adc4c87f44}{\-R\-F\-M22\-B\-\_\-\-S\-T\-A\-T\-E\-\_\-\-R\-E\-C\-E\-I\-V\-I\-N\-G\-\_\-\-N\-A\-C\-K}\label{group___p_i_o_s___r_f_m22_b_ggaf31f5344b7afb099b3105bfff4debdcaa0bb4551035b87363e95887adc4c87f44}
+}]\index{\-R\-F\-M22\-B\-\_\-\-S\-T\-A\-T\-E\-\_\-\-T\-I\-M\-E\-O\-U\-T@{\-R\-F\-M22\-B\-\_\-\-S\-T\-A\-T\-E\-\_\-\-T\-I\-M\-E\-O\-U\-T}!\-Radio Functions@{\-Radio Functions}}\index{\-Radio Functions@{\-Radio Functions}!\-R\-F\-M22\-B\-\_\-\-S\-T\-A\-T\-E\-\_\-\-T\-I\-M\-E\-O\-U\-T@{\-R\-F\-M22\-B\-\_\-\-S\-T\-A\-T\-E\-\_\-\-T\-I\-M\-E\-O\-U\-T}}\item[{\em 
+\hypertarget{group___p_i_o_s___r_f_m22_b_ggaf31f5344b7afb099b3105bfff4debdcaa94356a3bc173a01ef473c81f7f9f387c}{\-R\-F\-M22\-B\-\_\-\-S\-T\-A\-T\-E\-\_\-\-T\-I\-M\-E\-O\-U\-T}\label{group___p_i_o_s___r_f_m22_b_ggaf31f5344b7afb099b3105bfff4debdcaa94356a3bc173a01ef473c81f7f9f387c}
+}]\index{\-R\-F\-M22\-B\-\_\-\-S\-T\-A\-T\-E\-\_\-\-E\-R\-R\-O\-R@{\-R\-F\-M22\-B\-\_\-\-S\-T\-A\-T\-E\-\_\-\-E\-R\-R\-O\-R}!\-Radio Functions@{\-Radio Functions}}\index{\-Radio Functions@{\-Radio Functions}!\-R\-F\-M22\-B\-\_\-\-S\-T\-A\-T\-E\-\_\-\-E\-R\-R\-O\-R@{\-R\-F\-M22\-B\-\_\-\-S\-T\-A\-T\-E\-\_\-\-E\-R\-R\-O\-R}}\item[{\em 
+\hypertarget{group___p_i_o_s___r_f_m22_b_ggaf31f5344b7afb099b3105bfff4debdcaa863dc3eeb6b9d6daea6718097e9afba0}{\-R\-F\-M22\-B\-\_\-\-S\-T\-A\-T\-E\-\_\-\-E\-R\-R\-O\-R}\label{group___p_i_o_s___r_f_m22_b_ggaf31f5344b7afb099b3105bfff4debdcaa863dc3eeb6b9d6daea6718097e9afba0}
+}]\index{\-R\-F\-M22\-B\-\_\-\-S\-T\-A\-T\-E\-\_\-\-F\-A\-T\-A\-L\-\_\-\-E\-R\-R\-O\-R@{\-R\-F\-M22\-B\-\_\-\-S\-T\-A\-T\-E\-\_\-\-F\-A\-T\-A\-L\-\_\-\-E\-R\-R\-O\-R}!\-Radio Functions@{\-Radio Functions}}\index{\-Radio Functions@{\-Radio Functions}!\-R\-F\-M22\-B\-\_\-\-S\-T\-A\-T\-E\-\_\-\-F\-A\-T\-A\-L\-\_\-\-E\-R\-R\-O\-R@{\-R\-F\-M22\-B\-\_\-\-S\-T\-A\-T\-E\-\_\-\-F\-A\-T\-A\-L\-\_\-\-E\-R\-R\-O\-R}}\item[{\em 
+\hypertarget{group___p_i_o_s___r_f_m22_b_ggaf31f5344b7afb099b3105bfff4debdcaa29a48aa40064638700998b35b23ec72f}{\-R\-F\-M22\-B\-\_\-\-S\-T\-A\-T\-E\-\_\-\-F\-A\-T\-A\-L\-\_\-\-E\-R\-R\-O\-R}\label{group___p_i_o_s___r_f_m22_b_ggaf31f5344b7afb099b3105bfff4debdcaa29a48aa40064638700998b35b23ec72f}
+}]\index{\-R\-F\-M22\-B\-\_\-\-S\-T\-A\-T\-E\-\_\-\-N\-U\-M\-\_\-\-S\-T\-A\-T\-E\-S@{\-R\-F\-M22\-B\-\_\-\-S\-T\-A\-T\-E\-\_\-\-N\-U\-M\-\_\-\-S\-T\-A\-T\-E\-S}!\-Radio Functions@{\-Radio Functions}}\index{\-Radio Functions@{\-Radio Functions}!\-R\-F\-M22\-B\-\_\-\-S\-T\-A\-T\-E\-\_\-\-N\-U\-M\-\_\-\-S\-T\-A\-T\-E\-S@{\-R\-F\-M22\-B\-\_\-\-S\-T\-A\-T\-E\-\_\-\-N\-U\-M\-\_\-\-S\-T\-A\-T\-E\-S}}\item[{\em 
+\hypertarget{group___p_i_o_s___r_f_m22_b_ggaf31f5344b7afb099b3105bfff4debdcaacc8445257d6ed1782b22c1ee2a46f206}{\-R\-F\-M22\-B\-\_\-\-S\-T\-A\-T\-E\-\_\-\-N\-U\-M\-\_\-\-S\-T\-A\-T\-E\-S}\label{group___p_i_o_s___r_f_m22_b_ggaf31f5344b7afb099b3105bfff4debdcaacc8445257d6ed1782b22c1ee2a46f206}
+}]\end{description}
+\end{Desc}
+
+
+
+\-Definition at line 578 of file pios\-\_\-rfm22b\-\_\-priv.\-h.
+
+\hypertarget{group___p_i_o_s___r_f_m22_b_gaa3e170044f27a00c422ee75f98130ef1}{\index{\-Radio Functions@{\-Radio Functions}!rfm22b\-\_\-datarate@{rfm22b\-\_\-datarate}}
+\index{rfm22b\-\_\-datarate@{rfm22b\-\_\-datarate}!Radio Functions@{\-Radio Functions}}
+\subsubsection[{rfm22b\-\_\-datarate}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf rfm22b\-\_\-datarate}}}\label{group___p_i_o_s___r_f_m22_b_gaa3e170044f27a00c422ee75f98130ef1}
+\begin{Desc}
+\item[\-Enumerator\-: ]\par
+\begin{description}
+\index{\-R\-F\-M22\-\_\-datarate\-\_\-500@{\-R\-F\-M22\-\_\-datarate\-\_\-500}!\-Radio Functions@{\-Radio Functions}}\index{\-Radio Functions@{\-Radio Functions}!\-R\-F\-M22\-\_\-datarate\-\_\-500@{\-R\-F\-M22\-\_\-datarate\-\_\-500}}\item[{\em 
+\hypertarget{group___p_i_o_s___r_f_m22_b_ggaa3e170044f27a00c422ee75f98130ef1a36bc9a3bd8b78d019dbd7d2495169ce4}{\-R\-F\-M22\-\_\-datarate\-\_\-500}\label{group___p_i_o_s___r_f_m22_b_ggaa3e170044f27a00c422ee75f98130ef1a36bc9a3bd8b78d019dbd7d2495169ce4}
+}]\index{\-R\-F\-M22\-\_\-datarate\-\_\-1000@{\-R\-F\-M22\-\_\-datarate\-\_\-1000}!\-Radio Functions@{\-Radio Functions}}\index{\-Radio Functions@{\-Radio Functions}!\-R\-F\-M22\-\_\-datarate\-\_\-1000@{\-R\-F\-M22\-\_\-datarate\-\_\-1000}}\item[{\em 
+\hypertarget{group___p_i_o_s___r_f_m22_b_ggaa3e170044f27a00c422ee75f98130ef1aa17cabbc60faeb47c286249dfa14c670}{\-R\-F\-M22\-\_\-datarate\-\_\-1000}\label{group___p_i_o_s___r_f_m22_b_ggaa3e170044f27a00c422ee75f98130ef1aa17cabbc60faeb47c286249dfa14c670}
+}]\index{\-R\-F\-M22\-\_\-datarate\-\_\-2000@{\-R\-F\-M22\-\_\-datarate\-\_\-2000}!\-Radio Functions@{\-Radio Functions}}\index{\-Radio Functions@{\-Radio Functions}!\-R\-F\-M22\-\_\-datarate\-\_\-2000@{\-R\-F\-M22\-\_\-datarate\-\_\-2000}}\item[{\em 
+\hypertarget{group___p_i_o_s___r_f_m22_b_ggaa3e170044f27a00c422ee75f98130ef1a1b1de802b878eeb6bdc948a02ced816a}{\-R\-F\-M22\-\_\-datarate\-\_\-2000}\label{group___p_i_o_s___r_f_m22_b_ggaa3e170044f27a00c422ee75f98130ef1a1b1de802b878eeb6bdc948a02ced816a}
+}]\index{\-R\-F\-M22\-\_\-datarate\-\_\-4000@{\-R\-F\-M22\-\_\-datarate\-\_\-4000}!\-Radio Functions@{\-Radio Functions}}\index{\-Radio Functions@{\-Radio Functions}!\-R\-F\-M22\-\_\-datarate\-\_\-4000@{\-R\-F\-M22\-\_\-datarate\-\_\-4000}}\item[{\em 
+\hypertarget{group___p_i_o_s___r_f_m22_b_ggaa3e170044f27a00c422ee75f98130ef1afb5019f492f916460103f5d8802ef3c0}{\-R\-F\-M22\-\_\-datarate\-\_\-4000}\label{group___p_i_o_s___r_f_m22_b_ggaa3e170044f27a00c422ee75f98130ef1afb5019f492f916460103f5d8802ef3c0}
+}]\index{\-R\-F\-M22\-\_\-datarate\-\_\-8000@{\-R\-F\-M22\-\_\-datarate\-\_\-8000}!\-Radio Functions@{\-Radio Functions}}\index{\-Radio Functions@{\-Radio Functions}!\-R\-F\-M22\-\_\-datarate\-\_\-8000@{\-R\-F\-M22\-\_\-datarate\-\_\-8000}}\item[{\em 
+\hypertarget{group___p_i_o_s___r_f_m22_b_ggaa3e170044f27a00c422ee75f98130ef1ab694518703ba2978f5c0a713c7653ce7}{\-R\-F\-M22\-\_\-datarate\-\_\-8000}\label{group___p_i_o_s___r_f_m22_b_ggaa3e170044f27a00c422ee75f98130ef1ab694518703ba2978f5c0a713c7653ce7}
+}]\index{\-R\-F\-M22\-\_\-datarate\-\_\-9600@{\-R\-F\-M22\-\_\-datarate\-\_\-9600}!\-Radio Functions@{\-Radio Functions}}\index{\-Radio Functions@{\-Radio Functions}!\-R\-F\-M22\-\_\-datarate\-\_\-9600@{\-R\-F\-M22\-\_\-datarate\-\_\-9600}}\item[{\em 
+\hypertarget{group___p_i_o_s___r_f_m22_b_ggaa3e170044f27a00c422ee75f98130ef1a2f4a71d53bc9f04e377b6f6294d9ca50}{\-R\-F\-M22\-\_\-datarate\-\_\-9600}\label{group___p_i_o_s___r_f_m22_b_ggaa3e170044f27a00c422ee75f98130ef1a2f4a71d53bc9f04e377b6f6294d9ca50}
+}]\index{\-R\-F\-M22\-\_\-datarate\-\_\-16000@{\-R\-F\-M22\-\_\-datarate\-\_\-16000}!\-Radio Functions@{\-Radio Functions}}\index{\-Radio Functions@{\-Radio Functions}!\-R\-F\-M22\-\_\-datarate\-\_\-16000@{\-R\-F\-M22\-\_\-datarate\-\_\-16000}}\item[{\em 
+\hypertarget{group___p_i_o_s___r_f_m22_b_ggaa3e170044f27a00c422ee75f98130ef1a09ed5e9fcf5708dd7407346d9a0ab922}{\-R\-F\-M22\-\_\-datarate\-\_\-16000}\label{group___p_i_o_s___r_f_m22_b_ggaa3e170044f27a00c422ee75f98130ef1a09ed5e9fcf5708dd7407346d9a0ab922}
+}]\index{\-R\-F\-M22\-\_\-datarate\-\_\-19200@{\-R\-F\-M22\-\_\-datarate\-\_\-19200}!\-Radio Functions@{\-Radio Functions}}\index{\-Radio Functions@{\-Radio Functions}!\-R\-F\-M22\-\_\-datarate\-\_\-19200@{\-R\-F\-M22\-\_\-datarate\-\_\-19200}}\item[{\em 
+\hypertarget{group___p_i_o_s___r_f_m22_b_ggaa3e170044f27a00c422ee75f98130ef1aedd904c3e63449c00996dca8934d5413}{\-R\-F\-M22\-\_\-datarate\-\_\-19200}\label{group___p_i_o_s___r_f_m22_b_ggaa3e170044f27a00c422ee75f98130ef1aedd904c3e63449c00996dca8934d5413}
+}]\index{\-R\-F\-M22\-\_\-datarate\-\_\-24000@{\-R\-F\-M22\-\_\-datarate\-\_\-24000}!\-Radio Functions@{\-Radio Functions}}\index{\-Radio Functions@{\-Radio Functions}!\-R\-F\-M22\-\_\-datarate\-\_\-24000@{\-R\-F\-M22\-\_\-datarate\-\_\-24000}}\item[{\em 
+\hypertarget{group___p_i_o_s___r_f_m22_b_ggaa3e170044f27a00c422ee75f98130ef1ab081da7c750e3499b953b518d24bc5bf}{\-R\-F\-M22\-\_\-datarate\-\_\-24000}\label{group___p_i_o_s___r_f_m22_b_ggaa3e170044f27a00c422ee75f98130ef1ab081da7c750e3499b953b518d24bc5bf}
+}]\index{\-R\-F\-M22\-\_\-datarate\-\_\-32000@{\-R\-F\-M22\-\_\-datarate\-\_\-32000}!\-Radio Functions@{\-Radio Functions}}\index{\-Radio Functions@{\-Radio Functions}!\-R\-F\-M22\-\_\-datarate\-\_\-32000@{\-R\-F\-M22\-\_\-datarate\-\_\-32000}}\item[{\em 
+\hypertarget{group___p_i_o_s___r_f_m22_b_ggaa3e170044f27a00c422ee75f98130ef1a3f8afae5b7a9383c81f1e56d307953b3}{\-R\-F\-M22\-\_\-datarate\-\_\-32000}\label{group___p_i_o_s___r_f_m22_b_ggaa3e170044f27a00c422ee75f98130ef1a3f8afae5b7a9383c81f1e56d307953b3}
+}]\index{\-R\-F\-M22\-\_\-datarate\-\_\-64000@{\-R\-F\-M22\-\_\-datarate\-\_\-64000}!\-Radio Functions@{\-Radio Functions}}\index{\-Radio Functions@{\-Radio Functions}!\-R\-F\-M22\-\_\-datarate\-\_\-64000@{\-R\-F\-M22\-\_\-datarate\-\_\-64000}}\item[{\em 
+\hypertarget{group___p_i_o_s___r_f_m22_b_ggaa3e170044f27a00c422ee75f98130ef1a68ce67d698ece0a8fe76f20f22e65830}{\-R\-F\-M22\-\_\-datarate\-\_\-64000}\label{group___p_i_o_s___r_f_m22_b_ggaa3e170044f27a00c422ee75f98130ef1a68ce67d698ece0a8fe76f20f22e65830}
+}]\index{\-R\-F\-M22\-\_\-datarate\-\_\-128000@{\-R\-F\-M22\-\_\-datarate\-\_\-128000}!\-Radio Functions@{\-Radio Functions}}\index{\-Radio Functions@{\-Radio Functions}!\-R\-F\-M22\-\_\-datarate\-\_\-128000@{\-R\-F\-M22\-\_\-datarate\-\_\-128000}}\item[{\em 
+\hypertarget{group___p_i_o_s___r_f_m22_b_ggaa3e170044f27a00c422ee75f98130ef1a5724082114b980608e6fea8076767031}{\-R\-F\-M22\-\_\-datarate\-\_\-128000}\label{group___p_i_o_s___r_f_m22_b_ggaa3e170044f27a00c422ee75f98130ef1a5724082114b980608e6fea8076767031}
+}]\index{\-R\-F\-M22\-\_\-datarate\-\_\-192000@{\-R\-F\-M22\-\_\-datarate\-\_\-192000}!\-Radio Functions@{\-Radio Functions}}\index{\-Radio Functions@{\-Radio Functions}!\-R\-F\-M22\-\_\-datarate\-\_\-192000@{\-R\-F\-M22\-\_\-datarate\-\_\-192000}}\item[{\em 
+\hypertarget{group___p_i_o_s___r_f_m22_b_ggaa3e170044f27a00c422ee75f98130ef1ab01bf42f9f3a056aabb6571f3f824f40}{\-R\-F\-M22\-\_\-datarate\-\_\-192000}\label{group___p_i_o_s___r_f_m22_b_ggaa3e170044f27a00c422ee75f98130ef1ab01bf42f9f3a056aabb6571f3f824f40}
+}]\index{\-R\-F\-M22\-\_\-datarate\-\_\-256000@{\-R\-F\-M22\-\_\-datarate\-\_\-256000}!\-Radio Functions@{\-Radio Functions}}\index{\-Radio Functions@{\-Radio Functions}!\-R\-F\-M22\-\_\-datarate\-\_\-256000@{\-R\-F\-M22\-\_\-datarate\-\_\-256000}}\item[{\em 
+\hypertarget{group___p_i_o_s___r_f_m22_b_ggaa3e170044f27a00c422ee75f98130ef1a53a8ce185aada9d03c225f9cb773d222}{\-R\-F\-M22\-\_\-datarate\-\_\-256000}\label{group___p_i_o_s___r_f_m22_b_ggaa3e170044f27a00c422ee75f98130ef1a53a8ce185aada9d03c225f9cb773d222}
+}]\end{description}
+\end{Desc}
+
+
+
+\-Definition at line 59 of file pios\-\_\-rfm22b.\-h.
+
+\hypertarget{group___p_i_o_s___r_f_m22_b_gaad7a4f0b388c5c9323bb4ced4e9356cc}{\index{\-Radio Functions@{\-Radio Functions}!rfm22b\-\_\-tx\-\_\-power@{rfm22b\-\_\-tx\-\_\-power}}
+\index{rfm22b\-\_\-tx\-\_\-power@{rfm22b\-\_\-tx\-\_\-power}!Radio Functions@{\-Radio Functions}}
+\subsubsection[{rfm22b\-\_\-tx\-\_\-power}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf rfm22b\-\_\-tx\-\_\-power}}}\label{group___p_i_o_s___r_f_m22_b_gaad7a4f0b388c5c9323bb4ced4e9356cc}
+\begin{Desc}
+\item[\-Enumerator\-: ]\par
+\begin{description}
+\index{\-R\-F\-M22\-\_\-tx\-\_\-pwr\-\_\-txpow\-\_\-0@{\-R\-F\-M22\-\_\-tx\-\_\-pwr\-\_\-txpow\-\_\-0}!\-Radio Functions@{\-Radio Functions}}\index{\-Radio Functions@{\-Radio Functions}!\-R\-F\-M22\-\_\-tx\-\_\-pwr\-\_\-txpow\-\_\-0@{\-R\-F\-M22\-\_\-tx\-\_\-pwr\-\_\-txpow\-\_\-0}}\item[{\em 
+\hypertarget{group___p_i_o_s___r_f_m22_b_ggaad7a4f0b388c5c9323bb4ced4e9356cca3b8061dc56ef54a7f5db4bf1e74c5319}{\-R\-F\-M22\-\_\-tx\-\_\-pwr\-\_\-txpow\-\_\-0}\label{group___p_i_o_s___r_f_m22_b_ggaad7a4f0b388c5c9323bb4ced4e9356cca3b8061dc56ef54a7f5db4bf1e74c5319}
+}]\index{\-R\-F\-M22\-\_\-tx\-\_\-pwr\-\_\-txpow\-\_\-1@{\-R\-F\-M22\-\_\-tx\-\_\-pwr\-\_\-txpow\-\_\-1}!\-Radio Functions@{\-Radio Functions}}\index{\-Radio Functions@{\-Radio Functions}!\-R\-F\-M22\-\_\-tx\-\_\-pwr\-\_\-txpow\-\_\-1@{\-R\-F\-M22\-\_\-tx\-\_\-pwr\-\_\-txpow\-\_\-1}}\item[{\em 
+\hypertarget{group___p_i_o_s___r_f_m22_b_ggaad7a4f0b388c5c9323bb4ced4e9356cca6d5a44ebcaa13080170d647910a721c1}{\-R\-F\-M22\-\_\-tx\-\_\-pwr\-\_\-txpow\-\_\-1}\label{group___p_i_o_s___r_f_m22_b_ggaad7a4f0b388c5c9323bb4ced4e9356cca6d5a44ebcaa13080170d647910a721c1}
+}]\index{\-R\-F\-M22\-\_\-tx\-\_\-pwr\-\_\-txpow\-\_\-2@{\-R\-F\-M22\-\_\-tx\-\_\-pwr\-\_\-txpow\-\_\-2}!\-Radio Functions@{\-Radio Functions}}\index{\-Radio Functions@{\-Radio Functions}!\-R\-F\-M22\-\_\-tx\-\_\-pwr\-\_\-txpow\-\_\-2@{\-R\-F\-M22\-\_\-tx\-\_\-pwr\-\_\-txpow\-\_\-2}}\item[{\em 
+\hypertarget{group___p_i_o_s___r_f_m22_b_ggaad7a4f0b388c5c9323bb4ced4e9356cca211047452ea729f5c4836e2732c750e4}{\-R\-F\-M22\-\_\-tx\-\_\-pwr\-\_\-txpow\-\_\-2}\label{group___p_i_o_s___r_f_m22_b_ggaad7a4f0b388c5c9323bb4ced4e9356cca211047452ea729f5c4836e2732c750e4}
+}]\index{\-R\-F\-M22\-\_\-tx\-\_\-pwr\-\_\-txpow\-\_\-3@{\-R\-F\-M22\-\_\-tx\-\_\-pwr\-\_\-txpow\-\_\-3}!\-Radio Functions@{\-Radio Functions}}\index{\-Radio Functions@{\-Radio Functions}!\-R\-F\-M22\-\_\-tx\-\_\-pwr\-\_\-txpow\-\_\-3@{\-R\-F\-M22\-\_\-tx\-\_\-pwr\-\_\-txpow\-\_\-3}}\item[{\em 
+\hypertarget{group___p_i_o_s___r_f_m22_b_ggaad7a4f0b388c5c9323bb4ced4e9356cca47ab0e394ffb21472cc73bd3ea4ba139}{\-R\-F\-M22\-\_\-tx\-\_\-pwr\-\_\-txpow\-\_\-3}\label{group___p_i_o_s___r_f_m22_b_ggaad7a4f0b388c5c9323bb4ced4e9356cca47ab0e394ffb21472cc73bd3ea4ba139}
+}]\index{\-R\-F\-M22\-\_\-tx\-\_\-pwr\-\_\-txpow\-\_\-4@{\-R\-F\-M22\-\_\-tx\-\_\-pwr\-\_\-txpow\-\_\-4}!\-Radio Functions@{\-Radio Functions}}\index{\-Radio Functions@{\-Radio Functions}!\-R\-F\-M22\-\_\-tx\-\_\-pwr\-\_\-txpow\-\_\-4@{\-R\-F\-M22\-\_\-tx\-\_\-pwr\-\_\-txpow\-\_\-4}}\item[{\em 
+\hypertarget{group___p_i_o_s___r_f_m22_b_ggaad7a4f0b388c5c9323bb4ced4e9356ccae3308a1793a8636dd4127b88516a8ae5}{\-R\-F\-M22\-\_\-tx\-\_\-pwr\-\_\-txpow\-\_\-4}\label{group___p_i_o_s___r_f_m22_b_ggaad7a4f0b388c5c9323bb4ced4e9356ccae3308a1793a8636dd4127b88516a8ae5}
+}]\index{\-R\-F\-M22\-\_\-tx\-\_\-pwr\-\_\-txpow\-\_\-5@{\-R\-F\-M22\-\_\-tx\-\_\-pwr\-\_\-txpow\-\_\-5}!\-Radio Functions@{\-Radio Functions}}\index{\-Radio Functions@{\-Radio Functions}!\-R\-F\-M22\-\_\-tx\-\_\-pwr\-\_\-txpow\-\_\-5@{\-R\-F\-M22\-\_\-tx\-\_\-pwr\-\_\-txpow\-\_\-5}}\item[{\em 
+\hypertarget{group___p_i_o_s___r_f_m22_b_ggaad7a4f0b388c5c9323bb4ced4e9356cca725b92623670d326be838a450a1970fc}{\-R\-F\-M22\-\_\-tx\-\_\-pwr\-\_\-txpow\-\_\-5}\label{group___p_i_o_s___r_f_m22_b_ggaad7a4f0b388c5c9323bb4ced4e9356cca725b92623670d326be838a450a1970fc}
+}]\index{\-R\-F\-M22\-\_\-tx\-\_\-pwr\-\_\-txpow\-\_\-6@{\-R\-F\-M22\-\_\-tx\-\_\-pwr\-\_\-txpow\-\_\-6}!\-Radio Functions@{\-Radio Functions}}\index{\-Radio Functions@{\-Radio Functions}!\-R\-F\-M22\-\_\-tx\-\_\-pwr\-\_\-txpow\-\_\-6@{\-R\-F\-M22\-\_\-tx\-\_\-pwr\-\_\-txpow\-\_\-6}}\item[{\em 
+\hypertarget{group___p_i_o_s___r_f_m22_b_ggaad7a4f0b388c5c9323bb4ced4e9356cca31374e8ebc5c7afb036fba8c6d69336c}{\-R\-F\-M22\-\_\-tx\-\_\-pwr\-\_\-txpow\-\_\-6}\label{group___p_i_o_s___r_f_m22_b_ggaad7a4f0b388c5c9323bb4ced4e9356cca31374e8ebc5c7afb036fba8c6d69336c}
+}]\index{\-R\-F\-M22\-\_\-tx\-\_\-pwr\-\_\-txpow\-\_\-7@{\-R\-F\-M22\-\_\-tx\-\_\-pwr\-\_\-txpow\-\_\-7}!\-Radio Functions@{\-Radio Functions}}\index{\-Radio Functions@{\-Radio Functions}!\-R\-F\-M22\-\_\-tx\-\_\-pwr\-\_\-txpow\-\_\-7@{\-R\-F\-M22\-\_\-tx\-\_\-pwr\-\_\-txpow\-\_\-7}}\item[{\em 
+\hypertarget{group___p_i_o_s___r_f_m22_b_ggaad7a4f0b388c5c9323bb4ced4e9356ccade87df0ea8ae8e430c1fc59bad39ecc7}{\-R\-F\-M22\-\_\-tx\-\_\-pwr\-\_\-txpow\-\_\-7}\label{group___p_i_o_s___r_f_m22_b_ggaad7a4f0b388c5c9323bb4ced4e9356ccade87df0ea8ae8e430c1fc59bad39ecc7}
+}]\end{description}
+\end{Desc}
+
+
+
+\-Definition at line 48 of file pios\-\_\-rfm22b.\-h.
+
+
+
+\subsection{\-Function \-Documentation}
+\hypertarget{group___p_i_o_s___r_f_m22_b_ga34f82a23ad429841e5f212fc0c221131}{\index{\-Radio Functions@{\-Radio Functions}!\-P\-I\-O\-S\-\_\-\-R\-F\-M22\-\_\-\-E\-X\-T\-\_\-\-Int@{\-P\-I\-O\-S\-\_\-\-R\-F\-M22\-\_\-\-E\-X\-T\-\_\-\-Int}}
+\index{\-P\-I\-O\-S\-\_\-\-R\-F\-M22\-\_\-\-E\-X\-T\-\_\-\-Int@{\-P\-I\-O\-S\-\_\-\-R\-F\-M22\-\_\-\-E\-X\-T\-\_\-\-Int}!Radio Functions@{\-Radio Functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-R\-F\-M22\-\_\-\-E\-X\-T\-\_\-\-Int}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-P\-I\-O\-S\-\_\-\-R\-F\-M22\-\_\-\-E\-X\-T\-\_\-\-Int} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___r_f_m22_b_ga34f82a23ad429841e5f212fc0c221131}
+\-The \-R\-F\-M22\-B external interrupt routine. 
+
+\-Definition at line 635 of file pios\-\_\-rfm22b.\-c.
+
+\hypertarget{group___p_i_o_s___r_f_m22_b_ga48b5ed8668584cdfbbbec3e07156e5d8}{\index{\-Radio Functions@{\-Radio Functions}!\-P\-I\-O\-S\-\_\-\-R\-F\-M22\-B\-\_\-\-Device\-I\-D@{\-P\-I\-O\-S\-\_\-\-R\-F\-M22\-B\-\_\-\-Device\-I\-D}}
+\index{\-P\-I\-O\-S\-\_\-\-R\-F\-M22\-B\-\_\-\-Device\-I\-D@{\-P\-I\-O\-S\-\_\-\-R\-F\-M22\-B\-\_\-\-Device\-I\-D}!Radio Functions@{\-Radio Functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-R\-F\-M22\-B\-\_\-\-Device\-I\-D}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t {\bf \-P\-I\-O\-S\-\_\-\-R\-F\-M22\-B\-\_\-\-Device\-I\-D} (
+\begin{DoxyParamCaption}
+\item[{uint32\-\_\-t}]{rfm22b\-\_\-id}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___r_f_m22_b_ga48b5ed8668584cdfbbbec3e07156e5d8}
+\-Returns the unique device \-I\-D for the \-R\-F\-M22\-B device. 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em rfm22b\-\_\-id} & \-The \-R\-F\-M22\-B device index. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+\-The unique device \-I\-D 
+\end{DoxyReturn}
+
+
+\-Definition at line 681 of file pios\-\_\-rfm22b.\-c.
+
+\hypertarget{group___p_i_o_s___r_f_m22_b_ga7993764aede415744ac90bf71b2a84f5}{\index{\-Radio Functions@{\-Radio Functions}!\-P\-I\-O\-S\-\_\-\-R\-F\-M22\-B\-\_\-\-Get\-Stats@{\-P\-I\-O\-S\-\_\-\-R\-F\-M22\-B\-\_\-\-Get\-Stats}}
+\index{\-P\-I\-O\-S\-\_\-\-R\-F\-M22\-B\-\_\-\-Get\-Stats@{\-P\-I\-O\-S\-\_\-\-R\-F\-M22\-B\-\_\-\-Get\-Stats}!Radio Functions@{\-Radio Functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-R\-F\-M22\-B\-\_\-\-Get\-Stats}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-P\-I\-O\-S\-\_\-\-R\-F\-M22\-B\-\_\-\-Get\-Stats} (
+\begin{DoxyParamCaption}
+\item[{uint32\-\_\-t}]{rfm22b\-\_\-id, }
+\item[{struct {\bf rfm22b\-\_\-stats} $\ast$}]{stats}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___r_f_m22_b_ga7993764aede415744ac90bf71b2a84f5}
+\-Returns the device statistics \-R\-F\-M22\-B device. 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em rfm22b\-\_\-id} & \-The \-R\-F\-M22\-B device index. \\
+\hline
+\mbox{\tt out}  & {\em stats} & \-The stats are returned in this structure \\
+\hline
+\end{DoxyParams}
+
+
+\-Definition at line 786 of file pios\-\_\-rfm22b.\-c.
+
+\hypertarget{group___p_i_o_s___r_f_m22_b_ga5d053a5a8be93e0b0d4c61061cc74464}{\index{\-Radio Functions@{\-Radio Functions}!\-P\-I\-O\-S\-\_\-\-R\-F\-M22\-B\-\_\-\-Init@{\-P\-I\-O\-S\-\_\-\-R\-F\-M22\-B\-\_\-\-Init}}
+\index{\-P\-I\-O\-S\-\_\-\-R\-F\-M22\-B\-\_\-\-Init@{\-P\-I\-O\-S\-\_\-\-R\-F\-M22\-B\-\_\-\-Init}!Radio Functions@{\-Radio Functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-R\-F\-M22\-B\-\_\-\-Init}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-P\-I\-O\-S\-\_\-\-R\-F\-M22\-B\-\_\-\-Init} (
+\begin{DoxyParamCaption}
+\item[{uint32\-\_\-t $\ast$}]{rfm22b\-\_\-id, }
+\item[{uint32\-\_\-t}]{spi\-\_\-id, }
+\item[{uint32\-\_\-t}]{slave\-\_\-num, }
+\item[{const struct {\bf pios\-\_\-rfm22b\-\_\-cfg} $\ast$}]{cfg}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___r_f_m22_b_ga5d053a5a8be93e0b0d4c61061cc74464}
+\-Initialise an \-R\-F\-M22\-B device 
+
+\-Definition at line 549 of file pios\-\_\-rfm22b.\-c.
+
+\hypertarget{group___p_i_o_s___r_f_m22_b_ga4327e22931b06353b8340bfc91abdc59}{\index{\-Radio Functions@{\-Radio Functions}!\-P\-I\-O\-S\-\_\-\-R\-F\-M22\-B\-\_\-\-Inject\-Event@{\-P\-I\-O\-S\-\_\-\-R\-F\-M22\-B\-\_\-\-Inject\-Event}}
+\index{\-P\-I\-O\-S\-\_\-\-R\-F\-M22\-B\-\_\-\-Inject\-Event@{\-P\-I\-O\-S\-\_\-\-R\-F\-M22\-B\-\_\-\-Inject\-Event}!Radio Functions@{\-Radio Functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-R\-F\-M22\-B\-\_\-\-Inject\-Event}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-P\-I\-O\-S\-\_\-\-R\-F\-M22\-B\-\_\-\-Inject\-Event} (
+\begin{DoxyParamCaption}
+\item[{struct {\bf pios\-\_\-rfm22b\-\_\-dev} $\ast$}]{rfm22b\-\_\-dev, }
+\item[{enum {\bf pios\-\_\-rfm22b\-\_\-event}}]{event, }
+\item[{bool}]{in\-I\-S\-R}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___r_f_m22_b_ga4327e22931b06353b8340bfc91abdc59}
+\-Inject an event into the \-R\-F\-M22\-B state machine. 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em rfm22b\-\_\-dev} & \-The device structure \\
+\hline
+\mbox{\tt in}  & {\em event} & \-The event to inject \\
+\hline
+\mbox{\tt in}  & {\em in\-I\-S\-R} & \-Is this being called from an interrrup service routine? \\
+\hline
+\end{DoxyParams}
+
+
+\-Definition at line 651 of file pios\-\_\-rfm22b.\-c.
+
+\hypertarget{group___p_i_o_s___r_f_m22_b_ga5d2ba4c573bc63f53ccb80f3bdbbc8e4}{\index{\-Radio Functions@{\-Radio Functions}!\-P\-I\-O\-S\-\_\-\-R\-F\-M22\-B\-\_\-\-Link\-Status@{\-P\-I\-O\-S\-\_\-\-R\-F\-M22\-B\-\_\-\-Link\-Status}}
+\index{\-P\-I\-O\-S\-\_\-\-R\-F\-M22\-B\-\_\-\-Link\-Status@{\-P\-I\-O\-S\-\_\-\-R\-F\-M22\-B\-\_\-\-Link\-Status}!Radio Functions@{\-Radio Functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-R\-F\-M22\-B\-\_\-\-Link\-Status}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-P\-I\-O\-S\-\_\-\-R\-F\-M22\-B\-\_\-\-Link\-Status} (
+\begin{DoxyParamCaption}
+\item[{uint32\-\_\-t}]{rfm22b\-\_\-id}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___r_f_m22_b_ga5d2ba4c573bc63f53ccb80f3bdbbc8e4}
+\-Check the radio device for a valid connection 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em rfm22b\-\_\-id} & \-The rfm22b device. \-Returns true if there is a valid connection to paired radio, false otherwise. \\
+\hline
+\end{DoxyParams}
+
+
+\-Definition at line 837 of file pios\-\_\-rfm22b.\-c.
+
+\hypertarget{group___p_i_o_s___r_f_m22_b_gaa2f467cefea23fca9354817c336c2c7f}{\index{\-Radio Functions@{\-Radio Functions}!\-P\-I\-O\-S\-\_\-\-R\-F\-M22\-B\-\_\-\-Set\-Com\-Config\-Callback@{\-P\-I\-O\-S\-\_\-\-R\-F\-M22\-B\-\_\-\-Set\-Com\-Config\-Callback}}
+\index{\-P\-I\-O\-S\-\_\-\-R\-F\-M22\-B\-\_\-\-Set\-Com\-Config\-Callback@{\-P\-I\-O\-S\-\_\-\-R\-F\-M22\-B\-\_\-\-Set\-Com\-Config\-Callback}!Radio Functions@{\-Radio Functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-R\-F\-M22\-B\-\_\-\-Set\-Com\-Config\-Callback}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-P\-I\-O\-S\-\_\-\-R\-F\-M22\-B\-\_\-\-Set\-Com\-Config\-Callback} (
+\begin{DoxyParamCaption}
+\item[{uint32\-\_\-t}]{rfm22b\-\_\-id, }
+\item[{{\bf \-P\-I\-O\-S\-\_\-\-R\-F\-M22\-B\-\_\-\-Com\-Config\-Callback}}]{cb}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___r_f_m22_b_gaa2f467cefea23fca9354817c336c2c7f}
+\-Set the com port configuration callback (to receive com configuration over the air) 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em rfm22b\-\_\-id} & \-The rfm22b device. \\
+\hline
+\mbox{\tt in}  & {\em cb} & \-A pointer to the callback function \\
+\hline
+\end{DoxyParams}
+
+
+\-Definition at line 773 of file pios\-\_\-rfm22b.\-c.
+
+\hypertarget{group___p_i_o_s___r_f_m22_b_gaf27178ba026097c91627b50f862f388e}{\index{\-Radio Functions@{\-Radio Functions}!\-P\-I\-O\-S\-\_\-\-R\-F\-M22\-B\-\_\-\-Set\-Coordinator@{\-P\-I\-O\-S\-\_\-\-R\-F\-M22\-B\-\_\-\-Set\-Coordinator}}
+\index{\-P\-I\-O\-S\-\_\-\-R\-F\-M22\-B\-\_\-\-Set\-Coordinator@{\-P\-I\-O\-S\-\_\-\-R\-F\-M22\-B\-\_\-\-Set\-Coordinator}!Radio Functions@{\-Radio Functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-R\-F\-M22\-B\-\_\-\-Set\-Coordinator}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-P\-I\-O\-S\-\_\-\-R\-F\-M22\-B\-\_\-\-Set\-Coordinator} (
+\begin{DoxyParamCaption}
+\item[{uint32\-\_\-t}]{rfm22b\-\_\-id, }
+\item[{bool}]{coordinator}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___r_f_m22_b_gaf27178ba026097c91627b50f862f388e}
+\-Configures the radio as a coordinator or not. 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em rfm22b\-\_\-id} & \-The \-R\-F\-M22\-B device index. \\
+\hline
+\mbox{\tt in}  & {\em coordinator} & \-Sets as coordinator if true. \\
+\hline
+\end{DoxyParams}
+
+
+\-Definition at line 742 of file pios\-\_\-rfm22b.\-c.
+
+\hypertarget{group___p_i_o_s___r_f_m22_b_ga9f3c01f66fd57433e99bc863554a9a19}{\index{\-Radio Functions@{\-Radio Functions}!\-P\-I\-O\-S\-\_\-\-R\-F\-M22\-B\-\_\-\-Set\-Datarate@{\-P\-I\-O\-S\-\_\-\-R\-F\-M22\-B\-\_\-\-Set\-Datarate}}
+\index{\-P\-I\-O\-S\-\_\-\-R\-F\-M22\-B\-\_\-\-Set\-Datarate@{\-P\-I\-O\-S\-\_\-\-R\-F\-M22\-B\-\_\-\-Set\-Datarate}!Radio Functions@{\-Radio Functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-R\-F\-M22\-B\-\_\-\-Set\-Datarate}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-P\-I\-O\-S\-\_\-\-R\-F\-M22\-B\-\_\-\-Set\-Datarate} (
+\begin{DoxyParamCaption}
+\item[{uint32\-\_\-t}]{rfm22b\-\_\-id, }
+\item[{enum {\bf rfm22b\-\_\-datarate}}]{datarate, }
+\item[{bool}]{data\-\_\-whitening}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___r_f_m22_b_ga9f3c01f66fd57433e99bc863554a9a19}
+
+
+\-Definition at line 1025 of file pios\-\_\-rfm22b.\-c.
+
+\hypertarget{group___p_i_o_s___r_f_m22_b_ga2e2954db8900f7f997170fbc5047e748}{\index{\-Radio Functions@{\-Radio Functions}!\-P\-I\-O\-S\-\_\-\-R\-F\-M22\-B\-\_\-\-Set\-Destination\-Id@{\-P\-I\-O\-S\-\_\-\-R\-F\-M22\-B\-\_\-\-Set\-Destination\-Id}}
+\index{\-P\-I\-O\-S\-\_\-\-R\-F\-M22\-B\-\_\-\-Set\-Destination\-Id@{\-P\-I\-O\-S\-\_\-\-R\-F\-M22\-B\-\_\-\-Set\-Destination\-Id}!Radio Functions@{\-Radio Functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-R\-F\-M22\-B\-\_\-\-Set\-Destination\-Id}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-P\-I\-O\-S\-\_\-\-R\-F\-M22\-B\-\_\-\-Set\-Destination\-Id} (
+\begin{DoxyParamCaption}
+\item[{uint32\-\_\-t}]{rfm22b\-\_\-id, }
+\item[{uint32\-\_\-t}]{dest\-\_\-id}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___r_f_m22_b_ga2e2954db8900f7f997170fbc5047e748}
+\-Sets the radio destination \-I\-D. 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em rfm22b\-\_\-id} & \-The \-R\-F\-M22\-B device index. \\
+\hline
+\mbox{\tt in}  & {\em dest\-\_\-id} & \-The destination \-I\-D. \\
+\hline
+\end{DoxyParams}
+
+
+\-Definition at line 724 of file pios\-\_\-rfm22b.\-c.
+
+\hypertarget{group___p_i_o_s___r_f_m22_b_ga6b7275549a5178f70500c1705d85e30a}{\index{\-Radio Functions@{\-Radio Functions}!\-P\-I\-O\-S\-\_\-\-R\-F\-M22\-B\-\_\-\-Set\-Frequency\-Range@{\-P\-I\-O\-S\-\_\-\-R\-F\-M22\-B\-\_\-\-Set\-Frequency\-Range}}
+\index{\-P\-I\-O\-S\-\_\-\-R\-F\-M22\-B\-\_\-\-Set\-Frequency\-Range@{\-P\-I\-O\-S\-\_\-\-R\-F\-M22\-B\-\_\-\-Set\-Frequency\-Range}!Radio Functions@{\-Radio Functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-R\-F\-M22\-B\-\_\-\-Set\-Frequency\-Range}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-P\-I\-O\-S\-\_\-\-R\-F\-M22\-B\-\_\-\-Set\-Frequency\-Range} (
+\begin{DoxyParamCaption}
+\item[{uint32\-\_\-t}]{rfm22b\-\_\-id, }
+\item[{uint32\-\_\-t}]{min\-\_\-frequency, }
+\item[{uint32\-\_\-t}]{max\-\_\-frequency}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___r_f_m22_b_ga6b7275549a5178f70500c1705d85e30a}
+\-Sets the radio frequency range and value. 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em rfm22b\-\_\-id} & \-The \-R\-F\-M22\-B device index. \\
+\hline
+\mbox{\tt in}  & {\em min\-\_\-frequency} & \-The minimum frequency. \\
+\hline
+\mbox{\tt in}  & {\em max\-\_\-frequency} & \-The maximum frequency. \\
+\hline
+\end{DoxyParams}
+
+
+\-Definition at line 709 of file pios\-\_\-rfm22b.\-c.
+
+\hypertarget{group___p_i_o_s___r_f_m22_b_ga74f4ab9cf6b2337fc517addf32e432d7}{\index{\-Radio Functions@{\-Radio Functions}!\-P\-I\-O\-S\-\_\-\-R\-F\-M22\-B\-\_\-\-Set\-Remote\-Com\-Config@{\-P\-I\-O\-S\-\_\-\-R\-F\-M22\-B\-\_\-\-Set\-Remote\-Com\-Config}}
+\index{\-P\-I\-O\-S\-\_\-\-R\-F\-M22\-B\-\_\-\-Set\-Remote\-Com\-Config@{\-P\-I\-O\-S\-\_\-\-R\-F\-M22\-B\-\_\-\-Set\-Remote\-Com\-Config}!Radio Functions@{\-Radio Functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-R\-F\-M22\-B\-\_\-\-Set\-Remote\-Com\-Config}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-P\-I\-O\-S\-\_\-\-R\-F\-M22\-B\-\_\-\-Set\-Remote\-Com\-Config} (
+\begin{DoxyParamCaption}
+\item[{uint32\-\_\-t}]{rfm22b\-\_\-id, }
+\item[{{\bf \-O\-P\-Link\-Settings\-Output\-Connection\-Options}}]{com\-\_\-port, }
+\item[{{\bf \-O\-P\-Link\-Settings\-Com\-Speed\-Options}}]{com\-\_\-speed}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___r_f_m22_b_ga74f4ab9cf6b2337fc517addf32e432d7}
+\-Set the remote com port configuration parameters. 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em rfm22b\-\_\-id} & \-The rfm22b device. \\
+\hline
+\mbox{\tt in}  & {\em com\-\_\-port} & \-The remote com port \\
+\hline
+\mbox{\tt in}  & {\em com\-\_\-speed} & \-The remote com port speed \\
+\hline
+\end{DoxyParams}
+
+
+\-Definition at line 759 of file pios\-\_\-rfm22b.\-c.
+
+\hypertarget{group___p_i_o_s___r_f_m22_b_ga2230c70e99a4c87dcad0ea19351ddc0a}{\index{\-Radio Functions@{\-Radio Functions}!\-P\-I\-O\-S\-\_\-\-R\-F\-M22\-B\-\_\-\-Set\-Tx\-Power@{\-P\-I\-O\-S\-\_\-\-R\-F\-M22\-B\-\_\-\-Set\-Tx\-Power}}
+\index{\-P\-I\-O\-S\-\_\-\-R\-F\-M22\-B\-\_\-\-Set\-Tx\-Power@{\-P\-I\-O\-S\-\_\-\-R\-F\-M22\-B\-\_\-\-Set\-Tx\-Power}!Radio Functions@{\-Radio Functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-R\-F\-M22\-B\-\_\-\-Set\-Tx\-Power}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-P\-I\-O\-S\-\_\-\-R\-F\-M22\-B\-\_\-\-Set\-Tx\-Power} (
+\begin{DoxyParamCaption}
+\item[{uint32\-\_\-t}]{rfm22b\-\_\-id, }
+\item[{enum {\bf rfm22b\-\_\-tx\-\_\-power}}]{tx\-\_\-pwr}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___r_f_m22_b_ga2230c70e99a4c87dcad0ea19351ddc0a}
+\-Sets the radio device transmit power. 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em rfm22b\-\_\-id} & \-The \-R\-F\-M22\-B device index. \\
+\hline
+\mbox{\tt in}  & {\em tx\-\_\-pwr} & \-The transmit power. \\
+\hline
+\end{DoxyParams}
+
+
+\-Definition at line 695 of file pios\-\_\-rfm22b.\-c.
+
+\hypertarget{group___p_i_o_s___r_f_m22_b_gadb74603103aaab46ac72a08665bf0047}{\index{\-Radio Functions@{\-Radio Functions}!\-P\-I\-O\-S\-\_\-\-R\-F\-M22\-B\-\_\-validate@{\-P\-I\-O\-S\-\_\-\-R\-F\-M22\-B\-\_\-validate}}
+\index{\-P\-I\-O\-S\-\_\-\-R\-F\-M22\-B\-\_\-validate@{\-P\-I\-O\-S\-\_\-\-R\-F\-M22\-B\-\_\-validate}!Radio Functions@{\-Radio Functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-R\-F\-M22\-B\-\_\-validate}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-P\-I\-O\-S\-\_\-\-R\-F\-M22\-B\-\_\-validate} (
+\begin{DoxyParamCaption}
+\item[{struct {\bf pios\-\_\-rfm22b\-\_\-dev} $\ast$}]{rfm22b\-\_\-dev}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___r_f_m22_b_gadb74603103aaab46ac72a08665bf0047}
+
+
+\-Definition at line 510 of file pios\-\_\-rfm22b.\-c.
+
+\hypertarget{group___p_i_o_s___r_f_m22_b_ga2c3963442036bf6e581c9c4e2e6447b9}{\index{\-Radio Functions@{\-Radio Functions}!\-P\-I\-O\-S\-\_\-\-R\-F\-M2\-B\-\_\-\-Get\-Pair\-Stats@{\-P\-I\-O\-S\-\_\-\-R\-F\-M2\-B\-\_\-\-Get\-Pair\-Stats}}
+\index{\-P\-I\-O\-S\-\_\-\-R\-F\-M2\-B\-\_\-\-Get\-Pair\-Stats@{\-P\-I\-O\-S\-\_\-\-R\-F\-M2\-B\-\_\-\-Get\-Pair\-Stats}!Radio Functions@{\-Radio Functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-R\-F\-M2\-B\-\_\-\-Get\-Pair\-Stats}]{\setlength{\rightskip}{0pt plus 5cm}uint8\-\_\-t {\bf \-P\-I\-O\-S\-\_\-\-R\-F\-M2\-B\-\_\-\-Get\-Pair\-Stats} (
+\begin{DoxyParamCaption}
+\item[{uint32\-\_\-t}]{rfm22b\-\_\-id, }
+\item[{uint32\-\_\-t $\ast$}]{device\-\_\-ids, }
+\item[{int8\-\_\-t $\ast$}]{\-R\-S\-S\-Is, }
+\item[{uint8\-\_\-t}]{max\-\_\-pairs}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___r_f_m22_b_ga2c3963442036bf6e581c9c4e2e6447b9}
+\-Get the stats of the oter radio devices that are in range. 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt out}  & {\em device\-\_\-ids} & \-A pointer to the array to store the device \-I\-Ds. \\
+\hline
+\mbox{\tt out}  & {\em \-R\-S\-S\-Is} & \-A pointer to the array to store the \-R\-S\-S\-I values in. \\
+\hline
+\mbox{\tt in}  & {\em mx\-\_\-pairs} & \-The length of the pdevice\-\_\-ids and \-R\-S\-S\-Is arrays. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+\-The number of pair stats returned. 
+\end{DoxyReturn}
+
+
+\-Definition at line 816 of file pios\-\_\-rfm22b.\-c.
+
+
+
+\subsection{\-Variable \-Documentation}
+\hypertarget{group___p_i_o_s___r_f_m22_b_gafc506e8bc70ed8b31b75cbddf28ee660}{\index{\-Radio Functions@{\-Radio Functions}!pios\-\_\-rfm22b\-\_\-com\-\_\-driver@{pios\-\_\-rfm22b\-\_\-com\-\_\-driver}}
+\index{pios\-\_\-rfm22b\-\_\-com\-\_\-driver@{pios\-\_\-rfm22b\-\_\-com\-\_\-driver}!Radio Functions@{\-Radio Functions}}
+\subsubsection[{pios\-\_\-rfm22b\-\_\-com\-\_\-driver}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf pios\-\_\-com\-\_\-driver} {\bf pios\-\_\-rfm22b\-\_\-com\-\_\-driver}}}\label{group___p_i_o_s___r_f_m22_b_gafc506e8bc70ed8b31b75cbddf28ee660}
+
+
+\-Definition at line 45 of file pios\-\_\-rfm22b\-\_\-com.\-c.
+
+\hypertarget{group___p_i_o_s___r_f_m22_b_gafc506e8bc70ed8b31b75cbddf28ee660}{\index{\-Radio Functions@{\-Radio Functions}!pios\-\_\-rfm22b\-\_\-com\-\_\-driver@{pios\-\_\-rfm22b\-\_\-com\-\_\-driver}}
+\index{pios\-\_\-rfm22b\-\_\-com\-\_\-driver@{pios\-\_\-rfm22b\-\_\-com\-\_\-driver}!Radio Functions@{\-Radio Functions}}
+\subsubsection[{pios\-\_\-rfm22b\-\_\-com\-\_\-driver}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf pios\-\_\-com\-\_\-driver} {\bf pios\-\_\-rfm22b\-\_\-com\-\_\-driver}}}\label{group___p_i_o_s___r_f_m22_b_gafc506e8bc70ed8b31b75cbddf28ee660}
+{\bfseries \-Initial value\-:}
+\begin{DoxyCode}
+ {
+        .set_baud   = PIOS_RFM22B_COM_ChangeBaud,
+        .tx_start   = PIOS_RFM22B_COM_TxStart,
+        .rx_start   = PIOS_RFM22B_COM_RxStart,
+        .bind_tx_cb = PIOS_RFM22B_COM_RegisterTxCallback,
+        .bind_rx_cb = PIOS_RFM22B_COM_RegisterRxCallback,
+        .available  = PIOS_RFM22B_COM_Available
+}
+\end{DoxyCode}
+
+
+\-Definition at line 45 of file pios\-\_\-rfm22b\-\_\-com.\-c.
+
+\hypertarget{group___p_i_o_s___r_f_m22_b_gafc506e8bc70ed8b31b75cbddf28ee660}{\index{\-Radio Functions@{\-Radio Functions}!pios\-\_\-rfm22b\-\_\-com\-\_\-driver@{pios\-\_\-rfm22b\-\_\-com\-\_\-driver}}
+\index{pios\-\_\-rfm22b\-\_\-com\-\_\-driver@{pios\-\_\-rfm22b\-\_\-com\-\_\-driver}!Radio Functions@{\-Radio Functions}}
+\subsubsection[{pios\-\_\-rfm22b\-\_\-com\-\_\-driver}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf pios\-\_\-com\-\_\-driver} {\bf pios\-\_\-rfm22b\-\_\-com\-\_\-driver}}}\label{group___p_i_o_s___r_f_m22_b_gafc506e8bc70ed8b31b75cbddf28ee660}
+
+
+\-Definition at line 45 of file pios\-\_\-rfm22b\-\_\-com.\-c.
+
+\hypertarget{group___p_i_o_s___r_f_m22_b_gafc506e8bc70ed8b31b75cbddf28ee660}{\index{\-Radio Functions@{\-Radio Functions}!pios\-\_\-rfm22b\-\_\-com\-\_\-driver@{pios\-\_\-rfm22b\-\_\-com\-\_\-driver}}
+\index{pios\-\_\-rfm22b\-\_\-com\-\_\-driver@{pios\-\_\-rfm22b\-\_\-com\-\_\-driver}!Radio Functions@{\-Radio Functions}}
+\subsubsection[{pios\-\_\-rfm22b\-\_\-com\-\_\-driver}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf pios\-\_\-com\-\_\-driver} {\bf pios\-\_\-rfm22b\-\_\-com\-\_\-driver}}}\label{group___p_i_o_s___r_f_m22_b_gafc506e8bc70ed8b31b75cbddf28ee660}
+
+
+\-Definition at line 45 of file pios\-\_\-rfm22b\-\_\-com.\-c.
+

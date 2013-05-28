@@ -1,0 +1,215 @@
+\hypertarget{namespaceopenpilot}{\section{openpilot \-Namespace \-Reference}
+\label{namespaceopenpilot}\index{openpilot@{openpilot}}
+}
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+def \hyperlink{namespaceopenpilot_ab8f7f8df27f540e59e0e42fddb67a4fb}{delay}
+\item 
+def \hyperlink{namespaceopenpilot_a9eb6d890272febed1ef5f96a3022c08d}{delay\-Until}
+\item 
+def \hyperlink{namespaceopenpilot_a73e0e8ed950877790185d24208d8a5e7}{debug}
+\item 
+def \hyperlink{namespaceopenpilot_a04d63804d12a055a648df7b624993199}{has\-Stop\-Request}
+\item 
+def \hyperlink{namespaceopenpilot_af904576c7f507a9787785a4329f61a25}{wait\-For\-Object\-Updates}
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Function \-Documentation}
+\hypertarget{namespaceopenpilot_a73e0e8ed950877790185d24208d8a5e7}{\index{openpilot@{openpilot}!debug@{debug}}
+\index{debug@{debug}!openpilot@{openpilot}}
+\subsubsection[{debug}]{\setlength{\rightskip}{0pt plus 5cm}def {\bf openpilot.\-debug} (
+\begin{DoxyParamCaption}
+\item[{}]{val1, }
+\item[{}]{val2}
+\end{DoxyParamCaption}
+)}}\label{namespaceopenpilot_a73e0e8ed950877790185d24208d8a5e7}
+\begin{DoxyVerb}__NATIVE__
+pPmObj_t pobj;
+FlightPlanStatusData status;
+PmReturn_t retval;
+
+// Check number of arguments
+if (NATIVE_GET_NUM_ARGS() != 2)
+{
+        PM_RAISE(retval, PM_RET_EX_TYPE);
+        return retval;
+}
+
+// Get status object
+FlightPlanStatusGet(&status);	
+
+// Update debug1
+pobj = NATIVE_GET_LOCAL(0);
+if ( OBJ_GET_TYPE(pobj) == OBJ_TYPE_INT )
+        status.Debug[0] = (float)(((pPmInt_t) pobj)->val);
+else if ( OBJ_GET_TYPE(pobj) == OBJ_TYPE_FLT )
+        status.Debug[0] = (float)(((pPmFloat_t) pobj)->val);
+else
+{
+        PM_RAISE(retval, PM_RET_EX_TYPE);
+        return retval;
+}
+
+// Update debug2
+pobj = NATIVE_GET_LOCAL(1);
+if ( OBJ_GET_TYPE(pobj) == OBJ_TYPE_INT )
+        status.Debug[1] = (float)(((pPmInt_t) pobj)->val);
+else if ( OBJ_GET_TYPE(pobj) == OBJ_TYPE_FLT )
+        status.Debug[1] = (float)(((pPmFloat_t) pobj)->val);
+else
+{
+        PM_RAISE(retval, PM_RET_EX_TYPE);
+        return retval;
+}
+
+// Update status object 
+FlightPlanStatusSet(&status);
+ 
+return PM_RET_OK;
+\end{DoxyVerb}
+ 
+
+\-Definition at line 124 of file openpilot.\-py.
+
+\hypertarget{namespaceopenpilot_ab8f7f8df27f540e59e0e42fddb67a4fb}{\index{openpilot@{openpilot}!delay@{delay}}
+\index{delay@{delay}!openpilot@{openpilot}}
+\subsubsection[{delay}]{\setlength{\rightskip}{0pt plus 5cm}def {\bf openpilot.\-delay} (
+\begin{DoxyParamCaption}
+\item[{}]{time\-To\-Delay\-Ms}
+\end{DoxyParamCaption}
+)}}\label{namespaceopenpilot_ab8f7f8df27f540e59e0e42fddb67a4fb}
+\begin{DoxyVerb}__NATIVE__
+pPmObj_t pobj;
+PmReturn_t retval;
+portTickType timeToDelayTicks;
+
+// Check number of arguments
+  if (NATIVE_GET_NUM_ARGS() != 1)
+  {
+        PM_RAISE(retval, PM_RET_EX_TYPE);
+        return retval;
+}
+
+// Get argument
+pobj = NATIVE_GET_LOCAL(0);
+if ( OBJ_GET_TYPE(pobj) == OBJ_TYPE_INT )
+        timeToDelayTicks = (portTickType)(((pPmInt_t) pobj)->val) / portTICK_RATE_MS;
+else if ( OBJ_GET_TYPE(pobj) == OBJ_TYPE_FLT )
+        timeToDelayTicks = (portTickType)(((pPmFloat_t) pobj)->val) / portTICK_RATE_MS;
+else
+{
+        PM_RAISE(retval, PM_RET_EX_TYPE);
+        return retval;
+}
+ 
+// Delay
+vTaskDelay(timeToDelayTicks);
+ 
+return PM_RET_OK;
+\end{DoxyVerb}
+ 
+
+\-Definition at line 35 of file openpilot.\-py.
+
+\hypertarget{namespaceopenpilot_a9eb6d890272febed1ef5f96a3022c08d}{\index{openpilot@{openpilot}!delay\-Until@{delay\-Until}}
+\index{delay\-Until@{delay\-Until}!openpilot@{openpilot}}
+\subsubsection[{delay\-Until}]{\setlength{\rightskip}{0pt plus 5cm}def {\bf openpilot.\-delay\-Until} (
+\begin{DoxyParamCaption}
+\item[{}]{last\-Wake\-Time\-Ms, }
+\item[{}]{time\-To\-Delay\-Ms}
+\end{DoxyParamCaption}
+)}}\label{namespaceopenpilot_a9eb6d890272febed1ef5f96a3022c08d}
+\begin{DoxyVerb}__NATIVE__
+pPmObj_t pobj;
+pPmObj_t pobjret;
+PmReturn_t retval;
+portTickType lastWakeTimeTicks;
+portTickType timeToDelayTicks;
+
+// Check number of arguments
+  if (NATIVE_GET_NUM_ARGS() != 2)
+  {
+        PM_RAISE(retval, PM_RET_EX_TYPE);
+        return retval;
+}
+
+// Get lastWakeTimeMs argument
+pobj = NATIVE_GET_LOCAL(0);
+if ( OBJ_GET_TYPE(pobj) == OBJ_TYPE_INT )
+        lastWakeTimeTicks = (portTickType)(((pPmInt_t) pobj)->val)  / portTICK_RATE_MS;
+else if ( OBJ_GET_TYPE(pobj) == OBJ_TYPE_FLT )
+        lastWakeTimeTicks = (portTickType)(((pPmFloat_t) pobj)->val)  / portTICK_RATE_MS;
+else
+{
+        PM_RAISE(retval, PM_RET_EX_TYPE);
+        return retval;
+}
+
+// Get timeToDelayMs argument
+pobj = NATIVE_GET_LOCAL(1);
+if ( OBJ_GET_TYPE(pobj) == OBJ_TYPE_INT )
+        timeToDelayTicks = (portTickType)(((pPmInt_t) pobj)->val)  / portTICK_RATE_MS;
+else if ( OBJ_GET_TYPE(pobj) == OBJ_TYPE_FLT )
+        timeToDelayTicks = (portTickType)(((pPmFloat_t) pobj)->val)  / portTICK_RATE_MS;
+else
+{
+        PM_RAISE(retval, PM_RET_EX_TYPE);
+        return retval;
+}
+ 
+// Delay
+vTaskDelayUntil(&lastWakeTimeTicks, timeToDelayTicks);
+
+  // Return an int object with the time value */
+retval = int_new((int32_t)(lastWakeTimeTicks*portTICK_RATE_MS), &pobjret);
+  NATIVE_SET_TOS(pobjret);
+  return retval;
+\end{DoxyVerb}
+ 
+
+\-Definition at line 74 of file openpilot.\-py.
+
+\hypertarget{namespaceopenpilot_a04d63804d12a055a648df7b624993199}{\index{openpilot@{openpilot}!has\-Stop\-Request@{has\-Stop\-Request}}
+\index{has\-Stop\-Request@{has\-Stop\-Request}!openpilot@{openpilot}}
+\subsubsection[{has\-Stop\-Request}]{\setlength{\rightskip}{0pt plus 5cm}def {\bf openpilot.\-has\-Stop\-Request} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{namespaceopenpilot_a04d63804d12a055a648df7b624993199}
+\begin{DoxyVerb}__NATIVE__
+pPmObj_t pobjret;
+PmReturn_t retval;
+FlightPlanControlData control;
+uint32_t stopRequest;
+
+// Get control object
+FlightPlanControlGet(&control);
+
+// Check if a stop request is pending
+if (control.Command == FLIGHTPLANCONTROL_COMMAND_STOP)
+        stopRequest = 1;
+else
+        stopRequest = 0;
+
+// Return 
+retval = int_new((int32_t)(stopRequest), &pobjret);
+  NATIVE_SET_TOS(pobjret);
+  return retval;
+\end{DoxyVerb}
+ 
+
+\-Definition at line 173 of file openpilot.\-py.
+
+\hypertarget{namespaceopenpilot_af904576c7f507a9787785a4329f61a25}{\index{openpilot@{openpilot}!wait\-For\-Object\-Updates@{wait\-For\-Object\-Updates}}
+\index{wait\-For\-Object\-Updates@{wait\-For\-Object\-Updates}!openpilot@{openpilot}}
+\subsubsection[{wait\-For\-Object\-Updates}]{\setlength{\rightskip}{0pt plus 5cm}def {\bf openpilot.\-wait\-For\-Object\-Updates} (
+\begin{DoxyParamCaption}
+\item[{}]{timeout\-Ms}
+\end{DoxyParamCaption}
+)}}\label{namespaceopenpilot_af904576c7f507a9787785a4329f61a25}
+
+
+\-Definition at line 197 of file openpilot.\-py.
+

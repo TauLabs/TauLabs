@@ -1,0 +1,151 @@
+\hypertarget{structpios__i2c__adapter}{\section{pios\-\_\-i2c\-\_\-adapter \-Struct \-Reference}
+\label{structpios__i2c__adapter}\index{pios\-\_\-i2c\-\_\-adapter@{pios\-\_\-i2c\-\_\-adapter}}
+}
+
+
+{\ttfamily \#include $<$pios\-\_\-i2c\-\_\-priv.\-h$>$}
+
+\subsection*{\-Data \-Fields}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{pios__i2c__priv_8h_af5ae4a1b83b5404462787136ee41be24}{pios\-\_\-i2c\-\_\-adapter\-\_\-magic} \hyperlink{structpios__i2c__adapter_a07891f689e89b36732affa16c1c3bf94}{magic}
+\item 
+struct \hyperlink{structpios__i2c__adapter__cfg}{pios\-\_\-i2c\-\_\-adapter\-\_\-cfg} $\ast$ \hyperlink{structpios__i2c__adapter_a99a6a40ff53546cd3f5a316a621be402}{cfg}
+\item 
+x\-Semaphore\-Handle \hyperlink{structpios__i2c__adapter_ae21b610793f476b61cedafa82fffc493}{sem\-\_\-busy}
+\item 
+x\-Semaphore\-Handle \hyperlink{structpios__i2c__adapter_a8a95bc22396c17869efa5a587a1bd5dc}{sem\-\_\-ready}
+\item 
+volatile uint8\-\_\-t \hyperlink{structpios__i2c__adapter_a25823130023ae773a53a858647b65fbb}{busy}
+\item 
+bool \hyperlink{structpios__i2c__adapter_a98b74dc40da65289c18494530b759724}{bus\-\_\-error}
+\item 
+bool \hyperlink{structpios__i2c__adapter_a22998be1ea282fe23fcd44c2b559c987}{nack}
+\item 
+enum \hyperlink{pios__i2c__priv_8h_ac73b69ffe53544057fa2e4751fd9c22b}{i2c\-\_\-adapter\-\_\-state} \hyperlink{structpios__i2c__adapter_ac619064c9dc42d3057f2188f188d5ee3}{curr\-\_\-state}
+\item 
+struct \hyperlink{structpios__i2c__txn}{pios\-\_\-i2c\-\_\-txn} $\ast$ \hyperlink{structpios__i2c__adapter_ad98b03cc641fe33909c19a8e96cb64d5}{first\-\_\-txn}
+\item 
+struct \hyperlink{structpios__i2c__txn}{pios\-\_\-i2c\-\_\-txn} $\ast$ \hyperlink{structpios__i2c__adapter_a9f7ec0aa23437d00ceade3b67625eec6}{active\-\_\-txn}
+\item 
+struct \hyperlink{structpios__i2c__txn}{pios\-\_\-i2c\-\_\-txn} $\ast$ \hyperlink{structpios__i2c__adapter_af283735c4934e46748f2461bf338811e}{last\-\_\-txn}
+\item 
+void($\ast$ \hyperlink{structpios__i2c__adapter_abe4e844b2ffcd0984dc55c8985bd0401}{callback} )()
+\item 
+uint8\-\_\-t $\ast$ \hyperlink{structpios__i2c__adapter_a841cb6403bc7fc1cde74b36755789d03}{active\-\_\-byte}
+\item 
+uint8\-\_\-t $\ast$ \hyperlink{structpios__i2c__adapter_a09797c133013f2126da829410d1df0c0}{last\-\_\-byte}
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+
+
+\-Definition at line 85 of file pios\-\_\-i2c\-\_\-priv.\-h.
+
+
+
+\subsection{\-Field \-Documentation}
+\hypertarget{structpios__i2c__adapter_a841cb6403bc7fc1cde74b36755789d03}{\index{pios\-\_\-i2c\-\_\-adapter@{pios\-\_\-i2c\-\_\-adapter}!active\-\_\-byte@{active\-\_\-byte}}
+\index{active\-\_\-byte@{active\-\_\-byte}!pios_i2c_adapter@{pios\-\_\-i2c\-\_\-adapter}}
+\subsubsection[{active\-\_\-byte}]{\setlength{\rightskip}{0pt plus 5cm}uint8\-\_\-t$\ast$ {\bf pios\-\_\-i2c\-\_\-adapter\-::active\-\_\-byte}}}\label{structpios__i2c__adapter_a841cb6403bc7fc1cde74b36755789d03}
+
+
+\-Definition at line 105 of file pios\-\_\-i2c\-\_\-priv.\-h.
+
+\hypertarget{structpios__i2c__adapter_a9f7ec0aa23437d00ceade3b67625eec6}{\index{pios\-\_\-i2c\-\_\-adapter@{pios\-\_\-i2c\-\_\-adapter}!active\-\_\-txn@{active\-\_\-txn}}
+\index{active\-\_\-txn@{active\-\_\-txn}!pios_i2c_adapter@{pios\-\_\-i2c\-\_\-adapter}}
+\subsubsection[{active\-\_\-txn}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf pios\-\_\-i2c\-\_\-txn}$\ast$ {\bf pios\-\_\-i2c\-\_\-adapter\-::active\-\_\-txn}}}\label{structpios__i2c__adapter_a9f7ec0aa23437d00ceade3b67625eec6}
+
+
+\-Definition at line 100 of file pios\-\_\-i2c\-\_\-priv.\-h.
+
+\hypertarget{structpios__i2c__adapter_a98b74dc40da65289c18494530b759724}{\index{pios\-\_\-i2c\-\_\-adapter@{pios\-\_\-i2c\-\_\-adapter}!bus\-\_\-error@{bus\-\_\-error}}
+\index{bus\-\_\-error@{bus\-\_\-error}!pios_i2c_adapter@{pios\-\_\-i2c\-\_\-adapter}}
+\subsubsection[{bus\-\_\-error}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf pios\-\_\-i2c\-\_\-adapter\-::bus\-\_\-error}}}\label{structpios__i2c__adapter_a98b74dc40da65289c18494530b759724}
+
+
+\-Definition at line 95 of file pios\-\_\-i2c\-\_\-priv.\-h.
+
+\hypertarget{structpios__i2c__adapter_a25823130023ae773a53a858647b65fbb}{\index{pios\-\_\-i2c\-\_\-adapter@{pios\-\_\-i2c\-\_\-adapter}!busy@{busy}}
+\index{busy@{busy}!pios_i2c_adapter@{pios\-\_\-i2c\-\_\-adapter}}
+\subsubsection[{busy}]{\setlength{\rightskip}{0pt plus 5cm}volatile uint8\-\_\-t {\bf pios\-\_\-i2c\-\_\-adapter\-::busy}}}\label{structpios__i2c__adapter_a25823130023ae773a53a858647b65fbb}
+
+
+\-Definition at line 92 of file pios\-\_\-i2c\-\_\-priv.\-h.
+
+\hypertarget{structpios__i2c__adapter_abe4e844b2ffcd0984dc55c8985bd0401}{\index{pios\-\_\-i2c\-\_\-adapter@{pios\-\_\-i2c\-\_\-adapter}!callback@{callback}}
+\index{callback@{callback}!pios_i2c_adapter@{pios\-\_\-i2c\-\_\-adapter}}
+\subsubsection[{callback}]{\setlength{\rightskip}{0pt plus 5cm}void($\ast$ {\bf pios\-\_\-i2c\-\_\-adapter\-::callback})()}}\label{structpios__i2c__adapter_abe4e844b2ffcd0984dc55c8985bd0401}
+
+
+\-Definition at line 103 of file pios\-\_\-i2c\-\_\-priv.\-h.
+
+\hypertarget{structpios__i2c__adapter_a99a6a40ff53546cd3f5a316a621be402}{\index{pios\-\_\-i2c\-\_\-adapter@{pios\-\_\-i2c\-\_\-adapter}!cfg@{cfg}}
+\index{cfg@{cfg}!pios_i2c_adapter@{pios\-\_\-i2c\-\_\-adapter}}
+\subsubsection[{cfg}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf pios\-\_\-i2c\-\_\-adapter\-\_\-cfg}$\ast$ {\bf pios\-\_\-i2c\-\_\-adapter\-::cfg}}}\label{structpios__i2c__adapter_a99a6a40ff53546cd3f5a316a621be402}
+
+
+\-Definition at line 87 of file pios\-\_\-i2c\-\_\-priv.\-h.
+
+\hypertarget{structpios__i2c__adapter_ac619064c9dc42d3057f2188f188d5ee3}{\index{pios\-\_\-i2c\-\_\-adapter@{pios\-\_\-i2c\-\_\-adapter}!curr\-\_\-state@{curr\-\_\-state}}
+\index{curr\-\_\-state@{curr\-\_\-state}!pios_i2c_adapter@{pios\-\_\-i2c\-\_\-adapter}}
+\subsubsection[{curr\-\_\-state}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf i2c\-\_\-adapter\-\_\-state} {\bf pios\-\_\-i2c\-\_\-adapter\-::curr\-\_\-state}}}\label{structpios__i2c__adapter_ac619064c9dc42d3057f2188f188d5ee3}
+
+
+\-Definition at line 98 of file pios\-\_\-i2c\-\_\-priv.\-h.
+
+\hypertarget{structpios__i2c__adapter_ad98b03cc641fe33909c19a8e96cb64d5}{\index{pios\-\_\-i2c\-\_\-adapter@{pios\-\_\-i2c\-\_\-adapter}!first\-\_\-txn@{first\-\_\-txn}}
+\index{first\-\_\-txn@{first\-\_\-txn}!pios_i2c_adapter@{pios\-\_\-i2c\-\_\-adapter}}
+\subsubsection[{first\-\_\-txn}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf pios\-\_\-i2c\-\_\-txn}$\ast$ {\bf pios\-\_\-i2c\-\_\-adapter\-::first\-\_\-txn}}}\label{structpios__i2c__adapter_ad98b03cc641fe33909c19a8e96cb64d5}
+
+
+\-Definition at line 99 of file pios\-\_\-i2c\-\_\-priv.\-h.
+
+\hypertarget{structpios__i2c__adapter_a09797c133013f2126da829410d1df0c0}{\index{pios\-\_\-i2c\-\_\-adapter@{pios\-\_\-i2c\-\_\-adapter}!last\-\_\-byte@{last\-\_\-byte}}
+\index{last\-\_\-byte@{last\-\_\-byte}!pios_i2c_adapter@{pios\-\_\-i2c\-\_\-adapter}}
+\subsubsection[{last\-\_\-byte}]{\setlength{\rightskip}{0pt plus 5cm}uint8\-\_\-t$\ast$ {\bf pios\-\_\-i2c\-\_\-adapter\-::last\-\_\-byte}}}\label{structpios__i2c__adapter_a09797c133013f2126da829410d1df0c0}
+
+
+\-Definition at line 106 of file pios\-\_\-i2c\-\_\-priv.\-h.
+
+\hypertarget{structpios__i2c__adapter_af283735c4934e46748f2461bf338811e}{\index{pios\-\_\-i2c\-\_\-adapter@{pios\-\_\-i2c\-\_\-adapter}!last\-\_\-txn@{last\-\_\-txn}}
+\index{last\-\_\-txn@{last\-\_\-txn}!pios_i2c_adapter@{pios\-\_\-i2c\-\_\-adapter}}
+\subsubsection[{last\-\_\-txn}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf pios\-\_\-i2c\-\_\-txn}$\ast$ {\bf pios\-\_\-i2c\-\_\-adapter\-::last\-\_\-txn}}}\label{structpios__i2c__adapter_af283735c4934e46748f2461bf338811e}
+
+
+\-Definition at line 101 of file pios\-\_\-i2c\-\_\-priv.\-h.
+
+\hypertarget{structpios__i2c__adapter_a07891f689e89b36732affa16c1c3bf94}{\index{pios\-\_\-i2c\-\_\-adapter@{pios\-\_\-i2c\-\_\-adapter}!magic@{magic}}
+\index{magic@{magic}!pios_i2c_adapter@{pios\-\_\-i2c\-\_\-adapter}}
+\subsubsection[{magic}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf pios\-\_\-i2c\-\_\-adapter\-\_\-magic} {\bf pios\-\_\-i2c\-\_\-adapter\-::magic}}}\label{structpios__i2c__adapter_a07891f689e89b36732affa16c1c3bf94}
+
+
+\-Definition at line 86 of file pios\-\_\-i2c\-\_\-priv.\-h.
+
+\hypertarget{structpios__i2c__adapter_a22998be1ea282fe23fcd44c2b559c987}{\index{pios\-\_\-i2c\-\_\-adapter@{pios\-\_\-i2c\-\_\-adapter}!nack@{nack}}
+\index{nack@{nack}!pios_i2c_adapter@{pios\-\_\-i2c\-\_\-adapter}}
+\subsubsection[{nack}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf pios\-\_\-i2c\-\_\-adapter\-::nack}}}\label{structpios__i2c__adapter_a22998be1ea282fe23fcd44c2b559c987}
+
+
+\-Definition at line 96 of file pios\-\_\-i2c\-\_\-priv.\-h.
+
+\hypertarget{structpios__i2c__adapter_ae21b610793f476b61cedafa82fffc493}{\index{pios\-\_\-i2c\-\_\-adapter@{pios\-\_\-i2c\-\_\-adapter}!sem\-\_\-busy@{sem\-\_\-busy}}
+\index{sem\-\_\-busy@{sem\-\_\-busy}!pios_i2c_adapter@{pios\-\_\-i2c\-\_\-adapter}}
+\subsubsection[{sem\-\_\-busy}]{\setlength{\rightskip}{0pt plus 5cm}x\-Semaphore\-Handle {\bf pios\-\_\-i2c\-\_\-adapter\-::sem\-\_\-busy}}}\label{structpios__i2c__adapter_ae21b610793f476b61cedafa82fffc493}
+
+
+\-Definition at line 89 of file pios\-\_\-i2c\-\_\-priv.\-h.
+
+\hypertarget{structpios__i2c__adapter_a8a95bc22396c17869efa5a587a1bd5dc}{\index{pios\-\_\-i2c\-\_\-adapter@{pios\-\_\-i2c\-\_\-adapter}!sem\-\_\-ready@{sem\-\_\-ready}}
+\index{sem\-\_\-ready@{sem\-\_\-ready}!pios_i2c_adapter@{pios\-\_\-i2c\-\_\-adapter}}
+\subsubsection[{sem\-\_\-ready}]{\setlength{\rightskip}{0pt plus 5cm}x\-Semaphore\-Handle {\bf pios\-\_\-i2c\-\_\-adapter\-::sem\-\_\-ready}}}\label{structpios__i2c__adapter_a8a95bc22396c17869efa5a587a1bd5dc}
+
+
+\-Definition at line 90 of file pios\-\_\-i2c\-\_\-priv.\-h.
+
+
+
+\-The documentation for this struct was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/home/jb/code/\-Tau\-Labs/flight/\-Pi\-O\-S/inc/\hyperlink{pios__i2c__priv_8h}{pios\-\_\-i2c\-\_\-priv.\-h}\end{DoxyCompactItemize}

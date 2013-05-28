@@ -1,0 +1,151 @@
+\hypertarget{_s_t_m32_f10x_2pios__iap_8c}{\section{/home/jb/code/\-Tau\-Labs/flight/\-Pi\-O\-S/\-S\-T\-M32\-F10x/pios\-\_\-iap.c \-File \-Reference}
+\label{_s_t_m32_f10x_2pios__iap_8c}\index{/home/jb/code/\-Tau\-Labs/flight/\-Pi\-O\-S/\-S\-T\-M32\-F10x/pios\-\_\-iap.\-c@{/home/jb/code/\-Tau\-Labs/flight/\-Pi\-O\-S/\-S\-T\-M32\-F10x/pios\-\_\-iap.\-c}}
+}
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{_s_t_m32_f10x_2pios__iap_8c_a934ab6403364f7db094874c8b22ac39b}{\-P\-I\-O\-S\-\_\-\-I\-A\-P\-\_\-\-Init} (void)
+\begin{DoxyCompactList}\small\item\em \-P\-I\-O\-S\-\_\-\-I\-A\-P\-\_\-\-Init -\/ performs required initializations for iap module. \end{DoxyCompactList}\item 
+uint32\-\_\-t \hyperlink{_s_t_m32_f10x_2pios__iap_8c_a727e2ab4e4516e678c92361691368cde}{\-P\-I\-O\-S\-\_\-\-I\-A\-P\-\_\-\-Check\-Request} (void)
+\begin{DoxyCompactList}\small\item\em \-Determines if an \-In-\/\-Application-\/\-Programming request has been made. \end{DoxyCompactList}\item 
+void \hyperlink{_s_t_m32_f10x_2pios__iap_8c_a61d5d14426b73d8107cbed60770fcb60}{\-P\-I\-O\-S\-\_\-\-I\-A\-P\-\_\-\-Set\-Request1} (void)
+\begin{DoxyCompactList}\small\item\em \-Sets the 1st word of the request sequence. \end{DoxyCompactList}\item 
+void \hyperlink{_s_t_m32_f10x_2pios__iap_8c_a479699ab37d0c0277f93ac0b999d535c}{\-P\-I\-O\-S\-\_\-\-I\-A\-P\-\_\-\-Set\-Request2} (void)
+\item 
+void \hyperlink{_s_t_m32_f10x_2pios__iap_8c_aac06a8f0df9d20557e2fd6db4cec035f}{\-P\-I\-O\-S\-\_\-\-I\-A\-P\-\_\-\-Clear\-Request} (void)
+\item 
+uint16\-\_\-t \hyperlink{_s_t_m32_f10x_2pios__iap_8c_a6d7dd1f71491af968d9770b090d0f5d1}{\-P\-I\-O\-S\-\_\-\-I\-A\-P\-\_\-\-Read\-Boot\-Count} (void)
+\item 
+void \hyperlink{_s_t_m32_f10x_2pios__iap_8c_a492cacc4144a710d8c9652b1acb95631}{\-P\-I\-O\-S\-\_\-\-I\-A\-P\-\_\-\-Write\-Boot\-Count} (uint16\-\_\-t boot\-\_\-count)
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Function \-Documentation}
+\hypertarget{_s_t_m32_f10x_2pios__iap_8c_a727e2ab4e4516e678c92361691368cde}{\index{\-S\-T\-M32\-F10x/pios\-\_\-iap.\-c@{\-S\-T\-M32\-F10x/pios\-\_\-iap.\-c}!\-P\-I\-O\-S\-\_\-\-I\-A\-P\-\_\-\-Check\-Request@{\-P\-I\-O\-S\-\_\-\-I\-A\-P\-\_\-\-Check\-Request}}
+\index{\-P\-I\-O\-S\-\_\-\-I\-A\-P\-\_\-\-Check\-Request@{\-P\-I\-O\-S\-\_\-\-I\-A\-P\-\_\-\-Check\-Request}!STM32F10x/pios_iap.c@{\-S\-T\-M32\-F10x/pios\-\_\-iap.\-c}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-I\-A\-P\-\_\-\-Check\-Request}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t {\bf \-P\-I\-O\-S\-\_\-\-I\-A\-P\-\_\-\-Check\-Request} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{_s_t_m32_f10x_2pios__iap_8c_a727e2ab4e4516e678c92361691368cde}
+
+
+\-Determines if an \-In-\/\-Application-\/\-Programming request has been made. 
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em $\ast$comm} & -\/ \-Which communication stream to use for the \-I\-A\-P (\-U\-S\-B, \-Telemetry, \-I2\-C, \-S\-P\-I, etc) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+\-T\-R\-U\-E -\/ if correct sequence found, along with 'comm' updated. \-F\-A\-L\-S\-E -\/ \-Note that 'comm' will have an invalid comm identifier. 
+\end{DoxyReturn}
+
+\begin{DoxyRetVals}{\-Return values}
+{\em } & \\
+\hline
+\end{DoxyRetVals}
+
+
+\-Definition at line 72 of file pios\-\_\-iap.\-c.
+
+\hypertarget{_s_t_m32_f10x_2pios__iap_8c_aac06a8f0df9d20557e2fd6db4cec035f}{\index{\-S\-T\-M32\-F10x/pios\-\_\-iap.\-c@{\-S\-T\-M32\-F10x/pios\-\_\-iap.\-c}!\-P\-I\-O\-S\-\_\-\-I\-A\-P\-\_\-\-Clear\-Request@{\-P\-I\-O\-S\-\_\-\-I\-A\-P\-\_\-\-Clear\-Request}}
+\index{\-P\-I\-O\-S\-\_\-\-I\-A\-P\-\_\-\-Clear\-Request@{\-P\-I\-O\-S\-\_\-\-I\-A\-P\-\_\-\-Clear\-Request}!STM32F10x/pios_iap.c@{\-S\-T\-M32\-F10x/pios\-\_\-iap.\-c}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-I\-A\-P\-\_\-\-Clear\-Request}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-P\-I\-O\-S\-\_\-\-I\-A\-P\-\_\-\-Clear\-Request} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{_s_t_m32_f10x_2pios__iap_8c_aac06a8f0df9d20557e2fd6db4cec035f}
+
+
+\-Definition at line 108 of file pios\-\_\-iap.\-c.
+
+\hypertarget{_s_t_m32_f10x_2pios__iap_8c_a934ab6403364f7db094874c8b22ac39b}{\index{\-S\-T\-M32\-F10x/pios\-\_\-iap.\-c@{\-S\-T\-M32\-F10x/pios\-\_\-iap.\-c}!\-P\-I\-O\-S\-\_\-\-I\-A\-P\-\_\-\-Init@{\-P\-I\-O\-S\-\_\-\-I\-A\-P\-\_\-\-Init}}
+\index{\-P\-I\-O\-S\-\_\-\-I\-A\-P\-\_\-\-Init@{\-P\-I\-O\-S\-\_\-\-I\-A\-P\-\_\-\-Init}!STM32F10x/pios_iap.c@{\-S\-T\-M32\-F10x/pios\-\_\-iap.\-c}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-I\-A\-P\-\_\-\-Init}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-P\-I\-O\-S\-\_\-\-I\-A\-P\-\_\-\-Init} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{_s_t_m32_f10x_2pios__iap_8c_a934ab6403364f7db094874c8b22ac39b}
+
+
+\-P\-I\-O\-S\-\_\-\-I\-A\-P\-\_\-\-Init -\/ performs required initializations for iap module. 
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em none.} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+none. 
+\end{DoxyReturn}
+
+\begin{DoxyRetVals}{\-Return values}
+{\em none.} & \-Created\-: \-Sep 8, 2010 10\-:10\-:48 \-P\-M by joe \\
+\hline
+\end{DoxyRetVals}
+
+
+\-Definition at line 48 of file pios\-\_\-iap.\-c.
+
+\hypertarget{_s_t_m32_f10x_2pios__iap_8c_a6d7dd1f71491af968d9770b090d0f5d1}{\index{\-S\-T\-M32\-F10x/pios\-\_\-iap.\-c@{\-S\-T\-M32\-F10x/pios\-\_\-iap.\-c}!\-P\-I\-O\-S\-\_\-\-I\-A\-P\-\_\-\-Read\-Boot\-Count@{\-P\-I\-O\-S\-\_\-\-I\-A\-P\-\_\-\-Read\-Boot\-Count}}
+\index{\-P\-I\-O\-S\-\_\-\-I\-A\-P\-\_\-\-Read\-Boot\-Count@{\-P\-I\-O\-S\-\_\-\-I\-A\-P\-\_\-\-Read\-Boot\-Count}!STM32F10x/pios_iap.c@{\-S\-T\-M32\-F10x/pios\-\_\-iap.\-c}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-I\-A\-P\-\_\-\-Read\-Boot\-Count}]{\setlength{\rightskip}{0pt plus 5cm}uint16\-\_\-t {\bf \-P\-I\-O\-S\-\_\-\-I\-A\-P\-\_\-\-Read\-Boot\-Count} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{_s_t_m32_f10x_2pios__iap_8c_a6d7dd1f71491af968d9770b090d0f5d1}
+
+
+\-Definition at line 114 of file pios\-\_\-iap.\-c.
+
+\hypertarget{_s_t_m32_f10x_2pios__iap_8c_a61d5d14426b73d8107cbed60770fcb60}{\index{\-S\-T\-M32\-F10x/pios\-\_\-iap.\-c@{\-S\-T\-M32\-F10x/pios\-\_\-iap.\-c}!\-P\-I\-O\-S\-\_\-\-I\-A\-P\-\_\-\-Set\-Request1@{\-P\-I\-O\-S\-\_\-\-I\-A\-P\-\_\-\-Set\-Request1}}
+\index{\-P\-I\-O\-S\-\_\-\-I\-A\-P\-\_\-\-Set\-Request1@{\-P\-I\-O\-S\-\_\-\-I\-A\-P\-\_\-\-Set\-Request1}!STM32F10x/pios_iap.c@{\-S\-T\-M32\-F10x/pios\-\_\-iap.\-c}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-I\-A\-P\-\_\-\-Set\-Request1}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-P\-I\-O\-S\-\_\-\-I\-A\-P\-\_\-\-Set\-Request1} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{_s_t_m32_f10x_2pios__iap_8c_a61d5d14426b73d8107cbed60770fcb60}
+
+
+\-Sets the 1st word of the request sequence. 
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em n/a} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+n/a 
+\end{DoxyReturn}
+
+\begin{DoxyRetVals}{\-Return values}
+{\em } & \\
+\hline
+\end{DoxyRetVals}
+
+
+\-Definition at line 98 of file pios\-\_\-iap.\-c.
+
+\hypertarget{_s_t_m32_f10x_2pios__iap_8c_a479699ab37d0c0277f93ac0b999d535c}{\index{\-S\-T\-M32\-F10x/pios\-\_\-iap.\-c@{\-S\-T\-M32\-F10x/pios\-\_\-iap.\-c}!\-P\-I\-O\-S\-\_\-\-I\-A\-P\-\_\-\-Set\-Request2@{\-P\-I\-O\-S\-\_\-\-I\-A\-P\-\_\-\-Set\-Request2}}
+\index{\-P\-I\-O\-S\-\_\-\-I\-A\-P\-\_\-\-Set\-Request2@{\-P\-I\-O\-S\-\_\-\-I\-A\-P\-\_\-\-Set\-Request2}!STM32F10x/pios_iap.c@{\-S\-T\-M32\-F10x/pios\-\_\-iap.\-c}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-I\-A\-P\-\_\-\-Set\-Request2}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-P\-I\-O\-S\-\_\-\-I\-A\-P\-\_\-\-Set\-Request2} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{_s_t_m32_f10x_2pios__iap_8c_a479699ab37d0c0277f93ac0b999d535c}
+
+
+\-Definition at line 103 of file pios\-\_\-iap.\-c.
+
+\hypertarget{_s_t_m32_f10x_2pios__iap_8c_a492cacc4144a710d8c9652b1acb95631}{\index{\-S\-T\-M32\-F10x/pios\-\_\-iap.\-c@{\-S\-T\-M32\-F10x/pios\-\_\-iap.\-c}!\-P\-I\-O\-S\-\_\-\-I\-A\-P\-\_\-\-Write\-Boot\-Count@{\-P\-I\-O\-S\-\_\-\-I\-A\-P\-\_\-\-Write\-Boot\-Count}}
+\index{\-P\-I\-O\-S\-\_\-\-I\-A\-P\-\_\-\-Write\-Boot\-Count@{\-P\-I\-O\-S\-\_\-\-I\-A\-P\-\_\-\-Write\-Boot\-Count}!STM32F10x/pios_iap.c@{\-S\-T\-M32\-F10x/pios\-\_\-iap.\-c}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-I\-A\-P\-\_\-\-Write\-Boot\-Count}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-P\-I\-O\-S\-\_\-\-I\-A\-P\-\_\-\-Write\-Boot\-Count} (
+\begin{DoxyParamCaption}
+\item[{uint16\-\_\-t}]{boot\-\_\-count}
+\end{DoxyParamCaption}
+)}}\label{_s_t_m32_f10x_2pios__iap_8c_a492cacc4144a710d8c9652b1acb95631}
+
+
+\-Definition at line 119 of file pios\-\_\-iap.\-c.
+

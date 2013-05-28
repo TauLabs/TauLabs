@@ -1,0 +1,120 @@
+\hypertarget{structmpu6050__dev}{\section{mpu6050\-\_\-dev \-Struct \-Reference}
+\label{structmpu6050__dev}\index{mpu6050\-\_\-dev@{mpu6050\-\_\-dev}}
+}
+\subsection*{\-Data \-Fields}
+\begin{DoxyCompactItemize}
+\item 
+uint32\-\_\-t \hyperlink{structmpu6050__dev_ac0c61d2a2005659c182ca98984b49dd1}{i2c\-\_\-id}
+\item 
+uint8\-\_\-t \hyperlink{structmpu6050__dev_a62f37e4827ac7856727a18e7cc6a252d}{i2c\-\_\-addr}
+\item 
+enum \hyperlink{group___p_i_o_s___m_p_u60_x0_ga56700b0154a14cf67c9f8f44a86ad9c0}{pios\-\_\-mpu60x0\-\_\-range} \hyperlink{structmpu6050__dev_aaf65682756b6135dbeb042934660076a}{gyro\-\_\-range}
+\item 
+x\-Queue\-Handle \hyperlink{structmpu6050__dev_a91859d6141bf6c0d8dc50d144339baab}{gyro\-\_\-queue}
+\item 
+enum \hyperlink{group___p_i_o_s___m_p_u60_x0_ga8f297bddae3eb43bbf7b54abc6494992}{pios\-\_\-mpu60x0\-\_\-accel\-\_\-range} \hyperlink{structmpu6050__dev_a4733a0f3b1d592d6858902c3f12cf3b2}{accel\-\_\-range}
+\item 
+x\-Queue\-Handle \hyperlink{structmpu6050__dev_a59bba40f73e989c812d988c7c1e8a8bc}{accel\-\_\-queue}
+\item 
+x\-Task\-Handle \hyperlink{structmpu6050__dev_ae7f409a90546c5e2c100212a0bd63d94}{\-Task\-Handle}
+\item 
+x\-Semaphore\-Handle \hyperlink{structmpu6050__dev_ad4d0a233a1d6f73d37c88f646dd36e3f}{data\-\_\-ready\-\_\-sema}
+\item 
+struct \hyperlink{structpios__mpu60x0__cfg}{pios\-\_\-mpu60x0\-\_\-cfg} $\ast$ \hyperlink{structmpu6050__dev_ac1b0d1da5fdfa6488dd23aa964573496}{cfg}
+\item 
+enum \hyperlink{group___p_i_o_s___m_p_u6050_ga22a9ad4120542ed164b6afe9b094b6f3}{pios\-\_\-mpu6050\-\_\-dev\-\_\-magic} \hyperlink{structmpu6050__dev_acc91a02bd2c3ea3808aa09d4358d56ea}{magic}
+\item 
+enum \hyperlink{group___p_i_o_s___m_p_u60_x0_gacce1988bc994f5ade6ac748c2bf0b924}{pios\-\_\-mpu60x0\-\_\-filter} \hyperlink{structmpu6050__dev_ac959727d047bc26d53673d376f76f8bc}{filter}
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+
+
+\-Definition at line 51 of file pios\-\_\-mpu6050.\-c.
+
+
+
+\subsection{\-Field \-Documentation}
+\hypertarget{structmpu6050__dev_a59bba40f73e989c812d988c7c1e8a8bc}{\index{mpu6050\-\_\-dev@{mpu6050\-\_\-dev}!accel\-\_\-queue@{accel\-\_\-queue}}
+\index{accel\-\_\-queue@{accel\-\_\-queue}!mpu6050_dev@{mpu6050\-\_\-dev}}
+\subsubsection[{accel\-\_\-queue}]{\setlength{\rightskip}{0pt plus 5cm}x\-Queue\-Handle {\bf mpu6050\-\_\-dev\-::accel\-\_\-queue}}}\label{structmpu6050__dev_a59bba40f73e989c812d988c7c1e8a8bc}
+
+
+\-Definition at line 58 of file pios\-\_\-mpu6050.\-c.
+
+\hypertarget{structmpu6050__dev_a4733a0f3b1d592d6858902c3f12cf3b2}{\index{mpu6050\-\_\-dev@{mpu6050\-\_\-dev}!accel\-\_\-range@{accel\-\_\-range}}
+\index{accel\-\_\-range@{accel\-\_\-range}!mpu6050_dev@{mpu6050\-\_\-dev}}
+\subsubsection[{accel\-\_\-range}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf pios\-\_\-mpu60x0\-\_\-accel\-\_\-range} {\bf mpu6050\-\_\-dev\-::accel\-\_\-range}}}\label{structmpu6050__dev_a4733a0f3b1d592d6858902c3f12cf3b2}
+
+
+\-Definition at line 57 of file pios\-\_\-mpu6050.\-c.
+
+\hypertarget{structmpu6050__dev_ac1b0d1da5fdfa6488dd23aa964573496}{\index{mpu6050\-\_\-dev@{mpu6050\-\_\-dev}!cfg@{cfg}}
+\index{cfg@{cfg}!mpu6050_dev@{mpu6050\-\_\-dev}}
+\subsubsection[{cfg}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf pios\-\_\-mpu60x0\-\_\-cfg}$\ast$ {\bf mpu6050\-\_\-dev\-::cfg}}}\label{structmpu6050__dev_ac1b0d1da5fdfa6488dd23aa964573496}
+
+
+\-Definition at line 62 of file pios\-\_\-mpu6050.\-c.
+
+\hypertarget{structmpu6050__dev_ad4d0a233a1d6f73d37c88f646dd36e3f}{\index{mpu6050\-\_\-dev@{mpu6050\-\_\-dev}!data\-\_\-ready\-\_\-sema@{data\-\_\-ready\-\_\-sema}}
+\index{data\-\_\-ready\-\_\-sema@{data\-\_\-ready\-\_\-sema}!mpu6050_dev@{mpu6050\-\_\-dev}}
+\subsubsection[{data\-\_\-ready\-\_\-sema}]{\setlength{\rightskip}{0pt plus 5cm}x\-Semaphore\-Handle {\bf mpu6050\-\_\-dev\-::data\-\_\-ready\-\_\-sema}}}\label{structmpu6050__dev_ad4d0a233a1d6f73d37c88f646dd36e3f}
+
+
+\-Definition at line 61 of file pios\-\_\-mpu6050.\-c.
+
+\hypertarget{structmpu6050__dev_ac959727d047bc26d53673d376f76f8bc}{\index{mpu6050\-\_\-dev@{mpu6050\-\_\-dev}!filter@{filter}}
+\index{filter@{filter}!mpu6050_dev@{mpu6050\-\_\-dev}}
+\subsubsection[{filter}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf pios\-\_\-mpu60x0\-\_\-filter} {\bf mpu6050\-\_\-dev\-::filter}}}\label{structmpu6050__dev_ac959727d047bc26d53673d376f76f8bc}
+
+
+\-Definition at line 64 of file pios\-\_\-mpu6050.\-c.
+
+\hypertarget{structmpu6050__dev_a91859d6141bf6c0d8dc50d144339baab}{\index{mpu6050\-\_\-dev@{mpu6050\-\_\-dev}!gyro\-\_\-queue@{gyro\-\_\-queue}}
+\index{gyro\-\_\-queue@{gyro\-\_\-queue}!mpu6050_dev@{mpu6050\-\_\-dev}}
+\subsubsection[{gyro\-\_\-queue}]{\setlength{\rightskip}{0pt plus 5cm}x\-Queue\-Handle {\bf mpu6050\-\_\-dev\-::gyro\-\_\-queue}}}\label{structmpu6050__dev_a91859d6141bf6c0d8dc50d144339baab}
+
+
+\-Definition at line 55 of file pios\-\_\-mpu6050.\-c.
+
+\hypertarget{structmpu6050__dev_aaf65682756b6135dbeb042934660076a}{\index{mpu6050\-\_\-dev@{mpu6050\-\_\-dev}!gyro\-\_\-range@{gyro\-\_\-range}}
+\index{gyro\-\_\-range@{gyro\-\_\-range}!mpu6050_dev@{mpu6050\-\_\-dev}}
+\subsubsection[{gyro\-\_\-range}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf pios\-\_\-mpu60x0\-\_\-range} {\bf mpu6050\-\_\-dev\-::gyro\-\_\-range}}}\label{structmpu6050__dev_aaf65682756b6135dbeb042934660076a}
+
+
+\-Definition at line 54 of file pios\-\_\-mpu6050.\-c.
+
+\hypertarget{structmpu6050__dev_a62f37e4827ac7856727a18e7cc6a252d}{\index{mpu6050\-\_\-dev@{mpu6050\-\_\-dev}!i2c\-\_\-addr@{i2c\-\_\-addr}}
+\index{i2c\-\_\-addr@{i2c\-\_\-addr}!mpu6050_dev@{mpu6050\-\_\-dev}}
+\subsubsection[{i2c\-\_\-addr}]{\setlength{\rightskip}{0pt plus 5cm}uint8\-\_\-t {\bf mpu6050\-\_\-dev\-::i2c\-\_\-addr}}}\label{structmpu6050__dev_a62f37e4827ac7856727a18e7cc6a252d}
+
+
+\-Definition at line 53 of file pios\-\_\-mpu6050.\-c.
+
+\hypertarget{structmpu6050__dev_ac0c61d2a2005659c182ca98984b49dd1}{\index{mpu6050\-\_\-dev@{mpu6050\-\_\-dev}!i2c\-\_\-id@{i2c\-\_\-id}}
+\index{i2c\-\_\-id@{i2c\-\_\-id}!mpu6050_dev@{mpu6050\-\_\-dev}}
+\subsubsection[{i2c\-\_\-id}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t {\bf mpu6050\-\_\-dev\-::i2c\-\_\-id}}}\label{structmpu6050__dev_ac0c61d2a2005659c182ca98984b49dd1}
+
+
+\-Definition at line 52 of file pios\-\_\-mpu6050.\-c.
+
+\hypertarget{structmpu6050__dev_acc91a02bd2c3ea3808aa09d4358d56ea}{\index{mpu6050\-\_\-dev@{mpu6050\-\_\-dev}!magic@{magic}}
+\index{magic@{magic}!mpu6050_dev@{mpu6050\-\_\-dev}}
+\subsubsection[{magic}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf pios\-\_\-mpu6050\-\_\-dev\-\_\-magic} {\bf mpu6050\-\_\-dev\-::magic}}}\label{structmpu6050__dev_acc91a02bd2c3ea3808aa09d4358d56ea}
+
+
+\-Definition at line 63 of file pios\-\_\-mpu6050.\-c.
+
+\hypertarget{structmpu6050__dev_ae7f409a90546c5e2c100212a0bd63d94}{\index{mpu6050\-\_\-dev@{mpu6050\-\_\-dev}!\-Task\-Handle@{\-Task\-Handle}}
+\index{\-Task\-Handle@{\-Task\-Handle}!mpu6050_dev@{mpu6050\-\_\-dev}}
+\subsubsection[{\-Task\-Handle}]{\setlength{\rightskip}{0pt plus 5cm}x\-Task\-Handle {\bf mpu6050\-\_\-dev\-::\-Task\-Handle}}}\label{structmpu6050__dev_ae7f409a90546c5e2c100212a0bd63d94}
+
+
+\-Definition at line 60 of file pios\-\_\-mpu6050.\-c.
+
+
+
+\-The documentation for this struct was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/home/jb/code/\-Tau\-Labs/flight/\-Pi\-O\-S/\-Common/\hyperlink{pios__mpu6050_8c}{pios\-\_\-mpu6050.\-c}\end{DoxyCompactItemize}

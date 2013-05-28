@@ -1,0 +1,69 @@
+\hypertarget{classmapcontrol_1_1_map_graphic_item}{\section{mapcontrol\-:\-:\-Map\-Graphic\-Item \-Class \-Reference}
+\label{classmapcontrol_1_1_map_graphic_item}\index{mapcontrol\-::\-Map\-Graphic\-Item@{mapcontrol\-::\-Map\-Graphic\-Item}}
+}
+
+
+\-The main graphics\-Item used on the widget, contains the map and map logic.  
+
+
+
+
+{\ttfamily \#include $<$mapgraphicitem.\-h$>$}
+
+\subsection*{\-Public \-Slots}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_widget_ga717dc7dc9953d7242b9f0db9d2e3951e}{resize} (\-Q\-Rect\-F const \&rect=\-Q\-Rect\-F())
+\begin{DoxyCompactList}\small\item\em \-To be called when the scene size changes. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Signals}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_widget_ga795f053b52b5fe955eee059db5cb0afd}{wpdoubleclicked} (\hyperlink{classmapcontrol_1_1_way_point_item}{\-Way\-Point\-Item} $\ast$wp)
+\begin{DoxyCompactList}\small\item\em \-Fired when the current zoom is changed. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_widget_ga7022afbf8533ece279e5b06dcbe66935}{zoom\-Changed} (double zoomtotal, double zoomreal, double zoomdigi)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_widget_ga4877137ff20f1713d86737fcde3e5eef}{child\-Refresh\-Position} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_widget_ga2e3c45d4bbf9d439e3e6bb83d138c340}{child\-Set\-Opacity} (qreal value)
+\end{DoxyCompactItemize}
+\subsection*{\-Protected \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_widget_ga60c7e55c1ee2c957be5233e999912521}{mouse\-Move\-Event} (\-Q\-Graphics\-Scene\-Mouse\-Event $\ast$event)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_widget_ga6f27143f563d9f5bb72d36e06078f488}{mouse\-Press\-Event} (\-Q\-Graphics\-Scene\-Mouse\-Event $\ast$event)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_widget_ga93a150c4f1ed84aa194b153b55bc9cd3}{wheel\-Event} (\-Q\-Graphics\-Scene\-Wheel\-Event $\ast$event)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_widget_gaba0f1f6f68f5a4765b966b704c7efddd}{mouse\-Release\-Event} (\-Q\-Graphics\-Scene\-Mouse\-Event $\ast$event)
+\item 
+bool \hyperlink{group___o_p_map_widget_ga974c2e697780b93234f9001d03d5e89f}{\-Is\-Mouse\-Over\-Marker} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_widget_ga3c52576f9f0733ac4ea3882ce67a3ee0}{key\-Press\-Event} (\-Q\-Key\-Event $\ast$event)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_widget_ga2244e13f8bb36fe4230c1776f802e175}{key\-Release\-Event} (\-Q\-Key\-Event $\ast$event)
+\item 
+int \hyperlink{group___o_p_map_widget_gac33e6f99e690bfc9725bbb33b9078d91}{\-Zoom\-Step} () const 
+\begin{DoxyCompactList}\small\item\em \-Returns current map zoom. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_widget_ga45d9811a4fc7a2a8c6a677b4501a031d}{\-Set\-Zoom\-Step} (qint32 const \&value)
+\begin{DoxyCompactList}\small\item\em \-Sets map zoom. \end{DoxyCompactList}\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___o_p_map_widget_gaf6a44ff6d44e64585620480128100737}{\-Set\-Show\-Dragons} (bool const \&value)
+\begin{DoxyCompactList}\small\item\em \-Ask \-Stacey. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Friends}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{group___o_p_map_widget_gaab6f3be35d4d41ee35530f402954d903}{mapcontrol\-::\-O\-P\-Map\-Widget}
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-The main graphics\-Item used on the widget, contains the map and map logic. 
+
+\-Definition at line 51 of file mapgraphicitem.\-h.
+
+
+
+\-The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/libs/opmapcontrol/src/mapwidget/\hyperlink{mapgraphicitem_8h}{mapgraphicitem.\-h}\item 
+/home/jb/code/\-Tau\-Labs/ground/gcs/src/libs/opmapcontrol/src/mapwidget/\hyperlink{mapgraphicitem_8cpp}{mapgraphicitem.\-cpp}\end{DoxyCompactItemize}

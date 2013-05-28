@@ -1,0 +1,347 @@
+\hypertarget{group___p_i_o_s___u_s_a_r_t}{\section{\-U\-S\-A\-R\-T \-Functions}
+\label{group___p_i_o_s___u_s_a_r_t}\index{\-U\-S\-A\-R\-T Functions@{\-U\-S\-A\-R\-T Functions}}
+}
+
+
+\-P\-I\-O\-S interface for \-U\-S\-A\-R\-T port.  
+
+
+\subsection*{\-Data \-Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structpios__usart__cfg}{pios\-\_\-usart\-\_\-cfg}
+\item 
+struct \hyperlink{structpios__usart__dev}{pios\-\_\-usart\-\_\-dev}
+\end{DoxyCompactItemize}
+\subsection*{\-Files}
+\begin{DoxyCompactItemize}
+\item 
+file \hyperlink{pios__usart_8h}{pios\-\_\-usart.\-h}
+\begin{DoxyCompactList}\small\item\em \-U\-S\-A\-R\-T functions header. \end{DoxyCompactList}\item 
+file \hyperlink{pios__usart__priv_8h}{pios\-\_\-usart\-\_\-priv.\-h}
+\begin{DoxyCompactList}\small\item\em \-U\-S\-A\-R\-T private definitions. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{group___p_i_o_s___u_s_a_r_t_gabc5ff4f4da76683608f4140d4e343a32}{pios\-\_\-usart\-\_\-dev\-\_\-magic} \{ \hyperlink{group___p_i_o_s___u_s_a_r_t_ggabc5ff4f4da76683608f4140d4e343a32a58fce3273a001baada6ae6f67f4ce3f7}{\-P\-I\-O\-S\-\_\-\-U\-S\-A\-R\-T\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C} =  0x11223344, 
+\hyperlink{group___p_i_o_s___u_s_a_r_t_ggabc5ff4f4da76683608f4140d4e343a32a58fce3273a001baada6ae6f67f4ce3f7}{\-P\-I\-O\-S\-\_\-\-U\-S\-A\-R\-T\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C} =  0x4152834\-A, 
+\hyperlink{group___p_i_o_s___u_s_a_r_t_ggabc5ff4f4da76683608f4140d4e343a32a58fce3273a001baada6ae6f67f4ce3f7}{\-P\-I\-O\-S\-\_\-\-U\-S\-A\-R\-T\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C} =  0x4152834\-A
+ \}
+\item 
+enum \hyperlink{group___p_i_o_s___u_s_a_r_t_gabc5ff4f4da76683608f4140d4e343a32}{pios\-\_\-usart\-\_\-dev\-\_\-magic} \{ \hyperlink{group___p_i_o_s___u_s_a_r_t_ggabc5ff4f4da76683608f4140d4e343a32a58fce3273a001baada6ae6f67f4ce3f7}{\-P\-I\-O\-S\-\_\-\-U\-S\-A\-R\-T\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C} =  0x11223344, 
+\hyperlink{group___p_i_o_s___u_s_a_r_t_ggabc5ff4f4da76683608f4140d4e343a32a58fce3273a001baada6ae6f67f4ce3f7}{\-P\-I\-O\-S\-\_\-\-U\-S\-A\-R\-T\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C} =  0x4152834\-A, 
+\hyperlink{group___p_i_o_s___u_s_a_r_t_ggabc5ff4f4da76683608f4140d4e343a32a58fce3273a001baada6ae6f67f4ce3f7}{\-P\-I\-O\-S\-\_\-\-U\-S\-A\-R\-T\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C} =  0x4152834\-A
+ \}
+\item 
+enum \hyperlink{group___p_i_o_s___u_s_a_r_t_gabc5ff4f4da76683608f4140d4e343a32}{pios\-\_\-usart\-\_\-dev\-\_\-magic} \{ \hyperlink{group___p_i_o_s___u_s_a_r_t_ggabc5ff4f4da76683608f4140d4e343a32a58fce3273a001baada6ae6f67f4ce3f7}{\-P\-I\-O\-S\-\_\-\-U\-S\-A\-R\-T\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C} =  0x11223344, 
+\hyperlink{group___p_i_o_s___u_s_a_r_t_ggabc5ff4f4da76683608f4140d4e343a32a58fce3273a001baada6ae6f67f4ce3f7}{\-P\-I\-O\-S\-\_\-\-U\-S\-A\-R\-T\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C} =  0x4152834\-A, 
+\hyperlink{group___p_i_o_s___u_s_a_r_t_ggabc5ff4f4da76683608f4140d4e343a32a58fce3273a001baada6ae6f67f4ce3f7}{\-P\-I\-O\-S\-\_\-\-U\-S\-A\-R\-T\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C} =  0x4152834\-A
+ \}
+\end{DoxyCompactItemize}
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___u_s_a_r_t_ga437fb84f2fc14d2db87aea8b53a0a73c}{\-P\-I\-O\-S\-\_\-\-U\-S\-A\-R\-T\-\_\-\-Init} (uint32\-\_\-t $\ast$usart\-\_\-id, const struct \hyperlink{structpios__usart__cfg}{pios\-\_\-usart\-\_\-cfg} $\ast$cfg)
+\item 
+struct \hyperlink{structpios__usart__cfg}{pios\-\_\-usart\-\_\-cfg} $\ast$ \hyperlink{group___p_i_o_s___u_s_a_r_t_ga950365bc3d27bf7c436e8e549128a1ad}{\-P\-I\-O\-S\-\_\-\-U\-S\-A\-R\-T\-\_\-\-Get\-Config} (uint32\-\_\-t usart\-\_\-id)
+\item 
+void \hyperlink{group___p_i_o_s___u_s_a_r_t_ga7139cd4baabbbcbab0c1fe6d7d4ae1cc}{\-U\-S\-A\-R\-T1\-\_\-\-I\-R\-Q\-Handler} (void)
+\item 
+void \hyperlink{group___p_i_o_s___u_s_a_r_t_ga0ca6fd0e6f77921dd1123539857ba0a8}{\-U\-S\-A\-R\-T2\-\_\-\-I\-R\-Q\-Handler} (void)
+\item 
+void \hyperlink{group___p_i_o_s___u_s_a_r_t_ga0d108a3468b2051548183ee5ca2158a0}{\-U\-S\-A\-R\-T3\-\_\-\-I\-R\-Q\-Handler} (void)
+\item 
+void \hyperlink{group___p_i_o_s___u_s_a_r_t_ga9da740f6a7dda252db44255f54a3bee3}{\-U\-S\-A\-R\-T1\-\_\-\-E\-X\-T\-I25\-\_\-\-I\-R\-Q\-Handler} (void)
+\item 
+void \hyperlink{group___p_i_o_s___u_s_a_r_t_ga4897c2dbb8e8ae70938922276f95800b}{\-U\-S\-A\-R\-T2\-\_\-\-E\-X\-T\-I26\-\_\-\-I\-R\-Q\-Handler} (void)
+\item 
+void \hyperlink{group___p_i_o_s___u_s_a_r_t_gaab980dd8a502127dc3ae895e77931bdd}{\-U\-S\-A\-R\-T3\-\_\-\-E\-X\-T\-I28\-\_\-\-I\-R\-Q\-Handler} (void)
+\item 
+void \hyperlink{group___p_i_o_s___u_s_a_r_t_ga552c5d505ae108eef11cd39ebc22773b}{\-U\-A\-R\-T4\-\_\-\-E\-X\-T\-I34\-\_\-\-I\-R\-Q\-Handler} (void)
+\item 
+void \hyperlink{group___p_i_o_s___u_s_a_r_t_ga379570b068a7a67525c68b24831f77fd}{\-U\-A\-R\-T5\-\_\-\-E\-X\-T\-I35\-\_\-\-I\-R\-Q\-Handler} (void)
+\item 
+void \hyperlink{group___p_i_o_s___u_s_a_r_t_gad0d53420fd047695ef9cf3fda8282d9b}{\-U\-S\-A\-R\-T4\-\_\-\-I\-R\-Q\-Handler} (void)
+\item 
+void \hyperlink{group___p_i_o_s___u_s_a_r_t_gaea1a468c29d1d6aba1bba3f58c4b3b7e}{\-U\-S\-A\-R\-T5\-\_\-\-I\-R\-Q\-Handler} (void)
+\item 
+void \hyperlink{group___p_i_o_s___u_s_a_r_t_ga12c827857d907ad0cccd586fd934d446}{\-U\-S\-A\-R\-T6\-\_\-\-I\-R\-Q\-Handler} (void)
+\end{DoxyCompactItemize}
+\subsection*{\-Variables}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structpios__com__driver}{pios\-\_\-com\-\_\-driver} \hyperlink{group___p_i_o_s___u_s_a_r_t_gae7414398fe53c376d74ea4c0eecb0670}{pios\-\_\-usart\-\_\-com\-\_\-driver}
+\item 
+struct \hyperlink{structpios__com__driver}{pios\-\_\-com\-\_\-driver} \hyperlink{group___p_i_o_s___u_s_a_r_t_gae7414398fe53c376d74ea4c0eecb0670}{pios\-\_\-usart\-\_\-com\-\_\-driver}
+\item 
+struct \hyperlink{structpios__com__driver}{pios\-\_\-com\-\_\-driver} \hyperlink{group___p_i_o_s___u_s_a_r_t_gae7414398fe53c376d74ea4c0eecb0670}{pios\-\_\-usart\-\_\-com\-\_\-driver}
+\item 
+struct \hyperlink{structpios__com__driver}{pios\-\_\-com\-\_\-driver} \hyperlink{group___p_i_o_s___u_s_a_r_t_gae7414398fe53c376d74ea4c0eecb0670}{pios\-\_\-usart\-\_\-com\-\_\-driver}
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-P\-I\-O\-S interface for \-U\-S\-A\-R\-T port. 
+
+\subsection{\-Enumeration \-Type \-Documentation}
+\hypertarget{group___p_i_o_s___u_s_a_r_t_gabc5ff4f4da76683608f4140d4e343a32}{\index{\-U\-S\-A\-R\-T Functions@{\-U\-S\-A\-R\-T Functions}!pios\-\_\-usart\-\_\-dev\-\_\-magic@{pios\-\_\-usart\-\_\-dev\-\_\-magic}}
+\index{pios\-\_\-usart\-\_\-dev\-\_\-magic@{pios\-\_\-usart\-\_\-dev\-\_\-magic}!USART Functions@{\-U\-S\-A\-R\-T Functions}}
+\subsubsection[{pios\-\_\-usart\-\_\-dev\-\_\-magic}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf pios\-\_\-usart\-\_\-dev\-\_\-magic}}}\label{group___p_i_o_s___u_s_a_r_t_gabc5ff4f4da76683608f4140d4e343a32}
+\begin{Desc}
+\item[\-Enumerator\-: ]\par
+\begin{description}
+\index{\-P\-I\-O\-S\-\_\-\-U\-S\-A\-R\-T\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C@{\-P\-I\-O\-S\-\_\-\-U\-S\-A\-R\-T\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}!\-U\-S\-A\-R\-T Functions@{\-U\-S\-A\-R\-T Functions}}\index{\-U\-S\-A\-R\-T Functions@{\-U\-S\-A\-R\-T Functions}!\-P\-I\-O\-S\-\_\-\-U\-S\-A\-R\-T\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C@{\-P\-I\-O\-S\-\_\-\-U\-S\-A\-R\-T\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}}\item[{\em 
+\hypertarget{group___p_i_o_s___u_s_a_r_t_ggabc5ff4f4da76683608f4140d4e343a32a58fce3273a001baada6ae6f67f4ce3f7}{\-P\-I\-O\-S\-\_\-\-U\-S\-A\-R\-T\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}\label{group___p_i_o_s___u_s_a_r_t_ggabc5ff4f4da76683608f4140d4e343a32a58fce3273a001baada6ae6f67f4ce3f7}
+}]\index{\-P\-I\-O\-S\-\_\-\-U\-S\-A\-R\-T\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C@{\-P\-I\-O\-S\-\_\-\-U\-S\-A\-R\-T\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}!\-U\-S\-A\-R\-T Functions@{\-U\-S\-A\-R\-T Functions}}\index{\-U\-S\-A\-R\-T Functions@{\-U\-S\-A\-R\-T Functions}!\-P\-I\-O\-S\-\_\-\-U\-S\-A\-R\-T\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C@{\-P\-I\-O\-S\-\_\-\-U\-S\-A\-R\-T\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}}\item[{\em 
+\hypertarget{group___p_i_o_s___u_s_a_r_t_ggabc5ff4f4da76683608f4140d4e343a32a58fce3273a001baada6ae6f67f4ce3f7}{\-P\-I\-O\-S\-\_\-\-U\-S\-A\-R\-T\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}\label{group___p_i_o_s___u_s_a_r_t_ggabc5ff4f4da76683608f4140d4e343a32a58fce3273a001baada6ae6f67f4ce3f7}
+}]\index{\-P\-I\-O\-S\-\_\-\-U\-S\-A\-R\-T\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C@{\-P\-I\-O\-S\-\_\-\-U\-S\-A\-R\-T\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}!\-U\-S\-A\-R\-T Functions@{\-U\-S\-A\-R\-T Functions}}\index{\-U\-S\-A\-R\-T Functions@{\-U\-S\-A\-R\-T Functions}!\-P\-I\-O\-S\-\_\-\-U\-S\-A\-R\-T\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C@{\-P\-I\-O\-S\-\_\-\-U\-S\-A\-R\-T\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}}\item[{\em 
+\hypertarget{group___p_i_o_s___u_s_a_r_t_ggabc5ff4f4da76683608f4140d4e343a32a58fce3273a001baada6ae6f67f4ce3f7}{\-P\-I\-O\-S\-\_\-\-U\-S\-A\-R\-T\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}\label{group___p_i_o_s___u_s_a_r_t_ggabc5ff4f4da76683608f4140d4e343a32a58fce3273a001baada6ae6f67f4ce3f7}
+}]\end{description}
+\end{Desc}
+
+
+
+\-Definition at line 54 of file pios\-\_\-usart.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_a_r_t_gabc5ff4f4da76683608f4140d4e343a32}{\index{\-U\-S\-A\-R\-T Functions@{\-U\-S\-A\-R\-T Functions}!pios\-\_\-usart\-\_\-dev\-\_\-magic@{pios\-\_\-usart\-\_\-dev\-\_\-magic}}
+\index{pios\-\_\-usart\-\_\-dev\-\_\-magic@{pios\-\_\-usart\-\_\-dev\-\_\-magic}!USART Functions@{\-U\-S\-A\-R\-T Functions}}
+\subsubsection[{pios\-\_\-usart\-\_\-dev\-\_\-magic}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf pios\-\_\-usart\-\_\-dev\-\_\-magic}}}\label{group___p_i_o_s___u_s_a_r_t_gabc5ff4f4da76683608f4140d4e343a32}
+\begin{Desc}
+\item[\-Enumerator\-: ]\par
+\begin{description}
+\index{\-P\-I\-O\-S\-\_\-\-U\-S\-A\-R\-T\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C@{\-P\-I\-O\-S\-\_\-\-U\-S\-A\-R\-T\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}!\-U\-S\-A\-R\-T Functions@{\-U\-S\-A\-R\-T Functions}}\index{\-U\-S\-A\-R\-T Functions@{\-U\-S\-A\-R\-T Functions}!\-P\-I\-O\-S\-\_\-\-U\-S\-A\-R\-T\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C@{\-P\-I\-O\-S\-\_\-\-U\-S\-A\-R\-T\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}}\item[{\em 
+\hypertarget{group___p_i_o_s___u_s_a_r_t_ggabc5ff4f4da76683608f4140d4e343a32a58fce3273a001baada6ae6f67f4ce3f7}{\-P\-I\-O\-S\-\_\-\-U\-S\-A\-R\-T\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}\label{group___p_i_o_s___u_s_a_r_t_ggabc5ff4f4da76683608f4140d4e343a32a58fce3273a001baada6ae6f67f4ce3f7}
+}]\index{\-P\-I\-O\-S\-\_\-\-U\-S\-A\-R\-T\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C@{\-P\-I\-O\-S\-\_\-\-U\-S\-A\-R\-T\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}!\-U\-S\-A\-R\-T Functions@{\-U\-S\-A\-R\-T Functions}}\index{\-U\-S\-A\-R\-T Functions@{\-U\-S\-A\-R\-T Functions}!\-P\-I\-O\-S\-\_\-\-U\-S\-A\-R\-T\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C@{\-P\-I\-O\-S\-\_\-\-U\-S\-A\-R\-T\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}}\item[{\em 
+\hypertarget{group___p_i_o_s___u_s_a_r_t_ggabc5ff4f4da76683608f4140d4e343a32a58fce3273a001baada6ae6f67f4ce3f7}{\-P\-I\-O\-S\-\_\-\-U\-S\-A\-R\-T\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}\label{group___p_i_o_s___u_s_a_r_t_ggabc5ff4f4da76683608f4140d4e343a32a58fce3273a001baada6ae6f67f4ce3f7}
+}]\index{\-P\-I\-O\-S\-\_\-\-U\-S\-A\-R\-T\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C@{\-P\-I\-O\-S\-\_\-\-U\-S\-A\-R\-T\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}!\-U\-S\-A\-R\-T Functions@{\-U\-S\-A\-R\-T Functions}}\index{\-U\-S\-A\-R\-T Functions@{\-U\-S\-A\-R\-T Functions}!\-P\-I\-O\-S\-\_\-\-U\-S\-A\-R\-T\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C@{\-P\-I\-O\-S\-\_\-\-U\-S\-A\-R\-T\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}}\item[{\em 
+\hypertarget{group___p_i_o_s___u_s_a_r_t_ggabc5ff4f4da76683608f4140d4e343a32a58fce3273a001baada6ae6f67f4ce3f7}{\-P\-I\-O\-S\-\_\-\-U\-S\-A\-R\-T\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}\label{group___p_i_o_s___u_s_a_r_t_ggabc5ff4f4da76683608f4140d4e343a32a58fce3273a001baada6ae6f67f4ce3f7}
+}]\end{description}
+\end{Desc}
+
+
+
+\-Definition at line 58 of file pios\-\_\-usart.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_a_r_t_gabc5ff4f4da76683608f4140d4e343a32}{\index{\-U\-S\-A\-R\-T Functions@{\-U\-S\-A\-R\-T Functions}!pios\-\_\-usart\-\_\-dev\-\_\-magic@{pios\-\_\-usart\-\_\-dev\-\_\-magic}}
+\index{pios\-\_\-usart\-\_\-dev\-\_\-magic@{pios\-\_\-usart\-\_\-dev\-\_\-magic}!USART Functions@{\-U\-S\-A\-R\-T Functions}}
+\subsubsection[{pios\-\_\-usart\-\_\-dev\-\_\-magic}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf pios\-\_\-usart\-\_\-dev\-\_\-magic}}}\label{group___p_i_o_s___u_s_a_r_t_gabc5ff4f4da76683608f4140d4e343a32}
+\begin{Desc}
+\item[\-Enumerator\-: ]\par
+\begin{description}
+\index{\-P\-I\-O\-S\-\_\-\-U\-S\-A\-R\-T\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C@{\-P\-I\-O\-S\-\_\-\-U\-S\-A\-R\-T\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}!\-U\-S\-A\-R\-T Functions@{\-U\-S\-A\-R\-T Functions}}\index{\-U\-S\-A\-R\-T Functions@{\-U\-S\-A\-R\-T Functions}!\-P\-I\-O\-S\-\_\-\-U\-S\-A\-R\-T\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C@{\-P\-I\-O\-S\-\_\-\-U\-S\-A\-R\-T\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}}\item[{\em 
+\hypertarget{group___p_i_o_s___u_s_a_r_t_ggabc5ff4f4da76683608f4140d4e343a32a58fce3273a001baada6ae6f67f4ce3f7}{\-P\-I\-O\-S\-\_\-\-U\-S\-A\-R\-T\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}\label{group___p_i_o_s___u_s_a_r_t_ggabc5ff4f4da76683608f4140d4e343a32a58fce3273a001baada6ae6f67f4ce3f7}
+}]\index{\-P\-I\-O\-S\-\_\-\-U\-S\-A\-R\-T\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C@{\-P\-I\-O\-S\-\_\-\-U\-S\-A\-R\-T\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}!\-U\-S\-A\-R\-T Functions@{\-U\-S\-A\-R\-T Functions}}\index{\-U\-S\-A\-R\-T Functions@{\-U\-S\-A\-R\-T Functions}!\-P\-I\-O\-S\-\_\-\-U\-S\-A\-R\-T\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C@{\-P\-I\-O\-S\-\_\-\-U\-S\-A\-R\-T\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}}\item[{\em 
+\hypertarget{group___p_i_o_s___u_s_a_r_t_ggabc5ff4f4da76683608f4140d4e343a32a58fce3273a001baada6ae6f67f4ce3f7}{\-P\-I\-O\-S\-\_\-\-U\-S\-A\-R\-T\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}\label{group___p_i_o_s___u_s_a_r_t_ggabc5ff4f4da76683608f4140d4e343a32a58fce3273a001baada6ae6f67f4ce3f7}
+}]\index{\-P\-I\-O\-S\-\_\-\-U\-S\-A\-R\-T\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C@{\-P\-I\-O\-S\-\_\-\-U\-S\-A\-R\-T\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}!\-U\-S\-A\-R\-T Functions@{\-U\-S\-A\-R\-T Functions}}\index{\-U\-S\-A\-R\-T Functions@{\-U\-S\-A\-R\-T Functions}!\-P\-I\-O\-S\-\_\-\-U\-S\-A\-R\-T\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C@{\-P\-I\-O\-S\-\_\-\-U\-S\-A\-R\-T\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}}\item[{\em 
+\hypertarget{group___p_i_o_s___u_s_a_r_t_ggabc5ff4f4da76683608f4140d4e343a32a58fce3273a001baada6ae6f67f4ce3f7}{\-P\-I\-O\-S\-\_\-\-U\-S\-A\-R\-T\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}\label{group___p_i_o_s___u_s_a_r_t_ggabc5ff4f4da76683608f4140d4e343a32a58fce3273a001baada6ae6f67f4ce3f7}
+}]\end{description}
+\end{Desc}
+
+
+
+\-Definition at line 58 of file pios\-\_\-usart.\-c.
+
+
+
+\subsection{\-Function \-Documentation}
+\hypertarget{group___p_i_o_s___u_s_a_r_t_ga950365bc3d27bf7c436e8e549128a1ad}{\index{\-U\-S\-A\-R\-T Functions@{\-U\-S\-A\-R\-T Functions}!\-P\-I\-O\-S\-\_\-\-U\-S\-A\-R\-T\-\_\-\-Get\-Config@{\-P\-I\-O\-S\-\_\-\-U\-S\-A\-R\-T\-\_\-\-Get\-Config}}
+\index{\-P\-I\-O\-S\-\_\-\-U\-S\-A\-R\-T\-\_\-\-Get\-Config@{\-P\-I\-O\-S\-\_\-\-U\-S\-A\-R\-T\-\_\-\-Get\-Config}!USART Functions@{\-U\-S\-A\-R\-T Functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-U\-S\-A\-R\-T\-\_\-\-Get\-Config}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf pios\-\_\-usart\-\_\-cfg}$\ast$ {\bf \-P\-I\-O\-S\-\_\-\-U\-S\-A\-R\-T\-\_\-\-Get\-Config} (
+\begin{DoxyParamCaption}
+\item[{uint32\-\_\-t}]{usart\-\_\-id}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}read\mbox{]}}}}\label{group___p_i_o_s___u_s_a_r_t_ga950365bc3d27bf7c436e8e549128a1ad}
+\hypertarget{group___p_i_o_s___u_s_a_r_t_ga437fb84f2fc14d2db87aea8b53a0a73c}{\index{\-U\-S\-A\-R\-T Functions@{\-U\-S\-A\-R\-T Functions}!\-P\-I\-O\-S\-\_\-\-U\-S\-A\-R\-T\-\_\-\-Init@{\-P\-I\-O\-S\-\_\-\-U\-S\-A\-R\-T\-\_\-\-Init}}
+\index{\-P\-I\-O\-S\-\_\-\-U\-S\-A\-R\-T\-\_\-\-Init@{\-P\-I\-O\-S\-\_\-\-U\-S\-A\-R\-T\-\_\-\-Init}!USART Functions@{\-U\-S\-A\-R\-T Functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-U\-S\-A\-R\-T\-\_\-\-Init}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-P\-I\-O\-S\-\_\-\-U\-S\-A\-R\-T\-\_\-\-Init} (
+\begin{DoxyParamCaption}
+\item[{uint32\-\_\-t $\ast$}]{usart\-\_\-id, }
+\item[{const struct {\bf pios\-\_\-usart\-\_\-cfg} $\ast$}]{cfg}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___u_s_a_r_t_ga437fb84f2fc14d2db87aea8b53a0a73c}
+\-Initialise a single \-U\-S\-A\-R\-T device 
+
+\-Definition at line 139 of file pios\-\_\-usart.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_a_r_t_ga552c5d505ae108eef11cd39ebc22773b}{\index{\-U\-S\-A\-R\-T Functions@{\-U\-S\-A\-R\-T Functions}!\-U\-A\-R\-T4\-\_\-\-E\-X\-T\-I34\-\_\-\-I\-R\-Q\-Handler@{\-U\-A\-R\-T4\-\_\-\-E\-X\-T\-I34\-\_\-\-I\-R\-Q\-Handler}}
+\index{\-U\-A\-R\-T4\-\_\-\-E\-X\-T\-I34\-\_\-\-I\-R\-Q\-Handler@{\-U\-A\-R\-T4\-\_\-\-E\-X\-T\-I34\-\_\-\-I\-R\-Q\-Handler}!USART Functions@{\-U\-S\-A\-R\-T Functions}}
+\subsubsection[{\-U\-A\-R\-T4\-\_\-\-E\-X\-T\-I34\-\_\-\-I\-R\-Q\-Handler}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-U\-A\-R\-T4\-\_\-\-E\-X\-T\-I34\-\_\-\-I\-R\-Q\-Handler} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___u_s_a_r_t_ga552c5d505ae108eef11cd39ebc22773b}
+
+
+\-Definition at line 144 of file pios\-\_\-usart.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_a_r_t_ga379570b068a7a67525c68b24831f77fd}{\index{\-U\-S\-A\-R\-T Functions@{\-U\-S\-A\-R\-T Functions}!\-U\-A\-R\-T5\-\_\-\-E\-X\-T\-I35\-\_\-\-I\-R\-Q\-Handler@{\-U\-A\-R\-T5\-\_\-\-E\-X\-T\-I35\-\_\-\-I\-R\-Q\-Handler}}
+\index{\-U\-A\-R\-T5\-\_\-\-E\-X\-T\-I35\-\_\-\-I\-R\-Q\-Handler@{\-U\-A\-R\-T5\-\_\-\-E\-X\-T\-I35\-\_\-\-I\-R\-Q\-Handler}!USART Functions@{\-U\-S\-A\-R\-T Functions}}
+\subsubsection[{\-U\-A\-R\-T5\-\_\-\-E\-X\-T\-I35\-\_\-\-I\-R\-Q\-Handler}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-U\-A\-R\-T5\-\_\-\-E\-X\-T\-I35\-\_\-\-I\-R\-Q\-Handler} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___u_s_a_r_t_ga379570b068a7a67525c68b24831f77fd}
+
+
+\-Definition at line 151 of file pios\-\_\-usart.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_a_r_t_ga9da740f6a7dda252db44255f54a3bee3}{\index{\-U\-S\-A\-R\-T Functions@{\-U\-S\-A\-R\-T Functions}!\-U\-S\-A\-R\-T1\-\_\-\-E\-X\-T\-I25\-\_\-\-I\-R\-Q\-Handler@{\-U\-S\-A\-R\-T1\-\_\-\-E\-X\-T\-I25\-\_\-\-I\-R\-Q\-Handler}}
+\index{\-U\-S\-A\-R\-T1\-\_\-\-E\-X\-T\-I25\-\_\-\-I\-R\-Q\-Handler@{\-U\-S\-A\-R\-T1\-\_\-\-E\-X\-T\-I25\-\_\-\-I\-R\-Q\-Handler}!USART Functions@{\-U\-S\-A\-R\-T Functions}}
+\subsubsection[{\-U\-S\-A\-R\-T1\-\_\-\-E\-X\-T\-I25\-\_\-\-I\-R\-Q\-Handler}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-U\-S\-A\-R\-T1\-\_\-\-E\-X\-T\-I25\-\_\-\-I\-R\-Q\-Handler} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___u_s_a_r_t_ga9da740f6a7dda252db44255f54a3bee3}
+
+
+\-Definition at line 123 of file pios\-\_\-usart.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_a_r_t_ga7139cd4baabbbcbab0c1fe6d7d4ae1cc}{\index{\-U\-S\-A\-R\-T Functions@{\-U\-S\-A\-R\-T Functions}!\-U\-S\-A\-R\-T1\-\_\-\-I\-R\-Q\-Handler@{\-U\-S\-A\-R\-T1\-\_\-\-I\-R\-Q\-Handler}}
+\index{\-U\-S\-A\-R\-T1\-\_\-\-I\-R\-Q\-Handler@{\-U\-S\-A\-R\-T1\-\_\-\-I\-R\-Q\-Handler}!USART Functions@{\-U\-S\-A\-R\-T Functions}}
+\subsubsection[{\-U\-S\-A\-R\-T1\-\_\-\-I\-R\-Q\-Handler}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-U\-S\-A\-R\-T1\-\_\-\-I\-R\-Q\-Handler} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___u_s_a_r_t_ga7139cd4baabbbcbab0c1fe6d7d4ae1cc}
+
+
+\-Definition at line 116 of file pios\-\_\-usart.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_a_r_t_ga4897c2dbb8e8ae70938922276f95800b}{\index{\-U\-S\-A\-R\-T Functions@{\-U\-S\-A\-R\-T Functions}!\-U\-S\-A\-R\-T2\-\_\-\-E\-X\-T\-I26\-\_\-\-I\-R\-Q\-Handler@{\-U\-S\-A\-R\-T2\-\_\-\-E\-X\-T\-I26\-\_\-\-I\-R\-Q\-Handler}}
+\index{\-U\-S\-A\-R\-T2\-\_\-\-E\-X\-T\-I26\-\_\-\-I\-R\-Q\-Handler@{\-U\-S\-A\-R\-T2\-\_\-\-E\-X\-T\-I26\-\_\-\-I\-R\-Q\-Handler}!USART Functions@{\-U\-S\-A\-R\-T Functions}}
+\subsubsection[{\-U\-S\-A\-R\-T2\-\_\-\-E\-X\-T\-I26\-\_\-\-I\-R\-Q\-Handler}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-U\-S\-A\-R\-T2\-\_\-\-E\-X\-T\-I26\-\_\-\-I\-R\-Q\-Handler} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___u_s_a_r_t_ga4897c2dbb8e8ae70938922276f95800b}
+
+
+\-Definition at line 130 of file pios\-\_\-usart.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_a_r_t_ga0ca6fd0e6f77921dd1123539857ba0a8}{\index{\-U\-S\-A\-R\-T Functions@{\-U\-S\-A\-R\-T Functions}!\-U\-S\-A\-R\-T2\-\_\-\-I\-R\-Q\-Handler@{\-U\-S\-A\-R\-T2\-\_\-\-I\-R\-Q\-Handler}}
+\index{\-U\-S\-A\-R\-T2\-\_\-\-I\-R\-Q\-Handler@{\-U\-S\-A\-R\-T2\-\_\-\-I\-R\-Q\-Handler}!USART Functions@{\-U\-S\-A\-R\-T Functions}}
+\subsubsection[{\-U\-S\-A\-R\-T2\-\_\-\-I\-R\-Q\-Handler}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-U\-S\-A\-R\-T2\-\_\-\-I\-R\-Q\-Handler} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___u_s_a_r_t_ga0ca6fd0e6f77921dd1123539857ba0a8}
+
+
+\-Definition at line 123 of file pios\-\_\-usart.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_a_r_t_gaab980dd8a502127dc3ae895e77931bdd}{\index{\-U\-S\-A\-R\-T Functions@{\-U\-S\-A\-R\-T Functions}!\-U\-S\-A\-R\-T3\-\_\-\-E\-X\-T\-I28\-\_\-\-I\-R\-Q\-Handler@{\-U\-S\-A\-R\-T3\-\_\-\-E\-X\-T\-I28\-\_\-\-I\-R\-Q\-Handler}}
+\index{\-U\-S\-A\-R\-T3\-\_\-\-E\-X\-T\-I28\-\_\-\-I\-R\-Q\-Handler@{\-U\-S\-A\-R\-T3\-\_\-\-E\-X\-T\-I28\-\_\-\-I\-R\-Q\-Handler}!USART Functions@{\-U\-S\-A\-R\-T Functions}}
+\subsubsection[{\-U\-S\-A\-R\-T3\-\_\-\-E\-X\-T\-I28\-\_\-\-I\-R\-Q\-Handler}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-U\-S\-A\-R\-T3\-\_\-\-E\-X\-T\-I28\-\_\-\-I\-R\-Q\-Handler} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___u_s_a_r_t_gaab980dd8a502127dc3ae895e77931bdd}
+
+
+\-Definition at line 137 of file pios\-\_\-usart.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_a_r_t_ga0d108a3468b2051548183ee5ca2158a0}{\index{\-U\-S\-A\-R\-T Functions@{\-U\-S\-A\-R\-T Functions}!\-U\-S\-A\-R\-T3\-\_\-\-I\-R\-Q\-Handler@{\-U\-S\-A\-R\-T3\-\_\-\-I\-R\-Q\-Handler}}
+\index{\-U\-S\-A\-R\-T3\-\_\-\-I\-R\-Q\-Handler@{\-U\-S\-A\-R\-T3\-\_\-\-I\-R\-Q\-Handler}!USART Functions@{\-U\-S\-A\-R\-T Functions}}
+\subsubsection[{\-U\-S\-A\-R\-T3\-\_\-\-I\-R\-Q\-Handler}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-U\-S\-A\-R\-T3\-\_\-\-I\-R\-Q\-Handler} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___u_s_a_r_t_ga0d108a3468b2051548183ee5ca2158a0}
+
+
+\-Definition at line 130 of file pios\-\_\-usart.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_a_r_t_gad0d53420fd047695ef9cf3fda8282d9b}{\index{\-U\-S\-A\-R\-T Functions@{\-U\-S\-A\-R\-T Functions}!\-U\-S\-A\-R\-T4\-\_\-\-I\-R\-Q\-Handler@{\-U\-S\-A\-R\-T4\-\_\-\-I\-R\-Q\-Handler}}
+\index{\-U\-S\-A\-R\-T4\-\_\-\-I\-R\-Q\-Handler@{\-U\-S\-A\-R\-T4\-\_\-\-I\-R\-Q\-Handler}!USART Functions@{\-U\-S\-A\-R\-T Functions}}
+\subsubsection[{\-U\-S\-A\-R\-T4\-\_\-\-I\-R\-Q\-Handler}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-U\-S\-A\-R\-T4\-\_\-\-I\-R\-Q\-Handler} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___u_s_a_r_t_gad0d53420fd047695ef9cf3fda8282d9b}
+
+
+\-Definition at line 139 of file pios\-\_\-usart.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_a_r_t_gaea1a468c29d1d6aba1bba3f58c4b3b7e}{\index{\-U\-S\-A\-R\-T Functions@{\-U\-S\-A\-R\-T Functions}!\-U\-S\-A\-R\-T5\-\_\-\-I\-R\-Q\-Handler@{\-U\-S\-A\-R\-T5\-\_\-\-I\-R\-Q\-Handler}}
+\index{\-U\-S\-A\-R\-T5\-\_\-\-I\-R\-Q\-Handler@{\-U\-S\-A\-R\-T5\-\_\-\-I\-R\-Q\-Handler}!USART Functions@{\-U\-S\-A\-R\-T Functions}}
+\subsubsection[{\-U\-S\-A\-R\-T5\-\_\-\-I\-R\-Q\-Handler}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-U\-S\-A\-R\-T5\-\_\-\-I\-R\-Q\-Handler} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___u_s_a_r_t_gaea1a468c29d1d6aba1bba3f58c4b3b7e}
+
+
+\-Definition at line 146 of file pios\-\_\-usart.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_a_r_t_ga12c827857d907ad0cccd586fd934d446}{\index{\-U\-S\-A\-R\-T Functions@{\-U\-S\-A\-R\-T Functions}!\-U\-S\-A\-R\-T6\-\_\-\-I\-R\-Q\-Handler@{\-U\-S\-A\-R\-T6\-\_\-\-I\-R\-Q\-Handler}}
+\index{\-U\-S\-A\-R\-T6\-\_\-\-I\-R\-Q\-Handler@{\-U\-S\-A\-R\-T6\-\_\-\-I\-R\-Q\-Handler}!USART Functions@{\-U\-S\-A\-R\-T Functions}}
+\subsubsection[{\-U\-S\-A\-R\-T6\-\_\-\-I\-R\-Q\-Handler}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-U\-S\-A\-R\-T6\-\_\-\-I\-R\-Q\-Handler} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___u_s_a_r_t_ga12c827857d907ad0cccd586fd934d446}
+
+
+\-Definition at line 153 of file pios\-\_\-usart.\-c.
+
+
+
+\subsection{\-Variable \-Documentation}
+\hypertarget{group___p_i_o_s___u_s_a_r_t_gae7414398fe53c376d74ea4c0eecb0670}{\index{\-U\-S\-A\-R\-T Functions@{\-U\-S\-A\-R\-T Functions}!pios\-\_\-usart\-\_\-com\-\_\-driver@{pios\-\_\-usart\-\_\-com\-\_\-driver}}
+\index{pios\-\_\-usart\-\_\-com\-\_\-driver@{pios\-\_\-usart\-\_\-com\-\_\-driver}!USART Functions@{\-U\-S\-A\-R\-T Functions}}
+\subsubsection[{pios\-\_\-usart\-\_\-com\-\_\-driver}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf pios\-\_\-com\-\_\-driver} {\bf pios\-\_\-usart\-\_\-com\-\_\-driver}}}\label{group___p_i_o_s___u_s_a_r_t_gae7414398fe53c376d74ea4c0eecb0670}
+
+
+\-Definition at line 46 of file pios\-\_\-usart.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_a_r_t_gae7414398fe53c376d74ea4c0eecb0670}{\index{\-U\-S\-A\-R\-T Functions@{\-U\-S\-A\-R\-T Functions}!pios\-\_\-usart\-\_\-com\-\_\-driver@{pios\-\_\-usart\-\_\-com\-\_\-driver}}
+\index{pios\-\_\-usart\-\_\-com\-\_\-driver@{pios\-\_\-usart\-\_\-com\-\_\-driver}!USART Functions@{\-U\-S\-A\-R\-T Functions}}
+\subsubsection[{pios\-\_\-usart\-\_\-com\-\_\-driver}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf pios\-\_\-com\-\_\-driver} {\bf pios\-\_\-usart\-\_\-com\-\_\-driver}}}\label{group___p_i_o_s___u_s_a_r_t_gae7414398fe53c376d74ea4c0eecb0670}
+{\bfseries \-Initial value\-:}
+\begin{DoxyCode}
+ {
+        .set_baud   = PIOS_USART_ChangeBaud,
+        .tx_start   = PIOS_USART_TxStart,
+        .rx_start   = PIOS_USART_RxStart,
+        .bind_tx_cb = PIOS_USART_RegisterTxCallback,
+        .bind_rx_cb = PIOS_USART_RegisterRxCallback,
+}
+\end{DoxyCode}
+
+
+\-Definition at line 46 of file pios\-\_\-usart.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_a_r_t_gae7414398fe53c376d74ea4c0eecb0670}{\index{\-U\-S\-A\-R\-T Functions@{\-U\-S\-A\-R\-T Functions}!pios\-\_\-usart\-\_\-com\-\_\-driver@{pios\-\_\-usart\-\_\-com\-\_\-driver}}
+\index{pios\-\_\-usart\-\_\-com\-\_\-driver@{pios\-\_\-usart\-\_\-com\-\_\-driver}!USART Functions@{\-U\-S\-A\-R\-T Functions}}
+\subsubsection[{pios\-\_\-usart\-\_\-com\-\_\-driver}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf pios\-\_\-com\-\_\-driver} {\bf pios\-\_\-usart\-\_\-com\-\_\-driver}}}\label{group___p_i_o_s___u_s_a_r_t_gae7414398fe53c376d74ea4c0eecb0670}
+{\bfseries \-Initial value\-:}
+\begin{DoxyCode}
+ {
+        .set_baud   = PIOS_USART_ChangeBaud,
+        .tx_start   = PIOS_USART_TxStart,
+        .rx_start   = PIOS_USART_RxStart,
+        .bind_tx_cb = PIOS_USART_RegisterTxCallback,
+        .bind_rx_cb = PIOS_USART_RegisterRxCallback,
+}
+\end{DoxyCode}
+
+
+\-Definition at line 50 of file pios\-\_\-usart.\-c.
+
+\hypertarget{group___p_i_o_s___u_s_a_r_t_gae7414398fe53c376d74ea4c0eecb0670}{\index{\-U\-S\-A\-R\-T Functions@{\-U\-S\-A\-R\-T Functions}!pios\-\_\-usart\-\_\-com\-\_\-driver@{pios\-\_\-usart\-\_\-com\-\_\-driver}}
+\index{pios\-\_\-usart\-\_\-com\-\_\-driver@{pios\-\_\-usart\-\_\-com\-\_\-driver}!USART Functions@{\-U\-S\-A\-R\-T Functions}}
+\subsubsection[{pios\-\_\-usart\-\_\-com\-\_\-driver}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf pios\-\_\-com\-\_\-driver} {\bf pios\-\_\-usart\-\_\-com\-\_\-driver}}}\label{group___p_i_o_s___u_s_a_r_t_gae7414398fe53c376d74ea4c0eecb0670}
+{\bfseries \-Initial value\-:}
+\begin{DoxyCode}
+ {
+        .set_baud   = PIOS_USART_ChangeBaud,
+        .tx_start   = PIOS_USART_TxStart,
+        .rx_start   = PIOS_USART_RxStart,
+        .bind_tx_cb = PIOS_USART_RegisterTxCallback,
+        .bind_rx_cb = PIOS_USART_RegisterRxCallback,
+}
+\end{DoxyCode}
+
+
+\-Definition at line 50 of file pios\-\_\-usart.\-c.
+

@@ -1,0 +1,112 @@
+\hypertarget{group___actuator_module}{\section{\-Actuator \-Module}
+\label{group___actuator_module}\index{\-Actuator Module@{\-Actuator Module}}
+}
+
+
+\-Take the values in \hyperlink{group___actuator_desired}{\-Actuator\-Desired} and mix to set the outputs.  
+
+
+\subsection*{\-Data \-Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{struct____attribute____}{\-\_\-\-\_\-attribute\-\_\-\-\_\-}
+\end{DoxyCompactItemize}
+\subsection*{\-Files}
+\begin{DoxyCompactItemize}
+\item 
+file \hyperlink{actuator_8c}{actuator.\-c}
+\begin{DoxyCompactList}\small\item\em \-Actuator module. \-Drives the actuators (servos, motors etc). \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+float \hyperlink{group___actuator_module_ga844186186b03b96244af3ad5e1a88f02}{\-Process\-Mixer} (const int index, const float curve1, const float curve2, const \-Mixer\-Settings\-Data $\ast$mixer\-Settings, \-Actuator\-Desired\-Data $\ast$desired, const float period)
+\item 
+int32\-\_\-t \hyperlink{group___actuator_module_gacde7d1a4e7c4969a5b11e37315053034}{\-Actuator\-Start} ()
+\begin{DoxyCompactList}\small\item\em \-Module initialization. \end{DoxyCompactList}\item 
+int32\-\_\-t \hyperlink{group___actuator_module_gaa23ed2bf1c2252218764708ac5d8b2fb}{\-Actuator\-Initialize} ()
+\begin{DoxyCompactList}\small\item\em \-Module initialization. \end{DoxyCompactList}\item 
+\hyperlink{group___actuator_module_ga3fc102c0bb02fa6b86182b6230765ca5}{\-M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L} (\hyperlink{group___actuator_module_gaa23ed2bf1c2252218764708ac5d8b2fb}{\-Actuator\-Initialize}, \hyperlink{group___actuator_module_gacde7d1a4e7c4969a5b11e37315053034}{\-Actuator\-Start})
+\begin{DoxyCompactList}\small\item\em \-Main \-Actuator module task. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-Take the values in \hyperlink{group___actuator_desired}{\-Actuator\-Desired} and mix to set the outputs. \-This module ultimately controls the outputs. \-The values from \hyperlink{group___actuator_desired}{\-Actuator\-Desired} are combined based on the values in \hyperlink{group___mixer_settings}{\-Mixer\-Settings} and then scaled by the values in \hyperlink{group___actuator_settings}{\-Actuator\-Settings} to create the output \-P\-W\-M times. 
+
+\subsection{\-Function \-Documentation}
+\hypertarget{group___actuator_module_gaa23ed2bf1c2252218764708ac5d8b2fb}{\index{\-Actuator Module@{\-Actuator Module}!\-Actuator\-Initialize@{\-Actuator\-Initialize}}
+\index{\-Actuator\-Initialize@{\-Actuator\-Initialize}!Actuator Module@{\-Actuator Module}}
+\subsubsection[{\-Actuator\-Initialize}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-Actuator\-Initialize} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___actuator_module_gaa23ed2bf1c2252218764708ac5d8b2fb}
+
+
+\-Module initialization. 
+
+\begin{DoxyReturn}{\-Returns}
+0 
+\end{DoxyReturn}
+
+
+\-Definition at line 114 of file actuator.\-c.
+
+\hypertarget{group___actuator_module_gacde7d1a4e7c4969a5b11e37315053034}{\index{\-Actuator Module@{\-Actuator Module}!\-Actuator\-Start@{\-Actuator\-Start}}
+\index{\-Actuator\-Start@{\-Actuator\-Start}!Actuator Module@{\-Actuator Module}}
+\subsubsection[{\-Actuator\-Start}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-Actuator\-Start} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___actuator_module_gacde7d1a4e7c4969a5b11e37315053034}
+
+
+\-Module initialization. 
+
+\begin{DoxyReturn}{\-Returns}
+0 
+\end{DoxyReturn}
+
+
+\-Definition at line 100 of file actuator.\-c.
+
+\hypertarget{group___actuator_module_ga3fc102c0bb02fa6b86182b6230765ca5}{\index{\-Actuator Module@{\-Actuator Module}!\-M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L@{\-M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L}}
+\index{\-M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L@{\-M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L}!Actuator Module@{\-Actuator Module}}
+\subsubsection[{\-M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Actuator\-Initialize}}]{, }
+\item[{{\bf \-Actuator\-Start}}]{}
+\end{DoxyParamCaption}
+)}}\label{group___actuator_module_ga3fc102c0bb02fa6b86182b6230765ca5}
+
+
+\-Main \-Actuator module task. 
+
+\-Universal matrix based mixer for \-V\-T\-O\-L, helis and fixed wing. \-Converts desired roll,pitch,yaw and throttle to servo/\-E\-S\-C outputs.
+
+\-Because of how the \-Throttle ranges from 0 to 1, the motors should too!
+
+\-Note this code depends on the \-U\-A\-V\-Objects for the mixers being all being the same and in sequence. \-If you change the object definition, make sure you check the code!
+
+\begin{DoxyReturn}{\-Returns}
+-\/1 if error, 0 if success 
+\end{DoxyReturn}
+
+
+\-Definition at line 139 of file actuator.\-c.
+
+\hypertarget{group___actuator_module_ga844186186b03b96244af3ad5e1a88f02}{\index{\-Actuator Module@{\-Actuator Module}!\-Process\-Mixer@{\-Process\-Mixer}}
+\index{\-Process\-Mixer@{\-Process\-Mixer}!Actuator Module@{\-Actuator Module}}
+\subsubsection[{\-Process\-Mixer}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf \-Process\-Mixer} (
+\begin{DoxyParamCaption}
+\item[{const int}]{index, }
+\item[{const float}]{curve1, }
+\item[{const float}]{curve2, }
+\item[{const \-Mixer\-Settings\-Data $\ast$}]{mixer\-Settings, }
+\item[{\-Actuator\-Desired\-Data $\ast$}]{desired, }
+\item[{const float}]{period}
+\end{DoxyParamCaption}
+)}}\label{group___actuator_module_ga844186186b03b96244af3ad5e1a88f02}
+\-Process mixing for one actuator 
+
+\-Definition at line 395 of file actuator.\-c.
+
