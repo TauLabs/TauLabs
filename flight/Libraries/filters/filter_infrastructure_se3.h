@@ -26,6 +26,8 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
+#include "filter_interface.h"
+
 #if !defined(FILTER_INFRASTRUCTURE_SE3)
 #define FILTER_INFRASTRUCTURE_SE3
 
@@ -49,7 +51,7 @@ int32_t filter_infrastructure_se3_init(struct filter_infrastructure_se3_data **d
 int32_t filter_infrastructure_se3_start(uintptr_t id);
 
 //! Process an update for  SE(3)+
-int32_t filter_infrastructure_se3_process(struct filter_driver_s3 *driver, uintptr_t id, float dt);
+int32_t filter_infrastructure_se3_process(struct filter_s3 *driver, uintptr_t id, float dt);
 
 #endif /* FILTER_INFRASTRUCTURE_SE3 */
 
