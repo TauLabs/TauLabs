@@ -8,7 +8,7 @@
  *
  * @file       pios_usb.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
- * @author     Tau Labs, http://github.com/TauLabs, Copyright (C) 2012-2013
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
  * @brief      USB device functions (STM32 dependent code)
  * @see        The GNU Public License (GPL) Version 3
  *
@@ -237,6 +237,10 @@ bool PIOS_USB_CableConnected(uint8_t id)
 
 	if (PIOS_USB_validate(usb_dev) != 0)
 		return false;
+
+	// If board is configured to have a VSENSE pin, use that
+	if(usb_dev->cfg->vsense.gpio != NULL)
+		return usb_dev->cfg->vsense.gpio->IDR & usb_dev->cfg->vsense.init.GPIO_Pin;
 
 	return sof_seen_since_reset;
 }

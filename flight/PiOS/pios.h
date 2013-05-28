@@ -3,7 +3,7 @@
  *
  * @file       pios.h  
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
- * @author     Tau Labs, http://github.com/TauLabs, Copyright (C) 2012-2013
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
  * @brief      Main PiOS header. 
  *                 - Central header for the project.
  * @see        The GNU Public License (GPL) Version 3
@@ -140,6 +140,9 @@
 #endif
 #if defined(PIOS_INCLUDE_MPU6050)
 #include <pios_mpu6050.h>
+#endif
+#if defined(PIOS_INCLUDE_MPU9150)
+#include <pios_mpu9150.h>
 #endif
 #if defined(PIOS_INCLUDE_MPU6000)
 #include <pios_mpu6000.h>

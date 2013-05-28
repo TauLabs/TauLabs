@@ -1,7 +1,7 @@
 /**
  ******************************************************************************
  * @file       unittest.cpp
- * @author     Tau Labs, http://github.com/TauLabs, Copyright (C) 2012
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012
  * @addtogroup UnitTests
  * @{
  * @addtogroup UnitTests

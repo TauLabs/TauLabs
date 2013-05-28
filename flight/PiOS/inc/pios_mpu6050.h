@@ -8,7 +8,7 @@
  *
  * @file       PIOS_MPU6050.h
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
- * @author     Tau Labs, http://github.com/TauLabs, Copyright (C) 2012-2013
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
  * @brief      MPU6050 3-axis gyor function headers
  * @see        The GNU Public License (GPL) Version 3
  *
@@ -43,6 +43,7 @@
 /* Public Functions */
 extern int32_t PIOS_MPU6050_Init(uint32_t i2c_id, uint8_t i2c_addr, const struct pios_mpu60x0_cfg *new_cfg);
 extern uint8_t PIOS_MPU6050_Test();
+extern int32_t PIOS_MPU6050_Probe(uint32_t i2c_id, uint8_t i2c_addr);
 extern void PIOS_MPU6050_SetGyroRange(enum pios_mpu60x0_range);
 
 #if defined(PIOS_MPU6050_ACCEL)

@@ -2,7 +2,7 @@
  ******************************************************************************
  *
  * @file       globalmessaging.cpp
- * @author     Tau Labs, http://github.com/TauLabs, Copyright (C) 2012-2013.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
  *             Parts by Nokia Corporation (qt-info@nokia.com) Copyright (C) 2009.
  *
  * @addtogroup GCSPlugins GCS Plugins

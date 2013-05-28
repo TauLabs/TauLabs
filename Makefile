@@ -129,6 +129,8 @@ help:
 	@echo "     dfuutil_install      - Install the dfu-util tool for unbricking F4-based boards"
 	@echo "     android_sdk_install  - Install the Android SDK tools"
 	@echo "     gui_install          - Install the make gui tool"
+	@echo "     gtest_install        - Install the google unit test suite"
+	@echo "     astyle_install       - Install the astyle code formatter"	
 	@echo
 	@echo "   [Big Hammer]"
 	@echo "     all                  - Generate UAVObjects, build openpilot firmware and gcs"
@@ -207,9 +209,14 @@ help:
 	@echo "     uavobjects_test      - parse xml-files - check for valid, duplicate ObjId's, ... "
 	@echo "     uavobjects_<group>   - Generate source files from a subset of the UAVObject definition XML files"
 	@echo "                            supported groups are ($(UAVOBJ_TARGETS))"
+	@echo
 	@echo "   [Package]"
 	@echo "     package              - Executes a make all_clean and then generates a complete package build for"
 	@echo "                            the GCS and all target board firmwares."
+	@echo
+	@echo "   [Misc]"
+	@echo "     astyle_flight FILE=<name>   - Executes the astyle code formatter to reformat"
+	@echo "                                   a c source file according to the flight code style"
 	@echo
 	@echo "   Hint: Add V=1 to your command line to see verbose build output."
 	@echo
@@ -269,6 +276,13 @@ else
   ANDROID     ?= android
   ANDROID_DX  ?= dx
   ANDROID_ADB ?= adb
+endif
+
+ifeq ($(shell [ -d "$(ASTYLE_DIR)" ] && echo "exists"), exists)
+  ASTYLE := $(ASTYLE_DIR)/bin/astyle
+else
+  # not installed, hope it's in the path...
+  ASTYLE ?= astyle
 endif
 
 ##############################
@@ -787,7 +801,7 @@ all_$(1)_clean: $$(addsuffix _clean, $$(filter bu_$(1), $$(BU_TARGETS)))
 all_$(1)_clean: $$(addsuffix _clean, $$(filter ef_$(1), $$(EF_TARGETS)))
 endef
 
-ALL_BOARDS := coptercontrol pipxtreme revolution revomini osd freedom quanton discoveryf4 flyingf4 flyingf3
+ALL_BOARDS := coptercontrol pipxtreme revolution revomini osd freedom quanton discoveryf4 flyingf4 flyingf3 sparky
 
 # Friendly names of each board (used to find source tree)
 coptercontrol_friendly := CopterControl
@@ -800,6 +814,7 @@ quanton_friendly       := Quanton
 flyingf4_friendly      := FlyingF4
 discoveryf4_friendly   := DiscoveryF4
 flyingf3_friendly      := FlyingF3
+sparky_friendly        := Sparky
 
 # Short names of each board (used to display board name in parallel builds)
 coptercontrol_short    := 'cc  '
@@ -812,6 +827,7 @@ quanton_short          := 'quan'
 flyingf4_short         := 'fly4'
 discoveryf4_short      := 'dif4'
 flyingf3_short         := 'fly3'
+sparky_short           := 'sprk'
 
 # Start out assuming that we'll build fw, bl and bu for all boards
 FW_BOARDS  := $(ALL_BOARDS)
@@ -832,7 +848,7 @@ endif
 
 # FIXME: The BU image doesn't work for F4 boards so we need to
 #        filter them out to prevent errors.
-BU_BOARDS  := $(filter-out revolution revomini osd freedom quanton flyingf4 discoveryf4 flyingf3, $(BU_BOARDS))
+BU_BOARDS  := $(filter-out revolution revomini osd freedom quanton flyingf4 discoveryf4 flyingf3 sparky, $(BU_BOARDS))
 
 # Generate the targets for whatever boards are left in each list
 FW_TARGETS := $(addprefix fw_, $(FW_BOARDS))
@@ -975,3 +991,21 @@ package:
 .PHONY: package_resources
 package_resources:
 	$(V1) cd package && $(MAKE) --no-print-directory tlfw_resource
+
+##############################
+#
+# AStyle
+#
+##############################
+
+ifneq ($(strip $(filter astyle_flight,$(MAKECMDGOALS))),)
+  ifeq ($(FILE),)
+    $(error pass files to astyle by adding FILE=<file> to the make command line)
+  endif
+endif
+
+.PHONY: astyle_flight
+astyle_flight: ASTYLE_OPTIONS := --suffix=none --lineend=linux --mode=c --align-pointer=name --align-reference=name --indent=tab=4 --style=linux --pad-oper --pad-header --unpad-paren
+astyle_flight:
+	$(V1) $(ASTYLE) $(ASTYLE_OPTIONS) $(FILE)
+

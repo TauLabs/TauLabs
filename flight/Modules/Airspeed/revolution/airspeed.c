@@ -8,7 +8,7 @@
  *
  * @file       airspeed.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
- * @author     Tau Labs, http://www.taulabs.org Copyright (C) 2013.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
  * @brief      Airspeed module
  *
  * @see        The GNU Public License (GPL) Version 3

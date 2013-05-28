@@ -2,7 +2,7 @@
  ******************************************************************************
  * @file       pios_config.h
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
- * @author     Tau Labs, http://www.taulabs.org, Copyright (C) 2012-2013
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
  * @addtogroup OpenPilotSystem OpenPilot System
  * @{
  * @addtogroup OpenPilotCore OpenPilot Core
@@ -36,7 +36,7 @@
 #define PIOS_INCLUDE_BL_HELPER
 
 /* Enable/Disable PiOS Modules */
-//#define PIOS_INCLUDE_ADC
+#define PIOS_INCLUDE_ADC
 #define PIOS_INCLUDE_DELAY
 #define PIOS_INCLUDE_I2C
 #define PIOS_I2C_DIAGNOSTICS

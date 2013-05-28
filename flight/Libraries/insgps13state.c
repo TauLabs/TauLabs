@@ -8,7 +8,7 @@
  *
  * @file       insgps.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
- * @author     Tau Labs, http://github.com/TauLabs Copyright (C) 2012-2013.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
  * @brief      An INS/GPS algorithm implemented with an EKF.
  *
  * @see        The GNU Public License (GPL) Version 3
@@ -48,26 +48,24 @@
 #endif
 
 // Private functions
-void CovariancePrediction(float F[NUMX][NUMX], float G[NUMX][NUMW],
+static void CovariancePrediction(float F[NUMX][NUMX], float G[NUMX][NUMW],
 			  float Q[NUMW], float dT, float P[NUMX][NUMX]);
-void SerialUpdate(float H[NUMV][NUMX], float R[NUMV], float Z[NUMV],
+static void SerialUpdate(float H[NUMV][NUMX], float R[NUMV], float Z[NUMV],
 		  float Y[NUMV], float P[NUMX][NUMX], float X[NUMX],
 		  uint16_t SensorsUsed);
-void RungeKutta(float X[NUMX], float U[NUMU], float dT);
-void StateEq(float X[NUMX], float U[NUMU], float Xdot[NUMX]);
-void LinearizeFG(float X[NUMX], float U[NUMU], float F[NUMX][NUMX],
+static void RungeKutta(float X[NUMX], float U[NUMU], float dT);
+static void StateEq(float X[NUMX], float U[NUMU], float Xdot[NUMX]);
+static void LinearizeFG(float X[NUMX], float U[NUMU], float F[NUMX][NUMX],
 		 float G[NUMX][NUMW]);
-void MeasurementEq(float X[NUMX], float Be[3], float Y[NUMV]);
-void LinearizeH(float X[NUMX], float Be[3], float H[NUMV][NUMX]);
+static void MeasurementEq(float X[NUMX], float Be[3], float Y[NUMV]);
+static void LinearizeH(float X[NUMX], float Be[3], float H[NUMV][NUMX]);
 
 // Private variables
-float F[NUMX][NUMX], G[NUMX][NUMW], H[NUMV][NUMX];	// linearized system matrices
-													// global to init to zero and maintain zero elements
-float Be[3];			// local magnetic unit vector in NED frame
-float P[NUMX][NUMX], X[NUMX];	// covariance matrix and state vector
-float Q[NUMW], R[NUMV];		// input noise and measurement noise variances
-float K[NUMX][NUMV];		// feedback gain matrix
-static struct NavStruct Nav;
+static float F[NUMX][NUMX], G[NUMX][NUMW], H[NUMV][NUMX];	// linearized system matrices
+static float Be[3];	                    // local magnetic unit vector in NED frame
+static float P[NUMX][NUMX], X[NUMX];	// covariance matrix and state vector
+static float Q[NUMW], R[NUMV];   // input noise and measurement noise variances
+static float K[NUMX][NUMV];	     // feedback gain matrix
 
 //  *************  Exposed Functions ****************
 //  *************************************************
@@ -127,9 +125,49 @@ void INSGPSInit()		//pretty much just a place holder for now
 	R[9] = .25f;                    // High freq altimeter noise variance (m^2)
 }
 
-struct NavStruct *INSGPSGetNav()
+/**
+ * Get the current state estimate (null input skips that get)
+ * @param[out] pos The position in NED space (m)
+ * @param[out] vel The velocity in NED (m/s)
+ * @param[out] attitude Quaternion representation of attitude
+ * @param[out] gyros_bias Estimate of gyro bias (rad/s)
+ */
+void INSGetState(float *pos, float *vel, float *attitude, float *gyro_bias)
 {
-	return &Nav;
+	if (pos) {
+		pos[0] = X[0];
+		pos[1] = X[1];
+		pos[2] = X[2];
+	}
+
+	if (vel) {
+		vel[0] = X[3];
+		vel[1] = X[4];
+		vel[2] = X[5];
+	}
+
+	if (attitude) {
+		attitude[0] = X[6];
+		attitude[1] = X[7];
+		attitude[2] = X[8];
+		attitude[3] = X[9];
+	}
+
+	if (gyro_bias) {
+		gyro_bias[0] = X[10];
+		gyro_bias[1] = X[11];
+		gyro_bias[2] = X[12];
+	}
+}
+
+/**
+ * Get the variance, for visualizing the filter performance
+ * @param[out var_out The variances
+ */
+void INSGetVariance(float *var_out)
+{
+	for (uint32_t i = 0; i < NUMX; i++)
+		var_out[i] = P[i][i];
 }
 
 void INSResetP(const float PDiag[NUMX])
@@ -259,21 +297,6 @@ void INSStatePrediction(const float gyro_data[3], const float accel_data[3], flo
 	X[8] /= qmag;
 	X[9] /= qmag;
 	//CovariancePrediction(F,G,Q,dT,P);
-
-	// Update Nav solution structure
-	Nav.Pos[0] = X[0];
-	Nav.Pos[1] = X[1];
-	Nav.Pos[2] = X[2];
-	Nav.Vel[0] = X[3];
-	Nav.Vel[1] = X[4];
-	Nav.Vel[2] = X[5];
-	Nav.q[0] = X[6];
-	Nav.q[1] = X[7];
-	Nav.q[2] = X[8];
-	Nav.q[3] = X[9];
-	Nav.gyro_bias[0] = X[10];
-	Nav.gyro_bias[1] = X[11];
-	Nav.gyro_bias[2] = X[12];	
 }
 
 void INSCovariancePrediction(float dT)
@@ -355,21 +378,6 @@ void INSCorrection(const float mag_data[3], const float Pos[3], const float Vel[
 	X[7] /= qmag;
 	X[8] /= qmag;
 	X[9] /= qmag;
-
-	// Update Nav solution structure
-	Nav.Pos[0] = X[0];
-	Nav.Pos[1] = X[1];
-	Nav.Pos[2] = X[2];
-	Nav.Vel[0] = X[3];
-	Nav.Vel[1] = X[4];
-	Nav.Vel[2] = X[5];
-	Nav.q[0] = X[6];
-	Nav.q[1] = X[7];
-	Nav.q[2] = X[8];
-	Nav.q[3] = X[9];
-	Nav.gyro_bias[0] = X[10];
-	Nav.gyro_bias[1] = X[11];
-	Nav.gyro_bias[2] = X[12];
 }
 
 //  *************  CovariancePrediction *************
@@ -385,7 +393,7 @@ void INSCorrection(const float mag_data[3], const float Pos[3], const float Vel[
 
 #ifdef COVARIANCE_PREDICTION_GENERAL
 
-void CovariancePrediction(float F[NUMX][NUMX], float G[NUMX][NUMW],
+static void CovariancePrediction(float F[NUMX][NUMX], float G[NUMX][NUMW],
 			  float Q[NUMW], float dT, float P[NUMX][NUMX])
 {
 	float Dummy[NUMX][NUMX], dTsq;
@@ -414,7 +422,7 @@ void CovariancePrediction(float F[NUMX][NUMX], float G[NUMX][NUMW],
 
 #else
 
-void CovariancePrediction(float F[NUMX][NUMX], float G[NUMX][NUMW],
+static void CovariancePrediction(float F[NUMX][NUMX], float G[NUMX][NUMW],
 			  float Q[NUMW], float dT, float P[NUMX][NUMX])
 {
 	float D[NUMX][NUMX], T, Tsq;
@@ -1366,7 +1374,7 @@ void CovariancePrediction(float F[NUMX][NUMX], float G[NUMX][NUMW],
 //     should be used in the update.
 //  ************************************************
 
-void SerialUpdate(float H[NUMV][NUMX], float R[NUMV], float Z[NUMV],
+static void SerialUpdate(float H[NUMV][NUMX], float R[NUMV], float Z[NUMV],
 		  float Y[NUMV], float P[NUMX][NUMX], float X[NUMX],
 		  uint16_t SensorsUsed)
 {
@@ -1410,7 +1418,7 @@ void SerialUpdate(float H[NUMV][NUMX], float R[NUMV], float Z[NUMV],
 //    constant inputs over integration step
 //  ************************************************
 
-void RungeKutta(float X[NUMX], float U[NUMU], float dT)
+static void RungeKutta(float X[NUMX], float U[NUMU], float dT)
 {
 
 	float dT2 =
@@ -1457,7 +1465,7 @@ void RungeKutta(float X[NUMX], float U[NUMU], float dT)
 //  H is output of LinearizeH(), all elements not set should be zero
 //  ************************************************
 
-void StateEq(float X[NUMX], float U[NUMU], float Xdot[NUMX])
+static void StateEq(float X[NUMX], float U[NUMU], float Xdot[NUMX])
 {
 	float ax, ay, az, wx, wy, wz, q0, q1, q2, q3;
 
@@ -1502,7 +1510,7 @@ void StateEq(float X[NUMX], float U[NUMU], float Xdot[NUMX])
 	Xdot[10] = Xdot[11] = Xdot[12] = 0;
 }
 
-void LinearizeFG(float X[NUMX], float U[NUMU], float F[NUMX][NUMX],
+static void LinearizeFG(float X[NUMX], float U[NUMU], float F[NUMX][NUMX],
 		 float G[NUMX][NUMW])
 {
 	float ax, ay, az, wx, wy, wz, q0, q1, q2, q3;
@@ -1604,7 +1612,7 @@ void LinearizeFG(float X[NUMX], float U[NUMU], float F[NUMX][NUMX],
 	// G[13][9]=G[14][10]=G[15][11]=1;  // NO BIAS STATES ON ACCELS
 }
 
-void MeasurementEq(float X[NUMX], float Be[3], float Y[NUMV])
+static void MeasurementEq(float X[NUMX], float Be[3], float Y[NUMV])
 {
 	float q0, q1, q2, q3;
 
@@ -1639,7 +1647,7 @@ void MeasurementEq(float X[NUMX], float Be[3], float Y[NUMV])
 	Y[9] = -1.0f * X[2];
 }
 
-void LinearizeH(float X[NUMX], float Be[3], float H[NUMV][NUMX])
+static void LinearizeH(float X[NUMX], float Be[3], float H[NUMV][NUMX])
 {
 	float q0, q1, q2, q3;
 

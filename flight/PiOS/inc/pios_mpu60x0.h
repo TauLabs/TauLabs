@@ -8,7 +8,7 @@
  *
  * @file       PIOS_MPU60X0.h
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
- * @author     Tau Labs, http://github.com/TauLabs, Copyright (C) 2012-2013
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
  * @brief      MPU60X0 3-axis gyor function headers
  * @see        The GNU Public License (GPL) Version 3
  *
@@ -41,6 +41,7 @@
 #define PIOS_MPU60X0_GYRO_CFG_REG         0X1B
 #define PIOS_MPU60X0_ACCEL_CFG_REG        0X1C
 #define PIOS_MPU60X0_FIFO_EN_REG          0x23
+#define PIOS_MPU60X0_I2C_MST_CFG_REG      0x36
 #define PIOS_MPU60X0_INT_CFG_REG          0x37
 #define PIOS_MPU60X0_INT_EN_REG           0x38
 #define PIOS_MPU60X0_INT_STATUS_REG       0x3A

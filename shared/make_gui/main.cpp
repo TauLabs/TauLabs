@@ -2,7 +2,7 @@
  ******************************************************************************
  *
  * @file       main.cpp
- * @author     The Tau Labs Team, http://www.taulabs.org Copyright (C) 2013.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
  * @addtogroup Tools
  * @{
  * @brief A Makefile GUI tool

@@ -8,7 +8,7 @@
  *
  * @file       pios_ms5611.c  
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
- * @author     Tau Labs, http://github.com/TauLabs, Copyright (C) 2012-2013
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
  * @brief      MS5611 Pressure Sensor Routines
  * @see        The GNU Public License (GPL) Version 3
  *
@@ -354,16 +354,7 @@ int32_t PIOS_MS5611_Test()
 
 static void PIOS_MS5611_Task(void *parameters)
 {
-	int32_t temp_press_interleave_count;
-	if (PIOS_MS5611_Validate(dev) != 0)
-		temp_press_interleave_count = 1;
-	else
-		temp_press_interleave_count = dev->temperature_interleaving;
-
-	// If device handle isn't validate pause
-	while (PIOS_MS5611_Validate(dev) != 0) {
-		vTaskDelay(1000);
-	}
+	int32_t temp_press_interleave_count = dev->temperature_interleaving;
 
 	while (1) {
 

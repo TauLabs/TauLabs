@@ -1662,7 +1662,7 @@ int8_t UAVObjReadOnly(UAVObjHandle obj_handle)
  * All events matching the event mask will be pushed to the event queue.
  * \param[in] obj The object handle
  * \param[in] queue The event queue
- * \param[in] eventMask The event mask, if EV_MASK_ALL then all events are enabled (e.g. EV_UPDATED | EV_UPDATED_MANUAL)
+ * \param[in] eventMask The event mask, if EV_MASK_ALL_UPDATES then all events are enabled (e.g. EV_UPDATED | EV_UPDATED_MANUAL)
  * \return 0 if success or -1 if failure
  */
 int32_t UAVObjConnectQueue(UAVObjHandle obj_handle, xQueueHandle queue,
@@ -1699,7 +1699,7 @@ int32_t UAVObjDisconnectQueue(UAVObjHandle obj_handle, xQueueHandle queue)
  * The supplied callback will be invoked on all events matching the event mask.
  * \param[in] obj The object handle
  * \param[in] cb The event callback
- * \param[in] eventMask The event mask, if EV_MASK_ALL then all events are enabled (e.g. EV_UPDATED | EV_UPDATED_MANUAL)
+ * \param[in] eventMask The event mask, if EV_MASK_ALL_UPDATES then all events are enabled (e.g. EV_UPDATED | EV_UPDATED_MANUAL)
  * \return 0 if success or -1 if failure
  */
 int32_t UAVObjConnectCallback(UAVObjHandle obj_handle, UAVObjEventCallback cb,
@@ -1935,7 +1935,7 @@ static InstanceHandle getInstance(struct UAVOData * obj, uint16_t instId)
  * \param[in] obj The object handle
  * \param[in] queue The event queue
  * \param[in] cb The event callback
- * \param[in] eventMask The event mask, if EV_MASK_ALL then all events are enabled (e.g. EV_UPDATED | EV_UPDATED_MANUAL)
+ * \param[in] eventMask The event mask, if EV_MASK_ALL_UPDATES then all events are enabled (e.g. EV_UPDATED | EV_UPDATED_MANUAL)
  * \return 0 if success or -1 if failure
  */
 static int32_t connectObj(UAVObjHandle obj_handle, xQueueHandle queue,
@@ -1995,6 +1995,35 @@ static int32_t disconnectObj(UAVObjHandle obj_handle, xQueueHandle queue,
 	// If this point is reached the queue was not found
 	return -1;
 }
+
+
+/**
+ * getEventMask Iterates through the connections and returns the event mask
+ * \param[in] obj The object handle
+ * \param[in] queue The event queue
+ * \return eventMask The event mask, if EV_MASK_ALL then all events are disabled
+ */
+int32_t getEventMask(UAVObjHandle obj_handle, xQueueHandle queue)
+{
+	struct ObjectEventEntry *event;
+	struct UAVOBase *obj;
+
+	int32_t eventMask = EV_MASK_ALL;
+
+	// Iterate over the event listeners, looking for the event matching the queue
+	obj = (struct UAVOBase *) obj_handle;
+	LL_FOREACH(obj->next_event, event) {
+		if (event->queue == queue && event->cb == 0) {
+			// Already connected, update event mask and return
+			eventMask = event->eventMask;
+			break;
+		}
+	}
+
+	// Done
+	return eventMask;
+}
+
 
 #if defined(PIOS_INCLUDE_SDCARD)
 /**
