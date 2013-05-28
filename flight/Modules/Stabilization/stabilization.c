@@ -200,8 +200,8 @@ static void stabilizationTask(void* parameters)
 		// Mux in level trim values, and saturate the trimmed attitude setpoint.
 		trimmedAttitudeSetpoint.Roll = bound_sym(stabilizationDesired.Roll + trimAngles.Roll, settings.RollMax);
 		trimmedAttitudeSetpoint.Pitch = bound_sym(stabilizationDesired.Pitch + trimAngles.Pitch, settings.PitchMax);
-		trimmedAttitudeSetpoint.Yaw = bound_sym(stabilizationDesired.Yaw + trimAngles.Yaw, settings.YawMax);
-		
+		trimmedAttitudeSetpoint.Yaw = stabilizationDesired.Yaw;
+
 
 #if defined(PIOS_QUATERNION_STABILIZATION)
 		// Quaternion calculation of error in each axis.  Uses more memory.
@@ -234,7 +234,7 @@ static void stabilizationTask(void* parameters)
 		else if(stabilizationDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_YAW] == STABILIZATIONDESIRED_STABILIZATIONMODE_ENHANCEDATTITUDE)
 			rpy_desired[2] = trimmedAttitudeSetpoint.Yaw;
 		else if(stabilizationDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_YAW] == STABILIZATIONDESIRED_STABILIZATIONMODE_WEAKLEVELING)
-			rpy_desired[2] = trimAngles.Yaw;
+			rpy_desired[2] = 0;
 		else
 			rpy_desired[2] = attitudeActual.Yaw;
 		
@@ -270,7 +270,7 @@ static void stabilizationTask(void* parameters)
 		else if(stabilizationDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_YAW] == STABILIZATIONDESIRED_STABILIZATIONMODE_ENHANCEDATTITUDE)
 			local_attitude_error[2] = trimmedAttitudeSetpoint.Yaw - attitudeActual.Yaw;
 		else if(stabilizationDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_YAW] == STABILIZATIONDESIRED_STABILIZATIONMODE_WEAKLEVELING)
-			local_attitude_error[2] = trimAngles.Yaw - attitudeActual.Yaw;
+			local_attitude_error[2] = -attitudeActual.Yaw;
 		else
 			local_attitude_error[2] = 0;
 
@@ -548,7 +548,6 @@ static void SettingsUpdatedCb(UAVObjEvent * ev)
 		// Set the trim angles
 		trimAngles.Roll = trimAnglesSettings.Roll;
 		trimAngles.Pitch = trimAnglesSettings.Pitch;
-		trimAngles.Yaw = trimAnglesSettings.Yaw;
 
 		TrimAnglesSet(&trimAngles);
 	}
