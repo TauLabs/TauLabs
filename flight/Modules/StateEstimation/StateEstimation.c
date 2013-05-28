@@ -28,15 +28,23 @@
 #include "pios.h"
 #include "openpilot.h"
 #include "physical_constants.h"
-#include "filter_interface.h"
-#include "insgps_interface.h"
-
 #include "CoordinateConversions.h"
+
+#include "filter_interface.h"
+#include "inspgs_interface.h"
+
+#include "accels.h"
+#include "attitudeactual.h"
+#include "gyros.h"
+#include "gyrosbias.h"
+#include "magnetometer.h"
+#include "positionactual.h"
+#include "stateestimation.h"
+#include "velocityactual.h"
 
 // Private constants
 #define STACK_SIZE_BYTES 2448
 #define TASK_PRIORITY (tskIDLE_PRIORITY+3)
-#define FAILSAFE_TIMEOUT_MS 10
 
 // Private variables
 static xTaskHandle attitudeTaskHandle;
@@ -45,14 +53,15 @@ static uintptr_t running_filter_id;
 
 // Private functions
 static void StateEstimationTask(void *parameters);
-static void settingsUpdatedCb(UAVObjEvent * objEv);
 
-// Mapping from UAVO setting to filters
-const static struct filter_driver filters[] = {
+// Mapping from UAVO setting to filters.  This might want to be an extern
+// loaded from board specific information to indicate which filters are
+// supported.
+static struct filter_driver filters[3]; /* = {
 	[STATEESTIMATION_ATTITUDEFILTER_COMPLEMENTARY] = complementary_filter_driver,
 	[STATEESTIMATION_ATTITUDEFILTER_INSINDOOR] = insindoor_filter_driver,
 	[STATEESTIMATION_ATTITUDEFILTER_INSOUTDOOR] = insoutdoor_filter_driver,
-};
+};*/
 
 /**
  * Initialise the module.  Called before the start function
@@ -65,21 +74,18 @@ int32_t StateEstimationModuleInitialize(void)
 	// Get the driver for the selected filter
 	uint8_t selected_filter;
 	StateEstimationAttitudeFilterGet(&selected_filter);
-	if (current_filter < NELEMENTS(filters))
-		current_filter = filters[selected_filter];
+	if (selected_filter < NELEMENTS(filters))
+		current_filter = &filters[selected_filter];
 	else
 		return -1;
 
 	// Check this filter is safe to run
-	if (!filter_interface_validate(current_filter))
+	if (!filter_interface_validate(current_filter, running_filter_id))
 		return -1;
-	if (requested_filter->init(&running_filter_id) != 0)
+	if (current_filter->init(&running_filter_id) != 0)
 		return -1;
 
 	// TODO: make sure system refuses to run without state module
-
-	SensorSettingsConnectCallback(&settingsUpdatedCb);
-
 	return 0;
 }
 
@@ -87,7 +93,7 @@ int32_t StateEstimationModuleInitialize(void)
  * Start the task.  Expects all objects to be initialized by this point.
  * \returns 0 on success or -1 if initialisation failed
  */
-int32_t StateEstimationStart(void)
+int32_t StateEstimationModuleStart(void)
 {
 	// Initialize quaternion
 	AttitudeActualData attitude;
@@ -114,7 +120,7 @@ int32_t StateEstimationStart(void)
 	return 0;
 }
 
-MODULE_INITCALL(StateEstimationModuleInitialize, StateEstimationStart)
+MODULE_INITCALL(StateEstimationModuleInitialize, StateEstimationModuleStart)
 
 /**
  * Module thread, should not return.
@@ -123,25 +129,22 @@ static void StateEstimationTask(void *parameters)
 {
 	AlarmsClear(SYSTEMALARMS_ALARM_ATTITUDE);
 
-	// Force settings update to make sure rotation loaded
-	settingsUpdatedCb(NULL);
-
 	// Wait for all the sensors be to read
 	vTaskDelay(100);
 
 	// Start the infrastructure for this filter
-	if (requested_filter->start(running_filter_id) != 0)
+	if (current_filter->start(running_filter_id) != 0)
 		goto FAIL;
 
 	// Reset the filter to a known state
-	if (requested_filter->reset(running_filter_id) != 0)
+	if (current_filter->reset(running_filter_id) != 0)
 		goto FAIL;
 
 	// Main task loop
 	while (1) {
 		float dt = 0.003f; // FIXME
 
-		requested_filter->process(requested_filter, running_filter_id, dt);
+		current_filter->process(running_filter_id, dt);
 		PIOS_WDG_UpdateFlag(PIOS_WDG_ATTITUDE);
 	}
 
