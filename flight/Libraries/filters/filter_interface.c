@@ -25,6 +25,8 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
+#include "filter_interface.h"
+
 /**
  * filter_validate Validate a filter has is safe to run and 
  * has a correct and matching driver
@@ -39,10 +41,10 @@ bool filter_interface_validate(struct filter_driver *filter, uintptr_t id)
 
 	switch (filter->class) {
 	case FILTER_CLASS_S3:
-		return filter->driver_s3.magic == FILTER_S3_MAGIC;
-	case FILTER_CLASS_GENERIC
-		return filter->driver_generic.magic == FILTER_GENERIC_MAGIC;
-	default:
-		return false;
+		return (filter->driver_s3.magic == FILTER_S3_MAGIC);
+	case FILTER_CLASS_GENERIC:
+		return (filter->driver_generic.magic == FILTER_GENERIC_MAGIC);
 	}
+
+	return false;
 }
