@@ -213,7 +213,7 @@ static void stabilizationTask(void* parameters)
 		// Essentially zero errors for anything in rate or none
 		if(stabilizationDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_ROLL] == STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDE)
 			rpy_desired[0] = stabilizationDesired.Roll;
-		else if(stabilizationDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_ROLL] == STABILIZATIONDESIRED_STABILIZATIONMODE_ENHANCEDATTITUDE)
+		else if(stabilizationDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_ROLL] == STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDEPLUS)
 			rpy_desired[0] = trimmedAttitudeSetpoint.Roll;
 		else if(stabilizationDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_ROLL] == STABILIZATIONDESIRED_STABILIZATIONMODE_WEAKLEVELING)
 			rpy_desired[0] = trimAngles.Roll;
@@ -222,7 +222,7 @@ static void stabilizationTask(void* parameters)
 		
 		if(stabilizationDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_PITCH] == STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDE)
 			rpy_desired[1] = stabilizationDesired.Pitch;
-		else if(stabilizationDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_PITCH] == STABILIZATIONDESIRED_STABILIZATIONMODE_ENHANCEDATTITUDE)
+		else if(stabilizationDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_PITCH] == STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDEPLUS)
 			rpy_desired[1] = trimmedAttitudeSetpoint.Pitch;
 		else if(stabilizationDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_PITCH] == STABILIZATIONDESIRED_STABILIZATIONMODE_WEAKLEVELING)
 			rpy_desired[1] = trimAngles.Pitch;
@@ -231,7 +231,7 @@ static void stabilizationTask(void* parameters)
 		
 		if(stabilizationDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_YAW] == STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDE)
 			rpy_desired[2] = stabilizationDesired.Yaw;
-		else if(stabilizationDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_YAW] == STABILIZATIONDESIRED_STABILIZATIONMODE_ENHANCEDATTITUDE)
+		else if(stabilizationDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_YAW] == STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDEPLUS)
 			rpy_desired[2] = trimmedAttitudeSetpoint.Yaw;
 		else if(stabilizationDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_YAW] == STABILIZATIONDESIRED_STABILIZATIONMODE_WEAKLEVELING)
 			rpy_desired[2] = 0;
@@ -249,7 +249,7 @@ static void stabilizationTask(void* parameters)
 		float local_attitude_error[3];
 		if(stabilizationDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_ROLL] == STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDE)
 			local_attitude_error[0] = stabilizationDesired.Roll - attitudeActual.Roll;
-		else if(stabilizationDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_ROLL] == STABILIZATIONDESIRED_STABILIZATIONMODE_ENHANCEDATTITUDE)
+		else if(stabilizationDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_ROLL] == STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDEPLUS)
 			local_attitude_error[0] = trimmedAttitudeSetpoint.Roll - attitudeActual.Roll;
 		else if(stabilizationDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_ROLL] == STABILIZATIONDESIRED_STABILIZATIONMODE_WEAKLEVELING)
 			local_attitude_error[0] = trimAngles.Roll - attitudeActual.Roll;
@@ -258,7 +258,7 @@ static void stabilizationTask(void* parameters)
 
 		if(stabilizationDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_PITCH] == STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDE)
 			local_attitude_error[1] = stabilizationDesired.Pitch - attitudeActual.Pitch;
-		else if(stabilizationDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_PITCH] == STABILIZATIONDESIRED_STABILIZATIONMODE_ENHANCEDATTITUDE)
+		else if(stabilizationDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_PITCH] == STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDEPLUS)
 			local_attitude_error[1] = trimmedAttitudeSetpoint.Pitch - attitudeActual.Pitch;
 		else if(stabilizationDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_PITCH] == STABILIZATIONDESIRED_STABILIZATIONMODE_WEAKLEVELING)
 			local_attitude_error[1] = trimAngles.Pitch - attitudeActual.Pitch;
@@ -267,7 +267,7 @@ static void stabilizationTask(void* parameters)
 
 		if(stabilizationDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_YAW] == STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDE)
 			local_attitude_error[2] = stabilizationDesired.Yaw - attitudeActual.Yaw;
-		else if(stabilizationDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_YAW] == STABILIZATIONDESIRED_STABILIZATIONMODE_ENHANCEDATTITUDE)
+		else if(stabilizationDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_YAW] == STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDEPLUS)
 			local_attitude_error[2] = trimmedAttitudeSetpoint.Yaw - attitudeActual.Yaw;
 		else if(stabilizationDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_YAW] == STABILIZATIONDESIRED_STABILIZATIONMODE_WEAKLEVELING)
 			local_attitude_error[2] = -attitudeActual.Yaw;
@@ -310,7 +310,7 @@ static void stabilizationTask(void* parameters)
 
 					break;
 
-				case STABILIZATIONDESIRED_STABILIZATIONMODE_ENHANCEDATTITUDE:
+				case STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDEPLUS:
 				case STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDE:
 					if(reinit) {
 						pids[PID_ATT_ROLL + i].iAccumulator = 0;
