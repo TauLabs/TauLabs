@@ -1,4 +1,3 @@
-/**
 ******************************************************************************
  * @addtogroup TauLabsCore Tau Labs Core components
  * @{
@@ -90,7 +89,8 @@ typedef enum {
 	EV_UPDATED = 0x02, /** Object data updated by changing the data structure */
 	EV_UPDATED_MANUAL = 0x04, /** Object update event manually generated */
 	EV_UPDATED_PERIODIC = 0x08, /** Object update from periodic event */
-	EV_UPDATE_REQ = 0x10 /** Request to update object data */
+	EV_UPDATE_REQ = 0x10, /** Request to update object data */
+	EV_UPDATED_THROTTLED_DIRTY = 0x80 /** Indicates a throttled object has been updated but not sent **/
 } UAVObjEventType;
 
 /**
@@ -200,6 +200,7 @@ void UAVObjRequestInstanceUpdate(UAVObjHandle obj_handle, uint16_t instId);
 void UAVObjUpdated(UAVObjHandle obj);
 void UAVObjInstanceUpdated(UAVObjHandle obj_handle, uint16_t instId);
 void UAVObjIterate(void (*iterator)(UAVObjHandle obj));
+int32_t getEventMask(UAVObjHandle obj_handle, xQueueHandle queue);
 
 #endif // UAVOBJECTMANAGER_H
 
