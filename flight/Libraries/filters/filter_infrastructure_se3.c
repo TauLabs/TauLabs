@@ -104,7 +104,7 @@ int32_t filter_infrastructure_se3_start(uintptr_t id)
  * @param[in] dT the update time in seconds
  * @return 0 if succesfully updated or error code
  */
-int32_t filter_infrastructure_se3_process(struct filter_driver_s3 *driver, uintptr_t id)
+int32_t filter_infrastructure_se3_process(struct filter_s3 *driver, uintptr_t id)
 {
 	// TODO: check error codes
 

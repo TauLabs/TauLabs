@@ -22,6 +22,9 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
+#if !defined(FILTER_INTERFACE_H)
+#define FILTER_INTERFACE_H
+
 enum filter_class {
 	FILTER_CLASS_S3,      // uses infrastructure to ease S(3) filters
 	FILTER_CLASS_GENERIC, // generic filter which does all its own work
@@ -82,7 +85,7 @@ struct filter_s3 {
 /***** infrastructure for an entirely generic filter *****/
 
 enum filter_generic_magic {
-	FILTER_GENERIC_MAGIC = 0xbed387ab;
+	FILTER_GENERIC_MAGIC = 0xbed387ab,
 };
 
 //! Driver for an S3 filter using standard core sensors
@@ -148,13 +151,15 @@ struct filter_driver {
 	int32_t (*process)(uintptr_t id, float dt);
 
 	//! The specific driver for this filter implementation class
-	union driver {
+	union {
 		struct filter_s3       driver_s3;
 		struct filter_generic  driver_generic;
 	};
 };
 
 bool filter_interface_validate(struct filter_driver *filter, uintptr_t id);
+
+#endif /* FILTER_INTERFACE_H */
 
 /**
  * @}
