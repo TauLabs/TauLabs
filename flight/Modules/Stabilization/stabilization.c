@@ -198,9 +198,9 @@ static void stabilizationTask(void* parameters)
 		} trimmedAttitudeSetpoint;
 		
 		// Mux in level trim values, and saturate the trimmed attitude setpoint.
-		trimmedAttitudeSetpoint.Roll = bound(stabilizationDesired.Roll + trimAngles.Roll, settings.RollMax);
-		trimmedAttitudeSetpoint.Pitch = bound(stabilizationDesired.Pitch + trimAngles.Pitch, settings.PitchMax);
-		trimmedAttitudeSetpoint.Yaw = bound(stabilizationDesired.Yaw + trimAngles.Yaw, settings.YawMax);
+		trimmedAttitudeSetpoint.Roll = bound_sym(stabilizationDesired.Roll + trimAngles.Roll, settings.RollMax);
+		trimmedAttitudeSetpoint.Pitch = bound_sym(stabilizationDesired.Pitch + trimAngles.Pitch, settings.PitchMax);
+		trimmedAttitudeSetpoint.Yaw = bound_sym(stabilizationDesired.Yaw + trimAngles.Yaw, settings.YawMax);
 		
 
 #if defined(PIOS_QUATERNION_STABILIZATION)
@@ -275,7 +275,7 @@ static void stabilizationTask(void* parameters)
 			local_attitude_error[2] = 0;
 
 		// Wrap yaw error to [-180,180]
-		local_attitude_error[2] = circular_modulus_deg(local_error[2]);
+		local_attitude_error[2] = circular_modulus_deg(local_attitude_error[2]);
 #endif
 
 		float gyro_filtered[3];
@@ -361,7 +361,7 @@ static void stabilizationTask(void* parameters)
 					} else {
 						// For weaker commands or no command simply attitude lock (almost) on no gyro change
 						axis_lock_accum[i] += (stabDesiredAxis[i] - gyro_filtered[i]) * dT;
-						axis_lock_accum[i] = bound(axis_lock_accum[i], max_axis_lock);
+						axis_lock_accum[i] = bound_sym(axis_lock_accum[i], max_axis_lock);
 						rateDesiredAxis[i] = pid_apply(&pids[PID_ATT_ROLL + i], axis_lock_accum[i], dT);
 					}
 
