@@ -144,6 +144,7 @@ static int32_t dcm_interface_get_state(uintptr_t id, float pos[3], float vel[3],
 	return 0;
 }
 
- /**
-  * @}
-  */
+/**
+ * @}
+ */
+

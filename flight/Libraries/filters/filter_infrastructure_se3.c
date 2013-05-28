@@ -257,6 +257,6 @@ static int32_t getNED(GPSPositionData * gpsPosition, float * NED)
 	return 0;
 }
 
- /**
-  * @}
-  */
+/**
+ * @}
+ */

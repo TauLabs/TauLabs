@@ -138,6 +138,6 @@ static int32_t insgps_interface_get_state(uintptr_t id, float pos[3], float vel[
 
 }
 
- /**
-  * @}
-  */
+/**
+ * @}
+ */
