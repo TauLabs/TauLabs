@@ -27,6 +27,9 @@
 
 #include "openpilot.h"
 #include "modulesettings.h"
+
+#if defined(PIOS_INCLUDE_I2C)
+
 #include "i2cvm.h"	   /* UAV Object (VM register file outputs) */
 #include "i2cvmuserprogram.h"	/* UAV Object (bytecode to run) */
 
@@ -76,10 +79,6 @@ static int32_t GenericI2CSensorInitialize(void)
 	} else {
 		module_enabled = false;
 	}
-#endif
-
-#if !defined(PIOS_INCLUDE_I2C)
-	module_enabled = false;
 #endif
 
 	if (!module_enabled)
@@ -148,7 +147,6 @@ MODULE_INITCALL(GenericI2CSensorInitialize, GenericI2CSensorStart)
 
 static void GenericI2CSensorTask(void *parameters)
 {
-#if defined(PIOS_INCLUDE_I2C)
 	// Main task loop
 	while (1) {
 		/* Run the selected program */
@@ -165,12 +163,9 @@ static void GenericI2CSensorTask(void *parameters)
 			vTaskDelay(100 / portTICK_RATE_MS);
 		}
 	}
-#else
-	while (1) {
-		vTaskDelay(100 / portTICK_RATE_MS);
-	}
-#endif
 }
+
+#endif /* PIOS_INCLUDE_I2C */
 
 /**
   * @}

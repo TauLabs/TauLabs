@@ -26,6 +26,8 @@
  */
 
 #include <pios.h>
+#if defined(PIOS_INCLUDE_I2C)
+
 #include <stdint.h>	      /* uint8_t, uint32_t, etc */
 #include <stdbool.h>	      /* bool */
 #include "uavobjectmanager.h" /* UAVO types */
@@ -589,7 +591,6 @@ static bool i2c_vm_set_dev_addr (struct i2c_vm_regs * vm_state, uint8_t i2c_dev_
  */
 static bool i2c_vm_read (struct i2c_vm_regs * vm_state, uint8_t ram_addr, uint8_t len, uint8_t op3)
 {
-#if defined(PIOS_INCLUDE_I2C)
 	/* Make sure our read fits in our buffer */
 	if ((ram_addr + len) > sizeof(vm_state->uavo.ram)) {
 		return false;
@@ -614,9 +615,6 @@ static bool i2c_vm_read (struct i2c_vm_regs * vm_state, uint8_t ram_addr, uint8_
 	vm_state->uavo.pc++;
 
 	return (true);
-#else
-	return false;
-#endif
 }
 
 /* Write I2C data from virtual machine RAM
@@ -628,7 +626,6 @@ static bool i2c_vm_read (struct i2c_vm_regs * vm_state, uint8_t ram_addr, uint8_
  */
 static bool i2c_vm_write (struct i2c_vm_regs * vm_state, uint8_t ram_addr, uint8_t len, uint8_t op3)
 {
-#if defined(PIOS_INCLUDE_I2C)
 	if ((ram_addr + len) > sizeof(vm_state->uavo.ram)) {
 		return false;
 	}
@@ -652,9 +649,6 @@ static bool i2c_vm_write (struct i2c_vm_regs * vm_state, uint8_t ram_addr, uint8
 	vm_state->uavo.pc++;
 
 	return (true);
-#else
-	return false;
-#endif
 }
 
 /* Send UAVObject from virtual machine registers
@@ -809,7 +803,10 @@ bool i2c_vm_run (const uint32_t * code, uint8_t code_len, uintptr_t i2c_adapter)
 	return (!vm.fault);
 }
 
+#endif /* PIOS_INCLUDE_I2C */
+
 /**
  * @}
  * @}
  */
+
