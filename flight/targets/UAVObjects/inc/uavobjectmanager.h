@@ -1,4 +1,4 @@
-******************************************************************************
+/******************************************************************************
  * @addtogroup TauLabsCore Tau Labs Core components
  * @{
  * @addtogroup UAVObjectHandling UAVObject handling code
