@@ -1,5 +1,5 @@
 <xml>
-    <object name="StateEstimation" singleinstance="true" settings="true">
+    <object name="StateFilter" singleinstance="true" settings="true">
         <description>Settings for how to estimate the state</description>
         <field name="AttitudeFilter" units="" type="enum" elements="1" options="Complementary,INSIndoor,INSOutdoor" defaultvalue="Complementary"/>
         <field name="NavigationFilter" units="" type="enum" elements="1" options="Raw,INS" defaultvalue="Raw"/>
