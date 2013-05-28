@@ -131,12 +131,13 @@ int32_t configuration_check()
 				}
 				break;
 			case MANUALCONTROLSETTINGS_FLIGHTMODEPOSITION_POSITIONHOLD:
+			case MANUALCONTROLSETTINGS_FLIGHTMODEPOSITION_RETURNTOHOME:
 				if (coptercontrol) {
-					error_code = SYSTEMALARMS_CONFIGERROR_POSITIONHOLD;
+					error_code = SYSTEMALARMS_CONFIGERROR_PATHPLANNER;
 				}
 				else {
 					if (!TaskMonitorQueryRunning(TASKINFO_RUNNING_PATHFOLLOWER)) {
-						error_code = SYSTEMALARMS_CONFIGERROR_POSITIONHOLD;
+						error_code = SYSTEMALARMS_CONFIGERROR_PATHPLANNER;
 					}
 				}
 				break;
