@@ -86,6 +86,7 @@ public slots:
 private slots:
     void highlightUpdatedObject(UAVObject *obj);
     void updateHighlight(TreeItem*);
+    void updateCurrentTime();
 
 private:
     void setupModelData(UAVObjectManager *objManager, bool categorize = true);
@@ -112,6 +113,9 @@ private:
     QColor m_updatedOnlyColor;
     bool m_onlyHighlightChangedValues;
     bool m_useScientificFloatNotation;
+
+    QTimer m_currentTimeTimer;
+    QTime m_currentTime;
 
     // Highlight manager to handle highlighting of tree items.
     HighLightManager *m_highlightManager;
