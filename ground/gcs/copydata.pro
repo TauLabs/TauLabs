@@ -63,7 +63,7 @@ equals(copydata, 1) {
             data_copy.commands += $(COPY_FILE) $$targetPath(\"$$[QT_INSTALL_PLUGINS]/sqldrivers/$$dll\") $$targetPath(\"$$GCS_APP_PATH/sqldrivers/$$dll\") $$addNewline()
         }
 
-        !NO_SDL {
+        SDL {
             # copy SDL - Simple DirectMedia Layer (www.libsdl.org)
             # Check the wiki for SDL installation, it should be copied first
             # (make sure that the Qt installation path below is correct)
