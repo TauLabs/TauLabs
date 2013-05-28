@@ -1,15 +1,18 @@
 /**
  ******************************************************************************
- * @addtogroup OpenPilotSystem OpenPilot System
+ * @addtogroup TauLabsCore Tau Labs Core components
  * @{
- * @addtogroup OpenPilotLibraries OpenPilot System Libraries
+ * @addtogroup UAVTalk UAVTalk implementation
  * @{
  *
  * @file       uavtalk.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
  * @brief      UAVTalk library, implements to telemetry protocol. See the wiki for more details.
- * 	       This library should not be called directly by the application, it is only used by the
- * 	       Telemetry module.
+ *
+ * This code packetizes UAVObjects into UAVTalk messages includes the CRC for
+ * transmission through various physical layers.
+ *
  * @see        The GNU Public License (GPL) Version 3
  *
  *****************************************************************************/

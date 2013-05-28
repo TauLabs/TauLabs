@@ -1,16 +1,16 @@
-/* -*- Mode: c; c-basic-offset: 2; tab-width: 2; indent-tabs-mode: t -*- */
 /**
  ******************************************************************************
- * @addtogroup OpenPilotSystem OpenPilot System
+ * @addtogroup TauLabsTargets Tau Labs Targets
  * @{
- * @addtogroup OpenPilotCore OpenPilot Core
+ * @addtogroup PipXtreme OpenPilot PipXtreme support files
  * @{
  *
- * @file       pios_board.c
- * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
- * @brief      Defines board specific static initializers for hardware for the OpenPilot board.
+ * @file       pios_board.c 
+ * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2011.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
+ * @brief      The board specific initialization routines
  * @see        The GNU Public License (GPL) Version 3
- *
+ * 
  *****************************************************************************/
 /* 
  * This program is free software; you can redistribute it and/or modify 

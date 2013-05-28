@@ -1,13 +1,14 @@
 /**
  ******************************************************************************
  *
- * @file       pfdplugin.h
- * @author     Edouard Lafargue Copyright (C) 2010.
+ * @file       osgearthviewplugin.h
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
+ *
  * @addtogroup GCSPlugins GCS Plugins
  * @{
- * @addtogroup OPMapPlugin Primary Flight Display Plugin
+ * @addtogroup OSGEarthViewPluging OSG Earth View plugin to visualize UAV in 3D
  * @{
- * @brief The Primary Flight Display Gadget 
+ * @brief Osg Earth view of UAV
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify

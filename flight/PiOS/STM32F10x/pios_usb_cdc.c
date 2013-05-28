@@ -235,9 +235,7 @@ static void PIOS_USB_CDC_SendData(struct pios_usb_cdc_dev * usb_cdc_dev)
 	SetEPTxValid(usb_cdc_dev->cfg->data_tx_ep);
 
 #if defined(PIOS_INCLUDE_FREERTOS)
-	if (need_yield) {
-		vPortYieldFromISR();
-	}
+	portEND_SWITCHING_ISR(need_yield);
 #endif	/* PIOS_INCLUDE_FREERTOS */
 }
 
@@ -320,9 +318,7 @@ static void PIOS_USB_CDC_DATA_EP_OUT_Callback(void)
 	}
 
 #if defined(PIOS_INCLUDE_FREERTOS)
-	if (need_yield) {
-		vPortYieldFromISR();
-	}
+	portEND_SWITCHING_ISR(need_yield);
 #endif	/* PIOS_INCLUDE_FREERTOS */
 }
 

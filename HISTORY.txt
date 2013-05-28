@@ -1,5 +1,51 @@
 ﻿Short summary of changes.  For a complete list see the git log.
 
+2013-05-24
+Support for new target Sparky 
+
+2013-05-19
+Upgraded ADC architecture to support F3
+
+2013-05-17
+Improvements to the stability of the INSGPS and support for running dual
+filters.
+
+2013-05-15
+Filetting of paths in the path planner to create smooth trajectories
+
+2013-05-15
+Support for saving and loading paths to and from flash
+
+2013-05-13
+Improved control and failsafe architecture
+
+2013-04-21
+LogFS now supports multiple file system instances
+
+2013-04-21
+USB F4 driver refactored and much more stable
+
+2013-04-20
+Ground vehicle navigation support
+
+2013-04-09
+Overhaul of GCS scopes gadget
+
+2013-04-08
+Refactored how sensors are used to remove fifos where appropriate
+
+2013-04-08
+Large efficiency improvements in the UAVO browser
+
+2013-02-16
+Native support for OSD via Mavlink (e.g. minimosd)
+
+2013-02-20
+Gyro temperature compensation
+
+2012-11-29
+Support for new target Quanton
+
 2012-11-11
 [OP-691] Camera/accessory mixers won't be reset when a vehicle configuration changed.
 Still no fix for helicopter configuration changes, though (some code refactoring is desired).

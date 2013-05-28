@@ -1,8 +1,6 @@
 /**
  ******************************************************************************
- * @addtogroup TauLabsSystem Tau Labs System
- * @{
- * @addtogroup TauLabsLibraries Tau Labs System Libraries
+ * @addtogroup TauLabsLibraries Tau Labs Libraries
  * @{
  * @file       sanitycheck.c
  * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
@@ -133,12 +131,13 @@ int32_t configuration_check()
 				}
 				break;
 			case MANUALCONTROLSETTINGS_FLIGHTMODEPOSITION_POSITIONHOLD:
+			case MANUALCONTROLSETTINGS_FLIGHTMODEPOSITION_RETURNTOHOME:
 				if (coptercontrol) {
-					error_code = SYSTEMALARMS_CONFIGERROR_POSITIONHOLD;
+					error_code = SYSTEMALARMS_CONFIGERROR_PATHPLANNER;
 				}
 				else {
 					if (!TaskMonitorQueryRunning(TASKINFO_RUNNING_PATHFOLLOWER)) {
-						error_code = SYSTEMALARMS_CONFIGERROR_POSITIONHOLD;
+						error_code = SYSTEMALARMS_CONFIGERROR_PATHPLANNER;
 					}
 				}
 				break;
@@ -256,3 +255,7 @@ static void set_config_error(SystemAlarmsConfigErrorOptions error_code)
 	// AlarmSet checks only updates on toggle
 	AlarmsSet(SYSTEMALARMS_ALARM_SYSTEMCONFIGURATION, (uint8_t) severity);
 }
+
+/**
+ * @}
+ */

@@ -128,9 +128,7 @@ static void PIOS_OVERO_WriteData(struct pios_overo_dev *overo_dev)
 			bytes_added = (overo_dev->tx_out_cb)(overo_dev->tx_out_context, writing_pointer, max_bytes, NULL, &tx_need_yield);
 
 #if defined(OVERO_USES_BLOCKING_WRITE)
-			if (tx_need_yield) {
-				vPortYieldFromISR();
-			}
+			portEND_SWITCHING_ISR(tx_need_yield);
 #endif
 			overo_dev->writing_offset += bytes_added;
 		}
@@ -158,9 +156,7 @@ void PIOS_OVERO_DMA_irq_handler(uint32_t overo_id)
 								 &overo_dev->rx_buffer[overo_dev->writing_buffer][0], 
 								PACKET_SIZE, NULL, &rx_need_yield);
 
-	if(rx_need_yield) {
-		vPortYieldFromISR();
-	}
+	portEND_SWITCHING_ISR(rx_need_yield);
 
 	// Fill the buffer with known value to prevent rereading these bytes
 	memset(&overo_dev->rx_buffer[overo_dev->writing_buffer][0], 0xFF, PACKET_SIZE);

@@ -1,10 +1,14 @@
 /**
  ******************************************************************************
+ * @addtogroup TauLabsModules Tau Labs Modules
+ * @{
+ * @addtogroup FirmwareIAPModule Read the firmware IAP values
+ * @{
  *
  * @file       firmwareiap.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
  * @brief      In Application Programming module to support firmware upgrades by
- * 				providing a means to enter the bootloader.
+ *             providing a means to enter the bootloader.
  *
  * @see        The GNU Public License (GPL) Version 3
  *
@@ -259,3 +263,8 @@ static void resetTask(UAVObjEvent * ev)
 		}
 	}
 }
+
+/**
+ * @}
+ * @}
+ */

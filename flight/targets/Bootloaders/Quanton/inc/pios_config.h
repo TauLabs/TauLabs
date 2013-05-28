@@ -1,10 +1,14 @@
 /**
  ******************************************************************************
+ * @addtogroup TauLabsBootloader Tau Labs Bootloaders
+ * @{
+ * @addtogroup QuantonBL Quanton bootloader
+ * @{
  *
- * @file       pios_config.h  
+ * @file       pios_config.h 
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
- * @brief      PiOS configuration header. 
- *                 - Central compile time config for the project.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
+ * @brief      Board specific bootloader configuration file for PiOS
  * @see        The GNU Public License (GPL) Version 3
  *
  *****************************************************************************/

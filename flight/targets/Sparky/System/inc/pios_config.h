@@ -1,15 +1,15 @@
 /**
  ******************************************************************************
- * @file       pios_config.h
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
- * @addtogroup TauLabsSystem Tau Labs System
+ * @addtogroup TauLabsTargets Tau Labs Targets
  * @{
- * @addtogroup TauLabsCore Tau Labs Core
+ * @addtogroup Sparky Tau Labs Sparky support files
  * @{
- * @brief PiOS configuration header.
- *        Central compile time config for the project.
- *        In particular, pios_config.h is where you define which PiOS libraries
- *        and features are included in the firmware.
+ *
+ * @file       pios_config.h 
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
+ * @brief      Board specific options that modify PiOS capabilities
+ * @see        The GNU Public License (GPL) Version 3
+ * 
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify

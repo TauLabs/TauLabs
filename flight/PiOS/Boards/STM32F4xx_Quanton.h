@@ -1,12 +1,15 @@
-/******************************************************************************
- * @file       STM32F4xx_Quanton.c
- * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
+/**
+ ******************************************************************************
+ * @addtogroup TauLabsTargets Tau Labs Targets
+ * @{
+ * @addtogroup Quanton Quanton support files
+ * @{
+ *
+ * @file       STM32F4xx_Quanton.c 
  * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
- * @addtogroup TauLabsSystem TauLabs System
- * @{
- * @addtogroup OpenPilotCore OpenPilot Core
- * @{
- * @brief PiOS configuration header for quanton flight control board.
+ * @brief      Board specific defines for Quanton
+ * @see        The GNU Public License (GPL) Version 3
+ * 
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify
@@ -270,3 +273,8 @@ extern uintptr_t pios_com_debug_id;
 
 
 #endif /* STM3210E_INS_H_ */
+
+/**
+ * @}
+ * @}
+ */

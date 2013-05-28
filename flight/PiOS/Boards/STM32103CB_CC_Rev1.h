@@ -1,11 +1,16 @@
- /**
+/**
  ******************************************************************************
+ * @addtogroup TauLabsTargets Tau Labs Targets
+ * @{
+ * @addtogroup CopterControl OpenPilot coptercontrol support files
+ * @{
  *
- * @file       pios_board.h
- * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
- * @brief      Defines board hardware for the OpenPilot Version 1.1 hardware.
+ * @file       STM32103CB_CC_Rev1.h 
+ * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2011.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
+ * @brief      Board header file for CopterControl
  * @see        The GNU Public License (GPL) Version 3
- *
+ * 
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify
@@ -208,8 +213,8 @@ extern uintptr_t pios_com_mavlink_id;
 #define PIOS_ADC_SAMPLE_TIME			ADC_SampleTime_239Cycles5
 /* Sample time: */
 /* With an ADCCLK = 14 MHz and a sampling time of 239.5 cycles: */
-/* Tconv = 239.5 + 12.5 = 252 cycles = 18�s */
-/* (1 / (ADCCLK / CYCLES)) = Sample Time (�S) */
+/* Tconv = 239.5 + 12.5 = 252 cycles = 18us */
+/* (1 / (ADCCLK / CYCLES)) = Sample Time (uS) */
 #define PIOS_ADC_IRQ_PRIO			PIOS_IRQ_PRIO_LOW
 
 // Currently analog acquistion hard coded at 480 Hz
@@ -287,4 +292,9 @@ extern uintptr_t pios_com_mavlink_id;
 #define PIOS_DMA_MAX_HANDLERS_PER_CHANNEL       3
 #define PIOS_DMA_CHANNELS {DMA1_Channel1, DMA1_Channel2, DMA1_Channel3, DMA1_Channel4, DMA1_Channel5, DMA1_Channel6, DMA1_Channel7, DMA2_Channel1, DMA2_Channel2, DMA2_Channel3, DMA2_Channel4, DMA2_Channel5}
 
-#endif /* STM32103CB_AHRS_H_ */
+#endif /* STM32103CB_CC_H_ */
+
+/**
+ * @}
+ * @}
+ */

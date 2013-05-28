@@ -1,9 +1,14 @@
 /**
  ******************************************************************************
+ * @addtogroup TauLabsBootloader Tau Labs Bootloaders
+ * @{
+ * @addtogroup SparkyBL Tau Labs Sparky bootloader
+ * @{
  *
  * @file       pios_board.c
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
- * @brief      Defines board specific initialization for Sparky.
+ * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
+ * @brief      Board specific initialization for the bootloader
  * @see        The GNU Public License (GPL) Version 3
  *
  *****************************************************************************/
@@ -76,3 +81,8 @@ void PIOS_Board_Init() {
 
 	board_init_complete = true;
 }
+
+/**
+ * @}
+ * @}
+ */

@@ -1,16 +1,15 @@
 /**
  ******************************************************************************
+ * @addtogroup TauLabsModules Tau Labs Modules
+ * @{
+ * @addtogroup GroundPathFollower Path follower for ground based vehicles
+ * @{
+ *
  * @file       groundpathfollower.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
  * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
- * @brief      This module compares @ref PositionActual to @ref PathDesired
- * and sets @ref Stabilization.  It only does this when the FlightMode field
- * of @ref FlightStatus is PathPlanner or RTH.
- * @addtogroup OpenPilotModules OpenPilot Modules
- * @{
- * @addtogroup GroundPathFollower Path follower for ground based vehicles
- * @brief Perform the flight segment requested by @ref PathDesired
- * @{
+ * @brief      Perform the path segment requested by @ref PathDesired
+
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify
@@ -35,17 +34,9 @@
  * Output object: StabilizationDesired
  *
  * This module will periodically update the value of the @ref StabilizationDesired object based on
- * @ref PathDesired and @PositionActual when the Flight Mode selected in @FlightStatus is supported
+ * @ref PathDesired and @ref PositionActual when the Flight Mode selected in @ref FlightStatus is supported
  * by this module.  Otherwise another module (e.g. @ref ManualControlCommand) is expected to be
  * writing to @ref StabilizationDesired.
- *
- * The module executes in its own thread in this example.
- *
- * Modules have no API, all communication to other modules is done through UAVObjects.
- * However modules may use the API exposed by shared libraries.
- * See the OpenPilot wiki for more details.
- * http://www.openpilot.org/OpenPilot_Application_Architecture
- *
  */
 
 #include "openpilot.h"
@@ -72,7 +63,7 @@
 #include "velocitydesired.h"
 #include "velocityactual.h"
 #include "groundpathfollowersettings.h"
-#include "CoordinateConversions.h"
+#include "coordinate_conversions.h"
 
 // Private constants
 #define MAX_QUEUE_SIZE 4

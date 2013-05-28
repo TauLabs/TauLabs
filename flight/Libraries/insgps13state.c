@@ -1,10 +1,7 @@
 /**
  ******************************************************************************
- * @addtogroup Math 
+ * @addtogroup TauLabsLibraries Tau Labs Libraries
  * @{
- * @addtogroup INSGPS
- * @{
- * @brief INSGPS is a joint attitude and position estimation EKF
  *
  * @file       insgps.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
@@ -1680,6 +1677,5 @@ static void LinearizeH(float X[NUMX], float Be[3], float H[NUMV][NUMX])
 }
 
 /**
- * @}
  * @}
  */

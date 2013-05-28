@@ -1,12 +1,14 @@
 /**
  ******************************************************************************
- * @addtogroup OpenPilotBL OpenPilot BootLoader
- * @brief These files contain the code to the OpenPilot MB Bootloader.
- *
+ * @addtogroup TauLabsBootloader Tau Labs Bootloaders
  * @{
- * @file       common.c
+ * @addtogroup PipXtremeBL PipXtreme bootloader
+ * @{
+ *
+ * @file       common.h 
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
- * @brief      This file contains various common defines for the BootLoader
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
+ * @brief      Common definitions across the bootloaders
  * @see        The GNU Public License (GPL) Version 3
  *
  *****************************************************************************/

@@ -1,23 +1,14 @@
 /**
  ******************************************************************************
- * @addtogroup OpenPilotModules OpenPilot Modules
- * @brief The OpenPilot Modules do the majority of the control in OpenPilot.  The
- * @ref PipXtremeModule The PipXtreme Module is the equivalanet of the System
- * Module for the PipXtreme modem.  it starts all the other modules.
- #  This is done through the @ref PIOS "PIOS Hardware abstraction layer",
- # which then contains hardware specific implementations
- * (currently only STM32 supported)
- *
+ * @addtogroup TauLabsModules Tau Labs Modules
  * @{ 
  * @addtogroup PipXtremeModule PipXtreme Module
- * @brief Initializes PIOS and other modules runs monitoring
- * After initializing all the modules runs basic monitoring and
- * alarms.
  * @{ 
  *
  * @file       pipxtrememod.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
- * @brief      System module
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
+ * @brief      This starts and handles the RF tasks for radio links
  *
  * @see        The GNU Public License (GPL) Version 3
  *

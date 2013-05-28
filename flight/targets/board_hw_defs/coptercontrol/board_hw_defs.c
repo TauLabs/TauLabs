@@ -1,13 +1,17 @@
 /**
  ******************************************************************************
- * @file       board_hw_defs.c
- * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
+ * @addtogroup TauLabsTargets Tau Labs Targets
+ * @{
+ * @addtogroup CopterControl OpenPilot coptercontrol support files
+ * @{
+ *
+ * @file       board_hw_defs.c 
+ * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2011.
  * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
- * @addtogroup TauLabsSystem Tau Labs System
- * @{
- * @addtogroup TauLabsCore Tau Labs Core
- * @{
- * @brief Defines board specific static initializers for hardware for the CopterControl board.
+ * @brief      Defines board specific static initializers for hardware for the 
+ *             CopterControl board.
+ * @see        The GNU Public License (GPL) Version 3
+ * 
  *****************************************************************************/
 /* 
  * This program is free software; you can redistribute it and/or modify 
@@ -1387,3 +1391,7 @@ const struct pios_usb_cdc_cfg pios_usb_cdc_cfg = {
 };
 #endif	/* PIOS_INCLUDE_USB_CDC */
 
+/**
+ * @}
+ * @}
+ */

@@ -1,12 +1,11 @@
 /**
  ******************************************************************************
- * @addtogroup OpenPilotSystem OpenPilot System
+ * @addtogroup PIOS PIOS Core hardware abstraction layer
  * @{
- * @addtogroup OpenPilotCore OpenPilot Core
- * @{
+ *
  * @file       openpilot.h
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
- * @brief      Main OpenPilot header.
+ * @brief      Includes PiOS and core architecture components
  * @see        The GNU Public License (GPL) Version 3
  *
  *****************************************************************************/
@@ -46,7 +45,7 @@
 void OpenPilotInit(void);
 
 #endif /* OPENPILOT_H */
+
 /**
- * @}
  * @}
  */

@@ -2,8 +2,7 @@
  ******************************************************************************
  * @addtogroup PIOS PIOS Core hardware abstraction layer
  * @{
- * @addtogroup   PIOS_PCF8591_ADC ADC Functions
- * @brief PIOS driver for PCF8591 ADC converter
+ * @addtogroup   PIOS_PCF8591_ADC PFC8591 ADC Driver
  * @{
  *
  * @file       pios_pcf8591_adc_priv.h

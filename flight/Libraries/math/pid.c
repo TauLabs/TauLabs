@@ -1,14 +1,14 @@
 /**
  ******************************************************************************
- * @addtogroup OpenPilot Math Utilities
+ * @addtogroup TauLabsLibraries Tau Labs Libraries
  * @{
- * @addtogroup Sine and cosine methods that use a cached lookup table
+ * @addtogroup TauLabsMath Tau Labs math support libraries
  * @{
  *
  * @file       pid.c
- * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
+ * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
  * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
- * @brief      Methods to work with PID structure
+ * @brief      PID Control algorithms
  *
  * @see        The GNU Public License (GPL) Version 3
  *
@@ -200,3 +200,8 @@ void pid_configure(struct pid *pid, float p, float i, float d, float iLim)
 	pid->d = d;
 	pid->iLim = iLim;
 }
+
+/**
+ * @}
+ * @}
+ */

@@ -1,13 +1,14 @@
 /**
  ******************************************************************************
- * @addtogroup OpenPilotModules OpenPilot Modules
- * @{ 
- * @addtogroup PathFollower Module
+ * @addtogroup TauLabsModules Tau Labs Modules
+ * @{
+ * @addtogroup PathFollowerModule Path Follower Module
  * @{ 
  *
  * @file       helicopterpathfollower.h
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2011.
- * @brief      Acquires sensor data and fuses it into attitude estimate for CC
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
+ * @brief      Helicopter path follower
  *
  * @see        The GNU Public License (GPL) Version 3
  *
@@ -27,6 +28,7 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
+
 #ifndef HELICOPTERPATHFOLLOWER_H
 #define HELICOPTERPATHFOLLOWER_H
 #include "fixedwingpathfollowersettings.h"
@@ -36,4 +38,10 @@ uint8_t updateHelicopterDesiredStabilization(uint8_t flightMode,
 					     FixedWingPathFollowerSettingsData
 					     fixedwingpathfollowerSettings);
 
-#endif				// HELICOPTERPATHFOLLOWER_H
+#endif /* HELICOPTERPATHFOLLOWER_H */
+
+/**
+ * @}
+ * @}
+ */
+ 

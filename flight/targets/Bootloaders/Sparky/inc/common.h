@@ -1,12 +1,14 @@
 /**
  ******************************************************************************
- * @addtogroup SparkyBL Sparky BootLoader
- * @brief These files contain the code to the Sparky Bootloader.
- *
+ * @addtogroup TauLabsBootloader Tau Labs Bootloaders
  * @{
- * @file       common.c
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
- * @brief      This file contains various common defines for the BootLoader
+ * @addtogroup SparkyBL Tau Labs Sparky bootloader
+ * @{
+ *
+ * @file       common.h 
+ * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
+ * @brief      Common definitions across the bootloaders
  * @see        The GNU Public License (GPL) Version 3
  *
  *****************************************************************************/
@@ -113,3 +115,8 @@ typedef enum {
 #define MAX_WRI_RETRYS					3
 
 #endif /* COMMON_H_ */
+
+/**
+ * @}
+ * @}
+ */

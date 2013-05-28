@@ -1,12 +1,13 @@
 /**
  ******************************************************************************
+ * @addtogroup TauLabsModules Tau Labs Modules
+ * @{
+ * @addtogroup GenericI2CSensor Generic I2C sensor interface
+ * @{
+ *
  * @file       vmprog_endiantest.c
  * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
- * @addtogroup I2C Virtual Machine
- * @{
- * @addtogroup %CLASS%
- * @{
- * @brief I2C Virtual machine demo program
+ * @brief      I2C Virtual machine demo program
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify
@@ -54,3 +55,8 @@ const uint32_t vmprog_endiantest[] = {
 
 #define NELEMENTS(x) (sizeof(x) / sizeof(*(x)))
 const uint32_t vmprog_endiantest_len = NELEMENTS(vmprog_endiantest);
+
+/**
+ * @}
+ * @}
+ */

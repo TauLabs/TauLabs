@@ -1,14 +1,13 @@
 /**
  ******************************************************************************
- * @addtogroup OpenPilotSystem OpenPilot System
+ * @addtogroup TauLabsLibraries Tau Labs Libraries
  * @{
- * @addtogroup OpenPilotLibraries OpenPilot System Libraries
- * @{
+ *
  * @file       taskmonitor.h
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
  * @brief      Task monitoring library
  * @see        The GNU Public License (GPL) Version 3
- *
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify
@@ -25,6 +24,7 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
+
 #include "openpilot.h"
 //#include "taskmonitor.h"
 
@@ -157,3 +157,7 @@ void TaskMonitorUpdateAll(void)
 	xSemaphoreGiveRecursive(lock);
 #endif
 }
+
+/**
+ * @}
+ */

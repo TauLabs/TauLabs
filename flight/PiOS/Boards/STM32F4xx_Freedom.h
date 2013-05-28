@@ -1,15 +1,15 @@
 /**
  ******************************************************************************
- * @addtogroup OpenPilotSystem OpenPilot System
+ * @addtogroup TauLabsTargets Tau Labs Targets
  * @{
- * @addtogroup OpenPilotCore OpenPilot Core
+ * @addtogroup Freedom Tau Labs Freedom support files
  * @{
- * @file       pios_board.h
- * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
- * @brief      Defines board hardware for the OpenPilot Version 1.1 hardware.
- * @see        The GNU Public License (GPL) Version 3
  *
+ * @file       STM32F4xx_Freedom.H 
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
+ * @brief      Board specific defines for Freedom
+ * @see        The GNU Public License (GPL) Version 3
+ * 
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify
@@ -307,6 +307,7 @@ extern uint32_t pios_packet_handler;
 #define PIOS_ADC_SUB_DRIVER_MAX_INSTANCES       3
 
 #endif /* STM3210E_INS_H_ */
+
 /**
  * @}
  * @}

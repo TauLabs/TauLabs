@@ -1,6 +1,6 @@
 /**
  ******************************************************************************
- * @addtogroup Modules Tau Labs Modules
+ * @addtogroup TauLabsModules Tau Labs Modules
  * @{
  * @addtogroup Control Control Module
  * @{
@@ -255,3 +255,8 @@ enum control_events tablet_control_get_events()
 }
 
 #endif
+
+/**
+ * @}
+ * @}
+ */

@@ -1,10 +1,12 @@
 /**
  ******************************************************************************
+ * @addtogroup TauLabsLibraries Tau Labs Libraries
+ * @{
  *
  * @file       WorldMagModel.h
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
- * @brief      Include file of the WorldMagModel exposed functionality.
- *
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
+ * @brief      Source file for the World Magnetic Model
  * @see        The GNU Public License (GPL) Version 3
  *
  *****************************************************************************/
@@ -32,3 +34,7 @@ int WMM_Initialize();
 int WMM_GetMagVector(float Lat, float Lon, float AltEllipsoid, uint16_t Month, uint16_t Day, uint16_t Year, float B[3]);
 
 #endif /* WORLDMAGMODEL_H_ */
+
+/**
+ * @}
+ */
