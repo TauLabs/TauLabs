@@ -5,7 +5,7 @@
  * @addtogroup CopterControl OpenPilot coptercontrol support files
  * @{
  *
- * @file       pios_board.c 
+ * @file       pios_board.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2011.
  * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
  * @brief      The board specific initialization routines

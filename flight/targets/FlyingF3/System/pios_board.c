@@ -5,7 +5,7 @@
  * @addtogroup FlyingF3 FlyingF3 support files
  * @{
  *
- * @file       pios_board.c 
+ * @file       pios_board.c
  * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
  * @brief      The board specific initialization routines
  * @see        The GNU Public License (GPL) Version 3
