@@ -2,7 +2,7 @@
  ******************************************************************************
  * @file       pathplannergadget.cpp
  * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
- * @addtogroup Path Planner GCS Plugins
+ * @addtogroup GCSPlugins GCS Plugins
  * @{
  * @addtogroup PathPlannerGadgetPlugin Path Planner Gadget Plugin
  * @{
