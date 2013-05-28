@@ -106,9 +106,14 @@ int32_t filter_infrastructure_se3_start(uintptr_t id)
  * @param[in] dT the update time in seconds
  * @return 0 if succesfully updated or error code
  */
-int32_t filter_infrastructure_se3_process(struct filter_s3 *driver, uintptr_t id)
+int32_t filter_infrastructure_se3_process(struct filter_driver *driver, uintptr_t id, float dt)
 {
 	// TODO: check error codes
+
+	// Make sure we are safe to get the class specific driver
+	if (!filter_interface_validate(upper_driver, id))
+		return -1;
+	struct filter_driver_s3 *driver = upper_driver->driver_s3);
 
 	/* 1. fetch the data from queues and pass to filter                    */
 	/* if we want to start running multiple instances of this filter class */

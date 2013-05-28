@@ -152,12 +152,17 @@ struct filter_driver {
 	 * @param[in]  dt        time step [s]
 	 * @return 0 if successful or error code
 	 */
-	int32_t (*process)(uintptr_t id, float dt);
+	int32_t (*process)(struct filter_driver *, uintptr_t id, float dt);
 
-	//! The specific driver for this filter implementation class
+	/**
+	 * The specific sub-driver for this filter implementation class which contains
+	 * the handles for methods used by the various infrastructures.  These functions
+	 * will typically be methods to get sensors, update the state, and get the state,
+	 * as well as magic to validate the sub-driver.
+	 */
 	union {
-		struct filter_s3       driver_s3;
-		struct filter_generic  driver_generic;
+		struct filter_s3       driver_s3;        //! sub-driver for SE(3)+ filters
+		struct filter_generic  driver_generic;   //! sub-driver for the generic filters
 	};
 };
 

@@ -52,7 +52,7 @@ int32_t filter_infrastructure_se3_init(struct filter_infrastructure_se3_data **d
 int32_t filter_infrastructure_se3_start(uintptr_t id);
 
 //! Process an update for  SE(3)+
-int32_t filter_infrastructure_se3_process(struct filter_s3 *driver, uintptr_t id, float dt);
+int32_t filter_infrastructure_se3_process(struct filter_driver *driver, uintptr_t id, float dt);
 
 #endif /* FILTER_INFRASTRUCTURE_SE3 */
 
