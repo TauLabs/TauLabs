@@ -27,8 +27,6 @@
 
 #include "pios.h"
 #include "openpilot.h"
-#include "physical_constants.h"
-#include "CoordinateConversions.h"
 
 #include "filter_interface.h"
 #include "inspgs_interface.h"
