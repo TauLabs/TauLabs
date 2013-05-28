@@ -542,7 +542,7 @@ namespace mapcontrol
     {
         if(value && !windCompass)
         {
-            windCompass=new QGraphicsSvgItem(QString::fromUtf8(":/markers/images/compass.svg"));
+            windCompass=new QGraphicsSvgItem(QString::fromUtf8(":/markers/images/wind_compass.svg"));
             windCompass->setScale(0.1+0.05*(qreal)(this->size().width())/1000*(qreal)(this->size().height())/600);
             windCompass->setFlag(QGraphicsItem::ItemIsMovable,false);
             windCompass->setFlag(QGraphicsItem::ItemIsSelectable,false);
