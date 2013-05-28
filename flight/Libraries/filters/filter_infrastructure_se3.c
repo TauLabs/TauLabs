@@ -27,7 +27,7 @@
  */
 
 #include "filter_infrastructure_se3.h"
-#include "CoordinateConversions.h"
+#include "coordinate_conversions.h"
 #include "physical_constants.h"
 
 #include "accels.h"
