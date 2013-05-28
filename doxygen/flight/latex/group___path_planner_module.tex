@@ -1,0 +1,124 @@
+\hypertarget{group___path_planner_module}{\section{\-Path \-Planner \-Module}
+\label{group___path_planner_module}\index{\-Path Planner Module@{\-Path Planner Module}}
+}
+\subsection*{\-Files}
+\begin{DoxyCompactItemize}
+\item 
+file \hyperlink{path__saving_8h}{path\-\_\-saving.\-h}
+\begin{DoxyCompactList}\small\item\em \-Functions for loading and saving paths. \end{DoxyCompactList}\item 
+file \hyperlink{path__saving_8c}{path\-\_\-saving.\-c}
+\begin{DoxyCompactList}\small\item\em \-Functions for loading and saving paths. \end{DoxyCompactList}\item 
+file \hyperlink{pathplanner_8c}{pathplanner.\-c}
+\begin{DoxyCompactList}\small\item\em \-Simple path planner which activates a sequence of waypoints. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+int32\-\_\-t \hyperlink{group___path_planner_module_ga2601ca435ed04ae19c977a45d56be03c}{pathplanner\-\_\-load\-\_\-path} (uint32\-\_\-t path\-\_\-id)
+\begin{DoxyCompactList}\small\item\em \-Load a specified path id from flash. \end{DoxyCompactList}\item 
+int32\-\_\-t \hyperlink{group___path_planner_module_ga0652408cf825ce696f667d9137a2f3e4}{pathplanner\-\_\-save\-\_\-path} (uint32\-\_\-t path\-\_\-id)
+\begin{DoxyCompactList}\small\item\em \-Save a specified path id to flash. \end{DoxyCompactList}\item 
+int32\-\_\-t \hyperlink{group___path_planner_module_gaf0d1956d741a9004d4d88cb38d43b4c4}{\-Path\-Planner\-Start} ()
+\item 
+int32\-\_\-t \hyperlink{group___path_planner_module_ga851894b7d249ff14f2f5e1a6f294bf35}{\-Path\-Planner\-Initialize} ()
+\item 
+\hyperlink{group___path_planner_module_ga5614947f71f78546f4d0f379ab2bddaa}{\-M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L} (\hyperlink{group___path_planner_module_ga851894b7d249ff14f2f5e1a6f294bf35}{\-Path\-Planner\-Initialize}, \hyperlink{group___path_planner_module_gaf0d1956d741a9004d4d88cb38d43b4c4}{\-Path\-Planner\-Start})
+\end{DoxyCompactItemize}
+\subsection*{\-Variables}
+\begin{DoxyCompactItemize}
+\item 
+uintptr\-\_\-t \hyperlink{group___path_planner_module_ga4b04979e5fb31eaa66088178605835cd}{pios\-\_\-waypoints\-\_\-settings\-\_\-fs\-\_\-id}
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Function \-Documentation}
+\hypertarget{group___path_planner_module_ga5614947f71f78546f4d0f379ab2bddaa}{\index{\-Path Planner Module@{\-Path Planner Module}!\-M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L@{\-M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L}}
+\index{\-M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L@{\-M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L}!Path Planner Module@{\-Path Planner Module}}
+\subsubsection[{\-M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Path\-Planner\-Initialize}}]{, }
+\item[{{\bf \-Path\-Planner\-Start}}]{}
+\end{DoxyParamCaption}
+)}}\label{group___path_planner_module_ga5614947f71f78546f4d0f379ab2bddaa}
+\-Module task 
+
+\-Definition at line 126 of file pathplanner.\-c.
+
+\hypertarget{group___path_planner_module_ga2601ca435ed04ae19c977a45d56be03c}{\index{\-Path Planner Module@{\-Path Planner Module}!pathplanner\-\_\-load\-\_\-path@{pathplanner\-\_\-load\-\_\-path}}
+\index{pathplanner\-\_\-load\-\_\-path@{pathplanner\-\_\-load\-\_\-path}!Path Planner Module@{\-Path Planner Module}}
+\subsubsection[{pathplanner\-\_\-load\-\_\-path}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf pathplanner\-\_\-load\-\_\-path} (
+\begin{DoxyParamCaption}
+\item[{uint32\-\_\-t}]{path\-\_\-id}
+\end{DoxyParamCaption}
+)}}\label{group___path_planner_module_ga2601ca435ed04ae19c977a45d56be03c}
+
+
+\-Load a specified path id from flash. 
+
+\-Load a path from the waypoint filesystem into memory 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em id} & \-The path id to load \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+-\/30 waypoint object not registered 
+
+-\/31 could not allocate waypoint in ram 
+
+other indicates \-Flash\-F\-S error 
+\end{DoxyReturn}
+
+
+\-Definition at line 92 of file path\-\_\-saving.\-c.
+
+\hypertarget{group___path_planner_module_ga0652408cf825ce696f667d9137a2f3e4}{\index{\-Path Planner Module@{\-Path Planner Module}!pathplanner\-\_\-save\-\_\-path@{pathplanner\-\_\-save\-\_\-path}}
+\index{pathplanner\-\_\-save\-\_\-path@{pathplanner\-\_\-save\-\_\-path}!Path Planner Module@{\-Path Planner Module}}
+\subsubsection[{pathplanner\-\_\-save\-\_\-path}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf pathplanner\-\_\-save\-\_\-path} (
+\begin{DoxyParamCaption}
+\item[{uint32\-\_\-t}]{path\-\_\-id}
+\end{DoxyParamCaption}
+)}}\label{group___path_planner_module_ga0652408cf825ce696f667d9137a2f3e4}
+
+
+\-Save a specified path id to flash. 
+
+\-Save the in memory waypoints to the waypoint filesystem 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em id} & \-The path id to save as \\
+\hline
+\end{DoxyParams}
+
+
+\-Definition at line 44 of file path\-\_\-saving.\-c.
+
+\hypertarget{group___path_planner_module_ga851894b7d249ff14f2f5e1a6f294bf35}{\index{\-Path Planner Module@{\-Path Planner Module}!\-Path\-Planner\-Initialize@{\-Path\-Planner\-Initialize}}
+\index{\-Path\-Planner\-Initialize@{\-Path\-Planner\-Initialize}!Path Planner Module@{\-Path Planner Module}}
+\subsubsection[{\-Path\-Planner\-Initialize}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-Path\-Planner\-Initialize} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___path_planner_module_ga851894b7d249ff14f2f5e1a6f294bf35}
+\-Module initialization 
+
+\-Definition at line 96 of file pathplanner.\-c.
+
+\hypertarget{group___path_planner_module_gaf0d1956d741a9004d4d88cb38d43b4c4}{\index{\-Path Planner Module@{\-Path Planner Module}!\-Path\-Planner\-Start@{\-Path\-Planner\-Start}}
+\index{\-Path\-Planner\-Start@{\-Path\-Planner\-Start}!Path Planner Module@{\-Path Planner Module}}
+\subsubsection[{\-Path\-Planner\-Start}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-Path\-Planner\-Start} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___path_planner_module_gaf0d1956d741a9004d4d88cb38d43b4c4}
+\-Module initialization 
+
+\-Definition at line 79 of file pathplanner.\-c.
+
+
+
+\subsection{\-Variable \-Documentation}
+\hypertarget{group___path_planner_module_ga4b04979e5fb31eaa66088178605835cd}{\index{\-Path Planner Module@{\-Path Planner Module}!pios\-\_\-waypoints\-\_\-settings\-\_\-fs\-\_\-id@{pios\-\_\-waypoints\-\_\-settings\-\_\-fs\-\_\-id}}
+\index{pios\-\_\-waypoints\-\_\-settings\-\_\-fs\-\_\-id@{pios\-\_\-waypoints\-\_\-settings\-\_\-fs\-\_\-id}!Path Planner Module@{\-Path Planner Module}}
+\subsubsection[{pios\-\_\-waypoints\-\_\-settings\-\_\-fs\-\_\-id}]{\setlength{\rightskip}{0pt plus 5cm}uintptr\-\_\-t {\bf pios\-\_\-waypoints\-\_\-settings\-\_\-fs\-\_\-id}}}\label{group___path_planner_module_ga4b04979e5fb31eaa66088178605835cd}
+
+
+\-Definition at line 174 of file pios\-\_\-board.\-c.
+

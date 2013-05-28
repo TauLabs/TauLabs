@@ -1,7 +1,5 @@
 var searchData=
 [
-  ['random_2eh',['Random.h',['../_random_8h.html',1,'']]],
-  ['randomsetter_2eh',['RandomSetter.h',['../_random_setter_8h.html',1,'']]],
   ['rawhid_2ecpp',['rawhid.cpp',['../rawhid_8cpp.html',1,'']]],
   ['rawhid_2eh',['rawhid.h',['../rawhid_8h.html',1,'']]],
   ['rawhid_5fconst_2eh',['rawhid_const.h',['../rawhid__const_8h.html',1,'']]],
@@ -16,7 +14,6 @@ var searchData=
   ['rectangle_2eh',['rectangle.h',['../rectangle_8h.html',1,'']]],
   ['rectlatlng_2ecpp',['rectlatlng.cpp',['../rectlatlng_8cpp.html',1,'']]],
   ['rectlatlng_2eh',['rectlatlng.h',['../rectlatlng_8h.html',1,'']]],
-  ['redux_2eh',['Redux.h',['../_redux_8h.html',1,'']]],
   ['reloadpromptutils_2ecpp',['reloadpromptutils.cpp',['../reloadpromptutils_8cpp.html',1,'']]],
   ['reloadpromptutils_2eh',['reloadpromptutils.h',['../reloadpromptutils_8h.html',1,'']]],
   ['revolution_2ecpp',['revolution.cpp',['../revolution_8cpp.html',1,'']]],
@@ -25,8 +22,6 @@ var searchData=
   ['revomini_2eh',['revomini.h',['../revomini_8h.html',1,'']]],
   ['rightpane_2ecpp',['rightpane.cpp',['../rightpane_8cpp.html',1,'']]],
   ['rightpane_2eh',['rightpane.h',['../rightpane_8h.html',1,'']]],
-  ['rotation2d_2eh',['Rotation2D.h',['../_rotation2_d_8h.html',1,'']]],
-  ['rotationbase_2eh',['RotationBase.h',['../_rotation_base_8h.html',1,'']]],
   ['runextensions_2eh',['runextensions.h',['../runextensions_8h.html',1,'']]],
   ['runningdevicewidget_2ecpp',['runningdevicewidget.cpp',['../runningdevicewidget_8cpp.html',1,'']]],
   ['runningdevicewidget_2eh',['runningdevicewidget.h',['../runningdevicewidget_8h.html',1,'']]]

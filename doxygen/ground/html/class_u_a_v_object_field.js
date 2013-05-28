@@ -1,24 +1,7 @@
 var class_u_a_v_object_field =
 [
-    [ "FieldType", "group___u_a_v_objects_plugin.html#ga74498368bc91f3ed74beacb096744cf3", [
-      [ "INT8", "group___u_a_v_objects_plugin.html#gga74498368bc91f3ed74beacb096744cf3a19e2840fa94a77e0e4d6bcf7fb40e734", null ],
-      [ "INT16", "group___u_a_v_objects_plugin.html#gga74498368bc91f3ed74beacb096744cf3a449ba7536fca8720c9608dd26c74182a", null ],
-      [ "INT32", "group___u_a_v_objects_plugin.html#gga74498368bc91f3ed74beacb096744cf3ad47a62cf1ae89582cb875a6bc59662ec", null ],
-      [ "UINT8", "group___u_a_v_objects_plugin.html#gga74498368bc91f3ed74beacb096744cf3a6546a8ed8b8449d2829291856d3f8e5d", null ],
-      [ "UINT16", "group___u_a_v_objects_plugin.html#gga74498368bc91f3ed74beacb096744cf3ac2f59f65ccf56a9b5ab9537f243d8ebb", null ],
-      [ "UINT32", "group___u_a_v_objects_plugin.html#gga74498368bc91f3ed74beacb096744cf3a9e78f4bc590d0a313c2fbdd157a82837", null ],
-      [ "FLOAT32", "group___u_a_v_objects_plugin.html#gga74498368bc91f3ed74beacb096744cf3ade54d949f5105c9e1177f6ce38a7e7ba", null ],
-      [ "ENUM", "group___u_a_v_objects_plugin.html#gga74498368bc91f3ed74beacb096744cf3a6b66856b80e5733eb7b8b08f3d870871", null ],
-      [ "BITFIELD", "group___u_a_v_objects_plugin.html#gga74498368bc91f3ed74beacb096744cf3a1a5788021526d853b18af9b5fd11f46d", null ],
-      [ "STRING", "group___u_a_v_objects_plugin.html#gga74498368bc91f3ed74beacb096744cf3a263153e4740f4e16ffdc57eb00d37774", null ]
-    ] ],
-    [ "LimitType", "group___u_a_v_objects_plugin.html#gab90b52ee80a0622d280a4c2fc8e601cb", [
-      [ "EQUAL", "group___u_a_v_objects_plugin.html#ggab90b52ee80a0622d280a4c2fc8e601cba8dbddc7d32139967375f2aadc9611f92", null ],
-      [ "NOT_EQUAL", "group___u_a_v_objects_plugin.html#ggab90b52ee80a0622d280a4c2fc8e601cba9a661c176c884fa21ed1f0d451a63472", null ],
-      [ "BETWEEN", "group___u_a_v_objects_plugin.html#ggab90b52ee80a0622d280a4c2fc8e601cbaabc95b31ce0e072b3e30a5ef80063568", null ],
-      [ "BIGGER", "group___u_a_v_objects_plugin.html#ggab90b52ee80a0622d280a4c2fc8e601cba8bf45653fc3846d52b51b1bad7ca342e", null ],
-      [ "SMALLER", "group___u_a_v_objects_plugin.html#ggab90b52ee80a0622d280a4c2fc8e601cba5903966788353f79fdfa23cef3c141bf", null ]
-    ] ],
+    [ "FieldType", "group___u_a_v_objects_plugin.html#ga74498368bc91f3ed74beacb096744cf3", null ],
+    [ "LimitType", "group___u_a_v_objects_plugin.html#gab90b52ee80a0622d280a4c2fc8e601cb", null ],
     [ "UAVObjectField", "group___u_a_v_objects_plugin.html#ga6ebca8c11d33d2984ef111420988e11d", null ],
     [ "UAVObjectField", "group___u_a_v_objects_plugin.html#ga9e178e25087b21a817679f18f3be1fa0", null ],
     [ "checkValue", "group___u_a_v_objects_plugin.html#ga8aed4e68eb0697d4776a103bfe5aa059", null ],

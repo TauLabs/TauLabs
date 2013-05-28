@@ -1,8 +1,0 @@
-var structei__dot__impl_3_01_derived1_00_01_derived2_00_01_linear_vectorization_00_01_complete_unrolling_01_4 =
-[
-    [ "PacketScalar", "structei__dot__impl_3_01_derived1_00_01_derived2_00_01_linear_vectorization_00_01_complete_unrolling_01_4.html#a796e5efff433441982f1b9604020d305", null ],
-    [ "Scalar", "structei__dot__impl_3_01_derived1_00_01_derived2_00_01_linear_vectorization_00_01_complete_unrolling_01_4.html#a16334f659e0368c0d33734a5428e9712", null ],
-    [ "PacketSize", "structei__dot__impl_3_01_derived1_00_01_derived2_00_01_linear_vectorization_00_01_complete_unrolling_01_4.html#aab4dcba2b572a3b0166fdae5fac025dca3a9ede278d9a584c52866b106cae9f26", null ],
-    [ "Size", "structei__dot__impl_3_01_derived1_00_01_derived2_00_01_linear_vectorization_00_01_complete_unrolling_01_4.html#aab4dcba2b572a3b0166fdae5fac025dca3389fe194b082b6c034d492d2dfa98fe", null ],
-    [ "VectorizationSize", "structei__dot__impl_3_01_derived1_00_01_derived2_00_01_linear_vectorization_00_01_complete_unrolling_01_4.html#aab4dcba2b572a3b0166fdae5fac025dca40d2ec40b9d18df38f96262c683f9c77", null ]
-];

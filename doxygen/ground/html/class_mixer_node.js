@@ -1,6 +1,5 @@
 var class_mixer_node =
 [
-    [ "Type", "group___u_a_v_object_widget_utils.html#gga75c1a0485015845b058fbc969b688e5aae34bb4f715b22e70e0a2182529bed883", null ],
     [ "MixerNode", "group___u_a_v_object_widget_utils.html#gad99e53701553bdb4852ccedd6362f5a2", null ],
     [ "addEdge", "group___u_a_v_object_widget_utils.html#gaf8a1ccdbffed70e2995e75d37c57851c", null ],
     [ "boundingRect", "group___u_a_v_object_widget_utils.html#ga016954be92f06c8ef2007526890e030e", null ],

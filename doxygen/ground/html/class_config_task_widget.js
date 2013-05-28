@@ -1,18 +1,7 @@
 var class_config_task_widget =
 [
-    [ "buttonTypeEnum", "group___u_a_v_object_widget_utils.html#gacf8aa6ed9da799d1973519df03d1ecfa", [
-      [ "none", "group___u_a_v_object_widget_utils.html#ggacf8aa6ed9da799d1973519df03d1ecfaa5ba945be96884ca1ea4e0019425b3fd1", null ],
-      [ "save_button", "group___u_a_v_object_widget_utils.html#ggacf8aa6ed9da799d1973519df03d1ecfaad57389b40e61729debc6f0e8fd4cbde2", null ],
-      [ "apply_button", "group___u_a_v_object_widget_utils.html#ggacf8aa6ed9da799d1973519df03d1ecfaaeebf9f5769535bd71cb2907073cf1492", null ],
-      [ "reload_button", "group___u_a_v_object_widget_utils.html#ggacf8aa6ed9da799d1973519df03d1ecfaae3d77626c54b30f24b9342696d4155ee", null ],
-      [ "default_button", "group___u_a_v_object_widget_utils.html#ggacf8aa6ed9da799d1973519df03d1ecfaa8a58b5c21f9b09e20e74ab163d47f09a", null ],
-      [ "help_button", "group___u_a_v_object_widget_utils.html#ggacf8aa6ed9da799d1973519df03d1ecfaad33ed1c1d7511f14ca49069b8166d04e", null ]
-    ] ],
-    [ "metadataSetEnum", "group___u_a_v_object_widget_utils.html#gaf06dbd27444c4e9864e702d7c00b0a62", [
-      [ "ALL_METADATA", "group___u_a_v_object_widget_utils.html#ggaf06dbd27444c4e9864e702d7c00b0a62ad6334ea913f7c2a28d32a16d52e1aecf", null ],
-      [ "SETTINGS_METADATA_ONLY", "group___u_a_v_object_widget_utils.html#ggaf06dbd27444c4e9864e702d7c00b0a62ac3b6f184c1551bd23d264999d0330302", null ],
-      [ "NONSETTINGS_METADATA_ONLY", "group___u_a_v_object_widget_utils.html#ggaf06dbd27444c4e9864e702d7c00b0a62a6ac1f4283fd36cd22e96b56756e26bbe", null ]
-    ] ],
+    [ "buttonTypeEnum", "group___u_a_v_object_widget_utils.html#gacf8aa6ed9da799d1973519df03d1ecfa", null ],
+    [ "metadataSetEnum", "group___u_a_v_object_widget_utils.html#gaf06dbd27444c4e9864e702d7c00b0a62", null ],
     [ "ConfigTaskWidget", "group___u_a_v_object_widget_utils.html#ga8164338f4928bd3afd984eeda276f276", null ],
     [ "~ConfigTaskWidget", "group___u_a_v_object_widget_utils.html#ga40fc17c487f66c2cbcd9aa678c6f20dd", null ],
     [ "addApplySaveButtons", "group___u_a_v_object_widget_utils.html#ga38c270f9a29f4e190e71414bdce82590", null ],
@@ -53,6 +42,8 @@ var class_config_task_widget =
     [ "invalidateObjects", "group___u_a_v_object_widget_utils.html#ga1505f6e22cf2e4167b03fca9417f91a5", null ],
     [ "isAutopilotConnected", "group___u_a_v_object_widget_utils.html#gad61b70a01e85822c5838c2c5833c22fd", null ],
     [ "isDirty", "group___u_a_v_object_widget_utils.html#ga2d7e19cef57df7b30741b4901b5a190f", null ],
+    [ "listMean", "group___u_a_v_object_widget_utils.html#ga134c15f52a4eccf9aeb9bbacdc296b80", null ],
+    [ "listVar", "group___u_a_v_object_widget_utils.html#ga2f33179993858ca636461e78e3a7a3c8", null ],
     [ "onAutopilotConnect", "group___u_a_v_object_widget_utils.html#gaf5b2ddc9de02820e89c8133f5625607d", null ],
     [ "onAutopilotDisconnect", "group___u_a_v_object_widget_utils.html#ga306b82fa3b114ce5c336dfda60ae479d", null ],
     [ "populateWidgets", "group___u_a_v_object_widget_utils.html#gaa3d55f7941db619b9872b0ffdc78ebde", null ],

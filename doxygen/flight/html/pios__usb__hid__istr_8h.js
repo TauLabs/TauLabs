@@ -38,9 +38,9 @@ var pios__usb__hid__istr_8h =
     [ "INTR_USBSUSPEND_Callback", "pios__usb__hid__istr_8h.html#aec65ea732366ee5dde44a5767f19e3f9", null ],
     [ "INTR_WKUPINTR_Callback", "pios__usb__hid__istr_8h.html#a95786c56bcd03d68c2f4bf64d0971163", null ],
     [ "RESET_Callback", "pios__usb__hid__istr_8h.html#ab9787d28b6f3e1591ce9bf3747568f11", null ],
-    [ "SOF_Callback", "pios__usb__hid__istr_8h.html#gaa3a23e7d4ec85e79cf28841529f081be", null ],
+    [ "SOF_Callback", "group___p_i_o_s___u_s_b.html#gaa3a23e7d4ec85e79cf28841529f081be", null ],
     [ "STM32_PCD_OTG_ISR_Handler", "pios__usb__hid__istr_8h.html#ab3689813a16aecffb429bcb029f6b1ae", null ],
-    [ "SUSP_Callback", "pios__usb__hid__istr_8h.html#gac123415bdaa5f7dc62947bd086bccebd", null ],
+    [ "SUSP_Callback", "group___p_i_o_s___u_s_b.html#gac123415bdaa5f7dc62947bd086bccebd", null ],
     [ "USB_Istr", "pios__usb__hid__istr_8h.html#ab084f8c2574dd1fef2ef68123f5e90ab", null ],
     [ "WKUP_Callback", "pios__usb__hid__istr_8h.html#a7f0237870aaea29705f502f96ae3bb97", null ]
 ];

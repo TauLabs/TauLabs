@@ -1,4 +1,4 @@
 var inc_2overosync_8h =
 [
-    [ "TelemetryInitialize", "inc_2overosync_8h.html#ga058925ecc8ea2cd938fb3e9d21edb2ac", null ]
+    [ "OveroSyncInitialize", "group___overo_sync_module.html#gae0e77f24c85219aa88e348edb409cf6c", null ]
 ];

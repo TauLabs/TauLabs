@@ -1,39 +1,39 @@
-\hypertarget{airspeed_8c}{\section{/home/jose/\-Code/gui\-Tau/flight/\-Modules/\-Airspeed/revolution/airspeed.c File Reference}
-\label{airspeed_8c}\index{/home/jose/\-Code/gui\-Tau/flight/\-Modules/\-Airspeed/revolution/airspeed.\-c@{/home/jose/\-Code/gui\-Tau/flight/\-Modules/\-Airspeed/revolution/airspeed.\-c}}
+\hypertarget{airspeed_8c}{\section{/home/jb/code/\-Tau\-Labs/flight/\-Modules/\-Airspeed/revolution/airspeed.c \-File \-Reference}
+\label{airspeed_8c}\index{/home/jb/code/\-Tau\-Labs/flight/\-Modules/\-Airspeed/revolution/airspeed.\-c@{/home/jb/code/\-Tau\-Labs/flight/\-Modules/\-Airspeed/revolution/airspeed.\-c}}
 }
 
 
-Airspeed module.  
+\-Airspeed module.  
 
 
-\subsection*{Functions}
+\subsection*{\-Functions}
 \begin{DoxyCompactItemize}
 \item 
-\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___airspeed_module_ga76db67751a27b3bcbf75e88ee48148fb}{baro\-\_\-airspeed\-Get} (Baro\-Airspeed\-Data $\ast$baro\-Airspeed\-Data, \hyperlink{_s_t_m32_f10x_2_libraries_2_free_r_t_o_s_2_source_2portable_2_g_c_c_2_a_r_m___c_m3_2portmacro_8h_a4d746b2ff8fafc490b764c66411ec457}{port\-Tick\-Type} $\ast$last\-Sys\-Time, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} airspeed\-Sensor\-Type, \hyperlink{stdint_8h_ad566f6541e98b74246db1a3a3a85ad49}{int8\-\_\-t} airspeed\-A\-D\-C\-Pin)
+void \hyperlink{group___airspeed_module_ga76db67751a27b3bcbf75e88ee48148fb}{baro\-\_\-airspeed\-Get} (\-Baro\-Airspeed\-Data $\ast$baro\-Airspeed\-Data, port\-Tick\-Type $\ast$last\-Sys\-Time, uint8\-\_\-t airspeed\-Sensor\-Type, int8\-\_\-t airspeed\-A\-D\-C\-Pin)
 \item 
-\hyperlink{group___n_a_m_e_gafd12020da5a235dfcf0c3c748fb5baed}{int32\-\_\-t} \hyperlink{group___airspeed_module_ga4e599df9b683a64cb49340f7d0386be5}{Airspeed\-Start} ()
+int32\-\_\-t \hyperlink{group___airspeed_module_ga4e599df9b683a64cb49340f7d0386be5}{\-Airspeed\-Start} ()
 \item 
-\hyperlink{group___n_a_m_e_gafd12020da5a235dfcf0c3c748fb5baed}{int32\-\_\-t} \hyperlink{group___airspeed_module_ga3e08decda04632d5570c9a030a96041f}{Airspeed\-Initialize} ()
+int32\-\_\-t \hyperlink{group___airspeed_module_ga3e08decda04632d5570c9a030a96041f}{\-Airspeed\-Initialize} ()
 \item 
-\hyperlink{group___airspeed_module_ga21ecf0efa7ca0f9597649aa8babdc8b0}{M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L} (\hyperlink{group___airspeed_module_ga3e08decda04632d5570c9a030a96041f}{Airspeed\-Initialize}, \hyperlink{group___airspeed_module_ga4e599df9b683a64cb49340f7d0386be5}{Airspeed\-Start})
+\hyperlink{group___airspeed_module_ga21ecf0efa7ca0f9597649aa8babdc8b0}{\-M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L} (\hyperlink{group___airspeed_module_ga3e08decda04632d5570c9a030a96041f}{\-Airspeed\-Initialize}, \hyperlink{group___airspeed_module_ga4e599df9b683a64cb49340f7d0386be5}{\-Airspeed\-Start})
 \end{DoxyCompactItemize}
-\subsection*{Variables}
+\subsection*{\-Variables}
 \begin{DoxyCompactItemize}
 \item 
-\hyperlink{group___c_m_s_i_s___core___instruction_interface_gad7d93af13046b0378601b85c8c16673b}{volatile} \hyperlink{group___exported__types_gaf6a258d8f3ee5206d682d799316314b1}{bool} \hyperlink{group___airspeed_module_ga92e7d8d768e91460a03e1f0ef2c9a443}{gps\-New} = false
+volatile bool \hyperlink{group___airspeed_module_ga92e7d8d768e91460a03e1f0ef2c9a443}{gps\-New} = false
 \end{DoxyCompactItemize}
 
 
-\subsection{Detailed Description}
-Airspeed module. \begin{DoxyAuthor}{Author}
-The Open\-Pilot Team, \href{http://www.openpilot.org}{\tt http\-://www.\-openpilot.\-org} Copyright (C) 2012. 
+\subsection{\-Detailed \-Description}
+\-Airspeed module. \begin{DoxyAuthor}{\-Author}
+\-The \-Open\-Pilot \-Team, \href{http://www.openpilot.org}{\tt http\-://www.\-openpilot.\-org} \-Copyright (\-C) 2012. 
 
-Tau Labs, \href{http://www.taulabs.org}{\tt http\-://www.\-taulabs.\-org} Copyright (C) 2013. 
+\-Tau \-Labs, \href{http://taulabs.org,}{\tt http\-://taulabs.\-org,} \-Copyright (\-C) 2013 
 \end{DoxyAuthor}
-\begin{DoxySeeAlso}{See Also}
-The G\-N\-U Public License (G\-P\-L) Version 3 
+\begin{DoxySeeAlso}{\-See also}
+\-The \-G\-N\-U \-Public \-License (\-G\-P\-L) \-Version 3 
 \end{DoxySeeAlso}
 
 
-Definition in file \hyperlink{airspeed_8c_source}{airspeed.\-c}.
+\-Definition in file \hyperlink{airspeed_8c_source}{airspeed.\-c}.
 

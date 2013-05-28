@@ -1,198 +1,53 @@
-\hypertarget{fifo__buffer_8h}{\section{/home/jose/\-Code/gui\-Tau/flight/\-Libraries/inc/fifo\-\_\-buffer.h File Reference}
-\label{fifo__buffer_8h}\index{/home/jose/\-Code/gui\-Tau/flight/\-Libraries/inc/fifo\-\_\-buffer.\-h@{/home/jose/\-Code/gui\-Tau/flight/\-Libraries/inc/fifo\-\_\-buffer.\-h}}
+\hypertarget{fifo__buffer_8h}{\section{/home/jb/code/\-Tau\-Labs/flight/\-Libraries/inc/fifo\-\_\-buffer.h \-File \-Reference}
+\label{fifo__buffer_8h}\index{/home/jb/code/\-Tau\-Labs/flight/\-Libraries/inc/fifo\-\_\-buffer.\-h@{/home/jb/code/\-Tau\-Labs/flight/\-Libraries/inc/fifo\-\_\-buffer.\-h}}
 }
 
 
-G\-P\-I\-O functions header.  
+\-G\-P\-I\-O functions header.  
 
 
-\subsection*{Data Structures}
+\subsection*{\-Data \-Structures}
 \begin{DoxyCompactItemize}
 \item 
 struct \hyperlink{structt__fifo__buffer}{t\-\_\-fifo\-\_\-buffer}
 \end{DoxyCompactItemize}
-\subsection*{Functions}
+\subsection*{\-Functions}
 \begin{DoxyCompactItemize}
 \item 
-\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} \hyperlink{fifo__buffer_8h_aa270e4285342d4acfa39da6f18d5660a}{fifo\-Buf\-\_\-get\-Size} (\hyperlink{structt__fifo__buffer}{t\-\_\-fifo\-\_\-buffer} $\ast$\hyperlink{mavlink__helpers_8h_af5c51bef7cca88bcb22f0517fdb06153}{buf})
+uint16\-\_\-t \hyperlink{group___tau_labs_libraries_gaa270e4285342d4acfa39da6f18d5660a}{fifo\-Buf\-\_\-get\-Size} (\hyperlink{structt__fifo__buffer}{t\-\_\-fifo\-\_\-buffer} $\ast$buf)
 \item 
-\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} \hyperlink{fifo__buffer_8h_af7899f5644ee92bfeb70f13ce6960397}{fifo\-Buf\-\_\-get\-Used} (\hyperlink{structt__fifo__buffer}{t\-\_\-fifo\-\_\-buffer} $\ast$\hyperlink{mavlink__helpers_8h_af5c51bef7cca88bcb22f0517fdb06153}{buf})
+uint16\-\_\-t \hyperlink{group___tau_labs_libraries_gaf7899f5644ee92bfeb70f13ce6960397}{fifo\-Buf\-\_\-get\-Used} (\hyperlink{structt__fifo__buffer}{t\-\_\-fifo\-\_\-buffer} $\ast$buf)
 \item 
-\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} \hyperlink{fifo__buffer_8h_a844ca11f0130068bc86cbcafeb4b4ed5}{fifo\-Buf\-\_\-get\-Free} (\hyperlink{structt__fifo__buffer}{t\-\_\-fifo\-\_\-buffer} $\ast$\hyperlink{mavlink__helpers_8h_af5c51bef7cca88bcb22f0517fdb06153}{buf})
+uint16\-\_\-t \hyperlink{group___tau_labs_libraries_ga844ca11f0130068bc86cbcafeb4b4ed5}{fifo\-Buf\-\_\-get\-Free} (\hyperlink{structt__fifo__buffer}{t\-\_\-fifo\-\_\-buffer} $\ast$buf)
 \item 
-\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{fifo__buffer_8h_a9b8f79febf2799987381e0ebf46f3340}{fifo\-Buf\-\_\-clear\-Data} (\hyperlink{structt__fifo__buffer}{t\-\_\-fifo\-\_\-buffer} $\ast$\hyperlink{mavlink__helpers_8h_af5c51bef7cca88bcb22f0517fdb06153}{buf})
+void \hyperlink{group___tau_labs_libraries_ga9b8f79febf2799987381e0ebf46f3340}{fifo\-Buf\-\_\-clear\-Data} (\hyperlink{structt__fifo__buffer}{t\-\_\-fifo\-\_\-buffer} $\ast$buf)
 \item 
-\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{fifo__buffer_8h_ad0f438c3b314276b428c8d53c8c092a5}{fifo\-Buf\-\_\-remove\-Data} (\hyperlink{structt__fifo__buffer}{t\-\_\-fifo\-\_\-buffer} $\ast$\hyperlink{mavlink__helpers_8h_af5c51bef7cca88bcb22f0517fdb06153}{buf}, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} \hyperlink{mavlink__helpers_8h_aba59486c1504340293255a065b546e3a}{len})
+void \hyperlink{group___tau_labs_libraries_gad0f438c3b314276b428c8d53c8c092a5}{fifo\-Buf\-\_\-remove\-Data} (\hyperlink{structt__fifo__buffer}{t\-\_\-fifo\-\_\-buffer} $\ast$buf, uint16\-\_\-t len)
 \item 
-\hyperlink{stdint_8h_aa343fa3b3d06292b959ffdd4c4703b06}{int16\-\_\-t} \hyperlink{fifo__buffer_8h_a3c62c9926850173d22b4b30eb43e8e20}{fifo\-Buf\-\_\-get\-Byte\-Peek} (\hyperlink{structt__fifo__buffer}{t\-\_\-fifo\-\_\-buffer} $\ast$\hyperlink{mavlink__helpers_8h_af5c51bef7cca88bcb22f0517fdb06153}{buf})
+int16\-\_\-t \hyperlink{group___tau_labs_libraries_ga3c62c9926850173d22b4b30eb43e8e20}{fifo\-Buf\-\_\-get\-Byte\-Peek} (\hyperlink{structt__fifo__buffer}{t\-\_\-fifo\-\_\-buffer} $\ast$buf)
 \item 
-\hyperlink{stdint_8h_aa343fa3b3d06292b959ffdd4c4703b06}{int16\-\_\-t} \hyperlink{fifo__buffer_8h_af13e89738afc15e35e037da8d7cad31c}{fifo\-Buf\-\_\-get\-Byte} (\hyperlink{structt__fifo__buffer}{t\-\_\-fifo\-\_\-buffer} $\ast$\hyperlink{mavlink__helpers_8h_af5c51bef7cca88bcb22f0517fdb06153}{buf})
+int16\-\_\-t \hyperlink{group___tau_labs_libraries_gaf13e89738afc15e35e037da8d7cad31c}{fifo\-Buf\-\_\-get\-Byte} (\hyperlink{structt__fifo__buffer}{t\-\_\-fifo\-\_\-buffer} $\ast$buf)
 \item 
-\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} \hyperlink{fifo__buffer_8h_a5fccb0ff8f5982236052c0eb939b14c5}{fifo\-Buf\-\_\-get\-Data\-Peek} (\hyperlink{structt__fifo__buffer}{t\-\_\-fifo\-\_\-buffer} $\ast$\hyperlink{mavlink__helpers_8h_af5c51bef7cca88bcb22f0517fdb06153}{buf}, \hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} $\ast$\hyperlink{pios__opahrs__proto_8h_a20e3f4bfaeccf09a75ef27e095a10112}{data}, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} \hyperlink{mavlink__helpers_8h_aba59486c1504340293255a065b546e3a}{len})
+uint16\-\_\-t \hyperlink{group___tau_labs_libraries_ga5fccb0ff8f5982236052c0eb939b14c5}{fifo\-Buf\-\_\-get\-Data\-Peek} (\hyperlink{structt__fifo__buffer}{t\-\_\-fifo\-\_\-buffer} $\ast$buf, void $\ast$data, uint16\-\_\-t len)
 \item 
-\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} \hyperlink{fifo__buffer_8h_abc2919ac07ca622ec4daf5cc3e0c9fee}{fifo\-Buf\-\_\-get\-Data} (\hyperlink{structt__fifo__buffer}{t\-\_\-fifo\-\_\-buffer} $\ast$\hyperlink{mavlink__helpers_8h_af5c51bef7cca88bcb22f0517fdb06153}{buf}, \hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} $\ast$\hyperlink{pios__opahrs__proto_8h_a20e3f4bfaeccf09a75ef27e095a10112}{data}, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} \hyperlink{mavlink__helpers_8h_aba59486c1504340293255a065b546e3a}{len})
+uint16\-\_\-t \hyperlink{group___tau_labs_libraries_gabc2919ac07ca622ec4daf5cc3e0c9fee}{fifo\-Buf\-\_\-get\-Data} (\hyperlink{structt__fifo__buffer}{t\-\_\-fifo\-\_\-buffer} $\ast$buf, void $\ast$data, uint16\-\_\-t len)
 \item 
-\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} \hyperlink{fifo__buffer_8h_a03ae690aa0295d5a6f5afcdfcdc9fdff}{fifo\-Buf\-\_\-put\-Byte} (\hyperlink{structt__fifo__buffer}{t\-\_\-fifo\-\_\-buffer} $\ast$\hyperlink{mavlink__helpers_8h_af5c51bef7cca88bcb22f0517fdb06153}{buf}, \hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} b)
+uint16\-\_\-t \hyperlink{group___tau_labs_libraries_ga03ae690aa0295d5a6f5afcdfcdc9fdff}{fifo\-Buf\-\_\-put\-Byte} (\hyperlink{structt__fifo__buffer}{t\-\_\-fifo\-\_\-buffer} $\ast$buf, const uint8\-\_\-t b)
 \item 
-\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} \hyperlink{fifo__buffer_8h_a2399b539ff485341dbe71ff2f8bc8c4c}{fifo\-Buf\-\_\-put\-Data} (\hyperlink{structt__fifo__buffer}{t\-\_\-fifo\-\_\-buffer} $\ast$\hyperlink{mavlink__helpers_8h_af5c51bef7cca88bcb22f0517fdb06153}{buf}, \hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} \hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} $\ast$\hyperlink{pios__opahrs__proto_8h_a20e3f4bfaeccf09a75ef27e095a10112}{data}, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} \hyperlink{mavlink__helpers_8h_aba59486c1504340293255a065b546e3a}{len})
+uint16\-\_\-t \hyperlink{group___tau_labs_libraries_ga2399b539ff485341dbe71ff2f8bc8c4c}{fifo\-Buf\-\_\-put\-Data} (\hyperlink{structt__fifo__buffer}{t\-\_\-fifo\-\_\-buffer} $\ast$buf, const void $\ast$data, uint16\-\_\-t len)
 \item 
-\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{fifo__buffer_8h_a42b601965d761a66732c7ae8a43d62b4}{fifo\-Buf\-\_\-init} (\hyperlink{structt__fifo__buffer}{t\-\_\-fifo\-\_\-buffer} $\ast$\hyperlink{mavlink__helpers_8h_af5c51bef7cca88bcb22f0517fdb06153}{buf}, \hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} \hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} $\ast$buffer, \hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} buffer\-\_\-size)
+void \hyperlink{group___tau_labs_libraries_ga42b601965d761a66732c7ae8a43d62b4}{fifo\-Buf\-\_\-init} (\hyperlink{structt__fifo__buffer}{t\-\_\-fifo\-\_\-buffer} $\ast$buf, const void $\ast$buffer, const uint16\-\_\-t buffer\-\_\-size)
 \end{DoxyCompactItemize}
 
 
-\subsection{Detailed Description}
-G\-P\-I\-O functions header. \begin{DoxyAuthor}{Author}
-The Open\-Pilot Team, \href{http://www.openpilot.org}{\tt http\-://www.\-openpilot.\-org} Copyright (C) 2010. 
+\subsection{\-Detailed \-Description}
+\-G\-P\-I\-O functions header. \begin{DoxyAuthor}{\-Author}
+\-The \-Open\-Pilot \-Team, \href{http://www.openpilot.org}{\tt http\-://www.\-openpilot.\-org} \-Copyright (\-C) 2010. 
 \end{DoxyAuthor}
-\begin{DoxySeeAlso}{See Also}
-The G\-N\-U Public License (G\-P\-L) Version 3 
+\begin{DoxySeeAlso}{\-See also}
+\-The \-G\-N\-U \-Public \-License (\-G\-P\-L) \-Version 3 
 \end{DoxySeeAlso}
 
 
-Definition in file \hyperlink{fifo__buffer_8h_source}{fifo\-\_\-buffer.\-h}.
-
-
-
-\subsection{Function Documentation}
-\hypertarget{fifo__buffer_8h_a9b8f79febf2799987381e0ebf46f3340}{\index{fifo\-\_\-buffer.\-h@{fifo\-\_\-buffer.\-h}!fifo\-Buf\-\_\-clear\-Data@{fifo\-Buf\-\_\-clear\-Data}}
-\index{fifo\-Buf\-\_\-clear\-Data@{fifo\-Buf\-\_\-clear\-Data}!fifo_buffer.h@{fifo\-\_\-buffer.\-h}}
-\subsubsection[{fifo\-Buf\-\_\-clear\-Data}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} fifo\-Buf\-\_\-clear\-Data (
-\begin{DoxyParamCaption}
-\item[{{\bf t\-\_\-fifo\-\_\-buffer} $\ast$}]{buf}
-\end{DoxyParamCaption}
-)}}\label{fifo__buffer_8h_a9b8f79febf2799987381e0ebf46f3340}
-
-
-Definition at line 68 of file fifo\-\_\-buffer.\-c.
-
-\hypertarget{fifo__buffer_8h_af13e89738afc15e35e037da8d7cad31c}{\index{fifo\-\_\-buffer.\-h@{fifo\-\_\-buffer.\-h}!fifo\-Buf\-\_\-get\-Byte@{fifo\-Buf\-\_\-get\-Byte}}
-\index{fifo\-Buf\-\_\-get\-Byte@{fifo\-Buf\-\_\-get\-Byte}!fifo_buffer.h@{fifo\-\_\-buffer.\-h}}
-\subsubsection[{fifo\-Buf\-\_\-get\-Byte}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int16\-\_\-t} fifo\-Buf\-\_\-get\-Byte (
-\begin{DoxyParamCaption}
-\item[{{\bf t\-\_\-fifo\-\_\-buffer} $\ast$}]{buf}
-\end{DoxyParamCaption}
-)}}\label{fifo__buffer_8h_af13e89738afc15e35e037da8d7cad31c}
-
-
-Definition at line 109 of file fifo\-\_\-buffer.\-c.
-
-\hypertarget{fifo__buffer_8h_a3c62c9926850173d22b4b30eb43e8e20}{\index{fifo\-\_\-buffer.\-h@{fifo\-\_\-buffer.\-h}!fifo\-Buf\-\_\-get\-Byte\-Peek@{fifo\-Buf\-\_\-get\-Byte\-Peek}}
-\index{fifo\-Buf\-\_\-get\-Byte\-Peek@{fifo\-Buf\-\_\-get\-Byte\-Peek}!fifo_buffer.h@{fifo\-\_\-buffer.\-h}}
-\subsubsection[{fifo\-Buf\-\_\-get\-Byte\-Peek}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int16\-\_\-t} fifo\-Buf\-\_\-get\-Byte\-Peek (
-\begin{DoxyParamCaption}
-\item[{{\bf t\-\_\-fifo\-\_\-buffer} $\ast$}]{buf}
-\end{DoxyParamCaption}
-)}}\label{fifo__buffer_8h_a3c62c9926850173d22b4b30eb43e8e20}
-
-
-Definition at line 95 of file fifo\-\_\-buffer.\-c.
-
-\hypertarget{fifo__buffer_8h_abc2919ac07ca622ec4daf5cc3e0c9fee}{\index{fifo\-\_\-buffer.\-h@{fifo\-\_\-buffer.\-h}!fifo\-Buf\-\_\-get\-Data@{fifo\-Buf\-\_\-get\-Data}}
-\index{fifo\-Buf\-\_\-get\-Data@{fifo\-Buf\-\_\-get\-Data}!fifo_buffer.h@{fifo\-\_\-buffer.\-h}}
-\subsubsection[{fifo\-Buf\-\_\-get\-Data}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint16\-\_\-t} fifo\-Buf\-\_\-get\-Data (
-\begin{DoxyParamCaption}
-\item[{{\bf t\-\_\-fifo\-\_\-buffer} $\ast$}]{buf, }
-\item[{{\bf void} $\ast$}]{data, }
-\item[{{\bf uint16\-\_\-t}}]{len}
-\end{DoxyParamCaption}
-)}}\label{fifo__buffer_8h_abc2919ac07ca622ec4daf5cc3e0c9fee}
-
-
-Definition at line 166 of file fifo\-\_\-buffer.\-c.
-
-\hypertarget{fifo__buffer_8h_a5fccb0ff8f5982236052c0eb939b14c5}{\index{fifo\-\_\-buffer.\-h@{fifo\-\_\-buffer.\-h}!fifo\-Buf\-\_\-get\-Data\-Peek@{fifo\-Buf\-\_\-get\-Data\-Peek}}
-\index{fifo\-Buf\-\_\-get\-Data\-Peek@{fifo\-Buf\-\_\-get\-Data\-Peek}!fifo_buffer.h@{fifo\-\_\-buffer.\-h}}
-\subsubsection[{fifo\-Buf\-\_\-get\-Data\-Peek}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint16\-\_\-t} fifo\-Buf\-\_\-get\-Data\-Peek (
-\begin{DoxyParamCaption}
-\item[{{\bf t\-\_\-fifo\-\_\-buffer} $\ast$}]{buf, }
-\item[{{\bf void} $\ast$}]{data, }
-\item[{{\bf uint16\-\_\-t}}]{len}
-\end{DoxyParamCaption}
-)}}\label{fifo__buffer_8h_a5fccb0ff8f5982236052c0eb939b14c5}
-
-
-Definition at line 131 of file fifo\-\_\-buffer.\-c.
-
-\hypertarget{fifo__buffer_8h_a844ca11f0130068bc86cbcafeb4b4ed5}{\index{fifo\-\_\-buffer.\-h@{fifo\-\_\-buffer.\-h}!fifo\-Buf\-\_\-get\-Free@{fifo\-Buf\-\_\-get\-Free}}
-\index{fifo\-Buf\-\_\-get\-Free@{fifo\-Buf\-\_\-get\-Free}!fifo_buffer.h@{fifo\-\_\-buffer.\-h}}
-\subsubsection[{fifo\-Buf\-\_\-get\-Free}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint16\-\_\-t} fifo\-Buf\-\_\-get\-Free (
-\begin{DoxyParamCaption}
-\item[{{\bf t\-\_\-fifo\-\_\-buffer} $\ast$}]{buf}
-\end{DoxyParamCaption}
-)}}\label{fifo__buffer_8h_a844ca11f0130068bc86cbcafeb4b4ed5}
-
-
-Definition at line 58 of file fifo\-\_\-buffer.\-c.
-
-\hypertarget{fifo__buffer_8h_aa270e4285342d4acfa39da6f18d5660a}{\index{fifo\-\_\-buffer.\-h@{fifo\-\_\-buffer.\-h}!fifo\-Buf\-\_\-get\-Size@{fifo\-Buf\-\_\-get\-Size}}
-\index{fifo\-Buf\-\_\-get\-Size@{fifo\-Buf\-\_\-get\-Size}!fifo_buffer.h@{fifo\-\_\-buffer.\-h}}
-\subsubsection[{fifo\-Buf\-\_\-get\-Size}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint16\-\_\-t} fifo\-Buf\-\_\-get\-Size (
-\begin{DoxyParamCaption}
-\item[{{\bf t\-\_\-fifo\-\_\-buffer} $\ast$}]{buf}
-\end{DoxyParamCaption}
-)}}\label{fifo__buffer_8h_aa270e4285342d4acfa39da6f18d5660a}
-
-
-Definition at line 33 of file fifo\-\_\-buffer.\-c.
-
-\hypertarget{fifo__buffer_8h_af7899f5644ee92bfeb70f13ce6960397}{\index{fifo\-\_\-buffer.\-h@{fifo\-\_\-buffer.\-h}!fifo\-Buf\-\_\-get\-Used@{fifo\-Buf\-\_\-get\-Used}}
-\index{fifo\-Buf\-\_\-get\-Used@{fifo\-Buf\-\_\-get\-Used}!fifo_buffer.h@{fifo\-\_\-buffer.\-h}}
-\subsubsection[{fifo\-Buf\-\_\-get\-Used}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint16\-\_\-t} fifo\-Buf\-\_\-get\-Used (
-\begin{DoxyParamCaption}
-\item[{{\bf t\-\_\-fifo\-\_\-buffer} $\ast$}]{buf}
-\end{DoxyParamCaption}
-)}}\label{fifo__buffer_8h_af7899f5644ee92bfeb70f13ce6960397}
-
-
-Definition at line 44 of file fifo\-\_\-buffer.\-c.
-
-\hypertarget{fifo__buffer_8h_a42b601965d761a66732c7ae8a43d62b4}{\index{fifo\-\_\-buffer.\-h@{fifo\-\_\-buffer.\-h}!fifo\-Buf\-\_\-init@{fifo\-Buf\-\_\-init}}
-\index{fifo\-Buf\-\_\-init@{fifo\-Buf\-\_\-init}!fifo_buffer.h@{fifo\-\_\-buffer.\-h}}
-\subsubsection[{fifo\-Buf\-\_\-init}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} fifo\-Buf\-\_\-init (
-\begin{DoxyParamCaption}
-\item[{{\bf t\-\_\-fifo\-\_\-buffer} $\ast$}]{buf, }
-\item[{{\bf const} {\bf void} $\ast$}]{buffer, }
-\item[{{\bf const} {\bf uint16\-\_\-t}}]{buffer\-\_\-size}
-\end{DoxyParamCaption}
-)}}\label{fifo__buffer_8h_a42b601965d761a66732c7ae8a43d62b4}
-
-
-Definition at line 258 of file fifo\-\_\-buffer.\-c.
-
-\hypertarget{fifo__buffer_8h_a03ae690aa0295d5a6f5afcdfcdc9fdff}{\index{fifo\-\_\-buffer.\-h@{fifo\-\_\-buffer.\-h}!fifo\-Buf\-\_\-put\-Byte@{fifo\-Buf\-\_\-put\-Byte}}
-\index{fifo\-Buf\-\_\-put\-Byte@{fifo\-Buf\-\_\-put\-Byte}!fifo_buffer.h@{fifo\-\_\-buffer.\-h}}
-\subsubsection[{fifo\-Buf\-\_\-put\-Byte}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint16\-\_\-t} fifo\-Buf\-\_\-put\-Byte (
-\begin{DoxyParamCaption}
-\item[{{\bf t\-\_\-fifo\-\_\-buffer} $\ast$}]{buf, }
-\item[{{\bf const} {\bf uint8\-\_\-t}}]{b}
-\end{DoxyParamCaption}
-)}}\label{fifo__buffer_8h_a03ae690aa0295d5a6f5afcdfcdc9fdff}
-
-
-Definition at line 203 of file fifo\-\_\-buffer.\-c.
-
-\hypertarget{fifo__buffer_8h_a2399b539ff485341dbe71ff2f8bc8c4c}{\index{fifo\-\_\-buffer.\-h@{fifo\-\_\-buffer.\-h}!fifo\-Buf\-\_\-put\-Data@{fifo\-Buf\-\_\-put\-Data}}
-\index{fifo\-Buf\-\_\-put\-Data@{fifo\-Buf\-\_\-put\-Data}!fifo_buffer.h@{fifo\-\_\-buffer.\-h}}
-\subsubsection[{fifo\-Buf\-\_\-put\-Data}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint16\-\_\-t} fifo\-Buf\-\_\-put\-Data (
-\begin{DoxyParamCaption}
-\item[{{\bf t\-\_\-fifo\-\_\-buffer} $\ast$}]{buf, }
-\item[{{\bf const} {\bf void} $\ast$}]{data, }
-\item[{{\bf uint16\-\_\-t}}]{len}
-\end{DoxyParamCaption}
-)}}\label{fifo__buffer_8h_a2399b539ff485341dbe71ff2f8bc8c4c}
-
-
-Definition at line 223 of file fifo\-\_\-buffer.\-c.
-
-\hypertarget{fifo__buffer_8h_ad0f438c3b314276b428c8d53c8c092a5}{\index{fifo\-\_\-buffer.\-h@{fifo\-\_\-buffer.\-h}!fifo\-Buf\-\_\-remove\-Data@{fifo\-Buf\-\_\-remove\-Data}}
-\index{fifo\-Buf\-\_\-remove\-Data@{fifo\-Buf\-\_\-remove\-Data}!fifo_buffer.h@{fifo\-\_\-buffer.\-h}}
-\subsubsection[{fifo\-Buf\-\_\-remove\-Data}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} fifo\-Buf\-\_\-remove\-Data (
-\begin{DoxyParamCaption}
-\item[{{\bf t\-\_\-fifo\-\_\-buffer} $\ast$}]{buf, }
-\item[{{\bf uint16\-\_\-t}}]{len}
-\end{DoxyParamCaption}
-)}}\label{fifo__buffer_8h_ad0f438c3b314276b428c8d53c8c092a5}
-
-
-Definition at line 73 of file fifo\-\_\-buffer.\-c.
+\-Definition in file \hyperlink{fifo__buffer_8h_source}{fifo\-\_\-buffer.\-h}.
 

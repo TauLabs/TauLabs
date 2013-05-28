@@ -1,11 +1,6 @@
 var classdevice_widget =
 [
-    [ "StatusIcon", "group___y_modem_uploader.html#ga788236c4f7d8fe7586489a183528d657", [
-      [ "STATUSICON_OK", "group___y_modem_uploader.html#gga788236c4f7d8fe7586489a183528d657a8bca9ffd7e0d28d471e8b3f6aa52120c", null ],
-      [ "STATUSICON_RUNNING", "group___y_modem_uploader.html#gga788236c4f7d8fe7586489a183528d657a9930ae1923857bf1f78907ee4bb3baaa", null ],
-      [ "STATUSICON_FAIL", "group___y_modem_uploader.html#gga788236c4f7d8fe7586489a183528d657a72975044b2bc8aa1b97b1bd730059025", null ],
-      [ "STATUSICON_INFO", "group___y_modem_uploader.html#gga788236c4f7d8fe7586489a183528d657a7e4049feafb5e7f932619e41afda5257", null ]
-    ] ],
+    [ "StatusIcon", "group___y_modem_uploader.html#ga788236c4f7d8fe7586489a183528d657", null ],
     [ "deviceWidget", "group___y_modem_uploader.html#gafcee9273f2b8216d324c235d5e164899", null ],
     [ "confirmCB", "group___y_modem_uploader.html#ga116ecb3aed92f7f793ea4769a7e0572d", null ],
     [ "dfuStatus", "group___uploader.html#gac421d53cac355c47f763a62eab7675c1", null ],

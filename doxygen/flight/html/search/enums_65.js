@@ -1,9 +1,5 @@
 var searchData=
 [
   ['endianness',['Endianness',['../group___p_i_o_s___w_a_v_p_l_a_y.html#ga4f3ee12da30a1e47c52dc137b4627cab',1,'pios_wavplay.c']]],
-  ['ep_5fbuf_5fnum',['EP_BUF_NUM',['../_s_t_m32_f10x_2_libraries_2_s_t_m32___u_s_b-_f_s-_device___driver_2inc_2usb__regs_8h.html#a51f9eb2beef9ab5724ebc098e75926f6',1,'EP_BUF_NUM():&#160;usb_regs.h'],['../_s_t_m32_f30x_2_libraries_2_s_t_m32___u_s_b-_f_s-_device___driver_2inc_2usb__regs_8h.html#a51f9eb2beef9ab5724ebc098e75926f6',1,'EP_BUF_NUM():&#160;usb_regs.h']]],
-  ['errorcode',['ErrorCode',['../group___w_a_v_e_p_l_a_y_e_r___private___defines.html#ga59e56af19e754a6aa26a612ebf91d05f',1,'pios_wavplay.c']]],
-  ['errorstatus',['ErrorStatus',['../group___exported__types.html#ga8333b96c67f83cba354b3407fcbb6ee8',1,'ErrorStatus():&#160;stm32f10x.h'],['../_s_t_m32_f10x_2_libraries_2_s_t_m32___u_s_b-_f_s-_device___driver_2inc_2usb__type_8h.html#a8333b96c67f83cba354b3407fcbb6ee8',1,'ErrorStatus():&#160;usb_type.h'],['../group___exported__types.html#ga8333b96c67f83cba354b3407fcbb6ee8',1,'ErrorStatus():&#160;stm32f30x.h'],['../_s_t_m32_f30x_2_libraries_2_s_t_m32___u_s_b-_f_s-_device___driver_2inc_2usb__type_8h.html#a8333b96c67f83cba354b3407fcbb6ee8',1,'ErrorStatus():&#160;usb_type.h'],['../group___exported__types.html#ga8333b96c67f83cba354b3407fcbb6ee8',1,'ErrorStatus():&#160;stm32f4xx.h']]],
-  ['etaskstate',['eTaskState',['../_common_2_libraries_2_free_r_t_o_s_2_source_2include_2task_8h.html#a1749369458e2282a22e862a619a3892c',1,'task.h']]],
-  ['extitrigger_5ftypedef',['EXTITrigger_TypeDef',['../stm32f10x__exti_8h.html#a9da190f5425d1b421a06bced8cc48e9b',1,'EXTITrigger_TypeDef():&#160;stm32f10x_exti.h'],['../stm32f30x__exti_8h.html#a9da190f5425d1b421a06bced8cc48e9b',1,'EXTITrigger_TypeDef():&#160;stm32f30x_exti.h'],['../stm32f4xx__exti_8h.html#a9da190f5425d1b421a06bced8cc48e9b',1,'EXTITrigger_TypeDef():&#160;stm32f4xx_exti.h']]]
+  ['errorcode',['ErrorCode',['../group___w_a_v_e_p_l_a_y_e_r___private___defines.html#ga59e56af19e754a6aa26a612ebf91d05f',1,'pios_wavplay.c']]]
 ];

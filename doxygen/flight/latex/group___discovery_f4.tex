@@ -1,0 +1,172 @@
+\hypertarget{group___discovery_f4}{\section{\-Discovery\-F4 support files}
+\label{group___discovery_f4}\index{\-Discovery\-F4 support files@{\-Discovery\-F4 support files}}
+}
+\subsection*{\-Files}
+\begin{DoxyCompactItemize}
+\item 
+file \hyperlink{freedom_8c}{freedom.\-c}
+\begin{DoxyCompactList}\small\item\em \-Start \-Free\-R\-T\-O\-S and the \-Modules. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{group___discovery_f4_ga63d09d362d824819ac0ec8162ca337f9}{\-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-accel\-\_\-irq\-\_\-handler} (void)
+\item 
+void \hyperlink{group___discovery_f4_ga1b70a4441662b1d6548e803499da414f}{\-D\-M\-A1\-\_\-\-Stream0\-\_\-\-I\-R\-Q\-Handler} (void)
+\item 
+void \hyperlink{group___discovery_f4_gadc73bf2eccd9d9ff9d8efedd1e743704}{\-P\-I\-O\-S\-\_\-\-R\-T\-C\-\_\-\-I\-R\-Q\-\_\-\-Handler} (void)
+\item 
+void \hyperlink{group___discovery_f4_ga7e78266985c97f3b7e8a9f91893657d1}{\-R\-T\-C\-\_\-\-W\-K\-U\-P\-\_\-\-I\-R\-Q\-Handler} ()
+\item 
+void \hyperlink{group___discovery_f4_ga902009c5b1cb57d9f9d60092eb7cacfb}{\-P\-I\-O\-S\-\_\-\-Board\-\_\-\-Init} (void)
+\item 
+void \hyperlink{group___discovery_f4_ga7a789e7b91612099a4a1f355b9e97c24}{\-Stack\-\_\-\-Change} (void)
+\item 
+void \hyperlink{group___discovery_f4_gae7ecc4ed0ea5858477b78acaf928c3ef}{init\-Task} (void $\ast$parameters)
+\item 
+int32\-\_\-t \hyperlink{group___discovery_f4_ga5efd94ab761f254827f38dba474cf642}{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-B\-O\-A\-R\-D\-\_\-\-D\-A\-T\-A\-\_\-\-Init} (void)
+\end{DoxyCompactItemize}
+\subsection*{\-Variables}
+\begin{DoxyCompactItemize}
+\item 
+uint32\-\_\-t \hyperlink{group___discovery_f4_ga30b6021756ffd1dec65a7edc27179895}{pios\-\_\-spi\-\_\-accel\-\_\-id}
+\item 
+struct \hyperlink{structpios__usb__hid__cfg}{pios\-\_\-usb\-\_\-hid\-\_\-cfg} \hyperlink{group___discovery_f4_ga3665f6d3a2cccc431b55b9432291e94c}{pios\-\_\-usb\-\_\-hid\-\_\-cfg}
+\item 
+struct \hyperlink{structpios__usb__cdc__cfg}{pios\-\_\-usb\-\_\-cdc\-\_\-cfg} \hyperlink{group___discovery_f4_ga05cc3e449d417c7f9097d2659e6f5ca3}{pios\-\_\-usb\-\_\-cdc\-\_\-cfg}
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Function \-Documentation}
+\hypertarget{group___discovery_f4_ga1b70a4441662b1d6548e803499da414f}{\index{\-Discovery\-F4 support files@{\-Discovery\-F4 support files}!\-D\-M\-A1\-\_\-\-Stream0\-\_\-\-I\-R\-Q\-Handler@{\-D\-M\-A1\-\_\-\-Stream0\-\_\-\-I\-R\-Q\-Handler}}
+\index{\-D\-M\-A1\-\_\-\-Stream0\-\_\-\-I\-R\-Q\-Handler@{\-D\-M\-A1\-\_\-\-Stream0\-\_\-\-I\-R\-Q\-Handler}!DiscoveryF4 support files@{\-Discovery\-F4 support files}}
+\subsubsection[{\-D\-M\-A1\-\_\-\-Stream0\-\_\-\-I\-R\-Q\-Handler}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-D\-M\-A1\-\_\-\-Stream0\-\_\-\-I\-R\-Q\-Handler} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group___discovery_f4_ga1b70a4441662b1d6548e803499da414f}
+
+
+\-Definition at line 111 of file board\-\_\-hw\-\_\-defs.\-c.
+
+\hypertarget{group___discovery_f4_gae7ecc4ed0ea5858477b78acaf928c3ef}{\index{\-Discovery\-F4 support files@{\-Discovery\-F4 support files}!init\-Task@{init\-Task}}
+\index{init\-Task@{init\-Task}!DiscoveryF4 support files@{\-Discovery\-F4 support files}}
+\subsubsection[{init\-Task}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf init\-Task} (
+\begin{DoxyParamCaption}
+\item[{void $\ast$}]{parameters}
+\end{DoxyParamCaption}
+)}}\label{group___discovery_f4_gae7ecc4ed0ea5858477b78acaf928c3ef}
+\-Initialisation task.
+
+\-Runs board and module initialisation, then terminates. 
+
+\-Definition at line 101 of file discoveryf4.\-c.
+
+\hypertarget{group___discovery_f4_ga902009c5b1cb57d9f9d60092eb7cacfb}{\index{\-Discovery\-F4 support files@{\-Discovery\-F4 support files}!\-P\-I\-O\-S\-\_\-\-Board\-\_\-\-Init@{\-P\-I\-O\-S\-\_\-\-Board\-\_\-\-Init}}
+\index{\-P\-I\-O\-S\-\_\-\-Board\-\_\-\-Init@{\-P\-I\-O\-S\-\_\-\-Board\-\_\-\-Init}!DiscoveryF4 support files@{\-Discovery\-F4 support files}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-Board\-\_\-\-Init}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-P\-I\-O\-S\-\_\-\-Board\-\_\-\-Init} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group___discovery_f4_ga902009c5b1cb57d9f9d60092eb7cacfb}
+\hyperlink{group___bootloader_update_ga902009c5b1cb57d9f9d60092eb7cacfb}{\-P\-I\-O\-S\-\_\-\-Board\-\_\-\-Init()} initializes all the core subsystems on this specific hardware called from \-System/openpilot.\-c
+
+\hyperlink{group___bootloader_update_ga902009c5b1cb57d9f9d60092eb7cacfb}{\-P\-I\-O\-S\-\_\-\-Board\-\_\-\-Init()} initializes all the core systems on this specific hardware called from \-System/openpilot.\-c
+
+\hyperlink{group___bootloader_update_ga902009c5b1cb57d9f9d60092eb7cacfb}{\-P\-I\-O\-S\-\_\-\-Board\-\_\-\-Init()} initializes all the core subsystems on this specific hardware called from \-System/openpilot.\-c 
+
+\-Definition at line 42 of file pios\-\_\-board.\-c.
+
+\hypertarget{group___discovery_f4_gadc73bf2eccd9d9ff9d8efedd1e743704}{\index{\-Discovery\-F4 support files@{\-Discovery\-F4 support files}!\-P\-I\-O\-S\-\_\-\-R\-T\-C\-\_\-\-I\-R\-Q\-\_\-\-Handler@{\-P\-I\-O\-S\-\_\-\-R\-T\-C\-\_\-\-I\-R\-Q\-\_\-\-Handler}}
+\index{\-P\-I\-O\-S\-\_\-\-R\-T\-C\-\_\-\-I\-R\-Q\-\_\-\-Handler@{\-P\-I\-O\-S\-\_\-\-R\-T\-C\-\_\-\-I\-R\-Q\-\_\-\-Handler}!DiscoveryF4 support files@{\-Discovery\-F4 support files}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-R\-T\-C\-\_\-\-I\-R\-Q\-\_\-\-Handler}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-P\-I\-O\-S\-\_\-\-R\-T\-C\-\_\-\-I\-R\-Q\-\_\-\-Handler} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group___discovery_f4_gadc73bf2eccd9d9ff9d8efedd1e743704}
+\hypertarget{group___discovery_f4_ga63d09d362d824819ac0ec8162ca337f9}{\index{\-Discovery\-F4 support files@{\-Discovery\-F4 support files}!\-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-accel\-\_\-irq\-\_\-handler@{\-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-accel\-\_\-irq\-\_\-handler}}
+\index{\-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-accel\-\_\-irq\-\_\-handler@{\-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-accel\-\_\-irq\-\_\-handler}!DiscoveryF4 support files@{\-Discovery\-F4 support files}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-accel\-\_\-irq\-\_\-handler}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-P\-I\-O\-S\-\_\-\-S\-P\-I\-\_\-accel\-\_\-irq\-\_\-handler} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group___discovery_f4_ga63d09d362d824819ac0ec8162ca337f9}
+
+
+\-Definition at line 225 of file board\-\_\-hw\-\_\-defs.\-c.
+
+\hypertarget{group___discovery_f4_ga5efd94ab761f254827f38dba474cf642}{\index{\-Discovery\-F4 support files@{\-Discovery\-F4 support files}!\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-B\-O\-A\-R\-D\-\_\-\-D\-A\-T\-A\-\_\-\-Init@{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-B\-O\-A\-R\-D\-\_\-\-D\-A\-T\-A\-\_\-\-Init}}
+\index{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-B\-O\-A\-R\-D\-\_\-\-D\-A\-T\-A\-\_\-\-Init@{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-B\-O\-A\-R\-D\-\_\-\-D\-A\-T\-A\-\_\-\-Init}!DiscoveryF4 support files@{\-Discovery\-F4 support files}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-B\-O\-A\-R\-D\-\_\-\-D\-A\-T\-A\-\_\-\-Init}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-P\-I\-O\-S\-\_\-\-U\-S\-B\-\_\-\-B\-O\-A\-R\-D\-\_\-\-D\-A\-T\-A\-\_\-\-Init} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group___discovery_f4_ga5efd94ab761f254827f38dba474cf642}
+
+
+\-Definition at line 78 of file pios\-\_\-usb\-\_\-board\-\_\-data.\-c.
+
+\hypertarget{group___discovery_f4_ga7e78266985c97f3b7e8a9f91893657d1}{\index{\-Discovery\-F4 support files@{\-Discovery\-F4 support files}!\-R\-T\-C\-\_\-\-W\-K\-U\-P\-\_\-\-I\-R\-Q\-Handler@{\-R\-T\-C\-\_\-\-W\-K\-U\-P\-\_\-\-I\-R\-Q\-Handler}}
+\index{\-R\-T\-C\-\_\-\-W\-K\-U\-P\-\_\-\-I\-R\-Q\-Handler@{\-R\-T\-C\-\_\-\-W\-K\-U\-P\-\_\-\-I\-R\-Q\-Handler}!DiscoveryF4 support files@{\-Discovery\-F4 support files}}
+\subsubsection[{\-R\-T\-C\-\_\-\-W\-K\-U\-P\-\_\-\-I\-R\-Q\-Handler}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-R\-T\-C\-\_\-\-W\-K\-U\-P\-\_\-\-I\-R\-Q\-Handler} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___discovery_f4_ga7e78266985c97f3b7e8a9f91893657d1}
+
+
+\-Definition at line 326 of file board\-\_\-hw\-\_\-defs.\-c.
+
+\hypertarget{group___discovery_f4_ga7a789e7b91612099a4a1f355b9e97c24}{\index{\-Discovery\-F4 support files@{\-Discovery\-F4 support files}!\-Stack\-\_\-\-Change@{\-Stack\-\_\-\-Change}}
+\index{\-Stack\-\_\-\-Change@{\-Stack\-\_\-\-Change}!DiscoveryF4 support files@{\-Discovery\-F4 support files}}
+\subsubsection[{\-Stack\-\_\-\-Change}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-Stack\-\_\-\-Change} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group___discovery_f4_ga7a789e7b91612099a4a1f355b9e97c24}
+
+
+\-Definition at line 50 of file pios\-\_\-board\-\_\-sim.\-c.
+
+
+
+\subsection{\-Variable \-Documentation}
+\hypertarget{group___discovery_f4_ga30b6021756ffd1dec65a7edc27179895}{\index{\-Discovery\-F4 support files@{\-Discovery\-F4 support files}!pios\-\_\-spi\-\_\-accel\-\_\-id@{pios\-\_\-spi\-\_\-accel\-\_\-id}}
+\index{pios\-\_\-spi\-\_\-accel\-\_\-id@{pios\-\_\-spi\-\_\-accel\-\_\-id}!DiscoveryF4 support files@{\-Discovery\-F4 support files}}
+\subsubsection[{pios\-\_\-spi\-\_\-accel\-\_\-id}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t {\bf pios\-\_\-spi\-\_\-accel\-\_\-id}}}\label{group___discovery_f4_ga30b6021756ffd1dec65a7edc27179895}
+
+
+\-Definition at line 222 of file board\-\_\-hw\-\_\-defs.\-c.
+
+\hypertarget{group___discovery_f4_ga05cc3e449d417c7f9097d2659e6f5ca3}{\index{\-Discovery\-F4 support files@{\-Discovery\-F4 support files}!pios\-\_\-usb\-\_\-cdc\-\_\-cfg@{pios\-\_\-usb\-\_\-cdc\-\_\-cfg}}
+\index{pios\-\_\-usb\-\_\-cdc\-\_\-cfg@{pios\-\_\-usb\-\_\-cdc\-\_\-cfg}!DiscoveryF4 support files@{\-Discovery\-F4 support files}}
+\subsubsection[{pios\-\_\-usb\-\_\-cdc\-\_\-cfg}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf pios\-\_\-usb\-\_\-cdc\-\_\-cfg} {\bf pios\-\_\-usb\-\_\-cdc\-\_\-cfg}}}\label{group___discovery_f4_ga05cc3e449d417c7f9097d2659e6f5ca3}
+{\bfseries \-Initial value\-:}
+\begin{DoxyCode}
+ {
+        .ctrl_if = 0,
+        .ctrl_tx_ep = 2,
+
+        .data_if = 1,
+        .data_rx_ep = 3,
+        .data_tx_ep = 3,
+}
+\end{DoxyCode}
+
+
+\-Definition at line 409 of file board\-\_\-hw\-\_\-defs.\-c.
+
+\hypertarget{group___discovery_f4_ga3665f6d3a2cccc431b55b9432291e94c}{\index{\-Discovery\-F4 support files@{\-Discovery\-F4 support files}!pios\-\_\-usb\-\_\-hid\-\_\-cfg@{pios\-\_\-usb\-\_\-hid\-\_\-cfg}}
+\index{pios\-\_\-usb\-\_\-hid\-\_\-cfg@{pios\-\_\-usb\-\_\-hid\-\_\-cfg}!DiscoveryF4 support files@{\-Discovery\-F4 support files}}
+\subsubsection[{pios\-\_\-usb\-\_\-hid\-\_\-cfg}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf pios\-\_\-usb\-\_\-hid\-\_\-cfg} {\bf pios\-\_\-usb\-\_\-hid\-\_\-cfg}}}\label{group___discovery_f4_ga3665f6d3a2cccc431b55b9432291e94c}
+{\bfseries \-Initial value\-:}
+\begin{DoxyCode}
+ {
+        .data_if = 0,
+        .data_rx_ep = 1,
+        .data_tx_ep = 1,
+}
+\end{DoxyCode}
+
+
+\-Definition at line 399 of file board\-\_\-hw\-\_\-defs.\-c.
+

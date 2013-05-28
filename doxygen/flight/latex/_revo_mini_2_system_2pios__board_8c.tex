@@ -1,39 +1,35 @@
-\hypertarget{_revo_mini_2_system_2pios__board_8c}{\section{/home/jose/\-Code/gui\-Tau/flight/targets/\-Revo\-Mini/\-System/pios\-\_\-board.c File Reference}
-\label{_revo_mini_2_system_2pios__board_8c}\index{/home/jose/\-Code/gui\-Tau/flight/targets/\-Revo\-Mini/\-System/pios\-\_\-board.\-c@{/home/jose/\-Code/gui\-Tau/flight/targets/\-Revo\-Mini/\-System/pios\-\_\-board.\-c}}
+\hypertarget{_revo_mini_2_system_2pios__board_8c}{\section{/home/jb/code/\-Tau\-Labs/flight/targets/\-Revo\-Mini/\-System/pios\-\_\-board.c \-File \-Reference}
+\label{_revo_mini_2_system_2pios__board_8c}\index{/home/jb/code/\-Tau\-Labs/flight/targets/\-Revo\-Mini/\-System/pios\-\_\-board.\-c@{/home/jb/code/\-Tau\-Labs/flight/targets/\-Revo\-Mini/\-System/pios\-\_\-board.\-c}}
 }
-\subsection*{Functions}
+\subsection*{\-Functions}
 \begin{DoxyCompactItemize}
 \item 
-\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___open_pilot_core_gadc9219e22dc694e541870e52af1962dd}{P\-I\-O\-S\-\_\-\-A\-D\-C\-\_\-\-D\-M\-C\-\_\-irq\-\_\-handler} (\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void})
-\item 
-\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___open_pilot_core_ga295198ed574625d416158a5fc54205ea}{D\-M\-A2\-\_\-\-Stream4\-\_\-\-I\-R\-Q\-Handler} (\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void})
-\item 
-\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___open_pilot_core_ga902009c5b1cb57d9f9d60092eb7cacfb}{P\-I\-O\-S\-\_\-\-Board\-\_\-\-Init} (\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void})
+void \hyperlink{group___revo_mini_ga902009c5b1cb57d9f9d60092eb7cacfb}{\-P\-I\-O\-S\-\_\-\-Board\-\_\-\-Init} (void)
 \end{DoxyCompactItemize}
-\subsection*{Variables}
+\subsection*{\-Variables}
 \begin{DoxyCompactItemize}
 \item 
-struct \hyperlink{structstm32__gpio}{stm32\-\_\-gpio} \hyperlink{group___open_pilot_core_ga606e58ec5cbb14b404f825ca313fb71e}{pios\-\_\-current\-\_\-sonar\-\_\-pin}
+uint32\-\_\-t \hyperlink{group___revo_mini_ga6c6cfc16eb738e47c123298e062297e2}{pios\-\_\-rcvr\-\_\-group\-\_\-map} \mbox{[}\hyperlink{group___manual_control_settings_gga94e1fe696fef2f85cbdb4a2e479c7ed2af9104b4e2c50328b0912db1e10fc3074}{\-M\-A\-N\-U\-A\-L\-C\-O\-N\-T\-R\-O\-L\-S\-E\-T\-T\-I\-N\-G\-S\-\_\-\-C\-H\-A\-N\-N\-E\-L\-G\-R\-O\-U\-P\-S\-\_\-\-N\-O\-N\-E}\mbox{]}
 \item 
-\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} \hyperlink{group___open_pilot_core_ga6c6cfc16eb738e47c123298e062297e2}{pios\-\_\-rcvr\-\_\-group\-\_\-map} \mbox{[}M\-A\-N\-U\-A\-L\-C\-O\-N\-T\-R\-O\-L\-S\-E\-T\-T\-I\-N\-G\-S\-\_\-\-C\-H\-A\-N\-N\-E\-L\-G\-R\-O\-U\-P\-S\-\_\-\-N\-O\-N\-E\mbox{]}
+uintptr\-\_\-t \hyperlink{group___revo_mini_ga14dc9e3d330b80a37a9699c2112358e0}{pios\-\_\-com\-\_\-debug\-\_\-id}
 \item 
-uintptr\-\_\-t \hyperlink{group___open_pilot_core_ga14dc9e3d330b80a37a9699c2112358e0}{pios\-\_\-com\-\_\-debug\-\_\-id}
+uintptr\-\_\-t \hyperlink{group___revo_mini_ga05dca72c42c6c2b33fa62b8ee0fcb2ea}{pios\-\_\-com\-\_\-gps\-\_\-id}
 \item 
-uintptr\-\_\-t \hyperlink{group___open_pilot_core_ga05dca72c42c6c2b33fa62b8ee0fcb2ea}{pios\-\_\-com\-\_\-gps\-\_\-id}
+uintptr\-\_\-t \hyperlink{group___revo_mini_ga513cc36d72b76de2fcb75ff233a79a4a}{pios\-\_\-com\-\_\-telem\-\_\-usb\-\_\-id}
 \item 
-uintptr\-\_\-t \hyperlink{group___open_pilot_core_ga513cc36d72b76de2fcb75ff233a79a4a}{pios\-\_\-com\-\_\-telem\-\_\-usb\-\_\-id}
+uintptr\-\_\-t \hyperlink{group___revo_mini_gae48e848f715b08971e23528feee79339}{pios\-\_\-com\-\_\-telem\-\_\-rf\-\_\-id}
 \item 
-uintptr\-\_\-t \hyperlink{group___open_pilot_core_gae48e848f715b08971e23528feee79339}{pios\-\_\-com\-\_\-telem\-\_\-rf\-\_\-id}
+uintptr\-\_\-t \hyperlink{group___revo_mini_gaaeb3e0d65ed5c6e7b921c54e1ad905db}{pios\-\_\-com\-\_\-vcp\-\_\-id}
 \item 
-uintptr\-\_\-t \hyperlink{group___open_pilot_core_gaaeb3e0d65ed5c6e7b921c54e1ad905db}{pios\-\_\-com\-\_\-vcp\-\_\-id}
+uintptr\-\_\-t \hyperlink{group___revo_mini_gac040f05fa048688ee0269c2768698a14}{pios\-\_\-com\-\_\-bridge\-\_\-id}
 \item 
-uintptr\-\_\-t \hyperlink{group___open_pilot_core_gac040f05fa048688ee0269c2768698a14}{pios\-\_\-com\-\_\-bridge\-\_\-id}
+uintptr\-\_\-t \hyperlink{group___revo_mini_ga048f2bb98de60944f135effb407a1139}{pios\-\_\-com\-\_\-overo\-\_\-id}
 \item 
-uintptr\-\_\-t \hyperlink{group___open_pilot_core_ga048f2bb98de60944f135effb407a1139}{pios\-\_\-com\-\_\-overo\-\_\-id}
+uint32\-\_\-t \hyperlink{group___revo_mini_ga1e0b7d2eb8b8640e07daa1f381780972}{pios\-\_\-rfm22b\-\_\-id}
 \item 
-\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} \hyperlink{group___open_pilot_core_ga1e0b7d2eb8b8640e07daa1f381780972}{pios\-\_\-rfm22b\-\_\-id}
+uintptr\-\_\-t \hyperlink{group___revo_mini_gafb354658d0ba22815d8632d97c062c0b}{pios\-\_\-internal\-\_\-adc\-\_\-id} = 0
 \item 
-uintptr\-\_\-t \hyperlink{group___open_pilot_core_gab060f441dd600b08386c0ca1b487217a}{pios\-\_\-uavo\-\_\-settings\-\_\-fs\-\_\-id}
+uintptr\-\_\-t \hyperlink{group___revo_mini_gab060f441dd600b08386c0ca1b487217a}{pios\-\_\-uavo\-\_\-settings\-\_\-fs\-\_\-id}
 \item 
-uintptr\-\_\-t \hyperlink{group___open_pilot_core_ga4b04979e5fb31eaa66088178605835cd}{pios\-\_\-waypoints\-\_\-settings\-\_\-fs\-\_\-id}
+uintptr\-\_\-t \hyperlink{group___revo_mini_ga4b04979e5fb31eaa66088178605835cd}{pios\-\_\-waypoints\-\_\-settings\-\_\-fs\-\_\-id}
 \end{DoxyCompactItemize}

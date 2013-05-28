@@ -1,4 +1,0 @@
-var structei__solve__triangular__selector_3_01_lhs_00_01_rhs_00_01_upper_triangular_00_01_row_major_7_is_sparse_01_4 =
-[
-    [ "Scalar", "structei__solve__triangular__selector_3_01_lhs_00_01_rhs_00_01_upper_triangular_00_01_row_major_7_is_sparse_01_4.html#a5d56908a46ec73cc1206e347ed0aff87", null ]
-];

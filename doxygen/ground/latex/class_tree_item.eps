@@ -5,7 +5,7 @@
 %%For: 
 %Magnification: 1.00
 %%Orientation: Portrait
-%%BoundingBox: 0 0 500 125.313283
+%%BoundingBox: 0 0 500 100.250627
 %%Pages: 0
 %%BeginSetup
 %%EndSetup
@@ -19,12 +19,12 @@
 /marginwidth 10 def
 /distx 20 def
 /disty 40 def
-/boundaspect 3.990000 def  % aspect ratio of the BoundingBox (width/height)
+/boundaspect 4.987500 def  % aspect ratio of the BoundingBox (width/height)
 /boundx 500 def
 /boundy boundx boundaspect div def
 /xspacing 0 def
 /yspacing 0 def
-/rows 5 def
+/rows 4 def
 /cols 6 def
 /scalefactor 0 def
 /boxfont /Times-Roman findfont fontheight scalefont def
@@ -174,7 +174,6 @@
 boxfont setfont
 1 boundaspect scale
 (TreeItem) cw
-(QObject) cw
 (ArrayFieldTreeItem) cw
 (FieldTreeItem) cw
 (ObjectTreeItem) cw
@@ -197,7 +196,6 @@ boundx scalefactor div boundy scalefactor div scale
 % ----- classes -----
 
  (TreeItem) 2.250000 3.000000 box
- (QObject) 2.250000 4.000000 box
  (ArrayFieldTreeItem) 0.000000 2.000000 box
  (FieldTreeItem) 1.000000 2.000000 box
  (ObjectTreeItem) 3.500000 2.000000 box
@@ -211,10 +209,6 @@ boundx scalefactor div boundy scalefactor div scale
 
 % ----- relations -----
 
-solid
-0 2.250000 3.000000 out
-solid
-1 2.250000 4.000000 in
 solid
 1 2.250000 2.250000 out
 solid

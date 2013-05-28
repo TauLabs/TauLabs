@@ -1,11 +1,6 @@
 var class_core_1_1_action_container =
 [
-    [ "EmptyAction", "group___core_plugin.html#ga25957afb898f645827d8e7949c831327", [
-      [ "EA_Mask", "group___core_plugin.html#gga25957afb898f645827d8e7949c831327af1a70360b274cf469d7fd0a42007e614", null ],
-      [ "EA_None", "group___core_plugin.html#gga25957afb898f645827d8e7949c831327a2492c1e5772bc04b21150f29a3620354", null ],
-      [ "EA_Hide", "group___core_plugin.html#gga25957afb898f645827d8e7949c831327aed8a4c98f66c29197b772529c4959190", null ],
-      [ "EA_Disable", "group___core_plugin.html#gga25957afb898f645827d8e7949c831327aefaf5abf9c05ed2a6a6b75b2c1824186", null ]
-    ] ],
+    [ "EmptyAction", "group___core_plugin.html#ga25957afb898f645827d8e7949c831327", null ],
     [ "~ActionContainer", "group___core_plugin.html#gadce9ee76d4dad19beb7d474531bb7579", null ],
     [ "addAction", "group___core_plugin.html#gaae18910476f06c6af0eecd572bf1dd51", null ],
     [ "addMenu", "group___core_plugin.html#ga77e35e602ffea9dac9cf53ccd0f582a8", null ],

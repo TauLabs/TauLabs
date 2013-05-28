@@ -1,53 +1,53 @@
-\hypertarget{premerlani__gps_8c}{\section{/home/jose/\-Code/gui\-Tau/flight/\-Libraries/\-State\-Estimation\-Filters/premerlani\-\_\-gps.c File Reference}
-\label{premerlani__gps_8c}\index{/home/jose/\-Code/gui\-Tau/flight/\-Libraries/\-State\-Estimation\-Filters/premerlani\-\_\-gps.\-c@{/home/jose/\-Code/gui\-Tau/flight/\-Libraries/\-State\-Estimation\-Filters/premerlani\-\_\-gps.\-c}}
+\hypertarget{premerlani__gps_8c}{\section{/home/jb/code/\-Tau\-Labs/flight/\-Libraries/\-State\-Estimation\-Filters/premerlani\-\_\-gps.c \-File \-Reference}
+\label{premerlani__gps_8c}\index{/home/jb/code/\-Tau\-Labs/flight/\-Libraries/\-State\-Estimation\-Filters/premerlani\-\_\-gps.\-c@{/home/jb/code/\-Tau\-Labs/flight/\-Libraries/\-State\-Estimation\-Filters/premerlani\-\_\-gps.\-c}}
 }
 
 
-Module to handle all comms to the A\-H\-R\-S on a periodic basis.  
+premerlani \-G\-P\-S algorithm implementation used by \-State\-Module  
 
 
-\subsection*{Data Structures}
+\subsection*{\-Data \-Structures}
 \begin{DoxyCompactItemize}
 \item 
-struct \hyperlink{struct_global_dcm_drift_variables}{Global\-Dcm\-Drift\-Variables}
+struct \hyperlink{struct_global_dcm_drift_variables}{\-Global\-Dcm\-Drift\-Variables}
 \end{DoxyCompactItemize}
-\subsection*{Enumerations}
+\subsection*{\-Enumerations}
 \begin{DoxyCompactItemize}
 \item 
-enum \hyperlink{group___attitude_ga0c4491990a84594e2c930826b64b725c}{D\-R\-I\-F\-T\-\_\-\-C\-O\-R\-R\-E\-C\-T\-I\-O\-N\-\_\-\-A\-L\-G\-O\-S} \{ \\*
-\hyperlink{group___attitude_gga0c4491990a84594e2c930826b64b725ca34fecf46a591d355d8d76d32e4b5d469}{C\-C\-C}, 
-\hyperlink{group___attitude_gga0c4491990a84594e2c930826b64b725ca7f012e6cc49436cc18a3204777eb9834}{P\-R\-E\-M\-E\-R\-L\-A\-N\-I}, 
-\hyperlink{group___attitude_gga0c4491990a84594e2c930826b64b725ca34fecf46a591d355d8d76d32e4b5d469}{C\-C\-C}, 
-\hyperlink{group___attitude_gga0c4491990a84594e2c930826b64b725ca7f012e6cc49436cc18a3204777eb9834}{P\-R\-E\-M\-E\-R\-L\-A\-N\-I}, 
-\\*
-\hyperlink{group___attitude_gga0c4491990a84594e2c930826b64b725ca34fecf46a591d355d8d76d32e4b5d469}{C\-C\-C}, 
-\hyperlink{group___attitude_gga0c4491990a84594e2c930826b64b725ca7f012e6cc49436cc18a3204777eb9834}{P\-R\-E\-M\-E\-R\-L\-A\-N\-I}
+enum \hyperlink{group___state_estimation_filters_ga0c4491990a84594e2c930826b64b725c}{\-D\-R\-I\-F\-T\-\_\-\-C\-O\-R\-R\-E\-C\-T\-I\-O\-N\-\_\-\-A\-L\-G\-O\-S} \{ \*
+\hyperlink{group___c_c_state_gga0c4491990a84594e2c930826b64b725ca34fecf46a591d355d8d76d32e4b5d469}{\-C\-C\-C}, 
+\hyperlink{group___c_c_state_gga0c4491990a84594e2c930826b64b725ca7f012e6cc49436cc18a3204777eb9834}{\-P\-R\-E\-M\-E\-R\-L\-A\-N\-I}, 
+\hyperlink{group___c_c_state_gga0c4491990a84594e2c930826b64b725ca34fecf46a591d355d8d76d32e4b5d469}{\-C\-C\-C}, 
+\hyperlink{group___c_c_state_gga0c4491990a84594e2c930826b64b725ca7f012e6cc49436cc18a3204777eb9834}{\-P\-R\-E\-M\-E\-R\-L\-A\-N\-I}, 
+\*
+\hyperlink{group___c_c_state_gga0c4491990a84594e2c930826b64b725ca34fecf46a591d355d8d76d32e4b5d469}{\-C\-C\-C}, 
+\hyperlink{group___c_c_state_gga0c4491990a84594e2c930826b64b725ca7f012e6cc49436cc18a3204777eb9834}{\-P\-R\-E\-M\-E\-R\-L\-A\-N\-I}
  \}
 \end{DoxyCompactItemize}
-\subsection*{Functions}
+\subsection*{\-Functions}
 \begin{DoxyCompactItemize}
 \item 
-\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___attitude_ga81766afbca58a5d4fc811c0727f3bdf2}{yaw\-\_\-drift\-\_\-\-Mag\-G\-P\-S} (float Rbe\mbox{[}3\mbox{]}\mbox{[}3\mbox{]}, \hyperlink{group___exported__types_gaf6a258d8f3ee5206d682d799316314b1}{bool} gps\-New\-Data\-\_\-flag, \hyperlink{group___exported__types_gaf6a258d8f3ee5206d682d799316314b1}{bool} mag\-New\-Data\-\_\-flag, float $\ast$err\-Yaw\-\_\-b)
+void \hyperlink{group___state_estimation_filters_ga81766afbca58a5d4fc811c0727f3bdf2}{yaw\-\_\-drift\-\_\-\-Mag\-G\-P\-S} (float \-Rbe\mbox{[}3\mbox{]}\mbox{[}3\mbox{]}, bool gps\-New\-Data\-\_\-flag, bool mag\-New\-Data\-\_\-flag, float $\ast$err\-Yaw\-\_\-b)
 \item 
-\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___attitude_ga688e0cf65377d9e7f81f303a1d5b96c7}{Premerlani\-\_\-\-G\-P\-S} (float $\ast$\hyperlink{pios__opahrs__proto_8h_a95ac7014e5b72e25193076997442b227}{accels}, float $\ast$\hyperlink{pios__opahrs__proto_8h_ac76cbe9fe0157f71b7a76e57ef3bf7b1}{gyros}, float Rbe\mbox{[}3\mbox{]}\mbox{[}3\mbox{]}, \hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} float del\-T, \hyperlink{group___exported__types_gaf6a258d8f3ee5206d682d799316314b1}{bool} G\-P\-S\-\_\-\-Drift\-\_\-\-Compensation, \hyperlink{struct_global_attitude_variables}{Global\-Attitude\-Variables} $\ast$\hyperlink{group___state_ga76682d72011dc0109f1d5cf25a6c6da0}{glbl\-Att}, float $\ast$omega\-Corr\-P)
+void \hyperlink{group___state_estimation_filters_ga688e0cf65377d9e7f81f303a1d5b96c7}{\-Premerlani\-\_\-\-G\-P\-S} (float $\ast$accels, float $\ast$gyros, float \-Rbe\mbox{[}3\mbox{]}\mbox{[}3\mbox{]}, const float del\-T, bool \-G\-P\-S\-\_\-\-Drift\-\_\-\-Compensation, \hyperlink{struct_global_attitude_variables}{\-Global\-Attitude\-Variables} $\ast$\hyperlink{group___c_c_state_ga76682d72011dc0109f1d5cf25a6c6da0}{glbl\-Att}, float $\ast$omega\-Corr\-P)
 \end{DoxyCompactItemize}
-\subsection*{Variables}
+\subsection*{\-Variables}
 \begin{DoxyCompactItemize}
 \item 
-struct \hyperlink{struct_global_dcm_drift_variables}{Global\-Dcm\-Drift\-Variables} $\ast$ \hyperlink{group___attitude_ga89657be5e41cdb8b74d42e587333115a}{drft}
+struct \hyperlink{struct_global_dcm_drift_variables}{\-Global\-Dcm\-Drift\-Variables} $\ast$ \hyperlink{group___state_estimation_filters_ga89657be5e41cdb8b74d42e587333115a}{drft}
 \end{DoxyCompactItemize}
 
 
-\subsection{Detailed Description}
-Module to handle all comms to the A\-H\-R\-S on a periodic basis. \begin{DoxyAuthor}{Author}
-The Open\-Pilot Team, \href{http://www.openpilot.org}{\tt http\-://www.\-openpilot.\-org} Copyright (C) 2010. 
+\subsection{\-Detailed \-Description}
+premerlani \-G\-P\-S algorithm implementation used by \-State\-Module \begin{DoxyAuthor}{\-Author}
+\-The \-Open\-Pilot \-Team, \href{http://www.openpilot.org}{\tt http\-://www.\-openpilot.\-org} \-Copyright (\-C) 2010. 
 
-Tau Labs, \href{http://www.taulabs.org}{\tt http\-://www.\-taulabs.\-org} Copyright (C) 2013. 
+\-Tau \-Labs, \href{http://taulabs.org,}{\tt http\-://taulabs.\-org,} \-Copyright (\-C) 2013 
 \end{DoxyAuthor}
-\begin{DoxySeeAlso}{See Also}
-The G\-N\-U Public License (G\-P\-L) Version 3 
+\begin{DoxySeeAlso}{\-See also}
+\-The \-G\-N\-U \-Public \-License (\-G\-P\-L) \-Version 3 
 \end{DoxySeeAlso}
 
 
-Definition in file \hyperlink{premerlani__gps_8c_source}{premerlani\-\_\-gps.\-c}.
+\-Definition in file \hyperlink{premerlani__gps_8c_source}{premerlani\-\_\-gps.\-c}.
 

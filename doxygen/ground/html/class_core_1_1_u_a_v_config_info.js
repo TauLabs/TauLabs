@@ -1,12 +1,6 @@
 var class_core_1_1_u_a_v_config_info =
 [
-    [ "Compatibility", "group___core_plugin.html#ga568d6a6f7dd5f6d9b7ec976ff7c2284f", [
-      [ "FullyCompatible", "group___core_plugin.html#gga568d6a6f7dd5f6d9b7ec976ff7c2284fa85ba54a790d9dbd1745c0a4ee00b78b2", null ],
-      [ "MinorLossOfConfiguration", "group___core_plugin.html#gga568d6a6f7dd5f6d9b7ec976ff7c2284faf84f7dc0a0a0fa25beb58f473f081ff8", null ],
-      [ "MissingConfiguration", "group___core_plugin.html#gga568d6a6f7dd5f6d9b7ec976ff7c2284fa1a847c37ce622aaa288dcd65a29131de", null ],
-      [ "MajorLossOfConfiguration", "group___core_plugin.html#gga568d6a6f7dd5f6d9b7ec976ff7c2284fab2dcca46e2c0d231f1ab7250bfd3dca9", null ],
-      [ "NotCompatible", "group___core_plugin.html#gga568d6a6f7dd5f6d9b7ec976ff7c2284fa7174782f2d7d3709a890186f36e3480c", null ]
-    ] ],
+    [ "Compatibility", "group___core_plugin.html#ga568d6a6f7dd5f6d9b7ec976ff7c2284f", null ],
     [ "UAVConfigInfo", "group___core_plugin.html#gacf5020eb455875fe2ce543b2e8d24315", null ],
     [ "UAVConfigInfo", "group___core_plugin.html#ga933409bece83e4aed5c3efac0079f7c4", null ],
     [ "UAVConfigInfo", "group___core_plugin.html#ga293738c41bbf0024336c21246611d365", null ],

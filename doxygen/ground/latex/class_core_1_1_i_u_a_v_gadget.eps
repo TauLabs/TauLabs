@@ -175,7 +175,6 @@ boxfont setfont
 1 boundaspect scale
 (Core::IUAVGadget) cw
 (Core::IContext) cw
-(QObject) cw
 (AntennaTrackGadget) cw
 (ConfigGadget) cw
 (ConsoleGadget) cw
@@ -201,6 +200,7 @@ boxfont setfont
 (QmlViewGadget) cw
 (ScopeGadget) cw
 (SystemHealthGadget) cw
+(TelemetrySchedulerGadget) cw
 (UAVObjectBrowser) cw
 (UploaderGadget) cw
 (WaypointEditorGadget) cw
@@ -215,34 +215,34 @@ boundx scalefactor div boundy scalefactor div scale
 
 % ----- classes -----
 
- (Core::IUAVGadget) 0.000000 28.000000 box
- (Core::IContext) 0.000000 29.000000 box
- (QObject) 0.000000 30.000000 box
- (AntennaTrackGadget) 1.000000 27.000000 box
- (ConfigGadget) 1.000000 26.000000 box
- (ConsoleGadget) 1.000000 25.000000 box
- (Core::UAVGadgetDecorator) 1.000000 24.000000 box
- (DebugGadget) 1.000000 23.000000 box
- (DialGadget) 1.000000 22.000000 box
- (EmptyGadget) 1.000000 21.000000 box
- (GCSControlGadget) 1.000000 20.000000 box
- (GpsDisplayGadget) 1.000000 19.000000 box
- (HITLGadget) 1.000000 18.000000 box
- (ImportExportGadget) 1.000000 17.000000 box
- (LineardialGadget) 1.000000 16.000000 box
- (LoggingGadget) 1.000000 15.000000 box
- (MagicWaypointGadget) 1.000000 14.000000 box
- (MoCapGadget) 1.000000 13.000000 box
- (ModelViewGadget) 1.000000 12.000000 box
- (NotifyPluginGadget) 1.000000 11.000000 box
- (OPMapGadget) 1.000000 10.000000 box
- (OsgEarthviewGadget) 1.000000 9.000000 box
- (PathPlannerGadget) 1.000000 8.000000 box
- (PFDGadget) 1.000000 7.000000 box
- (PfdQmlGadget) 1.000000 6.000000 box
- (QmlViewGadget) 1.000000 5.000000 box
- (ScopeGadget) 1.000000 4.000000 box
- (SystemHealthGadget) 1.000000 3.000000 box
+ (Core::IUAVGadget) 0.000000 29.000000 box
+ (Core::IContext) 0.000000 30.000000 box
+ (AntennaTrackGadget) 1.000000 28.000000 box
+ (ConfigGadget) 1.000000 27.000000 box
+ (ConsoleGadget) 1.000000 26.000000 box
+ (Core::UAVGadgetDecorator) 1.000000 25.000000 box
+ (DebugGadget) 1.000000 24.000000 box
+ (DialGadget) 1.000000 23.000000 box
+ (EmptyGadget) 1.000000 22.000000 box
+ (GCSControlGadget) 1.000000 21.000000 box
+ (GpsDisplayGadget) 1.000000 20.000000 box
+ (HITLGadget) 1.000000 19.000000 box
+ (ImportExportGadget) 1.000000 18.000000 box
+ (LineardialGadget) 1.000000 17.000000 box
+ (LoggingGadget) 1.000000 16.000000 box
+ (MagicWaypointGadget) 1.000000 15.000000 box
+ (MoCapGadget) 1.000000 14.000000 box
+ (ModelViewGadget) 1.000000 13.000000 box
+ (NotifyPluginGadget) 1.000000 12.000000 box
+ (OPMapGadget) 1.000000 11.000000 box
+ (OsgEarthviewGadget) 1.000000 10.000000 box
+ (PathPlannerGadget) 1.000000 9.000000 box
+ (PFDGadget) 1.000000 8.000000 box
+ (PfdQmlGadget) 1.000000 7.000000 box
+ (QmlViewGadget) 1.000000 6.000000 box
+ (ScopeGadget) 1.000000 5.000000 box
+ (SystemHealthGadget) 1.000000 4.000000 box
+ (TelemetrySchedulerGadget) 1.000000 3.000000 box
  (UAVObjectBrowser) 1.000000 2.000000 box
  (UploaderGadget) 1.000000 1.000000 box
  (WaypointEditorGadget) 1.000000 0.000000 box
@@ -250,15 +250,13 @@ boundx scalefactor div boundy scalefactor div scale
 % ----- relations -----
 
 solid
-0 0.000000 28.000000 out
-solid
-1 0.000000 29.000000 in
-solid
 0 0.000000 29.000000 out
 solid
 1 0.000000 30.000000 in
 solid
-1 0.000000 27.250000 out
+1 0.000000 28.250000 out
+solid
+0 0.000000 28.500000 hedge
 solid
 0 0.000000 27.500000 hedge
 solid
@@ -316,4 +314,4 @@ solid
 solid
 0 0.000000 0.500000 hedge
 solid
-0.000000 28.000000 0.500000 vedge
+0.000000 29.000000 0.500000 vedge

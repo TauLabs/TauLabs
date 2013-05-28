@@ -1,0 +1,26 @@
+var magbias_8h =
+[
+    [ "MagBiasConnectCallback", "group___mag_bias.html#gaed92c083b84122201e0bee2588a2093f", null ],
+    [ "MagBiasConnectQueue", "group___mag_bias.html#ga5d557b9ccaf96bbacc8f8887c96579c6", null ],
+    [ "MagBiasCreateInstance", "group___mag_bias.html#ga00447c2082d31279d0dce3bc2859ceed", null ],
+    [ "MagBiasGet", "group___mag_bias.html#ga272fdded0f37c8509fcd177b179d9e90", null ],
+    [ "MagBiasGetMetadata", "group___mag_bias.html#ga10bccbec8f0058dc7747a08b7f891d87", null ],
+    [ "MagBiasHandle", "group___mag_bias.html#ga16bb196223e621c09f053f6470f8596e", null ],
+    [ "MagBiasInitialize", "group___mag_bias.html#gac4c13271f0facc92fafdc02aa3de4fec", null ],
+    [ "MagBiasInstGet", "group___mag_bias.html#ga9ef285ec166d45e21d6a7b765959143e", null ],
+    [ "MagBiasInstSet", "group___mag_bias.html#ga63a9f43824f6acdae7458e4d501fb4a4", null ],
+    [ "MagBiasInstUpdated", "group___mag_bias.html#gadf94fc852fa5caaa5561d72d27553c63", null ],
+    [ "MagBiasReadOnly", "group___mag_bias.html#ga6567af22652d518dae144ef44a525381", null ],
+    [ "MagBiasRequestInstUpdate", "group___mag_bias.html#ga79bb765fb1e2b810bbceec7e650c5feb", null ],
+    [ "MagBiasRequestUpdate", "group___mag_bias.html#ga497e1915391ada44cd9ca01d180fe30b", null ],
+    [ "MagBiasSet", "group___mag_bias.html#ga78a7d898485b5071e2ce4a867fb1a10f", null ],
+    [ "MagBiasSetDefaults", "group___mag_bias.html#gab9637bfbe87f70e52616fce53555303e", null ],
+    [ "MagBiasSetMetadata", "group___mag_bias.html#gaa3d6548473d68e2d2835236f32ce04ab", null ],
+    [ "MagBiasUpdated", "group___mag_bias.html#gae38dcd9af89c57c698fbd7b2144e2fb4", null ],
+    [ "MagBiasxGet", "group___mag_bias.html#gae37fa3d97cb30ba739b5530c6950f4c9", null ],
+    [ "MagBiasxSet", "group___mag_bias.html#ga1634ab6fe8fa38dafd20a7cf823c0438", null ],
+    [ "MagBiasyGet", "group___mag_bias.html#ga4681ba68f848300b22a26df9651b581c", null ],
+    [ "MagBiasySet", "group___mag_bias.html#ga62b99f0f8c68d317c5d5364ece09d86a", null ],
+    [ "MagBiaszGet", "group___mag_bias.html#ga6b02e08915e2f0541470e0a23bc188b6", null ],
+    [ "MagBiaszSet", "group___mag_bias.html#ga46c738ab3ab795a4cd613c3bc901a238", null ]
+];

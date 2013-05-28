@@ -1,0 +1,27 @@
+var attitudesettings_8c =
+[
+    [ "AttitudeSettingsAccelKiGet", "group___attitude_settings.html#ga5cebc90799a2474f2791ee2169ebe799", null ],
+    [ "AttitudeSettingsAccelKiSet", "group___attitude_settings.html#ga4769ad5c012a6e07c04063090ee4e94a", null ],
+    [ "AttitudeSettingsAccelKpGet", "group___attitude_settings.html#ga51fbf624abe31343338e57832b46dfa8", null ],
+    [ "AttitudeSettingsAccelKpSet", "group___attitude_settings.html#gaa8faca164421d35119964e5a65ce4ebc", null ],
+    [ "AttitudeSettingsAccelTauGet", "group___attitude_settings.html#gaa2425830c5e766888891acc63fbc4b87", null ],
+    [ "AttitudeSettingsAccelTauSet", "group___attitude_settings.html#ga8f9faf14ef12e8ce76b9c8ee4d719775", null ],
+    [ "AttitudeSettingsBiasCorrectGyroGet", "group___attitude_settings.html#gadb72bdfc3888db89c39e5738e64cc1ce", null ],
+    [ "AttitudeSettingsBiasCorrectGyroSet", "group___attitude_settings.html#ga634ee564984ef9124bb8264d0e76ba96", null ],
+    [ "AttitudeSettingsBoardRotationGet", "group___attitude_settings.html#ga3b9d4b0e5268b49d3f1c0bd54695bffe", null ],
+    [ "AttitudeSettingsBoardRotationSet", "group___attitude_settings.html#gada7dec05f7e8013d40e2b68b84aa217d", null ],
+    [ "AttitudeSettingsFilterChoiceGet", "group___attitude_settings.html#gaa235663099cf8948de6ae6ef106e3096", null ],
+    [ "AttitudeSettingsFilterChoiceSet", "group___attitude_settings.html#ga8c521fe5c4556011e69f875987976f9b", null ],
+    [ "AttitudeSettingsHandle", "group___attitude_settings.html#ga1f50fd4e79e08041b7db764e41ed6f0b", null ],
+    [ "AttitudeSettingsInitialize", "group___attitude_settings.html#ga3d90bbe5ce5fdb7c28bea738c318dd5a", null ],
+    [ "AttitudeSettingsMagKpGet", "group___attitude_settings.html#ga10afd4dae795a41ca55ebc5714c55acc", null ],
+    [ "AttitudeSettingsMagKpSet", "group___attitude_settings.html#ga71b7e8817c527964953b78adb1d32c06", null ],
+    [ "AttitudeSettingsSetDefaults", "group___attitude_settings.html#gab6c7ef6d8a5f23b8caf3ab7b3c2208e1", null ],
+    [ "AttitudeSettingsTrimFlightGet", "group___attitude_settings.html#gac6b3994070f7cbea5fa1ea5d08a4b5ad", null ],
+    [ "AttitudeSettingsTrimFlightSet", "group___attitude_settings.html#gace499cc512be0afc44f5de29f5de080b", null ],
+    [ "AttitudeSettingsYawBiasRateGet", "group___attitude_settings.html#gad90e1fa07480f8e15a47444133983789", null ],
+    [ "AttitudeSettingsYawBiasRateSet", "group___attitude_settings.html#ga39c1ed0f527875f9181aeeef50670661", null ],
+    [ "AttitudeSettingsZeroDuringArmingGet", "group___attitude_settings.html#ga8721e931a117cf6042e651817adcd86f", null ],
+    [ "AttitudeSettingsZeroDuringArmingSet", "group___attitude_settings.html#ga5dcffd63e644c6839d2e6b33e1bcda19", null ],
+    [ "handle", "group___attitude_settings.html#gab0285eeca256b1680508f7077efcb9e0", null ]
+];

@@ -2,15 +2,11 @@ var searchData=
 [
   ['languagetype_2ecpp',['languagetype.cpp',['../languagetype_8cpp.html',1,'']]],
   ['languagetype_2eh',['languagetype.h',['../languagetype_8h.html',1,'']]],
-  ['ldlt_2eh',['LDLT.h',['../_l_d_l_t_8h.html',1,'']]],
-  ['leastsquares_2eh',['LeastSquares.h',['../_least_squares_8h.html',1,'']]],
   ['legacy_2dcalibration_2ecpp',['legacy-calibration.cpp',['../legacy-calibration_8cpp.html',1,'']]],
   ['levellingpage_2ecpp',['levellingpage.cpp',['../levellingpage_8cpp.html',1,'']]],
   ['levellingpage_2eh',['levellingpage.h',['../levellingpage_8h.html',1,'']]],
   ['levellingutil_2ecpp',['levellingutil.cpp',['../levellingutil_8cpp.html',1,'']]],
   ['levellingutil_2eh',['levellingutil.h',['../levellingutil_8h.html',1,'']]],
-  ['light_2ec',['light.c',['../light_8c.html',1,'']]],
-  ['light_2eh',['light.h',['../light_8h.html',1,'']]],
   ['lineardialgadget_2ecpp',['lineardialgadget.cpp',['../lineardialgadget_8cpp.html',1,'']]],
   ['lineardialgadget_2eh',['lineardialgadget.h',['../lineardialgadget_8h.html',1,'']]],
   ['lineardialgadgetconfiguration_2ecpp',['lineardialgadgetconfiguration.cpp',['../lineardialgadgetconfiguration_8cpp.html',1,'']]],
@@ -28,7 +24,6 @@ var searchData=
   ['listutils_2eh',['listutils.h',['../listutils_8h.html',1,'']]],
   ['lks94projection_2ecpp',['lks94projection.cpp',['../lks94projection_8cpp.html',1,'']]],
   ['lks94projection_2eh',['lks94projection.h',['../lks94projection_8h.html',1,'']]],
-  ['llt_2eh',['LLT.h',['../_l_l_t_8h.html',1,'']]],
   ['loadtask_2ecpp',['loadtask.cpp',['../loadtask_8cpp.html',1,'']]],
   ['loadtask_2eh',['loadtask.h',['../loadtask_8h.html',1,'']]],
   ['logfile_2ecpp',['logfile.cpp',['../logfile_8cpp.html',1,'']]],
@@ -44,6 +39,5 @@ var searchData=
   ['loggingplugin_2ecpp',['loggingplugin.cpp',['../loggingplugin_8cpp.html',1,'']]],
   ['loggingplugin_2eh',['loggingplugin.h',['../loggingplugin_8h.html',1,'']]],
   ['lowpassfilter_2ecpp',['lowpassfilter.cpp',['../lowpassfilter_8cpp.html',1,'']]],
-  ['lowpassfilter_2eh',['lowpassfilter.h',['../lowpassfilter_8h.html',1,'']]],
-  ['lu_2eh',['LU.h',['../_l_u_8h.html',1,'']]]
+  ['lowpassfilter_2eh',['lowpassfilter.h',['../lowpassfilter_8h.html',1,'']]]
 ];

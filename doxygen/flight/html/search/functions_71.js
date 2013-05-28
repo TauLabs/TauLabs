@@ -1,8 +1,8 @@
 var searchData=
 [
-  ['quat_5fcopy',['quat_copy',['../_coordinate_conversions_8c.html#a61bd7b4ee83de9d89b69dea4179edacc',1,'quat_copy(const float q[4], float qnew[4]):&#160;CoordinateConversions.c'],['../_coordinate_conversions_8h.html#a61bd7b4ee83de9d89b69dea4179edacc',1,'quat_copy(const float q[4], float qnew[4]):&#160;CoordinateConversions.c']]],
-  ['quat_5finverse',['quat_inverse',['../_coordinate_conversions_8c.html#ab25d503661ed9e31c9616b13c72d1ccd',1,'quat_inverse(float q[4]):&#160;CoordinateConversions.c'],['../_coordinate_conversions_8h.html#ab25d503661ed9e31c9616b13c72d1ccd',1,'quat_inverse(float q[4]):&#160;CoordinateConversions.c']]],
-  ['quat_5fmult',['quat_mult',['../_coordinate_conversions_8c.html#a0b537ea767fb853ee9d9797f389eaade',1,'quat_mult(const float q1[4], const float q2[4], float qout[4]):&#160;CoordinateConversions.c'],['../_coordinate_conversions_8h.html#a0b537ea767fb853ee9d9797f389eaade',1,'quat_mult(const float q1[4], const float q2[4], float qout[4]):&#160;CoordinateConversions.c']]],
-  ['quaternion2r',['Quaternion2R',['../_coordinate_conversions_8c.html#accaead20abfe7057c1a086b5426865df',1,'Quaternion2R(float q[4], float Rbe[3][3]):&#160;CoordinateConversions.c'],['../_coordinate_conversions_8h.html#accaead20abfe7057c1a086b5426865df',1,'Quaternion2R(float q[4], float Rbe[3][3]):&#160;CoordinateConversions.c']]],
-  ['quaternion2rpy',['Quaternion2RPY',['../_coordinate_conversions_8c.html#a0e4bc4f44a08a2e317db0bde882909cc',1,'Quaternion2RPY(const float q[4], float rpy[3]):&#160;CoordinateConversions.c'],['../_coordinate_conversions_8h.html#a0e4bc4f44a08a2e317db0bde882909cc',1,'Quaternion2RPY(const float q[4], float rpy[3]):&#160;CoordinateConversions.c']]]
+  ['quat_5fcopy',['quat_copy',['../group___tau_labs_math.html#ga61bd7b4ee83de9d89b69dea4179edacc',1,'coordinate_conversions.c']]],
+  ['quat_5finverse',['quat_inverse',['../group___tau_labs_math.html#gab25d503661ed9e31c9616b13c72d1ccd',1,'coordinate_conversions.c']]],
+  ['quat_5fmult',['quat_mult',['../group___tau_labs_math.html#ga0b537ea767fb853ee9d9797f389eaade',1,'coordinate_conversions.c']]],
+  ['quaternion2r',['Quaternion2R',['../group___tau_labs_math.html#gaccaead20abfe7057c1a086b5426865df',1,'coordinate_conversions.c']]],
+  ['quaternion2rpy',['Quaternion2RPY',['../group___tau_labs_math.html#ga0e4bc4f44a08a2e317db0bde882909cc',1,'coordinate_conversions.c']]]
 ];

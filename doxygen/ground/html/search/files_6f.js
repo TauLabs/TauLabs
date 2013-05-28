@@ -1,10 +1,8 @@
 var searchData=
 [
   ['old_5fcalibration_2eh',['old_calibration.h',['../old__calibration_8h.html',1,'']]],
-  ['op_5fdfu_2ecpp',['op_dfu.cpp',['../plugins_2uploader_2op__dfu_8cpp.html',1,'']]],
-  ['op_5fdfu_2ecpp',['op_dfu.cpp',['../experimental_2_u_s_b___u_p_l_o_a_d___t_o_o_l_2op__dfu_8cpp.html',1,'']]],
-  ['op_5fdfu_2eh',['op_dfu.h',['../plugins_2uploader_2op__dfu_8h.html',1,'']]],
-  ['op_5fdfu_2eh',['op_dfu.h',['../experimental_2_u_s_b___u_p_l_o_a_d___t_o_o_l_2op__dfu_8h.html',1,'']]],
+  ['op_5fdfu_2ecpp',['op_dfu.cpp',['../op__dfu_8cpp.html',1,'']]],
+  ['op_5fdfu_2eh',['op_dfu.h',['../op__dfu_8h.html',1,'']]],
   ['openpilotplugin_2ecpp',['openpilotplugin.cpp',['../openpilotplugin_8cpp.html',1,'']]],
   ['openpilotplugin_2eh',['openpilotplugin.h',['../openpilotplugin_8h.html',1,'']]],
   ['opmap_5fedit_5fwaypoint_5fdialog_2ecpp',['opmap_edit_waypoint_dialog.cpp',['../opmap__edit__waypoint__dialog_8cpp.html',1,'']]],
@@ -33,7 +31,6 @@ var searchData=
   ['opplots_2em',['OPPlots.m',['../_o_p_plots_8m.html',1,'']]],
   ['optionsparser_2ecpp',['optionsparser.cpp',['../optionsparser_8cpp.html',1,'']]],
   ['optionsparser_2eh',['optionsparser.h',['../optionsparser_8h.html',1,'']]],
-  ['orthomethods_2eh',['OrthoMethods.h',['../_ortho_methods_8h.html',1,'']]],
   ['osgearth_2ecpp',['osgearth.cpp',['../osgearth_8cpp.html',1,'']]],
   ['osgearth_2eh',['osgearth.h',['../osgearth_8h.html',1,'']]],
   ['osgearthviewgadget_2ecpp',['osgearthviewgadget.cpp',['../osgearthviewgadget_8cpp.html',1,'']]],

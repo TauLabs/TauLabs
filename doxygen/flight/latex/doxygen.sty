@@ -10,8 +10,6 @@
 \RequirePackage{longtable}
 \RequirePackage{verbatim}
 \RequirePackage{ifthen}
-\RequirePackage{xtab}
-\RequirePackage{multirow}
 \RequirePackage[table]{xcolor}
 
 % Use helvetica font instead of times roman
@@ -41,8 +39,8 @@
 \fancyhead[RO]{\fancyplain{}{\bfseries\thepage}}
 \fancyfoot[LE]{\fancyplain{}{}}
 \fancyfoot[CE]{\fancyplain{}{}}
-\fancyfoot[RE]{\fancyplain{}{\bfseries\scriptsize Generated on Sun May 19 2013 01\-:29\-:36 for Tau\-Labs by Doxygen }}
-\fancyfoot[LO]{\fancyplain{}{\bfseries\scriptsize Generated on Sun May 19 2013 01\-:29\-:36 for Tau\-Labs by Doxygen }}
+\fancyfoot[RE]{\fancyplain{}{\bfseries\scriptsize \-Generated on \-Tue \-May 28 2013 21\-:16\-:56 for \-Tau\-Labs by Doxygen }}
+\fancyfoot[LO]{\fancyplain{}{\bfseries\scriptsize \-Generated on \-Tue \-May 28 2013 21\-:16\-:56 for \-Tau\-Labs by Doxygen }}
 \fancyfoot[CO]{\fancyplain{}{}}
 \fancyfoot[RO]{\fancyplain{}{}}
 %---------- Internal commands used in this style file ----------------
@@ -97,11 +95,11 @@
 
 % Used by @code ... @endcode
 \newenvironment{DoxyCode}{%
-
-
-\begin{scriptsize}\begin{alltt}%
+  \footnotesize%
+  \verbatim%
 }{%
-\end{alltt}\end{scriptsize}%
+  \endverbatim%
+  \normalsize%
 }
 
 % Used by @example, @include, @includelineno and @dontinclude
@@ -336,7 +334,7 @@
       \item[] \hspace{\fill} \vspace{-25pt}%
       \setlength{\tabcolsep}{0.01\textwidth}%
       \begin{longtable}{|>{\raggedleft\hspace{0pt}}p{0.25\textwidth}|%
-                          p{0.705\textwidth}|}%
+                          p{0.77\textwidth}|}%
       \hline%
 }{%
       \end{longtable}%
@@ -354,7 +352,7 @@
       \arrayrulecolor{gray}%
       \setlength{\tabcolsep}{0.01\textwidth}%
       \begin{longtable}{|>{\raggedleft\hspace{0pt}}p{0.25\textwidth}|%
-                          p{0.705\textwidth}|}%
+                          p{0.77\textwidth}|}%
       \hline%
 }{%
       \end{longtable}%
@@ -372,7 +370,7 @@
       \arrayrulecolor{gray}%
       \setlength{\tabcolsep}{0.01\textwidth}%
       \begin{longtable}{|>{\raggedleft\hspace{0pt}}p{0.25\textwidth}|%
-                          p{0.705\textwidth}|}%
+                          p{0.77\textwidth}|}%
       \hline%
 }{%
       \end{longtable}%
@@ -404,10 +402,10 @@
 {
 \setlength{\tmplength}
      {\linewidth/(#1)-\tabcolsep*2-\arrayrulewidth*(#1+1)/(#1)}
-      \par\begin{xtabular*}{\linewidth}
+      \par\begin{tabular*}{\linewidth}
              {*{#1}{|>{\PBS\raggedright\hspace{0pt}}p{\the\tmplength}}|}
 }
-{\end{xtabular*}\par}
+{\end{tabular*}\par}
 \newcommand{\entrylabel}[1]{
    {\parbox[b]{\labelwidth-4pt}{\makebox[0pt][l]{%
    \usefont{OT1}{phv}{bc}{n}\color{darkgray}#1}\vspace{1.5\baselineskip}}}}

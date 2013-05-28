@@ -5,7 +5,7 @@
 %%For: 
 %Magnification: 1.00
 %%Orientation: Portrait
-%%BoundingBox: 0 0 500 67.567568
+%%BoundingBox: 0 0 500 45.045045
 %%Pages: 0
 %%BeginSetup
 %%EndSetup
@@ -19,12 +19,12 @@
 /marginwidth 10 def
 /distx 20 def
 /disty 40 def
-/boundaspect 7.400000 def  % aspect ratio of the BoundingBox (width/height)
+/boundaspect 11.100000 def  % aspect ratio of the BoundingBox (width/height)
 /boundx 500 def
 /boundy boundx boundaspect div def
 /xspacing 0 def
 /yspacing 0 def
-/rows 3 def
+/rows 2 def
 /cols 4 def
 /scalefactor 0 def
 /boxfont /Times-Roman findfont fontheight scalefont def
@@ -174,7 +174,6 @@
 boxfont setfont
 1 boundaspect scale
 (Utils::BaseValidatingLineEdit) cw
-(QLineEdit) cw
 (Utils::ClassNameValidatingLineEdit) cw
 (Utils::FileNameValidatingLineEdit) cw
 (Utils::PathValidatingLineEdit) cw
@@ -191,7 +190,6 @@ boundx scalefactor div boundy scalefactor div scale
 % ----- classes -----
 
  (Utils::BaseValidatingLineEdit) 1.500000 1.000000 box
- (QLineEdit) 1.500000 2.000000 box
  (Utils::ClassNameValidatingLineEdit) 0.000000 0.000000 box
  (Utils::FileNameValidatingLineEdit) 1.000000 0.000000 box
  (Utils::PathValidatingLineEdit) 2.000000 0.000000 box
@@ -199,10 +197,6 @@ boundx scalefactor div boundy scalefactor div scale
 
 % ----- relations -----
 
-solid
-0 1.500000 1.000000 out
-solid
-1 1.500000 2.000000 in
 solid
 1 1.500000 0.250000 out
 solid

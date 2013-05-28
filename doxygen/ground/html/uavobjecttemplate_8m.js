@@ -1,5 +1,6 @@
 var uavobjecttemplate_8m =
 [
+    [ "break", "uavobjecttemplate_8m.html#a8b0afeb6fd6463406a0b1c87a7a35f4b", null ],
     [ "disp", "uavobjecttemplate_8m.html#a1c2423418c8e367fca746156bb6d3232", null ],
     [ "dlmwrite", "uavobjecttemplate_8m.html#ae637335a06d64882ebc90483e39759d5", null ],
     [ "dlmwrite", "uavobjecttemplate_8m.html#a57beaa96718bd8adf411aff9f04d717c", null ],

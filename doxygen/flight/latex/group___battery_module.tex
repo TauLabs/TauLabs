@@ -1,68 +1,44 @@
-\hypertarget{group___battery_module}{\section{Battery Module}
-\label{group___battery_module}\index{Battery Module@{Battery Module}}
+\hypertarget{group___battery_module}{\section{\-Battery \-Module}
+\label{group___battery_module}\index{\-Battery Module@{\-Battery Module}}
 }
-
-
-Measures battery voltage and current Updates the Flight\-Battery\-State object.  
-
-
-\subsection*{Files}
+\subsection*{\-Files}
 \begin{DoxyCompactItemize}
 \item 
 file \hyperlink{battery_8c}{battery.\-c}
-\begin{DoxyCompactList}\small\item\em Module to read the battery Voltage and Current periodically and set alarms appropriately. \end{DoxyCompactList}\end{DoxyCompactItemize}
-\subsection*{Functions}
+\begin{DoxyCompactList}\small\item\em \-Module to read the battery \-Voltage and \-Current periodically and set alarms appropriately. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Functions}
 \begin{DoxyCompactItemize}
 \item 
-\hyperlink{group___n_a_m_e_gafd12020da5a235dfcf0c3c748fb5baed}{int32\-\_\-t} \hyperlink{group___battery_module_ga578ae02a5a7f4b77431f4e4bcb5cc121}{Battery\-Initialize} (\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void})
+int32\-\_\-t \hyperlink{group___battery_module_ga578ae02a5a7f4b77431f4e4bcb5cc121}{\-Battery\-Initialize} (void)
 \item 
-\hyperlink{group___battery_module_gadf5b49c16adba3ff040e42ff05a35cc7}{M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L} (\hyperlink{group___battery_module_ga578ae02a5a7f4b77431f4e4bcb5cc121}{Battery\-Initialize}, 0)
-\item 
-\hyperlink{group___n_a_m_e_gafd12020da5a235dfcf0c3c748fb5baed}{int32\-\_\-t} \hyperlink{group___battery_module_ga8bb94b51a3ec12f84fe0597c845ddd12}{Camera\-Stab\-Initialize} (\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void})
+\hyperlink{group___battery_module_ga8bd46183652a9e4218570a6d7c5fe890}{\-M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L} (\hyperlink{group___battery_module_ga578ae02a5a7f4b77431f4e4bcb5cc121}{\-Battery\-Initialize}, \-Battery\-Start)
 \end{DoxyCompactItemize}
 
 
-\subsection{Detailed Description}
-Measures battery voltage and current Updates the Flight\-Battery\-State object. 
-
-\subsection{Function Documentation}
-\hypertarget{group___battery_module_ga578ae02a5a7f4b77431f4e4bcb5cc121}{\index{Battery Module@{Battery Module}!Battery\-Initialize@{Battery\-Initialize}}
-\index{Battery\-Initialize@{Battery\-Initialize}!Battery Module@{Battery Module}}
-\subsubsection[{Battery\-Initialize}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int32\-\_\-t} Battery\-Initialize (
+\subsection{\-Function \-Documentation}
+\hypertarget{group___battery_module_ga578ae02a5a7f4b77431f4e4bcb5cc121}{\index{\-Battery Module@{\-Battery Module}!\-Battery\-Initialize@{\-Battery\-Initialize}}
+\index{\-Battery\-Initialize@{\-Battery\-Initialize}!Battery Module@{\-Battery Module}}
+\subsubsection[{\-Battery\-Initialize}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-Battery\-Initialize} (
 \begin{DoxyParamCaption}
-\item[{{\bf void}}]{}
+\item[{void}]{}
 \end{DoxyParamCaption}
 )}}\label{group___battery_module_ga578ae02a5a7f4b77431f4e4bcb5cc121}
-Initialise the module, called on startup \begin{DoxyReturn}{Returns}
+\-Initialise the module, called on startup \begin{DoxyReturn}{\-Returns}
 0 on success or -\/1 if initialisation failed 
 \end{DoxyReturn}
 
 
-Definition at line 78 of file battery.\-c.
+\-Definition at line 70 of file battery.\-c.
 
-\hypertarget{group___battery_module_ga8bb94b51a3ec12f84fe0597c845ddd12}{\index{Battery Module@{Battery Module}!Camera\-Stab\-Initialize@{Camera\-Stab\-Initialize}}
-\index{Camera\-Stab\-Initialize@{Camera\-Stab\-Initialize}!Battery Module@{Battery Module}}
-\subsubsection[{Camera\-Stab\-Initialize}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int32\-\_\-t} Camera\-Stab\-Initialize (
+\hypertarget{group___battery_module_ga8bd46183652a9e4218570a6d7c5fe890}{\index{\-Battery Module@{\-Battery Module}!\-M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L@{\-M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L}}
+\index{\-M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L@{\-M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L}!Battery Module@{\-Battery Module}}
+\subsubsection[{\-M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L} (
 \begin{DoxyParamCaption}
-\item[{{\bf void}}]{}
+\item[{{\bf \-Battery\-Initialize}}]{, }
+\item[{\-Battery\-Start}]{}
 \end{DoxyParamCaption}
-)}}\label{group___battery_module_ga8bb94b51a3ec12f84fe0597c845ddd12}
-Initialise the module, called on startup \begin{DoxyReturn}{Returns}
-0 on success or -\/1 if initialisation failed 
-\end{DoxyReturn}
+)}}\label{group___battery_module_ga8bd46183652a9e4218570a6d7c5fe890}
+\-Main task. \-It does not return. 
 
-
-Definition at line 93 of file camerastab.\-c.
-
-\hypertarget{group___battery_module_gadf5b49c16adba3ff040e42ff05a35cc7}{\index{Battery Module@{Battery Module}!M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L@{M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L}}
-\index{M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L@{M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L}!Battery Module@{Battery Module}}
-\subsubsection[{M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L}]{\setlength{\rightskip}{0pt plus 5cm}M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L (
-\begin{DoxyParamCaption}
-\item[{{\bf Battery\-Initialize}}]{, }
-\item[{0}]{}
-\end{DoxyParamCaption}
-)}}\label{group___battery_module_gadf5b49c16adba3ff040e42ff05a35cc7}
-
-
-Definition at line 125 of file battery.\-c.
+\-Definition at line 110 of file battery.\-c.
 

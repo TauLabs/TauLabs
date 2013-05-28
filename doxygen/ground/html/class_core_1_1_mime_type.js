@@ -1,6 +1,5 @@
 var class_core_1_1_mime_type =
 [
-    [ "GlobMatchPriority", "group___core_plugin.html#gga3a6cca41b520f5ab1d19c6cf37f6f1e7a3b3eb7b9aa0a00542cc996191befdcd6", null ],
     [ "MimeType", "group___core_plugin.html#ga4afb222f16010df4252caff7ca264214", null ],
     [ "MimeType", "group___core_plugin.html#gaf3eef4f7d35c3f1cbf9b6531ad29f3f5", null ],
     [ "~MimeType", "group___core_plugin.html#ga81931045febeb757dcd1fd43fb21d5fc", null ],

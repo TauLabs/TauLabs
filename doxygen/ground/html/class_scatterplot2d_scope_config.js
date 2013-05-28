@@ -1,9 +1,6 @@
 var class_scatterplot2d_scope_config =
 [
-    [ "Scatterplot2dType", "group___scope_plugin.html#gac3cffd2a84d02f4ebfba6df970d03e97", [
-      [ "SERIES2D", "group___scope_plugin.html#ggac3cffd2a84d02f4ebfba6df970d03e97a8ac04199dbef37beba1b81fe42278b3a", null ],
-      [ "TIMESERIES2D", "group___scope_plugin.html#ggac3cffd2a84d02f4ebfba6df970d03e97af135d74488370bcdd47ee9744b513263", null ]
-    ] ],
+    [ "Scatterplot2dType", "group___scope_plugin.html#gac3cffd2a84d02f4ebfba6df970d03e97", null ],
     [ "Scatterplot2dScopeConfig", "group___scope_plugin.html#gafdcf057f46ce7c284b969bf8d0a8fe0e", null ],
     [ "Scatterplot2dScopeConfig", "group___scope_plugin.html#ga3f0c68575d63ef6831f8e28d5835e056", null ],
     [ "Scatterplot2dScopeConfig", "group___scope_plugin.html#gab4f886463a61e05057f4fc3043b08f9e", null ],

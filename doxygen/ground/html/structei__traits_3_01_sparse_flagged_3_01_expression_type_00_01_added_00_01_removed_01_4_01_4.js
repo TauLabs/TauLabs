@@ -1,4 +1,0 @@
-var structei__traits_3_01_sparse_flagged_3_01_expression_type_00_01_added_00_01_removed_01_4_01_4 =
-[
-    [ "Flags", "structei__traits_3_01_sparse_flagged_3_01_expression_type_00_01_added_00_01_removed_01_4_01_4.html#a68364af44b26aff88f5b0f8c78c7d136ac26ff3a1e9892fc8346435919395f19c", null ]
-];

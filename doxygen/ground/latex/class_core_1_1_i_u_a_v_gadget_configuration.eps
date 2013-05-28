@@ -174,7 +174,6 @@
 boxfont setfont
 1 boundaspect scale
 (Core::IUAVGadgetConfiguration) cw
-(QObject) cw
 (AntennaTrackGadgetConfiguration) cw
 (ConfigGadgetConfiguration) cw
 (DialGadgetConfiguration) cw
@@ -193,6 +192,7 @@ boxfont setfont
 (ScopeGadgetConfiguration) cw
 (SerialPluginConfiguration) cw
 (SystemHealthGadgetConfiguration) cw
+(TelemetrySchedulerConfiguration) cw
 (UAVObjectBrowserConfiguration) cw
 (UploaderGadgetConfiguration) cw
 /boxwidth boxwidth marginwidth 2 mul add def
@@ -206,37 +206,35 @@ boundx scalefactor div boundy scalefactor div scale
 
 % ----- classes -----
 
- (Core::IUAVGadgetConfiguration) 0.000000 20.000000 box
- (QObject) 0.000000 21.000000 box
- (AntennaTrackGadgetConfiguration) 1.000000 19.000000 box
- (ConfigGadgetConfiguration) 1.000000 18.000000 box
- (DialGadgetConfiguration) 1.000000 17.000000 box
- (GCSControlGadgetConfiguration) 1.000000 16.000000 box
- (GpsDisplayGadgetConfiguration) 1.000000 15.000000 box
- (HITLConfiguration) 1.000000 14.000000 box
- (IPconnectionConfiguration) 1.000000 13.000000 box
- (LineardialGadgetConfiguration) 1.000000 12.000000 box
- (MoCapConfiguration) 1.000000 11.000000 box
- (ModelViewGadgetConfiguration) 1.000000 10.000000 box
- (OPMapGadgetConfiguration) 1.000000 9.000000 box
- (OsgEarthviewGadgetConfiguration) 1.000000 8.000000 box
- (PFDGadgetConfiguration) 1.000000 7.000000 box
- (PfdQmlGadgetConfiguration) 1.000000 6.000000 box
- (QmlViewGadgetConfiguration) 1.000000 5.000000 box
- (ScopeGadgetConfiguration) 1.000000 4.000000 box
- (SerialPluginConfiguration) 1.000000 3.000000 box
- (SystemHealthGadgetConfiguration) 1.000000 2.000000 box
+ (Core::IUAVGadgetConfiguration) 0.000000 21.000000 box
+ (AntennaTrackGadgetConfiguration) 1.000000 20.000000 box
+ (ConfigGadgetConfiguration) 1.000000 19.000000 box
+ (DialGadgetConfiguration) 1.000000 18.000000 box
+ (GCSControlGadgetConfiguration) 1.000000 17.000000 box
+ (GpsDisplayGadgetConfiguration) 1.000000 16.000000 box
+ (HITLConfiguration) 1.000000 15.000000 box
+ (IPconnectionConfiguration) 1.000000 14.000000 box
+ (LineardialGadgetConfiguration) 1.000000 13.000000 box
+ (MoCapConfiguration) 1.000000 12.000000 box
+ (ModelViewGadgetConfiguration) 1.000000 11.000000 box
+ (OPMapGadgetConfiguration) 1.000000 10.000000 box
+ (OsgEarthviewGadgetConfiguration) 1.000000 9.000000 box
+ (PFDGadgetConfiguration) 1.000000 8.000000 box
+ (PfdQmlGadgetConfiguration) 1.000000 7.000000 box
+ (QmlViewGadgetConfiguration) 1.000000 6.000000 box
+ (ScopeGadgetConfiguration) 1.000000 5.000000 box
+ (SerialPluginConfiguration) 1.000000 4.000000 box
+ (SystemHealthGadgetConfiguration) 1.000000 3.000000 box
+ (TelemetrySchedulerConfiguration) 1.000000 2.000000 box
  (UAVObjectBrowserConfiguration) 1.000000 1.000000 box
  (UploaderGadgetConfiguration) 1.000000 0.000000 box
 
 % ----- relations -----
 
 solid
-0 0.000000 20.000000 out
+1 0.000000 20.250000 out
 solid
-1 0.000000 21.000000 in
-solid
-1 0.000000 19.250000 out
+0 0.000000 20.500000 hedge
 solid
 0 0.000000 19.500000 hedge
 solid
@@ -278,4 +276,4 @@ solid
 solid
 0 0.000000 0.500000 hedge
 solid
-0.000000 20.000000 0.500000 vedge
+0.000000 21.000000 0.500000 vedge

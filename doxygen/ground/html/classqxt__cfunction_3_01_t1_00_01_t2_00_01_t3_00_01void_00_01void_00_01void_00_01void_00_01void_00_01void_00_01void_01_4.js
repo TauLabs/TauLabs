@@ -1,5 +1,0 @@
-var classqxt__cfunction_3_01_t1_00_01_t2_00_01_t3_00_01void_00_01void_00_01void_00_01void_00_01void_00_01void_00_01void_01_4 =
-[
-    [ "FUNCTION", "classqxt__cfunction_3_01_t1_00_01_t2_00_01_t3_00_01void_00_01void_00_01void_00_01void_00_01void_00_01void_00_01void_01_4.html#a73c3c0733711062826233257e1827edf", null ],
-    [ "invoke", "classqxt__cfunction_3_01_t1_00_01_t2_00_01_t3_00_01void_00_01void_00_01void_00_01void_00_01void_00_01void_00_01void_01_4.html#af7f75ce5dce90759bd0fd22b7373547e", null ]
-];

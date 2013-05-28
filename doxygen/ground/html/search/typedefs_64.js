@@ -1,26 +1,4 @@
 var searchData=
 [
-  ['data',['data',['../glext_8h.html#a8850df0785e6fbcc2351af3b686b8c7a',1,'glext.h']]],
-  ['decodestate_5ft',['DecodeState_t',['../ssp_8h.html#a8b75d84d7cd5a4e3fc100c5f3237a46a',1,'ssp.h']]],
-  ['deflate_5fstate',['deflate_state',['../deflate_8h.html#aeaabc84f4830ec10deb9b64bd719617a',1,'deflate.h']]],
-  ['depth',['depth',['../glext_8h.html#ab9dbe6fd459e0977873d5bfe29cec173',1,'glext.h']]],
-  ['deserializeddata',['DeserializedData',['../class_qxt_abstract_signal_serializer.html#a101019f7e2f0c3267e01c1da89104b40',1,'QxtAbstractSignalSerializer']]],
-  ['dfactoralpha',['dfactorAlpha',['../glext_8h.html#a0529a4b173595ca2f8b5a42830266f10',1,'glext.h']]],
-  ['dfactorrgb',['dfactorRGB',['../glext_8h.html#ace6fa1d73128e6b24233f54f0beac9cc',1,'glext.h']]],
-  ['diagonalreturntype',['DiagonalReturnType',['../class_hessenberg_decomposition.html#a106d23099756c3db13dfdecac91b9250',1,'HessenbergDecomposition::DiagonalReturnType()'],['../class_tridiagonalization.html#a4641fd1d32be493cb55fe788e331c9c6',1,'Tridiagonalization::DiagonalReturnType()']]],
-  ['diagonaltype',['DiagonalType',['../class_hessenberg_decomposition.html#adf12c2ec893935345228cc508c8bb4b3',1,'HessenbergDecomposition::DiagonalType()'],['../class_tridiagonalization.html#a5ea34cf11c675c0a45c309aa7cb662b0',1,'Tridiagonalization::DiagonalType()']]],
-  ['difference_5ftype',['difference_type',['../classaligned__allocator.html#a0611a3b4581a17616eaaf9f0d5b27cbb',1,'aligned_allocator']]],
-  ['discardflags',['DiscardFlags',['../class_qwt_plot_renderer.html#aa61638c08ef926c0148dd12c9f830b2d',1,'QwtPlotRenderer']]],
-  ['displaymodes',['DisplayModes',['../class_qwt_plot_spectrogram.html#a245a6d1281abe84d177d61be0698db55',1,'QwtPlotSpectrogram']]],
-  ['divisor',['divisor',['../glext_8h.html#a8663d897b5393d6facc1df40530f841d',1,'glext.h']]],
-  ['dpfail',['dpfail',['../glext_8h.html#afb5ba0587287e9f41ad8ba8ba3813267',1,'glext.h']]],
-  ['dppass',['dppass',['../glext_8h.html#ac34ccc579f21686a5802750e270e8326',1,'glext.h']]],
-  ['dst',['dst',['../glext_8h.html#a92034251bfd455d524a9b5610cddba00',1,'glext.h']]],
-  ['dstmask',['dstMask',['../glext_8h.html#a194b4a6b2c39e66f279c98ce63946846',1,'glext.h']]],
-  ['dstmod',['dstMod',['../glext_8h.html#afcd7b5ae4d6e78ff51977e23c0e8084c',1,'glext.h']]],
-  ['dstx0',['dstX0',['../glext_8h.html#af088612058ae25aaefd76210fcdb480e',1,'glext.h']]],
-  ['dstx1',['dstX1',['../glext_8h.html#a67695e2103461680c794506cd17ac2e2',1,'glext.h']]],
-  ['dsty0',['dstY0',['../glext_8h.html#a828a0708c8e3ebe901aba9022b72d904',1,'glext.h']]],
-  ['dsty1',['dstY1',['../glext_8h.html#a164758878d9314363398e6f128dd9fbe',1,'glext.h']]],
-  ['dword',['DWORD',['../gcs_2src_2experimental_2_power_log6_s_2main_8cpp.html#ad342ac907eb044443153a22f964bf0af',1,'DWORD():&#160;main.cpp'],['../group__powerlogplugin.html#gad342ac907eb044443153a22f964bf0af',1,'DWORD():&#160;powerlogplugin.h']]]
+  ['dword',['DWORD',['../group__powerlogplugin.html#gad342ac907eb044443153a22f964bf0af',1,'powerlogplugin.h']]]
 ];

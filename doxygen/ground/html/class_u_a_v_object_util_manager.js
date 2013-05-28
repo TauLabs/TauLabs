@@ -1,13 +1,10 @@
 var class_u_a_v_object_util_manager =
 [
-    [ "metadataSetEnum", "group___u_a_v_objects_plugin.html#ga3f0971e47d6ebe87f97939435cd03da3", [
-      [ "ALL_METADATA", "group___u_a_v_objects_plugin.html#gga3f0971e47d6ebe87f97939435cd03da3ac18452db1ea15afd4d64e97a407429cd", null ],
-      [ "SETTINGS_METADATA_ONLY", "group___u_a_v_objects_plugin.html#gga3f0971e47d6ebe87f97939435cd03da3a80d58d5e87824282131d8df8b346cf46", null ],
-      [ "NONSETTINGS_METADATA_ONLY", "group___u_a_v_objects_plugin.html#gga3f0971e47d6ebe87f97939435cd03da3a2629c57c3e595b842a552395cedd97c9", null ]
-    ] ],
+    [ "metadataSetEnum", "group___u_a_v_objects_plugin.html#ga3f0971e47d6ebe87f97939435cd03da3", null ],
     [ "UAVObjectUtilManager", "group___u_a_v_objects_plugin.html#gaa646568941e8ce857e188b39c90cef6d", null ],
     [ "~UAVObjectUtilManager", "group___u_a_v_objects_plugin.html#gaffdcd54a6b9ce6a7dcf10beb881f71a7", null ],
     [ "completedMetadataWrite", "group___u_a_v_objects_plugin.html#gaf343ab5f4e4710c85cd7977ae7563ca1", null ],
+    [ "descriptionToStructure", "group___u_a_v_objects_plugin.html#ga31c6b739ad7f06472a3f3386e4bebd8a", null ],
     [ "getBoardCPUSerial", "group___u_a_v_object_util_plugin.html#ga11c8171d7e380e699b4edf9b6860a236", null ],
     [ "getBoardDescription", "group___u_a_v_object_util_plugin.html#ga1c07eaa903b38480c6eb46b1a312f66e", null ],
     [ "getBoardDescriptionStruct", "group___u_a_v_objects_plugin.html#ga37ed95a95ca8906a45b06bb7174b1158", null ],

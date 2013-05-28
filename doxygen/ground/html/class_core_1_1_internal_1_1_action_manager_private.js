@@ -12,6 +12,7 @@ var class_core_1_1_internal_1_1_action_manager_private =
     [ "createMenuBar", "group___core_plugin.html#gaef1eb51454ecf1c2d3989db8b3a4e127", null ],
     [ "defaultGroups", "group___core_plugin.html#ga83364e44abe77408ac169e851f7d998f", null ],
     [ "hasContext", "group___core_plugin.html#ga6b861e343876351edf5d2fae24a5f0cb", null ],
+    [ "instance", "group___core_plugin.html#ga2faf640c44a7165ba476bf75170af584", null ],
     [ "readSettings", "group___core_plugin.html#ga097c433a1e3ae316de47ded726e0f639", null ],
     [ "registerAction", "group___core_plugin.html#ga85856b30617fb3861bb25b1745e88ab1", null ],
     [ "registerShortcut", "group___core_plugin.html#ga887455dd80ccba90125634d83982950d", null ],

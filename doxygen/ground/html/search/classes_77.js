@@ -19,7 +19,6 @@ var searchData=
   ['welcomemodetreewidgetprivate',['WelcomeModeTreeWidgetPrivate',['../struct_utils_1_1_welcome_mode_tree_widget_private.html',1,'Utils']]],
   ['welcomeplugin',['WelcomePlugin',['../class_welcome_1_1_internal_1_1_welcome_plugin.html',1,'Welcome::Internal']]],
   ['widget',['Widget',['../class_widget.html',1,'']]],
-  ['withformat',['WithFormat',['../class_with_format.html',1,'']]],
   ['wizardkindpredicate',['WizardKindPredicate',['../class_wizard_kind_predicate.html',1,'']]],
   ['wmmtype_5fcoordgeodetic',['WMMtype_CoordGeodetic',['../struct_w_m_mtype___coord_geodetic.html',1,'']]],
   ['wmmtype_5fcoordspherical',['WMMtype_CoordSpherical',['../struct_w_m_mtype___coord_spherical.html',1,'']]],

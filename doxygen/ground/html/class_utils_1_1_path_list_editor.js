@@ -6,6 +6,7 @@ var class_utils_1_1_path_list_editor =
     [ "deletePathAtCursor", "class_utils_1_1_path_list_editor.html#a117c18f87a59dac54632f3b5e775bd72", null ],
     [ "insertAction", "class_utils_1_1_path_list_editor.html#a5ff6cc4033c262c8f3925446b6266280", null ],
     [ "insertPathAtCursor", "class_utils_1_1_path_list_editor.html#ab3be814407ee47387ca049bfd93780fb", null ],
+    [ "lastAddActionIndex", "class_utils_1_1_path_list_editor.html#adece655966bd271c6a6ff2dac1a0fc53", null ],
     [ "setFileDialogTitle", "class_utils_1_1_path_list_editor.html#ac6942cbe78b6f8df818f21ed565e347c", null ],
     [ "setPathList", "class_utils_1_1_path_list_editor.html#a18015673d52b80b875628c2b66d4db24", null ],
     [ "setPathList", "class_utils_1_1_path_list_editor.html#aed361e69b7808c9e39a3c11d00feda03", null ],

@@ -1,0 +1,143 @@
+\hypertarget{group___p_i_o_s___p_c_f8591___a_d_c}{\section{\-P\-C\-F8591 \-A\-D\-C \-Functions}
+\label{group___p_i_o_s___p_c_f8591___a_d_c}\index{\-P\-C\-F8591 A\-D\-C Functions@{\-P\-C\-F8591 A\-D\-C Functions}}
+}
+\subsection*{\-Data \-Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structpios__pcf8591__adc__dev}{pios\-\_\-pcf8591\-\_\-adc\-\_\-dev}
+\item 
+struct \hyperlink{structpios__pcf8591__adc__cfg}{pios\-\_\-pcf8591\-\_\-adc\-\_\-cfg}
+\end{DoxyCompactItemize}
+\subsection*{\-Files}
+\begin{DoxyCompactItemize}
+\item 
+file \hyperlink{pios__pcf8591__adc_8c}{pios\-\_\-pcf8591\-\_\-adc.\-c}
+\begin{DoxyCompactList}\small\item\em \-P\-C\-F8591 \-A\-D\-C driver. \end{DoxyCompactList}\item 
+file \hyperlink{pios__pcf8591__adc__priv_8h}{pios\-\_\-pcf8591\-\_\-adc\-\_\-priv.\-h}
+\begin{DoxyCompactList}\small\item\em \-P\-C\-F8591 \-A\-D\-C private definitions. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{group___p_i_o_s___p_c_f8591___a_d_c_ga6540537fe983c01aed8d16cc97711b14}{pios\-\_\-pcf8591\-\_\-adc\-\_\-dev\-\_\-magic} \{ \hyperlink{group___p_i_o_s___p_c_f8591___a_d_c_gga6540537fe983c01aed8d16cc97711b14a6bc64c30b740979abf03aa7c83003904}{\-P\-I\-O\-S\-\_\-\-P\-C\-F8591\-\_\-\-A\-D\-C\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C} =  0x58376969
+ \}
+\end{DoxyCompactItemize}
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___p_c_f8591___a_d_c_gad9edcb9a1ed62a8a21748ce56d272b05}{\-P\-I\-O\-S\-\_\-\-P\-C\-F8591\-\_\-\-A\-D\-C\-\_\-\-Init} (uint32\-\_\-t $\ast$pcf8591\-\_\-adc\-\_\-id, const struct \hyperlink{structpios__pcf8591__adc__cfg}{pios\-\_\-pcf8591\-\_\-adc\-\_\-cfg} $\ast$cfg)
+\begin{DoxyCompactList}\small\item\em \-Initializes an \-P\-C\-F8591 \-A\-D\-C device. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Variables}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structpios__adc__driver}{pios\-\_\-adc\-\_\-driver} \hyperlink{group___p_i_o_s___p_c_f8591___a_d_c_ga5130c9fc21788de966e89cdda587e568}{pios\-\_\-pcf8591\-\_\-adc\-\_\-driver}
+\item 
+struct \hyperlink{structpios__adc__driver}{pios\-\_\-adc\-\_\-driver} \hyperlink{group___p_i_o_s___p_c_f8591___a_d_c_ga5130c9fc21788de966e89cdda587e568}{pios\-\_\-pcf8591\-\_\-adc\-\_\-driver}
+\item 
+uint8\-\_\-t \hyperlink{group___p_i_o_s___p_c_f8591___a_d_c_gae67d73ed1272f02fb5f31eb18a31d9b8}{pios\-\_\-pcf8591\-\_\-adc\-\_\-cfg\-::i2c\-\_\-address}
+\item 
+bool \hyperlink{group___p_i_o_s___p_c_f8591___a_d_c_ga20ee95c4cade76e7ad834f18e30d4123}{pios\-\_\-pcf8591\-\_\-adc\-\_\-cfg\-::use\-\_\-auto\-\_\-increment}
+\item 
+bool \hyperlink{group___p_i_o_s___p_c_f8591___a_d_c_gad7d1cb320c59f88ea6cf49c65282ba19}{pios\-\_\-pcf8591\-\_\-adc\-\_\-cfg\-::enable\-\_\-dac}
+\item 
+uint8\-\_\-t \hyperlink{group___p_i_o_s___p_c_f8591___a_d_c_ga4c8aacdc272129b5e9d614a47a93cd06}{pios\-\_\-pcf8591\-\_\-adc\-\_\-cfg\-::adc\-\_\-input\-\_\-type}
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Enumeration \-Type \-Documentation}
+\hypertarget{group___p_i_o_s___p_c_f8591___a_d_c_ga6540537fe983c01aed8d16cc97711b14}{\index{\-P\-C\-F8591 A\-D\-C Functions@{\-P\-C\-F8591 A\-D\-C Functions}!pios\-\_\-pcf8591\-\_\-adc\-\_\-dev\-\_\-magic@{pios\-\_\-pcf8591\-\_\-adc\-\_\-dev\-\_\-magic}}
+\index{pios\-\_\-pcf8591\-\_\-adc\-\_\-dev\-\_\-magic@{pios\-\_\-pcf8591\-\_\-adc\-\_\-dev\-\_\-magic}!PCF8591 ADC Functions@{\-P\-C\-F8591 A\-D\-C Functions}}
+\subsubsection[{pios\-\_\-pcf8591\-\_\-adc\-\_\-dev\-\_\-magic}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf pios\-\_\-pcf8591\-\_\-adc\-\_\-dev\-\_\-magic}}}\label{group___p_i_o_s___p_c_f8591___a_d_c_ga6540537fe983c01aed8d16cc97711b14}
+\begin{Desc}
+\item[\-Enumerator\-: ]\par
+\begin{description}
+\index{\-P\-I\-O\-S\-\_\-\-P\-C\-F8591\-\_\-\-A\-D\-C\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C@{\-P\-I\-O\-S\-\_\-\-P\-C\-F8591\-\_\-\-A\-D\-C\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}!\-P\-C\-F8591 A\-D\-C Functions@{\-P\-C\-F8591 A\-D\-C Functions}}\index{\-P\-C\-F8591 A\-D\-C Functions@{\-P\-C\-F8591 A\-D\-C Functions}!\-P\-I\-O\-S\-\_\-\-P\-C\-F8591\-\_\-\-A\-D\-C\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C@{\-P\-I\-O\-S\-\_\-\-P\-C\-F8591\-\_\-\-A\-D\-C\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}}\item[{\em 
+\hypertarget{group___p_i_o_s___p_c_f8591___a_d_c_gga6540537fe983c01aed8d16cc97711b14a6bc64c30b740979abf03aa7c83003904}{\-P\-I\-O\-S\-\_\-\-P\-C\-F8591\-\_\-\-A\-D\-C\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C}\label{group___p_i_o_s___p_c_f8591___a_d_c_gga6540537fe983c01aed8d16cc97711b14a6bc64c30b740979abf03aa7c83003904}
+}]\end{description}
+\end{Desc}
+
+
+
+\-Definition at line 54 of file pios\-\_\-pcf8591\-\_\-adc.\-c.
+
+
+
+\subsection{\-Function \-Documentation}
+\hypertarget{group___p_i_o_s___p_c_f8591___a_d_c_gad9edcb9a1ed62a8a21748ce56d272b05}{\index{\-P\-C\-F8591 A\-D\-C Functions@{\-P\-C\-F8591 A\-D\-C Functions}!\-P\-I\-O\-S\-\_\-\-P\-C\-F8591\-\_\-\-A\-D\-C\-\_\-\-Init@{\-P\-I\-O\-S\-\_\-\-P\-C\-F8591\-\_\-\-A\-D\-C\-\_\-\-Init}}
+\index{\-P\-I\-O\-S\-\_\-\-P\-C\-F8591\-\_\-\-A\-D\-C\-\_\-\-Init@{\-P\-I\-O\-S\-\_\-\-P\-C\-F8591\-\_\-\-A\-D\-C\-\_\-\-Init}!PCF8591 ADC Functions@{\-P\-C\-F8591 A\-D\-C Functions}}
+\subsubsection[{\-P\-I\-O\-S\-\_\-\-P\-C\-F8591\-\_\-\-A\-D\-C\-\_\-\-Init}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-P\-I\-O\-S\-\_\-\-P\-C\-F8591\-\_\-\-A\-D\-C\-\_\-\-Init} (
+\begin{DoxyParamCaption}
+\item[{uint32\-\_\-t $\ast$}]{pcf8591\-\_\-adc\-\_\-id, }
+\item[{const struct {\bf pios\-\_\-pcf8591\-\_\-adc\-\_\-cfg} $\ast$}]{cfg}
+\end{DoxyParamCaption}
+)}}\label{group___p_i_o_s___p_c_f8591___a_d_c_gad9edcb9a1ed62a8a21748ce56d272b05}
+
+
+\-Initializes an \-P\-C\-F8591 \-A\-D\-C device. 
+
+
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt out}  & {\em pcf8591\-\_\-adc\-\_\-id} & handle to the device \\
+\hline
+\mbox{\tt in}  & {\em cfg} & device configuration \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+$<$ 0 if deviced initialization failed 
+\end{DoxyReturn}
+
+
+\-Definition at line 142 of file pios\-\_\-pcf8591\-\_\-adc.\-c.
+
+
+
+\subsection{\-Variable \-Documentation}
+\hypertarget{group___p_i_o_s___p_c_f8591___a_d_c_ga4c8aacdc272129b5e9d614a47a93cd06}{\index{\-P\-C\-F8591 A\-D\-C Functions@{\-P\-C\-F8591 A\-D\-C Functions}!adc\-\_\-input\-\_\-type@{adc\-\_\-input\-\_\-type}}
+\index{adc\-\_\-input\-\_\-type@{adc\-\_\-input\-\_\-type}!PCF8591 ADC Functions@{\-P\-C\-F8591 A\-D\-C Functions}}
+\subsubsection[{adc\-\_\-input\-\_\-type}]{\setlength{\rightskip}{0pt plus 5cm}uint8\-\_\-t {\bf pios\-\_\-pcf8591\-\_\-adc\-\_\-cfg\-::adc\-\_\-input\-\_\-type}}}\label{group___p_i_o_s___p_c_f8591___a_d_c_ga4c8aacdc272129b5e9d614a47a93cd06}
+
+
+\-Definition at line 46 of file pios\-\_\-pcf8591\-\_\-adc\-\_\-priv.\-h.
+
+\hypertarget{group___p_i_o_s___p_c_f8591___a_d_c_gad7d1cb320c59f88ea6cf49c65282ba19}{\index{\-P\-C\-F8591 A\-D\-C Functions@{\-P\-C\-F8591 A\-D\-C Functions}!enable\-\_\-dac@{enable\-\_\-dac}}
+\index{enable\-\_\-dac@{enable\-\_\-dac}!PCF8591 ADC Functions@{\-P\-C\-F8591 A\-D\-C Functions}}
+\subsubsection[{enable\-\_\-dac}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf pios\-\_\-pcf8591\-\_\-adc\-\_\-cfg\-::enable\-\_\-dac}}}\label{group___p_i_o_s___p_c_f8591___a_d_c_gad7d1cb320c59f88ea6cf49c65282ba19}
+
+
+\-Definition at line 45 of file pios\-\_\-pcf8591\-\_\-adc\-\_\-priv.\-h.
+
+\hypertarget{group___p_i_o_s___p_c_f8591___a_d_c_gae67d73ed1272f02fb5f31eb18a31d9b8}{\index{\-P\-C\-F8591 A\-D\-C Functions@{\-P\-C\-F8591 A\-D\-C Functions}!i2c\-\_\-address@{i2c\-\_\-address}}
+\index{i2c\-\_\-address@{i2c\-\_\-address}!PCF8591 ADC Functions@{\-P\-C\-F8591 A\-D\-C Functions}}
+\subsubsection[{i2c\-\_\-address}]{\setlength{\rightskip}{0pt plus 5cm}uint8\-\_\-t {\bf pios\-\_\-pcf8591\-\_\-adc\-\_\-cfg\-::i2c\-\_\-address}}}\label{group___p_i_o_s___p_c_f8591___a_d_c_gae67d73ed1272f02fb5f31eb18a31d9b8}
+
+
+\-Definition at line 43 of file pios\-\_\-pcf8591\-\_\-adc\-\_\-priv.\-h.
+
+\hypertarget{group___p_i_o_s___p_c_f8591___a_d_c_ga5130c9fc21788de966e89cdda587e568}{\index{\-P\-C\-F8591 A\-D\-C Functions@{\-P\-C\-F8591 A\-D\-C Functions}!pios\-\_\-pcf8591\-\_\-adc\-\_\-driver@{pios\-\_\-pcf8591\-\_\-adc\-\_\-driver}}
+\index{pios\-\_\-pcf8591\-\_\-adc\-\_\-driver@{pios\-\_\-pcf8591\-\_\-adc\-\_\-driver}!PCF8591 ADC Functions@{\-P\-C\-F8591 A\-D\-C Functions}}
+\subsubsection[{pios\-\_\-pcf8591\-\_\-adc\-\_\-driver}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf pios\-\_\-adc\-\_\-driver} {\bf pios\-\_\-pcf8591\-\_\-adc\-\_\-driver}}}\label{group___p_i_o_s___p_c_f8591___a_d_c_ga5130c9fc21788de966e89cdda587e568}
+
+
+\-Definition at line 58 of file pios\-\_\-pcf8591\-\_\-adc.\-c.
+
+\hypertarget{group___p_i_o_s___p_c_f8591___a_d_c_ga5130c9fc21788de966e89cdda587e568}{\index{\-P\-C\-F8591 A\-D\-C Functions@{\-P\-C\-F8591 A\-D\-C Functions}!pios\-\_\-pcf8591\-\_\-adc\-\_\-driver@{pios\-\_\-pcf8591\-\_\-adc\-\_\-driver}}
+\index{pios\-\_\-pcf8591\-\_\-adc\-\_\-driver@{pios\-\_\-pcf8591\-\_\-adc\-\_\-driver}!PCF8591 ADC Functions@{\-P\-C\-F8591 A\-D\-C Functions}}
+\subsubsection[{pios\-\_\-pcf8591\-\_\-adc\-\_\-driver}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf pios\-\_\-adc\-\_\-driver} {\bf pios\-\_\-pcf8591\-\_\-adc\-\_\-driver}}}\label{group___p_i_o_s___p_c_f8591___a_d_c_ga5130c9fc21788de966e89cdda587e568}
+{\bfseries \-Initial value\-:}
+\begin{DoxyCode}
+ {
+        .available = PIOS_PCF8591_ADC_Available,
+        .get_pin = PIOS_PCF8591_ADC_DevicePinGet,
+        .number_of_channels = PIOS_PCF8591_ADC_Number_of_Channels,
+}
+\end{DoxyCode}
+
+
+\-Definition at line 58 of file pios\-\_\-pcf8591\-\_\-adc.\-c.
+
+\hypertarget{group___p_i_o_s___p_c_f8591___a_d_c_ga20ee95c4cade76e7ad834f18e30d4123}{\index{\-P\-C\-F8591 A\-D\-C Functions@{\-P\-C\-F8591 A\-D\-C Functions}!use\-\_\-auto\-\_\-increment@{use\-\_\-auto\-\_\-increment}}
+\index{use\-\_\-auto\-\_\-increment@{use\-\_\-auto\-\_\-increment}!PCF8591 ADC Functions@{\-P\-C\-F8591 A\-D\-C Functions}}
+\subsubsection[{use\-\_\-auto\-\_\-increment}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf pios\-\_\-pcf8591\-\_\-adc\-\_\-cfg\-::use\-\_\-auto\-\_\-increment}}}\label{group___p_i_o_s___p_c_f8591___a_d_c_ga20ee95c4cade76e7ad834f18e30d4123}
+
+
+\-Definition at line 44 of file pios\-\_\-pcf8591\-\_\-adc\-\_\-priv.\-h.
+

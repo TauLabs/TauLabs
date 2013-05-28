@@ -1,110 +1,102 @@
-\hypertarget{group___system_module}{\section{System Module}
-\label{group___system_module}\index{System Module@{System Module}}
+\hypertarget{group___system_module}{\section{\-System \-Module}
+\label{group___system_module}\index{\-System Module@{\-System Module}}
 }
-
-
-Initializes P\-I\-O\-S and other modules runs monitoring After initializing all the modules (currently selected by Makefile but in future controlled by configuration on S\-D card) runs basic monitoring and alarms.  
-
-
-\subsection*{Files}
+\subsection*{\-Files}
 \begin{DoxyCompactItemize}
 \item 
 file \hyperlink{systemmod_8h}{systemmod.\-h}
-\begin{DoxyCompactList}\small\item\em System module. \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em \-System module. \end{DoxyCompactList}\item 
 file \hyperlink{systemmod_8c}{systemmod.\-c}
-\begin{DoxyCompactList}\small\item\em System module. \end{DoxyCompactList}\end{DoxyCompactItemize}
-\subsection*{Functions}
+\begin{DoxyCompactList}\small\item\em \-System module. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Functions}
 \begin{DoxyCompactItemize}
 \item 
-\hyperlink{group___n_a_m_e_gafd12020da5a235dfcf0c3c748fb5baed}{int32\-\_\-t} \hyperlink{group___system_module_ga25e6d9910d77be50c3b01c7b738094d9}{System\-Mod\-Initialize} (\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void})
+int32\-\_\-t \hyperlink{group___system_module_ga25e6d9910d77be50c3b01c7b738094d9}{\-System\-Mod\-Initialize} (void)
 \item 
-\hyperlink{group___n_a_m_e_gafd12020da5a235dfcf0c3c748fb5baed}{int32\-\_\-t} \hyperlink{group___system_module_gacce857283e17c1584c0944c872f40fce}{System\-Mod\-Start} (\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void})
+int32\-\_\-t \hyperlink{group___system_module_gacce857283e17c1584c0944c872f40fce}{\-System\-Mod\-Start} (void)
 \item 
-\hyperlink{group___system_module_ga93b1d8678b35f3082f71ac804eca1619}{M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L} (\hyperlink{group___system_module_ga25e6d9910d77be50c3b01c7b738094d9}{System\-Mod\-Initialize}, 0)
+\hyperlink{group___system_module_ga93b1d8678b35f3082f71ac804eca1619}{\-M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L} (\hyperlink{group___system_module_ga25e6d9910d77be50c3b01c7b738094d9}{\-System\-Mod\-Initialize}, 0)
 \item 
-\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___system_module_ga97fd430f36f8b065226e2bff9bad1de5}{v\-Application\-Idle\-Hook} (\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void})
+void \hyperlink{group___system_module_ga97fd430f36f8b065226e2bff9bad1de5}{v\-Application\-Idle\-Hook} (void)
 \item 
-\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___system_module_ga329de0f973fabef8b34da6444654295c}{v\-Application\-Stack\-Overflow\-Hook} (\hyperlink{_common_2_libraries_2_free_r_t_o_s_2_source_2include_2task_8h_a271ae40d5db07d928a113766505a0965}{x\-Task\-Handle} $\ast$px\-Task, signed port\-C\-H\-A\-R $\ast$pc\-Task\-Name)
+void \hyperlink{group___system_module_ga329de0f973fabef8b34da6444654295c}{v\-Application\-Stack\-Overflow\-Hook} (x\-Task\-Handle $\ast$px\-Task, signed port\-C\-H\-A\-R $\ast$pc\-Task\-Name)
 \item 
-\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___system_module_gab7e5c95cf72a3f819bc4462a7fb62ca3}{v\-Application\-Malloc\-Failed\-Hook} (\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void})
+void \hyperlink{group___system_module_gab7e5c95cf72a3f819bc4462a7fb62ca3}{v\-Application\-Malloc\-Failed\-Hook} (void)
 \end{DoxyCompactItemize}
 
 
-\subsection{Detailed Description}
-Initializes P\-I\-O\-S and other modules runs monitoring After initializing all the modules (currently selected by Makefile but in future controlled by configuration on S\-D card) runs basic monitoring and alarms. 
-
-\subsection{Function Documentation}
-\hypertarget{group___system_module_ga93b1d8678b35f3082f71ac804eca1619}{\index{System Module@{System Module}!M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L@{M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L}}
-\index{M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L@{M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L}!System Module@{System Module}}
-\subsubsection[{M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L}]{\setlength{\rightskip}{0pt plus 5cm}M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L (
+\subsection{\-Function \-Documentation}
+\hypertarget{group___system_module_ga93b1d8678b35f3082f71ac804eca1619}{\index{\-System Module@{\-System Module}!\-M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L@{\-M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L}}
+\index{\-M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L@{\-M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L}!System Module@{\-System Module}}
+\subsubsection[{\-M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L} (
 \begin{DoxyParamCaption}
-\item[{{\bf System\-Mod\-Initialize}}]{, }
+\item[{{\bf \-System\-Mod\-Initialize}}]{, }
 \item[{0}]{}
 \end{DoxyParamCaption}
 )}}\label{group___system_module_ga93b1d8678b35f3082f71ac804eca1619}
-System task, periodically executes every S\-Y\-S\-T\-E\-M\-\_\-\-U\-P\-D\-A\-T\-E\-\_\-\-P\-E\-R\-I\-O\-D\-\_\-\-M\-S 
+\-System task, periodically executes every \-S\-Y\-S\-T\-E\-M\-\_\-\-U\-P\-D\-A\-T\-E\-\_\-\-P\-E\-R\-I\-O\-D\-\_\-\-M\-S 
 
-Definition at line 150 of file systemmod.\-c.
+\-Definition at line 141 of file systemmod.\-c.
 
-\hypertarget{group___system_module_ga25e6d9910d77be50c3b01c7b738094d9}{\index{System Module@{System Module}!System\-Mod\-Initialize@{System\-Mod\-Initialize}}
-\index{System\-Mod\-Initialize@{System\-Mod\-Initialize}!System Module@{System Module}}
-\subsubsection[{System\-Mod\-Initialize}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int32\-\_\-t} System\-Mod\-Initialize (
+\hypertarget{group___system_module_ga25e6d9910d77be50c3b01c7b738094d9}{\index{\-System Module@{\-System Module}!\-System\-Mod\-Initialize@{\-System\-Mod\-Initialize}}
+\index{\-System\-Mod\-Initialize@{\-System\-Mod\-Initialize}!System Module@{\-System Module}}
+\subsubsection[{\-System\-Mod\-Initialize}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-System\-Mod\-Initialize} (
 \begin{DoxyParamCaption}
-\item[{{\bf void}}]{}
+\item[{void}]{}
 \end{DoxyParamCaption}
 )}}\label{group___system_module_ga25e6d9910d77be50c3b01c7b738094d9}
-Initialize the module, called on startup. \begin{DoxyReturn}{Returns}
+\-Initialize the module, called on startup. \begin{DoxyReturn}{\-Returns}
 0 on success or -\/1 if initialization failed 
 \end{DoxyReturn}
 
 
-Definition at line 125 of file systemmod.\-c.
+\-Definition at line 116 of file systemmod.\-c.
 
-\hypertarget{group___system_module_gacce857283e17c1584c0944c872f40fce}{\index{System Module@{System Module}!System\-Mod\-Start@{System\-Mod\-Start}}
-\index{System\-Mod\-Start@{System\-Mod\-Start}!System Module@{System Module}}
-\subsubsection[{System\-Mod\-Start}]{\setlength{\rightskip}{0pt plus 5cm}{\bf int32\-\_\-t} System\-Mod\-Start (
+\hypertarget{group___system_module_gacce857283e17c1584c0944c872f40fce}{\index{\-System Module@{\-System Module}!\-System\-Mod\-Start@{\-System\-Mod\-Start}}
+\index{\-System\-Mod\-Start@{\-System\-Mod\-Start}!System Module@{\-System Module}}
+\subsubsection[{\-System\-Mod\-Start}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-System\-Mod\-Start} (
 \begin{DoxyParamCaption}
-\item[{{\bf void}}]{}
+\item[{void}]{}
 \end{DoxyParamCaption}
 )}}\label{group___system_module_gacce857283e17c1584c0944c872f40fce}
-Create the module task. \begin{DoxyReturn}{Returns}
+\-Create the module task. \begin{DoxyReturn}{\-Returns}
 0 on success or -\/1 if initialization failed 
 \end{DoxyReturn}
 
 
-Definition at line 108 of file systemmod.\-c.
+\-Definition at line 99 of file systemmod.\-c.
 
-\hypertarget{group___system_module_ga97fd430f36f8b065226e2bff9bad1de5}{\index{System Module@{System Module}!v\-Application\-Idle\-Hook@{v\-Application\-Idle\-Hook}}
-\index{v\-Application\-Idle\-Hook@{v\-Application\-Idle\-Hook}!System Module@{System Module}}
-\subsubsection[{v\-Application\-Idle\-Hook}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} v\-Application\-Idle\-Hook (
+\hypertarget{group___system_module_ga97fd430f36f8b065226e2bff9bad1de5}{\index{\-System Module@{\-System Module}!v\-Application\-Idle\-Hook@{v\-Application\-Idle\-Hook}}
+\index{v\-Application\-Idle\-Hook@{v\-Application\-Idle\-Hook}!System Module@{\-System Module}}
+\subsubsection[{v\-Application\-Idle\-Hook}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf v\-Application\-Idle\-Hook} (
 \begin{DoxyParamCaption}
-\item[{{\bf void}}]{}
+\item[{void}]{}
 \end{DoxyParamCaption}
 )}}\label{group___system_module_ga97fd430f36f8b065226e2bff9bad1de5}
-Called by the R\-T\-O\-S when the C\-P\-U is idle, used to measure the C\-P\-U idle time. 
+\-Called by the \-R\-T\-O\-S when the \-C\-P\-U is idle, used to measure the \-C\-P\-U idle time. 
 
-Definition at line 536 of file systemmod.\-c.
+\-Definition at line 527 of file systemmod.\-c.
 
-\hypertarget{group___system_module_gab7e5c95cf72a3f819bc4462a7fb62ca3}{\index{System Module@{System Module}!v\-Application\-Malloc\-Failed\-Hook@{v\-Application\-Malloc\-Failed\-Hook}}
-\index{v\-Application\-Malloc\-Failed\-Hook@{v\-Application\-Malloc\-Failed\-Hook}!System Module@{System Module}}
-\subsubsection[{v\-Application\-Malloc\-Failed\-Hook}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} v\-Application\-Malloc\-Failed\-Hook (
+\hypertarget{group___system_module_gab7e5c95cf72a3f819bc4462a7fb62ca3}{\index{\-System Module@{\-System Module}!v\-Application\-Malloc\-Failed\-Hook@{v\-Application\-Malloc\-Failed\-Hook}}
+\index{v\-Application\-Malloc\-Failed\-Hook@{v\-Application\-Malloc\-Failed\-Hook}!System Module@{\-System Module}}
+\subsubsection[{v\-Application\-Malloc\-Failed\-Hook}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf v\-Application\-Malloc\-Failed\-Hook} (
 \begin{DoxyParamCaption}
-\item[{{\bf void}}]{}
+\item[{void}]{}
 \end{DoxyParamCaption}
 )}}\label{group___system_module_gab7e5c95cf72a3f819bc4462a7fb62ca3}
 
 
-Definition at line 565 of file systemmod.\-c.
+\-Definition at line 556 of file systemmod.\-c.
 
-\hypertarget{group___system_module_ga329de0f973fabef8b34da6444654295c}{\index{System Module@{System Module}!v\-Application\-Stack\-Overflow\-Hook@{v\-Application\-Stack\-Overflow\-Hook}}
-\index{v\-Application\-Stack\-Overflow\-Hook@{v\-Application\-Stack\-Overflow\-Hook}!System Module@{System Module}}
-\subsubsection[{v\-Application\-Stack\-Overflow\-Hook}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} v\-Application\-Stack\-Overflow\-Hook (
+\hypertarget{group___system_module_ga329de0f973fabef8b34da6444654295c}{\index{\-System Module@{\-System Module}!v\-Application\-Stack\-Overflow\-Hook@{v\-Application\-Stack\-Overflow\-Hook}}
+\index{v\-Application\-Stack\-Overflow\-Hook@{v\-Application\-Stack\-Overflow\-Hook}!System Module@{\-System Module}}
+\subsubsection[{v\-Application\-Stack\-Overflow\-Hook}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf v\-Application\-Stack\-Overflow\-Hook} (
 \begin{DoxyParamCaption}
-\item[{{\bf x\-Task\-Handle} $\ast$}]{px\-Task, }
+\item[{x\-Task\-Handle $\ast$}]{px\-Task, }
 \item[{signed port\-C\-H\-A\-R $\ast$}]{pc\-Task\-Name}
 \end{DoxyParamCaption}
 )}}\label{group___system_module_ga329de0f973fabef8b34da6444654295c}
 
 
-Definition at line 551 of file systemmod.\-c.
+\-Definition at line 542 of file systemmod.\-c.
 

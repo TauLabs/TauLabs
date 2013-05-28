@@ -13,5 +13,6 @@ var structcore_1_1_point =
     [ "Y", "group___o_p_map_widget.html#ga15325baf78dea74cc34b00887dd5539b", null ],
     [ "operator!=", "group___o_p_map_widget.html#ga5f23d9a5e9c27a7fb6560e248ba8950e", null ],
     [ "operator==", "group___o_p_map_widget.html#gad4a997c3713478cec06dca233eeefdba", null ],
-    [ "qHash", "group___o_p_map_widget.html#ga8feadb5b08ae788a3b3149c500a8577c", null ]
+    [ "qHash", "group___o_p_map_widget.html#ga8feadb5b08ae788a3b3149c500a8577c", null ],
+    [ "Empty", "group___o_p_map_widget.html#ga8f0f8df337a57e048e21c0410bd1a7e3", null ]
 ];

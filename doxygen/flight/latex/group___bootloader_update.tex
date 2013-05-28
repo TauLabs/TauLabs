@@ -1,0 +1,98 @@
+\hypertarget{group___bootloader_update}{\section{\-Update the bootloader stored in a target}
+\label{group___bootloader_update}\index{\-Update the bootloader stored in a target@{\-Update the bootloader stored in a target}}
+}
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{group___bootloader_update_ga7ec2ca9d0a908d6508dbc58c00eb18ec}{\-F\-L\-A\-S\-H\-\_\-\-Download} ()
+\item 
+void \hyperlink{group___bootloader_update_ga5879845a39e040157796c1d907f43d24}{error} (int)
+\item 
+int \hyperlink{group___bootloader_update_gae66f6b31b5ad750f1fe042a706a4e3d4}{main} ()
+\end{DoxyCompactItemize}
+\subsection*{\-Variables}
+\begin{DoxyCompactItemize}
+\item 
+uint32\-\_\-t \hyperlink{group___bootloader_update_ga18e22c4c1de6a3912b0e36471b4c97af}{\-\_\-binary\-\_\-start}
+\item 
+uint32\-\_\-t \hyperlink{group___bootloader_update_gaa9ad8016b46b914281992b372d57a1fd}{\-\_\-binary\-\_\-end}
+\item 
+uint32\-\_\-t \hyperlink{group___bootloader_update_ga65b6d3b8a474ae5ea96d13fd17ec8e2f}{\-\_\-binary\-\_\-size}
+\item 
+const uint32\-\_\-t $\ast$ \hyperlink{group___bootloader_update_ga3afaa362525714c794fa80cf079ff93f}{embedded\-\_\-image\-\_\-start} = (uint32\-\_\-t $\ast$) \&(\hyperlink{group___bootloader_update_ga18e22c4c1de6a3912b0e36471b4c97af}{\-\_\-binary\-\_\-start})
+\item 
+const uint32\-\_\-t $\ast$ \hyperlink{group___bootloader_update_ga8b1e4a9a16473320612d8461c4d887b9}{embedded\-\_\-image\-\_\-end} = (uint32\-\_\-t $\ast$) \&(\hyperlink{group___bootloader_update_gaa9ad8016b46b914281992b372d57a1fd}{\-\_\-binary\-\_\-end})
+\item 
+const uint32\-\_\-t \hyperlink{group___bootloader_update_ga9735096d394222154ea06b9b81667254}{embedded\-\_\-image\-\_\-size} = (uint32\-\_\-t) \&(\hyperlink{group___bootloader_update_ga65b6d3b8a474ae5ea96d13fd17ec8e2f}{\-\_\-binary\-\_\-size})
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Function \-Documentation}
+\hypertarget{group___bootloader_update_ga5879845a39e040157796c1d907f43d24}{\index{\-Update the bootloader stored in a target@{\-Update the bootloader stored in a target}!error@{error}}
+\index{error@{error}!Update the bootloader stored in a target@{\-Update the bootloader stored in a target}}
+\subsubsection[{error}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf error} (
+\begin{DoxyParamCaption}
+\item[{int}]{led}
+\end{DoxyParamCaption}
+)}}\label{group___bootloader_update_ga5879845a39e040157796c1d907f43d24}
+
+
+\-Definition at line 150 of file main.\-c.
+
+\hypertarget{group___bootloader_update_ga7ec2ca9d0a908d6508dbc58c00eb18ec}{\index{\-Update the bootloader stored in a target@{\-Update the bootloader stored in a target}!\-F\-L\-A\-S\-H\-\_\-\-Download@{\-F\-L\-A\-S\-H\-\_\-\-Download}}
+\index{\-F\-L\-A\-S\-H\-\_\-\-Download@{\-F\-L\-A\-S\-H\-\_\-\-Download}!Update the bootloader stored in a target@{\-Update the bootloader stored in a target}}
+\subsubsection[{\-F\-L\-A\-S\-H\-\_\-\-Download}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-F\-L\-A\-S\-H\-\_\-\-Download} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___bootloader_update_ga7ec2ca9d0a908d6508dbc58c00eb18ec}
+\hypertarget{group___bootloader_update_gae66f6b31b5ad750f1fe042a706a4e3d4}{\index{\-Update the bootloader stored in a target@{\-Update the bootloader stored in a target}!main@{main}}
+\index{main@{main}!Update the bootloader stored in a target@{\-Update the bootloader stored in a target}}
+\subsubsection[{main}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf main} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group___bootloader_update_gae66f6b31b5ad750f1fe042a706a4e3d4}
+\-Self overwrite check
+
+\-Bootloader memory space erase
+
+\-Bootloader programing
+
+\-Invalidate the bootloader updater so we won't run the update again on the next power cycle. 
+
+\-Definition at line 52 of file main.\-c.
+
+
+
+\subsection{\-Variable \-Documentation}
+\hypertarget{group___bootloader_update_gaa9ad8016b46b914281992b372d57a1fd}{\index{\-Update the bootloader stored in a target@{\-Update the bootloader stored in a target}!\-\_\-binary\-\_\-end@{\-\_\-binary\-\_\-end}}
+\index{\-\_\-binary\-\_\-end@{\-\_\-binary\-\_\-end}!Update the bootloader stored in a target@{\-Update the bootloader stored in a target}}
+\subsubsection[{\-\_\-binary\-\_\-end}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t {\bf \-\_\-binary\-\_\-end}}}\label{group___bootloader_update_gaa9ad8016b46b914281992b372d57a1fd}
+\hypertarget{group___bootloader_update_ga65b6d3b8a474ae5ea96d13fd17ec8e2f}{\index{\-Update the bootloader stored in a target@{\-Update the bootloader stored in a target}!\-\_\-binary\-\_\-size@{\-\_\-binary\-\_\-size}}
+\index{\-\_\-binary\-\_\-size@{\-\_\-binary\-\_\-size}!Update the bootloader stored in a target@{\-Update the bootloader stored in a target}}
+\subsubsection[{\-\_\-binary\-\_\-size}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t {\bf \-\_\-binary\-\_\-size}}}\label{group___bootloader_update_ga65b6d3b8a474ae5ea96d13fd17ec8e2f}
+\hypertarget{group___bootloader_update_ga18e22c4c1de6a3912b0e36471b4c97af}{\index{\-Update the bootloader stored in a target@{\-Update the bootloader stored in a target}!\-\_\-binary\-\_\-start@{\-\_\-binary\-\_\-start}}
+\index{\-\_\-binary\-\_\-start@{\-\_\-binary\-\_\-start}!Update the bootloader stored in a target@{\-Update the bootloader stored in a target}}
+\subsubsection[{\-\_\-binary\-\_\-start}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t {\bf \-\_\-binary\-\_\-start}}}\label{group___bootloader_update_ga18e22c4c1de6a3912b0e36471b4c97af}
+\hypertarget{group___bootloader_update_ga8b1e4a9a16473320612d8461c4d887b9}{\index{\-Update the bootloader stored in a target@{\-Update the bootloader stored in a target}!embedded\-\_\-image\-\_\-end@{embedded\-\_\-image\-\_\-end}}
+\index{embedded\-\_\-image\-\_\-end@{embedded\-\_\-image\-\_\-end}!Update the bootloader stored in a target@{\-Update the bootloader stored in a target}}
+\subsubsection[{embedded\-\_\-image\-\_\-end}]{\setlength{\rightskip}{0pt plus 5cm}const uint32\-\_\-t$\ast$ {\bf embedded\-\_\-image\-\_\-end} = (uint32\-\_\-t $\ast$) \&({\bf \-\_\-binary\-\_\-end})}}\label{group___bootloader_update_ga8b1e4a9a16473320612d8461c4d887b9}
+
+
+\-Definition at line 49 of file main.\-c.
+
+\hypertarget{group___bootloader_update_ga9735096d394222154ea06b9b81667254}{\index{\-Update the bootloader stored in a target@{\-Update the bootloader stored in a target}!embedded\-\_\-image\-\_\-size@{embedded\-\_\-image\-\_\-size}}
+\index{embedded\-\_\-image\-\_\-size@{embedded\-\_\-image\-\_\-size}!Update the bootloader stored in a target@{\-Update the bootloader stored in a target}}
+\subsubsection[{embedded\-\_\-image\-\_\-size}]{\setlength{\rightskip}{0pt plus 5cm}const uint32\-\_\-t {\bf embedded\-\_\-image\-\_\-size} = (uint32\-\_\-t) \&({\bf \-\_\-binary\-\_\-size})}}\label{group___bootloader_update_ga9735096d394222154ea06b9b81667254}
+
+
+\-Definition at line 50 of file main.\-c.
+
+\hypertarget{group___bootloader_update_ga3afaa362525714c794fa80cf079ff93f}{\index{\-Update the bootloader stored in a target@{\-Update the bootloader stored in a target}!embedded\-\_\-image\-\_\-start@{embedded\-\_\-image\-\_\-start}}
+\index{embedded\-\_\-image\-\_\-start@{embedded\-\_\-image\-\_\-start}!Update the bootloader stored in a target@{\-Update the bootloader stored in a target}}
+\subsubsection[{embedded\-\_\-image\-\_\-start}]{\setlength{\rightskip}{0pt plus 5cm}const uint32\-\_\-t$\ast$ {\bf embedded\-\_\-image\-\_\-start} = (uint32\-\_\-t $\ast$) \&({\bf \-\_\-binary\-\_\-start})}}\label{group___bootloader_update_ga3afaa362525714c794fa80cf079ff93f}
+
+
+\-Definition at line 48 of file main.\-c.
+

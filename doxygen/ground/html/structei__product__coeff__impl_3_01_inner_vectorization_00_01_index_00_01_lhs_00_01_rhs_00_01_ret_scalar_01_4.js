@@ -1,5 +1,0 @@
-var structei__product__coeff__impl_3_01_inner_vectorization_00_01_index_00_01_lhs_00_01_rhs_00_01_ret_scalar_01_4 =
-[
-    [ "PacketScalar", "structei__product__coeff__impl_3_01_inner_vectorization_00_01_index_00_01_lhs_00_01_rhs_00_01_ret_scalar_01_4.html#a5cda08de18a97d0acd724abeecf02be6", null ],
-    [ "PacketSize", "structei__product__coeff__impl_3_01_inner_vectorization_00_01_index_00_01_lhs_00_01_rhs_00_01_ret_scalar_01_4.html#aed075377be4c8c8995a6f6ee83249440a0a443825b7e50f17f1050b37b9a358bd", null ]
-];

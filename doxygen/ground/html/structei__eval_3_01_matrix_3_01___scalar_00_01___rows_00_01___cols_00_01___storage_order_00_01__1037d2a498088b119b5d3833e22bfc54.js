@@ -1,4 +1,0 @@
-var structei__eval_3_01_matrix_3_01___scalar_00_01___rows_00_01___cols_00_01___storage_order_00_01__1037d2a498088b119b5d3833e22bfc54 =
-[
-    [ "type", "structei__eval_3_01_matrix_3_01___scalar_00_01___rows_00_01___cols_00_01___storage_order_00_01__1037d2a498088b119b5d3833e22bfc54.html#adcfa88c97095bc9228f69a7161c34e01", null ]
-];

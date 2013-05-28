@@ -1,0 +1,28 @@
+var gyros_8h =
+[
+    [ "GyrosConnectCallback", "group___gyros.html#ga2b3bea275149766320fa21bb15914010", null ],
+    [ "GyrosConnectQueue", "group___gyros.html#gae07cc0ba5ecfa66fb5773218d4a65c11", null ],
+    [ "GyrosCreateInstance", "group___gyros.html#ga30a71c0e50938894963139e8fb3c0608", null ],
+    [ "GyrosGet", "group___gyros.html#gad4871f1fc8bf1af3969366c415214323", null ],
+    [ "GyrosGetMetadata", "group___gyros.html#ga468c2a5b0f363763b2e7794e305ada83", null ],
+    [ "GyrosHandle", "group___gyros.html#gac4380676bcd12d515427a9e55046b559", null ],
+    [ "GyrosInitialize", "group___gyros.html#ga73097c18a86508f0275f5aabc1bd4df1", null ],
+    [ "GyrosInstGet", "group___gyros.html#ga9e9f31fa5bed2997a3a8e97d0c06874a", null ],
+    [ "GyrosInstSet", "group___gyros.html#ga5ed842c72fc460f1e90f75d6346444da", null ],
+    [ "GyrosInstUpdated", "group___gyros.html#gae76ab60dcc01e2409dd3b5be63bb1536", null ],
+    [ "GyrosReadOnly", "group___gyros.html#ga4ac268f232ff0beb30b0a1d22e07703b", null ],
+    [ "GyrosRequestInstUpdate", "group___gyros.html#ga07b29112defb05766812930c128f508f", null ],
+    [ "GyrosRequestUpdate", "group___gyros.html#ga8dba16e5dd7f3bbe564d564c5b59ba5f", null ],
+    [ "GyrosSet", "group___gyros.html#gafeb654397396e935bac93e127495e85b", null ],
+    [ "GyrosSetDefaults", "group___gyros.html#gad02acccc19a79ee4f0516c72c0fd6518", null ],
+    [ "GyrosSetMetadata", "group___gyros.html#ga8e51b9944c1aa43d8062e00f8d85a579", null ],
+    [ "GyrostemperatureGet", "group___gyros.html#ga4a246e00cda6aa9052d467af1c508c6b", null ],
+    [ "GyrostemperatureSet", "group___gyros.html#gac70ab738e7592bb332e1373e483e00c7", null ],
+    [ "GyrosUpdated", "group___gyros.html#ga97a1ea10bf02cd03726b5391703e6deb", null ],
+    [ "GyrosxGet", "group___gyros.html#gaecbad3866ec61d3ebb2bb3e3ef5e5e05", null ],
+    [ "GyrosxSet", "group___gyros.html#gace79333132b4e12e0d30110b464923cf", null ],
+    [ "GyrosyGet", "group___gyros.html#ga3de99404004795becf608036a45b87d5", null ],
+    [ "GyrosySet", "group___gyros.html#gaa4722205072523025095f79326b7fb02", null ],
+    [ "GyroszGet", "group___gyros.html#ga4b1da7a5f021b70136992b01847483f2", null ],
+    [ "GyroszSet", "group___gyros.html#ga98a0021e730bbf8b35ea59d09e0be32c", null ]
+];

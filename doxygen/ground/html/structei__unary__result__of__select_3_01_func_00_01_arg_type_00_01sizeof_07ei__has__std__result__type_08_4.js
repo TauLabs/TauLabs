@@ -1,4 +1,0 @@
-var structei__unary__result__of__select_3_01_func_00_01_arg_type_00_01sizeof_07ei__has__std__result__type_08_4 =
-[
-    [ "type", "structei__unary__result__of__select_3_01_func_00_01_arg_type_00_01sizeof_07ei__has__std__result__type_08_4.html#ab1f27bc4e37dbb80a29d810fd50752f6", null ]
-];

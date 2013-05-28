@@ -7,11 +7,14 @@ var structinternals_1_1_rectangle =
     [ "Contains", "group___o_p_map_widget.html#ga9a50cb554ff687d93a14da4f11d11bd1", null ],
     [ "Contains", "group___o_p_map_widget.html#gae21b00316ef3c6fc871a429a41261624", null ],
     [ "Contains", "group___o_p_map_widget.html#gaaaaf9a5129b7af2409ad9a9e54698206", null ],
+    [ "FromLTRB", "group___o_p_map_widget.html#gabe5c3b8c9edda8d902d997d47d9dc795", null ],
     [ "GetLocation", "group___o_p_map_widget.html#ga9dcbcbee1c0e91b3dfd3338a9a464d84", null ],
     [ "Height", "group___o_p_map_widget.html#gaef58ba0ac7584cbe21ca8e4763187ffc", null ],
     [ "Inflate", "group___o_p_map_widget.html#ga75ec4589acf2aef1446a948b34b40cb9", null ],
     [ "Inflate", "group___o_p_map_widget.html#ga60b97161857418ee4ec8a2def48176e8", null ],
+    [ "Inflate", "group___o_p_map_widget.html#ga2968ca81b2ca433a710253f3c6168d36", null ],
     [ "Intersect", "group___o_p_map_widget.html#ga1eacc8faeb8cf4c202dc6eb3a2cd7482", null ],
+    [ "Intersect", "group___o_p_map_widget.html#ga6d1eb93d1aabfc6ef4c65cf4e81ea6c2", null ],
     [ "IntersectsWith", "group___o_p_map_widget.html#gae5e839ee40fb95a93687ee17445de718", null ],
     [ "IsEmpty", "group___o_p_map_widget.html#ga62166310290103c5ae2f9fa8f2897108", null ],
     [ "Left", "group___o_p_map_widget.html#ga63b6483e8a88de2d85d97e8d97477133", null ],
@@ -27,9 +30,11 @@ var structinternals_1_1_rectangle =
     [ "SetY", "group___o_p_map_widget.html#gaea8a51114d79ece5fb59532867e15328", null ],
     [ "Top", "group___o_p_map_widget.html#gaa6e68777faa43b088a20ae9e33b964dd", null ],
     [ "ToString", "group___o_p_map_widget.html#gacc8a6c81527141fc59b3ba245b35c297", null ],
+    [ "Union", "group___o_p_map_widget.html#ga9a93d2cc4abc1f3c2b053dca4311fd33", null ],
     [ "Width", "group___o_p_map_widget.html#ga1dcf3f71849a2534fe47d2db0fb5a317", null ],
     [ "X", "group___o_p_map_widget.html#ga95fc9b3e998dac5bc018066e5f59abf3", null ],
     [ "Y", "group___o_p_map_widget.html#ga6ca37907a3c1adef88ec18719e426391", null ],
     [ "operator==", "group___o_p_map_widget.html#ga49a8cb6dd0aff741dcae36e54dedd8be", null ],
-    [ "qHash", "group___o_p_map_widget.html#ga147a59b523f242e2fe2549b016688b2c", null ]
+    [ "qHash", "group___o_p_map_widget.html#ga147a59b523f242e2fe2549b016688b2c", null ],
+    [ "Empty", "group___o_p_map_widget.html#ga747b738c524d1f0bb7b4a00e9de42da4", null ]
 ];

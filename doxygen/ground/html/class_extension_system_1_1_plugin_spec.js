@@ -1,16 +1,7 @@
 var class_extension_system_1_1_plugin_spec =
 [
     [ "PluginArgumentDescriptions", "class_extension_system_1_1_plugin_spec.html#acf81cc5fcc20b047203f9da886cbbdee", null ],
-    [ "State", "class_extension_system_1_1_plugin_spec.html#a3d40e1bd1f17eb32b314bcd282b3e3b9", [
-      [ "Invalid", "class_extension_system_1_1_plugin_spec.html#a3d40e1bd1f17eb32b314bcd282b3e3b9af4fcbc4b0803e9e7b253ac404c65902c", null ],
-      [ "Read", "class_extension_system_1_1_plugin_spec.html#a3d40e1bd1f17eb32b314bcd282b3e3b9af535b59005757ad8251db519a5f4a7e7", null ],
-      [ "Resolved", "class_extension_system_1_1_plugin_spec.html#a3d40e1bd1f17eb32b314bcd282b3e3b9abf1eaab858db15373d08dc8cabbd7cec", null ],
-      [ "Loaded", "class_extension_system_1_1_plugin_spec.html#a3d40e1bd1f17eb32b314bcd282b3e3b9ae0f34b9f96c75571b3d749b4c6d6e9ff", null ],
-      [ "Initialized", "class_extension_system_1_1_plugin_spec.html#a3d40e1bd1f17eb32b314bcd282b3e3b9a2695d0fa8246182dcfa36d148ba0706d", null ],
-      [ "Running", "class_extension_system_1_1_plugin_spec.html#a3d40e1bd1f17eb32b314bcd282b3e3b9a7f0dc635a9c4606801a7e8382001e20f", null ],
-      [ "Stopped", "class_extension_system_1_1_plugin_spec.html#a3d40e1bd1f17eb32b314bcd282b3e3b9af7d75f1e9edfb5ddf4c01aebc7708abf", null ],
-      [ "Deleted", "class_extension_system_1_1_plugin_spec.html#a3d40e1bd1f17eb32b314bcd282b3e3b9a30ba387e682bf28d58da8c48829bb029", null ]
-    ] ],
+    [ "State", "class_extension_system_1_1_plugin_spec.html#a3d40e1bd1f17eb32b314bcd282b3e3b9", null ],
     [ "~PluginSpec", "class_extension_system_1_1_plugin_spec.html#a36fc0d85c9607b850b79415a6588c496", null ],
     [ "addArgument", "class_extension_system_1_1_plugin_spec.html#a648a51e79049f3a3e0b67596befc8639", null ],
     [ "argumentDescriptions", "class_extension_system_1_1_plugin_spec.html#a5591aa7a260c6f74fd5abee3382658af", null ],

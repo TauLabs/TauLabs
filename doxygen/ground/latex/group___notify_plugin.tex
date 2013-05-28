@@ -1,0 +1,1704 @@
+\hypertarget{group___notify_plugin}{\section{\-Notification plugin}
+\label{group___notify_plugin}\index{\-Notification plugin@{\-Notification plugin}}
+}
+
+
+\-A plugin to provide notifications of events in \-G\-C\-S.  
+
+
+\subsection*{\-Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{class_notification_item}{\-Notification\-Item}
+\item 
+class \hyperlink{class_notify_item_delegate}{\-Notify\-Item\-Delegate}
+\item 
+struct \hyperlink{struct_phonon_object}{\-Phonon\-Object}
+\item 
+class \hyperlink{class_sound_notify_plugin}{\-Sound\-Notify\-Plugin}
+\item 
+class \hyperlink{class_notify_plugin_factory}{\-Notify\-Plugin\-Factory}
+\item 
+class \hyperlink{class_notify_plugin_gadget}{\-Notify\-Plugin\-Gadget}
+\item 
+class \hyperlink{class_notify_plugin_options_page}{\-Notify\-Plugin\-Options\-Page}
+\item 
+class \hyperlink{class_notify_table_model}{\-Notify\-Table\-Model}
+\end{DoxyCompactItemize}
+\subsection*{\-Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+namespace \hyperlink{namespace_core}{\-Core}
+\begin{DoxyCompactList}\small\item\em \-The \hyperlink{namespace_core}{\-Core} namespace contains all classes that make up the \hyperlink{namespace_core}{\-Core} plugin which constitute the basic functionality of the \-Tau \-Labs \-G\-C\-S. \end{DoxyCompactList}\item 
+namespace \hyperlink{namespace_ui}{\-Ui}
+\end{DoxyCompactItemize}
+\subsection*{\-Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef struct \hyperlink{struct_phonon_object}{\-Phonon\-Object} $\ast$ \hyperlink{group___notify_plugin_ga29339e638aa7c15d99ff655f2f0e2c89}{p\-Phonon\-Object}
+\end{DoxyCompactItemize}
+\subsection*{\-Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \{ \hyperlink{group___notify_plugin_ggae19b5277b68bb273f1a0225e41255ccea8fee5829d0108684543cf01a53af668f}{\-Notification\-Item\-::e\-Default\-Timeout} =  15
+ \}
+\item 
+enum \{ \hyperlink{group___notify_plugin_gga9cd2611b6dc62949c93abb5b82ad0ec3a908fb8bab8f2e2e5aae18d53fe643c1e}{\-Notification\-Item\-::never}, 
+\hyperlink{group___notify_plugin_gga9cd2611b6dc62949c93abb5b82ad0ec3af3a07edb74d1ab9b39fd6db3b1d6ad00}{\-Notification\-Item\-::before\-First}, 
+\hyperlink{group___notify_plugin_gga9cd2611b6dc62949c93abb5b82ad0ec3ac0e140c5209cc791f99fc19ddf8fe6f0}{\-Notification\-Item\-::before\-Second}, 
+\hyperlink{group___notify_plugin_gga9cd2611b6dc62949c93abb5b82ad0ec3a95117a3c7ab2e169b43a3121a329a43a}{\-Notification\-Item\-::after\-Second}
+ \}
+\item 
+enum \{ \*
+\hyperlink{group___notify_plugin_ggac4b5f5f84172cf5ac9e09f3a683f3ebba1a55bc3c686d15eb1e9d010b7a07a50a}{\-Notification\-Item\-::repeat\-Once\-Per\-Update}, 
+\hyperlink{group___notify_plugin_ggac4b5f5f84172cf5ac9e09f3a683f3ebba13280fe30c3bd30abf86825b504b6ec7}{\-Notification\-Item\-::repeat\-Once}, 
+\hyperlink{group___notify_plugin_ggac4b5f5f84172cf5ac9e09f3a683f3ebba49596c4af726c4fb52dbfe7df33c7178}{\-Notification\-Item\-::repeat\-Instantly}, 
+\hyperlink{group___notify_plugin_ggac4b5f5f84172cf5ac9e09f3a683f3ebbac3e73d8efe76007eeca66f2cfb609075}{\-Notification\-Item\-::repeat10seconds}, 
+\*
+\hyperlink{group___notify_plugin_ggac4b5f5f84172cf5ac9e09f3a683f3ebba18a34ac252d2f02c618ee1a4aae6ce9e}{\-Notification\-Item\-::repeat30seconds}, 
+\hyperlink{group___notify_plugin_ggac4b5f5f84172cf5ac9e09f3a683f3ebba014d745bf7f8943763a58f8c55d5891b}{\-Notification\-Item\-::repeat1minute}
+ \}
+\item 
+enum \{ \hyperlink{group___notify_plugin_gga9c834973912acf834d3b1329c908d391a5215660515a642089b68f6e4fb7ebb77}{\-Notify\-Plugin\-Options\-Page\-::equal}, 
+\hyperlink{group___notify_plugin_gga9c834973912acf834d3b1329c908d391a0645a6aff2f8f76e753f1eaf08fd4cb0}{\-Notify\-Plugin\-Options\-Page\-::bigger}, 
+\hyperlink{group___notify_plugin_gga9c834973912acf834d3b1329c908d391a3bd98b14a252e90591e9f7b8c70c995b}{\-Notify\-Plugin\-Options\-Page\-::smaller}, 
+\hyperlink{group___notify_plugin_gga9c834973912acf834d3b1329c908d391a4cd2df3d72786caddbe5e90598da981a}{\-Notify\-Plugin\-Options\-Page\-::inrange}
+ \}
+\item 
+enum \hyperlink{group___notify_plugin_ga3ec6ea811170d841b03620c04d226813}{\-Column\-Names} \{ \hyperlink{group___notify_plugin_gga3ec6ea811170d841b03620c04d226813a6533c8abcee8e94f7b002f99b98e2834}{e\-Message\-Name}, 
+\hyperlink{group___notify_plugin_gga3ec6ea811170d841b03620c04d226813ad13b8ea4b42b6b77f0e39ed8bf96fac9}{e\-Repeat\-Value}, 
+\hyperlink{group___notify_plugin_gga3ec6ea811170d841b03620c04d226813a408c57145709557bbbfd4aa4b748f346}{e\-Expire\-Timer}, 
+\hyperlink{group___notify_plugin_gga3ec6ea811170d841b03620c04d226813a4fbe00e076370c4dab6c8c5d51bec551}{e\-Turn\-On}
+ \}
+\end{DoxyCompactItemize}
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{group___notify_plugin_ga86b5587da919e4abd0c5045f8eef27ae}{get\-Value\-Position} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} say\-Order)
+\item 
+\-Q\-String\-List \hyperlink{group___notify_plugin_ga52304989291ca82805ab0749694bfbce}{value\-To\-Sound\-List} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} value)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___notify_plugin_ga16f7f909377f59dda529965c201a37a8}{string\-From\-Value} (\-Q\-Variant value, \hyperlink{class_u_a_v_object_field}{\-U\-A\-V\-Object\-Field} $\ast$field)
+\item 
+\hyperlink{group___notify_plugin_ga382be87567eab960b4bd89e2c7238ba8}{\-Notification\-Item\-::\-Notification\-Item} (\-Q\-Object $\ast$parent=0)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___notify_plugin_ga308d07be5a887bb4e35319a55c70fb06}{\-Notification\-Item\-::copy\-To} (\hyperlink{class_notification_item}{\-Notification\-Item} $\ast$) const 
+\item 
+\hyperlink{group___notify_plugin_gafd8fcfb284be8c92e29aba742748d4b8}{\-Notification\-Item\-::\-D\-E\-C\-L\-A\-R\-E\-\_\-\-S\-O\-U\-N\-D} (1) \-D\-E\-C\-L\-A\-R\-E\-\_\-\-S\-O\-U\-N\-D(2) \-D\-E\-C\-L\-A\-R\-E\-\_\-\-S\-O\-U\-N\-D(3) bool get\-Current\-Update\-Played() const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___notify_plugin_ga3df23419f46ace03f4874972e2a14579}{\-Notification\-Item\-::set\-Current\-Update\-Played} (bool value)
+\item 
+int \hyperlink{group___notify_plugin_ga04c987109a0ab4c1f9d719a6c0e3096a}{\-Notification\-Item\-::get\-Condition} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___notify_plugin_gab14a508f3cd7fd060939a7c8320b35e2}{\-Notification\-Item\-::set\-Condition} (int value)
+\item 
+int \hyperlink{group___notify_plugin_ga395bd37d71abbcb58be1b077e0dd83f6}{\-Notification\-Item\-::get\-Say\-Order} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___notify_plugin_ga0489a9c8b690360558e02eb562a34974}{\-Notification\-Item\-::set\-Say\-Order} (int text)
+\item 
+\-Q\-Variant \hyperlink{group___notify_plugin_ga2c73d25e5b3deadb7b7aec06957e91c5}{\-Notification\-Item\-::single\-Value} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___notify_plugin_gacadb2d38a2a7d648f40454fd26f50ad8}{\-Notification\-Item\-::set\-Single\-Value} (\-Q\-Variant value)
+\item 
+double \hyperlink{group___notify_plugin_ga55c7c963b3a43675f58dfe2af221b0c2}{\-Notification\-Item\-::value\-Range2} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___notify_plugin_gaf9a1d6d8fdc19a2e0124890e06fd3ee3}{\-Notification\-Item\-::set\-Value\-Range2} (double value)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___notify_plugin_gaf04fb4ac7c4882b581eb0ccb8808ba23}{\-Notification\-Item\-::get\-Data\-Object} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___notify_plugin_gaa1ca305c3e8571f02153e8edabf0c6a3}{\-Notification\-Item\-::set\-Data\-Object} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} text)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___notify_plugin_gabe5f556c91c61fb1b490fde2eb3ca0c8}{\-Notification\-Item\-::get\-Object\-Field} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___notify_plugin_ga54c72d7ede2e6cc94ba5121c04f379f9}{\-Notification\-Item\-::set\-Object\-Field} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} text)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___notify_plugin_ga02d674a0d98fc50edb96e8e487e4f247}{\-Notification\-Item\-::get\-Sound\-Collection\-Path} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___notify_plugin_ga51e72a159e74fc6c2f4575589caaf5b1}{\-Notification\-Item\-::set\-Sound\-Collection\-Path} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} path)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___notify_plugin_ga90dda23b3c620a17440f8708a4e98241}{\-Notification\-Item\-::get\-Current\-Language} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___notify_plugin_ga125828e3dae6986b12d315319b3ee24a}{\-Notification\-Item\-::set\-Current\-Language} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} text)
+\item 
+\-Q\-String\-List \hyperlink{group___notify_plugin_gad9a4c112e8b27294870f09c7c3bf6bd8}{\-Notification\-Item\-::get\-Message\-Sequence} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___notify_plugin_gad8bface53f8c0b678ba53efa7607c644}{\-Notification\-Item\-::set\-Message\-Sequence} (\-Q\-String\-List sequence)
+\item 
+int \hyperlink{group___notify_plugin_gad3ef16c40fa24c6362f0a5b8dcf7106a}{\-Notification\-Item\-::retry\-Value} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___notify_plugin_gace1ba5eab850d1945aeede024e405463}{\-Notification\-Item\-::set\-Retry\-Value} (int value)
+\item 
+int \hyperlink{group___notify_plugin_ga2a7280994bcb9184ba2a3de6aa2d9dd7}{\-Notification\-Item\-::lifetime} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___notify_plugin_gab8ee00149d5b8c0a74ff7fc134bdbd4c}{\-Notification\-Item\-::set\-Lifetime} (int value)
+\item 
+bool \hyperlink{group___notify_plugin_ga815fa2051096a7c2f3074c60afad5d47}{\-Notification\-Item\-::mute} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___notify_plugin_ga45781a8ec6285e780f592f1b3952b407}{\-Notification\-Item\-::set\-Mute} (bool value)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___notify_plugin_ga9ba0eb664828ae93d16faaa783b77cfc}{\-Notification\-Item\-::save\-State} (\-Q\-Settings $\ast$settings) const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___notify_plugin_gad7dea9a755d75cd820f3b06131f52a1d}{\-Notification\-Item\-::restore\-State} (\-Q\-Settings $\ast$settings)
+\item 
+\hyperlink{class_u_a_v_data_object}{\-U\-A\-V\-Data\-Object} $\ast$ \hyperlink{group___notify_plugin_ga5f16bd85e4ffd982c71b75abbb00833d}{\-Notification\-Item\-::get\-U\-A\-V\-Object} (\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void})
+\item 
+\hyperlink{class_u_a_v_object_field}{\-U\-A\-V\-Object\-Field} $\ast$ \hyperlink{group___notify_plugin_gad80a60dd673d057f2fdd45e79f8b8905}{\-Notification\-Item\-::get\-U\-A\-V\-Object\-Field} (\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void})
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___notify_plugin_gad39b4705bd8ee634abb8a8922450613b}{\-Notification\-Item\-::serialize} (\-Q\-Data\-Stream \&stream)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___notify_plugin_ga02e47b11a2cd7d0e9b608c497afbf359}{\-Notification\-Item\-::deserialize} (\-Q\-Data\-Stream \&stream)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___notify_plugin_gacced9ea8ef4e62bf9f126766c99514c9}{\-Notification\-Item\-::to\-String} ()
+\item 
+\-Q\-String\-List \& \hyperlink{group___notify_plugin_ga3fa8d750e630be2b90fbbe2ad536a55b}{\-Notification\-Item\-::to\-Sound\-List} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___notify_plugin_gadaf0f176a8851c6a9fe551bf80b61cb4}{\-Notification\-Item\-::get\-Sound\-Caption} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} file\-Name)
+\item 
+\-Q\-Timer $\ast$ \hyperlink{group___notify_plugin_gad0b36630b519b091944bbf350ca8de5f}{\-Notification\-Item\-::get\-Timer} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___notify_plugin_gaa7aa70f2843fa4dfaf65d257280afc6b}{\-Notification\-Item\-::start\-Timer} (int value)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___notify_plugin_gacf26398de566bf5f6b947e9065841653}{\-Notification\-Item\-::restart\-Timer} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___notify_plugin_ga40c3dd7de6f84d1c49d6536d3bf7c310}{\-Notification\-Item\-::stop\-Timer} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___notify_plugin_gaa2f1891b46a9b84e08cd3cde71981655}{\-Notification\-Item\-::dispose\-Timer} ()
+\item 
+\-Q\-Timer $\ast$ \hyperlink{group___notify_plugin_gac3e54f4c867cf1ab32a5127dcc5dcebe}{\-Notification\-Item\-::get\-Expire\-Timer} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___notify_plugin_ga1cea7db89fc4ba5cc6177e4676fc6f5b}{\-Notification\-Item\-::start\-Expire\-Timer} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___notify_plugin_gafff508e9352fb1a5ed40502e6845ebef}{\-Notification\-Item\-::stop\-Expire\-Timer} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___notify_plugin_ga701d292a397a1198e167f249475b77e0}{\-Notification\-Item\-::dispose\-Expire\-Timer} ()
+\item 
+\hyperlink{group___notify_plugin_ga356769d008d39fd8dfdf8377c20ea450}{\-Notify\-Item\-Delegate\-::\-Notify\-Item\-Delegate} (\-Q\-Object $\ast$parent=0)
+\item 
+\-Q\-Widget $\ast$ \hyperlink{group___notify_plugin_ga5b91b80661023d558e683e9b0fadca50}{\-Notify\-Item\-Delegate\-::create\-Editor} (\-Q\-Widget $\ast$parent, const \-Q\-Style\-Option\-View\-Item \&, const \-Q\-Model\-Index \&index) const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___notify_plugin_ga75249b15c513ab2ea9691a7e2307ef19}{\-Notify\-Item\-Delegate\-::set\-Editor\-Data} (\-Q\-Widget $\ast$editor, const \-Q\-Model\-Index \&index) const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___notify_plugin_gacd6ffc2f5989d0a64c398e6604d72e8e}{\-Notify\-Item\-Delegate\-::set\-Model\-Data} (\-Q\-Widget $\ast$editor, \-Q\-Abstract\-Item\-Model $\ast$model, const \-Q\-Model\-Index \&index) const 
+\item 
+\-Q\-Size \hyperlink{group___notify_plugin_ga5529e9472e4132a0066755c88969323b}{\-Notify\-Item\-Delegate\-::size\-Hint} (const \-Q\-Style\-Option\-View\-Item \&option, const \-Q\-Model\-Index \&index) const 
+\item 
+\-Q\-Debug \hyperlink{group___notify_plugin_gaa12b557f54e20bfddabd963a0eccbaac}{q\-Notify\-Debug} ()
+\item 
+bool \hyperlink{group___notify_plugin_ga0173f54afe75735a4e4e7cdca2842f4c}{check\-Range} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} field\-Value, \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} enum\-Value, \-Q\-String\-List, int direction)
+\item 
+bool \hyperlink{group___notify_plugin_ga217a28e0d56a684ecdd678af52024bae}{check\-Range} (double field\-Value, double min, double max, int direction)
+\item 
+\hyperlink{group___notify_plugin_ga4ac47c6cde68d633ead0764296f9a737}{\-Sound\-Notify\-Plugin\-::\-Sound\-Notify\-Plugin} ()
+\item 
+\hyperlink{group___notify_plugin_ga41104bb06fbf94801a798514294d39c3}{\-Sound\-Notify\-Plugin\-::$\sim$\-Sound\-Notify\-Plugin} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___notify_plugin_gad704ab0c43392e54f01882f7883f689f}{\-Sound\-Notify\-Plugin\-::extensions\-Initialized} ()
+\item 
+bool \hyperlink{group___notify_plugin_ga5c84bbeb8237b65ecce93f518a26384d}{\-Sound\-Notify\-Plugin\-::initialize} (const \-Q\-String\-List \&arguments, \hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} $\ast$error\-String)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___notify_plugin_gae783274f70106d7f8a50f51b4d98221f}{\-Sound\-Notify\-Plugin\-::read\-Config} (\-Q\-Settings $\ast$q\-Settings, \hyperlink{class_core_1_1_u_a_v_config_info}{\-Core\-::\-U\-A\-V\-Config\-Info} $\ast$config\-Info)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___notify_plugin_ga591d270cfaee4d5107899bf24ac83289}{\-Sound\-Notify\-Plugin\-::save\-Config} (\-Q\-Settings $\ast$q\-Settings, \hyperlink{class_core_1_1_u_a_v_config_info}{\-Core\-::\-U\-A\-V\-Config\-Info} $\ast$config\-Info)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___notify_plugin_ga2f91d9771233415fa6d23a8087331df9}{\-Sound\-Notify\-Plugin\-::shutdown} ()
+\item 
+\-Q\-List$<$ \hyperlink{class_notification_item}{\-Notification\-Item} $\ast$ $>$ \hyperlink{group___notify_plugin_ga949c06b617fbadfd2c844d9f29351085}{\-Sound\-Notify\-Plugin\-::get\-List\-Notifications} ()
+\item 
+\hyperlink{class_notification_item}{\-Notification\-Item} $\ast$ \hyperlink{group___notify_plugin_ga286a323009d17d90a51abfbc288bdc68}{\-Sound\-Notify\-Plugin\-::get\-Current\-Notification} ()
+\item 
+bool \hyperlink{group___notify_plugin_ga25e91be7ff9c99dcb12a2e0931cec530}{\-Sound\-Notify\-Plugin\-::get\-Enable\-Sound} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___notify_plugin_ga25cf9833d9cea621e4168a81ee0e9d05}{\-Sound\-Notify\-Plugin\-::set\-Enable\-Sound} (bool value)
+\item 
+\hyperlink{group___notify_plugin_ga3c91b1f9c5a354b8d5886dd3cff94126}{\-Notify\-Plugin\-Factory\-::\-Notify\-Plugin\-Factory} (\-Q\-Object $\ast$parent=0)
+\item 
+\hyperlink{group___notify_plugin_ga312b0e9ce81892b5388bb21c4f4c426a}{\-Notify\-Plugin\-Factory\-::$\sim$\-Notify\-Plugin\-Factory} ()
+\item 
+\hyperlink{class_core_1_1_i_u_a_v_gadget}{\-Core\-::\-I\-U\-A\-V\-Gadget} $\ast$ \hyperlink{group___notify_plugin_gaf83c2c3d9f1f2adfa2629f31821c012e}{\-Notify\-Plugin\-Factory\-::create\-Gadget} (\-Q\-Widget $\ast$parent)
+\item 
+\-I\-U\-A\-V\-Gadget\-Configuration $\ast$ \hyperlink{group___notify_plugin_gade4f4f78125740032a0bd6d3e920d131}{\-Notify\-Plugin\-Factory\-::create\-Configuration} (const \-Q\-Byte\-Array \&state)
+\item 
+\-I\-Options\-Page $\ast$ \hyperlink{group___notify_plugin_ga04b86d8ce232e043459331bd3ab5d05d}{\-Notify\-Plugin\-Factory\-::create\-Options\-Page} (\-I\-U\-A\-V\-Gadget\-Configuration $\ast$config)
+\item 
+\hyperlink{group___notify_plugin_ga2550c9c08be7f6731350a3be6fbaba4a}{\-Notify\-Plugin\-Gadget\-::\-Notify\-Plugin\-Gadget} (\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} class\-Id, \-Notify\-Plugin\-Gadget\-Widget $\ast$widget, \-Q\-Widget $\ast$parent=0)
+\item 
+\hyperlink{group___notify_plugin_ga2b03f730db4ecb4673e46a323c9cbc45}{\-Notify\-Plugin\-Gadget\-::$\sim$\-Notify\-Plugin\-Gadget} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___notify_plugin_gad7b898c97fa3c65ea707934881f356e5}{\-Notify\-Plugin\-Gadget\-::load\-Configuration} (\hyperlink{class_core_1_1_i_u_a_v_gadget_configuration}{\-I\-U\-A\-V\-Gadget\-Configuration} $\ast$config)
+\item 
+\hyperlink{group___notify_plugin_gaf584594e769010fbcdb1feb54b94eaab}{\-Notify\-Plugin\-Options\-Page\-::\-Notify\-Plugin\-Options\-Page} (\-Q\-Object $\ast$parent=0)
+\item 
+\hyperlink{group___notify_plugin_ga3dfd084ec6b7b9f55aeb3a5c475b11d7}{\-Notify\-Plugin\-Options\-Page\-::$\sim$\-Notify\-Plugin\-Options\-Page} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___notify_plugin_ga9528eeaab32e5a6696eb4e82c7dda847}{\-Notify\-Plugin\-Options\-Page\-::id} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___notify_plugin_ga156b37b99e34d9b0e865f57efaa55f3c}{\-Notify\-Plugin\-Options\-Page\-::tr\-Name} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___notify_plugin_ga1a0c17416e10df677d14565330619cfb}{\-Notify\-Plugin\-Options\-Page\-::category} () const 
+\item 
+\hyperlink{group___u_a_v_objects_plugin_gab9d252f49c333c94a72f97ce3105a32d}{\-Q\-String} \hyperlink{group___notify_plugin_ga963ad76e88d1a3737bd5d12e493c214a}{\-Notify\-Plugin\-Options\-Page\-::tr\-Category} () const 
+\item 
+\-Q\-Widget $\ast$ \hyperlink{group___notify_plugin_gaab5b02bf851c75f0476a29cc59bde9ae}{\-Notify\-Plugin\-Options\-Page\-::create\-Page} (\-Q\-Widget $\ast$parent)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___notify_plugin_gae0ac041ae8505afd88f981a6ac235fe7}{\-Notify\-Plugin\-Options\-Page\-::apply} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___notify_plugin_gaa13ff08a62eca11b672d5f7d88fa7c40}{\-Notify\-Plugin\-Options\-Page\-::finish} ()
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___notify_plugin_ga2607c7c5d3db72401fe48f07838d36ce}{\-Notify\-Plugin\-Options\-Page\-::restore\-From\-Settings} ()
+\item 
+\hyperlink{group___notify_plugin_ga7c99d26f6ccdab1cb80b8cfdfaa9d814}{\-Notify\-Table\-Model\-::\-Notify\-Table\-Model} (\-Q\-List$<$ \hyperlink{class_notification_item}{\-Notification\-Item} $\ast$ $>$ \&parent\-List, \-Q\-Object $\ast$parent=0)
+\item 
+int \hyperlink{group___notify_plugin_ga2bd35c3c39b4a7c057e00786a7ece129}{\-Notify\-Table\-Model\-::row\-Count} (const \-Q\-Model\-Index \&parent=\-Q\-Model\-Index()) const 
+\item 
+int \hyperlink{group___notify_plugin_gaf90f7b29e6b11f9e569df9adf0c0f01f}{\-Notify\-Table\-Model\-::column\-Count} (const \-Q\-Model\-Index \&) const 
+\item 
+\-Qt\-::\-Item\-Flags \hyperlink{group___notify_plugin_ga19b5a3d99feb4907b2332962b1468b9f}{\-Notify\-Table\-Model\-::flags} (const \-Q\-Model\-Index \&index) const 
+\item 
+\-Q\-String\-List \hyperlink{group___notify_plugin_ga8f52bed133220f83210db9d483d6aa26}{\-Notify\-Table\-Model\-::mime\-Types} () const 
+\item 
+\-Qt\-::\-Drop\-Actions \hyperlink{group___notify_plugin_gac83d6e04277e98b87cb42b0ab9b3c9be}{\-Notify\-Table\-Model\-::supported\-Drop\-Actions} () const 
+\item 
+bool \hyperlink{group___notify_plugin_ga623fe8a3346c4c0565352170fc44c4a9}{\-Notify\-Table\-Model\-::drop\-Mime\-Data} (const \-Q\-Mime\-Data $\ast$data, \-Qt\-::\-Drop\-Action action, int row, int column, const \-Q\-Model\-Index \&parent)
+\item 
+\-Q\-Mime\-Data $\ast$ \hyperlink{group___notify_plugin_gad898510a85b3055557ed33dc8e319b51}{\-Notify\-Table\-Model\-::mime\-Data} (const \-Q\-Model\-Index\-List \&indexes) const 
+\item 
+bool \hyperlink{group___notify_plugin_gafd2c78e02d0c8123cc83714a3a5ce595}{\-Notify\-Table\-Model\-::set\-Data} (const \-Q\-Model\-Index \&index, const \-Q\-Variant \&value, int role)
+\item 
+\-Q\-Variant \hyperlink{group___notify_plugin_gacf622323e5cab0f1ecdeb6d35e4b8039}{\-Notify\-Table\-Model\-::data} (const \-Q\-Model\-Index \&index, int role) const 
+\item 
+\-Q\-Variant \hyperlink{group___notify_plugin_gab211bb28323ebcede08ef838bc6b2789}{\-Notify\-Table\-Model\-::header\-Data} (int section, \-Qt\-::\-Orientation orientation, int role) const 
+\item 
+bool \hyperlink{group___notify_plugin_ga989fe66cec593e3ae8a3715160d4db33}{\-Notify\-Table\-Model\-::insert\-Rows} (int position, int rows, const \-Q\-Model\-Index \&index)
+\item 
+bool \hyperlink{group___notify_plugin_ga3e038f81c56a42999341a5704f703dd3}{\-Notify\-Table\-Model\-::remove\-Rows} (int position, int rows, const \-Q\-Model\-Index \&index)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___notify_plugin_gaa28f89364ed3f06a9e1ab36b51216b65}{\-Notify\-Table\-Model\-::entry\-Added} (\hyperlink{class_notification_item}{\-Notification\-Item} $\ast$item)
+\end{DoxyCompactItemize}
+\subsection*{\-Variables}
+\begin{DoxyCompactItemize}
+\item 
+bool \hyperlink{group___notify_plugin_gabd9ee81e318805b60e89e7045eb7deaa}{\-Notification\-Item\-::is\-Now\-Playing}
+\item 
+bool \hyperlink{group___notify_plugin_ga6469ec28d3051122de855c266d0dc6dd}{\-Notification\-Item\-::\-\_\-is\-Played}
+\item 
+static \-Q\-String\-List \hyperlink{group___notify_plugin_ga856cd4e9d78e6c8900f9de74f0f25dac}{\-Notification\-Item\-::say\-Order\-Values}
+\item 
+static \-Q\-String\-List \hyperlink{group___notify_plugin_ga7c47e100b3ea3f8b527dbdea2385edd0}{\-Notification\-Item\-::retry\-Values}
+\item 
+\-Phonon\-::\-Media\-Object $\ast$ \hyperlink{group___notify_plugin_ga3b35d975a7599cd263b275559734e54d}{\-Phonon\-Object\-::mo}
+\item 
+\hyperlink{class_notification_item}{\-Notification\-Item} $\ast$ \hyperlink{group___notify_plugin_ga82a15e7062562dabd14047b2e5398889}{\-Phonon\-Object\-::notify}
+\item 
+bool \hyperlink{group___notify_plugin_ga86b5c4ceede5297e656149cd1f1af3fe}{\-Phonon\-Object\-::first\-Play}
+\item 
+static \-Q\-String\-List \hyperlink{group___notify_plugin_ga9823971d5ab6a1e6f68073d8553a7414}{\-Notify\-Plugin\-Options\-Page\-::condition\-Values}
+\item 
+const char $\ast$ \hyperlink{group___notify_plugin_ga326ccffe8d16a6f14d44c2048dea58a7}{mime\-\_\-type\-\_\-notify\-\_\-table} = \char`\"{}openpilot/notify\-\_\-plugin\-\_\-table\char`\"{}
+\end{DoxyCompactItemize}
+\subsection*{\-Signals}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___notify_plugin_gadbd273176d3047b997383d3791fcf3aa}{\-Notify\-Plugin\-Options\-Page\-::update\-Notifications} (\-Q\-List$<$ \hyperlink{class_notification_item}{\-Notification\-Item} $\ast$ $>$ list)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___notify_plugin_gacfc979fcc446bc951c04ba8741231190}{\-Notify\-Plugin\-Options\-Page\-::entry\-Updated} (int index)
+\item 
+\hyperlink{group___u_a_v_objects_plugin_ga444cf2ff3f0ecbe028adce838d373f5c}{void} \hyperlink{group___notify_plugin_ga87b02089128dd9f2eddbd2e70040201f}{\-Notify\-Table\-Model\-::drag\-Rows} (int position, int count)
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-A plugin to provide notifications of events in \-G\-C\-S. 
+
+\subsection{\-Typedef \-Documentation}
+\hypertarget{group___notify_plugin_ga29339e638aa7c15d99ff655f2f0e2c89}{\index{\-Notification plugin@{\-Notification plugin}!p\-Phonon\-Object@{p\-Phonon\-Object}}
+\index{p\-Phonon\-Object@{p\-Phonon\-Object}!Notification plugin@{\-Notification plugin}}
+\subsubsection[{p\-Phonon\-Object}]{\setlength{\rightskip}{0pt plus 5cm}typedef  struct {\bf \-Phonon\-Object} $\ast$ {\bf p\-Phonon\-Object}}}\label{group___notify_plugin_ga29339e638aa7c15d99ff655f2f0e2c89}
+
+
+\subsection{\-Enumeration \-Type \-Documentation}
+\hypertarget{group___notify_plugin_gae19b5277b68bb273f1a0225e41255cce}{\subsubsection[{anonymous enum}]{\setlength{\rightskip}{0pt plus 5cm}anonymous enum}}\label{group___notify_plugin_gae19b5277b68bb273f1a0225e41255cce}
+\begin{Desc}
+\item[\-Enumerator\-: ]\par
+\begin{description}
+\index{e\-Default\-Timeout@{e\-Default\-Timeout}!\-Notification plugin@{\-Notification plugin}}\index{\-Notification plugin@{\-Notification plugin}!e\-Default\-Timeout@{e\-Default\-Timeout}}\item[{\em 
+\hypertarget{group___notify_plugin_ggae19b5277b68bb273f1a0225e41255ccea8fee5829d0108684543cf01a53af668f}{e\-Default\-Timeout}\label{group___notify_plugin_ggae19b5277b68bb273f1a0225e41255ccea8fee5829d0108684543cf01a53af668f}
+}]\end{description}
+\end{Desc}
+
+
+
+\-Definition at line 53 of file notificationitem.\-h.
+
+\hypertarget{group___notify_plugin_ga9cd2611b6dc62949c93abb5b82ad0ec3}{\subsubsection[{anonymous enum}]{\setlength{\rightskip}{0pt plus 5cm}anonymous enum}}\label{group___notify_plugin_ga9cd2611b6dc62949c93abb5b82ad0ec3}
+\begin{Desc}
+\item[\-Enumerator\-: ]\par
+\begin{description}
+\index{never@{never}!\-Notification plugin@{\-Notification plugin}}\index{\-Notification plugin@{\-Notification plugin}!never@{never}}\item[{\em 
+\hypertarget{group___notify_plugin_gga9cd2611b6dc62949c93abb5b82ad0ec3a908fb8bab8f2e2e5aae18d53fe643c1e}{never}\label{group___notify_plugin_gga9cd2611b6dc62949c93abb5b82ad0ec3a908fb8bab8f2e2e5aae18d53fe643c1e}
+}]\index{before\-First@{before\-First}!\-Notification plugin@{\-Notification plugin}}\index{\-Notification plugin@{\-Notification plugin}!before\-First@{before\-First}}\item[{\em 
+\hypertarget{group___notify_plugin_gga9cd2611b6dc62949c93abb5b82ad0ec3af3a07edb74d1ab9b39fd6db3b1d6ad00}{before\-First}\label{group___notify_plugin_gga9cd2611b6dc62949c93abb5b82ad0ec3af3a07edb74d1ab9b39fd6db3b1d6ad00}
+}]\index{before\-Second@{before\-Second}!\-Notification plugin@{\-Notification plugin}}\index{\-Notification plugin@{\-Notification plugin}!before\-Second@{before\-Second}}\item[{\em 
+\hypertarget{group___notify_plugin_gga9cd2611b6dc62949c93abb5b82ad0ec3ac0e140c5209cc791f99fc19ddf8fe6f0}{before\-Second}\label{group___notify_plugin_gga9cd2611b6dc62949c93abb5b82ad0ec3ac0e140c5209cc791f99fc19ddf8fe6f0}
+}]\index{after\-Second@{after\-Second}!\-Notification plugin@{\-Notification plugin}}\index{\-Notification plugin@{\-Notification plugin}!after\-Second@{after\-Second}}\item[{\em 
+\hypertarget{group___notify_plugin_gga9cd2611b6dc62949c93abb5b82ad0ec3a95117a3c7ab2e169b43a3121a329a43a}{after\-Second}\label{group___notify_plugin_gga9cd2611b6dc62949c93abb5b82ad0ec3a95117a3c7ab2e169b43a3121a329a43a}
+}]\end{description}
+\end{Desc}
+
+
+
+\-Definition at line 55 of file notificationitem.\-h.
+
+\hypertarget{group___notify_plugin_gac4b5f5f84172cf5ac9e09f3a683f3ebb}{\subsubsection[{anonymous enum}]{\setlength{\rightskip}{0pt plus 5cm}anonymous enum}}\label{group___notify_plugin_gac4b5f5f84172cf5ac9e09f3a683f3ebb}
+\begin{Desc}
+\item[\-Enumerator\-: ]\par
+\begin{description}
+\index{repeat\-Once\-Per\-Update@{repeat\-Once\-Per\-Update}!\-Notification plugin@{\-Notification plugin}}\index{\-Notification plugin@{\-Notification plugin}!repeat\-Once\-Per\-Update@{repeat\-Once\-Per\-Update}}\item[{\em 
+\hypertarget{group___notify_plugin_ggac4b5f5f84172cf5ac9e09f3a683f3ebba1a55bc3c686d15eb1e9d010b7a07a50a}{repeat\-Once\-Per\-Update}\label{group___notify_plugin_ggac4b5f5f84172cf5ac9e09f3a683f3ebba1a55bc3c686d15eb1e9d010b7a07a50a}
+}]\index{repeat\-Once@{repeat\-Once}!\-Notification plugin@{\-Notification plugin}}\index{\-Notification plugin@{\-Notification plugin}!repeat\-Once@{repeat\-Once}}\item[{\em 
+\hypertarget{group___notify_plugin_ggac4b5f5f84172cf5ac9e09f3a683f3ebba13280fe30c3bd30abf86825b504b6ec7}{repeat\-Once}\label{group___notify_plugin_ggac4b5f5f84172cf5ac9e09f3a683f3ebba13280fe30c3bd30abf86825b504b6ec7}
+}]\index{repeat\-Instantly@{repeat\-Instantly}!\-Notification plugin@{\-Notification plugin}}\index{\-Notification plugin@{\-Notification plugin}!repeat\-Instantly@{repeat\-Instantly}}\item[{\em 
+\hypertarget{group___notify_plugin_ggac4b5f5f84172cf5ac9e09f3a683f3ebba49596c4af726c4fb52dbfe7df33c7178}{repeat\-Instantly}\label{group___notify_plugin_ggac4b5f5f84172cf5ac9e09f3a683f3ebba49596c4af726c4fb52dbfe7df33c7178}
+}]\index{repeat10seconds@{repeat10seconds}!\-Notification plugin@{\-Notification plugin}}\index{\-Notification plugin@{\-Notification plugin}!repeat10seconds@{repeat10seconds}}\item[{\em 
+\hypertarget{group___notify_plugin_ggac4b5f5f84172cf5ac9e09f3a683f3ebbac3e73d8efe76007eeca66f2cfb609075}{repeat10seconds}\label{group___notify_plugin_ggac4b5f5f84172cf5ac9e09f3a683f3ebbac3e73d8efe76007eeca66f2cfb609075}
+}]\index{repeat30seconds@{repeat30seconds}!\-Notification plugin@{\-Notification plugin}}\index{\-Notification plugin@{\-Notification plugin}!repeat30seconds@{repeat30seconds}}\item[{\em 
+\hypertarget{group___notify_plugin_ggac4b5f5f84172cf5ac9e09f3a683f3ebba18a34ac252d2f02c618ee1a4aae6ce9e}{repeat30seconds}\label{group___notify_plugin_ggac4b5f5f84172cf5ac9e09f3a683f3ebba18a34ac252d2f02c618ee1a4aae6ce9e}
+}]\index{repeat1minute@{repeat1minute}!\-Notification plugin@{\-Notification plugin}}\index{\-Notification plugin@{\-Notification plugin}!repeat1minute@{repeat1minute}}\item[{\em 
+\hypertarget{group___notify_plugin_ggac4b5f5f84172cf5ac9e09f3a683f3ebba014d745bf7f8943763a58f8c55d5891b}{repeat1minute}\label{group___notify_plugin_ggac4b5f5f84172cf5ac9e09f3a683f3ebba014d745bf7f8943763a58f8c55d5891b}
+}]\end{description}
+\end{Desc}
+
+
+
+\-Definition at line 56 of file notificationitem.\-h.
+
+\hypertarget{group___notify_plugin_ga9c834973912acf834d3b1329c908d391}{\subsubsection[{anonymous enum}]{\setlength{\rightskip}{0pt plus 5cm}anonymous enum}}\label{group___notify_plugin_ga9c834973912acf834d3b1329c908d391}
+\begin{Desc}
+\item[\-Enumerator\-: ]\par
+\begin{description}
+\index{equal@{equal}!\-Notification plugin@{\-Notification plugin}}\index{\-Notification plugin@{\-Notification plugin}!equal@{equal}}\item[{\em 
+\hypertarget{group___notify_plugin_gga9c834973912acf834d3b1329c908d391a5215660515a642089b68f6e4fb7ebb77}{equal}\label{group___notify_plugin_gga9c834973912acf834d3b1329c908d391a5215660515a642089b68f6e4fb7ebb77}
+}]\index{bigger@{bigger}!\-Notification plugin@{\-Notification plugin}}\index{\-Notification plugin@{\-Notification plugin}!bigger@{bigger}}\item[{\em 
+\hypertarget{group___notify_plugin_gga9c834973912acf834d3b1329c908d391a0645a6aff2f8f76e753f1eaf08fd4cb0}{bigger}\label{group___notify_plugin_gga9c834973912acf834d3b1329c908d391a0645a6aff2f8f76e753f1eaf08fd4cb0}
+}]\index{smaller@{smaller}!\-Notification plugin@{\-Notification plugin}}\index{\-Notification plugin@{\-Notification plugin}!smaller@{smaller}}\item[{\em 
+\hypertarget{group___notify_plugin_gga9c834973912acf834d3b1329c908d391a3bd98b14a252e90591e9f7b8c70c995b}{smaller}\label{group___notify_plugin_gga9c834973912acf834d3b1329c908d391a3bd98b14a252e90591e9f7b8c70c995b}
+}]\index{inrange@{inrange}!\-Notification plugin@{\-Notification plugin}}\index{\-Notification plugin@{\-Notification plugin}!inrange@{inrange}}\item[{\em 
+\hypertarget{group___notify_plugin_gga9c834973912acf834d3b1329c908d391a4cd2df3d72786caddbe5e90598da981a}{inrange}\label{group___notify_plugin_gga9c834973912acf834d3b1329c908d391a4cd2df3d72786caddbe5e90598da981a}
+}]\end{description}
+\end{Desc}
+
+
+
+\-Definition at line 66 of file notifypluginoptionspage.\-h.
+
+\hypertarget{group___notify_plugin_ga3ec6ea811170d841b03620c04d226813}{\index{\-Notification plugin@{\-Notification plugin}!\-Column\-Names@{\-Column\-Names}}
+\index{\-Column\-Names@{\-Column\-Names}!Notification plugin@{\-Notification plugin}}
+\subsubsection[{\-Column\-Names}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf \-Column\-Names}}}\label{group___notify_plugin_ga3ec6ea811170d841b03620c04d226813}
+\begin{Desc}
+\item[\-Enumerator\-: ]\par
+\begin{description}
+\index{e\-Message\-Name@{e\-Message\-Name}!\-Notification plugin@{\-Notification plugin}}\index{\-Notification plugin@{\-Notification plugin}!e\-Message\-Name@{e\-Message\-Name}}\item[{\em 
+\hypertarget{group___notify_plugin_gga3ec6ea811170d841b03620c04d226813a6533c8abcee8e94f7b002f99b98e2834}{e\-Message\-Name}\label{group___notify_plugin_gga3ec6ea811170d841b03620c04d226813a6533c8abcee8e94f7b002f99b98e2834}
+}]\index{e\-Repeat\-Value@{e\-Repeat\-Value}!\-Notification plugin@{\-Notification plugin}}\index{\-Notification plugin@{\-Notification plugin}!e\-Repeat\-Value@{e\-Repeat\-Value}}\item[{\em 
+\hypertarget{group___notify_plugin_gga3ec6ea811170d841b03620c04d226813ad13b8ea4b42b6b77f0e39ed8bf96fac9}{e\-Repeat\-Value}\label{group___notify_plugin_gga3ec6ea811170d841b03620c04d226813ad13b8ea4b42b6b77f0e39ed8bf96fac9}
+}]\index{e\-Expire\-Timer@{e\-Expire\-Timer}!\-Notification plugin@{\-Notification plugin}}\index{\-Notification plugin@{\-Notification plugin}!e\-Expire\-Timer@{e\-Expire\-Timer}}\item[{\em 
+\hypertarget{group___notify_plugin_gga3ec6ea811170d841b03620c04d226813a408c57145709557bbbfd4aa4b748f346}{e\-Expire\-Timer}\label{group___notify_plugin_gga3ec6ea811170d841b03620c04d226813a408c57145709557bbbfd4aa4b748f346}
+}]\index{e\-Turn\-On@{e\-Turn\-On}!\-Notification plugin@{\-Notification plugin}}\index{\-Notification plugin@{\-Notification plugin}!e\-Turn\-On@{e\-Turn\-On}}\item[{\em 
+\hypertarget{group___notify_plugin_gga3ec6ea811170d841b03620c04d226813a4fbe00e076370c4dab6c8c5d51bec551}{e\-Turn\-On}\label{group___notify_plugin_gga3ec6ea811170d841b03620c04d226813a4fbe00e076370c4dab6c8c5d51bec551}
+}]\end{description}
+\end{Desc}
+
+
+
+\-Definition at line 39 of file notifytablemodel.\-h.
+
+
+
+\subsection{\-Function \-Documentation}
+\hypertarget{group___notify_plugin_gae0ac041ae8505afd88f981a6ac235fe7}{\index{\-Notification plugin@{\-Notification plugin}!apply@{apply}}
+\index{apply@{apply}!Notification plugin@{\-Notification plugin}}
+\subsubsection[{apply}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Notify\-Plugin\-Options\-Page\-::apply} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___notify_plugin_gae0ac041ae8505afd88f981a6ac235fe7}
+
+
+\-Implements \hyperlink{group___core_plugin_ga05fa0c9b91da02a0f2fed11d2d6afed0}{\-Core\-::\-I\-Options\-Page}.
+
+
+
+\-Definition at line 121 of file notifypluginoptionspage.\-cpp.
+
+\hypertarget{group___notify_plugin_ga1a0c17416e10df677d14565330619cfb}{\index{\-Notification plugin@{\-Notification plugin}!category@{category}}
+\index{category@{category}!Notification plugin@{\-Notification plugin}}
+\subsubsection[{category}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Q\-String} {\bf \-Notify\-Plugin\-Options\-Page\-::category} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}inline, virtual\mbox{]}}}}\label{group___notify_plugin_ga1a0c17416e10df677d14565330619cfb}
+
+
+\-Reimplemented from \hyperlink{group___core_plugin_ga03767437394cdfbfc9e253638a71b132}{\-Core\-::\-I\-Options\-Page}.
+
+
+
+\-Definition at line 71 of file notifypluginoptionspage.\-h.
+
+\hypertarget{group___notify_plugin_ga0173f54afe75735a4e4e7cdca2842f4c}{\index{\-Notification plugin@{\-Notification plugin}!check\-Range@{check\-Range}}
+\index{check\-Range@{check\-Range}!Notification plugin@{\-Notification plugin}}
+\subsubsection[{check\-Range}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf check\-Range} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Q\-String}}]{field\-Value, }
+\item[{{\bf \-Q\-String}}]{enum\-Value, }
+\item[{\-Q\-String\-List}]{, }
+\item[{int}]{direction}
+\end{DoxyParamCaption}
+)}}\label{group___notify_plugin_ga0173f54afe75735a4e4e7cdca2842f4c}
+
+
+\-Definition at line 355 of file notifyplugin.\-cpp.
+
+\hypertarget{group___notify_plugin_ga217a28e0d56a684ecdd678af52024bae}{\index{\-Notification plugin@{\-Notification plugin}!check\-Range@{check\-Range}}
+\index{check\-Range@{check\-Range}!Notification plugin@{\-Notification plugin}}
+\subsubsection[{check\-Range}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf check\-Range} (
+\begin{DoxyParamCaption}
+\item[{double}]{field\-Value, }
+\item[{double}]{min, }
+\item[{double}]{max, }
+\item[{int}]{direction}
+\end{DoxyParamCaption}
+)}}\label{group___notify_plugin_ga217a28e0d56a684ecdd678af52024bae}
+
+
+\-Definition at line 372 of file notifyplugin.\-cpp.
+
+\hypertarget{group___notify_plugin_gaf90f7b29e6b11f9e569df9adf0c0f01f}{\index{\-Notification plugin@{\-Notification plugin}!column\-Count@{column\-Count}}
+\index{column\-Count@{column\-Count}!Notification plugin@{\-Notification plugin}}
+\subsubsection[{column\-Count}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf \-Notify\-Table\-Model\-::column\-Count} (
+\begin{DoxyParamCaption}
+\item[{const \-Q\-Model\-Index \&}]{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___notify_plugin_gaf90f7b29e6b11f9e569df9adf0c0f01f}
+
+
+\-Definition at line 56 of file notifytablemodel.\-h.
+
+\hypertarget{group___notify_plugin_ga308d07be5a887bb4e35319a55c70fb06}{\index{\-Notification plugin@{\-Notification plugin}!copy\-To@{copy\-To}}
+\index{copy\-To@{copy\-To}!Notification plugin@{\-Notification plugin}}
+\subsubsection[{copy\-To}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Notification\-Item\-::copy\-To} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Notification\-Item} $\ast$}]{that}
+\end{DoxyParamCaption}
+) const}}\label{group___notify_plugin_ga308d07be5a887bb4e35319a55c70fb06}
+
+
+\-Definition at line 92 of file notificationitem.\-cpp.
+
+\hypertarget{group___notify_plugin_gade4f4f78125740032a0bd6d3e920d131}{\index{\-Notification plugin@{\-Notification plugin}!create\-Configuration@{create\-Configuration}}
+\index{create\-Configuration@{create\-Configuration}!Notification plugin@{\-Notification plugin}}
+\subsubsection[{create\-Configuration}]{\setlength{\rightskip}{0pt plus 5cm}\-I\-U\-A\-V\-Gadget\-Configuration $\ast$ {\bf \-Notify\-Plugin\-Factory\-::create\-Configuration} (
+\begin{DoxyParamCaption}
+\item[{const \-Q\-Byte\-Array \&}]{state}
+\end{DoxyParamCaption}
+)}}\label{group___notify_plugin_gade4f4f78125740032a0bd6d3e920d131}
+
+
+\-Definition at line 54 of file notifypluginfactory.\-cpp.
+
+\hypertarget{group___notify_plugin_ga5b91b80661023d558e683e9b0fadca50}{\index{\-Notification plugin@{\-Notification plugin}!create\-Editor@{create\-Editor}}
+\index{create\-Editor@{create\-Editor}!Notification plugin@{\-Notification plugin}}
+\subsubsection[{create\-Editor}]{\setlength{\rightskip}{0pt plus 5cm}\-Q\-Widget $\ast$ {\bf \-Notify\-Item\-Delegate\-::create\-Editor} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Widget $\ast$}]{parent, }
+\item[{const \-Q\-Style\-Option\-View\-Item \&}]{, }
+\item[{const \-Q\-Model\-Index \&}]{index}
+\end{DoxyParamCaption}
+) const}}\label{group___notify_plugin_ga5b91b80661023d558e683e9b0fadca50}
+
+
+\-Definition at line 43 of file notifyitemdelegate.\-cpp.
+
+\hypertarget{group___notify_plugin_gaf83c2c3d9f1f2adfa2629f31821c012e}{\index{\-Notification plugin@{\-Notification plugin}!create\-Gadget@{create\-Gadget}}
+\index{create\-Gadget@{create\-Gadget}!Notification plugin@{\-Notification plugin}}
+\subsubsection[{create\-Gadget}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Core\-::\-I\-U\-A\-V\-Gadget} $\ast$ {\bf \-Notify\-Plugin\-Factory\-::create\-Gadget} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Widget $\ast$}]{parent}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___notify_plugin_gaf83c2c3d9f1f2adfa2629f31821c012e}
+
+
+\-Implements \hyperlink{group___core_plugin_ga72d6fe5bbef9f4fa2333028c7a324f66}{\-Core\-::\-I\-U\-A\-V\-Gadget\-Factory}.
+
+
+
+\-Definition at line 48 of file notifypluginfactory.\-cpp.
+
+\hypertarget{group___notify_plugin_ga04b86d8ce232e043459331bd3ab5d05d}{\index{\-Notification plugin@{\-Notification plugin}!create\-Options\-Page@{create\-Options\-Page}}
+\index{create\-Options\-Page@{create\-Options\-Page}!Notification plugin@{\-Notification plugin}}
+\subsubsection[{create\-Options\-Page}]{\setlength{\rightskip}{0pt plus 5cm}\-I\-Options\-Page $\ast$ {\bf \-Notify\-Plugin\-Factory\-::create\-Options\-Page} (
+\begin{DoxyParamCaption}
+\item[{\-I\-U\-A\-V\-Gadget\-Configuration $\ast$}]{config}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___notify_plugin_ga04b86d8ce232e043459331bd3ab5d05d}
+
+
+\-Reimplemented from \hyperlink{group___core_plugin_gaf11d34909f72b86882937f7a946ad0da}{\-Core\-::\-I\-U\-A\-V\-Gadget\-Factory}.
+
+
+
+\-Definition at line 59 of file notifypluginfactory.\-cpp.
+
+\hypertarget{group___notify_plugin_gaab5b02bf851c75f0476a29cc59bde9ae}{\index{\-Notification plugin@{\-Notification plugin}!create\-Page@{create\-Page}}
+\index{create\-Page@{create\-Page}!Notification plugin@{\-Notification plugin}}
+\subsubsection[{create\-Page}]{\setlength{\rightskip}{0pt plus 5cm}\-Q\-Widget $\ast$ {\bf \-Notify\-Plugin\-Options\-Page\-::create\-Page} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Widget $\ast$}]{parent}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___notify_plugin_gaab5b02bf851c75f0476a29cc59bde9ae}
+
+
+\-Implements \hyperlink{group___core_plugin_gac70a4473b3e086d0fa9849c431fb0672}{\-Core\-::\-I\-Options\-Page}.
+
+
+
+\-Definition at line 76 of file notifypluginoptionspage.\-cpp.
+
+\hypertarget{group___notify_plugin_gacf622323e5cab0f1ecdeb6d35e4b8039}{\index{\-Notification plugin@{\-Notification plugin}!data@{data}}
+\index{data@{data}!Notification plugin@{\-Notification plugin}}
+\subsubsection[{data}]{\setlength{\rightskip}{0pt plus 5cm}\-Q\-Variant {\bf \-Notify\-Table\-Model\-::data} (
+\begin{DoxyParamCaption}
+\item[{const \-Q\-Model\-Index \&}]{index, }
+\item[{int}]{role}
+\end{DoxyParamCaption}
+) const}}\label{group___notify_plugin_gacf622323e5cab0f1ecdeb6d35e4b8039}
+
+
+\-Definition at line 74 of file notifytablemodel.\-cpp.
+
+\hypertarget{group___notify_plugin_gafd8fcfb284be8c92e29aba742748d4b8}{\index{\-Notification plugin@{\-Notification plugin}!\-D\-E\-C\-L\-A\-R\-E\-\_\-\-S\-O\-U\-N\-D@{\-D\-E\-C\-L\-A\-R\-E\-\_\-\-S\-O\-U\-N\-D}}
+\index{\-D\-E\-C\-L\-A\-R\-E\-\_\-\-S\-O\-U\-N\-D@{\-D\-E\-C\-L\-A\-R\-E\-\_\-\-S\-O\-U\-N\-D}!Notification plugin@{\-Notification plugin}}
+\subsubsection[{\-D\-E\-C\-L\-A\-R\-E\-\_\-\-S\-O\-U\-N\-D}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Notification\-Item\-::\-D\-E\-C\-L\-A\-R\-E\-\_\-\-S\-O\-U\-N\-D} (
+\begin{DoxyParamCaption}
+\item[{1}]{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___notify_plugin_gafd8fcfb284be8c92e29aba742748d4b8}
+
+
+\-Definition at line 63 of file notificationitem.\-h.
+
+\hypertarget{group___notify_plugin_ga02e47b11a2cd7d0e9b608c497afbf359}{\index{\-Notification plugin@{\-Notification plugin}!deserialize@{deserialize}}
+\index{deserialize@{deserialize}!Notification plugin@{\-Notification plugin}}
+\subsubsection[{deserialize}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Notification\-Item\-::deserialize} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Data\-Stream \&}]{stream}
+\end{DoxyParamCaption}
+)}}\label{group___notify_plugin_ga02e47b11a2cd7d0e9b608c497afbf359}
+
+
+\-Definition at line 172 of file notificationitem.\-cpp.
+
+\hypertarget{group___notify_plugin_ga701d292a397a1198e167f249475b77e0}{\index{\-Notification plugin@{\-Notification plugin}!dispose\-Expire\-Timer@{dispose\-Expire\-Timer}}
+\index{dispose\-Expire\-Timer@{dispose\-Expire\-Timer}!Notification plugin@{\-Notification plugin}}
+\subsubsection[{dispose\-Expire\-Timer}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Notification\-Item\-::dispose\-Expire\-Timer} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___notify_plugin_ga701d292a397a1198e167f249475b77e0}
+
+
+\-Definition at line 243 of file notificationitem.\-cpp.
+
+\hypertarget{group___notify_plugin_gaa2f1891b46a9b84e08cd3cde71981655}{\index{\-Notification plugin@{\-Notification plugin}!dispose\-Timer@{dispose\-Timer}}
+\index{dispose\-Timer@{dispose\-Timer}!Notification plugin@{\-Notification plugin}}
+\subsubsection[{dispose\-Timer}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Notification\-Item\-::dispose\-Timer} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___notify_plugin_gaa2f1891b46a9b84e08cd3cde71981655}
+
+
+\-Definition at line 218 of file notificationitem.\-cpp.
+
+\hypertarget{group___notify_plugin_ga623fe8a3346c4c0565352170fc44c4a9}{\index{\-Notification plugin@{\-Notification plugin}!drop\-Mime\-Data@{drop\-Mime\-Data}}
+\index{drop\-Mime\-Data@{drop\-Mime\-Data}!Notification plugin@{\-Notification plugin}}
+\subsubsection[{drop\-Mime\-Data}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-Notify\-Table\-Model\-::drop\-Mime\-Data} (
+\begin{DoxyParamCaption}
+\item[{const \-Q\-Mime\-Data $\ast$}]{data, }
+\item[{\-Qt\-::\-Drop\-Action}]{action, }
+\item[{int}]{row, }
+\item[{int}]{column, }
+\item[{const \-Q\-Model\-Index \&}]{parent}
+\end{DoxyParamCaption}
+)}}\label{group___notify_plugin_ga623fe8a3346c4c0565352170fc44c4a9}
+
+
+\-Definition at line 188 of file notifytablemodel.\-cpp.
+
+\hypertarget{group___notify_plugin_gaa28f89364ed3f06a9e1ab36b51216b65}{\index{\-Notification plugin@{\-Notification plugin}!entry\-Added@{entry\-Added}}
+\index{entry\-Added@{entry\-Added}!Notification plugin@{\-Notification plugin}}
+\subsubsection[{entry\-Added}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Notify\-Table\-Model\-::entry\-Added} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Notification\-Item} $\ast$}]{item}
+\end{DoxyParamCaption}
+)}}\label{group___notify_plugin_gaa28f89364ed3f06a9e1ab36b51216b65}
+
+
+\-Definition at line 167 of file notifytablemodel.\-cpp.
+
+\hypertarget{group___notify_plugin_gad704ab0c43392e54f01882f7883f689f}{\index{\-Notification plugin@{\-Notification plugin}!extensions\-Initialized@{extensions\-Initialized}}
+\index{extensions\-Initialized@{extensions\-Initialized}!Notification plugin@{\-Notification plugin}}
+\subsubsection[{extensions\-Initialized}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Sound\-Notify\-Plugin\-::extensions\-Initialized} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___notify_plugin_gad704ab0c43392e54f01882f7883f689f}
+\-Called after the \-I\-Plugin\-::initialize() method has been called, and after both the \-I\-Plugin\-::initialize() and \-I\-Plugin\-::extensions\-Initialized() methods of plugins that depend on this plugin have been called. \-In this method, the plugin can assume that plugins that depend on this plugin are fully 'up and running'. \-It is a good place to look in the plugin manager's object pool for objects that have been provided by dependent plugins. \begin{DoxySeeAlso}{\-See also}
+\hyperlink{group___notify_plugin_ga5c84bbeb8237b65ecce93f518a26384d}{initialize()} 
+\end{DoxySeeAlso}
+
+
+\-Implements \hyperlink{class_extension_system_1_1_i_plugin_a1db3a7fb242fca02229f9a3be4fd6610}{\-Extension\-System\-::\-I\-Plugin}.
+
+
+
+\-Definition at line 74 of file notifyplugin.\-cpp.
+
+\hypertarget{group___notify_plugin_gaa13ff08a62eca11b672d5f7d88fa7c40}{\index{\-Notification plugin@{\-Notification plugin}!finish@{finish}}
+\index{finish@{finish}!Notification plugin@{\-Notification plugin}}
+\subsubsection[{finish}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Notify\-Plugin\-Options\-Page\-::finish} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___notify_plugin_gaa13ff08a62eca11b672d5f7d88fa7c40}
+
+
+\-Implements \hyperlink{group___core_plugin_ga47cf2602b6ee72a4971b1f0a4e1d887e}{\-Core\-::\-I\-Options\-Page}.
+
+
+
+\-Definition at line 128 of file notifypluginoptionspage.\-cpp.
+
+\hypertarget{group___notify_plugin_ga19b5a3d99feb4907b2332962b1468b9f}{\index{\-Notification plugin@{\-Notification plugin}!flags@{flags}}
+\index{flags@{flags}!Notification plugin@{\-Notification plugin}}
+\subsubsection[{flags}]{\setlength{\rightskip}{0pt plus 5cm}\-Qt\-::\-Item\-Flags {\bf \-Notify\-Table\-Model\-::flags} (
+\begin{DoxyParamCaption}
+\item[{const \-Q\-Model\-Index \&}]{index}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___notify_plugin_ga19b5a3d99feb4907b2332962b1468b9f}
+
+
+\-Definition at line 61 of file notifytablemodel.\-h.
+
+\hypertarget{group___notify_plugin_ga04c987109a0ab4c1f9d719a6c0e3096a}{\index{\-Notification plugin@{\-Notification plugin}!get\-Condition@{get\-Condition}}
+\index{get\-Condition@{get\-Condition}!Notification plugin@{\-Notification plugin}}
+\subsubsection[{get\-Condition}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf \-Notification\-Item\-::get\-Condition} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___notify_plugin_ga04c987109a0ab4c1f9d719a6c0e3096a}
+
+
+\-Definition at line 70 of file notificationitem.\-h.
+
+\hypertarget{group___notify_plugin_ga90dda23b3c620a17440f8708a4e98241}{\index{\-Notification plugin@{\-Notification plugin}!get\-Current\-Language@{get\-Current\-Language}}
+\index{get\-Current\-Language@{get\-Current\-Language}!Notification plugin@{\-Notification plugin}}
+\subsubsection[{get\-Current\-Language}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Q\-String} {\bf \-Notification\-Item\-::get\-Current\-Language} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___notify_plugin_ga90dda23b3c620a17440f8708a4e98241}
+
+
+\-Definition at line 91 of file notificationitem.\-h.
+
+\hypertarget{group___notify_plugin_ga286a323009d17d90a51abfbc288bdc68}{\index{\-Notification plugin@{\-Notification plugin}!get\-Current\-Notification@{get\-Current\-Notification}}
+\index{get\-Current\-Notification@{get\-Current\-Notification}!Notification plugin@{\-Notification plugin}}
+\subsubsection[{get\-Current\-Notification}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Notification\-Item}$\ast$ {\bf \-Sound\-Notify\-Plugin\-::get\-Current\-Notification} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___notify_plugin_ga286a323009d17d90a51abfbc288bdc68}
+
+
+\-Definition at line 70 of file notifyplugin.\-h.
+
+\hypertarget{group___notify_plugin_gaf04fb4ac7c4882b581eb0ccb8808ba23}{\index{\-Notification plugin@{\-Notification plugin}!get\-Data\-Object@{get\-Data\-Object}}
+\index{get\-Data\-Object@{get\-Data\-Object}!Notification plugin@{\-Notification plugin}}
+\subsubsection[{get\-Data\-Object}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Q\-String} {\bf \-Notification\-Item\-::get\-Data\-Object} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___notify_plugin_gaf04fb4ac7c4882b581eb0ccb8808ba23}
+
+
+\-Definition at line 82 of file notificationitem.\-h.
+
+\hypertarget{group___notify_plugin_ga25e91be7ff9c99dcb12a2e0931cec530}{\index{\-Notification plugin@{\-Notification plugin}!get\-Enable\-Sound@{get\-Enable\-Sound}}
+\index{get\-Enable\-Sound@{get\-Enable\-Sound}!Notification plugin@{\-Notification plugin}}
+\subsubsection[{get\-Enable\-Sound}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-Sound\-Notify\-Plugin\-::get\-Enable\-Sound} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___notify_plugin_ga25e91be7ff9c99dcb12a2e0931cec530}
+
+
+\-Definition at line 72 of file notifyplugin.\-h.
+
+\hypertarget{group___notify_plugin_gac3e54f4c867cf1ab32a5127dcc5dcebe}{\index{\-Notification plugin@{\-Notification plugin}!get\-Expire\-Timer@{get\-Expire\-Timer}}
+\index{get\-Expire\-Timer@{get\-Expire\-Timer}!Notification plugin@{\-Notification plugin}}
+\subsubsection[{get\-Expire\-Timer}]{\setlength{\rightskip}{0pt plus 5cm}\-Q\-Timer$\ast$ {\bf \-Notification\-Item\-::get\-Expire\-Timer} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___notify_plugin_gac3e54f4c867cf1ab32a5127dcc5dcebe}
+
+
+\-Definition at line 148 of file notificationitem.\-h.
+
+\hypertarget{group___notify_plugin_ga949c06b617fbadfd2c844d9f29351085}{\index{\-Notification plugin@{\-Notification plugin}!get\-List\-Notifications@{get\-List\-Notifications}}
+\index{get\-List\-Notifications@{get\-List\-Notifications}!Notification plugin@{\-Notification plugin}}
+\subsubsection[{get\-List\-Notifications}]{\setlength{\rightskip}{0pt plus 5cm}\-Q\-List$<${\bf \-Notification\-Item}$\ast$$>$ {\bf \-Sound\-Notify\-Plugin\-::get\-List\-Notifications} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___notify_plugin_ga949c06b617fbadfd2c844d9f29351085}
+
+
+\-Definition at line 69 of file notifyplugin.\-h.
+
+\hypertarget{group___notify_plugin_gad9a4c112e8b27294870f09c7c3bf6bd8}{\index{\-Notification plugin@{\-Notification plugin}!get\-Message\-Sequence@{get\-Message\-Sequence}}
+\index{get\-Message\-Sequence@{get\-Message\-Sequence}!Notification plugin@{\-Notification plugin}}
+\subsubsection[{get\-Message\-Sequence}]{\setlength{\rightskip}{0pt plus 5cm}\-Q\-String\-List {\bf \-Notification\-Item\-::get\-Message\-Sequence} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___notify_plugin_gad9a4c112e8b27294870f09c7c3bf6bd8}
+
+
+\-Definition at line 94 of file notificationitem.\-h.
+
+\hypertarget{group___notify_plugin_gabe5f556c91c61fb1b490fde2eb3ca0c8}{\index{\-Notification plugin@{\-Notification plugin}!get\-Object\-Field@{get\-Object\-Field}}
+\index{get\-Object\-Field@{get\-Object\-Field}!Notification plugin@{\-Notification plugin}}
+\subsubsection[{get\-Object\-Field}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Q\-String} {\bf \-Notification\-Item\-::get\-Object\-Field} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___notify_plugin_gabe5f556c91c61fb1b490fde2eb3ca0c8}
+
+
+\-Definition at line 85 of file notificationitem.\-h.
+
+\hypertarget{group___notify_plugin_ga395bd37d71abbcb58be1b077e0dd83f6}{\index{\-Notification plugin@{\-Notification plugin}!get\-Say\-Order@{get\-Say\-Order}}
+\index{get\-Say\-Order@{get\-Say\-Order}!Notification plugin@{\-Notification plugin}}
+\subsubsection[{get\-Say\-Order}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf \-Notification\-Item\-::get\-Say\-Order} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___notify_plugin_ga395bd37d71abbcb58be1b077e0dd83f6}
+
+
+\-Definition at line 73 of file notificationitem.\-h.
+
+\hypertarget{group___notify_plugin_gadaf0f176a8851c6a9fe551bf80b61cb4}{\index{\-Notification plugin@{\-Notification plugin}!get\-Sound\-Caption@{get\-Sound\-Caption}}
+\index{get\-Sound\-Caption@{get\-Sound\-Caption}!Notification plugin@{\-Notification plugin}}
+\subsubsection[{get\-Sound\-Caption}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Q\-String} {\bf \-Notification\-Item\-::get\-Sound\-Caption} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Q\-String}}]{file\-Name}
+\end{DoxyParamCaption}
+)}}\label{group___notify_plugin_gadaf0f176a8851c6a9fe551bf80b61cb4}
+\-Returns sound caption name, needed to create string representation of notification.
+
+\begin{DoxyReturn}{\-Returns}
+success -\/ string == $<$sound filename$>$=\char`\"{}\char`\"{}$>$, if sound file exists error -\/ string == \mbox{[}missind\mbox{]}$<$sound filename$>$=\char`\"{}\char`\"{}$>$, if sound file doesn't exist 
+\end{DoxyReturn}
+
+
+\-Definition at line 423 of file notificationitem.\-cpp.
+
+\hypertarget{group___notify_plugin_ga02d674a0d98fc50edb96e8e487e4f247}{\index{\-Notification plugin@{\-Notification plugin}!get\-Sound\-Collection\-Path@{get\-Sound\-Collection\-Path}}
+\index{get\-Sound\-Collection\-Path@{get\-Sound\-Collection\-Path}!Notification plugin@{\-Notification plugin}}
+\subsubsection[{get\-Sound\-Collection\-Path}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Q\-String} {\bf \-Notification\-Item\-::get\-Sound\-Collection\-Path} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___notify_plugin_ga02d674a0d98fc50edb96e8e487e4f247}
+
+
+\-Definition at line 88 of file notificationitem.\-h.
+
+\hypertarget{group___notify_plugin_gad0b36630b519b091944bbf350ca8de5f}{\index{\-Notification plugin@{\-Notification plugin}!get\-Timer@{get\-Timer}}
+\index{get\-Timer@{get\-Timer}!Notification plugin@{\-Notification plugin}}
+\subsubsection[{get\-Timer}]{\setlength{\rightskip}{0pt plus 5cm}\-Q\-Timer$\ast$ {\bf \-Notification\-Item\-::get\-Timer} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___notify_plugin_gad0b36630b519b091944bbf350ca8de5f}
+
+
+\-Definition at line 142 of file notificationitem.\-h.
+
+\hypertarget{group___notify_plugin_ga5f16bd85e4ffd982c71b75abbb00833d}{\index{\-Notification plugin@{\-Notification plugin}!get\-U\-A\-V\-Object@{get\-U\-A\-V\-Object}}
+\index{get\-U\-A\-V\-Object@{get\-U\-A\-V\-Object}!Notification plugin@{\-Notification plugin}}
+\subsubsection[{get\-U\-A\-V\-Object}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-U\-A\-V\-Data\-Object} $\ast$ {\bf \-Notification\-Item\-::get\-U\-A\-V\-Object} (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+)}}\label{group___notify_plugin_ga5f16bd85e4ffd982c71b75abbb00833d}
+
+
+\-Definition at line 436 of file notificationitem.\-cpp.
+
+\hypertarget{group___notify_plugin_gad80a60dd673d057f2fdd45e79f8b8905}{\index{\-Notification plugin@{\-Notification plugin}!get\-U\-A\-V\-Object\-Field@{get\-U\-A\-V\-Object\-Field}}
+\index{get\-U\-A\-V\-Object\-Field@{get\-U\-A\-V\-Object\-Field}!Notification plugin@{\-Notification plugin}}
+\subsubsection[{get\-U\-A\-V\-Object\-Field}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-U\-A\-V\-Object\-Field} $\ast$ {\bf \-Notification\-Item\-::get\-U\-A\-V\-Object\-Field} (
+\begin{DoxyParamCaption}
+\item[{{\bf void}}]{}
+\end{DoxyParamCaption}
+)}}\label{group___notify_plugin_gad80a60dd673d057f2fdd45e79f8b8905}
+
+
+\-Definition at line 432 of file notificationitem.\-cpp.
+
+\hypertarget{group___notify_plugin_ga86b5587da919e4abd0c5045f8eef27ae}{\index{\-Notification plugin@{\-Notification plugin}!get\-Value\-Position@{get\-Value\-Position}}
+\index{get\-Value\-Position@{get\-Value\-Position}!Notification plugin@{\-Notification plugin}}
+\subsubsection[{get\-Value\-Position}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf get\-Value\-Position} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Q\-String}}]{say\-Order}
+\end{DoxyParamCaption}
+)}}\label{group___notify_plugin_ga86b5587da919e4abd0c5045f8eef27ae}
+
+
+\-Definition at line 252 of file notificationitem.\-cpp.
+
+\hypertarget{group___notify_plugin_gab211bb28323ebcede08ef838bc6b2789}{\index{\-Notification plugin@{\-Notification plugin}!header\-Data@{header\-Data}}
+\index{header\-Data@{header\-Data}!Notification plugin@{\-Notification plugin}}
+\subsubsection[{header\-Data}]{\setlength{\rightskip}{0pt plus 5cm}\-Q\-Variant {\bf \-Notify\-Table\-Model\-::header\-Data} (
+\begin{DoxyParamCaption}
+\item[{int}]{section, }
+\item[{\-Qt\-::\-Orientation}]{orientation, }
+\item[{int}]{role}
+\end{DoxyParamCaption}
+) const}}\label{group___notify_plugin_gab211bb28323ebcede08ef838bc6b2789}
+
+
+\-Definition at line 113 of file notifytablemodel.\-cpp.
+
+\hypertarget{group___notify_plugin_ga9528eeaab32e5a6696eb4e82c7dda847}{\index{\-Notification plugin@{\-Notification plugin}!id@{id}}
+\index{id@{id}!Notification plugin@{\-Notification plugin}}
+\subsubsection[{id}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Q\-String} {\bf \-Notify\-Plugin\-Options\-Page\-::id} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}inline, virtual\mbox{]}}}}\label{group___notify_plugin_ga9528eeaab32e5a6696eb4e82c7dda847}
+
+
+\-Reimplemented from \hyperlink{group___core_plugin_ga2984fb6ab0e3b502783dfee7ba596268}{\-Core\-::\-I\-Options\-Page}.
+
+
+
+\-Definition at line 69 of file notifypluginoptionspage.\-h.
+
+\hypertarget{group___notify_plugin_ga5c84bbeb8237b65ecce93f518a26384d}{\index{\-Notification plugin@{\-Notification plugin}!initialize@{initialize}}
+\index{initialize@{initialize}!Notification plugin@{\-Notification plugin}}
+\subsubsection[{initialize}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-Sound\-Notify\-Plugin\-::initialize} (
+\begin{DoxyParamCaption}
+\item[{const \-Q\-String\-List \&}]{arguments, }
+\item[{{\bf \-Q\-String} $\ast$}]{error\-String}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___notify_plugin_ga5c84bbeb8237b65ecce93f518a26384d}
+\-Called after the plugin has been loaded and the \-I\-Plugin instance has been created. \-The initialize methods of plugins that depend on this plugin are called after the initialize method of this plugin has been called. \-Plugins should initialize their internal state in this method. \-Returns if initialization of successful. \-If it wasn't successful, the {\itshape error\-String\/} should be set to a user-\/readable message describing the reason. \begin{DoxySeeAlso}{\-See also}
+\hyperlink{group___notify_plugin_gad704ab0c43392e54f01882f7883f689f}{extensions\-Initialized()} 
+\end{DoxySeeAlso}
+
+
+\-Implements \hyperlink{class_extension_system_1_1_i_plugin_a9f3dc957317279daed393fdf4894e944}{\-Extension\-System\-::\-I\-Plugin}.
+
+
+
+\-Definition at line 63 of file notifyplugin.\-cpp.
+
+\hypertarget{group___notify_plugin_ga989fe66cec593e3ae8a3715160d4db33}{\index{\-Notification plugin@{\-Notification plugin}!insert\-Rows@{insert\-Rows}}
+\index{insert\-Rows@{insert\-Rows}!Notification plugin@{\-Notification plugin}}
+\subsubsection[{insert\-Rows}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-Notify\-Table\-Model\-::insert\-Rows} (
+\begin{DoxyParamCaption}
+\item[{int}]{position, }
+\item[{int}]{rows, }
+\item[{const \-Q\-Model\-Index \&}]{index}
+\end{DoxyParamCaption}
+)}}\label{group___notify_plugin_ga989fe66cec593e3ae8a3715160d4db33}
+
+
+\-Definition at line 127 of file notifytablemodel.\-cpp.
+
+\hypertarget{group___notify_plugin_ga2a7280994bcb9184ba2a3de6aa2d9dd7}{\index{\-Notification plugin@{\-Notification plugin}!lifetime@{lifetime}}
+\index{lifetime@{lifetime}!Notification plugin@{\-Notification plugin}}
+\subsubsection[{lifetime}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf \-Notification\-Item\-::lifetime} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___notify_plugin_ga2a7280994bcb9184ba2a3de6aa2d9dd7}
+
+
+\-Definition at line 100 of file notificationitem.\-h.
+
+\hypertarget{group___notify_plugin_gad7b898c97fa3c65ea707934881f356e5}{\index{\-Notification plugin@{\-Notification plugin}!load\-Configuration@{load\-Configuration}}
+\index{load\-Configuration@{load\-Configuration}!Notification plugin@{\-Notification plugin}}
+\subsubsection[{load\-Configuration}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Notify\-Plugin\-Gadget\-::load\-Configuration} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-I\-U\-A\-V\-Gadget\-Configuration} $\ast$}]{config}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___notify_plugin_gad7b898c97fa3c65ea707934881f356e5}
+
+
+\-Reimplemented from \hyperlink{group___core_plugin_gaaf60a82b8643f54a42381600c52bbe8a}{\-Core\-::\-I\-U\-A\-V\-Gadget}.
+
+\hypertarget{group___notify_plugin_gad898510a85b3055557ed33dc8e319b51}{\index{\-Notification plugin@{\-Notification plugin}!mime\-Data@{mime\-Data}}
+\index{mime\-Data@{mime\-Data}!Notification plugin@{\-Notification plugin}}
+\subsubsection[{mime\-Data}]{\setlength{\rightskip}{0pt plus 5cm}\-Q\-Mime\-Data $\ast$ {\bf \-Notify\-Table\-Model\-::mime\-Data} (
+\begin{DoxyParamCaption}
+\item[{const \-Q\-Model\-Index\-List \&}]{indexes}
+\end{DoxyParamCaption}
+) const}}\label{group___notify_plugin_gad898510a85b3055557ed33dc8e319b51}
+
+
+\-Definition at line 246 of file notifytablemodel.\-cpp.
+
+\hypertarget{group___notify_plugin_ga8f52bed133220f83210db9d483d6aa26}{\index{\-Notification plugin@{\-Notification plugin}!mime\-Types@{mime\-Types}}
+\index{mime\-Types@{mime\-Types}!Notification plugin@{\-Notification plugin}}
+\subsubsection[{mime\-Types}]{\setlength{\rightskip}{0pt plus 5cm}\-Q\-String\-List {\bf \-Notify\-Table\-Model\-::mime\-Types} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{group___notify_plugin_ga8f52bed133220f83210db9d483d6aa26}
+
+
+\-Definition at line 181 of file notifytablemodel.\-cpp.
+
+\hypertarget{group___notify_plugin_ga815fa2051096a7c2f3074c60afad5d47}{\index{\-Notification plugin@{\-Notification plugin}!mute@{mute}}
+\index{mute@{mute}!Notification plugin@{\-Notification plugin}}
+\subsubsection[{mute}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-Notification\-Item\-::mute} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___notify_plugin_ga815fa2051096a7c2f3074c60afad5d47}
+
+
+\-Definition at line 103 of file notificationitem.\-h.
+
+\hypertarget{group___notify_plugin_ga382be87567eab960b4bd89e2c7238ba8}{\index{\-Notification plugin@{\-Notification plugin}!\-Notification\-Item@{\-Notification\-Item}}
+\index{\-Notification\-Item@{\-Notification\-Item}!Notification plugin@{\-Notification plugin}}
+\subsubsection[{\-Notification\-Item}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Notification\-Item\-::\-Notification\-Item} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Object $\ast$}]{parent = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}explicit\mbox{]}}}}\label{group___notify_plugin_ga382be87567eab960b4bd89e2c7238ba8}
+
+
+\-Definition at line 53 of file notificationitem.\-cpp.
+
+\hypertarget{group___notify_plugin_ga356769d008d39fd8dfdf8377c20ea450}{\index{\-Notification plugin@{\-Notification plugin}!\-Notify\-Item\-Delegate@{\-Notify\-Item\-Delegate}}
+\index{\-Notify\-Item\-Delegate@{\-Notify\-Item\-Delegate}!Notification plugin@{\-Notification plugin}}
+\subsubsection[{\-Notify\-Item\-Delegate}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Notify\-Item\-Delegate\-::\-Notify\-Item\-Delegate} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Object $\ast$}]{parent = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)}}\label{group___notify_plugin_ga356769d008d39fd8dfdf8377c20ea450}
+
+
+\-Definition at line 37 of file notifyitemdelegate.\-cpp.
+
+\hypertarget{group___notify_plugin_ga3c91b1f9c5a354b8d5886dd3cff94126}{\index{\-Notification plugin@{\-Notification plugin}!\-Notify\-Plugin\-Factory@{\-Notify\-Plugin\-Factory}}
+\index{\-Notify\-Plugin\-Factory@{\-Notify\-Plugin\-Factory}!Notification plugin@{\-Notification plugin}}
+\subsubsection[{\-Notify\-Plugin\-Factory}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Notify\-Plugin\-Factory\-::\-Notify\-Plugin\-Factory} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Object $\ast$}]{parent = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)}}\label{group___notify_plugin_ga3c91b1f9c5a354b8d5886dd3cff94126}
+
+
+\-Definition at line 37 of file notifypluginfactory.\-cpp.
+
+\hypertarget{group___notify_plugin_ga2550c9c08be7f6731350a3be6fbaba4a}{\index{\-Notification plugin@{\-Notification plugin}!\-Notify\-Plugin\-Gadget@{\-Notify\-Plugin\-Gadget}}
+\index{\-Notify\-Plugin\-Gadget@{\-Notify\-Plugin\-Gadget}!Notification plugin@{\-Notification plugin}}
+\subsubsection[{\-Notify\-Plugin\-Gadget}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Notify\-Plugin\-Gadget\-::\-Notify\-Plugin\-Gadget} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Q\-String}}]{class\-Id, }
+\item[{\-Notify\-Plugin\-Gadget\-Widget $\ast$}]{widget, }
+\item[{\-Q\-Widget $\ast$}]{parent = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)}}\label{group___notify_plugin_ga2550c9c08be7f6731350a3be6fbaba4a}
+\hypertarget{group___notify_plugin_gaf584594e769010fbcdb1feb54b94eaab}{\index{\-Notification plugin@{\-Notification plugin}!\-Notify\-Plugin\-Options\-Page@{\-Notify\-Plugin\-Options\-Page}}
+\index{\-Notify\-Plugin\-Options\-Page@{\-Notify\-Plugin\-Options\-Page}!Notification plugin@{\-Notification plugin}}
+\subsubsection[{\-Notify\-Plugin\-Options\-Page}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Notify\-Plugin\-Options\-Page\-::\-Notify\-Plugin\-Options\-Page} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Object $\ast$}]{parent = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}explicit\mbox{]}}}}\label{group___notify_plugin_gaf584594e769010fbcdb1feb54b94eaab}
+
+
+\-Definition at line 55 of file notifypluginoptionspage.\-cpp.
+
+\hypertarget{group___notify_plugin_ga7c99d26f6ccdab1cb80b8cfdfaa9d814}{\index{\-Notification plugin@{\-Notification plugin}!\-Notify\-Table\-Model@{\-Notify\-Table\-Model}}
+\index{\-Notify\-Table\-Model@{\-Notify\-Table\-Model}!Notification plugin@{\-Notification plugin}}
+\subsubsection[{\-Notify\-Table\-Model}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Notify\-Table\-Model\-::\-Notify\-Table\-Model} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-List$<$ {\bf \-Notification\-Item} $\ast$ $>$ \&}]{parent\-List, }
+\item[{\-Q\-Object $\ast$}]{parent = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)}}\label{group___notify_plugin_ga7c99d26f6ccdab1cb80b8cfdfaa9d814}
+
+
+\-Definition at line 39 of file notifytablemodel.\-cpp.
+
+\hypertarget{group___notify_plugin_gaa12b557f54e20bfddabd963a0eccbaac}{\index{\-Notification plugin@{\-Notification plugin}!q\-Notify\-Debug@{q\-Notify\-Debug}}
+\index{q\-Notify\-Debug@{q\-Notify\-Debug}!Notification plugin@{\-Notification plugin}}
+\subsubsection[{q\-Notify\-Debug}]{\setlength{\rightskip}{0pt plus 5cm}\-Q\-No\-Debug {\bf q\-Notify\-Debug} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___notify_plugin_gaa12b557f54e20bfddabd963a0eccbaac}
+
+
+\-Definition at line 35 of file notifylogging.\-cpp.
+
+\hypertarget{group___notify_plugin_gae783274f70106d7f8a50f51b4d98221f}{\index{\-Notification plugin@{\-Notification plugin}!read\-Config@{read\-Config}}
+\index{read\-Config@{read\-Config}!Notification plugin@{\-Notification plugin}}
+\subsubsection[{read\-Config}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Sound\-Notify\-Plugin\-::read\-Config} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Settings $\ast$}]{q\-Settings, }
+\item[{{\bf \-Core\-::\-U\-A\-V\-Config\-Info} $\ast$}]{config\-Info}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___notify_plugin_gae783274f70106d7f8a50f51b4d98221f}
+
+
+\-Implements \hyperlink{class_core_1_1_i_configurable_plugin_af40567d082a243282cda71b3f9efd83f}{\-Core\-::\-I\-Configurable\-Plugin}.
+
+
+
+\-Definition at line 107 of file notifyplugin.\-cpp.
+
+\hypertarget{group___notify_plugin_ga3e038f81c56a42999341a5704f703dd3}{\index{\-Notification plugin@{\-Notification plugin}!remove\-Rows@{remove\-Rows}}
+\index{remove\-Rows@{remove\-Rows}!Notification plugin@{\-Notification plugin}}
+\subsubsection[{remove\-Rows}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-Notify\-Table\-Model\-::remove\-Rows} (
+\begin{DoxyParamCaption}
+\item[{int}]{position, }
+\item[{int}]{rows, }
+\item[{const \-Q\-Model\-Index \&}]{index}
+\end{DoxyParamCaption}
+)}}\label{group___notify_plugin_ga3e038f81c56a42999341a5704f703dd3}
+
+
+\-Definition at line 144 of file notifytablemodel.\-cpp.
+
+\hypertarget{group___notify_plugin_gacf26398de566bf5f6b947e9065841653}{\index{\-Notification plugin@{\-Notification plugin}!restart\-Timer@{restart\-Timer}}
+\index{restart\-Timer@{restart\-Timer}!Notification plugin@{\-Notification plugin}}
+\subsubsection[{restart\-Timer}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Notification\-Item\-::restart\-Timer} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___notify_plugin_gacf26398de566bf5f6b947e9065841653}
+
+
+\-Definition at line 201 of file notificationitem.\-cpp.
+
+\hypertarget{group___notify_plugin_ga2607c7c5d3db72401fe48f07838d36ce}{\index{\-Notification plugin@{\-Notification plugin}!restore\-From\-Settings@{restore\-From\-Settings}}
+\index{restore\-From\-Settings@{restore\-From\-Settings}!Notification plugin@{\-Notification plugin}}
+\subsubsection[{restore\-From\-Settings}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Notify\-Plugin\-Options\-Page\-::restore\-From\-Settings} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___notify_plugin_ga2607c7c5d3db72401fe48f07838d36ce}
+\hypertarget{group___notify_plugin_gad7dea9a755d75cd820f3b06131f52a1d}{\index{\-Notification plugin@{\-Notification plugin}!restore\-State@{restore\-State}}
+\index{restore\-State@{restore\-State}!Notification plugin@{\-Notification plugin}}
+\subsubsection[{restore\-State}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Notification\-Item\-::restore\-State} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Settings $\ast$}]{settings}
+\end{DoxyParamCaption}
+)}}\label{group___notify_plugin_gad7dea9a755d75cd820f3b06131f52a1d}
+
+
+\-Definition at line 133 of file notificationitem.\-cpp.
+
+\hypertarget{group___notify_plugin_gad3ef16c40fa24c6362f0a5b8dcf7106a}{\index{\-Notification plugin@{\-Notification plugin}!retry\-Value@{retry\-Value}}
+\index{retry\-Value@{retry\-Value}!Notification plugin@{\-Notification plugin}}
+\subsubsection[{retry\-Value}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf \-Notification\-Item\-::retry\-Value} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___notify_plugin_gad3ef16c40fa24c6362f0a5b8dcf7106a}
+
+
+\-Definition at line 97 of file notificationitem.\-h.
+
+\hypertarget{group___notify_plugin_ga2bd35c3c39b4a7c057e00786a7ece129}{\index{\-Notification plugin@{\-Notification plugin}!row\-Count@{row\-Count}}
+\index{row\-Count@{row\-Count}!Notification plugin@{\-Notification plugin}}
+\subsubsection[{row\-Count}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf \-Notify\-Table\-Model\-::row\-Count} (
+\begin{DoxyParamCaption}
+\item[{const \-Q\-Model\-Index \&}]{parent = {\ttfamily \-Q\-Model\-Index()}}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___notify_plugin_ga2bd35c3c39b4a7c057e00786a7ece129}
+
+
+\-Definition at line 50 of file notifytablemodel.\-h.
+
+\hypertarget{group___notify_plugin_ga591d270cfaee4d5107899bf24ac83289}{\index{\-Notification plugin@{\-Notification plugin}!save\-Config@{save\-Config}}
+\index{save\-Config@{save\-Config}!Notification plugin@{\-Notification plugin}}
+\subsubsection[{save\-Config}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Sound\-Notify\-Plugin\-::save\-Config} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Settings $\ast$}]{q\-Settings, }
+\item[{{\bf \-Core\-::\-U\-A\-V\-Config\-Info} $\ast$}]{config\-Info}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___notify_plugin_ga591d270cfaee4d5107899bf24ac83289}
+
+
+\-Implements \hyperlink{class_core_1_1_i_configurable_plugin_afd0c67d4dbb9ff64ca7a3bed07eb5b66}{\-Core\-::\-I\-Configurable\-Plugin}.
+
+
+
+\-Definition at line 84 of file notifyplugin.\-cpp.
+
+\hypertarget{group___notify_plugin_ga9ba0eb664828ae93d16faaa783b77cfc}{\index{\-Notification plugin@{\-Notification plugin}!save\-State@{save\-State}}
+\index{save\-State@{save\-State}!Notification plugin@{\-Notification plugin}}
+\subsubsection[{save\-State}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Notification\-Item\-::save\-State} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Settings $\ast$}]{settings}
+\end{DoxyParamCaption}
+) const}}\label{group___notify_plugin_ga9ba0eb664828ae93d16faaa783b77cfc}
+
+
+\-Definition at line 115 of file notificationitem.\-cpp.
+
+\hypertarget{group___notify_plugin_gad39b4705bd8ee634abb8a8922450613b}{\index{\-Notification plugin@{\-Notification plugin}!serialize@{serialize}}
+\index{serialize@{serialize}!Notification plugin@{\-Notification plugin}}
+\subsubsection[{serialize}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Notification\-Item\-::serialize} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Data\-Stream \&}]{stream}
+\end{DoxyParamCaption}
+)}}\label{group___notify_plugin_gad39b4705bd8ee634abb8a8922450613b}
+
+
+\-Definition at line 153 of file notificationitem.\-cpp.
+
+\hypertarget{group___notify_plugin_gab14a508f3cd7fd060939a7c8320b35e2}{\index{\-Notification plugin@{\-Notification plugin}!set\-Condition@{set\-Condition}}
+\index{set\-Condition@{set\-Condition}!Notification plugin@{\-Notification plugin}}
+\subsubsection[{set\-Condition}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Notification\-Item\-::set\-Condition} (
+\begin{DoxyParamCaption}
+\item[{int}]{value}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___notify_plugin_gab14a508f3cd7fd060939a7c8320b35e2}
+
+
+\-Definition at line 71 of file notificationitem.\-h.
+
+\hypertarget{group___notify_plugin_ga125828e3dae6986b12d315319b3ee24a}{\index{\-Notification plugin@{\-Notification plugin}!set\-Current\-Language@{set\-Current\-Language}}
+\index{set\-Current\-Language@{set\-Current\-Language}!Notification plugin@{\-Notification plugin}}
+\subsubsection[{set\-Current\-Language}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Notification\-Item\-::set\-Current\-Language} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Q\-String}}]{text}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___notify_plugin_ga125828e3dae6986b12d315319b3ee24a}
+
+
+\-Definition at line 92 of file notificationitem.\-h.
+
+\hypertarget{group___notify_plugin_ga3df23419f46ace03f4874972e2a14579}{\index{\-Notification plugin@{\-Notification plugin}!set\-Current\-Update\-Played@{set\-Current\-Update\-Played}}
+\index{set\-Current\-Update\-Played@{set\-Current\-Update\-Played}!Notification plugin@{\-Notification plugin}}
+\subsubsection[{set\-Current\-Update\-Played}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Notification\-Item\-::set\-Current\-Update\-Played} (
+\begin{DoxyParamCaption}
+\item[{bool}]{value}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___notify_plugin_ga3df23419f46ace03f4874972e2a14579}
+
+
+\-Definition at line 68 of file notificationitem.\-h.
+
+\hypertarget{group___notify_plugin_gafd2c78e02d0c8123cc83714a3a5ce595}{\index{\-Notification plugin@{\-Notification plugin}!set\-Data@{set\-Data}}
+\index{set\-Data@{set\-Data}!Notification plugin@{\-Notification plugin}}
+\subsubsection[{set\-Data}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-Notify\-Table\-Model\-::set\-Data} (
+\begin{DoxyParamCaption}
+\item[{const \-Q\-Model\-Index \&}]{index, }
+\item[{const \-Q\-Variant \&}]{value, }
+\item[{int}]{role}
+\end{DoxyParamCaption}
+)}}\label{group___notify_plugin_gafd2c78e02d0c8123cc83714a3a5ce595}
+
+
+\-Definition at line 48 of file notifytablemodel.\-cpp.
+
+\hypertarget{group___notify_plugin_gaa1ca305c3e8571f02153e8edabf0c6a3}{\index{\-Notification plugin@{\-Notification plugin}!set\-Data\-Object@{set\-Data\-Object}}
+\index{set\-Data\-Object@{set\-Data\-Object}!Notification plugin@{\-Notification plugin}}
+\subsubsection[{set\-Data\-Object}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Notification\-Item\-::set\-Data\-Object} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Q\-String}}]{text}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___notify_plugin_gaa1ca305c3e8571f02153e8edabf0c6a3}
+
+
+\-Definition at line 83 of file notificationitem.\-h.
+
+\hypertarget{group___notify_plugin_ga75249b15c513ab2ea9691a7e2307ef19}{\index{\-Notification plugin@{\-Notification plugin}!set\-Editor\-Data@{set\-Editor\-Data}}
+\index{set\-Editor\-Data@{set\-Editor\-Data}!Notification plugin@{\-Notification plugin}}
+\subsubsection[{set\-Editor\-Data}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Notify\-Item\-Delegate\-::set\-Editor\-Data} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Widget $\ast$}]{editor, }
+\item[{const \-Q\-Model\-Index \&}]{index}
+\end{DoxyParamCaption}
+) const}}\label{group___notify_plugin_ga75249b15c513ab2ea9691a7e2307ef19}
+
+
+\-Definition at line 98 of file notifyitemdelegate.\-cpp.
+
+\hypertarget{group___notify_plugin_ga25cf9833d9cea621e4168a81ee0e9d05}{\index{\-Notification plugin@{\-Notification plugin}!set\-Enable\-Sound@{set\-Enable\-Sound}}
+\index{set\-Enable\-Sound@{set\-Enable\-Sound}!Notification plugin@{\-Notification plugin}}
+\subsubsection[{set\-Enable\-Sound}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Sound\-Notify\-Plugin\-::set\-Enable\-Sound} (
+\begin{DoxyParamCaption}
+\item[{bool}]{value}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___notify_plugin_ga25cf9833d9cea621e4168a81ee0e9d05}
+
+
+\-Definition at line 73 of file notifyplugin.\-h.
+
+\hypertarget{group___notify_plugin_gab8ee00149d5b8c0a74ff7fc134bdbd4c}{\index{\-Notification plugin@{\-Notification plugin}!set\-Lifetime@{set\-Lifetime}}
+\index{set\-Lifetime@{set\-Lifetime}!Notification plugin@{\-Notification plugin}}
+\subsubsection[{set\-Lifetime}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Notification\-Item\-::set\-Lifetime} (
+\begin{DoxyParamCaption}
+\item[{int}]{value}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___notify_plugin_gab8ee00149d5b8c0a74ff7fc134bdbd4c}
+
+
+\-Definition at line 101 of file notificationitem.\-h.
+
+\hypertarget{group___notify_plugin_gad8bface53f8c0b678ba53efa7607c644}{\index{\-Notification plugin@{\-Notification plugin}!set\-Message\-Sequence@{set\-Message\-Sequence}}
+\index{set\-Message\-Sequence@{set\-Message\-Sequence}!Notification plugin@{\-Notification plugin}}
+\subsubsection[{set\-Message\-Sequence}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Notification\-Item\-::set\-Message\-Sequence} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-String\-List}]{sequence}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___notify_plugin_gad8bface53f8c0b678ba53efa7607c644}
+
+
+\-Definition at line 95 of file notificationitem.\-h.
+
+\hypertarget{group___notify_plugin_gacd6ffc2f5989d0a64c398e6604d72e8e}{\index{\-Notification plugin@{\-Notification plugin}!set\-Model\-Data@{set\-Model\-Data}}
+\index{set\-Model\-Data@{set\-Model\-Data}!Notification plugin@{\-Notification plugin}}
+\subsubsection[{set\-Model\-Data}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Notify\-Item\-Delegate\-::set\-Model\-Data} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Widget $\ast$}]{editor, }
+\item[{\-Q\-Abstract\-Item\-Model $\ast$}]{model, }
+\item[{const \-Q\-Model\-Index \&}]{index}
+\end{DoxyParamCaption}
+) const}}\label{group___notify_plugin_gacd6ffc2f5989d0a64c398e6604d72e8e}
+
+
+\-Definition at line 120 of file notifyitemdelegate.\-cpp.
+
+\hypertarget{group___notify_plugin_ga45781a8ec6285e780f592f1b3952b407}{\index{\-Notification plugin@{\-Notification plugin}!set\-Mute@{set\-Mute}}
+\index{set\-Mute@{set\-Mute}!Notification plugin@{\-Notification plugin}}
+\subsubsection[{set\-Mute}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Notification\-Item\-::set\-Mute} (
+\begin{DoxyParamCaption}
+\item[{bool}]{value}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___notify_plugin_ga45781a8ec6285e780f592f1b3952b407}
+
+
+\-Definition at line 104 of file notificationitem.\-h.
+
+\hypertarget{group___notify_plugin_ga54c72d7ede2e6cc94ba5121c04f379f9}{\index{\-Notification plugin@{\-Notification plugin}!set\-Object\-Field@{set\-Object\-Field}}
+\index{set\-Object\-Field@{set\-Object\-Field}!Notification plugin@{\-Notification plugin}}
+\subsubsection[{set\-Object\-Field}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Notification\-Item\-::set\-Object\-Field} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Q\-String}}]{text}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___notify_plugin_ga54c72d7ede2e6cc94ba5121c04f379f9}
+
+
+\-Definition at line 86 of file notificationitem.\-h.
+
+\hypertarget{group___notify_plugin_gace1ba5eab850d1945aeede024e405463}{\index{\-Notification plugin@{\-Notification plugin}!set\-Retry\-Value@{set\-Retry\-Value}}
+\index{set\-Retry\-Value@{set\-Retry\-Value}!Notification plugin@{\-Notification plugin}}
+\subsubsection[{set\-Retry\-Value}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Notification\-Item\-::set\-Retry\-Value} (
+\begin{DoxyParamCaption}
+\item[{int}]{value}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___notify_plugin_gace1ba5eab850d1945aeede024e405463}
+
+
+\-Definition at line 98 of file notificationitem.\-h.
+
+\hypertarget{group___notify_plugin_ga0489a9c8b690360558e02eb562a34974}{\index{\-Notification plugin@{\-Notification plugin}!set\-Say\-Order@{set\-Say\-Order}}
+\index{set\-Say\-Order@{set\-Say\-Order}!Notification plugin@{\-Notification plugin}}
+\subsubsection[{set\-Say\-Order}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Notification\-Item\-::set\-Say\-Order} (
+\begin{DoxyParamCaption}
+\item[{int}]{text}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___notify_plugin_ga0489a9c8b690360558e02eb562a34974}
+
+
+\-Definition at line 74 of file notificationitem.\-h.
+
+\hypertarget{group___notify_plugin_gacadb2d38a2a7d648f40454fd26f50ad8}{\index{\-Notification plugin@{\-Notification plugin}!set\-Single\-Value@{set\-Single\-Value}}
+\index{set\-Single\-Value@{set\-Single\-Value}!Notification plugin@{\-Notification plugin}}
+\subsubsection[{set\-Single\-Value}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Notification\-Item\-::set\-Single\-Value} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Variant}]{value}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___notify_plugin_gacadb2d38a2a7d648f40454fd26f50ad8}
+
+
+\-Definition at line 77 of file notificationitem.\-h.
+
+\hypertarget{group___notify_plugin_ga51e72a159e74fc6c2f4575589caaf5b1}{\index{\-Notification plugin@{\-Notification plugin}!set\-Sound\-Collection\-Path@{set\-Sound\-Collection\-Path}}
+\index{set\-Sound\-Collection\-Path@{set\-Sound\-Collection\-Path}!Notification plugin@{\-Notification plugin}}
+\subsubsection[{set\-Sound\-Collection\-Path}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Notification\-Item\-::set\-Sound\-Collection\-Path} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Q\-String}}]{path}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___notify_plugin_ga51e72a159e74fc6c2f4575589caaf5b1}
+
+
+\-Definition at line 89 of file notificationitem.\-h.
+
+\hypertarget{group___notify_plugin_gaf9a1d6d8fdc19a2e0124890e06fd3ee3}{\index{\-Notification plugin@{\-Notification plugin}!set\-Value\-Range2@{set\-Value\-Range2}}
+\index{set\-Value\-Range2@{set\-Value\-Range2}!Notification plugin@{\-Notification plugin}}
+\subsubsection[{set\-Value\-Range2}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Notification\-Item\-::set\-Value\-Range2} (
+\begin{DoxyParamCaption}
+\item[{double}]{value}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___notify_plugin_gaf9a1d6d8fdc19a2e0124890e06fd3ee3}
+
+
+\-Definition at line 80 of file notificationitem.\-h.
+
+\hypertarget{group___notify_plugin_ga2f91d9771233415fa6d23a8087331df9}{\index{\-Notification plugin@{\-Notification plugin}!shutdown@{shutdown}}
+\index{shutdown@{shutdown}!Notification plugin@{\-Notification plugin}}
+\subsubsection[{shutdown}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Sound\-Notify\-Plugin\-::shutdown} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}\label{group___notify_plugin_ga2f91d9771233415fa6d23a8087331df9}
+\-Called during a shutdown sequence in the same order as initialization before the plugins get deleted in reverse order. \-This method can be used to optimize the shutdown down, e.\-g. to disconnect from the \-Plugin\-Manager\-::about\-To\-Remove\-Object() signal if getting the signal (and probably doing lots of stuff to update the internal and visible state) doesn't make sense during shutdown. 
+
+\-Reimplemented from \hyperlink{class_extension_system_1_1_i_plugin_a65c16ebd3a6e89918a99af6515fe68cb}{\-Extension\-System\-::\-I\-Plugin}.
+
+
+
+\-Definition at line 136 of file notifyplugin.\-cpp.
+
+\hypertarget{group___notify_plugin_ga2c73d25e5b3deadb7b7aec06957e91c5}{\index{\-Notification plugin@{\-Notification plugin}!single\-Value@{single\-Value}}
+\index{single\-Value@{single\-Value}!Notification plugin@{\-Notification plugin}}
+\subsubsection[{single\-Value}]{\setlength{\rightskip}{0pt plus 5cm}\-Q\-Variant {\bf \-Notification\-Item\-::single\-Value} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___notify_plugin_ga2c73d25e5b3deadb7b7aec06957e91c5}
+
+
+\-Definition at line 76 of file notificationitem.\-h.
+
+\hypertarget{group___notify_plugin_ga5529e9472e4132a0066755c88969323b}{\index{\-Notification plugin@{\-Notification plugin}!size\-Hint@{size\-Hint}}
+\index{size\-Hint@{size\-Hint}!Notification plugin@{\-Notification plugin}}
+\subsubsection[{size\-Hint}]{\setlength{\rightskip}{0pt plus 5cm}\-Q\-Size {\bf \-Notify\-Item\-Delegate\-::size\-Hint} (
+\begin{DoxyParamCaption}
+\item[{const \-Q\-Style\-Option\-View\-Item \&}]{option, }
+\item[{const \-Q\-Model\-Index \&}]{index}
+\end{DoxyParamCaption}
+) const}}\label{group___notify_plugin_ga5529e9472e4132a0066755c88969323b}
+
+
+\-Definition at line 156 of file notifyitemdelegate.\-cpp.
+
+\hypertarget{group___notify_plugin_ga4ac47c6cde68d633ead0764296f9a737}{\index{\-Notification plugin@{\-Notification plugin}!\-Sound\-Notify\-Plugin@{\-Sound\-Notify\-Plugin}}
+\index{\-Sound\-Notify\-Plugin@{\-Sound\-Notify\-Plugin}!Notification plugin@{\-Notification plugin}}
+\subsubsection[{\-Sound\-Notify\-Plugin}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Sound\-Notify\-Plugin\-::\-Sound\-Notify\-Plugin} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___notify_plugin_ga4ac47c6cde68d633ead0764296f9a737}
+
+
+\-Definition at line 51 of file notifyplugin.\-cpp.
+
+\hypertarget{group___notify_plugin_ga1cea7db89fc4ba5cc6177e4676fc6f5b}{\index{\-Notification plugin@{\-Notification plugin}!start\-Expire\-Timer@{start\-Expire\-Timer}}
+\index{start\-Expire\-Timer@{start\-Expire\-Timer}!Notification plugin@{\-Notification plugin}}
+\subsubsection[{start\-Expire\-Timer}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Notification\-Item\-::start\-Expire\-Timer} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___notify_plugin_ga1cea7db89fc4ba5cc6177e4676fc6f5b}
+
+
+\-Definition at line 227 of file notificationitem.\-cpp.
+
+\hypertarget{group___notify_plugin_gaa7aa70f2843fa4dfaf65d257280afc6b}{\index{\-Notification plugin@{\-Notification plugin}!start\-Timer@{start\-Timer}}
+\index{start\-Timer@{start\-Timer}!Notification plugin@{\-Notification plugin}}
+\subsubsection[{start\-Timer}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Notification\-Item\-::start\-Timer} (
+\begin{DoxyParamCaption}
+\item[{int}]{value}
+\end{DoxyParamCaption}
+)}}\label{group___notify_plugin_gaa7aa70f2843fa4dfaf65d257280afc6b}
+
+
+\-Definition at line 190 of file notificationitem.\-cpp.
+
+\hypertarget{group___notify_plugin_gafff508e9352fb1a5ed40502e6845ebef}{\index{\-Notification plugin@{\-Notification plugin}!stop\-Expire\-Timer@{stop\-Expire\-Timer}}
+\index{stop\-Expire\-Timer@{stop\-Expire\-Timer}!Notification plugin@{\-Notification plugin}}
+\subsubsection[{stop\-Expire\-Timer}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Notification\-Item\-::stop\-Expire\-Timer} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___notify_plugin_gafff508e9352fb1a5ed40502e6845ebef}
+
+
+\-Definition at line 235 of file notificationitem.\-cpp.
+
+\hypertarget{group___notify_plugin_ga40c3dd7de6f84d1c49d6536d3bf7c310}{\index{\-Notification plugin@{\-Notification plugin}!stop\-Timer@{stop\-Timer}}
+\index{stop\-Timer@{stop\-Timer}!Notification plugin@{\-Notification plugin}}
+\subsubsection[{stop\-Timer}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Notification\-Item\-::stop\-Timer} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___notify_plugin_ga40c3dd7de6f84d1c49d6536d3bf7c310}
+
+
+\-Definition at line 210 of file notificationitem.\-cpp.
+
+\hypertarget{group___notify_plugin_ga16f7f909377f59dda529965c201a37a8}{\index{\-Notification plugin@{\-Notification plugin}!string\-From\-Value@{string\-From\-Value}}
+\index{string\-From\-Value@{string\-From\-Value}!Notification plugin@{\-Notification plugin}}
+\subsubsection[{string\-From\-Value}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Q\-String} {\bf string\-From\-Value} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-Variant}]{value, }
+\item[{{\bf \-U\-A\-V\-Object\-Field} $\ast$}]{field}
+\end{DoxyParamCaption}
+)}}\label{group___notify_plugin_ga16f7f909377f59dda529965c201a37a8}
+
+
+\-Definition at line 337 of file notificationitem.\-cpp.
+
+\hypertarget{group___notify_plugin_gac83d6e04277e98b87cb42b0ab9b3c9be}{\index{\-Notification plugin@{\-Notification plugin}!supported\-Drop\-Actions@{supported\-Drop\-Actions}}
+\index{supported\-Drop\-Actions@{supported\-Drop\-Actions}!Notification plugin@{\-Notification plugin}}
+\subsubsection[{supported\-Drop\-Actions}]{\setlength{\rightskip}{0pt plus 5cm}\-Qt\-::\-Drop\-Actions {\bf \-Notify\-Table\-Model\-::supported\-Drop\-Actions} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{group___notify_plugin_gac83d6e04277e98b87cb42b0ab9b3c9be}
+
+
+\-Definition at line 176 of file notifytablemodel.\-cpp.
+
+\hypertarget{group___notify_plugin_ga3fa8d750e630be2b90fbbe2ad536a55b}{\index{\-Notification plugin@{\-Notification plugin}!to\-Sound\-List@{to\-Sound\-List}}
+\index{to\-Sound\-List@{to\-Sound\-List}!Notification plugin@{\-Notification plugin}}
+\subsubsection[{to\-Sound\-List}]{\setlength{\rightskip}{0pt plus 5cm}\-Q\-String\-List \& {\bf \-Notification\-Item\-::to\-Sound\-List} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___notify_plugin_ga3fa8d750e630be2b90fbbe2ad536a55b}
+\-Generate list of sound files needed to play notification
+
+\begin{DoxyReturn}{\-Returns}
+success -\/ reference to non-\/empty \-\_\-message\-Sequence; error -\/ if one of sounds doesn't exist returns reference to empty \-\_\-message\-Sequence; 
+\end{DoxyReturn}
+
+
+\-Definition at line 385 of file notificationitem.\-cpp.
+
+\hypertarget{group___notify_plugin_gacced9ea8ef4e62bf9f126766c99514c9}{\index{\-Notification plugin@{\-Notification plugin}!to\-String@{to\-String}}
+\index{to\-String@{to\-String}!Notification plugin@{\-Notification plugin}}
+\subsubsection[{to\-String}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Q\-String} {\bf \-Notification\-Item\-::to\-String} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___notify_plugin_gacced9ea8ef4e62bf9f126766c99514c9}
+\-Convert notification item fields in single string, to show in table for example
+
+\begin{DoxyReturn}{\-Returns}
+string which describe notification 
+\end{DoxyReturn}
+
+
+\-Definition at line 354 of file notificationitem.\-cpp.
+
+\hypertarget{group___notify_plugin_ga963ad76e88d1a3737bd5d12e493c214a}{\index{\-Notification plugin@{\-Notification plugin}!tr\-Category@{tr\-Category}}
+\index{tr\-Category@{tr\-Category}!Notification plugin@{\-Notification plugin}}
+\subsubsection[{tr\-Category}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Q\-String} {\bf \-Notify\-Plugin\-Options\-Page\-::tr\-Category} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}inline, virtual\mbox{]}}}}\label{group___notify_plugin_ga963ad76e88d1a3737bd5d12e493c214a}
+
+
+\-Reimplemented from \hyperlink{group___core_plugin_gac5538fc040c826784167edb4fc359b68}{\-Core\-::\-I\-Options\-Page}.
+
+
+
+\-Definition at line 72 of file notifypluginoptionspage.\-h.
+
+\hypertarget{group___notify_plugin_ga156b37b99e34d9b0e865f57efaa55f3c}{\index{\-Notification plugin@{\-Notification plugin}!tr\-Name@{tr\-Name}}
+\index{tr\-Name@{tr\-Name}!Notification plugin@{\-Notification plugin}}
+\subsubsection[{tr\-Name}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Q\-String} {\bf \-Notify\-Plugin\-Options\-Page\-::tr\-Name} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}inline, virtual\mbox{]}}}}\label{group___notify_plugin_ga156b37b99e34d9b0e865f57efaa55f3c}
+
+
+\-Reimplemented from \hyperlink{group___core_plugin_ga9bda94026b37720a30f4294560c79244}{\-Core\-::\-I\-Options\-Page}.
+
+
+
+\-Definition at line 70 of file notifypluginoptionspage.\-h.
+
+\hypertarget{group___notify_plugin_ga55c7c963b3a43675f58dfe2af221b0c2}{\index{\-Notification plugin@{\-Notification plugin}!value\-Range2@{value\-Range2}}
+\index{value\-Range2@{value\-Range2}!Notification plugin@{\-Notification plugin}}
+\subsubsection[{value\-Range2}]{\setlength{\rightskip}{0pt plus 5cm}double {\bf \-Notification\-Item\-::value\-Range2} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}\label{group___notify_plugin_ga55c7c963b3a43675f58dfe2af221b0c2}
+
+
+\-Definition at line 79 of file notificationitem.\-h.
+
+\hypertarget{group___notify_plugin_ga52304989291ca82805ab0749694bfbce}{\index{\-Notification plugin@{\-Notification plugin}!value\-To\-Sound\-List@{value\-To\-Sound\-List}}
+\index{value\-To\-Sound\-List@{value\-To\-Sound\-List}!Notification plugin@{\-Notification plugin}}
+\subsubsection[{value\-To\-Sound\-List}]{\setlength{\rightskip}{0pt plus 5cm}\-Q\-String\-List {\bf value\-To\-Sound\-List} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Q\-String}}]{value}
+\end{DoxyParamCaption}
+)}}\label{group___notify_plugin_ga52304989291ca82805ab0749694bfbce}
+
+
+\-Definition at line 275 of file notificationitem.\-cpp.
+
+\hypertarget{group___notify_plugin_ga312b0e9ce81892b5388bb21c4f4c426a}{\index{\-Notification plugin@{\-Notification plugin}!$\sim$\-Notify\-Plugin\-Factory@{$\sim$\-Notify\-Plugin\-Factory}}
+\index{$\sim$\-Notify\-Plugin\-Factory@{$\sim$\-Notify\-Plugin\-Factory}!Notification plugin@{\-Notification plugin}}
+\subsubsection[{$\sim$\-Notify\-Plugin\-Factory}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Notify\-Plugin\-Factory\-::$\sim$\-Notify\-Plugin\-Factory} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___notify_plugin_ga312b0e9ce81892b5388bb21c4f4c426a}
+
+
+\-Definition at line 44 of file notifypluginfactory.\-cpp.
+
+\hypertarget{group___notify_plugin_ga2b03f730db4ecb4673e46a323c9cbc45}{\index{\-Notification plugin@{\-Notification plugin}!$\sim$\-Notify\-Plugin\-Gadget@{$\sim$\-Notify\-Plugin\-Gadget}}
+\index{$\sim$\-Notify\-Plugin\-Gadget@{$\sim$\-Notify\-Plugin\-Gadget}!Notification plugin@{\-Notification plugin}}
+\subsubsection[{$\sim$\-Notify\-Plugin\-Gadget}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Notify\-Plugin\-Gadget\-::$\sim$\-Notify\-Plugin\-Gadget} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___notify_plugin_ga2b03f730db4ecb4673e46a323c9cbc45}
+\hypertarget{group___notify_plugin_ga3dfd084ec6b7b9f55aeb3a5c475b11d7}{\index{\-Notification plugin@{\-Notification plugin}!$\sim$\-Notify\-Plugin\-Options\-Page@{$\sim$\-Notify\-Plugin\-Options\-Page}}
+\index{$\sim$\-Notify\-Plugin\-Options\-Page@{$\sim$\-Notify\-Plugin\-Options\-Page}!Notification plugin@{\-Notification plugin}}
+\subsubsection[{$\sim$\-Notify\-Plugin\-Options\-Page}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Notify\-Plugin\-Options\-Page\-::$\sim$\-Notify\-Plugin\-Options\-Page} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___notify_plugin_ga3dfd084ec6b7b9f55aeb3a5c475b11d7}
+
+
+\-Definition at line 73 of file notifypluginoptionspage.\-cpp.
+
+\hypertarget{group___notify_plugin_ga41104bb06fbf94801a798514294d39c3}{\index{\-Notification plugin@{\-Notification plugin}!$\sim$\-Sound\-Notify\-Plugin@{$\sim$\-Sound\-Notify\-Plugin}}
+\index{$\sim$\-Sound\-Notify\-Plugin@{$\sim$\-Sound\-Notify\-Plugin}!Notification plugin@{\-Notification plugin}}
+\subsubsection[{$\sim$\-Sound\-Notify\-Plugin}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Sound\-Notify\-Plugin\-::$\sim$\-Sound\-Notify\-Plugin} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___notify_plugin_ga41104bb06fbf94801a798514294d39c3}
+
+
+\-Definition at line 56 of file notifyplugin.\-cpp.
+
+
+
+\subsection{\-Variable \-Documentation}
+\hypertarget{group___notify_plugin_ga6469ec28d3051122de855c266d0dc6dd}{\index{\-Notification plugin@{\-Notification plugin}!\-\_\-is\-Played@{\-\_\-is\-Played}}
+\index{\-\_\-is\-Played@{\-\_\-is\-Played}!Notification plugin@{\-Notification plugin}}
+\subsubsection[{\-\_\-is\-Played}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-Notification\-Item\-::\-\_\-is\-Played}}}\label{group___notify_plugin_ga6469ec28d3051122de855c266d0dc6dd}
+
+
+\-Definition at line 155 of file notificationitem.\-h.
+
+\hypertarget{group___notify_plugin_ga9823971d5ab6a1e6f68073d8553a7414}{\index{\-Notification plugin@{\-Notification plugin}!condition\-Values@{condition\-Values}}
+\index{condition\-Values@{condition\-Values}!Notification plugin@{\-Notification plugin}}
+\subsubsection[{condition\-Values}]{\setlength{\rightskip}{0pt plus 5cm}\-Q\-String\-List {\bf \-Notify\-Plugin\-Options\-Page\-::condition\-Values}\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}\label{group___notify_plugin_ga9823971d5ab6a1e6f68073d8553a7414}
+
+
+\-Definition at line 78 of file notifypluginoptionspage.\-h.
+
+\hypertarget{group___notify_plugin_ga86b5c4ceede5297e656149cd1f1af3fe}{\index{\-Notification plugin@{\-Notification plugin}!first\-Play@{first\-Play}}
+\index{first\-Play@{first\-Play}!Notification plugin@{\-Notification plugin}}
+\subsubsection[{first\-Play}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-Phonon\-Object\-::first\-Play}}}\label{group___notify_plugin_ga86b5c4ceede5297e656149cd1f1af3fe}
+
+
+\-Definition at line 51 of file notifyplugin.\-h.
+
+\hypertarget{group___notify_plugin_gabd9ee81e318805b60e89e7045eb7deaa}{\index{\-Notification plugin@{\-Notification plugin}!is\-Now\-Playing@{is\-Now\-Playing}}
+\index{is\-Now\-Playing@{is\-Now\-Playing}!Notification plugin@{\-Notification plugin}}
+\subsubsection[{is\-Now\-Playing}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-Notification\-Item\-::is\-Now\-Playing}}}\label{group___notify_plugin_gabd9ee81e318805b60e89e7045eb7deaa}
+
+
+\-Definition at line 154 of file notificationitem.\-h.
+
+\hypertarget{group___notify_plugin_ga326ccffe8d16a6f14d44c2048dea58a7}{\index{\-Notification plugin@{\-Notification plugin}!mime\-\_\-type\-\_\-notify\-\_\-table@{mime\-\_\-type\-\_\-notify\-\_\-table}}
+\index{mime\-\_\-type\-\_\-notify\-\_\-table@{mime\-\_\-type\-\_\-notify\-\_\-table}!Notification plugin@{\-Notification plugin}}
+\subsubsection[{mime\-\_\-type\-\_\-notify\-\_\-table}]{\setlength{\rightskip}{0pt plus 5cm}const char$\ast$ {\bf mime\-\_\-type\-\_\-notify\-\_\-table} = \char`\"{}openpilot/notify\-\_\-plugin\-\_\-table\char`\"{}}}\label{group___notify_plugin_ga326ccffe8d16a6f14d44c2048dea58a7}
+
+
+\-Definition at line 37 of file notifytablemodel.\-cpp.
+
+\hypertarget{group___notify_plugin_ga3b35d975a7599cd263b275559734e54d}{\index{\-Notification plugin@{\-Notification plugin}!mo@{mo}}
+\index{mo@{mo}!Notification plugin@{\-Notification plugin}}
+\subsubsection[{mo}]{\setlength{\rightskip}{0pt plus 5cm}\-Phonon\-::\-Media\-Object$\ast$ {\bf \-Phonon\-Object\-::mo}}}\label{group___notify_plugin_ga3b35d975a7599cd263b275559734e54d}
+
+
+\-Definition at line 49 of file notifyplugin.\-h.
+
+\hypertarget{group___notify_plugin_ga82a15e7062562dabd14047b2e5398889}{\index{\-Notification plugin@{\-Notification plugin}!notify@{notify}}
+\index{notify@{notify}!Notification plugin@{\-Notification plugin}}
+\subsubsection[{notify}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Notification\-Item}$\ast$ {\bf \-Phonon\-Object\-::notify}}}\label{group___notify_plugin_ga82a15e7062562dabd14047b2e5398889}
+
+
+\-Definition at line 50 of file notifyplugin.\-h.
+
+\hypertarget{group___notify_plugin_ga7c47e100b3ea3f8b527dbdea2385edd0}{\index{\-Notification plugin@{\-Notification plugin}!retry\-Values@{retry\-Values}}
+\index{retry\-Values@{retry\-Values}!Notification plugin@{\-Notification plugin}}
+\subsubsection[{retry\-Values}]{\setlength{\rightskip}{0pt plus 5cm}\-Q\-String\-List {\bf \-Notification\-Item\-::retry\-Values}\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}\label{group___notify_plugin_ga7c47e100b3ea3f8b527dbdea2385edd0}
+
+
+\-Definition at line 158 of file notificationitem.\-h.
+
+\hypertarget{group___notify_plugin_ga856cd4e9d78e6c8900f9de74f0f25dac}{\index{\-Notification plugin@{\-Notification plugin}!say\-Order\-Values@{say\-Order\-Values}}
+\index{say\-Order\-Values@{say\-Order\-Values}!Notification plugin@{\-Notification plugin}}
+\subsubsection[{say\-Order\-Values}]{\setlength{\rightskip}{0pt plus 5cm}\-Q\-String\-List {\bf \-Notification\-Item\-::say\-Order\-Values}\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}\label{group___notify_plugin_ga856cd4e9d78e6c8900f9de74f0f25dac}
+
+
+\-Definition at line 157 of file notificationitem.\-h.
+
+
+
+\subsection{\-Signals}
+\hypertarget{group___notify_plugin_ga87b02089128dd9f2eddbd2e70040201f}{\index{\-Notification plugin@{\-Notification plugin}!drag\-Rows@{drag\-Rows}}
+\index{drag\-Rows@{drag\-Rows}!Notification plugin@{\-Notification plugin}}
+\subsubsection[{drag\-Rows}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Notify\-Table\-Model\-::drag\-Rows} (
+\begin{DoxyParamCaption}
+\item[{int}]{position, }
+\item[{int}]{count}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}signal\mbox{]}}}}\label{group___notify_plugin_ga87b02089128dd9f2eddbd2e70040201f}
+\hypertarget{group___notify_plugin_gacfc979fcc446bc951c04ba8741231190}{\index{\-Notification plugin@{\-Notification plugin}!entry\-Updated@{entry\-Updated}}
+\index{entry\-Updated@{entry\-Updated}!Notification plugin@{\-Notification plugin}}
+\subsubsection[{entry\-Updated}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Notify\-Plugin\-Options\-Page\-::entry\-Updated} (
+\begin{DoxyParamCaption}
+\item[{int}]{index}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}signal\mbox{]}}}}\label{group___notify_plugin_gacfc979fcc446bc951c04ba8741231190}
+\hypertarget{group___notify_plugin_gadbd273176d3047b997383d3791fcf3aa}{\index{\-Notification plugin@{\-Notification plugin}!update\-Notifications@{update\-Notifications}}
+\index{update\-Notifications@{update\-Notifications}!Notification plugin@{\-Notification plugin}}
+\subsubsection[{update\-Notifications}]{\setlength{\rightskip}{0pt plus 5cm}{\bf void} {\bf \-Notify\-Plugin\-Options\-Page\-::update\-Notifications} (
+\begin{DoxyParamCaption}
+\item[{\-Q\-List$<$ {\bf \-Notification\-Item} $\ast$ $>$}]{list}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}signal\mbox{]}}}}\label{group___notify_plugin_gadbd273176d3047b997383d3791fcf3aa}

@@ -1,4 +1,0 @@
-var structei__functor__allows__mixing__real__and__complex_3_01ei__scalar__product__op_3_01_scalar_01_4_01_4 =
-[
-    [ "ret", "structei__functor__allows__mixing__real__and__complex_3_01ei__scalar__product__op_3_01_scalar_01_4_01_4.html#a2b9505be01d32558491881090df617b4a43c3b5d5c589b5fdc0d5c5e59451062b", null ]
-];

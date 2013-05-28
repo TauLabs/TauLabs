@@ -1,8 +1,9 @@
 var submiteditorwidget_8cpp =
 [
-    [ "QActionPushButton", "class_utils_1_1_q_action_push_button.html", "class_utils_1_1_q_action_push_button" ],
-    [ "SubmitEditorWidgetPrivate", "struct_utils_1_1_submit_editor_widget_private.html", "struct_utils_1_1_submit_editor_widget_private" ],
-    [ "debug", "submiteditorwidget_8cpp.html#a48b7364b5ceec8a2d131dc2cf2587628a5be0fd270d9cbf6a0b7445db855089da", null ],
-    [ "defaultLineWidth", "submiteditorwidget_8cpp.html#aafc5993fe6fd7fec62e94ef57859c353afaa7340a7d538cdf4202edfd8d5ebb9c", null ],
-    [ "selectedRows", "submiteditorwidget_8cpp.html#a83145cfcb4c857f7b60f65d03e9e2b61", null ]
+    [ "listModelChecked", "namespace_utils.html#a566b7671d0920774499d13dbf4d2fd40", null ],
+    [ "listModelContainsCheckedItem", "namespace_utils.html#af941b2543f7e00d7ff1814715cf605d8", null ],
+    [ "listModelText", "namespace_utils.html#a15610c952f1758b83cec6912ba981f07", null ],
+    [ "selectedRows", "namespace_utils.html#a83145cfcb4c857f7b60f65d03e9e2b61", null ],
+    [ "trimMessageText", "namespace_utils.html#abd9279002df34c92b38375f269673a5f", null ],
+    [ "wrappedText", "namespace_utils.html#a56261285511073d8aae47c9859d96406", null ]
 ];

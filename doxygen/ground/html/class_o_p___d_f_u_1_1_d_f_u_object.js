@@ -4,6 +4,8 @@ var class_o_p___d_f_u_1_1_d_f_u_object =
     [ "~DFUObject", "group___uploader.html#gad3eb7cce298c72c456a84eb04cc9c0fe", null ],
     [ "AbortOperation", "group___uploader.html#gaa448917a297dd634c2ab4d760a6c402d", null ],
     [ "CompareFirmware", "group___uploader.html#ga3c9852f8106d7177b5e27087f6e28764", null ],
+    [ "CRC32WideFast", "group___uploader.html#gae755106568ea0611498e45e43bfa9e4d", null ],
+    [ "CRCFromQBArray", "group___uploader.html#ga8b3213586813e0e852bd8e8460f02fc0", null ],
     [ "DownloadDescription", "group___uploader.html#ga5c3ae32c69bac4c663f6be430da1db3d", null ],
     [ "DownloadDescriptionAsBA", "group___uploader.html#gaa0f76d47015fa313a0bcf555bb0e690b", null ],
     [ "downloadFinished", "class_o_p___d_f_u_1_1_d_f_u_object.html#aa992a6776ef6e88ef4be90c9edc6c647", null ],

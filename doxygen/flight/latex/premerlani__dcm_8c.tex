@@ -1,57 +1,57 @@
-\hypertarget{premerlani__dcm_8c}{\section{/home/jose/\-Code/gui\-Tau/flight/\-Libraries/\-State\-Estimation\-Filters/premerlani\-\_\-dcm.c File Reference}
-\label{premerlani__dcm_8c}\index{/home/jose/\-Code/gui\-Tau/flight/\-Libraries/\-State\-Estimation\-Filters/premerlani\-\_\-dcm.\-c@{/home/jose/\-Code/gui\-Tau/flight/\-Libraries/\-State\-Estimation\-Filters/premerlani\-\_\-dcm.\-c}}
+\hypertarget{premerlani__dcm_8c}{\section{/home/jb/code/\-Tau\-Labs/flight/\-Libraries/\-State\-Estimation\-Filters/premerlani\-\_\-dcm.c \-File \-Reference}
+\label{premerlani__dcm_8c}\index{/home/jb/code/\-Tau\-Labs/flight/\-Libraries/\-State\-Estimation\-Filters/premerlani\-\_\-dcm.\-c@{/home/jb/code/\-Tau\-Labs/flight/\-Libraries/\-State\-Estimation\-Filters/premerlani\-\_\-dcm.\-c}}
 }
 
 
-Module to handle all comms to the A\-H\-R\-S on a periodic basis.  
+\-D\-C\-M algorithm implementation used by \-State\-Module.  
 
 
-\subsection*{Data Structures}
+\subsection*{\-Data \-Structures}
 \begin{DoxyCompactItemize}
 \item 
-struct \hyperlink{struct_global_dcm_drift_variables}{Global\-Dcm\-Drift\-Variables}
+struct \hyperlink{struct_global_dcm_drift_variables}{\-Global\-Dcm\-Drift\-Variables}
 \end{DoxyCompactItemize}
-\subsection*{Enumerations}
+\subsection*{\-Enumerations}
 \begin{DoxyCompactItemize}
 \item 
-enum \hyperlink{group___attitude_ga0c4491990a84594e2c930826b64b725c}{D\-R\-I\-F\-T\-\_\-\-C\-O\-R\-R\-E\-C\-T\-I\-O\-N\-\_\-\-A\-L\-G\-O\-S} \{ \\*
-\hyperlink{group___attitude_gga0c4491990a84594e2c930826b64b725ca34fecf46a591d355d8d76d32e4b5d469}{C\-C\-C}, 
-\hyperlink{group___attitude_gga0c4491990a84594e2c930826b64b725ca7f012e6cc49436cc18a3204777eb9834}{P\-R\-E\-M\-E\-R\-L\-A\-N\-I}, 
-\hyperlink{group___attitude_gga0c4491990a84594e2c930826b64b725ca34fecf46a591d355d8d76d32e4b5d469}{C\-C\-C}, 
-\hyperlink{group___attitude_gga0c4491990a84594e2c930826b64b725ca7f012e6cc49436cc18a3204777eb9834}{P\-R\-E\-M\-E\-R\-L\-A\-N\-I}, 
-\\*
-\hyperlink{group___attitude_gga0c4491990a84594e2c930826b64b725ca34fecf46a591d355d8d76d32e4b5d469}{C\-C\-C}, 
-\hyperlink{group___attitude_gga0c4491990a84594e2c930826b64b725ca7f012e6cc49436cc18a3204777eb9834}{P\-R\-E\-M\-E\-R\-L\-A\-N\-I}
+enum \hyperlink{group___state_estimation_filters_ga0c4491990a84594e2c930826b64b725c}{\-D\-R\-I\-F\-T\-\_\-\-C\-O\-R\-R\-E\-C\-T\-I\-O\-N\-\_\-\-A\-L\-G\-O\-S} \{ \*
+\hyperlink{group___c_c_state_gga0c4491990a84594e2c930826b64b725ca34fecf46a591d355d8d76d32e4b5d469}{\-C\-C\-C}, 
+\hyperlink{group___c_c_state_gga0c4491990a84594e2c930826b64b725ca7f012e6cc49436cc18a3204777eb9834}{\-P\-R\-E\-M\-E\-R\-L\-A\-N\-I}, 
+\hyperlink{group___c_c_state_gga0c4491990a84594e2c930826b64b725ca34fecf46a591d355d8d76d32e4b5d469}{\-C\-C\-C}, 
+\hyperlink{group___c_c_state_gga0c4491990a84594e2c930826b64b725ca7f012e6cc49436cc18a3204777eb9834}{\-P\-R\-E\-M\-E\-R\-L\-A\-N\-I}, 
+\*
+\hyperlink{group___c_c_state_gga0c4491990a84594e2c930826b64b725ca34fecf46a591d355d8d76d32e4b5d469}{\-C\-C\-C}, 
+\hyperlink{group___c_c_state_gga0c4491990a84594e2c930826b64b725ca7f012e6cc49436cc18a3204777eb9834}{\-P\-R\-E\-M\-E\-R\-L\-A\-N\-I}
  \}
 \end{DoxyCompactItemize}
-\subsection*{Functions}
+\subsection*{\-Functions}
 \begin{DoxyCompactItemize}
 \item 
-\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___attitude_gafac439746843ae2cfb6a4a053a66dc7e}{Premerlani\-\_\-\-D\-C\-M} (float $\ast$\hyperlink{pios__opahrs__proto_8h_a95ac7014e5b72e25193076997442b227}{accels}, float $\ast$\hyperlink{pios__opahrs__proto_8h_ac76cbe9fe0157f71b7a76e57ef3bf7b1}{gyros}, float Rbe\mbox{[}3\mbox{]}\mbox{[}3\mbox{]}, \hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} float del\-T, \hyperlink{group___exported__types_gaf6a258d8f3ee5206d682d799316314b1}{bool} G\-P\-S\-\_\-\-Drift\-\_\-\-Compensation, \hyperlink{struct_global_attitude_variables}{Global\-Attitude\-Variables} $\ast$\hyperlink{group___state_ga76682d72011dc0109f1d5cf25a6c6da0}{glbl\-Att}, float $\ast$omega\-Corr\-P)
+void \hyperlink{group___state_estimation_filters_gafac439746843ae2cfb6a4a053a66dc7e}{\-Premerlani\-\_\-\-D\-C\-M} (float $\ast$accels, float $\ast$gyros, float \-Rbe\mbox{[}3\mbox{]}\mbox{[}3\mbox{]}, const float del\-T, bool \-G\-P\-S\-\_\-\-Drift\-\_\-\-Compensation, \hyperlink{struct_global_attitude_variables}{\-Global\-Attitude\-Variables} $\ast$\hyperlink{group___c_c_state_ga76682d72011dc0109f1d5cf25a6c6da0}{glbl\-Att}, float $\ast$omega\-Corr\-P)
 \end{DoxyCompactItemize}
-\subsection*{Variables}
+\subsection*{\-Variables}
 \begin{DoxyCompactItemize}
 \item 
-Attitude\-Settings\-Data \hyperlink{group___attitude_ga8f6543ab52bafea6c0858baeeae8db59}{attitude\-Settings}
+\-Attitude\-Settings\-Data \hyperlink{group___state_estimation_filters_ga8f6543ab52bafea6c0858baeeae8db59}{attitude\-Settings}
 \item 
-Sensor\-Settings\-Data \hyperlink{group___attitude_ga7e2b26cdc0322ab9457559aa2b94f8fc}{sensor\-Settings}
+\-Sensor\-Settings\-Data \hyperlink{group___state_estimation_filters_ga7e2b26cdc0322ab9457559aa2b94f8fc}{sensor\-Settings}
 \item 
-Gyros\-Bias\-Data \hyperlink{group___attitude_ga233a2d6850e9c466f80ae6bb2ebd98e8}{gyros\-Bias}
+\-Gyros\-Bias\-Data \hyperlink{group___state_estimation_filters_ga233a2d6850e9c466f80ae6bb2ebd98e8}{gyros\-Bias}
 \item 
-struct \hyperlink{struct_global_dcm_drift_variables}{Global\-Dcm\-Drift\-Variables} $\ast$ \hyperlink{group___attitude_ga89657be5e41cdb8b74d42e587333115a}{drft}
+struct \hyperlink{struct_global_dcm_drift_variables}{\-Global\-Dcm\-Drift\-Variables} $\ast$ \hyperlink{group___state_estimation_filters_ga89657be5e41cdb8b74d42e587333115a}{drft}
 \end{DoxyCompactItemize}
 
 
-\subsection{Detailed Description}
-Module to handle all comms to the A\-H\-R\-S on a periodic basis. \begin{DoxyAuthor}{Author}
-The Open\-Pilot Team, \href{http://www.openpilot.org}{\tt http\-://www.\-openpilot.\-org} Copyright (C) 2010. 
+\subsection{\-Detailed \-Description}
+\-D\-C\-M algorithm implementation used by \-State\-Module. \begin{DoxyAuthor}{\-Author}
+\-The \-Open\-Pilot \-Team, \href{http://www.openpilot.org}{\tt http\-://www.\-openpilot.\-org} \-Copyright (\-C) 2010. 
 
-Tau Labs, \href{http://www.taulabs.org}{\tt http\-://www.\-taulabs.\-org} Copyright (C) 2013. 
+\-Tau \-Labs, \href{http://taulabs.org,}{\tt http\-://taulabs.\-org,} \-Copyright (\-C) 2013 
 \end{DoxyAuthor}
-\begin{DoxySeeAlso}{See Also}
-The G\-N\-U Public License (G\-P\-L) Version 3 
+\begin{DoxySeeAlso}{\-See also}
+\-The \-G\-N\-U \-Public \-License (\-G\-P\-L) \-Version 3 
 \end{DoxySeeAlso}
 
 
-Definition in file \hyperlink{premerlani__dcm_8c_source}{premerlani\-\_\-dcm.\-c}.
+\-Definition in file \hyperlink{premerlani__dcm_8c_source}{premerlani\-\_\-dcm.\-c}.
 

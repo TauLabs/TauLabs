@@ -3,8 +3,6 @@ var searchData=
   ['valueparser_2ejava',['ValueParser.java',['../_value_parser_8java.html',1,'']]],
   ['variablemanager_2ecpp',['variablemanager.cpp',['../variablemanager_8cpp.html',1,'']]],
   ['variablemanager_2eh',['variablemanager.h',['../variablemanager_8h.html',1,'']]],
-  ['vector_2ec',['vector.c',['../vector_8c.html',1,'']]],
-  ['vector_2eh',['vector.h',['../vector_8h.html',1,'']]],
   ['vehicleconfig_2ecpp',['vehicleconfig.cpp',['../vehicleconfig_8cpp.html',1,'']]],
   ['vehicleconfig_2eh',['vehicleconfig.h',['../vehicleconfig_8h.html',1,'']]],
   ['vehicleconfigurationhelper_2ecpp',['vehicleconfigurationhelper.cpp',['../vehicleconfigurationhelper_8cpp.html',1,'']]],
@@ -14,8 +12,5 @@ var searchData=
   ['vehiclepage_2ecpp',['vehiclepage.cpp',['../vehiclepage_8cpp.html',1,'']]],
   ['vehiclepage_2eh',['vehiclepage.h',['../vehiclepage_8h.html',1,'']]],
   ['versiondialog_2ecpp',['versiondialog.cpp',['../versiondialog_8cpp.html',1,'']]],
-  ['versiondialog_2eh',['versiondialog.h',['../versiondialog_8h.html',1,'']]],
-  ['viewport_2ec',['viewport.c',['../viewport_8c.html',1,'']]],
-  ['viewport_2eh',['viewport.h',['../viewport_8h.html',1,'']]],
-  ['visitor_2eh',['Visitor.h',['../_visitor_8h.html',1,'']]]
+  ['versiondialog_2eh',['versiondialog.h',['../versiondialog_8h.html',1,'']]]
 ];

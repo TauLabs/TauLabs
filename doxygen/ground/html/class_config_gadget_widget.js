@@ -1,17 +1,6 @@
 var class_config_gadget_widget =
 [
-    [ "widgetTabs", "group___config_plugin.html#ga63fe84e8399ffe3db8ffa9c83b109c66", [
-      [ "hardware", "group___config_plugin.html#gga63fe84e8399ffe3db8ffa9c83b109c66a5d6b5e9de62beaabf98d3f3d4898bd37", null ],
-      [ "aircraft", "group___config_plugin.html#gga63fe84e8399ffe3db8ffa9c83b109c66a0daadf1249382ad3b13cd539bcafc8a5", null ],
-      [ "input", "group___config_plugin.html#gga63fe84e8399ffe3db8ffa9c83b109c66a0c4c2ed85d2c3d9acd90fbd2392f10aa", null ],
-      [ "output", "group___config_plugin.html#gga63fe84e8399ffe3db8ffa9c83b109c66ab940a2bf8cfb52030d1b1d7c0cddb5b2", null ],
-      [ "sensors", "group___config_plugin.html#gga63fe84e8399ffe3db8ffa9c83b109c66a9f0c06e93c63493f41060eb823cc2448", null ],
-      [ "stabilization", "group___config_plugin.html#gga63fe84e8399ffe3db8ffa9c83b109c66a4544ce691818bcec4988f0a3e5055b40", null ],
-      [ "camerastabilization", "group___config_plugin.html#gga63fe84e8399ffe3db8ffa9c83b109c66afb489ec55c65ac005cbe0319bab20e11", null ],
-      [ "txpid", "group___config_plugin.html#gga63fe84e8399ffe3db8ffa9c83b109c66a0926ebfc1e048a25fbe8816714dcb0c8", null ],
-      [ "oplink", "group___config_plugin.html#gga63fe84e8399ffe3db8ffa9c83b109c66a316bc45a7cc6c902ea6b24978bb7648f", null ],
-      [ "autotune", "group___config_plugin.html#gga63fe84e8399ffe3db8ffa9c83b109c66a446519617d79946d8c73fedbaf8b4e60", null ]
-    ] ],
+    [ "widgetTabs", "group___config_plugin.html#ga63fe84e8399ffe3db8ffa9c83b109c66", null ],
     [ "ConfigGadgetWidget", "group___config_plugin.html#gafc45c197f2917c39166b7d228d592784", null ],
     [ "~ConfigGadgetWidget", "group___config_plugin.html#gaeafab35f30d35ed548cda276953b8ad5", null ],
     [ "autopilotConnected", "group___config_plugin.html#ga5c7aaec226341fec654b07be4cdcd807", null ],

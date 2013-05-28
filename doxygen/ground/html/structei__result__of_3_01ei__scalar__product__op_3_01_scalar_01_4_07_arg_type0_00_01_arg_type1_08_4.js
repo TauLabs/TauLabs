@@ -1,4 +1,0 @@
-var structei__result__of_3_01ei__scalar__product__op_3_01_scalar_01_4_07_arg_type0_00_01_arg_type1_08_4 =
-[
-    [ "type", "structei__result__of_3_01ei__scalar__product__op_3_01_scalar_01_4_07_arg_type0_00_01_arg_type1_08_4.html#a3023414bdb89cee5248736ac07041ce2", null ]
-];

@@ -13,6 +13,7 @@ var classcore_1_1_url_factory =
     [ "setIsCorrectGoogleVersions", "group___o_p_map_widget.html#ga7770edaf0b058ba1317da2a627219fb1", null ],
     [ "LanguageStr", "group___o_p_map_widget.html#ga5d9399e074794da8ad0593e87e554228", null ],
     [ "Proxy", "group___o_p_map_widget.html#ga4851a6205d1885048a3417f736ec8679", null ],
+    [ "timelapse", "group___o_p_map_widget.html#ga5dba09925e03ae10c70290f9a2e9cc61", null ],
     [ "Timeout", "group___o_p_map_widget.html#gaee21c04663fde2b41c6d471456dc7325", null ],
     [ "UserAgent", "group___o_p_map_widget.html#ga9dbf3d049cf1947db76a0c87dd0821fc", null ]
 ];

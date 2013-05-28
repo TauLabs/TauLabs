@@ -1,86 +1,86 @@
-\hypertarget{uavtalk_8h}{\section{/home/jose/\-Code/gui\-Tau/flight/targets/\-U\-A\-V\-Talk/inc/uavtalk.h File Reference}
-\label{uavtalk_8h}\index{/home/jose/\-Code/gui\-Tau/flight/targets/\-U\-A\-V\-Talk/inc/uavtalk.\-h@{/home/jose/\-Code/gui\-Tau/flight/targets/\-U\-A\-V\-Talk/inc/uavtalk.\-h}}
+\hypertarget{uavtalk_8h}{\section{/home/jb/code/\-Tau\-Labs/flight/targets/\-U\-A\-V\-Talk/inc/uavtalk.h \-File \-Reference}
+\label{uavtalk_8h}\index{/home/jb/code/\-Tau\-Labs/flight/targets/\-U\-A\-V\-Talk/inc/uavtalk.\-h@{/home/jb/code/\-Tau\-Labs/flight/targets/\-U\-A\-V\-Talk/inc/uavtalk.\-h}}
 }
 
 
-Include file of the U\-A\-V\-Talk library.  
+\-Include file of the \-U\-A\-V\-Talk library.  
 
 
-\subsection*{Data Structures}
+\subsection*{\-Data \-Structures}
 \begin{DoxyCompactItemize}
 \item 
-struct \hyperlink{struct_u_a_v_talk_stats}{U\-A\-V\-Talk\-Stats}
+struct \hyperlink{struct_u_a_v_talk_stats}{\-U\-A\-V\-Talk\-Stats}
+\begin{DoxyCompactList}\small\item\em \-Tracking statistics for a \-U\-A\-V\-Talk connection. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef int32\-\_\-t($\ast$ \hyperlink{group___u_a_v_talk_ga0c67fb4d23157d56fe1982e4788938c7}{\-U\-A\-V\-Talk\-Output\-Stream} )(uint8\-\_\-t $\ast$data, int32\-\_\-t length)
+\item 
+typedef void $\ast$ \hyperlink{group___u_a_v_talk_gaeff1721eaebd4ab306057b4017f23f36}{\-U\-A\-V\-Talk\-Connection}
 \end{DoxyCompactItemize}
-\subsection*{Typedefs}
+\subsection*{\-Enumerations}
 \begin{DoxyCompactItemize}
 \item 
-typedef \hyperlink{group___n_a_m_e_gafd12020da5a235dfcf0c3c748fb5baed}{int32\-\_\-t}($\ast$ \hyperlink{group___open_pilot_libraries_ga0c67fb4d23157d56fe1982e4788938c7}{U\-A\-V\-Talk\-Output\-Stream} )(\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} $\ast$\hyperlink{pios__opahrs__proto_8h_a20e3f4bfaeccf09a75ef27e095a10112}{data}, \hyperlink{group___n_a_m_e_gafd12020da5a235dfcf0c3c748fb5baed}{int32\-\_\-t} \hyperlink{mavlink__helpers_8h_a4254bfa282bd215965d99b8d6b527a04}{length})
-\item 
-typedef \hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} $\ast$ \hyperlink{group___open_pilot_libraries_gaeff1721eaebd4ab306057b4017f23f36}{U\-A\-V\-Talk\-Connection}
-\end{DoxyCompactItemize}
-\subsection*{Enumerations}
-\begin{DoxyCompactItemize}
-\item 
-enum \hyperlink{group___open_pilot_libraries_ga8a49dc52ac01b5d0782811f284df691c}{U\-A\-V\-Talk\-Rx\-State} \{ \\*
-\hyperlink{group___open_pilot_libraries_gga8a49dc52ac01b5d0782811f284df691caebd1fa1a1b027dbc4ef710dc07af67c3}{U\-A\-V\-T\-A\-L\-K\-\_\-\-S\-T\-A\-T\-E\-\_\-\-E\-R\-R\-O\-R} =0, 
-\hyperlink{group___open_pilot_libraries_gga8a49dc52ac01b5d0782811f284df691caae4d844e674556f502e53c92bb96c6c7}{U\-A\-V\-T\-A\-L\-K\-\_\-\-S\-T\-A\-T\-E\-\_\-\-S\-Y\-N\-C}, 
-\hyperlink{group___open_pilot_libraries_gga8a49dc52ac01b5d0782811f284df691ca1ecd6ed2028baaae08701be647d70702}{U\-A\-V\-T\-A\-L\-K\-\_\-\-S\-T\-A\-T\-E\-\_\-\-T\-Y\-P\-E}, 
-\hyperlink{group___open_pilot_libraries_gga8a49dc52ac01b5d0782811f284df691ca9aa933eedaeac2cc5d5552cf9becf16c}{U\-A\-V\-T\-A\-L\-K\-\_\-\-S\-T\-A\-T\-E\-\_\-\-S\-I\-Z\-E}, 
-\\*
-\hyperlink{group___open_pilot_libraries_gga8a49dc52ac01b5d0782811f284df691cab98212ea6a045429c1ca8a085116dfb3}{U\-A\-V\-T\-A\-L\-K\-\_\-\-S\-T\-A\-T\-E\-\_\-\-O\-B\-J\-I\-D}, 
-\hyperlink{group___open_pilot_libraries_gga8a49dc52ac01b5d0782811f284df691caae164f1909f4dfe3f72b6787482f0964}{U\-A\-V\-T\-A\-L\-K\-\_\-\-S\-T\-A\-T\-E\-\_\-\-I\-N\-S\-T\-I\-D}, 
-\hyperlink{group___open_pilot_libraries_gga8a49dc52ac01b5d0782811f284df691ca1785b6e3aaaa285b9585f38fae2826f1}{U\-A\-V\-T\-A\-L\-K\-\_\-\-S\-T\-A\-T\-E\-\_\-\-T\-I\-M\-E\-S\-T\-A\-M\-P}, 
-\hyperlink{group___open_pilot_libraries_gga8a49dc52ac01b5d0782811f284df691ca48c5974336aae492175d58113ca410ec}{U\-A\-V\-T\-A\-L\-K\-\_\-\-S\-T\-A\-T\-E\-\_\-\-D\-A\-T\-A}, 
-\\*
-\hyperlink{group___open_pilot_libraries_gga8a49dc52ac01b5d0782811f284df691ca366f9ba94ea7dd19bfe5d7cf572d8cf9}{U\-A\-V\-T\-A\-L\-K\-\_\-\-S\-T\-A\-T\-E\-\_\-\-C\-S}, 
-\hyperlink{group___open_pilot_libraries_gga8a49dc52ac01b5d0782811f284df691ca561921fc000ac7610e879f9b1f63e54a}{U\-A\-V\-T\-A\-L\-K\-\_\-\-S\-T\-A\-T\-E\-\_\-\-C\-O\-M\-P\-L\-E\-T\-E}
+enum \hyperlink{group___u_a_v_talk_ga8a49dc52ac01b5d0782811f284df691c}{\-U\-A\-V\-Talk\-Rx\-State} \{ \*
+\hyperlink{group___u_a_v_talk_gga8a49dc52ac01b5d0782811f284df691caebd1fa1a1b027dbc4ef710dc07af67c3}{\-U\-A\-V\-T\-A\-L\-K\-\_\-\-S\-T\-A\-T\-E\-\_\-\-E\-R\-R\-O\-R} = 0, 
+\hyperlink{group___u_a_v_talk_gga8a49dc52ac01b5d0782811f284df691caae4d844e674556f502e53c92bb96c6c7}{\-U\-A\-V\-T\-A\-L\-K\-\_\-\-S\-T\-A\-T\-E\-\_\-\-S\-Y\-N\-C}, 
+\hyperlink{group___u_a_v_talk_gga8a49dc52ac01b5d0782811f284df691ca1ecd6ed2028baaae08701be647d70702}{\-U\-A\-V\-T\-A\-L\-K\-\_\-\-S\-T\-A\-T\-E\-\_\-\-T\-Y\-P\-E}, 
+\hyperlink{group___u_a_v_talk_gga8a49dc52ac01b5d0782811f284df691ca9aa933eedaeac2cc5d5552cf9becf16c}{\-U\-A\-V\-T\-A\-L\-K\-\_\-\-S\-T\-A\-T\-E\-\_\-\-S\-I\-Z\-E}, 
+\*
+\hyperlink{group___u_a_v_talk_gga8a49dc52ac01b5d0782811f284df691cab98212ea6a045429c1ca8a085116dfb3}{\-U\-A\-V\-T\-A\-L\-K\-\_\-\-S\-T\-A\-T\-E\-\_\-\-O\-B\-J\-I\-D}, 
+\hyperlink{group___u_a_v_talk_gga8a49dc52ac01b5d0782811f284df691caae164f1909f4dfe3f72b6787482f0964}{\-U\-A\-V\-T\-A\-L\-K\-\_\-\-S\-T\-A\-T\-E\-\_\-\-I\-N\-S\-T\-I\-D}, 
+\hyperlink{group___u_a_v_talk_gga8a49dc52ac01b5d0782811f284df691ca1785b6e3aaaa285b9585f38fae2826f1}{\-U\-A\-V\-T\-A\-L\-K\-\_\-\-S\-T\-A\-T\-E\-\_\-\-T\-I\-M\-E\-S\-T\-A\-M\-P}, 
+\hyperlink{group___u_a_v_talk_gga8a49dc52ac01b5d0782811f284df691ca48c5974336aae492175d58113ca410ec}{\-U\-A\-V\-T\-A\-L\-K\-\_\-\-S\-T\-A\-T\-E\-\_\-\-D\-A\-T\-A}, 
+\*
+\hyperlink{group___u_a_v_talk_gga8a49dc52ac01b5d0782811f284df691ca366f9ba94ea7dd19bfe5d7cf572d8cf9}{\-U\-A\-V\-T\-A\-L\-K\-\_\-\-S\-T\-A\-T\-E\-\_\-\-C\-S}, 
+\hyperlink{group___u_a_v_talk_gga8a49dc52ac01b5d0782811f284df691ca561921fc000ac7610e879f9b1f63e54a}{\-U\-A\-V\-T\-A\-L\-K\-\_\-\-S\-T\-A\-T\-E\-\_\-\-C\-O\-M\-P\-L\-E\-T\-E}
  \}
 \end{DoxyCompactItemize}
-\subsection*{Functions}
+\subsection*{\-Functions}
 \begin{DoxyCompactItemize}
 \item 
-\hyperlink{group___open_pilot_libraries_gaeff1721eaebd4ab306057b4017f23f36}{U\-A\-V\-Talk\-Connection} \hyperlink{group___open_pilot_libraries_ga91e20b57ed132bab36c9ca723d9bdac4}{U\-A\-V\-Talk\-Initialize} (\hyperlink{group___open_pilot_libraries_ga0c67fb4d23157d56fe1982e4788938c7}{U\-A\-V\-Talk\-Output\-Stream} output\-Stream)
+\hyperlink{group___u_a_v_talk_gaeff1721eaebd4ab306057b4017f23f36}{\-U\-A\-V\-Talk\-Connection} \hyperlink{group___u_a_v_talk_ga91e20b57ed132bab36c9ca723d9bdac4}{\-U\-A\-V\-Talk\-Initialize} (\hyperlink{group___u_a_v_talk_ga0c67fb4d23157d56fe1982e4788938c7}{\-U\-A\-V\-Talk\-Output\-Stream} output\-Stream)
 \item 
-\hyperlink{group___n_a_m_e_gafd12020da5a235dfcf0c3c748fb5baed}{int32\-\_\-t} \hyperlink{group___open_pilot_libraries_ga33f8221bbddbf94c7379c3230eac1501}{U\-A\-V\-Talk\-Set\-Output\-Stream} (\hyperlink{group___open_pilot_libraries_gaeff1721eaebd4ab306057b4017f23f36}{U\-A\-V\-Talk\-Connection} connection, \hyperlink{group___open_pilot_libraries_ga0c67fb4d23157d56fe1982e4788938c7}{U\-A\-V\-Talk\-Output\-Stream} output\-Stream)
+int32\-\_\-t \hyperlink{group___u_a_v_talk_ga33f8221bbddbf94c7379c3230eac1501}{\-U\-A\-V\-Talk\-Set\-Output\-Stream} (\hyperlink{group___u_a_v_talk_gaeff1721eaebd4ab306057b4017f23f36}{\-U\-A\-V\-Talk\-Connection} connection, \hyperlink{group___u_a_v_talk_ga0c67fb4d23157d56fe1982e4788938c7}{\-U\-A\-V\-Talk\-Output\-Stream} output\-Stream)
 \item 
-\hyperlink{group___open_pilot_libraries_ga0c67fb4d23157d56fe1982e4788938c7}{U\-A\-V\-Talk\-Output\-Stream} \hyperlink{group___open_pilot_libraries_ga2f8c8d67e642f7df90500f38273baa61}{U\-A\-V\-Talk\-Get\-Output\-Stream} (\hyperlink{group___open_pilot_libraries_gaeff1721eaebd4ab306057b4017f23f36}{U\-A\-V\-Talk\-Connection} connection)
+\hyperlink{group___u_a_v_talk_ga0c67fb4d23157d56fe1982e4788938c7}{\-U\-A\-V\-Talk\-Output\-Stream} \hyperlink{group___u_a_v_talk_ga2f8c8d67e642f7df90500f38273baa61}{\-U\-A\-V\-Talk\-Get\-Output\-Stream} (\hyperlink{group___u_a_v_talk_gaeff1721eaebd4ab306057b4017f23f36}{\-U\-A\-V\-Talk\-Connection} connection)
 \item 
-\hyperlink{group___n_a_m_e_gafd12020da5a235dfcf0c3c748fb5baed}{int32\-\_\-t} \hyperlink{group___open_pilot_libraries_gab4fe52d9c33088b7ebbac9ad4e11b9de}{U\-A\-V\-Talk\-Send\-Object} (\hyperlink{group___open_pilot_libraries_gaeff1721eaebd4ab306057b4017f23f36}{U\-A\-V\-Talk\-Connection} connection, \hyperlink{group___n_a_m_e_gac31715ab50a1903838e7d87c8022ec75}{U\-A\-V\-Obj\-Handle} obj, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} \hyperlink{group___n_a_m_e_ga874457c6d2526c90ec75fa5a37d687ca}{inst\-Id}, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} acked, \hyperlink{group___n_a_m_e_gafd12020da5a235dfcf0c3c748fb5baed}{int32\-\_\-t} timeout\-Ms)
+int32\-\_\-t \hyperlink{group___u_a_v_talk_gab4fe52d9c33088b7ebbac9ad4e11b9de}{\-U\-A\-V\-Talk\-Send\-Object} (\hyperlink{group___u_a_v_talk_gaeff1721eaebd4ab306057b4017f23f36}{\-U\-A\-V\-Talk\-Connection} connection, \hyperlink{targets_2_u_a_v_objects_2inc_2uavobjectmanager_8h_a279053e22be53ce9f895043aaeb91e3b}{\-U\-A\-V\-Obj\-Handle} obj, uint16\-\_\-t inst\-Id, uint8\-\_\-t acked, int32\-\_\-t timeout\-Ms)
 \item 
-\hyperlink{group___n_a_m_e_gafd12020da5a235dfcf0c3c748fb5baed}{int32\-\_\-t} \hyperlink{group___open_pilot_libraries_gad5aea81015d8dd5ed7d474ac87fe58fc}{U\-A\-V\-Talk\-Send\-Object\-Timestamped} (\hyperlink{group___open_pilot_libraries_gaeff1721eaebd4ab306057b4017f23f36}{U\-A\-V\-Talk\-Connection} connection\-Handle, \hyperlink{group___n_a_m_e_gac31715ab50a1903838e7d87c8022ec75}{U\-A\-V\-Obj\-Handle} obj, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} \hyperlink{group___n_a_m_e_ga874457c6d2526c90ec75fa5a37d687ca}{inst\-Id}, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} acked, \hyperlink{group___n_a_m_e_gafd12020da5a235dfcf0c3c748fb5baed}{int32\-\_\-t} timeout\-Ms)
+int32\-\_\-t \hyperlink{group___u_a_v_talk_gad5aea81015d8dd5ed7d474ac87fe58fc}{\-U\-A\-V\-Talk\-Send\-Object\-Timestamped} (\hyperlink{group___u_a_v_talk_gaeff1721eaebd4ab306057b4017f23f36}{\-U\-A\-V\-Talk\-Connection} connection\-Handle, \hyperlink{targets_2_u_a_v_objects_2inc_2uavobjectmanager_8h_a279053e22be53ce9f895043aaeb91e3b}{\-U\-A\-V\-Obj\-Handle} obj, uint16\-\_\-t inst\-Id, uint8\-\_\-t acked, int32\-\_\-t timeout\-Ms)
 \item 
-\hyperlink{group___n_a_m_e_gafd12020da5a235dfcf0c3c748fb5baed}{int32\-\_\-t} \hyperlink{group___open_pilot_libraries_gaa69251603e3426610051dc19b3a68494}{U\-A\-V\-Talk\-Send\-Object\-Request} (\hyperlink{group___open_pilot_libraries_gaeff1721eaebd4ab306057b4017f23f36}{U\-A\-V\-Talk\-Connection} connection, \hyperlink{group___n_a_m_e_gac31715ab50a1903838e7d87c8022ec75}{U\-A\-V\-Obj\-Handle} obj, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} \hyperlink{group___n_a_m_e_ga874457c6d2526c90ec75fa5a37d687ca}{inst\-Id}, \hyperlink{group___n_a_m_e_gafd12020da5a235dfcf0c3c748fb5baed}{int32\-\_\-t} timeout\-Ms)
+int32\-\_\-t \hyperlink{group___u_a_v_talk_gaa69251603e3426610051dc19b3a68494}{\-U\-A\-V\-Talk\-Send\-Object\-Request} (\hyperlink{group___u_a_v_talk_gaeff1721eaebd4ab306057b4017f23f36}{\-U\-A\-V\-Talk\-Connection} connection, \hyperlink{targets_2_u_a_v_objects_2inc_2uavobjectmanager_8h_a279053e22be53ce9f895043aaeb91e3b}{\-U\-A\-V\-Obj\-Handle} obj, uint16\-\_\-t inst\-Id, int32\-\_\-t timeout\-Ms)
 \item 
-\hyperlink{group___n_a_m_e_gafd12020da5a235dfcf0c3c748fb5baed}{int32\-\_\-t} \hyperlink{group___open_pilot_libraries_gab995cc19b4024b1a6303c963e139f522}{U\-A\-V\-Talk\-Send\-Ack} (\hyperlink{group___open_pilot_libraries_gaeff1721eaebd4ab306057b4017f23f36}{U\-A\-V\-Talk\-Connection} connection\-Handle, \hyperlink{group___n_a_m_e_gac31715ab50a1903838e7d87c8022ec75}{U\-A\-V\-Obj\-Handle} obj, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} \hyperlink{group___n_a_m_e_ga874457c6d2526c90ec75fa5a37d687ca}{inst\-Id})
+int32\-\_\-t \hyperlink{group___u_a_v_talk_gab995cc19b4024b1a6303c963e139f522}{\-U\-A\-V\-Talk\-Send\-Ack} (\hyperlink{group___u_a_v_talk_gaeff1721eaebd4ab306057b4017f23f36}{\-U\-A\-V\-Talk\-Connection} connection\-Handle, \hyperlink{targets_2_u_a_v_objects_2inc_2uavobjectmanager_8h_a279053e22be53ce9f895043aaeb91e3b}{\-U\-A\-V\-Obj\-Handle} obj, uint16\-\_\-t inst\-Id)
 \item 
-\hyperlink{group___n_a_m_e_gafd12020da5a235dfcf0c3c748fb5baed}{int32\-\_\-t} \hyperlink{group___open_pilot_libraries_ga2ef859d444a819ed3e3bb4ea36761c69}{U\-A\-V\-Talk\-Send\-Nack} (\hyperlink{group___open_pilot_libraries_gaeff1721eaebd4ab306057b4017f23f36}{U\-A\-V\-Talk\-Connection} connection\-Handle, \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} obj\-Id)
+int32\-\_\-t \hyperlink{group___u_a_v_talk_ga2ef859d444a819ed3e3bb4ea36761c69}{\-U\-A\-V\-Talk\-Send\-Nack} (\hyperlink{group___u_a_v_talk_gaeff1721eaebd4ab306057b4017f23f36}{\-U\-A\-V\-Talk\-Connection} connection\-Handle, uint32\-\_\-t obj\-Id)
 \item 
-\hyperlink{group___n_a_m_e_gafd12020da5a235dfcf0c3c748fb5baed}{int32\-\_\-t} \hyperlink{group___open_pilot_libraries_ga75dcc116d1af9cb73a58c233a2d95bed}{U\-A\-V\-Talk\-Send\-Buf} (\hyperlink{group___open_pilot_libraries_gaeff1721eaebd4ab306057b4017f23f36}{U\-A\-V\-Talk\-Connection} connection\-Handle, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} $\ast$\hyperlink{mavlink__helpers_8h_af5c51bef7cca88bcb22f0517fdb06153}{buf}, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} \hyperlink{mavlink__helpers_8h_aba59486c1504340293255a065b546e3a}{len})
+int32\-\_\-t \hyperlink{group___u_a_v_talk_ga75dcc116d1af9cb73a58c233a2d95bed}{\-U\-A\-V\-Talk\-Send\-Buf} (\hyperlink{group___u_a_v_talk_gaeff1721eaebd4ab306057b4017f23f36}{\-U\-A\-V\-Talk\-Connection} connection\-Handle, uint8\-\_\-t $\ast$buf, uint16\-\_\-t len)
 \item 
-\hyperlink{group___open_pilot_libraries_ga8a49dc52ac01b5d0782811f284df691c}{U\-A\-V\-Talk\-Rx\-State} \hyperlink{group___open_pilot_libraries_ga1a738a506f26790d1b9c9fac5b6e1d92}{U\-A\-V\-Talk\-Process\-Input\-Stream} (\hyperlink{group___open_pilot_libraries_gaeff1721eaebd4ab306057b4017f23f36}{U\-A\-V\-Talk\-Connection} connection, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} rxbyte)
+\hyperlink{group___u_a_v_talk_ga8a49dc52ac01b5d0782811f284df691c}{\-U\-A\-V\-Talk\-Rx\-State} \hyperlink{group___u_a_v_talk_ga1a738a506f26790d1b9c9fac5b6e1d92}{\-U\-A\-V\-Talk\-Process\-Input\-Stream} (\hyperlink{group___u_a_v_talk_gaeff1721eaebd4ab306057b4017f23f36}{\-U\-A\-V\-Talk\-Connection} connection, uint8\-\_\-t rxbyte)
 \item 
-\hyperlink{group___open_pilot_libraries_ga8a49dc52ac01b5d0782811f284df691c}{U\-A\-V\-Talk\-Rx\-State} \hyperlink{group___open_pilot_libraries_ga174ffb688889f75507fc022eaf33d52e}{U\-A\-V\-Talk\-Process\-Input\-Stream\-Quiet} (\hyperlink{group___open_pilot_libraries_gaeff1721eaebd4ab306057b4017f23f36}{U\-A\-V\-Talk\-Connection} connection, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} rxbyte)
+\hyperlink{group___u_a_v_talk_ga8a49dc52ac01b5d0782811f284df691c}{\-U\-A\-V\-Talk\-Rx\-State} \hyperlink{group___u_a_v_talk_ga174ffb688889f75507fc022eaf33d52e}{\-U\-A\-V\-Talk\-Process\-Input\-Stream\-Quiet} (\hyperlink{group___u_a_v_talk_gaeff1721eaebd4ab306057b4017f23f36}{\-U\-A\-V\-Talk\-Connection} connection, uint8\-\_\-t rxbyte)
 \item 
-\hyperlink{group___open_pilot_libraries_ga8a49dc52ac01b5d0782811f284df691c}{U\-A\-V\-Talk\-Rx\-State} \hyperlink{group___open_pilot_libraries_ga11bfbe431f2e79f43a4321b942dc94c8}{U\-A\-V\-Talk\-Relay\-Input\-Stream} (\hyperlink{group___open_pilot_libraries_gaeff1721eaebd4ab306057b4017f23f36}{U\-A\-V\-Talk\-Connection} connection\-Handle, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} rxbyte)
+\hyperlink{group___u_a_v_talk_ga8a49dc52ac01b5d0782811f284df691c}{\-U\-A\-V\-Talk\-Rx\-State} \hyperlink{group___u_a_v_talk_ga11bfbe431f2e79f43a4321b942dc94c8}{\-U\-A\-V\-Talk\-Relay\-Input\-Stream} (\hyperlink{group___u_a_v_talk_gaeff1721eaebd4ab306057b4017f23f36}{\-U\-A\-V\-Talk\-Connection} connection\-Handle, uint8\-\_\-t rxbyte)
 \item 
-\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___open_pilot_libraries_gaeccb32b1562a98d5586bb3d4d25715ee}{U\-A\-V\-Talk\-Get\-Stats} (\hyperlink{group___open_pilot_libraries_gaeff1721eaebd4ab306057b4017f23f36}{U\-A\-V\-Talk\-Connection} connection, \hyperlink{struct_u_a_v_talk_stats}{U\-A\-V\-Talk\-Stats} $\ast$stats)
+void \hyperlink{group___u_a_v_talk_gaeccb32b1562a98d5586bb3d4d25715ee}{\-U\-A\-V\-Talk\-Get\-Stats} (\hyperlink{group___u_a_v_talk_gaeff1721eaebd4ab306057b4017f23f36}{\-U\-A\-V\-Talk\-Connection} connection, \hyperlink{struct_u_a_v_talk_stats}{\-U\-A\-V\-Talk\-Stats} $\ast$stats)
 \item 
-\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___open_pilot_libraries_gafea32b2e3331f9e81f48979b0e6c0a0b}{U\-A\-V\-Talk\-Reset\-Stats} (\hyperlink{group___open_pilot_libraries_gaeff1721eaebd4ab306057b4017f23f36}{U\-A\-V\-Talk\-Connection} connection)
+void \hyperlink{group___u_a_v_talk_gafea32b2e3331f9e81f48979b0e6c0a0b}{\-U\-A\-V\-Talk\-Reset\-Stats} (\hyperlink{group___u_a_v_talk_gaeff1721eaebd4ab306057b4017f23f36}{\-U\-A\-V\-Talk\-Connection} connection)
 \item 
-\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___open_pilot_libraries_ga4134f84aca917fe6e3eca1eaacf0664e}{U\-A\-V\-Talk\-Get\-Last\-Timestamp} (\hyperlink{group___open_pilot_libraries_gaeff1721eaebd4ab306057b4017f23f36}{U\-A\-V\-Talk\-Connection} connection, \hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} $\ast$timestamp)
+void \hyperlink{group___u_a_v_talk_ga4134f84aca917fe6e3eca1eaacf0664e}{\-U\-A\-V\-Talk\-Get\-Last\-Timestamp} (\hyperlink{group___u_a_v_talk_gaeff1721eaebd4ab306057b4017f23f36}{\-U\-A\-V\-Talk\-Connection} connection, uint16\-\_\-t $\ast$timestamp)
 \end{DoxyCompactItemize}
 
 
-\subsection{Detailed Description}
-Include file of the U\-A\-V\-Talk library. Private include file of the U\-A\-V\-Talk library.
+\subsection{\-Detailed \-Description}
+\-Include file of the \-U\-A\-V\-Talk library. \begin{DoxyAuthor}{\-Author}
+\-The \-Open\-Pilot \-Team, \href{http://www.openpilot.org}{\tt http\-://www.\-openpilot.\-org} \-Copyright (\-C) 2010. 
 
-\begin{DoxyAuthor}{Author}
-The Open\-Pilot Team, \href{http://www.openpilot.org}{\tt http\-://www.\-openpilot.\-org} Copyright (C) 2010. 
+\-Tau \-Labs, \href{http://taulabs.org,}{\tt http\-://taulabs.\-org,} \-Copyright (\-C) 2013 
 \end{DoxyAuthor}
-\begin{DoxySeeAlso}{See Also}
-The G\-N\-U Public License (G\-P\-L) Version 3 
+\begin{DoxySeeAlso}{\-See also}
+\-The \-G\-N\-U \-Public \-License (\-G\-P\-L) \-Version 3 
 \end{DoxySeeAlso}
 
 
-Definition in file \hyperlink{uavtalk_8h_source}{uavtalk.\-h}.
+\-Definition in file \hyperlink{uavtalk_8h_source}{uavtalk.\-h}.
 

@@ -3,6 +3,7 @@ var classcore_1_1_provider_strings =
     [ "ProviderStrings", "group___o_p_map_widget.html#ga1ecf05c742cf2e3d35cffadb55e73ba2", null ],
     [ "BingMapsClientToken", "group___o_p_map_widget.html#ga4c3a944c12deba7b13251f0c04685ac6", null ],
     [ "GoogleMapsAPIKey", "group___o_p_map_widget.html#ga4a655ecac5457e2a580ee2c9b7743441", null ],
+    [ "levelsForSigPacSpainMap", "group___o_p_map_widget.html#ga8e0c0e07bd5f4a133451306c0603f393", null ],
     [ "SecGoogleWord", "group___o_p_map_widget.html#gaa681a15654ccc6246baadb0d3e51e660", null ],
     [ "VersionBingMaps", "group___o_p_map_widget.html#ga98d1eeb119258d3fb9fab1a550604eb0", null ],
     [ "VersionGoogleLabels", "group___o_p_map_widget.html#gaa55f03ddecd8e241164698587988c456", null ],

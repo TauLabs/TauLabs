@@ -1,17 +1,13 @@
 var searchData=
 [
-  ['background_2ec',['background.c',['../background_8c.html',1,'']]],
-  ['background_2eh',['background.h',['../background_8h.html',1,'']]],
   ['basemode_2ecpp',['basemode.cpp',['../basemode_8cpp.html',1,'']]],
   ['basemode_2eh',['basemode.h',['../basemode_8h.html',1,'']]],
   ['basevalidatinglineedit_2ecpp',['basevalidatinglineedit.cpp',['../basevalidatinglineedit_8cpp.html',1,'']]],
   ['basevalidatinglineedit_2eh',['basevalidatinglineedit.h',['../basevalidatinglineedit_8h.html',1,'']]],
   ['baseview_2ecpp',['baseview.cpp',['../baseview_8cpp.html',1,'']]],
   ['baseview_2eh',['baseview.h',['../baseview_8h.html',1,'']]],
-  ['block_2eh',['Block.h',['../_block_8h.html',1,'']]],
   ['boardmanager_2ecpp',['boardmanager.cpp',['../boardmanager_8cpp.html',1,'']]],
   ['boardmanager_2eh',['boardmanager.h',['../boardmanager_8h.html',1,'']]],
-  ['booleanredux_2eh',['BooleanRedux.h',['../_boolean_redux_8h.html',1,'']]],
   ['browseritemdelegate_2ecpp',['browseritemdelegate.cpp',['../browseritemdelegate_8cpp.html',1,'']]],
   ['browseritemdelegate_2eh',['browseritemdelegate.h',['../browseritemdelegate_8h.html',1,'']]],
   ['browserplugin_2ecpp',['browserplugin.cpp',['../browserplugin_8cpp.html',1,'']]],

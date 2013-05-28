@@ -1,12 +1,6 @@
 var class_core_1_1_i_board_type =
 [
-    [ "BoardCapabilities", "group___core_plugin.html#ga01b09218f2a13aaeee6db007ac6bd967", [
-      [ "BOARD_CAPABILITIES_GYROS", "group___core_plugin.html#gga01b09218f2a13aaeee6db007ac6bd967a6490aec954e127f73371f4fb9b457b7c", null ],
-      [ "BOARD_CAPABILITIES_ACCELS", "group___core_plugin.html#gga01b09218f2a13aaeee6db007ac6bd967ac0d0ee8be489c9d3b7b41f1463fea3f3", null ],
-      [ "BOARD_CAPABILITIES_MAGS", "group___core_plugin.html#gga01b09218f2a13aaeee6db007ac6bd967a769644e0a335cd070adf4c24017a462f", null ],
-      [ "BOARD_CAPABILITIES_BAROS", "group___core_plugin.html#gga01b09218f2a13aaeee6db007ac6bd967a9f6c413adaed7f2079e0d2f8097a6d68", null ],
-      [ "BOARD_CAPABILITIES_RADIO", "group___core_plugin.html#gga01b09218f2a13aaeee6db007ac6bd967a288728a55ec6a807d327586c5d061678", null ]
-    ] ],
+    [ "BoardCapabilities", "group___core_plugin.html#ga01b09218f2a13aaeee6db007ac6bd967", null ],
     [ "boardDescription", "group___core_plugin.html#gad4ab160d20fd133acd9df87eaa398e8f", null ],
     [ "getBoardPicture", "group___core_plugin.html#gaf2965319c1d15dcb3563dd224add7858", null ],
     [ "getBoardType", "group___core_plugin.html#ga5d2ecfabe310535314afc68f856c06bf", null ],

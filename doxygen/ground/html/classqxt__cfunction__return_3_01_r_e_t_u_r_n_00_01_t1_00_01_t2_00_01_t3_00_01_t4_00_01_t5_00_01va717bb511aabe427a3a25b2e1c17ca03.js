@@ -1,5 +1,0 @@
-var classqxt__cfunction__return_3_01_r_e_t_u_r_n_00_01_t1_00_01_t2_00_01_t3_00_01_t4_00_01_t5_00_01va717bb511aabe427a3a25b2e1c17ca03 =
-[
-    [ "FUNCTION", "classqxt__cfunction__return_3_01_r_e_t_u_r_n_00_01_t1_00_01_t2_00_01_t3_00_01_t4_00_01_t5_00_01va717bb511aabe427a3a25b2e1c17ca03.html#a14e13777b50b65b2d5a9c5be7be2d0ed", null ],
-    [ "invoke", "classqxt__cfunction__return_3_01_r_e_t_u_r_n_00_01_t1_00_01_t2_00_01_t3_00_01_t4_00_01_t5_00_01va717bb511aabe427a3a25b2e1c17ca03.html#a690a8afd5b6537805af4281bbce22251", null ]
-];

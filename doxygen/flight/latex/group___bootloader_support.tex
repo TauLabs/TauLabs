@@ -1,0 +1,64 @@
+\hypertarget{group___bootloader_support}{\section{\-Support functions for the bootloader}
+\label{group___bootloader_support}\index{\-Support functions for the bootloader@{\-Support functions for the bootloader}}
+}
+\subsection*{\-Files}
+\begin{DoxyCompactItemize}
+\item 
+file \hyperlink{stopwatch_8h}{stopwatch.\-h}
+\begin{DoxyCompactList}\small\item\em \-Timer functions for the \-L\-E\-D \-P\-W\-M. \end{DoxyCompactList}\item 
+file \hyperlink{stopwatch_8c}{stopwatch.\-c}
+\begin{DoxyCompactList}\small\item\em \-Timer functions for the \-L\-E\-D \-P\-W\-M. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+s32 \hyperlink{group___bootloader_support_ga0561a1773f7b6182e0b62e190b2b19fc}{\-S\-T\-O\-P\-W\-A\-T\-C\-H\-\_\-\-Init} (u32 resolution, \-T\-I\-M\-\_\-\-Type\-Def $\ast$\-T\-I\-M)
+\item 
+s32 \hyperlink{group___bootloader_support_ga92960ea5267b4ba57c79336ff857593d}{\-S\-T\-O\-P\-W\-A\-T\-C\-H\-\_\-\-Reset} (\-T\-I\-M\-\_\-\-Type\-Def $\ast$\-T\-I\-M)
+\item 
+u32 \hyperlink{group___bootloader_support_ga760ab9a9c21f1d4c22b14884c985e20f}{\-S\-T\-O\-P\-W\-A\-T\-C\-H\-\_\-\-Value\-Get} (\-T\-I\-M\-\_\-\-Type\-Def $\ast$\-T\-I\-M)
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Function \-Documentation}
+\hypertarget{group___bootloader_support_ga0561a1773f7b6182e0b62e190b2b19fc}{\index{\-Support functions for the bootloader@{\-Support functions for the bootloader}!\-S\-T\-O\-P\-W\-A\-T\-C\-H\-\_\-\-Init@{\-S\-T\-O\-P\-W\-A\-T\-C\-H\-\_\-\-Init}}
+\index{\-S\-T\-O\-P\-W\-A\-T\-C\-H\-\_\-\-Init@{\-S\-T\-O\-P\-W\-A\-T\-C\-H\-\_\-\-Init}!Support functions for the bootloader@{\-Support functions for the bootloader}}
+\subsubsection[{\-S\-T\-O\-P\-W\-A\-T\-C\-H\-\_\-\-Init}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t {\bf \-S\-T\-O\-P\-W\-A\-T\-C\-H\-\_\-\-Init} (
+\begin{DoxyParamCaption}
+\item[{u32}]{resolution, }
+\item[{\-T\-I\-M\-\_\-\-Type\-Def $\ast$}]{\-T\-I\-M}
+\end{DoxyParamCaption}
+)}}\label{group___bootloader_support_ga0561a1773f7b6182e0b62e190b2b19fc}
+
+
+\-Definition at line 40 of file stopwatch.\-c.
+
+\hypertarget{group___bootloader_support_ga92960ea5267b4ba57c79336ff857593d}{\index{\-Support functions for the bootloader@{\-Support functions for the bootloader}!\-S\-T\-O\-P\-W\-A\-T\-C\-H\-\_\-\-Reset@{\-S\-T\-O\-P\-W\-A\-T\-C\-H\-\_\-\-Reset}}
+\index{\-S\-T\-O\-P\-W\-A\-T\-C\-H\-\_\-\-Reset@{\-S\-T\-O\-P\-W\-A\-T\-C\-H\-\_\-\-Reset}!Support functions for the bootloader@{\-Support functions for the bootloader}}
+\subsubsection[{\-S\-T\-O\-P\-W\-A\-T\-C\-H\-\_\-\-Reset}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t {\bf \-S\-T\-O\-P\-W\-A\-T\-C\-H\-\_\-\-Reset} (
+\begin{DoxyParamCaption}
+\item[{\-T\-I\-M\-\_\-\-Type\-Def $\ast$}]{\-T\-I\-M}
+\end{DoxyParamCaption}
+)}}\label{group___bootloader_support_ga92960ea5267b4ba57c79336ff857593d}
+\-Resets the stopwatch \begin{DoxyReturn}{\-Returns}
+$<$ 0 on errors 
+\end{DoxyReturn}
+
+
+\-Definition at line 100 of file stopwatch.\-c.
+
+\hypertarget{group___bootloader_support_ga760ab9a9c21f1d4c22b14884c985e20f}{\index{\-Support functions for the bootloader@{\-Support functions for the bootloader}!\-S\-T\-O\-P\-W\-A\-T\-C\-H\-\_\-\-Value\-Get@{\-S\-T\-O\-P\-W\-A\-T\-C\-H\-\_\-\-Value\-Get}}
+\index{\-S\-T\-O\-P\-W\-A\-T\-C\-H\-\_\-\-Value\-Get@{\-S\-T\-O\-P\-W\-A\-T\-C\-H\-\_\-\-Value\-Get}!Support functions for the bootloader@{\-Support functions for the bootloader}}
+\subsubsection[{\-S\-T\-O\-P\-W\-A\-T\-C\-H\-\_\-\-Value\-Get}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t {\bf \-S\-T\-O\-P\-W\-A\-T\-C\-H\-\_\-\-Value\-Get} (
+\begin{DoxyParamCaption}
+\item[{\-T\-I\-M\-\_\-\-Type\-Def $\ast$}]{\-T\-I\-M}
+\end{DoxyParamCaption}
+)}}\label{group___bootloader_support_ga760ab9a9c21f1d4c22b14884c985e20f}
+\-Returns current value of stopwatch \begin{DoxyReturn}{\-Returns}
+1..65535\-: valid stopwatch value 
+
+0xffffffff\-: counter overrun 
+\end{DoxyReturn}
+
+
+\-Definition at line 113 of file stopwatch.\-c.
+

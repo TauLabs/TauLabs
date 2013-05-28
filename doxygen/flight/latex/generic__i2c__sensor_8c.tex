@@ -1,50 +1,27 @@
-\hypertarget{generic__i2c__sensor_8c}{\section{/home/jose/\-Code/gui\-Tau/flight/\-Modules/\-Generic\-I2\-C\-Sensor/generic\-\_\-i2c\-\_\-sensor.c File Reference}
-\label{generic__i2c__sensor_8c}\index{/home/jose/\-Code/gui\-Tau/flight/\-Modules/\-Generic\-I2\-C\-Sensor/generic\-\_\-i2c\-\_\-sensor.\-c@{/home/jose/\-Code/gui\-Tau/flight/\-Modules/\-Generic\-I2\-C\-Sensor/generic\-\_\-i2c\-\_\-sensor.\-c}}
+\hypertarget{generic__i2c__sensor_8c}{\section{/home/jb/code/\-Tau\-Labs/flight/\-Modules/\-Generic\-I2\-C\-Sensor/generic\-\_\-i2c\-\_\-sensor.c \-File \-Reference}
+\label{generic__i2c__sensor_8c}\index{/home/jb/code/\-Tau\-Labs/flight/\-Modules/\-Generic\-I2\-C\-Sensor/generic\-\_\-i2c\-\_\-sensor.\-c@{/home/jb/code/\-Tau\-Labs/flight/\-Modules/\-Generic\-I2\-C\-Sensor/generic\-\_\-i2c\-\_\-sensor.\-c}}
 }
-\subsection*{Functions}
+
+
+\-Runs the built-\/in or user defined program on the \-I2\-C \-Virtual \-Machine.  
+
+
+\subsection*{\-Functions}
 \begin{DoxyCompactItemize}
 \item 
-\hyperlink{group___exported__types_gaf6a258d8f3ee5206d682d799316314b1}{bool} \hyperlink{generic__i2c__sensor_8c_a25fa33f408947a8b6015181705441220}{i2c\-\_\-vm\-\_\-run} (\hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} $\ast$code, \hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} code\-\_\-len, uintptr\-\_\-t i2c\-\_\-adapter)
+bool \hyperlink{group___generic_i2_c_sensor_ga25fa33f408947a8b6015181705441220}{i2c\-\_\-vm\-\_\-run} (const uint32\-\_\-t $\ast$code, uint8\-\_\-t code\-\_\-len, uintptr\-\_\-t i2c\-\_\-adapter)
 \item 
-\hyperlink{generic__i2c__sensor_8c_a344f2789d858becc085f5bc8f16a7290}{M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L} (Generic\-I2\-C\-Sensor\-Initialize, Generic\-I2\-C\-Sensor\-Start)
+\hyperlink{group___generic_i2_c_sensor_ga344f2789d858becc085f5bc8f16a7290}{\-M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L} (\-Generic\-I2\-C\-Sensor\-Initialize, \-Generic\-I2\-C\-Sensor\-Start)
 \end{DoxyCompactItemize}
 
 
-\subsection{Detailed Description}
-\begin{DoxyAuthor}{Author}
-The Open\-Pilot Team, \href{http://www.openpilot.org}{\tt http\-://www.\-openpilot.\-org} Copyright (C) 2012. 
+\subsection{\-Detailed \-Description}
+\-Runs the built-\/in or user defined program on the \-I2\-C \-Virtual \-Machine. \begin{DoxyAuthor}{\-Author}
+\-The \-Open\-Pilot \-Team, \href{http://www.openpilot.org}{\tt http\-://www.\-openpilot.\-org} \-Copyright (\-C) 2012. 
 
-Tau Labs, \href{http://github.com/TauLabs,}{\tt http\-://github.\-com/\-Tau\-Labs,} Copyright (C) 2012-\/2013 
+\-Tau \-Labs, \href{http://taulabs.org,}{\tt http\-://taulabs.\-org,} \-Copyright (\-C) 2012-\/2013 
 \end{DoxyAuthor}
 
 
-Definition in file \hyperlink{generic__i2c__sensor_8c_source}{generic\-\_\-i2c\-\_\-sensor.\-c}.
-
-
-
-\subsection{Function Documentation}
-\hypertarget{generic__i2c__sensor_8c_a25fa33f408947a8b6015181705441220}{\index{generic\-\_\-i2c\-\_\-sensor.\-c@{generic\-\_\-i2c\-\_\-sensor.\-c}!i2c\-\_\-vm\-\_\-run@{i2c\-\_\-vm\-\_\-run}}
-\index{i2c\-\_\-vm\-\_\-run@{i2c\-\_\-vm\-\_\-run}!generic_i2c_sensor.c@{generic\-\_\-i2c\-\_\-sensor.\-c}}
-\subsubsection[{i2c\-\_\-vm\-\_\-run}]{\setlength{\rightskip}{0pt plus 5cm}{\bf bool} i2c\-\_\-vm\-\_\-run (
-\begin{DoxyParamCaption}
-\item[{{\bf const} {\bf uint32\-\_\-t} $\ast$}]{code, }
-\item[{{\bf uint8\-\_\-t}}]{code\-\_\-len, }
-\item[{uintptr\-\_\-t}]{i2c\-\_\-adapter}
-\end{DoxyParamCaption}
-)}}\label{generic__i2c__sensor_8c_a25fa33f408947a8b6015181705441220}
-
-
-Definition at line 756 of file i2c\-\_\-vm.\-c.
-
-\hypertarget{generic__i2c__sensor_8c_a344f2789d858becc085f5bc8f16a7290}{\index{generic\-\_\-i2c\-\_\-sensor.\-c@{generic\-\_\-i2c\-\_\-sensor.\-c}!M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L@{M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L}}
-\index{M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L@{M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L}!generic_i2c_sensor.c@{generic\-\_\-i2c\-\_\-sensor.\-c}}
-\subsubsection[{M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L}]{\setlength{\rightskip}{0pt plus 5cm}M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L (
-\begin{DoxyParamCaption}
-\item[{Generic\-I2\-C\-Sensor\-Initialize}]{, }
-\item[{Generic\-I2\-C\-Sensor\-Start}]{}
-\end{DoxyParamCaption}
-)}}\label{generic__i2c__sensor_8c_a344f2789d858becc085f5bc8f16a7290}
-
-
-Definition at line 142 of file generic\-\_\-i2c\-\_\-sensor.\-c.
+\-Definition in file \hyperlink{generic__i2c__sensor_8c_source}{generic\-\_\-i2c\-\_\-sensor.\-c}.
 

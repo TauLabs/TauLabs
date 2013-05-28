@@ -1,12 +1,6 @@
 var class_core_1_1_command =
 [
-    [ "CommandAttribute", "group___core_plugin.html#ga4d899c1f711159a432afeab3eb78c917", [
-      [ "CA_Hide", "group___core_plugin.html#gga4d899c1f711159a432afeab3eb78c917ab40bdce625687830fbabbab74f3566f0", null ],
-      [ "CA_UpdateText", "group___core_plugin.html#gga4d899c1f711159a432afeab3eb78c917a458aeb773c85933e0dd3e1bbf5a4243c", null ],
-      [ "CA_UpdateIcon", "group___core_plugin.html#gga4d899c1f711159a432afeab3eb78c917a838b5063e78a4f22a5aa7fa17c7f9358", null ],
-      [ "CA_NonConfigureable", "group___core_plugin.html#gga4d899c1f711159a432afeab3eb78c917aba521f39f43b4328b76f678656a12d36", null ],
-      [ "CA_Mask", "group___core_plugin.html#gga4d899c1f711159a432afeab3eb78c917af24dbbade51b0afabda629e630197657", null ]
-    ] ],
+    [ "CommandAttribute", "group___core_plugin.html#ga4d899c1f711159a432afeab3eb78c917", null ],
     [ "~Command", "group___core_plugin.html#gab552bb3a07fdd1acbfd8ea76e69b2278", null ],
     [ "action", "group___core_plugin.html#ga68bf6b0115ef45e9a734956f3b0d40c5", null ],
     [ "defaultKeySequence", "group___core_plugin.html#ga0c83dee8e3b5d218dd4273e801bfe106", null ],

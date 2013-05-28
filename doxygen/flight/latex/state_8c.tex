@@ -1,25 +1,43 @@
-\hypertarget{state_8c}{\section{/home/jose/\-Code/gui\-Tau/flight/\-Modules/\-State/coptercontrol/state.c File Reference}
-\label{state_8c}\index{/home/jose/\-Code/gui\-Tau/flight/\-Modules/\-State/coptercontrol/state.\-c@{/home/jose/\-Code/gui\-Tau/flight/\-Modules/\-State/coptercontrol/state.\-c}}
+\hypertarget{state_8c}{\section{/home/jb/code/\-Tau\-Labs/flight/\-Modules/\-State/coptercontrol/state.c \-File \-Reference}
+\label{state_8c}\index{/home/jb/code/\-Tau\-Labs/flight/\-Modules/\-State/coptercontrol/state.\-c@{/home/jb/code/\-Tau\-Labs/flight/\-Modules/\-State/coptercontrol/state.\-c}}
 }
-\subsection*{Functions}
+
+
+\-State estimation for \-C\-C(3\-D)  
+
+
+\subsection*{\-Functions}
 \begin{DoxyCompactItemize}
 \item 
-\hyperlink{group___n_a_m_e_gafd12020da5a235dfcf0c3c748fb5baed}{int32\-\_\-t} \hyperlink{group___state_ga9b5b60f1575dfa72f03b42b503e9095c}{State\-Start} (\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void})
+int32\-\_\-t \hyperlink{group___c_c_state_ga9b5b60f1575dfa72f03b42b503e9095c}{\-State\-Start} (void)
 \item 
-\hyperlink{group___n_a_m_e_gafd12020da5a235dfcf0c3c748fb5baed}{int32\-\_\-t} \hyperlink{group___state_gad59daafb348cfa8a33ce1d08eb2f8e5b}{State\-Initialize} (\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void})
+int32\-\_\-t \hyperlink{group___c_c_state_gad59daafb348cfa8a33ce1d08eb2f8e5b}{\-State\-Initialize} (void)
 \item 
-\hyperlink{group___state_gac687f4ea48d6390c8854b0a5a1250752}{M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L} (\hyperlink{group___state_gad59daafb348cfa8a33ce1d08eb2f8e5b}{State\-Initialize}, \hyperlink{group___state_ga9b5b60f1575dfa72f03b42b503e9095c}{State\-Start})
+\hyperlink{group___c_c_state_gac687f4ea48d6390c8854b0a5a1250752}{\-M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L} (\hyperlink{group___c_c_state_gad59daafb348cfa8a33ce1d08eb2f8e5b}{\-State\-Initialize}, \hyperlink{group___c_c_state_ga9b5b60f1575dfa72f03b42b503e9095c}{\-State\-Start})
 \end{DoxyCompactItemize}
-\subsection*{Variables}
+\subsection*{\-Variables}
 \begin{DoxyCompactItemize}
 \item 
-struct \hyperlink{struct_global_attitude_variables}{Global\-Attitude\-Variables} $\ast$ \hyperlink{group___state_ga76682d72011dc0109f1d5cf25a6c6da0}{glbl\-Att}
+struct \hyperlink{struct_global_attitude_variables}{\-Global\-Attitude\-Variables} $\ast$ \hyperlink{group___c_c_state_ga76682d72011dc0109f1d5cf25a6c6da0}{glbl\-Att}
 \item 
-Sensor\-Settings\-Data \hyperlink{group___state_ga7e2b26cdc0322ab9457559aa2b94f8fc}{sensor\-Settings}
+\-Sensor\-Settings\-Data \hyperlink{group___c_c_state_ga7e2b26cdc0322ab9457559aa2b94f8fc}{sensor\-Settings}
 \item 
-Attitude\-Settings\-Data \hyperlink{group___state_ga8f6543ab52bafea6c0858baeeae8db59}{attitude\-Settings}
+\-Attitude\-Settings\-Data \hyperlink{group___c_c_state_ga8f6543ab52bafea6c0858baeeae8db59}{attitude\-Settings}
 \item 
-Gyros\-Bias\-Data \hyperlink{group___state_ga233a2d6850e9c466f80ae6bb2ebd98e8}{gyros\-Bias}
+\-Gyros\-Bias\-Data \hyperlink{group___c_c_state_ga233a2d6850e9c466f80ae6bb2ebd98e8}{gyros\-Bias}
 \item 
-\hyperlink{stdint_8h_a273cf69d639a59973b6019625df33e30}{uint16\-\_\-t} \hyperlink{group___n_a_m_e_ga7ae6d0e43244213b34de2c2b9aa30da6}{const} \hyperlink{group___state_ga6faaeb7ea10f4d232ea751bdcebb3aef}{M\-A\-X\-\_\-\-T\-R\-I\-M\-\_\-\-F\-L\-I\-G\-H\-T\-\_\-\-S\-A\-M\-P\-L\-E\-S} = 65535
+uint16\-\_\-t const \hyperlink{group___c_c_state_ga6faaeb7ea10f4d232ea751bdcebb3aef}{\-M\-A\-X\-\_\-\-T\-R\-I\-M\-\_\-\-F\-L\-I\-G\-H\-T\-\_\-\-S\-A\-M\-P\-L\-E\-S} = 65535
 \end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-State estimation for \-C\-C(3\-D) \begin{DoxyAuthor}{\-Author}
+\-Tau \-Labs, \href{http://taulabs.org,}{\tt http\-://taulabs.\-org,} \-Copyright (\-C) 2013 
+\end{DoxyAuthor}
+\begin{DoxySeeAlso}{\-See also}
+\-The \-G\-N\-U \-Public \-License (\-G\-P\-L) \-Version 3 
+\end{DoxySeeAlso}
+
+
+\-Definition in file \hyperlink{state_8c_source}{state.\-c}.
+

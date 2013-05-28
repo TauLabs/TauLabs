@@ -1,0 +1,110 @@
+\hypertarget{pios__flashfs__logfs_8c}{\section{/home/jb/code/\-Tau\-Labs/flight/\-Pi\-O\-S/\-Common/pios\-\_\-flashfs\-\_\-logfs.c \-File \-Reference}
+\label{pios__flashfs__logfs_8c}\index{/home/jb/code/\-Tau\-Labs/flight/\-Pi\-O\-S/\-Common/pios\-\_\-flashfs\-\_\-logfs.\-c@{/home/jb/code/\-Tau\-Labs/flight/\-Pi\-O\-S/\-Common/pios\-\_\-flashfs\-\_\-logfs.\-c}}
+}
+\subsection*{\-Data \-Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structlogfs__state}{logfs\-\_\-state}
+\item 
+struct \hyperlink{structarena__header}{arena\-\_\-header}
+\item 
+struct \hyperlink{structslot__header}{slot\-\_\-header}
+\end{DoxyCompactItemize}
+\subsection*{\-Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{group___p_i_o_s___f_l_a_s_h_f_s_ga27472bb2a0fbfb6302378ef138c6a41f}{pios\-\_\-flashfs\-\_\-logfs\-\_\-dev\-\_\-magic} \{ \hyperlink{group___p_i_o_s___f_l_a_s_h_f_s_gga27472bb2a0fbfb6302378ef138c6a41fa48f1badb0700a4f00d8da2af591f701b}{\-P\-I\-O\-S\-\_\-\-F\-L\-A\-S\-H\-F\-S\-\_\-\-L\-O\-G\-F\-S\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C} =  0x94938201
+ \}
+\item 
+enum \hyperlink{group___p_i_o_s___f_l_a_s_h_f_s_gaa936149cfd5559190d20879c10e0fcee}{arena\-\_\-state} \{ \hyperlink{group___p_i_o_s___f_l_a_s_h_f_s_ggaa936149cfd5559190d20879c10e0fceea0868f5f69dae5f489f86f324fb2ec026}{\-A\-R\-E\-N\-A\-\_\-\-S\-T\-A\-T\-E\-\_\-\-E\-R\-A\-S\-E\-D} =  0x\-F\-F\-F\-F\-F\-F\-F\-F, 
+\hyperlink{group___p_i_o_s___f_l_a_s_h_f_s_ggaa936149cfd5559190d20879c10e0fceeac20424e4b3a3a918490e8c307996fe7c}{\-A\-R\-E\-N\-A\-\_\-\-S\-T\-A\-T\-E\-\_\-\-R\-E\-S\-E\-R\-V\-E\-D} =  0x\-E6\-E6\-F\-F\-F\-F, 
+\hyperlink{group___p_i_o_s___f_l_a_s_h_f_s_ggaa936149cfd5559190d20879c10e0fceea8bac821a323307ac4aa7b2de12f4896b}{\-A\-R\-E\-N\-A\-\_\-\-S\-T\-A\-T\-E\-\_\-\-A\-C\-T\-I\-V\-E} =  0x\-E6\-E66666, 
+\hyperlink{group___p_i_o_s___f_l_a_s_h_f_s_ggaa936149cfd5559190d20879c10e0fceea3943698e7097dd06c6b54f71548d426e}{\-A\-R\-E\-N\-A\-\_\-\-S\-T\-A\-T\-E\-\_\-\-O\-B\-S\-O\-L\-E\-T\-E} =  0x00000000
+ \}
+\item 
+enum \hyperlink{group___p_i_o_s___f_l_a_s_h_f_s_ga7df58e5fca7cec32767a0481da453e74}{slot\-\_\-state} \{ \hyperlink{group___p_i_o_s___f_l_a_s_h_f_s_gga7df58e5fca7cec32767a0481da453e74a3ec4030cfe6de3e15e9ce08f12c91734}{\-S\-L\-O\-T\-\_\-\-S\-T\-A\-T\-E\-\_\-\-E\-M\-P\-T\-Y} =  0x\-F\-F\-F\-F\-F\-F\-F\-F, 
+\hyperlink{group___p_i_o_s___f_l_a_s_h_f_s_gga7df58e5fca7cec32767a0481da453e74acf379d22c045f40511eab34f8aafba5e}{\-S\-L\-O\-T\-\_\-\-S\-T\-A\-T\-E\-\_\-\-R\-E\-S\-E\-R\-V\-E\-D} =  0x\-F\-A\-F\-A\-F\-F\-F\-F, 
+\hyperlink{group___p_i_o_s___f_l_a_s_h_f_s_gga7df58e5fca7cec32767a0481da453e74acf5fd7f439ede2b21808a3edc1acc4f4}{\-S\-L\-O\-T\-\_\-\-S\-T\-A\-T\-E\-\_\-\-A\-C\-T\-I\-V\-E} =  0x\-F\-A\-F\-A\-A\-A\-A\-A, 
+\hyperlink{group___p_i_o_s___f_l_a_s_h_f_s_gga7df58e5fca7cec32767a0481da453e74aff81f83249791cda333bde0850150ccc}{\-S\-L\-O\-T\-\_\-\-S\-T\-A\-T\-E\-\_\-\-O\-B\-S\-O\-L\-E\-T\-E} =  0x00000000
+ \}
+\end{DoxyCompactItemize}
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structarena__header}{arena\-\_\-header} \hyperlink{group___p_i_o_s___f_l_a_s_h_f_s_gaf0823c3e99bb9ab51cfc8a807339ad1b}{\-\_\-\-\_\-attribute\-\_\-\-\_\-} ((packed))
+\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___f_l_a_s_h_f_s_ga2597ca18b2f818f6b2aee1e29cc661e2}{\-P\-I\-O\-S\-\_\-\-F\-L\-A\-S\-H\-F\-S\-\_\-\-Logfs\-\_\-\-Init} (uintptr\-\_\-t $\ast$fs\-\_\-id, const struct \hyperlink{structflashfs__logfs__cfg}{flashfs\-\_\-logfs\-\_\-cfg} $\ast$cfg, const struct \hyperlink{structpios__flash__driver}{pios\-\_\-flash\-\_\-driver} $\ast$driver, uintptr\-\_\-t flash\-\_\-id)
+\begin{DoxyCompactList}\small\item\em \-Initialize the flash object setting \-F\-S. \end{DoxyCompactList}\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___f_l_a_s_h_f_s_ga2fdf3f16270fb9c7f85a4c7a9bfce2ce}{\-P\-I\-O\-S\-\_\-\-F\-L\-A\-S\-H\-F\-S\-\_\-\-Logfs\-\_\-\-Destroy} (uintptr\-\_\-t fs\-\_\-id)
+\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___f_l_a_s_h_f_s_ga2566e681162e422c1457f10146eda492}{\-P\-I\-O\-S\-\_\-\-F\-L\-A\-S\-H\-F\-S\-\_\-\-Obj\-Save} (uintptr\-\_\-t fs\-\_\-id, uint32\-\_\-t \hyperlink{pios__flashfs__logfs_8c_a4901f00431a2c948153bd4f187fce556}{obj\-\_\-id}, uint16\-\_\-t \hyperlink{pios__flashfs__logfs_8c_a7930e82075aa4e3326ad9615090b5d61}{obj\-\_\-inst\-\_\-id}, uint8\-\_\-t $\ast$obj\-\_\-data, uint16\-\_\-t \hyperlink{pios__flashfs__logfs_8c_acd6c9a9729f524a58be43afcb2d0782a}{obj\-\_\-size})
+\begin{DoxyCompactList}\small\item\em \-Saves one object instance to the filesystem. \end{DoxyCompactList}\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___f_l_a_s_h_f_s_ga159a3e2681cd03a6512dd59348c8a764}{\-P\-I\-O\-S\-\_\-\-F\-L\-A\-S\-H\-F\-S\-\_\-\-Obj\-Load} (uintptr\-\_\-t fs\-\_\-id, uint32\-\_\-t \hyperlink{pios__flashfs__logfs_8c_a4901f00431a2c948153bd4f187fce556}{obj\-\_\-id}, uint16\-\_\-t \hyperlink{pios__flashfs__logfs_8c_a7930e82075aa4e3326ad9615090b5d61}{obj\-\_\-inst\-\_\-id}, uint8\-\_\-t $\ast$obj\-\_\-data, uint16\-\_\-t \hyperlink{pios__flashfs__logfs_8c_acd6c9a9729f524a58be43afcb2d0782a}{obj\-\_\-size})
+\begin{DoxyCompactList}\small\item\em \-Load one object instance from the filesystem. \end{DoxyCompactList}\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___f_l_a_s_h_f_s_ga93a9e7b90c573b3784dd52781bf11e93}{\-P\-I\-O\-S\-\_\-\-F\-L\-A\-S\-H\-F\-S\-\_\-\-Obj\-Delete} (uintptr\-\_\-t fs\-\_\-id, uint32\-\_\-t \hyperlink{pios__flashfs__logfs_8c_a4901f00431a2c948153bd4f187fce556}{obj\-\_\-id}, uint16\-\_\-t \hyperlink{pios__flashfs__logfs_8c_a7930e82075aa4e3326ad9615090b5d61}{obj\-\_\-inst\-\_\-id})
+\begin{DoxyCompactList}\small\item\em \-Delete one instance of an object from the filesystem. \end{DoxyCompactList}\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___f_l_a_s_h_f_s_ga9dccc10d534e33e6b52df18f60d27a58}{\-P\-I\-O\-S\-\_\-\-F\-L\-A\-S\-H\-F\-S\-\_\-\-Format} (uintptr\-\_\-t fs\-\_\-id)
+\begin{DoxyCompactList}\small\item\em \-Erases all filesystem arenas and activate the first arena. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Variables}
+\begin{DoxyCompactItemize}
+\item 
+uint32\-\_\-t \hyperlink{pios__flashfs__logfs_8c_a57f54349f4fd1cbbb52058812e146af2}{magic}
+\item 
+enum \hyperlink{group___p_i_o_s___f_l_a_s_h_f_s_gaa936149cfd5559190d20879c10e0fcee}{arena\-\_\-state} \hyperlink{pios__flashfs__logfs_8c_a13a6109e91ad12705df96a0f2743c630}{state}
+\item 
+enum \hyperlink{group___p_i_o_s___f_l_a_s_h_f_s_ga7df58e5fca7cec32767a0481da453e74}{slot\-\_\-state} \hyperlink{group___p_i_o_s___f_l_a_s_h_f_s_ga043afd6646bf00b1155399e12818f798}{\-\_\-\-\_\-attribute\-\_\-\-\_\-}
+\item 
+uint32\-\_\-t \hyperlink{pios__flashfs__logfs_8c_a4901f00431a2c948153bd4f187fce556}{obj\-\_\-id}
+\item 
+uint16\-\_\-t \hyperlink{pios__flashfs__logfs_8c_a7930e82075aa4e3326ad9615090b5d61}{obj\-\_\-inst\-\_\-id}
+\item 
+uint16\-\_\-t \hyperlink{pios__flashfs__logfs_8c_acd6c9a9729f524a58be43afcb2d0782a}{obj\-\_\-size}
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\begin{DoxyAuthor}{\-Author}
+\-Tau \-Labs, \href{http://taulabs.org,}{\tt http\-://taulabs.\-org,} \-Copyright (\-C) 2012-\/2013 
+\end{DoxyAuthor}
+
+
+\-Definition in file \hyperlink{pios__flashfs__logfs_8c_source}{pios\-\_\-flashfs\-\_\-logfs.\-c}.
+
+
+
+\subsection{\-Variable \-Documentation}
+\hypertarget{pios__flashfs__logfs_8c_a57f54349f4fd1cbbb52058812e146af2}{\index{pios\-\_\-flashfs\-\_\-logfs.\-c@{pios\-\_\-flashfs\-\_\-logfs.\-c}!magic@{magic}}
+\index{magic@{magic}!pios_flashfs_logfs.c@{pios\-\_\-flashfs\-\_\-logfs.\-c}}
+\subsubsection[{magic}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t {\bf magic}}}\label{pios__flashfs__logfs_8c_a57f54349f4fd1cbbb52058812e146af2}
+
+
+\-Definition at line 108 of file pios\-\_\-flashfs\-\_\-logfs.\-c.
+
+\hypertarget{pios__flashfs__logfs_8c_a4901f00431a2c948153bd4f187fce556}{\index{pios\-\_\-flashfs\-\_\-logfs.\-c@{pios\-\_\-flashfs\-\_\-logfs.\-c}!obj\-\_\-id@{obj\-\_\-id}}
+\index{obj\-\_\-id@{obj\-\_\-id}!pios_flashfs_logfs.c@{pios\-\_\-flashfs\-\_\-logfs.\-c}}
+\subsubsection[{obj\-\_\-id}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t {\bf obj\-\_\-id}}}\label{pios__flashfs__logfs_8c_a4901f00431a2c948153bd4f187fce556}
+
+
+\-Definition at line 345 of file pios\-\_\-flashfs\-\_\-logfs.\-c.
+
+\hypertarget{pios__flashfs__logfs_8c_a7930e82075aa4e3326ad9615090b5d61}{\index{pios\-\_\-flashfs\-\_\-logfs.\-c@{pios\-\_\-flashfs\-\_\-logfs.\-c}!obj\-\_\-inst\-\_\-id@{obj\-\_\-inst\-\_\-id}}
+\index{obj\-\_\-inst\-\_\-id@{obj\-\_\-inst\-\_\-id}!pios_flashfs_logfs.c@{pios\-\_\-flashfs\-\_\-logfs.\-c}}
+\subsubsection[{obj\-\_\-inst\-\_\-id}]{\setlength{\rightskip}{0pt plus 5cm}uint16\-\_\-t {\bf obj\-\_\-inst\-\_\-id}}}\label{pios__flashfs__logfs_8c_a7930e82075aa4e3326ad9615090b5d61}
+
+
+\-Definition at line 346 of file pios\-\_\-flashfs\-\_\-logfs.\-c.
+
+\hypertarget{pios__flashfs__logfs_8c_acd6c9a9729f524a58be43afcb2d0782a}{\index{pios\-\_\-flashfs\-\_\-logfs.\-c@{pios\-\_\-flashfs\-\_\-logfs.\-c}!obj\-\_\-size@{obj\-\_\-size}}
+\index{obj\-\_\-size@{obj\-\_\-size}!pios_flashfs_logfs.c@{pios\-\_\-flashfs\-\_\-logfs.\-c}}
+\subsubsection[{obj\-\_\-size}]{\setlength{\rightskip}{0pt plus 5cm}uint16\-\_\-t {\bf obj\-\_\-size}}}\label{pios__flashfs__logfs_8c_acd6c9a9729f524a58be43afcb2d0782a}
+
+
+\-Definition at line 347 of file pios\-\_\-flashfs\-\_\-logfs.\-c.
+
+\hypertarget{pios__flashfs__logfs_8c_a13a6109e91ad12705df96a0f2743c630}{\index{pios\-\_\-flashfs\-\_\-logfs.\-c@{pios\-\_\-flashfs\-\_\-logfs.\-c}!state@{state}}
+\index{state@{state}!pios_flashfs_logfs.c@{pios\-\_\-flashfs\-\_\-logfs.\-c}}
+\subsubsection[{state}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf slot\-\_\-state} {\bf state}}}\label{pios__flashfs__logfs_8c_a13a6109e91ad12705df96a0f2743c630}
+
+
+\-Definition at line 109 of file pios\-\_\-flashfs\-\_\-logfs.\-c.
+

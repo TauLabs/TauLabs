@@ -15,8 +15,6 @@ var searchData=
   ['devlistitem',['DevListItem',['../class_core_1_1_dev_list_item.html',1,'Core']]],
   ['dfuobject',['DFUObject',['../class_o_p___d_f_u_1_1_d_f_u_object.html',1,'OP_DFU']]],
   ['diagnostics',['diagnostics',['../structdiagnostics.html',1,'']]],
-  ['diagonalcoeffs',['DiagonalCoeffs',['../class_diagonal_coeffs.html',1,'']]],
-  ['diagonalmatrix',['DiagonalMatrix',['../class_diagonal_matrix.html',1,'']]],
   ['dialgadget',['DialGadget',['../class_dial_gadget.html',1,'']]],
   ['dialgadgetconfiguration',['DialGadgetConfiguration',['../class_dial_gadget_configuration.html',1,'']]],
   ['dialgadgetfactory',['DialGadgetFactory',['../class_dial_gadget_factory.html',1,'']]],
@@ -26,6 +24,5 @@ var searchData=
   ['discoveryf4',['DiscoveryF4',['../class_discovery_f4.html',1,'']]],
   ['distbearingaltitude',['distBearingAltitude',['../structmapcontrol_1_1dist_bearing_altitude.html',1,'mapcontrol']]],
   ['donothingplugin',['DoNothingPlugin',['../class_do_nothing_plugin.html',1,'']]],
-  ['doublespindelegate',['DoubleSpinDelegate',['../class_double_spin_delegate.html',1,'']]],
-  ['dynamicsparsematrix',['DynamicSparseMatrix',['../class_dynamic_sparse_matrix.html',1,'']]]
+  ['doublespindelegate',['DoubleSpinDelegate',['../class_double_spin_delegate.html',1,'']]]
 ];

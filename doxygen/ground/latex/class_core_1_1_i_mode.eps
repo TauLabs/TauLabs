@@ -5,7 +5,7 @@
 %%For: 
 %Magnification: 1.00
 %%Orientation: Portrait
-%%BoundingBox: 0 0 500 155.945419
+%%BoundingBox: 0 0 500 116.959064
 %%Pages: 0
 %%BeginSetup
 %%EndSetup
@@ -19,12 +19,12 @@
 /marginwidth 10 def
 /distx 20 def
 /disty 40 def
-/boundaspect 3.206250 def  % aspect ratio of the BoundingBox (width/height)
+/boundaspect 4.275000 def  % aspect ratio of the BoundingBox (width/height)
 /boundx 500 def
 /boundy boundx boundaspect div def
 /xspacing 0 def
 /yspacing 0 def
-/rows 4 def
+/rows 3 def
 /cols 3 def
 /scalefactor 0 def
 /boxfont /Times-Roman findfont fontheight scalefont def
@@ -175,7 +175,6 @@ boxfont setfont
 1 boundaspect scale
 (Core::IMode) cw
 (Core::IContext) cw
-(QObject) cw
 (Core::BaseMode) cw
 (Core::UAVGadgetManager) cw
 (Welcome::WelcomeMode) cw
@@ -192,7 +191,6 @@ boundx scalefactor div boundy scalefactor div scale
 
  (Core::IMode) 1.000000 1.000000 box
  (Core::IContext) 1.000000 2.000000 box
- (QObject) 1.000000 3.000000 box
  (Core::BaseMode) 0.000000 0.000000 box
  (Core::UAVGadgetManager) 1.000000 0.000000 box
  (Welcome::WelcomeMode) 2.000000 0.000000 box
@@ -203,10 +201,6 @@ solid
 0 1.000000 1.000000 out
 solid
 1 1.000000 2.000000 in
-solid
-0 1.000000 2.000000 out
-solid
-1 1.000000 3.000000 in
 solid
 1 1.000000 0.250000 out
 solid

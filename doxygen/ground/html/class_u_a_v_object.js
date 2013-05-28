@@ -1,15 +1,7 @@
 var class_u_a_v_object =
 [
-    [ "AccessMode", "group___u_a_v_objects_plugin.html#ga80357a2f38fa4be23200de86614c3d77", [
-      [ "ACCESS_READWRITE", "group___u_a_v_objects_plugin.html#gga80357a2f38fa4be23200de86614c3d77ad710c074e7e275da805bf900c9917d47", null ],
-      [ "ACCESS_READONLY", "group___u_a_v_objects_plugin.html#gga80357a2f38fa4be23200de86614c3d77a97e59f527995175cc60e103001470e49", null ]
-    ] ],
-    [ "UpdateMode", "group___u_a_v_objects_plugin.html#ga08c0580992fcd51c2b44734e2d24cac6", [
-      [ "UPDATEMODE_MANUAL", "group___u_a_v_objects_plugin.html#gga08c0580992fcd51c2b44734e2d24cac6a7e761571cc6ee4432fa664f23fcb7032", null ],
-      [ "UPDATEMODE_PERIODIC", "group___u_a_v_objects_plugin.html#gga08c0580992fcd51c2b44734e2d24cac6a6057e8a8af67f00940fad6f62499b843", null ],
-      [ "UPDATEMODE_ONCHANGE", "group___u_a_v_objects_plugin.html#gga08c0580992fcd51c2b44734e2d24cac6a118268aa016a1f371149d6180bd9a366", null ],
-      [ "UPDATEMODE_THROTTLED", "group___u_a_v_objects_plugin.html#gga08c0580992fcd51c2b44734e2d24cac6aea4380a186f544bd364259d2e436fb75", null ]
-    ] ],
+    [ "AccessMode", "group___u_a_v_objects_plugin.html#ga80357a2f38fa4be23200de86614c3d77", null ],
+    [ "UpdateMode", "group___u_a_v_objects_plugin.html#ga08c0580992fcd51c2b44734e2d24cac6", null ],
     [ "UAVObject", "group___u_a_v_objects_plugin.html#gafee3b68612b44afbe6dd82f663126f09", null ],
     [ "emitNewInstance", "group___u_a_v_objects_plugin.html#ga6085b5c08522017f9a59a087f7ccc073", null ],
     [ "emitTransactionCompleted", "group___u_a_v_objects_plugin.html#ga30c0ae6383f58843feca4919232f0478", null ],
@@ -18,6 +10,12 @@ var class_u_a_v_object =
     [ "getDescription", "group___u_a_v_objects_plugin.html#ga319c487a42b628a2e83274c89fa77625", null ],
     [ "getField", "group___u_a_v_objects_plugin.html#ga0c8a0350ce2c49430124b59842fff131", null ],
     [ "getFields", "group___u_a_v_objects_plugin.html#ga043de5085e6ade44abfb005e320d10ca", null ],
+    [ "GetFlightAccess", "group___u_a_v_objects_plugin.html#ga98889e5102c4c2d2c9f1a47c03633218", null ],
+    [ "GetFlightTelemetryAcked", "group___u_a_v_objects_plugin.html#ga98522650b206f948c9141115c15d1d13", null ],
+    [ "GetFlightTelemetryUpdateMode", "group___u_a_v_objects_plugin.html#ga6cd43aaa339c4bd8beead8988bb9f1a6", null ],
+    [ "GetGcsAccess", "group___u_a_v_objects_plugin.html#ga7efd83f9d2ce75464022ed2e05c33920", null ],
+    [ "GetGcsTelemetryAcked", "group___u_a_v_objects_plugin.html#ga3bfcc38f5830eeea1369a6e7c3aa3214", null ],
+    [ "GetGcsTelemetryUpdateMode", "group___u_a_v_objects_plugin.html#ga81651b86ef2cf0b05483152c6728b742", null ],
     [ "getInstID", "group___u_a_v_objects_plugin.html#gaf465e2bde7a1e41ba94c19eac2ba9b80", null ],
     [ "getMetadata", "group___u_a_v_objects_plugin.html#gaadeb5af3a70679bcb2b6360274e9c7de", null ],
     [ "getMutex", "group___u_a_v_objects_plugin.html#ga07e3fbd0f6a85b23e03afc165456a0ef", null ],
@@ -32,6 +30,7 @@ var class_u_a_v_object =
     [ "load", "group___u_a_v_objects_plugin.html#ga0c4bcaec65373c03a2dbf22beae1e8a3", null ],
     [ "lock", "group___u_a_v_objects_plugin.html#ga02661eea30150b9d24bc3a16423850b8", null ],
     [ "lock", "group___u_a_v_objects_plugin.html#ga17770eb02bf711b734a041622dccf889", null ],
+    [ "MetadataInitialize", "group___u_a_v_objects_plugin.html#ga0e0e6753710634f75bf5f27e0c3e073a", null ],
     [ "newInstance", "group___u_a_v_objects_plugin.html#gadf709e4ec60d0dfc3cc4a12012c400f3", null ],
     [ "objectUnpacked", "group___u_a_v_objects_plugin.html#ga2b9ae613f54e59b358dbf2e31d32d9ad", null ],
     [ "objectUpdated", "group___u_a_v_objects_plugin.html#ga9aac3ae5395f63249cd821e0e5be5bf2", null ],
@@ -44,6 +43,12 @@ var class_u_a_v_object =
     [ "save", "group___u_a_v_objects_plugin.html#ga6b936966d89fb80b1138100edcd3e4cc", null ],
     [ "setCategory", "group___u_a_v_objects_plugin.html#gac1d47f2428a0939dbe9544b6c6add6b5", null ],
     [ "setDescription", "group___u_a_v_objects_plugin.html#ga9310ee9c9869110219a7fcd311aaaf28", null ],
+    [ "SetFlightAccess", "group___u_a_v_objects_plugin.html#gaa660f23e03de07c425e5162e2dc42c4f", null ],
+    [ "SetFlightTelemetryAcked", "group___u_a_v_objects_plugin.html#ga92f2e8fef7adb87575582d52a4d90519", null ],
+    [ "SetFlightTelemetryUpdateMode", "group___u_a_v_objects_plugin.html#gaa9fa161b9a5607e4ee1086b72f1b70e5", null ],
+    [ "SetGcsAccess", "group___u_a_v_objects_plugin.html#ga55ae4b0f44dc39c52da3d4173345c19b", null ],
+    [ "SetGcsTelemetryAcked", "group___u_a_v_objects_plugin.html#ga190e264f603dd8ade6b6f9e84debfb4c", null ],
+    [ "SetGcsTelemetryUpdateMode", "group___u_a_v_objects_plugin.html#ga8fdb0f35b52c8dea0a512fd411d2346e", null ],
     [ "setMetadata", "group___u_a_v_objects_plugin.html#ga6cca5e5bf5d4f7ecfb03ef7cc9a93a95", null ],
     [ "toString", "group___u_a_v_objects_plugin.html#ga35168dca4d7a9e25bd117d52a66a2253", null ],
     [ "toStringBrief", "group___u_a_v_objects_plugin.html#gadc4ce5f3b6b9ea7b5d0792bba38cd865", null ],

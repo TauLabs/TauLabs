@@ -29,12 +29,10 @@ var searchData=
   ['welcomemodetreewidget_2eh',['welcomemodetreewidget.h',['../welcomemodetreewidget_8h.html',1,'']]],
   ['welcomeplugin_2ecpp',['welcomeplugin.cpp',['../welcomeplugin_8cpp.html',1,'']]],
   ['welcomeplugin_2eh',['welcomeplugin.h',['../welcomeplugin_8h.html',1,'']]],
-  ['win_5fqextserialport_2ecpp',['win_qextserialport.cpp',['../win__qextserialport_8cpp.html',1,'']]],
   ['winutils_2ecpp',['winutils.cpp',['../winutils_8cpp.html',1,'']]],
   ['winutils_2eh',['winutils.h',['../winutils_8h.html',1,'']]],
   ['workspacesettings_2ecpp',['workspacesettings.cpp',['../workspacesettings_8cpp.html',1,'']]],
   ['workspacesettings_2eh',['workspacesettings.h',['../workspacesettings_8h.html',1,'']]],
   ['worldmagmodel_2ecpp',['worldmagmodel.cpp',['../worldmagmodel_8cpp.html',1,'']]],
-  ['worldmagmodel_2eh',['worldmagmodel.h',['../worldmagmodel_8h.html',1,'']]],
-  ['wrap_5fhelpers_2eh',['wrap_helpers.h',['../wrap__helpers_8h.html',1,'']]]
+  ['worldmagmodel_2eh',['worldmagmodel.h',['../worldmagmodel_8h.html',1,'']]]
 ];

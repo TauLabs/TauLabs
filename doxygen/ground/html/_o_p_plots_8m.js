@@ -6,6 +6,7 @@ var _o_p_plots_8m =
     [ "figure", "_o_p_plots_8m.html#a39cc4eae8cc13eaea23364936540819f", null ],
     [ "figure", "_o_p_plots_8m.html#ac84feabc0a5ffe70fd5e05e72a103d54", null ],
     [ "figure", "_o_p_plots_8m.html#a9945b0b3c946d8aab2d9644806bef542", null ],
+    [ "GeoidSeparation", "_o_p_plots_8m.html#acfdcb54305b4312b0f8ee6aa8fe8a8b2", null ],
     [ "legend", "_o_p_plots_8m.html#acc66d65ee6dadbb2f185aed799ac4ff9", null ],
     [ "legend", "_o_p_plots_8m.html#a2bd30f1401cbcf974221dcaaa67fd6fd", null ],
     [ "LLA", "_o_p_plots_8m.html#a7391c750d93b24d35d3bcec4f0ea1e41", null ],

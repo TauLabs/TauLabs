@@ -18,9 +18,17 @@ var printf2_8c =
     [ "_unlink", "printf2_8c.html#a70b2f211d665cded5637065aa2bb89dc", null ],
     [ "_wait", "printf2_8c.html#aeef0c3372d04caa1bcc99fed2ab6ec72", null ],
     [ "_write_r", "printf2_8c.html#a6094eeb9349a6bcfaeb5d44ace9fa747", null ],
+    [ "dbl2stri", "printf2_8c.html#a2cad460a5ac8ae715b700288d65451cb", null ],
+    [ "my_strlen", "printf2_8c.html#a66e03b69dfd8a4d419c001b1009efcd3", null ],
+    [ "print", "printf2_8c.html#af0fca966ad32b37df847dbd1c9c10ae9", null ],
+    [ "printchar", "printf2_8c.html#a2958479a2b17cb4eafc47e8f584d0f97", null ],
     [ "printf", "printf2_8c.html#a98631211a4a8aee62f572375d5b637be", null ],
+    [ "printi", "printf2_8c.html#ab435e05d19cb6284903b9904050e0b86", null ],
+    [ "prints", "printf2_8c.html#a8d00fb4b337425dfeb7aadc10e96fe87", null ],
     [ "sprintf", "printf2_8c.html#aa0649118bc3728b2a62af0b47606ff51", null ],
     [ "stringf", "printf2_8c.html#a256d2fbe7dd7772db6a55766c9fd4921", null ],
     [ "__env", "printf2_8c.html#a5428d66981cb84e60b899495874618b2", null ],
-    [ "environ", "printf2_8c.html#aa006daaf11f1e2e45a6ababaf463212b", null ]
+    [ "environ", "printf2_8c.html#aa006daaf11f1e2e45a6ababaf463212b", null ],
+    [ "round_nums", "printf2_8c.html#ab29c16da2cda28ccaa4a5f002f894996", null ],
+    [ "use_leading_plus", "printf2_8c.html#a949635c129dd5a644a677e5df962fe00", null ]
 ];

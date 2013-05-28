@@ -1,0 +1,45 @@
+\hypertarget{_s_t_m32_f4xx_2pios__internal__adc_8c}{\section{/home/jb/code/\-Tau\-Labs/flight/\-Pi\-O\-S/\-S\-T\-M32\-F4xx/pios\-\_\-internal\-\_\-adc.c \-File \-Reference}
+\label{_s_t_m32_f4xx_2pios__internal__adc_8c}\index{/home/jb/code/\-Tau\-Labs/flight/\-Pi\-O\-S/\-S\-T\-M32\-F4xx/pios\-\_\-internal\-\_\-adc.\-c@{/home/jb/code/\-Tau\-Labs/flight/\-Pi\-O\-S/\-S\-T\-M32\-F4xx/pios\-\_\-internal\-\_\-adc.\-c}}
+}
+\subsection*{\-Data \-Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structpios__internal__adc__dev}{pios\-\_\-internal\-\_\-adc\-\_\-dev}
+\item 
+struct \hyperlink{structdma__config}{dma\-\_\-config}
+\item 
+struct \hyperlink{structadc__accumulator}{adc\-\_\-accumulator}
+\end{DoxyCompactItemize}
+\subsection*{\-Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{group___p_i_o_s___a_d_c_gad4639b786d45b213ac842a0c4cf3e78d}{pios\-\_\-adc\-\_\-dev\-\_\-magic} \{ \hyperlink{group___p_i_o_s___a_d_c_ggad4639b786d45b213ac842a0c4cf3e78dab432edba8e4a3348b2f28cf7edf94f79}{\-P\-I\-O\-S\-\_\-\-A\-D\-C\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C} =  0x58375169, 
+\hyperlink{group___p_i_o_s___a_d_c_ggad4639b786d45b213ac842a0c4cf3e78dadc16fac7b3b7f2cbaf50a1224b2bbba2}{\-P\-I\-O\-S\-\_\-\-I\-N\-T\-E\-R\-N\-A\-L\-\_\-\-A\-D\-C\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C} =  0x58375124
+ \}
+\end{DoxyCompactItemize}
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___a_d_c_ga24dec792533e0f27e35c3ea6d1bbd9e1}{\-P\-I\-O\-S\-\_\-\-I\-N\-T\-E\-R\-N\-A\-L\-\_\-\-A\-D\-C\-\_\-\-Init} (uint32\-\_\-t $\ast$internal\-\_\-adc\-\_\-id, const struct \hyperlink{structpios__internal__adc__cfg}{pios\-\_\-internal\-\_\-adc\-\_\-cfg} $\ast$cfg)
+\begin{DoxyCompactList}\small\item\em \-Init the \-A\-D\-C. \end{DoxyCompactList}\item 
+void \hyperlink{group___p_i_o_s___a_d_c_ga0edf09afa78da740bb49069ee8221b5c}{\-P\-I\-O\-S\-\_\-\-A\-D\-C\-\_\-\-Config} (uint32\-\_\-t oversampling)
+\begin{DoxyCompactList}\small\item\em \-Configure the \-A\-D\-C to run at a fixed oversampling. \end{DoxyCompactList}\item 
+void \hyperlink{group___p_i_o_s___a_d_c_gaba0959952db7ff67364a28ea801c41ec}{\-P\-I\-O\-S\-\_\-\-A\-D\-C\-\_\-\-Set\-Callback} (\hyperlink{group___p_i_o_s___i_n_t_e_r_n_a_l___a_d_c_ga20bf90833813c2c4945fab90c8e4f386}{\-A\-D\-C\-Callback} new\-\_\-function)
+\begin{DoxyCompactList}\small\item\em \-Set a callback function that is executed whenever the \-A\-D\-C double buffer swaps. \end{DoxyCompactList}\item 
+float $\ast$ \hyperlink{group___p_i_o_s___a_d_c_ga3684039dd2c7b58018d93552371651d3}{\-P\-I\-O\-S\-\_\-\-A\-D\-C\-\_\-\-Get\-Buffer} (void)
+\begin{DoxyCompactList}\small\item\em \-Return the address of the downsampled data buffer. \end{DoxyCompactList}\item 
+int16\-\_\-t $\ast$ \hyperlink{group___p_i_o_s___a_d_c_gaa72293956e8aaea48593f2d80ae9d9d2}{\-P\-I\-O\-S\-\_\-\-A\-D\-C\-\_\-\-Get\-Raw\-Buffer} (void)
+\begin{DoxyCompactList}\small\item\em \-Return the address of the raw data data buffer. \end{DoxyCompactList}\item 
+uint8\-\_\-t \hyperlink{group___p_i_o_s___a_d_c_gaa343a6f620ddd80259e92ff0595cf977}{\-P\-I\-O\-S\-\_\-\-A\-D\-C\-\_\-\-Get\-Over\-Sampling} (void)
+\begin{DoxyCompactList}\small\item\em \-Return the amount of over sampling. \end{DoxyCompactList}\item 
+void \hyperlink{group___p_i_o_s___a_d_c_gab2bb95efd8a061a377ae0d8cd60ca1ed}{\-P\-I\-O\-S\-\_\-\-A\-D\-C\-\_\-\-Set\-F\-I\-R\-Coefficients} (float $\ast$new\-\_\-filter)
+\begin{DoxyCompactList}\small\item\em \-Set the fir coefficients. \-Takes as many samples as the current filter order plus one (normalization) \end{DoxyCompactList}\item 
+void \hyperlink{group___p_i_o_s___a_d_c_ga7cf4581a50ff57300061ea450f87a007}{accumulate} (uint16\-\_\-t $\ast$buffer, uint32\-\_\-t count)
+\begin{DoxyCompactList}\small\item\em accumulate the data for each of the channels. \end{DoxyCompactList}\item 
+void \hyperlink{group___p_i_o_s___a_d_c_ga90fc0a6fd10259ceca76e89e41ab744a}{\-P\-I\-O\-S\-\_\-\-I\-N\-T\-E\-R\-N\-A\-L\-\_\-\-A\-D\-C\-\_\-\-D\-M\-A\-\_\-\-Handler} (void)
+\begin{DoxyCompactList}\small\item\em \-Interrupt on buffer flip. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Variables}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structpios__adc__driver}{pios\-\_\-adc\-\_\-driver} \hyperlink{group___p_i_o_s___a_d_c_gaa1decc30319efc11cab3d3e9ba32ff8e}{pios\-\_\-internal\-\_\-adc\-\_\-driver}
+\end{DoxyCompactItemize}

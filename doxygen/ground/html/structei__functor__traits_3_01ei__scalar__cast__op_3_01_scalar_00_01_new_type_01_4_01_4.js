@@ -1,5 +1,0 @@
-var structei__functor__traits_3_01ei__scalar__cast__op_3_01_scalar_00_01_new_type_01_4_01_4 =
-[
-    [ "Cost", "structei__functor__traits_3_01ei__scalar__cast__op_3_01_scalar_00_01_new_type_01_4_01_4.html#a8563ba697d816930ad97e380395c8ccda9c1be94354c7a769531c31db117a264b", null ],
-    [ "PacketAccess", "structei__functor__traits_3_01ei__scalar__cast__op_3_01_scalar_00_01_new_type_01_4_01_4.html#a8563ba697d816930ad97e380395c8ccda9deec4bfd8dfc720b13c404320772b59", null ]
-];

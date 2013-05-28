@@ -10,6 +10,5 @@ var searchData=
   ['wmmtype_5flegendrefunction',['WMMtype_LegendreFunction',['../struct_w_m_mtype___legendre_function.html',1,'']]],
   ['wmmtype_5fmagneticmodel',['WMMtype_MagneticModel',['../struct_w_m_mtype___magnetic_model.html',1,'']]],
   ['wmmtype_5fmagneticresults',['WMMtype_MagneticResults',['../struct_w_m_mtype___magnetic_results.html',1,'']]],
-  ['wmmtype_5fsphericalharmonicvariables',['WMMtype_SphericalHarmonicVariables',['../struct_w_m_mtype___spherical_harmonic_variables.html',1,'']]],
-  ['wwdg_5ftypedef',['WWDG_TypeDef',['../struct_w_w_d_g___type_def.html',1,'']]]
+  ['wmmtype_5fsphericalharmonicvariables',['WMMtype_SphericalHarmonicVariables',['../struct_w_m_mtype___spherical_harmonic_variables.html',1,'']]]
 ];

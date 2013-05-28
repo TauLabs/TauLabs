@@ -1,21 +1,8 @@
 var searchData=
 [
-  ['scalecomponent',['ScaleComponent',['../class_qwt_abstract_scale_draw.html#a26215d06a4d48adf401d0aa05d4193c5',1,'QwtAbstractScaleDraw']]],
   ['scatterplot2dtype',['Scatterplot2dType',['../group___scope_plugin.html#gac3cffd2a84d02f4ebfba6df970d03e97',1,'Scatterplot2dScopeConfig']]],
-  ['scrollmode',['ScrollMode',['../class_qwt_abstract_slider.html#ae4c0c4844ac6a35356f3c529a8eae154',1,'QwtAbstractSlider']]],
-  ['selectiontype',['SelectionType',['../class_qwt_picker_machine.html#a24a9faf12cfa5746eee839a2c0bb937d',1,'QwtPickerMachine']]],
   ['sensor_5ftype',['sensor_type',['../class_calibration.html#ab4af1e75c9a40776a4c5ed1da5e7caf8',1,'Calibration']]],
-  ['serviceflag',['ServiceFlag',['../class_qxt_discoverable_service.html#ab0150c1654466841078bf25055120914',1,'QxtDiscoverableService']]],
-  ['shadow',['Shadow',['../class_qwt_dial.html#a7472124cb120352e8538430ab48c2386',1,'QwtDial']]],
-  ['smtperror',['SmtpError',['../class_qxt_smtp.html#a34a41e157894cc94e0a863249f29f673',1,'QxtSmtp']]],
-  ['sparsebackend',['SparseBackend',['../_sparse_util_8h.html#a0851ed9a71369f0c844e19d73b1ca689',1,'SparseUtil.h']]],
   ['spectrogramtype',['SpectrogramType',['../group___scope_plugin.html#ga4c227eca53956a4dda5ee8877b7868c6',1,'SpectrogramScopeConfig']]],
-  ['splinetype',['SplineType',['../class_qwt_spline.html#a2bd2bda128f82acd596348eb8d64231c',1,'QwtSpline']]],
-  ['state',['State',['../class_extension_system_1_1_plugin_spec.html#a3d40e1bd1f17eb32b314bcd282b3e3b9',1,'ExtensionSystem::PluginSpec::State()'],['../class_qxt_discoverable_service.html#a2447c7eb207d58a8b338af5d0fd9250a',1,'QxtDiscoverableService::State()']]],
-  ['status',['Status',['../class_o_p___d_f_u.html#a83b075feaf572fe76e597acea58c8eda',1,'OP_DFU']]],
-  ['statusicon',['StatusIcon',['../group___y_modem_uploader.html#ga788236c4f7d8fe7586489a183528d657',1,'deviceWidget::StatusIcon()'],['../group___y_modem_uploader.html#ga2544534d93816d92882b9351db3e3832',1,'runningDeviceWidget::StatusIcon()']]],
-  ['stopbitstype',['StopBitsType',['../qextserialport_8h.html#adc8078895cd941d755d46633b54d3e7f',1,'qextserialport.h']]],
-  ['style',['Style',['../class_qwt_column_symbol.html#aaace508375eef3ee23ed6c47b1d65ef2',1,'QwtColumnSymbol::Style()'],['../class_qwt_dial_simple_needle.html#ad28821489e04f1fd942e5bebc8a60584',1,'QwtDialSimpleNeedle::Style()'],['../class_qwt_compass_magnet_needle.html#aee1d882c6ec8b680b94b59b5710a92a5',1,'QwtCompassMagnetNeedle::Style()'],['../class_qwt_compass_wind_arrow.html#a55f11e28c9d87c0fb7c306ccd174f2a8',1,'QwtCompassWindArrow::Style()'],['../class_qwt_interval_symbol.html#a8fe960fd50b3ad08765ef8bb632ad77e',1,'QwtIntervalSymbol::Style()'],['../class_qwt_symbol.html#a62f457952470c2076962e83ef2c24d2f',1,'QwtSymbol::Style()']]],
-  ['styleoptiontype',['StyleOptionType',['../class_qxt_style_option_schedule_view_item.html#a303f308dc3d1f796cb9c67294c9c9904',1,'QxtStyleOptionScheduleViewItem']]],
-  ['styleoptionversion',['StyleOptionVersion',['../class_qxt_style_option_schedule_view_item.html#a44ba40f0a6bce1d6d10aae0a3e10fac4',1,'QxtStyleOptionScheduleViewItem']]]
+  ['state',['State',['../class_extension_system_1_1_plugin_spec.html#a3d40e1bd1f17eb32b314bcd282b3e3b9',1,'ExtensionSystem::PluginSpec']]],
+  ['statusicon',['StatusIcon',['../group___y_modem_uploader.html#ga788236c4f7d8fe7586489a183528d657',1,'deviceWidget::StatusIcon()'],['../group___y_modem_uploader.html#ga2544534d93816d92882b9351db3e3832',1,'runningDeviceWidget::StatusIcon()']]]
 ];

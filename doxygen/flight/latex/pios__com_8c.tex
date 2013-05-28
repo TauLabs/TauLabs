@@ -1,0 +1,61 @@
+\hypertarget{pios__com_8c}{\section{/home/jb/code/\-Tau\-Labs/flight/\-Pi\-O\-S/\-Common/pios\-\_\-com.c \-File \-Reference}
+\label{pios__com_8c}\index{/home/jb/code/\-Tau\-Labs/flight/\-Pi\-O\-S/\-Common/pios\-\_\-com.\-c@{/home/jb/code/\-Tau\-Labs/flight/\-Pi\-O\-S/\-Common/pios\-\_\-com.\-c}}
+}
+
+
+\-C\-O\-M layer functions.  
+
+
+\subsection*{\-Data \-Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structpios__com__dev}{pios\-\_\-com\-\_\-dev}
+\end{DoxyCompactItemize}
+\subsection*{\-Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{group___p_i_o_s___c_o_m_ga57d90f793d1e8323599fd11e929c945d}{pios\-\_\-com\-\_\-dev\-\_\-magic} \{ \hyperlink{group___p_i_o_s___c_o_m_gga57d90f793d1e8323599fd11e929c945dad53a3c0754f6da5d578fcd99184abc84}{\-P\-I\-O\-S\-\_\-\-C\-O\-M\-\_\-\-D\-E\-V\-\_\-\-M\-A\-G\-I\-C} =  0xaa55aa55
+ \}
+\end{DoxyCompactItemize}
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___c_o_m_gae5f5c6d4dd82ce508ba42da9c90a7166}{\-P\-I\-O\-S\-\_\-\-C\-O\-M\-\_\-\-Init} (uintptr\-\_\-t $\ast$com\-\_\-id, const struct \hyperlink{structpios__com__driver}{pios\-\_\-com\-\_\-driver} $\ast$driver, uint32\-\_\-t lower\-\_\-id, uint8\-\_\-t $\ast$rx\-\_\-buffer, uint16\-\_\-t rx\-\_\-buffer\-\_\-len, uint8\-\_\-t $\ast$tx\-\_\-buffer, uint16\-\_\-t tx\-\_\-buffer\-\_\-len)
+\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___c_o_m_gaa370cb6fb2677b6260ae4204ba26b2b3}{\-P\-I\-O\-S\-\_\-\-C\-O\-M\-\_\-\-Change\-Baud} (uintptr\-\_\-t com\-\_\-id, uint32\-\_\-t baud)
+\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___c_o_m_ga60982fe515c4938f64fd872b8992a55b}{\-P\-I\-O\-S\-\_\-\-C\-O\-M\-\_\-\-Send\-Buffer\-Non\-Blocking} (uintptr\-\_\-t com\-\_\-id, const uint8\-\_\-t $\ast$buffer, uint16\-\_\-t len)
+\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___c_o_m_ga06a9a4136683f78051b9e72e5edb32f8}{\-P\-I\-O\-S\-\_\-\-C\-O\-M\-\_\-\-Send\-Buffer} (uintptr\-\_\-t com\-\_\-id, const uint8\-\_\-t $\ast$buffer, uint16\-\_\-t len)
+\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___c_o_m_gaf31c3839043db5312b9b9429102964bd}{\-P\-I\-O\-S\-\_\-\-C\-O\-M\-\_\-\-Send\-Char\-Non\-Blocking} (uintptr\-\_\-t com\-\_\-id, char c)
+\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___c_o_m_ga7b6113a05ea60bcd661bbc5e10a5fe0e}{\-P\-I\-O\-S\-\_\-\-C\-O\-M\-\_\-\-Send\-Char} (uintptr\-\_\-t com\-\_\-id, char c)
+\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___c_o_m_gaff37e41578d22e06d0f29394340e1762}{\-P\-I\-O\-S\-\_\-\-C\-O\-M\-\_\-\-Send\-String\-Non\-Blocking} (uintptr\-\_\-t com\-\_\-id, const char $\ast$str)
+\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___c_o_m_gae03e4cae94285f9551800750e0974a84}{\-P\-I\-O\-S\-\_\-\-C\-O\-M\-\_\-\-Send\-String} (uintptr\-\_\-t com\-\_\-id, const char $\ast$str)
+\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___c_o_m_gaf4608e2b544b62a5130238c2534e19f8}{\-P\-I\-O\-S\-\_\-\-C\-O\-M\-\_\-\-Send\-Formatted\-String\-Non\-Blocking} (uintptr\-\_\-t com\-\_\-id, const char $\ast$format,...)
+\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___c_o_m_ga1e351c526477c605ee404318ba3c0b79}{\-P\-I\-O\-S\-\_\-\-C\-O\-M\-\_\-\-Send\-Formatted\-String} (uintptr\-\_\-t com\-\_\-id, const char $\ast$format,...)
+\item 
+uint16\-\_\-t \hyperlink{group___p_i_o_s___c_o_m_ga5e15e044cb0abca89b5655a359d1ef03}{\-P\-I\-O\-S\-\_\-\-C\-O\-M\-\_\-\-Receive\-Buffer} (uintptr\-\_\-t com\-\_\-id, uint8\-\_\-t $\ast$buf, uint16\-\_\-t buf\-\_\-len, uint32\-\_\-t timeout\-\_\-ms)
+\item 
+bool \hyperlink{group___p_i_o_s___c_o_m_ga5af0bd94df12381d390fae8925f99a03}{\-P\-I\-O\-S\-\_\-\-C\-O\-M\-\_\-\-Available} (uintptr\-\_\-t com\-\_\-id)
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-C\-O\-M layer functions. \begin{DoxyAuthor}{\-Author}
+\-The \-Open\-Pilot \-Team, \href{http://www.openpilot.org}{\tt http\-://www.\-openpilot.\-org} \-Copyright (\-C) 2010. 
+
+\-Tau \-Labs, \href{http://taulabs.org,}{\tt http\-://taulabs.\-org,} \-Copyright (\-C) 2012-\/2013 
+\end{DoxyAuthor}
+\begin{DoxySeeAlso}{\-See also}
+\-The \-G\-N\-U \-Public \-License (\-G\-P\-L) \-Version 3 
+\end{DoxySeeAlso}
+
+
+\-Definition in file \hyperlink{pios__com_8c_source}{pios\-\_\-com.\-c}.
+

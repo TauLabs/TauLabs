@@ -1,11 +1,8 @@
 var searchData=
 [
-  ['objectinfo',['ObjectInfo',['../struct_object_info.html',1,'']]],
   ['objecttowidget',['objectToWidget',['../struct_config_task_widget_1_1object_to_widget.html',1,'ConfigTaskWidget']]],
   ['objecttransactioninfo',['ObjectTransactionInfo',['../class_object_transaction_info.html',1,'']]],
   ['objecttreeitem',['ObjectTreeItem',['../class_object_tree_item.html',1,'']]],
-  ['objvertice',['ObjVertice',['../struct_g_l_c___obj_to_world_1_1_obj_vertice.html',1,'GLC_ObjToWorld']]],
-  ['op_5fdfu',['OP_DFU',['../class_o_p___d_f_u.html',1,'']]],
   ['openpilotplugin',['OpenPilotPlugin',['../class_open_pilot_plugin.html',1,'']]],
   ['opmap_5fedit_5fwaypoint_5fdialog',['opmap_edit_waypoint_dialog',['../classopmap__edit__waypoint__dialog.html',1,'']]],
   ['opmap_5fstatusbar_5fwidget',['opmap_statusbar_widget',['../classopmap__statusbar__widget.html',1,'']]],

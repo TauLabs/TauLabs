@@ -1,4 +1,0 @@
-var structei__functor__traits_3_01ei__scalar__quotient1__impl_3_01_scalar_00_01true_01_4_01_4 =
-[
-    [ "Cost", "structei__functor__traits_3_01ei__scalar__quotient1__impl_3_01_scalar_00_01true_01_4_01_4.html#a7b3ed83b8cfdb224ae11a0665753feabaffb15a9ff6d87444eccd53b23206db78", null ]
-];

@@ -1,9 +1,6 @@
 var class_spectrogram_scope_config =
 [
-    [ "SpectrogramType", "group___scope_plugin.html#ga4c227eca53956a4dda5ee8877b7868c6", [
-      [ "VIBRATIONANALYSIS", "group___scope_plugin.html#gga4c227eca53956a4dda5ee8877b7868c6a1412daaa24267bf3b82a82d8b8427238", null ],
-      [ "CUSTOM_SPECTROGRAM", "group___scope_plugin.html#gga4c227eca53956a4dda5ee8877b7868c6a7f0d2eab37446fb5b0e0136911fa069f", null ]
-    ] ],
+    [ "SpectrogramType", "group___scope_plugin.html#ga4c227eca53956a4dda5ee8877b7868c6", null ],
     [ "SpectrogramScopeConfig", "group___scope_plugin.html#ga28b2d6eb7e9d8b459d67cef767b92fc5", null ],
     [ "SpectrogramScopeConfig", "group___scope_plugin.html#ga8acde1e8cd1057e318cdccaa2d2935b4", null ],
     [ "SpectrogramScopeConfig", "group___scope_plugin.html#ga40e298cc36738756669408e5cb4d4166", null ],

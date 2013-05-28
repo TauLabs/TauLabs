@@ -8,6 +8,7 @@ var classcore_1_1_o_p_maps =
     [ "GetImageFromServer", "group___o_p_map_widget.html#ga03e1a814248920f31520f38e2ed5d412", null ],
     [ "GetLanguage", "group___o_p_map_widget.html#gaef0dbfe6f1a4d195b33a070779dffc33", null ],
     [ "ImportFromGMDB", "group___o_p_map_widget.html#ga50b468c09bac4de46905661839aa2477", null ],
+    [ "Instance", "group___o_p_map_widget.html#ga20822cc13b7089e598c95023a90ed036", null ],
     [ "setAccessMode", "group___o_p_map_widget.html#ga68cf9ffb0f3ff2362243777dbd773437", null ],
     [ "setLanguage", "group___o_p_map_widget.html#gae64b24b63987a957d4365fcca6bab5e5", null ],
     [ "setUseMemoryCache", "group___o_p_map_widget.html#ga87583d4fb36185a5b8275459e7703246", null ],

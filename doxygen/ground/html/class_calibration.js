@@ -1,10 +1,6 @@
 var class_calibration =
 [
-    [ "sensor_type", "class_calibration.html#ab4af1e75c9a40776a4c5ed1da5e7caf8", [
-      [ "ACCEL", "class_calibration.html#ab4af1e75c9a40776a4c5ed1da5e7caf8a3d0c57c4632846573b22a605d31d59fd", null ],
-      [ "GYRO", "class_calibration.html#ab4af1e75c9a40776a4c5ed1da5e7caf8a80751a325ad77e6a9240bc534ca9b5e8", null ],
-      [ "MAG", "class_calibration.html#ab4af1e75c9a40776a4c5ed1da5e7caf8a40b1af5ef9ac8c8600e3190a06bf81ca", null ]
-    ] ],
+    [ "sensor_type", "class_calibration.html#ab4af1e75c9a40776a4c5ed1da5e7caf8", null ],
     [ "Calibration", "class_calibration.html#a80f51a5ff7ec0f44d5388c9a61d1f20b", null ],
     [ "~Calibration", "class_calibration.html#a108efb6ccd8c98e5cac950be4bf0ac26", null ],
     [ "calibrationCompleted", "class_calibration.html#a4e681ad78dc398b52b137dad1fe8e18b", null ],
@@ -20,9 +16,12 @@ var class_calibration =
     [ "doStartSixPoint", "class_calibration.html#a5bea779241f9d9bb50e2c670ea588a43", null ],
     [ "doStartTempCal", "class_calibration.html#ad79bd9545005476bb15c478607e55a36", null ],
     [ "Euler2R", "class_calibration.html#a377eb05dfcb626f7b5af01ea1647d9ae", null ],
-    [ "initialize", "class_calibration.html#a0ceb0c6dbb32b8f6f40a088221da3f4a", null ],
+    [ "initialize", "class_calibration.html#ab7f3ea695cee64e92f8fe59d546b134d", null ],
     [ "levelingProgressChanged", "class_calibration.html#a34770d5a2df9d4dd5e5845c8c0633a63", null ],
     [ "LinearEquationsSolving", "class_calibration.html#a35a3bab633b59ec9e4816fc7b9fd4629", null ],
+    [ "listMax", "class_calibration.html#a635535616022d0ffb41e1a9235d52787", null ],
+    [ "listMean", "class_calibration.html#a95498e971c84717dd7aec18af86e008d", null ],
+    [ "listMin", "class_calibration.html#a5eb9cfb2ba5165de6feea8dc94152d49", null ],
     [ "resetSensorCalibrationToOriginalValues", "class_calibration.html#afb4b17903974c7e7142cb5e65d29c967", null ],
     [ "rotate_vector", "class_calibration.html#a5b519d85bb3e530d25b595bad5a926d7", null ],
     [ "setTempCalRange", "class_calibration.html#a895658576c504c370a7a7929a832f1b1", null ],

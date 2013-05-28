@@ -5,7 +5,7 @@
 %%For: 
 %Magnification: 1.00
 %%Orientation: Portrait
-%%BoundingBox: 0 0 500 1124.497992
+%%BoundingBox: 0 0 500 1084.337349
 %%Pages: 0
 %%BeginSetup
 %%EndSetup
@@ -19,12 +19,12 @@
 /marginwidth 10 def
 /distx 20 def
 /disty 40 def
-/boundaspect 0.444643 def  % aspect ratio of the BoundingBox (width/height)
+/boundaspect 0.461111 def  % aspect ratio of the BoundingBox (width/height)
 /boundx 500 def
 /boundy boundx boundaspect div def
 /xspacing 0 def
 /yspacing 0 def
-/rows 28 def
+/rows 27 def
 /cols 2 def
 /scalefactor 0 def
 /boxfont /Times-Roman findfont fontheight scalefont def
@@ -174,7 +174,6 @@
 boxfont setfont
 1 boundaspect scale
 (Core::IOptionsPage) cw
-(QObject) cw
 (AntennaTrackGadgetOptionsPage) cw
 (ConfigGadgetOptionsPage) cw
 (Core::Internal::GeneralSettings) cw
@@ -213,7 +212,6 @@ boundx scalefactor div boundy scalefactor div scale
 % ----- classes -----
 
  (Core::IOptionsPage) 0.000000 26.000000 box
- (QObject) 0.000000 27.000000 box
  (AntennaTrackGadgetOptionsPage) 1.000000 25.000000 box
  (ConfigGadgetOptionsPage) 1.000000 24.000000 box
  (Core::Internal::GeneralSettings) 1.000000 23.000000 box
@@ -243,10 +241,6 @@ boundx scalefactor div boundy scalefactor div scale
 
 % ----- relations -----
 
-solid
-0 0.000000 26.000000 out
-solid
-1 0.000000 27.000000 in
 solid
 1 0.000000 25.250000 out
 solid

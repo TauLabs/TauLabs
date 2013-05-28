@@ -2,6 +2,7 @@ var rs_8c =
 [
     [ "build_codeword", "rs_8c.html#ad72c3418b7254c2efbff890fc97fc32f", null ],
     [ "check_syndrome", "rs_8c.html#a75555933650a50987a9c5b39aff2b26a", null ],
+    [ "compute_genpoly", "rs_8c.html#a3730ba0c4f86d1f46c2328d7feda1b02", null ],
     [ "debug_check_syndrome", "rs_8c.html#a503801e9bcd8e179d6b5ba5b185ff0d1", null ],
     [ "decode_data", "rs_8c.html#a231146bc254c1a49a9d3cc94c84cfd4e", null ],
     [ "encode_data", "rs_8c.html#a33cac00a5b8d040514e163b6d4f97b90", null ],

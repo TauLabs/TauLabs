@@ -5,7 +5,7 @@
 %%For: 
 %Magnification: 1.00
 %%Orientation: Portrait
-%%BoundingBox: 0 0 500 109.489051
+%%BoundingBox: 0 0 500 72.992701
 %%Pages: 0
 %%BeginSetup
 %%EndSetup
@@ -19,12 +19,12 @@
 /marginwidth 10 def
 /distx 20 def
 /disty 40 def
-/boundaspect 4.566667 def  % aspect ratio of the BoundingBox (width/height)
+/boundaspect 6.850000 def  % aspect ratio of the BoundingBox (width/height)
 /boundx 500 def
 /boundy boundx boundaspect div def
 /xspacing 0 def
 /yspacing 0 def
-/rows 3 def
+/rows 2 def
 /cols 4 def
 /scalefactor 0 def
 /boxfont /Times-Roman findfont fontheight scalefont def
@@ -174,8 +174,6 @@
 boxfont setfont
 1 boundaspect scale
 (Simulator) cw
-(QObject) cw
-(QObject) cw
 (AeroSimRCSimulator) cw
 (FGSimulator) cw
 (IL2Simulator) cw
@@ -192,8 +190,6 @@ boundx scalefactor div boundy scalefactor div scale
 % ----- classes -----
 
  (Simulator) 1.500000 1.000000 box
- (QObject) 1.000000 2.000000 box
- (QObject) 2.000000 2.000000 box
  (AeroSimRCSimulator) 0.000000 0.000000 box
  (FGSimulator) 1.000000 0.000000 box
  (IL2Simulator) 2.000000 0.000000 box
@@ -201,14 +197,6 @@ boundx scalefactor div boundy scalefactor div scale
 
 % ----- relations -----
 
-solid
-0 1.500000 1.000000 out
-solid
-1.000000 2.000000 2.000000 conn
-solid
-1 1.000000 2.000000 in
-solid
-1 2.000000 2.000000 in
 solid
 1 1.500000 0.250000 out
 solid

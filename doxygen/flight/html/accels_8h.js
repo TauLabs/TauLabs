@@ -1,0 +1,28 @@
+var accels_8h =
+[
+    [ "AccelsConnectCallback", "group___accels.html#gac100b4813dee66c7af85c26d3ecdbfdf", null ],
+    [ "AccelsConnectQueue", "group___accels.html#ga180e4a23bbffce69506325acf3c5941c", null ],
+    [ "AccelsCreateInstance", "group___accels.html#ga64ea82a1a3ea6182a32f2bc9583038aa", null ],
+    [ "AccelsGet", "group___accels.html#ga27cde608a97135aa5756558891bf145b", null ],
+    [ "AccelsGetMetadata", "group___accels.html#gad770ca24270cb5dbd10815c71b9d4295", null ],
+    [ "AccelsHandle", "group___accels.html#ga71ed1a9a06bfe627b8eb3f5f9ba11b7d", null ],
+    [ "AccelsInitialize", "group___accels.html#ga3e61bb343e93612ddb5280736a1baad1", null ],
+    [ "AccelsInstGet", "group___accels.html#ga980a43ea0a9b13786109ed97812e43dc", null ],
+    [ "AccelsInstSet", "group___accels.html#ga3d5471c52625e9b7caaf35df660e5add", null ],
+    [ "AccelsInstUpdated", "group___accels.html#gacde7f89b0eca1a635fb303a556b6700b", null ],
+    [ "AccelsReadOnly", "group___accels.html#ga30ac017baaad9cf5d80dd06236d99029", null ],
+    [ "AccelsRequestInstUpdate", "group___accels.html#ga031679158d2b0505eb7da547be5abe8f", null ],
+    [ "AccelsRequestUpdate", "group___accels.html#ga4402e675595a2387fd413192db1cbabb", null ],
+    [ "AccelsSet", "group___accels.html#ga106c7f9ebea054ecfc17a06b4ce662c1", null ],
+    [ "AccelsSetDefaults", "group___accels.html#gaa5e01e8c3e172ff3360ea3601176a139", null ],
+    [ "AccelsSetMetadata", "group___accels.html#gaeb723189d5d3c28990a045cda3665fd6", null ],
+    [ "AccelstemperatureGet", "group___accels.html#ga588a6b91be0779500d571e81c680921a", null ],
+    [ "AccelstemperatureSet", "group___accels.html#ga2872728c2bb539420f4ddc0d2d315363", null ],
+    [ "AccelsUpdated", "group___accels.html#ga32b01786f976063c106ebfe5b79437c5", null ],
+    [ "AccelsxGet", "group___accels.html#gaf14e4358d6336486d812854df8205221", null ],
+    [ "AccelsxSet", "group___accels.html#ga8fa3d88253a9f105f64e92a3b09126cd", null ],
+    [ "AccelsyGet", "group___accels.html#ga5fc4604939eeab54141e291e2c96a4be", null ],
+    [ "AccelsySet", "group___accels.html#ga2e4acc7901b4f61567da2d6cca45b6dc", null ],
+    [ "AccelszGet", "group___accels.html#gadb42b997cb39a5cd0a52e5ff7281b716", null ],
+    [ "AccelszSet", "group___accels.html#ga5355d475f6fc89544d6efd90fcb5a1a0", null ]
+];

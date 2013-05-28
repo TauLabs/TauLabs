@@ -7,10 +7,13 @@ var structinternals_1_1_rect_lat_lng =
     [ "Contains", "group___o_p_map_widget.html#ga08c25e5064c11d63c96a89619f027b89", null ],
     [ "Contains", "group___o_p_map_widget.html#ga15911b1ea5d85590ac05427410787b40", null ],
     [ "Contains", "group___o_p_map_widget.html#gafd896574ac80e5ee28f536db3a8391a2", null ],
+    [ "FromLTRB", "group___o_p_map_widget.html#gaaf71d43bd87065c51a98a46717d581a6", null ],
     [ "HeightLat", "group___o_p_map_widget.html#gac283a070480139930c4a667981e4a0d4", null ],
     [ "Inflate", "group___o_p_map_widget.html#gaff9d1cc5fb1f00965fad7de448ee3aa3", null ],
     [ "Inflate", "group___o_p_map_widget.html#gab43105de3a7b0711e47f7e02e0359f2c", null ],
+    [ "Inflate", "group___o_p_map_widget.html#ga41e7a0b707e7e348e2d4f9b8aa3f2831", null ],
     [ "Intersect", "group___o_p_map_widget.html#ga829f6c41bb7332b5c596f417157972a7", null ],
+    [ "Intersect", "group___o_p_map_widget.html#ga6590bcf87d4c6a72e570bcfcca89a5bf", null ],
     [ "IntersectsWith", "group___o_p_map_widget.html#ga3d1953efc67a3592589cff53c33e119a", null ],
     [ "IsEmpty", "group___o_p_map_widget.html#ga4b7818f2eee94eb3c8ecb308da6a4c1b", null ],
     [ "Lat", "group___o_p_map_widget.html#ga240d0cc702027ee4199ed6b4d9d7d91f", null ],
@@ -30,8 +33,10 @@ var structinternals_1_1_rect_lat_lng =
     [ "Size", "group___o_p_map_widget.html#ga9e982e2f84c0c4faf6fb0a09d57dc18b", null ],
     [ "Top", "group___o_p_map_widget.html#ga1c2062c6fe46c3769c4e9a0d5eef59b8", null ],
     [ "ToString", "group___o_p_map_widget.html#ga1772321726c6fc1fc073310fd4541b12", null ],
+    [ "Union", "group___o_p_map_widget.html#ga2b63b270f234d9f18a58415ff69b37e7", null ],
     [ "WidthLng", "group___o_p_map_widget.html#ga4124280c2d4b4e103805d9cf5d3885bb", null ],
     [ "operator!=", "group___o_p_map_widget.html#ga3259b80d8473418ef75be3a72b243e2a", null ],
     [ "operator==", "group___o_p_map_widget.html#ga1a6afef3d18a3e0a340d1d9dfe632a6a", null ],
-    [ "qHash", "group___o_p_map_widget.html#ga67b89136c8dd499f5081ea9c95aeed4b", null ]
+    [ "qHash", "group___o_p_map_widget.html#ga67b89136c8dd499f5081ea9c95aeed4b", null ],
+    [ "Empty", "group___o_p_map_widget.html#ga0975dcf29ee445b5510f2c502940b50a", null ]
 ];

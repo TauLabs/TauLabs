@@ -1,4 +1,0 @@
-var struct_slu_matrix_map_helper_3_01_matrix_3_01_scalar_00_01_rows_00_01_cols_00_01_options_00_01_m_rows_00_01_m_cols_01_4_01_4 =
-[
-    [ "MatrixType", "struct_slu_matrix_map_helper_3_01_matrix_3_01_scalar_00_01_rows_00_01_cols_00_01_options_00_01_m_rows_00_01_m_cols_01_4_01_4.html#a7ca362900dab58b2714e39a32fe686d5", null ]
-];

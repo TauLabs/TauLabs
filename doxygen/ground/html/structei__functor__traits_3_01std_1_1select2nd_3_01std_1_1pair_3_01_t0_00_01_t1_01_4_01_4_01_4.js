@@ -1,5 +1,0 @@
-var structei__functor__traits_3_01std_1_1select2nd_3_01std_1_1pair_3_01_t0_00_01_t1_01_4_01_4_01_4 =
-[
-    [ "Cost", "structei__functor__traits_3_01std_1_1select2nd_3_01std_1_1pair_3_01_t0_00_01_t1_01_4_01_4_01_4.html#a49e9b8ecb52dd2d26f2e461befb23226a23078e54b9e7b1bce74ba7e0ca309587", null ],
-    [ "PacketAccess", "structei__functor__traits_3_01std_1_1select2nd_3_01std_1_1pair_3_01_t0_00_01_t1_01_4_01_4_01_4.html#a49e9b8ecb52dd2d26f2e461befb23226ad350244ce2da340509c5983b179f27e8", null ]
-];

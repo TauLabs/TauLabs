@@ -1,7 +1,5 @@
 var classuavobject_1_1_u_a_v_object_metadata =
 [
-    [ "Access", "classuavobject_1_1_u_a_v_object_metadata_1_1_access.html", null ],
-    [ "UpdateMode", "classuavobject_1_1_u_a_v_object_metadata_1_1_update_mode.html", null ],
     [ "__init__", "classuavobject_1_1_u_a_v_object_metadata.html#a624d80159a14066c74c6e3f42d53cea1", null ],
     [ "read", "classuavobject_1_1_u_a_v_object_metadata.html#a2279efe9c99e6c87c29b3263397dcb78", null ],
     [ "write", "classuavobject_1_1_u_a_v_object_metadata.html#ab27321a3eaf48b6877348877c6aeed96", null ],

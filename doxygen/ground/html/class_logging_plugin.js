@@ -1,8 +1,5 @@
 var class_logging_plugin =
 [
-    [ "IDLE", "class_logging_plugin.html#adbbefe49ca5ce8b4857276187959fca8ab016e5df51d783046bf9e64102b4c54c", null ],
-    [ "LOGGING", "class_logging_plugin.html#adbbefe49ca5ce8b4857276187959fca8a8e92421dfc070a67508f0311f921c0cd", null ],
-    [ "REPLAY", "class_logging_plugin.html#adbbefe49ca5ce8b4857276187959fca8aa2f7f75dc98e5eda7bd7dbd4bf83a31b", null ],
     [ "LoggingPlugin", "group___logging.html#gaddeb416da42e01f34abe18fa2fa39400", null ],
     [ "~LoggingPlugin", "group___logging.html#gaea5e4f27d801294d19b75975ce35a567", null ],
     [ "extensionsInitialized", "group___logging.html#gafefd3e10b5da148d3f936cc3631e4792", null ],
@@ -16,5 +13,5 @@ var class_logging_plugin =
     [ "stopReplaySignal", "class_logging_plugin.html#ae099cf3698d490ea9b3484f0fa9ce339", null ],
     [ "logConnection", "class_logging_plugin.html#aa8ec59a3e026606b2e503ff2644c9e64", null ],
     [ "loggingThread", "class_logging_plugin.html#a0e2c95cb5a17fd852e075212993e4ba3", null ],
-    [ "state", "class_logging_plugin.html#afed116d3400891dfe3abbe8ab2865285", null ]
+    [ "state", "class_logging_plugin.html#ae4e8e9ffae93981361d7569667082cf3", null ]
 ];

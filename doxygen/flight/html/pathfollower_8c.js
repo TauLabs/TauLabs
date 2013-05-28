@@ -1,16 +1,14 @@
 var pathfollower_8c =
 [
-    [ "pathFollowerTypes", "pathfollower_8c.html#a4bbdbc4a4481bd273fb63fab3646c22b", [
-      [ "FIXEDWING", "pathfollower_8c.html#a4bbdbc4a4481bd273fb63fab3646c22ba710308aadc92dad47de079a6a899679b", null ],
-      [ "MULTIROTOR", "pathfollower_8c.html#a4bbdbc4a4481bd273fb63fab3646c22ba2ab934febd51e9a1402de82bdf57e990", null ],
-      [ "HELICOPTER", "pathfollower_8c.html#a4bbdbc4a4481bd273fb63fab3646c22ba5ed875b8404837e6474a4b500e656fcd", null ],
-      [ "DUBINSCART", "pathfollower_8c.html#a4bbdbc4a4481bd273fb63fab3646c22ba9a5efc045d26a0771e5e78980f1d9ac3", null ],
-      [ "HOLONOMIC", "pathfollower_8c.html#a4bbdbc4a4481bd273fb63fab3646c22ba8f3ed5f77271bf50a6004685c4b729c5", null ],
-      [ "NONHOLONOMIC", "pathfollower_8c.html#a4bbdbc4a4481bd273fb63fab3646c22ba3f3f266a1f303d33d28de86ada3c722d", null ],
-      [ "DISABLED", "pathfollower_8c.html#a4bbdbc4a4481bd273fb63fab3646c22ba40f39385238042f6ec0cbac821a19fc4", null ]
-    ] ],
-    [ "MODULE_INITCALL", "pathfollower_8c.html#a12295fff725e85b0b9cab808ded56315", null ],
-    [ "PathFollowerInitialize", "pathfollower_8c.html#aa4ee6d9af7715845fd300acdf4ee3fbe", null ],
-    [ "PathFollowerStart", "pathfollower_8c.html#a779f0a705b6a86f7a467d70dd0e91b56", null ],
-    [ "flightStatusUpdate", "pathfollower_8c.html#a1fcb1f94a20ead02f78d415f51cabb6c", null ]
+    [ "pathFollowerTypes", "group___path_follower_module.html#ga4bbdbc4a4481bd273fb63fab3646c22b", null ],
+    [ "FlightStatusUpdatedCb", "group___path_follower_module.html#gabcafb421c56a8765aced73ca86c2018d", null ],
+    [ "MODULE_INITCALL", "group___path_follower_module.html#ga12295fff725e85b0b9cab808ded56315", null ],
+    [ "PathFollowerInitialize", "group___path_follower_module.html#gaa4ee6d9af7715845fd300acdf4ee3fbe", null ],
+    [ "PathFollowerStart", "group___path_follower_module.html#ga779f0a705b6a86f7a467d70dd0e91b56", null ],
+    [ "PathFollowerTask", "group___path_follower_module.html#gaf9a6ac150d8e9259684818228adfa95d", null ],
+    [ "flightMode", "group___path_follower_module.html#ga2558023314c68944d06eda65359d6585", null ],
+    [ "flightStatusUpdate", "group___path_follower_module.html#ga1fcb1f94a20ead02f78d415f51cabb6c", null ],
+    [ "followerEnabled", "group___path_follower_module.html#ga39934620aad1df18b56ce985b6d61c60", null ],
+    [ "PathFollowerTaskHandle", "group___path_follower_module.html#gaac0fc1080529a747ab19b407d4eb3b9e", null ],
+    [ "pathFollowerType", "group___path_follower_module.html#ga47a944b7a46258a1e6ca94156367ff62", null ]
 ];

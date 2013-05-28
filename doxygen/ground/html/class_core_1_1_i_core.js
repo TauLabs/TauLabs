@@ -16,6 +16,7 @@ var class_core_1_1_i_core =
     [ "deleteSettings", "group___core_plugin.html#ga2dc9f1b6c02a1af850ca62d9c617f653", null ],
     [ "globalMessaging", "group___core_plugin.html#ga90d4f12b990192d622c2f164d577ebf3", null ],
     [ "hasContext", "group___core_plugin.html#ga1539030d8233cf72cf0159dec2aeab83", null ],
+    [ "instance", "group___core_plugin.html#ga71099762904aac0b404fcd1f93bdc83e", null ],
     [ "mainWindow", "group___core_plugin.html#ga7bd137564271d03a3db75c0c71b99ea8", null ],
     [ "messageManager", "group___core_plugin.html#gacc045be864edcb663fd9483b0690769e", null ],
     [ "mimeDatabase", "group___core_plugin.html#gac1e3260fb816ebaae2c4dc7cffbee93a", null ],

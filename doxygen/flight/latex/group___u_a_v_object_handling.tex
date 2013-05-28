@@ -1,0 +1,1572 @@
+\hypertarget{group___u_a_v_object_handling}{\section{\-U\-A\-V\-Object handling code}
+\label{group___u_a_v_object_handling}\index{\-U\-A\-V\-Object handling code@{\-U\-A\-V\-Object handling code}}
+}
+\subsection*{\-Data \-Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{struct_event_callback_info}{\-Event\-Callback\-Info}
+\item 
+struct \hyperlink{struct_periodic_object_list_struct}{\-Periodic\-Object\-List\-Struct}
+\item 
+struct \hyperlink{struct_event_stats}{\-Event\-Stats}
+\item 
+struct \hyperlink{struct_object_event_entry}{\-Object\-Event\-Entry}
+\item 
+struct \hyperlink{struct_u_a_v_o_base}{\-U\-A\-V\-O\-Base}
+\item 
+struct \hyperlink{struct_u_a_v_o_meta}{\-U\-A\-V\-O\-Meta}
+\item 
+struct \hyperlink{struct_u_a_v_o_data}{\-U\-A\-V\-O\-Data}
+\item 
+struct \hyperlink{struct_u_a_v_o_single}{\-U\-A\-V\-O\-Single}
+\item 
+struct \hyperlink{struct_u_a_v_o_multi_inst}{\-U\-A\-V\-O\-Multi\-Inst}
+\item 
+struct \hyperlink{struct_u_a_v_o_multi}{\-U\-A\-V\-O\-Multi}
+\end{DoxyCompactItemize}
+\subsection*{\-Files}
+\begin{DoxyCompactItemize}
+\item 
+file \hyperlink{eventdispatcher_8c}{eventdispatcher.\-c}
+\begin{DoxyCompactList}\small\item\em \-Event dispatcher, distributes object events as callbacks. \-Alternative to using tasks and queues. \-All callbacks are invoked from the event task. \end{DoxyCompactList}\item 
+file \hyperlink{eventdispatcher_8h}{eventdispatcher.\-h}
+\begin{DoxyCompactList}\small\item\em \-Event dispatcher, distributes object events as callbacks. \-Alternative to using tasks and queues. \-All callbacks are invoked from the event task. \end{DoxyCompactList}\item 
+file \hyperlink{uavobjectmanager_8c}{uavobjectmanager.\-c}
+\begin{DoxyCompactList}\small\item\em \-Object manager library. \-This library holds a collection of all objects. \-It can be used by all modules/libraries to find an object reference. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef struct \*
+\hyperlink{struct_periodic_object_list_struct}{\-Periodic\-Object\-List\-Struct} \hyperlink{group___u_a_v_object_handling_ga3da0c8782a25b0b174e36b9f80d02183}{\-Periodic\-Object\-List}
+\item 
+typedef void $\ast$ \hyperlink{group___u_a_v_object_handling_gabd5387dedf4d32f408b532b19fcdc1da}{\-Instance\-Handle}
+\end{DoxyCompactItemize}
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+int32\-\_\-t \hyperlink{group___u_a_v_object_handling_gabfbe02253807a718d938d5f14d264645}{\-Event\-Dispatcher\-Initialize} ()
+\item 
+void \hyperlink{group___u_a_v_object_handling_ga938822e7233dbbb444a5bdde8f626fae}{\-Event\-Get\-Stats} (\hyperlink{struct_event_stats}{\-Event\-Stats} $\ast$stats\-Out)
+\item 
+void \hyperlink{group___u_a_v_object_handling_ga17f7c06410e7f0c04e1d1df6beee93d4}{\-Event\-Clear\-Stats} ()
+\item 
+int32\-\_\-t \hyperlink{group___u_a_v_object_handling_gaff090284e03d5655f766c9c6dd27f555}{\-Event\-Callback\-Dispatch} (\hyperlink{struct_u_a_v_obj_event}{\-U\-A\-V\-Obj\-Event} $\ast$ev, \hyperlink{targets_2_u_a_v_objects_2inc_2uavobjectmanager_8h_a33d11560e38b56dc904220fb0f785c28}{\-U\-A\-V\-Obj\-Event\-Callback} cb)
+\item 
+int32\-\_\-t \hyperlink{group___u_a_v_object_handling_ga34e9f120ad77feee68d20f0a22adeb51}{\-Event\-Periodic\-Callback\-Create} (\hyperlink{struct_u_a_v_obj_event}{\-U\-A\-V\-Obj\-Event} $\ast$ev, \hyperlink{targets_2_u_a_v_objects_2inc_2uavobjectmanager_8h_a33d11560e38b56dc904220fb0f785c28}{\-U\-A\-V\-Obj\-Event\-Callback} cb, uint16\-\_\-t period\-Ms)
+\item 
+int32\-\_\-t \hyperlink{group___u_a_v_object_handling_ga10f109820071bea9b310dce65a46d784}{\-Event\-Periodic\-Callback\-Update} (\hyperlink{struct_u_a_v_obj_event}{\-U\-A\-V\-Obj\-Event} $\ast$ev, \hyperlink{targets_2_u_a_v_objects_2inc_2uavobjectmanager_8h_a33d11560e38b56dc904220fb0f785c28}{\-U\-A\-V\-Obj\-Event\-Callback} cb, uint16\-\_\-t period\-Ms)
+\item 
+int32\-\_\-t \hyperlink{group___u_a_v_object_handling_gae4d288e110cd074d66fcd5ab8825cf10}{\-Event\-Periodic\-Queue\-Create} (\hyperlink{struct_u_a_v_obj_event}{\-U\-A\-V\-Obj\-Event} $\ast$ev, x\-Queue\-Handle queue, uint16\-\_\-t period\-Ms)
+\item 
+int32\-\_\-t \hyperlink{group___u_a_v_object_handling_ga5d68f0ec012a592f38691e782b636f8a}{\-Event\-Periodic\-Queue\-Update} (\hyperlink{struct_u_a_v_obj_event}{\-U\-A\-V\-Obj\-Event} $\ast$ev, x\-Queue\-Handle queue, uint16\-\_\-t period\-Ms)
+\item 
+struct \hyperlink{struct_u_a_v_o_base}{\-U\-A\-V\-O\-Base} \hyperlink{group___u_a_v_object_handling_ga4b0485179787b019d9da516583780bdf}{\-\_\-\-\_\-attribute\-\_\-\-\_\-} ((packed))
+\item 
+int32\-\_\-t \hyperlink{group___u_a_v_object_handling_ga07599909613c0729f06c1b4b8a2296af}{\-U\-A\-V\-Obj\-Initialize} ()
+\item 
+void \hyperlink{group___u_a_v_object_handling_ga6ff4107796c9693e8034e7c77a26f066}{\-U\-A\-V\-Obj\-Get\-Stats} (\hyperlink{struct_u_a_v_obj_stats}{\-U\-A\-V\-Obj\-Stats} $\ast$stats\-Out)
+\item 
+void \hyperlink{group___u_a_v_object_handling_gae604f34af94a200b96787f24abb32ce1}{\-U\-A\-V\-Obj\-Clear\-Stats} ()
+\item 
+\hyperlink{targets_2_u_a_v_objects_2inc_2uavobjectmanager_8h_a279053e22be53ce9f895043aaeb91e3b}{\-U\-A\-V\-Obj\-Handle} \hyperlink{group___u_a_v_object_handling_ga88eab3d936394b3dffd65db8a148b9b1}{\-U\-A\-V\-Obj\-Register} (uint32\-\_\-t \hyperlink{uavobjectmanager_8c_abaabdc509cdaba7df9f56c6c76f3ae19}{id}, int32\-\_\-t is\-Single\-Instance, int32\-\_\-t is\-Settings, uint32\-\_\-t num\-\_\-bytes, \hyperlink{targets_2_u_a_v_objects_2inc_2uavobjectmanager_8h_a16def10911b9b7e8626c2d1e3fec6e67}{\-U\-A\-V\-Obj\-Initialize\-Callback} init\-Cb)
+\item 
+\hyperlink{targets_2_u_a_v_objects_2inc_2uavobjectmanager_8h_a279053e22be53ce9f895043aaeb91e3b}{\-U\-A\-V\-Obj\-Handle} \hyperlink{group___u_a_v_object_handling_ga17a9665c830f577232ad694ab4baaea6}{\-U\-A\-V\-Obj\-Get\-By\-I\-D} (uint32\-\_\-t \hyperlink{uavobjectmanager_8c_abaabdc509cdaba7df9f56c6c76f3ae19}{id})
+\item 
+uint32\-\_\-t \hyperlink{group___u_a_v_object_handling_ga197049afa1062802ec0dc2c7c971d89e}{\-U\-A\-V\-Obj\-Get\-I\-D} (\hyperlink{targets_2_u_a_v_objects_2inc_2uavobjectmanager_8h_a279053e22be53ce9f895043aaeb91e3b}{\-U\-A\-V\-Obj\-Handle} obj\-\_\-handle)
+\item 
+uint32\-\_\-t \hyperlink{group___u_a_v_object_handling_ga08b602bb9381c3c2806140ed32a5af74}{\-U\-A\-V\-Obj\-Get\-Num\-Bytes} (\hyperlink{targets_2_u_a_v_objects_2inc_2uavobjectmanager_8h_a279053e22be53ce9f895043aaeb91e3b}{\-U\-A\-V\-Obj\-Handle} obj)
+\item 
+\hyperlink{targets_2_u_a_v_objects_2inc_2uavobjectmanager_8h_a279053e22be53ce9f895043aaeb91e3b}{\-U\-A\-V\-Obj\-Handle} \hyperlink{group___u_a_v_object_handling_ga9b6a21cc5abcfe4af811f65a3744d4f3}{\-U\-A\-V\-Obj\-Get\-Linked\-Obj} (\hyperlink{targets_2_u_a_v_objects_2inc_2uavobjectmanager_8h_a279053e22be53ce9f895043aaeb91e3b}{\-U\-A\-V\-Obj\-Handle} obj\-\_\-handle)
+\item 
+uint16\-\_\-t \hyperlink{group___u_a_v_object_handling_ga264590c39739a19082e2c32d91f6e3ce}{\-U\-A\-V\-Obj\-Get\-Num\-Instances} (\hyperlink{targets_2_u_a_v_objects_2inc_2uavobjectmanager_8h_a279053e22be53ce9f895043aaeb91e3b}{\-U\-A\-V\-Obj\-Handle} obj\-\_\-handle)
+\item 
+uint16\-\_\-t \hyperlink{group___u_a_v_object_handling_gac892e6dac1fb6de05ed730aa15b65a65}{\-U\-A\-V\-Obj\-Create\-Instance} (\hyperlink{targets_2_u_a_v_objects_2inc_2uavobjectmanager_8h_a279053e22be53ce9f895043aaeb91e3b}{\-U\-A\-V\-Obj\-Handle} obj\-\_\-handle, \hyperlink{targets_2_u_a_v_objects_2inc_2uavobjectmanager_8h_a16def10911b9b7e8626c2d1e3fec6e67}{\-U\-A\-V\-Obj\-Initialize\-Callback} init\-Cb)
+\item 
+bool \hyperlink{group___u_a_v_object_handling_gadd4119ec326e9718543908e796bf46b2}{\-U\-A\-V\-Obj\-Is\-Single\-Instance} (\hyperlink{targets_2_u_a_v_objects_2inc_2uavobjectmanager_8h_a279053e22be53ce9f895043aaeb91e3b}{\-U\-A\-V\-Obj\-Handle} obj\-\_\-handle)
+\item 
+bool \hyperlink{group___u_a_v_object_handling_ga52c0794e99c2ae401c5ed7f25a67e51a}{\-U\-A\-V\-Obj\-Is\-Metaobject} (\hyperlink{targets_2_u_a_v_objects_2inc_2uavobjectmanager_8h_a279053e22be53ce9f895043aaeb91e3b}{\-U\-A\-V\-Obj\-Handle} obj\-\_\-handle)
+\item 
+bool \hyperlink{group___u_a_v_object_handling_ga78e3c762f51cb6b295c7b8f787fa2ba1}{\-U\-A\-V\-Obj\-Is\-Settings} (\hyperlink{targets_2_u_a_v_objects_2inc_2uavobjectmanager_8h_a279053e22be53ce9f895043aaeb91e3b}{\-U\-A\-V\-Obj\-Handle} obj\-\_\-handle)
+\item 
+int32\-\_\-t \hyperlink{group___u_a_v_object_handling_gae54216880f0d6f603497b8fad60d0c95}{\-U\-A\-V\-Obj\-Unpack} (\hyperlink{targets_2_u_a_v_objects_2inc_2uavobjectmanager_8h_a279053e22be53ce9f895043aaeb91e3b}{\-U\-A\-V\-Obj\-Handle} obj\-\_\-handle, uint16\-\_\-t inst\-Id, const uint8\-\_\-t $\ast$data\-In)
+\item 
+int32\-\_\-t \hyperlink{group___u_a_v_object_handling_gaeced79a2ea987ec860ba7468df886ecd}{\-U\-A\-V\-Obj\-Pack} (\hyperlink{targets_2_u_a_v_objects_2inc_2uavobjectmanager_8h_a279053e22be53ce9f895043aaeb91e3b}{\-U\-A\-V\-Obj\-Handle} obj\-\_\-handle, uint16\-\_\-t inst\-Id, uint8\-\_\-t $\ast$data\-Out)
+\item 
+int32\-\_\-t \hyperlink{group___u_a_v_object_handling_ga417bd4dd0d0c7b33938e2351b0bba8b2}{\-U\-A\-V\-Obj\-Save\-To\-File} (\hyperlink{targets_2_u_a_v_objects_2inc_2uavobjectmanager_8h_a279053e22be53ce9f895043aaeb91e3b}{\-U\-A\-V\-Obj\-Handle} obj\-\_\-handle, uint16\-\_\-t inst\-Id, \-F\-I\-L\-E\-I\-N\-F\-O $\ast$\hyperlink{group___w_a_v_e_p_l_a_y_e_r___private___variables_ga48b699d30a027a1d6326588c99d716e1}{file})
+\item 
+int32\-\_\-t \hyperlink{group___u_a_v_object_handling_gab06b41f74db97895f2de3ec8772ddcd9}{\-U\-A\-V\-Obj\-Save} (\hyperlink{targets_2_u_a_v_objects_2inc_2uavobjectmanager_8h_a279053e22be53ce9f895043aaeb91e3b}{\-U\-A\-V\-Obj\-Handle} obj\-\_\-handle, uint16\-\_\-t inst\-Id)
+\item 
+\hyperlink{targets_2_u_a_v_objects_2inc_2uavobjectmanager_8h_a279053e22be53ce9f895043aaeb91e3b}{\-U\-A\-V\-Obj\-Handle} \hyperlink{group___u_a_v_object_handling_ga851caa15c5807d5affbd6095d3cdaca7}{\-U\-A\-V\-Obj\-Load\-From\-File} (\-F\-I\-L\-E\-I\-N\-F\-O $\ast$\hyperlink{group___w_a_v_e_p_l_a_y_e_r___private___variables_ga48b699d30a027a1d6326588c99d716e1}{file})
+\item 
+int32\-\_\-t \hyperlink{group___u_a_v_object_handling_gaf028fed8e3025656c7436ce6a7340e44}{\-U\-A\-V\-Obj\-Load} (\hyperlink{targets_2_u_a_v_objects_2inc_2uavobjectmanager_8h_a279053e22be53ce9f895043aaeb91e3b}{\-U\-A\-V\-Obj\-Handle} obj\-\_\-handle, uint16\-\_\-t inst\-Id)
+\item 
+int32\-\_\-t \hyperlink{group___u_a_v_object_handling_gad00323c86e457fbe63ec177cd55c2864}{\-U\-A\-V\-Obj\-Delete\-By\-Id} (uint32\-\_\-t \hyperlink{pios__flashfs__logfs_8c_a4901f00431a2c948153bd4f187fce556}{obj\-\_\-id}, uint16\-\_\-t inst\-\_\-id)
+\item 
+int32\-\_\-t \hyperlink{group___u_a_v_object_handling_ga6282540dd888720334943f3b3ad5f301}{\-U\-A\-V\-Obj\-Save\-Settings} ()
+\item 
+int32\-\_\-t \hyperlink{group___u_a_v_object_handling_ga961f3df74e4106ee108a10b57536302f}{\-U\-A\-V\-Obj\-Load\-Settings} ()
+\item 
+int32\-\_\-t \hyperlink{group___u_a_v_object_handling_ga5f40e35848fe223463778b90e8035cbd}{\-U\-A\-V\-Obj\-Delete\-Settings} ()
+\item 
+int32\-\_\-t \hyperlink{group___u_a_v_object_handling_ga203ebba7c25227245b1ae5abd38492c4}{\-U\-A\-V\-Obj\-Save\-Metaobjects} ()
+\item 
+int32\-\_\-t \hyperlink{group___u_a_v_object_handling_ga014c904f7cc34d6bb5a5a1f23ebe3364}{\-U\-A\-V\-Obj\-Load\-Metaobjects} ()
+\item 
+int32\-\_\-t \hyperlink{group___u_a_v_object_handling_ga74aba825a99924f3c8e3f7c209409ab6}{\-U\-A\-V\-Obj\-Delete\-Metaobjects} ()
+\item 
+int32\-\_\-t \hyperlink{group___u_a_v_object_handling_gaca346cc577b81ba51cde8f793cdaf969}{\-U\-A\-V\-Obj\-Set\-Data} (\hyperlink{targets_2_u_a_v_objects_2inc_2uavobjectmanager_8h_a279053e22be53ce9f895043aaeb91e3b}{\-U\-A\-V\-Obj\-Handle} obj\-\_\-handle, const void $\ast$data\-In)
+\item 
+int32\-\_\-t \hyperlink{group___u_a_v_object_handling_gab4d774a4a829bc754878021d3bcb195f}{\-U\-A\-V\-Obj\-Set\-Data\-Field} (\hyperlink{targets_2_u_a_v_objects_2inc_2uavobjectmanager_8h_a279053e22be53ce9f895043aaeb91e3b}{\-U\-A\-V\-Obj\-Handle} obj\-\_\-handle, const void $\ast$data\-In, uint32\-\_\-t \hyperlink{group___sparky_b_l_gaa9fff43968831437a312428836cab362}{offset}, uint32\-\_\-t size)
+\item 
+int32\-\_\-t \hyperlink{group___u_a_v_object_handling_ga580decfc7a47e5f28215f1f940e3799e}{\-U\-A\-V\-Obj\-Get\-Data} (\hyperlink{targets_2_u_a_v_objects_2inc_2uavobjectmanager_8h_a279053e22be53ce9f895043aaeb91e3b}{\-U\-A\-V\-Obj\-Handle} obj\-\_\-handle, void $\ast$data\-Out)
+\item 
+int32\-\_\-t \hyperlink{group___u_a_v_object_handling_ga532ccb2e759fca49c89e425b872eed1c}{\-U\-A\-V\-Obj\-Get\-Data\-Field} (\hyperlink{targets_2_u_a_v_objects_2inc_2uavobjectmanager_8h_a279053e22be53ce9f895043aaeb91e3b}{\-U\-A\-V\-Obj\-Handle} obj\-\_\-handle, void $\ast$data\-Out, uint32\-\_\-t \hyperlink{group___sparky_b_l_gaa9fff43968831437a312428836cab362}{offset}, uint32\-\_\-t size)
+\item 
+int32\-\_\-t \hyperlink{group___u_a_v_object_handling_gaa9c916d3a8cabfc6d7a0f3d488d10803}{\-U\-A\-V\-Obj\-Set\-Instance\-Data} (\hyperlink{targets_2_u_a_v_objects_2inc_2uavobjectmanager_8h_a279053e22be53ce9f895043aaeb91e3b}{\-U\-A\-V\-Obj\-Handle} obj\-\_\-handle, uint16\-\_\-t inst\-Id, const void $\ast$data\-In)
+\item 
+int32\-\_\-t \hyperlink{group___u_a_v_object_handling_ga087c34a94f310e0b73ffa8d9e3dd02c6}{\-U\-A\-V\-Obj\-Set\-Instance\-Data\-Field} (\hyperlink{targets_2_u_a_v_objects_2inc_2uavobjectmanager_8h_a279053e22be53ce9f895043aaeb91e3b}{\-U\-A\-V\-Obj\-Handle} obj\-\_\-handle, uint16\-\_\-t inst\-Id, const void $\ast$data\-In, uint32\-\_\-t \hyperlink{group___sparky_b_l_gaa9fff43968831437a312428836cab362}{offset}, uint32\-\_\-t size)
+\item 
+int32\-\_\-t \hyperlink{group___u_a_v_object_handling_ga955799ae236e66aef4070f79d530d73c}{\-U\-A\-V\-Obj\-Get\-Instance\-Data} (\hyperlink{targets_2_u_a_v_objects_2inc_2uavobjectmanager_8h_a279053e22be53ce9f895043aaeb91e3b}{\-U\-A\-V\-Obj\-Handle} obj\-\_\-handle, uint16\-\_\-t inst\-Id, void $\ast$data\-Out)
+\item 
+int32\-\_\-t \hyperlink{group___u_a_v_object_handling_gadc17f6e4b8121257308645c34c5e48c8}{\-U\-A\-V\-Obj\-Get\-Instance\-Data\-Field} (\hyperlink{targets_2_u_a_v_objects_2inc_2uavobjectmanager_8h_a279053e22be53ce9f895043aaeb91e3b}{\-U\-A\-V\-Obj\-Handle} obj\-\_\-handle, uint16\-\_\-t inst\-Id, void $\ast$data\-Out, uint32\-\_\-t \hyperlink{group___sparky_b_l_gaa9fff43968831437a312428836cab362}{offset}, uint32\-\_\-t size)
+\item 
+int32\-\_\-t \hyperlink{group___u_a_v_object_handling_ga0e590d06148882b63affa37888f043df}{\-U\-A\-V\-Obj\-Set\-Metadata} (\hyperlink{targets_2_u_a_v_objects_2inc_2uavobjectmanager_8h_a279053e22be53ce9f895043aaeb91e3b}{\-U\-A\-V\-Obj\-Handle} obj\-\_\-handle, const \-U\-A\-V\-Obj\-Metadata $\ast$data\-In)
+\item 
+int32\-\_\-t \hyperlink{group___u_a_v_object_handling_gac4ddbaf9ae7938badae8552d4ef88b20}{\-U\-A\-V\-Obj\-Get\-Metadata} (\hyperlink{targets_2_u_a_v_objects_2inc_2uavobjectmanager_8h_a279053e22be53ce9f895043aaeb91e3b}{\-U\-A\-V\-Obj\-Handle} obj\-\_\-handle, \-U\-A\-V\-Obj\-Metadata $\ast$data\-Out)
+\item 
+\hyperlink{targets_2_u_a_v_objects_2inc_2uavobjectmanager_8h_a04b37fd239d7727a21668d35d11ad7df}{\-U\-A\-V\-Obj\-Access\-Type} \hyperlink{group___u_a_v_object_handling_gacfa1b9a76f44f743c6e44302670af480}{\-U\-A\-V\-Obj\-Get\-Access} (const \-U\-A\-V\-Obj\-Metadata $\ast$metadata)
+\item 
+void \hyperlink{group___u_a_v_object_handling_ga54607c2130bc133553b18ece1c4d1540}{\-U\-A\-V\-Obj\-Set\-Access} (\-U\-A\-V\-Obj\-Metadata $\ast$metadata, \hyperlink{targets_2_u_a_v_objects_2inc_2uavobjectmanager_8h_a04b37fd239d7727a21668d35d11ad7df}{\-U\-A\-V\-Obj\-Access\-Type} mode)
+\item 
+\hyperlink{targets_2_u_a_v_objects_2inc_2uavobjectmanager_8h_a04b37fd239d7727a21668d35d11ad7df}{\-U\-A\-V\-Obj\-Access\-Type} \hyperlink{group___u_a_v_object_handling_gad5fdcf98dae5cb90223f849df2bda08b}{\-U\-A\-V\-Obj\-Get\-Gcs\-Access} (const \-U\-A\-V\-Obj\-Metadata $\ast$metadata)
+\item 
+void \hyperlink{group___u_a_v_object_handling_ga1ac1d4a25c3ca9025ff3dec90fa6ee91}{\-U\-A\-V\-Obj\-Set\-Gcs\-Access} (\-U\-A\-V\-Obj\-Metadata $\ast$metadata, \hyperlink{targets_2_u_a_v_objects_2inc_2uavobjectmanager_8h_a04b37fd239d7727a21668d35d11ad7df}{\-U\-A\-V\-Obj\-Access\-Type} mode)
+\item 
+uint8\-\_\-t \hyperlink{group___u_a_v_object_handling_gaed561ee171e8da056b47750e8f7a9cb1}{\-U\-A\-V\-Obj\-Get\-Telemetry\-Acked} (const \-U\-A\-V\-Obj\-Metadata $\ast$metadata)
+\item 
+void \hyperlink{group___u_a_v_object_handling_ga43e002d9dd75b34a4392308763d6bb35}{\-U\-A\-V\-Obj\-Set\-Telemetry\-Acked} (\-U\-A\-V\-Obj\-Metadata $\ast$metadata, uint8\-\_\-t \hyperlink{group___p_i_o_s___t_i_m_ga757344f09097232d715d55cbf9d61a43}{val})
+\item 
+uint8\-\_\-t \hyperlink{group___u_a_v_object_handling_gaf7923732ed9e6eb1e367180cb339ca3d}{\-U\-A\-V\-Obj\-Get\-Gcs\-Telemetry\-Acked} (const \-U\-A\-V\-Obj\-Metadata $\ast$metadata)
+\item 
+void \hyperlink{group___u_a_v_object_handling_ga2a530de3ecfe1d8010eeb98f6e4eb037}{\-U\-A\-V\-Obj\-Set\-Gcs\-Telemetry\-Acked} (\-U\-A\-V\-Obj\-Metadata $\ast$metadata, uint8\-\_\-t \hyperlink{group___p_i_o_s___t_i_m_ga757344f09097232d715d55cbf9d61a43}{val})
+\item 
+\hyperlink{targets_2_u_a_v_objects_2inc_2uavobjectmanager_8h_afd571f69747daf7681eb869270e27208}{\-U\-A\-V\-Obj\-Update\-Mode} \hyperlink{group___u_a_v_object_handling_gaf40b4374b42f418959ac186ae2e2ec40}{\-U\-A\-V\-Obj\-Get\-Telemetry\-Update\-Mode} (const \-U\-A\-V\-Obj\-Metadata $\ast$metadata)
+\item 
+void \hyperlink{group___u_a_v_object_handling_ga383e4286d101cd29646b5e4b0e4b6199}{\-U\-A\-V\-Obj\-Set\-Telemetry\-Update\-Mode} (\-U\-A\-V\-Obj\-Metadata $\ast$metadata, \hyperlink{targets_2_u_a_v_objects_2inc_2uavobjectmanager_8h_afd571f69747daf7681eb869270e27208}{\-U\-A\-V\-Obj\-Update\-Mode} \hyperlink{group___p_i_o_s___t_i_m_ga757344f09097232d715d55cbf9d61a43}{val})
+\item 
+\hyperlink{targets_2_u_a_v_objects_2inc_2uavobjectmanager_8h_afd571f69747daf7681eb869270e27208}{\-U\-A\-V\-Obj\-Update\-Mode} \hyperlink{group___u_a_v_object_handling_gad0cb8d70597ac74cdbe8923c66f1c5f1}{\-U\-A\-V\-Obj\-Get\-Gcs\-Telemetry\-Update\-Mode} (const \-U\-A\-V\-Obj\-Metadata $\ast$metadata)
+\item 
+void \hyperlink{group___u_a_v_object_handling_gaf23cc9b03d0eaa4dbf1aec969180f712}{\-U\-A\-V\-Obj\-Set\-Gcs\-Telemetry\-Update\-Mode} (\-U\-A\-V\-Obj\-Metadata $\ast$metadata, \hyperlink{targets_2_u_a_v_objects_2inc_2uavobjectmanager_8h_afd571f69747daf7681eb869270e27208}{\-U\-A\-V\-Obj\-Update\-Mode} \hyperlink{group___p_i_o_s___t_i_m_ga757344f09097232d715d55cbf9d61a43}{val})
+\item 
+int8\-\_\-t \hyperlink{group___u_a_v_object_handling_gac4c6b71eb37b913f642f528ce4627996}{\-U\-A\-V\-Obj\-Read\-Only} (\hyperlink{targets_2_u_a_v_objects_2inc_2uavobjectmanager_8h_a279053e22be53ce9f895043aaeb91e3b}{\-U\-A\-V\-Obj\-Handle} obj\-\_\-handle)
+\item 
+int32\-\_\-t \hyperlink{group___u_a_v_object_handling_ga0ee2030a00c48317b268e82dac8be146}{\-U\-A\-V\-Obj\-Connect\-Queue} (\hyperlink{targets_2_u_a_v_objects_2inc_2uavobjectmanager_8h_a279053e22be53ce9f895043aaeb91e3b}{\-U\-A\-V\-Obj\-Handle} obj\-\_\-handle, x\-Queue\-Handle queue, uint8\-\_\-t event\-Mask)
+\item 
+int32\-\_\-t \hyperlink{group___u_a_v_object_handling_ga42fd51da437a13e22879d922fd771070}{\-U\-A\-V\-Obj\-Disconnect\-Queue} (\hyperlink{targets_2_u_a_v_objects_2inc_2uavobjectmanager_8h_a279053e22be53ce9f895043aaeb91e3b}{\-U\-A\-V\-Obj\-Handle} obj\-\_\-handle, x\-Queue\-Handle queue)
+\item 
+int32\-\_\-t \hyperlink{group___u_a_v_object_handling_gaf37f8752f1cde59a9b77d9ed7709c365}{\-U\-A\-V\-Obj\-Connect\-Callback} (\hyperlink{targets_2_u_a_v_objects_2inc_2uavobjectmanager_8h_a279053e22be53ce9f895043aaeb91e3b}{\-U\-A\-V\-Obj\-Handle} obj\-\_\-handle, \hyperlink{targets_2_u_a_v_objects_2inc_2uavobjectmanager_8h_a33d11560e38b56dc904220fb0f785c28}{\-U\-A\-V\-Obj\-Event\-Callback} cb, uint8\-\_\-t event\-Mask)
+\item 
+int32\-\_\-t \hyperlink{group___u_a_v_object_handling_gadfa431fdf460097d8a6aa13f0a722ac0}{\-U\-A\-V\-Obj\-Disconnect\-Callback} (\hyperlink{targets_2_u_a_v_objects_2inc_2uavobjectmanager_8h_a279053e22be53ce9f895043aaeb91e3b}{\-U\-A\-V\-Obj\-Handle} obj\-\_\-handle, \hyperlink{targets_2_u_a_v_objects_2inc_2uavobjectmanager_8h_a33d11560e38b56dc904220fb0f785c28}{\-U\-A\-V\-Obj\-Event\-Callback} cb)
+\item 
+void \hyperlink{group___u_a_v_object_handling_gaef845ac7a3065b37998fa12f85856cc3}{\-U\-A\-V\-Obj\-Request\-Update} (\hyperlink{targets_2_u_a_v_objects_2inc_2uavobjectmanager_8h_a279053e22be53ce9f895043aaeb91e3b}{\-U\-A\-V\-Obj\-Handle} obj\-\_\-handle)
+\item 
+void \hyperlink{group___u_a_v_object_handling_ga178c0681bdf228a409bcd12d8a10a260}{\-U\-A\-V\-Obj\-Request\-Instance\-Update} (\hyperlink{targets_2_u_a_v_objects_2inc_2uavobjectmanager_8h_a279053e22be53ce9f895043aaeb91e3b}{\-U\-A\-V\-Obj\-Handle} obj\-\_\-handle, uint16\-\_\-t inst\-Id)
+\item 
+void \hyperlink{group___u_a_v_object_handling_gaadcab3b60f3004ccba0c5efa5c5bfb57}{\-U\-A\-V\-Obj\-Updated} (\hyperlink{targets_2_u_a_v_objects_2inc_2uavobjectmanager_8h_a279053e22be53ce9f895043aaeb91e3b}{\-U\-A\-V\-Obj\-Handle} obj\-\_\-handle)
+\item 
+void \hyperlink{group___u_a_v_object_handling_ga90b88ba1823a707558d3056663d0c0c9}{\-U\-A\-V\-Obj\-Instance\-Updated} (\hyperlink{targets_2_u_a_v_objects_2inc_2uavobjectmanager_8h_a279053e22be53ce9f895043aaeb91e3b}{\-U\-A\-V\-Obj\-Handle} obj\-\_\-handle, uint16\-\_\-t inst\-Id)
+\item 
+void \hyperlink{group___u_a_v_object_handling_ga207c169e5af27b411cb6a08608369bdb}{\-U\-A\-V\-Obj\-Iterate} (void($\ast$iterator)(\hyperlink{targets_2_u_a_v_objects_2inc_2uavobjectmanager_8h_a279053e22be53ce9f895043aaeb91e3b}{\-U\-A\-V\-Obj\-Handle} obj))
+\item 
+int32\-\_\-t \hyperlink{group___u_a_v_object_handling_gae4645220de84508ec16b5b028a52f325}{get\-Event\-Mask} (\hyperlink{targets_2_u_a_v_objects_2inc_2uavobjectmanager_8h_a279053e22be53ce9f895043aaeb91e3b}{\-U\-A\-V\-Obj\-Handle} obj\-\_\-handle, x\-Queue\-Handle queue)
+\end{DoxyCompactItemize}
+\subsection*{\-Variables}
+\begin{DoxyCompactItemize}
+\item 
+uintptr\-\_\-t \hyperlink{group___u_a_v_object_handling_gab060f441dd600b08386c0ca1b487217a}{pios\-\_\-uavo\-\_\-settings\-\_\-fs\-\_\-id}
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Typedef \-Documentation}
+\hypertarget{group___u_a_v_object_handling_gabd5387dedf4d32f408b532b19fcdc1da}{\index{\-U\-A\-V\-Object handling code@{\-U\-A\-V\-Object handling code}!\-Instance\-Handle@{\-Instance\-Handle}}
+\index{\-Instance\-Handle@{\-Instance\-Handle}!UAVObject handling code@{\-U\-A\-V\-Object handling code}}
+\subsubsection[{\-Instance\-Handle}]{\setlength{\rightskip}{0pt plus 5cm}typedef void$\ast$ {\bf \-Instance\-Handle}}}\label{group___u_a_v_object_handling_gabd5387dedf4d32f408b532b19fcdc1da}
+\-List of event queues and the eventmask associated with the queue. opaque type for instances 
+
+\-Definition at line 49 of file uavobjectmanager.\-c.
+
+\hypertarget{group___u_a_v_object_handling_ga3da0c8782a25b0b174e36b9f80d02183}{\index{\-U\-A\-V\-Object handling code@{\-U\-A\-V\-Object handling code}!\-Periodic\-Object\-List@{\-Periodic\-Object\-List}}
+\index{\-Periodic\-Object\-List@{\-Periodic\-Object\-List}!UAVObject handling code@{\-U\-A\-V\-Object handling code}}
+\subsubsection[{\-Periodic\-Object\-List}]{\setlength{\rightskip}{0pt plus 5cm}typedef struct {\bf \-Periodic\-Object\-List\-Struct} {\bf \-Periodic\-Object\-List}}}\label{group___u_a_v_object_handling_ga3da0c8782a25b0b174e36b9f80d02183}
+
+
+\-Definition at line 71 of file eventdispatcher.\-c.
+
+
+
+\subsection{\-Function \-Documentation}
+\hypertarget{group___u_a_v_object_handling_ga4b0485179787b019d9da516583780bdf}{\index{\-U\-A\-V\-Object handling code@{\-U\-A\-V\-Object handling code}!\-\_\-\-\_\-attribute\-\_\-\-\_\-@{\-\_\-\-\_\-attribute\-\_\-\-\_\-}}
+\index{\-\_\-\-\_\-attribute\-\_\-\-\_\-@{\-\_\-\-\_\-attribute\-\_\-\-\_\-}!UAVObject handling code@{\-U\-A\-V\-Object handling code}}
+\subsubsection[{\-\_\-\-\_\-attribute\-\_\-\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf \-U\-A\-V\-O\-Base} {\bf \-\_\-\-\_\-attribute\-\_\-\-\_\-} (
+\begin{DoxyParamCaption}
+\item[{(packed)}]{}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_object_handling_ga4b0485179787b019d9da516583780bdf}
+\hypertarget{group___u_a_v_object_handling_gaff090284e03d5655f766c9c6dd27f555}{\index{\-U\-A\-V\-Object handling code@{\-U\-A\-V\-Object handling code}!\-Event\-Callback\-Dispatch@{\-Event\-Callback\-Dispatch}}
+\index{\-Event\-Callback\-Dispatch@{\-Event\-Callback\-Dispatch}!UAVObject handling code@{\-U\-A\-V\-Object handling code}}
+\subsubsection[{\-Event\-Callback\-Dispatch}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-Event\-Callback\-Dispatch} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-U\-A\-V\-Obj\-Event} $\ast$}]{ev, }
+\item[{{\bf \-U\-A\-V\-Obj\-Event\-Callback}}]{cb}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_object_handling_gaff090284e03d5655f766c9c6dd27f555}
+\-Dispatch an event by invoking the supplied callback. \-The function returns imidiatelly, the callback is invoked from the event task. 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em ev} & \-The event to be dispatched \\
+\hline
+\mbox{\tt in}  & {\em cb} & \-The callback function \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+\-Success (0), failure (-\/1) 
+\end{DoxyReturn}
+
+
+\-Definition at line 141 of file eventdispatcher.\-c.
+
+\hypertarget{group___u_a_v_object_handling_ga17f7c06410e7f0c04e1d1df6beee93d4}{\index{\-U\-A\-V\-Object handling code@{\-U\-A\-V\-Object handling code}!\-Event\-Clear\-Stats@{\-Event\-Clear\-Stats}}
+\index{\-Event\-Clear\-Stats@{\-Event\-Clear\-Stats}!UAVObject handling code@{\-U\-A\-V\-Object handling code}}
+\subsubsection[{\-Event\-Clear\-Stats}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-Event\-Clear\-Stats} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_object_handling_ga17f7c06410e7f0c04e1d1df6beee93d4}
+\-Clear the statistics counters 
+
+\-Definition at line 127 of file eventdispatcher.\-c.
+
+\hypertarget{group___u_a_v_object_handling_gabfbe02253807a718d938d5f14d264645}{\index{\-U\-A\-V\-Object handling code@{\-U\-A\-V\-Object handling code}!\-Event\-Dispatcher\-Initialize@{\-Event\-Dispatcher\-Initialize}}
+\index{\-Event\-Dispatcher\-Initialize@{\-Event\-Dispatcher\-Initialize}!UAVObject handling code@{\-U\-A\-V\-Object handling code}}
+\subsubsection[{\-Event\-Dispatcher\-Initialize}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-Event\-Dispatcher\-Initialize} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_object_handling_gabfbe02253807a718d938d5f14d264645}
+\-Initialize the dispatcher \begin{DoxyReturn}{\-Returns}
+\-Success (0), failure (-\/1) 
+\end{DoxyReturn}
+
+
+\-Definition at line 92 of file eventdispatcher.\-c.
+
+\hypertarget{group___u_a_v_object_handling_ga938822e7233dbbb444a5bdde8f626fae}{\index{\-U\-A\-V\-Object handling code@{\-U\-A\-V\-Object handling code}!\-Event\-Get\-Stats@{\-Event\-Get\-Stats}}
+\index{\-Event\-Get\-Stats@{\-Event\-Get\-Stats}!UAVObject handling code@{\-U\-A\-V\-Object handling code}}
+\subsubsection[{\-Event\-Get\-Stats}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-Event\-Get\-Stats} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Event\-Stats} $\ast$}]{stats\-Out}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_object_handling_ga938822e7233dbbb444a5bdde8f626fae}
+\-Get the statistics counters 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt out}  & {\em stats\-Out} & \-The statistics counters will be copied there \\
+\hline
+\end{DoxyParams}
+
+
+\-Definition at line 117 of file eventdispatcher.\-c.
+
+\hypertarget{group___u_a_v_object_handling_ga34e9f120ad77feee68d20f0a22adeb51}{\index{\-U\-A\-V\-Object handling code@{\-U\-A\-V\-Object handling code}!\-Event\-Periodic\-Callback\-Create@{\-Event\-Periodic\-Callback\-Create}}
+\index{\-Event\-Periodic\-Callback\-Create@{\-Event\-Periodic\-Callback\-Create}!UAVObject handling code@{\-U\-A\-V\-Object handling code}}
+\subsubsection[{\-Event\-Periodic\-Callback\-Create}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-Event\-Periodic\-Callback\-Create} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-U\-A\-V\-Obj\-Event} $\ast$}]{ev, }
+\item[{{\bf \-U\-A\-V\-Obj\-Event\-Callback}}]{cb, }
+\item[{uint16\-\_\-t}]{period\-Ms}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_object_handling_ga34e9f120ad77feee68d20f0a22adeb51}
+\-Dispatch an event at periodic intervals. 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em ev} & \-The event to be dispatched \\
+\hline
+\mbox{\tt in}  & {\em cb} & \-The callback to be invoked \\
+\hline
+\mbox{\tt in}  & {\em period\-Ms} & \-The period the event is generated \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+\-Success (0), failure (-\/1) 
+\end{DoxyReturn}
+
+
+\-Definition at line 159 of file eventdispatcher.\-c.
+
+\hypertarget{group___u_a_v_object_handling_ga10f109820071bea9b310dce65a46d784}{\index{\-U\-A\-V\-Object handling code@{\-U\-A\-V\-Object handling code}!\-Event\-Periodic\-Callback\-Update@{\-Event\-Periodic\-Callback\-Update}}
+\index{\-Event\-Periodic\-Callback\-Update@{\-Event\-Periodic\-Callback\-Update}!UAVObject handling code@{\-U\-A\-V\-Object handling code}}
+\subsubsection[{\-Event\-Periodic\-Callback\-Update}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-Event\-Periodic\-Callback\-Update} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-U\-A\-V\-Obj\-Event} $\ast$}]{ev, }
+\item[{{\bf \-U\-A\-V\-Obj\-Event\-Callback}}]{cb, }
+\item[{uint16\-\_\-t}]{period\-Ms}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_object_handling_ga10f109820071bea9b310dce65a46d784}
+\-Update the period of a periodic event. 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em ev} & \-The event to be dispatched \\
+\hline
+\mbox{\tt in}  & {\em cb} & \-The callback to be invoked \\
+\hline
+\mbox{\tt in}  & {\em period\-Ms} & \-The period the event is generated \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+\-Success (0), failure (-\/1) 
+\end{DoxyReturn}
+
+
+\-Definition at line 171 of file eventdispatcher.\-c.
+
+\hypertarget{group___u_a_v_object_handling_gae4d288e110cd074d66fcd5ab8825cf10}{\index{\-U\-A\-V\-Object handling code@{\-U\-A\-V\-Object handling code}!\-Event\-Periodic\-Queue\-Create@{\-Event\-Periodic\-Queue\-Create}}
+\index{\-Event\-Periodic\-Queue\-Create@{\-Event\-Periodic\-Queue\-Create}!UAVObject handling code@{\-U\-A\-V\-Object handling code}}
+\subsubsection[{\-Event\-Periodic\-Queue\-Create}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-Event\-Periodic\-Queue\-Create} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-U\-A\-V\-Obj\-Event} $\ast$}]{ev, }
+\item[{x\-Queue\-Handle}]{queue, }
+\item[{uint16\-\_\-t}]{period\-Ms}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_object_handling_gae4d288e110cd074d66fcd5ab8825cf10}
+\-Dispatch an event at periodic intervals. 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em ev} & \-The event to be dispatched \\
+\hline
+\mbox{\tt in}  & {\em queue} & \-The queue that the event will be pushed in \\
+\hline
+\mbox{\tt in}  & {\em period\-Ms} & \-The period the event is generated \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+\-Success (0), failure (-\/1) 
+\end{DoxyReturn}
+
+
+\-Definition at line 183 of file eventdispatcher.\-c.
+
+\hypertarget{group___u_a_v_object_handling_ga5d68f0ec012a592f38691e782b636f8a}{\index{\-U\-A\-V\-Object handling code@{\-U\-A\-V\-Object handling code}!\-Event\-Periodic\-Queue\-Update@{\-Event\-Periodic\-Queue\-Update}}
+\index{\-Event\-Periodic\-Queue\-Update@{\-Event\-Periodic\-Queue\-Update}!UAVObject handling code@{\-U\-A\-V\-Object handling code}}
+\subsubsection[{\-Event\-Periodic\-Queue\-Update}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-Event\-Periodic\-Queue\-Update} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-U\-A\-V\-Obj\-Event} $\ast$}]{ev, }
+\item[{x\-Queue\-Handle}]{queue, }
+\item[{uint16\-\_\-t}]{period\-Ms}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_object_handling_ga5d68f0ec012a592f38691e782b636f8a}
+\-Update the period of a periodic event. 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em ev} & \-The event to be dispatched \\
+\hline
+\mbox{\tt in}  & {\em queue} & \-The queue \\
+\hline
+\mbox{\tt in}  & {\em period\-Ms} & \-The period the event is generated \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+\-Success (0), failure (-\/1) 
+\end{DoxyReturn}
+
+
+\-Definition at line 195 of file eventdispatcher.\-c.
+
+\hypertarget{group___u_a_v_object_handling_gae4645220de84508ec16b5b028a52f325}{\index{\-U\-A\-V\-Object handling code@{\-U\-A\-V\-Object handling code}!get\-Event\-Mask@{get\-Event\-Mask}}
+\index{get\-Event\-Mask@{get\-Event\-Mask}!UAVObject handling code@{\-U\-A\-V\-Object handling code}}
+\subsubsection[{get\-Event\-Mask}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf get\-Event\-Mask} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-U\-A\-V\-Obj\-Handle}}]{obj\-\_\-handle, }
+\item[{x\-Queue\-Handle}]{queue}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_object_handling_gae4645220de84508ec16b5b028a52f325}
+get\-Event\-Mask \-Iterates through the connections and returns the event mask 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em obj} & \-The object handle \\
+\hline
+\mbox{\tt in}  & {\em queue} & \-The event queue \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+event\-Mask \-The event mask, if \-E\-V\-\_\-\-M\-A\-S\-K\-\_\-\-A\-L\-L then all events are disabled 
+\end{DoxyReturn}
+
+
+\-Definition at line 2004 of file uavobjectmanager.\-c.
+
+\hypertarget{group___u_a_v_object_handling_gae604f34af94a200b96787f24abb32ce1}{\index{\-U\-A\-V\-Object handling code@{\-U\-A\-V\-Object handling code}!\-U\-A\-V\-Obj\-Clear\-Stats@{\-U\-A\-V\-Obj\-Clear\-Stats}}
+\index{\-U\-A\-V\-Obj\-Clear\-Stats@{\-U\-A\-V\-Obj\-Clear\-Stats}!UAVObject handling code@{\-U\-A\-V\-Object handling code}}
+\subsubsection[{\-U\-A\-V\-Obj\-Clear\-Stats}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-U\-A\-V\-Obj\-Clear\-Stats} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_object_handling_gae604f34af94a200b96787f24abb32ce1}
+\-Clear the statistics counters 
+
+\-Definition at line 221 of file uavobjectmanager.\-c.
+
+\hypertarget{group___u_a_v_object_handling_gaf37f8752f1cde59a9b77d9ed7709c365}{\index{\-U\-A\-V\-Object handling code@{\-U\-A\-V\-Object handling code}!\-U\-A\-V\-Obj\-Connect\-Callback@{\-U\-A\-V\-Obj\-Connect\-Callback}}
+\index{\-U\-A\-V\-Obj\-Connect\-Callback@{\-U\-A\-V\-Obj\-Connect\-Callback}!UAVObject handling code@{\-U\-A\-V\-Object handling code}}
+\subsubsection[{\-U\-A\-V\-Obj\-Connect\-Callback}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-U\-A\-V\-Obj\-Connect\-Callback} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-U\-A\-V\-Obj\-Handle}}]{obj\-\_\-handle, }
+\item[{{\bf \-U\-A\-V\-Obj\-Event\-Callback}}]{cb, }
+\item[{uint8\-\_\-t}]{event\-Mask}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_object_handling_gaf37f8752f1cde59a9b77d9ed7709c365}
+\-Connect an event callback to the object, if the callback is already connected then the event mask is only updated. \-The supplied callback will be invoked on all events matching the event mask. 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em obj} & \-The object handle \\
+\hline
+\mbox{\tt in}  & {\em cb} & \-The event callback \\
+\hline
+\mbox{\tt in}  & {\em event\-Mask} & \-The event mask, if \-E\-V\-\_\-\-M\-A\-S\-K\-\_\-\-A\-L\-L\-\_\-\-U\-P\-D\-A\-T\-E\-S then all events are enabled (e.\-g. \-E\-V\-\_\-\-U\-P\-D\-A\-T\-E\-D $|$ \-E\-V\-\_\-\-U\-P\-D\-A\-T\-E\-D\-\_\-\-M\-A\-N\-U\-A\-L) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+0 if success or -\/1 if failure 
+\end{DoxyReturn}
+
+
+\-Definition at line 1703 of file uavobjectmanager.\-c.
+
+\hypertarget{group___u_a_v_object_handling_ga0ee2030a00c48317b268e82dac8be146}{\index{\-U\-A\-V\-Object handling code@{\-U\-A\-V\-Object handling code}!\-U\-A\-V\-Obj\-Connect\-Queue@{\-U\-A\-V\-Obj\-Connect\-Queue}}
+\index{\-U\-A\-V\-Obj\-Connect\-Queue@{\-U\-A\-V\-Obj\-Connect\-Queue}!UAVObject handling code@{\-U\-A\-V\-Object handling code}}
+\subsubsection[{\-U\-A\-V\-Obj\-Connect\-Queue}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-U\-A\-V\-Obj\-Connect\-Queue} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-U\-A\-V\-Obj\-Handle}}]{obj\-\_\-handle, }
+\item[{x\-Queue\-Handle}]{queue, }
+\item[{uint8\-\_\-t}]{event\-Mask}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_object_handling_ga0ee2030a00c48317b268e82dac8be146}
+\-Connect an event queue to the object, if the queue is already connected then the event mask is only updated. \-All events matching the event mask will be pushed to the event queue. 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em obj} & \-The object handle \\
+\hline
+\mbox{\tt in}  & {\em queue} & \-The event queue \\
+\hline
+\mbox{\tt in}  & {\em event\-Mask} & \-The event mask, if \-E\-V\-\_\-\-M\-A\-S\-K\-\_\-\-A\-L\-L\-\_\-\-U\-P\-D\-A\-T\-E\-S then all events are enabled (e.\-g. \-E\-V\-\_\-\-U\-P\-D\-A\-T\-E\-D $|$ \-E\-V\-\_\-\-U\-P\-D\-A\-T\-E\-D\-\_\-\-M\-A\-N\-U\-A\-L) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+0 if success or -\/1 if failure 
+\end{DoxyReturn}
+
+
+\-Definition at line 1666 of file uavobjectmanager.\-c.
+
+\hypertarget{group___u_a_v_object_handling_gac892e6dac1fb6de05ed730aa15b65a65}{\index{\-U\-A\-V\-Object handling code@{\-U\-A\-V\-Object handling code}!\-U\-A\-V\-Obj\-Create\-Instance@{\-U\-A\-V\-Obj\-Create\-Instance}}
+\index{\-U\-A\-V\-Obj\-Create\-Instance@{\-U\-A\-V\-Obj\-Create\-Instance}!UAVObject handling code@{\-U\-A\-V\-Object handling code}}
+\subsubsection[{\-U\-A\-V\-Obj\-Create\-Instance}]{\setlength{\rightskip}{0pt plus 5cm}uint16\-\_\-t {\bf \-U\-A\-V\-Obj\-Create\-Instance} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-U\-A\-V\-Obj\-Handle}}]{obj\-\_\-handle, }
+\item[{{\bf \-U\-A\-V\-Obj\-Initialize\-Callback}}]{init\-Cb}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_object_handling_gac892e6dac1fb6de05ed730aa15b65a65}
+\-Create a new instance in the object. 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em obj} & \-The object handle \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+\-The instance \-I\-D or 0 if an error 
+\end{DoxyReturn}
+
+
+\-Definition at line 497 of file uavobjectmanager.\-c.
+
+\hypertarget{group___u_a_v_object_handling_gad00323c86e457fbe63ec177cd55c2864}{\index{\-U\-A\-V\-Object handling code@{\-U\-A\-V\-Object handling code}!\-U\-A\-V\-Obj\-Delete\-By\-Id@{\-U\-A\-V\-Obj\-Delete\-By\-Id}}
+\index{\-U\-A\-V\-Obj\-Delete\-By\-Id@{\-U\-A\-V\-Obj\-Delete\-By\-Id}!UAVObject handling code@{\-U\-A\-V\-Object handling code}}
+\subsubsection[{\-U\-A\-V\-Obj\-Delete\-By\-Id}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-U\-A\-V\-Obj\-Delete\-By\-Id} (
+\begin{DoxyParamCaption}
+\item[{uint32\-\_\-t}]{obj\-\_\-id, }
+\item[{uint16\-\_\-t}]{inst\-\_\-id}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_object_handling_gad00323c86e457fbe63ec177cd55c2864}
+\-Delete an object from the file system (\-S\-D card). 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em obj\-\_\-id} & \-The object id \\
+\hline
+\mbox{\tt in}  & {\em inst\-\_\-id} & \-The object instance \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+0 if success or -\/1 if failure 
+\end{DoxyReturn}
+
+
+\-Definition at line 988 of file uavobjectmanager.\-c.
+
+\hypertarget{group___u_a_v_object_handling_ga74aba825a99924f3c8e3f7c209409ab6}{\index{\-U\-A\-V\-Object handling code@{\-U\-A\-V\-Object handling code}!\-U\-A\-V\-Obj\-Delete\-Metaobjects@{\-U\-A\-V\-Obj\-Delete\-Metaobjects}}
+\index{\-U\-A\-V\-Obj\-Delete\-Metaobjects@{\-U\-A\-V\-Obj\-Delete\-Metaobjects}!UAVObject handling code@{\-U\-A\-V\-Object handling code}}
+\subsubsection[{\-U\-A\-V\-Obj\-Delete\-Metaobjects}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-U\-A\-V\-Obj\-Delete\-Metaobjects} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_object_handling_ga74aba825a99924f3c8e3f7c209409ab6}
+\-Delete all metaobjects from the \-S\-D card. \begin{DoxyReturn}{\-Returns}
+0 if success or -\/1 if failure 
+\end{DoxyReturn}
+
+
+\-Definition at line 1173 of file uavobjectmanager.\-c.
+
+\hypertarget{group___u_a_v_object_handling_ga5f40e35848fe223463778b90e8035cbd}{\index{\-U\-A\-V\-Object handling code@{\-U\-A\-V\-Object handling code}!\-U\-A\-V\-Obj\-Delete\-Settings@{\-U\-A\-V\-Obj\-Delete\-Settings}}
+\index{\-U\-A\-V\-Obj\-Delete\-Settings@{\-U\-A\-V\-Obj\-Delete\-Settings}!UAVObject handling code@{\-U\-A\-V\-Object handling code}}
+\subsubsection[{\-U\-A\-V\-Obj\-Delete\-Settings}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-U\-A\-V\-Obj\-Delete\-Settings} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_object_handling_ga5f40e35848fe223463778b90e8035cbd}
+\-Delete all settings objects from the \-S\-D card. \begin{DoxyReturn}{\-Returns}
+0 if success or -\/1 if failure 
+\end{DoxyReturn}
+
+
+\-Definition at line 1083 of file uavobjectmanager.\-c.
+
+\hypertarget{group___u_a_v_object_handling_gadfa431fdf460097d8a6aa13f0a722ac0}{\index{\-U\-A\-V\-Object handling code@{\-U\-A\-V\-Object handling code}!\-U\-A\-V\-Obj\-Disconnect\-Callback@{\-U\-A\-V\-Obj\-Disconnect\-Callback}}
+\index{\-U\-A\-V\-Obj\-Disconnect\-Callback@{\-U\-A\-V\-Obj\-Disconnect\-Callback}!UAVObject handling code@{\-U\-A\-V\-Object handling code}}
+\subsubsection[{\-U\-A\-V\-Obj\-Disconnect\-Callback}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-U\-A\-V\-Obj\-Disconnect\-Callback} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-U\-A\-V\-Obj\-Handle}}]{obj\-\_\-handle, }
+\item[{{\bf \-U\-A\-V\-Obj\-Event\-Callback}}]{cb}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_object_handling_gadfa431fdf460097d8a6aa13f0a722ac0}
+\-Disconnect an event callback from the object. 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em obj} & \-The object handle \\
+\hline
+\mbox{\tt in}  & {\em cb} & \-The event callback \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+0 if success or -\/1 if failure 
+\end{DoxyReturn}
+
+
+\-Definition at line 1720 of file uavobjectmanager.\-c.
+
+\hypertarget{group___u_a_v_object_handling_ga42fd51da437a13e22879d922fd771070}{\index{\-U\-A\-V\-Object handling code@{\-U\-A\-V\-Object handling code}!\-U\-A\-V\-Obj\-Disconnect\-Queue@{\-U\-A\-V\-Obj\-Disconnect\-Queue}}
+\index{\-U\-A\-V\-Obj\-Disconnect\-Queue@{\-U\-A\-V\-Obj\-Disconnect\-Queue}!UAVObject handling code@{\-U\-A\-V\-Object handling code}}
+\subsubsection[{\-U\-A\-V\-Obj\-Disconnect\-Queue}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-U\-A\-V\-Obj\-Disconnect\-Queue} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-U\-A\-V\-Obj\-Handle}}]{obj\-\_\-handle, }
+\item[{x\-Queue\-Handle}]{queue}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_object_handling_ga42fd51da437a13e22879d922fd771070}
+\-Disconnect an event queue from the object. 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em obj} & \-The object handle \\
+\hline
+\mbox{\tt in}  & {\em queue} & \-The event queue \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+0 if success or -\/1 if failure 
+\end{DoxyReturn}
+
+
+\-Definition at line 1684 of file uavobjectmanager.\-c.
+
+\hypertarget{group___u_a_v_object_handling_gacfa1b9a76f44f743c6e44302670af480}{\index{\-U\-A\-V\-Object handling code@{\-U\-A\-V\-Object handling code}!\-U\-A\-V\-Obj\-Get\-Access@{\-U\-A\-V\-Obj\-Get\-Access}}
+\index{\-U\-A\-V\-Obj\-Get\-Access@{\-U\-A\-V\-Obj\-Get\-Access}!UAVObject handling code@{\-U\-A\-V\-Object handling code}}
+\subsubsection[{\-U\-A\-V\-Obj\-Get\-Access}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-U\-A\-V\-Obj\-Access\-Type} {\bf \-U\-A\-V\-Obj\-Get\-Access} (
+\begin{DoxyParamCaption}
+\item[{const \-U\-A\-V\-Obj\-Metadata $\ast$}]{metadata}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_object_handling_gacfa1b9a76f44f743c6e44302670af480}
+\-Get the \-U\-A\-V\-Object metadata access member 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em metadata} & \-The metadata object \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+the access type 
+\end{DoxyReturn}
+
+
+\-Definition at line 1522 of file uavobjectmanager.\-c.
+
+\hypertarget{group___u_a_v_object_handling_ga17a9665c830f577232ad694ab4baaea6}{\index{\-U\-A\-V\-Object handling code@{\-U\-A\-V\-Object handling code}!\-U\-A\-V\-Obj\-Get\-By\-I\-D@{\-U\-A\-V\-Obj\-Get\-By\-I\-D}}
+\index{\-U\-A\-V\-Obj\-Get\-By\-I\-D@{\-U\-A\-V\-Obj\-Get\-By\-I\-D}!UAVObject handling code@{\-U\-A\-V\-Object handling code}}
+\subsubsection[{\-U\-A\-V\-Obj\-Get\-By\-I\-D}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-U\-A\-V\-Obj\-Handle} {\bf \-U\-A\-V\-Obj\-Get\-By\-I\-D} (
+\begin{DoxyParamCaption}
+\item[{uint32\-\_\-t}]{id}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_object_handling_ga17a9665c830f577232ad694ab4baaea6}
+\-Retrieve an object from the list given its id 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em \-The} & object \-I\-D \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+\-The object or \-N\-U\-L\-L if not found. 
+\end{DoxyReturn}
+
+
+\-Definition at line 369 of file uavobjectmanager.\-c.
+
+\hypertarget{group___u_a_v_object_handling_ga580decfc7a47e5f28215f1f940e3799e}{\index{\-U\-A\-V\-Object handling code@{\-U\-A\-V\-Object handling code}!\-U\-A\-V\-Obj\-Get\-Data@{\-U\-A\-V\-Obj\-Get\-Data}}
+\index{\-U\-A\-V\-Obj\-Get\-Data@{\-U\-A\-V\-Obj\-Get\-Data}!UAVObject handling code@{\-U\-A\-V\-Object handling code}}
+\subsubsection[{\-U\-A\-V\-Obj\-Get\-Data}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-U\-A\-V\-Obj\-Get\-Data} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-U\-A\-V\-Obj\-Handle}}]{obj\-\_\-handle, }
+\item[{void $\ast$}]{data\-Out}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_object_handling_ga580decfc7a47e5f28215f1f940e3799e}
+\-Get the object data 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em obj} & \-The object handle \\
+\hline
+\mbox{\tt out}  & {\em data\-Out} & \-The object's data structure \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+0 if success or -\/1 if failure 
+\end{DoxyReturn}
+
+
+\-Definition at line 1226 of file uavobjectmanager.\-c.
+
+\hypertarget{group___u_a_v_object_handling_ga532ccb2e759fca49c89e425b872eed1c}{\index{\-U\-A\-V\-Object handling code@{\-U\-A\-V\-Object handling code}!\-U\-A\-V\-Obj\-Get\-Data\-Field@{\-U\-A\-V\-Obj\-Get\-Data\-Field}}
+\index{\-U\-A\-V\-Obj\-Get\-Data\-Field@{\-U\-A\-V\-Obj\-Get\-Data\-Field}!UAVObject handling code@{\-U\-A\-V\-Object handling code}}
+\subsubsection[{\-U\-A\-V\-Obj\-Get\-Data\-Field}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-U\-A\-V\-Obj\-Get\-Data\-Field} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-U\-A\-V\-Obj\-Handle}}]{obj\-\_\-handle, }
+\item[{void $\ast$}]{data\-Out, }
+\item[{uint32\-\_\-t}]{offset, }
+\item[{uint32\-\_\-t}]{size}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_object_handling_ga532ccb2e759fca49c89e425b872eed1c}
+\-Get the object data 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em obj} & \-The object handle \\
+\hline
+\mbox{\tt out}  & {\em data\-Out} & \-The object's data structure \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+0 if success or -\/1 if failure 
+\end{DoxyReturn}
+
+
+\-Definition at line 1237 of file uavobjectmanager.\-c.
+
+\hypertarget{group___u_a_v_object_handling_gad5fdcf98dae5cb90223f849df2bda08b}{\index{\-U\-A\-V\-Object handling code@{\-U\-A\-V\-Object handling code}!\-U\-A\-V\-Obj\-Get\-Gcs\-Access@{\-U\-A\-V\-Obj\-Get\-Gcs\-Access}}
+\index{\-U\-A\-V\-Obj\-Get\-Gcs\-Access@{\-U\-A\-V\-Obj\-Get\-Gcs\-Access}!UAVObject handling code@{\-U\-A\-V\-Object handling code}}
+\subsubsection[{\-U\-A\-V\-Obj\-Get\-Gcs\-Access}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-U\-A\-V\-Obj\-Access\-Type} {\bf \-U\-A\-V\-Obj\-Get\-Gcs\-Access} (
+\begin{DoxyParamCaption}
+\item[{const \-U\-A\-V\-Obj\-Metadata $\ast$}]{metadata}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_object_handling_gad5fdcf98dae5cb90223f849df2bda08b}
+\-Get the \-U\-A\-V\-Object metadata \-G\-C\-S access member 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em metadata} & \-The metadata object \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+the \-G\-C\-S access type 
+\end{DoxyReturn}
+
+
+\-Definition at line 1544 of file uavobjectmanager.\-c.
+
+\hypertarget{group___u_a_v_object_handling_gaf7923732ed9e6eb1e367180cb339ca3d}{\index{\-U\-A\-V\-Object handling code@{\-U\-A\-V\-Object handling code}!\-U\-A\-V\-Obj\-Get\-Gcs\-Telemetry\-Acked@{\-U\-A\-V\-Obj\-Get\-Gcs\-Telemetry\-Acked}}
+\index{\-U\-A\-V\-Obj\-Get\-Gcs\-Telemetry\-Acked@{\-U\-A\-V\-Obj\-Get\-Gcs\-Telemetry\-Acked}!UAVObject handling code@{\-U\-A\-V\-Object handling code}}
+\subsubsection[{\-U\-A\-V\-Obj\-Get\-Gcs\-Telemetry\-Acked}]{\setlength{\rightskip}{0pt plus 5cm}uint8\-\_\-t {\bf \-U\-A\-V\-Obj\-Get\-Gcs\-Telemetry\-Acked} (
+\begin{DoxyParamCaption}
+\item[{const \-U\-A\-V\-Obj\-Metadata $\ast$}]{metadata}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_object_handling_gaf7923732ed9e6eb1e367180cb339ca3d}
+\-Get the \-U\-A\-V\-Object metadata \-G\-C\-S telemetry acked member 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em metadata} & \-The metadata object \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+the telemetry acked boolean 
+\end{DoxyReturn}
+
+
+\-Definition at line 1585 of file uavobjectmanager.\-c.
+
+\hypertarget{group___u_a_v_object_handling_gad0cb8d70597ac74cdbe8923c66f1c5f1}{\index{\-U\-A\-V\-Object handling code@{\-U\-A\-V\-Object handling code}!\-U\-A\-V\-Obj\-Get\-Gcs\-Telemetry\-Update\-Mode@{\-U\-A\-V\-Obj\-Get\-Gcs\-Telemetry\-Update\-Mode}}
+\index{\-U\-A\-V\-Obj\-Get\-Gcs\-Telemetry\-Update\-Mode@{\-U\-A\-V\-Obj\-Get\-Gcs\-Telemetry\-Update\-Mode}!UAVObject handling code@{\-U\-A\-V\-Object handling code}}
+\subsubsection[{\-U\-A\-V\-Obj\-Get\-Gcs\-Telemetry\-Update\-Mode}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-U\-A\-V\-Obj\-Update\-Mode} {\bf \-U\-A\-V\-Obj\-Get\-Gcs\-Telemetry\-Update\-Mode} (
+\begin{DoxyParamCaption}
+\item[{const \-U\-A\-V\-Obj\-Metadata $\ast$}]{metadata}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_object_handling_gad0cb8d70597ac74cdbe8923c66f1c5f1}
+\-Get the \-U\-A\-V\-Object metadata \-G\-C\-S telemetry update mode 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em metadata} & \-The metadata object \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+the \-G\-C\-S telemetry update mode 
+\end{DoxyReturn}
+
+
+\-Definition at line 1625 of file uavobjectmanager.\-c.
+
+\hypertarget{group___u_a_v_object_handling_ga197049afa1062802ec0dc2c7c971d89e}{\index{\-U\-A\-V\-Object handling code@{\-U\-A\-V\-Object handling code}!\-U\-A\-V\-Obj\-Get\-I\-D@{\-U\-A\-V\-Obj\-Get\-I\-D}}
+\index{\-U\-A\-V\-Obj\-Get\-I\-D@{\-U\-A\-V\-Obj\-Get\-I\-D}!UAVObject handling code@{\-U\-A\-V\-Object handling code}}
+\subsubsection[{\-U\-A\-V\-Obj\-Get\-I\-D}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t {\bf \-U\-A\-V\-Obj\-Get\-I\-D} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-U\-A\-V\-Obj\-Handle}}]{obj\-\_\-handle}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_object_handling_ga197049afa1062802ec0dc2c7c971d89e}
+\-Get the object's \-I\-D 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em obj} & \-The object handle \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+\-The object \-I\-D 
+\end{DoxyReturn}
+
+
+\-Definition at line 399 of file uavobjectmanager.\-c.
+
+\hypertarget{group___u_a_v_object_handling_ga955799ae236e66aef4070f79d530d73c}{\index{\-U\-A\-V\-Object handling code@{\-U\-A\-V\-Object handling code}!\-U\-A\-V\-Obj\-Get\-Instance\-Data@{\-U\-A\-V\-Obj\-Get\-Instance\-Data}}
+\index{\-U\-A\-V\-Obj\-Get\-Instance\-Data@{\-U\-A\-V\-Obj\-Get\-Instance\-Data}!UAVObject handling code@{\-U\-A\-V\-Object handling code}}
+\subsubsection[{\-U\-A\-V\-Obj\-Get\-Instance\-Data}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-U\-A\-V\-Obj\-Get\-Instance\-Data} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-U\-A\-V\-Obj\-Handle}}]{obj\-\_\-handle, }
+\item[{uint16\-\_\-t}]{inst\-Id, }
+\item[{void $\ast$}]{data\-Out}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_object_handling_ga955799ae236e66aef4070f79d530d73c}
+\-Get the data of a specific object instance 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em obj} & \-The object handle \\
+\hline
+\mbox{\tt in}  & {\em inst\-Id} & \-The object instance \-I\-D \\
+\hline
+\mbox{\tt out}  & {\em data\-Out} & \-The object's data structure \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+0 if success or -\/1 if failure 
+\end{DoxyReturn}
+
+
+\-Definition at line 1366 of file uavobjectmanager.\-c.
+
+\hypertarget{group___u_a_v_object_handling_gadc17f6e4b8121257308645c34c5e48c8}{\index{\-U\-A\-V\-Object handling code@{\-U\-A\-V\-Object handling code}!\-U\-A\-V\-Obj\-Get\-Instance\-Data\-Field@{\-U\-A\-V\-Obj\-Get\-Instance\-Data\-Field}}
+\index{\-U\-A\-V\-Obj\-Get\-Instance\-Data\-Field@{\-U\-A\-V\-Obj\-Get\-Instance\-Data\-Field}!UAVObject handling code@{\-U\-A\-V\-Object handling code}}
+\subsubsection[{\-U\-A\-V\-Obj\-Get\-Instance\-Data\-Field}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-U\-A\-V\-Obj\-Get\-Instance\-Data\-Field} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-U\-A\-V\-Obj\-Handle}}]{obj\-\_\-handle, }
+\item[{uint16\-\_\-t}]{inst\-Id, }
+\item[{void $\ast$}]{data\-Out, }
+\item[{uint32\-\_\-t}]{offset, }
+\item[{uint32\-\_\-t}]{size}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_object_handling_gadc17f6e4b8121257308645c34c5e48c8}
+\-Get the data of a specific object instance 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em obj} & \-The object handle \\
+\hline
+\mbox{\tt in}  & {\em inst\-Id} & \-The object instance \-I\-D \\
+\hline
+\mbox{\tt out}  & {\em data\-Out} & \-The object's data structure \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+0 if success or -\/1 if failure 
+\end{DoxyReturn}
+
+
+\-Definition at line 1413 of file uavobjectmanager.\-c.
+
+\hypertarget{group___u_a_v_object_handling_ga9b6a21cc5abcfe4af811f65a3744d4f3}{\index{\-U\-A\-V\-Object handling code@{\-U\-A\-V\-Object handling code}!\-U\-A\-V\-Obj\-Get\-Linked\-Obj@{\-U\-A\-V\-Obj\-Get\-Linked\-Obj}}
+\index{\-U\-A\-V\-Obj\-Get\-Linked\-Obj@{\-U\-A\-V\-Obj\-Get\-Linked\-Obj}!UAVObject handling code@{\-U\-A\-V\-Object handling code}}
+\subsubsection[{\-U\-A\-V\-Obj\-Get\-Linked\-Obj}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-U\-A\-V\-Obj\-Handle} {\bf \-U\-A\-V\-Obj\-Get\-Linked\-Obj} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-U\-A\-V\-Obj\-Handle}}]{obj\-\_\-handle}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_object_handling_ga9b6a21cc5abcfe4af811f65a3744d4f3}
+\-Get the object this object is linked to. \-For regular objects, the linked object is the metaobject. \-For metaobjects the linked object is the parent object. \-This function is normally only needed by the telemetry module. 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em obj} & \-The object handle \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+\-The object linked object handle 
+\end{DoxyReturn}
+
+
+\-Definition at line 452 of file uavobjectmanager.\-c.
+
+\hypertarget{group___u_a_v_object_handling_gac4ddbaf9ae7938badae8552d4ef88b20}{\index{\-U\-A\-V\-Object handling code@{\-U\-A\-V\-Object handling code}!\-U\-A\-V\-Obj\-Get\-Metadata@{\-U\-A\-V\-Obj\-Get\-Metadata}}
+\index{\-U\-A\-V\-Obj\-Get\-Metadata@{\-U\-A\-V\-Obj\-Get\-Metadata}!UAVObject handling code@{\-U\-A\-V\-Object handling code}}
+\subsubsection[{\-U\-A\-V\-Obj\-Get\-Metadata}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-U\-A\-V\-Obj\-Get\-Metadata} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-U\-A\-V\-Obj\-Handle}}]{obj\-\_\-handle, }
+\item[{\-U\-A\-V\-Obj\-Metadata $\ast$}]{data\-Out}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_object_handling_gac4ddbaf9ae7938badae8552d4ef88b20}
+\-Get the object metadata 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em obj} & \-The object handle \\
+\hline
+\mbox{\tt out}  & {\em data\-Out} & \-The object's metadata structure \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+0 if success or -\/1 if failure 
+\end{DoxyReturn}
+
+
+\-Definition at line 1493 of file uavobjectmanager.\-c.
+
+\hypertarget{group___u_a_v_object_handling_ga08b602bb9381c3c2806140ed32a5af74}{\index{\-U\-A\-V\-Object handling code@{\-U\-A\-V\-Object handling code}!\-U\-A\-V\-Obj\-Get\-Num\-Bytes@{\-U\-A\-V\-Obj\-Get\-Num\-Bytes}}
+\index{\-U\-A\-V\-Obj\-Get\-Num\-Bytes@{\-U\-A\-V\-Obj\-Get\-Num\-Bytes}!UAVObject handling code@{\-U\-A\-V\-Object handling code}}
+\subsubsection[{\-U\-A\-V\-Obj\-Get\-Num\-Bytes}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t {\bf \-U\-A\-V\-Obj\-Get\-Num\-Bytes} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-U\-A\-V\-Obj\-Handle}}]{obj}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_object_handling_ga08b602bb9381c3c2806140ed32a5af74}
+\-Get the number of bytes of the object's data (for one instance) 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em obj} & \-The object handle \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+\-The number of bytes 
+\end{DoxyReturn}
+
+
+\-Definition at line 424 of file uavobjectmanager.\-c.
+
+\hypertarget{group___u_a_v_object_handling_ga264590c39739a19082e2c32d91f6e3ce}{\index{\-U\-A\-V\-Object handling code@{\-U\-A\-V\-Object handling code}!\-U\-A\-V\-Obj\-Get\-Num\-Instances@{\-U\-A\-V\-Obj\-Get\-Num\-Instances}}
+\index{\-U\-A\-V\-Obj\-Get\-Num\-Instances@{\-U\-A\-V\-Obj\-Get\-Num\-Instances}!UAVObject handling code@{\-U\-A\-V\-Object handling code}}
+\subsubsection[{\-U\-A\-V\-Obj\-Get\-Num\-Instances}]{\setlength{\rightskip}{0pt plus 5cm}uint16\-\_\-t {\bf \-U\-A\-V\-Obj\-Get\-Num\-Instances} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-U\-A\-V\-Obj\-Handle}}]{obj\-\_\-handle}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_object_handling_ga264590c39739a19082e2c32d91f6e3ce}
+\-Get the number of instances contained in the object. 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em obj} & \-The object handle \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+\-The number of instances 
+\end{DoxyReturn}
+
+
+\-Definition at line 477 of file uavobjectmanager.\-c.
+
+\hypertarget{group___u_a_v_object_handling_ga6ff4107796c9693e8034e7c77a26f066}{\index{\-U\-A\-V\-Object handling code@{\-U\-A\-V\-Object handling code}!\-U\-A\-V\-Obj\-Get\-Stats@{\-U\-A\-V\-Obj\-Get\-Stats}}
+\index{\-U\-A\-V\-Obj\-Get\-Stats@{\-U\-A\-V\-Obj\-Get\-Stats}!UAVObject handling code@{\-U\-A\-V\-Object handling code}}
+\subsubsection[{\-U\-A\-V\-Obj\-Get\-Stats}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-U\-A\-V\-Obj\-Get\-Stats} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-U\-A\-V\-Obj\-Stats} $\ast$}]{stats\-Out}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_object_handling_ga6ff4107796c9693e8034e7c77a26f066}
+\-Get the statistics counters 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt out}  & {\em stats\-Out} & \-The statistics counters will be copied there \\
+\hline
+\end{DoxyParams}
+
+
+\-Definition at line 211 of file uavobjectmanager.\-c.
+
+\hypertarget{group___u_a_v_object_handling_gaed561ee171e8da056b47750e8f7a9cb1}{\index{\-U\-A\-V\-Object handling code@{\-U\-A\-V\-Object handling code}!\-U\-A\-V\-Obj\-Get\-Telemetry\-Acked@{\-U\-A\-V\-Obj\-Get\-Telemetry\-Acked}}
+\index{\-U\-A\-V\-Obj\-Get\-Telemetry\-Acked@{\-U\-A\-V\-Obj\-Get\-Telemetry\-Acked}!UAVObject handling code@{\-U\-A\-V\-Object handling code}}
+\subsubsection[{\-U\-A\-V\-Obj\-Get\-Telemetry\-Acked}]{\setlength{\rightskip}{0pt plus 5cm}uint8\-\_\-t {\bf \-U\-A\-V\-Obj\-Get\-Telemetry\-Acked} (
+\begin{DoxyParamCaption}
+\item[{const \-U\-A\-V\-Obj\-Metadata $\ast$}]{metadata}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_object_handling_gaed561ee171e8da056b47750e8f7a9cb1}
+\-Get the \-U\-A\-V\-Object metadata telemetry acked member 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em metadata} & \-The metadata object \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+the telemetry acked boolean 
+\end{DoxyReturn}
+
+
+\-Definition at line 1565 of file uavobjectmanager.\-c.
+
+\hypertarget{group___u_a_v_object_handling_gaf40b4374b42f418959ac186ae2e2ec40}{\index{\-U\-A\-V\-Object handling code@{\-U\-A\-V\-Object handling code}!\-U\-A\-V\-Obj\-Get\-Telemetry\-Update\-Mode@{\-U\-A\-V\-Obj\-Get\-Telemetry\-Update\-Mode}}
+\index{\-U\-A\-V\-Obj\-Get\-Telemetry\-Update\-Mode@{\-U\-A\-V\-Obj\-Get\-Telemetry\-Update\-Mode}!UAVObject handling code@{\-U\-A\-V\-Object handling code}}
+\subsubsection[{\-U\-A\-V\-Obj\-Get\-Telemetry\-Update\-Mode}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-U\-A\-V\-Obj\-Update\-Mode} {\bf \-U\-A\-V\-Obj\-Get\-Telemetry\-Update\-Mode} (
+\begin{DoxyParamCaption}
+\item[{const \-U\-A\-V\-Obj\-Metadata $\ast$}]{metadata}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_object_handling_gaf40b4374b42f418959ac186ae2e2ec40}
+\-Get the \-U\-A\-V\-Object metadata telemetry update mode 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em metadata} & \-The metadata object \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+the telemetry update mode 
+\end{DoxyReturn}
+
+
+\-Definition at line 1605 of file uavobjectmanager.\-c.
+
+\hypertarget{group___u_a_v_object_handling_ga07599909613c0729f06c1b4b8a2296af}{\index{\-U\-A\-V\-Object handling code@{\-U\-A\-V\-Object handling code}!\-U\-A\-V\-Obj\-Initialize@{\-U\-A\-V\-Obj\-Initialize}}
+\index{\-U\-A\-V\-Obj\-Initialize@{\-U\-A\-V\-Obj\-Initialize}!UAVObject handling code@{\-U\-A\-V\-Object handling code}}
+\subsubsection[{\-U\-A\-V\-Obj\-Initialize}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-U\-A\-V\-Obj\-Initialize} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_object_handling_ga07599909613c0729f06c1b4b8a2296af}
+\-Initialize the object manager \begin{DoxyReturn}{\-Returns}
+0 \-Success 
+
+-\/1 \-Failure 
+\end{DoxyReturn}
+
+
+\-Definition at line 188 of file uavobjectmanager.\-c.
+
+\hypertarget{group___u_a_v_object_handling_ga90b88ba1823a707558d3056663d0c0c9}{\index{\-U\-A\-V\-Object handling code@{\-U\-A\-V\-Object handling code}!\-U\-A\-V\-Obj\-Instance\-Updated@{\-U\-A\-V\-Obj\-Instance\-Updated}}
+\index{\-U\-A\-V\-Obj\-Instance\-Updated@{\-U\-A\-V\-Obj\-Instance\-Updated}!UAVObject handling code@{\-U\-A\-V\-Object handling code}}
+\subsubsection[{\-U\-A\-V\-Obj\-Instance\-Updated}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-U\-A\-V\-Obj\-Instance\-Updated} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-U\-A\-V\-Obj\-Handle}}]{obj\-\_\-handle, }
+\item[{uint16\-\_\-t}]{inst\-Id}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_object_handling_ga90b88ba1823a707558d3056663d0c0c9}
+\-Send the object's data to the \-G\-C\-S (triggers a \-E\-V\-\_\-\-U\-P\-D\-A\-T\-E\-D\-\_\-\-M\-A\-N\-U\-A\-L event on this object). 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em obj} & \-The object handle \\
+\hline
+\mbox{\tt in}  & {\em inst\-Id} & \-The object instance \-I\-D \\
+\hline
+\end{DoxyParams}
+
+
+\-Definition at line 1768 of file uavobjectmanager.\-c.
+
+\hypertarget{group___u_a_v_object_handling_ga52c0794e99c2ae401c5ed7f25a67e51a}{\index{\-U\-A\-V\-Object handling code@{\-U\-A\-V\-Object handling code}!\-U\-A\-V\-Obj\-Is\-Metaobject@{\-U\-A\-V\-Obj\-Is\-Metaobject}}
+\index{\-U\-A\-V\-Obj\-Is\-Metaobject@{\-U\-A\-V\-Obj\-Is\-Metaobject}!UAVObject handling code@{\-U\-A\-V\-Object handling code}}
+\subsubsection[{\-U\-A\-V\-Obj\-Is\-Metaobject}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-U\-A\-V\-Obj\-Is\-Metaobject} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-U\-A\-V\-Obj\-Handle}}]{obj\-\_\-handle}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_object_handling_ga52c0794e99c2ae401c5ed7f25a67e51a}
+\-Is this a metaobject? 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em obj} & \-The object handle \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+\-True (1) if this is metaobject 
+\end{DoxyReturn}
+
+
+\-Definition at line 550 of file uavobjectmanager.\-c.
+
+\hypertarget{group___u_a_v_object_handling_ga78e3c762f51cb6b295c7b8f787fa2ba1}{\index{\-U\-A\-V\-Object handling code@{\-U\-A\-V\-Object handling code}!\-U\-A\-V\-Obj\-Is\-Settings@{\-U\-A\-V\-Obj\-Is\-Settings}}
+\index{\-U\-A\-V\-Obj\-Is\-Settings@{\-U\-A\-V\-Obj\-Is\-Settings}!UAVObject handling code@{\-U\-A\-V\-Object handling code}}
+\subsubsection[{\-U\-A\-V\-Obj\-Is\-Settings}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-U\-A\-V\-Obj\-Is\-Settings} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-U\-A\-V\-Obj\-Handle}}]{obj\-\_\-handle}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_object_handling_ga78e3c762f51cb6b295c7b8f787fa2ba1}
+\-Is this a settings object? 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em obj} & \-The object handle \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+\-True (1) if this is a settings object 
+\end{DoxyReturn}
+
+
+\-Definition at line 565 of file uavobjectmanager.\-c.
+
+\hypertarget{group___u_a_v_object_handling_gadd4119ec326e9718543908e796bf46b2}{\index{\-U\-A\-V\-Object handling code@{\-U\-A\-V\-Object handling code}!\-U\-A\-V\-Obj\-Is\-Single\-Instance@{\-U\-A\-V\-Obj\-Is\-Single\-Instance}}
+\index{\-U\-A\-V\-Obj\-Is\-Single\-Instance@{\-U\-A\-V\-Obj\-Is\-Single\-Instance}!UAVObject handling code@{\-U\-A\-V\-Object handling code}}
+\subsubsection[{\-U\-A\-V\-Obj\-Is\-Single\-Instance}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-U\-A\-V\-Obj\-Is\-Single\-Instance} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-U\-A\-V\-Obj\-Handle}}]{obj\-\_\-handle}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_object_handling_gadd4119ec326e9718543908e796bf46b2}
+\-Does this object contains a single instance or multiple instances? 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em obj} & \-The object handle \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+\-True (1) if this is a single instance object 
+\end{DoxyReturn}
+
+
+\-Definition at line 535 of file uavobjectmanager.\-c.
+
+\hypertarget{group___u_a_v_object_handling_ga207c169e5af27b411cb6a08608369bdb}{\index{\-U\-A\-V\-Object handling code@{\-U\-A\-V\-Object handling code}!\-U\-A\-V\-Obj\-Iterate@{\-U\-A\-V\-Obj\-Iterate}}
+\index{\-U\-A\-V\-Obj\-Iterate@{\-U\-A\-V\-Obj\-Iterate}!UAVObject handling code@{\-U\-A\-V\-Object handling code}}
+\subsubsection[{\-U\-A\-V\-Obj\-Iterate}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-U\-A\-V\-Obj\-Iterate} (
+\begin{DoxyParamCaption}
+\item[{void($\ast$)({\bf \-U\-A\-V\-Obj\-Handle} obj)}]{iterator}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_object_handling_ga207c169e5af27b411cb6a08608369bdb}
+\-Iterate through all objects in the list. 
+\begin{DoxyParams}{\-Parameters}
+{\em iterator} & \-This function will be called once for each object, the object will be passed as a parameter \\
+\hline
+\end{DoxyParams}
+
+
+\-Definition at line 1781 of file uavobjectmanager.\-c.
+
+\hypertarget{group___u_a_v_object_handling_gaf028fed8e3025656c7436ce6a7340e44}{\index{\-U\-A\-V\-Object handling code@{\-U\-A\-V\-Object handling code}!\-U\-A\-V\-Obj\-Load@{\-U\-A\-V\-Obj\-Load}}
+\index{\-U\-A\-V\-Obj\-Load@{\-U\-A\-V\-Obj\-Load}!UAVObject handling code@{\-U\-A\-V\-Object handling code}}
+\subsubsection[{\-U\-A\-V\-Obj\-Load}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-U\-A\-V\-Obj\-Load} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-U\-A\-V\-Obj\-Handle}}]{obj\-\_\-handle, }
+\item[{uint16\-\_\-t}]{inst\-Id}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_object_handling_gaf028fed8e3025656c7436ce6a7340e44}
+\-Load an object from the file system (\-S\-D card). \-A file with the name of the object will be opened. \-The object data can be saved using the \-U\-A\-V\-Obj\-Save function. 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em obj} & \-The object handle. \\
+\hline
+\mbox{\tt in}  & {\em inst\-Id} & \-The object instance \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+0 if success or -\/1 if failure 
+\end{DoxyReturn}
+
+
+\-Definition at line 912 of file uavobjectmanager.\-c.
+
+\hypertarget{group___u_a_v_object_handling_ga851caa15c5807d5affbd6095d3cdaca7}{\index{\-U\-A\-V\-Object handling code@{\-U\-A\-V\-Object handling code}!\-U\-A\-V\-Obj\-Load\-From\-File@{\-U\-A\-V\-Obj\-Load\-From\-File}}
+\index{\-U\-A\-V\-Obj\-Load\-From\-File@{\-U\-A\-V\-Obj\-Load\-From\-File}!UAVObject handling code@{\-U\-A\-V\-Object handling code}}
+\subsubsection[{\-U\-A\-V\-Obj\-Load\-From\-File}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-U\-A\-V\-Obj\-Handle} {\bf \-U\-A\-V\-Obj\-Load\-From\-File} (
+\begin{DoxyParamCaption}
+\item[{\-F\-I\-L\-E\-I\-N\-F\-O $\ast$}]{file}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_object_handling_ga851caa15c5807d5affbd6095d3cdaca7}
+\-Load an object from the file system (\-S\-D card). 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em file} & \-File to read from \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+\-The handle of the object loaded or \-N\-U\-L\-L if a failure 
+\end{DoxyReturn}
+
+
+\-Definition at line 820 of file uavobjectmanager.\-c.
+
+\hypertarget{group___u_a_v_object_handling_ga014c904f7cc34d6bb5a5a1f23ebe3364}{\index{\-U\-A\-V\-Object handling code@{\-U\-A\-V\-Object handling code}!\-U\-A\-V\-Obj\-Load\-Metaobjects@{\-U\-A\-V\-Obj\-Load\-Metaobjects}}
+\index{\-U\-A\-V\-Obj\-Load\-Metaobjects@{\-U\-A\-V\-Obj\-Load\-Metaobjects}!UAVObject handling code@{\-U\-A\-V\-Object handling code}}
+\subsubsection[{\-U\-A\-V\-Obj\-Load\-Metaobjects}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-U\-A\-V\-Obj\-Load\-Metaobjects} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_object_handling_ga014c904f7cc34d6bb5a5a1f23ebe3364}
+\-Load all metaobjects from the \-S\-D card. \begin{DoxyReturn}{\-Returns}
+0 if success or -\/1 if failure 
+\end{DoxyReturn}
+
+
+\-Definition at line 1144 of file uavobjectmanager.\-c.
+
+\hypertarget{group___u_a_v_object_handling_ga961f3df74e4106ee108a10b57536302f}{\index{\-U\-A\-V\-Object handling code@{\-U\-A\-V\-Object handling code}!\-U\-A\-V\-Obj\-Load\-Settings@{\-U\-A\-V\-Obj\-Load\-Settings}}
+\index{\-U\-A\-V\-Obj\-Load\-Settings@{\-U\-A\-V\-Obj\-Load\-Settings}!UAVObject handling code@{\-U\-A\-V\-Object handling code}}
+\subsubsection[{\-U\-A\-V\-Obj\-Load\-Settings}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-U\-A\-V\-Obj\-Load\-Settings} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_object_handling_ga961f3df74e4106ee108a10b57536302f}
+\-Load all settings objects from the \-S\-D card. \begin{DoxyReturn}{\-Returns}
+0 if success or -\/1 if failure 
+\end{DoxyReturn}
+
+
+\-Definition at line 1051 of file uavobjectmanager.\-c.
+
+\hypertarget{group___u_a_v_object_handling_gaeced79a2ea987ec860ba7468df886ecd}{\index{\-U\-A\-V\-Object handling code@{\-U\-A\-V\-Object handling code}!\-U\-A\-V\-Obj\-Pack@{\-U\-A\-V\-Obj\-Pack}}
+\index{\-U\-A\-V\-Obj\-Pack@{\-U\-A\-V\-Obj\-Pack}!UAVObject handling code@{\-U\-A\-V\-Object handling code}}
+\subsubsection[{\-U\-A\-V\-Obj\-Pack}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-U\-A\-V\-Obj\-Pack} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-U\-A\-V\-Obj\-Handle}}]{obj\-\_\-handle, }
+\item[{uint16\-\_\-t}]{inst\-Id, }
+\item[{uint8\-\_\-t $\ast$}]{data\-Out}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_object_handling_gaeced79a2ea987ec860ba7468df886ecd}
+\-Pack an object to a byte array 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em obj} & \-The object handle \\
+\hline
+\mbox{\tt in}  & {\em inst\-Id} & \-The instance \-I\-D \\
+\hline
+\mbox{\tt out}  & {\em data\-Out} & \-The byte array \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+0 if success or -\/1 if failure 
+\end{DoxyReturn}
+
+
+\-Definition at line 634 of file uavobjectmanager.\-c.
+
+\hypertarget{group___u_a_v_object_handling_gac4c6b71eb37b913f642f528ce4627996}{\index{\-U\-A\-V\-Object handling code@{\-U\-A\-V\-Object handling code}!\-U\-A\-V\-Obj\-Read\-Only@{\-U\-A\-V\-Obj\-Read\-Only}}
+\index{\-U\-A\-V\-Obj\-Read\-Only@{\-U\-A\-V\-Obj\-Read\-Only}!UAVObject handling code@{\-U\-A\-V\-Object handling code}}
+\subsubsection[{\-U\-A\-V\-Obj\-Read\-Only}]{\setlength{\rightskip}{0pt plus 5cm}int8\-\_\-t {\bf \-U\-A\-V\-Obj\-Read\-Only} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-U\-A\-V\-Obj\-Handle}}]{obj\-\_\-handle}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_object_handling_gac4c6b71eb37b913f642f528ce4627996}
+\-Check if an object is read only 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em obj} & \-The object handle \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+\begin{DoxyItemize}
+\item 0 if not read only \item 1 if read only \item -\/1 if unable to get meta data \end{DoxyItemize}
+
+\end{DoxyReturn}
+
+
+\-Definition at line 1649 of file uavobjectmanager.\-c.
+
+\hypertarget{group___u_a_v_object_handling_ga88eab3d936394b3dffd65db8a148b9b1}{\index{\-U\-A\-V\-Object handling code@{\-U\-A\-V\-Object handling code}!\-U\-A\-V\-Obj\-Register@{\-U\-A\-V\-Obj\-Register}}
+\index{\-U\-A\-V\-Obj\-Register@{\-U\-A\-V\-Obj\-Register}!UAVObject handling code@{\-U\-A\-V\-Object handling code}}
+\subsubsection[{\-U\-A\-V\-Obj\-Register}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-U\-A\-V\-Obj\-Handle} {\bf \-U\-A\-V\-Obj\-Register} (
+\begin{DoxyParamCaption}
+\item[{uint32\-\_\-t}]{id, }
+\item[{int32\-\_\-t}]{is\-Single\-Instance, }
+\item[{int32\-\_\-t}]{is\-Settings, }
+\item[{uint32\-\_\-t}]{num\-\_\-bytes, }
+\item[{{\bf \-U\-A\-V\-Obj\-Initialize\-Callback}}]{init\-Cb}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_object_handling_ga88eab3d936394b3dffd65db8a148b9b1}
+\-Register and new object in the object manager. 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em id} & \-Unique object \-I\-D \\
+\hline
+\mbox{\tt in}  & {\em is\-Single\-Instance} & \-Is this a single instance or multi-\/instance object \\
+\hline
+\mbox{\tt in}  & {\em is\-Settings} & \-Is this a settings object \\
+\hline
+\mbox{\tt in}  & {\em num\-Bytes} & \-Number of bytes of object data (for one instance) \\
+\hline
+\mbox{\tt in}  & {\em init\-Cb} & \-Default field and metadata initialization function \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+\-Object handle, or \-N\-U\-L\-L if failure. 
+
+
+\end{DoxyReturn}
+
+
+\-Definition at line 308 of file uavobjectmanager.\-c.
+
+\hypertarget{group___u_a_v_object_handling_ga178c0681bdf228a409bcd12d8a10a260}{\index{\-U\-A\-V\-Object handling code@{\-U\-A\-V\-Object handling code}!\-U\-A\-V\-Obj\-Request\-Instance\-Update@{\-U\-A\-V\-Obj\-Request\-Instance\-Update}}
+\index{\-U\-A\-V\-Obj\-Request\-Instance\-Update@{\-U\-A\-V\-Obj\-Request\-Instance\-Update}!UAVObject handling code@{\-U\-A\-V\-Object handling code}}
+\subsubsection[{\-U\-A\-V\-Obj\-Request\-Instance\-Update}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-U\-A\-V\-Obj\-Request\-Instance\-Update} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-U\-A\-V\-Obj\-Handle}}]{obj\-\_\-handle, }
+\item[{uint16\-\_\-t}]{inst\-Id}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_object_handling_ga178c0681bdf228a409bcd12d8a10a260}
+\-Request an update of the object's data from the \-G\-C\-S. \-The call will not wait for the response, a \-E\-V\-\_\-\-U\-P\-D\-A\-T\-E\-D event will be generated as soon as the object is updated. 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em obj} & \-The object handle \\
+\hline
+\mbox{\tt in}  & {\em inst\-Id} & \-Object instance \-I\-D to update \\
+\hline
+\end{DoxyParams}
+
+
+\-Definition at line 1746 of file uavobjectmanager.\-c.
+
+\hypertarget{group___u_a_v_object_handling_gaef845ac7a3065b37998fa12f85856cc3}{\index{\-U\-A\-V\-Object handling code@{\-U\-A\-V\-Object handling code}!\-U\-A\-V\-Obj\-Request\-Update@{\-U\-A\-V\-Obj\-Request\-Update}}
+\index{\-U\-A\-V\-Obj\-Request\-Update@{\-U\-A\-V\-Obj\-Request\-Update}!UAVObject handling code@{\-U\-A\-V\-Object handling code}}
+\subsubsection[{\-U\-A\-V\-Obj\-Request\-Update}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-U\-A\-V\-Obj\-Request\-Update} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-U\-A\-V\-Obj\-Handle}}]{obj\-\_\-handle}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_object_handling_gaef845ac7a3065b37998fa12f85856cc3}
+\-Request an update of the object's data from the \-G\-C\-S. \-The call will not wait for the response, a \-E\-V\-\_\-\-U\-P\-D\-A\-T\-E\-D event will be generated as soon as the object is updated. 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em obj} & \-The object handle \\
+\hline
+\end{DoxyParams}
+
+
+\-Definition at line 1735 of file uavobjectmanager.\-c.
+
+\hypertarget{group___u_a_v_object_handling_gab06b41f74db97895f2de3ec8772ddcd9}{\index{\-U\-A\-V\-Object handling code@{\-U\-A\-V\-Object handling code}!\-U\-A\-V\-Obj\-Save@{\-U\-A\-V\-Obj\-Save}}
+\index{\-U\-A\-V\-Obj\-Save@{\-U\-A\-V\-Obj\-Save}!UAVObject handling code@{\-U\-A\-V\-Object handling code}}
+\subsubsection[{\-U\-A\-V\-Obj\-Save}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-U\-A\-V\-Obj\-Save} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-U\-A\-V\-Obj\-Handle}}]{obj\-\_\-handle, }
+\item[{uint16\-\_\-t}]{inst\-Id}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_object_handling_gab06b41f74db97895f2de3ec8772ddcd9}
+\-Save the data of the specified object to the file system (\-S\-D card). \-If the object contains multiple instances, all of them will be saved. \-A new file with the name of the object will be created. \-The object data can be restored using the \-U\-A\-V\-Obj\-Load function. 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em obj} & \-The object handle. \\
+\hline
+\mbox{\tt in}  & {\em inst\-Id} & \-The instance \-I\-D \\
+\hline
+\mbox{\tt in}  & {\em file} & \-File to append to \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+0 if success or -\/1 if failure 
+\end{DoxyReturn}
+
+
+\-Definition at line 758 of file uavobjectmanager.\-c.
+
+\hypertarget{group___u_a_v_object_handling_ga203ebba7c25227245b1ae5abd38492c4}{\index{\-U\-A\-V\-Object handling code@{\-U\-A\-V\-Object handling code}!\-U\-A\-V\-Obj\-Save\-Metaobjects@{\-U\-A\-V\-Obj\-Save\-Metaobjects}}
+\index{\-U\-A\-V\-Obj\-Save\-Metaobjects@{\-U\-A\-V\-Obj\-Save\-Metaobjects}!UAVObject handling code@{\-U\-A\-V\-Object handling code}}
+\subsubsection[{\-U\-A\-V\-Obj\-Save\-Metaobjects}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-U\-A\-V\-Obj\-Save\-Metaobjects} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_object_handling_ga203ebba7c25227245b1ae5abd38492c4}
+\-Save all metaobjects to the \-S\-D card. \begin{DoxyReturn}{\-Returns}
+0 if success or -\/1 if failure 
+\end{DoxyReturn}
+
+
+\-Definition at line 1115 of file uavobjectmanager.\-c.
+
+\hypertarget{group___u_a_v_object_handling_ga6282540dd888720334943f3b3ad5f301}{\index{\-U\-A\-V\-Object handling code@{\-U\-A\-V\-Object handling code}!\-U\-A\-V\-Obj\-Save\-Settings@{\-U\-A\-V\-Obj\-Save\-Settings}}
+\index{\-U\-A\-V\-Obj\-Save\-Settings@{\-U\-A\-V\-Obj\-Save\-Settings}!UAVObject handling code@{\-U\-A\-V\-Object handling code}}
+\subsubsection[{\-U\-A\-V\-Obj\-Save\-Settings}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-U\-A\-V\-Obj\-Save\-Settings} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_object_handling_ga6282540dd888720334943f3b3ad5f301}
+\-Save all settings objects to the \-S\-D card. \begin{DoxyReturn}{\-Returns}
+0 if success or -\/1 if failure 
+\end{DoxyReturn}
+
+
+\-Definition at line 1019 of file uavobjectmanager.\-c.
+
+\hypertarget{group___u_a_v_object_handling_ga417bd4dd0d0c7b33938e2351b0bba8b2}{\index{\-U\-A\-V\-Object handling code@{\-U\-A\-V\-Object handling code}!\-U\-A\-V\-Obj\-Save\-To\-File@{\-U\-A\-V\-Obj\-Save\-To\-File}}
+\index{\-U\-A\-V\-Obj\-Save\-To\-File@{\-U\-A\-V\-Obj\-Save\-To\-File}!UAVObject handling code@{\-U\-A\-V\-Object handling code}}
+\subsubsection[{\-U\-A\-V\-Obj\-Save\-To\-File}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-U\-A\-V\-Obj\-Save\-To\-File} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-U\-A\-V\-Obj\-Handle}}]{obj\-\_\-handle, }
+\item[{uint16\-\_\-t}]{inst\-Id, }
+\item[{\-F\-I\-L\-E\-I\-N\-F\-O $\ast$}]{file}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_object_handling_ga417bd4dd0d0c7b33938e2351b0bba8b2}
+\-Save the data of the specified object instance to the file system (\-S\-D card). \-The object will be appended and the file will not be closed. \-The object data can be restored using the \-U\-A\-V\-Obj\-Load function. 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em obj} & \-The object handle. \\
+\hline
+\mbox{\tt in}  & {\em inst\-Id} & \-The instance \-I\-D \\
+\hline
+\mbox{\tt in}  & {\em file} & \-File to append to \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+0 if success or -\/1 if failure 
+\end{DoxyReturn}
+
+
+\-Definition at line 681 of file uavobjectmanager.\-c.
+
+\hypertarget{group___u_a_v_object_handling_ga54607c2130bc133553b18ece1c4d1540}{\index{\-U\-A\-V\-Object handling code@{\-U\-A\-V\-Object handling code}!\-U\-A\-V\-Obj\-Set\-Access@{\-U\-A\-V\-Obj\-Set\-Access}}
+\index{\-U\-A\-V\-Obj\-Set\-Access@{\-U\-A\-V\-Obj\-Set\-Access}!UAVObject handling code@{\-U\-A\-V\-Object handling code}}
+\subsubsection[{\-U\-A\-V\-Obj\-Set\-Access}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-U\-A\-V\-Obj\-Set\-Access} (
+\begin{DoxyParamCaption}
+\item[{\-U\-A\-V\-Obj\-Metadata $\ast$}]{metadata, }
+\item[{{\bf \-U\-A\-V\-Obj\-Access\-Type}}]{mode}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_object_handling_ga54607c2130bc133553b18ece1c4d1540}
+\-Set the \-U\-A\-V\-Object metadata access member 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em metadata} & \-The metadata object \\
+\hline
+\mbox{\tt in}  & {\em mode} & \-The access mode \\
+\hline
+\end{DoxyParams}
+
+
+\-Definition at line 1533 of file uavobjectmanager.\-c.
+
+\hypertarget{group___u_a_v_object_handling_gaca346cc577b81ba51cde8f793cdaf969}{\index{\-U\-A\-V\-Object handling code@{\-U\-A\-V\-Object handling code}!\-U\-A\-V\-Obj\-Set\-Data@{\-U\-A\-V\-Obj\-Set\-Data}}
+\index{\-U\-A\-V\-Obj\-Set\-Data@{\-U\-A\-V\-Obj\-Set\-Data}!UAVObject handling code@{\-U\-A\-V\-Object handling code}}
+\subsubsection[{\-U\-A\-V\-Obj\-Set\-Data}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-U\-A\-V\-Obj\-Set\-Data} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-U\-A\-V\-Obj\-Handle}}]{obj\-\_\-handle, }
+\item[{const void $\ast$}]{data\-In}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_object_handling_gaca346cc577b81ba51cde8f793cdaf969}
+\-Set the object data 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em obj} & \-The object handle \\
+\hline
+\mbox{\tt in}  & {\em data\-In} & \-The object's data structure \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+0 if success or -\/1 if failure 
+\end{DoxyReturn}
+
+
+\-Definition at line 1204 of file uavobjectmanager.\-c.
+
+\hypertarget{group___u_a_v_object_handling_gab4d774a4a829bc754878021d3bcb195f}{\index{\-U\-A\-V\-Object handling code@{\-U\-A\-V\-Object handling code}!\-U\-A\-V\-Obj\-Set\-Data\-Field@{\-U\-A\-V\-Obj\-Set\-Data\-Field}}
+\index{\-U\-A\-V\-Obj\-Set\-Data\-Field@{\-U\-A\-V\-Obj\-Set\-Data\-Field}!UAVObject handling code@{\-U\-A\-V\-Object handling code}}
+\subsubsection[{\-U\-A\-V\-Obj\-Set\-Data\-Field}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-U\-A\-V\-Obj\-Set\-Data\-Field} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-U\-A\-V\-Obj\-Handle}}]{obj\-\_\-handle, }
+\item[{const void $\ast$}]{data\-In, }
+\item[{uint32\-\_\-t}]{offset, }
+\item[{uint32\-\_\-t}]{size}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_object_handling_gab4d774a4a829bc754878021d3bcb195f}
+\-Set the object data 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em obj} & \-The object handle \\
+\hline
+\mbox{\tt in}  & {\em data\-In} & \-The object's data structure \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+0 if success or -\/1 if failure 
+\end{DoxyReturn}
+
+
+\-Definition at line 1215 of file uavobjectmanager.\-c.
+
+\hypertarget{group___u_a_v_object_handling_ga1ac1d4a25c3ca9025ff3dec90fa6ee91}{\index{\-U\-A\-V\-Object handling code@{\-U\-A\-V\-Object handling code}!\-U\-A\-V\-Obj\-Set\-Gcs\-Access@{\-U\-A\-V\-Obj\-Set\-Gcs\-Access}}
+\index{\-U\-A\-V\-Obj\-Set\-Gcs\-Access@{\-U\-A\-V\-Obj\-Set\-Gcs\-Access}!UAVObject handling code@{\-U\-A\-V\-Object handling code}}
+\subsubsection[{\-U\-A\-V\-Obj\-Set\-Gcs\-Access}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-U\-A\-V\-Obj\-Set\-Gcs\-Access} (
+\begin{DoxyParamCaption}
+\item[{\-U\-A\-V\-Obj\-Metadata $\ast$}]{metadata, }
+\item[{{\bf \-U\-A\-V\-Obj\-Access\-Type}}]{mode}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_object_handling_ga1ac1d4a25c3ca9025ff3dec90fa6ee91}
+\-Set the \-U\-A\-V\-Object metadata \-G\-C\-S access member 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em metadata} & \-The metadata object \\
+\hline
+\mbox{\tt in}  & {\em mode} & \-The access mode \\
+\hline
+\end{DoxyParams}
+
+
+\-Definition at line 1555 of file uavobjectmanager.\-c.
+
+\hypertarget{group___u_a_v_object_handling_ga2a530de3ecfe1d8010eeb98f6e4eb037}{\index{\-U\-A\-V\-Object handling code@{\-U\-A\-V\-Object handling code}!\-U\-A\-V\-Obj\-Set\-Gcs\-Telemetry\-Acked@{\-U\-A\-V\-Obj\-Set\-Gcs\-Telemetry\-Acked}}
+\index{\-U\-A\-V\-Obj\-Set\-Gcs\-Telemetry\-Acked@{\-U\-A\-V\-Obj\-Set\-Gcs\-Telemetry\-Acked}!UAVObject handling code@{\-U\-A\-V\-Object handling code}}
+\subsubsection[{\-U\-A\-V\-Obj\-Set\-Gcs\-Telemetry\-Acked}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-U\-A\-V\-Obj\-Set\-Gcs\-Telemetry\-Acked} (
+\begin{DoxyParamCaption}
+\item[{\-U\-A\-V\-Obj\-Metadata $\ast$}]{metadata, }
+\item[{uint8\-\_\-t}]{val}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_object_handling_ga2a530de3ecfe1d8010eeb98f6e4eb037}
+\-Set the \-U\-A\-V\-Object metadata \-G\-C\-S telemetry acked member 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em metadata} & \-The metadata object \\
+\hline
+\mbox{\tt in}  & {\em val} & \-The \-G\-C\-S telemetry acked boolean \\
+\hline
+\end{DoxyParams}
+
+
+\-Definition at line 1595 of file uavobjectmanager.\-c.
+
+\hypertarget{group___u_a_v_object_handling_gaf23cc9b03d0eaa4dbf1aec969180f712}{\index{\-U\-A\-V\-Object handling code@{\-U\-A\-V\-Object handling code}!\-U\-A\-V\-Obj\-Set\-Gcs\-Telemetry\-Update\-Mode@{\-U\-A\-V\-Obj\-Set\-Gcs\-Telemetry\-Update\-Mode}}
+\index{\-U\-A\-V\-Obj\-Set\-Gcs\-Telemetry\-Update\-Mode@{\-U\-A\-V\-Obj\-Set\-Gcs\-Telemetry\-Update\-Mode}!UAVObject handling code@{\-U\-A\-V\-Object handling code}}
+\subsubsection[{\-U\-A\-V\-Obj\-Set\-Gcs\-Telemetry\-Update\-Mode}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-U\-A\-V\-Obj\-Set\-Gcs\-Telemetry\-Update\-Mode} (
+\begin{DoxyParamCaption}
+\item[{\-U\-A\-V\-Obj\-Metadata $\ast$}]{metadata, }
+\item[{{\bf \-U\-A\-V\-Obj\-Update\-Mode}}]{val}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_object_handling_gaf23cc9b03d0eaa4dbf1aec969180f712}
+\-Set the \-U\-A\-V\-Object metadata \-G\-C\-S telemetry update mode member 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em metadata} & \-The metadata object \\
+\hline
+\mbox{\tt in}  & {\em val} & \-The \-G\-C\-S telemetry update mode \\
+\hline
+\end{DoxyParams}
+
+
+\-Definition at line 1635 of file uavobjectmanager.\-c.
+
+\hypertarget{group___u_a_v_object_handling_gaa9c916d3a8cabfc6d7a0f3d488d10803}{\index{\-U\-A\-V\-Object handling code@{\-U\-A\-V\-Object handling code}!\-U\-A\-V\-Obj\-Set\-Instance\-Data@{\-U\-A\-V\-Obj\-Set\-Instance\-Data}}
+\index{\-U\-A\-V\-Obj\-Set\-Instance\-Data@{\-U\-A\-V\-Obj\-Set\-Instance\-Data}!UAVObject handling code@{\-U\-A\-V\-Object handling code}}
+\subsubsection[{\-U\-A\-V\-Obj\-Set\-Instance\-Data}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-U\-A\-V\-Obj\-Set\-Instance\-Data} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-U\-A\-V\-Obj\-Handle}}]{obj\-\_\-handle, }
+\item[{uint16\-\_\-t}]{inst\-Id, }
+\item[{const void $\ast$}]{data\-In}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_object_handling_gaa9c916d3a8cabfc6d7a0f3d488d10803}
+\-Set the data of a specific object instance 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em obj} & \-The object handle \\
+\hline
+\mbox{\tt in}  & {\em inst\-Id} & \-The object instance \-I\-D \\
+\hline
+\mbox{\tt in}  & {\em data\-In} & \-The object's data structure \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+0 if success or -\/1 if failure 
+\end{DoxyReturn}
+
+
+\-Definition at line 1249 of file uavobjectmanager.\-c.
+
+\hypertarget{group___u_a_v_object_handling_ga087c34a94f310e0b73ffa8d9e3dd02c6}{\index{\-U\-A\-V\-Object handling code@{\-U\-A\-V\-Object handling code}!\-U\-A\-V\-Obj\-Set\-Instance\-Data\-Field@{\-U\-A\-V\-Obj\-Set\-Instance\-Data\-Field}}
+\index{\-U\-A\-V\-Obj\-Set\-Instance\-Data\-Field@{\-U\-A\-V\-Obj\-Set\-Instance\-Data\-Field}!UAVObject handling code@{\-U\-A\-V\-Object handling code}}
+\subsubsection[{\-U\-A\-V\-Obj\-Set\-Instance\-Data\-Field}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-U\-A\-V\-Obj\-Set\-Instance\-Data\-Field} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-U\-A\-V\-Obj\-Handle}}]{obj\-\_\-handle, }
+\item[{uint16\-\_\-t}]{inst\-Id, }
+\item[{const void $\ast$}]{data\-In, }
+\item[{uint32\-\_\-t}]{offset, }
+\item[{uint32\-\_\-t}]{size}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_object_handling_ga087c34a94f310e0b73ffa8d9e3dd02c6}
+\-Set the data of a specific object instance 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em obj} & \-The object handle \\
+\hline
+\mbox{\tt in}  & {\em inst\-Id} & \-The object instance \-I\-D \\
+\hline
+\mbox{\tt in}  & {\em data\-In} & \-The object's data structure \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+0 if success or -\/1 if failure 
+\end{DoxyReturn}
+
+
+\-Definition at line 1300 of file uavobjectmanager.\-c.
+
+\hypertarget{group___u_a_v_object_handling_ga0e590d06148882b63affa37888f043df}{\index{\-U\-A\-V\-Object handling code@{\-U\-A\-V\-Object handling code}!\-U\-A\-V\-Obj\-Set\-Metadata@{\-U\-A\-V\-Obj\-Set\-Metadata}}
+\index{\-U\-A\-V\-Obj\-Set\-Metadata@{\-U\-A\-V\-Obj\-Set\-Metadata}!UAVObject handling code@{\-U\-A\-V\-Object handling code}}
+\subsubsection[{\-U\-A\-V\-Obj\-Set\-Metadata}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-U\-A\-V\-Obj\-Set\-Metadata} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-U\-A\-V\-Obj\-Handle}}]{obj\-\_\-handle, }
+\item[{const \-U\-A\-V\-Obj\-Metadata $\ast$}]{data\-In}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_object_handling_ga0e590d06148882b63affa37888f043df}
+\-Set the object metadata 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em obj} & \-The object handle \\
+\hline
+\mbox{\tt in}  & {\em data\-In} & \-The object's metadata structure \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+0 if success or -\/1 if failure 
+\end{DoxyReturn}
+
+
+\-Definition at line 1470 of file uavobjectmanager.\-c.
+
+\hypertarget{group___u_a_v_object_handling_ga43e002d9dd75b34a4392308763d6bb35}{\index{\-U\-A\-V\-Object handling code@{\-U\-A\-V\-Object handling code}!\-U\-A\-V\-Obj\-Set\-Telemetry\-Acked@{\-U\-A\-V\-Obj\-Set\-Telemetry\-Acked}}
+\index{\-U\-A\-V\-Obj\-Set\-Telemetry\-Acked@{\-U\-A\-V\-Obj\-Set\-Telemetry\-Acked}!UAVObject handling code@{\-U\-A\-V\-Object handling code}}
+\subsubsection[{\-U\-A\-V\-Obj\-Set\-Telemetry\-Acked}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-U\-A\-V\-Obj\-Set\-Telemetry\-Acked} (
+\begin{DoxyParamCaption}
+\item[{\-U\-A\-V\-Obj\-Metadata $\ast$}]{metadata, }
+\item[{uint8\-\_\-t}]{val}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_object_handling_ga43e002d9dd75b34a4392308763d6bb35}
+\-Set the \-U\-A\-V\-Object metadata telemetry acked member 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em metadata} & \-The metadata object \\
+\hline
+\mbox{\tt in}  & {\em val} & \-The telemetry acked boolean \\
+\hline
+\end{DoxyParams}
+
+
+\-Definition at line 1575 of file uavobjectmanager.\-c.
+
+\hypertarget{group___u_a_v_object_handling_ga383e4286d101cd29646b5e4b0e4b6199}{\index{\-U\-A\-V\-Object handling code@{\-U\-A\-V\-Object handling code}!\-U\-A\-V\-Obj\-Set\-Telemetry\-Update\-Mode@{\-U\-A\-V\-Obj\-Set\-Telemetry\-Update\-Mode}}
+\index{\-U\-A\-V\-Obj\-Set\-Telemetry\-Update\-Mode@{\-U\-A\-V\-Obj\-Set\-Telemetry\-Update\-Mode}!UAVObject handling code@{\-U\-A\-V\-Object handling code}}
+\subsubsection[{\-U\-A\-V\-Obj\-Set\-Telemetry\-Update\-Mode}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-U\-A\-V\-Obj\-Set\-Telemetry\-Update\-Mode} (
+\begin{DoxyParamCaption}
+\item[{\-U\-A\-V\-Obj\-Metadata $\ast$}]{metadata, }
+\item[{{\bf \-U\-A\-V\-Obj\-Update\-Mode}}]{val}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_object_handling_ga383e4286d101cd29646b5e4b0e4b6199}
+\-Set the \-U\-A\-V\-Object metadata telemetry update mode member 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em metadata} & \-The metadata object \\
+\hline
+\mbox{\tt in}  & {\em val} & \-The telemetry update mode \\
+\hline
+\end{DoxyParams}
+
+
+\-Definition at line 1615 of file uavobjectmanager.\-c.
+
+\hypertarget{group___u_a_v_object_handling_gae54216880f0d6f603497b8fad60d0c95}{\index{\-U\-A\-V\-Object handling code@{\-U\-A\-V\-Object handling code}!\-U\-A\-V\-Obj\-Unpack@{\-U\-A\-V\-Obj\-Unpack}}
+\index{\-U\-A\-V\-Obj\-Unpack@{\-U\-A\-V\-Obj\-Unpack}!UAVObject handling code@{\-U\-A\-V\-Object handling code}}
+\subsubsection[{\-U\-A\-V\-Obj\-Unpack}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-U\-A\-V\-Obj\-Unpack} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-U\-A\-V\-Obj\-Handle}}]{obj\-\_\-handle, }
+\item[{uint16\-\_\-t}]{inst\-Id, }
+\item[{const uint8\-\_\-t $\ast$}]{data\-In}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_object_handling_gae54216880f0d6f603497b8fad60d0c95}
+\-Unpack an object from a byte array 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em obj} & \-The object handle \\
+\hline
+\mbox{\tt in}  & {\em inst\-Id} & \-The instance \-I\-D \\
+\hline
+\mbox{\tt in}  & {\em data\-In} & \-The byte array \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+0 if success or -\/1 if failure 
+\end{DoxyReturn}
+
+
+\-Definition at line 582 of file uavobjectmanager.\-c.
+
+\hypertarget{group___u_a_v_object_handling_gaadcab3b60f3004ccba0c5efa5c5bfb57}{\index{\-U\-A\-V\-Object handling code@{\-U\-A\-V\-Object handling code}!\-U\-A\-V\-Obj\-Updated@{\-U\-A\-V\-Obj\-Updated}}
+\index{\-U\-A\-V\-Obj\-Updated@{\-U\-A\-V\-Obj\-Updated}!UAVObject handling code@{\-U\-A\-V\-Object handling code}}
+\subsubsection[{\-U\-A\-V\-Obj\-Updated}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-U\-A\-V\-Obj\-Updated} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-U\-A\-V\-Obj\-Handle}}]{obj\-\_\-handle}
+\end{DoxyParamCaption}
+)}}\label{group___u_a_v_object_handling_gaadcab3b60f3004ccba0c5efa5c5bfb57}
+\-Send the object's data to the \-G\-C\-S (triggers a \-E\-V\-\_\-\-U\-P\-D\-A\-T\-E\-D\-\_\-\-M\-A\-N\-U\-A\-L event on this object). 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em obj} & \-The object handle \\
+\hline
+\end{DoxyParams}
+
+
+\-Definition at line 1758 of file uavobjectmanager.\-c.
+
+
+
+\subsection{\-Variable \-Documentation}
+\hypertarget{group___u_a_v_object_handling_gab060f441dd600b08386c0ca1b487217a}{\index{\-U\-A\-V\-Object handling code@{\-U\-A\-V\-Object handling code}!pios\-\_\-uavo\-\_\-settings\-\_\-fs\-\_\-id@{pios\-\_\-uavo\-\_\-settings\-\_\-fs\-\_\-id}}
+\index{pios\-\_\-uavo\-\_\-settings\-\_\-fs\-\_\-id@{pios\-\_\-uavo\-\_\-settings\-\_\-fs\-\_\-id}!UAVObject handling code@{\-U\-A\-V\-Object handling code}}
+\subsubsection[{pios\-\_\-uavo\-\_\-settings\-\_\-fs\-\_\-id}]{\setlength{\rightskip}{0pt plus 5cm}uintptr\-\_\-t {\bf pios\-\_\-uavo\-\_\-settings\-\_\-fs\-\_\-id}}}\label{group___u_a_v_object_handling_gab060f441dd600b08386c0ca1b487217a}
+
+
+\-Definition at line 82 of file pios\-\_\-board.\-c.
+

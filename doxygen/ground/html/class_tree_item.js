@@ -21,15 +21,18 @@ var class_tree_item =
     [ "removeHighlight", "group___u_a_v_object_browser_plugin.html#ga9620f3abc5fda75861a24032594766a6", null ],
     [ "row", "group___u_a_v_object_browser_plugin.html#ga5a062d24b35421360ad1d101c564e9be", null ],
     [ "setChanged", "group___u_a_v_object_browser_plugin.html#ga2562126b279261daaf87d6234bfb807c", null ],
+    [ "setCurrentTime", "group___u_a_v_object_browser_plugin.html#ga2d8b58f0944b4a2b934f1aacc5188f17", null ],
     [ "setData", "group___u_a_v_object_browser_plugin.html#gac71bc85379e761548f4a7d15f049cdd8", null ],
     [ "setDescription", "group___u_a_v_object_browser_plugin.html#ga14cc339bd1ed2fc44cb352461c623031", null ],
     [ "setHighlight", "group___u_a_v_object_browser_plugin.html#ga59e306591cb8099a247f47cde3e4e78a", null ],
     [ "setHighlightManager", "group___u_a_v_object_browser_plugin.html#gac523fe360648e1e148c4b30f6918c6be", null ],
+    [ "setHighlightTime", "group___u_a_v_object_browser_plugin.html#ga75de400d0bd7ba687fcc1535a3a0f871", null ],
     [ "setParentTree", "group___u_a_v_object_browser_plugin.html#gab0eb64f28a5cd5d9e77ff4579014b1bb", null ],
     [ "setUpdatedOnly", "group___u_a_v_object_browser_plugin.html#ga63e16f896af89aa165dcd9c31d42ce83", null ],
     [ "setUpdatedOnlyParent", "group___u_a_v_object_browser_plugin.html#gae74eb4785ae705b5a9ffc056a71fb88a", null ],
     [ "treeChildren", "group___u_a_v_object_browser_plugin.html#gaa56dc80d617c2c9bd914abe5da774fd8", null ],
     [ "update", "group___u_a_v_object_browser_plugin.html#gab6c763d5ea39c359ab56b4d8b1af8f7b", null ],
     [ "updatedOnly", "group___u_a_v_object_browser_plugin.html#gae407428df05b1f28bcb6e8bf2cd86b73", null ],
-    [ "updateHighlight", "group___u_a_v_object_browser_plugin.html#gab8702d2046500fbe3dd7cee66ebcda70", null ]
+    [ "updateHighlight", "group___u_a_v_object_browser_plugin.html#gab8702d2046500fbe3dd7cee66ebcda70", null ],
+    [ "dataColumn", "group___u_a_v_object_browser_plugin.html#gad4ee9a1203f812d975a410765ddb8710", null ]
 ];

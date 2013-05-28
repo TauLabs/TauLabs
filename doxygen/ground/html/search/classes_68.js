@@ -2,7 +2,6 @@ var searchData=
 [
   ['helipage',['HeliPage',['../class_heli_page.html',1,'']]],
   ['helper',['Helper',['../classmapcontrol_1_1_helper.html',1,'mapcontrol']]],
-  ['hessenbergdecomposition',['HessenbergDecomposition',['../class_hessenberg_decomposition.html',1,'']]],
   ['heuristictextmagicmatcher',['HeuristicTextMagicMatcher',['../class_core_1_1_internal_1_1_heuristic_text_magic_matcher.html',1,'Core::Internal']]],
   ['hid_5fstruct',['hid_struct',['../structhid__struct.html',1,'']]],
   ['highlightmanager',['HighLightManager',['../class_high_light_manager.html',1,'']]],
@@ -18,6 +17,5 @@ var searchData=
   ['homeeditor',['homeEditor',['../classhome_editor.html',1,'']]],
   ['homeitem',['HomeItem',['../classmapcontrol_1_1_home_item.html',1,'mapcontrol']]],
   ['homelocationutil',['HomeLocationUtil',['../class_utils_1_1_home_location_util.html',1,'Utils']]],
-  ['hwfieldselector',['HwFieldSelector',['../class_hw_field_selector.html',1,'']]],
-  ['hyperplane',['Hyperplane',['../class_hyperplane.html',1,'']]]
+  ['hwfieldselector',['HwFieldSelector',['../class_hw_field_selector.html',1,'']]]
 ];

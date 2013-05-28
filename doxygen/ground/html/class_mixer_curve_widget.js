@@ -25,5 +25,6 @@ var class_mixer_curve_widget =
     [ "showCommand", "group___u_a_v_object_widget_utils.html#gab84993af05bfcca9d61a15a48ff85a73", null ],
     [ "showCommands", "group___u_a_v_object_widget_utils.html#ga29668291c080a26aa2631f3216755094", null ],
     [ "showEvent", "group___u_a_v_object_widget_utils.html#gadd0a4729bbf94f44e38a0bcacb353583", null ],
-    [ "MixerCurve", "group___u_a_v_object_widget_utils.html#ga4dec7e6867bf4ed62c5309f7149f0dd0", null ]
+    [ "MixerCurve", "group___u_a_v_object_widget_utils.html#ga4dec7e6867bf4ed62c5309f7149f0dd0", null ],
+    [ "NODE_NUMELEM", "group___u_a_v_object_widget_utils.html#ga359d5a2efb6966cba1d78bbdb2e7759d", null ]
 ];

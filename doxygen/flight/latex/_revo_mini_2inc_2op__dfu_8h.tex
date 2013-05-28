@@ -1,41 +1,23 @@
-\hypertarget{_revo_mini_2inc_2op__dfu_8h}{\section{/home/jose/\-Code/gui\-Tau/flight/targets/\-Bootloaders/\-Revo\-Mini/inc/op\-\_\-dfu.h File Reference}
-\label{_revo_mini_2inc_2op__dfu_8h}\index{/home/jose/\-Code/gui\-Tau/flight/targets/\-Bootloaders/\-Revo\-Mini/inc/op\-\_\-dfu.\-h@{/home/jose/\-Code/gui\-Tau/flight/targets/\-Bootloaders/\-Revo\-Mini/inc/op\-\_\-dfu.\-h}}
+\hypertarget{_revo_mini_2inc_2op__dfu_8h}{\section{/home/jb/code/\-Tau\-Labs/flight/targets/\-Bootloaders/\-Revo\-Mini/inc/op\-\_\-dfu.h \-File \-Reference}
+\label{_revo_mini_2inc_2op__dfu_8h}\index{/home/jb/code/\-Tau\-Labs/flight/targets/\-Bootloaders/\-Revo\-Mini/inc/op\-\_\-dfu.\-h@{/home/jb/code/\-Tau\-Labs/flight/targets/\-Bootloaders/\-Revo\-Mini/inc/op\-\_\-dfu.\-h}}
 }
-\subsection*{Data Structures}
+\subsection*{\-Data \-Structures}
 \begin{DoxyCompactItemize}
 \item 
-struct \hyperlink{struct_device}{Device}
+struct \hyperlink{struct_device}{\-Device}
 \end{DoxyCompactItemize}
-\subsection*{Functions}
+\subsection*{\-Functions}
 \begin{DoxyCompactItemize}
 \item 
-\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___copter_control_b_l_ga2771d0818cb705a0f5d36539e9996306}{process\-Comand} (\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} $\ast$Receive\-\_\-\-Buffer)
+void \hyperlink{group___revo_mini_b_l_ga8afcf94fd6ff1db40e11fd55630584a9}{process\-Comand} (uint8\-\_\-t $\ast$\-Receive\-\_\-\-Buffer)
 \item 
-\hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} \hyperlink{_revo_mini_2inc_2op__dfu_8h_abf73792a7a60a0d6422d1f6ea2352779}{base\-Of\-Adress\-Type} (\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} \hyperlink{pios__opahrs__proto_8h_a6ea5dbffda85c43d867d4d9197e8796f}{type})
+uint32\-\_\-t \hyperlink{group___revo_mini_b_l_gabf73792a7a60a0d6422d1f6ea2352779}{base\-Of\-Adress\-Type} (uint8\-\_\-t type)
 \item 
-\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} \hyperlink{_revo_mini_2inc_2op__dfu_8h_a7111da0ee6b0c162893b1637e86b2758}{is\-Bigger\-Than\-Available} (\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} \hyperlink{pios__opahrs__proto_8h_a6ea5dbffda85c43d867d4d9197e8796f}{type}, \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} \hyperlink{pios__opahrs__proto_8h_ae5dc6ffcd9b7605c7787791e40cc6bb0}{size})
+uint8\-\_\-t \hyperlink{group___revo_mini_b_l_ga7111da0ee6b0c162893b1637e86b2758}{is\-Bigger\-Than\-Available} (uint8\-\_\-t type, uint32\-\_\-t size)
 \item 
-\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___copter_control_b_l_gaea62967f2bee630863cf887a1ff0a75c}{O\-P\-Dfu\-Ini} (\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} discover)
+void \hyperlink{group___revo_mini_b_l_gaea62967f2bee630863cf887a1ff0a75c}{\-O\-P\-Dfu\-Ini} (uint8\-\_\-t discover)
 \item 
-\hyperlink{group___n_a_m_e_ga18028b8badbf1ea7e704ccac3c488e82}{void} \hyperlink{group___copter_control_b_l_ga33196f517628dd8e2149305b76d75f8e}{Data\-Download} (\hyperlink{group___copter_control_b_l_ga3758da4ce9164f008216ba0fc2a82edc}{Download\-Action})
+void \hyperlink{group___revo_mini_b_l_gaa13fce2ea61d8acfbb8a1853d0160cc0}{\-Data\-Download} (\hyperlink{group___copter_control_b_l_ga3758da4ce9164f008216ba0fc2a82edc}{\-Download\-Action})
 \item 
-\hyperlink{group___exported__types_gaf6a258d8f3ee5206d682d799316314b1}{bool} \hyperlink{group___copter_control_b_l_ga8d71648e132eb8f61f76b3ec2247845c}{flash\-\_\-read} (\hyperlink{stdint_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\-\_\-t} $\ast$buffer, \hyperlink{stdint_8h_a435d1572bf3f880d55459d9805097f62}{uint32\-\_\-t} adr, \hyperlink{group___copter_control_b_l_ga0137f05f9f13737114e6bd864c448688}{D\-F\-U\-Prog\-Type} \hyperlink{pios__opahrs__proto_8h_a6ea5dbffda85c43d867d4d9197e8796f}{type})
+bool \hyperlink{group___revo_mini_b_l_ga8d71648e132eb8f61f76b3ec2247845c}{flash\-\_\-read} (uint8\-\_\-t $\ast$buffer, uint32\-\_\-t adr, \hyperlink{group___copter_control_b_l_ga0137f05f9f13737114e6bd864c448688}{\-D\-F\-U\-Prog\-Type} type)
 \end{DoxyCompactItemize}
-
-
-\subsection{Function Documentation}
-\hypertarget{_revo_mini_2inc_2op__dfu_8h_abf73792a7a60a0d6422d1f6ea2352779}{\index{Revo\-Mini/inc/op\-\_\-dfu.\-h@{Revo\-Mini/inc/op\-\_\-dfu.\-h}!base\-Of\-Adress\-Type@{base\-Of\-Adress\-Type}}
-\index{base\-Of\-Adress\-Type@{base\-Of\-Adress\-Type}!RevoMini/inc/op_dfu.h@{Revo\-Mini/inc/op\-\_\-dfu.\-h}}
-\subsubsection[{base\-Of\-Adress\-Type}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint32\-\_\-t} base\-Of\-Adress\-Type (
-\begin{DoxyParamCaption}
-\item[{{\bf uint8\-\_\-t}}]{type}
-\end{DoxyParamCaption}
-)}}\label{_revo_mini_2inc_2op__dfu_8h_abf73792a7a60a0d6422d1f6ea2352779}
-\hypertarget{_revo_mini_2inc_2op__dfu_8h_a7111da0ee6b0c162893b1637e86b2758}{\index{Revo\-Mini/inc/op\-\_\-dfu.\-h@{Revo\-Mini/inc/op\-\_\-dfu.\-h}!is\-Bigger\-Than\-Available@{is\-Bigger\-Than\-Available}}
-\index{is\-Bigger\-Than\-Available@{is\-Bigger\-Than\-Available}!RevoMini/inc/op_dfu.h@{Revo\-Mini/inc/op\-\_\-dfu.\-h}}
-\subsubsection[{is\-Bigger\-Than\-Available}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint8\-\_\-t} is\-Bigger\-Than\-Available (
-\begin{DoxyParamCaption}
-\item[{{\bf uint8\-\_\-t}}]{type, }
-\item[{{\bf uint32\-\_\-t}}]{size}
-\end{DoxyParamCaption}
-)}}\label{_revo_mini_2inc_2op__dfu_8h_a7111da0ee6b0c162893b1637e86b2758}

@@ -1,6 +1,12 @@
 var classorg_1_1taulabs_1_1uavtalk_1_1_u_a_v_object_meta_data =
 [
+    [ "getAccessString", "classorg_1_1taulabs_1_1uavtalk_1_1_u_a_v_object_meta_data.html#a47f45bc1a914bbd723945b42072b0dd7", null ],
+    [ "getUpdateModeString", "classorg_1_1taulabs_1_1uavtalk_1_1_u_a_v_object_meta_data.html#ae9dd149aba48b4eeccb01f184879074d", null ],
+    [ "ACCESS_READONLY", "classorg_1_1taulabs_1_1uavtalk_1_1_u_a_v_object_meta_data.html#a3c2ab96994694c0e1fd3578b84644d18", null ],
+    [ "ACCESS_READWRITE", "classorg_1_1taulabs_1_1uavtalk_1_1_u_a_v_object_meta_data.html#a44a12338675af0ecb539a87a976cac48", null ],
+    [ "ACCESS_WRITEONLY", "classorg_1_1taulabs_1_1uavtalk_1_1_u_a_v_object_meta_data.html#a5f5fd42d243c55d5b5d1c657389cb56d", null ],
     [ "ack_pending", "classorg_1_1taulabs_1_1uavtalk_1_1_u_a_v_object_meta_data.html#a377ab576f7d2fc1b07c600be6b01e053", null ],
+    [ "FALSE", "classorg_1_1taulabs_1_1uavtalk_1_1_u_a_v_object_meta_data.html#a7a131f4c7a6d2b65f8dd71aa62631ecf", null ],
     [ "flightAccess", "classorg_1_1taulabs_1_1uavtalk_1_1_u_a_v_object_meta_data.html#a104f782db0d754525db7e731954b6173", null ],
     [ "flightTelemetryAcked", "classorg_1_1taulabs_1_1uavtalk_1_1_u_a_v_object_meta_data.html#a72abc063861510645794bd8d05dffb2d", null ],
     [ "flightTelemetryUpdateMode", "classorg_1_1taulabs_1_1uavtalk_1_1_u_a_v_object_meta_data.html#a0873393e1b78b1c17ab5687ed5d327f1", null ],
@@ -19,5 +25,10 @@ var classorg_1_1taulabs_1_1uavtalk_1_1_u_a_v_object_meta_data =
     [ "last_serialize", "classorg_1_1taulabs_1_1uavtalk_1_1_u_a_v_object_meta_data.html#aca6a6cb9ced59415960e2da5e1a565a4", null ],
     [ "loggingUpdateMode", "classorg_1_1taulabs_1_1uavtalk_1_1_u_a_v_object_meta_data.html#a8373cce57bf517c987129d3076ab6e82", null ],
     [ "loggingUpdatePeriod", "classorg_1_1taulabs_1_1uavtalk_1_1_u_a_v_object_meta_data.html#a3e91300ff7b066a11f80048b6ccde0b6", null ],
-    [ "req_pending", "classorg_1_1taulabs_1_1uavtalk_1_1_u_a_v_object_meta_data.html#af8d34a08114e87e9020242e200c61878", null ]
+    [ "req_pending", "classorg_1_1taulabs_1_1uavtalk_1_1_u_a_v_object_meta_data.html#af8d34a08114e87e9020242e200c61878", null ],
+    [ "TRUE", "classorg_1_1taulabs_1_1uavtalk_1_1_u_a_v_object_meta_data.html#afe6b13b38b4a68be0c61b04097472089", null ],
+    [ "UPDATEMODE_MANUAL", "classorg_1_1taulabs_1_1uavtalk_1_1_u_a_v_object_meta_data.html#aab602b38cbe3e4aebba939b0c865e45a", null ],
+    [ "UPDATEMODE_NEVER", "classorg_1_1taulabs_1_1uavtalk_1_1_u_a_v_object_meta_data.html#a361f627b8e98cf0b4521954857e8b001", null ],
+    [ "UPDATEMODE_ONCHANGE", "classorg_1_1taulabs_1_1uavtalk_1_1_u_a_v_object_meta_data.html#aa5ba43265fa65d0959aff2a0107944d3", null ],
+    [ "UPDATEMODE_PERIODIC", "classorg_1_1taulabs_1_1uavtalk_1_1_u_a_v_object_meta_data.html#a0de23ed97539abcf565c1fdc46d47f80", null ]
 ];

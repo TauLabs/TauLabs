@@ -1,0 +1,225 @@
+\hypertarget{group___path_follower_module}{\section{\-Path \-Follower \-Module}
+\label{group___path_follower_module}\index{\-Path Follower Module@{\-Path Follower Module}}
+}
+\subsection*{\-Data \-Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct {\bfseries \-Integral}
+\end{DoxyCompactItemize}
+\subsection*{\-Files}
+\begin{DoxyCompactItemize}
+\item 
+file \hyperlink{dubinscartpathfollower_8h}{dubinscartpathfollower.\-h}
+\begin{DoxyCompactList}\small\item\em \-Dubins cart path follower. \end{DoxyCompactList}\item 
+file \hyperlink{fixedwingpathfollower_8h}{fixedwingpathfollower.\-h}
+\begin{DoxyCompactList}\small\item\em \-Fixed wing path follower. \end{DoxyCompactList}\item 
+file \hyperlink{helicopterpathfollower_8h}{helicopterpathfollower.\-h}
+\begin{DoxyCompactList}\small\item\em \-Helicopter path follower. \end{DoxyCompactList}\item 
+file \hyperlink{multirotorpathfollower_8h}{multirotorpathfollower.\-h}
+\begin{DoxyCompactList}\small\item\em \-Path follower for multirotors. \end{DoxyCompactList}\item 
+file \hyperlink{pathfollower_8c}{pathfollower.\-c}
+\begin{DoxyCompactList}\small\item\em \-This module compared \-Position\-Actuatl to \-Active\-Waypoint and sets \-Attitude\-Desired. \-It only does this when the \-Flight\-Mode field of \hyperlink{group___manual_control_command}{\-Manual\-Control\-Command} is \-Auto. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{group___path_follower_module_ga4bbdbc4a4481bd273fb63fab3646c22b}{path\-Follower\-Types} \{ \*
+\hyperlink{group___path_follower_module_gga4bbdbc4a4481bd273fb63fab3646c22ba710308aadc92dad47de079a6a899679b}{\-F\-I\-X\-E\-D\-W\-I\-N\-G}, 
+\hyperlink{group___path_follower_module_gga4bbdbc4a4481bd273fb63fab3646c22ba2ab934febd51e9a1402de82bdf57e990}{\-M\-U\-L\-T\-I\-R\-O\-T\-O\-R}, 
+\hyperlink{group___path_follower_module_gga4bbdbc4a4481bd273fb63fab3646c22ba5ed875b8404837e6474a4b500e656fcd}{\-H\-E\-L\-I\-C\-O\-P\-T\-E\-R}, 
+\hyperlink{group___path_follower_module_gga4bbdbc4a4481bd273fb63fab3646c22ba9a5efc045d26a0771e5e78980f1d9ac3}{\-D\-U\-B\-I\-N\-S\-C\-A\-R\-T}, 
+\*
+\hyperlink{group___path_follower_module_gga4bbdbc4a4481bd273fb63fab3646c22ba8f3ed5f77271bf50a6004685c4b729c5}{\-H\-O\-L\-O\-N\-O\-M\-I\-C}, 
+\hyperlink{group___path_follower_module_gga4bbdbc4a4481bd273fb63fab3646c22ba3f3f266a1f303d33d28de86ada3c722d}{\-N\-O\-N\-H\-O\-L\-O\-N\-O\-M\-I\-C}, 
+\hyperlink{group___path_follower_module_gga4bbdbc4a4481bd273fb63fab3646c22ba40f39385238042f6ec0cbac821a19fc4}{\-D\-I\-S\-A\-B\-L\-E\-D}
+ \}
+\end{DoxyCompactItemize}
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{group___path_follower_module_ga7d8eb83e8373b42a40717506c8c953c9}{initialize\-Fixed\-Wing\-Path\-Follower} ()
+\item 
+uint8\-\_\-t \hyperlink{group___path_follower_module_gaffde0f0e5877288228eb45021034a544}{update\-Fixed\-Wing\-Desired\-Stabilization} (uint8\-\_\-t flight\-Mode, \-Fixed\-Wing\-Path\-Follower\-Settings\-C\-C\-Data fixedwingpathfollower\-Settings)
+\item 
+void \hyperlink{group___path_follower_module_ga5132cbfe164bb15242a595443d5f14e0}{initialize\-Dubins\-Cart\-Path\-Follower} ()
+\item 
+uint8\-\_\-t \hyperlink{group___path_follower_module_gae4ebfbf2bba2c443a0875621cdd6a870}{update\-Dubins\-Cart\-Desired\-Stabilization} (uint8\-\_\-t flight\-Mode, \-Fixed\-Wing\-Path\-Follower\-Settings\-Data fixedwingpathfollower\-Settings)
+\item 
+void \hyperlink{group___path_follower_module_ga1bb2c3bf9c6792e0ff0a042d4c96201e}{initialize\-Helicopter\-Path\-Follower} ()
+\item 
+uint8\-\_\-t \hyperlink{group___path_follower_module_ga3d17785ce335b62ef6a5c6c3128807a6}{update\-Helicopter\-Desired\-Stabilization} (uint8\-\_\-t flight\-Mode, \-Fixed\-Wing\-Path\-Follower\-Settings\-Data fixedwingpathfollower\-Settings)
+\item 
+void \hyperlink{group___path_follower_module_ga672d5e0ecf8a7d758f4b787caa6b1ea2}{initialize\-Multirotor\-Path\-Follower} ()
+\item 
+uint8\-\_\-t \hyperlink{group___path_follower_module_ga31301e7624c476ead7805402b7b221a6}{update\-Multirotor\-Desired\-Stabilization} (uint8\-\_\-t flight\-Mode, \-Fixed\-Wing\-Path\-Follower\-Settings\-Data fixedwingpathfollower\-Settings)
+\item 
+int32\-\_\-t \hyperlink{group___path_follower_module_ga779f0a705b6a86f7a467d70dd0e91b56}{\-Path\-Follower\-Start} ()
+\item 
+int32\-\_\-t \hyperlink{group___path_follower_module_gaa4ee6d9af7715845fd300acdf4ee3fbe}{\-Path\-Follower\-Initialize} ()
+\item 
+\hyperlink{group___path_follower_module_ga12295fff725e85b0b9cab808ded56315}{\-M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L} (\hyperlink{group___path_follower_module_gaa4ee6d9af7715845fd300acdf4ee3fbe}{\-Path\-Follower\-Initialize}, \hyperlink{group___path_follower_module_ga779f0a705b6a86f7a467d70dd0e91b56}{\-Path\-Follower\-Start})
+\end{DoxyCompactItemize}
+\subsection*{\-Variables}
+\begin{DoxyCompactItemize}
+\item 
+bool \hyperlink{group___path_follower_module_ga1fcb1f94a20ead02f78d415f51cabb6c}{flight\-Status\-Update}
+\item 
+bool \hyperlink{group___path_follower_module_ga1fcb1f94a20ead02f78d415f51cabb6c}{flight\-Status\-Update} = false
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Enumeration \-Type \-Documentation}
+\hypertarget{group___path_follower_module_ga4bbdbc4a4481bd273fb63fab3646c22b}{\index{\-Path Follower Module@{\-Path Follower Module}!path\-Follower\-Types@{path\-Follower\-Types}}
+\index{path\-Follower\-Types@{path\-Follower\-Types}!Path Follower Module@{\-Path Follower Module}}
+\subsubsection[{path\-Follower\-Types}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf path\-Follower\-Types}}}\label{group___path_follower_module_ga4bbdbc4a4481bd273fb63fab3646c22b}
+\begin{Desc}
+\item[\-Enumerator\-: ]\par
+\begin{description}
+\index{\-F\-I\-X\-E\-D\-W\-I\-N\-G@{\-F\-I\-X\-E\-D\-W\-I\-N\-G}!\-Path Follower Module@{\-Path Follower Module}}\index{\-Path Follower Module@{\-Path Follower Module}!\-F\-I\-X\-E\-D\-W\-I\-N\-G@{\-F\-I\-X\-E\-D\-W\-I\-N\-G}}\item[{\em 
+\hypertarget{group___path_follower_module_gga4bbdbc4a4481bd273fb63fab3646c22ba710308aadc92dad47de079a6a899679b}{\-F\-I\-X\-E\-D\-W\-I\-N\-G}\label{group___path_follower_module_gga4bbdbc4a4481bd273fb63fab3646c22ba710308aadc92dad47de079a6a899679b}
+}]\index{\-M\-U\-L\-T\-I\-R\-O\-T\-O\-R@{\-M\-U\-L\-T\-I\-R\-O\-T\-O\-R}!\-Path Follower Module@{\-Path Follower Module}}\index{\-Path Follower Module@{\-Path Follower Module}!\-M\-U\-L\-T\-I\-R\-O\-T\-O\-R@{\-M\-U\-L\-T\-I\-R\-O\-T\-O\-R}}\item[{\em 
+\hypertarget{group___path_follower_module_gga4bbdbc4a4481bd273fb63fab3646c22ba2ab934febd51e9a1402de82bdf57e990}{\-M\-U\-L\-T\-I\-R\-O\-T\-O\-R}\label{group___path_follower_module_gga4bbdbc4a4481bd273fb63fab3646c22ba2ab934febd51e9a1402de82bdf57e990}
+}]\index{\-H\-E\-L\-I\-C\-O\-P\-T\-E\-R@{\-H\-E\-L\-I\-C\-O\-P\-T\-E\-R}!\-Path Follower Module@{\-Path Follower Module}}\index{\-Path Follower Module@{\-Path Follower Module}!\-H\-E\-L\-I\-C\-O\-P\-T\-E\-R@{\-H\-E\-L\-I\-C\-O\-P\-T\-E\-R}}\item[{\em 
+\hypertarget{group___path_follower_module_gga4bbdbc4a4481bd273fb63fab3646c22ba5ed875b8404837e6474a4b500e656fcd}{\-H\-E\-L\-I\-C\-O\-P\-T\-E\-R}\label{group___path_follower_module_gga4bbdbc4a4481bd273fb63fab3646c22ba5ed875b8404837e6474a4b500e656fcd}
+}]\index{\-D\-U\-B\-I\-N\-S\-C\-A\-R\-T@{\-D\-U\-B\-I\-N\-S\-C\-A\-R\-T}!\-Path Follower Module@{\-Path Follower Module}}\index{\-Path Follower Module@{\-Path Follower Module}!\-D\-U\-B\-I\-N\-S\-C\-A\-R\-T@{\-D\-U\-B\-I\-N\-S\-C\-A\-R\-T}}\item[{\em 
+\hypertarget{group___path_follower_module_gga4bbdbc4a4481bd273fb63fab3646c22ba9a5efc045d26a0771e5e78980f1d9ac3}{\-D\-U\-B\-I\-N\-S\-C\-A\-R\-T}\label{group___path_follower_module_gga4bbdbc4a4481bd273fb63fab3646c22ba9a5efc045d26a0771e5e78980f1d9ac3}
+}]\index{\-H\-O\-L\-O\-N\-O\-M\-I\-C@{\-H\-O\-L\-O\-N\-O\-M\-I\-C}!\-Path Follower Module@{\-Path Follower Module}}\index{\-Path Follower Module@{\-Path Follower Module}!\-H\-O\-L\-O\-N\-O\-M\-I\-C@{\-H\-O\-L\-O\-N\-O\-M\-I\-C}}\item[{\em 
+\hypertarget{group___path_follower_module_gga4bbdbc4a4481bd273fb63fab3646c22ba8f3ed5f77271bf50a6004685c4b729c5}{\-H\-O\-L\-O\-N\-O\-M\-I\-C}\label{group___path_follower_module_gga4bbdbc4a4481bd273fb63fab3646c22ba8f3ed5f77271bf50a6004685c4b729c5}
+}]\index{\-N\-O\-N\-H\-O\-L\-O\-N\-O\-M\-I\-C@{\-N\-O\-N\-H\-O\-L\-O\-N\-O\-M\-I\-C}!\-Path Follower Module@{\-Path Follower Module}}\index{\-Path Follower Module@{\-Path Follower Module}!\-N\-O\-N\-H\-O\-L\-O\-N\-O\-M\-I\-C@{\-N\-O\-N\-H\-O\-L\-O\-N\-O\-M\-I\-C}}\item[{\em 
+\hypertarget{group___path_follower_module_gga4bbdbc4a4481bd273fb63fab3646c22ba3f3f266a1f303d33d28de86ada3c722d}{\-N\-O\-N\-H\-O\-L\-O\-N\-O\-M\-I\-C}\label{group___path_follower_module_gga4bbdbc4a4481bd273fb63fab3646c22ba3f3f266a1f303d33d28de86ada3c722d}
+}]\index{\-D\-I\-S\-A\-B\-L\-E\-D@{\-D\-I\-S\-A\-B\-L\-E\-D}!\-Path Follower Module@{\-Path Follower Module}}\index{\-Path Follower Module@{\-Path Follower Module}!\-D\-I\-S\-A\-B\-L\-E\-D@{\-D\-I\-S\-A\-B\-L\-E\-D}}\item[{\em 
+\hypertarget{group___path_follower_module_gga4bbdbc4a4481bd273fb63fab3646c22ba40f39385238042f6ec0cbac821a19fc4}{\-D\-I\-S\-A\-B\-L\-E\-D}\label{group___path_follower_module_gga4bbdbc4a4481bd273fb63fab3646c22ba40f39385238042f6ec0cbac821a19fc4}
+}]\end{description}
+\end{Desc}
+
+
+
+\-Definition at line 62 of file pathfollower.\-c.
+
+
+
+\subsection{\-Function \-Documentation}
+\hypertarget{group___path_follower_module_ga5132cbfe164bb15242a595443d5f14e0}{\index{\-Path Follower Module@{\-Path Follower Module}!initialize\-Dubins\-Cart\-Path\-Follower@{initialize\-Dubins\-Cart\-Path\-Follower}}
+\index{initialize\-Dubins\-Cart\-Path\-Follower@{initialize\-Dubins\-Cart\-Path\-Follower}!Path Follower Module@{\-Path Follower Module}}
+\subsubsection[{initialize\-Dubins\-Cart\-Path\-Follower}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf initialize\-Dubins\-Cart\-Path\-Follower} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___path_follower_module_ga5132cbfe164bb15242a595443d5f14e0}
+\hypertarget{group___path_follower_module_ga7d8eb83e8373b42a40717506c8c953c9}{\index{\-Path Follower Module@{\-Path Follower Module}!initialize\-Fixed\-Wing\-Path\-Follower@{initialize\-Fixed\-Wing\-Path\-Follower}}
+\index{initialize\-Fixed\-Wing\-Path\-Follower@{initialize\-Fixed\-Wing\-Path\-Follower}!Path Follower Module@{\-Path Follower Module}}
+\subsubsection[{initialize\-Fixed\-Wing\-Path\-Follower}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf initialize\-Fixed\-Wing\-Path\-Follower} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___path_follower_module_ga7d8eb83e8373b42a40717506c8c953c9}
+
+
+\-Definition at line 85 of file fixedwingpathfollower.\-c.
+
+\hypertarget{group___path_follower_module_ga1bb2c3bf9c6792e0ff0a042d4c96201e}{\index{\-Path Follower Module@{\-Path Follower Module}!initialize\-Helicopter\-Path\-Follower@{initialize\-Helicopter\-Path\-Follower}}
+\index{initialize\-Helicopter\-Path\-Follower@{initialize\-Helicopter\-Path\-Follower}!Path Follower Module@{\-Path Follower Module}}
+\subsubsection[{initialize\-Helicopter\-Path\-Follower}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf initialize\-Helicopter\-Path\-Follower} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___path_follower_module_ga1bb2c3bf9c6792e0ff0a042d4c96201e}
+\hypertarget{group___path_follower_module_ga672d5e0ecf8a7d758f4b787caa6b1ea2}{\index{\-Path Follower Module@{\-Path Follower Module}!initialize\-Multirotor\-Path\-Follower@{initialize\-Multirotor\-Path\-Follower}}
+\index{initialize\-Multirotor\-Path\-Follower@{initialize\-Multirotor\-Path\-Follower}!Path Follower Module@{\-Path Follower Module}}
+\subsubsection[{initialize\-Multirotor\-Path\-Follower}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf initialize\-Multirotor\-Path\-Follower} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___path_follower_module_ga672d5e0ecf8a7d758f4b787caa6b1ea2}
+\hypertarget{group___path_follower_module_ga12295fff725e85b0b9cab808ded56315}{\index{\-Path Follower Module@{\-Path Follower Module}!\-M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L@{\-M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L}}
+\index{\-M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L@{\-M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L}!Path Follower Module@{\-Path Follower Module}}
+\subsubsection[{\-M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-M\-O\-D\-U\-L\-E\-\_\-\-I\-N\-I\-T\-C\-A\-L\-L} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Path\-Follower\-Initialize}}]{, }
+\item[{{\bf \-Path\-Follower\-Start}}]{}
+\end{DoxyParamCaption}
+)}}\label{group___path_follower_module_ga12295fff725e85b0b9cab808ded56315}
+\-Module thread, should not return. 
+
+\-Definition at line 188 of file pathfollower.\-c.
+
+\hypertarget{group___path_follower_module_gaa4ee6d9af7715845fd300acdf4ee3fbe}{\index{\-Path Follower Module@{\-Path Follower Module}!\-Path\-Follower\-Initialize@{\-Path\-Follower\-Initialize}}
+\index{\-Path\-Follower\-Initialize@{\-Path\-Follower\-Initialize}!Path Follower Module@{\-Path Follower Module}}
+\subsubsection[{\-Path\-Follower\-Initialize}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-Path\-Follower\-Initialize} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___path_follower_module_gaa4ee6d9af7715845fd300acdf4ee3fbe}
+\-Initialise the module, called on startup \begin{DoxyReturn}{\-Returns}
+0 on success or -\/1 if initialisation failed 
+\end{DoxyReturn}
+
+
+\-Definition at line 101 of file pathfollower.\-c.
+
+\hypertarget{group___path_follower_module_ga779f0a705b6a86f7a467d70dd0e91b56}{\index{\-Path Follower Module@{\-Path Follower Module}!\-Path\-Follower\-Start@{\-Path\-Follower\-Start}}
+\index{\-Path\-Follower\-Start@{\-Path\-Follower\-Start}!Path Follower Module@{\-Path Follower Module}}
+\subsubsection[{\-Path\-Follower\-Start}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t {\bf \-Path\-Follower\-Start} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group___path_follower_module_ga779f0a705b6a86f7a467d70dd0e91b56}
+\-Initialise the module, called on startup \begin{DoxyReturn}{\-Returns}
+0 on success or -\/1 if initialisation failed 
+\end{DoxyReturn}
+
+
+\-Definition at line 82 of file pathfollower.\-c.
+
+\hypertarget{group___path_follower_module_gae4ebfbf2bba2c443a0875621cdd6a870}{\index{\-Path Follower Module@{\-Path Follower Module}!update\-Dubins\-Cart\-Desired\-Stabilization@{update\-Dubins\-Cart\-Desired\-Stabilization}}
+\index{update\-Dubins\-Cart\-Desired\-Stabilization@{update\-Dubins\-Cart\-Desired\-Stabilization}!Path Follower Module@{\-Path Follower Module}}
+\subsubsection[{update\-Dubins\-Cart\-Desired\-Stabilization}]{\setlength{\rightskip}{0pt plus 5cm}uint8\-\_\-t {\bf update\-Dubins\-Cart\-Desired\-Stabilization} (
+\begin{DoxyParamCaption}
+\item[{uint8\-\_\-t}]{flight\-Mode, }
+\item[{\-Fixed\-Wing\-Path\-Follower\-Settings\-Data}]{fixedwingpathfollower\-Settings}
+\end{DoxyParamCaption}
+)}}\label{group___path_follower_module_gae4ebfbf2bba2c443a0875621cdd6a870}
+\hypertarget{group___path_follower_module_gaffde0f0e5877288228eb45021034a544}{\index{\-Path Follower Module@{\-Path Follower Module}!update\-Fixed\-Wing\-Desired\-Stabilization@{update\-Fixed\-Wing\-Desired\-Stabilization}}
+\index{update\-Fixed\-Wing\-Desired\-Stabilization@{update\-Fixed\-Wing\-Desired\-Stabilization}!Path Follower Module@{\-Path Follower Module}}
+\subsubsection[{update\-Fixed\-Wing\-Desired\-Stabilization}]{\setlength{\rightskip}{0pt plus 5cm}uint8\-\_\-t {\bf update\-Fixed\-Wing\-Desired\-Stabilization} (
+\begin{DoxyParamCaption}
+\item[{uint8\-\_\-t}]{flight\-Mode, }
+\item[{\-Fixed\-Wing\-Path\-Follower\-Settings\-C\-C\-Data}]{fixedwingpathfollower\-Settings}
+\end{DoxyParamCaption}
+)}}\label{group___path_follower_module_gaffde0f0e5877288228eb45021034a544}
+
+
+\-Definition at line 91 of file fixedwingpathfollower.\-c.
+
+\hypertarget{group___path_follower_module_ga3d17785ce335b62ef6a5c6c3128807a6}{\index{\-Path Follower Module@{\-Path Follower Module}!update\-Helicopter\-Desired\-Stabilization@{update\-Helicopter\-Desired\-Stabilization}}
+\index{update\-Helicopter\-Desired\-Stabilization@{update\-Helicopter\-Desired\-Stabilization}!Path Follower Module@{\-Path Follower Module}}
+\subsubsection[{update\-Helicopter\-Desired\-Stabilization}]{\setlength{\rightskip}{0pt plus 5cm}uint8\-\_\-t {\bf update\-Helicopter\-Desired\-Stabilization} (
+\begin{DoxyParamCaption}
+\item[{uint8\-\_\-t}]{flight\-Mode, }
+\item[{\-Fixed\-Wing\-Path\-Follower\-Settings\-Data}]{fixedwingpathfollower\-Settings}
+\end{DoxyParamCaption}
+)}}\label{group___path_follower_module_ga3d17785ce335b62ef6a5c6c3128807a6}
+\hypertarget{group___path_follower_module_ga31301e7624c476ead7805402b7b221a6}{\index{\-Path Follower Module@{\-Path Follower Module}!update\-Multirotor\-Desired\-Stabilization@{update\-Multirotor\-Desired\-Stabilization}}
+\index{update\-Multirotor\-Desired\-Stabilization@{update\-Multirotor\-Desired\-Stabilization}!Path Follower Module@{\-Path Follower Module}}
+\subsubsection[{update\-Multirotor\-Desired\-Stabilization}]{\setlength{\rightskip}{0pt plus 5cm}uint8\-\_\-t {\bf update\-Multirotor\-Desired\-Stabilization} (
+\begin{DoxyParamCaption}
+\item[{uint8\-\_\-t}]{flight\-Mode, }
+\item[{\-Fixed\-Wing\-Path\-Follower\-Settings\-Data}]{fixedwingpathfollower\-Settings}
+\end{DoxyParamCaption}
+)}}\label{group___path_follower_module_ga31301e7624c476ead7805402b7b221a6}
+
+
+\subsection{\-Variable \-Documentation}
+\hypertarget{group___path_follower_module_ga1fcb1f94a20ead02f78d415f51cabb6c}{\index{\-Path Follower Module@{\-Path Follower Module}!flight\-Status\-Update@{flight\-Status\-Update}}
+\index{flight\-Status\-Update@{flight\-Status\-Update}!Path Follower Module@{\-Path Follower Module}}
+\subsubsection[{flight\-Status\-Update}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf flight\-Status\-Update} = false}}\label{group___path_follower_module_ga1fcb1f94a20ead02f78d415f51cabb6c}
+
+
+\-Definition at line 71 of file pathfollower.\-c.
+
+\hypertarget{group___path_follower_module_ga1fcb1f94a20ead02f78d415f51cabb6c}{\index{\-Path Follower Module@{\-Path Follower Module}!flight\-Status\-Update@{flight\-Status\-Update}}
+\index{flight\-Status\-Update@{flight\-Status\-Update}!Path Follower Module@{\-Path Follower Module}}
+\subsubsection[{flight\-Status\-Update}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf flight\-Status\-Update}}}\label{group___path_follower_module_ga1fcb1f94a20ead02f78d415f51cabb6c}
+
+
+\-Definition at line 71 of file pathfollower.\-c.
+

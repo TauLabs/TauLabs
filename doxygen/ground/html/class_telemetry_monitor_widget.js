@@ -13,5 +13,6 @@ var class_telemetry_monitor_widget =
     [ "setMin", "group___core_plugin.html#ga62f75cdceb4772c546e7976cefa640c4", null ],
     [ "showEvent", "group___core_plugin.html#ga779c70f16ec4063c14a5cccf452ba141", null ],
     [ "showTelemetry", "group___core_plugin.html#ga48e3859826fc4309c7d5939ef80d1ca8", null ],
-    [ "updateTelemetry", "group___core_plugin.html#ga1a8b99a026baf3050eacb392090bbc56", null ]
+    [ "updateTelemetry", "group___core_plugin.html#ga1a8b99a026baf3050eacb392090bbc56", null ],
+    [ "NODE_NUMELEM", "group___core_plugin.html#ga9fb2babad70f7d5d248f4dfe51cda6d5", null ]
 ];

@@ -1,0 +1,72 @@
+\hypertarget{pios__sdcard_8h}{\section{/home/jb/code/\-Tau\-Labs/flight/\-Pi\-O\-S/inc/pios\-\_\-sdcard.h \-File \-Reference}
+\label{pios__sdcard_8h}\index{/home/jb/code/\-Tau\-Labs/flight/\-Pi\-O\-S/inc/pios\-\_\-sdcard.\-h@{/home/jb/code/\-Tau\-Labs/flight/\-Pi\-O\-S/inc/pios\-\_\-sdcard.\-h}}
+}
+
+
+\-System and hardware \-Init functions header.  
+
+
+\subsection*{\-Data \-Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{struct_s_d_c_a_r_d_csd_type_def}{\-S\-D\-C\-A\-R\-D\-Csd\-Type\-Def}
+\item 
+struct \hyperlink{struct_s_d_c_a_r_d_cid_type_def}{\-S\-D\-C\-A\-R\-D\-Cid\-Type\-Def}
+\end{DoxyCompactItemize}
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___s_d_c_a_r_d_gafcf19e938cb1102c075e231a0422361d}{\-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-Init} (uint32\-\_\-t spi\-\_\-id)
+\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___s_d_c_a_r_d_ga23ea31da97543b106a04b4bf33d844e5}{\-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-Power\-On} (void)
+\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___s_d_c_a_r_d_gaac93bac78ab965688f0dde791eb1c048}{\-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-Power\-Off} (void)
+\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___s_d_c_a_r_d_gada5c80d2151f7b9a68c35861cc5d2923}{\-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-Check\-Available} (uint8\-\_\-t was\-\_\-available)
+\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___s_d_c_a_r_d_ga06575fc4cc50c8f4856d5fd5bde3450b}{\-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-Send\-S\-D\-C\-Cmd} (uint8\-\_\-t cmd, uint32\-\_\-t addr, uint8\-\_\-t crc)
+\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___s_d_c_a_r_d_gaf68bf693b2b96af5862f021bbd0753d3}{\-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-Sector\-Read} (uint32\-\_\-t sector, uint8\-\_\-t $\ast$buffer)
+\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___s_d_c_a_r_d_ga403eed1235aab15c3f4dffd530359a41}{\-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-Sector\-Write} (uint32\-\_\-t sector, uint8\-\_\-t $\ast$buffer)
+\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___s_d_c_a_r_d_gac315de3fafd3370f39b241ec5b7a62ca}{\-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-C\-I\-D\-Read} (\hyperlink{struct_s_d_c_a_r_d_cid_type_def}{\-S\-D\-C\-A\-R\-D\-Cid\-Type\-Def} $\ast$cid)
+\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___s_d_c_a_r_d_gaee8853b1431664b014c45d438c4fb094}{\-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-C\-S\-D\-Read} (\hyperlink{struct_s_d_c_a_r_d_csd_type_def}{\-S\-D\-C\-A\-R\-D\-Csd\-Type\-Def} $\ast$csd)
+\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___s_d_c_a_r_d_ga2a97c001315383e1e5bee1beb6bd9b93}{\-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-Startup\-Log} (void)
+\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___s_d_c_a_r_d_gaeccd9489675f220997e2cd1bb825ab11}{\-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-Is\-Mounted} ()
+\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___s_d_c_a_r_d_ga72165efe2dd7fd31025395961c6d78f7}{\-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-Mount\-F\-S} (uint32\-\_\-t \-Create\-Startup\-Log)
+\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___s_d_c_a_r_d_gacb11ba0cff19017b7a01c2afc3c1d3cf}{\-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-Get\-Free} (void)
+\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___s_d_c_a_r_d_ga51efc027e8fdf9478c3fc7f0a33e4d7b}{\-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-Read\-Buffer} (\-P\-F\-I\-L\-E\-I\-N\-F\-O fileinfo, uint8\-\_\-t $\ast$buffer, uint32\-\_\-t len)
+\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___s_d_c_a_r_d_ga62d56f09b8671dcc6e51e5a917af7a5e}{\-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-Read\-Line} (\-P\-F\-I\-L\-E\-I\-N\-F\-O fileinfo, uint8\-\_\-t $\ast$buffer, uint32\-\_\-t max\-\_\-len)
+\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___s_d_c_a_r_d_ga8e032d776f07a10dd65fe1809087f1f6}{\-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-File\-Copy} (char $\ast$\-Source, char $\ast$\-Destination)
+\item 
+int32\-\_\-t \hyperlink{group___p_i_o_s___s_d_c_a_r_d_ga4a5ddda9425e947f6087000ab3161440}{\-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-File\-Delete} (char $\ast$\-Filename)
+\end{DoxyCompactItemize}
+\subsection*{\-Variables}
+\begin{DoxyCompactItemize}
+\item 
+\-V\-O\-L\-I\-N\-F\-O \hyperlink{group___p_i_o_s___s_d_c_a_r_d_gaeb82765ef4d7741f373422b30dba4f32}{\-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-Vol\-Info}
+\item 
+uint8\-\_\-t \hyperlink{group___p_i_o_s___s_d_c_a_r_d_ga51dd7d1ab7b2ae3878345834e20546a6}{\-P\-I\-O\-S\-\_\-\-S\-D\-C\-A\-R\-D\-\_\-\-Sector} \mbox{[}\-S\-E\-C\-T\-O\-R\-\_\-\-S\-I\-Z\-E\mbox{]}
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-System and hardware \-Init functions header. \begin{DoxyAuthor}{\-Author}
+\-The \-Open\-Pilot \-Team, \href{http://www.openpilot.org}{\tt http\-://www.\-openpilot.\-org} \-Copyright (\-C) 2010. \-Parts by \-Thorsten \-Klose (\href{mailto:tk@midibox.org}{\tt tk@midibox.\-org}) 
+\end{DoxyAuthor}
+\begin{DoxySeeAlso}{\-See also}
+\-The \-G\-N\-U \-Public \-License (\-G\-P\-L) \-Version 3 
+\end{DoxySeeAlso}
+
+
+\-Definition in file \hyperlink{pios__sdcard_8h_source}{pios\-\_\-sdcard.\-h}.
+
