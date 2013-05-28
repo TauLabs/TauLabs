@@ -39,7 +39,7 @@
 #include "gyrosbias.h"
 #include "magnetometer.h"
 #include "positionactual.h"
-#include "stateestimation.h"
+#include "statefilter.h"
 #include "velocityactual.h"
 
 // Private constants
@@ -67,13 +67,13 @@ static struct filter_driver filters[3]; /* = {
  * Initialise the module.  Called before the start function
  * \returns 0 on success or -1 if initialisation failed
  */
-int32_t StateEstimationModuleInitialize(void)
+int32_t StateEstimationInitialize(void)
 {
-	StateEstimationInitialize();
+	StateFilterInitialize();
 
 	// Get the driver for the selected filter
 	uint8_t selected_filter;
-	StateEstimationAttitudeFilterGet(&selected_filter);
+	StateFilterAttitudeFilterGet(&selected_filter);
 	if (selected_filter < NELEMENTS(filters))
 		current_filter = &filters[selected_filter];
 	else
@@ -93,7 +93,7 @@ int32_t StateEstimationModuleInitialize(void)
  * Start the task.  Expects all objects to be initialized by this point.
  * \returns 0 on success or -1 if initialisation failed
  */
-int32_t StateEstimationModuleStart(void)
+int32_t StateEstimationStart(void)
 {
 	// Initialize quaternion
 	AttitudeActualData attitude;
@@ -120,7 +120,7 @@ int32_t StateEstimationModuleStart(void)
 	return 0;
 }
 
-MODULE_INITCALL(StateEstimationModuleInitialize, StateEstimationModuleStart)
+MODULE_INITCALL(StateEstimationInitialize, StateEstimationStart)
 
 /**
  * Module thread, should not return.
