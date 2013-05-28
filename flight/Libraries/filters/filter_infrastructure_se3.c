@@ -27,6 +27,8 @@
  */
 
 #include "filter_infrastructure_se3.h"
+#include "CoordinateConversions.h"
+#include "physical_constants.h"
 
 #include "accels.h"
 #include "attitudeactual.h"
@@ -47,7 +49,13 @@
 #include "stateestimation.h"
 #include "velocityactual.h"
 
+//! Maximum time to wait for data before setting an error
+#define FAILSAFE_TIMEOUT_MS 10
+
+//! Local pointer for the working data (should be moved into the instance)
 static struct filter_infrastructure_se3_data *s3_data;
+
+static int32_t getNED(GPSPositionData * gpsPosition, float * NED);
 
 /**
  * Initialize SE(3)+ filter infrastructure
@@ -81,6 +89,8 @@ int32_t filter_infrastructure_se3_init(struct filter_infrastructure_se3_data **d
 	s3_data->baroQueue = xQueueCreate(1, sizeof(UAVObjEvent));
 	s3_data->gpsQueue = xQueueCreate(1, sizeof(UAVObjEvent));
 	s3_data->gpsVelQueue = xQueueCreate(1, sizeof(UAVObjEvent));
+
+	return 0;
 }
 
 //! Connect the queues used for SE(3)+ filters
@@ -98,6 +108,8 @@ int32_t filter_infrastructure_se3_start(uintptr_t id)
 		GPSPositionConnectQueue(s3_data->gpsQueue);
 	if (GPSVelocityHandle())
 		GPSVelocityConnectQueue(s3_data->gpsVelQueue);
+
+	return 0;
 }
 
 /**
@@ -106,14 +118,14 @@ int32_t filter_infrastructure_se3_start(uintptr_t id)
  * @param[in] dT the update time in seconds
  * @return 0 if succesfully updated or error code
  */
-int32_t filter_infrastructure_se3_process(struct filter_driver *driver, uintptr_t id, float dt)
+int32_t filter_infrastructure_se3_process(struct filter_driver *upper_driver, uintptr_t id, float dt)
 {
 	// TODO: check error codes
 
 	// Make sure we are safe to get the class specific driver
 	if (!filter_interface_validate(upper_driver, id))
 		return -1;
-	struct filter_driver_s3 *driver = upper_driver->driver_s3);
+	struct filter_s3 *driver = &(upper_driver->driver_s3);
 
 	/* 1. fetch the data from queues and pass to filter                    */
 	/* if we want to start running multiple instances of this filter class */
@@ -127,16 +139,16 @@ int32_t filter_infrastructure_se3_process(struct filter_driver *driver, uintptr_
 	float *pos = NULL;
 	float *vel = NULL;
 	float *baro = NULL;
-	float *airspeed = NLL;
+	float *airspeed = NULL;
 
 	// Check whether the measurements were updated and fetch if so
 	UAVObjEvent ev;
 	GyrosData gyrosData;
 	AccelsData accelsData;
-	MagData magData;
-	BaroData baroData;
-	GPSPosition gpsPosition;
-	GPSVelocity gpsVelocity;
+	MagnetometerData magData;
+	BaroAltitudeData baroData;
+	GPSPositionData gpsPosition;
+	GPSVelocityData gpsVelocity;
 	float NED[3];
 
 	if (xQueueReceive(s3_data->gyroQueue, &ev, FAILSAFE_TIMEOUT_MS / portTICK_RATE_MS) == pdTRUE) {
@@ -145,23 +157,23 @@ int32_t filter_infrastructure_se3_process(struct filter_driver *driver, uintptr_
 	}
 
 	if (xQueueReceive(s3_data->accelQueue, &ev, 1 / portTICK_RATE_MS) == pdTRUE) {
-		AcceslGet(&accelsData);
+		AccelsGet(&accelsData);
 		accels = &accelsData.x;
 	}
 
-	if (xQueueReceive(s3_data->magQueue, &ev, 0 / portTICK_RATE_MS) == pdTRUE)) {
-		MagsGet(&magData);
-		mags = &magData.x;
+	if (xQueueReceive(s3_data->magQueue, &ev, 0 / portTICK_RATE_MS) == pdTRUE) {
+		MagnetometerGet(&magData);
+		mag = &magData.x;
 	}
 
 	if (xQueueReceive(s3_data->baroQueue, &ev, 0 / portTICK_RATE_MS) == pdTRUE) {
-		BaroGet(&baroData);
+		BaroAltitudeGet(&baroData);
 		baro = &baroData.Altitude;
 	}
 
 	if (xQueueReceive(s3_data->gpsQueue, &ev, 0 / portTICK_RATE_MS) == pdTRUE) {
 		GPSPositionGet(&gpsPosition);
-		getNED(gpsPosition, NED);
+		getNED(&gpsPosition, NED);
 		pos = NED;
 	}
 
@@ -170,11 +182,8 @@ int32_t filter_infrastructure_se3_process(struct filter_driver *driver, uintptr_
 		vel = &gpsVelocity.North;
 	}
 
-	// Store the measurements in the driver
-	driver->get_sensors(id, gyros, accels, mag, pos, vel, baro, airspeed);
-
 	/* 2. compute update */
-	driver->update_filter(id, dT);
+	driver->update_filter(id, gyros, accels, mag, pos, vel, baro, airspeed, dt);
 
 	/* 3. get the state update from the filter */
 	float pos_state[3];
@@ -182,7 +191,7 @@ int32_t filter_infrastructure_se3_process(struct filter_driver *driver, uintptr_
 	float q_state[4];
 	float gyro_bias_state[3];
 
-	driver->get_state(id, pos_state, vel_state, q_state, gyro_bias_state);
+	driver->get_state(id, pos_state, vel_state, q_state, gyro_bias_state, NULL);
 
 	// Store the data in UAVOs
 	PositionActualData positionActual;
@@ -192,9 +201,9 @@ int32_t filter_infrastructure_se3_process(struct filter_driver *driver, uintptr_
 	PositionActualSet(&positionActual);
 
 	VelocityActualData velocityActual;
-	velocityActual.North = vel_state[0]
-	velocityActual.East  = vel_state[1]
-	velocityActual.Down  = vel_state[2]
+	velocityActual.North = vel_state[0];
+	velocityActual.East  = vel_state[1];
+	velocityActual.Down  = vel_state[2];
 	VelocityActualSet(&velocityActual);
 
 	AttitudeActualData attitudeActual;
@@ -202,10 +211,51 @@ int32_t filter_infrastructure_se3_process(struct filter_driver *driver, uintptr_
 	attitudeActual.q2 = q_state[1];
 	attitudeActual.q3 = q_state[2];
 	attitudeActual.q4 = q_state[3];
-	Quaternion2RPY(&attitude.q1,&attitude.Roll);
+	Quaternion2RPY(&attitudeActual.q1,&attitudeActual.Roll);
 	AttitudeActualSet(&attitudeActual);
+
+	return 0;
 }
 
+
+/**
+ * @brief Convert the GPS LLA position into NED coordinates
+ * @note this method uses a taylor expansion around the home coordinates
+ * to convert to NED which allows it to be done with all floating
+ * calculations
+ *
+ * @TODO: refactor into coordinate convrsions
+ *
+ * @param[in] Current GPS coordinates
+ * @param[out] NED frame coordinates
+ * @returns 0 for success, -1 for failure
+ */
+static int32_t getNED(GPSPositionData * gpsPosition, float * NED)
+{
+	HomeLocationData homeLocation;
+	HomeLocationGet(&homeLocation);
+
+	float T[3];
+
+	// Compute matrix to convert deltaLLA to NED
+	float lat, alt;
+	lat = homeLocation.Latitude / 10.0e6f * DEG2RAD;
+	alt = homeLocation.Altitude;
+
+	T[0] = alt+6.378137E6f;
+	T[1] = cosf(lat)*(alt+6.378137E6f);
+	T[2] = -1.0f;
+
+	float dL[3] = {(gpsPosition->Latitude - homeLocation.Latitude) / 10.0e6f * DEG2RAD,
+		(gpsPosition->Longitude - homeLocation.Longitude) / 10.0e6f * DEG2RAD,
+		(gpsPosition->Altitude + gpsPosition->GeoidSeparation - homeLocation.Altitude)};
+
+	NED[0] = T[0] * dL[0];
+	NED[1] = T[1] * dL[1];
+	NED[2] = T[2] * dL[2];
+
+	return 0;
+}
 
  /**
   * @}
