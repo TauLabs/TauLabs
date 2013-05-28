@@ -124,9 +124,9 @@
      inkscape:pageshadow="2"
      inkscape:zoom="1.5220694"
      inkscape:cx="294.13441"
-     inkscape:cy="289.62547"
+     inkscape:cy="184.50543"
      inkscape:document-units="px"
-     inkscape:current-layer="g4140"
+     inkscape:current-layer="layer3"
      showguides="true"
      inkscape:guide-bbox="true"
      inkscape:window-width="1152"
@@ -184,32 +184,6 @@
              inkscape:randomized="0"
              d="m -537.90555,232.88376 c -0.0259,6.6e-4 -44.68816,-117.76528 -44.7069,-117.78309 -0.0187,-0.0178 -119.90847,-38.618191 -119.90913,-38.644038 -6.6e-4,-0.02585 117.76528,-44.688155 117.78309,-44.706898 0.0178,-0.01874 38.61819,-119.908473 38.64404,-119.909133 0.0259,-6.59e-4 44.68816,117.765281 44.7069,117.783091 0.0187,0.01781 119.90847,38.618195 119.90913,38.644042 6.6e-4,0.02585 -117.76528,44.688156 -117.78309,44.706896 -0.0178,0.0187 -38.61819,119.90847 -38.64404,119.90913 z"
              transform="matrix(0.9996543,0.0262945,-0.0262945,0.9996543,-418.28467,118.27665)" />
-          <text
-             xml:space="preserve"
-             style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-             x="-858.89435"
-             y="-567.25732"
-             id="text3010"
-             sodipodi:linespacing="125%"
-             transform="matrix(0.70710678,-0.70710678,0.70710678,0.70710678,0,0)"
-             inkscape:label="wind_direction"><tspan
-               sodipodi:role="line"
-               x="-858.89435"
-               y="-567.25732"
-               id="tspan3014">170o</tspan></text>
-          <text
-             xml:space="preserve"
-             style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-             x="-867.3194"
-             y="-515.83728"
-             id="text3018"
-             sodipodi:linespacing="125%"
-             transform="matrix(0.70710678,-0.70710678,0.70710678,0.70710678,0,0)"
-             inkscape:label="windspeed"><tspan
-               sodipodi:role="line"
-               id="tspan3020"
-               x="-867.3194"
-               y="-515.83728">22m/s</tspan></text>
         </g>
         <path
            sodipodi:type="arc"
@@ -243,5 +217,50 @@
          style="font-size:144px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:100%;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;font-family:Arial Black"
          inkscape:connector-curvature="0" />
     </g>
+  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="layer3"
+     inkscape:label="Readout"
+     style="display:none">
+    <text
+       xml:space="preserve"
+       style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;display:inline;font-family:Sans"
+       x="-858.89435"
+       y="-579.25732"
+       id="wind_direction"
+       sodipodi:linespacing="125%"
+       transform="translate(1108.2065,859.96448)"
+       inkscape:label="wind_direction"><tspan
+         sodipodi:role="line"
+         x="-858.89435"
+         y="-579.25732"
+         id="tspan3014">170o</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;display:inline;font-family:Sans"
+       x="-867.3194"
+       y="-537.83728"
+       id="windspeed"
+       sodipodi:linespacing="125%"
+       transform="translate(1108.2065,859.96448)"
+       inkscape:label="windspeed"><tspan
+         sodipodi:role="line"
+         id="tspan3020"
+         x="-867.3194"
+         y="-537.83728">22m/s</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;display:inline;font-family:Sans"
+       x="-870.66235"
+       y="-501.35431"
+       id="downdraft"
+       sodipodi:linespacing="125%"
+       transform="translate(1108.2065,859.96448)"
+       inkscape:label="downdraft"><tspan
+         sodipodi:role="line"
+         id="tspan3047"
+         x="-870.66235"
+         y="-501.35431">-1m/s</tspan></text>
   </g>
 </svg>
