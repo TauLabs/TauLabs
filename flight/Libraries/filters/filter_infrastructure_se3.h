@@ -56,6 +56,6 @@ int32_t filter_infrastructure_se3_process(struct filter_driver *driver, uintptr_
 
 #endif /* FILTER_INFRASTRUCTURE_SE3 */
 
- /**
-  * @}
-  */
+/**
+ * @}
+ */
