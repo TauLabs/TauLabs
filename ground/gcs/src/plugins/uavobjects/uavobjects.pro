@@ -120,7 +120,8 @@ HEADERS += $$UAVOBJECT_SYNTHETICS/accels.h \
     $$UAVOBJECT_SYNTHETICS/vtolpathfollowersettings.h \
     $$UAVOBJECT_SYNTHETICS/watchdogstatus.h \
     $$UAVOBJECT_SYNTHETICS/waypoint.h \
-    $$UAVOBJECT_SYNTHETICS/waypointactive.h
+    $$UAVOBJECT_SYNTHETICS/waypointactive.h \
+    $$UAVOBJECT_SYNTHETICS/windvelocityactual.h
 
 SOURCES += $$UAVOBJECT_SYNTHETICS/accels.cpp \
     $$UAVOBJECT_SYNTHETICS/accessorydesired.cpp \
@@ -220,4 +221,5 @@ SOURCES += $$UAVOBJECT_SYNTHETICS/accels.cpp \
     $$UAVOBJECT_SYNTHETICS/vtolpathfollowersettings.cpp \
     $$UAVOBJECT_SYNTHETICS/watchdogstatus.cpp \
     $$UAVOBJECT_SYNTHETICS/waypoint.cpp \
-    $$UAVOBJECT_SYNTHETICS/waypointactive.cpp
+    $$UAVOBJECT_SYNTHETICS/waypointactive.cpp\
+    $$UAVOBJECT_SYNTHETICS/windvelocityactual.cpp
