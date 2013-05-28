@@ -1,12 +1,13 @@
 /********************************************************************************
-* @file       osgearthviewwidget.cpp
-* @author     The OpenPilot Team Copyright (C) 2012.
-* @addtogroup GCSPlugins GCS Plugins
-* @{
-* @addtogroup OsgEarthview Plugin Widget
-* @{
-* @brief Osg Earth view of UAV
-*****************************************************************************/
+ * @file       osgearthviewwidget.cpp
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
+ *
+ * @addtogroup GCSPlugins GCS Plugins
+ * @{
+ * @addtogroup OSGEarthViewPluging OSG Earth View plugin to visualize UAV in 3D
+ * @{
+ * @brief Osg Earth view of UAV
+ *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by

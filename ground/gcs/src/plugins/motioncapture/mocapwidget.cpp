@@ -3,11 +3,12 @@
  *
  * @file       mocapwidget.cpp
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
+ *
  * @addtogroup GCSPlugins GCS Plugins
  * @{
  * @addtogroup MoCapPlugin Motion Capture Plugin
  * @{
- * @brief The Hardware In The Loop plugin 
+ * @brief Motion capture plugin which communicates via UDP
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify

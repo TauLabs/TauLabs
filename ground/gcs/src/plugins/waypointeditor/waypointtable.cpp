@@ -2,11 +2,12 @@
  ******************************************************************************
  * @file       waypointtable.cpp
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
- * @addtogroup Waypoint Editor GCS Plugins
+ *
+ * @addtogroup GCSPlugins GCS Plugins
  * @{
  * @addtogroup WaypointEditorGadgetPlugin Waypoint Editor Gadget Plugin
  * @{
- * @brief Table model for listing waypoint
+ * @brief A gadget to edit a list of waypoints
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify
