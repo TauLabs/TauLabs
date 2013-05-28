@@ -125,7 +125,7 @@ int32_t filter_infrastructure_se3_process(struct filter_driver *upper_driver, ui
 	// Make sure we are safe to get the class specific driver
 	if (!filter_interface_validate(upper_driver, id))
 		return -1;
-	struct filter_s3 *driver = &(upper_driver->driver_s3);
+	struct filter_s3 *driver = &(upper_driver->sub_driver.driver_s3);
 
 	/* 1. fetch the data from queues and pass to filter                    */
 	/* if we want to start running multiple instances of this filter class */

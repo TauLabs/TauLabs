@@ -163,7 +163,7 @@ struct filter_driver {
 	union {
 		struct filter_s3       driver_s3;        //! sub-driver for SE(3)+ filters
 		struct filter_generic  driver_generic;   //! sub-driver for the generic filters
-	};
+	} sub_driver;
 };
 
 bool filter_interface_validate(struct filter_driver *filter, uintptr_t id);

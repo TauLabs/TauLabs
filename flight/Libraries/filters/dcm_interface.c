@@ -49,10 +49,12 @@ struct filter_driver dcm_filter_driver = {
 	.start = filter_infrastructure_se3_start,
 	.reset = dcm_interface_reset,
 	.process = filter_infrastructure_se3_process,
-	.driver_s3 = {
-		.update_filter = dcm_interface_update,
-		.get_state = dcm_interface_get_state,
-		.magic = FILTER_S3_MAGIC,
+	.sub_driver = {
+		.driver_s3 = {
+			.update_filter = dcm_interface_update,
+			.get_state = dcm_interface_get_state,
+			.magic = FILTER_S3_MAGIC,
+		}
 	}
 };
 

@@ -41,9 +41,9 @@ bool filter_interface_validate(struct filter_driver *filter, uintptr_t id)
 
 	switch (filter->class) {
 	case FILTER_CLASS_S3:
-		return (filter->driver_s3.magic == FILTER_S3_MAGIC);
+		return (filter->sub_driver.driver_s3.magic == FILTER_S3_MAGIC);
 	case FILTER_CLASS_GENERIC:
-		return (filter->driver_generic.magic == FILTER_GENERIC_MAGIC);
+		return (filter->sub_driver.driver_generic.magic == FILTER_GENERIC_MAGIC);
 	}
 
 	return false;
