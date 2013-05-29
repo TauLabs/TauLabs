@@ -51,7 +51,6 @@ ControllerPage::ControllerPage(SetupWizard *wizard, QWidget *parent) :
 
     connect(ui->connectButton, SIGNAL(clicked()), this, SLOT(connectDisconnect()));
 
-    setupBoardTypes();
     setupDeviceList();
 }
 
@@ -63,23 +62,23 @@ ControllerPage::~ControllerPage()
 void ControllerPage::initializePage()
 {
     if (anyControllerConnected()) {
-        SetupWizard::CONTROLLER_TYPE type = getControllerType();
+        Core::IBoardType* type = getControllerType();
         setControllerType(type);
     } else {
-        setControllerType(SetupWizard::CONTROLLER_UNKNOWN);
+        setControllerType(NULL);
     }
     emit completeChanged();
 }
 
 bool ControllerPage::isComplete() const
 {
-    return m_telemtryManager->isConnected() && ui->boardTypeCombo->currentIndex() > 0 &&
+    return (getControllerType() != NULL) &&
            m_connectionManager->getCurrentDevice().getConName().startsWith("USB:", Qt::CaseInsensitive);
 }
 
 bool ControllerPage::validatePage()
 {
-    getWizard()->setControllerType((SetupWizard::CONTROLLER_TYPE)ui->boardTypeCombo->itemData(ui->boardTypeCombo->currentIndex()).toInt());
+    getWizard()->setControllerType(getControllerType());
     return true;
 }
 
@@ -88,28 +87,16 @@ bool ControllerPage::anyControllerConnected()
     return m_telemtryManager->isConnected();
 }
 
-SetupWizard::CONTROLLER_TYPE ControllerPage::getControllerType()
+/**
+ * @brief ControllerPage::getControllerType get the interface for
+ * the connected board
+ * @return the IBoardType
+ */
+Core::IBoardType *ControllerPage::getControllerType() const
 {
     ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
     UAVObjectUtilManager *utilMngr     = pm->getObject<UAVObjectUtilManager>();
-    int id = utilMngr->getBoardModel();
-
-    switch (id) {
-    case 0x0301:
-        return SetupWizard::CONTROLLER_PIPXTREME;
-
-    case 0x0401:
-        return SetupWizard::CONTROLLER_CC;
-
-    case 0x0402:
-        return SetupWizard::CONTROLLER_CC3D;
-
-    case 0x0903:
-        return SetupWizard::CONTROLLER_REVO;
-
-    default:
-        return SetupWizard::CONTROLLER_UNKNOWN;
-    }
+    return utilMngr->getBoardType();
 }
 
 void ControllerPage::setupDeviceList()
@@ -118,25 +105,12 @@ void ControllerPage::setupDeviceList()
     connectionStatusChanged();
 }
 
-void ControllerPage::setupBoardTypes()
+void ControllerPage::setControllerType(Core::IBoardType *board)
 {
-    QVariant v(0);
-
-    ui->boardTypeCombo->addItem(tr("<Unknown>"), SetupWizard::CONTROLLER_UNKNOWN);
-    ui->boardTypeCombo->addItem(tr("OpenPilot CopterControl"), SetupWizard::CONTROLLER_CC);
-    ui->boardTypeCombo->addItem(tr("OpenPilot CopterControl 3D"), SetupWizard::CONTROLLER_CC3D);
-    ui->boardTypeCombo->addItem(tr("OpenPilot Revolution"), SetupWizard::CONTROLLER_REVO);
-    ui->boardTypeCombo->addItem(tr("OpenPilot OPLink Radio Modem"), SetupWizard::CONTROLLER_PIPXTREME);
-}
-
-void ControllerPage::setControllerType(SetupWizard::CONTROLLER_TYPE type)
-{
-    for (int i = 0; i < ui->boardTypeCombo->count(); ++i) {
-        if (ui->boardTypeCombo->itemData(i) == type) {
-            ui->boardTypeCombo->setCurrentIndex(i);
-            break;
-        }
-    }
+    if (board == NULL)
+        ui->boardTypeLabel->setText("Unknown");
+    else
+        ui->boardTypeLabel->setText(board->shortName());
 }
 
 void ControllerPage::devicesChanged(QLinkedList<Core::DevListItem> devices)
@@ -177,7 +151,6 @@ void ControllerPage::connectionStatusChanged()
     if (m_connectionManager->isConnected()) {
         ui->deviceCombo->setEnabled(false);
         ui->connectButton->setText(tr("Disconnect"));
-        ui->boardTypeCombo->setEnabled(false);
         QString connectedDeviceName = m_connectionManager->getCurrentDevice().getConName();
         for (int i = 0; i < ui->deviceCombo->count(); ++i) {
             if (connectedDeviceName == ui->deviceCombo->itemData(i, Qt::ToolTipRole).toString()) {
@@ -186,15 +159,12 @@ void ControllerPage::connectionStatusChanged()
             }
         }
 
-        SetupWizard::CONTROLLER_TYPE type = getControllerType();
-        setControllerType(type);
+        setControllerType(getControllerType());
         qDebug() << "Connection status changed: Connected, controller type: " << getControllerType();
     } else {
         ui->deviceCombo->setEnabled(true);
         ui->connectButton->setText(tr("Connect"));
-        ui->boardTypeCombo->setEnabled(false);
-        ui->boardTypeCombo->model()->setData(ui->boardTypeCombo->model()->index(0, 0), QVariant(0), Qt::UserRole - 1);
-        setControllerType(SetupWizard::CONTROLLER_UNKNOWN);
+        setControllerType(NULL);
         qDebug() << "Connection status changed: Disconnected";
     }
     emit completeChanged();

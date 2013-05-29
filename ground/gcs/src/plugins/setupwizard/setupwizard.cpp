@@ -49,7 +49,7 @@
 #include "uploader/uploadergadgetfactory.h"
 
 SetupWizard::SetupWizard(QWidget *parent) : QWizard(parent), VehicleConfigurationSource(),
-    m_controllerType(CONTROLLER_UNKNOWN),
+    m_controllerType(NULL),
     m_vehicleType(VEHICLE_UNKNOWN), m_inputType(INPUT_UNKNOWN), m_escType(ESC_UNKNOWN),
     m_calibrationPerformed(false), m_restartNeeded(false), m_connectionManager(0)
 {
@@ -78,16 +78,11 @@ int SetupWizard::nextId() const
 
     case PAGE_CONTROLLER:
     {
-        switch (getControllerType()) {
-        case CONTROLLER_CC:
-        case CONTROLLER_CC3D:
-        case CONTROLLER_REVO:
+        Core::IBoardType* type = getControllerType();
+        if (false && type != NULL /* && type->inputPage */)
             return PAGE_INPUT;
-
-        case CONTROLLER_PIPXTREME:
-        default:
+        else
             return PAGE_NOTYETIMPLEMENTED;
-        }
     }
     case PAGE_VEHICLES:
     {
@@ -132,15 +127,11 @@ int SetupWizard::nextId() const
 
     case PAGE_SUMMARY:
     {
-        switch (getControllerType()) {
-        case CONTROLLER_CC:
-        case CONTROLLER_CC3D:
-        case CONTROLLER_REVO:
+        Core::IBoardType* type = getControllerType();
+        if (false && type != NULL /* && type->runInput()? */)
             return PAGE_BIAS_CALIBRATION;
-
-        default:
+        else
             return PAGE_NOTYETIMPLEMENTED;
-        }
     }
     case PAGE_SAVE:
         return PAGE_END;
@@ -158,23 +149,11 @@ QString SetupWizard::getSummaryText()
     QString summary = "";
 
     summary.append("<b>").append(tr("Controller type: ")).append("</b>");
-    switch (getControllerType()) {
-    case CONTROLLER_CC:
-        summary.append(tr("OpenPilot CopterControl"));
-        break;
-    case CONTROLLER_CC3D:
-        summary.append(tr("OpenPilot CopterControl 3D"));
-        break;
-    case CONTROLLER_REVO:
-        summary.append(tr("OpenPilot Revolution"));
-        break;
-    case CONTROLLER_PIPXTREME:
-        summary.append(tr("OpenPilot OPLink Radio Modem"));
-        break;
-    default:
+    Core::IBoardType* type = getControllerType();
+    if (type != NULL)
+        summary.append(type->shortName());
+    else
         summary.append(tr("Unknown"));
-        break;
-    }
 
     summary.append("<br>");
     summary.append("<b>").append(tr("Vehicle type: ")).append("</b>");

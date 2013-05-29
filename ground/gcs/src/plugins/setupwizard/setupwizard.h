@@ -31,6 +31,7 @@
 #include <QWizard>
 #include "biascalibrationutil.h"
 #include <coreplugin/icore.h>
+#include <coreplugin/iboardtype.h>
 #include <coreplugin/connectionmanager.h>
 #include "vehicleconfigurationsource.h"
 #include "vehicleconfigurationhelper.h"
@@ -42,11 +43,11 @@ public:
     SetupWizard(QWidget *parent = 0);
     int nextId() const;
 
-    void setControllerType(SetupWizard::CONTROLLER_TYPE type)
+    void setControllerType(Core::IBoardType* type)
     {
         m_controllerType = type;
     }
-    SetupWizard::CONTROLLER_TYPE getControllerType() const
+    Core::IBoardType* getControllerType() const
     {
         return m_controllerType;
     }
@@ -163,7 +164,7 @@ private:
     bool saveHardwareSettings() const;
     bool canAutoUpdate() const;
 
-    CONTROLLER_TYPE m_controllerType;
+    Core::IBoardType* m_controllerType;
     VEHICLE_TYPE m_vehicleType;
     VEHICLE_SUB_TYPE m_vehicleSubType;
     INPUT_TYPE m_inputType;

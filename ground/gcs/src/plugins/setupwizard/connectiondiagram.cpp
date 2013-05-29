@@ -78,19 +78,9 @@ void ConnectionDiagram::setupGraphicsScene()
 
         QList<QString> elementsToShow;
 
-        switch (m_configSource->getControllerType()) {
-        case VehicleConfigurationSource::CONTROLLER_CC:
-        case VehicleConfigurationSource::CONTROLLER_CC3D:
-            elementsToShow << "controller-cc";
-            break;
-        case VehicleConfigurationSource::CONTROLLER_REVO:
-            elementsToShow << "controller-revo";
-            break;
-        case VehicleConfigurationSource::CONTROLLER_PIPXTREME:
-        default:
-            elementsToShow << "controller-cc";
-            break;
-        }
+        Core::IBoardType* type = m_configSource->getControllerType();
+        if (type != NULL)
+            elementsToShow << "controller-" << type->shortName();
 
         switch (m_configSource->getVehicleType()) {
         case VehicleConfigurationSource::VEHICLE_MULTI:

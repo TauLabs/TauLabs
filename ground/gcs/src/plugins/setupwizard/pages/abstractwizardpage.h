@@ -40,7 +40,7 @@ private:
     SetupWizard *m_wizard;
 
 public:
-    SetupWizard *getWizard()
+    SetupWizard *getWizard() const
     {
         return m_wizard;
     }

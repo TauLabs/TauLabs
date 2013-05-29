@@ -28,6 +28,7 @@
 #ifndef CONTROLLERPAGE_H
 #define CONTROLLERPAGE_H
 
+#include <coreplugin/iboardtype.h>
 #include <coreplugin/icore.h>
 #include <coreplugin/connectionmanager.h>
 #include "setupwizard.h"
@@ -51,10 +52,9 @@ public:
 private:
     Ui::ControllerPage *ui;
     bool anyControllerConnected();
-    SetupWizard::CONTROLLER_TYPE getControllerType();
+    Core::IBoardType* getControllerType() const;
     void setupDeviceList();
-    void setupBoardTypes();
-    void setControllerType(SetupWizard::CONTROLLER_TYPE type);
+    void setControllerType(Core::IBoardType *);
     Core::ConnectionManager *m_connectionManager;
     TelemetryManager *m_telemtryManager;
 
