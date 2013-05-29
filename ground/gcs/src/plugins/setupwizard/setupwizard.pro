@@ -33,7 +33,6 @@ HEADERS += setupwizardplugin.h \
     pages/rebootpage.h \
     pages/savepage.h \
     pages/autoupdatepage.h \
-    pages/revocalibrationpage.h \
     biascalibrationutil.h \
     pages/biascalibrationpage.h
 
@@ -60,7 +59,6 @@ SOURCES += setupwizardplugin.cpp \
     pages/rebootpage.cpp \
     pages/savepage.cpp \
     pages/autoupdatepage.cpp \
-    pages/revocalibrationpage.cpp \
     biascalibrationutil.cpp \
     pages/biascalibrationpage.cpp
 
@@ -84,7 +82,6 @@ FORMS += \
     pages/rebootpage.ui \
     pages/savepage.ui \
     pages/autoupdatepage.ui \
-    pages/revocalibrationpage.ui \
     pages/biascalibrationpage.ui
 
 RESOURCES += \

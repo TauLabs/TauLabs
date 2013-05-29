@@ -42,7 +42,6 @@
 #include "pages/notyetimplementedpage.h"
 #include "pages/rebootpage.h"
 #include "pages/outputcalibrationpage.h"
-#include "pages/revocalibrationpage.h"
 #include "extensionsystem/pluginmanager.h"
 #include "vehicleconfigurationhelper.h"
 #include "actuatorsettings.h"
@@ -296,7 +295,6 @@ void SetupWizard::createPages()
     setPage(PAGE_INPUT, new InputPage(this));
     setPage(PAGE_OUTPUT, new OutputPage(this));
     setPage(PAGE_BIAS_CALIBRATION, new BiasCalibrationPage(this));
-    // setPage(PAGE_REVO_CALIBRATION, new RevoCalibrationPage(this));
     setPage(PAGE_OUTPUT_CALIBRATION, new OutputCalibrationPage(this));
     setPage(PAGE_SUMMARY, new SummaryPage(this));
     setPage(PAGE_SAVE, new SavePage(this));
