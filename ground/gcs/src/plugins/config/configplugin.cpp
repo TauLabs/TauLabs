@@ -3,6 +3,7 @@
  *
  * @file       configplugin.h
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
  * @addtogroup GCSPlugins GCS Plugins
  * @{
  * @addtogroup ConfigPlugin Config Plugin
@@ -30,6 +31,7 @@
 #include <QStringList>
 #include <QTimer>
 #include <extensionsystem/pluginmanager.h>
+#include "calibration.h"
 #include "objectpersistence.h"
 
 ConfigPlugin::ConfigPlugin()
@@ -48,6 +50,9 @@ bool ConfigPlugin::initialize(const QStringList& args, QString *errMsg)
    Q_UNUSED(errMsg);
   cf = new ConfigGadgetFactory(this);
   addAutoReleasedObject(cf);
+
+  Calibration* cal = new Calibration();
+  addAutoReleasedObject(cal);
 
   // Add Menu entry to erase all settings
   Core::ActionManager* am = Core::ICore::instance()->actionManager();
