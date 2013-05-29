@@ -3,6 +3,7 @@
  *
  * @file       vehicleconfigurationsource.h
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
  * @addtogroup
  * @{
  * @addtogroup VehicleConfigurationSource
@@ -55,7 +56,14 @@ class VehicleConfigurationSource {
 public:
     VehicleConfigurationSource();
 
-    enum CONTROLLER_TYPE { CONTROLLER_UNKNOWN, CONTROLLER_CC, CONTROLLER_CC3D, CONTROLLER_REVO, CONTROLLER_OPLINK };
+    enum CONTROLLER_TYPE { CONTROLLER_UNKNOWN,
+                           CONTROLLER_CC,
+                           CONTROLLER_CC3D,
+                           CONTROLLER_REVO,
+                           CONTROLLER_QUANTON,
+                           CONTROLLER_SPARKY,
+                           CONTROLLER_FLYINGF3,
+                           CONTROLLER_PIPXTREME };
     enum VEHICLE_TYPE { VEHICLE_UNKNOWN, VEHICLE_MULTI, VEHICLE_FIXEDWING, VEHICLE_HELI, VEHICLE_SURFACE };
     enum VEHICLE_SUB_TYPE { MULTI_ROTOR_UNKNOWN, MULTI_ROTOR_TRI_Y, MULTI_ROTOR_QUAD_X, MULTI_ROTOR_QUAD_PLUS,
                             MULTI_ROTOR_HEXA, MULTI_ROTOR_HEXA_H, MULTI_ROTOR_HEXA_COAX_Y, MULTI_ROTOR_OCTO,

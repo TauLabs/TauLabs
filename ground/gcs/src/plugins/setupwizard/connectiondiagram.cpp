@@ -86,7 +86,7 @@ void ConnectionDiagram::setupGraphicsScene()
         case VehicleConfigurationSource::CONTROLLER_REVO:
             elementsToShow << "controller-revo";
             break;
-        case VehicleConfigurationSource::CONTROLLER_OPLINK:
+        case VehicleConfigurationSource::CONTROLLER_PIPXTREME:
         default:
             elementsToShow << "controller-cc";
             break;

@@ -96,7 +96,7 @@ SetupWizard::CONTROLLER_TYPE ControllerPage::getControllerType()
 
     switch (id) {
     case 0x0301:
-        return SetupWizard::CONTROLLER_OPLINK;
+        return SetupWizard::CONTROLLER_PIPXTREME;
 
     case 0x0401:
         return SetupWizard::CONTROLLER_CC;
@@ -126,7 +126,7 @@ void ControllerPage::setupBoardTypes()
     ui->boardTypeCombo->addItem(tr("OpenPilot CopterControl"), SetupWizard::CONTROLLER_CC);
     ui->boardTypeCombo->addItem(tr("OpenPilot CopterControl 3D"), SetupWizard::CONTROLLER_CC3D);
     ui->boardTypeCombo->addItem(tr("OpenPilot Revolution"), SetupWizard::CONTROLLER_REVO);
-    ui->boardTypeCombo->addItem(tr("OpenPilot OPLink Radio Modem"), SetupWizard::CONTROLLER_OPLINK);
+    ui->boardTypeCombo->addItem(tr("OpenPilot OPLink Radio Modem"), SetupWizard::CONTROLLER_PIPXTREME);
 }
 
 void ControllerPage::setControllerType(SetupWizard::CONTROLLER_TYPE type)

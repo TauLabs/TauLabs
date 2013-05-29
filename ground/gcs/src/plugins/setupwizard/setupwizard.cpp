@@ -54,7 +54,7 @@ SetupWizard::SetupWizard(QWidget *parent) : QWizard(parent), VehicleConfiguratio
     m_vehicleType(VEHICLE_UNKNOWN), m_inputType(INPUT_UNKNOWN), m_escType(ESC_UNKNOWN),
     m_calibrationPerformed(false), m_restartNeeded(false), m_connectionManager(0)
 {
-    setWindowTitle(tr("OpenPilot Setup Wizard"));
+    setWindowTitle(tr("Tau Labs Setup Wizard"));
     setOption(QWizard::IndependentPages, false);
     for (quint16 i = 0; i < ActuatorSettings::CHANNELMAX_NUMELEM; i++) {
         m_actuatorSettings << actuatorChannelSettings();
@@ -85,7 +85,7 @@ int SetupWizard::nextId() const
         case CONTROLLER_REVO:
             return PAGE_INPUT;
 
-        case CONTROLLER_OPLINK:
+        case CONTROLLER_PIPXTREME:
         default:
             return PAGE_NOTYETIMPLEMENTED;
         }
@@ -171,7 +171,7 @@ QString SetupWizard::getSummaryText()
     case CONTROLLER_REVO:
         summary.append(tr("OpenPilot Revolution"));
         break;
-    case CONTROLLER_OPLINK:
+    case CONTROLLER_PIPXTREME:
         summary.append(tr("OpenPilot OPLink Radio Modem"));
         break;
     default:
