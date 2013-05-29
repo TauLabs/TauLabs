@@ -105,86 +105,50 @@ void VehicleConfigurationHelper::clearModifiedObjects()
     m_modifiedObjects.clear();
 }
 
+/**
+ * @brief VehicleConfigurationHelper::applyHardwareConfiguration Apply
+ * settings to the board specific hardware settings via the board plugin
+ *
+ * The settings to apply were determined previously during the wizard.
+ */
 void VehicleConfigurationHelper::applyHardwareConfiguration()
 {
-    /* TODO: use board plugin
-    HwSettings *hwSettings = HwSettings::GetInstance(m_uavoManager);
-    HwSettings::DataFields data = hwSettings->getData();
+    // TODO: add error codes if type is not supported on board
+    Core::IBoardType* boardPlugin = m_configSource->getControllerType();
+    Q_ASSERT(boardPlugin);
+    if (!boardPlugin)
+        return;
 
-    switch (m_configSource->getControllerType()) {
-    case VehicleConfigurationSource::CONTROLLER_CC:
-    case VehicleConfigurationSource::CONTROLLER_CC3D:
-        // Reset all ports
-        data.CC_RcvrPort  = HwSettings::CC_RCVRPORT_DISABLED;
+    bool success;
 
-        // Default mainport to be active telemetry link
-        data.CC_MainPort  = HwSettings::CC_MAINPORT_TELEMETRY;
-
-        data.CC_FlexiPort = HwSettings::CC_FLEXIPORT_DISABLED;
-        switch (m_configSource->getInputType()) {
-        case VehicleConfigurationSource::INPUT_PWM:
-            data.CC_RcvrPort = HwSettings::CC_RCVRPORT_PWM;
-            break;
-        case VehicleConfigurationSource::INPUT_PPM:
-            data.CC_RcvrPort = HwSettings::CC_RCVRPORT_PPM;
-            break;
-        case VehicleConfigurationSource::INPUT_SBUS:
-            // We have to set teletry on flexport since s.bus needs the mainport.
-            data.CC_MainPort  = HwSettings::CC_MAINPORT_SBUS;
-            data.CC_FlexiPort = HwSettings::CC_FLEXIPORT_TELEMETRY;
-            break;
-        case VehicleConfigurationSource::INPUT_DSMX10:
-            data.CC_FlexiPort = HwSettings::CC_FLEXIPORT_DSMX10BIT;
-            break;
-        case VehicleConfigurationSource::INPUT_DSMX11:
-            data.CC_FlexiPort = HwSettings::CC_FLEXIPORT_DSMX11BIT;
-            break;
-        case VehicleConfigurationSource::INPUT_DSM2:
-            data.CC_FlexiPort = HwSettings::CC_FLEXIPORT_DSM2;
-            break;
-        default:
-            break;
-        }
+    switch (m_configSource->getInputType()) {
+    case VehicleConfigurationSource::INPUT_PWM:
+        success = boardPlugin->setInputOnPort(Core::IBoardType::INPUT_TYPE_PWM);
         break;
-    case VehicleConfigurationSource::CONTROLLER_REVO:
-        // Reset all ports
-        data.RM_RcvrPort  = HwSettings::RM_RCVRPORT_DISABLED;
-
-        // Default mainport to be active telemetry link
-        data.RM_MainPort  = HwSettings::RM_MAINPORT_TELEMETRY;
-
-        data.RM_FlexiPort = HwSettings::RM_FLEXIPORT_DISABLED;
-        switch (m_configSource->getInputType()) {
-        case VehicleConfigurationSource::INPUT_PWM:
-            data.RM_RcvrPort = HwSettings::RM_RCVRPORT_PWM;
-            break;
-        case VehicleConfigurationSource::INPUT_PPM:
-            data.RM_RcvrPort = HwSettings::RM_RCVRPORT_PPM;
-            break;
-        case VehicleConfigurationSource::INPUT_SBUS:
-            // We have to set teletry on flexport since s.bus needs the mainport.
-            data.RM_MainPort  = HwSettings::RM_MAINPORT_SBUS;
-            data.RM_FlexiPort = HwSettings::RM_FLEXIPORT_TELEMETRY;
-            break;
-        case VehicleConfigurationSource::INPUT_DSMX10:
-            data.RM_FlexiPort = HwSettings::RM_FLEXIPORT_DSMX10BIT;
-            break;
-        case VehicleConfigurationSource::INPUT_DSMX11:
-            data.RM_FlexiPort = HwSettings::RM_FLEXIPORT_DSMX11BIT;
-            break;
-        case VehicleConfigurationSource::INPUT_DSM2:
-            data.RM_FlexiPort = HwSettings::RM_FLEXIPORT_DSM2;
-            break;
-        default:
-            break;
-        }
+    case VehicleConfigurationSource::INPUT_PPM:
+        success = boardPlugin->setInputOnPort(Core::IBoardType::INPUT_TYPE_PPM);
+        break;
+    case VehicleConfigurationSource::INPUT_SBUS:
+        success = boardPlugin->setInputOnPort(Core::IBoardType::INPUT_TYPE_SBUS);
+        break;
+    case VehicleConfigurationSource::INPUT_DSMX10:
+        success = boardPlugin->setInputOnPort(Core::IBoardType::INPUT_TYPE_DSMX10BIT);
+        break;
+    case VehicleConfigurationSource::INPUT_DSMX11:
+        success = boardPlugin->setInputOnPort(Core::IBoardType::INPUT_TYPE_DSMX11BIT);
+        break;
+    case VehicleConfigurationSource::INPUT_DSM2:
+        success = boardPlugin->setInputOnPort(Core::IBoardType::INPUT_TYPE_DSM2);
         break;
     default:
-        break;
+        success = false;
     }
-    hwSettings->setData(data);
-    addModifiedObject(hwSettings, tr("Writing hardware settings"));
-    */
+    if (success) {
+        UAVObject* hwSettings = m_uavoManager->getObject(boardPlugin->getHwUAVO());
+        Q_ASSERT(hwSettings);
+        if (hwSettings)
+            addModifiedObject(hwSettings, tr("Writing hardware settings"));
+    }
 }
 
 void VehicleConfigurationHelper::applyVehicleConfiguration()

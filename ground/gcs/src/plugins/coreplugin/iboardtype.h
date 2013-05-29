@@ -143,8 +143,8 @@ public:
         INPUT_TYPE_PWM,
         INPUT_TYPE_PPM,
         INPUT_TYPE_DSM2,
-        INPUT_TYPE_DSM10BIT,
-        INPUT_TYPE_DSM11BIT,
+        INPUT_TYPE_DSMX10BIT,
+        INPUT_TYPE_DSMX11BIT,
         INPUT_TYPE_SBUS
     };
 
