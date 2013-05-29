@@ -36,7 +36,7 @@
 
 static bool PIOS_Flash_Internal_GetSectorInfo(uint32_t address, uint8_t * sector_number, uint32_t *sector_start, uint32_t *sector_size)
 {
-	if (address & 0xF8000000 != 0x08000000)
+	if ((address & 0xF8000000) != 0x08000000)
 		return (false);
 
 	uint16_t sector = (address - 0x08000000) / 1024;
