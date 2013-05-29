@@ -3,9 +3,12 @@
  *
  * @file       setupwizard.cpp
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
+ * @see        The GNU Public License (GPL) Version 3
+ *
  * @addtogroup GCSPlugins GCS Plugins
  * @{
- * @addtogroup Setup Wizard  Plugin
+ * @addtogroup SetupWizard Setup Wizard
  * @{
  * @brief A Wizard to make the initial setup easy for everyone.
  *****************************************************************************/
