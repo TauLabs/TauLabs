@@ -432,6 +432,8 @@ void UploaderGadgetWidget::commonSystemBoot(bool safeboot)
     delete dfu; // Frees up the USB/Serial port too
     dfu = NULL;
 }
+
+//! Check that the resources for auto updating are compiled in
 bool UploaderGadgetWidget::autoUpdateCapable()
 {
     return QDir(":/build").exists();

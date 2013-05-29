@@ -317,6 +317,14 @@ bool SetupWizard::saveHardwareSettings() const
     return helper.setupHardwareSettings();
 }
 
+/**
+ * @brief SetupWizard::canAutoUpdate determine if build can autoupdated
+ *
+ * This checks for the firmware resource file being existing to see if
+ * auto-updating is even an option.
+ *
+ * @return true if auto-update can be attempted
+ */
 bool SetupWizard::canAutoUpdate() const
 {
     ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
