@@ -77,10 +77,13 @@ int SetupWizard::nextId() const
             return PAGE_CONTROLLER;
         }
     case PAGE_UPDATE:
-        return PAGE_CONTROLLER;
+        return PAGE_VEHICLES;
 
     case PAGE_CONTROLLER:
     {
+        // Skip input until fixed
+        return PAGE_VEHICLES;
+
         Core::IBoardType* type = getControllerType();
         if (false && type != NULL /* && type->inputPage */)
             return PAGE_INPUT;
@@ -131,7 +134,7 @@ int SetupWizard::nextId() const
     case PAGE_SUMMARY:
     {
         Core::IBoardType* type = getControllerType();
-        if (false && type != NULL /* && type->runInput()? */)
+        if (type != NULL)
             return PAGE_BIAS_CALIBRATION;
         else
             return PAGE_NOTYETIMPLEMENTED;
