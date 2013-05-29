@@ -144,7 +144,8 @@ void VehicleConfigurationHelper::applyHardwareConfiguration()
         success = false;
     }
     if (success) {
-        UAVObject* hwSettings = m_uavoManager->getObject(boardPlugin->getHwUAVO());
+        UAVDataObject* hwSettings = dynamic_cast<UAVDataObject*>(
+                    m_uavoManager->getObject(boardPlugin->getHwUAVO()));
         Q_ASSERT(hwSettings);
         if (hwSettings)
             addModifiedObject(hwSettings, tr("Writing hardware settings"));

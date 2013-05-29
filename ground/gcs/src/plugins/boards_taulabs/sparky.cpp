@@ -29,6 +29,12 @@
 #include <QFile>
 #include <QDebug>
 
+#include <uavobjectmanager.h>
+#include "uavobjectutil/uavobjectutilmanager.h"
+#include <extensionsystem/pluginmanager.h>
+
+#include "hwsparky.h"
+
 /**
  * @brief Sparky::Sparky
  *  This is the Sparky board definition
@@ -115,5 +121,38 @@ bool Sparky::setInputOnPort(enum InputType type, int port_num)
 {
     if (port_num != 0)
         return false;
+
+    ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
+    UAVObjectManager *uavoManager = pm->getObject<UAVObjectManager>();
+    HwSparky *hwSparky = HwSparky::GetInstance(uavoManager);
+    Q_ASSERT(hwSparky);
+    if (!hwSparky)
+        return false;
+
+    HwSparky::DataFields settings = hwSparky->getData();
+
+    switch(type) {
+    case INPUT_TYPE_PPM:
+        settings.RcvrPort = HwSparky::RCVRPORT_PPM;
+        break;
+    case INPUT_TYPE_SBUS:
+        settings.RcvrPort = HwSparky::RCVRPORT_SBUS;
+        break;
+    case INPUT_TYPE_DSM2:
+        settings.RcvrPort = HwSparky::RCVRPORT_DSM2;
+        break;
+    case INPUT_TYPE_DSMX10BIT:
+        settings.RcvrPort = HwSparky::RCVRPORT_DSMX10BIT;
+        break;
+    case INPUT_TYPE_DSMX11BIT:
+        settings.RcvrPort = HwSparky::RCVRPORT_DSMX11BIT;
+        break;
+    default:
+        return false;
+    }
+
+    // Apply these changes
+    hwSparky->setData(settings);
+
     return true;
 }
