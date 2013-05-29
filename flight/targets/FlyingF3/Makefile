@@ -58,7 +58,7 @@ OPTMODULES += FixedWingPathFollower
 OPTMODULES += GroundPathFollower
 OPTMODULES += VibrationAnalysis
 OPTMODULES += UAVOMavlinkBridge
-#OPTMODULES += Battery
+OPTMODULES += Battery
 #OPTMODULES += ComUsbBridge
 
 # Paths
