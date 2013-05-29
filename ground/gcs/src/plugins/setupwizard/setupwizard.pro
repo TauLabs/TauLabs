@@ -24,6 +24,7 @@ HEADERS += setupwizardplugin.h \
     pages/abstractwizardpage.h \
     pages/outputpage.h \
     pages/inputpage.h \
+    pages/inputpage_notsupported.h \
     pages/summarypage.h \
     vehicleconfigurationsource.h \
     vehicleconfigurationhelper.h \
@@ -50,6 +51,7 @@ SOURCES += setupwizardplugin.cpp \
     pages/abstractwizardpage.cpp \
     pages/outputpage.cpp \
     pages/inputpage.cpp \
+    pages/inputpage_notsupported.cpp \
     pages/summarypage.cpp \
     vehicleconfigurationsource.cpp \
     vehicleconfigurationhelper.cpp \
@@ -76,6 +78,7 @@ FORMS += \
     pages/surfacepage.ui \
     pages/outputpage.ui \
     pages/inputpage.ui \
+    pages/inputpage_notsupported.ui \
     pages/summarypage.ui \
     connectiondiagram.ui \
     pages/outputcalibrationpage.ui \

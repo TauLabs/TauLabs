@@ -38,6 +38,7 @@
 #include "pages/helipage.h"
 #include "pages/surfacepage.h"
 #include "pages/inputpage.h"
+#include "pages/inputpage_notsupported.h"
 #include "pages/outputpage.h"
 #include "pages/biascalibrationpage.h"
 #include "pages/summarypage.h"
@@ -86,8 +87,7 @@ int SetupWizard::nextId() const
         if (type != NULL && type->isInputConfigurationSupported())
             return PAGE_INPUT;
         else if (type != NULL)
-            // TODO: show a page indicating this board does not support this step
-            return PAGE_VEHICLES;
+            return PAGE_INPUT_NOT_SUPPORTED;
         else
             // TODO: this case should never happen once we dont start for unsupported boards
             return PAGE_NOTYETIMPLEMENTED;
@@ -143,6 +143,11 @@ int SetupWizard::nextId() const
     }
     case PAGE_SAVE:
         return PAGE_END;
+
+    case PAGE_INPUT_NOT_SUPPORTED:
+        // The user is informed on this page to configure manually and restart the wizard
+        // but if they advance assume they have configured the input.
+        return PAGE_VEHICLES;
 
     case PAGE_NOTYETIMPLEMENTED:
         return PAGE_END;
@@ -278,6 +283,7 @@ void SetupWizard::createPages()
     setPage(PAGE_HELI, new HeliPage(this));
     setPage(PAGE_SURFACE, new SurfacePage(this));
     setPage(PAGE_INPUT, new InputPage(this));
+    setPage(PAGE_INPUT_NOT_SUPPORTED, new InputPageNotSupported(this));
     setPage(PAGE_OUTPUT, new OutputPage(this));
     setPage(PAGE_BIAS_CALIBRATION, new BiasCalibrationPage(this));
     setPage(PAGE_OUTPUT_CALIBRATION, new OutputCalibrationPage(this));
