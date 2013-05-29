@@ -31,6 +31,7 @@
 #include "setupwizard.h"
 #include "pages/startpage.h"
 #include "pages/endpage.h"
+#include "pages/boardtype_unknown.h"
 #include "pages/controllerpage.h"
 #include "pages/vehiclepage.h"
 #include "pages/multipage.h"
@@ -89,8 +90,7 @@ int SetupWizard::nextId() const
         else if (type != NULL)
             return PAGE_INPUT_NOT_SUPPORTED;
         else
-            // TODO: this case should never happen once we dont start for unsupported boards
-            return PAGE_NOTYETIMPLEMENTED;
+            return PAGE_BOARDTYPE_UNKNOWN;
     }
     case PAGE_VEHICLES:
     {
@@ -149,6 +149,7 @@ int SetupWizard::nextId() const
         // but if they advance assume they have configured the input.
         return PAGE_VEHICLES;
 
+    case PAGE_BOARDTYPE_UNKNOWN:
     case PAGE_NOTYETIMPLEMENTED:
         return PAGE_END;
 
@@ -291,6 +292,7 @@ void SetupWizard::createPages()
     setPage(PAGE_SAVE, new SavePage(this));
     setPage(PAGE_REBOOT, new RebootPage(this));
     setPage(PAGE_NOTYETIMPLEMENTED, new NotYetImplementedPage(this));
+    setPage(PAGE_BOARDTYPE_UNKNOWN, new BoardtypeUnknown(this));
     setPage(PAGE_END, new EndPage(this));
 
     setStartId(PAGE_START);

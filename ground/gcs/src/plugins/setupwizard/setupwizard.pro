@@ -14,6 +14,7 @@ HEADERS += setupwizardplugin.h \
     setupwizard.h \
     pages/startpage.h \
     pages/endpage.h \
+    pages/boardtype_unknown.h \
     pages/controllerpage.h \
     pages/vehiclepage.h \
     pages/notyetimplementedpage.h \
@@ -41,6 +42,7 @@ SOURCES += setupwizardplugin.cpp \
     setupwizard.cpp \
     pages/startpage.cpp \
     pages/endpage.cpp \
+    pages/boardtype_unknown.cpp \
     pages/controllerpage.cpp \
     pages/vehiclepage.cpp \
     pages/notyetimplementedpage.cpp \
@@ -69,6 +71,7 @@ OTHER_FILES += SetupWizard.pluginspec
 FORMS += \
     pages/startpage.ui \
     pages/endpage.ui \
+    pages/boardtype_unknown.ui \
     pages/controllerpage.ui \
     pages/vehiclepage.ui \
     pages/notyetimplementedpage.ui \
