@@ -99,3 +99,21 @@ QString Sparky::getHwUAVO()
 {
     return "HwSparky";
 }
+
+//! Determine if this board supports configuring the receiver
+bool Sparky::isInputConfigurationSupported()
+{
+    return true;
+}
+
+/**
+ * Configure the board to use an receiver input type on a port number
+ * @param type the type of receiver to use
+ * @param port_num which input port to configure (board specific numbering)
+ */
+bool Sparky::setInputOnPort(enum InputType type, int port_num)
+{
+    if (port_num != 0)
+        return false;
+    return true;
+}

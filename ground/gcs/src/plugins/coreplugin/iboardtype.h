@@ -136,6 +136,28 @@ public:
     //! Get the board type number
     int getBoardType() { return boardType; }
 
+    /***** methods related to configuring specific boards *****/
+
+    //! Types of input to configure for the default port
+    enum InputType {
+        INPUT_TYPE_PWM,
+        INPUT_TYPE_PPM,
+        INPUT_TYPE_DSM2,
+        INPUT_TYPE_DSM10BIT,
+        INPUT_TYPE_DSM11BIT,
+        INPUT_TYPE_SBUS
+    };
+
+    //! Determine if this board supports configuring the receiver
+    virtual bool isInputConfigurationSupported() { return false; }
+
+    /**
+     * Configure the board to use an receiver input type on a port number
+     * @param type the type of receiver to use
+     * @param port_num which input port to configure (board specific numbering)
+     */
+    virtual bool setInputOnPort(enum InputType /*type*/, int port_num = 0) { Q_UNUSED(port_num); return false; }
+
 signals:
 
 protected:

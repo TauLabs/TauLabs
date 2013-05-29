@@ -71,23 +71,25 @@ int SetupWizard::nextId() const
 {
     switch (currentId()) {
     case PAGE_START:
+        // TODO: check for unsupported boards and show a specific page
         if (canAutoUpdate()) {
             return PAGE_UPDATE;
         } else {
             return PAGE_CONTROLLER;
         }
     case PAGE_UPDATE:
-        return PAGE_VEHICLES;
+        return PAGE_CONTROLLER;
 
     case PAGE_CONTROLLER:
     {
-        // Skip input until fixed
-        return PAGE_VEHICLES;
-
         Core::IBoardType* type = getControllerType();
-        if (false && type != NULL /* && type->inputPage */)
+        if (type != NULL && type->isInputConfigurationSupported())
             return PAGE_INPUT;
+        else if (type != NULL)
+            // TODO: show a page indicating this board does not support this step
+            return PAGE_VEHICLES;
         else
+            // TODO: this case should never happen once we dont start for unsupported boards
             return PAGE_NOTYETIMPLEMENTED;
     }
     case PAGE_VEHICLES:
