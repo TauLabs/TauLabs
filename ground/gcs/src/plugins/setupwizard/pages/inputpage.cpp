@@ -30,7 +30,6 @@
 #include "setupwizard.h"
 #include "extensionsystem/pluginmanager.h"
 #include "uavobjectmanager.h"
-#include "hwsettings.h"
 
 InputPage::InputPage(SetupWizard *wizard, QWidget *parent) :
     AbstractWizardPage(wizard, parent),
@@ -69,6 +68,7 @@ bool InputPage::restartNeeded(VehicleConfigurationSource::INPUT_TYPE selectedTyp
     UAVObjectManager *uavoManager = pm->getObject<UAVObjectManager>();
 
     Q_ASSERT(uavoManager);
+    /* TODO: move to the board plugin
     HwSettings *hwSettings = HwSettings::GetInstance(uavoManager);
     HwSettings::DataFields data = hwSettings->getData();
     switch (getWizard()->getControllerType()) {
@@ -114,5 +114,6 @@ bool InputPage::restartNeeded(VehicleConfigurationSource::INPUT_TYPE selectedTyp
         break;
     }
     default: return true;
-    }
+    } */
+    return false;
 }

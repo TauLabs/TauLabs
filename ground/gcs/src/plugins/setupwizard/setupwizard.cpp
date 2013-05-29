@@ -127,8 +127,6 @@ int SetupWizard::nextId() const
     case PAGE_BIAS_CALIBRATION:
         return PAGE_OUTPUT_CALIBRATION;
 
-    // case PAGE_REVO_CALIBRATION:
-    // return PAGE_OUTPUT_CALIBRATION;
     case PAGE_OUTPUT_CALIBRATION:
         return PAGE_SAVE;
 

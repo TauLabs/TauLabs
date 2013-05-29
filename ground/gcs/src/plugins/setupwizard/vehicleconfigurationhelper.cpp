@@ -27,14 +27,12 @@
 
 #include "vehicleconfigurationhelper.h"
 #include "extensionsystem/pluginmanager.h"
-#include "hwsettings.h"
 #include "actuatorsettings.h"
 #include "attitudesettings.h"
 #include "mixersettings.h"
 #include "systemsettings.h"
 #include "manualcontrolsettings.h"
 #include "stabilizationsettings.h"
-#include "revocalibration.h"
 
 const qint16 VehicleConfigurationHelper::LEGACY_ESC_FREQUENCE = 50;
 const qint16 VehicleConfigurationHelper::RAPID_ESC_FREQUENCE  = 400;
@@ -106,6 +104,7 @@ void VehicleConfigurationHelper::clearModifiedObjects()
 
 void VehicleConfigurationHelper::applyHardwareConfiguration()
 {
+    /* TODO: use board plugin
     HwSettings *hwSettings = HwSettings::GetInstance(m_uavoManager);
     HwSettings::DataFields data = hwSettings->getData();
 
@@ -182,6 +181,7 @@ void VehicleConfigurationHelper::applyHardwareConfiguration()
     }
     hwSettings->setData(data);
     addModifiedObject(hwSettings, tr("Writing hardware settings"));
+    */
 }
 
 void VehicleConfigurationHelper::applyVehicleConfiguration()
@@ -332,6 +332,7 @@ void VehicleConfigurationHelper::applyFlighModeConfiguration()
 
 void VehicleConfigurationHelper::applySensorBiasConfiguration()
 {
+    /* TODO: use the calibration object
     if (m_configSource->isCalibrationPerformed()) {
         accelGyroBias bias = m_configSource->getCalibrationBias();
         float G = 9.81f;
@@ -386,6 +387,7 @@ void VehicleConfigurationHelper::applySensorBiasConfiguration()
             break;
         }
     }
+    */
 }
 
 void VehicleConfigurationHelper::applyStabilizationConfiguration()
