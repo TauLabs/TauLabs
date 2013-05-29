@@ -1,11 +1,11 @@
 /**
  ******************************************************************************
  *
- * @file       summarypage.cpp
+ * @file       biascalibrationpage.h
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
  * @addtogroup
  * @{
- * @addtogroup SummaryPage
+ * @addtogroup BiasCalibrationPage
  * @{
  * @brief
  *****************************************************************************/
@@ -25,37 +25,40 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
-#include "summarypage.h"
-#include "ui_summarypage.h"
-#include "setupwizard.h"
-#include "connectiondiagram.h"
+#ifndef BIASCALIBRATIONPAGE_H
+#define BIASCALIBRATIONPAGE_H
 
-SummaryPage::SummaryPage(SetupWizard *wizard, QWidget *parent) :
-    AbstractWizardPage(wizard, parent),
-    ui(new Ui::SummaryPage)
-{
-    ui->setupUi(this);
-    connect(ui->illustrationButton, SIGNAL(clicked()), this, SLOT(showDiagram()));
+#include "abstractwizardpage.h"
+#include "biascalibrationutil.h"
+
+namespace Ui {
+class BiasCalibrationPage;
 }
 
-SummaryPage::~SummaryPage()
-{
-    delete ui;
-}
+class BiasCalibrationPage : public AbstractWizardPage {
+    Q_OBJECT
 
-bool SummaryPage::validatePage()
-{
-    return true;
-}
+public:
+    explicit BiasCalibrationPage(SetupWizard *wizard, QWidget *parent = 0);
+    ~BiasCalibrationPage();
+    bool validatePage();
+    bool isComplete() const;
 
-void SummaryPage::initializePage()
-{
-    ui->configurationSummary->setText(getWizard()->getSummaryText());
-}
+private slots:
+    void performCalibration();
+    void calibrationProgress(long current, long total);
+    void calibrationDone(accelGyroBias bias);
+    void calibrationTimeout(QString message);
 
-void SummaryPage::showDiagram()
-{
-    ConnectionDiagram diagram(this, getWizard());
+private:
+    static const int BIAS_CYCLES = 200;
+    static const int BIAS_RATE   = 50;
 
-    diagram.exec();
-}
+    Ui::BiasCalibrationPage *ui;
+    BiasCalibrationUtil *m_calibrationUtil;
+
+    void stopCalibration();
+    void enableButtons(bool enable);
+};
+
+#endif // BIASCALIBRATIONPAGE_H

@@ -1,11 +1,11 @@
 /**
  ******************************************************************************
  *
- * @file       summarypage.cpp
+ * @file       revocalibrationpage.cpp
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
  * @addtogroup
  * @{
- * @addtogroup SummaryPage
+ * @addtogroup RevoCalibrationPage
  * @{
  * @brief
  *****************************************************************************/
@@ -25,37 +25,18 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
-#include "summarypage.h"
-#include "ui_summarypage.h"
-#include "setupwizard.h"
-#include "connectiondiagram.h"
+#include "revocalibrationpage.h"
+#include "ui_revocalibrationpage.h"
 
-SummaryPage::SummaryPage(SetupWizard *wizard, QWidget *parent) :
+RevoCalibrationPage::RevoCalibrationPage(SetupWizard *wizard, QWidget *parent) :
     AbstractWizardPage(wizard, parent),
-    ui(new Ui::SummaryPage)
+    ui(new Ui::RevoCalibrationPage)
 {
     ui->setupUi(this);
-    connect(ui->illustrationButton, SIGNAL(clicked()), this, SLOT(showDiagram()));
+    setFinalPage(true);
 }
 
-SummaryPage::~SummaryPage()
+RevoCalibrationPage::~RevoCalibrationPage()
 {
     delete ui;
-}
-
-bool SummaryPage::validatePage()
-{
-    return true;
-}
-
-void SummaryPage::initializePage()
-{
-    ui->configurationSummary->setText(getWizard()->getSummaryText());
-}
-
-void SummaryPage::showDiagram()
-{
-    ConnectionDiagram diagram(this, getWizard());
-
-    diagram.exec();
 }
