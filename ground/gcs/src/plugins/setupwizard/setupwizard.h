@@ -39,6 +39,14 @@
 #include "vehicleconfigurationsource.h"
 #include "vehicleconfigurationhelper.h"
 
+/**
+ * @brief The SetupWizard class is the main interface to the setup
+ * wizard.  It provides selects the sequence of pages that are presented.
+ *
+ * Some of the page sequences are determined by the properties of the
+ * board, such as whether the input page is supported or the board can
+ * be updated.
+ */
 class SetupWizard : public QWizard, public VehicleConfigurationSource {
     Q_OBJECT
 

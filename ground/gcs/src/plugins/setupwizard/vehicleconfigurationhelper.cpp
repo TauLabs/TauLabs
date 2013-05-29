@@ -2,6 +2,8 @@
  ******************************************************************************
  *
  * @file       vehicleconfigurationhelper.cpp
+ * @brief      Provide an interface between the settings selected and the wizard
+ *             and storing them on the FC
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
  * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
  * @see        The GNU Public License (GPL) Version 3

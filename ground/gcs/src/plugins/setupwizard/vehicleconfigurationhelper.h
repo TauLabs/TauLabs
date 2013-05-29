@@ -3,9 +3,12 @@
  *
  * @file       vehicleconfigurationhelper.h
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
- * @addtogroup
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
+ * @see        The GNU Public License (GPL) Version 3
+ *
+ * @addtogroup GCSPlugins GCS Plugins
  * @{
- * @addtogroup VehicleConfigurationHelper
+ * @addtogroup SetupWizard Setup Wizard
  * @{
  * @brief
  *****************************************************************************/
@@ -50,6 +53,15 @@ struct mixerChannelSettings {
         : type(t), throttle1(th1), throttle2(th2), roll(r), pitch(p), yaw(y) {}
 };
 
+/**
+ * @brief The VehicleConfigurationHelper class provides an interface between
+ * the settings selected in the wizard and storing them on the FC.
+ *
+ * It will store all the options the user selects in the wizard and then in one
+ * step can apply and save all of these.  When appropriate it delegates specific
+ * board type details to the board plugin and should not contain any board-specific
+ * code.
+ */
 class VehicleConfigurationHelper : public QObject {
     Q_OBJECT
 
