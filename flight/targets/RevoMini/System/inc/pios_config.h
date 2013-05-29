@@ -90,7 +90,6 @@
 
 #define PIOS_INCLUDE_SETTINGS
 #define PIOS_INCLUDE_FLASH
-/* A really shitty setting saving implementation */
 #define PIOS_INCLUDE_LOGFS_SETTINGS
 
 //#define PIOS_INCLUDE_DEBUG_CONSOLE

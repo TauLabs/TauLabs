@@ -43,7 +43,7 @@ struct device_flash_sector {
 static bool PIOS_Flash_Internal_GetSectorInfo(uint32_t address, uint8_t * sector_number, uint32_t *sector_start, uint32_t *sector_size)
 {
     uint16_t sector = (address - 0x08000000) / 1024;
-    if(sector <= 127) {
+    if (sector <= 127) {
         /* address lies within this sector */
         *sector_number = sector;
         *sector_start  = sector * 1024 + 0x08000000;
@@ -223,7 +223,7 @@ static int32_t PIOS_Flash_Internal_WriteData(uintptr_t flash_id, uint32_t addr, 
         offset = 2 * x;
         hword_data = (data[offset + 1] << 8) | data[offset];
 
-        if(hword_data !=  *(uint16_t *)(temp_addr + offset)) {
+        if (hword_data !=  *(uint16_t *)(temp_addr + offset)) {
             status = FLASH_ProgramHalfWord(temp_addr + offset, hword_data);
         } else {
             status = FLASH_COMPLETE;
@@ -232,10 +232,10 @@ static int32_t PIOS_Flash_Internal_WriteData(uintptr_t flash_id, uint32_t addr, 
     }
 
     uint16_t mod = len % 2;
-    if(mod == 1) {
+    if (mod == 1) {
         offset = 2 * x;
         hword_data = 0xFF00 | data[offset];
-        if(hword_data !=  *(uint16_t *)(temp_addr + offset)) {
+        if (hword_data !=  *(uint16_t *)(temp_addr + offset)) {
             status = FLASH_ProgramHalfWord(temp_addr + offset, hword_data);
         } else {
             status = FLASH_COMPLETE;

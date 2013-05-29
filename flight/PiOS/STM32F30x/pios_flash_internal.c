@@ -6,7 +6,7 @@
  * @{
  *
  * @file       pios_flash_internal.c  
- * @author     Tau Labs, http://github.com/TauLabs, Copyright (C) 2013.
+ * @author     Tau Labs, http://github.com/TauLabs, Copyright (C) 2012-2013.
  * @brief Provides a flash driver for the STM32 internal flash sectors
  *****************************************************************************/
 /* 
