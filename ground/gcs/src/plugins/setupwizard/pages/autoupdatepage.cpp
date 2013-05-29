@@ -1,3 +1,16 @@
+/**
+ ******************************************************************************
+ *
+ * @file       autoupdatepage.cpp
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
+ * @see        The GNU Public License (GPL) Version 3
+ *
+ * @addtogroup GCSPlugins GCS Plugins
+ * @{
+ * @addtogroup SetupWizard Setup Wizard
+ * @{
+ * @brief
+ *****************************************************************************/
 #include "autoupdatepage.h"
 #include "ui_autoupdatepage.h"
 #include "setupwizard.h"
@@ -41,43 +54,49 @@ void AutoUpdatePage::updateStatus(uploader::AutoUpdateStep status, QVariant valu
     case uploader::WAITING_DISCONNECT:
         getWizard()->setWindowFlags(getWizard()->windowFlags() & ~Qt::WindowStaysOnTopHint);
         disableButtons();
-        ui->statusLabel->setText("Waiting for all OP boards to be disconnected");
+        ui->statusLabel->setText(tr("Waiting for all boards to be disconnected"));
         break;
     case uploader::WAITING_CONNECT:
         getWizard()->setWindowFlags(getWizard()->windowFlags() | Qt::WindowStaysOnTopHint);
         getWizard()->setWindowIcon(qApp->windowIcon());
         disableButtons();
         getWizard()->show();
-        ui->statusLabel->setText("Please connect the board to the USB port (don't use external supply)");
+        ui->statusLabel->setText(tr("Please connect the board to the USB port (don't use external supply)"));
         ui->levellinProgressBar->setValue(value.toInt());
         break;
     case uploader::JUMP_TO_BL:
         ui->levellinProgressBar->setValue(0);
-        ui->statusLabel->setText("Board going into bootloader mode");
+        ui->statusLabel->setText(tr("Board going into bootloader mode"));
         break;
     case uploader::LOADING_FW:
-        ui->statusLabel->setText("Loading firmware");
+        ui->statusLabel->setText(tr("Loading firmware"));
         break;
     case uploader::UPLOADING_FW:
-        ui->statusLabel->setText("Uploading firmware");
+        ui->statusLabel->setText(tr("Uploading firmware"));
         ui->levellinProgressBar->setValue(value.toInt());
         break;
     case uploader::UPLOADING_DESC:
-        ui->statusLabel->setText("Uploading description");
+        ui->statusLabel->setText(tr("Uploading description"));
         break;
     case uploader::BOOTING:
-        ui->statusLabel->setText("Booting the board");
+        ui->statusLabel->setText(tr("Booting the board"));
         break;
     case uploader::SUCCESS:
         enableButtons(true);
-        ui->statusLabel->setText("Board Updated, please press the 'next' button below");
+        ui->statusLabel->setText(tr("Board Updated, please press the 'next' button below"));
         break;
+    case uploader::FAILURE_FILENOTFOUND:
+        getWizard()->setWindowFlags(getWizard()->windowFlags() | Qt::WindowStaysOnTopHint);
+        getWizard()->setWindowIcon(qApp->windowIcon());
+        enableButtons(true);
+        getWizard()->show();
+        ui->statusLabel->setText(tr("File for this controller board not packaged in GCS"));
     case uploader::FAILURE:
         getWizard()->setWindowFlags(getWizard()->windowFlags() | Qt::WindowStaysOnTopHint);
         getWizard()->setWindowIcon(qApp->windowIcon());
         enableButtons(true);
         getWizard()->show();
-        ui->statusLabel->setText("Something went wrong, you will have to manually upgrade the board using the uploader plugin");
+        ui->statusLabel->setText(tr("Something went wrong, you will have to manually upgrade the board using the uploader plugin"));
         break;
     }
 }

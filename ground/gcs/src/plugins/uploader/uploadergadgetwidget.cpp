@@ -523,7 +523,7 @@ bool UploaderGadgetWidget::autoUpdate()
     QByteArray firmware;
     if(!QFile::exists(filename))
     {
-        emit autoUpdateSignal(FAILURE,QVariant());
+        emit autoUpdateSignal(FAILURE_FILENOTFOUND,QVariant());
         return false;
     }
     QFile file(filename);
