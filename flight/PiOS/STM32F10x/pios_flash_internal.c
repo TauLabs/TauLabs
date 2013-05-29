@@ -34,12 +34,6 @@
 #include "pios_flash.h"
 #include <stdbool.h>
 
-struct device_flash_sector {
-    uint32_t start;
-    uint32_t size;
-    uint16_t st_sector;
-};
-
 static bool PIOS_Flash_Internal_GetSectorInfo(uint32_t address, uint8_t * sector_number, uint32_t *sector_start, uint32_t *sector_size)
 {
     uint16_t sector = (address - 0x08000000) / 1024;
