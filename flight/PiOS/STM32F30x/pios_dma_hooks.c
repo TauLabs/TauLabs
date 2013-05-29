@@ -26,9 +26,8 @@
  * with this program; if not, write to the Free Software Foundation, Inc., 
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
-
-#if defined(PIOS_INCLUDE_DMA_CB_SUBSCRIBING_FUNCTION)
 #include <pios_dma.h>
+#if defined(PIOS_INCLUDE_DMA_CB_SUBSCRIBING_FUNCTION)
 
 static void PIOS_DMA_11_irq_handler(void);
 static void PIOS_DMA_12_irq_handler(void);
@@ -60,7 +59,7 @@ void DMA2_Channel5_IRQHandler() __attribute__ ((alias ("PIOS_DMA_25_irq_handler"
  * @brief calls the handlers associated with a given index (from PIOS_DMA_CHANNELS)
  * @param[in] DMA channel index (PIOS_DMA_CHANNELS)
  */
-static inline PIOS_DMA_Mapper(uint32_t index)
+static inline void PIOS_DMA_Mapper(uint32_t index)
 {
 	if (pios_dma_handler_map[index][0] == NULL )
 		PIOS_DMA_Default_Handler();
