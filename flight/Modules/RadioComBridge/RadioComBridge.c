@@ -357,10 +357,8 @@ static void ProcessInputStream(UAVTalkConnection connectionHandle, uint8_t rxbyt
 						success = (UAVObjSave(obj, objper.InstanceID) == 0);
 						break;
 					case OBJECTPERSISTENCE_OPERATION_DELETE:
-					{
 						success = (UAVObjDeleteById(objper.ObjectID, objper.InstanceID) == 0);
 						break;
-					}
 					default:
 						break;
 					}
