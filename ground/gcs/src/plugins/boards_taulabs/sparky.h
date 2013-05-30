@@ -54,6 +54,13 @@ public:
      */
     virtual bool setInputOnPort(enum InputType type, int port_num = 0);
 
+    /**
+     * @brief getInputOnPort get the current input type
+     * @param port_num which input port to query (board specific numbering)
+     * @return the currently selected input type
+     */
+    virtual enum InputType getInputOnPort(int port_num = 0);
+
 };
 
 

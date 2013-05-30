@@ -156,3 +156,38 @@ bool Sparky::setInputOnPort(enum InputType type, int port_num)
 
     return true;
 }
+
+/**
+ * @brief Sparky::getInputOnPort fetch the currently selected input type
+ * @param port_num the port number to query (must be zero)
+ * @return the selected input type
+ */
+enum Core::IBoardType::InputType Sparky::getInputOnPort(int port_num)
+{
+    if (port_num != 0)
+        return INPUT_TYPE_UNKNOWN;
+
+    ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
+    UAVObjectManager *uavoManager = pm->getObject<UAVObjectManager>();
+    HwSparky *hwSparky = HwSparky::GetInstance(uavoManager);
+    Q_ASSERT(hwSparky);
+    if (!hwSparky)
+        return INPUT_TYPE_UNKNOWN;
+
+    HwSparky::DataFields settings = hwSparky->getData();
+
+    switch(settings.RcvrPort) {
+    case HwSparky::RCVRPORT_PPM:
+        return INPUT_TYPE_PPM;
+    case HwSparky::RCVRPORT_SBUS:
+        return INPUT_TYPE_SBUS;
+    case HwSparky::RCVRPORT_DSM2:
+        return INPUT_TYPE_DSM2;
+    case HwSparky::RCVRPORT_DSMX10BIT:
+        return INPUT_TYPE_DSMX10BIT;
+    case HwSparky::RCVRPORT_DSMX11BIT:
+        return INPUT_TYPE_DSMX11BIT;
+    default:
+        return INPUT_TYPE_UNKNOWN;
+    }
+}
