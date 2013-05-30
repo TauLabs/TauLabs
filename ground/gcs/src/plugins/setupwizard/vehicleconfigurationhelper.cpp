@@ -120,30 +120,9 @@ void VehicleConfigurationHelper::applyHardwareConfiguration()
     if (!boardPlugin)
         return;
 
-    bool success;
+    Core::IBoardType::InputType newType = m_configSource->getInputType();
+    bool success = boardPlugin->setInputOnPort(newType);
 
-    switch (m_configSource->getInputType()) {
-    case VehicleConfigurationSource::INPUT_PWM:
-        success = boardPlugin->setInputOnPort(Core::IBoardType::INPUT_TYPE_PWM);
-        break;
-    case VehicleConfigurationSource::INPUT_PPM:
-        success = boardPlugin->setInputOnPort(Core::IBoardType::INPUT_TYPE_PPM);
-        break;
-    case VehicleConfigurationSource::INPUT_SBUS:
-        success = boardPlugin->setInputOnPort(Core::IBoardType::INPUT_TYPE_SBUS);
-        break;
-    case VehicleConfigurationSource::INPUT_DSMX10:
-        success = boardPlugin->setInputOnPort(Core::IBoardType::INPUT_TYPE_DSMX10BIT);
-        break;
-    case VehicleConfigurationSource::INPUT_DSMX11:
-        success = boardPlugin->setInputOnPort(Core::IBoardType::INPUT_TYPE_DSMX11BIT);
-        break;
-    case VehicleConfigurationSource::INPUT_DSM2:
-        success = boardPlugin->setInputOnPort(Core::IBoardType::INPUT_TYPE_DSM2);
-        break;
-    default:
-        success = false;
-    }
     if (success) {
         UAVDataObject* hwSettings = dynamic_cast<UAVDataObject*>(
                     m_uavoManager->getObject(boardPlugin->getHwUAVO()));
@@ -383,18 +362,18 @@ void VehicleConfigurationHelper::applyManualControlDefaults()
 
     ManualControlSettings::ChannelGroupsOptions channelType = ManualControlSettings::CHANNELGROUPS_PWM;
     switch (m_configSource->getInputType()) {
-    case VehicleConfigurationSource::INPUT_PWM:
+    case Core::IBoardType::INPUT_TYPE_PWM:
         channelType = ManualControlSettings::CHANNELGROUPS_PWM;
         break;
-    case VehicleConfigurationSource::INPUT_PPM:
+    case Core::IBoardType::INPUT_TYPE_PPM:
         channelType = ManualControlSettings::CHANNELGROUPS_PPM;
         break;
-    case VehicleConfigurationSource::INPUT_SBUS:
+    case Core::IBoardType::INPUT_TYPE_SBUS:
         channelType = ManualControlSettings::CHANNELGROUPS_SBUS;
         break;
-    case VehicleConfigurationSource::INPUT_DSMX10:
-    case VehicleConfigurationSource::INPUT_DSMX11:
-    case VehicleConfigurationSource::INPUT_DSM2:
+    case Core::IBoardType::INPUT_TYPE_DSMX10BIT:
+    case Core::IBoardType::INPUT_TYPE_DSMX11BIT:
+    case Core::IBoardType::INPUT_TYPE_DSM2:
         channelType = ManualControlSettings::CHANNELGROUPS_DSMMAINPORT;
         break;
     default:

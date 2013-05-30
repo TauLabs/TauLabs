@@ -55,7 +55,7 @@
 
 SetupWizard::SetupWizard(QWidget *parent) : QWizard(parent), VehicleConfigurationSource(),
     m_controllerType(NULL),
-    m_vehicleType(VEHICLE_UNKNOWN), m_inputType(INPUT_UNKNOWN), m_escType(ESC_UNKNOWN),
+    m_vehicleType(VEHICLE_UNKNOWN), m_inputType(Core::IBoardType::INPUT_TYPE_UNKNOWN), m_escType(ESC_UNKNOWN),
     m_calibrationPerformed(false), m_restartNeeded(false), m_connectionManager(0)
 {
     setWindowTitle(tr("Tau Labs Setup Wizard"));
@@ -229,22 +229,22 @@ QString SetupWizard::getSummaryText()
     summary.append("<br>");
     summary.append("<b>").append(tr("Input type: ")).append("</b>");
     switch (getInputType()) {
-    case INPUT_PWM:
+    case Core::IBoardType::INPUT_TYPE_PWM:
         summary.append(tr("PWM (One cable per channel)"));
         break;
-    case INPUT_PPM:
+    case Core::IBoardType::INPUT_TYPE_PPM:
         summary.append(tr("PPM (One cable for all channels)"));
         break;
-    case INPUT_SBUS:
+    case Core::IBoardType::INPUT_TYPE_SBUS:
         summary.append(tr("Futaba S.Bus"));
         break;
-    case INPUT_DSM2:
+    case Core::IBoardType::INPUT_TYPE_DSM2:
         summary.append(tr("Spektrum satellite (DSM2)"));
         break;
-    case INPUT_DSMX10:
+    case Core::IBoardType::INPUT_TYPE_DSMX10BIT:
         summary.append(tr("Spektrum satellite (DSMX10BIT)"));
         break;
-    case INPUT_DSMX11:
+    case Core::IBoardType::INPUT_TYPE_DSMX11BIT:
         summary.append(tr("Spektrum satellite (DSMX11BIT)"));
         break;
     default:

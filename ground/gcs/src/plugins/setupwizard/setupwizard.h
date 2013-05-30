@@ -79,11 +79,11 @@ public:
         return m_vehicleSubType;
     }
 
-    void setInputType(SetupWizard::INPUT_TYPE type)
+    void setInputType(Core::IBoardType::InputType type)
     {
         m_inputType = type;
     }
-    SetupWizard::INPUT_TYPE getInputType() const
+    Core::IBoardType::InputType getInputType() const
     {
         return m_inputType;
     }
@@ -176,7 +176,7 @@ private:
     Core::IBoardType* m_controllerType;
     VEHICLE_TYPE m_vehicleType;
     VEHICLE_SUB_TYPE m_vehicleSubType;
-    INPUT_TYPE m_inputType;
+    Core::IBoardType::InputType m_inputType;
     ESC_TYPE m_escType;
 
     GPS_SETTING m_gpsSetting;

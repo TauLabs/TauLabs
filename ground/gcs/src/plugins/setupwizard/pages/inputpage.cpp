@@ -50,15 +50,15 @@ InputPage::~InputPage()
 bool InputPage::validatePage()
 {
     if (ui->pwmButton->isChecked()) {
-        getWizard()->setInputType(SetupWizard::INPUT_PWM);
+        getWizard()->setInputType(Core::IBoardType::INPUT_TYPE_PWM);
     } else if (ui->ppmButton->isChecked()) {
-        getWizard()->setInputType(SetupWizard::INPUT_PPM);
+        getWizard()->setInputType(Core::IBoardType::INPUT_TYPE_PPM);
     } else if (ui->sbusButton->isChecked()) {
-        getWizard()->setInputType(SetupWizard::INPUT_SBUS);
+        getWizard()->setInputType(Core::IBoardType::INPUT_TYPE_SBUS);
     } else if (ui->spectrumButton->isChecked()) {
-        getWizard()->setInputType(SetupWizard::INPUT_DSM2);
+        getWizard()->setInputType(Core::IBoardType::INPUT_TYPE_DSM2);
     } else {
-        getWizard()->setInputType(SetupWizard::INPUT_PWM);
+        getWizard()->setInputType(Core::IBoardType::INPUT_TYPE_PWM);
     }
     getWizard()->setRestartNeeded(getWizard()->isRestartNeeded() || restartNeeded(getWizard()->getInputType()));
 
@@ -71,7 +71,7 @@ bool InputPage::validatePage()
  * @param selectedType the requested input type
  * @return true if changing input type and should restart, false otherwise
  */
-bool InputPage::restartNeeded(VehicleConfigurationSource::INPUT_TYPE selectedType)
+bool InputPage::restartNeeded(Core::IBoardType::InputType selectedType)
 {
     Core::IBoardType* board = getWizard()->getControllerType();
     Q_ASSERT(board);
@@ -80,18 +80,5 @@ bool InputPage::restartNeeded(VehicleConfigurationSource::INPUT_TYPE selectedTyp
 
     // Map from the enums used in SetupWizard to IBoardType
     Core::IBoardType::InputType boardInputType = board->getInputOnPort();
-    switch(boardInputType) {
-    case Core::IBoardType::INPUT_TYPE_PWM:
-        return selectedType != SetupWizard::INPUT_PWM;
-    case Core::IBoardType::INPUT_TYPE_PPM:
-        return selectedType != SetupWizard::INPUT_PPM;
-    case Core::IBoardType::INPUT_TYPE_DSM2:
-        return selectedType != SetupWizard::INPUT_DSM2;
-    case Core::IBoardType::INPUT_TYPE_DSMX10BIT:
-        return selectedType != SetupWizard::INPUT_DSMX10;
-    case Core::IBoardType::INPUT_TYPE_DSMX11BIT:
-        return selectedType != SetupWizard::INPUT_DSMX11;
-    default:
-        return true;
-    }
+    return (selectedType != boardInputType);
 }

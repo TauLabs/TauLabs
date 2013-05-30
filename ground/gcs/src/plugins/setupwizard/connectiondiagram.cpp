@@ -117,18 +117,18 @@ void ConnectionDiagram::setupGraphicsScene()
         }
 
         switch (m_configSource->getInputType()) {
-        case VehicleConfigurationSource::INPUT_PWM:
+        case Core::IBoardType::INPUT_TYPE_PWM:
             elementsToShow << "pwm";
             break;
-        case VehicleConfigurationSource::INPUT_PPM:
+        case Core::IBoardType::INPUT_TYPE_PPM:
             elementsToShow << "ppm";
             break;
-        case VehicleConfigurationSource::INPUT_SBUS:
+        case Core::IBoardType::INPUT_TYPE_SBUS:
             elementsToShow << "sbus";
             break;
-        case VehicleConfigurationSource::INPUT_DSMX10:
-        case VehicleConfigurationSource::INPUT_DSMX11:
-        case VehicleConfigurationSource::INPUT_DSM2:
+        case Core::IBoardType::INPUT_TYPE_DSMX10BIT:
+        case Core::IBoardType::INPUT_TYPE_DSMX11BIT:
+        case Core::IBoardType::INPUT_TYPE_DSM2:
             elementsToShow << "satellite";
             break;
         default:

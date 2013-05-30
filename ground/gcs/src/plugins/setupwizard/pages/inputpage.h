@@ -44,7 +44,7 @@ public:
     bool validatePage();
 
 private:
-    bool restartNeeded(VehicleConfigurationSource::INPUT_TYPE selectedType);
+    bool restartNeeded(Core::IBoardType::InputType selectedType);
     Ui::InputPage *ui;
 };
 
