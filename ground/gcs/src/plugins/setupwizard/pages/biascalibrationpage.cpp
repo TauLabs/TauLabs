@@ -94,13 +94,9 @@ void BiasCalibrationPage::performCalibration()
     ui->progressLabel->setText(QString(tr("Retrieving data...")));
 
     connect(m_calibrationUtil, SIGNAL(levelingProgressChanged(int)), this, SLOT(calibrationProgress(int)));
-
-    // TODO: replace this with signal conveying the calibration values
     connect(m_calibrationUtil, SIGNAL(calibrationCompleted()), this, SLOT(calibrationDone()));
-
     QTimer::singleShot(20000, this, SLOT(calibrationDone()));
 
-    // TODO: add flag which says to _not_ store the computed values
     m_calibrationUtil->doStartLeveling();
 }
 
