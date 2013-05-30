@@ -24,7 +24,7 @@ SOURCES += telemetryschedulergadgetfactory.cpp
 SOURCES += telemetryschedulerplugin.cpp
 SOURCES += metadata_dialog.cpp
 
-OTHER_FILES += telemetryscheduler.pluginspec
+OTHER_FILES += telemetryscheduler.json
 
 FORMS += telemetryscheduler.ui
 FORMS += metadata_dialog.ui

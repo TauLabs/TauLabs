@@ -74,7 +74,7 @@ TelemetrySchedulerGadgetWidget::TelemetrySchedulerGadgetWidget(QWidget *parent) 
     telemetryScheduleView->setObjectName(QString::fromUtf8("telemetryScheduleView"));
     telemetryScheduleView->setAlternatingRowColors(true);
     telemetryScheduleView->horizontalHeader()->setCascadingSectionResizes(false);
-    telemetryScheduleView->horizontalHeader()->setMovable(true);
+    telemetryScheduleView->horizontalHeader()->setSectionsMovable(true);
 
 
     // The dummy table exists only to force the other widgets into the correct place.
@@ -323,7 +323,7 @@ void TelemetrySchedulerGadgetWidget::saveTelemetryToFile()
         // save file
         QFile file(filename);
         if (file.open(QIODevice::WriteOnly) &&
-                (file.write(xml.toAscii()) != -1)) {
+                (file.write(xml.toLatin1()) != -1)) {
             file.close();
         } else {
             QMessageBox::critical(0,
@@ -914,7 +914,7 @@ void QFrozenTableViewWithCopyPaste::init()
     frozenTableView->setModel(frozenModel);
     frozenTableView->setFocusPolicy(Qt::NoFocus);
     frozenTableView->horizontalHeader()->hide();
-    frozenTableView->verticalHeader()->setResizeMode(QHeaderView::Fixed);
+    frozenTableView->verticalHeader()->setSectionResizeMode(QHeaderView::Fixed);
 
     viewport()->stackUnder(frozenTableView);
 
