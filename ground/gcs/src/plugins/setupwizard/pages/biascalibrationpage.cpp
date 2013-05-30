@@ -3,11 +3,13 @@
  *
  * @file       biascalibrationpage.cpp
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
- * @addtogroup
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
+ * @see        The GNU Public License (GPL) Version 3
+ *
+ * @addtogroup GCSPlugins GCS Plugins
  * @{
- * @addtogroup BiasCalibrationPage
+ * @addtogroup SetupWizard Setup Wizard
  * @{
- * @brief
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify
@@ -71,31 +73,40 @@ void BiasCalibrationPage::performCalibration()
 {
     if (!getWizard()->getConnectionManager()->isConnected()) {
         QMessageBox msgBox;
-        msgBox.setText(tr("An OpenPilot controller must be connected to your computer to perform bias "
-                          "calculations.\nPlease connect your OpenPilot controller to your computer and try again."));
+        msgBox.setText(tr("A flight controller must be connected to your computer to perform bias "
+                          "calculations.\nPlease connect your flight controller to your computer and try again."));
         msgBox.setStandardButtons(QMessageBox::Ok);
         msgBox.setDefaultButton(QMessageBox::Ok);
         msgBox.exec();
         return;
     }
 
+    // Get the calibration helper object
+    if (!m_calibrationUtil) {
+        ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
+        m_calibrationUtil = pm->getObject<Calibration>();
+        Q_ASSERT(m_calibrationUtil);
+        if (!m_calibrationUtil)
+            return;
+    }
+
     enableButtons(false);
     ui->progressLabel->setText(QString(tr("Retrieving data...")));
 
+    connect(m_calibrationUtil, SIGNAL(levelingProgressChanged(int)), this, SLOT(calibrationProgress(int)));
 
-    if (!m_calibrationUtil) {
-        m_calibrationUtil = new BiasCalibrationUtil(BIAS_CYCLES, BIAS_RATE);
-    }
+    // TODO: replace this with signal conveying the calibration values
+    connect(m_calibrationUtil, SIGNAL(calibrationCompleted()), this, SLOT(calibrationDone()));
 
-    connect(m_calibrationUtil, SIGNAL(progress(long, long)), this, SLOT(calibrationProgress(long, long)));
-    connect(m_calibrationUtil, SIGNAL(done(accelGyroBias)), this, SLOT(calibrationDone(accelGyroBias)));
-    connect(m_calibrationUtil, SIGNAL(timeout(QString)), this, SLOT(calibrationTimeout(QString)));
+    QTimer::singleShot(20000, this, SLOT(calibrationDone()));
 
-    m_calibrationUtil->start();
+    // TODO: add flag which says to _not_ store the computed values
+    m_calibrationUtil->doStartLeveling();
 }
 
-void BiasCalibrationPage::calibrationProgress(long current, long total)
+void BiasCalibrationPage::calibrationProgress(int current)
 {
+    const int total = 100;
     if (ui->levellinProgressBar->maximum() != (int)total) {
         ui->levellinProgressBar->setMaximum((int)total);
     }
@@ -104,19 +115,20 @@ void BiasCalibrationPage::calibrationProgress(long current, long total)
     }
 }
 
-void BiasCalibrationPage::calibrationDone(accelGyroBias bias)
+void BiasCalibrationPage::calibrationDone()
 {
+    disconnect(this, SLOT(calibrationTimeout()));
     stopCalibration();
-    getWizard()->setLevellingBias(bias);
+    //getWizard()->setLevellingBias(bias);
     emit completeChanged();
 }
 
-void BiasCalibrationPage::calibrationTimeout(QString message)
+void BiasCalibrationPage::calibrationTimeout()
 {
     stopCalibration();
 
     QMessageBox msgBox;
-    msgBox.setText(message);
+    msgBox.setText(tr("Calibration timed out"));
     msgBox.setStandardButtons(QMessageBox::Ok);
     msgBox.setDefaultButton(QMessageBox::Ok);
     msgBox.exec();
@@ -125,9 +137,8 @@ void BiasCalibrationPage::calibrationTimeout(QString message)
 void BiasCalibrationPage::stopCalibration()
 {
     if (m_calibrationUtil) {
-        disconnect(m_calibrationUtil, SIGNAL(progress(long, long)), this, SLOT(calibrationProgress(long, long)));
-        disconnect(m_calibrationUtil, SIGNAL(done(accelGyroBias)), this, SLOT(calibrationDone(accelGyroBias)));
-        disconnect(m_calibrationUtil, SIGNAL(timeout(QString)), this, SLOT(calibrationTimeout(QString)));
+        disconnect(m_calibrationUtil, SIGNAL(levelingProgressChanged(int)), this, SLOT(calibrationProgress(int)));
+        disconnect(m_calibrationUtil, SIGNAL(calibrationCompleted()), this, SLOT(calibrationDone()));
         ui->progressLabel->setText(QString(tr("<font color='green'>Done!</font>")));
         enableButtons(true);
     }

@@ -73,7 +73,6 @@ int SetupWizard::nextId() const
 {
     switch (currentId()) {
     case PAGE_START:
-        // TODO: check for unsupported boards and show a specific page
         if (canAutoUpdate()) {
             return PAGE_UPDATE;
         } else {

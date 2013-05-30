@@ -32,7 +32,6 @@
 #define SETUPWIZARD_H
 
 #include <QWizard>
-#include "biascalibrationutil.h"
 #include <coreplugin/icore.h>
 #include <coreplugin/iboardtype.h>
 #include <coreplugin/connectionmanager.h>

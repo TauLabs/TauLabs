@@ -3,9 +3,12 @@
  *
  * @file       biascalibrationpage.h
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
- * @addtogroup
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
+ * @see        The GNU Public License (GPL) Version 3
+ *
+ * @addtogroup GCSPlugins GCS Plugins
  * @{
- * @addtogroup BiasCalibrationPage
+ * @addtogroup SetupWizard Setup Wizard
  * @{
  * @brief
  *****************************************************************************/
@@ -29,7 +32,7 @@
 #define BIASCALIBRATIONPAGE_H
 
 #include "abstractwizardpage.h"
-#include "biascalibrationutil.h"
+#include "calibration.h"
 
 namespace Ui {
 class BiasCalibrationPage;
@@ -46,16 +49,16 @@ public:
 
 private slots:
     void performCalibration();
-    void calibrationProgress(long current, long total);
-    void calibrationDone(accelGyroBias bias);
-    void calibrationTimeout(QString message);
+    void calibrationProgress(int current);
+    void calibrationDone();
+    void calibrationTimeout();
 
 private:
     static const int BIAS_CYCLES = 200;
     static const int BIAS_RATE   = 50;
 
     Ui::BiasCalibrationPage *ui;
-    BiasCalibrationUtil *m_calibrationUtil;
+    Calibration *m_calibrationUtil;
 
     void stopCalibration();
     void enableButtons(bool enable);

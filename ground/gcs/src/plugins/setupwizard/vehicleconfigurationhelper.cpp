@@ -37,6 +37,7 @@
 #include "mixersettings.h"
 #include "systemsettings.h"
 #include "manualcontrolsettings.h"
+#include "sensorsettings.h"
 #include "stabilizationsettings.h"
 
 const qint16 VehicleConfigurationHelper::LEGACY_ESC_FREQUENCE = 50;
@@ -115,7 +116,6 @@ void VehicleConfigurationHelper::clearModifiedObjects()
  */
 void VehicleConfigurationHelper::applyHardwareConfiguration()
 {
-    // TODO: add error codes if type is not supported on board
     Core::IBoardType* boardPlugin = m_configSource->getControllerType();
     Q_ASSERT(boardPlugin);
     if (!boardPlugin)
@@ -297,64 +297,25 @@ void VehicleConfigurationHelper::applyFlighModeConfiguration()
     addModifiedObject(controlSettings, tr("Writing flight mode settings"));
 }
 
+/**
+ * @brief VehicleConfigurationHelper::applySensorBiasConfiguration save
+ * the sensor settings computed by the calibration object.
+ */
 void VehicleConfigurationHelper::applySensorBiasConfiguration()
 {
-    /* TODO: use the calibration object
-    if (m_configSource->isCalibrationPerformed()) {
-        accelGyroBias bias = m_configSource->getCalibrationBias();
-        float G = 9.81f;
+    // add the sensor settings and attitude settings determined by the calibration
+    // object. for consistency with the other methods later calibration should store
+    // the relevant parameters and apply them here.
 
-        switch (m_configSource->getControllerType()) {
-        case VehicleConfigurationSource::CONTROLLER_CC:
-        case VehicleConfigurationSource::CONTROLLER_CC3D:
-        {
-            const float ACCELERATION_SCALE = 0.004f * G;
-            const float GYRO_SCALE = 100.0f;
+    AttitudeSettings *attitudeSettings = AttitudeSettings::GetInstance(m_uavoManager);
+    Q_ASSERT(attitudeSettings);
+    if (attitudeSettings)
+        addModifiedObject(attitudeSettings, tr("Writing board rotation settings"));
 
-            AttitudeSettings *copterControlCalibration = AttitudeSettings::GetInstance(m_uavoManager);
-            Q_ASSERT(copterControlCalibration);
-            AttitudeSettings::DataFields data = copterControlCalibration->getData();
-
-            data.AccelTau = DEFAULT_ENABLED_ACCEL_TAU;
-
-            data.AccelBias[AttitudeSettings::ACCELBIAS_X] += bias.m_accelerometerXBias / ACCELERATION_SCALE;
-            data.AccelBias[AttitudeSettings::ACCELBIAS_Y] += bias.m_accelerometerYBias / ACCELERATION_SCALE;
-            data.AccelBias[AttitudeSettings::ACCELBIAS_Z] += (bias.m_accelerometerZBias + G) / ACCELERATION_SCALE;
-
-            data.GyroBias[AttitudeSettings::GYROBIAS_X]    = -(bias.m_gyroXBias * GYRO_SCALE);
-            data.GyroBias[AttitudeSettings::GYROBIAS_Y]    = -(bias.m_gyroYBias * GYRO_SCALE);
-            data.GyroBias[AttitudeSettings::GYROBIAS_Z]    = -(bias.m_gyroZBias * GYRO_SCALE);
-
-            copterControlCalibration->setData(data);
-            addModifiedObject(copterControlCalibration, tr("Writing gyro and accelerometer bias settings"));
-            break;
-        }
-        case VehicleConfigurationSource::CONTROLLER_REVO:
-        {
-            RevoCalibration *revolutionCalibration = RevoCalibration::GetInstance(m_uavoManager);
-            Q_ASSERT(revolutionCalibration);
-            RevoCalibration::DataFields data = revolutionCalibration->getData();
-
-            data.BiasCorrectedRaw = RevoCalibration::BIASCORRECTEDRAW_TRUE;
-
-            data.accel_bias[RevoCalibration::ACCEL_BIAS_X] += bias.m_accelerometerXBias;
-            data.accel_bias[RevoCalibration::ACCEL_BIAS_Y] += bias.m_accelerometerYBias;
-            data.accel_bias[RevoCalibration::ACCEL_BIAS_Z] += bias.m_accelerometerZBias + G;
-
-            data.gyro_bias[RevoCalibration::GYRO_BIAS_X]    = bias.m_gyroXBias;
-            data.gyro_bias[RevoCalibration::GYRO_BIAS_Y]    = bias.m_gyroYBias;
-            data.gyro_bias[RevoCalibration::GYRO_BIAS_Z]    = bias.m_gyroZBias;
-
-            revolutionCalibration->setData(data);
-            addModifiedObject(revolutionCalibration, tr("Writing gyro and accelerometer bias settings"));
-            break;
-        }
-        default:
-            // Something went terribly wrong.
-            break;
-        }
-    }
-    */
+    SensorSettings *sensorSettings = SensorSettings::GetInstance(m_uavoManager);
+    Q_ASSERT(sensorSettings);
+    if (sensorSettings)
+        addModifiedObject(sensorSettings, tr("Writing gyro bias"));
 }
 
 void VehicleConfigurationHelper::applyStabilizationConfiguration()
