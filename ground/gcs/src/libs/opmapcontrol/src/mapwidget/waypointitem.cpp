@@ -478,6 +478,11 @@ namespace mapcontrol
             }
         }
     }
+    int WayPointItem::type() const
+    {
+        // Enable the use of qgraphicsitem_cast with this item.
+        return Type;
+    }
 
     WayPointItem::~WayPointItem()
     {

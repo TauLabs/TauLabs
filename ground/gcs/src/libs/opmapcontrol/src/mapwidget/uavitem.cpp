@@ -361,6 +361,13 @@ namespace mapcontrol
         }
     }
 
+
+    int UAVItem::type()const
+    {
+        return Type;
+    }
+
+
     void UAVItem::RefreshPos()
     {
         localposition=map->FromLatLngToLocal(coord);

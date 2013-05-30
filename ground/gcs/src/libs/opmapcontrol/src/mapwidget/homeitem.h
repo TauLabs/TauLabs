@@ -43,6 +43,7 @@ namespace mapcontrol
         void paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
                     QWidget *widget);
         QRectF boundingRect() const;
+        int type() const;
         bool ShowSafeArea()const{return showsafearea;}
         void SetShowSafeArea(bool const& value){showsafearea=value;}
         void SetToggleRefresh(bool const& value){toggleRefresh=value;}

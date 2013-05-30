@@ -90,6 +90,11 @@ namespace mapcontrol
     }
 
 
+    int HomeItem::type()const
+    {
+        return Type;
+    }
+
     void HomeItem::RefreshPos()
     {
         prepareGeometryChange();

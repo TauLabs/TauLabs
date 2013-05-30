@@ -102,8 +102,6 @@ public:
     void setRelativeCoord(distBearingAltitude value);
     distBearingAltitude getRelativeCoord(){return relativeCoord;}
 
-    int type() const {return Type;}
-
 protected:
     MapGraphicItem* map;
 
