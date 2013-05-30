@@ -65,8 +65,33 @@ bool InputPage::validatePage()
     return true;
 }
 
+/**
+ * @brief InputPage::restartNeeded Check if the requested input type is currently
+ * selected
+ * @param selectedType the requested input type
+ * @return true if changing input type and should restart, false otherwise
+ */
 bool InputPage::restartNeeded(VehicleConfigurationSource::INPUT_TYPE selectedType)
 {
-    // TODO: add a board specific method that checks if the input type is valid
-    return false;
+    Core::IBoardType* board = getWizard()->getControllerType();
+    Q_ASSERT(board);
+    if (!board)
+        return true;
+
+    // Map from the enums used in SetupWizard to IBoardType
+    Core::IBoardType::InputType boardInputType = board->getInputOnPort();
+    switch(boardInputType) {
+    case Core::IBoardType::INPUT_TYPE_PWM:
+        return selectedType != SetupWizard::INPUT_PWM;
+    case Core::IBoardType::INPUT_TYPE_PPM:
+        return selectedType != SetupWizard::INPUT_PPM;
+    case Core::IBoardType::INPUT_TYPE_DSM2:
+        return selectedType != SetupWizard::INPUT_DSM2;
+    case Core::IBoardType::INPUT_TYPE_DSMX10BIT:
+        return selectedType != SetupWizard::INPUT_DSMX10;
+    case Core::IBoardType::INPUT_TYPE_DSMX11BIT:
+        return selectedType != SetupWizard::INPUT_DSMX11;
+    default:
+        return true;
+    }
 }
