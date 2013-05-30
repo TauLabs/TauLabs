@@ -3,6 +3,12 @@
  * @file       calibration.cpp
  * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
  * @brief      Gui-less support class for calibration
+ * @see        The GNU Public License (GPL) Version 3
+ *
+ * @addtogroup GCSPlugins GCS Plugins
+ * @{
+ * @addtogroup ConfigPlugin Config Plugin
+ * @{
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify
