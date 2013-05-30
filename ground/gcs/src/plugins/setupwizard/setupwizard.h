@@ -10,7 +10,6 @@
  * @{
  * @addtogroup SetupWizard Setup Wizard
  * @{
- * @brief A Wizards to make the initial setup easy for everyone.
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify

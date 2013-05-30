@@ -10,7 +10,6 @@
  * @{
  * @addtogroup SetupWizard Setup Wizard
  * @{
- * @brief A Setup Wizard Plugin
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify

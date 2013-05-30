@@ -3,11 +3,12 @@
  *
  * @file       connectiondiagram.h
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
- * @addtogroup
+ * @see        The GNU Public License (GPL) Version 3
+ *
+ * @addtogroup GCSPlugins GCS Plugins
  * @{
- * @addtogroup ConnectionDiagram
+ * @addtogroup SetupWizard Setup Wizard
  * @{
- * @brief
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify

@@ -9,7 +9,6 @@
  * @{
  * @addtogroup SetupWizard Setup Wizard
  * @{
- * @brief
  *****************************************************************************/
 #include "autoupdatepage.h"
 #include "ui_autoupdatepage.h"
