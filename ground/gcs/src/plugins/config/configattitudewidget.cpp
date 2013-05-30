@@ -622,7 +622,7 @@ void ConfigAttitudeWidget::configureSixPoint()
         m_ui->cbCalibrateAccels->setChecked(true && board_has_accelerometer);
         m_ui->cbCalibrateMags->setChecked(true && board_has_magnetometer);
     }
-    calibration.initialize(m_ui->cbCalibrateMags->isChecked(), m_ui->cbCalibrateAccels->isChecked());
+    calibration.initialize(m_ui->cbCalibrateAccels->isChecked(), m_ui->cbCalibrateMags->isChecked());
 }
 
 
