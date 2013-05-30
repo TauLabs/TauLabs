@@ -52,6 +52,7 @@ enum pios_can_dev_magic {
 	PIOS_CAN_DEV_MAGIC = 0x41fa834A,
 };
 
+//! Structure for an initialized CAN handle
 struct pios_can_dev {
 	enum pios_can_dev_magic     magic;
 	const struct pios_can_cfg * cfg;
@@ -61,6 +62,10 @@ struct pios_can_dev {
 	pios_com_callback tx_out_cb;
 	uint32_t tx_out_context;
 };
+
+/* Local helper methods */
+//static int32_t PIOS_CAN_SendData(uint32_t can_id, uint8_t *data, uint32_t data_len);
+
 
 static bool PIOS_CAN_validate(struct pios_can_dev * can_dev)
 {
@@ -122,13 +127,32 @@ int32_t PIOS_CAN_Init(uintptr_t *can_id, const struct pios_can_cfg *cfg)
 		GPIO_Init(can_dev->cfg->tx.gpio, (GPIO_InitTypeDef *)&can_dev->cfg->tx.init);
 
 
-	/* Configure the CAN device */
-	CAN_Init(can_dev->cfg->regs, (USART_InitTypeDef *)&can_dev->cfg->init);
 
 	*can_id = (uint32_t)can_dev;
 
-	// TODO: enable CAN peripheral here
+	/* Configure the CAN device */
+	RCC_APB1PeriphClockCmd(RCC_APB1Periph_CAN1, ENABLE);
+	CAN_Init(can_dev->cfg->regs, (CAN_InitTypeDef *)&can_dev->cfg->init);
 
+	CAN_FilterInitTypeDef CAN_FilterInitStruct;
+	CAN_FilterInit(&CAN_FilterInitStruct);
+
+/*
+    (#) Transmit the desired CAN frame using CAN_Transmit() function.
+    (#) Check the transmission of a CAN frame using CAN_TransmitStatus() function.
+    (#) Cancel the transmission of a CAN frame using CAN_CancelTransmit() function.  
+    (#) Receive a CAN frame using CAN_Recieve() function.
+    (#) Release the receive FIFOs using CAN_FIFORelease() function.
+    (#) Return the number of pending received frames using CAN_MessagePending() function.            
+    (#) To control CAN events you can use one of the following two methods:
+        (++) Check on CAN flags using the CAN_GetFlagStatus() function.  
+        (++) Use CAN interrupts through the function CAN_ITConfig() at initialization 
+             phase and CAN_GetITStatus() function into interrupt routines to check 
+             if the event has occurred or not.
+             After checking on a flag you should clear it using CAN_ClearFlag()
+             function. And after checking on an interrupt event you should clear it 
+             using CAN_ClearITPendingBit() function.            
+*/
 	return(0);
 
 out_fail:
@@ -182,6 +206,58 @@ static void PIOS_CAN_RegisterTxCallback(uint32_t can_id, pios_com_callback tx_ou
 	 */
 	can_dev->tx_out_context = context;
 	can_dev->tx_out_cb = tx_out_cb;
+}
+
+/**
+ * Send a block of data via the CAN device
+ * @param[in]  can_id     the device handle
+ * @param[in]  data       the array of data to send
+ * @param[in]  data_len   the number of valid bytes in the buffer
+ * @returns number of bytes sent or < 0 for failure
+ */
+int32_t PIOS_CAN_SendData(uint32_t can_id, uint8_t *data, uint32_t data_len)
+{
+	struct pios_can_dev * can_dev = (struct pios_can_dev *)can_id;
+
+	bool valid = PIOS_CAN_validate(can_dev);
+	PIOS_Assert(valid);
+
+	const uint32_t MAX_SEND_LEN =  8;
+	const uint32_t MAX_SEND_TIME = 10; // mss
+
+	if (data_len > MAX_SEND_LEN)
+		data_len = MAX_SEND_LEN;
+
+	// Prepare CAN message structure
+	CanTxMsg msg;
+	msg.StdId = 0;
+	msg.ExtId = 0;
+	msg.IDE = CAN_Id_Standard;
+	msg.RTR = CAN_RTR_Data;
+	msg.DLC = data_len;
+	memcpy(msg.Data, data, data_len);
+
+	// Send message and get mailbox number
+	uint8_t mbx = CAN_Transmit(can_dev->cfg->regs, &msg);
+	if (mbx == CAN_TxStatus_NoMailBox)
+		return -1;
+
+	// Wait for acknowledgment of send or timeout
+	uint32_t raw_time = PIOS_DELAY_GetRaw();
+	uint8_t status = CAN_TxStatus_Pending;
+	while (status == CAN_TxStatus_Pending && (PIOS_DELAY_DiffuS(raw_time) < (MAX_SEND_TIME * 1000)) ) {
+		status = CAN_TransmitStatus(can_dev->cfg->regs, mbx);
+	}
+
+	// Succeede, return sent number of bytes
+	if (status == CAN_TxStatus_Pending)
+		return data_len;
+
+	// If timeout, cancel message
+	if (PIOS_DELAY_DiffuS(raw_time) >= (MAX_SEND_TIME * 1000))
+		CAN_CancelTransmit(can_dev->cfg->regs, mbx);
+
+	return -2;
 }
 
 // static void PIOS_CAN_generic_irq_handler(uint32_t usart_id)
