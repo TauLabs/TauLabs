@@ -93,9 +93,7 @@ TelemetryMonitorWidget::TelemetryMonitorWidget(QWidget *parent) : QGraphicsView(
                 rxNodes.append(pt);
             }
         }
-
         scene->addItem(graph);
-
         txSpeed = new QGraphicsTextItem();
         txSpeed->setDefaultTextColor(Qt::white);
         txSpeed->setFont(QFont("Helvetica",22,2));
@@ -106,8 +104,6 @@ TelemetryMonitorWidget::TelemetryMonitorWidget(QWidget *parent) : QGraphicsView(
         trans.reset();
         trans.translate(orig.x(),orig.y());
         txSpeed->setTransform(trans,false);
-        scene->addItem(txSpeed);
-
         rxSpeed = new QGraphicsTextItem();
         rxSpeed->setDefaultTextColor(Qt::white);
         rxSpeed->setFont(QFont("Helvetica",22,2));
@@ -118,7 +114,6 @@ TelemetryMonitorWidget::TelemetryMonitorWidget(QWidget *parent) : QGraphicsView(
         orig=Matrix.mapRect(orig);
         trans.translate(orig.x(),orig.y());
         rxSpeed->setTransform(trans,false);
-        scene->addItem(rxSpeed);
 
         scene->setSceneRect(graph->boundingRect());
         setScene(scene);

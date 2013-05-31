@@ -37,14 +37,12 @@ GLC_Context::GLC_Context(const QGLFormat& format)
 , m_UniformShaderData()
 , m_LightingIsEnable()
 {
-	qDebug() << "GLC_Context::GLC_Context";
 	GLC_ContextManager::instance()->addContext(this);
 	init();
 }
 
 GLC_Context::~GLC_Context()
 {
-	qDebug() << "GLC_Context::~GLC_Context()";
 	GLC_ContextManager::instance()->remove(this);
 	QHash<GLenum, QStack<GLC_Matrix4x4>* >::iterator iStack= m_MatrixStackHash.begin();
 	while (iStack != m_MatrixStackHash.end())
