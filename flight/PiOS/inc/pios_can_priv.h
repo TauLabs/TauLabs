@@ -31,13 +31,15 @@
 #if !defined(PIOS_CAN_PRIV_H)
 #define PIOS_CAN_PRIV_H
 
+extern const struct pios_com_driver pios_can_com_driver;
+
 struct pios_can_cfg {
 	CAN_TypeDef *regs;      //! CAN device to configure
 	CAN_InitTypeDef init;   //! Init config for CAN device
 	uint32_t remap;		    //! GPIO remapping to alternative function
 	struct stm32_gpio rx;   //! Configuration for RX pin
 	struct stm32_gpio tx;   //! Configuration for TX pin
-	struct stm32_irq irq;   //! Configuration for IRQ
+	struct stm32_irq rx_irq;   //! Configuration for IRQ
 };
 
 /**
