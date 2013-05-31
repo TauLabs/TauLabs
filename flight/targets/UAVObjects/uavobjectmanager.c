@@ -759,7 +759,7 @@ int32_t UAVObjSave(UAVObjHandle obj_handle, uint16_t instId)
 {
 	PIOS_Assert(obj_handle);
 
-#if defined(PIOS_INCLUDE_FLASH_SECTOR_SETTINGS)
+#if defined(PIOS_INCLUDE_LOGFS_SETTINGS)
 	if (UAVObjIsMetaobject(obj_handle)) {
 		if (instId != 0)
 			return -1;
@@ -913,7 +913,7 @@ int32_t UAVObjLoad(UAVObjHandle obj_handle, uint16_t instId)
 {
 	PIOS_Assert(obj_handle);
 
-#if defined(PIOS_INCLUDE_FLASH_SECTOR_SETTINGS)
+#if defined(PIOS_INCLUDE_LOGFS_SETTINGS)
 	if (UAVObjIsMetaobject(obj_handle)) {
 		if (instId != 0)
 			return -1;
@@ -987,7 +987,7 @@ int32_t UAVObjLoad(UAVObjHandle obj_handle, uint16_t instId)
  */
 int32_t UAVObjDeleteById(uint32_t obj_id, uint16_t inst_id)
 {
-#if defined(PIOS_INCLUDE_FLASH_SECTOR_SETTINGS)
+#if defined(PIOS_INCLUDE_LOGFS_SETTINGS)
 	PIOS_FLASHFS_ObjDelete(pios_uavo_settings_fs_id, obj_id, inst_id);
 #endif
 #if defined(PIOS_INCLUDE_SDCARD)
