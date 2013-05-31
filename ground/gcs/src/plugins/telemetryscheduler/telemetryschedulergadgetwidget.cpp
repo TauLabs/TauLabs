@@ -39,11 +39,11 @@
 #include <QFileInfo>
 #include <QFileDialog>
 #include <QScrollBar>
-#include <QtGui/QWidget>
-#include <QtGui/QTextEdit>
-#include <QtGui/QVBoxLayout>
-#include <QtGui/QPushButton>
-#include <QtCore/QFileInfo>
+#include <QWidget>
+#include <QTextEdit>
+#include <QVBoxLayout>
+#include <QPushButton>
+#include <QFileInfo>
 #include <QInputDialog>
 
 #include "extensionsystem/pluginmanager.h"
