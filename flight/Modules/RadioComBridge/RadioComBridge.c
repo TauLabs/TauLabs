@@ -39,9 +39,6 @@
 #include <uavtalk_priv.h>
 #include <pios_rfm22b.h>
 #include <ecc.h>
-#if defined(PIOS_INCLUDE_FLASH_EEPROM)
-#include <pios_eeprom.h>
-#endif
 
 #include <stdbool.h>
 
@@ -331,64 +328,43 @@ static void ProcessInputStream(UAVTalkConnection connectionHandle, uint8_t rxbyt
 				UAVObjUnpack(iproc->obj, iproc->instId, connection->rxBuffer);
 
 				// Get the ObjectPersistence object.
-				ObjectPersistenceData obj_per;
-				ObjectPersistenceGet(&obj_per);
+				ObjectPersistenceData objper;
+				ObjectPersistenceGet(&objper);
 
 				// Is this concerning or setting object?
-				if (obj_per.ObjectID == OPLINKSETTINGS_OBJID)
+				if (objper.ObjectID == OPLINKSETTINGS_OBJID)
 				{
 					// Queue up the ACK.
 					queueEvent(data->uavtalkEventQueue, (void*)iproc->obj, iproc->instId, EV_SEND_ACK);
 
 					// Is this a save, load, or delete?
-					bool success = true;
-					switch (obj_per.Operation)
+					bool success = false;
+					UAVObjHandle obj;
+					obj = UAVObjGetByID(objper.ObjectID);
+					if (obj == 0) {
+						// Bypasses attempted to save or load
+						objper.Operation = OBJECTPERSISTENCE_OPERATION_ERROR;
+						success = false;
+					}
+
+#if defined(PIOS_INCLUDE_LOGFS_SETTINGS)
+					switch (objper.Operation)
 					{
 					case OBJECTPERSISTENCE_OPERATION_LOAD:
-					{
-#if defined(PIOS_INCLUDE_FLASH_EEPROM)
-						// Load the settings.
-						OPLinkSettingsData oplinkSettings;
-						if (PIOS_EEPROM_Load((uint8_t*)&oplinkSettings, sizeof(OPLinkSettingsData)) == 0)
-							OPLinkSettingsSet(&oplinkSettings);
-						else
-							success = false;
-#endif
+						success = (UAVObjLoad(obj, objper.InstanceID) == 0);
 						break;
-					}
 					case OBJECTPERSISTENCE_OPERATION_SAVE:
-					{
-#if defined(PIOS_INCLUDE_FLASH_EEPROM)
-						// Save the settings.
-						OPLinkSettingsData oplinkSettings;
-						OPLinkSettingsGet(&oplinkSettings);
-						int32_t ret = PIOS_EEPROM_Save((uint8_t*)&oplinkSettings, sizeof(OPLinkSettingsData));
-						if (ret != 0)
-							success = false;
-#endif
+						success = (UAVObjSave(obj, objper.InstanceID) == 0);
 						break;
-					}
 					case OBJECTPERSISTENCE_OPERATION_DELETE:
-					{
-#if defined(PIOS_INCLUDE_FLASH_EEPROM)
-						// Erase the settings.
-						OPLinkSettingsData oplinkSettings;
-						uint8_t *ptr = (uint8_t*)&oplinkSettings;
-						memset(ptr, 0, sizeof(OPLinkSettingsData));
-						int32_t ret = PIOS_EEPROM_Save(ptr, sizeof(OPLinkSettingsData));
-						if (ret != 0)
-							success = false;
-#endif
+						success = (UAVObjDeleteById(objper.ObjectID, objper.InstanceID) == 0);
 						break;
-					}
 					default:
 						break;
 					}
-					if (success == true)
-					{
-						obj_per.Operation = OBJECTPERSISTENCE_OPERATION_COMPLETED;
-						ObjectPersistenceSet(&obj_per);
-					}
+#endif
+					objper.Operation = success ? OBJECTPERSISTENCE_OPERATION_COMPLETED : OBJECTPERSISTENCE_OPERATION_ERROR;
+					ObjectPersistenceSet(&objper);
 				}
 			}
 			else
