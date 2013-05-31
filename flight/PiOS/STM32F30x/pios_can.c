@@ -108,6 +108,9 @@ int32_t PIOS_CAN_Init(uintptr_t *can_id, const struct pios_can_cfg *cfg)
 	/* Bind the configuration to the device instance */
 	can_dev->cfg = cfg;
 
+	/* Configure the CAN device */
+	RCC_APB1PeriphClockCmd(RCC_APB1Periph_CAN1, ENABLE);
+
 	/* Map pins to CAN function */
 	if (can_dev->cfg->remap) {
 		if (can_dev->cfg->rx.gpio != 0)
@@ -130,29 +133,23 @@ int32_t PIOS_CAN_Init(uintptr_t *can_id, const struct pios_can_cfg *cfg)
 
 	*can_id = (uint32_t)can_dev;
 
-	/* Configure the CAN device */
-	RCC_APB1PeriphClockCmd(RCC_APB1Periph_CAN1, ENABLE);
+	CAN_DeInit(can_dev->cfg->regs);
 	CAN_Init(can_dev->cfg->regs, (CAN_InitTypeDef *)&can_dev->cfg->init);
 
-	CAN_FilterInitTypeDef CAN_FilterInitStruct;
-	CAN_FilterInit(&CAN_FilterInitStruct);
+	/* CAN filter init */
+	CAN_FilterInitTypeDef CAN_FilterInitStructure;
+	CAN_FilterInitStructure.CAN_FilterNumber = 0;
+	CAN_FilterInitStructure.CAN_FilterMode = CAN_FilterMode_IdMask;
+	CAN_FilterInitStructure.CAN_FilterScale = CAN_FilterScale_32bit;
+	CAN_FilterInitStructure.CAN_FilterIdHigh = 0x0000;
+	CAN_FilterInitStructure.CAN_FilterIdLow = 0x0000;
+	CAN_FilterInitStructure.CAN_FilterMaskIdHigh = 0x0000;
+	CAN_FilterInitStructure.CAN_FilterMaskIdLow = 0x0000;  
+	CAN_FilterInitStructure.CAN_FilterFIFOAssignment = 0;
 
-/*
-    (#) Transmit the desired CAN frame using CAN_Transmit() function.
-    (#) Check the transmission of a CAN frame using CAN_TransmitStatus() function.
-    (#) Cancel the transmission of a CAN frame using CAN_CancelTransmit() function.  
-    (#) Receive a CAN frame using CAN_Recieve() function.
-    (#) Release the receive FIFOs using CAN_FIFORelease() function.
-    (#) Return the number of pending received frames using CAN_MessagePending() function.            
-    (#) To control CAN events you can use one of the following two methods:
-        (++) Check on CAN flags using the CAN_GetFlagStatus() function.  
-        (++) Use CAN interrupts through the function CAN_ITConfig() at initialization 
-             phase and CAN_GetITStatus() function into interrupt routines to check 
-             if the event has occurred or not.
-             After checking on a flag you should clear it using CAN_ClearFlag()
-             function. And after checking on an interrupt event you should clear it 
-             using CAN_ClearITPendingBit() function.            
-*/
+	CAN_FilterInitStructure.CAN_FilterActivation = ENABLE;
+	CAN_FilterInit(&CAN_FilterInitStructure);
+
 	return(0);
 
 out_fail:
@@ -217,6 +214,22 @@ static void PIOS_CAN_RegisterTxCallback(uint32_t can_id, pios_com_callback tx_ou
  */
 int32_t PIOS_CAN_SendData(uint32_t can_id, uint8_t *data, uint32_t data_len)
 {
+/*
+    (#) Transmit the desired CAN frame using CAN_Transmit() function.
+    (#) Check the transmission of a CAN frame using CAN_TransmitStatus() function.
+    (#) Cancel the transmission of a CAN frame using CAN_CancelTransmit() function.  
+    (#) Receive a CAN frame using CAN_Recieve() function.
+    (#) Release the receive FIFOs using CAN_FIFORelease() function.
+    (#) Return the number of pending received frames using CAN_MessagePending() function.            
+    (#) To control CAN events you can use one of the following two methods:
+        (++) Check on CAN flags using the CAN_GetFlagStatus() function.  
+        (++) Use CAN interrupts through the function CAN_ITConfig() at initialization 
+             phase and CAN_GetITStatus() function into interrupt routines to check 
+             if the event has occurred or not.
+             After checking on a flag you should clear it using CAN_ClearFlag()
+             function. And after checking on an interrupt event you should clear it 
+             using CAN_ClearITPendingBit() function.            
+*/
 	struct pios_can_dev * can_dev = (struct pios_can_dev *)can_id;
 
 	bool valid = PIOS_CAN_validate(can_dev);
@@ -230,10 +243,10 @@ int32_t PIOS_CAN_SendData(uint32_t can_id, uint8_t *data, uint32_t data_len)
 
 	// Prepare CAN message structure
 	CanTxMsg msg;
-	msg.StdId = 0;
+	msg.StdId = 0x11;
 	msg.ExtId = 0;
-	msg.IDE = CAN_Id_Standard;
-	msg.RTR = CAN_RTR_Data;
+	msg.IDE = CAN_ID_STD;
+	msg.RTR = CAN_RTR_DATA;
 	msg.DLC = data_len;
 	memcpy(msg.Data, data, data_len);
 
@@ -245,19 +258,56 @@ int32_t PIOS_CAN_SendData(uint32_t can_id, uint8_t *data, uint32_t data_len)
 	// Wait for acknowledgment of send or timeout
 	uint32_t raw_time = PIOS_DELAY_GetRaw();
 	uint8_t status = CAN_TxStatus_Pending;
-	while (status == CAN_TxStatus_Pending && (PIOS_DELAY_DiffuS(raw_time) < (MAX_SEND_TIME * 1000)) ) {
+	while (status != CAN_TxStatus_Ok && (PIOS_DELAY_DiffuS(raw_time) < (MAX_SEND_TIME * 1000)) ) {
 		status = CAN_TransmitStatus(can_dev->cfg->regs, mbx);
 	}
 
 	// Succeede, return sent number of bytes
-	if (status == CAN_TxStatus_Pending)
-		return data_len;
+	if (status != CAN_TxStatus_Ok)
+		return -3;
 
 	// If timeout, cancel message
 	if (PIOS_DELAY_DiffuS(raw_time) >= (MAX_SEND_TIME * 1000))
 		CAN_CancelTransmit(can_dev->cfg->regs, mbx);
 
-	return -2;
+	/***** Loopback testing *******/
+	// verify we received the same message we sent
+	uint32_t i = 0;
+	while((CAN_MessagePending(CAN1, CAN_FIFO0) < 1) && (i  !=  0xFFFF))
+	{
+		i++;
+	}
+
+	/* receive */
+	CanRxMsg RxMessage;
+	RxMessage.StdId = 0x00;
+	RxMessage.IDE = CAN_ID_STD;
+	RxMessage.DLC = 0;
+	RxMessage.Data[0] = 0x00;
+	RxMessage.Data[1] = 0x00;
+	CAN_Receive(CAN1, CAN_FIFO0, &RxMessage);
+
+	if (RxMessage.StdId != 0x11)
+	{
+		return -3;
+	}
+
+	if (RxMessage.IDE != CAN_ID_STD)
+	{
+		return -4;
+	}
+
+	if (RxMessage.DLC != data_len)
+	{
+		return -5;  
+	}
+
+	if (RxMessage.Data[0] != data[0])
+	{
+		return -6;
+	}	
+
+	return data_len;
 }
 
 // static void PIOS_CAN_generic_irq_handler(uint32_t usart_id)
