@@ -169,6 +169,7 @@ uintptr_t pios_com_bridge_id;
 uintptr_t pios_internal_adc_id;
 uintptr_t pios_com_mavlink_id;
 uintptr_t pios_com_overo_id;
+uintptr_t pios_com_can_id;
 
 uintptr_t pios_uavo_settings_fs_id;
 uintptr_t pios_waypoints_settings_fs_id;
@@ -239,6 +240,7 @@ static void PIOS_Board_configure_dsm(const struct pios_usart_cfg *pios_usart_dsm
  * 2 pulses - LSM303
  * 3 pulses - internal I2C bus locked
  * 4 pulses - external I2C bus locked
+ * 6 pulses - CAN bus
  */
 void panic(int32_t code) {
 	while(1){
@@ -301,6 +303,16 @@ void PIOS_Board_Init(void) {
 	}
 	if (PIOS_I2C_CheckClear(pios_i2c_external_id) != 0)
 		panic(4);
+#endif
+
+#if defined(PIOS_INCLUDE_CAN)
+	uintptr_t can_id;
+	if (PIOS_CAN_Init(&can_id, &pios_can_cfg) != 0)
+		panic(6);
+	/*if (PIOS_COM_Init(&pios_com_can_id, &pios_can_com_driver, can_id,
+				rx_buffer, rx_buf_len,
+				tx_buffer, tx_buf_len) != 0)
+		panic(6); */
 #endif
 
 #if defined(PIOS_INCLUDE_FLASH)
