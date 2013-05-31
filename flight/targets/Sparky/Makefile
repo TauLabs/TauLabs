@@ -53,8 +53,8 @@ OPTMODULES += VtolPathFollower
 OPTMODULES += FixedWingPathFollower
 OPTMODULES += VibrationAnalysis
 OPTMODULES += UAVOMavlinkBridge
-#OPTMODULES += Battery
-#OPTMODULES += ComUsbBridge
+OPTMODULES += Battery
+OPTMODULES += ComUsbBridge
 
 # Paths
 OPSYSTEM = ./System
@@ -135,6 +135,8 @@ SRC += $(PIOSCOMMON)/pios_flashfs_logfs.c
 SRC += $(PIOSCOMMON)/printf-stdarg.c
 SRC += $(PIOSCOMMON)/pios_usb_desc_hid_cdc.c
 SRC += $(PIOSCOMMON)/pios_usb_util.c
+SRC += $(PIOSCOMMON)/pios_dma.c
+SRC += $(PIOSCOMMON)/pios_adc.c
 
 include ./UAVObjects.inc
 SRC += $(UAVOBJSRC)
