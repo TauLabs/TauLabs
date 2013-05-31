@@ -261,6 +261,8 @@ void panic(int32_t code) {
 	}
 }
 
+uintptr_t can_id;
+
 /**
  * PIOS_Board_Init()
  * initializes all the core subsystems on this specific hardware
@@ -306,7 +308,6 @@ void PIOS_Board_Init(void) {
 #endif
 
 #if defined(PIOS_INCLUDE_CAN)
-	uintptr_t can_id;
 	if (PIOS_CAN_Init(&can_id, &pios_can_cfg) != 0)
 		panic(6);
 	/*if (PIOS_COM_Init(&pios_com_can_id, &pios_can_com_driver, can_id,
