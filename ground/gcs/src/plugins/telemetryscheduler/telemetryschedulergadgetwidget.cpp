@@ -27,8 +27,9 @@
 #include "metadata_dialog.h"
 #include "ui_telemetryscheduler.h"
 #include "ui_metadata_dialog.h"
-#include <QtCore/qglobal.h>
 
+#include <math.h>
+#include <QtCore/qglobal.h>
 #include <QDebug>
 #include <QClipboard>
 #include <QKeyEvent>
@@ -134,7 +135,7 @@ TelemetrySchedulerGadgetWidget::TelemetrySchedulerGadgetWidget(QWidget *parent) 
                 // Add defaults
                 UAVObject::Metadata mdataDefault = obj->getDefaultMetadata();
                 QModelIndex index = schedulerModel->index(rowIndex,0, QModelIndex());
-                schedulerModel->setData(index, mdataDefault.flightTelemetryUpdatePeriod);
+                schedulerModel->setData(index, QString("%1ms").arg(mdataDefault.flightTelemetryUpdatePeriod));
 
                 // Save default metadata for later use
                 defaultMdata.insert(obj->getName().append("Meta"), mdataDefault);
@@ -179,9 +180,6 @@ void TelemetrySchedulerGadgetWidget::updateCurrentColumn(UAVObject *obj)
     // Iterate over all headers, looking for the UAVO
     for (int i=1; i < schedulerModel->rowCount(); i++)
     {
-        QString bob = schedulerModel->verticalHeaderItem(i)->text().append("Meta");
-        QString fred = mobj->getName();
-
         // Add "Meta" to the end of the header name, in order to match the UAVO
         // metadata object name
         if (schedulerModel->verticalHeaderItem(i)->text().append("Meta") == mobj->getName())
@@ -204,7 +202,7 @@ void TelemetrySchedulerGadgetWidget::updateCurrentColumn(UAVObject *obj)
     if (mdata.flightTelemetryUpdatePeriod != mdataDefault.flightTelemetryUpdatePeriod)
     {
         QModelIndex index = schedulerModel->index(rowIndex, 1, QModelIndex());
-        schedulerModel->setData(index, mdata.flightTelemetryUpdatePeriod);
+        schedulerModel->setData(index, QString("%1ms").arg(mdata.flightTelemetryUpdatePeriod));
     }
 }
 
@@ -225,8 +223,8 @@ void TelemetrySchedulerGadgetWidget::dataModel_itemChanged(QStandardItem *item)
         // Get UAVO speed
         QModelIndex index = schedulerModel->index(i, col, QModelIndex());
         double updatePeriod_s;
-        if (schedulerModel->data(index).isValid() && schedulerModel->data(index).toUInt() > 0)
-            updatePeriod_s = schedulerModel->data(index).toUInt() / 1000.0;
+        if (schedulerModel->data(index).isValid() && schedulerModel->data(index).toString().replace(QString("ms"), QString("")).toUInt() > 0)
+            updatePeriod_s = schedulerModel->data(index).toString().replace(QString("ms"), QString("")).toUInt() / 1000.0;
         else
             updatePeriod_s = defaultMdata.value(obj->getName().append("Meta")).flightTelemetryUpdatePeriod / 1000.0;
 
@@ -238,7 +236,7 @@ void TelemetrySchedulerGadgetWidget::dataModel_itemChanged(QStandardItem *item)
     }
 
     QModelIndex index = telemetryScheduleView->getFrozenModel()->index(0, col, QModelIndex());
-    telemetryScheduleView->getFrozenModel()->setData(index, (uint16_t) (bandwidthRequired_bps+0.5));
+    telemetryScheduleView->getFrozenModel()->setData(index, QString("%1B/s").arg(lround(bandwidthRequired_bps)));
 
     // TODO: Set color as function of available speed
 }
@@ -514,8 +512,7 @@ void TelemetrySchedulerGadgetWidget::importTelemetryConfiguration(const QString&
                             // If it's 0, do nothing, since a blank cell indicates a default.
                         }
                         else
-                            schedulerModel->setData(index, val);
-
+                            schedulerModel->setData(index, QString("%1ms").arg(val));
                     }
 
                 }
@@ -652,6 +649,7 @@ QWidget *SpinBoxDelegate::createEditor(QWidget *parent,
     QSpinBox *editor = new QSpinBox(parent);
     editor->setMinimum(0);
     editor->setMaximum(65535); // Update period datatype is uint16
+    editor->setSuffix(QString("ms"));
 
     return editor;
 }
@@ -676,16 +674,7 @@ void SpinBoxDelegate::setModelData(QWidget *editor, QAbstractItemModel *model,
     int value = spinBox->value();
 
     if (value > 0)
-        model->setData(index, value, Qt::EditRole);
-//    else {
-//        QStandardItemModel* stdModel = dynamic_cast<QStandardItemModel*>(model);
-//        if ( stdModel == NULL ) {
-//            Q_ASSERT(0);
-//            return;
-//        }
-
-//        stdModel->takeItem(index.row(), index.column());
-//    }
+        model->setData(index, QString("%1ms").arg(value), Qt::EditRole);
 }
 
 void SpinBoxDelegate::updateEditorGeometry(QWidget *editor,
