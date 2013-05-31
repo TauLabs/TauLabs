@@ -60,7 +60,7 @@ TelemetrySchedulerGadgetWidget::TelemetrySchedulerGadgetWidget(QWidget *parent) 
     m_telemetryeditor = new Ui_TelemetryScheduler();
     m_telemetryeditor->setupUi(this);
 
-    schedulerModel = new QStandardItemModel(0, 0, this); //0 Rows and 0 Columns
+    schedulerModel = new SchedulerModel(0, 0, this); //0 Rows and 0 Columns
 
     telemetryScheduleView = new QFrozenTableViewWithCopyPaste(schedulerModel);
     telemetryScheduleView->setObjectName(QString::fromUtf8("telemetryScheduleView"));
@@ -125,8 +125,8 @@ TelemetrySchedulerGadgetWidget::TelemetrySchedulerGadgetWidget(QWidget *parent) 
         columnIndex++;
     }
 
-    // Populate the Current column with live update rates. Connect these values to the current
-    // metadata. At the same time, populate the default column.
+    // 1) Populate the "Current" column with live update rates. 2) Connect these values to
+    // the current metadata. 3) Populate the default column.
     rowIndex = 1;
     foreach (QVector<UAVDataObject*> list, objList) {
         foreach (UAVDataObject* obj, list) {
@@ -139,10 +139,11 @@ TelemetrySchedulerGadgetWidget::TelemetrySchedulerGadgetWidget(QWidget *parent) 
                 // Save default metadata for later use
                 defaultMdata.insert(obj->getName().append("Meta"), mdataDefault);
 
-                // Add live values
+                // Connect live values to the "Current" column
                 UAVMetaObject *mobj = obj->getMetaObject();
                 connect(mobj, SIGNAL(objectUpdated(UAVObject*)), this, SLOT(updateCurrentColumn(UAVObject*)));
 
+                // Updates the "Current" column with the live value
                 updateCurrentColumn(mobj);
 
                 rowIndex++;
@@ -161,6 +162,10 @@ TelemetrySchedulerGadgetWidget::~TelemetrySchedulerGadgetWidget()
 }
 
 
+/**
+ * @brief TelemetrySchedulerGadgetWidget::updateCurrentColumn Updates the "Current" column
+ * @param obj UAVObject being updated
+ */
 void TelemetrySchedulerGadgetWidget::updateCurrentColumn(UAVObject *obj)
 {
     int rowIndex = -1;
@@ -924,25 +929,6 @@ void QFrozenTableViewWithCopyPaste::resizeEvent(QResizeEvent * event)
 {
     QTableView::resizeEvent(event);
     updateFrozenTableGeometry();
-}
-
-QModelIndex QFrozenTableViewWithCopyPaste::moveCursor(CursorAction cursorAction,
-                                          Qt::KeyboardModifiers modifiers)
-{
-    QModelIndex current = QTableView::moveCursor(cursorAction, modifiers);
-
-    // Keep cursor from entering the "Default" or "Current" columns
-    if(cursorAction == MoveLeft && current.column()-1 <= 0)
-    {
-        current = current.sibling(current.row(), 2);
-    }
-
-    // Keep cursor from entering the frozen row
-    if(cursorAction == MoveUp && current.row() == 0){
-        current = current.sibling(current.row()+1, current.column());
-    }
-
-    return current;
 }
 
 void QFrozenTableViewWithCopyPaste::scrollTo (const QModelIndex & index, ScrollHint hint){
