@@ -39,7 +39,7 @@
 
 /* Private constants */
 #define MPU9150_TASK_PRIORITY	(tskIDLE_PRIORITY + configMAX_PRIORITIES - 1)	// max priority
-#define MPU9150_TASK_STACK		(484 / 4)
+#define MPU9150_TASK_STACK		(512 / 4)
 
 #define MPU9150_WHOAMI_ID        0x68
 #define MPU9150_MAG_ADDR         0x0c
