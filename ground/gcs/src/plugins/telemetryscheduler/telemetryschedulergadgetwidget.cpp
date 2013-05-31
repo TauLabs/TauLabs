@@ -116,13 +116,13 @@ TelemetrySchedulerGadgetWidget::TelemetrySchedulerGadgetWidget(QWidget *parent) 
     telemetryScheduleView->getFrozenTableView()->verticalHeader()->setFixedWidth(width);
 
     // Generate the list of column headers
-    columnHeaders << "Default" << "Current" << "USB" << "2400" << "4800" << "9600" << "57600" << "115200" << "250k" << "500k";
+    columnHeaders << "Default" << "Current" << "Low speed" << "Medium speed" << "High speed";
 
     int columnIndex = 0;
     foreach(QString header, columnHeaders ){
         schedulerModel->setHorizontalHeaderItem(columnIndex, new QStandardItem(header));
         telemetryScheduleView->getFrozenModel()->setHorizontalHeaderItem(columnIndex, new QStandardItem(header));
-        telemetryScheduleView->setColumnWidth(columnIndex, 65); // 65 pixels is wide enough for the string "65535"
+        telemetryScheduleView->setColumnWidth(columnIndex, 100); // 65 pixels is wide enough for the string "65535", but we set 100 for the column headers
         columnIndex++;
     }
 
@@ -447,7 +447,7 @@ void TelemetrySchedulerGadgetWidget::importTelemetryConfiguration(const QString&
     schedulerModel->setHorizontalHeaderLabels(new_columnHeaders); //<-- TODO: Reimplement this function if possible, so that when a new column is added it automatically updates a list of columns
     for(int columnIndex = 0; columnIndex< new_columnHeaders.length(); columnIndex++){
         telemetryScheduleView->getFrozenModel()->setHorizontalHeaderItem(columnIndex, new QStandardItem(""));
-        telemetryScheduleView->setColumnWidth(columnIndex, 65); // 65 pixels is wide enough for the string "65535"
+        telemetryScheduleView->setColumnWidth(columnIndex, 100); // 65 pixels is wide enough for the string "65535", but we set 100 for the column headers
     }
 
     // Update columnHeaders
