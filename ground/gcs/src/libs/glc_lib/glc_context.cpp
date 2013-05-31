@@ -143,7 +143,6 @@ void GLC_Context::glcLoadMatrix(const GLC_Matrix4x4& matrix)
 
 void GLC_Context::glcMultMatrix(const GLC_Matrix4x4& matrix)
 {
-	const GLC_Matrix4x4 current= m_MatrixStackHash.value(m_CurrentMatrixMode)->top();
 	m_MatrixStackHash.value(m_CurrentMatrixMode)->top()= m_MatrixStackHash.value(m_CurrentMatrixMode)->top() * matrix;
 #ifdef GLC_OPENGL_ES_2
 	m_UniformShaderData.setModelViewProjectionMatrix(m_MatrixStackHash.value(GL_MODELVIEW)->top(), m_MatrixStackHash.value(GL_PROJECTION)->top());

@@ -191,7 +191,7 @@ void smartSaveButton::transaction_finished(UAVObject* obj, bool result)
 
 void smartSaveButton::saving_finished(int id, bool result)
 {
-    if(id==current_objectID)
+    if((quint32)id==current_objectID)
     {
         sv_result=result;
         //qDebug()<<"saving_finished result="<<result;

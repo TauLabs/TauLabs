@@ -36,9 +36,9 @@ class port
 {
 public:
     enum portstatus{open,closed,error};
-    virtual int16_t pfSerialRead(void);			// function to read a character from the serial input stream
-    virtual void pfSerialWrite( uint8_t );	// function to write a byte to be sent out the serial port
-    virtual uint32_t pfGetTime(void);
+    int16_t pfSerialRead(void);                 // function to read a character from the serial input stream
+    void pfSerialWrite( uint8_t );              // function to write a byte to be sent out the serial port
+    uint32_t pfGetTime(void);
     uint8_t		retryCount;						// how many times have we tried to transmit the 'send' packet
     uint8_t 	maxRetryCount;					// max. times to try to transmit the 'send' packet
     uint16_t 	max_retry;                             	// Maximum number of retrys for a single transmit.

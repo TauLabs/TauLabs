@@ -31,6 +31,7 @@
 TelemetrySchedulerConfiguration::TelemetrySchedulerConfiguration(QString classId, QSettings* qSettings, QObject *parent) :
         IUAVGadgetConfiguration(classId, parent)
 {
+    Q_UNUSED(qSettings);
 }
 
 
@@ -40,6 +41,7 @@ TelemetrySchedulerConfiguration::TelemetrySchedulerConfiguration(QString classId
  */
 IUAVGadgetConfiguration *TelemetrySchedulerConfiguration::clone()
 {
+    return NULL;
 }
 
 
@@ -49,6 +51,7 @@ IUAVGadgetConfiguration *TelemetrySchedulerConfiguration::clone()
  */
 void TelemetrySchedulerConfiguration::saveConfig(QSettings* qSettings) const
 {
+    Q_UNUSED(qSettings);
 }
 
 TelemetrySchedulerConfiguration::~TelemetrySchedulerConfiguration()

@@ -187,6 +187,9 @@ void ConfigMultiRotorWidget::setupUI(SystemSettings::AirframeTypeOptions frameTy
         m_aircraft->mrPitchMixLevel->setValue(50);
         setYawMixLevel(50);
         break;
+    default:
+        Q_ASSERT(0);
+        break;
     }
 
     //Draw the appropriate airframe
@@ -257,6 +260,9 @@ void ConfigMultiRotorWidget::drawAirframe(SystemSettings::AirframeTypeOptions fr
             quad->setElementId("octo-coax-X");
         else
             quad->setElementId("octo-coax-X_reverse");
+        break;
+    default:
+        Q_ASSERT(0);
         break;
     }
 }

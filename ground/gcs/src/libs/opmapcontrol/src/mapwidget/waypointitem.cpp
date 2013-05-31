@@ -347,7 +347,7 @@ WayPointItem::WayPointItem(MapGraphicItem *map, bool magicwaypoint):reached(fals
         {
             if(!isMagic)
             {
-                if(this->flags() & QGraphicsItem::ItemIsMovable==QGraphicsItem::ItemIsMovable)
+                if(this->flags() & (QGraphicsItem::ItemIsMovable==QGraphicsItem::ItemIsMovable))
                     picture.load(QString::fromUtf8(":/markers/images/marker.png"));
                 else
                     picture.load(QString::fromUtf8(":/markers/images/waypoint_marker2.png"));
@@ -402,6 +402,7 @@ WayPointItem::WayPointItem(MapGraphicItem *map, bool magicwaypoint):reached(fals
 
     void WayPointItem::onHomePositionChanged(internals::PointLatLng homepos, float homeAltitude)
     {
+        Q_UNUSED(homeAltitude)
         if(myType==relative)
         {
             coord=map->Projection()->translate(homepos,relativeCoord.distance,relativeCoord.bearing);

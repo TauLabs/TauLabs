@@ -308,8 +308,6 @@ void UAVSettingsImportExportFactory::importWaypoints()
 
                 //  - Update each field
                 //  - Issue and "updated" command
-                bool error = false;
-                bool setError = false;
                 QDomNode field = node.firstChild();
                 while(!field.isNull()) {
                     QDomElement f = field.toElement();
@@ -320,7 +318,6 @@ void UAVSettingsImportExportFactory::importWaypoints()
                             if (list.length() == 1) {
                                 if (false == uavfield->checkValue(f.attribute("values"))) {
                                     qDebug() << "checkValue returned false on: " << uavObjectName << f.attribute("values");
-                                    setError = true;
                                 } else {
                                     uavfield->setValue(f.attribute("values"));
                                 }
@@ -331,15 +328,12 @@ void UAVSettingsImportExportFactory::importWaypoints()
                                 foreach (QString element, list) {
                                     if (false == uavfield->checkValue(element, i)) {
                                         qDebug() << "checkValue(list) returned false on: " << uavObjectName << list;
-                                        setError = true;
                                     } else {
                                          uavfield->setValue(element,i);
                                     }
                                     i++;
                                 }
                             }
-                        } else {
-                            error = true;
                         }
                     }
                     field = field.nextSibling();

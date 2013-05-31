@@ -43,6 +43,7 @@ static char lib3ds_chunk_level[128]="";
 static void
 lib3ds_chunk_debug_enter(Lib3dsChunk *c)
 {
+    (void)c;
   strcat(lib3ds_chunk_level, "  ");
 }
 
@@ -50,6 +51,7 @@ lib3ds_chunk_debug_enter(Lib3dsChunk *c)
 static void
 lib3ds_chunk_debug_leave(Lib3dsChunk *c)
 {
+    (void)c;
   lib3ds_chunk_level[strlen(lib3ds_chunk_level)-2]=0;
 }
 
@@ -62,7 +64,7 @@ lib3ds_chunk_debug_dump(Lib3dsChunk *c)
       lib3ds_chunk_level,
       lib3ds_chunk_name(c->chunk),
       c->chunk,
-      c->size
+      (long)c->size
     );
   }
 }
@@ -161,6 +163,7 @@ lib3ds_chunk_read_next(Lib3dsChunk *c, Lib3dsIo *io)
 void
 lib3ds_chunk_read_reset(Lib3dsChunk *c, Lib3dsIo *io)
 {
+    (void)c;
   lib3ds_io_seek(io, -6, LIB3DS_SEEK_CUR);
 }
 

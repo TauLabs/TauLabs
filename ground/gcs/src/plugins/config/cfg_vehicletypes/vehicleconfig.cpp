@@ -91,7 +91,6 @@ void VehicleConfig::SetConfigData(GUIConfigDataUnion configData) {
     // get an instance of systemsettings
     SystemSettings * systemSettings = SystemSettings::GetInstance(getUAVObjectManager());
     Q_ASSERT(systemSettings);
-    SystemSettings::DataFields systemSettingsData = systemSettings->getData();
 
     UAVObjectField* guiConfig = systemSettings->getField("GUIConfigData");
     Q_ASSERT(guiConfig);

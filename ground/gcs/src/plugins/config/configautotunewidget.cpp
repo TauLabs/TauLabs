@@ -82,7 +82,6 @@ void ConfigAutotuneWidget::recomputeStabilization()
         return;
 
     RelayTuning::DataFields relayTuningData = relayTuning->getData();
-    RelayTuningSettings::DataFields tuningSettingsData = relayTuningSettings->getData();
     stabSettings = stabilizationSettings->getData();
 
     // Need to divide these by 100 because that is what the .ui file does

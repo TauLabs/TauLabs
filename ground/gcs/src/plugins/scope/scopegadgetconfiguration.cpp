@@ -132,8 +132,6 @@ void ScopeGadgetConfiguration::applyGuiConfiguration(Ui::ScopeGadgetOptionsPage 
     else if(options_page->tabWidget2d3d->currentWidget() == options_page->tabPlot3d)
     {   //--- 3D ---//
 
-        Scopes3dConfig::Plot3dType plot3dType = (Scopes3dConfig::Plot3dType) options_page->cmb3dPlotType->itemData(options_page->cmb3dPlotType->currentIndex()).toUInt(); //This is safe because the item data is defined from the enum
-
         if (options_page->stackedWidget3dPlots->currentWidget() == options_page->sw3dSpectrogramStack)
         {
             m_scope = new SpectrogramScopeConfig(options_page);

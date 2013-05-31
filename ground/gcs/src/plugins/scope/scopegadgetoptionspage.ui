@@ -1046,7 +1046,6 @@
               </layout>
               <zorder>groupBox_4</zorder>
               <zorder>groupBox_3</zorder>
-              <zorder>verticalSpacer_2</zorder>
              </widget>
             </widget>
            </item>

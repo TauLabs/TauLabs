@@ -1966,26 +1966,15 @@
   <tabstop>SerialNumber</tabstop>
   <tabstop>DeviceID</tabstop>
   <tabstop>LinkState</tabstop>
-  <tabstop>RxAFC</tabstop>
-  <tabstop>Retries</tabstop>
   <tabstop>Errors</tabstop>
   <tabstop>UAVTalkErrors</tabstop>
   <tabstop>Resets</tabstop>
   <tabstop>TXRate</tabstop>
   <tabstop>RXRate</tabstop>
-  <tabstop>TelemPortConfig</tabstop>
-  <tabstop>TelemPortSpeed</tabstop>
-  <tabstop>FlexiPortConfig</tabstop>
-  <tabstop>FlexiPortSpeed</tabstop>
-  <tabstop>VCPConfig</tabstop>
-  <tabstop>VCPSpeed</tabstop>
-  <tabstop>MaxRFDatarate</tabstop>
   <tabstop>MaxRFTxPower</tabstop>
   <tabstop>SendTimeout</tabstop>
   <tabstop>MinPacketSize</tabstop>
   <tabstop>FrequencyCalibration</tabstop>
-  <tabstop>Frequency</tabstop>
-  <tabstop>ScanSpectrum</tabstop>
   <tabstop>AESKey</tabstop>
   <tabstop>AESKeyRandom</tabstop>
   <tabstop>AESEnable</tabstop>

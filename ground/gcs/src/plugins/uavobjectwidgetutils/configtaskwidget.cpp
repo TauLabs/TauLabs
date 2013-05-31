@@ -989,7 +989,7 @@ void ConfigTaskWidget::connectWidgetUpdatesToSlot(QWidget * widget,const char* f
     {
         connect(cb,SIGNAL(clicked()),this,function);
     }
-    else if(QLabel * cb=qobject_cast<QLabel *>(widget))
+    else if(qobject_cast<QLabel *>(widget))
     {
 
     }

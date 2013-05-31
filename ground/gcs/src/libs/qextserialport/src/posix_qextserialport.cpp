@@ -354,7 +354,13 @@ void QextSerialPort::setBaudRate(BaudRateType baudRate)
                 cfsetispeed(&Posix_CommConfig, B115200);
                 cfsetospeed(&Posix_CommConfig, B115200);
 #endif
-                break;
+            break;
+        case BAUD230400:
+        case BAUD460800:
+        case BAUD921600:
+            Q_ASSERT(0);
+            break;
+
         }
         tcsetattr(fd, TCSAFLUSH, &Posix_CommConfig);
     }
