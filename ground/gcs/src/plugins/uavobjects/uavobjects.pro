@@ -70,7 +70,6 @@ HEADERS += $$UAVOBJECT_SYNTHETICS/accels.h \
     $$UAVOBJECT_SYNTHETICS/hwfreedom.h \
     $$UAVOBJECT_SYNTHETICS/hwflyingf3.h \
     $$UAVOBJECT_SYNTHETICS/hwflyingf4.h \
-    $$UAVOBJECT_SYNTHETICS/hwosd.h \
     $$UAVOBJECT_SYNTHETICS/hwquanton.h \
     $$UAVOBJECT_SYNTHETICS/hwrevolution.h \
     $$UAVOBJECT_SYNTHETICS/hwrevomini.h \
@@ -92,7 +91,6 @@ HEADERS += $$UAVOBJECT_SYNTHETICS/accels.h \
     $$UAVOBJECT_SYNTHETICS/objectpersistence.h \
     $$UAVOBJECT_SYNTHETICS/oplinksettings.h \
     $$UAVOBJECT_SYNTHETICS/oplinkstatus.h \
-    $$UAVOBJECT_SYNTHETICS/osdsettings.h \
     $$UAVOBJECT_SYNTHETICS/overosyncsettings.h \
     $$UAVOBJECT_SYNTHETICS/overosyncstats.h \
     $$UAVOBJECT_SYNTHETICS/pathdesired.h \
@@ -170,7 +168,6 @@ SOURCES += $$UAVOBJECT_SYNTHETICS/accels.cpp \
     $$UAVOBJECT_SYNTHETICS/hwfreedom.cpp \
     $$UAVOBJECT_SYNTHETICS/hwflyingf3.cpp \
     $$UAVOBJECT_SYNTHETICS/hwflyingf4.cpp \
-    $$UAVOBJECT_SYNTHETICS/hwosd.cpp \
     $$UAVOBJECT_SYNTHETICS/hwquanton.cpp \
     $$UAVOBJECT_SYNTHETICS/hwrevolution.cpp \
     $$UAVOBJECT_SYNTHETICS/hwrevomini.cpp \
@@ -190,7 +187,6 @@ SOURCES += $$UAVOBJECT_SYNTHETICS/accels.cpp \
     $$UAVOBJECT_SYNTHETICS/nedaccel.cpp \
     $$UAVOBJECT_SYNTHETICS/nedposition.cpp \
     $$UAVOBJECT_SYNTHETICS/objectpersistence.cpp \
-    $$UAVOBJECT_SYNTHETICS/osdsettings.cpp \
     $$UAVOBJECT_SYNTHETICS/oplinksettings.cpp \
     $$UAVOBJECT_SYNTHETICS/oplinkstatus.cpp \
     $$UAVOBJECT_SYNTHETICS/overosyncsettings.cpp \
