@@ -151,6 +151,9 @@ uint32_t pios_rcvr_group_map[MANUALCONTROLSETTINGS_CHANNELGROUPS_NONE];
 #define PIOS_COM_TELEM_USB_RX_BUF_LEN 65
 #define PIOS_COM_TELEM_USB_TX_BUF_LEN 65
 
+#define PIOS_COM_CAN_RX_BUF_LEN 256
+#define PIOS_COM_CAN_TX_BUF_LEN 256
+
 #define PIOS_COM_BRIDGE_RX_BUF_LEN 65
 #define PIOS_COM_BRIDGE_TX_BUF_LEN 12
 
@@ -173,6 +176,8 @@ uintptr_t pios_com_can_id;
 
 uintptr_t pios_uavo_settings_fs_id;
 uintptr_t pios_waypoints_settings_fs_id;
+
+uintptr_t pios_can_id;
 
 /*
  * Setup a com port based on the passed cfg, driver and buffer sizes. rx or tx size of 0 disables rx or tx
@@ -261,8 +266,6 @@ void panic(int32_t code) {
 	}
 }
 
-uintptr_t can_id;
-
 /**
  * PIOS_Board_Init()
  * initializes all the core subsystems on this specific hardware
@@ -308,12 +311,18 @@ void PIOS_Board_Init(void) {
 #endif
 
 #if defined(PIOS_INCLUDE_CAN)
-	if (PIOS_CAN_Init(&can_id, &pios_can_cfg) != 0)
+	if (PIOS_CAN_Init(&pios_can_id, &pios_can_cfg) != 0)
 		panic(6);
-	/*if (PIOS_COM_Init(&pios_com_can_id, &pios_can_com_driver, can_id,
-				rx_buffer, rx_buf_len,
-				tx_buffer, tx_buf_len) != 0)
-		panic(6); */
+
+	uint8_t * rx_buffer = (uint8_t *) pvPortMalloc(PIOS_COM_CAN_RX_BUF_LEN);
+	uint8_t * tx_buffer = (uint8_t *) pvPortMalloc(PIOS_COM_CAN_TX_BUF_LEN);
+	PIOS_Assert(rx_buffer);
+	PIOS_Assert(tx_buffer);
+	if (PIOS_COM_Init(&pios_com_can_id, &pios_can_com_driver, pios_can_id,
+	                  rx_buffer, PIOS_COM_CAN_RX_BUF_LEN,
+	                  tx_buffer, PIOS_COM_CAN_TX_BUF_LEN))
+		panic(6);
+
 #endif
 
 #if defined(PIOS_INCLUDE_FLASH)

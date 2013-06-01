@@ -183,9 +183,9 @@ static void systemTask(void *parameters)
 		// Update the system statistics
 		updateStats();
 
-		extern uintptr_t can_id;
+		extern uintptr_t pios_can_id;
 		uint8_t data[8] = {'a','b','c','d','e','f','g','h'};
-		if (PIOS_CAN_SendData(can_id, data, sizeof(data)) >= 0)
+		if (PIOS_CAN_SendData(pios_can_id, data, sizeof(data)) >= 0)
 			PIOS_LED_Off(2);
 		else
 			PIOS_LED_On(2);
