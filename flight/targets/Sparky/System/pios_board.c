@@ -165,6 +165,9 @@ uint32_t pios_rcvr_group_map[MANUALCONTROLSETTINGS_CHANNELGROUPS_NONE];
 #define PIOS_COM_TELEM_USB_RX_BUF_LEN 65
 #define PIOS_COM_TELEM_USB_TX_BUF_LEN 65
 
+#define PIOS_COM_CAN_RX_BUF_LEN 256
+#define PIOS_COM_CAN_TX_BUF_LEN 256
+
 #define PIOS_COM_BRIDGE_RX_BUF_LEN 65
 #define PIOS_COM_BRIDGE_TX_BUF_LEN 12
 
@@ -182,11 +185,14 @@ uintptr_t pios_com_telem_rf_id;
 uintptr_t pios_com_vcp_id;
 uintptr_t pios_com_bridge_id;
 uintptr_t pios_com_mavlink_id;
+uintptr_t pios_com_can_id;
 
 uintptr_t pios_uavo_settings_fs_id;
 uintptr_t pios_waypoints_settings_fs_id;
 
 uintptr_t pios_internal_adc_id;
+
+uintptr_t pios_can_id;
 
 /*
  * Setup a com port based on the passed cfg, driver and buffer sizes. tx size of -1 make the port rx only
@@ -255,6 +261,7 @@ static void PIOS_Board_configure_dsm(const struct pios_usart_cfg *pios_usart_dsm
  * 3 pulses - internal I2C bus locked
  * 4 pulses - external I2C bus locked
  * 5 pulses - flash
+ * 6 pulses - CAN
  */
 void panic(int32_t code) {
 	while(1){
@@ -302,6 +309,20 @@ void PIOS_Board_Init(void) {
 	}
 	if (PIOS_I2C_CheckClear(pios_i2c_internal_id) != 0)
 		panic(3);
+#endif
+
+#if defined(PIOS_INCLUDE_CAN)
+	if (PIOS_CAN_Init(&pios_can_id, &pios_can_cfg) != 0)
+		panic(6);
+
+	uint8_t * rx_buffer = (uint8_t *) pvPortMalloc(PIOS_COM_CAN_RX_BUF_LEN);
+	uint8_t * tx_buffer = (uint8_t *) pvPortMalloc(PIOS_COM_CAN_TX_BUF_LEN);
+	PIOS_Assert(rx_buffer);
+	PIOS_Assert(tx_buffer);
+	if (PIOS_COM_Init(&pios_com_can_id, &pios_can_com_driver, pios_can_id,
+	                  rx_buffer, PIOS_COM_CAN_RX_BUF_LEN,
+	                  tx_buffer, PIOS_COM_CAN_TX_BUF_LEN))
+		panic(6);
 #endif
 
 #if defined(PIOS_INCLUDE_FLASH)
