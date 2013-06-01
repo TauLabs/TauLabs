@@ -241,7 +241,7 @@ struct pios_can_cfg pios_can_cfg = {
 	.init = {
   		.CAN_Prescaler = 16,   /*!< Specifies the length of a time quantum. 
                                  It ranges from 1 to 1024. */
-  		.CAN_Mode = CAN_Mode_LoopBack,         /*!< Specifies the CAN operating mode.
+  		.CAN_Mode = CAN_Mode_Normal,         /*!< Specifies the CAN operating mode.
                                  This parameter can be a value of @ref CAN_operating_mode */
   		.CAN_SJW = CAN_SJW_1tq,          /*!< Specifies the maximum number of time quanta 
                                  the CAN hardware is allowed to lengthen or 
@@ -270,7 +270,7 @@ struct pios_can_cfg pios_can_cfg = {
 		.gpio = GPIOB,
 		.init = {
 			.GPIO_Pin   = GPIO_Pin_9,
-			.GPIO_Speed = GPIO_Speed_2MHz,
+			.GPIO_Speed = GPIO_Speed_50MHz,
 			.GPIO_Mode  = GPIO_Mode_AF,
 			.GPIO_OType = GPIO_OType_PP,
 			.GPIO_PuPd  = GPIO_PuPd_UP
@@ -281,7 +281,7 @@ struct pios_can_cfg pios_can_cfg = {
 		.gpio = GPIOB,
 		.init = {
 			.GPIO_Pin   = GPIO_Pin_8,
-			.GPIO_Speed = GPIO_Speed_2MHz,
+			.GPIO_Speed = GPIO_Speed_50MHz,
 			.GPIO_Mode  = GPIO_Mode_AF,
 			.GPIO_OType = GPIO_OType_PP,
 			.GPIO_PuPd  = GPIO_PuPd_UP

@@ -516,7 +516,7 @@ struct pios_can_cfg pios_can_cfg = {
 	.init = {
   		.CAN_Prescaler = 16,   /*!< Specifies the length of a time quantum. 
                                  It ranges from 1 to 1024. */
-  		.CAN_Mode = CAN_Mode_LoopBack,         /*!< Specifies the CAN operating mode.
+  		.CAN_Mode = CAN_Mode_Normal,         /*!< Specifies the CAN operating mode.
                                  This parameter can be a value of @ref CAN_operating_mode */
   		.CAN_SJW = CAN_SJW_1tq,          /*!< Specifies the maximum number of time quanta 
                                  the CAN hardware is allowed to lengthen or 
