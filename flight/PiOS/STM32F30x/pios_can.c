@@ -63,9 +63,11 @@ struct pios_can_dev {
 	uint32_t tx_out_context;
 };
 
-/* Local helper methods */
-//static int32_t PIOS_CAN_SendData(uint32_t can_id, uint8_t *data, uint32_t data_len);
+// Local constants
+#define CAN_COM_ID      0x11
+#define MAX_SEND_LEN    8
 
+void USB_HP_CAN1_TX_IRQHandler(void);
 
 static bool PIOS_CAN_validate(struct pios_can_dev * can_dev)
 {
@@ -89,6 +91,9 @@ static struct pios_can_dev * PIOS_CAN_alloc(void)
 	return(can_dev);
 }
 
+//! The local handle for the CAN device
+static struct pios_can_dev * can_dev;
+
 /**
  * Initialize the CAN driver and return an opaque id
  * @param[out]   id the CAN interface handle
@@ -99,8 +104,6 @@ int32_t PIOS_CAN_Init(uintptr_t *can_id, const struct pios_can_cfg *cfg)
 {
 	PIOS_DEBUG_Assert(can_id);
 	PIOS_DEBUG_Assert(cfg);
-
-	struct pios_can_dev * can_dev;
 
 	can_dev = (struct pios_can_dev *) PIOS_CAN_alloc();
 	if (!can_dev) goto out_fail;
@@ -129,8 +132,6 @@ int32_t PIOS_CAN_Init(uintptr_t *can_id, const struct pios_can_cfg *cfg)
 	if (can_dev->cfg->tx.gpio != 0)
 		GPIO_Init(can_dev->cfg->tx.gpio, (GPIO_InitTypeDef *)&can_dev->cfg->tx.init);
 
-
-
 	*can_id = (uint32_t)can_dev;
 
 	CAN_DeInit(can_dev->cfg->regs);
@@ -145,10 +146,13 @@ int32_t PIOS_CAN_Init(uintptr_t *can_id, const struct pios_can_cfg *cfg)
 	CAN_FilterInitStructure.CAN_FilterIdLow = 0x0000;
 	CAN_FilterInitStructure.CAN_FilterMaskIdHigh = 0x0000;
 	CAN_FilterInitStructure.CAN_FilterMaskIdLow = 0x0000;  
-	CAN_FilterInitStructure.CAN_FilterFIFOAssignment = 0;
+	CAN_FilterInitStructure.CAN_FilterFIFOAssignment = 1;
 
 	CAN_FilterInitStructure.CAN_FilterActivation = ENABLE;
 	CAN_FilterInit(&CAN_FilterInitStructure);
+
+	// Enable the receiver IRQ
+ 	NVIC_Init((NVIC_InitTypeDef*) &can_dev->cfg->rx_irq.init);
 
 	return(0);
 
@@ -163,16 +167,19 @@ static void PIOS_CAN_RxStart(uint32_t can_id, uint16_t rx_bytes_avail)
 	bool valid = PIOS_CAN_validate(can_dev);
 	PIOS_Assert(valid);
 	
-	//USART_ITConfig(usart_dev->cfg->regs, USART_IT_RXNE, ENABLE);
+	CAN_ITConfig(can_dev->cfg->regs, CAN_IT_FMP1, ENABLE);
 }
+
 static void PIOS_CAN_TxStart(uint32_t can_id, uint16_t tx_bytes_avail)
 {
 	struct pios_can_dev * can_dev = (struct pios_can_dev *)can_id;
 	
 	bool valid = PIOS_CAN_validate(can_dev);
 	PIOS_Assert(valid);
+
+ 	CAN_ITConfig(can_dev->cfg->regs, CAN_IT_TME, ENABLE);
 	
-	//USART_ITConfig(usart_dev->cfg->regs, USART_IT_TXE, ENABLE);
+	USB_HP_CAN1_TX_IRQHandler();
 }
 
 static void PIOS_CAN_RegisterRxCallback(uint32_t can_id, pios_com_callback rx_in_cb, uint32_t context)
@@ -214,28 +221,11 @@ static void PIOS_CAN_RegisterTxCallback(uint32_t can_id, pios_com_callback tx_ou
  */
 int32_t PIOS_CAN_SendData(uint32_t can_id, uint8_t *data, uint32_t data_len)
 {
-/*
-    (#) Transmit the desired CAN frame using CAN_Transmit() function.
-    (#) Check the transmission of a CAN frame using CAN_TransmitStatus() function.
-    (#) Cancel the transmission of a CAN frame using CAN_CancelTransmit() function.  
-    (#) Receive a CAN frame using CAN_Recieve() function.
-    (#) Release the receive FIFOs using CAN_FIFORelease() function.
-    (#) Return the number of pending received frames using CAN_MessagePending() function.            
-    (#) To control CAN events you can use one of the following two methods:
-        (++) Check on CAN flags using the CAN_GetFlagStatus() function.  
-        (++) Use CAN interrupts through the function CAN_ITConfig() at initialization 
-             phase and CAN_GetITStatus() function into interrupt routines to check 
-             if the event has occurred or not.
-             After checking on a flag you should clear it using CAN_ClearFlag()
-             function. And after checking on an interrupt event you should clear it 
-             using CAN_ClearITPendingBit() function.            
-*/
 	struct pios_can_dev * can_dev = (struct pios_can_dev *)can_id;
 
 	bool valid = PIOS_CAN_validate(can_dev);
 	PIOS_Assert(valid);
 
-	const uint32_t MAX_SEND_LEN =  8;
 	const uint32_t MAX_SEND_TIME = 10; // mss
 
 	if (data_len > MAX_SEND_LEN)
@@ -310,58 +300,62 @@ int32_t PIOS_CAN_SendData(uint32_t can_id, uint8_t *data, uint32_t data_len)
 	return data_len;
 }
 
-// static void PIOS_CAN_generic_irq_handler(uint32_t usart_id)
-// {
-// 	struct pios_usart_dev * usart_dev = (struct pios_usart_dev *)usart_id;
+/**
+ * @brief  This function handles CAN1 RX1 request.
+ * @note   We are using RX1 instead of RX0 to avoid conflicts with the
+ *         USB IRQ handler.
+ */
+void CAN1_RX1_IRQHandler(void)
+{
+	CAN_ClearITPendingBit(can_dev->cfg->regs, CAN_IT_FMP1);
 
-// 	bool rx_need_yield = false;
-// 	bool tx_need_yield = false;
+	bool valid = PIOS_CAN_validate(can_dev);
+	PIOS_Assert(valid);
 
-// 	bool valid = PIOS_USART_validate(usart_dev);
-// 	PIOS_Assert(valid);
+	CanRxMsg RxMessage;
+	CAN_Receive(CAN1, CAN_FIFO1, &RxMessage);
+
+	if (RxMessage.StdId != CAN_COM_ID)
+		return;
+
+	bool rx_need_yield = false;
+	if (can_dev->rx_in_cb) {
+		(void) (can_dev->rx_in_cb)(can_dev->rx_in_context, RxMessage.Data, RxMessage.DLC, NULL, &rx_need_yield);
+	}
+
+	portEND_SWITCHING_ISR(rx_need_yield);
+}
+
+/**
+ * @brief  This function handles CAN1 TX irq and sends more data if available
+ */
+void USB_HP_CAN1_TX_IRQHandler(void)
+{
+	CAN_ClearITPendingBit(can_dev->cfg->regs, CAN_IT_TME);
+
+	bool valid = PIOS_CAN_validate(can_dev);
+	PIOS_Assert(valid);
+
+	bool tx_need_yield = false;
 	
-// 	/* Check if RXNE flag is set */
-// 	if (USART_GetITStatus(usart_dev->cfg->regs, USART_IT_RXNE)) {
-// 		uint8_t byte = (uint8_t)USART_ReceiveData(usart_dev->cfg->regs);
-// 		if (usart_dev->rx_in_cb) {
-// 			(void) (usart_dev->rx_in_cb)(usart_dev->rx_in_context, &byte, 1, NULL, &rx_need_yield);
-// 		}
-// 	}
-// 	/* Check if TXE flag is set */
-// 	if (USART_GetITStatus(usart_dev->cfg->regs, USART_IT_TXE)) {
-// 		if (usart_dev->tx_out_cb) {
-// 			uint8_t b;
-// 			uint16_t bytes_to_send;
-			
-// 			bytes_to_send = (usart_dev->tx_out_cb)(usart_dev->tx_out_context, &b, 1, NULL, &tx_need_yield);
-			
-// 			if (bytes_to_send > 0) {
-// 				/* Send the byte we've been given */
-// 				USART_SendData(usart_dev->cfg->regs, b);
-// 			} else {
-// 				/* No bytes to send, disable TXE interrupt */
-// 				USART_ITConfig(usart_dev->cfg->regs, USART_IT_TXE, DISABLE);
-// 			}
-// 		} else {
-// 			/* No bytes to send, disable TXE interrupt */
-// 			USART_ITConfig(usart_dev->cfg->regs, USART_IT_TXE, DISABLE);
-// 		}
-// 	}
-// 	/* Check for overrun condition
-// 	 * Note i really wanted to use USART_GetITStatus but it fails on getting the
-// 	 * ORE flag although RXNE interrupt is enabled.
-// 	 * Probably a bug in the ST library...
-// 	 */
-// 	if (USART_GetFlagStatus(usart_dev->cfg->regs, USART_FLAG_ORE)) {
-// 		USART_ClearITPendingBit(usart_dev->cfg->regs, USART_IT_ORE);
-// 		++usart_dev->error_overruns;
-// 	}
-	
-// #if defined(PIOS_INCLUDE_FREERTOS)
-// 	portEND_SWITCHING_ISR(rx_need_yield || tx_need_yield);
-// #endif	/* PIOS_INCLUDE_FREERTOS */
-// }
+	if (can_dev->tx_out_cb) {
 
+		// Prepare CAN message structure
+		CanTxMsg msg;
+		msg.StdId = CAN_COM_ID;
+		msg.ExtId = 0;
+		msg.IDE = CAN_ID_STD;
+		msg.RTR = CAN_RTR_DATA;			
+		msg.DLC = (can_dev->tx_out_cb)(can_dev->tx_out_context, msg.Data, MAX_SEND_LEN, NULL, &tx_need_yield);
+
+		// Send message and get mailbox number
+		CAN_Transmit(can_dev->cfg->regs, &msg);
+
+		// TODO: deal with failure to send and keep the message to retransmit
+	}
+	
+	portEND_SWITCHING_ISR(tx_need_yield);
+}
 
 #endif /* PIOS_INCLUDE_CAN */
 /**
