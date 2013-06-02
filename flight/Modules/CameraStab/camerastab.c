@@ -217,6 +217,16 @@ static void attitudeUpdated(UAVObjEvent* ev)
 					input = 0;
 				}
 			}
+			switch(i) {
+			case PITCH:
+				CameraDesiredDeclinationSet(&csd->inputs[i]);
+				break;
+			case YAW:
+				CameraDesiredBearingSet(&csd->inputs[i]);
+				break;
+			default:
+				break;
+			}
 		}
 #if defined(CAMERASTAB_POI_MODE)		
 		else if (settings->Input[i] == CAMERASTABSETTINGS_INPUT_POI) {
