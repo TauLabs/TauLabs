@@ -29,9 +29,7 @@
 
 #include "openpilot.h"
 #include "modulesettings.h"
-#include "overosync.h"
-#include "overosyncstats.h"
-#include "systemstats.h"
+#include "cameradesired.h"
 
 // Private constants
 #define MAX_QUEUE_SIZE   5
@@ -91,6 +89,8 @@ int32_t UAVORelayInitialize(void)
 	// Initialise UAVTalk
 	uavTalkCon = UAVTalkInitialize(&pack_data);
 
+	CameraDesiredInitialize();
+
 	return 0;
 }
 
@@ -147,13 +147,13 @@ static void uavoRelayTask(void *parameters)
 		}
 
 		// Process incoming data in sufficient chunks that we keep up
-		uint8_t serial_data[1];
+		uint8_t serial_data[8];
 		uint16_t bytes_to_process;
 
-		bytes_to_process = PIOS_COM_ReceiveBuffer(inputPort, serial_data, sizeof(serial_data), 500);
+		bytes_to_process = PIOS_COM_ReceiveBuffer(uavorelay_com_id, serial_data, sizeof(serial_data), 500);
 		do {
-			bytes_to_process = PIOS_COM_ReceiveBuffer(inputPort, serial_data, sizeof(serial_data), 500);
-			for (uint8_t i = 0; i < bytes_to_process; i++) {
+			bytes_to_process = PIOS_COM_ReceiveBuffer(uavorelay_com_id, serial_data, sizeof(serial_data), 500);
+			for (uint8_t i = 0; i < bytes_to_process; i++)
 				UAVTalkProcessInputStream(uavTalkCon,serial_data[i]);
 		} while (bytes_to_process > 0);
 
