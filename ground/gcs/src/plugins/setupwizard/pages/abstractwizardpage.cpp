@@ -32,5 +32,4 @@ AbstractWizardPage::AbstractWizardPage(SetupWizard *wizard, QWidget *parent) :
     QWizardPage(parent)
 {
     m_wizard = wizard;
-    // setFixedSize(600, 400);
 }

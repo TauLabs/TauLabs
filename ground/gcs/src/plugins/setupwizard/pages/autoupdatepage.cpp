@@ -37,7 +37,7 @@ AutoUpdatePage::~AutoUpdatePage()
     delete ui;
 }
 
-void AutoUpdatePage::enableButtons(bool enable = false)
+void AutoUpdatePage::enableButtons(bool enable)
 {
     ui->startUpdate->setEnabled(enable);
     getWizard()->button(QWizard::NextButton)->setEnabled(enable);
@@ -97,5 +97,7 @@ void AutoUpdatePage::updateStatus(uploader::AutoUpdateStep status, QVariant valu
         getWizard()->show();
         ui->statusLabel->setText(tr("Something went wrong, you will have to manually upgrade the board using the uploader plugin"));
         break;
+    default:
+        Q_ASSERT(0);
     }
 }

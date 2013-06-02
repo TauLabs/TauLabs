@@ -53,7 +53,7 @@ private slots:
     {
         enableButtons(false);
     }
-    void enableButtons(bool enable);
+    void enableButtons(bool enable = false);
 
 private:
     Ui::AutoUpdatePage *ui;
