@@ -43,6 +43,7 @@
 
 #include "openpilot.h"
 #include "misc_math.h"
+#include "physical_constants.h"
 
 #include "accessorydesired.h"
 #include "attitudeactual.h"
@@ -235,8 +236,8 @@ static void attitudeUpdated(UAVObjEvent* ev)
 
 			// Compute the pitch and yaw to the POI location, assuming UAVO is level facing north
 			float distance = sqrtf(powf(dLoc[0],2)+powf(dLoc[1],2));
-			float pitch = atan2f(dLoc[2],distance) * 180.0f / (float) M_PI;
-			float yaw = atan2f(dLoc[1],dLoc[0]) * 180.0f / (float) M_PI;
+			float pitch = atan2f(dLoc[2],distance) * RAD2DEG;
+			float yaw = atan2f(dLoc[1],dLoc[0]) * RAD2DEG;
 			if (yaw < 0) yaw += 360.0;
 
 			// Only try and track objects more than 2 m away
@@ -340,8 +341,6 @@ static void tablet_info_process() {
 	if (tablet_info_updated == false)
 		return;
 	tablet_info_updated = false;
-
-	const float DEG2RAD = M_PI / 180.0f;
 
 	TabletInfoData tablet;
 	TabletInfoGet(&tablet);
