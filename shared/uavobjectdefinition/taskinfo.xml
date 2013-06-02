@@ -22,6 +22,7 @@
 			<elementname>Com2UsbBridge</elementname>
 			<elementname>Usb2ComBridge</elementname>
 			<elementname>OveroSync</elementname>
+			<elementname>UAVORelay</elementname>
 			<elementname>ModemRx</elementname>
 			<elementname>ModemTx</elementname>
 			<elementname>ModemStat</elementname>

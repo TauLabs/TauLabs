@@ -141,10 +141,22 @@ static void uavoRelayTask(void *parameters)
 	while (1) {
 
 		// Wait for queue message
-		if (xQueueReceive(queue, &ev, portMAX_DELAY) == pdTRUE) {
+		if (xQueueReceive(queue, &ev, 2) == pdTRUE) {
 			// Process event.  This calls transmitData
 			UAVTalkSendObject(uavTalkCon, ev.obj, ev.instId, false, 0);
 		}
+
+		// Process incoming data in sufficient chunks that we keep up
+		uint8_t serial_data[1];
+		uint16_t bytes_to_process;
+
+		bytes_to_process = PIOS_COM_ReceiveBuffer(inputPort, serial_data, sizeof(serial_data), 500);
+		do {
+			bytes_to_process = PIOS_COM_ReceiveBuffer(inputPort, serial_data, sizeof(serial_data), 500);
+			for (uint8_t i = 0; i < bytes_to_process; i++) {
+				UAVTalkProcessInputStream(uavTalkCon,serial_data[i]);
+		} while (bytes_to_process > 0);
+
 	}
 }
 
