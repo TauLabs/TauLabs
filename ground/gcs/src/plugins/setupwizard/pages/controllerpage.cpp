@@ -146,7 +146,6 @@ void ControllerPage::devicesChanged(QLinkedList<Core::DevListItem> devices)
     if (indexOfSelectedItem != -1) {
         ui->deviceCombo->setCurrentIndex(indexOfSelectedItem);
     }
-    // connectionStatusChanged();
 }
 
 void ControllerPage::connectionStatusChanged()

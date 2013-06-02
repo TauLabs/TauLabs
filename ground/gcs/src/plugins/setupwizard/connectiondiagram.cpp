@@ -68,13 +68,11 @@ void ConnectionDiagram::setupGraphicsScene()
         m_renderer->isValid()) {
         m_scene = new QGraphicsScene(this);
         ui->connectionDiagram->setScene(m_scene);
-        // ui->connectionDiagram->setViewportUpdateMode(QGraphicsView::FullViewportUpdate);
 
         m_background = new QGraphicsSvgItem();
         m_background->setSharedRenderer(m_renderer);
         m_background->setElementId("background");
         m_background->setOpacity(0);
-        // m_background->setFlags(QGraphicsItem::ItemClipsToShape);
         m_background->setZValue(-1);
         m_scene->addItem(m_background);
 
@@ -160,9 +158,6 @@ void ConnectionDiagram::setupGraphicsSceneItems(QList<QString> elementsToShow)
             QMatrix matrix = m_renderer->matrixForElement(elementId);
             QRectF orig    = matrix.mapRect(m_renderer->boundsOnElement(elementId));
             element->setPos(orig.x(), orig.y());
-
-            // QRectF orig = m_renderer->boundsOnElement(elementId);
-            // element->setPos(orig.x() - backgBounds.x(), orig.y() - backgBounds.y());
 
             m_scene->addItem(element);
             qDebug() << "Adding " << elementId << " to scene at " << element->pos();

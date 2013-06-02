@@ -115,7 +115,6 @@ void BiasCalibrationPage::calibrationDone()
 {
     disconnect(this, SLOT(calibrationTimeout()));
     stopCalibration();
-    //getWizard()->setLevellingBias(bias);
     emit completeChanged();
 }
 
