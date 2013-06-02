@@ -387,18 +387,30 @@ static void stabilizationTask(void* parameters)
 					break;
 					
 				case STABILIZATIONDESIRED_STABILIZATIONMODE_POI:
+					// The sanity check enforces this is only selectable for Yaw
+					// for a gimbal you can select pitch too.
 					if(reinit) {
 						pids[PID_ATT_ROLL + i].iAccumulator = 0;
 						pids[PID_RATE_ROLL + i].iAccumulator = 0;
 					}
 
-					float bearing;
-					CameraDesiredBearingGet(&bearing);
-					float bearing_error = bearing - attitudeActual.Yaw;
- 					bearing_error = fmodf(bearing_error + 180, 360) - 180;
+					float error;
+					float angle;
+					switch(i) {
+					case PITCH:
+						CameraDesiredDeclinationGet(&angle);
+						error = circular_modulus_deg(angle - attitudeActual.Pitch);
+						break;
+					case YAW:
+						CameraDesiredBearingGet(&angle);
+						error = circular_modulus_deg(angle - attitudeActual.Yaw);
+						break;
+					default:
+						error = true;
+					}
 
 					// Compute the outer loop
-					rateDesiredAxis[i] = pid_apply(&pids[PID_ATT_ROLL + i], bearing_error, dT);
+					rateDesiredAxis[i] = pid_apply(&pids[PID_ATT_ROLL + i], error, dT);
 					rateDesiredAxis[i] = bound(rateDesiredAxis[i], settings.MaximumRate[i]);
 
 					// Compute the inner loop
