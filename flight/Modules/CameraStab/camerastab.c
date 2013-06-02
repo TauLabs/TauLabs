@@ -85,11 +85,11 @@ static void applyFF(uint8_t index, float dT_ms, float *attitude, CameraStabSetti
 #if defined(CAMERASTAB_POI_MODE)
 static void tablet_info_flag_update(UAVObjEvent * ev);
 static void tablet_info_process();
+static bool tablet_info_updated = false;
 #endif /* CAMERASTAB_POI_MODE */
 
 // Private variables
 static bool module_enabled;
-static bool tablet_info_updated = false;
 /**
  * Initialise the module, called on startup
  * \returns 0 on success or -1 if initialisation failed
@@ -323,6 +323,7 @@ static void settings_updated_cb(UAVObjEvent * ev)
 	CameraStabSettingsGet(&csd->settings);
 }
 
+#if defined(CAMERASTAB_POI_MODE)
 /**
  * When the tablet info changes update the POI location to match
  * the current tablet location
@@ -371,6 +372,7 @@ static void tablet_info_process() {
 	PoiLocationSet(&poi);
 }
 
+#endif /* CAMERASTAB_POI_MODE */
 /**
  * @}
  * @}
