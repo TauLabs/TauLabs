@@ -62,10 +62,13 @@ void ConnectionDiagram::showEvent(QShowEvent *event)
 
 void ConnectionDiagram::setupGraphicsScene()
 {
+    Core::IBoardType *board = m_configSource->getControllerType();
+    if (!board)
+        return;
+    QString diagram = board->getConnectionDiagram();
     m_renderer = new QSvgRenderer();
-    if (QFile::exists(QString(":/setupwizard/resources/connection-diagrams.svg")) &&
-        m_renderer->load(QString(":/setupwizard/resources/connection-diagrams.svg")) &&
-        m_renderer->isValid()) {
+    if (QFile::exists(diagram) && m_renderer->load(diagram) && m_renderer->isValid()) {
+
         m_scene = new QGraphicsScene(this);
         ui->connectionDiagram->setScene(m_scene);
 
@@ -80,7 +83,7 @@ void ConnectionDiagram::setupGraphicsScene()
 
         Core::IBoardType* type = m_configSource->getControllerType();
         if (type != NULL)
-            elementsToShow << "controller-" << type->shortName();
+            elementsToShow << QString("controller-").append(type->shortName().toLower());
 
         switch (m_configSource->getVehicleType()) {
         case VehicleConfigurationSource::VEHICLE_MULTI:
