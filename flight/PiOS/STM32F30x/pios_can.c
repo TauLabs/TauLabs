@@ -349,8 +349,6 @@ void USB_HP_CAN1_TX_IRQHandler(void)
 		msg.RTR = CAN_RTR_DATA;			
 		msg.DLC = (can_dev->tx_out_cb)(can_dev->tx_out_context, msg.Data, MAX_SEND_LEN, NULL, &tx_need_yield);
 
-		PIOS_LED_Toggle(PIOS_LED_ALARM);
-
 		// Send message and get mailbox number
 		if (msg.DLC > 0) {
 			CAN_Transmit(can_dev->cfg->regs, &msg);
