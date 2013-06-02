@@ -240,6 +240,9 @@ static void attitudeUpdated(UAVObjEvent* ev)
 			float yaw = atan2f(dLoc[1],dLoc[0]) * RAD2DEG;
 			if (yaw < 0) yaw += 360.0;
 
+			// Store the absolute declination relative to UAV
+			CameraDesiredDeclinationSet(&pitch);
+
 			// Only try and track objects more than 2 m away
 			if (distance > 2) {
 				switch (i) {
