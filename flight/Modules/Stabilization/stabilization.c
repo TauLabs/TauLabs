@@ -387,8 +387,6 @@ static void stabilizationTask(void* parameters)
 					break;
 					
 				case STABILIZATIONDESIRED_STABILIZATIONMODE_POI:
-					// TODO: Make sure this only applies to yaw
-
 					if(reinit) {
 						pids[PID_ATT_ROLL + i].iAccumulator = 0;
 						pids[PID_RATE_ROLL + i].iAccumulator = 0;
