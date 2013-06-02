@@ -140,6 +140,8 @@ static void uavoRelayTask(void *parameters)
 	// Loop forever
 	while (1) {
 
+		vTaskDelay(50);
+
 		// Wait for queue message
 		if (xQueueReceive(queue, &ev, 2) == pdTRUE) {
 			// Process event.  This calls transmitData
@@ -150,9 +152,9 @@ static void uavoRelayTask(void *parameters)
 		uint8_t serial_data[8];
 		uint16_t bytes_to_process;
 
-		bytes_to_process = PIOS_COM_ReceiveBuffer(uavorelay_com_id, serial_data, sizeof(serial_data), 500);
+		bytes_to_process = PIOS_COM_ReceiveBuffer(uavorelay_com_id, serial_data, sizeof(serial_data), 0);
 		do {
-			bytes_to_process = PIOS_COM_ReceiveBuffer(uavorelay_com_id, serial_data, sizeof(serial_data), 500);
+			bytes_to_process = PIOS_COM_ReceiveBuffer(uavorelay_com_id, serial_data, sizeof(serial_data), 0);
 			for (uint8_t i = 0; i < bytes_to_process; i++)
 				UAVTalkProcessInputStream(uavTalkCon,serial_data[i]);
 		} while (bytes_to_process > 0);
