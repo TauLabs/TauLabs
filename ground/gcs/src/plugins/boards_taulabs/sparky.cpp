@@ -26,8 +26,6 @@
  */
 
 #include "sparky.h"
-#include <QFile>
-#include <QDebug>
 
 #include <uavobjectmanager.h>
 #include "uavobjectutil/uavobjectutilmanager.h"
@@ -113,9 +111,10 @@ bool Sparky::isInputConfigurationSupported()
 }
 
 /**
- * Configure the board to use an receiver input type on a port number
+ * Configure the board to use a receiver input type on a port number
  * @param type the type of receiver to use
  * @param port_num which input port to configure (board specific numbering)
+ * @return true if successfully configured or false otherwise
  */
 bool Sparky::setInputOnPort(enum InputType type, int port_num)
 {
