@@ -258,9 +258,9 @@ struct pios_can_cfg pios_can_cfg = {
                                   This parameter can be set either to ENABLE or DISABLE. */
   		.CAN_AWUM = DISABLE,  /*!< Enable or disable the automatic wake-up mode. 
                                   This parameter can be set either to ENABLE or DISABLE. */
-  		.CAN_NART = DISABLE,  /*!< Enable or disable the non-automatic retransmission mode.
+  		.CAN_NART = ENABLE,  /*!< Enable or disable the non-automatic retransmission mode.
                                   This parameter can be set either to ENABLE or DISABLE. */
-  		.CAN_RFLM  = DISABLE,  /*!< Enable or disable the Receive FIFO Locked mode.
+  		.CAN_RFLM = DISABLE,  /*!< Enable or disable the Receive FIFO Locked mode.
                                   This parameter can be set either to ENABLE or DISABLE. */
   		.CAN_TXFP = DISABLE,  /*!< Enable or disable the transmit FIFO priority.
                                   This parameter can be set either to ENABLE or DISABLE. */
@@ -291,6 +291,14 @@ struct pios_can_cfg pios_can_cfg = {
 	.rx_irq = {
 		.init = {
 			.NVIC_IRQChannel = CAN1_RX1_IRQn,
+			.NVIC_IRQChannelPreemptionPriority = PIOS_IRQ_PRIO_MID,
+			.NVIC_IRQChannelSubPriority = 0,
+			.NVIC_IRQChannelCmd = ENABLE,
+		},
+	},
+	.tx_irq = {
+		.init = {
+			.NVIC_IRQChannel = USB_HP_CAN1_TX_IRQn,
 			.NVIC_IRQChannelPreemptionPriority = PIOS_IRQ_PRIO_MID,
 			.NVIC_IRQChannelSubPriority = 0,
 			.NVIC_IRQChannelCmd = ENABLE,

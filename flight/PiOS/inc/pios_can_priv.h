@@ -40,6 +40,7 @@ struct pios_can_cfg {
 	struct stm32_gpio rx;   //! Configuration for RX pin
 	struct stm32_gpio tx;   //! Configuration for TX pin
 	struct stm32_irq rx_irq;   //! Configuration for IRQ
+	struct stm32_irq tx_irq;   //! Configuration for IRQ
 };
 
 /**

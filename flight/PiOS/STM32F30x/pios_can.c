@@ -153,6 +153,7 @@ int32_t PIOS_CAN_Init(uintptr_t *can_id, const struct pios_can_cfg *cfg)
 
 	// Enable the receiver IRQ
  	NVIC_Init((NVIC_InitTypeDef*) &can_dev->cfg->rx_irq.init);
+ 	NVIC_Init((NVIC_InitTypeDef*) &can_dev->cfg->tx_irq.init);
 
 	return(0);
 
@@ -348,8 +349,14 @@ void USB_HP_CAN1_TX_IRQHandler(void)
 		msg.RTR = CAN_RTR_DATA;			
 		msg.DLC = (can_dev->tx_out_cb)(can_dev->tx_out_context, msg.Data, MAX_SEND_LEN, NULL, &tx_need_yield);
 
+		PIOS_LED_Toggle(PIOS_LED_ALARM);
+
 		// Send message and get mailbox number
-		CAN_Transmit(can_dev->cfg->regs, &msg);
+		if (msg.DLC > 0) {
+			CAN_Transmit(can_dev->cfg->regs, &msg);
+		} else {
+			CAN_ITConfig(can_dev->cfg->regs, CAN_IT_TME, DISABLE);
+		}
 
 		// TODO: deal with failure to send and keep the message to retransmit
 	}
