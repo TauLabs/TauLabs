@@ -3,11 +3,13 @@
  *
  * @file       setupwizardplugin.h
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
+ * @see        The GNU Public License (GPL) Version 3
+ *
  * @addtogroup GCSPlugins GCS Plugins
  * @{
- * @addtogroup SetupWizardPlugin
+ * @addtogroup SetupWizard Setup Wizard
  * @{
- * @brief A Setup Wizard Plugin
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify
@@ -31,23 +33,22 @@
 #include <QWizard>
 #include "setupwizard.h"
 
-class SetupWizardPlugin : public ExtensionSystem::IPlugin
-{
+class SetupWizardPlugin : public ExtensionSystem::IPlugin {
     Q_OBJECT
 public:
-   SetupWizardPlugin();
-   ~SetupWizardPlugin();
+    SetupWizardPlugin();
+    ~SetupWizardPlugin();
 
-   void extensionsInitialized();
-   bool initialize(const QStringList & arguments, QString * errorString);
-   void shutdown();
+    void extensionsInitialized();
+    bool initialize(const QStringList & arguments, QString *errorString);
+    void shutdown();
 
 private slots:
-   void showSetupWizard();
-   void wizardTerminated();
+    void showSetupWizard();
+    void wizardTerminated();
 
 private:
-   bool wizardRunning;
+    bool wizardRunning;
 };
 
 #endif // SETUPWIZARDPLUGIN_H

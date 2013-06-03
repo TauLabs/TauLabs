@@ -3,11 +3,12 @@
  *
  * @file       endpage.cpp
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
+ * @see        The GNU Public License (GPL) Version 3
+ *
  * @addtogroup GCSPlugins GCS Plugins
  * @{
- * @addtogroup Setup Wizard  Plugin
+ * @addtogroup SetupWizard Setup Wizard
  * @{
- * @brief A Wizard to make the initial setup easy for everyone.
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify
@@ -48,14 +49,13 @@ EndPage::~EndPage()
 void EndPage::openInputWizard()
 {
     ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
-    ConfigGadgetFactory* configGadgetFactory = pm->getObject<ConfigGadgetFactory>();
+    ConfigGadgetFactory *configGadgetFactory = pm->getObject<ConfigGadgetFactory>();
 
-    if(configGadgetFactory) {
-        //Core::ModeManager::instance()->activateModeByWorkspaceName("Configuration");
+    if (configGadgetFactory) {
+        // Core::ModeManager::instance()->activateModeByWorkspaceName("Configuration");
         getWizard()->close();
         configGadgetFactory->startInputWizard();
-    }
-    else {
+    } else {
         QMessageBox msgBox;
         msgBox.setText(tr("Unable to open Input Wizard since the Config Plugin is not\nloaded in the current workspace."));
         msgBox.setStandardButtons(QMessageBox::Ok);

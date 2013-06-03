@@ -3,9 +3,12 @@
  *
  * @file       enums.h
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
+ * @see        The GNU Public License (GPL) Version 3
+ *
  * @addtogroup GCSPlugins GCS Plugins
  * @{
- * @addtogroup
+ * @addtogroup UploaderPlugin Uploader plugin for upgrading firmware
  * @{
  * @brief
  *****************************************************************************/
@@ -30,6 +33,6 @@
 namespace uploader
 {
     typedef enum { IAP_STATE_READY, IAP_STATE_STEP_1, IAP_STATE_STEP_2, IAP_STEP_RESET, IAP_STATE_BOOTLOADER} IAPStep;
-    typedef enum { WAITING_DISCONNECT, WAITING_CONNECT, JUMP_TO_BL, LOADING_FW, UPLOADING_FW, UPLOADING_DESC, BOOTING, SUCCESS, FAILURE} AutoUpdateStep;
+    typedef enum { WAITING_DISCONNECT, WAITING_CONNECT, JUMP_TO_BL, LOADING_FW, UPLOADING_FW, UPLOADING_DESC, BOOTING, SUCCESS, FAILURE_FILENOTFOUND, FAILURE} AutoUpdateStep;
 }
 #endif // ENUMS_H

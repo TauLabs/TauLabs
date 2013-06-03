@@ -26,8 +26,12 @@
  */
 
 #include "sparky.h"
-#include <QFile>
-#include <QDebug>
+
+#include <uavobjectmanager.h>
+#include "uavobjectutil/uavobjectutilmanager.h"
+#include <extensionsystem/pluginmanager.h>
+
+#include "hwsparky.h"
 
 /**
  * @brief Sparky::Sparky
@@ -98,4 +102,91 @@ QPixmap Sparky::getBoardPicture()
 QString Sparky::getHwUAVO()
 {
     return "HwSparky";
+}
+
+//! Determine if this board supports configuring the receiver
+bool Sparky::isInputConfigurationSupported()
+{
+    return true;
+}
+
+/**
+ * Configure the board to use a receiver input type on a port number
+ * @param type the type of receiver to use
+ * @param port_num which input port to configure (board specific numbering)
+ * @return true if successfully configured or false otherwise
+ */
+bool Sparky::setInputOnPort(enum InputType type, int port_num)
+{
+    if (port_num != 0)
+        return false;
+
+    ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
+    UAVObjectManager *uavoManager = pm->getObject<UAVObjectManager>();
+    HwSparky *hwSparky = HwSparky::GetInstance(uavoManager);
+    Q_ASSERT(hwSparky);
+    if (!hwSparky)
+        return false;
+
+    HwSparky::DataFields settings = hwSparky->getData();
+
+    switch(type) {
+    case INPUT_TYPE_PPM:
+        settings.RcvrPort = HwSparky::RCVRPORT_PPM;
+        break;
+    case INPUT_TYPE_SBUS:
+        settings.RcvrPort = HwSparky::RCVRPORT_SBUS;
+        break;
+    case INPUT_TYPE_DSM2:
+        settings.RcvrPort = HwSparky::RCVRPORT_DSM2;
+        break;
+    case INPUT_TYPE_DSMX10BIT:
+        settings.RcvrPort = HwSparky::RCVRPORT_DSMX10BIT;
+        break;
+    case INPUT_TYPE_DSMX11BIT:
+        settings.RcvrPort = HwSparky::RCVRPORT_DSMX11BIT;
+        break;
+    default:
+        return false;
+    }
+
+    // Apply these changes
+    hwSparky->setData(settings);
+
+    return true;
+}
+
+/**
+ * @brief Sparky::getInputOnPort fetch the currently selected input type
+ * @param port_num the port number to query (must be zero)
+ * @return the selected input type
+ */
+enum Core::IBoardType::InputType Sparky::getInputOnPort(int port_num)
+{
+    if (port_num != 0)
+        return INPUT_TYPE_UNKNOWN;
+
+    ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
+    UAVObjectManager *uavoManager = pm->getObject<UAVObjectManager>();
+    HwSparky *hwSparky = HwSparky::GetInstance(uavoManager);
+    Q_ASSERT(hwSparky);
+    if (!hwSparky)
+        return INPUT_TYPE_UNKNOWN;
+
+    HwSparky::DataFields settings = hwSparky->getData();
+
+    switch(settings.RcvrPort) {
+    case HwSparky::RCVRPORT_PPM:
+        return INPUT_TYPE_PPM;
+    case HwSparky::RCVRPORT_SBUS:
+        return INPUT_TYPE_SBUS;
+    case HwSparky::RCVRPORT_DSM2:
+        return INPUT_TYPE_DSM2;
+    case HwSparky::RCVRPORT_DSMX10BIT:
+        return INPUT_TYPE_DSMX10BIT;
+    case HwSparky::RCVRPORT_DSMX11BIT:
+        return INPUT_TYPE_DSMX11BIT;
+    default:
+        return INPUT_TYPE_UNKNOWN;
+    }
 }

@@ -3,11 +3,12 @@
  *
  * @file       outputcalibrationutil.h
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
- * @addtogroup
+ * @see        The GNU Public License (GPL) Version 3
+ *
+ * @addtogroup GCSPlugins GCS Plugins
  * @{
- * @addtogroup OutputCalibrationUtil
+ * @addtogroup SetupWizard Setup Wizard
  * @{
- * @brief
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify
@@ -36,15 +37,14 @@
 #include "actuatorcommand.h"
 
 
-class OutputCalibrationUtil : public QObject
-{
+class OutputCalibrationUtil : public QObject {
     Q_OBJECT
 public:
     explicit OutputCalibrationUtil(QObject *parent = 0);
     ~OutputCalibrationUtil();
-    
+
 signals:
-    
+
 public slots:
     void startChannelOutput(quint16 channel, quint16 safeValue);
     void stopChannelOutput();
