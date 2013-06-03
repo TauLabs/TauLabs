@@ -518,11 +518,10 @@ void PIOS_Board_Init(void) {
 		break;
 	case HWSPARKY_FLEXIPORT_GPS:
 #if defined(PIOS_INCLUDE_GPS) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
-		PIOS_Board_configure_com(&pios_flexi_usart_cfg, PIOS_COM_GPS_RX_BUF_LEN, -1, &pios_usart_com_driver, &pios_com_gps_id);
+		PIOS_Board_configure_com(&pios_flexi_usart_cfg, PIOS_COM_GPS_RX_BUF_LEN, 0, &pios_usart_com_driver, &pios_com_gps_id);
 #endif
 		break;
 	case HWSPARKY_FLEXIPORT_SBUS:
-		//hardware signal inverter required
 #if defined(PIOS_INCLUDE_SBUS) && defined(PIOS_INCLUDE_USART)
 		{
 			uint32_t pios_usart_sbus_id;
@@ -604,11 +603,10 @@ void PIOS_Board_Init(void) {
 		break;
 	case HWSPARKY_MAINPORT_GPS:
 #if defined(PIOS_INCLUDE_GPS) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
-		PIOS_Board_configure_com(&pios_main_usart_cfg, PIOS_COM_GPS_RX_BUF_LEN, -1, &pios_usart_com_driver, &pios_com_gps_id);
+		PIOS_Board_configure_com(&pios_main_usart_cfg, PIOS_COM_GPS_RX_BUF_LEN, 0, &pios_usart_com_driver, &pios_com_gps_id);
 #endif
 		break;
 	case HWSPARKY_MAINPORT_SBUS:
-		//hardware signal inverter required
 #if defined(PIOS_INCLUDE_SBUS) && defined(PIOS_INCLUDE_USART)
 		{
 			uint32_t pios_usart_sbus_id;
@@ -724,7 +722,6 @@ void PIOS_Board_Init(void) {
 #endif	/* PIOS_INCLUDE_DSM */
 		break;
 	case HWSPARKY_RCVRPORT_SBUS:
-		//hardware signal inverter required
 #if defined(PIOS_INCLUDE_SBUS) && defined(PIOS_INCLUDE_USART)
 		{
 			uint32_t pios_usart_sbus_id;
