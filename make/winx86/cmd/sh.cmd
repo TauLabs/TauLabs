@@ -53,7 +53,11 @@ rem --------------------------------------------------------------------------
 set NOT_FOUND=
 set PATH_DIRS=
 
-call :which MSYSGIT       "%ProgramFiles%\Git\bin"       git.exe
+if "%PROCESSOR_ARCHITECTURE%" == "AMD64" (
+  call :which MSYSGIT       "%ProgramFiles(x86)%\Git\bin" git.exe
+) else (
+  call :which MSYSGIT       "%ProgramFiles%\Git\bin"  git.exe
+)
 call :which QTMINGW       "C:\QtSDK\mingw\bin"                  mingw32-make.exe
 call :which QTSDK         "C:\QtSDK\Desktop\Qt\4.8.1\mingw\bin" qmake.exe
 call :which ARMTOOLCHAIN  "C:\gcc-arm-none-eabi-4_6_2012q4\bin" arm-none-eabi-gcc.exe
@@ -83,14 +87,13 @@ rem --------------------------------------------------------------------------
 rem Start a shell.
 rem Any shell script can be passed to it via command line of this batch file.
 rem --------------------------------------------------------------------------
-
 if not exist "%MSYSGIT%\bash.exe" goto no_bash
 call "%MSYSGIT%\bash.exe" --login -i %*
 goto :eof
 
 :no_bash
 echo Cannot find bash, exiting with error
-exit 1
+goto :eof
 
 rem --------------------------------------------------------------------------
 rem Attempt to find executable in the directory given or in the PATH
@@ -129,3 +132,4 @@ if "%FP%" == "" goto :eof
 if not "%PATH_DIRS%" == "" set PATH_DIRS=%PATH_DIRS%;
 set PATH_DIRS=%PATH_DIRS%%FP%
 goto :eof
+
