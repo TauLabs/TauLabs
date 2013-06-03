@@ -85,8 +85,7 @@
 #define PIOS_INCLUDE_MPU6000
 #define PIOS_MPU6000_ACCEL
 
-/* A really shitty setting saving implementation */
-#define PIOS_INCLUDE_FLASH_SECTOR_SETTINGS
+#define PIOS_INCLUDE_LOGFS_SETTINGS
 
 /* Alarm Thresholds */
 #define HEAP_LIMIT_WARNING             220

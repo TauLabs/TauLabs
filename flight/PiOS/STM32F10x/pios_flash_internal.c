@@ -5,8 +5,8 @@
  * @addtogroup PiosFlashInternal PIOS Flash internal flash driver
  * @{
  *
- * @file       pios_flash_internal.c  
- * @author     Tau Labs, http://github.com/TauLabs, Copyright (C) 2012-2013.
+ * @file	   pios_flash_internal.c  
+ * @author	   Tau Labs, http://github.com/TauLabs, Copyright (C) 2013.
  * @brief Provides a flash driver for the STM32 internal flash sectors
  *****************************************************************************/
 /* 
@@ -27,102 +27,32 @@
 
 #include "pios.h"
 
-#if defined(PIOS_INCLUDE_FLASH_INTERNAL)
+#ifdef PIOS_INCLUDE_FLASH_INTERNAL
 
-#include "stm32f4xx_flash.h"
+#include "stm32f10x_flash.h"
 #include "pios_flash_internal_priv.h"
 #include "pios_flash.h"
-#include "pios_wdg.h"
 #include <stdbool.h>
-
-struct device_flash_sector {
-	uint32_t start;
-	uint32_t size;
-	uint16_t st_sector;
-};
-
-static struct device_flash_sector flash_sectors[] = {
-	[0] = {
-		.start = 0x08000000,
-		.size  = 16 * 1024,
-		.st_sector = FLASH_Sector_0,
-	},
-	[1] = {
-		.start = 0x08004000,
-		.size  = 16 * 1024,
-		.st_sector = FLASH_Sector_1,
-	},
-	[2] = {
-		.start = 0x08008000,
-		.size  = 16 * 1024,
-		.st_sector = FLASH_Sector_2,
-	},
-	[3] = {
-		.start = 0x0800C000,
-		.size  = 16 * 1024,
-		.st_sector = FLASH_Sector_3,
-	},
-	[4] = {
-		.start = 0x08010000,
-		.size  = 64 * 1024,
-		.st_sector = FLASH_Sector_4,
-	},
-	[5] = {
-		.start = 0x08020000,
-		.size  = 128 * 1024,
-		.st_sector = FLASH_Sector_5,
-	},
-	[6] = {
-		.start = 0x08040000,
-		.size  = 128 * 1024,
-		.st_sector = FLASH_Sector_6,
-	},
-	[7] = {
-		.start = 0x08060000,
-		.size  = 128 * 1024,
-		.st_sector = FLASH_Sector_7,
-	},
-	[8] = {
-		.start = 0x08080000,
-		.size  = 128 * 1024,
-		.st_sector = FLASH_Sector_8,
-	},
-	[9] = {
-		.start = 0x080A0000,
-		.size  = 128 * 1024,
-		.st_sector = FLASH_Sector_9,
-	},
-	[10] = {
-		.start = 0x080C0000,
-		.size  = 128 * 1024,
-		.st_sector = FLASH_Sector_10,
-	},
-	[11] = {
-		.start = 0x080E0000,
-		.size  = 128 * 1024,
-		.st_sector = FLASH_Sector_11,
-	},
-};
 
 static bool PIOS_Flash_Internal_GetSectorInfo(uint32_t address, uint8_t * sector_number, uint32_t *sector_start, uint32_t *sector_size)
 {
-	for (uint8_t i = 0; i < NELEMENTS(flash_sectors); i++) {
-		struct device_flash_sector * sector = &flash_sectors[i];
-		if ((address >= sector->start) &&
-			(address < (sector->start + sector->size))) {
-			/* address lies within this sector */
-			*sector_number = sector->st_sector;
-			*sector_start  = sector->start;
-			*sector_size   = sector->size;
-			return (true);
-		}
+	if ((address & 0xF8000000) != 0x08000000)
+		return (false);
+
+	uint16_t sector = (address - 0x08000000) / 1024;
+	if (sector <= 127) {
+		/* address lies within this sector */
+		*sector_number = sector;
+		*sector_start  = sector * 1024 + 0x08000000;
+		*sector_size   = 1024;
+		return (true);
 	}
 
 	return (false);
 }
 
 enum pios_internal_flash_dev_magic {
-	PIOS_INTERNAL_FLASH_DEV_MAGIC = 0x33445902,
+	PIOS_INTERNAL_FLASH_DEV_MAGIC = 0xae82c65d,
 };
 
 struct pios_internal_flash_dev {
@@ -234,10 +164,6 @@ static int32_t PIOS_Flash_Internal_EraseSector(uintptr_t flash_id, uint32_t addr
 	if (!PIOS_Flash_Internal_Validate(flash_dev))
 		return -1;
 
-#if defined(PIOS_INCLUDE_WDG)
-	PIOS_WDG_Clear();
-#endif
-
 	uint8_t sector_number;
 	uint32_t sector_start;
 	uint32_t sector_size;
@@ -249,7 +175,7 @@ static int32_t PIOS_Flash_Internal_EraseSector(uintptr_t flash_id, uint32_t addr
 		return -2;
 	}
 
-	if (FLASH_EraseSector(sector_number, VoltageRange_3) != FLASH_COMPLETE)
+	if (FLASH_ErasePage(sector_start) != FLASH_COMPLETE)
 		return -3;
 
 	return 0;
@@ -267,6 +193,8 @@ static int32_t PIOS_Flash_Internal_WriteData(uintptr_t flash_id, uint32_t addr, 
 	uint8_t sector_number;
 	uint32_t sector_start;
 	uint32_t sector_size;
+	uint32_t hword_data;
+	uint32_t offset;
 
 	/* Ensure that the base address is in a valid sector */
 	if (!PIOS_Flash_Internal_GetSectorInfo(addr,
@@ -284,13 +212,31 @@ static int32_t PIOS_Flash_Internal_WriteData(uintptr_t flash_id, uint32_t addr, 
 	}
 
 	/* Write the data */
-	for (uint16_t i = 0; i < len; i++) {
-		FLASH_Status status;
-		/*
-		 * This is inefficient.  Should try to do word writes.
-		 * Not sure if word writes need to be aligned though.
-		 */
-		status = FLASH_ProgramByte(addr + i, data[i]);
+	uint32_t temp_addr = addr;
+	uint16_t numberOfhWords = len / 2;
+	uint16_t x = 0;
+	FLASH_Status status;
+	for ( x = 0; x < numberOfhWords; ++x) {
+		offset = 2 * x;
+		hword_data = (data[offset + 1] << 8) | data[offset];
+
+		if (hword_data !=  *(uint16_t *)(temp_addr + offset)) {
+			status = FLASH_ProgramHalfWord(temp_addr + offset, hword_data);
+		} else {
+			status = FLASH_COMPLETE;
+		}
+		PIOS_Assert(status == FLASH_COMPLETE);
+	}
+
+	uint16_t mod = len % 2;
+	if (mod == 1) {
+		offset = 2 * x;
+		hword_data = 0xFF00 | data[offset];
+		if (hword_data !=  *(uint16_t *)(temp_addr + offset)) {
+			status = FLASH_ProgramHalfWord(temp_addr + offset, hword_data);
+		} else {
+			status = FLASH_COMPLETE;
+		}
 		PIOS_Assert(status == FLASH_COMPLETE);
 	}
 
@@ -335,9 +281,9 @@ static int32_t PIOS_Flash_Internal_ReadData(uintptr_t flash_id, uint32_t addr, u
 const struct pios_flash_driver pios_internal_flash_driver = {
 	.start_transaction = PIOS_Flash_Internal_StartTransaction,
 	.end_transaction   = PIOS_Flash_Internal_EndTransaction,
-	.erase_sector      = PIOS_Flash_Internal_EraseSector,
-	.write_data        = PIOS_Flash_Internal_WriteData,
-	.read_data         = PIOS_Flash_Internal_ReadData,
+	.erase_sector	   = PIOS_Flash_Internal_EraseSector,
+	.write_data		   = PIOS_Flash_Internal_WriteData,
+	.read_data		   = PIOS_Flash_Internal_ReadData,
 };
 
-#endif	/* defined(PIOS_INCLUDE_FLASH_INTERNAL) */
+#endif /* PIOS_INCLUDE_FLASH_INTERNAL */

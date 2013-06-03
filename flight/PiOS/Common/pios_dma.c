@@ -30,7 +30,7 @@
 
 void PIOS_DMA_Default_Handler(void);
 
-void * pios_dma_handler_map[PIOS_DMA_MAX_CHANNELS][PIOS_DMA_MAX_HANDLERS_PER_CHANNEL]={{NULL}};
+void (*pios_dma_handler_map[PIOS_DMA_MAX_CHANNELS][PIOS_DMA_MAX_HANDLERS_PER_CHANNEL])(void)={{NULL}};
 
 const static DMA_Channel_TypeDef * dma_channels[] = PIOS_DMA_CHANNELS;
 
