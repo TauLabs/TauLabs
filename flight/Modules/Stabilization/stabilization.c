@@ -396,18 +396,21 @@ static void stabilizationTask(void* parameters)
 
 					float error;
 					float angle;
-					switch(i) {
-					case PITCH:
-						CameraDesiredDeclinationGet(&angle);
-						error = circular_modulus_deg(angle - attitudeActual.Pitch);
-						break;
-					case YAW:
-						CameraDesiredBearingGet(&angle);
-						error = circular_modulus_deg(angle - attitudeActual.Yaw);
-						break;
-					default:
+					if (CameraDesiredHandle()) {
+						switch(i) {
+						case PITCH:
+							CameraDesiredDeclinationGet(&angle);
+							error = circular_modulus_deg(angle - attitudeActual.Pitch);
+							break;
+						case YAW:
+							CameraDesiredBearingGet(&angle);
+							error = circular_modulus_deg(angle - attitudeActual.Yaw);
+							break;
+						default:
+							error = true;
+						}
+					} else
 						error = true;
-					}
 
 					// Compute the outer loop
 					rateDesiredAxis[i] = pid_apply(&pids[PID_ATT_ROLL + i], error, dT);
