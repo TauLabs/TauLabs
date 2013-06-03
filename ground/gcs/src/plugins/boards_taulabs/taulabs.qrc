@@ -2,5 +2,6 @@
     <qresource prefix="/taulabs">
         <file>images/freedom.png</file>
         <file>images/sparky.png</file>
+        <file>images/sparky-connection-diagram.svg</file>
     </qresource>
 </RCC>

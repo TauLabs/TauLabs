@@ -3,11 +3,13 @@
  *
  * @file       setupwizardplugin.cpp
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
+ * @see        The GNU Public License (GPL) Version 3
+ *
  * @addtogroup GCSPlugins GCS Plugins
  * @{
- * @addtogroup SetupWizardPlugin
+ * @addtogroup SetupWizard Setup Wizard
  * @{
- * @brief A Setup Wizard Plugin
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify
@@ -38,23 +40,21 @@
 #include <coreplugin/modemanager.h>
 
 SetupWizardPlugin::SetupWizardPlugin() : wizardRunning(false)
-{
-}
+{}
 
 SetupWizardPlugin::~SetupWizardPlugin()
-{
-}
+{}
 
-bool SetupWizardPlugin::initialize(const QStringList& args, QString *errMsg)
+bool SetupWizardPlugin::initialize(const QStringList & args, QString *errMsg)
 {
     Q_UNUSED(args);
     Q_UNUSED(errMsg);
 
     // Add Menu entry
-    Core::ActionManager* am = Core::ICore::instance()->actionManager();
-    Core::ActionContainer* ac = am->actionContainer(Core::Constants::M_TOOLS);
+    Core::ActionManager *am   = Core::ICore::instance()->actionManager();
+    Core::ActionContainer *ac = am->actionContainer(Core::Constants::M_TOOLS);
 
-    Core::Command* cmd = am->registerAction(new QAction(this),
+    Core::Command *cmd = am->registerAction(new QAction(this),
                                             "SetupWizardPlugin.ShowSetupWizard",
                                             QList<int>() <<
                                             Core::Constants::C_GLOBAL_ID);
@@ -72,12 +72,10 @@ bool SetupWizardPlugin::initialize(const QStringList& args, QString *errMsg)
 }
 
 void SetupWizardPlugin::extensionsInitialized()
-{
-}
+{}
 
 void SetupWizardPlugin::shutdown()
-{
-}
+{}
 
 void SetupWizardPlugin::showSetupWizard()
 {
@@ -85,7 +83,7 @@ void SetupWizardPlugin::showSetupWizard()
         wizardRunning = true;
         SetupWizard *m_wiz = new SetupWizard();
         connect(m_wiz, SIGNAL(finished(int)), this, SLOT(wizardTerminated()));
-        m_wiz->setAttribute( Qt::WA_DeleteOnClose, true );
+        m_wiz->setAttribute(Qt::WA_DeleteOnClose, true);
         m_wiz->setWindowFlags(m_wiz->windowFlags() | Qt::WindowStaysOnTopHint);
         m_wiz->show();
     }
@@ -94,7 +92,7 @@ void SetupWizardPlugin::showSetupWizard()
 void SetupWizardPlugin::wizardTerminated()
 {
     wizardRunning = false;
-    disconnect(this,SLOT(wizardTerminated()));
+    disconnect(this, SLOT(wizardTerminated()));
 }
 
 Q_EXPORT_PLUGIN(SetupWizardPlugin)

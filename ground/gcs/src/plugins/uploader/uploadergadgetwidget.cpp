@@ -3,11 +3,13 @@
  *
  * @file       uploadergadgetwidget.cpp
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
+ * @see        The GNU Public License (GPL) Version 3
+ *
  * @addtogroup GCSPlugins GCS Plugins
  * @{
- * @addtogroup YModemUploader YModem Serial Uploader Plugin
+ * @addtogroup UploaderPlugin Uploader plugin for upgrading firmware
  * @{
- * @brief The YModem protocol serial uploader plugin
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify
@@ -432,6 +434,8 @@ void UploaderGadgetWidget::commonSystemBoot(bool safeboot)
     delete dfu; // Frees up the USB/Serial port too
     dfu = NULL;
 }
+
+//! Check that the resources for auto updating are compiled in
 bool UploaderGadgetWidget::autoUpdateCapable()
 {
     return QDir(":/build").exists();
@@ -509,26 +513,17 @@ bool UploaderGadgetWidget::autoUpdate()
         emit autoUpdateSignal(FAILURE,QVariant());
         return false;
     }
-    QString filename;
+
     emit autoUpdateSignal(LOADING_FW,QVariant());
-    switch (dfu->devices[0].ID)
-    {
-    case 0x401:
-        filename="fw_coptercontrol";
-        break;
-    case 0x402:
-        filename="fw_coptercontrol";
-        break;
-    default:
-        emit autoUpdateSignal(FAILURE,QVariant());
-        return false;
-        break;
-    }
+
+    // Find firmware file in resources based on board name
+    QString filename;
+    filename = QString("fw_").append(deviceDescriptorStruct::idToBoardName(dfu->devices[0].ID).toLower());
     filename=":/build/"+filename+"/"+filename+".tlfw";
     QByteArray firmware;
     if(!QFile::exists(filename))
     {
-        emit autoUpdateSignal(FAILURE,QVariant());
+        emit autoUpdateSignal(FAILURE_FILENOTFOUND,QVariant());
         return false;
     }
     QFile file(filename);

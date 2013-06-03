@@ -3,11 +3,13 @@
  *
  * @file       abstractwizardpage.h
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
- * @addtogroup
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
+ * @see        The GNU Public License (GPL) Version 3
+ *
+ * @addtogroup GCSPlugins GCS Plugins
  * @{
- * @addtogroup AbstractWizardPage
+ * @addtogroup SetupWizard Setup Wizard
  * @{
- * @brief
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify
@@ -31,8 +33,7 @@
 #include <QWizardPage>
 #include "setupwizard.h"
 
-class AbstractWizardPage : public QWizardPage
-{
+class AbstractWizardPage : public QWizardPage {
     Q_OBJECT
 protected:
     explicit AbstractWizardPage(SetupWizard *wizard, QWidget *parent = 0);
@@ -41,8 +42,10 @@ private:
     SetupWizard *m_wizard;
 
 public:
-    SetupWizard* getWizard() { return m_wizard; }
-
+    SetupWizard *getWizard() const
+    {
+        return m_wizard;
+    }
 };
 
 #endif // ABSTRACTWIZARDPAGE_H

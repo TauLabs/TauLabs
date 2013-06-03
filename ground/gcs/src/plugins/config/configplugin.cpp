@@ -3,6 +3,7 @@
  *
  * @file       configplugin.h
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
  * @addtogroup GCSPlugins GCS Plugins
  * @{
  * @addtogroup ConfigPlugin Config Plugin
@@ -30,54 +31,58 @@
 #include <QStringList>
 #include <QTimer>
 #include <extensionsystem/pluginmanager.h>
+#include "calibration.h"
 #include "objectpersistence.h"
 
 ConfigPlugin::ConfigPlugin()
 {
-   // Do nothing
+    // Do nothing
 }
 
 ConfigPlugin::~ConfigPlugin()
 {
-   // Do nothing
+    // Do nothing
 }
 
 bool ConfigPlugin::initialize(const QStringList& args, QString *errMsg)
 {
-   Q_UNUSED(args);
-   Q_UNUSED(errMsg);
-  cf = new ConfigGadgetFactory(this);
-  addAutoReleasedObject(cf);
+    Q_UNUSED(args);
+    Q_UNUSED(errMsg);
+    cf = new ConfigGadgetFactory(this);
+    addAutoReleasedObject(cf);
 
-  // Add Menu entry to erase all settings
-  Core::ActionManager* am = Core::ICore::instance()->actionManager();
-  Core::ActionContainer* ac = am->actionContainer(Core::Constants::M_TOOLS);
+    Calibration* cal = new Calibration();
+    addAutoReleasedObject(cal);
 
-  // Command to erase all settings from the board
-  cmd = am->registerAction(new QAction(this),
-                                          "ConfigPlugin.EraseAll",
-                                          QList<int>() <<
-                                          Core::Constants::C_GLOBAL_ID);
-  cmd->action()->setText(tr("Erase all settings from board..."));
+    // Add Menu entry to erase all settings
+    Core::ActionManager* am = Core::ICore::instance()->actionManager();
+    Core::ActionContainer* ac = am->actionContainer(Core::Constants::M_TOOLS);
 
-  ac->menu()->addSeparator();
-  ac->appendGroup("Utilities");
-  ac->addAction(cmd, "Utilities");
+    // Command to erase all settings from the board
+    cmd = am->registerAction(new QAction(this),
+                             "ConfigPlugin.EraseAll",
+                             QList<int>() <<
+                             Core::Constants::C_GLOBAL_ID);
+    cmd->action()->setText(tr("Erase all settings from board..."));
 
-  connect(cmd->action(), SIGNAL(triggered(bool)), this, SLOT(eraseAllSettings()));
+    ac->menu()->addSeparator();
+    ac->appendGroup("Utilities");
+    ac->addAction(cmd, "Utilities");
 
-  // *********************
-  // Listen to autopilot connection events
-  ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
-  TelemetryManager* telMngr = pm->getObject<TelemetryManager>();
-  connect(telMngr, SIGNAL(connected()), this, SLOT(onAutopilotConnect()));
-  connect(telMngr, SIGNAL(disconnected()), this, SLOT(onAutopilotDisconnect()));
+    connect(cmd->action(), SIGNAL(triggered(bool)), this, SLOT(eraseAllSettings()));
 
-  // And check whether by any chance we are not already connected
-  if (telMngr->isConnected())
-      onAutopilotConnect();
+    // *********************
+    // Listen to autopilot connection events
+    ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
+    TelemetryManager* telMngr = pm->getObject<TelemetryManager>();
+    connect(telMngr, SIGNAL(connected()), this, SLOT(onAutopilotConnect()));
+    connect(telMngr, SIGNAL(disconnected()), this, SLOT(onAutopilotDisconnect()));
 
-   return true;
+    // And check whether by any chance we are not already connected
+    if (telMngr->isConnected())
+        onAutopilotConnect();
+
+    return true;
 }
 
 /**
@@ -130,7 +135,7 @@ void ConfigPlugin::eraseAllSettings()
     msgBox.setStandardButtons(QMessageBox::Ok | QMessageBox::Cancel);
     msgBox.setDefaultButton(QMessageBox::Ok);
     if (msgBox.exec() != QMessageBox::Ok)
-            return;
+        return;
 
     settingsErased = false;
 
