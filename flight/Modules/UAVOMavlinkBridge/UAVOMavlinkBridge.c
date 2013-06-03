@@ -222,15 +222,15 @@ static void uavoMavlinkBridgeTask(void *parameters) {
 
 			int8_t battery_remaining = 0;
 			if (batSettings.Capacity != 0)
-				battery_remaining = batState.ConsumedEnergy / batSettings.Capacity * 100;
+				battery_remaining = lroundf(batState.ConsumedEnergy / batSettings.Capacity * 100);
 
 			uint16_t voltage = 0;
 			if (batSettings.SensorType[FLIGHTBATTERYSETTINGS_SENSORTYPE_BATTERYVOLTAGE] == FLIGHTBATTERYSETTINGS_SENSORTYPE_ENABLED)
-				voltage = batState.Voltage * 1000;
+				voltage = lroundf(batState.Voltage * 1000);
 
 			uint16_t current = 0;
 			if (batSettings.SensorType[FLIGHTBATTERYSETTINGS_SENSORTYPE_BATTERYCURRENT] == FLIGHTBATTERYSETTINGS_SENSORTYPE_ENABLED)
-				voltage = batState.Current * 100;
+				current = lroundf(batState.Current * 100);
 
 			mavlink_msg_sys_status_pack(0, 200, &mavMsg,
 					// onboard_control_sensors_present Bitmask showing which onboard controllers and sensors are present. Value of 0: not present. Value of 1: present. Indices: 0: 3D gyro, 1: 3D acc, 2: 3D mag, 3: absolute pressure, 4: differential pressure, 5: GPS, 6: optical flow, 7: computer vision position, 8: laser based position, 9: external ground-truth (Vicon or Leica). Controllers: 10: 3D angular rate control 11: attitude stabilization, 12: yaw position, 13: z/altitude control, 14: x/y position control, 15: motor outputs / control
