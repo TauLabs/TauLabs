@@ -227,7 +227,7 @@ SectionEnd
 ; Copy driver files
 Section "-Drivers" InSecDrivers
   SetOutPath "$INSTDIR\drivers"
-  File "${PROJECT_ROOT}\flight\Project\Windows USB\OpenPilot-CDC.inf"
+  File "${PROJECT_ROOT}\flight\Project\Windows USB\TauLabs-CDC.inf"
 SectionEnd
 
 ; Preinstall OpenPilot CDC driver
