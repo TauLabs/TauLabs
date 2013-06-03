@@ -520,7 +520,6 @@ void PIOS_Board_Init(void) {
 #endif
 		break;
 	case HWFLYINGF3_UART1_SBUS:
-		//hardware signal inverter required
 #if defined(PIOS_INCLUDE_SBUS) && defined(PIOS_INCLUDE_USART)
 		{
 			uint32_t pios_usart_sbus_id;
@@ -606,7 +605,6 @@ void PIOS_Board_Init(void) {
 #endif
 		break;
 	case HWFLYINGF3_UART2_SBUS:
-		//hardware signal inverter required
 #if defined(PIOS_INCLUDE_SBUS) && defined(PIOS_INCLUDE_USART)
 		{
 			uint32_t pios_usart_sbus_id;
@@ -691,7 +689,6 @@ void PIOS_Board_Init(void) {
 #endif
 		break;
 	case HWFLYINGF3_UART3_SBUS:
-		//hardware signal inverter required
 #if defined(PIOS_INCLUDE_SBUS) && defined(PIOS_INCLUDE_USART)
 		{
 			uint32_t pios_usart_sbus_id;
@@ -776,7 +773,6 @@ void PIOS_Board_Init(void) {
 #endif
 		break;
 	case HWFLYINGF3_UART4_SBUS:
-		//hardware signal inverter required
 #if defined(PIOS_INCLUDE_SBUS) && defined(PIOS_INCLUDE_USART)
 		{
 			uint32_t pios_usart_sbus_id;
@@ -861,7 +857,6 @@ void PIOS_Board_Init(void) {
 #endif
 		break;
 	case HWFLYINGF3_UART5_SBUS:
-		//hardware signal inverter required
 #if defined(PIOS_INCLUDE_SBUS) && defined(PIOS_INCLUDE_USART)
 		{
 			uint32_t pios_usart_sbus_id;
