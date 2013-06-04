@@ -50,6 +50,7 @@
 #define MPU9150_MAG_YL           0x06
 #define MPU9150_MAG_ZH           0x07
 #define MPU9150_MAG_ZL           0x08
+#define MPU9150_MAG_STATUS2      0x09
 #define MPU9150_MAG_CNTR         0x0a
 
 /* Global Variables */
@@ -221,7 +222,20 @@ static int32_t PIOS_MPU9150_Config(struct pios_mpu60x0_cfg const * cfg)
 
 	// To enable access to the mag on auxillary i2c we must set bit 0x02 in register 0x37
 	// and clear bit 0x40 in register 0x6a (PIOS_MPU60X0_USER_CTRL_REG, default condition)
-	PIOS_MPU9150_Mag_SetReg(MPU9150_MAG_CNTR, 0x01);
+	
+	// Disable mag first
+	if (PIOS_MPU9150_Mag_SetReg(MPU9150_MAG_CNTR, 0x00) != 0)
+		return -1;
+	PIOS_DELAY_WaitmS(20);
+	PIOS_WDG_Clear();
+	// Clear status registers
+	PIOS_MPU9150_Mag_GetReg(MPU9150_MAG_STATUS);
+	PIOS_MPU9150_Mag_GetReg(MPU9150_MAG_STATUS2);
+	PIOS_MPU9150_Mag_GetReg(MPU9150_MAG_XH);
+
+	// Trigger first measurement
+	if (PIOS_MPU9150_Mag_SetReg(MPU9150_MAG_CNTR, 0x01) != 0)
+		return -1;
 
 	// Interrupt enable
 	PIOS_MPU9150_SetReg(PIOS_MPU60X0_INT_EN_REG, cfg->interrupt_en);
