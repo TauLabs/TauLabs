@@ -221,8 +221,11 @@ static void uavoMavlinkBridgeTask(void *parameters) {
 			SystemStatsGet(&systemStats);
 
 			int8_t battery_remaining = 0;
-			if (batSettings.Capacity != 0)
-				battery_remaining = lroundf(batState.ConsumedEnergy / batSettings.Capacity * 100);
+			if (batSettings.Capacity != 0) {
+				if (batState.ConsumedEnergy < batSettings.Capacity) {
+					battery_remaining = 100 - lroundf(batState.ConsumedEnergy / batSettings.Capacity * 100);
+				}
+			}
 
 			uint16_t voltage = 0;
 			if (batSettings.SensorType[FLIGHTBATTERYSETTINGS_SENSORTYPE_BATTERYVOLTAGE] == FLIGHTBATTERYSETTINGS_SENSORTYPE_ENABLED)
