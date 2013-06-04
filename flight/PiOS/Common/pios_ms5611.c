@@ -225,11 +225,9 @@ static int32_t PIOS_MS5611_ReadADC(void)
 		return -1;
 
 	uint8_t data[3];
-	data[0] = 0;
-	data[1] = 0;
-	data[2] = 0;
-	
+
 	static int64_t delta_temp;
+	static int64_t temperature;
 
 	/* Read and store the 16bit result */
 	if (dev->current_conversion_type == TEMPERATURE_CONV) {
@@ -240,10 +238,15 @@ static int32_t PIOS_MS5611_ReadADC(void)
 
 		raw_temperature = (data[0] << 16) | (data[1] << 8) | data[2];
 		
-		delta_temp = ((int32_t) raw_temperature) - (dev->calibration[4] << 8);
-		dev->temperature_unscaled = 2000l + ((delta_temp * dev->calibration[5]) >> 23);
+		delta_temp = (int32_t)raw_temperature - (dev->calibration[4] << 8);
+		temperature = 2000 + ((delta_temp * dev->calibration[5]) >> 23);
+		dev->temperature_unscaled = temperature;
 
-	} else {	
+		// second order temperature compensation
+		if (temperature < 2000)
+			dev->temperature_unscaled -= (delta_temp * delta_temp) >> 31;
+
+	} else {
 		int64_t offset;
 		int64_t sens;
 		uint32_t raw_pressure;
@@ -251,13 +254,27 @@ static int32_t PIOS_MS5611_ReadADC(void)
 		/* Read the pressure conversion */
 		if (PIOS_MS5611_Read(MS5611_ADC_READ, data, 3) != 0)
 			return -1;
-		raw_pressure = ((data[0] << 16) | (data[1] << 8) | data[2]);
+
+		raw_pressure = (data[0] << 16) | (data[1] << 8) | (data[2] << 0);
 		
-		offset = (((int64_t) dev->calibration[1]) << 16) + ((((int64_t) dev->calibration[3]) * delta_temp) >> 7);
-		sens = ((int64_t) dev->calibration[0]) << 15;
+		offset = ((int64_t)dev->calibration[1] << 16) + (((int64_t)dev->calibration[3] * delta_temp) >> 7);
+		sens = (int64_t)dev->calibration[0] << 15;
 		sens = sens + ((((int64_t) dev->calibration[2]) * delta_temp) >> 8);
 		
-		dev->pressure_unscaled = (((((int64_t) raw_pressure) * sens) >> 21) - offset) >> 15; 
+		// second order temperature compensation
+		if (temperature < 2000)
+		{
+			offset -= (5 * (temperature - 2000) * (temperature - 2000)) >> 1;
+			sens -= (5 * (temperature - 2000) * (temperature - 2000)) >> 2;
+
+			if (dev->temperature_unscaled < -1500)
+			{
+				offset -= 7 * (temperature + 1500) * (temperature + 1500);
+				sens -= (11 * (temperature + 1500) * (temperature + 1500)) >> 1;
+			}
+		}
+
+		dev->pressure_unscaled = ((((int64_t)raw_pressure * sens) >> 21) - offset) >> 15;
 	}
 	return 0;
 }
