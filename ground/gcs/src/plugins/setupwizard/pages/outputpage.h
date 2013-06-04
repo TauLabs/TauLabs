@@ -3,11 +3,12 @@
  *
  * @file       outputpage.h
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
- * @addtogroup
+ * @see        The GNU Public License (GPL) Version 3
+ *
+ * @addtogroup GCSPlugins GCS Plugins
  * @{
- * @addtogroup OutputPage
+ * @addtogroup SetupWizard Setup Wizard
  * @{
- * @brief
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify
@@ -34,15 +35,14 @@ namespace Ui {
 class OutputPage;
 }
 
-class OutputPage : public AbstractWizardPage
-{
+class OutputPage : public AbstractWizardPage {
     Q_OBJECT
-    
+
 public:
     explicit OutputPage(SetupWizard *wizard, QWidget *parent = 0);
     ~OutputPage();
     bool validatePage();
-    
+
 private:
     Ui::OutputPage *ui;
 };

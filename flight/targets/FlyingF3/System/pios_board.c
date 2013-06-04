@@ -520,7 +520,6 @@ void PIOS_Board_Init(void) {
 #endif
 		break;
 	case HWFLYINGF3_UART1_SBUS:
-		//hardware signal inverter required
 #if defined(PIOS_INCLUDE_SBUS) && defined(PIOS_INCLUDE_USART)
 		{
 			uint32_t pios_usart_sbus_id;
@@ -606,7 +605,6 @@ void PIOS_Board_Init(void) {
 #endif
 		break;
 	case HWFLYINGF3_UART2_SBUS:
-		//hardware signal inverter required
 #if defined(PIOS_INCLUDE_SBUS) && defined(PIOS_INCLUDE_USART)
 		{
 			uint32_t pios_usart_sbus_id;
@@ -691,7 +689,6 @@ void PIOS_Board_Init(void) {
 #endif
 		break;
 	case HWFLYINGF3_UART3_SBUS:
-		//hardware signal inverter required
 #if defined(PIOS_INCLUDE_SBUS) && defined(PIOS_INCLUDE_USART)
 		{
 			uint32_t pios_usart_sbus_id;
@@ -776,7 +773,6 @@ void PIOS_Board_Init(void) {
 #endif
 		break;
 	case HWFLYINGF3_UART4_SBUS:
-		//hardware signal inverter required
 #if defined(PIOS_INCLUDE_SBUS) && defined(PIOS_INCLUDE_USART)
 		{
 			uint32_t pios_usart_sbus_id;
@@ -861,7 +857,6 @@ void PIOS_Board_Init(void) {
 #endif
 		break;
 	case HWFLYINGF3_UART5_SBUS:
-		//hardware signal inverter required
 #if defined(PIOS_INCLUDE_SBUS) && defined(PIOS_INCLUDE_USART)
 		{
 			uint32_t pios_usart_sbus_id;
@@ -1104,12 +1099,27 @@ void PIOS_Board_Init(void) {
 	PIOS_GPIO_Init();
 #endif
 
-#if defined(PIOS_INCLUDE_ADC)
+	//FlyingF3 shield specific hw init
+	uint8_t flyingf3_shield;
 	uint32_t internal_adc_id;
-	if(PIOS_INTERNAL_ADC_Init(&internal_adc_id, &internal_adc_cfg) < 0)
-	        PIOS_Assert(0);
-	PIOS_ADC_Init(&pios_internal_adc_id, &pios_internal_adc_driver, internal_adc_id);
+	HwFlyingF3ShieldGet(&flyingf3_shield);
+	switch (flyingf3_shield) {
+	case HWFLYINGF3_SHIELD_RCFLYER:
+#if defined(PIOS_INCLUDE_ADC)
+		//Sanity check, this is to ensure that no one changes the adc_pins array without changing the defines
+		PIOS_Assert(internal_adc_cfg_rcflyer_shield.adc_pins[PIOS_ADC_RCFLYER_SHIELD_BARO_PIN].pin == GPIO_Pin_3);
+		PIOS_Assert(internal_adc_cfg_rcflyer_shield.adc_pins[PIOS_ADC_RCFLYER_SHIELD_BAT_VOLTAGE_PIN].pin == GPIO_Pin_4);
+		if (PIOS_INTERNAL_ADC_Init(&internal_adc_id, &internal_adc_cfg_rcflyer_shield) < 0)
+			PIOS_Assert(0);
+		PIOS_ADC_Init(&pios_internal_adc_id, &pios_internal_adc_driver, internal_adc_id);
 #endif
+		break;
+	case HWFLYINGF3_SHIELD_NONE:
+		break;
+	default:
+		PIOS_Assert(0);
+		break;
+	}
 
 	/* Make sure we have at least one telemetry link configured or else fail initialization */
 	PIOS_Assert(pios_com_telem_rf_id || pios_com_telem_usb_id);

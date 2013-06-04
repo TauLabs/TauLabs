@@ -40,9 +40,11 @@
 
 #if defined(PIOS_INCLUDE_ADC)
 extern uintptr_t pios_internal_adc_id;
-#define PIOS_INTERNAL_ADC                               (pios_internal_adc_id)
+#define PIOS_INTERNAL_ADC				(pios_internal_adc_id)
+#define PIOS_ADC_RCFLYER_SHIELD_BAT_VOLTAGE_PIN		1
+#define PIOS_ADC_RCFLYER_SHIELD_BARO_PIN		0
 #endif
-#define PIOS_ADC_SUB_DRIVER_MAX_INSTANCES       3
+#define PIOS_ADC_SUB_DRIVER_MAX_INSTANCES		3
 
 //------------------------
 // Timers and Channels Used

@@ -14,6 +14,7 @@ HEADERS += setupwizardplugin.h \
     setupwizard.h \
     pages/startpage.h \
     pages/endpage.h \
+    pages/boardtype_unknown.h \
     pages/controllerpage.h \
     pages/vehiclepage.h \
     pages/notyetimplementedpage.h \
@@ -24,9 +25,8 @@ HEADERS += setupwizardplugin.h \
     pages/abstractwizardpage.h \
     pages/outputpage.h \
     pages/inputpage.h \
+    pages/inputpage_notsupported.h \
     pages/summarypage.h \
-    pages/levellingpage.h \
-    levellingutil.h \
     vehicleconfigurationsource.h \
     vehicleconfigurationhelper.h \
     connectiondiagram.h \
@@ -34,12 +34,14 @@ HEADERS += setupwizardplugin.h \
     outputcalibrationutil.h \
     pages/rebootpage.h \
     pages/savepage.h \
-    pages/autoupdatepage.h
+    pages/autoupdatepage.h \
+    pages/biascalibrationpage.h
 
 SOURCES += setupwizardplugin.cpp \
     setupwizard.cpp \
     pages/startpage.cpp \
     pages/endpage.cpp \
+    pages/boardtype_unknown.cpp \
     pages/controllerpage.cpp \
     pages/vehiclepage.cpp \
     pages/notyetimplementedpage.cpp \
@@ -50,9 +52,8 @@ SOURCES += setupwizardplugin.cpp \
     pages/abstractwizardpage.cpp \
     pages/outputpage.cpp \
     pages/inputpage.cpp \
+    pages/inputpage_notsupported.cpp \
     pages/summarypage.cpp \
-    pages/levellingpage.cpp \
-    levellingutil.cpp \
     vehicleconfigurationsource.cpp \
     vehicleconfigurationhelper.cpp \
     connectiondiagram.cpp \
@@ -60,13 +61,15 @@ SOURCES += setupwizardplugin.cpp \
     outputcalibrationutil.cpp \
     pages/rebootpage.cpp \
     pages/savepage.cpp \
-    pages/autoupdatepage.cpp
+    pages/autoupdatepage.cpp \
+    pages/biascalibrationpage.cpp
 
 OTHER_FILES += SetupWizard.pluginspec
 
 FORMS += \
     pages/startpage.ui \
     pages/endpage.ui \
+    pages/boardtype_unknown.ui \
     pages/controllerpage.ui \
     pages/vehiclepage.ui \
     pages/notyetimplementedpage.ui \
@@ -76,13 +79,14 @@ FORMS += \
     pages/surfacepage.ui \
     pages/outputpage.ui \
     pages/inputpage.ui \
+    pages/inputpage_notsupported.ui \
     pages/summarypage.ui \
-    pages/levellingpage.ui \
     connectiondiagram.ui \
     pages/outputcalibrationpage.ui \
     pages/rebootpage.ui \
     pages/savepage.ui \
-    pages/autoupdatepage.ui
+    pages/autoupdatepage.ui \
+    pages/biascalibrationpage.ui
 
 RESOURCES += \
     wizardResources.qrc

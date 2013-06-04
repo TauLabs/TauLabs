@@ -23,6 +23,7 @@
 #ifndef CALIBRATION_H
 #define CALIBRATION_H
 
+#include <config_global.h>
 #include <uavobjectmanager.h>
 #include "uavobjectutil/uavobjectutilmanager.h"
 #include <extensionsystem/pluginmanager.h>
@@ -42,7 +43,7 @@
  * for accelerometers and magnetometers, temperature compensation for gyros and,
  * calculating the rotation to level the accelerometers.
  */
-class Calibration : public QObject
+class CONFIG_EXPORT Calibration : public QObject
 {
     Q_OBJECT
 

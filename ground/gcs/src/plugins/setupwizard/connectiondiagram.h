@@ -3,11 +3,12 @@
  *
  * @file       connectiondiagram.h
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
- * @addtogroup
+ * @see        The GNU Public License (GPL) Version 3
+ *
+ * @addtogroup GCSPlugins GCS Plugins
  * @{
- * @addtogroup ConnectionDiagram
+ * @addtogroup SetupWizard Setup Wizard
  * @{
- * @brief
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify
@@ -40,20 +41,19 @@ namespace Ui {
 class ConnectionDiagram;
 }
 
-class ConnectionDiagram : public QDialog
-{
+class ConnectionDiagram : public QDialog {
     Q_OBJECT
-    
+
 public:
     explicit ConnectionDiagram(QWidget *parent, VehicleConfigurationSource *configSource);
     ~ConnectionDiagram();
-    
+
 private:
     Ui::ConnectionDiagram *ui;
     VehicleConfigurationSource *m_configSource;
 
     QSvgRenderer *m_renderer;
-    QGraphicsSvgItem* m_background;
+    QGraphicsSvgItem *m_background;
     QGraphicsScene *m_scene;
 
     void setupGraphicsScene();

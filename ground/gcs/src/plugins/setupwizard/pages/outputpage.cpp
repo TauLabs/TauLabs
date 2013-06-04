@@ -3,11 +3,12 @@
  *
  * @file       outputpage.cpp
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
- * @addtogroup
+ * @see        The GNU Public License (GPL) Version 3
+ *
+ * @addtogroup GCSPlugins GCS Plugins
  * @{
- * @addtogroup OutputPage
+ * @addtogroup SetupWizard Setup Wizard
  * @{
- * @brief
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify
@@ -30,7 +31,7 @@
 #include "setupwizard.h"
 
 OutputPage::OutputPage(SetupWizard *wizard, QWidget *parent) :
-        AbstractWizardPage(wizard, parent),
+    AbstractWizardPage(wizard, parent),
 
     ui(new Ui::OutputPage)
 {
@@ -44,10 +45,9 @@ OutputPage::~OutputPage()
 
 bool OutputPage::validatePage()
 {
-    if(ui->rapidESCButton->isChecked()) {
+    if (ui->rapidESCButton->isChecked()) {
         getWizard()->setESCType(SetupWizard::ESC_RAPID);
-    }
-    else {
+    } else {
         getWizard()->setESCType(SetupWizard::ESC_LEGACY);
     }
 

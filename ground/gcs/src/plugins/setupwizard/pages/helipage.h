@@ -3,11 +3,12 @@
  *
  * @file       helipage.h
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
- * @addtogroup
+ * @see        The GNU Public License (GPL) Version 3
+ *
+ * @addtogroup GCSPlugins GCS Plugins
  * @{
- * @addtogroup HeliPage
+ * @addtogroup SetupWizard Setup Wizard
  * @{
- * @brief
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify
@@ -34,14 +35,13 @@ namespace Ui {
 class HeliPage;
 }
 
-class HeliPage : public AbstractWizardPage
-{
+class HeliPage : public AbstractWizardPage {
     Q_OBJECT
-    
+
 public:
     explicit HeliPage(SetupWizard *wizard, QWidget *parent = 0);
     ~HeliPage();
-    
+
 private:
     Ui::HeliPage *ui;
 };

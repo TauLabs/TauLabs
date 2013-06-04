@@ -89,7 +89,6 @@ Rectangle {
 
             WelcomePageButton {
                 id: wizard
-                visible: false
                 anchors.verticalCenter: parent.verticalCenter
                 baseIconName: "wizard"
                 onClicked: welcomePlugin.triggerAction("SetupWizardPlugin.ShowSetupWizard")

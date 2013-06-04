@@ -3,11 +3,12 @@
  *
  * @file       summarypage.cpp
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
- * @addtogroup
+ * @see        The GNU Public License (GPL) Version 3
+ *
+ * @addtogroup GCSPlugins GCS Plugins
  * @{
- * @addtogroup SummaryPage
+ * @addtogroup SetupWizard Setup Wizard
  * @{
- * @brief
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify
@@ -31,7 +32,7 @@
 #include "connectiondiagram.h"
 
 SummaryPage::SummaryPage(SetupWizard *wizard, QWidget *parent) :
-        AbstractWizardPage(wizard, parent),
+    AbstractWizardPage(wizard, parent),
     ui(new Ui::SummaryPage)
 {
     ui->setupUi(this);
@@ -56,5 +57,6 @@ void SummaryPage::initializePage()
 void SummaryPage::showDiagram()
 {
     ConnectionDiagram diagram(this, getWizard());
+
     diagram.exec();
 }

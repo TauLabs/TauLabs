@@ -186,6 +186,8 @@ uintptr_t pios_com_mavlink_id;
 uintptr_t pios_uavo_settings_fs_id;
 uintptr_t pios_waypoints_settings_fs_id;
 
+uintptr_t pios_internal_adc_id;
+
 /*
  * Setup a com port based on the passed cfg, driver and buffer sizes. tx size of -1 make the port rx only
  */
@@ -518,11 +520,10 @@ void PIOS_Board_Init(void) {
 		break;
 	case HWSPARKY_FLEXIPORT_GPS:
 #if defined(PIOS_INCLUDE_GPS) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
-		PIOS_Board_configure_com(&pios_flexi_usart_cfg, PIOS_COM_GPS_RX_BUF_LEN, -1, &pios_usart_com_driver, &pios_com_gps_id);
+		PIOS_Board_configure_com(&pios_flexi_usart_cfg, PIOS_COM_GPS_RX_BUF_LEN, 0, &pios_usart_com_driver, &pios_com_gps_id);
 #endif
 		break;
 	case HWSPARKY_FLEXIPORT_SBUS:
-		//hardware signal inverter required
 #if defined(PIOS_INCLUDE_SBUS) && defined(PIOS_INCLUDE_USART)
 		{
 			uint32_t pios_usart_sbus_id;
@@ -591,6 +592,91 @@ void PIOS_Board_Init(void) {
 		break;
 	}
 
+	/* UART3 Port */
+	uint8_t hw_main;
+	HwSparkyMainPortGet(&hw_main);
+	switch (hw_main) {
+	case HWSPARKY_MAINPORT_DISABLED:
+		break;
+	case HWSPARKY_MAINPORT_TELEMETRY:
+#if defined(PIOS_INCLUDE_TELEMETRY_RF) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
+		PIOS_Board_configure_com(&pios_main_usart_cfg, PIOS_COM_TELEM_RF_RX_BUF_LEN, PIOS_COM_TELEM_RF_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_telem_rf_id);
+#endif /* PIOS_INCLUDE_TELEMETRY_RF */
+		break;
+	case HWSPARKY_MAINPORT_GPS:
+#if defined(PIOS_INCLUDE_GPS) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
+		PIOS_Board_configure_com(&pios_main_usart_cfg, PIOS_COM_GPS_RX_BUF_LEN, 0, &pios_usart_com_driver, &pios_com_gps_id);
+#endif
+		break;
+	case HWSPARKY_MAINPORT_SBUS:
+#if defined(PIOS_INCLUDE_SBUS) && defined(PIOS_INCLUDE_USART)
+		{
+			uint32_t pios_usart_sbus_id;
+			if (PIOS_USART_Init(&pios_usart_sbus_id, &pios_main_sbus_cfg)) {
+				PIOS_Assert(0);
+			}
+			uint32_t pios_sbus_id;
+			if (PIOS_SBus_Init(&pios_sbus_id, &pios_main_sbus_aux_cfg, &pios_usart_com_driver, pios_usart_sbus_id)) {
+				PIOS_Assert(0);
+			}
+			uint32_t pios_sbus_rcvr_id;
+			if (PIOS_RCVR_Init(&pios_sbus_rcvr_id, &pios_sbus_rcvr_driver, pios_sbus_id)) {
+				PIOS_Assert(0);
+			}
+			pios_rcvr_group_map[MANUALCONTROLSETTINGS_CHANNELGROUPS_SBUS] = pios_sbus_rcvr_id;
+		}
+#endif	/* PIOS_INCLUDE_SBUS */
+		break;
+	case HWSPARKY_MAINPORT_DSM2:
+	case HWSPARKY_MAINPORT_DSMX10BIT:
+	case HWSPARKY_MAINPORT_DSMX11BIT:
+#if defined(PIOS_INCLUDE_DSM)
+		{
+			enum pios_dsm_proto proto;
+			switch (hw_main) {
+			case HWSPARKY_MAINPORT_DSM2:
+				proto = PIOS_DSM_PROTO_DSM2;
+				break;
+			case HWSPARKY_MAINPORT_DSMX10BIT:
+				proto = PIOS_DSM_PROTO_DSMX10BIT;
+				break;
+			case HWSPARKY_MAINPORT_DSMX11BIT:
+				proto = PIOS_DSM_PROTO_DSMX11BIT;
+				break;
+			default:
+				PIOS_Assert(0);
+				break;
+			}
+			PIOS_Board_configure_dsm(&pios_main_dsm_cfg, &pios_flexi_dsm_aux_cfg, &pios_usart_com_driver,
+				&proto, MANUALCONTROLSETTINGS_CHANNELGROUPS_DSMMAINPORT, &hw_DSMxBind);
+		}
+#endif	/* PIOS_INCLUDE_DSM */
+		break;
+	case HWSPARKY_MAINPORT_DEBUGCONSOLE:
+#if defined(PIOS_INCLUDE_DEBUG_CONSOLE) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
+		PIOS_Board_configure_com(&pios_main_usart_cfg, 0, PIOS_COM_DEBUGCONSOLE_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_aux_id);
+#endif	/* PIOS_INCLUDE_DEBUG_CONSOLE */
+		break;
+	case HWSPARKY_MAINPORT_COMBRIDGE:
+#if defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
+		PIOS_Board_configure_com(&pios_main_usart_cfg, PIOS_COM_BRIDGE_RX_BUF_LEN, PIOS_COM_BRIDGE_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_bridge_id);
+#endif
+		break;
+	case HWSPARKY_MAINPORT_MAVLINKTX:
+#if defined(PIOS_INCLUDE_MAVLINK)
+		PIOS_Board_configure_com(&pios_main_usart_cfg, 0, PIOS_COM_MAVLINK_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_mavlink_id);
+#endif  /* PIOS_INCLUDE_MAVLINK */
+		break;
+	case HWSPARKY_MAINPORT_MAVLINKTX_GPS_RX:
+#if defined(PIOS_INCLUDE_GPS)
+#if defined(PIOS_INCLUDE_MAVLINK)
+		PIOS_Board_configure_com(&pios_main_usart_cfg, PIOS_COM_GPS_RX_BUF_LEN, PIOS_COM_MAVLINK_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_gps_id);
+		pios_com_mavlink_id = pios_com_gps_id;
+#endif  /* PIOS_INCLUDE_MAVLINK */
+#endif  /* PIOS_INCLUDE_GPS */
+		break;
+	}
+
 	/* Configure the rcvr port */
 	uint8_t hw_rcvrport;
 	HwSparkyRcvrPortGet(&hw_rcvrport);
@@ -638,7 +724,6 @@ void PIOS_Board_Init(void) {
 #endif	/* PIOS_INCLUDE_DSM */
 		break;
 	case HWSPARKY_RCVRPORT_SBUS:
-		//hardware signal inverter required
 #if defined(PIOS_INCLUDE_SBUS) && defined(PIOS_INCLUDE_USART)
 		{
 			uint32_t pios_usart_sbus_id;
@@ -678,6 +763,13 @@ void PIOS_Board_Init(void) {
 #else
 	PIOS_DEBUG_Init(&pios_tim_servo_all_channels, NELEMENTS(pios_tim_servo_all_channels));
 #endif
+
+#if defined(PIOS_INCLUDE_ADC)
+	uint32_t internal_adc_id;
+	if(PIOS_INTERNAL_ADC_Init(&internal_adc_id, &internal_adc_cfg) < 0)
+		PIOS_Assert(0);
+	PIOS_ADC_Init(&pios_internal_adc_id, &pios_internal_adc_driver, internal_adc_id);
+#endif /* PIOS_INCLUDE_ADC */
 
 	PIOS_WDG_Clear();
 	PIOS_DELAY_WaitmS(200);
@@ -791,10 +883,6 @@ void PIOS_Board_Init(void) {
 
 #if defined(PIOS_INCLUDE_GPIO)
 	PIOS_GPIO_Init();
-#endif
-
-#if defined(PIOS_INCLUDE_ADC)
-	PIOS_ADC_Init(&pios_adc_cfg);
 #endif
 
 	/* Make sure we have at least one telemetry link configured or else fail initialization */

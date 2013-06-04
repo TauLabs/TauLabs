@@ -3,11 +3,12 @@
  *
  * @file       startpage.cpp
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
+ * @see        The GNU Public License (GPL) Version 3
+ *
  * @addtogroup GCSPlugins GCS Plugins
  * @{
- * @addtogroup Setup Wizard  Plugin
+ * @addtogroup SetupWizard Setup Wizard
  * @{
- * @brief A Wizard to make the initial setup easy for everyone.
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify
@@ -32,7 +33,7 @@ StartPage::StartPage(SetupWizard *wizard, QWidget *parent) :
     ui(new Ui::StartPage)
 {
     ui->setupUi(this);
-     setFont(QFont("Ubuntu",2));
+    setFont(QFont("Ubuntu", 2));
 }
 
 StartPage::~StartPage()
