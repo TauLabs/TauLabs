@@ -775,15 +775,16 @@ void PIOS_Board_Init(void) {
 	PIOS_DELAY_WaitmS(200);
 	PIOS_WDG_Clear();
 
-#if defined(PIOS_INCLUDE_MPU9150) && defined (PIOS_INCLUDE_MPU6050)
+#if defined(PIOS_INCLUDE_MPU9150)
+#if defined(PIOS_INCLUDE_MPU6050)
+	// Enable autoprobing when both 6050 and 9050 compiled in
 	bool mpu9150_found = false;
 	if (PIOS_MPU9150_Probe(pios_i2c_internal_id, PIOS_MPU9150_I2C_ADD_A0_LOW) == 0) {
 		mpu9150_found = true;
-#elif defined (PIOS_INCLUDE_MPU9150)
+#else
 	{
-#endif
+#endif /* PIOS_INCLUDE_MPU6050 */
 
-#if defined (PIOS_INCLUDE_MPU9150)
 		if (PIOS_MPU9150_Init(pios_i2c_internal_id, PIOS_MPU9150_I2C_ADD_A0_LOW, &pios_mpu9150_cfg) != 0)
 			panic(2);
 		if (PIOS_MPU9150_Test() != 0)
@@ -827,13 +828,12 @@ void PIOS_Board_Init(void) {
 
 #endif /* PIOS_INCLUDE_MPU9150 */
 
-#if defined(PIOS_INCLUDE_MPU9150) && defined (PIOS_INCLUDE_MPU6050)
+#if defined(PIOS_INCLUDE_MPU6050)
+#if defined(PIOS_INCLUDE_MPU9150)
 	// MPU9150 looks like an MPU6050 _plus_ additional hardware.  So we cannot try and
 	// probe if MPU9150 is found or we will find a duplicate
 	if (mpu9150_found == false)
-#endif
-
-#if defined (PIOS_INCLUDE_MPU6050)
+#endif /* PIOS_INCLUDE_MPU9150 */
 	{
 		if (PIOS_MPU6050_Init(pios_i2c_internal_id, PIOS_MPU6050_I2C_ADD_A0_LOW, &pios_mpu6050_cfg) != 0)
 			panic(2);
