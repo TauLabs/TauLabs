@@ -703,10 +703,10 @@ void NatNet::processUpdate(const QByteArray& dataBuf)
             once=true;
 
             HomeLocation::DataFields homeData = posHome->getData();
-            double temp1 = homeData.Latitude;
-            double temp2 = homeData.Longitude;
-            double temp3 = homeData.Altitude;
-            double homeLLA[]={temp1, temp2, temp3};
+            double homeLLA[3];
+            homeLLA[0] = homeData.Latitude;
+            homeLLA[1] = homeData.Longitude;
+            homeLLA[2] = homeData.Altitude;
             double NED[]={out.posN, out.posE, out.posD};
             Utils::CoordinateConversions().NED2LLA_HomeLLA(homeLLA, NED, LLA);
         }

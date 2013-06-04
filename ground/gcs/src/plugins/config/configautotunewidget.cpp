@@ -66,11 +66,6 @@ void ConfigAutotuneWidget::saveStabilization()
   */
 void ConfigAutotuneWidget::recomputeStabilization()
 {
-    RelayTuningSettings *relayTuningSettings = RelayTuningSettings::GetInstance(getObjectManager());
-    Q_ASSERT(relayTuningSettings);
-    if (!relayTuningSettings)
-        return;
-
     RelayTuning *relayTuning = RelayTuning::GetInstance(getObjectManager());
     Q_ASSERT(relayTuning);
     if(!relayTuning)

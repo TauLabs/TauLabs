@@ -55,7 +55,7 @@ private:
 	void processUpdate(const QByteArray& data);
 
     //! Enum with indexes to use flight gear protocol.
-    /*! FG UDP consists of comma separated data, this are indexes to each piece of data on that datagram.
+    /*! FG UDP consists of comma separated data in floats, this are indexes to each piece of data on that datagram.
         Check opfgprotocol.xml file for details. */
     enum flightGearProtocol{
         FG_X_RATE       = 0,    /*!< x rate in radians per second       */

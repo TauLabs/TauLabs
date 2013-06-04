@@ -355,9 +355,7 @@ void QextSerialPort::setBaudRate(BaudRateType baudRate)
                 cfsetospeed(&Posix_CommConfig, B115200);
 #endif
             break;
-        case BAUD230400:
-        case BAUD460800:
-        case BAUD921600:
+        default:
             Q_ASSERT(0);
             break;
 

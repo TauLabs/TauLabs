@@ -234,14 +234,15 @@ void UAVSettingsImportExportFactory::importUAVSettings()
 
 
 // Slot called by the menu manager on user action
-void UAVSettingsImportExportFactory::importWaypoints()
+bool UAVSettingsImportExportFactory::importWaypoints()
 {
     // ask for file name
     QString fileName;
+    bool error = false;
     QString filters = tr("Waypoint XML files (*.xml)");
     fileName = QFileDialog::getOpenFileName(0, tr("Import waypoints"), "", filters);
     if (fileName.isEmpty()) {
-        return;
+        return false;
     }
 
     // Now open the file
@@ -254,7 +255,7 @@ void UAVSettingsImportExportFactory::importWaypoints()
         msgBox.setInformativeText(tr("This file is not a correct XML file"));
         msgBox.setStandardButtons(QMessageBox::Ok);
         msgBox.exec();
-        return;
+        return false;
     }
     file.close();
 
@@ -272,7 +273,7 @@ void UAVSettingsImportExportFactory::importWaypoints()
         msgBox.setInformativeText(tr("This file does not contain waypoints"));
         msgBox.setStandardButtons(QMessageBox::Ok);
         msgBox.exec();
-        return;
+        return false;
     }
 
     ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
@@ -318,6 +319,7 @@ void UAVSettingsImportExportFactory::importWaypoints()
                             if (list.length() == 1) {
                                 if (false == uavfield->checkValue(f.attribute("values"))) {
                                     qDebug() << "checkValue returned false on: " << uavObjectName << f.attribute("values");
+                                    error = true;
                                 } else {
                                     uavfield->setValue(f.attribute("values"));
                                 }
@@ -328,12 +330,15 @@ void UAVSettingsImportExportFactory::importWaypoints()
                                 foreach (QString element, list) {
                                     if (false == uavfield->checkValue(element, i)) {
                                         qDebug() << "checkValue(list) returned false on: " << uavObjectName << list;
+                                        error = true;
                                     } else {
                                          uavfield->setValue(element,i);
                                     }
                                     i++;
                                 }
                             }
+                        } else {
+                            error = true;
                         }
                     }
                     field = field.nextSibling();
@@ -343,6 +348,7 @@ void UAVSettingsImportExportFactory::importWaypoints()
         node = node.nextSibling();
     }
     qDebug() << "End import";
+    return error;
 }
 
 // Create an XML document from UAVObject database
