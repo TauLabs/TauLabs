@@ -6,9 +6,9 @@
  * @see        The GNU Public License (GPL) Version 3
  * @addtogroup GCSPlugins GCS Plugins
  * @{
- * @addtogroup Congig Plugin
+ * @addtogroup Config Plugin
  * @{
- * @brief The Congig GCS plugin
+ * @brief The Config GCS plugin
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify

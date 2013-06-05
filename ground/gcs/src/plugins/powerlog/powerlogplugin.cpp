@@ -89,7 +89,7 @@ void PowerlogThread::run()
 
     fileStream << "Interval,Current,Volt,Cap,Cell1,Cell2,Cell3,Cell4,Cell5,Cell6,RPM,Temp0,Temp1,Temp2,Temp3,Period,Pulse\n";
 
-    while (int received = hidHandle.receive(0, buf, BUF_LEN, 3500) ) {
+    while (hidHandle.receive(0, buf, BUF_LEN, 3500) ) {
         ShowInf(buf);
         fileStream.flush(); // Just to be sure...
     }
@@ -204,12 +204,9 @@ void PowerlogThread::ShowInf(char *pBuf)
   */
 void PowerlogThread::GetShowValue(QString label, DWORD Value, WORD Len, WORD Dot)
 {
+    Q_UNUSED(label);
+    Q_UNUSED(Len);
     QString out;
-
-    if (Value < 0) {
-        fileStream << "-";
-        Value = -Value;
-    }
 
     if(Dot==1)
             fileStream << Value/10 << "." << Value%10;   // printf("%ld.%01lu",Value/10,Value%10);
@@ -330,6 +327,7 @@ void PowerlogPlugin::devConnected(USBPortInfo port)
   */
 void PowerlogPlugin::devRemoved(USBPortInfo port)
 {
+    Q_UNUSED(port)
     bool foundDevice;
     QList<USBPortInfo> ports = USBMonitor::instance()->availableDevices();
     foreach(USBPortInfo port, ports) {

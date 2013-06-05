@@ -989,6 +989,10 @@ void ConfigTaskWidget::connectWidgetUpdatesToSlot(QWidget * widget,const char* f
     {
         connect(cb,SIGNAL(clicked()),this,function);
     }
+    else if(qobject_cast<QLabel *>(widget))
+    {
+
+    }
     else
         qDebug() << __FUNCTION__ << "widget to uavobject relation not implemented for widget: " << widget->objectName()  << "of class:" << widget->metaObject()->className();
 

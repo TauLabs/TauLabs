@@ -299,9 +299,7 @@ void VehicleConfigurationHelper::applySensorBiasConfiguration()
 void VehicleConfigurationHelper::applyStabilizationConfiguration()
 {
     StabilizationSettings *stabSettings    = StabilizationSettings::GetInstance(m_uavoManager);
-
     Q_ASSERT(stabSettings);
-    StabilizationSettings::DataFields data = stabSettings->getData();
 
     StabilizationSettings defaultSettings;
     stabSettings->setData(defaultSettings.getData());
@@ -616,9 +614,7 @@ GUIConfigDataUnion VehicleConfigurationHelper::getGUIConfigData()
     GUIConfigDataUnion configData;
 
     SystemSettings *systemSettings = SystemSettings::GetInstance(m_uavoManager);
-
     Q_ASSERT(systemSettings);
-    SystemSettings::DataFields systemSettingsData = systemSettings->getData();
 
     for (int i = 0; i < (int)(SystemSettings::GUICONFIGDATA_NUMELEM); i++) {
         configData.UAVObject[i] = 0; // systemSettingsData.GUIConfigData[i];

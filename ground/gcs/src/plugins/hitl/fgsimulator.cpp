@@ -32,18 +32,6 @@
 #include "coreplugin/icore.h"
 #include "coreplugin/threadmanager.h"
 
-//FGSimulator::FGSimulator(QString hostAddr, int outPort, int inPort, bool manual, QString binPath, QString dataPath) :
-//		Simulator(hostAddr, outPort, inPort,  manual, binPath, dataPath),
-//		fgProcess(NULL)
-//{
-//	// Note: Only tested on windows 7
-//#if defined(Q_WS_WIN)
-//	cmdShell = QString("c:/windows/system32/cmd.exe");
-//#else
-//	cmdShell = QString("bash");
-//#endif
-//}
-
 FGSimulator::FGSimulator(const SimulatorSettings& params) :
     Simulator(params)
 {
@@ -222,8 +210,6 @@ void FGSimulator::transmitUpdate()
         actData.Pitch = -elevator;
         actData.Yaw = rudder;
         actData.Throttle = throttle;
-        //actData.NumLongUpdates = (float)udpCounterFGrecv;
-        //actData.UpdateTime = (float)udpCounterGCSsend;
         actDesired->setData(actData);
     }
 }
@@ -235,57 +221,49 @@ void FGSimulator::processUpdate(const QByteArray& inp)
     // Split
     QString data(inp);
     QStringList fields = data.split(",");
-    // Get xRate (deg/s)
-    //        float xRate = fields[0].toFloat() * RAD2DEG;
-    // Get yRate (deg/s)
-    //        float yRate = fields[1].toFloat() * RAD2DEG;
-    // Get zRate (deg/s)
-    //        float zRate = fields[2].toFloat() * RAD2DEG;
     // Get xAccel (m/s^2)
-    float xAccel = fields[3].toFloat() * FEET2MILES;
+    float xAccel = fields[FG_X_ACCEL].toFloat() * FEET2MILES;
     // Get yAccel (m/s^2)
-    float yAccel = fields[4].toFloat() * FEET2MILES;
+    float yAccel = fields[FG_Y_ACCEL].toFloat() * FEET2MILES;
     // Get xAccel (m/s^2)
-    float zAccel = fields[5].toFloat() * FEET2MILES;
+    float zAccel = fields[FG_Z_ACCEL].toFloat() * FEET2MILES;
     // Get pitch (deg)
-    float pitch = fields[6].toFloat();
+    float pitch = fields[FG_PITCH].toFloat();
     // Get pitchRate (deg/s)
-    float pitchRate = fields[7].toFloat();
+    float pitchRate = fields[FG_PITCH_RATE].toFloat();
     // Get roll (deg)
-    float roll = fields[8].toFloat();
+    float roll = fields[FG_ROLL].toFloat();
     // Get rollRate (deg/s)
-    float rollRate = fields[9].toFloat();
+    float rollRate = fields[FG_ROLL_RATE].toFloat();
     // Get yaw (deg)
-    float yaw = fields[10].toFloat();
+    float yaw = fields[FG_YAW].toFloat();
     // Get yawRate (deg/s)
-    float yawRate = fields[11].toFloat();
+    float yawRate = fields[FG_YAW_RATE].toFloat();
     // Get latitude (deg)
-    float latitude = fields[12].toFloat();
+    float latitude = fields[FG_LATITUDE].toFloat();
     // Get longitude (deg)
-    float longitude = fields[13].toFloat();
-    // Get heading (deg)
-    float heading = fields[14].toFloat();
+    float longitude = fields[FG_LONGITUDE].toFloat();
     // Get altitude (m)
-    float altitude_msl = fields[15].toFloat() * FEET2MILES;
+    float altitude_msl = fields[FG_ALTITUDE_MSL].toFloat() * FEET2MILES;
     // Get altitudeAGL (m)
-    float altitude_agl = fields[16].toFloat() * FEET2MILES;
+    float altitude_agl = fields[FG_ALTITUDE_AGL].toFloat() * FEET2MILES;
     // Get groundspeed (m/s)
-    float groundspeed = fields[17].toFloat() * KNOTS2M_PER_SECOND;
+    float groundspeed = fields[FG_GROUNDSPEED].toFloat() * KNOTS2M_PER_SECOND;
     // Get airspeed (m/s)
-    float airspeed = fields[18].toFloat() * KNOTS2M_PER_SECOND;
+    float airspeed = fields[FG_AIRSPEED].toFloat() * KNOTS2M_PER_SECOND;
     // Get temperature (degC)
-    float temperature = fields[19].toFloat();
+    float temperature = fields[FG_TEMPERATURE].toFloat();
     // Get pressure (kpa)
-    float pressure = fields[20].toFloat() * INCHES_MERCURY2KPA;
+    float pressure = fields[FG_PRESSURE].toFloat() * INCHES_MERCURY2KPA;
     // Get VelocityActual Down (cm/s)
-    float velocityActualDown = - fields[21].toFloat() * FEET_PER_SECOND2CM_PER_SECOND;
+    float velocityActualDown = - fields[FG_VEL_ACT_DOWN].toFloat() * FEET_PER_SECOND2CM_PER_SECOND;
     // Get VelocityActual East (cm/s)
-    float velocityActualEast = fields[22].toFloat() * FEET_PER_SECOND2CM_PER_SECOND;
+    float velocityActualEast = fields[FG_VEL_ACT_EAST].toFloat() * FEET_PER_SECOND2CM_PER_SECOND;
     // Get VelocityActual Down (cm/s)
-    float velocityActualNorth = fields[23].toFloat() * FEET_PER_SECOND2CM_PER_SECOND;
+    float velocityActualNorth = fields[FG_VEL_ACT_NORTH].toFloat() * FEET_PER_SECOND2CM_PER_SECOND;
 
     // Get UDP packets received by FG
-    int n = fields[24].toInt();
+    int n = fields[FG_COUNTER_RECV].toInt();
     udpCounterFGrecv = n;
 
     ///////

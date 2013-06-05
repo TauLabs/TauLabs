@@ -122,7 +122,7 @@ ConfigCcpmWidget::ConfigCcpmWidget(QWidget *parent) : VehicleConfig(parent)
         
 
 
-        SwashLvlSpinBoxes[i] = new QSpinBox(m_ccpm->SwashLvlSwashplateImage);       // use QGraphicsView
+        SwashLvlSpinBoxes[i] = new QSpinBox;
         m_ccpm->SwashLvlSwashplateImage->scene()->addWidget(SwashLvlSpinBoxes[i]);
         SwashLvlSpinBoxes[i]->setMaximum(10000);
         SwashLvlSpinBoxes[i]->setMinimum(0);

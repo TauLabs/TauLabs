@@ -31,8 +31,8 @@ UAVObjectBrowserConfiguration::UAVObjectBrowserConfiguration(QString classId, QS
     IUAVGadgetConfiguration(classId, parent),
     m_recentlyUpdatedColor(QColor(255, 230, 230)),
     m_manuallyChangedColor(QColor(230, 230, 255)),
-    m_onlyHighlightChangedValues(false),
     m_recentlyUpdatedTimeout(500),
+    m_onlyHighlightChangedValues(false),
     m_useCategorizedView(false),
     m_useScientificView(false),
     m_showMetaData(false)

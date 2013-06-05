@@ -281,7 +281,6 @@
      <zorder>maxLabel</zorder>
      <zorder>CurveStep</zorder>
      <zorder>stepLabel</zorder>
-     <zorder>verticalSpacer</zorder>
     </widget>
    </item>
    <item row="0" column="1">

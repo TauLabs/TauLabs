@@ -53,6 +53,37 @@ private:
     int udpCounterFGrecv; //keeps track of udp packets received by FG
 
 	void processUpdate(const QByteArray& data);
+
+    //! Enum with indexes to use flight gear protocol.
+    /*! FG UDP consists of comma separated data in floats, this are indexes to each piece of data on that datagram.
+        Check opfgprotocol.xml file for details. */
+    enum flightGearProtocol{
+        FG_X_RATE       = 0,    /*!< x rate in radians per second       */
+        FG_Y_RATE       = 1,    /*!< y rate in radians per second       */
+        FG_Z_RATE       = 2,    /*!< z rate in radians per second       */
+        FG_X_ACCEL      = 3,    /*!< x acceleration in feet per second^2*/
+        FG_Y_ACCEL      = 4,    /*!< y acceleration in feet per second^2*/
+        FG_Z_ACCEL      = 5,    /*!< z acceleration in feet per second^2*/
+        FG_PITCH        = 6,    /*!< pitch angle in degrees             */
+        FG_PITCH_RATE   = 7,    /*!< pitch rate in degrees per second   */
+        FG_ROLL         = 8,    /*!< roll angle in degrees              */
+        FG_ROLL_RATE    = 9,    /*!< roll rate in degrees per second    */
+        FG_YAW          = 10,   /*!< yaw angle in degrees               */
+        FG_YAW_RATE     = 11,   /*!< yaw rate in degrees per second     */
+        FG_LATITUDE     = 12,   /*!< latitude in degrees                */
+        FG_LONGITUDE    = 13,   /*!< longitude in degrees               */
+        FG_HEADING      = 14,   /*!< heading in degrees                 */
+        FG_ALTITUDE_MSL = 15,   /*!< MSL altitude in feet               */
+        FG_ALTITUDE_AGL = 16,   /*!< AGL altitude in feet               */
+        FG_GROUNDSPEED  = 17,   /*!< groundspeed in knots               */
+        FG_AIRSPEED     = 18,   /*!< airspeed in knots                  */
+        FG_TEMPERATURE  = 19,   /*!< temperature in degrees Celsius     */
+        FG_PRESSURE     = 20,   /*!< pressure in inches of mercury      */
+        FG_VEL_ACT_DOWN = 21,   /*!< velocity down in feet per second   */
+        FG_VEL_ACT_EAST = 22,   /*!< velocity east in feet per second   */
+        FG_VEL_ACT_NORTH= 23,   /*!< velocity north in feet per second  */
+        FG_COUNTER_RECV = 24    /*!< udp packet counter                 */
+    };
 };
 
 class FGSimulatorCreator : public SimulatorCreator

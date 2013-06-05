@@ -3,6 +3,7 @@
  *
  * @file       configinputwidget.cpp
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
  * @addtogroup GCSPlugins GCS Plugins
  * @{
  * @addtogroup ConfigPlugin Config Plugin
@@ -142,7 +143,6 @@ ConfigInputWidget::ConfigInputWidget(QWidget *parent) : ConfigTaskWidget(parent)
         m_txMainBody->setParentItem(m_txBackground);
         m_txMainBody->setSharedRenderer(m_renderer);
         m_txMainBody->setElementId("body");
-        l_scene->addItem(m_txMainBody);
 
         m_txLeftStick = new QGraphicsSvgItem();
         m_txLeftStick->setParentItem(m_txBackground);
