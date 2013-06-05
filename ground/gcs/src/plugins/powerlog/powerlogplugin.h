@@ -131,8 +131,8 @@ private slots:
 private:
     Core::Command* cmd;
     QString devSerialNumber;
-    PowerlogThread* loggingThread;
     bool logging;
+    PowerlogThread* loggingThread;
 
 };
 #endif /* POWERLOGPLUGIN_H_ */

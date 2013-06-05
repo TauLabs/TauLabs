@@ -215,10 +215,10 @@ namespace core {
                         }
 
                         // Only write output files for the smallest quadtile the contains the image, as determined by the opposite corner
-                        if((pos.X() >> leastCommonZoom+1) == (quadCoordRight >> leastCommonZoom+1) && (pos.Y() >> leastCommonZoom+1) == (quadCoordBottom >> leastCommonZoom+1))
+                        if((pos.X() >> (leastCommonZoom+1)) == (quadCoordRight >> (leastCommonZoom+1)) && (pos.Y() >> (leastCommonZoom+1)) == (quadCoordBottom >> (leastCommonZoom+1)))
                         {
 
-                            QImage retImage=imScaled.copy((pos.X() & (1<<leastCommonZoom+1)-1) * tileSize, (pos.Y() & (1<<leastCommonZoom+1)-1) * tileSize, tileSize, tileSize);
+                            QImage retImage=imScaled.copy((pos.X() & ((1<<(leastCommonZoom+1))-1)) * tileSize, (pos.Y() & ((1<<(leastCommonZoom+1))-1)) * tileSize, tileSize, tileSize);
 
 #ifdef DEBUG_Q_TILES
                             //For a silly reason of making sure that everything is properly drawn, display the quadtile element on each tile

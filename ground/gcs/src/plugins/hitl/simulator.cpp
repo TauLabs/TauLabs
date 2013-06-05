@@ -520,13 +520,11 @@ void Simulator::updateUAVOs(Output2Hardware out){
 
         AttitudeSettings::DataFields attitudeSettingsData = attitudeSettings->getData();
         float accelKp = attitudeSettingsData.AccelKp * 0.1666666666666667;
-        float accelKi = attitudeSettingsData.AccelKp * 0.1666666666666667;
         float yawBiasRate = attitudeSettingsData.YawBiasRate;
 
         // calibrate sensors on arming
         if (flightStatus->getData().Armed == FlightStatus::ARMED_ARMING) {
             accelKp = 2.0;
-            accelKi = 0.9;
         }
 
         float gyro[3] = {out.rollRate, out.pitchRate, out.yawRate};

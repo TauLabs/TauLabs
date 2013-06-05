@@ -180,8 +180,6 @@ namespace internals {
 
         void GoToCurrentPosition();
 
-        bool MouseWheelZooming;
-
         void DragOffset(core::Point const& offset);
 
         void Drag(core::Point const& pt);
@@ -210,7 +208,8 @@ namespace internals {
         void OnNeedInvalidation();
 
     private:
-
+        bool started;
+        bool MouseWheelZooming;
         void keepInBounds();
         PointLatLng currentPosition;
         core::Point currentPositionPixel;
@@ -272,8 +271,6 @@ namespace internals {
         diagnostics diag;
 
     protected:
-        bool started;
-
         qint64 Width;
         qint64 Height;
         int pxRes100m;  // 100 meters

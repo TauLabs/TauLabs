@@ -200,7 +200,7 @@ void UAVObjectBrowserWidget::onTreeItemCollapsed(QModelIndex currentIndex)
 void UAVObjectBrowserWidget::updateThrottlePeriod(UAVObject *obj)
 {
     // Test if this is a metadata object. A UAVO's metadata's object ID is the UAVO's object ID + 1
-    if (obj->getObjID() & 0x01 == 1){
+    if (obj->getObjID() & (0x01 == 1)){
         ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
         Q_ASSERT(pm);
         UAVObjectManager *objManager = pm->getObject<UAVObjectManager>();

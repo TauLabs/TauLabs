@@ -100,7 +100,7 @@ bool SeriesPlotData::append(UAVObject* obj)
 
                 // calculate average value
                 meanSum += currentValue;
-                if(yDataHistory->size() > meanSamples) {
+                if(yDataHistory->size() > (int)meanSamples) {
                     meanSum -= yDataHistory->first();
                     yDataHistory->pop_front();
                 }
@@ -108,7 +108,7 @@ bool SeriesPlotData::append(UAVObject* obj)
                 // make sure to correct the sum every meanSamples steps to prevent it
                 // from running away due to floating point rounding errors
                 correctionSum+=currentValue;
-                if (++correctionCount >= meanSamples) {
+                if (++correctionCount >= (int)meanSamples) {
                     meanSum = correctionSum;
                     correctionSum = 0.0f;
                     correctionCount = 0;
@@ -167,14 +167,14 @@ bool TimeSeriesPlotData::append(UAVObject* obj)
 
                 // calculate average value
                 meanSum += currentValue;
-                if(yDataHistory->size() > meanSamples) {
+                if(yDataHistory->size() > (int)meanSamples) {
                     meanSum -= yDataHistory->first();
                     yDataHistory->pop_front();
                 }
                 // make sure to correct the sum every meanSamples steps to prevent it
                 // from running away due to floating point rounding errors
                 correctionSum+=currentValue;
-                if (++correctionCount >= meanSamples) {
+                if (++correctionCount >= (int)meanSamples) {
                     meanSum = correctionSum;
                     correctionSum = 0.0f;
                     correctionCount = 0;

@@ -33,8 +33,8 @@ qlonglong internals::Core::debugcounter=0;
 using namespace projections;
 
 namespace internals {
-    Core::Core():MouseWheelZooming(false),currentPosition(0,0),currentPositionPixel(0,0),LastLocationInBounds(-1,-1),sizeOfMapArea(0,0)
-            ,minOfTiles(0,0),maxOfTiles(0,0),zoom(0),isDragging(false),TooltipTextPadding(10,10),mapType(MapType::None),loaderLimit(5),maxzoom(21),started(false),runningThreads(0)
+    Core::Core():started(false),MouseWheelZooming(false),currentPosition(0,0),currentPositionPixel(0,0),LastLocationInBounds(-1,-1),sizeOfMapArea(0,0)
+            ,minOfTiles(0,0),maxOfTiles(0,0),zoom(0),isDragging(false),TooltipTextPadding(10,10),mapType(MapType::None),loaderLimit(5),maxzoom(21),runningThreads(0)
     {
         mousewheelzoomtype=MouseWheelZoomType::MousePositionAndCenter;
         SetProjection(new MercatorProjection());
@@ -386,7 +386,7 @@ namespace internals {
             }
 			
             //Ensure that no matter what the zoom can never exceed the number of bits required to display it
-            if (numBits + maxzoom > sizeof(((core::Point *) 0)->X())*8 - 1){ //Remove one because of the sign bit.
+            if (numBits + (quint8)maxzoom > sizeof(((core::Point *) 0)->X())*8 - 1){ //Remove one because of the sign bit.
                 maxzoom = sizeof(((core::Point *) 0)->X())*8 - 1 - numBits;
             }
 			
