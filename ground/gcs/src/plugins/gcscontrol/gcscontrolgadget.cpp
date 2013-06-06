@@ -37,10 +37,12 @@
 GCSControlGadget::GCSControlGadget(QString classId, GCSControlGadgetWidget *widget, QWidget *parent, QObject *plugin) :
         IUAVGadget(classId, parent),
         m_widget(widget),
-        controlsMode(0)
+        controlsMode(0),
+        gcsReceiverTimer(NULL)
 {
     connect(getManualControlCommand(),SIGNAL(objectUpdated(UAVObject*)),this,SLOT(manualControlCommandUpdated(UAVObject*)));
     connect(widget,SIGNAL(sticksChanged(double,double,double,double)),this,SLOT(sticksChangedLocally(double,double,double,double)));
+    connect(widget,SIGNAL(controlEnabled(bool)), this, SLOT(enableControl(bool)));
     connect(this,SIGNAL(sticksChangedRemotely(double,double,double,double)),widget,SLOT(updateSticks(double,double,double,double)));
 
     manualControlCommandUpdated(getManualControlCommand());
@@ -81,6 +83,19 @@ void GCSControlGadget::loadConfiguration(IUAVGadgetConfiguration* config)
     controlsMode = GCSControlConfig->getControlsMode();
     gcsReceiverMode = GCSControlConfig->getGcsReceiverMode();
 
+    // Connect timer for periodically sending gcs receiver when in gcs receiver mode
+    if (gcsReceiverMode) {
+        gcsReceiverTimer = new QTimer(this);
+        gcsReceiverTimer->setInterval(100);
+        connect(gcsReceiverTimer, SIGNAL(timeout()), this, SLOT(sendGcsReceiver()));
+    } else if (gcsReceiverTimer) {
+        gcsReceiverTimer->stop();
+        disconnect(gcsReceiverTimer, SIGNAL(timeout()), this, SLOT(sendGcsReceiver()));
+        delete gcsReceiverTimer;
+        gcsReceiverTimer = NULL;
+    }
+
+
     for (unsigned int i = 0; i < 8; i++)
     {
         buttonSettings[i].ActionID=GCSControlConfig->getbuttonSettings(i).ActionID;
@@ -90,6 +105,40 @@ void GCSControlGadget::loadConfiguration(IUAVGadgetConfiguration* config)
         channelReverse[i]=GCSControlConfig->getChannelsReverse().at(i);
     }
 
+}
+
+/**
+ * @brief GCSControlGadget::enableControl Enable or disable sending updates
+ * In the case of GCSReceiver mode it enables the timer for updates
+ * @param enable Whether to enable or disable it
+ */
+void GCSControlGadget::enableControl(bool enable)
+{
+    enableSending = enable;
+    if (gcsReceiverMode) {
+        if (enableSending)
+            gcsReceiverTimer->start();
+        else
+            gcsReceiverTimer->stop();
+    } else {
+        ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
+        UAVObjectManager *objManager = pm->getObject<UAVObjectManager>();
+        UAVDataObject* obj = dynamic_cast<UAVDataObject*>( objManager->getObject(QString("ManualControlCommand")) );
+
+        UAVObject::Metadata mdata;
+        if (enableSending)
+        {
+            mccInitialData = mdata = obj->getMetadata();
+            UAVObject::SetFlightAccess(mdata, UAVObject::ACCESS_READONLY);
+            UAVObject::SetFlightTelemetryUpdateMode(mdata, UAVObject::UPDATEMODE_ONCHANGE);
+            UAVObject::SetGcsTelemetryAcked(mdata, false);
+            UAVObject::SetGcsTelemetryUpdateMode(mdata, UAVObject::UPDATEMODE_ONCHANGE);
+            mdata.gcsTelemetryUpdatePeriod = 100;
+        }
+        else
+            mdata = mccInitialData;
+        obj->setMetadata(mdata);
+    }
 }
 
 ManualControlCommand* GCSControlGadget::getManualControlCommand() {
@@ -138,7 +187,10 @@ void GCSControlGadget::manualControlCommandUpdated(UAVObject * obj) {
 /**
   Update the manual commands - maps depending on mode
   */
-void GCSControlGadget::sticksChangedLocally(double leftX, double leftY, double rightX, double rightY) {
+void GCSControlGadget::sticksChangedLocally(double leftX, double leftY, double rightX, double rightY)
+{
+    if (!enableSending)
+        return;
 
     if (gcsReceiverMode)
         setGcsReceiver(leftX, leftY, rightX, rightY);
@@ -217,6 +269,16 @@ void GCSControlGadget::setGcsReceiver(double leftX, double leftY, double rightX,
         emit sticksChangedRemotely(newRoll,newThrottle,newYaw,-newPitch);
         break;
     }
+}
+
+//! Update GCS Receiver remotely
+void GCSControlGadget::sendGcsReceiver()
+{
+    GCSReceiver *obj = getGcsReceiver();
+    Q_ASSERT(obj);
+    if (obj == NULL)
+        return;
+    obj->updated();
 }
 
 //! Set the ManualControlCommand object
