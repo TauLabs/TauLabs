@@ -245,9 +245,9 @@ static void attitudeUpdated(UAVObjEvent* ev)
 			dLoc[2] = poi.Down - positionActual.Down;
 
 			// Compute the pitch and yaw to the POI location, assuming UAVO is level facing north
-			float distance = sqrtf(powf(dLoc[0],2)+powf(dLoc[1],2));
-			float pitch = atan2f(-dLoc[2],distance) * RAD2DEG;
-			float yaw = atan2f(dLoc[1],dLoc[0]) * RAD2DEG;
+			float distance = sqrtf(powf(dLoc[0], 2) + powf(dLoc[1], 2));
+			float pitch = atan2f(-dLoc[2], distance) * RAD2DEG;
+			float yaw = atan2f(dLoc[1], dLoc[0]) * RAD2DEG;
 			if (yaw < 0) yaw += 360.0;
 
 			// Store the absolute declination relative to UAV
