@@ -42,13 +42,19 @@
  */
 
 #include "openpilot.h"
+#include "misc_math.h"
+#include "physical_constants.h"
 
 #include "accessorydesired.h"
 #include "attitudeactual.h"
 #include "camerastabsettings.h"
 #include "cameradesired.h"
+#include "homelocation.h"
 #include "modulesettings.h"
 #include "misc_math.h"
+#include "poilocation.h"
+#include "positionactual.h"
+#include "tabletinfo.h"
 
 //
 // Configuration
@@ -76,13 +82,21 @@ static void attitudeUpdated(UAVObjEvent* ev);
 static void settings_updated_cb(UAVObjEvent * ev);
 static void applyFF(uint8_t index, float dT_ms, float *attitude, CameraStabSettingsData* cameraStab);
 
+#if defined(CAMERASTAB_POI_MODE)
+static void tablet_info_flag_update(UAVObjEvent * ev);
+static void tablet_info_process();
+static bool tablet_info_updated = false;
+#endif /* CAMERASTAB_POI_MODE */
+
+// Private variables
+static bool module_enabled;
 /**
  * Initialise the module, called on startup
  * \returns 0 on success or -1 if initialisation failed
  */
 int32_t CameraStabInitialize(void)
 {
-	bool module_enabled = false;
+	module_enabled = false;
 
 #ifdef MODULE_CameraStab_BUILTIN
 	module_enabled = true;
@@ -115,6 +129,11 @@ int32_t CameraStabInitialize(void)
 
 		CameraStabSettingsConnectCallback(settings_updated_cb);
 		settings_updated_cb(NULL);
+#if defined(CAMERASTAB_POI_MODE)
+		PoiLocationInitialize();
+		TabletInfoInitialize();
+		TabletInfoConnectCallback(tablet_info_flag_update);
+#endif /* CAMERASTAB_POI_MODE */
 
 		UAVObjEvent ev = {
 			.obj = AttitudeActualHandle(),
@@ -161,8 +180,9 @@ static void attitudeUpdated(UAVObjEvent* ev)
 	float attitude;
 	float output;
 
-	// Read any input channels and apply LPF
 	for (uint8_t i = 0; i < MAX_AXES; i++) {
+
+		// Get the current attitude from the selected axis
 		switch (i) {
 		case ROLL:
 			AttitudeActualRollGet(&attitude);
@@ -178,7 +198,8 @@ static void attitudeUpdated(UAVObjEvent* ev)
 		csd->attitude_filtered[i] = (rt_ms / (rt_ms + dT_ms)) * csd->attitude_filtered[i] + (dT_ms / (rt_ms + dT_ms)) * attitude;
 		attitude = csd->attitude_filtered[i];
 
-		if (settings->Input[i] != CAMERASTABSETTINGS_INPUT_NONE) {
+		// Compute new smoothed setpoint
+		if (settings->Input[i] != CAMERASTABSETTINGS_INPUT_NONE && settings->Input[i] != CAMERASTABSETTINGS_INPUT_POI) {
 			if (AccessoryDesiredInstGet(settings->Input[i] - CAMERASTABSETTINGS_INPUT_ACCESSORY0, &accessory) == 0) {
 				float input;
 				float input_rate;
@@ -197,7 +218,60 @@ static void attitudeUpdated(UAVObjEvent* ev)
 					input = 0;
 				}
 			}
+			switch(i) {
+			case PITCH:
+				CameraDesiredDeclinationSet(&csd->inputs[i]);
+				break;
+			case YAW:
+				CameraDesiredBearingSet(&csd->inputs[i]);
+				break;
+			default:
+				break;
+			}
 		}
+#if defined(CAMERASTAB_POI_MODE)		
+		else if (settings->Input[i] == CAMERASTABSETTINGS_INPUT_POI) {
+			// Process any updates of the tablet location
+			tablet_info_process();
+
+			PositionActualData positionActual;
+			PositionActualGet(&positionActual);
+			PoiLocationData poi;
+			PoiLocationGet(&poi);
+
+			float dLoc[3];
+
+			dLoc[0] = poi.North - positionActual.North;
+			dLoc[1] = poi.East - positionActual.East;
+			dLoc[2] = poi.Down - positionActual.Down;
+
+			// Compute the pitch and yaw to the POI location, assuming UAVO is level facing north
+			float distance = sqrtf(powf(dLoc[0], 2) + powf(dLoc[1], 2));
+			float pitch = atan2f(-dLoc[2], distance) * RAD2DEG;
+			float yaw = atan2f(dLoc[1], dLoc[0]) * RAD2DEG;
+			if (yaw < 0)
+				yaw += 360.0;
+
+			// Store the absolute declination relative to UAV
+			CameraDesiredDeclinationSet(&pitch);
+
+			// Only try and track objects more than 2 m away
+			if (distance > 2) {
+				switch (i) {
+				case CAMERASTABSETTINGS_INPUT_ROLL:
+					// Does not make sense to use position to control yaw
+					break;
+				case CAMERASTABSETTINGS_INPUT_PITCH:
+					csd->inputs[CAMERASTABSETTINGS_INPUT_PITCH] = pitch;
+					break;
+				case CAMERASTABSETTINGS_INPUT_YAW:
+					CameraDesiredBearingSet(&yaw);
+					csd->inputs[CAMERASTABSETTINGS_INPUT_YAW] = yaw;
+					break;
+				}
+			}
+		}
+#endif /* CAMERASTAB_POI_MODE */		
 
 		// Add Servo FeedForward
 		applyFF(i, dT_ms, &attitude, settings);
@@ -264,6 +338,59 @@ static void settings_updated_cb(UAVObjEvent * ev)
 	CameraStabSettingsGet(&csd->settings);
 }
 
+#if defined(CAMERASTAB_POI_MODE)
+/**
+ * When the tablet info changes update the POI location to match
+ * the current tablet location
+ */
+static void tablet_info_flag_update(UAVObjEvent * ev)
+{
+	if (ev->obj == NULL || ev->obj != TabletInfoHandle())
+		return;
+
+	tablet_info_updated = true;
+}
+
+/**
+ * @brief Convert tablet location (LLA) to local coordinates (NED)
+*/
+static void tablet_info_process() {
+
+	// Only process new information
+	if (tablet_info_updated == false)
+		return;
+	tablet_info_updated = false;
+
+	TabletInfoData tablet;
+	TabletInfoGet(&tablet);
+	if (tablet.TabletModeDesired != TABLETINFO_TABLETMODEDESIRED_CAMERAPOI)
+		return;
+
+	HomeLocationData homeLocation;
+	HomeLocationGet(&homeLocation);
+
+	PoiLocationData poi;
+
+	float lat, alt;
+	lat = homeLocation.Latitude / 10.0e6f * DEG2RAD;
+	alt = homeLocation.Altitude;
+
+	float T[3];
+	T[0] = alt+6.378137E6f;
+	T[1] = cosf(lat)*(alt+6.378137E6f);
+	T[2] = -1.0f;
+
+	float dL[3] = {(tablet.Latitude - homeLocation.Latitude) / 10.0e6f * DEG2RAD,
+		(tablet.Longitude - homeLocation.Longitude) / 10.0e6f * DEG2RAD,
+		(tablet.Altitude - homeLocation.Altitude)};
+
+	poi.North = T[0] * dL[0];
+	poi.East = T[1] * dL[1];
+	poi.Down = T[2] * dL[2];
+	PoiLocationSet(&poi);
+}
+
+#endif /* CAMERASTAB_POI_MODE */
 /**
  * @}
  * @}

@@ -124,6 +124,8 @@
 
 #define REVOLUTION
 
+#define CAMERASTAB_POI_MODE
+
 #endif /* PIOS_CONFIG_H */
 /**
  * @}

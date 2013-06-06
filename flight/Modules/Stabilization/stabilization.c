@@ -38,14 +38,19 @@
 
 #include "openpilot.h"
 #include "stabilization.h"
-#include "stabilizationsettings.h"
+
+#include "attitudeactual.h"
 #include "actuatordesired.h"
+#include "cameradesired.h"
+#include "flightstatus.h"
+#include "gyros.h"
 #include "ratedesired.h"
 #include "stabilizationdesired.h"
 #include "accels.h"
 #include "attitudeactual.h"
 #include "gyros.h"
 #include "flightstatus.h"
+#include "stabilizationsettings.h"
 
 // Math libraries
 #include "coordinate_conversions.h"
@@ -381,6 +386,41 @@ static void stabilizationTask(void* parameters)
 					
 					break;
 					
+				case STABILIZATIONDESIRED_STABILIZATIONMODE_POI:
+					// The sanity check enforces this is only selectable for Yaw
+					// for a gimbal you can select pitch too.
+					if(reinit) {
+						pids[PID_ATT_ROLL + i].iAccumulator = 0;
+						pids[PID_RATE_ROLL + i].iAccumulator = 0;
+					}
+
+					float error;
+					float angle;
+					if (CameraDesiredHandle()) {
+						switch(i) {
+						case PITCH:
+							CameraDesiredDeclinationGet(&angle);
+							error = circular_modulus_deg(angle - attitudeActual.Pitch);
+							break;
+						case YAW:
+							CameraDesiredBearingGet(&angle);
+							error = circular_modulus_deg(angle - attitudeActual.Yaw);
+							break;
+						default:
+							error = true;
+						}
+					} else
+						error = true;
+
+					// Compute the outer loop
+					rateDesiredAxis[i] = pid_apply(&pids[PID_ATT_ROLL + i], error, dT);
+					rateDesiredAxis[i] = bound(rateDesiredAxis[i], settings.PoiMaximumRate[i]);
+
+					// Compute the inner loop
+					actuatorDesiredAxis[i] = pid_apply_setpoint(&pids[PID_RATE_ROLL + i],  rateDesiredAxis[i],  gyro_filtered[i], dT);
+					actuatorDesiredAxis[i] = bound(actuatorDesiredAxis[i],1.0f);
+
+					break;
 				case STABILIZATIONDESIRED_STABILIZATIONMODE_NONE:
 					actuatorDesiredAxis[i] = bound(stabDesiredAxis[i],1.0f);
 					break;
