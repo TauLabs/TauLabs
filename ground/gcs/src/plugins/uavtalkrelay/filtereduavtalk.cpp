@@ -67,6 +67,8 @@ bool FilteredUavTalk::receiveObject(quint8 type, quint32 objId, quint16 instId, 
     bool error = false;
     bool allInstances =  (instId == ALL_INSTANCES);
     UavTalkRelayComon::accessType access=m_rules.value(objId,m_defaultRule);
+    if (objId == GCSTelemetryStats::OBJID)
+        return false;
     if(access==UavTalkRelayComon::ReadOnly || access==UavTalkRelayComon::None)
         return false;
     if (obj == NULL)
