@@ -248,7 +248,8 @@ static void attitudeUpdated(UAVObjEvent* ev)
 			float distance = sqrtf(powf(dLoc[0], 2) + powf(dLoc[1], 2));
 			float pitch = atan2f(-dLoc[2], distance) * RAD2DEG;
 			float yaw = atan2f(dLoc[1], dLoc[0]) * RAD2DEG;
-			if (yaw < 0) yaw += 360.0;
+			if (yaw < 0)
+				yaw += 360.0;
 
 			// Store the absolute declination relative to UAV
 			CameraDesiredDeclinationSet(&pitch);
@@ -351,7 +352,7 @@ static void tablet_info_flag_update(UAVObjEvent * ev)
 
 static void tablet_info_process() {
 
-	// Only proecss new information
+	// Only process new information
 	if (tablet_info_updated == false)
 		return;
 	tablet_info_updated = false;
