@@ -87,7 +87,7 @@ static uint8_t                    connected_count = 0;
 static struct rcvr_activity_fsm   activity_fsm;
 static portTickType               lastActivityTime;
 static portTickType               lastSysTime;
-static double                     flight_mode_value;
+static float                      flight_mode_value;
 static enum control_events        pending_control_event;
 static bool                       settings_updated;
 
@@ -553,10 +553,12 @@ static void process_transmitter_events(ManualControlCommandData * cmd, ManualCon
 //! Determine which of N positions the flight mode switch is in but do not set it
 static uint8_t get_flight_mode()
 {
-	// Convert flightMode value into the switch position in the range [0..N-1]
-	uint8_t pos = ((int16_t)(flight_mode_value * 256.0f) + 256) * settings.FlightModeNumber >> 9;
-	if (pos >= settings.FlightModeNumber)
-		pos = settings.FlightModeNumber - 1;
+	uint8_t pos;
+	{ // Convert flightMode value into the switch position in the range [0..N-1]
+		pos = ((int16_t)(flight_mode_value * 256.0f) + 256) * settings.FlightModeNumber >> 9;
+		if (pos >= settings.FlightModeNumber)
+			pos = settings.FlightModeNumber - 1;
+	}
 
 	return settings.FlightModePosition[pos];
 }
