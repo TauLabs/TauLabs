@@ -73,15 +73,9 @@ public class HidUAVTalk extends TelemetryTask {
 
 	//! USB constants
 	private static final int MAX_HID_PACKET_SIZE = 64;
-	static final int OPENPILOT_VENDOR_ID = 0x20A0;
+	static final int CLAYLOGIC_VENDOR_ID    = 0x20A0;
+	static final int QUANTEC_VENDOR_ID      = 0x0DFA;
 
-	static final int USB_PRODUCT_ID_OPENPILOT_MAIN = 0x415A;
-	static final int USB_PRODUCT_ID_COPTERCONTROL  = 0x415B;
-	static final int USB_PRODUCT_ID_PIPXTREME      = 0x415C;
-	static final int USB_PRODUCT_ID_CC3D           = 0x415D;
-	static final int USB_PRODUCT_ID_REVOLUTION     = 0x415E;
-	static final int USB_PRODUCT_ID_OSD            = 0x4194;
-	static final int USB_PRODUCT_ID_SPARE          = 0x4195;
 
 	private static final String ACTION_USB_PERMISSION = "com.access.device.USB_PERMISSION";
 
@@ -319,7 +313,8 @@ public class HidUAVTalk extends TelemetryTask {
 		//A vendor id is a global identifier for the manufacturer. A product id refers to the product itself, and is unique to the manufacturer. The vendor id, product id combination refers to a particular product manufactured by a vendor.
 		if (DEBUG) Log.d(TAG, "ValidateFoundDevice: " + searchDevice );
 
-		if ( searchDevice.getVendorId() == OPENPILOT_VENDOR_ID ) {
+		if ( searchDevice.getVendorId() == CLAYLOGIC_VENDOR_ID ||
+		     searchDevice.getVendorId() == QUANTEC_VENDOR_ID) {
 			//Requesting permission
 			if (DEBUG) Log.d(TAG, "Device: " + searchDevice );
 			return true;
