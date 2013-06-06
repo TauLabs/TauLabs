@@ -182,7 +182,7 @@ static void attitudeUpdated(UAVObjEvent* ev)
 
 	for (uint8_t i = 0; i < MAX_AXES; i++) {
 
-		// Get the attitude from the selected axis
+		// Get the current attitude from the selected axis
 		switch (i) {
 		case ROLL:
 			AttitudeActualRollGet(&attitude);
@@ -198,6 +198,7 @@ static void attitudeUpdated(UAVObjEvent* ev)
 		csd->attitude_filtered[i] = (rt_ms / (rt_ms + dT_ms)) * csd->attitude_filtered[i] + (dT_ms / (rt_ms + dT_ms)) * attitude;
 		attitude = csd->attitude_filtered[i];
 
+		// Compute new smoothed setpoint
 		if (settings->Input[i] != CAMERASTABSETTINGS_INPUT_NONE && settings->Input[i] != CAMERASTABSETTINGS_INPUT_POI) {
 			if (AccessoryDesiredInstGet(settings->Input[i] - CAMERASTABSETTINGS_INPUT_ACCESSORY0, &accessory) == 0) {
 				float input;
@@ -350,6 +351,9 @@ static void tablet_info_flag_update(UAVObjEvent * ev)
 	tablet_info_updated = true;
 }
 
+/**
+ * @brief Convert tablet location (LLA) to local coordinates (NED)
+*/
 static void tablet_info_process() {
 
 	// Only process new information
