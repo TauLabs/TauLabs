@@ -976,7 +976,7 @@ Tip: lower is better!</string>
          <item>
           <widget class="QPushButton" name="acceptTempCal">
            <property name="text">
-            <string>Accept Temperature Calibrtion</string>
+            <string>Accept Temperature Calibration</string>
            </property>
           </widget>
          </item>
