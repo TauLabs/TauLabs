@@ -20,11 +20,13 @@
                 <elementname>FlightTime</elementname>
                 <elementname>I2C</elementname>
                 <elementname>GPS</elementname>
-              <elementname>BootFault</elementname>
+                <elementname>BootFault</elementname>
+                <elementname>GeoFence</elementname>
             </elementnames>
         </field>
         <field name="ConfigError" units="" type="enum" elements="1" options="Stabilization,Multirotor,AutoTune,AltitudeHold,VelocityControl,PositionHold,PathPlanner,Undefined,None" defaultvalue="None" />
         <field name="ManualControl" units="" type="enum" elements="1" options="Settings,NoRx,Accessory,AltitudeHold,Undefined,None" defaultvalue="None" />
+        <field name="GeoFence" units="" type="enum" elements="1" options="LeftBoundary,LeavingBoundary,InsufficientVertices,InsufficientFaces,Undefined,None" defaultvalue="None" />
         <access gcs="readwrite" flight="readwrite"/>
         <telemetrygcs acked="true" updatemode="onchange" period="0"/>
         <telemetryflight acked="true" updatemode="onchange" period="0"/>
