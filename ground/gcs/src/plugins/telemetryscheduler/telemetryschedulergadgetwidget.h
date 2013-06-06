@@ -43,6 +43,7 @@
 class Ui_TelemetryScheduler;
 class Ui_Metadata_Dialog;
 class QFrozenTableViewWithCopyPaste;
+class SchedulerModel;
 
 class TelemetrySchedulerGadgetWidget : public QWidget
 {
@@ -83,12 +84,35 @@ private:
     QStringList columnHeaders;
     QStringList rowHeaders;
 
-    QStandardItemModel *schedulerModel;
+    SchedulerModel *schedulerModel;
     QFrozenTableViewWithCopyPaste *telemetryScheduleView;
     QStandardItemModel *frozenModel;
 
 };
 
+
+/**
+ * @brief The SchedulerModel class Subclasses QStandardItemModel in order to
+ * reimplement the editable flags
+ */
+class SchedulerModel: public QStandardItemModel
+{
+public:
+    SchedulerModel(int rows, int cols, QObject *parent = 0):
+        QStandardItemModel(rows, cols, parent)
+    { }
+
+    ~SchedulerModel() { }
+
+    // The first two columns are not editable, but all other columns are
+    Qt::ItemFlags flags (const QModelIndex & index) const
+    {
+        if (index.column() == 0 || index.column() == 1)
+            return Qt::ItemIsEnabled | Qt::ItemIsSelectable;
+        else
+            return Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsEditable;
+    }
+};
 
 /**
  * @brief The QFrozenTableViewWithCopyPaste class QTableView with support for a frozen row as well as
@@ -110,7 +134,6 @@ protected:
     virtual void keyPressEvent(QKeyEvent * event);
 
     virtual void resizeEvent(QResizeEvent *event);
-    virtual QModelIndex moveCursor(CursorAction cursorAction, Qt::KeyboardModifiers modifiers);
     void scrollTo (const QModelIndex & index, ScrollHint hint = EnsureVisible);
 
 private slots:
