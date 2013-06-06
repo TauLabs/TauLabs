@@ -57,11 +57,11 @@ int32_t geofence_control_update()
  */
 int32_t geofence_control_select(bool reset_controller)
 {
-	SystemAlarmsGeoFenceOptions geofence_alarm_code;
+	uint8_t geofence_alarm_code;
 	SystemAlarmsGeoFenceGet(&geofence_alarm_code);
 
-	FlightStatusFlightModeOptions old_flight_status;
-	FlightStatusFlightModeOptions new_flight_status;
+	uint8_t old_flight_status;
+	uint8_t new_flight_status;
 
 	switch (geofence_alarm_code){
 	case SYSTEMALARMS_GEOFENCE_LEAVINGBOUNDARY:

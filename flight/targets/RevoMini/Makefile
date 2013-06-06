@@ -54,6 +54,7 @@ OPTMODULES += GroundPathFollower
 OPTMODULES += CameraStab
 OPTMODULES += Autotune
 OPTMODULES += TxPID
+OPTMODULES += GeoFence
 OPTMODULES += Battery
 OPTMODULES += VibrationAnalysis
 
