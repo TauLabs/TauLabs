@@ -50,6 +50,7 @@ DefaultHwSettingsWidget::DefaultHwSettingsWidget(QWidget *parent, bool autopilot
     //generic elements based on the hardware UAVO.
     fieldWidgets.clear();
 
+    bool unknown_board = true;
     if (autopilotConnected){
         addApplySaveButtons(ui->applyButton,ui->saveButton);
         addReloadButton(ui->reloadButton, 0);
@@ -60,23 +61,22 @@ DefaultHwSettingsWidget::DefaultHwSettingsWidget(QWidget *parent, bool autopilot
         if (pm != NULL) {
              UAVObjectUtilManager* uavoUtilManager = pm->getObject<UAVObjectUtilManager>();
              Core::IBoardType* board = uavoUtilManager->getBoardType();
+             if (board != NULL) {
+                 QString hwSwettingsObject = board->getHwUAVO();
 
-             QString hwSwettingsObject = board->getHwUAVO();
-
-             UAVObject *obj = getObjectManager()->getObject(hwSwettingsObject);
-             if (obj != NULL) {
-                 qDebug() << "Checking object " << obj->getName();
-                 connect(obj,SIGNAL(transactionCompleted(UAVObject*,bool)), this, SLOT(settingsUpdated(UAVObject*,bool)));
-                 obj->requestUpdate();
-             } else {
-                 qDebug() << "HwConfiguration object not found";
+                 UAVObject *obj = getObjectManager()->getObject(hwSwettingsObject);
+                 if (obj != NULL) {
+                     unknown_board = false;
+                     qDebug() << "Checking object " << obj->getName();
+                     connect(obj,SIGNAL(transactionCompleted(UAVObject*,bool)), this, SLOT(settingsUpdated(UAVObject*,bool)));
+                     obj->requestUpdate();
+                 }
              }
         }
-
     }
-    else{
-        qDebug() << "No hardware attached. Showing placeholder text/graphic.";
-        QLabel *label = new QLabel("  No board detected.\n  Hardware tab will refresh once board is detected.", this);
+
+    if (unknown_board) {
+        QLabel *label = new QLabel("  No recognized board detected.\n  Hardware tab will refresh once a known board is detected.", this);
         label->resize(335,200);
     }
 }
