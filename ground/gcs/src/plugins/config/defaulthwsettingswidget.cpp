@@ -76,8 +76,7 @@ DefaultHwSettingsWidget::DefaultHwSettingsWidget(QWidget *parent, bool autopilot
     }
 
     if (unknown_board) {
-        qDebug() << "No hardware attached. Showing placeholder text/graphic.";
-        QLabel *label = new QLabel("  No board detected.\n  Hardware tab will refresh once board is detected.", this);
+        QLabel *label = new QLabel("  No recognized board detected.\n  Hardware tab will refresh once a known board is detected.", this);
         label->resize(335,200);
     }
 }
