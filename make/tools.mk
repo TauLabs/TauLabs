@@ -467,3 +467,38 @@ astyle_clean:
 	$(V1) [ ! -d "$(ASTYLE_DIR)" ] || $(RM) -r "$(ASTYLE_DIR)"
 	$(V0) @echo " CLEAN        $(ASTYLE_BUILD_DIR)"
 	$(V1) [ ! -d "$(ASTYLE_BUILD_DIR)" ] || $(RM) -r "$(ASTYLE_BUILD_DIR)"
+
+
+# Set up libkml
+LIBKML_DIR := $(TOOLS_DIR)/libkml-1.2.0
+LIBKML_BUILD_DIR := $(DL_DIR)/libkml-1.2.0
+
+.PHONY: libkml_install
+libkml_install: | $(DL_DIR) $(TOOLS_DIR)
+libkml_install: LIBKML_URL := http://libkml.googlecode.com/files/libkml-1.2.0.tar.gz
+libkml_install: LIBKML_FILE := $(notdir $(LIBKML_URL))
+libkml_install: libkml_clean
+        # download the source
+	$(V0) @echo " DOWNLOAD     $(LIBKML_URL)"
+	$(V1) wget --continue  -P "$(DL_DIR)" "$(LIBKML_URL)"
+	$(V1) tar -C $(DL_DIR) -xzf "$(DL_DIR)/$(LIBKML_FILE)"
+
+        # build and install
+	$(V0) @echo " BUILD        $(LIBKML_DIR)"
+	$(V1) mkdir -p "$(LIBKML_BUILD_DIR)/build"
+	$(V1) ( \
+	  cd $(LIBKML_BUILD_DIR)/build ; \
+	  ../configure --prefix="$(LIBKML_DIR)"; \
+	  make ; \
+	  make install ; \
+	)
+
+        # delete the extracted source when we're done
+	$(V1) [ ! -d "$(LIBKML_BUILD_DIR)" ] || $(RM) -r "$(LIBKML_BUILD_DIR)"
+
+.PHONY: libkml_clean
+libkml_clean:
+	$(V0) @echo " CLEAN        $(LIBKML_DIR)"
+	$(V1) [ ! -d "$(LIBKML_DIR)" ] || $(RM) -r "$(LIBKML_DIR)"
+	$(V0) @echo " CLEAN        $(LIBKML_BUILD_DIR)"
+	$(V1) [ ! -d "$(LIBKML_BUILD_DIR)" ] || $(RM) -r "$(LIBKML_BUILD_DIR)"
