@@ -3,7 +3,8 @@
 *
 * @file       homeitem.h
 * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
-* @brief      A graphicsItem representing a WayPoint
+* @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
+* @brief      A graphicsItem representing a Home Location
 * @see        The GNU Public License (GPL) Version 3
 * @defgroup   OPMapWidget
 * @{
@@ -27,21 +28,18 @@
 #ifndef HOMEITEM_H
 #define HOMEITEM_H
 
-#include <QGraphicsItem>
-#include <QPainter>
-#include <QLabel>
-#include "../internals/pointlatlng.h"
-#include <QObject>
-#include "opmapwidget.h"
+
+#include "mappointitem.h"
+
 namespace mapcontrol
 {
 
-    class HomeItem:public QObject,public QGraphicsItem
+    class HomeItem:public MapPointItem
     {
         Q_OBJECT
         Q_INTERFACES(QGraphicsItem)
     public:
-                enum { Type = UserType + 4 };
+        enum { Type = UserType + TYPE_HOMEITEM };
         HomeItem(MapGraphicItem* map,OPMapWidget* parent);
         void paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
                     QWidget *widget);
@@ -53,14 +51,11 @@ namespace mapcontrol
         int SafeArea()const{return safearea;}
         void SetSafeArea(int const& value){safearea=value;}
         bool safe;
-        void SetCoord(internals::PointLatLng const& value){coord=value;emit homePositionChanged(value,Altitude());}
-        internals::PointLatLng Coord()const{return coord;}
-        void SetAltitude(float const& value){altitude=value;emit homePositionChanged(Coord(),Altitude());}
-        float Altitude()const{return altitude;}
+        virtual void SetCoord(internals::PointLatLng const& value){coord=value; emit absolutePositionChanged(value,Altitude());}
+        virtual void SetAltitude(float const& value){altitude=value; emit absolutePositionChanged(Coord(),Altitude());}
         void RefreshToolTip();
     private:
 
-        MapGraphicItem* map;
         OPMapWidget* mapwidget;
         QPixmap pic;
         core::Point localposition;
@@ -69,7 +64,6 @@ namespace mapcontrol
         bool toggleRefresh;
         int safearea;
         int localsafearea;
-        float altitude;
         bool isDragging;
     protected:
         void mouseMoveEvent ( QGraphicsSceneMouseEvent * event );
@@ -80,8 +74,7 @@ namespace mapcontrol
         void RefreshPos();
         void setOpacitySlot(qreal opacity);
     signals:
-        void homePositionChanged(internals::PointLatLng coord,float);
-        void homedoubleclick(HomeItem* waypoint);
+        void homedoubleclick(HomeItem* homeLocation);
     };
 }
 #endif // HOMEITEM_H

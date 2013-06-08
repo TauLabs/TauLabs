@@ -3,45 +3,40 @@
 *
 * @file       pureprojection.cpp
 * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
-* @brief      
+* @author     Tau Labs, http://taulabs.org Copyright (C) 2013.
+* @brief
 * @see        The GNU Public License (GPL) Version 3
 * @defgroup   OPMapWidget
 * @{
-* 
+*
 *****************************************************************************/
-/* 
-* This program is free software; you can redistribute it and/or modify 
-* it under the terms of the GNU General Public License as published by 
-* the Free Software Foundation; either version 3 of the License, or 
+/*
+* This program is free software; you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation; either version 3 of the License, or
 * (at your option) any later version.
-* 
-* This program is distributed in the hope that it will be useful, but 
-* WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY 
-* or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License 
+*
+* This program is distributed in the hope that it will be useful, but
+* WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+* or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
 * for more details.
-* 
-* You should have received a copy of the GNU General Public License along 
-* with this program; if not, write to the Free Software Foundation, Inc., 
+*
+* You should have received a copy of the GNU General Public License along
+* with this program; if not, write to the Free Software Foundation, Inc.,
 * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 */
+
 #include "pureprojection.h"
+#include "../../../../shared/api/physical_constants.h"
 
 
-
-
-
- 
 namespace internals {
 
-const double PureProjection::PI = M_PI;
-const double PureProjection::HALF_PI = (M_PI * 0.5);
-const double PureProjection::TWO_PI= (M_PI * 2.0);
+const double PureProjection::TWO_PI = 2*PI;   // Use double PI in order to maintain high accuracy
 const double PureProjection::EPSLoN= 1.0e-10;
 const double PureProjection::MAX_VAL= 4;
 const double PureProjection::MAXLONG= 2147483647;
 const double PureProjection::DBLLONG= 4.61168601e18;
-const double PureProjection::R2D=180/M_PI;
-const double PureProjection::D2R=M_PI/180;
 
 Point PureProjection::FromLatLngToPixel(const PointLatLng &p,const int &zoom)
       {
@@ -110,9 +105,9 @@ Point PureProjection::FromLatLngToPixel(const PointLatLng &p,const int &zoom)
        * @param latitude
        * @return Constant in [m/px]
        */
-      double PureProjection::GetGroundResolution(const int &zoom,const double &latitude)
+      double PureProjection::GetGroundResolution(const int &zoom, const double &latitude_D)
       {
-          return (cos(latitude * (PI / 180)) * 2 * PI * Axis()) / GetTileMatrixSizePixel(zoom).Width();
+          return (cos(latitude_D * DEG2RAD) * TWO_PI * Axis()) / GetTileMatrixSizePixel(zoom).Width();
       }
 
       double PureProjection::Sign(const double &x)
@@ -195,64 +190,93 @@ Point PureProjection::FromLatLngToPixel(const PointLatLng &p,const int &zoom)
       }
 
 
-      void PureProjection::FromGeodeticToCartesian(double Lat,double Lng,double Height,  double &X,  double &Y,  double &Z)
-      {
-         Lat = (PI / 180) * Lat;
-         Lng = (PI / 180) * Lng;
+       /**
+       * @brief PureProjection::FromGeodeticToCartesian
+       * @param Lat_D
+       * @param Lng_D
+       * @param Height
+       * @param X
+       * @param Y
+       * @param Z
+       */
+       void PureProjection::FromGeodeticToCartesian(double Lat_D, double Lng_D, double Height,  double &X,  double &Y,  double &Z)
+       {
+          double Lat_R = Lat_D * DEG2RAD;
+          double Lng_R = Lng_D * DEG2RAD;
 
-         double B = Axis() * (1.0 - Flattening());
-         double ee = 1.0 - (B / Axis()) * (B / Axis());
-         double N = (Axis() / sqrt(1.0 - ee * sin(Lat) * sin(Lat)));
+          double B = Axis() * (1.0 - Flattening());
+          double ee = 1.0 - (B / Axis()) * (B / Axis());
+          double N = (Axis() / sqrt(1.0 - ee * sin(Lat_R) * sin(Lat_R)));
 
-         X = (N + Height) * cos(Lat) * cos(Lng);
-         Y = (N + Height) * cos(Lat) * sin(Lng);
-         Z = (N * (B / Axis()) * (B / Axis()) + Height) * sin(Lat);
-      }
-    void PureProjection::FromCartesianTGeodetic(const double &X,const double &Y,const double &Z,  double &Lat,  double &Lng)
+          X = (N + Height) * cos(Lat_R) * cos(Lng_R);
+          Y = (N + Height) * cos(Lat_R) * sin(Lng_R);
+          Z = (N * (B / Axis()) * (B / Axis()) + Height) * sin(Lat_R);
+       }
+    void PureProjection::FromCartesianTGeodetic(const double &X, const double &Y, const double &Z,  double &Lat_D,  double &Lng_D)
       {
          double E = Flattening() * (2.0 - Flattening());
-         Lng = atan2(Y, X);
+         double Lng_R = atan2(Y, X);
 
          double P = sqrt(X * X + Y * Y);
          double Theta = atan2(Z, (P * (1.0 - Flattening())));
          double st = sin(Theta);
          double ct = cos(Theta);
-         Lat = atan2(Z + E / (1.0 - Flattening()) * Axis() * st * st * st, P - E * Axis() * ct * ct * ct);
+         double Lat_R = atan2(Z + E / (1.0 - Flattening()) * Axis() * st * st * st, P - E * Axis() * ct * ct * ct);
 
-         Lat /= (PI / 180);
-         Lng /= (PI / 180);
+         Lat_D = Lat_R * DEG2RAD;
+         Lng_D = Lng_R * DEG2RAD;
       }
     double PureProjection::courseBetweenLatLng(PointLatLng const& p1,PointLatLng const& p2)
     {
 
-        double lon1=p1.Lng()* (M_PI / 180);
-        double lat1=p1.Lat()* (M_PI / 180);
-        double lon2=p2.Lng()* (M_PI / 180);
-        double lat2=p2.Lat()* (M_PI / 180);
+        double lon1_R = p1.Lng() * DEG2RAD;
+        double lat1_R = p1.Lat() * DEG2RAD;
+        double lon2_R = p2.Lng() * DEG2RAD;
+        double lat2_R = p2.Lat() * DEG2RAD;
 
-        return 2*M_PI-myfmod(atan2(sin(lon1-lon2)*cos(lat2),
-                       cos(lat1)*sin(lat2)-sin(lat1)*cos(lat2)*cos(lon1-lon2)), 2*M_PI);
+        return TWO_PI - myfmod(atan2(sin(lon1_R - lon2_R) * cos(lat2_R),
+                       cos(lat1_R) * sin(lat2_R) - sin(lat1_R) * cos(lat2_R) * cos(lon1_R - lon2_R)), TWO_PI);
     }
 
+    /**
+     * @brief PureProjection::DistanceBetweenLatLng Returns 2D distance between two geodetic points
+     * @param p1 Latitude-longitude in WGS84 coordinates, first point
+     * @param p2 Latitude-longitude in WGS84 coordinates, second point
+     * @return Distance in [m]
+     */
     double PureProjection::DistanceBetweenLatLng(PointLatLng const& p1,PointLatLng const& p2)
     {
-         double R = 6371; // km
-         double lat1=p1.Lat();
-         double lat2=p2.Lat();
-         double lon1=p1.Lng();
-         double lon2=p2.Lng();
-         double dLat = (lat2-lat1)* (PI / 180);
-         double dLon = (lon2-lon1)* (PI / 180);
-         double a = sin(dLat/2) * sin(dLat/2) + cos(lat1* (PI / 180)) * cos(lat2* (PI / 180)) * sin(dLon/2) * sin(dLon/2);
+         double R = WGS84_RADIUS_EARTH_KM;
+         double lat1_R = p1.Lat() * DEG2RAD;
+         double lat2_R = p2.Lat() * DEG2RAD;
+         double lon1_R = p1.Lng() * DEG2RAD;
+         double lon2_R = p2.Lng() * DEG2RAD;
+         double dLat_R = (lat2_R-lat1_R);
+         double dLon_R = (lon2_R-lon1_R);
+         double a = sin(dLat_R/2) * sin(dLat_R/2) + cos(lat1_R) * cos(lat2_R) * sin(dLon_R/2) * sin(dLon_R/2);
          double c = 2 * atan2(sqrt(a), sqrt(1-a));
          double d = R * c;
          return d;
     }
 
+    /**
+     * @brief PureProjection::DistanceBetweenLatLngAlt Returns 3D distance between two geodetic points
+     * @param p1 Latitude-longitude in WGS84 coordinates, first point
+     * @param alt1 altitude above reference, first point
+     * @param p2 Latitude-longitude in WGS84 coordinates, second point
+     * @param alt2 altitude above reference, first point
+     * @return Distance in [m]
+     */
+    double PureProjection::DistanceBetweenLatLngAlt(PointLatLng const& p1, double const& alt1, PointLatLng const& p2, double const& alt2)
+    {
+        return sqrt(pow(DistanceBetweenLatLng(p2, p1), 2) +
+                           pow(alt2-alt1, 2));
+    }
+
     void PureProjection::offSetFromLatLngs(PointLatLng p1,PointLatLng p2,double &distance,double &bearing)
     {
-        distance=DistanceBetweenLatLng(p1,p2)*1000;
-        bearing=courseBetweenLatLng(p1,p2);
+        distance=DistanceBetweenLatLng(p1, p2);
+        bearing=courseBetweenLatLng(p1, p2);
       }
 
     double PureProjection::myfmod(double x,double y)
@@ -265,16 +289,15 @@ Point PureProjection::FromLatLngToPixel(const PointLatLng &p,const int &zoom)
         PointLatLng ret;
         double d=distance;
         double tc=bearing;
-        double lat1=p1.Lat()*M_PI/180;
-        double lon1=p1.Lng()*M_PI/180;
+        double lat1_R = p1.Lat() * DEG2RAD;
+        double lon1_R = p1.Lng() * DEG2RAD;
         double R=6378137;
-        double lat2 = asin(sin(lat1)*cos(d/R) + cos(lat1)*sin(d/R)*cos(tc) );
-        double lon2 = lon1 + atan2(sin(tc)*sin(d/R)*cos(lat1),
-                             cos(d/R)-sin(lat1)*sin(lat2));
-        lat2=lat2*180/M_PI;
-        lon2=lon2*180/M_PI;
-        ret.SetLat(lat2);
-        ret.SetLng(lon2);
+        double lat2_R = asin(sin(lat1_R) * cos(d/R) + cos(lat1_R) * sin(d/R) * cos(tc) );
+        double lon2_R = lon1_R + atan2(sin(tc) * sin(d/R) * cos(lat1_R),
+                             cos(d/R) - sin(lat1_R) * sin(lat2_R));
+
+        ret.SetLat(lat2_R * RAD2DEG);
+        ret.SetLng(lon2_R * RAD2DEG);
         return ret;
     }
 

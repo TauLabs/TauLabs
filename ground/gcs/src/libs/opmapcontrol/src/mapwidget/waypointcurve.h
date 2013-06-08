@@ -26,14 +26,8 @@
 */
 #ifndef WAYPOINTCURVE_H
 #define WAYPOINTCURVE_H
-#include <QGraphicsItem>
-#include <QPainter>
-#include <QLabel>
-#include "../internals/pointlatlng.h"
-#include "mapgraphicitem.h"
+
 #include "waypointitem.h"
-#include <QObject>
-#include <QPoint>
 
 namespace mapcontrol
 {
