@@ -60,6 +60,7 @@
 /* Select the sensors to include */
 #define PIOS_INCLUDE_L3GD20
 #define PIOS_INCLUDE_LSM303
+#define PIOS_INCLUDE_HCSR04
 #define FLASH_FREERTOS
 /* Com systems to include */
 #define PIOS_INCLUDE_COM
