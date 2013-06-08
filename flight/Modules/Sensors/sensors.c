@@ -38,6 +38,9 @@
 #include "attitudeactual.h"
 #include "attitudesettings.h"
 #include "baroaltitude.h"
+#if defined(PIOS_INCLUDE_HCSR04)
+#include "sonaraltitude.h"
+#endif
 #include "gyros.h"
 #include "gyrosbias.h"
 #include "homelocation.h"
@@ -67,7 +70,9 @@ static void update_accels(struct pios_sensor_accel_data *accel);
 static void update_gyros(struct pios_sensor_gyro_data *gyro);
 static void update_mags(struct pios_sensor_mag_data *mag);
 static void update_baro(struct pios_sensor_baro_data *baro);
-
+#if defined(PIOS_INCLUDE_HCSR04)
+static void update_sonar(struct pios_sensor_sonar_data *sonar);
+#endif
 static void mag_calibration_prelemari(MagnetometerData *mag);
 static void mag_calibration_fix_length(MagnetometerData *mag);
 
@@ -115,6 +120,9 @@ static int32_t SensorsInitialize(void)
 	GyrosBiasInitialize();
 	AccelsInitialize();
 	BaroAltitudeInitialize();
+#if defined(PIOS_INCLUDE_HCSR04)
+	SonarAltitudeInitialize();
+#endif
 	MagnetometerInitialize();
 	MagBiasInitialize();
 	AttitudeSettingsInitialize();
@@ -177,7 +185,9 @@ static void SensorsTask(void *parameters)
 		struct pios_sensor_accel_data accels;
 		struct pios_sensor_mag_data mags;
 		struct pios_sensor_baro_data baro;
-
+#if defined(PIOS_INCLUDE_HCSR04)
+		struct pios_sensor_sonar_data sonar;
+#endif
 		uint32_t timeval = PIOS_DELAY_GetRaw();
 
 		//Block on gyro data but nothing else
@@ -209,7 +219,12 @@ static void SensorsTask(void *parameters)
 		if (queue != NULL && xQueueReceive(queue, (void *) &baro, 0) != errQUEUE_EMPTY) {
 			update_baro(&baro);
 		}
-
+#if defined(PIOS_INCLUDE_HCSR04)
+		queue = PIOS_SENSORS_GetQueue(PIOS_SENSOR_SONAR);
+		if (queue != NULL && xQueueReceive(queue, (void *) &sonar, 0) != errQUEUE_EMPTY) {
+			update_sonar(&sonar);
+		}
+#endif
 		if (good_runs > REQUIRED_GOOD_CYCLES)
 			AlarmsClear(SYSTEMALARMS_ALARM_SENSORS);
 		else
@@ -351,6 +366,21 @@ static void update_baro(struct pios_sensor_baro_data *baro)
 	baroAltitude.Altitude = baro->altitude;
 	BaroAltitudeSet(&baroAltitude);
 }
+
+/**
+ * Update the sonar uavo from the data from the sonar queue
+ * @param [in] sonar raw sonar data
+ */
+#if defined(PIOS_INCLUDE_HCSR04)
+static void update_sonar(struct pios_sensor_sonar_data *sonar)
+{
+	SonarAltitudeData sonarAltitude;
+	SonarAltitudeGet(&sonarAltitude);
+	sonarAltitude.Altitude = sonar->altitude;
+	sonarAltitude.Range = sonar->range;
+	SonarAltitudeSet(&sonarAltitude);
+}
+#endif
 
 /**
  * Compute the bias expected from temperature variation for each gyro
