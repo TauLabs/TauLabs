@@ -1,9 +1,10 @@
 /**
 ******************************************************************************
 *
-* @file       waypointline.cpp
+* @file       mapline.cpp
 * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
-* @brief      A graphicsItem representing a line connecting 2 waypoints
+* @author     Tau Labs, http://taulabs.org Copyright (C) 2013.
+* @brief      A graphicsItem representing a line connecting 2 map points
 * @see        The GNU Public License (GPL) Version 3
 * @defgroup   OPMapWidget
 * @{
@@ -24,20 +25,20 @@
 * with this program; if not, write to the Free Software Foundation, Inc.,
 * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 */
-#include "waypointline.h"
+#include "mapline.h"
 #include <math.h>
 #include "homeitem.h"
 
 namespace mapcontrol
 {
-WayPointLine::WayPointLine(WayPointItem *from, WayPointItem *to, MapGraphicItem *map, QColor color) :
+MapLine::MapLine(MapPointItem *from, MapPointItem *to, MapGraphicItem *map, QColor color) :
     QGraphicsLineItem(map), source(from), destination(to), my_map(map), myColor(color)
 {
     this->setLine(to->pos().x(),to->pos().y(),from->pos().x(),from->pos().y());
-    connect(from,SIGNAL(localPositionChanged(QPointF,WayPointItem*)),this,SLOT(refreshLocations()));
-    connect(to,SIGNAL(localPositionChanged(QPointF,WayPointItem*)),this,SLOT(refreshLocations()));
-    connect(from,SIGNAL(aboutToBeDeleted(WayPointItem*)),this,SLOT(waypointdeleted()));
-    connect(to,SIGNAL(aboutToBeDeleted(WayPointItem*)),this,SLOT(waypointdeleted()));
+    connect(from, SIGNAL(relativePositionChanged(QPointF, MapPointItem*)), this, SLOT(refreshLocations()));
+    connect(to, SIGNAL(relativePositionChanged(QPointF, MapPointItem*)), this, SLOT(refreshLocations()));
+    connect(from, SIGNAL(aboutToBeDeleted(MapPointItem*)), this, SLOT(pointdeleted()));
+    connect(to, SIGNAL(aboutToBeDeleted(MapPointItem*)), this, SLOT(pointdeleted()));
     if(myColor==Qt::green)
         this->setZValue(10);
     else if(myColor==Qt::yellow)
@@ -47,13 +48,13 @@ WayPointLine::WayPointLine(WayPointItem *from, WayPointItem *to, MapGraphicItem 
     connect(map,SIGNAL(childSetOpacity(qreal)),this,SLOT(setOpacitySlot(qreal)));
 }
 
-WayPointLine::WayPointLine(HomeItem *from, WayPointItem *to, MapGraphicItem *map, QColor color) :
+MapLine::MapLine(HomeItem *from, MapPointItem *to, MapGraphicItem *map, QColor color) :
     QGraphicsLineItem(map), source(from), destination(to), my_map(map), myColor(color)
 {
     this->setLine(to->pos().x(),to->pos().y(),from->pos().x(),from->pos().y());
-    connect(from,SIGNAL(homePositionChanged(internals::PointLatLng,float)),this,SLOT(refreshLocations()));
-    connect(to,SIGNAL(localPositionChanged(QPointF,WayPointItem*)),this,SLOT(refreshLocations()));
-    connect(to,SIGNAL(aboutToBeDeleted(WayPointItem*)),this,SLOT(waypointdeleted()));
+    connect(from, SIGNAL(absolutePositionChanged(internals::PointLatLng, float)), this, SLOT(refreshLocations()));
+    connect(to, SIGNAL(relativePositionChanged(QPointF, MapPointItem*)), this, SLOT(refreshLocations()));
+    connect(to, SIGNAL(aboutToBeDeleted(MapPointItem*)), this, SLOT(pointdeleted()));
     if(myColor==Qt::green)
         this->setZValue(10);
     else if(myColor==Qt::yellow)
@@ -63,20 +64,20 @@ WayPointLine::WayPointLine(HomeItem *from, WayPointItem *to, MapGraphicItem *map
     connect(map,SIGNAL(childSetOpacity(qreal)),this,SLOT(setOpacitySlot(qreal)));
 }
 
-int WayPointLine::type() const
+int MapLine::type() const
 {
     // Enable the use of qgraphicsitem_cast with this item.
     return Type;
 }
 
-QPainterPath WayPointLine::shape() const
+QPainterPath MapLine::shape() const
 {
     QPainterPath path = QGraphicsLineItem::shape();
     path.addPolygon(arrowHead);
     return path;
 }
 
-void WayPointLine::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
+void MapLine::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     Q_UNUSED(option);
     Q_UNUSED(widget);
@@ -109,17 +110,17 @@ void WayPointLine::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
 
 }
 
-void WayPointLine::refreshLocations()
+void MapLine::refreshLocations()
 {
     this->setLine(destination->pos().x(),destination->pos().y(),source->pos().x(),source->pos().y());
 }
 
-void WayPointLine::waypointdeleted()
+void MapLine::pointdeleted()
 {
     this->deleteLater();
 }
 
-void WayPointLine::setOpacitySlot(qreal opacity)
+void MapLine::setOpacitySlot(qreal opacity)
 {
     setOpacity(opacity);
 }

@@ -3,6 +3,7 @@
 *
 * @file       mapgraphicitem.h
 * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
+* @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
 * @brief      The main graphicsItem used on the widget, contains the map and map logic
 * @see        The GNU Public License (GPL) Version 3
 * @defgroup   OPMapWidget
@@ -37,7 +38,6 @@
 #include <QBrush>
 #include <QFont>
 #include <QObject>
-#include "waypointitem.h"
 
 namespace mapcontrol
 {

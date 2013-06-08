@@ -1,9 +1,10 @@
 /**
 ******************************************************************************
 *
-* @file       waypointcircle.h
+* @file       mapcircle.h
 * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
-* @brief      A graphicsItem representing a circle connecting 2 waypoints
+* @author     Tau Labs, http://taulabs.org Copyright (C) 2013.
+* @brief      A graphicsItem representing a circle connecting 2 map point
 * @see        The GNU Public License (GPL) Version 3
 * @defgroup   OPMapWidget
 * @{
@@ -24,28 +25,24 @@
 * with this program; if not, write to the Free Software Foundation, Inc.,
 * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 */
-#ifndef WAYPOINTCIRCLE_H
-#define WAYPOINTCIRCLE_H
-#include <QGraphicsItem>
-#include <QPainter>
-#include <QLabel>
-#include "../internals/pointlatlng.h"
-#include "mapgraphicitem.h"
-#include "waypointitem.h"
-#include <QObject>
-#include <QPoint>
+#ifndef MAPCIRCLE_H
+#define MAPCIRCLE_H
+
+#include "mappointitem.h"
 
 namespace mapcontrol
 {
 
-class WayPointCircle: public QObject, public QGraphicsEllipseItem
+class HomeItem;
+
+class MapCircle: public QObject, public QGraphicsEllipseItem
 {
     Q_OBJECT
     Q_INTERFACES(QGraphicsItem)
 public:
     enum { Type = UserType + 9 };
-    WayPointCircle(WayPointItem * center, WayPointItem * radius,bool clockwise,MapGraphicItem * map,QColor color=Qt::green);
-    WayPointCircle(HomeItem * center, WayPointItem * radius,bool clockwise,MapGraphicItem * map,QColor color=Qt::green);
+    MapCircle(MapPointItem *center, MapPointItem *radius, bool clockwise, MapGraphicItem *map, QColor color=Qt::green);
+    MapCircle(HomeItem *center, MapPointItem *radius, bool clockwise, MapGraphicItem *map, QColor color=Qt::green);
     int type() const;
     void setColor(const QColor &color)
         { myColor = color; }
@@ -61,9 +58,9 @@ protected:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
 public slots:
     void refreshLocations();
-    void waypointdeleted();
+    void pointdeleted();
     void setOpacitySlot(qreal opacity);
 };
 }
 
-#endif // WAYPOINTCIRCLE_H
+#endif // MAPCIRCLE_H
