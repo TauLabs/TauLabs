@@ -386,7 +386,7 @@ namespace mapcontrol
         {
             if(!isMagic)
             {
-                if(this->flags() & (QGraphicsItem::ItemIsMovable==QGraphicsItem::ItemIsMovable))
+                if(this->flags() & QGraphicsItem::ItemIsMovable)
                     picture.load(QString::fromUtf8(":/markers/images/marker.png"));
                 else
                     picture.load(QString::fromUtf8(":/markers/images/waypoint_marker2.png"));
