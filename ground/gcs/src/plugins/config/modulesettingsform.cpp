@@ -225,6 +225,23 @@ void ModuleSettingsForm::toggleVibrationTest()
 void ModuleSettingsForm::updatePitotType(int comboboxValue)
 {
 
+//    AirspeedSettings *airspeedSettings;
+//    airspeedSettings = AirspeedSettings::GetInstance(getObjectManager());
+//    AirspeedSettings::DataFields airspeedSettingsData;
+//    airspeedSettingsData = airspeedSettings->getData();
+
+//    switch (comboboxValue) {
+//    case AirspeedSettings::AIRSPEEDSENSORTYPE_DIYDRONESMPXV5004:
+//        moduleSettingsWidget->cb_pitotType->setCurrentIndex(AirspeedSettings::AIRSPEEDSENSORTYPE_DIYDRONESMPXV5004);
+//        moduleSettingsWidget->gb_airspeedPitot->setChecked(true);
+//    case AirspeedSettings::AIRSPEEDSENSORTYPE_DIYDRONESMPXV7002:
+//        moduleSettingsWidget->cb_pitotType->setCurrentIndex(AirspeedSettings::AIRSPEEDSENSORTYPE_DIYDRONESMPXV7002);
+//        moduleSettingsWidget->gb_airspeedPitot->setChecked(true);
+//    case AirspeedSettings::AIRSPEEDSENSORTYPE_EAGLETREEAIRSPEEDV3:
+//        moduleSettingsWidget->cb_pitotType->setCurrentIndex(AirspeedSettings::AIRSPEEDSENSORTYPE_EAGLETREEAIRSPEEDV3);
+//        moduleSettingsWidget->gb_airspeedPitot->setChecked(true);
+//        break;
+//    }
 
 }
 
