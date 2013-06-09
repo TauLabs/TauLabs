@@ -36,21 +36,19 @@ namespace Ui {
     class Module_Settings_Widget;
 }
 
-class moduleSettingsForm : public ConfigTaskWidget
+class ModuleSettingsForm : public ConfigTaskWidget
 {
     Q_OBJECT
 
 public:
-    explicit moduleSettingsForm(QWidget *parent = 0);
-    ~moduleSettingsForm();
+    explicit ModuleSettingsForm(QWidget *parent = 0);
+    ~ModuleSettingsForm();
     friend class ConfigInputWidget;
-    void setName(QString &name);
 private slots:
-    void minMaxUpdated();
-    void neutralUpdated(int);
-    void groupUpdated();
-    void channelDropdownUpdated(int);
-    void channelNumberUpdated(int);
+    void updateAirspeedUAVO(UAVObject *);
+    void updateAirspeedGroupbox(UAVObject *);
+    void updatePitotType(int comboboxValue);
+    void toggleVibrationTest();
 
 private:
     QVariant getVariantFromWidget(QWidget * widget, double scale);

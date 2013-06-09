@@ -44,7 +44,7 @@ DefaultHwSettingsWidget::DefaultHwSettingsWidget(QWidget *parent, bool autopilot
     defaultHWSettingsWidget->setupUi(this);
 
     // Add modules widget. Don't forget to remove placeholder "Modules" widget first.
-    moduleSettingsForm *optionalModuleSettings = new moduleSettingsForm(this);
+    ModuleSettingsForm *optionalModuleSettings = new ModuleSettingsForm(this);
     QString modulesTabText = defaultHWSettingsWidget->tabWidget->tabText(defaultHWSettingsWidget->tabWidget->indexOf(defaultHWSettingsWidget->modules_placeholder));
     defaultHWSettingsWidget->tabWidget->removeTab(defaultHWSettingsWidget->tabWidget->indexOf(defaultHWSettingsWidget->modules_placeholder));
     defaultHWSettingsWidget->tabWidget->addTab(optionalModuleSettings, modulesTabText); //Add the widget to the UI

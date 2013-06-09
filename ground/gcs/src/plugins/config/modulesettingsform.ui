@@ -46,10 +46,10 @@
        </widget>
       </item>
       <item row="0" column="1">
-       <widget class="QComboBox" name="comboBox"/>
+       <widget class="QComboBox" name="cb_gpsSpeed"/>
       </item>
      </layout>
-     <zorder>comboBox</zorder>
+     <zorder>cb_gpsSpeed</zorder>
      <zorder>label</zorder>
     </widget>
    </item>
@@ -78,7 +78,7 @@
      </property>
      <layout class="QGridLayout" name="gridLayout">
       <item row="7" column="0" colspan="2">
-       <widget class="QGroupBox" name="groupBox_9">
+       <widget class="QGroupBox" name="gb_measureVoltage">
         <property name="title">
          <string>Measure voltage</string>
         </property>
@@ -104,7 +104,7 @@
           </widget>
          </item>
          <item row="1" column="1">
-          <widget class="QDoubleSpinBox" name="doubleSpinBox_2"/>
+          <widget class="QDoubleSpinBox" name="sb_voltageCalibration"/>
          </item>
          <item row="2" column="0">
           <widget class="QLabel" name="label_11">
@@ -114,7 +114,7 @@
           </widget>
          </item>
          <item row="2" column="1">
-          <widget class="QDoubleSpinBox" name="doubleSpinBox_5">
+          <widget class="QDoubleSpinBox" name="sb_lowVoltageAlarm">
            <property name="suffix">
             <string>V</string>
            </property>
@@ -131,7 +131,7 @@
           </widget>
          </item>
          <item row="3" column="1">
-          <widget class="QDoubleSpinBox" name="doubleSpinBox_4">
+          <widget class="QDoubleSpinBox" name="sb_lowVoltageWarning">
            <property name="suffix">
             <string>V</string>
            </property>
@@ -141,7 +141,7 @@
           </widget>
          </item>
          <item row="0" column="1">
-          <widget class="QTextBrowser" name="textBrowser">
+          <widget class="QTextBrowser" name="tb_liveVoltageReading">
            <property name="maximumSize">
             <size>
              <width>16777215</width>
@@ -161,7 +161,7 @@ p, li { white-space: pre-wrap; }
        </widget>
       </item>
       <item row="8" column="0" colspan="2">
-       <widget class="QGroupBox" name="groupBox_7">
+       <widget class="QGroupBox" name="gb_measureCurrent">
         <property name="title">
          <string>Measure current</string>
         </property>
@@ -183,7 +183,7 @@ p, li { white-space: pre-wrap; }
           </widget>
          </item>
          <item row="0" column="1">
-          <widget class="QTextBrowser" name="textBrowser_3">
+          <widget class="QTextBrowser" name="tb_liveCurrentReading">
            <property name="enabled">
             <bool>false</bool>
            </property>
@@ -210,16 +210,10 @@ p, li { white-space: pre-wrap; }
           </widget>
          </item>
          <item row="1" column="1">
-          <widget class="QDoubleSpinBox" name="doubleSpinBox"/>
+          <widget class="QDoubleSpinBox" name="sb_currentCalibration"/>
          </item>
         </layout>
        </widget>
-      </item>
-      <item row="4" column="1">
-       <widget class="QComboBox" name="comboBox_2"/>
-      </item>
-      <item row="1" column="1">
-       <widget class="QSpinBox" name="spinBox"/>
       </item>
       <item row="4" column="0">
        <widget class="QLabel" name="label_6">
@@ -242,7 +236,7 @@ p, li { white-space: pre-wrap; }
        </widget>
       </item>
       <item row="6" column="1">
-       <widget class="QSpinBox" name="spinBox_2">
+       <widget class="QSpinBox" name="sb_batteryCapacity">
         <property name="suffix">
          <string>mAhr</string>
         </property>
@@ -267,6 +261,12 @@ p, li { white-space: pre-wrap; }
         </property>
        </widget>
       </item>
+      <item row="1" column="1">
+       <widget class="QComboBox" name="cb_batteryType"/>
+      </item>
+      <item row="4" column="1">
+       <widget class="QSpinBox" name="sb_numBatteryCells"/>
+      </item>
      </layout>
     </widget>
    </item>
@@ -275,13 +275,13 @@ p, li { white-space: pre-wrap; }
      <property name="minimumSize">
       <size>
        <width>0</width>
-       <height>251</height>
+       <height>281</height>
       </size>
      </property>
      <property name="maximumSize">
       <size>
        <width>16777215</width>
-       <height>251</height>
+       <height>281</height>
       </size>
      </property>
      <property name="title">
@@ -293,13 +293,13 @@ p, li { white-space: pre-wrap; }
      <property name="checked">
       <bool>false</bool>
      </property>
-     <widget class="QGroupBox" name="groupBox_10">
+     <widget class="QGroupBox" name="gb_airspeedPitot">
       <property name="geometry">
        <rect>
         <x>10</x>
         <y>130</y>
         <width>261</width>
-        <height>105</height>
+        <height>131</height>
        </rect>
       </property>
       <property name="title">
@@ -320,7 +320,7 @@ p, li { white-space: pre-wrap; }
         </widget>
        </item>
        <item row="0" column="1">
-        <widget class="QComboBox" name="comboBox_5"/>
+        <widget class="QComboBox" name="cb_pitotType"/>
        </item>
        <item row="1" column="0">
         <widget class="QLabel" name="label_7">
@@ -330,11 +330,21 @@ p, li { white-space: pre-wrap; }
         </widget>
        </item>
        <item row="1" column="1">
-        <widget class="QDoubleSpinBox" name="doubleSpinBox_3"/>
+        <widget class="QDoubleSpinBox" name="sb_pitotScale"/>
+       </item>
+       <item row="2" column="0">
+        <widget class="QLabel" name="label_16">
+         <property name="text">
+          <string>Calibration zero pt:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="1">
+        <widget class="QDoubleSpinBox" name="sb_pitotZeroPoint"/>
        </item>
       </layout>
      </widget>
-     <widget class="QGroupBox" name="groupBox_8">
+     <widget class="QGroupBox" name="gb_airspeedGPS">
       <property name="geometry">
        <rect>
         <x>10</x>
@@ -361,7 +371,7 @@ p, li { white-space: pre-wrap; }
         </widget>
        </item>
        <item row="0" column="1">
-        <widget class="QSpinBox" name="spinBox_3">
+        <widget class="QSpinBox" name="sb_gpsUpdateRate">
          <property name="suffix">
           <string>ms</string>
          </property>
@@ -415,7 +425,7 @@ p, li { white-space: pre-wrap; }
        </widget>
       </item>
       <item row="0" column="1">
-       <widget class="QSpinBox" name="spinBox_4">
+       <widget class="QSpinBox" name="sb_sampleRate">
         <property name="suffix">
          <string>ms</string>
         </property>
@@ -441,10 +451,10 @@ p, li { white-space: pre-wrap; }
        </widget>
       </item>
       <item row="1" column="1">
-       <widget class="QComboBox" name="comboBox_6"/>
+       <widget class="QComboBox" name="cb_windowSize"/>
       </item>
       <item row="2" column="1">
-       <widget class="QPushButton" name="pushButton">
+       <widget class="QPushButton" name="pb_startVibrationTest">
         <property name="text">
          <string>Start test</string>
         </property>

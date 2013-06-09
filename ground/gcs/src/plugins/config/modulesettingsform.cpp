@@ -28,159 +28,109 @@
 #include "modulesettingsform.h"
 #include "ui_modulesettingsform.h"
 
+#include "airspeedsettings.h"
+#include "flightbatterysettings.h"
+#include "flightbatterystate.h"
 #include "modulesettings.h"
+#include "vibrationanalysissettings.h"
 
 // Define static variables
-QString moduleSettingsForm::trueString("TrueString");
-QString moduleSettingsForm::falseString("FalseString");
+QString ModuleSettingsForm::trueString("TrueString");
+QString ModuleSettingsForm::falseString("FalseString");
 
 /**
- * @brief moduleSettingsForm::moduleSettingsForm Constructor
+ * @brief ModuleSettingsForm::ModuleSettingsForm Constructor
  * @param parent
  */
-moduleSettingsForm::moduleSettingsForm(QWidget *parent) :
+ModuleSettingsForm::ModuleSettingsForm(QWidget *parent) :
     ConfigTaskWidget(parent),
     moduleSettingsWidget(new Ui::Module_Settings_Widget)
 {
     moduleSettingsWidget->setupUi(this);
 
+    // Populate strings
+    AirspeedSettings *airspeedSettings;
+    airspeedSettings = AirspeedSettings::GetInstance(getObjectManager());
+    QString airspeedSettingsName = airspeedSettings->getName();
+
+    FlightBatterySettings batterySettings;
+    QString batterySettingsName = batterySettings.getName();
+
+    FlightBatteryState batteryState;
+    QString batteryStateName = batteryState.getName();
+
     ModuleSettings moduleSettings;
     QString moduleSettingsName = moduleSettings.getName();
 
+    VibrationAnalysisSettings vibrationAnalysisSettings;
+    QString vibrationAnalysisSettingsName = vibrationAnalysisSettings.getName();
+
+    // Link the checkboxes
     addUAVObjectToWidgetRelation(moduleSettingsName, "AdminState", moduleSettingsWidget->gb_Airspeed, ModuleSettings::ADMINSTATE_AIRSPEED); // TODO: Set the widget based on the UAVO getName() and getField() methods.
     addUAVObjectToWidgetRelation(moduleSettingsName, "AdminState", moduleSettingsWidget->gb_Battery, ModuleSettings::ADMINSTATE_BATTERY); // TODO: Set the widget based on the UAVO getName() and getField() methods.
     addUAVObjectToWidgetRelation(moduleSettingsName, "AdminState", moduleSettingsWidget->gb_VibrationAnalysis, ModuleSettings::ADMINSTATE_VIBRATIONANALYSIS); // TODO: Set the widget based on the UAVO getName() and getField() methods.
-    addUAVObjectToWidgetRelation(moduleSettingsName, "AdminState", moduleSettingsWidget->gb_Airspeed, ModuleSettings::ADMINSTATE_AIRSPEED); // TODO: Set the widget based on the UAVO getName() and getField() methods.
+    addUAVObjectToWidgetRelation(moduleSettingsName, "AdminState", moduleSettingsWidget->gb_GPS, ModuleSettings::ADMINSTATE_GPS); // TODO: Set the widget based on the UAVO getName() and getField() methods.
 
-    // Set text properties. The second argument is the UAVO field that corresponds to the true state
+    // Link the fields
+    addUAVObjectToWidgetRelation(airspeedSettingsName, "GPSSamplePeriod_ms", moduleSettingsWidget->sb_gpsUpdateRate);
+    addUAVObjectToWidgetRelation(airspeedSettingsName, "Scale", moduleSettingsWidget->sb_pitotScale);
+    addUAVObjectToWidgetRelation(airspeedSettingsName, "ZeroPoint", moduleSettingsWidget->sb_pitotZeroPoint);
+
+    addUAVObjectToWidgetRelation(batterySettingsName, "Type", moduleSettingsWidget->cb_batteryType);
+    addUAVObjectToWidgetRelation(batterySettingsName, "NbCells", moduleSettingsWidget->sb_numBatteryCells);
+    addUAVObjectToWidgetRelation(batterySettingsName, "Capacity", moduleSettingsWidget->sb_batteryCapacity);
+    addUAVObjectToWidgetRelation(batterySettingsName, "VoltageThresholds", moduleSettingsWidget->sb_lowVoltageAlarm, FlightBatterySettings::VOLTAGETHRESHOLDS_ALARM);
+    addUAVObjectToWidgetRelation(batterySettingsName, "VoltageThresholds", moduleSettingsWidget->sb_lowVoltageWarning, FlightBatterySettings::VOLTAGETHRESHOLDS_WARNING);
+    addUAVObjectToWidgetRelation(batterySettingsName, "SensorCalibrations", moduleSettingsWidget->sb_voltageCalibration, FlightBatterySettings::SENSORCALIBRATIONS_VOLTAGEFACTOR);
+    addUAVObjectToWidgetRelation(batterySettingsName, "SensorCalibrations", moduleSettingsWidget->sb_currentCalibration, FlightBatterySettings::SENSORCALIBRATIONS_CURRENTFACTOR);
+    addUAVObjectToWidgetRelation(batterySettingsName, "SensorType", moduleSettingsWidget->gb_measureVoltage, FlightBatterySettings::SENSORTYPE_BATTERYVOLTAGE);
+    addUAVObjectToWidgetRelation(batterySettingsName, "SensorType", moduleSettingsWidget->gb_measureCurrent, FlightBatterySettings::SENSORTYPE_BATTERYCURRENT);
+
+    addUAVObjectToWidgetRelation(batteryStateName, "Voltage", moduleSettingsWidget->tb_liveVoltageReading);
+    addUAVObjectToWidgetRelation(batteryStateName, "Current", moduleSettingsWidget->tb_liveCurrentReading);
+
+    addUAVObjectToWidgetRelation(moduleSettingsName, "GPSSpeed", moduleSettingsWidget->cb_gpsSpeed);
+
+    addUAVObjectToWidgetRelation(vibrationAnalysisSettingsName, "SampleRate", moduleSettingsWidget->sb_sampleRate);
+    addUAVObjectToWidgetRelation(vibrationAnalysisSettingsName, "FFTWindowSize", moduleSettingsWidget->cb_windowSize);
+
+    // Connect any remaining widgets
+    connect(airspeedSettings, SIGNAL(objectUpdated(UAVObject*)), this, SLOT(updateAirspeedUAVO(UAVObject *)));
+    connect(moduleSettingsWidget->cb_pitotType, SIGNAL(currentIndexChanged(int)), this, SLOT(updatePitotType(int)));
+    connect(moduleSettingsWidget->pb_startVibrationTest, SIGNAL(clicked()), this, SLOT(toggleVibrationTest()));
+    //    addUAVObjectToWidgetRelation(vibrationAnalysisSettingsName, "TestingStatus", moduleSettingsWidget->pb_startVibrationTest);
+
+    // Set text properties for checkboxes. The second argument is the UAVO field that corresponds
+    // to the checkbox's true state.
     moduleSettingsWidget->gb_Airspeed->setProperty(trueString.toAscii(), "Enabled");
     moduleSettingsWidget->gb_Airspeed->setProperty(falseString.toAscii(), "Disabled");
 
     moduleSettingsWidget->gb_Battery->setProperty(trueString.toAscii(), "Enabled");
     moduleSettingsWidget->gb_Battery->setProperty(falseString.toAscii(), "Disabled");
 
-    moduleSettingsWidget->gb_VibrationAnalysis->setProperty(trueString.toAscii(), "Enabled");
-    moduleSettingsWidget->gb_VibrationAnalysis->setProperty(falseString.toAscii(), "Disabled");
-
     moduleSettingsWidget->gb_GPS->setProperty(trueString.toAscii(), "Enabled");
     moduleSettingsWidget->gb_GPS->setProperty(falseString.toAscii(), "Disabled");
+
+    moduleSettingsWidget->gb_VibrationAnalysis->setProperty(trueString.toAscii(), "Enabled");
+    moduleSettingsWidget->gb_VibrationAnalysis->setProperty(falseString.toAscii(), "Disabled");
 
     disableMouseWheelEvents();
 }
 
 
-moduleSettingsForm::~moduleSettingsForm()
+ModuleSettingsForm::~ModuleSettingsForm()
 {
     delete moduleSettingsWidget;
 }
 
-void moduleSettingsForm::setName(QString &name)
-{
-//    moduleSettingsWidget->channelName->setText(name);
-//    QFontMetrics metrics(moduleSettingsWidget->channelName->font());
-//    int width=metrics.width(name)+5;
-//    foreach(moduleSettingsForm * form,parent()->findChildren<moduleSettingsForm*>())
-//    {
-//        if(form==this)
-//            continue;
-//        if(form->moduleSettingsWidget->channelName->minimumSize().width()<width)
-//            form->moduleSettingsWidget->channelName->setMinimumSize(width,0);
-//        else
-//            width=form->moduleSettingsWidget->channelName->minimumSize().width();
-//    }
-//    moduleSettingsWidget->channelName->setMinimumSize(width,0);
-}
 
 /**
-  * Update the direction of the slider and boundaries
-  */
-void moduleSettingsForm::minMaxUpdated()
-{
-//    bool reverse = moduleSettingsWidget->channelMin->value() > moduleSettingsWidget->channelMax->value();
-//    if(reverse) {
-//        moduleSettingsWidget->channelNeutral->setMinimum(moduleSettingsWidget->channelMax->value());
-//        moduleSettingsWidget->channelNeutral->setMaximum(moduleSettingsWidget->channelMin->value());
-//    } else {
-//        moduleSettingsWidget->channelNeutral->setMinimum(moduleSettingsWidget->channelMin->value());
-//        moduleSettingsWidget->channelNeutral->setMaximum(moduleSettingsWidget->channelMax->value());
-//    }
-//    moduleSettingsWidget->channelRev->setChecked(reverse);
-//    moduleSettingsWidget->channelNeutral->setInvertedAppearance(reverse);
-//    moduleSettingsWidget->channelNeutral->setInvertedControls(reverse);
-}
-
-void moduleSettingsForm::neutralUpdated(int newval)
-{
-//    moduleSettingsWidget->neutral->setText(QString::number(newval));
-}
-
-/**
-  * Update the channel options based on the selected receiver type
-  *
-  */
-void moduleSettingsForm::groupUpdated()
-{
-//    moduleSettingsWidget->channelNumberDropdown->clear();
-//    moduleSettingsWidget->channelNumberDropdown->addItem("Disabled");
-
-//    quint8 count = 0;
-
-//    switch(moduleSettingsWidget->channelGroup->currentIndex()) {
-//    case -1: // Nothing selected
-//        count = 0;
-//        break;
-//    case ManualControlSettings::CHANNELGROUPS_PWM:
-//        count = 8; // Need to make this 6 for CC
-//        break;
-//    case ManualControlSettings::CHANNELGROUPS_PPM:
-//    case ManualControlSettings::CHANNELGROUPS_DSMMAINPORT:
-//    case ManualControlSettings::CHANNELGROUPS_DSMFLEXIPORT:
-//        count = 12;
-//        break;
-//    case ManualControlSettings::CHANNELGROUPS_SBUS:
-//        count = 18;
-//        break;
-//    case ManualControlSettings::CHANNELGROUPS_GCS:
-//        count = GCSReceiver::CHANNEL_NUMELEM;
-//        break;
-//    case ManualControlSettings::CHANNELGROUPS_NONE:
-//        count = 0;
-//        break;
-//    default:
-//        Q_ASSERT(0);
-//    }
-
-//    for (int i = 0; i < count; i++)
-//        moduleSettingsWidget->channelNumberDropdown->addItem(QString(tr("Chan %1").arg(i+1)));
-
-//    moduleSettingsWidget->channelNumber->setMaximum(count);
-//    moduleSettingsWidget->channelNumber->setMinimum(0);
-}
-
-/**
-  * Update the dropdown from the hidden control
-  */
-void moduleSettingsForm::channelDropdownUpdated(int newval)
-{
-//    moduleSettingsWidget->channelNumber->setValue(newval);
-}
-
-/**
-  * Update the hidden control from the dropdown
-  */
-void moduleSettingsForm::channelNumberUpdated(int newval)
-{
-//    moduleSettingsWidget->channelNumberDropdown->setCurrentIndex(newval);
-}
-
-
-/**
- * @brief moduleSettingsForm::getWidgetFromVariant Remiplmements getWidgetFromVariant. This version supports "FalseString".
+ * @brief ModuleSettingsForm::getWidgetFromVariant Remiplmements getWidgetFromVariant. This version supports "FalseString".
  * @param widget pointer to the widget from where to get the value
  * @param scale scale to be used on the assignement
  * @return returns the value of the widget times the scale
  */
-QVariant moduleSettingsForm::getVariantFromWidget(QWidget * widget, double scale)
+QVariant ModuleSettingsForm::getVariantFromWidget(QWidget * widget, double scale)
 {
     if(QGroupBox * groupBox=qobject_cast<QGroupBox *>(widget)) {
         QString ret;
@@ -220,13 +170,13 @@ QVariant moduleSettingsForm::getVariantFromWidget(QWidget * widget, double scale
 
 
 /**
- * @brief moduleSettingsForm::setWidgetFromVariant Remiplmements setWidgetFromVariant. This version supports "FalseString".
+ * @brief ModuleSettingsForm::setWidgetFromVariant Remiplmements setWidgetFromVariant. This version supports "FalseString".
  * @param widget pointer for the widget to set
  * @param scale scale to be used on the assignement
  * @param value value to be used on the assignement
  * @return returns true if the assignement was successfull
  */
-bool moduleSettingsForm::setWidgetFromVariant(QWidget *widget, QVariant value, double scale)
+bool ModuleSettingsForm::setWidgetFromVariant(QWidget *widget, QVariant value, double scale)
 {
     if(QGroupBox * groupBox=qobject_cast<QGroupBox *>(widget)) {
         bool bvalue;
@@ -250,5 +200,69 @@ bool moduleSettingsForm::setWidgetFromVariant(QWidget *widget, QVariant value, d
         return true;
     } else {
         return ConfigTaskWidget::setWidgetFromVariant(widget, value, scale);
+    }
+}
+
+
+void ModuleSettingsForm::toggleVibrationTest()
+{
+    VibrationAnalysisSettings *vibrationAnalysisSettings;
+    vibrationAnalysisSettings = VibrationAnalysisSettings::GetInstance(getObjectManager());
+    VibrationAnalysisSettings::DataFields vibrationAnalysisSettingsData;
+    vibrationAnalysisSettingsData = vibrationAnalysisSettings->getData();
+
+    // Toggle state
+    if (vibrationAnalysisSettingsData.TestingStatus == VibrationAnalysisSettings::TESTINGSTATUS_ON)
+        vibrationAnalysisSettingsData.TestingStatus = VibrationAnalysisSettings::TESTINGSTATUS_OFF;
+    else
+        vibrationAnalysisSettingsData.TestingStatus = VibrationAnalysisSettings::TESTINGSTATUS_ON;
+
+    // Send data
+    vibrationAnalysisSettings->setData(vibrationAnalysisSettingsData);
+    vibrationAnalysisSettings->updated();
+}
+
+void ModuleSettingsForm::updatePitotType(int comboboxValue)
+{
+
+
+}
+
+
+void ModuleSettingsForm::updateAirspeedUAVO(UAVObject *obj)
+{
+    Q_UNUSED(obj);
+}
+
+/**
+ * @brief ModuleSettingsForm::updateAirspeedGroupbox Updates groupbox when airspeed UAVO changes
+ * @param obj
+ */
+void ModuleSettingsForm::updateAirspeedGroupbox(UAVObject *obj)
+{
+    Q_UNUSED(obj);
+
+    AirspeedSettings *airspeedSettings;
+    airspeedSettings = AirspeedSettings::GetInstance(getObjectManager());
+    AirspeedSettings::DataFields airspeedSettingsData;
+    airspeedSettingsData = airspeedSettings->getData();
+
+    moduleSettingsWidget->gb_airspeedGPS->setChecked(false);
+    moduleSettingsWidget->gb_airspeedPitot->setChecked(false);
+
+    switch (airspeedSettingsData.AirspeedSensorType) {
+    case AirspeedSettings::AIRSPEEDSENSORTYPE_GPSONLY:
+        moduleSettingsWidget->gb_airspeedGPS->setChecked(true);
+        break;
+    case AirspeedSettings::AIRSPEEDSENSORTYPE_DIYDRONESMPXV5004:
+        moduleSettingsWidget->cb_pitotType->setCurrentIndex(AirspeedSettings::AIRSPEEDSENSORTYPE_DIYDRONESMPXV5004);
+        moduleSettingsWidget->gb_airspeedPitot->setChecked(true);
+    case AirspeedSettings::AIRSPEEDSENSORTYPE_DIYDRONESMPXV7002:
+        moduleSettingsWidget->cb_pitotType->setCurrentIndex(AirspeedSettings::AIRSPEEDSENSORTYPE_DIYDRONESMPXV7002);
+        moduleSettingsWidget->gb_airspeedPitot->setChecked(true);
+    case AirspeedSettings::AIRSPEEDSENSORTYPE_EAGLETREEAIRSPEEDV3:
+        moduleSettingsWidget->cb_pitotType->setCurrentIndex(AirspeedSettings::AIRSPEEDSENSORTYPE_EAGLETREEAIRSPEEDV3);
+        moduleSettingsWidget->gb_airspeedPitot->setChecked(true);
+        break;
     }
 }
