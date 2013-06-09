@@ -51,7 +51,7 @@ private slots:
 private:
     QVariant getVariantFromWidget(QWidget * widget, double scale);
     bool setWidgetFromVariant(QWidget *widget, QVariant value, double scale);
-    Ui_CC_HW_Widget *m_telemetry;
+    Ui_CC_HW_Widget *m_CC_HW_Widget;
     QSvgRenderer *m_renderer;
 };
 
