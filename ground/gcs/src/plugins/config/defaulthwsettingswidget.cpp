@@ -85,6 +85,8 @@ DefaultHwSettingsWidget::DefaultHwSettingsWidget(QWidget *parent, bool autopilot
         QLabel *label = new QLabel("  No recognized board detected.\n  Hardware tab will refresh once a known board is detected.", defaultHWSettingsWidget->hardware);
         label->resize(385, 200);
     }
+
+    disableMouseWheelEvents();
 }
 
 DefaultHwSettingsWidget::~DefaultHwSettingsWidget()
@@ -136,4 +138,7 @@ void DefaultHwSettingsWidget::updateFields()
         fieldWidgets.append(sel);
         addUAVObjectToWidgetRelation(hwSettingsObject->getName(),fields[i]->getName(),sel->getCombo());
     }
+
+    // Prevent mouse wheel from changing items
+    disableMouseWheelEvents();
 }
