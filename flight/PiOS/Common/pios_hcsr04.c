@@ -35,8 +35,8 @@
 #include "pios_hcsr04_priv.h"
 
 /* Private constants */
-#define HCSR04_TASK_PRIORITY	(tskIDLE_PRIORITY + configMAX_PRIORITIES - 1)	// max priority
-#define HCSR04_TASK_STACK		(512 / 4)
+#define HCSR04_TASK_PRIORITY (tskIDLE_PRIORITY + configMAX_PRIORITIES - 1) // max priority
+#define HCSR04_TASK_STACK (512 / 4)
 #define UPDATE_PERIOD_MS 100
 /* Private methods */
 static void PIOS_HCSR04_Task(void *parameters);
@@ -46,15 +46,15 @@ static void PIOS_HCSR04_Task(void *parameters);
 const static uint32_t PWM_SUPERVISOR_TIMEOUT = 100000;
 
 enum pios_hcsr04_dev_magic {
-    PIOS_HCSR04_DEV_MAGIC = 0xab3029AA,
+    PIOS_HCSR04_DEV_MAGIC = 0xab3029aa,
 };
 
 struct pios_hcsr04_dev {
     const struct pios_hcsr04_cfg *cfg;
-	xTaskHandle task;
-	xQueueHandle queue;
+    xTaskHandle task;
+    xQueueHandle queue;
 
-    uint8_t  CaptureState[PIOS_PWM_NUM_INPUTS];
+    uint8_t CaptureState[PIOS_PWM_NUM_INPUTS];
     uint16_t RiseValue[PIOS_PWM_NUM_INPUTS];
     uint16_t FallValue[PIOS_PWM_NUM_INPUTS];
     uint32_t CaptureValue[PIOS_PWM_NUM_INPUTS];
@@ -68,13 +68,8 @@ static struct pios_hcsr04_dev *dev;
 /**
  * @brief Allocate a new device
  */
-static bool PIOS_HCSR04_validate(struct pios_hcsr04_dev *dev)
-{
-    return dev->magic == PIOS_HCSR04_DEV_MAGIC;
-}
-
 #if defined(PIOS_INCLUDE_FREERTOS)
-static struct pios_hcsr04_dev *PIOS_PWM_alloc(void)
+static struct pios_hcsr04_dev *PIOS_HCSR04_alloc(void)
 {
     struct pios_hcsr04_dev *hcsr04_dev;
 
@@ -83,32 +78,31 @@ static struct pios_hcsr04_dev *PIOS_PWM_alloc(void)
         return NULL;
     }
 
-	hcsr04_dev->queue = xQueueCreate(1, sizeof(struct pios_sensor_sonar_data));
-	if (hcsr04_dev->queue == NULL) {
-		vPortFree(hcsr04_dev);
-		return NULL;
-	}
+    hcsr04_dev->queue = xQueueCreate(1, sizeof(struct pios_sensor_sonar_data));
+    if (hcsr04_dev->queue == NULL) {
+        vPortFree(hcsr04_dev);
+        return NULL;
+    }
 
     hcsr04_dev->magic = PIOS_HCSR04_DEV_MAGIC;
     return hcsr04_dev;
 }
 #else
-static struct pios_hcsr04_dev pios_hcsr04_devs[PIOS_PWM_MAX_DEVS];
-static uint8_t pios_hcsr04_num_devs;
-static struct pios_hcsr04_dev *PIOS_PWM_alloc(void)
-{
-    struct pios_hcsr04_dev *hcsr04_dev;
-
-    if (pios_pwm_num_devs >= PIOS_PWM_MAX_DEVS) {
-        return NULL;
-    }
-
-    hcsr04_dev = &pios_hcsr04_devs[pios_hcsr04_num_devs++];
-    hcsr04_dev->magic = PIOS_HCSR04_DEV_MAGIC;
-
-    return hcsr04_dev;
-}
+#error requires FreeRTOS
 #endif /* if defined(PIOS_INCLUDE_FREERTOS) */
+
+/**
+ * @brief Validate the handle to the device
+ * @returns 0 for valid device or <0 otherwise
+ */
+static bool PIOS_HCSR04_validate(struct pios_hcsr04_dev *dev)
+{
+    if (dev == NULL)
+        return -1;
+    if (dev->magic != PIOS_HCSR04_DEV_MAGIC)
+        return -2;
+    return 0;
+}
 
 static void PIOS_HCSR04_tim_overflow_cb(uint32_t id, uint32_t context, uint8_t channel, uint16_t count);
 static void PIOS_HCSR04_tim_edge_cb(uint32_t id, uint32_t context, uint8_t channel, uint16_t count);
@@ -127,7 +121,7 @@ int32_t PIOS_HCSR04_Init(uint32_t *pwm_id, const struct pios_hcsr04_cfg *cfg)
 
     struct pios_hcsr04_dev *hcsr04_dev;
 
-    hcsr04_dev = (struct pios_hcsr04_dev *)PIOS_PWM_alloc();
+    hcsr04_dev = (struct pios_hcsr04_dev *)PIOS_HCSR04_alloc();
     if (!hcsr04_dev) {
     	return -1;
     }
@@ -206,12 +200,12 @@ int32_t PIOS_HCSR04_Init(uint32_t *pwm_id, const struct pios_hcsr04_cfg *cfg)
 
     *pwm_id = (uint32_t)hcsr04_dev;
 
-	portBASE_TYPE result = xTaskCreate(PIOS_HCSR04_Task, (const signed char *)"pios_hcsr04",
-						 HCSR04_TASK_STACK, NULL, HCSR04_TASK_PRIORITY,
-						 &hcsr04_dev->task);
-	PIOS_Assert(result == pdPASS);
+    portBASE_TYPE result = xTaskCreate(PIOS_HCSR04_Task, (const signed char *)"pios_hcsr04",
+                                                HCSR04_TASK_STACK, NULL, HCSR04_TASK_PRIORITY,
+                                                &hcsr04_dev->task);
+    PIOS_Assert(result == pdPASS);
 
-	PIOS_SENSORS_Register(PIOS_SENSOR_SONAR, hcsr04_dev->queue);
+    PIOS_SENSORS_Register(PIOS_SENSOR_SONAR, hcsr04_dev->queue);
 
     return 0;
 }
@@ -243,7 +237,7 @@ static void PIOS_HCSR04_tim_overflow_cb(uint32_t tim_id, uint32_t context, uint8
 {
     struct pios_hcsr04_dev *hcsr04_dev = (struct pios_hcsr04_dev *)context;
 
-    if (!PIOS_HCSR04_validate(hcsr04_dev)) {
+    if (PIOS_HCSR04_validate(dev) != 0) {
         /* Invalid device specified */
         return;
     }
@@ -268,7 +262,7 @@ static void PIOS_HCSR04_tim_edge_cb(uint32_t tim_id, uint32_t context, uint8_t c
     /* Recover our device context */
     struct pios_hcsr04_dev *hcsr04_dev = (struct pios_hcsr04_dev *)context;
 
-    if (!PIOS_HCSR04_validate(hcsr04_dev)) {
+    if (PIOS_HCSR04_validate(dev) != 0) {
         /* Invalid device specified */
         return;
     }
