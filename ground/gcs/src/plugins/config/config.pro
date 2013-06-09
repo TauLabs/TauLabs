@@ -3,7 +3,7 @@ TARGET = Config
 DEFINES += CONFIG_LIBRARY
 QT += svg
 include(config_dependencies.pri)
-INCLUDEPATH += ../../libs/eigen
+INCLUDEPATH *= ../../libs/eigen
 
 OTHER_FILES += Config.pluginspec
 

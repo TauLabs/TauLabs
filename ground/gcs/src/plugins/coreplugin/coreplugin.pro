@@ -10,7 +10,7 @@ include(../../taulabsgcsplugin.pri)
 include(../../libs/utils/utils.pri)
 include(../../shared/scriptwrapper/scriptwrapper.pri)
 include(coreplugin_dependencies.pri)
-INCLUDEPATH += dialogs \
+INCLUDEPATH *= dialogs \
     uavgadgetmanager \
     actionmanager
 DEPENDPATH += dialogs \

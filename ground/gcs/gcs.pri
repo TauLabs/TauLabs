@@ -105,10 +105,10 @@ macx {
 DEFINES += GCS_DATA_BASENAME=\\\"$$GCS_DATA_BASENAME\\\"
 
 # Include path to shared API directory
-INCLUDEPATH += \
+INCLUDEPATH *= \
     $$GCS_SOURCE_TREE/../../shared/api
 
-INCLUDEPATH += \
+INCLUDEPATH *= \
     $$GCS_SOURCE_TREE/src/libs
 
 DEPENDPATH += \
