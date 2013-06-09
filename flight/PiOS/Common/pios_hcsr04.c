@@ -172,30 +172,6 @@ int32_t PIOS_HCSR04_Init(uint32_t *pwm_id, const struct pios_hcsr04_cfg *cfg)
         TIM_ITConfig(chan->timer, TIM_IT_Update, ENABLE);
     }
 
-#ifdef STM32F1XX
-    /* Enable the peripheral clock for the GPIO */
-    switch ((uint32_t)hcsr04_dev->cfg->trigger.gpio) {
-    case (uint32_t)GPIOA:
-        RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA, ENABLE);
-        break;
-    case (uint32_t)GPIOB:
-        RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB, ENABLE);
-        break;
-    case (uint32_t)GPIOC:
-        RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOC, ENABLE);
-        break;
-    case (uint32_t)GPIOD:
-        RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOD, ENABLE);
-    	break;
-    case (uint32_t)GPIOE:
-        RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOE, ENABLE);
-    	break;
-    default:
-        PIOS_Assert(0);
-        break;
-    }
-#endif
-
     GPIO_Init(hcsr04_dev->cfg->trigger.gpio, (GPIO_InitTypeDef*)&hcsr04_dev->cfg->trigger.init);
 
     *pwm_id = (uint32_t)hcsr04_dev;
