@@ -23,26 +23,14 @@
       <attribute name="title">
        <string>HW settings</string>
       </attribute>
-      <widget class="QFrame" name="settingsFrame">
-       <property name="geometry">
-        <rect>
-         <x>0</x>
-         <y>40</y>
-         <width>495</width>
-         <height>26</height>
-        </rect>
+      <layout class="QGridLayout" name="gridLayout">
+       <property name="margin">
+        <number>0</number>
        </property>
-       <property name="frameShape">
-        <enum>QFrame::StyledPanel</enum>
-       </property>
-       <property name="frameShadow">
-        <enum>QFrame::Raised</enum>
-       </property>
-       <layout class="QVBoxLayout" name="verticalLayout_2"/>
-      </widget>
-      <zorder>settingsFrame</zorder>
-      <zorder>settingsFrame</zorder>
-      <zorder>settingsFrame</zorder>
+       <item row="0" column="0">
+        <layout class="QVBoxLayout" name="hardwareLayout"/>
+       </item>
+      </layout>
      </widget>
      <widget class="QWidget" name="modules_placeholder">
       <attribute name="title">

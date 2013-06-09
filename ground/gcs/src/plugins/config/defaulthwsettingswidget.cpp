@@ -121,7 +121,7 @@ void DefaultHwSettingsWidget::updateFields()
     Q_ASSERT(settingSelected);
     Q_ASSERT(hwSettingsObject != NULL);
 
-    QLayout *layout = defaultHWSettingsWidget->settingsFrame->layout();
+    QLayout *layout = defaultHWSettingsWidget->hardwareLayout;
     for (int i = 0; i < fieldWidgets.size(); i++)
         layout->removeWidget(fieldWidgets[i]);
     fieldWidgets.clear();
