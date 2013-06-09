@@ -15,32 +15,40 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
-    <widget class="QFrame" name="portSettingsFrame">
-     <property name="frameShape">
-      <enum>QFrame::StyledPanel</enum>
+    <widget class="QTabWidget" name="tabWidget">
+     <property name="currentIndex">
+      <number>0</number>
      </property>
-     <property name="frameShadow">
-      <enum>QFrame::Raised</enum>
-     </property>
-     <layout class="QVBoxLayout" name="verticalLayout_2">
-      <item>
-       <widget class="QTabWidget" name="tabWidget">
-        <property name="currentIndex">
-         <number>0</number>
-        </property>
-        <widget class="QWidget" name="hardware">
-         <attribute name="title">
-          <string>HW settings</string>
-         </attribute>
-        </widget>
-        <widget class="QWidget" name="modules">
-         <attribute name="title">
-          <string>Modules</string>
-         </attribute>
-        </widget>
-       </widget>
-      </item>
-     </layout>
+     <widget class="QWidget" name="hardware">
+      <attribute name="title">
+       <string>HW settings</string>
+      </attribute>
+      <widget class="QFrame" name="settingsFrame">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>40</y>
+         <width>495</width>
+         <height>26</height>
+        </rect>
+       </property>
+       <property name="frameShape">
+        <enum>QFrame::StyledPanel</enum>
+       </property>
+       <property name="frameShadow">
+        <enum>QFrame::Raised</enum>
+       </property>
+       <layout class="QVBoxLayout" name="verticalLayout_2"/>
+      </widget>
+      <zorder>settingsFrame</zorder>
+      <zorder>settingsFrame</zorder>
+      <zorder>settingsFrame</zorder>
+     </widget>
+     <widget class="QWidget" name="modules_placeholder">
+      <attribute name="title">
+       <string>Modules</string>
+      </attribute>
+     </widget>
     </widget>
    </item>
    <item>

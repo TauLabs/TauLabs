@@ -56,7 +56,7 @@ private slots:
 
 private:
     void updateFields();
-    Ui_defaulthwsettings *ui;
+    Ui_defaulthwsettings *defaultHWSettingsWidget;
 
     QList<QString> allHwSettings;
     UAVObject *hwSettingsObject;

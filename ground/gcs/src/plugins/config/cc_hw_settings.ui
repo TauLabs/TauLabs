@@ -105,11 +105,11 @@
          <property name="widgetResizable">
           <bool>true</bool>
          </property>
-         <widget class="QWidget" name="scrollAreaWidgetContents">
+         <widget class="QWidget" name="tab_HardwareSettings">
           <property name="geometry">
            <rect>
             <x>0</x>
-            <y>-32</y>
+            <y>0</y>
             <width>601</width>
             <height>528</height>
            </rect>
@@ -475,7 +475,7 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="modules">
+     <widget class="QWidget" name="modules_placeholder">
       <attribute name="title">
        <string>Modules</string>
       </attribute>
