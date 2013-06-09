@@ -109,7 +109,7 @@
           <property name="geometry">
            <rect>
             <x>0</x>
-            <y>0</y>
+            <y>-32</y>
             <width>601</width>
             <height>528</height>
            </rect>
@@ -474,6 +474,11 @@
         </widget>
        </item>
       </layout>
+     </widget>
+     <widget class="QWidget" name="modules">
+      <attribute name="title">
+       <string>Modules</string>
+      </attribute>
      </widget>
     </widget>
    </item>

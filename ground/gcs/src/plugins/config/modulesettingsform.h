@@ -1,13 +1,13 @@
 /**
  ******************************************************************************
  *
- * @file       configtelemetrytwidget.h
- * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @file       modulesettingsform.h
+ * @author     Tau Labs, http://www.taulabs.org Copyright (C) 2013.
  * @addtogroup GCSPlugins GCS Plugins
  * @{
  * @addtogroup ConfigPlugin Config Plugin
  * @{
- * @brief Telemetry configuration panel
+ * @brief The Configuration Gadget used to update settings in the firmware
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify
@@ -24,38 +24,36 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
-#ifndef CONFIGCCHWWIDGET_H
-#define CONFIGCCHWWIDGET_H
 
-#include "ui_cc_hw_settings.h"
+#ifndef MODULESETTINGSFORM_H
+#define MODULESETTINGSFORM_H
 
-#include "../uavobjectwidgetutils/configtaskwidget.h"
-#include "extensionsystem/pluginmanager.h"
-#include "uavobjectmanager.h"
-#include "uavobject.h"
-#include <QtGui/QWidget>
-#include <QList>
-#include "smartsavebutton.h"
-#include "modulesettingsform.h"
+#include <QWidget>
+//#include "configinputwidget.h"
+#include "uavobjectwidgetutils/configtaskwidget.h"
 
+namespace Ui {
+    class Module_Settings_Widget;
+}
 
-class ConfigCCHWWidget: public ConfigTaskWidget
+class moduleSettingsForm : public ConfigTaskWidget
 {
     Q_OBJECT
 
 public:
-    ConfigCCHWWidget(QWidget *parent = 0);
-    ~ConfigCCHWWidget();
+    explicit moduleSettingsForm(QWidget *parent = 0);
+    ~moduleSettingsForm();
+    friend class ConfigInputWidget;
+    void setName(QString &name);
 private slots:
-    void openHelp();
-    void refreshValues();
-    void widgetsContentsChanged();
+    void minMaxUpdated();
+    void neutralUpdated(int);
+    void groupUpdated();
+    void channelDropdownUpdated(int);
+    void channelNumberUpdated(int);
 
 private:
-    QVariant getVariantFromWidget(QWidget * widget, double scale);
-    bool setWidgetFromVariant(QWidget *widget, QVariant value, double scale);
-    Ui_CC_HW_Widget *m_CC_HW_Widget;
-    QSvgRenderer *m_renderer;
+    Ui::Module_Settings_Widget *ui;
 };
 
-#endif // CONFIGCCHWWIDGET_H
+#endif // MODULESETTINGSFORM_H

@@ -43,6 +43,10 @@ DefaultHwSettingsWidget::DefaultHwSettingsWidget(QWidget *parent, bool autopilot
 {
     ui->setupUi(this);
 
+    moduleSettingsForm *optionalModuleSettings = new moduleSettingsForm(this);
+    ui->tabWidget->layout()->addWidget(optionalModuleSettings); //Add the widget to the UI
+
+
     //TODO: This is a bit ugly. It sets up a form with no elements. The
     //result is that there is no formatting-- such as scrolling and stretching behavior--, so
     //this has to be manually added in the code.

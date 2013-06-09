@@ -38,6 +38,8 @@
 #include <QtGui/QWidget>
 #include <QTimer>
 #include <QMutex>
+#include "modulesettingsform.h"
+
 
 class Ui_Widget;
 
