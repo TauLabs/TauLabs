@@ -53,7 +53,13 @@ private slots:
     void channelNumberUpdated(int);
 
 private:
-    Ui::Module_Settings_Widget *ui;
+    QVariant getVariantFromWidget(QWidget * widget, double scale);
+    bool setWidgetFromVariant(QWidget *widget, QVariant value, double scale);
+
+    static QString trueString;
+    static QString falseString;
+
+    Ui::Module_Settings_Widget *moduleSettingsWidget;
 };
 
 #endif // MODULESETTINGSFORM_H

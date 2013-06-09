@@ -30,22 +30,40 @@
 
 #include "modulesettings.h"
 
+// Define static variables
+QString moduleSettingsForm::trueString("TrueString");
+QString moduleSettingsForm::falseString("FalseString");
+
+/**
+ * @brief moduleSettingsForm::moduleSettingsForm Constructor
+ * @param parent
+ */
 moduleSettingsForm::moduleSettingsForm(QWidget *parent) :
     ConfigTaskWidget(parent),
-    ui(new Ui::Module_Settings_Widget)
+    moduleSettingsWidget(new Ui::Module_Settings_Widget)
 {
-    ui->setupUi(this);
+    moduleSettingsWidget->setupUi(this);
 
-//    connect(ui->channelMin,SIGNAL(valueChanged(int)),this,SLOT(minMaxUpdated()));
-//    connect(ui->channelMax,SIGNAL(valueChanged(int)),this,SLOT(minMaxUpdated()));
-//    connect(ui->channelGroup,SIGNAL(currentIndexChanged(int)),this,SLOT(groupUpdated()));
-//    connect(ui->channelNeutral,SIGNAL(valueChanged(int)), this, SLOT(neutralUpdated(int)));
+    ModuleSettings moduleSettings;
+    QString moduleSettingsName = moduleSettings.getName();
 
-//    // This is awkward but since we want the UI to be a dropdown but the field is not an enum
-//    // it breaks the UAUVObject widget relation of the task gadget.  Running the data through
-//    // a spin box fixes this
-//    connect(ui->channelNumberDropdown,SIGNAL(currentIndexChanged(int)),this,SLOT(channelDropdownUpdated(int)));
-//    connect(ui->channelNumber,SIGNAL(valueChanged(int)),this,SLOT(channelNumberUpdated(int)));
+    addUAVObjectToWidgetRelation(moduleSettingsName, "AdminState", moduleSettingsWidget->gb_Airspeed, ModuleSettings::ADMINSTATE_AIRSPEED); // TODO: Set the widget based on the UAVO getName() and getField() methods.
+    addUAVObjectToWidgetRelation(moduleSettingsName, "AdminState", moduleSettingsWidget->gb_Battery, ModuleSettings::ADMINSTATE_BATTERY); // TODO: Set the widget based on the UAVO getName() and getField() methods.
+    addUAVObjectToWidgetRelation(moduleSettingsName, "AdminState", moduleSettingsWidget->gb_VibrationAnalysis, ModuleSettings::ADMINSTATE_VIBRATIONANALYSIS); // TODO: Set the widget based on the UAVO getName() and getField() methods.
+    addUAVObjectToWidgetRelation(moduleSettingsName, "AdminState", moduleSettingsWidget->gb_Airspeed, ModuleSettings::ADMINSTATE_AIRSPEED); // TODO: Set the widget based on the UAVO getName() and getField() methods.
+
+    // Set text properties. The second argument is the UAVO field that corresponds to the true state
+    moduleSettingsWidget->gb_Airspeed->setProperty(trueString.toAscii(), "Enabled");
+    moduleSettingsWidget->gb_Airspeed->setProperty(falseString.toAscii(), "Disabled");
+
+    moduleSettingsWidget->gb_Battery->setProperty(trueString.toAscii(), "Enabled");
+    moduleSettingsWidget->gb_Battery->setProperty(falseString.toAscii(), "Disabled");
+
+    moduleSettingsWidget->gb_VibrationAnalysis->setProperty(trueString.toAscii(), "Enabled");
+    moduleSettingsWidget->gb_VibrationAnalysis->setProperty(falseString.toAscii(), "Disabled");
+
+    moduleSettingsWidget->gb_GPS->setProperty(trueString.toAscii(), "Enabled");
+    moduleSettingsWidget->gb_GPS->setProperty(falseString.toAscii(), "Disabled");
 
     disableMouseWheelEvents();
 }
@@ -53,24 +71,24 @@ moduleSettingsForm::moduleSettingsForm(QWidget *parent) :
 
 moduleSettingsForm::~moduleSettingsForm()
 {
-    delete ui;
+    delete moduleSettingsWidget;
 }
 
 void moduleSettingsForm::setName(QString &name)
 {
-//    ui->channelName->setText(name);
-//    QFontMetrics metrics(ui->channelName->font());
+//    moduleSettingsWidget->channelName->setText(name);
+//    QFontMetrics metrics(moduleSettingsWidget->channelName->font());
 //    int width=metrics.width(name)+5;
 //    foreach(moduleSettingsForm * form,parent()->findChildren<moduleSettingsForm*>())
 //    {
 //        if(form==this)
 //            continue;
-//        if(form->ui->channelName->minimumSize().width()<width)
-//            form->ui->channelName->setMinimumSize(width,0);
+//        if(form->moduleSettingsWidget->channelName->minimumSize().width()<width)
+//            form->moduleSettingsWidget->channelName->setMinimumSize(width,0);
 //        else
-//            width=form->ui->channelName->minimumSize().width();
+//            width=form->moduleSettingsWidget->channelName->minimumSize().width();
 //    }
-//    ui->channelName->setMinimumSize(width,0);
+//    moduleSettingsWidget->channelName->setMinimumSize(width,0);
 }
 
 /**
@@ -78,38 +96,36 @@ void moduleSettingsForm::setName(QString &name)
   */
 void moduleSettingsForm::minMaxUpdated()
 {
-//    bool reverse = ui->channelMin->value() > ui->channelMax->value();
+//    bool reverse = moduleSettingsWidget->channelMin->value() > moduleSettingsWidget->channelMax->value();
 //    if(reverse) {
-//        ui->channelNeutral->setMinimum(ui->channelMax->value());
-//        ui->channelNeutral->setMaximum(ui->channelMin->value());
+//        moduleSettingsWidget->channelNeutral->setMinimum(moduleSettingsWidget->channelMax->value());
+//        moduleSettingsWidget->channelNeutral->setMaximum(moduleSettingsWidget->channelMin->value());
 //    } else {
-//        ui->channelNeutral->setMinimum(ui->channelMin->value());
-//        ui->channelNeutral->setMaximum(ui->channelMax->value());
+//        moduleSettingsWidget->channelNeutral->setMinimum(moduleSettingsWidget->channelMin->value());
+//        moduleSettingsWidget->channelNeutral->setMaximum(moduleSettingsWidget->channelMax->value());
 //    }
-//    ui->channelRev->setChecked(reverse);
-//    ui->channelNeutral->setInvertedAppearance(reverse);
-//    ui->channelNeutral->setInvertedControls(reverse);
+//    moduleSettingsWidget->channelRev->setChecked(reverse);
+//    moduleSettingsWidget->channelNeutral->setInvertedAppearance(reverse);
+//    moduleSettingsWidget->channelNeutral->setInvertedControls(reverse);
 }
 
 void moduleSettingsForm::neutralUpdated(int newval)
 {
-//    ui->neutral->setText(QString::number(newval));
+//    moduleSettingsWidget->neutral->setText(QString::number(newval));
 }
 
 /**
   * Update the channel options based on the selected receiver type
   *
-  * I fully admit this is terrible practice to embed data within UI
-  * like this.  Open to suggestions. JC 2011-09-07
   */
 void moduleSettingsForm::groupUpdated()
 {
-//    ui->channelNumberDropdown->clear();
-//    ui->channelNumberDropdown->addItem("Disabled");
+//    moduleSettingsWidget->channelNumberDropdown->clear();
+//    moduleSettingsWidget->channelNumberDropdown->addItem("Disabled");
 
 //    quint8 count = 0;
 
-//    switch(ui->channelGroup->currentIndex()) {
+//    switch(moduleSettingsWidget->channelGroup->currentIndex()) {
 //    case -1: // Nothing selected
 //        count = 0;
 //        break;
@@ -135,10 +151,10 @@ void moduleSettingsForm::groupUpdated()
 //    }
 
 //    for (int i = 0; i < count; i++)
-//        ui->channelNumberDropdown->addItem(QString(tr("Chan %1").arg(i+1)));
+//        moduleSettingsWidget->channelNumberDropdown->addItem(QString(tr("Chan %1").arg(i+1)));
 
-//    ui->channelNumber->setMaximum(count);
-//    ui->channelNumber->setMinimum(0);
+//    moduleSettingsWidget->channelNumber->setMaximum(count);
+//    moduleSettingsWidget->channelNumber->setMinimum(0);
 }
 
 /**
@@ -146,7 +162,7 @@ void moduleSettingsForm::groupUpdated()
   */
 void moduleSettingsForm::channelDropdownUpdated(int newval)
 {
-//    ui->channelNumber->setValue(newval);
+//    moduleSettingsWidget->channelNumber->setValue(newval);
 }
 
 /**
@@ -154,5 +170,85 @@ void moduleSettingsForm::channelDropdownUpdated(int newval)
   */
 void moduleSettingsForm::channelNumberUpdated(int newval)
 {
-//    ui->channelNumberDropdown->setCurrentIndex(newval);
+//    moduleSettingsWidget->channelNumberDropdown->setCurrentIndex(newval);
+}
+
+
+/**
+ * @brief moduleSettingsForm::getWidgetFromVariant Remiplmements getWidgetFromVariant. This version supports "FalseString".
+ * @param widget pointer to the widget from where to get the value
+ * @param scale scale to be used on the assignement
+ * @return returns the value of the widget times the scale
+ */
+QVariant moduleSettingsForm::getVariantFromWidget(QWidget * widget, double scale)
+{
+    if(QGroupBox * groupBox=qobject_cast<QGroupBox *>(widget)) {
+        QString ret;
+        if (groupBox->property("TrueString").isValid() && groupBox->property("FalseString").isValid()) {
+            if(groupBox->isChecked())
+                ret = groupBox->property("TrueString").toString();
+            else
+                ret = groupBox->property("FalseString").toString();
+        } else {
+            if(groupBox->isChecked())
+                ret = "TRUE";
+            else
+                ret = "FALSE";
+        }
+
+        return ret;
+    } else if(QCheckBox * checkBox=qobject_cast<QCheckBox *>(widget)) {
+        QString ret;
+        if (checkBox->property("TrueString").isValid() && checkBox->property("FalseString").isValid()) {
+            if (checkBox->isChecked())
+                ret = checkBox->property("TrueString").toString();
+            else
+                ret = checkBox->property("FalseString").toString();
+        }
+        else {
+            if(checkBox->isChecked())
+                ret = "TRUE";
+            else
+                ret = "FALSE";
+        }
+
+        return ret;
+    } else {
+        return ConfigTaskWidget::getVariantFromWidget(widget, scale);
+    }
+}
+
+
+/**
+ * @brief moduleSettingsForm::setWidgetFromVariant Remiplmements setWidgetFromVariant. This version supports "FalseString".
+ * @param widget pointer for the widget to set
+ * @param scale scale to be used on the assignement
+ * @param value value to be used on the assignement
+ * @return returns true if the assignement was successfull
+ */
+bool moduleSettingsForm::setWidgetFromVariant(QWidget *widget, QVariant value, double scale)
+{
+    if(QGroupBox * groupBox=qobject_cast<QGroupBox *>(widget)) {
+        bool bvalue;
+        if (groupBox->property("TrueString").isValid() && groupBox->property("FalseString").isValid()) {
+            bvalue = value.toString()==groupBox->property("TrueString").toString();
+        }
+        else{
+            bvalue = value.toString()=="TRUE";
+        }
+        groupBox->setChecked(bvalue);
+        return true;
+    } else if(QCheckBox * checkBox=qobject_cast<QCheckBox *>(widget)) {
+        bool bvalue;
+        if (checkBox->property("TrueString").isValid() && checkBox->property("FalseString").isValid()) {
+            bvalue = value.toString()==checkBox->property("TrueString").toString();
+        }
+        else {
+            bvalue = value.toString()=="TRUE";
+        }
+        checkBox->setChecked(bvalue);
+        return true;
+    } else {
+        return ConfigTaskWidget::setWidgetFromVariant(widget, value, scale);
+    }
 }
