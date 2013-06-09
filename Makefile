@@ -1,11 +1,31 @@
-# Set up a default goal
+# Makefile - 7/6/2013
+#
+# Makefile for Taulabs project
 .DEFAULT_GOAL := help
 
-# Set up some macros for common directories within the tree
-ROOT_DIR=$(CURDIR)
-TOOLS_DIR=$(ROOT_DIR)/tools
-BUILD_DIR=$(ROOT_DIR)/build
-DL_DIR=$(ROOT_DIR)/downloads
+# import macros common to all supported build systems
+include $(CURDIR)/make/shared.mk
+
+# import macros that are OS specific
+ifdef MACOSX
+  include $(ROOT_DIR)/make/macosx.mk
+endif
+ifdef LINUX
+  include $(ROOT_DIR)/make/linux.mk
+endif
+ifdef WINDOWS
+  include $(ROOT_DIR)/make/windows.mk
+endif  
+
+# include the tools makefile
+include $(ROOT_DIR)/make/tools.mk
+
+# make sure this isn't being run as root, not relevant for windows
+ifndef WINDOWS
+  ifeq ($(shell whoami),root)
+    $(error You should not be running this as root)
+  endif
+endif
 
 # Function for converting an absolute path to one relative
 # to the top of the source tree.
@@ -31,21 +51,6 @@ $(foreach var, $(SANITIZE_GCC_VARS), $(eval $(call SANITIZE_VAR,$(var),disallowe
 SANITIZE_DEPRECATED_VARS := USE_BOOTLOADER
 $(foreach var, $(SANITIZE_DEPRECATED_VARS), $(eval $(call SANITIZE_VAR,$(var),deprecated)))
 
-# Deal with unreasonable requests
-# See: http://xkcd.com/149/
-ifeq ($(MAKECMDGOALS),me a sandwich)
- ifeq ($(shell whoami),root)
- $(error Okay)
- else
- $(error What? Make it yourself)
- endif
-endif
-
-# Make sure this isn't being run as root
-ifeq ($(shell whoami),root)
-$(error You should not be running this as root)
-endif
-
 # Decide on a verbosity level based on the V= parameter
 export AT := @
 
@@ -56,26 +61,6 @@ else ifeq ($(V), 0)
 export V0    := $(AT)
 export V1    := $(AT)
 else ifeq ($(V), 1)
-endif
-
-# Make sure we know a few things about the architecture before including
-# the tools.mk to ensure that we download/install the right tools.
-UNAME := $(shell uname)
-ARCH := $(shell uname -m)
-
-include $(ROOT_DIR)/make/tools.mk
-
-# We almost need to consider autoconf/automake instead of this
-# I don't know if windows supports uname :-(
-QT_SPEC=win32-g++
-UAVOBJGENERATOR="$(BUILD_DIR)/ground/uavobjgenerator/debug/uavobjgenerator.exe"
-ifeq ($(UNAME), Linux)
-  QT_SPEC=linux-g++
-  UAVOBJGENERATOR="$(BUILD_DIR)/ground/uavobjgenerator/uavobjgenerator"
-endif
-ifeq ($(UNAME), Darwin)
-  QT_SPEC=macx-g++
-  UAVOBJGENERATOR="$(BUILD_DIR)/ground/uavobjgenerator/uavobjgenerator"
 endif
 
 # OpenPilot GCS build configuration (debug | release)
