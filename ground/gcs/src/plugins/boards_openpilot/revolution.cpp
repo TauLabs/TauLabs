@@ -2,7 +2,7 @@
  ******************************************************************************
  *
  * @file       revolution.cpp
- * @author     Tau Labs, http://github.com/TauLabs, Copyright (C) 2013.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
  *
  * @addtogroup GCSPlugins GCS Plugins
  * @{
@@ -37,7 +37,6 @@ Revolution::Revolution(void)
     // Initialize our USB Structure definition here:
     USBInfo board;
     board.vendorID = 0x20A0;
-    // TODO: does the ProductID work here ?
     board.productID = 0x415b;
 
     setUSBInfo(board);
@@ -88,4 +87,14 @@ QStringList Revolution::getSupportedProtocols()
 {
 
     return QStringList("uavtalk");
+}
+
+QPixmap Revolution::getBoardPicture()
+{
+    return QPixmap();
+}
+
+QString Revolution::getHwUAVO()
+{
+    return "HwRevolution";
 }

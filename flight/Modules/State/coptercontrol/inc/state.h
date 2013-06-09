@@ -1,12 +1,12 @@
 /**
  ******************************************************************************
- * @addtogroup OpenPilotModules OpenPilot Modules
- * @{ 
- * @addtogroup State State Module
- * @{ 
+ * @addtogroup TauLabsModules Tau Labs Modules
+ * @{
+ * @addtogroup CCState Copter Control State Estimation
+ * @{
  *
  * @file       state.h
- * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2011.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
  * @brief      Acquires sensor data and fuses it into attitude estimate for CC
  *
  * @see        The GNU Public License (GPL) Version 3
@@ -37,3 +37,9 @@
 #include "state_struct.h"
 
 #endif // STATE_H
+
+/**
+ * @}
+ * @}
+ */
+ 

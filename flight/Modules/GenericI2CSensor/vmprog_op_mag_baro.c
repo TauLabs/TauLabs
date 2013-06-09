@@ -1,12 +1,13 @@
 /**
  ******************************************************************************
+ * @addtogroup TauLabsModules Tau Labs Modules
+ * @{
+ * @addtogroup GenericI2CSensor Generic I2C sensor interface
+ * @{
+ *
  * @file       vmprog_op_mag_baro.c
- * @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2012
- * @addtogroup I2C Virtual Machine
- * @{
- * @addtogroup %CLASS%
- * @{
- * @brief I2C Virtual machine demo program for the OpenPilot Mag+Baro board
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
+ * @brief      I2C Virtual machine demo program for the OpenPilot Mag+Baro board
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify
@@ -116,3 +117,8 @@ const uint32_t vmprog_op_mag_baro[] = {
 };
 
 const uint32_t vmprog_op_mag_baro_len = NELEMENTS(vmprog_op_mag_baro);
+
+/**
+ * @}
+ * @}
+ */

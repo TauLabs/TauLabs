@@ -3,7 +3,8 @@
  *
  * @file       simulator.cpp
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
- * @author     Tau Labs, http://www.taulabs.org, Copyright (C) 2013
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
+ *
  * @addtogroup GCSPlugins GCS Plugins
  * @{
  * @addtogroup HITLPlugin HITL Plugin
@@ -35,7 +36,7 @@
 #include "hitlnoisegeneration.h"
 
 volatile bool Simulator::isStarted = false;
-
+QMap<QString, UAVObject::Metadata> Simulator::originalMetaData;
 
 Simulator::Simulator(const SimulatorSettings& params) :
 	simProcess(NULL),
@@ -121,6 +122,14 @@ void Simulator::onDeleteSimulator(void)
 	Simulator::setStarted(false);
 	// [2]
 	Simulator::Instances().removeOne(simulatorId);
+    // [3]
+    if (Simulator::Instances().empty()){
+        // If this is the last instance, reset UAVO update rates to
+        // their original values
+        UAVObjectUtilManager* utilMngr = getObjectUtilManager();
+        utilMngr->setAllNonSettingsMetadata(originalMetaData);
+        originalMetaData.clear();
+    }
 
 	disconnect(this);
 	delete this;
@@ -160,7 +169,6 @@ void Simulator::onStart()
     TelemetryManager* telMngr = pm->getObject<TelemetryManager>();
     connect(telMngr, SIGNAL(connected()), this, SLOT(onAutopilotConnect()));
     connect(telMngr, SIGNAL(disconnected()), this, SLOT(onAutopilotDisconnect()));
-    //connect(telStats, SIGNAL(objectUpdated(UAVObject*)), this, SLOT(telStatsUpdated(UAVObject*)));
 
     // If already connect setup autopilot
     GCSTelemetryStats::DataFields stats = telStats->getData();
@@ -229,17 +237,58 @@ void Simulator::receiveUpdate()
 	 }
 }
 
-void Simulator::setupObjects()
+void Simulator::setupUAVObjects()
 {
+    UAVObjectUtilManager* utilMngr = getObjectUtilManager();
 
-    if (settings.gcsReceiverEnabled) {
-        setupInputObject(actCommand, settings.minOutputPeriod); //Input to the simulator
-        setupOutputObject(gcsReceiver, settings.minOutputPeriod);
-    } else if (settings.manualControlEnabled) {
-        setupInputObject(actDesired, settings.minOutputPeriod); //Input to the simulator
+    // Store original metadata, but only if it hasn't already been set
+    // by another class instance.
+    if (originalMetaData.empty()) {
+        originalMetaData = utilMngr->readAllNonSettingsMetadata();
     }
 
-    setupOutputObject(posHome, 10000); //Hardcoded? Bleh.
+    uint16_t slowUpdate = 5000; // in [ms]
+
+    // Iterate over list of UAVObjects, setting all dynamic data metadata objects to slow update rate.
+    UAVObjectManager *objManager = getObjectManager();
+    QVector< QVector<UAVDataObject*> > objList = objManager->getDataObjects();
+    foreach (QVector<UAVDataObject*> list, objList) {
+        foreach (UAVDataObject* obj, list) {
+            if(!obj->isSettings()) {
+                UAVObject::Metadata mdata = obj->getMetadata();
+                UAVObject::SetFlightTelemetryUpdateMode(mdata, UAVObject::UPDATEMODE_PERIODIC);
+
+                // Default configuration for all UAVO data rates is "slowUpdate"
+                mdata.flightTelemetryUpdatePeriod = slowUpdate;
+
+                metaDataList.insert(obj->getName(), mdata);
+            }
+        }
+    }
+
+    //-----------------------------------------//
+    // Configure metadata for individual UAVOs //
+    //-----------------------------------------//
+
+    // Most simulators use the flight controller's ActuatorDesired UAVO
+    // for control output...
+    if (settings.simulatorId == "FG"  ||
+             settings.simulatorId == "IL2" ||
+             settings.simulatorId == "X-Plane")
+    {
+        setupInputObject(actDesired, settings.minOutputPeriod);
+    }
+    else if(settings.simulatorId == "ASimRC")
+    {
+        //...however, AeroSimRC uses the servo PWM output (i.e. ActuatorCommand)
+        setupInputObject(actCommand, settings.minOutputPeriod);
+    }
+
+    if (settings.gcsReceiverEnabled) {
+        setupOutputObject(gcsReceiver, settings.minOutputPeriod);
+    } else if (settings.manualControlEnabled) {
+        setupOutputObject(manCtrlCommand, settings.minOutputPeriod);
+    }
 
     if (settings.gpsPositionEnabled){
         setupOutputObject(gpsPos, settings.gpsPosRate);
@@ -264,7 +313,7 @@ void Simulator::setupObjects()
     if (settings.attActualEnabled && !settings.attActHW)
         setupOutputObject(attActual, 20); //Hardcoded? Bleh.
     else
-        setupWatchedObject(attActual, 100); //Hardcoded? Bleh.
+        setupInputObject(attActual, 100); //Hardcoded? Bleh.
 
     if(settings.airspeedActualEnabled)
         setupOutputObject(airspeedActual, settings.airspeedActualRate);
@@ -272,68 +321,68 @@ void Simulator::setupObjects()
     if(settings.baroAltitudeEnabled)
         setupOutputObject(baroAlt, settings.baroAltRate);
 
+    // Set new metadata
+    utilMngr->setAllNonSettingsMetadata(metaDataList);
 }
 
 
+/**
+ * @brief Simulator::setupInputObject Sets metadata for UAVOs that are sent
+ * from the flight controller board to the simulator
+ * @param obj
+ * @param updatePeriod
+ */
 void Simulator::setupInputObject(UAVObject* obj, quint32 updatePeriod)
 {
-    UAVObject::Metadata mdata;
-    mdata = obj->getDefaultMetadata();
+    // Fetch value from QMap
+    UAVObject::Metadata mdata = metaDataList.value(obj->getName());
 
+    // Update GCS-side metadata
     UAVObject::SetGcsAccess(mdata, UAVObject::ACCESS_READONLY);
     UAVObject::SetGcsTelemetryAcked(mdata, false);
     UAVObject::SetGcsTelemetryUpdateMode(mdata, UAVObject::UPDATEMODE_MANUAL);
     mdata.gcsTelemetryUpdatePeriod = 0;
 
-    UAVObject::SetFlightAccess(mdata, UAVObject::ACCESS_READWRITE);
-    UAVObject::SetFlightTelemetryAcked(mdata, false);
-
-    UAVObject::SetFlightTelemetryUpdateMode(mdata, UAVObject::UPDATEMODE_PERIODIC);
-    mdata.flightTelemetryUpdatePeriod = updatePeriod;
-
-    obj->setMetadata(mdata);
-}
-
-
-void Simulator::setupWatchedObject(UAVObject *obj, quint32 updatePeriod)
-{
-    UAVObject::Metadata mdata;
-    mdata = obj->getDefaultMetadata();
-
-    UAVObject::SetGcsAccess(mdata, UAVObject::ACCESS_READONLY);
-    UAVObject::SetGcsTelemetryAcked(mdata, false);
-    UAVObject::SetGcsTelemetryUpdateMode(mdata, UAVObject::UPDATEMODE_MANUAL);
-    mdata.gcsTelemetryUpdatePeriod = 0;
-
+    // Update flight-side metadata
     UAVObject::SetFlightAccess(mdata, UAVObject::ACCESS_READWRITE);
     UAVObject::SetFlightTelemetryAcked(mdata, false);
     UAVObject::SetFlightTelemetryUpdateMode(mdata, UAVObject::UPDATEMODE_PERIODIC);
     mdata.flightTelemetryUpdatePeriod = updatePeriod;
 
-    obj->setMetadata(mdata);
+    // Update QMap value
+    metaDataList.insert(obj->getName(), mdata);
 }
 
 
+/**
+ * @brief Simulator::setupOutputObject Sets metadata for UAVOs that are sent
+ * from the simulator to the flight controller board
+ * @param obj
+ * @param updatePeriod
+ */
 void Simulator::setupOutputObject(UAVObject* obj, quint32 updatePeriod)
 {
-	UAVObject::Metadata mdata;
-	mdata = obj->getDefaultMetadata();
+    // Fetch value from QMap
+    UAVObject::Metadata mdata = metaDataList.value(obj->getName());
 
+    // Update GCS-side metadata
     UAVObject::SetGcsAccess(mdata, UAVObject::ACCESS_READWRITE);
     UAVObject::SetGcsTelemetryAcked(mdata, false);
-    UAVObject::SetGcsTelemetryUpdateMode(mdata, UAVObject::UPDATEMODE_ONCHANGE);
+    UAVObject::SetGcsTelemetryUpdateMode(mdata, UAVObject::UPDATEMODE_THROTTLED);
     mdata.gcsTelemetryUpdatePeriod = updatePeriod;
 
+    // Update flight-side metadata
     UAVObject::SetFlightAccess(mdata, UAVObject::ACCESS_READONLY);
     UAVObject::SetFlightTelemetryUpdateMode(mdata,UAVObject::UPDATEMODE_MANUAL);
 
-    obj->setMetadata(mdata);
+    // Update QMap value
+    metaDataList.insert(obj->getName(), mdata);
 }
 
 void Simulator::onAutopilotConnect()
 {
 	autopilotConnectionStatus = true;
-	setupObjects();
+	setupUAVObjects();
 	emit autopilotConnected();
 }
 
@@ -349,22 +398,6 @@ void Simulator::onSimulatorConnectionTimeout()
 	{
 		simConnectionStatus = false;
 		emit simulatorDisconnected();
-	}
-}
-
-
-void Simulator::telStatsUpdated(UAVObject* obj)
-{
-    Q_UNUSED(obj);
-
-    GCSTelemetryStats::DataFields stats = telStats->getData();
-	if ( !autopilotConnectionStatus && stats.Status == GCSTelemetryStats::STATUS_CONNECTED )
-	{
-		onAutopilotConnect();
-	}
-	else if ( autopilotConnectionStatus && stats.Status != GCSTelemetryStats::STATUS_CONNECTED )
-	{
-		onAutopilotDisconnect();
 	}
 }
 
@@ -487,13 +520,11 @@ void Simulator::updateUAVOs(Output2Hardware out){
 
         AttitudeSettings::DataFields attitudeSettingsData = attitudeSettings->getData();
         float accelKp = attitudeSettingsData.AccelKp * 0.1666666666666667;
-        float accelKi = attitudeSettingsData.AccelKp * 0.1666666666666667;
         float yawBiasRate = attitudeSettingsData.YawBiasRate;
 
         // calibrate sensors on arming
         if (flightStatus->getData().Armed == FlightStatus::ARMED_ARMING) {
             accelKp = 2.0;
-            accelKi = 0.9;
         }
 
         float gyro[3] = {out.rollRate, out.pitchRate, out.yawRate};
@@ -815,4 +846,28 @@ AirParameters Simulator::getAirParameters(){
  */
 void Simulator::setAirParameters(AirParameters airParameters){
     this->airParameters=airParameters;
+}
+
+
+/**
+ * @brief ConfigTaskWidget::getObjectManager Utility function to get a pointer to the object manager
+ * @return pointer to the UAVObjectManager
+ */
+UAVObjectManager* Simulator::getObjectManager() {
+    ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
+    UAVObjectManager *objMngr = pm->getObject<UAVObjectManager>();
+    Q_ASSERT(objMngr);
+    return objMngr;
+}
+
+
+/**
+ * @brief ConfigTaskWidget::getObjectUtilManager Utility function to get a pointer to the object manager utilities
+ * @return pointer to the UAVObjectUtilManager
+ */
+UAVObjectUtilManager* Simulator::getObjectUtilManager() {
+    ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
+    UAVObjectUtilManager *utilMngr = pm->getObject<UAVObjectUtilManager>();
+    Q_ASSERT(utilMngr);
+    return utilMngr;
 }

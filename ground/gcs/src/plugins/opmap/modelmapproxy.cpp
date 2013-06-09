@@ -1,13 +1,14 @@
 /**
  ******************************************************************************
  * @file       modelmapproxy.cpp
- * @author     Tau Labs, http://github.com/TauLabs, Copyright (C) 2012-2013.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
+ *
  * @addtogroup GCSPlugins GCS Plugins
  * @{
- * @addtogroup OPMapPlugin OpenPilot Map Plugin
+ * @addtogroup OPMapPlugin Tau Labs Map Plugin
  * @{
- * @brief The OpenPilot Map plugin
+ * @brief Tau Labs map plugin
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify
@@ -36,7 +37,6 @@ ModelMapProxy::ModelMapProxy(QObject *parent,OPMapWidget *map, FlightDataModel *
     connect(model,SIGNAL(dataChanged(QModelIndex,QModelIndex)),this,SLOT(dataChanged(QModelIndex,QModelIndex)));
     connect(myMap,SIGNAL(selectedWPChanged(QList<WayPointItem*>)),this,SLOT(selectedWPChanged(QList<WayPointItem*>)));
     connect(myMap,SIGNAL(WPManualCoordChange(WayPointItem*)),this,SLOT(WPValuesChanged(WayPointItem*)));
-    connect(myMap,SIGNAL(WPNumberChanged(int,int,WayPointItem*)),this,SLOT(WPValuesChanged(WayPointItem*)));
 }
 
 /**
@@ -316,8 +316,8 @@ void ModelMapProxy::rowsInserted(const QModelIndex &parent, int first, int last)
     for(int x=first; x<last+1; x++)
     {
         QModelIndex index;
-        WayPointItem * item;
         internals::PointLatLng latlng;
+        WayPointItem *item;
         double altitude;
         index=model->index(x,FlightDataModel::WPDESCRITPTION);
         QString desc=index.data(Qt::DisplayRole).toString();

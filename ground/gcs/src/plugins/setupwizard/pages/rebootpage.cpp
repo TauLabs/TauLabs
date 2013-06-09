@@ -3,11 +3,12 @@
  *
  * @file       rebootpage.cpp
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
- * @addtogroup
+ * @see        The GNU Public License (GPL) Version 3
+ *
+ * @addtogroup GCSPlugins GCS Plugins
  * @{
- * @addtogroup RebootPage
+ * @addtogroup SetupWizard Setup Wizard
  * @{
- * @brief
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify
@@ -46,7 +47,7 @@ RebootPage::~RebootPage()
 
 void RebootPage::initializePage()
 {
-    if(!m_timer.isActive()) {
+    if (!m_timer.isActive()) {
         connect(&m_timer, SIGNAL(timeout()), this, SLOT(toggleLabel()));
         m_timer.setInterval(500);
         m_timer.setSingleShot(false);

@@ -1,7 +1,7 @@
 ###############################################################################
 # @file       Makefile
 # @author     The OpenPilot Team, http://www.openpilot.org, Copyright (C) 2009.
-# @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2012
+# @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
 # @addtogroup 
 # @{
 # @addtogroup 
@@ -29,11 +29,12 @@ TOP      := $(realpath $(WHEREAMI)/../../../)
 include $(TOP)/make/firmware-defs.mk
 include $(TOP)/make/boards/$(BOARD_NAME)/board-info.mk
 
-# Set developer code and compile options
-# Set to YES to compile for debugging
+# @startgroup Compile Options
+# @groupbrief Set developer code and compile options
+# @optbrief Set to YES to compile for debugging
 DEBUG ?= NO
 
-# Include objects that are just nice information to show
+# @optbrief Include objects that are just nice information to show
 STACK_DIAGNOSTICS ?= NO
 MIXERSTATUS_DIAGNOSTICS ?= NO
 RATEDESIRED_DIAGNOSTICS ?= NO
@@ -43,17 +44,21 @@ DIAG_TASKS ?= NO
 #Or just turn on all the above diagnostics. WARNING: This consumes massive amounts of memory.
 ALL_DIGNOSTICS ?=NO
 
-# Set to YES to build a FW version that will erase all flash memory
+# @optbrief Set to YES to build a FW version that will erase all flash memory
 ERASE_FLASH ?= NO
-# Set to YES to use the Servo output pins for debugging via scope or logic analyser
+
+# @optbrief Set to YES to use the Servo output pins for debugging via scope or logic analyser
 ENABLE_DEBUG_PINS ?= NO
 
-# Set to Yes to enable the AUX UART which is mapped on the S1 (Tx) and S2 (Rx) servo outputs
+# @optbrief Set to Yes to enable the AUX UART which is mapped on the S1 (Tx) and S2 (Rx) servo outputs
 ENABLE_AUX_UART ?= NO
+
+# @endgroup Compile Options
 
 NAVIGATION ?= NO
 
-# Optional module and driver defaults
+# @startgroup  Optional modules
+# @groupbrief Optional module and driver defaults
 USE_CAMERASTAB ?= YES
 USE_COMUSBBRIDGE ?= YES
 USE_GPS ?= YES
@@ -63,6 +68,14 @@ USE_ALTITUDE ?= NO
 USE_AUTOTUNE ?= YES
 TEST_FAULTS ?= NO
 USE_UAVOMAVLINKBRIDGE ?= YES
+USE_PCF8591 ?= NO
+ifeq ($(USE_PCF8591), YES)
+ifeq ($(USE_I2C), NO)
+$(error "PCF8591 driver requires i2c (USE_I2C=YES)")
+endif
+endif
+USE_BATTERY ?= NO
+# @endgroup  Optional modules
 
 # List of optional modules to include
 OPTMODULES =
@@ -94,7 +107,9 @@ endif
 ifeq ($(USE_UAVOMAVLINKBRIDGE), YES)
 OPTMODULES += UAVOMavlinkBridge
 endif
-
+ifeq ($(USE_BATTERY), YES)
+OPTMODULES += Battery
+endif
 # List of mandatory modules to include
 ifeq ($(NAVIGATION), YES)
 MODULES += State/coptercontrol
@@ -221,12 +236,16 @@ SRC += $(OPUAVSYNTHDIR)/fixedwingpathfollowersettingscc.c
 SRC += $(OPUAVSYNTHDIR)/pathstatus.c
 SRC += $(OPUAVSYNTHDIR)/pathdesired.c
 SRC += $(OPUAVSYNTHDIR)/homelocation.c
+SRC += $(OPUAVSYNTHDIR)/poilocation.c
 SRC += $(OPUAVSYNTHDIR)/positionactual.c
+SRC += $(OPUAVSYNTHDIR)/tabletinfo.c
 SRC += $(OPUAVSYNTHDIR)/velocityactual.c
 SRC += $(OPUAVSYNTHDIR)/airspeedactual.c
 SRC += $(OPUAVSYNTHDIR)/sensorsettings.c
 SRC += $(OPUAVSYNTHDIR)/flightbatterystate.c
 SRC += $(OPUAVSYNTHDIR)/flightbatterysettings.c
+SRC += $(OPUAVSYNTHDIR)/adcrouting.c
+
 endif
 
 ## PIOS Hardware (STM32F10x)
@@ -235,7 +254,7 @@ SRC += $(PIOSSTM32F10X)/pios_led.c
 SRC += $(PIOSSTM32F10X)/pios_delay.c
 SRC += $(PIOSSTM32F10X)/pios_usart.c
 SRC += $(PIOSSTM32F10X)/pios_irq.c
-SRC += $(PIOSSTM32F10X)/pios_adc.c
+SRC += $(PIOSSTM32F10X)/pios_internal_adc.c
 SRC += $(PIOSSTM32F10X)/pios_servo.c
 SRC += $(PIOSSTM32F10X)/pios_i2c.c
 SRC += $(PIOSSTM32F10X)/pios_spi.c
@@ -276,9 +295,12 @@ SRC += $(PIOSCOMMON)/pios_sbus.c
 SRC += $(PIOSCOMMON)/pios_sensors.c
 SRC += $(PIOSCOMMON)/pios_gcsrcvr.c
 SRC += $(PIOSCOMMON)/printf-stdarg.c
+SRC += $(PIOSCOMMON)/pios_adc.c
+ifeq ($(USE_PCF8591), YES)
+SRC += $(PIOSCOMMON)/pios_pcf8591_adc.c
+endif
 ## Libraries for flight calculations
 SRC += $(FLIGHTLIB)/fifo_buffer.c
-SRC += $(FLIGHTLIB)/CoordinateConversions.c
 SRC += $(FLIGHTLIB)/taskmonitor.c
 SRC += $(FLIGHTLIB)/sanitycheck.c
 ifeq ($(NAVIGATION), YES)
@@ -286,6 +308,7 @@ SRC += $(STATEESTIMATIONLIB)/ccc.c
 SRC += $(STATEESTIMATIONLIB)/premerlani_gps.c
 SRC += $(STATEESTIMATIONLIB)/premerlani_dcm.c
 endif
+SRC += $(MATHLIB)/coordinate_conversions.c
 SRC += $(MATHLIB)/sin_lookup.c
 SRC += $(MATHLIB)/misc_math.c
 SRC += $(MATHLIB)/pid.c
@@ -470,6 +493,10 @@ endif
 
 ifeq ($(USE_I2C), YES)
 CDEFS += -DUSE_I2C
+endif
+
+ifeq ($(USE_PCF8591), YES)
+CDEFS += -DUSE_PCF8591
 endif
 
 # Declare all non-optional modules as built-in to force inclusion, strip off any appended varieties of module

@@ -1,12 +1,9 @@
 /**
  ******************************************************************************
- * @addtogroup OpenPilot System OpenPilot System
- * @{
- * @addtogroup OpenPilot Libraries OpenPilot System Libraries
+ * @addtogroup TauLabsLibraries Tau Labs Libraries
  * @{
  * @file       sanitycheck.c
- * @author     PhoenixPilot, http://github.com/PhoenixPilot Copyright (C) 2012-2013.
- * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
  * @brief      Utilities to validate a flight configuration
  * @see        The GNU Public License (GPL) Version 3
  *
@@ -134,16 +131,18 @@ int32_t configuration_check()
 				}
 				break;
 			case MANUALCONTROLSETTINGS_FLIGHTMODEPOSITION_POSITIONHOLD:
+			case MANUALCONTROLSETTINGS_FLIGHTMODEPOSITION_RETURNTOHOME:
 				if (coptercontrol) {
-					error_code = SYSTEMALARMS_CONFIGERROR_POSITIONHOLD;
+					error_code = SYSTEMALARMS_CONFIGERROR_PATHPLANNER;
 				}
 				else {
 					if (!TaskMonitorQueryRunning(TASKINFO_RUNNING_PATHFOLLOWER)) {
-						error_code = SYSTEMALARMS_CONFIGERROR_POSITIONHOLD;
+						error_code = SYSTEMALARMS_CONFIGERROR_PATHPLANNER;
 					}
 				}
 				break;
 			case MANUALCONTROLSETTINGS_FLIGHTMODEPOSITION_PATHPLANNER:
+			case MANUALCONTROLSETTINGS_FLIGHTMODEPOSITION_TABLETCONTROL:
 				if (coptercontrol) {
 					error_code = SYSTEMALARMS_CONFIGERROR_PATHPLANNER;
 				}
@@ -212,6 +211,18 @@ static int32_t check_stabilization_settings(int index, bool multirotor)
 		}
 	}
 
+	// POI mode is only valid for YAW in the case it is enabled and camera stab is running
+	if (modes[MANUALCONTROLSETTINGS_STABILIZATION1SETTINGS_ROLL] == MANUALCONTROLSETTINGS_STABILIZATION1SETTINGS_POI ||
+		modes[MANUALCONTROLSETTINGS_STABILIZATION1SETTINGS_PITCH] == MANUALCONTROLSETTINGS_STABILIZATION1SETTINGS_POI)
+		return SYSTEMALARMS_CONFIGERROR_STABILIZATION;
+	if (modes[MANUALCONTROLSETTINGS_STABILIZATION1SETTINGS_YAW] == MANUALCONTROLSETTINGS_STABILIZATION1SETTINGS_POI) {
+#if !defined(CAMERASTAB_POI_MODE)
+		return SYSTEMALARMS_CONFIGERROR_STABILIZATION;
+#endif
+		// TODO: Need to check camera stab is actually running
+	}
+
+
 	// Warning: This assumes that certain conditions in the XML file are met.  That 
 	// MANUALCONTROLSETTINGS_STABILIZATION1SETTINGS_NONE has the same numeric value for each channel
 	// and is the same for STABILIZATIONDESIRED_STABILIZATIONMODE_NONE
@@ -256,3 +267,7 @@ static void set_config_error(SystemAlarmsConfigErrorOptions error_code)
 	// AlarmSet checks only updates on toggle
 	AlarmsSet(SYSTEMALARMS_ALARM_SYSTEMCONFIGURATION, (uint8_t) severity);
 }
+
+/**
+ * @}
+ */

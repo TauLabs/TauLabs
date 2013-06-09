@@ -1,13 +1,16 @@
 /**
  ******************************************************************************
- * @file       board_hw_defs.c
- * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
- * @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2012
- * @addtogroup OpenPilotSystem OpenPilot System
+ * @addtogroup TauLabsTargets Tau Labs Targets
  * @{
- * @addtogroup OpenPilotCore OpenPilot Core
+ * @addtogroup FlyingF4 FlyingF4 support files
  * @{
- * @brief Defines board specific static initializers for hardware for the FlyingF4 board.
+ *
+ * @file       board_hw_defs.c 
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
+ * @brief      Defines board specific static initializers for hardware for the
+ *             FlyingF4 board.
+ * @see        The GNU Public License (GPL) Version 3
+ * 
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify
@@ -237,13 +240,24 @@ void PIOS_SPI_flash_irq_handler(void)
 #include "pios_flashfs_logfs_priv.h"
 #include "pios_flash_jedec_priv.h"
 
-static const struct flashfs_logfs_cfg flashfs_m25p_cfg = {
-	.fs_magic      = 0x99abceef,
-	.total_fs_size = 0x00200000, /* 2M bytes (32 sectors = entire chip) */
+static const struct flashfs_logfs_cfg flashfs_m25p_settings_cfg = {
+	.fs_magic      = 0x99abcedf,
+	.total_fs_size = 0x00100000, /* 1M bytes (16 sectors = half chip) */
 	.arena_size    = 0x00010000, /* 256 * slot size */
 	.slot_size     = 0x00000100, /* 256 bytes */
 
 	.start_offset  = 0,	     /* start at the beginning of the chip */
+	.sector_size   = 0x00010000, /* 64K bytes */
+	.page_size     = 0x00000100, /* 256 bytes */
+};
+
+static const struct flashfs_logfs_cfg flashfs_m25p_waypoints_cfg = {
+	.fs_magic      = 0x99abcecf,
+	.total_fs_size = 0x00100000, /* 1M bytes (16 sectors = half chip) */
+	.arena_size    = 0x00010000, /* 2048 * slot size */
+	.slot_size     = 0x00000040, /* 64 bytes */
+
+	.start_offset  = 0x00100000, /* start after the settings partition */
 	.sector_size   = 0x00010000, /* 64K bytes */
 	.page_size     = 0x00000100, /* 256 bytes */
 };
@@ -1529,7 +1543,7 @@ const struct pios_usb_cfg * PIOS_BOARD_HW_DEFS_GetUsbCfg (uint32_t board_revisio
 
 #endif /* PIOS_INCLUDE_COM_MSG */
 
-#if defined(PIOS_INCLUDE_USB_HID)
+#if defined(PIOS_INCLUDE_USB_HID) && !defined(PIOS_INCLUDE_USB_CDC)
 #include <pios_usb_hid_priv.h>
 
 const struct pios_usb_hid_cfg pios_usb_hid_cfg = {
@@ -1537,17 +1551,31 @@ const struct pios_usb_hid_cfg pios_usb_hid_cfg = {
 	.data_rx_ep = 1,
 	.data_tx_ep = 1,
 };
-#endif /* PIOS_INCLUDE_USB_HID */
+#endif /* PIOS_INCLUDE_USB_HID && !PIOS_INCLUDE_USB_CDC */
 
-#if defined(PIOS_INCLUDE_USB_CDC)
+#if defined(PIOS_INCLUDE_USB_HID) && defined(PIOS_INCLUDE_USB_CDC)
 #include <pios_usb_cdc_priv.h>
 
 const struct pios_usb_cdc_cfg pios_usb_cdc_cfg = {
-	.ctrl_if = 1,
+	.ctrl_if = 0,
 	.ctrl_tx_ep = 2,
 
-	.data_if = 2,
+	.data_if = 1,
 	.data_rx_ep = 3,
 	.data_tx_ep = 3,
 };
-#endif	/* PIOS_INCLUDE_USB_CDC */
+
+#include <pios_usb_hid_priv.h>
+
+const struct pios_usb_hid_cfg pios_usb_hid_cfg = {
+	.data_if = 2,
+	.data_rx_ep = 1,
+	.data_tx_ep = 1,
+};
+#endif	/* PIOS_INCLUDE_USB_HID && PIOS_INCLUDE_USB_CDC */
+
+/**
+ * @}
+ * @}
+ */
+

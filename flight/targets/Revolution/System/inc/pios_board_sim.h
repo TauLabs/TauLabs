@@ -1,11 +1,16 @@
 /**
  ******************************************************************************
+ * @addtogroup TauLabsTargets Tau Labs Targets
+ * @{
+ * @addtogroup Revolution OpenPilot revolution support files
+ * @{
  *
- * @file       pios_board.h   
- * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
- * @brief      Defines board hardware for the OpenPilot Version 1.1 hardware.
+ * @file       pios_board_sim.c 
+ * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2011.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
+ * @brief      Simulation configuration settings
  * @see        The GNU Public License (GPL) Version 3
- *
+ * 
  *****************************************************************************/
 /* 
  * This program is free software; you can redistribute it and/or modify 
@@ -51,17 +56,13 @@
 extern uint32_t pios_com_telem_rf_id;
 extern uint32_t pios_com_telem_usb_id;
 extern uint32_t pios_com_gps_id;
-extern uint32_t pios_com_aux_id;
+extern uint32_t pios_com_debug_id;
 extern uint32_t pios_com_spectrum_id;
 
 #define PIOS_COM_TELEM_RF                       (pios_com_telem_rf_id)
 #define PIOS_COM_TELEM_USB                      (pios_com_telem_usb_id)
 #define PIOS_COM_GPS                            (pios_com_gps_id)
-
-#ifdef PIOS_ENABLE_AUX_UART
-#define PIOS_COM_AUX                            (pios_com_aux_id)
-#define PIOS_COM_DEBUG                          (PIOS_COM_AUX
-#endif
+#define PIOS_COM_DEBUG                          (pios_com_debug_id)
 
 #define PIOS_GCSRCVR_TIMEOUT_MS 200
 /**

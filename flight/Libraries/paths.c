@@ -1,10 +1,18 @@
 /**
  ******************************************************************************
+ * @addtogroup TauLabsLibraries Tau Labs Libraries
+ * @{
  *
  * @file       paths.c
- * @author     PhoenixPilot, http://github.com/PhoenixPilot Copyright (C) 2012.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
- * @brief      Library path manipulation 
+ * @brief      Path calculation library with common API
+ * 
+ * Paths are represented by the structure @ref PathDesired and also take in
+ * @ref PositionActual.  This library then computes the error from the path
+ * which includes the vector tangent to the path at the closest location
+ * and the distance of that vector.  The distance along the path is also
+ * returned in the path_status.
  *
  * @see        The GNU Public License (GPL) Version 3
  *
@@ -346,3 +354,7 @@ static void path_curve(float * start_point,
 
 	status->error = fabs(status->error);
 }
+
+/**
+ * @}
+ */

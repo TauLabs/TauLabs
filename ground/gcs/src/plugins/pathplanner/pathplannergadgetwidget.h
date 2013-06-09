@@ -1,9 +1,9 @@
 /**
  ******************************************************************************
  * @file       pathplannergadgetwidget.h
- * @author     Tau Labs, http://github.com/TauLabs, Copyright (C) 2012-2013.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
- * @addtogroup Path Planner GCS Plugins
+ * @addtogroup GCSPlugins GCS Plugins
  * @{
  * @addtogroup PathPlannerGadgetPlugin Path Planner Gadget Plugin
  * @{
@@ -61,12 +61,20 @@ private slots:
 
     void on_tbFetchFromUAV_clicked();
 
+    //! Apply filets to the path
+    void on_tbFilletPath_clicked();
+
+    //! Restore path before filleting
+    void on_tbUnfilletPath_clicked();
+
 private:
     Ui_PathPlanner  *ui;
     FlightDataModel *model;
     ModelUavoProxy  *proxy;
     QItemSelectionModel *selection;
 
+    //! Store previous models for rolling back changes
+    FlightDataModel *prevModel;
 signals:
     void sendPathPlanToUAV();
     void receivePathPlanFromUAV();

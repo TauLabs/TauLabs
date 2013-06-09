@@ -8,7 +8,7 @@
  *
  * @file       pios_servo.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
- * @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2012
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
  * @brief      RC Servo routines (STM32 dependent)
  * @see        The GNU Public License (GPL) Version 3
  *

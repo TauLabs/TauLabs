@@ -5,9 +5,12 @@
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
  * @brief
  * @see        The GNU Public License (GPL) Version 3
- * @defgroup   mocap
- * @{
  *
+ * @addtogroup GCSPlugins GCS Plugins
+ * @{
+ * @addtogroup MoCapPlugin Motion Capture Plugin
+ * @{
+ * @brief Motion capture plugin which communicates via UDP
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify
@@ -700,7 +703,10 @@ void NatNet::processUpdate(const QByteArray& dataBuf)
             once=true;
 
             HomeLocation::DataFields homeData = posHome->getData();
-            double homeLLA[]={homeData.Latitude, homeData.Longitude, homeData.Altitude};
+            double homeLLA[3];
+            homeLLA[0] = homeData.Latitude;
+            homeLLA[1] = homeData.Longitude;
+            homeLLA[2] = homeData.Altitude;
             double NED[]={out.posN, out.posE, out.posD};
             Utils::CoordinateConversions().NED2LLA_HomeLLA(homeLLA, NED, LLA);
         }

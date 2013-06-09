@@ -8,7 +8,7 @@
  *
  * @file       PIOS_MPU60X0.h
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
- * @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2012
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
  * @brief      MPU60X0 3-axis gyor function headers
  * @see        The GNU Public License (GPL) Version 3
  *
@@ -41,6 +41,7 @@
 #define PIOS_MPU60X0_GYRO_CFG_REG         0X1B
 #define PIOS_MPU60X0_ACCEL_CFG_REG        0X1C
 #define PIOS_MPU60X0_FIFO_EN_REG          0x23
+#define PIOS_MPU60X0_I2C_MST_CFG_REG      0x36
 #define PIOS_MPU60X0_INT_CFG_REG          0x37
 #define PIOS_MPU60X0_INT_EN_REG           0x38
 #define PIOS_MPU60X0_INT_STATUS_REG       0x3A
@@ -145,15 +146,14 @@ struct pios_mpu60x0_data {
 };
 
 struct pios_mpu60x0_cfg {
-	const struct pios_exti_cfg * exti_cfg; /* Pointer to the EXTI configuration */
+	const struct pios_exti_cfg *exti_cfg; /* Pointer to the EXTI configuration */
 
-	uint8_t Fifo_store;		/* FIFO storage of different readings (See datasheet page 31 for more details) */
-	uint8_t Smpl_rate_div;	/* Sample rate divider to use (See datasheet page 32 for more details) */
-	uint8_t interrupt_cfg;	/* Interrupt configuration (See datasheet page 35 for more details) */
-	uint8_t interrupt_en;	/* Interrupt configuration (See datasheet page 35 for more details) */
-	uint8_t User_ctl;		/* User control settings (See datasheet page 41 for more details)  */
-	uint8_t Pwr_mgmt_clk;	/* Power management and clock selection (See datasheet page 32 for more details) */
-	enum pios_mpu60x0_filter filter;
+	uint16_t default_samplerate;	/* Sample to use in Hz (See datasheet page 32 for more details) */
+	uint8_t interrupt_cfg;			/* Interrupt configuration (See datasheet page 35 for more details) */
+	uint8_t interrupt_en;			/* Interrupt configuration (See datasheet page 35 for more details) */
+	uint8_t User_ctl;				/* User control settings (See datasheet page 41 for more details)  */
+	uint8_t Pwr_mgmt_clk;			/* Power management and clock selection (See datasheet page 32 for more details) */
+	enum pios_mpu60x0_filter default_filter;
 	enum pios_mpu60x0_orientation orientation;
 };
 

@@ -87,35 +87,8 @@ void deviceWidget::populate()
     myDevice->lblDevName->setText(deviceDescriptorStruct::idToBoardName(id));
     myDevice->lblHWRev->setText(QString(tr("HW Revision: "))+QString::number(id & 0x00FF, 16));
 
-    switch (id) {
-    case 0x0101:
-        devicePic.load("");//TODO
-        break;
-    case 0x0201:
-        devicePic.load("");//TODO
-        break;
-    case 0x0301:
-        devicePic.load(":/uploader/images/pipx.png");
-        break;
-    case 0x0401:
-        devicePic.load(":/uploader/images/gcs-board-cc.png");
-        break;
-    case 0x0402:
-        devicePic.load(":/uploader/images/gcs-board-cc3d.png");
-        break;
-    case 0x8101:
-    case 0x8102:
-        devicePic.load(":/uploader/images/gcs-board-freedom.png");
-        break;
-    case 0x8301:
-        devicePic.load(":/uploader/images/gcs-board-flyingf3.png");
-        break;
-    case 0x8601:
-        devicePic.load(":/uploader/images/gcs-board-quanton.png");
-        break;
-    default:
-        break;
-    }
+    devicePic = deviceDescriptorStruct::idToBoardPicture(id);
+
     myDevice->gVDevice->scene()->addPixmap(devicePic);
     myDevice->gVDevice->setSceneRect(devicePic.rect());
     myDevice->gVDevice->fitInView(devicePic.rect(),Qt::KeepAspectRatio);
@@ -298,7 +271,7 @@ void deviceWidget::loadFirmware()
     myDevice->youdont->setChecked(false);
     QByteArray desc = loadedFW.right(100);
     QPixmap px;
-    if(loadedFW.length()>m_dfu->devices[deviceID].SizeOfCode)
+    if((quint32)loadedFW.length()>m_dfu->devices[deviceID].SizeOfCode)
         myDevice->lblCRCL->setText(tr("Can't calculate, file too big for device"));
     else
         myDevice->lblCRCL->setText( QString::number(DFUObject::CRCFromQBArray(loadedFW,m_dfu->devices[deviceID].SizeOfCode)));

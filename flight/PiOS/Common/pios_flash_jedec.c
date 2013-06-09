@@ -8,7 +8,7 @@
  *
  * @file       pios_flash_w25x.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
- * @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2012
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
  * @brief      Driver for talking to W25X flash chip (and most JEDEC chips)
  * @see        The GNU Public License (GPL) Version 3
  *

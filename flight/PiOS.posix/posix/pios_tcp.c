@@ -91,7 +91,7 @@ static void PIOS_TCP_RxTask(void *tcp_dev_n)
 #if defined(PIOS_INCLUDE_FREERTOS)
 			// Not sure about this
 			if (rx_need_yield) {
-				vPortYieldFromISR();
+				taskYIELD();
 			}
 #endif	/* PIOS_INCLUDE_FREERTOS */
 			
@@ -247,7 +247,7 @@ static void PIOS_TCP_TxStart(uint32_t tcp_id, uint16_t tx_bytes_avail)
 #if defined(PIOS_INCLUDE_FREERTOS)
 			// Not sure about this
 			if (tx_need_yield) {
-				vPortYieldFromISR();
+				taskYIELD();
 			}
 #endif	/* PIOS_INCLUDE_FREERTOS */
 		}

@@ -1,16 +1,21 @@
 /**
  ******************************************************************************
- * @addtogroup OpenPilotModules OpenPilot Modules
+ * @addtogroup TauLabsModules Tau Labs Modules
  * @{
  * @addtogroup StabilizationModule Stabilization Module
- * @brief Stabilization PID loops in an airframe type independent manner
- * @note This object updates the @ref ActuatorDesired "Actuator Desired" based on the
- * PID loops on the @ref AttitudeDesired "Attitude Desired" and @ref AttitudeActual "Attitude Actual"
  * @{
+ * @brief      Control the UAV attitude to @ref StabilizationDesired
+ *
+ * The main control code which keeps the UAV at the attitude requested by
+ * @ref StabilizationDesired.  This is done by comparing against 
+ * @ref AttitudeActual to compute the error in roll pitch and yaw then
+ * then based on the mode and values in @ref StabilizationSettings computing
+ * the desired outputs and placing them in @ref ActuatorDesired.
  *
  * @file       stabilization.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
- * @brief      Attitude stabilization module.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
+ * @brief      Attitude stabilization.
  *
  * @see        The GNU Public License (GPL) Version 3
  *
@@ -33,20 +38,25 @@
 
 #include "openpilot.h"
 #include "stabilization.h"
-#include "stabilizationsettings.h"
+
+#include "attitudeactual.h"
 #include "actuatordesired.h"
+#include "cameradesired.h"
+#include "flightstatus.h"
+#include "gyros.h"
 #include "ratedesired.h"
 #include "stabilizationdesired.h"
 #include "accels.h"
 #include "attitudeactual.h"
 #include "gyros.h"
 #include "flightstatus.h"
-#include "manualcontrol.h" // Just to get the PARSE_FLIGHT_MODE macro
+#include "stabilizationsettings.h"
 
 // Math libraries
-#include "CoordinateConversions.h"
+#include "coordinate_conversions.h"
 #include "pid.h"
 #include "sin_lookup.h"
+#include "misc_math.h"
 
 // Includes for various stabilization algorithms
 #include "relay_tuning.h"
@@ -123,7 +133,7 @@ int32_t StabilizationInitialize()
 #endif
 
 	// Code required for relay tuning
-	sin_lookup_initalize();
+	sin_lookup_initialize();
 
 	return 0;
 }
@@ -212,7 +222,7 @@ static void stabilizationTask(void* parameters)
 		float local_error[3] = {stabDesired.Roll - attitudeActual.Roll,
 			stabDesired.Pitch - attitudeActual.Pitch,
 			stabDesired.Yaw - attitudeActual.Yaw};
-		local_error[2] = fmodf(local_error[2] + 180, 360) - 180;
+		local_error[2] = circular_modulus_deg(local_error[2]);
 #endif
 
 		float gyro_filtered[3];
@@ -376,6 +386,41 @@ static void stabilizationTask(void* parameters)
 					
 					break;
 					
+				case STABILIZATIONDESIRED_STABILIZATIONMODE_POI:
+					// The sanity check enforces this is only selectable for Yaw
+					// for a gimbal you can select pitch too.
+					if(reinit) {
+						pids[PID_ATT_ROLL + i].iAccumulator = 0;
+						pids[PID_RATE_ROLL + i].iAccumulator = 0;
+					}
+
+					float error;
+					float angle;
+					if (CameraDesiredHandle()) {
+						switch(i) {
+						case PITCH:
+							CameraDesiredDeclinationGet(&angle);
+							error = circular_modulus_deg(angle - attitudeActual.Pitch);
+							break;
+						case YAW:
+							CameraDesiredBearingGet(&angle);
+							error = circular_modulus_deg(angle - attitudeActual.Yaw);
+							break;
+						default:
+							error = true;
+						}
+					} else
+						error = true;
+
+					// Compute the outer loop
+					rateDesiredAxis[i] = pid_apply(&pids[PID_ATT_ROLL + i], error, dT);
+					rateDesiredAxis[i] = bound(rateDesiredAxis[i], settings.PoiMaximumRate[i]);
+
+					// Compute the inner loop
+					actuatorDesiredAxis[i] = pid_apply_setpoint(&pids[PID_RATE_ROLL + i],  rateDesiredAxis[i],  gyro_filtered[i], dT);
+					actuatorDesiredAxis[i] = bound(actuatorDesiredAxis[i],1.0f);
+
+					break;
 				case STABILIZATIONDESIRED_STABILIZATIONMODE_NONE:
 					actuatorDesiredAxis[i] = bound(stabDesiredAxis[i],1.0f);
 					break;
@@ -396,7 +441,7 @@ static void stabilizationTask(void* parameters)
 		actuatorDesired.UpdateTime = dT * 1000;
 		actuatorDesired.Throttle = stabDesired.Throttle;
 
-		if(PARSE_FLIGHT_MODE(flightStatus.FlightMode) != FLIGHTMODE_MANUAL) {
+		if(flightStatus.FlightMode != FLIGHTSTATUS_FLIGHTMODE_MANUAL) {
 			ActuatorDesiredSet(&actuatorDesired);
 		} else {
 			// Force all axes to reinitialize when engaged
@@ -456,29 +501,29 @@ static void SettingsUpdatedCb(UAVObjEvent * ev)
 	// Set the roll rate PID constants
 	pid_configure(&pids[PID_RATE_ROLL], settings.RollRatePID[STABILIZATIONSETTINGS_ROLLRATEPID_KP], 
 		settings.RollRatePID[STABILIZATIONSETTINGS_ROLLRATEPID_KI],
-		pids[PID_RATE_ROLL].d = settings.RollRatePID[STABILIZATIONSETTINGS_ROLLRATEPID_KD],
-		pids[PID_RATE_ROLL].iLim = settings.RollRatePID[STABILIZATIONSETTINGS_ROLLRATEPID_ILIMIT]);
+		settings.RollRatePID[STABILIZATIONSETTINGS_ROLLRATEPID_KD],
+		settings.RollRatePID[STABILIZATIONSETTINGS_ROLLRATEPID_ILIMIT]);
 	
 	// Set the pitch rate PID constants
 	pid_configure(&pids[PID_RATE_PITCH], settings.PitchRatePID[STABILIZATIONSETTINGS_PITCHRATEPID_KP], 
-		pids[PID_RATE_PITCH].i = settings.PitchRatePID[STABILIZATIONSETTINGS_PITCHRATEPID_KI],
-		pids[PID_RATE_PITCH].d = settings.PitchRatePID[STABILIZATIONSETTINGS_PITCHRATEPID_KD],
-		pids[PID_RATE_PITCH].iLim = settings.PitchRatePID[STABILIZATIONSETTINGS_PITCHRATEPID_ILIMIT]);
+		settings.PitchRatePID[STABILIZATIONSETTINGS_PITCHRATEPID_KI],
+		settings.PitchRatePID[STABILIZATIONSETTINGS_PITCHRATEPID_KD],
+		settings.PitchRatePID[STABILIZATIONSETTINGS_PITCHRATEPID_ILIMIT]);
 	
 	// Set the yaw rate PID constants
 	pid_configure(&pids[PID_RATE_YAW], settings.YawRatePID[STABILIZATIONSETTINGS_YAWRATEPID_KP],
-		pids[PID_RATE_YAW].i = settings.YawRatePID[STABILIZATIONSETTINGS_YAWRATEPID_KI],
-		pids[PID_RATE_YAW].d = settings.YawRatePID[STABILIZATIONSETTINGS_YAWRATEPID_KD],
-		pids[PID_RATE_YAW].iLim = settings.YawRatePID[STABILIZATIONSETTINGS_YAWRATEPID_ILIMIT]);
+		settings.YawRatePID[STABILIZATIONSETTINGS_YAWRATEPID_KI],
+		settings.YawRatePID[STABILIZATIONSETTINGS_YAWRATEPID_KD],
+		settings.YawRatePID[STABILIZATIONSETTINGS_YAWRATEPID_ILIMIT]);
 	
 	// Set the roll attitude PI constants
 	pid_configure(&pids[PID_ATT_ROLL], settings.RollPI[STABILIZATIONSETTINGS_ROLLPI_KP],
 		settings.RollPI[STABILIZATIONSETTINGS_ROLLPI_KI], 0,
-		pids[PID_ATT_ROLL].iLim = settings.RollPI[STABILIZATIONSETTINGS_ROLLPI_ILIMIT]);
+		settings.RollPI[STABILIZATIONSETTINGS_ROLLPI_ILIMIT]);
 	
 	// Set the pitch attitude PI constants
 	pid_configure(&pids[PID_ATT_PITCH], settings.PitchPI[STABILIZATIONSETTINGS_PITCHPI_KP],
-		pids[PID_ATT_PITCH].i = settings.PitchPI[STABILIZATIONSETTINGS_PITCHPI_KI], 0,
+		settings.PitchPI[STABILIZATIONSETTINGS_PITCHPI_KI], 0,
 		settings.PitchPI[STABILIZATIONSETTINGS_PITCHPI_ILIMIT]);
 	
 	// Set the yaw attitude PI constants

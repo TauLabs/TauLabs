@@ -3,7 +3,7 @@
  *
  * @file       scopegadgetconfiguration.cpp
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
- * @author     Tau Labs, http://www.taulabs.org Copyright (C) 2013.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
  * @addtogroup GCSPlugins GCS Plugins
  * @{
  * @addtogroup ScopePlugin Scope Gadget Plugin
@@ -131,8 +131,6 @@ void ScopeGadgetConfiguration::applyGuiConfiguration(Ui::ScopeGadgetOptionsPage 
     }
     else if(options_page->tabWidget2d3d->currentWidget() == options_page->tabPlot3d)
     {   //--- 3D ---//
-
-        Scopes3dConfig::Plot3dType plot3dType = (Scopes3dConfig::Plot3dType) options_page->cmb3dPlotType->itemData(options_page->cmb3dPlotType->currentIndex()).toUInt(); //This is safe because the item data is defined from the enum
 
         if (options_page->stackedWidget3dPlots->currentWidget() == options_page->sw3dSpectrogramStack)
         {

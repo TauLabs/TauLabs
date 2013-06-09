@@ -5,7 +5,7 @@
 # Makefile for OpenPilot INS project
 #
 # The OpenPilot Team, http://www.openpilot.org, Copyright (C) 2009.
-# Tau Labs, http://www.taulabs.org Copyright (C) 2013.
+# Tau Labs, http://taulabs.org, Copyright (C) 2013
 #
 #
 # This program is free software; you can redistribute it and/or modify
@@ -157,13 +157,13 @@ SRC += $(OPUAVOBJ)/uavobjectmanager.c
 SRC += $(OPUAVOBJ)/eventdispatcher.c
 SRC += $(OPUAVSYNTHDIR)/uavobjectsinit.c
 
-SRC += $(FLIGHTLIB)/CoordinateConversions.c
 SRC += $(FLIGHTLIB)/fifo_buffer.c
 SRC += $(FLIGHTLIB)/WorldMagModel.c
 SRC += $(FLIGHTLIB)/insgps13state.c
 SRC += $(FLIGHTLIB)/taskmonitor.c
 SRC += $(FLIGHTLIB)/paths.c
 
+SRC += $(MATHLIB)/coordinate_conversions.c
 SRC += $(MATHLIB)/sin_lookup.c
 SRC += $(MATHLIB)/misc_math.c
 SRC += $(MATHLIB)/pid.c
@@ -172,19 +172,7 @@ SRC += $(MATHLIB)/pid.c
 include $(PIOS)/posix/library.mk
 
 ## PIOS Hardware (Common)
-#SRC += $(PIOSCOMMON)/pios_mpu6000.c
-#SRC += $(PIOSCOMMON)/pios_bma180.c
-#SRC += $(PIOSCOMMON)/pios_l3gd20.c
-#SRC += $(PIOSCOMMON)/pios_hmc5883.c
-#SRC += $(PIOSCOMMON)/pios_ms5611.c
-#SRC += $(PIOSCOMMON)/pios_crc.c
-#SRC += $(PIOSCOMMON)/pios_com.c
-#SRC += $(PIOSCOMMON)/pios_rcvr.c
-#SRC += $(PIOSCOMMON)/pios_flash_jedec.c
-#SRC += $(PIOSCOMMON)/pios_flashfs_objlist.c
-#SRC += $(PIOSCOMMON)/printf-stdarg.c
-#SRC += $(PIOSCOMMON)/pios_usb_desc_hid_cdc.c
-#SRC += $(PIOSCOMMON)/pios_usb_desc_hid_only.c
+SRC += $(PIOSPOSIX)/../../tests/logfs/pios_flash_ut.c
 
 include ./UAVObjects.inc
 

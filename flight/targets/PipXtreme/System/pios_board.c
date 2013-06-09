@@ -1,16 +1,16 @@
-/* -*- Mode: c; c-basic-offset: 2; tab-width: 2; indent-tabs-mode: t -*- */
 /**
  ******************************************************************************
- * @addtogroup OpenPilotSystem OpenPilot System
+ * @addtogroup TauLabsTargets Tau Labs Targets
  * @{
- * @addtogroup OpenPilotCore OpenPilot Core
+ * @addtogroup PipXtreme OpenPilot PipXtreme support files
  * @{
  *
- * @file       pios_board.c
- * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
- * @brief      Defines board specific static initializers for hardware for the OpenPilot board.
+ * @file       pios_board.c 
+ * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2011.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
+ * @brief      The board specific initialization routines
  * @see        The GNU Public License (GPL) Version 3
- *
+ * 
  *****************************************************************************/
 /* 
  * This program is free software; you can redistribute it and/or modify 
@@ -48,19 +48,21 @@
 #define PIOS_COM_RFM22B_RF_RX_BUF_LEN 256
 #define PIOS_COM_RFM22B_RF_TX_BUF_LEN 256
 
-uintptr_t pios_com_telem_usb_id = 0;
-uintptr_t pios_com_telem_vcp_id = 0;
-uintptr_t pios_com_telem_uart_telem_id = 0;
-uintptr_t pios_com_telem_uart_flexi_id = 0;
-uintptr_t pios_com_telemetry_id = 0;
+uintptr_t pios_com_telem_usb_id;
+uintptr_t pios_com_telem_vcp_id;
+uintptr_t pios_com_telem_uart_telem_id;
+uintptr_t pios_com_telem_uart_flexi_id;
+uintptr_t pios_com_telemetry_id;
 #if defined(PIOS_INCLUDE_PPM)
-uint32_t pios_ppm_rcvr_id = 0;
+uint32_t pios_ppm_rcvr_id;
 #endif
 #if defined(PIOS_INCLUDE_RFM22B)
-uint32_t pios_rfm22b_id = 0;
-uintptr_t pios_com_rfm22b_id = 0;
-uintptr_t pios_com_radio_id = 0;
+uint32_t pios_rfm22b_id;
+uintptr_t pios_com_rfm22b_id;
+uintptr_t pios_com_radio_id;
 #endif
+
+uintptr_t pios_uavo_settings_fs_id;
 
 /**
  * PIOS_Board_Init()
@@ -71,6 +73,12 @@ void PIOS_Board_Init(void) {
 
 	/* Delay system */
 	PIOS_DELAY_Init();
+
+#ifdef PIOS_INCLUDE_LOGFS_SETTINGS
+	uintptr_t flash_id;
+	PIOS_Flash_Internal_Init(&flash_id, &flash_internal_cfg);
+	PIOS_FLASHFS_Logfs_Init(&pios_uavo_settings_fs_id, &flashfs_internal_settings_cfg, &pios_internal_flash_driver, flash_id);
+#endif
 
 	/* Initialize UAVObject libraries */
 	EventDispatcherInitialize();
@@ -96,20 +104,6 @@ void PIOS_Board_Init(void) {
 #if defined(PIOS_INCLUDE_LED)
 	PIOS_LED_Init(&pios_led_cfg);
 #endif	/* PIOS_INCLUDE_LED */
-
-	OPLinkSettingsData oplinkSettings;
-#if defined(PIOS_INCLUDE_FLASH_EEPROM)
- 	PIOS_EEPROM_Init(&pios_eeprom_cfg);
-
-	/* Read the settings from flash. */
-	/* NOTE: We probably need to save/restore the objID here incase the object changed but the size doesn't */
-	if (PIOS_EEPROM_Load((uint8_t*)&oplinkSettings, sizeof(OPLinkSettingsData)) == 0)
-		OPLinkSettingsSet(&oplinkSettings);
-	else
-		OPLinkSettingsGet(&oplinkSettings);
-#else
-	OPLinkSettingsGet(&oplinkSettings);
-#endif /* PIOS_INCLUDE_FLASH_EEPROM */
 
 	/* Initialize the task monitor library */
 	TaskMonitorInitialize();
@@ -201,6 +195,8 @@ void PIOS_Board_Init(void) {
 
 	/* Configure PPM input */
 #if defined(PIOS_INCLUDE_PPM)
+	OPLinkSettingsData oplinkSettings;
+	OPLinkSettingsGet(&oplinkSettings);
 	if (oplinkSettings.PPM == OPLINKSETTINGS_PPM_TRUE)
 	{
 		uint32_t pios_ppm_id;

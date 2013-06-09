@@ -217,9 +217,10 @@ void CoordinateConversions::LLA2NED_HomeLLA(double LLA[3], double homeLLA[3], do
     T[1] = cos(lat)*(alt+6.378137E6);
     T[2] = -1.0;
 
-    float dL[3] = {(LLA[0] - homeLLA[0]) * DEG2RAD,
-        (LLA[1] - homeLLA[1]) * DEG2RAD,
-        (LLA[2] - homeLLA[2])};
+    float dL[3];
+    dL[0] = (float)((LLA[0] - homeLLA[0]) * DEG2RAD);
+    dL[1]  = (float)((LLA[1] - homeLLA[1]) * DEG2RAD);
+    dL[2]  = (float)(LLA[2] - homeLLA[2]);
 
     NED[0] = T[0] * dL[0];
     NED[1] = T[1] * dL[1];

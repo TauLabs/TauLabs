@@ -8,6 +8,7 @@
  *
  * @file       pios_usb_desc_hid_cdc.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
  * @brief      USB Descriptor definitions for HID and CDC
  * @see        The GNU Public License (GPL) Version 3
  *
@@ -231,7 +232,7 @@ static const struct usb_config_hid_cdc config_hid_cdc = {
 		.bLength              = sizeof(struct usb_cdc_acm_func_desc),
 		.bDescriptorType      = USB_DESC_TYPE_CLASS_SPECIFIC,
 		.bDescriptorSubType   = USB_CDC_DESC_SUBTYPE_ABSTRACT_CTRL,
-		.bmCapabilities       = 0x00,
+		.bmCapabilities       = 0x02, /* line coding and serial state */
 	},
 	.cdc_union = {
 		.bLength              = sizeof(struct usb_cdc_union_func_desc),

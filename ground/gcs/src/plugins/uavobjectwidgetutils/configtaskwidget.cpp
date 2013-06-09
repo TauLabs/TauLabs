@@ -3,6 +3,7 @@
  *
  * @file       configtaskwidget.cpp
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ *
  * @addtogroup GCSPlugins GCS Plugins
  * @{
  * @addtogroup UAVObjectWidgetUtils Plugin
@@ -317,6 +318,7 @@ void ConfigTaskWidget::onAutopilotDisconnect()
     isConnected=false;
     enableControls(false);
     invalidateObjects();
+    setDirty(false);
 }
 
 void ConfigTaskWidget::forceConnectedState()//dynamic widgets don't recieve the connected signal. This should be called instead.
@@ -335,9 +337,9 @@ void ConfigTaskWidget::onAutopilotConnect()
     {
         loadWidgetLimits(ow->widget,ow->field,ow->index,ow->isLimited,ow->scale);
     }
-    setDirty(false);
     enableControls(true);
     refreshWidgetsValues();
+    setDirty(false);
 }
 /**
  * SLOT Function used to populate the widgets with the initial values
@@ -464,7 +466,7 @@ void ConfigTaskWidget::enableControls(bool enable)
     }
 }
 /**
- * SLOT function called when on of the widgets contents added to the framework changes
+ * @brief ConfigTaskWidget::forceShadowUpdates
  */
 void ConfigTaskWidget::forceShadowUpdates()
 {
@@ -480,7 +482,6 @@ void ConfigTaskWidget::forceShadowUpdates()
 
         }
     }
-    setDirty(true);
 }
 /**
  * SLOT function called when one of the widgets contents added to the framework changes
@@ -553,11 +554,17 @@ void ConfigTaskWidget::setDirty(bool value)
  */
 bool ConfigTaskWidget::isDirty()
 {
-    if(isConnected)
-        return dirty;
-    else
-        return false;
+    return dirty;
 }
+/**
+ * @brief ConfigTaskWidget::isAutopilotConnected Checks if the autopilot is connected
+ * @return true if an autopilot is connected
+ */
+bool ConfigTaskWidget::isAutopilotConnected()
+{
+    return isConnected;
+}
+
 /**
  * SLOT function used to disable widget contents changes when related object field changes
  */
@@ -595,13 +602,11 @@ void ConfigTaskWidget::objectUpdated(UAVObject *obj)
  */
 bool ConfigTaskWidget::allObjectsUpdated()
 {
-    qDebug()<<"ConfigTaskWidge:allObjectsUpdated called";
     bool ret=true;
     foreach(UAVObject *obj, objectUpdates.keys())
     {
         ret=ret & objectUpdates[obj];
     }
-    qDebug()<<"Returned:"<<ret;
     return ret;
 }
 /**
@@ -806,16 +811,6 @@ void ConfigTaskWidget::autoLoadWidgets()
     }
     refreshWidgetsValues();
     forceShadowUpdates();
-    foreach(objectToWidget * ow,objOfInterest)
-    {
-        if(ow->widget)
-            qDebug()<<"Master:"<<ow->widget->objectName();
-        foreach(shadow * sh,ow->shadowsList)
-        {
-            if(sh->widget)
-                qDebug()<<"Child"<<sh->widget->objectName();
-        }
-    }
 }
 /**
  * Adds a widget to a list of default/reload groups
@@ -982,6 +977,10 @@ void ConfigTaskWidget::connectWidgetUpdatesToSlot(QWidget * widget,const char* f
     {
         connect(cb,SIGNAL(valueChanged(double)),this,function);
     }
+    else if(QGroupBox * cb=qobject_cast<QGroupBox *>(widget))
+    {
+        connect(cb,SIGNAL(toggled(bool)),this,function);
+    }
     else if(QCheckBox * cb=qobject_cast<QCheckBox *>(widget))
     {
         connect(cb,SIGNAL(stateChanged(int)),this,function);
@@ -990,8 +989,12 @@ void ConfigTaskWidget::connectWidgetUpdatesToSlot(QWidget * widget,const char* f
     {
         connect(cb,SIGNAL(clicked()),this,function);
     }
+    else if(qobject_cast<QLabel *>(widget))
+    {
+
+    }
     else
-        qDebug()<<__FUNCTION__<<"widget to uavobject relation not implemented"<<widget->metaObject()->className();
+        qDebug() << __FUNCTION__ << "widget to uavobject relation not implemented for widget: " << widget->objectName()  << "of class:" << widget->metaObject()->className();
 
 }
 /**
@@ -1025,6 +1028,10 @@ void ConfigTaskWidget::disconnectWidgetUpdatesToSlot(QWidget * widget,const char
     {
         disconnect(cb,SIGNAL(valueChanged(double)),this,function);
     }
+    else if(QGroupBox * cb=qobject_cast<QGroupBox *>(widget))
+    {
+        disconnect(cb,SIGNAL(toggled(bool)),this,function);
+    }
     else if(QCheckBox * cb=qobject_cast<QCheckBox *>(widget))
     {
         disconnect(cb,SIGNAL(stateChanged(int)),this,function);
@@ -1034,7 +1041,7 @@ void ConfigTaskWidget::disconnectWidgetUpdatesToSlot(QWidget * widget,const char
         disconnect(cb,SIGNAL(clicked()),this,function);
     }
     else
-        qDebug()<<__FUNCTION__<<"widget to uavobject relation not implemented"<<widget->metaObject()->className();
+        qDebug() << __FUNCTION__ << "widget to uavobject relation not implemented for widget: " << widget->objectName()  << "of class:" << widget->metaObject()->className();
 
 }
 /**
@@ -1056,7 +1063,7 @@ bool ConfigTaskWidget::setFieldFromWidget(QWidget * widget,UAVObjectField * fiel
         return true;
     }
     {
-        qDebug()<<__FUNCTION__<<"widget to uavobject relation not implemented"<<widget->metaObject()->className();
+        qDebug() << __FUNCTION__ << "widget to uavobject relation not implemented for widget: " << widget->objectName()  << "of class:" << widget->metaObject()->className();
         return false;
     }
 }
@@ -1068,29 +1075,33 @@ bool ConfigTaskWidget::setFieldFromWidget(QWidget * widget,UAVObjectField * fiel
  */
 QVariant ConfigTaskWidget::getVariantFromWidget(QWidget * widget,double scale)
 {
-    if(QComboBox * cb=qobject_cast<QComboBox *>(widget))
+    if(QComboBox * comboBox=qobject_cast<QComboBox *>(widget))
     {
-        return (QString)cb->currentText();
+        return (QString)comboBox->currentText();
     }
-    else if(QDoubleSpinBox * cb=qobject_cast<QDoubleSpinBox *>(widget))
+    else if(QDoubleSpinBox * dblSpinBox=qobject_cast<QDoubleSpinBox *>(widget))
     {
-        return (double)(cb->value()* scale);
+        return (double)(dblSpinBox->value()* scale);
     }
-    else if(QSpinBox * cb=qobject_cast<QSpinBox *>(widget))
+    else if(QSpinBox * spinBox=qobject_cast<QSpinBox *>(widget))
     {
-        return (double)(cb->value()* scale);
+        return (double)(spinBox->value()* scale);
     }
-    else if(QSlider * cb=qobject_cast<QSlider *>(widget))
+    else if(QSlider * slider=qobject_cast<QSlider *>(widget))
     {
-        return(double)(cb->value()* scale);
+        return(double)(slider->value()* scale);
     }
-    else if(QCheckBox * cb=qobject_cast<QCheckBox *>(widget))
+    else if(QGroupBox * groupBox=qobject_cast<QGroupBox *>(widget))
     {
-        return (QString)(cb->isChecked()?"TRUE":"FALSE");
+        return (QString)(groupBox->isChecked() ? "TRUE":"FALSE");
     }
-    else if(QLineEdit * cb=qobject_cast<QLineEdit *>(widget))
+    else if(QCheckBox * checkBox=qobject_cast<QCheckBox *>(widget))
     {
-        return (QString)cb->displayText();
+        return (QString)(checkBox->isChecked() ? "TRUE":"FALSE");
+    }
+    else if(QLineEdit * lineEdit=qobject_cast<QLineEdit *>(widget))
+    {
+        return (QString)lineEdit->displayText();
     }
     else
         return QVariant();
@@ -1104,46 +1115,52 @@ QVariant ConfigTaskWidget::getVariantFromWidget(QWidget * widget,double scale)
  */
 bool ConfigTaskWidget::setWidgetFromVariant(QWidget *widget, QVariant value, double scale)
 {
-    if(QComboBox * cb=qobject_cast<QComboBox *>(widget))
+    if(QComboBox * comboBox=qobject_cast<QComboBox *>(widget))
     {
-        cb->setCurrentIndex(cb->findText(value.toString()));
+        comboBox->setCurrentIndex(comboBox->findText(value.toString()));
         return true;
     }
-    else if(QLabel * cb=qobject_cast<QLabel *>(widget))
+    else if(QLabel * label=qobject_cast<QLabel *>(widget))
     {
         if(scale==0)
-            cb->setText(value.toString());
+            label->setText(value.toString());
         else
-            cb->setText(QString::number((value.toDouble()/scale)));
+            label->setText(QString::number((value.toDouble()/scale)));
         return true;
     }
-    else if(QDoubleSpinBox * cb=qobject_cast<QDoubleSpinBox *>(widget))
+    else if(QDoubleSpinBox * dblSpinBox=qobject_cast<QDoubleSpinBox *>(widget))
     {
-        cb->setValue((double)(value.toDouble()/scale));
+        dblSpinBox->setValue((double)(value.toDouble()/scale));
         return true;
     }
-    else if(QSpinBox * cb=qobject_cast<QSpinBox *>(widget))
+    else if(QSpinBox * spinBox=qobject_cast<QSpinBox *>(widget))
     {
-        cb->setValue((int)qRound(value.toDouble()/scale));
+        spinBox->setValue((int)qRound(value.toDouble()/scale));
         return true;
     }
-    else if(QSlider * cb=qobject_cast<QSlider *>(widget))
+    else if(QSlider * slider=qobject_cast<QSlider *>(widget))
     {
-        cb->setValue((int)qRound(value.toDouble()/scale));
+        slider->setValue((int)qRound(value.toDouble()/scale));
         return true;
     }
-    else if(QCheckBox * cb=qobject_cast<QCheckBox *>(widget))
+    else if(QGroupBox * groupBox=qobject_cast<QGroupBox *>(widget))
     {
         bool bvalue=value.toString()=="TRUE";
-        cb->setChecked(bvalue);
+        groupBox->setChecked(bvalue);
         return true;
     }
-    else if(QLineEdit * cb=qobject_cast<QLineEdit *>(widget))
+    else if(QCheckBox * checkBox=qobject_cast<QCheckBox *>(widget))
+    {
+        bool bvalue=value.toString()=="TRUE";
+        checkBox->setChecked(bvalue);
+        return true;
+    }
+    else if(QLineEdit * lineEdit=qobject_cast<QLineEdit *>(widget))
     {
         if(scale==0)
-            cb->setText(value.toString());
+            lineEdit->setText(value.toString());
         else
-            cb->setText(QString::number((value.toDouble()/scale)));
+            lineEdit->setText(QString::number((value.toDouble()/scale)));
         return true;
     }
     else
@@ -1174,7 +1191,7 @@ bool ConfigTaskWidget::setWidgetFromField(QWidget * widget,UAVObjectField * fiel
         return true;
     else
     {
-        qDebug()<<__FUNCTION__<<"widget to uavobject relation not implemented"<<widget->metaObject()->className();
+        qDebug() << __FUNCTION__ << "widget to uavobject relation not implemented for widget: " << widget->objectName()  << "of class:" << widget->metaObject()->className();
         return false;
     }
 }

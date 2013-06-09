@@ -3,11 +3,12 @@
  *
  * @file       abstractwizardpage.cpp
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
- * @addtogroup
+ * @see        The GNU Public License (GPL) Version 3
+ *
+ * @addtogroup GCSPlugins GCS Plugins
  * @{
- * @addtogroup AbstractWizardPage
+ * @addtogroup SetupWizard Setup Wizard
  * @{
- * @brief
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify
@@ -27,9 +28,8 @@
 
 #include "abstractwizardpage.h"
 
-AbstractWizardPage::AbstractWizardPage(SetupWizard* wizard, QWidget *parent) :
+AbstractWizardPage::AbstractWizardPage(SetupWizard *wizard, QWidget *parent) :
     QWizardPage(parent)
 {
     m_wizard = wizard;
-    //setFixedSize(600, 400);
 }

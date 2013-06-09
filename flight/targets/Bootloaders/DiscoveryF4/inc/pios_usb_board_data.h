@@ -1,13 +1,16 @@
 /**
  ******************************************************************************
+ * @addtogroup TauLabsBootloader Tau Labs Bootloaders
+ * @{
+ * @addtogroup DiscoveryF4BL DiscoveryF4B bootloader
+ * @{
+ *
  * @file       pios_usb_board_data.h
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
- * @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2012
- * @addtogroup PIOS_USB_BOARD Board specific USB definitions
- * @{
- * @addtogroup 
- * @{
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
  * @brief      Board specific USB definitions
+ * @see        The GNU Public License (GPL) Version 3
+ *
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify
@@ -34,9 +37,9 @@
 
 #include "pios_usb_defs.h" 	/* struct usb_* */
 
-#define PIOS_USB_BOARD_VENDOR_ID USB_VENDOR_ID_OPENPILOT
+#define PIOS_USB_BOARD_VENDOR_ID USB_VENDOR_ID_CLAYLOGIC
 #define PIOS_USB_BOARD_PRODUCT_ID USB_PRODUCT_ID_DISCOVERYF4
-#define PIOS_USB_BOARD_DEVICE_VER USB_OP_DEVICE_VER(USB_ST_BOARD_ID_DISCOVERYF4, USB_OP_BOARD_MODE_BL)
+#define PIOS_USB_BOARD_DEVICE_VER USB_OP_DEVICE_VER(0, USB_OP_BOARD_MODE_BL)
 #define PIOS_USB_BOARD_SN_SUFFIX "+BL"
 
 /*

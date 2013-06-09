@@ -3,6 +3,7 @@
 *
 * @file       uavitem.h
 * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
+* @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
 * @brief      A graphicsItem representing a WayPoint
 * @see        The GNU Public License (GPL) Version 3
 * @defgroup   OPMapWidget
@@ -27,19 +28,14 @@
 #ifndef UAVITEM_H
 #define UAVITEM_H
 
-#include <QGraphicsItem>
-#include <QPainter>
-#include <QLabel>
-#include "../internals/pointlatlng.h"
-#include "mapgraphicitem.h"
-#include "waypointitem.h"
-#include <QObject>
+#include <QtSvg/QSvgRenderer>
+
+#include "mappointitem.h"
 #include "uavmapfollowtype.h"
 #include "uavtrailtype.h"
-#include <QtSvg/QSvgRenderer>
-#include "opmapwidget.h"
 #include "trailitem.h"
 #include "traillineitem.h"
+
 namespace mapcontrol
 {
     class WayPointItem;
@@ -49,12 +45,13 @@ namespace mapcontrol
 *
 * @class UAVItem uavitem.h "mapwidget/uavitem.h"
 */
-    class UAVItem:public QObject,public QGraphicsItem
+    class UAVItem: public MapPointItem
     {
         Q_OBJECT
         Q_INTERFACES(QGraphicsItem)
+
     public:
-                enum { Type = UserType + 2 };
+        enum { Type = UserType + TYPE_UAVITEM };
         UAVItem(MapGraphicItem* map,OPMapWidget* parent, QString uavPic=QString::fromUtf8(":/uavs/images/mapquad.png"));
         ~UAVItem();
 
@@ -95,12 +92,7 @@ namespace mapcontrol
         * @param value heading angle (north=0deg)
         */
         void SetUAVHeading(qreal const& value);
-        /**
-        * @brief Returns the UAV position
-        *
-        * @return internals::PointLatLng
-        */
-        internals::PointLatLng UAVPos()const{return coord;}
+
         /**
         * @brief Sets the Map follow type
         *
@@ -221,14 +213,11 @@ namespace mapcontrol
         void updateTextOverlay();
     private:
         void generateArrowhead();
-        MapGraphicItem* map;
         OPMapWidget* mapwidget;
         QPolygonF arrowHead;
         QLineF arrowShaft;
-        int altitude;
         UAVMapFollowType::Types mapfollowtype;
         UAVTrailType::Types trailtype;
-        internals::PointLatLng coord;
         internals::PointLatLng lastcoord;
         double NED[3];
         double vNED[3];
@@ -252,7 +241,6 @@ namespace mapcontrol
         int trailtime;
         int traildistance;
         bool autosetreached;
-        double Distance3D(internals::PointLatLng const& coord, int const& altitude);
         double autosetdistance;
         bool showUAVInfo;
         static double groundspeed_mps_filt;

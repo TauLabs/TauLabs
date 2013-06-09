@@ -137,11 +137,13 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
 		VelBaroCorrection(vel_data, baro_data);
 	} else if (mlStringCompare(prhs[0], "INSSetPosVelVar")) {
 		float pos_var;
-		if((nrhs != 2) || !mlGetFloatArray(prhs[1], &pos_var, 1)) {
+        float vel_var;
+		if((nrhs != 3) || !mlGetFloatArray(prhs[1], &pos_var, 1) ||
+                !mlGetFloatArray(prhs[2], &vel_var, 1)) {
 			mexErrMsgTxt("Error with input parameters\n");
 			return;
 		}
-		INSSetPosVelVar(pos_var);
+		INSSetPosVelVar(pos_var, vel_var);
 	} else if (mlStringCompare(prhs[0], "INSSetGyroBias")) {
 		float gyro_bias[3];
 		if((nrhs != 2) || !mlGetFloatArray(prhs[1], gyro_bias, 3)) {

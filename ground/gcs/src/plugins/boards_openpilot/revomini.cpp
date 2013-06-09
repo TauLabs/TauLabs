@@ -2,7 +2,7 @@
  ******************************************************************************
  *
  * @file       revomini.cpp
- * @author     Tau Labs, http://github.com/TauLabs, Copyright (C) 2013.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
  *
  * @addtogroup GCSPlugins GCS Plugins
  * @{
@@ -87,4 +87,15 @@ QStringList RevoMini::getSupportedProtocols()
 {
 
     return QStringList("uavtalk");
+}
+
+
+QPixmap RevoMini::getBoardPicture()
+{
+    return QPixmap();
+}
+
+QString RevoMini::getHwUAVO()
+{
+    return "HwRevoMini";
 }

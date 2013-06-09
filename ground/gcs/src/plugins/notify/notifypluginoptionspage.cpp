@@ -5,9 +5,12 @@
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
  * @brief      Notify Plugin options page
  * @see        The GNU Public License (GPL) Version 3
- * @defgroup   notifyplugin
- * @{
  *
+ * @addtogroup GCSPlugins GCS Plugins
+ * @{
+ * @addtogroup NotifyPlugin Notification plugin
+ * @{
+ * @brief A plugin to provide notifications of events in GCS
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify
@@ -392,8 +395,8 @@ void NotifyPluginOptionsPage::updateConfigView(NotificationItem* notification)
     }
 
     // Fills the combo boxes for the UAVObjects
-    QList< QList<UAVDataObject*> > objList = _objManager.getDataObjects();
-    foreach (QList<UAVDataObject*> list, objList) {
+    QVector< QVector<UAVDataObject*> > objList = _objManager.getDataObjects();
+    foreach (QVector<UAVDataObject*> list, objList) {
         foreach (UAVDataObject* obj, list) {
             _optionsPage->UAVObject->addItem(obj->getName());
         }

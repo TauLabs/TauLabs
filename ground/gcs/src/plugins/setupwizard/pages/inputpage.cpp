@@ -3,9 +3,12 @@
  *
  * @file       inputpage.cpp
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
- * @addtogroup
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
+ * @see        The GNU Public License (GPL) Version 3
+ *
+ * @addtogroup GCSPlugins GCS Plugins
  * @{
- * @addtogroup InputPage
+ * @addtogroup SetupWizard Setup Wizard
  * @{
  * @brief
  *****************************************************************************/
@@ -30,10 +33,9 @@
 #include "setupwizard.h"
 #include "extensionsystem/pluginmanager.h"
 #include "uavobjectmanager.h"
-#include "hwcoptercontrol.h"
 
 InputPage::InputPage(SetupWizard *wizard, QWidget *parent) :
-        AbstractWizardPage(wizard, parent),
+    AbstractWizardPage(wizard, parent),
 
     ui(new Ui::InputPage)
 {
@@ -47,45 +49,36 @@ InputPage::~InputPage()
 
 bool InputPage::validatePage()
 {
-    if(ui->pwmButton->isChecked()) {
-        getWizard()->setInputType(SetupWizard::INPUT_PWM);
-    }
-    else if(ui->ppmButton->isChecked()) {
-        getWizard()->setInputType(SetupWizard::INPUT_PPM);
-    }
-    else if(ui->sbusButton->isChecked()) {
-        getWizard()->setInputType(SetupWizard::INPUT_SBUS);
-    }
-    else if(ui->spectrumButton->isChecked()) {
-        getWizard()->setInputType(SetupWizard::INPUT_DSM2);
-    }
-    else {
-        getWizard()->setInputType(SetupWizard::INPUT_PWM);
+    if (ui->pwmButton->isChecked()) {
+        getWizard()->setInputType(Core::IBoardType::INPUT_TYPE_PWM);
+    } else if (ui->ppmButton->isChecked()) {
+        getWizard()->setInputType(Core::IBoardType::INPUT_TYPE_PPM);
+    } else if (ui->sbusButton->isChecked()) {
+        getWizard()->setInputType(Core::IBoardType::INPUT_TYPE_SBUS);
+    } else if (ui->spectrumButton->isChecked()) {
+        getWizard()->setInputType(Core::IBoardType::INPUT_TYPE_DSM2);
+    } else {
+        getWizard()->setInputType(Core::IBoardType::INPUT_TYPE_PWM);
     }
     getWizard()->setRestartNeeded(getWizard()->isRestartNeeded() || restartNeeded(getWizard()->getInputType()));
 
     return true;
 }
 
-bool InputPage::restartNeeded(VehicleConfigurationSource::INPUT_TYPE selectedType)
+/**
+ * @brief InputPage::restartNeeded Check if the requested input type is currently
+ * selected
+ * @param selectedType the requested input type
+ * @return true if changing input type and should restart, false otherwise
+ */
+bool InputPage::restartNeeded(Core::IBoardType::InputType selectedType)
 {
-    ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
-    UAVObjectManager *uavoManager = pm->getObject<UAVObjectManager>();
-    Q_ASSERT(uavoManager);
-    HwCopterControl* hwCopterControl = HwCopterControl::GetInstance(uavoManager);
-    HwCopterControl::DataFields data = hwCopterControl->getData();
-    switch(selectedType)
-    {
-        case VehicleConfigurationSource::INPUT_PWM:
-            return data.RcvrPort != HwCopterControl::RCVRPORT_PWM;
-        case VehicleConfigurationSource::INPUT_PPM:
-            return data.RcvrPort != HwCopterControl::RCVRPORT_PPM;
-        case VehicleConfigurationSource::INPUT_SBUS:
-            return data.MainPort != HwCopterControl::MAINPORT_SBUS;
-        case VehicleConfigurationSource::INPUT_DSM2:
-            // TODO: Handle all of the DSM types ?? Which is most common?
-            return data.MainPort != HwCopterControl::MAINPORT_DSM2;
-        default:
-            return true;
-    }
+    Core::IBoardType* board = getWizard()->getControllerType();
+    Q_ASSERT(board);
+    if (!board)
+        return true;
+
+    // Map from the enums used in SetupWizard to IBoardType
+    Core::IBoardType::InputType boardInputType = board->getInputOnPort();
+    return (selectedType != boardInputType);
 }

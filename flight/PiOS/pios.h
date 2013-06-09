@@ -1,11 +1,13 @@
 /**
  ******************************************************************************
+ * @addtogroup PIOS PIOS Core hardware abstraction layer
+ * @{
  *
  * @file       pios.h  
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
- * @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2012
- * @brief      Main PiOS header. 
- *                 - Central header for the project.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
+ * @brief      Main PiOS header to include all the compiled in PiOS options 
+ *
  * @see        The GNU Public License (GPL) Version 3
  *
  *****************************************************************************/
@@ -85,6 +87,7 @@
 #include <pios_usart.h>
 #include <pios_irq.h>
 #include <pios_adc.h>
+#include <pios_internal_adc.h>
 #include <pios_servo.h>
 #include <pios_rtc.h>
 #include <pios_i2c.h>
@@ -93,6 +96,9 @@
 #include <pios_ppm.h>
 #include <pios_pwm.h>
 #include <pios_rcvr.h>
+#if defined(PIOS_INCLUDE_DMA_CB_SUBSCRIBING_FUNCTION)
+#include <pios_dma.h>
+#endif
 #if defined(PIOS_INCLUDE_FREERTOS)
 #include <pios_sensors.h>
 #endif
@@ -136,6 +142,9 @@
 #endif
 #if defined(PIOS_INCLUDE_MPU6050)
 #include <pios_mpu6050.h>
+#endif
+#if defined(PIOS_INCLUDE_MPU9150)
+#include <pios_mpu9150.h>
 #endif
 #if defined(PIOS_INCLUDE_MPU6000)
 #include <pios_mpu6000.h>
@@ -190,3 +199,8 @@
 #define NELEMENTS(x) (sizeof(x) / sizeof(*(x)))
 
 #endif /* PIOS_H */
+
+/**
+ * @}
+ */
+ 

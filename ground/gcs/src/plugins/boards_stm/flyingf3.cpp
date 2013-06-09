@@ -2,7 +2,7 @@
  ******************************************************************************
  *
  * @file       flyingf3.cpp
- * @author     Tau Labs, http://github.com/TauLabs, Copyright (C) 2013
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
  *
  * @addtogroup GCSPlugins GCS Plugins
  * @{
@@ -86,4 +86,14 @@ QStringList FlyingF3::getSupportedProtocols()
 {
 
     return QStringList("uavtalk");
+}
+
+QPixmap FlyingF3::getBoardPicture()
+{
+    return QPixmap(":/stm/images/flyingf3.png");
+}
+
+QString FlyingF3::getHwUAVO()
+{
+    return "HwFlyingF3";
 }

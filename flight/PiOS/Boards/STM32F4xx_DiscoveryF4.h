@@ -1,13 +1,15 @@
 /**
  ******************************************************************************
- * @file       pios_board.h
- * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
- * @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2012
- * @addtogroup 
+ * @addtogroup TauLabsTargets Tau Labs Targets
  * @{
- * @addtogroup 
+ * @addtogroup FlyingF3 FlyingF3 support files
  * @{
- * @brief      Defines board hardware.
+ *
+ * @file       STM32F4xx_DiscoveryF4 
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
+ * @brief      Board header file for DiscoveryF4
+ * @see        The GNU Public License (GPL) Version 3
+ * 
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify
@@ -203,8 +205,8 @@ extern uintptr_t pios_com_telem_usb_id;
 
 //-------------------------
 // ADC
-// None.
 //-------------------------
+#define PIOS_ADC_SUB_DRIVER_MAX_INSTANCES       3
 
 //-------------------------
 // USB
@@ -219,3 +221,9 @@ extern uintptr_t pios_com_telem_usb_id;
 #define PIOS_INTERNAL_FLASH_MAX_DEVS		1
 
 #endif /* STM32F4XX_DISCOVERYF4_H_ */
+
+
+/**
+ * @}
+ * @}
+ */

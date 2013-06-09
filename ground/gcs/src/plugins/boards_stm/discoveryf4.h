@@ -2,7 +2,7 @@
  ******************************************************************************
  *
  * @file       discoveryf4.h
- * @author     Tau Labs, http://github.com/TauLabs, Copyright (C) 2013
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
  *
  * @addtogroup GCSPlugins GCS Plugins
  * @{
@@ -42,8 +42,8 @@ public:
     virtual QString boardDescription();
     virtual bool queryCapabilities(BoardCapabilities capability);
     virtual QStringList getSupportedProtocols();
-    virtual QPixmap* getBoardPicture() { return new QPixmap; }
-
+    virtual QPixmap getBoardPicture();
+    virtual QString getHwUAVO();
 };
 
 

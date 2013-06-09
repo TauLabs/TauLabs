@@ -2,7 +2,7 @@
 ******************************************************************************
 *
 * @file       waypointcurve.h
-* @author     Tau Labs, http://github.com/TauLabs, Copyright (C) 2012-2013.
+* @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
 * @brief      A graphicsItem representing a curve connecting 2 waypoints
 * @see        The GNU Public License (GPL) Version 3
 * @defgroup   OPMapWidget
@@ -26,14 +26,8 @@
 */
 #ifndef WAYPOINTCURVE_H
 #define WAYPOINTCURVE_H
-#include <QGraphicsItem>
-#include <QPainter>
-#include <QLabel>
-#include "../internals/pointlatlng.h"
-#include "mapgraphicitem.h"
+
 #include "waypointitem.h"
-#include <QObject>
-#include <QPoint>
 
 namespace mapcontrol
 {

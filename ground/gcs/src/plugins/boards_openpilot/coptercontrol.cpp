@@ -2,7 +2,7 @@
  ******************************************************************************
  *
  * @file       coptercontrol.cpp
- * @author     Tau Labs, http://github.com/TauLabs, Copyright (C) 2013.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
  *
  * @addtogroup GCSPlugins GCS Plugins
  * @{
@@ -86,4 +86,14 @@ QStringList CopterControl::getSupportedProtocols()
 {
 
     return QStringList("uavtalk");
+}
+
+QPixmap CopterControl::getBoardPicture()
+{
+    return QPixmap(":/openpilot/images/cc3d.png");
+}
+
+QString CopterControl::getHwUAVO()
+{
+    return "HwCopterControl";
 }

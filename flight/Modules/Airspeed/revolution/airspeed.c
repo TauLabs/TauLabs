@@ -1,14 +1,13 @@
 /**
  ******************************************************************************
- * @addtogroup OpenPilotModules OpenPilot Modules
+ * @addtogroup TauLabsModules Tau Labs Modules
  * @{ 
  * @addtogroup AirspeedModule Airspeed Module
- * @brief Calculate airspeed from diverse sources and update @ref Airspeed "Airspeed UAV Object"
  * @{ 
  *
  * @file       airspeed.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
- * @author     Tau Labs, http://www.taulabs.org Copyright (C) 2013.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
  * @brief      Airspeed module
  *
  * @see        The GNU Public License (GPL) Version 3
@@ -48,7 +47,7 @@
 #include "baroairspeed.h" // object that will be updated by the module
 #include "airspeedactual.h" // object that will be updated by the module
 #include "attitudeactual.h"
-#include "CoordinateConversions.h"
+#include "coordinate_conversions.h"
 #include "baro_airspeed_etasv3.h"
 #include "baro_airspeed_analog.h"
 

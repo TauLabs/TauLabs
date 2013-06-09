@@ -2,7 +2,7 @@
 ******************************************************************************
 *
 * @file       waypointcurvele.cpp
-* @author     Tau Labs, http://github.com/TauLabs, Copyright (C) 2012-2013.
+* @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
 * @brief      A graphicsItem representing a curve connecting 2 waypoints
 * @see        The GNU Public License (GPL) Version 3
 * @defgroup   OPMapWidget
@@ -44,8 +44,8 @@ WayPointCurve::WayPointCurve(WayPointItem *start, WayPointItem *dest, double rad
     QGraphicsEllipseItem(map), m_start(start), m_dest(dest), m_radius(radius),
     m_clockwise(clockwise), my_map(map),myColor(color)
 {
-    connect(start,SIGNAL(localPositionChanged(QPointF,WayPointItem*)),this,SLOT(refreshLocations()));
-    connect(dest,SIGNAL(localPositionChanged(QPointF,WayPointItem*)),this,SLOT(refreshLocations()));
+    connect(start, SIGNAL(relativePositionChanged(QPointF, WayPointItem*)), this, SLOT(refreshLocations()));
+    connect(dest, SIGNAL(relativePositionChanged(QPointF, WayPointItem*)), this, SLOT(refreshLocations()));
     connect(start,SIGNAL(aboutToBeDeleted(WayPointItem*)),this,SLOT(waypointdeleted()));
     connect(dest,SIGNAL(aboutToBeDeleted(WayPointItem*)),this,SLOT(waypointdeleted()));
     refreshLocations();
@@ -139,11 +139,9 @@ void WayPointCurve::refreshLocations()
     double endAngle = atan2(-(m_dest->pos().y() - center_y), m_dest->pos().x() - center_x);
     double span = endAngle - startAngle;
     if (!m_clockwise) {
-        qDebug() << startAngle << " " << endAngle << " " << span;
         if (span > 0)
             span = span - 2 * M_PI;
     } else {
-        qDebug() << startAngle << " " << endAngle << " " << span;
         if (span < 0)
             span = span + 2 * M_PI;
     }

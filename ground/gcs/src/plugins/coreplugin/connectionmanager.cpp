@@ -440,7 +440,6 @@ void ConnectionManager::devChanged(IConnection *connection)
 
     updateConnectionDropdown();
 
-    qDebug() << "# devices " << m_devList.count();
     emit availableDevicesChanged(m_devList);
 
 

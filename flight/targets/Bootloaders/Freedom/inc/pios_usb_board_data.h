@@ -1,13 +1,13 @@
 /**
  ******************************************************************************
- * @addtogroup PIOS PIOS Core hardware abstraction layer
+ * @addtogroup TauLabsBootloader Tau Labs Bootloaders
  * @{
- * @addtogroup PIOS_USB_BOARD Board specific USB definitions
- * @brief Board specific USB definitions
+ * @addtogroup FreedomBL Tau Labs Freedom bootloader
  * @{
  *
  * @file       pios_usb_board_data.h
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
  * @brief      Board specific USB definitions
  * @see        The GNU Public License (GPL) Version 3
  *
@@ -37,9 +37,9 @@
 
 #include "pios_usb_defs.h" 	/* struct usb_* */
 
-#define PIOS_USB_BOARD_VENDOR_ID USB_VENDOR_ID_OPENPILOT
-#define PIOS_USB_BOARD_PRODUCT_ID USB_PRODUCT_ID_REVOLUTION
-#define PIOS_USB_BOARD_DEVICE_VER USB_OP_DEVICE_VER(USB_OP_BOARD_ID_REVOLUTION, USB_OP_BOARD_MODE_BL)
+#define PIOS_USB_BOARD_VENDOR_ID USB_VENDOR_ID_CLAYLOGIC
+#define PIOS_USB_BOARD_PRODUCT_ID USB_PRODUCT_ID_FREEDOM
+#define PIOS_USB_BOARD_DEVICE_VER USB_OP_DEVICE_VER(0, USB_OP_BOARD_MODE_BL)
 #define PIOS_USB_BOARD_SN_SUFFIX "+BL"
 
 /*
@@ -51,3 +51,8 @@
 #define PIOS_USB_BOARD_BL_HID_HAS_NO_LENGTH_BYTE
 
 #endif	/* PIOS_USB_BOARD_DATA_H */
+
+/**
+ * @}
+ * @}
+ */

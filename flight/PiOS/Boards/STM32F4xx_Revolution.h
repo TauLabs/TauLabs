@@ -1,14 +1,16 @@
 /**
  ******************************************************************************
- * @addtogroup OpenPilotSystem OpenPilot System
+ * @addtogroup TauLabsTargets Tau Labs Targets
  * @{
- * @addtogroup OpenPilotCore OpenPilot Core
+ * @addtogroup Revolution OpenPilot Revolution support files
  * @{
- * @file       pios_board.h
- * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
- * @brief      Defines board hardware for the OpenPilot Version 1.1 hardware.
- * @see        The GNU Public License (GPL) Version 3
  *
+ * @file       STM32Fxx_Revolution.h
+ * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2011.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
+ * @brief      Board specific defines for Revolution
+ * @see        The GNU Public License (GPL) Version 3
+ * 
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify
@@ -117,17 +119,15 @@ extern uint32_t pios_i2c_flexiport_adapter_id;
 #define PIOS_COM_MAX_DEVS               4
 extern uintptr_t pios_com_telem_rf_id;
 extern uintptr_t pios_com_gps_id;
-extern uintptr_t pios_com_aux_id;
 extern uintptr_t pios_com_telem_usb_id;
 extern uintptr_t pios_com_bridge_id;
 extern uintptr_t pios_com_vcp_id;
-#define PIOS_COM_AUX                    (pios_com_aux_id)
 #define PIOS_COM_GPS                    (pios_com_gps_id)
 #define PIOS_COM_TELEM_USB              (pios_com_telem_usb_id)
 #define PIOS_COM_TELEM_RF               (pios_com_telem_rf_id)
 #define PIOS_COM_BRIDGE                 (pios_com_bridge_id)
 #define PIOS_COM_VCP                    (pios_com_vcp_id)
-#define PIOS_COM_DEBUG                  PIOS_COM_AUX
+#define PIOS_COM_DEBUG                  (pios_com_debug_id)
 
 //------------------------
 // TELEMETRY 
@@ -258,7 +258,13 @@ extern uintptr_t pios_com_vcp_id;
 #define PIOS_USB_ENABLED                        1 /* Should remove all references to this */
 #define PIOS_USB_HID_MAX_DEVS                   1
 
+//-------------------------
+// ADC
+//-------------------------
+#define PIOS_ADC_SUB_DRIVER_MAX_INSTANCES       3
+
 #endif /* STM3210E_INS_H_ */
+
 /**
  * @}
  * @}

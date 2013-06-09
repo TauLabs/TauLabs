@@ -1,12 +1,13 @@
 /**
  ******************************************************************************
- * @addtogroup OpenPilotModules OpenPilot Modules
+ * @addtogroup TauLabsModules Tau Labs Modules
  * @{ 
  * @addtogroup SystemModule System Module
  * @{ 
  *
  * @file       systemmod.h
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
  * @brief      System module
  *
  * @see        The GNU Public License (GPL) Version 3
@@ -32,4 +33,9 @@
 
 int32_t SystemModInitialize(void);
 
-#endif // SYSTEMMOD_H
+#endif /* SYSTEMMOD_H */
+
+/**
+ * @}
+ * @}
+ */

@@ -1,13 +1,16 @@
 /**
  ******************************************************************************
- * @file       board_hw_defs.c
- * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
- * @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2012
- * @addtogroup OpenPilotSystem OpenPilot System
+ * @addtogroup TauLabsTargets Tau Labs Targets
  * @{
- * @addtogroup OpenPilotCore OpenPilot Core
+ * @addtogroup FlyingF3 FlyingF3 support files
  * @{
- * @brief Defines board specific static initializers for hardware for the flying f3 board.
+ *
+ * @file       board_hw_defs.c 
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
+ * @brief      Defines board specific static initializers for hardware for the
+ *             flying f3 board.
+ * @see        The GNU Public License (GPL) Version 3
+ * 
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify
@@ -514,15 +517,27 @@ void PIOS_I2C_external_er_irq_handler(void)
 static const struct pios_flash_internal_cfg flash_internal_cfg = {
 };
 
-static const struct flashfs_logfs_cfg flashfs_internal_cfg = {
-	.fs_magic      = 0x9ae4ee11,
-	.total_fs_size = EE_BANK_SIZE, /* 4K bytes (2x2KB sectors) */
-	.arena_size    = 0x00004000, /* 64 * slot size = 16K bytes = 8 sectors */
-	.slot_size     = 0x00000100, /* 256 bytes */
+static const struct flashfs_logfs_cfg flashfs_internal_settings_cfg = {
+	.fs_magic      = 0x9ae1ee11,
+	.total_fs_size = EE_BANK_SIZE / 2, /* 16K bytes (8x2KB sectors) */
+	.arena_size    = 0x00002000,       /* 32 * slot size = 8K bytes = 4 sectors */
+	.slot_size     = 0x00000100,       /* 256 bytes */
 
 	.start_offset  = EE_BANK_BASE, /* start after the bootloader */
-	.sector_size   = 0x00000800, /* 2K bytes */
-	.page_size     = 0x00000800, /* 2K bytes */
+	.sector_size   = 0x00000800,   /* 2K bytes */
+	.page_size     = 0x00000800,   /* 2K bytes */
+};
+
+static const struct flashfs_logfs_cfg flashfs_internal_waypoints_cfg = {
+	.fs_magic      = 0x9ab4ee11,
+	.total_fs_size = EE_BANK_SIZE / 2, /* 16K bytes (8x2KB sectors) */
+	.arena_size    = 0x00002000,       /* 32 * slot size = 8K bytes = 4 sectors */
+	.slot_size     = 0x00000100,       /* 256 bytes */
+
+	/* start after the settings */
+	.start_offset  = EE_BANK_BASE + EE_BANK_SIZE / 2, 
+	.sector_size   = 0x00000800,   /* 2K bytes */
+	.page_size     = 0x00000800,   /* 2K bytes */
 };
 
 #include "pios_flash.h"
@@ -677,7 +692,7 @@ static const struct pios_dsm_cfg pios_usart3_dsm_aux_cfg = {
 	},
 };
 
-static const struct pios_usart_cfg pios_uart4_dsm_cfg = {
+static const struct pios_usart_cfg pios_usart4_dsm_cfg = {
 	.regs = UART4,
 	.remap = GPIO_AF_5,
 	.init = {
@@ -709,7 +724,7 @@ static const struct pios_usart_cfg pios_uart4_dsm_cfg = {
 	},
 };
 
-static const struct pios_dsm_cfg pios_uart4_dsm_aux_cfg = {
+static const struct pios_dsm_cfg pios_usart4_dsm_aux_cfg = {
 	.bind = {
 		.gpio = GPIOC,
 		.init = {
@@ -722,7 +737,7 @@ static const struct pios_dsm_cfg pios_uart4_dsm_aux_cfg = {
 	},
 };
 
-static const struct pios_usart_cfg pios_uart5_dsm_cfg = {
+static const struct pios_usart_cfg pios_usart5_dsm_cfg = {
 	.regs = UART5,
 	.remap = GPIO_AF_5,
 	.init = {
@@ -754,7 +769,7 @@ static const struct pios_usart_cfg pios_uart5_dsm_cfg = {
 	},
 };
 
-static const struct pios_dsm_cfg pios_uart5_dsm_aux_cfg = {
+static const struct pios_dsm_cfg pios_usart5_dsm_aux_cfg = {
 	.bind = {
 		.gpio = GPIOD,
 		.init = {
@@ -891,7 +906,7 @@ static const struct pios_sbus_cfg pios_usart3_sbus_aux_cfg = {
 };
 
 
-static const struct pios_usart_cfg pios_uart4_sbus_cfg = {
+static const struct pios_usart_cfg pios_usart4_sbus_cfg = {
 	.regs = UART4,
 	.remap = GPIO_AF_5,
 	.rx_invert = true,
@@ -924,12 +939,12 @@ static const struct pios_usart_cfg pios_uart4_sbus_cfg = {
 	},
 };
 
-static const struct pios_sbus_cfg pios_uart4_sbus_aux_cfg = {
+static const struct pios_sbus_cfg pios_usart4_sbus_aux_cfg = {
 	/* No inverter configuration, f3 uart subsystem already does this for us */
 };
 
 
-static const struct pios_usart_cfg pios_uart5_sbus_cfg = {
+static const struct pios_usart_cfg pios_usart5_sbus_cfg = {
 	.regs = UART5,
 	.remap = GPIO_AF_5,
 	.rx_invert = true,
@@ -962,7 +977,7 @@ static const struct pios_usart_cfg pios_uart5_sbus_cfg = {
 	},
 };
 
-static const struct pios_sbus_cfg pios_uart5_sbus_aux_cfg = {
+static const struct pios_sbus_cfg pios_usart5_sbus_aux_cfg = {
 	/* No inverter configuration, f3 uart subsystem already does this for us */
 };
 
@@ -1098,7 +1113,7 @@ static const struct pios_usart_cfg pios_usart3_cfg = {
 	},
 };
 
-static const struct pios_usart_cfg pios_uart4_cfg = {
+static const struct pios_usart_cfg pios_usart4_cfg = {
 	.regs = UART4,
 	.remap = GPIO_AF_5,
 	.init = {
@@ -1141,7 +1156,7 @@ static const struct pios_usart_cfg pios_uart4_cfg = {
 	},
 };
 
-static const struct pios_usart_cfg pios_uart5_cfg = {
+static const struct pios_usart_cfg pios_usart5_cfg = {
 	.regs = UART5,
 	.remap = GPIO_AF_5,
 	.init = {
@@ -2135,7 +2150,7 @@ const struct pios_usb_cfg * PIOS_BOARD_HW_DEFS_GetUsbCfg (uint32_t board_revisio
 #include <pios_usb_hid_priv.h>
 
 const struct pios_usb_hid_cfg pios_usb_hid_cfg = {
-	.data_if = 0,
+	.data_if = 2,
 	.data_rx_ep = 1,
 	.data_tx_ep = 1,
 };
@@ -2145,11 +2160,52 @@ const struct pios_usb_hid_cfg pios_usb_hid_cfg = {
 #include <pios_usb_cdc_priv.h>
 
 const struct pios_usb_cdc_cfg pios_usb_cdc_cfg = {
-	.ctrl_if = 1,
+	.ctrl_if = 0,
 	.ctrl_tx_ep = 2,
 
-	.data_if = 2,
+	.data_if = 1,
 	.data_rx_ep = 3,
 	.data_tx_ep = 3,
 };
 #endif	/* PIOS_INCLUDE_USB_CDC */
+
+/*
+ * ADC system
+ */
+#if defined(PIOS_INCLUDE_ADC)
+#include "pios_internal_adc_priv.h"
+#include "pios_adc_priv.h"
+#include "pios_dma.h"
+
+static const struct pios_internal_adc_cfg internal_adc_cfg_rcflyer_shield = {
+	.dma = {
+		.irq = {
+			.flags   = (DMA_IT_TC | DMA_IT_HT | DMA_IT_TE),
+			.init    = {
+			.NVIC_IRQChannel                   = DMA1_Channel1_IRQn,
+			.NVIC_IRQChannelPreemptionPriority = PIOS_IRQ_PRIO_HIGH,
+			.NVIC_IRQChannelSubPriority        = 0,
+			.NVIC_IRQChannelCmd                = ENABLE,
+			},
+		},
+		.rx = {
+			.channel = DMA1_Channel1,
+			.init    = {
+			.DMA_Priority           = DMA_Priority_High,
+			},
+		}
+	},
+	.half_flag = DMA1_IT_HT1,
+	.full_flag = DMA1_IT_TC1,
+	.oversampling = 32,
+	.adc_dev_master = ADC1,
+	.adc_dev_slave = ADC2,
+	.number_of_used_pins = 2,
+	.adc_pins = (struct adc_pin[]){{GPIOC,GPIO_Pin_3,ADC_Channel_9,true},{GPIOC,GPIO_Pin_4,ADC_Channel_5,false},},
+};
+#endif //PIOS_INCLUDE_ADC
+
+/**
+ * @}
+ * @}
+ */

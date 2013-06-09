@@ -3,11 +3,12 @@
  *
  * @file       aerosimrc.h
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010-2012.
+ *
  * @addtogroup GCSPlugins GCS Plugins
  * @{
- * @addtogroup HITLPlugin HITLv2 Plugin
+ * @addtogroup HITLPlugin HITL Plugin
  * @{
- * @brief The Hardware In The Loop plugin version 2
+ * @brief The Hardware In The Loop plugin
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify

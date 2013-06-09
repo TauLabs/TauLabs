@@ -1,9 +1,8 @@
 /**
  ******************************************************************************
- * @addtogroup OpenPilotModules OpenPilot Modules
+ * @addtogroup TauLabsModules Tau Labs Modules
  * @{ 
  * @addtogroup AirspeedModule Airspeed Module
- * @brief Calculate airspeed as a function of the difference between sequential GPS velocity and attitude measurements
  * @{ 
  *
  * @file       gps_airspeed.h
@@ -28,6 +27,7 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
+
 #ifndef GPS_AIRSPEED_H
 #define GPS_AIRSPEED_H
 

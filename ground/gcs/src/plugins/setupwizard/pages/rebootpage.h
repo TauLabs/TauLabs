@@ -3,11 +3,12 @@
  *
  * @file       rebootpage.h
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
- * @addtogroup
+ * @see        The GNU Public License (GPL) Version 3
+ *
+ * @addtogroup GCSPlugins GCS Plugins
  * @{
- * @addtogroup RebootPage
+ * @addtogroup SetupWizard Setup Wizard
  * @{
- * @brief
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify
@@ -34,17 +35,16 @@ namespace Ui {
 class RebootPage;
 }
 
-class RebootPage : public AbstractWizardPage
-{
+class RebootPage : public AbstractWizardPage {
     Q_OBJECT
-    
+
 public:
     explicit RebootPage(SetupWizard *wizard, QWidget *parent = 0);
     ~RebootPage();
 
     void initializePage();
     bool validatePage();
-    
+
 private:
     Ui::RebootPage *ui;
     QTimer m_timer;

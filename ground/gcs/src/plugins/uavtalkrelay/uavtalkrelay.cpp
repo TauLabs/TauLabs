@@ -1,7 +1,7 @@
 /**
  ******************************************************************************
  * @file       uavtalkrelay.c
- * @author     Tau Labs, http://github.com/TauLabs, Copyright (C) 2012-2013.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
  * @addtogroup GCSPlugins GCS Plugins
  * @{
  * @addtogroup UAVTalk relay plugin
@@ -83,14 +83,16 @@ void UavTalkRelay::newConnection()
     uavTalkList.append(uav);
     connect(clientConnection, SIGNAL(disconnected()),
             uav, SLOT(deleteLater()));
-    QList< QList<UAVObject*> > list;
-    list = m_ObjMngr->getObjects();
-    QList< QList<UAVObject*> >::const_iterator i;
-    QList<UAVObject*>::const_iterator j;
+    QVector< QVector<UAVObject*> > list = m_ObjMngr->getObjects();
+    QVector< QVector<UAVObject*> >::const_iterator i;
+    QVector<UAVObject*>::const_iterator j;
     int objects = 0;
-    for (i = list.constBegin(); i != list.constEnd(); ++i)
+
+    const QVector< QVector<UAVObject*> >::iterator iEnd = list.end();
+    for (i = list.constBegin(); i != iEnd; ++i)
     {
-        for (j = (*i).constBegin(); j != (*i).constEnd(); ++j)
+        QVector<UAVObject*>::const_iterator jEnd = (*i).constEnd();
+        for (j = (*i).constBegin(); j != jEnd; ++j)
         {
             connect(*j, SIGNAL(objectUpdated(UAVObject*)), uav.data(), SLOT(sendObjectSlot(UAVObject*)));
             objects++;

@@ -1,11 +1,16 @@
- /**
+/**
  ******************************************************************************
+ * @addtogroup TauLabsTargets Tau Labs Targets
+ * @{
+ * @addtogroup CopterControl OpenPilot coptercontrol support files
+ * @{
  *
- * @file       pios_board.h
- * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
- * @brief      Defines board hardware for the OpenPilot Version 1.1 hardware.
+ * @file       STM32103CB_CC_Rev1.h 
+ * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2011.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
+ * @brief      Board header file for CopterControl
  * @see        The GNU Public License (GPL) Version 3
- *
+ * 
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify
@@ -104,6 +109,7 @@ extern uint32_t pios_i2c_flexi_adapter_id;
 #define PIOS_I2C_MAIN_ADAPTER			(pios_i2c_flexi_adapter_id)
 #define PIOS_I2C_ESC_ADAPTER			(pios_i2c_flexi_adapter_id)
 #define PIOS_I2C_BMP085_ADAPTER			(pios_i2c_flexi_adapter_id)
+#define PIOS_I2C_PCF8591_ADAPTER		(pios_i2c_flexi_adapter_id)
 
 //------------------------
 // PIOS_BMP085
@@ -146,6 +152,11 @@ extern uintptr_t pios_com_vcp_id;
 extern uintptr_t pios_com_telem_usb_id;
 #define PIOS_COM_TELEM_USB              (pios_com_telem_usb_id)
 
+#if defined(PIOS_INCLUDE_ADC)
+extern uintptr_t pios_internal_adc_id;
+#define PIOS_INTERNAL_ADC				(pios_internal_adc_id)
+#endif
+
 #if defined(PIOS_INCLUDE_DEBUG_CONSOLE)
 extern uintptr_t pios_com_debug_id;
 #define PIOS_COM_DEBUG                  (pios_com_debug_id)
@@ -160,7 +171,7 @@ extern uintptr_t pios_com_mavlink_id;
 // PIOS_ADC_PinGet(1) = Gyro Y
 // PIOS_ADC_PinGet(2) = Gyro X
 //-------------------------
-//#define PIOS_ADC_OVERSAMPLING_RATE		1
+#define PIOS_ADC_SUB_DRIVER_MAX_INSTANCES	5
 #define PIOS_ADC_USE_TEMP_SENSOR		1
 #define PIOS_ADC_TEMP_SENSOR_ADC		ADC1
 #define PIOS_ADC_TEMP_SENSOR_ADC_CHANNEL	1
@@ -202,8 +213,8 @@ extern uintptr_t pios_com_mavlink_id;
 #define PIOS_ADC_SAMPLE_TIME			ADC_SampleTime_239Cycles5
 /* Sample time: */
 /* With an ADCCLK = 14 MHz and a sampling time of 239.5 cycles: */
-/* Tconv = 239.5 + 12.5 = 252 cycles = 18�s */
-/* (1 / (ADCCLK / CYCLES)) = Sample Time (�S) */
+/* Tconv = 239.5 + 12.5 = 252 cycles = 18us */
+/* (1 / (ADCCLK / CYCLES)) = Sample Time (uS) */
 #define PIOS_ADC_IRQ_PRIO			PIOS_IRQ_PRIO_LOW
 
 // Currently analog acquistion hard coded at 480 Hz
@@ -211,7 +222,7 @@ extern uintptr_t pios_com_mavlink_id;
 // ADCCLK = PCLK2 / 2
 #define PIOS_ADC_RATE		(72.0e6 / 1.0 / 8.0 / 252.0 / (PIOS_ADC_NUM_CHANNELS >> PIOS_ADC_USE_ADC2))
 #define PIOS_ADC_MAX_OVERSAMPLING               36
-
+#define PIOS_INTERNAL_ADC_UPDATE_RATE  25.0f
 //------------------------
 // PIOS_RCVR
 // See also pios_board.c
@@ -273,4 +284,17 @@ extern uintptr_t pios_com_mavlink_id;
 #define PIOS_USB_DETECT_GPIO_PORT               GPIOC
 #define PIOS_USB_MAX_DEVS                       1
 #define PIOS_USB_DETECT_GPIO_PIN                GPIO_Pin_15
-#endif /* STM32103CB_AHRS_H_ */
+
+//-------------------------
+// DMA
+//-------------------------
+#define PIOS_DMA_MAX_CHANNELS                   12
+#define PIOS_DMA_MAX_HANDLERS_PER_CHANNEL       3
+#define PIOS_DMA_CHANNELS {DMA1_Channel1, DMA1_Channel2, DMA1_Channel3, DMA1_Channel4, DMA1_Channel5, DMA1_Channel6, DMA1_Channel7, DMA2_Channel1, DMA2_Channel2, DMA2_Channel3, DMA2_Channel4, DMA2_Channel5}
+
+#endif /* STM32103CB_CC_H_ */
+
+/**
+ * @}
+ * @}
+ */

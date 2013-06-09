@@ -3,6 +3,7 @@
  *
  * @file       configtaskwidget.h
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ *
  * @addtogroup GCSPlugins GCS Plugins
  * @{
  * @addtogroup UAVObjectWidgetUtils Plugin
@@ -42,6 +43,7 @@
 #include <QDoubleSpinBox>
 #include <QSpinBox>
 #include <QCheckBox>
+#include <QGroupBox>
 #include <QPushButton>
 #include "uavobjectwidgetutils_global.h"
 #include <QDesktopServices>
@@ -134,6 +136,7 @@ public:
 
     void autoLoadWidgets();
 
+    bool isAutopilotConnected();
     bool isDirty();
     void setDirty(bool value);
 
@@ -187,8 +190,6 @@ private:
     bool dirty;
     bool setFieldFromWidget(QWidget *widget, UAVObjectField *field, int index, double scale);
     bool setWidgetFromField(QWidget *widget, UAVObjectField *field, int index, double scale, bool hasLimits);
-    QVariant getVariantFromWidget(QWidget *widget, double scale);
-    bool setWidgetFromVariant(QWidget *widget,QVariant value,double scale);
     void connectWidgetUpdatesToSlot(QWidget *widget, const char *function);
     void disconnectWidgetUpdatesToSlot(QWidget *widget, const char *function);
     void loadWidgetLimits(QWidget *widget, UAVObjectField *field, int index, bool hasLimits, double sclale);
@@ -206,6 +207,8 @@ protected slots:
 protected:
     virtual void enableControls(bool enable);
     void checkWidgetsLimits(QWidget *widget, UAVObjectField *field, int index, bool hasLimits, QVariant value, double scale);
+    virtual QVariant getVariantFromWidget(QWidget *widget, double scale);
+    virtual bool setWidgetFromVariant(QWidget *widget,QVariant value,double scale);
 };
 
 #endif // CONFIGTASKWIDGET_H

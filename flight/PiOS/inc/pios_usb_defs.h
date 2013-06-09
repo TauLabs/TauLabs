@@ -2,7 +2,7 @@
  ******************************************************************************
  * @file       pios_usb_defs.h
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
- * @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2012
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
  * @addtogroup PIOS PIOS Core hardware abstraction layer
  * @{
  * @addtogroup PIOS_USB_DEFS USB standard types and definitions
@@ -340,12 +340,12 @@ enum usb_cdc_notification {
 } __attribute__((packed));
 
 /*
- * OpenPilot/PhoenixPilot Specific USB Definitions
+ * OpenPilot/Tau Labs Specific USB Definitions
  */
 
 #define USB_VENDOR_ID_CLAYLOGIC    0x20A0
 #define USB_VENDOR_ID_OPENPILOT    USB_VENDOR_ID_CLAYLOGIC
-#define USB_VENDOR_ID_PHOENIXPILOT USB_VENDOR_ID_CLAYLOGIC
+#define USB_VENDOR_ID_TAULABS      USB_VENDOR_ID_CLAYLOGIC
 
 /*
  * These USB Product IDs are allocated along with the purchase
@@ -358,16 +358,18 @@ enum usb_product_ids {
 	USB_PRODUCT_ID_OPENPILOT_MAIN = 0x415A,
 	USB_PRODUCT_ID_COPTERCONTROL  = 0x415B,
 	USB_PRODUCT_ID_PIPXTREME      = 0x415C,
-	USB_PRODUCT_ID_CC3D           = 0x415D,
+	USB_PRODUCT_ID_SPARE2         = 0x415D,
 	USB_PRODUCT_ID_REVOLUTION     = 0x415E,
 	USB_PRODUCT_ID_OSD            = 0x4194,
 	USB_PRODUCT_ID_SPARE          = 0x4195,
 
-	/* PhoenixPilot Boards */
+	/* Tau Labs Boards */
 	USB_PRODUCT_ID_FREEDOM        = 0x41d0,
 
 	/* ST Eval Boards */
 	USB_PRODUCT_ID_DISCOVERYF4    = USB_PRODUCT_ID_SPARE,
+	USB_PRODUCT_ID_FLYINGF3       = USB_PRODUCT_ID_SPARE,
+	USB_PRODUCT_ID_FLYINGF4       = USB_PRODUCT_ID_SPARE,
 } __attribute__((packed));
 
 enum usb_op_board_ids {
@@ -378,12 +380,6 @@ enum usb_op_board_ids {
 	USB_OP_BOARD_ID_COPTERCONTROL  = 4,
 	USB_OP_BOARD_ID_REVOLUTION     = 5,
 	USB_OP_BOARD_ID_OSD            = 6,
-
-	/* PhoenixPilot Boards */
-	USB_PP_BOARD_ID_FREEDOM        = 101,
-
-	/* ST Eval Boards */
-	USB_ST_BOARD_ID_DISCOVERYF4    = 201,
 } __attribute__((packed));
 
 enum usb_op_board_modes {

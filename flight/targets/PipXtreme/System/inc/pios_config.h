@@ -1,18 +1,16 @@
 /**
  ******************************************************************************
- * @addtogroup OpenPilotSystem OpenPilot System
+ * @addtogroup TauLabsTargets Tau Labs Targets
  * @{
- * @addtogroup OpenPilotCore OpenPilot Core
+ * @addtogroup PipXtreme OpenPilot PipXtreme support files
  * @{
  *
- * @file       pios_config.h
- * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
- * @brief      PiOS configuration header.
- *             Central compile time config for the project.
- *             In particular, pios_config.h is where you define which PiOS libraries
- *             and features are included in the firmware.
+ * @file       pios_config.h 
+ * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2011.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
+ * @brief      Board specific options that modify PiOS capabilities
  * @see        The GNU Public License (GPL) Version 3
- *
+ * 
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify
@@ -61,9 +59,12 @@
 #define PIOS_INCLUDE_RTC
 #define PIOS_INCLUDE_WDG
 #define PIOS_INCLUDE_BL_HELPER
-#define PIOS_INCLUDE_FLASH_EEPROM
 #define PIOS_INCLUDE_RFM22B
 #define PIOS_INCLUDE_PACKET_HANDLER
+
+#define PIOS_INCLUDE_FLASH
+#define PIOS_INCLUDE_FLASH_INTERNAL
+#define PIOS_INCLUDE_LOGFS_SETTINGS
 
 /* Defaults for Logging */
 #define LOG_FILENAME 			"PIOS.LOG"

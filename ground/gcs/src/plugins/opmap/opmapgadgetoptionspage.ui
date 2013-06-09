@@ -563,7 +563,6 @@
        </item>
       </layout>
       <zorder>line</zorder>
-      <zorder>verticalSpacer</zorder>
       <zorder>userImageScalingGroupBox</zorder>
       <zorder>serverAndCacheGroupBox</zorder>
      </widget>

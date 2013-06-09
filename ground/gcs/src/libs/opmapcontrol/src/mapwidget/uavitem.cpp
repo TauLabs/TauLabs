@@ -3,6 +3,7 @@
 *
 * @file       uavitem.cpp
 * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
+* @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
 * @brief      A graphicsItem representing a UAV
 * @see        The GNU Public License (GPL) Version 3
 * @defgroup   OPMapWidget
@@ -24,19 +25,30 @@
 * with this program; if not, write to the Free Software Foundation, Inc.,
 * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 */
-#include "../internals/pureprojection.h"
-#include "uavitem.h"
+
+#include "opmapwidget.h"
 #include <math.h>
+
+#include "uavitem.h"
+#include "waypointitem.h"
 
 namespace mapcontrol
 {
 
     double UAVItem::groundspeed_mps_filt = 0;
 
-    UAVItem::UAVItem(MapGraphicItem* map,OPMapWidget* parent,QString uavPic) : map(map), mapwidget(parent),
-        altitude(0), showtrail(true), showtrailline(true), trailtime(5), traildistance(50), autosetreached(true),
-        autosetdistance(100), showUAVInfo(false)
+    UAVItem::UAVItem(MapGraphicItem *map, OPMapWidget *parent, QString uavPic) :
+        mapwidget(parent),
+        showtrail(true),
+        showtrailline(true),
+        trailtime(5),
+        traildistance(50),
+        autosetreached(true),
+        autosetdistance(100),
+        showUAVInfo(false)
     {
+        this->map = map;
+        altitude = 0;
         pic.load(uavPic);
         this->setFlag(QGraphicsItem::ItemIsMovable,false);
         this->setFlag(QGraphicsItem::ItemIsSelectable,false);
@@ -272,7 +284,7 @@ namespace mapcontrol
             }
             else if(trailtype==UAVTrailType::ByDistance)
             {
-                if(qAbs(internals::PureProjection::DistanceBetweenLatLng(lastcoord,position)*1000)>traildistance)
+                if(qAbs(internals::PureProjection::DistanceBetweenLatLng(lastcoord, position)) > traildistance)
                 {
                     TrailItem * ob=new TrailItem(position,altitude,Qt::green,map);
                     trail->addToGroup(ob);
@@ -301,7 +313,7 @@ namespace mapcontrol
                     WayPointItem* wp=qgraphicsitem_cast<WayPointItem*>(i);
                     if(wp)
                     {
-                        if(Distance3D(wp->Coord(),wp->Altitude())<autosetdistance)
+                        if (DistanceToPoint_3D(wp->Coord(), wp->Altitude()) < autosetdistance)
                         {
                             wp->SetReached(true);
                             emit UAVReachedWayPoint(wp->Number(),wp);
@@ -311,8 +323,8 @@ namespace mapcontrol
             }
             if(mapwidget->Home!=0)
             {
-                //verify if the UAV is inside the safety bouble
-                if(Distance3D(mapwidget->Home->Coord(),mapwidget->Home->Altitude())>mapwidget->Home->SafeArea())
+                //verify if the UAV is inside the safety cylinder
+                if(DistanceToPoint_2D(mapwidget->Home->Coord()) > mapwidget->Home->SafeArea())
                 {
                     if(mapwidget->Home->safe!=false)
                     {
@@ -404,11 +416,7 @@ namespace mapcontrol
         foreach(QGraphicsItem* i,trailLine->childItems())
             delete i;
     }
-    double UAVItem::Distance3D(const internals::PointLatLng &coord, const int &altitude)
-    {
-       return sqrt(pow(internals::PureProjection::DistanceBetweenLatLng(this->coord,coord)*1000,2)+
-       pow(this->altitude-altitude,2));
-    }
+
     void UAVItem::SetUavPic(QString UAVPic)
     {
         pic.load(":/uavs/images/"+UAVPic);

@@ -9,6 +9,7 @@
  *
  * @file       pios_usb_hid.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
  * @brief      USB COM functions (STM32 dependent code)
  * @see        The GNU Public License (GPL) Version 3
  *
@@ -89,6 +90,7 @@ static struct pios_usb_hid_dev * PIOS_USB_HID_alloc(void)
 	usb_hid_dev = (struct pios_usb_hid_dev *)pvPortMalloc(sizeof(*usb_hid_dev));
 	if (!usb_hid_dev) return(NULL);
 
+	memset(usb_hid_dev, 0, sizeof(*usb_hid_dev));
 	usb_hid_dev->magic = PIOS_USB_HID_DEV_MAGIC;
 	return(usb_hid_dev);
 }
@@ -104,6 +106,8 @@ static struct pios_usb_hid_dev * PIOS_USB_HID_alloc(void)
 	}
 
 	usb_hid_dev = &pios_usb_hid_devs[pios_usb_hid_num_devs++];
+
+	memset(usb_hid_dev, 0, sizeof(*usb_hid_dev));
 	usb_hid_dev->magic = PIOS_USB_HID_DEV_MAGIC;
 
 	return (usb_hid_dev);
@@ -194,9 +198,7 @@ static void PIOS_USB_HID_SendReport(struct pios_usb_hid_dev * usb_hid_dev)
 	SetEPTxValid(usb_hid_dev->cfg->data_tx_ep);
 
 #if defined(PIOS_INCLUDE_FREERTOS)
-	if (need_yield) {
-		vPortYieldFromISR();
-	}
+	portEND_SWITCHING_ISR(need_yield);
 #endif	/* PIOS_INCLUDE_FREERTOS */
 }
 
@@ -355,9 +357,7 @@ static void PIOS_USB_HID_EP_OUT_Callback(void)
 	}
 
 #if defined(PIOS_INCLUDE_FREERTOS)
-	if (need_yield) {
-		vPortYieldFromISR();
-	}
+	portEND_SWITCHING_ISR(need_yield);
 #endif	/* PIOS_INCLUDE_FREERTOS */
 }
 

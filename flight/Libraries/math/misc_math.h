@@ -1,12 +1,16 @@
 /**
  ******************************************************************************
+ * @addtogroup TauLabsLibraries Tau Labs Libraries
+ * @{
+ * @addtogroup TauLabsMath Tau Labs math support libraries
+ * @{
+ *
  * @file       math_misc.h
- * @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2012
- * @addtogroup OpenPilot Math Utilities
- * @{
- * @addtogroup MiscellaneousMath Math Various mathematical routines
- * @{
- * @brief Miscellaneous math support
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
+ * @brief      Miscellaneous math support
+ *
+ * @see        The GNU Public License (GPL) Version 3
+ *
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify
@@ -33,4 +37,13 @@ float bound_sym(float val, float range);
 //! Bound input value between min and max
 float bound_min_max(float val, float min, float max);
 
+//! Circular modulus
+float circular_modulus_deg(float err);
+float circular_modulus_rad(float err);
+
 #endif /* MISC_MATH_H */
+
+/**
+ * @}
+ * @}
+ */

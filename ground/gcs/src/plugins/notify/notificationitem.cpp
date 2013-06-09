@@ -5,9 +5,12 @@
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
  * @brief      Notify Plugin configuration
  * @see        The GNU Public License (GPL) Version 3
- * @defgroup   notifyplugin
- * @{
  *
+ * @addtogroup GCSPlugins GCS Plugins
+ * @{
+ * @addtogroup NotifyPlugin Notification plugin
+ * @{
+ * @brief A plugin to provide notifications of events in GCS
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify
@@ -49,9 +52,9 @@ QStringList NotificationItem::retryValues;
 
 NotificationItem::NotificationItem(QObject *parent)
     : QObject(parent)
-    , _currentUpdatePlayed(false)
     , isNowPlaying(0)
     , _isPlayed(false)
+    , _currentUpdatePlayed(false)
     , _timer(NULL)
     , _expireTimer(NULL)
     , _soundCollectionPath("")

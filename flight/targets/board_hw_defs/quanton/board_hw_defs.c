@@ -1,13 +1,16 @@
 /**
  ******************************************************************************
- * @file       board_hw_defs.c
- * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
- * @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2012
- * @addtogroup OpenPilotSystem OpenPilot System
+ * @addtogroup TauLabsTargets Tau Labs Targets
  * @{
- * @addtogroup OpenPilotCore OpenPilot Core
+ * @addtogroup Quanton Quanton support files
  * @{
- * @brief Defines board specific static initializers for hardware for the Quanton board.
+ *
+ * @file       board_hw_defs.c 
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
+ * @brief      Defines board specific static initializers for hardware for the
+ *             Quanton board.
+ * @see        The GNU Public License (GPL) Version 3
+ * 
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify
@@ -567,14 +570,25 @@ void PIOS_I2C_internal_er_irq_handler(void)
 #include "pios_flashfs_logfs_priv.h"
 #include "pios_flash_jedec_priv.h"
 
-static const struct flashfs_logfs_cfg flashfs_mx25_cfg = {
-	.fs_magic      = 0x99abcf00,
-	.total_fs_size = 0x00400000, /* 4M bytes (1024 sectors = entire chip) */
+static const struct flashfs_logfs_cfg flashfs_mx25_settings_cfg = {
+	.fs_magic      = 0x3bb141cf,
+	.total_fs_size = 0x00200000, /* 2M bytes (512 sectors = half chip) */
 	.arena_size    = 0x00010000, /* 256 * slot size */
 	.slot_size     = 0x00000100, /* 256 bytes */
 
-	.start_offset  = 0,	     /* start at the beginning of the chip */
+	.start_offset  = 0,          /* start at the beginning of the chip */
 	.sector_size   = 0x00001000, /* 4K bytes */
+	.page_size     = 0x00000100, /* 256 bytes */
+};
+
+static const struct flashfs_logfs_cfg flashfs_mx25_waypoints_cfg = {
+	.fs_magic      = 0x9a365a64,
+	.total_fs_size = 0x00200000, /* 2M bytes (512 sectors = half chip) */
+	.arena_size    = 0x00010000, /* 1024 * slot size */
+	.slot_size     = 0x00000040, /* 64 bytes */
+
+	.start_offset  = 0x00200000, /* start after the settings partition */
+	.sector_size   = 0x00001000, /* 64K bytes */
 	.page_size     = 0x00000100, /* 256 bytes */
 };
 
@@ -1730,7 +1744,23 @@ const struct pios_servo_cfg pios_servo_cfg = {
 	.num_channels = NELEMENTS(pios_tim_servoport_all_pins),
 };
 
-const struct pios_servo_cfg pios_servo_rcvr_cfg = {
+const struct pios_servo_cfg pios_servo_with_adc_cfg = {
+	.tim_oc_init = {
+		.TIM_OCMode = TIM_OCMode_PWM1,
+		.TIM_OutputState = TIM_OutputState_Enable,
+		.TIM_OutputNState = TIM_OutputNState_Disable,
+		.TIM_Pulse = PIOS_SERVOS_INITIAL_POSITION,
+		.TIM_OCPolarity = TIM_OCPolarity_High,
+		.TIM_OCNPolarity = TIM_OCPolarity_High,
+		.TIM_OCIdleState = TIM_OCIdleState_Reset,
+		.TIM_OCNIdleState = TIM_OCNIdleState_Reset,
+	},
+	/* Leave the last two for ADC use */
+	.channels = pios_tim_servoport_all_pins,
+	.num_channels = NELEMENTS(pios_tim_servoport_all_pins) - 2,
+};
+
+const struct pios_servo_cfg pios_servo_with_rcvr_cfg = {
 	.tim_oc_init = {
 		.TIM_OCMode = TIM_OCMode_PWM1,
 		.TIM_OutputState = TIM_OutputState_Enable,
@@ -1743,6 +1773,22 @@ const struct pios_servo_cfg pios_servo_rcvr_cfg = {
 	},
 	.channels = pios_tim_servoport_rcvrport_pins,
 	.num_channels = NELEMENTS(pios_tim_servoport_rcvrport_pins),
+};
+
+const struct pios_servo_cfg pios_servo_with_rcvr_with_adc_cfg = {
+	.tim_oc_init = {
+		.TIM_OCMode = TIM_OCMode_PWM1,
+		.TIM_OutputState = TIM_OutputState_Enable,
+		.TIM_OutputNState = TIM_OutputNState_Disable,
+		.TIM_Pulse = PIOS_SERVOS_INITIAL_POSITION,
+		.TIM_OCPolarity = TIM_OCPolarity_High,
+		.TIM_OCNPolarity = TIM_OCPolarity_High,
+		.TIM_OCIdleState = TIM_OCIdleState_Reset,
+		.TIM_OCNIdleState = TIM_OCNIdleState_Reset,
+	},
+	/* Leave the last two for ADC use */
+	.channels = pios_tim_servoport_rcvrport_pins,
+	.num_channels = NELEMENTS(pios_tim_servoport_rcvrport_pins) - 2,
 };
 
 #endif	/* PIOS_INCLUDE_SERVO && PIOS_INCLUDE_TIM */
@@ -1906,6 +1952,18 @@ const struct pios_pwm_cfg pios_pwm_cfg = {
 	.num_channels = NELEMENTS(pios_tim_rcvrport_all_channels),
 };
 
+const struct pios_pwm_cfg pios_pwm_with_adc_cfg = {
+	.tim_ic_init = {
+		.TIM_ICPolarity = TIM_ICPolarity_Rising,
+		.TIM_ICSelection = TIM_ICSelection_DirectTI,
+		.TIM_ICPrescaler = TIM_ICPSC_DIV1,
+		.TIM_ICFilter = 0x0,
+	},
+	/* Leave the last two for ADC use */
+	.channels = pios_tim_rcvrport_all_channels,
+	.num_channels = NELEMENTS(pios_tim_rcvrport_all_channels) - 2,
+};
+
 const struct pios_pwm_cfg pios_pwm_with_ppm_cfg = {
 	.tim_ic_init = {
 		.TIM_ICPolarity = TIM_ICPolarity_Rising,
@@ -1918,6 +1976,17 @@ const struct pios_pwm_cfg pios_pwm_with_ppm_cfg = {
 	.num_channels = NELEMENTS(pios_tim_rcvrport_all_channels) - 1,
 };
 
+const struct pios_pwm_cfg pios_pwm_with_ppm_with_adc_cfg = {
+	.tim_ic_init = {
+		.TIM_ICPolarity = TIM_ICPolarity_Rising,
+		.TIM_ICSelection = TIM_ICSelection_DirectTI,
+		.TIM_ICPrescaler = TIM_ICPSC_DIV1,
+		.TIM_ICFilter = 0x0,
+	},
+	/* Leave the first channel for PPM, the last two for ADC use and use the rest for PWM */
+	.channels = &pios_tim_rcvrport_all_channels[1],
+	.num_channels = NELEMENTS(pios_tim_rcvrport_all_channels) - 1 - 2,
+};
 
 #endif
 
@@ -1926,6 +1995,7 @@ const struct pios_pwm_cfg pios_pwm_with_ppm_cfg = {
  */
 #if defined(PIOS_INCLUDE_PPM)
 #include <pios_ppm_priv.h>
+
 static const struct pios_ppm_cfg pios_ppm_cfg = {
 	.tim_ic_init = {
 		.TIM_ICPolarity = TIM_ICPolarity_Rising,
@@ -1994,7 +2064,7 @@ const struct pios_usb_cfg * PIOS_BOARD_HW_DEFS_GetUsbCfg (uint32_t board_revisio
 
 #endif /* PIOS_INCLUDE_COM_MSG */
 
-#if defined(PIOS_INCLUDE_USB_HID)
+#if defined(PIOS_INCLUDE_USB_HID) && !defined(PIOS_INCLUDE_USB_CDC)
 #include <pios_usb_hid_priv.h>
 
 const struct pios_usb_hid_cfg pios_usb_hid_cfg = {
@@ -2002,17 +2072,68 @@ const struct pios_usb_hid_cfg pios_usb_hid_cfg = {
 	.data_rx_ep = 1,
 	.data_tx_ep = 1,
 };
-#endif /* PIOS_INCLUDE_USB_HID */
+#endif /* PIOS_INCLUDE_USB_HID && !PIOS_INCLUDE_USB_CDC */
 
-#if defined(PIOS_INCLUDE_USB_CDC)
+#if defined(PIOS_INCLUDE_USB_HID) && defined(PIOS_INCLUDE_USB_CDC)
 #include <pios_usb_cdc_priv.h>
 
 const struct pios_usb_cdc_cfg pios_usb_cdc_cfg = {
-	.ctrl_if = 1,
+	.ctrl_if = 0,
 	.ctrl_tx_ep = 2,
 
-	.data_if = 2,
+	.data_if = 1,
 	.data_rx_ep = 3,
 	.data_tx_ep = 3,
 };
-#endif	/* PIOS_INCLUDE_USB_CDC */
+
+#include <pios_usb_hid_priv.h>
+
+const struct pios_usb_hid_cfg pios_usb_hid_cfg = {
+	.data_if = 2,
+	.data_rx_ep = 1,
+	.data_tx_ep = 1,
+};
+#endif	/* PIOS_INCLUDE_USB_HID && PIOS_INCLUDE_USB_CDC */
+
+#if defined(PIOS_INCLUDE_ADC)
+#include "pios_adc_priv.h"
+#include "pios_internal_adc_priv.h"
+
+void PIOS_ADC_DMA_irq_handler(void);
+void DMA2_Stream4_IRQHandler(void) __attribute__((alias("PIOS_ADC_DMA_irq_handler")));
+struct pios_internal_adc_cfg pios_adc_cfg = {
+	.adc_dev_master = ADC1,
+	.dma = {
+		.irq = {
+			.flags = (DMA_FLAG_TCIF4 | DMA_FLAG_TEIF4 | DMA_FLAG_HTIF4),
+			.init = {
+				.NVIC_IRQChannel = DMA2_Stream4_IRQn,
+				.NVIC_IRQChannelPreemptionPriority = PIOS_IRQ_PRIO_LOW,
+				.NVIC_IRQChannelSubPriority = 0,
+				.NVIC_IRQChannelCmd = ENABLE,
+			},
+		},
+		.rx = {
+			.channel = DMA2_Stream4,
+			.init = {
+				.DMA_Channel = DMA_Channel_0,
+				.DMA_PeripheralBaseAddr = (uint32_t)&ADC1->DR
+			},
+		}
+	},
+	.half_flag = DMA_IT_HTIF4,
+	.full_flag = DMA_IT_TCIF4,
+};
+
+void PIOS_ADC_DMA_irq_handler(void)
+{
+	/* Call into the generic code to handle the IRQ for this specific device */
+	PIOS_INTERNAL_ADC_DMA_Handler();
+}
+
+#endif /* PIOS_INCLUDE_ADC */
+
+/**
+ * @}
+ * @}
+ */

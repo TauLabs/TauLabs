@@ -1,12 +1,15 @@
-/******************************************************************************
- * @file       STM32F4xx_FlyingF4.c
- * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
- * @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2012
- * @addtogroup PhoenixPilotSystem PhoenixPilot System
+/**
+ ******************************************************************************
+ * @addtogroup TauLabsTargets Tau Labs Targets
  * @{
- * @addtogroup OpenPilotCore OpenPilot Core
+ * @addtogroup FlyingF4 FlyingF4 support files
  * @{
- * @brief PiOS configuration header for flying f4 board.
+ *
+ * @file       STM32F4xx_FlyingF4.c 
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
+ * @brief      Board define file for FlyingF4
+ * @see        The GNU Public License (GPL) Version 3
+ * 
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify
@@ -32,7 +35,7 @@
 
 #if defined(PIOS_INCLUDE_DEBUG_CONSOLE)
 #define DEBUG_LEVEL 0
-#define DEBUG_PRINTF(level, ...) {if(level <= DEBUG_LEVEL && pios_com_aux_id > 0) { PIOS_COM_SendFormattedStringNonBlocking(pios_com_aux_id, __VA_ARGS__); }}
+#define DEBUG_PRINTF(level, ...) {if(level <= DEBUG_LEVEL && pios_com_debug_id > 0) { PIOS_COM_SendFormattedStringNonBlocking(pios_com_debug_id, __VA_ARGS__); }}
 #else
 #define DEBUG_PRINTF(level, ...)
 #endif	/* PIOS_INCLUDE_DEBUG_CONSOLE */
@@ -122,17 +125,20 @@ extern uint32_t pios_i2c_10dof_adapter_id;
 //
 // See also pios_board.c
 //-------------------------
-#define PIOS_COM_MAX_DEVS               4
+#define PIOS_COM_MAX_DEVS               6
 extern uintptr_t pios_com_telem_rf_id;
 extern uintptr_t pios_com_gps_id;
 extern uintptr_t pios_com_telem_usb_id;
 extern uintptr_t pios_com_bridge_id;
 extern uintptr_t pios_com_vcp_id;
+extern uintptr_t pios_com_mavlink_id;
+
 #define PIOS_COM_GPS                    (pios_com_gps_id)
 #define PIOS_COM_TELEM_USB              (pios_com_telem_usb_id)
 #define PIOS_COM_TELEM_RF               (pios_com_telem_rf_id)
 #define PIOS_COM_BRIDGE                 (pios_com_bridge_id)
 #define PIOS_COM_VCP                    (pios_com_vcp_id)
+#define PIOS_COM_MAVLINK                (pios_com_mavlink_id)
 
 #if defined(PIOS_INCLUDE_DEBUG_CONSOLE)
 extern uintptr_t pios_com_debug_id;
@@ -237,8 +243,8 @@ extern uintptr_t pios_com_debug_id;
 
 //-------------------------
 // ADC
-// None.
 //-------------------------
+#define PIOS_ADC_SUB_DRIVER_MAX_INSTANCES       3
 
 //-------------------------
 // USB
@@ -249,3 +255,9 @@ extern uintptr_t pios_com_debug_id;
 
 
 #endif /* STM3210E_INS_H_ */
+
+
+/**
+ * @}
+ * @}
+ */

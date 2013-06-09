@@ -51,7 +51,7 @@ struct timeout_info {
 };
 
 pjrc_rawhid::pjrc_rawhid() :
-    device_open(false), hid_manager(NULL), buffer_count(0), unplugged(false)
+    hid_manager(NULL), buffer_count(0), device_open(false), unplugged(false)
 {
     m_writeMutex = new QMutex();
     m_readMutex = new QMutex();
@@ -218,7 +218,7 @@ class Sender : public QThread
 {
 public:
     Sender(IOHIDDeviceRef d, uint8_t * b, int l) :
-        dev(d), buf(b), len(l), result(-1) { }
+        result(-1), dev(d), buf(b), len(l) { }
 
     void run() {
         ret = IOHIDDeviceSetReport(dev, kIOHIDReportTypeOutput, 2, buf, len);

@@ -8,7 +8,7 @@
  *
  * @file       pios_usart.c   
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
- * @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2012
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
  * @brief      USART commands. Inits USARTs, controls USARTs & Interupt handlers. (STM32 dependent)
  * @see        The GNU Public License (GPL) Version 3
  *
@@ -84,10 +84,7 @@ static struct pios_usart_dev * PIOS_USART_alloc(void)
 	usart_dev = (struct pios_usart_dev *)pvPortMalloc(sizeof(*usart_dev));
 	if (!usart_dev) return(NULL);
 
-	usart_dev->rx_in_cb = 0;
-	usart_dev->rx_in_context = 0;
-	usart_dev->tx_out_cb = 0;
-	usart_dev->tx_out_context = 0;
+	memset(usart_dev, 0, sizeof(*usart_dev));
 	usart_dev->magic = PIOS_USART_DEV_MAGIC;
 
 	usart_dev->error_overruns = 0;
@@ -106,6 +103,8 @@ static struct pios_usart_dev * PIOS_USART_alloc(void)
 	}
 
 	usart_dev = &pios_usart_devs[pios_usart_num_devs++];
+
+	memset(usart_dev, 0, sizeof(*usart_dev));
 	usart_dev->magic = PIOS_USART_DEV_MAGIC;
 
 	return (usart_dev);

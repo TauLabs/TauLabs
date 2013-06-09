@@ -126,63 +126,14 @@
           <string>Six point calibration (mag and accels)</string>
          </property>
          <layout class="QGridLayout" name="gridLayout_4">
-          <item row="2" column="0">
-           <widget class="QPushButton" name="sixPointStart">
-            <property name="enabled">
-             <bool>false</bool>
-            </property>
-            <property name="toolTip">
-             <string>Launch a sensor range and bias calibration.</string>
-            </property>
-            <property name="text">
-             <string>Start</string>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="1">
-           <spacer name="horizontalSpacer_3">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>40</width>
-              <height>20</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-          <item row="1" column="0" colspan="5">
+          <item row="3" column="0" colspan="5">
            <widget class="QProgressBar" name="sixPointProgress">
             <property name="value">
              <number>0</number>
             </property>
            </widget>
           </item>
-          <item row="2" column="4">
-           <widget class="QPushButton" name="sixPointSave">
-            <property name="enabled">
-             <bool>false</bool>
-            </property>
-            <property name="toolTip">
-             <string>Save settings (only enabled when calibration is running)</string>
-            </property>
-            <property name="text">
-             <string>Save Position</string>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="3">
-           <widget class="QPushButton" name="sixPointCancel">
-            <property name="enabled">
-             <bool>false</bool>
-            </property>
-            <property name="text">
-             <string>Cancel</string>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="0">
+          <item row="2" column="0">
            <widget class="QGraphicsView" name="sixPointHelp">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Expanding" vsizetype="MinimumExpanding">
@@ -204,8 +155,77 @@
             </property>
            </widget>
           </item>
-          <item row="0" column="1" colspan="4">
+          <item row="4" column="3">
+           <widget class="QPushButton" name="sixPointCancel">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="text">
+             <string>Cancel</string>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="4">
+           <widget class="QPushButton" name="sixPointSave">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="toolTip">
+             <string>Save settings (only enabled when calibration is running)</string>
+            </property>
+            <property name="text">
+             <string>Save Position</string>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="1">
+           <spacer name="horizontalSpacer_3">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item row="0" column="1">
+           <widget class="QCheckBox" name="cbCalibrateAccels">
+            <property name="text">
+             <string>Calibrate accelerometer</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="1" colspan="4">
            <widget class="QTextEdit" name="sixPointCalibInstructions"/>
+          </item>
+          <item row="4" column="0">
+           <widget class="QPushButton" name="sixPointStart">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="toolTip">
+             <string>Launch a sensor range and bias calibration.</string>
+            </property>
+            <property name="text">
+             <string>Start</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="QCheckBox" name="cbCalibrateMags">
+            <property name="text">
+             <string>Calibrate magnetometer</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+           </widget>
           </item>
          </layout>
         </widget>
@@ -956,7 +976,7 @@ Tip: lower is better!</string>
          <item>
           <widget class="QPushButton" name="acceptTempCal">
            <property name="text">
-            <string>Accept Temperature Calibrtion</string>
+            <string>Accept Temperature Calibration</string>
            </property>
           </widget>
          </item>

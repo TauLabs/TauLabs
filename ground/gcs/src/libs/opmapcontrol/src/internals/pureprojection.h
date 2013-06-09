@@ -3,7 +3,8 @@
 *
 * @file       pureprojection.h
 * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
-* @brief      
+* @author     Tau Labs, http://taulabs.org Copyright (C) 2013.
+* @brief
 * @see        The GNU Public License (GPL) Version 3
 * @defgroup   OPMapWidget
 * @{
@@ -68,18 +69,10 @@ public:
     QList<core::Point> GetAreaTileList(const RectLatLng &rect,const int &zoom,const int &padding);
     virtual double GetGroundResolution(const int &zoom,const double &latitude);
 
-    double DegreesToRadians(const double &deg)const
-    {
-        return (D2R * deg);
-    }
-
-    double RadiansToDegrees(const double &rad)const
-    {
-        return (R2D * rad);
-    }
     void FromGeodeticToCartesian(double Lat,double Lng,double Height,  double &X,  double &Y,  double &Z);
     void FromCartesianTGeodetic(const double &X,const double &Y,const double &Z,  double &Lat,  double &Lng);
     static double DistanceBetweenLatLng(PointLatLng const& p1,PointLatLng const& p2);
+    static double DistanceBetweenLatLngAlt(PointLatLng const& p1, double const& alt1, PointLatLng const& p2, double const& alt2);
 
     PointLatLng translate(PointLatLng p1, double distance, double bearing);
     double courseBetweenLatLng(const PointLatLng &p1, const PointLatLng &p2);
@@ -87,15 +80,11 @@ public:
     double bound(double const& n, double const& minValue, double const& maxValue)const;
 protected:
    
-    static const double PI;
-    static const double HALF_PI;
     static const double TWO_PI;
     static const double EPSLoN;
     static const double MAX_VAL;
     static const double MAXLONG;
     static const double DBLLONG;
-    static const double R2D;
-    static const double D2R;
 
     static double Sign(const double &x);
 

@@ -1,13 +1,14 @@
 /**
  ******************************************************************************
+ * @addtogroup TauLabsModules Tau Labs Modules
+ * @{
+ * @addtogroup GenericI2CSensor Generic I2C sensor interface
+ * @{
+ *
  * @file       generic_i2c_sensor.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
- * @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2012
- * @addtogroup I2C Sensor Module
- * @{
- * @addtogroup 
- * @{
- * @brief Runs the built-in or user defined program on the I2C Virtual Machine
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
+ * @brief      Runs the built-in or user defined program on the I2C Virtual Machine
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify
@@ -27,6 +28,9 @@
 
 #include "openpilot.h"
 #include "modulesettings.h"
+
+#if defined(PIOS_INCLUDE_I2C)
+
 #include "i2cvm.h"	   /* UAV Object (VM register file outputs) */
 #include "i2cvmuserprogram.h"	/* UAV Object (bytecode to run) */
 
@@ -162,7 +166,9 @@ static void GenericI2CSensorTask(void *parameters)
 	}
 }
 
+#endif /* PIOS_INCLUDE_I2C */
+
 /**
-  * @}
+ * @}
  * @}
  */

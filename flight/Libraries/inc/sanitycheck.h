@@ -1,11 +1,9 @@
 /**
  ******************************************************************************
- * @addtogroup OpenPilotSystem OpenPilot System
- * @{
- * @addtogroup OpenPilotLibraries OpenPilot System Libraries
+ * @addtogroup TauLabsLibraries Tau Labs Libraries
  * @{
  * @file       sanitycheck.h
- * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
  * @brief      Utilities to validate a flight configuration
  * @see        The GNU Public License (GPL) Version 3
  *
@@ -32,3 +30,7 @@
 extern int32_t configuration_check();
 
 #endif /* SANITYCHECK_H */
+
+/**
+ * @}
+ */

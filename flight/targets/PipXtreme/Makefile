@@ -129,6 +129,7 @@ SRC += $(PIOSSTM32F10X)/pios_led.c
 SRC += $(PIOSSTM32F10X)/pios_delay.c
 SRC += $(PIOSSTM32F10X)/pios_usart.c
 SRC += $(PIOSSTM32F10X)/pios_irq.c
+SRC += $(PIOSSTM32F10X)/pios_flash_internal.c
 SRC += $(PIOSSTM32F10X)/pios_spi.c
 SRC += $(PIOSSTM32F10X)/pios_ppm.c
 SRC += $(PIOSSTM32F10X)/pios_debug.c
@@ -138,7 +139,6 @@ SRC += $(PIOSSTM32F10X)/pios_rtc.c
 SRC += $(PIOSSTM32F10X)/pios_wdg.c
 SRC += $(PIOSSTM32F10X)/pios_tim.c
 SRC += $(PIOSSTM32F10X)/pios_pwm.c
-SRC += $(PIOSSTM32F10X)/pios_eeprom.c
 SRC += $(PIOSSTM32F10X)/pios_bl_helper.c
 
 # PIOS USB related files (seperated to make code maintenance more easy)
@@ -158,12 +158,12 @@ SRC += $(PIOSCOMMON)/pios_crc.c
 SRC += $(PIOSCOMMON)/pios_com.c
 SRC += $(PIOSCOMMON)/pios_i2c_esc.c
 SRC += $(PIOSCOMMON)/pios_rcvr.c
+SRC += $(PIOSCOMMON)/pios_flashfs_logfs.c
 SRC += $(PIOSCOMMON)/printf-stdarg.c
 SRC += $(PIOSCOMMON)/pios_rfm22b.c
 SRC += $(PIOSCOMMON)/pios_rfm22b_com.c
 ## Libraries for flight calculations
 SRC += $(FLIGHTLIB)/fifo_buffer.c
-SRC += $(FLIGHTLIB)/CoordinateConversions.c
 SRC += $(FLIGHTLIB)/taskmonitor.c
 SRC += $(FLIGHTLIB)/aes.c
 ## The Reed-Solomon FEC library
@@ -328,6 +328,9 @@ endif
 ifeq ($(USE_I2C), YES)
 CDEFS += -DUSE_I2C
 endif
+
+CDEFS += -DEE_BANK_BASE=$(EE_BANK_BASE)
+CDEFS += -DEE_BANK_SIZE=$(EE_BANK_SIZE)
 
 # Declare all non-optional modules as built-in to force inclusion
 CDEFS += $(foreach MOD, $(notdir $(MODULES)), -DMODULE_$(MOD)_BUILTIN)

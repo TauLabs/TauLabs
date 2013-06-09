@@ -3,11 +3,12 @@
  *
  * @file       vehiclepage.cpp
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
- * @addtogroup
+ * @see        The GNU Public License (GPL) Version 3
+ *
+ * @addtogroup GCSPlugins GCS Plugins
  * @{
- * @addtogroup VehiclePage
+ * @addtogroup SetupWizard Setup Wizard
  * @{
- * @brief
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify
@@ -42,19 +43,15 @@ VehiclePage::~VehiclePage()
 
 bool VehiclePage::validatePage()
 {
-    if(ui->multirotorButton->isChecked()) {
+    if (ui->multirotorButton->isChecked()) {
         getWizard()->setVehicleType(SetupWizard::VEHICLE_MULTI);
-    }
-    else if(ui->fixedwingButton->isChecked()) {
+    } else if (ui->fixedwingButton->isChecked()) {
         getWizard()->setVehicleType(SetupWizard::VEHICLE_FIXEDWING);
-    }
-    else if(ui->heliButton->isChecked()) {
+    } else if (ui->heliButton->isChecked()) {
         getWizard()->setVehicleType(SetupWizard::VEHICLE_HELI);
-    }
-    else if(ui->surfaceButton->isChecked()) {
+    } else if (ui->surfaceButton->isChecked()) {
         getWizard()->setVehicleType(SetupWizard::VEHICLE_SURFACE);
-    }
-    else {
+    } else {
         getWizard()->setVehicleType(SetupWizard::VEHICLE_UNKNOWN);
     }
     return true;

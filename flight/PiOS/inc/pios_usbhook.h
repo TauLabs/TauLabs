@@ -8,6 +8,7 @@
  *
  * @file       pios_usbhook.h
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
  * @brief      APIs for PIOS_USBHOOK layer
  * @see        The GNU Public License (GPL) Version 3
  *
@@ -55,7 +56,7 @@ struct pios_usb_ifops {
   void (*init)(uint32_t context);
   void (*deinit)(uint32_t context);
   bool (*setup)(uint32_t context, struct usb_setup_request * req);
-  void (*ctrl_data_out)(uint32_t context, struct usb_setup_request * req);
+  void (*ctrl_data_out)(uint32_t context, const struct usb_setup_request * req);
 };
 
 extern void PIOS_USBHOOK_RegisterIfOps(uint8_t ifnum, struct pios_usb_ifops * ifops, uint32_t context);

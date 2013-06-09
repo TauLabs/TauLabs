@@ -1,11 +1,12 @@
 /**
  ******************************************************************************
- * @file       pios_flash_internal.c
- * @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2012
- * @addtogroup 
+ * @addtogroup PIOS PIOS Core hardware abstraction layer
  * @{
- * @addtogroup 
+ * @addtogroup PiosFlashInternal PIOS Flash internal flash driver
  * @{
+ *
+ * @file       pios_flash_internal.c  
+ * @author     Tau Labs, http://github.com/TauLabs, Copyright (C) 2012-2013.
  * @brief Provides a flash driver for the STM32 internal flash sectors
  *****************************************************************************/
 /* 
@@ -31,6 +32,7 @@
 #include "stm32f4xx_flash.h"
 #include "pios_flash_internal_priv.h"
 #include "pios_flash.h"
+#include "pios_wdg.h"
 #include <stdbool.h>
 
 struct device_flash_sector {
@@ -231,6 +233,10 @@ static int32_t PIOS_Flash_Internal_EraseSector(uintptr_t flash_id, uint32_t addr
 
 	if (!PIOS_Flash_Internal_Validate(flash_dev))
 		return -1;
+
+#if defined(PIOS_INCLUDE_WDG)
+	PIOS_WDG_Clear();
+#endif
 
 	uint8_t sector_number;
 	uint32_t sector_start;

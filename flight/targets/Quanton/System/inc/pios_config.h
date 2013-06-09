@@ -1,16 +1,15 @@
 /**
  ******************************************************************************
- * @file       pios_config.h
- * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
- * @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2012
- * @addtogroup OpenPilotSystem OpenPilot System
+ * @addtogroup TauLabsTargets Tau Labs Targets
  * @{
- * @addtogroup OpenPilotCore OpenPilot Core
+ * @addtogroup Quanton Quanton support files
  * @{
- * @brief PiOS configuration header.
- *        Central compile time config for the project.
- *        In particular, pios_config.h is where you define which PiOS libraries
- *        and features are included in the firmware.
+ *
+ * @file       pios_config.h 
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
+ * @brief      Board specific options that modify PiOS capabilities
+ * @see        The GNU Public License (GPL) Version 3
+ * 
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify
@@ -36,7 +35,7 @@
 #define PIOS_INCLUDE_BL_HELPER
 
 /* Enable/Disable PiOS Modules */
-//#define PIOS_INCLUDE_ADC
+#define PIOS_INCLUDE_ADC
 #define PIOS_INCLUDE_DELAY
 #define PIOS_INCLUDE_I2C
 #define PIOS_I2C_DIAGNOSTICS
@@ -51,7 +50,7 @@
 #define PIOS_INCLUDE_USART
 #define PIOS_INCLUDE_USB
 #define PIOS_INCLUDE_USB_HID
-//#define PIOS_INCLUDE_USB_CDC
+#define PIOS_INCLUDE_USB_CDC
 //#define PIOS_INCLUDE_GPIO
 #define PIOS_INCLUDE_EXTI
 #define PIOS_INCLUDE_RTC
@@ -62,6 +61,7 @@
 #define PIOS_HMC5883_HAS_GPIOS
 #define PIOS_INCLUDE_MPU6000
 #define PIOS_MPU6000_ACCEL
+#define PIOS_MPU6000_SIMPLE_INIT_SEQUENCE
 #define PIOS_INCLUDE_MS5611
 #define FLASH_FREERTOS
 /* Com systems to include */
@@ -69,6 +69,7 @@
 #define PIOS_INCLUDE_COM_TELEM
 #define PIOS_INCLUDE_TELEMETRY_RF
 #define PIOS_INCLUDE_COM_FLEXI
+#define PIOS_INCLUDE_MAVLINK
 
 #define PIOS_INCLUDE_GPS
 #define PIOS_INCLUDE_GPS_NMEA_PARSER
@@ -85,8 +86,7 @@
 
 #define PIOS_INCLUDE_SETTINGS
 #define PIOS_INCLUDE_FLASH
-/* A really shitty setting saving implementation */
-#define PIOS_INCLUDE_FLASH_SECTOR_SETTINGS
+#define PIOS_INCLUDE_LOGFS_SETTINGS
 
 /* Other Interfaces */
 //#define PIOS_INCLUDE_I2C_ESC
@@ -96,6 +96,8 @@
 #define PIOS_TELEM_PRIORITY_QUEUE       /* Enable a priority queue in telemetry */
 //#define PIOS_QUATERNION_STABILIZATION   /* Stabilization options */
 #define PIOS_GPS_SETS_HOMELOCATION      /* GPS options */
+
+#define CAMERASTAB_POI_MODE
 
 /* Alarm Thresholds */
 #define HEAP_LIMIT_WARNING		1000

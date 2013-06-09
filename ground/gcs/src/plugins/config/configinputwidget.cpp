@@ -3,6 +3,7 @@
  *
  * @file       configinputwidget.cpp
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
  * @addtogroup GCSPlugins GCS Plugins
  * @{
  * @addtogroup ConfigPlugin Config Plugin
@@ -58,8 +59,6 @@ ConfigInputWidget::ConfigInputWidget(QWidget *parent) : ConfigTaskWidget(parent)
     m_config = new Ui_InputWidget();
     m_config->setupUi(this);
     
-    addApplySaveButtons(m_config->saveRCInputToRAM,m_config->saveRCInputToSD);
-
     ExtensionSystem::PluginManager *pm=ExtensionSystem::PluginManager::instance();
     Core::Internal::GeneralSettings * settings=pm->getObject<Core::Internal::GeneralSettings>();
     if(!settings->useExpertMode())
@@ -67,7 +66,7 @@ ConfigInputWidget::ConfigInputWidget(QWidget *parent) : ConfigTaskWidget(parent)
     
     addApplySaveButtons(m_config->saveRCInputToRAM,m_config->saveRCInputToSD);
 
-	//Generate the rows of buttons in the input channel form GUI
+    //Generate the rows of buttons in the input channel form GUI
     unsigned int index=0;
     foreach (QString name, manualSettingsObj->getField("ChannelNumber")->getElementNames())
     {
@@ -144,7 +143,6 @@ ConfigInputWidget::ConfigInputWidget(QWidget *parent) : ConfigTaskWidget(parent)
         m_txMainBody->setParentItem(m_txBackground);
         m_txMainBody->setSharedRenderer(m_renderer);
         m_txMainBody->setElementId("body");
-        l_scene->addItem(m_txMainBody);
 
         m_txLeftStick = new QGraphicsSvgItem();
         m_txLeftStick->setParentItem(m_txBackground);
@@ -338,8 +336,11 @@ void ConfigInputWidget::wzCancel()
     wizardStep=wizardNone;
     m_config->stackedWidget->setCurrentIndex(0);
 
-    // Load settings back from beginning of wizard
+    // Load manual settings back from beginning of wizard
     manualSettingsObj->setData(previousManualSettingsData);
+
+    // Load original metadata
+    restoreMdata();
 }
 
 void ConfigInputWidget::wzNext()
@@ -492,11 +493,13 @@ void ConfigInputWidget::wizardSetUpStep(enum wizardSteps step)
         nextChannel();
         manualSettingsData=manualSettingsObj->getData();
         connect(receiverActivityObj, SIGNAL(objectUpdated(UAVObject*)), this, SLOT(identifyControls()));
+        fastMdata();
         m_config->wzNext->setEnabled(false);
         break;
     case wizardIdentifyCenter:
         setTxMovement(centerAll);
         m_config->wzText->setText(QString(tr("Please center all controls and press next when ready (if your FlightMode switch has only two positions, leave it in either position).")));
+        fastMdata();
         break;
     case wizardIdentifyLimits:
     {
@@ -625,7 +628,6 @@ void ConfigInputWidget::wizardTearDownStep(enum wizardSteps step)
         disconnect(flightStatusObj, SIGNAL(objectUpdated(UAVObject*)), this, SLOT(moveSticks()));
         disconnect(accessoryDesiredObj0, SIGNAL(objectUpdated(UAVObject*)), this, SLOT(moveSticks()));
         manualSettingsObj->setData(manualSettingsData);
-        restoreMdata();
         setTxMovement(nothing);
         break;
     case wizardIdentifyInverted:
@@ -641,7 +643,6 @@ void ConfigInputWidget::wizardTearDownStep(enum wizardSteps step)
         }
         extraWidgets.clear();
         disconnect(manualCommandObj, SIGNAL(objectUpdated(UAVObject*)), this, SLOT(moveSticks()));
-        restoreMdata();
         break;
     case wizardFinish:
         dimOtherControls(false);
@@ -657,15 +658,57 @@ void ConfigInputWidget::wizardTearDownStep(enum wizardSteps step)
 }
 
 /**
-  * Set manual control command to fast updates
-  */
+ * @brief ConfigInputWidget::fastMdata Set manual control command to fast updates. Set all others to updates slowly.
+ */
 void ConfigInputWidget::fastMdata()
 {
-    manualControlMdata = manualCommandObj->getMetadata();
-    UAVObject::Metadata mdata = manualControlMdata;
-    UAVObject::SetFlightTelemetryUpdateMode(mdata, UAVObject::UPDATEMODE_PERIODIC);
-    mdata.flightTelemetryUpdatePeriod = 150;
-    manualCommandObj->setMetadata(mdata);
+    // Check that the metadata hasn't already been saved.
+    if (!originalMetaData.empty())
+        return;
+
+    // Store original metadata
+    UAVObjectUtilManager* utilMngr = getObjectUtilManager();
+    originalMetaData = utilMngr->readAllNonSettingsMetadata();
+
+    // Update data rates
+    uint16_t slowUpdate = 5000; // in [ms]
+    uint16_t fastUpdate =  150; // in [ms]
+
+    // Iterate over list of UAVObjects, configuring all dynamic data metadata objects.
+    UAVObjectManager *objManager = getObjectManager();
+    QMap<QString, UAVObject::Metadata> metaDataList;
+    QVector< QVector<UAVDataObject*> > objList = objManager->getDataObjects();
+    foreach (QVector<UAVDataObject*> list, objList) {
+        foreach (UAVDataObject* obj, list) {
+            if(!obj->isSettings()) {
+                UAVObject::Metadata mdata = obj->getMetadata();
+                UAVObject::SetFlightAccess(mdata, UAVObject::ACCESS_READWRITE);
+
+                switch(obj->getObjID()){
+                    case ReceiverActivity::OBJID:
+                        UAVObject::SetFlightTelemetryUpdateMode(mdata, UAVObject::UPDATEMODE_ONCHANGE);
+                        break;
+                    case AccessoryDesired::OBJID:
+                    case FlightStatus::OBJID:
+                    case ManualControlCommand::OBJID:
+                        UAVObject::SetFlightTelemetryUpdateMode(mdata, UAVObject::UPDATEMODE_PERIODIC);
+                        mdata.flightTelemetryUpdatePeriod = fastUpdate;
+                        break;
+                    default:
+                        UAVObject::SetFlightTelemetryUpdateMode(mdata, UAVObject::UPDATEMODE_PERIODIC);
+                        mdata.flightTelemetryUpdatePeriod = slowUpdate;
+                }
+
+                metaDataList.insert(obj->getName(), mdata);
+
+            }
+        }
+    }
+
+    // Set new metadata
+    utilMngr->setAllNonSettingsMetadata(metaDataList);
+
+
 }
 
 /**
@@ -673,7 +716,9 @@ void ConfigInputWidget::fastMdata()
   */
 void ConfigInputWidget::restoreMdata()
 {
-    manualCommandObj->setMetadata(manualControlMdata);
+    UAVObjectUtilManager* utilMngr = getObjectUtilManager();
+    utilMngr->setAllNonSettingsMetadata(originalMetaData);
+    originalMetaData.clear();
 }
 
 /**
@@ -747,6 +792,12 @@ void ConfigInputWidget::prevChannel()
     currentChannelNum = -1; // hit end of list
 }
 
+
+/**
+ * @brief ConfigInputWidget::identifyControls Triggers whenever a new ReceiverActivity UAVO is received.
+ * This function checks if the channel has already been identified, and if not assigns it to a new
+ * ManualControlSettings channel.
+ */
 void ConfigInputWidget::identifyControls()
 {
     static int debounce=0;
@@ -754,6 +805,7 @@ void ConfigInputWidget::identifyControls()
     receiverActivityData=receiverActivityObj->getData();
     if(receiverActivityData.ActiveChannel==255)
         return;
+
     if(channelDetected)
         return;
     else
@@ -765,7 +817,10 @@ void ConfigInputWidget::identifyControls()
             ++debounce;
         lastChannel.group= currentChannel.group;
         lastChannel.number=currentChannel.number;
-        if(!usedChannels.contains(lastChannel) && debounce>1)
+
+        // If this channel isn't already allocated, and the debounce passes the threshold, set
+        // the input channel as detected.
+        if(!usedChannels.contains(lastChannel) && debounce>DEBOUNCE_THRESHOLD_COUNT)
         {
             channelDetected = true;
             debounce=0;
@@ -779,10 +834,13 @@ void ConfigInputWidget::identifyControls()
             return;
     }
 
+    // At this point in the code, the channel has been successfully identified
     m_config->wzText->clear();
     setTxMovement(nothing);
 
-    QTimer::singleShot(2500, this, SLOT(wzNext()));
+    // Wait to ensure that the user is no longer moving the sticks. Empricially,
+    // this delay works well across a broad range of users and transmitters.
+    QTimer::singleShot(CHANNEL_IDENTIFICATION_WAIT_TIME_MS, this, SLOT(wzNext()));
 }
 
 void ConfigInputWidget::identifyLimits()

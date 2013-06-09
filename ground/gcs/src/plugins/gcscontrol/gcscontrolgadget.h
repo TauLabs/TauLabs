@@ -29,20 +29,25 @@
 #define GCSControlGADGET_H_
 
 #include <coreplugin/iuavgadget.h>
-#include "manualcontrolcommand.h"
 #include "gcscontrolgadgetconfiguration.h"
-#include "sdlgamepad/sdlgamepad.h"
-#include <QTime>
 #include "gcscontrolplugin.h"
+#include <QTimer>
+#include <QTime>
 #include <QUdpSocket>
 #include <QHostAddress>
 
+#if defined(USE_SDL)
+#include "sdlgamepad/sdlgamepad.h"
+#endif
+
+// UAVOs
+#include "gcsreceiver.h"
+#include "manualcontrolcommand.h"
 
 namespace Core {
 class IUAVGadget;
 }
-//class QWidget;
-//class QString;
+
 class GCSControlGadgetWidget;
 
 using namespace Core;
@@ -61,23 +66,47 @@ public:
     void loadConfiguration(IUAVGadgetConfiguration* config);
 
 private:
+    //! Get the handle to the ManualControlCommand object
     ManualControlCommand* getManualControlCommand();
+
+    //! Get the handle to the GCSReceiver object
+    GCSReceiver* getGcsReceiver();
+
     double constrain(double value);
+
+    //! Set the GCS Receiver object
+    void setGcsReceiver(double leftX, double leftY, double rightX, double rightY);
+
+    //! Set the ManualControlCommand object
+    void setManualControl(double leftX, double leftY, double rightX, double rightY);
+
     QTime joystickTime;
     QWidget *m_widget;
     QList<int> m_context;
     UAVObject::Metadata mccInitialData;
+
+    // The channel mappings to the joystick
     int rollChannel;
     int pitchChannel;
     int yawChannel;
     int throttleChannel;
+
+    //! What kind of transmitter layout to use (Mode1 - Mode4)
     int controlsMode;
+
+    //! Send commands to FC via GCS receiver UAVO
+    bool gcsReceiverMode;
+
+    //! Whether GCS control is enabled
+    bool enableSending;
+
     buttonSettingsStruct buttonSettings[8];
     double bound(double input);
     double wrap(double input);
     bool channelReverse[8];
     QUdpSocket *control_sock;
 
+    QTimer *gcsReceiverTimer;
 
 signals:
     void sticksChangedRemotely(double leftX, double leftY, double rightX, double rightY);
@@ -86,11 +115,17 @@ protected slots:
     void manualControlCommandUpdated(UAVObject *);
     void sticksChangedLocally(double leftX, double leftY, double rightX, double rightY);
     void readUDPCommand();
+    void sendGcsReceiver();
+
+    //! Enable or disable sending data
+    void enableControl(bool enable);
 
     // signals from joystick
     void gamepads(quint8 count);
+#if defined(USE_SDL)
     void buttonState(ButtonNumber number, bool pressed);
     void axesValues(QListInt16 values);
+#endif
 };
 
 

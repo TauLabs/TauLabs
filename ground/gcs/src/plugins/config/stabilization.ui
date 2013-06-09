@@ -7480,7 +7480,7 @@ border-radius: 5;</string>
               </palette>
              </property>
              <property name="title">
-              <string>Rate Stabization Coefficients (Inner Loop)</string>
+              <string>Rate Stabilization Coefficients (Inner Loop)</string>
              </property>
              <property name="alignment">
               <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
@@ -10805,7 +10805,7 @@ Then lower the value by 20% or so.</string>
               <bool>false</bool>
              </property>
              <property name="title">
-              <string>Attitude Stabization Coefficients (Outer Loop)</string>
+              <string>Attitude Stabilization Coefficients (Outer Loop)</string>
              </property>
              <property name="alignment">
               <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
@@ -16941,7 +16941,7 @@ border-radius: 5;</string>
                </widget>
               </item>
               <item row="1" column="0" colspan="2">
-               <widget class="QGroupBox" name="groupBox">
+               <widget class="QGroupBox" name="groupBox_1">
                 <property name="flat">
                  <bool>true</bool>
                 </property>
