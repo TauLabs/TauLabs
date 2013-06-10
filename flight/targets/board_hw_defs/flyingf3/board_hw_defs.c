@@ -1826,7 +1826,7 @@ static const struct pios_tim_channel pios_tim_servoport_rcvrport_pins[] = {
 			.pin_source = GPIO_PinSource8,
 		},
 	},
-#if defined(PIOS_INCLUDE_HCSR04)
+#if !defined(PIOS_INCLUDE_HCSR04)
 	{
 		.timer = TIM15,
 		.timer_chan = TIM_Channel_1,
@@ -2017,7 +2017,7 @@ static const struct pios_tim_channel pios_tim_rcvrport_all_channels[] = {
 			.pin_source = GPIO_PinSource8,
 		},
 	},
-#if defined(PIOS_INCLUDE_HCSR04)
+#if !defined(PIOS_INCLUDE_HCSR04)
 	{
 		.timer = TIM15,
 		.timer_chan = TIM_Channel_1,
