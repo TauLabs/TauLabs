@@ -400,9 +400,6 @@
                 <bool>false</bool>
                </property>
                <layout class="QFormLayout" name="formLayout">
-                <property name="fieldGrowthPolicy">
-                 <enum>QFormLayout::FieldsStayAtSizeHint</enum>
-                </property>
                 <item row="0" column="0">
                  <widget class="QLabel" name="label_14">
                   <property name="text">
@@ -411,17 +408,7 @@
                  </widget>
                 </item>
                 <item row="0" column="1">
-                 <widget class="QTextEdit" name="tb_liveVoltageReading">
-                  <property name="maximumSize">
-                   <size>
-                    <width>16777215</width>
-                    <height>23</height>
-                   </size>
-                  </property>
-                  <property name="readOnly">
-                   <bool>true</bool>
-                  </property>
-                 </widget>
+                 <widget class="QLineEdit" name="le_liveVoltageReading"/>
                 </item>
                 <item row="1" column="0">
                  <widget class="QLabel" name="label_13">
@@ -517,20 +504,7 @@
                  </widget>
                 </item>
                 <item row="0" column="1">
-                 <widget class="QTextEdit" name="tb_liveCurrentReading">
-                  <property name="enabled">
-                   <bool>false</bool>
-                  </property>
-                  <property name="maximumSize">
-                   <size>
-                    <width>16777215</width>
-                    <height>23</height>
-                   </size>
-                  </property>
-                  <property name="readOnly">
-                   <bool>true</bool>
-                  </property>
-                 </widget>
+                 <widget class="QLineEdit" name="le_liveCurrentReading"/>
                 </item>
                </layout>
               </widget>

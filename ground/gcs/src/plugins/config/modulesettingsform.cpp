@@ -95,8 +95,8 @@ ModuleSettingsForm::ModuleSettingsForm(QWidget *parent, QPushButton *saveButton,
     addUAVObjectToWidgetRelation(batterySettingsName, "SensorCalibrations", moduleSettingsWidget->sb_voltageCalibration, FlightBatterySettings::SENSORCALIBRATIONS_VOLTAGEFACTOR);
     addUAVObjectToWidgetRelation(batterySettingsName, "SensorCalibrations", moduleSettingsWidget->sb_currentCalibration, FlightBatterySettings::SENSORCALIBRATIONS_CURRENTFACTOR);
 
-    addUAVObjectToWidgetRelation(batteryStateName, "Voltage", moduleSettingsWidget->tb_liveVoltageReading);
-    addUAVObjectToWidgetRelation(batteryStateName, "Current", moduleSettingsWidget->tb_liveCurrentReading);
+    addUAVObjectToWidgetRelation(batteryStateName, "Voltage", moduleSettingsWidget->le_liveVoltageReading);
+    addUAVObjectToWidgetRelation(batteryStateName, "Current", moduleSettingsWidget->le_liveCurrentReading);
 
     addUAVObjectToWidgetRelation(moduleSettingsName, "GPSSpeed", moduleSettingsWidget->cb_gpsSpeed);
 
