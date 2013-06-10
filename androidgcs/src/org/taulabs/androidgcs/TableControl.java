@@ -53,7 +53,6 @@ public class TableControl extends ObjectManagerActivity {
 		modesToId.add("PathPlanner",R.id.pathPlannerButton);
 		modesToId.add("FollowMe",R.id.followTabletButton);
 		modesToId.add("Land",R.id.landButton);
-		modesToId.add("CameraPOI",R.id.cameraPoiButton);
 	}
 
 	@Override
@@ -65,6 +64,7 @@ public class TableControl extends ObjectManagerActivity {
 		UAVObject obj = objMngr.getObject("TabletInfo");
 		UAVObjectField field;
 
+		// Update the active mode
     	if (obj != null && (field = obj.getField("TabletModeDesired")) != null) {
     		String mode = field.getValue().toString();
     		Log.d(TAG, "Connected and mode is: " + mode);
@@ -76,9 +76,19 @@ public class TableControl extends ObjectManagerActivity {
     			onToggle(findViewById(id));
     	}
 
+    	// Update the POI track button
+    	if (obj != null && (field = obj.getField("TabletPoiTarget")) != null) {
+    		boolean poiTrack = field.getValue().toString().compareTo("True") == 0;
+    		ToggleButton poiTrackButton = (ToggleButton) findViewById(R.id.cameraPoiButton);
+    		if (poiTrackButton != null)
+    			poiTrackButton.setChecked(poiTrack);
+    	}
+
+    	// Update the flight status
     	obj = objMngr.getObject("FlightStatus");
     	if (obj != null)
         	registerObjectUpdates(obj);
+
     	obj.updateRequested();
 
 	}
@@ -150,5 +160,27 @@ public class TableControl extends ObjectManagerActivity {
     		return backward.get(key);
     	}
     }
+    
+    public void onPoiToggle(View view)
+    {
+    	ToggleButton toggle = (ToggleButton) view;
+    	if (toggle == null)
+    		return;
+
+		// Set the tablet POI tracking mode based on check box
+		if (objMngr != null) {
+			UAVObject obj = objMngr.getObject("TabletInfo");
+			if (obj == null)
+				return;
+			UAVObjectField field = obj.getField("TabletPoiTarget");
+			if (field == null)
+				return;
+			if (toggle.isChecked())
+				field.setValue("True");
+			else
+				field.setValue("False");
+			obj.updated();
+		}
+    };
 
 }

@@ -26,7 +26,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/pfd"
-        android:text="Flight Mode: "
+        android:text="@string/flight_mode_"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <TextView
@@ -35,7 +35,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/pfd"
         android:layout_toRightOf="@+id/flightModeLabel"
-        android:text="Stabilized1"
+        android:text=""
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <fragment
@@ -114,23 +114,15 @@
             android:textOff="Land"
             android:textOn="Land" />
 
-        <ToggleButton
-            android:id="@+id/cameraPoiButton"
-            android:layout_width="150dp"
-            android:layout_height="wrap_content"
-            android:onClick="onToggle"
-            android:textOff="POI"
-            android:textOn="POI" />
-
     </RadioGroup>
-
+    
     <TextView
         android:id="@+id/armedStatus"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/flightMode"
         android:layout_below="@+id/flightMode"
-        android:text="Disarmed"
+        android:text="@string/disarmed"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <TextView
@@ -140,7 +132,18 @@
         android:layout_alignBaseline="@+id/armedStatus"
         android:layout_alignBottom="@+id/armedStatus"
         android:layout_toLeftOf="@+id/armedStatus"
-        android:text="Armed: "
+        android:text="@string/armed_"
         android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <ToggleButton
+        android:id="@+id/cameraPoiButton"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/modeSelector1"
+        android:layout_marginTop="32dp"
+        android:onClick="onPoiToggle"
+        android:textOff="POI Track"
+        android:textOn="POI Track" />
 
 </RelativeLayout>

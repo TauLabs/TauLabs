@@ -77,4 +77,10 @@
 	<string name="these_buttons_only_work_while_disarmed_">These buttons only work while disarmed.</string>
 
 	<string name="zero_tablet_poi_to_uav">Zero tablet POI to UAV</string>
+
+	<string name="flight_mode_">"Flight Mode: "</string>
+
+	<string name="disarmed">Disarmed</string>
+
+	<string name="armed_">"Armed: "</string>
 </resources>
