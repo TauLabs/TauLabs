@@ -48,10 +48,11 @@ STMSPDINCDIR = $(STMSPDDIR)/inc
 # use file-extension c for "c-only"-files
 
 ## BOOTLOADER:
-SRC += main.c
+SRC += $(BLCOMMONDIR)/tl_dfu.c
+SRC += $(BLCOMMONDIR)/led_pwm.c
+SRC += $(BLCOMMONDIR)/bl_xfer.c
 SRC += pios_board.c
 SRC += pios_usb_board_data.c
-SRC += op_dfu.c
 
 ## PIOS Hardware (STM32F4xx)
 include $(PIOS)/STM32F4xx/library.mk
@@ -62,6 +63,7 @@ SRC += $(PIOSCOMMON)/pios_com_msg.c
 SRC += $(PIOSCOMMON)/printf-stdarg.c
 SRC += $(PIOSCOMMON)/pios_usb_desc_hid_only.c
 SRC += $(PIOSCOMMON)/pios_usb_util.c
+SRC += $(PIOSCOMMON)/pios_flash.c
 
 # List C source files here which must be compiled in ARM-Mode (no -mthumb).
 # use file-extension c for "c-only"-files
@@ -81,6 +83,7 @@ CPPSRCARM =
 #    Each directory must be seperated by a space.
 EXTRAINCDIRS  += $(PIOS)
 EXTRAINCDIRS  += $(PIOSINC)
+EXTRAINCDIRS  += $(BLCOMMONDIR)
 EXTRAINCDIRS  += $(FLIGHTLIBINC)
 EXTRAINCDIRS  += $(PIOSSTM34FXX)
 EXTRAINCDIRS  += $(PIOSCOMMON)
