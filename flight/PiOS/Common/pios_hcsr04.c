@@ -43,7 +43,7 @@ static void PIOS_HCSR04_Task(void *parameters);
 
 /* Local Variables */
 /* 100 ms timeout without updates on channels */
-const static uint32_t PWM_SUPERVISOR_TIMEOUT = 100000;
+const static uint32_t HCSR04_PWM_SUPERVISOR_TIMEOUT = 100000;
 
 enum pios_hcsr04_dev_magic {
     PIOS_HCSR04_DEV_MAGIC = 0xab3029aa,
@@ -54,13 +54,13 @@ struct pios_hcsr04_dev {
     xTaskHandle task;
     xQueueHandle queue;
 
-    uint8_t CaptureState[PIOS_PWM_NUM_INPUTS];
-    uint16_t RiseValue[PIOS_PWM_NUM_INPUTS];
-    uint16_t FallValue[PIOS_PWM_NUM_INPUTS];
-    uint32_t CaptureValue[PIOS_PWM_NUM_INPUTS];
-    uint32_t CapCounter[PIOS_PWM_NUM_INPUTS];
-    uint32_t us_since_update[PIOS_PWM_NUM_INPUTS];
-    enum pios_hcsr04_dev_magic   magic;
+    uint8_t CaptureState[1];
+    uint16_t RiseValue[1];
+    uint16_t FallValue[1];
+    uint32_t CaptureValue[1];
+    uint32_t CapCounter[1];
+    uint32_t us_since_update[1];
+    enum pios_hcsr04_dev_magic magic;
 };
 
 static struct pios_hcsr04_dev *dev;
@@ -114,9 +114,9 @@ const static struct pios_tim_callbacks tim_callbacks = {
 /**
  * Initialises all the pins
  */
-int32_t PIOS_HCSR04_Init(uint32_t *pwm_id, const struct pios_hcsr04_cfg *cfg)
+int32_t PIOS_HCSR04_Init(uint32_t *hcsr04_id, const struct pios_hcsr04_cfg *cfg)
 {
-    PIOS_DEBUG_Assert(pwm_id);
+    PIOS_DEBUG_Assert(hcsr04_id);
     PIOS_DEBUG_Assert(cfg);
 
     struct pios_hcsr04_dev *hcsr04_dev;
@@ -130,13 +130,11 @@ int32_t PIOS_HCSR04_Init(uint32_t *pwm_id, const struct pios_hcsr04_cfg *cfg)
     hcsr04_dev->cfg = cfg;
     dev  = hcsr04_dev;
 
-    for (uint8_t i = 0; i < PIOS_PWM_NUM_INPUTS; i++) {
-        /* Flush counter variables */
-        hcsr04_dev->CaptureState[i] = 0;
-        hcsr04_dev->RiseValue[i]    = 0;
-        hcsr04_dev->FallValue[i]    = 0;
-        hcsr04_dev->CaptureValue[i] = PIOS_RCVR_TIMEOUT;
-    }
+    /* Flush counter variables */
+    hcsr04_dev->CaptureState[0] = 0;
+    hcsr04_dev->RiseValue[0]    = 0;
+    hcsr04_dev->FallValue[0]    = 0;
+    hcsr04_dev->CaptureValue[0] = -1;
 
     uint32_t tim_id;
     if (PIOS_TIM_InitChannels(&tim_id, cfg->channels, cfg->num_channels, &tim_callbacks, (uint32_t)hcsr04_dev)) {
@@ -144,37 +142,37 @@ int32_t PIOS_HCSR04_Init(uint32_t *pwm_id, const struct pios_hcsr04_cfg *cfg)
     }
 
     /* Configure the channels to be in capture/compare mode */
-    for (uint8_t i = 0; i < cfg->num_channels; i++) {
-        const struct pios_tim_channel *chan   = &cfg->channels[i];
 
-        /* Configure timer for input capture */
-        TIM_ICInitTypeDef TIM_ICInitStructure = cfg->tim_ic_init;
-        TIM_ICInitStructure.TIM_Channel = chan->timer_chan;
-        TIM_ICInit(chan->timer, &TIM_ICInitStructure);
+    const struct pios_tim_channel *chan   = &cfg->channels[0];
 
-        /* Enable the Capture Compare Interrupt Request */
-        switch (chan->timer_chan) {
-        case TIM_Channel_1:
-            TIM_ITConfig(chan->timer, TIM_IT_CC1, ENABLE);
-            break;
-        case TIM_Channel_2:
-            TIM_ITConfig(chan->timer, TIM_IT_CC2, ENABLE);
-            break;
-        case TIM_Channel_3:
-            TIM_ITConfig(chan->timer, TIM_IT_CC3, ENABLE);
-            break;
-        case TIM_Channel_4:
-            TIM_ITConfig(chan->timer, TIM_IT_CC4, ENABLE);
-            break;
-        }
+    /* Configure timer for input capture */
+    TIM_ICInitTypeDef TIM_ICInitStructure = cfg->tim_ic_init;
+    TIM_ICInitStructure.TIM_Channel = chan->timer_chan;
+    TIM_ICInit(chan->timer, &TIM_ICInitStructure);
 
-        // Need the update event for that timer to detect timeouts
-        TIM_ITConfig(chan->timer, TIM_IT_Update, ENABLE);
+    /* Enable the Capture Compare Interrupt Request */
+    switch (chan->timer_chan) {
+    case TIM_Channel_1:
+        TIM_ITConfig(chan->timer, TIM_IT_CC1, ENABLE);
+        break;
+    case TIM_Channel_2:
+        TIM_ITConfig(chan->timer, TIM_IT_CC2, ENABLE);
+        break;
+    case TIM_Channel_3:
+        TIM_ITConfig(chan->timer, TIM_IT_CC3, ENABLE);
+        break;
+    case TIM_Channel_4:
+        TIM_ITConfig(chan->timer, TIM_IT_CC4, ENABLE);
+        break;
     }
+
+    // Need the update event for that timer to detect timeouts
+    TIM_ITConfig(chan->timer, TIM_IT_Update, ENABLE);
+
 
     GPIO_Init(hcsr04_dev->cfg->trigger.gpio, (GPIO_InitTypeDef*)&hcsr04_dev->cfg->trigger.init);
 
-    *pwm_id = (uint32_t)hcsr04_dev;
+    *hcsr04_id = (uint32_t)hcsr04_dev;
 
     portBASE_TYPE result = xTaskCreate(PIOS_HCSR04_Task, (const signed char *)"pios_hcsr04",
                                                 HCSR04_TASK_STACK, NULL, HCSR04_TASK_PRIORITY,
@@ -224,11 +222,11 @@ static void PIOS_HCSR04_tim_overflow_cb(uint32_t tim_id, uint32_t context, uint8
     }
 
     hcsr04_dev->us_since_update[channel] += count;
-    if (hcsr04_dev->us_since_update[channel] >= PWM_SUPERVISOR_TIMEOUT) {
+    if (hcsr04_dev->us_since_update[channel] >= HCSR04_PWM_SUPERVISOR_TIMEOUT) {
         hcsr04_dev->CaptureState[channel]    = 0;
         hcsr04_dev->RiseValue[channel]       = 0;
         hcsr04_dev->FallValue[channel]       = 0;
-        hcsr04_dev->CaptureValue[channel]    = PIOS_RCVR_TIMEOUT;
+        hcsr04_dev->CaptureValue[channel]    = -1;
         hcsr04_dev->us_since_update[channel] = 0;
     }
 }
