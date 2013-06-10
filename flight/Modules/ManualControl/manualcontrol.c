@@ -44,6 +44,8 @@
 #include "transmitter_control.h"
 
 #include "flightstatus.h"
+#include "manualcontrolcommand.h"
+#include "manualcontrolsettings.h"
 #include "systemalarms.h"
 
 // Private constants
@@ -66,6 +68,7 @@ static portTickType lastSysTime;
 // Private functions
 static void manualControlTask(void *parameters);
 static bool ok_to_arm(void);
+static FlightStatusControlSourceOptions control_source_select();
 
 // Private functions for control events
 static int32_t control_event_arm();
@@ -130,9 +133,12 @@ static void manualControlTask(void *parameters)
 		enum control_events control_events = CONTROL_EVENTS_NONE;
 
 		// Control logic to select the valid controller
-		FlightStatusControlSourceOptions control_selection = transmitter_control_selected_controller();
+		FlightStatusControlSourceOptions control_selection = control_source_select();
 		bool reset_controller = control_selection != last_control_selection;
 
+		// This logic would be better collapsed into control_source_select but
+		// in the case of the tablet we need to be able to abort and fall back
+		// to failsafe for now
 		switch(control_selection) {
 		case FLIGHTSTATUS_CONTROLSOURCE_TRANSMITTER:
 			transmitter_control_select(reset_controller);
@@ -218,7 +224,30 @@ static int32_t control_event_disarm()
 	return 0;
 }
 
+/**
+ * @brief control_source_select Determine which sub-module to use
+ * for the main control source of the flight controller.
+ * @returns @ref FlightStatusControlSourceOptions indicating the selected
+ * mode
+ *
+ * This function is the ultimate one that controls what happens and
+ * selects modes such as failsafe, transmitter control, geofencing
+ * and potentially other high level modes in the future
+ */
+static FlightStatusControlSourceOptions control_source_select()
+{
+	ManualControlCommandData cmd;
+	ManualControlCommandGet(&cmd);
+	if (cmd.Connected != MANUALCONTROLCOMMAND_CONNECTED_TRUE) {
+		return FLIGHTSTATUS_CONTROLSOURCE_FAILSAFE;
+	} else if (transmitter_control_get_flight_mode() ==
+	           MANUALCONTROLSETTINGS_FLIGHTMODEPOSITION_TABLETCONTROL) {
+		return FLIGHTSTATUS_CONTROLSOURCE_TABLET;
+	} else {
+		return FLIGHTSTATUS_CONTROLSOURCE_TRANSMITTER;
+	}
 
+}
 /**
  * @brief Determine if the aircraft is safe to arm based on alarms
  * @returns True if safe to arm, false otherwise
