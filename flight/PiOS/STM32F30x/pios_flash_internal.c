@@ -43,6 +43,8 @@ enum pios_internal_flash_dev_magic {
 struct pios_internal_flash_dev {
 	enum pios_internal_flash_dev_magic magic;
 
+	const struct pios_flash_internal_cfg * cfg;
+
 #if defined(PIOS_INCLUDE_FREERTOS)
 	xSemaphoreHandle transaction_lock;
 #endif	/* defined(PIOS_INCLUDE_FREERTOS) */
@@ -94,6 +96,8 @@ int32_t PIOS_Flash_Internal_Init(uintptr_t * chip_id, const struct pios_flash_in
 #if defined(PIOS_INCLUDE_FREERTOS)
 	flash_dev->transaction_lock = xSemaphoreCreateMutex();
 #endif	/* defined(PIOS_INCLUDE_FREERTOS) */
+
+	flash_dev->cfg = cfg;
 
 	*chip_id = (uintptr_t) flash_dev;
 
