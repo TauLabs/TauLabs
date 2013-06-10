@@ -48,7 +48,14 @@ ModuleSettingsForm::ModuleSettingsForm(QWidget *parent, QPushButton *saveButton,
 {
     moduleSettingsWidget->setupUi(this);
 
-    // Populate strings
+    // Connect the apply/save/reload buttons.
+    if (applyButton != NULL || saveButton != NULL)
+        addApplySaveButtons(applyButton, saveButton);
+
+    if (reloadButton != NULL)
+        addReloadButton(reloadButton, 0);
+
+    // Populate UAVO strings
     AirspeedSettings *airspeedSettings;
     airspeedSettings = AirspeedSettings::GetInstance(getObjectManager());
     QString airspeedSettingsName = airspeedSettings->getName();
@@ -64,12 +71,6 @@ ModuleSettingsForm::ModuleSettingsForm(QWidget *parent, QPushButton *saveButton,
 
     VibrationAnalysisSettings vibrationAnalysisSettings;
     QString vibrationAnalysisSettingsName = vibrationAnalysisSettings.getName();
-
-    if (applyButton != NULL || saveButton != NULL)
-        addApplySaveButtons(applyButton, saveButton);
-
-    if (reloadButton != NULL)
-        addReloadButton(reloadButton, 0);
 
     // Link the checkboxes
     addUAVObjectToWidgetRelation(moduleSettingsName, "AdminState", moduleSettingsWidget->gb_Airspeed, ModuleSettings::ADMINSTATE_AIRSPEED);
@@ -130,6 +131,10 @@ ModuleSettingsForm::ModuleSettingsForm(QWidget *parent, QPushButton *saveButton,
     moduleSettingsWidget->gb_measureCurrent->setProperty(trueString.toAscii(), "Enabled");
     moduleSettingsWidget->gb_measureCurrent->setProperty(falseString.toAscii(), "Disabled");
 
+    // Refresh widget contents
+    refreshWidgetsValues();
+
+    // Prevent mouse wheel from changing values
     disableMouseWheelEvents();
 }
 
