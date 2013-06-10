@@ -67,6 +67,9 @@ static struct pios_internal_flash_dev * PIOS_Flash_Internal_alloc(void)
 	return(flash_dev);
 }
 #else
+#ifndef PIOS_INTERNAL_FLASH_MAX_DEVS
+#define PIOS_INTERNAL_FLASH_MAX_DEVS 1
+#endif	/* PIOS_INTERNAL_FLASH_MAX_DEVS */
 static struct pios_internal_flash_dev pios_internal_flash_devs[PIOS_INTERNAL_FLASH_MAX_DEVS];
 static uint8_t pios_internal_flash_num_devs;
 static struct pios_internal_flash_dev * PIOS_Flash_Internal_alloc(void)
