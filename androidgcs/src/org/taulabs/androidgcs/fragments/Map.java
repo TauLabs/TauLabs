@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.taulabs.androidgcs.R;
 import org.taulabs.uavtalk.UAVObject;
+import org.taulabs.uavtalk.UAVObjectField;
 import org.taulabs.uavtalk.UAVObjectManager;
 
 import android.content.Context;
@@ -21,6 +22,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ContextMenu.ContextMenuInfo;
+import android.widget.ToggleButton;
 
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -133,6 +135,13 @@ public class Map extends ObjectManagerFragment {
 		}
 
 		obj = objMngr.getObject("PositionActual");
+		if (obj != null) {
+			obj.updateRequested(); // Make sure this is correct and been updated
+			registerObjectUpdates(obj);
+			objectUpdated(obj);
+		}
+
+		obj = objMngr.getObject("TabletInfo");
 		if (obj != null) {
 			obj.updateRequested(); // Make sure this is correct and been updated
 			registerObjectUpdates(obj);
@@ -270,6 +279,12 @@ public class Map extends ObjectManagerFragment {
 			} else {
 				mHomeMarker.setPosition((new LatLng(homeLocation.getLatitudeE6() / 1e6, homeLocation.getLongitudeE6() / 1e6)));
 			}
+		} else if (obj.getName().compareTo("TabletInfo") == 0) {
+			UAVObjectField field = obj.getField("Connected");
+			if (field == null || field.getValue().toString().compareTo("False") == 0)
+				setTabletTracking(false);
+			
+
 		} else if (obj.getName().compareTo("PathDesired") == 0) {
 			pathDesiredLocation = getPathDesiredLocation();
 			if (mPathDesiredMarker == null) {
@@ -312,6 +327,27 @@ public class Map extends ObjectManagerFragment {
 		}
 	}
 
+	private void setTabletTracking(boolean trackingEnabled) {
+		// Disable the tracking function when tablet location unknown
+		ToggleButton toggle = (ToggleButton) getActivity().findViewById(R.id.cameraPoiButton);
+		if (toggle != null)
+			toggle.setEnabled(trackingEnabled);
+		if (toggle != null && !trackingEnabled)
+			toggle.setChecked(false);
+
+		// Disable the tracking function when tablet location unknown		
+		toggle = (ToggleButton) getActivity().findViewById(R.id.rttButton); 
+		if (toggle != null)
+			toggle.setEnabled(trackingEnabled);
+		if (toggle != null && !trackingEnabled)
+			toggle.setChecked(false);
+
+		toggle = (ToggleButton) getActivity().findViewById(R.id.followTabletButton); 
+		if (toggle != null)
+			toggle.setEnabled(trackingEnabled);
+		if (toggle != null && !trackingEnabled)
+			toggle.setChecked(false);
+	}
 	private GoogleMap.OnMarkerDragListener dragListener = new GoogleMap.OnMarkerDragListener() {
 
 		@Override
