@@ -41,7 +41,7 @@ class ModuleSettingsForm : public ConfigTaskWidget
     Q_OBJECT
 
 public:
-    explicit ModuleSettingsForm(QWidget *parent = 0);
+    explicit ModuleSettingsForm(QWidget *parent = 0, QPushButton *save = 0, QPushButton *apply = 0, QPushButton *reloadButton = 0);
     ~ModuleSettingsForm();
     friend class ConfigInputWidget;
 private slots:

@@ -42,7 +42,7 @@ QString ModuleSettingsForm::falseString("FalseString");
  * @brief ModuleSettingsForm::ModuleSettingsForm Constructor
  * @param parent
  */
-ModuleSettingsForm::ModuleSettingsForm(QWidget *parent) :
+ModuleSettingsForm::ModuleSettingsForm(QWidget *parent, QPushButton *saveButton, QPushButton *applyButton, QPushButton *reloadButton) :
     ConfigTaskWidget(parent),
     moduleSettingsWidget(new Ui::Module_Settings_Widget)
 {
@@ -65,11 +65,21 @@ ModuleSettingsForm::ModuleSettingsForm(QWidget *parent) :
     VibrationAnalysisSettings vibrationAnalysisSettings;
     QString vibrationAnalysisSettingsName = vibrationAnalysisSettings.getName();
 
+    if (applyButton != NULL || saveButton != NULL)
+        addApplySaveButtons(applyButton, saveButton);
+
+    if (reloadButton != NULL)
+        addReloadButton(reloadButton, 0);
+
     // Link the checkboxes
-    addUAVObjectToWidgetRelation(moduleSettingsName, "AdminState", moduleSettingsWidget->gb_Airspeed, ModuleSettings::ADMINSTATE_AIRSPEED); // TODO: Set the widget based on the UAVO getName() and getField() methods.
-    addUAVObjectToWidgetRelation(moduleSettingsName, "AdminState", moduleSettingsWidget->gb_Battery, ModuleSettings::ADMINSTATE_BATTERY); // TODO: Set the widget based on the UAVO getName() and getField() methods.
-    addUAVObjectToWidgetRelation(moduleSettingsName, "AdminState", moduleSettingsWidget->gb_VibrationAnalysis, ModuleSettings::ADMINSTATE_VIBRATIONANALYSIS); // TODO: Set the widget based on the UAVO getName() and getField() methods.
-    addUAVObjectToWidgetRelation(moduleSettingsName, "AdminState", moduleSettingsWidget->gb_GPS, ModuleSettings::ADMINSTATE_GPS); // TODO: Set the widget based on the UAVO getName() and getField() methods.
+    addUAVObjectToWidgetRelation(moduleSettingsName, "AdminState", moduleSettingsWidget->gb_Airspeed, ModuleSettings::ADMINSTATE_AIRSPEED);
+    addUAVObjectToWidgetRelation(moduleSettingsName, "AdminState", moduleSettingsWidget->gb_Battery, ModuleSettings::ADMINSTATE_BATTERY);
+    addUAVObjectToWidgetRelation(moduleSettingsName, "AdminState", moduleSettingsWidget->gb_GPS, ModuleSettings::ADMINSTATE_GPS);
+    addUAVObjectToWidgetRelation(moduleSettingsName, "AdminState", moduleSettingsWidget->gb_OveroSync, ModuleSettings::ADMINSTATE_OVEROSYNC);
+    addUAVObjectToWidgetRelation(moduleSettingsName, "AdminState", moduleSettingsWidget->gb_VibrationAnalysis, ModuleSettings::ADMINSTATE_VIBRATIONANALYSIS);
+
+    addUAVObjectToWidgetRelation(batterySettingsName, "SensorType", moduleSettingsWidget->gb_measureVoltage, FlightBatterySettings::SENSORTYPE_BATTERYVOLTAGE);
+    addUAVObjectToWidgetRelation(batterySettingsName, "SensorType", moduleSettingsWidget->gb_measureCurrent, FlightBatterySettings::SENSORTYPE_BATTERYCURRENT);
 
     // Link the fields
     addUAVObjectToWidgetRelation(airspeedSettingsName, "GPSSamplePeriod_ms", moduleSettingsWidget->sb_gpsUpdateRate);
@@ -83,8 +93,6 @@ ModuleSettingsForm::ModuleSettingsForm(QWidget *parent) :
     addUAVObjectToWidgetRelation(batterySettingsName, "VoltageThresholds", moduleSettingsWidget->sb_lowVoltageWarning, FlightBatterySettings::VOLTAGETHRESHOLDS_WARNING);
     addUAVObjectToWidgetRelation(batterySettingsName, "SensorCalibrations", moduleSettingsWidget->sb_voltageCalibration, FlightBatterySettings::SENSORCALIBRATIONS_VOLTAGEFACTOR);
     addUAVObjectToWidgetRelation(batterySettingsName, "SensorCalibrations", moduleSettingsWidget->sb_currentCalibration, FlightBatterySettings::SENSORCALIBRATIONS_CURRENTFACTOR);
-    addUAVObjectToWidgetRelation(batterySettingsName, "SensorType", moduleSettingsWidget->gb_measureVoltage, FlightBatterySettings::SENSORTYPE_BATTERYVOLTAGE);
-    addUAVObjectToWidgetRelation(batterySettingsName, "SensorType", moduleSettingsWidget->gb_measureCurrent, FlightBatterySettings::SENSORTYPE_BATTERYCURRENT);
 
     addUAVObjectToWidgetRelation(batteryStateName, "Voltage", moduleSettingsWidget->tb_liveVoltageReading);
     addUAVObjectToWidgetRelation(batteryStateName, "Current", moduleSettingsWidget->tb_liveCurrentReading);
@@ -98,10 +106,9 @@ ModuleSettingsForm::ModuleSettingsForm(QWidget *parent) :
     connect(airspeedSettings, SIGNAL(objectUpdated(UAVObject*)), this, SLOT(updateAirspeedUAVO(UAVObject *)));
     connect(moduleSettingsWidget->cb_pitotType, SIGNAL(currentIndexChanged(int)), this, SLOT(updatePitotType(int)));
     connect(moduleSettingsWidget->pb_startVibrationTest, SIGNAL(clicked()), this, SLOT(toggleVibrationTest()));
-    //    addUAVObjectToWidgetRelation(vibrationAnalysisSettingsName, "TestingStatus", moduleSettingsWidget->pb_startVibrationTest);
 
     // Set text properties for checkboxes. The second argument is the UAVO field that corresponds
-    // to the checkbox's true state.
+    // to the checkbox's true (respectively, false) state.
     moduleSettingsWidget->gb_Airspeed->setProperty(trueString.toAscii(), "Enabled");
     moduleSettingsWidget->gb_Airspeed->setProperty(falseString.toAscii(), "Disabled");
 
@@ -111,8 +118,17 @@ ModuleSettingsForm::ModuleSettingsForm(QWidget *parent) :
     moduleSettingsWidget->gb_GPS->setProperty(trueString.toAscii(), "Enabled");
     moduleSettingsWidget->gb_GPS->setProperty(falseString.toAscii(), "Disabled");
 
+    moduleSettingsWidget->gb_OveroSync->setProperty(trueString.toAscii(), "Enabled");
+    moduleSettingsWidget->gb_OveroSync->setProperty(falseString.toAscii(), "Disabled");
+
     moduleSettingsWidget->gb_VibrationAnalysis->setProperty(trueString.toAscii(), "Enabled");
     moduleSettingsWidget->gb_VibrationAnalysis->setProperty(falseString.toAscii(), "Disabled");
+
+    moduleSettingsWidget->gb_measureVoltage->setProperty(trueString.toAscii(), "Enabled");
+    moduleSettingsWidget->gb_measureVoltage->setProperty(falseString.toAscii(), "Disabled");
+
+    moduleSettingsWidget->gb_measureCurrent->setProperty(trueString.toAscii(), "Enabled");
+    moduleSettingsWidget->gb_measureCurrent->setProperty(falseString.toAscii(), "Disabled");
 
     disableMouseWheelEvents();
 }
@@ -125,7 +141,7 @@ ModuleSettingsForm::~ModuleSettingsForm()
 
 
 /**
- * @brief ModuleSettingsForm::getWidgetFromVariant Remiplmements getWidgetFromVariant. This version supports "FalseString".
+ * @brief ModuleSettingsForm::getWidgetFromVariant Reimplements getWidgetFromVariant. This version supports "FalseString".
  * @param widget pointer to the widget from where to get the value
  * @param scale scale to be used on the assignement
  * @return returns the value of the widget times the scale
@@ -170,7 +186,7 @@ QVariant ModuleSettingsForm::getVariantFromWidget(QWidget * widget, double scale
 
 
 /**
- * @brief ModuleSettingsForm::setWidgetFromVariant Remiplmements setWidgetFromVariant. This version supports "FalseString".
+ * @brief ModuleSettingsForm::setWidgetFromVariant Reimplements setWidgetFromVariant. This version supports "FalseString".
  * @param widget pointer for the widget to set
  * @param scale scale to be used on the assignement
  * @param value value to be used on the assignement
