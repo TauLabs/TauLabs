@@ -45,10 +45,11 @@ STMSPDINCDIR = $(STMSPDDIR)/inc
 # use file-extension c for "c-only"-files
 
 ## BOOTLOADER:
-SRC += main.c
+SRC += $(BLCOMMONDIR)/tl_dfu.c
+SRC += $(BLCOMMONDIR)/led_pwm.c
+SRC += $(BLCOMMONDIR)/bl_xfer.c
 SRC += pios_board.c
 SRC += pios_usb_board_data.c
-SRC += op_dfu.c
 
 ## PIOS Hardware (STM32F4xx)
 include $(PIOS)/STM32F4xx/library.mk
@@ -59,6 +60,8 @@ SRC += $(PIOSCOMMON)/pios_com_msg.c
 SRC += $(PIOSCOMMON)/printf-stdarg.c
 SRC += $(PIOSCOMMON)/pios_usb_desc_hid_only.c
 SRC += $(PIOSCOMMON)/pios_usb_util.c
+SRC += $(PIOSCOMMON)/pios_flash.c
+SRC += $(PIOSCOMMON)/pios_flash_jedec.c
 
 # List C source files here which must be compiled in ARM-Mode (no -mthumb).
 # use file-extension c for "c-only"-files
@@ -78,6 +81,7 @@ CPPSRCARM =
 #    Each directory must be seperated by a space.
 EXTRAINCDIRS  += $(PIOS)
 EXTRAINCDIRS  += $(PIOSINC)
+EXTRAINCDIRS  += $(BLCOMMONDIR)
 EXTRAINCDIRS  += $(FLIGHTLIBINC)
 EXTRAINCDIRS  += $(PIOSSTM34FXX)
 EXTRAINCDIRS  += $(PIOSCOMMON)
@@ -137,7 +141,10 @@ BLONLY_CDEFS += -DHW_TYPE=$(HW_TYPE)
 BLONLY_CDEFS += -DBOOTLOADER_VERSION=$(BOOTLOADER_VERSION)
 BLONLY_CDEFS += -DFW_BANK_BASE=$(FW_BANK_BASE)
 BLONLY_CDEFS += -DFW_BANK_SIZE=$(FW_BANK_SIZE)
+BLONLY_CDEFS += -DFW_DESC_BASE=$(FW_DESC_BASE)
 BLONLY_CDEFS += -DFW_DESC_SIZE=$(FW_DESC_SIZE)
+BLONLY_CDEFS += -DEE_BANK_BASE=$(EE_BANK_BASE)
+BLONLY_CDEFS += -DEE_BANK_SIZE=$(EE_BANK_SIZE)
 
 # Place project-specific -D and/or -U options for 
 # Assembler with preprocessor here.
