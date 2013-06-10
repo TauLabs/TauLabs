@@ -125,23 +125,20 @@ static void manualControlTask(void *parameters)
 		transmitter_control_update();
 		tablet_control_update();
 
-		static enum control_selection last_control_selection = CONTROL_SELECTION_FAILSAFE;
+		// Initialize to invalid value to ensure first update sets FlightStatus
+		static FlightStatusControlSourceOptions last_control_selection = -1;
 		enum control_events control_events = CONTROL_EVENTS_NONE;
 
 		// Control logic to select the valid controller
-		enum control_selection control_selection = transmitter_control_selected_controller();
+		FlightStatusControlSourceOptions control_selection = transmitter_control_selected_controller();
 		bool reset_controller = control_selection != last_control_selection;
 
 		switch(control_selection) {
-		case CONTROL_SELECTION_FAILSAFE:
-			failsafe_control_select(reset_controller);
-			control_events = failsafe_control_get_events();
-			break;
-		case CONTROL_SELECTION_TRANSMITTER:
+		case FLIGHTSTATUS_CONTROLSOURCE_TRANSMITTER:
 			transmitter_control_select(reset_controller);
 			control_events = transmitter_control_get_events();
 			break;
-		case CONTROL_SELECTION_TABLET:
+		case FLIGHTSTATUS_CONTROLSOURCE_TABLET:
 			if (tablet_control_select(reset_controller) == 0) {
 				control_events = tablet_control_get_events();
 			} else {
@@ -151,8 +148,16 @@ static void manualControlTask(void *parameters)
 				control_events = failsafe_control_get_events();
 			}
 			break;
+		case FLIGHTSTATUS_CONTROLSOURCE_FAILSAFE:
+		default:
+			failsafe_control_select(reset_controller);
+			control_events = failsafe_control_get_events();
+			break;
 		}
-		last_control_selection = control_selection;
+		if (control_selection != last_control_selection) {
+			FlightStatusControlSourceSet(&control_selection);
+			last_control_selection = control_selection;
+		}
 
 		// TODO: This can evolve into a full FSM like I2C possibly
 		switch(control_events) {

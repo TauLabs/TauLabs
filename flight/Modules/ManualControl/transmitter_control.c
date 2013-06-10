@@ -399,15 +399,15 @@ int32_t transmitter_control_select(bool reset_controller)
 }
 
 //! Choose the control source based on transmitter status
-enum control_selection transmitter_control_selected_controller()
+FlightStatusControlSourceOptions transmitter_control_selected_controller()
 {
 	ManualControlCommandGet(&cmd);
 	if (cmd.Connected != MANUALCONTROLCOMMAND_CONNECTED_TRUE) {
-		return CONTROL_SELECTION_FAILSAFE;
+		return FLIGHTSTATUS_CONTROLSOURCE_FAILSAFE;
 	} else if (get_flight_mode() == MANUALCONTROLSETTINGS_FLIGHTMODEPOSITION_TABLETCONTROL) {
-		return CONTROL_SELECTION_TABLET;
+		return FLIGHTSTATUS_CONTROLSOURCE_TABLET;
 	} else {
-		return CONTROL_SELECTION_TRANSMITTER;
+		return FLIGHTSTATUS_CONTROLSOURCE_TRANSMITTER;
 	}
 }
 

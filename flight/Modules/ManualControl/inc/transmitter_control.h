@@ -111,7 +111,7 @@ int32_t transmitter_control_update();
 int32_t transmitter_control_select(bool reset_controller);
 
 //! Choose the control source based on transmitter status
-enum control_selection transmitter_control_selected_controller();
+FlightStatusControlSourceOptions transmitter_control_selected_controller();
 
 //! Get any control events
 enum control_events transmitter_control_get_events();
