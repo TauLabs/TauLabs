@@ -262,7 +262,8 @@ static void attitudeUpdated(UAVObjEvent* ev)
 					// Does not make sense to use position to control yaw
 					break;
 				case CAMERASTABSETTINGS_INPUT_PITCH:
-					csd->inputs[CAMERASTABSETTINGS_INPUT_PITCH] = pitch;
+					// Sign for declination is opposite of the sign for pitch used below
+					csd->inputs[CAMERASTABSETTINGS_INPUT_PITCH] = -pitch;
 					break;
 				case CAMERASTABSETTINGS_INPUT_YAW:
 					CameraDesiredBearingSet(&yaw);
