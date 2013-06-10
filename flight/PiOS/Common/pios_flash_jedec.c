@@ -431,67 +431,6 @@ static int32_t PIOS_Flash_Jedec_WriteData(uintptr_t flash_id, uint32_t addr, uin
 }
 
 /**
- * @brief Write multiple chunks of data in one transaction
- * @param[in] addr Address in flash to write to
- * @param[in] data Pointer to data to write to flash
- * @param[in] len Length of data to write (max 256 bytes)
- * @return Zero if success or error code
- * @retval -1 Unable to claim SPI bus
- * @retval -2 Size exceeds 256 bytes
- * @retval -3 Length to write would wrap around page boundary
- */
-static int32_t PIOS_Flash_Jedec_WriteChunks(uintptr_t flash_id, uint32_t addr, struct pios_flash_chunk chunks[], uint32_t num)
-{
-	struct jedec_flash_dev * flash_dev = (struct jedec_flash_dev *)flash_id;
-
-	if (PIOS_Flash_Jedec_Validate(flash_dev) != 0)
-		return -1;
-
-	uint8_t ret;
-	uint8_t out[4] = {JEDEC_PAGE_WRITE, (addr >> 16) & 0xff, (addr >> 8) & 0xff , addr & 0xff};
-
-	/* Can only write one page at a time */
-	uint32_t len = 0;
-	for (uint32_t i = 0; i < num; i++)
-		len += chunks[i].len;
-
-	if (len > 0x100)
-		return -2;
-
-	/* Ensure number of bytes fits after starting address before end of page */
-	if (((addr & 0xff) + len) > 0x100)
-		return -3;
-
-	if ((ret = PIOS_Flash_Jedec_WriteEnable(flash_dev)) != 0)
-		return ret;
-
-	/* Execute write page command and clock in address.  Keep CS asserted */
-	if (PIOS_Flash_Jedec_ClaimBus(flash_dev) != 0)
-		return -1;
-
-	if (PIOS_SPI_TransferBlock(flash_dev->spi_id,out,NULL,sizeof(out),NULL) < 0) {
-		PIOS_Flash_Jedec_ReleaseBus(flash_dev);
-		return -1;
-	}
-
-	for (uint32_t i = 0; i < num; i++) {
-		struct pios_flash_chunk * chunk = &chunks[i];
-
-		/* Clock out data to flash */
-		if (PIOS_SPI_TransferBlock(flash_dev->spi_id,chunk->addr,NULL,chunk->len,NULL) < 0) {
-			PIOS_Flash_Jedec_ReleaseBus(flash_dev);
-			return -1;
-		}
-
-	}
-	PIOS_Flash_Jedec_ReleaseBus(flash_dev);
-
-	// Skip checking for busy with this to get OS running again fast
-
-	return 0;
-}
-
-/**
  * @brief Read data from a location in flash memory
  * @param[in] addr Address in flash to write to
  * @param[in] data Pointer to data to write from flash
@@ -533,7 +472,6 @@ const struct pios_flash_driver pios_jedec_flash_driver = {
 	.start_transaction = PIOS_Flash_Jedec_StartTransaction,
 	.end_transaction   = PIOS_Flash_Jedec_EndTransaction,
 	.erase_sector      = PIOS_Flash_Jedec_EraseSector,
-	.write_chunks      = PIOS_Flash_Jedec_WriteChunks,
 	.write_data        = PIOS_Flash_Jedec_WriteData,
 	.read_data         = PIOS_Flash_Jedec_ReadData,
 };
