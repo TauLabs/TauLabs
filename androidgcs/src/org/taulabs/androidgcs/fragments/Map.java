@@ -42,9 +42,11 @@ public class Map extends ObjectManagerFragment {
 	private GoogleMap mMap;
 	private Marker mUavMarker;
 	private Marker mHomeMarker;
+	private Marker mPathDesiredMarker;
 	private final List<Marker> mWaypointMarkers = new ArrayList<Marker>();
 
     private GeoPoint homeLocation;
+    private GeoPoint pathDesiredLocation;
     private GeoPoint uavLocation;
 
 	@Override
@@ -95,6 +97,8 @@ public class Map extends ObjectManagerFragment {
                 mMap.animateCamera(CameraUpdateFactory.newLatLng(arg0));
 			}
 		});
+		
+		mMap.setOnMarkerDragListener(dragListener);
 
 		//! If the current tablet location is available, jump straight to it
 		LocationManager locationManager =
@@ -115,6 +119,13 @@ public class Map extends ObjectManagerFragment {
 	public void onOPConnected(UAVObjectManager objMngr) {
 		super.onOPConnected(objMngr);
 		UAVObject obj = objMngr.getObject("HomeLocation");
+		if (obj != null) {
+			obj.updateRequested(); // Make sure this is correct and been updated
+			registerObjectUpdates(obj);
+			objectUpdated(obj);
+		}
+
+		obj = objMngr.getObject("PathDesired");
 		if (obj != null) {
 			obj.updateRequested(); // Make sure this is correct and been updated
 			registerObjectUpdates(obj);
@@ -175,6 +186,38 @@ public class Map extends ObjectManagerFragment {
 		return new GeoPoint((int) (lat * 1e6), (int) (lon * 1e6));
 	}
 
+	//! Convert path desired into a GeoPoint
+	private GeoPoint getPathDesiredLocation() {
+		UAVObject pos = objMngr.getObject("PathDesired");
+		if (pos == null)
+			return new GeoPoint(0,0);
+
+		UAVObject home = objMngr.getObject("HomeLocation");
+		if (home == null)
+			return new GeoPoint(0,0);
+
+		double lat, lon, alt;
+		lat = home.getField("Latitude").getDouble() / 10.0e6;
+		lon = home.getField("Longitude").getDouble() / 10.0e6;
+		alt = home.getField("Altitude").getDouble();
+
+		// Get the home coordinates
+		double T0, T1;
+		T0 = alt+6.378137E6;
+		T1 = Math.cos(lat * Math.PI / 180.0)*(alt+6.378137E6);
+
+		// Get the NED coordinates
+		double NED0, NED1;
+		NED0 = pos.getField("End").getDouble(0);
+		NED1 = pos.getField("End").getDouble(1);
+
+		// Compute the LLA coordinates
+		lat = lat + (NED0 / T0) * 180.0 / Math.PI;
+		lon = lon + (NED1 / T1) * 180.0 / Math.PI;
+
+		return new GeoPoint((int) (lat * 1e6), (int) (lon * 1e6));
+	}
+
 	//! Get a GeoPoint for a Waypoint
 	private GeoPoint getWaypointLocation(int idx) {
 		UAVObject pos = objMngr.getObject("Waypoint", idx);
@@ -227,6 +270,19 @@ public class Map extends ObjectManagerFragment {
 			} else {
 				mHomeMarker.setPosition((new LatLng(homeLocation.getLatitudeE6() / 1e6, homeLocation.getLongitudeE6() / 1e6)));
 			}
+		} else if (obj.getName().compareTo("PathDesired") == 0) {
+			pathDesiredLocation = getPathDesiredLocation();
+			if (mPathDesiredMarker == null) {
+				mPathDesiredMarker = mMap.addMarker(new MarkerOptions().anchor(0.5f,1.0f)
+			       .position(new LatLng(pathDesiredLocation.getLatitudeE6() / 1e6, pathDesiredLocation.getLongitudeE6() / 1e6))
+			       .title("Path Desired")
+			       .snippet(String.format("%g, %g", pathDesiredLocation.getLatitudeE6() / 1e6, pathDesiredLocation.getLongitudeE6() / 1e6))
+			       .icon(BitmapDescriptorFactory.fromResource(R.drawable.marker_default)));
+			} else {
+				mPathDesiredMarker.setPosition((new LatLng(pathDesiredLocation.getLatitudeE6() / 1e6, pathDesiredLocation.getLongitudeE6() / 1e6)));
+			}
+			mPathDesiredMarker.setDraggable(true);
+
 		} else if (obj.getName().compareTo("PositionActual") == 0) {
 			uavLocation = getUavLocation();
 			if (mUavMarker == null) {
@@ -256,6 +312,60 @@ public class Map extends ObjectManagerFragment {
 		}
 	}
 
+	private GoogleMap.OnMarkerDragListener dragListener = new GoogleMap.OnMarkerDragListener() {
+
+		@Override
+		public void onMarkerDrag(Marker arg0) {
+		}
+
+		@Override
+		public void onMarkerDragEnd(Marker arg0) {
+			if (DEBUG) Log.d(TAG, "Drag ended: " + arg0.getId());
+			// If path desired is what was dragged
+			
+			if (arg0.equals(mPathDesiredMarker)) {
+				if (DEBUG) Log.d(TAG, "Path Desired");
+				LatLng newPos = mPathDesiredMarker.getPosition();
+				
+				// TODO: check only in position hold tablet mode
+
+				UAVObject pos = objMngr.getObject("PathDesired");
+				if (pos == null)
+					return;
+
+				UAVObject home = objMngr.getObject("HomeLocation");
+				if (home == null)
+					return;
+
+				double home_lat, home_lon, home_alt;
+				home_lat = home.getField("Latitude").getDouble() / 10.0e6;
+				home_lon = home.getField("Longitude").getDouble() / 10.0e6;
+				home_alt = home.getField("Altitude").getDouble();
+
+				// Get the home coordinates
+				double T0, T1;
+				T0 = home_alt+6.378137E6;
+				T1 = Math.cos(home_lat * Math.PI / 180.0)*(home_alt+6.378137E6);
+
+				// Get the NED coordinates
+				double NED0, NED1;
+				NED0 = (newPos.latitude - home_lat) * Math.PI / 180.0 * T0;
+				NED1 = (newPos.longitude - home_lon) * Math.PI / 180.0 * T1;
+				
+				pos.getField("End").setDouble(NED0, 0);
+				pos.getField("End").setDouble(NED1, 1);
+				pos.updated();
+			}
+		}
+
+		@Override
+		public void onMarkerDragStart(Marker arg0) {
+			// TODO Auto-generated method stub
+			
+		}
+		
+	};
+	
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View v,
 	                                ContextMenuInfo menuInfo) {
