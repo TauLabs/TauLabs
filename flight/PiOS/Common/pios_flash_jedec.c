@@ -341,51 +341,6 @@ static int32_t PIOS_Flash_Jedec_EraseSector(uintptr_t flash_id, uint32_t addr)
 }
 
 /**
- * @brief Execute the whole chip
- * @returns 0 if successful, -1 if unable to claim bus
- */
-static int32_t PIOS_Flash_Jedec_EraseChip(uintptr_t flash_id)
-{
-	struct jedec_flash_dev * flash_dev = (struct jedec_flash_dev *)flash_id;
-
-	if (PIOS_Flash_Jedec_Validate(flash_dev) != 0)
-		return -1;
-
-	uint8_t ret;
-	uint8_t out[] = {flash_dev->cfg->chip_erase};
-
-	if ((ret = PIOS_Flash_Jedec_WriteEnable(flash_dev)) != 0)
-		return ret;
-
-	if (PIOS_Flash_Jedec_ClaimBus(flash_dev) != 0)
-		return -1;
-
-	if (PIOS_SPI_TransferBlock(flash_dev->spi_id,out,NULL,sizeof(out),NULL) < 0) {
-		PIOS_Flash_Jedec_ReleaseBus(flash_dev);
-		return -2;
-	}
-
-	PIOS_Flash_Jedec_ReleaseBus(flash_dev);
-
-	// Keep polling when bus is busy too
-	int i = 0;
-	while (PIOS_Flash_Jedec_Busy(flash_dev) != 0) {
-#if defined(FLASH_FREERTOS)
-		vTaskDelay(1);
-		if ((i++) % 100 == 0)
-#else
-		if ((i++) % 10000 == 0)
-#endif
-
-			PIOS_LED_Toggle(PIOS_LED_HEARTBEAT);
-
-}
-
-	return 0;
-}
-
-
-/**
  * @brief Write one page of data (up to 256 bytes) aligned to a page start
  * @param[in] addr Address in flash to write to
  * @param[in] data Pointer to data to write to flash
@@ -555,7 +510,6 @@ static int32_t PIOS_Flash_Jedec_ReadData(uintptr_t flash_id, uint32_t addr, uint
 const struct pios_flash_driver pios_jedec_flash_driver = {
 	.start_transaction = PIOS_Flash_Jedec_StartTransaction,
 	.end_transaction   = PIOS_Flash_Jedec_EndTransaction,
-	.erase_chip        = PIOS_Flash_Jedec_EraseChip,
 	.erase_sector      = PIOS_Flash_Jedec_EraseSector,
 	.write_chunks      = PIOS_Flash_Jedec_WriteChunks,
 	.write_data        = PIOS_Flash_Jedec_WriteData,

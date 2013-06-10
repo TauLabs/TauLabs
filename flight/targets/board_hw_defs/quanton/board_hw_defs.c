@@ -597,7 +597,6 @@ static const struct pios_flash_jedec_cfg flash_mx25_cfg = {
 	.expect_memorytype   = 0x20,
 	.expect_capacity     = 0x16,
 	.sector_erase        = 0x20,
-	.chip_erase          = 0x60,
 };
 
 #include "pios_flash.h"

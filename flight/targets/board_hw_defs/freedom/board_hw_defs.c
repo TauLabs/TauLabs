@@ -545,7 +545,6 @@ static const struct pios_flash_jedec_cfg flash_m25p_cfg = {
 	.expect_memorytype   = 0x20,
 	.expect_capacity     = 0x15,
 	.sector_erase        = 0xD8,
-	.chip_erase          = 0xC7,
 };
 
 static const struct flashfs_logfs_cfg flashfs_internal_cfg = {
