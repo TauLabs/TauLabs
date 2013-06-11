@@ -83,8 +83,8 @@ const struct pios_tcp_cfg pios_tcp_aux_cfg = {
 };
 #endif
 
-#define PIOS_COM_TELEM_RF_RX_BUF_LEN 192
-#define PIOS_COM_TELEM_RF_TX_BUF_LEN 192
+#define PIOS_COM_TELEM_RF_RX_BUF_LEN 384
+#define PIOS_COM_TELEM_RF_TX_BUF_LEN 384
 #define PIOS_COM_GPS_RX_BUF_LEN 96
 
 /**
