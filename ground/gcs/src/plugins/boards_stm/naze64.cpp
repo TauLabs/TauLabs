@@ -26,7 +26,7 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
-#include "vrbrain.h"
+#include "naze64.h"
 
 /**
  * @brief Naze64::Naze64
