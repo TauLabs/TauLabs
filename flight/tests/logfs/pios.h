@@ -10,3 +10,7 @@
 #include <pios_flash.h>
 #include <pios_flashfs.h>
 #endif
+
+/* Would be from pios_debug.h but that file pulls on way too many dependencies */
+#define PIOS_Assert(x) if (!(x)) { while (1) ; }
+#define PIOS_DEBUG_Assert(x) PIOS_Assert(x)
