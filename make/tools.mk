@@ -501,11 +501,11 @@ libkml_install: libkml_clean
 	)
 
         # delete the extracted source when we're done
-	$(V1) [ ! -d "$(LIBKML_BUILD_DIR)" ] || $(RM) -r "$(LIBKML_BUILD_DIR)"
+	$(V1) [ ! -d "$(LIBKML_BUILD_DIR)" ] || $(RM) -rf "$(LIBKML_BUILD_DIR)"
 
 .PHONY: libkml_clean
 libkml_clean:
 	$(V0) @echo " CLEAN        $(LIBKML_INSTALL_DIR)"
-	$(V1) [ ! -d "$(LIBKML_INSTALL_DIR)" ] || $(RM) -r "$(LIBKML_INSTALL_DIR)"
+	$(V1) [ ! -d "$(LIBKML_INSTALL_DIR)" ] || $(RM) -rf "$(LIBKML_INSTALL_DIR)"
 	$(V0) @echo " CLEAN        $(LIBKML_BUILD_DIR)"
-	$(V1) [ ! -d "$(LIBKML_BUILD_DIR)" ] || $(RM) -r "$(LIBKML_BUILD_DIR)"
+	$(V1) [ ! -d "$(LIBKML_BUILD_DIR)" ] || $(RM) -rf "$(LIBKML_BUILD_DIR)"
