@@ -496,8 +496,8 @@ libkml_install: libkml_clean
 	  ./autogen.sh ; \
 	  cd $(LIBKML_BUILD_DIR)/build ; \
 	  ../configure --prefix="$(LIBKML_INSTALL_DIR)"; \
-	  make ; \
-	  make install ; \
+	  $(MAKE) ; \
+	  $(MAKE) install ; \
 	)
 
         # delete the extracted source when we're done
