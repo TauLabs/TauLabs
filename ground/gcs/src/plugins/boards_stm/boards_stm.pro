@@ -8,12 +8,14 @@ OTHER_FILES += Stm.pluginspec
 HEADERS += \
     stmplugin.h \
     flyingf3.h \
+    naze64.h \
     flyingf4.h \
     discoveryf4.h
 
 SOURCES += \
     stmplugin.cpp \
     flyingf3.cpp \
+    naze64.cpp \
     flyingf4.cpp \
     discoveryf4.cpp
 
