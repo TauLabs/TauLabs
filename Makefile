@@ -196,6 +196,10 @@ help:
 	@echo
 	@echo "   [GCS]"
 	@echo "     gcs                  - Build the Ground Control System (GCS) application"
+	@echo "        GCS_QMAKE_OPTS=     - Optional build flags with the following arguments:"
+	@echo "           \"CONFIG+=LIGHTWEIGHT_GCS\"  - Build a lightweight GCS suitable for low-powered platforms"
+	@echo "           \"CONFIG+=SDL\"              - Enable joystick and gamepad support"
+	@echo "           \"CONFIG+=OSG\"              - Enable OpenSceneGraph support"
 	@echo "     gcs_clean            - Remove the Ground Control System (GCS) application"
 	@echo
 	@echo "   [AndroidGCS]"
