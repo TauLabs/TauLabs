@@ -69,7 +69,7 @@ static struct pios_gcsrcvr_dev *PIOS_gcsrcvr_alloc(void)
 	if (!gcsrcvr_dev) return(NULL);
 
 	gcsrcvr_dev->magic = PIOS_GCSRCVR_DEV_MAGIC;
-	gcsrcvr_dev->Fresh = FALSE;
+	gcsrcvr_dev->Fresh = false;
 	gcsrcvr_dev->supv_timer = 0;
 
 	/* The update callback cannot receive the device pointer, so set it in a global */
@@ -90,7 +90,7 @@ static struct pios_gcsrcvr_dev *PIOS_gcsrcvr_alloc(void)
 
 	gcsrcvr_dev = &pios_gcsrcvr_devs[pios_gcsrcvr_num_devs++];
 	gcsrcvr_dev->magic = PIOS_GCSRCVR_DEV_MAGIC;
-	gcsrcvr_dev->Fresh = FALSE;
+	gcsrcvr_dev->Fresh = false;
 	gcsrcvr_dev->supv_timer = 0;
 
 	global_gcsrcvr_dev = gcsrcvr_dev;
@@ -104,7 +104,7 @@ static void gcsreceiver_updated(UAVObjEvent * ev)
 	struct pios_gcsrcvr_dev *gcsrcvr_dev = global_gcsrcvr_dev;
 	if (ev->obj == GCSReceiverHandle()) {
 		GCSReceiverGet(&gcsreceiverdata);
-		gcsrcvr_dev->Fresh = TRUE;
+		gcsrcvr_dev->Fresh = true;
 	}
 }
 

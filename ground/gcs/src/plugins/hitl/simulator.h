@@ -304,7 +304,7 @@ protected:
     QMutex lock;
 
 private:
-    bool once;
+    bool homePositionSet;
     float initN;
     float initE;
     float initD;
