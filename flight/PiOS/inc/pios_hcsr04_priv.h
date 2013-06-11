@@ -7,7 +7,6 @@
  * @{
  *
  * @file       pios_servo_priv.h
- * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
  * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
  * @brief      Servo private structures.
  * @see        The GNU Public License (GPL) Version 3

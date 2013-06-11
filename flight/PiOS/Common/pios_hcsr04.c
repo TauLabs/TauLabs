@@ -6,7 +6,6 @@
  * @{
  *
  * @file       pios_hcsr04.c
- * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
  * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
  * @brief      HCSR04 sonar Sensor Routines
  *
