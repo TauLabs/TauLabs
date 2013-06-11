@@ -1,6 +1,9 @@
 /**
  ******************************************************************************
- *
+ * @addtogroup TauLabsModules Tau Labs Modules
+ * @{
+ * @addtogroup Control Control Module
+ * @{
  * @file       crash_commands.h
  * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
  * @brief      Header for path manipulation library

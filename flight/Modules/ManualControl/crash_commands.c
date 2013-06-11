@@ -1,6 +1,9 @@
 /**
  ******************************************************************************
- *
+ * @addtogroup TauLabsModules Tau Labs Modules
+ * @{
+ * @addtogroup Control Control Module
+ * @{
  * @file       crash_commands.c
  * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
  * @brief      Crash commands
@@ -29,8 +32,7 @@
 
 #include "stabilizationdesired.h"
 
-// private functions
-
+//! Sets the stabilization values in such a way that the model will gently crash
 void nice_crash()
 {
 	// Pick default values that will roughly cause a plane to circle down
@@ -47,6 +49,7 @@ void nice_crash()
 	StabilizationDesiredSet(&stabilization_desired);
 }
 
+//! Sets the stabilization values in such a way that the model will violently crash
 void nasty_crash()
 {
 	// Pick default values that will cause a plane to spin down
