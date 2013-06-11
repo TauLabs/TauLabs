@@ -3,6 +3,7 @@
  *
  * @file       posix.h  
  * @author     Corvus Corax Copyright (C) 2010.
+ * @author     Tau Labs, http:://www.taulabs.org, 2013.
  * @brief      Definitions to run PiOS on posix
  * @see        The GNU Public License (GPL) Version 2
  *
@@ -28,12 +29,7 @@
 
 #include <stdint.h>
 
-typedef enum {FALSE = 0, TRUE = !FALSE} bool;
-
-#ifndef false
-	#define false FALSE
-	#define true TRUE
-#endif
+#include <stdbool.h>
 
 #define FILEINFO FILE*
 

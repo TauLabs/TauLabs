@@ -258,8 +258,9 @@ void Simulator::setupUAVObjects()
                 UAVObject::Metadata mdata = obj->getMetadata();
                 UAVObject::SetFlightTelemetryUpdateMode(mdata, UAVObject::UPDATEMODE_PERIODIC);
 
-                // Default configuration for all UAVO data rates is "slowUpdate"
-                mdata.flightTelemetryUpdatePeriod = slowUpdate;
+                // Default configuration for all UAVO data rates is "slowUpdate". Add a random factor
+                // so that not all UAVOs update at the same time, which otherwise congests the bus.
+                mdata.flightTelemetryUpdatePeriod = slowUpdate + (rand() % 30);
 
                 metaDataList.insert(obj->getName(), mdata);
             }
@@ -403,7 +404,7 @@ void Simulator::onSimulatorConnectionTimeout()
 
 
 void Simulator::resetInitialHomePosition(){
-    once=false;
+    homePositionSet=false;
 }
 
 
@@ -423,7 +424,7 @@ void Simulator::updateUAVOs(Output2Hardware out){
 
     /*******************************/
     HomeLocation::DataFields homeData = posHome->getData();
-    if(!once)
+    if(!homePositionSet)
     {
         // Upon startup, we reset the HomeLocation object to
         // the plane's location:
@@ -437,6 +438,8 @@ void Simulator::updateUAVOs(Output2Hardware out){
         homeData.Be[1]=0;
         homeData.Be[2]=0;
 
+        homeData.Set = HomeLocation::SET_TRUE;
+
         homeData.GroundTemperature=15;
         homeData.SeaLevelPressure=1013;
 
@@ -448,7 +451,7 @@ void Simulator::updateUAVOs(Output2Hardware out){
         initE = out.dstE;
         initD = out.dstD;
 
-        once=true;
+        homePositionSet=true;
     }
 
     /*******************************/
