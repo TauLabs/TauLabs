@@ -30,11 +30,8 @@
 #ifndef CONTROL_H
 #define CONTROL_H
 
-enum control_selection {
-	CONTROL_SELECTION_FAILSAFE,
-	CONTROL_SELECTION_TRANSMITTER,
-	CONTROL_SELECTION_TABLET
-};
+// The enum from here is used to determine the flight mode
+#include "flightstatus.h"
 
 enum control_events {
 	CONTROL_EVENTS_NONE,

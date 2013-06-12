@@ -96,7 +96,6 @@ static void update_actuator_desired(ManualControlCommandData * cmd);
 static void update_stabilization_desired(ManualControlCommandData * cmd, ManualControlSettingsData * settings);
 static void altitude_hold_desired(ManualControlCommandData * cmd, bool flightModeChanged);
 static void update_path_desired(ManualControlCommandData * cmd, bool flightModeChanged, bool home);
-static uint8_t get_flight_mode();
 static void set_flight_mode();
 static void process_transmitter_events(ManualControlCommandData * cmd, ManualControlSettingsData * settings);
 static void set_manual_control_error(SystemAlarmsManualControlOptions errorCode);
@@ -398,25 +397,23 @@ int32_t transmitter_control_select(bool reset_controller)
 	return 0;
 }
 
-//! Choose the control source based on transmitter status
-enum control_selection transmitter_control_selected_controller()
-{
-	ManualControlCommandGet(&cmd);
-	if (cmd.Connected != MANUALCONTROLCOMMAND_CONNECTED_TRUE) {
-		return CONTROL_SELECTION_FAILSAFE;
-	} else if (get_flight_mode() == MANUALCONTROLSETTINGS_FLIGHTMODEPOSITION_TABLETCONTROL) {
-		return CONTROL_SELECTION_TABLET;
-	} else {
-		return CONTROL_SELECTION_TRANSMITTER;
-	}
-}
-
 //! Get any control events and flush it
 enum control_events transmitter_control_get_events()
 {
 	enum control_events to_return = pending_control_event;
 	pending_control_event = CONTROL_EVENTS_NONE;
 	return to_return;
+}
+
+//! Determine which of N positions the flight mode switch is in but do not set it
+uint8_t transmitter_control_get_flight_mode()
+{
+	// Convert flightMode value into the switch position in the range [0..N-1]
+	uint8_t pos = ((int16_t)(flight_mode_value * 256.0f) + 256) * settings.FlightModeNumber >> 9;
+	if (pos >= settings.FlightModeNumber)
+		pos = settings.FlightModeNumber - 1;
+
+	return settings.FlightModePosition[pos];
 }
 
 //! Schedule the appropriate event to change the arm status
@@ -550,21 +547,11 @@ static void process_transmitter_events(ManualControlCommandData * cmd, ManualCon
 	}
 }
 
-//! Determine which of N positions the flight mode switch is in but do not set it
-static uint8_t get_flight_mode()
-{
-	// Convert flightMode value into the switch position in the range [0..N-1]
-	uint8_t pos = ((int16_t)(flight_mode_value * 256.0f) + 256) * settings.FlightModeNumber >> 9;
-	if (pos >= settings.FlightModeNumber)
-		pos = settings.FlightModeNumber - 1;
-
-	return settings.FlightModePosition[pos];
-}
 
 //! Determine which of N positions the flight mode switch is in and set flight mode accordingly
 static void set_flight_mode()
 {
-	uint8_t new_mode = get_flight_mode();
+	uint8_t new_mode = transmitter_control_get_flight_mode();
 
 	FlightStatusData flightStatus;
 	FlightStatusGet(&flightStatus);
