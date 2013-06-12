@@ -40,8 +40,9 @@
  * and slots, but has no direct handles to any particular controls or widgets.
  *
  * It performs a number of calibration routines, including six-point calibration
- * for accelerometers and magnetometers, temperature compensation for gyros and,
- * calculating the rotation to level the accelerometers.
+ * for accelerometers and magnetometers, temperature compensation for gyros,
+ * calculating the rotation to level the accelerometers, and calculating the
+ * board orientation.
  */
 class CONFIG_EXPORT Calibration : public QObject
 {
@@ -55,7 +56,7 @@ public:
 
 private:
     enum CALIBRATION_STATE {
-        IDLE, LEVELING,
+        IDLE, LEVELING, YAW_ORIENTATION,
         SIX_POINT_WAIT1, SIX_POINT_COLLECT1,
         SIX_POINT_WAIT2, SIX_POINT_COLLECT2,
         SIX_POINT_WAIT3, SIX_POINT_COLLECT3,
@@ -66,8 +67,11 @@ private:
     } calibration_state;
 
 public slots:
-    //! Start collecting data while aircraft is level
+    //! Start collecting data while vehicle is level
     void doStartLeveling();
+
+    //! Start collecting data while vehicle is in pure pitch
+    void doStartOrientation();
 
     //! Start the six point calibration routine
     void doStartSixPoint();
@@ -114,8 +118,14 @@ signals:
     //! Show an instruction to the user for six point calibration
     void showSixPointMessage(QString message);
 
-    //! Show an instruction to the user for six point calibration
+    //! Show an instruction to the user for yaw orientation
+    void showYawOrientationMessage(QString message);
+
+    //! Show an instruction to the user for leveling
     void showLevelingMessage(QString message);
+
+    //! Indicate what the progress is for yaw orientation
+    void yawOrientationProgressChanged(int);
 
     //! Indicate what the progress is for leveling
     void levelingProgressChanged(int);
@@ -126,7 +136,7 @@ signals:
     //! Show an instruction or message from temperature calibration
     void showTempCalMessage(QString message);
 
-    //! Indicate what the progress is for leveling
+    //! Indicate what the progress is for temperature calibration
     void tempCalProgressChanged(int);
 
     //! Indicate that a calibration process has successfully completed and the results saved to UAVO
@@ -175,6 +185,7 @@ private:
     double mag_data_x[6], mag_data_y[6], mag_data_z[6];
 
     static const int NUM_SENSOR_UPDATES_LEVELING = 300;
+    static const int NUM_SENSOR_UPDATES_YAW_ORIENTATION = 300;
     static const int NUM_SENSOR_UPDATES_SIX_POINT = 100;
     static const int SENSOR_UPDATE_PERIOD = 20;
     static const int NON_SENSOR_UPDATE_PERIOD = 5000;
@@ -198,6 +209,9 @@ protected:
 
     //! Store a measurement at this position and indicate if it is the last one
     bool storeSixPointMeasurement(UAVObject * obj, int position);
+
+    //! Store yaw orientation sample and compute orientation if finished
+    bool storeYawOrientationMeasurement(UAVObject *obj);
 
     //! Store leveling sample and compute level if finished
     bool storeLevelingMeasurement(UAVObject *obj);

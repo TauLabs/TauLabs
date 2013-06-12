@@ -34,11 +34,12 @@
 #include <QMessageBox>
 #include <QDebug>
 #include <QThread>
+
 #include "accels.h"
-#include "gyros.h"
-#include "magnetometer.h"
-#include "homelocation.h"
 #include "attitudesettings.h"
+#include "gyros.h"
+#include "homelocation.h"
+#include "magnetometer.h"
 #include "sensorsettings.h"
 
 #include <Eigen/Core>
@@ -175,7 +176,8 @@ void Calibration::assignUpdateRate(UAVObject* obj, quint32 updatePeriod)
 
 /**
  * @brief Calibration::dataUpdated Receive updates of any connected sensors and
- * process them based on the calibration state (e.g. six point or leveling)
+ * process them based on the calibration state (e.g. six point, leveling, or
+ * yaw orientation.)
  * @param obj The object that was updated
  */
 void Calibration::dataUpdated(UAVObject * obj) {
@@ -195,6 +197,22 @@ void Calibration::dataUpdated(UAVObject * obj) {
     case SIX_POINT_WAIT6:
         // Do nothing
         return;
+        break;
+    case YAW_ORIENTATION:
+        // Store data while computing the yaw orientation
+        // and if completed go back to the idle state
+        if(storeYawOrientationMeasurement(obj)) {
+            //Disconnect sensors and reset metadata
+            connectSensor(ACCEL, false);
+            getObjectUtilManager()->setAllNonSettingsMetadata(originalMetaData);
+
+            calibration_state = IDLE;
+
+            emit showYawOrientationMessage(tr("Orientation computed"));
+            emit toggleControls(true);
+            emit yawOrientationProgressChanged(0);
+            disconnect(&timer,SIGNAL(timeout()),this,SLOT(timeout()));
+        }
         break;
     case LEVELING:
         // Store data while computing the level attitude
@@ -342,8 +360,8 @@ void Calibration::dataUpdated(UAVObject * obj) {
 }
 
 /**
- * @brief Calibration::timeout When collecting data for leveling or six point calibration times out
- * clean up the state and reset
+ * @brief Calibration::timeout When collecting data for leveling, orientation, or
+ * six point calibration times out. Clean up the state and reset
  */
 void Calibration::timeout()
 {
@@ -355,6 +373,12 @@ void Calibration::timeout()
         // Do nothing
         return;
         break;
+    case YAW_ORIENTATION:
+        // Disconnect appropriate sensors
+        connectSensor(ACCEL, false);
+        calibration_state = IDLE;
+        emit showYawOrientationMessage(tr("Orientation timed out ..."));
+        emit yawOrientationProgressChanged(0);
     case LEVELING:
         // Disconnect appropriate sensors
         connectSensor(GYRO, false);
@@ -409,6 +433,50 @@ void Calibration::timeout()
 /**
  * @brief Calibration::doStartLeveling Called by UI to start collecting data to calculate level
  */
+void Calibration::doStartOrientation() {
+    accel_accum_x.clear();
+    accel_accum_y.clear();
+    accel_accum_z.clear();
+
+    calibration_state = YAW_ORIENTATION;
+
+    // Save previous sensor states
+    originalMetaData = getObjectUtilManager()->readAllNonSettingsMetadata();
+
+    // Set all UAVObject rates to update slowly
+    UAVObjectManager *objManager = getObjectManager();
+    QVector< QVector<UAVDataObject*> > objList = objManager->getDataObjects();
+    foreach (QVector<UAVDataObject*> list, objList) {
+        foreach (UAVDataObject* obj, list) {
+            if(!obj->isSettings()) {
+                UAVObject::Metadata mdata = obj->getMetadata();
+                UAVObject::SetFlightTelemetryUpdateMode(mdata, UAVObject::UPDATEMODE_PERIODIC);
+
+                mdata.flightTelemetryUpdatePeriod = NON_SENSOR_UPDATE_PERIOD;
+                metaDataList.insert(obj->getName(), mdata);
+            }
+        }
+    }
+
+    // Connect to the sensor updates and set higher rates
+    connectSensor(ACCEL, true);
+
+    // Set new metadata
+    getObjectUtilManager()->setAllNonSettingsMetadata(metaDataList);
+
+    emit toggleControls(false);
+    emit showYawOrientationMessage(tr("Pitch vehicle forward approximately 30 degrees. Ensure it absolutely does not roll"));
+
+    // Set up timeout timer
+    timer.setSingleShot(true);
+    timer.start(5000 + (NUM_SENSOR_UPDATES_YAW_ORIENTATION * SENSOR_UPDATE_PERIOD));
+    connect(&timer,SIGNAL(timeout()),this,SLOT(timeout()));
+}
+
+
+/**
+ * @brief Calibration::doStartLeveling Called by UI to start collecting data to calculate level
+ */
 void Calibration::doStartLeveling() {
     accel_accum_x.clear();
     accel_accum_y.clear();
@@ -454,7 +522,7 @@ void Calibration::doStartLeveling() {
     getObjectUtilManager()->setAllNonSettingsMetadata(metaDataList);
 
     emit toggleControls(false);
-    emit showLevelingMessage(tr("Leave board flat"));
+    emit showLevelingMessage(tr("Leave vehicle flat"));
 
     // Set up timeout timer
     timer.setSingleShot(true);
@@ -753,8 +821,68 @@ void Calibration::setTempCalRange(int r)
     MIN_TEMPERATURE_RANGE = r;
 }
 
+
 /**
- * @brief Calibration::storedLevelingMeasurement Store a measurement and if there
+ * @brief Calibration::storeYawOrientationMeasurement Store an accelerometer
+ * measurement.
+ * @return true if enough data is collected
+ */
+bool Calibration::storeYawOrientationMeasurement(UAVObject *obj)
+{
+    Accels * accels = Accels::GetInstance(getObjectManager());
+
+    // Accumulate samples until we have _at least_ NUM_SENSOR_UPDATES_YAW_ORIENTATION samples
+    if(obj->getObjID() == Accels::OBJID) {
+        Accels::DataFields accelsData = accels->getData();
+        accel_accum_x.append(accelsData.x);
+        accel_accum_y.append(accelsData.y);
+        accel_accum_z.append(accelsData.z);
+    }
+
+    // update the progress indicator
+    emit yawOrientationProgressChanged((double)accel_accum_x.size() / NUM_SENSOR_UPDATES_YAW_ORIENTATION * 100);
+
+    // If we have enough samples, then stop sampling and compute the biases
+    if (accel_accum_x.size() >= NUM_SENSOR_UPDATES_YAW_ORIENTATION) {
+        timer.stop();
+        disconnect(&timer,SIGNAL(timeout()),this,SLOT(timeout()));
+
+        // Get the existing attitude settings
+        AttitudeSettings *attitudeSettings = AttitudeSettings::GetInstance(getObjectManager());
+        AttitudeSettings::DataFields attitudeSettingsData = attitudeSettings->getData();
+
+        // Use sensor data without rotation, as it has already been rotated on-board.
+        double a_body[3] = { listMean(accel_accum_x), listMean(accel_accum_y), listMean(accel_accum_z) };
+
+        // Temporary variable
+        double psi;
+
+        // Solve "a_sensor = Rot(phi, theta, psi) *[0;0;-g]" for the roll (phi) and pitch (theta) values.
+        // Recall that phi is in [-pi, pi] and theta is in [-pi/2, pi/2]
+        psi = atan2(a_body[1], -a_body[0]);
+
+        attitudeSettingsData.BoardRotation[AttitudeSettings::BOARDROTATION_YAW] += psi * RAD2DEG * 100.0; // Scale by 100 because units are [100*deg]
+
+        // Wrap to [-pi, pi]
+        while (attitudeSettingsData.BoardRotation[AttitudeSettings::BOARDROTATION_YAW] > 180*100)  // Scale by 100 because units are [100*deg]
+            attitudeSettingsData.BoardRotation[AttitudeSettings::BOARDROTATION_YAW] -= 360*100;
+        while (attitudeSettingsData.BoardRotation[AttitudeSettings::BOARDROTATION_YAW] < -180*100)
+            attitudeSettingsData.BoardRotation[AttitudeSettings::BOARDROTATION_YAW] += 360*100;
+
+        attitudeSettings->setData(attitudeSettingsData);
+        attitudeSettings->updated();
+
+        // Inform the system that the calibration process has completed
+        emit calibrationCompleted();
+
+        return true;
+    }
+    return false;
+}
+
+
+/**
+ * @brief Calibration::storeLevelingMeasurement Store a measurement and if there
  * is enough data compute the level angle and gyro zero
  * @return true if enough data is collected
  */
@@ -796,7 +924,7 @@ bool Calibration::storeLevelingMeasurement(UAVObject *obj) {
         // Inverse rotation of sensor data, from body frame into sensor frame
         double a_body[3] = { listMean(accel_accum_x), listMean(accel_accum_y), listMean(accel_accum_z) };
         double a_sensor[3];
-        double Rsb[3][3];  // The initial board rotation
+        double Rsb[3][3];  // The initial body-frame to sensor-frame rotation
         double rpy[3] = { attitudeSettingsData.BoardRotation[AttitudeSettings::BOARDROTATION_ROLL] * DEG2RAD / 100.0,
                           attitudeSettingsData.BoardRotation[AttitudeSettings::BOARDROTATION_PITCH] * DEG2RAD / 100.0,
                           attitudeSettingsData.BoardRotation[AttitudeSettings::BOARDROTATION_YAW] * DEG2RAD / 100.0};
