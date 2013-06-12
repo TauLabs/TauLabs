@@ -56,6 +56,7 @@ OPTMODULES += CameraStab
 OPTMODULES += OveroSync
 OPTMODULES += Autotune
 OPTMODULES += TxPID
+OPTMODULES += GeoFence
 OPTMODULES += Battery
 OPTMODULES += VibrationAnalysis
 OPTMODULES += UAVOMavlinkBridge

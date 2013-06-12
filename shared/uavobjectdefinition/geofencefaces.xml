@@ -1,0 +1,13 @@
+<xml>
+	<object name="GeoFenceFaces" singleinstance="false" settings="false">
+		<description>Triangular face in the geofence.</description>
+		<!-- Currently only support 256 faces-->
+		<!-- Until the multi-instance bug is resolved, the type must be uint32-->
+		<field name="Vertices" units="-" type="uint32" elementnames="A,B,C"/> 
+
+		<access gcs="readwrite" flight="readwrite"/>
+		<telemetrygcs acked="false" updatemode="manual" period="0"/>
+		<telemetryflight acked="false" updatemode="periodic" period="4000"/>
+		<logging updatemode="periodic" period="1000"/>
+	</object>
+</xml>

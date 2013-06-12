@@ -1,13 +1,13 @@
 /**
  ******************************************************************************
- * @addtogroup TauLabsModules Tau Labs Modules
+ * @addtogroup Modules Tau Labs Modules
  * @{
  * @addtogroup Control Control Module
  * @{
  *
- * @file       manualcontrol.h
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
- * @brief      Control module. Handles safety R/C link and flight mode.
+ * @file       geofence_control.c
+ * @author     Tau Labs, http://taulabs.org Copyright (C) 2013.
+ * @brief      Geofence controller when vehicle leaves geofence
  *
  * @see        The GNU Public License (GPL) Version 3
  *
@@ -27,26 +27,20 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
-#ifndef CONTROL_H
-#define CONTROL_H
 
-enum control_selection {
-	CONTROL_SELECTION_FAILSAFE,
-	CONTROL_SELECTION_GEOFENCE,
-	CONTROL_SELECTION_TRANSMITTER,
-	CONTROL_SELECTION_TABLET
-};
+ #ifndef GEOFENCE_CONTROL_H
+ #define GEOFENCE_CONTROL_H
 
-enum control_events {
-	CONTROL_EVENTS_NONE,
-	CONTROL_EVENTS_ARM,
-	CONTROL_EVENTS_ARMING,
-	CONTROL_EVENTS_DISARM
-};
+//! Initialize the geofence controller
+int32_t geofence_control_initialize();
 
-#endif /* CONTROL_H */
+//! Perform any updates to the geofence controller
+int32_t geofence_control_update();
 
-/**
- * @}
- * @}
- */
+//! Use geofence mode
+int32_t geofence_control_select(bool reset_controller);
+
+//! Get any control events
+enum control_events geofence_control_get_events();
+
+ #endif /* GEOFENCE_CONTROL_H */

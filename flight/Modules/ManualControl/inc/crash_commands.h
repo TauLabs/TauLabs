@@ -4,10 +4,9 @@
  * @{
  * @addtogroup Control Control Module
  * @{
- *
- * @file       manualcontrol.h
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
- * @brief      Control module. Handles safety R/C link and flight mode.
+ * @file       crash_commands.h
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
+ * @brief      Header for path manipulation library
  *
  * @see        The GNU Public License (GPL) Version 3
  *
@@ -27,26 +26,11 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
-#ifndef CONTROL_H
-#define CONTROL_H
 
-enum control_selection {
-	CONTROL_SELECTION_FAILSAFE,
-	CONTROL_SELECTION_GEOFENCE,
-	CONTROL_SELECTION_TRANSMITTER,
-	CONTROL_SELECTION_TABLET
-};
+#ifndef CRASH_COMMANDS_H_
+#define CRASH_COMMANDS_H_
 
-enum control_events {
-	CONTROL_EVENTS_NONE,
-	CONTROL_EVENTS_ARM,
-	CONTROL_EVENTS_ARMING,
-	CONTROL_EVENTS_DISARM
-};
+void nasty_crash();
+void nice_crash();
 
-#endif /* CONTROL_H */
-
-/**
- * @}
- * @}
- */
+#endif /* CRASH_COMMANDS_H_ */

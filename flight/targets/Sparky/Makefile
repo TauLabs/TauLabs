@@ -53,6 +53,7 @@ OPTMODULES += VtolPathFollower
 OPTMODULES += FixedWingPathFollower
 OPTMODULES += VibrationAnalysis
 OPTMODULES += UAVOMavlinkBridge
+OPTMODULES += GeoFence
 OPTMODULES += Battery
 OPTMODULES += ComUsbBridge
 

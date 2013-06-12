@@ -40,6 +40,7 @@
 
 #include "control.h"
 #include "failsafe_control.h"
+#include "geofence_control.h"
 #include "tablet_control.h"
 #include "transmitter_control.h"
 
@@ -122,6 +123,7 @@ static void manualControlTask(void *parameters)
 		// Process periodic data for each of the controllers, including reading
 		// all available inputs
 		failsafe_control_update();
+		geofence_control_update();
 		transmitter_control_update();
 		tablet_control_update();
 
@@ -129,20 +131,29 @@ static void manualControlTask(void *parameters)
 		enum control_events control_events = CONTROL_EVENTS_NONE;
 
 		// Control logic to select the valid controller
-		enum control_selection control_selection = transmitter_control_selected_controller();
-		bool reset_controller = control_selection != last_control_selection;
+		enum control_selection control_selection;
+		if (AlarmsGet(SYSTEMALARMS_ALARM_GEOFENCE) == SYSTEMALARMS_ALARM_OK || AlarmsGet(SYSTEMALARMS_ALARM_GEOFENCE) == SYSTEMALARMS_ALARM_UNINITIALISED)
+			control_selection = transmitter_control_selected_controller();
+		else
+			control_selection = CONTROL_SELECTION_GEOFENCE;
+
+		bool reset_controller_flag = (control_selection != last_control_selection);
 
 		switch(control_selection) {
 		case CONTROL_SELECTION_FAILSAFE:
-			failsafe_control_select(reset_controller);
+			failsafe_control_select(reset_controller_flag);
 			control_events = failsafe_control_get_events();
 			break;
+		case CONTROL_SELECTION_GEOFENCE:
+			geofence_control_select(reset_controller_flag);
+			control_events = geofence_control_get_events();
+			break;
 		case CONTROL_SELECTION_TRANSMITTER:
-			transmitter_control_select(reset_controller);
+			transmitter_control_select(reset_controller_flag);
 			control_events = transmitter_control_get_events();
 			break;
 		case CONTROL_SELECTION_TABLET:
-			if (tablet_control_select(reset_controller) == 0) {
+			if (tablet_control_select(reset_controller_flag) == 0) {
 				control_events = tablet_control_get_events();
 			} else {
 				// Failure in tablet control.  This would be better if done

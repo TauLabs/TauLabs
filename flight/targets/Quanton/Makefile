@@ -53,6 +53,7 @@ OPTMODULES += Autotune
 OPTMODULES += TxPID
 OPTMODULES += VibrationAnalysis
 OPTMODULES += UAVOMavlinkBridge
+OPTMODULES += GeoFence
 OPTMODULES += Battery
 OPTMODULES += ComUsbBridge
 

@@ -92,6 +92,7 @@ OPTMODULES += CameraStab
 OPTMODULES += OveroSync/simulated
 OPTMODULES += Autotune
 OPTMODULES += Battery
+OPTMODULES += GeoFence
 
 # To run simulation instead of connect to SITL
 MODULES += Sensors/simulated
