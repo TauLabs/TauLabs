@@ -44,6 +44,8 @@
 #include "transmitter_control.h"
 
 #include "flightstatus.h"
+#include "manualcontrolcommand.h"
+#include "manualcontrolsettings.h"
 #include "systemalarms.h"
 
 // Private constants
@@ -66,6 +68,7 @@ static portTickType lastSysTime;
 // Private functions
 static void manualControlTask(void *parameters);
 static bool ok_to_arm(void);
+static FlightStatusControlSourceOptions control_source_select();
 
 // Private functions for control events
 static int32_t control_event_arm();
@@ -125,23 +128,23 @@ static void manualControlTask(void *parameters)
 		transmitter_control_update();
 		tablet_control_update();
 
-		static enum control_selection last_control_selection = CONTROL_SELECTION_FAILSAFE;
+		// Initialize to invalid value to ensure first update sets FlightStatus
+		static FlightStatusControlSourceOptions last_control_selection = -1;
 		enum control_events control_events = CONTROL_EVENTS_NONE;
 
 		// Control logic to select the valid controller
-		enum control_selection control_selection = transmitter_control_selected_controller();
+		uint8_t control_selection = control_source_select();
 		bool reset_controller = control_selection != last_control_selection;
 
+		// This logic would be better collapsed into control_source_select but
+		// in the case of the tablet we need to be able to abort and fall back
+		// to failsafe for now
 		switch(control_selection) {
-		case CONTROL_SELECTION_FAILSAFE:
-			failsafe_control_select(reset_controller);
-			control_events = failsafe_control_get_events();
-			break;
-		case CONTROL_SELECTION_TRANSMITTER:
+		case FLIGHTSTATUS_CONTROLSOURCE_TRANSMITTER:
 			transmitter_control_select(reset_controller);
 			control_events = transmitter_control_get_events();
 			break;
-		case CONTROL_SELECTION_TABLET:
+		case FLIGHTSTATUS_CONTROLSOURCE_TABLET:
 			if (tablet_control_select(reset_controller) == 0) {
 				control_events = tablet_control_get_events();
 			} else {
@@ -151,8 +154,16 @@ static void manualControlTask(void *parameters)
 				control_events = failsafe_control_get_events();
 			}
 			break;
+		case FLIGHTSTATUS_CONTROLSOURCE_FAILSAFE:
+		default:
+			failsafe_control_select(reset_controller);
+			control_events = failsafe_control_get_events();
+			break;
 		}
-		last_control_selection = control_selection;
+		if (control_selection != last_control_selection) {
+			FlightStatusControlSourceSet(&control_selection);
+			last_control_selection = control_selection;
+		}
 
 		// TODO: This can evolve into a full FSM like I2C possibly
 		switch(control_events) {
@@ -213,7 +224,30 @@ static int32_t control_event_disarm()
 	return 0;
 }
 
+/**
+ * @brief control_source_select Determine which sub-module to use
+ * for the main control source of the flight controller.
+ * @returns @ref FlightStatusControlSourceOptions indicating the selected
+ * mode
+ *
+ * This function is the ultimate one that controls what happens and
+ * selects modes such as failsafe, transmitter control, geofencing
+ * and potentially other high level modes in the future
+ */
+static FlightStatusControlSourceOptions control_source_select()
+{
+	ManualControlCommandData cmd;
+	ManualControlCommandGet(&cmd);
+	if (cmd.Connected != MANUALCONTROLCOMMAND_CONNECTED_TRUE) {
+		return FLIGHTSTATUS_CONTROLSOURCE_FAILSAFE;
+	} else if (transmitter_control_get_flight_mode() ==
+	           MANUALCONTROLSETTINGS_FLIGHTMODEPOSITION_TABLETCONTROL) {
+		return FLIGHTSTATUS_CONTROLSOURCE_TABLET;
+	} else {
+		return FLIGHTSTATUS_CONTROLSOURCE_TRANSMITTER;
+	}
 
+}
 /**
  * @brief Determine if the aircraft is safe to arm based on alarms
  * @returns True if safe to arm, false otherwise
