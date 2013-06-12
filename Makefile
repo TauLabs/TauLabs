@@ -570,6 +570,7 @@ OPMODULEDIR   := $(ROOT_DIR)/flight/Modules
 OPUAVOBJ      := $(ROOT_DIR)/flight/UAVObjects
 OPUAVTALK     := $(ROOT_DIR)/flight/UAVTalk
 DOXYGENDIR    := $(ROOT_DIR)/flight/Doc/Doxygen
+BLCOMMONDIR   := $(ROOT_DIR)/flight/targets/bl/common
 SHAREDAPIDIR  := $(ROOT_DIR)/shared/api
 OPUAVSYNTHDIR := $(BUILD_DIR)/uavobject-synthetics/flight
 
@@ -700,6 +701,7 @@ bl_$(1)_%:
 		\
 		PIOS=$(PIOS) \
 		FLIGHTLIB=$(FLIGHTLIB) \
+		BLCOMMONDIR=$(BLCOMMONDIR) \
 		OPMODULEDIR=$(OPMODULEDIR) \
 		OPUAVOBJ=$(OPUAVOBJ) \
 		OPUAVTALK=$(OPUAVTALK) \
