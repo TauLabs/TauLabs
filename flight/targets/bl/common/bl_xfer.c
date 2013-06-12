@@ -300,6 +300,46 @@ bool bl_xfer_send_capabilities_self(void)
 		},
 	};
 
+#if defined(BL_INCLUDE_CAP_EXTENSIONS)
+	/* Fill in capabilities extensions */
+	msg.v.cap_rep_specific.cap_extension_magic = BL_CAP_EXTENSION_MAGIC,
+
+	uintptr_t partition_id;
+	uint32_t partition_size;
+
+	/* FW + DESC */
+	if (PIOS_FLASH_find_partition_id(FLASH_PARTITION_LABEL_FW, &partition_id) == 0) {
+
+		PIOS_FLASH_get_partition_size(partition_id, &partition_size);
+		msg.v.cap_rep_specific.partition_sizes[DFU_PARTITION_FW]   = htonl(partition_size);
+		msg.v.cap_rep_specific.partition_sizes[DFU_PARTITION_DESC] = htonl(bdinfo->desc_size);
+	} else {
+		msg.v.cap_rep_specific.partition_sizes[DFU_PARTITION_FW]   = 0;
+		msg.v.cap_rep_specific.partition_sizes[DFU_PARTITION_DESC] = 0;
+	}
+
+	if (PIOS_FLASH_find_partition_id(FLASH_PARTITION_LABEL_BL, &partition_id) == 0) {
+		PIOS_FLASH_get_partition_size(partition_id, &partition_size);
+		msg.v.cap_rep_specific.partition_sizes[DFU_PARTITION_BL] = htonl(partition_size);
+	} else {
+		msg.v.cap_rep_specific.partition_sizes[DFU_PARTITION_BL] = 0;
+	}
+
+	if (PIOS_FLASH_find_partition_id(FLASH_PARTITION_LABEL_SETTINGS, &partition_id) == 0) {
+		PIOS_FLASH_get_partition_size(partition_id, &partition_size);
+		msg.v.cap_rep_specific.partition_sizes[DFU_PARTITION_SETTINGS] = htonl(partition_size);
+	} else {
+		msg.v.cap_rep_specific.partition_sizes[DFU_PARTITION_SETTINGS] = 0;
+	}
+
+	if (PIOS_FLASH_find_partition_id(FLASH_PARTITION_LABEL_WAYPOINTS, &partition_id) == 0) {
+		PIOS_FLASH_get_partition_size(partition_id, &partition_size);
+		msg.v.cap_rep_specific.partition_sizes[DFU_PARTITION_WAYPOINTS] = htonl(partition_size);
+	} else {
+		msg.v.cap_rep_specific.partition_sizes[DFU_PARTITION_WAYPOINTS] = 0;
+	}
+#endif	/* BL_INCLUDE_CAP_EXTENSIONS */
+
 	PIOS_COM_MSG_Send(PIOS_COM_TELEM_USB, (uint8_t *)&msg, sizeof(msg));
 
 	return true;

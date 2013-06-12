@@ -109,6 +109,12 @@ struct bl_messages {
 			uint8_t board_rev;
 			uint32_t fw_crc;
 			uint16_t device_id;
+#if defined(BL_INCLUDE_CAP_EXTENSIONS)
+			/* Extensions to original protocol */
+#define BL_CAP_EXTENSION_MAGIC 0x3456
+			uint16_t cap_extension_magic;
+			uint32_t partition_sizes[10];
+#endif	/* BL_INCLUDE_CAP_EXTENSIONS */
 		} cap_rep_specific;
 
 		struct msg_enter_dfu {
