@@ -415,7 +415,7 @@ static void update_accels(struct pios_sensor_accel_data *accels, AccelsData * ac
 
 	if (rotate) {
 		float accel_rotated[3];
-		rot_mult(R, accels_out, accel_rotated, false);
+		rot_mult(R, accels_out, accel_rotated, true);
 		accelsData->x = accel_rotated[0];
 		accelsData->y = accel_rotated[1];
 		accelsData->z = accel_rotated[2];
@@ -443,7 +443,7 @@ static void update_gyros(struct pios_sensor_gyro_data *gyros, GyrosData * gyrosD
 
 	if (rotate) {
 		float gyros[3];
-		rot_mult(R, gyros_out, gyros, false);
+		rot_mult(R, gyros_out, gyros, true);
 		gyrosData->x = gyros[0];
 		gyrosData->y = gyros[1];
 		gyrosData->z = gyros[2];
@@ -769,7 +769,7 @@ static void settingsUpdatedCb(UAVObjEvent * objEv) {
 
 		// Inverse rotation of sensor data, from body frame into sensor frame
 		float a_sensor[3];
-		rot_mult(R, a_body, a_sensor, true);
+		rot_mult(R, a_body, a_sensor, false);
 
 		// Temporary variables
 		float psi, theta, phi;

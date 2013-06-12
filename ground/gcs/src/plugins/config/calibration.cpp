@@ -801,7 +801,7 @@ bool Calibration::storeLevelingMeasurement(UAVObject *obj) {
                           attitudeSettingsData.BoardRotation[AttitudeSettings::BOARDROTATION_PITCH] * DEG2RAD / 100.0,
                           attitudeSettingsData.BoardRotation[AttitudeSettings::BOARDROTATION_YAW] * DEG2RAD / 100.0};
         Euler2R(rpy, Rsb);
-        rotate_vector(Rsb, a_body, a_sensor, true);
+        rotate_vector(Rsb, a_body, a_sensor, false);
 
         // Temporary variables
         double psi, theta, phi;
@@ -809,13 +809,10 @@ bool Calibration::storeLevelingMeasurement(UAVObject *obj) {
         // Keep existing yaw rotation
         psi = attitudeSettingsData.BoardRotation[AttitudeSettings::BOARDROTATION_YAW] * DEG2RAD / 100.0;
 
-        double cP = cos(psi);
-        double sP = sin(psi);
-
-
-        // the inversion of the rotation matrix multiplied by the basis vector
-        theta = atan2(-(cP * a_sensor[0] + sP * a_sensor[1]), -a_sensor[2]);
-        phi = atan2(-(sP * a_sensor[0] - cP * a_sensor[1]), -a_sensor[2] / cos(theta));
+        // Solve "a_sensor = Rot(phi, theta, psi) *[0;0;-g]" for the roll (phi) and pitch (theta) values.
+        // Recall that phi is in [-pi, pi] and theta is in [-pi/2, pi/2]
+        phi = atan2f(-a_sensor[1], -a_sensor[2]);
+        theta = atanf(-a_sensor[0] / (sinf(phi)*a_sensor[1] + cosf(phi)*a_sensor[2]));
 
         attitudeSettingsData.BoardRotation[AttitudeSettings::BOARDROTATION_ROLL] = phi * RAD2DEG * 100.0;
         attitudeSettingsData.BoardRotation[AttitudeSettings::BOARDROTATION_PITCH] = theta * RAD2DEG * 100.0;
@@ -828,9 +825,9 @@ bool Calibration::storeLevelingMeasurement(UAVObject *obj) {
         double new_rpy[3] = { attitudeSettingsData.BoardRotation[AttitudeSettings::BOARDROTATION_ROLL] * DEG2RAD / 100.0,
                               attitudeSettingsData.BoardRotation[AttitudeSettings::BOARDROTATION_PITCH] * DEG2RAD / 100.0,
                               attitudeSettingsData.BoardRotation[AttitudeSettings::BOARDROTATION_YAW] * DEG2RAD / 100.0};
-        rotate_vector(Rsb, gyro_oldbody, gyro_sensor, true);
+        rotate_vector(Rsb, gyro_oldbody, gyro_sensor, false);
         Euler2R(new_rpy, Rsb);
-        rotate_vector(Rsb, gyro_sensor, gyro_newbody, false);
+        rotate_vector(Rsb, gyro_sensor, gyro_newbody, true);
 
         // Store these new biases, accounting for any temperature coefficients
         sensorSettingsData.XGyroTempCoeff[0] = gyro_newbody[0] -

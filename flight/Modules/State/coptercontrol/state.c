@@ -393,10 +393,10 @@ static int32_t updateIntertialSensors(AccelsData * accels, GyrosData * gyros, bo
 
 		// Rotate the vector into a temporary vector, and then copy back into
 		// the original vectors.
-		rot_mult(glblAtt->Rbs, prelim_accels, tmpVec, false);
+		rot_mult(glblAtt->Rbs, prelim_accels, tmpVec, true);
 		memcpy(prelim_accels, tmpVec, sizeof(tmpVec));
 
-		rot_mult(glblAtt->Rbs, prelim_gyros, tmpVec, false);
+		rot_mult(glblAtt->Rbs, prelim_gyros, tmpVec, true);
 		memcpy(prelim_gyros, tmpVec, sizeof(tmpVec));
 	}
 
@@ -648,7 +648,7 @@ static void inertialSensorSettingsUpdatedCb(UAVObjEvent * objEv)
 
 		// Inverse rotation of sensor data, from body frame into sensor frame
 		float a_sensor[3];
-		rot_mult(glblAtt->Rbs, a_body, a_sensor, true);
+		rot_mult(glblAtt->Rbs, a_body, a_sensor, false);
 
 		// Temporary variables
 		float psi, theta, phi;

@@ -239,7 +239,7 @@ static void update_accels(struct pios_sensor_accel_data *accels)
 
 	if (rotate) {
 		float accel_rotated[3];
-		rot_mult(Rbs, accels_out, accel_rotated, false);
+		rot_mult(Rbs, accels_out, accel_rotated, true);
 		accelsData.x = accel_rotated[0];
 		accelsData.y = accel_rotated[1];
 		accelsData.z = accel_rotated[2];
@@ -269,7 +269,7 @@ static void update_gyros(struct pios_sensor_gyro_data *gyros)
 	GyrosData gyrosData;
 	if (rotate) {
 		float gyros[3];
-		rot_mult(Rbs, gyros_out, gyros, false);
+		rot_mult(Rbs, gyros_out, gyros, true);
 		gyrosData.x = gyros[0];
 		gyrosData.y = gyros[1];
 		gyrosData.z = gyros[2];
@@ -310,7 +310,7 @@ static void update_mags(struct pios_sensor_mag_data *mag)
 	MagnetometerData magData;
 	if (rotate) {
 		float mag_out[3];
-		rot_mult(Rbs, mags, mag_out, false);
+		rot_mult(Rbs, mags, mag_out, true);
 		magData.x = mag_out[0];
 		magData.y = mag_out[1];
 		magData.z = mag_out[2];
