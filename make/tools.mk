@@ -395,7 +395,7 @@ gtest_install: gtest_clean
         # download the file unconditionally since google code gives back 404
         # for HTTP HEAD requests which are used when using the wget -N option
 	$(V1) [ ! -f "$(DL_DIR)/$(GTEST_FILE)" ] || $(RM) -f "$(DL_DIR)/$(GTEST_FILE)"
-	$(V1) wget -P "$(DL_DIR)" --trust-server-name "$(GTEST_URL)"
+	$(V1) wget -P "$(DL_DIR)" "$(GTEST_URL)"
 
         # extract the source
 	$(V1) [ ! -d "$(GTEST_DIR)" ] || $(RM) -rf "$(GTEST_DIR)"
