@@ -996,13 +996,17 @@ static int32_t updateAttitudeINSGPS(bool first_run, bool outdoor_mode)
 		gps_vel_updated = false;
 	}
 
-	// When runnning in indoor mode force the position to zero
-	if (!outdoor_mode) {
+	// When runnning in indoor mode force the position to zero but only do it every
+	// 50 updates to approximately run at the same rate as a 10 hz gps
+	static uint8_t indoor_pos_divisor = 0;
+	indoor_pos_divisor++;
+	if (!outdoor_mode && indoor_pos_divisor > 50) {
 		vel[0] = vel[1] = vel[2] = 0;
 		NED[0] = NED[1] = 0;
 		NED[2] = -(baroData.Altitude + baro_offset);
 		sensors |= HORIZ_SENSORS | HORIZ_POS_SENSORS;
-		sensors |= VERT_SENSORS | VERT_POS_SENSORS;
+		sensors |= VERT_SENSORS;
+		indoor_pos_divisor = 0;
 	}
 
 	/*
