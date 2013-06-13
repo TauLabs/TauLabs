@@ -233,7 +233,7 @@
        <item>
         <widget class="QGroupBox" name="groupBox_4">
          <property name="title">
-          <string>Leveling</string>
+          <string>Automatic level detection</string>
          </property>
          <layout class="QGridLayout" name="gridLayout_3">
           <item row="1" column="0" colspan="3">
@@ -267,7 +267,7 @@ whenever the frame is armed. Do not move the airframe while
 arming it in that case!</string>
             </property>
             <property name="text">
-             <string>Zero gyros while arming aircraft</string>
+             <string>Zero gyros while arming vehicle</string>
             </property>
             <property name="objrelation" stdset="0">
              <stringlist>
@@ -283,6 +283,9 @@ arming it in that case!</string>
             <property name="enabled">
              <bool>false</bool>
             </property>
+            <property name="toolTip">
+             <string>Use a spirit level to make the vehicle as level as possible. In the case of airplanes, the wings should be level with respect to the ground, even if this leads to a slightly nose-up or nose-down fuselage orientation.</string>
+            </property>
             <property name="text">
              <string>Start</string>
             </property>
@@ -291,7 +294,7 @@ arming it in that case!</string>
           <item row="0" column="0">
            <widget class="QLabel" name="label">
             <property name="text">
-             <string>Place board level and click start</string>
+             <string>Place vehicle level and click start.</string>
             </property>
            </widget>
           </item>
@@ -301,13 +304,16 @@ arming it in that case!</string>
        <item>
         <widget class="QGroupBox" name="groupBox_5">
          <property name="title">
-          <string>Yaw orientation</string>
+          <string>Automatic yaw detection</string>
          </property>
          <layout class="QGridLayout" name="gridLayout_8">
           <item row="3" column="0">
            <widget class="QPushButton" name="yawOrientationStart">
             <property name="enabled">
              <bool>false</bool>
+            </property>
+            <property name="toolTip">
+             <string>It is very important to keep the vehicle still during this test. Do your best only to pitch the vehicle forward, without adding any roll. Make sure to validate the results in the PFD before saving.</string>
             </property>
             <property name="text">
              <string>Start</string>
@@ -327,14 +333,14 @@ arming it in that case!</string>
             </property>
            </spacer>
           </item>
-          <item row="1" column="0">
+          <item row="1" column="0" colspan="3">
            <widget class="QLabel" name="label_18">
             <property name="text">
              <string>Place vehicle in approximately 30 degree nose-down position. Take care not to roll the vehicle.</string>
             </property>
            </widget>
           </item>
-          <item row="2" column="0" colspan="2">
+          <item row="2" column="0" colspan="3">
            <widget class="QProgressBar" name="pb_yawCalibration">
             <property name="value">
              <number>0</number>
