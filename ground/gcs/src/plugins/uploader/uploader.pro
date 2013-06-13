@@ -3,7 +3,7 @@ TARGET = Uploader
 DEFINES += UPLOADER_LIBRARY
 QT += svg
 include(uploader_dependencies.pri)
-INCLUDEPATH += ../../libs/qextserialport/src
+INCLUDEPATH *= ../../libs/qextserialport/src
 
 HEADERS += uploadergadget.h \
     uploadergadgetconfiguration.h \
