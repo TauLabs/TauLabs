@@ -60,7 +60,7 @@ KmlExport::KmlExport(QString inputLogFileName, QString outputKmlFileName) :
 
     // Connect position actual. This is the trigger event for plotting a new
     // KML placemark.
-    connect(positionActual, SIGNAL(objectUpdated(UAVObject *)), this, SLOT(uavobjectUpdated(UAVObject *)));
+    connect(positionActual, SIGNAL(objectUpdated(UAVObject *)), this, SLOT(uavobjectUpdated(UAVObject *)), Qt::DirectConnection);
 
     // Get the factory singleton to create KML elements.
     factory = KmlFactory::GetFactory();
