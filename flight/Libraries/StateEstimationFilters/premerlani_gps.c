@@ -302,7 +302,7 @@ static void rollPitch_drift_GPS(float Rbe[3][3], float accels_e_int[3],
 	errRollPitch_e[2] /= (normdGPSdt_e * delT_between_updates);
 	
 	//Rotate earth drift error back into body frame;
-	rot_mult(Rbe, errRollPitch_e, errRollPitch_b, FALSE);
+	rot_mult(Rbe, errRollPitch_e, errRollPitch_b, false);
 }
 
 /*
