@@ -38,6 +38,206 @@
 #include "kmlexport.h"
 
 
+StyleMapPtr KmlExport::createCustomBalloonStyle()
+{
+    StyleMapPtr styleMap = factory->CreateStyleMap();
+
+    {
+
+        // Add custom balloon style (gets rid of "Directions to here...")
+        // https://groups.google.com/forum/?fromgroups#!topic/kml-support-getting-started/2CqF9oiynRY
+        BalloonStylePtr balloonStyle = factory->CreateBalloonStyle();
+        balloonStyle->set_text("$[description]");
+
+        // Change the icon
+        IconStyleIconPtr iconStyleIcon = factory->CreateIconStyleIcon();
+        iconStyleIcon->set_href("http://maps.google.com/mapfiles/kml/shapes/arrow.png");
+
+        // Create a label style
+        LabelStylePtr labelStyle = factory->CreateLabelStyle();
+        labelStyle->set_color(kmlbase::Color32(255, 0, 255, 255));
+        labelStyle->set_scale(0.75);
+
+        // Create an icon style
+        IconStylePtr iconStyle = factory->CreateIconStyle();
+        iconStyle->set_icon(iconStyleIcon);
+        iconStyle->set_scale(0.65);
+
+        // Create a line style
+        LineStylePtr lineStyle = factory->CreateLineStyle();
+        lineStyle->set_width(3.25);
+
+        // Link the style to the icon
+        StylePtr style = factory->CreateStyle();
+        style->set_balloonstyle(balloonStyle);
+        style->set_iconstyle(iconStyle);
+        style->set_linestyle(lineStyle);
+        style->set_labelstyle(labelStyle);
+
+        PairPtr pair = factory->CreatePair();
+        pair->set_styleselector(style);
+        pair->set_key(kmldom::STYLESTATE_NORMAL);
+
+        styleMap->add_pair(pair);
+    }
+
+    {
+        // Add custom balloon style (gets rid of "Directions to here...")
+        // https://groups.google.com/forum/?fromgroups#!topic/kml-support-getting-started/2CqF9oiynRY
+        BalloonStylePtr balloonStyle = factory->CreateBalloonStyle();
+        balloonStyle->set_text("$[description]");
+
+        // Change the icon
+        IconStyleIconPtr iconStyleIcon = factory->CreateIconStyleIcon();
+        iconStyleIcon->set_href("http://maps.google.com/mapfiles/kml/shapes/arrow.png");
+
+        // Create an icon style
+        IconStylePtr iconStyle = factory->CreateIconStyle();
+        iconStyle->set_icon(iconStyleIcon);
+        iconStyle->set_scale(0.65);
+
+        // Create a label style
+        LabelStylePtr labelStyle = factory->CreateLabelStyle();
+        labelStyle->set_color(kmlbase::Color32(255, 0, 255, 255));
+        labelStyle->set_scale(0.9);
+
+        // Create a line style
+        LineStylePtr lineStyle = factory->CreateLineStyle();
+        lineStyle->set_width(6.5);
+
+        // Link the style to the icon
+        StylePtr style = factory->CreateStyle();
+        style->set_balloonstyle(balloonStyle);
+        style->set_iconstyle(iconStyle);
+        style->set_linestyle(lineStyle);
+        style->set_labelstyle(labelStyle);
+
+        PairPtr pair = factory->CreatePair();
+        pair->set_styleselector(style);
+        pair->set_key(kmldom::STYLESTATE_HIGHLIGHT);
+
+        styleMap->add_pair(pair);
+    }
+
+    styleMap->set_id("directiveArrowStyle");
+
+
+    return styleMap;
+}
+
+
+
+StylePtr KmlExport::createGroundTrackStyle()
+{
+    // Add custom balloon style (gets rid of "Directions to here...")
+    // https://groups.google.com/forum/?fromgroups#!topic/kml-support-getting-started/2CqF9oiynRY
+    BalloonStylePtr balloonStyle = factory->CreateBalloonStyle();
+    balloonStyle->set_text("$[id]");
+
+    // Create an icon style
+    IconStylePtr iconStyle = factory->CreateIconStyle();
+    iconStyle->set_scale(0);
+
+    // Create a label style
+    LabelStylePtr labelStyle = factory->CreateLabelStyle();
+    labelStyle->set_color(kmlbase::Color32(255, 0, 255, 255));
+    labelStyle->set_scale(0);
+
+    // Create a line style
+    LineStylePtr lineStyle = factory->CreateLineStyle();
+    lineStyle->set_color(kmlbase::Color32(255, 0, 0, 0)); // Black
+    lineStyle->set_width(9);
+
+    // Link the style to the icon
+    StylePtr style = factory->CreateStyle();
+    style->set_balloonstyle(balloonStyle);
+    style->set_iconstyle(iconStyle);
+    style->set_linestyle(lineStyle);
+    style->set_labelstyle(labelStyle);
+
+    style->set_id("ts_2_tb");
+
+    return style;
+}
+
+StyleMapPtr KmlExport::createWallAxesStyle()
+{
+    StyleMapPtr styleMap = factory->CreateStyleMap();
+
+    {
+        // Add custom balloon style (gets rid of "Directions to here...")
+        // https://groups.google.com/forum/?fromgroups#!topic/kml-support-getting-started/2CqF9oiynRY
+        BalloonStylePtr balloonStyle = factory->CreateBalloonStyle();
+        balloonStyle->set_text("$[id]");
+
+        // Create an icon style
+        IconStylePtr iconStyle = factory->CreateIconStyle();
+        iconStyle->set_scale(0);
+
+        // Create a label style
+        LabelStylePtr labelStyle = factory->CreateLabelStyle();
+        labelStyle->set_color(kmlbase::Color32(255, 0, 255, 255));
+        labelStyle->set_scale(0);
+
+        // Create a line style
+        LineStylePtr lineStyle = factory->CreateLineStyle();
+        lineStyle->set_color(kmlbase::Color32(255, 0, 0, 0)); // Black
+        lineStyle->set_width(.9);
+
+        // Link the style to the icon
+        StylePtr style = factory->CreateStyle();
+        style->set_balloonstyle(balloonStyle);
+        style->set_iconstyle(iconStyle);
+        style->set_linestyle(lineStyle);
+        style->set_labelstyle(labelStyle);
+
+        PairPtr pair = factory->CreatePair();
+        pair->set_styleselector(style);
+        pair->set_key(kmldom::STYLESTATE_NORMAL);
+
+        styleMap->add_pair(pair);
+    }
+
+    {
+        // Add custom balloon style (gets rid of "Directions to here...")
+        // https://groups.google.com/forum/?fromgroups#!topic/kml-support-getting-started/2CqF9oiynRY
+        BalloonStylePtr balloonStyle = factory->CreateBalloonStyle();
+        balloonStyle->set_text("$[id]");
+
+        // Create an icon style
+        IconStylePtr iconStyle = factory->CreateIconStyle();
+        iconStyle->set_scale(0);
+
+        // Create a label style
+        LabelStylePtr labelStyle = factory->CreateLabelStyle();
+        labelStyle->set_color(kmlbase::Color32(255, 0, 255, 255));
+        labelStyle->set_scale(0.75);
+
+        // Create a line style
+        LineStylePtr lineStyle = factory->CreateLineStyle();
+        lineStyle->set_color(kmlbase::Color32(255, 0, 0, 0)); // Black
+        lineStyle->set_width(1.8);
+
+        // Link the style to the icon
+        StylePtr style = factory->CreateStyle();
+        style->set_balloonstyle(balloonStyle);
+        style->set_iconstyle(iconStyle);
+        style->set_linestyle(lineStyle);
+        style->set_labelstyle(labelStyle);
+
+        PairPtr pair = factory->CreatePair();
+        pair->set_styleselector(style);
+        pair->set_key(kmldom::STYLESTATE_HIGHLIGHT);
+
+        styleMap->add_pair(pair);
+    }
+
+    styleMap->set_id("ts_1_tb");
+
+
+    return styleMap;
+}
+
 const double ColorMap_Jet[256][3] = COLORMAP_JET;
 #define maxVelocity 20 // This shouldn't be hardcoded
 
@@ -54,6 +254,7 @@ KmlExport::KmlExport(QString inputLogFileName, QString outputKmlFileName) :
     kmlTalk = new UAVTalk(&logFile, kmlUAVObjectManager);
 
     // Get the UAVObjects
+    attitudeActual = AttitudeActual::GetInstance(kmlUAVObjectManager);
     homeLocation = HomeLocation::GetInstance(kmlUAVObjectManager);
     positionActual = PositionActual::GetInstance(kmlUAVObjectManager);
     velocityActual = VelocityActual::GetInstance(kmlUAVObjectManager);
@@ -71,9 +272,31 @@ KmlExport::KmlExport(QString inputLogFileName, QString outputKmlFileName) :
     // Create <Document>
     document = factory->CreateDocument();
 
-    // Create custom balloon style. Add as document's first element
-    StylePtr style = createCustomBalloonStyle();
-    document->add_styleselector(style);
+    // Create folders
+    timestampFolder = factory->CreateFolder();
+    timestampFolder->set_name("Arrows");
+
+    trackFolder = factory->CreateFolder();
+    trackFolder->set_name("Track");
+
+    // Create custom styles. Add as document's first elements
+    StyleMapPtr styleCBS = createCustomBalloonStyle();
+    document->add_styleselector(styleCBS);
+
+    StylePtr styleGT = createGroundTrackStyle();
+    document->add_styleselector(styleGT);
+
+    StyleMapPtr wallAxesStyle = createWallAxesStyle();
+    document->add_styleselector(wallAxesStyle);
+
+
+    //
+    for (int i=0; i<5; i++){
+        CoordinatesPtr coordinates = factory->CreateCoordinates();
+        wallAxes.append(coordinates);
+    }
+
+
 }
 
 
@@ -95,8 +318,53 @@ void KmlExport::exportToKML()
         return;
     }
 
-    // Call parser
+    // Call parser.
     parseLogFile();
+
+
+    // Add track to <Document>
+    document->add_feature(trackFolder);
+
+    // Add timespans to <Document>
+    document->add_feature(timestampFolder);
+
+    // Add ground track to <Document>
+    {
+        LineStringPtr linestring = factory->CreateLineString();
+        linestring->set_extrude(false); // Do not extrude to ground
+        linestring->set_altitudemode(kmldom::ALTITUDEMODE_CLAMPTOGROUND);
+        linestring->set_coordinates(wallAxes[0]);
+
+        MultiGeometryPtr multiGeometry = factory->CreateMultiGeometry();
+        multiGeometry->add_geometry(linestring);
+
+        PlacemarkPtr placemark = factory->CreatePlacemark();
+        placemark->set_geometry(multiGeometry);
+        placemark->set_styleurl("#ts_2_tb");
+        placemark->set_name("Ground track");
+
+        document->add_feature(placemark);
+    }
+
+    // Add wall axes to <Document>
+    FolderPtr folder = factory->CreateFolder();
+    for (int i=0; i<5; i++) {
+        LineStringPtr linestring = factory->CreateLineString();
+        linestring->set_extrude(false); // Do not extrude to ground
+        linestring->set_altitudemode(kmldom::ALTITUDEMODE_ABSOLUTE);
+        linestring->set_coordinates(wallAxes[i]);
+
+        MultiGeometryPtr multiGeometry = factory->CreateMultiGeometry();
+        multiGeometry->add_geometry(linestring);
+
+        PlacemarkPtr placemark = factory->CreatePlacemark();
+        placemark->set_geometry(multiGeometry);
+        placemark->set_styleurl("#ts_1_tb");
+
+        folder->add_feature(placemark);
+        folder->set_name("Wall axes");
+    }
+    document->add_feature(folder);
 
     // Create <kml> and give it <Document>.
     KmlPtr kml = factory->CreateKml();
@@ -301,29 +569,15 @@ void KmlExport::parseLogFile()
 }
 
 
-StylePtr KmlExport::createCustomBalloonStyle()
+kmlbase::Color32 KmlExport::mapVelocity2Color(double velocity)
 {
-    // Add custom balloon style (gets rid of "Directions to here...")
-    // https://groups.google.com/forum/?fromgroups#!topic/kml-support-getting-started/2CqF9oiynRY
-    BalloonStylePtr balloonStyle = factory->CreateBalloonStyle();
-    balloonStyle->set_text("$[description]");
+    uint8_t colorMapIdx = velocity/maxVelocity * 255;
+    uint8_t a = 255;
+    uint8_t r = round(ColorMap_Jet[colorMapIdx][0]*255); // Colormap is in [0,1], so it needs to be scaled to [0,255]
+    uint8_t g = round(ColorMap_Jet[colorMapIdx][1]*255);
+    uint8_t b = round(ColorMap_Jet[colorMapIdx][2]*255);
 
-    // Change the icon
-    IconStyleIconPtr iconStyleIcon = factory->CreateIconStyleIcon();
-    iconStyleIcon->set_href("http://earth.google.com/images/kml-icons/track-directional/track-none.png");
-
-    // Create an icon style
-    IconStylePtr iconStyle = factory->CreateIconStyle();
-    iconStyle->set_color(kmlbase::Color32(255, 255, 255, 255));
-    iconStyle->set_icon(iconStyleIcon);
-
-    // Link the style to the icon
-    StylePtr style = factory->CreateStyle();
-    style->set_id("directionlessBallonStyle");
-    style->set_balloonstyle(balloonStyle);
-    style->set_iconstyle(iconStyle);
-
-    return style;
+    return kmlbase::Color32(a, b, g, r);
 }
 
 
@@ -334,34 +588,84 @@ StylePtr KmlExport::createCustomBalloonStyle()
  * @param endPoint End point point along line
  * @return
  */
-PlacemarkPtr KmlExport::CreateLineStringPlacemark(const LLAVCoordinates &startPoint, const LLAVCoordinates &endPoint)
+PlacemarkPtr KmlExport::CreateLineStringPlacemark(const LLAVCoordinates &startPoint, const LLAVCoordinates &endPoint, quint32 newPlacemarkTime)
 {
     CoordinatesPtr coordinates = factory->CreateCoordinates();
     coordinates->add_latlngalt(startPoint.latitude, startPoint.longitude, startPoint.altitude);
     coordinates->add_latlngalt(endPoint.latitude,   endPoint.longitude,   endPoint.altitude);
 
     LineStringPtr linestring = factory->CreateLineString();
-    linestring->set_extrude(false); // Do not extrude to ground
+    linestring->set_extrude(true); // Extrude to ground
     linestring->set_altitudemode(kmldom::ALTITUDEMODE_ABSOLUTE);
     linestring->set_coordinates(coordinates);
 
-    LineStylePtr linestyle = factory->CreateLineStyle();
-    double currentVelocity = (startPoint.velocity + endPoint.velocity)/2;
-    uint8_t colorMapIdx = currentVelocity/maxVelocity * 255;
-    uint8_t a = 255;
-    uint8_t r = round(ColorMap_Jet[colorMapIdx][0]*255); // Colormap is in [0,1], so it needs to be scaled to [0,255]
-    uint8_t g = round(ColorMap_Jet[colorMapIdx][1]*255);
-    uint8_t b = round(ColorMap_Jet[colorMapIdx][2]*255);
-    linestyle->set_color(kmlbase::Color32(a, b, g, r));
+    StyleMapPtr styleMap = factory->CreateStyleMap();
 
-    StylePtr style = factory->CreateStyle();
-    style->set_linestyle(linestyle);
+
+    // Add custom balloon style (gets rid of "Directions to here...")
+    // https://groups.google.com/forum/?fromgroups#!topic/kml-support-getting-started/2CqF9oiynRY
+    BalloonStylePtr balloonStyle = factory->CreateBalloonStyle();
+    balloonStyle->set_text("$[description]");
+
+    {
+        double currentVelocity = (startPoint.velocity + endPoint.velocity)/2;
+
+        // Set the linestyle. The color is a function of speed.
+        LineStylePtr lineStyle = factory->CreateLineStyle();
+        lineStyle->set_color(mapVelocity2Color(currentVelocity));
+
+        PolyStylePtr polyStyle = factory->CreatePolyStyle();
+        polyStyle->set_color(mapVelocity2Color(currentVelocity));
+
+        // Link the style to the icon
+        StylePtr style = factory->CreateStyle();
+        style->set_balloonstyle(balloonStyle);
+        style->set_linestyle(lineStyle);
+        style->set_polystyle(polyStyle);
+
+        PairPtr pair = factory->CreatePair();
+        pair->set_styleselector(style);
+        pair->set_key(kmldom::STYLESTATE_NORMAL);
+
+        styleMap->add_pair(pair);
+    }
+
+    {
+        double currentVelocity = (startPoint.velocity + endPoint.velocity)/2;
+
+        // Set the linestyle. The color is a function of speed.
+        LineStylePtr lineStyle = factory->CreateLineStyle();
+        lineStyle->set_color(mapVelocity2Color(currentVelocity));
+
+        PolyStylePtr polyStyle = factory->CreatePolyStyle();
+        polyStyle->set_color(mapVelocity2Color(currentVelocity));
+        polyStyle->set_fill(false);
+
+        // Link the style to the icon
+        StylePtr style = factory->CreateStyle();
+        style->set_balloonstyle(balloonStyle);
+        style->set_linestyle(lineStyle);
+        style->set_polystyle(polyStyle);
+
+        PairPtr pair = factory->CreatePair();
+        pair->set_styleselector(style);
+        pair->set_key(kmldom::STYLESTATE_HIGHLIGHT);
+
+        styleMap->add_pair(pair);
+    }
 
     PlacemarkPtr placemark = factory->CreatePlacemark();
     placemark->set_geometry(linestring);
-    placemark->set_name("tl_plot");
-    placemark->set_style(style);
+    placemark->set_styleselector(styleMap);
     placemark->set_visibility(true);
+
+    // Set the name
+    QDateTime trackTime = QDateTime::currentDateTimeUtc().addMSecs(newPlacemarkTime); // FIXME: Make it a function of the realtime preferably gotten from the GPS
+    QString dateTimeFormat("yyyy-MM-ddThh:mm:ssZ"); // XML Schema time format
+    placemark->set_name(trackTime.toString(dateTimeFormat).toStdString());
+
+    // Add a nice description to the track placemark
+    placemark->set_description(informationString.toStdString());
 
     return placemark;
 }
@@ -396,6 +700,21 @@ PlacemarkPtr KmlExport::createTimespanPlacemark(const LLAVCoordinates &timestamp
     timeSpan->set_begin(startTime.toString(dateTimeFormat).toStdString());
     timeSpan->set_end(endTime.toString(dateTimeFormat).toStdString());
 
+    // Create an icon style. This will be rotated and colored to represent velocity
+    AttitudeActual::DataFields attitudeActualData = attitudeActual->getData();
+    IconStylePtr iconStyle = factory->CreateIconStyle();
+    iconStyle->set_color(mapVelocity2Color(timestampPoint.velocity));
+    iconStyle->set_heading(attitudeActualData.Yaw);
+
+    // Create a line style
+    LineStylePtr lineStyle = factory->CreateLineStyle();
+    lineStyle->set_color(mapVelocity2Color(timestampPoint.velocity));
+
+    // Link the style to the icon
+    StylePtr style = factory->CreateStyle();
+    style->set_linestyle(lineStyle);
+    style->set_iconstyle(iconStyle);
+
     // Generate the placemark with all above attributes
     PlacemarkPtr placemark = factory->CreatePlacemark();
     placemark->set_geometry(point);
@@ -403,11 +722,12 @@ PlacemarkPtr KmlExport::createTimespanPlacemark(const LLAVCoordinates &timestamp
     placemark->set_name(QString("%1").arg(timeStamp / 1000.0).toStdString());
     placemark->set_visibility(true);
 
-    // Set the placemark to use the custom balloon style
-    placemark->set_styleurl("#directionlessBallonStyle");
+    // Set the placemark to use the custom rotated arrow style
+    placemark->set_styleurl("#directiveArrowStyle");
+    placemark->set_styleselector(style);
 
     // Add a nice description to the placemark
-    placemark->set_description(QString("Latitude: %1 deg\nLongitude: %2 deg\nAltitude: %3 m\nAirspeed: %4 m/s\nGroundspeed: %5 m/s\n").arg(timestampPoint.latitude).arg(timestampPoint.longitude).arg(timestampPoint.altitude).arg(-1).arg(timestampPoint.velocity).toStdString());
+    placemark->set_description(informationString.toStdString());
 
     return placemark;
 }
@@ -444,16 +764,37 @@ void KmlExport::uavobjectUpdated(UAVObject *obj)
     newPoint.altitude = LLA[2];
     newPoint.velocity = sqrt(velocityActualData.North*velocityActualData.North + velocityActualData.East*velocityActualData.East);
 
-    PlacemarkPtr newPlacemark = CreateLineStringPlacemark(oldPoint, newPoint);
+    // Update UAV info string
+    informationString.clear();
+    informationString.append(QString("Latitude: %1 deg\nLongitude: %2 deg\nAltitude: %3 m\nAirspeed: %4 m/s\nGroundspeed: %5 m/s\n").arg(newPoint.latitude).arg(newPoint.longitude).arg(newPoint.altitude).arg(-1).arg(newPoint.velocity));
 
-    // Add the placemark to the KML document
-    document->add_feature(newPlacemark);
+    // In case this is the first time through, copy data and exit
+    static bool firstPoint;
+
+    if (firstPoint == false) {
+        oldPoint.latitude = newPoint.latitude;
+        oldPoint.longitude = newPoint.longitude;
+        oldPoint.altitude = newPoint.altitude;
+        oldPoint.velocity = newPoint.velocity;
+
+        firstPoint = true;
+        return;
+    }
+
+    // Create wall axes
+    for (int i = 0; i< 5; i++){
+        wallAxes[i]->add_latlngalt(newPoint.latitude, newPoint.longitude, i*20 + homeLocationData.Altitude);
+    }
+
+    // Create colored tracks and add to the KML document
+    PlacemarkPtr newPlacemark = CreateLineStringPlacemark(oldPoint, newPoint, timeStamp);
+    trackFolder->add_feature(newPlacemark);
 
     // Every 2 seconds generate a time stamp
     if (timeStamp - lastPlacemarkTime > 2000) {
 
         PlacemarkPtr newPlacemarkTimestamp = createTimespanPlacemark(newPoint, lastPlacemarkTime, timeStamp);
-        document->add_feature(newPlacemarkTimestamp);
+        timestampFolder->add_feature(newPlacemarkTimestamp);
         lastPlacemarkTime = timeStamp;
     }
 
@@ -470,3 +811,5 @@ void KmlExport::homeLocationUpdated(UAVObject *obj)
     Q_UNUSED(obj);
     homeLocationData = homeLocation->getData();
 }
+
+

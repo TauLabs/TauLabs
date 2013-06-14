@@ -37,19 +37,24 @@ using kmldom::CoordinatesPtr;
 using kmldom::DocumentPtr;
 using kmldom::ElementPtr;
 using kmldom::FeaturePtr;
+using kmldom::FolderPtr;
 using kmldom::GeometryPtr;
 using kmldom::IconStylePtr;
 using kmldom::IconStyleIconPtr;
+using kmldom::LabelStylePtr;
 using kmldom::LinearRingPtr;
 using kmldom::LineStringPtr;
 using kmldom::LineStylePtr;
 using kmldom::MultiGeometryPtr;
 using kmldom::OuterBoundaryIsPtr;
+using kmldom::PairPtr;
 using kmldom::PlacemarkPtr;
 using kmldom::PointPtr;
 using kmldom::PolygonPtr;
+using kmldom::PolyStylePtr;
 using kmldom::SnippetPtr;
 using kmldom::StylePtr;
+using kmldom::StyleMapPtr;
 using kmldom::StyleSelectorPtr;
 using kmldom::TimeSpanPtr;
 using kmlengine::FeatureVisitor;
@@ -69,6 +74,7 @@ using kmldom::KmlPtr;
 
 #include "./uavtalk/uavtalk.h"
 
+#include "attitudeactual.h"
 #include "homelocation.h"
 #include "positionactual.h"
 #include "velocityactual.h"
@@ -116,25 +122,67 @@ private:
 
     UAVTalk *kmlTalk;
 
+    AttitudeActual *attitudeActual;
     HomeLocation *homeLocation;
     PositionActual *positionActual;
     VelocityActual *velocityActual;
 
     DocumentPtr document;
+    FolderPtr trackFolder;
+    FolderPtr timestampFolder;
     KmlFactory *factory;
 
     QString outputFileName;
     LLAVCoordinates oldPoint;
     quint32 timeStamp;
     quint32 lastPlacemarkTime;
+    QString informationString;
     HomeLocation::DataFields homeLocationData;
-
+    QVector<CoordinatesPtr> wallAxes;
 
     void parseLogFile();
-    StylePtr createCustomBalloonStyle();
-    PlacemarkPtr CreateLineStringPlacemark(const LLAVCoordinates &startPoint, const LLAVCoordinates &endPoint);
+    StylePtr createGroundTrackStyle();
+    StyleMapPtr createWallAxesStyle();
+    StyleMapPtr createCustomBalloonStyle();
+    PlacemarkPtr CreateLineStringPlacemark(const LLAVCoordinates &startPoint, const LLAVCoordinates &endPoint, quint32 newPlacemarkTime);
     PlacemarkPtr createTimespanPlacemark(const LLAVCoordinates &point, quint32 lastPlacemarkTime, quint32 newPlacemarkTime);
+
+    kmlbase::Color32 mapVelocity2Color(double velocity);
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 //! Jet color map, as defined by matlab. Generated with `jet(256)`.
