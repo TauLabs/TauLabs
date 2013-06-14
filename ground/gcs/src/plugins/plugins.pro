@@ -63,6 +63,7 @@ plugin_opmap.depends += plugin_uavobjects
 plugin_opmap.depends += plugin_uavobjectutil
 plugin_opmap.depends += plugin_uavtalk
 plugin_opmap.depends += plugin_pathplanner
+#plugin_opmap.depends += plugin_geofenceeditor
 SUBDIRS += plugin_opmap
 }
 
@@ -163,6 +164,12 @@ plugin_pathplanner.subdir = pathplanner
 plugin_pathplanner.depends = plugin_coreplugin
 plugin_pathplanner.depends += plugin_uavobjects
 SUBDIRS += plugin_pathplanner
+
+# Geofence Editor gadget
+plugin_geofenceeditor.subdir = geofenceeditor
+plugin_geofenceeditor.depends = plugin_coreplugin
+plugin_geofenceeditor.depends += plugin_uavobjects
+SUBDIRS += plugin_geofenceeditor
 
 # Waypoint Editor gadget
 plugin_waypointeditor.subdir = waypointeditor
@@ -298,6 +305,7 @@ SUBDIRS += plugin_setupwizard
 plugin_boards_taulabs.subdir = boards_taulabs
 plugin_boards_taulabs.depends = plugin_coreplugin
 plugin_boards_taulabs.depends = plugin_uavobjects
+
 SUBDIRS += plugin_boards_taulabs
 
 # OpenPilot project

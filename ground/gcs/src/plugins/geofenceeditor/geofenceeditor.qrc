@@ -1,0 +1,40 @@
+<RCC>
+    <qresource prefix="/opmap">
+        <file>images/ok.png</file>
+        <file>images/uav.png</file>
+        <file>images/gcs.png</file>
+        <file>images/waypoint.png</file>
+        <file>images/right_but.png</file>
+        <file>images/left_but.png</file>
+        <file>images/next_waypoint.png</file>
+        <file>images/prev_waypoint.png</file>
+        <file>images/plus2.png</file>
+        <file>images/minus2.png</file>
+        <file>images/home.png</file>
+        <file>images/hold.png</file>
+        <file>images/go.png</file>
+        <file>images/combobox_down_arrow.png</file>
+        <file>images/waypoint_marker2.png</file>
+        <file>images/waypoint_marker1.png</file>
+        <file>images/uav_heading.png</file>
+        <file>images/uav_trail.png</file>
+        <file>images/uav_trail_clear.png</file>
+        <file>images/minus.png</file>
+        <file>images/plus.png</file>
+        <file>images/waypoint_marker3.png</file>
+        <file>images/home_wp.png</file>
+        <file>images/move_to_wp.png</file>
+        <file>images/center_wp.png</file>
+        <file>images/Ekisho Deep Ocean HD1.png</file>
+        <file>images/forward button white.png</file>
+        <file>images/new archive.png</file>
+        <file>images/rewind button white.png</file>
+        <file>images/stopb.png</file>
+        <file>images/unarchive.png</file>
+        <file>images/up_alt.png</file>
+        <file>images/plus3.png</file>
+        <file>images/forward_alt.png</file>
+        <file>images/star.png</file>
+        <file>images/down_alt.png</file>
+    </qresource>
+</RCC>
