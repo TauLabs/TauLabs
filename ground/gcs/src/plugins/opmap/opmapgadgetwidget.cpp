@@ -283,7 +283,6 @@ OPMapGadgetWidget::OPMapGadgetWidget(QWidget *parent) : QWidget(parent)
     // Connect windspeed update
     WindVelocityActual *windVelocityActual = WindVelocityActual::GetInstance(obm);
     connect(windVelocityActual, SIGNAL(objectUpdated(UAVObject *)), this, SLOT(updateWindspeed(UAVObject *)));
-    updateWindspeed((UAVObject *)NULL);
 
     m_map->setFocus();
 }
