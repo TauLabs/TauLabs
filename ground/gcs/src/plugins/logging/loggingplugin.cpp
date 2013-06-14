@@ -342,7 +342,6 @@ bool LoggingPlugin::initialize(const QStringList& args, QString *errMsg)
     // Command to convert log file to KML
     exportToKmlCmd = am->registerAction(new QAction(this), "LoggingPlugin.ExportToKML",
                              QList<int>() << Core::Constants::C_GLOBAL_ID);
-//    logCmd->setDefaultKeySequence(QKeySequence("Ctrl+E"));
     exportToKmlCmd->action()->setText("Export logfile to KML");
 
     ac->menu()->addSeparator();
@@ -371,9 +370,9 @@ void LoggingPlugin::exportToKML()
     if (inputFileName.isEmpty())
         return;
 
-    // Get output file
+    // Get output file. Suggest to user that output have same base name and location as input file.
     QString outputFileName = QFileDialog::getSaveFileName(NULL, tr("Export log"),
-                                tr("TauLabs-%0.kml").arg(QDateTime::currentDateTime().toString("yyyy-MM-dd_hh-mm-ss")),
+                                inputFileName.split(".",QString::SkipEmptyParts).at(0),
                                 tr("Keyhole Markup Language (*.kml)"));
 
     if (outputFileName.isEmpty())
