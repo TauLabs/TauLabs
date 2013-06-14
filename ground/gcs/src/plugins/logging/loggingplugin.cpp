@@ -371,7 +371,7 @@ void LoggingPlugin::exportToKML()
         return;
 
     // Get output file. Suggest to user that output have same base name and location as input file.
-    QString filters = tr("Keyhole Markup Language (*.kml);; Keyhole Markup Language (*.kmz)");
+    QString filters = tr("Keyhole Markup Language (compressed) (*.kmz);; Keyhole Markup Language (uncompressed) (*.kml)");
     QString outputFileName = QFileDialog::getSaveFileName(NULL, tr("Export log"),
                                 inputFileName.split(".",QString::SkipEmptyParts).at(0),
                                 filters);
