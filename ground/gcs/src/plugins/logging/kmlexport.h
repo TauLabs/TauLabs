@@ -152,7 +152,7 @@ private:
     PlacemarkPtr CreateLineStringPlacemark(const LLAVCoordinates &startPoint, const LLAVCoordinates &endPoint, quint32 newPlacemarkTime);
     PlacemarkPtr createTimespanPlacemark(const LLAVCoordinates &point, quint32 lastPlacemarkTime, quint32 newPlacemarkTime);
 
-    kmlbase::Color32 mapVelocity2Color(double velocity);
+    kmlbase::Color32 mapVelocity2Color(double velocity, uint8_t alpha = 255);
 };
 
 

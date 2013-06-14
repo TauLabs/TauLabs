@@ -38,208 +38,9 @@
 #include "kmlexport.h"
 
 
-StyleMapPtr KmlExport::createCustomBalloonStyle()
-{
-    StyleMapPtr styleMap = factory->CreateStyleMap();
-
-    {
-
-        // Add custom balloon style (gets rid of "Directions to here...")
-        // https://groups.google.com/forum/?fromgroups#!topic/kml-support-getting-started/2CqF9oiynRY
-        BalloonStylePtr balloonStyle = factory->CreateBalloonStyle();
-        balloonStyle->set_text("$[description]");
-
-        // Change the icon
-        IconStyleIconPtr iconStyleIcon = factory->CreateIconStyleIcon();
-        iconStyleIcon->set_href("http://maps.google.com/mapfiles/kml/shapes/arrow.png");
-
-        // Create a label style
-        LabelStylePtr labelStyle = factory->CreateLabelStyle();
-        labelStyle->set_color(kmlbase::Color32(255, 0, 255, 255));
-        labelStyle->set_scale(0.75);
-
-        // Create an icon style
-        IconStylePtr iconStyle = factory->CreateIconStyle();
-        iconStyle->set_icon(iconStyleIcon);
-        iconStyle->set_scale(0.65);
-
-        // Create a line style
-        LineStylePtr lineStyle = factory->CreateLineStyle();
-        lineStyle->set_width(3.25);
-
-        // Link the style to the icon
-        StylePtr style = factory->CreateStyle();
-        style->set_balloonstyle(balloonStyle);
-        style->set_iconstyle(iconStyle);
-        style->set_linestyle(lineStyle);
-        style->set_labelstyle(labelStyle);
-
-        PairPtr pair = factory->CreatePair();
-        pair->set_styleselector(style);
-        pair->set_key(kmldom::STYLESTATE_NORMAL);
-
-        styleMap->add_pair(pair);
-    }
-
-    {
-        // Add custom balloon style (gets rid of "Directions to here...")
-        // https://groups.google.com/forum/?fromgroups#!topic/kml-support-getting-started/2CqF9oiynRY
-        BalloonStylePtr balloonStyle = factory->CreateBalloonStyle();
-        balloonStyle->set_text("$[description]");
-
-        // Change the icon
-        IconStyleIconPtr iconStyleIcon = factory->CreateIconStyleIcon();
-        iconStyleIcon->set_href("http://maps.google.com/mapfiles/kml/shapes/arrow.png");
-
-        // Create an icon style
-        IconStylePtr iconStyle = factory->CreateIconStyle();
-        iconStyle->set_icon(iconStyleIcon);
-        iconStyle->set_scale(0.65);
-
-        // Create a label style
-        LabelStylePtr labelStyle = factory->CreateLabelStyle();
-        labelStyle->set_color(kmlbase::Color32(255, 0, 255, 255));
-        labelStyle->set_scale(0.9);
-
-        // Create a line style
-        LineStylePtr lineStyle = factory->CreateLineStyle();
-        lineStyle->set_width(6.5);
-
-        // Link the style to the icon
-        StylePtr style = factory->CreateStyle();
-        style->set_balloonstyle(balloonStyle);
-        style->set_iconstyle(iconStyle);
-        style->set_linestyle(lineStyle);
-        style->set_labelstyle(labelStyle);
-
-        PairPtr pair = factory->CreatePair();
-        pair->set_styleselector(style);
-        pair->set_key(kmldom::STYLESTATE_HIGHLIGHT);
-
-        styleMap->add_pair(pair);
-    }
-
-    styleMap->set_id("directiveArrowStyle");
-
-
-    return styleMap;
-}
-
-
-
-StylePtr KmlExport::createGroundTrackStyle()
-{
-    // Add custom balloon style (gets rid of "Directions to here...")
-    // https://groups.google.com/forum/?fromgroups#!topic/kml-support-getting-started/2CqF9oiynRY
-    BalloonStylePtr balloonStyle = factory->CreateBalloonStyle();
-    balloonStyle->set_text("$[id]");
-
-    // Create an icon style
-    IconStylePtr iconStyle = factory->CreateIconStyle();
-    iconStyle->set_scale(0);
-
-    // Create a label style
-    LabelStylePtr labelStyle = factory->CreateLabelStyle();
-    labelStyle->set_color(kmlbase::Color32(255, 0, 255, 255));
-    labelStyle->set_scale(0);
-
-    // Create a line style
-    LineStylePtr lineStyle = factory->CreateLineStyle();
-    lineStyle->set_color(kmlbase::Color32(255, 0, 0, 0)); // Black
-    lineStyle->set_width(9);
-
-    // Link the style to the icon
-    StylePtr style = factory->CreateStyle();
-    style->set_balloonstyle(balloonStyle);
-    style->set_iconstyle(iconStyle);
-    style->set_linestyle(lineStyle);
-    style->set_labelstyle(labelStyle);
-
-    style->set_id("ts_2_tb");
-
-    return style;
-}
-
-StyleMapPtr KmlExport::createWallAxesStyle()
-{
-    StyleMapPtr styleMap = factory->CreateStyleMap();
-
-    {
-        // Add custom balloon style (gets rid of "Directions to here...")
-        // https://groups.google.com/forum/?fromgroups#!topic/kml-support-getting-started/2CqF9oiynRY
-        BalloonStylePtr balloonStyle = factory->CreateBalloonStyle();
-        balloonStyle->set_text("$[id]");
-
-        // Create an icon style
-        IconStylePtr iconStyle = factory->CreateIconStyle();
-        iconStyle->set_scale(0);
-
-        // Create a label style
-        LabelStylePtr labelStyle = factory->CreateLabelStyle();
-        labelStyle->set_color(kmlbase::Color32(255, 0, 255, 255));
-        labelStyle->set_scale(0);
-
-        // Create a line style
-        LineStylePtr lineStyle = factory->CreateLineStyle();
-        lineStyle->set_color(kmlbase::Color32(255, 0, 0, 0)); // Black
-        lineStyle->set_width(.9);
-
-        // Link the style to the icon
-        StylePtr style = factory->CreateStyle();
-        style->set_balloonstyle(balloonStyle);
-        style->set_iconstyle(iconStyle);
-        style->set_linestyle(lineStyle);
-        style->set_labelstyle(labelStyle);
-
-        PairPtr pair = factory->CreatePair();
-        pair->set_styleselector(style);
-        pair->set_key(kmldom::STYLESTATE_NORMAL);
-
-        styleMap->add_pair(pair);
-    }
-
-    {
-        // Add custom balloon style (gets rid of "Directions to here...")
-        // https://groups.google.com/forum/?fromgroups#!topic/kml-support-getting-started/2CqF9oiynRY
-        BalloonStylePtr balloonStyle = factory->CreateBalloonStyle();
-        balloonStyle->set_text("$[id]");
-
-        // Create an icon style
-        IconStylePtr iconStyle = factory->CreateIconStyle();
-        iconStyle->set_scale(0);
-
-        // Create a label style
-        LabelStylePtr labelStyle = factory->CreateLabelStyle();
-        labelStyle->set_color(kmlbase::Color32(255, 0, 255, 255));
-        labelStyle->set_scale(0.75);
-
-        // Create a line style
-        LineStylePtr lineStyle = factory->CreateLineStyle();
-        lineStyle->set_color(kmlbase::Color32(255, 0, 0, 0)); // Black
-        lineStyle->set_width(1.8);
-
-        // Link the style to the icon
-        StylePtr style = factory->CreateStyle();
-        style->set_balloonstyle(balloonStyle);
-        style->set_iconstyle(iconStyle);
-        style->set_linestyle(lineStyle);
-        style->set_labelstyle(labelStyle);
-
-        PairPtr pair = factory->CreatePair();
-        pair->set_styleselector(style);
-        pair->set_key(kmldom::STYLESTATE_HIGHLIGHT);
-
-        styleMap->add_pair(pair);
-    }
-
-    styleMap->set_id("ts_1_tb");
-
-
-    return styleMap;
-}
-
 const double ColorMap_Jet[256][3] = COLORMAP_JET;
 #define maxVelocity 20 // This shouldn't be hardcoded
+
 
 KmlExport::KmlExport(QString inputLogFileName, QString outputKmlFileName) :
     outputFileName(outputKmlFileName)
@@ -572,15 +373,211 @@ void KmlExport::parseLogFile()
 }
 
 
-kmlbase::Color32 KmlExport::mapVelocity2Color(double velocity)
+/**
+ * @brief KmlExport::createCustomBalloonStyle Creates a custom balloon stye, using an arrow as an icon.
+ * @return
+ */
+StyleMapPtr KmlExport::createCustomBalloonStyle()
 {
-    uint8_t colorMapIdx = velocity/maxVelocity * 255;
-    uint8_t a = 255;
-    uint8_t r = round(ColorMap_Jet[colorMapIdx][0]*255); // Colormap is in [0,1], so it needs to be scaled to [0,255]
-    uint8_t g = round(ColorMap_Jet[colorMapIdx][1]*255);
-    uint8_t b = round(ColorMap_Jet[colorMapIdx][2]*255);
+    StyleMapPtr styleMap = factory->CreateStyleMap();
 
-    return kmlbase::Color32(a, b, g, r);
+    {
+
+        // Add custom balloon style (gets rid of "Directions to here...")
+        // https://groups.google.com/forum/?fromgroups#!topic/kml-support-getting-started/2CqF9oiynRY
+        BalloonStylePtr balloonStyle = factory->CreateBalloonStyle();
+        balloonStyle->set_text("$[description]");
+
+        // Change the icon
+        IconStyleIconPtr iconStyleIcon = factory->CreateIconStyleIcon();
+        iconStyleIcon->set_href("http://maps.google.com/mapfiles/kml/shapes/arrow.png");
+
+        // Create a label style
+        LabelStylePtr labelStyle = factory->CreateLabelStyle();
+        labelStyle->set_color(kmlbase::Color32(255, 0, 255, 255));
+        labelStyle->set_scale(0.75);
+
+        // Create an icon style
+        IconStylePtr iconStyle = factory->CreateIconStyle();
+        iconStyle->set_icon(iconStyleIcon);
+        iconStyle->set_scale(0.65);
+
+        // Create a line style
+        LineStylePtr lineStyle = factory->CreateLineStyle();
+        lineStyle->set_width(3.25);
+
+        // Link the style to the icon
+        StylePtr style = factory->CreateStyle();
+        style->set_balloonstyle(balloonStyle);
+        style->set_iconstyle(iconStyle);
+        style->set_linestyle(lineStyle);
+        style->set_labelstyle(labelStyle);
+
+        PairPtr pair = factory->CreatePair();
+        pair->set_styleselector(style);
+        pair->set_key(kmldom::STYLESTATE_NORMAL);
+
+        styleMap->add_pair(pair);
+    }
+
+    {
+        // Add custom balloon style (gets rid of "Directions to here...")
+        // https://groups.google.com/forum/?fromgroups#!topic/kml-support-getting-started/2CqF9oiynRY
+        BalloonStylePtr balloonStyle = factory->CreateBalloonStyle();
+        balloonStyle->set_text("$[description]");
+
+        // Change the icon
+        IconStyleIconPtr iconStyleIcon = factory->CreateIconStyleIcon();
+        iconStyleIcon->set_href("http://maps.google.com/mapfiles/kml/shapes/arrow.png");
+
+        // Create an icon style
+        IconStylePtr iconStyle = factory->CreateIconStyle();
+        iconStyle->set_icon(iconStyleIcon);
+        iconStyle->set_scale(0.65);
+
+        // Create a label style
+        LabelStylePtr labelStyle = factory->CreateLabelStyle();
+        labelStyle->set_color(kmlbase::Color32(255, 0, 255, 255));
+        labelStyle->set_scale(0.9);
+
+        // Create a line style
+        LineStylePtr lineStyle = factory->CreateLineStyle();
+        lineStyle->set_width(6.5);
+
+        // Link the style to the icon
+        StylePtr style = factory->CreateStyle();
+        style->set_balloonstyle(balloonStyle);
+        style->set_iconstyle(iconStyle);
+        style->set_linestyle(lineStyle);
+        style->set_labelstyle(labelStyle);
+
+        PairPtr pair = factory->CreatePair();
+        pair->set_styleselector(style);
+        pair->set_key(kmldom::STYLESTATE_HIGHLIGHT);
+
+        styleMap->add_pair(pair);
+    }
+
+    styleMap->set_id("directiveArrowStyle");
+
+
+    return styleMap;
+}
+
+
+/**
+ * @brief KmlExport::createGroundTrackStyle Creates a custom style for the ground track.
+ * @return
+ */
+StylePtr KmlExport::createGroundTrackStyle()
+{
+    // Add custom balloon style (gets rid of "Directions to here...")
+    // https://groups.google.com/forum/?fromgroups#!topic/kml-support-getting-started/2CqF9oiynRY
+    BalloonStylePtr balloonStyle = factory->CreateBalloonStyle();
+    balloonStyle->set_text("$[id]");
+
+    // Create an icon style
+    IconStylePtr iconStyle = factory->CreateIconStyle();
+    iconStyle->set_scale(0);
+
+    // Create a label style
+    LabelStylePtr labelStyle = factory->CreateLabelStyle();
+    labelStyle->set_color(kmlbase::Color32(255, 0, 255, 255));
+    labelStyle->set_scale(0);
+
+    // Create a line style
+    LineStylePtr lineStyle = factory->CreateLineStyle();
+    lineStyle->set_color(kmlbase::Color32(255, 0, 0, 0)); // Black
+    lineStyle->set_width(9);
+
+    // Link the style to the icon
+    StylePtr style = factory->CreateStyle();
+    style->set_balloonstyle(balloonStyle);
+    style->set_iconstyle(iconStyle);
+    style->set_linestyle(lineStyle);
+    style->set_labelstyle(labelStyle);
+
+    style->set_id("ts_2_tb");
+
+    return style;
+}
+
+StyleMapPtr KmlExport::createWallAxesStyle()
+{
+    StyleMapPtr styleMap = factory->CreateStyleMap();
+
+    {
+        // Add custom balloon style (gets rid of "Directions to here...")
+        // https://groups.google.com/forum/?fromgroups#!topic/kml-support-getting-started/2CqF9oiynRY
+        BalloonStylePtr balloonStyle = factory->CreateBalloonStyle();
+        balloonStyle->set_text("$[id]");
+
+        // Create an icon style
+        IconStylePtr iconStyle = factory->CreateIconStyle();
+        iconStyle->set_scale(0);
+
+        // Create a label style
+        LabelStylePtr labelStyle = factory->CreateLabelStyle();
+        labelStyle->set_color(kmlbase::Color32(255, 0, 255, 255));
+        labelStyle->set_scale(0);
+
+        // Create a line style
+        LineStylePtr lineStyle = factory->CreateLineStyle();
+        lineStyle->set_color(kmlbase::Color32(255, 0, 0, 0)); // Black
+        lineStyle->set_width(.9);
+
+        // Link the style to the icon
+        StylePtr style = factory->CreateStyle();
+        style->set_balloonstyle(balloonStyle);
+        style->set_iconstyle(iconStyle);
+        style->set_linestyle(lineStyle);
+        style->set_labelstyle(labelStyle);
+
+        PairPtr pair = factory->CreatePair();
+        pair->set_styleselector(style);
+        pair->set_key(kmldom::STYLESTATE_NORMAL);
+
+        styleMap->add_pair(pair);
+    }
+
+    {
+        // Add custom balloon style (gets rid of "Directions to here...")
+        // https://groups.google.com/forum/?fromgroups#!topic/kml-support-getting-started/2CqF9oiynRY
+        BalloonStylePtr balloonStyle = factory->CreateBalloonStyle();
+        balloonStyle->set_text("$[id]");
+
+        // Create an icon style
+        IconStylePtr iconStyle = factory->CreateIconStyle();
+        iconStyle->set_scale(0);
+
+        // Create a label style
+        LabelStylePtr labelStyle = factory->CreateLabelStyle();
+        labelStyle->set_color(kmlbase::Color32(255, 0, 255, 255));
+        labelStyle->set_scale(0.75);
+
+        // Create a line style
+        LineStylePtr lineStyle = factory->CreateLineStyle();
+        lineStyle->set_color(kmlbase::Color32(255, 0, 0, 0)); // Black
+        lineStyle->set_width(1.8);
+
+        // Link the style to the icon
+        StylePtr style = factory->CreateStyle();
+        style->set_balloonstyle(balloonStyle);
+        style->set_iconstyle(iconStyle);
+        style->set_linestyle(lineStyle);
+        style->set_labelstyle(labelStyle);
+
+        PairPtr pair = factory->CreatePair();
+        pair->set_styleselector(style);
+        pair->set_key(kmldom::STYLESTATE_HIGHLIGHT);
+
+        styleMap->add_pair(pair);
+    }
+
+    styleMap->set_id("ts_1_tb");
+
+
+    return styleMap;
 }
 
 
@@ -618,7 +615,7 @@ PlacemarkPtr KmlExport::CreateLineStringPlacemark(const LLAVCoordinates &startPo
         lineStyle->set_color(mapVelocity2Color(currentVelocity));
 
         PolyStylePtr polyStyle = factory->CreatePolyStyle();
-        polyStyle->set_color(mapVelocity2Color(currentVelocity));
+        polyStyle->set_color(mapVelocity2Color(currentVelocity, 100));
 
         // Link the style to the icon
         StylePtr style = factory->CreateStyle();
@@ -641,7 +638,7 @@ PlacemarkPtr KmlExport::CreateLineStringPlacemark(const LLAVCoordinates &startPo
         lineStyle->set_color(mapVelocity2Color(currentVelocity));
 
         PolyStylePtr polyStyle = factory->CreatePolyStyle();
-        polyStyle->set_color(mapVelocity2Color(currentVelocity));
+        polyStyle->set_color(mapVelocity2Color(currentVelocity, 100));
         polyStyle->set_fill(false);
 
         // Link the style to the icon
@@ -709,7 +706,7 @@ PlacemarkPtr KmlExport::createTimespanPlacemark(const LLAVCoordinates &timestamp
     iconStyle->set_color(mapVelocity2Color(timestampPoint.velocity));
     iconStyle->set_heading(attitudeActualData.Yaw + 180); //Adding 180 degrees because the arrow art points down, i.e. south.
 
-    // Create a line style
+    // Create a line style. This defines the style for the "legs" connecting the points to the ground.
     LineStylePtr lineStyle = factory->CreateLineStyle();
     lineStyle->set_color(mapVelocity2Color(timestampPoint.velocity));
 
@@ -733,6 +730,23 @@ PlacemarkPtr KmlExport::createTimespanPlacemark(const LLAVCoordinates &timestamp
     placemark->set_description(informationString.toStdString());
 
     return placemark;
+}
+
+
+/**
+ * @brief KmlExport::mapVelocity2Color Maps a velocity magnitude onto a color.
+ * @param velocity Vehicle velocity in [m/s]
+ * @param alpha Transparency. If no value provided, color is fully opaque
+ * @return
+ */
+kmlbase::Color32 KmlExport::mapVelocity2Color(double velocity, uint8_t alpha)
+{
+    uint8_t colorMapIdx = fmin(fabs(velocity/maxVelocity), 1) * 255;
+    uint8_t r = round(ColorMap_Jet[colorMapIdx][0]*255); // Colormap is in [0,1], so it needs to be scaled to [0,255]
+    uint8_t g = round(ColorMap_Jet[colorMapIdx][1]*255);
+    uint8_t b = round(ColorMap_Jet[colorMapIdx][2]*255);
+
+    return kmlbase::Color32(alpha, b, g, r);
 }
 
 
