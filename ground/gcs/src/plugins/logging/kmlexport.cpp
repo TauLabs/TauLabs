@@ -106,9 +106,16 @@ void KmlExport::exportToKML()
     std::string kml_data = kmldom::SerializePretty(kml);
 
     // Save to file
-    if ((outputFileName == NULL) || !kmlbase::File::WriteStringToFile(kml_data, outputFileName.toStdString())) {
-        qDebug() << "KML write failed: " << outputFileName;
-        QMessageBox::critical(new QWidget(),"KML write failed", "Failed to write KML file.");
+    if (outputFileName.split(".",QString::SkipEmptyParts).at(1).toLower() == "kmz") {
+        if ((outputFileName == NULL) || !kmlengine::KmzFile::WriteKmz(outputFileName.toStdString().c_str(), kml_data)) {
+            qDebug() << "KMZ write failed: " << outputFileName;
+            QMessageBox::critical(new QWidget(),"KMZ write failed", "Failed to write KMZ file.");
+        }
+    } else {
+        if ((outputFileName == NULL) || !kmlbase::File::WriteStringToFile(kml_data, outputFileName.toStdString())) {
+            qDebug() << "KML write failed: " << outputFileName;
+            QMessageBox::critical(new QWidget(),"KML write failed", "Failed to write KML file.");
+        }
     }
 }
 
