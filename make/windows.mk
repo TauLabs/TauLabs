@@ -18,8 +18,3 @@ QT_SPEC := win32-g++
 
 # this might need to switch on debug/release
 UAVOBJGENERATOR := "$(BUILD_DIR)/ground/uavobjgenerator/debug/uavobjgenerator.exe"
-
-
-# under windows we need to export some variables about the build system
-$(info $(CC))
-
