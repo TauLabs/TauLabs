@@ -53,7 +53,6 @@
 #include "pios_usb_rctx.h"
 #endif	/* PIOS_INCLUDE_USB_RCTX */
 
-#define THROTTLE_FAILSAFE -0.1f
 #define ARMED_TIME_MS      1000
 #define ARMED_THRESHOLD    0.50f
 //safe band to allow a bit of calibration error or trim offset (in microseconds)
