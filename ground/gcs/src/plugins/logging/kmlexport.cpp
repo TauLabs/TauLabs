@@ -67,6 +67,10 @@ KmlExport::KmlExport(QString inputLogFileName, QString outputKmlFileName) :
 
     // Create <Document>
     document = factory->CreateDocument();
+
+    // Create custom balloon style. Add as document's first element
+    StylePtr style = createCustomBalloonStyle();
+    document->add_styleselector(style);
 }
 
 
@@ -287,6 +291,32 @@ void KmlExport::parseLogFile()
 }
 
 
+StylePtr KmlExport::createCustomBalloonStyle()
+{
+    // Add custom balloon style (gets rid of "Directions to here...")
+    // https://groups.google.com/forum/?fromgroups#!topic/kml-support-getting-started/2CqF9oiynRY
+    BalloonStylePtr balloonStyle = factory->CreateBalloonStyle();
+    balloonStyle->set_text("$[description]");
+
+    // Change the icon
+    IconStyleIconPtr iconStyleIcon = factory->CreateIconStyleIcon();
+    iconStyleIcon->set_href("http://earth.google.com/images/kml-icons/track-directional/track-none.png");
+
+    // Create an icon style
+    IconStylePtr iconStyle = factory->CreateIconStyle();
+    iconStyle->set_color(kmlbase::Color32(255, 255, 255, 255));
+    iconStyle->set_icon(iconStyleIcon);
+
+    // Link the style to the icon
+    StylePtr style = factory->CreateStyle();
+    style->set_id("directionlessBallonStyle");
+    style->set_balloonstyle(balloonStyle);
+    style->set_iconstyle(iconStyle);
+
+    return style;
+}
+
+
 /**
  * @brief KmlExport::CreateLineStringPlacemark Adds a line segment which is colored according to the
  * vehicle's speed.
@@ -348,19 +378,6 @@ PlacemarkPtr KmlExport::createTimespanPlacemark(const LLAVCoordinates &timestamp
     point->set_altitudemode(kmldom::ALTITUDEMODE_ABSOLUTE);
     point->set_coordinates(coordinates);
 
-    // Change the icon
-    IconStyleIconPtr iconStyleIcon = factory->CreateIconStyleIcon();
-    iconStyleIcon->set_href("http://earth.google.com/images/kml-icons/track-directional/track-none.png");
-
-    // Create an icon style
-    IconStylePtr iconStyle = factory->CreateIconStyle();
-    iconStyle->set_color(kmlbase::Color32(255, 255, 255, 255));
-    iconStyle->set_icon(iconStyleIcon);
-
-    // Link the style to the icon
-    StylePtr style = factory->CreateStyle();
-    style->set_iconstyle(iconStyle);
-
     // Create the timespan
     TimeSpanPtr timeSpan = factory->CreateTimeSpan();
     QDateTime startTime = QDateTime::currentDateTimeUtc().addMSecs(lastPlacemarkTime); // FIXME: Make it a function of the realtime preferably gotten from the GPS
@@ -372,10 +389,12 @@ PlacemarkPtr KmlExport::createTimespanPlacemark(const LLAVCoordinates &timestamp
     // Generate the placemark with all above attributes
     PlacemarkPtr placemark = factory->CreatePlacemark();
     placemark->set_geometry(point);
-    placemark->set_style(style);
     placemark->set_timeprimitive(timeSpan);
     placemark->set_name(QString("%1").arg(timeStamp / 1000.0).toStdString());
     placemark->set_visibility(true);
+
+    // Set the placemark to use the custom balloon style
+    placemark->set_styleurl("#directionlessBallonStyle");
 
     // Add a nice description to the placemark
     placemark->set_description(QString("Latitude: %1 deg\nLongitude: %2 deg\nAltitude: %3 m\nAirspeed: %4 m/s\nGroundspeed: %5 m/s\n").arg(timestampPoint.latitude).arg(timestampPoint.longitude).arg(timestampPoint.altitude).arg(-1).arg(timestampPoint.velocity).toStdString());

@@ -50,6 +50,7 @@ using kmldom::PointPtr;
 using kmldom::PolygonPtr;
 using kmldom::SnippetPtr;
 using kmldom::StylePtr;
+using kmldom::StyleSelectorPtr;
 using kmldom::TimeSpanPtr;
 using kmlengine::FeatureVisitor;
 using kmlengine::GetRootFeature;
@@ -127,6 +128,7 @@ private:
     quint32 lastPlacemarkTime;
 
     void parseLogFile();
+    StylePtr createCustomBalloonStyle();
     PlacemarkPtr CreateLineStringPlacemark(const LLAVCoordinates &startPoint, const LLAVCoordinates &endPoint);
     PlacemarkPtr createTimespanPlacemark(const LLAVCoordinates &point, quint32 lastPlacemarkTime, quint32 newPlacemarkTime);
 };
