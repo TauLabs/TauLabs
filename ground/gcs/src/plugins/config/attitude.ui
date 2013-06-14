@@ -23,7 +23,7 @@
       <attribute name="title">
        <string>Leveling</string>
       </attribute>
-      <layout class="QVBoxLayout" name="verticalLayout_7" stretch="0,0,0">
+      <layout class="QVBoxLayout" name="verticalLayout_7" stretch="0,0,0,0">
        <item>
         <widget class="QGroupBox" name="groupBox">
          <property name="title">
@@ -201,9 +201,6 @@
             </property>
            </widget>
           </item>
-          <item row="2" column="1" colspan="4">
-           <widget class="QTextEdit" name="sixPointCalibInstructions"/>
-          </item>
           <item row="4" column="0">
            <widget class="QPushButton" name="sixPointStart">
             <property name="enabled">
@@ -227,31 +224,40 @@
             </property>
            </widget>
           </item>
+          <item row="2" column="1" colspan="4">
+           <widget class="QTextEdit" name="sixPointCalibInstructions"/>
+          </item>
          </layout>
         </widget>
        </item>
        <item>
         <widget class="QGroupBox" name="groupBox_4">
          <property name="title">
-          <string>Leveling</string>
+          <string>Automatic level detection</string>
          </property>
          <layout class="QGridLayout" name="gridLayout_3">
-          <item row="0" column="0">
-           <widget class="QLabel" name="label">
-            <property name="text">
-             <string>Place board level and click start</string>
+          <item row="1" column="0" colspan="3">
+           <widget class="QProgressBar" name="accelBiasProgress">
+            <property name="value">
+             <number>0</number>
+            </property>
+            <property name="textVisible">
+             <bool>false</bool>
             </property>
            </widget>
           </item>
-          <item row="2" column="0">
-           <widget class="QPushButton" name="accelBiasStart">
-            <property name="enabled">
-             <bool>false</bool>
+          <item row="2" column="2">
+           <spacer name="horizontalSpacer_6">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
             </property>
-            <property name="text">
-             <string>Start</string>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
             </property>
-           </widget>
+           </spacer>
           </item>
           <item row="2" column="1">
            <widget class="QCheckBox" name="zeroGyroBiasOnArming">
@@ -261,7 +267,7 @@ whenever the frame is armed. Do not move the airframe while
 arming it in that case!</string>
             </property>
             <property name="text">
-             <string>Zero gyros while arming aircraft</string>
+             <string>Zero gyros while arming vehicle</string>
             </property>
             <property name="objrelation" stdset="0">
              <stringlist>
@@ -272,8 +278,70 @@ arming it in that case!</string>
             </property>
            </widget>
           </item>
-          <item row="1" column="0" colspan="2">
-           <widget class="QProgressBar" name="accelBiasProgress">
+          <item row="2" column="0">
+           <widget class="QPushButton" name="accelBiasStart">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="toolTip">
+             <string>Use a spirit level to make the vehicle as level as possible. In the case of airplanes, the wings should be level with respect to the ground, even if this leads to a slightly nose-up or nose-down fuselage orientation.</string>
+            </property>
+            <property name="text">
+             <string>Start</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="0">
+           <widget class="QLabel" name="label">
+            <property name="text">
+             <string>Place vehicle level and click start.</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="groupBox_5">
+         <property name="title">
+          <string>Automatic yaw detection</string>
+         </property>
+         <layout class="QGridLayout" name="gridLayout_8">
+          <item row="3" column="0">
+           <widget class="QPushButton" name="yawOrientationStart">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="toolTip">
+             <string>It is very important to keep the vehicle still during this test. Do your best only to pitch the vehicle forward, without adding any roll. Make sure to validate the results in the PFD before saving.</string>
+            </property>
+            <property name="text">
+             <string>Start</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="1">
+           <spacer name="horizontalSpacer_5">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item row="1" column="0" colspan="3">
+           <widget class="QLabel" name="label_18">
+            <property name="text">
+             <string>Place vehicle in approximately 30 degree nose-down position. Take care not to roll the vehicle.</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="0" colspan="3">
+           <widget class="QProgressBar" name="pb_yawCalibration">
             <property name="value">
              <number>0</number>
             </property>
@@ -1068,7 +1136,7 @@ Disabled if there is no GPS fix.</string>
             <bool>true</bool>
            </property>
            <attribute name="buttonGroup">
-            <string notr="true">buttonGroup</string>
+            <string>buttonGroup</string>
            </attribute>
           </widget>
          </item>
@@ -1086,7 +1154,7 @@ new home location unless it is in indoor mode.</string>
             <string>Clear</string>
            </property>
            <attribute name="buttonGroup">
-            <string notr="true">buttonGroup</string>
+            <string>buttonGroup</string>
            </attribute>
           </widget>
          </item>
