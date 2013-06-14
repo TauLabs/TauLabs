@@ -61,7 +61,7 @@ namespace mapcontrol
         SetShowDiagnostics(showDiag);
         this->setMouseTracking(followmouse);
         SetShowCompassRose(true);
-        SetShowWindCompass(true);
+        SetShowWindCompass(false);
         QPixmapCache::setCacheLimit(64*1024);
     }
     void OPMapWidget::SetShowDiagnostics(bool const& value)

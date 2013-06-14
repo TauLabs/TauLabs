@@ -1273,7 +1273,7 @@ void OPMapGadgetWidget::createActions()
     showWindCompassAction = new QAction(tr("Show wind compass"), this);
     showWindCompassAction->setStatusTip(tr("Show/Hide the wind compass"));
     showWindCompassAction->setCheckable(true);
-    showWindCompassAction->setChecked(true);
+    showWindCompassAction->setChecked(false);
     connect(showWindCompassAction, SIGNAL(toggled(bool)), this, SLOT(onShowWindCompassAction_toggled(bool)));
 
 
