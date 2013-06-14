@@ -61,6 +61,8 @@ public:
     ComStats getStats();
     void resetStats();
 
+    bool processInputByte(quint8 rxbyte);
+
 signals:
     // The only signals we send to the upper level are when we
     // either receive an ACK or a NACK for a request.
@@ -127,7 +129,6 @@ protected:
 
     // Methods
     bool objectTransaction(UAVObject* obj, quint8 type, bool allInstances);
-    bool processInputByte(quint8 rxbyte);
     virtual bool receiveObject(quint8 type, quint32 objId, quint16 instId, quint8* data, qint32 length);
     UAVObject* updateObject(quint32 objId, quint16 instId, quint8* data);
     bool transmitNack(quint32 objId);

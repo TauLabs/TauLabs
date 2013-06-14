@@ -44,6 +44,7 @@
 #include <QKeySequence>
 #include "uavobjectmanager.h"
 
+#include "kmlexport.h"
 
 LoggingConnection::LoggingConnection()
 {
@@ -332,18 +333,24 @@ bool LoggingPlugin::initialize(const QStringList& args, QString *errMsg)
     Core::ActionContainer* ac = am->actionContainer(Core::Constants::M_TOOLS);
 
     // Command to start logging
-    cmd = am->registerAction(new QAction(this),
-                                            "LoggingPlugin.Logging",
-                                            QList<int>() <<
-                                            Core::Constants::C_GLOBAL_ID);
-    cmd->setDefaultKeySequence(QKeySequence("Ctrl+L"));
-    cmd->action()->setText("Start logging...");
+    logCmd = am->registerAction(new QAction(this), "LoggingPlugin.Logging",
+                             QList<int>() <<  Core::Constants::C_GLOBAL_ID);
+    logCmd->setDefaultKeySequence(QKeySequence("Ctrl+L"));
+    logCmd->action()->setText("Start logging...");
+
+
+    // Command to convert log file to KML
+    exportToKmlCmd = am->registerAction(new QAction(this), "LoggingPlugin.ExportToKML",
+                             QList<int>() << Core::Constants::C_GLOBAL_ID);
+    exportToKmlCmd->action()->setText("Export logfile to KML");
 
     ac->menu()->addSeparator();
     ac->appendGroup("Logging");
-    ac->addAction(cmd, "Logging");
+    ac->addAction(logCmd, "Logging");
+    ac->addAction(exportToKmlCmd, "Logging");
 
-    connect(cmd->action(), SIGNAL(triggered(bool)), this, SLOT(toggleLogging()));
+    connect(logCmd->action(), SIGNAL(triggered(bool)), this, SLOT(toggleLogging()));
+    connect(exportToKmlCmd->action(), SIGNAL(triggered(bool)), this, SLOT(exportToKML()));
 
 
     mf = new LoggingGadgetFactory(this);
@@ -354,6 +361,27 @@ bool LoggingPlugin::initialize(const QStringList& args, QString *errMsg)
     connect(getLogfile(),SIGNAL(replayStarted()), this, SLOT(replayStarted()));
 
     return true;
+}
+
+void LoggingPlugin::exportToKML()
+{
+    // Get input file
+    QString inputFileName = QFileDialog::getOpenFileName(NULL, tr("Open file"), QString(""), tr("Tau Labs Log (*.tll)"));
+    if (inputFileName.isEmpty())
+        return;
+
+    // Get output file. Suggest to user that output have same base name and location as input file.
+    QString filters = tr("Keyhole Markup Language (compressed) (*.kmz);; Keyhole Markup Language (uncompressed) (*.kml)");
+    QString outputFileName = QFileDialog::getSaveFileName(NULL, tr("Export log"),
+                                inputFileName.split(".",QString::SkipEmptyParts).at(0),
+                                filters);
+
+    if (outputFileName.isEmpty())
+        return;
+
+    // Create kmlExport instance, and trigger export
+    KmlExport kmlExport(inputFileName, outputFileName);
+    kmlExport.exportToKML();
 }
 
 /**
@@ -372,13 +400,13 @@ void LoggingPlugin::toggleLogging()
             return;
 
         startLogging(fileName);
-        cmd->action()->setText(tr("Stop logging"));
+        logCmd->action()->setText(tr("Stop logging"));
 
     }
     else if(state == LOGGING)
     {
         stopLogging();
-        cmd->action()->setText(tr("Start logging..."));
+        logCmd->action()->setText(tr("Start logging..."));
     }
 }
 

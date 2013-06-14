@@ -37,6 +37,7 @@
 #include "loggingdevice.h"
 #include <uavtalk/uavtalk.h>
 #include <logfile.h>
+#include "kmlexport.h"
 
 #include <QThread>
 #include <QQueue>
@@ -122,8 +123,8 @@ public:
     bool initialize(const QStringList & arguments, QString * errorString);
     void shutdown();
 
-    LoggingConnection* getLogConnection() { return logConnection; };
-    LogFile* getLogfile() { return logConnection->getLogfile();}
+    LoggingConnection *getLogConnection() { return logConnection; }
+    LogFile *getLogfile() { return logConnection->getLogfile();}
     void setLogMenuTitle(QString str);
 
 
@@ -135,13 +136,14 @@ signals:
 
 protected:
     enum {IDLE, LOGGING, REPLAY} state;
-    LoggingThread * loggingThread;
+    LoggingThread *loggingThread;
 
     // These are used for replay, logging in its own thread
-    LoggingConnection* logConnection;
+    LoggingConnection *logConnection;
 
 private slots:
     void toggleLogging();
+    void exportToKML();
     void startLogging(QString file);
     void stopLogging();
     void loggingStopped();
@@ -150,7 +152,8 @@ private slots:
 
 private:
     LoggingGadgetFactory *mf;
-    Core::Command* cmd;
+    Core::Command *logCmd;
+    Core::Command *exportToKmlCmd;
 
 };
 #endif /* LoggingPLUGIN_H_ */
