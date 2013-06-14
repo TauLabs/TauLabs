@@ -7,6 +7,8 @@ $(info Importing shared.mk)
 UNAME := $(shell uname)
 ARCH := $(shell uname -m)
 ifeq (,$(filter $(ARCH), x86_64 amd64))
+  X86-64 := 1
+  X86_64 := 1
   AMD64 := 1
 endif
 
