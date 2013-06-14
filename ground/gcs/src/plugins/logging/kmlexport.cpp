@@ -704,7 +704,7 @@ PlacemarkPtr KmlExport::createTimespanPlacemark(const LLAVCoordinates &timestamp
     AttitudeActual::DataFields attitudeActualData = attitudeActual->getData();
     IconStylePtr iconStyle = factory->CreateIconStyle();
     iconStyle->set_color(mapVelocity2Color(timestampPoint.velocity));
-    iconStyle->set_heading(attitudeActualData.Yaw);
+    iconStyle->set_heading(attitudeActualData.Yaw + 180); //Adding 180 degrees because the arrow art points down, i.e. south.
 
     // Create a line style
     LineStylePtr lineStyle = factory->CreateLineStyle();
