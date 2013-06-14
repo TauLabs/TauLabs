@@ -99,6 +99,7 @@ public:
 
 private slots:
     void uavobjectUpdated(UAVObject *);
+    void homeLocationUpdated(UAVObject *);
 
 signals:
     void readReady();
@@ -126,6 +127,8 @@ private:
     LLAVCoordinates oldPoint;
     quint32 timeStamp;
     quint32 lastPlacemarkTime;
+    HomeLocation::DataFields homeLocationData;
+
 
     void parseLogFile();
     StylePtr createCustomBalloonStyle();

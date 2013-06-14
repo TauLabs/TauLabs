@@ -58,9 +58,12 @@ KmlExport::KmlExport(QString inputLogFileName, QString outputKmlFileName) :
     positionActual = PositionActual::GetInstance(kmlUAVObjectManager);
     velocityActual = VelocityActual::GetInstance(kmlUAVObjectManager);
 
+    homeLocationData = homeLocation->getData();
+
     // Connect position actual. This is the trigger event for plotting a new
     // KML placemark.
     connect(positionActual, SIGNAL(objectUpdated(UAVObject *)), this, SLOT(uavobjectUpdated(UAVObject *)), Qt::DirectConnection);
+    connect(homeLocation, SIGNAL(objectUpdated(UAVObject *)), this, SLOT(homeLocationUpdated(UAVObject *)), Qt::DirectConnection);
 
     // Get the factory singleton to create KML elements.
     factory = KmlFactory::GetFactory();
@@ -413,7 +416,10 @@ void KmlExport::uavobjectUpdated(UAVObject *obj)
 {
     Q_UNUSED(obj);
 
-    HomeLocation::DataFields homeLocationData = homeLocation->getData();
+    // Only export positional data if the home location has been set.
+    if (homeLocationData.Set == HomeLocation::SET_FALSE)
+        return;
+
     PositionActual::DataFields positionActualData = positionActual->getData();
     VelocityActual::DataFields velocityActualData = velocityActual->getData();
 
@@ -452,3 +458,8 @@ void KmlExport::uavobjectUpdated(UAVObject *obj)
 
 }
 
+void KmlExport::homeLocationUpdated(UAVObject *obj)
+{
+    Q_UNUSED(obj);
+    homeLocationData = homeLocation->getData();
+}
