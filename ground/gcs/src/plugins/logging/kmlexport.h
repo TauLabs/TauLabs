@@ -76,6 +76,7 @@ using kmldom::KmlPtr;
 
 #include "attitudeactual.h"
 #include "homelocation.h"
+#include "gpsposition.h"
 #include "positionactual.h"
 #include "velocityactual.h"
 
@@ -104,8 +105,9 @@ public:
     void exportToKML();
 
 private slots:
-    void uavobjectUpdated(UAVObject *);
+    void gpsPositionUpdated(UAVObject *);
     void homeLocationUpdated(UAVObject *);
+    void positionActualUpdated(UAVObject *);
 
 signals:
     void readReady();
@@ -123,9 +125,13 @@ private:
     UAVTalk *kmlTalk;
 
     AttitudeActual *attitudeActual;
+    GPSPosition *gpsPosition;
     HomeLocation *homeLocation;
     PositionActual *positionActual;
     VelocityActual *velocityActual;
+
+    GPSPosition::DataFields gpsPositionData;
+    HomeLocation::DataFields homeLocationData;
 
     DocumentPtr document;
     FolderPtr trackFolder;
@@ -137,7 +143,6 @@ private:
     quint32 timeStamp;
     quint32 lastPlacemarkTime;
     QString informationString;
-    HomeLocation::DataFields homeLocationData;
     QVector<CoordinatesPtr> wallAxes;
 
     void parseLogFile();

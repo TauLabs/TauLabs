@@ -255,16 +255,19 @@ KmlExport::KmlExport(QString inputLogFileName, QString outputKmlFileName) :
 
     // Get the UAVObjects
     attitudeActual = AttitudeActual::GetInstance(kmlUAVObjectManager);
+    gpsPosition = GPSPosition::GetInstance(kmlUAVObjectManager);
     homeLocation = HomeLocation::GetInstance(kmlUAVObjectManager);
     positionActual = PositionActual::GetInstance(kmlUAVObjectManager);
     velocityActual = VelocityActual::GetInstance(kmlUAVObjectManager);
 
     homeLocationData = homeLocation->getData();
+    gpsPositionData = gpsPosition->getData();
 
     // Connect position actual. This is the trigger event for plotting a new
     // KML placemark.
-    connect(positionActual, SIGNAL(objectUpdated(UAVObject *)), this, SLOT(uavobjectUpdated(UAVObject *)), Qt::DirectConnection);
+    connect(positionActual, SIGNAL(objectUpdated(UAVObject *)), this, SLOT(positionActualUpdated(UAVObject *)), Qt::DirectConnection);
     connect(homeLocation, SIGNAL(objectUpdated(UAVObject *)), this, SLOT(homeLocationUpdated(UAVObject *)), Qt::DirectConnection);
+    connect(gpsPosition, SIGNAL(objectUpdated(UAVObject *)), this, SLOT(gpsPositionUpdated(UAVObject *)), Qt::DirectConnection);
 
     // Get the factory singleton to create KML elements.
     factory = KmlFactory::GetFactory();
@@ -734,17 +737,22 @@ PlacemarkPtr KmlExport::createTimespanPlacemark(const LLAVCoordinates &timestamp
 
 
 /**
- * @brief KmlExport::uavobjectUpdated Triggers on PositionActual UAVO
+ * @brief KmlExport::positionActualUpdated Triggers on PositionActual UAVO
  * update. Converts position to latitude-longitude-altitude and then
  * creates new placemarks.
  * @param obj Unused
  */
-void KmlExport::uavobjectUpdated(UAVObject *obj)
+void KmlExport::positionActualUpdated(UAVObject *obj)
 {
     Q_UNUSED(obj);
 
     // Only export positional data if the home location has been set.
     if (homeLocationData.Set == HomeLocation::SET_FALSE)
+        return;
+
+    // Only plot positional data if we have a lock
+    if (gpsPositionData.Status != GPSPosition::STATUS_FIX2D &&
+            gpsPositionData.Status != GPSPosition::STATUS_FIX3D)
         return;
 
     PositionActual::DataFields positionActualData = positionActual->getData();
@@ -812,4 +820,9 @@ void KmlExport::homeLocationUpdated(UAVObject *obj)
     homeLocationData = homeLocation->getData();
 }
 
+void KmlExport::gpsPositionUpdated(UAVObject *obj)
+{
+    Q_UNUSED(obj);
+    gpsPositionData = gpsPosition->getData();
+}
 
