@@ -31,8 +31,6 @@
 #if !defined(PIOS_CAN_H)
 #define PIOS_CAN_H
 
-int32_t PIOS_CAN_SendData(uint32_t can_id, uint8_t *data, uint32_t data_len);
-
 #endif /* PIOS_CAN_H */
 
 /**
