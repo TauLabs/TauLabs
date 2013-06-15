@@ -19,6 +19,7 @@
 				<elementname>GroundPathFollower</elementname>
 				<elementname>GenericI2CSensor</elementname>
 				<elementname>UAVOMavlinkBridge</elementname>
+				<elementname>UAVORelay</elementname>
 				<elementname>VibrationAnalysis</elementname>
 			</elementnames>
 		</field>
