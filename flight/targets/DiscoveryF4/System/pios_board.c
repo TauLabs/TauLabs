@@ -119,12 +119,16 @@ void PIOS_Board_Init(void) {
 #endif	/* PIOS_INCLUDE_LED */
 
 #if defined(PIOS_INCLUDE_FLASH)
-	/* Connect flash to the appropriate interface and configure it */
-	uintptr_t flash_id;
-	PIOS_Flash_Internal_Init(&flash_id, &flash_internal_cfg);
-	PIOS_FLASHFS_Logfs_Init(&pios_uavo_settings_fs_id, &flashfs_internal_cfg, &pios_internal_flash_driver, flash_id);
-#endif
-	
+	/* Inititialize all flash drivers */
+	PIOS_Flash_Internal_Init(&pios_internal_flash_id, &flash_internal_cfg);
+
+	/* Register the partition table */
+	PIOS_FLASH_register_partition_table(pios_flash_partition_table, NELEMENTS(pios_flash_partition_table));
+
+	/* Mount all filesystems */
+	PIOS_FLASHFS_Logfs_Init(&pios_uavo_settings_fs_id, &flashfs_settings_cfg, FLASH_PARTITION_LABEL_SETTINGS);
+#endif	/* PIOS_INCLUDE_FLASH */
+
 	/* Initialize UAVObject libraries */
 	EventDispatcherInitialize();
 	UAVObjInitialize();

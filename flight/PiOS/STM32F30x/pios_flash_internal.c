@@ -31,23 +31,10 @@
 
 #include "stm32f30x_flash.h"
 #include "pios_flash_internal_priv.h"
-#include "pios_flash.h"
 #include "pios_wdg.h"
 #include <stdbool.h>
 
 #define STM32F30X_FLASH_SECTOR_SIZE 2048
-
-static bool PIOS_Flash_Internal_GetSectorInfo(uint32_t address, uint32_t *sector_start, uint32_t *sector_size)
-{
-	if (address < FLASH_BASE ||
-		address >= FLASH_BASE + PIOS_SYS_getCPUFlashSize())
-		return false;
-
-	*sector_start = address & (~(STM32F30X_FLASH_SECTOR_SIZE - 1));
-	*sector_size = STM32F30X_FLASH_SECTOR_SIZE;
-
-	return true;
-}
 
 enum pios_internal_flash_dev_magic {
 	PIOS_INTERNAL_FLASH_DEV_MAGIC = 0xae82c65d,
@@ -96,7 +83,7 @@ static struct pios_internal_flash_dev * PIOS_Flash_Internal_alloc(void)
 
 #endif /* defined(PIOS_INCLUDE_FREERTOS) */
 
-int32_t PIOS_Flash_Internal_Init(uintptr_t * flash_id, const struct pios_flash_internal_cfg * cfg)
+int32_t PIOS_Flash_Internal_Init(uintptr_t * chip_id, const struct pios_flash_internal_cfg * cfg)
 {
 	struct pios_internal_flash_dev * flash_dev;
 
@@ -108,7 +95,7 @@ int32_t PIOS_Flash_Internal_Init(uintptr_t * flash_id, const struct pios_flash_i
 	flash_dev->transaction_lock = xSemaphoreCreateMutex();
 #endif	/* defined(PIOS_INCLUDE_FREERTOS) */
 
-	*flash_id = (uintptr_t) flash_dev;
+	*chip_id = (uintptr_t) flash_dev;
 
 	return 0;
 }
@@ -118,11 +105,11 @@ int32_t PIOS_Flash_Internal_Init(uintptr_t * flash_id, const struct pios_flash_i
  * Provide a PIOS flash driver API
  *
  *********************************/
-#include "pios_flash.h"
+#include "pios_flash_priv.h"
 
-static int32_t PIOS_Flash_Internal_StartTransaction(uintptr_t flash_id)
+static int32_t PIOS_Flash_Internal_StartTransaction(uintptr_t chip_id)
 {
-	struct pios_internal_flash_dev * flash_dev = (struct pios_internal_flash_dev *)flash_id;
+	struct pios_internal_flash_dev * flash_dev = (struct pios_internal_flash_dev *)chip_id;
 
 	if (!PIOS_Flash_Internal_Validate(flash_dev))
 		return -1;
@@ -134,12 +121,13 @@ static int32_t PIOS_Flash_Internal_StartTransaction(uintptr_t flash_id)
 
 	/* Unlock the internal flash so we can write to it */
 	FLASH_Unlock();
+
 	return 0;
 }
 
-static int32_t PIOS_Flash_Internal_EndTransaction(uintptr_t flash_id)
+static int32_t PIOS_Flash_Internal_EndTransaction(uintptr_t chip_id)
 {
-	struct pios_internal_flash_dev * flash_dev = (struct pios_internal_flash_dev *)flash_id;
+	struct pios_internal_flash_dev * flash_dev = (struct pios_internal_flash_dev *)chip_id;
 
 	if (!PIOS_Flash_Internal_Validate(flash_dev))
 		return -1;
@@ -155,9 +143,9 @@ static int32_t PIOS_Flash_Internal_EndTransaction(uintptr_t flash_id)
 	return 0;
 }
 
-static int32_t PIOS_Flash_Internal_EraseSector(uintptr_t flash_id, uint32_t addr)
+static int32_t PIOS_Flash_Internal_EraseSector(uintptr_t chip_id, uint32_t chip_sector, uint32_t chip_offset)
 {
-	struct pios_internal_flash_dev * flash_dev = (struct pios_internal_flash_dev *)flash_id;
+	struct pios_internal_flash_dev * flash_dev = (struct pios_internal_flash_dev *)chip_id;
 
 	if (!PIOS_Flash_Internal_Validate(flash_dev))
 		return -1;
@@ -166,101 +154,58 @@ static int32_t PIOS_Flash_Internal_EraseSector(uintptr_t flash_id, uint32_t addr
 	PIOS_WDG_Clear();
 #endif
 
-	uint32_t sector_start;
-	uint32_t sector_size;
-	if (!PIOS_Flash_Internal_GetSectorInfo(addr,
-						&sector_start,
-						&sector_size)) {
-		/* We're asking for an invalid flash address */
-		return -2;
-	}
-
-	FLASH_Status ret = FLASH_ErasePage(sector_start);
+	FLASH_Status ret = FLASH_ErasePage(FLASH_BASE + chip_offset);
 	if (ret != FLASH_COMPLETE)
 		return -3;
 
 	return 0;
 }
 
-static int32_t PIOS_Flash_Internal_ReadData(uintptr_t flash_id, uint32_t addr, uint8_t * data, uint16_t len)
+static int32_t PIOS_Flash_Internal_ReadData(uintptr_t chip_id, uint32_t chip_offset, uint8_t * data, uint16_t len)
 {
 	PIOS_Assert(data);
 
-	struct pios_internal_flash_dev * flash_dev = (struct pios_internal_flash_dev *)flash_id;
+	struct pios_internal_flash_dev * flash_dev = (struct pios_internal_flash_dev *)chip_id;
 
 	if (!PIOS_Flash_Internal_Validate(flash_dev))
 		return -1;
 
-	uint32_t sector_start;
-	uint32_t sector_size;
-
-	/* Ensure that the base address is in a valid sector */
-	if (!PIOS_Flash_Internal_GetSectorInfo(addr,
-						&sector_start,
-						&sector_size)) {
-		/* We're asking for an invalid flash address */
-		return -2;
-	}
-
-	/* Ensure that the entire read occurs within the same sector */
-	if ((uintptr_t)addr + len > sector_start + sector_size) {
-		/* Read crosses the end of the sector */
-		return -3;
-	}
-
 	/* Read the data into the buffer directly */
-	memcpy(data, (void *)addr, len);
+	memcpy(data, (void *)(FLASH_BASE + chip_offset), len);
 
 	return 0;
 }
 
-static int32_t PIOS_Flash_Internal_WriteData(uintptr_t flash_id, uint32_t addr, uint8_t * data, uint16_t len)
+static int32_t PIOS_Flash_Internal_WriteData(uintptr_t chip_id, uint32_t chip_offset, const uint8_t * data, uint16_t len)
 {
 	PIOS_Assert(data);
-	PIOS_Assert((addr & 0x0001) == 0)
+	PIOS_Assert((chip_offset & 0x0001) == 0)
 
-	struct pios_internal_flash_dev * flash_dev = (struct pios_internal_flash_dev *)flash_id;
+	struct pios_internal_flash_dev * flash_dev = (struct pios_internal_flash_dev *)chip_id;
 
 	if (!PIOS_Flash_Internal_Validate(flash_dev))
 		return -1;
 
-	uint32_t sector_start;
-	uint32_t sector_size;
-
-	/* Ensure that the base address is in a valid sector */
-	if (!PIOS_Flash_Internal_GetSectorInfo(addr,
-						&sector_start,
-						&sector_size)) {
-		/* We're asking for an invalid flash address */
-		return -2;
-	}
-
-	/* Ensure that the entire write occurs within the same sector */
-	if ((uintptr_t)addr + len > sector_start + sector_size) {
-		/* Write crosses the end of the sector */
-		return -3;
-	}
-
 	/* Write the data */
 	for (uint16_t i = 0; i < (len & ~1); i += 2) {
-		/* Check if content has been changed prios to write.
+		/* Check if content has been changed prior to write.
 		 * This should enhance performance and make this compatible with the F3 chip.
 		 */
 		uint8_t temp[2];
-		if (PIOS_Flash_Internal_ReadData(flash_id, addr + i, temp, sizeof(temp)) != 0)
+		if (PIOS_Flash_Internal_ReadData(chip_id, chip_offset + i, temp, sizeof(temp)) != 0)
 			return -4;
 
 		if (temp[0] == data[i] && temp[1] == data[i + 1])
 			continue;
 
 		FLASH_Status status;
-		status = FLASH_ProgramHalfWord(addr + i, data[i + 1] << 8 | data[i]);
+		status = FLASH_ProgramHalfWord(FLASH_BASE + chip_offset + i, data[i + 1] << 8 | data[i]);
 		PIOS_Assert(status == FLASH_COMPLETE);
 	}
 	/* Handle uneven writes by filling up with 0xff*/
 	if ((len & 1) != 0) {
 		FLASH_Status status;
-		status = FLASH_ProgramHalfWord(addr + len - 1, 0xff << 8 | data[len - 1]);
+		status = FLASH_ProgramHalfWord(FLASH_BASE + chip_offset + len - 1, 0xff << 8 | data[len - 1]);
 		PIOS_Assert(status == FLASH_COMPLETE);
 	}
 

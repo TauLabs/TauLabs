@@ -143,6 +143,7 @@ SRC += $(PIOSCOMMON)/pios_usb_desc_hid_cdc.c
 SRC += $(PIOSCOMMON)/pios_usb_util.c
 SRC += $(PIOSCOMMON)/pios_dma.c
 SRC += $(PIOSCOMMON)/pios_adc.c
+SRC += $(PIOSCOMMON)/pios_flash.c
 
 include ./UAVObjects.inc
 SRC += $(UAVOBJSRC)
@@ -235,9 +236,6 @@ ifeq ($(ENABLE_DEBUG_CONSOLE), YES)
 CDEFS += -DPIOS_INCLUDE_DEBUG_CONSOLE
 endif
 
-CDEFS += -DEE_BANK_BASE=$(EE_BANK_BASE)
-CDEFS += -DEE_BANK_SIZE=$(EE_BANK_SIZE)
-
 # Declare all non-optional modules as built-in to force inclusion, strip off any appended varieties of module
 get_mod_name = $(shell echo $(1) | sed "s/\/[^\/]*$///")
 BUILTIN_DEFS := ${foreach MOD, ${MODULES}, -DMODULE_$(call get_mod_name, $(MOD))_BUILTIN }
@@ -308,7 +306,6 @@ LDFLAGS += -Wl,--fatal-warnings
 
 #Linker scripts
 LDFLAGS += $(addprefix -T,$(LINKER_SCRIPTS_APP))
-
 
 # Define programs and commands.
 REMOVE  = rm -f
