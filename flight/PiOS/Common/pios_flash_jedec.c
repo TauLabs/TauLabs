@@ -29,6 +29,7 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 #include "pios.h"
+#if defined(PIOS_INCLUDE_FLASH_JEDEC)
 #include "pios_flash_jedec_priv.h"
 
 #define JEDEC_WRITE_ENABLE           0x06
@@ -476,3 +477,4 @@ const struct pios_flash_driver pios_jedec_flash_driver = {
 	.read_data         = PIOS_Flash_Jedec_ReadData,
 };
 
+#endif	/* PIOS_INCLUDE_FLASH_JEDEC */
