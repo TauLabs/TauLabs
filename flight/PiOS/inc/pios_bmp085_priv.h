@@ -6,8 +6,8 @@
  * @brief Hardware functions to deal with the altitude pressure sensor
  * @{
  *
- * @file       pios_bmp085.h  
- * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @file       pios_bmp085_priv.h
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
  * @brief      BMP085 functions header.
  * @see        The GNU Public License (GPL) Version 3
  *
@@ -28,15 +28,31 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
-#ifndef PIOS_BMP085_H
-#define PIOS_BMP085_H
+#ifndef PIOS_BMP085_PRIV_H
+#define PIOS_BMP085_PRIV_H
 
-#include <pios.h>
+//! The valid oversampling rates
+enum pios_bmp085_osr {
+    BMP085_OSR_0  = 0,
+    BMP085_OSR_1  = 1,
+    BMP085_OSR_2  = 2,
+    BMP085_OSR_3  = 3,
+};
 
-/* Public Functions */
-extern int32_t PIOS_BMP085_Test();
+//! Configuration structure for the BMP085 driver
+struct pios_bmp085_cfg {
+    //! The oversampling setting for the baro, higher produces
+    //! less frequenct cleaner data
+    enum pios_bmp085_osr oversampling;
 
-#endif /* PIOS_BMP085_H */
+    //! How many samples of pressure for each temperature measurement
+    uint32_t temperature_interleaving;
+};
+
+int32_t PIOS_BMP085_Init(const struct pios_bmp085_cfg *cfg, int32_t i2c_device);
+
+
+#endif /* PIOS_BMP085_PRIV_H */
 
 /** 
   * @}
