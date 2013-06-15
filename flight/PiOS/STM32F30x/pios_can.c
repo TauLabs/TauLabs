@@ -55,8 +55,7 @@ enum pios_can_dev_magic {
 //! Structure for an initialized CAN handle
 struct pios_can_dev {
 	enum pios_can_dev_magic     magic;
-	const struct pios_can_cfg * cfg;
-
+	const struct pios_can_cfg  *cfg;
 	pios_com_callback rx_in_cb;
 	uint32_t rx_in_context;
 	pios_com_callback tx_out_cb;
@@ -69,7 +68,7 @@ struct pios_can_dev {
 
 void USB_HP_CAN1_TX_IRQHandler(void);
 
-static bool PIOS_CAN_validate(struct pios_can_dev * can_dev)
+static bool PIOS_CAN_validate(struct pios_can_dev *can_dev)
 {
 	return (can_dev->magic == PIOS_CAN_DEV_MAGIC);
 }
@@ -78,9 +77,9 @@ static bool PIOS_CAN_validate(struct pios_can_dev * can_dev)
 #error PIOS_CAN REQUIRES FREERTOS
 #endif
 
-static struct pios_can_dev * PIOS_CAN_alloc(void)
+static struct pios_can_dev *PIOS_CAN_alloc(void)
 {
-	struct pios_can_dev * can_dev;
+	struct pios_can_dev *can_dev;
 
 	can_dev = (struct pios_can_dev *)pvPortMalloc(sizeof(*can_dev));
 	if (!can_dev) return(NULL);
@@ -92,7 +91,7 @@ static struct pios_can_dev * PIOS_CAN_alloc(void)
 }
 
 //! The local handle for the CAN device
-static struct pios_can_dev * can_dev;
+static struct pios_can_dev *can_dev;
 
 /**
  * Initialize the CAN driver and return an opaque id
@@ -163,7 +162,7 @@ out_fail:
 
 static void PIOS_CAN_RxStart(uint32_t can_id, uint16_t rx_bytes_avail)
 {
-	struct pios_can_dev * can_dev = (struct pios_can_dev *)can_id;
+	struct pios_can_dev *can_dev = (struct pios_can_dev *)can_id;
 	
 	bool valid = PIOS_CAN_validate(can_dev);
 	PIOS_Assert(valid);
@@ -173,7 +172,7 @@ static void PIOS_CAN_RxStart(uint32_t can_id, uint16_t rx_bytes_avail)
 
 static void PIOS_CAN_TxStart(uint32_t can_id, uint16_t tx_bytes_avail)
 {
-	struct pios_can_dev * can_dev = (struct pios_can_dev *)can_id;
+	struct pios_can_dev *can_dev = (struct pios_can_dev *)can_id;
 	
 	bool valid = PIOS_CAN_validate(can_dev);
 	PIOS_Assert(valid);
@@ -185,7 +184,7 @@ static void PIOS_CAN_TxStart(uint32_t can_id, uint16_t tx_bytes_avail)
 
 static void PIOS_CAN_RegisterRxCallback(uint32_t can_id, pios_com_callback rx_in_cb, uint32_t context)
 {
-	struct pios_can_dev * can_dev = (struct pios_can_dev *)can_id;
+	struct pios_can_dev *can_dev = (struct pios_can_dev *)can_id;
 
 	bool valid = PIOS_CAN_validate(can_dev);
 	PIOS_Assert(valid);
@@ -200,7 +199,7 @@ static void PIOS_CAN_RegisterRxCallback(uint32_t can_id, pios_com_callback rx_in
 
 static void PIOS_CAN_RegisterTxCallback(uint32_t can_id, pios_com_callback tx_out_cb, uint32_t context)
 {
-	struct pios_can_dev * can_dev = (struct pios_can_dev *)can_id;
+	struct pios_can_dev *can_dev = (struct pios_can_dev *)can_id;
 
 	bool valid = PIOS_CAN_validate(can_dev);
 	PIOS_Assert(valid);
@@ -222,7 +221,7 @@ static void PIOS_CAN_RegisterTxCallback(uint32_t can_id, pios_com_callback tx_ou
  */
 int32_t PIOS_CAN_SendData(uint32_t can_id, uint8_t *data, uint32_t data_len)
 {
-	struct pios_can_dev * can_dev = (struct pios_can_dev *)can_id;
+	struct pios_can_dev *can_dev = (struct pios_can_dev *)can_id;
 
 	bool valid = PIOS_CAN_validate(can_dev);
 	PIOS_Assert(valid);

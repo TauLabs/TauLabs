@@ -46,7 +46,7 @@ static bool module_enabled;
 
 // Private functions
 static void    uavoRelayTask(void *parameters);
-static int32_t pack_data(uint8_t * data, int32_t length);
+static int32_t send_data(uint8_t *data, int32_t length);
 static void    register_object(UAVObjHandle obj);
 
 // Local variables
@@ -56,7 +56,7 @@ static uintptr_t uavorelay_com_id;
 extern uintptr_t pios_com_can_id;
 
 /**
- * Initialise the overo sync module
+ * Initialise the UAVORelay module
  * \return -1 if initialisation failed
  * \return 0 on success
  */
@@ -87,7 +87,7 @@ int32_t UAVORelayInitialize(void)
 	queue = xQueueCreate(MAX_QUEUE_SIZE, sizeof(UAVObjEvent));
 	
 	// Initialise UAVTalk
-	uavTalkCon = UAVTalkInitialize(&pack_data);
+	uavTalkCon = UAVTalkInitialize(&send_data);
 
 	CameraDesiredInitialize();
 
@@ -163,13 +163,13 @@ static void uavoRelayTask(void *parameters)
 }
 
 /**
- * Transmit data buffer to the modem or USB port.
+ * Forward data from UAVTalk out the serial port
  * \param[in] data Data buffer to send
  * \param[in] length Length of buffer
  * \return -1 on failure
  * \return number of bytes transmitted on success
  */
-static int32_t pack_data(uint8_t * data, int32_t length)
+static int32_t send_data(uint8_t *data, int32_t length)
 {
 	if( PIOS_COM_SendBufferNonBlocking(uavorelay_com_id, data, length) < 0)
 		return -1;
