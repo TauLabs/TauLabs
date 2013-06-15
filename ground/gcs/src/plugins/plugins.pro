@@ -221,12 +221,14 @@ plugin_logging.depends += plugin_uavtalk
 plugin_logging.depends += plugin_scope
 SUBDIRS += plugin_logging
 
-# KML Export plugin
-plugin_kmlexport.subdir = kmlexport
-plugin_kmlexport.depends = plugin_coreplugin
-plugin_kmlexport.depends += plugin_uavobjects
-plugin_kmlexport.depends += plugin_uavtalk
-SUBDIRS += plugin_kmlexport
+!win32{ 
+    # KML Export plugin
+    plugin_kmlexport.subdir = kmlexport
+    plugin_kmlexport.depends = plugin_coreplugin
+    plugin_kmlexport.depends += plugin_uavobjects
+    plugin_kmlexport.depends += plugin_uavtalk
+    SUBDIRS += plugin_kmlexport
+}
 
 # GCS Control of UAV gadget
 !LIGHTWEIGHT_GCS {
