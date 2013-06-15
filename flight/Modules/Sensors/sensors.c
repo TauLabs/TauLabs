@@ -116,12 +116,14 @@ static int32_t SensorsInitialize(void)
 	GyrosBiasInitialize();
 	AccelsInitialize();
 	BaroAltitudeInitialize();
-	SonarAltitudeInitialize();
 	MagnetometerInitialize();
 	MagBiasInitialize();
 	AttitudeSettingsInitialize();
 	SensorSettingsInitialize();
 	INSSettingsInitialize();
+
+	if (PIOS_SENSORS_GetQueue(PIOS_SENSOR_SONAR) != NULL )
+			SonarAltitudeInitialize();
 
 	rotate = 0;
 
