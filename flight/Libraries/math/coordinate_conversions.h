@@ -37,12 +37,6 @@
 
 #include <stdbool.h>
 
-    // ****** convert Lat,Lon,Alt to ECEF  ************
-void LLA2ECEF(float LLA[3], float ECEF[3]);
-
-    // ****** convert ECEF to Lat,Lon,Alt (ITERATIVE!) *********
-uint16_t ECEF2LLA(float ECEF[3], float LLA[3]);
-
 void RneFromLLA(float LLA[3], float Rne[3][3]);
 
     // ****** find rotation matrix from rotation vector
