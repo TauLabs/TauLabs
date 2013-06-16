@@ -75,4 +75,6 @@
 	<string name="reset_home_to_tablet">Reset Home to Tablet</string>
 
 	<string name="these_buttons_only_work_while_disarmed_">These buttons only work while disarmed.</string>
+
+	<string name="zero_tablet_poi_to_uav">Zero tablet POI to UAV</string>
 </resources>

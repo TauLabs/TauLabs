@@ -24,6 +24,7 @@ package org.taulabs.androidgcs;
 
 import org.taulabs.uavtalk.UAVObject;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 
@@ -88,6 +89,45 @@ public class AttitudeAdjustment extends ObjectManagerActivity {
 
 	public void homeToTablet(View v) {
 
+	}
+
+	/**
+	 * Work out the offset required to set tablet POI location to the 
+	 * current UAV location
+	 * 
+	 * The difference is computed between the current GPS Position and
+	 * TabletInfo and stored as an offset.  This offset is applied to
+	 * the GPS position before sending it to the UAV for all updates,
+	 * which is what is used for the POI location.  The android location
+	 * on the map will still show up as what it perceives it to be and 
+	 * not with the offset.
+	 */
+	public void poiToUAV(View v) {
+		UAVObject gps = objMngr.getObject("GPSPosition");
+		UAVObject tablet = objMngr.getObject("TabletInfo");
+		UAVObject home = objMngr.getObject("HomeLocation");
+		
+		if (gps == null || tablet == null || home == null)
+			return;
+
+		// Altitude on the flight controller is always used as altitude
+		// plug geoid separation
+		double gps_altitude = gps.getField("Altitude").getDouble() +
+				gps.getField("GeoidSeparation").getDouble();
+		double alt_offset = gps_altitude - tablet.getField("Altitude").getDouble();
+		
+		double lat_offset = gps.getField("Latitude").getDouble() - tablet.getField("Latitude").getDouble();
+		double lon_offset = gps.getField("Longitude").getDouble() - tablet.getField("Longitude").getDouble();
+		
+		// Store these settings
+		SharedPreferences settings = getSharedPreferences("TabletOffset", 0);
+		SharedPreferences.Editor editor = settings.edit();
+		// These values are all scaled up by 1E7 and fit in an int
+		editor.putInt("alt_offset", (int) alt_offset);
+		editor.putInt("lat_offset", (int) lat_offset);
+		editor.putInt("lon_offset", (int) lon_offset);
+		editor.commit();		
+		
 	}
 
 	//! Verify the FC id disarmed

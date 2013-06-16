@@ -31,5 +31,12 @@
         android:layout_height="wrap_content"
         android:text="@string/reset_home_to_tablet"
         android:onClick="homeToTablet" />
+
+    <Button
+        android:id="@+id/zero_poi_to_uav"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="poiToUAV"
+        android:text="@string/zero_tablet_poi_to_uav" />
     
 </LinearLayout>
