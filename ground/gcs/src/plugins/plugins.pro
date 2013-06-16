@@ -315,15 +315,6 @@ plugin_boards_stm.subdir = boards_stm
 plugin_boards_stm.depends = plugin_coreplugin
 SUBDIRS += plugin_boards_stm
 
-## Plugin by E. Lafargue for the Junsi Powerlog, do not
-## remove, please.
-##
-# Junsi Powerlog plugin
-plugin_powerlog.subdir = powerlog
-plugin_powerlog.depends = plugin_coreplugin
-plugin_powerlog.depends += plugin_rawhid
-SUBDIRS += plugin_powerlog
-
 plugin_sysalarmsmessaging.subdir = sysalarmsmessaging
 plugin_sysalarmsmessaging.depends = plugin_coreplugin
 plugin_sysalarmsmessaging.depends += plugin_uavobjects
