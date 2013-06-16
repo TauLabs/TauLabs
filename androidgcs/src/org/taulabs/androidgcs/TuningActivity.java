@@ -70,6 +70,7 @@ public class TuningActivity extends ObjectManagerActivity {
 		smartSave.addControlMapping((ScrollBarView) findViewById(R.id.pitchKp), "PitchPI", 0);
 		smartSave.addControlMapping((ScrollBarView) findViewById(R.id.rollRateKd), "RollRatePID", 2);
 		smartSave.addControlMapping((ScrollBarView) findViewById(R.id.pitchRateKd), "PitchRatePID", 2);
+		smartSave.fetchSettings(); // Robustly request an update of the settings
 		smartSave.refreshSettingsDisplay();
 	}
 

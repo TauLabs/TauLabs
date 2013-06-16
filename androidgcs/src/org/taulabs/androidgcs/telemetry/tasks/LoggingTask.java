@@ -127,7 +127,9 @@ public class LoggingTask implements ITelemTask {
 				fileStream.write((byte)((time & 0x00ff0000) >> 16));
 				fileStream.write((byte)((time & 0xff000000) >> 24));
 
-				long size = obj.getNumBytes();
+				long size = obj.getNumBytes() + 8 + 1; // Account for size of header assuming no instance id
+				if (!obj.isSingleInstance())
+					size += 2;
 				fileStream.write((byte)(size & 0x00000000000000ffl) >> 0);
 				fileStream.write((byte)(size & 0x000000000000ff00l) >> 8);
 				fileStream.write((byte)(size & 0x0000000000ff0000l) >> 16);
@@ -158,7 +160,7 @@ public class LoggingTask implements ITelemTask {
 
 		Date d = new Date();
 		String date = (new SimpleDateFormat("yyyyMMdd_hhmmss")).format(d);
-		String fileName = "log_" + date + ".opl";
+		String fileName = "log_" + date + ".tll";
 
 		file = new File(logDirectory, fileName);
 		if (DEBUG) Log.d(TAG, "Trying for file: " + file.getAbsolutePath());
@@ -255,7 +257,7 @@ public class LoggingTask implements ITelemTask {
 				Log.d(TAG, "Failed to determine description for logging");
 			} else {
 				final int GITASH_SIZE_USED = 4;
-				final int UAVOHASH_SIZE_USED = 8;
+				final int UAVOHASH_SIZE_USED = 20;
 
 				String gitHash = new String();
 				String uavoHash = new String();
@@ -271,7 +273,7 @@ public class LoggingTask implements ITelemTask {
 				if (VERBOSE) Log.v(TAG, "UAVO hash: " + uavoHash);
 
 				try {
-					fileStream.write(String.format("Tau Labs git hash: %s\n%s\n##\n", gitHash, uavoHash).getBytes());
+					fileStream.write(String.format("Tau Labs git hash:\n%s\n%s\n##\n", gitHash, uavoHash).getBytes());
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

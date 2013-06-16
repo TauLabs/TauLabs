@@ -54,7 +54,7 @@ public class Telemetry {
 	 */
 
 	private final String TAG = "Telemetry";
-	public static int LOGLEVEL = 3;
+	public static int LOGLEVEL = 0;
 	public static boolean DEBUG = LOGLEVEL > 2;
 	public static boolean WARN  = LOGLEVEL > 1;
 	public static boolean ERROR = LOGLEVEL > 0;

@@ -1,12 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:orientation="vertical" android:layout_width="fill_parent"
-	android:layout_height="fill_parent">
-	<com.google.android.maps.MapView
-		android:id="@+id/map_view" android:layout_width="fill_parent"
-		android:layout_height="fill_parent" android:enabled="true"
-		android:clickable="true" android:apiKey="0ugzv7PkCKSoMPAvFafxlA2deATXhUFCJICDiHA" />
-	<!--  Note: If you are testing this you will need to use a debugging api key -->
-	<!-- https://developers.google.com/maps/documentation/android/mapkey -->
-</LinearLayout>
+<fragment xmlns:android="http://schemas.android.com/apk/res/android"
+	android:id="@+id/map"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	class="com.google.android.gms.maps.MapFragment"/>
+
 		

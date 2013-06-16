@@ -5,7 +5,7 @@
 			android:key="autoconnect" />
 		<ListPreference android:title="@string/preference_checkbox_connection_type"
 			android:key="connection_type" android:summary="@string/preference_connection_method_summary"
-			android:defaultValue="None" android:entries="@array/connectTypeArray"
+			android:defaultValue="0" android:entries="@array/connectTypeArray"
 			android:entryValues="@array/connectTypeValues" />
 		<EditTextPreference android:name="ip_address"
 			android:summary="Enter a TCP/IP address here"
@@ -19,5 +19,12 @@
 		    android:key="bluetooth_mac"
     		android:title="Bluetooth Device"
     		android:dialogTitle="Choose Bluetooth Device" />
+		<ListPreference android:title="Map Type"
+			android:key="map_type" android:summary="@string/preference_connection_method_summary"
+			android:defaultValue="1" android:entries="@array/mapTypeArray"
+			android:entryValues="@array/mapTypeValues" />
+		<CheckBoxPreference android:title="Advanced Screens"
+			android:key="@string/advanced_screens" />
+		
 	</PreferenceCategory>
 </PreferenceScreen>

@@ -89,9 +89,9 @@ public class TabletInformation {
 			else
 				field.setValue("NAN");
 
-			field = obj.getField("TabletModeDesired");
+			field = obj.getField("Connected");
 			if (field != null) {
-				field.setValue("CameraPOI");
+				field.setValue("True");
 			}
 
 			obj.updated();

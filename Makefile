@@ -393,7 +393,7 @@ $(ANDROIDGCS_ASSETS_DIR)/uavos:
 	$(V1) mkdir -p $@
 
 ifeq ($(V), 1)
-ANT_QUIET :=
+ANT_QUIET := -d
 ANDROID_SILENT := 
 else
 ANT_QUIET := -q
@@ -406,6 +406,8 @@ $(ANDROIDGCS_OUT_DIR)/bin/androidgcs-$(ANDROIDGCS_BUILD_CONF).apk: uavo-collecti
 	$(V0) @echo " ANDROID   $(call toprel, $(ANDROIDGCS_OUT_DIR))"
 	$(V1) mkdir -p $(ANDROIDGCS_OUT_DIR)
 	$(V1) $(ANDROID) $(ANDROID_SILENT) update project --subprojects --target 'Google Inc.:Google APIs:14' --name androidgcs --path ./androidgcs
+	$(V1) ant -f ./androidgcs/google-play-services_lib/build.xml \
+		$(ANT_QUIET) debug               
 	$(V1) ant -f ./androidgcs/build.xml \
 		$(ANT_QUIET) \
 		-Dout.dir="../$(call toprel, $(ANDROIDGCS_OUT_DIR)/bin)" \
@@ -431,8 +433,10 @@ androidgcs_clean:
 # to allow the GCS to be compatible with as many versions as possible.
 #
 # Find the git hashes of each commit that changes uavobjects with:
-#   git log --format=%h -- shared/uavobjectdefinition/ | head -n 2
-UAVO_GIT_VERSIONS := next 
+#   git log --format=%h -- shared/uavobjectdefinition/ | head -n 6 | tr '\n' ' '
+UAVO_NEXT_RECENT_GIT_VERSIONS := $(shell git log next --format=%h -- shared/uavobjectdefinition/ | head -n 30 | tr '\n' ' ')
+UAVO_MASTER_RECENT_GIT_VERSIONS := $(shell git log master --format=%h -- shared/uavobjectdefinition/ | head -n 5 | tr '\n' ' ')
+UAVO_GIT_VERSIONS := master next $(UAVO_NEXT_RECENT_GIT_VERSIONS) $(UAVO_MASTER_RECENT_GIT_VERSIONS) RELEASE-12.10 RELEASE-12.10.1 RELEASE-12.10.2
 
 # All versions includes a pseudo collection called "working" which represents
 # the UAVOs in the source tree

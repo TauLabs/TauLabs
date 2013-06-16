@@ -68,7 +68,13 @@ public class NumericalFieldView extends LinearLayout implements ObjectFieldMappa
 
 			@Override
 			public void afterTextChanged(Editable s) {
-				value = Double.parseDouble(s.toString());
+				try {
+					value = Double.parseDouble(s.toString());
+				} catch (NumberFormatException e) {
+					// This is a numerical field so this only happens when they
+					// backspace through all the characters
+					value = 0;
+				}
 				if (changeListener != null && localUpdate == false)
 					changeListener.run();
 			}

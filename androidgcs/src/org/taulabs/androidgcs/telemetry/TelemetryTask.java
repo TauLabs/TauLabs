@@ -29,6 +29,7 @@ import java.io.OutputStream;
 import java.util.Observable;
 import java.util.Observer;
 
+import org.taulabs.androidgcs.telemetry.tasks.AudioTask;
 import org.taulabs.androidgcs.telemetry.tasks.LoggingTask;
 import org.taulabs.androidgcs.telemetry.tasks.TabletInformation;
 import org.taulabs.uavtalk.UAVObjectManager;
@@ -110,6 +111,9 @@ public abstract class TelemetryTask implements Runnable {
 	//! Background process to update the TabletInformation object
 	private final TabletInformation tabletInfoTask = new TabletInformation();
 
+	//! Generate audio alerts based on object updates
+	private final AudioTask audioTask = new AudioTask();
+
 	TelemetryTask(OPTelemetryService s) {
 		telemService = s;
 		shutdown = false;
@@ -161,6 +165,9 @@ public abstract class TelemetryTask implements Runnable {
 		// Connect the logger
 		logger.connect(objMngr, telemService);
 
+		// Connect the audio alerts
+		audioTask.connect(objMngr, telemService);
+
 		connected = true;
 		return connected;
 	}
@@ -178,6 +185,7 @@ public abstract class TelemetryTask implements Runnable {
 		// Stop updating the tablet information
 		tabletInfoTask.disconnect();
 		logger.disconnect();
+		audioTask.disconnect();
 
 		// Shut down all the attached
 		if (mon != null) {

@@ -51,4 +51,8 @@
 	<string name="uiToastLightOff">Light OFF</string>
 
 	<string name="select_file_to_email_it">Select file to email it</string>
+
+	<string name="jump_to_uav">Jump To UAV</string>
+
+	<string name="advanced_screens">advanced_screens</string>
 </resources>

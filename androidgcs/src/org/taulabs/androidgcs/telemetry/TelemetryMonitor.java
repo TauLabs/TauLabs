@@ -34,9 +34,9 @@ import java.util.Observer;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import org.taulabs.uavtalk.UAVObject.TransactionResult;
 import org.taulabs.uavtalk.UAVDataObject;
 import org.taulabs.uavtalk.UAVObject;
+import org.taulabs.uavtalk.UAVObject.TransactionResult;
 import org.taulabs.uavtalk.UAVObjectField;
 import org.taulabs.uavtalk.UAVObjectManager;
 
@@ -104,6 +104,21 @@ public class TelemetryMonitor extends Observable {
 
 		// The first update of the firmwareIapObj will trigger registering the objects
 		firmwareIapObj.addUpdatedObserver(firmwareIapUpdated);
+
+		firmwareIapObj.addTransactionCompleted(new Observer() {
+			@Override
+			public void update(Observable observable, Object data) {
+				TransactionResult transaction = (TransactionResult) data;
+				if (transaction != null) {
+					if (transaction.success == false) {
+						if (DEBUG) Log.d(TAG, "Firmware IAP transaction failed.  Retrying");
+						firmwareIapObj.updateRequested();
+					} else {
+						if (DEBUG) Log.d(TAG, "Firmware IAP transaction Succeeded");
+					}
+				}
+			}
+		});
 
 		flightStatsObj.addUpdatedObserver(new Observer() {
 			@Override
