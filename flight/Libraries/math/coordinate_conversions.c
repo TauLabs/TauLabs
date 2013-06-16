@@ -146,37 +146,6 @@ void Euler2R(float rpy[3], float Rbe[3][3])
 	Rbe[2][2] = cT*cF;
 }
 
-// ****** Express LLA in a local NED Base Frame ********
-void LLA2Base(float LLA[3], float BaseECEF[3], float Rne[3][3], float NED[3])
-{
-	float ECEF[3];
-	float diff[3];
-
-	LLA2ECEF(LLA, ECEF);
-
-	diff[0] = (float)(ECEF[0] - BaseECEF[0]);
-	diff[1] = (float)(ECEF[1] - BaseECEF[1]);
-	diff[2] = (float)(ECEF[2] - BaseECEF[2]);
-
-	NED[0] = Rne[0][0] * diff[0] + Rne[0][1] * diff[1] + Rne[0][2] * diff[2];
-	NED[1] = Rne[1][0] * diff[0] + Rne[1][1] * diff[1] + Rne[1][2] * diff[2];
-	NED[2] = Rne[2][0] * diff[0] + Rne[2][1] * diff[1] + Rne[2][2] * diff[2];
-}
-
-// ****** Express ECEF in a local NED Base Frame ********
-void ECEF2Base(float ECEF[3], float BaseECEF[3], float Rne[3][3], float NED[3])
-{
-	float diff[3];
-
-	diff[0] = (float)(ECEF[0] - BaseECEF[0]);
-	diff[1] = (float)(ECEF[1] - BaseECEF[1]);
-	diff[2] = (float)(ECEF[2] - BaseECEF[2]);
-
-	NED[0] = Rne[0][0] * diff[0] + Rne[0][1] * diff[1] + Rne[0][2] * diff[2];
-	NED[1] = Rne[1][0] * diff[0] + Rne[1][1] * diff[1] + Rne[1][2] * diff[2];
-	NED[2] = Rne[2][0] * diff[0] + Rne[2][1] * diff[1] + Rne[2][2] * diff[2];
-}
-
 // ****** convert Rotation Matrix to Quaternion ********
 // ****** if R converts from e to b, q is rotation from e to b ****
 void R2Quaternion(float R[3][3], float q[4])

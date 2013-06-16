@@ -54,12 +54,6 @@ void Quaternion2R(float q[4], float Rbe[3][3]);
 //** Find Rbe, that rotates a vector from earth fixed to body frame, from Tait-Bryan angles **
 void Euler2R(float rpy[3], float Rbe[3][3]); //WHAT TO DO ABOUT ALL THE CONST? SHOULD EVERY INPUT BE A CONST?
 
-	// ****** Express LLA in a local NED Base Frame ********
-void LLA2Base(float LLA[3], float BaseECEF[3], float Rne[3][3], float NED[3]);
-
-	// ****** Express ECEF in a local NED Base Frame ********
-void ECEF2Base(float ECEF[3], float BaseECEF[3], float Rne[3][3], float NED[3]);
-
 	// ****** convert Rotation Matrix to Quaternion ********
 	// ****** if R converts from e to b, q is rotation from e to b ****
 void R2Quaternion(float R[3][3], float q[4]);
