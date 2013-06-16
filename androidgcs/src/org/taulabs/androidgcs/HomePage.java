@@ -157,7 +157,7 @@ public class HomePage extends ObjectManagerActivity {
 				R.drawable.ic_map, R.drawable.ic_controller,
 				R.drawable.ic_logging, R.drawable.ic_alarms,
 				R.drawable.ic_tuning, R.drawable.ic_3dview,
-				R.drawable.ic_tabletcontrol
+				R.drawable.ic_tabletcontrol, drawable.ic_tuning
 		};
 
 		@SuppressWarnings("rawtypes")
@@ -166,7 +166,7 @@ public class HomePage extends ObjectManagerActivity {
 			UAVLocation.class, Controller.class,
 			Logger.class, SystemAlarmActivity.class,
 			TuningActivity.class, OsgViewer.class,
-			TableControl.class
+			TableControl.class, AttitudeAdjustment.class
 		};
 
 		private final String[] names = {
@@ -174,7 +174,7 @@ public class HomePage extends ObjectManagerActivity {
 				"Map", "Controller",
 				"Logging", "Alarms",
 				"Tuning", "OSG",
-				"Table Control"
+				"Table Control", "Attitude Adjustment"
 		};
 	}
 

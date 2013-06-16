@@ -55,4 +55,24 @@
 	<string name="jump_to_uav">Jump To UAV</string>
 
 	<string name="advanced_screens">advanced_screens</string>
+
+	<string name="reset_home_location">Reset Home Location</string>
+
+	<string name="reset_home_altitude">Reset Home Altitude</string>
+
+	<string name="_android_attr_textappearancemedium">\?android:attr/textAppearanceMedium</string>
+
+	<string name="pfd">PFD</string>
+
+	<string name="transmitter">Transmitter</string>
+
+	<string name="attitude_adjustment">Attitude Adjustment</string>
+
+	<string name="objecteditor">ObjectEditor</string>
+
+	<string name="logger">Logger</string>
+
+	<string name="reset_home_to_tablet">Reset Home to Tablet</string>
+
+	<string name="these_buttons_only_work_while_disarmed_">These buttons only work while disarmed.</string>
 </resources>

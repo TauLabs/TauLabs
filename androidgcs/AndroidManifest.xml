@@ -48,20 +48,24 @@
 <!--                 android:resource="@xml/device_filter" /> -->
 		</activity>
 
+		<activity android:name="AttitudeAdjustment" android:label="@string/attitude_adjustment" />
 		<activity android:name="ObjectBrowser" android:label="@string/object_browser_name" />
+
 		<activity android:name="PfdActivity" android:label="PFD" />
 		<activity android:name="Controller" android:label="@string/controller_name" 
 		    android:configChanges="keyboardHidden|orientation|screenSize"/>
+
 		<activity android:name="Preferences" android:label="@string/preference_title" />
 		<activity android:name="UAVLocation" android:label="@string/location_name" />
 		<activity android:name="SystemAlarmActivity" android:label="System Alarms" />
 		<activity android:name="TuningActivity" android:label="Tuning" />
+
 		<activity android:name="PathPlanner" android:label="Path Planner" />
 		<activity android:name="TableControl" android:label="Table Control"/> <!-- android:hardwareAccelerated="false" -->
 		<activity android:name="ObjectEditor" android:label="ObjectEditor"
 		    android:windowSoftInputMode="stateHidden"
 			android:theme="@android:style/Theme.Dialog" />
-		<activity android:name="Logger" android:label="Logger"/>
+		<activity android:name="Logger" android:label="@string/logger"/>
 
 		<activity
 		    android:name="FragmentTester"
