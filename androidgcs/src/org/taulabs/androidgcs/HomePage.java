@@ -119,7 +119,7 @@ public class HomePage extends ObjectManagerActivity {
 		@Override
 		public int getCount() {
 			// The last screen is only shown when advanced is enabled
-			return (advancedScreens ? mThumbIds.length : mThumbIds.length - 1);
+			return (advancedScreens ? mThumbIds.length : mThumbIds.length - 2);
 		}
 
 		@Override
@@ -157,7 +157,7 @@ public class HomePage extends ObjectManagerActivity {
 				R.drawable.ic_map, R.drawable.ic_controller,
 				R.drawable.ic_logging, R.drawable.ic_alarms,
 				R.drawable.ic_tuning, R.drawable.ic_3dview,
-				R.drawable.ic_tabletcontrol, drawable.ic_tuning
+				R.drawable.ic_tabletcontrol, R.drawable.ic_tuning
 		};
 
 		@SuppressWarnings("rawtypes")
