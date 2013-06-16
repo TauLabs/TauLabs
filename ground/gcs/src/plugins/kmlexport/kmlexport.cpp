@@ -41,7 +41,9 @@
 
 
 const double ColorMap_Jet[256][3] = COLORMAP_JET;
-#define maxVelocity 20 // This shouldn't be hardcoded
+#define maxVelocity 20 // Vehicle velocity which corresponds to maximum color in color map. This shouldn't be hardcoded
+#define numberOfWallAxes 5 // Number of wall axes to plot. This shouldn't be hardcoded
+#define wallAxesSeparation 20 // Wall axes separation height in [m]. This shouldn't be hardcoded
 
 
 KmlExport::KmlExport(QString inputLogFileName, QString outputKmlFileName) :
@@ -95,38 +97,34 @@ KmlExport::KmlExport(QString inputLogFileName, QString outputKmlFileName) :
     StyleMapPtr wallAxesStyle = createWallAxesStyle();
     document->add_styleselector(wallAxesStyle);
 
-
-    //
-    for (int i=0; i<5; i++){
+    // Create an array of lines which will make the wall axes.
+    for (int i=0; i<numberOfWallAxes; i++){
         CoordinatesPtr coordinates = factory->CreateCoordinates();
         wallAxes.append(coordinates);
     }
-
-
 }
 
 
 /**
  * @brief KmlExport::exportToKML Triggers logfile export to KML.
  */
-void KmlExport::exportToKML()
+bool KmlExport::exportToKML()
 {
     bool ret = open();
     if (!ret) {
         qDebug () << "Logfile failed to open during KML export";
-        return;
+        return false;
     }
 
     // Parses logfile and generates KML document
     ret = preparseLogFile();
     if (!ret) {
         qDebug () << "Logfile preparsing failed";
-        return;
+        return false;
     }
 
     // Call parser.
     parseLogFile();
-
 
     // Add track to <Document>
     document->add_feature(trackFolder);
@@ -154,7 +152,7 @@ void KmlExport::exportToKML()
 
     // Add wall axes to <Document>
     FolderPtr folder = factory->CreateFolder();
-    for (int i=0; i<5; i++) {
+    for (int i=0; i<numberOfWallAxes; i++) {
         LineStringPtr linestring = factory->CreateLineString();
         linestring->set_extrude(false); // Do not extrude to ground
         linestring->set_altitudemode(kmldom::ALTITUDEMODE_ABSOLUTE);
@@ -191,12 +189,14 @@ void KmlExport::exportToKML()
             QMessageBox::critical(new QWidget(),"KML write failed", "Failed to write KML file.");
         }
     }
+
+    return true;
 }
 
 
 /**
  * @brief KmlExport::open Opens the logfile and ensures it's sane
- * @return
+ * @return returns true if the logfile is successfully opened, returns false otherwise.
  */
 bool KmlExport::open()
 {
@@ -461,7 +461,6 @@ StyleMapPtr KmlExport::createCustomBalloonStyle()
     }
 
     styleMap->set_id("directiveArrowStyle");
-
 
     return styleMap;
 }
@@ -806,8 +805,8 @@ void KmlExport::positionActualUpdated(UAVObject *obj)
     }
 
     // Create wall axes
-    for (int i = 0; i< 5; i++){
-        wallAxes[i]->add_latlngalt(newPoint.latitude, newPoint.longitude, i*20 + homeLocationData.Altitude);
+    for (int i=0; i<numberOfWallAxes; i++){
+        wallAxes[i]->add_latlngalt(newPoint.latitude, newPoint.longitude, i*wallAxesSeparation + homeLocationData.Altitude);
     }
 
     // Create colored tracks and add to the KML document

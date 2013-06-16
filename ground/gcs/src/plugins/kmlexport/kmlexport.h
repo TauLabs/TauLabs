@@ -28,51 +28,16 @@
 #ifndef KMLEXPORT_H
 #define KMLEXPORT_H
 
-#include "kml/base/file.h"
-#include "kml/dom.h"
-#include "kml/engine.h"
-
-using kmldom::KmlFactory;
-using kmldom::BalloonStylePtr;
-using kmldom::ContainerPtr;
-using kmldom::CoordinatesPtr;
-using kmldom::DocumentPtr;
-using kmldom::ElementPtr;
-using kmldom::FeaturePtr;
-using kmldom::FolderPtr;
-using kmldom::GeometryPtr;
-using kmldom::IconStylePtr;
-using kmldom::IconStyleIconPtr;
-using kmldom::LabelStylePtr;
-using kmldom::LinearRingPtr;
-using kmldom::LineStringPtr;
-using kmldom::LineStylePtr;
-using kmldom::MultiGeometryPtr;
-using kmldom::OuterBoundaryIsPtr;
-using kmldom::PairPtr;
-using kmldom::PlacemarkPtr;
-using kmldom::PointPtr;
-using kmldom::PolygonPtr;
-using kmldom::PolyStylePtr;
-using kmldom::SnippetPtr;
-using kmldom::StylePtr;
-using kmldom::StyleMapPtr;
-using kmldom::StyleSelectorPtr;
-using kmldom::TimeSpanPtr;
-using kmlengine::FeatureVisitor;
-using kmlengine::GetRootFeature;
-using kmlengine::KmlFile;
-using kmlengine::KmzFile;
-using kmlengine::KmlFilePtr;
-using kmldom::KmlPtr;
-
 #include <QIODevice>
 #include <QTime>
 #include <QTimer>
-#include <QMutexLocker>
 #include <QDebug>
 #include <QBuffer>
 #include <math.h>
+
+#include "kml/base/file.h"
+#include "kml/dom.h"
+#include "kml/engine.h"
 
 #include "./uavtalk/uavtalk.h"
 
@@ -81,6 +46,8 @@ using kmldom::KmlPtr;
 #include "gpsposition.h"
 #include "positionactual.h"
 #include "velocityactual.h"
+
+using namespace kmldom;
 
 
 // This struct holds the 4D LLA-Velocity coordinates
@@ -104,7 +71,7 @@ public:
 
     bool preparseLogFile();
     bool stopExport();
-    void exportToKML();
+    bool exportToKML();
 
 private slots:
     void gpsPositionUpdated(UAVObject *);
@@ -118,7 +85,6 @@ signals:
 
 protected:
     QFile logFile;
-    QMutex mutex;
 
 private:
     QList<quint32> timestampBuffer;
@@ -156,41 +122,6 @@ private:
 
     kmlbase::Color32 mapVelocity2Color(double velocity, uint8_t alpha = 255);
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 //! Jet color map, as defined by matlab. Generated with `jet(256)`.
 #define COLORMAP_JET { \
