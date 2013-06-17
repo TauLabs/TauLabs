@@ -221,7 +221,7 @@ plugin_logging.depends += plugin_uavtalk
 plugin_logging.depends += plugin_scope
 SUBDIRS += plugin_logging
 
-!win32{ 
+KML { 
     # KML Export plugin
     plugin_kmlexport.subdir = kmlexport
     plugin_kmlexport.depends = plugin_coreplugin
