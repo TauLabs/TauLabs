@@ -177,48 +177,6 @@ static void pathManagerTask(void *parameters)
 		// Wait
 		vTaskDelayUntil(&lastSysTime, UPDATE_RATE_MS * portTICK_RATE_MS);
 
-#if !defined PATH_PLANNER // If there is no path planner, it's probably because memory is too scarce, such as on CC/CC3D. In that case, provide a return to home and a position hold
-		// Check flight mode
-		FlightStatusData flightStatus;
-		FlightStatusGet(&flightStatus);
-
-		switch (flightStatus.FlightMode) {
-		case FLIGHTSTATUS_FLIGHTMODE_RETURNTOHOME:
-			if (guidanceType != RETURNHOME) {
-				guidanceType = RETURNHOME;
-				pathplanner_active = false;
-
-				// Load pregenerated return to home program
-				simple_return_to_home();
-			}
-			break;
-		case FLIGHTSTATUS_FLIGHTMODE_POSITIONHOLD:
-			if (guidanceType != HOLDPOSITION) {
-				guidanceType = HOLDPOSITION;
-				pathplanner_active = false;
-
-				// Load pregenerated hold-position program
-				simple_hold_position();
-			}
-			break;
-		case FLIGHTSTATUS_FLIGHTMODE_PATHPLANNER:
-			if (guidanceType != PATHPLANNER) {
-				guidanceType = PATHPLANNER;
-				pathplanner_active = false;
-
-				// Load pregenerated example program
-				example_program();
-			}
-			break;
-		default:
-			// When not running the path manager, short circuit and wait
-			pathplanner_active = false;
-			guidanceType = NOMANAGER;
-			vTaskDelay(IDLE_UPDATE_RATE_MS * portTICK_RATE_MS);
-
-			continue;
-		}
-#else
 		PathPlannerStatusData pathPlannerStatus;
 		PathPlannerStatusGet(&pathPlannerStatus);
 
@@ -235,7 +193,6 @@ static void pathManagerTask(void *parameters)
 			vTaskDelay(IDLE_UPDATE_RATE_MS * portTICK_RATE_MS);
 			continue;
 		}
-#endif //PATH_PLANNER
 
 		bool advanceSegment_flag = false;
 
