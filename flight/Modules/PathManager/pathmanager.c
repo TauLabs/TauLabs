@@ -57,7 +57,7 @@
 #define ANGULAR_PROXIMITY_THRESHOLD 30
 
 // Private types
-enum guidanceTypes{NOMANAGER, RETURNHOME, HOLDPOSITION, PATHPLANNER};
+enum guidanceTypes{PM_NOMANAGER, PM_PATHPLANNER};
 static struct PreviousLocus {
 	float Position[3];
 
@@ -77,7 +77,7 @@ static float angularDistanceToComplete_D;
 static float angularDistanceCompleted_D;
 static float oldPosition_NE[2];
 static float arcCenter_NE[2];
-static uint8_t guidanceType = NOMANAGER;
+static uint8_t guidanceType = PM_NOMANAGER;
 static enum arc_center_results arc_has_center = ARC_INSUFFICIENT_RADIUS;
 
 // Private functions
@@ -182,14 +182,14 @@ static void pathManagerTask(void *parameters)
 
 		if (pathPlannerStatus.PathAvailability == PATHPLANNERSTATUS_PATHAVAILABILITY_PATHREADY)
 		{
-			if (guidanceType != PATHPLANNER) {
-				guidanceType = PATHPLANNER;
+			if (guidanceType != PM_PATHPLANNER) {
+				guidanceType = PM_PATHPLANNER;
 				pathplanner_active = false;
 			}
 		}
 		else {
 			pathplanner_active = false;
-			guidanceType = NOMANAGER;
+			guidanceType = PM_NOMANAGER;
 			vTaskDelay(IDLE_UPDATE_RATE_MS * portTICK_RATE_MS);
 			continue;
 		}
