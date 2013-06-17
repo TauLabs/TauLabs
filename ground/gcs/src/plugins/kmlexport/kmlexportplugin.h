@@ -49,7 +49,6 @@ class KmlExportPlugin : public ExtensionSystem::IPlugin
 
 public:
     KmlExportPlugin();
-    ~KmlExportPlugin();
 
     void extensionsInitialized();
     bool initialize(const QStringList & arguments, QString * errorString);

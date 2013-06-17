@@ -59,6 +59,10 @@ struct LLAVCoordinates
     double velocity; //in [m/s]
 };
 
+/**
+ * @class KmlExport generates a KML file showing the flight path from a UAVTalk
+ * log path that is viewable in Google Earth.
+ */
 class KmlExport : public QObject
 {
     Q_OBJECT

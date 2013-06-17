@@ -44,13 +44,9 @@ KmlExportPlugin::KmlExportPlugin()
 {
 }
 
-KmlExportPlugin::~KmlExportPlugin()
-{
-}
-
 /**
-  * Add Logging plugin to File menu
-  */
+ * Add KmlExport option to the tools menu
+ */
 bool KmlExportPlugin::initialize(const QStringList& args, QString *errMsg)
 {
     Q_UNUSED(args);
@@ -74,6 +70,10 @@ bool KmlExportPlugin::initialize(const QStringList& args, QString *errMsg)
     return true;
 }
 
+/**
+ * Allow user to select a UAVTalk log file and output KML file and passes
+ * that to the @ref KmlExport class
+ */
 void KmlExportPlugin::exportToKML()
 {
     // Get input file
