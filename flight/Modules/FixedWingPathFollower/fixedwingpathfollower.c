@@ -8,7 +8,7 @@
  * @file       fixedwingpathfollower.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
  * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
- * @brief      This module compared @ref PositionActual to @ref PathDesired 
+ * @brief      This module compared @ref PositionActual to @ref PathDesired
  * and sets @ref StabilizationDesired.  It only does this when the FlightMode field
  * of @ref ManualControlCommand is Auto.
  *
@@ -142,9 +142,9 @@ int32_t FixedWingPathFollowerInitialize()
 #endif
 
 	if (!module_enabled)
-        return false;
+		return false;
 
-    // Initialize UAVOs necessary for all pathfinders
+	// Initialize UAVOs necessary for all pathfinders
 	FlightStatusInitialize();
 	PathFollowerStatusInitialize();
 	PathManagerStatusInitialize();
@@ -152,7 +152,7 @@ int32_t FixedWingPathFollowerInitialize()
 	StabilizationDesiredInitialize();
 	VelocityActualInitialize();
 
-    // Initialize UAVO for fixed-wing flight
+	// Initialize UAVO for fixed-wing flight
 	FixedWingPathFollowerSettingsInitialize();
 	FixedWingAirspeedsInitialize();
 	AirspeedActualInitialize();
@@ -163,8 +163,8 @@ int32_t FixedWingPathFollowerInitialize()
 #endif
 
 
-    // Register callbacks
-    FlightStatusConnectCallback(FlightStatusUpdatedCb);
+	// Register callbacks
+	FlightStatusConnectCallback(FlightStatusUpdatedCb);
 	FixedWingAirspeedsConnectCallback(SettingsUpdatedCb);
 	FixedWingPathFollowerSettingsConnectCallback(SettingsUpdatedCb);
 
@@ -185,8 +185,8 @@ int32_t FixedWingPathFollowerInitialize()
 	// Load all settings
 	SettingsUpdatedCb((UAVObjEvent *)NULL);
 
-    // Zero the integrals
-    integral->total_energy_error = 0;
+	// Zero the integrals
+	integral->total_energy_error = 0;
 	integral->calibrated_airspeed_error = 0;
 	integral->line_error = 0;
 	integral->arc_error = 0;
@@ -203,23 +203,22 @@ MODULE_INITCALL(FixedWingPathFollowerInitialize, FixedWingPathFollowerStart);
 static void pathfollowerTask(void *parameters)
 {
 	portTickType lastUpdateTime;
-	
+	PathFollowerStatusData pathFollowerStatus;
+	uint16_t update_peroid_ms;
+
 	FixedWingPathFollowerSettingsConnectCallback(SettingsUpdatedCb);
 	FixedWingAirspeedsConnectCallback(SettingsUpdatedCb);
 	PathDesiredConnectCallback(SettingsUpdatedCb);
 
 	// Force update of all the settings
 	SettingsUpdatedCb(NULL);
-	
-    uint16_t update_peroid_ms;
-    FixedWingPathFollowerSettingsUpdatePeriodGet(&update_peroid_ms);
 
-    bool flightStatusUpdate = false;
+	FixedWingPathFollowerSettingsUpdatePeriodGet(&update_peroid_ms);
 
 	// Main task loop
 	lastUpdateTime = xTaskGetTickCount();
 	while (1) {
-        if (flightStatusUpdate)
+		if (flightStatusUpdate)
 			FlightStatusFlightModeGet(&flightMode);
 
 		if(flightMode != FLIGHTSTATUS_FLIGHTMODE_RETURNTOHOME &&
@@ -227,20 +226,30 @@ static void pathfollowerTask(void *parameters)
 				flightMode != FLIGHTSTATUS_FLIGHTMODE_PATHPLANNER) {
 
 			// Be clean and reset integrals
-            integral->total_energy_error = 0;
-            integral->calibrated_airspeed_error = 0;
-            integral->line_error = 0;
-            integral->arc_error = 0;
+			integral->total_energy_error = 0;
+			integral->calibrated_airspeed_error = 0;
+			integral->line_error = 0;
+			integral->arc_error = 0;
+
+			PathFollowerStatusGet(&pathFollowerStatus);
+			pathFollowerStatus.Status = PATHFOLLOWERSTATUS_STATUS_IDLE;
+			PathFollowerStatusSet(&pathFollowerStatus);
 
 			// Wait 100ms before continuing
 			vTaskDelay(100 * portTICK_RATE_MS);
 			continue;
+		} else if (pathFollowerStatus.Status == PATHFOLLOWERSTATUS_STATUS_IDLE) {
+			PathFollowerStatusGet(&pathFollowerStatus);
+			pathFollowerStatus.Status = PATHFOLLOWERSTATUS_STATUS_SUCCEEDING;
+			PathFollowerStatusSet(&pathFollowerStatus);
 		}
 
 		vTaskDelayUntil(&lastUpdateTime, update_peroid_ms * portTICK_RATE_MS);
 		updateFixedWingDesiredStabilization();
 	}
 }
+
+
 /**
  * @brief
  */
