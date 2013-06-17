@@ -337,9 +337,9 @@ static void advanceSegment()
 		s = angularDistanceToComplete_D * DEG2RAD / pathSegmentDescriptor_current.PathCurvature;
 
 	if (pathSegmentDescriptor_current.FinalVelocity > 0)
-		pathManagerStatus.Timeout = bound_min_max(ceilf(fabsf(s)/((float)pathSegmentDescriptor_current.FinalVelocity)), 0, 65535);
+		pathManagerStatus.Timeout = bound_min_max(ceilf(fabsf(s)/((float)pathSegmentDescriptor_current.FinalVelocity)), 0, UINT16_MAX);
 	else
-		pathManagerStatus.Timeout = 65535; // Set this to maximum possible value for variable type
+		pathManagerStatus.Timeout = UINT16_MAX; // Set this to maximum possible value for variable type
 
 
 	PathManagerStatusSet(&pathManagerStatus);
