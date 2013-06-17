@@ -254,7 +254,7 @@ bool KmlExport::open()
 
 /**
  * @brief KmlExport::preparseLogFile Ensures that the logfile has data to export
- * @return
+ * @return Returns true if the logfile has data, false otherwise
  */
 bool KmlExport::preparseLogFile()
 {
@@ -319,7 +319,7 @@ bool KmlExport::preparseLogFile()
 /**
  * @brief KmlExport::stopExport Called to stop the export. Currently only closes
  * the logfile
- * @return
+ * @return Returns true
  */
 bool KmlExport::stopExport()
 {
@@ -377,7 +377,7 @@ void KmlExport::parseLogFile()
 
 /**
  * @brief KmlExport::createCustomBalloonStyle Creates a custom balloon stye, using an arrow as an icon.
- * @return
+ * @return Returns the custom balloon style.
  */
 StyleMapPtr KmlExport::createCustomBalloonStyle()
 {
@@ -468,7 +468,7 @@ StyleMapPtr KmlExport::createCustomBalloonStyle()
 
 /**
  * @brief KmlExport::createGroundTrackStyle Creates a custom style for the ground track.
- * @return
+ * @return Returns the custom style.
  */
 StylePtr KmlExport::createGroundTrackStyle()
 {
@@ -587,7 +587,7 @@ StyleMapPtr KmlExport::createWallAxesStyle()
  * vehicle's speed.
  * @param startPoint Beginning point along line
  * @param endPoint End point point along line
- * @return
+ * @return Returns the placemark containing the line segment
  */
 PlacemarkPtr KmlExport::CreateLineStringPlacemark(const LLAVCoordinates &startPoint, const LLAVCoordinates &endPoint, quint32 newPlacemarkTime)
 {
@@ -673,13 +673,13 @@ PlacemarkPtr KmlExport::CreateLineStringPlacemark(const LLAVCoordinates &startPo
 
 
 /**
- * @brief KmlExport::createTimespanPlacemark Creates a timestamp placemark, which allows the
+ * @brief KmlExport::createTimespanPlacemark Creates a timespan placemark, which allows the
  * trajectory to be played forward in time. The placemark also contains pertinent data about
  * the vehicle's state at that timespan
  * @param timestampPoint
  * @param lastPlacemarkTime
  * @param newPlacemarkTime
- * @return
+ * @return Returns the placemark containing the timespan
  */
 PlacemarkPtr KmlExport::createTimespanPlacemark(const LLAVCoordinates &timestampPoint, quint32 lastPlacemarkTime, quint32 newPlacemarkTime)
 {
@@ -738,7 +738,7 @@ PlacemarkPtr KmlExport::createTimespanPlacemark(const LLAVCoordinates &timestamp
  * @brief KmlExport::mapVelocity2Color Maps a velocity magnitude onto a color.
  * @param velocity Vehicle velocity in [m/s]
  * @param alpha Transparency. If no value provided, color is fully opaque
- * @return
+ * @return Returns the RGBA color
  */
 kmlbase::Color32 KmlExport::mapVelocity2Color(double velocity, uint8_t alpha)
 {
