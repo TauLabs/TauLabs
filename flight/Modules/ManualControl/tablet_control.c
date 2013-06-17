@@ -89,19 +89,34 @@ int32_t tablet_control_select(bool reset_controller)
 
 	switch(tabletInfo.TabletModeDesired) {
 		case TABLETINFO_TABLETMODEDESIRED_POSITIONHOLD:
-			mode = FLIGHTSTATUS_FLIGHTMODE_POSITIONHOLD;
+			if (mode != FLIGHTSTATUS_FLIGHTMODE_POSITIONHOLD ||
+						    last_tablet_mode != tabletInfo.TabletModeDesired) {
+				mode = FLIGHTSTATUS_FLIGHTMODE_POSITIONHOLD;
+			}
 			break;
 		case TABLETINFO_TABLETMODEDESIRED_RETURNTOHOME:
-			mode = FLIGHTSTATUS_FLIGHTMODE_RETURNTOHOME;
+			if (mode != TABLETINFO_TABLETMODEDESIRED_RETURNTOHOME ||
+						    last_tablet_mode != tabletInfo.TabletModeDesired) {
+				mode = FLIGHTSTATUS_FLIGHTMODE_RETURNTOHOME;
+			}
 			break;
 		case TABLETINFO_TABLETMODEDESIRED_RETURNTOTABLET:
-			mode = FLIGHTSTATUS_FLIGHTMODE_PATHPLANNER;
+				if (mode != TABLETINFO_TABLETMODEDESIRED_RETURNTOTABLET ||
+							    last_tablet_mode != tabletInfo.TabletModeDesired) {
+				mode = FLIGHTSTATUS_FLIGHTMODE_PATHPLANNER;
+			}
 			break;
 		case TABLETINFO_TABLETMODEDESIRED_PATHPLANNER:
-			mode = FLIGHTSTATUS_FLIGHTMODE_PATHPLANNER;
+				if (mode != TABLETINFO_TABLETMODEDESIRED_PATHPLANNER ||
+							    last_tablet_mode != tabletInfo.TabletModeDesired) {
+				mode = FLIGHTSTATUS_FLIGHTMODE_PATHPLANNER;
+			}
 			break;
 		case TABLETINFO_TABLETMODEDESIRED_FOLLOWME:
-			mode = FLIGHTSTATUS_FLIGHTMODE_PATHPLANNER;
+				if (mode != TABLETINFO_TABLETMODEDESIRED_FOLLOWME ||
+							    last_tablet_mode != tabletInfo.TabletModeDesired) {
+				mode = FLIGHTSTATUS_FLIGHTMODE_PATHPLANNER;
+			}
 			break;
 		case TABLETINFO_TABLETMODEDESIRED_LAND:
 		default:

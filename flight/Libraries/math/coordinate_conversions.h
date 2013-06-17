@@ -32,8 +32,8 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
-#ifndef COORDINATECONVERSIONS_H_
-#define COORDINATECONVERSIONS_H_
+#ifndef coordinate_conversions_H_
+#define coordinate_conversions_H_
 
 #include <stdbool.h>
 
@@ -74,7 +74,7 @@ void quat_copy(const float q[4], float qnew[4]);
 void quat_mult(const float q1[4], const float q2[4], float qout[4]);
 void rot_mult(float R[3][3], const float vec[3], float vec_out[3], bool transpose);
 
-#endif /* COORDINATECONVERSIONS_H_ */
+#endif /* coordinate_conversions_H_ */
 
 /**
  * @}

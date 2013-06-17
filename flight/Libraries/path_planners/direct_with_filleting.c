@@ -36,7 +36,7 @@
 #include "velocityactual.h"
 #include "waypoint.h"
 
-#include "CoordinateConversions.h"
+#include "coordinate_conversions.h"
 #include "misc_math.h"
 
 // Private functions

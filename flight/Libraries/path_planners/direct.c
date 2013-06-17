@@ -26,7 +26,7 @@
 
 #include "openpilot.h"
 #include "physical_constants.h"
-#include "CoordinateConversions.h"
+#include "coordinate_conversions.h"
 #include "misc_math.h"
 
 #include "path_planners.h"

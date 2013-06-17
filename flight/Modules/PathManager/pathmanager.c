@@ -45,7 +45,7 @@
 #include "paths_library.h"
 #include "path_managers.h"
 
-#include "CoordinateConversions.h"
+#include "coordinate_conversions.h"
 
 // Private constants
 #define STACK_SIZE_BYTES 700

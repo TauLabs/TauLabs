@@ -212,7 +212,7 @@ int8_t updateFixedWingDesiredStabilization()
 	calibrated_airspeed_desired = bound_min_max(pathDesired->EndingVelocity, fixedWingAirspeeds.StallSpeedDirty, fixedWingAirspeeds.AirSpeedMax);
 
 	// Set the desired true airspeed, assuming STP atmospheric conditions. This isn't ideal, but we don't have a reliable source of temperature or pressure
-	AirParameters air_STP = initialize_air_structure();
+	struct AirParameters air_STP = initialize_air_structure();
 	true_airspeed_desired = cas2tas(calibrated_airspeed_desired, -positionActual.Down, &air_STP);
 
 	/**

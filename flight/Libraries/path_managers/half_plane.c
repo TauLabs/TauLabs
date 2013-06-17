@@ -23,7 +23,7 @@
 
 #include "path_managers.h"
 #include "misc_math.h"
-#include "CoordinateConversions.h"
+#include "coordinate_conversions.h"
 
 /**
  * @brief half_plane_goal_test From R. Beard and T. McLain, "Small Unmanned Aircraft: Theory and Practice", 2011, Section 11.1.

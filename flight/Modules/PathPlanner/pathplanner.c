@@ -41,7 +41,7 @@
 #include "waypoint.h"
 #include "modulesettings.h"
 
-#include "CoordinateConversions.h"
+#include "coordinate_conversions.h"
 #include "misc_math.h"
 
 // Private constants
