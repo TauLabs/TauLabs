@@ -509,6 +509,78 @@ void PIOS_I2C_external_er_irq_handler(void)
 
 #endif /* PIOS_INCLUDE_I2C */
 
+#if defined(PIOS_INCLUDE_CAN)
+#include "pios_can_priv.h"
+struct pios_can_cfg pios_can_cfg = {
+	.regs = CAN1,
+	.init = {
+  		.CAN_Prescaler = 16,   /*!< Specifies the length of a time quantum. 
+                                 It ranges from 1 to 1024. */
+  		.CAN_Mode = CAN_Mode_Normal,         /*!< Specifies the CAN operating mode.
+                                 This parameter can be a value of @ref CAN_operating_mode */
+  		.CAN_SJW = CAN_SJW_1tq,          /*!< Specifies the maximum number of time quanta 
+                                 the CAN hardware is allowed to lengthen or 
+                                 shorten a bit to perform resynchronization.
+                                 This parameter can be a value of @ref CAN_synchronisation_jump_width */
+  		.CAN_BS1 = CAN_BS1_9tq,          /*!< Specifies the number of time quanta in Bit 
+                                 Segment 1. This parameter can be a value of 
+                                 @ref CAN_time_quantum_in_bit_segment_1 */
+  		.CAN_BS2 = CAN_BS2_8tq,          /*!< Specifies the number of time quanta in Bit Segment 2.
+                                 This parameter can be a value of @ref CAN_time_quantum_in_bit_segment_2 */
+  		.CAN_TTCM = DISABLE, /*!< Enable or disable the time triggered communication mode.
+                                This parameter can be set either to ENABLE or DISABLE. */
+  		.CAN_ABOM = DISABLE,  /*!< Enable or disable the automatic bus-off management.
+                                  This parameter can be set either to ENABLE or DISABLE. */
+  		.CAN_AWUM = DISABLE,  /*!< Enable or disable the automatic wake-up mode. 
+                                  This parameter can be set either to ENABLE or DISABLE. */
+  		.CAN_NART = ENABLE,  /*!< Enable or disable the non-automatic retransmission mode.
+                                  This parameter can be set either to ENABLE or DISABLE. */
+  		.CAN_RFLM  = DISABLE,  /*!< Enable or disable the Receive FIFO Locked mode.
+                                  This parameter can be set either to ENABLE or DISABLE. */
+  		.CAN_TXFP = DISABLE,  /*!< Enable or disable the transmit FIFO priority.
+                                  This parameter can be set either to ENABLE or DISABLE. */
+	},
+	.remap = GPIO_AF_7,
+	.tx = {
+		.gpio = GPIOD,
+		.init = {
+			.GPIO_Pin   = GPIO_Pin_1,
+			.GPIO_Speed = GPIO_Speed_50MHz,
+			.GPIO_Mode  = GPIO_Mode_AF,
+			.GPIO_OType = GPIO_OType_PP,
+			.GPIO_PuPd  = GPIO_PuPd_UP
+		},
+		.pin_source = GPIO_PinSource1,
+	},
+	.rx = {
+		.gpio = GPIOD,
+		.init = {
+			.GPIO_Pin   = GPIO_Pin_0,
+			.GPIO_Speed = GPIO_Speed_50MHz,
+			.GPIO_Mode  = GPIO_Mode_AF,
+			.GPIO_OType = GPIO_OType_PP,
+			.GPIO_PuPd  = GPIO_PuPd_UP
+		},
+		.pin_source = GPIO_PinSource0,
+	},
+	.rx_irq = {
+		.init = {
+			.NVIC_IRQChannel = CAN1_RX1_IRQn,
+			.NVIC_IRQChannelPreemptionPriority = PIOS_IRQ_PRIO_MID,
+			.NVIC_IRQChannelSubPriority = 0,
+			.NVIC_IRQChannelCmd = ENABLE,
+		},
+	},
+	.tx_irq = {
+		.init = {
+			.NVIC_IRQChannel = USB_HP_CAN1_TX_IRQn,
+			.NVIC_IRQChannelPreemptionPriority = PIOS_IRQ_PRIO_MID,
+			.NVIC_IRQChannelSubPriority = 0,
+			.NVIC_IRQChannelCmd = ENABLE,
+		},
+	},
+};
+#endif /* PIOS_INCLUDE_CAN */
 
 #if defined(PIOS_INCLUDE_FLASH)
 #include "pios_flashfs_logfs_priv.h"
