@@ -91,6 +91,7 @@ void VehicleConfig::SetConfigData(GUIConfigDataUnion configData) {
     // get an instance of systemsettings
     SystemSettings * systemSettings = SystemSettings::GetInstance(getUAVObjectManager());
     Q_ASSERT(systemSettings);
+	SystemSettings::DataFields systemSettingsData = systemSettings->getData();
 
     // copy parameter configData -> systemsettings
     for (i = 0; i < (int)(SystemSettings::AIRFRAMECATEGORYSPECIFICCONFIGURATION_NUMELEM); i++){
