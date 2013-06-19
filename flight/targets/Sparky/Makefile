@@ -55,6 +55,7 @@ OPTMODULES += VibrationAnalysis
 OPTMODULES += UAVOMavlinkBridge
 OPTMODULES += Battery
 OPTMODULES += ComUsbBridge
+OPTMODULES += UAVORelay
 
 # Paths
 OPSYSTEM = ./System

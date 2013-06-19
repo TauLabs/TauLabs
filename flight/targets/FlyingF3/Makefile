@@ -59,7 +59,7 @@ OPTMODULES += GroundPathFollower
 OPTMODULES += VibrationAnalysis
 OPTMODULES += UAVOMavlinkBridge
 OPTMODULES += Battery
-#OPTMODULES += ComUsbBridge
+OPTMODULES += ComUsbBridge
 
 # Paths
 OPSYSTEM = ./System
