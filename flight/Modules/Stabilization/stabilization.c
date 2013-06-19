@@ -91,12 +91,6 @@ bool lowThrottleZeroIntegral;
 float vbar_decay = 0.991f;
 struct pid pids[PID_MAX];
 
-static struct TrimedStabilizationDesired {
-	float Roll;
-	float Pitch;
-	float Yaw;
-} trimedStabilizationDesired;
-
 // Private functions
 static void stabilizationTask(void* parameters);
 static void ZeroPids(void);
@@ -119,9 +113,6 @@ int32_t StabilizationStart()
 	StabilizationSettingsConnectCallback(SettingsUpdatedCb);
 	TrimAnglesSettingsConnectCallback(SettingsUpdatedCb);
 
-	// Load settings
-	SettingsUpdatedCb(StabilizationSettingsHandle());
-	
 	// Start main task
 	xTaskCreate(stabilizationTask, (signed char*)"Stabilization", STACK_SIZE_BYTES/4, NULL, TASK_PRIORITY, &taskHandle);
 	TaskMonitorAdd(TASKINFO_RUNNING_STABILIZATION, taskHandle);
@@ -171,6 +162,7 @@ static void stabilizationTask(void* parameters)
 	float *actuatorDesiredAxis = &actuatorDesired.Roll;
 	float *rateDesiredAxis = &rateDesired.Roll;
 
+	// Force refresh of all settings immediately before entering main task loop
 	SettingsUpdatedCb((UAVObjEvent *) NULL);
 	
 	// Main task loop
@@ -199,21 +191,17 @@ static void stabilizationTask(void* parameters)
 		RateDesiredGet(&rateDesired);
 #endif
 
-		// Mux in trim values
-		trimedStabilizationDesired.Roll = stabilizationDesired.Roll + trimAngles.Roll;
-		trimedStabilizationDesired.Pitch = stabilizationDesired.Pitch + trimAngles.Pitch;
-		trimedStabilizationDesired.Yaw = stabilizationDesired.Yaw + trimAngles.Yaw;
-
-		// Saturate trimmed values
-		trimedStabilizationDesired.Roll = trimedStabilizationDesired.Roll >  settings.RollMax ?  settings.RollMax : trimedStabilizationDesired.Roll;
-		trimedStabilizationDesired.Roll = trimedStabilizationDesired.Roll < -settings.RollMax ? -settings.RollMax : trimedStabilizationDesired.Roll;
-
-		trimedStabilizationDesired.Pitch = trimedStabilizationDesired.Pitch >  settings.PitchMax ?  settings.PitchMax : trimedStabilizationDesired.Pitch;
-		trimedStabilizationDesired.Pitch = trimedStabilizationDesired.Pitch < -settings.PitchMax ? -settings.PitchMax : trimedStabilizationDesired.Pitch;
+		struct TrimmedAttitudeSetpoint {
+			float Roll;
+			float Pitch;
+			float Yaw;
+		} trimmedAttitudeSetpoint;
 		
-		trimedStabilizationDesired.Yaw = trimedStabilizationDesired.Yaw >  settings.YawMax ?  settings.YawMax : trimedStabilizationDesired.Yaw;
-		trimedStabilizationDesired.Yaw = trimedStabilizationDesired.Yaw < -settings.YawMax ? -settings.YawMax : trimedStabilizationDesired.Yaw;
-
+		// Mux in level trim values, and saturate the trimmed attitude setpoint.
+		trimmedAttitudeSetpoint.Roll = bound(stabilizationDesired.Roll + trimAngles.Roll, settings.RollMax);
+		trimmedAttitudeSetpoint.Pitch = bound(stabilizationDesired.Pitch + trimAngles.Pitch, settings.PitchMax);
+		trimmedAttitudeSetpoint.Yaw = bound(stabilizationDesired.Yaw + trimAngles.Yaw, settings.YawMax);
+		
 
 #if defined(PIOS_QUATERNION_STABILIZATION)
 		// Quaternion calculation of error in each axis.  Uses more memory.
@@ -224,17 +212,17 @@ static void stabilizationTask(void* parameters)
 		
 		// Essentially zero errors for anything in rate or none
 		if(stabilizationDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_ROLL] == STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDE)
-			rpy_desired[0] = trimedStabilizationDesired.Roll;
+			rpy_desired[0] = trimmedAttitudeSetpoint.Roll;
 		else
 			rpy_desired[0] = attitudeActual.Roll;
 		
 		if(stabilizationDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_PITCH] == STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDE)
-			rpy_desired[1] = trimedStabilizationDesired.Pitch;
+			rpy_desired[1] = trimmedAttitudeSetpoint.Pitch;
 		else
 			rpy_desired[1] = attitudeActual.Pitch;
 		
 		if(stabilizationDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_YAW] == STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDE)
-			rpy_desired[2] = trimedStabilizationDesired.Yaw;
+			rpy_desired[2] = trimmedAttitudeSetpoint.Yaw;
 		else
 			rpy_desired[2] = attitudeActual.Yaw;
 		
@@ -246,9 +234,9 @@ static void stabilizationTask(void* parameters)
 		
 #else
 		// Simpler algorithm for CC, less memory
-		float local_error[3] = {trimedStabilizationDesired.Roll - attitudeActual.Roll,
-			trimedStabilizationDesired.Pitch - attitudeActual.Pitch,
-			trimedStabilizationDesired.Yaw - attitudeActual.Yaw};
+		float local_error[3] = {trimmedAttitudeSetpoint.Roll - attitudeActual.Roll,
+			trimmedAttitudeSetpoint.Pitch - attitudeActual.Pitch,
+			trimmedAttitudeSetpoint.Yaw - attitudeActual.Yaw};
 		local_error[2] = circular_modulus_deg(local_error[2]);
 #endif
 
@@ -333,8 +321,8 @@ static void stabilizationTask(void* parameters)
 						axis_lock_accum[i] = 0;
 					} else {
 						// For weaker commands or no command simply attitude lock (almost) on no gyro change
-						axis_lock_accum[i] += (actuatorDesiredAxis[i] - gyro_filtered[i]) * dT;
-						axis_lock_accum[i] = bound_sym(axis_lock_accum[i], max_axis_lock);
+						axis_lock_accum[i] += (stabDesiredAxis[i] - gyro_filtered[i]) * dT;
+						axis_lock_accum[i] = bound(axis_lock_accum[i], max_axis_lock);
 						rateDesiredAxis[i] = pid_apply(&pids[PID_ATT_ROLL + i], axis_lock_accum[i], dT);
 					}
 
@@ -511,79 +499,85 @@ static void ZeroPids(void)
 
 static void SettingsUpdatedCb(UAVObjEvent * ev)
 {
-	TrimAnglesSettingsData trimAnglesSettings;
+	if (ev == NULL || ev->obj == TrimAnglesSettingsHandle())
+	{
+		TrimAnglesSettingsData trimAnglesSettings;
 
-	StabilizationSettingsGet(&settings);
-	TrimAnglesGet(&trimAngles);
-	TrimAnglesSettingsGet(&trimAnglesSettings);
+		TrimAnglesGet(&trimAngles);
+		TrimAnglesSettingsGet(&trimAnglesSettings);
 
-	// Set the trim angles
-	trimAngles.Roll = trimAnglesSettings.Roll;
-	trimAngles.Pitch = trimAnglesSettings.Pitch;
-	trimAngles.Yaw = trimAnglesSettings.Yaw;
+		// Set the trim angles
+		trimAngles.Roll = trimAnglesSettings.Roll;
+		trimAngles.Pitch = trimAnglesSettings.Pitch;
+		trimAngles.Yaw = trimAnglesSettings.Yaw;
 
-	TrimAnglesSet(&trimAngles);
-	
-	// Set the roll rate PID constants
-	pid_configure(&pids[PID_RATE_ROLL], settings.RollRatePID[STABILIZATIONSETTINGS_ROLLRATEPID_KP], 
-		settings.RollRatePID[STABILIZATIONSETTINGS_ROLLRATEPID_KI],
-		settings.RollRatePID[STABILIZATIONSETTINGS_ROLLRATEPID_KD],
-		settings.RollRatePID[STABILIZATIONSETTINGS_ROLLRATEPID_ILIMIT]);
-	
-	// Set the pitch rate PID constants
-	pid_configure(&pids[PID_RATE_PITCH], settings.PitchRatePID[STABILIZATIONSETTINGS_PITCHRATEPID_KP], 
-		settings.PitchRatePID[STABILIZATIONSETTINGS_PITCHRATEPID_KI],
-		settings.PitchRatePID[STABILIZATIONSETTINGS_PITCHRATEPID_KD],
-		settings.PitchRatePID[STABILIZATIONSETTINGS_PITCHRATEPID_ILIMIT]);
-	
-	// Set the yaw rate PID constants
-	pid_configure(&pids[PID_RATE_YAW], settings.YawRatePID[STABILIZATIONSETTINGS_YAWRATEPID_KP],
-		settings.YawRatePID[STABILIZATIONSETTINGS_YAWRATEPID_KI],
-		settings.YawRatePID[STABILIZATIONSETTINGS_YAWRATEPID_KD],
-		settings.YawRatePID[STABILIZATIONSETTINGS_YAWRATEPID_ILIMIT]);
-	
-	// Set the roll attitude PI constants
-	pid_configure(&pids[PID_ATT_ROLL], settings.RollPI[STABILIZATIONSETTINGS_ROLLPI_KP],
-		settings.RollPI[STABILIZATIONSETTINGS_ROLLPI_KI], 0,
-		settings.RollPI[STABILIZATIONSETTINGS_ROLLPI_ILIMIT]);
-	
-	// Set the pitch attitude PI constants
-	pid_configure(&pids[PID_ATT_PITCH], settings.PitchPI[STABILIZATIONSETTINGS_PITCHPI_KP],
-		settings.PitchPI[STABILIZATIONSETTINGS_PITCHPI_KI], 0,
-		settings.PitchPI[STABILIZATIONSETTINGS_PITCHPI_ILIMIT]);
-	
-	// Set the yaw attitude PI constants
-	pid_configure(&pids[PID_ATT_YAW], settings.YawPI[STABILIZATIONSETTINGS_YAWPI_KP],
-		settings.YawPI[STABILIZATIONSETTINGS_YAWPI_KI], 0,
-		settings.YawPI[STABILIZATIONSETTINGS_YAWPI_ILIMIT]);
-	
-	// Set up the derivative term
-	pid_configure_derivative(settings.DerivativeCutoff, settings.DerivativeGamma);
+		TrimAnglesSet(&trimAngles);
+	}
 
-	// Maximum deviation to accumulate for axis lock
-	max_axis_lock = settings.MaxAxisLock;
-	max_axislock_rate = settings.MaxAxisLockRate;
-	
-	// Settings for weak leveling
-	weak_leveling_kp = settings.WeakLevelingKp;
-	weak_leveling_max = settings.MaxWeakLevelingRate;
-	
-	// Whether to zero the PID integrals while throttle is low
-	lowThrottleZeroIntegral = settings.LowThrottleZeroIntegral == STABILIZATIONSETTINGS_LOWTHROTTLEZEROINTEGRAL_TRUE;
-	
-	// The dT has some jitter iteration to iteration that we don't want to
-	// make thie result unpredictable.  Still, it's nicer to specify the constant
-	// based on a time (in ms) rather than a fixed multiplier.  The error between
-	// update rates on OP (~300 Hz) and CC (~475 Hz) is negligible for this
-	// calculation
-	const float fakeDt = 0.0025;
-	if(settings.GyroTau < 0.0001)
-		gyro_alpha = 0;   // not trusting this to resolve to 0
-	else
-		gyro_alpha = expf(-fakeDt  / settings.GyroTau);
-	
-	// Compute time constant for vbar decay term based on a tau
-	vbar_decay = expf(-fakeDt / settings.VbarTau);
+	if (ev == NULL || ev->obj == StabilizationSettingsHandle())
+	{
+		StabilizationSettingsGet(&settings);
+		// Set the roll rate PID constants
+		pid_configure(&pids[PID_RATE_ROLL], settings.RollRatePID[STABILIZATIONSETTINGS_ROLLRATEPID_KP],
+					  settings.RollRatePID[STABILIZATIONSETTINGS_ROLLRATEPID_KI],
+					  pids[PID_RATE_ROLL].d = settings.RollRatePID[STABILIZATIONSETTINGS_ROLLRATEPID_KD],
+					  pids[PID_RATE_ROLL].iLim = settings.RollRatePID[STABILIZATIONSETTINGS_ROLLRATEPID_ILIMIT]);
+
+		// Set the pitch rate PID constants
+		pid_configure(&pids[PID_RATE_PITCH], settings.PitchRatePID[STABILIZATIONSETTINGS_PITCHRATEPID_KP],
+					  pids[PID_RATE_PITCH].i = settings.PitchRatePID[STABILIZATIONSETTINGS_PITCHRATEPID_KI],
+					  pids[PID_RATE_PITCH].d = settings.PitchRatePID[STABILIZATIONSETTINGS_PITCHRATEPID_KD],
+					  pids[PID_RATE_PITCH].iLim = settings.PitchRatePID[STABILIZATIONSETTINGS_PITCHRATEPID_ILIMIT]);
+
+		// Set the yaw rate PID constants
+		pid_configure(&pids[PID_RATE_YAW], settings.YawRatePID[STABILIZATIONSETTINGS_YAWRATEPID_KP],
+					  pids[PID_RATE_YAW].i = settings.YawRatePID[STABILIZATIONSETTINGS_YAWRATEPID_KI],
+					  pids[PID_RATE_YAW].d = settings.YawRatePID[STABILIZATIONSETTINGS_YAWRATEPID_KD],
+					  pids[PID_RATE_YAW].iLim = settings.YawRatePID[STABILIZATIONSETTINGS_YAWRATEPID_ILIMIT]);
+
+		// Set the roll attitude PI constants
+		pid_configure(&pids[PID_ATT_ROLL], settings.RollPI[STABILIZATIONSETTINGS_ROLLPI_KP],
+					  settings.RollPI[STABILIZATIONSETTINGS_ROLLPI_KI], 0,
+					  pids[PID_ATT_ROLL].iLim = settings.RollPI[STABILIZATIONSETTINGS_ROLLPI_ILIMIT]);
+
+		// Set the pitch attitude PI constants
+		pid_configure(&pids[PID_ATT_PITCH], settings.PitchPI[STABILIZATIONSETTINGS_PITCHPI_KP],
+					  pids[PID_ATT_PITCH].i = settings.PitchPI[STABILIZATIONSETTINGS_PITCHPI_KI], 0,
+					  settings.PitchPI[STABILIZATIONSETTINGS_PITCHPI_ILIMIT]);
+
+		// Set the yaw attitude PI constants
+		pid_configure(&pids[PID_ATT_YAW], settings.YawPI[STABILIZATIONSETTINGS_YAWPI_KP],
+					  settings.YawPI[STABILIZATIONSETTINGS_YAWPI_KI], 0,
+					  settings.YawPI[STABILIZATIONSETTINGS_YAWPI_ILIMIT]);
+
+		// Set up the derivative term
+		pid_configure_derivative(settings.DerivativeCutoff, settings.DerivativeGamma);
+
+		// Maximum deviation to accumulate for axis lock
+		max_axis_lock = settings.MaxAxisLock;
+		max_axislock_rate = settings.MaxAxisLockRate;
+
+		// Settings for weak leveling
+		weak_leveling_kp = settings.WeakLevelingKp;
+		weak_leveling_max = settings.MaxWeakLevelingRate;
+
+		// Whether to zero the PID integrals while throttle is low
+		lowThrottleZeroIntegral = settings.LowThrottleZeroIntegral == STABILIZATIONSETTINGS_LOWTHROTTLEZEROINTEGRAL_TRUE;
+
+		// The dT has some jitter iteration to iteration that we don't want to
+		// make thie result unpredictable.  Still, it's nicer to specify the constant
+		// based on a time (in ms) rather than a fixed multiplier.  The error between
+		// update rates on OP (~300 Hz) and CC (~475 Hz) is negligible for this
+		// calculation
+		const float fakeDt = 0.0025;
+		if(settings.GyroTau < 0.0001)
+			gyro_alpha = 0;   // not trusting this to resolve to 0
+		else
+			gyro_alpha = expf(-fakeDt  / settings.GyroTau);
+
+		// Compute time constant for vbar decay term based on a tau
+		vbar_decay = expf(-fakeDt / settings.VbarTau);
+	}
 }
 
 

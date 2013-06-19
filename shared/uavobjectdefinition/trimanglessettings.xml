@@ -4,7 +4,6 @@
         <field name="Roll" units="degrees" type="float" elements="1" defaultvalue="0"/>
         <field name="Pitch" units="degrees" type="float" elements="1" defaultvalue="0"/>
         <field name="Yaw" units="degrees" type="float" elements="1" defaultvalue="0"/>
-        <field name="FlightPhase" units="" type="enum" elements="1" options="Vx,Vy,Cruise,HalfFlaps,FullFlaps" defaultvalue="Cruise"/>
         <access gcs="readwrite" flight="readwrite"/>
         <telemetrygcs acked="true" updatemode="onchange" period="0"/>
         <telemetryflight acked="true" updatemode="onchange" period="0"/>

@@ -215,7 +215,7 @@
               <enum>QFrame::NoFrame</enum>
              </property>
              <property name="currentIndex">
-              <number>0</number>
+              <number>1</number>
              </property>
              <widget class="QWidget" name="fixedWing">
               <property name="enabled">
@@ -1601,8 +1601,8 @@ margin:1px;</string>
                    <rect>
                     <x>0</x>
                     <y>0</y>
-                    <width>742</width>
-                    <height>258</height>
+                    <width>800</width>
+                    <height>386</height>
                    </rect>
                   </property>
                   <layout class="QVBoxLayout" name="verticalLayout_11">
@@ -2878,8 +2878,8 @@ margin:1px;</string>
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>850</width>
-            <height>508</height>
+            <width>287</width>
+            <height>326</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_18">
