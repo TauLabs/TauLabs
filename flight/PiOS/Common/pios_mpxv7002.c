@@ -33,9 +33,8 @@
 
 /* Project Includes */
 #include "pios.h"
+#include "physical_constants.h"
 
-#define A0 340.27f        //speed of sound at standard sea level in [m/s]
-#define P0 101.325f       //static air pressure at standard sea level in kPa
 #define VCC 5.0f           //Supply voltage in V
 #define POWER (2.0f/7.0f)
 
@@ -94,7 +93,7 @@ float PIOS_MPXV7002_ReadAirspeed(uint8_t airspeedADCPin)
 	}
 	
 	//Compute calibraterd airspeed, as per http://en.wikipedia.org/wiki/Calibrated_airspeed
-	float calibratedAirspeed = A0*sqrtf(5.0f*(pow(Qc/P0+1.0f,POWER)-1.0f));
+	float calibratedAirspeed = STANDARD_AIR_MACH_SPEED*sqrtf(5.0f*(pow(Qc/(STANDARD_AIR_SEA_LEVEL_PRESSURE/1000)+1.0f,POWER)-1.0f));
 	
 	//Upper bound airspeed. No need to lower bound it, that comes from Qc
 	if (calibratedAirspeed > 59) { //in [m/s]
