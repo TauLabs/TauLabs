@@ -238,11 +238,7 @@ int32_t transmitter_control_update()
 		// Whenever FlightMode channel is configured, it needs to be valid regardless of FlightModeNumber settings
 		((settings.ChannelGroups[MANUALCONTROLSETTINGS_CHANNELGROUPS_FLIGHTMODE] < MANUALCONTROLSETTINGS_CHANNELGROUPS_NONE) && (
 			cmd.Channel[MANUALCONTROLSETTINGS_CHANNELGROUPS_FLIGHTMODE] == (uint16_t) PIOS_RCVR_INVALID ||
-			cmd.Channel[MANUALCONTROLSETTINGS_CHANNELGROUPS_FLIGHTMODE] == (uint16_t) PIOS_RCVR_NODRIVER ||
-			!validInputRange(settings.ChannelMin[MANUALCONTROLSETTINGS_CHANNELGROUPS_FLIGHTMODE],
-				settings.ChannelMax[MANUALCONTROLSETTINGS_CHANNELGROUPS_FLIGHTMODE],
-				cmd.Channel[MANUALCONTROLSETTINGS_CHANNELGROUPS_FLIGHTMODE],
-				CONNECTION_OFFSET)))) {
+			cmd.Channel[MANUALCONTROLSETTINGS_CHANNELGROUPS_FLIGHTMODE] == (uint16_t) PIOS_RCVR_NODRIVER ))) {
 
 		set_manual_control_error(SYSTEMALARMS_MANUALCONTROL_SETTINGS);
 
@@ -256,11 +252,16 @@ int32_t transmitter_control_update()
 		return -1;
 	}
 
+	// the block above validates the input configuration. this simply checks that the range is valid if flight mode is configured.
+	bool flightmode_valid_input = settings.ChannelGroups[MANUALCONTROLSETTINGS_CHANNELGROUPS_FLIGHTMODE] >= MANUALCONTROLSETTINGS_CHANNELGROUPS_NONE ||
+		validInputRange(settings.ChannelMin[MANUALCONTROLSETTINGS_CHANNELGROUPS_FLIGHTMODE], settings.ChannelMax[MANUALCONTROLSETTINGS_CHANNELGROUPS_FLIGHTMODE], cmd.Channel[MANUALCONTROLSETTINGS_CHANNELGROUPS_FLIGHTMODE], CONNECTION_OFFSET);
+
 	// decide if we have valid manual input or not
 	valid_input_detected &= validInputRange(settings.ChannelMin[MANUALCONTROLSETTINGS_CHANNELGROUPS_THROTTLE], settings.ChannelMax[MANUALCONTROLSETTINGS_CHANNELGROUPS_THROTTLE], cmd.Channel[MANUALCONTROLSETTINGS_CHANNELGROUPS_THROTTLE], CONNECTION_OFFSET_THROTTLE) &&
 	     validInputRange(settings.ChannelMin[MANUALCONTROLSETTINGS_CHANNELGROUPS_ROLL], settings.ChannelMax[MANUALCONTROLSETTINGS_CHANNELGROUPS_ROLL], cmd.Channel[MANUALCONTROLSETTINGS_CHANNELGROUPS_ROLL], CONNECTION_OFFSET) &&
 	     validInputRange(settings.ChannelMin[MANUALCONTROLSETTINGS_CHANNELGROUPS_YAW], settings.ChannelMax[MANUALCONTROLSETTINGS_CHANNELGROUPS_YAW], cmd.Channel[MANUALCONTROLSETTINGS_CHANNELGROUPS_YAW], CONNECTION_OFFSET) &&
-	     validInputRange(settings.ChannelMin[MANUALCONTROLSETTINGS_CHANNELGROUPS_PITCH], settings.ChannelMax[MANUALCONTROLSETTINGS_CHANNELGROUPS_PITCH], cmd.Channel[MANUALCONTROLSETTINGS_CHANNELGROUPS_PITCH], CONNECTION_OFFSET);
+	     validInputRange(settings.ChannelMin[MANUALCONTROLSETTINGS_CHANNELGROUPS_PITCH], settings.ChannelMax[MANUALCONTROLSETTINGS_CHANNELGROUPS_PITCH], cmd.Channel[MANUALCONTROLSETTINGS_CHANNELGROUPS_PITCH], CONNECTION_OFFSET) &&
+	     flightmode_valid_input;
 
 	// Implement hysteresis loop on connection status
 	if (valid_input_detected && (++connected_count > 10)) {
