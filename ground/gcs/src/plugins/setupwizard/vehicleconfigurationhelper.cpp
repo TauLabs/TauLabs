@@ -343,8 +343,8 @@ void VehicleConfigurationHelper::applyMultiGUISettings(SystemSettings::AirframeT
     SystemSettings::DataFields data = sSettings->getData();
     data.AirframeType = airframe;
 
-    for (int i = 0; i < (int)(SystemSettings::GUICONFIGDATA_NUMELEM); i++) {
-        data.GUIConfigData[i] = guiConfig.UAVObject[i];
+    for (int i = 0; i < (int)(SystemSettings::AIRFRAMECATEGORYSPECIFICCONFIGURATION_NUMELEM); i++) {
+        data.AirframeCategorySpecificConfiguration[i] = guiConfig.UAVObject[i];
     }
 
     sSettings->setData(data);
@@ -554,8 +554,8 @@ void VehicleConfigurationHelper::resetGUIData()
     Q_ASSERT(sSettings);
     SystemSettings::DataFields data = sSettings->getData();
     data.AirframeType = SystemSettings::AIRFRAMETYPE_CUSTOM;
-    for (quint32 i = 0; i < SystemSettings::GUICONFIGDATA_NUMELEM; i++) {
-        data.GUIConfigData[i] = 0;
+    for (quint32 i = 0; i < SystemSettings::AIRFRAMECATEGORYSPECIFICCONFIGURATION_NUMELEM; i++) {
+        data.AirframeCategorySpecificConfiguration[i] = 0;
     }
     sSettings->setData(data);
     addModifiedObject(sSettings, tr("Preparing vehicle settings"));
@@ -616,7 +616,7 @@ GUIConfigDataUnion VehicleConfigurationHelper::getGUIConfigData()
     SystemSettings *systemSettings = SystemSettings::GetInstance(m_uavoManager);
     Q_ASSERT(systemSettings);
 
-    for (int i = 0; i < (int)(SystemSettings::GUICONFIGDATA_NUMELEM); i++) {
+    for (int i = 0; i < (int)(SystemSettings::AIRFRAMECATEGORYSPECIFICCONFIGURATION_NUMELEM); i++) {
         configData.UAVObject[i] = 0; // systemSettingsData.GUIConfigData[i];
     }
 

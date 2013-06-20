@@ -110,6 +110,8 @@ UAVOBJSRCFILENAMES += txpidsettings
 
 UAVOBJSRCFILENAMES += vibrationanalysissettings
 UAVOBJSRCFILENAMES += vibrationanalysisoutput
+UAVOBJSRCFILENAMES += trimangles
+UAVOBJSRCFILENAMES += trimanglessettings
 
 
 UAVOBJSRC = $(foreach UAVOBJSRCFILE,$(UAVOBJSRCFILENAMES),$(OPUAVSYNTHDIR)/$(UAVOBJSRCFILE).c )
