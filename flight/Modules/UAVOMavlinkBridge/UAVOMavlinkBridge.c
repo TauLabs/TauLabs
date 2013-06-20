@@ -203,8 +203,8 @@ static void uavoMavlinkBridgeTask(void *parameters) {
 		homeLocation.Be[0] = 0;
 		homeLocation.Be[1] = 0;
 		homeLocation.Be[2] = 0;
-		homeLocation.GroundTemperature = 15;
-		homeLocation.SeaLevelPressure = 1013;
+		homeLocation.GroundTemperature = (STANDARD_AIR_TEMPERATURE - CELSIUS2KELVIN) * 10;
+		homeLocation.SeaLevelPressure = STANDARD_AIR_SEA_LEVEL_PRESSURE/1000;
 	}
 
 	uint16_t msg_length;
