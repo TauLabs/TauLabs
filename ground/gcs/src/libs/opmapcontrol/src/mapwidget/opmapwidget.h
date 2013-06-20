@@ -356,7 +356,8 @@ namespace mapcontrol
         */
         void WPRenumber(WayPointItem* item,int const& newnumber);
 
-        void SetShowCompass(bool const& value);
+        void SetShowCompassRose(bool const& value);
+        void SetShowWindCompass(bool const& value);
 
         void setOverlayOpacity(qreal value);
 
@@ -388,6 +389,8 @@ namespace mapcontrol
         void WPDelete(int number);
         WayPointItem *WPFind(int number);
         void setSelectedWP(QList<WayPointItem *> list);
+
+        void setWindVelocity(double windVelocity_NED[3]);
       private:
         internals::Core *core;
         MapGraphicItem *map;
@@ -399,13 +402,17 @@ namespace mapcontrol
         internals::PointLatLng currentmouseposition;
         bool followmouse;
         void ConnectWP(WayPointItem* item);
-        QGraphicsSvgItem *compass;
+        QGraphicsSvgItem *compassRose;
+        QGraphicsSvgItem *windCompass;
         bool showuav;
         bool showhome;
         QTimer * diagTimer;
         QGraphicsTextItem * diagGraphItem;
         bool showDiag;
         qreal overlayOpacity;
+
+        QGraphicsTextItem *windspeedTxt;
+
     private slots:
         void diagRefresh();
         //   WayPointItem* item;//apagar

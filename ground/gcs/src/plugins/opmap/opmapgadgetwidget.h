@@ -86,6 +86,8 @@ enum opMapModeType { Normal_MapMode = 0,
 
 // ******************************************************
 
+class WindVelocityActual;
+
 class OPMapGadgetWidget : public QWidget
 {
     Q_OBJECT
@@ -142,6 +144,7 @@ private slots:
 
     void zoomIn();
     void zoomOut();
+    void updateWindspeed(UAVObject *obj);
 
     /**
     * @brief signals received from the various map plug-in widget user controls
@@ -176,7 +179,8 @@ private slots:
     void onCopyMouseLatLonToClipAct_triggered();
     void onCopyMouseLatToClipAct_triggered();
     void onCopyMouseLonToClipAct_triggered();
-    void onShowCompassAct_toggled(bool show);
+    void onShowCompassRoseAct_toggled(bool show);
+    void onShowWindCompassAction_toggled(bool show);
     void onShowDiagnostics_toggled(bool show);
     void onShowUAVInfo_toggled(bool show);
     void onShowUAVAct_toggled(bool show);
@@ -250,7 +254,8 @@ private:
 	QAction *copyMouseLatLonToClipAct;
     QAction *copyMouseLatToClipAct;
     QAction *copyMouseLonToClipAct;
-    QAction *showCompassAct;
+    QAction *showCompassRoseAct;
+    QAction *showWindCompassAction;
     QAction *showDiagnostics;
     QAction *showUAVInfo;
     QAction *showHomeAct;
