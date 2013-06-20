@@ -70,11 +70,11 @@ GUIConfigDataUnion VehicleConfig::GetConfigData() {
     SystemSettings::DataFields systemSettingsData = systemSettings->getData();
 
     // copy systemsettings -> local configData
-    for(i = 0; i < (int)(SystemSettings::GUICONFIGDATA_NUMELEM); i++)
-        configData.UAVObject[i]=systemSettingsData.GUIConfigData[i];
+    for(i = 0; i < (int)(SystemSettings::AIRFRAMECATEGORYSPECIFICCONFIGURATION_NUMELEM); i++)
+        configData.UAVObject[i]=systemSettingsData.AirframeCategorySpecificConfiguration[i];
 
     // sanity check
-    Q_ASSERT(SystemSettings::GUICONFIGDATA_NUMELEM ==
+    Q_ASSERT(SystemSettings::AIRFRAMECATEGORYSPECIFICCONFIGURATION_NUMELEM ==
              (sizeof(configData.UAVObject) / sizeof(configData.UAVObject[0])));
 
     return configData;
@@ -85,21 +85,20 @@ void VehicleConfig::SetConfigData(GUIConfigDataUnion configData) {
     int i;
 
     // sanity check
-    Q_ASSERT(SystemSettings::GUICONFIGDATA_NUMELEM ==
+    Q_ASSERT(SystemSettings::AIRFRAMECATEGORYSPECIFICCONFIGURATION_NUMELEM ==
              (sizeof(configData.UAVObject) / sizeof(configData.UAVObject[0])));
 
     // get an instance of systemsettings
     SystemSettings * systemSettings = SystemSettings::GetInstance(getUAVObjectManager());
     Q_ASSERT(systemSettings);
-
-    UAVObjectField* guiConfig = systemSettings->getField("GUIConfigData");
-    Q_ASSERT(guiConfig);
-    if(!guiConfig)
-        return;
+	SystemSettings::DataFields systemSettingsData = systemSettings->getData();
 
     // copy parameter configData -> systemsettings
-    for (i = 0; i < (int)(SystemSettings::GUICONFIGDATA_NUMELEM); i++)
-        guiConfig->setValue(configData.UAVObject[i], i);
+    for (i = 0; i < (int)(SystemSettings::AIRFRAMECATEGORYSPECIFICCONFIGURATION_NUMELEM); i++){
+        systemSettingsData.AirframeCategorySpecificConfiguration[i] = configData.UAVObject[i];
+    }
+
+    systemSettings->setData(systemSettingsData);
 }
 
 void VehicleConfig::ResetActuators(GUIConfigDataUnion* configData)
