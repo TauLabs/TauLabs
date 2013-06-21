@@ -185,10 +185,22 @@ static int32_t cf_interface_reset(uintptr_t id)
 	if (!cf_interface_validate(cf))
 		return -1;
 
-	memset((void *) cf, 0, sizeof(*cf));
-	cf->q[0]            = 1;
-	cf->initialization  = CF_RESET;
-	cf->reset_timeval   = PIOS_DELAY_GetRaw();
+	cf->q[0]               = 1;
+	cf->q[1]               = 0;
+	cf->q[2]               = 0;
+	cf->q[3]               = 0;
+	cf->accel_alpha        = 0;
+	cf->grot_filtered[0]   = 0;
+	cf->grot_filtered[1]   = 0;
+	cf->grot_filtered[2]   = 0;
+	cf->accels_filtered[0] = 0;
+	cf->accels_filtered[1] = 0;
+	cf->accels_filtered[2] = 0;
+	cf->reset_timeval      = 0;
+	cf->arming_count       = 0;
+	cf->accel_filter_enabled = false;
+	cf->initialization     = CF_RESET;
+	cf->reset_timeval      = PIOS_DELAY_GetRaw();
 
 	return 0;
 }
@@ -210,7 +222,6 @@ static int32_t cf_interface_update(uintptr_t id, float gyros[3], float accels[3]
 		float mag[3], float pos[3], float vel[3], float baro[1],
 		float airspeed[1], float dt)
 {
-	fprintf(stderr, "*");
 	struct cf_interface_data *cf = (struct cf_interface_data *) id;
 	if (!cf_interface_validate(cf))
 		return -1;
@@ -244,6 +255,8 @@ static int32_t cf_interface_update(uintptr_t id, float gyros[3], float accels[3]
 			RPY[0] = atan2f(-accels[1], -accels[2] / cosf(theta)) * RAD2DEG;
 			RPY[2] = atan2f(-last_mag[1], last_mag[0]) * RAD2DEG;
 			RPY2Quaternion(RPY, cf->q);
+
+			accumulate_gyro_zero(cf);
 
 			// Next state
 			cf->initialization = CF_INITIALIZING;
@@ -428,6 +441,16 @@ static int32_t cf_interface_update(uintptr_t id, float gyros[3], float accels[3]
 static int32_t cf_interface_get_state(uintptr_t id, float pos[3], float vel[3],
 		float attitude[4], float gyro_bias[3], float airspeed[1])
 {
+	struct cf_interface_data *cf = (struct cf_interface_data *) id;
+	if (!cf_interface_validate(cf))
+		return -1;
+
+	if (attitude){
+		attitude[0] = cf->q[0];
+		attitude[1] = cf->q[1];
+		attitude[2] = cf->q[2];
+		attitude[3] = cf->q[3];
+	}
 	return 0;
 }
 
