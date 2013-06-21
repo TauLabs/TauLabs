@@ -72,8 +72,6 @@ static void simulateModelQuadcopter();
 static void simulateModelAirplane();
 static void simulateModelCar();
 
-static void magOffsetEstimation(MagnetometerData *mag);
-
 static float accel_bias[3];
 
 static float rand_gauss();
@@ -516,9 +514,6 @@ static void simulateModelQuadcopter()
 		mag.y = homeLocation.Be[0] * Rbe[1][0] + homeLocation.Be[1] * Rbe[1][1] + homeLocation.Be[2] * Rbe[1][2];
 		mag.z = homeLocation.Be[0] * Rbe[2][0] + homeLocation.Be[1] * Rbe[2][1] + homeLocation.Be[2] * Rbe[2][2];
 
-		// Run the offset compensation algorithm from the firmware
-		magOffsetEstimation(&mag);
-
 		MagnetometerSet(&mag);
 		last_mag_time = PIOS_DELAY_GetRaw();
 	}
@@ -807,7 +802,6 @@ static void simulateModelAirplane()
 		mag.x = 100+homeLocation.Be[0] * Rbe[0][0] + homeLocation.Be[1] * Rbe[0][1] + homeLocation.Be[2] * Rbe[0][2];
 		mag.y = 100+homeLocation.Be[0] * Rbe[1][0] + homeLocation.Be[1] * Rbe[1][1] + homeLocation.Be[2] * Rbe[1][2];
 		mag.z = 100+homeLocation.Be[0] * Rbe[2][0] + homeLocation.Be[1] * Rbe[2][1] + homeLocation.Be[2] * Rbe[2][2];
-		magOffsetEstimation(&mag);
 		MagnetometerSet(&mag);
 		last_mag_time = PIOS_DELAY_GetRaw();
 	}
@@ -1058,7 +1052,6 @@ static void simulateModelCar()
 		mag.x = 100+homeLocation.Be[0] * Rbe[0][0] + homeLocation.Be[1] * Rbe[0][1] + homeLocation.Be[2] * Rbe[0][2];
 		mag.y = 100+homeLocation.Be[0] * Rbe[1][0] + homeLocation.Be[1] * Rbe[1][1] + homeLocation.Be[2] * Rbe[1][2];
 		mag.z = 100+homeLocation.Be[0] * Rbe[2][0] + homeLocation.Be[1] * Rbe[2][1] + homeLocation.Be[2] * Rbe[2][2];
-		magOffsetEstimation(&mag);
 		MagnetometerSet(&mag);
 		last_mag_time = PIOS_DELAY_GetRaw();
 	}
@@ -1094,109 +1087,6 @@ static float rand_gauss (void) {
 		return 0.0;
 	else
 		return (v1*sqrtf(-2.0 * log(s) / s));
-}
-
-/**
- * Perform an update of the @ref MagBias based on
- * Magnetometer Offset Cancellation: Theory and Implementation, 
- * revisited William Premerlani, October 14, 2011
- */
-static void magOffsetEstimation(MagnetometerData *mag)
-{
-#if 0
-	RevoCalibrationData cal;
-	RevoCalibrationGet(&cal);
-
-	// Constants, to possibly go into a UAVO
-	static const float MIN_NORM_DIFFERENCE = 50;
-
-	static float B2[3] = {0, 0, 0};
-
-	MagBiasData magBias;
-	MagBiasGet(&magBias);
-
-	// Remove the current estimate of the bias
-	mag->x -= magBias.x;
-	mag->y -= magBias.y;
-	mag->z -= magBias.z;
-
-	// First call
-	if (B2[0] == 0 && B2[1] == 0 && B2[2] == 0) {
-		B2[0] = mag->x;
-		B2[1] = mag->y;
-		B2[2] = mag->z;
-		return;
-	}
-
-	float B1[3] = {mag->x, mag->y, mag->z};
-	float norm_diff = sqrtf(powf(B2[0] - B1[0],2) + powf(B2[1] - B1[1],2) + powf(B2[2] - B1[2],2));
-	if (norm_diff > MIN_NORM_DIFFERENCE) {
-		float norm_b1 = sqrtf(B1[0]*B1[0] + B1[1]*B1[1] + B1[2]*B1[2]);
-		float norm_b2 = sqrtf(B2[0]*B2[0] + B2[1]*B2[1] + B2[2]*B2[2]);
-		float scale = cal.MagBiasNullingRate * (norm_b2 - norm_b1) / norm_diff;
-		float b_error[3] = {(B2[0] - B1[0]) * scale, (B2[1] - B1[1]) * scale, (B2[2] - B1[2]) * scale};
-
-		magBias.x += b_error[0];
-		magBias.y += b_error[1];
-		magBias.z += b_error[2];
-
-		MagBiasSet(&magBias);
-
-		// Store this value to compare against next update
-		B2[0] = B1[0]; B2[1] = B1[1]; B2[2] = B1[2];
-	}
-#else
-	HomeLocationData homeLocation;
-	HomeLocationGet(&homeLocation);
-	
-	AttitudeActualData attitude;
-	AttitudeActualGet(&attitude);
-	
-	MagBiasData magBias;
-	MagBiasGet(&magBias);
-	
-	// Remove the current estimate of the bias
-	mag->x -= magBias.x;
-	mag->y -= magBias.y;
-	mag->z -= magBias.z;
-	
-	const float Rxy = sqrtf(homeLocation.Be[0]*homeLocation.Be[0] + homeLocation.Be[1]*homeLocation.Be[1]);
-	const float Rz = homeLocation.Be[2];
-	
-	const float rate = 0.01;
-	float R[3][3];
-	float B_e[3];
-	float xy[2];
-	float delta[3];
-	
-	// Get the rotation matrix
-	Quaternion2R(&attitude.q1, R);
-	
-	// Rotate the mag into the NED frame
-	B_e[0] = R[0][0] * mag->x + R[1][0] * mag->y + R[2][0] * mag->z;
-	B_e[1] = R[0][1] * mag->x + R[1][1] * mag->y + R[2][1] * mag->z;
-	B_e[2] = R[0][2] * mag->x + R[1][2] * mag->y + R[2][2] * mag->z;
-	
-	float cy = cosf(attitude.Yaw * DEG2RAD);
-	float sy = sinf(attitude.Yaw * DEG2RAD);
-
-	xy[0] =  cy * B_e[0] + sy * B_e[1];
-	xy[1] = -sy * B_e[0] + cy * B_e[1];
-	
-	float xy_norm = sqrtf(xy[0]*xy[0] + xy[1]*xy[1]);
-
-	if (xy_norm > 0) {
-		delta[0] = -rate * (xy[0] / xy_norm * Rxy - xy[0]);
-		delta[1] = -rate * (xy[1] / xy_norm * Rxy - xy[1]);
-		delta[2] = -rate * (Rz - B_e[2]);
-
-		magBias.x += delta[0];
-		magBias.y += delta[1];
-		magBias.z += delta[2];
-		MagBiasSet(&magBias);
-	}
-#endif
-
 }
 
 /**
