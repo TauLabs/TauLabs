@@ -73,9 +73,8 @@ enum cf_interface_magic {
 };
 
 enum complimentary_filter_status {
-	CF_POWERON,
+	CF_RESET,
 	CF_INITIALIZING,
-	CF_ARMING,
 	CF_NORMAL
 };
 
@@ -151,7 +150,10 @@ static int32_t cf_interface_init(uintptr_t *id)
 	// Initialize the infrastructure
 	if (filter_infrastructure_se3_init(&cf_interface_data->s3_data) != 0)
 		return -2;
-	
+
+	// Reset to known starting condition	
+	cf_interface_reset((uintptr_t) cf_interface_data);
+
 	// Return the handle
 	(*id) = (uintptr_t) cf_interface_data;
 
@@ -183,11 +185,10 @@ static int32_t cf_interface_reset(uintptr_t id)
 	if (!cf_interface_validate(cf))
 		return -1;
 
-	cf->q[0]         = 1;
-	cf->q[1]         = 0;
-	cf->q[2]         = 0;
-	cf->q[3]         = 0;
-	cf->initialization  = CF_POWERON;
+	memset((void *) cf, 0, sizeof(*cf));
+	cf->q[0]            = 1;
+	cf->initialization  = CF_RESET;
+	cf->reset_timeval   = PIOS_DELAY_GetRaw();
 
 	return 0;
 }
@@ -209,97 +210,71 @@ static int32_t cf_interface_update(uintptr_t id, float gyros[3], float accels[3]
 		float mag[3], float pos[3], float vel[3], float baro[1],
 		float airspeed[1], float dt)
 {
+	fprintf(stderr, "*");
 	struct cf_interface_data *cf = (struct cf_interface_data *) id;
 	if (!cf_interface_validate(cf))
+		return -1;
+
+	// This architecture currently always provides both but sanity check this
+	if (accels == NULL || gyros == NULL)
 		return -1;
 
 	AttitudeSettingsData attitudeSettings;
 	AttitudeSettingsGet(&attitudeSettings);
 
-	// When this algorithm is first run force it to a known condition
-	if(!cf->initialization) {
-		if (mag == NULL)
-			return -1;
+	uint32_t ms_since_reset = PIOS_DELAY_DiffuS(cf->reset_timeval) / 1000;
 
-		float RPY[3];
-		float theta = atan2f(accels[0], -accels[2]);
-		RPY[1] = theta * RAD2DEG;
-		RPY[0] = atan2f(-accels[1], -accels[2] / cosf(theta)) * RAD2DEG;
-		RPY[2] = atan2f(-mag[1], mag[0]) * RAD2DEG;
-		RPY2Quaternion(RPY, cf->q);
+	switch(cf->initialization) {
+	case CF_RESET:
+	{
+		// For one second after resetting, wait before beginning initialization
 
-		// TODO: move to dev
-		cf->initialization = CF_POWERON;
-		cf->reset_timeval = PIOS_DELAY_GetRaw();
-		cf->arming_count = 0;
+		// Store the most recent mag reset for initializing heading
+		static float last_mag[3];
+		if (mag != NULL) {
+			last_mag[0] = mag[0];
+			last_mag[1] = mag[1];
+			last_mag[2] = mag[2];
+		}
 
+		if (ms_since_reset > 1000) {
+			float RPY[3];
+			float theta = atan2f(accels[0], -accels[2]);
+			RPY[1] = theta * RAD2DEG;
+			RPY[0] = atan2f(-accels[1], -accels[2] / cosf(theta)) * RAD2DEG;
+			RPY[2] = atan2f(-last_mag[1], last_mag[0]) * RAD2DEG;
+			RPY2Quaternion(RPY, cf->q);
+
+			// Next state
+			cf->initialization = CF_INITIALIZING;
+		}
+
+		// Do not attempt to process data while in the reset state
 		return 0;
 	}
-
-	FlightStatusData flightStatus;
-	FlightStatusGet(&flightStatus);
-
-	uint32_t ms_since_reset = PIOS_DELAY_DiffuS(cf->reset_timeval) / 1000;
-	if (cf->initialization == CF_POWERON) {
-		// Wait one second before starting to initialize
-		cf->initialization = 
-		    (ms_since_reset  > 1000) ?
-			CF_INITIALIZING : 
-			CF_POWERON;
-	} else if(cf->initialization == CF_INITIALIZING &&
-		(ms_since_reset < 7000) && 
-		(ms_since_reset > 1000)) {
-
+		break;
+	case CF_INITIALIZING:
 		// For first 7 seconds use accels to get gyro bias
 		attitudeSettings.AccelKp = 0.1f + 0.1f * (xTaskGetTickCount() < 4000);
 		attitudeSettings.AccelKi = 0.1f;
 		attitudeSettings.YawBiasRate = 0.1f;
 		attitudeSettings.MagKp = 0.1f;
-	} else if ((attitudeSettings.ZeroDuringArming == ATTITUDESETTINGS_ZERODURINGARMING_TRUE) && 
-	           (flightStatus.Armed == FLIGHTSTATUS_ARMED_ARMING)) {
 
-		// Use a rapidly decrease accelKp to force the attitude to snap back
-		// to level and then converge more smoothly
-		if (cf->arming_count < 20)
-			attitudeSettings.AccelKp = 1.0f;
-		else if (attitudeSettings.AccelKp > 0.1f)
-			attitudeSettings.AccelKp -= 0.01f;
-		cf->arming_count++;
+		// Use real attitude settings and restore state
+		if (ms_since_reset > 7000) {
+			AttitudeSettingsGet(&attitudeSettings);
+			if(cf->accel_alpha > 0.0f)
+				cf->accel_filter_enabled = true;
 
-		// Set the other parameters to drive faster convergence
-		attitudeSettings.AccelKi = 0.1f;
-		attitudeSettings.YawBiasRate = 0.1f;
-		attitudeSettings.MagKp = 0.1f;
-
-		// Don't apply LPF to the accels during arming
-		cf->accel_filter_enabled = false;
-
-		// Indicate arming so that after arming it reloads
-		// the normal settings
-		if (cf->initialization != CF_ARMING) {
-			accumulate_gyro_zero(cf);
-			cf->initialization = CF_ARMING;
-			cf->accumulating_gyro = true;
+			cf->initialization = CF_NORMAL;
 		}
-
-	} else if (cf->initialization == CF_ARMING ||
-	           cf->initialization == CF_INITIALIZING) {
-
-		AttitudeSettingsGet(&attitudeSettings);
-		if(cf->accel_alpha > 0.0f)
-			cf->accel_filter_enabled = true;
-
-		// If arming that means we were accumulating gyro
-		// samples.  Compute new bias.
-		if (cf->initialization == CF_ARMING) {
-			accumulate_gyro_compute(cf);
-			cf->accumulating_gyro = false;
-			cf->arming_count = 0;
-		}
-
-		// Indicate normal mode to prevent rerunning this code
-		cf->initialization = CF_NORMAL;
+		break;
+	case CF_NORMAL:
+		break;
 	}
+
+	// TODO: restore zeroing during arming
+	if (0) accumulate_gyro_compute(cf);
 
 	if (gyros)
 		accumulate_gyro(cf, gyros);
