@@ -28,6 +28,14 @@
 #include "filter_interface.h"
 #include "filter_infrastructure_se3.h"
 
+#include "openpilot.h"
+#include "attitudesettings.h"
+#include "flightstatus.h"
+#include "homelocation.h"
+
+#include "physical_constants.h"
+#include "coordinate_conversions.h"
+
 #include "stdint.h"
 #include "stdbool.h"
 
@@ -127,7 +135,7 @@ static bool cf_interface_validate(struct cf_interface_data *dev)
 static int32_t cf_interface_init(uintptr_t *id)
 {
 	// Allocate the data structure
-	struct cf_interface_data *cf_interface_data = cfinterface_alloc();
+	struct cf_interface_data *cf_interface_data = cf_interface_alloc();
 	if (cf_interface_data == NULL)
 		return -1;
 
@@ -158,7 +166,7 @@ static int32_t cf_interface_reset(uintptr_t id)
 	cf->q[1]         = 0;
 	cf->q[2]         = 0;
 	cf->q[3]         = 0;
-	cf->initialized  = false;
+	cf->initialization  = CF_POWERON;
 
 	return 0;
 }
@@ -190,7 +198,7 @@ static int32_t cf_interface_update(uintptr_t id, float gyros[3], float accels[3]
 	// When this algorithm is first run force it to a known condition
 	if(!cf->initialization) {
 		if (mag == NULL)
-			return;
+			return -1;
 
 		float RPY[3];
 		float theta = atan2f(accels[0], -accels[2]);
@@ -284,9 +292,9 @@ static int32_t cf_interface_update(uintptr_t id, float gyros[3], float accels[3]
 	apply_accel_filter(accels, accels_filtered);
 
 	// Rotate gravity to body frame and cross with accels
-	grot[0] = -(2 * (cf_q[1] * cf_q[3] - cf_q[0] * cf_q[2]));
-	grot[1] = -(2 * (cf_q[2] * cf_q[3] + cf_q[0] * cf_q[1]));
-	grot[2] = -(cf_q[0]*cf_q[0] - cf_q[1]*cf_q[1] - cf_q[2]*cf_q[2] + cf_q[3]*cf_q[3]);
+	grot[0] = -(2 * (cf->q[1] * cf->q[3] - cf->q[0] * cf->q[2]));
+	grot[1] = -(2 * (cf->q[2] * cf->q[3] + cf->q[0] * cf->q[1]));
+	grot[2] = -(cf->q[0]*cf->q[0] - cf->q[1]*cf->q[1] - cf->q[2]*cf->q[2] + cf->q[3]*cf->q[3]);
 	CrossProduct((const float *) accels, (const float *) grot, accel_err);
 
 	// Apply same filtering to the rotated attitude to match delays
@@ -296,7 +304,7 @@ static int32_t cf_interface_update(uintptr_t id, float gyros[3], float accels[3]
 	CrossProduct((const float *) accels_filtered, (const float *) grot_filtered, accel_err);
 
 	float grot_mag;
-	if (complementary_filter_state.accel_filter_enabled)
+	if (cf->accel_filter_enabled)
 		grot_mag = sqrtf(grot_filtered[0]*grot_filtered[0] + grot_filtered[1]*grot_filtered[1] + grot_filtered[2]*grot_filtered[2]);
 	else
 		grot_mag = 1.0f;
@@ -316,25 +324,22 @@ static int32_t cf_interface_update(uintptr_t id, float gyros[3], float accels[3]
 	}
 
 	float mag_err[3];
-	if ( secondary || xQueueReceive(magQueue, &ev, 0) == pdTRUE )
+	if ( mag != NULL )
 	{
 		// Rotate gravity to body frame and cross with accels
 		float brot[3];
 		float Rbe[3][3];
-		MagnetometerData mag;
 		
-		Quaternion2R(cf_q, Rbe);
-		MagnetometerGet(&mag);
+		Quaternion2R(cf->q, Rbe);
 
 		// If the mag is producing bad data don't use it (normally bad calibration)
-		if  (mag.x == mag.x && mag.y == mag.y && mag.z == mag.z &&
-			 homeLocation.Set == HOMELOCATION_SET_TRUE) {
+		if  (homeLocation.Set == HOMELOCATION_SET_TRUE) {
 			rot_mult(Rbe, homeLocation.Be, brot, false);
 
-			float mag_len = sqrtf(mag.x * mag.x + mag.y * mag.y + mag.z * mag.z);
-			mag.x /= mag_len;
-			mag.y /= mag_len;
-			mag.z /= mag_len;
+			float mag_len = sqrtf(mag[0] * mag[0] + mag[1] * mag[1] + mag[2] * mag[2]);
+			mag[0] /= mag_len;
+			mag[1] /= mag_len;
+			mag[2] /= mag_len;
 
 			float bmag = sqrtf(brot[0] * brot[0] + brot[1] * brot[1] + brot[2] * brot[2]);
 			brot[0] /= bmag;
@@ -345,7 +350,7 @@ static int32_t cf_interface_update(uintptr_t id, float gyros[3], float accels[3]
 			if (bmag < 1 || mag_len < 1)
 				mag_err[0] = mag_err[1] = mag_err[2] = 0;
 			else
-				CrossProduct((const float *) &mag.x, (const float *) brot, mag_err);
+				CrossProduct((const float *) mag, (const float *) brot, mag_err);
 
 			if (mag_err[2] != mag_err[2])
 				mag_err[2] = 0;
@@ -363,51 +368,51 @@ static int32_t cf_interface_update(uintptr_t id, float gyros[3], float accels[3]
 	gyrosBias.z -= mag_err[2] * attitudeSettings.MagKi;
 	GyrosBiasSet(&gyrosBias);
 
+
 	// Correct rates based on error, integral component dealt with in updateSensors
-	gyrosData.x += accel_err[0] * attitudeSettings.AccelKp / dT;
-	gyrosData.y += accel_err[1] * attitudeSettings.AccelKp / dT;
-	gyrosData.z += mag_err[2] * attitudeSettings.MagKp / dT;
+	gyrosData.x += accel_err[0] * attitudeSettings.AccelKp / dt;
+	gyrosData.y += accel_err[1] * attitudeSettings.AccelKp / dt;
+	gyrosData.z += mag_err[2] * attitudeSettings.MagKp / dt;
 
 	// Work out time derivative from INSAlgo writeup
 	// Also accounts for the fact that gyros are in deg/s
 	float qdot[4];
-	qdot[0] = (-cf_q[1] * gyrosData.x - cf_q[2] * gyrosData.y - cf_q[3] * gyrosData.z) * dT * DEG2RAD / 2;
-	qdot[1] = (cf_q[0] * gyrosData.x - cf_q[3] * gyrosData.y + cf_q[2] * gyrosData.z) * dT * DEG2RAD / 2;
-	qdot[2] = (cf_q[3] * gyrosData.x + cf_q[0] * gyrosData.y - cf_q[1] * gyrosData.z) * dT * DEG2RAD / 2;
-	qdot[3] = (-cf_q[2] * gyrosData.x + cf_q[1] * gyrosData.y + cf_q[0] * gyrosData.z) * dT * DEG2RAD / 2;
+	qdot[0] = (-cf->q[1] * gyrosData.x - cf->q[2] * gyrosData.y - cf->q[3] * gyrosData.z) * dt * DEG2RAD / 2;
+	qdot[1] = (cf->q[0] * gyrosData.x - cf->q[3] * gyrosData.y + cf->q[2] * gyrosData.z) * dt * DEG2RAD / 2;
+	qdot[2] = (cf->q[3] * gyrosData.x + cf->q[0] * gyrosData.y - cf->q[1] * gyrosData.z) * dt * DEG2RAD / 2;
+	qdot[3] = (-cf->q[2] * gyrosData.x + cf->q[1] * gyrosData.y + cf->q[0] * gyrosData.z) * dt * DEG2RAD / 2;
 
 	// Take a time step
-	cf_q[0] = cf_q[0] + qdot[0];
-	cf_q[1] = cf_q[1] + qdot[1];
-	cf_q[2] = cf_q[2] + qdot[2];
-	cf_q[3] = cf_q[3] + qdot[3];
+	cf->q[0] = cf->q[0] + qdot[0];
+	cf->q[1] = cf->q[1] + qdot[1];
+	cf->q[2] = cf->q[2] + qdot[2];
+	cf->q[3] = cf->q[3] + qdot[3];
 
-	if(cf_q[0] < 0) {
-		cf_q[0] = -cf_q[0];
-		cf_q[1] = -cf_q[1];
-		cf_q[2] = -cf_q[2];
-		cf_q[3] = -cf_q[3];
+	if(cf->q[0] < 0) {
+		cf->q[0] = -cf->q[0];
+		cf->q[1] = -cf->q[1];
+		cf->q[2] = -cf->q[2];
+		cf->q[3] = -cf->q[3];
 	}
 
 	// Renomalize
 	float qmag;
-	qmag = sqrtf(cf_q[0]*cf_q[0] + cf_q[1]*cf_q[1] + cf_q[2]*cf_q[2] + cf_q[3]*cf_q[3]);
-	cf_q[0] = cf_q[0] / qmag;
-	cf_q[1] = cf_q[1] / qmag;
-	cf_q[2] = cf_q[2] / qmag;
-	cf_q[3] = cf_q[3] / qmag;
+	qmag = sqrtf(cf->q[0]*cf->q[0] + cf->q[1]*cf->q[1] + cf->q[2]*cf->q[2] + cf->q[3]*cf->q[3]);
+	cf->q[0] = cf->q[0] / qmag;
+	cf->q[1] = cf->q[1] / qmag;
+	cf->q[2] = cf->q[2] / qmag;
+	cf->q[3] = cf->q[3] / qmag;
 
 	// If quaternion has become inappropriately short or is nan reinit.
 	// THIS SHOULD NEVER ACTUALLY HAPPEN
 	if((fabs(qmag) < 1.0e-3f) || (qmag != qmag)) {
-		cf_q[0] = 1;
-		cf_q[1] = 0;
-		cf_q[2] = 0;
-		cf_q[3] = 0;
+		cf->q[0] = 1;
+		cf->q[1] = 0;
+		cf->q[2] = 0;
+		cf->q[3] = 0;
 	}
 
-	if (!secondary)
-		AlarmsClear(SYSTEMALARMS_ALARM_ATTITUDE);
+	AlarmsClear(SYSTEMALARMS_ALARM_ATTITUDE);
 
 	return 0;
 }

@@ -55,11 +55,8 @@ static void StateEstimationTask(void *parameters);
 // Mapping from UAVO setting to filters.  This might want to be an extern
 // loaded from board specific information to indicate which filters are
 // supported.
-static struct filter_driver filters[3]; /* = {
-	[STATEESTIMATION_ATTITUDEFILTER_COMPLEMENTARY] = complementary_filter_driver,
-	[STATEESTIMATION_ATTITUDEFILTER_INSINDOOR] = insindoor_filter_driver,
-	[STATEESTIMATION_ATTITUDEFILTER_INSOUTDOOR] = insoutdoor_filter_driver,
-};*/
+extern struct filter_driver cf_filter_driver;
+static struct filter_driver filters[1];
 
 /**
  * Initialise the module.  Called before the start function
@@ -76,6 +73,7 @@ int32_t StateEstimationInitialize(void)
 		current_filter = &filters[selected_filter];
 	else
 		return -1;
+	current_filter = &cf_filter_driver;
 
 	// Check this filter is safe to run
 	if (!filter_interface_validate(current_filter, running_filter_id))
