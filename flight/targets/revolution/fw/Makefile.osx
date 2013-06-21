@@ -203,7 +203,7 @@ SRC += $(MATHLIB)/pid.c
 #include $(PIOS)/posix/library.mk
 =======
 ## Enable some filters
-SRC += $(FILTERLIB)/dcm_interface.c
+SRC += $(FILTERLIB)/cf_interface.c
 SRC += $(FILTERLIB)/filter_infrastructure_se3.c
 SRC += $(FILTERLIB)/filter_interface.c
 >>>>>>> Revolution: enable new filter for simulation
