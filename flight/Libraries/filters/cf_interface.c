@@ -31,6 +31,7 @@
 #include "openpilot.h"
 #include "attitudesettings.h"
 #include "flightstatus.h"
+#include "gyrosbias.h"
 #include "homelocation.h"
 
 #include "physical_constants.h"
@@ -87,6 +88,14 @@ struct cf_interface_data {
 	uint32_t  reset_timeval;
 	uint8_t   arming_count;
 	bool      accel_filter_enabled;
+
+	//! The accumulator of gyros during arming
+	float      accumulated_gyro[3];
+	//! How many gyro samples were acquired
+	uint32_t   accumulated_gyro_samples;
+	//! Indicate if currently acquiring gyro samples
+	bool       accumulating_gyro;
+
 	enum complimentary_filter_status   initialization;
 	enum      cf_interface_magic magic;
 };
@@ -151,6 +160,18 @@ static int32_t cf_interface_init(uintptr_t *id)
 
 
 /********* formatting sensor data to the core math code goes below here *********/
+
+//! Compute the mean gyro accumulated and assign the bias
+static void accumulate_gyro_compute(struct cf_interface_data *cf);
+
+//! Zero the gyro accumulators
+static void accumulate_gyro_zero(struct cf_interface_data *cf);
+
+//! Store a gyro sample
+static void accumulate_gyro(struct cf_interface_data *cf, float *gyros);
+
+//! Apply LPF to sensor data
+static void apply_accel_filter(struct cf_interface_data *cf, const float * raw, float * filtered);
 
 /**
  * Reset the filter state to default
@@ -256,7 +277,7 @@ static int32_t cf_interface_update(uintptr_t id, float gyros[3], float accels[3]
 		// Indicate arming so that after arming it reloads
 		// the normal settings
 		if (cf->initialization != CF_ARMING) {
-			accumulate_gyro_zero();
+			accumulate_gyro_zero(cf);
 			cf->initialization = CF_ARMING;
 			cf->accumulating_gyro = true;
 		}
@@ -271,7 +292,7 @@ static int32_t cf_interface_update(uintptr_t id, float gyros[3], float accels[3]
 		// If arming that means we were accumulating gyro
 		// samples.  Compute new bias.
 		if (cf->initialization == CF_ARMING) {
-			accumulate_gyro_compute();
+			accumulate_gyro_compute(cf);
 			cf->accumulating_gyro = false;
 			cf->arming_count = 0;
 		}
@@ -280,8 +301,8 @@ static int32_t cf_interface_update(uintptr_t id, float gyros[3], float accels[3]
 		cf->initialization = CF_NORMAL;
 	}
 
-	accumulate_gyro(gyros);
-
+	if (gyros)
+		accumulate_gyro(cf, gyros);
 
 	float grot[3];
 	float accel_err[3];
@@ -289,7 +310,7 @@ static int32_t cf_interface_update(uintptr_t id, float gyros[3], float accels[3]
 	float *accels_filtered = cf->accels_filtered;
 
 	// Apply smoothing to accel values, to reduce vibration noise before main calculations.
-	apply_accel_filter(accels, accels_filtered);
+	apply_accel_filter(cf, accels, accels_filtered);
 
 	// Rotate gravity to body frame and cross with accels
 	grot[0] = -(2 * (cf->q[1] * cf->q[3] - cf->q[0] * cf->q[2]));
@@ -298,7 +319,7 @@ static int32_t cf_interface_update(uintptr_t id, float gyros[3], float accels[3]
 	CrossProduct((const float *) accels, (const float *) grot, accel_err);
 
 	// Apply same filtering to the rotated attitude to match delays
-	apply_accel_filter(grot, grot_filtered);
+	apply_accel_filter(cf, grot, grot_filtered);
 
 	// Compute the error between the predicted direction of gravity and smoothed acceleration
 	CrossProduct((const float *) accels_filtered, (const float *) grot_filtered, accel_err);
@@ -332,6 +353,8 @@ static int32_t cf_interface_update(uintptr_t id, float gyros[3], float accels[3]
 		
 		Quaternion2R(cf->q, Rbe);
 
+		HomeLocationData homeLocation;
+		HomeLocationGet(&homeLocation);
 		// If the mag is producing bad data don't use it (normally bad calibration)
 		if  (homeLocation.Set == HOMELOCATION_SET_TRUE) {
 			rot_mult(Rbe, homeLocation.Be, brot, false);
@@ -370,17 +393,17 @@ static int32_t cf_interface_update(uintptr_t id, float gyros[3], float accels[3]
 
 
 	// Correct rates based on error, integral component dealt with in updateSensors
-	gyrosData.x += accel_err[0] * attitudeSettings.AccelKp / dt;
-	gyrosData.y += accel_err[1] * attitudeSettings.AccelKp / dt;
-	gyrosData.z += mag_err[2] * attitudeSettings.MagKp / dt;
+	gyros[0] += accel_err[0] * attitudeSettings.AccelKp / dt;
+	gyros[1] += accel_err[1] * attitudeSettings.AccelKp / dt;
+	gyros[2] += mag_err[2] * attitudeSettings.MagKp / dt;
 
 	// Work out time derivative from INSAlgo writeup
 	// Also accounts for the fact that gyros are in deg/s
 	float qdot[4];
-	qdot[0] = (-cf->q[1] * gyrosData.x - cf->q[2] * gyrosData.y - cf->q[3] * gyrosData.z) * dt * DEG2RAD / 2;
-	qdot[1] = (cf->q[0] * gyrosData.x - cf->q[3] * gyrosData.y + cf->q[2] * gyrosData.z) * dt * DEG2RAD / 2;
-	qdot[2] = (cf->q[3] * gyrosData.x + cf->q[0] * gyrosData.y - cf->q[1] * gyrosData.z) * dt * DEG2RAD / 2;
-	qdot[3] = (-cf->q[2] * gyrosData.x + cf->q[1] * gyrosData.y + cf->q[0] * gyrosData.z) * dt * DEG2RAD / 2;
+	qdot[0] = (-cf->q[1] * gyros[0] - cf->q[2] * gyros[1] - cf->q[3] * gyros[2]) * dt * DEG2RAD / 2;
+	qdot[1] = (cf->q[0] * gyros[0] - cf->q[3] * gyros[1] + cf->q[2] * gyros[2]) * dt * DEG2RAD / 2;
+	qdot[2] = (cf->q[3] * gyros[0] + cf->q[0] * gyros[1] - cf->q[1] * gyros[2]) * dt * DEG2RAD / 2;
+	qdot[3] = (-cf->q[2] * gyros[0] + cf->q[1] * gyros[1] + cf->q[0] * gyros[2]) * dt * DEG2RAD / 2;
 
 	// Take a time step
 	cf->q[0] = cf->q[0] + qdot[0];
@@ -431,6 +454,87 @@ static int32_t cf_interface_get_state(uintptr_t id, float pos[3], float vel[3],
 		float attitude[4], float gyro_bias[3], float airspeed[1])
 {
 	return 0;
+}
+
+/**
+ * If accumulating data and enough samples acquired then recompute
+ * the gyro bias based on the mean accumulated
+ */
+static void accumulate_gyro_compute(struct cf_interface_data *cf)
+{
+	if (cf->accumulating_gyro && 
+		cf->accumulated_gyro_samples > 100) {
+
+		// Accumulate integral of error.  Scale here so that units are (deg/s) but Ki has units of s
+		GyrosBiasData gyrosBias;
+		GyrosBiasGet(&gyrosBias);
+		gyrosBias.x = cf->accumulated_gyro[0] / cf->accumulated_gyro_samples;
+		gyrosBias.y = cf->accumulated_gyro[1] / cf->accumulated_gyro_samples;
+		gyrosBias.z = cf->accumulated_gyro[2] / cf->accumulated_gyro_samples;
+		GyrosBiasSet(&gyrosBias);
+
+		accumulate_gyro_zero(cf);
+
+		cf->accumulating_gyro = false;
+	}
+}
+
+/**
+ * Zero the accumulation of gyro data
+ */
+static void accumulate_gyro_zero(struct cf_interface_data *cf)
+{
+	cf->accumulated_gyro_samples = 0;
+	cf->accumulated_gyro[0] = 0;
+	cf->accumulated_gyro[1] = 0;
+	cf->accumulated_gyro[2] = 0;
+}
+
+/**
+ * Accumulate a set of gyro samples for computing the
+ * bias
+ * @param [in] gyrosData The samples of data to accumulate
+ */
+static void accumulate_gyro(struct cf_interface_data *cf, float *gyros)
+{
+	if (!cf->accumulating_gyro)
+		return;
+
+	cf->accumulated_gyro_samples++;
+
+	// bias_correct_gyro
+	if (true) {
+		// Apply bias correction to the gyros from the state estimator
+		GyrosBiasData gyrosBias;
+		GyrosBiasGet(&gyrosBias);
+
+		cf->accumulated_gyro[0] += gyros[0] + gyrosBias.x;
+		cf->accumulated_gyro[1] += gyros[1] + gyrosBias.y;
+		cf->accumulated_gyro[2] += gyros[2] + gyrosBias.z;
+	} else {
+		cf->accumulated_gyro[0] += gyros[0];
+		cf->accumulated_gyro[1] += gyros[1];
+		cf->accumulated_gyro[2] += gyros[2];
+	}
+}
+
+/**
+ * Apply LPF to the accel and gyros before using the data
+ * @param[in] raw the raw sensor data
+ * @param[out] filtered the low pass filtered data
+ */
+static void apply_accel_filter(struct cf_interface_data *cf, const float * raw, float * filtered)
+{
+	const float alpha = cf->accel_alpha;
+	if(cf->accel_filter_enabled) {
+		filtered[0] = filtered[0] * alpha + raw[0] * (1 - alpha);
+		filtered[1] = filtered[1] * alpha + raw[1] * (1 - alpha);
+		filtered[2] = filtered[2] * alpha + raw[2] * (1 - alpha);
+	} else {
+		filtered[0] = raw[0];
+		filtered[1] = raw[1];
+		filtered[2] = raw[2];
+	}
 }
 
 /**
