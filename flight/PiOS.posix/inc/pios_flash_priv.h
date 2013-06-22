@@ -35,8 +35,8 @@ struct pios_flash_driver {
 	int32_t (*end_transaction)(uintptr_t chip_id);
 
 	int32_t (*erase_sector)(uintptr_t chip_id, uint32_t chip_sector, uint32_t chip_offset);
-	int32_t (*write_data)(uintptr_t chip_id, uint32_t chip_offset, const uint8_t * data, uint16_t len);
-	int32_t (*read_data)(uintptr_t chip_id, uint32_t chip_offset, uint8_t * data, uint16_t len);
+	int32_t (*write_data)(uintptr_t chip_id, uint32_t chip_offset, const uint8_t *data, uint16_t len);
+	int32_t (*read_data)(uintptr_t chip_id, uint32_t chip_offset, uint8_t *data, uint16_t len);
 };
 
 struct pios_flash_sector_range {
@@ -46,16 +46,16 @@ struct pios_flash_sector_range {
 };
 
 struct pios_flash_chip {
-	const struct pios_flash_driver * driver;
-	uintptr_t * chip_id;
+	const struct pios_flash_driver *driver;
+	uintptr_t *chip_id;
 	uint32_t page_size;
-	const struct pios_flash_sector_range * sector_blocks;
+	const struct pios_flash_sector_range *sector_blocks;
 	uint32_t num_blocks;
 };
 
 struct pios_flash_partition {
 	enum pios_flash_partition_labels label;
-	const struct pios_flash_chip * chip_desc;
+	const struct pios_flash_chip *chip_desc;
 	uint16_t first_sector;
 	uint16_t last_sector;
 };

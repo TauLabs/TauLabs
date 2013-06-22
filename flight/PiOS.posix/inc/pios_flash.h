@@ -41,15 +41,15 @@ enum pios_flash_partition_labels {
 	FLASH_PARTITION_NUM_LABELS, /* Must be last */
 };
 
-extern int32_t PIOS_FLASH_find_partition_id(enum pios_flash_partition_labels label, uintptr_t * partition_id);
+extern int32_t PIOS_FLASH_find_partition_id(enum pios_flash_partition_labels label, uintptr_t *partition_id);
 extern uint16_t PIOS_FLASH_get_num_partitions(void);
-extern int32_t PIOS_FLASH_get_partition_size(uintptr_t partition_id, uint32_t * partition_size);
+extern int32_t PIOS_FLASH_get_partition_size(uintptr_t partition_id, uint32_t *partition_size);
 
 extern int32_t PIOS_FLASH_start_transaction(uintptr_t partition_id);
 extern int32_t PIOS_FLASH_end_transaction(uintptr_t partition_id);
 extern int32_t PIOS_FLASH_erase_partition(uintptr_t partition_id);
 extern int32_t PIOS_FLASH_erase_range(uintptr_t partition_id, uint32_t start_offset, uint32_t size);
-extern int32_t PIOS_FLASH_write_data(uintptr_t partition_id, uint32_t offset, const uint8_t * data, uint16_t len);
-extern int32_t PIOS_FLASH_read_data(uintptr_t partition_id, uint32_t offset, uint8_t * data, uint16_t len);
+extern int32_t PIOS_FLASH_write_data(uintptr_t partition_id, uint32_t offset, const uint8_t *data, uint16_t len);
+extern int32_t PIOS_FLASH_read_data(uintptr_t partition_id, uint32_t offset, uint8_t *data, uint16_t len);
 
 #endif	/* PIOS_FLASH_H_ */
