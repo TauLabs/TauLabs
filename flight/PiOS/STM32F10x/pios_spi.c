@@ -610,11 +610,11 @@ void PIOS_SPI_IRQ_Handler(uint32_t spi_id)
 	while (SPI_I2S_GetFlagStatus(spi_dev->cfg->regs, SPI_I2S_FLAG_BSY)) ;
 
 	if (spi_dev->callback != NULL) {
-		bool crc_ok = TRUE;
+		bool crc_ok = true;
 		uint8_t crc_val;
 
 		if (SPI_I2S_GetFlagStatus(spi_dev->cfg->regs, SPI_FLAG_CRCERR)) {
-			crc_ok = FALSE;
+			crc_ok = false;
 			SPI_I2S_ClearFlag(spi_dev->cfg->regs, SPI_FLAG_CRCERR);
 		}
 		crc_val = SPI_GetCRC(spi_dev->cfg->regs, SPI_CRC_Rx);

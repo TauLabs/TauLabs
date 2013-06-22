@@ -140,8 +140,8 @@ extern int32_t PIOS_PPM_Init(uint32_t * ppm_id, const struct pios_ppm_cfg * cfg)
 	ppm_dev->NumChannels = -1;
 	ppm_dev->NumChannelsPrevFrame = -1;
 	ppm_dev->NumChannelCounter = 0;
-	ppm_dev->Tracking = FALSE;
-	ppm_dev->Fresh = FALSE;
+	ppm_dev->Tracking = false;
+	ppm_dev->Fresh = false;
 
 	for (uint8_t i = 0; i < PIOS_PPM_IN_MAX_NUM_CHANNELS; i++) {
 		/* Flush counter variables */
@@ -294,8 +294,8 @@ static void PIOS_PPM_tim_edge_cb (uint32_t tim_id, uint32_t context, uint8_t cha
 			}
 		}
 
-		ppm_dev->Fresh = TRUE;
-		ppm_dev->Tracking = TRUE;
+		ppm_dev->Fresh = true;
+		ppm_dev->Tracking = true;
 		ppm_dev->NumChannelsPrevFrame = ppm_dev->PulseIndex;
 		ppm_dev->PulseIndex = 0;
 
@@ -312,7 +312,7 @@ static void PIOS_PPM_tim_edge_cb (uint32_t tim_id, uint32_t context, uint8_t cha
 			ppm_dev->PulseIndex++;
 		} else {
 			/* Not a valid pulse duration */
-			ppm_dev->Tracking = FALSE;
+			ppm_dev->Tracking = false;
 			for (uint32_t i = 0; i < PIOS_PPM_IN_MAX_NUM_CHANNELS ; i++) {
 				ppm_dev->CaptureValueNewFrame[i] = PIOS_RCVR_TIMEOUT;
 			}
@@ -339,7 +339,7 @@ static void PIOS_PPM_Supervisor(uint32_t ppm_id) {
 	ppm_dev->supv_timer = 0;
 
 	if (!ppm_dev->Fresh) {
-		ppm_dev->Tracking = FALSE;
+		ppm_dev->Tracking = false;
 
 		for (int32_t i = 0; i < PIOS_PPM_IN_MAX_NUM_CHANNELS ; i++) {
 			ppm_dev->CaptureValue[i] = PIOS_RCVR_TIMEOUT;
@@ -347,7 +347,7 @@ static void PIOS_PPM_Supervisor(uint32_t ppm_id) {
 		}
 	}
 
-	ppm_dev->Fresh = FALSE;
+	ppm_dev->Fresh = false;
 }
 
 #endif

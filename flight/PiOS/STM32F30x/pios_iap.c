@@ -85,8 +85,8 @@ void PIOS_IAP_Init( void )
 /*!
  * \brief     Determines if an In-Application-Programming request has been made.
  * \param   *comm - Which communication stream to use for the IAP (USB, Telemetry, I2C, SPI, etc)
- * \return    TRUE - if correct sequence found, along with 'comm' updated.
- * 			FALSE - Note that 'comm' will have an invalid comm identifier.
+ * \return    true - if correct sequence found, along with 'comm' updated.
+ * 			false - Note that 'comm' will have an invalid comm identifier.
  * \retval
  *
  */

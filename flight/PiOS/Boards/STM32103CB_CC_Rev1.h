@@ -65,8 +65,8 @@ TIM4  |  RC In 1  |  Servo 3  |  Servo 2  |  Servo 1
 //------------------------
 // BOOTLOADER_SETTINGS
 //------------------------
-#define BOARD_READABLE	TRUE
-#define BOARD_WRITABLE	TRUE
+#define BOARD_READABLE	true
+#define BOARD_WRITABLE	true
 #define MAX_DEL_RETRYS	3
 
 
