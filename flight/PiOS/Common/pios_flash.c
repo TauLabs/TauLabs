@@ -40,10 +40,13 @@ static uint8_t num_partitions;
 #define PIOS_Assert(x) do { } while (!(x))
 #define MIN(x,y) ((x) < (y) ? (x) : (y))
 
+/**
+ * @brief Registers a new partition table with the block device layer
+ * @param[in] partition_table array of partitions to be registered
+ * @param[in] partition_table_len number of elements in the partition table array
+ */
 void PIOS_FLASH_register_partition_table(const struct pios_flash_partition partition_table[], uint8_t partition_table_len)
 {
-	/* TODO: could check integrity of the table being passed in.  maybe a waste of code space. */
-
 	PIOS_Assert(partition_table);
 
 	for (uint8_t i = 0; i < partition_table_len; i++) {
@@ -61,7 +64,13 @@ void PIOS_FLASH_register_partition_table(const struct pios_flash_partition parti
 	num_partitions = partition_table_len;
 }
 
-/* Lookup flash partition_id from a partition label (BL, FW, SETTINGS, etc.) */
+/**
+ * @brief Lookup flash partition_id from a partition label (BL, FW, SETTINGS, etc.)
+ * @note A partition label refers to the *usage* of the partition.  The id is an opaque handle used in the rest of the API.
+ * @param[in] label The partition label to search for in the partition table
+ * @return 0 if success or error code
+ * @retval -1 if partition label is not found in partition table
+ */
 int32_t PIOS_FLASH_find_partition_id(enum pios_flash_partition_labels label, uintptr_t *partition_id)
 {
 	PIOS_Assert(partition_id);
@@ -77,6 +86,10 @@ int32_t PIOS_FLASH_find_partition_id(enum pios_flash_partition_labels label, uin
 	
 }
 
+/**
+ * @brief Queries the number of partitions in the (previously) registered partition table
+ * @return number of partitions in the partition table
+ */
 uint16_t PIOS_FLASH_get_num_partitions(void)
 {
 	return num_partitions;
@@ -203,6 +216,15 @@ static bool pios_flash_partition_get_chip_extents(const struct pios_flash_partit
 	return true;
 }
 
+/**
+ * @brief Lookup size (in bytes) of the requested partition id
+ * @param[in] partition_id opaque handle for a specific partition
+ * @param[out] partition_size size of the partition in bytes
+ * @return 0 if success or error code
+ * @retval -1 to -19 error code from underlying flash chip driver
+ * @retval -20 if partition_id is not a valid partition identifier
+ * @retval -21 if failed to query partition extents within the underlying flash chip
+ */
 int32_t PIOS_FLASH_get_partition_size(uintptr_t partition_id, uint32_t *partition_size)
 {
 	PIOS_Assert(partition_size);
@@ -222,6 +244,13 @@ int32_t PIOS_FLASH_get_partition_size(uintptr_t partition_id, uint32_t *partitio
 	return 0;
 }
 
+/**
+ * @brief Start an atomic transaction on the flash chip underlying this partition
+ * @param[in] partition_id opaque handle for a specific partition
+ * @return 0 if success or error code
+ * @retval -1 to -19 error code from underlying flash chip driver
+ * @retval -20 if partition_id is not a valid partition identifier
+ */
 int32_t PIOS_FLASH_start_transaction(uintptr_t partition_id)
 {
 	struct pios_flash_partition *partition = (struct pios_flash_partition *)partition_id;
@@ -236,6 +265,13 @@ int32_t PIOS_FLASH_start_transaction(uintptr_t partition_id)
 	return 0;
 }
 
+/**
+ * @brief End an atomic transaction on the flash chip underlying this partition
+ * @param[in] partition_id opaque handle for a specific partition
+ * @return 0 if success or error code
+ * @retval -1 to -19 error code from underlying flash chip driver
+ * @retval -20 if partition_id is not a valid partition identifier
+ */
 int32_t PIOS_FLASH_end_transaction(uintptr_t partition_id)
 {
 	struct pios_flash_partition *partition = (struct pios_flash_partition *)partition_id;
@@ -250,6 +286,21 @@ int32_t PIOS_FLASH_end_transaction(uintptr_t partition_id)
 	return 0;
 }
 
+/**
+ * @brief Erase one or more chip sectors that fall within this partiton
+ * @param[in] partition_id opaque handle for a specific partition
+ * @param[in] start_offset offset (in bytes) from beginning of partition to start erasing -- must be aligned to the start of a chip sector
+ * @param[in] size number of bytes to erase -- must be a multiple of the chip sector size
+ * @return 0 if success or error code
+ * @retval -1 to -19 error code from underlying flash chip driver
+ * @retval -20 if partition_id is not a valid partition identifier
+ * @retval -21 if chip driver does not provide an erase_sector implementation
+ * @retval -22 if failed to find beginning of partition within the partition table
+ * @retval -23 if start_offset is not aligned to the start of a sector
+ * @retval -24 if size doesn't reach to the end of the final sector
+ * @retval -25 if underlying chip driver failed to erase a sector
+ * @note on failure, some of the sectors within the partition may have been erased
+ */
 int32_t PIOS_FLASH_erase_range(uintptr_t partition_id, uint32_t start_offset, uint32_t size)
 {
 	struct pios_flash_partition *partition = (struct pios_flash_partition *)partition_id;
@@ -298,6 +349,17 @@ int32_t PIOS_FLASH_erase_range(uintptr_t partition_id, uint32_t start_offset, ui
 	return 0;
 }
 
+/**
+ * @brief Erase all of the flash sectors within this partition
+ * @param[in] partition_id opaque handle for a specific partition
+ * @return 0 if success or error code
+ * @retval -1 to -19 error code from underlying flash chip driver
+ * @retval -20 if partition_id is not a valid partition identifier
+ * @retval -21 if chip driver does not provide an erase_sector implementation
+ * @retval -22 if failed to find beginning of partition within the partition table
+ * @retval -23 if underlying chip driver failed to erase a sector
+ * @note on failure, some of the sectors within the partition may have been erased
+ */
 int32_t PIOS_FLASH_erase_partition(uintptr_t partition_id)
 {
 	struct pios_flash_partition *partition = (struct pios_flash_partition *)partition_id;
@@ -325,6 +387,20 @@ int32_t PIOS_FLASH_erase_partition(uintptr_t partition_id)
 	return 0;
 }
 
+/**
+ * @brief Write a block of data at an offset within the specified partition
+ * @param[in] partition_id opaque handle for a specific partition
+ * @param[in] partition_offset offset (in bytes) from beginning of partition to start writing
+ * @param[in] data pointer to data to be written to the partition
+ * @param[in] len number of bytes of data to write
+ * @return 0 if success or error code
+ * @retval -1 to -19 error code from underlying flash chip driver
+ * @retval -20 if partition_id is not a valid partition identifier
+ * @retval -21 if chip driver does not provide an write_data implementation
+ * @retval -22 if failed to find beginning of partition within the partition table
+ * @retval -23 if this would write past the end of the partition
+ * @note the areas being written are assumed to have been previously erased
+ */
 int32_t PIOS_FLASH_write_data(uintptr_t partition_id, uint32_t partition_offset, const uint8_t *data, uint16_t len)
 {
 	struct pios_flash_partition *partition = (struct pios_flash_partition *)partition_id;
@@ -372,6 +448,19 @@ int32_t PIOS_FLASH_write_data(uintptr_t partition_id, uint32_t partition_offset,
 	return 0;
 }
 
+/**
+ * @brief Read a block of data from an offset within the specified partition
+ * @param[in] partition_id opaque handle for a specific partition
+ * @param[in] partition_offset offset (in bytes) from beginning of partition to start writing
+ * @param[out] data pointer to data to be written to the partition
+ * @param[in] len number of bytes of data to write
+ * @return 0 if success or error code
+ * @retval -1 to -19 error code from underlying flash chip driver
+ * @retval -20 if partition_id is not a valid partition identifier
+ * @retval -21 if chip driver does not provide an read_data implementation
+ * @retval -22 if failed to find the partition's extents relative to the underlying chip
+ * @retval -23 if this would read past the end of the partition
+ */
 int32_t PIOS_FLASH_read_data(uintptr_t partition_id, uint32_t partition_offset, uint8_t *data, uint16_t len)
 {
 	struct pios_flash_partition *partition = (struct pios_flash_partition *)partition_id;
