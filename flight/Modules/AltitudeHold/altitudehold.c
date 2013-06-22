@@ -61,7 +61,7 @@
 #include "modulesettings.h"
 
 // Private constants
-#define MAX_QUEUE_SIZE 2
+#define MAX_QUEUE_SIZE 3
 #define STACK_SIZE_BYTES 1024
 #define TASK_PRIORITY (tskIDLE_PRIORITY+1)
 #define ACCEL_DOWNSAMPLE 4
