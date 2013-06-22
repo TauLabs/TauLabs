@@ -41,23 +41,23 @@ enum pios_internal_flash_dev_magic {
 struct pios_internal_flash_dev {
 	enum pios_internal_flash_dev_magic magic;
 
-	const struct pios_flash_internal_cfg * cfg;
+	const struct pios_flash_internal_cfg *cfg;
 
 #if defined(PIOS_INCLUDE_FREERTOS)
 	xSemaphoreHandle transaction_lock;
 #endif	/* defined(PIOS_INCLUDE_FREERTOS) */
 };
 
-static bool PIOS_Flash_Internal_Validate(struct pios_internal_flash_dev * flash_dev) {
+static bool PIOS_Flash_Internal_Validate(struct pios_internal_flash_dev *flash_dev) {
 	return (flash_dev && (flash_dev->magic == PIOS_INTERNAL_FLASH_DEV_MAGIC));
 }
 
 #if defined(PIOS_INCLUDE_FREERTOS)
-static struct pios_internal_flash_dev * PIOS_Flash_Internal_alloc(void)
+static struct pios_internal_flash_dev *PIOS_Flash_Internal_alloc(void)
 {
-	struct pios_internal_flash_dev * flash_dev;
+	struct pios_internal_flash_dev *flash_dev;
 
-	flash_dev = (struct pios_internal_flash_dev *)pvPortMalloc(sizeof(* flash_dev));
+	flash_dev = (struct pios_internal_flash_dev *)pvPortMalloc(sizeof(*flash_dev));
 	if (!flash_dev) return (NULL);
 
 	flash_dev->magic = PIOS_INTERNAL_FLASH_DEV_MAGIC;
@@ -70,9 +70,9 @@ static struct pios_internal_flash_dev * PIOS_Flash_Internal_alloc(void)
 #endif	/* PIOS_INTERNAL_FLASH_MAX_DEVS */
 static struct pios_internal_flash_dev pios_internal_flash_devs[PIOS_INTERNAL_FLASH_MAX_DEVS];
 static uint8_t pios_internal_flash_num_devs;
-static struct pios_internal_flash_dev * PIOS_Flash_Internal_alloc(void)
+static struct pios_internal_flash_dev *PIOS_Flash_Internal_alloc(void)
 {
-	struct pios_internal_flash_dev * flash_dev;
+	struct pios_internal_flash_dev *flash_dev;
 
 	if (pios_internal_flash_num_devs >= PIOS_INTERNAL_FLASH_MAX_DEVS) {
 		return (NULL);
@@ -86,9 +86,9 @@ static struct pios_internal_flash_dev * PIOS_Flash_Internal_alloc(void)
 
 #endif /* defined(PIOS_INCLUDE_FREERTOS) */
 
-int32_t PIOS_Flash_Internal_Init(uintptr_t * chip_id, const struct pios_flash_internal_cfg * cfg)
+int32_t PIOS_Flash_Internal_Init(uintptr_t *chip_id, const struct pios_flash_internal_cfg *cfg)
 {
-	struct pios_internal_flash_dev * flash_dev;
+	struct pios_internal_flash_dev *flash_dev;
 
 	flash_dev = PIOS_Flash_Internal_alloc();
 	if (flash_dev == NULL)
@@ -114,7 +114,7 @@ int32_t PIOS_Flash_Internal_Init(uintptr_t * chip_id, const struct pios_flash_in
 
 static int32_t PIOS_Flash_Internal_StartTransaction(uintptr_t chip_id)
 {
-	struct pios_internal_flash_dev * flash_dev = (struct pios_internal_flash_dev *)chip_id;
+	struct pios_internal_flash_dev *flash_dev = (struct pios_internal_flash_dev *)chip_id;
 
 	if (!PIOS_Flash_Internal_Validate(flash_dev))
 		return -1;
@@ -132,7 +132,7 @@ static int32_t PIOS_Flash_Internal_StartTransaction(uintptr_t chip_id)
 
 static int32_t PIOS_Flash_Internal_EndTransaction(uintptr_t chip_id)
 {
-	struct pios_internal_flash_dev * flash_dev = (struct pios_internal_flash_dev *)chip_id;
+	struct pios_internal_flash_dev *flash_dev = (struct pios_internal_flash_dev *)chip_id;
 
 	if (!PIOS_Flash_Internal_Validate(flash_dev))
 		return -1;
@@ -150,7 +150,7 @@ static int32_t PIOS_Flash_Internal_EndTransaction(uintptr_t chip_id)
 
 static int32_t PIOS_Flash_Internal_EraseSector(uintptr_t chip_id, uint32_t chip_sector, uint32_t chip_offset)
 {
-	struct pios_internal_flash_dev * flash_dev = (struct pios_internal_flash_dev *)chip_id;
+	struct pios_internal_flash_dev *flash_dev = (struct pios_internal_flash_dev *)chip_id;
 
 	if (!PIOS_Flash_Internal_Validate(flash_dev))
 		return -1;
@@ -166,11 +166,11 @@ static int32_t PIOS_Flash_Internal_EraseSector(uintptr_t chip_id, uint32_t chip_
 	return 0;
 }
 
-static int32_t PIOS_Flash_Internal_ReadData(uintptr_t chip_id, uint32_t chip_offset, uint8_t * data, uint16_t len)
+static int32_t PIOS_Flash_Internal_ReadData(uintptr_t chip_id, uint32_t chip_offset, uint8_t *data, uint16_t len)
 {
 	PIOS_Assert(data);
 
-	struct pios_internal_flash_dev * flash_dev = (struct pios_internal_flash_dev *)chip_id;
+	struct pios_internal_flash_dev *flash_dev = (struct pios_internal_flash_dev *)chip_id;
 
 	if (!PIOS_Flash_Internal_Validate(flash_dev))
 		return -1;
@@ -181,11 +181,11 @@ static int32_t PIOS_Flash_Internal_ReadData(uintptr_t chip_id, uint32_t chip_off
 	return 0;
 }
 
-static int32_t PIOS_Flash_Internal_WriteData(uintptr_t chip_id, uint32_t chip_offset, const uint8_t * data, uint16_t len)
+static int32_t PIOS_Flash_Internal_WriteData(uintptr_t chip_id, uint32_t chip_offset, const uint8_t *data, uint16_t len)
 {
 	PIOS_Assert(data);
 
-	struct pios_internal_flash_dev * flash_dev = (struct pios_internal_flash_dev *)chip_id;
+	struct pios_internal_flash_dev *flash_dev = (struct pios_internal_flash_dev *)chip_id;
 
 	if (!PIOS_Flash_Internal_Validate(flash_dev))
 		return -1;
