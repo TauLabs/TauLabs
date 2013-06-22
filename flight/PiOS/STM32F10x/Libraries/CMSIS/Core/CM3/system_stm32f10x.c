@@ -566,6 +566,11 @@ static void SetSysClockToHSE(void)
   else
   { /* If HSE fails to start-up, the application will have wrong clock 
          configuration. User can add here some code to deal with this error */
+    
+    /* Go to infinite loop */
+    while (1)
+    {
+    }
   }  
 }
 #elif defined SYSCLK_FREQ_24MHz
@@ -670,6 +675,11 @@ static void SetSysClockTo24(void)
   else
   { /* If HSE fails to start-up, the application will have wrong clock 
          configuration. User can add here some code to deal with this error */
+    
+    /* Go to infinite loop */
+    while (1)
+    {
+    }
   } 
 }
 #elif defined SYSCLK_FREQ_36MHz
@@ -771,6 +781,11 @@ static void SetSysClockTo36(void)
   else
   { /* If HSE fails to start-up, the application will have wrong clock 
          configuration. User can add here some code to deal with this error */
+    
+    /* Go to infinite loop */
+    while (1)
+    {
+    }
   } 
 }
 #elif defined SYSCLK_FREQ_48MHz
@@ -871,6 +886,11 @@ static void SetSysClockTo48(void)
   else
   { /* If HSE fails to start-up, the application will have wrong clock 
          configuration. User can add here some code to deal with this error */
+    
+    /* Go to infinite loop */
+    while (1)
+    {
+    }
   } 
 }
 
@@ -973,6 +993,11 @@ static void SetSysClockTo56(void)
   else
   { /* If HSE fails to start-up, the application will have wrong clock 
          configuration. User can add here some code to deal with this error */
+    
+    /* Go to infinite loop */
+    while (1)
+    {
+    }
   } 
 }
 
@@ -1076,6 +1101,11 @@ static void SetSysClockTo72(void)
   else
   { /* If HSE fails to start-up, the application will have wrong clock 
          configuration. User can add here some code to deal with this error */
+
+    /* Go to infinite loop */
+    while (1)
+    {
+    }
   }
 }
 #endif
