@@ -94,7 +94,7 @@
         can define the HSE value in your toolchain compiler preprocessor.
   */           
 #if !defined  (HSE_VALUE) 
- #define HSE_VALUE            ((uint32_t)8000000) /*!< Value of the External oscillator in Hz */
+ #define HSE_VALUE            ((uint32_t)8000000) /*!< Value of the External oscillator in Hz *//RESET
 #endif /* HSE_VALUE */
 
 /**
@@ -285,10 +285,6 @@ typedef __IO uint8_t  vu8;
 typedef __I uint32_t vuc32;  /*!< Read Only */
 typedef __I uint16_t vuc16;  /*!< Read Only */
 typedef __I uint8_t vuc8;   /*!< Read Only */
-
-#if (!defined __cplusplus) && (!defined bool)
-	 typedef enum {FALSE = 0, TRUE = !FALSE} bool;
-#endif
 
 typedef enum {RESET = 0, SET = !RESET} FlagStatus, ITStatus;
 
