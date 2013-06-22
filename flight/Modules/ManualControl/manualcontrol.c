@@ -59,7 +59,6 @@
 
 #define TASK_PRIORITY (tskIDLE_PRIORITY+4)
 #define UPDATE_PERIOD_MS 20
-#define THROTTLE_FAILSAFE -0.1f
 
 // Private variables
 static xTaskHandle taskHandle;
