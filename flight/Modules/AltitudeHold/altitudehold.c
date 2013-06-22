@@ -165,6 +165,9 @@ static void altitudeHoldTask(void *parameters)
 
 	altitudeholdsettings_updated = true;
 
+	// Let the system start up
+	vTaskDelay(100);
+
 	// Main task loop
 	while (1) {
 		// Wait until the sensors are updated, if a timeout then go to failsafe
