@@ -65,12 +65,12 @@
 #define STACK_SIZE_BYTES 1024
 #define TASK_PRIORITY (tskIDLE_PRIORITY+1)
 #define ACCEL_DOWNSAMPLE 4
-// Private types
 
 // Private variables
 static xTaskHandle altitudeHoldTaskHandle;
 static xQueueHandle queue;
 static bool module_enabled;
+static bool altitudeholdsettings_updated;
 
 // Private functions
 static void altitudeHoldTask(void *parameters);
@@ -125,9 +125,7 @@ int32_t AltitudeHoldInitialize()
 
 	return -1;
 }
-MODULE_INITCALL(AltitudeHoldInitialize, AltitudeHoldStart)
-
-bool altitudeholdsettings_updated;
+MODULE_INITCALL(AltitudeHoldInitialize, AltitudeHoldStart);
 
 /**
  * Module thread, should not return.
@@ -150,10 +148,7 @@ static void altitudeHoldTask(void *parameters)
 	portTickType last_update_time_ms = TICKS2MS(xTaskGetTickCount());
 	UAVObjEvent ev;
 
-	// Force update of the settings
-	SettingsUpdatedCb(&ev);
-
-	// Listen for updates.
+	// Listen for object updates.
 	AltitudeHoldDesiredConnectQueue(queue);
 	BaroAltitudeConnectQueue(queue);
 	FlightStatusConnectQueue(queue);
@@ -165,7 +160,8 @@ static void altitudeHoldTask(void *parameters)
 
 	altitudeholdsettings_updated = true;
 
-	// Let the system start up
+	// Let the system start up.  For some reason this is required ot prevent
+	// occasional failures to initialize.
 	vTaskDelay(100);
 
 	// Main task loop
