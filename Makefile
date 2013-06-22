@@ -805,7 +805,7 @@ all_$(1)_clean: $$(addsuffix _clean, $$(filter bu_$(1), $$(BU_TARGETS)))
 all_$(1)_clean: $$(addsuffix _clean, $$(filter ef_$(1), $$(EF_TARGETS)))
 endef
 
-ALL_BOARDS := coptercontrol pipxtreme revolution revomini freedom quanton discoveryf4 flyingf4 flyingf3 sparky
+ALL_BOARDS := coptercontrol pipxtreme revolution revomini freedom quanton discoveryf4 flyingf4 flyingf3 sparky naze64
 
 # Friendly names of each board (used to find source tree)
 coptercontrol_friendly := CopterControl
@@ -818,6 +818,7 @@ flyingf4_friendly      := FlyingF4
 discoveryf4_friendly   := DiscoveryF4
 flyingf3_friendly      := FlyingF3
 sparky_friendly        := Sparky
+naze64_friendly        := Naze64
 
 # Short names of each board (used to display board name in parallel builds)
 coptercontrol_short    := 'cc  '
@@ -830,6 +831,7 @@ flyingf4_short         := 'fly4'
 discoveryf4_short      := 'dif4'
 flyingf3_short         := 'fly3'
 sparky_short           := 'sprk'
+naze64_short           := 'nz64'
 
 # Start out assuming that we'll build fw, bl and bu for all boards
 FW_BOARDS  := $(ALL_BOARDS)
@@ -850,7 +852,7 @@ endif
 
 # FIXME: The BU image doesn't work for F4 boards so we need to
 #        filter them out to prevent errors.
-BU_BOARDS  := $(filter-out revolution revomini freedom quanton flyingf4 discoveryf4 flyingf3 sparky, $(BU_BOARDS))
+BU_BOARDS  := $(filter-out revolution revomini freedom quanton flyingf4 discoveryf4 flyingf3 sparky naze64, $(BU_BOARDS))
 
 # Generate the targets for whatever boards are left in each list
 FW_TARGETS := $(addprefix fw_, $(FW_BOARDS))

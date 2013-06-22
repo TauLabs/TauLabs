@@ -135,6 +135,9 @@
 #if defined(PIOS_INCLUDE_HMC5883)
 #include <pios_hmc5883.h>
 #endif
+#if defined(PIOS_INCLUDE_HMC5983)
+#include <pios_hmc5983.h>
+#endif
 #if defined(PIOS_INCLUDE_I2C_ESC)
 #include <pios_i2c_esc.h>
 #endif
@@ -158,6 +161,9 @@
 #endif
 #if defined(PIOS_INCLUDE_MS5611)
 #include <pios_ms5611.h>
+#endif
+#if defined(PIOS_INCLUDE_MS5611_SPI)
+#include <pios_ms5611_spi.h>
 #endif
 #if defined(PIOS_INCLUDE_IAP)
 #include <pios_iap.h>
