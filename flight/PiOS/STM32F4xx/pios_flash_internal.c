@@ -233,3 +233,8 @@ const struct pios_flash_driver pios_internal_flash_driver = {
 };
 
 #endif	/* defined(PIOS_INCLUDE_FLASH_INTERNAL) */
+
+/**
+ * @}
+ * @}
+ */
