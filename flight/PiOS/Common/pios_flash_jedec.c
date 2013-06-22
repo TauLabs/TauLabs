@@ -285,6 +285,7 @@ static int32_t PIOS_Flash_Jedec_ReadID(struct jedec_flash_dev *flash_dev)
 
 /**
  * @brief Grab the semaphore to perform a transaction
+ * @param[in] chip_id the opaque handle for the chip that this operation should be applied to
  * @return 0 for success, -1 for timeout
  */
 static int32_t PIOS_Flash_Jedec_StartTransaction(uintptr_t chip_id)
@@ -304,6 +305,7 @@ static int32_t PIOS_Flash_Jedec_StartTransaction(uintptr_t chip_id)
 
 /**
  * @brief Release the semaphore to perform a transaction
+ * @param[in] chip_id the opaque handle for the chip that this operation should be applied to
  * @return 0 for success, -1 for timeout
  */
 static int32_t PIOS_Flash_Jedec_EndTransaction(uintptr_t chip_id)
@@ -337,6 +339,7 @@ static int32_t PIOS_Flash_Jedec_EndTransaction(uintptr_t chip_id)
 
 /**
  * @brief Erase a sector on the flash chip
+ * @param[in] chip_id the opaque handle for the chip that this operation should be applied to
  * @param[in] chip_sector Sector number of flash to erase
  * @param[in] chip_offset Address within flash to erase
  * @returns 0 if successful
@@ -383,6 +386,7 @@ static int32_t PIOS_Flash_Jedec_EraseSector(uintptr_t chip_id, uint32_t chip_sec
 
 /**
  * @brief Write one page of data (up to 256 bytes) aligned to a page start
+ * @param[in] chip_id the opaque handle for the chip that this operation should be applied to
  * @param[in] chip_offset Address within flash to write to
  * @param[in] data Pointer to data to write to flash
  * @param[in] len Length of data to write (max 256 bytes)
@@ -456,6 +460,7 @@ static int32_t PIOS_Flash_Jedec_WriteData(uintptr_t chip_id, uint32_t chip_offse
 
 /**
  * @brief Read data from a location in flash memory
+ * @param[in] chip_id the opaque handle for the chip that this operation should be applied to
  * @param[in] chip_offset Address within flash to write to
  * @param[in] data Pointer to data to write from flash
  * @param[in] len Length of data to write (max 256 bytes)
