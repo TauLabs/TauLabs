@@ -46,7 +46,7 @@ void PIOS_FLASH_register_partition_table(const struct pios_flash_partition parti
 
 	PIOS_Assert(partition_table);
 
-	for (uint8_t i = 0; i < num_partitions; i++) {
+	for (uint8_t i = 0; i < partition_table_len; i++) {
 		const struct pios_flash_partition *partition = &partition_table[i];
 		PIOS_Assert(partition->label < FLASH_PARTITION_NUM_LABELS);
 		PIOS_Assert(partition->chip_desc);
