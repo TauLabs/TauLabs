@@ -151,20 +151,20 @@ int32_t PIOS_USB_ChangeConnectionState(bool connected)
 
 /**
  * This function returns the connection status of the USB interface
- * \return 1: interface available
- * \return 0: interface not available
+ * \return true: interface available
+ * \return false: interface not available
  */
-uint32_t usb_found;
 bool PIOS_USB_CheckAvailable(uint32_t id)
 {
 	struct pios_usb_dev * usb_dev = (struct pios_usb_dev *) pios_usb_id;
 
-	if(!PIOS_USB_validate(usb_dev))
+	if (!PIOS_USB_validate(usb_dev))
 		return false;
 
-	usb_found = (usb_dev->cfg->vsense.gpio->IDR & usb_dev->cfg->vsense.init.GPIO_Pin);
-	return usb_found;
-	return usb_found != 0 && transfer_possible ? 1 : 0;
+	if (usb_dev->cfg->vsense.gpio != NULL)
+		return GPIO_ReadInputDataBit(usb_dev->cfg->vsense.gpio, usb_dev->cfg->vsense.init.GPIO_Pin) == Bit_SET;
+
+	return transfer_possible == 1;
 }
 
 /*
