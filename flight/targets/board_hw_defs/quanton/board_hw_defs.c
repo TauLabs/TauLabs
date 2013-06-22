@@ -665,14 +665,14 @@ static const struct pios_flash_partition pios_flash_partition_table[] = {
 		.label        = FLASH_PARTITION_LABEL_SETTINGS,
 		.chip_desc    = &pios_flash_chip_external,
 		.first_sector = 0,
-		.last_sector  = 15,
+		.last_sector  = 511,
 	},
 
 	{
 		.label        = FLASH_PARTITION_LABEL_WAYPOINTS,
 		.chip_desc    = &pios_flash_chip_external,
-		.first_sector = 16,
-		.last_sector  = 31,
+		.first_sector = 512,
+		.last_sector  = 1023,
 	},
 };
 
