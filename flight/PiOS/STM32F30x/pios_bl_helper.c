@@ -34,6 +34,7 @@
 #if defined(PIOS_INCLUDE_BL_HELPER)
 #include <pios_board_info.h>
 #include "stm32f30x_flash.h"
+#include <stdbool.h>
 
 uint8_t *PIOS_BL_HELPER_FLASH_If_Read(uint32_t SectorAddress)
 {
@@ -51,15 +52,15 @@ uint8_t PIOS_BL_HELPER_FLASH_Start()
 {
 	const struct pios_board_info * bdinfo = &pios_board_info_blob;
 	uint32_t pageAdress = bdinfo->fw_base;
-	uint8_t fail = FALSE;
+	bool fail = false;
 	while ((pageAdress < (bdinfo->fw_base + bdinfo->fw_size + bdinfo->desc_size))
-	       || (fail == TRUE)) {
+	       || (fail == true)) {
 		for (int retry = 0; retry < MAX_DEL_RETRYS; ++retry) {
 			if (FLASH_ErasePage(pageAdress) == FLASH_COMPLETE) {
-				fail = FALSE;
+				fail = false;
 				break;
 			} else {
-				fail = TRUE;
+				fail = true;
 			}
 
 		}
@@ -67,7 +68,7 @@ uint8_t PIOS_BL_HELPER_FLASH_Start()
 		pageAdress += 2048;
 	}
 
-	return (fail == TRUE) ? 0 : 1;
+	return (fail == true) ? 0 : 1;
 }
 #endif
 
