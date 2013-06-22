@@ -97,7 +97,7 @@ uint16_t PIOS_FLASH_get_num_partitions(void)
 
 static bool PIOS_FLASH_validate_partition(const struct pios_flash_partition *partition)
 {
-	return ((partition >= &partitions[0]) && (partition <= &partitions[num_partitions]));
+	return ((partition >= &partitions[0]) && (partition < &partitions[num_partitions]));
 }
 
 struct pios_flash_sector_desc {
