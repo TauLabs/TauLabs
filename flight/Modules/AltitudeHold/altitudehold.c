@@ -70,7 +70,6 @@
 // Private variables
 static xTaskHandle altitudeHoldTaskHandle;
 static xQueueHandle queue;
-static AltitudeHoldSettingsData altitudeHoldSettings;
 static bool module_enabled;
 
 // Private functions
@@ -138,6 +137,7 @@ float error;
 float switchThrottle;
 float smoothed_altitude;
 float starting_altitude;
+bool altitudeholdsettings_updated;
 
 /**
  * Module thread, should not return.
@@ -146,6 +146,7 @@ static void altitudeHoldTask(void *parameters)
 {
 	AltitudeHoldDesiredData altitudeHoldDesired;
 	StabilizationDesiredData stabilizationDesired;
+	AltitudeHoldSettingsData altitudeHoldSettings;
 
 	portTickType this_time_ms;
 	portTickType last_update_time_ms = TICKS2MS(xTaskGetTickCount());
@@ -160,11 +161,13 @@ static void altitudeHoldTask(void *parameters)
 	FlightStatusConnectQueue(queue);
 	AccelsConnectQueue(queue);
 
+	AltitudeHoldSettingsGet(&altitudeHoldSettings);
 	BaroAltitudeAltitudeGet(&smoothed_altitude);
 	running = false;
 	enum init_state {WAITING_BARO, WAITIING_INIT, INITED} init = WAITING_BARO;
 
 	// Main task loop
+	altitudeholdsettings_updated = true;
 	bool baro_updated = false;
 	while (1) {
 		// Wait until the sensors are updated, if a timeout then go to failsafe
@@ -197,6 +200,9 @@ static void altitudeHoldTask(void *parameters)
 			} else if (flightStatus.FlightMode != FLIGHTSTATUS_FLIGHTMODE_ALTITUDEHOLD)
 				running = false;
 		} else if (ev.obj == AccelsHandle()) {
+			if (init == WAITING_BARO)
+				continue;
+
 			static uint32_t timeval;
 
 			static float z[4] = {0, 0, 0, 0};
@@ -209,17 +215,8 @@ static void altitudeHoldTask(void *parameters)
 			float dT;
 			static float S[2] = {1.0f,10.0f};
 
-			/* Somehow this always assigns to zero.  Compiler bug? Race condition? */
-			S[0] = altitudeHoldSettings.PressureNoise;
-			S[1] = altitudeHoldSettings.AccelNoise;
-			G[2] = altitudeHoldSettings.AccelDrift;
-
 			AccelsData accels;
 			AccelsGet(&accels);
-			AttitudeActualData attitudeActual;
-			AttitudeActualGet(&attitudeActual);
-			BaroAltitudeData baro;
-			BaroAltitudeGet(&baro);
 
 			/* Downsample accels to stop this calculation consuming too much CPU */
 			accels_accum[0] += accels.x;
@@ -238,6 +235,11 @@ static void altitudeHoldTask(void *parameters)
 
 			this_time_ms = TICKS2MS(xTaskGetTickCount());
 
+			AttitudeActualData attitudeActual;
+			AttitudeActualGet(&attitudeActual);
+			BaroAltitudeData baro;
+			BaroAltitudeGet(&baro);
+
 			if (init == WAITIING_INIT) {
 				z[0] = baro.Altitude;
 				z[1] = 0;
@@ -247,19 +249,23 @@ static void altitudeHoldTask(void *parameters)
 			} else if (init == WAITING_BARO)
 				continue;
 
-			x[0] = baro.Altitude;
-			//rotate avg accels into earth frame and store it
-			if(1) {
-				float q[4], Rbe[3][3];
-				q[0]=attitudeActual.q1;
-				q[1]=attitudeActual.q2;
-				q[2]=attitudeActual.q3;
-				q[3]=attitudeActual.q4;
-				Quaternion2R(q, Rbe);
-				x[1] = -(Rbe[0][2]*accels.x+ Rbe[1][2]*accels.y + Rbe[2][2]*accels.z + GRAVITY);
-			} else {
-				x[1] = -accels.z + GRAVITY;
+			if (altitudeholdsettings_updated) {
+				AltitudeHoldSettingsGet(&altitudeHoldSettings);
+				altitudeholdsettings_updated = false;
 			}
+			S[0] = altitudeHoldSettings.PressureNoise;
+			S[1] = altitudeHoldSettings.AccelNoise;
+			G[2] = altitudeHoldSettings.AccelDrift;
+
+			if (S[0] == 0 || S[1] == 0 || G[2] == 0) {
+				altitudeholdsettings_updated = true;
+				continue;
+			}
+
+			float Rbe[3][3];
+			Quaternion2R(&attitudeActual.q1, Rbe);
+			x[0] = baro.Altitude;
+			x[1] = -(Rbe[0][2]*accels.x+ Rbe[1][2]*accels.y + Rbe[2][2]*accels.z + GRAVITY);
 
 			dT = PIOS_DELAY_DiffuS(timeval) / 1.0e6f;
 			timeval = PIOS_DELAY_GetRaw();
@@ -410,5 +416,5 @@ static void altitudeHoldTask(void *parameters)
 
 static void SettingsUpdatedCb(UAVObjEvent * ev)
 {
-	AltitudeHoldSettingsGet(&altitudeHoldSettings);
+	altitudeholdsettings_updated = true;
 }
