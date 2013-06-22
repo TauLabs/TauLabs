@@ -160,6 +160,8 @@ static void altitudeHoldTask(void *parameters)
 
 	altitudeholdsettings_updated = true;
 
+	AlarmsSet(SYSTEMALARMS_ALARM_ALTITUDEHOLD, SYSTEMALARMS_ALARM_ERROR);
+
 	// Let the system start up.  For some reason this is required ot prevent
 	// occasional failures to initialize.
 	vTaskDelay(100);
@@ -356,7 +358,11 @@ static void altitudeHoldTask(void *parameters)
 			altHold.Accel = z[2];
 			AltHoldSmoothedSet(&altHold);
 
-			AltHoldSmoothedGet(&altHold);
+			if (isnan(altHold.Altitude) || isnan(altHold.Velocity) || isnan(altHold.Accel)) {
+				AlarmsSet(SYSTEMALARMS_ALARM_ALTITUDEHOLD, SYSTEMALARMS_ALARM_CRITICAL);
+			} else
+				AlarmsClear(SYSTEMALARMS_ALARM_ALTITUDEHOLD);
+
 
 			// Verify that we are  in altitude hold mode
 			FlightStatusData flightStatus;
