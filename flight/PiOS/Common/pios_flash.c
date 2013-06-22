@@ -34,7 +34,7 @@
 #include <stdbool.h>		/* bool */
 #include <stdlib.h>		/* NULL */
 
-static struct pios_flash_partition const * partitions;
+static struct pios_flash_partition const *partitions;
 static uint8_t num_partitions;
 
 #define PIOS_Assert(x) do { } while (!(x))
@@ -47,7 +47,7 @@ void PIOS_FLASH_register_partition_table(const struct pios_flash_partition parti
 	PIOS_Assert(partition_table);
 
 	for (uint8_t i = 0; i < num_partitions; i++) {
-		const struct pios_flash_partition * partition = &partition_table[i];
+		const struct pios_flash_partition *partition = &partition_table[i];
 		PIOS_Assert(partition->label < FLASH_PARTITION_NUM_LABELS);
 		PIOS_Assert(partition->chip_desc);
 		PIOS_Assert(partition->chip_desc->driver);
@@ -62,7 +62,7 @@ void PIOS_FLASH_register_partition_table(const struct pios_flash_partition parti
 }
 
 /* Lookup flash partition_id from a partition label (BL, FW, SETTINGS, etc.) */
-int32_t PIOS_FLASH_find_partition_id(enum pios_flash_partition_labels label, uintptr_t * partition_id)
+int32_t PIOS_FLASH_find_partition_id(enum pios_flash_partition_labels label, uintptr_t *partition_id)
 {
 	PIOS_Assert(partition_id);
 	
@@ -82,7 +82,7 @@ uint16_t PIOS_FLASH_get_num_partitions(void)
 	return num_partitions;
 }
 
-static bool PIOS_FLASH_validate_partition(const struct pios_flash_partition * partition)
+static bool PIOS_FLASH_validate_partition(const struct pios_flash_partition *partition)
 {
 	return ((partition >= &partitions[0]) && (partition <= &partitions[num_partitions]));
 }
@@ -98,7 +98,7 @@ struct pios_flash_sector_desc {
 	uint32_t sector_size;
 };
 
-static bool pios_flash_get_partition_first_sector(const struct pios_flash_partition * partition, struct pios_flash_sector_desc * curr)
+static bool pios_flash_get_partition_first_sector(const struct pios_flash_partition *partition, struct pios_flash_sector_desc *curr)
 {
 	if (!PIOS_FLASH_validate_partition(partition))
 		return false;
@@ -106,11 +106,11 @@ static bool pios_flash_get_partition_first_sector(const struct pios_flash_partit
 	/* Find the beginning of the partition */
 	uint32_t chip_offset = 0;
 	for (uint16_t block_id = 0; block_id < partition->chip_desc->num_blocks; block_id++) {
-		const struct pios_flash_sector_range * block = &partition->chip_desc->sector_blocks[block_id];
+		const struct pios_flash_sector_range *block = &partition->chip_desc->sector_blocks[block_id];
 
 		if ((partition->first_sector >= block->base_sector) && (partition->first_sector <= block->last_sector)) {
 			/* Sector is in this block.  Compute offset within this block */
-			chip_offset += (partition->first_sector - block->base_sector) * block->sector_size;
+			chip_offset += (partition->first_sector - block->base_sector) *block->sector_size;
 
 			curr->block_id         = block_id;
 			curr->sector           = partition->first_sector;
@@ -123,14 +123,14 @@ static bool pios_flash_get_partition_first_sector(const struct pios_flash_partit
 		} else {
 			/* Not this block.  Skip forward to the next block. */
 			uint32_t num_sectors_in_range = (block->last_sector - block->base_sector + 1);
-			chip_offset += num_sectors_in_range * block->sector_size;
+			chip_offset += num_sectors_in_range *block->sector_size;
 		}
 	}
 
 	return false;
 }
 
-static bool pios_flash_get_partition_next_sector(const struct pios_flash_partition * partition, struct pios_flash_sector_desc * curr)
+static bool pios_flash_get_partition_next_sector(const struct pios_flash_partition *partition, struct pios_flash_sector_desc *curr)
 {
 	if (!PIOS_FLASH_validate_partition(partition))
 		return false;
@@ -139,7 +139,7 @@ static bool pios_flash_get_partition_next_sector(const struct pios_flash_partiti
 	if (curr->block_id >= partition->chip_desc->num_blocks)
 		return false;
 
-	const struct pios_flash_sector_range * block = &partition->chip_desc->sector_blocks[curr->block_id];
+	const struct pios_flash_sector_range *block = &partition->chip_desc->sector_blocks[curr->block_id];
 
 	/* Is the current sector within the current block? */
 	if ((curr->sector < block->base_sector) || (curr->sector > block->last_sector))
@@ -180,7 +180,7 @@ static bool pios_flash_get_partition_next_sector(const struct pios_flash_partiti
 	return true;
 }
 
-bool pios_flash_partition_get_chip_extents(const struct pios_flash_partition * partition, uint32_t * chip_start_offset, uint32_t * chip_end_offset)
+static bool pios_flash_partition_get_chip_extents(const struct pios_flash_partition *partition, uint32_t *chip_start_offset, uint32_t *chip_end_offset)
 {
 	if (!PIOS_FLASH_validate_partition(partition))
 		return false;
@@ -203,11 +203,11 @@ bool pios_flash_partition_get_chip_extents(const struct pios_flash_partition * p
 	return true;
 }
 
-int32_t PIOS_FLASH_get_partition_size(uintptr_t partition_id, uint32_t * partition_size)
+int32_t PIOS_FLASH_get_partition_size(uintptr_t partition_id, uint32_t *partition_size)
 {
 	PIOS_Assert(partition_size);
 
-	struct pios_flash_partition * partition = (struct pios_flash_partition *)partition_id;
+	struct pios_flash_partition *partition = (struct pios_flash_partition *)partition_id;
 
 	if (!PIOS_FLASH_validate_partition(partition))
 		return -20;
@@ -224,7 +224,7 @@ int32_t PIOS_FLASH_get_partition_size(uintptr_t partition_id, uint32_t * partiti
 
 int32_t PIOS_FLASH_start_transaction(uintptr_t partition_id)
 {
-	struct pios_flash_partition * partition = (struct pios_flash_partition *)partition_id;
+	struct pios_flash_partition *partition = (struct pios_flash_partition *)partition_id;
 
 	if (!PIOS_FLASH_validate_partition(partition))
 		return -20;
@@ -238,7 +238,7 @@ int32_t PIOS_FLASH_start_transaction(uintptr_t partition_id)
 
 int32_t PIOS_FLASH_end_transaction(uintptr_t partition_id)
 {
-	struct pios_flash_partition * partition = (struct pios_flash_partition *)partition_id;
+	struct pios_flash_partition *partition = (struct pios_flash_partition *)partition_id;
 
 	if (!PIOS_FLASH_validate_partition(partition))
 		return -20;
@@ -252,7 +252,7 @@ int32_t PIOS_FLASH_end_transaction(uintptr_t partition_id)
 
 int32_t PIOS_FLASH_erase_range(uintptr_t partition_id, uint32_t start_offset, uint32_t size)
 {
-	struct pios_flash_partition * partition = (struct pios_flash_partition *)partition_id;
+	struct pios_flash_partition *partition = (struct pios_flash_partition *)partition_id;
 
 	if (!PIOS_FLASH_validate_partition(partition))
 		return -20;
@@ -300,7 +300,7 @@ int32_t PIOS_FLASH_erase_range(uintptr_t partition_id, uint32_t start_offset, ui
 
 int32_t PIOS_FLASH_erase_partition(uintptr_t partition_id)
 {
-	struct pios_flash_partition * partition = (struct pios_flash_partition *)partition_id;
+	struct pios_flash_partition *partition = (struct pios_flash_partition *)partition_id;
 
 	if (!PIOS_FLASH_validate_partition(partition))
 		return -20;
@@ -325,9 +325,9 @@ int32_t PIOS_FLASH_erase_partition(uintptr_t partition_id)
 	return 0;
 }
 
-int32_t PIOS_FLASH_write_data(uintptr_t partition_id, uint32_t partition_offset, const uint8_t * data, uint16_t len)
+int32_t PIOS_FLASH_write_data(uintptr_t partition_id, uint32_t partition_offset, const uint8_t *data, uint16_t len)
 {
-	struct pios_flash_partition * partition = (struct pios_flash_partition *)partition_id;
+	struct pios_flash_partition *partition = (struct pios_flash_partition *)partition_id;
 
 	if (!PIOS_FLASH_validate_partition(partition))
 		return -20;
@@ -372,9 +372,9 @@ int32_t PIOS_FLASH_write_data(uintptr_t partition_id, uint32_t partition_offset,
 	return 0;
 }
 
-int32_t PIOS_FLASH_read_data(uintptr_t partition_id, uint32_t partition_offset, uint8_t * data, uint16_t len)
+int32_t PIOS_FLASH_read_data(uintptr_t partition_id, uint32_t partition_offset, uint8_t *data, uint16_t len)
 {
-	struct pios_flash_partition * partition = (struct pios_flash_partition *)partition_id;
+	struct pios_flash_partition *partition = (struct pios_flash_partition *)partition_id;
 
 	if (!PIOS_FLASH_validate_partition(partition))
 		return -20;
