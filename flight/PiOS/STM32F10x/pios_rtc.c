@@ -60,7 +60,7 @@ void PIOS_RTC_Init(const struct pios_rtc_cfg * cfg)
 	RTC_WaitForLastTask();
 
 	/* Configure and enable the RTC Second interrupt */
-	NVIC_Init(&cfg->irq.init);
+	NVIC_Init((NVIC_InitTypeDef*)&cfg->irq.init);
 	RTC_ITConfig( RTC_IT_SEC, ENABLE );
 	RTC_WaitForLastTask();
 

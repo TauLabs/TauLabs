@@ -255,7 +255,7 @@ static void PIOS_INTERNAL_ADC_Config(uint32_t internal_adc_id, uint32_t oversamp
         DMA_ITConfig(adc_dev->cfg->dma.rx.channel, DMA_IT_HT, ENABLE);
 	
 	/* Configure DMA interrupt */
-	NVIC_Init(&adc_dev->cfg->dma.irq.init);
+	NVIC_Init((NVIC_InitTypeDef*)&adc_dev->cfg->dma.irq.init);
 	
 	/* Finally start initial conversion */
 	ADC_SoftwareStartConvCmd(ADC1, ENABLE);
