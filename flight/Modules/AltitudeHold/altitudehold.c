@@ -61,7 +61,7 @@
 #include "modulesettings.h"
 
 // Private constants
-#define MAX_QUEUE_SIZE 3
+#define MAX_QUEUE_SIZE 4
 #define STACK_SIZE_BYTES 1024
 #define TASK_PRIORITY (tskIDLE_PRIORITY+1)
 #define ACCEL_DOWNSAMPLE 4
@@ -70,11 +70,9 @@
 static xTaskHandle altitudeHoldTaskHandle;
 static xQueueHandle queue;
 static bool module_enabled;
-static bool altitudeholdsettings_updated;
 
 // Private functions
 static void altitudeHoldTask(void *parameters);
-static void SettingsUpdatedCb(UAVObjEvent * ev);
 
 /**
  * Initialise the module, called on startup
@@ -118,8 +116,6 @@ int32_t AltitudeHoldInitialize()
 		// Create object queue
 		queue = xQueueCreate(MAX_QUEUE_SIZE, sizeof(UAVObjEvent));
 
-		AltitudeHoldSettingsConnectCallback(&SettingsUpdatedCb);
-
 		return 0;
 	}
 
@@ -138,8 +134,8 @@ static void altitudeHoldTask(void *parameters)
 	float starting_altitude;
 	float throttleIntegral;
 	float error;
-	float smoothed_altitude;	
-
+	float smoothed_altitude;
+	
 	AltitudeHoldDesiredData altitudeHoldDesired;
 	StabilizationDesiredData stabilizationDesired;
 	AltitudeHoldSettingsData altitudeHoldSettings;
@@ -153,12 +149,11 @@ static void altitudeHoldTask(void *parameters)
 	BaroAltitudeConnectQueue(queue);
 	FlightStatusConnectQueue(queue);
 	AccelsConnectQueue(queue);
+	AltitudeHoldSettingsConnectQueue(queue);
 
 	AltitudeHoldSettingsGet(&altitudeHoldSettings);
 	BaroAltitudeAltitudeGet(&smoothed_altitude);
 	starting_altitude = smoothed_altitude;
-
-	altitudeholdsettings_updated = true;
 
 	AlarmsSet(SYSTEMALARMS_ALARM_ALTITUDEHOLD, SYSTEMALARMS_ALARM_ERROR);
 
@@ -245,16 +240,11 @@ static void altitudeHoldTask(void *parameters)
 			} else if (init == WAITING_BARO)
 				continue;
 
-			if (altitudeholdsettings_updated) {
-				AltitudeHoldSettingsGet(&altitudeHoldSettings);
-				altitudeholdsettings_updated = false;
-			}
 			S[0] = altitudeHoldSettings.PressureNoise;
 			S[1] = altitudeHoldSettings.AccelNoise;
 			G[2] = altitudeHoldSettings.AccelDrift;
 
 			if (S[0] == 0 || S[1] == 0 || G[2] == 0) {
-				altitudeholdsettings_updated = true;
 				continue;
 			}
 
@@ -409,12 +399,15 @@ static void altitudeHoldTask(void *parameters)
 
 		} else if (ev.obj == AltitudeHoldDesiredHandle()) {
 			AltitudeHoldDesiredGet(&altitudeHoldDesired);
+		} else if (ev.obj == AltitudeHoldSettingsHandle()) {
+			AltitudeHoldSettingsGet(&altitudeHoldSettings);
 		}
 
 	}
 }
 
-static void SettingsUpdatedCb(UAVObjEvent * ev)
-{
-	altitudeholdsettings_updated = true;
-}
+/**
+ * @}
+ * @}
+ */
+
