@@ -74,6 +74,8 @@ private slots:
     void changeVerticalHeader(int);
     void changeHorizontalHeader(int);
 private:
+    int stripMs(QVariant rate_ms);
+
     void importTelemetryConfiguration(const QString& fileName);
     UAVObjectUtilManager *getObjectUtilManager();
     UAVObjectManager *getObjectManager();

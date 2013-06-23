@@ -228,8 +228,8 @@ void TelemetrySchedulerGadgetWidget::dataModel_itemChanged(QStandardItem *item)
         // Get UAVO speed
         QModelIndex index = schedulerModel->index(i, col, QModelIndex());
         double updatePeriod_s;
-        if (schedulerModel->data(index).isValid() && schedulerModel->data(index).toString().replace(QString("ms"), QString("")).toUInt() > 0)
-            updatePeriod_s = schedulerModel->data(index).toString().replace(QString("ms"), QString("")).toUInt() / 1000.0;
+        if (schedulerModel->data(index).isValid() && stripMs(schedulerModel->data(index)) > 0)
+            updatePeriod_s = stripMs(schedulerModel->data(index)) / 1000.0;
         else
             updatePeriod_s = defaultMdata.value(obj->getName().append("Meta")).flightTelemetryUpdatePeriod / 1000.0;
 
@@ -368,11 +368,11 @@ void TelemetrySchedulerGadgetWidget::applySchedule()
         // Get update period
         double updatePeriod_ms;
         QModelIndex index = schedulerModel->index(i, col, QModelIndex());
-        if (schedulerModel->data(index).isValid() && schedulerModel->data(index).toUInt() > 0)
-            updatePeriod_ms = schedulerModel->data(index).toUInt();
-        else
+        if (schedulerModel->data(index).isValid() && stripMs(schedulerModel->data(index)) > 0) {
+            updatePeriod_ms = stripMs(schedulerModel->data(index));
+        } else {
             updatePeriod_ms = defaultMdata.value(obj->getName().append("Meta")).flightTelemetryUpdatePeriod;
-
+        }
 
         // Set new update rate value
         mdata.flightTelemetryUpdatePeriod = updatePeriod_ms;
@@ -628,6 +628,15 @@ void TelemetrySchedulerGadgetWidget::changeVerticalHeader(int headerIndex)
     uavObj->setMetadata(newMetadata);
 }
 
+/**
+ * @brief TelemetrySchedulerGadgetWidget::stripMs Remove the ms suffix
+ * @param rate_ms rate with ms suffix at end
+ * @return the integer parsed string
+ */
+int TelemetrySchedulerGadgetWidget::stripMs(QVariant rate_ms)
+{
+    return rate_ms.toString().replace(QString("ms"), QString("")).toUInt();
+}
 
 /**
  * @brief TelemetrySchedulerGadgetWidget::getObjectManager Utility function to get a pointer to the object manager
