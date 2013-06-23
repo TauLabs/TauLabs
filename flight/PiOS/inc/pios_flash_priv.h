@@ -30,6 +30,9 @@
 #include <stdint.h>
 #include "pios_flash.h"
 
+/**
+ * Describes the API that must be implemented by each flash chip driver.
+ */
 struct pios_flash_driver {
 	int32_t (*start_transaction)(uintptr_t chip_id);
 	int32_t (*end_transaction)(uintptr_t chip_id);
@@ -39,12 +42,27 @@ struct pios_flash_driver {
 	int32_t (*read_data)(uintptr_t chip_id, uint32_t chip_offset, uint8_t *data, uint16_t len);
 };
 
+/**
+ * Describes a block of sectors within a chip that all have the same sector size.
+ */
 struct pios_flash_sector_range {
 	uint16_t base_sector;
 	uint16_t last_sector;
 	uint32_t sector_size;
 };
 
+/**
+ * Describes all of the attributes of a single, physical flash device.
+ *
+ * driver provides all of the functions to allow access to the device.
+ * chip_id points to the run-time context for this device after it has been initialized.
+ * page_size is the largest unit that can be written in a single write request.
+ *    These pages are aligned to the start of a sector and the entire write operation must
+ *    be within a single page.
+ * sector_blocks points to an array of blocks of sector ranges.
+ *    This is effectively a run-length-encoded list of all sectors grouped by sector size
+ * num_blocks is the number of elements in the sector_blocks array
+ */
 struct pios_flash_chip {
 	const struct pios_flash_driver *driver;
 	uintptr_t *chip_id;
@@ -53,6 +71,14 @@ struct pios_flash_chip {
 	uint32_t num_blocks;
 };
 
+/**
+ * A partition is a contiguous block of sectors within a single underlying flash device.
+ *
+ * label is used to describe what the partition is used for and to attach the proper filesystem
+ * chip_desc refers to the underlying chip device descriptor
+ * first_sector is the sector number (within the chip) where the partition begins
+ * last_sector is the last sector number (within the chip) that is within the partition
+ */
 struct pios_flash_partition {
 	enum pios_flash_partition_labels label;
 	const struct pios_flash_chip *chip_desc;
