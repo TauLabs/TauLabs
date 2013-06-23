@@ -341,8 +341,8 @@ static void PIOS_USB_CDC_CTRL_IF_DeInit(uint32_t usb_cdc_id)
 		return;
 	}
 
-	/* DeRegister endpoint specific callbacks with the USBHOOK layer */
-	usb_cdc_dev->usb_data_if_enabled = false;
+	/* reset state of the usb hid device structure */
+	usb_cdc_dev->usb_ctrl_if_enabled = false;
 }
 
 static uint8_t cdc_altset;
@@ -556,8 +556,14 @@ static void PIOS_USB_CDC_DATA_IF_DeInit(uint32_t usb_cdc_id)
 		return;
 	}
 
-	/* DeRegister endpoint specific callbacks with the USBHOOK layer */
+	/* reset state of the usb hid device structure */
+	usb_cdc_dev->rx_active = false;
+	usb_cdc_dev->rx_dropped = 0;
+	usb_cdc_dev->rx_oversize = 0;
+	usb_cdc_dev->tx_active = false;
 	usb_cdc_dev->usb_data_if_enabled = false;
+
+	/* DeRegister endpoint specific callbacks with the USBHOOK layer */
 	PIOS_USBHOOK_DeRegisterEpInCallback(usb_cdc_dev->cfg->data_tx_ep);
 	PIOS_USBHOOK_DeRegisterEpOutCallback(usb_cdc_dev->cfg->data_rx_ep);
 }
