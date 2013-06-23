@@ -127,7 +127,7 @@ MODULE_INITCALL(AltitudeHoldInitialize, AltitudeHoldStart);
  */
 static void altitudeHoldTask(void *parameters)
 {
-	enum altitudehold_state {AH_INIT, AH_WAITING_BARO, AH_WAITIING_INIT, AH_RUNNING} state = AH_INIT;
+	enum altitudehold_state {AH_RESET, AH_WAITING_BARO, AH_WAITIING_INIT, AH_RUNNING} state = AH_RESET;
 	bool engaged = false;
 	bool baro_updated = false;
 	float starting_altitude;
@@ -167,7 +167,7 @@ static void altitudeHoldTask(void *parameters)
 	// Main task loop
 	while (1) {
 
-		if (state == AH_INIT) {
+		if (state == AH_RESET) {
 			/* Reset all the EKF variables */
 			memset(z, 0, sizeof(z));
 			memset(V, 0, sizeof(V));
@@ -358,7 +358,7 @@ static void altitudeHoldTask(void *parameters)
 			AltHoldSmoothedSet(&altHold);
 
 			if (isnan(altHold.Altitude) || isnan(altHold.Velocity) || isnan(altHold.Accel)) {
-				state = AH_INIT;
+				state = AH_RESET;
 				AlarmsSet(SYSTEMALARMS_ALARM_ALTITUDEHOLD, SYSTEMALARMS_ALARM_CRITICAL);
 			} else
 				AlarmsClear(SYSTEMALARMS_ALARM_ALTITUDEHOLD);
