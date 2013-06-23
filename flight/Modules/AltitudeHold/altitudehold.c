@@ -128,7 +128,7 @@ MODULE_INITCALL(AltitudeHoldInitialize, AltitudeHoldStart);
 static void altitudeHoldTask(void *parameters)
 {
 	enum altitudehold_state {AH_INIT, AH_WAITING_BARO, AH_WAITIING_INIT, AH_RUNNING} state = AH_INIT;
-	bool running = false;
+	bool engaged = false;
 	bool baro_updated = false;
 	float starting_altitude;
 	float throttleIntegral;
@@ -186,7 +186,7 @@ static void altitudeHoldTask(void *parameters)
 		// Wait until the sensors are updated, if a timeout then go to failsafe
 		if ( xQueueReceive(queue, &ev, MS2TICKS(100)) != pdTRUE )
 		{
-			if(!running)
+			if(!engaged)
 				throttleIntegral = 0;
 
 			// Todo: Add alarm if it should be running
@@ -199,15 +199,15 @@ static void altitudeHoldTask(void *parameters)
 			FlightStatusData flightStatus;
 			FlightStatusGet(&flightStatus);
 
-			if(flightStatus.FlightMode == FLIGHTSTATUS_FLIGHTMODE_ALTITUDEHOLD && !running) {
+			if(flightStatus.FlightMode == FLIGHTSTATUS_FLIGHTMODE_ALTITUDEHOLD && !engaged) {
 				// Copy the current throttle as a starting point for integral
 				StabilizationDesiredThrottleGet(&throttleIntegral);
 				error = 0;
-				running = true;
+				engaged = true;
 
 				AltHoldSmoothedAltitudeGet(&starting_altitude);
 			} else if (flightStatus.FlightMode != FLIGHTSTATUS_FLIGHTMODE_ALTITUDEHOLD)
-				running = false;
+				engaged = false;
 		} else if (ev.obj == AccelsHandle()) {
 			if (state == AH_WAITING_BARO)
 				continue;
@@ -368,10 +368,10 @@ static void altitudeHoldTask(void *parameters)
 			FlightStatusData flightStatus;
 			FlightStatusGet(&flightStatus);
 			if(flightStatus.FlightMode != FLIGHTSTATUS_FLIGHTMODE_ALTITUDEHOLD) {
-				running = false;
+				engaged = false;
 			}
 
-			if (!running)
+			if (!engaged)
 				continue;
 
 			// Compute the altitude error
