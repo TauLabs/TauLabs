@@ -160,10 +160,6 @@ static void altitudeHoldTask(void *parameters)
 
 	AlarmsSet(SYSTEMALARMS_ALARM_ALTITUDEHOLD, SYSTEMALARMS_ALARM_ERROR);
 
-	// Let the system start up.  For some reason this is required ot prevent
-	// occasional failures to initialize.
-	vTaskDelay(100);
-
 	// Main task loop
 	while (1) {
 
@@ -209,9 +205,6 @@ static void altitudeHoldTask(void *parameters)
 			} else if (flightStatus.FlightMode != FLIGHTSTATUS_FLIGHTMODE_ALTITUDEHOLD)
 				engaged = false;
 		} else if (ev.obj == AccelsHandle()) {
-			if (state == AH_WAITING_BARO)
-				continue;
-
 			AccelsData accels;
 			AccelsGet(&accels);
 
