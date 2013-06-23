@@ -61,7 +61,7 @@
 
 // Private constants
 #define MAX_QUEUE_SIZE 4
-#define STACK_SIZE_BYTES 1024
+#define STACK_SIZE_BYTES 1200
 #define TASK_PRIORITY (tskIDLE_PRIORITY+1)
 #define ACCEL_DOWNSAMPLE 4
 
@@ -127,13 +127,19 @@ MODULE_INITCALL(AltitudeHoldInitialize, AltitudeHoldStart);
  */
 static void altitudeHoldTask(void *parameters)
 {
-	enum init_state {WAITING_BARO, WAITIING_INIT, INITED} init = WAITING_BARO;
+	enum altitudehold_state {AH_INIT, AH_WAITING_BARO, AH_WAITIING_INIT, AH_RUNNING} state = AH_INIT;
 	bool running = false;
 	bool baro_updated = false;
 	float starting_altitude;
 	float throttleIntegral;
 	float error;
-	
+
+	/* EKF variables */
+	float z[4];
+	float V[4][4];
+	uint32_t accel_downsample_count = 0;
+	float accels_accum[3] = {0,0,0};
+
 	AltitudeHoldDesiredData altitudeHoldDesired;
 	StabilizationDesiredData stabilizationDesired;
 	AltitudeHoldSettingsData altitudeHoldSettings;
@@ -160,6 +166,23 @@ static void altitudeHoldTask(void *parameters)
 
 	// Main task loop
 	while (1) {
+
+		if (state == AH_INIT) {
+			/* Reset all the EKF variables */
+			memset(z, 0, sizeof(z));
+			memset(V, 0, sizeof(V));
+			memset(accels_accum, 0, sizeof(accels_accum));
+			accel_downsample_count = 0;
+
+			/* Set initial variances */
+			V[0][0] = 10.0f;
+			V[1][1] = 100.0f;
+			V[2][2] = 100.0f;
+			V[3][3] = 1000.0f;
+
+			state = AH_WAITING_BARO;
+		}
+
 		// Wait until the sensors are updated, if a timeout then go to failsafe
 		if ( xQueueReceive(queue, &ev, MS2TICKS(100)) != pdTRUE )
 		{
@@ -171,7 +194,7 @@ static void altitudeHoldTask(void *parameters)
 		} else if (ev.obj == BaroAltitudeHandle()) {
 			baro_updated = true;
 
-			init = (init == WAITING_BARO) ? WAITIING_INIT : init;
+			state = (state == AH_WAITING_BARO) ? AH_WAITIING_INIT : state;
 		} else if (ev.obj == FlightStatusHandle()) {
 			FlightStatusData flightStatus;
 			FlightStatusGet(&flightStatus);
@@ -186,20 +209,8 @@ static void altitudeHoldTask(void *parameters)
 			} else if (flightStatus.FlightMode != FLIGHTSTATUS_FLIGHTMODE_ALTITUDEHOLD)
 				running = false;
 		} else if (ev.obj == AccelsHandle()) {
-			if (init == WAITING_BARO)
+			if (state == AH_WAITING_BARO)
 				continue;
-
-			static uint32_t timeval;
-
-			static float z[4] = {0, 0, 0, 0};
-			float z_new[4];
-			float P[4][4], K[4][2], x[2];
-			float G[4] = {1.0e-15f, 1.0e-15f, 1.0e-3f, 1.0e-7};
-			static float V[4][4] = {{10.0f, 0, 0, 0}, {0, 100.0f, 0, 0}, {0, 0, 100.0f, 0}, {0, 0, 0, 1000.0f}};
-			static uint32_t accel_downsample_count = 0;
-			static float accels_accum[3] = {0,0,0};
-			float dT;
-			static float S[2] = {1.0f,10.0f};
 
 			AccelsData accels;
 			AccelsGet(&accels);
@@ -226,18 +237,24 @@ static void altitudeHoldTask(void *parameters)
 			BaroAltitudeData baro;
 			BaroAltitudeGet(&baro);
 
-			if (init == WAITIING_INIT) {
+			if (state == AH_WAITIING_INIT) {
 				z[0] = baro.Altitude;
 				z[1] = 0;
 				z[2] = accels.z;
 				z[3] = 0;
-				init = INITED;
-			} else if (init == WAITING_BARO)
+				state = AH_RUNNING;
+			} else if (state == AH_WAITING_BARO)
 				continue;
 
-			S[0] = altitudeHoldSettings.PressureNoise;
-			S[1] = altitudeHoldSettings.AccelNoise;
-			G[2] = altitudeHoldSettings.AccelDrift;
+			static uint32_t timeval;
+			float dT = PIOS_DELAY_DiffuS(timeval) / 1.0e6f;
+			timeval = PIOS_DELAY_GetRaw();
+
+			/* Local working variables */
+			float z_new[4];
+			float P[4][4], K[4][2], x[2];
+			float G[4] = {1.0e-15f, altitudeHoldSettings.AccelNoise, altitudeHoldSettings.AccelDrift, 1.0e-7};
+			float S[2] = {altitudeHoldSettings.PressureNoise,10.0f};
 
 			if (S[0] == 0 || S[1] == 0 || G[2] == 0) {
 				continue;
@@ -247,9 +264,6 @@ static void altitudeHoldTask(void *parameters)
 			Quaternion2R(&attitudeActual.q1, Rbe);
 			x[0] = baro.Altitude;
 			x[1] = -(Rbe[0][2]*accels.x+ Rbe[1][2]*accels.y + Rbe[2][2]*accels.z + GRAVITY);
-
-			dT = PIOS_DELAY_DiffuS(timeval) / 1.0e6f;
-			timeval = PIOS_DELAY_GetRaw();
 
 			P[0][0] = dT*(V[0][1]+dT*V[1][1])+V[0][0]+G[0]+dT*V[1][0];
 			P[0][1] = dT*(V[0][2]+dT*V[1][2])+V[0][1]+dT*V[1][1];
@@ -344,7 +358,7 @@ static void altitudeHoldTask(void *parameters)
 			AltHoldSmoothedSet(&altHold);
 
 			if (isnan(altHold.Altitude) || isnan(altHold.Velocity) || isnan(altHold.Accel)) {
-				init = WAITING_BARO;
+				state = AH_INIT;
 				AlarmsSet(SYSTEMALARMS_ALARM_ALTITUDEHOLD, SYSTEMALARMS_ALARM_CRITICAL);
 			} else
 				AlarmsClear(SYSTEMALARMS_ALARM_ALTITUDEHOLD);
