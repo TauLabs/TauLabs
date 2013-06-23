@@ -344,6 +344,7 @@ static void altitudeHoldTask(void *parameters)
 			AltHoldSmoothedSet(&altHold);
 
 			if (isnan(altHold.Altitude) || isnan(altHold.Velocity) || isnan(altHold.Accel)) {
+				init = WAITING_BARO;
 				AlarmsSet(SYSTEMALARMS_ALARM_ALTITUDEHOLD, SYSTEMALARMS_ALARM_CRITICAL);
 			} else
 				AlarmsClear(SYSTEMALARMS_ALARM_ALTITUDEHOLD);
