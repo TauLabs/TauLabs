@@ -85,10 +85,6 @@ NVIC value of 255. */
 #define configGENERATE_RUN_TIME_STATS 			1
 #define INCLUDE_uxTaskGetRunTime 				1
 
-/* Enable run time stats collection */
-#define configGENERATE_RUN_TIME_STATS 			1
-#define INCLUDE_uxTaskGetRunTime 				1
-
 #define portCONFIGURE_TIMER_FOR_RUN_TIME_STATS()			\
 	do {													\
 		CoreDebug->DEMCR |= CoreDebug_DEMCR_TRCENA_Msk; 	\

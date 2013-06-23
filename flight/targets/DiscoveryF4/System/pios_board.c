@@ -41,7 +41,6 @@
 #include <uavobjectsinit.h>
 #include "hwdiscoveryf4.h"
 #include "manualcontrolsettings.h"
-#include "gcsreceiver.h"
 #include "modulesettings.h"
 
 /* One slot per selectable receiver group.
