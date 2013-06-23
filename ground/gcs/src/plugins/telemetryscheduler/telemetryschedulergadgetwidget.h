@@ -61,7 +61,12 @@ protected slots:
 private slots:
     void saveTelemetryToFile();
     void loadTelemetryFromFile();
+
+    //! Apply selected telemetry schedule to the UAV
     void applySchedule();
+    //! Save selected telemetry schedule on the UAV
+    void saveSchedule();
+
     void updateCurrentColumn(UAVObject *);
     void dataModel_itemChanged(QStandardItem *);
     void addTelemetryColumn();

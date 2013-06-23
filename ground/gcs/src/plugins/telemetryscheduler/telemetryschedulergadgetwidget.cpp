@@ -72,8 +72,12 @@ TelemetrySchedulerGadgetWidget::TelemetrySchedulerGadgetWidget(QWidget *parent) 
 
     // The dummy table exists only to force the other widgets into the correct place.
     // It is removed and replaced tby the custom copy/paste-enabled table
+    int dummyIndex = m_telemetryeditor->gridLayout->indexOf(m_telemetryeditor->tableWidgetDummy);
+    int row, col, rowSpan, colSpan;
+    m_telemetryeditor->gridLayout->getItemPosition(dummyIndex, &row, &col, &rowSpan, &colSpan);
     m_telemetryeditor->gridLayout->removeWidget(m_telemetryeditor->tableWidgetDummy);
-    m_telemetryeditor->gridLayout->addWidget(telemetryScheduleView, 0, 0, 3, 5);
+    m_telemetryeditor->tableWidgetDummy->setVisible(false);
+    m_telemetryeditor->gridLayout->addWidget(telemetryScheduleView, row, col, rowSpan, colSpan);
 
     // Sets the fields in the table to spinboxes
     SpinBoxDelegate *delegate = new SpinBoxDelegate();
@@ -83,6 +87,7 @@ TelemetrySchedulerGadgetWidget::TelemetrySchedulerGadgetWidget(QWidget *parent) 
     connect(m_telemetryeditor->bnSaveTelemetryToFile, SIGNAL(clicked()), this, SLOT(saveTelemetryToFile()));
     connect(m_telemetryeditor->bnLoadTelemetryFromFile, SIGNAL(clicked()), this, SLOT(loadTelemetryFromFile()));
     connect(m_telemetryeditor->bnApplySchedule, SIGNAL(clicked()), this, SLOT(applySchedule()));
+    connect(m_telemetryeditor->bnSaveSchedule, SIGNAL(clicked()), this, SLOT(saveSchedule()));
     connect(m_telemetryeditor->bnAddTelemetryColumn, SIGNAL(clicked()), this, SLOT(addTelemetryColumn()));
     connect(m_telemetryeditor->bnRemoveTelemetryColumn, SIGNAL(clicked()), this, SLOT(removeTelemetryColumn()));
     connect(schedulerModel, SIGNAL(itemChanged(QStandardItem *)), this, SLOT(dataModel_itemChanged(QStandardItem *)));
@@ -378,6 +383,24 @@ void TelemetrySchedulerGadgetWidget::applySchedule()
     getObjectUtilManager()->setAllNonSettingsMetadata(metaDataList);
 }
 
+/**
+ * @brief TelemetrySchedulerGadgetWidget::saveSchedule Save settings to board
+ */
+void TelemetrySchedulerGadgetWidget::saveSchedule()
+{
+    // Make sure we are saving the selected schedule
+    applySchedule();
+
+    for (int i=1; i<schedulerModel->rowCount(); i++) {
+        // Get UAVO name and metadata
+        QString uavObjectName = schedulerModel->verticalHeaderItem(i)->text();
+        UAVDataObject * obj = dynamic_cast<UAVDataObject*>(objManager->getObject(uavObjectName));
+        if (obj) {
+            UAVMetaObject * meta = obj->getMetaObject();
+            getObjectUtilManager()->saveObjectToSD(meta);
+        }
+    }
+}
 
 void TelemetrySchedulerGadgetWidget::loadTelemetryFromFile()
 {
