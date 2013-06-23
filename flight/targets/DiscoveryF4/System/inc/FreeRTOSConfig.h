@@ -27,7 +27,7 @@
 
 /* Notes: We use 5 task priorities */
 
-#define configCPU_CLOCK_HZ						(168000000)	// really the NVIC clock ...
+#define configCPU_CLOCK_HZ						(SYSCLK_FREQ)	// really the NVIC clock ...
 #define configTICK_RATE_HZ						((portTickType )1000)
 #define configMAX_PRIORITIES					((unsigned portBASE_TYPE)5)
 #define configMINIMAL_STACK_SIZE				((unsigned short)512)
