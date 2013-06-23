@@ -33,13 +33,20 @@
 
 #if defined(PIOS_INCLUDE_GCSRCVR)
 
+#if defined(PIOS_INCLUDE_RTC)
+#define PIOS_GCSRCVR_HAS_SUPERVISOR
+#endif
+
 #include "pios_gcsrcvr_priv.h"
 
 static GCSReceiverData gcsreceiverdata;
 
 /* Provide a RCVR driver */
 static int32_t PIOS_GCSRCVR_Get(uint32_t rcvr_id, uint8_t channel);
+
+#if defined(PIOS_GCSRCVR_HAS_SUPERVISOR)
 static void PIOS_gcsrcvr_Supervisor(uint32_t ppm_id);
+#endif	/* PIOS_GCSRCVR_HAS_SUPERVISOR */
 
 const struct pios_rcvr_driver pios_gcsrcvr_rcvr_driver = {
 	.read = PIOS_GCSRCVR_Get,
@@ -59,10 +66,12 @@ struct pios_gcsrcvr_dev {
 
 static struct pios_gcsrcvr_dev *global_gcsrcvr_dev;
 
+#if defined(PIOS_GCSRCVR_HAS_SUPERVISOR)
 static bool PIOS_gcsrcvr_validate(struct pios_gcsrcvr_dev *gcsrcvr_dev)
 {
 	return (gcsrcvr_dev->magic == PIOS_GCSRCVR_DEV_MAGIC);
 }
+#endif	/* PIOS_GCSRCVR_HAS_SUPERVISOR */
 
 #if defined(PIOS_INCLUDE_FREERTOS)
 static struct pios_gcsrcvr_dev *PIOS_gcsrcvr_alloc(void)
@@ -129,10 +138,12 @@ extern int32_t PIOS_GCSRCVR_Init(uint32_t *gcsrcvr_id)
 	/* Register uavobj callback */
 	GCSReceiverConnectCallback (gcsreceiver_updated);
 
+#if defined(PIOS_GCSRCVR_HAS_SUPERVISOR)
 	/* Register the failsafe timer callback. */
 	if (!PIOS_RTC_RegisterTickCallback(PIOS_gcsrcvr_Supervisor, (uint32_t)gcsrcvr_dev)) {
 		PIOS_DEBUG_Assert(0);
 	}
+#endif	/* PIOS_GCSRCVR_HAS_SUPERVISOR */
 
 	return 0;
 }
@@ -154,6 +165,7 @@ static int32_t PIOS_GCSRCVR_Get(uint32_t rcvr_id, uint8_t channel)
 	return (gcsreceiverdata.Channel[channel]);
 }
 
+#if defined(PIOS_GCSRCVR_HAS_SUPERVISOR)
 static void PIOS_gcsrcvr_Supervisor(uint32_t gcsrcvr_id) {
 	/* Recover our device context */
 	struct pios_gcsrcvr_dev * gcsrcvr_dev = (struct pios_gcsrcvr_dev *)gcsrcvr_id;
@@ -177,6 +189,7 @@ static void PIOS_gcsrcvr_Supervisor(uint32_t gcsrcvr_id) {
 
 	gcsrcvr_dev->Fresh = false;
 }
+#endif	/* PIOS_GCSRCVR_HAS_SUPERVISOR */
 
 #endif	/* PIOS_INCLUDE_GCSRCVR */
 
