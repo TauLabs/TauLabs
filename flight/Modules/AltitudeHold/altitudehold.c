@@ -133,7 +133,6 @@ static void altitudeHoldTask(void *parameters)
 	float starting_altitude;
 	float throttleIntegral;
 	float error;
-	float smoothed_altitude;
 	
 	AltitudeHoldDesiredData altitudeHoldDesired;
 	StabilizationDesiredData stabilizationDesired;
@@ -151,8 +150,7 @@ static void altitudeHoldTask(void *parameters)
 	AltitudeHoldSettingsConnectQueue(queue);
 
 	AltitudeHoldSettingsGet(&altitudeHoldSettings);
-	BaroAltitudeAltitudeGet(&smoothed_altitude);
-	starting_altitude = smoothed_altitude;
+	BaroAltitudeAltitudeGet(&starting_altitude);
 
 	AlarmsSet(SYSTEMALARMS_ALARM_ALTITUDEHOLD, SYSTEMALARMS_ALARM_ERROR);
 
@@ -184,9 +182,7 @@ static void altitudeHoldTask(void *parameters)
 				error = 0;
 				running = true;
 
-				AltHoldSmoothedData altHold;
-				AltHoldSmoothedGet(&altHold);
-				starting_altitude = altHold.Altitude;
+				AltHoldSmoothedAltitudeGet(&starting_altitude);
 			} else if (flightStatus.FlightMode != FLIGHTSTATUS_FLIGHTMODE_ALTITUDEHOLD)
 				running = false;
 		} else if (ev.obj == AccelsHandle()) {
