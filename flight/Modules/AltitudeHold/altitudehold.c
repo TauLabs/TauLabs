@@ -6,7 +6,6 @@
  * @{
  *
  * @file       altitudehold.c
- * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
  * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
  * @brief      This module runs an EKF to estimate altitude from just a barometric
  *             sensor and controls throttle to hold a fixed altitude
