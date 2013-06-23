@@ -30,10 +30,16 @@
 #include <stdint.h>
 #include "pios_flash.h"		/* struct pios_flash_driver */
 
+/**
+ * Configuration for a logfs filesystem
+ *
+ * Note: a filesystem requires room for at least 2 arenas within its partition.
+ * Note: a filesystem requires room for at least 2 slots per arena.  The first slot is reserved.
+ */
 struct flashfs_logfs_cfg {
 	uint32_t fs_magic;
 	uint32_t arena_size;	/* Max size of one generation of the filesystem */
-	uint32_t slot_size;	/* Max size of a "file" */
+	uint32_t slot_size;	/* Max size of a "file" within the filesystem */
 };
 
 int32_t PIOS_FLASHFS_Logfs_Init(uintptr_t * fs_id, const struct flashfs_logfs_cfg * cfg, enum pios_flash_partition_labels partition_label);
