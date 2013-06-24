@@ -66,10 +66,12 @@ public class Map extends ObjectManagerActivity
 	private MapFragment mapFrag;
 	private Marker mUavMarker;
 	private Marker mHomeMarker;
+	private Marker mPoiMarker;
 	private final List<Marker> mWaypointMarkers = new ArrayList<Marker>();
 
     GeoPoint homeLocation;
     GeoPoint uavLocation;
+    GeoPoint poiLocation;
 
     @Override public void onCreate(Bundle icicle) {
 		super.onCreate(icicle);
@@ -132,6 +134,13 @@ public class Map extends ObjectManagerActivity
 			objectUpdated(obj);
 		}
 
+		obj = objMngr.getObject("PoiLocation");
+		if (obj != null) {
+			obj.updateRequested(); // Make sure this is correct and been updated
+			registerObjectUpdates(obj);
+			objectUpdated(obj);
+		}
+
 		obj = objMngr.getObject("PositionActual");
 		if (obj != null) {
 			obj.updateRequested(); // Make sure this is correct and been updated
@@ -178,6 +187,38 @@ public class Map extends ObjectManagerActivity
 		double NED0, NED1;
 		NED0 = pos.getField("North").getDouble();
 		NED1 = pos.getField("East").getDouble();
+
+		// Compute the LLA coordinates
+		lat = lat + (NED0 / T0) * 180.0 / Math.PI;
+		lon = lon + (NED1 / T1) * 180.0 / Math.PI;
+
+		return new GeoPoint((int) (lat * 1e6), (int) (lon * 1e6));
+	}
+	
+	//! Convert the POI location into a GeoPoint
+	private GeoPoint getPoiLocation() {
+		UAVObject poi = objMngr.getObject("PoiLocation");
+		if (poi == null)
+			return new GeoPoint(0,0);
+
+		UAVObject home = objMngr.getObject("HomeLocation");
+		if (home == null)
+			return new GeoPoint(0,0);
+
+		double lat, lon, alt;
+		lat = home.getField("Latitude").getDouble() / 10.0e6;
+		lon = home.getField("Longitude").getDouble() / 10.0e6;
+		alt = home.getField("Altitude").getDouble();
+
+		// Get the home coordinates
+		double T0, T1;
+		T0 = alt+6.378137E6;
+		T1 = Math.cos(lat * Math.PI / 180.0)*(alt+6.378137E6);
+
+		// Get the NED coordinates
+		double NED0, NED1;
+		NED0 = poi.getField("North").getDouble();
+		NED1 = poi.getField("East").getDouble();
 
 		// Compute the LLA coordinates
 		lat = lat + (NED0 / T0) * 180.0 / Math.PI;
@@ -237,6 +278,17 @@ public class Map extends ObjectManagerActivity
 			       .icon(BitmapDescriptorFactory.fromResource(R.drawable.im_map_home)));
 			} else {
 				mHomeMarker.setPosition((new LatLng(homeLocation.getLatitudeE6() / 1e6, homeLocation.getLongitudeE6() / 1e6)));
+			}
+		} else if (obj.getName().compareTo("PoiLocation") == 0) {
+			poiLocation = getPoiLocation();
+			if (mPoiMarker == null) {
+				mPoiMarker = mMap.addMarker(new MarkerOptions().anchor(0.5f,0.5f)
+			       .position(new LatLng(poiLocation.getLatitudeE6() / 1e6, poiLocation.getLongitudeE6() / 1e6))
+			       .title("POI")
+			       .snippet(String.format("%g, %g", poiLocation.getLatitudeE6() / 1e6, poiLocation.getLongitudeE6() / 1e6))
+			       .icon(BitmapDescriptorFactory.fromResource(R.drawable.im_map_uav)));
+			} else {
+				mPoiMarker.setPosition((new LatLng(poiLocation.getLatitudeE6() / 1e6, poiLocation.getLongitudeE6() / 1e6)));
 			}
 		} else if (obj.getName().compareTo("PositionActual") == 0) {
 			uavLocation = getUavLocation();
