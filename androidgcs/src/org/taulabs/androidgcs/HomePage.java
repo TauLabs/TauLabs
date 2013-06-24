@@ -163,7 +163,7 @@ public class HomePage extends ObjectManagerActivity {
 		@SuppressWarnings("rawtypes")
 		private final Class[] mActivities = {
 			ObjectBrowser.class, PfdActivity.class,
-			UAVLocation.class, Controller.class,
+			Map.class, Controller.class,
 			Logger.class, SystemAlarmActivity.class,
 			TuningActivity.class, OsgViewer.class,
 			TableControl.class, AttitudeAdjustment.class

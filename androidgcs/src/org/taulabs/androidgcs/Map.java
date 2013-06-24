@@ -1,6 +1,6 @@
 /**
  ******************************************************************************
- * @file       UAVLocation.java
+ * @file       Map.java
  * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
  * @brief      Display the UAV location on google maps
  * @see        The GNU Public License (GPL) Version 3
@@ -50,9 +50,15 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.maps.GeoPoint;
 
-public class UAVLocation extends ObjectManagerActivity
+/**
+ * @class Map shows the UAV location and various other markers.
+ * It uses a fragment and right now all the important work is
+ * performed by the activity.  Later this should be moved into
+ * the fragment.
+ */
+public class Map extends ObjectManagerActivity
 {
-	private final String TAG = UAVLocation.class.getSimpleName();
+	private final String TAG = Map.class.getSimpleName();
 	private static int LOGLEVEL = 1;
 	private static boolean DEBUG = LOGLEVEL > 0;
 
