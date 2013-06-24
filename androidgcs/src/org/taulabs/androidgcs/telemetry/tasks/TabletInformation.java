@@ -81,12 +81,12 @@ public class TabletInformation {
 			UAVObjectField field = obj.getField("Latitude");
 			if (field == null)
 				return;
-			field.setValue((location.getLatitude() + lat_offset) * 10e6);
+			field.setValue(location.getLatitude() * 10e6 + lat_offset);
 
 			field = obj.getField("Longitude");
 			if (field == null)
 				return;
-			field.setValue((location.getLongitude() + lon_offset) * 10e6);
+			field.setValue(location.getLongitude() * 10e6 + lon_offset);
 
 			field = obj.getField("Altitude");
 			if (field == null)
