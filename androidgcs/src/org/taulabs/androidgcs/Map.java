@@ -286,7 +286,7 @@ public class Map extends ObjectManagerActivity
 			       .position(new LatLng(poiLocation.getLatitudeE6() / 1e6, poiLocation.getLongitudeE6() / 1e6))
 			       .title("POI")
 			       .snippet(String.format("%g, %g", poiLocation.getLatitudeE6() / 1e6, poiLocation.getLongitudeE6() / 1e6))
-			       .icon(BitmapDescriptorFactory.fromResource(R.drawable.im_map_uav)));
+			       .icon(BitmapDescriptorFactory.fromResource(R.drawable.im_map_poi)));
 			} else {
 				mPoiMarker.setPosition((new LatLng(poiLocation.getLatitudeE6() / 1e6, poiLocation.getLongitudeE6() / 1e6)));
 			}
