@@ -41,7 +41,6 @@
 #include <uavobjectsinit.h>
 #include "hwdiscoveryf4.h"
 #include "manualcontrolsettings.h"
-#include "gcsreceiver.h"
 #include "modulesettings.h"
 
 /* One slot per selectable receiver group.
@@ -49,6 +48,9 @@
  * NOTE: No slot in this map for NONE.
  */
 uint32_t pios_rcvr_group_map[MANUALCONTROLSETTINGS_CHANNELGROUPS_NONE];
+
+#define PIOS_COM_TELEM_RF_RX_BUF_LEN 512
+#define PIOS_COM_TELEM_RF_TX_BUF_LEN 512
 
 #define PIOS_COM_TELEM_USB_RX_BUF_LEN 65
 #define PIOS_COM_TELEM_USB_TX_BUF_LEN 65
@@ -306,27 +308,14 @@ void PIOS_Board_Init(void) {
 	switch (hw_mainport) {
 	case HWDISCOVERYF4_MAINPORT_DISABLED:
 		break;
+	case HWDISCOVERYF4_MAINPORT_TELEMETRY:
+#if defined(PIOS_INCLUDE_TELEMETRY_RF) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
+		PIOS_Board_configure_com(&pios_usart3_cfg, PIOS_COM_TELEM_RF_RX_BUF_LEN, PIOS_COM_TELEM_RF_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_telem_rf_id);
+#endif /* PIOS_INCLUDE_TELEMETRY_RF */
 	case HWDISCOVERYF4_MAINPORT_DEBUGCONSOLE:
-#if defined(PIOS_INCLUDE_COM)
-#if defined(PIOS_INCLUDE_USART)
-#if defined(PIOS_INCLUDE_DEBUG_CONSOLE)
-		{
-			uint32_t pios_usart_generic_id;
-			if (PIOS_USART_Init(&pios_usart_generic_id, &pios_usart3_cfg)) {
-				PIOS_Assert(0);
-			}
-
-			uint8_t * tx_buffer = (uint8_t *) pvPortMalloc(PIOS_COM_DEBUGCONSOLE_TX_BUF_LEN);
-			PIOS_Assert(tx_buffer);
-			if (PIOS_COM_Init(&pios_com_debug_id, &pios_usart_com_driver, pios_usart_generic_id,
-				NULL, 0,
-				tx_buffer, PIOS_COM_DEBUGCONSOLE_TX_BUF_LEN)) {
-				PIOS_Assert(0);
-			}
-		}
+#if defined(PIOS_INCLUDE_DEBUG_CONSOLE) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
+		PIOS_Board_configure_com(&pios_usart3_cfg, 0, PIOS_COM_DEBUGCONSOLE_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_debug_id);
 #endif	/* PIOS_INCLUDE_DEBUG_CONSOLE */
-#endif	/* PIOS_INCLUDE_USART */
-#endif	/* PIOS_INCLUDE_COM */
 		break;
 	}
 

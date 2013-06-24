@@ -267,7 +267,7 @@ static const struct flashfs_logfs_cfg flashfs_internal_cfg = {
 
 static const struct pios_usart_cfg pios_usart3_cfg = {
 	.regs = USART3,
-	//.remap = GPIO_AF_USART3,
+	.remap = GPIO_AF_USART3,
 	.init = {
 		.USART_BaudRate = 57600,
 		.USART_WordLength = USART_WordLength_8b,
