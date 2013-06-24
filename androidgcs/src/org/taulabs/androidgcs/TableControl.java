@@ -86,10 +86,10 @@ public class TableControl extends ObjectManagerActivity {
 
     	// Update the flight status
     	obj = objMngr.getObject("FlightStatus");
-    	if (obj != null)
+    	if (obj != null) {
         	registerObjectUpdates(obj);
-
-    	obj.updateRequested();
+        	obj.updateRequested();
+    	}
 
 	}
 
