@@ -346,8 +346,14 @@ static void PIOS_USB_HID_IF_DeInit(uint32_t usb_hid_id)
 		return;
 	}
 
-	/* DeRegister endpoint specific callbacks with the USBHOOK layer */
+	/* reset state of the usb hid device structure */
+	usb_hid_dev->rx_active = false;
+	usb_hid_dev->rx_dropped = 0;
+	usb_hid_dev->rx_oversize = 0;
+	usb_hid_dev->tx_active = false;
 	usb_hid_dev->usb_if_enabled = false;
+
+	/* DeRegister endpoint specific callbacks with the USBHOOK layer */
 	PIOS_USBHOOK_DeRegisterEpInCallback(usb_hid_dev->cfg->data_tx_ep);
 	PIOS_USBHOOK_DeRegisterEpOutCallback(usb_hid_dev->cfg->data_rx_ep);
 }

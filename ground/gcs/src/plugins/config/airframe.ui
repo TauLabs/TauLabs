@@ -651,6 +651,52 @@ margin:1px;</string>
                   </layout>
                  </item>
                  <item>
+                  <widget class="QGroupBox" name="groupBox_11">
+                   <property name="minimumSize">
+                    <size>
+                     <width>0</width>
+                     <height>60</height>
+                    </size>
+                   </property>
+                   <property name="title">
+                    <string>Airframe trimming</string>
+                   </property>
+                   <layout class="QGridLayout" name="gridLayout_10">
+                    <item row="0" column="0">
+                     <widget class="QPushButton" name="bnServoTrim">
+                      <property name="text">
+                       <string>Trim servos</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="0" column="1">
+                     <widget class="QPushButton" name="bnLevelTrim">
+                      <property name="text">
+                       <string>Set level angle</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="0" column="2">
+                     <spacer name="horizontalSpacer_14">
+                      <property name="orientation">
+                       <enum>Qt::Horizontal</enum>
+                      </property>
+                      <property name="sizeHint" stdset="0">
+                       <size>
+                        <width>40</width>
+                        <height>20</height>
+                       </size>
+                      </property>
+                     </spacer>
+                    </item>
+                   </layout>
+                   <zorder>horizontalSpacer_14</zorder>
+                   <zorder>bnServoTrim</zorder>
+                   <zorder>bnLevelTrim</zorder>
+                   <zorder>horizontalSpacer_14</zorder>
+                  </widget>
+                 </item>
+                 <item>
                   <spacer name="verticalSpacer">
                    <property name="orientation">
                     <enum>Qt::Vertical</enum>

@@ -38,6 +38,8 @@
 #include <QtGui/QWidget>
 #include <QTimer>
 #include <QMutex>
+#include "modulesettingsform.h"
+
 
 class Ui_Widget;
 
@@ -54,7 +56,7 @@ private slots:
 
 private:
     void updateFields();
-    Ui_defaulthwsettings *ui;
+    Ui_defaulthwsettings *defaultHWSettingsWidget;
 
     QList<QString> allHwSettings;
     UAVObject *hwSettingsObject;

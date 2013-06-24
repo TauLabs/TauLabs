@@ -45,7 +45,12 @@ static void updateSettings();
 // ****************
 // Private constants
 
-#define STACK_SIZE_BYTES            280
+#if defined(PIOS_COMUSBBRIDGE_STACK_SIZE)
+#define STACK_SIZE_BYTES PIOS_COMUSBBRIDGE_STACK_SIZE
+#else
+#define STACK_SIZE_BYTES 384
+#endif
+
 #define TASK_PRIORITY                   (tskIDLE_PRIORITY + 1)
 
 #define BRIDGE_BUF_LEN 10

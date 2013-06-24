@@ -344,8 +344,10 @@ static void update_mags(struct pios_sensor_mag_data *mag)
  */
 static void update_baro(struct pios_sensor_baro_data *baro)
 {
+	if (isnan(baro->altitude) || isnan(baro->temperature) || isnan(baro->pressure))
+		return;
+
 	BaroAltitudeData baroAltitude;
-	BaroAltitudeGet(&baroAltitude);
 	baroAltitude.Temperature = baro->temperature;
 	baroAltitude.Pressure = baro->pressure;
 	baroAltitude.Altitude = baro->altitude;

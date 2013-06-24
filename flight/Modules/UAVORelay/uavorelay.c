@@ -95,7 +95,7 @@ int32_t UAVORelayInitialize(void)
 }
 
 /**
- * Start the overo sync module
+ * Start the UAVORelay module
  * \return -1 if initialisation failed
  * \return 0 on success
  */
