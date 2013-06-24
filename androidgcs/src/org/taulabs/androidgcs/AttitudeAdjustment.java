@@ -24,8 +24,12 @@ package org.taulabs.androidgcs;
 
 import org.taulabs.uavtalk.UAVObject;
 
+import android.content.Context;
 import android.content.SharedPreferences;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 
@@ -110,14 +114,17 @@ public class AttitudeAdjustment extends ObjectManagerActivity {
 		if (gps == null || tablet == null || home == null)
 			return;
 
+		LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+		Location current = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+		
 		// Altitude on the flight controller is always used as altitude
 		// plug geoid separation
 		double gps_altitude = gps.getField("Altitude").getDouble() +
 				gps.getField("GeoidSeparation").getDouble();
-		double alt_offset = gps_altitude - tablet.getField("Altitude").getDouble();
+		double alt_offset = gps_altitude - current.getLatitude();
 		
-		double lat_offset = gps.getField("Latitude").getDouble() - tablet.getField("Latitude").getDouble();
-		double lon_offset = gps.getField("Longitude").getDouble() - tablet.getField("Longitude").getDouble();
+		double lat_offset = gps.getField("Latitude").getDouble() - current.getLatitude() * 10e6;
+		double lon_offset = gps.getField("Longitude").getDouble() - current.getLongitude() * 10e6;
 		
 		// Store these settings
 		SharedPreferences settings = getSharedPreferences("TabletOffset", 0);
