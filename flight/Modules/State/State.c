@@ -31,6 +31,9 @@
 #include "filter_interface.h"
 #include "inspgs_interface.h"
 
+// Include particular filters to get their handles
+#include "cf_interface.h"
+
 #include "accels.h"
 #include "attitudeactual.h"
 #include "gyros.h"
@@ -52,12 +55,6 @@ static uintptr_t running_filter_id;
 // Private functions
 static void StateTask(void *parameters);
 
-// Mapping from UAVO setting to filters.  This might want to be an extern
-// loaded from board specific information to indicate which filters are
-// supported.
-extern struct filter_driver cf_filter_driver;
-static struct filter_driver filters[1];
-
 /**
  * Initialise the module.  Called before the start function
  * \returns 0 on success or -1 if initialisation failed
@@ -68,21 +65,27 @@ int32_t StateInitialize(void)
 
 	// Get the driver for the selected filter
 	uint8_t selected_filter;
-	StateFilterAttitudeFilterGet(&selected_filter);
-	if (selected_filter < NELEMENTS(filters))
-		current_filter = &filters[selected_filter];
-	else
-		return -1;
-	current_filter = &cf_filter_driver;
+	StateFilterFilterGet(&selected_filter);
+	switch(selected_filter) {
+	case STATEFILTER_FILTER_COMPLEMENTARY:
+		current_filter = &cf_filter_driver;
+		break;
+	default:
+		goto FAIL;
+	}	
 
 	// Check this filter is safe to run
 	if (!filter_interface_validate(current_filter, running_filter_id))
-		return -1;
+		goto FAIL;
 	if (current_filter->init(&running_filter_id) != 0)
-		return -1;
+		goto FAIL;
 
 	// TODO: make sure system refuses to run without state module
 	return 0;
+
+FAIL:
+	AlarmsSet(SYSTEMALARMS_ALARM_ATTITUDE, SYSTEMALARMS_ALARM_CRITICAL);
+	return -1;
 }
 
 /**
