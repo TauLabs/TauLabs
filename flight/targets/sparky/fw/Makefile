@@ -32,13 +32,17 @@ DEBUG ?= NO
 
 # List of modules to include
 MODULES = Sensors
-#MODULES += Attitude
-MODULES += StateEstimation
 MODULES += Actuator
 MODULES += ManualControl
 MODULES += Stabilization
 MODULES += FirmwareIAP
 MODULES += Telemetry
+
+ifeq ($(FILTER_ARCHITECTURE),YES)
+MODULES += State
+else
+MODULES += Attitude
+endif
 
 OPTMODULES += GPS
 OPTMODULES += CameraStab
@@ -63,7 +67,6 @@ OPUAVOBJINC = $(OPUAVOBJ)/inc
 PIOSINC = $(PIOS)/inc
 FLIGHTLIBINC = $(FLIGHTLIB)/inc
 MATHLIBINC = $(MATHLIB)
-FILTERLIBINC = $(FILTERLIB)
 RSCODE = $(FLIGHTLIB)/rscode
 RSCODEINC = $(FLIGHTLIB)/rscode
 PIOSSTM32F30X = $(PIOS)/STM32F30x
@@ -116,10 +119,10 @@ SRC += $(MATHLIB)/misc_math.c
 SRC += $(MATHLIB)/pid.c
 SRC += $(MATHLIB)/atmospheric_math.c
 
-## Enable some filters
-SRC += $(FILTERLIB)/dcm_interface.c
-SRC += $(FILTERLIB)/filter_infrastructure_se3.c
-SRC += $(FILTERLIB)/filter_interface.c
+## Enable some filters for the new architecture
+ifeq ($(FILTER_ARCHITECTURE),YES)
+include $(FILTERLIB)/filters.mk
+endif
 
 ## PIOS Hardware (STM32F30x)
 include $(PIOS)/STM32F30x/library_fw.mk
@@ -169,7 +172,6 @@ EXTRAINCDIRS += $(OPUAVOBJINC)
 EXTRAINCDIRS += $(OPUAVSYNTHDIR)
 EXTRAINCDIRS += $(FLIGHTLIBINC)
 EXTRAINCDIRS += $(MATHLIBINC)
-EXTRAINCDIRS += $(FILTERLIBINC)
 EXTRAINCDIRS += $(RSCODEINC)
 EXTRAINCDIRS += $(PIOSSTM32F30X)
 EXTRAINCDIRS += $(PIOSCOMMON)
