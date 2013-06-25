@@ -267,6 +267,9 @@ static void update_gyros(struct pios_sensor_gyro_data *gyros)
 	};
 
 	GyrosData gyrosData;
+
+	gyrosData.temperature = gyros->temperature;
+
 	if (rotate) {
 		float gyros[3];
 		rot_mult(Rsb, gyros_out, gyros, true);
@@ -291,7 +294,6 @@ static void update_gyros(struct pios_sensor_gyro_data *gyros)
 		gyrosData.z -= gyrosBias.z + gyro_temp_bias[2];
 	}
 
-	gyrosData.temperature = gyros->temperature;
 	GyrosSet(&gyrosData);
 }
 
