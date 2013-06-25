@@ -31,7 +31,6 @@
 #include "openpilot.h"
 #include "attitudesettings.h"
 #include "flightstatus.h"
-#include "gyrosbias.h"
 #include "homelocation.h"
 
 #include "physical_constants.h"
@@ -482,12 +481,9 @@ static void accumulate_gyro_compute(struct cf_interface_data *cf)
 		cf->accumulated_gyro_samples > 100) {
 
 		// Accumulate integral of error.  Scale here so that units are (deg/s) but Ki has units of s
-		GyrosBiasData gyrosBias;
-		GyrosBiasGet(&gyrosBias);
-		gyrosBias.x = cf->accumulated_gyro[0] / cf->accumulated_gyro_samples;
-		gyrosBias.y = cf->accumulated_gyro[1] / cf->accumulated_gyro_samples;
-		gyrosBias.z = cf->accumulated_gyro[2] / cf->accumulated_gyro_samples;
-		GyrosBiasSet(&gyrosBias);
+		cf->gyros_bias[0] = cf->accumulated_gyro[0] / cf->accumulated_gyro_samples;
+		cf->gyros_bias[1] = cf->accumulated_gyro[1] / cf->accumulated_gyro_samples;
+		cf->gyros_bias[2] = cf->accumulated_gyro[2] / cf->accumulated_gyro_samples;
 
 		accumulate_gyro_zero(cf);
 
@@ -519,14 +515,13 @@ static void accumulate_gyro(struct cf_interface_data *cf, float *gyros)
 	cf->accumulated_gyro_samples++;
 
 	// bias_correct_gyro
-	if (true) {
+	uint8_t bias_correct_gyro;
+	AttitudeSettingsBiasCorrectGyroGet(&bias_correct_gyro);
+	if (bias_correct_gyro == ATTITUDESETTINGS_BIASCORRECTGYRO_TRUE) {
 		// Apply bias correction to the gyros from the state estimator
-		GyrosBiasData gyrosBias;
-		GyrosBiasGet(&gyrosBias);
-
-		cf->accumulated_gyro[0] += gyros[0] + gyrosBias.x;
-		cf->accumulated_gyro[1] += gyros[1] + gyrosBias.y;
-		cf->accumulated_gyro[2] += gyros[2] + gyrosBias.z;
+		cf->accumulated_gyro[0] += gyros[0] + cf->gyros_bias[0];
+		cf->accumulated_gyro[1] += gyros[1] + cf->gyros_bias[1];
+		cf->accumulated_gyro[2] += gyros[2] + cf->gyros_bias[2];
 	} else {
 		cf->accumulated_gyro[0] += gyros[0];
 		cf->accumulated_gyro[1] += gyros[1];
