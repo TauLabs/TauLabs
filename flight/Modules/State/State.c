@@ -2,7 +2,7 @@
  ******************************************************************************
  * @addtogroup TauLabsModules Tau Labs Modules
  * @{
- * @file       stateestimation.c
+ * @file       state.c
  * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
  * @brief      State estimation module which calls to specific drivers
  *
@@ -45,12 +45,12 @@
 #define TASK_PRIORITY (tskIDLE_PRIORITY+3)
 
 // Private variables
-static xTaskHandle attitudeTaskHandle;
+static xTaskHandle stateTaskHandle;
 static struct filter_driver *current_filter = NULL;
 static uintptr_t running_filter_id;
 
 // Private functions
-static void StateEstimationTask(void *parameters);
+static void StateTask(void *parameters);
 
 // Mapping from UAVO setting to filters.  This might want to be an extern
 // loaded from board specific information to indicate which filters are
@@ -62,7 +62,7 @@ static struct filter_driver filters[1];
  * Initialise the module.  Called before the start function
  * \returns 0 on success or -1 if initialisation failed
  */
-int32_t StateEstimationInitialize(void)
+int32_t StateInitialize(void)
 {
 	StateFilterInitialize();
 
@@ -89,7 +89,7 @@ int32_t StateEstimationInitialize(void)
  * Start the task.  Expects all objects to be initialized by this point.
  * \returns 0 on success or -1 if initialisation failed
  */
-int32_t StateEstimationStart(void)
+int32_t StateStart(void)
 {
 	// Initialize quaternion
 	AttitudeActualData attitude;
@@ -109,19 +109,19 @@ int32_t StateEstimationStart(void)
 	GyrosBiasSet(&gyrosBias);
 
 	// Start main task
-	xTaskCreate(StateEstimationTask, (signed char *)"StateEstimation", STACK_SIZE_BYTES/4, NULL, TASK_PRIORITY, &attitudeTaskHandle);
-	TaskMonitorAdd(TASKINFO_RUNNING_ATTITUDE, attitudeTaskHandle);
+	xTaskCreate(StateTask, (signed char *)"StateEstimation", STACK_SIZE_BYTES/4, NULL, TASK_PRIORITY, &stateTaskHandle);
+	TaskMonitorAdd(TASKINFO_RUNNING_ATTITUDE, stateTaskHandle);
 	PIOS_WDG_RegisterFlag(PIOS_WDG_ATTITUDE);
 
 	return 0;
 }
 
-MODULE_INITCALL(StateEstimationInitialize, StateEstimationStart)
+MODULE_INITCALL(StateInitialize, StateStart)
 
 /**
  * Module thread, should not return.
  */
-static void StateEstimationTask(void *parameters)
+static void StateTask(void *parameters)
 {
 	AlarmsClear(SYSTEMALARMS_ALARM_ATTITUDE);
 
