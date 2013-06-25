@@ -53,7 +53,7 @@ struct filter_s3 {
 	/**
 	 * get_sensors Compute one time step of the filter
 	 * @param[in] id        the running filter handle
-	 * @param[in] gyros     new gyro data [deg/s] or NULL
+	 * @param[in] gyros     new gyro data [rad/s] or NULL
 	 * @param[in] accels    new accel data [m/s^2] or NULL
 	 * @param[in] mag       new mag data [mGau] or NULL
 	 * @param[in] pos       new position measurement in NED [m] or NULL
@@ -74,7 +74,7 @@ struct filter_s3 {
 	 * @param[out] pos       the updated position in NED [m]
 	 * @param[out] vel       the updated velocity in NED [m/s]
 	 * @param[out] attitude  the updated attitude quaternion
-	 * @param[out] gyro_bias the update gyro bias [deg/s]
+	 * @param[out] gyro_bias the update gyro bias [rad/s]
 	 * @param[out] airspeed  estimate of the airspeed
 	 */
 	int32_t (*get_state)(uintptr_t id, float pos[3], float vel[3],

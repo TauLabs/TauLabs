@@ -152,7 +152,11 @@ int32_t filter_infrastructure_se3_process(struct filter_driver *upper_driver, ui
 	float NED[3];
 
 	if (xQueueReceive(s3_data->gyroQueue, &ev, FAILSAFE_TIMEOUT_MS / portTICK_RATE_MS) == pdTRUE) {
+		// Convert gyros to rad / s
 		GyrosGet(&gyrosData);
+		gyrosData.x *= DEG2RAD;
+		gyrosData.y *= DEG2RAD;
+		gyrosData.z *= DEG2RAD;
 		gyros = &gyrosData.x;
 	}
 
@@ -213,6 +217,13 @@ int32_t filter_infrastructure_se3_process(struct filter_driver *upper_driver, ui
 	attitudeActual.q4 = q_state[3];
 	Quaternion2RPY(&attitudeActual.q1,&attitudeActual.Roll);
 	AttitudeActualSet(&attitudeActual);
+
+	// Convert gyros bias to deg/s for storage
+	GyrosBiasData gyrosBias;
+	gyrosBias.x = gyro_bias_state[0] * RAD2DEG;
+	gyrosBias.y = gyro_bias_state[1] * RAD2DEG;
+	gyrosBias.z = gyro_bias_state[2] * RAD2DEG;
+	GyrosBiasSet(&gyrosBias);
 
 	return 0;
 }

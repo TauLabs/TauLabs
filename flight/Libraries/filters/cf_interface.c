@@ -208,7 +208,7 @@ static int32_t cf_interface_reset(uintptr_t id)
 /**
  * get_sensors Update the filter one time step
  * @param[in] id         the running filter handle
- * @param[in] gyros      new gyro data [deg/s] or NULL
+ * @param[in] gyros      new gyro data [rad/s] or NULL
  * @param[in] accels     new accel data [m/s^2] or NULL
  * @param[in] mag        new mag data [mGau] or NULL
  * @param[in] pos        new position measurement in NED [m] or NULL
@@ -374,24 +374,24 @@ static int32_t cf_interface_update(uintptr_t id, float gyros[3], float accels[3]
 	// Accumulate integral of error.  Scale here so that units are (deg/s) but Ki has units of s
 	GyrosBiasData gyrosBias;
 	GyrosBiasGet(&gyrosBias);
-	gyrosBias.x -= accel_err[0] * attitudeSettings.AccelKi;
-	gyrosBias.y -= accel_err[1] * attitudeSettings.AccelKi;
-	gyrosBias.z -= mag_err[2] * attitudeSettings.MagKi;
+	gyrosBias.x -= accel_err[0] * attitudeSettings.AccelKi * DEG2RAD;
+	gyrosBias.y -= accel_err[1] * attitudeSettings.AccelKi * DEG2RAD;
+	gyrosBias.z -= mag_err[2] * attitudeSettings.MagKi * DEG2RAD;
 	GyrosBiasSet(&gyrosBias);
 
 
 	// Correct rates based on error, integral component dealt with in updateSensors
-	gyros[0] += accel_err[0] * attitudeSettings.AccelKp / dt;
-	gyros[1] += accel_err[1] * attitudeSettings.AccelKp / dt;
-	gyros[2] += mag_err[2] * attitudeSettings.MagKp / dt;
+	gyros[0] += accel_err[0] * attitudeSettings.AccelKp * DEG2RAD / dt;
+	gyros[1] += accel_err[1] * attitudeSettings.AccelKp * DEG2RAD / dt;
+	gyros[2] += mag_err[2] * attitudeSettings.MagKp * DEG2RAD / dt;
 
 	// Work out time derivative from INSAlgo writeup
 	// Also accounts for the fact that gyros are in deg/s
 	float qdot[4];
-	qdot[0] = (-cf->q[1] * gyros[0] - cf->q[2] * gyros[1] - cf->q[3] * gyros[2]) * dt * DEG2RAD / 2;
-	qdot[1] = (cf->q[0] * gyros[0] - cf->q[3] * gyros[1] + cf->q[2] * gyros[2]) * dt * DEG2RAD / 2;
-	qdot[2] = (cf->q[3] * gyros[0] + cf->q[0] * gyros[1] - cf->q[1] * gyros[2]) * dt * DEG2RAD / 2;
-	qdot[3] = (-cf->q[2] * gyros[0] + cf->q[1] * gyros[1] + cf->q[0] * gyros[2]) * dt * DEG2RAD / 2;
+	qdot[0] = (-cf->q[1] * gyros[0] - cf->q[2] * gyros[1] - cf->q[3] * gyros[2]) * dt / 2;
+	qdot[1] = (cf->q[0] * gyros[0] - cf->q[3] * gyros[1] + cf->q[2] * gyros[2]) * dt / 2;
+	qdot[2] = (cf->q[3] * gyros[0] + cf->q[0] * gyros[1] - cf->q[1] * gyros[2]) * dt / 2;
+	qdot[3] = (-cf->q[2] * gyros[0] + cf->q[1] * gyros[1] + cf->q[0] * gyros[2]) * dt / 2;
 
 	// Take a time step
 	cf->q[0] = cf->q[0] + qdot[0];
@@ -451,6 +451,22 @@ static int32_t cf_interface_get_state(uintptr_t id, float pos[3], float vel[3],
 		attitude[2] = cf->q[2];
 		attitude[3] = cf->q[3];
 	}
+
+	if (pos) {
+		pos[0] = pos[1] = pos[2] = 0;
+	}
+
+	if (vel) {
+		vel[0] = vel[1] = vel[2] = 0;
+	}
+
+	if (gyro_bias) {
+		gyro_bias[0] = gyro_bias[1] = gyro_bias[2] = 0;
+	}
+
+	if (airspeed)
+		airspeed[0] = 0;
+
 	return 0;
 }
 
