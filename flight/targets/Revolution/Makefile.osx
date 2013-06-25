@@ -45,8 +45,13 @@ USE_BOOTLOADER ?= NO
 
 # List of modules to include
 MODULES += Actuator ManualControl Stabilization 
-MODULES += StateEstimation
 MODULES += FirmwareIAP
+
+ifeq ($(FILTER_ARCHITECTURE),YES)
+MODULES += State
+else
+MODULES += Attitude/revolution
+endif
 
 OPTMODULES += PathPlanner
 OPTMODULES += AltitudeHold 
@@ -148,11 +153,7 @@ PIOSINC = $(PIOS)/inc
 FLIGHTLIBINC = $(FLIGHTLIB)/inc
 MATHLIB = $(FLIGHTLIB)/math
 MATHLIBINC = $(MATHLIB)
-<<<<<<< HEAD
-=======
-FILTERLIBINC = $(FILTERLIB)
 PIOSINC = $(PIOS)/inc
->>>>>>> Revolution: enable new filter for simulation
 PIOSPOSIX = $(PIOS)/osx
 PIOSCOMMON = $(TOP)/flight/PiOS/Common
 PIOSBOARDS = $(PIOS)/Boards
@@ -208,15 +209,13 @@ SRC += $(MATHLIB)/sin_lookup.c
 SRC += $(MATHLIB)/misc_math.c
 SRC += $(MATHLIB)/pid.c
 
-<<<<<<< HEAD
 ## PIOS Hardware (STM32F4xx)
 #include $(PIOS)/posix/library.mk
-=======
-## Enable some filters
-SRC += $(FILTERLIB)/cf_interface.c
-SRC += $(FILTERLIB)/filter_infrastructure_se3.c
-SRC += $(FILTERLIB)/filter_interface.c
->>>>>>> Revolution: enable new filter for simulation
+
+## Enable some filters for the new architecture
+ifeq ($(FILTER_ARCHITECTURE),YES)
+include $(FILTERLIB)/filters.mk
+endif
 
 SRC += $(PIOSCOMMON)/pios_com.c
 SRC += $(PIOSCOMMON)/pios_crc.c
@@ -281,20 +280,7 @@ EXTRAINCDIRS  += $(OPUAVOBJINC)
 EXTRAINCDIRS  += $(OPUAVSYNTHDIR)
 EXTRAINCDIRS  += $(FLIGHTLIBINC)
 EXTRAINCDIRS  += $(MATHLIBINC)
-<<<<<<< HEAD
-
-EXTRAINCDIRS  += $(PIOSCOMMON)
-EXTRAINCDIRS  += $(PIOSBOARDS)
-
-EXTRAINCDIRS  += $(CMSISDIR)
-EXTRAINCDIRS  += $(BOOTINC)
-EXTRAINCDIRS  += $(HWDEFSINC)
-
-EXTRAINCDIRS  += $(OPSYSTEM)
-=======
-EXTRAINCDIRS  += $(FILTERLIBINC)
 EXTRAINCDIRS  += $(FLIGTH)
->>>>>>> Revolution: enable new filter for simulation
 EXTRAINCDIRS  += $(PIOSPOSIX)
 EXTRAINCDIRS  += $(RTOSINCDIR)
 #EXTRAINCDIRS  += $(APPLIBDIR)

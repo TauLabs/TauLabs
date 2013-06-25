@@ -83,10 +83,15 @@ CFLAGS += $(BLONLY_CDEFS)
 # List of modules to include
 MODULES += Actuator ManualControl Stabilization 
 MODULES += PathPlanner
-MODULES += StateEstimation
 MODULES += FirmwareIAP
 
 OPTMODULES += PathPlanner
+ifeq ($(FILTER_ARCHITECTURE),YES)
+MODULES += State
+else
+MODULES += Attitude/revolution
+endif
+
 OPTMODULES += AltitudeHold 
 OPTMODULES += VtolPathFollower 
 OPTMODULES += FixedWingPathFollower
@@ -110,7 +115,6 @@ PIOSINC = $(PIOS)/inc
 FLIGHTLIBINC = $(FLIGHTLIB)/inc
 MATHLIB = $(FLIGHTLIB)/math
 MATHLIBINC = $(MATHLIB)
-FILTERLIBINC = $(FILTERLIB)
 PIOSPOSIX = $(PIOS)/posix
 PIOSCOMMON = $(TOP)/flight/PiOS/Common
 PIOSBOARDS = $(PIOS)/Boards
@@ -154,10 +158,10 @@ SRC += $(MATHLIB)/sin_lookup.c
 SRC += $(MATHLIB)/misc_math.c
 SRC += $(MATHLIB)/pid.c
 
-## Enable some filters
-SRC += $(FILTERLIB)/dcm_interface.c
-SRC += $(FILTERLIB)/filter_infrastructure_se3.c
-SRC += $(FILTERLIB)/filter_interface.c
+## Enable some filters for the new architecture
+ifeq ($(FILTER_ARCHITECTURE),YES)
+include $(FILTERLIB)/filters.mk
+endif
 
 ## PIOS Hardware (STM32F4xx)
 include $(PIOS)/posix/library.mk
@@ -225,12 +229,7 @@ EXTRAINCDIRS  += $(OPUAVOBJINC)
 EXTRAINCDIRS  += $(OPUAVSYNTHDIR)
 EXTRAINCDIRS  += $(FLIGHTLIBINC)
 EXTRAINCDIRS  += $(MATHLIBINC)
-<<<<<<< HEAD
 
-=======
-EXTRAINCDIRS  += $(FILTERINC)
-#EXTRAINCDIRS  += $(PIOSSTM32F4XX)
->>>>>>> Revolution: enable new filter for simulation
 EXTRAINCDIRS  += $(PIOSCOMMON)
 EXTRAINCDIRS  += $(PIOSBOARDS)
 
