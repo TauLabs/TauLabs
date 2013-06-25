@@ -65,7 +65,7 @@
 #include "magnetometer.h"
 #include "nedposition.h"
 #include "positionactual.h"
-#include "statefilter.h"
+#include "stateestimation.h"
 #include "systemalarms.h"
 #include "velocityactual.h"
 #include "coordinate_conversions.h"
@@ -125,7 +125,7 @@ static xQueueHandle gpsVelQueue;
 static AttitudeSettingsData attitudeSettings;
 static HomeLocationData homeLocation;
 static INSSettingsData insSettings;
-static StateFilterData stateFilter;
+static StateEstimationData stateEstimation;
 static bool gyroBiasSettingsUpdated = false;
 const uint32_t SENSOR_QUEUE_SIZE = 10;
 static const float zeros[3] = {0.0f, 0.0f, 0.0f};
@@ -190,7 +190,7 @@ int32_t AttitudeInitialize(void)
 	INSStateInitialize();
 	NEDPositionInitialize();
 	PositionActualInitialize();
-	StateFilterInitialize();
+	StateEstimationInitialize();
 	VelocityActualInitialize();
 
 	// Initialize this here while we aren't setting the homelocation in GPS
@@ -200,7 +200,7 @@ int32_t AttitudeInitialize(void)
 	HomeLocationConnectCallback(&settingsUpdatedCb);
 	SensorSettingsConnectCallback(&settingsUpdatedCb);
 	INSSettingsConnectCallback(&settingsUpdatedCb);
-	StateFilterConnectCallback(&settingsUpdatedCb);
+	StateEstimationConnectCallback(&settingsUpdatedCb);
 
 	return 0;
 }
@@ -283,8 +283,8 @@ static void AttitudeTask(void *parameters)
 		int32_t ret_val = -1;
 
 		// When changing the attitude filter reinitialize
-		if (last_algorithm != stateFilter.AttitudeFilter) {
-			last_algorithm = stateFilter.AttitudeFilter;
+		if (last_algorithm != stateEstimation.AttitudeFilter) {
+			last_algorithm = stateEstimation.AttitudeFilter;
 			first_run = true;
 		}
 
@@ -292,17 +292,17 @@ static void AttitudeTask(void *parameters)
 		//   Attitude filter - what sets the attitude
 		//   Navigation filter - what sets the position and velocity
 		// If the INS is used for either then it should run
-		bool ins = (stateFilter.AttitudeFilter == STATEFILTER_ATTITUDEFILTER_INSOUTDOOR) ||
-		           (stateFilter.AttitudeFilter == STATEFILTER_ATTITUDEFILTER_INSINDOOR) ||
-		           (stateFilter.NavigationFilter == STATEFILTER_NAVIGATIONFILTER_INS);
+		bool ins = (stateEstimation.AttitudeFilter == STATEESTIMATION_ATTITUDEFILTER_INSOUTDOOR) ||
+		           (stateEstimation.AttitudeFilter == STATEESTIMATION_ATTITUDEFILTER_INSINDOOR) ||
+		           (stateEstimation.NavigationFilter == STATEESTIMATION_NAVIGATIONFILTER_INS);
 
 		// INS outdoor mode when used for navigation OR explicit outdoor mode
-		bool outdoor = (stateFilter.AttitudeFilter == STATEFILTER_ATTITUDEFILTER_INSOUTDOOR) ||
-		               ((stateFilter.AttitudeFilter == STATEFILTER_ATTITUDEFILTER_COMPLEMENTARY) &&
-		                (stateFilter.NavigationFilter == STATEFILTER_NAVIGATIONFILTER_INS));
+		bool outdoor = (stateEstimation.AttitudeFilter == STATEESTIMATION_ATTITUDEFILTER_INSOUTDOOR) ||
+		               ((stateEstimation.AttitudeFilter == STATEESTIMATION_ATTITUDEFILTER_COMPLEMENTARY) &&
+		                (stateEstimation.NavigationFilter == STATEESTIMATION_NAVIGATIONFILTER_INS));
 
 		// Complementary filter only needed when used for attitude
-		bool complementary = stateFilter.AttitudeFilter == STATEFILTER_ATTITUDEFILTER_COMPLEMENTARY;
+		bool complementary = stateEstimation.AttitudeFilter == STATEESTIMATION_ATTITUDEFILTER_COMPLEMENTARY;
 
 		// Update one or both filters
 		if (ins) {
@@ -317,19 +317,19 @@ static void AttitudeTask(void *parameters)
 
 		// Get the requested data
 		// This  function blocks on data queue
-		switch (stateFilter.AttitudeFilter ) {
-		case STATEFILTER_ATTITUDEFILTER_COMPLEMENTARY:
+		switch (stateEstimation.AttitudeFilter ) {
+		case STATEESTIMATION_ATTITUDEFILTER_COMPLEMENTARY:
 			setAttitudeComplementary();
 			break;
-		case STATEFILTER_ATTITUDEFILTER_INSOUTDOOR:
-		case STATEFILTER_ATTITUDEFILTER_INSINDOOR:
+		case STATEESTIMATION_ATTITUDEFILTER_INSOUTDOOR:
+		case STATEESTIMATION_ATTITUDEFILTER_INSINDOOR:
 			setAttitudeINSGPS();
 			break;
 		}
 
 		// Use the selected source for position and velocity
-		switch (stateFilter.NavigationFilter) {
-		case STATEFILTER_NAVIGATIONFILTER_INS:
+		switch (stateEstimation.NavigationFilter) {
+		case STATEESTIMATION_NAVIGATIONFILTER_INS:
 				// TODO: When running in dual mode and the INS is not initialized set
 				// an error here
 				setNavigationINSGPS();
@@ -1179,8 +1179,8 @@ static void settingsUpdatedCb(UAVObjEvent * ev)
 			complementary_filter_state.accel_filter_enabled = true;
 		}
 	}
-	if (ev == NULL || ev->obj == StateFilterHandle())
-		StateFilterGet(&stateFilter);
+	if (ev == NULL || ev->obj == StateEstimationHandle())
+		StateEstimationGet(&stateEstimation);
 }
 
 
