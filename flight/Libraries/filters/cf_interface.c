@@ -87,6 +87,7 @@ struct cf_interface_data {
 	uint32_t  reset_timeval;
 	uint8_t   arming_count;
 	bool      accel_filter_enabled;
+	float     gyros_bias[3];
 
 	//! The accumulator of gyros during arming
 	float      accumulated_gyro[3];
@@ -198,6 +199,9 @@ static int32_t cf_interface_reset(uintptr_t id)
 	cf->accels_filtered[2] = 0;
 	cf->reset_timeval      = 0;
 	cf->arming_count       = 0;
+	cf->gyros_bias[0]      = 0;
+	cf->gyros_bias[1]      = 0;
+	cf->gyros_bias[2]      = 0;
 	cf->accel_filter_enabled = false;
 	cf->initialization     = CF_RESET;
 	cf->reset_timeval      = PIOS_DELAY_GetRaw();
@@ -372,13 +376,9 @@ static int32_t cf_interface_update(uintptr_t id, float gyros[3], float accels[3]
 	}
 
 	// Accumulate integral of error.  Scale here so that units are (deg/s) but Ki has units of s
-	GyrosBiasData gyrosBias;
-	GyrosBiasGet(&gyrosBias);
-	gyrosBias.x -= accel_err[0] * attitudeSettings.AccelKi * DEG2RAD;
-	gyrosBias.y -= accel_err[1] * attitudeSettings.AccelKi * DEG2RAD;
-	gyrosBias.z -= mag_err[2] * attitudeSettings.MagKi * DEG2RAD;
-	GyrosBiasSet(&gyrosBias);
-
+	cf->gyros_bias[0] -= accel_err[0] * attitudeSettings.AccelKi * DEG2RAD;
+	cf->gyros_bias[1] -= accel_err[1] * attitudeSettings.AccelKi * DEG2RAD;
+	cf->gyros_bias[2] -= mag_err[2] * attitudeSettings.MagKi * DEG2RAD;
 
 	// Correct rates based on error, integral component dealt with in updateSensors
 	gyros[0] += accel_err[0] * attitudeSettings.AccelKp * DEG2RAD / dt;
@@ -461,7 +461,9 @@ static int32_t cf_interface_get_state(uintptr_t id, float pos[3], float vel[3],
 	}
 
 	if (gyro_bias) {
-		gyro_bias[0] = gyro_bias[1] = gyro_bias[2] = 0;
+		gyro_bias[0] = cf->gyros_bias[0];
+		gyro_bias[1] = cf->gyros_bias[1];
+		gyro_bias[2] = cf->gyros_bias[2];
 	}
 
 	if (airspeed)
