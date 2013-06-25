@@ -370,6 +370,7 @@ CFLAGS += -mapcs-frame
 CFLAGS += -fomit-frame-pointer
 CFLAGS += -ffunction-sections -fdata-sections
 CFLAGS += -Wdouble-promotion
+CFLAGS += -fshort-enums
 
 CFLAGS += -Wall
 CFLAGS += -Werror

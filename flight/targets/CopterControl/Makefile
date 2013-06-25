@@ -574,6 +574,7 @@ CFLAGS += $(patsubst %,-I%,$(EXTRAINCDIRS)) -I.
 
 CFLAGS += -mapcs-frame
 CFLAGS += -fomit-frame-pointer
+CFLAGS += -fshort-enums
 
 CFLAGS += -Wall
 CFLAGS += -Werror
