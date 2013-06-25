@@ -348,6 +348,7 @@ CFLAGS += $(patsubst %,-I%,$(EXTRAINCDIRS)) -I.
 #CROSS_COMPILE=/usr/local/android-ndk-r5/toolchains/arm-linux-androideabi-4.4.3/prebuilt/darwin-x86/bin/arm-linux-androideabi-
 
 CFLAGS += -fomit-frame-pointer
+CFLAGS += -fshort-enums
 
 CFLAGS += -Wall
 CFLAGS += -Werror

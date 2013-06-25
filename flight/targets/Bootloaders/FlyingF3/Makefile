@@ -188,6 +188,7 @@ CFLAGS += -O$(OPT)
 ifeq ($(DEBUG),NO)
 CFLAGS += -fdata-sections -ffunction-sections
 endif
+CFLAGS += -fshort-enums
 CFLAGS += -mcpu=$(MCU)
 CFLAGS += $(CDEFS)
 CFLAGS += $(BLONLY_CDEFS)
