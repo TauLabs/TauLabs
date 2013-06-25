@@ -156,7 +156,7 @@ public class HomePage extends ObjectManagerActivity {
 				R.drawable.ic_browser, R.drawable.ic_pfd,
 				R.drawable.ic_map, R.drawable.ic_controller,
 				R.drawable.ic_logging, R.drawable.ic_alarms,
-				R.drawable.ic_tuning, R.drawable.ic_3dview,
+				R.drawable.ic_tuning,
 				R.drawable.ic_tabletcontrol, R.drawable.ic_tuning
 		};
 
@@ -165,7 +165,7 @@ public class HomePage extends ObjectManagerActivity {
 			ObjectBrowser.class, PfdActivity.class,
 			Map.class, Controller.class,
 			Logger.class, SystemAlarmActivity.class,
-			TuningActivity.class, OsgViewer.class,
+			TuningActivity.class,
 			TableControl.class, AttitudeAdjustment.class
 		};
 
@@ -173,7 +173,7 @@ public class HomePage extends ObjectManagerActivity {
 				"Browser", "PFD",
 				"Map", "Controller",
 				"Logging", "Alarms",
-				"Tuning", "OSG",
+				"Tuning",
 				"Table Control", "Attitude Adjustment"
 		};
 	}
