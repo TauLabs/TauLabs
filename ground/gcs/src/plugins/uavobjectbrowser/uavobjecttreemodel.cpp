@@ -141,7 +141,7 @@ TreeItem* UAVObjectTreeModel::createCategoryItems(QStringList categoryPath, Tree
     foreach(QString category, categoryPath) {
         TreeItem* existing = parent->findChildByName(category);
         if(!existing) {
-            TreeItem* categoryItem = new TreeItem(category);
+            TreeItem* categoryItem = new CategoryTreeItem(category);
             connect(categoryItem, SIGNAL(updateHighlight(TreeItem*)), this, SLOT(updateHighlight(TreeItem*)));
             categoryItem->setHighlightManager(m_highlightManager);
             parent->insertChild(categoryItem);
