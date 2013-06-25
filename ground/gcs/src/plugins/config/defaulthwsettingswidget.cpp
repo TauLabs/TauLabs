@@ -139,6 +139,11 @@ void DefaultHwSettingsWidget::updateFields()
         addUAVObjectToWidgetRelation(hwSettingsObject->getName(),fields[i]->getName(),sel->getCombo());
     }
 
+    QBoxLayout *boxLayout = dynamic_cast<QBoxLayout *>(layout);
+    if (boxLayout) {
+        boxLayout->addStretch();
+    }
+
     // Prevent mouse wheel from changing items
     disableMouseWheelEvents();
 }
