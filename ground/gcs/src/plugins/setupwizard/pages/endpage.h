@@ -40,7 +40,7 @@ class EndPage : public AbstractWizardPage {
     Q_OBJECT
 
 public:
-    explicit EndPage(SetupWizard *wizard, QWidget *parent = 0);
+    explicit EndPage(QWizard *wizard, QWidget *parent = 0);
     ~EndPage();
 
 private slots:

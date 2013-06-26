@@ -32,7 +32,7 @@
 #include <configgadgetfactory.h>
 #include <QMessageBox>
 
-EndPage::EndPage(SetupWizard *wizard, QWidget *parent) :
+EndPage::EndPage(QWizard *wizard, QWidget *parent) :
     AbstractWizardPage(wizard, parent),
     ui(new Ui::EndPage)
 {

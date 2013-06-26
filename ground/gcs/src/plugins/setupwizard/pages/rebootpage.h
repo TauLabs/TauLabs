@@ -39,7 +39,7 @@ class RebootPage : public AbstractWizardPage {
     Q_OBJECT
 
 public:
-    explicit RebootPage(SetupWizard *wizard, QWidget *parent = 0);
+    explicit RebootPage(QWizard *wizard, QWidget *parent = 0);
     ~RebootPage();
 
     void initializePage();

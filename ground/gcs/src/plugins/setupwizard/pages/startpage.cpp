@@ -28,7 +28,7 @@
 #include "startpage.h"
 #include "ui_startpage.h"
 
-StartPage::StartPage(SetupWizard *wizard, QWidget *parent) :
+StartPage::StartPage(QWizard *wizard, QWidget *parent) :
     AbstractWizardPage(wizard, parent),
     ui(new Ui::StartPage)
 {

@@ -38,7 +38,7 @@ class StartPage : public AbstractWizardPage {
     Q_OBJECT
 
 public:
-    explicit StartPage(SetupWizard *wizard, QWidget *parent = 0);
+    explicit StartPage(QWizard *wizard, QWidget *parent = 0);
     ~StartPage();
 
 private:

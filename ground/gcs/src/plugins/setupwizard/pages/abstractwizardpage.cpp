@@ -28,8 +28,15 @@
 
 #include "abstractwizardpage.h"
 
-AbstractWizardPage::AbstractWizardPage(SetupWizard *wizard, QWidget *parent) :
+AbstractWizardPage::AbstractWizardPage(QWizard *wizard, QWidget *parent) :
     QWizardPage(parent)
 {
     m_wizard = wizard;
+}
+
+
+SetupWizard *AbstractWizardPage::getWizard() const
+{
+    SetupWizard *castWiz = dynamic_cast<SetupWizard *>(m_wizard);
+    return castWiz;
 }
