@@ -223,7 +223,7 @@ static void PIOS_TCP_TxStart(uint32_t tcp_id, uint16_t tx_bytes_avail)
 	
 	PIOS_Assert(tcp_dev);
 	
-	int32_t length,len,rem;
+	int32_t length,rem;
 	
 	/**
 	 * we send everything directly whenever notified of data to send (lazy!)
@@ -234,6 +234,7 @@ static void PIOS_TCP_TxStart(uint32_t tcp_id, uint16_t tx_bytes_avail)
 			length = (tcp_dev->tx_out_cb)(tcp_dev->tx_out_context, tcp_dev->tx_buffer, PIOS_TCP_RX_BUFFER_SIZE, NULL, &tx_need_yield);
 			rem = length;
 			while (rem>0) {
+				ssize_t len = 0;
 				if(tcp_dev->socket_connection != 0) {
 					len = write(tcp_dev->socket_connection, tcp_dev->tx_buffer, length);
 				}
