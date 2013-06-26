@@ -135,6 +135,9 @@
 #if defined(PIOS_INCLUDE_HMC5883)
 #include <pios_hmc5883.h>
 #endif
+#if defined(PIOS_INCLUDE_HMC5983)
+#include <pios_hmc5983.h>
+#endif
 #if defined(PIOS_INCLUDE_I2C_ESC)
 #include <pios_i2c_esc.h>
 #endif
