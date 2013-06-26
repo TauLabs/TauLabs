@@ -125,7 +125,9 @@ int32_t SystemModInitialize(void)
 	TaskInfoInitialize();
 #endif
 #if defined(I2C_WDG_STATS_DIAGNOSTICS)
+#if defined(PIOS_INCLUDE_I2C)
 	I2CStatsInitialize();
+#endif
 	WatchdogStatusInitialize();
 #endif
 
