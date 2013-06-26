@@ -46,15 +46,12 @@
  *   3. load the variances and other settings
  *   4. reboot
  */
-class NavigationWizard : public QWizard, public VehicleConfigurationSource {
+class NavigationWizard : public QWizard {
     Q_OBJECT
 
 public:
     NavigationWizard(QWidget *parent = 0);
     int nextId() const;
-
-    void setGPSSetting(SetupWizard::GPS_SETTING setting) { m_gpsSetting = setting; }
-    NavigationWizard::GPS_SETTING getGPSSetting() const { return m_gpsSetting; }
 
     void setRestartNeeded(bool needed) { m_restartNeeded = needed; }
     bool isRestartNeeded() const { return m_restartNeeded; }
@@ -72,10 +69,9 @@ private slots:
     void pageChanged(int currId);
 
 private:
+    //! Pages supported by this wizard
     enum { PAGE_START, PAGE_FAILSAFE, PAGE_UPLOAD_SETTINGS, PAGE_REBOOT, PAGE_END };
     void createPages();
-
-    GPS_SETTING m_gpsSetting;
 
     //! Indicates the board needs to be rebooted
     bool m_restartNeeded;

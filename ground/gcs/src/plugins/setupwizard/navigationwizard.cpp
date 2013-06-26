@@ -36,7 +36,7 @@
 #include "pages/autoupdatepage.h"
 #include "uploader/uploadergadgetfactory.h"
 
-NavigationWizard::NavigationWizard(QWidget *parent) : QWizard(parent), VehicleConfigurationSource(),
+NavigationWizard::NavigationWizard(QWidget *parent) : QWizard(parent),
     m_restartNeeded(false), m_connectionManager(0)
 {
     setWindowTitle(tr("Tau Labs Navigation Setup Wizard"));
