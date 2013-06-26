@@ -162,6 +162,9 @@
 #if defined(PIOS_INCLUDE_MS5611)
 #include <pios_ms5611.h>
 #endif
+#if defined(PIOS_INCLUDE_MS5611_SPI)
+#include <pios_ms5611_spi.h>
+#endif
 #if defined(PIOS_INCLUDE_IAP)
 #include <pios_iap.h>
 #endif
