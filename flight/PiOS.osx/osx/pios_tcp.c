@@ -77,7 +77,7 @@ static pios_tcp_dev * find_tcp_dev_by_id (uint8_t tcp)
  
 static void PIOS_TCP_RxTask(void *tcp_dev_n)
 {
-	bool rx_need_yield;
+	bool rx_need_yield = false;
 
 	pios_tcp_dev *tcp_dev = (pios_tcp_dev *) tcp_dev_n;
 	while(1) {
