@@ -29,6 +29,7 @@
 #include "navigationwizard.h"
 #include "pages/startpage.h"
 #include "pages/endpage.h"
+#include "pages/failsafepage.h"
 #include "pages/rebootpage.h"
 #include "extensionsystem/pluginmanager.h"
 #include "vehicleconfigurationhelper.h"
@@ -66,6 +67,7 @@ int NavigationWizard::nextId() const
 void NavigationWizard::createPages()
 {
     setPage(PAGE_START, new StartPage(this));
+    setPage(PAGE_FAILSAFE, new FailsafePage(this));
     setPage(PAGE_REBOOT, new RebootPage(this));
     setPage(PAGE_END, new EndPage(this));
 

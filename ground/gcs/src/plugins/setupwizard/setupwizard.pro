@@ -19,6 +19,7 @@ HEADERS += setupwizardplugin.h \
     pages/vehiclepage.h \
     pages/notyetimplementedpage.h \
     pages/multipage.h \
+    pages/failsafepage.h \
     pages/fixedwingpage.h \
     pages/helipage.h \
     pages/surfacepage.h \
@@ -47,6 +48,7 @@ SOURCES += setupwizardplugin.cpp \
     pages/vehiclepage.cpp \
     pages/notyetimplementedpage.cpp \
     pages/multipage.cpp \
+    pages/failsafepage.cpp \
     pages/fixedwingpage.cpp \
     pages/helipage.cpp \
     pages/surfacepage.cpp \
@@ -77,6 +79,7 @@ FORMS += \
     pages/notyetimplementedpage.ui \
     pages/multipage.ui \
     pages/fixedwingpage.ui \
+    pages/failsafepage.ui \
     pages/helipage.ui \
     pages/surfacepage.ui \
     pages/outputpage.ui \

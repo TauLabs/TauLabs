@@ -44,7 +44,8 @@
  *   2. enable the appropriate modules and INS mode
  *      (GPS, VtolPathFollower, PathFollower)
  *   3. load the variances and other settings
- *   4. reboot
+ *   4. save these settings
+ *   5. reboot
  */
 class NavigationWizard : public QWizard {
     Q_OBJECT
