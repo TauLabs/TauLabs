@@ -50,7 +50,7 @@ bool SetupWizardPlugin::initialize(const QStringList & args, QString *errMsg)
     Q_UNUSED(args);
     Q_UNUSED(errMsg);
 
-    // Add Menu entry
+    // Add entry points for main setup wizard
     Core::ActionManager *am   = Core::ICore::instance()->actionManager();
     Core::ActionContainer *ac = am->actionContainer(Core::Constants::M_TOOLS);
 
@@ -67,6 +67,22 @@ bool SetupWizardPlugin::initialize(const QStringList & args, QString *errMsg)
     ac->addAction(cmd, "Wizard");
 
     connect(cmd->action(), SIGNAL(triggered(bool)), this, SLOT(showSetupWizard()));
+
+    // Add entry points for navigation setup wizard
+    cmd = am->registerAction(new QAction(this),
+                                        "SetupWizardPlugin.ShowNavigationWizard",
+                                        QList<int>() <<
+                                        Core::Constants::C_GLOBAL_ID);
+    cmd->action()->setText(tr("Navigation Setup Wizard"));
+
+    Core::ModeManager::instance()->addAction(cmd, 1);
+
+    ac->menu()->addSeparator();
+    ac->appendGroup("Navigation Wizard");
+    ac->addAction(cmd, "Navigation Wizard");
+
+    connect(cmd->action(), SIGNAL(triggered(bool)), this, SLOT(showNavigationWizard()));
+
     return true;
 }
 
@@ -81,6 +97,18 @@ void SetupWizardPlugin::showSetupWizard()
     if (!wizardRunning) {
         wizardRunning = true;
         SetupWizard *m_wiz = new SetupWizard();
+        connect(m_wiz, SIGNAL(finished(int)), this, SLOT(wizardTerminated()));
+        m_wiz->setAttribute(Qt::WA_DeleteOnClose, true);
+        m_wiz->setWindowFlags(m_wiz->windowFlags() | Qt::WindowStaysOnTopHint);
+        m_wiz->show();
+    }
+}
+
+void SetupWizardPlugin::showNavigationWizard()
+{
+    if (!wizardRunning) {
+        wizardRunning = true;
+        NavigationWizard *m_wiz = new NavigationWizard();
         connect(m_wiz, SIGNAL(finished(int)), this, SLOT(wizardTerminated()));
         m_wiz->setAttribute(Qt::WA_DeleteOnClose, true);
         m_wiz->setWindowFlags(m_wiz->windowFlags() | Qt::WindowStaysOnTopHint);
