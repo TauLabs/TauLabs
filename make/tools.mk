@@ -75,7 +75,7 @@ endif
 
 .PHONY: qt_sdk_clean
 qt_sdk_clean:
-	$(V1) [ ! -d "$(QT_SDK_DIR)" ] || $(RM) -rf $(QT_SDK_DIR)
+	$(V1) [ ! -d "$(QT_SDK_DIR)" ] || $(RM) -r $(QT_SDK_DIR)
 
 # Set up ARM (STM32) SDK
 ARM_SDK_DIR := $(TOOLS_DIR)/gcc-arm-none-eabi-4_7-2013q1
@@ -147,7 +147,7 @@ openocd_install: openocd_clean
 	)
 
         # delete the extracted source when we're done
-	$(V1) [ ! -d "$(OPENOCD_BUILD_DIR)" ] || $(RM) -rf "$(OPENOCD_BUILD_DIR)"
+	$(V1) [ ! -d "$(OPENOCD_BUILD_DIR)" ] || $(RM) -r "$(OPENOCD_BUILD_DIR)"
 
 .PHONY: ftd2xx_install
 
@@ -394,18 +394,18 @@ gtest_install: GTEST_FILE := $(notdir $(GTEST_URL))
 gtest_install: gtest_clean
         # download the file unconditionally since google code gives back 404
         # for HTTP HEAD requests which are used when using the wget -N option
-	$(V1) [ ! -f "$(DL_DIR)/$(GTEST_FILE)" ] || $(RM) -f "$(DL_DIR)/$(GTEST_FILE)"
+	$(V1) [ ! -f "$(DL_DIR)/$(GTEST_FILE)" ] || $(RM) "$(DL_DIR)/$(GTEST_FILE)"
 	$(V1) wget -P "$(DL_DIR)" "$(GTEST_URL)"
 
         # extract the source
-	$(V1) [ ! -d "$(GTEST_DIR)" ] || $(RM) -rf "$(GTEST_DIR)"
+	$(V1) [ ! -d "$(GTEST_DIR)" ] || $(RM) -r "$(GTEST_DIR)"
 	$(V1) mkdir -p "$(GTEST_DIR)"
 	$(V1) unzip -q -d "$(TOOLS_DIR)" "$(DL_DIR)/$(GTEST_FILE)"
 
 .PHONY: gtest_clean
 gtest_clean:
 	$(V0) @echo " CLEAN        $(GTEST_DIR)"
-	$(V1) [ ! -d "$(GTEST_DIR)" ] || $(RM) -rf "$(GTEST_DIR)"
+	$(V1) [ ! -d "$(GTEST_DIR)" ] || $(RM) -r "$(GTEST_DIR)"
 
 .PHONY: gui_install
 MAKE_GUI_DIR := $(TOOLS_DIR)/make_gui/
@@ -416,12 +416,12 @@ gui_install:
 	  $(QMAKE) $(MAKE_GUI_SOURCE_DIR)/make_gui.pro -spec $(QT_SPEC) && \
 	  $(MAKE) -w ; \
 	)
-	$(V1) [ ! -d "$(MAKE_GUI_DIR)/build" ] || $(RM) -rf "$(MAKE_GUI_DIR)/build"
+	$(V1) [ ! -d "$(MAKE_GUI_DIR)/build" ] || $(RM) -r "$(MAKE_GUI_DIR)/build"
 
 .PHONY: gui_clean
 gui_clean:
 	$(V0) @echo " CLEAN        $(MAKE_GUI_DIR)"
-	$(V1) [ ! -d "$(MAKE_GUI_DIR)" ] || $(RM) -rf "$(MAKE_GUI_DIR)"
+	$(V1) [ ! -d "$(MAKE_GUI_DIR)" ] || $(RM) -r "$(MAKE_GUI_DIR)"
 
 .PHONY: gui
 gui:
