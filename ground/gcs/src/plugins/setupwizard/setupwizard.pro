@@ -35,7 +35,8 @@ HEADERS += setupwizardplugin.h \
     pages/rebootpage.h \
     pages/savepage.h \
     pages/autoupdatepage.h \
-    pages/biascalibrationpage.h
+    pages/biascalibrationpage.h \
+    navigationwizard.h
 
 SOURCES += setupwizardplugin.cpp \
     setupwizard.cpp \
@@ -62,7 +63,8 @@ SOURCES += setupwizardplugin.cpp \
     pages/rebootpage.cpp \
     pages/savepage.cpp \
     pages/autoupdatepage.cpp \
-    pages/biascalibrationpage.cpp
+    pages/biascalibrationpage.cpp \
+    navigationwizard.cpp
 
 OTHER_FILES += SetupWizard.pluginspec
 
