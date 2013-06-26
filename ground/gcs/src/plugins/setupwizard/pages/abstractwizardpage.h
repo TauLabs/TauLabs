@@ -43,6 +43,9 @@ private:
 
 public:
     SetupWizard *getWizard() const;
+    QWizard *getQWizard() const { return m_wizard; }
+
+    UAVObjectManager * getObjectManager() const;
 };
 
 #endif // ABSTRACTWIZARDPAGE_H

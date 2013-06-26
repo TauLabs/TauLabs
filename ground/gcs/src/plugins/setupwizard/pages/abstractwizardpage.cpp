@@ -3,6 +3,7 @@
  *
  * @file       abstractwizardpage.cpp
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
  * @see        The GNU Public License (GPL) Version 3
  *
  * @addtogroup GCSPlugins GCS Plugins
@@ -40,3 +41,15 @@ SetupWizard *AbstractWizardPage::getWizard() const
     SetupWizard *castWiz = dynamic_cast<SetupWizard *>(m_wizard);
     return castWiz;
 }
+
+//! Helper method to get the object manager for the pages
+UAVObjectManager * AbstractWizardPage::getObjectManager() const
+{
+    ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
+    Q_ASSERT(pm);
+    UAVObjectManager *objMngr = pm->getObject<UAVObjectManager>();
+    Q_ASSERT(objMngr);
+
+    return objMngr;
+}
+
