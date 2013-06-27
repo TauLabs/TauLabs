@@ -257,7 +257,7 @@ static void gpsTask(void *parameters)
 			// we appear to be receiving GPS sentences OK, we've had an update
 			//criteria for GPS-OK taken from this post...
 			//http://forums.openpilot.org/topic/1523-professors-insgps-in-svn/page__view__findpost__p__5220
-			if ((gpsposition.PDOP < 3.5) && (gpsposition.Satellites >= 7) &&
+			if ((gpsposition.PDOP < 3.5f) && (gpsposition.Satellites >= 7) &&
 					(gpsposition.Status == GPSPOSITION_STATUS_FIX3D)) {
 				AlarmsClear(SYSTEMALARMS_ALARM_GPS);
 #ifdef PIOS_GPS_SETS_HOMELOCATION
