@@ -13,19 +13,19 @@
  *
  ******************************************************************************
  */
-/* 
- * This program is free software; you can redistribute it and/or modify 
- * it under the terms of the GNU General Public License as published by 
- * the Free Software Foundation; either version 3 of the License, or 
+/*
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 3 of the License, or
  * (at your option) any later version.
- * 
- * This program is distributed in the hope that it will be useful, but 
- * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY 
- * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License 
+ *
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
  * for more details.
- * 
- * You should have received a copy of the GNU General Public License along 
- * with this program; if not, write to the Free Software Foundation, Inc., 
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with this program; if not, write to the Free Software Foundation, Inc.,
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
@@ -69,21 +69,20 @@ static struct hmc5983_dev *dev;
 /**
  * @brief Allocate a new device
  */
-static struct hmc5983_dev *PIOS_HMC5983_alloc(void)
-{
+static struct hmc5983_dev *PIOS_HMC5983_alloc(void) {
 	struct hmc5983_dev *hmc5983_dev;
-	
+
 	hmc5983_dev = (struct hmc5983_dev *)pvPortMalloc(sizeof(*hmc5983_dev));
 	if (!hmc5983_dev) return (NULL);
-	
+
 	hmc5983_dev->magic = PIOS_HMC5983_DEV_MAGIC;
-	
+
 	hmc5983_dev->queue = xQueueCreate(PIOS_HMC5983_MAX_DOWNSAMPLE, sizeof(struct pios_sensor_mag_data));
 	if (hmc5983_dev->queue == NULL) {
 		vPortFree(hmc5983_dev);
 		return NULL;
 	}
-	
+
 	hmc5983_dev->data_ready_sema = xSemaphoreCreateMutex();
 	if (hmc5983_dev->data_ready_sema == NULL) {
 		vPortFree(hmc5983_dev);
@@ -99,7 +98,7 @@ static struct hmc5983_dev *PIOS_HMC5983_alloc(void)
  */
 static int32_t PIOS_HMC5983_Validate(struct hmc5983_dev *dev)
 {
-	if (dev == NULL) 
+	if (dev == NULL)
 		return -1;
 	if (dev->magic != PIOS_HMC5983_DEV_MAGIC)
 		return -2;
@@ -132,8 +131,8 @@ int32_t PIOS_HMC5983_Init(uint32_t spi_id, uint32_t slave_num, const struct pios
 	PIOS_SENSORS_Register(PIOS_SENSOR_MAG, dev->queue);
 
 	int result = xTaskCreate(PIOS_HMC5983_Task, (const signed char *)"pios_hmc5983",
-						 HMC5983_TASK_STACK, NULL, HMC5983_TASK_PRIORITY,
-						 &dev->task);
+				HMC5983_TASK_STACK, NULL, HMC5983_TASK_PRIORITY,
+				&dev->task);
 
 	PIOS_Assert(result == pdPASS);
 
@@ -150,7 +149,7 @@ int32_t PIOS_HMC5983_Init(uint32_t spi_id, uint32_t slave_num, const struct pios
  * CTRL_REGA: Control Register A
  * Read Write
  * Default value: 0x10
- * 7 TS: Enable temperature sensor. It will be measured at each magnetic measurement, 
+ * 7 TS: Enable temperature sensor. It will be measured at each magnetic measurement,
  *       enable for automatic compensation of sensitivity over temperature.
  * 6:5 MA1-MA0: Number of averaged samples
  *             MA1 | MA0 | Number of samples averaged
@@ -217,28 +216,28 @@ int32_t PIOS_HMC5983_Init(uint32_t spi_id, uint32_t slave_num, const struct pios
 
 
 static uint8_t CTRLB = 0x00;
-static int32_t PIOS_HMC5983_Config(const struct pios_hmc5983_cfg * cfg)
+static int32_t PIOS_HMC5983_Config(const struct pios_hmc5983_cfg *cfg)
 {
 	uint8_t CTRLA = 0x00;
 	uint8_t MODE = 0x00;
 	CTRLB = 0;
-	
-	CTRLA |= (uint8_t) (PIOS_HMC5983_ENABLE_TEMP_SENSOR | cfg->Averaging | cfg->M_ODR | cfg->Meas_Conf);
-	CTRLB |= (uint8_t) (cfg->Gain);
-	MODE |= (uint8_t) (cfg->Mode);
-	
+
+	CTRLA |= (uint8_t)(PIOS_HMC5983_ENABLE_TEMP_SENSOR | cfg->Averaging | cfg->M_ODR | cfg->Meas_Conf);
+	CTRLB |= (uint8_t)(cfg->Gain);
+	MODE |= (uint8_t)(cfg->Mode);
+
 	// CTRL_REGA
 	if (PIOS_HMC5983_Write(PIOS_HMC5983_CONFIG_REG_A, CTRLA) != 0)
 		return -1;
-	
+
 	// CTRL_REGB
 	if (PIOS_HMC5983_Write(PIOS_HMC5983_CONFIG_REG_B, CTRLB) != 0)
 		return -1;
-	
+
 	// Mode register
-	if (PIOS_HMC5983_Write(PIOS_HMC5983_MODE_REG, MODE) != 0) 
+	if (PIOS_HMC5983_Write(PIOS_HMC5983_MODE_REG, MODE) != 0)
 		return -1;
-	
+
 	return 0;
 }
 
@@ -254,66 +253,66 @@ static int32_t PIOS_HMC5983_ReadMag(struct pios_sensor_mag_data *mag_data)
 
 	uint8_t buffer[6];
 	int32_t sensitivity;
-	
+
 	if (PIOS_HMC5983_Read(PIOS_HMC5983_DATAOUT_XMSB_REG, buffer, 6) != 0)
 		return -1;
-		
+
 	switch (CTRLB & 0xE0) {
-		case 0x00:
-			sensitivity = PIOS_HMC5983_Sensitivity_0_88Ga;
-			break;
-		case 0x20:
-			sensitivity = PIOS_HMC5983_Sensitivity_1_3Ga;
-			break;
-		case 0x40:
-			sensitivity = PIOS_HMC5983_Sensitivity_1_9Ga;
-			break;
-		case 0x60:
-			sensitivity = PIOS_HMC5983_Sensitivity_2_5Ga;
-			break;
-		case 0x80:
-			sensitivity = PIOS_HMC5983_Sensitivity_4_0Ga;
-			break;
-		case 0xA0:
-			sensitivity = PIOS_HMC5983_Sensitivity_4_7Ga;
-			break;
-		case 0xC0:
-			sensitivity = PIOS_HMC5983_Sensitivity_5_6Ga;
-			break;
-		case 0xE0:
-			sensitivity = PIOS_HMC5983_Sensitivity_8_1Ga;
-			break;
-		default:
-			PIOS_Assert(0);
+	case 0x00:
+		sensitivity = PIOS_HMC5983_Sensitivity_0_88Ga;
+		break;
+	case 0x20:
+		sensitivity = PIOS_HMC5983_Sensitivity_1_3Ga;
+		break;
+	case 0x40:
+		sensitivity = PIOS_HMC5983_Sensitivity_1_9Ga;
+		break;
+	case 0x60:
+		sensitivity = PIOS_HMC5983_Sensitivity_2_5Ga;
+		break;
+	case 0x80:
+		sensitivity = PIOS_HMC5983_Sensitivity_4_0Ga;
+		break;
+	case 0xA0:
+		sensitivity = PIOS_HMC5983_Sensitivity_4_7Ga;
+		break;
+	case 0xC0:
+		sensitivity = PIOS_HMC5983_Sensitivity_5_6Ga;
+		break;
+	case 0xE0:
+		sensitivity = PIOS_HMC5983_Sensitivity_8_1Ga;
+		break;
+	default:
+		PIOS_Assert(0);
 	}
 
 	int16_t mag_x, mag_y, mag_z;
-	mag_x = ((int16_t) ((uint16_t) buffer[0] << 8) + buffer[1]) * 1000 / sensitivity;
-	mag_z = ((int16_t) ((uint16_t) buffer[2] << 8) + buffer[3]) * 1000 / sensitivity;
-	mag_y = ((int16_t) ((uint16_t) buffer[4] << 8) + buffer[5]) * 1000 / sensitivity;
+	mag_x = ((int16_t)((uint16_t) buffer[0] << 8) + buffer[1]) * 1000 / sensitivity;
+	mag_z = ((int16_t)((uint16_t) buffer[2] << 8) + buffer[3]) * 1000 / sensitivity;
+	mag_y = ((int16_t)((uint16_t) buffer[4] << 8) + buffer[5]) * 1000 / sensitivity;
 
 	// Define "0" when the fiducial is in the front left of the board
 	switch (dev->cfg->orientation) {
-		case PIOS_HMC5983_TOP_0DEG:
-			mag_data->x = -mag_x;
-			mag_data->y = mag_y;
-			mag_data->z = -mag_z;
-			break;
-		case PIOS_HMC5983_TOP_90DEG:
-			mag_data->x = -mag_y;
-			mag_data->y = -mag_x;
-			mag_data->z = -mag_z;
-			break;
-		case PIOS_HMC5983_TOP_180DEG:
-			mag_data->x = mag_x;
-			mag_data->y = -mag_y;
-			mag_data->z = -mag_z;		
-			break;
-		case PIOS_HMC5983_TOP_270DEG:
-			mag_data->x = mag_y;
-			mag_data->y = mag_x;
-			mag_data->z = -mag_z;
-			break;
+	case PIOS_HMC5983_TOP_0DEG:
+		mag_data->x = -mag_x;
+		mag_data->y = mag_y;
+		mag_data->z = -mag_z;
+		break;
+	case PIOS_HMC5983_TOP_90DEG:
+		mag_data->x = -mag_y;
+		mag_data->y = -mag_x;
+		mag_data->z = -mag_z;
+		break;
+	case PIOS_HMC5983_TOP_180DEG:
+		mag_data->x = mag_x;
+		mag_data->y = -mag_y;
+		mag_data->z = -mag_z;
+		break;
+	case PIOS_HMC5983_TOP_270DEG:
+		mag_data->x = mag_y;
+		mag_data->y = mag_x;
+		mag_data->z = -mag_z;
+		break;
 	}
 
 #if PIOS_HMC5983_READ_TEMPERATURE
@@ -325,7 +324,7 @@ static int32_t PIOS_HMC5983_ReadMag(struct pios_sensor_mag_data *mag_data)
 
 	// This should not be necessary but for some reason it is coming out of continuous conversion mode
 	PIOS_HMC5983_Write(PIOS_HMC5983_MODE_REG, PIOS_HMC5983_MODE_CONTINUOUS);
-	
+
 	return 0;
 }
 
@@ -423,7 +422,7 @@ int32_t PIOS_HMC5983_Test(void)
 	uint8_t registers[3] = { 0, 0, 0 };
 	uint8_t status;
 	uint8_t ctrl_a_read;
-	uint8_t ctrl_b_read;	
+	uint8_t ctrl_b_read;
 	uint8_t mode_read;
 	struct pios_sensor_mag_data values;
 
@@ -439,9 +438,9 @@ int32_t PIOS_HMC5983_Test(void)
 
 	/* Stop the device and read out last value */
 	PIOS_DELAY_WaitmS(10);
-	if (PIOS_HMC5983_Write(PIOS_HMC5983_MODE_REG, PIOS_HMC5983_MODE_IDLE) != 0) 
+	if (PIOS_HMC5983_Write(PIOS_HMC5983_MODE_REG, PIOS_HMC5983_MODE_IDLE) != 0)
 		return -1;
-	if( PIOS_HMC5983_Read(PIOS_HMC5983_DATAOUT_STATUS_REG, &status, 1) != 0)
+	if (PIOS_HMC5983_Read(PIOS_HMC5983_DATAOUT_STATUS_REG, &status, 1) != 0)
 		return -1;
 	if (PIOS_HMC5983_ReadMag(&values) != 0)
 		return -1;
@@ -461,10 +460,10 @@ int32_t PIOS_HMC5983_Test(void)
 	if (PIOS_HMC5983_Write(PIOS_HMC5983_CONFIG_REG_A, PIOS_HMC5983_MEASCONF_BIAS_POS | PIOS_HMC5983_ODR_15) != 0)
 		return -1;
 	PIOS_DELAY_WaitmS(10);
-	if (PIOS_HMC5983_Write(PIOS_HMC5983_CONFIG_REG_B, PIOS_HMC5983_GAIN_8_1) != 0) 
+	if (PIOS_HMC5983_Write(PIOS_HMC5983_CONFIG_REG_B, PIOS_HMC5983_GAIN_8_1) != 0)
 		return -1;
 	PIOS_DELAY_WaitmS(10);
-	if (PIOS_HMC5983_Write(PIOS_HMC5983_MODE_REG, PIOS_HMC5983_MODE_SINGLE) != 0) 
+	if (PIOS_HMC5983_Write(PIOS_HMC5983_MODE_REG, PIOS_HMC5983_MODE_SINGLE) != 0)
 		return -1;
 
 	/* Must wait for value to be updated */
@@ -483,10 +482,10 @@ int32_t PIOS_HMC5983_Test(void)
 	if (PIOS_HMC5983_Write(PIOS_HMC5983_CONFIG_REG_A, registers[0]) != 0)
 		return -1;
 	PIOS_DELAY_WaitmS(10);
-	if (PIOS_HMC5983_Write(PIOS_HMC5983_CONFIG_REG_B, registers[1]) != 0) 
+	if (PIOS_HMC5983_Write(PIOS_HMC5983_CONFIG_REG_B, registers[1]) != 0)
 		return -1;
 	PIOS_DELAY_WaitmS(10);
-	if (PIOS_HMC5983_Write(PIOS_HMC5983_MODE_REG, registers[2]) != 0) 
+	if (PIOS_HMC5983_Write(PIOS_HMC5983_MODE_REG, registers[2]) != 0)
 		return -1;
 
 	return failed;
@@ -503,7 +502,7 @@ bool PIOS_HMC5983_IRQHandler(void)
 	portBASE_TYPE xHigherPriorityTaskWoken;
 	xSemaphoreGiveFromISR(dev->data_ready_sema, &xHigherPriorityTaskWoken);
 
-    return xHigherPriorityTaskWoken == pdTRUE;
+	return xHigherPriorityTaskWoken == pdTRUE;
 }
 
 /**
@@ -511,7 +510,7 @@ bool PIOS_HMC5983_IRQHandler(void)
  */
 static void PIOS_HMC5983_Task(void *parameters)
 {
-	while(1) {
+	while (1) {
 		if (PIOS_HMC5983_Validate(dev) != 0) {
 			vTaskDelay(100 * portTICK_RATE_MS);
 			continue;
