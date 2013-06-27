@@ -285,7 +285,8 @@ static struct UAVOData * UAVObjAllocMulti(uint32_t num_bytes)
 	uavo_multi->num_instances = 1;
 
 	/* Clear the instance data carried in the UAVO */
-	memset (&(uavo_multi->instance0), 0, num_bytes);
+	uavo_multi->instance0.next = NULL;
+	memset (&(uavo_multi->instance0.instance), 0, num_bytes);
 
 	/* Give back the generic UAVO part */
 	return (&(uavo_multi->uavo));
