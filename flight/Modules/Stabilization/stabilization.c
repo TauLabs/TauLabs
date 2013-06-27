@@ -388,8 +388,8 @@ static void stabilizationTask(void* parameters)
 					switch (i) {
 						case YAW:
 							if ( stabDesired.StabilizationMode[ROLL]==STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDE && //If we are in roll attitude mode..
-								fabs(stabDesired.Roll) > 3.0f && //...and we've requested more than 3 degrees of roll...
-								fabs(stabDesired.Yaw) < 0.02) { //...and we currently have no yaw input within a 2% deadband
+								fabsf(stabDesired.Roll) > 3.0f && //...and we've requested more than 3 degrees of roll...
+								fabsf(stabDesired.Yaw) < 0.02f) { //...and we currently have no yaw input within a 2% deadband
 								float accelsDataY;
 								AccelsyGet(&accelsDataY);
 								
@@ -595,8 +595,8 @@ static void SettingsUpdatedCb(UAVObjEvent * ev)
 		// based on a time (in ms) rather than a fixed multiplier.  The error between
 		// update rates on OP (~300 Hz) and CC (~475 Hz) is negligible for this
 		// calculation
-		const float fakeDt = 0.0025;
-		if(settings.GyroTau < 0.0001)
+		const float fakeDt = 0.0025f;
+		if(settings.GyroTau < 0.0001f)
 			gyro_alpha = 0;   // not trusting this to resolve to 0
 		else
 			gyro_alpha = expf(-fakeDt  / settings.GyroTau);
