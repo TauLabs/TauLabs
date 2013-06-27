@@ -436,7 +436,7 @@ androidgcs_clean:
 #   git log --format=%h -- shared/uavobjectdefinition/ | head -n 6 | tr '\n' ' '
 UAVO_NEXT_RECENT_GIT_VERSIONS := $(shell git log next --format=%h -- shared/uavobjectdefinition/ | head -n 30 | tr '\n' ' ')
 UAVO_MASTER_RECENT_GIT_VERSIONS := $(shell git log master --format=%h -- shared/uavobjectdefinition/ | head -n 5 | tr '\n' ' ')
-UAVO_GIT_VERSIONS := master next taulabs_android_release $(UAVO_NEXT_RECENT_GIT_VERSIONS) $(UAVO_MASTER_RECENT_GIT_VERSIONS) RELEASE-12.10 RELEASE-12.10.1 RELEASE-12.10.2 RELEASE-13.06
+UAVO_GIT_VERSIONS := master next taulabs_android_release $(UAVO_NEXT_RECENT_GIT_VERSIONS) $(UAVO_MASTER_RECENT_GIT_VERSIONS) RELEASE-12.10 RELEASE-12.10.1 RELEASE-12.10.2 RELEASE-13.06 RELEASE-13.06.01
 
 # All versions includes a pseudo collection called "working" which represents
 # the UAVOs in the source tree
