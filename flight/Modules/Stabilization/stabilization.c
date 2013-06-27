@@ -266,7 +266,7 @@ static void stabilizationTask(void* parameters)
 		local_attitude_error[2] = circular_modulus_deg(local_attitude_error[2]);
 #endif
 
-		float gyro_filtered[3];
+		static float gyro_filtered[3];
 		gyro_filtered[0] = gyro_filtered[0] * gyro_alpha + gyrosData.x * (1 - gyro_alpha);
 		gyro_filtered[1] = gyro_filtered[1] * gyro_alpha + gyrosData.y * (1 - gyro_alpha);
 		gyro_filtered[2] = gyro_filtered[2] * gyro_alpha + gyrosData.z * (1 - gyro_alpha);
