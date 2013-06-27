@@ -125,8 +125,8 @@ obj_isFalse(pPmObj_t pobj)
 #ifdef HAVE_FLOAT
         case OBJ_TYPE_FLT:
             /* The floats 0.0 and -0.0 are false */
-            return (((pPmFloat_t) pobj)->val == 0.0)
-                || (((pPmFloat_t) pobj)->val == -0.0);
+            return (((pPmFloat_t) pobj)->val == 0.0f)
+                || (((pPmFloat_t) pobj)->val == -0.0f);
 #endif /* HAVE_FLOAT */
 
         case OBJ_TYPE_STR:
