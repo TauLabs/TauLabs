@@ -150,7 +150,7 @@ void PIOS_OVERO_DMA_irq_handler(uint32_t overo_id)
 	overo_dev->writing_buffer = 1 - DMA_GetCurrentMemoryTarget(overo_dev->cfg->dma.tx.channel);
 	overo_dev->writing_offset = 0;
 
-/*	bool rx_need_yield;
+/*	bool rx_need_yield = false;
 	// Get data from the Rx buffer and add to the fifo
 	(void) (overo_dev->rx_in_cb)(overo_dev->rx_in_context, 
 								 &overo_dev->rx_buffer[overo_dev->writing_buffer][0], 
