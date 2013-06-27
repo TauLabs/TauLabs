@@ -300,7 +300,7 @@ static float scale(float val, float inMin, float inMax, float outMin, float outM
 		float t = outMin;
 		outMin = outMax;
 		outMax = t;
-		val = 1.0 - val;
+		val = 1.0f - val;
 	}
 
 	return (outMax - outMin) * val + outMin;
