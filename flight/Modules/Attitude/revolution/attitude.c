@@ -606,7 +606,7 @@ static int32_t updateAttitudeComplementary(bool first_run, bool secondary)
 
 	// If quaternion has become inappropriately short or is nan reinit.
 	// THIS SHOULD NEVER ACTUALLY HAPPEN
-	if((fabs(qmag) < 1.0e-3f) || (qmag != qmag)) {
+	if((fabsf(qmag) < 1.0e-3f) || (qmag != qmag)) {
 		cf_q[0] = 1;
 		cf_q[1] = 0;
 		cf_q[2] = 0;
@@ -1149,8 +1149,8 @@ static void settingsUpdatedCb(UAVObjEvent * ev)
 		AttitudeSettingsGet(&attitudeSettings);
 			
 		// Calculate accel filter alpha, in the same way as for gyro data in stabilization module.
-		const float fakeDt = 0.0025;
-		if(attitudeSettings.AccelTau < 0.0001) {
+		const float fakeDt = 0.0025f;
+		if(attitudeSettings.AccelTau < 0.0001f) {
 			complementary_filter_state.accel_alpha = 0;   // not trusting this to resolve to 0
 			complementary_filter_state.accel_filter_enabled = false;
 		} else {
