@@ -87,7 +87,7 @@ static uint8_t                    connected_count = 0;
 static struct rcvr_activity_fsm   activity_fsm;
 static portTickType               lastActivityTime;
 static portTickType               lastSysTime;
-static double                     flight_mode_value;
+static float                      flight_mode_value;
 static enum control_events        pending_control_event;
 static bool                       settings_updated;
 
@@ -934,9 +934,9 @@ static float scaleChannel(int16_t value, int16_t max, int16_t min, int16_t neutr
 	}
 
 	// Bound
-	if (valueScaled >  1.0) valueScaled =  1.0;
+	if (valueScaled >  1.0f) valueScaled =  1.0f;
 	else
-	if (valueScaled < -1.0) valueScaled = -1.0;
+	if (valueScaled < -1.0f) valueScaled = -1.0f;
 
 	return valueScaled;
 }
@@ -967,7 +967,7 @@ bool validInputRange(int16_t min, int16_t max, uint16_t value, uint16_t offset)
  */
 static void applyDeadband(float *value, float deadband)
 {
-	if (fabs(*value) < deadband)
+	if (fabsf(*value) < deadband)
 		*value = 0.0f;
 	else
 		if (*value > 0.0f)
