@@ -1898,6 +1898,7 @@ static const struct pios_tim_channel pios_tim_servoport_rcvrport_pins[] = {
 			.pin_source = GPIO_PinSource8,
 		},
 	},
+#if !defined(PIOS_INCLUDE_HCSR04)
 	{
 		.timer = TIM15,
 		.timer_chan = TIM_Channel_1,
@@ -1930,6 +1931,7 @@ static const struct pios_tim_channel pios_tim_servoport_rcvrport_pins[] = {
 			.pin_source = GPIO_PinSource10,
 		},
 	},
+#endif
 };
 
 
@@ -2087,6 +2089,7 @@ static const struct pios_tim_channel pios_tim_rcvrport_all_channels[] = {
 			.pin_source = GPIO_PinSource8,
 		},
 	},
+#if !defined(PIOS_INCLUDE_HCSR04)
 	{
 		.timer = TIM15,
 		.timer_chan = TIM_Channel_1,
@@ -2119,6 +2122,7 @@ static const struct pios_tim_channel pios_tim_rcvrport_all_channels[] = {
 			.pin_source = GPIO_PinSource10,
 		},
 	},
+#endif
 };
 
 #endif
@@ -2185,6 +2189,53 @@ static const struct pios_ppm_cfg pios_ppm_cfg = {
 #include "pios_rcvr_priv.h"
 #endif /* PIOS_INCLUDE_RCVR */
 
+/*
+ * SONAR Inputs
+ * rc in CH7 - sonar echo
+ * rc in CH8 - sonar trigger
+ */
+#if defined(PIOS_INCLUDE_HCSR04)
+#include <pios_hcsr04_priv.h>
+
+static const struct pios_tim_channel pios_tim_hcsr04_port_all_channels[] = {
+    {
+        .timer = TIM15,
+        .timer_chan = TIM_Channel_1,
+        .pin   = {
+            .gpio = GPIOF,
+            .init = {
+                .GPIO_Pin   = GPIO_Pin_9,
+                .GPIO_Mode  = GPIO_Mode_AF,
+                .GPIO_Speed = GPIO_Speed_2MHz,
+                .GPIO_PuPd  = GPIO_PuPd_DOWN
+            },
+            .pin_source     = GPIO_PinSource9,
+        },
+        .remap = GPIO_AF_3,
+    },
+};
+
+const struct pios_hcsr04_cfg pios_hcsr04_cfg = {
+    .tim_ic_init         = {
+        .TIM_ICPolarity  = TIM_ICPolarity_Rising,
+        .TIM_ICSelection = TIM_ICSelection_DirectTI,
+        .TIM_ICPrescaler = TIM_ICPSC_DIV1,
+        .TIM_ICFilter    = 0x0,
+    },
+    .channels     = pios_tim_hcsr04_port_all_channels,
+    .num_channels = NELEMENTS(pios_tim_hcsr04_port_all_channels),
+    .trigger             = {
+        .gpio = GPIOF,
+        .init = {
+            .GPIO_Pin   = GPIO_Pin_10,
+            .GPIO_Mode  = GPIO_Mode_OUT,
+            .GPIO_OType = GPIO_OType_PP,
+            .GPIO_PuPd  = GPIO_PuPd_UP,
+            .GPIO_Speed = GPIO_Speed_2MHz,
+        },
+    },
+};
+#endif /* if defined(PIOS_INCLUDE_HCSR04) */
 
 #if defined(PIOS_INCLUDE_USB)
 #include "pios_usb_priv.h"

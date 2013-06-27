@@ -31,6 +31,7 @@
 #ifndef PIOS_SENSOR_H
 #define PIOS_SENSOR_H
 
+#include "pios.h"
 #include "stdint.h"
 #include "FreeRTOS.h"
 #include "queue.h"
@@ -65,6 +66,12 @@ struct pios_sensor_baro_data {
 	float altitude;
 };
 
+//! Pios sensor structure for generic sonar data
+struct pios_sensor_sonar_data {
+	float altitude;
+	bool range;
+};
+
 //! The types of sensors this module supports
 enum pios_sensor_type
 {
@@ -72,6 +79,7 @@ enum pios_sensor_type
 	PIOS_SENSOR_GYRO,
 	PIOS_SENSOR_MAG,
 	PIOS_SENSOR_BARO,
+	PIOS_SENSOR_SONAR,
 	PIOS_SENSOR_LAST
 };
 
