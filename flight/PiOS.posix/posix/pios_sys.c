@@ -38,9 +38,24 @@
 /**
 * Initialises all system peripherals
 */
+#include <assert.h>		/* assert */
+#include <stdlib.h>		/* printf */
+#include <signal.h>		/* sigaction */
+static void sigint_handler(int signum, siginfo_t *siginfo, void *ucontext)
+{
+	printf("\nSIGINT received.  Shutting down\n");
+	exit(0);
+}
+
 void PIOS_SYS_Init(void)
 {
+	struct sigaction sa = {
+		.sa_sigaction = sigint_handler,
+		.sa_flags = SA_SIGINFO,
+	};
 
+	int rc = sigaction(SIGINT, &sa, NULL);
+	assert(rc == 0);
 }
 
 /**
