@@ -32,6 +32,9 @@ CXXFLAGS += -g -Wall -Wextra
 # Google Test needs the pthread library
 LDFLAGS += -lpthread
 
+# Google Test requires visibility of gtest includes
+GTEST_CXXFLAGS := -I$(GTEST_DIR)
+
 #################################
 #
 # Template to build the user test
@@ -48,12 +51,12 @@ ALLSRCBASE      := $(notdir $(basename $(ALLSRC) $(ALLCPPSRC)))
 ALLOBJ          := $(addprefix $(OUTDIR)/, $(addsuffix .o, $(ALLSRCBASE)))
 
 $(foreach src,$(ALLSRC),$(eval $(call COMPILE_C_TEMPLATE,$(src))))
+
+# Build any C++ supporting files
 $(foreach src,$(ALLCPPSRC),$(eval $(call COMPILE_CXX_TEMPLATE,$(src))))
 
-
-# Specific extensions to CPPFLAGS only for the google test library
-$(OUTDIR)/gtest-all.o : CPPFLAGS += -I$(GTEST_DIR)
-$(eval $(call COMPILE_CXX_TEMPLATE, $(GTEST_DIR)/src/gtest-all.cc))
+# Specific extensions to CXXFLAGS only for the google test library
+$(eval $(call COMPILE_CXX_TEMPLATE, $(GTEST_DIR)/src/gtest-all.cc,$(GTEST_CXXFLAGS)))
 
 $(eval $(call LINK_CXX_TEMPLATE,$(OUTDIR)/$(TARGET).elf,$(ALLOBJ) $(OUTDIR)/gtest-all.o))
 
