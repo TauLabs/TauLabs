@@ -171,6 +171,7 @@ include $(PIOS)/posix/library.mk
 
 SRC += $(PIOSCOMMON)/pios_com.c
 SRC += $(PIOSCOMMON)/pios_crc.c
+SRC += $(PIOSCOMMON)/pios_flash.c
 SRC += $(PIOSCOMMON)/pios_flashfs_logfs.c
 SRC += $(PIOSCOMMON)/pios_rcvr.c
 SRC += $(PIOSCOMMON)/pios_sensors.c
@@ -181,7 +182,6 @@ SRC += $(PIOSPOSIX)/pios_delay.c
 SRC += $(PIOSPOSIX)/pios_led.c
 SRC += $(PIOSPOSIX)/pios_sim.c
 SRC += $(PIOSPOSIX)/pios_wdg.c
-SRC += $(PIOSPOSIX)/pios_sdcard.c
 SRC += $(PIOSPOSIX)/pios_bl_helper.c
 SRC += $(PIOSPOSIX)/pios_iap.c
 SRC += $(PIOSPOSIX)/pios_servo.c
@@ -233,6 +233,7 @@ ASRCARM =
 EXTRAINCDIRS  += $(SHAREDAPIDIR)
 EXTRAINCDIRS  += $(PIOS)
 EXTRAINCDIRS  += $(PIOSINC)
+EXTRAINCDIRS  += $(TOP)/flight/PiOS/inc
 EXTRAINCDIRS  += $(OPSYSTEMINC)
 EXTRAINCDIRS  += $(OPUAVTALK)
 EXTRAINCDIRS  += $(OPUAVTALKINC)
