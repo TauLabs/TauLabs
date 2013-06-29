@@ -8,6 +8,7 @@
  *
  * @file       pios_gcsrcvr_priv.h
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
  * @brief      GCS receiver private functions
  * @see        The GNU Public License (GPL) Version 3
  *
@@ -32,7 +33,7 @@
 #define PIOS_GCSRCVR_PRIV_H
 
 #include <pios.h>
-
+#include "uavobjectmanager.h"	/* UAVObj* */
 #include "gcsreceiver.h"
 
 extern const struct pios_rcvr_driver pios_gcsrcvr_rcvr_driver;
