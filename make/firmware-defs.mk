@@ -10,6 +10,7 @@ OBJDUMP = $(TCHAIN_PREFIX)objdump
 SIZE    = $(TCHAIN_PREFIX)size
 NM      = $(TCHAIN_PREFIX)nm
 STRIP   = $(TCHAIN_PREFIX)strip
+GCOV    = $(TCHAIN_PREFIX)gcov
 INSTALL = install
 
 THUMB   = -mthumb
@@ -58,6 +59,7 @@ MSG_JTAG_PROGRAM     = ${quote} JTAG-PGM  $(MSG_EXTRA) ${quote}
 MSG_JTAG_WIPE        = ${quote} JTAG-WIPE $(MSG_EXTRA) ${quote}
 MSG_PADDING          = ${quote} PADDING   $(MSG_EXTRA) ${quote}
 MSG_FLASH_IMG        = ${quote} FLASH_IMG $(MSG_EXTRA) ${quote}
+MSG_GCOV             = ${quote} GCOV      $(MSG_EXTRA) ${quote}
 
 toprel = $(subst $(realpath $(TOP))/,,$(abspath $(1)))
 
@@ -272,3 +274,13 @@ wipe:
 		-c "shutdown"
 endef
 
+# Generate GCOV summary
+#  $(1) = name of source file to analyze with gcov
+define GCOV_TEMPLATE
+$(OUTDIR)/$(1).gcov: $(OUTDIR)/$$(basename $(1)).gcda
+	$(V0) @echo $(MSG_GCOV) $$(call toprel, $$@)
+	$(V1) ( \
+	  cd $(OUTDIR) && \
+	  $(GCOV) $(1) 2>&1 > /dev/null ; \
+	)
+endef
