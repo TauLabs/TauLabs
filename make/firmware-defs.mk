@@ -158,30 +158,34 @@ endef
 
 # Compile: create object files from C source files.
 define COMPILE_C_TEMPLATE
+$(OUTDIR)/$(notdir $(basename $(1))).o : EXTRA_FLAGS := $(2)
 $(OUTDIR)/$(notdir $(basename $(1))).o : $(1)
 	@echo $(MSG_COMPILING) $$(call toprel, $$<)
-	$(V1) $(CC) -c $(THUMB) $$(CFLAGS) $$(CONLYFLAGS) $$< -o $$@
+	$(V1) $(CC) -c $(THUMB) $$(CFLAGS) $$(CONLYFLAGS) $$(EXTRA_FLAGS) $$< -o $$@
 endef
 
 # Compile: create object files from C source files. ARM-only
 define COMPILE_C_ARM_TEMPLATE
+$(OUTDIR)/$(notdir $(basename $(1))).o : EXTRA_FLAGS := $(2)
 $(OUTDIR)/$(notdir $(basename $(1))).o : $(1)
 	@echo $(MSG_COMPILING_ARM) $$(call toprel, $$<)
-	$(V1) $(CC) -c $$(CFLAGS) $$(CONLYFLAGS) $$< -o $$@
+	$(V1) $(CC) -c $$(CFLAGS) $$(CONLYFLAGS) $$(EXTRA_FLAGS) $$< -o $$@
 endef
 
 # Compile: create object files from C++ source files.
 define COMPILE_CXX_TEMPLATE
+$(OUTDIR)/$(notdir $(basename $(1))).o : EXTRA_FLAGS := $(2)
 $(OUTDIR)/$(notdir $(basename $(1))).o : $(1)
 	@echo $(MSG_COMPILINGCXX) $$(call toprel, $$<)
-	$(V1) $(CXX) -c $(THUMB) $$(CFLAGS) $$(CPPFLAGS) $$(CXXFLAGS) $$< -o $$@
+	$(V1) $(CXX) -c $(THUMB) $$(CFLAGS) $$(CPPFLAGS) $$(CXXFLAGS) $$(EXTRA_FLAGS) $$< -o $$@
 endef
 
 # Compile: create object files from C++ source files. ARM-only
 define COMPILE_CXX_ARM_TEMPLATE
 $(OUTDIR)/$(notdir $(basename $(1))).o : $(1)
+$(OUTDIR)/$(notdir $(basename $(1))).o : EXTRA_FLAGS := $(2)
 	@echo $(MSG_COMPILINGCXX_ARM) $$(call toprel, $$<)
-	$(V1) $(CPP) -c $$(CFLAGS) $$(CPPFLAGS) $$(CXXFLAGS) $$< -o $$@
+	$(V1) $(CPP) -c $$(CFLAGS) $$(CPPFLAGS) $$(CXXFLAGS) $$(EXTRA_FLAGS) $$< -o $$@
 endef
 
 # Link: create ELF output file from object files.
