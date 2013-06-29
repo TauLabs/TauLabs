@@ -90,35 +90,7 @@ const struct pios_tcp_cfg pios_tcp_aux_cfg = {
 /**
  * Simulation of the flash filesystem
  */
-#include "../../../tests/logfs/pios_flash_ut_priv.h"
-const struct pios_flash_ut_cfg flash_config = {
-	.size_of_flash  = 0x00300000,
-	.size_of_sector = 0x00010000,
-};
-
-#include "pios_flashfs_logfs_priv.h"
-
-const struct flashfs_logfs_cfg flashfs_config_partition_a = {
-	.fs_magic      = 0x89abceef,
-	.total_fs_size = 0x00200000, /* 2M bytes (32 sectors) */
-	.arena_size    = 0x00010000, /* 256 * slot size */
-	.slot_size     = 0x00000100, /* 256 bytes */
-
-	.start_offset  = 0,	     /* start at the beginning of the chip */
-	.sector_size   = 0x00010000, /* 64K bytes */
-	.page_size     = 0x00000100, /* 256 bytes */
-};
-
-const struct flashfs_logfs_cfg flashfs_config_partition_b = {
-	.fs_magic      = 0x89abceef,
-	.total_fs_size = 0x00100000, /* 1M bytes (16 sectors) */
-	.arena_size    = 0x00010000, /* 64 * slot size */
-	.slot_size     = 0x00000400, /* 256 bytes */
-
-	.start_offset  = 0x00200000, /* start after partition a */
-	.sector_size   = 0x00010000, /* 64K bytes */
-	.page_size     = 0x00000100, /* 256 bytes */
-};
+#include "../../../tests/logfs/unittest_init.c"
 
 uintptr_t pios_uavo_settings_fs_id;
 uintptr_t pios_waypoints_settings_fs_id;
@@ -147,6 +119,19 @@ void PIOS_Board_Init(void) {
 	/* Delay system */
 	PIOS_DELAY_Init();
 
+	int32_t retval = PIOS_Flash_Posix_Init(&pios_posix_flash_id, &flash_config);
+	if (retval != 0)
+		fprintf(stderr, "Unable to initialize flash posix simulator: %d\n", retval);
+
+	/* Register the partition table */
+	PIOS_FLASH_register_partition_table(pios_flash_partition_table, NELEMENTS(pios_flash_partition_table));
+
+	if (PIOS_FLASHFS_Logfs_Init(&pios_uavo_settings_fs_id, &flashfs_config_settings, FLASH_PARTITION_LABEL_SETTINGS) != 0)
+		fprintf(stderr, "Unable to open the settings partition\n");
+
+	if (PIOS_FLASHFS_Logfs_Init(&pios_waypoints_settings_fs_id, &flashfs_config_waypoints, FLASH_PARTITION_LABEL_WAYPOINTS) != 0)
+		fprintf(stderr, "Unable to open the waypoints partition\n");
+
 	/* Initialize UAVObject libraries */
 	EventDispatcherInitialize();
 	UAVObjInitialize();
@@ -164,15 +149,6 @@ void PIOS_Board_Init(void) {
 
 	/* Initialize the task monitor library */
 	TaskMonitorInitialize();
-
-	uintptr_t flash_id;
-	int32_t retval = PIOS_Flash_UT_Init(&flash_id, &flash_config);
-  	if (retval != 0)
-		fprintf(stderr, "Unable to initialize flash ut simulator: %d\n", retval);
-
-  	if(PIOS_FLASHFS_Logfs_Init(&pios_waypoints_settings_fs_id, &flashfs_config_partition_b, &pios_ut_flash_driver, flash_id) != 0)
-		fprintf(stderr, "Unable to open the waypoints partition\n");
-
 
 #if defined(PIOS_INCLUDE_COM)
 #if defined(PIOS_INCLUDE_TELEMETRY_RF) && 1

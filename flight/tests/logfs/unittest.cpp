@@ -36,18 +36,26 @@
 #include <stdio.h>		/* printf */
 #include <stdlib.h>		/* abort */
 #include <string.h>		/* memset */
+#include <stdint.h>		/* uint*_t */
 
 extern "C" {
 
 #include "pios_flash.h"		/* PIOS_FLASH_* API */
-#include "pios_flash_ut_priv.h"
 
-extern struct pios_flash_ut_cfg flash_config;
+#include "pios_flash_priv.h"	/* struct pios_flash_partition */
+
+extern const struct pios_flash_partition pios_flash_partition_table[];
+extern uint32_t pios_flash_partition_table_size;
+
+#include "pios_flash_posix_priv.h"
+
+extern uintptr_t pios_posix_flash_id;
+extern struct pios_flash_posix_cfg flash_config;
 
 #include "pios_flashfs_logfs_priv.h"
 
-extern struct flashfs_logfs_cfg flashfs_config_partition_a;
-extern struct flashfs_logfs_cfg flashfs_config_partition_b;
+extern struct flashfs_logfs_cfg flashfs_config_settings;
+extern struct flashfs_logfs_cfg flashfs_config_waypoints;
 
 #include "pios_flashfs.h"	/* PIOS_FLASHFS_* */
 
@@ -118,21 +126,22 @@ protected:
 };
 
 TEST_F(LogfsTestRaw, FlashInit) {
-  uintptr_t flash_id;
-  EXPECT_EQ(0, PIOS_Flash_UT_Init(&flash_id, &flash_config));
+  EXPECT_EQ(0, PIOS_Flash_Posix_Init(&pios_posix_flash_id, &flash_config));
 
-  PIOS_Flash_UT_Destroy(flash_id);
+  PIOS_Flash_Posix_Destroy(pios_posix_flash_id);
 }
 
 TEST_F(LogfsTestRaw, LogfsInit) {
-  uintptr_t flash_id;
-  EXPECT_EQ(0, PIOS_Flash_UT_Init(&flash_id, &flash_config));
+  EXPECT_EQ(0, PIOS_Flash_Posix_Init(&pios_posix_flash_id, &flash_config));
+
+  /* Register the partition table */
+  PIOS_FLASH_register_partition_table(pios_flash_partition_table, pios_flash_partition_table_size);
 
   uintptr_t fs_id;
-  EXPECT_EQ(0, PIOS_FLASHFS_Logfs_Init(&fs_id, &flashfs_config_partition_a, &pios_ut_flash_driver, flash_id));
+  EXPECT_EQ(0, PIOS_FLASHFS_Logfs_Init(&fs_id, &flashfs_config_settings, FLASH_PARTITION_LABEL_SETTINGS));
 
   PIOS_FLASHFS_Logfs_Destroy(fs_id);
-  PIOS_Flash_UT_Destroy(flash_id);
+  PIOS_Flash_Posix_Destroy(pios_posix_flash_id);
 }
 
 class LogfsTestCooked : public LogfsTestRaw {
@@ -142,16 +151,15 @@ protected:
     LogfsTestRaw::SetUp();
 
     /* Init the flash and the flashfs so we don't need to repeat this in every test */
-    EXPECT_EQ(0, PIOS_Flash_UT_Init(&flash_id, &flash_config));
-    EXPECT_EQ(0, PIOS_FLASHFS_Logfs_Init(&fs_id, &flashfs_config_partition_a, &pios_ut_flash_driver, flash_id));
+    EXPECT_EQ(0, PIOS_Flash_Posix_Init(&pios_posix_flash_id, &flash_config));
+    EXPECT_EQ(0, PIOS_FLASHFS_Logfs_Init(&fs_id, &flashfs_config_settings, FLASH_PARTITION_LABEL_SETTINGS));
   }
 
   virtual void TearDown() {
     PIOS_FLASHFS_Logfs_Destroy(fs_id);
-    PIOS_Flash_UT_Destroy(flash_id);
+    PIOS_Flash_Posix_Destroy(pios_posix_flash_id);
   }
 
-  uintptr_t flash_id;
   uintptr_t fs_id;
 };
 
@@ -270,7 +278,7 @@ TEST_F(LogfsTestCooked, WriteVerifyMultiInstance) {
 
 TEST_F(LogfsTestCooked, FillFilesystemAndGarbageCollect) {
   /* Fill up the entire filesystem with multiple instances of obj1 */
-  for (uint32_t i = 0; i < (flashfs_config_partition_a.arena_size / flashfs_config_partition_a.slot_size) - 1; i++) {
+  for (uint32_t i = 0; i < (flashfs_config_settings.arena_size / flashfs_config_settings.slot_size) - 1; i++) {
     EXPECT_EQ(0, PIOS_FLASHFS_ObjSave(fs_id, OBJ1_ID, i, obj1, sizeof(obj1)));
   }
 
@@ -332,18 +340,17 @@ protected:
     LogfsTestRaw::SetUp();
 
     /* Init the flash and the flashfs so we don't need to repeat this in every test */
-    EXPECT_EQ(0, PIOS_Flash_UT_Init(&flash_id, &flash_config));
-    EXPECT_EQ(0, PIOS_FLASHFS_Logfs_Init(&fs_id_a, &flashfs_config_partition_a, &pios_ut_flash_driver, flash_id));
-    EXPECT_EQ(0, PIOS_FLASHFS_Logfs_Init(&fs_id_b, &flashfs_config_partition_b, &pios_ut_flash_driver, flash_id));
+    EXPECT_EQ(0, PIOS_Flash_Posix_Init(&pios_posix_flash_id, &flash_config));
+    EXPECT_EQ(0, PIOS_FLASHFS_Logfs_Init(&fs_id_a, &flashfs_config_settings, FLASH_PARTITION_LABEL_SETTINGS));
+    EXPECT_EQ(0, PIOS_FLASHFS_Logfs_Init(&fs_id_b, &flashfs_config_waypoints, FLASH_PARTITION_LABEL_WAYPOINTS));
   }
 
   virtual void TearDown() {
     PIOS_FLASHFS_Logfs_Destroy(fs_id_b);
     PIOS_FLASHFS_Logfs_Destroy(fs_id_a);
-    PIOS_Flash_UT_Destroy(flash_id);
+    PIOS_Flash_Posix_Destroy(pios_posix_flash_id);
   }
 
-  uintptr_t flash_id;
   uintptr_t fs_id_a;
   uintptr_t fs_id_b;
 };

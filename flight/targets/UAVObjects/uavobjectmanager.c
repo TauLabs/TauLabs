@@ -158,11 +158,6 @@ static int32_t connectObj(UAVObjHandle obj_handle, xQueueHandle queue,
 static int32_t disconnectObj(UAVObjHandle obj_handle, xQueueHandle queue,
 			UAVObjEventCallback cb);
 
-#if defined(PIOS_INCLUDE_SDCARD)
-static void objectFilename(uint32_t obj_id, uint8_t * filename);
-static void customSPrintf(uint8_t * buffer, uint8_t * format, ...);
-#endif
-
 // Private variables
 static struct UAVOData * uavo_list;
 static xSemaphoreHandle mutex;
@@ -668,83 +663,6 @@ unlock_exit:
 	return rc;
 }
 
-#if defined(PIOS_INCLUDE_SDCARD)
-/**
- * Save the data of the specified object instance to the file system (SD card).
- * The object will be appended and the file will not be closed.
- * The object data can be restored using the UAVObjLoad function.
- * @param[in] obj The object handle.
- * @param[in] instId The instance ID
- * @param[in] file File to append to
- * @return 0 if success or -1 if failure
- */
-int32_t UAVObjSaveToFile(UAVObjHandle obj_handle, uint16_t instId,
-			FILEINFO * file)
-{
-	PIOS_Assert(obj_handle);
-
-	uint32_t bytesWritten;
-	// Check for file system availability
-	if (PIOS_SDCARD_IsMounted() == 0) {
-		return -1;
-	}
-	// Lock
-	xSemaphoreTakeRecursive(mutex, portMAX_DELAY);
-
-	if (UAVObjIsMetaobject(obj_handle)) {
-		// Get the instance information
-		if (instId != 0) {
-			xSemaphoreGiveRecursive(mutex);
-			return -1;
-		}
-		// Write the object ID
-		uint32_t objId = UAVObjGetID(obj_handle);
-		PIOS_FWRITE(file, &objId, sizeof(objId),
-			&bytesWritten);
-
-		// Write the data and check that the write was successful
-		PIOS_FWRITE(file, MetaDataPtr((struct UAVOMeta *)obj_handle), MetaNumBytes,
-			&bytesWritten);
-		if (bytesWritten != MetaNumBytes) {
-			xSemaphoreGiveRecursive(mutex);
-			return -1;
-		}
-	} else {
-		struct UAVOData * uavo;
-		InstanceHandle instEntry;
-
-		// Cast to object
-		uavo = (struct UAVOData *) obj_handle;
-
-		// Get the instance information
-		instEntry = getInstance(uavo, instId);
-		if (instEntry == NULL) {
-			xSemaphoreGiveRecursive(mutex);
-			return -1;
-		}
-		// Write the object ID
-		PIOS_FWRITE(file, &uavo->id, sizeof(uavo->id),
-			&bytesWritten);
-
-		// Write the instance ID
-		if (!UAVObjIsSingleInstance(obj_handle)) {
-			PIOS_FWRITE(file, &instId,
-				sizeof(instId), &bytesWritten);
-		}
-		// Write the data and check that the write was successful
-		PIOS_FWRITE(file, InstanceData(instEntry), uavo->instance_size,
-			&bytesWritten);
-		if (bytesWritten != uavo->instance_size) {
-			xSemaphoreGiveRecursive(mutex);
-			return -1;
-		}
-	}
-	// Done
-	xSemaphoreGiveRecursive(mutex);
-	return 0;
-}
-#endif /* PIOS_INCLUDE_SDCARD */
-
 /**
  * Save the data of the specified object to the file system (SD card).
  * If the object contains multiple instances, all of them will be saved.
@@ -759,7 +677,6 @@ int32_t UAVObjSave(UAVObjHandle obj_handle, uint16_t instId)
 {
 	PIOS_Assert(obj_handle);
 
-#if defined(PIOS_INCLUDE_LOGFS_SETTINGS)
 	if (UAVObjIsMetaobject(obj_handle)) {
 		if (instId != 0)
 			return -1;
@@ -778,128 +695,9 @@ int32_t UAVObjSave(UAVObjHandle obj_handle, uint16_t instId)
 		if (PIOS_FLASHFS_ObjSave(pios_uavo_settings_fs_id, UAVObjGetID(obj_handle), instId, InstanceData(instEntry), UAVObjGetNumBytes(obj_handle)) != 0)
 			return -1;
 	}
-#endif
-#if defined(PIOS_INCLUDE_SDCARD)
-	FILEINFO file;
-	uint8_t filename[14];
 
-	// Check for file system availability
-	if (PIOS_SDCARD_IsMounted() == 0) {
-		return -1;
-	}
-	// Lock
-	xSemaphoreTakeRecursive(mutex, portMAX_DELAY);
-
-	// Get filename
-	objectFilename(UAVObjGetID(obj_handle), filename);
-
-	// Open file
-	if (PIOS_FOPEN_WRITE(filename, file)) {
-		xSemaphoreGiveRecursive(mutex);
-		return -1;
-	}
-	// Append object
-	if (UAVObjSaveToFile(obj_handle, instId, &file) == -1) {
-		PIOS_FCLOSE(file);
-		xSemaphoreGiveRecursive(mutex);
-		return -1;
-	}
-	// Done, close file and unlock
-	PIOS_FCLOSE(file);
-	xSemaphoreGiveRecursive(mutex);
-#endif /* PIOS_INCLUDE_SDCARD */
 	return 0;
 }
-
-#if defined(PIOS_INCLUDE_SDCARD)
-/**
- * Load an object from the file system (SD card).
- * @param[in] file File to read from
- * @return The handle of the object loaded or NULL if a failure
- */
-UAVObjHandle UAVObjLoadFromFile(FILEINFO * file)
-{
-	uint32_t bytesRead;
-	struct UAVOBase *objEntry;
-	InstanceHandle instEntry;
-	uint32_t objId;
-	uint16_t instId;
-	UAVObjHandle obj_handle;
-
-	// Check for file system availability
-	if (PIOS_SDCARD_IsMounted() == 0) {
-		return NULL;
-	}
-	// Lock
-	xSemaphoreTakeRecursive(mutex, portMAX_DELAY);
-
-	// Read the object ID
-	if (PIOS_FREAD(file, &objId, sizeof(objId), &bytesRead)) {
-		xSemaphoreGiveRecursive(mutex);
-		return NULL;
-	}
-	// Get the object
-	obj_handle = UAVObjGetByID(objId);
-	if (obj_handle == 0) {
-		xSemaphoreGiveRecursive(mutex);
-		return NULL;
-	}
-	objEntry = (struct UAVOBase *) obj_handle;
-
-	// Get the instance ID
-	instId = 0;
-	if (!UAVObjIsSingleInstance(obj_handle)) {
-		if (PIOS_FREAD
-			(file, &instId, sizeof(instId), &bytesRead)) {
-			xSemaphoreGiveRecursive(mutex);
-			return NULL;
-		}
-	}
-
-	if (UAVObjIsMetaobject(obj_handle)) {
-		// If the instance does not exist create it and any other instances before it
-		if (instId != 0) {
-			// Error, unlock and return
-			xSemaphoreGiveRecursive(mutex);
-			return NULL;
-		}
-		// Read the instance data
-		if (PIOS_FREAD
-			(file, MetaDataPtr((struct UAVOMeta *)obj_handle), MetaNumBytes, &bytesRead)) {
-			xSemaphoreGiveRecursive(mutex);
-			return NULL;
-		}
-	} else {
-
-		// Get the instance information
-		instEntry = getInstance((struct UAVOData *)objEntry, instId);
-
-		// If the instance does not exist create it and any other instances before it
-		if (instEntry == NULL) {
-			instEntry = createInstance((struct UAVOData *)objEntry, instId);
-			if (instEntry == NULL) {
-				// Error, unlock and return
-				xSemaphoreGiveRecursive(mutex);
-				return NULL;
-			}
-		}
-		// Read the instance data
-		if (PIOS_FREAD
-			(file, InstanceData(instEntry), ((struct UAVOData *)objEntry)->instance_size, &bytesRead)) {
-			xSemaphoreGiveRecursive(mutex);
-			return NULL;
-		}
-
-	}
-
-	// Fire event
-	sendEvent(objEntry, instId, EV_UNPACKED);
-
-	// Unlock
-	xSemaphoreGiveRecursive(mutex);
-	return obj_handle;
-}
-#endif /* PIOS_INCLUDE_SDCARD */
 
 /**
  * Load an object from the file system (SD card).
@@ -913,7 +711,6 @@ int32_t UAVObjLoad(UAVObjHandle obj_handle, uint16_t instId)
 {
 	PIOS_Assert(obj_handle);
 
-#if defined(PIOS_INCLUDE_LOGFS_SETTINGS)
 	if (UAVObjIsMetaobject(obj_handle)) {
 		if (instId != 0)
 			return -1;
@@ -937,45 +734,6 @@ int32_t UAVObjLoad(UAVObjHandle obj_handle, uint16_t instId)
 			return -1;
 	}
 
-#endif
-
-#if defined(PIOS_INCLUDE_SDCARD)
-	FILEINFO file;
-	UAVObjHandle loadedObj;
-	uint8_t filename[14];
-
-	// Check for file system availability
-	if (PIOS_SDCARD_IsMounted() == 0) {
-		return -1;
-	}
-	// Lock
-	xSemaphoreTakeRecursive(mutex, portMAX_DELAY);
-
-	// Get filename
-	objectFilename(UAVObjGetID(obj_handle), filename);
-
-	// Open file
-	if (PIOS_FOPEN_READ(filename, file)) {
-		xSemaphoreGiveRecursive(mutex);
-		return -1;
-	}
-	// Load object
-	loadedObj = UAVObjLoadFromFile(&file);
-	if (loadedObj == 0) {
-		PIOS_FCLOSE(file);
-		xSemaphoreGiveRecursive(mutex);
-		return -1;
-	}
-	// Check that the IDs match
-	if (UAVObjGetID(loadedObj) != UAVObjGetID(obj_handle)) {
-		PIOS_FCLOSE(file);
-		xSemaphoreGiveRecursive(mutex);
-		return -1;
-	}
-	// Done, close file and unlock
-	PIOS_FCLOSE(file);
-	xSemaphoreGiveRecursive(mutex);
-#endif /* PIOS_INCLUDE_SDCARD */
 	return 0;
 }
 
@@ -987,28 +745,8 @@ int32_t UAVObjLoad(UAVObjHandle obj_handle, uint16_t instId)
  */
 int32_t UAVObjDeleteById(uint32_t obj_id, uint16_t inst_id)
 {
-#if defined(PIOS_INCLUDE_LOGFS_SETTINGS)
 	PIOS_FLASHFS_ObjDelete(pios_uavo_settings_fs_id, obj_id, inst_id);
-#endif
-#if defined(PIOS_INCLUDE_SDCARD)
-	uint8_t filename[14];
 
-	// Check for file system availability
-	if (PIOS_SDCARD_IsMounted() == 0) {
-		return -1;
-	}
-	// Lock
-	xSemaphoreTakeRecursive(mutex, portMAX_DELAY);
-
-	// Get filename
-	objectFilename(obj_id, filename);
-
-	// Delete file
-	PIOS_FUNLINK(filename);
-
-	// Done
-	xSemaphoreGiveRecursive(mutex);
-#endif /* PIOS_INCLUDE_SDCARD */
 	return 0;
 }
 
@@ -2021,27 +1759,6 @@ int32_t getEventMask(UAVObjHandle obj_handle, xQueueHandle queue)
 	// Done
 	return eventMask;
 }
-
-
-#if defined(PIOS_INCLUDE_SDCARD)
-/**
- * Wrapper for the sprintf function
- */
-static void customSPrintf(uint8_t * buffer, uint8_t * format, ...)
-{
-	va_list args;
-	va_start(args, format);
-	vsprintf((char *)buffer, (char *)format, args);
-}
-
-/**
- * Get an 8 character (plus extension) filename for the object.
- */
-static void objectFilename(uint32_t obj_id, uint8_t * filename)
-{
-	customSPrintf(filename, (uint8_t *) "%X.obj", obj_id);
-}
-#endif /* PIOS_INCLUDE_SDCARD */
 
 /**
  * @}
