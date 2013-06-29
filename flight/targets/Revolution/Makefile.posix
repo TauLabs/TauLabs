@@ -106,9 +106,9 @@ FLIGHTLIBINC = $(FLIGHTLIB)/inc
 MATHLIB = $(FLIGHTLIB)/math
 MATHLIBINC = $(FLIGHTLIB)/math
 PIOSPOSIX = $(PIOS)/posix
-PIOSCOMMON = $(PIOS)/posix
+PIOSCOMMON = $(TOP)/flight/PiOS/Common
 PIOSBOARDS = $(PIOS)/Boards
-PIOSCOMMONLIB = $(PIOSCOMMON)/Libraries
+PIOSPOSIXLIB = $(PIOSPOSIX)/Libraries
 #APPLIBDIR = $(PIOSSTM32F4XX)/Libraries
 BOOT = 
 BOOTINC = 
@@ -125,9 +125,7 @@ FLIGHTPLANS = $(OPMODULEDIR)/FlightPlan/flightplans
 
 SRC = 
 # optional component libraries
-include $(PIOSCOMMONLIB)/FreeRTOS/library.mk
-#include $(PIOSCOMMONLIB)/dosfs/library.mk
-#include $(PIOSCOMMONLIB)/msheap/library.mk
+include $(PIOSPOSIXLIB)/FreeRTOS/library.mk
 include $(FLIGHTLIB)/CMSIS3/DSP_Lib/library.mk
 
 
@@ -170,6 +168,27 @@ SRC += $(MATHLIB)/pid.c
 
 ## PIOS Hardware (STM32F4xx)
 include $(PIOS)/posix/library.mk
+
+SRC += $(PIOSCOMMON)/pios_com.c
+SRC += $(PIOSCOMMON)/pios_crc.c
+SRC += $(PIOSCOMMON)/pios_flashfs_logfs.c
+SRC += $(PIOSCOMMON)/pios_rcvr.c
+SRC += $(PIOSCOMMON)/pios_sensors.c
+SRC += $(PIOSCOMMON)/pios_board_info.c
+
+SRC += $(PIOSPOSIX)/pios_gcsrcvr.c
+SRC += $(PIOSPOSIX)/pios_delay.c
+SRC += $(PIOSPOSIX)/pios_led.c
+SRC += $(PIOSPOSIX)/pios_sim.c
+SRC += $(PIOSPOSIX)/pios_wdg.c
+SRC += $(PIOSPOSIX)/pios_sdcard.c
+SRC += $(PIOSPOSIX)/pios_bl_helper.c
+SRC += $(PIOSPOSIX)/pios_iap.c
+SRC += $(PIOSPOSIX)/pios_servo.c
+SRC += $(PIOSPOSIX)/pios_sys.c
+SRC += $(PIOSPOSIX)/pios_tcp.c
+
+EXTRAINCDIRS += $(PIOSCOMMON)/inc
 
 ## PIOS Hardware (Common)
 SRC += $(PIOSPOSIX)/../../tests/logfs/pios_flash_posix.c
