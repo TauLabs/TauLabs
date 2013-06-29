@@ -36,6 +36,6 @@ CFLAGS += $(patsubst %,-I%,$(EXTRAINCDIRS)) -I.
 
 CONLYFLAGS += -std=gnu99
 
-SRC := $(PIOS)/Common/pios_flashfs_logfs.c
+SRC := $(PIOS)/Common/pios_flashfs_logfs.c $(PIOS)/Common/pios_flash.c
 
 include $(TOP)/make/unittest.mk

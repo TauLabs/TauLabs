@@ -72,6 +72,7 @@
 #include <pios_irq.h>
 #include <pios_sensors.h>
 #include <pios_sim.h>
+#include <pios_flashfs.h>
 
 #if defined(PIOS_INCLUDE_IAP)
 #include <pios_iap.h>

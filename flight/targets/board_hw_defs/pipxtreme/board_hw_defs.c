@@ -633,23 +633,59 @@ const struct pios_usb_cdc_cfg pios_usb_cdc_cfg = {
 
 #if defined(PIOS_INCLUDE_FLASH)
 #include "pios_flashfs_logfs_priv.h"
+
+static const struct flashfs_logfs_cfg flashfs_internal_settings_cfg = {
+	.fs_magic      = 0x9ae1ee11,
+	.arena_size    = 0x00002000,       /* 32 * slot size = 8K bytes = 4 sectors */
+	.slot_size     = 0x00000100,       /* 256 bytes */
+};
+
 #include "pios_flash_internal_priv.h"
 
 static const struct pios_flash_internal_cfg flash_internal_cfg = {
 };
 
-static const struct flashfs_logfs_cfg flashfs_internal_settings_cfg = {
-	.fs_magic      = 0x9ae1ee11,
-	.total_fs_size = EE_BANK_SIZE,     /* 16K bytes (8x2KB sectors) */
-	.arena_size    = 0x00002000,       /* 32 * slot size = 8K bytes = 4 sectors */
-	.slot_size     = 0x00000100,       /* 256 bytes */
+#include "pios_flash_priv.h"
 
-	.start_offset  = EE_BANK_BASE, /* start after the bootloader */
-	.sector_size   = 0x00000800,   /* 2K bytes */
-	.page_size     = 0x00000800,   /* 2K bytes */
+static const struct pios_flash_sector_range stm32f1_sectors[] = {
+	{
+		.base_sector = 0,
+		.last_sector = 127,
+		.sector_size = 1 * 1024,
+	},
 };
 
-#include "pios_flash.h"
+uintptr_t pios_internal_flash_id;
+static const struct pios_flash_chip pios_flash_chip_internal = {
+	.driver        = &pios_internal_flash_driver,
+	.chip_id       = &pios_internal_flash_id,
+	.page_size     = 16, /* 128-bit rows */
+	.sector_blocks = stm32f1_sectors,
+	.num_blocks    = NELEMENTS(stm32f1_sectors),
+};
+
+static const struct pios_flash_partition pios_flash_partition_table[] = {
+	{
+		.label        = FLASH_PARTITION_LABEL_BL,
+		.chip_desc    = &pios_flash_chip_internal,
+		.first_sector = 0,
+		.last_sector  = 11,
+	},
+
+	{
+		.label        = FLASH_PARTITION_LABEL_FW,
+		.chip_desc    = &pios_flash_chip_internal,
+		.first_sector = 12,
+		.last_sector  = 111,
+	},
+
+	{
+		.label        = FLASH_PARTITION_LABEL_SETTINGS,
+		.chip_desc    = &pios_flash_chip_internal,
+		.first_sector = 112,
+		.last_sector  = 127,
+	},
+};
 
 #endif	/* PIOS_INCLUDE_FLASH */
 

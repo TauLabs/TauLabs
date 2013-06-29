@@ -172,7 +172,7 @@ SRC += $(MATHLIB)/pid.c
 include $(PIOS)/posix/library.mk
 
 ## PIOS Hardware (Common)
-SRC += $(PIOSPOSIX)/../../tests/logfs/pios_flash_ut.c
+SRC += $(PIOSPOSIX)/../../tests/logfs/pios_flash_posix.c
 
 include ./UAVObjects.inc
 

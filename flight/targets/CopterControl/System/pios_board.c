@@ -171,15 +171,17 @@ void PIOS_Board_Init(void) {
 	switch(bdinfo->board_rev) {
 		case BOARD_REVISION_CC:
 			PIOS_Flash_Jedec_Init(&flash_id, pios_spi_flash_accel_id, 1, &flash_w25x_cfg);
-			PIOS_FLASHFS_Logfs_Init(&pios_uavo_settings_fs_id, &flashfs_w25x_cfg, &pios_jedec_flash_driver, flash_id);
+			memcpy(&pios_flash_chip_external, &pios_flash_chip_w25x40, sizeof(pios_flash_chip_external));
 			break;
 		case BOARD_REVISION_CC3D:
 			PIOS_Flash_Jedec_Init(&flash_id, pios_spi_flash_accel_id, 0, &flash_m25p_cfg);
-			PIOS_FLASHFS_Logfs_Init(&pios_uavo_settings_fs_id, &flashfs_m25p_cfg, &pios_jedec_flash_driver, flash_id);
+			memcpy(&pios_flash_chip_external, &pios_flash_chip_m25p16, sizeof(pios_flash_chip_external));
 			break;
 		default:
 			PIOS_DEBUG_Assert(0);
 	}
+
+	PIOS_FLASHFS_Logfs_Init(&pios_uavo_settings_fs_id, &flashfs_settings_cfg, FLASH_PARTITION_LABEL_SETTINGS);
 
 	/* Initialize UAVObject libraries */
 	EventDispatcherInitialize();
