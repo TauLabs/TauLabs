@@ -20,77 +20,11 @@
    <string>Form</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="4" column="2">
-    <spacer name="horizontalSpacer">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>40</width>
-       <height>20</height>
-      </size>
-     </property>
-    </spacer>
-   </item>
-   <item row="4" column="0">
-    <widget class="QPushButton" name="bnLoadTelemetryFromFile">
-     <property name="toolTip">
-      <string>Load the telemetry schedule from a file.</string>
-     </property>
-     <property name="text">
-      <string>Load from File</string>
-     </property>
-    </widget>
-   </item>
-   <item row="4" column="4">
-    <widget class="QComboBox" name="cmbScheduleList">
-     <property name="toolTip">
-      <string>Choose the column to be sent to the flight controller. Blank cells are replaced by the default telemetry setting.</string>
-     </property>
-    </widget>
-   </item>
-   <item row="4" column="3">
-    <widget class="QLabel" name="label">
-     <property name="text">
-      <string>Load update rates:</string>
-     </property>
-    </widget>
-   </item>
-   <item row="4" column="5">
-    <widget class="QPushButton" name="bnApplySchedule">
-     <property name="maximumSize">
-      <size>
-       <width>100</width>
-       <height>16777215</height>
-      </size>
-     </property>
-     <property name="toolTip">
-      <string>Send the selected column settings to the flight controller. Blank cells are replaced by the default telemetry setting.</string>
-     </property>
-     <property name="text">
-      <string>Apply</string>
-     </property>
-    </widget>
-   </item>
-   <item row="4" column="1">
-    <widget class="QPushButton" name="bnSaveTelemetryToFile">
-     <property name="toolTip">
-      <string>Save the telemetry schedule to a file.</string>
-     </property>
-     <property name="text">
-      <string>Save to File</string>
-     </property>
-    </widget>
-   </item>
-   <item row="0" column="0" rowspan="3" colspan="5">
-    <widget class="QTableWidget" name="tableWidgetDummy"/>
-   </item>
-   <item row="2" column="5">
+   <item row="3" column="6">
     <widget class="QFrame" name="frame">
      <property name="maximumSize">
       <size>
-       <width>100</width>
+       <width>50</width>
        <height>16777215</height>
       </size>
      </property>
@@ -143,30 +77,94 @@ p, li { white-space: pre-wrap; }
         </property>
        </widget>
       </item>
-      <item>
-       <spacer name="horizontalSpacer_2">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>60</width>
-          <height>20</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
      </layout>
     </widget>
    </item>
-   <item row="1" column="5">
+   <item row="0" column="0" rowspan="4" colspan="6">
+    <widget class="QTableWidget" name="tableWidgetDummy"/>
+   </item>
+   <item row="5" column="0" colspan="7">
+    <layout class="QHBoxLayout" name="horizontalLayout_2">
+     <item>
+      <widget class="QPushButton" name="bnLoadTelemetryFromFile">
+       <property name="toolTip">
+        <string>Load the telemetry schedule from a file.</string>
+       </property>
+       <property name="text">
+        <string>Load from File</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="bnSaveTelemetryToFile">
+       <property name="toolTip">
+        <string>Save the telemetry schedule to a file.</string>
+       </property>
+       <property name="text">
+        <string>Save to File</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QLabel" name="label">
+       <property name="text">
+        <string>Load update rates:</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QComboBox" name="cmbScheduleList">
+       <property name="toolTip">
+        <string>Choose the column to be sent to the flight controller. Blank cells are replaced by the default telemetry setting.</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="bnApplySchedule">
+       <property name="maximumSize">
+        <size>
+         <width>100</width>
+         <height>16777215</height>
+        </size>
+       </property>
+       <property name="toolTip">
+        <string>Send the selected column settings to the flight controller. Blank cells are replaced by the default telemetry setting.</string>
+       </property>
+       <property name="text">
+        <string>Apply</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="bnSaveSchedule">
+       <property name="text">
+        <string>Save</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item row="2" column="6">
     <spacer name="verticalSpacer">
      <property name="orientation">
       <enum>Qt::Vertical</enum>
      </property>
      <property name="sizeHint" stdset="0">
       <size>
-       <width>20</width>
+       <width>10</width>
        <height>40</height>
       </size>
      </property>
