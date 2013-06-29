@@ -35,6 +35,13 @@ LDFLAGS += -lpthread
 # Google Test requires visibility of gtest includes
 GTEST_CXXFLAGS := -I$(GTEST_DIR)
 
+# gcov requires specific link options to enable the coverage hooks
+LDFLAGS += -fprofile-arcs
+
+# gcov requires specific compile options to enable the profiling hooks
+GCOV_CFLAGS := -fprofile-arcs -ftest-coverage
+
+
 #################################
 #
 # Template to build the user test
@@ -45,12 +52,18 @@ GTEST_CXXFLAGS := -I$(GTEST_DIR)
 override THUMB :=
 
 EXTRAINCDIRS    += .
-ALLSRC          := $(SRC) $(wildcard ./*.c)
+UTMOCKSRC       := $(wildcard ./*.c)
+ALLSRC          := $(SRC) $(UTMOCKSRC)
 ALLCPPSRC       := $(wildcard ./*.cpp) $(GTEST_DIR)/src/gtest_main.cc
 ALLSRCBASE      := $(notdir $(basename $(ALLSRC) $(ALLCPPSRC)))
 ALLOBJ          := $(addprefix $(OUTDIR)/, $(addsuffix .o, $(ALLSRCBASE)))
 
-$(foreach src,$(ALLSRC),$(eval $(call COMPILE_C_TEMPLATE,$(src))))
+# Build mock versions of APIs required to wrap the code being unit tested
+$(foreach src,$(UTMOCKSRC),$(eval $(call COMPILE_C_TEMPLATE,$(src))))
+
+# Build the code being unit tested.
+# Enable gcov flags for these files so we can measure the coverage of our unit test
+$(foreach src,$(SRC),$(eval $(call COMPILE_C_TEMPLATE,$(src),$(GCOV_CFLAGS))))
 
 # Build any C++ supporting files
 $(foreach src,$(ALLCPPSRC),$(eval $(call COMPILE_CXX_TEMPLATE,$(src))))
@@ -74,3 +87,10 @@ $(OUTDIR)/$(TARGET).xml: $(OUTDIR)/$(TARGET).elf
 run: $(OUTDIR)/$(TARGET).elf
 	$(V0) @echo " TEST RUN  $(MSG_EXTRA)  $(call toprel, $<)"
 	$(V1) $<
+
+GCOV_INPUT_FILES := $(notdir $(SRC))
+$(foreach src,$(GCOV_INPUT_FILES),$(eval $(call GCOV_TEMPLATE,$(src))))
+
+.PHONY: gcov
+gcov: $(OUTDIR)/$(TARGET).xml
+gcov: $(foreach gc,$(GCOV_INPUT_FILES),$(addsuffix .gcov, $(OUTDIR)/$(gc)))
