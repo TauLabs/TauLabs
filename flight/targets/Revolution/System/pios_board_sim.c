@@ -102,6 +102,7 @@ extern const struct pios_com_driver pios_serial_com_driver;
 extern const struct pios_com_driver pios_udp_com_driver;
 extern const struct pios_com_driver pios_tcp_com_driver;
 
+uint32_t pios_com_debug_id;
 uint32_t pios_com_telem_rf_id;
 uint32_t pios_com_telem_usb_id;
 uint32_t pios_com_gps_id;
