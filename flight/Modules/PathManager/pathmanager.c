@@ -62,6 +62,15 @@ static struct PreviousLocus {
 	float Velocity;
 } *previousLocus;
 
+static struct PathManagerGlobals{
+	float angularDistanceToComplete_D;
+	float angularDistanceCompleted_D;
+	float oldPosition_NE[2];
+	float arcCenter_NE[2];
+	uint8_t guidanceType;
+	enum arc_center_results arc_has_center;
+} *pmGlobals;
+
 // Private variables
 static bool module_enabled;
 static xTaskHandle taskHandle;
@@ -71,12 +80,6 @@ static PathManagerSettingsData pathManagerSettings;
 static PathManagerStatusData pathManagerStatus;
 static PathSegmentDescriptorData pathSegmentDescriptor_current;
 static portTickType segmentTimer;
-static float angularDistanceToComplete_D;
-static float angularDistanceCompleted_D;
-static float oldPosition_NE[2];
-static float arcCenter_NE[2];
-static uint8_t guidanceType = PM_NOMANAGER;
-static enum arc_center_results arc_has_center = ARC_INSUFFICIENT_RADIUS;
 
 // Private functions
 static bool checkGoalCondition();
@@ -134,6 +137,12 @@ int32_t PathManagerInitialize()
 		// Allocate memory
 		previousLocus = (struct PreviousLocus *) pvPortMalloc(sizeof(struct PreviousLocus));
 		memset(previousLocus, 0, sizeof(struct PreviousLocus));
+
+		pmGlobals = (struct PathManagerGlobals *) pvPortMalloc(sizeof(struct PathManagerGlobals));
+		memset(pmGlobals, 0, sizeof(struct PathManagerGlobals));
+		pmGlobals->guidanceType = PM_NOMANAGER;
+		pmGlobals->arc_has_center = ARC_INSUFFICIENT_RADIUS;
+
 		return 0;
 	}
 
@@ -178,13 +187,13 @@ static void pathManagerTask(void *parameters)
 		PathPlannerStatusGet(&pathPlannerStatus);
 
 		if (pathPlannerStatus.PathAvailability == PATHPLANNERSTATUS_PATHAVAILABILITY_PATHREADY) {
-			if (guidanceType != PM_PATHPLANNER) {
-				guidanceType = PM_PATHPLANNER;
+			if (pmGlobals->guidanceType != PM_PATHPLANNER) {
+				pmGlobals->guidanceType = PM_PATHPLANNER;
 				pathplanner_active = false;
 			}
 		} else {
 			pathplanner_active = false;
-			guidanceType = PM_NOMANAGER;
+			pmGlobals->guidanceType = PM_NOMANAGER;
 			vTaskDelay(IDLE_UPDATE_RATE_MS * portTICK_RATE_MS);
 			continue;
 		}
@@ -196,11 +205,11 @@ static void pathManagerTask(void *parameters)
 			PositionActualData positionActual;
 			PositionActualGet(&positionActual);
 			float newPosition_NE[2] = {positionActual.North, positionActual.East};
-			if (arc_has_center == ARC_CENTER_FOUND) {
-				angularDistanceCompleted_D  += measure_arc_rad(oldPosition_NE, newPosition_NE, arcCenter_NE) * RAD2DEG;
+			if (pmGlobals->arc_has_center == ARC_CENTER_FOUND) {
+				pmGlobals->angularDistanceCompleted_D  += measure_arc_rad(pmGlobals->oldPosition_NE, newPosition_NE, pmGlobals->arcCenter_NE) * RAD2DEG;
 
-				oldPosition_NE[0] = newPosition_NE[0];
-				oldPosition_NE[1] = newPosition_NE[1];
+				pmGlobals->oldPosition_NE[0] = newPosition_NE[0];
+				pmGlobals->oldPosition_NE[1] = newPosition_NE[1];
 
 				// Every 1000 samples, correct for roundoff error. Error doesn't accumulate too quickly, so
 				// this trigger value can safely be made much higher, with the condition that the type of
@@ -208,10 +217,10 @@ static void pathManagerTask(void *parameters)
 				if (theta_roundoff_trim_count++ >=1000) {
 					theta_roundoff_trim_count = 0;
 
-					float referenceTheta_D = measure_arc_rad(previousLocus->Position, newPosition_NE, arcCenter_NE) * RAD2DEG;
-					float error_D = circular_modulus_deg(referenceTheta_D-angularDistanceCompleted_D);
+					float referenceTheta_D = measure_arc_rad(previousLocus->Position, newPosition_NE, pmGlobals->arcCenter_NE) * RAD2DEG;
+					float error_D = circular_modulus_deg(referenceTheta_D-pmGlobals->angularDistanceCompleted_D);
 
-					angularDistanceCompleted_D += error_D;
+					pmGlobals->angularDistanceCompleted_D += error_D;
 				}
 			}
 		}
@@ -220,7 +229,7 @@ static void pathManagerTask(void *parameters)
 		// of the active path segment. Sufficiently close is chosen to be an arbitrary angular
 		// distance, as this is robust and sufficient to describe all paths, including infinite
 		// straight lines and infinite number of orbits about a point.
-		if (SIGN(pathSegmentDescriptor_current.PathCurvature) * (angularDistanceToComplete_D - angularDistanceCompleted_D) < ANGULAR_PROXIMITY_THRESHOLD)
+		if (SIGN(pathSegmentDescriptor_current.PathCurvature) * (pmGlobals->angularDistanceToComplete_D - pmGlobals->angularDistanceCompleted_D) < ANGULAR_PROXIMITY_THRESHOLD)
 			advanceSegment_flag = checkGoalCondition();
 
 		// Check if the path_manager was just activated
@@ -277,41 +286,41 @@ static void advanceSegment()
 	PathSegmentDescriptorInstGet(pathManagerStatus.ActiveSegment, &pathSegmentDescriptor_current);  // TODO: Check that an instance is successfully returned
 
 	// Reset angular distance
-	angularDistanceCompleted_D = 0;
+	pmGlobals->angularDistanceCompleted_D = 0;
 
 	// If the path is an arc, find the center and angular distance along arc
 	if (pathSegmentDescriptor_current.PathCurvature != 0 ) {
 		// Determine if the arc has a center, and if so assign it to arcCenter_NE
-		arc_has_center = find_arc_center(previousLocus->Position, pathSegmentDescriptor_current.SwitchingLocus,
+		pmGlobals->arc_has_center = find_arc_center(previousLocus->Position, pathSegmentDescriptor_current.SwitchingLocus,
 										 1.0f/pathSegmentDescriptor_current.PathCurvature,
 										 pathSegmentDescriptor_current.PathCurvature > 0,
 										 pathSegmentDescriptor_current.ArcRank == PATHSEGMENTDESCRIPTOR_ARCRANK_MINOR,
-										 arcCenter_NE);
+										 pmGlobals->arcCenter_NE);
 
 		// If the arc has a center, then set the initial position as the beginning of the arc, and calculate the angular
 		// distance to be traveled along the arc
-		switch (arc_has_center) {
+		switch (pmGlobals->arc_has_center) {
 		case ARC_CENTER_FOUND:
 		{
-			oldPosition_NE[0] = previousLocus->Position[0];
-			oldPosition_NE[1] = previousLocus->Position[1];
+			pmGlobals->oldPosition_NE[0] = previousLocus->Position[0];
+			pmGlobals->oldPosition_NE[1] = previousLocus->Position[1];
 
-			float tmpAngle_D = measure_arc_rad(previousLocus->Position, pathSegmentDescriptor_current.SwitchingLocus, arcCenter_NE) * RAD2DEG;
+			float tmpAngle_D = measure_arc_rad(previousLocus->Position, pathSegmentDescriptor_current.SwitchingLocus, pmGlobals->arcCenter_NE) * RAD2DEG;
 			if (SIGN(pathSegmentDescriptor_current.PathCurvature) * tmpAngle_D < 0)	{
 				tmpAngle_D = tmpAngle_D	+ 360*SIGN(pathSegmentDescriptor_current.PathCurvature);
 			}
-			angularDistanceToComplete_D = SIGN(pathSegmentDescriptor_current.PathCurvature) * pathSegmentDescriptor_current.NumberOfOrbits*360 + tmpAngle_D;
+			pmGlobals->angularDistanceToComplete_D = SIGN(pathSegmentDescriptor_current.PathCurvature) * pathSegmentDescriptor_current.NumberOfOrbits*360 + tmpAngle_D;
 		}
 			break;
 		default:
 			// This is really bad, and is only possible if the path planner screws up, but we need to handle these cases nonetheless because
 			// the alternative might be to crash. The simplest way tof fix the problem is to increase the radius, but we can't do this
 			// because it is forbidden for two modules to write one UAVO.
-			angularDistanceToComplete_D = 0;
+			pmGlobals->angularDistanceToComplete_D = 0;
 			break;
 		}
 	} else {
-		angularDistanceToComplete_D = 0;
+		pmGlobals->angularDistanceToComplete_D = 0;
 	}
 
 	// Calculate timout. This is where winds aloft should be taken into account
@@ -321,7 +330,7 @@ static void advanceSegment()
 				powf(pathSegmentDescriptor_current.SwitchingLocus[1] - pathSegmentDescriptor_past.SwitchingLocus[1],2));
 	}
 	else // Arc
-		s = angularDistanceToComplete_D * DEG2RAD / pathSegmentDescriptor_current.PathCurvature;
+		s = pmGlobals->angularDistanceToComplete_D * DEG2RAD / pathSegmentDescriptor_current.PathCurvature;
 
 	if (pathSegmentDescriptor_current.FinalVelocity > 0)
 		pathManagerStatus.Timeout = bound_min_max(ceilf(fabsf(s)/((float)pathSegmentDescriptor_current.FinalVelocity)), 0, UINT16_MAX);
@@ -354,7 +363,7 @@ static bool checkGoalCondition()
 			PositionActualGet(&positionActual);
 			float position_NE[2] = {positionActual.North, positionActual.East};
 
-			advanceSegment_flag = half_plane_goal_test(position_NE, angularDistanceCompleted_D, angularDistanceToComplete_D,
+			advanceSegment_flag = half_plane_goal_test(position_NE, pmGlobals->angularDistanceCompleted_D, pmGlobals->angularDistanceToComplete_D,
 													   previousLocus->Position, &pathSegmentDescriptor_current, &pathSegmentDescriptor_future,
 													   pathManagerSettings.HalfPlaneAdvanceTiming, fixedWingAirspeeds.BestClimbRateSpeed);
 		} else { // Since there are no further switching loci, this must be the waypoint.
