@@ -32,8 +32,6 @@
 
 #include "flightstatus.h"
 #include "positionactual.h"
-#include "waypoint.h"
-#include "waypointactive.h"
 #include "modulesettings.h"
 
 #include "fixedwingairspeeds.h"
@@ -172,22 +170,19 @@ static void pathManagerTask(void *parameters)
 	uint8_t theta_roundoff_trim_count = 0;
 
 	// Main thread loop
-	while (1)
-	{
+	while (1) {
 		// Wait
 		vTaskDelayUntil(&lastSysTime, UPDATE_RATE_MS * portTICK_RATE_MS);
 
 		PathPlannerStatusData pathPlannerStatus;
 		PathPlannerStatusGet(&pathPlannerStatus);
 
-		if (pathPlannerStatus.PathAvailability == PATHPLANNERSTATUS_PATHAVAILABILITY_PATHREADY)
-		{
+		if (pathPlannerStatus.PathAvailability == PATHPLANNERSTATUS_PATHAVAILABILITY_PATHREADY) {
 			if (guidanceType != PM_PATHPLANNER) {
 				guidanceType = PM_PATHPLANNER;
 				pathplanner_active = false;
 			}
-		}
-		else {
+		} else {
 			pathplanner_active = false;
 			guidanceType = PM_NOMANAGER;
 			vTaskDelay(IDLE_UPDATE_RATE_MS * portTICK_RATE_MS);
@@ -249,15 +244,11 @@ static void pathManagerTask(void *parameters)
 		// Advance segment
 		if (advanceSegment_flag) {
 			advanceSegment();
-		}
-		else if (lastSysTime-segmentTimer > pathManagerStatus.Timeout*1000*portTICK_RATE_MS)
-		{	// Check if we have timed out
+		} else if (lastSysTime-segmentTimer > pathManagerStatus.Timeout*1000*portTICK_RATE_MS) { // Check if we have timed out
 			// TODO: Handle the buffer overflow in xTaskGetTickCount
 			pathManagerStatus.Status = PATHMANAGERSTATUS_STATUS_TIMEDOUT;
 			PathManagerStatusSet(&pathManagerStatus);
-		}
-		else if (lastSysTime-overshootTimer > OVERSHOOT_TIMER_MS*portTICK_RATE_MS)
-		{	// Once every second or so, check for higher-level path planner failure
+		} else if (lastSysTime-overshootTimer > OVERSHOOT_TIMER_MS*portTICK_RATE_MS) { // Once every second or so, check for higher-level path planner failure
 			checkOvershoot();
 			overshootTimer = lastSysTime;
 		}
@@ -308,8 +299,7 @@ static void advanceSegment()
 			oldPosition_NE[1] = previousLocus->Position[1];
 
 			float tmpAngle_D = measure_arc_rad(previousLocus->Position, pathSegmentDescriptor_current.SwitchingLocus, arcCenter_NE) * RAD2DEG;
-			if (SIGN(pathSegmentDescriptor_current.PathCurvature) * tmpAngle_D < 0)
-			{
+			if (SIGN(pathSegmentDescriptor_current.PathCurvature) * tmpAngle_D < 0)	{
 				tmpAngle_D = tmpAngle_D	+ 360*SIGN(pathSegmentDescriptor_current.PathCurvature);
 			}
 			angularDistanceToComplete_D = SIGN(pathSegmentDescriptor_current.PathCurvature) * pathSegmentDescriptor_current.NumberOfOrbits*360 + tmpAngle_D;
@@ -322,8 +312,7 @@ static void advanceSegment()
 			angularDistanceToComplete_D = 0;
 			break;
 		}
-	}
-	else {
+	} else {
 		angularDistanceToComplete_D = 0;
 	}
 
@@ -340,7 +329,6 @@ static void advanceSegment()
 		pathManagerStatus.Timeout = bound_min_max(ceilf(fabsf(s)/((float)pathSegmentDescriptor_current.FinalVelocity)), 0, UINT16_MAX);
 	else
 		pathManagerStatus.Timeout = UINT16_MAX; // Set this to maximum possible value for variable type
-
 
 	PathManagerStatusSet(&pathManagerStatus);
 
@@ -360,8 +348,7 @@ static bool checkGoalCondition()
 	// Half-plane approach. This is the preferred strategy
 	{
 		// Check if there is a switching locus after the present one
-		if (pathManagerStatus.ActiveSegment + 1 < UAVObjGetNumInstances(PathSegmentDescriptorHandle()))
-		{
+		if (pathManagerStatus.ActiveSegment + 1 < UAVObjGetNumInstances(PathSegmentDescriptorHandle()))	{
 			PathSegmentDescriptorData pathSegmentDescriptor_future;
 			PathSegmentDescriptorInstGet(pathManagerStatus.ActiveSegment+1, &pathSegmentDescriptor_future);  // TODO: Check that an instance is successfully returned
 
@@ -372,8 +359,7 @@ static bool checkGoalCondition()
 			advanceSegment_flag = half_plane_goal_test(position_NE, angularDistanceCompleted_D, angularDistanceToComplete_D,
 													   previousLocus->Position, &pathSegmentDescriptor_current, &pathSegmentDescriptor_future,
 													   pathManagerSettings.HalfPlaneAdvanceTiming, fixedWingAirspeeds.BestClimbRateSpeed);
-		}
-		else { // Since there are no further switching loci, this must be the waypoint.
+		} else { // Since there are no further switching loci, this must be the waypoint.
 			//Do nothing.
 		}
 	}
@@ -435,10 +421,12 @@ static void checkOvershoot()
 
 
 
-static void settingsUpdated(UAVObjEvent * ev) {
+static void settingsUpdated(UAVObjEvent * ev)
+{
 	if (ev == NULL || ev->obj == PathManagerSettingsHandle()) {
 		PathManagerSettingsGet(&pathManagerSettings);
 	}
+
 	if (ev == NULL || ev->obj == FixedWingAirspeedsHandle()) {
 		FixedWingAirspeedsGet(&fixedWingAirspeeds);
 	}
