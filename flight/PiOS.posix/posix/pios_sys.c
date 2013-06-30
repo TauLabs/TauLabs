@@ -59,9 +59,9 @@ int32_t PIOS_SYS_Reset(void)
 	return -1;
 }
 
-	/**
+/**
 * Returns the CPU's flash size (in bytes)
-	 */
+*/
 uint32_t PIOS_SYS_getCPUFlashSize(void)
 {
 	return 1024000;
@@ -108,4 +108,4 @@ int32_t PIOS_SYS_SerialNumberGet(char *str)
 /**
   * @}
   * @}
-*/
+  */
