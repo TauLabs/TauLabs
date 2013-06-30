@@ -1,47 +1,84 @@
- #####
- # Project: Revolution
- #
- #
- # Makefile for OpenPilot project build PiOS and the AP.
- #
- # The OpenPilot Team, http://www.openpilot.org, Copyright (C) 2012.
- # Tau Labs, http://taulabs.org, Copyright (C) 2013
- #
- # 
- # This program is free software; you can redistribute it and/or modify
- # it under the terms of the GNU General Public License as published by
- # the Free Software Foundation; either version 3 of the License, or
- # (at your option) any later version.
- #
- # This program is distributed in the hope that it will be useful, but
- # WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
- # or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
- # for more details.
- #
- # You should have received a copy of the GNU General Public License along
- # with this program; if not, write to the Free Software Foundation, Inc.,
- # 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
- #####
+#####
+# Project: Simulation
+#
+#
+# Makefile for simulation
+#
+# The OpenPilot Team, http://www.openpilot.org, Copyright (C) 2009.
+# Tau Labs, http://taulabs.org, Copyright (C) 2013
+#
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful, but
+# WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+# or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
+# for more details.
+#
+# You should have received a copy of the GNU General Public License along
+# with this program; if not, write to the Free Software Foundation, Inc.,
+# 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+#####
 
-override THUMB :=
 WHEREAMI := $(dir $(lastword $(MAKEFILE_LIST)))
 TOP      := $(realpath $(WHEREAMI)/../../../)
+
+override THUMB :=
 include $(TOP)/make/firmware-defs.mk
 include $(TOP)/make/boards/$(BOARD_NAME)/board-info.mk
-
 
 # Set developer code and compile options
 # Set to YES to compile for debugging
 DEBUG ?= YES
 
-# Set to YES to use the Servo output pins for debugging via scope or logic analyser
-ENABLE_DEBUG_PINS ?= NO
+# Include objects that are just nice information to show
+STACK_DIAGNOSTICS ?= NO
+MIXERSTATUS_DIAGNOSTICS ?= NO
+RATEDESIRED_DIAGNOSTICS ?= NO
+I2C_WDG_STATS_DIAGNOSTICS ?= NO
+DIAG_TASKS ?= NO
 
-# Set to Yes to enable the AUX UART which is mapped on the S1 (Tx) and S2 (Rx) servo outputs
-ENABLE_AUX_UART ?= NO
+#Or just turn on all the above diagnostics. WARNING: This consumes massive amounts of memory.
+ALL_DIAGNOSTICS ?= YES
 
-#
-USE_BOOTLOADER ?= NO
+#The following Makefile command, ifneq (, $(filter) $(A), $(B) $(C)) is equivalent 
+# to the pseudocode `if(A== B || A==C)`
+ifneq (,$(filter YES,$(STACK_DIAGNOSTICS) $(ALL_DIAGNOSTICS)))
+CFLAGS += -DSTACK_DIAGNOSTICS
+endif
+
+ifneq (,$(filter YES,$(MIXERSTATUS_DIAGNOSTICS) $(ALL_DIAGNOSTICS)))
+CFLAGS += -DMIXERSTATUS_DIAGNOSTICS
+endif
+
+ifneq (,$(filter YES,$(RATEDESIRED_DIAGNOSTICS) $(ALL_DIAGNOSTICS)))
+CFLAGS += -DRATEDESIRED_DIAGNOSTICS
+endif
+
+ifneq (,$(filter YES,$(I2C_WDG_STATS_DIAGNOSTICS) $(ALL_DIAGNOSTICS)))
+CFLAGS += -DI2C_WDG_STATS_DIAGNOSTICS
+endif
+
+ifneq (,$(filter YES,$(DIAG_TASKS) $(ALL_DIAGNOSTICS)))
+CFLAGS += -DDIAG_TASKS
+endif
+
+# Since we are simulating all this firmware the code needs to know what the BL would
+# normally contain
+BLONLY_CDEFS += -DBOARD_TYPE=$(BOARD_TYPE)
+BLONLY_CDEFS += -DBOARD_REVISION=$(BOARD_REVISION)
+BLONLY_CDEFS += -DHW_TYPE=$(HW_TYPE)
+BLONLY_CDEFS += -DBOOTLOADER_VERSION=$(BOOTLOADER_VERSION)
+BLONLY_CDEFS += -DFW_BANK_BASE=$(FW_BANK_BASE)
+BLONLY_CDEFS += -DFW_BANK_SIZE=$(FW_BANK_SIZE)
+BLONLY_CDEFS += -DFW_DESC_SIZE=$(FW_DESC_SIZE)
+
+# Since we are simulating all this firmware the code needs to know what the BL would
+# normally contain
+CFLAGS += $(BLONLY_CDEFS)
 
 # List of modules to include
 MODULES += Actuator ManualControl Stabilization 
@@ -62,52 +99,6 @@ MODULES += Sensors/simulated
 MODULES += SimVisualization 
 
 MODULES += Telemetry
-
-BLONLY_CDEFS += -DBOARD_TYPE=$(BOARD_TYPE)
-BLONLY_CDEFS += -DBOARD_REVISION=$(BOARD_REVISION)
-BLONLY_CDEFS += -DHW_TYPE=$(HW_TYPE)
-BLONLY_CDEFS += -DBOOTLOADER_VERSION=$(BOOTLOADER_VERSION)
-BLONLY_CDEFS += -DFW_BANK_BASE=$(FW_BANK_BASE)
-BLONLY_CDEFS += -DFW_BANK_SIZE=$(FW_BANK_SIZE)
-BLONLY_CDEFS += -DFW_DESC_SIZE=$(FW_DESC_SIZE)
-
-DEBUG ?= NO
-
-# Include objects that are just nice information to show
-STACK_DIAGNOSTICS ?= NO
-MIXERSTATUS_DIAGNOSTICS ?= NO
-RATEDESIRED_DIAGNOSTICS ?= NO
-I2C_WDG_STATS_DIAGNOSTICS ?= NO
-DIAG_TASKS ?= NO
-
-#Or just turn on all the above diagnostics. WARNING: This consumes massive amounts of memory.
-ALL_DIGNOSTICS ?= YES
-
-# Since we are simulating all this firmware the code needs to know what the BL would
-# normally contain
-CFLAGS += $(BLONLY_CDEFS)
-
-#The following Makefile command, ifneq (, $(filter) $(A), $(B) $(C)) is equivalent 
-# to the pseudocode `if(A== B || A==C)`
-ifneq (,$(filter YES,$(STACK_DIAGNOSTICS) $(ALL_DIGNOSTICS)))
-CFLAGS += -DSTACK_DIAGNOSTICS
-endif
-
-ifneq (,$(filter YES,$(MIXERSTATUS_DIAGNOSTICS) $(ALL_DIGNOSTICS)))
-CFLAGS += -DMIXERSTATUS_DIAGNOSTICS
-endif
-
-ifneq (,$(filter YES,$(RATEDESIRED_DIAGNOSTICS) $(ALL_DIGNOSTICS)))
-CFLAGS += -DRATEDESIRED_DIAGNOSTICS
-endif
-
-ifneq (,$(filter YES,$(I2C_WDG_STATS_DIAGNOSTICS) $(ALL_DIGNOSTICS)))
-CFLAGS += -DI2C_WDG_STATS_DIAGNOSTICS
-endif
-
-ifneq (,$(filter YES,$(DIAG_TASKS) $(ALL_DIGNOSTICS)))
-CFLAGS += -DDIAG_TASKS
-endif
 
 # Paths
 OPSYSTEM = ./System
@@ -130,22 +121,26 @@ DOXYGENDIR = ../Doc/Doxygen
 FLIGHTPLANLIB = $(OPMODULEDIR)/FlightPlan/lib
 FLIGHTPLANS = $(OPMODULEDIR)/FlightPlan/flightplans
 
-UAVOBJSYNTHDIR = $(OUTDIR)/../uavobject-synthetics/flight
-UAVOBJPYTHONSYNTHDIR = $(OUTDIR)/../uavobject-synthetics/python
-
 SRC = 
 # optional component libraries
+## RTOS and RTOS Portable 
+SRC += $(RTOSSRCDIR)/list.c
+SRC += $(RTOSSRCDIR)/queue.c
+SRC += $(RTOSSRCDIR)/task.c
+SRC += $(RTOSSRCDIR)/timers.c
+SRC += $(RTOSSRCDIR)/portable/GCC/Posix/port.c
+SRC += $(RTOSSRCDIR)/portable/MemMang/heap_3.c
+
 include $(FLIGHTLIB)/CMSIS3/DSP_Lib/library.mk
 
 # List C source files here. (C dependencies are automatically generated.)
 # use file-extension c for "c-only"-files
 
-MODNAMES = $(notdir ${MODULES})
-
 ## MODULES
 SRC += ${foreach MOD, ${OPTMODULES}, ${wildcard ${OPMODULEDIR}/${MOD}/*.c}}
 SRC += ${foreach MOD, ${MODULES}, ${wildcard ${OPMODULEDIR}/${MOD}/*.c}}
 SRC += ${OUTDIR}/InitMods.c
+
 ## OPENPILOT CORE:
 SRC += ${OPMODULEDIR}/System/systemmod.c
 SRC += $(OPSYSTEM)/revolution.c
@@ -154,18 +149,23 @@ SRC += $(FLIGHTLIB)/alarms.c
 SRC += $(OPUAVTALK)/uavtalk.c
 SRC += $(OPUAVOBJ)/uavobjectmanager.c
 SRC += $(OPUAVOBJ)/eventdispatcher.c
-SRC += $(UAVOBJSYNTHDIR)/uavobjectsinit.c
+SRC += $(OPUAVSYNTHDIR)/uavobjectsinit.c
 
+## Libraries for flight calculations
+SRC += $(FLIGHTLIB)/fifo_buffer.c
+SRC += $(FLIGHTLIB)/WorldMagModel.c
+SRC += $(FLIGHTLIB)/insgps13state.c
+SRC += $(FLIGHTLIB)/taskmonitor.c
+SRC += $(FLIGHTLIB)/sanitycheck.c
+SRC += $(FLIGHTLIB)/paths.c
 
+SRC += $(MATHLIB)/coordinate_conversions.c
+SRC += $(MATHLIB)/sin_lookup.c
+SRC += $(MATHLIB)/misc_math.c
+SRC += $(MATHLIB)/pid.c
 
-include $(WHEREAMI)/UAVObjects.inc
-
-UAVOBJSRCFILENAMES += attitudesimulated
-UAVOBJSRC = $(foreach UAVOBJSRCFILE,$(UAVOBJSRCFILENAMES),$(UAVOBJSYNTHDIR)/$(UAVOBJSRCFILE).c )
-UAVOBJDEFINE = $(foreach UAVOBJSRCFILE,$(UAVOBJSRCFILENAMES),-DUAVOBJ_INIT_$(UAVOBJSRCFILE) )
-
-SRC += $(UAVOBJSRC)
-CFLAGS_UAVOBJECTS = $(UAVOBJDEFINE)
+## PIOS Hardware (STM32F4xx)
+#include $(PIOS)/posix/library.mk
 
 SRC += $(PIOSCOMMON)/pios_com.c
 SRC += $(PIOSCOMMON)/pios_crc.c
@@ -178,7 +178,7 @@ SRC += $(PIOSCOMMON)/pios_board_info.c
 SRC += $(PIOSPOSIX)/pios_gcsrcvr.c
 SRC += $(PIOSPOSIX)/pios_delay.c
 SRC += $(PIOSPOSIX)/pios_led.c
-SRC += $(PIOSPOSIX)/pios_sim.c
+#SRC += $(PIOSPOSIX)/pios_sim.c
 SRC += $(PIOSPOSIX)/pios_wdg.c
 SRC += $(PIOSPOSIX)/pios_bl_helper.c
 SRC += $(PIOSPOSIX)/pios_iap.c
@@ -192,29 +192,14 @@ EXTRAINCDIRS += $(PIOSCOMMON)/inc
 ## PIOS Hardware (Common)
 SRC += $(PIOSPOSIX)/../../tests/logfs/pios_flash_posix.c
 
-## Libraries for flight calculations
-SRC += $(FLIGHTLIB)/fifo_buffer.c
-SRC += $(FLIGHTLIB)/WorldMagModel.c
-SRC += $(FLIGHTLIB)/paths.c
-SRC += $(FLIGHTLIB)/insgps13state.c
-SRC += $(FLIGHTLIB)/taskmonitor.c
-SRC += $(FLIGHTLIB)/sanitycheck.c
-SRC += $(MATHLIB)/coordinate_conversions.c
-SRC += $(MATHLIB)/misc_math.c
-SRC += $(MATHLIB)/pid.c
-SRC += $(MATHLIB)/sin_lookup.c
+include ./UAVObjects.inc
 
+UAVOBJSRCFILENAMES += attitudesimulated
+UAVOBJSRC = $(foreach UAVOBJSRCFILE,$(UAVOBJSRCFILENAMES),$(OPUAVSYNTHDIR)/$(UAVOBJSRCFILE).c )
+UAVOBJDEFINE = $(foreach UAVOBJSRCFILE,$(UAVOBJSRCFILENAMES),-DUAVOBJ_INIT_$(UAVOBJSRCFILE) )
 
-## RTOS and RTOS Portable 
-SRC += $(RTOSSRCDIR)/list.c
-SRC += $(RTOSSRCDIR)/queue.c
-UNAME := $(shell uname)
-SRC += $(RTOSSRCDIR)/task.c
-SRC += $(RTOSSRCDIR)/timers.c
-SRC += $(RTOSSRCDIR)/portable/GCC/Posix/port.c
-SRC += $(RTOSSRCDIR)/portable/MemMang/heap_3.c
-
-
+SRC += $(UAVOBJSRC)
+CFLAGS_UAVOBJECTS = $(UAVOBJDEFINE)
 
 # List C source files here which must be compiled in ARM-Mode (no -mthumb).
 # use file-extension c for "c-only"-files
@@ -242,7 +227,7 @@ EXTRAINCDIRS  += $(OPUAVTALK)
 EXTRAINCDIRS  += $(OPUAVTALKINC)
 EXTRAINCDIRS  += $(OPUAVOBJ)
 EXTRAINCDIRS  += $(OPUAVOBJINC)
-EXTRAINCDIRS  += $(UAVOBJSYNTHDIR)
+EXTRAINCDIRS  += $(OPUAVSYNTHDIR)
 EXTRAINCDIRS  += $(FLIGHTLIBINC)
 EXTRAINCDIRS  += $(MATHLIBINC)
 
@@ -251,7 +236,6 @@ EXTRAINCDIRS  += $(PIOSBOARDS)
 
 EXTRAINCDIRS  += $(CMSISDIR)
 EXTRAINCDIRS  += $(BOOTINC)
-EXTRAINCDIRS  += $(PYMITEINC)
 EXTRAINCDIRS  += $(HWDEFSINC)
 
 EXTRAINCDIRS  += $(OPSYSTEM)
@@ -262,54 +246,20 @@ EXTRAINCDIRS  += $(RTOSSRCDIR)/portable/GCC/Posix
 
 EXTRAINCDIRS += ${foreach MOD, ${OPTMODULES} ${MODULES} ${PYMODULES}, $(OPMODULEDIR)/${MOD}/inc} ${OPMODULEDIR}/System/inc
 
-# List any extra directories to look for library files here.
-# Also add directories where the linker should search for
-# includes from linker-script to the list
-#     Each directory must be seperated by a space.
-EXTRA_LIBDIRS =
-
-# Extra Libraries
-#    Each library-name must be seperated by a space.
-#    i.e. to link with libxyz.a, libabc.a and libefsl.a:
-#    EXTRA_LIBS = xyz abc efsl
-# for newlib-lpc (file: libnewlibc-lpc.a):
-#    EXTRA_LIBS = newlib-lpc
-EXTRA_LIBS =
-
-# Path to Linker-Scripts
-LINKERSCRIPTPATH = $(PIOSSTM32F10X)
-
 # Optimization level, can be [0, 1, 2, 3, s].
 # 0 = turn off optimization. s = optimize for size.
 # (Note: 3 is not always the best optimization level. See avr-libc FAQ.)
 
 ifeq ($(DEBUG),YES)
-OPT = 0
+CFLAGS += -O0
+#CFLAGS += -DGENERAL_COV
+#CFLAGS += -finstrument-functions -ffixed-r10
 else
-OPT = s
+CFLAGS += -Os
 endif
-
-# Output format. (can be ihex or binary or both)
-#  binary to create a load-image in raw-binary format i.e. for SAM-BA,
-#  ihex to create a load-image in Intel hex format
-#LOADFORMAT = ihex
-#LOADFORMAT = binary
-LOADFORMAT = both
 
 # Debugging format.
 #DEBUGF = dwarf-2
-
-# Place project-specific -D (define) and/or
-# -U options for C here.
-ifeq ($(ENABLE_DEBUG_PINS), YES)
-CDEFS += -DPIOS_ENABLE_DEBUG_PINS
-endif
-ifeq ($(ENABLE_AUX_UART), YES)
-CDEFS += -DPIOS_ENABLE_AUX_UART
-endif
-ifeq ($(USE_BOOTLOADER), YES)
-CDEFS += -DUSE_BOOTLOADER
-endif
 
 # Make sure the build knows we're building a sim version
 CDEFS += -DSIM_OSX
@@ -348,17 +298,10 @@ ifeq ($(DEBUG),YES)
 CFLAGS += -g$(DEBUGF) -DDEBUG
 endif
 
-CFLAGS += -DDIAGNOSTICS
-CFLAGS += -DDIAG_TASKS
-
 CFLAGS += $(CFLAGS_UAVOBJECTS)
 CFLAGS += -DARCH_POSIX
-CFLAGS += -O$(OPT)
 CFLAGS += $(CDEFS)
 CFLAGS += $(patsubst %,-I%,$(EXTRAINCDIRS)) -I.
-
-#CFLAGS += ARCH=arm 
-#CROSS_COMPILE=/usr/local/android-ndk-r5/toolchains/arm-linux-androideabi-4.4.3/prebuilt/darwin-x86/bin/arm-linux-androideabi-
 
 CFLAGS += -fomit-frame-pointer
 
@@ -371,44 +314,22 @@ CFLAGS += -MD -MP -MF $(OUTDIR)/dep/$(@F).d
 #CONLYFLAGS += -Wnested-externs
 CONLYFLAGS += $(CSTANDARD)
 
-# Assembler flags.
-#  -Wa,...:    tell GCC to pass this to the assembler.
-#  -ahlns:     create listing
-ASFLAGS  = -mtune=$(MCU) -I. -x assembler-with-cpp
-ASFLAGS += $(ADEFS)
-ASFLAGS += -Wa,-adhlns=$(addprefix $(OUTDIR)/, $(notdir $(addsuffix .lst, $(basename $<))))
-ASFLAGS += $(patsubst %,-I%,$(EXTRAINCDIRS))
-
-MATH_LIB = -lm
-
 # Linker flags.
 #  -Wl,...:     tell GCC to pass this to linker.
 #    -Map:      create map file
 #    --cref:    add cross reference to  map file
-LDFLAGS += -lpthread 
+LDFLAGS = -Wl
 LDFLAGS += $(patsubst %,-L%,$(EXTRA_LIBDIRS))
-LDFLAGS += -lc
 LDFLAGS += $(patsubst %,-l%,$(EXTRA_LIBS))
-LDFLAGS += $(MATH_LIB)
-LDFLAGS += -lc -lgcc
+LDFLAGS += -lm
+LDFLAGS += -lc -lgcc -lpthread
 
 # To include simulation model
 LDFLAGS += -L$(OUTDIR) 
 #LDFLAGS += -lsimmodel
 
-
 # Define programs and commands.
-CC      = $(TCHAIN_PREFIX)gcc
-CPP     = $(TCHAIN_PREFIX)g++
-AR      = $(TCHAIN_PREFIX)ar
-OBJCOPY = $(TCHAIN_PREFIX)objcopy
-OBJDUMP = $(TCHAIN_PREFIX)objdump
-SIZE    = $(TCHAIN_PREFIX)size
-NM      = $(TCHAIN_PREFIX)nm
 REMOVE  = rm -f
-PYTHON  = python
-###SHELL   = sh
-###COPY    = cp
 
 $(OUTDIR)/sim_firmwareinfo.c: $(TOP)/make/templates/firmwareinfotemplate_sim.c
 	$(V1) python $(TOP)/make/scripts/version-info.py \
@@ -428,162 +349,21 @@ ALLSRCBASE = $(notdir $(basename $(ALLSRC)))
 # Define all object files.
 ALLOBJ     = $(addprefix $(OUTDIR)/, $(addsuffix .o, $(ALLSRCBASE)))
 
-# Define all listing files (used for make clean).
-LSTFILES   = $(addprefix $(OUTDIR)/, $(addsuffix .lst, $(ALLSRCBASE)))
-# Define all depedency-files (used for make clean).
-DEPFILES   = $(addprefix $(OUTDIR)/dep/, $(addsuffix .o.d, $(ALLSRCBASE)))
-
-elf: $(OUTDIR)/$(TARGET).elf
-lss: $(OUTDIR)/$(TARGET).lss
-sym: $(OUTDIR)/$(TARGET).sym
-hex: $(OUTDIR)/$(TARGET).hex
-bin: $(OUTDIR)/$(TARGET).bin
-
 # Default target.
-#all: begin gccversion sizebefore build sizeafter finished end
-#all: begin gencode gccversion build sizeafter finished end
+.PHONY: all
 all: elf
-
-ifeq ($(LOADFORMAT),ihex)
-build: elf hex lss sym
-else
-ifeq ($(LOADFORMAT),binary)
-build: elf bin lss sym
-else
-ifeq ($(LOADFORMAT),both)
-build: elf hex bin lss sym
-else
-$(error "$(MSG_FORMATERROR) $(FORMAT)")
-endif
-endif
-endif
-
-# Test if quotes are needed for the echo-command
-result = ${shell echo "test"}
-ifeq (${result}, test)
-	quote = '
-else
-	quote =
-endif
-
-# Generate intermediate code
-gencode: ${OUTDIR}/InitMods.c ${OUTDIR}/pmlib_img.c ${OUTDIR}/pmlib_nat.c ${OUTDIR}/pmlibusr_img.c ${OUTDIR}/pmlibusr_nat.c ${OUTDIR}/pmfeatures.h 
-
-getmodname = $(firstword $(subst /, ,$1))
-
-MOD_GEN := $(foreach MOD,$(MODULES) $(OPTMODULES),$(call getmodname,$(MOD)))
-
-# Generate code for module initialization
-${OUTDIR}/InitMods.c: Makefile.osx
-	@echo ${quote}// Autogenerated file${quote} > ${OUTDIR}/InitMods.c
-	@echo ${quote}${foreach MOD, ${MOD_GEN}, extern unsigned int ${MOD}Initialize(void);}${quote}  >> ${OUTDIR}/InitMods.c
-	@echo ${quote}${foreach MOD, ${MOD_GEN}, extern unsigned int ${MOD}Start(void);}${quote}  >> ${OUTDIR}/InitMods.c
-	@echo ${quote}void InitModules() {${quote} >> ${OUTDIR}/InitMods.c
-	@echo ${quote}${foreach MOD, ${MOD_GEN}, ${MOD}Initialize();}${quote}  >> ${OUTDIR}/InitMods.c
-	@echo ${quote}}${quote} >> ${OUTDIR}/InitMods.c
-	@echo ${quote}void StartModules() {${quote} >> ${OUTDIR}/InitMods.c
-	@echo ${quote}${foreach MOD, ${MOD_GEN}, ${MOD}Start();}${quote}  >> ${OUTDIR}/InitMods.c
-	@echo ${quote}}${quote} >> ${OUTDIR}/InitMods.c
-
-# Generate code for PyMite
-${OUTDIR}/pmlib_img.c ${OUTDIR}/pmlib_nat.c ${OUTDIR}/pmlibusr_img.c ${OUTDIR}/pmlibusr_nat.c ${OUTDIR}/pmfeatures.h: $(wildcard ${PYMITELIB}/*.py) $(wildcard ${PYMITEPLAT}/*.py) $(wildcard ${FLIGHTPLANLIB}/*.py) $(wildcard ${FLIGHTPLANS}/*.py) $(wildcard $(UAVOBJPYTHONSYNTHDIR)/*.py)
-	@echo ${MSG_PYMITEINIT}
-	@$(PYTHON) $(PYMITETOOLS)/pmImgCreator.py -f $(PYMITEPLAT)/pmfeatures.py -c -s --memspace=flash -o $(OUTDIR)/pmlib_img.c --native-file=$(OUTDIR)/pmlib_nat.c $(PYMITELIB)/list.py $(PYMITELIB)/dict.py $(PYMITELIB)/__bi.py $(PYMITELIB)/sys.py $(PYMITELIB)/string.py $(wildcard $(FLIGHTPLANLIB)/*.py) $(wildcard $(UAVOBJPYTHONSYNTHDIR)/*.py)
-	@$(PYTHON) $(PYMITETOOLS)/pmGenPmFeatures.py $(PYMITEPLAT)/pmfeatures.py > $(OUTDIR)/pmfeatures.h
-	@$(PYTHON) $(PYMITETOOLS)/pmImgCreator.py -f $(PYMITEPLAT)/pmfeatures.py -c -u -o $(OUTDIR)/pmlibusr_img.c --native-file=$(OUTDIR)/pmlibusr_nat.c $(FLIGHTPLANS)/test.py
-
-
-# Display sizes of sections.
-$(eval $(call SIZE_TEMPLATE, $(OUTDIR)/$(TARGET).elf))
-
-sizeafter:
-#	@if [ -f  $(OUTDIR)/$(TARGET).elf ]; then echo; echo $(MSG_SIZE_AFTER); $(ELFSIZE); echo; fi
-	@echo $(MSG_SIZE_AFTER)
-	$(ELFSIZE)
-
-# Create final output file (.hex) from ELF output file.
-%.hex: %.elf
-##	@echo
-	@echo $(MSG_LOAD_FILE) $@
-	$(OBJCOPY) -O ihex $< $@
-
-# Create final output file (.bin) from ELF output file.
-%.bin: %.elf
-##	@echo
-	@echo $(MSG_LOAD_FILE) $@
-	$(OBJCOPY) -O binary $< $@
-
-# Create extended listing file/disassambly from ELF output file.
-# using objdump testing: option -C
-%.lss: %.elf
-##	@echo
-	@echo $(MSG_EXTENDED_LISTING) $@
-	$(OBJDUMP) -h -S -C -r $< > $@
-#	$(OBJDUMP) -x -S $< > $@
-
-# Create a symbol table from ELF output file.
-%.sym: %.elf
-##	@echo
-	@echo $(MSG_SYMBOL_TABLE) $@
-	$(NM) -n $< > $@
 
 # Link: create ELF output file from object files.
 $(eval $(call LINK_TEMPLATE, $(OUTDIR)/$(TARGET).elf, $(ALLOBJ)))
- 
-# Assemble: create object files from assembler source files.
-$(foreach src, $(ASRC), $(eval $(call ASSEMBLE_TEMPLATE, $(src))))
-
-# Assemble: create object files from assembler source files. ARM-only
-$(foreach src, $(ASRCARM), $(eval $(call ASSEMBLE_ARM_TEMPLATE, $(src))))
 
 # Compile: create object files from C source files.
 $(foreach src, $(SRC), $(eval $(call COMPILE_C_TEMPLATE, $(src))))
 
-# Compile: create object files from C source files. ARM-only
-$(foreach src, $(SRCARM), $(eval $(call COMPILE_C_ARM_TEMPLATE, $(src))))
+.PHONY: elf
+elf: $(OUTDIR)/$(TARGET).elf
 
-# Compile: create object files from C++ source files.
-$(foreach src, $(CPPSRC), $(eval $(call COMPILE_CPP_TEMPLATE, $(src))))
-
-# Compile: create object files from C++ source files. ARM-only
-$(foreach src, $(CPPSRCARM), $(eval $(call COMPILE_CPP_ARM_TEMPLATE, $(src))))
-
-# Compile: create assembler files from C source files. ARM/Thumb
-$(SRC:.c=.s) : %.s : %.c
-	@echo $(MSG_ASMFROMC) $< to $@
-	$(CC) $(THUMB) -S $(CFLAGS) $(CONLYFLAGS) $< -o $@
-
-# Compile: create assembler files from C source files. ARM only
-$(SRCARM:.c=.s) : %.s : %.c
-	@echo $(MSG_ASMFROMC_ARM) $< to $@
-	$(CC) -S $(CFLAGS) $(CONLYFLAGS) $< -o $@
-
-# Generate Doxygen documents
-docs:
-	doxygen  $(DOXYGENDIR)/doxygen.cfg
-
-# Target: clean project.
-clean: begin clean_list finished end
-
-clean_list :
-##	@echo
-	@echo $(MSG_CLEANING)
-	$(REMOVE) $(OUTDIR)/$(TARGET).map
-	$(REMOVE) $(OUTDIR)/$(TARGET).elf
-	$(REMOVE) $(OUTDIR)/$(TARGET).hex
-	$(REMOVE) $(OUTDIR)/$(TARGET).bin
-	$(REMOVE) $(OUTDIR)/$(TARGET).sym
-	$(REMOVE) $(OUTDIR)/$(TARGET).lss
-	$(REMOVE) $(wildcard $(OUTDIR)/*.c)
-	$(REMOVE) $(wildcard $(OUTDIR)/*.h)
-	$(REMOVE) $(ALLOBJ)
-	$(REMOVE) $(LSTFILES)
-	$(REMOVE) $(DEPFILES)
-	$(REMOVE) $(SRC:.c=.s)
-	$(REMOVE) $(SRCARM:.c=.s)
-	$(REMOVE) $(CPPSRC:.cpp=.s)
-	$(REMOVE) $(CPPSRCARM:.cpp=.s)
-
+# Display sizes of sections.
+$(eval $(call SIZE_TEMPLATE, $(OUTDIR)/$(TARGET).elf))
 
 # Create output files directory
 # all known MS Windows OS define the ComSpec environment variable
@@ -600,9 +380,27 @@ else
 -include $(shell mkdir $(OUTDIR) 2>/dev/null) $(shell mkdir $(OUTDIR)/dep 2>/dev/null) $(wildcard $(OUTDIR)/dep/*)
 endif
 
+# Test if quotes are needed for the echo-command
+result = ${shell echo "test"}
+ifeq (${result}, test)
+	quote = '
+else
+	quote =
+endif
 
+getmodname = $(firstword $(subst /, ,$1))
 
-# Listing of phony targets.
-.PHONY : all begin finish end sizebefore sizeafter gccversion \
-build elf hex bin lss sym clean clean_list program gencode
+MOD_GEN := $(foreach MOD,$(MODULES) $(OPTMODULES),$(call getmodname,$(MOD)))
+
+# Generate code for module initialization
+${OUTDIR}/InitMods.c: Makefile.osx
+	@echo ${quote}// Autogenerated file${quote} > ${OUTDIR}/InitMods.c
+	@echo ${quote}${foreach MOD, ${MOD_GEN}, extern unsigned int ${MOD}Initialize(void);}${quote}  >> ${OUTDIR}/InitMods.c
+	@echo ${quote}${foreach MOD, ${MOD_GEN}, extern unsigned int ${MOD}Start(void);}${quote}  >> ${OUTDIR}/InitMods.c
+	@echo ${quote}void InitModules() {${quote} >> ${OUTDIR}/InitMods.c
+	@echo ${quote}${foreach MOD, ${MOD_GEN}, ${MOD}Initialize();}${quote}  >> ${OUTDIR}/InitMods.c
+	@echo ${quote}}${quote} >> ${OUTDIR}/InitMods.c
+	@echo ${quote}void StartModules() {${quote} >> ${OUTDIR}/InitMods.c
+	@echo ${quote}${foreach MOD, ${MOD_GEN}, ${MOD}Start();}${quote}  >> ${OUTDIR}/InitMods.c
+	@echo ${quote}}${quote} >> ${OUTDIR}/InitMods.c
 
