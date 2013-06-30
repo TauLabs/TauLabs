@@ -167,7 +167,7 @@ static void pathManagerTask(void *parameters)
 	static portTickType overshootTimer;
 	lastSysTime = xTaskGetTickCount();
 	overshootTimer = xTaskGetTickCount();
-	uint8_t theta_roundoff_trim_count = 0;
+	uint16_t theta_roundoff_trim_count = 0;
 
 	// Main thread loop
 	while (1) {
@@ -202,10 +202,10 @@ static void pathManagerTask(void *parameters)
 				oldPosition_NE[0] = newPosition_NE[0];
 				oldPosition_NE[1] = newPosition_NE[1];
 
-				// Every 128 samples, correct for roundoff error. Error doesn't accumulate too quickly, so
+				// Every 1000 samples, correct for roundoff error. Error doesn't accumulate too quickly, so
 				// this trigger value can safely be made much higher, with the condition that the type of
-				// theta_roundoff_trim_count be changed from uint8_t;
-				if ((theta_roundoff_trim_count++ & 0x8F) == 0) {
+				// theta_roundoff_trim_count be changed from uint16_t;
+				if (theta_roundoff_trim_count++ >=1000) {
 					theta_roundoff_trim_count = 0;
 
 					float referenceTheta_D = measure_arc_rad(previousLocus->Position, newPosition_NE, arcCenter_NE) * RAD2DEG;
@@ -214,7 +214,6 @@ static void pathManagerTask(void *parameters)
 					angularDistanceCompleted_D += error_D;
 				}
 			}
-
 		}
 
 		// If the vehicle is sufficiently close to the goal, check if it has achieved the goal
@@ -223,7 +222,6 @@ static void pathManagerTask(void *parameters)
 		// straight lines and infinite number of orbits about a point.
 		if (SIGN(pathSegmentDescriptor_current.PathCurvature) * (angularDistanceToComplete_D - angularDistanceCompleted_D) < ANGULAR_PROXIMITY_THRESHOLD)
 			advanceSegment_flag = checkGoalCondition();
-
 
 		// Check if the path_manager was just activated
 		if (pathplanner_active == false) {
