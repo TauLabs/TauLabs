@@ -31,6 +31,8 @@
 #ifndef PIOS_WDG
 #define PIOS_WDG
 
+#include "stdbool.h"
+
 #define PIOS_WDG_ACTUATOR        0x0001
 #define PIOS_WDG_STABILIZATION   0x0002
 #define PIOS_WDG_ATTITUDE        0x0004
