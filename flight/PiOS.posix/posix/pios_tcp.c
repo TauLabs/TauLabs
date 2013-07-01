@@ -44,11 +44,11 @@ static pios_tcp_dev pios_tcp_devices[PIOS_TCP_MAX_DEV];
 
 
 /* Provide a COM driver */
-static void PIOS_TCP_ChangeBaud(uint32_t udp_id, uint32_t baud);
-static void PIOS_TCP_RegisterRxCallback(uint32_t udp_id, pios_com_callback rx_in_cb, uint32_t context);
-static void PIOS_TCP_RegisterTxCallback(uint32_t udp_id, pios_com_callback tx_out_cb, uint32_t context);
-static void PIOS_TCP_TxStart(uint32_t udp_id, uint16_t tx_bytes_avail);
-static void PIOS_TCP_RxStart(uint32_t udp_id, uint16_t rx_bytes_avail);
+static void PIOS_TCP_ChangeBaud(uintptr_t udp_id, uint32_t baud);
+static void PIOS_TCP_RegisterRxCallback(uintptr_t udp_id, pios_com_callback rx_in_cb, uintptr_t context);
+static void PIOS_TCP_RegisterTxCallback(uintptr_t udp_id, pios_com_callback tx_out_cb, uintptr_t context);
+static void PIOS_TCP_TxStart(uintptr_t udp_id, uint16_t tx_bytes_avail);
+static void PIOS_TCP_RxStart(uintptr_t udp_id, uint16_t rx_bytes_avail);
 
 const struct pios_com_driver pios_tcp_com_driver = {
 	.set_baud   = PIOS_TCP_ChangeBaud,
@@ -155,7 +155,7 @@ static void *PIOS_TCP_RxThread(void *tcp_dev_n)
  * Open UDP socket
  */
 xTaskHandle tcpRxTaskHandle;
-int32_t PIOS_TCP_Init(uint32_t *tcp_id, const struct pios_tcp_cfg * cfg)
+int32_t PIOS_TCP_Init(uintptr_t *tcp_id, const struct pios_tcp_cfg * cfg)
 {
 	
 	pios_tcp_dev *tcp_dev = &pios_tcp_devices[pios_tcp_num_devices];
@@ -201,7 +201,7 @@ int32_t PIOS_TCP_Init(uint32_t *tcp_id, const struct pios_tcp_cfg * cfg)
 }
 
 
-void PIOS_TCP_ChangeBaud(uint32_t tcp_id, uint32_t baud)
+void PIOS_TCP_ChangeBaud(uintptr_t tcp_id, uint32_t baud)
 {
 	/**
 	 * doesn't apply!
@@ -209,7 +209,7 @@ void PIOS_TCP_ChangeBaud(uint32_t tcp_id, uint32_t baud)
 }
 
 
-static void PIOS_TCP_RxStart(uint32_t tp_id, uint16_t rx_bytes_avail)
+static void PIOS_TCP_RxStart(uintptr_t tp_id, uint16_t rx_bytes_avail)
 {
 	/**
 	 * lazy!
@@ -217,7 +217,7 @@ static void PIOS_TCP_RxStart(uint32_t tp_id, uint16_t rx_bytes_avail)
 }
 
 
-static void PIOS_TCP_TxStart(uint32_t tcp_id, uint16_t tx_bytes_avail)
+static void PIOS_TCP_TxStart(uintptr_t tcp_id, uint16_t tx_bytes_avail)
 {
 	pios_tcp_dev *tcp_dev = find_tcp_dev_by_id(tcp_id);
 	
@@ -256,7 +256,7 @@ static void PIOS_TCP_TxStart(uint32_t tcp_id, uint16_t tx_bytes_avail)
 	
 }
 
-static void PIOS_TCP_RegisterRxCallback(uint32_t tcp_id, pios_com_callback rx_in_cb, uint32_t context)
+static void PIOS_TCP_RegisterRxCallback(uintptr_t tcp_id, pios_com_callback rx_in_cb, uintptr_t context)
 {
 	pios_tcp_dev *tcp_dev = find_tcp_dev_by_id(tcp_id);
 	
@@ -270,7 +270,7 @@ static void PIOS_TCP_RegisterRxCallback(uint32_t tcp_id, pios_com_callback rx_in
 	tcp_dev->rx_in_cb = rx_in_cb;
 }
 
-static void PIOS_TCP_RegisterTxCallback(uint32_t tcp_id, pios_com_callback tx_out_cb, uint32_t context)
+static void PIOS_TCP_RegisterTxCallback(uintptr_t tcp_id, pios_com_callback tx_out_cb, uintptr_t context)
 {
 	pios_tcp_dev *tcp_dev = find_tcp_dev_by_id(tcp_id);
 	
