@@ -167,19 +167,31 @@ void PIOS_Board_Init(void) {
 
 #endif
 
-	uintptr_t flash_id;
 	switch(bdinfo->board_rev) {
 		case BOARD_REVISION_CC:
-			PIOS_Flash_Jedec_Init(&flash_id, pios_spi_flash_accel_id, 1, &flash_w25x_cfg);
-			memcpy(&pios_flash_chip_external, &pios_flash_chip_w25x40, sizeof(pios_flash_chip_external));
+			PIOS_Flash_Jedec_Init(&pios_external_flash_id, pios_spi_flash_accel_id, 1, &flash_w25x_cfg);
 			break;
 		case BOARD_REVISION_CC3D:
-			PIOS_Flash_Jedec_Init(&flash_id, pios_spi_flash_accel_id, 0, &flash_m25p_cfg);
-			memcpy(&pios_flash_chip_external, &pios_flash_chip_m25p16, sizeof(pios_flash_chip_external));
+			PIOS_Flash_Jedec_Init(&pios_external_flash_id, pios_spi_flash_accel_id, 0, &flash_m25p_cfg);
 			break;
 		default:
 			PIOS_DEBUG_Assert(0);
 	}
+
+	PIOS_Flash_Internal_Init(&pios_internal_flash_id, &flash_internal_cfg);
+
+	/* Register the partition table */
+	switch(bdinfo->board_rev) {
+	case BOARD_REVISION_CC:
+		PIOS_FLASH_register_partition_table(pios_flash_partition_table_w25x40, NELEMENTS(pios_flash_partition_table_w25x40));
+		break;
+	case BOARD_REVISION_CC3D:
+		PIOS_FLASH_register_partition_table(pios_flash_partition_table_m25p16, NELEMENTS(pios_flash_partition_table_m25p16));
+		break;
+	default:
+		PIOS_DEBUG_Assert(0);
+	}
+
 
 	PIOS_FLASHFS_Logfs_Init(&pios_uavo_settings_fs_id, &flashfs_settings_cfg, FLASH_PARTITION_LABEL_SETTINGS);
 
