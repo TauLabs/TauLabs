@@ -97,7 +97,7 @@ static void PIOS_USB_RCTX_SendReport(struct pios_usb_rctx_dev * usb_rctx_dev);
 /* Need a better way to pull these in */
 extern void (*pEpInt_IN[7])(void);
 
-int32_t PIOS_USB_RCTX_Init(uint32_t * usbrctx_id, const struct pios_usb_rctx_cfg * cfg, uint32_t lower_id)
+int32_t PIOS_USB_RCTX_Init(uintptr_t * usbrctx_id, const struct pios_usb_rctx_cfg * cfg, uint32_t lower_id)
 {
 	PIOS_Assert(usbrctx_id);
 	PIOS_Assert(cfg);
@@ -116,7 +116,7 @@ int32_t PIOS_USB_RCTX_Init(uint32_t * usbrctx_id, const struct pios_usb_rctx_cfg
 
 	pEpInt_IN[cfg->data_tx_ep - 1] = PIOS_USB_RCTX_EP_IN_Callback;
 
-	*usbrctx_id = (uint32_t) usb_rctx_dev;
+	*usbrctx_id = (uintptr_t) usb_rctx_dev;
 
 	return 0;
 
@@ -158,7 +158,7 @@ static void PIOS_USB_RCTX_EP_IN_Callback(void)
 	PIOS_USB_RCTX_SendReport(usb_rctx_dev);
 }
 
-void PIOS_USB_RCTX_Update(uint32_t usbrctx_id, const uint16_t channel[], const int16_t channel_min[], const int16_t channel_max[], uint8_t num_channels)
+void PIOS_USB_RCTX_Update(uintptr_t usbrctx_id, const uint16_t channel[], const int16_t channel_min[], const int16_t channel_max[], uint8_t num_channels)
 {
 	struct pios_usb_rctx_dev * usb_rctx_dev = (struct pios_usb_rctx_dev *)usbrctx_id;
 
