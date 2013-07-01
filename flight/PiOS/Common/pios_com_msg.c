@@ -38,7 +38,7 @@
 #define PIOS_COM_MSG_MAX_LEN 63
 
 struct pios_com_msg_dev {
-	uint32_t lower_id;
+	uintptr_t lower_id;
 	const struct pios_com_driver * driver;
 
 	uint8_t rx_msg_buffer[PIOS_COM_MSG_MAX_LEN];
@@ -50,10 +50,10 @@ struct pios_com_msg_dev {
 
 static struct pios_com_msg_dev com_msg_dev;
 
-static uint16_t PIOS_COM_MSG_TxOutCallback(uint32_t context, uint8_t * buf, uint16_t buf_len, uint16_t * headroom, bool * need_yield);
-static uint16_t PIOS_COM_MSG_RxInCallback(uint32_t context, uint8_t * buf, uint16_t buf_len, uint16_t * headroom, bool * need_yield);
+static uint16_t PIOS_COM_MSG_TxOutCallback(uintptr_t context, uint8_t * buf, uint16_t buf_len, uint16_t * headroom, bool * need_yield);
+static uint16_t PIOS_COM_MSG_RxInCallback(uintptr_t context, uint8_t * buf, uint16_t buf_len, uint16_t * headroom, bool * need_yield);
 
-int32_t PIOS_COM_MSG_Init(uintptr_t * com_id, const struct pios_com_driver * driver, uint32_t lower_id)
+int32_t PIOS_COM_MSG_Init(uintptr_t * com_id, const struct pios_com_driver * driver, uintptr_t lower_id)
 {
 	PIOS_Assert(com_id);
 	PIOS_Assert(driver);
@@ -67,17 +67,17 @@ int32_t PIOS_COM_MSG_Init(uintptr_t * com_id, const struct pios_com_driver * dri
 	com_dev->lower_id = lower_id;
 
 	com_dev->rx_msg_full = false;
-	(com_dev->driver->bind_rx_cb)(lower_id, PIOS_COM_MSG_RxInCallback, (uint32_t)com_dev);
+	(com_dev->driver->bind_rx_cb)(lower_id, PIOS_COM_MSG_RxInCallback, (uintptr_t)com_dev);
 	(com_dev->driver->rx_start)(com_dev->lower_id, sizeof(com_dev->rx_msg_buffer));
 
 	com_dev->tx_msg_full = false;
-	(com_dev->driver->bind_tx_cb)(lower_id, PIOS_COM_MSG_TxOutCallback, (uint32_t)com_dev);
+	(com_dev->driver->bind_tx_cb)(lower_id, PIOS_COM_MSG_TxOutCallback, (uintptr_t)com_dev);
 
 	*com_id = (uintptr_t)com_dev;
 	return(0);
 }
 
-static uint16_t PIOS_COM_MSG_TxOutCallback(uint32_t context, uint8_t * buf, uint16_t buf_len, uint16_t * headroom, bool * need_yield)
+static uint16_t PIOS_COM_MSG_TxOutCallback(uintptr_t context, uint8_t * buf, uint16_t buf_len, uint16_t * headroom, bool * need_yield)
 {
 	struct pios_com_msg_dev * com_dev = (struct pios_com_msg_dev *)context;
 
@@ -104,7 +104,7 @@ static uint16_t PIOS_COM_MSG_TxOutCallback(uint32_t context, uint8_t * buf, uint
 	return (bytes_from_fifo);
 }
 
-static uint16_t PIOS_COM_MSG_RxInCallback(uint32_t context, uint8_t * buf, uint16_t buf_len, uint16_t * headroom, bool * need_yield)
+static uint16_t PIOS_COM_MSG_RxInCallback(uintptr_t context, uint8_t * buf, uint16_t buf_len, uint16_t * headroom, bool * need_yield)
 {
 	struct pios_com_msg_dev * com_dev = (struct pios_com_msg_dev *)context;
 
