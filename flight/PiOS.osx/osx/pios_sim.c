@@ -99,3 +99,19 @@ void PIOS_SIM_GetPosition(float * position)
 	for (int i = 0; i < NELEMENTS(pios_sim_state.position); i++)
 		position[i] = pios_sim_state.position[i];
 }
+
+/*
+ * Provide weakly linked versions of model simulator
+ */
+
+int sim_model_init(void) __attribute__((weak));
+int sim_model_init(void)
+{
+	return 0;
+}
+
+int sim_model_step(float dT, struct pios_sim_state *pios_sim_state) __attribute__((weak));
+int sim_model_step(float dT, struct pios_sim_state *pios_sim_state)
+{
+	return 0;
+}
