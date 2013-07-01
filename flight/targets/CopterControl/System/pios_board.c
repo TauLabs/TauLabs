@@ -50,7 +50,7 @@
  *  eg. PWM, PPM, GCS, DSMMAINPORT, DSMFLEXIPORT, SBUS
  * NOTE: No slot in this map for NONE.
  */
-uint32_t pios_rcvr_group_map[MANUALCONTROLSETTINGS_CHANNELGROUPS_NONE];
+uintptr_t pios_rcvr_group_map[MANUALCONTROLSETTINGS_CHANNELGROUPS_NONE];
 
 #define PIOS_COM_TELEM_RF_RX_BUF_LEN 32
 #define PIOS_COM_TELEM_RF_TX_BUF_LEN 12
@@ -76,7 +76,7 @@ uintptr_t pios_com_vcp_id;
 uintptr_t pios_com_gps_id;
 uintptr_t pios_com_bridge_id;
 uintptr_t pios_com_mavlink_id;
-uint32_t pios_usb_rctx_id;
+uintptr_t pios_usb_rctx_id;
 uintptr_t pios_internal_adc_id;
 uintptr_t pios_pcf8591_adc_id;
 uintptr_t pios_uavo_settings_fs_id;
@@ -259,7 +259,7 @@ void PIOS_Board_Init(void) {
 	usb_hid_present = true;
 #endif
 
-	uint32_t pios_usb_id;
+	uintptr_t pios_usb_id;
 	
 	switch(bdinfo->board_rev) {
 		case BOARD_REVISION_CC:
@@ -289,7 +289,7 @@ void PIOS_Board_Init(void) {
 	case HWCOPTERCONTROL_USB_VCPPORT_USBTELEMETRY:
 #if defined(PIOS_INCLUDE_COM)
 		{
-			uint32_t pios_usb_cdc_id;
+			uintptr_t pios_usb_cdc_id;
 			if (PIOS_USB_CDC_Init(&pios_usb_cdc_id, &pios_usb_cdc_cfg, pios_usb_id)) {
 				PIOS_Assert(0);
 			}
@@ -308,7 +308,7 @@ void PIOS_Board_Init(void) {
 	case HWCOPTERCONTROL_USB_VCPPORT_COMBRIDGE:
 #if defined(PIOS_INCLUDE_COM)
 		{
-			uint32_t pios_usb_cdc_id;
+			uintptr_t pios_usb_cdc_id;
 			if (PIOS_USB_CDC_Init(&pios_usb_cdc_id, &pios_usb_cdc_cfg, pios_usb_id)) {
 				PIOS_Assert(0);
 			}
@@ -328,7 +328,7 @@ void PIOS_Board_Init(void) {
 #if defined(PIOS_INCLUDE_COM)
 #if defined(PIOS_INCLUDE_DEBUG_CONSOLE)
 		{
-			uint32_t pios_usb_cdc_id;
+			uintptr_t pios_usb_cdc_id;
 			if (PIOS_USB_CDC_Init(&pios_usb_cdc_id, &pios_usb_cdc_cfg, pios_usb_id)) {
 				PIOS_Assert(0);
 			}
@@ -362,7 +362,7 @@ void PIOS_Board_Init(void) {
 	case HWCOPTERCONTROL_USB_HIDPORT_USBTELEMETRY:
 #if defined(PIOS_INCLUDE_COM)
 		{
-			uint32_t pios_usb_hid_id;
+			uintptr_t pios_usb_hid_id;
 			if (PIOS_USB_HID_Init(&pios_usb_hid_id, &pios_usb_hid_cfg, pios_usb_id)) {
 				PIOS_Assert(0);
 			}
@@ -405,7 +405,7 @@ void PIOS_Board_Init(void) {
 	case HWCOPTERCONTROL_MAINPORT_TELEMETRY:
 #if defined(PIOS_INCLUDE_TELEMETRY_RF)
 		{
-			uint32_t pios_usart_generic_id;
+			uintptr_t pios_usart_generic_id;
 			if (PIOS_USART_Init(&pios_usart_generic_id, &pios_usart_generic_main_cfg)) {
 				PIOS_Assert(0);
 			}
@@ -425,17 +425,17 @@ void PIOS_Board_Init(void) {
 	case HWCOPTERCONTROL_MAINPORT_SBUS:
 #if defined(PIOS_INCLUDE_SBUS)
 		{
-			uint32_t pios_usart_sbus_id;
+			uintptr_t pios_usart_sbus_id;
 			if (PIOS_USART_Init(&pios_usart_sbus_id, &pios_usart_sbus_main_cfg)) {
 				PIOS_Assert(0);
 			}
 
-			uint32_t pios_sbus_id;
+			uintptr_t pios_sbus_id;
 			if (PIOS_SBus_Init(&pios_sbus_id, &pios_sbus_cfg, &pios_usart_com_driver, pios_usart_sbus_id)) {
 				PIOS_Assert(0);
 			}
 
-			uint32_t pios_sbus_rcvr_id;
+			uintptr_t pios_sbus_rcvr_id;
 			if (PIOS_RCVR_Init(&pios_sbus_rcvr_id, &pios_sbus_rcvr_driver, pios_sbus_id)) {
 				PIOS_Assert(0);
 			}
@@ -447,7 +447,7 @@ void PIOS_Board_Init(void) {
 	case HWCOPTERCONTROL_MAINPORT_GPS:
 #if defined(PIOS_INCLUDE_GPS)
 		{
-			uint32_t pios_usart_generic_id;
+			uintptr_t pios_usart_generic_id;
 			if (PIOS_USART_Init(&pios_usart_generic_id, &pios_usart_generic_main_cfg)) {
 				PIOS_Assert(0);
 			}
@@ -483,12 +483,12 @@ void PIOS_Board_Init(void) {
 				break;
 			}
 
-			uint32_t pios_usart_dsm_id;
+			uintptr_t pios_usart_dsm_id;
 			if (PIOS_USART_Init(&pios_usart_dsm_id, &pios_usart_dsm_main_cfg)) {
 				PIOS_Assert(0);
 			}
 
-			uint32_t pios_dsm_id;
+			uintptr_t pios_dsm_id;
 			if (PIOS_DSM_Init(&pios_dsm_id,
 					  &pios_dsm_main_cfg,
 					  &pios_usart_com_driver,
@@ -497,7 +497,7 @@ void PIOS_Board_Init(void) {
 				PIOS_Assert(0);
 			}
 
-			uint32_t pios_dsm_rcvr_id;
+			uintptr_t pios_dsm_rcvr_id;
 			if (PIOS_RCVR_Init(&pios_dsm_rcvr_id, &pios_dsm_rcvr_driver, pios_dsm_id)) {
 				PIOS_Assert(0);
 			}
@@ -509,7 +509,7 @@ void PIOS_Board_Init(void) {
 #if defined(PIOS_INCLUDE_COM)
 #if defined(PIOS_INCLUDE_DEBUG_CONSOLE)
 		{
-			uint32_t pios_usart_generic_id;
+			uintptr_t pios_usart_generic_id;
 			if (PIOS_USART_Init(&pios_usart_generic_id, &pios_usart_generic_main_cfg)) {
 				PIOS_Assert(0);
 			}
@@ -527,7 +527,7 @@ void PIOS_Board_Init(void) {
 		break;
 	case HWCOPTERCONTROL_MAINPORT_COMBRIDGE:
 		{
-			uint32_t pios_usart_generic_id;
+			uintptr_t pios_usart_generic_id;
 			if (PIOS_USART_Init(&pios_usart_generic_id, &pios_usart_generic_main_cfg)) {
 				PIOS_Assert(0);
 			}
@@ -546,7 +546,7 @@ void PIOS_Board_Init(void) {
 	case HWCOPTERCONTROL_MAINPORT_MAVLINKTX:
 	#if defined(PIOS_INCLUDE_MAVLINK)
 			{
-				uint32_t pios_usart_generic_id;
+				uintptr_t pios_usart_generic_id;
 				if (PIOS_USART_Init(&pios_usart_generic_id, &pios_usart_generic_main_cfg)) {
 					PIOS_Assert(0);
 				}
@@ -565,7 +565,7 @@ void PIOS_Board_Init(void) {
 #if defined(PIOS_INCLUDE_GPS)
 #if defined(PIOS_INCLUDE_MAVLINK)
 	{
-		uint32_t pios_usart_generic_id;
+		uintptr_t pios_usart_generic_id;
 		if (PIOS_USART_Init(&pios_usart_generic_id, &pios_usart_generic_main_cfg)) {
 			PIOS_Assert(0);
 		}
@@ -594,7 +594,7 @@ void PIOS_Board_Init(void) {
 	case HWCOPTERCONTROL_FLEXIPORT_TELEMETRY:
 #if defined(PIOS_INCLUDE_TELEMETRY_RF)
 		{
-			uint32_t pios_usart_generic_id;
+			uintptr_t pios_usart_generic_id;
 			if (PIOS_USART_Init(&pios_usart_generic_id, &pios_usart_generic_flexi_cfg)) {
 				PIOS_Assert(0);
 			}
@@ -612,7 +612,7 @@ void PIOS_Board_Init(void) {
 		break;
 	case HWCOPTERCONTROL_FLEXIPORT_COMBRIDGE:
 		{
-			uint32_t pios_usart_generic_id;
+			uintptr_t pios_usart_generic_id;
 			if (PIOS_USART_Init(&pios_usart_generic_id, &pios_usart_generic_flexi_cfg)) {
 				PIOS_Assert(0);
 			}
@@ -631,7 +631,7 @@ void PIOS_Board_Init(void) {
 	case HWCOPTERCONTROL_FLEXIPORT_GPS:
 #if defined(PIOS_INCLUDE_GPS)
 		{
-			uint32_t pios_usart_generic_id;
+			uintptr_t pios_usart_generic_id;
 			if (PIOS_USART_Init(&pios_usart_generic_id, &pios_usart_generic_flexi_cfg)) {
 				PIOS_Assert(0);
 			}
@@ -666,12 +666,12 @@ void PIOS_Board_Init(void) {
 				break;
 			}
 
-			uint32_t pios_usart_dsm_id;
+			uintptr_t pios_usart_dsm_id;
 			if (PIOS_USART_Init(&pios_usart_dsm_id, &pios_usart_dsm_flexi_cfg)) {
 				PIOS_Assert(0);
 			}
 
-			uint32_t pios_dsm_id;
+			uintptr_t pios_dsm_id;
 			if (PIOS_DSM_Init(&pios_dsm_id,
 					  &pios_dsm_flexi_cfg,
 					  &pios_usart_com_driver,
@@ -680,7 +680,7 @@ void PIOS_Board_Init(void) {
 				PIOS_Assert(0);
 			}
 
-			uint32_t pios_dsm_rcvr_id;
+			uintptr_t pios_dsm_rcvr_id;
 			if (PIOS_RCVR_Init(&pios_dsm_rcvr_id, &pios_dsm_rcvr_driver, pios_dsm_id)) {
 				PIOS_Assert(0);
 			}
@@ -692,7 +692,7 @@ void PIOS_Board_Init(void) {
 #if defined(PIOS_INCLUDE_COM)
 #if defined(PIOS_INCLUDE_DEBUG_CONSOLE)
 		{
-			uint32_t pios_usart_generic_id;
+			uintptr_t pios_usart_generic_id;
 			if (PIOS_USART_Init(&pios_usart_generic_id, &pios_usart_generic_flexi_cfg)) {
 				PIOS_Assert(0);
 			}
@@ -718,7 +718,7 @@ void PIOS_Board_Init(void) {
 #endif	/* PIOS_INCLUDE_I2C */
 #if defined(PIOS_INCLUDE_PCF8591)
                 {
-                        uint32_t pcf8591_adc_id;
+                        uintptr_t pcf8591_adc_id;
                         if(PIOS_PCF8591_ADC_Init(&pcf8591_adc_id, &pios_8591_cfg) < 0)
                                 PIOS_Assert(0);
                         PIOS_ADC_Init(&pios_pcf8591_adc_id, &pios_pcf8591_adc_driver, pcf8591_adc_id);
@@ -728,7 +728,7 @@ void PIOS_Board_Init(void) {
 	case HWCOPTERCONTROL_FLEXIPORT_MAVLINKTX:
 	#if defined(PIOS_INCLUDE_MAVLINK)
 			{
-				uint32_t pios_usart_generic_id;
+				uintptr_t pios_usart_generic_id;
 				if (PIOS_USART_Init(&pios_usart_generic_id, &pios_usart_generic_flexi_cfg)) {
 					PIOS_Assert(0);
 				}
@@ -755,10 +755,10 @@ void PIOS_Board_Init(void) {
 	case HWCOPTERCONTROL_RCVRPORT_PWM:
 #if defined(PIOS_INCLUDE_PWM)
 		{
-			uint32_t pios_pwm_id;
+			uintptr_t pios_pwm_id;
 			PIOS_PWM_Init(&pios_pwm_id, &pios_pwm_cfg);
 
-			uint32_t pios_pwm_rcvr_id;
+			uintptr_t pios_pwm_rcvr_id;
 			if (PIOS_RCVR_Init(&pios_pwm_rcvr_id, &pios_pwm_rcvr_driver, pios_pwm_id)) {
 				PIOS_Assert(0);
 			}
@@ -770,10 +770,10 @@ void PIOS_Board_Init(void) {
 	case HWCOPTERCONTROL_RCVRPORT_PPMOUTPUTS:
 #if defined(PIOS_INCLUDE_PPM)
 		{
-			uint32_t pios_ppm_id;
+			uintptr_t pios_ppm_id;
 			PIOS_PPM_Init(&pios_ppm_id, &pios_ppm_cfg);
 
-			uint32_t pios_ppm_rcvr_id;
+			uintptr_t pios_ppm_rcvr_id;
 			if (PIOS_RCVR_Init(&pios_ppm_rcvr_id, &pios_ppm_rcvr_driver, pios_ppm_id)) {
 				PIOS_Assert(0);
 			}
@@ -785,10 +785,10 @@ void PIOS_Board_Init(void) {
 		/* This is a combination of PPM and PWM inputs */
 #if defined(PIOS_INCLUDE_PPM)
 		{
-			uint32_t pios_ppm_id;
+			uintptr_t pios_ppm_id;
 			PIOS_PPM_Init(&pios_ppm_id, &pios_ppm_cfg);
 
-			uint32_t pios_ppm_rcvr_id;
+			uintptr_t pios_ppm_rcvr_id;
 			if (PIOS_RCVR_Init(&pios_ppm_rcvr_id, &pios_ppm_rcvr_driver, pios_ppm_id)) {
 				PIOS_Assert(0);
 			}
@@ -797,10 +797,10 @@ void PIOS_Board_Init(void) {
 #endif	/* PIOS_INCLUDE_PPM */
 #if defined(PIOS_INCLUDE_PWM)
 		{
-			uint32_t pios_pwm_id;
+			uintptr_t pios_pwm_id;
 			PIOS_PWM_Init(&pios_pwm_id, &pios_pwm_with_ppm_cfg);
 
-			uint32_t pios_pwm_rcvr_id;
+			uintptr_t pios_pwm_rcvr_id;
 			if (PIOS_RCVR_Init(&pios_pwm_rcvr_id, &pios_pwm_rcvr_driver, pios_pwm_id)) {
 				PIOS_Assert(0);
 			}
@@ -812,9 +812,9 @@ void PIOS_Board_Init(void) {
 
 #if defined(PIOS_INCLUDE_GCSRCVR)
 	GCSReceiverInitialize();
-	uint32_t pios_gcsrcvr_id;
+	uintptr_t pios_gcsrcvr_id;
 	PIOS_GCSRCVR_Init(&pios_gcsrcvr_id);
-	uint32_t pios_gcsrcvr_rcvr_id;
+	uintptr_t pios_gcsrcvr_rcvr_id;
 	if (PIOS_RCVR_Init(&pios_gcsrcvr_rcvr_id, &pios_gcsrcvr_rcvr_driver, pios_gcsrcvr_id)) {
 		PIOS_Assert(0);
 	}

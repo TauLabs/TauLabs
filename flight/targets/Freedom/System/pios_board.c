@@ -157,7 +157,7 @@ static const struct pios_mpu60x0_cfg pios_mpu6000_cfg = {
  *  eg. PWM, PPM, GCS, SPEKTRUM1, SPEKTRUM2, SBUS
  * NOTE: No slot in this map for NONE.
  */
-uint32_t pios_rcvr_group_map[MANUALCONTROLSETTINGS_CHANNELGROUPS_NONE];
+uintptr_t pios_rcvr_group_map[MANUALCONTROLSETTINGS_CHANNELGROUPS_NONE];
 
 #define PIOS_COM_TELEM_RF_RX_BUF_LEN 512
 #define PIOS_COM_TELEM_RF_TX_BUF_LEN 512
@@ -196,7 +196,7 @@ uintptr_t pios_waypoints_settings_fs_id;
 static void PIOS_Board_configure_com (const struct pios_usart_cfg *usart_port_cfg, size_t rx_buf_len, size_t tx_buf_len,
 		const struct pios_com_driver *com_driver, uintptr_t *pios_com_id)
 {
-	uint32_t pios_usart_id;
+	uintptr_t pios_usart_id;
 	if (PIOS_USART_Init(&pios_usart_id, usart_port_cfg)) {
 		PIOS_Assert(0);
 	}
@@ -229,18 +229,18 @@ static void PIOS_Board_configure_dsm(const struct pios_usart_cfg *pios_usart_dsm
 		const struct pios_com_driver *pios_usart_com_driver,enum pios_dsm_proto *proto, 
 		ManualControlSettingsChannelGroupsOptions channelgroup,uint8_t *bind)
 {
-	uint32_t pios_usart_dsm_id;
+	uintptr_t pios_usart_dsm_id;
 	if (PIOS_USART_Init(&pios_usart_dsm_id, pios_usart_dsm_cfg)) {
 		PIOS_Assert(0);
 	}
 	
-	uint32_t pios_dsm_id;
+	uintptr_t pios_dsm_id;
 	if (PIOS_DSM_Init(&pios_dsm_id, pios_dsm_cfg, pios_usart_com_driver,
 			pios_usart_dsm_id, *proto, *bind)) {
 		PIOS_Assert(0);
 	}
 	
-	uint32_t pios_dsm_rcvr_id;
+	uintptr_t pios_dsm_rcvr_id;
 	if (PIOS_RCVR_Init(&pios_dsm_rcvr_id, &pios_dsm_rcvr_driver, pios_dsm_id)) {
 		PIOS_Assert(0);
 	}
@@ -374,7 +374,7 @@ void PIOS_Board_Init(void) {
 	usb_hid_present = true;
 #endif
 
-	uint32_t pios_usb_id;
+	uintptr_t pios_usb_id;
 	PIOS_USB_Init(&pios_usb_id, PIOS_BOARD_HW_DEFS_GetUsbCfg(bdinfo->board_rev));
 
 #if defined(PIOS_INCLUDE_USB_CDC)
@@ -388,7 +388,7 @@ void PIOS_Board_Init(void) {
 		hw_usb_vcpport = HWFREEDOM_USB_VCPPORT_DISABLED;
 	}
 
-	uint32_t pios_usb_cdc_id;
+	uintptr_t pios_usb_cdc_id;
 	if (PIOS_USB_CDC_Init(&pios_usb_cdc_id, &pios_usb_cdc_cfg, pios_usb_id)) {
 		PIOS_Assert(0);
 	}
@@ -455,7 +455,7 @@ void PIOS_Board_Init(void) {
 		hw_usb_hidport = HWFREEDOM_USB_HIDPORT_DISABLED;
 	}
 
-	uint32_t pios_usb_hid_id;
+	uintptr_t pios_usb_hid_id;
 	if (PIOS_USB_HID_Init(&pios_usb_hid_id, &pios_usb_hid_cfg, pios_usb_id)) {
 		PIOS_Assert(0);
 	}
@@ -659,10 +659,10 @@ void PIOS_Board_Init(void) {
 			break;
 		case HWFREEDOM_RCVRPORT_PPM:
 		{
-			uint32_t pios_ppm_id;
+			uintptr_t pios_ppm_id;
 			PIOS_PPM_Init(&pios_ppm_id, &pios_ppm_cfg);
 			
-			uint32_t pios_ppm_rcvr_id;
+			uintptr_t pios_ppm_rcvr_id;
 			if (PIOS_RCVR_Init(&pios_ppm_rcvr_id, &pios_ppm_rcvr_driver, pios_ppm_id)) {
 				PIOS_Assert(0);
 			}
@@ -697,17 +697,17 @@ void PIOS_Board_Init(void) {
 		case HWFREEDOM_RCVRPORT_SBUS:
 #if defined(PIOS_INCLUDE_SBUS)
             {
-                    uint32_t pios_usart_sbus_id;
+                    uintptr_t pios_usart_sbus_id;
                     if (PIOS_USART_Init(&pios_usart_sbus_id, &pios_usart_sbus_rcvr_cfg)) {
                             PIOS_Assert(0);
                     }
 
-                    uint32_t pios_sbus_id;
+                    uintptr_t pios_sbus_id;
                     if (PIOS_SBus_Init(&pios_sbus_id, &pios_sbus_cfg, &pios_usart_com_driver, pios_usart_sbus_id)) {
                             PIOS_Assert(0);
                     }
 
-                    uint32_t pios_sbus_rcvr_id;
+                    uintptr_t pios_sbus_rcvr_id;
                     if (PIOS_RCVR_Init(&pios_sbus_rcvr_id, &pios_sbus_rcvr_driver, pios_sbus_id)) {
                             PIOS_Assert(0);
                     }
@@ -759,9 +759,9 @@ void PIOS_Board_Init(void) {
 
 #if defined(PIOS_INCLUDE_GCSRCVR)
 	GCSReceiverInitialize();
-	uint32_t pios_gcsrcvr_id;
+	uintptr_t pios_gcsrcvr_id;
 	PIOS_GCSRCVR_Init(&pios_gcsrcvr_id);
-	uint32_t pios_gcsrcvr_rcvr_id;
+	uintptr_t pios_gcsrcvr_rcvr_id;
 	if (PIOS_RCVR_Init(&pios_gcsrcvr_rcvr_id, &pios_gcsrcvr_rcvr_driver, pios_gcsrcvr_id)) {
 		PIOS_Assert(0);
 	}
