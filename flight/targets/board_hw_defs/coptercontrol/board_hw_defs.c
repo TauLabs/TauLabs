@@ -457,8 +457,6 @@ uintptr_t pios_external_flash_id;
  * Must not be const on CC/CC3D since it needs to be replaced at run-time depending
  * on which board we're booting on.
  */
-static struct pios_flash_chip pios_flash_chip_external;
-
 static const struct pios_flash_sector_range m25p16_sectors[] = {
 	{
 		.base_sector = 0,
@@ -491,7 +489,7 @@ static const struct pios_flash_chip pios_flash_chip_w25x40 = {
 	.num_blocks    = NELEMENTS(w25x40_sectors),
 };
 
-static const struct pios_flash_partition pios_flash_partition_table[] = {
+static const struct pios_flash_partition pios_flash_partition_table_w25x40[] = {
 	{
 		.label        = FLASH_PARTITION_LABEL_BL,
 		.chip_desc    = &pios_flash_chip_internal,
@@ -508,14 +506,44 @@ static const struct pios_flash_partition pios_flash_partition_table[] = {
 
 	{
 		.label        = FLASH_PARTITION_LABEL_SETTINGS,
-		.chip_desc    = &pios_flash_chip_external,
+		.chip_desc    = &pios_flash_chip_w25x40,
+		.first_sector = 0,
+		.last_sector  = 63,
+	},
+
+	{
+		.label        = FLASH_PARTITION_LABEL_WAYPOINTS,
+		.chip_desc    = &pios_flash_chip_w25x40,
+		.first_sector = 64,
+		.last_sector  = 128,
+	},
+};
+
+static const struct pios_flash_partition pios_flash_partition_table_m25p16[] = {
+	{
+		.label        = FLASH_PARTITION_LABEL_BL,
+		.chip_desc    = &pios_flash_chip_internal,
+		.first_sector = 0,
+		.last_sector  = 11,
+	},
+
+	{
+		.label        = FLASH_PARTITION_LABEL_FW,
+		.chip_desc    = &pios_flash_chip_internal,
+		.first_sector = 12,
+		.last_sector  = 127,
+	},
+
+	{
+		.label        = FLASH_PARTITION_LABEL_SETTINGS,
+		.chip_desc    = &pios_flash_chip_m25p16,
 		.first_sector = 0,
 		.last_sector  = 16,
 	},
 
 	{
 		.label        = FLASH_PARTITION_LABEL_WAYPOINTS,
-		.chip_desc    = &pios_flash_chip_external,
+		.chip_desc    = &pios_flash_chip_m25p16,
 		.first_sector = 17,
 		.last_sector  = 31,
 	},
