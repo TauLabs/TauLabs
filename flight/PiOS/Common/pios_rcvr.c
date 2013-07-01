@@ -11,7 +11,7 @@ enum pios_rcvr_dev_magic {
 
 struct pios_rcvr_dev {
   enum pios_rcvr_dev_magic        magic;
-  uint32_t                        lower_id;
+  uintptr_t                       lower_id;
   const struct pios_rcvr_driver * driver;
 };
 
@@ -56,7 +56,7 @@ static struct pios_rcvr_dev * PIOS_RCVR_alloc(void)
   * \param[in] id
   * \return < 0 if initialisation failed
   */
-int32_t PIOS_RCVR_Init(uint32_t * rcvr_id, const struct pios_rcvr_driver * driver, uint32_t lower_id)
+int32_t PIOS_RCVR_Init(uintptr_t * rcvr_id, const struct pios_rcvr_driver * driver, uintptr_t lower_id)
 {
   PIOS_DEBUG_Assert(rcvr_id);
   PIOS_DEBUG_Assert(driver);
@@ -69,7 +69,7 @@ int32_t PIOS_RCVR_Init(uint32_t * rcvr_id, const struct pios_rcvr_driver * drive
   rcvr_dev->driver   = driver;
   rcvr_dev->lower_id = lower_id;
 
-  *rcvr_id = (uint32_t)rcvr_dev;
+  *rcvr_id = (uintptr_t)rcvr_dev;
   return(0);
 
 out_fail:
@@ -85,7 +85,7 @@ out_fail:
  *  @retval PIOS_RCVR_INVALID invalid channel for this driver (usually out of range supported)
  *  @retval PIOS_RCVR_NODRIVER driver was not initialized
  */
-int32_t PIOS_RCVR_Read(uint32_t rcvr_id, uint8_t channel)
+int32_t PIOS_RCVR_Read(uintptr_t rcvr_id, uint8_t channel)
 {
 	// Publicly facing API uses channel 1 for first channel
 	if(channel == 0)
