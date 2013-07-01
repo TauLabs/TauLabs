@@ -210,7 +210,7 @@ int32_t transmitter_control_update()
 
 		// If a channel has timed out this is not valid data and we shouldn't update anything
 		// until we decide to go to failsafe
-		if(cmd.Channel[n] == PIOS_RCVR_TIMEOUT)
+		if(cmd.Channel[n] == (uint16_t) PIOS_RCVR_TIMEOUT)
 			valid_input_detected = false;
 		else
 			scaledChannel[n] = scaleChannel(cmd.Channel[n], settings.ChannelMax[n],	settings.ChannelMin[n], settings.ChannelNeutral[n]);
