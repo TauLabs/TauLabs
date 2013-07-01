@@ -38,8 +38,8 @@
 static GCSReceiverData gcsreceiverdata;
 
 /* Provide a RCVR driver */
-static int32_t PIOS_GCSRCVR_Get(uint32_t rcvr_id, uint8_t channel);
-static void PIOS_gcsrcvr_Supervisor(uint32_t ppm_id);
+static int32_t PIOS_GCSRCVR_Get(uintptr_t rcvr_id, uint8_t channel);
+static void PIOS_gcsrcvr_Supervisor(uintptr_t rcvr_id);
 
 const struct pios_rcvr_driver pios_gcsrcvr_rcvr_driver = {
 	.read = PIOS_GCSRCVR_Get,
@@ -112,7 +112,7 @@ static void gcsreceiver_updated(UAVObjEvent * ev)
 	}
 }
 
-extern int32_t PIOS_GCSRCVR_Init(uint32_t *gcsrcvr_id)
+extern int32_t PIOS_GCSRCVR_Init(uintptr_t *gcsrcvr_id)
 {
 	struct pios_gcsrcvr_dev *gcsrcvr_dev;
 
@@ -130,7 +130,7 @@ extern int32_t PIOS_GCSRCVR_Init(uint32_t *gcsrcvr_id)
 	GCSReceiverConnectCallback (gcsreceiver_updated);
 
 	/* Register the failsafe timer callback. */
-	if (!PIOS_RTC_RegisterTickCallback(PIOS_gcsrcvr_Supervisor, (uint32_t)gcsrcvr_dev)) {
+	if (!PIOS_RTC_RegisterTickCallback(PIOS_gcsrcvr_Supervisor, (uintptr_t)gcsrcvr_dev)) {
 		PIOS_DEBUG_Assert(0);
 	}
 
@@ -144,7 +144,7 @@ extern int32_t PIOS_GCSRCVR_Init(uint32_t *gcsrcvr_id)
  * \output PIOS_RCVR_TIMEOUT failsafe condition or missing receiver
  * \output >=0 channel value
  */
-static int32_t PIOS_GCSRCVR_Get(uint32_t rcvr_id, uint8_t channel)
+static int32_t PIOS_GCSRCVR_Get(uintptr_t rcvr_id, uint8_t channel)
 {
 	if (channel >= GCSRECEIVER_CHANNEL_NUMELEM) {
 		/* channel is out of range */
@@ -154,7 +154,7 @@ static int32_t PIOS_GCSRCVR_Get(uint32_t rcvr_id, uint8_t channel)
 	return (gcsreceiverdata.Channel[channel]);
 }
 
-static void PIOS_gcsrcvr_Supervisor(uint32_t gcsrcvr_id) {
+static void PIOS_gcsrcvr_Supervisor(uintptr_t gcsrcvr_id) {
 	/* Recover our device context */
 	struct pios_gcsrcvr_dev * gcsrcvr_dev = (struct pios_gcsrcvr_dev *)gcsrcvr_id;
 
