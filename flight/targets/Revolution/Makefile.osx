@@ -114,12 +114,14 @@ OPSYSTEM = ./System
 OPSYSTEMINC = $(OPSYSTEM)/inc
 OPUAVTALKINC = $(OPUAVTALK)/inc
 OPUAVOBJINC = $(OPUAVOBJ)/inc
-OPTESTS  = ./Tests
+PIOSINC = $(PIOS)/inc
 FLIGHTLIBINC = $(FLIGHTLIB)/inc
 MATHLIB = $(FLIGHTLIB)/math
 MATHLIBINC = $(MATHLIB)
-PIOSINC = $(PIOS)/inc
 PIOSPOSIX = $(PIOS)/osx
+PIOSCOMMON = $(TOP)/flight/PiOS/Common
+PIOSBOARDS = $(PIOS)/Boards
+PIOSPOSIXLIB = $(PIOSPOSIX)/Libraries
 APPLIBDIR = $(PIOSPOSIX)/Libraries
 RTOSDIR = $(APPLIBDIR)/FreeRTOS
 RTOSSRCDIR = $(RTOSDIR)/Source
@@ -165,29 +167,30 @@ UAVOBJDEFINE = $(foreach UAVOBJSRCFILE,$(UAVOBJSRCFILENAMES),-DUAVOBJ_INIT_$(UAV
 SRC += $(UAVOBJSRC)
 CFLAGS_UAVOBJECTS = $(UAVOBJDEFINE)
 
-## PIOS Hardware (posix)
-SRC += $(PIOSPOSIX)/pios_flash.c
-SRC += $(PIOSPOSIX)/pios_flashfs_logfs.c
-SRC += $(PIOSPOSIX)/pios_crc.c
-SRC += $(PIOSPOSIX)/pios_sys.c
-SRC += $(PIOSPOSIX)/pios_led.c
-SRC += $(PIOSPOSIX)/pios_irq.c
+SRC += $(PIOSCOMMON)/pios_com.c
+SRC += $(PIOSCOMMON)/pios_crc.c
+SRC += $(PIOSCOMMON)/pios_flash.c
+SRC += $(PIOSCOMMON)/pios_flashfs_logfs.c
+SRC += $(PIOSCOMMON)/pios_rcvr.c
+SRC += $(PIOSCOMMON)/pios_sensors.c
+SRC += $(PIOSCOMMON)/pios_board_info.c
+
+SRC += $(PIOSPOSIX)/pios_gcsrcvr.c
 SRC += $(PIOSPOSIX)/pios_delay.c
-SRC += $(PIOSPOSIX)/pios_sdcard.c
-SRC += $(PIOSPOSIX)/pios_udp.c
-SRC += $(PIOSPOSIX)/pios_tcp.c
-SRC += $(PIOSPOSIX)/pios_com.c
-SRC += $(PIOSPOSIX)/pios_servo.c
-SRC += $(PIOSPOSIX)/pios_sensors.c
+SRC += $(PIOSPOSIX)/pios_led.c
+SRC += $(PIOSPOSIX)/pios_sim.c
 SRC += $(PIOSPOSIX)/pios_wdg.c
-SRC += $(PIOSPOSIX)/pios_debug.c
 SRC += $(PIOSPOSIX)/pios_bl_helper.c
 SRC += $(PIOSPOSIX)/pios_iap.c
-SRC += $(PIOSPOSIX)/pios_board_info.c
-SRC += $(PIOSPOSIX)/../../tests/logfs/pios_flash_posix.c
+SRC += $(PIOSPOSIX)/pios_servo.c
+SRC += $(PIOSPOSIX)/pios_sys.c
+SRC += $(PIOSPOSIX)/pios_tcp.c
+SRC += $(PIOSPOSIX)/pios_debug.c
 
-SRC += $(PIOSPOSIX)/pios_rcvr.c
-SRC += $(PIOSPOSIX)/pios_gcsrcvr.c
+EXTRAINCDIRS += $(PIOSCOMMON)/inc
+
+## PIOS Hardware (Common)
+SRC += $(PIOSPOSIX)/../../tests/logfs/pios_flash_posix.c
 
 ## Libraries for flight calculations
 SRC += $(FLIGHTLIB)/fifo_buffer.c
@@ -231,21 +234,30 @@ CPPSRCARM =
 # List any extra directories to look for include files here.
 #    Each directory must be seperated by a space.
 EXTRAINCDIRS  += $(SHAREDAPIDIR)
-EXTRAINCDIRS  += $(OPSYSTEM)
 EXTRAINCDIRS  += $(OPSYSTEMINC)
+EXTRAINCDIRS  += $(PIOS)
+EXTRAINCDIRS  += $(PIOSINC)
+EXTRAINCDIRS  += $(TOP)/flight/PiOS/inc
 EXTRAINCDIRS  += $(OPUAVTALK)
 EXTRAINCDIRS  += $(OPUAVTALKINC)
 EXTRAINCDIRS  += $(OPUAVOBJ)
 EXTRAINCDIRS  += $(OPUAVOBJINC)
 EXTRAINCDIRS  += $(UAVOBJSYNTHDIR)
-EXTRAINCDIRS  += $(PIOS)
-EXTRAINCDIRS  += $(PIOSINC)
 EXTRAINCDIRS  += $(FLIGHTLIBINC)
 EXTRAINCDIRS  += $(MATHLIBINC)
-EXTRAINCDIRS  += $(FLIGTH)
+
+EXTRAINCDIRS  += $(PIOSCOMMON)
+EXTRAINCDIRS  += $(PIOSBOARDS)
+
+EXTRAINCDIRS  += $(CMSISDIR)
+EXTRAINCDIRS  += $(BOOTINC)
+EXTRAINCDIRS  += $(PYMITEINC)
+EXTRAINCDIRS  += $(HWDEFSINC)
+
+EXTRAINCDIRS  += $(OPSYSTEM)
 EXTRAINCDIRS  += $(PIOSPOSIX)
 EXTRAINCDIRS  += $(RTOSINCDIR)
-EXTRAINCDIRS  += $(APPLIBDIR)
+#EXTRAINCDIRS  += $(APPLIBDIR)
 EXTRAINCDIRS  += $(RTOSSRCDIR)/portable/GCC/Posix
 
 EXTRAINCDIRS += ${foreach MOD, ${OPTMODULES} ${MODULES} ${PYMODULES}, $(OPMODULEDIR)/${MOD}/inc} ${OPMODULEDIR}/System/inc
