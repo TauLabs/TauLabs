@@ -35,7 +35,7 @@
 #if defined(PIOS_INCLUDE_PPM)
 
 /* Provide a RCVR driver */
-static int32_t PIOS_PPM_Get(uint32_t rcvr_id, uint8_t channel);
+static int32_t PIOS_PPM_Get(uintptr_t rcvr_id, uint8_t channel);
 
 const struct pios_rcvr_driver pios_ppm_rcvr_driver = {
 	.read = PIOS_PPM_Get,
@@ -51,7 +51,7 @@ const struct pios_rcvr_driver pios_ppm_rcvr_driver = {
 /* Local Variables */
 static TIM_ICInitTypeDef TIM_ICInitStructure;
 
-static void PIOS_PPM_Supervisor(uint32_t ppm_id);
+static void PIOS_PPM_Supervisor(uintptr_t ppm_id);
 
 enum pios_ppm_dev_magic {
 	PIOS_PPM_DEV_MAGIC = 0xee014d8b,
@@ -111,14 +111,14 @@ static struct pios_ppm_dev * PIOS_PPM_alloc(void)
 }
 #endif
 
-static void PIOS_PPM_tim_overflow_cb (uint32_t id, uint32_t context, uint8_t channel, uint16_t count);
-static void PIOS_PPM_tim_edge_cb (uint32_t id, uint32_t context, uint8_t channel, uint16_t count);
+static void PIOS_PPM_tim_overflow_cb (uintptr_t id, uintptr_t context, uint8_t channel, uint16_t count);
+static void PIOS_PPM_tim_edge_cb (uintptr_t id, uintptr_t context, uint8_t channel, uint16_t count);
 const static struct pios_tim_callbacks tim_callbacks = {
 	.overflow = PIOS_PPM_tim_overflow_cb,
 	.edge     = PIOS_PPM_tim_edge_cb,
 };
 
-extern int32_t PIOS_PPM_Init(uint32_t * ppm_id, const struct pios_ppm_cfg * cfg)
+extern int32_t PIOS_PPM_Init(uintptr_t * ppm_id, const struct pios_ppm_cfg * cfg)
 {
 	PIOS_DEBUG_Assert(ppm_id);
 	PIOS_DEBUG_Assert(cfg);
@@ -150,8 +150,8 @@ extern int32_t PIOS_PPM_Init(uint32_t * ppm_id, const struct pios_ppm_cfg * cfg)
 
 	}
 
-	uint32_t tim_id;
-	if (PIOS_TIM_InitChannels(&tim_id, cfg->channels, cfg->num_channels, &tim_callbacks, (uint32_t)ppm_dev)) {
+	uintptr_t tim_id;
+	if (PIOS_TIM_InitChannels(&tim_id, cfg->channels, cfg->num_channels, &tim_callbacks, (uintptr_t)ppm_dev)) {
 		return -1;
 	}
 
@@ -187,11 +187,11 @@ extern int32_t PIOS_PPM_Init(uint32_t * ppm_id, const struct pios_ppm_cfg * cfg)
 	TIM_ICInitStructure.TIM_ICPrescaler = TIM_ICPSC_DIV1;
 	TIM_ICInitStructure.TIM_ICFilter = 0x0;
 
-	if (!PIOS_RTC_RegisterTickCallback(PIOS_PPM_Supervisor, (uint32_t)ppm_dev)) {
+	if (!PIOS_RTC_RegisterTickCallback(PIOS_PPM_Supervisor, (uintptr_t)ppm_dev)) {
 		PIOS_DEBUG_Assert(0);
 	}
 
-	*ppm_id = (uint32_t)ppm_dev;
+	*ppm_id = (uintptr_t)ppm_dev;
 
 	return(0);
 
@@ -206,7 +206,7 @@ out_fail:
  * \output PIOS_RCVR_TIMEOUT failsafe condition or missing receiver
  * \output >=0 channel value
  */
-static int32_t PIOS_PPM_Get(uint32_t rcvr_id, uint8_t channel)
+static int32_t PIOS_PPM_Get(uintptr_t rcvr_id, uint8_t channel)
 {
 	struct pios_ppm_dev * ppm_dev = (struct pios_ppm_dev *)rcvr_id;
 
@@ -222,7 +222,7 @@ static int32_t PIOS_PPM_Get(uint32_t rcvr_id, uint8_t channel)
 	return ppm_dev->CaptureValue[channel];
 }
 
-static void PIOS_PPM_tim_overflow_cb (uint32_t tim_id, uint32_t context, uint8_t channel, uint16_t count)
+static void PIOS_PPM_tim_overflow_cb (uintptr_t tim_id, uintptr_t context, uint8_t channel, uint16_t count)
 {
 	struct pios_ppm_dev * ppm_dev = (struct pios_ppm_dev *)context;
 
@@ -237,7 +237,7 @@ static void PIOS_PPM_tim_overflow_cb (uint32_t tim_id, uint32_t context, uint8_t
 }
 
 
-static void PIOS_PPM_tim_edge_cb (uint32_t tim_id, uint32_t context, uint8_t chan_idx, uint16_t count)
+static void PIOS_PPM_tim_edge_cb (uintptr_t tim_id, uintptr_t context, uint8_t chan_idx, uint16_t count)
 {
 	/* Recover our device context */
 	struct pios_ppm_dev * ppm_dev = (struct pios_ppm_dev *)context;
@@ -320,7 +320,7 @@ static void PIOS_PPM_tim_edge_cb (uint32_t tim_id, uint32_t context, uint8_t cha
 	}
 }
 
-static void PIOS_PPM_Supervisor(uint32_t ppm_id) {
+static void PIOS_PPM_Supervisor(uintptr_t ppm_id) {
 	/* Recover our device context */
 	struct pios_ppm_dev * ppm_dev = (struct pios_ppm_dev *)ppm_id;
 
