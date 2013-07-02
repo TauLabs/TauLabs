@@ -151,6 +151,7 @@ void PIOS_Brushless_SetUpdateRate(uint32_t rate)
 			TIM_TimeBaseStructure.TIM_Period = 1200; //((36000000 / rate));
 			TIM_TimeBaseInit(chan->timer, &TIM_TimeBaseStructure);
 		}
+
 	}
 	*/
 	// Set some default reasonable parameters
@@ -166,8 +167,8 @@ void PIOS_Brushless_SetUpdateRate(uint32_t rate)
 */
 void PIOS_Brushless_SetSpeed(uint32_t channel, float speed, float dT)
 {
-	// TODO: Store the speed for that output in a structure and
-	// use the timer overflow event to time incrementing
+	if (channel >= NUM_BGC_CHANNELS)
+		return; // TODO: add error code
 
 	// Limit the slew rate 
 	float diff = bound_sym(speed - speeds[channel], accel_limit[channel] * dT);
@@ -210,9 +211,13 @@ void PIOS_Brushless_SetMaxAcceleration(float roll, float pitch, float yaw)
  */
 static int32_t PIOS_Brushless_SetPhase(uint32_t channel, float phase_deg)
 {
-	/* Make sure all the channels exist */
-	if (!brushless_cfg || (3 * (channel + 1)) > brushless_cfg->num_channels) {
+	/* Make sure a valid channel */
+	if (channel >= NUM_BGC_CHANNELS)
 		return -1;
+
+	/* Check enough outputs are registered */
+	if (!brushless_cfg || (3 * (channel + 1)) > brushless_cfg->num_channels) {
+		return -2;
 	}
 
 	// Get the first output index
