@@ -429,7 +429,7 @@ int32_t PIOS_MS5611_Test()
 static void PIOS_MS5611_Task(void *parameters)
 {
 	// init this to 1 in order to force a temperature read on the first run
-	int32_t temp_press_interleave_count = 1;
+	uint32_t temp_press_interleave_count = 1;
 
 	while (1) {
 
