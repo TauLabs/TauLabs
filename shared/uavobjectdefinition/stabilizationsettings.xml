@@ -15,11 +15,6 @@
 	<field name="PitchPI" units="" type="float" elementnames="Kp,Ki,ILimit" defaultvalue="2,0,50" limits="%BE:0:10,%BE:0:10,"/>
 	<field name="YawPI" units="" type="float" elementnames="Kp,Ki,ILimit" defaultvalue="2,0,50" limits="%BE:0:10,%BE:0:10,"/>
 
-	<!-- These settings are used for the AttitudePID mode -->
-	<field name="RollPID" units="" type="float" elementnames="Kp,Ki,Kd,ILimit" defaultvalue="0.01,0,0,50" limits="%BE:0:10,%BE:0:10,"/>
-	<field name="PitchPID" units="" type="float" elementnames="Kp,Ki,Kd,ILimit" defaultvalue="0.01,0,0,50" limits="%BE:0:10,%BE:0:10,"/>
-	<field name="YawPID" units="" type="float" elementnames="Kp,Ki,Kd,ILimit" defaultvalue="0.01,0,0,50" limits="%BE:0:10,%BE:0:10,"/>
-
 	<field name="VbarSensitivity" units="frac" type="float" elementnames="Roll,Pitch,Yaw" defaultvalue="0.5,0.5,0.5"/>
 	<field name="VbarRollPID" units="1/(deg/s)" type="float" elementnames="Kp,Ki,Kd" defaultvalue="0.005,0.002,0"/>
 	<field name="VbarPitchPID" units="1/(deg/s)" type="float" elementnames="Kp,Ki,Kd" defaultvalue="0.005,0.002,0"/>

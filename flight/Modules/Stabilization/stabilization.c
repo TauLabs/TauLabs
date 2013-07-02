@@ -314,7 +314,6 @@ static void stabilizationTask(void* parameters)
 
 				case STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDEPLUS:
 				case STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDE:
-
 					if(reinit) {
 						pids[PID_ATT_ROLL + i].iAccumulator = 0;
 						pids[PID_RATE_ROLL + i].iAccumulator = 0;
@@ -327,20 +326,6 @@ static void stabilizationTask(void* parameters)
 					// Compute the inner loop
 					actuatorDesiredAxis[i] = pid_apply_setpoint(&pids[PID_RATE_ROLL + i],  rateDesiredAxis[i],  gyro_filtered[i], dT);
 					actuatorDesiredAxis[i] = bound_sym(actuatorDesiredAxis[i],1.0f);
-
-					break;
-
-				case STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDEPID:
-
-					if(reinit) {
-						pids[PID_ATT_ROLL + i].iAccumulator = 0;
-						pids[PID_RATE_ROLL + i].iAccumulator = 0;
-					}
-
-					// Compute the outer loop
-					rateDesiredAxis[i] = pid_apply(&pids[PID_ATT_ROLL + i], local_error[i], dT);
-					rateDesiredAxis[i] = bound(rateDesiredAxis[i], settings.MaximumRate[i]);
-					actuatorDesiredAxis[i] = bound(rateDesiredAxis[i], 1);
 
 					break;
 
