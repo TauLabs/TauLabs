@@ -882,7 +882,8 @@ void PIOS_Board_Init(void) {
 #endif
 
 #ifdef PIOS_INCLUDE_BRUSHLESS
-	PIOS_Brushless_Init(&pios_brushless_cfg);
+	if (PIOS_Brushless_Init(&pios_brushless_cfg) != 0)
+		panic(8);
 #endif
 
 #else
