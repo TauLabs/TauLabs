@@ -211,7 +211,7 @@ static void attitudeUpdated(UAVObjEvent* ev)
 					break;
 				case CAMERASTABSETTINGS_STABILIZATIONMODE_AXISLOCK:
 					input_rate = accessory.AccessoryVal * settings->InputRate[i];
-					if (fabs(input_rate) > settings->MaxAxisLockRate)
+					if (fabsf(input_rate) > settings->MaxAxisLockRate)
 						csd->inputs[i] = bound_sym(csd->inputs[i] + input_rate * dT_ms / 1000.0f, settings->InputRange[i]);
 					break;
 				default:
@@ -249,8 +249,8 @@ static void attitudeUpdated(UAVObjEvent* ev)
 			float distance = sqrtf(powf(dLoc[0], 2) + powf(dLoc[1], 2));
 			float pitch = atan2f(-dLoc[2], distance) * RAD2DEG;
 			float yaw = atan2f(dLoc[1], dLoc[0]) * RAD2DEG;
-			if (yaw < 0)
-				yaw += 360.0;
+			if (yaw < 0.0f)
+				yaw += 360.0f;
 
 			// Store the absolute declination relative to UAV
 			CameraDesiredDeclinationSet(&pitch);
@@ -323,7 +323,7 @@ static void applyFF(uint8_t index, float dT_ms, float *attitude, CameraStabSetti
 	//acceleration and deceleration limit
 	float delta = *attitude - csd->FFlastFilteredAttitude[index];
 	float maxDelta = cameraStab->MaxAccel * dT_ms / 1000.0f;
-	if(fabs(delta) > maxDelta) //we are accelerating too hard
+	if(fabsf(delta) > maxDelta) //we are accelerating too hard
 	{
 		*attitude = csd->FFlastFilteredAttitude[index] + (delta > 0 ? maxDelta : - maxDelta);
 	}
