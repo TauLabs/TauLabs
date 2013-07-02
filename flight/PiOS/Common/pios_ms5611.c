@@ -80,9 +80,6 @@ struct ms5611_dev {
 	int64_t temperature_unscaled;
 	uint16_t calibration[6];
 	enum conversion_type current_conversion_type;
-	enum pios_ms5611_osr oversampling;
-	uint32_t temperature_interleaving;
-	int32_t ms5611_read_flag;
 	enum pios_ms5611_dev_magic magic;
 
 #if defined(PIOS_INCLUDE_FREERTOS)
@@ -110,9 +107,18 @@ static struct ms5611_dev * PIOS_MS5611_alloc(void)
 		return NULL;
 	}
 
+	memset(ms5611_dev, 0, sizeof(ms5611_dev));
+
 	ms5611_dev->magic = PIOS_MS5611_DEV_MAGIC;
+
+#if defined(PIOS_INCLUDE_FREERTOS)
+	vSemaphoreCreateBinary(ms5611_dev->busy);
+	PIOS_Assert(ms5611_dev->busy != NULL);
+#else
+	ms5611_dev->busy = false;
+#endif
 	
-	return(ms5611_dev);
+	return ms5611_dev;
 }
 
 /**
@@ -140,24 +146,12 @@ int32_t PIOS_MS5611_Init(const struct pios_ms5611_cfg *cfg, int32_t i2c_device)
 		return -1;
 
 	dev->i2c_id = i2c_device;
-
-	dev->oversampling = cfg->oversampling;
-	dev->temperature_interleaving = (cfg->temperature_interleaving) == 0 ? 1 : cfg->temperature_interleaving;
 	dev->cfg = cfg;
-
-#if defined(PIOS_INCLUDE_FREERTOS)
-	vSemaphoreCreateBinary(dev->busy);
-	PIOS_Assert(dev->busy != NULL);
-
-	xSemaphoreGive(dev->busy);
-#else
-	dev->busy = false;
-#endif
 
 	if (PIOS_MS5611_WriteCommand(MS5611_RESET) != 0)
 		return -2;
 
-	PIOS_DELAY_WaitmS(20);			
+	PIOS_DELAY_WaitmS(20);
 
 	uint8_t data[2];
 
@@ -167,12 +161,12 @@ int32_t PIOS_MS5611_Init(const struct pios_ms5611_cfg *cfg, int32_t i2c_device)
 		dev->calibration[i] = (data[0] << 8) | data[1];
 	}
 
+	PIOS_SENSORS_Register(PIOS_SENSOR_BARO, dev->queue);
+
 	portBASE_TYPE result = xTaskCreate(PIOS_MS5611_Task, (const signed char *)"pios_ms5611",
 						 MS5611_TASK_STACK, NULL, MS5611_TASK_PRIORITY,
 						 &dev->task);
 	PIOS_Assert(result == pdPASS);
-
-	PIOS_SENSORS_Register(PIOS_SENSOR_BARO, dev->queue);
 
 	return 0;
 }
@@ -184,8 +178,7 @@ int32_t PIOS_MS5611_Init(const struct pios_ms5611_cfg *cfg, int32_t i2c_device)
  */
 static int32_t PIOS_MS5611_ClaimDevice()
 {
-	bool valid = PIOS_MS5611_Validate(dev);
-	PIOS_Assert(valid);
+	PIOS_Assert(PIOS_MS5611_Validate(dev) == 0);
 
 #if defined(PIOS_INCLUDE_FREERTOS)
 	if (xSemaphoreTake(dev->busy, 0xffff) != pdTRUE)
@@ -211,10 +204,9 @@ static int32_t PIOS_MS5611_ClaimDevice()
  * Release the MS5611 device semaphore.
  * \return 0 if no error
  */
-int32_t PIOS_MS5611_ReleaseDevice()
+static int32_t PIOS_MS5611_ReleaseDevice()
 {
-	bool valid = PIOS_MS5611_Validate(dev);
-	PIOS_Assert(valid);
+	PIOS_Assert(PIOS_MS5611_Validate(dev) == 0);
 
 #if defined(PIOS_INCLUDE_FREERTOS)
 	xSemaphoreGive(dev->busy);
@@ -239,11 +231,11 @@ static int32_t PIOS_MS5611_StartADC(enum conversion_type type)
 	/* Start the conversion */
 	switch(type) {
 	case TEMPERATURE_CONV:
-		while (PIOS_MS5611_WriteCommand(MS5611_TEMP_ADDR + dev->oversampling) != 0)
+		while (PIOS_MS5611_WriteCommand(MS5611_TEMP_ADDR + dev->cfg->oversampling) != 0)
 			continue;
 		break;
 	case PRESSURE_CONV:
-		while (PIOS_MS5611_WriteCommand(MS5611_PRES_ADDR + dev->oversampling) != 0)
+		while (PIOS_MS5611_WriteCommand(MS5611_PRES_ADDR + dev->cfg->oversampling) != 0)
 			continue;
 		break;
 	default:
@@ -262,7 +254,7 @@ static int32_t PIOS_MS5611_GetDelay() {
 	if (PIOS_MS5611_Validate(dev) != 0)
 		return 100;
 
-	switch(dev->oversampling) {
+	switch(dev->cfg->oversampling) {
 		case MS5611_OSR_256:
 			return 2;
 		case MS5611_OSR_512:
@@ -437,12 +429,12 @@ int32_t PIOS_MS5611_Test()
 
 static void PIOS_MS5611_Task(void *parameters)
 {
-	int32_t temp_press_interleave_count = dev->temperature_interleaving;
+	int32_t temp_press_interleave_count = dev->cfg->temperature_interleaving;
 
 	while (1) {
 
 		temp_press_interleave_count --;
-		if(temp_press_interleave_count <= 0)
+		if (temp_press_interleave_count <= 0)
 		{
 			// Update the temperature data
 			PIOS_MS5611_ClaimDevice();
@@ -451,7 +443,7 @@ static void PIOS_MS5611_Task(void *parameters)
 			PIOS_MS5611_ReadADC();
 			PIOS_MS5611_ReleaseDevice();
 			
-			temp_press_interleave_count = dev->temperature_interleaving;
+			temp_press_interleave_count = dev->cfg->temperature_interleaving;
 		}
 
 		// Update the pressure data
