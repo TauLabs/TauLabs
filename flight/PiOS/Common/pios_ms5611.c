@@ -99,7 +99,8 @@ static struct ms5611_dev * PIOS_MS5611_alloc(void)
 	struct ms5611_dev *ms5611_dev;
 	
 	ms5611_dev = (struct ms5611_dev *)pvPortMalloc(sizeof(*ms5611_dev));
-	if (!ms5611_dev) return (NULL);
+	if (!ms5611_dev)
+		return (NULL);
 	
 	ms5611_dev->queue = xQueueCreate(1, sizeof(struct pios_sensor_baro_data));
 	if (ms5611_dev->queue == NULL) {
@@ -356,14 +357,13 @@ static int32_t PIOS_MS5611_Read(uint8_t address, uint8_t * buffer, uint8_t len)
 			.rw = PIOS_I2C_TXN_WRITE,
 			.len = 1,
 			.buf = &address,
-		}
-		,
+		},
 		{
-		 .info = __func__,
-		 .addr = MS5611_I2C_ADDR,
-		 .rw = PIOS_I2C_TXN_READ,
-		 .len = len,
-		 .buf = buffer,
+			.info = __func__,
+			.addr = MS5611_I2C_ADDR,
+			.rw = PIOS_I2C_TXN_READ,
+			.len = len,
+			.buf = buffer,
 		 }
 	};
 
@@ -384,13 +384,12 @@ static int32_t PIOS_MS5611_WriteCommand(uint8_t command)
 
 	const struct pios_i2c_txn txn_list[] = {
 		{
-		 .info = __func__,
-		 .addr = MS5611_I2C_ADDR,
-		 .rw = PIOS_I2C_TXN_WRITE,
-		 .len = 1,
-		 .buf = &command,
-		 }
-		,
+			.info = __func__,
+			.addr = MS5611_I2C_ADDR,
+			.rw = PIOS_I2C_TXN_WRITE,
+			.len = 1,
+			.buf = &command,
+		 },
 	};
 
 	return PIOS_I2C_Transfer(dev->i2c_id, txn_list, NELEMENTS(txn_list));
@@ -417,24 +416,26 @@ int32_t PIOS_MS5611_Test()
 	PIOS_MS5611_ReadADC();
 	PIOS_MS5611_ReleaseDevice();
 
-	// check range for sanity accroding to datasheet
+	// check range for sanity according to datasheet
 	if (dev->temperature_unscaled < -4000 ||
 		dev->temperature_unscaled > 8500 ||
 		dev->pressure_unscaled < 1000 ||
 		dev->pressure_unscaled > 120000)
 		return -1;
-	
+
 	return 0;
 }
 
 static void PIOS_MS5611_Task(void *parameters)
 {
-	int32_t temp_press_interleave_count = dev->cfg->temperature_interleaving;
+	// init this to 1 in order to force a temperature read on the first run
+	int32_t temp_press_interleave_count = 1;
 
 	while (1) {
 
-		temp_press_interleave_count --;
-		if (temp_press_interleave_count <= 0)
+		--temp_press_interleave_count;
+
+		if (temp_press_interleave_count == 0)
 		{
 			// Update the temperature data
 			PIOS_MS5611_ClaimDevice();
@@ -444,6 +445,8 @@ static void PIOS_MS5611_Task(void *parameters)
 			PIOS_MS5611_ReleaseDevice();
 			
 			temp_press_interleave_count = dev->cfg->temperature_interleaving;
+			if (temp_press_interleave_count == 0)
+				temp_press_interleave_count = 1;
 		}
 
 		// Update the pressure data
