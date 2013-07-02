@@ -127,6 +127,10 @@ public class Logger extends ObjectManagerActivity {
 			}
 		});
 
+		if (logList == null)
+			return logList;
+
+		// Reverse the list so more recent files are first
 		for (int i = 0; i < logList.length / 2; i++) {
 			File temp = logList[i];
 			logList[i] = logList[logList.length - i - 1];
