@@ -413,24 +413,23 @@ int32_t PIOS_MS5611_Test()
 	if (PIOS_MS5611_Validate(dev) != 0)
 		return -1;
 
-	// TODO: Is there a better way to test this than just checking that pressure/temperature has changed?
-	volatile int32_t cur_value = 0;
-
-	cur_value = dev->temperature_unscaled;
 	PIOS_MS5611_ClaimDevice();
 	PIOS_MS5611_StartADC(TEMPERATURE_CONV);
 	PIOS_DELAY_WaitmS(PIOS_MS5611_GetDelay());
 	PIOS_MS5611_ReadADC();
 	PIOS_MS5611_ReleaseDevice();
-	if (cur_value == dev->temperature_unscaled)
-		return -1;
 
-	cur_value = dev->pressure_unscaled;
 	PIOS_MS5611_ClaimDevice();
 	PIOS_MS5611_StartADC(PRESSURE_CONV);
 	PIOS_DELAY_WaitmS(PIOS_MS5611_GetDelay());
 	PIOS_MS5611_ReadADC();
-	if (cur_value == dev->pressure_unscaled)
+	PIOS_MS5611_ReleaseDevice();
+
+	// check range for sanity accroding to datasheet
+	if (dev->temperature_unscaled < -4000 ||
+		dev->temperature_unscaled > 8500 ||
+		dev->pressure_unscaled < 1000 ||
+		dev->pressure_unscaled > 120000)
 		return -1;
 	
 	return 0;
