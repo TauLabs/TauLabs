@@ -414,7 +414,6 @@ void PIOS_Board_Init(void) {
 	PIOS_TIM_InitClock(&tim_3_brushless_cfg);
 	PIOS_TIM_InitClock(&tim_15_brushless_cfg);
 	PIOS_TIM_InitClock(&tim_16_brushless_cfg);
-pen 
 #endif
 
 

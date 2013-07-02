@@ -1318,8 +1318,8 @@ const struct pios_brushless_cfg pios_brushless_cfg = {
 		.TIM_Period = 1200, //((PIOS_PERIPHERAL_APB2_CLOCK / 2 / 30000) ) - 1,
 		.TIM_RepetitionCounter = 0x0000,
 	},
-	.channels = pios_tim_servoport_all_pins,
-	.num_channels = NELEMENTS(pios_tim_servoport_all_pins),
+	.channels = pios_tim_servoport_v02_pins,
+	.num_channels = NELEMENTS(pios_tim_servoport_v02_pins),
 };
 
 #endif
