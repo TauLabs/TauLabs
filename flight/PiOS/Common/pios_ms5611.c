@@ -84,6 +84,12 @@ struct ms5611_dev {
 	uint32_t temperature_interleaving;
 	int32_t ms5611_read_flag;
 	enum pios_ms5611_dev_magic magic;
+
+#if defined(PIOS_INCLUDE_FREERTOS)
+	xSemaphoreHandle busy;
+#else
+	bool busy;
+#endif
 };
 
 static struct ms5611_dev *dev;
@@ -139,6 +145,15 @@ int32_t PIOS_MS5611_Init(const struct pios_ms5611_cfg *cfg, int32_t i2c_device)
 	dev->temperature_interleaving = (cfg->temperature_interleaving) == 0 ? 1 : cfg->temperature_interleaving;
 	dev->cfg = cfg;
 
+#if defined(PIOS_INCLUDE_FREERTOS)
+	vSemaphoreCreateBinary(dev->busy);
+	PIOS_Assert(dev->busy != NULL);
+
+	xSemaphoreGive(dev->busy);
+#else
+	dev->busy = false;
+#endif
+
 	if (PIOS_MS5611_WriteCommand(MS5611_RESET) != 0)
 		return -2;
 
@@ -159,6 +174,55 @@ int32_t PIOS_MS5611_Init(const struct pios_ms5611_cfg *cfg, int32_t i2c_device)
 
 	PIOS_SENSORS_Register(PIOS_SENSOR_BARO, dev->queue);
 
+	return 0;
+}
+
+/**
+ * Claim the MS5611 device semaphore.
+ * \return 0 if no error
+ * \return -1 if timeout before claiming semaphore
+ */
+static int32_t PIOS_MS5611_ClaimDevice()
+{
+	bool valid = PIOS_MS5611_Validate(dev);
+	PIOS_Assert(valid);
+
+#if defined(PIOS_INCLUDE_FREERTOS)
+	if (xSemaphoreTake(dev->busy, 0xffff) != pdTRUE)
+		return -1;
+#else
+	uint32_t timeout = 0xffff;
+	while ((dev->busy == true) && --timeout);
+	if (timeout == 0) //timed out
+		return -1;
+
+	PIOS_IRQ_Disable();
+	if (dev->busy == true) {
+		PIOS_IRQ_Enable();
+		return -1;
+	}
+	dev->busy = true;
+	PIOS_IRQ_Enable();
+#endif
+	return 0;
+}
+
+/**
+ * Release the MS5611 device semaphore.
+ * \return 0 if no error
+ */
+int32_t PIOS_MS5611_ReleaseDevice()
+{
+	bool valid = PIOS_MS5611_Validate(dev);
+	PIOS_Assert(valid);
+
+#if defined(PIOS_INCLUDE_FREERTOS)
+	xSemaphoreGive(dev->busy);
+#else
+	PIOS_IRQ_Disable();
+	dev->busy = false;
+	PIOS_IRQ_Enable();
+#endif
 	return 0;
 }
 
@@ -350,18 +414,21 @@ int32_t PIOS_MS5611_Test()
 		return -1;
 
 	// TODO: Is there a better way to test this than just checking that pressure/temperature has changed?
-	int32_t cur_value = 0;
+	volatile int32_t cur_value = 0;
 
 	cur_value = dev->temperature_unscaled;
+	PIOS_MS5611_ClaimDevice();
 	PIOS_MS5611_StartADC(TEMPERATURE_CONV);
-	PIOS_DELAY_WaitmS(5);
+	PIOS_DELAY_WaitmS(PIOS_MS5611_GetDelay());
 	PIOS_MS5611_ReadADC();
+	PIOS_MS5611_ReleaseDevice();
 	if (cur_value == dev->temperature_unscaled)
 		return -1;
 
 	cur_value = dev->pressure_unscaled;
+	PIOS_MS5611_ClaimDevice();
 	PIOS_MS5611_StartADC(PRESSURE_CONV);
-	PIOS_DELAY_WaitmS(26);
+	PIOS_DELAY_WaitmS(PIOS_MS5611_GetDelay());
 	PIOS_MS5611_ReadADC();
 	if (cur_value == dev->pressure_unscaled)
 		return -1;
@@ -379,17 +446,21 @@ static void PIOS_MS5611_Task(void *parameters)
 		if(temp_press_interleave_count <= 0)
 		{
 			// Update the temperature data
+			PIOS_MS5611_ClaimDevice();
 			PIOS_MS5611_StartADC(TEMPERATURE_CONV);
 			vTaskDelay(PIOS_MS5611_GetDelay());
 			PIOS_MS5611_ReadADC();
+			PIOS_MS5611_ReleaseDevice();
 			
 			temp_press_interleave_count = dev->temperature_interleaving;
 		}
 
 		// Update the pressure data
+		PIOS_MS5611_ClaimDevice();
 		PIOS_MS5611_StartADC(PRESSURE_CONV);
 		vTaskDelay(PIOS_MS5611_GetDelay());
 		PIOS_MS5611_ReadADC();
+		PIOS_MS5611_ReleaseDevice();
 
 		// Compute the altitude from the pressure and temperature and send it out
 		struct pios_sensor_baro_data data;		
