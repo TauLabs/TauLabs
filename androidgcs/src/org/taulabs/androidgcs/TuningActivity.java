@@ -55,6 +55,10 @@ public class TuningActivity extends ObjectManagerActivity {
 
 		// Subscribe to updates from ManualControlCommand and show the values for crude feedback
 		UAVDataObject stabilizationSettings = (UAVDataObject) objMngr.getObject("StabilizationSettings");
+		
+		// Stabilization settings not found so tuning will not work
+		if (stabilizationSettings == null)
+			return;
 
 		smartSave = new SmartSave(objMngr, this,
 				stabilizationSettings,

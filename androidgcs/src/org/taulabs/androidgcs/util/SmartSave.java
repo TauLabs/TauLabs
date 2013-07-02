@@ -280,6 +280,9 @@ public class SmartSave {
 
 		synchronized(ApplyCompleted) {
 			if (DEBUG) Log.d(TAG, "Requesting update");
+			
+			if (obj == null)
+				return false;
 
 			// 1. Install the listener on the object
 			obj.addTransactionCompleted(ApplyCompleted);
