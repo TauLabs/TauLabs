@@ -440,7 +440,7 @@ static void PIOS_MS5611_Task(void *parameters)
 			// Update the temperature data
 			PIOS_MS5611_ClaimDevice();
 			PIOS_MS5611_StartADC(TEMPERATURE_CONV);
-			vTaskDelay(PIOS_MS5611_GetDelay());
+			vTaskDelay(PIOS_MS5611_GetDelay() / portTICK_RATE_MS);
 			PIOS_MS5611_ReadADC();
 			PIOS_MS5611_ReleaseDevice();
 			
@@ -452,12 +452,12 @@ static void PIOS_MS5611_Task(void *parameters)
 		// Update the pressure data
 		PIOS_MS5611_ClaimDevice();
 		PIOS_MS5611_StartADC(PRESSURE_CONV);
-		vTaskDelay(PIOS_MS5611_GetDelay());
+		vTaskDelay(PIOS_MS5611_GetDelay() / portTICK_RATE_MS);
 		PIOS_MS5611_ReadADC();
 		PIOS_MS5611_ReleaseDevice();
 
 		// Compute the altitude from the pressure and temperature and send it out
-		struct pios_sensor_baro_data data;		
+		struct pios_sensor_baro_data data;
 		data.temperature = ((float) dev->temperature_unscaled) / 100.0f;
 		data.pressure = ((float) dev->pressure_unscaled) / 1000.0f;
 		data.altitude = 44330.0f * (1.0f - powf(data.pressure / MS5611_P0, (1.0f / 5.255f)));
