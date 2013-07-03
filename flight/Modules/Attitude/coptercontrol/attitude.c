@@ -566,7 +566,7 @@ static void updateAttitude(AccelsData * accelsData, GyrosData * gyrosData)
 	static float accels_filtered[3] = {0,0,0};
 	static float grot_filtered[3] = {0,0,0};
 
-	dT = (thisSysTime == lastSysTime) ? 0.001 : (portMAX_DELAY & (thisSysTime - lastSysTime)) / portTICK_RATE_MS / 1000.0f;
+	dT = (thisSysTime == lastSysTime) ? 0.001f : (portMAX_DELAY & (thisSysTime - lastSysTime)) / portTICK_RATE_MS / 1000.0f;
 	lastSysTime = thisSysTime;
 	
 	// Bad practice to assume structure order, but saves memory
@@ -718,8 +718,8 @@ static void settingsUpdatedCb(UAVObjEvent * objEv) {
 	yawBiasRate = attitudeSettings.YawBiasRate;
 
 	// Calculate accel filter alpha, in the same way as for gyro data in stabilization module.
-	const float fakeDt = 0.0025;
-	if(attitudeSettings.AccelTau < 0.0001) {
+	const float fakeDt = 0.0025f;
+	if(attitudeSettings.AccelTau < 0.0001f) {
 		accel_alpha = 0;   // not trusting this to resolve to 0
 		accel_filter_enabled = false;
 	} else {
@@ -780,7 +780,7 @@ static void settingsUpdatedCb(UAVObjEvent * objEv) {
 		float sP = sinf(psi);
 
 		// In case psi is too small, we have to use a different equation to solve for theta
-		if (fabs(psi) > PI / 2)
+		if (fabsf(psi) > PI / 2)
 			theta = atanf((a_sensor[1] + cP * (sP * a_sensor[0] -
 					 cP * a_sensor[1])) / (sP * a_sensor[2]));
 		else

@@ -355,6 +355,7 @@ CFLAGS += $(patsubst %,-I%,$(EXTRAINCDIRS)) -I.
 CFLAGS += -mapcs-frame
 CFLAGS += -fomit-frame-pointer
 CFLAGS += -ffunction-sections -fdata-sections
+CFLAGS += -Wdouble-promotion
 
 CFLAGS += -Wall
 CFLAGS += -Werror

@@ -332,9 +332,9 @@ static void VibrationAnalysisTask(void *parameters)
 		
 		// Add averaged values to the buffer, and remove DC bias. Only add real component, the
 		// complex component was already set to zero by a memset operation
-		vtd->accel_buffer_complex_x_q15[sample_count*2] = (accels_avg_x - vtd->accels_static_bias_x)*FLOAT_TO_Q15 + 0.5; // Extra +0.5 rounds value when casting to int
-		vtd->accel_buffer_complex_y_q15[sample_count*2] = (accels_avg_y - vtd->accels_static_bias_y)*FLOAT_TO_Q15 + 0.5; // Extra +0.5 rounds value when casting to int
-		vtd->accel_buffer_complex_z_q15[sample_count*2] = (accels_avg_z - vtd->accels_static_bias_z)*FLOAT_TO_Q15 + 0.5; // Extra +0.5 rounds value when casting to int
+		vtd->accel_buffer_complex_x_q15[sample_count*2] = (accels_avg_x - vtd->accels_static_bias_x)*FLOAT_TO_Q15 + 0.5f; // Extra +0.5 rounds value when casting to int
+		vtd->accel_buffer_complex_y_q15[sample_count*2] = (accels_avg_y - vtd->accels_static_bias_y)*FLOAT_TO_Q15 + 0.5f; // Extra +0.5 rounds value when casting to int
+		vtd->accel_buffer_complex_z_q15[sample_count*2] = (accels_avg_z - vtd->accels_static_bias_z)*FLOAT_TO_Q15 + 0.5f; // Extra +0.5 rounds value when casting to int
 		
 		//Reset the accumulators
 		vtd->accels_data_sum_x = 0;
