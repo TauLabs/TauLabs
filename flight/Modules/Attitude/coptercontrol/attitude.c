@@ -287,6 +287,16 @@ static void AttitudeTask(void *parameters)
 		else
 			retval = updateSensors(&accels, &gyros);
 
+		// During power on set to angle from accel
+		if (complimentary_filter_status == CF_POWERON) {
+			float RPY[3];
+			float theta = atan2f(accels.x, -accels.z);
+			RPY[1] = theta * RAD2DEG;
+			RPY[0] = atan2f(-accels.y, -accels.z / cosf(theta)) * RAD2DEG;
+			RPY[2] = 0;
+			RPY2Quaternion(RPY, q);
+		}
+
 		// Only update attitude when sensor data is good
 		if (retval != 0)
 			AlarmsSet(SYSTEMALARMS_ALARM_ATTITUDE, SYSTEMALARMS_ALARM_ERROR);
