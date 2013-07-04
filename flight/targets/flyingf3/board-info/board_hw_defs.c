@@ -412,8 +412,8 @@ void PIOS_SPI_3_irq_handler(void)
 /**
  * Configuration for the MS5611 chip on SPI
  */
-#if defined(PIOS_INCLUDE_MS5611_SPI)
-#include "pios_ms5611_spi_priv.h"
+#if defined(PIOS_INCLUDE_MS5611_SPI) || defined(PIOS_INCLUDE_MS5611)
+#include "pios_ms5611_priv.h"
 static const struct pios_ms5611_cfg pios_ms5611_cfg = {
 	.oversampling             = MS5611_OSR_4096,
 	.temperature_interleaving = 1,

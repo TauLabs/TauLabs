@@ -1145,7 +1145,7 @@ void PIOS_Board_Init(void) {
 			PIOS_DEBUG_Assert(0);
 		}
 #if defined(PIOS_INCLUDE_MS5611_SPI)
-		if (PIOS_MS5611_Init(pios_spi_2_id, 1, &pios_ms5611_cfg) != 0) {
+		if (PIOS_MS5611_SPI_Init(pios_spi_2_id, 1, &pios_ms5611_cfg) != 0) {
 			PIOS_Assert(0);
 		}
 #endif	/* PIOS_INCLUDE_MS5611_SPI */

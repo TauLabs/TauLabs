@@ -35,7 +35,7 @@
 #include <stdint.h>
 
 /* Public Functions */
-extern int32_t PIOS_MS5611_Test(void);
+extern int32_t PIOS_MS5611_SPI_Test(void);
 
 #endif /* PIOS_MS5611_SPI_H */
 

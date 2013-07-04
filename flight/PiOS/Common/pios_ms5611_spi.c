@@ -34,7 +34,7 @@
 
 #if defined(PIOS_INCLUDE_MS5611_SPI)
 
-#include "pios_ms5611_spi_priv.h"
+#include "pios_ms5611_priv.h"
 
 /* Private constants */
 #define PIOS_MS5611_OVERSAMPLING oversampling
@@ -128,7 +128,7 @@ static int32_t PIOS_MS5611_Validate(struct ms5611_dev *dev)
 /**
  * Initialise the MS5611 sensor
  */
-int32_t PIOS_MS5611_Init(uint32_t spi_id, uint32_t slave_num, const struct pios_ms5611_cfg *cfg)
+int32_t PIOS_MS5611_SPI_Init(uint32_t spi_id, uint32_t slave_num, const struct pios_ms5611_cfg *cfg)
 {
 	dev = (struct ms5611_dev *)PIOS_MS5611_alloc();
 	if (dev == NULL)
@@ -354,7 +354,7 @@ static int32_t PIOS_MS5611_WriteCommand(uint8_t command)
 * @brief Run self-test operation.
 * \return 0 if self-test succeed, -1 if failed
 */
-int32_t PIOS_MS5611_Test()
+int32_t PIOS_MS5611_SPI_Test()
 {
 	if (PIOS_MS5611_Validate(dev) != 0)
 		return -1;
