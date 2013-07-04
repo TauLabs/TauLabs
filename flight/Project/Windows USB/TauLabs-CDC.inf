@@ -17,6 +17,7 @@ DriverVer=10/15/2009,1.0.0.0
 %FlyingF4%= DriverInstall,USB\VID_20A0&PID_4195&MI_00
 %Freedom%= DriverInstall,USB\VID_20A0&PID_41d0&MI_00
 %Quanton%= DriverInstall,USB\VID_0fda&PID_0100&MI_00
+%Sparky%= DriverInstall,USB\VID_20A0&PID_41d0&MI_00
 
 [DeviceList.NTamd64]
 %CopterControl%= DriverInstall,USB\VID_20A0&PID_415b&MI_00
@@ -27,6 +28,7 @@ DriverVer=10/15/2009,1.0.0.0
 %FlyingF4%= DriverInstall,USB\VID_20A0&PID_4195&MI_00
 %Freedom%= DriverInstall,USB\VID_20A0&PID_41d0&MI_00
 %Quanton%= DriverInstall,USB\VID_0fda&PID_0100&MI_00
+%Sparky%= DriverInstall,USB\VID_20A0&PID_41d0&MI_00
 
 [DriverInstall]
 include=mdmcpq.inf
@@ -51,3 +53,4 @@ FlyingF3 = "CDC Driver"
 FlyingF4 = "CDC Driver"
 Freedom = "CDC Driver"
 Quanton = "CDC Driver"
+Sparky = "CDC Driver"
