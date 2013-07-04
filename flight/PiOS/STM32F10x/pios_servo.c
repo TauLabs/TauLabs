@@ -96,7 +96,7 @@ void PIOS_Servo_SetHz(const uint16_t * speeds, uint8_t banks)
 	TIM_TimeBaseInitTypeDef TIM_TimeBaseStructure = servo_cfg->tim_base_init;
 	TIM_TimeBaseStructure.TIM_ClockDivision = TIM_CKD_DIV1;
 	TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Up;
-	TIM_TimeBaseStructure.TIM_Prescaler = (PIOS_MASTER_CLOCK / 1000000) - 1;
+	TIM_TimeBaseStructure.TIM_Prescaler = (PIOS_SYSCLK / 1000000) - 1;
 
 	uint8_t set = 0;
 
