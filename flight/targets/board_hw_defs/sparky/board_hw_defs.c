@@ -784,7 +784,7 @@ static const TIM_TimeBaseInitTypeDef tim_1_15_16_17_time_base = {
 };
 
 static const TIM_TimeBaseInitTypeDef tim_2_3_time_base = {
-	.TIM_Prescaler = (PIOS_PERIPHERAL_APB1_CLOCK / 1000000) - 1,
+	.TIM_Prescaler = (PIOS_PERIPHERAL_APB1_CLOCK / 1000000 * 2) - 1,
 	.TIM_ClockDivision = TIM_CKD_DIV1,
 	.TIM_CounterMode = TIM_CounterMode_Up,
 	.TIM_Period = ((1000000 / PIOS_SERVO_UPDATE_HZ) - 1),
