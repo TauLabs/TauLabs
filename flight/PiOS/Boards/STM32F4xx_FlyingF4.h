@@ -152,18 +152,7 @@ extern uintptr_t pios_com_debug_id;
 //------------------------
 #define TELEM_QUEUE_SIZE				80
 #define PIOS_TELEM_STACK_SIZE			624
-
-
-//-------------------------
-// System Settings
-// 
-// See also System_stm32f4xx.c
-//-------------------------
-//These macros are deprecated
-//please use PIOS_PERIPHERAL_APBx_CLOCK According to the table below
-//#define PIOS_MASTER_CLOCK                       
-//#define PIOS_PERIPHERAL_CLOCK                   
-//#define PIOS_PERIPHERAL_CLOCK					
+	
 
 #define PIOS_SYSCLK						168000000
 //	Peripherals that belongs to APB1 are:

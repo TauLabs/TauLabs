@@ -89,8 +89,8 @@ TIM4  |  RC In 1  |  Servo 3  |  Servo 2  |  Servo 1
 //-------------------------
 // System Settings
 //-------------------------
-#define PIOS_MASTER_CLOCK			72000000
-#define PIOS_PERIPHERAL_CLOCK			(PIOS_MASTER_CLOCK / 2)
+#define PIOS_SYSCLK			72000000
+#define PIOS_PERIPHERAL_CLOCK			(PIOS_SYSCLK / 2)
 
 //-------------------------
 // Interrupt Priorities
