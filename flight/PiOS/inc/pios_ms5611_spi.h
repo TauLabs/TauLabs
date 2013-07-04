@@ -32,7 +32,7 @@
 #ifndef PIOS_MS5611_SPI_H
 #define PIOS_MS5611_SPI_H
 
-#include <pios.h>
+#include <stdint.h>
 
 /* Public Functions */
 extern int32_t PIOS_MS5611_Test(void);
