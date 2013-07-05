@@ -52,9 +52,7 @@
 #define MS5611_P0               101.3250f
 
 /* Private methods */
-static int32_t PIOS_MS5611_ClaimBus(void);
-static int32_t PIOS_MS5611_ReleaseBus(void);
-static int32_t PIOS_MS5611_Read(uint8_t address, uint8_t *buffer, uint8_t len);
+static int32_t PIOS_MS5611_Read(uint8_t address, uint8_t * buffer, uint8_t len);
 static int32_t PIOS_MS5611_WriteCommand(uint8_t command);
 static void PIOS_MS5611_Task(void *parameters);
 
@@ -82,10 +80,13 @@ struct ms5611_dev {
 	int64_t temperature_unscaled;
 	uint16_t calibration[6];
 	enum conversion_type current_conversion_type;
-	enum pios_ms5611_osr oversampling;
-	uint32_t temperature_interleaving;
-	int32_t ms5611_read_flag;
 	enum pios_ms5611_dev_magic magic;
+
+#if defined(PIOS_INCLUDE_FREERTOS)
+	xSemaphoreHandle busy;
+#else
+	bool busy;
+#endif
 };
 
 static struct ms5611_dev *dev;
@@ -93,11 +94,13 @@ static struct ms5611_dev *dev;
 /**
  * @brief Allocate a new device
  */
-static struct ms5611_dev *PIOS_MS5611_alloc(void) {
+static struct ms5611_dev * PIOS_MS5611_alloc(void)
+{
 	struct ms5611_dev *ms5611_dev;
 
 	ms5611_dev = (struct ms5611_dev *)pvPortMalloc(sizeof(*ms5611_dev));
-	if (!ms5611_dev) return (NULL);
+	if (!ms5611_dev)
+		return (NULL);
 
 	ms5611_dev->queue = xQueueCreate(1, sizeof(struct pios_sensor_baro_data));
 	if (ms5611_dev->queue == NULL) {
@@ -105,9 +108,18 @@ static struct ms5611_dev *PIOS_MS5611_alloc(void) {
 		return NULL;
 	}
 
+	memset(ms5611_dev, 0, sizeof(ms5611_dev));
+
 	ms5611_dev->magic = PIOS_MS5611_DEV_MAGIC;
 
-	return(ms5611_dev);
+#if defined(PIOS_INCLUDE_FREERTOS)
+	vSemaphoreCreateBinary(ms5611_dev->busy);
+	PIOS_Assert(ms5611_dev->busy != NULL);
+#else
+	ms5611_dev->busy = false;
+#endif
+
+	return ms5611_dev;
 }
 
 /**
@@ -137,8 +149,6 @@ int32_t PIOS_MS5611_SPI_Init(uint32_t spi_id, uint32_t slave_num, const struct p
 	dev->spi_id = spi_id;
 	dev->slave_num = slave_num;
 
-	dev->oversampling = cfg->oversampling;
-	dev->temperature_interleaving = (cfg->temperature_interleaving) == 0 ? 1 : cfg->temperature_interleaving;
 	dev->cfg = cfg;
 
 	if (PIOS_MS5611_WriteCommand(MS5611_RESET) != 0)
@@ -154,14 +164,95 @@ int32_t PIOS_MS5611_SPI_Init(uint32_t spi_id, uint32_t slave_num, const struct p
 		dev->calibration[i] = (data[0] << 8) | data[1];
 	}
 
+	PIOS_SENSORS_Register(PIOS_SENSOR_BARO, dev->queue);
+
 	portBASE_TYPE result = xTaskCreate(PIOS_MS5611_Task, (const signed char *)"pios_ms5611",
 					MS5611_TASK_STACK, NULL, MS5611_TASK_PRIORITY,
 					&dev->task);
 	PIOS_Assert(result == pdPASS);
 
-	PIOS_SENSORS_Register(PIOS_SENSOR_BARO, dev->queue);
+	return 0;
+}
+
+/**
+ * Claim the MS5611 device semaphore
+ * \return 0 if no error
+ * \return -1 if timeout before claiming semaphore
+ * \return -2 if failed to claim SPI bus
+ */
+static int32_t PIOS_MS5611_ClaimDevice(void)
+{
+	PIOS_Assert(PIOS_MS5611_Validate(dev) == 0);
+
+#if defined(PIOS_INCLUDE_FREERTOS)
+	if (xSemaphoreTake(dev->busy, 0xffff) != pdTRUE)
+		return -1;
+#else
+	uint32_t timeout = 0xffff;
+	while ((dev->busy == true) && --timeout);
+	if (timeout == 0) //timed out
+		return -1;
+
+	PIOS_IRQ_Disable();
+	if (dev->busy == true) {
+		PIOS_IRQ_Enable();
+		return -1;
+	}
+	dev->busy = true;
+	PIOS_IRQ_Enable();
+#endif
 
 	return 0;
+}
+
+/**
+ * @brief Release the SPI bus for the baro communications and end the transaction
+ * @return 0 if successful
+ */
+static int32_t PIOS_MS5611_ReleaseDevice(void)
+{
+	PIOS_Assert(PIOS_MS5611_Validate(dev) == 0);
+
+#if defined(PIOS_INCLUDE_FREERTOS)
+	xSemaphoreGive(dev->busy);
+#else
+	PIOS_IRQ_Disable();
+	dev->busy = false;
+	PIOS_IRQ_Enable();
+#endif
+
+	return 0;
+}
+
+/**
+ * @brief Claim the SPI bus for the baro communications and select this chip
+ * @return 0 if successful, -1 for invalid device, -2 if unable to claim bus
+ */
+static int32_t PIOS_MS5611_ClaimBus(void)
+{
+	if (PIOS_MS5611_Validate(dev) != 0)
+		return -1;
+
+	if (PIOS_SPI_ClaimBus(dev->spi_id) != 0)
+		return -2;
+
+	PIOS_SPI_RC_PinSet(dev->spi_id, dev->slave_num, 0);
+
+	return 0;
+}
+
+/**
+ * @brief Release the SPI bus for the baro communications and end the transaction
+ * @return 0 if successful
+ */
+static int32_t PIOS_MS5611_ReleaseBus(void)
+{
+	if (PIOS_MS5611_Validate(dev) != 0)
+		return -1;
+
+	PIOS_SPI_RC_PinSet(dev->spi_id, dev->slave_num, 1);
+
+	return PIOS_SPI_ReleaseBus(dev->spi_id);
 }
 
 /**
@@ -177,11 +268,11 @@ static int32_t PIOS_MS5611_StartADC(enum conversion_type type)
 	/* Start the conversion */
 	switch (type) {
 	case TEMPERATURE_CONV:
-		while (PIOS_MS5611_WriteCommand(MS5611_TEMP_ADDR + dev->oversampling) != 0)
+		while (PIOS_MS5611_WriteCommand(MS5611_TEMP_ADDR + dev->cfg->oversampling) != 0)
 			continue;
 		break;
 	case PRESSURE_CONV:
-		while (PIOS_MS5611_WriteCommand(MS5611_PRES_ADDR + dev->oversampling) != 0)
+		while (PIOS_MS5611_WriteCommand(MS5611_PRES_ADDR + dev->cfg->oversampling) != 0)
 			continue;
 		break;
 	default:
@@ -201,7 +292,7 @@ static int32_t PIOS_MS5611_GetDelay()
 	if (PIOS_MS5611_Validate(dev) != 0)
 		return 100;
 
-	switch (dev->oversampling) {
+	switch(dev->cfg->oversampling) {
 	case MS5611_OSR_256:
 		return 2;
 	case MS5611_OSR_512:
@@ -281,56 +372,41 @@ static int32_t PIOS_MS5611_ReadADC(void)
 }
 
 /**
- * @brief Claim the SPI bus for the baro communications and select this chip
- * @return 0 if successful, -1 for invalid device, -2 if unable to claim bus
- */
-static int32_t PIOS_MS5611_ClaimBus(void)
-{
-	if (PIOS_MS5611_Validate(dev) != 0)
-		return -1;
-
-	if (PIOS_SPI_ClaimBus(dev->spi_id) != 0)
-		return -2;
-
-	PIOS_SPI_RC_PinSet(dev->spi_id, dev->slave_num, 0);
-
-	return 0;
-}
-
-/**
- * @brief Release the SPI bus for the baro communications and end the transaction
- * @return 0 if successful
- */
-static int32_t PIOS_MS5611_ReleaseBus(void)
-{
-	if (PIOS_MS5611_Validate(dev) != 0)
-		return -1;
-
-	PIOS_SPI_RC_PinSet(dev->spi_id, dev->slave_num, 1);
-
-	return PIOS_SPI_ReleaseBus(dev->spi_id);
-}
-
-/**
 * Reads one or more bytes into a buffer
 * \param[in] the command indicating the address to read
 * \param[out] buffer destination buffer
 * \param[in] len number of bytes which should be read
 * \return 0 if operation was successful
-* \return -1 if error during I2C transfer
+* \return -1 if dev is invalid
+* \return -2 if failed to claim SPI bus
+* \return -3 if error during SPI transfer
 */
 static int32_t PIOS_MS5611_Read(uint8_t address, uint8_t *buffer, uint8_t len)
 {
-	if (PIOS_MS5611_ClaimBus() != 0)
+	if (PIOS_MS5611_Validate(dev) != 0)
 		return -1;
 
-	PIOS_SPI_TransferByte(dev->spi_id, address);
-	if (PIOS_SPI_TransferBlock(dev->spi_id, NULL, buffer, len, NULL) < 0) {
-		PIOS_MS5611_ReleaseBus();
+	if (PIOS_MS5611_ClaimBus() != 0)
 		return -2;
+
+	int32_t rc;
+
+	if (PIOS_SPI_TransferByte(dev->spi_id, address) < 0) {
+		rc = -3;
+		goto out;
 	}
 
-	return PIOS_MS5611_ReleaseBus();
+	if (PIOS_SPI_TransferBlock(dev->spi_id, NULL, buffer, len, NULL) < 0) {
+		rc = -3;
+		goto out;
+	}
+
+	rc = 0;
+
+out:
+	PIOS_MS5611_ReleaseBus();
+
+	return rc;
 }
 
 /**
@@ -338,16 +414,30 @@ static int32_t PIOS_MS5611_Read(uint8_t address, uint8_t *buffer, uint8_t len)
 * \param[in] address Register address
 * \param[in] buffer source buffer
 * \return 0 if operation was successful
-* \return -1 if error during I2C transfer
+* \return -1 if dev is invalid
+* \return -2 if failed to claim SPI bus
+* \return -3 if error during SPI transfer
 */
 static int32_t PIOS_MS5611_WriteCommand(uint8_t command)
 {
-	if (PIOS_MS5611_ClaimBus() != 0)
+	if (PIOS_MS5611_Validate(dev) != 0)
 		return -1;
 
-	PIOS_SPI_TransferByte(dev->spi_id, command);
+	if (PIOS_MS5611_ClaimBus() != 0)
+		return -2;
 
-	return PIOS_MS5611_ReleaseBus();
+	int32_t rc;
+	if (PIOS_SPI_TransferByte(dev->spi_id, command) < 0) {
+		rc = -3;
+		goto out;
+	}
+
+	rc = 0;
+
+out:
+	PIOS_MS5611_ReleaseBus();
+
+	return rc;
 }
 
 /**
@@ -359,21 +449,23 @@ int32_t PIOS_MS5611_SPI_Test()
 	if (PIOS_MS5611_Validate(dev) != 0)
 		return -1;
 
-	// TODO: Is there a better way to test this than just checking that pressure/temperature has changed?
-	int32_t cur_value = 0;
-
-	cur_value = dev->temperature_unscaled;
+	PIOS_MS5611_ClaimDevice();
 	PIOS_MS5611_StartADC(TEMPERATURE_CONV);
-	PIOS_DELAY_WaitmS(5);
+	PIOS_DELAY_WaitmS(PIOS_MS5611_GetDelay() / portTICK_RATE_MS);
 	PIOS_MS5611_ReadADC();
-	if (cur_value == dev->temperature_unscaled)
-		return -1;
+	PIOS_MS5611_ReleaseDevice();
 
-	cur_value = dev->pressure_unscaled;
+	PIOS_MS5611_ClaimDevice();
 	PIOS_MS5611_StartADC(PRESSURE_CONV);
-	PIOS_DELAY_WaitmS(26);
+	PIOS_DELAY_WaitmS(PIOS_MS5611_GetDelay() / portTICK_RATE_MS);
 	PIOS_MS5611_ReadADC();
-	if (cur_value == dev->pressure_unscaled)
+	PIOS_MS5611_ReleaseDevice();
+
+	// check range for sanity according to datasheet
+	if (dev->temperature_unscaled < -4000 ||
+		dev->temperature_unscaled > 8500 ||
+		dev->pressure_unscaled < 1000 ||
+		dev->pressure_unscaled > 120000)
 		return -1;
 
 	return 0;
@@ -381,24 +473,33 @@ int32_t PIOS_MS5611_SPI_Test()
 
 static void PIOS_MS5611_Task(void *parameters)
 {
-	int32_t temp_press_interleave_count = dev->temperature_interleaving;
+	// init this to 1 in order to force a temperature read on the first run
+	uint32_t temp_press_interleave_count = 1;
 
 	while (1) {
 
-		temp_press_interleave_count--;
-		if (temp_press_interleave_count <= 0) {
-			// Update the temperature data
-			PIOS_MS5611_StartADC(TEMPERATURE_CONV);
-			vTaskDelay(PIOS_MS5611_GetDelay());
-			PIOS_MS5611_ReadADC();
+		--temp_press_interleave_count;
 
-			temp_press_interleave_count = dev->temperature_interleaving;
+		if (temp_press_interleave_count == 0)
+		{
+			// Update the temperature data
+			PIOS_MS5611_ClaimDevice();
+			PIOS_MS5611_StartADC(TEMPERATURE_CONV);
+			vTaskDelay(PIOS_MS5611_GetDelay() / portTICK_RATE_MS);
+			PIOS_MS5611_ReadADC();
+			PIOS_MS5611_ReleaseDevice();
+
+			temp_press_interleave_count = dev->cfg->temperature_interleaving;
+			if (temp_press_interleave_count == 0)
+				temp_press_interleave_count = 1;
 		}
 
 		// Update the pressure data
+		PIOS_MS5611_ClaimDevice();
 		PIOS_MS5611_StartADC(PRESSURE_CONV);
-		vTaskDelay(PIOS_MS5611_GetDelay());
+		vTaskDelay(PIOS_MS5611_GetDelay() / portTICK_RATE_MS);
 		PIOS_MS5611_ReadADC();
+		PIOS_MS5611_ReleaseDevice();
 
 		// Compute the altitude from the pressure and temperature and send it out
 		struct pios_sensor_baro_data data;
@@ -406,7 +507,7 @@ static void PIOS_MS5611_Task(void *parameters)
 		data.pressure = ((float) dev->pressure_unscaled) / 1000.0f;
 		data.altitude = 44330.0f * (1.0f - powf(data.pressure / MS5611_P0, (1.0f / 5.255f)));
 
-		xQueueSend(dev->queue, (void *)&data, 0);
+		xQueueSend(dev->queue, (void*)&data, 0);
 	}
 }
 
