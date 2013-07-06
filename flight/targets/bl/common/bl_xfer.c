@@ -277,6 +277,35 @@ bool bl_xfer_write_cont(struct xfer_state * xfer, const struct msg_xfer_cont *xf
 	return true;
 }
 
+bool bl_xfer_wipe_partition(const struct msg_wipe_partition *wipe_partition)
+{
+	enum pios_flash_partition_labels flash_label;
+
+	switch (wipe_partition->label) {
+	case DFU_PARTITION_FW:
+		flash_label = FLASH_PARTITION_LABEL_FW;
+		break;
+	case DFU_PARTITION_SETTINGS:
+		flash_label = FLASH_PARTITION_LABEL_SETTINGS;
+		break;
+	case DFU_PARTITION_WAYPOINTS:
+		flash_label = FLASH_PARTITION_LABEL_WAYPOINTS;
+		break;
+	default:
+		return false;
+	}
+
+	uintptr_t partition_id;
+	if (PIOS_FLASH_find_partition_id(flash_label, &partition_id) != 0)
+		return false;
+
+	PIOS_FLASH_start_transaction(partition_id);
+	PIOS_FLASH_erase_partition(partition_id);
+	PIOS_FLASH_end_transaction(partition_id);
+
+	return true;
+}
+
 bool bl_xfer_send_capabilities_self(void)
 {
 	/* Return capabilities of the specific device */

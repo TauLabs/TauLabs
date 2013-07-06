@@ -634,6 +634,10 @@ static void process_packet_rx(struct bl_fsm_context * context, const struct bl_m
 		bl_send_status(context);
 		break;
 
+	case BL_MSG_WIPE_PARTITION:
+		bl_xfer_wipe_partition(&(msg->v.wipe_partition));
+		break;
+
 	case BL_MSG_CAP_REP:
 	case BL_MSG_STATUS_REP:
 	case BL_MSG_READ_CONT:

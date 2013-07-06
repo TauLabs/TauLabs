@@ -47,6 +47,7 @@ enum bl_commands {
 	BL_MSG_READ_CONT,
 	BL_MSG_STATUS_REQ,
 	BL_MSG_STATUS_REP,
+	BL_MSG_WIPE_PARTITION,
 
 	BL_MSG_WRITE_START = 0x27,
 };
@@ -161,6 +162,10 @@ struct bl_messages {
 			uint32_t unused;
 			uint8_t current_state;
 		} status_rep;
+
+		struct msg_wipe_partition {
+			enum dfu_partition_label label;
+		} wipe_partition;
 
 		uint8_t pad[62];
 	} __attribute__((aligned(1)))v;

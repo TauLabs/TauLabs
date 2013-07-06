@@ -54,6 +54,7 @@ extern bool bl_xfer_read_start(struct xfer_state * xfer, const struct msg_xfer_s
 extern bool bl_xfer_send_next_read_packet(struct xfer_state * xfer);
 extern bool bl_xfer_write_start(struct xfer_state * xfer, const struct msg_xfer_start *xfer_start);
 extern bool bl_xfer_write_cont(struct xfer_state * xfer, const struct msg_xfer_cont *xfer_cont);
+extern bool bl_xfer_wipe_partition(const struct msg_wipe_partition *wipe_partition);
 extern bool bl_xfer_send_capabilities_self(void);
 
 #endif	/* BL_XFER_H_ */
