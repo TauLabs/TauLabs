@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>782</width>
+    <width>789</width>
     <height>867</height>
    </rect>
   </property>
@@ -1136,7 +1136,7 @@ Disabled if there is no GPS fix.</string>
             <bool>true</bool>
            </property>
            <attribute name="buttonGroup">
-            <string>buttonGroup</string>
+            <string notr="true">buttonGroup</string>
            </attribute>
           </widget>
          </item>
@@ -1154,7 +1154,7 @@ new home location unless it is in indoor mode.</string>
             <string>Clear</string>
            </property>
            <attribute name="buttonGroup">
-            <string>buttonGroup</string>
+            <string notr="true">buttonGroup</string>
            </attribute>
           </widget>
          </item>
@@ -1192,13 +1192,6 @@ new home location unless it is in indoor mode.</string>
    </item>
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_3">
-     <item>
-      <widget class="QLabel" name="calibInstructions">
-       <property name="text">
-        <string>Telemetry link not established.</string>
-       </property>
-      </widget>
-     </item>
      <item>
       <spacer name="horizontalSpacer">
        <property name="orientation">
