@@ -439,7 +439,7 @@ static const struct pios_flash_sector_range stm32f1_sectors[] = {
 	{
 		.base_sector = 0,
 		.last_sector = 127,
-		.sector_size = 1 * 1024,
+		.sector_size = FLASH_SECTOR_1KB,
 	},
 };
 
@@ -461,7 +461,7 @@ static const struct pios_flash_sector_range m25p16_sectors[] = {
 	{
 		.base_sector = 0,
 		.last_sector = 31,
-		.sector_size = 64 * 1024,
+		.sector_size = FLASH_SECTOR_64KB,
 	},
 };
 
@@ -477,7 +477,7 @@ static const struct pios_flash_sector_range w25x40_sectors[] = {
 	{
 		.base_sector = 0,
 		.last_sector = 127,
-		.sector_size = 4 * 1024,
+		.sector_size = FLASH_SECTOR_4KB,
 	},
 };
 
@@ -495,6 +495,8 @@ static const struct pios_flash_partition pios_flash_partition_table_w25x40[] = {
 		.chip_desc    = &pios_flash_chip_internal,
 		.first_sector = 0,
 		.last_sector  = 11,
+		.chip_offset   = 0,
+		.size          = (11 - 0 + 1) * FLASH_SECTOR_1KB,
 	},
 
 	{
@@ -502,6 +504,8 @@ static const struct pios_flash_partition pios_flash_partition_table_w25x40[] = {
 		.chip_desc    = &pios_flash_chip_internal,
 		.first_sector = 12,
 		.last_sector  = 127,
+		.chip_offset  = (12 * FLASH_SECTOR_1KB),
+		.size         = (127 - 12 + 1) * FLASH_SECTOR_1KB,
 	},
 
 	{
@@ -509,6 +513,8 @@ static const struct pios_flash_partition pios_flash_partition_table_w25x40[] = {
 		.chip_desc    = &pios_flash_chip_w25x40,
 		.first_sector = 0,
 		.last_sector  = 63,
+		.chip_offset  = 0,
+		.size         = (63 - 0 + 1) * FLASH_SECTOR_4KB,
 	},
 
 	{
@@ -516,6 +522,8 @@ static const struct pios_flash_partition pios_flash_partition_table_w25x40[] = {
 		.chip_desc    = &pios_flash_chip_w25x40,
 		.first_sector = 64,
 		.last_sector  = 127,
+		.chip_offset  = (64 * FLASH_SECTOR_4KB),
+		.size         = (127 - 64 + 1) * FLASH_SECTOR_4KB,
 	},
 };
 
@@ -525,6 +533,8 @@ static const struct pios_flash_partition pios_flash_partition_table_m25p16[] = {
 		.chip_desc    = &pios_flash_chip_internal,
 		.first_sector = 0,
 		.last_sector  = 11,
+		.chip_offset  = 0,
+		.size         = (11 - 0 + 1) * FLASH_SECTOR_1KB,
 	},
 
 	{
@@ -532,6 +542,8 @@ static const struct pios_flash_partition pios_flash_partition_table_m25p16[] = {
 		.chip_desc    = &pios_flash_chip_internal,
 		.first_sector = 12,
 		.last_sector  = 127,
+		.chip_offset  = (12 * FLASH_SECTOR_1KB),
+		.size         = (127 - 12 + 1) * FLASH_SECTOR_1KB,
 	},
 
 	{
@@ -539,6 +551,8 @@ static const struct pios_flash_partition pios_flash_partition_table_m25p16[] = {
 		.chip_desc    = &pios_flash_chip_m25p16,
 		.first_sector = 0,
 		.last_sector  = 15,
+		.chip_offset  = 0,
+		.size         = (15 - 0 + 1) * FLASH_SECTOR_64KB,
 	},
 
 	{
@@ -546,6 +560,8 @@ static const struct pios_flash_partition pios_flash_partition_table_m25p16[] = {
 		.chip_desc    = &pios_flash_chip_m25p16,
 		.first_sector = 16,
 		.last_sector  = 31,
+		.chip_offset  = (16 * FLASH_SECTOR_64KB),
+		.size         = (31 - 16 + 1) * FLASH_SECTOR_64KB,
 	},
 };
 

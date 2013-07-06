@@ -651,7 +651,7 @@ static const struct pios_flash_sector_range stm32f1_sectors[] = {
 	{
 		.base_sector = 0,
 		.last_sector = 127,
-		.sector_size = 1 * 1024,
+		.sector_size = FLASH_SECTOR_1KB,
 	},
 };
 
@@ -670,6 +670,8 @@ static const struct pios_flash_partition pios_flash_partition_table[] = {
 		.chip_desc    = &pios_flash_chip_internal,
 		.first_sector = 0,
 		.last_sector  = 11,
+		.chip_offset  = 0,
+		.size         = (11 - 0 + 1) * FLASH_SECTOR_1KB,
 	},
 
 	{
@@ -677,6 +679,8 @@ static const struct pios_flash_partition pios_flash_partition_table[] = {
 		.chip_desc    = &pios_flash_chip_internal,
 		.first_sector = 12,
 		.last_sector  = 111,
+		.chip_offset  = (12 * FLASH_SECTOR_1KB),
+		.size         = (111 - 12 + 1) * FLASH_SECTOR_1KB,
 	},
 
 	{
@@ -684,6 +688,8 @@ static const struct pios_flash_partition pios_flash_partition_table[] = {
 		.chip_desc    = &pios_flash_chip_internal,
 		.first_sector = 112,
 		.last_sector  = 127,
+		.chip_offset  = (112 * FLASH_SECTOR_1KB),
+		.size         = (127 - 112 + 1) * FLASH_SECTOR_1KB,
 	},
 };
 

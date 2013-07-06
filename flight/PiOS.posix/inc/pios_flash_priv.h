@@ -58,7 +58,18 @@ struct pios_flash_partition {
 	const struct pios_flash_chip *chip_desc;
 	uint16_t first_sector;
 	uint16_t last_sector;
+	uint32_t chip_offset;
+	uint32_t size;
 };
+
+#define FLASH_SECTOR_1KB   (  1 * 1024)
+#define FLASH_SECTOR_2KB   (  2 * 1024)
+#define FLASH_SECTOR_4KB   (  4 * 1024)
+#define FLASH_SECTOR_8KB   (  8 * 1024)
+#define FLASH_SECTOR_16KB  ( 16 * 1024)
+#define FLASH_SECTOR_32KB  ( 32 * 1024)
+#define FLASH_SECTOR_64KB  ( 64 * 1024)
+#define FLASH_SECTOR_128KB (128 * 1024)
 
 extern void PIOS_FLASH_register_partition_table(const struct pios_flash_partition partition_table[], uint8_t num_partitions);
 
