@@ -76,6 +76,12 @@ bool Freedom::queryCapabilities(BoardCapabilities capability)
     return false;
 }
 
+QStringList Freedom::queryChannelBanks()
+{
+    return QStringList(QStringList() << "1-2" << "3-4" << "6-7");
+}
+
+
 /**
  * @brief Freedom::getSupportedProtocols
  *  TODO: this is just a stub, we'll need to extend this a lot with multi protocol support

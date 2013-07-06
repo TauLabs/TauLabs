@@ -77,6 +77,12 @@ bool Quanton::queryCapabilities(BoardCapabilities capability)
     return false;
 }
 
+QStringList Quanton::queryChannelBanks()
+{
+    return QStringList(QStringList() << "1-4" <<  "5-6" << "7" << "8");
+}
+
+
 /**
  * @brief Quanton::getSupportedProtocols
  *  TODO: this is just a stub, we'll need to extend this a lot with multi protocol support
