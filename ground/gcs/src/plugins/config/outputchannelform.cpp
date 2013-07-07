@@ -149,23 +149,23 @@ void OutputChannelForm::linkToggled(bool state)
 /**
  * Set maximal channel value.
  */
-void OutputChannelForm::max(int maximum)
+void OutputChannelForm::setMax(int maximum)
 {
-    minmax(ui.actuatorMin->value(), maximum);
+    setMinmax(ui.actuatorMin->value(), maximum);
 }
 
 /**
  * Set minimal channel value.
  */
-void OutputChannelForm::min(int minimum)
+void OutputChannelForm::setMin(int minimum)
 {
-    minmax(minimum, ui.actuatorMax->value());
+    setMinmax(minimum, ui.actuatorMax->value());
 }
 
 /**
  * Set minimal and maximal channel value.
  */
-void OutputChannelForm::minmax(int minimum, int maximum)
+void OutputChannelForm::setMinmax(int minimum, int maximum)
 {
     ui.actuatorMin->setValue(minimum);
     ui.actuatorMax->setValue(maximum);
