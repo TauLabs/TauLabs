@@ -515,7 +515,7 @@ static const struct pios_flash_partition pios_flash_partition_table_w25x40[] = {
 		.label        = FLASH_PARTITION_LABEL_WAYPOINTS,
 		.chip_desc    = &pios_flash_chip_w25x40,
 		.first_sector = 64,
-		.last_sector  = 128,
+		.last_sector  = 127,
 	},
 };
 
@@ -538,13 +538,13 @@ static const struct pios_flash_partition pios_flash_partition_table_m25p16[] = {
 		.label        = FLASH_PARTITION_LABEL_SETTINGS,
 		.chip_desc    = &pios_flash_chip_m25p16,
 		.first_sector = 0,
-		.last_sector  = 16,
+		.last_sector  = 15,
 	},
 
 	{
 		.label        = FLASH_PARTITION_LABEL_WAYPOINTS,
 		.chip_desc    = &pios_flash_chip_m25p16,
-		.first_sector = 17,
+		.first_sector = 16,
 		.last_sector  = 31,
 	},
 };
