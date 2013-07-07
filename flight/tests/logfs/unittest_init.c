@@ -21,18 +21,18 @@ const struct flashfs_logfs_cfg flashfs_config_waypoints = {
 
 #include "pios_flash_posix_priv.h"
 
+#include "pios_flash_priv.h"
+
 const struct pios_flash_posix_cfg flash_config = {
 	.size_of_flash  = 3 * 1024 * 1024,
-	.size_of_sector = 64 * 1024,
+	.size_of_sector = FLASH_SECTOR_64KB,
 };
-
-#include "pios_flash_priv.h"
 
 static const struct pios_flash_sector_range posix_flash_sectors[] = {
 	{
 		.base_sector = 0,
 		.last_sector = 47,
-		.sector_size = 64 * 1024,
+		.sector_size = FLASH_SECTOR_64KB,
 	},
 };
 
@@ -51,6 +51,8 @@ const struct pios_flash_partition pios_flash_partition_table[] = {
 		.chip_desc    = &pios_flash_chip_posix,
 		.first_sector = 0,
 		.last_sector  = 31,
+		.chip_offset  = 0,
+		.size         = (31 - 0 + 1) * FLASH_SECTOR_64KB,
 	},
 
 	{
@@ -58,6 +60,8 @@ const struct pios_flash_partition pios_flash_partition_table[] = {
 		.chip_desc    = &pios_flash_chip_posix,
 		.first_sector = 32,
 		.last_sector  = 47,
+		.chip_offset  = (32 * 64 * 1024),
+		.size         = (47 - 32 + 1) * FLASH_SECTOR_64KB,
 	},
 };
 
