@@ -34,6 +34,8 @@
 #include <stdbool.h>		/* bool */
 #include <stdlib.h>		/* NULL */
 
+static bool pios_flash_partition_get_chip_extents(const struct pios_flash_partition *partition, uint32_t *chip_start_offset, uint32_t *chip_end_offset);
+
 static struct pios_flash_partition const *partitions;
 static uint8_t num_partitions;
 
@@ -58,6 +60,17 @@ void PIOS_FLASH_register_partition_table(const struct pios_flash_partition parti
 		PIOS_Assert(partition->chip_desc->sector_blocks);
 		PIOS_Assert(partition->chip_desc->num_blocks > 0);
 		PIOS_Assert(partition->last_sector >= partition->first_sector);
+
+		/* Make sure the provided chip extents match the computed values */
+		uint32_t chip_start_offset;
+		uint32_t chip_end_offset;
+		if (!pios_flash_partition_get_chip_extents(partition,
+								&chip_start_offset,
+								&chip_end_offset))
+			PIOS_Assert(0);
+
+		PIOS_Assert(partition->chip_offset == chip_start_offset);
+		PIOS_Assert(partition->size == (chip_end_offset - chip_start_offset + 1));
 	}
 
 	partitions     = partition_table;
@@ -74,7 +87,7 @@ void PIOS_FLASH_register_partition_table(const struct pios_flash_partition parti
 int32_t PIOS_FLASH_find_partition_id(enum pios_flash_partition_labels label, uintptr_t *partition_id)
 {
 	PIOS_Assert(partition_id);
-	
+
 	for (uint8_t i = 0; i < num_partitions; i++) {
 		if (partitions[i].label == label) {
 			*partition_id = (uintptr_t) &partitions[i];
@@ -83,7 +96,7 @@ int32_t PIOS_FLASH_find_partition_id(enum pios_flash_partition_labels label, uin
 	}
 
 	return -1;
-	
+
 }
 
 /**
@@ -113,9 +126,6 @@ struct pios_flash_sector_desc {
 
 static bool pios_flash_get_partition_first_sector(const struct pios_flash_partition *partition, struct pios_flash_sector_desc *curr)
 {
-	if (!PIOS_FLASH_validate_partition(partition))
-		return false;
-
 	/* Find the beginning of the partition */
 	uint32_t chip_offset = 0;
 	for (uint16_t block_id = 0; block_id < partition->chip_desc->num_blocks; block_id++) {
@@ -145,9 +155,6 @@ static bool pios_flash_get_partition_first_sector(const struct pios_flash_partit
 
 static bool pios_flash_get_partition_next_sector(const struct pios_flash_partition *partition, struct pios_flash_sector_desc *curr)
 {
-	if (!PIOS_FLASH_validate_partition(partition))
-		return false;
-
 	/* Are we past the end of the device? */
 	if (curr->block_id >= partition->chip_desc->num_blocks)
 		return false;
@@ -195,9 +202,6 @@ static bool pios_flash_get_partition_next_sector(const struct pios_flash_partiti
 
 static bool pios_flash_partition_get_chip_extents(const struct pios_flash_partition *partition, uint32_t *chip_start_offset, uint32_t *chip_end_offset)
 {
-	if (!PIOS_FLASH_validate_partition(partition))
-		return false;
-
 	struct pios_flash_sector_desc sector_desc;
 	if (!pios_flash_get_partition_first_sector(partition, &sector_desc))
 		return false;
@@ -223,7 +227,6 @@ static bool pios_flash_partition_get_chip_extents(const struct pios_flash_partit
  * @return 0 if success or error code
  * @retval -1 to -19 error code from underlying flash chip driver
  * @retval -20 if partition_id is not a valid partition identifier
- * @retval -21 if failed to query partition extents within the underlying flash chip
  */
 int32_t PIOS_FLASH_get_partition_size(uintptr_t partition_id, uint32_t *partition_size)
 {
@@ -234,12 +237,7 @@ int32_t PIOS_FLASH_get_partition_size(uintptr_t partition_id, uint32_t *partitio
 	if (!PIOS_FLASH_validate_partition(partition))
 		return -20;
 
-	uint32_t chip_start_offset;
-	uint32_t chip_end_offset;
-	if (!pios_flash_partition_get_chip_extents(partition, &chip_start_offset, &chip_end_offset))
-		return -21;
-
-	*partition_size = (chip_end_offset + 1) - chip_start_offset;
+	*partition_size = partition->size;
 
 	return 0;
 }
@@ -397,8 +395,7 @@ int32_t PIOS_FLASH_erase_partition(uintptr_t partition_id)
  * @retval -1 to -19 error code from underlying flash chip driver
  * @retval -20 if partition_id is not a valid partition identifier
  * @retval -21 if chip driver does not provide an write_data implementation
- * @retval -22 if failed to find beginning of partition within the partition table
- * @retval -23 if this would write past the end of the partition
+ * @retval -22 if this would write past the end of the partition
  * @note the areas being written are assumed to have been previously erased
  */
 int32_t PIOS_FLASH_write_data(uintptr_t partition_id, uint32_t partition_offset, const uint8_t *data, uint16_t len)
@@ -411,17 +408,9 @@ int32_t PIOS_FLASH_write_data(uintptr_t partition_id, uint32_t partition_offset,
 	if (!partition->chip_desc->driver->write_data)
 		return -21;
 
-	/* Find the start and end of the partition within the chip's address space */
-	uint32_t chip_start_of_partition;
-	uint32_t chip_end_of_partition;
-	if (!pios_flash_partition_get_chip_extents(partition,
-							&chip_start_of_partition,
-							&chip_end_of_partition))
-		return -22;
-
 	/* Are we writing past the end of the partition? */
-	if ((partition_offset + len) > ((chip_end_of_partition + 1) - chip_start_of_partition))
-		return -23;
+	if ((partition_offset + len) > partition->size)
+		return -22;
 
 	/* Fragment the writes to chip's page size */
 	uint32_t page_size = partition->chip_desc->page_size;
@@ -431,7 +420,7 @@ int32_t PIOS_FLASH_write_data(uintptr_t partition_id, uint32_t partition_offset,
 		uint16_t write_size = MIN(len, page_remaining);
 
 		int32_t rc = partition->chip_desc->driver->write_data(*partition->chip_desc->chip_id,
-								chip_start_of_partition + partition_offset,
+								partition->chip_offset + partition_offset,
 								data,
 								write_size);
 		if (rc != 0) {
@@ -458,8 +447,7 @@ int32_t PIOS_FLASH_write_data(uintptr_t partition_id, uint32_t partition_offset,
  * @retval -1 to -19 error code from underlying flash chip driver
  * @retval -20 if partition_id is not a valid partition identifier
  * @retval -21 if chip driver does not provide an read_data implementation
- * @retval -22 if failed to find the partition's extents relative to the underlying chip
- * @retval -23 if this would read past the end of the partition
+ * @retval -22 if this would read past the end of the partition
  */
 int32_t PIOS_FLASH_read_data(uintptr_t partition_id, uint32_t partition_offset, uint8_t *data, uint16_t len)
 {
@@ -471,20 +459,12 @@ int32_t PIOS_FLASH_read_data(uintptr_t partition_id, uint32_t partition_offset, 
 	if (!partition->chip_desc->driver->read_data)
 		return -21;
 
-	/* Find the start and end of the partition within the chip's address space */
-	uint32_t chip_start_of_partition;
-	uint32_t chip_end_of_partition;
-	if (!pios_flash_partition_get_chip_extents(partition,
-							&chip_start_of_partition,
-							&chip_end_of_partition))
+	/* Are we reading past the end of the partition? */
+	if ((partition_offset + len) > partition->size)
 		return -22;
 
-	/* Are we reading past the end of the partition? */
-	if ((partition_offset + len) > ((chip_end_of_partition + 1) - chip_start_of_partition))
-		return -23;
-
 	return partition->chip_desc->driver->read_data(*partition->chip_desc->chip_id,
-						chip_start_of_partition + partition_offset,
+						partition->chip_offset + partition_offset,
 						data,
 						len);
 }
