@@ -297,7 +297,7 @@ margin:1px;</string>
     </widget>
    </item>
    <item row="2" column="6">
-    <widget class="QSlider" name="channelNeutral">
+    <widget class="TextBubbleSlider" name="channelNeutral">
      <property name="sizePolicy">
       <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
        <horstretch>0</horstretch>
@@ -522,6 +522,13 @@ margin:1px;</string>
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>TextBubbleSlider</class>
+   <extends>QSlider</extends>
+   <header>textbubbleslider.h</header>
+  </customwidget>
+ </customwidgets>
  <tabstops>
   <tabstop>channelNumber</tabstop>
   <tabstop>channelGroup</tabstop>

@@ -413,7 +413,7 @@ margin:1px;</string>
     </widget>
    </item>
    <item row="1" column="4">
-    <widget class="QSlider" name="actuatorNeutral">
+    <widget class="TextBubbleSlider" name="actuatorNeutral">
      <property name="sizePolicy">
       <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
        <horstretch>0</horstretch>
@@ -506,6 +506,13 @@ margin:1px;</string>
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>TextBubbleSlider</class>
+   <extends>QSlider</extends>
+   <header>textbubbleslider.h</header>
+  </customwidget>
+ </customwidgets>
  <tabstops>
   <tabstop>actuatorMin</tabstop>
   <tabstop>actuatorNeutral</tabstop>
