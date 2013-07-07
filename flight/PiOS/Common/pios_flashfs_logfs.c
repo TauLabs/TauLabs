@@ -97,7 +97,7 @@ enum arena_state {
 	ARENA_STATE_RESERVED = 0xE6E6FFFF,
 	ARENA_STATE_ACTIVE   = 0xE6E66666,
 	ARENA_STATE_OBSOLETE = 0x00000000,
-};
+} __attribute__((packed));
 
 struct arena_header {
 	uint32_t magic;
@@ -326,7 +326,7 @@ enum slot_state {
 	SLOT_STATE_RESERVED = 0xFAFAFFFF,
 	SLOT_STATE_ACTIVE   = 0xFAFAAAAA,
 	SLOT_STATE_OBSOLETE = 0x00000000,
-};
+} __attribute__((packed));
 
 struct slot_header {
 	enum slot_state state;
