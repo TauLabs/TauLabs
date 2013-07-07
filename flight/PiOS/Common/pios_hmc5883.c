@@ -395,77 +395,13 @@ static int32_t PIOS_HMC5883_Write(uint8_t address, uint8_t buffer)
  */
 int32_t PIOS_HMC5883_Test(void)
 {
-	int32_t failed = 0;
-	uint8_t registers[3] = {0,0,0};
-	uint8_t status;
-	uint8_t ctrl_a_read;
-	uint8_t ctrl_b_read;	
-	uint8_t mode_read;
-	struct pios_sensor_mag_data values;
-
 	/* Verify that ID matches (HMC5883 ID is null-terminated ASCII string "H43") */
 	char id[4];
 	PIOS_HMC5883_ReadID((uint8_t *)id);
 	if((id[0] != 'H') || (id[1] != '4') || (id[2] != '3')) // Expect H43
 		return -1;
 
-	/* Backup existing configuration */
-	if (PIOS_HMC5883_Read(PIOS_HMC5883_CONFIG_REG_A,registers,3) != 0)
-		return -1;
-
-	/* Stop the device and read out last value */
-	PIOS_DELAY_WaitmS(10);
-	if (PIOS_HMC5883_Write(PIOS_HMC5883_MODE_REG, PIOS_HMC5883_MODE_IDLE) != 0) 
-		return -1;
-	if( PIOS_HMC5883_Read(PIOS_HMC5883_DATAOUT_STATUS_REG, &status,1) != 0)
-		return -1;
-	if (PIOS_HMC5883_ReadMag(&values) != 0)
-		return -1;
-
-	/*
-	 * Put HMC5883 into self test mode
-	 * This is done by placing measurement config into positive (0x01) or negative (0x10) bias
-	 * and then placing the mode register into single-measurement mode.  This causes the HMC5883
-	 * to create an artificial magnetic field of ~1.1 Gauss.
-	 *
-	 * If gain were PIOS_HMC5883_GAIN_2_5, for example, X and Y will read around +766 LSB
-	 * (1.16 Ga * 660 LSB/Ga) and Z would read around +713 LSB (1.08 Ga * 660 LSB/Ga)
-	 *
-	 * Changing measurement config back to PIOS_HMC5883_MEASCONF_NORMAL will leave self-test mode.
-	 */
-	PIOS_DELAY_WaitmS(10);
-	if (PIOS_HMC5883_Write(PIOS_HMC5883_CONFIG_REG_A, PIOS_HMC5883_MEASCONF_BIAS_POS | PIOS_HMC5883_ODR_15) != 0)
-		return -1;
-	PIOS_DELAY_WaitmS(10);
-	if (PIOS_HMC5883_Write(PIOS_HMC5883_CONFIG_REG_B, PIOS_HMC5883_GAIN_8_1) != 0) 
-		return -1;
-	PIOS_DELAY_WaitmS(10);
-	if (PIOS_HMC5883_Write(PIOS_HMC5883_MODE_REG, PIOS_HMC5883_MODE_SINGLE) != 0) 
-		return -1;
-
-	/* Must wait for value to be updated */
-	PIOS_DELAY_WaitmS(200);
-
-	if (PIOS_HMC5883_ReadMag(&values) != 0)
-		return -1;
-
-	PIOS_HMC5883_Read(PIOS_HMC5883_CONFIG_REG_A, &ctrl_a_read,1);
-	PIOS_HMC5883_Read(PIOS_HMC5883_CONFIG_REG_B, &ctrl_b_read,1);
-	PIOS_HMC5883_Read(PIOS_HMC5883_MODE_REG, &mode_read,1);
-	PIOS_HMC5883_Read(PIOS_HMC5883_DATAOUT_STATUS_REG, &status,1);
-
-	/* Restore backup configuration */
-	PIOS_DELAY_WaitmS(10);
-	if (PIOS_HMC5883_Write(PIOS_HMC5883_CONFIG_REG_A, registers[0]) != 0)
-		return -1;
-	PIOS_DELAY_WaitmS(10);
-	if (PIOS_HMC5883_Write(PIOS_HMC5883_CONFIG_REG_B, registers[1]) != 0) 
-		return -1;
-	PIOS_DELAY_WaitmS(10);
-	if (PIOS_HMC5883_Write(PIOS_HMC5883_MODE_REG, registers[2]) != 0) 
-		return -1;
-
-	return failed;
+	return 0;
 }
 
 /**
