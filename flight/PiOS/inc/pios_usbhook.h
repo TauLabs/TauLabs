@@ -53,18 +53,18 @@ extern void PIOS_USBHOOK_RegisterConfig(uint8_t config_id, const uint8_t * desc,
 extern void PIOS_USBHOOK_RegisterString(enum usb_string_desc string_id, const uint8_t * desc, uint16_t desc_size);
 
 struct pios_usb_ifops {
-  void (*init)(uint32_t context);
-  void (*deinit)(uint32_t context);
-  bool (*setup)(uint32_t context, struct usb_setup_request * req);
-  void (*ctrl_data_out)(uint32_t context, const struct usb_setup_request * req);
+  void (*init)(uintptr_t context);
+  void (*deinit)(uintptr_t context);
+  bool (*setup)(uintptr_t context, struct usb_setup_request * req);
+  void (*ctrl_data_out)(uintptr_t context, const struct usb_setup_request * req);
 };
 
-extern void PIOS_USBHOOK_RegisterIfOps(uint8_t ifnum, struct pios_usb_ifops * ifops, uint32_t context);
+extern void PIOS_USBHOOK_RegisterIfOps(uint8_t ifnum, struct pios_usb_ifops * ifops, uintptr_t context);
 
-typedef bool (*pios_usbhook_epcb)(uint32_t context, uint8_t epnum, uint16_t len);
+typedef bool (*pios_usbhook_epcb)(uintptr_t context, uint8_t epnum, uint16_t len);
 
-extern void PIOS_USBHOOK_RegisterEpInCallback(uint8_t epnum, uint16_t max_len, pios_usbhook_epcb cb, uint32_t context);
-extern void PIOS_USBHOOK_RegisterEpOutCallback(uint8_t epnum, uint16_t max_len, pios_usbhook_epcb cb, uint32_t context);
+extern void PIOS_USBHOOK_RegisterEpInCallback(uint8_t epnum, uint16_t max_len, pios_usbhook_epcb cb, uintptr_t context);
+extern void PIOS_USBHOOK_RegisterEpOutCallback(uint8_t epnum, uint16_t max_len, pios_usbhook_epcb cb, uintptr_t context);
 extern void PIOS_USBHOOK_DeRegisterEpInCallback(uint8_t epnum);
 extern void PIOS_USBHOOK_DeRegisterEpOutCallback(uint8_t epnum);
 

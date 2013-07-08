@@ -3,7 +3,11 @@
 
 #include "pios_board_info.h"
 
+#if defined(SIM_OSX)
+const struct pios_board_info pios_board_info_blob = {
+#else
 const struct pios_board_info __attribute__((__used__)) __attribute__((__section__(".boardinfo"))) pios_board_info_blob = {
+#endif
   .magic      = PIOS_BOARD_INFO_BLOB_MAGIC,
   .board_type = BOARD_TYPE,
   .board_rev  = BOARD_REVISION,

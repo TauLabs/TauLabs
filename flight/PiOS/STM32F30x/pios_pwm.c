@@ -36,7 +36,7 @@
 #if defined(PIOS_INCLUDE_PWM)
 
 /* Provide a RCVR driver */
-static int32_t PIOS_PWM_Get(uint32_t rcvr_id, uint8_t channel);
+static int32_t PIOS_PWM_Get(uintptr_t rcvr_id, uint8_t channel);
 
 const struct pios_rcvr_driver pios_pwm_rcvr_driver = {
 	.read = PIOS_PWM_Get,
@@ -96,8 +96,8 @@ static struct pios_pwm_dev * PIOS_PWM_alloc(void)
 }
 #endif
 
-static void PIOS_PWM_tim_overflow_cb (uint32_t id, uint32_t context, uint8_t channel, uint16_t count);
-static void PIOS_PWM_tim_edge_cb (uint32_t id, uint32_t context, uint8_t channel, uint16_t count);
+static void PIOS_PWM_tim_overflow_cb (uintptr_t id, uintptr_t context, uint8_t channel, uint16_t count);
+static void PIOS_PWM_tim_edge_cb (uintptr_t id, uintptr_t context, uint8_t channel, uint16_t count);
 const static struct pios_tim_callbacks tim_callbacks = {
 	.overflow = PIOS_PWM_tim_overflow_cb,
 	.edge     = PIOS_PWM_tim_edge_cb,
@@ -106,7 +106,7 @@ const static struct pios_tim_callbacks tim_callbacks = {
 /**
 * Initialises all the pins
 */
-int32_t PIOS_PWM_Init(uint32_t * pwm_id, const struct pios_pwm_cfg * cfg)
+int32_t PIOS_PWM_Init(uintptr_t * pwm_id, const struct pios_pwm_cfg * cfg)
 {
 	PIOS_DEBUG_Assert(pwm_id);
 	PIOS_DEBUG_Assert(cfg);
@@ -127,8 +127,8 @@ int32_t PIOS_PWM_Init(uint32_t * pwm_id, const struct pios_pwm_cfg * cfg)
 		pwm_dev->CaptureValue[i] = PIOS_RCVR_TIMEOUT;
 	}
 
-	uint32_t tim_id;
-	if (PIOS_TIM_InitChannels(&tim_id, cfg->channels, cfg->num_channels, &tim_callbacks, (uint32_t)pwm_dev)) {
+	uintptr_t tim_id;
+	if (PIOS_TIM_InitChannels(&tim_id, cfg->channels, cfg->num_channels, &tim_callbacks, (uintptr_t)pwm_dev)) {
 		return -1;
 	}
 
@@ -162,7 +162,7 @@ int32_t PIOS_PWM_Init(uint32_t * pwm_id, const struct pios_pwm_cfg * cfg)
 
 	}
 
-	*pwm_id = (uint32_t) pwm_dev;
+	*pwm_id = (uintptr_t) pwm_dev;
 
 	return (0);
 
@@ -177,7 +177,7 @@ out_fail:
  * \output PIOS_RCVR_TIMEOUT failsafe condition or missing receiver
  * \output >=0 channel value
  */
-static int32_t PIOS_PWM_Get(uint32_t rcvr_id, uint8_t channel)
+static int32_t PIOS_PWM_Get(uintptr_t rcvr_id, uint8_t channel)
 {
 	struct pios_pwm_dev * pwm_dev = (struct pios_pwm_dev *)rcvr_id;
 
@@ -193,7 +193,7 @@ static int32_t PIOS_PWM_Get(uint32_t rcvr_id, uint8_t channel)
 	return pwm_dev->CaptureValue[channel];
 }
 
-static void PIOS_PWM_tim_overflow_cb (uint32_t tim_id, uint32_t context, uint8_t channel, uint16_t count)
+static void PIOS_PWM_tim_overflow_cb (uintptr_t tim_id, uintptr_t context, uint8_t channel, uint16_t count)
 {
 	struct pios_pwm_dev * pwm_dev = (struct pios_pwm_dev *)context;
 
@@ -219,7 +219,7 @@ static void PIOS_PWM_tim_overflow_cb (uint32_t tim_id, uint32_t context, uint8_t
 	return;
 }
 
-static void PIOS_PWM_tim_edge_cb (uint32_t tim_id, uint32_t context, uint8_t chan_idx, uint16_t count)
+static void PIOS_PWM_tim_edge_cb (uintptr_t tim_id, uintptr_t context, uint8_t chan_idx, uint16_t count)
 {
 	/* Recover our device context */
 	struct pios_pwm_dev * pwm_dev = (struct pios_pwm_dev *)context;

@@ -42,7 +42,7 @@ struct pios_ppm_cfg {
 
 extern const struct pios_rcvr_driver pios_ppm_rcvr_driver;
 
-extern int32_t PIOS_PPM_Init(uint32_t * ppm_id, const struct pios_ppm_cfg * cfg);
+extern int32_t PIOS_PPM_Init(uintptr_t * ppm_id, const struct pios_ppm_cfg * cfg);
 
 #endif /* PIOS_PPM_PRIV_H */
 

@@ -323,7 +323,7 @@ static const struct pios_overo_cfg pios_overo_cfg = {
 	}
 };
 
-uint32_t pios_overo_id;
+uintptr_t pios_overo_id;
 void PIOS_SPI_overo_irq_handler(void)
 {
 	/* Call into the generic code to handle the IRQ for this specific device */

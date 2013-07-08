@@ -41,11 +41,11 @@
 #include <pios_usart_priv.h>
 
 /* Provide a COM driver */
-static void PIOS_USART_ChangeBaud(uint32_t usart_id, uint32_t baud);
-static void PIOS_USART_RegisterRxCallback(uint32_t usart_id, pios_com_callback rx_in_cb, uint32_t context);
-static void PIOS_USART_RegisterTxCallback(uint32_t usart_id, pios_com_callback tx_out_cb, uint32_t context);
-static void PIOS_USART_TxStart(uint32_t usart_id, uint16_t tx_bytes_avail);
-static void PIOS_USART_RxStart(uint32_t usart_id, uint16_t rx_bytes_avail);
+static void PIOS_USART_ChangeBaud(uintptr_t usart_id, uint32_t baud);
+static void PIOS_USART_RegisterRxCallback(uintptr_t usart_id, pios_com_callback rx_in_cb, uintptr_t context);
+static void PIOS_USART_RegisterTxCallback(uintptr_t usart_id, pios_com_callback tx_out_cb, uintptr_t context);
+static void PIOS_USART_TxStart(uintptr_t usart_id, uint16_t tx_bytes_avail);
+static void PIOS_USART_RxStart(uintptr_t usart_id, uint16_t rx_bytes_avail);
 
 const struct pios_com_driver pios_usart_com_driver = {
 	.set_baud   = PIOS_USART_ChangeBaud,
@@ -64,9 +64,9 @@ struct pios_usart_dev {
 	const struct pios_usart_cfg * cfg;
 
 	pios_com_callback rx_in_cb;
-	uint32_t rx_in_context;
+	uintptr_t rx_in_context;
 	pios_com_callback tx_out_cb;
-	uint32_t tx_out_context;
+	uintptr_t tx_out_context;
 
 	uint32_t error_overruns;
 };
@@ -117,37 +117,37 @@ static struct pios_usart_dev * PIOS_USART_alloc(void)
  * and provide storage for a 32-bit device id IRQ to map
  * each physical IRQ to a specific registered device instance.
  */
-static void PIOS_USART_generic_irq_handler(uint32_t usart_id);
+static void PIOS_USART_generic_irq_handler(uintptr_t usart_id);
 
-static uint32_t PIOS_USART_1_id;
+static uintptr_t PIOS_USART_1_id;
 void USART1_EXTI25_IRQHandler(void) __attribute__ ((alias ("PIOS_USART_1_irq_handler")));
 static void PIOS_USART_1_irq_handler (void)
 {
 	PIOS_USART_generic_irq_handler (PIOS_USART_1_id);
 }
 
-static uint32_t PIOS_USART_2_id;
+static uintptr_t PIOS_USART_2_id;
 void USART2_EXTI26_IRQHandler(void) __attribute__ ((alias ("PIOS_USART_2_irq_handler")));
 static void PIOS_USART_2_irq_handler (void)
 {
 	PIOS_USART_generic_irq_handler (PIOS_USART_2_id);
 }
 
-static uint32_t PIOS_USART_3_id;
+static uintptr_t PIOS_USART_3_id;
 void USART3_EXTI28_IRQHandler(void) __attribute__ ((alias ("PIOS_USART_3_irq_handler")));
 static void PIOS_USART_3_irq_handler (void)
 {
 	PIOS_USART_generic_irq_handler (PIOS_USART_3_id);
 }
 
-static uint32_t PIOS_UART_4_id;
+static uintptr_t PIOS_UART_4_id;
 void UART4_EXTI34_IRQHandler(void) __attribute__ ((alias ("PIOS_UART_4_irq_handler")));
 static void PIOS_UART_4_irq_handler (void)
 {
 	PIOS_USART_generic_irq_handler (PIOS_UART_4_id);
 }
 
-static uint32_t PIOS_UART_5_id;
+static uintptr_t PIOS_UART_5_id;
 void UART5_EXTI35_IRQHandler(void) __attribute__ ((alias ("PIOS_UART_5_irq_handler")));
 static void PIOS_UART_5_irq_handler (void)
 {
@@ -157,7 +157,7 @@ static void PIOS_UART_5_irq_handler (void)
 /**
 * Initialise a single USART device
 */
-int32_t PIOS_USART_Init(uint32_t * usart_id, const struct pios_usart_cfg * cfg)
+int32_t PIOS_USART_Init(uintptr_t * usart_id, const struct pios_usart_cfg * cfg)
 {
 	PIOS_DEBUG_Assert(usart_id);
 	PIOS_DEBUG_Assert(cfg);
@@ -207,24 +207,24 @@ int32_t PIOS_USART_Init(uint32_t * usart_id, const struct pios_usart_cfg * cfg)
 	/* Configure the USART */
 	USART_Init(usart_dev->cfg->regs, (USART_InitTypeDef *)&usart_dev->cfg->init);
 
-	*usart_id = (uint32_t)usart_dev;
+	*usart_id = (uintptr_t)usart_dev;
 
 	/* Configure USART Interrupts */
 	switch ((uint32_t)usart_dev->cfg->regs) {
 	case (uint32_t)USART1:
-		PIOS_USART_1_id = (uint32_t)usart_dev;
+		PIOS_USART_1_id = (uintptr_t)usart_dev;
 		break;
 	case (uint32_t)USART2:
-		PIOS_USART_2_id = (uint32_t)usart_dev;
+		PIOS_USART_2_id = (uintptr_t)usart_dev;
 		break;
 	case (uint32_t)USART3:
-		PIOS_USART_3_id = (uint32_t)usart_dev;
+		PIOS_USART_3_id = (uintptr_t)usart_dev;
 		break;
 	case (uint32_t)UART4:
-		PIOS_UART_4_id = (uint32_t)usart_dev;
+		PIOS_UART_4_id = (uintptr_t)usart_dev;
 		break;
 	case (uint32_t)UART5:
-		PIOS_UART_5_id = (uint32_t)usart_dev;
+		PIOS_UART_5_id = (uintptr_t)usart_dev;
 		break;
 	}
 	NVIC_Init((NVIC_InitTypeDef *)&(usart_dev->cfg->irq.init));
@@ -242,7 +242,7 @@ out_fail:
 	return(-1);
 }
 
-static void PIOS_USART_RxStart(uint32_t usart_id, uint16_t rx_bytes_avail)
+static void PIOS_USART_RxStart(uintptr_t usart_id, uint16_t rx_bytes_avail)
 {
 	struct pios_usart_dev * usart_dev = (struct pios_usart_dev *)usart_id;
 	
@@ -251,7 +251,7 @@ static void PIOS_USART_RxStart(uint32_t usart_id, uint16_t rx_bytes_avail)
 	
 	USART_ITConfig(usart_dev->cfg->regs, USART_IT_RXNE, ENABLE);
 }
-static void PIOS_USART_TxStart(uint32_t usart_id, uint16_t tx_bytes_avail)
+static void PIOS_USART_TxStart(uintptr_t usart_id, uint16_t tx_bytes_avail)
 {
 	struct pios_usart_dev * usart_dev = (struct pios_usart_dev *)usart_id;
 	
@@ -266,7 +266,7 @@ static void PIOS_USART_TxStart(uint32_t usart_id, uint16_t tx_bytes_avail)
 * \param[in] usart_id USART name (GPS, TELEM, AUX)
 * \param[in] baud Requested baud rate
 */
-static void PIOS_USART_ChangeBaud(uint32_t usart_id, uint32_t baud)
+static void PIOS_USART_ChangeBaud(uintptr_t usart_id, uint32_t baud)
 {
 	struct pios_usart_dev * usart_dev = (struct pios_usart_dev *)usart_id;
 
@@ -290,7 +290,7 @@ static void PIOS_USART_ChangeBaud(uint32_t usart_id, uint32_t baud)
 	USART_Cmd(usart_dev->cfg->regs, ENABLE);
 }
 
-static void PIOS_USART_RegisterRxCallback(uint32_t usart_id, pios_com_callback rx_in_cb, uint32_t context)
+static void PIOS_USART_RegisterRxCallback(uintptr_t usart_id, pios_com_callback rx_in_cb, uintptr_t context)
 {
 	struct pios_usart_dev * usart_dev = (struct pios_usart_dev *)usart_id;
 
@@ -305,7 +305,7 @@ static void PIOS_USART_RegisterRxCallback(uint32_t usart_id, pios_com_callback r
 	usart_dev->rx_in_cb = rx_in_cb;
 }
 
-static void PIOS_USART_RegisterTxCallback(uint32_t usart_id, pios_com_callback tx_out_cb, uint32_t context)
+static void PIOS_USART_RegisterTxCallback(uintptr_t usart_id, pios_com_callback tx_out_cb, uintptr_t context)
 {
 	struct pios_usart_dev * usart_dev = (struct pios_usart_dev *)usart_id;
 
@@ -320,7 +320,7 @@ static void PIOS_USART_RegisterTxCallback(uint32_t usart_id, pios_com_callback t
 	usart_dev->tx_out_cb = tx_out_cb;
 }
 
-static void PIOS_USART_generic_irq_handler(uint32_t usart_id)
+static void PIOS_USART_generic_irq_handler(uintptr_t usart_id)
 {
 	struct pios_usart_dev * usart_dev = (struct pios_usart_dev *)usart_id;
 

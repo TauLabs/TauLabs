@@ -56,9 +56,9 @@ typedef struct {
   pthread_mutex_t mutex;
 
   pios_com_callback tx_out_cb;
-  uint32_t tx_out_context;
+  uintptr_t tx_out_context;
   pios_com_callback rx_in_cb;
-  uint32_t rx_in_context;
+  uintptr_t rx_in_context;
 
   uint8_t rx_buffer[PIOS_UDP_RX_BUFFER_SIZE];
   uint8_t tx_buffer[PIOS_UDP_RX_BUFFER_SIZE];
